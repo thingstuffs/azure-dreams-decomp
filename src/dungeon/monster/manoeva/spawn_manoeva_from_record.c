@@ -74,7 +74,7 @@ extern void *find_or_retain_sprite_resource_slot();
 extern s8 entity_spawn_variant_code;
 
 /* Create an entity from spawn data and update its tracked reference. */
-void *spawn_manoeva_from_record(void *unused0, void *unused1, S_80E3C98C_1 *position, Rec_D_80082E80 *spawn_data) {
+void *spawn_manoeva_from_record(ActorRecord *body, ObjectPosition *unused1, S_80E3C98C_1 *position, Rec_D_80082E80 *spawn_data) {
     s32 spawn_mode;
     s32 source_ref;
     u8 *table_base;

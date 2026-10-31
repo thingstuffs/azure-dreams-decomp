@@ -35,26 +35,13 @@ typedef struct S_800BDEB8_0_pre {
     u8 pad_04[0x10];
 } S_800BDEB8_0_pre;   /* 0x14-byte header immediately before the payload. */
 
-typedef struct S_800BDEB8_0 {
-    u8 pad_00[0x13];
-    u8 unk_13;
-    u8 pad_14[0x8];
-    u32 unk_1C;
-    u8 pad_20[0x84];
-    s32 unk_A4;
-    u8 pad_A8[0x2];
-    s16 unk_AA;
-    u8 pad_AC[0x64];
-    s32 unk_110;
-} S_800BDEB8_0;
-
 typedef struct S_800BDEB8_1 {
     u8 pad_00[0x6];
     s16 unk_06;
 } S_800BDEB8_1;
 
 /* Applies an interaction to an entity and displays the outcome. */
-s32 apply_frog_transformation_item(void *entity, DungeonItemEntry *action_id, s16 mode) {
+s32 apply_frog_transformation_item(ActorRecord *entity, DungeonItemEntry *action_id, s16 mode) {
     void *current_entity = ((u8 *)dungeon_actor_ring_anchor);
     void *target = entity;
     s32 special_case = 0;
@@ -72,16 +59,16 @@ s32 apply_frog_transformation_item(void *entity, DungeonItemEntry *action_id, s1
     } else {
         if ((u32)entity <= 0x9FFFFFFF) {
             display_item_status_message(entity, action_id, mode);
-            if (feed_actor_restore_mp(entity, (entity_action_selectors[((S_800BDEB8_0 *)entity)->unk_13] >> 6) & 3, 0) == 0) {
+            if (feed_actor_restore_mp(entity, (entity_action_selectors[entity->species] >> 6) & 3, 0) == 0) {
                 place_actor_item(entity, action_id);
                 return 1;
             }
         }
 
-        entity_id = ((S_800BDEB8_0 *)entity)->unk_13;
+        entity_id = entity->species;
         if (entity_id < MONSTER_FROG) {
             if (entity_id == MONSTER_MANOEVA) {
-                if ((((S_800BDEB8_0 *)entity)->unk_A4 != 0) || (((S_800BDEB8_0 *)entity)->unk_AA != 0)) {
+                if ((entity->unk_A4.value != 0) || (entity->unk_AA != 0)) {
                     special_case = 1;
                 }
                 result = special_case;
@@ -107,19 +94,19 @@ s32 apply_frog_transformation_item(void *entity, DungeonItemEntry *action_id, s1
             }
 
             flag_mask = 0x80000;
-            original_id = ((S_800BDEB8_0 *)entity)->unk_13;
-            if (((S_800BDEB8_0 *)entity)->unk_1C & flag_mask) {
+            original_id = entity->species;
+            if (entity->flags1C & flag_mask) {
                 ((S_800BDEB8_1 *)(((S_800BDEB8_0_pre *)entity)[-1].unk_00))->unk_06 = 0;
             }
             {
                 u8 *message; /* MATCH: Keep the merged message address in retail's argument register. */
                 result = set_or_clear_actor_status_slot(entity, STATUS_FROG, 0x20);
                 if ((s16)result >= 0) {
-                    saved_id_2 = ((S_800BDEB8_0 *)entity)->unk_13;
+                    saved_id_2 = entity->species;
                     message_handle = get_unused_text_buffer();
-                    ((S_800BDEB8_0 *)entity)->unk_13 = original_id;
+                    entity->species = original_id;
                     text_cursor = append_entity_display_text(entity, message_handle);
-                    ((S_800BDEB8_0 *)entity)->unk_13 = saved_id_2;
+                    entity->species = saved_id_2;
                     message = D_800E0FA4;
                     text_cursor = expand_text_control_codes(message, text_cursor);
                 } else {

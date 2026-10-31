@@ -96,7 +96,8 @@ void noop_display_setup_hook(void);
 void clear_vram_callback_state(void);
 
 #include "slus/resource_transition_task.h"
-void build_menu_backdrop_display_buffers(void *object);
+struct SevenEntryMenuBackdropBody;
+void build_menu_backdrop_display_buffers(struct SevenEntryMenuBackdropBody *object);
 void *link_menu_backdrop_display_nodes(void *entries);
 void set_menu_backdrop_initial_value(int *dst, int value);
 void noop_selection_menu_animation_idle(void);

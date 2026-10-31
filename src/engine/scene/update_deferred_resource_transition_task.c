@@ -17,44 +17,34 @@ typedef struct S_80043FD0_Node
     u16 field_1E;
 }
 S_80043FD0_Node;
-typedef struct S_80043FD0
-{
-    void *(*field_0)(void *);
-    void *field_4;
-    s16 field_8;
-    s16 field_A;
-    s16 field_C;
-}
-S_80043FD0;
 /* Advances the controller state and updates node and global status flags. */
-void update_deferred_resource_transition_task(void *data)
+void update_deferred_resource_transition_task(ScheduleDeferredResourceTransitionBody *controller)
 {
-    S_80043FD0 *controller = data;
-    s16 state = controller->field_A;
+    s16 state = controller->state;
     S_80043FD0_Node *node;
     s32 global_flags;
     if (state == 2) {
-        if ((*((u8 *) controller->field_4)) != 0) {
-            s16 slot_arg = controller->field_C;
+        if ((*((u8 *) controller->resource)) != 0) {
+            s16 slot_arg = controller->slot_argument;
             if (slot_arg != 0) {
-                controller->field_8 = reserve_runtime_slot(5, slot_arg);
+                controller->slot_index = reserve_runtime_slot(5, slot_arg);
             }
             clear_flags_on_resource_list();
             D_80080A86_store = 0;
-            controller->field_A = 0;
+            controller->state = 0;
         }
         return;
     }
-    if (runtime_transition_slots[controller->field_8].type != 0) {
+    if (runtime_transition_slots[controller->slot_index].type != 0) {
         return;
     }
     if (state != 0) {
-        node = controller->field_0(controller->field_4);
+        node = controller->load_or_dispatch(controller->resource);
         if (node == 0) {
-            runtime_transition_slots[controller->field_8].type = 6;
-            runtime_transition_slots[controller->field_8].unk_2 = 1;
-            runtime_transition_slots[controller->field_8].param = 1;
-            runtime_transition_slots[controller->field_8].unk_6 = 0;
+            runtime_transition_slots[controller->slot_index].type = 6;
+            runtime_transition_slots[controller->slot_index].unk_2 = 1;
+            runtime_transition_slots[controller->slot_index].param = 1;
+            runtime_transition_slots[controller->slot_index].unk_6 = 0;
             return;
         }
         mark_resource_list_flags_ten_and_eleven();

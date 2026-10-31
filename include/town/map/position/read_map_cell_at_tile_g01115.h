@@ -26,6 +26,10 @@ typedef struct S_8008EC14_node {
     s32 field_0x20;
 } S_8008EC14_node;
 
+typedef struct TownMapEntryProcessorBody {
+    /* 0x00 */ s32 current_index;
+} TownMapEntryProcessorBody;
+
 /* extern */
 extern u8 D_800FC428;
 void upload_pixel_rectangle(s16, s16, s16, s16, const void *);
@@ -41,7 +45,7 @@ void write_wrapped_packed_nibble(s32 nibble, s32 index, s32 nibble_count, u8 *pa
 void process_all_lookup_entries(s32 lookup_key, void *context);
 void process_indexed_entry_record(s32 entry_index);
 void upload_town_movie_pixel_data_2(void);
-void advance_index_and_mark_completion(s32 *currentIndex);
+void advance_index_and_mark_completion(TownMapEntryProcessorBody *processor);
 void create_town_map_entry_processor(void);
 
 #endif

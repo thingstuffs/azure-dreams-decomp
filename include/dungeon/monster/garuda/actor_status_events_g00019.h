@@ -99,7 +99,7 @@ extern void select_sprite_entry(void *, s16, s16);
 extern u8 garuda_action_resume_address[];
 
 /* Functions defined in this translation unit. */
-void update_actor_status_callback(void *actor_in, ObjectPosition *context_in, SpriteFrameState *sprite_in, void *entity_in);
+void update_actor_status_callback(ActorRecord *body, ObjectPosition *position, SpriteFrameState *sprite, ActorRecord *actor);
 
 
 #endif

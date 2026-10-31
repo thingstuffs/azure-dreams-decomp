@@ -26,7 +26,7 @@ extern void display_actor_item_status_message(void *, struct DungeonItemEntry *,
 extern void teleport_familiar_near_player(s32, s16); /* Unprototyped: uses the value as a pointer where the definition has an integer (or the reverse) */
 
 /* Applies a target action or processes occupied player slots and updates the action count. */
-s32 apply_familiar_call_item(void *target, DungeonItemEntry *action, s16 action_type, s32 action_arg) {
+s32 apply_familiar_call_item(ActorRecord *target, DungeonItemEntry *action, s16 action_type, s32 action_arg) {
     s32 slot;
     void *message_end;
     void *message_start;
@@ -46,7 +46,7 @@ s32 apply_familiar_call_item(void *target, DungeonItemEntry *action, s16 action_
 
     if ((u32)target <= 0x9FFFFFFFU) {
         display_actor_item_status_message(target, action, action_type);
-        if (feed_actor_restore_mp(target, entity_action_selectors[((u8 *)target)[0x13]] & 3, action) == 0) {
+        if (feed_actor_restore_mp(target, entity_action_selectors[target->species] & 3, action) == 0) {
             place_actor_item(target, action);
             return 1;
         }

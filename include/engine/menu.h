@@ -3,12 +3,11 @@
 /* Prototypes of the functions defined in src/engine/menu/ (one true prototype each; maintained by tools/headers). */
 
 #include "common.h"
+#include "shared/gpu_packets.h"
 
 struct ObjA464;
 struct S_80049F68_Obj;
 struct S_8004A4E4;
-struct S_8004EEBC_Obj;
-struct S_8004F330_Entity;
 struct S_8004F684;
 struct S_8004F780;
 struct S_8004F95C;
@@ -22,6 +21,60 @@ struct S_800500B4_1;
 struct S_800506BC_Ctx;
 struct S_800506BC_Obj;
 struct S_80053A88_Node;
+
+typedef struct SevenEntryMenuBackdropDisplayBlock {
+    s32 words[4];
+} SevenEntryMenuBackdropDisplayBlock;
+
+typedef struct SevenEntryMenuBackdropNode {
+    /* 0x00 */ s32 unk_00;
+    /* 0x04 */ SevenEntryMenuBackdropDisplayBlock *display_block;
+    /* 0x08 */ DisplayPositionWords *position;
+    /* 0x0C */ s32 unk_0C;
+} SevenEntryMenuBackdropNode;
+
+typedef struct SevenEntryMenuBackdropCoordinates {
+    u8 pad_00[8];
+    /* 0x08 */ s16 x;
+    /* 0x0A */ s16 y;
+} SevenEntryMenuBackdropCoordinates;
+
+typedef struct SevenEntryMenuBackdropEntry {
+    /* 0x00 */ void *buffer;
+    /* 0x04 */ SevenEntryMenuBackdropCoordinates *coordinates;
+} SevenEntryMenuBackdropEntry;
+
+typedef struct SevenEntryMenuBackdropState {
+    s32 value;
+} SevenEntryMenuBackdropState;
+
+/* Shared 0x31C-byte body installed on the seven-entry menu backdrop node. */
+typedef struct SevenEntryMenuBackdropBody {
+    /* 0x00 */ s32 owner;
+    /* 0x04 */ union { s32 value; SevenEntryMenuBackdropState *state; } state;
+    /* 0x08 */ u8 pad_08[0x1FC];
+    /* 0x204 */ DisplayPositionWords display_position;
+    /* 0x210 */ u8 template_anchor[0x0C];
+    /* 0x21C */ void *display_node_chain;
+    union {
+        struct {
+            /* 0x220 */ SevenEntryMenuBackdropNode *node_pointers[7];
+            /* 0x23C */ SevenEntryMenuBackdropNode nodes[7];
+            /* 0x2AC */ SevenEntryMenuBackdropDisplayBlock blocks[7];
+        } initializer;
+        struct {
+            /* 0x220 */ SevenEntryMenuBackdropEntry *entries[7];
+            u8 pad_23C[0xE0];
+        } layout;
+        struct {
+            u8 pad_220[0x6C];
+            /* 0x28C */ void *upper_buffer;
+            u8 pad_290[0x0C];
+            /* 0x29C */ void *lower_buffer;
+            u8 pad_2A0[0x7C];
+        } variant;
+    } view;
+} SevenEntryMenuBackdropBody;
 
 /* advance_index_with_directional_clamp.c */
 s32 advance_index_with_directional_clamp(s32 index, s32 step, s32 count);
@@ -84,10 +137,13 @@ void func_80049D80(void *record_pair, void *init_data);
 void init_sub_record_pair(void *record_pair, void *init_data);
 
 /* initialize_menu_backdrop_display_nodes.c */
-void initialize_menu_backdrop_display_nodes(struct S_8004F330_Entity *entity, s32 node_count);
+void initialize_menu_backdrop_display_nodes(SevenEntryMenuBackdropBody *body, s32 node_count);
 
 /* initialize_menu_backdrop_layout.c */
-void initialize_menu_backdrop_layout(int *object, int initial_value);
+void initialize_menu_backdrop_layout(SevenEntryMenuBackdropBody *object, int initial_value);
+
+/* layout_menu_backdrop_display_entries.c */
+void layout_menu_backdrop_display_entries(SevenEntryMenuBackdropBody *body);
 
 /* initialize_seventeen_object_pointers.c */
 void initialize_seventeen_object_pointers(s32 *objects, s32 *group_bases);
@@ -123,7 +179,7 @@ void sound_initialize_ordered_elements(struct S_80049F68_Obj *obj);
 void update_animated_selection_menu(struct S_8004FC2C *object);
 
 /* update_menu_backdrop_variant.c */
-void update_menu_backdrop_variant(struct S_8004EEBC_Obj *object);
+void update_menu_backdrop_variant(SevenEntryMenuBackdropBody *object);
 
 /* Data declarations. */
 extern u8 menu_element_order[ 4 ];

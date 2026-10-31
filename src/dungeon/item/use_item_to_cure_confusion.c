@@ -37,7 +37,7 @@ typedef struct S_800BD5C4_0_pre {
 
 
 /* Applies an entity update and handles its follow-up effects and state count. */
-s32 use_item_to_cure_confusion(void *entity, DungeonItemEntry *update_value, s16 mode) {
+s32 use_item_to_cure_confusion(ActorRecord *entity, DungeonItemEntry *update_value, s16 mode) {
     u16 *type_flags;
     void *call_arg;
     void *context_arg;
@@ -61,7 +61,7 @@ s32 use_item_to_cure_confusion(void *entity, DungeonItemEntry *update_value, s16
         }
     }
     create_timed_paired_particle_emitter(((S_800BD5C4_0_pre *)entity)[-1].unk_00, 0xC02020, entity);
-    if ((((EntityRec *)entity)->flags14 & ACTOR_PARTY_MEMBER) && !(((EntityRec *)entity)->flags1C & ACTOR_CONFUSED)) {
+    if ((entity->flags14 & ACTOR_PARTY_MEMBER) && !(entity->flags1C & ACTOR_CONFUSED)) {
         effect_result = get_unused_text_buffer();
         call_arg = &confusion_cure_text;
         context_arg = effect_result;

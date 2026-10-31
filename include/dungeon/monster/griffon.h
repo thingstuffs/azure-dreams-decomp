@@ -441,7 +441,7 @@ void choose_griffon_move(ActorRecord *move_data, ObjectPosition *context, Sprite
 void begin_griffon_step_animation(void *object, void *unused, void *display, void *orientation);
 s32 update_actor_animation_behavior_and_facing(ActorRecord *action_state, ObjectPosition *motion_param, SpriteFrameState *sprite, ActorRecord *actor);
 void begin_griffon_attack(ActorRecord *action_state, ObjectPosition *action_context, SpriteFrameState *sprite, ActorRecord *actor);
-s32 relink_griffon_path(void *entity_arg, void *primary_context_arg, void *secondary_context_arg, s32 force_state_arg);
+s32 relink_griffon_path(ActorRecord *body, ObjectPosition *position, SpriteFrameState *sprite, s32 force_state_arg);
 void finish_actor_tile_move_then_resume_effect_behavior(ActorRecord *state, ObjectPosition *context, SpriteFrameState *source, ActorRecord *target);
 void hop_griffon_to_tile(void *action, void *motion,struct SpriteFrameState *sprite, void *actor);
 void advance_a_timed_actor_animation_applies_completion_effects(ActorRecord *state, ObjectPosition *entity, SpriteFrameState *position, ActorRecord *graphic);

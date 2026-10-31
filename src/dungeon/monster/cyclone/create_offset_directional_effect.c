@@ -44,7 +44,7 @@ extern u32 D_80175480;
 struct SpriteFrameState;
 
 /* Creates a directional effect and applies the supplied position offsets. */
-s32 create_offset_directional_effect(FuncArg0 *source, FuncArg1 *position, SpriteFrameState *render_context) {
+s32 create_offset_directional_effect(ActorRecord *body, FuncArg1 *position, SpriteFrameState *render_context) {
     FuncTemp *effect;
     FuncTail *direction_state;
     SpriteFrameState *sprite;
@@ -56,11 +56,11 @@ s32 create_offset_directional_effect(FuncArg0 *source, FuncArg1 *position, Sprit
     if (effect != NULL) {
         effect->header.update_callback = &D_80175480;
         register_node(&effect->header, project_sprite_chain);
-        angle = source->field2A;
+        angle = body->facing;
         direction_state = &effect->tail;
         biased_angle = angle;
         direction_state->field04 = (s16) (((angle % 4096) << 0x10) >> 0x19);
-        direction_state->field06 = source->fieldB0;
+        direction_state->field06 = body->unk_B0.halves.low.u;
         sprite = effect->header.sprite;
         sprite->animation_resource = render_context->animation_resource;
         sprite->flags |= 0x100;

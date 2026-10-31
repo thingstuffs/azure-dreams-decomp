@@ -441,7 +441,7 @@ extern u8 D_800E09B2[9];
 extern u8 D_800E09BB[18];
 
 /* Lower an entity by one level, adjust its stats and spells, and optionally show a message. */
-s32 lower_entity_level(void *entity_data, s32 show_message) {
+s32 lower_entity_level(ActorRecord *body, s32 show_message) {
     u8 spell_lowered[3];
     u8 *entity;
     u8 *stat_growth;
@@ -457,7 +457,7 @@ s32 lower_entity_level(void *entity_data, s32 show_message) {
     s32 level_term_2;
     s32 *xp_table;
 
-    entity = (u8 *)entity_data;
+    entity = (u8 *)body;
     if (entity[0x11] < 2U) {
         return 0;
     }
@@ -832,7 +832,7 @@ s32 has_pending_actor_or_turn_action(void *unused_actor) {
 #include "shared/dungeon_status.h"
 
 /* Returns whether either state field at offset 0x0A or 0x0C is nonzero. */
-s32 has_actor_or_actions(void *unused_actor) {
+s32 has_actor_or_actions(ActorRecord *body) {
     s32 has_value;
 
     has_value = 0;

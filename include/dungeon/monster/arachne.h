@@ -741,10 +741,10 @@ s32 relink_arachne_path(void *entity_arg, ObjectPosition *primary_context_arg, v
 void finish_actor_tile_move_then_select_target(ActorRecord *state, ObjectPosition *context, SpriteFrameState *source, ActorRecord *target);
 void complete_actor_arc_movement(void *action, void *motion, void *map_actor, void *actor);
 void check_boss_effect_threshold(ActorRecord *state, ObjectPosition *entity, SpriteFrameState *position, ActorRecord *graphic);
-void advance_action_and_spawn_effect(void *action, void *motion, void *entity, void *actor);
+void advance_action_and_spawn_effect(ActorRecord *body, ObjectPosition *position, SpriteFrameState *sprite, void *actor);
 void advance_actor_motion_and_wait(void *action, void *transform, void *sprite, ActorRecord *actor);
 void apply_knockback_then_restore_target_selection(R12_80172FE8_S_801730B8_1 *action, ObjectPosition *motion, SpriteFrameState *entity, void *source);
-void advance_entity_fade_effect(R12_801732EC_EffectState *effect, void *unused, R12_801732EC_Entity *entity, R12_801732EC_Object *object);
+void advance_entity_fade_effect(ActorRecord *body, ObjectPosition *position, R12_801732EC_Entity *entity, R12_801732EC_Object *object);
 void advance_familiar_defeat_sequence(void *state, void *motion, void *position, void *actor);
 void advance_arachne_removal(void *state, void *motion, void *position, void *actor);
 void finish_actor_hop_and_grow_then_select_target(ActorRecord *state, ObjectPosition *motion, SpriteFrameState *position, ActorRecord *actor);

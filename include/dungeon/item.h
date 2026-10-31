@@ -59,7 +59,7 @@ u8 *append_typed_formatted_value(DungeonItemEntry *data, u8 *buffer);
 u8 *append_entity_display_text(void *record, u8 *out);
 u8 *clear_byte_and_advance(u8 *byte_ptr);
 
-s32 use_item_to_restore_eyesight(void *entity, DungeonItemEntry *item, s16 effect);
+s32 use_item_to_restore_eyesight(ActorRecord *entity, DungeonItemEntry *item, s16 effect);
 
 void apply_monster_koyaw_data(s32 flags, s8 *dst);
 

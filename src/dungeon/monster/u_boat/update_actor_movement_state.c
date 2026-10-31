@@ -12,13 +12,13 @@
 #include "dungeon/actor/spell_resource_ids_g01008.h"
 
 /* Updates actor behavior and state fields according to mode and input. */
-void update_actor_movement_state(void *state, void *motion, void *action_arg, void *actor_arg)
+void update_actor_movement_state(ActorRecord *body, ObjectPosition *motion, SpriteFrameState *sprite, ActorRecord *actor_arg)
 {
-    void *action_data = action_arg;
+    void *action_data = sprite;
     void *actor = actor_arg;
 
-    if (update_actor_movement_to_tile(state, motion, action_data, actor) != 0) {
-        if (*(u8 *)((u8 *)state + 0xB5) == 0) {
+    if (update_actor_movement_to_tile(body, motion, action_data, actor) != 0) {
+        if (body->unk_B4.bytes[1] == 0) {
             spend_actor_mp(actor, 4);
             advance_status_timers(actor);
             if ((check_actor_floor_trap(action_data, actor) << 16) <= 0) {
@@ -28,13 +28,13 @@ void update_actor_movement_state(void *state, void *motion, void *action_arg, vo
             spend_actor_mp(actor, 0x10);
             advance_status_timers(actor);
         }
-        *(void **)((u8 *)state + 0x8C) = uboat_behavior_entry;
+        body->unk_8C.address = uboat_behavior_entry;
     }
 
     if (g_dungeon_status.flags & 0x80) {
-        *(s16 *)((u8 *)state + 0x92) = -0x20;
-        if (*(u8 *)((u8 *)state + 0xB5) != 0) {
-            *(s16 *)((u8 *)state + 0x92) = 0;
+        body->unk_90.parts.high.s = -0x20;
+        if (body->unk_B4.bytes[1] != 0) {
+            body->unk_90.parts.high.s = 0;
         }
     }
 }

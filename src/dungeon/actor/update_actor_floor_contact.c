@@ -33,11 +33,11 @@ typedef struct S_800D1E34_2 {
 } S_800D1E34_2;   /* obj in update_actor_floor_contact */
 
 /* Run entity callbacks, advance movement, and resolve floor contact. */
-void update_actor_floor_contact(void *object_arg, void *motion_arg, void *entity_arg)
+void update_actor_floor_contact(void *object_arg, void *motion_arg, SpriteFrameState *sprite)
 {
     S_800D1E34_2 *object = object_arg;
     register S_800D1E34_1 *motion = motion_arg;
-    SpriteFrameState *entity= entity_arg;
+    SpriteFrameState *entity= sprite;
     void *object_base = object;
     EntityCallback callback;
     s16 floor_height;

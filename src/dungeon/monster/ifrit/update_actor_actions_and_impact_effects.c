@@ -17,16 +17,6 @@
 extern u8 D_801740FC[];
 extern int abs(int);
 
-typedef struct S_801728C4_0 {
-    u8 pad_00[0x8C];
-    void * unk_8C;
-    u8 pad_90[0x6];
-    u16 unk_96;
-    union { u16 s; u16 u; } unk_98;   /* accessed as both */
-    u8 pad_9A[0x1];
-    u8 unk_9B;
-} S_801728C4_0;   /* arg0 in update_actor_actions_and_impact_effects */
-
 typedef struct S_801728C4_3_pre {
     void * unk_00;
     u8 pad_04[0x10];
@@ -65,10 +55,6 @@ typedef struct S_801728C4_4 {
     void * unk_2C;
 } S_801728C4_4;   /* arg2 in update_actor_actions_and_impact_effects */
 
-typedef struct S_801728C4_6 {
-    u8 pad_00[0xA6];
-    u16 unk_A6;
-} S_801728C4_6;   /* global in update_actor_actions_and_impact_effects */
 
 typedef struct S_801728C4_8 {
     u8 pad_00[0x96];
@@ -92,7 +78,7 @@ extern void create_two_row_object_group(void *payload, s16 value_scale);
 /* Updates actor action states, movement, and impact effects. */
 /* Starts a targeted spell with two rows of effects, emits impact particles at the sprite attachment, then
  * restores idle. */
-void update_actor_actions_and_impact_effects(void *action, ObjectPosition *motion, void *sprite, ActorRecord *actor)
+void update_actor_actions_and_impact_effects(ActorRecord *body, ObjectPosition *motion, SpriteFrameState *sprite, ActorRecord *actor)
 {
     u16 pos[3];
     u16 delta[3];
@@ -110,7 +96,7 @@ void update_actor_actions_and_impact_effects(void *action, ObjectPosition *motio
     S_801728C4_8 *effect_state;
     void *target_sprite;
     void (*callback)(void);
-    S_801728C4_6 *player_state;
+    ActorRecord *player_state;
     void *special_target;
     s32 offset_x;
     s32 abs_x;
@@ -119,7 +105,7 @@ void update_actor_actions_and_impact_effects(void *action, ObjectPosition *motio
     s32 flags;
 
     special_mode = 0;
-    state = ((S_801728C4_0 *)action)->unk_9B;
+    state = body->action_phase.u;
     switch (state) {
     case 0:
         if (actor->flags1C & ACTOR_PLAYER_SIDE) {
@@ -162,7 +148,7 @@ void update_actor_actions_and_impact_effects(void *action, ObjectPosition *motio
             }
         }
         if (*anim != 0) {
-            ((S_801728C4_0 *)action)->unk_98.s &= 0xFF7F;
+            body->action_state_flags &= 0xFF7F;
             special_test = special_mode;
             if (special_test != 0) {
                 special_target = ((u8 *)primary_actor_record);
@@ -181,7 +167,7 @@ void update_actor_actions_and_impact_effects(void *action, ObjectPosition *motio
                     }
                 } else {
                     actor->target = scan_actor_along_heading(
-                        actor, ((S_801728C4_4 *)sprite)->unk_24, ((S_801728C4_4 *)sprite)->unk_25,
+                        actor, sprite->tile_x, sprite->tile_y,
                         actor->facing, 0x10);
                     abs_x = abs(actor->target_tile_x);
                     abs_y = abs(actor->target_tile_y);
@@ -193,13 +179,13 @@ void update_actor_actions_and_impact_effects(void *action, ObjectPosition *motio
             pos[0] = ((u16)motion->x.w.i);
             pos[1] = ((u16)motion->y.w.i);
             pos[2] = ((u16)motion->z.w.i);
-            if (create_actor_spell_effect(actor, anim, special_mode, (u8 *)action + 0x98) != 0) {
-                ((S_801728C4_4 *)sprite)->unk_14 &= 0xF7FF;
+            if (create_actor_spell_effect(actor, anim, special_mode, (u8 *)body + 0x98) != 0) {
+                sprite->flags &= 0xF7FF;
                 play_sound_if_enabled(0x703);
                 create_two_row_object_group(pos, (s16)((*anim - 1) % 3));
-                current_state = ((S_801728C4_0 *)action)->unk_9B;
-                ((S_801728C4_0 *)action)->unk_96 = 30000;
-                ((S_801728C4_0 *)action)->unk_9B = current_state + 1;
+                current_state = body->action_phase.u;
+                body->action_timer.u = 30000;
+                body->action_phase.u = current_state + 1;
                 return;
             }
             return;
@@ -207,13 +193,13 @@ void update_actor_actions_and_impact_effects(void *action, ObjectPosition *motio
             motion->velocity_z = 0;
             motion->velocity_y = 0;
             motion->velocity_x = 0;
-            set_record_integer_tile_center(motion, ((S_801728C4_4 *)sprite)->unk_24, ((S_801728C4_4 *)sprite)->unk_25);
-            player_state = ((S_801728C4_6 *)primary_actor_record);
+            set_record_integer_tile_center(motion, sprite->tile_x, sprite->tile_y);
+            player_state = primary_actor_record;
             g_dungeon_status.active_actor = 0;
-            player_state->unk_A6--;
+            player_state->unk_A4.halves.high.u--;
             advance_status_timers(actor);
             (*(u8 *)&actor->pending_turn_updates)--;
-            ((S_801728C4_0 *)action)->unk_8C = ifrit_action_resume_address;
+            body->unk_8C.address = ifrit_action_resume_address;
             actor->target_tile_y = 0;
             actor->target_tile_x = 0;
             actor->action_flags &= ACTOR_ACTION_CLEAR_PENDING_MASK;
@@ -221,23 +207,23 @@ void update_actor_actions_and_impact_effects(void *action, ObjectPosition *motio
         }
     case 1:
         if (get_cd_command_queue_depth() != 0) {
-            ((S_801728C4_4 *)sprite)->unk_14 |= 0x800;
+            sprite->flags |= 0x800;
             return;
         }
-        ((S_801728C4_4 *)sprite)->unk_14 &= 0xF7FF;
-        ((S_801728C4_0 *)action)->unk_9B++;
+        sprite->flags &= 0xF7FF;
+        body->action_phase.u++;
     case 2:
-        if (resolve_record_orientation_or_fallback(((S_801728C4_4 *)sprite)->unk_08, sprite, delta, 0) == 0) {
+        if (resolve_record_orientation_or_fallback(sprite->source, sprite, delta, 0) == 0) {
             delta[0] = delta[1] = delta[2] = 0;
         }
-        if ((((S_801728C4_4 *)sprite)->unk_04 == 3 && (((S_801728C4_4 *)sprite)->unk_14 & 0x1000)) ||
-            (((S_801728C4_4 *)sprite)->unk_14 & 0xE000)) {
-            ((S_801728C4_4 *)sprite)->unk_14 |= 0x800;
-            ((S_801728C4_0 *)action)->unk_96 = 6;
-            ((S_801728C4_0 *)action)->unk_98.u |= 0x80;
-            if (!(((S_801728C4_4 *)sprite)->unk_14 & 0x8000)) {
-                flags = ((S_801728C4_0 *)action)->unk_98.s;
-                ((S_801728C4_0 *)action)->unk_98.u = flags | 0x8000;
+        if ((sprite->unk_04 == 3 && (sprite->flags & 0x1000)) ||
+            (sprite->flags & 0xE000)) {
+            sprite->flags |= 0x800;
+            body->action_timer.u = 6;
+            body->action_state_flags |= 0x80;
+            if (!(sprite->flags & 0x8000)) {
+                flags = body->action_state_flags;
+                body->action_state_flags = flags | 0x8000;
                 effect = allocate_list_node(0x112, &scene_object_list_anchor.next);
                 if (effect != 0) {
                     register_node(effect, project_sprite_chain);
@@ -252,25 +238,25 @@ void update_actor_actions_and_impact_effects(void *action, ObjectPosition *motio
                     effect_state->unk_A4 = 0;
                     effect_state->unk_96 = 4;
                     target_sprite = effect->sprite;
-                    ((S_801728C4_3 *)target_sprite)->unk_28 = ((S_801728C4_4 *)sprite)->unk_28;
+                    ((S_801728C4_3 *)target_sprite)->unk_28 = sprite->animation_resource;
                     ((S_801728C4_3 *)target_sprite)->unk_1E = 0x1000;
                     ((S_801728C4_3 *)target_sprite)->unk_1C = 0x1000;
-                    ((S_801728C4_3 *)target_sprite)->unk_14 = ((S_801728C4_4 *)sprite)->unk_14;
-                    ((S_801728C4_3 *)target_sprite)->unk_12 = ((S_801728C4_4 *)sprite)->unk_12;
+                    ((S_801728C4_3 *)target_sprite)->unk_14 = sprite->flags;
+                    ((S_801728C4_3 *)target_sprite)->unk_12 = sprite->clut;
                     ((S_801728C4_3 *)target_sprite)->unk_0C.s = ((S_801728C4_4 *)sprite)->unk_0C;
                     select_sprite_entry(target_sprite, 0x2D, 0);
                 }
             }
         }
 
-        timer = ((S_801728C4_0 *)action)->unk_96 - 1;
-        ((S_801728C4_0 *)action)->unk_96 = timer;
+        timer = body->action_timer.u - 1;
+        body->action_timer.u = timer;
         if ((s32)(timer << 16) <= 0) {
-            ((S_801728C4_0 *)action)->unk_98.u &= 0x7FFF;
-            ((S_801728C4_4 *)sprite)->unk_14 &= 0xF7FF;
+            body->action_state_flags &= 0x7FFF;
+            sprite->flags &= 0xF7FF;
         }
 
-        if (((S_801728C4_0 *)action)->unk_98.u & 0x8000) {
+        if (body->action_state_flags & 0x8000) {
             particle_count = 7;
             callback = (void *)D_801740FC;
             do {
@@ -294,11 +280,11 @@ void update_actor_actions_and_impact_effects(void *action, ObjectPosition *motio
                     effect_state->unk_A4 = 0;
                     effect_state->unk_96 = 7;
                     target_sprite = effect->sprite;
-                    ((S_801728C4_3 *)target_sprite)->unk_28 = ((S_801728C4_4 *)sprite)->unk_28;
+                    ((S_801728C4_3 *)target_sprite)->unk_28 = sprite->animation_resource;
                     ((S_801728C4_3 *)target_sprite)->unk_1E = 0x1000;
                     ((S_801728C4_3 *)target_sprite)->unk_1C = 0x1000;
-                    ((S_801728C4_3 *)target_sprite)->unk_14 = ((S_801728C4_4 *)sprite)->unk_14;
-                    ((S_801728C4_3 *)target_sprite)->unk_12 = ((S_801728C4_4 *)sprite)->unk_12 - 0x80;
+                    ((S_801728C4_3 *)target_sprite)->unk_14 = sprite->flags;
+                    ((S_801728C4_3 *)target_sprite)->unk_12 = sprite->clut - 0x80;
                     ((S_801728C4_3 *)target_sprite)->unk_10 = 0x60;
                     ((S_801728C4_3 *)target_sprite)->unk_0C.u = 0x00808080;
                     ((S_801728C4_3 *)target_sprite)->unk_14 |= 0xC;
@@ -308,27 +294,27 @@ void update_actor_actions_and_impact_effects(void *action, ObjectPosition *motio
             } while (particle_count >= 0);
         }
 
-        if (((S_801728C4_4 *)sprite)->unk_14 & 0xE000) {
-            ((S_801728C4_4 *)sprite)->unk_14 &= 0xF7FF;
-            (*(void * *)((u8 *)sprite + 0x2C)) = D_80174850;
+        if (sprite->flags & 0xE000) {
+            sprite->flags &= 0xF7FF;
+            sprite->frameTable = D_80174850;
             select_sprite_entry(
                 sprite,
                 D_80174850[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
                 0);
-            ((S_801728C4_0 *)action)->unk_9B = ((S_801728C4_0 *)action)->unk_9B + 1;
+            body->action_phase.u = body->action_phase.u + 1;
             return;
         }
         return;
     case 3:
-        if (!(((S_801728C4_4 *)sprite)->unk_14 & 0xE000)) {
+        if (!(sprite->flags & 0xE000)) {
             return;
         }
         motion->velocity_z = 0;
         motion->velocity_y = 0;
         motion->velocity_x = 0;
-        set_record_integer_tile_center(motion, ((S_801728C4_4 *)sprite)->unk_24, ((S_801728C4_4 *)sprite)->unk_25);
-        if (((S_801728C4_4 *)sprite)->unk_2C != ifrit_direction_frames) {
-            (*(void * *)((u8 *)sprite + 0x2C)) = ifrit_direction_frames;
+        set_record_integer_tile_center(motion, sprite->tile_x, sprite->tile_y);
+        if (sprite->frameTable != ifrit_direction_frames) {
+            sprite->frameTable = ifrit_direction_frames;
             select_sprite_entry(
                 sprite,
                 ifrit_direction_frames[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
@@ -336,8 +322,8 @@ void update_actor_actions_and_impact_effects(void *action, ObjectPosition *motio
         }
         if ((g_dungeon_status.active_actor) == 0) {
             g_dungeon_status.activity_counts.parts.pending_action_count--;
-            ((S_801728C4_4 *)sprite)->unk_14 &= 0xF7FF;
-            ((S_801728C4_0 *)action)->unk_8C = ifrit_action_resume_address;
+            sprite->flags &= 0xF7FF;
+            body->unk_8C.address = ifrit_action_resume_address;
             advance_status_timers(actor);
             if (actor->pending_turn_updates > 0) {
                 (*(u8 *)&actor->pending_turn_updates)--;

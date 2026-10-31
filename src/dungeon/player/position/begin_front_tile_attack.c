@@ -57,7 +57,7 @@ typedef struct S_8008C8BC_4 {
    /* state in begin_front_tile_attack */
 
 /* Selects a target in the facing direction and initializes the entity action state. */
-s32 begin_front_tile_attack(void *actor_state_arg, void *unused, void *position_arg, void *entity_arg) {
+s32 begin_front_tile_attack(ActorRecord *body, void *unused, void *position_arg, void *entity_arg) {
     register S_8008C8BC_0 *entity = entity_arg;
     s32 direction;
     u8 *page_or_entity;
@@ -82,19 +82,19 @@ s32 begin_front_tile_attack(void *actor_state_arg, void *unused, void *position_
     } else {
         entity->unk_60.p = NULL;
     }
-    ((S_8008C8BC_4 *)actor_state_arg)->unk_9A = 0x11;
-    ((S_8008C8BC_4 *)actor_state_arg)->unk_9B = 0;
-    ((S_8008C8BC_4 *)actor_state_arg)->unk_8C = 0;
+    body->action_id.s = 0x11;
+    body->action_phase.s = 0;
+    ((S_8008C8BC_4 *)body)->unk_8C = 0;
     g_dungeon_status.active_actor = entity;
-    ((S_8008C8BC_4 *)actor_state_arg)->unk_A6 = 0;
-    ((S_8008C8BC_4 *)actor_state_arg)->unk_98 = (u16) ((((S_8008C8BC_4 *)actor_state_arg)->unk_98 | 0x2000) & 0xEFFF);
+    body->unk_A4.halves.high.s = 0;
+    body->action_state_flags = (u16) ((body->action_state_flags | 0x2000) & 0xEFFF);
     g_dungeon_status.flags = (u16) (g_dungeon_status.flags | 0x400);
     process_unflagged_linked_entries_alt(entity->unk_5C);
     append_packed_action_record(entity, 0x18, 0, 0);
     if (check_action_available_without_nearby_actor() != 0) {
         g_dungeon_status.flags = (u16) (g_dungeon_status.flags | 0x80);
     }
-    ((S_8008C8BC_4 *)actor_state_arg)->unk_96 = 6;
-    ((S_8008C8BC_4 *)actor_state_arg)->unk_102 = 0;
+    body->action_timer.s = 6;
+    ((S_8008C8BC_4 *)body)->unk_102 = 0;
     return 0;
 }

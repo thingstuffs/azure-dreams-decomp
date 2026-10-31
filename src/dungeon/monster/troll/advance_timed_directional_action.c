@@ -14,18 +14,7 @@
 #include "dungeon/actor.h"
 #include "dungeon/effect/screen.h"
 
-typedef struct S_801743C4_0 {
-    u8 pad_00[0x8C];
-    u8 * unk_8C;
-    u8 pad_90[0x6];
-    union { u16 s; s16 u; } unk_96;   /* accessed as both */
-    u8 pad_98[0x3];
-    u8 unk_9B;
-    u8 pad_9C[0xE];
-    s16 unk_AA;
-} S_801743C4_0;   /* arg0 in advance_timed_directional_action */
-
-extern void create_targeted_motion_effect(void *, void *, void *, void *);
+extern void create_targeted_motion_effect(ActorRecord *, ObjectPosition *, void *, void *);
 void create_actor_action_effect(ActorRecord *source_object, ObjectPosition *source_pos, SpriteFrameState *sprite_template, ActorRecord *actor);
 
 extern u8 troll_action_dispatch_address[];

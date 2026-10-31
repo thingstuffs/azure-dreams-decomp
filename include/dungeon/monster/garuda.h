@@ -5,7 +5,7 @@
 #include "common.h"
 #include "shared/entity.h"
 #include "shared/sprite_frame_state.h"
-void update_object_movement_facing_terrain(void *obj, void *input_motion, SpriteFrameState *input_part);
+void update_object_movement_facing_terrain(ActorRecord *body, ObjectPosition *motion, SpriteFrameState *sprite);
 
 
 

@@ -23,11 +23,6 @@ typedef struct S_800C13C8_0 {
     s32 unk_124;
 } S_800C13C8_0;   /* arg0 in use_item_to_draw_flame_circle; pointer addresses record offset 0x14 */
 
-typedef struct S_800C13C8_1 {
-    u8 pad_00[0xA];
-    u16 unk_0A;
-} S_800C13C8_1;   /* state in use_item_to_draw_flame_circle */
-
 
 
 
@@ -40,7 +35,7 @@ extern u8 ribbon_sprite_entries[];
 extern u8 D_800E1482[];
 
 /* Handles an object operation and updates its state or triggers its effect. */
-s32 use_item_to_draw_flame_circle(void *object, DungeonItemEntry *value, s16 operation, s32 context) {
+s32 use_item_to_draw_flame_circle(ActorRecord *object, DungeonItemEntry *value, s16 operation, s32 context) {
     MovingTile *object_data;
     s32 result;
 
@@ -54,7 +49,7 @@ s32 use_item_to_draw_flame_circle(void *object, DungeonItemEntry *value, s16 ope
     }
     if ((u32) object <= 0x9FFFFFFFU) {
         display_actor_item_status_message(object, value);
-        if (feed_actor_restore_mp(object, entity_action_selectors[((S_800C13C8_0 *)((u8 *)object - 0x14))->unk_27] & 3, value) == 0) {
+        if (feed_actor_restore_mp(object, entity_action_selectors[object->species] & 3, value) == 0) {
             place_actor_item(object, value);
             return 1;
         }
@@ -62,7 +57,7 @@ s32 use_item_to_draw_flame_circle(void *object, DungeonItemEntry *value, s16 ope
         g_dungeon_status.activity_counts.parts.pending_action_count--;
     } else {
         object_data = ((S_800C13C8_0 *)((u8 *)object - 0x14))->unk_00;
-        if (create_five_point_effect(object_data->tile_x, object_data->tile_y, ((S_800C13C8_0 *)((u8 *)object - 0x14))->unk_9C,
+        if (create_five_point_effect(object_data->tile_x, object_data->tile_y, object->ground_height,
             &ribbon_sprite_entries, 0x5000, 0x202080, &D_800C135C) == 0) {
             result = 0;
             return result;

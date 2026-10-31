@@ -34,7 +34,7 @@ extern void func_80174520(void *, void *, void *, void *);
 extern u8 cyclone_frame_set_1[];
 
 /* Updates actor behavior and directional animation through three states, then sets its next callback. */
-void update_actor_behavior_2(void *controller, ObjectPosition *context_in, SpriteFrameState *object, ActorRecord *actor) {
+void update_actor_behavior_2(ActorRecord *body, ObjectPosition *position, SpriteFrameState *sprite, ActorRecord *actor) {
     
     s32 actor_flags;
     u16 current_value;
@@ -42,18 +42,18 @@ void update_actor_behavior_2(void *controller, ObjectPosition *context_in, Sprit
     DungeonGlobalStatus *global_base;
     s32 state;
 
-    state = ((Rec_func_80173DD4_arg0 *)controller)->unk_9B;
+    state = body->action_phase.u;
     switch (state) {
     case 0:
-        if (!(object->flags & 0xE000)) {
-            create_randomized_motion_object(controller, context_in);
-            create_randomized_motion_object(controller, context_in);
-            create_randomized_motion_object(controller, context_in);
-            create_randomized_motion_object(controller, context_in);
+        if (!(sprite->flags & 0xE000)) {
+            create_randomized_motion_object(body, position);
+            create_randomized_motion_object(body, position);
+            create_randomized_motion_object(body, position);
+            create_randomized_motion_object(body, position);
             break;
         }
-        object->frameTable = cyclone_direction_frames;
-        select_sprite_entry(object,
+        sprite->frameTable = cyclone_direction_frames;
+        select_sprite_entry(sprite,
             cyclone_direction_frames[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
             0);
         {
@@ -61,23 +61,23 @@ void update_actor_behavior_2(void *controller, ObjectPosition *context_in, Sprit
 
             counter_base->unk_0A--;
         }
-        ((Rec_func_80173DD4_arg0 *)controller)->unk_9B++;
+        body->action_phase.u++;
         break;
     case 1:
         if ((get_entity_effect_value(actor, STATUS_SLEEP) << 16) == 0) {
-        object->frameTable = cyclone_frame_set_1;
-        select_sprite_entry(object,
+        sprite->frameTable = cyclone_frame_set_1;
+        select_sprite_entry(sprite,
             cyclone_frame_set_1[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
             0);
         (*(u32 *)&actor->flags1C) |= 0x40000;
-        if (object->flags & 0x8000) {
-            ((Rec_func_80173DD4_arg0 *)controller)->unk_8C = update_actor_animation;
+        if (sprite->flags & 0x8000) {
+            body->unk_8C.address = update_actor_animation;
             break;
         }
         {
             u8 *counter_base = (u8 *)&g_dungeon_status.turn_scale;
 
-            ((Rec_func_80173DD4_arg0 *)controller)->unk_9B++;
+            body->action_phase.u++;
             ((S_80173DD4_3 *)counter_base)->unk_0A++;
         }
         break;
@@ -87,7 +87,7 @@ void update_actor_behavior_2(void *controller, ObjectPosition *context_in, Sprit
                 break;
             }
             if (actor->hp_delta != 0) {
-                if (begin_ready_actor_directional_action(controller, context_in, object, 0) != 0) {
+                if (begin_ready_actor_directional_action(body, position, sprite, 0) != 0) {
                     break;
                 }
             }
@@ -95,7 +95,7 @@ void update_actor_behavior_2(void *controller, ObjectPosition *context_in, Sprit
                 if (global_base->flags & 0x2008) {
                     break;
                 }
-                advance_actor_pending_action(controller, context_in, object, actor);
+                advance_actor_pending_action(body, position, sprite, actor);
                 break;
             }
             if ((has_pending_actor_or_turn_action(actor) << 16) != 0) {
@@ -103,17 +103,17 @@ void update_actor_behavior_2(void *controller, ObjectPosition *context_in, Sprit
             }
             actor_flags = actor->flags1C;
             if (actor_flags & 0x100) {
-                begin_pushed_actor_move(controller, context_in, object, actor);
+                begin_pushed_actor_move(body, position, sprite, actor);
                 break;
             }
             if (actor_flags & 0x80000) {
-                begin_actor_move_to_target_facing(controller, context_in, object, actor);
-                current_value = ((Rec_func_80173DD4_arg0 *)controller)->unk_92;
-                value_adjustment = ((Rec_func_80173DD4_arg0 *)controller)->unk_A6;
-                ((Rec_func_80173DD4_arg0 *)controller)->unk_A6 = 0;
-                ((Rec_func_80173DD4_arg0 *)controller)->unk_AC = 0;
-                ((Rec_func_80173DD4_arg0 *)controller)->unk_92 = current_value - value_adjustment;
-                func_80174520(controller, context_in, object, actor);
+                begin_actor_move_to_target_facing(body, position, sprite, actor);
+                current_value = body->unk_90.parts.high.u;
+                value_adjustment = body->unk_A4.halves.high.u;
+                body->unk_A4.halves.high.u = 0;
+                body->unk_AC.halves.low.s = 0;
+                body->unk_90.parts.high.u = current_value - value_adjustment;
+                func_80174520(body, position, sprite, actor);
                 break;
             }
             if (actor->pending_turn_updates == 0) {
@@ -140,10 +140,10 @@ void update_actor_behavior_2(void *controller, ObjectPosition *context_in, Sprit
             on_actor_status_updated(actor);
             if ((get_entity_effect_value(actor, STATUS_SLEEP) << 16) != 0) {
                 TileObject *origin = &reference_tile_object;
-                s8 tile = *(s8 *)&object->room_index;
+                s8 tile = *(s8 *)&sprite->room_index;
 
                 if (((tile == origin->room_index) && (tile >= 0)) ||
-                    ((s16)get_tile_chebyshev_distance(origin, object) < 2)) {
+                    ((s16)get_tile_chebyshev_distance(origin, sprite) < 2)) {
                     if (!(generate_random_value() & 7)) {
                         clear_slots_of_type(actor, STATUS_SLEEP);
                     }
@@ -153,34 +153,34 @@ void update_actor_behavior_2(void *controller, ObjectPosition *context_in, Sprit
                 break;
             }
         }
-        object->frameTable = cyclone_frame_set_1;
-        select_sprite_entry(object,
+        sprite->frameTable = cyclone_frame_set_1;
+        select_sprite_entry(sprite,
             cyclone_frame_set_1[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
             0);
         (*(u32 *)&actor->flags1C) |= 0x40000;
-        if (object->flags & 0x8000) {
-            ((Rec_func_80173DD4_arg0 *)controller)->unk_8C = update_actor_animation;
+        if (sprite->flags & 0x8000) {
+            body->unk_8C.address = update_actor_animation;
             break;
         }
         {
             u8 *counter_base = (u8 *)&g_dungeon_status.turn_scale;
 
-            ((Rec_func_80173DD4_arg0 *)controller)->unk_9B++;
+            body->action_phase.u++;
             ((S_80173DD4_3 *)counter_base)->unk_0A++;
         }
         break;
     case 2:
-        if (object->flags & 0xE000) {
+        if (sprite->flags & 0xE000) {
             u8 *counter_base;
 
             counter_base = (u8 *)&g_dungeon_status.turn_scale;
             ((S_80173DD4_3 *)counter_base)->unk_0A--;
-            ((Rec_func_80173DD4_arg0 *)controller)->unk_8C = update_actor_animation;
+            body->unk_8C.address = update_actor_animation;
         } else {
-            create_randomized_motion_object(controller, context_in);
-            create_randomized_motion_object(controller, context_in);
-            create_randomized_motion_object(controller, context_in);
-            create_randomized_motion_object(controller, context_in);
+            create_randomized_motion_object(body, position);
+            create_randomized_motion_object(body, position);
+            create_randomized_motion_object(body, position);
+            create_randomized_motion_object(body, position);
         }
         break;
     }

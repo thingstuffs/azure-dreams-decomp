@@ -7,12 +7,12 @@
 extern void update_actor_status_and_mp(void *);
 
 /* Updates the actor state, consumes completed counts, and dispatches its action. */
-void dispatch_actor_action_2(u8 *actor, void *action_arg, void *action_data, u8 *state) {
+void dispatch_actor_action_2(u8 *actor, ObjectPosition *position, SpriteFrameState *sprite, u8 *state) {
     s16 old_count;
 
     if (!(g_dungeon_status.flags & 0x2000)) {
         if (*(s32 *)(state + 0x1C) & 0x100) {
-            begin_pushed_actor_move(actor, action_arg, action_data, state);
+            begin_pushed_actor_move(actor, position, sprite, state);
             return;
         }
         if (*(u8 *)(actor + 0x9A) != 0xE) {
@@ -28,11 +28,11 @@ void dispatch_actor_action_2(u8 *actor, void *action_arg, void *action_data, u8 
         }
         if (*(u8 *)(state + 0x28) == 0) {
             g_dungeon_status.pending_display_owner = state - 0x20;
-            begin_actor_display_action(actor, action_arg, action_data, 0);
+            begin_actor_display_action(actor, position, sprite, 0);
             return;
         }
     }
     if (*(s16 *)(state + 0x64) != 0) {
-        begin_ready_actor_directional_action(actor, action_arg, action_data, 0);
+        begin_ready_actor_directional_action(actor, position, sprite, 0);
     }
 }

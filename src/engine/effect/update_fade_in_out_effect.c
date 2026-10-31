@@ -9,24 +9,6 @@ typedef struct S_80071A68
 }
 S_80071A68;
 extern S_80071A68 fade_effect_visual_table[];
-typedef struct S_80051CC4_Owner
-{
-    u8 unk00[0x6];
-    u16 field_0x06;
-    u8 unk08[0xC];
-    u32 field_0x14;
-}
-S_80051CC4_Owner;
-typedef struct S_80051CC4_Sub
-{
-    S_80051CC4_Owner *owner;
-    s16 field_0x04;
-    s16 field_0x06;
-    u8 pad08[2];
-    s16 field_0x0A;
-    s16 field_0x0C;
-}
-S_80051CC4_Sub;
 typedef struct S_80051CC4_Ptr
 {
     u8 pad0[8];
@@ -37,22 +19,22 @@ typedef struct S_80051CC4_Ptr
 }
 S_80051CC4_Ptr;
 /* Fade through seven table entries, then advance the owner and mark completion. */
-void update_fade_in_out_effect(S_80051CC4_Sub *state, void *unused_arg, S_80051CC4_Ptr *visual)
+void update_fade_in_out_effect(CdCueEffectBody *state, void *unused_arg, S_80051CC4_Ptr *visual)
 {
     u8 *flags_page;
-    u16 next_tick = state->field_0x06 + 1;
-    s32 phase = state->field_0x04;
-    u16 saved_phase = state->field_0x04;
+    u16 next_tick = state->timer.s + 1;
+    s32 phase = state->state.s;
+    u16 saved_phase = state->state.s;
     u16 advance_phase;
     u32 flags;
-    state->field_0x06 = next_tick;
+    state->timer.s = next_tick;
     switch (phase) {
     case 0:
-        if (state->field_0x0C != 0) {
-            advance_phase = state->field_0x04;
-            state->field_0x0C = 0;
-            state->field_0x06 = 0;
-            state->field_0x04 = advance_phase + 1;
+        if (state->completion != 0) {
+            advance_phase = state->state.s;
+            state->completion = 0;
+            state->timer.s = 0;
+            state->state.s = advance_phase + 1;
         }
         break;
 
@@ -63,19 +45,19 @@ void update_fade_in_out_effect(S_80051CC4_Sub *state, void *unused_arg, S_80051C
         visual->field_0x0D = brightness;
         visual->field_0x0C = brightness;
     }
-        if (state->field_0x06 < 0x20) {
+        if (state->timer.s < 0x20) {
             break;
         }
-        advance_phase = state->field_0x04;
-        state->field_0x06 = 0;
+        advance_phase = state->state.s;
+        state->timer.s = 0;
 
-        state->field_0x04 = advance_phase + 1;
+        state->state.s = advance_phase + 1;
         break;
 
     case 2:
         if (((s16) next_tick) >= 0x3F) {
-            state->field_0x04 = saved_phase + 1;
-            state->field_0x06 = 0;
+            state->state.s = saved_phase + 1;
+            state->timer.s = 0;
         }
         break;
 
@@ -86,23 +68,23 @@ void update_fade_in_out_effect(S_80051CC4_Sub *state, void *unused_arg, S_80051C
         visual->field_0x0D = brightness;
         visual->field_0x0C = brightness;
     }
-        if (state->field_0x06 < 0x20) {
+        if (state->timer.s < 0x20) {
             break;
         }
         {
-            s16 entry_index = state->field_0x0A + 1;
-            state->field_0x0A = entry_index;
+            s16 entry_index = state->index + 1;
+            state->index = entry_index;
             if (entry_index != 7) {
                 entry_index = entry_index % 7;
-                state->field_0x0A = entry_index;
+                state->index = entry_index;
                 visual->field_0x08 = (*(&fade_effect_visual_table[entry_index])).field_0x00;
-                state->field_0x04 = 0;
-                state->field_0x06 = 0;
+                state->state.s = 0;
+                state->timer.s = 0;
                 return;
             }
         }
-        state->owner->field_0x14 = 0;
-        state->owner->field_0x06 = state->owner->field_0x06 + 1;
+        state->owner.fade->value_14 = 0;
+        state->owner.fade->flags = state->owner.fade->flags + 1;
         *((u16 *) (((u8 *) state) - 2)) |= 0x8000;
         flags = ((u32)object_flag_block.flags);
         flags |= 0x8000;
@@ -114,8 +96,8 @@ void update_fade_in_out_effect(S_80051CC4_Sub *state, void *unused_arg, S_80051C
         visual->field_0x0E = 0;
         visual->field_0x0D = 0;
         visual->field_0x0C = 0;
-        state->owner->field_0x14 = 0;
-        state->owner->field_0x06 = state->owner->field_0x06 + 1;
+        state->owner.fade->value_14 = 0;
+        state->owner.fade->flags = state->owner.fade->flags + 1;
         *((u16 *) (((u8 *) state) - 2)) |= 0x8000;
         flags = ((u32)object_flag_block.flags);
         flags |= 0x8000;

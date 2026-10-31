@@ -2,50 +2,26 @@
 #include "shared/gpu_packets.h"
 #include "engine/menu.h"
 
-typedef struct S_8002E5D8 {
-    s32 unk0;
-    s32 unk4;
-    s32 unk8;
-    s32 unkC;
-} S_8002E5D8;
-
-
-extern S_8002E5D8 display_block_defaults;
+extern SevenEntryMenuBackdropDisplayBlock display_block_defaults;
 extern DisplayPositionWords display_vector_defaults;
 
-typedef struct S_8004F330_Node {
-    s32 unk0;
-    S_8002E5D8 *unk4;
-    DisplayPositionWords *unk8;
-    s32 unkC;
-} S_8004F330_Node;
-
-typedef struct S_8004F330_Entity {
-    u8 pad0[0x204];
-    DisplayPositionWords hdr;
-    u8 pad1[0x220 - 0x210];
-    S_8004F330_Node *ptrArray[7];
-    S_8004F330_Node nodeArray[7];
-    S_8002E5D8 bodyArray[7];
-} S_8004F330_Entity;
-
 /* Initializes menu backdrop nodes, their pointer table and shared position from the display defaults. */
-void initialize_menu_backdrop_display_nodes(S_8004F330_Entity *entity, s32 node_count)
+void initialize_menu_backdrop_display_nodes(SevenEntryMenuBackdropBody *body, s32 node_count)
 {
     s32 i;
     s32 w0;
 
     for (i = 0; i < node_count; i++) {
-        w0 = display_block_defaults.unk0;
-        entity->ptrArray[i] = &entity->nodeArray[i];
-        entity->bodyArray[i].unk0 = w0;
-        entity->bodyArray[i].unk4 = display_block_defaults.unk4;
-        entity->bodyArray[i].unk8 = display_block_defaults.unk8;
-        entity->bodyArray[i].unkC = display_block_defaults.unkC;
-        entity->nodeArray[i].unk4 = &entity->bodyArray[i];
-        entity->nodeArray[i].unk8 = &entity->hdr;
+        w0 = display_block_defaults.words[0];
+        body->view.initializer.node_pointers[i] = &body->view.initializer.nodes[i];
+        body->view.initializer.blocks[i].words[0] = w0;
+        body->view.initializer.blocks[i].words[1] = display_block_defaults.words[1];
+        body->view.initializer.blocks[i].words[2] = display_block_defaults.words[2];
+        body->view.initializer.blocks[i].words[3] = display_block_defaults.words[3];
+        body->view.initializer.nodes[i].display_block = &body->view.initializer.blocks[i];
+        body->view.initializer.nodes[i].position = &body->display_position;
     }
-    entity->hdr.unk0 = display_vector_defaults.unk0;
-    entity->hdr.unk4 = display_vector_defaults.unk4;
-    entity->hdr.unk8 = display_vector_defaults.unk8;
+    body->display_position.unk0 = display_vector_defaults.unk0;
+    body->display_position.unk4 = display_vector_defaults.unk4;
+    body->display_position.unk8 = display_vector_defaults.unk8;
 }

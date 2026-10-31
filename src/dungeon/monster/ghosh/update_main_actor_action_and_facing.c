@@ -28,10 +28,6 @@ typedef struct S_8016B778_3 {
     s32 unk_58;
 } S_8016B778_3;   /* *D_800814A8 in update_main_actor_action_and_facing */
 
-typedef struct S_8016B778_4 {
-    u8 pad_00[0x9A];
-    u8 unk_9A;
-} S_8016B778_4;   /* global_814A8 in update_main_actor_action_and_facing */
 
 typedef struct S_8016B778_5 {
     u8 pad_00[0xC];
@@ -48,7 +44,7 @@ struct ActorRecord; void update_actor_status_and_mp(struct ActorRecord *);
 extern void begin_pushed_actor_move(void *state_in, void *unused, void *position_in, void *actor_in);
 s32 begin_ready_actor_directional_action();
 struct Rec_func_800A9E70_arg0; struct Rec_func_800AA258_arg2; void begin_actor_move_to_target_facing(struct Rec_func_800A9E70_arg0 *, void *, struct Rec_func_800AA258_arg2 *, struct ActorRecord *);
-void advance_entity_along_path(void *, void *, SpriteFrameState *, void *);
+void advance_entity_along_path(void *, ObjectPosition *, SpriteFrameState *, void *);
 struct Rec_func_800A9E70_arg0; s32 dispatch_actor_action_phase(struct Rec_func_800A9E70_arg0 *, s32, s32, s32);
 extern void func_8016DAA4(CallbackOwner *owner, s32 unused, s32 first, s32 second);
 s32 execute_actor_script_command(u8 *, s32, u8 *);
@@ -72,7 +68,7 @@ void update_main_actor_action_and_facing(Rec_func_800A9E70_arg0 *actor, s32 cont
     s32 flag_mask_hi;
     u8 *tile_table;
     u8 *tile_entry;
-    S_8016B778_4 *active_actor;
+    ActorRecord *active_actor;
     if (g_dungeon_status.flags & 0x1000) {
         actor->unk_9A.as_u8 = 0xEU;
         advance_entity_along_path(actor, (void *)(context), map_actor, entity);
@@ -201,9 +197,9 @@ void update_main_actor_action_and_facing(Rec_func_800A9E70_arg0 *actor, s32 cont
         case 7:
             target_angle = get_rounded_facing_and_rounding_flag(map_actor->tile_x, map_actor->tile_y, reference_tile_object.tile_position.parts.tile_x,
                 reference_tile_object.tile_position.parts.tile_y, &target_distance);
-            active_actor = (S_8016B778_4 *)primary_actor_record;
+            active_actor = (ActorRecord *)primary_actor_record;
             entity->facing = target_angle;
-            if (active_actor->unk_9A != 0x11) {
+            if (active_actor->action_id.u != 0x11) {
                 update_actor_status_and_mp(entity);
                 return;
             }

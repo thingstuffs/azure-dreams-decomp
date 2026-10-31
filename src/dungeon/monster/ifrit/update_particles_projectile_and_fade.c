@@ -13,28 +13,6 @@
 #include "engine/node/allocation.h"
 #include "dungeon/player/object.h"
 
-typedef struct S_801733BC_0 {
-    u8 pad_00[0xC];
-    union { u32 u32; u8 u8; } unk_0C;   /* accessed as both */
-    u16 unk_10;
-    u16 unk_12;
-    u16 unk_14;
-    u8 pad_16[0xE];
-    u8 unk_24;
-    u8 unk_25;
-    u8 pad_26[0x2];
-    u32 unk_28;
-} S_801733BC_0;   /* arg2 in update_particles_projectile_and_fade */
-
-typedef struct S_801733BC_1 {
-    u8 pad_00[0x96];
-    u16 unk_96;
-    u8 pad_98[0x3];
-    u8 unk_9B;
-    u8 pad_9C[0xC];
-    union { u16 u; s16 s; } unk_A8;   /* accessed as both */
-} S_801733BC_1;   /* arg0 in update_particles_projectile_and_fade */
-
 typedef struct S_801733BC_2 {
     u8 pad_00[0x8];
     void * unk_08;
@@ -94,7 +72,7 @@ extern void draw_transformed_sprite_with_clip_rect(void *, Rect *, Point *, s32,
 /* Updates an entity's particles, projectile, and fade-out sequence before removing it. */
 /* Animates Ifrit's defeat with particles and a projectile, fades the sprite, awards experience, and
  * removes the actor. */
-void update_particles_projectile_and_fade(void *effect_state, MovingPosition *position, void *render_part, SpriteFrameState *entity)
+void update_particles_projectile_and_fade(ActorRecord *body, MovingPosition *position, SpriteFrameState *sprite, SpriteFrameState *entity)
 {
     Rect rect;
     Point center;
@@ -113,11 +91,11 @@ void update_particles_projectile_and_fade(void *effect_state, MovingPosition *po
 
     rect = D_80170874;
 
-    if (!(((S_801733BC_0 *)render_part)->unk_14 & 0x8000) &&
-        ((S_801733BC_1 *)effect_state)->unk_9B == 1) {
+    if (!(sprite->flags & 0x8000) &&
+        body->action_phase.u == 1) {
         particles_left = 3;
         particle_callback = tick_object_motion_and_expire;
-        ((S_801733BC_1 *)effect_state)->unk_A8.u += 0x12;
+        body->unk_A8.u += 0x12;
         do {
             spawned_object = allocate_list_node(0x112, &scene_object_list_anchor.next);
             if (spawned_object != 0) {
@@ -141,7 +119,7 @@ void update_particles_projectile_and_fade(void *effect_state, MovingPosition *po
                     u32 particle_color;
                     s32 draw_param;
 
-                    random_offset %= ((S_801733BC_1 *)effect_state)->unk_A8.s + 0x60;
+                    random_offset %= body->unk_A8.s + 0x60;
                     particle_render = 0x00040404;
                     particle_color = 0x00500000;
                     source_z = position->z;
@@ -154,14 +132,14 @@ void update_particles_projectile_and_fade(void *effect_state, MovingPosition *po
                     particle_state->unk_96 = 6;
 
                     particle_render = spawned_object->sprite;
-                    owner = ((S_801733BC_0 *)render_part)->unk_28;
+                    owner = sprite->animation_resource;
                     draw_command = 0x2E;
                     particle_render->animation_resource = owner;
                     particle_render->scale_y = 0x1000;
                     particle_render->scale_x = 0x1000;
                     draw_zero = 0;
-                    particle_render->flags = ((S_801733BC_0 *)render_part)->unk_14;
-                    draw_param = ((S_801733BC_0 *)render_part)->unk_12;
+                    particle_render->flags = sprite->flags;
+                    draw_param = sprite->clut;
                     particle_render->tpage_abr = 0x20;
                     particle_render->color.word = particle_color;
                     particle_render->flags |= 0xC;
@@ -173,7 +151,7 @@ void update_particles_projectile_and_fade(void *effect_state, MovingPosition *po
         } while (particles_left >= 0);
     }
 
-    switch (((S_801733BC_1 *)effect_state)->unk_9B) {
+    switch (body->action_phase.u) {
     case 0:
         if (g_dungeon_status.activity_counts.parts.pending_action_count != 0) {
             break;
@@ -183,20 +161,20 @@ void update_particles_projectile_and_fade(void *effect_state, MovingPosition *po
                 announce_familiar_defeat(entity);
             }
         }
-        ((S_801733BC_1 *)effect_state)->unk_9B++;
+        body->action_phase.u++;
                         /* fallthrough */
     case 1:
-        if (!(((S_801733BC_0 *)render_part)->unk_14 & 0xE000)) {
+        if (!(sprite->flags & 0xE000)) {
             break;
         }
-        ((S_801733BC_1 *)effect_state)->unk_A8.u = 0;
+        body->unk_A8.u = 0;
         {
             void *center_object;
             Rect *rect_ptr;
             Point *center_ptr;
             s16 center_y;
 
-            center_object = effect_state;
+            center_object = body;
             rect_ptr = &rect;
             center_ptr = &center;
             center.x = rect.x + ((s16)rect.w >> 1);
@@ -206,11 +184,11 @@ void update_particles_projectile_and_fade(void *effect_state, MovingPosition *po
         }
 
         *(u32 *)&entity->scale_x |= 0x10000000;
-        ((S_801733BC_0 *)render_part)->unk_10 = 0x60;
-        ((S_801733BC_0 *)render_part)->unk_0C.u32 = 0x00C0C0C0;
-        ((S_801733BC_0 *)render_part)->unk_14 |= 0xC;
-        ((S_801733BC_0 *)render_part)->unk_12 -= 0x80;
-        ((S_801733BC_1 *)effect_state)->unk_9B++;
+        sprite->tpage_abr = 0x60;
+        sprite->color.word = 0x00C0C0C0;
+        sprite->flags |= 0xC;
+        sprite->clut -= 0x80;
+        body->action_phase.u++;
         play_sound_if_enabled(0x806);
 
         spawned_object = allocate_list_node(0x12, &scene_object_list_anchor.next);
@@ -235,16 +213,16 @@ void update_particles_projectile_and_fade(void *effect_state, MovingPosition *po
 
     case 2:
         *(u32 *)&entity->scale_x |= 0x10000000;
-        ((S_801733BC_0 *)render_part)->unk_0C.u32 += 0xFFEFEFF0;
-        if (((S_801733BC_0 *)render_part)->unk_0C.u8 < 0x11) {
-            ((S_801733BC_1 *)effect_state)->unk_96 = 10;
-            ((S_801733BC_1 *)effect_state)->unk_9B++;
+        sprite->color.word += 0xFFEFEFF0;
+        if (sprite->color.c.r < 0x11) {
+            body->action_timer.u = 10;
+            body->action_phase.u++;
         }
         break;
 
     case 3:
-        frames_left = ((S_801733BC_1 *)effect_state)->unk_96 - 1;
-        ((S_801733BC_1 *)effect_state)->unk_96 = frames_left;
+        frames_left = body->action_timer.u - 1;
+        body->action_timer.u = frames_left;
         if ((s16)frames_left > 0) {
             break;
         }
@@ -254,7 +232,7 @@ void update_particles_projectile_and_fade(void *effect_state, MovingPosition *po
         }
         distribute_experience_and_report_gains(entity);
         detach_record_and_update_slot_state(entity);
-        update_map_cell_flags_with_item_limit(((S_801733BC_0 *)render_part)->unk_24, ((S_801733BC_0 *)render_part)->unk_25,
+        update_map_cell_flags_with_item_limit(sprite->tile_x, sprite->tile_y,
             (*(u32 *)&entity->scale_x & 0x2000) ? 0x300 : 0x3000);
         unlink_entity_node(entity);
         (*(u16 *)((u8 *)entity + -2)) |= NODE_REMOVE;

@@ -16,7 +16,7 @@ extern s32 refresh_actor_facing_and_lifecycle(void *, void *, void *, void *);
 extern u8 kewne_action_resume_address[12];
 extern ActorCallback kewne_callbacks[16];
 /* Update actor callbacks, movement, facing, animation, and ground height. */
-void update_actor_callbacks_and_ground(void *actor, void *motion, SpriteFrameState *sprite)
+void update_actor_callbacks_and_ground(void *actor, ObjectPosition *position, SpriteFrameState *sprite)
 {
     void *entry_actor = actor;
     s16 direction_index;
@@ -39,7 +39,7 @@ void update_actor_callbacks_and_ground(void *actor, void *motion, SpriteFrameSta
     if (initial_flags & 0x2000) {
         callback = *((ActorCallback *) (((u8 *) actor) + 0x8C));
         if (callback == ((ActorCallback) kewne_action_resume_address)) {
-            callback(entry_actor, motion, sprite, entry_actor);
+            callback(entry_actor, position, sprite, entry_actor);
             return;
         }
         else {
@@ -48,26 +48,26 @@ void update_actor_callbacks_and_ground(void *actor, void *motion, SpriteFrameSta
         }
     }
     old_state = (s8) (*((u8 *) (((u8 *) actor) + 0x6D)));
-    if (refresh_actor_facing_and_lifecycle(actor, motion, sprite, actor) != 0) {
+    if (refresh_actor_facing_and_lifecycle(actor, position, sprite, actor) != 0) {
         return;
     }
     if ((*((ActorCallback *) (((u8 *) actor) + 0x8C))) != 0) {
-        (*((ActorCallback *) (((u8 *) actor) + 0x8C)))(actor, motion, sprite, actor);
+        (*((ActorCallback *) (((u8 *) actor) + 0x8C)))(actor, position, sprite, actor);
     }
-    kewne_callbacks[*((u8 *) (((u8 *) actor) + 0x9A))](actor, motion, sprite, actor);
+    kewne_callbacks[*((u8 *) (((u8 *) actor) + 0x9A))](actor, position, sprite, actor);
     if (((s16) old_state) != (*((s8 *) (((u8 *) actor) + 0x6D)))) {
-        try_move_actor_to_valid_position(actor, motion, sprite, actor);
+        try_move_actor_to_valid_position(actor, position, sprite, actor);
     }
-    *((s32 *) (((u8 *) motion) + 0)) += *((s32 *) (((u8 *) motion) + 0xC));
-    *((s32 *) (((u8 *) motion) + 4)) += *((s32 *) (((u8 *) motion) + 0x10));
+    position->x.v += position->velocity_x;
+    position->y.v += position->velocity_y;
     if ((!((*((u32 *) (((u8 *) actor) + 0x1C))) & 0x40000)) && (!((*((u16 *) (((u8 *) actor) + 0x98))) & 8))) {
-        *((s32 *) (((u8 *) motion) + 0x14)) += (*((s8 *) (((u8 *) actor) + 0x9D))) * 0x14000;
+        position->velocity_z += (*((s8 *) (((u8 *) actor) + 0x9D))) * 0x14000;
         (*((u8 *) (((u8 *) actor) + 0x9D)))++;
     }
     else {
         *((u8 *) (((u8 *) actor) + 0x9D)) = 0;
     }
-    *((s32 *) (((u8 *) actor) + 0x90)) += *((s32 *) (((u8 *) motion) + 0x14));
+    *((s32 *) (((u8 *) actor) + 0x90)) += position->velocity_z;
     view_direction = ((g_game_work.view.camera_rotation.parts.viewAngle + (*((s16 *) (((u8 *) actor_base) + 0x2A)))) + 0x100) >> 9;
     bob_step = view_direction & 7;
     direction_index = bob_step;
@@ -148,13 +148,13 @@ void update_actor_callbacks_and_ground(void *actor, void *motion, SpriteFrameSta
             *((s32 *) (((u8 *) actor) + 0xA0)) = 0;
             *((s32 *) (((u8 *) actor) + 0x90)) -= bob_offset;
             if (!((*((u16 *) (((u8 *) actor) + 0x98))) & 8)) {
-                ground_height = sample_terrain_surface_height(*((u16 *) (((u8 *) motion) + 2)), *((u16 *) (((u8 *) motion) + 6)),
+                ground_height = sample_terrain_surface_height(*((u16 *) (((u8 *) position) + 2)), *((u16 *) (((u8 *) position) + 6)),
                     (s16) ((*((u16 *) (((u8 *) actor_base) + 0x88))) - 0x20));
                 ground_offset = ground_height - (*((u16 *) (((u8 *) actor_base) + 0x88)));
                 if (((s16) ground_offset) < (*((s16 *) (((u8 *) actor) + 0x92)))) {
                     *((s16 *) (((u8 *) actor) + 0x92)) = ground_offset;
                     *((u8 *) (((u8 *) actor) + 0x9D)) = 0;
-                    *((s32 *) (((u8 *) motion) + 0x14)) = 0;
+                    position->velocity_z = 0;
                     *((u32 *) (((u8 *) actor_base) + 0x1C)) |= 0x08000000;
                 }
             }
@@ -198,7 +198,7 @@ void update_actor_callbacks_and_ground(void *actor, void *motion, SpriteFrameSta
             *((u16 *) (((u8 *) actor_base) + 0x88)) = ground_height;
         }
     }
-    *((s16 *) (((u8 *) motion) + 0xA)) = ((*((u16 *) (((u8 *) actor_base) + 0x88))) + (*((u16 *) (((u8 *) actor)
+    position->z.w.i = ((*((u16 *) (((u8 *) actor_base) + 0x88))) + (*((u16 *) (((u8 *) actor)
         + 0x92)))) - (*((u16 *) (((u8 *) actor) + 0xA2)));
     sprite->flags |= 0x40;
 }

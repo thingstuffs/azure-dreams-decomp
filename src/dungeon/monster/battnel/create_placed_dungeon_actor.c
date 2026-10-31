@@ -12,18 +12,6 @@
 #include "engine/node.h"
 #include "engine/node/allocation.h"
 
-typedef struct S_80B7F054_1 {
-    u8 pad_00[0x13];
-    s8 unk_13;
-    s32 unk_14;
-    u8 pad_18[0x4];
-    s32 unk_1C;
-} S_80B7F054_1;   /* work in create_placed_dungeon_actor */
-
-typedef struct S_80B7F054_2 {
-    u8 pad_00[0xA];
-    s16 unk_0A;
-} S_80B7F054_2;   /* part_a in create_placed_dungeon_actor */
 
 typedef struct S_80B7F054_4 {
     u8 pad_00[0x8C];
@@ -70,7 +58,7 @@ void *create_placed_dungeon_actor(s16 spawn_flags, s16 tile_x, s16 tile_y, s16 r
         work = (u8 *)obj;
         work += 0x20;
         obj->update_callback = D_8015EA30;
-        ((S_80B7F054_1 *)work)->unk_13 = MONSTER_BATTNEL;
+        ((ActorRecord *)work)->species = MONSTER_BATTNEL;
         register_node(obj, project_sprite_chain);
 
         part_a = obj->position;

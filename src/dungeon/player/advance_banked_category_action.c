@@ -5,7 +5,7 @@
 extern s32 *dungeon_category_action_handlers[];
 
 /* Runs a banked callback and advances the object state when it completes. */
-void advance_banked_category_action(void *object, void *unused_1, void *unused_2, void *context) {
+void advance_banked_category_action(ActorRecord *object, void *unused_1, void *unused_2, ActorRecord *context) {
     u8 *callback_data;
     u8 state;
     s32 **callback_table;
@@ -16,7 +16,7 @@ void advance_banked_category_action(void *object, void *unused_1, void *unused_2
     u32 bank;
     s32 (*callback)(s32, void *, s32, s32);
 
-    state = *((u8 *)object + 0x9B);
+    state = object->action_phase.u;
     if (state == 0 || state == 16) {
         callback_data = *(u8 **)((u8 *)object + 0x110);
         row_index = callback_data[1] - 1;
@@ -31,14 +31,14 @@ void advance_banked_category_action(void *object, void *unused_1, void *unused_2
         }
         if (callback((s32)context | 0xA0000000, callback_data, 0, 0) != 0) {
             *(void **)((u8 *)object + 0x110) = 0;
-            *((u8 *)object + 0x9B) += 1;
+            object->action_phase.u += 1;
             return;
         }
         return;
     }
     if (state == 1) {
-        process_unflagged_linked_entries_alt(*(s32 *)((u8 *)context + 0x5C));
-        process_unflagged_linked_entries(*(s32 *)((u8 *)context + 0x5C));
+        process_unflagged_linked_entries_alt(context->next_actor_header);
+        process_unflagged_linked_entries(context->next_actor_header);
         g_dungeon_status.flags |= 0x812;
         restore_player_control_callback(object, context);
     }

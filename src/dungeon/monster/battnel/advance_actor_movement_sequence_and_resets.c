@@ -17,22 +17,6 @@
 #include "dungeon/actor.h"
 #include "dungeon/effect/screen.h"
 
-typedef struct S_801725D0_1 {
-    u8 pad_00[0x8C];
-    s32 * unk_8C;
-    union {
-        struct { s32 v; } at00;
-        struct { u8 pad[0x2]; u16 v; } at02;
-        struct { u8 pad[0x2]; s16 v; } at02u;
-    } unk_90;   /* overlapping accesses */
-    u8 pad_94[0x2];
-    union { u16 s; s16 u; } unk_96;   /* accessed as both */
-    u16 unk_98;
-    u8 pad_9A[0x1];
-    u8 unk_9B;
-    u8 pad_9C[0xA];
-    s16 unk_A6;
-} S_801725D0_1;   /* arg0 in advance_actor_movement_sequence_and_resets */
 
 typedef struct S_801725D0_4 {
     u8 pad_00[0xA];
@@ -78,9 +62,9 @@ void advance_actor_movement_sequence_and_resets(ActorRecord *action, ObjectPosit
         if (actor->target != 0) {
             void *linked = actor->target;
             void *height_entry = ((ObjectNodeHeader *)((u8 *)linked - 0x20))->position;
-            ((S_801725D0_1 *)action)->unk_A6 = ((S_801725D0_4 *)height_entry)->unk_0A - 0x34;
+            action->unk_A4.halves.high.s = ((S_801725D0_4 *)height_entry)->unk_0A - 0x34;
         } else {
-            ((S_801725D0_1 *)action)->unk_A6 =
+            action->unk_A4.halves.high.s =
                 sample_terrain_surface_height(
                     ((sprite->tile_x + x_step) << 6) & 0xFFC0,
                     ((sprite->tile_y + y_step) << 6) & 0xFFC0,
@@ -92,7 +76,7 @@ void advance_actor_movement_sequence_and_resets(ActorRecord *action, ObjectPosit
 
     case 1:
         action->unk_90.parts.high.u +=
-            (((S_801725D0_1 *)action)->unk_A6 - motion->z.w.i) / 3;
+            (action->unk_A4.halves.high.s - motion->z.w.i) / 3;
         if (action->action_timer.s > 0) {
             return;
         }
@@ -109,7 +93,7 @@ void advance_actor_movement_sequence_and_resets(ActorRecord *action, ObjectPosit
 
     case 2:
         action->unk_90.value +=
-            ((((S_801725D0_1 *)action)->unk_A6 - motion->z.w.i) / 3) << 16;
+            ((action->unk_A4.halves.high.s - motion->z.w.i) / 3) << 16;
         if (action->action_timer.s > 0) {
             return;
         }

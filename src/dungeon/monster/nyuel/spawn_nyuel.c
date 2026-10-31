@@ -10,15 +10,6 @@
 #include "dungeon/actor/animation.h"
 #include "engine/node/allocation.h"
 
-typedef struct S_80170894_0 {
-    u8 pad_00[0x13];
-    s8 unk_13;
-    s32 unk_14;
-    u8 pad_18[0x4];
-    s32 unk_1C;
-    u8 pad_20[0x6C];
-    void * unk_8C;
-} S_80170894_0;   /* work in func_80170894 */
 
 typedef struct S_80170894_4 {
     u8 pad_00[0x8C];
@@ -70,7 +61,7 @@ void *spawn_mode_configured_monster(s32 spawn_flags, s8 tile_x, s16 tile_y, s16 
 
         work = (u8 *)obj;
         work += 0x20;
-        ((S_80170894_0 *)work)->unk_13 = MONSTER_NYUEL;
+        ((ActorRecord *)work)->species = MONSTER_NYUEL;
         register_node(obj, project_sprite_chain);
 
         part_a = obj->position;
@@ -85,7 +76,7 @@ void *spawn_mode_configured_monster(s32 spawn_flags, s8 tile_x, s16 tile_y, s16 
             s32 left_one;
             s32 right_one;
 
-            ((S_80170894_0 *)work)->unk_8C = update_entity_actions_facing_and_animation;
+            ((ActorRecord *)work)->unk_8C.address = update_entity_actions_facing_and_animation;
             left_one = ((ActorRecord *)work)->flags14 | (ACTOR_CLASS_ENABLED | ACTOR_PARTY_MEMBER);
             right_one = ((ActorRecord *)work)->flags1C | 0x6000;
             ((ActorRecord *)work)->flags14 = left_one;
@@ -95,7 +86,7 @@ void *spawn_mode_configured_monster(s32 spawn_flags, s8 tile_x, s16 tile_y, s16 
             s32 left_many;
             s32 right_many;
 
-            ((S_80170894_0 *)work)->unk_8C = update_entity_actions_facing_and_animation;
+            ((ActorRecord *)work)->unk_8C.address = update_entity_actions_facing_and_animation;
             left_many = ((ActorRecord *)work)->flags14 | ACTOR_CLASS_ENABLED;
             right_many = ((ActorRecord *)work)->flags1C | 0x2000;
             ((ActorRecord *)work)->flags14 = left_many;
@@ -124,7 +115,7 @@ void *spawn_mode_configured_monster(s32 spawn_flags, s8 tile_x, s16 tile_y, s16 
                 part_b->frameTable = func_80174ED8;
                 goto callback_done;
             }
-            ((S_80170894_0 *)work)->unk_8C = callback_page + 0xE9C;
+            ((ActorRecord *)work)->unk_8C.address = callback_page + 0xE9C;
             part_b->frameTable = func_80174ED8;
         }
 callback_done:

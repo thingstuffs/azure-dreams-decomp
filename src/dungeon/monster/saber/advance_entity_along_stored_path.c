@@ -35,8 +35,8 @@ typedef struct S_80171CD4_4 {
 } S_80171CD4_4;   /* (u8 *)state + ((S_80171CD4_0 *)state)->unk_8A.s in advance_entity_along_stored_path */
 
 /* Advance the entity along its stored path and update movement timing. */
-void advance_entity_along_stored_path(void *movement, void *motion, SpriteFrameState *entity, void *path_state) {
-    ActorRecord *path_actor = movement;
+void advance_entity_along_stored_path(ActorRecord *body, ObjectPosition *motion, SpriteFrameState *sprite, void *path_state) {
+    ActorRecord *path_actor = body;
     S_80171CD4_0 *state = path_state;
     s32 move_flags;
     s16 heading;
@@ -48,26 +48,26 @@ void advance_entity_along_stored_path(void *movement, void *motion, SpriteFrameS
         return;
     }
 
-    if (((Rec_func_80171CD4_arg0 *)movement)->unk_9A.as_u8 != 0xF) {
-        ((Rec_func_80171CD4_arg0 *)movement)->unk_90 = 0;
-        ((Rec_func_80171CD4_arg1 *)motion)->unk_14 = 0;
-        ((Rec_func_80171CD4_arg0 *)movement)->unk_9D = 0;
+    if (body->action_id.u != 0xF) {
+        body->unk_90.value = 0;
+        motion->velocity_z = 0;
+        body->unk_9D.s = 0;
     }
 
     if (state->unk_71.u <= state->unk_8A.s) {
         return;
     }
 
-    if (*(u8 **)&entity->frameTable != saber_frame_set_9) {
-        (entity->frameTable) = saber_frame_set_9;
+    if (*(u8 **)&sprite->frameTable != saber_frame_set_9) {
+        (sprite->frameTable) = saber_frame_set_9;
         select_sprite_entry(
-            entity,
+            sprite,
             saber_frame_set_9[((g_game_work.view.camera_rotation.parts.viewAngle + state->unk_2A + 0x100) >> 9) & 7],
             0);
     }
 
-    x = entity->tile_x;
-    y = entity->tile_y;
+    x = sprite->tile_x;
+    y = sprite->tile_y;
     move_flags = 0x3000;
     if (state->unk_1C & 0x2000) {
         move_flags = 0x300;
@@ -80,18 +80,18 @@ void advance_entity_along_stored_path(void *movement, void *motion, SpriteFrameS
         ((S_80171CD4_4 *)((u8 *)state + state->unk_8A.s))->unk_74,
         ((S_80171CD4_4 *)((u8 *)state + state->unk_8A.s))->unk_7C,
         &path_actor->action_state_flags);
-    move_result = check_movement_clearance_and_height(heading, entity, state, 0x20);
+    move_result = check_movement_clearance_and_height(heading, sprite, state, 0x20);
 
-    entity->tile_x =
+    sprite->tile_x =
         ((S_80171CD4_4 *)((u8 *)state + state->unk_8A.s))->unk_74;
     move_flags = 0x3000;
-    entity->tile_y =
+    sprite->tile_y =
         ((S_80171CD4_4 *)((u8 *)state + state->unk_8A.s))->unk_7C;
     state->unk_8A.u++;
 
     {
-        s32 next_x = entity->tile_x;
-        s32 next_y = entity->tile_y;
+        s32 next_x = sprite->tile_x;
+        s32 next_y = sprite->tile_y;
 
         if (state->unk_1C & 0x2000) {
             move_flags = 0x300;
@@ -101,28 +101,28 @@ void advance_entity_along_stored_path(void *movement, void *motion, SpriteFrameS
 
     state->unk_2A = heading;
     if (move_result == 3) {
-        if (!(g_dungeon_status.flags & 0x80) && !(entity->flags & 0x8000)) {
-            initialize_actor_facing_sprite(movement, motion, entity, state);
-            ((Rec_func_80171CD4_arg0 *)movement)->unk_8C = 0;
+        if (!(g_dungeon_status.flags & 0x80) && !(sprite->flags & 0x8000)) {
+            initialize_actor_facing_sprite(body, motion, sprite, state);
+            ((Rec_func_80171CD4_arg0 *)body)->unk_8C = 0;
         } else {
-            ((Rec_func_80171CD4_arg0 *)movement)->unk_9A.as_u8 = 0xF;
-            ((Rec_func_80171CD4_arg0 *)movement)->unk_8C = 0;
+            body->action_id.u = 0xF;
+            ((Rec_func_80171CD4_arg0 *)body)->unk_8C = 0;
         }
     } else {
-        ((Rec_func_80171CD4_arg0 *)movement)->unk_9A.as_u8 = 0xF;
-        ((Rec_func_80171CD4_arg0 *)movement)->unk_8C = 0;
+        body->action_id.u = 0xF;
+        ((Rec_func_80171CD4_arg0 *)body)->unk_8C = 0;
     }
     state->unk_1C |= 0x40000000;
     if (g_dungeon_status.flags & 0x80) {
-        ((Rec_func_80171CD4_arg0 *)movement)->unk_96 = 0;
+        body->action_timer.s = 0;
         return;
     }
 
-    ((Rec_func_80171CD4_arg0 *)movement)->unk_96 = 8;
+    body->action_timer.s = 8;
     {
         s32 step_count = state->unk_71.u;
         if (step_count > 0) {
-            ((Rec_func_80171CD4_arg0 *)movement)->unk_96 = 8 / step_count;
+            body->action_timer.s = 8 / step_count;
         }
     }
 }

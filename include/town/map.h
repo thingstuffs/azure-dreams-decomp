@@ -129,8 +129,10 @@ void wait_then_process_record(struct S_800BC764_0 *context, void *unused, Sprite
 void initialize_record_resources(void *record, void *init_context, SpriteFrameState *resource_target);
 
 /* display_fade_g00643.c */
-void advance_color_fade_and_set_completion(void *fade_state, s32 unused, SpriteFrameState *visual);
-void advance_timed_state_and_set_completion(void *object);
+struct TimedColorFadeObject;
+struct BuildTwoDisplayEntriesBody;
+void advance_color_fade_and_set_completion(struct TimedColorFadeObject *fade_state, s32 unused, SpriteFrameState *visual);
+void advance_timed_state_and_set_completion(struct BuildTwoDisplayEntriesBody *object);
 void build_two_display_entries(s32 data_id, s32 position_offset);
 
 /* door.c */
@@ -278,7 +280,7 @@ void p_came_set(s32 position);
 /* paired_actor_motion_g00645.c */
 void update_randomized_actor_movement(void *actor, ObjectPosition *motion, SpriteFrameState *sprite, s32 update_mode);
 void initialize_object_and_dispatch_by_state(struct Func800BFE50Object *object, s32 *params, void *dispatch_context);
-void randomize_paired_object_motion(void *pair_in);
+void randomize_paired_object_motion(void *pair);
 s32 event_tori_in(void *source);
 
 /* process_enabled_entries.c */

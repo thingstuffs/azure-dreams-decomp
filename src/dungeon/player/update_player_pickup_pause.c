@@ -5,19 +5,19 @@
 
 
 /* Waits for a countdown or global state change before resetting the object's handler. */
-void update_player_pickup_pause(void *object) {
+void update_player_pickup_pause(ActorRecord *object) {
     GameWork *shared_data = &g_game_work;
-    u8 state = *(u8 *)((u8 *)object + 0x9B);
+    u8 state = object->action_phase.u;
     u16 timer;
 
     switch (state) {
     case 0:
-        *(u16 *)((u8 *)object + 0x96) = 0x10;
-        (*(u8 *)((u8 *)object + 0x9B))++;
+        object->action_timer.u = 0x10;
+        object->action_phase.u++;
         break;
     case 1:
-        timer = *(u16 *)((u8 *)object + 0x96) - 1;
-        *(u16 *)((u8 *)object + 0x96) = timer;
+        timer = object->action_timer.u - 1;
+        object->action_timer.u = timer;
         if ((s16)timer >= 0) {
             if ((shared_data->pressed_buttons) == 0) {
                 return;
@@ -27,7 +27,7 @@ void update_player_pickup_pause(void *object) {
             }
         }
         *(s32 *)((u8 *)object + 0x124) = 0;
-        *(void **)((u8 *)object + 0x8C) = handle_player_input;
+        object->unk_8C.address = handle_player_input;
         break;
     }
 }

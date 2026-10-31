@@ -26,7 +26,7 @@ extern u8 D_800E10C0[];
 extern u8 D_800E10F2[];
 
 /* Applies an item effect with randomized duration and handles item consumption. */
-s32 use_item_to_increase_magic_drain(void *target, DungeonItemEntry *item, s16 message_kind)
+s32 use_item_to_increase_magic_drain(ActorRecord *target, DungeonItemEntry *item, s16 message_kind)
 {
     s32 random_value;
 
@@ -39,14 +39,14 @@ s32 use_item_to_increase_magic_drain(void *target, DungeonItemEntry *item, s16 m
     if ((u32)target <= 0x9FFFFFFF) {
         display_item_status_message(target, item, message_kind);
         if (feed_actor_restore_mp(
-                target, (entity_action_selectors[*((u8 *)target + 0x13)] >> 6) & 3, 0) == 0) {
+                target, (entity_action_selectors[target->species] >> 6) & 3, 0) == 0) {
             place_actor_item(target, item);
             return 1;
         }
 
         random_value = generate_random_value();
         set_or_clear_actor_status_slot(target, STATUS_MP_DRAIN, (random_value & 0x1F) | 0x20);
-        if (*(s32 *)((u8 *)target + 0x14) & ACTOR_PARTY_MEMBER) {
+        if (target->flags14 & ACTOR_PARTY_MEMBER) {
             adjust_source_value_and_finalize(target, D_800E10C0);
         }
         create_colored_effect_with_event((u8 *)target - 0x20, 0x804040, 0x612);

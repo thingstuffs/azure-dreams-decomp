@@ -19,7 +19,7 @@ extern s32 begin_ready_actor_directional_action(ActorRecord *body, ObjectPositio
 extern void begin_actor_move_to_target_facing(ActorRecord *body, ObjectPosition *position, SpriteFrameState *sprite, ActorRecord *actor);
 extern void func_80171438(ActorRecord *action, ObjectPosition *action_id, SpriteFrameState *entity, ActorRecord *move_state);
 extern void func_8017167C(void *, void *, void *, void *);
-extern s32 validate_direction_and_initialize_action(ActorRecord *, ObjectPosition *, void *, void *);
+extern s32 validate_direction_and_initialize_action(ActorRecord *, ObjectPosition *, void *, ActorRecord *);
 void update_eligible_actor_action_alt(ActorRecord *action_state, ObjectPosition *context, SpriteFrameState *sprite, ActorRecord *actor);
 extern s32 func_80172230(void *, void *, void *, s32);
 extern void func_80173A84(void *, void *, void *, void *);

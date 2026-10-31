@@ -6,6 +6,7 @@
 #include "shared/vector.h"
 #include "engine/node.h"
 #include "engine/graphics.h"
+#include "engine/effect.h"
 
 typedef struct S_800520B4_Sub {
     void *field_0x00;
@@ -32,7 +33,6 @@ typedef struct S_800520B4 {
 } S_800520B4;
 
 extern u8 color_fade_visual_data[0x10];
-extern void update_color_fade_effect(void);
 struct ObjectPosition;
 struct SpriteFrameState;
 

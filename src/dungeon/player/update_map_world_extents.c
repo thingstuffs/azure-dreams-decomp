@@ -65,7 +65,7 @@ enum PlayerItemUsePhase {
 };
 
 /* Advances a directional animation, spawns its effect and message, and handles completion. */
-void animate_and_display_item_use(void *action, s32 actor_id, SpriteFrameState *sprite, EntityRec *actor) {
+void animate_and_display_item_use(ActorRecord *body, s32 actor_id, SpriteFrameState *sprite, ActorRecord *actor) {
     GteShortVector offset;
     ObjectNodeHeader *effect_obj;
     ObjectPosition *effect_prim;
@@ -78,10 +78,10 @@ void animate_and_display_item_use(void *action, s32 actor_id, SpriteFrameState *
     u16 timer;
     s32 tail_value; /* MATCH: keep the shared-tail store value in retail's v0. */
 
-    state = ((S_800927E4_0 *)action)->unk_9B;
+    state = body->action_phase.u;
     switch (state) {
     case PLAYER_ITEM_ALIGN:
-        if (((S_800927E4_0 *)action)->unk_9A == 0x2C) {
+        if (body->action_id.u == 0x2C) {
             void *anim_sprite = sprite;   /* Pin: removal reorders the instructions (same instructions, different order). */
             u8 *anim_table = player_carry_frames;
 
@@ -93,7 +93,7 @@ void animate_and_display_item_use(void *action, s32 actor_id, SpriteFrameState *
                         actor->facing + 0x100) >> 9) & 7],
                 0,
                 1);
-            ((S_800927E4_0 *)action)->unk_9B = ((S_800927E4_0 *)action)->unk_9B + 1;
+            body->action_phase.u = body->action_phase.u + 1;
             return;
         }
 
@@ -118,7 +118,7 @@ void animate_and_display_item_use(void *action, s32 actor_id, SpriteFrameState *
                                 actor->facing + 0x100) >> 9) & 7],
                         0,
                         1);
-                    ((S_800927E4_0 *)action)->unk_9B = ((S_800927E4_0 *)action)->unk_9B + 1;
+                    body->action_phase.u = body->action_phase.u + 1;
                     return;
                 }
             }
@@ -134,12 +134,12 @@ void animate_and_display_item_use(void *action, s32 actor_id, SpriteFrameState *
         }
 
         if (!(actor->flags1C & ACTOR_CARRYING)) {
-            void *owner_obj = (u8 *)action - 0x20;
+            void *owner_obj = (u8 *)body - 0x20;
             s32 zero = 0;   /* Pin: removal changes the whole function shape. */
                            /* Pin: removal reorders the instructions (same instructions, different order). */
                            /* Pin: removal changes the register colouring. */
             effect_obj = create_item_render_object(
-                owner_obj, ((S_800927E4_0 *)action)->unk_110, zero, zero, 0);
+                owner_obj, ((S_800927E4_0 *)body)->unk_110, zero, zero, 0);
             if (effect_obj != 0) {
 
                 effect_obj->update_callback = player_item_render_update_address;
@@ -149,21 +149,21 @@ void animate_and_display_item_use(void *action, s32 actor_id, SpriteFrameState *
 
                 effect = (u8 *)effect_obj + 0x20;
                 if (sprite->flags & 0x8000) {
-                    effect_prim->z.w.i = ((u16)actor->unk_88) - 0x50;
+                    effect_prim->z.w.i = ((u16)actor->ground_height) - 0x50;
                 } else {
                     *(u16 *)&effect_prim->x.w.i += ((u16)offset.vx);
                     *(u16 *)&effect_prim->y.w.i += ((u16)offset.vy);
                     tail_value = ((u16)offset.vz);
-                    tail_value += ((u16)actor->unk_88);
+                    tail_value += ((u16)actor->ground_height);
                     effect_prim->z.w.i = tail_value;
                 }
                 effect->unk_A8 = 0x1E;
                 effect->unk_AA = 2;
                 effect->unk_90 = sprite;
                 effect->unk_8C = actor_id;
-                effect->unk_9C = (u8 *)action + 0x108;
+                effect->unk_9C = (u8 *)body + 0x108;
 
-                entity = ((S_800927E4_0 *)action)->unk_110;
+                entity = ((S_800927E4_0 *)body)->unk_110;
                 if (entity != 0 && entity->unk_01 == ITEM_KIND_BALL &&
                     entity->unk_02 != 0) {
                     effect->unk_AE = 1;
@@ -174,9 +174,9 @@ void animate_and_display_item_use(void *action, s32 actor_id, SpriteFrameState *
             text_root = get_unused_text_buffer();
             text_cursor = append_entity_display_text(actor, write_text_byte_and_advance(8, text_root));
             text_cursor = expand_text_control_codes(D_800E06EE, text_cursor);
-            text_cursor = append_typed_formatted_value(((S_800927E4_0 *)action)->unk_110, text_cursor);
+            text_cursor = append_typed_formatted_value(((S_800927E4_0 *)body)->unk_110, text_cursor);
             text = expand_text_control_codes(D_800E06F7, text_cursor);
-            entity = ((S_800927E4_0 *)action)->unk_110;
+            entity = ((S_800927E4_0 *)body)->unk_110;
             if (entity->unk_01 != ITEM_KIND_BALL) {
                 text = process_eligible_object_value(entity, text);
             }
@@ -184,23 +184,23 @@ void animate_and_display_item_use(void *action, s32 actor_id, SpriteFrameState *
             display_text_with_fullwidth_adjustment(text_root);
         }
 
-        ((S_800927E4_0 *)action)->unk_96 = 0x1E;
-        ((S_800927E4_0 *)action)->unk_9B = ((S_800927E4_0 *)action)->unk_9B + 1;
+        body->action_timer.u = 0x1E;
+        body->action_phase.u = body->action_phase.u + 1;
         return;
     case PLAYER_ITEM_COMPLETE:
         if ((sprite->flags & 0x8000) ||
-            (timer = ((S_800927E4_0 *)action)->unk_96 - 1,
-             ((S_800927E4_0 *)action)->unk_96 = timer,
+            (timer = body->action_timer.u - 1,
+             body->action_timer.u = timer,
              (s32)(timer << 16) <= 0)) {
-            if (((S_800927E4_0 *)action)->unk_110 != 0) {
-                begin_deferred_player_item_effect(action, actor_id, sprite, actor);
+            if (((S_800927E4_0 *)body)->unk_110 != 0) {
+                begin_deferred_player_item_effect(body, actor_id, sprite, actor);
                 return;
             }
-            process_unflagged_linked_entries_alt(actor->unk_5C);
-            process_unflagged_linked_entries(actor->unk_5C);
+            process_unflagged_linked_entries_alt(actor->next_actor_header);
+            process_unflagged_linked_entries(actor->next_actor_header);
                            /* Pin: removal changes the whole function shape. */
             g_dungeon_status.flags |= 0x812;
-            ((S_800927E4_0 *)action)->unk_8C =handle_player_input;
+            body->unk_8C.run =handle_player_input;
         }
         return;
     }

@@ -70,15 +70,15 @@ typedef struct S_80170A78_2 {
 } S_80170A78_2;   /* state in update_object_movement_facing_terrain */
 
 /* Updates object callbacks, movement, facing, and terrain-relative height. */
-void update_object_movement_facing_terrain(void *obj, void *input_motion, SpriteFrameState *input_part)
+void update_object_movement_facing_terrain(ActorRecord *body, ObjectPosition *motion, SpriteFrameState *sprite)
 {
-    S_80170A78_2 *state = obj;
+    S_80170A78_2 *state = (S_80170A78_2 *)body;
     s32 mode_or_dir;
     s32 direction;
     u32 value_bits;
     u32 state_mask_a;
     u32 state_mask_b;
-    Callback callback;
+    ActorActionHandler callback;
     s32 height_offset;
     s16 floor_delta;
     u16 part_flags;
@@ -88,82 +88,82 @@ void update_object_movement_facing_terrain(void *obj, void *input_motion, Sprite
     s16 saved_mode;
 
     if (g_dungeon_status.flags & 0x2000) {
-        callback = (*(Callback *)((u8 *)obj + 0x8C));
+        callback = body->unk_8C.handler;
         if (callback == update_creature_animation_action) {
-            void *entry_obj = obj;
-            callback(entry_obj, input_motion, input_part, entry_obj);
+            void *entry_obj = body;
+            callback(entry_obj, motion, sprite, entry_obj);
             return;
         } else {
-            (((ObjFieldView_81005278 *)obj)->field_71) &= 0x7F;
+            (body->movement_queue_state) &= 0x7F;
             return;
         }
     }
 
-    saved_mode = ((ObjFieldView_81005278 *)obj)->field_6D;
-    if (refresh_actor_facing_and_lifecycle(obj, input_motion, input_part, obj) != 0) {
+    saved_mode = body->pending_turn_updates;
+    if (refresh_actor_facing_and_lifecycle(body, motion, sprite, body) != 0) {
         return;
     }
 
     {
-        Callback update_callback;
-        update_callback = (*(Callback *)((u8 *)obj + 0x8C));
+        ActorActionHandler update_callback;
+        update_callback = body->unk_8C.handler;
         if (update_callback != 0) {
-            update_callback(obj, input_motion, input_part, obj);
+            update_callback(body, motion, sprite, body);
         }
     }
-    garuda_callbacks[(((ObjFieldView_81005278 *)obj)->field_9A)](obj, input_motion, input_part, obj);
-    if (saved_mode != (((ObjFieldView_81005278 *)obj)->field_6D)) {
-        try_move_actor_to_valid_position(obj, input_motion, input_part, obj);
+    garuda_callbacks[(body->action_id.u)](body, motion, sprite, body);
+    if (saved_mode != (body->pending_turn_updates)) {
+        try_move_actor_to_valid_position(body, motion, sprite, body);
     }
 
     {
-        s32 old_x = ((S_80170A78_0 *)input_motion)->unk_00.at00.v;
-        s32 velocity_x = ((S_80170A78_0 *)input_motion)->unk_0C;
-        s32 old_y = ((S_80170A78_0 *)input_motion)->unk_04.at00.v;
-        s32 velocity_y = ((S_80170A78_0 *)input_motion)->unk_10;
-        ((S_80170A78_0 *)input_motion)->unk_00.at00.v = old_x + velocity_x;
-        ((S_80170A78_0 *)input_motion)->unk_04.at00.v = old_y + velocity_y;
+        s32 old_x = motion->x.v;
+        s32 velocity_x = motion->velocity_x;
+        s32 old_y = motion->y.v;
+        s32 velocity_y = motion->velocity_y;
+        motion->x.v = old_x + velocity_x;
+        motion->y.v = old_y + velocity_y;
 
-        if (!((((ObjFieldView_81005278 *)obj)->field_1C) & 0x40000) &&
-            !((((ObjFieldView_81005278 *)obj)->field_98) & 8)) {
-            ((S_80170A78_0 *)input_motion)->unk_14 += (((ObjFieldView_81005278 *)obj)->field_9D.s8) * 0x14000;
-            (((ObjFieldView_81005278 *)obj)->field_9D.u8) += 1;
+        if (!((body->flags1C) & 0x40000) &&
+            !((body->action_state_flags) & 8)) {
+            motion->velocity_z += (body->unk_9D.s) * 0x14000;
+            (body->unk_9D.u) += 1;
         } else {
-            (((ObjFieldView_81005278 *)obj)->field_9D.u8) = 0;
+            (body->unk_9D.u) = 0;
         }
     }
 
-    (((ObjFieldView_81005278 *)obj)->field_90.s32) += ((S_80170A78_0 *)input_motion)->unk_14;
-    part_flags = input_part->flags;
+    (body->unk_90.value) += motion->velocity_z;
+    part_flags = sprite->flags;
     if (!(part_flags & 0x8000)) {
         value_bits = *(s16 *)((u8 *)((u8 *)(&g_dungeon_status)) - 0x238) +
             state->unk_2A + 0x100;
         direction = ((s32)value_bits >> 9) & 7;
         mode_or_dir = (u16)direction;
         mode_or_dir = (s16)mode_or_dir;
-        if ((((ObjFieldView_81005278 *)obj)->field_94) != mode_or_dir) {
-            select_indirect_table_entry(input_part,
-                *(u8 *)(*(u8 **)&input_part->frameTable + mode_or_dir),
-                input_part->unk_04);
-            (((ObjFieldView_81005278 *)obj)->field_94) = direction;
+        if ((body->unk_94) != mode_or_dir) {
+            select_indirect_table_entry(sprite,
+                *(u8 *)(*(u8 **)&sprite->frameTable + mode_or_dir),
+                sprite->unk_04);
+            (body->unk_94) = direction;
         }
         value_bits = (u32)&dir_sprite_flag[mode_or_dir];
         direction_flag = *(u8 *)value_bits;
         if (direction_flag != 0) {
-            value_bits = input_part->flags | 1;
+            value_bits = sprite->flags | 1;
         } else {
-            value_bits = input_part->flags & 0xFFFE;
+            value_bits = sprite->flags & 0xFFFE;
         }
 
-        input_part->flags = value_bits;
+        sprite->flags = value_bits;
 
-        apply_monster_koyaw_data(state->unk_1C, (u8 *)input_part + 0xC);
+        apply_monster_koyaw_data(state->unk_1C, (u8 *)sprite + 0xC);
         if (!(state->unk_1C & 0x20)) {
-            if (!(input_part->flags & 0x40)) {
-                advance_sprite_animation_and_textures(input_part);
+            if (!(sprite->flags & 0x40)) {
+                advance_sprite_animation_and_textures(sprite);
             }
         } else {
-            input_part->flags |= 0x7000;
+            sprite->flags |= 0x7000;
             state->unk_1C &= 0xFFFBFFFF;
         }
         state_mask_a = 0xF7FFFFFF;
@@ -171,90 +171,90 @@ void update_object_movement_facing_terrain(void *obj, void *input_motion, Sprite
         if (!(mode_or_dir & 0x40000)) {
             s16 landing_delta;
             s32 landing_offset;
-            landing_offset = (((ObjFieldView_81005278 *)obj)->field_A4.s32);
-            (((ObjFieldView_81005278 *)obj)->field_B2) = 0;
-            (((ObjFieldView_81005278 *)obj)->field_A4.s32) = 0;
-            (((ObjFieldView_81005278 *)obj)->field_90.s32) -= landing_offset;
-            if (!((((ObjFieldView_81005278 *)obj)->field_98) & 8)) {
-                landing_delta = sample_terrain_surface_height(((S_80170A78_0 *)input_motion)->unk_00.at02.v,
-                    ((S_80170A78_0 *)input_motion)->unk_04.at02.v,
+            landing_offset = (body->unk_A4.value);
+            (body->unk_B0.halves.high.u) = 0;
+            (body->unk_A4.value) = 0;
+            (body->unk_90.value) -= landing_offset;
+            if (!((body->action_state_flags) & 8)) {
+                landing_delta = sample_terrain_surface_height(((S_80170A78_0 *)motion)->unk_00.at02.v,
+                    ((S_80170A78_0 *)motion)->unk_04.at02.v,
                             (s16)(state->unk_88 - 0x20)) -
                         state->unk_88;
-                if (landing_delta < (((ObjFieldView_81005278 *)obj)->field_90.s16_at_2.value)) {
-                    (((ObjFieldView_81005278 *)obj)->field_90.s16_at_2.value) = landing_delta;
-                    (((ObjFieldView_81005278 *)obj)->field_9D.u8) = 0;
-                    ((S_80170A78_0 *)input_motion)->unk_14 = 0;
+                if (landing_delta < (body->unk_90.parts.high.s)) {
+                    (body->unk_90.parts.high.s) = landing_delta;
+                    (body->unk_9D.u) = 0;
+                    motion->velocity_z = 0;
                     state->unk_1C |= 0x08000000;
                 }
             }
         } else {
 
-            if (!(input_part->flags & 0x40) &&
-                input_part->frameTable == garuda_walk_direction_frames) {
-                bob_phase = (((ObjFieldView_81005278 *)obj)->field_B2);
-                (((ObjFieldView_81005278 *)obj)->field_B2) = bob_phase + 1;
-                (((ObjFieldView_81005278 *)obj)->field_A4.s32) += rsin((s16)bob_phase * 0xAA) << 5;
+            if (!(sprite->flags & 0x40) &&
+                sprite->frameTable == garuda_walk_direction_frames) {
+                bob_phase = (body->unk_B0.halves.high.u);
+                (body->unk_B0.halves.high.u) = bob_phase + 1;
+                (body->unk_A4.value) += rsin((s16)bob_phase * 0xAA) << 5;
             }
-            if (!((((ObjFieldView_81005278 *)obj)->field_98) & 8)) {
-                floor_delta = sample_terrain_surface_height(((S_80170A78_0 *)input_motion)->unk_00.at02.v,
-                    ((S_80170A78_0 *)input_motion)->unk_04.at02.v,
+            if (!((body->action_state_flags) & 8)) {
+                floor_delta = sample_terrain_surface_height(((S_80170A78_0 *)motion)->unk_00.at02.v,
+                    ((S_80170A78_0 *)motion)->unk_04.at02.v,
                             (s16)(state->unk_88 - 0x20)) -
                         state->unk_88;
-                height_offset = (((ObjFieldView_81005278 *)obj)->field_90.s16_at_2.value);
+                height_offset = (body->unk_90.parts.high.s);
                 if (height_offset > floor_delta - 0x18) {
-                    (((ObjFieldView_81005278 *)obj)->field_90.s16_at_2.value) =
-                        (((ObjFieldView_81005278 *)obj)->field_90.s16_at_2.value) - 8;
+                    (body->unk_90.parts.high.s) =
+                        (body->unk_90.parts.high.s) - 8;
                 } else if (height_offset < floor_delta - 0x20) {
-                    (((ObjFieldView_81005278 *)obj)->field_90.s16_at_2.value) =
-                        (((ObjFieldView_81005278 *)obj)->field_90.u16_at_2.value) + 8;
+                    (body->unk_90.parts.high.s) =
+                        (body->unk_90.parts.high.u) + 8;
                 }
             }
         }
     } else {
         if (part_flags & 0x800) {
-            input_part->flags = part_flags & 0x8FFF;
+            sprite->flags = part_flags & 0x8FFF;
         } else {
-            input_part->flags = part_flags | 0x7000;
+            sprite->flags = part_flags | 0x7000;
         }
         state_mask_b = 0xF7FFFFFF;
         mode_or_dir = (state->unk_1C &= state_mask_b);
         if (!(mode_or_dir & 0x40000)) {
-            bob_offset = (((ObjFieldView_81005278 *)obj)->field_A4.s32);
-            (((ObjFieldView_81005278 *)obj)->field_B2) = 0;
-            (((ObjFieldView_81005278 *)obj)->field_A4.s32) = 0;
-            (((ObjFieldView_81005278 *)obj)->field_90.s32) -= bob_offset;
-            if (!((((ObjFieldView_81005278 *)obj)->field_98) & 8)) {
-                floor_delta = sample_terrain_surface_height(((S_80170A78_0 *)input_motion)->unk_00.at02.v,
-                    ((S_80170A78_0 *)input_motion)->unk_04.at02.v,
+            bob_offset = (body->unk_A4.value);
+            (body->unk_B0.halves.high.u) = 0;
+            (body->unk_A4.value) = 0;
+            (body->unk_90.value) -= bob_offset;
+            if (!((body->action_state_flags) & 8)) {
+                floor_delta = sample_terrain_surface_height(((S_80170A78_0 *)motion)->unk_00.at02.v,
+                    ((S_80170A78_0 *)motion)->unk_04.at02.v,
                             (s16)(state->unk_88 - 0x20)) -
                         state->unk_88;
-                if (floor_delta < (((ObjFieldView_81005278 *)obj)->field_90.s16_at_2.value)) {
-                    (((ObjFieldView_81005278 *)obj)->field_90.s16_at_2.value) = floor_delta;
-                    (((ObjFieldView_81005278 *)obj)->field_9D.u8) = 0;
-                    ((S_80170A78_0 *)input_motion)->unk_14 = 0;
+                if (floor_delta < (body->unk_90.parts.high.s)) {
+                    (body->unk_90.parts.high.s) = floor_delta;
+                    (body->unk_9D.u) = 0;
+                    motion->velocity_z = 0;
                     state->unk_1C |= 0x08000000;
                 }
             }
         } else {
-            if (!(input_part->flags & 0x40) &&
-                input_part->frameTable == garuda_walk_direction_frames) {
+            if (!(sprite->flags & 0x40) &&
+                sprite->frameTable == garuda_walk_direction_frames) {
                 u16 wave_phase;
-                wave_phase = (((ObjFieldView_81005278 *)obj)->field_B2);
-                (((ObjFieldView_81005278 *)obj)->field_B2) = wave_phase + 1;
-                (((ObjFieldView_81005278 *)obj)->field_A4.s32) += rsin((s16)wave_phase * 0xAA) << 5;
+                wave_phase = (body->unk_B0.halves.high.u);
+                (body->unk_B0.halves.high.u) = wave_phase + 1;
+                (body->unk_A4.value) += rsin((s16)wave_phase * 0xAA) << 5;
             }
-            if (!((((ObjFieldView_81005278 *)obj)->field_98) & 8)) {
-                floor_delta = sample_terrain_surface_height(((S_80170A78_0 *)input_motion)->unk_00.at02.v,
-                    ((S_80170A78_0 *)input_motion)->unk_04.at02.v,
+            if (!((body->action_state_flags) & 8)) {
+                floor_delta = sample_terrain_surface_height(((S_80170A78_0 *)motion)->unk_00.at02.v,
+                    ((S_80170A78_0 *)motion)->unk_04.at02.v,
                             (s16)(state->unk_88 - 0x20)) -
                         state->unk_88;
-                height_offset = (((ObjFieldView_81005278 *)obj)->field_90.s16_at_2.value);
+                height_offset = (body->unk_90.parts.high.s);
                 if (height_offset > floor_delta - 0x18) {
-                    (((ObjFieldView_81005278 *)obj)->field_90.s16_at_2.value) =
-                        (((ObjFieldView_81005278 *)obj)->field_90.s16_at_2.value) - 8;
+                    (body->unk_90.parts.high.s) =
+                        (body->unk_90.parts.high.s) - 8;
                 } else if (height_offset < floor_delta - 0x20) {
-                    (((ObjFieldView_81005278 *)obj)->field_90.s16_at_2.value) =
-                        (((ObjFieldView_81005278 *)obj)->field_90.u16_at_2.value) + 8;
+                    (body->unk_90.parts.high.s) =
+                        (body->unk_90.parts.high.u) + 8;
                 }
             }
         }
@@ -262,16 +262,16 @@ void update_object_movement_facing_terrain(void *obj, void *input_motion, Sprite
     }
     if (state->unk_1C & 0x40000000) {
         state->unk_1C &= 0xBFFFFFFF;
-        floor_delta = sample_terrain_surface_height((input_part->tile_x << 6) | 0x20,
-            (input_part->tile_y << 6) | 0x20,
+        floor_delta = sample_terrain_surface_height((sprite->tile_x << 6) | 0x20,
+            (sprite->tile_y << 6) | 0x20,
             (s16)(state->unk_88 - 0x20));
         if ((s16)floor_delta < 0x200) {
-            (((ObjFieldView_81005278 *)obj)->field_90.s16_at_2.value) += state->unk_88 - floor_delta;
+            (body->unk_90.parts.high.s) += state->unk_88 - floor_delta;
             state->unk_88 = floor_delta;
         }
     }
-    ((S_80170A78_0 *)input_motion)->unk_0A = state->unk_88 +
-        (((ObjFieldView_81005278 *)obj)->field_90.u16_at_2.value)
-            - (((ObjFieldView_81005278 *)obj)->field_A4.u16_at_2.value);
-    input_part->flags |= 0x40;
+    motion->z.w.i = state->unk_88 +
+        (body->unk_90.parts.high.u)
+            - (body->unk_A4.halves.high.u);
+    sprite->flags |= 0x40;
 }

@@ -26,7 +26,7 @@ typedef struct S_800BDB74_0_pre {
 
 
 /* Apply an item effect to the entity and consume the item when handled. */
-s32 use_item_to_restore_defense(void *entity, DungeonItemEntry *item, s16 use_type) {
+s32 use_item_to_restore_defense(ActorRecord *entity, DungeonItemEntry *item, s16 use_type) {
     if (entity == dungeon_actor_ring_anchor) {
         ((PlayerRecord *)entity)->pending_item_action = item;
         begin_deferred_item_action(entity, ((u8 *)(&view_reference_entity)), ((u8 *)(&reference_tile_object)), entity);
@@ -42,8 +42,8 @@ s32 use_item_to_restore_defense(void *entity, DungeonItemEntry *item, s16 use_ty
     }
 
     create_timed_paired_particle_emitter(((S_800BDB74_0_pre *)entity)[-1].unk_00, 0x40C040, entity);
-    ((EntityRec *)entity)->unk_27 = ((EntityRec *)entity)->unk_69;
-    if (((EntityRec *)entity)->flags14 & ACTOR_PARTY_MEMBER) {
+    entity->current_defense = entity->base_defense;
+    if (entity->flags14 & ACTOR_PARTY_MEMBER) {
         adjust_source_value_and_finalize(entity, D_800E0F07);
     }
     clear_slot_and_update_linked_state(item);

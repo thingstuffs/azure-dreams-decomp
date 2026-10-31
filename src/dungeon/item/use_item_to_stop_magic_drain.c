@@ -25,7 +25,7 @@ extern u8 D_800E104E[];
 extern u8 D_800E107C[];
 
 /* Applies an item effect to the target and handles item consumption. */
-s32 use_item_to_stop_magic_drain(void *target, DungeonItemEntry *item, s16 message_kind)
+s32 use_item_to_stop_magic_drain(ActorRecord *target, DungeonItemEntry *item, s16 message_kind)
 {
     if (target == dungeon_actor_ring_anchor) {
         ((PlayerRecord *)target)->pending_item_action = item;
@@ -36,7 +36,7 @@ s32 use_item_to_stop_magic_drain(void *target, DungeonItemEntry *item, s16 messa
     if ((u32)target <= 0x9FFFFFFF) {
         display_item_status_message(target, item, message_kind);
         if (feed_actor_restore_mp(
-                target, (entity_action_selectors[*((u8 *)target + 0x13)] >> 6) & 3, 0) == 0) {
+                target, (entity_action_selectors[target->species] >> 6) & 3, 0) == 0) {
             place_actor_item(target, item);
             return 1;
         }
@@ -48,7 +48,7 @@ s32 use_item_to_stop_magic_drain(void *target, DungeonItemEntry *item, s16 messa
          * test.
          */
         if (set_or_clear_actor_status_slot(target, STATUS_NO_MP_DRAIN, 0x10) << 16) {
-            if (*(s32 *)((u8 *)target + 0x14) & ACTOR_PARTY_MEMBER) {
+            if (target->flags14 & ACTOR_PARTY_MEMBER) {
                 adjust_source_value_and_finalize(target, D_800E104E);
             }
         }

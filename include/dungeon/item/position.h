@@ -4,9 +4,10 @@
 
 #include "common.h"
 #include "shared/dungeon_item_entries.h"
+#include "shared/entity.h"
 
 /* apply_holy_beam_tile_item.c */
-s32 apply_holy_beam_tile_item(void *actor, DungeonItemEntry *object_data, s16 action_type);
+s32 apply_holy_beam_tile_item(ActorRecord *body, DungeonItemEntry *object_data, s16 action_type);
 
 /* apply_malicious_light_tile_item.c */
 s32 apply_malicious_light_tile_item(void *actor, DungeonItemEntry *item, s16 action);

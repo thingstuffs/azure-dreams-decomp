@@ -7,6 +7,41 @@
 #include "shared/sprite_frame_state.h"
 #include "shared/vector.h"
 
+typedef struct CdCueMotionOwner {
+    u8 pad_00[6];
+    u16 count;
+    u8 pad_08[4];
+    s32 status;
+} CdCueMotionOwner;
+
+typedef struct CdCueFadeOwner {
+    u8 pad_00[6];
+    u16 flags;
+    u8 pad_08[0xC];
+    u32 value_14;
+} CdCueFadeOwner;
+
+typedef struct CdCueColorOwner {
+    u8 pad_00[6];
+    u16 count;
+    u8 pad_08[0x10];
+    s32 status;
+} CdCueColorOwner;
+
+/* Shared 16-byte body prefix used by the staged-motion and two fade children. */
+typedef struct CdCueEffectBody {
+    union {
+        CdCueMotionOwner *motion;
+        CdCueFadeOwner *fade;
+        CdCueColorOwner *color;
+    } owner;
+    union { s16 s; u16 u; } state;
+    union { s16 s; u16 u; } timer;
+    u8 pad_08[2];
+    s16 index;
+    s16 completion;
+} CdCueEffectBody;
+
 struct ColorState800517CC;
 struct Controller;
 struct EffectState800517CC;
@@ -112,10 +147,10 @@ void start_gauge_ramp(struct S_80050640 *obj);
 void tick_screen_fade_slots(void);
 
 /* update_color_fade_effect.c */
-void update_color_fade_effect(struct S_80051F58 *effect, void *unused_1, struct S_80051F58_a2 *color, void *unused_3);
+void update_color_fade_effect(CdCueEffectBody *effect, void *unused_1, struct S_80051F58_a2 *color, void *unused_3);
 
 /* update_fade_in_out_effect.c */
-void update_fade_in_out_effect(struct S_80051CC4_Sub *state, void *unused_arg, struct S_80051CC4_Ptr *visual);
+void update_fade_in_out_effect(CdCueEffectBody *state, void *unused_arg, struct S_80051CC4_Ptr *visual);
 
 /* update_scene_effect_controller.c */
 void func_80052144(struct Controller *controller);
@@ -130,6 +165,6 @@ void func_800517CC(struct EffectState800517CC *effect, struct VecState800517CC *
 void update_sine_motion_effect(struct EffectState800517CC *effect, struct VecState800517CC *motion, SpriteFrameState *color);
 
 /* update_staged_motion_effect.c */
-void update_staged_motion_effect(struct S_80051548_Obj *obj, IntVector3 *position, SpriteFrameState *flags);
+void update_staged_motion_effect(CdCueEffectBody *obj, IntVector3 *position, SpriteFrameState *flags);
 
 #endif

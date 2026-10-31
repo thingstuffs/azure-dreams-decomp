@@ -29,7 +29,7 @@ typedef struct S_80170B64_0 {
     u8 pad_6E[0x3];
     u8 unk_71;
     u8 pad_72[0x1A];
-    s32 (*unk_8C)(void *, void *, void *, void *);
+    ActorActionHandler unk_8C;
     union {
         struct { s32 v; } at00;
         struct { u8 pad[0x2]; s16 v; } at02;
@@ -73,11 +73,11 @@ typedef struct S_80170B64_3 {
 } S_80170B64_3;   /* work in update_actor_callbacks_movement_and_terrain */
 
 /* Update actor callbacks, movement, sprite direction, and terrain-relative height. */
-void update_actor_callbacks_movement_and_terrain(void *actor, void *motion, void *sprite_arg)
+void update_actor_callbacks_movement_and_terrain(ActorRecord *body, ObjectPosition *motion, void *sprite_arg)
 {
-    S_80170B64_3 *actor_base = actor;
-    s32 (*update_callback)(void *, void *, void *, void *);
-    s32 (*pause_callback)(void *, void *, void *, void *);
+    S_80170B64_3 *actor_base = (S_80170B64_3 *)body;
+    ActorActionHandler update_callback;
+    ActorActionHandler pause_callback;
     s16 floor_offset;
     s16 view_direction;
     s16 tile_height;
@@ -91,49 +91,49 @@ void update_actor_callbacks_movement_and_terrain(void *actor, void *motion, void
     u16 sprite_flags;
 
     if (g_dungeon_status.flags & 0x2000) {
-        void *paused_actor = actor;
-        pause_callback = ((S_80170B64_0 *)actor)->unk_8C;
+        void *paused_actor = body;
+        pause_callback = body->unk_8C.handler;
         if (pause_callback == &update_actor_animation_and_dispatch) {
             pause_callback(paused_actor, motion, sprite_arg, paused_actor);
             return;
         }
-        ((S_80170B64_0 *)actor)->unk_71 &= 0x7F;
+        body->movement_queue_state &= 0x7F;
         return;
     }
 
 
-    previous_state = (s8)((S_80170B64_0 *)actor)->unk_6D;
-    if (refresh_actor_facing_and_lifecycle(actor, motion, sprite_arg, actor) == 0) {
-        update_callback = ((S_80170B64_0 *)actor)->unk_8C;
+    previous_state = (s8)((S_80170B64_0 *)body)->unk_6D;
+    if (refresh_actor_facing_and_lifecycle(body, motion, sprite_arg, body) == 0) {
+        update_callback = body->unk_8C.handler;
         if (update_callback != 0) {
-            update_callback(actor, motion, sprite_arg, actor);
+            update_callback(body, motion, sprite_arg, body);
         }
         ((s32 (**)(void *, void *, void *, void *))&kraken_action_handlers)
-        [((S_80170B64_0 *)actor)->unk_9A](actor, motion, sprite_arg, actor);
-        if ((s16)previous_state != (s8)((S_80170B64_0 *)actor)->unk_6D) {
-            try_move_actor_to_valid_position(actor, motion, sprite_arg, actor);
+        [body->action_id.u](body, motion, sprite_arg, body);
+        if ((s16)previous_state != (s8)((S_80170B64_0 *)body)->unk_6D) {
+            try_move_actor_to_valid_position(body, motion, sprite_arg, body);
         }
-        ((TrailMotion *)motion)->x.unk_00 += ((TrailMotion *)motion)->velocity_x;
-        ((TrailMotion *)motion)->y.unk_04 += ((TrailMotion *)motion)->velocity_y;
-        if (!(((S_80170B64_0 *)actor)->unk_1C & 0x40000) &&
-            !(((S_80170B64_0 *)actor)->unk_98 & 8)) {
-            ((TrailMotion *)motion)->unk_14 = ((TrailMotion *)motion)->unk_14 +
-                (((S_80170B64_0 *)actor)->unk_9D.s * 0x14000);
-            ((S_80170B64_0 *)actor)->unk_9D.u++;
+        motion->x.v += motion->velocity_x;
+        motion->y.v += motion->velocity_y;
+        if (!(body->flags1C & 0x40000) &&
+            !(body->action_state_flags & 8)) {
+            motion->velocity_z = motion->velocity_z +
+                (body->unk_9D.s * 0x14000);
+            body->unk_9D.u++;
         } else {
-            ((S_80170B64_0 *)actor)->unk_9D.s = 0;
+            body->unk_9D.s = 0;
         }
 
-        ((S_80170B64_0 *)actor)->unk_90.at00.v = ((S_80170B64_0 *)actor)->unk_90.at00.v +
-            ((TrailMotion *)motion)->unk_14;
+        body->unk_90.value = body->unk_90.value +
+            motion->velocity_z;
         sprite_flags = ((S_80170B64_2 *)sprite_arg)->unk_14;
         if (!(sprite_flags & 0x8000)) {
             view_direction = ((g_game_work.view.camera_rotation.parts.viewAngle + actor_base->unk_2A + 0x100) >> 9) & 7;
-            if (((S_80170B64_0 *)actor)->unk_94 != view_direction) {
+            if (body->unk_94 != view_direction) {
                 select_indirect_table_entry(sprite_arg,
                     *(((u8 *)((S_80170B64_2 *)sprite_arg)->unk_2C.p) + view_direction),
                     ((S_80170B64_2 *)sprite_arg)->unk_04.s8);
-                ((S_80170B64_0 *)actor)->unk_94 = view_direction;
+                body->unk_94 = view_direction;
             }
             if (dir_sprite_flag[view_direction] != 0) {
                 ((S_80170B64_2 *)sprite_arg)->unk_14 |= 1;
@@ -155,48 +155,48 @@ void update_actor_callbacks_movement_and_terrain(void *actor, void *motion, void
                 if (!(((S_80170B64_2 *)sprite_arg)->unk_14 & 0x40)) {
                     animation_table = ((S_80170B64_2 *)sprite_arg)->unk_2C.i;
                     if (animation_table == (s32)&kraken_frame_set_1) {
-                        ((S_80170B64_0 *)actor)->unk_AC.at00.v = 0;
+                        ((S_80170B64_0 *)body)->unk_AC.at00.v = 0;
                     } else if (animation_table == (s32)&D_80174174) {
-                        ((S_80170B64_0 *)actor)->unk_A0.u++;
+                        body->unk_A0.parts.low++;
                         if (((S_80170B64_2 *)sprite_arg)->unk_04.u16 == 0x100) {
-                            ((S_80170B64_0 *)actor)->unk_A0.u = 0;
-                            ((S_80170B64_0 *)actor)->unk_AC.at00.v = 0;
+                            body->unk_A0.parts.low = 0;
+                            ((S_80170B64_0 *)body)->unk_AC.at00.v = 0;
                         }
-                        if (((S_80170B64_0 *)actor)->unk_A0.s < 5) {
-                            ((S_80170B64_0 *)actor)->unk_AC.at00.v += -0x33333;
+                        if (((S_80170B64_0 *)body)->unk_A0.s < 5) {
+                            ((S_80170B64_0 *)body)->unk_AC.at00.v += -0x33333;
                         } else {
-                            ((S_80170B64_0 *)actor)->unk_AC.at00.v += 0x12492;
+                            ((S_80170B64_0 *)body)->unk_AC.at00.v += 0x12492;
                         }
                     }
                 }
-                if (!(((S_80170B64_0 *)actor)->unk_98 & 8)) {
+                if (!(body->action_state_flags & 8)) {
                     hover_floor_offset = sample_terrain_surface_height(((TrailMotion *)motion)->x.unk_02.unk_02,
                         ((TrailMotion *)motion)->y.unk_06.unk_06,
                         (s16)(actor_base->unk_88 - 0x20)) -
                         actor_base->unk_88;
-                    if (((S_80170B64_0 *)actor)->unk_90.at02.v > ((s16)hover_floor_offset - 0x20)) {
-                        ((S_80170B64_0 *)actor)->unk_90.at02.v =
-                            ((S_80170B64_0 *)actor)->unk_90.at02u.v - 8;
-                    } else if (((S_80170B64_0 *)actor)->unk_90.at02.v <
+                    if (body->unk_90.parts.high.s > ((s16)hover_floor_offset - 0x20)) {
+                        body->unk_90.parts.high.s =
+                            body->unk_90.parts.high.u - 8;
+                    } else if (body->unk_90.parts.high.s <
                                ((s16)hover_floor_offset - 0x28)) {
-                        ((S_80170B64_0 *)actor)->unk_90.at02.v =
-                            ((S_80170B64_0 *)actor)->unk_90.at02u.v + 8;
+                        body->unk_90.parts.high.s =
+                            body->unk_90.parts.high.u + 8;
                     }
                 }
             } else {
-                s32 height_adjustment = ((S_80170B64_0 *)actor)->unk_AC.at00.v;
-                ((S_80170B64_0 *)actor)->unk_A8 = 0;
-                ((S_80170B64_0 *)actor)->unk_AC.at00.v = 0;
-                ((S_80170B64_0 *)actor)->unk_90.at00.v -= height_adjustment;
-                if (!(((S_80170B64_0 *)actor)->unk_98 & 8)) {
+                s32 height_adjustment = ((S_80170B64_0 *)body)->unk_AC.at00.v;
+                body->unk_A8.s = 0;
+                ((S_80170B64_0 *)body)->unk_AC.at00.v = 0;
+                body->unk_90.value -= height_adjustment;
+                if (!(body->action_state_flags & 8)) {
                     floor_offset = sample_terrain_surface_height(((TrailMotion *)motion)->x.unk_02.unk_02,
                         ((TrailMotion *)motion)->y.unk_06.unk_06,
                         (s16)(actor_base->unk_88 - 0x20)) -
                         actor_base->unk_88;
-                    if (floor_offset < ((S_80170B64_0 *)actor)->unk_90.at02.v) {
-                        ((S_80170B64_0 *)actor)->unk_90.at02.v = floor_offset;
-                        ((S_80170B64_0 *)actor)->unk_9D.s = 0;
-                        ((TrailMotion *)motion)->unk_14 = 0;
+                    if (floor_offset < body->unk_90.parts.high.s) {
+                        body->unk_90.parts.high.s = floor_offset;
+                        body->unk_9D.s = 0;
+                        motion->velocity_z = 0;
                         actor_base->unk_1C.u |= 0x08000000;
                     }
                 }
@@ -211,19 +211,19 @@ void update_actor_callbacks_movement_and_terrain(void *actor, void *motion, void
             actor_base->unk_1C.s = static_flags;
             if (!(static_flags & 0x40000)) {
 
-                s32 height_adjustment = ((S_80170B64_0 *)actor)->unk_AC.at00.v;
-                ((S_80170B64_0 *)actor)->unk_A8 = 0;
-                ((S_80170B64_0 *)actor)->unk_AC.at00.v = 0;
-                ((S_80170B64_0 *)actor)->unk_90.at00.v -= height_adjustment;
-                if (!(((S_80170B64_0 *)actor)->unk_98 & 8)) {
+                s32 height_adjustment = ((S_80170B64_0 *)body)->unk_AC.at00.v;
+                body->unk_A8.s = 0;
+                ((S_80170B64_0 *)body)->unk_AC.at00.v = 0;
+                body->unk_90.value -= height_adjustment;
+                if (!(body->action_state_flags & 8)) {
                     floor_offset = sample_terrain_surface_height(((TrailMotion *)motion)->x.unk_02.unk_02,
                         ((TrailMotion *)motion)->y.unk_06.unk_06,
                         (s16)(actor_base->unk_88 - 0x20)) -
                         actor_base->unk_88;
-                    if (floor_offset < ((S_80170B64_0 *)actor)->unk_90.at02.v) {
-                        ((S_80170B64_0 *)actor)->unk_90.at02.v = floor_offset;
-                        ((S_80170B64_0 *)actor)->unk_9D.s = 0;
-                        ((TrailMotion *)motion)->unk_14 = 0;
+                    if (floor_offset < body->unk_90.parts.high.s) {
+                        body->unk_90.parts.high.s = floor_offset;
+                        body->unk_9D.s = 0;
+                        motion->velocity_z = 0;
                         actor_base->unk_1C.u |= 0x08000000;
                     }
                 }
@@ -231,31 +231,31 @@ void update_actor_callbacks_movement_and_terrain(void *actor, void *motion, void
                 if (!(((S_80170B64_2 *)sprite_arg)->unk_14 & 0x40)) {
                     static_animation_table = ((S_80170B64_2 *)sprite_arg)->unk_2C.i;
                     if (static_animation_table == (s32)&kraken_frame_set_1) {
-                        ((S_80170B64_0 *)actor)->unk_AC.at00.v = 0;
+                        ((S_80170B64_0 *)body)->unk_AC.at00.v = 0;
                     } else if (static_animation_table == (s32)&D_80174174) {
-                        ((S_80170B64_0 *)actor)->unk_A0.u++;
+                        body->unk_A0.parts.low++;
                         if (((S_80170B64_2 *)sprite_arg)->unk_04.u16 == 0x100) {
-                            ((S_80170B64_0 *)actor)->unk_A0.u = 0;
-                            ((S_80170B64_0 *)actor)->unk_AC.at00.v = 0;
+                            body->unk_A0.parts.low = 0;
+                            ((S_80170B64_0 *)body)->unk_AC.at00.v = 0;
                         }
-                        if (((S_80170B64_0 *)actor)->unk_A0.s < 5) {
-                            ((S_80170B64_0 *)actor)->unk_AC.at00.v += -0x33333;
+                        if (((S_80170B64_0 *)body)->unk_A0.s < 5) {
+                            ((S_80170B64_0 *)body)->unk_AC.at00.v += -0x33333;
                         } else {
-                            ((S_80170B64_0 *)actor)->unk_AC.at00.v += 0x12492;
+                            ((S_80170B64_0 *)body)->unk_AC.at00.v += 0x12492;
                         }
                     }
                 }
-                if (!(((S_80170B64_0 *)actor)->unk_98 & 8)) {
+                if (!(body->action_state_flags & 8)) {
                     hover_floor_offset = sample_terrain_surface_height(((TrailMotion *)motion)->x.unk_02.unk_02,
                         ((TrailMotion *)motion)->y.unk_06.unk_06,
                         (s16)(actor_base->unk_88 - 0x20)) -
                         actor_base->unk_88;
-                    if (((S_80170B64_0 *)actor)->unk_90.at02.v > ((s16)hover_floor_offset - 0x20)) {
-                        ((S_80170B64_0 *)actor)->unk_90.at02.v =
-                            ((S_80170B64_0 *)actor)->unk_90.at02u.v - 8;
-                    } else if (((S_80170B64_0 *)actor)->unk_90.at02.v < ((s16)hover_floor_offset - 0x28)) {
-                        ((S_80170B64_0 *)actor)->unk_90.at02.v =
-                            ((S_80170B64_0 *)actor)->unk_90.at02u.v + 8;
+                    if (body->unk_90.parts.high.s > ((s16)hover_floor_offset - 0x20)) {
+                        body->unk_90.parts.high.s =
+                            body->unk_90.parts.high.u - 8;
+                    } else if (body->unk_90.parts.high.s < ((s16)hover_floor_offset - 0x28)) {
+                        body->unk_90.parts.high.s =
+                            body->unk_90.parts.high.u + 8;
                     }
                 }
             }
@@ -268,13 +268,13 @@ void update_actor_callbacks_movement_and_terrain(void *actor, void *motion, void
                 (((S_80170B64_2 *)sprite_arg)->unk_25 << 6) | 0x20,
                 (s16)(actor_base->unk_88 - 0x20));
             if (tile_height < 0x200) {
-                ((S_80170B64_0 *)actor)->unk_90.at02.v = (u16)((S_80170B64_0 *)actor)->unk_90.at02.v +
+                body->unk_90.parts.high.s = (u16)body->unk_90.parts.high.s +
                     (actor_base->unk_88 - tile_height);
                 actor_base->unk_88 = tile_height;
             }
         }
-        ((TrailMotion *)motion)->z = ((S_80170B64_0 *)actor)->unk_AC.at02.v +
-            (actor_base->unk_88 + (u16)((S_80170B64_0 *)actor)->unk_90.at02.v);
+        motion->z.w.i = body->unk_AC.halves.high.u +
+            (actor_base->unk_88 + (u16)body->unk_90.parts.high.s);
         ((S_80170B64_2 *)sprite_arg)->unk_14 |= 0x40;
     }
 

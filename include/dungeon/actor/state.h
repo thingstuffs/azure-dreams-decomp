@@ -3,6 +3,7 @@
 
 /* Function contracts owned by src/dungeon/actor/state/ (decision 74; maintained by tools/headers). */
 #include "common.h"
+#include "shared/entity.h"
 
 struct SpriteFrameState;
 struct ActorRecord;
@@ -17,7 +18,7 @@ s32 propagate_actor_action_flag(struct ActorRecord *body, struct ObjectPosition 
 void install_trap_handler_after_action_flag_propagation(void *owner, s32 context, s32 sprite, s32 *record);
 
 
-void roll_actor_flag_once(void *actor_data, s32 divisor);
+void roll_actor_flag_once(ActorRecord *body, s32 divisor);
 
 void initialize_action_state_29(void *state, s32 unused_context, struct SpriteFrameState *unused_sprite, struct ActorRecord *unused_actor);
 

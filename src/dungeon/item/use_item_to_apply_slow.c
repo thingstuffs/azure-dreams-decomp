@@ -22,7 +22,7 @@ extern void display_item_status_message(void *entity, struct DungeonItemEntry *i
 extern u8 D_800E1827[];
 
 /* Applies the item's status effect to the target and consumes the handled item. */
-s32 use_item_to_apply_slow(void *target, DungeonItemEntry *item, s16 use_kind)
+s32 use_item_to_apply_slow(ActorRecord *target, DungeonItemEntry *item, s16 use_kind)
 {
     if (target == dungeon_actor_ring_anchor) {
         ((PlayerRecord *)target)->pending_item_action = item;
@@ -33,7 +33,7 @@ s32 use_item_to_apply_slow(void *target, DungeonItemEntry *item, s16 use_kind)
     if ((u32)target <= 0x9FFFFFFF) {
         display_item_status_message(target, item, use_kind);
         if (feed_actor_restore_mp(
-                target, (entity_action_selectors[*((u8 *)target + 0x13)] >> 6) & 3, 0) == 0) {
+                target, (entity_action_selectors[target->species] >> 6) & 3, 0) == 0) {
             place_actor_item(target, item);
             return 1;
         }
@@ -47,7 +47,7 @@ s32 use_item_to_apply_slow(void *target, DungeonItemEntry *item, s16 use_kind)
      */
     if ((set_or_clear_actor_status_slot(target, STATUS_SPEED, -10) << 16) != 0) {
         play_sound_if_enabled(0x615);
-        if (*(s32 *)((u8 *)target + 0x14) & ACTOR_PARTY_MEMBER) {
+        if (target->flags14 & ACTOR_PARTY_MEMBER) {
             adjust_source_value_and_finalize(target, D_800E1827);
         }
     }

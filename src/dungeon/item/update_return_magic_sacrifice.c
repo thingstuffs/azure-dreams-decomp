@@ -68,10 +68,6 @@ typedef struct S_800C2824_6 {
 
    /* (void *)c2_coord in update_return_magic_sacrifice */
 
-typedef struct S_800C2824_8 {
-    u8 pad_00[0x88];
-    s16 unk_88;
-} S_800C2824_8;   /* effect_object in update_return_magic_sacrifice */
 
 typedef struct S_800C2824_10 {
     u8 pad_00[0x14A0];
@@ -162,7 +158,7 @@ void update_return_magic_sacrifice(void *effect, void *vertices, void *sprite) {
     s32 expired_x;
     ObjectNodeHeader *final_object;
     u16 final_flags;
-    S_800C2824_8 *effect_object;
+    ActorRecord *effect_object;
     u8 *slots_page;
 
     state = ((S_800C2824_0 *)effect)->unk_04;
@@ -244,10 +240,10 @@ void update_return_magic_sacrifice(void *effect, void *vertices, void *sprite) {
     {
 
         object_coords = ((u8 *)(&reference_tile_object));
-        effect_object = (S_800C2824_8 *)dungeon_actor_ring_anchor;
+        effect_object = dungeon_actor_ring_anchor;
         return_magic_effect_object = effect_object;
         if (create_five_point_effect(object_coords->tile_x, object_coords->tile_y,
-            effect_object->unk_88, &D_800DF45C, 0x2800, 0x208020, &return_magic_begin_address) == 0) {
+            effect_object->ground_height, &D_800DF45C, 0x2800, 0x208020, &return_magic_begin_address) == 0) {
             return;
         }
         flags_page = (S_800C2824_10 *)0x80080000;
@@ -265,7 +261,7 @@ void update_return_magic_sacrifice(void *effect, void *vertices, void *sprite) {
         source_object = ((S_800C2824_0 *)effect)->unk_00;
         object_coords = (((ObjectNodeHeader *)((u8 *)source_object - 0x20))->sprite);
         effect_object = source_object;
-        effect_param = effect_object->unk_88;
+        effect_param = effect_object->ground_height;
         return_magic_effect_object = effect_object;
         if (create_five_point_effect(object_coords->tile_x, object_coords->tile_y,
             effect_param, &D_800DF45C, 0x2800, 0x208020, &D_800C27F0) == 0) {

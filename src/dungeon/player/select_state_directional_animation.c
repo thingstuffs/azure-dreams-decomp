@@ -10,7 +10,7 @@ extern u8 player_tile_motion_frames[];
 extern u8 player_alternate_motion_frames[];
 
 /* Reset entity state and select its animation page and directional entry. */
-void select_state_16_directional_animation(void *entity, void *unused, void *animation, EntityRec *state) {
+void select_state_16_directional_animation(void *entity, void *unused, void *animation, ActorRecord *state) {
     if (!(((Rec_func_8008ACDC_arg0 *)entity)->unk_98 & 0xC)) {
         u8 *page;
         u8 *current_page;

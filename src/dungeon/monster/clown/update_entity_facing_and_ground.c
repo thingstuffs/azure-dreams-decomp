@@ -952,9 +952,9 @@ void finish_actor_action_animation(ActorRecord *action, ObjectPosition *motion, 
 
 /* Starts a targeted spell and linked effect, waits for its animation, and restores actor movement and
  * status. */
-void update_overlay_object_action(void *owner, void *motion, SpriteFrameState *actor, void *object_in)
+void update_overlay_object_action(ActorRecord *body, ObjectPosition *position, SpriteFrameState *sprite, ActorRecord *actor)
 {
-    void *object = object_in;
+    void *object = actor;
     register s32 is_special;
     u8 *action_data;
     s16 x;
@@ -968,7 +968,7 @@ void update_overlay_object_action(void *owner, void *motion, SpriteFrameState *a
     u8 *action_table;
     u32 action_id;
     s32 state;
-    state = ((R16_801725A4_S_801725A4_0 *)owner)->unk_9B;
+    state = body->action_phase.u;
     is_special = 0;
     switch (state) {
     case 0:
@@ -1012,8 +1012,8 @@ void update_overlay_object_action(void *owner, void *motion, SpriteFrameState *a
             }
         }
         if (*action_data != 0) {
-            x = ((R16_801725A4_S_801725A4_0 *)owner)->unk_98 & 0xFF7F;
-            ((R16_801725A4_S_801725A4_0 *)owner)->unk_98 = x;
+            x = body->action_state_flags & 0xFF7F;
+            body->action_state_flags = x;
             x = is_special;
             if (x) {
                 spawn = primary_actor_record;
@@ -1038,7 +1038,7 @@ void update_overlay_object_action(void *owner, void *motion, SpriteFrameState *a
                     }
                 } else {
                     spawn = scan_actor_along_heading(
-                        object,(u8)(actor->tile_x),(u8)(actor->tile_y),(s16)(((R16_801725A4_S_801725A4_1 *)object)->unk_2A),
+                        object,(u8)(sprite->tile_x),(u8)(sprite->tile_y),(s16)(((R16_801725A4_S_801725A4_1 *)object)->unk_2A),
                         0x10);
                     ((R16_801725A4_S_801725A4_1 *)object)->unk_60 = spawn;
 
@@ -1052,23 +1052,23 @@ void update_overlay_object_action(void *owner, void *motion, SpriteFrameState *a
             }
 
             if (create_actor_spell_effect(object, action_data, is_special,
-                              (u16 *)((u8 *)owner + 0x98)) == 0) {
+                              (u16 *)((u8 *)body + 0x98)) == 0) {
                 return;
             }
             create_actor_linked_effect(object);
-            ((R16_801725A4_S_801725A4_0 *)owner)->unk_9B++;
+            body->action_phase.u++;
             return;
         }
 
-        ((R16_801725A4_S_801725A4_3 *)motion)->unk_14 = 0;
-        ((R16_801725A4_S_801725A4_3 *)motion)->unk_10 = 0;
-        ((R16_801725A4_S_801725A4_3 *)motion)->unk_0C = 0;
-        set_record_integer_tile_center(motion,(u8)(actor->tile_x),(u8)(actor->tile_y));
+        position->velocity_z = 0;
+        position->velocity_y = 0;
+        position->velocity_x = 0;
+        set_record_integer_tile_center(position,(u8)(sprite->tile_x),(u8)(sprite->tile_y));
         g_dungeon_status.active_actor = 0;
-        (*(u16 *)((u8 *)primary_actor_record + 0xA6))--;
+        primary_actor_record->unk_A4.halves.high.u--;
         advance_status_timers(object);
         ((R16_801725A4_S_801725A4_1 *)object)->unk_6D--;
-        ((R16_801725A4_S_801725A4_0 *)owner)->unk_8C = ((u8 *)update_actor_state_and_dispatch_transition);
+        body->unk_8C.address = ((u8 *)update_actor_state_and_dispatch_transition);
         ((R16_801725A4_S_801725A4_1 *)object)->unk_73.s = 0;
         ((R16_801725A4_S_801725A4_1 *)object)->unk_72.s = 0;
         ((R16_801725A4_S_801725A4_1 *)object)->unk_46 &= 0x7FFF;
@@ -1076,34 +1076,34 @@ void update_overlay_object_action(void *owner, void *motion, SpriteFrameState *a
 
     case 1:
         if (get_cd_command_queue_depth() != 0) {
-            actor->flags |= 0x0800;
+            sprite->flags |= 0x0800;
             return;
         }
-        actor->flags &= 0xF7FF;
-        ((R16_801725A4_S_801725A4_0 *)owner)->unk_9B++;
+        sprite->flags &= 0xF7FF;
+        body->action_phase.u++;
 
     case 2:
-        if (actor->unk_04 != 4 || !(actor->flags & 0x1000)) {
-            if ((actor->flags & 0xE000) == 0) {
+        if (sprite->unk_04 != 4 || !(sprite->flags & 0x1000)) {
+            if ((sprite->flags & 0xE000) == 0) {
                 return;
             }
         }
-        ((R16_801725A4_S_801725A4_0 *)owner)->unk_98 |= 0x80;
-        if ((actor->flags & 0xE000) == 0) {
+        body->action_state_flags |= 0x80;
+        if ((sprite->flags & 0xE000) == 0) {
             return;
         }
 
-        ((R16_801725A4_S_801725A4_3 *)motion)->unk_14 = 0;
-        ((R16_801725A4_S_801725A4_3 *)motion)->unk_10 = 0;
-        ((R16_801725A4_S_801725A4_3 *)motion)->unk_0C = 0;
-        set_record_integer_tile_center(motion,(u8)(actor->tile_x),(u8)(actor->tile_y));
+        position->velocity_z = 0;
+        position->velocity_y = 0;
+        position->velocity_x = 0;
+        set_record_integer_tile_center(position,(u8)(sprite->tile_x),(u8)(sprite->tile_y));
 
         {
             u8 *direction_table = ((u8 *)clown_direction_frames);
-            if (*(unsigned char **)&actor->frameTable != direction_table) {
-                (actor->frameTable) = direction_table;
+            if (*(unsigned char **)&sprite->frameTable != direction_table) {
+                (sprite->frameTable) = direction_table;
                 select_sprite_entry(
-                    actor,(u8)(direction_table[((g_game_work.view.camera_rotation.parts.viewAngle + ((R16_801725A4_S_801725A4_1 *)object)->unk_2A + 0x100) >> 9) & 7]),
+                    sprite,(u8)(direction_table[((g_game_work.view.camera_rotation.parts.viewAngle + ((R16_801725A4_S_801725A4_1 *)object)->unk_2A + 0x100) >> 9) & 7]),
                     0);
             }
         }
@@ -1114,7 +1114,7 @@ void update_overlay_object_action(void *owner, void *motion, SpriteFrameState *a
             }
             g_dungeon_status.activity_counts.parts.pending_action_count--;
         }
-        ((R16_801725A4_S_801725A4_0 *)owner)->unk_8C = ((u8 *)update_actor_state_and_dispatch_transition);
+        body->unk_8C.address = ((u8 *)update_actor_state_and_dispatch_transition);
         advance_status_timers(object);
         ((R16_801725A4_S_801725A4_1 *)object)->unk_73.s = 0;
         ((R16_801725A4_S_801725A4_1 *)object)->unk_72.s = 0;

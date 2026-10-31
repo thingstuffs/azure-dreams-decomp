@@ -31,17 +31,6 @@ extern u8 dungeon_floor_object_positions[];
 
    /* the 0x14 bytes before arg0 in apply_holy_beam_tile_item, addressed as arg0[-1] */
 
-typedef struct S_800C2CDC_0 {
-    u8 pad_00[0x13];
-    u8 unk_13;
-    u8 pad_14[0x8];
-    s32 unk_1C;
-    u8 pad_20[0x68];
-    s16 unk_88;
-    u8 pad_8A[0x86];
-    u8 * unk_110;
-} S_800C2CDC_0;   /* arg0 in apply_holy_beam_tile_item */
-
    /* entity in apply_holy_beam_tile_item */
 
 typedef struct S_800C2CDC_2 {
@@ -54,13 +43,8 @@ typedef struct S_800C2CDC_3 {
     s32 unk_08;
 } S_800C2CDC_3;   /* entries + (index * 24) in apply_holy_beam_tile_item */
 
-typedef struct S_800C2CDC_4 {
-    u8 pad_00[0xA];
-    u16 unk_0A;
-} S_800C2CDC_4;   /* counter_base in apply_holy_beam_tile_item */
-
 /* Creates an object at the entity position, updates its state, and decrements the global count. */
-s32 apply_holy_beam_tile_item(void *actor, DungeonItemEntry *object_data, s16 action_type) {
+s32 apply_holy_beam_tile_item(ActorRecord *body, DungeonItemEntry *object_data, s16 action_type) {
     MovingTile *entity;
     s32 object_fields;
     u8 *entries;
@@ -68,16 +52,16 @@ s32 apply_holy_beam_tile_item(void *actor, DungeonItemEntry *object_data, s16 ac
     void *handle;
     s16 entry_index;
 
-    if (actor == *(u8 **)((u8 *)(&dungeon_actor_ring_anchor))) {
-        ((PlayerRecord *)actor)->pending_item_action = object_data;
-        begin_mode_selected_item_action(actor, ((u8 *)(&view_reference_entity)), ((u8 *)(&reference_tile_object)), actor);
+    if (body == *(u8 **)((u8 *)(&dungeon_actor_ring_anchor))) {
+        ((PlayerRecord *)body)->pending_item_action = object_data;
+        begin_mode_selected_item_action(body, ((u8 *)(&view_reference_entity)), ((u8 *)(&reference_tile_object)), body);
         return 0;
     }
 
-    entity = ((SpriteLinkPrefixView *)actor)[-1].sprite;
+    entity = ((SpriteLinkPrefixView *)body)[-1].sprite;
     object = create_central_and_child_effects(entity->tile_x,
                            entity->tile_y,
-                           ((S_800C2CDC_0 *)actor)->unk_88, 7, object_data->unk_00);
+                           body->ground_height, 7, object_data->unk_00);
     if (object == 0) {
         return 0;
     }
@@ -86,7 +70,7 @@ s32 apply_holy_beam_tile_item(void *actor, DungeonItemEntry *object_data, s16 ac
     object_fields = object + 0x20;
     entry_index = select_and_initialize_entry_at_position(entity->tile_x,
                           entity->tile_y,
-                          ((S_800C2CDC_0 *)actor)->unk_88, 6, object);
+                          body->ground_height, 6, object);
     entries = dungeon_floor_object_positions;
     ((S_800C2CDC_2 *)object_fields)->unk_20 = entry_index;
     ((S_800C2CDC_3 *)(entries + (entry_index * 24)))->unk_08 = 0;
@@ -96,14 +80,14 @@ s32 apply_holy_beam_tile_item(void *actor, DungeonItemEntry *object_data, s16 ac
 
     if (action_type == 13) {
         object = write_status_prefix_bytes(expand_text_control_codes(D_800893D4,
-                    append_entity_display_text(actor, expand_text_control_codes(D_800E1684,
+                    append_entity_display_text(body, expand_text_control_codes(D_800E1684,
                         append_typed_formatted_value(object_data, object)))));
 
-        if (!(((S_800C2CDC_0 *)actor)->unk_1C & ACTOR_PLAYER_SIDE) &&
-            ((S_800C2CDC_0 *)actor)->unk_13 < 0x31) {
+        if (!(body->flags1C & ACTOR_PLAYER_SIDE) &&
+            body->species < 0x31) {
             update_map_cell_flags_with_item_limit(entity->tile_x,
                           entity->tile_y, 0x3000);
-            ((S_800C2CDC_0 *)actor)->unk_1C |= ACTOR_PLAYER_SIDE;
+            body->flags1C |= ACTOR_PLAYER_SIDE;
             cycle_map_cell_flags(entity->tile_x,
                           entity->tile_y, 0x300);
         }
@@ -116,8 +100,8 @@ s32 apply_holy_beam_tile_item(void *actor, DungeonItemEntry *object_data, s16 ac
     clear_byte_and_advance(expand_text_control_codes(D_800E169A, handle));
     display_text_with_fullwidth_adjustment(handle);
 
-    if ((s16)get_entity_effect_value(actor, STATUS_CONFUSION) != 0) {
-        clear_slots_of_type(actor, STATUS_CONFUSION);
+    if ((s16)get_entity_effect_value(body, STATUS_CONFUSION) != 0) {
+        clear_slots_of_type(body, STATUS_CONFUSION);
     }
 
     cycle_map_cell_flags(entity->tile_x, entity->tile_y, 2);

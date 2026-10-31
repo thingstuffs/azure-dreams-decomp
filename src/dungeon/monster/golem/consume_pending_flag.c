@@ -2,9 +2,9 @@
 
 
 /* Requires and clears the object flag at 0xAE, then clears record bit 30. */
-s32 consume_pending_flag(GolemActionWork *object, ActorRecord *flag_record) {
-    if (object->mode) {
-        object->mode = 0;
+s32 consume_pending_flag(ActorRecord *body, ActorRecord *flag_record) {
+    if (body->unk_AC.bytes[2]) {
+        body->unk_AC.bytes[2] = 0;
         {
             u32 flags = flag_record->flags14;
 

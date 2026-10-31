@@ -31,7 +31,7 @@ extern DungeonGroup item_category_groups[];
 extern u8 D_800E101C;
 
 /* Dispatch an item action using its category flags and target selector, then decrement the counter. */
-s32 dispatch_item_target_action(void *target, DungeonItemEntry *item, s16 action_type, s32 action_value) {
+s32 dispatch_item_target_action(ActorRecord *target, DungeonItemEntry *item, s16 action_type, s32 action_value) {
     s32 item_index;
     s32 category_index;
     DungeonItem *item_entries;
@@ -55,10 +55,10 @@ s32 dispatch_item_target_action(void *target, DungeonItemEntry *item, s16 action
         item_entries = item_category_groups[category_index].entries;
         item_flags = item_entries[item_index].flags;
         if (!(item_flags & 0x8000)) {
-            selector = entity_action_selectors[*((u8 *)target + 0x13)] & 3;
+            selector = entity_action_selectors[target->species] & 3;
         } else {
             selector_table = entity_action_selectors;
-            selector_bits = selector_table[*((u8 *)target + 0x13)];
+            selector_bits = selector_table[target->species];
             selector = (selector_bits >> 4) & 3;
         }
         if (feed_actor_restore_mp(target, selector, item) == 0) {

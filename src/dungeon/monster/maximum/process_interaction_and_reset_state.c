@@ -6,29 +6,23 @@
 #include "shared/entity.h"
 #include "dungeon/actor/status.h"
 
-typedef struct S_801722DC_0 {
-    u8 pad_00[0x8C];
-    ActorActionHandler unk_8C;
-    union { struct { s32 v; } at00; struct { u8 pad[0x2]; s16 v; } at02; } unk_90;   /* overlapping accesses */
-} S_801722DC_0;   /* arg0 in process_interaction_and_reset_state */
-
 
 void spend_actor_mp(ActorRecord *entity, s32 base_reduction);            /* extern */
                 /* extern */
 void dispatch_monster_move_attack_spell(ActorRecord *, ObjectPosition *, SpriteFrameState *, ActorRecord *);
 
 /* Process an interaction and reset the object's state when the checks allow it. */
-void process_interaction_and_reset_state(S_801722DC_0 *state, void *context, void *source, ActorRecord *target) {
-    if (update_actor_movement_to_tile(state, context, source, target) != 0) {
-        spend_actor_mp(target, 5);
-        advance_status_timers(target);
-        if ((check_actor_floor_trap(source, target) << 0x10) <= 0) {
+void process_interaction_and_reset_state(ActorRecord *body, ObjectPosition *position, SpriteFrameState *sprite, ActorRecord *actor) {
+    if (update_actor_movement_to_tile(body, position, sprite, actor) != 0) {
+        spend_actor_mp(actor, 5);
+        advance_status_timers(actor);
+        if ((check_actor_floor_trap(sprite, actor) << 0x10) <= 0) {
             return;
         }
-        state->unk_8C = &dispatch_monster_move_attack_spell;
-        state->unk_90.at00.v = 0;
+        body->unk_8C.handler = &dispatch_monster_move_attack_spell;
+        body->unk_90.value = 0;
     }
     if (g_dungeon_status.flags & 0x80) {
-        state->unk_90.at02.v = 0;
+        body->unk_90.parts.high.s = 0;
     }
 }

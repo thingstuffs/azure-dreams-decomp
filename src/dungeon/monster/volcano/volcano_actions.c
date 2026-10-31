@@ -848,7 +848,7 @@ typedef struct {
 
 
 /* Checks action availability, occupancy, and terrain ahead, then starts the directional action if allowed. */
-s32 check_actor_ahead_height(ActorRecord *action_state, ObjectPosition *source_pos, SpriteFrameState *sprite, void *actor) {
+s32 check_actor_ahead_height(ActorRecord *action_state, ObjectPosition *source_pos, SpriteFrameState *sprite, ActorRecord *actor) {
     void *output;
     s16 next_x;   /* never assigned: read only in the decision-46 dead arm below */
     s16 next_y;
@@ -866,13 +866,13 @@ s32 check_actor_ahead_height(ActorRecord *action_state, ObjectPosition *source_p
     s16 height;
     s32 step_y;
 
-    ((E_801720EC_S_801720EC_0 *)actor)->unk_71 &= 0x7f;
+    actor->movement_queue_state &= 0x7f;
     flags = g_dungeon_status.flags;
     if (flags & 0x2000) {
         return -1;
     }
 
-    if (!(((E_801720EC_S_801720EC_0 *)actor)->unk_46 & 0x8000)) {
+    if (!(actor->action_flags & 0x8000)) {
         if (flags & 8) {
             return -1;
         }
@@ -892,8 +892,8 @@ s32 check_actor_ahead_height(ActorRecord *action_state, ObjectPosition *source_p
     base_y = sprite->tile_y;
     x = base_x;
     y = base_y;
-    direction = (((E_801720EC_S_801720EC_0 *)actor)->unk_2A.s >> 9) & 7;
-    if ((s16)check_layer_offset_height(x << 6, y << 6, ((E_801720EC_S_801720EC_0 *)actor)->unk_88.s, direction << 9) != 0) {
+    direction = (actor->facing >> 9) & 7;
+    if ((s16)check_layer_offset_height(x << 6, y << 6, actor->ground_height, direction << 9) != 0) {
 return_tail:
         return result;
     }
@@ -918,11 +918,11 @@ return_tail:
 
     height = sample_terrain_surface_height((((x + (s16)*x_delta) << 6) + 0x20) & 0xffe0,
                            (((y + (s16)*y_delta) << 6) + 0x20) & 0xffe0,
-                           (s16)(((E_801720EC_S_801720EC_0 *)actor)->unk_88.u - 0x20));
+                           (s16)(actor->ground_height - 0x20));
     if (height >= 0x201) {
         return result;
     }
-    if ((s16)(height - ((E_801720EC_S_801720EC_0 *)actor)->unk_88.u) < -0x3f) {
+    if ((s16)(height - actor->ground_height) < -0x3f) {
         return result;
     }
     action_state->action_phase.s = 0;
@@ -930,7 +930,7 @@ return_tail:
     action_state->action_id.s = 0x17;
     (sprite->frameTable) = volcano_frame_set_9;
     select_sprite_entry(sprite,
-                  volcano_frame_set_9[((g_game_work.view.camera_rotation.parts.viewAngle + ((E_801720EC_S_801720EC_0 *)actor)->unk_2A.u + 0x100) >> 9) & 7],
+                  volcano_frame_set_9[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
                   0);
     advance_status_timers(actor);
     /* Decision 46 (owner 2026-10-13): post-combine dead arm. result is never reassigned, so combine folds this test
@@ -945,7 +945,7 @@ return_tail:
     {
         s32 update_flags = 0x300;
         step_y = 8;
-        ((E_801720EC_S_801720EC_0 *)actor)->unk_6D--;
+        actor->pending_turn_updates--;
         select_nearby_target_and_initialize_slot(output, source_pos, step_y, update_flags);
     }
     return 1;
@@ -1105,51 +1105,51 @@ void update_linked_actor_motion_and_trap(ActorRecord *state, ObjectPosition *mot
 #include "dungeon/monster/volcano.h"
 
 /* Times the attack animation and damage, spends MP, and restores normal actor movement and status. */
-void resolve_actor_attack_damage(void *obj, ObjectPosition *record, void *entity, void *actor) {
+void resolve_actor_attack_damage(ActorRecord *body, ObjectPosition *position, SpriteFrameState *sprite, ActorRecord *actor) {
     s32 state;
 
-    state = ((E_801728B4_S_801728B4_0 *)obj)->unk_9B;
+    state = body->action_phase.u;
     switch (state) {
     case 0:
-        if (((E_801728B4_S_801728B4_1 *)entity)->unk_14 & 0x8000) {
-            ((E_801728B4_S_801728B4_0 *)obj)->unk_9B = 2U;
-            ((E_801728B4_S_801728B4_1 *)entity)->unk_14 =
-                (u16)(((E_801728B4_S_801728B4_1 *)entity)->unk_14 | 0x6000);
-            resolve_attack_damage_and_effects(actor, entity, ((E_801728B4_S_801728B4_2 *)actor)->unk_2A, 1);
+        if (sprite->flags & 0x8000) {
+            body->action_phase.u = 2U;
+            sprite->flags =
+                (u16)(sprite->flags | 0x6000);
+            resolve_attack_damage_and_effects(actor, sprite, actor->facing, 1);
             return;
         }
-        record->velocity_z = 0;
-        record->velocity_y = 0;
-        record->velocity_x = 0;
-        ((E_801728B4_S_801728B4_0 *)obj)->unk_9B =
-            (u8)(((E_801728B4_S_801728B4_0 *)obj)->unk_9B + 1);
+        position->velocity_z = 0;
+        position->velocity_y = 0;
+        position->velocity_x = 0;
+        body->action_phase.u =
+            (u8)(body->action_phase.u + 1);
         return;
 
     case 1:
-        if ((((E_801728B4_S_801728B4_1 *)entity)->unk_04 == 7) &&
-            (((E_801728B4_S_801728B4_1 *)entity)->unk_14 & 0x1000)) {
+        if ((sprite->unk_04 == 7) &&
+            (sprite->flags & 0x1000)) {
             play_sound_if_enabled(0x808);
         }
-        if (((((E_801728B4_S_801728B4_1 *)entity)->unk_04 == 9) &&
-             (((E_801728B4_S_801728B4_1 *)entity)->unk_14 & 0x1000)) ||
-            (((E_801728B4_S_801728B4_1 *)entity)->unk_14 & 0xE000)) {
-            resolve_attack_damage_and_effects(actor, entity, ((E_801728B4_S_801728B4_2 *)actor)->unk_2A, 1);
-            ((E_801728B4_S_801728B4_0 *)obj)->unk_9B =
-                (u8)(((E_801728B4_S_801728B4_0 *)obj)->unk_9B + 1);
+        if (((sprite->unk_04 == 9) &&
+             (sprite->flags & 0x1000)) ||
+            (sprite->flags & 0xE000)) {
+            resolve_attack_damage_and_effects(actor, sprite, actor->facing, 1);
+            body->action_phase.u =
+                (u8)(body->action_phase.u + 1);
         } else {
             return;
         }
                         /* fall through */
 
     case 2:
-        if (!(((E_801728B4_S_801728B4_1 *)entity)->unk_14 & 0xE000)) {
+        if (!(sprite->flags & 0xE000)) {
             return;
         }
         spend_actor_mp(actor, 0x100);
-        ((E_801728B4_S_801728B4_0 *)obj)->unk_8C = update_actor_behavior_facing_and_animation_2;
+        body->unk_8C.handler = update_actor_behavior_facing_and_animation_2;
         g_dungeon_status.active_actor = 0;
-        ((E_801728B4_S_801728B4_2 *)actor)->unk_46 =
-            (u16)((*(u16 *)((u8 *)actor + 0x46)) & 0x7FFF);
+        actor->action_flags =
+            (u16)(actor->action_flags & 0x7FFF);
         advance_status_timers(actor);
         break;
 
@@ -1856,15 +1856,15 @@ void advance_actor_state_when_allowed(ActorRecord *state_ctx, ObjectPosition *en
 #include "dungeon/monster/volcano.h"
 
 /* Relinks actor state, updates status or movement as needed, and reports whether a new action may start. */
-s32 select_actor_relation_state(void *entity_arg, ObjectPosition *primary_context_arg, void *secondary_context_arg, s32 force_state_arg) {
+s32 select_actor_relation_state(ActorRecord *body, ObjectPosition *position, SpriteFrameState *sprite, s32 force_state_arg) {
     s16 state_type;
     s32 result;
-    void *entity = entity_arg;
+    void *entity = body;
 
-    state_type = (s16)relink_entity_and_clear_high_flag(primary_context_arg, secondary_context_arg, entity, 3, 6, entity + 0x9C);
+    state_type = (s16)relink_entity_and_clear_high_flag(position, sprite, entity, 3, 6, entity + 0x9C);
     if (state_type < 0) return 0;
     if ((force_state_arg << 0x10) != 0) {
-        update_actor_targeting_and_movement(entity, primary_context_arg, secondary_context_arg, entity);
+        update_actor_targeting_and_movement(entity, position, sprite, entity);
         result = 0;
         return result;
     }
@@ -1875,7 +1875,7 @@ s32 select_actor_relation_state(void *entity_arg, ObjectPosition *primary_contex
         result = 0;
         return result;
     case 2:
-        update_actor_targeting_and_movement(entity, primary_context_arg, secondary_context_arg, entity);
+        update_actor_targeting_and_movement(entity, position, sprite, entity);
         result = 0;
         return result;
     case 1:

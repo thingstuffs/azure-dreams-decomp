@@ -85,7 +85,7 @@ extern s32 familiar_restore_sprite_data[4];
 
 /* Functions defined in this translation unit. */
 s32 begin_familiar_restoration_effects(void);
-s32 use_item_to_draw_full_recovery_circle(void *target, struct DungeonItemEntry *action_id, s16 action_type, s32 action_arg);
+s32 use_item_to_draw_full_recovery_circle(ActorRecord *target, struct DungeonItemEntry *action_id, s16 action_type, s32 action_arg);
 void update_familiar_restoration_effect(DungeonState *state, RenderSource *render_source, u8 *effect_data);
 void *create_familiar_restoration_effect(s32 tile_x, s32 tile_y, s32 z);
 

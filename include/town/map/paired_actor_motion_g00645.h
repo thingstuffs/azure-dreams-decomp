@@ -32,81 +32,6 @@ typedef struct Func800BFE50Object {
     s32 fieldA4;
 } Func800BFE50Object;
 
-typedef struct S_800BD688_9 {
-    void * unk_00;
-    void * unk_04;
-} S_800BD688_9;
-
-/* arg0 in randomize_paired_object_motion */
-typedef struct S_800BD688_10 {
-    u8 pad_00[0x8];
-    s32 unk_08;
-    u8 pad_0C[0x8];
-    s32 unk_14;
-} S_800BD688_10;
-
-/* ((S_800BD688_9 *)arg0)->unk_00 in randomize_paired_object_motion */
-typedef struct S_800BD688_11 {
-    u8 pad_00[0x14];
-    s32 unk_14;
-} S_800BD688_11;
-
-/* ((S_800BD688_9 *)arg0)->unk_04 in randomize_paired_object_motion */
-/* the 0x2 bytes before arg0 in randomize_paired_object_motion, addressed as arg0[-1] */
-typedef struct S_800BD688_0 {
-    void * unk_00;
-    void * unk_04;
-    s32 unk_08;
-    u8 pad_0C[0x14];
-    union { s16 s; u16 u; } unk_20;   /* accessed as both */
-    u16 unk_22;
-} S_800BD688_0;
-
-/* arg0 in randomize_paired_object_motion */
-typedef struct S_800BD688_1 {
-    s32 unk_00;
-} S_800BD688_1;
-
-/* left_ptr in randomize_paired_object_motion */
-typedef struct S_800BD688_2 {
-    s32 unk_00;
-} S_800BD688_2;
-
-/* right_ptr in randomize_paired_object_motion */
-typedef struct S_800BD688_3 {
-    u8 pad_00[0xC];
-    s32 unk_0C;
-} S_800BD688_3;
-
-typedef struct S_800BD688_4 {
-    u8 pad_00[0xC];
-    s32 unk_0C;
-} S_800BD688_4;
-
-typedef struct S_800BD688_5 {
-    u8 pad_00[0x10];
-    s32 unk_10;
-} S_800BD688_5;
-
-typedef struct S_800BD688_6 {
-    u8 pad_00[0x8];
-    s32 unk_08;
-    u8 pad_0C[0x8];
-    s32 unk_14;
-} S_800BD688_6;
-
-typedef struct S_800BD688_7 {
-    s32 unk_00;
-    u8 pad_04[0x8];
-    s32 unk_0C;
-} S_800BD688_7;
-
-typedef struct S_800BD688_8 {
-    s32 unk_00;
-    u8 pad_04[0x8];
-    s32 unk_0C;
-} S_800BD688_8;
-
 typedef struct {
     s32 x;
     s32 y;
@@ -128,6 +53,15 @@ typedef struct {
 typedef struct {
     s32 words[2];
 } Copy8;
+
+/* Parent body coordinating the two linked motions in the event_tori_in effect. */
+typedef struct EventToriInBody {
+    /* 0x00 */ ObjectPosition *child_positions[2];
+    /* 0x08 */ Copy16 position;
+    /* 0x18 */ Copy8 motion;
+    /* 0x20 */ union { s16 s; u16 u; } state;
+    /* 0x22 */ u16 ticks;
+} EventToriInBody;
 
 typedef struct S_800BD980_0 {
     u8 pad_00[0xC];

@@ -145,7 +145,7 @@ extern u8 D_800E0D51[];
 extern u8 D_800E0D6D[];
 
 /* Randomly adds a quarter of the source value to the target and reports the change. */
-void add_random_quarter_value(void *source, void *target) {
+void add_random_quarter_value(ActorRecord *body, void *target) {
     union { s32 word; u16 halves[2]; } direction_aux;
     s32 amount;
     s16 signed_amount;
@@ -155,15 +155,15 @@ void add_random_quarter_value(void *source, void *target) {
     void *source_entity;
     void *target_entity;
 
-    type_data = *(u8 **)((s8 *)source + 0x50);
+    type_data = *(u8 **)((s8 *)body + 0x50);
     if (type_data != NULL && *type_data == 0xB && !(generate_random_value() & 3)) {
-        amount = ((s32)(*(u16 *)((s8 *)source + 0x64) << 0x10)) >> 0x12;
+        amount = ((s32)(*(u16 *)((s8 *)body + 0x64) << 0x10)) >> 0x12;
         signed_amount = amount;
         *(u16 *)((s8 *)target + 0x64) += amount;
         if (signed_amount != 0) {
-            source_entity = *(void **)((s8 *)source - 0x14);
+            source_entity = *(void **)((s8 *)body - 0x14);
             target_entity = *(void **)((s8 *)target - 0x14);
-            *(void **)((s8 *)target + 0x60) = source;
+            *(void **)((s8 *)target + 0x60) = body;
             *(s16 *)((s8 *)target + 0x6A) = get_rounded_facing_and_rounding_flag(
                 *(u8 *)((s8 *)source_entity + 0x24),
                 *(u8 *)((s8 *)source_entity + 0x25),

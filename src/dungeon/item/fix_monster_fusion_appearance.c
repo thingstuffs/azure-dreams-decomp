@@ -48,7 +48,7 @@ typedef struct S_800BE120_0 {
 
 
 /* Applies data to an entity and handles the resulting update or fallback. */
-s32 fix_monster_fusion_appearance(void *entity, DungeonItemEntry *data, s16 mode) {
+s32 fix_monster_fusion_appearance(ActorRecord *entity, DungeonItemEntry *data, s16 mode) {
     s16 stored;
     void *call_entity;
     void *context_arg;
@@ -71,24 +71,24 @@ s32 fix_monster_fusion_appearance(void *entity, DungeonItemEntry *data, s16 mode
          * Found and documented by the Azure Dreams community
          * (adrando.com/guide/bugs.html).
          */
-        if (((S_800BE120_0 *)entity)->unk_13 >= MONSTER_KEWNE) {
-            if (!(((S_800BE120_0 *)entity)->unk_54 & 0x800000)) {
-                if (((S_800BE120_0 *)entity)->unk_48.at01.v == 0) {
+        if (entity->species >= MONSTER_KEWNE) {
+            if (!(entity->status_flags & 0x800000)) {
+                if (entity->unk_49 == 0) {
                     if (feed_actor_restore_mp(entity,
-                            (entity_action_selectors[((S_800BE120_0 *)entity)->unk_13] >> 6) & 3,
+                            (entity_action_selectors[entity->species] >> 6) & 3,
                             0) == 0) {
                         place_actor_item(entity, data);
                         return 1;
                     }
                     ((S_800BE120_0 *)entity)->unk_48.at00.v = *(s32 *)data;
-                    ((S_800BE120_0 *)entity)->unk_48.at00u.v = data->unk_00;
-                    ((S_800BE120_0 *)entity)->unk_48.at01.v = data->kind;
-                    ((S_800BE120_0 *)entity)->unk_48.at02.v = data->unk_02;
-                    ((S_800BE120_0 *)entity)->unk_48.at03.v = data->unk_03;
-                    ((S_800BE120_0 *)entity)->unk_54 |= 0x800000;
+                    entity->unk_48 = data->unk_00;
+                    entity->unk_49 = data->kind;
+                    entity->unk_4A = data->unk_02;
+                    entity->unk_4B = data->unk_03;
+                    entity->status_flags |= 0x800000;
                     create_colored_effect_with_event((s8 *)entity - 0x20, 0x20A0A0, 0x702);
                     stored = 1;
-                    if (((S_800BE120_0 *)entity)->unk_14 & 0x4000) {
+                    if (entity->flags14 & 0x4000) {
                         adjust_source_value_and_finalize(entity, D_800E0FF4);
                     }
                 }
@@ -98,9 +98,9 @@ s32 fix_monster_fusion_appearance(void *entity, DungeonItemEntry *data, s16 mode
 
     new_context = stored;
     if (new_context == 0 &&
-        ((((S_800BE120_0 *)entity)->unk_13 < MONSTER_KEWNE) ||
-         (((S_800BE120_0 *)entity)->unk_54 & 0x800000) ||
-         (((S_800BE120_0 *)entity)->unk_48.at01.v != 0))) {
+        ((entity->species < MONSTER_KEWNE) ||
+         (entity->status_flags & 0x800000) ||
+         (entity->unk_49 != 0))) {
         text_cursor = get_unused_text_buffer();
         call_entity = entity;
         context_arg = text_cursor;

@@ -13,13 +13,6 @@
 
    /* object in create_overlay_effect_object */
 
-typedef struct S_80171718_1 {
-    u8 pad_00[0x13];
-    s8 unk_13;
-    s32 unk_14;
-    u8 pad_18[0x4];
-    s32 unk_1C;
-} S_80171718_1;   /* result in create_overlay_effect_object */
 
    /* part0 in create_overlay_effect_object */
 
@@ -69,7 +62,7 @@ void *create_overlay_effect_object(s16 spawn_flags, s16 attr_a, s16 attr_b, s32 
         result = (u8 *)object;
         result += 0x20;
         ((ProjectileObject *)object)->update_callback = D_801718E0;
-        ((S_80171718_1 *)result)->unk_13 = MONSTER_WEADOG;
+        ((ActorRecord *)result)->species = MONSTER_WEADOG;
         register_node(object, project_sprite_chain);
 
         {

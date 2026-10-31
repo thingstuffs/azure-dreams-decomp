@@ -4,7 +4,8 @@
 
 
 /* Packs three capped source components, copies an attribute, and propagates the high-bit flag. */
-void pack_three_capped_components_and_flag(void *dest) {
+void pack_three_capped_components_and_flag(void *destination) {
+    MainTitleValueEntry *dest = destination;
     void *source;
     void *component_cursor;
     s32 component;
@@ -12,9 +13,9 @@ void pack_three_capped_components_and_flag(void *dest) {
     s32 shift;
     s32 packed_value;
 
-    source = *(void **) ((s8 *) dest + 4);
+    source = dest->value_data;
     byte_index = 2;
-    *(s32 *) ((s8 *) dest + 8) = 0;
+    dest->packed_components = 0;
     component_cursor = (s8 *) source + 4;
     do {
         component = *(s16 *) ((s8 *) component_cursor + 0xE);
@@ -24,11 +25,11 @@ void pack_three_capped_components_and_flag(void *dest) {
         component_cursor = (s8 *) component_cursor - 2;
         shift = byte_index * 8;
         byte_index -= 1;
-        packed_value = *(s32 *) ((s8 *) dest + 8);
+        packed_value = dest->packed_components;
         packed_value = packed_value + (component << shift);
-        *(s32 *) ((s8 *) dest + 8) = packed_value;
+        dest->packed_components = packed_value;
     } while (byte_index >= 0);
-    *(u16 *) ((s8 *) dest + 0x14) = *(u16 *) ((s8 *) source + 0x14);
+    dest->attribute = *(u16 *) ((s8 *) source + 0x14);
     if (*(s16 *) ((s8 *) source + 0x16) & 0x8000) {
         *(u16 *) ((s8 *) dest - 2) = *(u16 *) ((s8 *) dest - 2) | NODE_REMOVE;
         object_flag_block.flags = object_flag_block.flags | OBJECT_REMOVE_PENDING;

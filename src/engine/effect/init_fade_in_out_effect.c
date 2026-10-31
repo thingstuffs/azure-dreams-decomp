@@ -4,6 +4,7 @@
 #include "shared/vector.h"
 #include "engine/node.h"
 #include "engine/graphics.h"
+#include "engine/effect.h"
 
 /* Element of the D_80071A68 lookup table indexed by an object's "kind" field. */
 typedef struct S_80071A68 {
@@ -12,7 +13,6 @@ typedef struct S_80071A68 {
 
 extern S_80071A68 fade_effect_visual_table[];
 
-extern void update_fade_in_out_effect(void);
 struct ObjectPosition;
 struct SpriteFrameState;
 

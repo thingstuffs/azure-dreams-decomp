@@ -41,7 +41,7 @@ typedef struct S_8009255C_7 {
 } S_8009255C_7;
 
 /* Turn the actor, spawn the action object and message, and handle completion. */
-void update_player_eating_action(void *controller, s32 action_id, SpriteFrameState *actor, EntityRec *transform) {
+void update_player_eating_action(void *controller, s32 action_id, SpriteFrameState *actor, ActorRecord *transform) {
     void *text_start;
     void *text_cursor;
     s32 state;
@@ -93,7 +93,7 @@ void update_player_eating_action(void *controller, s32 action_id, SpriteFrameSta
             position->y.w.i =
                 (actor->tile_y << 6) + 0x20;
             position->z.w.i =
-                ((u16)transform->unk_88) - 0x30;
+                ((u16)transform->ground_height) - 0x30;
             spawned_state = ((void *)spawned) + 0x20;
             spawned_state->unk_A8 = 0x1E;
             spawned_state->unk_AA = 2;

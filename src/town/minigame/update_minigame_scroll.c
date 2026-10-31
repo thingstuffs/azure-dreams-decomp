@@ -1,66 +1,57 @@
 #include "common.h"
 #include "town/minigame.h"
 
-typedef struct S_80023404_0 {
-    u8 pad_00[0x4];
-    union { s16 s; u16 u; } unk_04;   /* accessed as both */
-    u16 unk_06;
-    s16 unk_08;
-    s16 unk_0A;
-    union { s16 s; u16 u; } unk_0C;   /* accessed as both */
-    union { s16 s; u16 u; } unk_0E;   /* accessed as both */
-} S_80023404_0;   /* arg0 in update_minigame_scroll */
 
 /* Updates scrolling through 12 positions, accelerating or settling according to state. */
-void update_minigame_scroll(S_80023404_0 *scroll)
+void update_minigame_scroll(MinigameDisplayObjectsBody *scroll)
 {
     s32 state;
-    state = scroll->unk_04.s;
+    state = scroll->state.s;
     switch (state) {
 
     case 0:
-        scroll->unk_0E.s = 0;
-        scroll->unk_0C.s = 0;
-        draw_scrolling_column(scroll->unk_08,
-                      scroll->unk_0A,
-                      scroll->unk_0E.s);
-        scroll->unk_04.s = 1;
+        scroll->scroll_offset.s = 0;
+        scroll->step.s = 0;
+        draw_scrolling_column(scroll->column,
+                      scroll->column_offset,
+                      scroll->scroll_offset.s);
+        scroll->state.s = 1;
         return;
 
     case 2:
     {
         u16 tick;
-        tick = scroll->unk_06;
-        scroll->unk_06 = tick + 1;
+        tick = scroll->ticks;
+        scroll->ticks = tick + 1;
         if ((tick & 1) != 0) {
-            if (scroll->unk_0C.s < 12) {
-                scroll->unk_0C.s++;
+            if (scroll->step.s < 12) {
+                scroll->step.s++;
             } else {
-                scroll->unk_04.s = 3;
+                scroll->state.s = 3;
             }
         }
     }
 
     case 3:
-        scroll->unk_0E.u = scroll->unk_0E.u - scroll->unk_0C.u;
-        if ((s16)scroll->unk_0E.u < 0) {
+        scroll->scroll_offset.u = scroll->scroll_offset.u - scroll->step.u;
+        if ((s16)scroll->scroll_offset.u < 0) {
             do {
-                scroll->unk_0E.u += 32;
-                scroll->unk_0A = (scroll->unk_0A + 1) % 12;
-            } while ((s16)scroll->unk_0E.u < 0);
+                scroll->scroll_offset.u += 32;
+                scroll->column_offset = (scroll->column_offset + 1) % 12;
+            } while ((s16)scroll->scroll_offset.u < 0);
         }
-        draw_scrolling_column(scroll->unk_08, scroll->unk_0A, scroll->unk_0E.s);
+        draw_scrolling_column(scroll->column, scroll->column_offset, scroll->scroll_offset.s);
         return;
 
     case 4:
-        scroll->unk_0E.u -= (s32)(scroll->unk_0E.u << 16) >> 18;
-        if ((s16)scroll->unk_0E.u < 4) {
-            scroll->unk_0E.u = 0;
-            scroll->unk_04.u = 0;
+        scroll->scroll_offset.u -= (s32)(scroll->scroll_offset.u << 16) >> 18;
+        if ((s16)scroll->scroll_offset.u < 4) {
+            scroll->scroll_offset.u = 0;
+            scroll->state.u = 0;
         }
-        draw_scrolling_column(scroll->unk_08,
-                      scroll->unk_0A,
-                      scroll->unk_0E.s);
+        draw_scrolling_column(scroll->column,
+                      scroll->column_offset,
+                      scroll->scroll_offset.s);
         return;
 
     case 1:

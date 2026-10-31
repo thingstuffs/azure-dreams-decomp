@@ -169,7 +169,7 @@ void update_growing_bouncing_effect(void *effect, void *position, SpriteFrameSta
 /* Creates an effect and sets its movement toward a tracked target or grid position. */
 /* Creates a flashing Troll effect with position offsets toward a tracked actor or the stored target tile
  * coordinates. */
-void create_targeted_motion_effect(void *source_handle, Rec_func_8017121C_arg1 *origin, s32 unused, EntityRec *target)
+void create_targeted_motion_effect(ActorRecord *body, ObjectPosition *position, s32 unused, EntityRec *target)
 {
     T_8017121C_Vec3u16 offset;
     ObjectNodeHeader *effect;
@@ -221,11 +221,11 @@ void create_targeted_motion_effect(void *source_handle, Rec_func_8017121C_arg1 *
     part->flags &= 0xFFF3;
 
     coords = effect->position;
-    coords->x.w.i = origin->unk_02;
-    coords->y.w.i = origin->unk_06;
-    coords->z.w.i = origin->unk_0A;
+    coords->x.w.i = position->x.w.i;
+    coords->y.w.i = position->y.w.i;
+    coords->z.w.i = position->z.w.i;
 
-    source = ((T_8017121C_S_8017121C_5_pre *)source_handle)[-1].unk_00;
+    source = ((T_8017121C_S_8017121C_5_pre *)body)[-1].unk_00;
     if (resolve_record_orientation_or_fallback(source->unk_08, source, &offset, 0) != 0) {
         coords->x.w.i = (u16)coords->x.w.i + (offset.raw_y);
         coords->y.w.i = (u16)coords->y.w.i + (offset.y);
@@ -573,7 +573,7 @@ void update_tracked_attachment_sprite(void *object, T_80171A38_S_80171A38_4 *pos
 }
 
 /* Creates a render object at the supplied position with an optional owner offset. */
-void create_tracked_attachment_sprite(void *attachment, T_80171BEC_S_80171BEC_3 *base_position)
+void create_tracked_attachment_sprite(ActorRecord *body, T_80171BEC_S_80171BEC_3 *base_position)
 {
     T_80171BEC_Offset3 offset;
     ObjectNodeHeader *object;
@@ -583,7 +583,7 @@ void create_tracked_attachment_sprite(void *attachment, T_80171BEC_S_80171BEC_3 
 
     object = allocate_list_node(0x212, &scene_object_list_anchor.next);
     if (object != 0) {
-        ((T_80171BEC_S_80171BEC_0 *)object)->unk_40 = attachment;
+        ((T_80171BEC_S_80171BEC_0 *)object)->unk_40 = body;
         object->update_callback = &update_tracked_attachment_sprite;
         register_node(object, project_sprite_chain);
 
@@ -597,7 +597,7 @@ void create_tracked_attachment_sprite(void *attachment, T_80171BEC_S_80171BEC_3 
         position->y.v = base_position->unk_04;
         position->z.v = base_position->unk_08;
 
-        owner = ((T_80171BEC_S_80171BEC_4_pre *)attachment)[-1].unk_00;
+        owner = ((T_80171BEC_S_80171BEC_4_pre *)body)[-1].unk_00;
         if (resolve_record_orientation_or_fallback(owner->unk_08, owner, &offset, 0) != 0) {
             *(u16 *)&position->x.w.i += offset.x;
             *(u16 *)&position->y.w.i += offset.y;

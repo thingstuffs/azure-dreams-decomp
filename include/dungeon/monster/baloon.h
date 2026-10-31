@@ -14,7 +14,7 @@ void advance_actor_hop_animation(void *motion, ObjectPosition *position, SpriteF
 
 void advance_actor_animation_and_fall(ActorRecord *action, ObjectPosition *motion, SpriteFrameState *sprite, ActorRecord *actor);
 void update_actor_approach_descent_return(void *action, ObjectPosition *motion, SpriteFrameState *sprite, void *actor);
-void update_monster_staged_motion(void *state, ObjectPosition *motion, SpriteFrameState *monster, void *actor_ptr);
+void update_monster_staged_motion(ActorRecord *body, ObjectPosition *motion, SpriteFrameState *sprite, ActorRecord *actor_ptr);
 
 void update_actor_turn_behavior(ActorRecord *motion_arg, ObjectPosition *actor_index_arg, SpriteFrameState *actor_arg, ActorRecord *move_data_arg);
 

@@ -20,7 +20,7 @@ extern void create_colored_effect_with_sound(void *source, s32 color, unsigned s
 extern u8 D_800E2056[];
 
 /* Updates entity state and progress counters, then triggers the associated effects. */
-s32 use_item_to_increase_defense(void *entity, DungeonItemEntry *update_value, s16 update_mode)
+s32 use_item_to_increase_defense(ActorRecord *entity, DungeonItemEntry *update_value, s16 update_mode)
 {
     u32 progress_value;
     u8 progress;
@@ -41,7 +41,7 @@ s32 use_item_to_increase_defense(void *entity, DungeonItemEntry *update_value, s
         }
     }
 
-    if (((EntityRec *)entity)->unk_27 == ((EntityRec *)entity)->unk_69) {
+    if (entity->current_defense == entity->base_defense) {
         completion_count = (*(u8 *)((u8 *)&((EntityRec *)entity)->x + 1));
         if (completion_count < 0xFF) {
             (*(u8 *)((u8 *)&((EntityRec *)entity)->x + 1)) = completion_count + 1;
@@ -49,13 +49,13 @@ s32 use_item_to_increase_defense(void *entity, DungeonItemEntry *update_value, s
         }
     }
 
-    progress = ((EntityRec *)entity)->unk_27;
+    progress = entity->current_defense;
     progress_value = progress & 0xFF;
-    if (progress_value < 0xFF && progress_value < ((EntityRec *)entity)->unk_69) {
-        ((EntityRec *)entity)->unk_27 = progress + 1;
+    if (progress_value < 0xFF && progress_value < entity->base_defense) {
+        entity->current_defense = progress + 1;
     }
 
-    if (((EntityRec *)entity)->flags14 & ACTOR_PARTY_MEMBER) {
+    if (entity->flags14 & ACTOR_PARTY_MEMBER) {
         adjust_source_value_and_finalize(entity, D_800E2056);
     }
     create_colored_effect_with_sound((u8 *)entity - 0x20, 0x20F020, 0x616);

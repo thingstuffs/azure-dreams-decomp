@@ -18,19 +18,11 @@ s32 begin_ready_actor_directional_action(ActorRecord *body, ObjectPosition *posi
 struct Rec_func_800A9E70_arg0; struct Rec_func_800AA258_arg2; void begin_actor_move_to_target_facing(ActorRecord *body, ObjectPosition *position, SpriteFrameState *sprite, ActorRecord *actor); /* extern */
 void func_8016FA84(void *actor, void *action, SpriteFrameState *entity, void *path_arg);                            /* extern */
 void advance_boss_actor_movement_state(void *, void *, void *, void *); /* extern */
-struct Rec_func_800A9E70_arg0; s32 update_boss_action_result(struct Rec_func_800A9E70_arg0 *, s32, s32, s16); /* extern */
+struct Rec_func_800A9E70_arg0; s32 update_boss_action_result(ActorRecord *, s32, s32, s16); /* extern */
 void func_8017092C(ActorRecord *object, ObjectPosition *unused_1, SpriteFrameState *unused_2, ActorRecord *flag_owner); /* extern */
 s32 advance_boss_command_stream(void *object_arg, void *context_arg, void *entity_arg);     /* extern */
 #include "dungeon/monster/ghosh.h"
 extern u8 D_80174A64[];
-
-typedef struct S_8016F78C_0 {
-    u8 pad_00[0x90];
-    s32 unk_90;
-    u8 pad_94[0x4];
-    u16 unk_98;
-    u8 unk_9A;
-} S_8016F78C_0;   /* arg0 in update_boss_actor_action */
 
 /* Updates actor state, directional animation, and action handling. */
 void update_boss_actor_action(ActorRecord *actor, ObjectPosition *context, SpriteFrameState *sprite, ActorRecord *entity) {

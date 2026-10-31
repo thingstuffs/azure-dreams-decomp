@@ -4,18 +4,12 @@
 #include "sdk/libgpu.h"
 #include "sdk/libgte.h"
 #include "town/minigame.h"
+#include "town/paired_indicators.h"
 
 typedef struct S_8002415C_0_pre {
     u8 * unk_00;
     u8 pad_04[0x4];
 } S_8002415C_0_pre;   /* the 0x8 bytes before node in draw_depth_sorted_line_nodes, addressed as node[-1] */
-
-typedef struct S_8002415C_0 {
-    u8 pad_00[0x14];
-    s32 unk_14;
-    u8 pad_18[0xC];
-    u16 unk_24;
-} S_8002415C_0;   /* node in draw_depth_sorted_line_nodes */
 
 typedef struct S_8002415C_1 {
     u8 pad_00[0x4];
@@ -35,7 +29,7 @@ typedef struct PacketTag {
     setaddr((ordering_table), (primitive)))
 
 /* Queue enabled nodes as line primitives with draw modes, sorted by average depth. */
-s32 draw_depth_sorted_line_nodes(u8 *node)
+s32 draw_depth_sorted_line_nodes(PairedIndicators *node)
 {
     s32 coords[2];
     s32 *second_coord;
@@ -43,7 +37,7 @@ s32 draw_depth_sorted_line_nodes(u8 *node)
     GpuContext *render_state;
     u8 *line_prim;
     u8 *draw_mode_prim;
-    u8 *next_link;
+    void *next_link;
     s16 first_depth;
     s32 avg_depth;
     s32 ot_offset;
@@ -51,16 +45,16 @@ s32 draw_depth_sorted_line_nodes(u8 *node)
     town_state = &g_game_work;
     second_coord = &coords[1];
     for (;;) {
-        if (!(((S_8002415C_0 *)node)->unk_24 & 1)) {
+        if (!(node->flags & 1)) {
             render_state = town_state->draw_buffer;
             line_prim = render_state->packetCursor;
             render_state->packetCursor = line_prim + 0x10;
-            ((S_8002415C_1 *)line_prim)->unk_04 = ((S_8002415C_0 *)node)->unk_14;
+            ((S_8002415C_1 *)line_prim)->unk_04 = node->blink_color;
             SetLineF2(line_prim);
             SetSemiTrans(line_prim, 1);
-            first_depth = RotTransPers(node + 4, line_prim + 8,
+            first_depth = RotTransPers(&node->first_x, line_prim + 8,
                                   &coords[0], second_coord);
-            avg_depth = (first_depth + RotTransPers(node + 0xC, line_prim + 0xC,
+            avg_depth = (first_depth + RotTransPers(&node->second_x, line_prim + 0xC,
                                              &coords[0], second_coord)) >> 1;
             if ((u16)avg_depth < 0x1E0U) {
                 ot_offset = (s16)avg_depth * 4;

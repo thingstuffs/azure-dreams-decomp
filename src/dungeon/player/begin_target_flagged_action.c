@@ -15,7 +15,7 @@ extern void display_formatted_context_message(void *data_ptr);
 extern s16 get_special_table_data_index(s32 actor_value);
 
 /* Start the actor action and apply its target effect unless a blocking flag is set. */
-s32 begin_target_flagged_action(void *actor, s32 action_arg, s32 unused, void *target) {
+s32 begin_target_flagged_action(void *actor, s32 action_arg, s32 unused, ActorRecord *target) {
     if ((held_item_kind_alias != 0) || (D_80081471 != 0)) {
         if (D_80081471 != 0) {
             display_formatted_context_message(D_800E04BA);
@@ -24,7 +24,7 @@ s32 begin_target_flagged_action(void *actor, s32 action_arg, s32 unused, void *t
         adjust_source_value_and_finalize(dungeon_actor_ring_anchor, D_800E04E6);
         return 0;
     }
-    *(s32 *)((u8 *)target + 0x1C) |= 0x100000;
+    target->flags1C |= 0x100000;
     *(s32 *)((u8 *)actor + 0x124) = 0;
     *(s8 *)((u8 *)actor + 0x9A) = 0x22;
     *(s8 *)((u8 *)actor + 0x9B) = 0;

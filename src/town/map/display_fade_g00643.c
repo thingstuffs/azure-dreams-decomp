@@ -7,20 +7,20 @@
 #include "engine/audio/sequence.h"
 
 /* Advances a timed color fade and sets completion flags when it finishes. */
-void advance_color_fade_and_set_completion(void *fade_state, s32 unused, SpriteFrameState *visual)
+void advance_color_fade_and_set_completion(TimedColorFadeObject *fade_state, s32 unused, SpriteFrameState *visual)
 {
     s32 ticks_left;
 
-    ticks_left = ((TimedColorFadeObject *)fade_state)->timer.u - 1;
-    ((TimedColorFadeObject *)fade_state)->timer.u = ticks_left;
+    ticks_left = fade_state->timer.u - 1;
+    fade_state->timer.u = ticks_left;
 
-    switch (((TimedColorFadeObject *)fade_state)->state.s) {
+    switch (fade_state->state.s) {
     case 0:
         if ((ticks_left << 16) <= 0) {
             visual->flags = 12;
             visual->color.word = 0xC0C0C0;
-            ((TimedColorFadeObject *)fade_state)->timer.u = 12;
-            ((TimedColorFadeObject *)fade_state)->state.u++;
+            fade_state->timer.u = 12;
+            fade_state->state.u++;
         }
         break;
 
@@ -35,9 +35,9 @@ void advance_color_fade_and_set_completion(void *fade_state, s32 unused, SpriteF
             color = color + color_step;
             visual->color.word = color;
         }
-        if (((TimedColorFadeObject *)fade_state)->timer.s <= 0) {
+        if (fade_state->timer.s <= 0) {
             noop_release_notification(D_80111FB0);
-            ((TimedColorFadeObject *)fade_state)->state.u++;
+            fade_state->state.u++;
         }
         break;
     }
@@ -50,36 +50,36 @@ void advance_color_fade_and_set_completion(void *fade_state, s32 unused, SpriteF
 }
 
 /* Advance a timed state sequence, decrease its value, and set completion flags. */
-void advance_timed_state_and_set_completion(void *object)
+void advance_timed_state_and_set_completion(BuildTwoDisplayEntriesBody *object)
 {
     s32 state;
     s32 timer;
     s32 decay_value;
     u16 prior_state;
 
-    state = S16_AT(object, 0);
-    timer = U16_AT(object, 2) - 1;
-    U16_AT(object, 2) = timer;
+    state = object->state.s;
+    timer = object->timer.u - 1;
+    object->timer.u = timer;
     switch (state) {
     case 0:
         if ((timer << 16) > 0) {
             return;
         }
-        U16_AT(object, 2) = 12;
-        S16_AT(object, 0x14) = 3;
-        U16_AT(object, 0)++;
+        object->timer.u = 12;
+        object->completion_state = 3;
+        object->state.u++;
         return;
 
     case 1:
-        decay_value = S32_AT(object, 8);
+        decay_value = object->decay_value;
         if (decay_value > 0) {
-            S32_AT(object, 8) = decay_value + (s32)0xFFF7FBFC;
+            object->decay_value = decay_value + (s32)0xFFF7FBFC;
         }
-        if (S16_AT(object, 2) > 0) {
+        if (object->timer.s > 0) {
             return;
         }
-        prior_state = U16_AT(object, 0);
-        U16_AT(object, 0) = prior_state + 1;
+        prior_state = object->state.u;
+        object->state.u = prior_state + 1;
         return;
 
     case 2:

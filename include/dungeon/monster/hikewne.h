@@ -15,7 +15,7 @@ void select_movement_direction_and_advance(ActorRecord *move_data, ObjectPositio
 void advance_actor_state_sequence(ActorRecord *action, ObjectPosition *context, SpriteFrameState *entity, ActorRecord *actor);
 
 struct S_80173588_0;
-void reset_state_field_a_2(struct S_80173588_0 *state, void *context, SpriteFrameState *data, void *render);
+void reset_state_field_a_2(ActorRecord *body, ObjectPosition *position, SpriteFrameState *sprite, ActorRecord *actor);
 
 
 
@@ -23,11 +23,11 @@ void update_actor_movement_and_ground_height(void *actor, ObjectPosition *motion
 void update_actor_movement_facing(void *entity, ObjectPosition *motion, SpriteFrameState *sprite);
 void update_entity_behavior_movement_and_ground(void *entity, ObjectPosition *motion, SpriteFrameState *sprite);
 void update_entity_behavior_movement_and_grounding(void *entity, ObjectPosition *motion, SpriteFrameState *sprite);
-void update_entity_behavior_movement_and_height(void *entity, ObjectPosition *motion, SpriteFrameState *sprite);
+void update_entity_behavior_movement_and_height(ActorRecord *body, ObjectPosition *motion, SpriteFrameState *sprite);
 void update_entity_ground_animation(void *entity, ObjectPosition *motion, SpriteFrameState *sprite);
 void update_entity_movement_and_ground(void *entity, ObjectPosition *motion, SpriteFrameState *sprite);
 
-void select_state_table_with_flagged_offset(void *state, void *motion, void *source, void *target);
+void select_state_table_with_flagged_offset(ActorRecord *state, ObjectPosition *motion, SpriteFrameState *source, ActorRecord *target);
 
 void update_actor_behavior_animation_and_facing(ActorRecord *actor_arg, ObjectPosition *context_arg, SpriteFrameState *sprite_arg, ActorRecord *stats_arg);
 

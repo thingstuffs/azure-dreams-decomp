@@ -10,21 +10,6 @@
 #include "dungeon/player/object.h"
 #include "dungeon/system.h"
 
-typedef struct S_80176084_0 {
-    u8 pad_00[0x8C];
-    u8 * unk_8C;
-    u8 pad_90[0x6];
-    u16 unk_96;
-    u16 unk_98;
-    u8 pad_9A[0x1];
-    u8 unk_9B;
-    u8 pad_9C[0x14];
-    u8 unk_B0;
-    u8 unk_B1;
-    u8 pad_B2[0x2];
-    u8 unk_B4;
-    s8 unk_B5;
-} S_80176084_0;   /* arg0 in leave_actor_aura_mode */
 
 extern void clear_slots_of_type(ActorRecord *owner, s8 match_type);
 void create_owner_linked_directional_object(ActorRecord *owner_data, ObjectPosition *source_position, SpriteFrameState *source_sprite);
@@ -73,7 +58,7 @@ void leave_actor_aura_mode(ActorRecord *state, ObjectPosition *motion, SpriteFra
                 motion->velocity_x = 0;
                 set_record_integer_tile_center(motion, sprite->tile_x, sprite->tile_y);
                 entity->flags1C |= 0x40000;
-                ((S_80176084_0 *)state)->unk_B5 = 0;
+                ((ActorRecord *)state)->unk_B4.bytes[1] = 0;
                 state->action_state_flags |= 8;
                 sprite->frameTable = (u8 *)uboat_default_frames;
                 select_sprite_entry(sprite, uboat_default_frames[((s32)(g_game_work.view.camera_rotation.parts.viewAngle + entity->facing + 0x100) >> 9) & 7],
@@ -96,7 +81,7 @@ void leave_actor_aura_mode(ActorRecord *state, ObjectPosition *motion, SpriteFra
         sprite->depth_bias = 0;
         state->unk_8C.address = (u8 *)uboat_behavior_entry;
         clear_slots_of_type(entity, STATUS_NO_TILE_OCCUPANCY);
-        if (((S_80176084_0 *)state)->unk_B4 == 0) {
+        if (((ActorRecord *)state)->unk_B4.bytes[0] == 0) {
             g_dungeon_status.active_actor = 0;
             g_dungeon_status.activity_counts.parts.pending_action_count--;
             entity->action_flags &= ACTOR_ACTION_CLEAR_PENDING_MASK;

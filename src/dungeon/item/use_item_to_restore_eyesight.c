@@ -24,7 +24,7 @@ extern s32 display_text_with_fullwidth_adjustment(s8 *text);
 extern u8 D_800E188B[];
 
 /* Updates an entity and its effects, decrementing the shared counter on completion. */
-s32 use_item_to_restore_eyesight(void *entity_arg, DungeonItemEntry *item_arg, s16 effect_arg)
+s32 use_item_to_restore_eyesight(ActorRecord *entity_arg, DungeonItemEntry *item_arg, s16 effect_arg)
 {
     DungeonItemEntry *item = item_arg;
     void *initial_id;
@@ -43,7 +43,7 @@ s32 use_item_to_restore_eyesight(void *entity_arg, DungeonItemEntry *item_arg, s
 
         display_item_status_message(entity_arg, item, effect_arg);
         lookup_entity = entity_arg;
-        entity_type = *((u8 *)entity_arg + 0x13);
+        entity_type = entity_arg->species;
         type_table = (u16 *)&entity_action_selectors;
         if (feed_actor_restore_mp(lookup_entity,
                           (type_table[entity_type] >> 6) & 3,
@@ -54,10 +54,10 @@ s32 use_item_to_restore_eyesight(void *entity_arg, DungeonItemEntry *item_arg, s
     }
 
     create_timed_paired_particle_emitter(((ObjectNodeHeader *)entity_arg)[-1].position, 0xC02020, entity_arg);
-    if (*(s32 *)((u8 *)entity_arg + 0x14) & ACTOR_PARTY_MEMBER) {
+    if (entity_arg->flags14 & ACTOR_PARTY_MEMBER) {
         initial_id = get_unused_text_buffer();
         selected_id = initial_id;
-        if (!(*(s32 *)((u8 *)entity_arg + 0x1C) & ACTOR_BLIND)) {
+        if (!(entity_arg->flags1C & ACTOR_BLIND)) {
             selected_id = expand_text_control_codes(D_800E188B, initial_id);
         }
         clear_byte_and_advance(selected_id);

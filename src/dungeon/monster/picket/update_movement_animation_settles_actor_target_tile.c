@@ -17,23 +17,12 @@
 
 typedef struct Node Node;
 
-typedef struct S_80172908_1 {
-    u8 pad_00[0x8C];
-    u8 * unk_8C;
-    s32 unk_90;
-    u8 pad_94[0x2];
-    union { u16 s; s16 u; } unk_96;   /* accessed as both */
-    u16 unk_98;
-    u8 pad_9A[0x1];
-    u8 unk_9B;
-} S_80172908_1;   /* arg0 in update_movement_animation_settles_actor_target_tile */
-
 extern Node *actor_update_node_cursor[];
 extern u8 picket_action_resume_address[];
 extern u8 picket_frame_set_7;
 
 /* Updates movement animation and settles the actor at its target tile. */
-void update_movement_animation_settles_actor_target_tile(void *action, void *motion, SpriteFrameState *sprite, void *actor)
+void update_movement_animation_settles_actor_target_tile(ActorRecord *body, ObjectPosition *motion, SpriteFrameState *sprite, ActorRecord *actor)
 {
     s32 state;
     s32 direction_offset;
@@ -41,85 +30,85 @@ void update_movement_animation_settles_actor_target_tile(void *action, void *mot
     s32 direction_y;
     u16 frames_left;
 
-    direction_offset = ((u16)((ActorRecord *)actor)->facing >> 8) & 0xE;
+    direction_offset = ((u16)actor->facing >> 8) & 0xE;
     direction_x = *(s16 *)((u8 *)((s8 *)dir_step_x) + direction_offset);
     direction_y = *(s16 *)((u8 *)((s8 *)dir_step_y) + direction_offset);
-    state = ((S_80172908_1 *)action)->unk_9B;
+    state = body->action_phase.u;
     switch (state) {
     case 0:
         if (sprite->flags & 0x8000) {
-            ((S_80172908_1 *)action)->unk_9B = 0xFF;
+            body->action_phase.u = 0xFF;
             sprite->flags |= 0x6000;
-            resolve_attack_damage_and_effects(actor, sprite, ((ActorRecord *)actor)->facing, 1);
+            resolve_attack_damage_and_effects(actor, sprite, actor->facing, 1);
             return;
         }
 
         sprite->frameTable = &picket_frame_set_7;
         select_sprite_entry(sprite,
             *(&picket_frame_set_7 +
-              (((g_game_work.view.camera_rotation.parts.viewAngle + ((ActorRecord *)actor)->facing + 0x100) >> 9) & 7)),
+              (((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7)),
             0);
-        ((S_80172908_1 *)action)->unk_9B++;
+        body->action_phase.u++;
         return;
     case 1:
         if ((sprite->unk_04 == state &&
              (sprite->flags & 0x1000)) ||
             (sprite->flags & 0x8000)) {
             play_sound_if_enabled(0x808);
-            ((S_80172908_1 *)action)->unk_90 = 0;
-            ((S_80172908_1 *)action)->unk_98 |= 8;
-            ((EntityRec *)motion)->flags14 = (s32)0xFFF50000;
-            ((S_80172908_1 *)action)->unk_96.s = 4;
-            ((EntityRec *)motion)->unk_0C = (direction_x << 23) / 5;
-            ((EntityRec *)motion)->unk_10 = (direction_y << 23) / 5;
-            ((S_80172908_1 *)action)->unk_9B++;
+            body->unk_90.value = 0;
+            body->action_state_flags |= 8;
+            motion->velocity_z = (s32)0xFFF50000;
+            body->action_timer.u = 4;
+            motion->velocity_x = (direction_x << 23) / 5;
+            motion->velocity_y = (direction_y << 23) / 5;
+            body->action_phase.u++;
         }
         return;
     case 2:
-        frames_left = ((S_80172908_1 *)action)->unk_96.s - 1;
-        ((S_80172908_1 *)action)->unk_96.s = frames_left;
+        frames_left = body->action_timer.u - 1;
+        body->action_timer.u = frames_left;
         if ((s16)frames_left == 3) {
-            resolve_attack_damage_and_effects(actor, sprite, ((ActorRecord *)actor)->facing, 1);
+            resolve_attack_damage_and_effects(actor, sprite, actor->facing, 1);
         }
 
-        ((EntityRec *)motion)->flags14 += (5 - ((S_80172908_1 *)action)->unk_96.u) << 16;
-        if (((S_80172908_1 *)action)->unk_96.u < 3) {
-            ((EntityRec *)motion)->flags14 = 0;
+        motion->velocity_z += (5 - body->action_timer.s) << 16;
+        if (body->action_timer.s < 3) {
+            motion->velocity_z = 0;
         }
-        ((EntityRec *)motion)->unk_0C -= (((EntityRec *)motion)->unk_0C << 2) / 5;
-        ((EntityRec *)motion)->unk_10 -= (((EntityRec *)motion)->unk_10 << 2) / 5;
-        if (((S_80172908_1 *)action)->unk_96.u > 0) {
+        motion->velocity_x -= (motion->velocity_x << 2) / 5;
+        motion->velocity_y -= (motion->velocity_y << 2) / 5;
+        if (body->action_timer.s > 0) {
             return;
         }
-        ((EntityRec *)motion)->flags14 = 0;
-        ((S_80172908_1 *)action)->unk_9B = 0xFF;
-        ((S_80172908_1 *)action)->unk_98 &= 0xFFF7;
+        motion->velocity_z = 0;
+        body->action_phase.u = 0xFF;
+        body->action_state_flags &= 0xFFF7;
         return;
     case 0xFF:
     {
         s32 target_x = sprite->tile_x << 6;
-        s32 current_x = ((EntityRec *)motion)->x.w.i - 0x20;
+        s32 current_x = motion->x.w.i - 0x20;
 
-        ((EntityRec *)motion)->unk_0C = (target_x - current_x) << 14;
+        motion->velocity_x = (target_x - current_x) << 14;
     }
         {
             s32 target_y = sprite->tile_y << 6;
-            s32 current_y = ((EntityRec *)motion)->y.w.i - 0x20;
+            s32 current_y = motion->y.w.i - 0x20;
 
-            ((EntityRec *)motion)->unk_10 = (target_y - current_y) << 14;
+            motion->velocity_y = (target_y - current_y) << 14;
         }
         if (!(sprite->flags & 0xE000)) {
             return;
         }
-        ((EntityRec *)motion)->unk_10 = 0;
-        ((EntityRec *)motion)->unk_0C = 0;
+        motion->velocity_y = 0;
+        motion->velocity_x = 0;
         set_record_integer_tile_center(motion, sprite->tile_x, sprite->tile_y);
         spend_actor_mp(actor, 0x100);
-        ((S_80172908_1 *)action)->unk_8C = picket_action_resume_address;
+        body->unk_8C.address = picket_action_resume_address;
         g_dungeon_status.active_actor = 0;
         advance_status_timers(actor);
-        if (((ActorRecord *)actor)->pending_turn_updates == 0) {
-            ((ActorRecord *)actor)->action_flags &= ACTOR_ACTION_CLEAR_PENDING_MASK;
+        if (actor->pending_turn_updates == 0) {
+            actor->action_flags &= ACTOR_ACTION_CLEAR_PENDING_MASK;
         } else {
             actor_update_node_cursor[0] = (Node *)((u8 *)actor - 0x20);
         }

@@ -16,20 +16,6 @@
 #include "dungeon/actor.h"
 #include "dungeon/effect/screen.h"
 
-typedef struct S_80172D08_0 {
-    u8 pad_00[0x8C];
-    void * unk_8C;
-    s32 unk_90;
-    u8 pad_94[0x2];
-    union { s16 s; u16 u; } unk_96;   /* accessed as both */
-    u16 unk_98;
-    u8 pad_9A[0x1];
-    u8 unk_9B;
-    u8 pad_9C[0x4];
-    s32 unk_A0;
-    u8 pad_A4[0xB];
-    u8 unk_AF;
-} S_80172D08_0;   /* arg0 in advance_actor_height_arc */
 
 typedef struct S_80172D08_4_pre {
     void * unk_00;
@@ -66,7 +52,7 @@ void advance_actor_height_arc(ActorRecord *action, ObjectPosition *motion, Sprit
             return;
         }
 
-        ((S_80172D08_0 *)action)->unk_AF = 0;
+        action->unk_AC.bytes[3] = 0;
         if (actor->target == 0) {
             direction = (((u16)actor->facing) >> 9) & 7;
             if ((s16)check_layer_offset_height(record->tile_x << 6,
@@ -80,10 +66,10 @@ void advance_actor_height_arc(ActorRecord *action, ObjectPosition *motion, Sprit
                        ((s16 *)((s8 *)dir_step_y))[direction]) << 6) + 0x20) & 0xFFE0,
                     (s16)(((u16)actor->ground_height) - 0x20));
                 if ((u16)(terrain_height - ((u16)actor->ground_height) + 0x3F) >= 0x7F) {
-                    ((S_80172D08_0 *)action)->unk_AF = 1;
+                    action->unk_AC.bytes[3] = 1;
                 }
             } else {
-                ((S_80172D08_0 *)action)->unk_AF = 1;
+                action->unk_AC.bytes[3] = 1;
             }
         }
 
@@ -105,7 +91,7 @@ void advance_actor_height_arc(ActorRecord *action, ObjectPosition *motion, Sprit
             return;
         }
 
-        if (((S_80172D08_0 *)action)->unk_AF == 0) {
+        if (action->unk_AC.bytes[3] == 0) {
             direction = (((u16)actor->facing) >> 8) & 0xE;
             motion->velocity_x =
                 (((s16 *)((s8 *)dir_step_x))[direction >> 1] << 22) / 8;
@@ -147,7 +133,7 @@ void advance_actor_height_arc(ActorRecord *action, ObjectPosition *motion, Sprit
                 arc_sample = scaled_arc << 8;
                 next_height = height_delta - arc_sample;
                 action->unk_A0.value = next_height;
-            } else if (((S_80172D08_0 *)action)->unk_AF != 0) {
+            } else if (action->unk_AC.bytes[3] != 0) {
                 s32 arc_sample;
 
                 arc_sample = rsin(action->action_timer.s << 7) >> 4;
@@ -210,7 +196,7 @@ void advance_actor_height_arc(ActorRecord *action, ObjectPosition *motion, Sprit
         if (((record->unk_04 == 0x14) &&
              (record->flags & 0x1000)) ||
             (record->flags & 0xE000)) {
-            if (((S_80172D08_0 *)action)->unk_AF == 0) {
+            if (action->unk_AC.bytes[3] == 0) {
                 direction = (((u16)actor->facing) >> 8) & 0xE;
                 motion->velocity_x =
                     -((((s16 *)((s8 *)dir_step_x))[direction >> 1] << 22) / 8);
@@ -247,7 +233,7 @@ void advance_actor_height_arc(ActorRecord *action, ObjectPosition *motion, Sprit
                 height_offset = height_delta * action->action_timer.s;
                 arc_sample = (arc_sample >> 4) << 13;
                 action->unk_A0.value = height_offset - arc_sample;
-            } else if (((S_80172D08_0 *)action)->unk_AF != 0) {
+            } else if (action->unk_AC.bytes[3] != 0) {
                 s32 arc_sample;
 
                 arc_sample = rsin(action->action_timer.s << 8) >> 4;

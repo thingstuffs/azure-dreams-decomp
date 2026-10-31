@@ -6,12 +6,6 @@
 #include "shared/entity.h"
 #include "dungeon/actor/status.h"
 
-typedef struct S_801724A8_0 {
-    u8 pad_00[0x8C];
-    ActorActionHandler unk_8C;
-    union { struct { s32 v; } at00; struct { u8 pad[0x2]; s16 v; } at02; } unk_90;   /* overlapping accesses */
-} S_801724A8_0;   /* arg0 in update_the_target_conditionally_resets_caller_state */
-
 
 void spend_actor_mp(ActorRecord *entity, s32 base_reduction);            /* extern */
                 /* extern */
@@ -22,17 +16,17 @@ void update_dungeon_actor_behavior_facing_animation_state(ActorRecord *actor, Ob
  * its counter only after a positive signed floor-trap result. Clears the secondary action halfword
  * under dungeon status flag 0x80. /
  */
-void update_the_target_conditionally_resets_caller_state(S_801724A8_0 *state, void *context, void *source, ActorRecord *target) {
-    if (update_actor_movement_to_tile(state, context, source, target) != 0) {
-        spend_actor_mp(target, 3);
-        advance_status_timers(target);
-        if ((check_actor_floor_trap(source, target) << 0x10) <= 0) {
+void update_the_target_conditionally_resets_caller_state(ActorRecord *body, ObjectPosition *position, SpriteFrameState *sprite, ActorRecord *actor) {
+    if (update_actor_movement_to_tile(body, position, sprite, actor) != 0) {
+        spend_actor_mp(actor, 3);
+        advance_status_timers(actor);
+        if ((check_actor_floor_trap(sprite, actor) << 0x10) <= 0) {
             return;
         }
-        state->unk_8C = &update_dungeon_actor_behavior_facing_animation_state;
-        state->unk_90.at00.v = 0;
+        body->unk_8C.handler = &update_dungeon_actor_behavior_facing_animation_state;
+        body->unk_90.value = 0;
     }
     if (g_dungeon_status.flags & 0x80) {
-        state->unk_90.at02.v = 0;
+        body->unk_90.parts.high.s = 0;
     }
 }

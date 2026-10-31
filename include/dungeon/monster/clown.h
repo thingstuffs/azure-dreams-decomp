@@ -375,7 +375,7 @@ s32 relink_clown_path(void *entity_arg, ObjectPosition *primary_context_arg, voi
 void finish_actor_tile_move_then_dispatch_transition(void *state, void *motion, void *source, void *target);
 void finish_linked_actor_motion_and_floor_trap_then_dispatch_transition(ActorRecord *state, ObjectPosition *entity, SpriteFrameState *position, ActorRecord *graphic);
 
-void update_overlay_object_action(void *owner, void *motion, struct SpriteFrameState *actor, void *object_in);
+void update_overlay_object_action(ActorRecord *body, ObjectPosition *position, struct SpriteFrameState *sprite, ActorRecord *actor);
 void damp_actor_motion_then_recenter(R16_801729D8_S_80173294_0 *motion_state, ObjectPosition *motion, SpriteFrameState *tile_state, void *entity);
 void remove_defeated_clown(void *state, void *motion, void *position, void *actor);
 void shrink_hopping_clown(R16_80172CCC_S_80173588_0 *state, void *context, SpriteFrameState *data, void *render);

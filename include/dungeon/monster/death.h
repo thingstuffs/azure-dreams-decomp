@@ -5,7 +5,7 @@
 #include "common.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/entity.h"
-void update_entity_movement_animation_and_ground(void *entity, ObjectPosition *motion, void *sprite);
+void update_entity_movement_animation_and_ground(ActorRecord *body, ObjectPosition *motion, SpriteFrameState *sprite);
 
 
 

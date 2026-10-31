@@ -49,7 +49,7 @@ extern void update_actor_status_and_mp(ActorRecord *entity);
 extern s32 begin_ready_actor_directional_action(ActorRecord *body, ObjectPosition *position, SpriteFrameState *sprite, u8 *direction_frames);
 extern void begin_actor_move_to_target_facing(ActorRecord *body, ObjectPosition *position, SpriteFrameState *sprite, ActorRecord *actor);
 
-extern void advance_path_motion(void *, ObjectPosition *, SpriteFrameState *, void *);
+extern void advance_path_motion(void *, ObjectPosition *, SpriteFrameState *, ActorRecord *);
 extern void func_801718B4(void *, void *, void *, void *);
 extern s32 func_80171FFC(ActorRecord *action_state, ObjectPosition *action_ctx, SpriteFrameState *sprite, ActorRecord *actor);
 void finish_actor_tile_move_and_check_trap(ActorRecord *action_state, ObjectPosition *action_ctx, SpriteFrameState *sprite, ActorRecord *actor);

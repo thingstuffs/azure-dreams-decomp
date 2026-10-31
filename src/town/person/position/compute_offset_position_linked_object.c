@@ -1,6 +1,7 @@
 #include "common.h"
 #include "shared/object_flags.h"
 #include "shared/vector.h"
+#include "town/person/position.h"
 
 
 
@@ -11,9 +12,9 @@ extern s32 check_actor_data_references_match(void *actor);
 extern void unlink_node_if_registered(void *object);
 
 /* Computes an offset position from the linked object, flagging failed validation. */
-void compute_offset_position_linked_object(void *object, IntVector3 *out_pos)
+void compute_offset_position_linked_object(OwnerFollowingSpriteBody *object, IntVector3 *out_pos)
 {
-    void *linked_object = *(void **)((u8 *)object + 0x9C);
+    void *linked_object = object->linked_object;
     IntVector3 *base_pos = *(IntVector3 **)((u8 *)linked_object - 0x18);
 
     if (check_actor_data_references_match(linked_object) == 0) {

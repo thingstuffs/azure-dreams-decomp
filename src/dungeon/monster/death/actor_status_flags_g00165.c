@@ -12,64 +12,64 @@
 #include "dungeon/actor/motion.h"
 
 /* Advance the actor action state, handle status flags, and update directional animation. */
-void advance_actor_action_state_handle_status(void *action_in, ObjectPosition *context_in, SpriteFrameState *sprite_in, void *actor_in) {
+void advance_actor_action_state_handle_status(ActorRecord *body, ObjectPosition *position, SpriteFrameState *sprite, ActorRecord *actor) {
     s32 state;
 
     DungeonGlobalStatus *world_state;
     u16 counter_value;
 
-    state = ((S_80173CD4_0 *)action_in)->unk_9B;
+    state = body->action_phase.u;
     switch (state) {
     case 0:
     {
         DungeonGlobalStatus *world_counters;
         u8 *direction_anims;
-        if (!(sprite_in->flags & 0xE000)) {
+        if (!(sprite->flags & 0xE000)) {
             return;
         }
         direction_anims = death_frame_set_2;
-        (sprite_in->frameTable) = direction_anims;
-        select_sprite_entry(sprite_in,
-            direction_anims[((g_game_work.view.camera_rotation.parts.viewAngle + ((S_80173CD4_2 *)actor_in)->unk_2A + 0x100) >> 9) & 7],
+        (sprite->frameTable) = direction_anims;
+        select_sprite_entry(sprite,
+            direction_anims[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
             0);
         world_counters = &g_dungeon_status;
         (*(u16 *)&world_counters->activity_counts.parts.pending_action_count)--;
     }
-        ((S_80173CD4_0 *)action_in)->unk_9B++;
+        body->action_phase.u++;
         return;
     case 1:
     {
         u32 world_page;
         u32 actor_flags;
 
-        if ((get_entity_effect_value(actor_in, STATUS_SLEEP) << 16) != 0) {
+        if ((get_entity_effect_value(actor, STATUS_SLEEP) << 16) != 0) {
             world_page = 0x80080000;
             world_state = (u8 *)(&g_dungeon_status.turn_scale);
             if (world_state->flags & 0x1000) {
                 return;
             }
 
-            if (((S_80173CD4_2 *)actor_in)->unk_64 != 0) {
-                if (begin_ready_actor_directional_action(action_in, context_in, sprite_in, 0) != 0) {
+            if (actor->hp_delta != 0) {
+                if (begin_ready_actor_directional_action(body, position, sprite, 0) != 0) {
                     return;
                 }
             }
 
-            if (((S_80173CD4_2 *)actor_in)->unk_25 == 0) {
+            if (actor->mp_value.parts.whole == 0) {
                 if (world_state->flags & 0x2008) {
                     return;
                 }
-                advance_actor_pending_action(action_in, context_in, sprite_in, actor_in);
+                advance_actor_pending_action(body, position, sprite, actor);
                 return;
             }
 
-            if ((has_pending_actor_or_turn_action(actor_in) << 16) != 0) {
+            if ((has_pending_actor_or_turn_action(actor) << 16) != 0) {
                 return;
             }
 
-            actor_flags = ((S_80173CD4_2 *)actor_in)->unk_1C;
+            actor_flags = actor->flags1C;
             if (actor_flags & 0x100) {
-                begin_pushed_actor_move(action_in, context_in, sprite_in, actor_in);
+                begin_pushed_actor_move(body, position, sprite, actor);
                 return;
             }
 
@@ -78,24 +78,24 @@ void advance_actor_action_state_handle_status(void *action_in, ObjectPosition *c
                 u16 pending_amount;
                 u32 packed_adjustment;
 
-                begin_actor_move_to_target_facing(action_in, context_in, sprite_in, actor_in);
-                current_amount = ((S_80173CD4_0 *)action_in)->unk_92;
-                pending_amount = ((S_80173CD4_0 *)action_in)->unk_A4.at02.v;
-                packed_adjustment = ((S_80173CD4_0 *)action_in)->unk_A4.at00.v;
-                ((S_80173CD4_0 *)action_in)->unk_A4.at02.v = 0;
-                ((S_80173CD4_0 *)action_in)->unk_B8 = 0;
-                ((S_80173CD4_0 *)action_in)->unk_AC = 0;
-                ((S_80173CD4_0 *)action_in)->unk_B0 = 0;
-                ((S_80173CD4_0 *)action_in)->unk_92 = current_amount - pending_amount;
-                ((S_80173CD4_0 *)action_in)->unk_A8 = packed_adjustment;
-                func_801743F0(action_in, context_in, sprite_in, actor_in);
+                begin_actor_move_to_target_facing(body, position, sprite, actor);
+                current_amount = body->unk_90.parts.high.u;
+                pending_amount = body->unk_A4.halves.high.u;
+                packed_adjustment = body->unk_A4.value;
+                body->unk_A4.halves.high.u = 0;
+                ((S_80173CD4_0 *)body)->unk_B8 = 0;
+                ((S_80173CD4_0 *)body)->unk_AC = 0;
+                ((S_80173CD4_0 *)body)->unk_B0 = 0;
+                body->unk_90.parts.high.u = current_amount - pending_amount;
+                ((S_80173CD4_0 *)body)->unk_A8 = packed_adjustment;
+                func_801743F0(body, position, sprite, actor);
                 return;
             }
 
-            if (((S_80173CD4_2 *)actor_in)->unk_6D == 0) {
+            if (actor->pending_turn_updates == 0) {
                 return;
             }
-            if ((has_pending_actor_or_turn_action(actor_in) << 16) != 0) {
+            if ((has_pending_actor_or_turn_action(actor) << 16) != 0) {
                 {
                     ObjectNodeHeader *previous_node;
                     void *previous_body;
@@ -104,43 +104,43 @@ void advance_actor_action_state_handle_status(void *action_in, ObjectPosition *c
                     previous_node = primary_actor_record->previous_actor_header;
                     previous_body = previous_node + 1;
                     previous_actor = previous_body;
-                    if ((check_entity_relation(actor_in,
+                    if ((check_entity_relation(actor,
                             previous_actor) << 16) != 0) {
                         return;
                     }
                 }
             }
 
-            update_actor_status_and_mp(actor_in);
-            on_actor_status_updated(actor_in);
-            if ((get_entity_effect_value(actor_in, STATUS_SLEEP) << 16) != 0) {
+            update_actor_status_and_mp(actor);
+            on_actor_status_updated(actor);
+            if ((get_entity_effect_value(actor, STATUS_SLEEP) << 16) != 0) {
                 TileObject *reference_pos;
                 s8 room_id;
 
                 reference_pos = &reference_tile_object;
-                room_id = *(s8 *)&sprite_in->room_index;
+                room_id = *(s8 *)&sprite->room_index;
                 if ((((room_id == reference_pos->room_index) &&
                       (room_id >= 0)) ||
-                     (get_tile_chebyshev_distance(reference_pos, sprite_in) < 2)) &&
+                     (get_tile_chebyshev_distance(reference_pos, sprite) < 2)) &&
                     !(generate_random_value() & 7)) {
-                    clear_slots_of_type(actor_in, STATUS_SLEEP);
+                    clear_slots_of_type(actor, STATUS_SLEEP);
                 }
             }
 
-            if ((get_entity_effect_value(actor_in, STATUS_SLEEP) << 16) != 0) {
+            if ((get_entity_effect_value(actor, STATUS_SLEEP) << 16) != 0) {
                 return;
             }
             {
                 u8 *direction_anims;
 
                 direction_anims = death_frame_set_3;
-                (sprite_in->frameTable) = direction_anims;
-                select_sprite_entry(sprite_in,
-                    direction_anims[((g_game_work.view.camera_rotation.parts.viewAngle + ((S_80173CD4_2 *)actor_in)->unk_2A + 0x100) >> 9) & 7],
+                (sprite->frameTable) = direction_anims;
+                select_sprite_entry(sprite,
+                    direction_anims[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
                     0);
-                ((S_80173CD4_2 *)actor_in)->unk_1C |= 0x40000;
-                if (sprite_in->flags & 0x8000) {
-                    ((S_80173CD4_0 *)action_in)->unk_8C = &death_action_resume_address;
+                actor->flags1C |= 0x40000;
+                if (sprite->flags & 0x8000) {
+                    body->unk_8C.address = &death_action_resume_address;
                     return;
                 }
 
@@ -150,20 +150,20 @@ void advance_actor_action_state_handle_status(void *action_in, ObjectPosition *c
                     g_dungeon_status.activity_counts.parts.pending_action_count = counter_value;
                 }
             }
-            ((S_80173CD4_0 *)action_in)->unk_9B++;
+            body->action_phase.u++;
             return;
         } else {
             {
                 u8 *direction_anims;
 
                 direction_anims = death_frame_set_3;
-                (sprite_in ->frameTable) = direction_anims;
-                select_sprite_entry(sprite_in,
-                    direction_anims[((g_game_work.view.camera_rotation.parts.viewAngle + ((S_80173CD4_2 *)actor_in)->unk_2A + 0x100) >> 9) & 7],
+                (sprite ->frameTable) = direction_anims;
+                select_sprite_entry(sprite,
+                    direction_anims[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
                     0);
-                ((S_80173CD4_2 *)actor_in)->unk_1C |= 0x40000;
-                if (sprite_in->flags & 0x8000) {
-                    ((S_80173CD4_0 *)action_in)->unk_8C = &death_action_resume_address;
+                actor->flags1C |= 0x40000;
+                if (sprite->flags & 0x8000) {
+                    body->unk_8C.address = &death_action_resume_address;
                     return;
                 }
 
@@ -173,19 +173,19 @@ void advance_actor_action_state_handle_status(void *action_in, ObjectPosition *c
                     g_dungeon_status.activity_counts.parts.pending_action_count = counter_value;
                 }
             }
-            ((S_80173CD4_0 *)action_in)->unk_9B++;
+            body->action_phase.u++;
             return;
         }
     }
     case 2:
-        if (sprite_in->flags & 0xE000) {
+        if (sprite->flags & 0xE000) {
             counter_value = (u16)g_dungeon_status.activity_counts.parts.pending_action_count;
             counter_value--;
             g_dungeon_status.activity_counts.parts.pending_action_count = counter_value;
         } else {
             return;
         }
-        ((S_80173CD4_0 *)action_in)->unk_8C = &death_action_resume_address;
+        body->unk_8C.address = &death_action_resume_address;
         return;
     }
 }

@@ -18,15 +18,15 @@ typedef struct S_80172628_0 {
 } S_80172628_0;   /* hold_arg0 in update_entity_state_from_query */
 
 /* Update entity state and flags according to the state query result. */
-s32 update_entity_state_from_query(void *entity_arg, void *primary_context_arg, void *secondary_context_arg, s32 force_state_arg) {
+s32 update_entity_state_from_query(ActorRecord *body, ObjectPosition *position, SpriteFrameState *sprite, s32 force_state_arg) {
     s16 state_type;
     s32 result;
-    void *entity = entity_arg;
+    void *entity = body;
 
-    state_type = (s16)relink_entity_and_clear_high_flag(primary_context_arg, secondary_context_arg, entity, 3, 6, entity + 0x9C);
+    state_type = (s16)relink_entity_and_clear_high_flag(position, sprite, entity, 3, 6, entity + 0x9C);
     if (state_type < 0) return 0;
     if ((force_state_arg << 0x10) != 0) {
-        select_movement_direction_and_advance(entity, primary_context_arg, secondary_context_arg, entity);
+        select_movement_direction_and_advance(entity, position, sprite, entity);
         result = 0;
         return result;
     }
@@ -37,7 +37,7 @@ s32 update_entity_state_from_query(void *entity_arg, void *primary_context_arg, 
         result = 0;
         return result;
     case 2:
-        select_movement_direction_and_advance(entity, primary_context_arg, secondary_context_arg, entity);
+        select_movement_direction_and_advance(entity, position, sprite, entity);
         result = 0;
         return result;
     case 1:

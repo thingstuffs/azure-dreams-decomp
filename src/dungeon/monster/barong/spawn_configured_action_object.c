@@ -11,18 +11,6 @@
 #include "engine/node.h"
 #include "engine/node/allocation.h"
 
-typedef struct S_801710E0_1 {
-    u8 pad_00[0x13];
-    s8 unk_13;
-    s32 unk_14;
-    u8 pad_18[0x4];
-    s32 unk_1C;
-} S_801710E0_1;   /* result in spawn_configured_action_object */
-
-typedef struct S_801710E0_2 {
-    u8 pad_00[0xA];
-    s16 unk_0A;
-} S_801710E0_2;   /* part0 in spawn_configured_action_object */
 
 typedef struct S_801710E0_4 {
     u8 pad_00[0x8C];
@@ -61,7 +49,7 @@ void *spawn_configured_action_object(s16 flags, s16 kind_id, s16 variant, s32 sp
         result = (u8 *)object;
         result += 0x20;
         object->update_callback = D_801712A8;
-        ((S_801710E0_1 *)result)->unk_13 = MONSTER_BARONG;
+        ((ActorRecord *)result)->species = MONSTER_BARONG;
         register_node(object, project_sprite_chain);
 
         {

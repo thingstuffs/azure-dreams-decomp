@@ -8,20 +8,11 @@
 #include "dungeon/actor.h"
 #include "dungeon/player/object.h"
 
-typedef struct S_80172F98_0 {
-    u8 pad_00[0x8C];
-    void * unk_8C;
-    u8 pad_90[0x6];
-    union { s16 s; u16 u; } unk_96;   /* accessed as both */
-    u8 pad_98[0x3];
-    u8 unk_9B;
-} S_80172F98_0;   /* arg0 in update_directional_motion_and_target_tile */
-
 #include "dungeon/monster/stealth.h"
 extern u8 D_80173D60[];
 
 /* Updates directional movement and returns the entity to its target tile. */
-void update_directional_motion_and_target_tile(S_80172F98_0 *action, ObjectPosition *motion, SpriteFrameState *target, void *entity)
+void update_directional_motion_and_target_tile(ActorRecord *body, ObjectPosition *motion, SpriteFrameState *target, void *entity)
 {
     s16 return_timer;
     s16 next_timer;
@@ -37,7 +28,7 @@ void update_directional_motion_and_target_tile(S_80172F98_0 *action, ObjectPosit
     s32 origin_y;
     u8 state;
 
-    state = action->unk_9B;
+    state = body->action_phase.u;
     direction = (((EntityRec *)entity)->unk_6A >> 9) & 7;
 
     switch (state) {
@@ -47,18 +38,18 @@ void update_directional_motion_and_target_tile(S_80172F98_0 *action, ObjectPosit
             ((s16 *)((s8 *)dir_step_x))[direction] << 16;
         motion->velocity_y =
             ((s16 *)((s8 *)dir_step_y))[direction] << 16;
-        action->unk_9B++;
+        body->action_phase.u++;
 
         if (((EntityRec *)entity)->unk_28 == 0) {
             motion->velocity_z = 0;
             motion->velocity_y = 0;
             motion->velocity_x = 0;
-            begin_actor_display_action(action, motion, target, D_80173D60);
+            begin_actor_display_action(body, motion, target, D_80173D60);
             return;
         }
         if (target->flags & 0x8000) {
-            action->unk_96.s = 0;
-            action->unk_9B = 2;
+            body->action_timer.s = 0;
+            body->action_phase.u = 2;
             return;
         }
 
@@ -66,7 +57,7 @@ void update_directional_motion_and_target_tile(S_80172F98_0 *action, ObjectPosit
         if (((u32)((EntityRec *)entity)->flags1C) & (ACTOR_MP_EMPTY | ACTOR_PARALYZED | ACTOR_ASLEEP)) {
             initial_timer = 8;
         }
-        action->unk_96.s = initial_timer;
+        body->action_timer.s = initial_timer;
 
         velocity_x = motion->velocity_x;
         biased_x = velocity_x;
@@ -82,28 +73,28 @@ void update_directional_motion_and_target_tile(S_80172F98_0 *action, ObjectPosit
         motion->velocity_y -=
             ((s16 *)((s8 *)dir_step_y))[direction] << 13;
 
-        if (action->unk_96.s > 0) {
-            action->unk_96.u = action->unk_96.u - 1;
+        if (body->action_timer.s > 0) {
+            body->action_timer.u = body->action_timer.u - 1;
         } else if (target->flags & 0x6000) {
-            action->unk_96.s = 0;
+            body->action_timer.s = 0;
         }
 
-        if (action->unk_96.s != 0) {
+        if (body->action_timer.s != 0) {
             return;
         }
         if (((EntityRec *)entity)->unk_28 == 0) {
             motion->velocity_z = 0;
             motion->velocity_y = 0;
             motion->velocity_x = 0;
-            begin_actor_display_action(action, motion, target, D_80173D60);
+            begin_actor_display_action(body, motion, target, D_80173D60);
         } else {
-            action->unk_96.s = 8;
-            action->unk_9B++;
+            body->action_timer.s = 8;
+            body->action_phase.u++;
         }
         return;
 
     case 2:
-        return_timer = action->unk_96.s;
+        return_timer = body->action_timer.s;
         if (return_timer != 0) {
             target_x = target->tile_x << 6;
             origin_x = motion->x.w.i - 0x20;
@@ -113,11 +104,11 @@ void update_directional_motion_and_target_tile(S_80172F98_0 *action, ObjectPosit
             origin_y = motion->y.w.i - 0x20;
             motion->velocity_y =
                 ((target_y - origin_y) << 15) /
-                action->unk_96.s;
+                body->action_timer.s;
         }
 
-        next_timer = action->unk_96.u - 1;
-        action->unk_96.u = next_timer;
+        next_timer = body->action_timer.u - 1;
+        body->action_timer.u = next_timer;
         if (next_timer > 0) {
             return;
         }
@@ -130,7 +121,7 @@ void update_directional_motion_and_target_tile(S_80172F98_0 *action, ObjectPosit
         if (((s32)g_dungeon_status.pending_display_owner) == (s32)entity - 0x20) {
             *(s32 *)&g_dungeon_status.pending_display_owner &= 0x7FFFFFFF;
         }
-        action->unk_8C = stealth_behavior_entry;
+        body->unk_8C.address = stealth_behavior_entry;
 
         return;
     default:

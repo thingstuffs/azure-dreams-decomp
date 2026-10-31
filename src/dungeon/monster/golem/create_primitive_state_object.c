@@ -29,7 +29,7 @@ extern s32 resolve_record_orientation_or_fallback(s32, void *, u16 *, s32);
 extern u8 golem_object_callback[9];
 
 /* Creates an object, initializes its primitive, copies state, and applies queried offsets. */
-void * create_primitive_state_object(void *unused, Rec_func_80172D08_arg1 *src_state, Rec_D_80082E80 *source)
+void * create_primitive_state_object(ActorRecord *unused, ObjectPosition *position, Rec_D_80082E80 *source)
 {
     u16 offsets[3];
     ObjectNodeHeader *obj;
@@ -59,7 +59,7 @@ void * create_primitive_state_object(void *unused, Rec_func_80172D08_arg1 *src_s
 
             source = obj->position;
             dst_state = (void *)source;
-            *(Copy24 *)dst_state = *(Copy24 *)src_state;
+            *(Copy24 *)dst_state = *(Copy24 *)position;
             query_out = offsets;
 
             offsets[2] = 0;

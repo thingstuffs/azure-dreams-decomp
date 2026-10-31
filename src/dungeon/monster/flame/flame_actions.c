@@ -1578,9 +1578,9 @@ void fade_sprites_and_remove_entity(void *actor, ObjectPosition *unused, SpriteF
 }
 
 /* Runs the shared hop and shrink update, then clears the record halfword at offset 0xB6. */
-void reset_record_motion_field_b(Rec_func_800AB538_arg0 *record, void *motion, void *scale, void *render) {
-    update_actor_hop_and_shrink(record, motion, scale, render);
-    record->unk_B6 = 0;
+void reset_record_motion_field_b(ActorRecord *body, ObjectPosition *motion, SpriteFrameState *sprite, ActorRecord *actor) {
+    update_actor_hop_and_shrink(body, motion, sprite, actor);
+    body->unk_B4.halves.high.s = 0;
 }
 
 /* Runs the shared actor removal sequence with the supplied callback arguments. */

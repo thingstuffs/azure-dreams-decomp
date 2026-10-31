@@ -29,8 +29,8 @@ typedef struct S_80172C98_0 {
 extern s32 rsin(s32);
 extern s32 rcos(s32);
 
-extern void create_directional_effect(void *, void *,struct SpriteFrameState *);
-extern void create_offset_directional_effect(void *, void *,struct SpriteFrameState *);
+extern void create_directional_effect(ActorRecord *, void *,struct SpriteFrameState *);
+extern void create_offset_directional_effect(ActorRecord *, void *,struct SpriteFrameState *);
 
 extern u8 cyclone_attack_frames[];
 

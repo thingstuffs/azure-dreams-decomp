@@ -36,7 +36,7 @@ void initialize_nine_entry_links(void *entry_data, s32 enable_flag);
 s32 run_object_setup_and_finalize(s32 *value_ptr, s32 context);
 
 /* func_80F908F4.c */
-void begin_actor_hit_reaction_slot_f(void *work, void *part_a, void *part_b, EntityRec *actor);
+void begin_actor_hit_reaction_slot_f(ActorRecord *body, ObjectPosition *position, SpriteFrameState *sprite, EntityRec *actor);
 
 /* func_80F90A60.c */
 void update_actor_timed_visual_slot_f(ActorRecord *state_input, ObjectPosition *motion_input, SpriteFrameState *animation_input, ActorRecord *actor_input);

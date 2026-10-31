@@ -83,9 +83,9 @@ typedef struct {
 } CallbackActorSprite;
 
 /* Update entity callbacks, appearance, movement, and floor contact. */
-void update_entity_callbacks_and_floor(void *entity_state, void *entity_motion, SpriteFrameState *entity_part)
+void update_entity_callbacks_and_floor(ActorRecord *body, ObjectPosition *motion, SpriteFrameState *sprite)
 {
-    CallbackActorState *state_alias = entity_state;
+    CallbackActorState *state_alias = (CallbackActorState *)body;
     u16 part_flags;
     u16 fade_frame;
     u8 *direction_frames;
@@ -97,11 +97,11 @@ void update_entity_callbacks_and_floor(void *entity_state, void *entity_motion, 
     if (g_dungeon_status.flags & 0x2000) {
         EntityCallback early_callback;
 
-        early_callback = ((CallbackActorState *)entity_state)->callback;
+        early_callback = body->unk_8C.run;
         if (early_callback == (EntityCallback)stealth_behavior_entry) {
-            early_callback(entity_state, entity_motion, entity_part, entity_state);
+            early_callback(body, motion, sprite, body);
         } else {
-            ((CallbackActorState *)entity_state)->status &= 0x7F;
+            body->movement_queue_state &= 0x7F;
         }
         return;
     }
@@ -118,131 +118,131 @@ void update_entity_callbacks_and_floor(void *entity_state, void *entity_motion, 
             void *call_part;
             void *call_context;
 
-            call_state = entity_state;
-            call_motion = entity_motion;
-            call_part = entity_part;
-            old_mode = (s8)((CallbackActorState *)entity_state)->action_count.value;
-            call_context = entity_state;
+            call_state = body;
+            call_motion = motion;
+            call_part = sprite;
+            old_mode = (s8)body->pending_turn_updates;
+            call_context = body;
             if (refresh_actor_facing_and_lifecycle(call_state, call_motion, call_part, call_context) != 0) {
                 return;
             }
         }
 
-        callback = ((CallbackActorState *)entity_state)->callback;
+        callback = body->unk_8C.run;
         if (callback != 0) {
-            callback(entity_state, entity_motion, entity_part, entity_state);
+            callback(body, motion, sprite, body);
         }
-        stealth_callbacks[((CallbackActorState *)entity_state)->handler_index](entity_state, entity_motion, entity_part, entity_state);
+        stealth_callbacks[body->action_id.u](body, motion, sprite, body);
 
-        if ((s16)old_mode != ((CallbackActorState *)entity_state)->action_count.signed_value) {
-            try_move_actor_to_valid_position(entity_state, entity_motion, entity_part, entity_state);
+        if ((s16)old_mode != body->pending_turn_updates) {
+            try_move_actor_to_valid_position(body, motion, sprite, body);
         }
 
-        if ((dungeon_floor_flags & 4) && (((CallbackActorState *)entity_state)->fade_frame.signed_value < 0)) {
-            if (((CallbackActorState *)entity_state)->fade_state != 0) {
-                ((CallbackActorState *)entity_state)->fade_frame.signed_value = 0;
-                ((CallbackActorState *)entity_state)->fade_state = 0;
-                entity_part->color.word = 0;
-                register_node((ObjectNodeHeader *)entity_state - 1, project_sprite_chain);
+        if ((dungeon_floor_flags & 4) && (body->unk_A4.halves.low.s < 0)) {
+            if (body->unk_A4.halves.high.s != 0) {
+                body->unk_A4.halves.low.s = 0;
+                body->unk_A4.halves.high.s = 0;
+                sprite->color.word = 0;
+                register_node((ObjectNodeHeader *)body - 1, project_sprite_chain);
             }
         }
 
-        if (((CallbackActorState *)entity_state)->fade_frame.signed_value >= 0) {
-            entity_part->color.word += 0x101010;
-            fade_frame = ((CallbackActorState *)entity_state)->fade_frame.value;
-            ((CallbackActorState *)entity_state)->fade_frame.signed_value = fade_frame + 1;
+        if (body->unk_A4.halves.low.s >= 0) {
+            sprite->color.word += 0x101010;
+            fade_frame = body->unk_A4.halves.low.u;
+            body->unk_A4.halves.low.s = fade_frame + 1;
             if ((s16)fade_frame >= 9) {
-                entity_part->color.word = 0x808080;
-                entity_part->flags &= 0xFFF3;
-                entity_part->clut += 0x80;
-                ((CallbackActorState *)entity_state)->fade_frame.signed_value = -1;
+                sprite->color.word = 0x808080;
+                sprite->flags &= 0xFFF3;
+                sprite->clut += 0x80;
+                body->unk_A4.halves.low.s = -1;
             }
         }
 
-        part_flags = entity_part->flags;
+        part_flags = sprite->flags;
         if (!(part_flags & 0x8000)) {
             view_direction = (g_game_work.view.camera_rotation.parts.viewAngle + state_alias->facing + 0x100) >> 9;
             direction = view_direction & 7;
-            if (((CallbackActorState *)entity_state)->sprite_direction != direction) {
-                direction_frames = *(u8 **)&entity_part->frameTable;
+            if (body->unk_94 != direction) {
+                direction_frames = *(u8 **)&sprite->frameTable;
                 if (direction_frames != 0) {
-                    select_indirect_table_entry(entity_part, direction_frames[direction], entity_part->unk_04);
+                    select_indirect_table_entry(sprite, direction_frames[direction], sprite->unk_04);
                 }
-                ((CallbackActorState *)entity_state)->sprite_direction = direction;
+                body->unk_94 = direction;
             }
 
             direction_enabled = dir_sprite_flag[direction];
             if (direction_enabled != 0) {
-                entity_part->flags |= 1;
+                sprite->flags |= 1;
             } else {
-                entity_part->flags &= 0xFFFE;
+                sprite->flags &= 0xFFFE;
             }
 
             if (!(state_alias->flags & 0x20)) {
-                if (!(entity_part->flags & 0x40)) {
-                    advance_sprite_animation_and_textures(entity_part);
+                if (!(sprite->flags & 0x40)) {
+                    advance_sprite_animation_and_textures(sprite);
                 }
             } else {
-                entity_part->flags |= 0x7000;
+                sprite->flags |= 0x7000;
             }
-            apply_monster_koyaw_data(state_alias->flags, &entity_part->color.word);
+            apply_monster_koyaw_data(state_alias->flags, &sprite->color.word);
         } else {
             if (part_flags & 0x800) {
-                entity_part->flags = part_flags & 0x8FFF;
+                sprite->flags = part_flags & 0x8FFF;
             } else {
-                entity_part->flags = part_flags | 0x7000;
+                sprite->flags = part_flags | 0x7000;
             }
         }
 
-        ((CallbackActorMotion *)entity_motion)->x.value += ((CallbackActorMotion *)entity_motion)->velocity_x;
-        ((CallbackActorMotion *)entity_motion)->y.value += ((CallbackActorMotion *)entity_motion)->velocity_y;
+        motion->x.v += motion->velocity_x;
+        motion->y.v += motion->velocity_y;
 
-        if (((CallbackActorState *)entity_state)->action_flags & 8) {
-            ((CallbackActorState *)entity_state)->fall_ticks.signed_value = 0;
+        if (body->action_state_flags & 8) {
+            body->unk_9D.s = 0;
         } else {
-            ((CallbackActorMotion *)entity_motion)->velocity_z += ((CallbackActorState *)entity_state)->fall_ticks.signed_value * 0x14000;
-            ((CallbackActorState *)entity_state)->fall_ticks.value++;
+            motion->velocity_z += body->unk_9D.s * 0x14000;
+            body->unk_9D.u++;
         }
 
-        ((CallbackActorState *)entity_state)->height_offset.value += ((CallbackActorMotion *)entity_motion)->velocity_z;
-        if (!(((CallbackActorState *)entity_state)->action_flags & 4)) {
-            sample_height = sample_terrain_surface_height(((CallbackActorMotion *)entity_motion)->x.halves.integer, ((CallbackActorMotion *)entity_motion)->y.halves.integer,
+        body->unk_90.value += motion->velocity_z;
+        if (!(body->action_state_flags & 4)) {
+            sample_height = sample_terrain_surface_height(((CallbackActorMotion *)motion)->x.halves.integer, ((CallbackActorMotion *)motion)->y.halves.integer,
                                           (s16)(state_alias->floor_height - 0x20));
             if ((s16)sample_height < 0x200) {
                 base_height = state_alias->floor_height;
-                if ((((CallbackActorState *)entity_state)->height_offset.signed_halves.integer + base_height) < (s16)sample_height) {
+                if ((body->unk_90.parts.high.s + base_height) < (s16)sample_height) {
                     state_alias->flags &= 0xF7FFFFFF;
                 } else {
                     if ((s16)sample_height >= base_height) {
-                        ((CallbackActorState *)entity_state)->height_offset.value = 0;
-                        ((CallbackActorMotion *)entity_motion)->velocity_z = 0;
+                        body->unk_90.value = 0;
+                        motion->velocity_z = 0;
                         state_alias->flags |= 0x08000000;
-                        ((CallbackActorState *)entity_state)->fall_ticks.signed_value = 0;
+                        body->unk_9D.s = 0;
                     } else {
-                        ((CallbackActorMotion *)entity_motion)->velocity_z = 0;
+                        motion->velocity_z = 0;
                         state_alias->flags |= 0x08000000;
-                        ((CallbackActorState *)entity_state)->fall_ticks.signed_value = 0;
-                        ((CallbackActorState *)entity_state)->height_offset.signed_halves.integer = (s16)sample_height - state_alias->floor_height;
+                        body->unk_9D.s = 0;
+                        body->unk_90.parts.high.s = (s16)sample_height - state_alias->floor_height;
                     }
                 }
                 state_flags = state_alias->flags;
                 if (state_flags & 0x40000000) {
                     state_alias->flags = state_flags & 0xBFFFFFFF;
-                    sample_height = sample_terrain_surface_height((entity_part->tile_x << 6) | 0x20,
-                                                 (entity_part->tile_y << 6) | 0x20,
+                    sample_height = sample_terrain_surface_height((sprite->tile_x << 6) | 0x20,
+                                                 (sprite->tile_y << 6) | 0x20,
                                                  (s16)(state_alias->floor_height - 0x20));
-                    ((CallbackActorState *)entity_state)->height_offset.signed_halves.integer += state_alias->floor_height - sample_height;
+                    body->unk_90.parts.high.s += state_alias->floor_height - sample_height;
                     state_alias->floor_height = sample_height;
                 }
-                ((CallbackActorMotion *)entity_motion)->z.signed_halves.integer = state_alias->floor_height + ((CallbackActorState *)entity_state)->height_offset.unsigned_halves.integer;
-                entity_part->flags |= 0x40;
+                motion->z.w.i = state_alias->floor_height + body->unk_90.parts.high.u;
+                sprite->flags |= 0x40;
                 return;
             }
         }
         state_alias->flags &= 0xF7FFFFFF;
 
-        ((CallbackActorMotion *)entity_motion)->z.signed_halves.integer = state_alias->floor_height + ((CallbackActorState *)entity_state)->height_offset.unsigned_halves.integer;
-        entity_part->flags |= 0x40;
+        motion->z.w.i = state_alias->floor_height + body->unk_90.parts.high.u;
+        sprite->flags |= 0x40;
     }
 
     return;

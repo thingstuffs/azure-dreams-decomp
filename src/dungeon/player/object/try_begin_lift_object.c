@@ -27,11 +27,6 @@ typedef struct S_8008C5C4_2 {
     ActorRecord *unk_124;
 } S_8008C5C4_2;   /* arg0 in try_begin_lift_object */
 
-typedef struct S_8008C5C4_3 {
-    u8 pad_00[0x13];
-    u8 unk_13;
-    s32 unk_14;
-} S_8008C5C4_3;
 
 typedef struct S_8008C5C4_4 {
     u8 pad_00[0x1484];
@@ -60,13 +55,13 @@ s32 try_begin_lift_object(S_8008C5C4_2 *action, void *unused, SpriteAnimationTab
     if (target_result != 0) {
         result = -1;
         if (target_result <= 0) {
-            if (!(((S_8008C5C4_3 *)target_result)->unk_14 & 0x80000)) {
+            if (!(((ActorRecord *)target_result)->flags14 & 0x80000)) {
                 action->unk_11C = target_result;
                 action->unk_124 = 0;
             } else {
                 mode = *(s32 *)0x80012090;
                 if (mode == 1) {
-                    target_kind = ((S_8008C5C4_3 *)target_result)->unk_13;
+                    target_kind = ((ActorRecord *)target_result)->species;
                     if ((target_kind == 0x39) || (target_kind == 2)) {
                         if ((g_game_work.pressed_buttons) & 0x40) {
                             play_sound_if_enabled(0x506);

@@ -1198,7 +1198,7 @@ void complete_staged_destination_movement(ActorRecord *action, ObjectPosition *m
 }
 
 /* Starts a targeted spell with a two-row effect, waits for its animation, and restores actor movement. */
-void advance_actor_stored_path_2(void *action, ObjectPosition *motion, void *sprite, void *actor) {
+void advance_actor_stored_path_2(ActorRecord *body, ObjectPosition *motion, SpriteFrameState *sprite, ActorRecord *actor) {
     u16 pos[3];
     s16 is_special;
     u8 *item;
@@ -1206,11 +1206,11 @@ void advance_actor_stored_path_2(void *action, ObjectPosition *motion, void *spr
     u8 *state;
 
     is_special = 0;
-    state = (u8 *)(((Rec_func_80172CC0_arg0 *)action)->unk_9B.as_u8);
+    state = (u8 *)(body->action_phase.u);
     switch ((u8)state) {
     case 0:
         if ((*(u32 *)((u8 *)actor + 0x1C)) & ACTOR_PLAYER_SIDE) {
-            u32 kind = ((*(u16 *)((u8 *)actor + 0x46)) & 0x3FFF) - 1;
+            u32 kind = (actor->action_flags & 0x3FFF) - 1;
             switch (kind) {
             case 6:
                 is_special = 1;
@@ -1235,7 +1235,7 @@ void advance_actor_stored_path_2(void *action, ObjectPosition *motion, void *spr
                 break;
             }
         } else {
-            s32 kind = (*(u16 *)((u8 *)actor + 0x46)) & 0x3FFF;
+            s32 kind = actor->action_flags & 0x3FFF;
             switch (kind) {
             case 3:
                 item = (u8 *)actor + 0xE;
@@ -1253,14 +1253,14 @@ void advance_actor_stored_path_2(void *action, ObjectPosition *motion, void *spr
         }
         if (*item != 0) {
 
-            ((Rec_func_80172CC0_arg0 *)action)->unk_98 &= 0xFF7F;
+            body->action_state_flags &= 0xFF7F;
             {
                 s32 use_existing;
 
                 use_existing = is_special;
                 if (use_existing) {
                     node = primary_actor_record;
-                    (*(void * *)((u8 *)actor + 0x60)) = node;
+                    actor->target = node;
                     goto copy_existing;
                 }
             }
@@ -1270,14 +1270,14 @@ void advance_actor_stored_path_2(void *action, ObjectPosition *motion, void *spr
                 u8 item_id = *item;
                 u8 *item_entry = item_table + item_id * 20;
                 if (item_entry[0x12] == 2) {
-                    node = (*(void * *)((u8 *)actor + 0x60));
+                    node = actor->target;
                     if (node != 0) {
 copy_existing:
                         {
 
                             state = ((R07_80172CC0_S_80172CC0_1_pre *)node)[-1].unk_00;
-                            (*(u8 *)((u8 *)actor + 0x72)) = ((R07_80172CC0_S_80172CC0_2 *)state)->unk_24;
-                            (*(u8 *)((u8 *)actor + 0x73)) = ((R07_80172CC0_S_80172CC0_2 *)state)->unk_25;
+                            actor->target_tile_x = ((R07_80172CC0_S_80172CC0_2 *)state)->unk_24;
+                            actor->target_tile_y = ((R07_80172CC0_S_80172CC0_2 *)state)->unk_25;
                         }
 
                     }
@@ -1285,29 +1285,29 @@ copy_existing:
                     s8 x;
                     s8 y;
 
-                    ((ActorRecord *)actor)->target = (void *)scan_actor_along_heading(
+                    actor->target = (void *)scan_actor_along_heading(
                         actor,
-                        ((SpriteFrameState *)sprite)->tile_x,
-                        ((SpriteFrameState *)sprite)->tile_y,
-                        ((ActorRecord *)actor)->facing,
+                        sprite->tile_x,
+                        sprite->tile_y,
+                        actor->facing,
                         0x10);
-                    x = ((ActorRecord *)actor)->target_tile_x;
-                    y = ((ActorRecord *)actor)->target_tile_y;
+                    x = actor->target_tile_x;
+                    y = actor->target_tile_y;
                     x = abs(x);
                     y = abs(y);
-                    ((ActorRecord *)actor)->target_tile_x = x;
-                    ((ActorRecord *)actor)->target_tile_y = y;
+                    actor->target_tile_x = x;
+                    actor->target_tile_y = y;
                 }
             }
 
             pos[0] = ((u16)motion->x.w.i);
             pos[1] = ((u16)motion->y.w.i);
             pos[2] = ((u16)motion->z.w.i);
-            if (create_actor_spell_effect(actor, item, is_special, (u8 *)action + 0x98)) {
-                ((SpriteFrameState *)sprite)->flags &= 0xF7FF;
+            if (create_actor_spell_effect(actor, item, is_special, (u8 *)body + 0x98)) {
+                sprite->flags &= 0xF7FF;
                 play_sound_if_enabled(0x703);
                 create_two_row_object_group(pos, (s16)((*item - 1) % 3));
-                ((Rec_func_80172CC0_arg0 *)action)->unk_9B.as_u8++;
+                body->action_phase.u++;
                 return;
             }
             return;
@@ -1316,7 +1316,7 @@ copy_existing:
         motion->velocity_z = 0;
         motion->velocity_y = 0;
         motion->velocity_x = 0;
-        set_record_integer_tile_center(motion, ((SpriteFrameState *)sprite)->tile_x, ((SpriteFrameState *)sprite)->tile_y);
+        set_record_integer_tile_center(motion, sprite->tile_x, sprite->tile_y);
         g_dungeon_status.active_actor = 0;
         {
             u8 *active_entity = (u8 *)primary_actor_record;
@@ -1324,74 +1324,74 @@ copy_existing:
         }
         advance_status_timers(actor);
         (*(u8 *)((u8 *)actor + 0x6D))--;
-        ((Rec_func_80172CC0_arg0 *)action)->unk_8C.as_pv = ((void *)dispatch_monster_move_attack_spell);
-        (*(u8 *)((u8 *)actor + 0x73)) = 0;
-        (*(u8 *)((u8 *)actor + 0x72)) = 0;
-        (*(u16 *)((u8 *)actor + 0x46)) &= 0x7FFF;
+        body->unk_8C.address = ((void *)dispatch_monster_move_attack_spell);
+        actor->target_tile_y = 0;
+        actor->target_tile_x = 0;
+        actor->action_flags &= 0x7FFF;
         return;
     case 1:
         item = (u8 *)(s32)get_cd_command_queue_depth();
         if (item) {
-            ((SpriteFrameState *)sprite)->flags |= 0x800;
+            sprite->flags |= 0x800;
             return;
         }
-        ((SpriteFrameState *)sprite)->flags &= 0xF7FF;
-        ((Rec_func_80172CC0_arg0 *)action)->unk_9B.as_u8++;
+        sprite->flags &= 0xF7FF;
+        body->action_phase.u++;
                         /* fall through */
 
     case 2:
-        if (!(((SpriteFrameState *)sprite)->flags & 0xE000)) {
+        if (!(sprite->flags & 0xE000)) {
             return;
         }
-        ((SpriteFrameState *)sprite)->frameTable = ((u8 *)D_80174180);
+        sprite->frameTable = ((u8 *)D_80174180);
         select_sprite_entry(
             sprite,
-            ((u8 *)D_80174180)[((g_game_work.view.camera_rotation.parts.viewAngle + (*(s16 *)((u8 *)actor + 0x2A)) + 0x100) >> 9) & 7],
+            ((u8 *)D_80174180)[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
             0);
-        ((Rec_func_80172CC0_arg0 *)action)->unk_A8 = 0x10;
-        ((Rec_func_80172CC0_arg0 *)action)->unk_9B.as_u8++;
+        body->unk_A8.u = 0x10;
+        body->action_phase.u++;
         return;
 
     case 3:
         {
-            s16 sound_timer = ((Rec_func_80172CC0_arg0 *)action)->unk_A8 - 1;
-            ((Rec_func_80172CC0_arg0 *)action)->unk_A8 = sound_timer;
+            s16 sound_timer = body->unk_A8.u - 1;
+            body->unk_A8.u = sound_timer;
             if (sound_timer == 0) {
                 play_sound_if_enabled(0x610);
             }
         }
 
-        if ((((SpriteFrameState *)sprite)->unk_04 == 12 &&
-            (((SpriteFrameState *)sprite)->flags & 0x1000)) ||
-            (((SpriteFrameState *)sprite)->flags & 0xE000)) {
-            ((SpriteFrameState *)sprite)->flags |= 0x800;
-            ((Rec_func_80172CC0_arg0 *)action)->unk_96.as_u16 = 0x10;
-            ((Rec_func_80172CC0_arg0 *)action)->unk_98 |= 0x80;
+        if ((sprite->unk_04 == 12 &&
+            (sprite->flags & 0x1000)) ||
+            (sprite->flags & 0xE000)) {
+            sprite->flags |= 0x800;
+            body->action_timer.u = 0x10;
+            body->action_state_flags |= 0x80;
         }
 
         {
-            u16 anim_timer = ((Rec_func_80172CC0_arg0 *)action)->unk_96.as_u16 - 1;
-            ((Rec_func_80172CC0_arg0 *)action)->unk_96.as_u16 = anim_timer;
+            u16 anim_timer = body->action_timer.u - 1;
+            body->action_timer.u = anim_timer;
             if ((s16)anim_timer <= 0) {
-                ((Rec_func_80172CC0_arg0 *)action)->unk_96.as_u16 = 0;
-                ((SpriteFrameState *)sprite)->flags &= 0xF7FF;
+                body->action_timer.u = 0;
+                sprite->flags &= 0xF7FF;
             }
         }
 
-        if (!(((SpriteFrameState *)sprite)->flags & 0xE000)) {
+        if (!(sprite->flags & 0xE000)) {
             return;
         }
 
         motion->velocity_z = 0;
         motion->velocity_y = 0;
         motion->velocity_x = 0;
-        set_record_integer_tile_center(motion, ((SpriteFrameState *)sprite)->tile_x, ((SpriteFrameState *)sprite)->tile_y);
+        set_record_integer_tile_center(motion, sprite->tile_x, sprite->tile_y);
 
-        if (((SpriteFrameState *)sprite)->frameTable != ((u8 *)grineut_frame_set_1)) {
-            ((SpriteFrameState *)sprite)->frameTable = ((u8 *)grineut_frame_set_1);
+        if (sprite->frameTable != ((u8 *)grineut_frame_set_1)) {
+            sprite->frameTable = ((u8 *)grineut_frame_set_1);
             select_sprite_entry(
                 sprite,
-                ((u8 *)grineut_frame_set_1)[((g_game_work.view.camera_rotation.parts.viewAngle + (*(s16 *)((u8 *)actor + 0x2A)) + 0x100) >> 9) & 7],
+                ((u8 *)grineut_frame_set_1)[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
                 0);
         }
 
@@ -1401,15 +1401,15 @@ copy_existing:
             }
             g_dungeon_status.activity_counts.parts.pending_action_count--;
         }
-        ((SpriteFrameState *)sprite)->flags &= 0xF7FF;
-        ((Rec_func_80172CC0_arg0 *)action)->unk_8C.as_pv = ((void *)dispatch_monster_move_attack_spell);
+        sprite->flags &= 0xF7FF;
+        body->unk_8C.address = ((void *)dispatch_monster_move_attack_spell);
         advance_status_timers(actor);
-        if ((*(s8 *)((u8 *)actor + 0x6D)) > 0) {
+        if (actor->pending_turn_updates > 0) {
             (*(u8 *)((u8 *)actor + 0x6D))--;
         }
-        (*(u8 *)((u8 *)actor + 0x73)) = 0;
-        (*(u8 *)((u8 *)actor + 0x72)) = 0;
-        (*(u16 *)((u8 *)actor + 0x46)) &= 0x7FFF;
+        actor->target_tile_y = 0;
+        actor->target_tile_x = 0;
+        actor->action_flags &= 0x7FFF;
         play_sound_if_enabled(AUDIO_FADE_CD_FAST);
         break;
 

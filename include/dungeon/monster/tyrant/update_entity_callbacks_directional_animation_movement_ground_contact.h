@@ -33,6 +33,6 @@ extern void func_80042984(void *entity);
 extern void advance_sprite_animation_and_textures(void *entity);
 extern s32 refresh_actor_facing_and_lifecycle();
 extern T_80170AA4_EntityCallback tyrant_callbacks[];
-void update_entity_callbacks_directional_animation_movement_ground_contact(void *actor, TrailMotion *motion, SpriteFrameState *part);
+void update_entity_callbacks_directional_animation_movement_ground_contact(ActorRecord *body, TrailMotion *motion, SpriteFrameState *sprite);
 void update_dungeon_actor_behavior(ActorRecord *actor_arg, ObjectPosition *context_arg, SpriteFrameState *map_object_arg, ActorRecord *actor_state_arg);
 #endif

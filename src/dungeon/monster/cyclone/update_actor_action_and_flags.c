@@ -8,18 +8,6 @@
 #include "records/Rec_func_800AA258_arg2.h"
 #include "shared/entity.h"
 
-typedef struct S_801741CC_0 {
-    u8 pad_00[0x8C];
-    void * unk_8C;
-    u8 pad_90[0x2];
-    u16 unk_92;
-    u8 pad_94[0x7];
-    u8 unk_9B;
-    u8 pad_9C[0xA];
-    u16 unk_A6;
-    u8 pad_A8[0x4];
-    u16 unk_AC;
-} S_801741CC_0;   /* arg0 in update_actor_action_and_flags */
 
 extern void select_sprite_entry(void *, s32, s32);
 extern s16 check_entity_relation(ActorRecord *entry, ActorRecord *anchor);
@@ -101,9 +89,9 @@ void update_actor_action_and_flags(ActorRecord *actor, ObjectPosition *action_ct
 
             begin_actor_move_to_target_facing(actor, action_ctx, anim, entity);
             stat_value = actor->unk_90.parts.high.u;
-            stat_delta = ((S_801741CC_0 *)actor)->unk_A6;
-            ((S_801741CC_0 *)actor)->unk_A6 = 0;
-            ((S_801741CC_0 *)actor)->unk_AC = 0;
+            stat_delta = actor->unk_A4.halves.high.u;
+            actor->unk_A4.halves.high.u = 0;
+            actor->unk_AC.halves.low.u = 0;
             actor->unk_90.parts.high.u = stat_value - stat_delta;
             func_80174520(actor, action_ctx, anim, entity);
             return;

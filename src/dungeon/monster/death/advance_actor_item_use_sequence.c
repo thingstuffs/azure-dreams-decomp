@@ -76,23 +76,10 @@ typedef struct S_801732C4_5 {
 
    /* transform in advance_actor_item_use_sequence_2 */
 
-typedef struct S_801732C4_7 {
-    u8 pad_00[0x6];
-    s16 unk_06;
-    void * unk_08;
-    s32 unk_0C;
-    s16 unk_10;
-    u8 pad_12[0x2];
-    u16 unk_14;
-    u8 pad_16[0x6];
-    s16 unk_1C;
-    s16 unk_1E;
-} S_801732C4_7;   /* display in advance_actor_item_use_sequence_2 */
-
 /* Advances an actor's item-use sequence, animation, and particle effects. */
 /* Starts a targeted spell, emits returning particles and a 20-particle burst, then restores the actor's
  * idle state. */
-void advance_actor_item_use_sequence_2(void *action, ObjectPosition *motion, void *sprite, ActorRecord *actor)
+void advance_actor_item_use_sequence_2(ActorRecord *body, ObjectPosition *motion, SpriteFrameState *sprite, ActorRecord *actor)
 {
     u8 *item_slot;
     s32 special;
@@ -102,7 +89,7 @@ void advance_actor_item_use_sequence_2(void *action, ObjectPosition *motion, voi
     S_801732C4_1_pre *target;
 
     special = 0;
-    state = ((S_801732C4_0 *)action)->unk_9B;
+    state = body->action_phase.u;
     switch (state) {
     case 0:
         if ((((u32)actor->flags1C)) & ACTOR_PLAYER_SIDE) {
@@ -150,7 +137,7 @@ void advance_actor_item_use_sequence_2(void *action, ObjectPosition *motion, voi
         }
 
         if (*item_slot != 0) {
-            ((S_801732C4_0 *)action)->unk_98 &= 0xFF7F;
+            body->action_state_flags &= 0xFF7F;
             {
                 s16 special_test;
 
@@ -183,7 +170,7 @@ void advance_actor_item_use_sequence_2(void *action, ObjectPosition *motion, voi
 
 
                         (actor->target) = scan_actor_along_heading(
-                            actor, ((Rec_D_80082E80 *)sprite)->unk_24, ((Rec_D_80082E80 *)sprite)->unk_25,
+                            actor, sprite->tile_x, sprite->tile_y,
                             (actor->facing), 0x10);
                         actor->target_tile_x = abs(actor->target_tile_x);
                         actor->target_tile_y = abs(actor->target_tile_y);
@@ -191,23 +178,23 @@ void advance_actor_item_use_sequence_2(void *action, ObjectPosition *motion, voi
                 }
             }
 
-            if (create_actor_spell_effect(actor, item_slot, special, (u8 *)action + 0x98) == 0) {
+            if (create_actor_spell_effect(actor, item_slot, special, (u8 *)body + 0x98) == 0) {
                 return;
             }
-            next_state = ((S_801732C4_0 *)action)->unk_9B;
+            next_state = body->action_phase.u;
             next_state++;
-            ((S_801732C4_0 *)action)->unk_9B = next_state;
+            body->action_phase.u = next_state;
             return;
         }
         motion->velocity_z = 0;
         motion->velocity_y = 0;
         motion->velocity_x = 0;
-        set_record_integer_tile_center(motion, ((Rec_D_80082E80 *)sprite)->unk_24, ((Rec_D_80082E80 *)sprite)->unk_25);
+        set_record_integer_tile_center(motion, sprite->tile_x, sprite->tile_y);
         g_dungeon_status.active_actor = 0;
-        (*(u16 *)((u8 *)primary_actor_record + 0xA6))--;
+        primary_actor_record->unk_A4.halves.high.u--;
         advance_status_timers(actor);
         actor->pending_turn_updates--;
-        ((S_801732C4_0 *)action)->unk_8C = &death_action_resume_address;
+        body->unk_8C.address = &death_action_resume_address;
         actor->target_tile_y = 0;
         actor->target_tile_x = 0;
         (actor->action_flags) &= 0x7FFF;
@@ -215,11 +202,11 @@ void advance_actor_item_use_sequence_2(void *action, ObjectPosition *motion, voi
 
     case 1:
         if (get_cd_command_queue_depth()) {
-            ((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v |= 0x800;
+            sprite->flags |= 0x800;
             return;
         }
-        ((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v &= 0xF7FF;
-        ((S_801732C4_0 *)action)->unk_9B++;
+        sprite->flags &= 0xF7FF;
+        body->action_phase.u++;
         play_sound_if_enabled(0x703);
 
     case 2:
@@ -227,29 +214,29 @@ void advance_actor_item_use_sequence_2(void *action, ObjectPosition *motion, voi
         u16 flags;
         s16 timer;
 
-        flags = ((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v;
+        flags = sprite->flags;
         if (flags & 0x8000) {
-            next_state = ((S_801732C4_0 *)action)->unk_9B;
-            ((S_801732C4_0 *)action)->unk_96.u = 0;
+            next_state = body->action_phase.u;
+            body->action_timer.u = 0;
             next_state++;
-            ((S_801732C4_0 *)action)->unk_9B = next_state;
+            body->action_phase.u = next_state;
             return;
         }
-        if (((Rec_D_80082E80 *)sprite)->unk_04.as_s8 == 2 && (flags & 0x1000)) {
-            ((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v = flags | 0x800;
-            ((S_801732C4_0 *)action)->unk_96.u = 0x16;
+        if (sprite->unk_04 == 2 && (flags & 0x1000)) {
+            sprite->flags = flags | 0x800;
+            body->action_timer.u = 0x16;
         }
-        if (((Rec_D_80082E80 *)sprite)->unk_04.as_s8 < 2) {
+        if (sprite->unk_04 < 2) {
             return;
         }
-        timer = ((S_801732C4_0 *)action)->unk_96.u - 1;
-        ((S_801732C4_0 *)action)->unk_96.u = timer;
+        timer = body->action_timer.u - 1;
+        body->action_timer.u = timer;
         if (timer <= 0) {
-            ((S_801732C4_0 *)action)->unk_96.u = 0;
-            ((S_801732C4_0 *)action)->unk_9B++;
-            ((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v &= 0xF7FF;
+            body->action_timer.u = 0;
+            body->action_phase.u++;
+            sprite->flags &= 0xF7FF;
         }
-        if (((S_801732C4_0 *)action)->unk_96.s >= 7) {
+        if (body->action_timer.s >= 7) {
             i = 0;
             do {
                 s32 brightness;
@@ -262,7 +249,7 @@ void advance_actor_item_use_sequence_2(void *action, ObjectPosition *motion, voi
                 offset_x = (s16)((rand() & 0x7F) - 0x40);
                 offset_y = (s16)((rand() & 0x7F) - 0x40);
                 offset_z = (rand() & 0x7F) - 0x40;
-                create_parent_return_effect((u8 *)action - 0x20, 0, 0x00C0C0C0,
+                create_parent_return_effect((u8 *)body - 0x20, 0, 0x00C0C0C0,
                               brightness, offset_x, offset_y, offset_z);
             } while ((u16)i < 5);
         }
@@ -276,7 +263,7 @@ void advance_actor_item_use_sequence_2(void *action, ObjectPosition *motion, voi
             u16 timer;
             u16 flags;
 
-            timer = ((S_801732C4_0 *)action)->unk_96.u;
+            timer = body->action_timer.u;
             if (!(timer & 1) || (s16)timer < 0x13) {
                 return;
             }
@@ -310,13 +297,13 @@ void advance_actor_item_use_sequence_2(void *action, ObjectPosition *motion, voi
         return;
 
     case 3:
-        if ((((Rec_D_80082E80 *)sprite)->unk_04.as_s8 == 5 &&
-             (((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0x1000)) ||
-            (((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0xE000)) {
-            ((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v |= 0x800;
-            ((S_801732C4_0 *)action)->unk_96.u = 0x14;
-            ((S_801732C4_0 *)action)->unk_98 |= 0x80;
-            ((S_801732C4_0 *)action)->unk_9B++;
+        if ((sprite->unk_04 == 5 &&
+             (sprite->flags & 0x1000)) ||
+            (sprite->flags & 0xE000)) {
+            sprite->flags |= 0x800;
+            body->action_timer.u = 0x14;
+            body->action_state_flags |= 0x80;
+            body->action_phase.u++;
             i = 0;
             do {
                 {
@@ -324,7 +311,7 @@ void advance_actor_item_use_sequence_2(void *action, ObjectPosition *motion, voi
 
                     i++;
                     brightness = (rand() & 0xFF) | 0x80;
-                    spawn_parent_offset_random_motion_effect((u8 *)action - 0x20, 0, 0x00C0C0C0,
+                    spawn_parent_offset_random_motion_effect((u8 *)body - 0x20, 0, 0x00C0C0C0,
                                   brightness, 0, 0, 0);
                 }
                 if ((u16)i >= 20) {
@@ -339,45 +326,45 @@ void advance_actor_item_use_sequence_2(void *action, ObjectPosition *motion, voi
         s16 timer;
 
         if ((g_dungeon_status.active_actor) == 0) {
-            ((S_801732C4_0 *)action)->unk_96.u = 0;
+            body->action_timer.u = 0;
         }
-        timer = ((S_801732C4_0 *)action)->unk_96.u - 1;
-        ((S_801732C4_0 *)action)->unk_96.u = timer;
-        if (timer > 0 && !(((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0xE000)) {
+        timer = body->action_timer.u - 1;
+        body->action_timer.u = timer;
+        if (timer > 0 && !(sprite->flags & 0xE000)) {
             return;
         }
-        ((S_801732C4_0 *)action)->unk_96.u = 0;
-        ((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v &= 0xF7FF;
-        next_state = ((S_801732C4_0 *)action)->unk_9B;
+        body->action_timer.u = 0;
+        sprite->flags &= 0xF7FF;
+        next_state = body->action_phase.u;
         next_state++;
-        ((S_801732C4_0 *)action)->unk_9B = next_state;
+        body->action_phase.u = next_state;
         return;
     }
 
     case 5:
-        if (!(((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0xE000)) {
+        if (!(sprite->flags & 0xE000)) {
             return;
         }
         motion->velocity_z = 0;
         motion->velocity_y = 0;
         motion->velocity_x = 0;
-        set_record_integer_tile_center(motion, ((Rec_D_80082E80 *)sprite)->unk_24, ((Rec_D_80082E80 *)sprite)->unk_25);
+        set_record_integer_tile_center(motion, sprite->tile_x, sprite->tile_y);
         if (((Rec_D_80082E80 *)sprite)->unk_2C.as_pu8 != death_direction_frames) {
             u8 *anim_table;
             s32 direction;
             s32 saved_a4;
 
             anim_table = death_direction_frames;
-            (*(u8 * *)((u8 *)sprite + 0x2C)) = anim_table;
+            sprite->frameTable = anim_table;
             direction = ((g_game_work.view.camera_rotation.parts.viewAngle + (actor->facing) + 0x100) >> 9) & 7;
             select_sprite_entry(sprite, anim_table[direction], 2);
-            ((Rec_D_80082E80 *)sprite)->unk_05.as_u8 = 1;
-            saved_a4 = ((S_801732C4_0 *)action)->unk_A4.at00.v;
-            ((S_801732C4_0 *)action)->unk_A4.at02.v = 0;
-            ((S_801732C4_0 *)action)->unk_B8 = 0;
-            ((S_801732C4_0 *)action)->unk_AC = 0;
-            ((S_801732C4_0 *)action)->unk_B0 = 0;
-            ((S_801732C4_0 *)action)->unk_A8 = saved_a4;
+            sprite->frame_ticks = 1;
+            saved_a4 = body->unk_A4.value;
+            body->unk_A4.halves.high.u = 0;
+            ((S_801732C4_0 *)body)->unk_B8 = 0;
+            ((S_801732C4_0 *)body)->unk_AC = 0;
+            ((S_801732C4_0 *)body)->unk_B0 = 0;
+            ((S_801732C4_0 *)body)->unk_A8 = saved_a4;
         }
         {
 
@@ -385,7 +372,7 @@ void advance_actor_item_use_sequence_2(void *action, ObjectPosition *motion, voi
                 return;
             }
             g_dungeon_status.activity_counts.parts.pending_action_count--;
-            ((S_801732C4_0 *)action)->unk_8C = &death_action_resume_address;
+            body->unk_8C.address = &death_action_resume_address;
             advance_status_timers(actor);
             actor->target_tile_y = 0;
             actor->target_tile_x = 0;

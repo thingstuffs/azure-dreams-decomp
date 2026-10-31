@@ -34,7 +34,7 @@ typedef struct S_800BD45C_0_pre {
 
 
 /* Applies an item's effect to an entity and consumes the processed item. */
-s32 use_item_to_cure_poison(void *entity, DungeonItemEntry *item, s16 action) {
+s32 use_item_to_cure_poison(ActorRecord *entity, DungeonItemEntry *item, s16 action) {
     u16 *type_flags;
     DungeonGlobalStatus *item_counts;
 
@@ -56,7 +56,7 @@ s32 use_item_to_cure_poison(void *entity, DungeonItemEntry *item, s16 action) {
         }
     }
     create_timed_paired_particle_emitter(((S_800BD45C_0_pre *)entity)[-1].unk_00, 0x802080, entity);
-    if ((((EntityRec *)entity)->flags14 & ACTOR_PARTY_MEMBER) && !(((EntityRec *)entity)->flags1C & ACTOR_POISONED)) {
+    if ((entity->flags14 & ACTOR_PARTY_MEMBER) && !(entity->flags1C & ACTOR_POISONED)) {
         void *message_text;
         void *message_pos;
         void *message_start;

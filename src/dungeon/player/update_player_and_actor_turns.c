@@ -173,7 +173,7 @@ typedef struct S_80089AA0_27 {
 } S_80089AA0_27;   /* root_page in update_player_and_actor_turns */
 
 /* Updates the actor, applies movement and input, and processes dungeon actor turns. */
-void update_player_and_actor_turns(void *in_actor, void *in_motion, void *in_sprite) {
+void update_player_and_actor_turns(ActorRecord *in_actor, void *in_motion, void *in_sprite) {
     void *sprite_or_root;
     void *root;
     void *motion_or_count;

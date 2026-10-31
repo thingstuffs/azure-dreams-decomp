@@ -15,11 +15,19 @@ struct S_80041E28_Dst;
 struct S_80041E28_Src;
 struct S_800422DC_Other;
 struct S_800422DC_Self;
-struct S_80043FD0;
 struct SpriteAttachment;
 struct S_800510A0;
 struct S_80051164;
 struct Task;
+
+/* Callback body for a deferred resource transition task. */
+typedef struct ScheduleDeferredResourceTransitionBody {
+    /* 0x00 */ void *(*load_or_dispatch)(void *);
+    /* 0x04 */ void *resource;
+    /* 0x08 */ s16 slot_index;
+    /* 0x0A */ s16 state;
+    /* 0x0C */ s16 slot_argument;
+} ScheduleDeferredResourceTransitionBody;
 
 /* build_entity_slot_snapshot.c */
 void build_entity_slot_snapshot(struct S_800422DC_Self *snapshot, struct S_800422DC_Other *source);
@@ -179,7 +187,7 @@ void start_scene_load_task(struct S_80051164 *owner);
 void update_controller_buttons_and_triggers(void);
 
 /* update_deferred_resource_transition_task.c */
-void update_deferred_resource_transition_task(void *data);
+void update_deferred_resource_transition_task(ScheduleDeferredResourceTransitionBody *data);
 
 /* upload_dispatch_entry_images.c */
 void upload_dispatch_entry_images(u16 index);

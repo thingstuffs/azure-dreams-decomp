@@ -21,7 +21,7 @@ extern u8 D_800E1350[];
 
 
 /* Handles an entity action, advancing capped counters and updating dungeon state. */
-s32 use_item_to_increase_attack(void *entity, DungeonItemEntry *action_id, s16 action_param)
+s32 use_item_to_increase_attack(ActorRecord *entity, DungeonItemEntry *action_id, s16 action_param)
 {
     u32 progress_value;
     u8 progress;
@@ -42,7 +42,7 @@ s32 use_item_to_increase_attack(void *entity, DungeonItemEntry *action_id, s16 a
         }
     }
 
-    if (((EntityRec *)entity)->unk_26 == ((EntityRec *)entity)->unk_68) {
+    if (entity->current_attack == entity->base_attack) {
         completion_count = (*(u8 *)&((EntityRec *)entity)->x);
         if (completion_count < 0xFF) {
             (*(u8 *)&((EntityRec *)entity)->x) = completion_count + 1;
@@ -50,13 +50,13 @@ s32 use_item_to_increase_attack(void *entity, DungeonItemEntry *action_id, s16 a
         }
     }
 
-    progress = ((EntityRec *)entity)->unk_26;
+    progress = entity->current_attack;
     progress_value = progress & 0xFF;
-    if (progress_value < 0xFF && progress_value < ((EntityRec *)entity)->unk_68) {
-        ((EntityRec *)entity)->unk_26 = progress + 1;
+    if (progress_value < 0xFF && progress_value < entity->base_attack) {
+        entity->current_attack = progress + 1;
     }
 
-    if (((EntityRec *)entity)->flags14 & ACTOR_PARTY_MEMBER) {
+    if (entity->flags14 & ACTOR_PARTY_MEMBER) {
         adjust_source_value_and_finalize(entity, D_800E1350);
     }
     create_colored_effect_with_sound((u8 *)entity - 0x20, 0x2020F0, 0x616);

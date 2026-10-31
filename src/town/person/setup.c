@@ -13,16 +13,11 @@ typedef struct {
 } Vec3_32;
 struct ObjectNodeHeader; void * allocate_list_node(s32, struct ObjectNodeHeader * *);            /* extern */
 
-typedef struct S_800C6C10_1 {
-    u8 pad_00[0x9C];
-    s32 unk_9C;
-} S_800C6C10_1;
-
 /* Creates an object, initializes its render data, and runs its callback. */
-void * create_owner_following_sprite(s32 state_value) {
+void * create_owner_following_sprite(void *linked_object) {
     s32 callback_arg;
     SpriteFrameState *render_data;
-    S_800C6C10_1 *state;
+    OwnerFollowingSpriteBody *state;
     ObjectNodeHeader *object;
 
     object = allocate_list_node(0x136, &scene_object_list_anchor.next);
@@ -32,7 +27,7 @@ void * create_owner_following_sprite(s32 state_value) {
     state = ((void *)object) + 0x20;
     callback_arg = *(s32 *)&object->position;
     render_data = object->sprite;
-    state->unk_9C = state_value;
+    state->linked_object = linked_object;
     object->update_callback = compute_offset_position_linked_object;
     render_data->scale_y = 0x1000;
     render_data->scale_x = 0x1000;

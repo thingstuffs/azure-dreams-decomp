@@ -49,7 +49,7 @@ s16 get_rounded_facing_and_rounding_flag(); /* Unprototyped: retail call extends
 extern u8 cyclone_move_direction_frames[8];
 
 /* Advance the entity along its stored path and update its heading and movement timing. */
-void advance_path_motion(void *motion, ObjectPosition *unused, SpriteFrameState *entity, void *path_state) {
+void advance_path_motion(void *motion, ObjectPosition *position, SpriteFrameState *sprite, ActorRecord *actor) {
     s32 old_cell_mask;
     s32 new_cell_mask;
     s16 heading;
@@ -60,17 +60,17 @@ void advance_path_motion(void *motion, ObjectPosition *unused, SpriteFrameState 
     s32 next_y;
     s32 move_flag;
     S_801716D8_2 *path_step;
-    void *state = path_state;
+    void *state = actor;
 
     if ((((S_801716D8_0 *)state)->unk_71 > 0) && ((s32) (u8) ((S_801716D8_0 *)state)->unk_71
         > ((S_801716D8_0 *)state)->unk_8A)) {
-        if (entity->frameTable != cyclone_move_direction_frames) {
-            (entity->frameTable) = cyclone_move_direction_frames;
-            select_sprite_entry(entity, cyclone_move_direction_frames[((g_game_work.view.camera_rotation.parts.viewAngle + ((S_801716D8_0 *)state)->unk_2A + 0x100)
+        if (sprite->frameTable != cyclone_move_direction_frames) {
+            (sprite->frameTable) = cyclone_move_direction_frames;
+            select_sprite_entry(sprite, cyclone_move_direction_frames[((g_game_work.view.camera_rotation.parts.viewAngle + ((S_801716D8_0 *)state)->unk_2A + 0x100)
                 >> 9) & 7], 0);
         }
-        old_x = entity->tile_x;
-        old_y = entity->tile_y;
+        old_x = sprite->tile_x;
+        old_y = sprite->tile_y;
         old_cell_mask = 0x3000;
         if (((S_801716D8_0 *)state)->unk_1C & 0x2000) {
             old_cell_mask = 0x300;
@@ -79,13 +79,13 @@ void advance_path_motion(void *motion, ObjectPosition *unused, SpriteFrameState 
         path_step = state + ((S_801716D8_0 *)state)->unk_8A;
         heading = get_rounded_facing_and_rounding_flag(old_x, old_y, path_step->unk_74, path_step->unk_7C,
             motion + 0x98);
-        check_movement_clearance_and_height(heading, entity, state, 0x20);
-        entity->tile_x = (u8) ((S_801716D8_4 *)((state + ((S_801716D8_0 *)state)->unk_8A)))->unk_74;
-        entity->tile_y = (u8) ((S_801716D8_4 *)((state + ((S_801716D8_0 *)state)->unk_8A)))->unk_7C;
+        check_movement_clearance_and_height(heading, sprite, state, 0x20);
+        sprite->tile_x = (u8) ((S_801716D8_4 *)((state + ((S_801716D8_0 *)state)->unk_8A)))->unk_74;
+        sprite->tile_y = (u8) ((S_801716D8_4 *)((state + ((S_801716D8_0 *)state)->unk_8A)))->unk_7C;
         ((S_801716D8_0 *)state)->unk_8A = (s16) ((u16) ((S_801716D8_0 *)state)->unk_8A + 1);
         move_flag = ((S_801716D8_0 *)state)->unk_1C & 0x2000;
-        next_x = entity->tile_x;
-        next_y = entity->tile_y;
+        next_x = sprite->tile_x;
+        next_y = sprite->tile_y;
         new_cell_mask = 0x3000;
         if (move_flag) {
             new_cell_mask = 0x300;

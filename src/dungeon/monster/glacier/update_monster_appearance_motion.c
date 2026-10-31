@@ -38,7 +38,7 @@ typedef struct {
     } field_9D;
 } EntityArgFieldView_8102F83C;
 
-typedef void (*Callback)(void *, void *, void *, void *);
+typedef ActorActionHandler Callback;
 
 extern s32 get_entity_effect_value();
 extern s32 refresh_actor_facing_and_lifecycle();
@@ -65,11 +65,11 @@ typedef struct S_8017103C_2 {
 } S_8017103C_2;   /* motion in update_monster_appearance_motion */
 
 /* Runs entity callbacks, updates monster appearance, and advances motion with floor collision. */
-void update_monster_appearance_motion(void *entity_arg, void *motion_arg, void *monster_arg)
+void update_monster_appearance_motion(ActorRecord *body, void *motion_arg, SpriteFrameState *sprite)
 {
     S_8017103C_2 *motion = motion_arg;
-    SpriteFrameState *monster= monster_arg;
-    S_8017103C_1 *actor = entity_arg;
+    SpriteFrameState *monster= sprite;
+    S_8017103C_1 *actor = (S_8017103C_1 *)body;
     s32 direction;
     s16 direction_copy;
     s32 facing_angle;
@@ -87,20 +87,20 @@ void update_monster_appearance_motion(void *entity_arg, void *motion_arg, void *
     if (g_dungeon_status.flags & 0x2000) {
         Callback first_callback;
 
-        first_callback = (*(Callback *)((u8 *)entity_arg + 0x8C));
+        first_callback = body->unk_8C.handler;
         if (first_callback == (Callback)&glacier_action_resume_address) {
-            first_callback(entity_arg, motion_arg, monster_arg, entity_arg);
+            first_callback(body, motion_arg, sprite, body);
             return;
         } else {
-            (((EntityArgFieldView_8102F83C *)entity_arg)->field_71) &= 0x7F;
+            (body->movement_queue_state) &= 0x7F;
             return;
         }
     } else {
-        call_entity = entity_arg;
+        call_entity = body;
         call_motion = motion;
         call_monster = monster;
-        old_direction = (s8)(((EntityArgFieldView_8102F83C *)entity_arg)->field_6D.u8);
-        call_context = entity_arg;
+        old_direction = (s8)(body->pending_turn_updates);
+        call_context = body;
     }
 
     if (refresh_actor_facing_and_lifecycle(call_entity, call_motion, call_monster, call_context) != 0) {
@@ -110,32 +110,32 @@ void update_monster_appearance_motion(void *entity_arg, void *motion_arg, void *
     {
         Callback callback;
 
-        callback = (*(Callback *)((u8 *)entity_arg + 0x8C));
+        callback = body->unk_8C.handler;
         if (callback != 0) {
-            callback(entity_arg, motion, monster, entity_arg);
+            callback(body, motion, monster, body);
         }
     }
-    glacier_callbacks[(((EntityArgFieldView_8102F83C *)entity_arg)->field_9A)](entity_arg, motion, monster, entity_arg);
+    glacier_callbacks[(body->action_id.u)](body, motion, monster, body);
 
-    if ((s16)old_direction != (((EntityArgFieldView_8102F83C *)entity_arg)->field_6D.s8)) {
-        try_move_actor_to_valid_position(entity_arg, motion, monster, entity_arg);
+    if ((s16)old_direction != (body->pending_turn_updates)) {
+        try_move_actor_to_valid_position(body, motion, monster, body);
     }
 
     monster_flags = monster->flags;
     if (!(monster_flags & 0x8000)) {
-        facing_angle = g_game_work.view.camera_rotation.parts.viewAngle + (((EntityArgFieldView_8102F83C *)entity_arg)->field_2A) + 0x100;
+        facing_angle = g_game_work.view.camera_rotation.parts.viewAngle + (body->facing) + 0x100;
         direction = (facing_angle >> 9) & 7;
         direction_copy = direction;
         direction_index = direction;
 
-        if ((((EntityArgFieldView_8102F83C *)entity_arg)->field_94) != direction_index) {
+        if ((body->unk_94) != direction_index) {
             u8 *tile_map = *(u8 **)&monster->frameTable;
 
             if (tile_map != 0) {
                 select_indirect_table_entry(monster, tile_map[direction_index],
                               monster->unk_04);
             }
-            (((EntityArgFieldView_8102F83C *)entity_arg)->field_94) = direction;
+            (body->unk_94) = direction;
         }
 
         if (dir_sprite_flag[direction_copy] != 0) {
@@ -188,31 +188,31 @@ flags_done:
     motion->unk_00.at00.v += motion->unk_0C;
     motion->unk_04.at00.v += motion->unk_10;
 
-    if ((((EntityArgFieldView_8102F83C *)entity_arg)->field_98) & 8) {
-        (((EntityArgFieldView_8102F83C *)entity_arg)->field_9D.u8) = 0;
+    if ((body->action_state_flags) & 8) {
+        (body->unk_9D.u) = 0;
     } else {
-        motion->unk_14 += (((EntityArgFieldView_8102F83C *)entity_arg)->field_9D.s8) * 0x14000;
-        (((EntityArgFieldView_8102F83C *)entity_arg)->field_9D.u8)++;
+        motion->unk_14 += (body->unk_9D.s) * 0x14000;
+        (body->unk_9D.u)++;
     }
 
-    (((EntityArgFieldView_8102F83C *)entity_arg)->field_90.s32) += motion->unk_14;
+    (body->unk_90.value) += motion->unk_14;
 
-    if (!((((EntityArgFieldView_8102F83C *)entity_arg)->field_98) & 4) && (floor_height = sample_terrain_surface_height(motion->unk_00.at02.v,
+    if (!((body->action_state_flags) & 4) && (floor_height = sample_terrain_surface_height(motion->unk_00.at02.v,
                               motion->unk_04.at02.v,
                               (s16)(actor->unk_88.u - 0x20))) < 0x200) {
         actor_height = actor->unk_88.s;
-        if ((((EntityArgFieldView_8102F83C *)entity_arg)->field_90.s16_at_2.value) + actor_height < floor_height) {
+        if ((body->unk_90.parts.high.s) + actor_height < floor_height) {
             actor->unk_1C &= ACTOR_GROUNDED_CLEAR_MASK;
         } else if (floor_height >= actor_height) {
-            (((EntityArgFieldView_8102F83C *)entity_arg)->field_90.s32) = 0;
+            (body->unk_90.value) = 0;
             motion->unk_14 = 0;
             actor->unk_1C |= ACTOR_GROUNDED;
-            (((EntityArgFieldView_8102F83C *)entity_arg)->field_9D.u8) = 0;
+            (body->unk_9D.u) = 0;
         } else {
-            (((EntityArgFieldView_8102F83C *)entity_arg)->field_90.s16_at_2.value) = floor_height - actor->unk_88.u;
+            (body->unk_90.parts.high.s) = floor_height - actor->unk_88.u;
             motion->unk_14 = 0;
             actor->unk_1C |= ACTOR_GROUNDED;
-            (((EntityArgFieldView_8102F83C *)entity_arg)->field_9D.u8) = 0;
+            (body->unk_9D.u) = 0;
         }
         if (actor->unk_1C & ACTOR_REFRESH_GROUND) {
             actor->unk_1C &= ACTOR_REFRESH_GROUND_CLEAR_MASK;
@@ -220,7 +220,7 @@ flags_done:
                 (monster->tile_x << 6) | 0x20,
                 (monster->tile_y << 6) | 0x20,
                 (s16)(actor->unk_88.u - 0x20));
-            (((EntityArgFieldView_8102F83C *)entity_arg)->field_90.s16_at_2.value) +=
+            (body->unk_90.parts.high.s) +=
                 actor->unk_88.u - floor_height;
             actor->unk_88.u = floor_height;
         }
@@ -228,7 +228,7 @@ flags_done:
         actor->unk_1C &= ACTOR_GROUNDED_CLEAR_MASK;
     }
     motion->unk_0A =
-        actor->unk_88.u + (((EntityArgFieldView_8102F83C *)entity_arg)->field_90.u16_at_2.value);
+        actor->unk_88.u + (body->unk_90.parts.high.u);
     monster->flags |= 0x40;
 
 }

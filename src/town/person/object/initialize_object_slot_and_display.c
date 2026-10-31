@@ -4,8 +4,6 @@
 #include "town/person.h"
 #include "town/person/object.h"
 
-extern void * create_owner_following_sprite(void *state_value);
-
 extern u8 D_800D5958[];
 extern u8 D_800D5960[];
 extern u8 D_800D5988[];

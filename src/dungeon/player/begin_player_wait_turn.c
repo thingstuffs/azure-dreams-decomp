@@ -23,15 +23,15 @@ typedef struct S_8008C7B4_0 {
 extern u8 player_carry_frames[8];
 
 /* Reset state, update control flags, and select the entity's directional sprite. */
-void begin_player_wait_turn(void *state, void *mode, void *sprite, EntityRec *entity) {
+void begin_player_wait_turn(ActorRecord *state, void *mode, void *sprite, ActorRecord *entity) {
     void *entity_arg;
     GameWork *flags;
     s32 initial_state;
 
     initial_state = 0x1C;
-    ((S_8008C7B4_0 *)state)->unk_9A = initial_state;
+    state->action_id.s = initial_state;
     flags = &g_game_work;
-    ((S_8008C7B4_0 *)state)->unk_9B = 0;
+    state->action_phase.s = 0;
     ((S_8008C7B4_0 *)state)->unk_8C = 0;
     if ((((SysPage *)0x80010000)->flags & 2) || ((flags->buttons & 0x20) && check_action_available_without_nearby_actor() != 0)) {
         g_dungeon_status.flags = (u16)(g_dungeon_status.flags | 0x80);

@@ -45,6 +45,17 @@ typedef struct MinigameImageAnimationObject {
     /* 0x5E */ u16 timer;
 } MinigameImageAnimationObject;
 
+/* Per-column scroll state and position for the minigame display children. */
+typedef struct MinigameDisplayObjectsBody {
+    /* 0x00 */ void *parent;
+    /* 0x04 */ union { s16 s; u16 u; } state;
+    /* 0x06 */ u16 ticks;
+    /* 0x08 */ s16 column;
+    /* 0x0A */ s16 column_offset;
+    /* 0x0C */ union { s16 s; u16 u; } step;
+    /* 0x0E */ union { s16 s; u16 u; } scroll_offset;
+} MinigameDisplayObjectsBody;
+
 /* Child object and owner state for the three-object tako shuffle minigame. */
 typedef struct TakoMinigameObject {
     /* 0x00 */ u8 pad_00[0x70];
@@ -100,7 +111,8 @@ void count_entries_matching_search_path(TownCollectionSequence *scene);
 void create_minigame_display_objects(void);
 
 /* Callback entry points. */
-s32 draw_depth_sorted_line_nodes(u8 *node);
+struct PairedIndicators;
+s32 draw_depth_sorted_line_nodes(struct PairedIndicators *node);
 void advance_fading_particle_until_animation_boundary(u8 *effect, u8 *motion, u8 *visual);
 void rotate_gym_mesh_y(s32 unused_0, s32 unused_1, u8 *object);
 void tick_scene_value_text(void *message);
@@ -108,6 +120,7 @@ void tick_summed_scene_value_text(void *entry);
 void tick_timed_sound(TimedSoundObject *object);
 void update_linked_four_column_number(void *entry);
 void update_minigame_image_animation(MinigameImageAnimationObject *anim);
+void update_minigame_scroll(MinigameDisplayObjectsBody *scroll);
 void update_tako_minigame(TakoMinigameState *state);
 void run_timed_value_decrease(TimedValueDecreaseObject *sequence, EntityRec *target);
 

@@ -35,7 +35,7 @@ typedef struct S_80172864_2 {
 } S_80172864_2;   /* s1 in advance_timed_action_and_cleanup */
 
 /* Advances a timed action through animation setup, execution, and cleanup. */
-void advance_timed_action_and_cleanup(void *action_data, void *unused, SpriteFrameState *sprite, void *actor_data)
+void advance_timed_action_and_cleanup(void *action_data, ObjectPosition *position, SpriteFrameState *sprite, void *actor_data)
 {
     register S_80172864_0 *action = action_data;
     register S_80172864_2 *actor = actor_data;

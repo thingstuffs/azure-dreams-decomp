@@ -880,15 +880,15 @@ void begin_griffon_attack(ActorRecord *action_state, ObjectPosition *action_cont
 }
 
 /* Relinks actor state, updates status or movement as needed, and reports whether a new action may start. */
-s32 relink_griffon_path(void *entity_arg, void *primary_context_arg, void *secondary_context_arg, s32 force_state_arg) {
+s32 relink_griffon_path(ActorRecord *body, ObjectPosition *position, SpriteFrameState *sprite, s32 force_state_arg) {
     s16 state_type;
     s32 result;
-    void *entity = entity_arg;
+    void *entity = body;
 
-    state_type = (s16)relink_entity_and_clear_high_flag(primary_context_arg, secondary_context_arg, entity, 3, 6, entity + 0x9C);
+    state_type = (s16)relink_entity_and_clear_high_flag(position, sprite, entity, 3, 6, entity + 0x9C);
     if (state_type < 0) return 0;
     if ((force_state_arg << 0x10) != 0) {
-        choose_griffon_move(entity, primary_context_arg, secondary_context_arg, entity);
+        choose_griffon_move(entity, position, sprite, entity);
         result = 0;
         return result;
     }
@@ -899,7 +899,7 @@ s32 relink_griffon_path(void *entity_arg, void *primary_context_arg, void *secon
         result = 0;
         return result;
     case 2:
-        choose_griffon_move(entity, primary_context_arg, secondary_context_arg, entity);
+        choose_griffon_move(entity, position, sprite, entity);
         result = 0;
         return result;
     case 1:

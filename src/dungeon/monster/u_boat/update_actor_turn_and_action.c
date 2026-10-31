@@ -30,10 +30,6 @@ typedef struct S_80171A80_0 {
     u8 unk_B5;
 } S_80171A80_0;   /* arg0 in update_actor_turn_and_action */
 
-typedef struct S_80171A80_6 {
-    u8 pad_00[0xA6];
-    u16 unk_A6;
-} S_80171A80_6;   /* global in update_actor_turn_and_action */
 
 extern void select_sprite_entry(void *, s32, s32);
 extern s16 check_entity_relation(ActorRecord *entry, ActorRecord *anchor);
@@ -259,13 +255,13 @@ void update_actor_turn_and_action(void *entity, ObjectPosition *context, SpriteF
                 }
             }
             {
-                S_80171A80_6 *leader = (S_80171A80_6 *)dungeon_actor_ring_anchor;
+                ActorRecord *leader = (ActorRecord *)dungeon_actor_ring_anchor;
 
-                if (leader->unk_A6 != 0) {
+                if (leader->unk_A4.halves.high.u != 0) {
                     choose_and_execute_actor_step(entity, context, sprite, actor);
                     return;
                 }
-                leader->unk_A6 = 2;
+                leader->unk_A4.halves.high.u = 2;
                 begin_actor_exclusive_action(entity, context, sprite, 1, 2);
                 return;
             }

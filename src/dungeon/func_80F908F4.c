@@ -30,7 +30,7 @@ extern const u8 D_8016A854[20];
 extern u8 D_8016EB0C[];
 
 /* Start the actor's hit reaction, then build and post the damage message for it. */
-void begin_actor_hit_reaction_slot_f(void *work, void *part_a, void *part_b, EntityRec *actor) {
+void begin_actor_hit_reaction_slot_f(ActorRecord *body, ObjectPosition *position, SpriteFrameState *sprite, EntityRec *actor) {
     s32 flags;
     void *call_arg;
     void *pass_result;
@@ -41,9 +41,9 @@ void begin_actor_hit_reaction_slot_f(void *work, void *part_a, void *part_b, Ent
 
     actor->unk_71 = (u8)(actor->unk_71 & 0x7F);
     if (!(g_dungeon_status.flags & 0x2000) && ((has_pending_dungeon_activity(actor) << 0x10) == 0)) {
-        ((S_801740F4_1 *)work)->unk_8C = 0;
-        ((S_801740F4_1 *)work)->unk_9A = 0x17;
-        ((S_801740F4_1 *)work)->unk_9B = 0;
+        ((S_801740F4_1 *)body)->unk_8C = 0;
+        body->action_id.s = 0x17;
+        body->action_phase.s = 0;
         if (actor->flags1C & 0x400) {
             flags = actor->flags14;
             if (!(flags & 0x80000000)) {
@@ -52,12 +52,12 @@ void begin_actor_hit_reaction_slot_f(void *work, void *part_a, void *part_b, Ent
                 actor->facing = (u16)(((u16)actor->facing) + ((generate_random_value() & 7) << 9));
             }
         }
-        field_60 = func_800A04F0(actor, ((Rec_D_80082E80 *)part_b)->unk_24, ((Rec_D_80082E80 *)part_b)->unk_25,
+        field_60 = func_800A04F0(actor, sprite->tile_x, sprite->tile_y,
             (s16)((u16)actor->facing));
         table_base = D_8016EB0C;
         actor->target = field_60;
-        (*(u8 **)((u8 *)part_b + 0x2C)) = table_base;
-        func_80047784(part_b, table_base[((s32)(g_game_work.view.camera_rotation.parts.viewAngle + (s16)((u16)actor->facing) + 0x100)
+        sprite->frameTable = table_base;
+        func_80047784(sprite, table_base[((s32)(g_game_work.view.camera_rotation.parts.viewAngle + (s16)((u16)actor->facing) + 0x100)
             >> 9) & 7], 0);
         actor->unk_6D = (u8)(((u8)actor->unk_6D) - 1);
         g_dungeon_status.activity_counts.parts.pending_action_count = (u16)(((u16)g_dungeon_status.activity_counts.parts.pending_action_count) + 1);

@@ -5,12 +5,13 @@
 #include "common.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/dungeon_moving_views.h"
+#include "shared/entity.h"
 void create_attached_sprite_with_offset(void *owner_data, MovingPosition *base_position, SpriteFrameState *sprite_template, s16 offset_id);
 
 
 void run_actor_callbacks_and_adjust_global_flag(void *entity_ptr, void *motion, void *check_arg, void *actor_arg);
 
 /* Owner declarations appended by tools/headers (append-only; the lines above are hand-kept). */
-void update_actor_movement_and_height(void *entity_arg, void *motion_arg, SpriteFrameState *monster_arg);
+void update_actor_movement_and_height(ActorRecord *entity_arg, ObjectPosition *motion_arg, SpriteFrameState *monster_arg);
 
 #endif

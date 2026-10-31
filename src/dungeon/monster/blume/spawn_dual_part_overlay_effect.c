@@ -11,18 +11,6 @@
 #include "engine/node.h"
 #include "engine/node/allocation.h"
 
-typedef struct S_80171850_1 {
-    u8 pad_00[0x13];
-    s8 unk_13;
-    s32 unk_14;
-    u8 pad_18[0x4];
-    s32 unk_1C;
-} S_80171850_1;   /* result in spawn_dual_part_overlay_effect */
-
-typedef struct S_80171850_2 {
-    u8 pad_00[0xA];
-    s16 unk_0A;
-} S_80171850_2;   /* part0 in spawn_dual_part_overlay_effect */
 
 typedef struct S_80171850_4 {
     u8 pad_00[0x8C];
@@ -60,7 +48,7 @@ void *spawn_dual_part_overlay_effect(s16 spawn_flags, s16 attr_a, s16 attr_b, s3
         result = (u8 *)object;
         result += 0x20;
         object->update_callback = D_80171A18;
-        ((S_80171850_1 *)result)->unk_13 = MONSTER_BLUME;
+        ((ActorRecord *)result)->species = MONSTER_BLUME;
         register_node(object, project_sprite_chain);
 
         {

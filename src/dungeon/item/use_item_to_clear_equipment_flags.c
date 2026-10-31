@@ -28,7 +28,7 @@ extern u8 D_800E176F[];
 extern u8 D_800E1788[];
 
 /* Applies a curse-removal item effect and reports changes to equipped items. */
-s32 use_item_to_clear_equipment_flags(void *target, DungeonItemEntry *item, s16 use_mode, s32 use_context)
+s32 use_item_to_clear_equipment_flags(ActorRecord *target, DungeonItemEntry *item, s16 use_mode, s32 use_context)
 {
     DungeonItemEntry *equipment;
     void *message_buf;
@@ -47,7 +47,7 @@ s32 use_item_to_clear_equipment_flags(void *target, DungeonItemEntry *item, s16 
     if ((u32)target <= 0x9FFFFFFF) {
         display_actor_item_status_message(target, item);
         if (feed_actor_restore_mp(target,
-                          entity_action_selectors[((u8 *)target)[0x13]] & 3,
+                          entity_action_selectors[target->species] & 3,
                           item) == 0) {
             place_actor_item(target, item);
             return 1;

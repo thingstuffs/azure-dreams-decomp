@@ -32,7 +32,7 @@ typedef struct S_8008E0C4_2 {
 } S_8008E0C4_2;   /* D_800E3CD0 in advance_actor_death_transition */
 
 /* Waits for the death animation and delay, then changes scenes or restores player input in state 0x10. */
-void advance_actor_death_transition(S_8008E0C4_0 *context, void *unused, SpriteFrameState *input, EntityRec *entity) {
+void advance_actor_death_transition(S_8008E0C4_0 *context, void *unused, SpriteFrameState *input, ActorRecord *entity) {
     GameWork *work;
     u16 remaining;
     s32 state;
@@ -75,7 +75,7 @@ void advance_actor_death_transition(S_8008E0C4_0 *context, void *unused, SpriteF
 
     case 0x10:
         if (input->flags & 0xE000) {
-            entity->unk_28 = entity->unk_29;
+            entity->hp = entity->max_hp;
             entity->facing = 0x400 - ((((u16)work->view.camera_rotation.parts.viewAngle) + 0x100) & 0xE00);
             context->unk_8C =handle_player_input;
             g_dungeon_status.activity_counts.parts.pending_action_count = ((u16)g_dungeon_status.activity_counts.parts.pending_action_count) - 1;

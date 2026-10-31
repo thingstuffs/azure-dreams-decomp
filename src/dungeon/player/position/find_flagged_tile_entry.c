@@ -11,7 +11,7 @@ typedef struct {
 extern DungeonEntry floor_objects[];
 
 /* Store the looked-up dungeon entry index if flag 0x80 is set, or report failure. */
-s16 find_flagged_tile_entry(void *state, s32 unused, void *position, void *lookup_context) {
+s16 find_flagged_tile_entry(ActorRecord *body, s32 unused, void *position, void *lookup_context) {
     s16 entry_index;
     s32 failed;
 
@@ -19,7 +19,7 @@ s16 find_flagged_tile_entry(void *state, s32 unused, void *position, void *looku
         *((u8 *)position + 0x24),
         *((u8 *)position + 0x25),
         *(s16 *)((u8 *)lookup_context + 0x88));
-    *(s16 *)((u8 *)state + 0x100) = entry_index;
+    *(s16 *)((u8 *)body + 0x100) = entry_index;
 
     if (entry_index < 0) {
         failed = 1;
@@ -27,7 +27,7 @@ s16 find_flagged_tile_entry(void *state, s32 unused, void *position, void *looku
         if (floor_objects[entry_index].flags & 0x80) {
             failed = 0;
         } else {
-            *(s16 *)((u8 *)state + 0x100) = -1;
+            *(s16 *)((u8 *)body + 0x100) = -1;
             failed = 1;
         }
     }

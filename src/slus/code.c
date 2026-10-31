@@ -803,10 +803,9 @@ void *create_resource_transition_task(void *owner)
 extern void *init_object_header_a(void *cursor);
 extern void *init_object_header_c(void *cursor);
 extern struct Prim12 *init_tpage_prims(struct Prim12 *prim);
-extern void layout_menu_backdrop_display_entries(void *a0);
 
 /* Initialize four embedded records and then the containing object. */
-void build_menu_backdrop_display_buffers(void *object)
+void build_menu_backdrop_display_buffers(SevenEntryMenuBackdropBody *object)
 {
     init_object_header_a((char *)object + 0x8);
     init_object_header_b((char *)object + 0x80);

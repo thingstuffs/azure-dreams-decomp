@@ -43,25 +43,6 @@ typedef struct S_80088BD0_5 {
     void * unk_20;
 } S_80088BD0_5;
 
-typedef struct S_80088BD0_6 {
-    void * unk_00;
-    u8 pad_04[0x6];
-    s16 unk_0A;
-    s16 unk_0C;
-} S_80088BD0_6;
-
-typedef struct S_80088BD0_7 {
-    u8 pad_00[0x4];
-    void * unk_04;
-    s32 unk_08;
-    s16 unk_0C;
-    s16 unk_0E;
-    s16 unk_10;
-    s16 unk_12;
-    s16 unk_14;
-    s16 unk_16;
-} S_80088BD0_7;
-
 typedef struct S_80088BD0_8 {
     u8 pad_00[0x10];
     void * unk_10;
@@ -91,10 +72,10 @@ void create_settings_controller(void) {
     s32 start_delay;
     s32 unit_scale;
     s32 sprite_id;
-    S_80088BD0_6 *child_state;
+    SettingsEffectObjectBody *child_state;
     SpriteFrameState *sprite;
     ObjectNodeHeader *object;
-    S_80088BD0_7 *effect_state;
+    SettingsSyncObjectBody *effect_state;
     void *parent_state;
     void *id_offset;
     void *child_slot;
@@ -136,9 +117,9 @@ void create_settings_controller(void) {
             sprite->frame_ticks = 0;
             sprite->color.word = 0x808080;
             sprite->source = sprite_id;
-            child_state->unk_00 = parent_state;
-            child_state->unk_0C = child_index;
-            child_state->unk_0A = start_delay;
+            child_state->owner = parent_state;
+            child_state->index = child_index;
+            child_state->ticks = start_delay;
         }
         start_delay -= 0x1E;
         sprite_y -= 0x10;
@@ -150,15 +131,15 @@ void create_settings_controller(void) {
         object->update_callback = (void *)sync_object_with_sub_object;
         register_node(object, &display_registration_tag);
         effect_state = ((void *)object) + 0x20;
-        effect_state->unk_0C = 0x60;
-        effect_state->unk_0E = -0x100;
-        effect_state->unk_10 = 0x80;
-        effect_state->unk_12 = 0x10;
-        effect_state->unk_14 = 0;
-        effect_state->unk_16 = 3;
-        effect_state->unk_08 = 0x606060;
-        ((S_80088BD0_0 *)object)->unk_20.s16 = 0;
-        effect_state->unk_04 = parent_state;
+        effect_state->position_y = 0x60;
+        effect_state->position_delta = -0x100;
+        effect_state->width = 0x80;
+        effect_state->height = 0x10;
+        effect_state->value = 0;
+        effect_state->flags = 3;
+        effect_state->color = 0x606060;
+        effect_state->state = 0;
+        effect_state->child = parent_state;
     }
     child_index = 1;
     do {
@@ -183,8 +164,8 @@ void create_settings_controller(void) {
             sprite->scale_y = 0x1000;
             sprite->scale_x = 0x1000;
             sprite->color.word = 0x808080;
-            child_state->unk_00 = parent_state;
-            child_state->unk_0C = child_index;
+            child_state->owner = parent_state;
+            child_state->index = child_index;
         }
         child_index -= 1;
     } while (child_index >= 0);

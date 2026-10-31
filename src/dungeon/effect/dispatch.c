@@ -1031,7 +1031,7 @@ typedef struct Func800C138CData {
     void *data;
 } Func800C138CData;
 
-extern void draw_sprite_parts_as_quad_grid(s32 context, void *position, void *sprite, s16 depth_bias);
+extern void draw_sprite_parts_as_quad_grid(s32 context, ObjectPosition *position, void *sprite, s16 depth_bias);
 
 /* Process each linked state with draw_sprite_parts_as_quad_grid in mode zero. */
 s32 process_linked_states_mode_zero(void *initial_state, void *context, void *data) {
@@ -1137,7 +1137,7 @@ extern void *RotMatrix(void *, void *);
 extern s32 sprite_projection_matrix[];
 
 /* Draws sprite parts as a 4-by-4 grid of textured quads, invoking custom part callbacks. */
-void draw_sprite_parts_as_quad_grid(s32 context, void *position, void *sprite, s16 depth_bias) {
+void draw_sprite_parts_as_quad_grid(s32 context, ObjectPosition *position, void *sprite, s16 depth_bias) {
     ScratchPad *scratch = (ScratchPad *)0x1F800000;
     u8 *state;
     GameWork *render_globals;
@@ -1218,10 +1218,10 @@ void draw_sprite_parts_as_quad_grid(s32 context, void *position, void *sprite, s
     *(u16 *)(scratch->b + 0x002) = (u16)(*(u16 *)((u8 *)position + 6));
     *(u16 *)(scratch->b + 0x004) = (u16)(*(u16 *)((u8 *)position + 0xA));
     packet_next = *(s32 *)(state + 0x8D0);
-    ((ScratchDepth *)scratch)->depth = RotTransPers(scratch, scratch->b + 0xB8, scratch->b + 0x90, scratch->b + 0x94);
+    scratch->w[48] = RotTransPers(scratch, scratch->b + 0xB8, scratch->b + 0x90, scratch->b + 0x94);
     matrix_or_u = (s32)sprite_projection_matrix;
     (*(u16 *)((u8 *)sprite + 0x14)) = (u16)((*(u16 *)((u8 *)sprite + 0x14)) | 0x8000);
-    depth = ((ScratchDepth *)scratch)->depth;
+    depth = scratch->w[48];
     *(s32 *)((u8 *)matrix_or_u + 0x1C) = (s32)(depth * 4);
     depth -= 8;
     sort_depth = depth - depth_bias;

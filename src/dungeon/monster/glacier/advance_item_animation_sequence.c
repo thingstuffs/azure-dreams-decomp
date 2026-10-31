@@ -25,13 +25,6 @@ typedef struct S_80172F04_2 {
     u16 unk_46;
 } S_80172F04_2;   /* actor in advance_item_animation_sequence */
 
-typedef struct S_80172F04_3 {
-    u8 pad_00[0xC];
-    s32 unk_0C;
-    s32 unk_10;
-    s32 unk_14;
-} S_80172F04_3;   /* arg1 in advance_item_animation_sequence */
-
 typedef struct S_80172F04_4 {
     u8 unk_00;
     u8 pad_01[0x3227];
@@ -47,7 +40,7 @@ extern void spend_actor_mp(void *, s32);
 extern u8 D_801760CC[];
 
 /* Advances a timed actor animation sequence and resets its action on completion. */
-void advance_item_animation_sequence(S_80172F04_0 *action, S_80172F04_3 *motion, SpriteFrameState *animation, void *actor_ptr)
+void advance_item_animation_sequence(S_80172F04_0 *action, ObjectPosition *motion, SpriteFrameState *animation, void *actor_ptr)
 {
     S_80172F04_2 *actor;
     s32 state;
@@ -66,9 +59,9 @@ void advance_item_animation_sequence(S_80172F04_0 *action, S_80172F04_3 *motion,
             resolve_attack_damage_and_effects(actor, animation, actor->unk_2A, 1);
             return;
         }
-        motion->unk_14 = 0;
-        motion->unk_10 = 0;
-        motion->unk_0C = 0;
+        motion->velocity_z = 0;
+        motion->velocity_y = 0;
+        motion->velocity_x = 0;
         current_state = action->unk_9B;
         action->unk_96 = 0;
         action->unk_9B = current_state + 1;

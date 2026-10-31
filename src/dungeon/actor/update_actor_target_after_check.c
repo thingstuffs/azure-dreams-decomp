@@ -6,27 +6,21 @@
 #include "dungeon/actor.h"
 #include "dungeon/actor/status.h"
 
-typedef struct S_800D9884_0 {
-    u8 pad_00[0x8C];
-    void (*unk_8C)(void *, EntityRec *, void *, ActorRecord *);
-    union { struct { s32 v; } at00; struct { u8 pad[0x2]; s16 v; } at02; } unk_90;   /* overlapping accesses */
-} S_800D9884_0;   /* arg0 in update_actor_target_after_check */
-
 
 
 void spend_actor_mp(ActorRecord *entity, s32 base_reduction);            /* extern */
                 /* Updates the target and resets state after a successful check or a reset flag. */
-void update_actor_target_after_check(S_800D9884_0 *state, void *motion, void *source, void *target) {
-    if (update_actor_movement_to_tile(state, motion, source, target) != 0) {
+void update_actor_target_after_check(ActorRecord *state, ObjectPosition *motion, SpriteFrameState *sprite, ActorRecord *target) {
+    if (update_actor_movement_to_tile(state, motion, sprite, target) != 0) {
         spend_actor_mp(target, 4);
         advance_status_timers(target);
-        if ((check_actor_floor_trap(source, target) << 0x10) <= 0) {
+        if ((check_actor_floor_trap(sprite, target) << 0x10) <= 0) {
             return;
         }
-        state->unk_8C = &update_actor_facing_animation;
-        state->unk_90.at00.v = 0;
+        state->unk_8C.handler = &update_actor_facing_animation;
+        state->unk_90.value = 0;
     }
     if (g_dungeon_status.flags & 0x80) {
-        state->unk_90.at02.v = 0;
+        state->unk_90.parts.high.s = 0;
     }
 }

@@ -374,8 +374,8 @@ void initialize_object_and_dispatch_by_state(Func800BFE50Object *object, s32 *pa
 }
 
 /* Randomize paired object motion until both pass the stop position, then set completion flags. */
-void randomize_paired_object_motion(void *pair_in) {
-    void *pair = pair_in;
+void randomize_paired_object_motion(void *pair_data) {
+    EventToriInBody *pair = pair_data;
     s32 state;
     s32 random_value;
     s32 stop_x;
@@ -386,29 +386,29 @@ void randomize_paired_object_motion(void *pair_in) {
     s32 x_speed;
     u16 tick;
     s32 *flag_page;
-    void **member_slot;
-    S_800BD688_6 *second_depth;
-    S_800BD688_8 *second_motion;
-    S_800BD688_7 *first_motion;
-    S_800BD688_4 *x_motion;
-    S_800BD688_5 *y_motion;
-    S_800BD688_3 *member_motion;
+    ObjectPosition **member_slot;
+    ObjectPosition *second_depth;
+    ObjectPosition *second_motion;
+    ObjectPosition *first_motion;
+    ObjectPosition *x_motion;
+    ObjectPosition *y_motion;
+    ObjectPosition *member_motion;
 
-    state = ((S_800BD688_0 *)pair)->unk_20.s;
-    tick = (((S_800BD688_0 *)pair)->unk_22 + 1) & 7;
-    ((S_800BD688_0 *)pair)->unk_22 = tick;
+    state = pair->state.s;
+    tick = (pair->ticks + 1) & 7;
+    pair->ticks = tick;
     switch (state) {
     case 0:
         member_motion = (void *)0xFEC00000;
         if (tick == 0) {
             {
-                S_800BD688_1 *first_position;
-                S_800BD688_2 *second_position;
+                ObjectPosition *first_position;
+                ObjectPosition *second_position;
 
-                first_position = ((S_800BD688_0 *)pair)->unk_00;
-                second_position = ((S_800BD688_0 *)pair)->unk_04;
-                x_gap = first_position->unk_00;
-                x_gap -= second_position->unk_00;
+                first_position = pair->child_positions[0];
+                second_position = pair->child_positions[1];
+                x_gap = first_position->x.v;
+                x_gap -= second_position->x.v;
             }
             x_gap = abs(x_gap);
             {
@@ -418,46 +418,46 @@ void randomize_paired_object_motion(void *pair_in) {
                     member_index = 1;
                     speed_limit = 0x7FFFF;
                     speed_bias = 0xFFF80000;
-                    member_slot = pair + 4;
+                    member_slot = &pair->child_positions[1];
                     do {
                         random_value = rand();
                         member_motion = *member_slot;
                         x_speed = (random_value & 0x1FF) << 8;
-                        if (member_motion->unk_0C > speed_limit) {
+                        if (member_motion->velocity_x > speed_limit) {
                             x_speed = 0 - x_speed;
                         }
-                        member_motion->unk_0C = x_speed;
+                        member_motion->velocity_x = x_speed;
                         x_motion = *member_slot;
-                        member_slot = (void **)((s8 *)((void **)((s8 *)member_slot - 4)));
+                        member_slot--;
                         member_index -= 1;
-                        x_motion->unk_0C = (s32) (x_motion->unk_0C + speed_bias);
+                        x_motion->velocity_x = (s32)(x_motion->velocity_x + speed_bias);
                     } while (member_index >= 0);
                 }
             }
             member_index = 1;
-            member_slot = pair + 4;
+            member_slot = &pair->child_positions[1];
             do {
                 random_value = rand();
                 member_index -= 1;
                 y_motion = *member_slot;
-                member_slot = (void **)((s8 *)((void **)((s8 *)member_slot - 4)));
-                y_motion->unk_10 = (s32) (((random_value & 0x1FF) - 0x100) << 9);
+                member_slot--;
+                y_motion->velocity_y = (s32)(((random_value & 0x1FF) - 0x100) << 9);
             } while (member_index >= 0);
-            ((S_800BD688_10 *)(((S_800BD688_9 *)pair)->unk_00))->unk_14 = (s32) (((rand() & 0x1FF) - 0x100) << 8);
-            ((S_800BD688_11 *)(((S_800BD688_9 *)pair)->unk_04))->unk_14 = (s32) ((rand() & 0x1FF) << 7);
-            second_depth = ((S_800BD688_0 *)pair)->unk_04;
-            if (((S_800BD688_10 *)(((S_800BD688_9 *)pair)->unk_00))->unk_08 < second_depth->unk_08) {
-                second_depth->unk_14 = (s32) (0 - second_depth->unk_14);
+            pair->child_positions[0]->velocity_z = (s32)(((rand() & 0x1FF) - 0x100) << 8);
+            pair->child_positions[1]->velocity_z = (s32)((rand() & 0x1FF) << 7);
+            second_depth = pair->child_positions[1];
+            if (pair->child_positions[0]->z.v < second_depth->z.v) {
+                second_depth->velocity_z = (s32)(0 - second_depth->velocity_z);
             }
         }
-        first_motion = ((S_800BD688_0 *)pair)->unk_00;
-        stop_x = ((S_800BD688_0 *)pair)->unk_08 + 0xFEC00000;
-        if (first_motion->unk_00 < stop_x) {
-            second_motion = ((S_800BD688_0 *)pair)->unk_04;
-            if (second_motion->unk_00 < stop_x) {
-                second_motion->unk_0C = 0;
-                first_motion->unk_0C = 0;
-                ((S_800BD688_0 *)pair)->unk_20.u += 1;
+        first_motion = pair->child_positions[0];
+        stop_x = pair->position.words[0] + 0xFEC00000;
+        if (first_motion->x.v < stop_x) {
+            second_motion = pair->child_positions[1];
+            if (second_motion->x.v < stop_x) {
+                second_motion->velocity_x = 0;
+                first_motion->velocity_x = 0;
+                pair->state.u += 1;
             }
         }
         break;
@@ -502,17 +502,20 @@ s32 event_tori_in(void *source) {
     ObjectPosition *transform;
     ObjectNodeHeader *object;
     S_800BD980_0 *origin;
+    EventToriInBody *pair_body;
     void *child_slot;
     void (*child_handler)(void *, void *, s32);
 
     source_data = source;
     child_slot = NULL;
+    pair_body = NULL;
     object = allocate_list_node(0x202, &scene_object_list_anchor.next);
     if (object != NULL) {
         child_slot = ((void *)object) + 0x20;
+        pair_body = child_slot;
         object->update_callback = randomize_paired_object_motion;
-        ((LinkedMotionObject *)object)->position = ((MotionSource *)source_data)->position;
-        ((LinkedMotionObject *)object)->motion = ((MotionSource *)source_data)->motion;
+        pair_body->position = ((MotionSource *)source_data)->position;
+        pair_body->motion = ((MotionSource *)source_data)->motion;
     }
     child_index = 1;
     child_handler = advance_motion_and_flag_zero_velocity;

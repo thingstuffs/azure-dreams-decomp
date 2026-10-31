@@ -689,12 +689,12 @@ void advance_actor_path_step(ActorRecord *action, ObjectPosition *action_id, Spr
 void set_actor_directional_animation(void *object, ObjectPosition *unused, SpriteFrameState *display, void *orientation);
 s32 begin_actor_directional_attack(ActorRecord *action_state, ObjectPosition *action_ctx, void *sprite, ActorRecord *actor);
 void begin_actor_attack_after_status_check(ActorRecord *action_state, ObjectPosition *action_context, SpriteFrameState *sprite, ActorRecord *actor);
-s32 check_actor_ahead_height(ActorRecord *action_state, ObjectPosition *source_pos, SpriteFrameState *sprite, void *actor);
+s32 check_actor_ahead_height(ActorRecord *action_state, ObjectPosition *source_pos, SpriteFrameState *sprite, ActorRecord *actor);
 void start_actor_directional_animation(ActorRecord *actor_state, ObjectPosition *action_param, SpriteFrameState *sprite, ActorRecord *actor);
 void move_actor_to_tile_and_check_trap(ActorRecord *state, ObjectPosition *motion, SpriteFrameState *sprite, ActorRecord *actor);
 void update_actor_hop_to_tile(void *anim, ObjectPosition *motion, void *actor, ActorRecord *actor_state);
 void update_linked_actor_motion_and_trap(ActorRecord *state, ObjectPosition *motion, SpriteFrameState *sprite, ActorRecord *actor);
-void resolve_actor_attack_damage(void *obj, ObjectPosition *record, void *entity, void *actor);
+void resolve_actor_attack_damage(ActorRecord *body, ObjectPosition *position, SpriteFrameState *sprite, ActorRecord *actor);
 void update_actor_spell_action(void *state, struct E_80172A58_S_80172A58_6 *position, struct E_80172A58_S_80172A58_5 *sprite, void *actor);
 void dampen_actor_movement_to_tile(E_80172ED0_S_80172ED0_0 *action, ObjectPosition *motion, SpriteFrameState *tile_state, void *entity);
 void remove_defeated_volcano(void *state,void *position,void *render_state,void *entity);
@@ -712,7 +712,7 @@ void finish_actor_floor_trap_then_resume_facing_animation(ActorRecord *state, Ob
 void finish_actor_action_flag_propagation_then_resume_facing_animation(ActorRecord *state, ObjectPosition *motion, SpriteFrameState *sprite, ActorRecord *actor);
 void advance_actor_state_with_child(void *actor, ObjectPosition *context, void *entity, void *creature);
 void advance_actor_state_when_allowed(ActorRecord *state_ctx, ObjectPosition *entity_id, SpriteFrameState *action, ActorRecord *entity);
-s32 select_actor_relation_state(void *entity_arg, ObjectPosition *primary_context_arg, void *secondary_context_arg, s32 force_state_arg);
+s32 select_actor_relation_state(ActorRecord *body, ObjectPosition *position, SpriteFrameState *sprite, s32 force_state_arg);
 void dampen_actor_motion(void *state_data, s32 *motion, E_80173F8C_Func80DE678C_Obj *object);
 void create_four_directional_effects(void *owner_arg, ObjectPosition *motion_arg, void *origin_arg);
 void advance_effect_record_counters(u16 *counter, s32 unused, SpriteFrameState *record);

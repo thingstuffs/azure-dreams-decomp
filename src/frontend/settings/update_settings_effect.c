@@ -13,14 +13,6 @@
 
    /* the 0x2 bytes before arg0 in update_settings_effect, addressed as arg0[-1] */
 
-typedef struct S_80089608_0 {
-    void * unk_00;
-    s32 unk_04;
-    s16 unk_08;
-    u16 unk_0A;
-    u8 pad_0C[0x2];
-    union { u16 s; s16 u; } unk_0E;   /* accessed as both */
-} S_80089608_0;   /* arg0 in update_settings_effect */
 
 typedef struct S_80089608_1 {
     u8 pad_00[0x20];
@@ -66,7 +58,7 @@ typedef struct {
 } Words2;
 
 /* Updates effect brightness and rotation and spawns ten visual elements. */
-void update_settings_effect(void *effect) {
+void update_settings_effect(SettingsVisualEffectBody *effect) {
     unsigned char effect_tables[104];
     Words4 *style_src;
     Words4 *mask_src;
@@ -87,7 +79,7 @@ void update_settings_effect(void *effect) {
 
     copy_dst = (Words4 *)&effect_tables[0];
     style_src = D_80088790.blocks;
-    owner = ((S_80089608_0 *)effect)->unk_00;
+    owner = effect->owner;
     do {
         *copy_dst = *style_src;
         style_src++;
@@ -104,42 +96,42 @@ void update_settings_effect(void *effect) {
     } while (mask_src != ((Words4 *)&D_800887CC + 2));
     *(Words2 *)copy_dst = *(Words2 *)mask_src;
     if (owner->unk_26 & 1) {
-        ((S_80089608_0 *)effect)->unk_08 = 0xFF;
+        effect->phase = 0xFF;
     }
     if (owner->unk_20 >= 2) {
-        ((S_80089608_0 *)effect)->unk_08 = 0xFF;
+        effect->phase = 0xFF;
         return;
     }
-    phase = ((S_80089608_0 *)effect)->unk_08;
+    phase = effect->phase;
     switch (phase) {
     case 0:
-        ((S_80089608_0 *)effect)->unk_04 = (s32) (((S_80089608_0 *)effect)->unk_04 + 0x20202);
+        effect->color = (s32)(effect->color + 0x20202);
         if (owner->unk_20 == 1) {
-            ((S_80089608_0 *)effect)->unk_08++;
+            effect->phase++;
         }
         break;
     case 1:
-        phase_frame = ((S_80089608_0 *)effect)->unk_0A + 1;
-        ((S_80089608_0 *)effect)->unk_0A = (u16) phase_frame;
+        phase_frame = effect->ticks + 1;
+        effect->ticks = (u16) phase_frame;
         if (phase_frame < 0x80) {
             if (!(phase_frame & 3)) {
-                ((S_80089608_0 *)effect)->unk_04 += 0x10101;
+                effect->color += 0x10101;
             }
         } else if (phase_frame < 0x91) {
-            brighten_rgb = ((S_80089608_0 *)effect)->unk_04;
+            brighten_rgb = effect->color;
             color_step_or_index = ((s32) (~brighten_rgb & 0xFF) >> 1);
             color_step_or_index = ((color_step_or_index << 8) + (color_step_or_index << 16)) + color_step_or_index;
-            ((S_80089608_0 *)effect)->unk_04 = brighten_rgb + color_step_or_index;
+            effect->color = brighten_rgb + color_step_or_index;
         } else if (phase_frame < 0xA0) {
-            fade_rgb = ((S_80089608_0 *)effect)->unk_04;
+            fade_rgb = effect->color;
             color_step_or_index = ((s32) (fade_rgb & 0xFF) >> 3);
             color_step_or_index = ((color_step_or_index << 8) + (color_step_or_index << 16)) + color_step_or_index;
-            ((S_80089608_0 *)effect)->unk_04 = fade_rgb - color_step_or_index;
+            effect->color = fade_rgb - color_step_or_index;
         } else {
-            ((S_80089608_0 *)effect)->unk_08 = 0xFF;
-            ((S_80089608_0 *)effect)->unk_04 = 0;
+            effect->phase = 0xFF;
+            effect->color = 0;
         }
-        ((S_80089608_0 *)effect)->unk_0E.s -= 12;
+        effect->angle.u -= 12;
         break;
     case 0xFF:
         (*(u16 *)((u8 *)effect + -2)) = (u16) (((ObjectStatusPrefix16 *)effect)[-1].flags | NODE_REMOVE);
@@ -156,21 +148,21 @@ void update_settings_effect(void *effect) {
             sprite = element->sprite;
             element->update_callback = callback;
             register_node(element, draw_linked_sprites);
-            x_product = rcos(((S_80089608_0 *)effect)->unk_0E.u) * ((S_80089608_3 *)(effect_tables + color_step_or_index * 2))->unk_28;
+            x_product = rcos(effect->angle.s) * ((S_80089608_3 *)(effect_tables + color_step_or_index * 2))->unk_28;
             axis_offset = x_product >> 0xC;
             ((S_80089608_7 *)(element->position))->unk_02 =
                 (s16) ((axis_offset - (x_product >> 0xD)) + 0xA0);
             element_state = (void *)((s8 *)element + 0x20);
-            y_product = rsin(((S_80089608_0 *)effect)->unk_0E.u) * ((S_80089608_3 *)(effect_tables + color_step_or_index * 2))->unk_28;
+            y_product = rsin(effect->angle.s) * ((S_80089608_3 *)(effect_tables + color_step_or_index * 2))->unk_28;
             axis_offset = y_product >> 0xC;
             ((S_80089608_7 *)(element->position))->unk_06 =
                 (s16) ((axis_offset + (y_product >> 0xE)) + 0x78);
             sprite->scale_y = 0x1000;
             sprite->scale_x = 0x1000;
             if (color_step_or_index == 0) {
-                sprite->angle_z = ((S_80089608_0 *)effect)->unk_0E.u;
+                sprite->angle_z = effect->angle.s;
             } else if (color_step_or_index == 1) {
-                sprite->angle_z = (s16) (0 - (u16) ((S_80089608_0 *)effect)->unk_0E.u);
+                sprite->angle_z = (s16) (0 - (u16) effect->angle.s);
             }
             sprite->tpage_abr = 0x60;
             sprite->flags = (u16) (sprite->flags | 0xC);
@@ -178,7 +170,7 @@ void update_settings_effect(void *effect) {
             sprite->unk_04 = 0;
             sprite->frame_ticks = 0;
             sprite->color.word =
-                (s32) (((S_80089608_0 *)effect)->unk_04 & ((S_80089608_5 *)(effect_tables + color_step_or_index * 4))->unk_40);
+                (s32)(effect->color & ((S_80089608_5 *)(effect_tables + color_step_or_index * 4))->unk_40);
             element_state->unk_0C = color_step_or_index;
         }
         color_step_or_index -= 1;

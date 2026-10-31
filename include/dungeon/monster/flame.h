@@ -803,7 +803,7 @@ void advance_action_through_animation(R06_8017278C_S_8017278C_0 *action, struct 
 void start_selected_move_and_reset_action(ActorRecord *action, ObjectPosition *position, SpriteFrameState *sprite, ActorRecord *actor);
 void update_directional_motion_and_tile(ActorRecord *action, ObjectPosition *motion, SpriteFrameState *tile_state, ActorRecord *entity);
 void fade_sprites_and_remove_entity(void *actor, ObjectPosition *unused, struct SpriteFrameState *sprite, void *entity);
-void reset_record_motion_field_b(Rec_func_800AB538_arg0 *record, void *motion, void *scale, void *render);
+void reset_record_motion_field_b(ActorRecord *body, ObjectPosition *motion, SpriteFrameState *sprite, ActorRecord *actor);
 void advance_flame_removal(void *state, void *motion, void *position, void *actor);
 void grow_hopping_flame(ActorRecord *state, ObjectPosition *motion, SpriteFrameState *position, ActorRecord *actor);
 void update_actor_state_by_flags(ActorRecord *in_actor, ObjectPosition *in_context, SpriteFrameState *in_sprite, ActorRecord *in_entity);

@@ -20,21 +20,14 @@ typedef struct S_8017169C_0 {
     union { s16 s; u16 u; } unk_8A;   /* accessed as both */
 } S_8017169C_0;   /* arg3 in advance_actor_path_and_facing */
 
-typedef struct S_8017169C_2 {
-    u8 pad_00[0x96];
-    u16 unk_96;
-    u8 pad_98[0x2];
-    u8 unk_9A;
-} S_8017169C_2;   /* arg0 in advance_actor_path_and_facing */
-
    /* (u8 *)arg3 + ((S_8017169C_0 *)arg3)->unk_8A.s in advance_actor_path_and_facing */
 
 extern void update_map_cell_flags_with_item_limit(s32 x, s32 y, u16 flags);
 
 /* Advance the actor along its path and update its facing and movement timing. */
-void advance_actor_path_and_facing(void *motion, ObjectPosition *unused, SpriteFrameState *actor, void *path_state)
+void advance_actor_path_and_facing(ActorRecord *body, ObjectPosition *unused, SpriteFrameState *sprite, ActorRecord *actor)
 {
-    ActorRecord *path_actor = motion;
+    ActorRecord *path_actor = body;
     u8 *direction_table;
     s32 old_x;
     s32 old_y;
@@ -42,61 +35,61 @@ void advance_actor_path_and_facing(void *motion, ObjectPosition *unused, SpriteF
     s32 new_y;
     s32 tile_mask;
 
-    if (((S_8017169C_0 *)path_state)->unk_71.s <= 0) {
+    if (((S_8017169C_0 *)actor)->unk_71.s <= 0) {
         return;
     }
-    if (((S_8017169C_0 *)path_state)->unk_71.u <= ((S_8017169C_0 *)path_state)->unk_8A.s) {
+    if (actor->movement_queue_state <= actor->unk_8A) {
         return;
     }
 
-    direction_table = *(u8 **)&actor->frameTable;
+    direction_table = *(u8 **)&sprite->frameTable;
     if (direction_table != kewne_direction_frames) {
-        (actor->frameTable) = kewne_direction_frames;
+        (sprite->frameTable) = kewne_direction_frames;
         select_sprite_entry(
-            actor,
-            kewne_direction_frames[((g_game_work.view.camera_rotation.parts.viewAngle + ((S_8017169C_0 *)path_state)->unk_2A + 0x100) >> 9) & 7],
+            sprite,
+            kewne_direction_frames[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
             0);
     }
 
-    old_x = actor->tile_x;
-    old_y = actor->tile_y;
+    old_x = sprite->tile_x;
+    old_y = sprite->tile_y;
     tile_mask = 0x3000;
-    if (((S_8017169C_0 *)path_state)->unk_1C.s & 0x2000) {
+    if (actor->flags1C & 0x2000) {
         tile_mask = 0x300;
     }
     update_map_cell_flags_with_item_limit(old_x, old_y, tile_mask);
 
-    actor->tile_x =
-        ((ActorStatusBytesView *)((u8 *)path_state + ((S_8017169C_0 *)path_state)->unk_8A.s))->path_x;
-    actor->tile_y =
-        ((ActorStatusBytesView *)((u8 *)path_state + ((S_8017169C_0 *)path_state)->unk_8A.s))->path_y;
-    ((S_8017169C_0 *)path_state)->unk_8A.u++;
+    sprite->tile_x =
+        ((ActorStatusBytesView *)((u8 *)actor + actor->unk_8A))->path_x;
+    sprite->tile_y =
+        ((ActorStatusBytesView *)((u8 *)actor + actor->unk_8A))->path_y;
+    ((S_8017169C_0 *)actor)->unk_8A.u++;
 
-    new_x = actor->tile_x;
-    new_y = actor->tile_y;
+    new_x = sprite->tile_x;
+    new_y = sprite->tile_y;
     tile_mask = 0x3000;
-    if (((S_8017169C_0 *)path_state)->unk_1C.s & 0x2000) {
+    if (actor->flags1C & 0x2000) {
         tile_mask = 0x300;
     }
     cycle_map_cell_flags(new_x, new_y, tile_mask);
 
-    ((S_8017169C_0 *)path_state)->unk_2A = get_rounded_facing_and_rounding_flag(
-        old_x, old_y, actor->tile_x, actor->tile_y,
+    actor->facing = get_rounded_facing_and_rounding_flag(
+        old_x, old_y, sprite->tile_x, sprite->tile_y,
         &path_actor->action_state_flags);
-    ((S_8017169C_0 *)path_state)->unk_1C.u |= 0x40000000;
-    ((S_8017169C_2 *)motion)->unk_9A = 0xF;
-    (*(s32 *)((u8 *)motion + 0x8C)) = 0;
+    ((S_8017169C_0 *)actor)->unk_1C.u |= 0x40000000;
+    body->action_id.u = 0xF;
+    (*(s32 *)((u8 *)body + 0x8C)) = 0;
 
     if (g_dungeon_status.flags & 0x80) {
-        ((S_8017169C_2 *)motion)->unk_96 = 0;
+        body->action_timer.u = 0;
         return;
     }
 
-    ((S_8017169C_2 *)motion)->unk_96 = 8;
+    body->action_timer.u = 8;
     {
-        s32 step_count = ((S_8017169C_0 *)path_state)->unk_71.u;
+        s32 step_count = actor->movement_queue_state;
         if (step_count > 0) {
-            ((S_8017169C_2 *)motion)->unk_96 = 8 / step_count;
+            body->action_timer.u = 8 / step_count;
         }
     }
 }

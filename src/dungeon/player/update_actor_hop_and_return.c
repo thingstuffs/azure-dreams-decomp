@@ -33,7 +33,7 @@ extern u8 player_hop_frames[];
 extern u8 player_landing_frame_set[];
 
 /* Animate a hop and return to the entity's tile, then restore its facing and behavior. */
-void update_actor_hop_and_return(void *motion, ObjectPosition *position, SpriteFrameState *entity, void *actor) {
+void update_actor_hop_and_return(ActorRecord *body, ObjectPosition *position, SpriteFrameState *sprite, ActorRecord *actor) {
     s32 *next_behavior;
     s16 frames_left;
     u8 phase;
@@ -48,94 +48,94 @@ void update_actor_hop_and_return(void *motion, ObjectPosition *position, SpriteF
     u16 hop_frames_left;
     u16 return_frames_left;
 
-    phase = ((S_80091C64_0 *)motion)->unk_9B;
+    phase = body->action_phase.u;
     switch (phase) {
     case 0:
-        delay_left = ((S_80091C64_0 *)motion)->unk_96.s - 1;
-        ((S_80091C64_0 *)motion)->unk_96.s = delay_left;
+        delay_left = body->action_timer.u - 1;
+        body->action_timer.u = delay_left;
         if ((s16) delay_left >= 9) {
             return;
         }
-        entity->frameTable = player_hop_frames;
-        set_sprite_animation_frame(entity, player_hop_frames[((s32) (g_game_work.view.camera_rotation.parts.viewAngle + ((ActorRecord *)actor)->facing + 0x100)
+        sprite->frameTable = player_hop_frames;
+        set_sprite_animation_frame(sprite, player_hop_frames[((s32) (g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100)
             >> 9) & 7], 0, 1);
-        ((S_80091C64_0 *)motion)->unk_98 = (u16) (((S_80091C64_0 *)motion)->unk_98 | 0xC);
-        ((S_80091C64_0 *)motion)->unk_9B = (u8) (((S_80091C64_0 *)motion)->unk_9B + 1);
+        body->action_state_flags = (u16) (body->action_state_flags | 0xC);
+        body->action_phase.u = (u8) (body->action_phase.u + 1);
         play_sound_if_enabled(0x701);
         return;
     case 1:
-        if (((S_80091C64_0 *)motion)->unk_96.u != 0) {
-            position->x.v = (s32) (position->x.v + (rcos(((ActorRecord *)actor)->facing + 0x400) << 6));
-            position->y.v = (s32) (position->y.v + (rsin(((ActorRecord *)actor)->facing + 0x400) << 6));
-            ((S_80091C64_0 *)motion)->unk_92 = (s16) ((s32) (0 - rsin((s16) ((S_80091C64_0 *)motion)->unk_96.s
+        if (body->action_timer.s != 0) {
+            position->x.v = (s32) (position->x.v + (rcos(actor->facing + 0x400) << 6));
+            position->y.v = (s32) (position->y.v + (rsin(actor->facing + 0x400) << 6));
+            body->unk_90.parts.high.s = (s16) ((s32) (0 - rsin((s16) body->action_timer.u
                 << 8)) >> 8);
         }
-        hop_frames_left = ((S_80091C64_0 *)motion)->unk_96.s - 1;
-        ((S_80091C64_0 *)motion)->unk_96.s = hop_frames_left;
+        hop_frames_left = body->action_timer.u - 1;
+        body->action_timer.u = hop_frames_left;
         if ((hop_frames_left << 0x10) > 0) {
             return;
         }
-        entity->frameTable = player_landing_frame_set;
-        set_sprite_animation_frame(entity, player_landing_frame_set[((s32) (g_game_work.view.camera_rotation.parts.viewAngle + ((ActorRecord *)actor)->facing + 0x100)
+        sprite->frameTable = player_landing_frame_set;
+        set_sprite_animation_frame(sprite, player_landing_frame_set[((s32) (g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100)
             >> 9) & 7], 0, 1);
-        ((S_80091C64_0 *)motion)->unk_92 = 0;
-        ((S_80091C64_0 *)motion)->unk_9B++;
+        body->unk_90.parts.high.s = 0;
+        body->action_phase.u++;
         return;
     case 2:
         if ((g_dungeon_status.active_actor) != 0) {
             return;
         }
-        entity->frameTable = player_hop_frames;
-        set_sprite_animation_frame(entity, player_hop_frames[((s32) (g_game_work.view.camera_rotation.parts.viewAngle + ((ActorRecord *)actor)->facing + 0x100)
+        sprite->frameTable = player_hop_frames;
+        set_sprite_animation_frame(sprite, player_hop_frames[((s32) (g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100)
             >> 9) & 7], 0, 1);
         return_duration = 8U;
-        ((S_80091C64_0 *)motion)->unk_96.s = return_duration;
-        ((S_80091C64_0 *)motion)->unk_9B++;
+        body->action_timer.u = return_duration;
+        body->action_phase.u++;
         return;
     case 3:
-        frames_left = (s16) ((S_80091C64_0 *)motion)->unk_96.s;
+        frames_left = (s16) body->action_timer.u;
         if (frames_left != 0) {
-            target_x = entity->tile_x << 6;
+            target_x = sprite->tile_x << 6;
             current_x = position->x.w.i - 0x20;
             position->x.v = (s32) (position->x.v + ((target_x - current_x) << 0x10) / frames_left);
-            y_step = entity->tile_y;
+            y_step = sprite->tile_y;
             y_step <<= 6;
             y_origin = position->y.w.i - 0x20;
             {
                 s32 y_numerator = (y_step - y_origin) << 0x10;
 
-                y_remaining = ((S_80091C64_0 *)motion)->unk_96.u;
+                y_remaining = body->action_timer.s;
                 y_step = y_numerator / y_remaining;
             }
             y_work = position->y.v + y_step;
             position->y.v = y_work;
-            ((S_80091C64_0 *)motion)->unk_92 = (s16) ((s32) (0 - rsin((s16) ((S_80091C64_0 *)motion)->unk_96.s
+            body->unk_90.parts.high.s = (s16) ((s32) (0 - rsin((s16) body->action_timer.u
                 << 8)) >> 8);
         }
-        return_frames_left = ((S_80091C64_0 *)motion)->unk_96.s - 1;
-        ((S_80091C64_0 *)motion)->unk_96.s = return_frames_left;
+        return_frames_left = body->action_timer.u - 1;
+        body->action_timer.u = return_frames_left;
         if ((return_frames_left << 0x10) > 0) {
             return;
         }
-        set_record_integer_tile_center(position, entity->tile_x, entity->tile_y);
-        ((S_80091C64_0 *)motion)->unk_92 = 0;
-        ((S_80091C64_0 *)motion)->unk_9B = (u8) (((S_80091C64_0 *)motion)->unk_9B + 1);
-        entity->frameTable = player_landing_frame_set;
-        set_sprite_animation_frame(entity, player_landing_frame_set[((s32) (g_game_work.view.camera_rotation.parts.viewAngle + ((ActorRecord *)actor)->facing + 0x100)
+        set_record_integer_tile_center(position, sprite->tile_x, sprite->tile_y);
+        body->unk_90.parts.high.s = 0;
+        body->action_phase.u = (u8) (body->action_phase.u + 1);
+        sprite->frameTable = player_landing_frame_set;
+        set_sprite_animation_frame(sprite, player_landing_frame_set[((s32) (g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100)
             >> 9) & 7], 0, 1);
         return;
     case 4:
         g_dungeon_status.activity_counts.parts.pending_action_count = (u16) (((u16)g_dungeon_status.activity_counts.parts.pending_action_count) - 1);
-        ((ActorRecord *)actor)->facing = (s16) ((S_80091C64_0 *)motion)->unk_11A;
-        if (((ActorRecord *)actor)->flags1C & 0x100000) {
+        actor->facing = (s16) ((S_80091C64_0 *)body)->unk_11A;
+        if (actor->flags1C & 0x100000) {
             next_behavior = &handle_carrying_player_input;
         } else {
             next_behavior = handle_player_input;
         }
-        ((S_80091C64_0 *)motion)->unk_8C = next_behavior;
-        ((ActorRecord *)actor)->flags14 = (s32) (((ActorRecord *)actor)->flags14 & 0xFFFDFFFF);
-        ((S_80091C64_0 *)motion)->unk_98 = (u16) (((S_80091C64_0 *)motion)->unk_98 & 0xFFF3);
-        ((S_80091C64_0 *)motion)->unk_A2 = (u16) (((S_80091C64_0 *)motion)->unk_A2 | 0x10);
+        body->unk_8C.address = next_behavior;
+        actor->flags14 = (s32) (actor->flags14 & 0xFFFDFFFF);
+        body->action_state_flags = (u16) (body->action_state_flags & 0xFFF3);
+        body->unk_A0.parts.high = (u16) (body->unk_A0.parts.high | 0x10);
         return;
     }
 }

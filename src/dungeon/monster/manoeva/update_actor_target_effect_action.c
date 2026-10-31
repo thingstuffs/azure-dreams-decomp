@@ -78,7 +78,7 @@ void *spawn_manoeva_from_record();
 /* Updates target selection, effect creation, and the sprite fade-out sequence. */
 /* Selects an actor or item on the tile ahead, creates Manoeva's replacement, then fades the old sprite and
  * transfers state. */
-void update_actor_target_effect_action(void *action, void *context, S_80173D78_1 *sprite, S_80173D78_2 *actor)
+void update_actor_target_effect_action(ActorRecord *body, void *context, S_80173D78_1 *sprite, S_80173D78_2 *actor)
 {
     S_80173D78_3 *target;
     void *effect;
@@ -100,7 +100,7 @@ void update_actor_target_effect_action(void *action, void *context, S_80173D78_1
     u16 ticks_left;
     u8 state;
 
-    state = ((Rec_func_80173D78_arg0 *)action)->unk_9B;
+    state = body->action_phase.u;
     if (state >= 5U) {
         return;
     }
@@ -113,23 +113,23 @@ void update_actor_target_effect_action(void *action, void *context, S_80173D78_1
         if (!(sprite_flags & 0x8000)) {
             play_sound_if_enabled(0x80D);
         }
-        ((Rec_func_80173D78_arg0 *)action)->unk_9B = ((Rec_func_80173D78_arg0 *)action)->unk_9B + 1;
+        body->action_phase.u = body->action_phase.u + 1;
         if (sprite->unk_14 & 0x8000) {
-            ((Rec_func_80173D78_arg0 *)action)->unk_96 = 0;
+            body->action_timer.u = 0;
             return;
         }
-        ((Rec_func_80173D78_arg0 *)action)->unk_96 = 0x10;
+        body->action_timer.u = 0x10;
         return;
 
     case 1:
-        if (!(((Rec_func_80173D78_arg0 *)action)->unk_96 & 3)) {
+        if (!(body->action_timer.u & 3)) {
             if (!(sprite->unk_14 & 0x8000)) {
-                spawn_offset_motion_object(action, context, sprite, 0);
-                spawn_offset_motion_object(action, context, sprite, 1);
+                spawn_offset_motion_object(body, context, sprite, 0);
+                spawn_offset_motion_object(body, context, sprite, 1);
             }
         }
-        ticks_left = ((Rec_func_80173D78_arg0 *)action)->unk_96 - 1;
-        ((Rec_func_80173D78_arg0 *)action)->unk_96 = ticks_left;
+        ticks_left = body->action_timer.u - 1;
+        body->action_timer.u = ticks_left;
         if ((s16)ticks_left > 0) {
             return;
         }
@@ -139,7 +139,7 @@ void update_actor_target_effect_action(void *action, void *context, S_80173D78_1
         target_y = sprite->unk_25 + *(u16 *)((s8 *)((s8 *)dir_step_y) + direction_offset);
         actor->unk_60.i = 0;
 
-        if (((Rec_func_80173D78_arg0 *)action)->unk_AC == 0) {
+        if (body->unk_AC.byte == 0) {
             target = find_eligible_actor_at_tile_and_height(actor, target_x & 0xFFFF, target_y & 0xFFFF,
                                    actor->unk_88);
             actor->unk_60.p = target;
@@ -161,7 +161,7 @@ void update_actor_target_effect_action(void *action, void *context, S_80173D78_1
             }
         }
 
-        if (((Rec_func_80173D78_arg0 *)action)->unk_AC < 2U) {
+        if (body->unk_AC.byte < 2U) {
             if (actor->unk_60.i == 0) {
                 tile_index = find_floor_item_at_world_position((s16)target_x, (s16)target_y,
                                      actor->unk_88);
@@ -174,14 +174,14 @@ void update_actor_target_effect_action(void *action, void *context, S_80173D78_1
         if (actor->unk_60.i == 0) {
 
             update_actor_status_and_mp(actor);
-            ((Rec_func_80173D78_arg0 *)action)->unk_8C = &func_80170EE4;
+            body->unk_8C.address = &func_80170EE4;
             g_dungeon_status.activity_counts.parts.pending_action_count =
                 ((u16)g_dungeon_status.activity_counts.parts.pending_action_count) - 1;
             actor->unk_1C &= 0xEFFFFFFF;
             return;
         }
 
-        ((Rec_func_80173D78_arg0 *)action)->unk_9B = ((Rec_func_80173D78_arg0 *)action)->unk_9B + 1;
+        body->action_phase.u = body->action_phase.u + 1;
     case 2:
         map_flags = actor->unk_14;
         sound_x = sprite->unk_24;
@@ -193,10 +193,10 @@ void update_actor_target_effect_action(void *action, void *context, S_80173D78_1
         update_map_cell_flags_with_item_limit(sound_x, sound_y, tile_mask);
 
         actor->unk_1C |= 0x10000;
-        effect = spawn_manoeva_from_record(action, context, sprite, actor);
-        ((Rec_func_80173D78_arg0 *)action)->unk_A4 = effect;
+        effect = spawn_manoeva_from_record(body, context, sprite, actor);
+        ((Rec_func_80173D78_arg0 *)body)->unk_A4 = effect;
         if (effect != 0) {
-            node_storage = (s8 *)action - 0x20;
+            node_storage = (s8 *)body - 0x20;
             object = node_storage;
             unlink_node(object);
             register_node(object, process_linked_states_mode_zero);
@@ -206,7 +206,7 @@ void update_actor_target_effect_action(void *action, void *context, S_80173D78_1
             unlink_entity_node(actor);
             callback_flags = node_storage;
             callback_flags->unk_10 |= 0x80000000;
-            ((Rec_func_80173D78_arg0 *)action)->unk_9B = ((Rec_func_80173D78_arg0 *)action)->unk_9B + 1;
+            body->action_phase.u = body->action_phase.u + 1;
             return;
         }
 
@@ -240,7 +240,7 @@ void update_actor_target_effect_action(void *action, void *context, S_80173D78_1
             return;
         }
 
-        node_storage = (s8 *)action - 0x20;
+        node_storage = (s8 *)body - 0x20;
             object = node_storage;
         unlink_node(object);
         retire_tracked_effect_by_id(object);
@@ -249,15 +249,15 @@ void update_actor_target_effect_action(void *action, void *context, S_80173D78_1
         sprite->unk_14 |= 0x800;
         sprite->unk_12 = sprite->unk_12 + 0x80;
         sprite->unk_14 &= 0xFFF3;
-        ((Rec_func_80173D78_arg0 *)action)->unk_9B = ((Rec_func_80173D78_arg0 *)action)->unk_9B + 1;
+        body->action_phase.u = body->action_phase.u + 1;
         return;
 
     case 4:
         {
 
-            ((Rec_func_80173D78_arg0 *)action)->unk_9A = 0x18;
-            ((Rec_func_80173D78_arg0 *)action)->unk_9B = 0;
-            ((Rec_func_80173D78_arg0 *)action)->unk_8C = &transfer_linked_object_state;
+            body->action_id.u = 0x18;
+            body->action_phase.u = 0;
+            body->unk_8C.address = &transfer_linked_object_state;
             g_dungeon_status.activity_counts.parts.pending_action_count =
                 ((u16)g_dungeon_status.activity_counts.parts.pending_action_count) - 1;
             actor->unk_6D = 0;

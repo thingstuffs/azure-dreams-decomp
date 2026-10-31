@@ -22,7 +22,7 @@ extern void begin_actor_move_to_target_facing(ActorRecord *body, ObjectPosition 
 void advance_actor_along_queued_path(ActorRecord *motion, ObjectPosition *unused, SpriteFrameState *actor, ActorRecord *move_state);
 s32 validate_action_and_apply_effect(ActorRecord *action, ObjectPosition *effect, SpriteFrameState *target, ActorRecord *actor_data);
 void clear_entity_flag_and_advance_action(ActorRecord *action_state, ObjectPosition *effect_context, SpriteFrameState *update_context, ActorRecord *entity);
-extern s32 update_entity_state_from_query(void *, void *, void *, s32);
+extern s32 update_entity_state_from_query(ActorRecord *, ObjectPosition *, SpriteFrameState *, s32);
 extern void update_directional_sprite_state_and_signals(void *, void *, void *, void *);
 
 extern u8 hikewne_direction_frames[];

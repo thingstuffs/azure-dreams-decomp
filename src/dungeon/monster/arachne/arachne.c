@@ -1025,7 +1025,7 @@ void check_boss_effect_threshold(ActorRecord *state, ObjectPosition *entity, Spr
 }
 
 /* Animates a backward step and wireframe attack, applies damage, then recenters the actor and spends MP. */
-void advance_action_and_spawn_effect(void *action, void *motion, void *entity, void *actor) {
+void advance_action_and_spawn_effect(ActorRecord *body, ObjectPosition *position, SpriteFrameState *sprite, void *actor) {
     s16 effect_offset[3];
     s32 dir_x;
     s32 dir_y;
@@ -1038,54 +1038,54 @@ void advance_action_and_spawn_effect(void *action, void *motion, void *entity, v
     void *effect;
     R12_80172654_S_80172654_6 *effect_data;
 
-    state = ((R12_80172654_S_80172654_0 *)action)->phase.s;
+    state = body->action_phase.u;
     dir_offset = (((R12_80172654_S_80172654_1 *)actor)->unk_2A.s >> 8) & 0xE;
     dir_x = *(s16 *)((u8 *)((s8 *)dir_step_x) + dir_offset);
     dir_y = *(s16 *)((u8 *)((s8 *)dir_step_y) + dir_offset);
-    timer = ((R12_80172654_S_80172654_0 *)action)->timer.s - 1;
-    ((R12_80172654_S_80172654_0 *)action)->timer.s = timer;
+    timer = body->action_timer.u - 1;
+    body->action_timer.u = timer;
 
     switch (state) {
     case 0:
         action_actor = actor;
-        if (((SpriteFrameState *)entity)->flags & 0x8000) {
-            ((R12_80172654_S_80172654_0 *)action)->phase.s = 0xFF;
-            ((SpriteFrameState *)entity)->flags |= 0x6000;
-            resolve_attack_damage_and_effects(action_actor, entity,(s16)(action_actor->unk_2A),(s16)(1));
+        if (sprite->flags & 0x8000) {
+            body->action_phase.u = 0xFF;
+            sprite->flags |= 0x6000;
+            resolve_attack_damage_and_effects(action_actor, sprite,(s16)(action_actor->unk_2A),(s16)(1));
             return;
         }
-        ((R12_80172654_S_80172654_4 *)motion)->unk_0C = (-dir_x) << 17;
-        ((R12_80172654_S_80172654_4 *)motion)->unk_10 = (-dir_y) << 17;
-        ((R12_80172654_S_80172654_4 *)motion)->unk_14 = 0;
-        ((SpriteFrameState *)entity)->frameTable = ((u8 *)arachne_move_direction_frames);
-        select_sprite_entry(entity,(u8)(((u8 *)arachne_move_direction_frames)[((g_game_work.view.camera_rotation.parts.viewAngle + ((R12_80172654_S_80172654_1 *)actor)->unk_2A.u + 0x100) >> 9) & 7]),
+        position->velocity_x = (-dir_x) << 17;
+        position->velocity_y = (-dir_y) << 17;
+        position->velocity_z = 0;
+        sprite->frameTable = ((u8 *)arachne_move_direction_frames);
+        select_sprite_entry(sprite,(u8)(((u8 *)arachne_move_direction_frames)[((g_game_work.view.camera_rotation.parts.viewAngle + ((R12_80172654_S_80172654_1 *)actor)->unk_2A.u + 0x100) >> 9) & 7]),
             0);
-        next_state = ((R12_80172654_S_80172654_0 *)action)->phase.u;
+        next_state = body->action_phase.u;
         timer = 8;
-        ((R12_80172654_S_80172654_0 *)action)->timer.s = timer;
+        body->action_timer.u = timer;
         next_state += 1;
-        ((R12_80172654_S_80172654_0 *)action)->phase.s = next_state;
+        body->action_phase.u = next_state;
         return;
     case 1:
         shifted_timer = timer << 16;
         if (shifted_timer > 0)
             return;
-        ((R12_80172654_S_80172654_4 *)motion)->unk_10 = 0;
-        ((R12_80172654_S_80172654_4 *)motion)->unk_0C = 0;
-        ((SpriteFrameState *)entity)->frameTable = ((u8 *)arachne_frame_set);
-        select_sprite_entry(entity,(u8)(((u8 *)arachne_frame_set)[((g_game_work.view.camera_rotation.parts.viewAngle + ((R12_80172654_S_80172654_1 *)actor)->unk_2A.u + 0x100) >> 9) & 7]),
+        position->velocity_y = 0;
+        position->velocity_x = 0;
+        sprite->frameTable = ((u8 *)arachne_frame_set);
+        select_sprite_entry(sprite,(u8)(((u8 *)arachne_frame_set)[((g_game_work.view.camera_rotation.parts.viewAngle + ((R12_80172654_S_80172654_1 *)actor)->unk_2A.u + 0x100) >> 9) & 7]),
             0);
-        next_state = ((R12_80172654_S_80172654_0 *)action)->phase.u;
+        next_state = body->action_phase.u;
         next_state += 1;
-        ((R12_80172654_S_80172654_0 *)action)->phase.s = next_state;
+        body->action_phase.u = next_state;
         return;
     case 2:
-        if (((((SpriteFrameState *)entity)->unk_04 == 4) &&
-             (((SpriteFrameState *)entity)->flags & 0x1000)) ||
-            (((SpriteFrameState *)entity)->flags & 0x8000)) {
-            ((SpriteFrameState *)entity)->flags |= 0x800;
-            ((R12_80172654_S_80172654_0 *)action)->timer.s = 0x10;
-            if (resolve_record_orientation_or_fallback(*(s32 *)&((SpriteFrameState *)entity)->source, entity, effect_offset,(s16)(0)) == 0) {
+        if (((sprite->unk_04 == 4) &&
+             (sprite->flags & 0x1000)) ||
+            (sprite->flags & 0x8000)) {
+            sprite->flags |= 0x800;
+            body->action_timer.u = 0x10;
+            if (resolve_record_orientation_or_fallback(*(s32 *)&sprite->source, sprite, effect_offset,(s16)(0)) == 0) {
                 effect_offset[2] = 0;
                 effect_offset[1] = 0;
                 effect_offset[0] = 0;
@@ -1094,61 +1094,61 @@ void advance_action_and_spawn_effect(void *action, void *motion, void *entity, v
             if (effect != NULL) {
                 register_node(effect, ((u8 *)build_linked_curved_wireframe_grid));
                 ((R12_80172654_S_80172654_5 *)effect)->unk_10 = ((u8 *)dim_effect_after_delay);
-                ((R12_80172654_S_80172654_5 *)effect)->unk_20 = ((R12_80172654_S_80172654_4 *)motion)->unk_00.at02.v + effect_offset[0];
+                ((R12_80172654_S_80172654_5 *)effect)->unk_20 = position->x.w.i + effect_offset[0];
                 effect_data = (R12_80172654_S_80172654_6 *)((u8 *)effect + 0x20);
-                effect_data->unk_02 = ((R12_80172654_S_80172654_4 *)motion)->unk_04.at02.v + effect_offset[1];
-                effect_data->unk_04 = ((R12_80172654_S_80172654_4 *)motion)->unk_0A + effect_offset[2];
+                effect_data->unk_02 = position->y.w.i + effect_offset[1];
+                effect_data->unk_04 = position->z.w.i + effect_offset[2];
                 effect_data->unk_08 = 0xC0C0C0;
                 effect_data->unk_0E = 8;
                 effect_data->unk_12 =
-                    sample_terrain_surface_height(((((SpriteFrameState *)entity)->tile_x + dir_x) << 6) & 0xFFC0,
-                                  ((((SpriteFrameState *)entity)->tile_y + dir_y) << 6) & 0xFFC0,(s16)((s16)(((R12_80172654_S_80172654_4 *)motion)->unk_0A - 0x80))) -
-                    ((R12_80172654_S_80172654_4 *)motion)->unk_0A;
+                    sample_terrain_surface_height(((sprite->tile_x + dir_x) << 6) & 0xFFC0,
+                                  ((sprite->tile_y + dir_y) << 6) & 0xFFC0,(s16)((s16)(position->z.w.i - 0x80))) -
+                    position->z.w.i;
                 effect_data->unk_10 = ((R12_80172654_S_80172654_1 *)actor)->unk_2A.s;
             }
-            next_state = ((R12_80172654_S_80172654_0 *)action)->phase.u;
+            next_state = body->action_phase.u;
             next_state += 1;
-            ((R12_80172654_S_80172654_0 *)action)->phase.s = next_state;
+            body->action_phase.u = next_state;
             return;
         }
         return;
     case 3:
         if ((s16)timer == 0xA) {
-            resolve_attack_damage_and_effects(actor, entity,(s16)(((R12_80172654_S_80172654_1 *)actor)->unk_2A.u),(s16)(1));
+            resolve_attack_damage_and_effects(actor, sprite,(s16)(((R12_80172654_S_80172654_1 *)actor)->unk_2A.u),(s16)(1));
             play_sound_if_enabled(0x813);
         }
-        if (((R12_80172654_S_80172654_0 *)action)->timer.u > 0)
+        if (body->action_timer.s > 0)
             return;
-        ((R12_80172654_S_80172654_0 *)action)->timer.s = 8;
-        ((SpriteFrameState *)entity)->flags &= 0xF7FF;
-        next_state = ((R12_80172654_S_80172654_0 *)action)->phase.u;
+        body->action_timer.u = 8;
+        sprite->flags &= 0xF7FF;
+        next_state = body->action_phase.u;
         next_state += 1;
-        ((R12_80172654_S_80172654_0 *)action)->phase.s = next_state;
+        body->action_phase.u = next_state;
         return;
     case 4:
         if ((timer << 16) > 0)
             return;
-        ((SpriteFrameState *)entity)->frameTable = ((u8 *)arachne_move_direction_frames);
-        select_sprite_entry(entity,(u8)(((u8 *)arachne_move_direction_frames)[((g_game_work.view.camera_rotation.parts.viewAngle + ((R12_80172654_S_80172654_1 *)actor)->unk_2A.u + 0x100) >> 9) & 7]),
+        sprite->frameTable = ((u8 *)arachne_move_direction_frames);
+        select_sprite_entry(sprite,(u8)(((u8 *)arachne_move_direction_frames)[((g_game_work.view.camera_rotation.parts.viewAngle + ((R12_80172654_S_80172654_1 *)actor)->unk_2A.u + 0x100) >> 9) & 7]),
             0);
-        ((R12_80172654_S_80172654_0 *)action)->timer.s = state;
-        ((R12_80172654_S_80172654_0 *)action)->phase.s = 0xFF;
+        body->action_timer.u = state;
+        body->action_phase.u = 0xFF;
         return;
     case 0xFF:
-        ((R12_80172654_S_80172654_4 *)motion)->unk_0C =
-            (s32)((((((SpriteFrameState *)entity)->tile_x << 6) + 0x20) << 16) -
-                  ((R12_80172654_S_80172654_4 *)motion)->unk_00.at00.v) >> 1;
-        ((R12_80172654_S_80172654_4 *)motion)->unk_10 =
-            (s32)((((((SpriteFrameState *)entity)->tile_y << 6) + 0x20) << 16) -
-                  ((R12_80172654_S_80172654_4 *)motion)->unk_04.at00.v) >> 1;
-        if ((((SpriteFrameState *)entity)->flags & 0xE000) ||
-            (((R12_80172654_S_80172654_0 *)action)->timer.u <= 0)) {
-            ((R12_80172654_S_80172654_4 *)motion)->unk_14 = 0;
-            ((R12_80172654_S_80172654_4 *)motion)->unk_10 = 0;
-            ((R12_80172654_S_80172654_4 *)motion)->unk_0C = 0;
-            set_record_integer_tile_center(motion,(u8)((SpriteFrameState *)entity)->tile_x,(u8)((SpriteFrameState *)entity)->tile_y);
+        position->velocity_x =
+            (s32)((((sprite->tile_x << 6) + 0x20) << 16) -
+                  position->x.v) >> 1;
+        position->velocity_y =
+            (s32)((((sprite->tile_y << 6) + 0x20) << 16) -
+                  position->y.v) >> 1;
+        if ((sprite->flags & 0xE000) ||
+            (body->action_timer.s <= 0)) {
+            position->velocity_z = 0;
+            position->velocity_y = 0;
+            position->velocity_x = 0;
+            set_record_integer_tile_center(position,(u8)sprite->tile_x,(u8)sprite->tile_y);
             spend_actor_mp(actor, 0x100);
-            ((R12_80172654_S_80172654_0 *)action)->unk_8C = ((void *)update_actor_state_and_select_target);
+            body->unk_8C.address = ((void *)update_actor_state_and_select_target);
             g_dungeon_status.active_actor = 0;
             advance_status_timers(actor);
             if (((R12_80172654_S_80172654_1 *)actor)->unk_6D == 0) {
@@ -1428,7 +1428,7 @@ void apply_knockback_then_restore_target_selection(R12_80172FE8_S_801730B8_1 *ac
 }
 
 /* Fades and flashes the defeated actor, awards experience, clears tile occupancy, and unlinks it. */
-void advance_entity_fade_effect(R12_801732EC_EffectState *effect, void *unused, R12_801732EC_Entity *entity, R12_801732EC_Object *object) {
+void advance_entity_fade_effect(ActorRecord *body, ObjectPosition *position, R12_801732EC_Entity *entity, R12_801732EC_Object *object) {
     s32 state;
     s32 object_status;
     s32 status_mask;
@@ -1440,13 +1440,13 @@ void advance_entity_fade_effect(R12_801732EC_EffectState *effect, void *unused, 
     u8 x;
     u8 y;
 
-    state = effect->state;
+    state = body->action_phase.u;
     switch (state) {
     case 0:
         if (g_dungeon_status.activity_counts.parts.pending_action_count != 0) {
             return;
         }
-        effect->state = 1;
+        body->action_phase.u = 1;
                         /* fallthrough */
     case 1:
         object_status = object->field14;
@@ -1462,7 +1462,7 @@ void advance_entity_fade_effect(R12_801732EC_EffectState *effect, void *unused, 
         entity->field12 -= 0x80;
         object->flags |= 0x10000000;
         entity->value = 0x808080;
-        effect->state++;
+        body->action_phase.u++;
         return;
     case 2:
         entity->value += 0xFFF7F7F8;
@@ -1471,11 +1471,11 @@ void advance_entity_fade_effect(R12_801732EC_EffectState *effect, void *unused, 
         }
         object->flags |= 0x10000000;
         entity->table = ((u8 *)D_80175AA4);
-        effect->timer = 0x80;
-        effect->countdown = 0;
+        body->unk_A4.halves.low.u = 0x80;
+        body->action_timer.u = 0;
         direction_index = ((g_game_work.view.camera_rotation.parts.viewAngle + object->angle + 0x100) >> 9) & 7;
         select_sprite_entry(entity,(u8)(entity->table[direction_index]), 0);
-        effect->state++;
+        body->action_phase.u++;
         return;
     case 3:
         fade_delta = 0xFFF7F7F8;
@@ -1485,15 +1485,15 @@ void advance_entity_fade_effect(R12_801732EC_EffectState *effect, void *unused, 
             entity->field10 = 0x60;
             entity->value = 0xF0F0F0;
         }
-        countdown = effect->countdown - 1;
-        effect->countdown = countdown;
+        countdown = body->action_timer.u - 1;
+        body->action_timer.u = countdown;
         if (countdown >= 0) {
             entity->flags |= 0x800;
         } else {
             entity->flags &= 0xF7FF;
-            timer = effect->timer + 0x60;
-            effect->timer = timer;
-            effect->countdown = (u16)((timer << 16) >> 24);
+            timer = body->unk_A4.halves.low.u + 0x60;
+            body->unk_A4.halves.low.u = timer;
+            body->action_timer.u = (u16)((timer << 16) >> 24);
         }
         if ((entity->type == 2) && (entity->flags & 0x1000)) {
             direction_index = ((g_game_work.view.camera_rotation.parts.viewAngle + object->angle + 0x100) >> 9) & 7;

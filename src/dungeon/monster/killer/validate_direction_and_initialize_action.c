@@ -56,21 +56,21 @@ extern s32 try_claim_dungeon_action_slot(void *);
 extern s32 check_entity_interaction_compatibility(void *, s32);
 
 /* Validates the actor's direction and state, then initializes its action and animation. */
-s32 validate_direction_and_initialize_action(ActorRecord *action_state, ObjectPosition *action_id, SpriteFrameState *sprite, Arg3 *actor) {
+s32 validate_direction_and_initialize_action(ActorRecord *action_state, ObjectPosition *action_id, SpriteFrameState *sprite, ActorRecord *actor) {
     DungeonGlobalStatus *flags_base;
     u8 *direction_frames;
     u16 flags;
     s32 target_angle;
     s32 result;
 
-    actor->field_71 &= 0x7F;
+    actor->movement_queue_state &= 0x7F;
     flags_base = &g_dungeon_status;
     result = 0;
     if (flags_base->flags & 0x2000) {
         return -1;
     }
 
-    target_angle = probe_directional_neighbor(actor, sprite->tile_x, sprite->tile_y, actor->field_2a);
+    target_angle = probe_directional_neighbor(actor, sprite->tile_x, sprite->tile_y, actor->facing);
     if ((check_entity_interaction_compatibility(actor, target_angle) << 16) == 0) {
         return result;
     }
@@ -79,7 +79,7 @@ s32 validate_direction_and_initialize_action(ActorRecord *action_state, ObjectPo
     if (flags & 0x2000) {
         return -1;
     }
-    if ((actor->field_46 & 0x8000) == 0 && (flags & 8) != 0) {
+    if ((actor->action_flags & 0x8000) == 0 && (flags & 8) != 0) {
         return -1;
     }
 
@@ -100,28 +100,28 @@ s32 validate_direction_and_initialize_action(ActorRecord *action_state, ObjectPo
     action_state->unk_8C.run = 0;
     if (action_state->action_state_flags & 0x8000) {
         action_state->action_id.s = 0x17;
-        if (actor->field_1c & 0x1000) {
+        if (actor->flags1C & 0x1000) {
             action_state->action_state_flags |= 0x4000;
         } else {
             action_state->action_state_flags &= 0xBFFF;
         }
-        action_state->unk_AC.byte = actor->field_03;
-        actor->field_03 = 0xFF;
-        actor->field_84 = 0x7E;
-        actor->field_85 = 8;
+        action_state->unk_AC.byte = actor->unk_00[3];
+        actor->unk_00[3] = 0xFF;
+        actor->unk_84 = 0x7E;
+        actor->unk_85 = 8;
     } else {
         action_state->action_id.s = 0x11;
-        actor->field_84 = 0x7C;
-        actor->field_85 = 8;
+        actor->unk_84 = 0x7C;
+        actor->unk_85 = 8;
     }
 
     direction_frames = killer_direction_frames;
     sprite->frameTable = direction_frames;
-    select_sprite_entry(sprite, direction_frames[(((s32)g_game_work.view.camera_rotation.parts.viewAngle + actor->field_2a + 0x100) >> 9) & 7], 0);
-    actor->field_6d--;
-    prepare_directional_attack(actor, sprite, actor->field_2a, 1, 0);
+    select_sprite_entry(sprite, direction_frames[(((s32)g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7], 0);
+    actor->pending_turn_updates--;
+    prepare_directional_attack(actor, sprite, actor->facing, 1, 0);
     if ((action_state->action_state_flags & 0x8000) == 0) {
-        actor->field_1c &= 0xFEFFFFFF;
+        actor->flags1C &= 0xFEFFFFFF;
     }
     return result;
 }

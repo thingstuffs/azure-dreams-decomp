@@ -49,7 +49,7 @@ typedef struct S_800BF7FC_1 {
 } S_800BF7FC_1;   /* obj in apply_room_holy_beam_item */
 
 /* Handles an item action for a target and updates dungeon record flags. */
-s32 apply_room_holy_beam_item(void *target, DungeonItemEntry *item, s16 action, s32 action_param)
+s32 apply_room_holy_beam_item(ActorRecord *target, DungeonItemEntry *item, s16 action, s32 action_param)
 {
     DungeonRecord *record;
     S_800BF7FC_1 *record_obj;
@@ -81,7 +81,7 @@ s32 apply_room_holy_beam_item(void *target, DungeonItemEntry *item, s16 action, 
         if (record_index >= 0 && !(dungeon_rooms[record_index].flags & ROOM_HOLY_BEAM)) {
             if (create_timed_region_flag_expiry(record_obj->unk_24,
                               record_obj->unk_25,
-                              ((EntityRec *)target)->unk_88,
+                              target->ground_height,
                               item->unk_00, record_index) == 0) {
                 return 0;
             }

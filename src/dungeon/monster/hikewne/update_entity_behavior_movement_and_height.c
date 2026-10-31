@@ -8,7 +8,7 @@
 #include "dungeon/item.h"
 #include "engine/texture.h"
 
-typedef void (*Callback)(void *, void *, void *, void *);
+typedef ActorActionHandler Callback;
 
 extern void select_sprite_entry(void *, u8, s32);
 extern void advance_sprite_animation_and_textures(void *);
@@ -34,9 +34,9 @@ typedef struct S_8016ADA8_2 {
 /* Updates entity behavior, movement, directional animation, and ground-relative height. */
 /* Runs Hikewne state callbacks from D_8016E168, alternates its bobbing idle frames, and resolves ground
  * contact. */
-void update_entity_behavior_movement_and_height(void *entity, ObjectPosition *motion, SpriteFrameState *sprite)
+void update_entity_behavior_movement_and_height(ActorRecord *body, ObjectPosition *motion, SpriteFrameState *sprite)
 {
-    S_8016ADA8_2 *entity_state = entity;
+    S_8016ADA8_2 *entity_state = (S_8016ADA8_2 *)body;
     s16 old_state_id;
     s16 direction;
     s16 sprite_direction;
@@ -53,50 +53,50 @@ void update_entity_behavior_movement_and_height(void *entity, ObjectPosition *mo
     Callback update_callback;
 
     if (g_dungeon_status.flags & 0x2000) {
-        paused_callback = (*(Callback *)((u8 *)entity + 0x8C));
+        paused_callback = body->unk_8C.handler;
         if (paused_callback == (Callback)D_8016B4D4) {
-            paused_callback(entity, motion, sprite, entity);
+            paused_callback(body, motion, sprite, body);
             return;
         }
-        (*(u8 *)((u8 *)entity + 0x71)) &= 0x7F;
+        body->movement_queue_state &= 0x7F;
         return;
     }
 
-    old_state_id = (s8)(*(u8 *)((u8 *)entity + 0x6D));
-    if (refresh_actor_facing_and_lifecycle(entity, motion, sprite, entity) != 0) {
+    old_state_id = (s8)(*(u8 *)((u8 *)body + 0x6D));
+    if (refresh_actor_facing_and_lifecycle(body, motion, sprite, body) != 0) {
         return;
     }
 
-    update_callback = (*(Callback *)((u8 *)entity + 0x8C));
+    update_callback = body->unk_8C.handler;
     if (update_callback != 0) {
-        update_callback(entity, motion, sprite, entity);
+        update_callback(body, motion, sprite, body);
     }
-    D_8016E168[(*(u8 *)((u8 *)entity + 0x9A))](entity, motion, sprite, entity);
-    if ((s16)old_state_id != (*(s8 *)((u8 *)entity + 0x6D))) {
-        try_move_actor_to_valid_position(entity, motion, sprite, entity);
+    D_8016E168[body->action_id.u](body, motion, sprite, body);
+    if ((s16)old_state_id != body->pending_turn_updates) {
+        try_move_actor_to_valid_position(body, motion, sprite, body);
     }
 
     motion->x.v += motion->velocity_x;
     motion->y.v += motion->velocity_y;
 
-    if (!((*(u32 *)((u8 *)entity + 0x1C)) & 0x40000) &&
-        !((*(u16 *)((u8 *)entity + 0x98)) & 8)) {
-        motion->velocity_z += (*(s8 *)((u8 *)entity + 0x9D)) * 0x14000;
-        (*(u8 *)((u8 *)entity + 0x9D))++;
+    if (!((*(u32 *)((u8 *)body + 0x1C)) & 0x40000) &&
+        !(body->action_state_flags & 8)) {
+        motion->velocity_z += body->unk_9D.s * 0x14000;
+        body->unk_9D.u++;
     } else {
-        (*(u8 *)((u8 *)entity + 0x9D)) = 0;
+        body->unk_9D.u = 0;
     }
-    (*(s32 *)((u8 *)entity + 0x90)) += motion->velocity_z;
+    body->unk_90.value += motion->velocity_z;
     sprite_flags = sprite->flags;
 
     if (!(sprite_flags & 0x8000)) {
         direction = ((g_game_work.view.camera_rotation.parts.viewAngle + entity_state->unk_2A + 0x100) >> 9) & 7;
         sprite_direction = direction;
-        if ((*(s16 *)((u8 *)entity + 0x94)) != sprite_direction) {
+        if (body->unk_94 != sprite_direction) {
             select_indirect_table_entry(sprite,
                 (*(u8 *)((u8 *)(*(u8 **)&sprite->frameTable) + sprite_direction)),
                 sprite->unk_04);
-            (*(s16 *)((u8 *)entity + 0x94)) = direction;
+            body->unk_94 = direction;
         }
         {
             u32 facing_flags;
@@ -123,18 +123,18 @@ void update_entity_behavior_movement_and_height(void *entity, ObjectPosition *mo
             entity_state->unk_1C.u = masked_flags;
             masked_flags &= 0x40000;
             if (!masked_flags) {
-                s32 offset = (*(s32 *)((u8 *)entity + 0xA0));
-                (*(u16 *)((u8 *)entity + 0x9E)) = 0;
-                (*(s32 *)((u8 *)entity + 0xA0)) = 0;
-                (*(s32 *)((u8 *)entity + 0x90)) -= offset;
-                if (!((*(u16 *)((u8 *)entity + 0x98)) & 8)) {
+                s32 offset = body->unk_A0.value;
+                body->unk_9E.u = 0;
+                body->unk_A0.value = 0;
+                body->unk_90.value -= offset;
+                if (!(body->action_state_flags & 8)) {
                     ground_height = sample_terrain_surface_height(((u16) motion->x.w.i),
                         ((u16) motion->y.w.i),
                         (s16)(entity_state->unk_88 - 0x20));
                     ground_delta = ground_height - entity_state->unk_88;
-                    if (ground_delta < (*(s16 *)((u8 *)entity + 0x92))) {
-                        (*(s16 *)((u8 *)entity + 0x92)) = ground_delta;
-                        (*(u8 *)((u8 *)entity + 0x9D)) = 0;
+                    if (ground_delta < body->unk_90.parts.high.s) {
+                        body->unk_90.parts.high.s = ground_delta;
+                        body->unk_9D.u = 0;
                         motion->velocity_z = 0;
                         entity_state->unk_1C.u |= 0x08000000;
                     }
@@ -143,22 +143,22 @@ void update_entity_behavior_movement_and_height(void *entity, ObjectPosition *mo
                 if (!(sprite->flags & 0x40)) {
                     if (*(u8 **)&sprite->frameTable == hikewne_frame_set_14) {
                         if (*(u16 *)&sprite->unk_04 == 0x100) {
-                            (*(u16 *)((u8 *)entity + 0x9E)) = 0;
+                            body->unk_9E.u = 0;
                         }
-                        bob_tick = (*(u16 *)((u8 *)entity + 0x9E))++;
+                        bob_tick = body->unk_9E.u++;
                         bob_phase = (s32)((u32)bob_tick << 16) >> 16;
                         bob_angle = bob_phase * 0xE3;
-                        (*(s32 *)((u8 *)entity + 0xA0)) = rsin(bob_angle) << 7;
+                        body->unk_A0.value = rsin(bob_angle) << 7;
                         if (*(u16 *)&sprite->unk_04 == 0x103) {
                             (sprite->frameTable) = hikewne_frame_set_15;
                             select_sprite_entry(sprite, hikewne_frame_set_15[((g_game_work.view.camera_rotation.parts.viewAngle
                                 + entity_state->unk_2A + 0x100) >> 9) & 7], 0);
                         }
                     } else if (*(u8 **)&sprite->frameTable == hikewne_frame_set_15) {
-                        bob_tick = (*(u16 *)((u8 *)entity + 0x9E))++;
+                        bob_tick = body->unk_9E.u++;
                         bob_phase = (s32)((u32)bob_tick << 16) >> 16;
                         bob_angle = bob_phase * 0xE3;
-                        (*(s32 *)((u8 *)entity + 0xA0)) = rsin(bob_angle) << 7;
+                        body->unk_A0.value = rsin(bob_angle) << 7;
                         if (*(u16 *)&sprite->unk_04 == 0x103) {
                             (sprite->frameTable) = hikewne_frame_set_14;
                             select_sprite_entry(sprite, hikewne_frame_set_14[((g_game_work.view.camera_rotation.parts.viewAngle
@@ -167,18 +167,18 @@ void update_entity_behavior_movement_and_height(void *entity, ObjectPosition *mo
                     }
                 }
 
-                if (!((*(u16 *)((u8 *)entity + 0x98)) & 8)) {
+                if (!(body->action_state_flags & 8)) {
                     s32 height_work = -0x20;
-                    height_offset = (*(s16 *)((u8 *)entity + 0x92));
-                    entity_flags = (*(u16 *)((u8 *)entity + 0x92));
+                    height_offset = body->unk_90.parts.high.s;
+                    entity_flags = body->unk_90.parts.high.u;
                     if (height_work < height_offset) {
                         height_work = entity_flags - 8;
-                        (*(s16 *)((u8 *)entity + 0x92)) = height_work;
+                        body->unk_90.parts.high.s = height_work;
                     } else {
                         height_work = height_offset < -0x28;
                         if (height_work) {
                             height_work = entity_flags + 8;
-                            (*(s16 *)((u8 *)entity + 0x92)) = height_work;
+                            body->unk_90.parts.high.s = height_work;
                         }
                     }
                 }
@@ -190,18 +190,18 @@ void update_entity_behavior_movement_and_height(void *entity, ObjectPosition *mo
         : (sprite_flags | 0x7000);
         entity_state->unk_1C.u &= 0xF7FFFFFF;
         if (!(entity_state->unk_1C.u & 0x40000)) {
-            bob_offset = (*(s32 *)((u8 *)entity + 0xA0));
-            (*(u16 *)((u8 *)entity + 0x9E)) = 0;
-            (*(s32 *)((u8 *)entity + 0xA0)) = 0;
-            (*(s32 *)((u8 *)entity + 0x90)) -= bob_offset;
-            if (!((*(u16 *)((u8 *)entity + 0x98)) & 8)) {
+            bob_offset = body->unk_A0.value;
+            body->unk_9E.u = 0;
+            body->unk_A0.value = 0;
+            body->unk_90.value -= bob_offset;
+            if (!(body->action_state_flags & 8)) {
                 ground_height = sample_terrain_surface_height(((u16) motion->x.w.i),
                     ((u16) motion->y.w.i),
                     (s16)(entity_state->unk_88 - 0x20));
                 ground_delta = ground_height - entity_state->unk_88;
-                if (ground_delta < (*(s16 *)((u8 *)entity + 0x92))) {
-                    (*(s16 *)((u8 *)entity + 0x92)) = ground_delta;
-                    (*(u8 *)((u8 *)entity + 0x9D)) = 0;
+                if (ground_delta < body->unk_90.parts.high.s) {
+                    body->unk_90.parts.high.s = ground_delta;
+                    body->unk_9D.u = 0;
                     motion->velocity_z = 0;
                     entity_state->unk_1C.u |= 0x08000000;
                 }
@@ -210,22 +210,22 @@ void update_entity_behavior_movement_and_height(void *entity, ObjectPosition *mo
             if (!(sprite->flags & 0x40)) {
                 if (*(u8 **)&sprite->frameTable == hikewne_frame_set_14) {
                     if (*(u16 *)&sprite->unk_04 == 0x100) {
-                        (*(u16 *)((u8 *)entity + 0x9E)) = 0;
+                        body->unk_9E.u = 0;
                     }
-                    bob_tick = (*(u16 *)((u8 *)entity + 0x9E))++;
+                    bob_tick = body->unk_9E.u++;
                     bob_phase = (s32)((u32)bob_tick << 16) >> 16;
                     bob_angle = bob_phase * 0xE3;
-                    (*(s32 *)((u8 *)entity + 0xA0)) = rsin(bob_angle) << 7;
+                    body->unk_A0.value = rsin(bob_angle) << 7;
                     if (*(u16 *)&sprite->unk_04 == 0x103) {
                         (sprite->frameTable) = hikewne_frame_set_15;
                         select_sprite_entry(sprite, hikewne_frame_set_15[((g_game_work.view.camera_rotation.parts.viewAngle
                             + entity_state->unk_2A + 0x100) >> 9) & 7], 0);
                     }
                 } else if (*(u8 **)&sprite->frameTable == hikewne_frame_set_15) {
-                    bob_tick = (*(u16 *)((u8 *)entity + 0x9E))++;
+                    bob_tick = body->unk_9E.u++;
                     bob_phase = (s32)((u32)bob_tick << 16) >> 16;
                     bob_angle = bob_phase * 0xE3;
-                    (*(s32 *)((u8 *)entity + 0xA0)) = rsin(bob_angle) << 7;
+                    body->unk_A0.value = rsin(bob_angle) << 7;
                     if (*(u16 *)&sprite->unk_04 == 0x103) {
                         (sprite->frameTable) = hikewne_frame_set_14;
                         select_sprite_entry(sprite, hikewne_frame_set_14[((g_game_work.view.camera_rotation.parts.viewAngle
@@ -234,18 +234,18 @@ void update_entity_behavior_movement_and_height(void *entity, ObjectPosition *mo
                 }
             }
 
-            if (!((*(u16 *)((u8 *)entity + 0x98)) & 8)) {
+            if (!(body->action_state_flags & 8)) {
                 s32 height_work = -0x20;
-                height_offset = (*(s16 *)((u8 *)entity + 0x92));
-                entity_flags = (*(u16 *)((u8 *)entity + 0x92));
+                height_offset = body->unk_90.parts.high.s;
+                entity_flags = body->unk_90.parts.high.u;
                 if (height_work < height_offset) {
                     height_work = entity_flags - 8;
-                    (*(s16 *)((u8 *)entity + 0x92)) = height_work;
+                    body->unk_90.parts.high.s = height_work;
                 } else {
                     height_work = height_offset < -0x28;
                     if (height_work) {
                         height_work = entity_flags + 8;
-                        (*(s16 *)((u8 *)entity + 0x92)) = height_work;
+                        body->unk_90.parts.high.s = height_work;
                     }
                 }
             }
@@ -259,14 +259,14 @@ void update_entity_behavior_movement_and_height(void *entity, ObjectPosition *mo
             (sprite->tile_y << 6) | 0x20,
             (s16)(entity_state->unk_88 - 0x20));
         if (ground_height < 0x200) {
-            (*(s16 *)((u8 *)entity + 0x92)) =
+            body->unk_90.parts.high.s =
                 (entity_state->unk_88 - ground_height) +
-                (*(u16 *)((u8 *)entity + 0x92));
+                body->unk_90.parts.high.u;
             entity_state->unk_88 = ground_height;
         }
     }
 
     motion->z.w.i = entity_state->unk_88 +
-        (*(u16 *)((u8 *)entity + 0x92)) - (*(u16 *)((u8 *)entity + 0xA2));
+        body->unk_90.parts.high.u - body->unk_A0.parts.high;
     sprite->flags |= 0x40;
 }

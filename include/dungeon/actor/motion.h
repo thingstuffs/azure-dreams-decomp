@@ -12,7 +12,7 @@
 void begin_pushed_actor_move(void *state_in, void *unused, void *position_in, void *actor_in);
 s32 begin_ready_actor_directional_action(ActorRecord *body, ObjectPosition *position, SpriteFrameState *sprite, u8 *direction_frames);
 void begin_actor_move_to_target_facing(ActorRecord *body, ObjectPosition *position, SpriteFrameState *sprite, ActorRecord *actor);
-void dispatch_actor_action_2(u8 *actor, void *action_arg, void *action_data, u8 *state);
+void dispatch_actor_action_2(u8 *actor, ObjectPosition *position, SpriteFrameState *sprite, u8 *state);
 
 void update_airborne_actor_motion(void *action, ObjectPosition *motion, SpriteFrameState *sprite, EntityRec *actor);
 
@@ -21,7 +21,7 @@ struct ActorHopMotion;
 struct ActorHopParams;
 struct ActorHopExtra;
 
-void update_actor_facing_and_lifecycle(void *state, ObjectPosition *motion, SpriteFrameState *part);
+void update_actor_facing_and_lifecycle(ActorRecord *body, ObjectPosition *motion, SpriteFrameState *part);
 void update_rising_landing_effect(void *effect, ObjectPosition *motion, SpriteFrameState *sprite);
 
 struct S_800AC480_0;
@@ -40,7 +40,7 @@ s32 update_actor_hop_and_shrink(void *animation, void *motion, SpriteFrameState 
 
 s32 update_actor_movement_to_tile(void *move_state, void *motion, void *target_tile, ActorRecord *actor);
 struct S_800D9884_0;
-void update_actor_target_after_check(struct S_800D9884_0 *state, void *motion, void *source, void *target);
+void update_actor_target_after_check(ActorRecord *state, ObjectPosition *motion, SpriteFrameState *sprite, ActorRecord *target);
 void advance_actor_movement_to_tile(void *entity_ptr, void *input_arg_1, void *input_arg_2, void *actor_ptr);
 
 

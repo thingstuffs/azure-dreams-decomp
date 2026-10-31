@@ -74,9 +74,9 @@ typedef struct S_8017112C_4 {
 } S_8017112C_4;   /* motion in update_actor_movement_and_height */
 
 /* Updates actor behavior, movement, facing, and height. */
-void update_actor_movement_and_height(void *entity_arg, void *motion_arg, SpriteFrameState *monster_arg)
+void update_actor_movement_and_height(ActorRecord *body, ObjectPosition *position, SpriteFrameState *sprite)
 {
-    S_8017112C_0 *actor = entity_arg;
+    S_8017112C_0 *actor = (S_8017112C_0 *)body;
     u16 state_direction;
     void *call_entity;
     void *call_motion;
@@ -125,99 +125,99 @@ void update_actor_movement_and_height(void *entity_arg, void *motion_arg, Sprite
     }
 
     if (g_dungeon_status.flags & 0x2000) {
-        callback = (*(Callback *)((u8 *)entity_arg + (0x8C)));
+        callback = body->unk_8C.handler;
         if (callback == (Callback)&update_object_animation) {
-            callback(entity_arg, motion_arg, monster_arg, actor);
+            callback(body, position, sprite, actor);
             return;
         }
         actor->unk_71 &= 0x7F;
         return;
     }
 
-    call_entity = entity_arg;
-    call_motion = motion_arg;
-    call_monster = monster_arg;
+    call_entity = body;
+    call_motion = position;
+    call_monster = sprite;
     state_direction = actor->unk_6D.n2;
     if (refresh_actor_facing_and_lifecycle(call_entity, call_motion, call_monster, actor) != 0) {
         return;
     }
 
-    active_callback = (*(Callback *)((u8 *)entity_arg + (0x8C)));
+    active_callback = body->unk_8C.handler;
     if (active_callback != 0) {
-        active_callback(entity_arg, motion_arg, monster_arg, actor);
+        active_callback(body, position, sprite, actor);
     }
-    beldo_callbacks[(*(u8 *)((u8 *)entity_arg + (0x9A)))](entity_arg, motion_arg, monster_arg, actor);
+    beldo_callbacks[body->action_id.u](body, position, sprite, actor);
 
     saved_state = (s32)state_direction << 16;
     current_state = actor->unk_6D.n2;
     saved_state >>= 16;
     if (saved_state != current_state) {
-        try_move_actor_to_valid_position(entity_arg, motion_arg, monster_arg, actor);
+        try_move_actor_to_valid_position(body, position, sprite, actor);
     }
 
-    ((S_8017112C_4 *)motion_arg)->unk_00 += ((S_8017112C_4 *)motion_arg)->unk_0C;
-    (*(s32 *)((u8 *)motion_arg + (4))) += ((S_8017112C_4 *)motion_arg)->unk_10;
+    position->x.v += position->velocity_x;
+    position->y.v += position->velocity_y;
 
     view_angle = g_game_work.view.camera_rotation.parts.viewAngle + actor->unk_2A + 0x100;
     state_direction = (view_angle >> 9) & 7;
-    if ((*(s16 *)((u8 *)entity_arg + (0x94))) != state_direction) {
-        select_indirect_table_entry(monster_arg,
-                      *((u8 *)monster_arg->frameTable + state_direction),
-                      monster_arg->unk_04);
-        (*(s16 *)((u8 *)entity_arg + (0x94))) = state_direction;
+    if (body->unk_94 != state_direction) {
+        select_indirect_table_entry(sprite,
+                      *((u8 *)sprite->frameTable + state_direction),
+                      sprite->unk_04);
+        body->unk_94 = state_direction;
     }
 
-    monster_arg->flags &= 0xFFFE;
-    apply_monster_koyaw_data(actor->unk_1C, (u8 *)monster_arg + 0xC);
+    sprite->flags &= 0xFFFE;
+    apply_monster_koyaw_data(actor->unk_1C, (u8 *)sprite + 0xC);
 
     if (!(actor->unk_1C & 0x20)) {
-        if (!(monster_arg->flags & 0x40)) {
-            advance_sprite_animation_and_textures(monster_arg);
+        if (!(sprite->flags & 0x40)) {
+            advance_sprite_animation_and_textures(sprite);
         }
     } else {
-        monster_arg->flags |= 0x7000;
+        sprite->flags |= 0x7000;
         actor->unk_1C &= 0xFFFBFFFF;
     }
 
-    if ((*(s16 *)((u8 *)entity_arg + (0xB8))) == 1) {
-        target_height = ((S_8017112C_4 *)motion_arg)->unk_14.at02.v;
-        height = ((S_8017112C_4 *)motion_arg)->unk_08.at02.v;
-        height_fixed = ((S_8017112C_4 *)motion_arg)->unk_08.at02u.v;
+    if ((*(s16 *)((u8 *)body + (0xB8))) == 1) {
+        target_height = ((S_8017112C_4 *)position)->unk_14.at02.v;
+        height = position->z.w.i;
+        height_fixed = ((S_8017112C_4 *)position)->unk_08.at02u.v;
         if (target_height > height) {
             height_gap = target_height - height;
             height_gap = abs(height_gap);
             divisor_magic = 0x66660000;
             if (height_gap >= 0x65) {
                 height_gap = height_fixed + 8;
-                ((S_8017112C_4 *)motion_arg)->unk_08.at02.v = height_gap;
+                position->z.w.i = height_gap;
             } else {
-                height_delta = ((S_8017112C_4 *)motion_arg)->unk_14.at00.v;
-                height_fixed = ((S_8017112C_4 *)motion_arg)->unk_08.at00.v;
+                height_delta = position->velocity_z;
+                height_fixed = position->z.v;
                 divisor_magic |= 0x6667;
                 height_delta -= height_fixed;
                 height_delta = abs(height_delta);
                 product.value = (long long)height_delta * divisor_magic;
                 height_step = (product.word.high >> 2) - (height_delta >> 31);
                 height_fixed += height_step;
-                ((S_8017112C_4 *)motion_arg)->unk_08.at00.v = height_fixed;
+                position->z.v = height_fixed;
             }
         }
     }
 
-    if ((*(s16 *)((u8 *)entity_arg + (0xB8))) == 2 && ((S_8017112C_4 *)motion_arg)->unk_08.at02.v >= -0x3EF) {
-        ((S_8017112C_4 *)motion_arg)->unk_08.at02.v = ((S_8017112C_4 *)motion_arg)->unk_08.at02u.v - 4;
+    if ((*(s16 *)((u8 *)body + (0xB8))) == 2 && position->z.w.i >= -0x3EF) {
+        position->z.w.i = ((S_8017112C_4 *)position)->unk_08.at02u.v - 4;
     }
 
     if (actor->unk_1C & 0x40000000) {
         actor->unk_1C &= 0xBFFFFFFF;
-        floor_height = sample_terrain_surface_height((monster_arg->tile_x << 6) | 0x20,
-                              (monster_arg->tile_y << 6) | 0x20,
+        floor_height = sample_terrain_surface_height((sprite->tile_x << 6) | 0x20,
+                              (sprite->tile_y << 6) | 0x20,
                               (s16)(actor->unk_88 - 0x20));
         if (floor_height < 0x200) {
-            (*(u16 *)((u8 *)entity_arg + (0x92))) += actor->unk_88 - floor_height;
+            body->unk_90.parts.high.u += actor->unk_88 - floor_height;
             actor->unk_88 = floor_height;
         }
     }
 
-    monster_arg->flags |= 0x40;
+    sprite->flags |= 0x40;
 }

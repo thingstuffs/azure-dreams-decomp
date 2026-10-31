@@ -15,7 +15,7 @@
 extern void set_or_clear_actor_status_slot(void *, s32, s32);
 extern s32 generate_random_value(void);
 extern void try_move_actor_to_valid_position(void *, void *, void *, void *);
-extern void update_actor_callbacks_and_ground(void *actor, void *motion, SpriteFrameState *sprite);
+extern void update_actor_callbacks_and_ground(void *actor, ObjectPosition *position, SpriteFrameState *sprite);
 void update_actor_animation_and_behavior(ActorRecord *actor, ObjectPosition *context, SpriteFrameState *sprite, ActorRecord *entity);
 
 extern u8 kewne_frame_set_1[];

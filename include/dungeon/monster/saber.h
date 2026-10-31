@@ -51,6 +51,6 @@ void update_tile_movement_and_action_completion(ActorRecord *action, ObjectPosit
 void reset_eligible_entity_state(void *entity_arg, void *motion, void *check_arg, void *actor_arg);
 
 /* Owner declarations appended by tools/headers (append-only; the lines above are hand-kept). */
-void initialize_actor_facing_sprite(void *actor_state, void *action_state, SpriteFrameState *sprite, void *orientation);
+void initialize_actor_facing_sprite(ActorRecord *body, ObjectPosition *position, SpriteFrameState *sprite, void *orientation);
 
 #endif

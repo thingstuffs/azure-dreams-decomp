@@ -6,6 +6,7 @@
 
 struct S_800A8BBC_0;
 struct Vec4;
+struct TownMapEntryProcessorBody;
 
 /* apply_building_tile_entry.c */
 void apply_building_tile_entry(s16 x, s16 y, u8 entry_index);
@@ -29,7 +30,7 @@ void write_wrapped_packed_nibble(s32 nibble, s32 index, s32 nibble_count, u8 *pa
 void process_all_lookup_entries(s32 lookup_key, void *context);
 void process_indexed_entry_record(s32 entry_index);
 void upload_town_movie_pixel_data_2(void);
-void advance_index_and_mark_completion(s32 *currentIndex);
+void advance_index_and_mark_completion(struct TownMapEntryProcessorBody *processor);
 void create_town_map_entry_processor(void);
 
 /* write_square_position_offsets.c */

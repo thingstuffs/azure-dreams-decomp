@@ -4,16 +4,14 @@
 #include "engine/scene.h"
 #include "sdk/libc.h"
 
-typedef struct S_8004EEBC_Obj S_8004EEBC_Obj;
-
 typedef struct S_8004F418_Node {
     struct S_8004F418_Node *next;
     u8 pad4[8];
     void *unkC;
-    void (*unk10)(S_8004EEBC_Obj *);
+    void (*unk10)(SevenEntryMenuBackdropBody *);
     u8 pad14[10];
     u16 flags;
-    u8 body[0x31C];
+    SevenEntryMenuBackdropBody body;
 } S_8004F418_Node;
 
 extern S_8004F418_Node menu_backdrop_node_storage;
@@ -26,7 +24,7 @@ extern void *link_menu_backdrop_display_nodes(void *);
 void *create_or_reset_seven_entry_menu_backdrop(s32 owner, s32 state)
 {
     S_8004F418_Node *node = &menu_backdrop_node_storage;
-    u8 *body = node->body;
+    SevenEntryMenuBackdropBody *body = &node->body;
     u8 *template_node;
 
     if (find_active_list_node(node) == 0) {
@@ -46,12 +44,12 @@ void *create_or_reset_seven_entry_menu_backdrop(s32 owner, s32 state)
     upper_draw_context[0x108EF] = 0;
     initialize_menu_backdrop_display_nodes(body, 7);
 
-    template_node = body + 0x210;
+    template_node = (u8 *)body + 0x210;
     node->unkC = template_node;
-    *(void **)(body + 0x21C) = link_menu_backdrop_display_nodes(body + 0x220);
-    *(s32 *)(body + 4) = state;
+    body->display_node_chain = link_menu_backdrop_display_nodes(&body->view.initializer.node_pointers[0]);
+    body->state.value = state;
     initialize_menu_backdrop_layout(body, owner);
     node->unk10 = update_menu_backdrop_variant;
-    update_menu_backdrop_variant((S_8004EEBC_Obj *)body);
+    update_menu_backdrop_variant(body);
     return node;
 }

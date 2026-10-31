@@ -38,11 +38,6 @@ typedef struct S_8016BD14_1 {
     u8 unk_9D;
 } S_8016BD14_1;   /* arg0 in advance_entity_along_path */
 
-typedef struct S_8016BD14_2 {
-    u8 pad_00[0x14];
-    s32 unk_14;
-} S_8016BD14_2;   /* arg1 in advance_entity_along_path */
-
 typedef struct S_8016BD14_4 {
     u8 pad_00[0x7C];
     u8 unk_7C;
@@ -56,7 +51,7 @@ typedef struct S_8016BD14_5 {
 } S_8016BD14_5;   /* (u8 *)ctx + ((S_8016BD14_0 *)ctx)->unk_8A.s in advance_entity_along_path */
 
 /* Advance the entity along its path and update its heading and movement state. */
-void advance_entity_along_path(void *actor, void *action, SpriteFrameState *entity, void *path_arg) {
+void advance_entity_along_path(void *actor, ObjectPosition *position, SpriteFrameState *sprite, void *path_arg) {
     ActorRecord *path_actor = actor;
     register S_8016BD14_0 *path;
     s32 step_index;
@@ -80,7 +75,7 @@ void advance_entity_along_path(void *actor, void *action, SpriteFrameState *enti
     move_state = 15;
     if (((S_8016BD14_1 *)actor)->unk_9A != move_state) {
         ((S_8016BD14_1 *)actor)->unk_90 = 0;
-        ((S_8016BD14_2 *)action)->unk_14 = 0;
+        position->velocity_z = 0;
         ((S_8016BD14_1 *)actor)->unk_9D = 0;
     }
 
@@ -88,17 +83,17 @@ void advance_entity_along_path(void *actor, void *action, SpriteFrameState *enti
         return;
     }
 
-    if (*(u8 **)&entity->frameTable != ghosh_frame_set_7) {
-        (entity->frameTable) = ghosh_frame_set_7;
+    if (*(u8 **)&sprite->frameTable != ghosh_frame_set_7) {
+        (sprite->frameTable) = ghosh_frame_set_7;
         select_sprite_entry(
-            entity,
+            sprite,
             ghosh_frame_set_7[((g_game_work.view.camera_rotation.parts.viewAngle + path->unk_2A + 0x100) >> 9) & 7],
             0);
     }
 
     old_tile_flags = path->unk_1C;
-    tile_x = entity->tile_x;
-    tile_y = entity->tile_y;
+    tile_x = sprite->tile_x;
+    tile_y = sprite->tile_y;
     old_tile_flags = old_tile_flags & 0x2000;
     update_map_cell_flags_with_item_limit(tile_x, tile_y, old_tile_flags ? 0x300 : 0x3000);
 
@@ -106,29 +101,29 @@ void advance_entity_along_path(void *actor, void *action, SpriteFrameState *enti
                             ((S_8016BD14_5 *)((u8 *)path + path->unk_8A.s))->unk_74,
                             ((S_8016BD14_5 *)((u8 *)path + path->unk_8A.s))->unk_7C,
                             &path_actor->action_state_flags);
-    raw_result = check_movement_clearance_and_height(heading, entity, path, 0x20);
+    raw_result = check_movement_clearance_and_height(heading, sprite, path, 0x20);
 
     next_x = ((S_8016BD14_5 *)((u8 *)path + path->unk_8A.s))->unk_74;
     raw_result = raw_result << 16;
-    entity->tile_x = next_x;
+    sprite->tile_x = next_x;
     step = (u8 *)path + path->unk_8A.s;
     move_result = raw_result >> 16;
     /* BYTES: sched1/sched2 region barrier or tie: unwrap reorders independent insns (no memory dependence) (ledger/onetrip_loadbearing.jsonl: dungeon/func_81324514). */
     do {
-        entity->tile_y = ((S_8016BD14_4 *)step)->unk_7C;
+        sprite->tile_y = ((S_8016BD14_4 *)step)->unk_7C;
         step_index = path->unk_8A.u;
     } while (0);
     new_tile_flags = path->unk_1C;
     step_index = step_index + 1;
     new_tile_flags = new_tile_flags & 0x2000;
     path->unk_8A.u = step_index;
-    cycle_map_cell_flags(entity->tile_x, entity->tile_y,
+    cycle_map_cell_flags(sprite->tile_x, sprite->tile_y,
                   new_tile_flags ? 0x300 : 0x3000);
     path->unk_2A = heading;
 
     if (move_result == 3) {
-        if (!(g_dungeon_status.flags & 0x80) && !(entity->flags & 0x8000)) {
-            func_8016C698(actor, action, entity, path);
+        if (!(g_dungeon_status.flags & 0x80) && !(sprite->flags & 0x8000)) {
+            func_8016C698(actor, position, sprite, path);
         } else {
             ((S_8016BD14_1 *)actor)->unk_9A = 15;
         }

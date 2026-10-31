@@ -31,31 +31,31 @@ extern u8 player_sleep_frames;
 extern s32 get_entity_effect_value(void *entry, s32 effect_id);
 
 /* Advances actor animation states, periodic events, and handler transitions. */
-void update_player_sleep_action(Arg0Struct *controller, void *unused, SpriteAnimationTableView *animation, ActorRecord *actor) {
+void update_player_sleep_action(ActorRecord *controller, void *unused, SpriteAnimationTableView *animation, ActorRecord *actor) {
     s32 event_code;
     GameWork *scene = &g_game_work;
 
     (void)unused;
-    switch (controller->state) {
+    switch (controller->action_phase.u) {
     case 0:
         if (animation->flags & 0xE000) {
             animation->frame_table = &player_sleep_frames;
             set_sprite_animation_frame(animation, (&player_sleep_frames)[((s32)(scene->view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7], 0,
                 1);
-            controller->handler = &D_8008B870;
-            controller->state = (s8)(controller->state + 1);
+            controller->unk_8C.address = &D_8008B870;
+            controller->action_phase.u = (s8)(controller->action_phase.u + 1);
         }
         break;
 
     case 1:
-        if (!(controller->timer & 0x1F)) {
+        if (!(controller->action_timer.u & 0x1F)) {
             event_code = 0x50F;
-            if (controller->timer & 0x20) {
+            if (controller->action_timer.u & 0x20) {
                 event_code = 0x50E;
             }
             play_sound_if_enabled(event_code);
         }
-        if (!(g_dungeon_status.flags & 4) && (controller->flagsa2 & 0x10)) {
+        if (!(g_dungeon_status.flags & 4) && (controller->unk_A0.parts.high & 0x10)) {
             if ((scene->buttons & 0x20) && (check_action_available_without_nearby_actor() != 0)) {
                 g_dungeon_status.flags |= 0x80;
             }
@@ -63,9 +63,9 @@ void update_player_sleep_action(Arg0Struct *controller, void *unused, SpriteAnim
                 animation->frame_table = return_magic_frames;
                 set_sprite_animation_frame(animation, return_magic_frames[((s32)(g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
                     0, 1);
-                controller->handler = NULL;
+                controller->unk_8C.address = NULL;
                 g_dungeon_status.activity_counts.parts.pending_action_count += 1;
-                controller->state += 1;
+                controller->action_phase.u += 1;
             } else {
                 process_unflagged_linked_entries_alt(actor->next_actor_header);
                 process_unflagged_linked_entries(actor->next_actor_header);
@@ -80,11 +80,11 @@ void update_player_sleep_action(Arg0Struct *controller, void *unused, SpriteAnim
             process_unflagged_linked_entries_alt(actor->next_actor_header);
             process_unflagged_linked_entries(actor->next_actor_header);
             g_dungeon_status.flags |= 0x812;
-            controller->handler =handle_player_input;
+            controller->unk_8C.address =handle_player_input;
             g_dungeon_status.activity_counts.parts.pending_action_count -= 1;
         }
         break;
     }
 
-    controller->timer += 1;
+    controller->action_timer.u += 1;
 }

@@ -66,15 +66,15 @@ void upload_town_movie_pixel_data_2(void) {
 }
 
 /* Processes the current index, advances it, and marks completion at 128. */
-void advance_index_and_mark_completion(s32 *currentIndex)
+void advance_index_and_mark_completion(TownMapEntryProcessorBody *processor)
 {
     s32 nextIndex;
 
-    process_indexed_entry_record(*currentIndex);
-    nextIndex = *currentIndex + 1;
-    *currentIndex = nextIndex;
+    process_indexed_entry_record(processor->current_index);
+    nextIndex = processor->current_index + 1;
+    processor->current_index = nextIndex;
     if (nextIndex >= 0x80) {
-        *(u16 *)((u8 *)currentIndex - 2) |= 0x8000;
+        *(u16 *)((u8 *)processor - 2) |= 0x8000;
         town_map_processor[0] = 0;
         object_flag_block.flags |= OBJECT_REMOVE_PENDING;
     }

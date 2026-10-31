@@ -13,35 +13,6 @@
 #define NULL 0
 #endif
 
-typedef struct S_80175BA8_0 {
-    u8 pad_00[0x8C];
-    void * unk_8C;
-    u8 pad_90[0x2];
-    union { s16 s; u16 u; } unk_92;   /* accessed as both */
-    u8 pad_94[0x2];
-    u16 unk_96;
-    u16 unk_98;
-    u8 pad_9A[0x1];
-    u8 unk_9B;
-    u8 pad_9C[0xC];
-    s16 unk_A8;
-    u8 pad_AA[0x2];
-    void * unk_AC;
-    u8 pad_B0[0x1];
-    s8 unk_B1;
-    s8 unk_B2;
-    s8 unk_B3;
-    s8 unk_B4;
-    s8 unk_B5;
-} S_80175BA8_0;   /* arg0 in enter_actor_aura_mode */
-
-
-typedef struct S_80175BA8_2 {
-    u8 pad_00[0x2A];
-    s16 unk_2A;
-    u8 pad_2C[0x5C];
-    u16 unk_88;
-} S_80175BA8_2;   /* arg3 in enter_actor_aura_mode */
 
 typedef struct S_80175BA8_5 {
     u8 pad_00[0x38];
@@ -62,7 +33,7 @@ extern u8 D_80170CEC[];
 #include "engine/graphics.h"
 
 /* Updates the actor's height offset, spawns an effect, and advances its animation phases. */
-void enter_actor_aura_mode(void *actor_state, ObjectPosition *position, SpriteFrameState *sprite, void *actor_info) {
+void enter_actor_aura_mode(ActorRecord *body, ObjectPosition *position, SpriteFrameState *sprite, ActorRecord *actor) {
     void *allocation_head_address;
     ObjectNodeHeader **allocation_head;
     s16 target_offset;
@@ -76,41 +47,41 @@ void enter_actor_aura_mode(void *actor_state, ObjectPosition *position, SpriteFr
     S_80175BA8_5 *effect_state;
     ObjectPosition *effect_position;
 
-    phase = ((S_80175BA8_0 *)actor_state)->unk_9B;
+    phase = body->action_phase.u;
     switch (phase) {
     case 0:
         position->velocity_z = 0;
         position->velocity_y = 0;
         position->velocity_x = 0;
         target_offset = sample_terrain_surface_height(((u16) position->x.w.i), ((u16) position->y.w.i),
-                                (s16)(((S_80175BA8_2 *)actor_info)->unk_88 - 0x20))
-        - ((S_80175BA8_2 *)actor_info)->unk_88;
-        if (((S_80175BA8_0 *)actor_state)->unk_92.s < target_offset) {
-            next_offset = ((S_80175BA8_0 *)actor_state)->unk_92.u + 0xC;
-            ((S_80175BA8_0 *)actor_state)->unk_92.u = next_offset;
+                                (s16)(actor->ground_height - 0x20))
+        - actor->ground_height;
+        if (body->unk_90.parts.high.s < target_offset) {
+            next_offset = body->unk_90.parts.high.u + 0xC;
+            body->unk_90.parts.high.u = next_offset;
             if (target_offset < (s16)next_offset) {
-                ((S_80175BA8_0 *)actor_state)->unk_92.s = target_offset;
+                body->unk_90.parts.high.s = target_offset;
             }
         } else {
-            ((S_80175BA8_0 *)actor_state)->unk_92.s = target_offset;
+            body->unk_90.parts.high.s = target_offset;
         }
         if (sprite->flags & 0x8000) {
-            ((S_80175BA8_0 *)actor_state)->unk_92.u = 0;
+            body->unk_90.parts.high.u = 0;
         }
-        phase_ticks = ((S_80175BA8_0 *)actor_state)->unk_96 + 1;
-        ((S_80175BA8_0 *)actor_state)->unk_96 = phase_ticks;
+        phase_ticks = body->action_timer.u + 1;
+        body->action_timer.u = phase_ticks;
         if (((s16)phase_ticks == 1) || (sprite->flags & 0x8000)) {
-            ((S_80175BA8_0 *)actor_state)->unk_B5 = 1;
-            allocation_head_address = (u8 *)actor_state - 0x20;
+            body->unk_B4.bytes[1] = 1;
+            allocation_head_address = (u8 *)body - 0x20;
             allocation_head = allocation_head_address;
             effect = allocate_list_node(0x12,allocation_head);
             if (effect != NULL) {
-                ((S_80175BA8_0 *)actor_state)->unk_AC = effect;
+                body->unk_AC.address = effect;
                 effect->update_callback = D_80170CEC;
                 register_node(effect, clipped_sprite_renderer_address);
                 effect_state = (S_80175BA8_5 *)((u8 *)effect + 0x20);
                 effect_state->unk_38 = 5;
-                effect_state->unk_40 = actor_state;
+                effect_state->unk_40 = body;
                 effect_state->unk_44 = position;
                 effect_sprite = effect->sprite;
                 effect_sprite->tpage_abr = 0x40;
@@ -118,7 +89,7 @@ void enter_actor_aura_mode(void *actor_state, ObjectPosition *position, SpriteFr
                 effect_position = effect->position;
                 effect_position->x.w.i = ((u16) position->x.w.i);
                 effect_position->y.w.i = ((u16) position->y.w.i);
-                effect_position->z.w.i = ((S_80175BA8_2 *)actor_info)->unk_88;
+                effect_position->z.w.i = actor->ground_height;
                 effect_sprite = effect->sprite;
                 effect_sprite->scale_y = 0xA00;
                 effect_sprite->scale_x = 0xA00;
@@ -128,14 +99,14 @@ void enter_actor_aura_mode(void *actor_state, ObjectPosition *position, SpriteFr
                 effect_sprite->source = uboat_aura_sprite_data;
             }
         }
-        if (((S_80175BA8_0 *)actor_state)->unk_92.s == 0) {
+        if (body->unk_90.parts.high.s == 0) {
             (sprite->frameTable) = uboat_aura_start_frames;
             select_sprite_entry(sprite,
-                          uboat_aura_start_frames[((g_game_work.view.camera_rotation.parts.viewAngle + ((S_80175BA8_2 *)actor_info)->unk_2A + 0x100)
+                          uboat_aura_start_frames[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100)
                               >> 9) & 7],
                           0);
-            ((S_80175BA8_0 *)actor_state)->unk_96 = 2;
-            ((S_80175BA8_0 *)actor_state)->unk_9B++;
+            body->action_timer.u = 2;
+            body->action_phase.u++;
             if (!(sprite->flags & 0x8000)) {
                 play_sound_if_enabled(0x800);
             }
@@ -145,36 +116,36 @@ void enter_actor_aura_mode(void *actor_state, ObjectPosition *position, SpriteFr
         }
 
     case 1:
-        first_delay = ((S_80175BA8_0 *)actor_state)->unk_96 - 1;
-        ((S_80175BA8_0 *)actor_state)->unk_96 = first_delay;
+        first_delay = body->action_timer.u - 1;
+        body->action_timer.u = first_delay;
         if (((first_delay << 0x10) <= 0) || (sprite->flags & 0xE000)) {
             (sprite->frameTable) = uboat_aura_later_frames;
             select_sprite_entry(sprite,
-                          uboat_aura_later_frames[((g_game_work.view.camera_rotation.parts.viewAngle + ((S_80175BA8_2 *)actor_info)->unk_2A + 0x100)
+                          uboat_aura_later_frames[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100)
                               >> 9) & 7],
                           0);
-            ((S_80175BA8_0 *)actor_state)->unk_96 = 3;
-            ((S_80175BA8_0 *)actor_state)->unk_9B++;
+            body->action_timer.u = 3;
+            body->action_phase.u++;
         }
         if (!(sprite->flags & 0x8000)) {
             return;
         }
     case 2:
-        second_delay = ((S_80175BA8_0 *)actor_state)->unk_96 - 1;
-        ((S_80175BA8_0 *)actor_state)->unk_96 = second_delay;
+        second_delay = body->action_timer.u - 1;
+        body->action_timer.u = second_delay;
         if (((second_delay << 0x10) <= 0) || (sprite->flags & 0x8000)) {
-            ((S_80175BA8_0 *)actor_state)->unk_96 = 0x1E;
-            ((S_80175BA8_0 *)actor_state)->unk_A8 = 0;
-            ((S_80175BA8_0 *)actor_state)->unk_B1 = 0;
-            ((S_80175BA8_0 *)actor_state)->unk_B2 = 0;
-            ((S_80175BA8_0 *)actor_state)->unk_B4 = 0;
-            ((S_80175BA8_0 *)actor_state)->unk_B3 = 0;
-            ((S_80175BA8_0 *)actor_state)->unk_9B++;
-            ((S_80175BA8_0 *)actor_state)->unk_98 &= 0xFFF7;
+            body->action_timer.u = 0x1E;
+            body->unk_A8.s = 0;
+            body->unk_B0.bytes[1] = 0;
+            body->unk_B0.bytes[2] = 0;
+            body->unk_B4.bytes[0] = 0;
+            body->unk_B0.bytes[3] = 0;
+            body->action_phase.u++;
+            body->action_state_flags &= 0xFFF7;
             sprite->depth_bias = 0;
-            ((S_80175BA8_0 *)actor_state)->unk_8C = uboat_behavior_entry;
+            body->unk_8C.address = uboat_behavior_entry;
             g_dungeon_status.active_actor = 0;
-            (*(u16 *)((u8 *)actor_info + 0x46)) &= 0x7FFF;
+            actor->action_flags &= 0x7FFF;
         }
         return;
     default:

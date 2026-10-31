@@ -61,5 +61,5 @@ extern u8 unicorn_action_continuation_address;
 extern u8 D_80174D7C;
 extern u8 D_80174D84;
 extern u8 D_80174D8C;
-void settle_actor_after_movement(void *animation, void *motion, SpriteFrameState *sprite, void *actor);
+void settle_actor_after_movement(ActorRecord *body, ObjectPosition *motion, SpriteFrameState *sprite, ActorRecord *actor);
 #endif

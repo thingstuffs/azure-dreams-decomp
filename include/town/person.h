@@ -112,6 +112,7 @@ void install_update_after_flag_clear(PersonObject *object, ObjectPosition *posit
 
 
 void initialize_object_configuration_x(PersonObject *object);
+void *create_owner_following_sprite(void *linked_object);
 
 void clear_record_indexed_flag(void *state, s32 unused_context, void *unused_state_context);
 
