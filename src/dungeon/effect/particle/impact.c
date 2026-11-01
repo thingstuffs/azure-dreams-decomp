@@ -368,7 +368,7 @@ void create_scaling_impact_sprite(s32 state_value, S_800244BC_3 *source_pos)
 
     object = allocate_flagged_object_node(0x212);
     if (object != 0) {
-        state = (u8 *)object + 0x20;
+        state = NODE_BODY(object);
         state->unk_28 = 0x27;
         state->unk_2A = 0x27;
         state->unk_20 = state_value;
@@ -584,7 +584,7 @@ void shrink_effect_and_spawn_particles(void *effect, void *origin)
             if (object == NULL) {
                 continue;
             }
-            particle_state = object + 0x20;
+            particle_state = NODE_BODY(object);
             particle_state->unk_28 = 0x14;
             ((ObjectNodeHeader *)object)->update_callback = (void *)advance_effect_motion_and_animation;
             register_node(object, project_sprite_chain);
@@ -674,7 +674,7 @@ void create_shrinking_entry_particle_effect(s32 effect_value, S_80024AE8_3 *posi
 
     effect = allocate_flagged_object_node(0x212);
     if (effect != 0) {
-        effect_state = ((void *)effect) + 0x20;
+        effect_state = NODE_BODY(effect);
         effect_state->unk_28 = 0x1E;
         effect_state->unk_2A = 0x1E;
         effect_state->unk_20 = effect_value;
@@ -715,7 +715,7 @@ void clear_circular_list_flags(void)
     }
     head = (ActorRecord *)(u32)link_value;
     do {
-        object = (ObjectNodeHeader *)link - 1;
+        object = NODE_HEADER(link);
         next = object->flags;
         next &= 0xDFFF;
         object->flags = next;
@@ -963,7 +963,7 @@ s32 draw_linked_meshes(void *initial_mesh, void *transform, void *object) {
     for (;;) {
         project_visible_textured_quad(mesh, transform, object, 0);
         /* the preceding header's +0x18 holds the next node */
-        node = ((ObjectNodeHeader *)mesh - 1)->chain_next;
+        node = NODE_HEADER(mesh)->chain_next;
         if (node == 0) {
             return 0;
         }
@@ -1127,7 +1127,7 @@ void spawn_randomized_textured_particles(s32 unused, s32 center_x, s16 center_y,
     brightness = 0x80;
     do {
         particle = allocate_flagged_object_node(0x212);
-        particle_work = (S_800251F4_0 *)((u8 *)particle + 0x20);
+        particle_work = NODE_BODY(particle);
         if (particle != 0) {
             particle_work->unk_28 = 0x78;
             particle_work->unk_2C = rand() & 1;
@@ -1943,7 +1943,7 @@ void create_offset_colored_effect(
 
     effect = allocate_flagged_object_node(0x212);
     if (effect != 0) {
-        effect_state = ((void *)effect) + 0x20;
+        effect_state = NODE_BODY(effect);
         effect_state->unk_28 = 0x14;
         effect->update_callback = (void *)update_effect_motion_and_visual;
         register_node(effect, project_sprite_chain);

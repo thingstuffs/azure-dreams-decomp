@@ -778,7 +778,7 @@ void *create_an_copies_three_source_fields_child_runs_n_16_child_setup(s32 value
         *(u16 *)((u8 *)child + 6) = *(u16 *)((u8 *)source + 6);
         *(u16 *)((u8 *)child + 0xA) = *(u16 *)((u8 *)source + 0xA);
         source = (void *)adjusted_value;
-        *(s32 *)((u8 *)object + 0x20) = saved_context;
+        *(s32 *)NODE_BODY(object) = saved_context;
 
         do {
             create_object_offset(child, (s16)(step << 8), 0x40, -0x100, source);
@@ -812,7 +812,7 @@ void handle_retail_n_81887570_callee_80024_d_70_fade_colour_n_1_n_8_per_call_mar
     color->blue = blue - (blue >> 3);
 
     if (color->red < 8) {
-        ((ObjectNodeHeader *)effect - 1)->flags |= NODE_REMOVE;
+        NODE_HEADER(effect)->flags |= NODE_REMOVE;
         object_flag_block.flags |= OBJECT_REMOVE_PENDING;
     }
 }
@@ -1365,7 +1365,7 @@ void *create_object_offset(MovingPosition *origin, s16 angle, s16 radius, s16 he
         object_data = (void *) 0xE04020;
         (*(s32 *)((u8 *)(object->sprite) + 0xC)) = (s32) object_data;
         slot_index = (u16)D_8002632A;
-        object_data = ((void *)object) + 0x20;
+        object_data = NODE_BODY(object);
         object_data->unk_16 = angle;
         object_data->unk_1C = height_offset;
         object_data->unk_18 = radius;
@@ -1484,7 +1484,7 @@ void create_a_sprite_effect_position_randomized_rotation(s16 x, s16 y, s16 z) {
         sprite->scale_x = 0x1000;
         sprite->tpage_abr = 0x20;
         sprite->flags = (u16) (sprite->flags | 0xC);
-        ((s16 *)(effect + 1))[0x1A / 2] = 0x10;
+        ((s16 *)NODE_BODY(effect))[0x1A / 2] = 0x10;
     }
 }
 #include "dungeon/effect/sprite/create_radial_effect_from_source.h"
@@ -1836,7 +1836,7 @@ void create_quad_fragments_vertex_grid_randomized_motion_rotation(void) {
             angles->angle_x = (rand() & 0x1FF) - 0x100;
             angles->angle_y = (rand() & 0x1FF) - 0x100;
 
-            quad = (S_func_81888810_3 *)((u8 *)fragment + 0x20);
+            quad = NODE_BODY(fragment);
             quad->unk_1A = 0x20;
             quad->unk_30 = *(s32 *)&vertices[quad_index];
             quad->unk_34 = vertices[quad_index].z;

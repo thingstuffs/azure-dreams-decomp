@@ -55,7 +55,7 @@ void *update_actor_effect_sequence(MovingPosition *source_part, s32 offset_base)
 
     result = NULL;
     if (object != NULL) {
-        result = (u8 *)object + 0x20;
+        result = NODE_BODY(object);
     }
     return result;
 }

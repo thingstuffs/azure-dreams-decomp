@@ -32,7 +32,7 @@ void decrement_flagged_item_parameters(void *action, void *saved_position)
     timer = (*((u16 *) (((u8 *) action) + 0x50))) - 1;
     owner_work = *((void **) (((u8 *) action) + 0));
     state = *((s16 *) (((u8 *) action) + 0xA));
-    owner = (ObjectNodeHeader *) (((u8 *) owner_work) - 0x20);
+    owner = NODE_HEADER(owner_work);
     *((u16 *) (((u8 *) action) + 0x50)) = timer;
     switch (state) {
     case 0:
@@ -60,7 +60,7 @@ void decrement_flagged_item_parameters(void *action, void *saved_position)
                 offsets[0] = 0;
             }
             effect->update_callback = &D_80024374;
-            *((void **) (((u8 *) effect) + 0x20)) = action;
+            *((void **)NODE_BODY(effect)) = action;
             register_node(effect, project_sprite_chain);
             source_part = owner_work[-1].sprite;
             effect_part = effect->sprite;
@@ -74,7 +74,7 @@ void decrement_flagged_item_parameters(void *action, void *saved_position)
             effect_part->scale_y = ONE;
             effect_part->scale_x = ONE;
             effect_part->color.word = 0x80FF;
-            effect_work = ((u8 *) effect) + 0x20;
+            effect_work = NODE_BODY(effect);
             effect_part->tpage_abr = 0x20;
             effect_part->clut -= 0x80;
             effect_part->flags |= 0xC;

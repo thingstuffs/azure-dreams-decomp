@@ -71,7 +71,7 @@ void *create_linked_effect_segments(Rec_func_800243C4_arg1 *position) {
             parent = &scene_object_list_anchor.next;
         }
         segment = allocate_list_node(alloc_flags, parent);
-        segment_state = ((void *)segment) + 0x20;
+        segment_state = NODE_BODY(segment);
         if (segment != NULL) {
             coords = segment->position;
             segment->update_callback = &D_80024728;

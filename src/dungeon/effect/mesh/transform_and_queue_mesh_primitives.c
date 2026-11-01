@@ -509,7 +509,7 @@ s32 decrement_object_counter(void *record, void *context, void *data) {
 
     for (;;) {
         transform_and_queue_mesh_primitives(record, context, data, 0);
-        node = ((ObjectNodeHeader *)record - 1)->chain_next;
+        node = NODE_HEADER(record)->chain_next;
         if (node == 0) {
             return 0;
         }
@@ -1387,7 +1387,7 @@ void initialize_star_effect_sequence(void *state_data, void *source_data) {
                 break;
             }
 
-            edge_data = ((u8 *)node) + 0x20;
+            edge_data = NODE_BODY(node);
             ((S_8187BFE0_2 *)edge_data)->unk_02 = 0x37 - (((S_8187BFE0_0 *)state_data)->unk_1C.s * 4);
             node->update_callback = advance_fading_effect_animation;
             register_node(node, decrement_object_counter);
@@ -1715,7 +1715,7 @@ void update_projectile_trail_and_hit_effect(ProjectileEffect *effect, ObjectPosi
         trail_color = 0x60;
         do {
             object = allocate_flagged_object_node(0x12);
-            object_data = (u8 *)object + 0x20;
+            object_data = NODE_BODY(object);
             if (object != 0) {
                 U16(object_data, 2) = 8;
                 U16(object_data, 4) = 8;
@@ -1800,7 +1800,7 @@ void update_projectile_trail_and_hit_effect(ProjectileEffect *effect, ObjectPosi
         }
 
         object = allocate_flagged_object_node(0x12);
-        object_data = (u8 *)object + 0x20;
+        object_data = NODE_BODY(object);
         if (object != 0) {
             U16(object_data, 2) = 8;
             U16(object_data, 4) = 8;

@@ -634,7 +634,7 @@ void advance_motion_and_fade_sprite(EffectRecord *effect, EffectMotion *motion, 
         timer = effect->timer - 1;
         effect->timer = timer;
         if ((s16)timer <= 0) {
-            register_node((ObjectNodeHeader *)effect - 1, project_sprite_chain);
+            register_node(NODE_HEADER(effect), project_sprite_chain);
             effect->state += 1;
         }
         break;
@@ -647,7 +647,7 @@ void advance_motion_and_fade_sprite(EffectRecord *effect, EffectMotion *motion, 
         }
         if (sprite->red <= effect->fade_step) {
             *(u32 *)&sprite->red = 0;
-            ((ObjectNodeHeader *)effect - 1)->flags |= NODE_REMOVE;
+            NODE_HEADER(effect)->flags |= NODE_REMOVE;
             object_flag_block.flags |= OBJECT_REMOVE_PENDING;
             return;
         }

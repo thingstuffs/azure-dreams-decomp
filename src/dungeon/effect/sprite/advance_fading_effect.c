@@ -18,7 +18,7 @@ void apply_status_to_nearby_actors(s32 x, s32 y, void *kind, s32 flags) {
     flags = ((u8)flags >> 2) + 0x10;
     do {
         if ((s16)check_entity_interaction_compatibility(kind, actor) != 0) {
-            u8 *header = *(u8 * *)&((ObjectNodeHeader *)(actor - 0x20))->sprite;
+            u8 *header = *(u8 * *)&NODE_HEADER(actor)->sprite;
             if (abs(header[0x24] - x) < 3 && abs(header[0x25] - y) < 3 && (s16)check_entity_eligibility(actor) != 0) {
                 s32 amount = flags + (generate_random_value() & 3);
                 s32 mode = 0x10;
@@ -68,7 +68,7 @@ void spawn_jittered_type_212_effect(s32 owner, void *source)
     ObjectNodeHeader *obj;
     obj = allocate_flagged_object_node(0x212);
     if (obj != 0) {
-        *((s32 *) (((s8 *) obj) + 0x20)) = owner;
+        *((s32 *) (NODE_BODY(obj))) = owner;
         obj->update_callback = (void *)advance_fading_effect;
         render = obj->sprite;
         *((((s8 *) obj) + 0x24)) = 0;

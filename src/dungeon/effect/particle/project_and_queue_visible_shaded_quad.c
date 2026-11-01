@@ -259,7 +259,7 @@ s32 draw_linked_records_zero_depth_bias(void *record, void *transform, void *obj
 
     for (;;) {
         project_and_queue_visible_shaded_quad(record, transform, object, 0);
-        node = ((ObjectNodeHeader *)record - 1)->chain_next;
+        node = NODE_HEADER(record)->chain_next;
         if (node == 0) {
             return 0;
         }
@@ -347,8 +347,8 @@ s32 project_scaled_colored_point(ScaledPointRecord *record, ObjectPosition *posi
             scratch->ot[scratch->index] = (scratch->ot[scratch->index] & 0xFF000000) | ((u32)mode_packet & 0x00FFFFFF);
         }
 
-        node = ((ObjectNodeHeader *)record - 1)->chain_next;
-        record = (ScaledPointRecord *)(node + 1);
+        node = NODE_HEADER(record)->chain_next;
+        record = NODE_BODY(node);
         if (node == 0) {
             break;
         }
@@ -388,7 +388,7 @@ void advance_rising_quad_countdown(Bank1990800_1990fe8_EffectState *state, Objec
     countdown = (u16)state->countdown - 4;
     state->countdown = countdown;
     if ((countdown << 16) <= 0) {
-        ((ObjectNodeHeader *)state - 1)->flags |= NODE_REMOVE;
+        NODE_HEADER(state)->flags |= NODE_REMOVE;
         object_flag_block.flags |= OBJECT_REMOVE_PENDING;
     }
 }
@@ -448,7 +448,7 @@ void spawn_random_offset_effect_record(
         effect->position->y.w.i = effect_pos;
 
         jitter = rand() & 0x1F;
-        record = (Bank1990800_19910a8_EffectRecord *)(effect + 1);
+        record = NODE_BODY(effect);
         effect_pos = (u16)source->position->z.w.i + jitter;
         effect_pos += z_offset - 0x10;
         effect->position->z.w.i = effect_pos;
@@ -748,7 +748,7 @@ void create_fading_jittered_sprite(u16 *source, s32 unused_1, s32 unused_2, s16 
 
     object = allocate_flagged_object_node(0x212);
     if (object != 0) {
-        object_data = (S_819715D4_0 *)((u8 *)object + 0x20);
+        object_data = NODE_BODY(object);
         object_data->unk_38 = 0x14;
         object_data->unk_3A = 0x14;
         object->update_callback = (u8 *)fade_effect_color_by_quarter;
@@ -843,7 +843,7 @@ void create_origin_following_fade_sprite(void *unused_0, void *origin_data, s32 
     effect = allocate_flagged_object_node(0x212);
     if (effect != NULL) {
         effect_arg = effect;
-        effect_state = ((void *)effect) + 0x20;
+        effect_state = NODE_BODY(effect);
         effect_state->ticks_remaining.s = 0x1E;
         effect_state->fade_divisor = 0x1E;
         effect_state->offset_x = offset_x;
@@ -1152,7 +1152,7 @@ void advance_effect_sequence(void *effect, void *owner, void *context_arg)
 
                     effect_obj = allocate_flagged_object_node(0x212);
                     if (effect_obj != 0) {
-                        effect_data_m = (S_8197192C_7 *)((u8 *)effect_obj + 0x20);
+                        effect_data_m = NODE_BODY(effect_obj);
                         effect_data_m->unk_38 = 20;
                         effect_data_m->unk_3A = 20;
                         effect_obj->update_callback = (void *)advance_timed_visual;
@@ -1249,7 +1249,7 @@ void advance_effect_sequence(void *effect, void *owner, void *context_arg)
             if (((S_8197192C_0 *)effect)->unk_2C.u == 4) {
                 S_8197192C_7 *effect_data;
                 effect_obj = allocate_flagged_object_node(0x212);
-                effect_data = (S_8197192C_7 *)((u8 *)effect_obj + 0x20);
+                effect_data = NODE_BODY(effect_obj);
                 if (effect_obj != 0) {
 
                     SpriteFrameState *sprite;
@@ -1301,7 +1301,7 @@ void advance_effect_sequence(void *effect, void *owner, void *context_arg)
             if (((S_8197192C_0 *)effect)->unk_2C.u == 2) {
                 S_8197192C_7 *effect_data;
                 effect_obj = allocate_flagged_object_node(0x212);
-                effect_data = (S_8197192C_7 *)((u8 *)effect_obj + 0x20);
+                effect_data = NODE_BODY(effect_obj);
                 if (effect_obj != 0) {
 
                     SpriteFrameState *sprite;
@@ -1355,7 +1355,7 @@ void advance_effect_sequence(void *effect, void *owner, void *context_arg)
                 if (effect_obj != 0) {
                     SpriteFrameState *sprite;
                     void *init_data;
-                    effect_data_m = (S_8197192C_7 *)((u8 *)effect_obj + 0x20);
+                    effect_data_m = NODE_BODY(effect_obj);
                     light_color = 0x00E0E0E0;
                     dark_color = 0x00804020;
                     init_data = (void *)draw_linked_records_zero_depth_bias;
@@ -1479,7 +1479,7 @@ void advance_effect_sequence(void *effect, void *owner, void *context_arg)
         if (source_obj != 0) {
             angle_table = entity_height_offsets;
             angle_count = angle_table[source_obj->unk_10.at03.v];
-            source_owner = ((ObjectNodeHeader *)((u8 *)source_obj - 0x20))->position;
+            source_owner = NODE_HEADER(source_obj)->position;
             angle = 0;
             if (angle_count != 0) {
                 angle_base = angle_table;

@@ -72,7 +72,7 @@ void * create_colored_offset_sprite(s32 context_value, void *source_state, s32 r
     object = allocate_flagged_object_node(0x212);
     if (object != NULL) {
         object->update_callback = lower_animated_sprite;
-        object_data = (ColoredOffsetSpriteBody *)((u8 *)object + 0x20);
+        object_data = NODE_BODY(object);
         object_data->owner_context.context_value = context_value;
         object_data->update_count = 0;
         object_data->state = 0;
@@ -741,7 +741,7 @@ s32 spawn_owner_random_variant_effect(B28_818B7BD0_S_818B7BD0_2 *owner, B28_818B
     obj = allocate_flagged_object_node(0x212);
     if (obj != NULL) {
         update_handler = update_spark_effect;
-        part = ((void *)obj) + 0x20;
+        part = NODE_BODY(obj);
         obj->update_callback = update_handler;
         ((B28_818B7BD0_S_818B7BD0_0 *)obj)->unk_20 = owner;
         part->unk_0E.s16 = 0;
@@ -818,7 +818,7 @@ s32 spawn_owned_random_spin_effect(void *owner, B28_818B7E14_DungeonSource *sour
 
     obj = allocate_flagged_object_node(0x212);
     if (obj != 0) {
-        sub = (u8 *)obj + 0x20;
+        sub = NODE_BODY(obj);
         obj->update = advance_spinning_effect_motion;
         obj->owner = owner;
         *(s16 *)(sub + 0x10) = 0;

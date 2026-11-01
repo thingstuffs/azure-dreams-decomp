@@ -54,7 +54,7 @@ void create_color_cycling_pulse(S_8016738C_3 *origin)
 
     object = allocate_flagged_object_node(0x212);
     if (object != NULL) {
-        node = (u8 *)object + 0x20;
+        node = NODE_BODY(object);
         node->unk_18 = 0x1E;
         node->unk_1A = 0x1E;
         (object->update_callback) = update_color_cycling_pulse;

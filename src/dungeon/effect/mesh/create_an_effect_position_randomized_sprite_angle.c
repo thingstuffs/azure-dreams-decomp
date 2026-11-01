@@ -809,7 +809,7 @@ void *create_and_initializes_copying_n_24_bytes_source_data(s32 state_value, ovl
     obj = allocate_flagged_object_node(0x212);
     if (obj != 0) {
         obj->update_callback = (void *)update_the_five_orbiting_points_advance_effect_animation;
-        fields = ((void *)obj) + 0x20;
+        fields = NODE_BODY(obj);
         ((ovl_1930844_81912074_S_80025874_0 *)obj)->unk_20 = state_value;
         fields->unk_08 = 8;
         fields->unk_10 = 2;

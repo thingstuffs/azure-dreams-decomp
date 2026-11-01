@@ -47,7 +47,7 @@ void * create_indexed_color_sprite(MovingPosition *origin, u16 index) {
     if (effect != NULL) {
         effect->update_callback = &D_800246AC;
         ((S_80024790_0 *)effect)->unk_20 = (u16) origin->x;
-        state = ((void *)effect) + 0x20;
+        state = NODE_BODY(effect);
         state->unk_02 = (u16) origin->y;
         frame = (s16) index;
         state->unk_04 = (u16) origin->z;

@@ -636,9 +636,9 @@ s32 draw_brightness_scaled_linked_tiles(PointRecord *first_point, ObjectPosition
             ((GpuLinkTag *)&scratch->ot[scratch->index])->addr = (u32)draw_mode;
         }
 
-        next_node = ((ObjectNodeHeader *)point - 1)->chain_next;
+        next_node = NODE_HEADER(point)->chain_next;
         if (next_node != 0) {
-            point = (PointRecord *)(next_node + 1);
+            point = NODE_BODY(next_node);
             position = next_node->position;
             continue;
         }
@@ -683,7 +683,7 @@ void raise_effect_to_height_limit(EffectRecord *object, ObjectPosition *source)
 
     object->timer -= 8;
     if (object->timer <= 0) {
-        ((ObjectNodeHeader *)object - 1)->flags |= NODE_REMOVE;
+        NODE_HEADER(object)->flags |= NODE_REMOVE;
         object_flag_block.flags |= OBJECT_REMOVE_PENDING;
     }
 }
@@ -735,7 +735,7 @@ void get_half_byte_length(ObjectNodeHeader *parent, s16 field_34, s32 field_28, 
         jitter_z = rand();
         jitter_z &= 0x1F;
         position_z = source_obj->position->z.w.i;
-        fields = (PointRecord *)(spawned + 1);
+        fields = NODE_BODY(spawned);
         dest_z = spawned->position;
         position_z += jitter_z;
         bias_z = offset_z - 0x10;
@@ -810,7 +810,7 @@ void tick_effect_record(CountdownRecord *record)
     counter--;
     record->counter = counter;
     if ((counter << 16) <= 0) {
-        ((ObjectNodeHeader *)record - 1)->flags |= NODE_REMOVE;
+        NODE_HEADER(record)->flags |= NODE_REMOVE;
         object_flag_block.flags |= OBJECT_REMOVE_PENDING;
     }
 }
@@ -1284,7 +1284,7 @@ update_coords:
 
             upper_effect = allocate_flagged_object_node(0x212);
             if (upper_effect != 0) {
-                child_data = (UpdateTravelingBody *)((u8 *)upper_effect + 0x20);
+                child_data = NODE_BODY(upper_effect);
                 child_data->unk_02 = 120;
                 upper_effect->update_callback = (void *)tick_effect_record;
                 register_node(upper_effect, project_sprite_chain);
@@ -1326,7 +1326,7 @@ update_coords:
             }
             lower_effect = allocate_flagged_object_node(0x212);
             if (lower_effect != 0) {
-                child_data = (UpdateTravelingBody *)((u8 *)lower_effect + 0x20);
+                child_data = NODE_BODY(lower_effect);
                 child_data->unk_02 = 140;
                 lower_effect->update_callback = (void *)update_effect_brightness_pulse;
                 register_node(lower_effect, project_sprite_chain);
@@ -1361,7 +1361,7 @@ update_coords:
             }
             ring_effect = allocate_flagged_object_node(0x212);
             if (ring_effect != 0) {
-                child_data = (UpdateTravelingBody *)((u8 *)ring_effect + 0x20);
+                child_data = NODE_BODY(ring_effect);
                 child_data->unk_02 = 120;
                 ring_effect->update_callback = (void *)update_effect_animation_slots;
                 register_node(ring_effect, project_sprite_chain);
@@ -1422,14 +1422,14 @@ update_coords:
                 void *control_script;
                 void *owner_target;
 
-                child_data = (UpdateTravelingBody *)((u8 *)control_effect + 0x20);
+                child_data = NODE_BODY(control_effect);
                 effect_object = control_effect;
                 render_template = project_sprite_chain;
                 child_data->unk_38 = owner;
                 owner_target = owner->target;
-                child_data->unk_44 = (void *)((u32)((u32)((u8 *)upper_effect + 0x20)));
-                child_data->unk_48 = (u8 *)ring_effect + 0x20;
-                child_data->unk_4C = (u8 *)lower_effect + 0x20;
+                child_data->unk_44 = (void *)((u32)((u32)(NODE_BODY(upper_effect))));
+                child_data->unk_48 = NODE_BODY(ring_effect);
+                child_data->unk_4C = NODE_BODY(lower_effect);
                 control_script = (void *)build_inverted;
                 child_data->unk_40 = effect;
                 child_data->unk_3C = owner_target;
@@ -1567,7 +1567,7 @@ update_coords:
             effect->timer.u16 = previous_timer;
             if (active_flag == 0) {
                 g_dungeon_status.active_actor = 0;
-                ((ObjectNodeHeader *)((u8 *)effect - 0x20) )->flags|= NODE_REMOVE;
+                NODE_HEADER(effect)->flags|= NODE_REMOVE;
                 object_flag_block.flags |= OBJECT_REMOVE_PENDING;
             } else {
                 ((S_func_81905FD0_10 *)traveling_strip_effect_updated)->unk_00.u16 = 0;

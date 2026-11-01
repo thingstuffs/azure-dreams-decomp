@@ -79,7 +79,7 @@ void spawn_randomized_radial_burst(MovingPosition *origin)
                 motion->velocity_x = rcos(angle) << 6;
                 motion->velocity_y = rsin(angle) << 6;
                 motion->velocity_z = 0xFFFD0000;
-                effect_state = (u8 *)particle + 0x20;
+                effect_state = NODE_BODY(particle);
                 effect_state->acceleration_x = -motion->velocity_x >> 6;
                 velocity_y = motion->velocity_y;
                 effect_state->acceleration_z = 0x2000;

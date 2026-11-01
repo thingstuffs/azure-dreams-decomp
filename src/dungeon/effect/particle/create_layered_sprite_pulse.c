@@ -34,7 +34,7 @@ void create_layered_sprite_pulse(EntityRec *origin) {
     do {
         effect = allocate_flagged_object_node(0x212);
         if (effect != NULL) {
-            effect_state = ((void *)effect) + 0x20;
+            effect_state = NODE_BODY(effect);
             effect_state->unk_18 = initial_ticks;
             effect_state->unk_1A = initial_ticks;
             effect->update_callback = effect_data;

@@ -50,7 +50,7 @@ void update_directional_actor_effect(TargetTintWork *state_data)
     switch (phase) {
     case 0:
         U32_AT(MANAGER_PTR(), 0xF4) = (u32)D_80024A64;
-        create_linked_effect_controller((ObjectNodeHeader *)((u8 *)state->owner - 0x20), state->animation);
+        create_linked_effect_controller(NODE_HEADER(state->owner), state->animation);
         result = state->phase.u;
         result++;
         state->phase.u = result;
@@ -94,7 +94,7 @@ void update_directional_actor_effect(TargetTintWork *state_data)
             u32 tint = 0;
 
             entry->flags1C = entry_flags;
-            child = ((ObjectNodeHeader *)((u8 *)entry - 0x20))->sprite;
+            child = NODE_HEADER(entry)->sprite;
             if ((effect_flags->unk_004 & 1) != 0) {
                 tint = 0x0080FF80;
             }
@@ -112,7 +112,7 @@ void update_directional_actor_effect(TargetTintWork *state_data)
             u32 tint = 0x00808080;
             s32 entry_flags;
 
-            child = ((ObjectNodeHeader *)((u8 *)entry - 0x20))->sprite;
+            child = NODE_HEADER(entry)->sprite;
             entry_flags = entry->flags1C & clear_effect_mask;
             entry->flags1C = entry_flags;
             child->color.word = tint;

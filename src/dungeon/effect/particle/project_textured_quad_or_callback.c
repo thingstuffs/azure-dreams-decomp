@@ -339,7 +339,7 @@ s32 project_linked_quad_record(void *record, void *context, void *data) {
 
     for (;;) {
         project_textured_quad_or_callback(record, context, data, 0);
-        node = ((ObjectNodeHeader *)record - 1)->chain_next;
+        node = NODE_HEADER(record)->chain_next;
         if (node == 0) {
             return 0;
         }
@@ -595,7 +595,7 @@ s32 draw_chained_object_records(void *record, void *context, void *data) {
 
     for (;;) {
         draw_textured_sphere_mesh(record, context, data, 0);
-        node = ((ObjectNodeHeader *)record - 1)->chain_next;
+        node = NODE_HEADER(record)->chain_next;
         if (node == 0) {
             return 0;
         }
@@ -1487,7 +1487,7 @@ L0_adjust_z:
             ObjectNodeHeader *spawn;
             spawn = allocate_flagged_object_node(0x12);
             if (spawn != 0) {
-                entry = (S_800259D8_5 *)((u8 *)spawn + 0x20);
+                entry = NODE_BODY(spawn);
                 {
                     void *spawn_copy = spawn;
                     u8 *tbl = project_linked_quad_record;
@@ -1605,7 +1605,7 @@ L1_calc:
             ObjectNodeHeader *spawn;
             spawn = allocate_flagged_object_node(0x12);
             if (spawn != 0) {
-                entry = (S_800259D8_5 *)((u8 *)spawn + 0x20);
+                entry = NODE_BODY(spawn);
                 entry->unk_00.at02.v = 0;
                 entry->unk_38 = obj;
                 entry->unk_3C = ((S_800259D8_3 *)obj)->unk_60;

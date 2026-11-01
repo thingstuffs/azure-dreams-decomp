@@ -54,7 +54,7 @@ void create_attached_effect(Rec_func_800247B8_arg0 *owner) {
     MovingPosition *source_position;
 
     effect = allocate_flagged_object_node(0x12);
-    effect_state = ((void *)effect) + 0x20;
+    effect_state = NODE_BODY(effect);
     if (effect != 0) {
         effect_state->unk_5A = 0x78;
         effect_state->unk_5C = 0x78;

@@ -40,7 +40,7 @@ void run_delayed_sprite_projectile(DelayedTargetEffect *self, ObjectPosition *mo
     GteShortVector origin_offset;
 
     owner = self->owner;
-    owner_object = (ObjectNodeHeader *)((u8 *)owner - 32);
+    owner_object = NODE_HEADER(owner);
     state = self->state.s;
     owner_record = F(owner, u8 *, -20);
     if (state != 0 && state < 5) {
@@ -49,7 +49,7 @@ void run_delayed_sprite_projectile(DelayedTargetEffect *self, ObjectPosition *mo
         do {
             particle = allocate_list_node(0x312, &scene_object_list_anchor.next);
             if (particle != 0) {
-                particle_data = (DelayParticle *)((u8 *)particle + 32);
+                particle_data = NODE_BODY(particle);
                 child_data = particle->sprite;
                 particle->update_callback = advance_delayed_fading_sprite;
 
@@ -194,7 +194,7 @@ void run_delayed_sprite_projectile(DelayedTargetEffect *self, ObjectPosition *mo
                 F(child_data, void *, 0) = landing_sprite_entries;
                 F(child_data, u16, 20) |= 0xe;
                 child_data->source = F(landing_sprite_entries, u32, 4);
-                particle_data = (DelayParticle *)((u8 *)particle + 32);
+                particle_data = NODE_BODY(particle);
                 child_data->unk_04 = 0;
                 child_data->frame_ticks = 0;
                 F(child_data, u32, 12) = 0;
@@ -236,7 +236,7 @@ void run_delayed_sprite_projectile(DelayedTargetEffect *self, ObjectPosition *mo
         if (timer > 0)
             return;
         g_dungeon_status.active_actor = 0;
-        ((ObjectNodeHeader *)((u8 *)self - 0x20))->flags |= 0x8000;
+        NODE_HEADER(self)->flags |= 0x8000;
         object_flag_block.flags |= OBJECT_REMOVE_PENDING;
 
         return;
@@ -375,7 +375,7 @@ void brighten_accelerate_and_fade_effect(void *effect_arg, DelayMotion *motion, 
                     particle_sprite->frame_ticks = 0;
                     particle_sprite->color = color;
                     particle_sprite->source = random;
-                    particle_state = particle + 0x20;
+                    particle_state = NODE_BODY(particle);
                     particle_state->timer = (s16) (rand() & 3);
                     particle_state->fade_step = 0xC;
                     particle_state->phase = 0;

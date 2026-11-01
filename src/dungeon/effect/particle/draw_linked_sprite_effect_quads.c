@@ -400,11 +400,11 @@ s32 draw_linked_sprite_effect_quads(SpriteEffect *first_item) {
                 ((u32)packet & addr_mask);
         }
 
-        next_node = ((ObjectNodeHeader *)node - 1)->chain_next;
+        next_node = NODE_HEADER(node)->chain_next;
         if (next_node == 0) {
             break;
         }
-        node = (SpriteEffect *)(next_node + 1);
+        node = NODE_BODY(next_node);
     }
 
     return 0;
@@ -484,7 +484,7 @@ void update_animated_target_effect(void *effect_arg)
     void *follow_data;
     SpriteFrameState *follow_target;
     ObjectNodeHeader *particle;
-    void *particle_state;
+    S_8002466C_9 *particle_state;
     SpriteFrameState *sprite;
     void *particle_data;
     void *display;
@@ -578,7 +578,7 @@ void update_animated_target_effect(void *effect_arg)
                 particle->update_callback = particle_data;
                 register_node(particle, project_sprite_chain);
                 sprite = particle->sprite;
-                particle_state = (u8 *)particle + 0x20;
+                particle_state = NODE_BODY(particle);
                 (particle->position)->x.v =
                     effect->unk_1C.at00.v +
                     (((rand() & 0x3FF) - 0x1FF) << 12);
@@ -599,7 +599,7 @@ void update_animated_target_effect(void *effect_arg)
                 sprite->color.word = 0x808080;
                 sprite->source = display_link;
                 ((S_8002466C_6 *)particle)->unk_20 = effect->unk_00;
-                ((S_8002466C_9 *)particle_state)->unk_4C = 0;
+                particle_state->unk_4C = 0;
             }
             particle_index -= 1;
         } while (particle_index >= 0);
@@ -647,7 +647,7 @@ void build_and_queue_interpolated_vertical_quads_around_five_perimeter_points(Ef
     owner->flags |= 0x8000;
     advance_sprite_animation_and_textures(sprite);
     if (sprite->flags & 0x6000) {
-        ((ObjectNodeHeader *)effect - 1)->flags |= NODE_REMOVE;
+        NODE_HEADER(effect)->flags |= NODE_REMOVE;
         object_flag_block.flags |= OBJECT_REMOVE_PENDING;
     }
 }

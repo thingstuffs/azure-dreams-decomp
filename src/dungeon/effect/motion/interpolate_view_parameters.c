@@ -126,7 +126,7 @@ void *create_an_initializes_visual_state_copies_initial_data(s32 object_id, void
 
     object = allocate_flagged_object_node(0x212);
     if (object != NULL) {
-        state = (u8 *)object + 0x20;
+        state = NODE_BODY(object);
         object->update_callback = &D_800241E4;
         ((Row_81916AEC_S_800242EC_0 *)object)->unk_20 = object_id;
         state->unk_04 = 0;
@@ -314,7 +314,7 @@ void *create_radial_effect_from_source(void *source_arg, Row_81917004_Copy24 *or
         part->flags |= 0x0100;
 
         random_value = rand();
-        effect_state = (Row_81917004_S_80024804_3 *)((u8 *)effect + 0x20);
+        effect_state = NODE_BODY(effect);
         part->angle_z = random_value % 0x1000;
 
         part_scale = ((step_word >> 16) << 8) + 0x500;
@@ -509,7 +509,7 @@ void *create_an_oriented_effect_between_position_owner(AnAttachedEffectCopiedTra
     effect = allocate_list_node(0x212, &owner_node->next);
     if (effect != 0) {
         effect->update_callback = D_80024C0C;
-        state = (u8 *)effect + 0x20;
+        state = NODE_BODY(effect);
         ((Row_81917680_S_80024E80_0 *)effect)->unk_20 = ((Row_81917680_S_80024E80_1 *)owner)->unk_00;
         state->unk_04 = 0;
 
@@ -640,7 +640,7 @@ void * create_an_attached_effect_copied_transform_data_randomized_angle(void *ob
     effect = allocate_list_node(0x212, &owner_node->next);
     if (effect != NULL) {
         saved_index = effect_index;
-        state = ((void *)effect) + 0x20;
+        state = NODE_BODY(effect);
         effect->update_callback = &D_80025094;
         ((Row_81917A70_S_80025270_0 *)effect)->unk_20 = (s32)object;
         state->unk_08 = (s16) (saved_index * 7);
@@ -709,10 +709,10 @@ void build_inverted(Row_81917C08_ActionState *action, Row_81917C08_EffectMotion 
         action->phase++;
         action->direction = ((u16)actor->facing >> 9) & 7;
         visual->color = 0x808080;
-        begin_view_parameter_transition((ObjectNodeHeader *)actor - 1, motion, 8, 0x300);
+        begin_view_parameter_transition(NODE_HEADER(actor), motion, 8, 0x300);
         /* The initial movement work is shared with phase 1. */
     case 1:
-        node = (ObjectNodeHeader *)actor - 1;
+        node = NODE_HEADER(actor);
         actor_visual = node->sprite;
         if (!resolve_record_orientation_or_fallback(actor_visual->source, actor_visual, offset, 0)) {
             if (!( node->sprite->flags & 0x8000))
@@ -734,7 +734,7 @@ void build_inverted(Row_81917C08_ActionState *action, Row_81917C08_EffectMotion 
         steps = 0;
         target = actor->target;
         if (target) {
-            target_motion = ((ObjectNodeHeader *)target - 1)->position;
+            target_motion = NODE_HEADER(target)->position;
             motion->next_x = target_motion->x.v;
             motion->next_y = target_motion->y.v;
             motion->next_z = target_motion->z.v - (entity_height_offsets[((u8 *)actor->target)[0x13]] << 15);
@@ -795,7 +795,7 @@ void build_inverted(Row_81917C08_ActionState *action, Row_81917C08_EffectMotion 
         create_a_type_hex_212_initializes_handler_mode(action);
         target = actor->target;
         if (target) {
-            target_motion = ((ObjectNodeHeader *)target - 1)->position;
+            target_motion = NODE_HEADER(target)->position;
             motion->next_x = (target_motion->x.v - motion->x.v) / 32;
             motion->next_y = (target_motion->y.v - motion->y.v) / 32;
             motion->next_z = (target_motion->z.v -
@@ -831,7 +831,7 @@ void build_inverted(Row_81917C08_ActionState *action, Row_81917C08_EffectMotion 
     case 6:
         if (!action->pending) {
             D_8008346C.value = 0;
-            ((ObjectNodeHeader *)action)[-1].flags |= NODE_REMOVE;
+            NODE_HEADER(action)->flags |= NODE_REMOVE;
             object_flag_block.flags |= OBJECT_REMOVE_PENDING;
         }
         break;

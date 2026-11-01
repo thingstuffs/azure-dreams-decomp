@@ -98,7 +98,7 @@ void update_random_particle_field(void *self, void *output)
             if (particle != NULL) {
                 particle->update_callback = random_particle_update_address;
                 register_node(particle, D_80024740);
-                search_origin = (S_81934928_3 *)((u8 *)particle + 0x20);
+                search_origin = NODE_BODY(particle);
 
                 rand_quotient = rand();
                 random_value = rand_quotient;

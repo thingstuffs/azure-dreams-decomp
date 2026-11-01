@@ -264,7 +264,7 @@ void *create_brightening_fading_effect(S_8195ED3C_2 *source, s32 offset)
     }
     handle = NULL;
     if (obj != NULL) {
-        handle = (u8 *)obj + 0x20;
+        handle = NODE_BODY(obj);
     }
     return handle;
 }
@@ -358,7 +358,7 @@ void *allocate_map_cell_object(s16 world_x, s16 world_y, s16 world_z, s16 coord_
             object_flag_block.flags = global_flags;
             return NULL;
         }
-        coord = (S_8195EF44_5 *)((u8 *)obj + 0x20);
+        coord = NODE_BODY(obj);
         obj->update_callback = update_effect_and_spawn_fragments;
         register_node(obj, draw_linked_lit_meshes);
         render = obj->position;
@@ -834,7 +834,7 @@ void create_animated_tile_grid(s16 x, s16 y, s16 z) {
         render_state->scale_y = 0x2000;
         render_state->scale_x = 0x2000;
         render_state->color.word = 0x808080;
-        object_data = ((void *)object) + 0x20;
+        object_data = NODE_BODY(object);
         render_state->tpage_abr = 0x20;
         ((S_8195FB34_0 *)object)->unk_20 = 0xF8F82CC0;
         object_data->unk_04 = 0x13D;
@@ -1060,7 +1060,7 @@ void set_record_pair_to_one(s16 x, s16 y, s16 z, s16 tile_col, s16 tile_row) {
         render->offset_x = rcos(random_angle);
         render->offset_y = rsin(random_angle);
         render->tpage_abr = 0x20;
-        primitive = (s8 *)object + 0x20;
+        primitive = NODE_BODY(object);
         render->flags = 0xC;
         render->color.word = 0x808080;
         primitive_word = 0xF8F82CC0;
@@ -2044,7 +2044,7 @@ void *allocate_nine_position_objects(void *position)
             register_node(object, &linked_mesh_processor_address);
             positions = object->position;
             pos_x = source_pos->unk_02;
-            state = ((void *)object) + 0x20;
+            state = NODE_BODY(object);
             positions->x.w.i = pos_x;
             *((u16 *)&positions->velocity_x + 1) = pos_x;
             state->unk_38 = pos_x;

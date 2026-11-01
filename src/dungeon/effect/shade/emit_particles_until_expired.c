@@ -69,7 +69,7 @@ void emit_particles_until_expired(void *emitter, Rec_func_800D4BD4_arg2 *positio
             particle = allocate_flagged_object_node(0x212);
             if (particle != NULL) {
                 initialize_effect_object_state(particle, emitter, position, init_param);
-                particle_state = (EmitParticlesUntilExpiredBody *)(particle + 1);
+                particle_state = NODE_BODY(particle);
                 particle_state->remaining_ticks = 0xA;
                 particle_state->initial_ticks = 0xA;
                 particle->update_callback = advance_damped_effect_motion;

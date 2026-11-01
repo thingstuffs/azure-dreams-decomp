@@ -47,7 +47,7 @@ void create_owner_positioned_sprite(ObjectNodeHeader *owner, s16 angle) {
         node->scale_x = 0x2800;
         node->depth_bias = 8;
         node->angle_z = angle + 0x400;
-        tail = (OwnerPositionedSpriteBody *)((u8 *)spawned + 0x20);
+        tail = NODE_BODY(spawned);
         node->color.word = 0x808080;
         tail->owner = owner;
         tail->angle = angle;

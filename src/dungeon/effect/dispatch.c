@@ -460,7 +460,7 @@ void *spawn_randomized_particle_burst(s16 x, s16 y, s16 z, s32 sprite_data, u16 
                 sprite->tpage_abr = sprite_id;
                 sprite->clut = 3;
                 sprite->flags = (u16) (sprite->flags | 0xC);
-                particle_state = ((void *)particle) + 0x20;
+                particle_state = NODE_BODY(particle);
                 particle_state->unk_10 = (s16) ((rand() & 0xF) | 0x10);
                 particle_state->unk_0C = particle_index;
                 if (particle_index == 0) {
@@ -583,7 +583,7 @@ void spawn_vertical_particle_burst(s16 x, s16 y, s16 z, s32 sprite_id, s16 play_
                 sprite->scale_y = scale;
                 sprite->scale_x = scale;
             }
-            effect_state = ((void *)effect) + 0x20;
+            effect_state = NODE_BODY(effect);
             sprite->tpage_abr = size;
             sprite_flags |= 0xC;
             sprite->flags = sprite_flags;
@@ -842,7 +842,7 @@ L_zero:
         e = ((u8 *)dungeon_actor_ring_anchor);
         *(s16 *)(w + 18) = 0;
         do {
-            ep = *(u8 * *)&((ObjectNodeHeader *)(e - 0x20))->sprite;
+            ep = *(u8 * *)&NODE_HEADER(e)->sprite;
             if (phase == (s16)find_padded_rectangle(*(ep + 36), *(ep + 37))) {
                 if (*(e + 19) == 0) {
                     dungeon_floor_flags |= 0x2000;
@@ -882,7 +882,7 @@ L_zero:
                     }
                     detach_record_and_update_slot_state(o);
                     unlink_entity_node(o);
-                    ((ObjectNodeHeader *)((u8 *)o - 0x20) )->flags|= NODE_REMOVE;
+                    NODE_HEADER(o)->flags|= NODE_REMOVE;
                     object_flag_block.flags |= OBJECT_REMOVE_PENDING;
                 }
             }
@@ -2041,7 +2041,7 @@ s32 prepare_quarter_damage_return(Object *object, ActorRecord *source) {
         *&object->value64 = adjustment;
         g_dungeon_status.pending_display_owner = (u8 *)object - 0x20;
         object->value60 = 0;
-        create_textured_ellipse_effect(((ObjectNodeHeader *)((u8 *)object - 0x20))->position, object);
+        create_textured_ellipse_effect(NODE_HEADER(object)->position, object);
         play_sound_if_enabled(0x60F);
         object->flags1C |= 0x20000000;
         if (object->value13 == 0) {

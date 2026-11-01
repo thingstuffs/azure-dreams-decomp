@@ -53,7 +53,7 @@ void update_transform_spell(TransformSpellState *spell, ObjectPosition *motion, 
     spell->ticks.u++;
     switch (spell->phase) {
     case 0:
-        source_sprite = ((ObjectNodeHeader *)source_actor - 1)->sprite;
+        source_sprite = NODE_HEADER(source_actor)->sprite;
         direction_byte_offset = ((u16)primary_actor_record->facing >> 8) & 0xE;
         source_actor->facing = get_rounded_facing_and_rounding_flag(source_sprite->tile_x, source_sprite->tile_y, D_80082E80.tile_x + D_8006CCD8[direction_byte_offset / 2], D_80082E80.tile_y + D_8006CCE8[direction_byte_offset / 2], &result_flags.halves[0]);
         spell->ticks.s = 0;
@@ -64,7 +64,7 @@ void update_transform_spell(TransformSpellState *spell, ObjectPosition *motion, 
         sprite->color.word = 0x808080;
         /* fallthrough */
     case 1:
-        source_node = (ObjectNodeHeader *)source_actor - 1;
+        source_node = NODE_HEADER(source_actor);
         attachment_sprite = source_node->sprite;
         if ((resolve_record_orientation_or_fallback(attachment_sprite->source, attachment_sprite, &travel.fields.distances[0].u, 0) != 0) || (source_node->sprite->flags & 0x8000)) {
             source_position = source_node->position;
@@ -180,7 +180,7 @@ void update_transform_spell(TransformSpellState *spell, ObjectPosition *motion, 
                 }
                 created_actor->hp = stored_hp;
                 created_actor->max_hp = stored_hp;
-                select_record_entry_and_value(((ObjectNodeHeader *)created_actor - 1)->sprite, &D_800DEF08, spell->visual->sprite->unk_04);
+                select_record_entry_and_value(NODE_HEADER(created_actor)->sprite, &D_800DEF08, spell->visual->sprite->unk_04);
             }
             visual = spell->visual;
             if (visual != 0) {

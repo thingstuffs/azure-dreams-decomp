@@ -50,7 +50,7 @@ void create_offset_paletted_sprite(void *unused_context, void *origin, s32 unuse
 
     object = allocate_flagged_object_node(0x212);
     if (object != NULL) {
-        body = (OffsetPalettedSpriteBody *)((u8 *)object + 0x20);
+        body = NODE_BODY(object);
         body->remaining = 1;
         body->unk_04 = 1;
         object->update_callback = &render_textured_effect_parts;
@@ -153,9 +153,9 @@ s32 draw_shaded_point_chain(PointRecord *first_point, ObjectPosition *first_posi
             ((GpuLinkTag *)&scratch->ot[scratch->index])->addr = (u32)draw_mode;
         }
 
-        next_node = ((ObjectNodeHeader *)point - 1)->chain_next;
+        next_node = NODE_HEADER(point)->chain_next;
         if (next_node != 0) {
-            point = (PointRecord *)(next_node + 1);
+            point = NODE_BODY(next_node);
             position = next_node->position;
             continue;
         }
@@ -214,11 +214,11 @@ void create_radial_height_offset_effect(MotionState *state, s32 *sum, SpriteFram
     }
 
     if ((s16) state->frames_left <= 0) {
-        ((ObjectNodeHeader *)state - 1)->flags |= NODE_REMOVE;
+        NODE_HEADER(state)->flags |= NODE_REMOVE;
         object_flag_block.flags |= OBJECT_REMOVE_PENDING;
     }
     if (flags->flags & 0x8000) {
-        ((ObjectNodeHeader *)state - 1)->flags |= NODE_REMOVE;
+        NODE_HEADER(state)->flags |= NODE_REMOVE;
         object_flag_block.flags |= OBJECT_REMOVE_PENDING;
     }
 }
@@ -297,7 +297,7 @@ void spawn_scattered_point_particle(ObjectNodeHeader *parent, s16 field_34, s32 
         jitter_z = rand();
         jitter_z &= 0x1F;
         position_z = source_obj->position->z.w.i;
-        fields = (PointRecord *)(spawned + 1);
+        fields = NODE_BODY(spawned);
         dest_z = spawned->position;
         position_z += jitter_z;
         bias_z = offset_z - 0x10;
@@ -897,7 +897,7 @@ void advance_projectile_burst_and_impact(void *effect, ObjectPosition *motion, S
             ((S_80024BE8_0 *)effect)->unk_82 = elapsed;
             if (active == 0) {
                 g_dungeon_status.active_actor = 0;
-                ((ObjectNodeHeader *)((u8 *)effect - 0x20))->flags |= NODE_REMOVE;
+                NODE_HEADER(effect)->flags |= NODE_REMOVE;
                 D_800814A0[0] |= 0x8000;
             } else {
                 textured_effect_update_flag = 0;

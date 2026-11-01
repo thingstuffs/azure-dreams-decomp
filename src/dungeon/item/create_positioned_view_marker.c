@@ -56,12 +56,13 @@ void create_positioned_view_marker(s16 x, s16 y) {
 
 typedef struct S_807AE960_1 {
     union { u16 s; s16 u; } unk_00;   /* accessed as both */
-    u16 unk_02;
+    union { s16 s; u16 u; } unk_02;   /* accessed as both */
     union { s16 s; s16 u; } unk_04;   /* accessed as both */
-    u8 pad_06[0x4];
+    u8 pad_06[0x2];
+    s16 unk_08;
     s16 unk_0A;
     union { s16 s; u16 u; } unk_0C;   /* accessed as both */
-    u16 unk_0E;
+    union { u16 u; s16 s; } unk_0E;   /* accessed as both */
     s16 unk_10;
 } S_807AE960_1;   /* state in advance_dungeon_tile_action_state */
 
@@ -181,7 +182,7 @@ void advance_dungeon_tile_action_state(u8 *state, u8 *actor_arg, u8 *target_arg)
         ((S_807AE960_1 *)state)->unk_0C.s = 0x60;
     case 20:
         ((S_807AE960_1 *)state)->unk_00.s = 2U;
-        ((S_807AE960_1 *)state)->unk_0A = (s16) ((S_807AE960_1 *)state)->unk_02;
+        ((S_807AE960_1 *)state)->unk_0A = (s16) ((S_807AE960_1 *)state)->unk_02.u;
         break;
     default:
         break;
@@ -199,7 +200,7 @@ void advance_dungeon_tile_action_state(u8 *state, u8 *actor_arg, u8 *target_arg)
         }
         actor->unk_0A = countdown;
         if (((S_807AE960_1 *)state)->unk_0C.s == 0) {
-            actor->unk_0A = (s16) ((S_807AE960_1 *)state)->unk_0E;
+            actor->unk_0A = (s16) ((S_807AE960_1 *)state)->unk_0E.u;
         }
     }
     if (((S_807AE960_1 *)state)->unk_00.u != 0) {
@@ -208,7 +209,7 @@ void advance_dungeon_tile_action_state(u8 *state, u8 *actor_arg, u8 *target_arg)
     if ((u8) reference_tile_object.tile_position.parts.tile_y >= 0x3DU) {
         return;
     }
-    if (((S_807AE960_1 *)state)->unk_0A == (s16) ((S_807AE960_1 *)state)->unk_02) {
+    if (((S_807AE960_1 *)state)->unk_0A == (s16) ((S_807AE960_1 *)state)->unk_02.u) {
         return;
     }
     ((S_807AE960_1 *)state)->unk_00.s = 4U;
@@ -219,16 +220,6 @@ void advance_dungeon_tile_action_state(u8 *state, u8 *actor_arg, u8 *target_arg)
 const DirectionOffsets dungeon_7ce800_directions = {1,0,1,1,0,1,-1,1,-1,0,-1,-1,0,-1,1,-1};
 #include "modules/dungeon_ovl_7ce800.h"
 #include "common.h"
-
-typedef struct S_800F643C_3 {
-    u8 pad_00[0x2];
-    s16 unk_02;
-    u8 pad_04[0x4];
-    s16 unk_08;
-    u8 pad_0A[0x4];
-    s16 unk_0E;
-    s16 unk_10;
-} S_800F643C_3;
 
 s32 draw_linked_lit_meshes(void *,s32,void *);
 extern s32 default_textured_quad_color;
@@ -261,17 +252,17 @@ void create_slot_positioned_effect(s16 x, s16 y, s32 slot) {
         height = sample_terrain_surface_height(x & 0xFFFF, y & 0xFFFF, -0x400) - 0xC0;
         object_data = ((void *)object) + 0x20;
         position->z.w.i = height;
-        ((S_800F643C_3 *)object_data)->unk_0E = height;
+        ((S_807AE960_1 *)object_data)->unk_0E.s = height;
         /* BYTES: local/global alloc priority: the loop note adds loop-weighted refs (REG_N_REFS) to a value; unwrap swaps callee-saved registers (ledger/onetrip_loadbearing.jsonl: dungeon/func_807AEC3C). */
         do {
-            ((S_800F643C_3 *)object_data)->unk_08 = slot;
+            ((S_807AE960_1 *)object_data)->unk_08 = slot;
         } while (0);
         if (slot != 0) {
-            ((S_800F643C_3 *)object_data)->unk_02 = 0x800;
+            ((S_807AE960_1 *)object_data)->unk_02.s = 0x800;
             model->angle_z = 0x800;
         }
         view_marker_slots[slot] = object_data;
-        ((S_800F643C_3 *)object_data)->unk_10 = slot;
+        ((S_807AE960_1 *)object_data)->unk_10 = slot;
     }
 }
 
@@ -566,7 +557,7 @@ void update_dungeon_tile_boundary_state(void *owner) {
 
     clear_scaled_cell_flags_8000();
     i = 0;
-    *(u16 *)((u8 *)owner - 2) |= NODE_REMOVE;
+    ((ObjectNodeHeader *)owner - 1)->flags |= NODE_REMOVE;
     object_flag_block.flags |= OBJECT_REMOVE_PENDING;
     objects = primary_actor_record;
     do {
@@ -582,14 +573,10 @@ void update_dungeon_tile_boundary_state(void *owner) {
 #include "modules/dungeon_ovl_7ce800.h"
 #include "common.h"
 
-typedef struct S_807AF2CC_0 {
-    u8 pad_00[0x10];
-    s32 * unk_10;
-} S_807AF2CC_0;   /* func_8003FC64(0) in func_800F6ACC */
 
 /* Set the returned object's data pointer to update_dungeon_tile_boundary_state. */
 void create_tile_boundary_updater(void) {
-    ((S_807AF2CC_0 *)(allocate_flagged_object_node(0)))->unk_10 = (void *)update_dungeon_tile_boundary_state;
+    ((ObjectNodeHeader *)(allocate_flagged_object_node(0)))->update_callback = (void *)update_dungeon_tile_boundary_state;
 }
 #include "modules/dungeon_ovl_7ce800.h"
 #include "shared/runtime_dispatch.h"
@@ -1682,14 +1669,6 @@ void reset_active_object_action(void) {
 #include "modules/dungeon_ovl_7ce800.h"
 #include "common.h"
 
-typedef struct S_807B08F0_0 {
-    u8 pad_00[0x10];
-    s32 * unk_10;
-    u8 pad_14[0xC];
-    u16 unk_20;
-} S_807B08F0_0;
-
-
 /* Allocate and initialize an object at the center of the specified tile. */
 void create_terrain_particle_emitter(s16 tile_x, s16 tile_y, s16 initial_value) {
     TerrainParticleEmitterBody *state;
@@ -1699,10 +1678,10 @@ void create_terrain_particle_emitter(s16 tile_x, s16 tile_y, s16 initial_value) 
     if (object != NULL) {
         object->update_callback = (void *)emit_scattered_animated_particles;
         register_node(object, (void *)render_particle_effect_object);
-        state = ((void *)object) + 0x20;
-        ((S_807B08F0_0 *)object)->unk_20 = (u16) (tile_x * 0x40 + 0x20);
+        state = (TerrainParticleEmitterBody *)(object + 1);
+        state->origin_x.u = (u16) (tile_x * 0x40 + 0x20);
         state->origin_y.u = (u16) (tile_y * 0x40 + 0x20);
-        state->height.s = (s16)sample_terrain_surface_height(((S_807B08F0_0 *)object)->unk_20, state->origin_y.u, -0x400);
+        state->height.s = (s16)sample_terrain_surface_height(state->origin_x.u, state->origin_y.u, -0x400);
         state->unk_06.s = initial_value;
         state->tick_count.u16 = 0;
     }

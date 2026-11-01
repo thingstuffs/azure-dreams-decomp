@@ -16,13 +16,8 @@ extern s32 allocate_initialized_child_object(); /* Unprototyped: uses the value 
 extern s32 create_menu_child_object(); /* Unprototyped: uses the value as a pointer where the definition has an integer (or the reverse) */
 extern s32 item_panel_display_ids;
 
-typedef struct S_80025198_0 {
-    u8 pad_00[0x20];
-    s32 unk_20;
-} S_80025198_0;
-
 typedef struct S_80025198_1 {
-    u8 pad_00[0x4];
+    s32 unk_00;
     s32 unk_04;
     u8 pad_08[0x8];
     s32 unk_10;
@@ -48,11 +43,6 @@ typedef struct S_80025198_3 {
     s32 unk_08;
 } S_80025198_3;
 
-typedef struct S_80025198_4 {
-    u8 pad_00[0x20];
-    s32 unk_20;
-} S_80025198_4;
-
 typedef struct S_80025198_5 {
     u8 pad_00[0x14A0];
     s32 unk_14A0;
@@ -71,8 +61,8 @@ void *allocate_item_object(s32 value_00, s32 value_10, s32 value_18, void *descr
     object = allocate_flagged_object_node(0);
     if (object != NULL) {
         descriptor_data = descriptor;
-        state = ((void *)object) + 0x20;
-        ((S_80025198_0 *)object)->unk_20 = value_00;
+        state = (S_80025198_1 *)(object + 1);
+        state->unk_00 = value_00;
         state->unk_10 = value_10;
         state->unk_14 = (s32) descriptor_data->unk_01;
         state->unk_18 = value_18;
@@ -95,7 +85,7 @@ void *allocate_item_object(s32 value_00, s32 value_10, s32 value_18, void *descr
             state->unk_04);
         globals_base = (s32 *) 0x80080000;
         for (resource_index = 0, resource_cursor = state; resource_index < 3; resource_index++, resource_cursor += 4) {
-            if (((S_80025198_4 *)resource_cursor)->unk_20 == 0) {
+            if (((S_80025198_1 *)resource_cursor)->unk_20 == 0) {
                 advance_paired_object_sequence(state);
                 ((ObjectNodeHeader *)((u8 *)state - 0x20))->flags = (u16) (((ObjectNodeHeader *)((u8 *)state - 0x20))->flags | NODE_REMOVE);
                 object = NULL;

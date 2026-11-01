@@ -56,7 +56,7 @@ void spawn_jittered_child_effect(
         init_data = &D_800241B0;
         jitter_z &= 0x1F;
         position_z = ((Row_818FECCC_S_818FECCC_6 *)(source_obj->unk_08))->unk_0A;
-        fields = (Row_818FECCC_S_818FECCC_0 *)((u8 *)object_cursor + 0x20);
+        fields = NODE_BODY(object_cursor);
         dest_z = object_cursor->position;
         position_z += jitter_z;
         bias_z = offset_z + 0x10;

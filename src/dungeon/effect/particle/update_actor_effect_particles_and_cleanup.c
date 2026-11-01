@@ -215,7 +215,7 @@ void create_accelerating_return_particle(ObjectNodeHeader *source, s32 setting_1
         (effect->position)->x.w.i = (s16) (source->position->x.unsigned_parts.integer + offset_x);
         (effect->position)->y.w.i = (s16) (source->position->y.unsigned_parts.integer + offset_y);
         (effect->position)->z.w.i = (s16) (source->position->z.unsigned_parts.integer + offset_z);
-        state = ((void *)effect) + 0x20;
+        state = NODE_BODY(effect);
         state->unk_34 = (u16) source->position->x.unsigned_parts.integer;
         state->unk_36 = (u16) source->position->y.unsigned_parts.integer;
         state->unk_38 = (u16) source->position->z.unsigned_parts.integer;
@@ -698,7 +698,7 @@ state1_cleanup:
                 actor->timer82 = old_timer;
                 if (active_flag == 0) {
                     g_dungeon_status.active_actor = 0;
-                    ((ObjectNodeHeader *)((u8 *)actor - 0x20) )->flags|= NODE_REMOVE;
+                    NODE_HEADER(actor)->flags|= NODE_REMOVE;
                     object_flag_block.flags |= OBJECT_REMOVE_PENDING;
                     return;
                 }

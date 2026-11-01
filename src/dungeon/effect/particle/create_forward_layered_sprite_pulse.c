@@ -69,7 +69,7 @@ void create_forward_layered_sprite_pulse(void)
     do {
         effect = allocate_flagged_object_node(0x212);
         if (effect != NULL) {
-            effect_state = ((void *)effect) + 0x20;
+            effect_state = NODE_BODY(effect);
             effect_state->unk_18 = 0xE;
             effect_state->unk_1A = 0xE;
             effect->update_callback = update_flickering_layer_sprite;

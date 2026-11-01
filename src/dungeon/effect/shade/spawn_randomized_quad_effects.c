@@ -116,7 +116,7 @@ void spawn_randomized_quad_effects(void) {
             angles->angle_x = (rand() & 0x1FF) - 0x100;
             angles->angle_y = (rand() & 0x1FF) - 0x100;
 
-            quad_data = (S_func_80025BA0_3 *)((u8 *)effect + 0x20);
+            quad_data = NODE_BODY(effect);
             quad_data->unk_1A = 0x20;
             quad_data->unk_34 = *(s32 *)&vertices[quad_index];
             quad_data->unk_38 = vertices[quad_index].z;

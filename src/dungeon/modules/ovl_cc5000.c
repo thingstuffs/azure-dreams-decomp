@@ -112,7 +112,7 @@ void *spawn_block_slot_d(s16 spawn_flags, s16 tile_x, s16 tile_y, s32 spawn_heig
     object = allocate_list_node(0x112, &scene_object_list_anchor.next);
     if (object != 0) {
         result = (void *)object;
-        result = (void *)result + 0x20;
+        result = NODE_BODY(object);
         object->update_callback = update_block_motion_and_facing_slot_d;
         result->species = 20;
         register_node(object, project_sprite_chain);
@@ -546,7 +546,7 @@ void choose_block_move_slot_d(Rec_func_800A9E70_arg0 *move_data, ObjectPosition 
             current_angle = (s32)find_adjacent_actor(actor_data, position_data->tile_position.parts.tile_x, position_data->tile_position.parts.tile_y);
             blocker = (EntityRec *)current_angle;
             if (blocker != 0) {
-                SpriteFrameState *blocker_owner = ((ObjectNodeHeader *)blocker - 1)->sprite;
+                SpriteFrameState *blocker_owner = NODE_HEADER(blocker)->sprite;
                 s16 target_angle = (s16)get_rounded_facing_and_rounding_flag(
                     position_data->tile_position.parts.tile_x, position_data->tile_position.parts.tile_y,
                     blocker_owner->tile_x, blocker_owner->tile_y,
@@ -703,7 +703,7 @@ void choose_block_move_slot_d(Rec_func_800A9E70_arg0 *move_data, ObjectPosition 
         if (turn_index == 0 &&
             *(u16 *)(&reference_tile_object.tile_position.parts.tile_x) != *(u16 *)&position_data->tile_position.parts.tile_x) {
             if ((s16)check_entity_relation(actor_data,
-                    (u8 *)primary_actor_record->previous_actor_header + 0x20) != 0) {
+                    NODE_BODY(primary_actor_record->previous_actor_header)) != 0) {
                 return;
             }
         }
@@ -1155,12 +1155,12 @@ void update_block_spell_slot_d(CL_CC5000_80172BCC_S_func_80C953CC_1 *work, CL_CC
             (work->unk_98) &= 0xFF7F;
             if ((s8)alternate) {
                 actor->unk_60 = target_actor = primary_actor_record;
-                target_entity = ((ObjectNodeHeader *)((u8 *)target_actor - 0x20))->sprite;
+                target_entity = NODE_HEADER(target_actor)->sprite;
                 actor->unk_72.u8 = target_entity->tile_x;
                 actor->unk_73.u8 = target_entity->tile_y;
             } else if (item_action_definitions[part->unk_00].kind == 2) {
                 if ((target_actor = actor->unk_60) != 0) {
-                    target_entity = ((ObjectNodeHeader *)((u8 *)target_actor - 0x20))->sprite;
+                    target_entity = NODE_HEADER(target_actor)->sprite;
                     actor->unk_72.u8 = target_entity->tile_x;
                     actor->unk_73.u8 = target_entity->tile_y;
                 }
@@ -1216,7 +1216,7 @@ void update_block_spell_slot_d(CL_CC5000_80172BCC_S_func_80C953CC_1 *work, CL_CC
             CL_CC5000_80172BCC_S_func_80C953CC_8 *model;
 
             create_randomized_flagged_object(actor, work, position);
-            transform = (CL_CC5000_80172BCC_S_func_80C953CC_6 *)((u8 *)actor + 0x20);
+            transform = NODE_BODY(actor);
             transform->unk_24 = 10;
             transform->unk_26 = 10;
             node = actor->unk_08;
@@ -1449,7 +1449,7 @@ void update_block_status_animation_slot_d(void *action, ObjectPosition *context,
             }
             if ((has_pending_actor_or_turn_action(actor_in) << 16) != 0) {
                 if ((check_entity_relation(actor_in,
-                        (u8 *)primary_actor_record->previous_actor_header + 0x20) << 16) != 0) {
+                        NODE_BODY(primary_actor_record->previous_actor_header)) << 16) != 0) {
                     return;
                 }
             }
@@ -1588,7 +1588,7 @@ void wait_block_mp_recovery_slot_d(void *actor_in, ObjectPosition *position, voi
         }
         if ((has_pending_actor_or_turn_action(entity) << 16) != 0) {
             if ((check_entity_relation(entity,
-                    (u8 *)primary_actor_record->previous_actor_header + 0x20) << 16) != 0) {
+                    NODE_BODY(primary_actor_record->previous_actor_header)) << 16) != 0) {
                 return;
             }
             update_actor_status_and_mp(entity);
@@ -1711,7 +1711,7 @@ void create_gray_fading_sprite_slot_d(void *unused_context, Rec_func_80173CFC_ar
 
     effect = allocate_flagged_object_node(0x212);
     if (effect != 0) {
-        effect_part = (u8 *)effect + 0x20;
+        effect_part = NODE_BODY(effect);
         effect_part->unk_24 = 5;
         (effect->update_callback) = spin_and_fade_gray_sprite_slot_d;
         func_8004491C(effect, func_80045340);
@@ -1728,7 +1728,7 @@ void create_gray_fading_sprite_slot_d(void *unused_context, Rec_func_80173CFC_ar
         effect_data->scale_x = scale;
         effect_part->unk_01 = 0x30;
         effect_part->unk_02 = 0x30;
-        (*(s8 *)((u8 *)effect + 0x20)) = 0x30;
+        (*(s8 *)NODE_BODY(effect)) = 0x30;
         effect_data->color.c.b = 0x30;
         effect_data->color.c.g = 0x30;
         effect_data->color.c.r = 0x30;
@@ -1872,7 +1872,7 @@ s32 draw_linked_effect_quads_slot_d(void *point, void *position, void *color) {
  for (;;) {
   draw_shaded_effect_quad_slot_d(point,position,color,0);
   next=((CL_CC5000_80174320_S_80174320_0_pre *)point)[-1].unk_00;
-  point=next+0x20;
+  point=NODE_BODY(next);
   if(next==0) break;
   position=((CL_CC5000_80174320_S_80174320_1 *)next)->unk_08;
   color=((CL_CC5000_80174320_S_80174320_1 *)next)->unk_0C;
@@ -2049,7 +2049,7 @@ void create_segmented_effect_rings_slot_d(CL_CC5000_80174724_S_80C96F24_0 *owner
                 s32 start_angle;
                 s32 end_angle;
 
-                effect_data = (u8 *)effect + 0x20;
+                effect_data = NODE_BODY(effect);
 
                 ((CL_CC5000_80174724_S_80C96F24_1 *)effect_data)->unk_24 = 0x42;
                 init_value = 0x17;

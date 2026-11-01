@@ -552,7 +552,7 @@ void delay_and_fade_particle(void *effect, void *position, void *primitive)
     switch (p->state) {
     case 0:
         if (--p->delay <= 0) {
-            register_node((ObjectNodeHeader *)p - 1, project_sprite_chain);
+            register_node(NODE_HEADER(p), project_sprite_chain);
             p->state++;
         }
         break;
@@ -572,7 +572,7 @@ void delay_and_fade_particle(void *effect, void *position, void *primitive)
             if (sprite->color.c.r >= p->fade_step) {
                 sprite->color.c.r = sprite->color.c.g = sprite->color.c.b -= p->fade_step;
             } else {
-                ((ObjectNodeHeader *)p - 1)->flags |= NODE_REMOVE; /* header precedes the record */
+                NODE_HEADER(p)->flags |= NODE_REMOVE; /* header precedes the record */
                 object_flag_block.flags |= OBJECT_REMOVE_PENDING;
             }
         }

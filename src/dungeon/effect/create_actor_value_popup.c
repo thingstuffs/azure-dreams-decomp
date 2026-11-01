@@ -95,9 +95,9 @@ void *create_actor_value_popup(s32 flags, void *source_data, s16 value, u16 call
         position = object->position;
         text_link = object->sprite;
         source_object = source_data - 0x20;
-        (*(void **)((u8 *)object + 0x20)) = source_object;
+        (*(void **)NODE_BODY(object)) = source_object;
         source_position = source_object->unk_08;
-        state = ((void *)object) + 0x20;
+        state = NODE_BODY(object);
         ((S_800B4C7C_1 *)state)->unk_14 = source_position;
         anchor_x = source_position->unk_02;
         position->x.w.i = anchor_x;

@@ -31,6 +31,9 @@ typedef struct ObjectNodeHeader {
     /* 0x1E */ unsigned short flags; /* allocation/control bits: 0x400 skips update, 0x4000 marks active, 0x8000 requests unlink/removal */
 } ObjectNodeHeader;
 
+#define NODE_BODY(node) ((void *)((ObjectNodeHeader *)(node) + 1))
+#define NODE_HEADER(body) ((ObjectNodeHeader *)(body) - 1)
+
 extern ObjectNodeHeader scene_object_list_anchor;
 
 /* Draw-callback registry (SLUS .bss, 32 slots): register_node files a node under its draw callback's slot and

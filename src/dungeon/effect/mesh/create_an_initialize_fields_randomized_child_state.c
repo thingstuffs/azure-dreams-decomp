@@ -36,7 +36,7 @@ void create_an_initialize_fields_randomized_child_state(s32 object_value, s32 fi
     object = allocate_list_node(0x12, &scene_object_list_anchor.next);
     if (object != 0) {
         object->update_callback = D_80024050;
-        fields = (u8 *)object + 0x20;
+        fields = NODE_BODY(object);
         fields->unk_0C = 0;
         fields->unk_0E = 0;
         fields->unk_10 = 0;

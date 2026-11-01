@@ -628,8 +628,8 @@ s32 draw_linked_brightness_points(PointRecord *start_node, ObjectPosition *start
             scratch->ot[scratch->index] = (scratch->ot[scratch->index] & 0xFF000000) | ((u32)mode_packet & 0x00FFFFFF);
         }
 
-        prev_entry = ((ObjectNodeHeader *)node - 1)->chain_next;
-        node = (PointRecord *)(prev_entry + 1);
+        prev_entry = NODE_HEADER(node)->chain_next;
+        node = NODE_BODY(prev_entry);
         if (prev_entry == 0) {
             break;
         }
@@ -678,7 +678,7 @@ void raise_entity_to_ground(PointRecord *state, ObjectPosition *position)
     countdown = state->brightness - 8;
     state->brightness = countdown;
     if ((s32)(countdown << 16) <= 0) {
-        ((ObjectNodeHeader *)state - 1)->flags |= NODE_REMOVE;
+        NODE_HEADER(state)->flags |= NODE_REMOVE;
         object_flag_block.flags |= OBJECT_REMOVE_PENDING;
     }
 }
@@ -744,7 +744,7 @@ void create_random_jitter_child(
         init_data = draw_linked_brightness_points;
         jitter_z &= 0x1F;
         position_z = source_obj->position->z.w.i;
-        fields = (PointRecord *)(spawned + 1);
+        fields = NODE_BODY(spawned);
         dest_z = spawned->position;
         position_z += jitter_z;
         bias_z = offset_z - 0x10;
@@ -778,7 +778,7 @@ void advance_record_counter(CountdownRecord *record)
     counter--;
     record->counter = counter;
     if ((counter << 16) <= 0) {
-        ((ObjectNodeHeader *)record - 1)->flags |= NODE_REMOVE;
+        NODE_HEADER(record)->flags |= NODE_REMOVE;
         object_flag_block.flags |= OBJECT_REMOVE_PENDING;
     }
 }
@@ -1856,7 +1856,7 @@ void set_record_pair_to_one(ProjectileSelf *self, OutView *position, PacketView 
         self->timer = ticks;
         if (effect_active == 0) {
             g_dungeon_status.active_actor = 0;
-            (((ObjectNodeHeader *)((u8 *)self - 0x20))->flags) |= NODE_REMOVE;
+            (NODE_HEADER(self)->flags) |= NODE_REMOVE;
             object_flag_block.flags |= OBJECT_REMOVE_PENDING;
             return;
         }

@@ -18,7 +18,7 @@ void apply_status_to_nearby_actors(s32 x, s32 y, void *kind, s32 flags) {
     flags = ((u8)flags >> 2) + 0x10;
     do {
         if ((s16)check_entity_interaction_compatibility(kind, actor) != 0) {
-            u8 *header = *(u8 * *)&((ObjectNodeHeader *)(actor - 0x20))->sprite;
+            u8 *header = *(u8 * *)&NODE_HEADER(actor)->sprite;
             if (abs(header[0x24] - x) < 3 && abs(header[0x25] - y) < 3 && (s16)check_entity_eligibility(actor) != 0) {
                 s32 amount = flags + (generate_random_value() & 3);
                 s32 mode = 0x10;
@@ -222,7 +222,7 @@ void create_coordinate_sprite_object(void *owner, ovl_188898c_81868E84_S_81868E8
     object = allocate_flagged_object_node(0x212);
     if (object != 0) {
         object->update_callback = (void *)animate_spiral_grayscale_effect;
-        state = ((void *)object) + 0x20;
+        state = NODE_BODY(object);
         ((ovl_188898c_81868E84_S_81868E84_0 *)object)->unk_20 = 0;
         state->unk_02.u = 0;
         owner_value = ((ovl_188898c_81868E84_S_81868E84_2 *)owner)->unk_09;

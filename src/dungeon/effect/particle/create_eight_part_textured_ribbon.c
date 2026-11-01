@@ -81,7 +81,7 @@ void create_eight_part_textured_ribbon(S_801690D8_1 *source, void *origin, Sprit
     vertex_table = ribbon_vertices;
     do {
         object = allocate_flagged_object_node(0x12);
-        effect = ((void *)object) + 0x20;
+        effect = NODE_BODY(object);
         if (object != 0) {
             effect->unk_18.u = 0xEU;
             if ((segment == 0) || (segment == 7)) {

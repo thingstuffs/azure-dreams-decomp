@@ -179,10 +179,10 @@ void allocate_effect_and_initialize_sprite(s32 effect_data, s32 effect_param, s3
     if (effect != 0) {
         effect->update_callback = &D_800240F0;
         color = 0x80;
-        state = ((void *)effect) + 0x20;
+        state = NODE_BODY(effect);
         *((s16 *) (((s8 *) state) + 0xC)) = 0;
         *((s16 *) (((s8 *) state) + 0xE)) = 0;
-        *((s32 *) (((s8 *) effect) + 0x20)) = effect_data;
+        *(s32 *)NODE_BODY(effect) = effect_data;
         *((s32 **) (((s8 *) state) + 4)) = ((s32 *)&scene_object_list_anchor.next);
         *((s32 *) (((s8 *) state) + 8)) = effect_param;
         sprite = effect->sprite;
@@ -270,7 +270,7 @@ void create_textured_offset_object(EffectWithEndpointsBody *source_object)
         link = D_8002455C;
         (object->update_callback) = link;
         value = source->unk_00.object_value;
-        data = (TexturedOffsetObjectBody *)((u8 *)object + 0x20);
+        data = NODE_BODY(object);
         data->unk_00.s = value;
         data->transform = source->transform;
         data->source_offset = source->source_offset;
@@ -370,9 +370,9 @@ void allocate_effect_with_endpoints(s32 object_value, void *start_pos, void *end
 
     object = allocate_flagged_object_node(0x212);
     if (object != 0) {
-        state = ((void *)object) + 0x20;
+        state = NODE_BODY(object);
         (object->update_callback) = &D_80024918;
-        (*(s32 *)((u8 *)object + 0x20)) = object_value;
+        (*(s32 *)NODE_BODY(object)) = object_value;
         state->ticks = 0;
         state->phase = setting;
         start_x = (*(s32 *)((u8 *)start_pos + 0));
@@ -527,7 +527,7 @@ void update_three_way_target_effect(void *effect_arg, void *position) {
             tile_or_y_steps->tile_position.parts.tile_y, (s16)actor_or_frame->unk_2A, 8);
         ((Row_8194D354_S_80024B54_0 *)effect_arg)->unk_14 = target;
         if (target != NULL) {
-            target_pos = *(M2C_UNK * *)&((ObjectNodeHeader *)((u8 *)target - 0x20))->position;
+            target_pos = *(M2C_UNK * *)&NODE_HEADER(target)->position;
         } else {
             target_pos = fallback_pos;
             step_count = 0;
@@ -584,7 +584,7 @@ void update_three_way_target_effect(void *effect_arg, void *position) {
         actor_or_frame = ((Row_8194D354_S_80024B54_0 *)effect_arg)->unk_14;
         if (actor_or_frame != NULL) {
             (*(s32 *)((u8 *)actor_or_frame + 0x1C)) = (s32)((*(s32 *)((u8 *)actor_or_frame + 0x1C)) | 0x10000000);
-            effect_data = ((ObjectNodeHeader *)((u8 *)((Row_8194D354_S_80024B54_0 *)effect_arg)->unk_14 - 0x20))->sprite;
+            effect_data = NODE_HEADER(((Row_8194D354_S_80024B54_0 *)effect_arg)->unk_14)->sprite;
             if ((s16)((Row_8194D354_S_80024B54_0 *)effect_arg)->unk_18 >= 0xC) {
                 ((Row_8194D354_S_80024B54_9 *)effect_data)->unk_0C = (u8)(((Row_8194D354_S_80024B54_9 *)effect_data)->unk_0C + 8);
                 ((Row_8194D354_S_80024B54_9 *)effect_data)->unk_0D = (u8)(((Row_8194D354_S_80024B54_9 *)effect_data)->unk_0D - 8);
@@ -632,7 +632,7 @@ void update_three_way_target_effect(void *effect_arg, void *position) {
             neutral_color = 0x00808080;
             actor_value_2 = ((Row_8194D354_S_80024B54_0 *)effect_arg)->unk_14;
             actor_value_2->unk_1C = (s32)(actor_value_2->unk_1C & clear_tint_mask);
-            effect_data = ((ObjectNodeHeader *)((u8 *)actor_value_2 - 0x20))->sprite;
+            effect_data = NODE_HEADER(actor_value_2)->sprite;
             (effect_data->sprite) = neutral_color;
         }
         effect_pool = (s32 *)0x80080000;

@@ -16,7 +16,7 @@ ObjectNodeHeader *allocate_display_object_and_copy_state(void *stored_value, Obj
 
     object = allocate_flagged_object_node(0x212);
     if (object != NULL) {
-        state = (void *)object + 0x20;
+        state = NODE_BODY(object);
         object->update_callback = D_80024020;
         state->value = stored_value;
         state->pad0 = 0;
@@ -144,7 +144,7 @@ ObjectNodeHeader *create_randomized_transform_effect(void *owner_id, ObjectPosit
 
     object = allocate_flagged_object_node(0x212);
     if (object != 0) {
-        state = ((void *)object) + 0x20;
+        state = NODE_BODY(object);
         object->update_callback = &D_80024264;
         state->unk_08 = owner_id;
         state->phase = 0;

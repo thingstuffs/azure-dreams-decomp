@@ -66,7 +66,7 @@ void *create_ring_object_group(s16 center_x, s16 center_y, s16 center_z, s16 rad
             x_offset = x_component + ((s32) ((s16) x_component * radius_scale) >> 2);
             y_component = rsin(angle) >> 7;
             y_scale_product = (s16) y_component * radius_scale;
-            state = ((void *)object) + 0x20;
+            state = NODE_BODY(object);
             pos_x = center_x + x_offset;
             position->x.w.i = pos_x;
             state->unk_1C = pos_x;

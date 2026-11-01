@@ -183,7 +183,7 @@ void update_animated_textured_ribbon(EightPartTexturedRibbonBody *effect, void *
             void *callback;
 
             scaled_delta = (s32)(task);
-            segment_data = (u8 *)task + 0x20;
+            segment_data = NODE_BODY(task);
             callback = D_80166914;
             init_fn = ribbon_particle_update_address;
             ((S_80168C88_4 *)segment_data)->unk_18 = one;

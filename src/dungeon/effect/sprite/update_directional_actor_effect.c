@@ -136,7 +136,7 @@ void update_directional_actor_effect(void *state_data, void *position_data)
                 object->update_callback = update_effect_and_spawn_fragments;
                 register_node(object, create_counted_sprite_effect);
                 ((S_81988800_5 *)object)->unk_20 = state_data;
-                spawn_data = (S_81988800_6 *)((u8 *)object + 0x20);
+                spawn_data = NODE_BODY(object);
 
                 ((S_81988800_2 *)position_data)->unk_00 =
                     ((S_81988800_10 *)(((S_81988800_3 *)work)->unk_08.p32))->unk_00 +
@@ -183,7 +183,7 @@ void update_directional_actor_effect(void *state_data, void *position_data)
                 register_node(object, &D_80024D58);
                 actor = (void *)((u8 *)(&reference_tile_object));
                 offset[0] = (((u16)primary_actor_record->facing) >> 9) & 7;
-                work = (u8 *)object + 0x20;
+                work = NODE_BODY(object);
                 ((S_81988800_3 *)work)->unk_04 = (((u8 *)actor)[0x24] << 6) + 0x20;
                 ((S_81988800_3 *)work)->unk_06 = (((u8 *)actor)[0x25] << 6) + 0x20;
                 ((S_81988800_3 *)work)->unk_08.u16 = ((S_81988800_2 *)position_data)->unk_08.at02.v;

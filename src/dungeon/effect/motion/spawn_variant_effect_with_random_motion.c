@@ -52,7 +52,7 @@ void spawn_variant_effect_with_random_motion(s32 pos_x, s32 pos_y, s32 pos_z, u3
     register_node(effect, project_sprite_chain);
     motion = effect->position;
     motion->x.w.i = pos_x;
-    effect_data = ((void *)effect) + 0x20;
+    effect_data = NODE_BODY(effect);
     motion->y.w.i = pos_y;
     motion->z.w.i = pos_z;
     sprite = effect->sprite;

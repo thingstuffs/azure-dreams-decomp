@@ -398,7 +398,7 @@ copy_pairs:
         do {
             object = allocate_flagged_object_node(0x212);
             if (object != NULL) {
-                object_data = ((void *)object) + 0x20;
+                object_data = NODE_BODY(object);
                 ((S_80167C74_13 *)object_data)->unk_18 = 1;
                 ((S_80167C74_13 *)object_data)->unk_1A = 1;
                 object->update_callback = expire_ribbon_segment;

@@ -247,7 +247,7 @@ void run_growing_target_effect(S_func_818DA800_1 *effect_state, S_func_818DA800_
                 position_or_z_offset = (s32)burst_obj->position;
                 burst_obj->update_callback = image_base;
                 center_coord = motion->unk_00.half.unk_02.as_s16;
-                child_state = (S_func_818DA800_8 *)((u8 *)burst_obj + 0x20);
+                child_state = NODE_BODY(burst_obj);
                 if (actor_or_corner >> 1) {
                     corner_coord = center_coord - 16;
                 } else {

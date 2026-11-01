@@ -155,7 +155,7 @@ void update_directional_actor_effect(void *effect, void *color_data) {
     case 3:
         model = ((S_8195281C_10 *)(((S_8195281C_1 *)((int *)(&primary_actor_record)))->unk_00.i))->unk_60;
         if (model != 0) {
-            model_colors = ((ObjectNodeHeader *)((u8 *)model - 0x20))->sprite;
+            model_colors = NODE_HEADER(model)->sprite;
             model->unk_1C = (s32) (model->unk_1C | 0x10000000);
             model_colors->color.c.r = (u8) (model_colors->color.c.r - 4);
             model_colors->color.c.g = (u8) (model_colors->color.c.g - 4);
@@ -179,7 +179,7 @@ void update_directional_actor_effect(void *effect, void *color_data) {
         }
         model = dungeon_actor_ring_anchor->target;
         if (model != 0) {
-            model_colors = ((ObjectNodeHeader *)((u8 *)model - 0x20))->sprite;
+            model_colors = NODE_HEADER(model)->sprite;
             model_colors->color.word = 0x808080;
         }
         fade_stage = ((S_8195281C_0 *)effect)->unk_0A.u;
@@ -465,7 +465,7 @@ void allocate_and_initialize_effect_object(s32 alloc_arg, s16 value_26, s16 valu
     object = allocate_list_node(0x200, (ObjectNodeHeader **)alloc_arg);
     if (object != 0) {
         object->update_callback = process_effect_modes_and_completion;
-        state = ((void *)object) + 0x20;
+        state = NODE_BODY(object);
         state->unk_26 = value_26;
         state->unk_0C = value_0c;
         state->unk_30 = value_30;

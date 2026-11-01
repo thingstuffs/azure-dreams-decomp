@@ -62,7 +62,7 @@ void update_directional_actor_effect(EntityRec *effect_arg, void *motion_arg, Ro
                 register_node(entity, project_sprite_chain);
                 render_state = entity->sprite;
                 entity->update_callback = shrink_spiraling_sprite_effect;
-                particle = (Row_818E0800_S_818E0800_5 *)((u8 *)entity + 0x20);
+                particle = NODE_BODY(entity);
                 particle->unk_0C = ((Row_818E0800_S_818E0800_2 *)motion_arg)->unk_00.at02.v;
                 particle->unk_0E = ((Row_818E0800_S_818E0800_2 *)motion_arg)->unk_04.at02.v;
                 {

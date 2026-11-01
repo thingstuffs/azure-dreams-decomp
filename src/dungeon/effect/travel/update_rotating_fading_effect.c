@@ -138,7 +138,7 @@ void *create_randomized_target_effect(Rec_func_800243B8_arg0 *source, ovl_18ca83
 
     obj = allocate_flagged_object_node(0x212);
     if (obj != NULL) {
-        data = (RandomizedTargetEffectBody *)((u8 *)obj + 0x20);
+        data = NODE_BODY(obj);
         obj->update_callback = (void *)update_rotating_fading_effect;
         data->owner = source;
         data->phase.u = 0;
@@ -251,7 +251,7 @@ void advance_target_travel_effect(void *effect, void *motion, void *appearance) 
         ((Rec_func_800243B8_arg0 *)effect)->unk_0E = (u16) (((u16) ((ovl_18ca83c_818AAE60_S_80024660_1 *)source)->unk_2A >> 9) & 7);
         ((ovl_18ca83c_818AAE60_S_80024660_2 *)appearance)->unk_0C = 0x808080;
     case 1:
-        source_record = ((ovl_18ca83c_818AAE60_S_80024660_3 *)((ObjectNodeHeader *)source - 1));
+        source_record = ((ovl_18ca83c_818AAE60_S_80024660_3 *)NODE_HEADER(source));
         source_info = source_record->unk_0C;
         if (resolve_record_orientation_or_fallback(source_info->source, source_info, &scratch.offset.orientation, 0) == 0) {
             if (!(((ovl_18ca83c_818AAE60_S_80024660_12 *)(source_record->unk_0C))->unk_14 & 0x8000)) {

@@ -49,7 +49,7 @@ void *create_effect_or_fallback(u32 x, u32 y, s32 z, void *effect_data) {
         appearance->scale_y = 0xC90;
         appearance->scale_x = 0xC90;
         appearance->source = get_item_category_value(effect_data, appearance->color.word);
-        grid_position = (u8 *)effect + 0x20;
+        grid_position = NODE_BODY(effect);
         grid_position->unk_B0 = x >> 6;
         grid_position->unk_B2 = y >> 6;
         *(PackedWord *)((u8 *)effect + 0xB8) = *(PackedWord *)effect_data;

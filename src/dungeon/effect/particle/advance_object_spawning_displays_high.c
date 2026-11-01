@@ -106,7 +106,7 @@ void spawn_free_slot_display_effect(AdvanceObjectSpawningDisplaysHighBody *owner
 
         effect = allocate_flagged_object_node(0x212);
         if (effect != 0) {
-            effect_work = (FreeSlotDisplayEffectBody *)((u8 *)effect + 0x20);
+            effect_work = NODE_BODY(effect);
             effect_work->remaining.s = 7;
             effect_work->fade_step = 7;
             effect_work->slot_index = slot;
@@ -118,7 +118,7 @@ void spawn_free_slot_display_effect(AdvanceObjectSpawningDisplaysHighBody *owner
             display->depth_bias = 4;
             display->flags &= 0xFFF3;
 
-            vector_src = ((ObjectNodeHeader *)((u8 *)primary_actor_record - 0x20))->position;
+            vector_src = NODE_HEADER(primary_actor_record)->position;
             vector_dst = effect->position;
             vector_dst->x.v = vector_src->x.v;
             vector_dst->y.v = vector_src->y.v;
@@ -158,7 +158,7 @@ void advance_object_spawning_displays_high(void *source, void *unused_position, 
 
     object = allocate_flagged_object_node(0x212);
     if (object != NULL) {
-        state = ((void *)object) + 0x20;
+        state = NODE_BODY(object);
         state->timer = 0xB;
         state->source_owner = source;
         (object->update_callback) = &spawn_free_slot_display_effect;
@@ -249,9 +249,9 @@ s32 draw_brightness_scaled_point_chain(PointRecord *first_point, ObjectPosition 
         }
 
         /* the preceding header's +0x18 holds the next node */
-        next_node = ((ObjectNodeHeader *)point - 1)->chain_next;
+        next_node = NODE_HEADER(point)->chain_next;
         if (next_node != 0) {
-            point = (PointRecord *)(next_node + 1);
+            point = NODE_BODY(next_node);
             position = next_node->position;
             continue;
         }
@@ -302,7 +302,7 @@ void handle_spawn_initialize_randomized_offset_parent(Object *source, s32 state_
         (*(Data * *)&spawned->position)->y =
             *(u16 *)&((ObjectPosition *)parent->data)->y.w.i +
             (jitter & 0xF) + (held_y_offset - 8);
-        state = (u8 *)spawned + 0x20;
+        state = NODE_BODY(spawned);
         jitter = rand();
         position = *(Data * *)&spawned->position;
         position->z =
@@ -377,7 +377,7 @@ void *create_packed_sprite_effect(void *source, void *unused_1, void *unused_2, 
 
     object = allocate_flagged_object_node(0x212);
     if (object != NULL) {
-        state = ((void *)object) + 0x20;
+        state = NODE_BODY(object);
         state->remaining = 0x3C;
         (object->update_callback) = &decrement_object_counter;
         register_node(object, project_sprite_chain);
@@ -729,7 +729,7 @@ void advance_actor_tint_particle_sequence(TintParticleSequence *effect, void *ef
             actor_position = primary_actor_record;
             F(sprite, u16, 0x14) = (u16)(F(sprite, u16, 0x14) | 0xC);
             position = particle->position;
-            actor_position = ((ObjectNodeHeader *)((u8 *)actor_position - 0x20))->position;
+            actor_position = NODE_HEADER(actor_position)->position;
             position->x.v = F(actor_position, u32, 0);
             position->y.v = F(actor_position, u32, 4);
             F(position, u32, 8) = F(actor_position, u32, 8);
@@ -762,7 +762,7 @@ void advance_actor_tint_particle_sequence(TintParticleSequence *effect, void *ef
             do {
                 particle = allocate_flagged_object_node(0x212);
                 if (particle != 0) {
-                    burst_tail = (u8 *)particle + 0x20;
+                    burst_tail = NODE_BODY(particle);
                     F(burst_tail, s16, 0x2A) = 12;
                     particle->update_callback = particle_script;
                     register_node(particle, project_sprite_chain);
@@ -824,7 +824,7 @@ void advance_actor_tint_particle_sequence(TintParticleSequence *effect, void *ef
             if (animation_m != 0) {
                 F(animation_m, u32, 0x1C) |= 0x10000000;
                 {
-                    model_color = ((ObjectNodeHeader *)((u8 *)animation_m - 0x20))->sprite;
+                    model_color = NODE_HEADER(animation_m)->sprite;
                     fade = effect->timer.s * 0x7F;
                     if (fade < 0) {
                         fade += 15;
@@ -852,7 +852,7 @@ void advance_actor_tint_particle_sequence(TintParticleSequence *effect, void *ef
                 bits = (u32)0xEFFFFFFF;
                 neutral_color = 0x00808080;
                 component = (s32)F(animation_m, u32, 0x1C);
-                model_color = ((ObjectNodeHeader *)((u8 *)animation_m - 0x20))->sprite;
+                model_color = NODE_HEADER(animation_m)->sprite;
                 component &= (s32)bits;
                 F(animation_m, u32, 0x1C) = (u32)component;
                 model_color->sprite = (u32)neutral_color;

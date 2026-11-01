@@ -1035,12 +1035,6 @@ typedef struct S_800B1F34_0 {
     u16 unk_06;
 } S_800B1F34_0;   /* arg0 in advance_timed_panel_motion */
 
-typedef struct S_800B1F34_1 {
-    u8 pad_00[0x8];
-    union { struct { s32 v; } at00; struct { u8 pad[0x2]; u16 v; } at02; } unk_08;   /* overlapping accesses */
-    u8 pad_0C[0x8];
-    s32 unk_14;
-} S_800B1F34_1;   /* arg1 in advance_timed_panel_motion */
 
 typedef struct S_800B1F34_2 {
     u8 pad_00[0x1C];
@@ -1055,7 +1049,7 @@ enum PanelMotionState {
 };
 
 /* Advances timed motion phases, updates the output offset, and sets the global update flag. */
-void advance_timed_panel_motion(S_800B1F34_0 *animation, S_800B1F34_1 *motion)
+void advance_timed_panel_motion(S_800B1F34_0 *animation, ObjectPosition *motion)
 {
     s16 state;
     u16 countdown;
@@ -1067,7 +1061,7 @@ void advance_timed_panel_motion(S_800B1F34_0 *animation, S_800B1F34_1 *motion)
         animation->unk_06 = 0x10;
         animation->unk_04.u++;
     case PANEL_MOTION_ACCELERATE:
-        motion->unk_14 -= 0x4000;
+        motion->velocity_z -= 0x4000;
         countdown = animation->unk_06 - 1;
         animation->unk_06 = countdown;
         if ((s16)countdown < 0) {
@@ -1076,7 +1070,7 @@ void advance_timed_panel_motion(S_800B1F34_0 *animation, S_800B1F34_1 *motion)
         }
         break;
     case PANEL_MOTION_REVERSE:
-        motion->unk_14 += 0x6000;
+        motion->velocity_z += 0x6000;
         countdown = animation->unk_06 - 1;
         animation->unk_06 = countdown;
         if ((s16)countdown < 0) {
@@ -1087,16 +1081,16 @@ void advance_timed_panel_motion(S_800B1F34_0 *animation, S_800B1F34_1 *motion)
         countdown = animation->unk_06 - 1;
         animation->unk_06 = countdown;
         if ((s16)countdown < 0) {
-            motion->unk_14 = 0;
+            motion->velocity_z = 0;
             animation->unk_06 = 0x3C;
             animation->unk_04.u++;
         }
         break;
     }
     update_state = primary_actor_record;
-    motion->unk_08.at00.v -= motion->unk_14;
+    motion->z.v -= motion->velocity_z;
     update_state->unk_1C |= 0x40000000;
-    *animation->unk_00 = 0x20 - motion->unk_08.at02.v;
+    *animation->unk_00 = 0x20 - motion->z.unsigned_parts.integer;
 }
 #include "shared/object_node.h"
 #include "common.h"
@@ -1105,18 +1099,7 @@ void advance_timed_panel_motion(S_800B1F34_0 *animation, S_800B1F34_1 *motion)
 #include "shared/game_work.h"
 void play_sound_if_enabled(s32);
 struct S_800B1F34_0;
-struct S_800B1F34_1;
-extern void advance_timed_panel_motion(struct S_800B1F34_0 *animation, struct S_800B1F34_1 *motion);
-
-typedef struct S_800B2074_1 {
-    u8 pad_00[0x8];
-    void * unk_08;
-    void * unk_0C;
-    s32 * unk_10;
-    u8 pad_14[0xC];
-    u16 * unk_20;
-} S_800B2074_1;
-
+extern void advance_timed_panel_motion(struct S_800B1F34_0 *animation, ObjectPosition *motion);
 
 typedef struct S_800B2074_4 {
     s16 unk_00;
@@ -1125,7 +1108,8 @@ typedef struct S_800B2074_4 {
 } S_800B2074_4;
 
 typedef struct S_800B2074_5 {
-    u8 pad_00[0xE];
+    u16 * unk_00;
+    u8 pad_04[0xA];
     u16 unk_0E;
     u8 pad_10[0x1A];
     u16 unk_2A;
@@ -1169,12 +1153,12 @@ s32 create_map_position_object(s32 world_x, s32 world_z) {
         transform->x.w.i = pos_x;
         transform->y.w.i = pos_z;
         tile_addr += (((s32) (pos_x << 0xA) >> 0x10) + (((s32) (pos_z << 0xA) >> 0x10) << g_game_work.map.shiftX)) * 6;
-        ((S_800B2074_1 *)object)->unk_20 = (u16 *) (tile_addr + 2);
+        ((S_800B2074_5 *)(object + 1))->unk_00 = (u16 *) (tile_addr + 2);
         ((S_800B2074_4 *)tile_addr)->unk_00 = 3;
-        transform->z.w.i = (s16) (0 - *((S_800B2074_1 *)object)->unk_20);
+        transform->z.w.i = (s16) (0 - *((S_800B2074_5 *)(object + 1))->unk_00);
         ((S_800B2074_4 *)tile_addr)->unk_02 = (u16) (((S_800B2074_4 *)tile_addr)->unk_02 + 0x20);
         ((S_800B2074_4 *)tile_addr)->unk_04 = (u16) (((S_800B2074_4 *)tile_addr)->unk_04 | 1);
-        state_fields = ((void *)object) + 0x20;
+        state_fields = (S_800B2074_5 *)(object + 1);
         play_sound_if_enabled(0x603);
         inherited_value = ((u16)primary_actor_record->facing);
         state_fields->unk_0E = inherited_value;

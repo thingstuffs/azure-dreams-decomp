@@ -61,7 +61,7 @@ s32 create_dimmed_copy_effect(s32 *object_id, S_818C32F4_4 *source_data, void *v
     if (object != 0) {
         object->update_callback = D_80024A08;
         ((S_818C32F4_0 *)object)->unk_20 = *object_id;
-        object_state = (u8 *)object + 0x20;
+        object_state = NODE_BODY(object);
         object_state->unk_04 = 0;
         object_state->unk_06 = 0;
         visual = object->sprite;

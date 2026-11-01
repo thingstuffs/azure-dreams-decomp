@@ -159,9 +159,9 @@ s32 draw_dimmed_height_effect_points(PointRecord *first_point, ObjectPosition *f
             ((GpuLinkTag *)&scratch->ot[scratch->index])->addr = (u32)draw_mode;
         }
 
-        next_node = ((ObjectNodeHeader *)point - 1)->chain_next;
+        next_node = NODE_HEADER(point)->chain_next;
         if (next_node != 0) {
-            point = (PointRecord *)(next_node + 1);
+            point = NODE_BODY(next_node);
             position = next_node->position;
             continue;
         }
@@ -201,7 +201,7 @@ void handle_raise_position_toward_queried_height_set_flags_countdown_expires(Eff
     countdown = state->timer - 8;
     state->timer = countdown;
     if ((s32)(countdown << 16) <= 0) {
-        ((ObjectNodeHeader *)state - 1)->flags |= NODE_REMOVE;
+        NODE_HEADER(state)->flags |= NODE_REMOVE;
         object_flag_block.flags |= OBJECT_REMOVE_PENDING;
     }
 }
@@ -251,7 +251,7 @@ void handle_retail_n_8190_ac_70_callee_80024470_spawn_effect_under_parent_node_p
         jitter_z = rand();
         jitter_z &= 0x1F;
         position_z = source_obj->position->z.w.i;
-        fields = (PointRecord *)(spawned + 1);
+        fields = NODE_BODY(spawned);
         dest_z = spawned->position;
         position_z += jitter_z;
         bias_z = offset_z - 0x10;
@@ -1077,7 +1077,7 @@ void update_a_moving_effect_target_animation_cleanup_state(S_func_8190B2D0_0 *ef
         case 0:
         {
             g_dungeon_status.active_actor = 0;
-            ((ObjectNodeHeader *)((u8 *)effect - 0x20) )->flags|= NODE_REMOVE;
+            NODE_HEADER(effect)->flags|= NODE_REMOVE;
             object_flag_block.flags |= OBJECT_REMOVE_PENDING;
             break;
         }

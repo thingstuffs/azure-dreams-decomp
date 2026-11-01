@@ -60,7 +60,7 @@ s32 create_scaled_rotation_effect(S_818C3A3C_2 *owner, S_818C3A3C_4 *initial_dat
     effect = allocate_flagged_object_node(0x212);
     if (effect != 0) {
         handler = D_80025098;
-        effect_state = (ScaledRotationEffectBody *)((u8 *)effect + 0x20);
+        effect_state = NODE_BODY(effect);
         effect_name = random_variant_sprite_entries;
         effect->update_callback = handler;
         ((S_818C3A3C_0 *)effect)->unk_20 = owner;

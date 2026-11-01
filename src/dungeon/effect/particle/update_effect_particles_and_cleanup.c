@@ -572,7 +572,7 @@ void update_effect_particles_and_cleanup(ParticleCleanupWork *effect, void *moti
             return;
         }
         first_object = allocate_flagged_object_node(0x212);
-        child_effect = ((void *)first_object) + 0x20;
+        child_effect = NODE_BODY(first_object);
         if (first_object != NULL) {
             child_effect->unk_02.s = 0x78;
             (first_object->update_callback) = &D_800246F8;
@@ -606,7 +606,7 @@ void update_effect_particles_and_cleanup(ParticleCleanupWork *effect, void *moti
             ((S_818FF710_32 *)(first_sprite->source))->unk_04 = GetTPage(2, 2, 0x340, 0x154);
         }
         second_object = allocate_flagged_object_node(0x212);
-        child_effect = ((void *)second_object) + 0x20;
+        child_effect = NODE_BODY(second_object);
         if (second_object != NULL) {
             child_effect->unk_02.s = 0x78;
             (second_object->update_callback) = &advance_timed_visual_effect;
@@ -638,7 +638,7 @@ void update_effect_particles_and_cleanup(ParticleCleanupWork *effect, void *moti
             ((S_818FF710_33 *)(second_sprite->source))->unk_04 = GetTPage(2, 1, 0x340, 0x1A8);
         }
         third_object = allocate_flagged_object_node(0x212);
-        child_effect = ((void *)third_object) + 0x20;
+        child_effect = NODE_BODY(third_object);
         if (third_object != NULL) {
             child_effect->unk_02.s = 0x78;
             (third_object->update_callback) = &D_800245EC;
@@ -669,7 +669,7 @@ void update_effect_particles_and_cleanup(ParticleCleanupWork *effect, void *moti
             second_sprite->source = (((void *)third_object) + 0x40);
         }
         fourth_object = allocate_flagged_object_node(0x212);
-        child_effect = ((void *)fourth_object) + 0x20;
+        child_effect = NODE_BODY(fourth_object);
         if (fourth_object != NULL) {
             particle_owner = fourth_object;
             sprite_resource = (void *) project_sprite_chain;
@@ -677,9 +677,9 @@ void update_effect_particles_and_cleanup(ParticleCleanupWork *effect, void *moti
             fourth_position = ((S_818FF710_2 *)parent)->unk_60;
             child_effect->unk_30 = (void *) fourth_position;
             child_effect->unk_34 = effect;
-            child_effect->unk_38 = ((void *)first_object) + 0x20;
-            child_effect->unk_3C = ((void *)third_object) + 0x20;
-            child_effect->unk_40 = ((void *)second_object) + 0x20;
+            child_effect->unk_38 = NODE_BODY(first_object);
+            child_effect->unk_3C = NODE_BODY(third_object);
+            child_effect->unk_40 = NODE_BODY(second_object);
             (fourth_object->update_callback) = &update_tiled_fade_effect;
             register_node(particle_owner, sprite_resource);
             second_sprite = fourth_object->sprite;

@@ -46,7 +46,7 @@ void update_flagged_target_tile(void *unused_0, void *unused_1, void *source_arg
         }
         update_map_cell_flags_with_item_limit(tile_x, tile_y, update_mask);
         unlink_entity_node(target_body);
-        (((ObjectNodeHeader *)target - 1)->flags) = (u16) (((ObjectNodeHeader *)target - 1)->flags | NODE_REMOVE);
+        (NODE_HEADER(target)->flags) = (u16) (NODE_HEADER(target)->flags | NODE_REMOVE);
         object_flag_block.flags = object_flag_block.flags | OBJECT_REMOVE_PENDING;
     }
 }

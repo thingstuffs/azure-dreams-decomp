@@ -35,7 +35,7 @@ void create_colored_effect_with_event(ObjectNodeHeader *source, s32 color, unsig
     color_ptr = &color;
     effect = allocate_flagged_object_node(0x12);
     if (effect != 0) {
-        effect_data = ((void *)effect) + 0x20;
+        effect_data = NODE_BODY(effect);
         *((void **) (((u8 *) effect_data) + 0x24)) = source;
         effect->update_callback = &emit_randomized_relative_particles;
         *((s16 *) (((u8 *) effect_data) + 0x1E)) = 0x32;

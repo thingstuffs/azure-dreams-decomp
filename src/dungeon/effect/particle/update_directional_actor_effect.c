@@ -74,8 +74,8 @@ void update_directional_actor_effect(DirectionalEffectWork *effect, ObjectPositi
         state = effect->state.s;
         count = original_count - 1;
     }
-    actor_data = ((ObjectNodeHeader *)actor)[-1].sprite;
-    actor_header = (ObjectNodeHeader *)actor - 1;
+    actor_data = NODE_HEADER(actor)->sprite;
+    actor_header = NODE_HEADER(actor);
 
     effect->ticks_left.u = (u16)count;
     if (state > 0) {
@@ -162,7 +162,7 @@ void update_directional_actor_effect(DirectionalEffectWork *effect, ObjectPositi
                     actor->target_tile_x = actor_data->tile_x;
                     actor->target_tile_y = actor_data->tile_y;
                 } else {
-                    render_data = ((ObjectNodeHeader *)target)[-1].sprite;
+                    render_data = NODE_HEADER(target)->sprite;
                     if ((render_data->flags & 0x8000) != 0) {
                         if ((((SpriteFrameState *)context_arg)->flags & 0x8000) != 0) {
                             effect->state.u = 240;

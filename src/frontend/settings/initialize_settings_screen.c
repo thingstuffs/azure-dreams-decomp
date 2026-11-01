@@ -11,12 +11,6 @@
 #include "sdk/libgpu.h"
 #include "slus.h"
 
-typedef struct S_80089C24_1 {
-    u8 pad_00[0x12];
-    s16 unk_12;
-    u8 pad_14[0x2];
-    u16 unk_16;
-} S_80089C24_1;
 
 typedef struct S_80089C24_2 {
     u8 pad_00[0x6];
@@ -130,7 +124,7 @@ void initialize_settings_screen(void) {
         index = 2;
         (*(s16 *)((u8 *)settings + 0xE)) = (s16) D_80013180;
         (*(s16 *)((u8 *)settings + 0x10)) = (s16) D_80013181;
-        ((S_80089C24_1 *)settings)->unk_12 = (s16) D_80013182;
+        ((SettingsScreenBody *)settings)->blue = (s16) D_80013182;
         do {
             if (*(s16 *)((u8 *)settings + index * 2 + 14) >= 0xFF) {
                 *(s16 *)((u8 *)settings + index * 2 + 14) = 0x100;
@@ -138,9 +132,9 @@ void initialize_settings_screen(void) {
             index -= 1;
         } while (index >= 0);
         if ((D_80013186 & 1) == 0) {
-            ((S_80089C24_1 *)settings)->unk_16 = (u16) (((S_80089C24_1 *)settings)->unk_16 | 2);
+            ((SettingsScreenBody *)settings)->flags = (u16) (((SettingsScreenBody *)settings)->flags | 2);
         } else {
-            ((S_80089C24_1 *)settings)->unk_16 = (u16) (((S_80089C24_1 *)settings)->unk_16 & 0xFFFD);
+            ((SettingsScreenBody *)settings)->flags = (u16) (((SettingsScreenBody *)settings)->flags & 0xFFFD);
         }
     }
     render_screen_fade_decreasing_intensity(settings);

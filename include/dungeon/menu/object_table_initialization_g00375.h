@@ -23,7 +23,7 @@ typedef struct {
 
 typedef struct S_800DCCF4_0 {
     void *unk_00;
-    s32 * unk_04;
+    Template0 *unk_04;
     s32 * unk_08;
     s32 * unk_0C;
 } S_800DCCF4_0;
@@ -38,7 +38,7 @@ extern Template0 display_block_defaults;
 extern Vec3 display_vector_defaults;
 /* extern */
 extern M2C_UNK D_800E2804;
-extern M2C_UNK D_800E2828;
+extern Template0 D_800E2828[9];
 extern M2C_UNK D_800E28B8;
 extern void *create_callback_pair_default(s32);
 extern void register_node(void *, void *);

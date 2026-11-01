@@ -44,8 +44,8 @@ void *spawn_ring_sparks(s16 x, s16 y, s16 z) {
             part->velocity_y = ((rsin(i * 0x80) & 0x800) ? (rsin(i * 0x80)
                 | sign_bits) : (rsin(i * 0x80) & 0x7FF)) << 0xB;
             part->velocity_z = 0xFFFE0000;
-            info = ((void *)obj) + 0x20;
-            (*(s16 *)((u8 *)obj + 0x20)) = scale;
+            info = NODE_BODY(obj);
+            (*(s16 *)NODE_BODY(obj)) = scale;
             info->unk_02 = scale;
             info->unk_04 = 1;
             info->unk_06 = 0;

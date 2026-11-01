@@ -120,7 +120,7 @@ void update_directional_actor_effect(void *effect, void *motion, void *sprite) {
     direction_x_table = dir_step_x;
     owner = (*(void **)&((EntityRec *)effect)->x);
     state = ((EntityRec *)effect)->z.w.i;
-    owner_sprite = ((ObjectNodeHeader *)((u8 *)owner - 0x20))->sprite;
+    owner_sprite = NODE_HEADER(owner)->sprite;
 
     motion_extent = (u16) ((S_8182C800_1 *)owner)->unk_2A.s >> 8;
     direction_offset = motion_extent & 0xE;
@@ -282,7 +282,7 @@ spawn_trail:
             spread_decay = elapsed_steps * 8;
             spread_base = 0x300 - spread_decay;
             motion_extent = spread_base - (elapsed_steps << 5);
-            particle = ((void *)object) + 0x20;
+            particle = NODE_BODY(object);
             if (motion_extent < 0x40) {
                 motion_extent = 0x40;
             }
@@ -443,7 +443,7 @@ spawn_trail:
                         burst_sprite->color.word = 0x808080;
                         burst_sprite->source = burst_tpage;
                         ((S_8182C800_8 *)object)->unk_20 = effect;
-                        particle = ((void *)object) + 0x20;
+                        particle = NODE_BODY(object);
                         particle->unk_48 = (s16) ((motion_extent = rand()) & 3);
                     }
                     distance_x -= 1;
@@ -467,7 +467,7 @@ spawn_trail:
             return;
         }
         g_dungeon_status.active_actor = 0;
-        ((ObjectNodeHeader *)((u8 *)effect - 0x20))->flags = (u16) (((ObjectNodeHeader *)((u8 *)effect - 0x20))->flags | NODE_REMOVE);
+        NODE_HEADER(effect)->flags = (u16) (NODE_HEADER(effect)->flags | NODE_REMOVE);
         object_flag_block.flags =
             (s32) (object_flag_block.flags | 0x8000);
         return;

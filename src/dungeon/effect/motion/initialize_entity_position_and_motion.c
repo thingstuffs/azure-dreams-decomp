@@ -204,7 +204,7 @@ void *allocate_two_part_object(ovl_19a332c_81982CEC_S_800244EC_2 *source_part, s
     }
     result = NULL;
     if (obj != NULL) {
-        result = (u8 *)obj + 0x20;
+        result = NODE_BODY(obj);
     }
     return result;
 }
@@ -285,7 +285,7 @@ void *spawn_random_motion_particles(s16 x, s16 y, s16 z, s16 heading, s16 count)
             sprite->color.word = 0x808080;
             select_record_entry_and_value(sprite, D_80026AB0, rand() & 7);
 
-            extra = (UpdateHomingEffectAndAttachedCopiesBody *)((u8 *)particle + 0x20);
+            extra = NODE_BODY(particle);
             extra->remaining_ticks = (s16)((rand() & 7) + 0x10);
             extra->heading = (s16)heading;
         }
@@ -367,7 +367,7 @@ void *spawn_thirty_two_angled_particles(s16 x, s16 y, s16 z, s16 angle, s32 unus
             sprite->source = size_texture.pointer;
             sprite->tpage_abr = 0x20;
             sprite->flags = (u16) (effect_state.value | 0xC);
-            effect_state.pointer = ((void *)particle) + 0x20;
+            effect_state.pointer = NODE_BODY(particle);
             effect_state.pointer->remaining_ticks = 0xC;
             effect_state.pointer->heading = (s16) angle;
         }
@@ -869,7 +869,7 @@ void update_homing_effect_and_attached_copies(ovl_19a332c_819835AC_S_819835AC_1 
             hit_actor = coord_delta + 0x20;
             if (hit_actor != (void *)hit_origin) {
                 do {
-                    actor_data = ((ObjectNodeHeader *)((u8 *)hit_actor - 0x20))->sprite;
+                    actor_data = NODE_HEADER(hit_actor)->sprite;
                     if ((actor_data->unk_24 == effect->tile_x) &&
                         (actor_data->unk_25 == effect->tile_y)) {
                         hit_height_gap = hit_actor->unk_88;
@@ -882,7 +882,7 @@ void update_homing_effect_and_attached_copies(ovl_19a332c_819835AC_S_819835AC_1 
                         if ((hit_height_gap < 0x80) && !(actor_data->unk_1E & 0x2000)) {
                             apply_attack_power_and_element_effects(hit_actor, 0xC, tint_transition_kind, 0xA, (s32) (s16) (effect->attack_direction << 9),
                                 tint_transition_source, 2);
-                            related_motion = ((ObjectNodeHeader *)((u8 *)hit_actor - 0x20))->position;
+                            related_motion = NODE_HEADER(hit_actor)->position;
                             spawn_thirty_two_angled_particles(related_motion->x.w.i,
                                 related_motion->y.w.i, related_motion->z.w.i,
                                 (s16) effect->heading, (rand() & 3) | 4);
@@ -910,7 +910,7 @@ void update_homing_effect_and_attached_copies(ovl_19a332c_819835AC_S_819835AC_1 
         case 6:
             target = effect->target;
             if (target != 0) {
-                related_motion = ((ObjectNodeHeader *)((u8 *)target - 0x20))->position;
+                related_motion = NODE_HEADER(target)->position;
                 aim_angle = (s16)calculate_planar_heading((s16) motion->x.half.unk_02.u16, (s16) motion->y.half.unk_06.u16,
                     related_motion->x.w.i, related_motion->y.w.i);
                 homing_heading = effect->heading;
@@ -1020,7 +1020,7 @@ void update_homing_effect_and_attached_copies(ovl_19a332c_819835AC_S_819835AC_1 
                         effect->phase = 0x10;
                         effect->phase_counter = 8U;
                     } else {
-                        related_motion = ((ObjectNodeHeader *)((u8 *)new_target - 0x20))->position;
+                        related_motion = NODE_HEADER(new_target)->position;
                         effect->timer.u16 = 0x10U;
                         state6_target_base = motion->z.half.unk_0A.s16;
                         height_value = related_motion->z.w.i;
@@ -1417,9 +1417,9 @@ void *find_eligible_nearby_entity(void *source_entity)
             void *entry_link;
             if (((check_entity_interaction_compatibility(primary_actor_record, node) << 16) != 0) &&
                 ((check_entity_eligibility(node) << 16) != 0) &&
-                !(((ObjectNodeHeader *)((u8 *)node - 0x20))->flags & 0x2000)) {
+                !(NODE_HEADER(node)->flags & 0x2000)) {
                 entity_floor = ((ovl_19a332c_81984C44_S_81984C44_1 *)source_entity)->unk_26;
-                owner = ((ObjectNodeHeader *)((u8 *)node - 0x20))->sprite;
+                owner = NODE_HEADER(node)->sprite;
                 if (entity_floor >= 0) {
                     if (entity_floor == (s8)owner->room_index) {
                         return node;

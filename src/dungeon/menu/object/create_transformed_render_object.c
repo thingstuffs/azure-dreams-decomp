@@ -33,7 +33,7 @@ s32 SetRotMatrix(void *);
 s32 SetTransMatrix(void *);
 s32 RotTransPers(void *, void *, void *, void *);
 s32 RotMatrix(void *, void *);
-void interpolate_delayed_target_values(InterpState *state, void *unused, InterpTarget *target);
+void interpolate_delayed_target_values(InterpState *state, ObjectPosition *unused, InterpTarget *target);
 extern M2C_UNK D_800DD824;
 
 /* Creates an object at transformed coordinates and initializes its rendering and state. */

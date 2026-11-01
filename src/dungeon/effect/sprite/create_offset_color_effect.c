@@ -46,7 +46,7 @@ s32 create_offset_color_effect(s32 *initial_word, void *source_data, s16 offset)
 
             init_value = 0x7DCF;
             ((S_818BCFB0_0 *)obj)->unk_20 = *initial_word;
-            init_state = (u8 *)obj + 0x20;
+            init_state = NODE_BODY(obj);
             init_state->unk_04.s16 = 0;
             init_state->unk_06 = 0;
             init_state->unk_08.s = 0;

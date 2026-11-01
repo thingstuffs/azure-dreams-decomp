@@ -94,7 +94,7 @@ void create_converging_fading_particle(
         object->position->z.w.i =
             ((MovingPosition *)(source_obj->unk_08))->z + saved_offset_z - 40;
 
-        state = (S_801652FC_0 *)((u8 *)object + 0x20);
+        state = NODE_BODY(object);
         state->unk_42 = ((MovingPosition *)(source_obj->unk_08))->x;
         state->unk_44 = ((MovingPosition *)(source_obj->unk_08))->y;
         state->unk_46 = ((MovingPosition *)(source_obj->unk_08))->z;

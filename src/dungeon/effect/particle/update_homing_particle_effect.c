@@ -256,7 +256,7 @@ void decrement_flagged_item_parameters(S_func_81832800_1 *effect, S_func_8183280
                 source->target_tile_x = (u8) source_sprite->unk_24;
                 source->target_tile_y = (u8) source_sprite->unk_25;
             } else {
-                sprite = ((ObjectNodeHeader *)((u8 *)found_target - 0x20))->sprite;
+                sprite = NODE_HEADER(found_target)->sprite;
                 if (!(sprite->flags & 0x8000) || !(((S_func_81832800_5 *) effect_sprite)->unk_14 & 0x8000)) {
                     source->target_tile_x = (u8) sprite->tile_x;
                     source->target_tile_y = (u8) sprite->tile_y;
@@ -397,7 +397,7 @@ void decrement_flagged_item_parameters(S_func_81832800_1 *effect, S_func_8183280
         return;
 
     case 0xF0:
-        sprite = ((ObjectNodeHeader *)((u8 *)source->target - 0x20))->sprite;
+        sprite = NODE_HEADER(source->target)->sprite;
         scale_x = sprite->scale_x;
         scale_y = sprite->scale_y;
         sprite->scale_x = (u16) (scale_x + ((s32) (0x1000 - scale_x) >> 2));

@@ -93,7 +93,7 @@ void advance_effect_state_and_frame(UpdateDirectionalActorEffectBody *effect)
         break;
     case 2:
         if ((s16)timer >= 0xF) {
-            ((ObjectNodeHeader *)effect - 1)->flags |= NODE_REMOVE;
+            NODE_HEADER(effect)->flags |= NODE_REMOVE;
             object_flag_block.flags |= OBJECT_REMOVE_PENDING;
         }
         break;

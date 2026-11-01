@@ -6,8 +6,7 @@
 #include "shared/entity.h"
 
 struct EntityFields;
-struct S_800C4F20_1;
-struct S_800C4F20_5;
+struct SpriteFrameState;
 
 /* create_linked_actor_fade_effect.c */
 void *create_linked_actor_fade_effect(struct EntityFields *source);
@@ -28,6 +27,6 @@ void spawn_radial_particle_burst(s16 x, s16 y, s16 z, s16 flags);
 void tick_height_restore_effect(u16 *entity);
 
 /* update_orbiting_teleport_effect.c */
-void update_orbiting_teleport_effect(void *anim, struct S_800C4F20_5 *position, struct S_800C4F20_1 *transform);
+void update_orbiting_teleport_effect(void *anim, ObjectPosition *position, struct SpriteFrameState *transform);
 
 #endif

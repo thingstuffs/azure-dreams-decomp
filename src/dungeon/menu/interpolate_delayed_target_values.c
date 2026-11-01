@@ -1,5 +1,6 @@
 #include "common.h"
 #include "engine/graphics.h"
+#include "shared/entity.h"
 #include "shared/dungeon_floor.h"
 #include "shared/object_flags.h"
 
@@ -36,7 +37,7 @@ extern void register_node(void *, u8 *);
 extern void play_sound_if_enabled(s32);
 
 /* Interpolate target values after a delay, then reduce its counter to zero and update flags. */
-void interpolate_delayed_target_values(InterpState *state, void *unused, InterpTarget *target) {
+void interpolate_delayed_target_values(InterpState *state, ObjectPosition *unused, InterpTarget *target) {
     u16 ticks_left;
     u16 target_counter;
     E296C *global_state;

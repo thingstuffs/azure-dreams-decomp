@@ -201,7 +201,7 @@ void emit_attached_directional_particle_chain(void *effect, S_818154FC_5 *positi
                 MovingTile *map;
                 s32 index;
 
-                work = (EmitAttachedDirectionalParticleChainBody *)(((u8 *)node) + 0x20);
+                work = NODE_BODY(node);
                 {
                     s16 *entry;
 

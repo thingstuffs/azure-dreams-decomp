@@ -176,7 +176,7 @@ loop_effects:
                 effect_index = 0;
                 do {
                     particle = allocate_flagged_object_node(0x212);
-                    debris = ((void *)particle) + 0x20;
+                    debris = NODE_BODY(particle);
                     if (particle != NULL) {
                         s32 random_offset = 0xB;
                         s32 coordinate;

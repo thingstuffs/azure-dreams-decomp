@@ -404,7 +404,7 @@ void advance_target_chasing_emitter(void *object, S_800244BC_2 *position, s32 co
                 - (rsin(((s16) ((RunJitteredPointSequenceBody *)object)->unk_48 << 0xB) / 10, ((s16 *)(&view_reference_entity))) << 9));
             do {
                 effect = allocate_list_node(0x302, &scene_object_list_anchor.next);
-                effect_data = ((void *)effect) + 0x20;
+                effect_data = NODE_BODY(effect);
                 if (effect != 0) {
                     effect->update_callback = update_randomized_intermediate_points;
                     effect_data->unk_3C = 0;

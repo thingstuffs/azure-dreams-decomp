@@ -58,7 +58,7 @@ s32 create_random_variant_effect(S_818C370C_2 *owner, void *source_data) {
 
     object = allocate_flagged_object_node(0x212);
     if (object != 0) {
-        state = ((void *)object) + 0x20;
+        state = NODE_BODY(object);
         object->update_callback = &func_80024C48;
         ((S_818C370C_0 *)object)->unk_20 = owner;
         state->unk_0E = 0;

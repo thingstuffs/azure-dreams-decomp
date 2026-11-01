@@ -41,7 +41,7 @@ void *create_randomized_source_effect(Row_8191C938_S_8191C938_3 *source)
 
     object = allocate_flagged_object_node(0x212);
     if (object != NULL) {
-        state = ((void *)object) + 0x20;
+        state = NODE_BODY(object);
         object->update_callback = D_80024048;
         state->source_context = source;
         state->unk_04 = 0;
@@ -172,7 +172,7 @@ void * create_scaled_rotating_effect(void *params_input, void *transform_input) 
 
     object = allocate_flagged_object_node(0x212);
     if (object != NULL) {
-        state = ((void *)object) + 0x20;
+        state = NODE_BODY(object);
         object->update_callback = &D_80024288;
         state->context = params;
         state->unk_0E.s = 0;

@@ -28,8 +28,8 @@ void create_two_row_object_group(void *payload, s16 value_scale) {
         for (column = 7; column >= 0; column--) {
             ObjectNodeHeader *object = allocate_flagged_object_node(2);
             if (object != 0) {
-                u8 *data = ((u8 *)object) + 0x20;
-                *(s16 *)(((u8 *)object) + 0x20) = 0;
+                u8 *data = NODE_BODY(object);
+                *(s16 *)(NODE_BODY(object)) = 0;
                 *(s16 *)(data + 2) = 0x20;
                 *(s16 *)(data + 8) = row;
                 *(s16 *)(data + 0xA) = (column << 9) + (row == 0 ? 0x100 : 0);
@@ -341,7 +341,7 @@ void create_source_positioned_object(ObjectPosition *source_pos, s16 initial_val
         object->update_callback = spawn_scattered_timed_objects;
         object->position->x.unsigned_parts.integer = (u16) ((u16)source_pos->x.w.i);
         object->position->y.unsigned_parts.integer = (u16) ((u16)source_pos->y.w.i);
-        object_data = ((void *)object) + 0x20;
+        object_data = NODE_BODY(object);
         object->position->z.unsigned_parts.integer = (u16) ((u16)source_pos->z.w.i);
         object_data->unk_10 = sample_terrain_surface_height(((u16)source_pos->x.w.i), ((u16)source_pos->y.w.i),
             (s16) (((u16)source_pos->z.w.i) - 0x80));
@@ -624,7 +624,7 @@ void create_two_effect_groups(MovingPosition *position, S_800DB2DC_2 *source_vis
                     (u16)position->y;
                 effect->position->z.unsigned_parts.integer =
                     (u16)position->z;
-                effect_state = ((void *)effect) + 0x20;
+                effect_state = NODE_BODY(effect);
                 effect_state->unk_06 = saved_param;
                 effect_state->unk_04 = (s16)(group_step != 0);
                 visual->frameTable =

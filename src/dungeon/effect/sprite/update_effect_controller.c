@@ -79,7 +79,7 @@ void update_effect_controller(S_func_800D7FB8_0 *controller) {
         do {
             entry = allocate_list_node(0x312, &scene_object_list_anchor.next);
             if (entry != NULL) {
-                entry_data = (S_func_800D7FB8_1 *)((u8 *)entry + 0x20);
+                entry_data = NODE_BODY(entry);
                 entry->update_callback = (u8 *)&D_800D81D4;
                 register_node(entry, project_sprite_chain);
                 sub_data = entry->sprite;

@@ -138,7 +138,7 @@ s32 draw_linked_effect_chain(void *state, void *position, void *appearance) {
     for (;;) {
         project_vertex_shaded_effect_quad(state, position, appearance, 0);
         node = *(Row_819A0D64_GapNode **)((u8 *)state - 8);
-        state = (u8 *)node + 0x20;
+        state = NODE_BODY(node);
         if (node == 0) break;
         position = node->position;
         appearance = node->appearance;
@@ -402,7 +402,7 @@ void create_rotating_directional_sprite(Row_819A1450_S_819A1450_4 *source, s32 u
     direction_table = D_80024034;
     node = allocate_flagged_object_node(0x212);
     if (node != 0) {
-        setup = (u8 *)node + 0x20;
+        setup = NODE_BODY(node);
         setup->unk_3A.u = 5;
         setup->unk_3C = 5;
         node->update_callback = D_800246F0;
@@ -937,7 +937,7 @@ loop_1:
                     sprite = task->sprite;
                     sprite->field6 = 6;
                     sprite->flags &= 0xFFF3;
-                    focus_coord = *(Row_819A1654_Coord * *)&((ObjectNodeHeader *)((u8 *)focus - 0x20))->position;
+                    focus_coord = *(Row_819A1654_Coord * *)&NODE_HEADER(focus)->position;
                     coord = task->coord;
                     coord->x.w.i = focus_coord->x;
                     coord->y.w.i = focus_coord->y;

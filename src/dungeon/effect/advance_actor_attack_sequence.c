@@ -208,7 +208,7 @@ void advance_actor_attack_sequence(ActorRecord *action_state, ObjectPosition *mo
             action_state->action_timer.u = 4U;
             action_state->action_state_flags = (u16) (action_state->action_state_flags & 0xFFF7);
             action_state->action_phase.u = (u8) (action_state->action_phase.u + 1);
-            allocate_payload_object(((ObjectNodeHeader *)action_state - 1), ((PlayerRecord *)action_state)->unk_F4, 0x40);
+            allocate_payload_object(NODE_HEADER(action_state), ((PlayerRecord *)action_state)->unk_F4, 0x40);
             mix_animations = ((S_800B348C_0 *)action_state)->unk_CC;
             (*(u8 **)((u8 *)animation + 0x2C)) = mix_animations;
             set_sprite_animation_frame(animation, *(mix_animations + (((s32) (g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100)
@@ -237,7 +237,7 @@ void advance_actor_attack_sequence(ActorRecord *action_state, ObjectPosition *mo
                     if (attack_target != 0) {
                         actor->target = 0;
                         ((S_800B348C_4 *)attack_target)->unk_1C = (s32) (((S_800B348C_4 *)attack_target)->unk_1C & 0xEFFFFFFF);
-                        ((S_800B348C_7 *)(((ObjectNodeHeader *)attack_target - 1)->sprite))->unk_0C = 0x808080;
+                        ((S_800B348C_7 *)(NODE_HEADER(attack_target)->sprite))->unk_0C = 0x808080;
                         }
                 }
             } else {

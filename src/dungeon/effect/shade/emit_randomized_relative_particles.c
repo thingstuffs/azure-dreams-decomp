@@ -58,7 +58,7 @@ void emit_randomized_relative_particles(void *emitter, Rec_func_800D4BD4_arg2 *p
             particle = allocate_flagged_object_node(0x212);
             if (particle != NULL) {
                 initialize_effect_object_state(particle, emitter, position, spawn_context);
-                particle_state = ((void *)particle) + 0x20;
+                particle_state = NODE_BODY(particle);
                 particle_state->unk_1E = particle_size;
                 particle_state->unk_20 = particle_size;
                 particle->update_callback = particle_data;

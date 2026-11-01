@@ -37,7 +37,7 @@ void spawn_linked_effect_particle(Row_818ED7A0_ParticleNode *owner, s32 age, s32
         (*(ParticleVector * *)&node->position)->x = owner->position->x + (rand() & 31) + (dx - 16);
         (*(ParticleVector * *)&node->position)->y = owner->position->y + (rand() & 31) + (dy - 16);
         (*(ParticleVector * *)&node->position)->z = owner->position->z + (rand() & 31) + (dz - 16);
-        work = (NewParticleWork *)((u8 *)node + 0x20);
+        work = NODE_BODY(node);
         work->age = age;
         work->lifetime = lifetime;
         register_node(node, func_80024C54);

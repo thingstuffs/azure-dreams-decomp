@@ -34,7 +34,7 @@ void *create_radial_effect_from_source(void *owner_body, void *source, s32 unuse
         child->y.w.i = *(u16 *)((u8 *)source + 6);
         child->z.w.i = *(u16 *)((u8 *)source + 0xA);
         source = owner;
-        *(s32 *)((u8 *)object + 0x20) = stored_value;
+        *(s32 *)(NODE_BODY(object)) = stored_value;
 
         do {
             create_moving_fading_particle(child, (s16)(step << 8), 0x40, -0x100, source);

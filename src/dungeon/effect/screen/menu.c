@@ -965,8 +965,8 @@ void draw_transformed_sprite_parts(void *position, void *context, s32 depth, s16
 {
     s32 (*callback)(void *, s32, void *, void *, void *);
     SpritePartWork *scratch = (SpritePartWork *)0x1F800000;
-    SpriteFrameState *sprite = ((ObjectNodeHeader *)((u8 *)context - 0x20))->sprite;
-    s32 callback_arg = (s32)((ObjectNodeHeader *)((u8 *)context - 0x20))->position;
+    SpriteFrameState *sprite = NODE_HEADER(context)->sprite;
+    s32 callback_arg = (s32)NODE_HEADER(context)->position;
     s16 saved_mode = draw_mode;
     GpuContext *root = g_game_work.draw_buffer;
     SpritePartCommand *part = sprite->source;
@@ -1344,7 +1344,7 @@ void update_familiar_selection_marker(FamiliarMarkerWork *state, ObjectPosition 
         }
     }
     target = screen_effect_target[0];
-    target_pos = ((ObjectNodeHeader *)((u8 *)target - 0x20))->position;
+    target_pos = NODE_HEADER(target)->position;
     if (state->frames_left.s != 0) {
         position_arg->x.v = position_arg->x.v + (target_pos->x.v
             - position_arg->x.v) / state->frames_left.s;
@@ -1361,7 +1361,7 @@ void update_familiar_selection_marker(FamiliarMarkerWork *state, ObjectPosition 
                     position_arg->y.w.i = (u16)target_pos->y.w.i;
                     position_arg->z.w.i = (u16)target->ground_height;
                 } else {
-                    ((ObjectNodeHeader *)((u8 *)state - 0x20))->flags = ((ObjectNodeHeader *)((u8 *)state - 0x20))->flags | 0x8000;
+                    NODE_HEADER(state)->flags = NODE_HEADER(state)->flags | 0x8000;
                     g_dungeon_status.active_actor = 0;
                     object_flag_block.flags = object_flag_block.flags | OBJECT_REMOVE_PENDING;
                 }

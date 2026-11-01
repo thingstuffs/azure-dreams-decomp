@@ -74,7 +74,7 @@ void * create_expanding_spiral_effect(s32 effect_param, MovingPosition *position
     if (effect != NULL) {
         phase_step = effect_index * 3;
         ((S_8185CE28_0 *)effect)->unk_20 = effect_param;
-        state = ((void *)effect) + 0x20;
+        state = NODE_BODY(effect);
         effect->update_callback = D_80024330;
         phase_index = phase_step % 8;
         state->unk_1C = phase_index << 9;

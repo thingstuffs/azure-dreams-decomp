@@ -114,7 +114,7 @@ void update_a_moving_effect_spawns_particles_advances_timed_phases(void *effect,
     source = ((B31_818C8A70_S_818C8A70_0 *)effect)->unk_2C;
     if (((B31_818C8A70_S_818C8A70_0 *)effect)->unk_00 == 0) {
         particle = allocate_flagged_object_node(0x212);
-        particle_state = ((void *)particle) + 0x20;
+        particle_state = NODE_BODY(particle);
         if (particle != NULL) {
             particle_state->unk_02 = 0x1A;
             particle->update_callback = advance_accelerating_particle;
@@ -177,7 +177,7 @@ void update_a_moving_effect_spawns_particles_advances_timed_phases(void *effect,
         ((B31_818C8A70_S_818C8A70_0 *)effect)->unk_02 = burst_ticks;
         if ((burst_ticks & 3) == phase) {
             particle = allocate_flagged_object_node(0x212);
-            particle_state = ((void *)particle) + 0x20;
+            particle_state = NODE_BODY(particle);
             if (particle != NULL) {
                 u32 particle_z;
                 u16 particle_z_base;
@@ -221,7 +221,7 @@ void update_a_moving_effect_spawns_particles_advances_timed_phases(void *effect,
         }
         if ((((B31_818C8A70_S_818C8A70_0 *)effect)->unk_02 & 3) == 2) {
             particle = allocate_flagged_object_node(0x212);
-            particle_state = ((void *)particle) + 0x20;
+            particle_state = NODE_BODY(particle);
             if (particle != NULL) {
                 s16 particle_z;
                 particle_state->unk_02 = 0x14;
@@ -374,7 +374,7 @@ void update_an_effect_through_attachment_motion_timed_cleanup(B31_818C8FD0_S_fun
                 s32 direction_index;
                 B31_818C8FD0_S_func_818C8FD0_8 *tile;
 
-                effect = (B31_818C8FD0_S_func_818C8FD0_7 *)((u8 *)effect_node + 0x20);
+                effect = NODE_BODY(effect_node);
 
                 {
                     s16 *direction_offset;

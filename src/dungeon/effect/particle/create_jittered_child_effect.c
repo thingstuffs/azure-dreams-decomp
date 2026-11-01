@@ -66,7 +66,7 @@ void create_jittered_child_effect(EntityRec *parent, s32 effect_value, s16 effec
         (effect->position)->z.w.i = (s16)coordinate;
         effect->sprite->depth_bias = 0;
         state = effect->sprite;
-        effect_data = (u8 *)effect + 0x20;
+        effect_data = NODE_BODY(effect);
         state->flags = state->flags | 0xC;
         effect->sprite->tpage_abr = 0x20;
         transform = effect->position;

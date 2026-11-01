@@ -341,7 +341,7 @@ void *resolve_attack_damage_and_effects(void *attacker_in, void *tile_in, s16 di
     attacker_kind = ((S_8009C12C_0 *)attacker_in)->unk_13;
     kind_check = *(u8 *)((s8 *)attacker_in + 0x13);
     if (attacker_kind >= 0) {
-        target_data = ((ObjectNodeHeader *)((u8 *)target - 0x20))->sprite;
+        target_data = NODE_HEADER(target)->sprite;
         target_traits = target_data->unk_14;
         if (!(((S_8009C12C_2 *)(tile_in))->unk_14 & target_traits & 0x8000)
             || ((kind_check == MONSTER_STEALTH) && (((S_8009C12C_0 *)attacker_in)->unk_A6 != 0) && !(target_traits & 0x8000))) {
@@ -1009,7 +1009,7 @@ void apply_attack_power_and_element_effects(void *target, s16 base_power, s16 po
         source_word.record = source;
         ((S_8009CE1C_1 *)((u8 *)target - 0x14))->unk_74 = source_word.flags;
         g_dungeon_status.pending_display_owner = target - 0x20;
-        if (!(((ObjectNodeHeader *)((u8 *)target - 0x20))->sprite->flags & 0x8000)) {
+        if (!(NODE_HEADER(target)->sprite->flags & 0x8000)) {
             initialize_timed_motion_step(8, 0x10);
         }
         event_id = 0x601;
@@ -1017,7 +1017,7 @@ void apply_attack_power_and_element_effects(void *target, s16 base_power, s16 po
             event_id = 0x602;
         }
         play_sound_if_enabled(event_id);
-        position = ((ObjectNodeHeader *)((u8 *)target - 0x20))->sprite;
+        position = NODE_HEADER(target)->sprite;
         direction_offset = ((u16) ((S_8009CE1C_1 *)((u8 *)target - 0x14))->unk_3E >> 8) & 0xE;
         transition_effect_halfwords(
             (u16) ((position->tile_x << 6) + ((dir_step_x[(u32) direction_offset >> 1] * 0x20) + 0x20)),
@@ -1046,18 +1046,18 @@ s32 try_trigger_target_record_effect(void *entity_in, s32 flags, void *record_in
     if (!(flags & 8) && (record != NULL)) {
         if (flags & 1) {
             if (((get_entity_effect_value(entity, 0x16) << 0x10) != 0) && (record->unk_13 >= 0)) {
-                create_owner_linked_pulsing_effect(((ObjectNodeHeader *)entity)[-1].position, entity, record);
+                create_owner_linked_pulsing_effect(NODE_HEADER(entity)->position, entity, record);
                 return 1;
             }
         } else if (flags & 2) {
             if ((((get_entity_effect_value(entity, 0x16) << 0x10) != 0) || ((get_entity_effect_value(entity, 0x17) << 0x10) != 0))
                 && (record->unk_13 >= 0)) {
-                create_owner_linked_pulsing_effect(((ObjectNodeHeader *)entity)[-1].position, entity, record);
+                create_owner_linked_pulsing_effect(NODE_HEADER(entity)->position, entity, record);
                 return 1;
             }
         } else if ((flags & 4) && (((get_entity_effect_value(entity, 0x16) << 0x10) != 0) || ((get_entity_effect_value(entity, 0x15) << 0x10)
             != 0)) && (record->unk_13 >= 0)) {
-            create_owner_linked_pulsing_effect(((ObjectNodeHeader *)entity)[-1].position, entity, record);
+            create_owner_linked_pulsing_effect(NODE_HEADER(entity)->position, entity, record);
             return 1;
         }
         {
@@ -1066,7 +1066,7 @@ s32 try_trigger_target_record_effect(void *entity_in, s32 flags, void *record_in
                 if (value_ptr != NULL) {
                     if ((*value_ptr == 3) && (record->unk_13 >= 0) && (generate_random_value() & 3)) {
                                                 /* Duplicate return node #22. Try simplifying control flow for better match */
-                        create_owner_linked_pulsing_effect(((ObjectNodeHeader *)entity)[-1].position, entity, record);
+                        create_owner_linked_pulsing_effect(NODE_HEADER(entity)->position, entity, record);
                         return 1;
                     }
                                         /* Duplicate return node #25. Try simplifying control flow for better match */

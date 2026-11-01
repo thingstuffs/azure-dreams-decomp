@@ -80,7 +80,7 @@ void *create_linked_object_chain(s16 x, s16 y, s16 z, s16 angle)
             node->source = &D_80028268[i * 16];
             node->tpage_abr = 0x20;
             node->flags |= 0xC;
-            object_state = (S_8195AB84_4 *)((u8 *)objects[i] + 0x20);
+            object_state = NODE_BODY(objects[i]);
             if (i != 0) {
                 object_state->unk_20 = objects[0];
             }

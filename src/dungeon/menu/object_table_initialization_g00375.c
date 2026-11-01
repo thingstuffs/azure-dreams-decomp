@@ -21,7 +21,7 @@ void initialize_nine_records_and_vectors(u8 *object) {
 
 /* Assign the object tables and mode, then initialize the object. */
 s32 initialize_object_tables_2(S_800DCCF4_0 *object, void *mode) {
-    object->unk_04 = &D_800E2828;
+    object->unk_04 = D_800E2828;
     object->unk_08 = &D_800E28B8;
     object->unk_00 = mode;
     object->unk_0C = &D_800E2804;

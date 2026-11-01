@@ -100,7 +100,7 @@ void update_interpolated_ribbon(S_func_81331914_0 *state, s32 *position, S_func_
     do {
         object = allocate_flagged_object_node(0x212);
         if (object != 0) {
-            payload = (ObjectPayload *)((u8 *)object + 0x20);
+            payload = NODE_BODY(object);
             payload->unk_18 = 1;
             payload->unk_1A = 1;
             object->update_callback = expire_ribbon_segment;

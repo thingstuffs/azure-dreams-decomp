@@ -52,7 +52,7 @@ void *create_randomly_rotated_sprite_object(void *context, B22_818928F8_Copy24 *
     obj = allocate_flagged_object_node(0x212);
     if (obj != 0) {
         obj->update_callback = advance_accelerating_spin_effect;
-        state = (u8 *)obj + 0x20;
+        state = NODE_BODY(obj);
         state->unk_0C = context;
         state->unk_10 = 0;
         state->unk_12 = state_value;
@@ -130,7 +130,7 @@ void *create_vertical_acceleration_sprite(s32 state_value, B22_81892AF0_Copy24 *
     object = allocate_flagged_object_node(0x212);
     if (object != NULL) {
         object->update_callback = accelerate_and_expire_animated_sprite;
-        state = (u8 *)object + 0x20;
+        state = NODE_BODY(object);
         state->target.state_value = state_value;
         state->update_count.u = 0;
         state->update_limit = variant;
@@ -336,7 +336,7 @@ void *create_timed_transform_copy_effect(s32 object_arg, void *source_data, s16 
     if (object != NULL) {
         src = source_data;
         object->callback = expire_counted_child_effect;
-        body = (u8 *)object + 0x20;
+        body = NODE_BODY(object);
         body->owner.owner_value = object_arg;
         body->frame.frame_count = 0;
         body->frame_limit = initial_value;
@@ -502,7 +502,7 @@ void update_effect_launch_travel_impact_cleanup(B22_81893474_EffectState *effect
     case 0:
         origin = &reference_tile_object;
         {
-            SpriteFrameState *node = ((ObjectNodeHeader *)((u8 *)owner - 0x20))->sprite;
+            SpriteFrameState *node = NODE_HEADER(owner)->sprite;
             u32 offset = ((u16)primary_actor_record->facing >> 8) & 0xE;
 
             owner->facing = get_rounded_facing_and_rounding_flag(
@@ -517,7 +517,7 @@ void update_effect_launch_travel_impact_cleanup(B22_81893474_EffectState *effect
         part->color = 0x00808080;
 
     case 1:
-        owner_data = (ObjectNodeHeader *)((u8 *)owner - 0x20);
+        owner_data = NODE_HEADER(owner);
         owner_node = owner_data->sprite;
         if (resolve_record_orientation_or_fallback(owner_node->source, owner_node, probe, 0) == 0) {
             if (!(owner_data->sprite->flags & 0x8000)) {
@@ -684,7 +684,7 @@ void update_effect_launch_travel_impact_cleanup(B22_81893474_EffectState *effect
             break;
         }
         g_dungeon_status.active_actor = 0;
-        ((ObjectNodeHeader *)((u8 *)state - 0x20))->flags |= NODE_REMOVE;
+        NODE_HEADER(state)->flags |= NODE_REMOVE;
         object_flag_block.flags |= OBJECT_REMOVE_PENDING;
         break;
 

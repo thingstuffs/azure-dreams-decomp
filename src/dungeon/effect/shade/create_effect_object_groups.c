@@ -64,7 +64,7 @@ void *create_effect_object_groups(s16 x, s16 y, s16 z)
                 render_flags = render->scale_y;
                 render->flags = 0xC;
                 render->tpage_abr = 0x20;
-                state = (u8 *)object + 0x20;
+                state = NODE_BODY(object);
                 init_value = 8;
                 render->source = texture;
                 render->scale_x = render_flags;

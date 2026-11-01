@@ -63,7 +63,7 @@ void *create_owner_tinted_effect(S_818BDD8C_2 *owner, S_818BDD8C_4 *initial_data
 
     object = allocate_flagged_object_node(0x212);
     if (object != NULL) {
-        state = ((void *)object) + 0x20;
+        state = NODE_BODY(object);
         object->update_callback = &D_800254E0;
         ((S_818BDD8C_0 *)object)->unk_20 = owner;
         state->unk_10.u = 0;

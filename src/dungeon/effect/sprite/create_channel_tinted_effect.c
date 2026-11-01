@@ -56,7 +56,7 @@ s32 create_channel_tinted_effect(s32 *owner_id, void *transform, s16 color_index
     if (object != NULL) {
         object->update_callback = &func_800248C0;
         ((S_818BD1C4_0 *)object)->unk_20 = (s32) *owner_id;
-        state = ((void *)object) + 0x20;
+        state = NODE_BODY(object);
         state->unk_06 = 0;
         state->unk_08 = 0;
         visual = object->sprite;

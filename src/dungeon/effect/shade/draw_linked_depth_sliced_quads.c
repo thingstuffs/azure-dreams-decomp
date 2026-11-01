@@ -15,9 +15,9 @@ s32 draw_linked_depth_sliced_quads(void *payload, void *position, void *render_s
     ObjectNodeHeader *next;
     do {
         project_depth_sliced_quads(payload, position, render_state, 0);
-        next = ((ObjectNodeHeader *)((u8 *)payload - 0x20))->chain_next;
+        next = NODE_HEADER(payload)->chain_next;
         if (next == 0) break;
-        payload = (u8 *)next + 0x20;
+        payload = NODE_BODY(next);
         position = next->position;
         render_state = next->sprite;
     } while (1);

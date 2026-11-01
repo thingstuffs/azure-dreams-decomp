@@ -85,7 +85,7 @@ void create_short_lived_colored_particle(S_8016583C_0 *source, s16 duration, s32
             (s16) (((MovingPosition *)(source->unk_08))->y + offset_y);
         effect->position->z.w.i =
             (s16) (((MovingPosition *)(source->unk_08))->z + offset_z);
-        effect_state = ((void *)effect) + 0x20;
+        effect_state = NODE_BODY(effect);
         effect_state->unk_42 = (u16) ((MovingPosition *)(source->unk_08))->x;
         effect_state->unk_44 = (u16) ((MovingPosition *)(source->unk_08))->y;
         effect_state->unk_46 = (u16) ((MovingPosition *)(source->unk_08))->z;

@@ -51,7 +51,7 @@ void *create_a_sprite_random_rotation_copies_initial_data(void *context, ovl_18b
     obj = allocate_flagged_object_node(0x212);
     if (obj != 0) {
         obj->update_callback = (void *)interpolate_view_parameters;
-        fields = (u8 *)obj + 0x20;
+        fields = NODE_BODY(obj);
         fields->owner = context;
         fields->ticks.u = 0;
         fields->lifetime.s = initial_value;

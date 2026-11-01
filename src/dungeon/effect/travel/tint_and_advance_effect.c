@@ -64,7 +64,7 @@ void follow_brighten(TrackingEffect *self, ObjectPosition *motion, SpriteFrameSt
 
     owner = self->owner;
     state = self->state.s;
-    owner_base = (ObjectNodeHeader *)((u8 *)owner - 0x20);
+    owner_base = NODE_HEADER(owner);
     owner_motion = owner_base->position;
     switch (state) {
     case 0:
@@ -622,7 +622,7 @@ void *spawn_ring_effects(void *source_pos, s16 effect_param) {
             component->color.word = 0;
             select_record_entry_and_value(component, tinted_travel_sprite_data, 0);
             value = counter_page[0x57CC / 2];
-            source_pos = (u8 *)effect + 0x20;
+            source_pos = NODE_BODY(effect);
             component->angle_x = 0x400;
             component->angle_y = component_offset;
             ((RisingFadingEmitterBody *)source_pos)->effect_value = effect_index;
@@ -735,7 +735,7 @@ void *create_effect_render_object(MovingPosition *source_pos, s16 effect_param, 
         signed_size = (s16)size;
         render_state->angle_y = (signed_size << 8) - 0x400;
         render_code = 0x60;
-        effect_state = (u8 *)object + 0x20;
+        effect_state = NODE_BODY(object);
         render_state->tpage_abr = render_code;
         object_count = (*(u16 *)tint_effect_phase_counts);
         render_state->angle_x = 0x400;
@@ -1030,7 +1030,7 @@ void allocate_jittered_effect_node(void *source_data, s16 initial_1a, s16 initia
         }
         node->sprite->color.c.r = 0xF0;
         {
-            S_800254C4_3 *fields = ((void *)node) + 0x20;
+            S_800254C4_3 *fields = NODE_BODY(node);
 
             fields->unk_1A = field_1a;
             fields->unk_1C = field_1c;

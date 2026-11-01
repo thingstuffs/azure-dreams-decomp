@@ -55,7 +55,7 @@ void create_an_n_30_randomized_entries_spread_across_six_angular_directions(void
     entry_index = 0;
     if (object != NULL) {
         object->update_callback = D_800251E8;
-        data = (S_81977B40_2 *)((u8 *)object + 0x20);
+        data = NODE_BODY(object);
         ((S_81977B40_0 *)object)->unk_20 = ((S_81977B40_1 *)source_data)->unk_20;
         data->unk_04 = 0;
         data->unk_06 = 0;

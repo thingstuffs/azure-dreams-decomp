@@ -16,9 +16,9 @@ s32 draw_linked_sprite_parts_as_quads(void *payload, void *position, SpriteFrame
     ObjectNodeHeader *next;
     do {
         transform_sprite_parts_to_quads((s32)payload, position, render_state, render_state->depth_bias);
-        next = ((ObjectNodeHeader *)((u8 *)payload - 0x20))->chain_next;
+        next = NODE_HEADER(payload)->chain_next;
         if (next == 0) break;
-        payload = (u8 *)next + 0x20;
+        payload = NODE_BODY(next);
         position = next->position;
         render_state = next->sprite;
     } while (1);

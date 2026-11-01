@@ -64,7 +64,7 @@ s32 create_random_spin_effect(S_818BDB44_2 *source, S_818BDB44_4 *init_data)
 
     object = allocate_flagged_object_node(0x212);
     if (object != 0) {
-        payload = (u8 *)object + 0x20;
+        payload = NODE_BODY(object);
         object->update_callback = D_80024F4C;
         ((S_818BDB44_0 *)object)->unk_20 = source;
         payload->unk_0E = 0;

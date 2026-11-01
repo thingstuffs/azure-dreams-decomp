@@ -34,7 +34,7 @@ void mark_owner_on_target_completion(MovingPosition *origin)
         effect->update_callback = D_800244A4;
         adjusted_random = rand();
         random_value = adjusted_random;
-        effect_state = (u8 *)effect + 0x20;
+        effect_state = NODE_BODY(effect);
         if (random_value < 0) {
             adjusted_random = random_value + 0xFFF;
         }

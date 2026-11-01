@@ -120,7 +120,7 @@ void update_radial_effect(DungeonState *effect) {
                 register_node(object, project_sprite_chain);
                 {
                     SpriteFrameState *object_inner = object->sprite;
-                    DungeonObjectTail *object_tail = (DungeonObjectTail *)((u8 *)object + 0x20);
+                    DungeonObjectTail *object_tail = NODE_BODY(object);
                     u16 saved_flags;
 
                     *(s32 *)((u8 *)*(DungeonInner * *)&object->position + 0x14) = 0xFFFC0000;

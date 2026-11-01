@@ -62,7 +62,7 @@ void create_random_offset_effect_object(
         y_pos += y_jitter;
         y_dest->y.w.i = (s16)y_pos + (s16)(held_y_offset - 0x10);
 
-        state = (u8 *)object + 0x20;
+        state = NODE_BODY(object);
         z_jitter = rand() & 0x1F;
         z_pos = ((Row_818F33BC_S_80024BBC_6 *)((*(void * *)&source->z)))->unk_0A;
         z_dest = object->position;

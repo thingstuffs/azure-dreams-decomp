@@ -7,6 +7,7 @@
 #include "sdk/libc.h"
 #include "dungeon/item/effect.h"
 #include "dungeon/system.h"
+#include "shared/sprite_frame_state.h"
 
 typedef struct S_800C4F20_10 {
     u8 pad_00[0x1C];
@@ -43,13 +44,6 @@ typedef struct S_800C4F20_0 {
     s16 unk_36;
 } S_800C4F20_0;   /* arg0 in update_orbiting_teleport_effect */
 
-typedef struct S_800C4F20_1 {
-    u8 pad_00[0x1A];
-    u16 unk_1A;
-    u16 unk_1C;
-    u16 unk_1E;
-    u16 unk_20;
-} S_800C4F20_1;   /* arg2 in update_orbiting_teleport_effect */
 
 typedef struct S_800C4F20_2 {
     u8 pad_00[0x1C];
@@ -63,14 +57,6 @@ typedef struct S_800C4F20_3 {
     u16 unk_1E;
 } S_800C4F20_3;   /* tail_ptr in update_orbiting_teleport_effect */
 
-typedef struct S_800C4F20_5 {
-    u8 pad_00[0x2];
-    s16 unk_02;
-    u8 pad_04[0x2];
-    s16 unk_06;
-    u8 pad_08[0x2];
-    s16 unk_0A;
-} S_800C4F20_5;   /* arg1 in update_orbiting_teleport_effect */
 
    /* (void *) c2_v0 in update_orbiting_teleport_effect */
 
@@ -86,7 +72,7 @@ s32 rsin();
 s32 rcos(s32);
 
 /* Updates an object's staged scale and position animation. */
-void update_orbiting_teleport_effect(void *anim, S_800C4F20_5 *position, S_800C4F20_1 *transform) {
+void update_orbiting_teleport_effect(void *anim, ObjectPosition *position, SpriteFrameState *transform) {
     s16 exit_mode;
     s16 move_ticks;
     s16 rise_ticks;
@@ -122,12 +108,12 @@ void update_orbiting_teleport_effect(void *anim, S_800C4F20_5 *position, S_800C4
     case 0:
         grow_ticks = ((S_800C4F20_0 *)anim)->unk_2A;
         if (grow_ticks != 0) {
-            grow_scale = transform->unk_1E;
+            grow_scale = transform->scale_y;
             grown_scale = grow_scale + ((s32) (0x1000 - grow_scale) / grow_ticks);
-            grow_height = transform->unk_20;
-            transform->unk_1E = grown_scale;
-            transform->unk_1C = grown_scale;
-            transform->unk_20 = (u16) (grow_height + ((s32) (0x1000
+            grow_height = transform->offset_x;
+            transform->scale_y = grown_scale;
+            transform->scale_x = grown_scale;
+            transform->offset_x = (u16) (grow_height + ((s32) (0x1000
                 - grow_height) / (s16) ((S_800C4F20_0 *)anim)->unk_2A));
             grow_target = ((S_800C4F20_0 *)anim)->unk_20;
             start_scale = grow_target->unk_1E;
@@ -142,9 +128,9 @@ void update_orbiting_teleport_effect(void *anim, S_800C4F20_5 *position, S_800C4
         if ((grow_left << 0x10) > 0) {
             break;
         }
-        transform->unk_1E = 0x1000U;
-        transform->unk_1C = 0x1000U;
-        transform->unk_20 = 0x1000U;
+        transform->scale_y = 0x1000U;
+        transform->scale_x = 0x1000U;
+        transform->offset_x = 0x1000U;
         {
             S_800C4F20_3 *target_transform = ((S_800C4F20_0 *)anim)->unk_20;
             target_transform->unk_1E = 0x800U;
@@ -159,15 +145,15 @@ void update_orbiting_teleport_effect(void *anim, S_800C4F20_5 *position, S_800C4
         orbit_center = &view_reference_entity;
         target_x = orbit_center->x.w.i + (orbit_offset >> 6);
         target_y = orbit_center->y.w.i + (rsin(((S_800C4F20_0 *)anim)->unk_2E) >> 6);
-        x_delta = target_x - position->unk_02;
+        x_delta = target_x - position->x.w.i;
         if (x_delta < 0) {
             x_delta += 3;
         }
-        position->unk_02 = (s16) ((u16) position->unk_02 + (x_delta >> 2));
-        position->unk_06 = (s16) ((u16) position->unk_06 + ((s32) (target_y - position->unk_06) / 4));
+        position->x.w.i = (s16) ((u16) position->x.w.i + (x_delta >> 2));
+        position->y.w.i = (s16) ((u16) position->y.w.i + ((s32) (target_y - position->y.w.i) / 4));
         orbit_offset = (rsin(((S_800C4F20_0 *)anim)->unk_2C << 5, target_y) >> 6) + 0x40;
-        height_delta = orbit_center->z.w.i - position->unk_0A;
-        position->unk_0A = (s16) ((u16) position->unk_0A + ((s32) (height_delta - orbit_offset) / 4));
+        height_delta = orbit_center->z.w.i - position->z.w.i;
+        position->z.w.i = (s16) ((u16) position->z.w.i + ((s32) (height_delta - orbit_offset) / 4));
         ((S_800C4F20_0 *)anim)->unk_2E = (s16) ((u16) ((S_800C4F20_0 *)anim)->unk_2E + 0x40
             + (rand() & 0x1F));
         exit_mode = ((S_800C4F20_0 *)anim)->unk_36;
@@ -197,12 +183,12 @@ void update_orbiting_teleport_effect(void *anim, S_800C4F20_5 *position, S_800C4
 
             x_work = (s32) ((S_800C4F20_0 *)anim)->unk_20;
             x_step = ((MovingTile *)((void *) x_work))->tile_x;
-            x_work = position->unk_02;
+            x_work = position->x.w.i;
             x_step <<= 6;
             x_work -= 0x20;
             x_step -= x_work;
             x_step /= move_ticks;
-            position->unk_02 = (s16) ((u16) position->unk_02 + x_step);
+            position->x.w.i = (s16) ((u16) position->x.w.i + x_step);
             {
                 s32 y_work;
                 s32 y_step;
@@ -210,16 +196,16 @@ void update_orbiting_teleport_effect(void *anim, S_800C4F20_5 *position, S_800C4
                 y_work = (s32) ((S_800C4F20_0 *)anim)->unk_20;
                 height_delta = ((S_800C4F20_0 *)anim)->unk_2A;
                 y_step = ((MovingTile *)((void *) y_work))->tile_y;
-                y_work = position->unk_06;
+                y_work = position->y.w.i;
                 y_step <<= 6;
                 y_work -= 0x20;
                 y_step -= y_work;
                 y_step /= height_delta;
-                position->unk_06 = (s16) ((u16) position->unk_06 + y_step);
+                position->y.w.i = (s16) ((u16) position->y.w.i + y_step);
             }
-            position->unk_0A = (s16) ((u16) position->unk_0A
+            position->z.w.i = (s16) ((u16) position->z.w.i
                 + ((s32) (((S_800C4F20_11 *)(((S_800C4F20_10 *)anim)->unk_24))->unk_88
-                - position->unk_0A) / (s16) ((S_800C4F20_0 *)anim)->unk_2A));
+                - position->z.w.i) / (s16) ((S_800C4F20_0 *)anim)->unk_2A));
         }
         move_left = (u16) ((S_800C4F20_0 *)anim)->unk_2A - 1;
         ((S_800C4F20_0 *)anim)->unk_2A = move_left;
@@ -232,12 +218,12 @@ void update_orbiting_teleport_effect(void *anim, S_800C4F20_5 *position, S_800C4
     case 3:
         shrink_ticks = ((S_800C4F20_0 *)anim)->unk_2A;
         if (shrink_ticks != 0) {
-            shrink_scale = transform->unk_1E;
+            shrink_scale = transform->scale_y;
             shrunk_scale = shrink_scale - ((s32) shrink_scale / shrink_ticks);
-            transform->unk_1E = shrunk_scale;
-            transform->unk_1C = shrunk_scale;
-            stretch_height = transform->unk_20;
-            transform->unk_20 = (u16) (stretch_height + ((s32) (0x2000
+            transform->scale_y = shrunk_scale;
+            transform->scale_x = shrunk_scale;
+            stretch_height = transform->offset_x;
+            transform->offset_x = (u16) (stretch_height + ((s32) (0x2000
                 - stretch_height) / (s16) ((S_800C4F20_0 *)anim)->unk_2A));
             shrink_target = ((S_800C4F20_0 *)anim)->unk_20;
             end_scale = shrink_target->unk_1E;
@@ -260,7 +246,7 @@ void update_orbiting_teleport_effect(void *anim, S_800C4F20_5 *position, S_800C4
     case 17:
         rise_ticks = ((S_800C4F20_0 *)anim)->unk_2A;
         if (rise_ticks != 0) {
-            position->unk_0A = (s16) ((u16) position->unk_0A + ((s32) (-0x400 - position->unk_0A) / rise_ticks));
+            position->z.w.i = (s16) ((u16) position->z.w.i + ((s32) (-0x400 - position->z.w.i) / rise_ticks));
         }
         finish_left = (u16) ((S_800C4F20_0 *)anim)->unk_2A - 1;
         ((S_800C4F20_0 *)anim)->unk_2A = finish_left;
@@ -274,11 +260,11 @@ void update_orbiting_teleport_effect(void *anim, S_800C4F20_5 *position, S_800C4
         return;
     }
     if (((S_800C4F20_11 *)(((S_800C4F20_10 *)anim)->unk_24))->unk_14 & 0x100000) {
-        ((MovingPosition *)(((S_800C4F20_10 *)anim)->unk_1C))->x = (u16) position->unk_02;
-        ((MovingPosition *)(((S_800C4F20_10 *)anim)->unk_1C))->y = (u16) position->unk_06;
-        ((MovingPosition *)(((S_800C4F20_10 *)anim)->unk_1C))->z = (u16) position->unk_0A;
+        ((MovingPosition *)(((S_800C4F20_10 *)anim)->unk_1C))->x = (u16) position->x.w.i;
+        ((MovingPosition *)(((S_800C4F20_10 *)anim)->unk_1C))->y = (u16) position->y.w.i;
+        ((MovingPosition *)(((S_800C4F20_10 *)anim)->unk_1C))->z = (u16) position->z.w.i;
     }
     ((S_800C4F20_0 *)anim)->unk_2C = (s16) ((u16) ((S_800C4F20_0 *)anim)->unk_2C + 1);
-    transform->unk_1A = (u16) (transform->unk_1A - 0x80);
+    transform->angle_z = (u16) (transform->angle_z - 0x80);
     return;
 }

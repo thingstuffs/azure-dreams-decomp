@@ -55,7 +55,7 @@ void create_short_lived_child_particle(ObjectNodeHeader *source, s16 effect_para
         (((rand() & 0x7FFF) - 0x4000) << 4);
         (effect->position)->velocity_y = (s32)
         (((rand() & 0x7FFF) - 0x4000) << 4);
-        effect_state = ((void *)effect) + 0x20;
+        effect_state = NODE_BODY(effect);
         (effect->position)->velocity_z = motion_z;
         effect_state->unk_14 = effect_param;
         effect_state->unk_32 = 8;

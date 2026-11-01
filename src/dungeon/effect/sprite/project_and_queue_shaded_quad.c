@@ -184,7 +184,7 @@ void create_randomized_radial_effect(Rec_func_800247B8_arg0 *source, Rec_func_80
 
     effect = allocate_flagged_object_node(0x212);
     if (effect != NULL) {
-        state = ((void *)effect) + 0x20;
+        state = NODE_BODY(effect);
         state->unk_5A = 10;
         state->unk_5C = 10;
         random_value = project_and_queue_visible_shaded_quad(8);
@@ -293,7 +293,7 @@ void create_positioned_render_effect(Row_819232EC_S_80024AEC_1 *source, Rec_func
     ObjectPosition *effect_position;
 
     effect = allocate_flagged_object_node(0x12);
-    effect_state = ((void *)effect) + 0x20;
+    effect_state = NODE_BODY(effect);
     if (effect != NULL) {
         effect_state->unk_5A = 0x3C;
         effect_state->unk_5C = 0x3C;
@@ -375,7 +375,7 @@ void create_random_offset_effect(void *unused, Rec_func_800247B8_arg1 *origin, v
 
     effect = allocate_flagged_object_node(0x212);
     if (effect != 0) {
-        effect_data = (u8 *)effect + 0x20;
+        effect_data = NODE_BODY(effect);
         effect_data->unk_5A = 0xE;
         effect_data->unk_5C = 0xE;
         effect->update_callback = D_80024C0C;

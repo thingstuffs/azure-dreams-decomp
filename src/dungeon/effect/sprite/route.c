@@ -244,7 +244,7 @@ void create_jittered_terrain_seeking_point(
         init_data = project_linked_shaded_points;
         jitter_z &= 0x1F;
         position_z = ((B32_818CEB58_S_818CEB58_6 *)(((B32_818CEB58_S_818CEB58_1 *)source_obj)->unk_08))->unk_0A;
-        fields = (JitteredTerrainSeekingPointBody *)((u8 *)object_cursor + 0x20);
+        fields = NODE_BODY(object_cursor);
         dest_z = object_cursor->position;
         position_z += jitter_z;
         bias_z = offset_z - 0x10;
@@ -694,7 +694,7 @@ void update_chasing_star_effect(void *entity, B32_818CF0E8_S_818CF0E8_1 *pos, B3
         if ((((B32_818CF0E8_S_818CF0E8_0 *)entity)->unk_02.u & 3) == 1) {
             obj = allocate_flagged_object_node(0x212);
             {
-            w1 = ((u8 *)obj + 0x20);
+            w1 = (NODE_BODY(obj));
             if (obj != 0) {
                 ((MoveAndGrowTimedSpriteBody *)w1)->remaining = 0x14;
                 obj->update_callback = move_and_grow_timed_sprite;

@@ -28,7 +28,7 @@ void initialize_effect_object_state(ObjectNodeHeader *object, Rec_func_800D4BD4_
     s32 source_value;
     u16 flags;
 
-    state = (u8 *)object + 0x20;
+    state = NODE_BODY(object);
     state->unk_24 = source;
     register_node(object, project_sprite_chain);
     render_config = object->sprite;

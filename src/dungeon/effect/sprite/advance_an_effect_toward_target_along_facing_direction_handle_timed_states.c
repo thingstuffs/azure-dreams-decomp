@@ -97,7 +97,7 @@ void advance_an_effect_toward_target_along_facing_direction_handle_timed_states(
     part->color.word = color;
 
     case 1:
-    owner_meta = (ObjectNodeHeader *)((u8 *)owner - 0x20);
+    owner_meta = NODE_HEADER(owner);
     owner_node = owner_meta->sprite;
     if (!resolve_record_orientation_or_fallback(owner_node->source, owner_node, work.probe_delta, 0)) {
         if (!(owner_meta->sprite->flags & 0x8000)) {
@@ -126,7 +126,7 @@ void advance_an_effect_toward_target_along_facing_direction_handle_timed_states(
     index = 1;
     if (owner->target != 0) {
         state->target = owner->target;
-        target_pos = ((ObjectNodeHeader *)((u8 *)owner->target - 0x20))->position;
+        target_pos = NODE_HEADER(owner->target)->position;
 
         motion_x = motion->x.w.i;
         x_distance = target_pos->x.w.i - motion_x;

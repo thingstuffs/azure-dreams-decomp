@@ -79,7 +79,7 @@ void *create_moving_fading_particle(ObjectPosition *origin, s16 angle, s16 radiu
         object_data = (void *) 0x40E020;
         (*(void **)((u8 *)(object->sprite) + 0xC)) = object_data;
         slot_index = (u16)D_80026476;
-        object_data = ((void *)object) + 0x20;
+        object_data = NODE_BODY(object);
         object_data->unk_16 = angle;
         object_data->unk_1C = height_offset;
         object_data->unk_18 = radius;

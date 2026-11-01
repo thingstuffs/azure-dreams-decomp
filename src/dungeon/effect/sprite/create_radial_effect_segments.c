@@ -85,7 +85,7 @@ void create_radial_effect_segments(ActorRecord *unused, Rec_func_800D6DC0_arg1 *
     end_angle = 0x200;
     do {
         effect = allocate_list_node(0x112, &scene_object_list_anchor.next);
-        effect_state = ((void *)effect) + 0x20;
+        effect_state = NODE_BODY(effect);
         if (effect != NULL) {
             copy_src = render_template;
             effect_state->unk_0C = 0x1E;

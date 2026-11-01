@@ -52,7 +52,7 @@ void create_random_velocity_child_effect(ObjectNodeHeader *parent, s32 state_val
         (((rand() & 0x7FFF) - 0x4000) << 6);
         (effect->position)->velocity_y = (s32)
         (((rand() & 0x7FFF) - 0x4000) << 6);
-        effect_data = ((void *)effect) + 0x20;
+        effect_data = NODE_BODY(effect);
         (effect->position)->velocity_z = (s32)
         (((rand() & 0x7FFF) - 0x4000) << 6);
         effect_data->unk_32 = pair_value;

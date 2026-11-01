@@ -39,7 +39,7 @@ void create_offset_sprite_effect(ObjectNodeHeader *parent, s32 state_value, s16 
         z_position->z.w.i =
             (u16)((u16)z_position->z.w.i + saved_z_offset);
         motion = object->position;
-        object_state = ((void *)object) + 0x20;
+        object_state = NODE_BODY(object);
         motion->velocity_y = 0;
         motion->velocity_x = 0;
         (object->position)->velocity_z =

@@ -99,7 +99,7 @@ void advance_egg_bomb_sequence(void *egg_bomb, Coord *position, void *effect) {
                 g_dungeon_status.activity_counts.parts.pending_action_count = (u16) (((u16)g_dungeon_status.activity_counts.parts.pending_action_count) - 1);
             }
             display_formatted_context_message(&D_800E0A42);
-            (((ObjectNodeHeader *)egg_bomb - 1)->flags) = (u16) (((ObjectNodeHeader *)egg_bomb - 1)->flags | NODE_REMOVE);
+            (NODE_HEADER(egg_bomb)->flags) = (u16) (NODE_HEADER(egg_bomb)->flags | NODE_REMOVE);
             object_flag_block.flags = object_flag_block.flags | OBJECT_REMOVE_PENDING;
             return;
         }
@@ -180,7 +180,7 @@ void advance_egg_bomb_sequence(void *egg_bomb, Coord *position, void *effect) {
     case 2:
         monster = ((S_800B7774_0 *)egg_bomb)->unk_04;
         if (((S_800B7774_0 *)egg_bomb)->unk_0E == 0) {
-            ((S_800B7774_2 *)monster)->unk_60 = choose_best_eligible_entry(((ObjectNodeHeader *)monster - 1)->sprite, monster, 2);
+            ((S_800B7774_2 *)monster)->unk_60 = choose_best_eligible_entry(NODE_HEADER(monster)->sprite, monster, 2);
             {
                 g_dungeon_status.flags = (u16) (g_dungeon_status.flags | 2);
             }
@@ -199,12 +199,12 @@ void advance_egg_bomb_sequence(void *egg_bomb, Coord *position, void *effect) {
         {
             g_dungeon_status.activity_counts.parts.pending_action_count = (u16) (((u16)g_dungeon_status.activity_counts.parts.pending_action_count) - 1);
         }
-        (((ObjectNodeHeader *)egg_bomb - 1)->flags) = (u16) (((ObjectNodeHeader *)egg_bomb - 1)->flags | NODE_REMOVE);
+        (NODE_HEADER(egg_bomb)->flags) = (u16) (NODE_HEADER(egg_bomb)->flags | NODE_REMOVE);
         object_flag_block.flags = object_flag_block.flags | OBJECT_REMOVE_PENDING;
         break;
     }
     tracked_monster = ((S_800B7774_0 *)egg_bomb)->unk_04;
-    if ((tracked_monster != NULL) && (((ObjectNodeHeader *)tracked_monster - 1)->flags & 0x8000)) {
+    if ((tracked_monster != NULL) && (NODE_HEADER(tracked_monster)->flags & 0x8000)) {
         ((S_800B7774_0 *)egg_bomb)->unk_0E = 1;
     }
 }

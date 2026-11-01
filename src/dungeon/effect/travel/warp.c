@@ -292,6 +292,7 @@ extern u8 D_8002746C[9];
 void *allocate_initialized_effect_object(EntityRec *source_pos, s32 offset_base) {
     GpuRectBuffer init_data;
     ObjectNodeHeader *object;
+    EffectRecord *record;
     ObjectPosition *pos;
     SpriteFrameState *sprite;
     void *result;
@@ -312,12 +313,13 @@ void *allocate_initialized_effect_object(EntityRec *source_pos, s32 offset_base)
         sprite->source = warp_sprite_entries;
         sprite->scale_y = 0xC00;
         sprite->scale_x = 0xC00;
-        ((EffectRecord *)(object + 1))->unk_08 = offset_base - 0x20;
+        record = NODE_BODY(object);
+        record->unk_08 = offset_base - 0x20;
     }
 
     result = NULL;
     if (object != NULL) {
-        result = object + 1;
+        result = NODE_BODY(object);
     }
     return result;
 }
@@ -546,7 +548,7 @@ void *move_effect_toward_target(MovingPosition *src)
             register_node(obj, process_linked_mesh_states_mode_0);
             coords = obj->position;
             x = src->x;
-            part = ((void *)obj) + 0x20;
+            part = NODE_BODY(obj);
             coords->x.w.i = x;
             *((u16 *)&coords->velocity_x + 1) = x;
             part->unk_1C = x;
@@ -613,7 +615,7 @@ void advance_effect_motion_and_speed(MotionRecord *motion, ObjectPosition *posit
     next_speed = (u16)motion->speed - 8;
     motion->speed = next_speed;
     if ((next_speed << 16) <= 0) {
-        ((ObjectNodeHeader *)motion - 1)->flags |= NODE_REMOVE;
+        NODE_HEADER(motion)->flags |= NODE_REMOVE;
         object_flag_block.flags |= OBJECT_REMOVE_PENDING;
     }
 }
@@ -645,7 +647,7 @@ void update_effect_position_and_color(ObjectNodeHeader *source, s16 effect_param
         if (effect != 0) {
             effect->update_callback = advance_effect_motion_and_speed;
             register_node(effect, project_sprite_chain);
-            record = (MotionRecord *)(effect + 1);
+            record = NODE_BODY(effect);
             effect->position->x.w.i = (source->position->x.w.i + (rand() & 0x3F)) - 0x20;
             effect->position->y.w.i = (source->position->y.w.i + (rand() & 0x3F)) - 0x20;
             effect->position->z.w.i = (source->position->z.w.i + (rand() & 0x3F)) - 0x20;
@@ -667,7 +669,7 @@ void update_effect_position_and_color(ObjectNodeHeader *source, s16 effect_param
         if (effect != 0) {
             effect->update_callback = advance_effect_motion_and_speed;
             register_node(effect, queue_linked_visible_rectangle_copies);
-            record = (MotionRecord *)(effect + 1);
+            record = NODE_BODY(effect);
             effect->position->x.w.i = (source->position->x.w.i + (rand() & 0x3F)) - 0x20;
             effect->position->y.w.i = (source->position->y.w.i + (rand() & 0x3F)) - 0x20;
             effect->position->z.w.i = (source->position->z.w.i + (rand() & 0x3F)) - 0x20;
@@ -712,7 +714,7 @@ void copy_follower_owner_position_and_color(FollowerRecord *record, ObjectPositi
     owner_done = owner->flags & 0x8000;
     warp_effect_counters[0]++;
     if (owner_done != 0) {
-        ((ObjectNodeHeader *)record - 1)->flags |= NODE_REMOVE;
+        NODE_HEADER(record)->flags |= NODE_REMOVE;
         object_flag_block.flags |= OBJECT_REMOVE_PENDING;
         return;
     }
@@ -765,7 +767,7 @@ void create_warp_follower_sprite(ObjectNodeHeader *owner, s16 angle) {
         sprite->scale_x = 0x2800;
         sprite->depth_bias = 8;
         sprite->angle_z = angle + 0x400;
-        record = (FollowerRecord *)(spawned + 1);
+        record = NODE_BODY(spawned);
         sprite->color.word = 0x808080;
         record->owner = owner;
         record->angle = angle;
@@ -1003,7 +1005,7 @@ void update_warp_camera_and_effects(void *entity, void *motion, void *gfx) {
                 node = link + 0x20;
                 if (node != head) {
                     do {
-                        info = ((ObjectNodeHeader *)((u8 *)node - 0x20))->sprite;
+                        info = NODE_HEADER(node)->sprite;
                         if (info->tile_x == ((S_819AD81C_0 *)entity)->unk_3C.at00.v) {
                             if (info->tile_y == ((S_819AD81C_0 *)entity)->unk_3C.at02.v) {
                                 dz = ((S_819AD81C_3 *)node)->unk_88;
@@ -1064,7 +1066,7 @@ void update_warp_camera_and_effects(void *entity, void *motion, void *gfx) {
         ((S_819AD81C_1 *)gfx)->unk_20 = (u16) info->offset_x;
         ((S_819AD81C_1 *)gfx)->unk_0C.at00u.v = info->color.word;
         want_kind = D_8002758C[((S_819AD81C_0 *)entity)->unk_48];
-        node = ((void *)attached) + 0x20;
+        node = NODE_BODY(attached);
         if ((want_kind >= 0) && (info->unk_04 == want_kind)) {
             PushMatrix(attached);
             build_install(entity, motion, gfx);
@@ -1536,7 +1538,7 @@ void *create_copied_effect_object(void *source_data, MovingPosition *source_trip
         state->source = source_state->unk_08;
         state->tpage_abr = source_state->unk_10;
         state->unk_04 = source_state->unk_04;
-        *(Block32 *)((u8 *)object + 0x20) = *(Block32 *)source_data;
+        *(Block32 *)NODE_BODY(object) = *(Block32 *)source_data;
     }
     return object;
 }
@@ -1665,7 +1667,7 @@ void *create_positioned_linked_mesh_effect(s16 x, s16 y, s16 z, s16 effect_param
         effect->update_callback = initialize_inventory_packet;
         register_node(effect, process_linked_mesh_states_mode_0);
         position = effect->position;
-        effect_state = ((void *)effect) + 0x20;
+        effect_state = NODE_BODY(effect);
         *((s16 *)&position->velocity_x + 1) = x;
         position->x.w.i = x;
         *((s16 *)&position->velocity_y + 1) = y;
@@ -1720,7 +1722,7 @@ void fade_effect_color_to_black(void *record, s32 unused, EffectColor *color) {
     color->blue = blue - (blue >> 2);
 
     if (color->red < 4) {
-        ((ObjectNodeHeader *)record - 1)->flags |= NODE_REMOVE;
+        NODE_HEADER(record)->flags |= NODE_REMOVE;
         object_flag_block.flags |= OBJECT_REMOVE_PENDING;
     }
 }

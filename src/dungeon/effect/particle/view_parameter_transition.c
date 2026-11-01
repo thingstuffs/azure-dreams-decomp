@@ -169,8 +169,8 @@ s32 begin_view_parameter_transition(PointRecord *start_node, ObjectPosition *sta
             scratch->ot[scratch->index] = (scratch->ot[scratch->index] & 0xFF000000) | ((u32)mode_packet & 0x00FFFFFF);
         }
 
-        prev_entry = ((ObjectNodeHeader *)node - 1)->chain_next;
-        node = (PointRecord *)(prev_entry + 1);
+        prev_entry = NODE_HEADER(node)->chain_next;
+        node = NODE_BODY(prev_entry);
         if (prev_entry == 0) {
             break;
         }
@@ -251,7 +251,7 @@ void spawn_parent_attached_effect(ObjectNodeHeader *parent, s16 field_34, s32 fi
         jitter_z = rand();
         jitter_z &= 0x1F;
         position_z = source_obj->position->z.w.i;
-        fields = (PointRecord *)(spawned + 1);
+        fields = NODE_BODY(spawned);
         dest_z = spawned->position;
         position_z += jitter_z;
         bias_z = offset_z - 0x10;

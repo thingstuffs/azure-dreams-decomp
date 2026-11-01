@@ -84,7 +84,7 @@ s32 draw_ball_effect_points(PointRecord *first_point, ObjectPosition *first_posi
                 draw_mode->tag.addr = scratch->ot[scratch->index].addr;
                 scratch->ot[scratch->index].addr = (u32)draw_mode;
             }
-            next_node = ((ObjectNodeHeader *)point - 1)->chain_next;
+            next_node = NODE_HEADER(point)->chain_next;
             if (next_node != 0) {
                 next_data = next_node + 1;
                 point = next_data;

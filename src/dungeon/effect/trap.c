@@ -690,7 +690,7 @@ void fade_trap_color_to_black(TrapFadeWork *fade, void *unused, SpriteFrameState
         darken_left = fade->frames_left.u - 1;
         fade->frames_left.s = darken_left;
         if ((darken_left << 16) <= 0) {
-            ((ObjectNodeHeader *)((u8 *)fade - 0x20))->flags |= 0x8000;
+            NODE_HEADER(fade)->flags |= 0x8000;
             object_flag_block.flags |= OBJECT_REMOVE_PENDING;
         }
     }

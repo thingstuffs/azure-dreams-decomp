@@ -134,9 +134,9 @@ s32 draw_flagged_particle_points(PointRecord *first_point, ObjectPosition *first
             ((GpuLinkTag *)&scratch->ot[scratch->index])->addr = (u32)draw_mode;
         }
 
-        next_node = ((ObjectNodeHeader *)point - 1)->chain_next;
+        next_node = NODE_HEADER(point)->chain_next;
         if (next_node != 0) {
-            point = (PointRecord *)(next_node + 1);
+            point = NODE_BODY(next_node);
             position = next_node->position;
             continue;
         }
@@ -188,7 +188,7 @@ void spawn_jittered_point_child(ObjectNodeHeader *parent, s32 state_14_value, s3
         *(u16 *)&spawned->position->y.w.i =
             *(u16 *)&parent->position->y.w.i +
             (jitter & 0xF) + (y_offset - 8);
-        state = (PointRecord *)(spawned + 1);
+        state = NODE_BODY(spawned);
         jitter = rand();
         position = spawned->position;
         *(u16 *)&position->z.w.i =
@@ -461,7 +461,7 @@ void create_lingering_ballistic_sprite(S_8196B4A4_5 *source, s32 unused_1, s32 u
     directions = (LocalPoint *)&direction_points;
     effect = allocate_flagged_object_node(0x212);
     if (effect != 0) {
-        motion = (u8 *)effect + 0x20;
+        motion = NODE_BODY(effect);
         motion->unk_2C.s = 0xF;
         effect->update_callback = advance_terrain_colliding_sprite;
         register_node(effect, project_sprite_chain);
@@ -547,7 +547,7 @@ void create_brief_ballistic_sprite(S_8196B780_5 *source, s32 unused_1, s32 unuse
     point_base = (LocalPoint *)&points;
     effect = allocate_flagged_object_node(0x212);
     if (effect != 0) {
-        motion = (u8 *)effect + 0x20;
+        motion = NODE_BODY(effect);
         motion->unk_2C.s = 0x4;
         effect->update_callback = advance_terrain_colliding_sprite;
         register_node(effect, project_sprite_chain);
@@ -660,7 +660,7 @@ void create_timed_rectangle_effect(StagedRectangleSpriteBody *owner) {
 
         child = allocate_flagged_object_node(0x212);
         if (child != 0) {
-            child_work = (S_8196BA5C_0 *)((u8 *)child + 0x20);
+            child_work = NODE_BODY(child);
             child_work->unk_2C = 7;
             child_work->unk_2E = 7;
             child_work->unk_50 = slot;
@@ -672,7 +672,7 @@ void create_timed_rectangle_effect(StagedRectangleSpriteBody *owner) {
             display->depth_bias = 4;
             display->flags &= 0xFFF3;
 
-            source_vector = ((ObjectNodeHeader *)((u8 *)primary_actor_record - 0x20))->position;
+            source_vector = NODE_HEADER(primary_actor_record)->position;
             child_vector = child->position;
             child_vector->x.v = source_vector->x.v;
             child_vector->y.v = source_vector->y.v;
@@ -720,7 +720,7 @@ void create_staged_rectangle_sprite(void *source, s32 unused_position, s32 unuse
 
     object = allocate_flagged_object_node(0x212);
     if (object != 0) {
-        object_state = (StagedRectangleSpriteBody *)((u8 *)object + 0x20);
+        object_state = NODE_BODY(object);
         object_state->unk_2C.s = 0xB;
         object_state->unk_7C = source;
         object->update_callback = create_timed_rectangle_effect;

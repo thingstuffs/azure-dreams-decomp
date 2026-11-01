@@ -144,7 +144,7 @@ void spawn_free_slot_display_effect(AdvanceObjectSpawningDisplaysHighBody *owner
 
         child = allocate_flagged_object_node(0x212);
         if (child != 0) {
-            child_work = (FreeSlotDisplayEffectBody *)((u8 *)child + 0x20);
+            child_work = NODE_BODY(child);
             child_work->remaining.s = 7;
             child_work->fade_step = 7;
             child_work->slot_index = slot;
@@ -156,7 +156,7 @@ void spawn_free_slot_display_effect(AdvanceObjectSpawningDisplaysHighBody *owner
             display->depth_bias = 4;
             display->flags &= 0xFFF3;
 
-            source_words = ((ObjectNodeHeader *)((u8 *)primary_actor_record - 0x20))->position;
+            source_words = NODE_HEADER(primary_actor_record)->position;
             child_words = child->position;
             child_words->x.v = source_words->x.v;
             child_words->y.v = source_words->y.v;
@@ -228,7 +228,7 @@ void create_an_linked_parent_initialize_position_part_data(void *parent, void *u
 
     object = allocate_flagged_object_node(0x212);
     if (object != 0) {
-        state = ((void *)object) + 0x20;
+        state = NODE_BODY(object);
         state->timer = 0x9;
         state->source_owner = parent;
         (object->update_callback) = (s32 *)spawn_free_slot_display_effect;
@@ -470,14 +470,14 @@ void update_palette_particle_transition(TransitionState *state, void *context, v
                 player = primary_actor_record;
                 entry_tint = TINT_FLASH_BRIGHT;
                 player->action_state_flags = player->action_state_flags; /* BYTES: +0x98 write-back: retail reads the field, the unchanged store compiles away */
-                tint_part = ((ObjectNodeHeader *)player)[-1].sprite;
+                tint_part = NODE_HEADER(player)->sprite;
                 tint_countdown = (u16) state->countdown;
                 if (tint_countdown & 1) {
                     entry_tint = TINT_FLASH_DIM;
                 }
                 tint_part->color.word = entry_tint;
             } else {
-                tint_part = ((ObjectNodeHeader *)primary_actor_record)[-1].sprite;
+                tint_part = NODE_HEADER(primary_actor_record)->sprite;
                 entry_tint = TINT_FLASH_BRIGHT;
                 primary_actor_record->action_state_flags = primary_actor_record->action_state_flags; /* BYTES: +0x98 write-back: retail reads the field, the unchanged store compiles away */
                 tint_part->color.word = entry_tint;
@@ -647,14 +647,14 @@ void update_palette_particle_transition(TransitionState *state, void *context, v
                 player = primary_actor_record;
                 exit_tint = TINT_FLASH_BRIGHT;
                 player->action_state_flags = player->action_state_flags; /* BYTES: +0x98 write-back: retail reads the field, the unchanged store compiles away */
-                tint_part = ((ObjectNodeHeader *)player)[-1].sprite;
+                tint_part = NODE_HEADER(player)->sprite;
                 tint_countdown = (u16) state->countdown;
                 if (tint_countdown & 1) {
                     exit_tint = TINT_FLASH_DIM;
                 }
                 tint_part->color.word = exit_tint;
             } else {
-                tint_part = ((ObjectNodeHeader *)primary_actor_record)[-1].sprite;
+                tint_part = NODE_HEADER(primary_actor_record)->sprite;
                 exit_tint = TINT_FLASH_BRIGHT;
                 primary_actor_record->action_state_flags = primary_actor_record->action_state_flags; /* BYTES: +0x98 write-back: retail reads the field, the unchanged store compiles away */
                 tint_part->color.word = exit_tint;
@@ -722,7 +722,7 @@ void update_palette_particle_transition(TransitionState *state, void *context, v
         target = primary_actor_record->target;
         if (target != 0) {
             target->flags1C = (s32) (target->flags1C | 0x10000000);
-            tint_part = ((ObjectNodeHeader *)target)[-1].sprite;
+            tint_part = NODE_HEADER(target)->sprite;
             target_tint = 0;
             if (transition_flags->unk_004 & 1) {
                 target_tint = TINT_TARGET_HIGHLIGHT;
@@ -738,16 +738,16 @@ void update_palette_particle_transition(TransitionState *state, void *context, v
             target = primary_actor_record->target;
             if (target != 0) {
                 target->flags1C = (s32) (target->flags1C & 0xEFFFFFFF);
-                tint_part = ((ObjectNodeHeader *)target)[-1].sprite;
+                tint_part = NODE_HEADER(target)->sprite;
                 tint_part->color.word = TINT_NEUTRAL;
             }
             g_dungeon_status.active_actor = 0;
             reference_tile_object.phase = 0;
             g_dungeon_status.activity_counts.parts.pending_action_count = (u16) (g_dungeon_status.activity_counts.parts.pending_action_count - 1);
-            tint_part = ((ObjectNodeHeader *)primary_actor_record)[-1].sprite;
+            tint_part = NODE_HEADER(primary_actor_record)->sprite;
             primary_actor_record->action_state_flags = primary_actor_record->action_state_flags; /* BYTES: +0x98 write-back: retail reads the field, the unchanged store compiles away */
             tint_part->color.word = TINT_NEUTRAL;
-            ((ObjectNodeHeader *)state)[-1].flags = (u16) (((ObjectNodeHeader *)state)[-1].flags | NODE_REMOVE);
+            NODE_HEADER(state)->flags = (u16) (NODE_HEADER(state)->flags | NODE_REMOVE);
             object_flag_block.flags |= OBJECT_REMOVE_PENDING;
         } else {
             parent_effect_update_flag = 0;
