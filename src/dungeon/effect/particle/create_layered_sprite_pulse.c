@@ -12,11 +12,6 @@
 /* cfail-repair: tf7-phase1-cache-v3 */
 extern u8 ribbon_sprite_entries[];
 
-typedef struct S_801676CC_0 {
-    u8 pad_00[0x18];
-    s16 unk_18;
-    s16 unk_1A;
-} S_801676CC_0;
 
 /* Creates sixteen effects at the given position with increasing sprite scales. */
 void create_layered_sprite_pulse(EntityRec *origin) {
@@ -29,7 +24,7 @@ void create_layered_sprite_pulse(EntityRec *origin) {
     ObjectPosition *position;
     SpriteFrameState *sprite;
     ObjectNodeHeader *effect;
-    S_801676CC_0 *effect_state;
+    LayeredSpritePulseBody *effect_state;
 
     effect_index = 0;
     initial_ticks = 0xE;

@@ -90,7 +90,7 @@ void select_sprite_entry(void *object_data, s16 table_index, s16 entry_index);
 extern s32 rand(void);
 
 
-u32 toggle_attacker_target_status_pair(void *attacker, void *target);
+u32 toggle_attacker_target_status_pair(ActorRecord *attacker, void *target);
 
 extern u8 blume_slot_g_direction_steps[];
 

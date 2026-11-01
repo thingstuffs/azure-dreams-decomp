@@ -1176,8 +1176,9 @@ extern u8 D_800DFD30[];
 
 
 /* Spawn a sprite effect for the source or invoke its fallback action. */
-s32 spawn_source_sprite_effect(void *source, s32 rng_arg_1, s32 rng_arg_2, s32 rng_arg_3)
+s32 spawn_source_sprite_effect(void *source_arg, s32 rng_arg_1, s32 rng_arg_2, s32 rng_arg_3)
 {
+    S_800CD004_0 *source = source_arg;
     s32 random;
     s16 roll;
     s32 tile_x;
@@ -1195,8 +1196,8 @@ s32 spawn_source_sprite_effect(void *source, s32 rng_arg_1, s32 rng_arg_2, s32 r
 
     if (trap_request_blocked == 0) {
         random = generate_random_value() & 0xFFFF;
-        if (((S_800CD004_0 *)source)->unk_03 != 0) {
-            roll = random % ((S_800CD004_0 *)source)->unk_03;
+        if (source->unk_03 != 0) {
+            roll = random % source->unk_03;
         } else {
             roll = 0;
         }
@@ -1216,7 +1217,7 @@ s32 spawn_source_sprite_effect(void *source, s32 rng_arg_1, s32 rng_arg_2, s32 r
             quad = ((S_800CD004_1 *)effect)->unk_08;
             quad->unk_02 = (tile_x << 6) + 0x20;
             quad->unk_06 = (map->unk_25 << 6) + 0x20;
-            quad->unk_0A = ((S_800CD004_0 *)source)->unk_88 - 0x200;
+            quad->unk_0A = source->unk_88 - 0x200;
 
             sprite = ((S_800CD004_1 *)effect)->unk_0C;
             sprite->unk_1E = 0x1000;
@@ -1233,9 +1234,9 @@ s32 spawn_source_sprite_effect(void *source, s32 rng_arg_1, s32 rng_arg_2, s32 r
             sprite->unk_08 = texture;
             sprite->unk_10 = 0x20;
 
-            height_offset = entity_height_offsets[((S_800CD004_0 *)source)->unk_13];
+            height_offset = entity_height_offsets[source->unk_13];
             effect_state = (u8 *)effect + 0x20;
-            height_delta = ((S_800CD004_0 *)source)->unk_88 - height_offset;
+            height_delta = source->unk_88 - height_offset;
             effect_state->unk_0A = height_delta;
             ((S_800CD004_1 *)effect)->unk_20 = source;
             effect_state->unk_06 = 0xC;
@@ -1244,7 +1245,7 @@ s32 spawn_source_sprite_effect(void *source, s32 rng_arg_1, s32 rng_arg_2, s32 r
             play_sound_if_enabled(0x50D);
         }
     } else {
-        if (((S_800CD004_0 *)source)->unk_13 == 0) {
+        if (source->unk_13 == 0) {
             display_fixed_item_action_message();
         }
         return 1;
@@ -2337,7 +2338,7 @@ extern s32 get_surface_height_at_coordinates(s32, s32);
 extern u8 floor_trap_update_address[];
 
 /* Creates a dungeon object with two 5x5 value grids and sets its effect flags. */
-void * create_dual_grid_trap_effect(s32 center_x, s32 center_y, s16 unused_value, void *unused_data, s32 reverse_offset)
+void * create_dual_grid_trap_effect(s32 center_x, s32 center_y, s16 unused_value, ActorRecord *unused_data, s32 reverse_offset)
 {
     u16 offset_mode;
     s32 reverse_flag;
@@ -2415,27 +2416,27 @@ void * create_dual_grid_trap_effect(s32 center_x, s32 center_y, s16 unused_value
 #include "shared/dungeon_floor.h"
 
 
-extern void * create_dual_grid_trap_effect(s32 center_x, s32 center_y, s16 unused_value, void *unused_data, s32 reverse_offset);
+extern void * create_dual_grid_trap_effect(s32 center_x, s32 center_y, s16 unused_value, ActorRecord *unused_data, s32 reverse_offset);
 
 /* Return success if either global high flag is set, otherwise test the record lookup. */
-s32 check_trap_record_or_global_override(void *record) {
+s32 check_trap_record_or_global_override(ActorRecord *record) {
     void *source_record;
 
     if (dungeon_floor_flags & 0xC0000000) {
         return 1;
     }
     source_record = *(void **)((s8 *)record - 0x14);
-    return create_dual_grid_trap_effect(((u8 *)source_record)[0x24], ((u8 *)source_record)[0x25], *(s16 *)((s8 *)record + 0x88),
+    return create_dual_grid_trap_effect(((u8 *)source_record)[0x24], ((u8 *)source_record)[0x25], record->ground_height,
         record, 0) != 0;
 }
 #include "modules/trap_effects_candidate.h"
 #include "common.h"
 #include "shared/dungeon_floor.h"
 
-extern void * create_dual_grid_trap_effect(s32 center_x, s32 center_y, s16 unused_value, void *unused_data, s32 reverse_offset);
+extern void * create_dual_grid_trap_effect(s32 center_x, s32 center_y, s16 unused_value, ActorRecord *unused_data, s32 reverse_offset);
 
 /* Checks the entity at its linked coordinates unless a global override is set. */
-s32 check_linked_entity_or_global_override(void *entity) {
+s32 check_linked_entity_or_global_override(ActorRecord *entity) {
     void *position_record;
 
     if (dungeon_floor_flags & 0xC0000000) {
@@ -2445,7 +2446,7 @@ s32 check_linked_entity_or_global_override(void *entity) {
     return create_dual_grid_trap_effect(
         *((u8 *)position_record + 0x24),
         *((u8 *)position_record + 0x25),
-        *(s16 *)((u8 *)entity + 0x88),
+        entity->ground_height,
         entity,
         1) != 0;
 }

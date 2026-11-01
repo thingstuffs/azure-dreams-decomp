@@ -35,11 +35,6 @@ typedef struct S_801677FC_0 {
     void * unk_08;
 } S_801677FC_0;   /* (void *)D_80175D50 in create_forward_layered_sprite_pulse */
 
-typedef struct S_801677FC_1 {
-    u8 pad_00[0x18];
-    s16 unk_18;
-    s16 unk_1A;
-} S_801677FC_1;
 
 typedef struct S_801677FC_5 {
     s32 unk_00;
@@ -65,7 +60,7 @@ void create_forward_layered_sprite_pulse(void)
     S_801677FC_5 *source_pos;
     S_801677FC_6 *source_state;
     ObjectNodeHeader *effect;
-    S_801677FC_1 *effect_state;
+    LayeredSpritePulseBody *effect_state;
 
     direction_offsets = D_8016482C;
     effect_index = 0;

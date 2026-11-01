@@ -200,22 +200,6 @@ void update_directional_actor_effect(void *effect, void *color_data) {
     return;
 }
 
-typedef struct S_81952B4C_0 {
-    s32 unk_00;
-    s32 unk_04;
-    s32 unk_08;
-    u8 pad_0C[0x4];
-    s16 unk_10;
-    s16 unk_12;
-    u8 pad_14[0x10];
-    union { s16 s; u16 u; } unk_24;   /* accessed as both */
-    u8 pad_26[0x2];
-    union { s16 s; u16 u; } unk_28;   /* accessed as both */
-    u16 unk_2A;
-    s16 unk_2C;
-    u8 pad_2E[0x6];
-    s16 unk_34;
-} S_81952B4C_0;   /* arg0 in update_spiraling_effect_growth_and_fade */
 
 typedef struct S_81952B4C_1 {
     union { struct { s32 v; } at00; struct { u8 pad[0x2]; u16 v; } at02; } unk_00;   /* overlapping accesses */
@@ -243,7 +227,7 @@ typedef struct S_81952B4C_2 {
 } S_81952B4C_2;   /* arg2 in update_spiraling_effect_growth_and_fade */
 
 /* Updates a spiraling effect's growth, motion, and fade-out. */
-void update_spiraling_effect_growth_and_fade(void *effect, void *position, void *sprite_arg)
+void update_spiraling_effect_growth_and_fade(SpiralingBody *effect, void *position, void *sprite_arg)
 {
     S_81952B4C_2 *sprite = sprite_arg;
     s16 state;
@@ -257,25 +241,25 @@ void update_spiraling_effect_growth_and_fade(void *effect, void *position, void 
 
     D_800249A6[0]++;
 
-    if (D_800249A4 != 0 && ((S_81952B4C_0 *)effect)->unk_24.s < 2) {
-        ((S_81952B4C_0 *)effect)->unk_00 =
-            rcos(((S_81952B4C_0 *)effect)->unk_28.s) *
-            ((S_81952B4C_0 *)effect)->unk_34 * 8;
-        ((S_81952B4C_0 *)effect)->unk_04 =
-            rsin(((S_81952B4C_0 *)effect)->unk_28.s) *
-            ((S_81952B4C_0 *)effect)->unk_34 * 8;
-        ((S_81952B4C_0 *)effect)->unk_24.s = 2;
+    if (D_800249A4 != 0 && effect->unk_24.s < 2) {
+        effect->unk_00 =
+            rcos(effect->unk_28.s) *
+            effect->unk_34 * 8;
+        effect->unk_04 =
+            rsin(effect->unk_28.s) *
+            effect->unk_34 * 8;
+        effect->unk_24.s = 2;
     }
 
     ((S_81952B4C_1 *)position)->unk_0E = ((S_81952B4C_1 *)position)->unk_00.at02.v;
     ((S_81952B4C_1 *)position)->unk_12 = ((S_81952B4C_1 *)position)->unk_04.at02.v;
     ((S_81952B4C_1 *)position)->unk_16 = ((S_81952B4C_1 *)position)->unk_08.at02.v;
 
-    state = ((S_81952B4C_0 *)effect)->unk_24.s;
+    state = effect->unk_24.s;
     switch (state) {
     case 0:
         scale = sprite->unk_1E;
-        scale += (0x1000 - scale) / ((S_81952B4C_0 *)effect)->unk_2C;
+        scale += (0x1000 - scale) / effect->unk_2C;
         sprite->unk_1E = scale;
         sprite->unk_1C = scale;
         if (scale >= 0x801) {
@@ -292,37 +276,37 @@ void update_spiraling_effect_growth_and_fade(void *effect, void *position, void 
         }
 
         ((S_81952B4C_1 *)position)->unk_00.at00.v =
-            (((S_81952B4C_0 *)effect)->unk_10 << 16) +
-            rcos(((S_81952B4C_0 *)effect)->unk_28.s) *
-            ((S_81952B4C_0 *)effect)->unk_34 * 8;
+            (effect->unk_10 << 16) +
+            rcos(effect->unk_28.s) *
+            effect->unk_34 * 8;
         ((S_81952B4C_1 *)position)->unk_04.at00.v =
-            (((S_81952B4C_0 *)effect)->unk_12 << 16) +
-            rsin(((S_81952B4C_0 *)effect)->unk_28.s) *
-            ((S_81952B4C_0 *)effect)->unk_34 * 8;
+            (effect->unk_12 << 16) +
+            rsin(effect->unk_28.s) *
+            effect->unk_34 * 8;
 
-        ((S_81952B4C_0 *)effect)->unk_08 -= 0x5000;
-        radius = (u16)((S_81952B4C_0 *)effect)->unk_34 + 4;
-        ((S_81952B4C_0 *)effect)->unk_34 = radius;
+        effect->unk_08 -= 0x5000;
+        radius = (u16)effect->unk_34 + 4;
+        effect->unk_34 = radius;
         if (radius >= 0x41) {
-            ((S_81952B4C_0 *)effect)->unk_34 = 0x40;
+            effect->unk_34 = 0x40;
         }
 
-        ((S_81952B4C_0 *)effect)->unk_28.u += 0x180;
-        frames_left = (u16)((S_81952B4C_0 *)effect)->unk_2C - 1;
-        ((S_81952B4C_0 *)effect)->unk_2C = frames_left;
+        effect->unk_28.u += 0x180;
+        frames_left = (u16)effect->unk_2C - 1;
+        effect->unk_2C = frames_left;
         if ((frames_left << 16) <= 0) {
-            ((S_81952B4C_0 *)effect)->unk_24.u++;
+            effect->unk_24.u++;
         }
 
         break;
     case 1:
         break;
     case 2:
-        velocity_x = ((S_81952B4C_0 *)effect)->unk_00;
-        velocity_y = ((S_81952B4C_0 *)effect)->unk_04;
-        ((S_81952B4C_0 *)effect)->unk_00 = velocity_x + (velocity_x >> 1);
-        ((S_81952B4C_0 *)effect)->unk_04 = velocity_y + (velocity_y >> 1);
-        ((S_81952B4C_0 *)effect)->unk_08 += 0x10000;
+        velocity_x = effect->unk_00;
+        velocity_y = effect->unk_04;
+        effect->unk_00 = velocity_x + (velocity_x >> 1);
+        effect->unk_04 = velocity_y + (velocity_y >> 1);
+        effect->unk_08 += 0x10000;
 
         brightness = sprite->unk_0C.at02.v - 4;
         sprite->unk_0C.at02.v = brightness;
@@ -331,7 +315,7 @@ void update_spiraling_effect_growth_and_fade(void *effect, void *position, void 
         if ((s8)brightness <= 0) {
             (*(u16 *)((u8 *)effect + -2)) |= NODE_REMOVE;
             global_flags = object_flag_block.flags | OBJECT_REMOVE_PENDING;
-            ((S_81952B4C_0 *)effect)->unk_24.u++;
+            effect->unk_24.u++;
             object_flag_block.flags = global_flags;
             return;
         }
@@ -339,10 +323,10 @@ void update_spiraling_effect_growth_and_fade(void *effect, void *position, void 
         break;
     }
 
-    ((S_81952B4C_0 *)effect)->unk_2A++;
-    ((S_81952B4C_1 *)position)->unk_00.at00.v += ((S_81952B4C_0 *)effect)->unk_00;
-    ((S_81952B4C_1 *)position)->unk_04.at00.v += ((S_81952B4C_0 *)effect)->unk_04;
-    ((S_81952B4C_1 *)position)->unk_08.at00.v += ((S_81952B4C_0 *)effect)->unk_08;
+    effect->unk_2A++;
+    ((S_81952B4C_1 *)position)->unk_00.at00.v += effect->unk_00;
+    ((S_81952B4C_1 *)position)->unk_04.at00.v += effect->unk_04;
+    ((S_81952B4C_1 *)position)->unk_08.at00.v += effect->unk_08;
 }
 
 typedef struct SpawnPosition {
@@ -415,7 +399,7 @@ void spawn_spiraling(void *anchor, s16 angle, s16 unused, void *target, s32 mirr
     if (D_800249A4 != 0) return;
     node = allocate_list_node(0x212, (ObjectNodeHeader **)anchor);
     if (node == 0) return;
-    node->header.callback = update_spiraling_effect_growth_and_fade;
+    node->header.callback = (void (*)(void *, void *, void *))update_spiraling_effect_growth_and_fade;
     register_node(node, linked_mesh_processor_address);
     position = node->header.position;
     sprite = node->header.sprite;

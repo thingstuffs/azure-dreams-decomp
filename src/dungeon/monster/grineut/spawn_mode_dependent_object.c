@@ -1109,7 +1109,7 @@ void complete_staged_destination_movement(ActorRecord *action, ObjectPosition *m
         motion->velocity_y = direction_y * 0x60000;
         sprite->frameTable = grineut_frame_set_3;
         select_sprite_entry(sprite,
-            (*((u8 *)(((u8 *)grineut_frame_set_3)) + (((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7))),
+            (*((((u8 *)grineut_frame_set_3)) + (((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7))),
             0);
         action->action_timer.u = 0;
         action->action_phase.u += 1;
@@ -1123,7 +1123,7 @@ void complete_staged_destination_movement(ActorRecord *action, ObjectPosition *m
         if (sprite->flags & 0xE000) {
             sprite->frameTable = D_80174170;
             select_sprite_entry(sprite,
-                (*((u8 *)(((u8 *)D_80174170)) + (((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7))),
+                (*((((u8 *)D_80174170)) + (((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7))),
                 0);
             action->action_timer.u = 0x14;
             action->action_phase.u += 1;
@@ -1421,13 +1421,13 @@ copy_existing:
 }
 
 /* Applies a value change and knockback, decelerates the actor, then recenters it and restores movement. */
-void settle_directional_motion_at_tile(ActorRecord *body, ObjectPosition *motion, SpriteFrameState *sprite, void *entity)
+void settle_directional_motion_at_tile(ActorRecord *body, ObjectPosition *motion, SpriteFrameState *sprite, ActorRecord *entity)
 {
     s32 direction;
     s16 timer;
     s32 tracked_entity;
 
-    direction = (((EntityRec *)entity)->unk_6A >> 9) & 7;
+    direction = (entity->movement_facing >> 9) & 7;
     switch (body->action_phase.u) {
     case 0:
         apply_clamped_actor_value_delta(entity);
@@ -1435,7 +1435,7 @@ void settle_directional_motion_at_tile(ActorRecord *body, ObjectPosition *motion
         motion->velocity_y = ((s16 *)((s8 *)dir_step_y))[direction] << 18;
         body->action_phase.u++;
 
-        if (((EntityRec *)entity)->unk_28 == 0) {
+        if (entity->hp == 0) {
             motion->velocity_z = 0;
             motion->velocity_y = 0;
             motion->velocity_x = 0;
@@ -1448,7 +1448,7 @@ void settle_directional_motion_at_tile(ActorRecord *body, ObjectPosition *motion
             return;
         }
 
-        if (((u32)((EntityRec *)entity)->flags1C) & (ACTOR_MP_EMPTY | ACTOR_PARALYZED | ACTOR_ASLEEP)) {
+        if (((u32)entity->flags1C) & (ACTOR_MP_EMPTY | ACTOR_PARALYZED | ACTOR_ASLEEP)) {
             timer = 8;
         } else {
             timer = -1;
@@ -1471,7 +1471,7 @@ void settle_directional_motion_at_tile(ActorRecord *body, ObjectPosition *motion
         if (body->action_timer.s != 0) {
             return;
         }
-        if (((EntityRec *)entity)->unk_28 == 0) {
+        if (entity->hp == 0) {
             motion->velocity_z = 0;
             motion->velocity_y = 0;
             motion->velocity_x = 0;
@@ -1481,7 +1481,7 @@ void settle_directional_motion_at_tile(ActorRecord *body, ObjectPosition *motion
         sprite->frameTable = grineut_frame_set_4;
         select_sprite_entry(
             sprite,
-            grineut_frame_set_4[((g_game_work.view.camera_rotation.parts.viewAngle + ((EntityRec *)entity)->facing + 0x100) >> 9) & 7],
+            grineut_frame_set_4[((g_game_work.view.camera_rotation.parts.viewAngle + entity->facing + 0x100) >> 9) & 7],
             0);
         body->action_phase.u++;
         return;
@@ -1496,7 +1496,7 @@ void settle_directional_motion_at_tile(ActorRecord *body, ObjectPosition *motion
         sprite->frameTable = grineut_frame_set_4;
         select_sprite_entry(
             sprite,
-            grineut_frame_set_4[((g_game_work.view.camera_rotation.parts.viewAngle + ((EntityRec *)entity)->facing + 0x100) >> 9) & 7],
+            grineut_frame_set_4[((g_game_work.view.camera_rotation.parts.viewAngle + entity->facing + 0x100) >> 9) & 7],
             0);
         body->action_timer.s = 8;
         body->action_phase.u++;

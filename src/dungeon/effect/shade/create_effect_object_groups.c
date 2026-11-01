@@ -2,22 +2,10 @@
 #include "shared/entity.h"
 #include "shared/sprite_frame_state.h"
 #include "common.h"
+#include "dungeon/effect/screen.h"
 #include "engine/scene.h"
 
 
-typedef struct S_800262AC_3 {
-    u8 pad_00[0x1A];
-    s16 unk_1A;
-    u8 pad_1C[0x6];
-    s16 unk_22;
-    s16 unk_24;
-    u8 pad_26[0x36];
-    s16 unk_5C;
-    s16 unk_5E;
-    s16 unk_60;
-    u8 pad_62[0x2];
-    s16 unk_64;
-} S_800262AC_3;   /* state in create_effect_object_groups */
 
 extern void register_node(void *, void *);
 
@@ -36,7 +24,7 @@ void *create_effect_object_groups(s16 x, s16 y, s16 z)
     ObjectNodeHeader *object;
     ObjectPosition *coords;
     SpriteFrameState *render;
-    S_800262AC_3 *state;
+    EffectObjectGroupsBody *state;
     void *callback;
     void *texture;
 
@@ -80,8 +68,8 @@ void *create_effect_object_groups(s16 x, s16 y, s16 z)
                 init_value = 8;
                 render->source = texture;
                 render->scale_x = render_flags;
-                state->unk_1A = init_value;
-                state->unk_64 = init_value;
+                state->unk_1A.s = init_value;
+                state->unk_64.s = init_value;
                 state->unk_22 = object_index;
                 state->unk_24 = group_index;
                 state->unk_5C = x;

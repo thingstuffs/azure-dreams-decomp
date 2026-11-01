@@ -5,6 +5,14 @@
 #include "shared/entity.h"
 #include "shared/sprite_frame_state.h"
 
+/* Timer and color delta stored in an Ifrit impact particle body. */
+typedef struct UpdateActorActionsAndImpactEffectsBody {
+    u8 pad_00[0x96];
+    u16 unk_96;
+    u8 pad_98[0xC];
+    union { s32 s; u32 u; } unk_A4;
+} UpdateActorActionsAndImpactEffectsBody;
+
 /* Monster-owned imports; preserve their registered declaration contracts. */
 extern u8 ifrit_direction_frames[];
 

@@ -181,7 +181,7 @@ void card_boot_handle_format_answer(void *object);
 void card_boot_handle_message_dialog_input(struct S_80022524_0 *menu);
 
 /* card_boot_handle_overwrite_answer.c */
-void card_boot_handle_overwrite_answer(void *object_data);
+void card_boot_handle_overwrite_answer(Object_800128C8 *object_data);
 
 /* card_boot_initialize_paired_choice_layout.c */
 void card_boot_initialize_paired_choice_layout(void *record_addr);
@@ -334,7 +334,7 @@ void card_boot_stop_timer_and_init_server(void);
 s32 card_boot_sum_slot_lookup_values(void);
 
 /* card_boot_update_card_chooser_input.c */
-void card_boot_update_card_chooser_input(void *menu);
+void card_boot_update_card_chooser_input(Object_800128C8 *menu);
 
 /* card_boot_update_copy_destination_selection.c */
 void card_boot_update_copy_destination_selection(u8 *menu);

@@ -411,7 +411,8 @@ void initialize_the_s_visual_state_apply_random_spherical_position_offset(void *
 
 /* Moves a rotating sprite along its radial direction, then scatters, expands, and fades it at its
    travel limit. */
-void advance_radial_effect_state(void *motion, void *position, SpriteFrameState *effect) {
+void advance_radial_effect_state(void *motion, void *position_arg, SpriteFrameState *effect) {
+    Rec_func_80024600_arg1 *position = position_arg;
     s32 direction_scale;
     s32 sin_a;
     s32 sin_b;
@@ -435,21 +436,21 @@ void advance_radial_effect_state(void *motion, void *position, SpriteFrameState 
         effect->angle_z += 0x200;
         sin_a = rsin(((Row_8191740C_S_80024C0C_0 *)motion)->unk_0E);
         direction_scale = (sin_a >> 4) * (rsin(((Row_8191740C_S_80024C0C_0 *)motion)->unk_10) >> 4);
-        ((Rec_func_80024600_arg1 *)position)->unk_00 += direction_scale * 0x1C;
+        position->unk_00 += direction_scale * 0x1C;
         sin_b = rsin(((Row_8191740C_S_80024C0C_0 *)motion)->unk_0E);
         direction_scale = (sin_b >> 4) * (rcos(((Row_8191740C_S_80024C0C_0 *)motion)->unk_10) >> 4);
-        ((Rec_func_80024600_arg1 *)position)->unk_04 += direction_scale * 0x1C;
-        ((Rec_func_80024600_arg1 *)position)->unk_08 += (rcos(((Row_8191740C_S_80024C0C_0 *)motion)->unk_0E) >> 4) * 0x1C00;
+        position->unk_04 += direction_scale * 0x1C;
+        position->unk_08 += (rcos(((Row_8191740C_S_80024C0C_0 *)motion)->unk_0E) >> 4) * 0x1C00;
         sin_c = rsin(((Row_8191740C_S_80024C0C_0 *)motion)->unk_0E);
         direction_scale = (sin_c >> 4) * (rsin(((Row_8191740C_S_80024C0C_0 *)motion)->unk_10) >> 4);
-        current_x = ((Rec_func_80024600_arg1 *)position)->unk_00;
+        current_x = position->unk_00;
         state = ((Row_8191740C_S_80024C0C_0 *)motion)->unk_12;
         next_x = current_x + direction_scale * 0x1C;
         if (state != 0) {
-            target_x = ((Rec_func_80024600_arg1 *)position)->unk_0C;
+            target_x = position->unk_0C;
             past_target = target_x < current_x;
         } else {
-            target_x = ((Rec_func_80024600_arg1 *)position)->unk_0C;
+            target_x = position->unk_0C;
             past_target = current_x < target_x;
         }
         if (past_target) {
@@ -463,7 +464,7 @@ void advance_radial_effect_state(void *motion, void *position, SpriteFrameState 
                 return;
             }
         }
-        initialize_the_s_visual_state_apply_random_spherical_position_offset(motion, position, effect);
+        initialize_the_s_visual_state_apply_random_spherical_position_offset(motion, position_arg, effect);
         ((Row_8191740C_S_80024C0C_0 *)motion)->unk_04.u++;
         break;
     case 1:

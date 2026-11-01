@@ -297,7 +297,8 @@ void *spawn_random_motion_particles(s16 x, s16 y, s16 z, s16 heading, s16 count)
 
 /* Moves a particle with vertical acceleration, fades its grayscale color, and removes it when its
    lifetime expires. */
-void advance_effect_motion_and_color_fade(void *effect, ovl_19a332c_81983088_S_80024888_0 *motion, ovl_19a332c_81983088_S_80024888_1 *color) {
+void advance_effect_motion_and_color_fade(void *effect_arg, ovl_19a332c_81983088_S_80024888_0 *motion, ovl_19a332c_81983088_S_80024888_1 *color) {
+    ovl_19a332c_81983088_S_80024888_2 *effect = effect_arg;
     s32 velocity_x;
     s32 velocity_y;
     u16 update_count;
@@ -318,8 +319,8 @@ void advance_effect_motion_and_color_fade(void *effect, ovl_19a332c_81983088_S_8
     color->unk_0C = faded_brightness;
     color->unk_0D = faded_brightness;
     color->unk_0E = faded_brightness;
-    life_left = ((ovl_19a332c_81983088_S_80024888_2 *)effect)->unk_30 - 1;
-    ((ovl_19a332c_81983088_S_80024888_2 *)effect)->unk_30 = life_left;
+    life_left = effect->unk_30 - 1;
+    effect->unk_30 = life_left;
     if ((life_left << 0x10) <= 0) {
         ((ovl_19a332c_81983088_S_80024888_2_pre *)effect)[-1].unk_00 = ((ovl_19a332c_81983088_S_80024888_2_pre *)effect)[-1].unk_00 | 0x8000;
         object_flag_block.flags |= OBJECT_REMOVE_PENDING;

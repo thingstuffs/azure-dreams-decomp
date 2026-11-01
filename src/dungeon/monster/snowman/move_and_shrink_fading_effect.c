@@ -306,7 +306,7 @@ void update_actor_callbacks_animation_and_ground(u8 *actor, u8 *motion, u8 *obje
             early_callback(early_actor, motion, object, early_actor);
             return;
         }
-        (*((u8 *)actor + 0x71)) &= 0x7F;
+        (*(actor + 0x71)) &= 0x7F;
         return;
     }
 
@@ -319,9 +319,9 @@ void update_actor_callbacks_animation_and_ground(u8 *actor, u8 *motion, u8 *obje
     if (callback != 0) {
         callback(actor, motion, object, actor);
     }
-    ((R10_80171104_ActorCallback *)D_80175A1C)[(*((u8 *)actor + 0x9A))](actor, motion, object, actor);
+    ((R10_80171104_ActorCallback *)D_80175A1C)[(*(actor + 0x9A))](actor, motion, object, actor);
 
-    if ((*((u8 *)actor + 0x9A)) != 0xE ||
+    if ((*(actor + 0x9A)) != 0xE ||
         (((SpriteAnimationTableView *)object)->flags & 0x40) ||
         ((*(u32 *)(actor + 0x1C)) & 0x20)) {
         shifted_direction = (s32)old_direction << 16;
@@ -445,7 +445,7 @@ void update_actor_callbacks_animation_and_ground(u8 *actor, u8 *motion, u8 *obje
         (*(s8 *)(actor + 0x9D)) = 0;
     } else {
         ((R10_80171104_S_80171104_2 *)motion)->unk_14 += (*(s8 *)(actor + 0x9D)) * 0x14000;
-        (*((u8 *)actor + 0x9D))++;
+        (*(actor + 0x9D))++;
     }
     (*(s32 *)(actor + 0x90)) += ((R10_80171104_S_80171104_2 *)motion)->unk_14;
 
@@ -1414,7 +1414,7 @@ use_kind:
 
             kind = *kind_data;
             kind_table = (u8 *)item_action_definitions;
-            kind_entry = ((u32)(kind * 20) + (u8 *)kind_table);
+            kind_entry = ((u32)(kind * 20) + kind_table);
 
             if (kind_entry[0x12] == 2) {
                 target_obj = action->target;
@@ -2440,21 +2440,21 @@ void spawn_randomized_oscillating_effect(ActorRecord *body, R10_80174F24_S_func_
 
 /* Stops movement and waits for dungeon activity to finish, then clears the callback and counts the new
  * action. */
-void wait_for_snowman_action_slot(void *entity_data, ObjectPosition *motion, SpriteFrameState *sprite, void *other_data)
+void wait_for_snowman_action_slot(ActorRecord *entity_data, ObjectPosition *motion, SpriteFrameState *sprite, void *other_data)
 {
-    u8 *entity = entity_data;
+    ActorRecord *entity = entity_data;
     u8 *other_entity = other_data;
     s32 kind = 0x18;
 
     other_entity[0x71] &= 0x7F;
-    *(void **)(entity + 0x8C) = ((void *)wait_for_snowman_action_slot);
-    entity[0x9A] = kind;
-    entity[0x9B] = 0;
+    entity->unk_8C.address = ((void *)wait_for_snowman_action_slot);
+    entity->action_id.u = kind;
+    entity->action_phase.u = 0;
     other_entity[0x6D] = 0;
     if (!(g_dungeon_status.flags & 0x2000) && ((has_pending_dungeon_activity(other_entity) << 16) == 0)) {
-        *(void **)(entity + 0x8C) = 0;
-        entity[0x9A] = kind;
-        entity[0x9B] = 0;
+        entity->unk_8C.address = 0;
+        entity->action_id.u = kind;
+        entity->action_phase.u = 0;
         (*(s16 *)actor_action_reset_value) = 0;
         g_dungeon_status.activity_counts.parts.pending_action_count++;
     }

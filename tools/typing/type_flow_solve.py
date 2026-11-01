@@ -173,7 +173,11 @@ class Graph:
         elif t.startswith('enum '):
             r = 'enum'
         elif t.startswith(('struct ', 'union ')):
-            r = 'rec:' + t.split(' ', 1)[1].strip()
+            # Extraction keys anonymous records by source location, while clang's
+            # field type includes the enclosing record and an unnamed-at spelling.
+            # Use the same key as the extractor so nested union leaves remain visible.
+            from field_census import record_key
+            r = 'rec:' + record_key(t)
         elif re.match(r'^[A-Za-z_]\w*$', t) and t in self.records:
             r = 'rec:' + t
         else:

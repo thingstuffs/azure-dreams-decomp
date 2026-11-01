@@ -12,12 +12,6 @@ struct Elem;
 #include "shared/sprite_source.h"
 extern SpriteSourceEntry high_particle_sprite_entries[];
 
-typedef struct S_800246AC_0 {
-    u16 unk_00;
-    u16 unk_02;
-    u8 pad_04[0x4];
-    s16 unk_08;
-} S_800246AC_0;   /* arg0 in advance_orbit_and_position */
 
 typedef struct S_800246AC_2 {
     u8 pad_00[0x2];
@@ -27,7 +21,7 @@ typedef struct S_800246AC_2 {
 } S_800246AC_2;   /* arg1 in advance_orbit_and_position */
 
 /* Advance the orbit angle and update the position when the object flags allow it. */
-void advance_orbit_and_position(S_800246AC_0 *orbit, S_800246AC_2 *position, SpriteFrameState *object) {
+void advance_orbit_and_position(IndexedColorSpriteBody *orbit, S_800246AC_2 *position, SpriteFrameState *object) {
     s16 angle;
     s32 next_angle;
     s32 wrap_angle;

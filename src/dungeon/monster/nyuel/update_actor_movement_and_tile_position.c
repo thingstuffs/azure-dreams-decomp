@@ -191,8 +191,8 @@ void update_actor_movement_and_tile_position(ActorRecord *object, ObjectPosition
                     }
                 }
                 actor->facing = angle;
-                *((((u8 *) (((u8 *)actor)+ (actor->movement_queue_state & 0x7F))) + 0x74)) = tile->tile_x;
-                *((((u8 *) (((u8 *)actor)+ (actor->movement_queue_state & 0x7F))) + 0x7C)) = tile->tile_y;
+                *((((((u8 *)actor)+ (actor->movement_queue_state & 0x7F))) + 0x74)) = tile->tile_x;
+                *((((((u8 *)actor)+ (actor->movement_queue_state & 0x7F))) + 0x7C)) = tile->tile_y;
                 actor->movement_queue_state++;
                 update_map_cell_flags_with_item_limit(tile->tile_x, tile->tile_y, (actor->flags1C & 0x2000)
                     ? (0x300) : (0x3000));

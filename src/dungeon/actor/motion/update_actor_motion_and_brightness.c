@@ -22,7 +22,7 @@ typedef struct S_800D4158_1 {
 
 /* Updates entity callbacks, motion, ground contact, and sprite brightness. */
 void update_actor_motion_and_brightness(ActorRecord *body, S_800D4158_1 *motion, SpriteFrameState *sprite) {
-    void *entity_ref = body;
+    ActorRecord *entity_ref = body;
     u16 motion_flags;
     u32 entity_flags;
     s16 ground_height;
@@ -31,13 +31,13 @@ void update_actor_motion_and_brightness(ActorRecord *body, S_800D4158_1 *motion,
     s32 brightness;
 
     if (g_dungeon_status.flags & 0x2000) {
-        (*((u8 *)entity_ref + 0x71)) = (*((u8 *)entity_ref + 0x71)) & 0x7f;
+        entity_ref->movement_queue_state = entity_ref->movement_queue_state & 0x7f;
         return;
     }
-    if ((*(Func4 *)((u8 *)entity_ref + 0x8c)) != NULL) {
-        ((Func4)(*(Func4 *)((u8 *)entity_ref + 0x8c)))(entity_ref, motion, sprite, entity_ref);
+    if (entity_ref->unk_8C.run != NULL) {
+        entity_ref->unk_8C.run(entity_ref, motion, sprite, entity_ref);
     }
-    actor_brightness_callbacks[(*((u8 *)entity_ref + 0x9a))](entity_ref, motion, sprite, entity_ref);
+    actor_brightness_callbacks[entity_ref->action_id.u](entity_ref, motion, sprite, entity_ref);
     if (!(sprite->flags & 0x8000)) {
         if (!(sprite->flags & 0x40)) {
             advance_sprite_animation_and_textures(sprite);
@@ -56,27 +56,27 @@ void update_actor_motion_and_brightness(ActorRecord *body, S_800D4158_1 *motion,
     if (!(body->action_state_flags & 4) &&
         (ground_height = (s16)(ground_height_raw = sample_terrain_surface_height(motion->unk_00.at02.v, motion->unk_04.at02.v,
                         (s16)((*(u16 *)((u8 *)entity_ref + 0x88)) - 0x20)))) < 0x200) {
-        if (body->unk_90.parts.high.s + (*(s16 *)((u8 *)entity_ref + 0x88)) < ground_height) {
+        if (body->unk_90.parts.high.s + entity_ref->ground_height < ground_height) {
             body->action_state_flags &= 0xF7FFFFFF;
         } else {
-            if (ground_height >= (*(s16 *)((u8 *)entity_ref + 0x88))) {
+            if (ground_height >= entity_ref->ground_height) {
                 body->unk_90.value = 0;
             } else {
                 body->unk_90.parts.high.s = ground_height_raw - (*(u16 *)((u8 *)entity_ref + 0x88));
             }
             motion->unk_14 = 0;
-            (*(s32 *)((u8 *)entity_ref + 0x1c)) |= 0x08000000;
+            entity_ref->flags1C |= 0x08000000;
             body->unk_9D.s = 0;
         }
         entity_flags = (*(u32 *)((u8 *)entity_ref + 0x1c));
         if (entity_flags & 0x40000000) {
-            (*(u32 *)((u8 *)entity_ref + 0x1c)) = entity_flags & 0xbfffffff;
+            entity_ref->flags1C = entity_flags & 0xbfffffff;
             ground_height_raw = sample_terrain_surface_height(
                 (sprite->tile_x << 6) | 0x20,
                 (sprite->tile_y << 6) | 0x20,
                 (s16)((*(u16 *)((u8 *)entity_ref + 0x88)) - 0x20));
             body->unk_90.parts.high.s += (*(u16 *)((u8 *)entity_ref + 0x88)) - ground_height_raw;
-            (*(s16 *)((u8 *)entity_ref + 0x88)) = ground_height_raw;
+            entity_ref->ground_height = ground_height_raw;
         }
     } else {
         (*(u32 *)((u8 *)entity_ref + 0x1c)) &= 0xf7ffffff;

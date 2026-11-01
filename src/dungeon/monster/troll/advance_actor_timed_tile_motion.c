@@ -3,7 +3,7 @@
 #include "dungeon/actor.h"
 
 /* Updates timed movement toward the entity's tile and selects the next behavior. */
-void advance_actor_timed_tile_motion(T_80174C44_S_80174C44_0 *controller, ObjectPosition *transform, SpriteFrameState *entity, void *actor)
+void advance_actor_timed_tile_motion(T_80174C44_S_80174C44_0 *controller, ObjectPosition *transform, SpriteFrameState *entity, ActorRecord *actor)
 {
     s32 actor_kind;
     s16 timer;
@@ -16,11 +16,11 @@ void advance_actor_timed_tile_motion(T_80174C44_S_80174C44_0 *controller, Object
         apply_clamped_actor_value_delta(actor);
         controller->timer.s = 6;
         controller->phase = controller->phase + 1;
-        if (((EntityRec *)actor)->unk_28 == 0) {
+        if (actor->hp == 0) {
             transform->velocity_z = 0;
             transform->velocity_y = 0;
             transform->velocity_x = 0;
-            actor_kind = ((EntityRec *)actor)->unk_48;
+            actor_kind = actor->unk_48;
             switch (actor_kind) {
             case 13:
                 begin_actor_display_action(controller, transform, entity, troll_frame_set_5);
@@ -46,27 +46,27 @@ void advance_actor_timed_tile_motion(T_80174C44_S_80174C44_0 *controller, Object
         if (timer > 0) {
             transform->velocity_x =
                 *(s16 *)((u8 *)((s8 *)dir_step_x) +
-                    ((((EntityRec *)actor)->unk_6A >> 8) & 0xE)) << 18;
+                    ((actor->movement_facing >> 8) & 0xE)) << 18;
             transform->velocity_y =
                 *(s16 *)((u8 *)((s8 *)dir_step_y) +
-                    ((((EntityRec *)actor)->unk_6A >> 8) & 0xE)) << 18;
+                    ((actor->movement_facing >> 8) & 0xE)) << 18;
         } else if (timer == 0) {
             transform->velocity_x =
                 *(s16 *)((u8 *)((s8 *)dir_step_x) +
-                    ((((EntityRec *)actor)->unk_6A >> 8) & 0xE)) << 18;
+                    ((actor->movement_facing >> 8) & 0xE)) << 18;
             transform->velocity_y =
                 *(s16 *)((u8 *)((s8 *)dir_step_y) +
-                    ((((EntityRec *)actor)->unk_6A >> 8) & 0xE)) << 18;
+                    ((actor->movement_facing >> 8) & 0xE)) << 18;
             controller->timer.s = 12;
             controller->phase = controller->phase + 1;
         }
         break;
     case 2:
-        if (((EntityRec *)actor)->unk_28 == 0) {
+        if (actor->hp == 0) {
             transform->velocity_z = 0;
             transform->velocity_y = 0;
             transform->velocity_x = 0;
-            actor_kind = ((EntityRec *)actor)->unk_48;
+            actor_kind = actor->unk_48;
             switch (actor_kind) {
             case 13:
                 begin_actor_display_action(controller, transform, entity, troll_frame_set_5);

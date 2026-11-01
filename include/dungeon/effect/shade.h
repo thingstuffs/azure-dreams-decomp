@@ -19,7 +19,7 @@ int build_sorted_effect_quads(void *quad_entry);
 void advance_damped_effect_and_expire(unsigned char *effect, int *motion);
 
 /* Owner declarations appended by tools/headers (append-only; the lines above are hand-kept). */
-short check_forward_collision_and_height(EntityRec *position, EntityRec *orientation);
+short check_forward_collision_and_height(EntityRec *position, ActorRecord *orientation);
 
 #include "shared/object_node.h"
 void spawn_randomized_directional_effect(ObjectNodeHeader *source, short angle, int effect_value);

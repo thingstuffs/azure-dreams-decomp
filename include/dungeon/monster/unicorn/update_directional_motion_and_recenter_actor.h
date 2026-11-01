@@ -2,13 +2,13 @@
 #define DUNGEON_OVL_7F511800_P03_H
 #include "dungeon/actor.h"
 #include "dungeon/player/object.h"
+#include "shared/entity.h"
 
 struct SpriteFrameState;
 #include "common.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/dungeon_status.h"
 #include "shared/dir_step.h"
-#include "shared/entity.h"
 #include "records/Rec_D_80082E80.h"
 
 
@@ -46,6 +46,6 @@ extern void * detach_record_and_update_slot_state(void *);
 extern void play_sound_if_enabled(s32);
 extern u8 unicorn_action_continuation_address;
 extern u8 D_80174D5C;
-void update_directional_motion_and_recenter_actor(ActorRecord *body, ObjectPosition *motion, SpriteFrameState *sprite, void *actor);
+void update_directional_motion_and_recenter_actor(ActorRecord *body, ObjectPosition *motion, SpriteFrameState *sprite, ActorRecord *actor);
 void fade_and_remove_entity_sprite(ActorRecord *body, ObjectPosition *position, SpriteFrameState *sprite,struct SpriteFrameState *entity);
 #endif

@@ -775,19 +775,19 @@ void create_terrain_seeking_point_effect(
     if (effect_ptr != NULL) {
         effect_ptr->unk_10 = advance_point_effect_toward_terrain;
         jitter = rand() & 0x1F;
-        effect_pos = ((MovingPosition *)source_obj->position)->x + jitter;
+        effect_pos = source_obj->position->x.unsigned_parts.integer + jitter;
         effect_pos += x_offset - 0x10;
         ((ObjectPosition *)effect_ptr->unk_08)->x.w.i = effect_pos;
 
         jitter = rand() & 0x1F;
-        effect_pos = ((MovingPosition *)source_obj->position)->y + jitter;
+        effect_pos = source_obj->position->y.unsigned_parts.integer + jitter;
         effect_pos += y_offset - 0x10;
         ((ObjectPosition *)effect_ptr->unk_08)->y.w.i = effect_pos;
 
         jitter = rand() & 0x1F;
         effect_obj = effect_ptr;
         effect_ptr = effect_offset_32(effect_obj);
-        effect_pos = ((MovingPosition *)source_obj->position)->z + jitter;
+        effect_pos = source_obj->position->z.unsigned_parts.integer + jitter;
         effect_pos += z_offset - 0x10;
         ((ObjectPosition *)effect_obj->unk_08)->z.w.i = effect_pos;
         ((S_func_81875B38_5 *)effect_ptr)->unk_14 = property_34;
@@ -1035,7 +1035,9 @@ typedef struct S_81876014_6 {
 } S_81876014_6;   /* ((S_81876014_0 *)arg0)->unk_48 in update_effect_quad_and_completion */
 
 /* Update the effect quad, copy its position and color, and flag completion based on owner state. */
-void update_effect_quad_and_completion(void *effect, void *position_out, void *color_out) {
+void update_effect_quad_and_completion(void *effect, void *position_out_arg, void *color_out_arg) {
+    S_81876014_4 *color_out = color_out_arg;
+    S_81876014_2 *position_out = position_out_arg;
     s32 y_factor;
     s16 next_angle;
     u16 angle;
@@ -1063,12 +1065,12 @@ void update_effect_quad_and_completion(void *effect, void *position_out, void *c
         ((S_81876014_0 *)effect)->unk_62 = ((S_81876014_0 *)effect)->unk_60;
         ((S_81876014_0 *)effect)->unk_64 = ((S_81876014_0 *)effect)->unk_60 + 0x10;
         ((S_81876014_0 *)effect)->unk_66 = ((S_81876014_0 *)effect)->unk_60 + 0x10;
-        ((S_81876014_2 *)position_out)->unk_00 = ((S_81876014_3 *)(((S_81876014_0 *)effect)->unk_44))->unk_00;
-        ((S_81876014_2 *)position_out)->unk_04 = ((S_81876014_5 *)(((S_81876014_0 *)effect)->unk_44))->unk_04;
-        ((S_81876014_2 *)position_out)->unk_08 = ((S_81876014_5 *)(((S_81876014_0 *)effect)->unk_44))->unk_08;
-        ((S_81876014_4 *)color_out)->unk_0C = ((S_81876014_6 *)(((S_81876014_0 *)effect)->unk_48))->unk_0C;
-        ((S_81876014_4 *)color_out)->unk_0D = ((S_81876014_6 *)(((S_81876014_0 *)effect)->unk_48))->unk_0D;
-        ((S_81876014_4 *)color_out)->unk_0E = ((S_81876014_6 *)(((S_81876014_0 *)effect)->unk_48))->unk_0E;
+        position_out->unk_00 = ((S_81876014_3 *)(((S_81876014_0 *)effect)->unk_44))->unk_00;
+        position_out->unk_04 = ((S_81876014_5 *)(((S_81876014_0 *)effect)->unk_44))->unk_04;
+        position_out->unk_08 = ((S_81876014_5 *)(((S_81876014_0 *)effect)->unk_44))->unk_08;
+        color_out->unk_0C = ((S_81876014_6 *)(((S_81876014_0 *)effect)->unk_48))->unk_0C;
+        color_out->unk_0D = ((S_81876014_6 *)(((S_81876014_0 *)effect)->unk_48))->unk_0D;
+        color_out->unk_0E = ((S_81876014_6 *)(((S_81876014_0 *)effect)->unk_48))->unk_0E;
         angle = ((S_81876014_0 *)effect)->unk_0C;
         next_angle = angle - 0x64;
         ((S_81876014_0 *)effect)->unk_0C = next_angle;

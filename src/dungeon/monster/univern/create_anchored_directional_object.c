@@ -1422,7 +1422,7 @@ void update_entity_item_action_and_idle_return(R17_80172C18_State *state, Object
 #include "shared/sprite_frame_state.h"
 
 /* Applies a value change and knockback, then returns the actor to its tile and restores movement. */
-void advance_univern_flight(ActorRecord *body, ObjectPosition *motion, SpriteFrameState *sprite, void *actor)
+void advance_univern_flight(ActorRecord *body, ObjectPosition *motion, SpriteFrameState *sprite, ActorRecord *actor)
 {
     s16 flight_timer;
     s32 direction;
@@ -1431,12 +1431,12 @@ void advance_univern_flight(ActorRecord *body, ObjectPosition *motion, SpriteFra
     s32 rounded_velocity_x;
     s32 rounded_velocity_y;
 
-    direction = (((EntityRec *)actor)->unk_6A >> 9) & 7;
+    direction = (actor->movement_facing >> 9) & 7;
 
     switch (body->action_phase.u) {
     case 0:
         apply_clamped_actor_value_delta(actor);
-        if (((EntityRec *)actor)->unk_28 == 0) {
+        if (actor->hp == 0) {
             motion->velocity_z = 0;
             motion->velocity_y = 0;
             motion->velocity_x = 0;
@@ -1454,12 +1454,12 @@ void advance_univern_flight(ActorRecord *body, ObjectPosition *motion, SpriteFra
         motion->velocity_y = ((s16 *)((s8 *)dir_step_y))[direction] << 18;
         motion->velocity_z = 0x40000;
         body->action_state_flags |= 8;
-        ((EntityRec *)actor)->flags1C &= ACTOR_GROUNDED_CLEAR_MASK;
-        ((EntityRec *)actor)->flags1C &= 0xFFFBFFFF;
+        actor->flags1C &= ACTOR_GROUNDED_CLEAR_MASK;
+        actor->flags1C &= 0xFFFBFFFF;
         body->action_phase.u++;
 
         flight_timer = -1;
-        if (((u32)((EntityRec *)actor)->flags1C) & (ACTOR_MP_EMPTY | ACTOR_PARALYZED | ACTOR_ASLEEP)) {
+        if (((u32)actor->flags1C) & (ACTOR_MP_EMPTY | ACTOR_PARALYZED | ACTOR_ASLEEP)) {
             flight_timer = 8;
         }
         body->action_timer.s = flight_timer;
@@ -1487,7 +1487,7 @@ void advance_univern_flight(ActorRecord *body, ObjectPosition *motion, SpriteFra
         if (body->action_timer.s != 0) {
             return;
         }
-        if (((EntityRec *)actor)->unk_28 == 0) {
+        if (actor->hp == 0) {
             body->action_phase.u = 0;
             motion->velocity_z = 0;
             motion->velocity_y = 0;
@@ -1537,16 +1537,16 @@ void advance_univern_flight(ActorRecord *body, ObjectPosition *motion, SpriteFra
 
         body->unk_90.value = 0;
         body->action_state_flags &= 0xFFF7;
-        ((EntityRec *)actor)->flags1C |= ACTOR_GROUNDED;
-        ((EntityRec *)actor)->flags1C |= 0x00040000;
+        actor->flags1C |= ACTOR_GROUNDED;
+        actor->flags1C |= 0x00040000;
         sprite->frameTable = univern_alt_direction_frames;
-        select_sprite_entry(sprite,(u8)(univern_alt_direction_frames[((g_game_work.view.camera_rotation.parts.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9) & 7]),
+        select_sprite_entry(sprite,(u8)(univern_alt_direction_frames[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7]),
             0);
 
         {
             DungeonGlobalStatus *global_state = &g_dungeon_status;
 
-            if (((s32)global_state->pending_display_owner) == (u8 *)actor - 0x20) {
+            if ((global_state->pending_display_owner) == (u8 *)actor - 0x20) {
                 (*(u32 *)&global_state->pending_display_owner) &= 0x7FFFFFFF;
             }
         }

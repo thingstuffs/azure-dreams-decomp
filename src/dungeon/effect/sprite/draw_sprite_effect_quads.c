@@ -270,7 +270,7 @@ void *draw_sprite_effect_quads(u8 *sprite_list, s32 count_hint, s32 render_state
                                 u8 flags;
                                 part_flags = *((u16 *) (part + 0x14));
                                 flags = quad[1];
-                                *((((u8 *) part) + 0xF)) = flags;
+                                *((part + 0xF)) = flags;
                                 if (part_flags & 8) {
                                     u8 draw_flags;
                                     if (part_flags & 4) {
@@ -279,18 +279,18 @@ void *draw_sprite_effect_quads(u8 *sprite_list, s32 count_hint, s32 render_state
                                     else {
                                         draw_flags = flags & 0xFD;
                                     }
-                                    *((((u8 *) part) + 0xF)) = draw_flags;
+                                    *((part + 0xF)) = draw_flags;
                                 }
                             }
                             {
                                 u8 flags;
                                 if ((*((u16 *) (part + 0x14))) & 0x10) {
-                                    flags = (*((((u8 *) part) + 0xF))) | 1;
+                                    flags = (*((part + 0xF))) | 1;
                                 }
                                 else {
-                                    flags = (*((((u8 *) part) + 0xF))) & 0xFE;
+                                    flags = (*((part + 0xF))) & 0xFE;
                                 }
-                                *((((u8 *) part) + 0xF)) = flags;
+                                *((part + 0xF)) = flags;
                             }
                             *((s32 *) (packet + 0x4)) = *((s32 *) (part + 0xC));
                             if (!((*((u16 *) (sprite + 4))) & 0x8000)) {

@@ -255,30 +255,30 @@ s32 draw_layered_wavy_object_strips(void *object_data, void *unused, void *appea
                         SetSemiTrans(poly, 1);
                         *((s16 *) (poly + 0x16)) = (s16) GetTPage(2, ((u8 *) appearance)[0xC] != 0x80,
                             0x340, 0x100);
-                        *((((u8 *) poly) + 0x14)) = 0;
-                        *((((u8 *) poly) + 0x0C)) = 0;
+                        *((poly + 0x14)) = 0;
+                        *((poly + 0x0C)) = 0;
                         texture_width = ((u8 *) (&material))[4];
                         *((s16 *) (poly + 8)) = (s16) row_span;
-                        *((((u8 *) poly) + 0x24)) = texture_width;
-                        *((((u8 *) poly) + 0x1C)) = texture_width;
+                        *((poly + 0x24)) = texture_width;
+                        *((poly + 0x1C)) = texture_width;
                         if (((u32)row_span << 16) == 0) {
                             *((u16 *) (poly + 8)) = (u16) row_count;
                         }
                         texture_step = ((s16 *) (&material))[3] * (index_or_row - first_y);
                         texture_step = texture_step / (*((s16 *) (poly + 8)));
-                        *((((u8 *) poly) + 0x1D)) = (u8) texture_step;
-                        *((((u8 *) poly) + 0x0D)) = (u8) texture_step;
+                        *((poly + 0x1D)) = (u8) texture_step;
+                        *((poly + 0x0D)) = (u8) texture_step;
                         texture_step = ((s16 *) (&material))[3] / (*((s16 *) (poly + 8)));
-                        texture_top = *((((u8 *) poly) + 0x0D));
-                        *((((u8 *) poly) + 0x25)) = (u8) texture_step;
+                        texture_top = *((poly + 0x0D));
+                        *((poly + 0x25)) = (u8) texture_step;
                         if (((u8) texture_step) >= 2) {
-                            texture_bottom = texture_top + (*((((u8 *) poly) + 0x25)));
+                            texture_bottom = texture_top + (*((poly + 0x25)));
                         }
                         else {
                             texture_bottom = texture_top + 2;
                         }
-                        *((((u8 *) poly) + 0x25)) = (u8) texture_bottom;
-                        *((((u8 *) poly) + 0x15)) = (u8) texture_bottom;
+                        *((poly + 0x25)) = (u8) texture_bottom;
+                        *((poly + 0x15)) = (u8) texture_bottom;
                         wave_x = rsin(depth_out_or_phase);
                         wave_x = ((u16) bounds[0]) + (wave_x >> 9);
                         *((s16 *) (poly + 0x10)) = (s16) wave_x;

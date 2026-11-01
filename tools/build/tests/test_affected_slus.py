@@ -3,6 +3,7 @@ import json
 import os
 from pathlib import Path
 import shutil
+import subprocess
 import sys
 import tempfile
 import unittest
@@ -44,6 +45,11 @@ class SlusSourceViewTests(unittest.TestCase):
             'build_ovl/layout_flat/dungeon/owner.c': str(self.origin / self.OWNER),
         }
         self.configure()
+        # Same-root proofs read HEAD for edited inputs. Keep the fake source's
+        # baseline local instead of discovering the enclosing production checkout.
+        for args in (['init', '-q'], ['add', '--', 'src', 'include'],
+                     ['-c', 'user.name=t', '-c', 'user.email=t@invalid', 'commit', '-qm', 'fixture baseline']):
+            subprocess.run(['git', '-C', str(self.root), *args], check=True, capture_output=True)
 
     def tearDown(self):
         shutil.rmtree(self.tmp)
@@ -207,6 +213,7 @@ class SlusSourceViewTests(unittest.TestCase):
         output.write_bytes(b'old object')
         put(output.with_suffix('.proof.json'), dict(object_sha256=SHA(output.read_bytes()),
             inputs={n: SHA((self.root / n).read_bytes()) for n in self.recipe['dependencies']}))
+        put(self.root / self.OWNER, 'int create_owner(void) { return 2; }\n')
         def compile_task(task):
             path = self.root / task['run'] / 'obj/test.o'
             path.parent.mkdir(parents=True, exist_ok=True)
@@ -214,12 +221,29 @@ class SlusSourceViewTests(unittest.TestCase):
             return dict(object=str(path), seconds=0)
         self.produced = b'changed object'
         changed = A.prove(self.root, [self.OWNER], compile_tasks=compile_task)
-        self.assertEqual(changed['verdict'], 'CHANGED')
+        self.assertEqual(changed['verdict'], 'CHANGED', changed)
         self.assertEqual(changed['images']['slus/slus_bin']['verdict'], 'CHANGED')
+        self.assertEqual(changed['baseline_unverified_edits'], [])
         self.produced = output.read_bytes()
         equal = A.prove(self.root, [self.OWNER], compile_tasks=compile_task)
-        self.assertEqual(equal['verdict'], 'PASS')
+        self.assertEqual(equal['verdict'], 'PASS', equal)
         self.assertEqual(equal['images']['slus/slus_bin']['verdict'], 'PASS')
+        self.assertEqual(equal['baseline_unverified_edits'], [])
+
+    def test_slus_receipt_from_different_source_stays_stale_even_if_object_matches(self):
+        self.bind(self.VIEW, self.root / self.OWNER)
+        output = self.root / self.recipe['output']
+        output.parent.mkdir(parents=True, exist_ok=True)
+        output.write_bytes(b'old object')
+        put(output.with_suffix('.proof.json'), dict(object_sha256=SHA(output.read_bytes()),
+            inputs={self.VIEW: SHA(b'another source version')}))
+        report = A.prove(self.root, [self.OWNER],
+                         compile_tasks=lambda task: dict(object=str(output), seconds=0))
+        self.assertEqual(report['verdict'], 'STALE_BASE', report)
+        self.assertEqual(report['images']['slus/slus_bin']['verdict'], 'STALE_BASE')
+        self.assertIn('built from another', report['recipes'][self.RID]['error'])
+        self.assertTrue(report['recipes'][self.RID]['equal_to_stale_baseline'])
+        self.assertEqual(report['baseline_unverified_edits'], [])
 
 
 if __name__ == '__main__':

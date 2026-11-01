@@ -577,12 +577,12 @@ mask_and_return:
  * Sets action state 0x10, clears its substate, and selects movement frames from the actor heading
  * relative to the camera.
  */
-void initialize_actor_direction_table(void *object, void *unusedContext, SpriteFrameState *tableTarget, void *headingSource) {
+void initialize_actor_direction_table(void *object, void *unusedContext, SpriteFrameState *tableTarget, ActorRecord *headingSource) {
     s32 tableByteOffset;
 
     *((u8 *)object + 0x9A) = 0x10;
     *((u8 *)object + 0x9B) = 0;
     tableTarget->frameTable = actor_movement_frames;
-    tableByteOffset = ((g_game_work.view.camera_rotation.parts.viewAngle + *(s16 *)((u8 *)headingSource + 0x2A) + 0x100) >> 7) & 0x1C;
+    tableByteOffset = ((g_game_work.view.camera_rotation.parts.viewAngle + headingSource->facing + 0x100) >> 7) & 0x1C;
     select_record_entry_and_value(tableTarget, *(void **)(actor_movement_frames + tableByteOffset), 0);
 }

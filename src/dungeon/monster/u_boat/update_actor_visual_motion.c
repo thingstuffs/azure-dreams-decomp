@@ -110,7 +110,7 @@ void update_actor_visual_motion(ActorRecord *body, ObjectPosition *motion_arg, S
         state_or_dir = direction;
         if (body->unk_94 != state_or_dir) {
             select_indirect_table_entry(sprite,
-                (*((u8 *)(*(unsigned char **)&sprite->frameTable) + (state_or_dir))),
+                (*((*(unsigned char **)&sprite->frameTable) + (state_or_dir))),
                 sprite->unk_04);
             body->unk_94 = direction;
         }

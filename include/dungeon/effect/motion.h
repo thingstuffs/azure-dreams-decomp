@@ -44,4 +44,36 @@ void advance_linked_object_counter(void *entry, s32 unused, SpriteFrameState *ta
 
 void copy_selected_table_pair(void *record_field, s32 pair_index);
 
+/* Orbit center and angle for the indexed-color sprite. */
+typedef struct IndexedColorSpriteBody {
+    u16 unk_00;
+    u16 unk_02;
+    u8 pad_04[0x4];
+    s16 unk_08;
+} IndexedColorSpriteBody;
+
+/* Target ownership marker written when the homing effect completes. */
+typedef struct MarkOwnerOnTargetCompletionBody {
+    u8 pad_00[0x8];
+    s16 unk_08;
+} MarkOwnerOnTargetCompletionBody;
+
+/* Radius, rotation, and countdown for a spiraling effect. */
+typedef struct SpiralingBody {
+    s32 unk_00;
+    s32 unk_04;
+    s32 unk_08;
+    u8 pad_0C[0x4];
+    s16 unk_10;
+    s16 unk_12;
+    u8 pad_14[0x10];
+    union { s16 s; u16 u; } unk_24;
+    u8 pad_26[0x2];
+    union { s16 s; u16 u; } unk_28;
+    u16 unk_2A;
+    s16 unk_2C;
+    u8 pad_2E[0x6];
+    s16 unk_34;
+} SpiralingBody;
+
 #endif

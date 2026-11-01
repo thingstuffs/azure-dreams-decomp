@@ -94,7 +94,7 @@ void update_entity_movement_and_ground(void *entity, ObjectPosition *motion, Spr
         anim_direction = sprite_direction;
         if ((*(s16 *)((u8 *)entity + (0x94))) != anim_direction) {
             select_indirect_table_entry(sprite,
-                (*((u8 *)(*(u8 **)&sprite->frameTable) + (anim_direction))),
+                (*((*(u8 **)&sprite->frameTable) + (anim_direction))),
                 sprite->unk_04);
             (*(s16 *)((u8 *)entity + (0x94))) = sprite_direction;
         }

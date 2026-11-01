@@ -33,7 +33,7 @@ s32 advance_actor_removal(struct S_800AB778_1 *state, ObjectPosition *unused_con
 s32 check_actor_floor_trap(SpriteFrameState *actor, ActorRecord *target);
 void advance_actor_action_controller(void *controller, void *action_context, SpriteFrameState *sprite, ActorRecord *actor);
 void begin_actor_flagged_action(Rec_func_800A9E70_arg0 *entity, void *unused, SpriteFrameState *status, EntityRec *event_state);
-void initialize_actor_direction_table(void *object, void *unusedContext, SpriteFrameState *tableTarget, void *headingSource);
+void initialize_actor_direction_table(void *object, void *unusedContext, SpriteFrameState *tableTarget, ActorRecord *headingSource);
 void select_position_data_and_update_owner(SpriteFrameState *entity, ActorRecord *search_state);
 void update_actor_landing(void *motion_state, ObjectPosition *transform, SpriteFrameState *map_entity, ActorRecord *actor);
 
@@ -45,7 +45,7 @@ void update_actor_gravity(ActorRecord *object, ObjectPosition *motion, void *ent
 s32 resolve_monster_move_choice(ActorRecord *initial, ObjectPosition *position, SpriteFrameState *sprite, s32 force_move);
 
 
-s32 roll_actor_stack_split(void *actor, s32 chance);
+s32 roll_actor_stack_split(ActorRecord *actor, s32 chance);
 
 /* Callback entry points. */
 void apply_pending_actor_updates(void *controller, ObjectPosition *move_state, SpriteFrameState *entity, ActorRecord *actor);

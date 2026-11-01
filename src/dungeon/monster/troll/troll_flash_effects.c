@@ -31,17 +31,18 @@ void update_stepped_rgb_flash(void *fade_state_arg, void *unused, T_80170D40_S_8
 }
 
 /* Decrement the countdown, update three scaled output components, and flag completion. */
-void update_normalized_gray_fade(void *countdownState, s32 unused, T_80170DC4_S_80170DC4_1 *output) {
+void update_normalized_gray_fade(void *countdownState_arg, s32 unused, T_80170DC4_S_80170DC4_1 *output) {
+    T_80170DC4_S_80170DC4_0 *countdownState = countdownState_arg;
     s32 scaledRemaining;
     u16 remainingCount;
 
-    remainingCount = ((T_80170DC4_S_80170DC4_0 *)countdownState)->unk_96 - 1;
-    scaledRemaining = (s32) ((s32) (remainingCount << 16) >> 9) / ((T_80170DC4_S_80170DC4_0 *)countdownState)->unk_9E;
-    ((T_80170DC4_S_80170DC4_0 *)countdownState)->unk_96 = remainingCount;
+    remainingCount = countdownState->unk_96 - 1;
+    scaledRemaining = (s32) ((s32) (remainingCount << 16) >> 9) / countdownState->unk_9E;
+    countdownState->unk_96 = remainingCount;
     output->unk_0C = (s8) scaledRemaining;
     output->unk_0E = (s8) scaledRemaining;
     output->unk_0D = (s8) scaledRemaining;
-    if ((s16) ((T_80170DC4_S_80170DC4_0 *)countdownState)->unk_96 <= 0) {
+    if ((s16) countdownState->unk_96 <= 0) {
         ((T_80170DC4_S_80170DC4_0_pre *)countdownState)[-1].unk_00 = ((T_80170DC4_S_80170DC4_0_pre *)countdownState)[-1].unk_00 | 0x8000;
         object_flag_block.flags = object_flag_block.flags | OBJECT_REMOVE_PENDING;
     }
@@ -383,7 +384,7 @@ void create_actor_action_effect(ActorRecord *source_object, ObjectPosition *sour
         0);
     effect_data = effect->position;
     if ((actor->target) != 0 && (actor->flags14 & 0x04000000) == 0) {
-        u8 *direction_offsets = ((u8 *)D_80175EBC);
+        u8 *direction_offsets = D_80175EBC;
         linked_pos = ((T_801714FC_S_801714FC_8_pre *)(actor->target))[-1].unk_00;
         ((T_801714FC_S_801714FC_3 *)effect_data)->unk_02 = linked_pos->unk_02
         - ((*(s16 *)(direction_offsets + ((((u16)actor->facing) >> 7) & 0x1c))) * 0x10);
@@ -403,7 +404,7 @@ void create_actor_action_effect(ActorRecord *source_object, ObjectPosition *sour
         ((T_801714FC_S_801714FC_3 *)effect_data)->unk_02 = (tile_x << 6) + 0x20;
         tile_y = actor->target_tile_y;
         ((T_801714FC_S_801714FC_3 *)effect_data)->unk_06 = (tile_y << 6) + 0x20;
-        ((T_801714FC_S_801714FC_3 *)effect_data)->unk_0A = ((Rec_func_8017121C_arg1 *)source_pos)->unk_0A;
+        ((T_801714FC_S_801714FC_3 *)effect_data)->unk_0A = source_pos->z.unsigned_parts.integer;
         {
             T_801714FC_S_801714FC_7 *source_data = ((T_801714FC_S_801714FC_6_pre *)source_object)[-1].unk_00;
             if (resolve_record_orientation_or_fallback(source_data->unk_08, source_data, pos_offset, 0) != 0) {

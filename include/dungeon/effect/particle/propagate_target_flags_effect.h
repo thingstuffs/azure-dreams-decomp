@@ -1,8 +1,40 @@
 #ifndef DUNGEON_OVL_198A800_H
 #define DUNGEON_OVL_198A800_H
+#include "common.h"
 #include "shared/dungeon_effect_views.h"
 #include "shared/sprite_frame_state.h"
 #include "modules/dungeon_native_abi.h"
+
+/* Motion and lifetime fields shared by lingering terrain-colliding sprites. */
+typedef struct LingeringBallisticSpriteBody {
+    u8 pad_00[0x2C];
+    union { s16 s; u16 u; } unk_2C;
+    u8 pad_2E[0x5E];
+    s32 unk_8C;
+    s32 unk_90;
+    s32 unk_94;
+    s32 unk_98;
+    s32 unk_9C;
+    s32 unk_A0;
+} LingeringBallisticSpriteBody;
+
+/* Timed rectangle body: slot state, packed sprite seed, and source pointer. */
+typedef struct StagedRectangleSpriteBody {
+    u8 pad_00[0x2C];
+    union { s16 s; u16 u; } unk_2C;
+    u8 pad_2E[0x0A];
+    u32 unk_38[3];
+    u8 pad_44[0x20];
+    u16 unk_64;
+    u16 unk_66;
+    u16 unk_68;
+    u16 unk_6A;
+    u16 unk_6C;
+    u16 unk_6E;
+    u16 unk_70;
+    u8 pad_72[0x0A];
+    void *unk_7C;
+} StagedRectangleSpriteBody;
 
 /* Promoted Layer-2 record names and layouts are shared without changing the bodies. */
 
@@ -26,16 +58,6 @@ typedef struct Scratch80024124 {
 #include "m2c_compat.h"
 #include "records/Rec_D_80082E80.h"
 #include "shared/slus_callbacks.h"
-typedef struct S_8196B4A4_0 {
-    u8 pad_00[0x2C];
-    s16 unk_2C;
-    u8 pad_2E[0x5E];
-    s32 unk_8C;
-    s32 unk_90;
-    s32 unk_94;
-    u8 pad_98[0x8];
-    s32 unk_A0;
-} S_8196B4A4_0;
 typedef struct S_8196B4A4_4 {
     u8 pad_00[0x2];
     u16 unk_02;
@@ -128,17 +150,6 @@ typedef struct S_8196BE48_1 {
     u16 unk_1C;
     u16 unk_1E;
 } S_8196BE48_1;
-typedef struct S_8196B074_0 {
-    u8 pad_00[0x2C];
-    u16 unk_2C;
-    u8 pad_2E[0x5E];
-    s32 unk_8C;
-    s32 unk_90;
-    s32 unk_94;
-    s32 unk_98;
-    s32 unk_9C;
-    s32 unk_A0;
-} S_8196B074_0;
 typedef struct S_8196B074_1 {
     union { struct { s32 v; } at00; struct { u8 pad[0x2]; u16 v; } at02; } unk_00;   /* overlapping accesses */
     union { struct { s32 v; } at00; struct { u8 pad[0x2]; u16 v; } at02; } unk_04;   /* overlapping accesses */
@@ -149,12 +160,6 @@ typedef struct S_8196B074_1 {
         struct { u8 pad[0x2]; s16 v; } at02u;
     } unk_08;   /* overlapping accesses */
 } S_8196B074_1;
-typedef struct S_8196BD3C_0 {
-    u8 pad_00[0x2C];
-    s16 unk_2C;
-    u8 pad_2E[0x4E];
-    void * unk_7C;
-} S_8196BD3C_0;
 typedef struct S_8196BD3C_2_pre {
     void * unk_00;
     u8 pad_04[0x14];
@@ -292,21 +297,6 @@ typedef struct S_8196ACE4_0 {
 typedef struct S_8196ACE4_1_pre {
     u16 unk_00;
 } S_8196ACE4_1_pre;
-typedef struct S_8196ACE4_1 {
-    u8 pad_00[0x2A];
-    s16 unk_2A;
-    s16 unk_2C;
-    s16 unk_2E;
-    u8 pad_30[0x4];
-    u16 unk_34;
-    u8 pad_36[0x56];
-    s32 unk_8C;
-    s32 unk_90;
-    s32 unk_94;
-    s32 unk_98;
-    s32 unk_9C;
-    s32 unk_A0;
-} S_8196ACE4_1;
 typedef struct S_8196ACE4_2 {
     u8 pad_00[0x69B4];
     s16 unk_69B4;
@@ -315,16 +305,6 @@ typedef struct S_8196ACE4_4 {
     u8 pad_00[0x14A0];
     s32 unk_14A0;
 } S_8196ACE4_4;
-typedef struct S_8196B780_0 {
-    u8 pad_00[0x2C];
-    s16 unk_2C;
-    u8 pad_2E[0x5E];
-    s32 unk_8C;
-    s32 unk_90;
-    s32 unk_94;
-    u8 pad_98[0x8];
-    s32 unk_A0;
-} S_8196B780_0;
 typedef struct S_8196B780_4 {
     u8 pad_00[0x2];
     u16 unk_02;
@@ -474,9 +454,9 @@ void shrink_effect_and_step_texture(void *effect, s32 unused, S_8196BF24_1 *tran
 void advance_particle_emitting_projectile(void *object, void *position, void *render_state);
 void update_timed(void *effect_data, s32 unused, void *sprite);
 void advance_counter_and_propagate_target_flags(void *object);
-void advance_terrain_colliding_sprite(void *motion, void *position, s32 update_id);
+void advance_terrain_colliding_sprite(LingeringBallisticSpriteBody *motion, void *position, s32 update_id);
 void create_staged_rectangle_sprite(void *source, s32 unused_position, s32 unused_render);
-void create_timed_rectangle_effect(void *owner);
+void create_timed_rectangle_effect(StagedRectangleSpriteBody *owner);
 void update_staged_particle_effect(Work *work, s32 position_arg, s32 sprite_arg);
 void advance_colliding_particle_sprite(void *effect, S_8196ACE4_0 *position, SpriteFrameState *sprite);
 void create_brief_ballistic_sprite(S_8196B780_5 *source, s32 unused_1, s32 unused_2, s16 x, s16 y, s16 z);
@@ -486,4 +466,22 @@ void apply_random_actor_value_adjustment(void *state, void *unused, void *visual
 void spawn_jittered_point_child(ObjectNodeHeader *source, s32 state_14_value, s32 state_08_value, s32 state_32_value, s16 x_offset, s16 y_offset, s16 z_offset);
 s32 draw_flagged_particle_points(PointRecord *first_point, ObjectPosition *first_position);
 void create_randomized_paletted_sprite(void *unused_0, void *unused_1, void *unused_2, s16 x, s16 y, s16 z);
+
+/* Timer, palette seed, and source parameters for a randomized paletted sprite. */
+typedef struct RandomizedPalettedSpriteBody {
+    u8 pad_00[0x2A];
+    s16 unk_2A;
+    s16 unk_2C;
+    s16 unk_2E;
+    u8 pad_30[0x4];
+    u16 unk_34;
+    u8 pad_36[0x56];
+    s32 unk_8C;
+    s32 unk_90;
+    s32 unk_94;
+    s32 unk_98;
+    s32 unk_9C;
+    s32 unk_A0;
+} RandomizedPalettedSpriteBody;
+
 #endif

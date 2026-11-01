@@ -600,8 +600,8 @@ void update_actor_targeting_and_movement(ActorRecord *object, ObjectPosition *en
                     }
                 }
                 actor->facing = angle;
-                *((((u8 *) (((u8 *)actor)+ (actor->movement_queue_state & 0x7F))) + 0x74)) = tile->tile_x;
-                *((((u8 *) (((u8 *)actor)+ (actor->movement_queue_state & 0x7F))) + 0x7C)) = tile->tile_y;
+                *((((((u8 *)actor)+ (actor->movement_queue_state & 0x7F))) + 0x74)) = tile->tile_x;
+                *((((((u8 *)actor)+ (actor->movement_queue_state & 0x7F))) + 0x7C)) = tile->tile_y;
                 actor->movement_queue_state++;
                 update_map_cell_flags_with_item_limit(tile->tile_x, tile->tile_y, (actor->flags1C & 0x2000)
                     ? (0x300) : (0x3000));
@@ -991,7 +991,7 @@ void move_actor_to_tile_and_check_trap(ActorRecord *state, ObjectPosition *motio
 #include "shared/sprite_frame_state.h"
 
 /* Hops to the destination tile, updates landing animation, spends MP, and checks for a floor trap. */
-void update_actor_hop_to_tile(void *anim, ObjectPosition *motion, void *actor, ActorRecord *actor_state)
+void update_actor_hop_to_tile(ActorRecord *anim, ObjectPosition *motion, void *actor, ActorRecord *actor_state)
 {
     u16 facing_aux;
     s32 hop_frames;
@@ -1001,7 +1001,7 @@ void update_actor_hop_to_tile(void *anim, ObjectPosition *motion, void *actor, A
     s32 actor_flags;
     s32 tile_origin_y;
 
-    phase = ((E_801724E8_S_801724E8_0 *)anim)->unk_9B;
+    phase = anim->action_phase.u;
     switch (phase) {
     case 0:
         if (!((((SpriteFrameState *)actor)->unk_04 == 2 &&
@@ -1009,38 +1009,38 @@ void update_actor_hop_to_tile(void *anim, ObjectPosition *motion, void *actor, A
               (((SpriteFrameState *)actor)->flags & 0xE000))) {
             break;
         }
-        ((E_801724E8_S_801724E8_0 *)anim)->unk_98 |= 8;
+        anim->action_state_flags |= 8;
         (*(u32 *)&actor_state->flags1C) &= ACTOR_GROUNDED_CLEAR_MASK;
-        ((E_801724E8_S_801724E8_0 *)anim)->unk_9E.s = 5;
-        ((E_801724E8_S_801724E8_0 *)anim)->unk_A0 = 0;
-        ((E_801724E8_S_801724E8_0 *)anim)->unk_9B++;
+        anim->unk_9E.s = 5;
+        anim->unk_A0.value = 0;
+        anim->action_phase.u++;
                         /* fall through */
     case 1:
-        hop_frames = ((E_801724E8_S_801724E8_0 *)anim)->unk_9E.s;
-        ((E_801724E8_S_801724E8_0 *)anim)->unk_90 -= ((E_801724E8_S_801724E8_0 *)anim)->unk_A0;
+        hop_frames = anim->unk_9E.s;
+        anim->unk_90.value -= anim->unk_A0.value;
         if (hop_frames != 0) {
             motion->velocity_x =
                 (((((SpriteFrameState *)actor)->tile_x << 6) - ({ motion->x.w.i - 0x20; })) << 16) / hop_frames;
             motion->velocity_y =
                 (((((SpriteFrameState *)actor)->tile_y << 6) - (tile_origin_y = motion->y.w.i - 0x20)) << 16) /
-                ((E_801724E8_S_801724E8_0 *)anim)->unk_9E.s;
-            ((E_801724E8_S_801724E8_0 *)anim)->unk_A0 =
-                (-rsin(((E_801724E8_S_801724E8_0 *)anim)->unk_9E.s * 0x199)) << 9;
+                anim->unk_9E.s;
+            anim->unk_A0.value =
+                (-rsin(anim->unk_9E.s * 0x199)) << 9;
         }
 
-        ((E_801724E8_S_801724E8_0 *)anim)->unk_90 += ((E_801724E8_S_801724E8_0 *)anim)->unk_A0;
-        next_hop_frames = ((E_801724E8_S_801724E8_0 *)anim)->unk_9E.u - 1;
-        ((E_801724E8_S_801724E8_0 *)anim)->unk_9E.s = next_hop_frames;
+        anim->unk_90.value += anim->unk_A0.value;
+        next_hop_frames = anim->unk_9E.u - 1;
+        anim->unk_9E.s = next_hop_frames;
         if (next_hop_frames < 0) {
-            ((E_801724E8_S_801724E8_0 *)anim)->unk_90 = 0;
-            ((E_801724E8_S_801724E8_0 *)anim)->unk_98 &= 0xFFF7;
+            anim->unk_90.value = 0;
+            anim->action_state_flags &= 0xFFF7;
             (*(u32 *)&actor_state->flags1C) |= ACTOR_GROUNDED;
-            ((E_801724E8_S_801724E8_0 *)anim)->unk_9B++;
+            anim->action_phase.u++;
         }
                         /* fall through */
     case 2:
         if (((u32)actor_state->flags1C) & ACTOR_GROUNDED) {
-            ((E_801724E8_S_801724E8_0 *)anim)->unk_98 &= 0xFFF7;
+            anim->action_state_flags &= 0xFFF7;
             motion->velocity_z = 0;
             motion->velocity_y = 0;
             motion->velocity_x = 0;
@@ -1050,15 +1050,15 @@ void update_actor_hop_to_tile(void *anim, ObjectPosition *motion, void *actor, A
                 actor,
                 volcano_frame_set_1[((g_game_work.view.camera_rotation.parts.viewAngle + actor_state->facing + 0x100) >> 9) & 7],
                 0);
-            ((E_801724E8_S_801724E8_0 *)anim)->unk_9B++;
+            anim->action_phase.u++;
         }
         break;
     default:
         break;
     }
 
-    move_frames = ((E_801724E8_S_801724E8_0 *)anim)->unk_96 - 1;
-    ((E_801724E8_S_801724E8_0 *)anim)->unk_96 = move_frames;
+    move_frames = anim->action_timer.u - 1;
+    anim->action_timer.u = move_frames;
     if ((s16)move_frames <= 0) {
         motion->velocity_z = 0;
         motion->velocity_y = 0;
@@ -1087,7 +1087,7 @@ void update_actor_hop_to_tile(void *anim, ObjectPosition *motion, void *actor, A
         }
 
         if ((check_actor_floor_trap(actor, actor_state) << 16) > 0) {
-            ((E_801724E8_S_801724E8_0 *)anim)->unk_8C = update_actor_behavior_facing_and_animation_2;
+            anim->unk_8C.address = update_actor_behavior_facing_and_animation_2;
             on_actor_status_updated(actor_state);
         }
     }
@@ -1281,7 +1281,7 @@ void update_actor_spell_action(void *state, E_80172A58_S_80172A58_6 *position, E
 #include "shared/sprite_frame_state.h"
 
 /* Applies a value change and damped motion, then returns the actor to its tile and restores movement. */
-void dampen_actor_movement_to_tile(E_80172ED0_S_80172ED0_0 *action, ObjectPosition *motion, SpriteFrameState *tile_state, void *entity)
+void dampen_actor_movement_to_tile(E_80172ED0_S_80172ED0_0 *action, ObjectPosition *motion, SpriteFrameState *tile_state, ActorRecord *entity)
 {
     s16 timer;
     s32 tracked_entity;
@@ -1291,13 +1291,13 @@ void dampen_actor_movement_to_tile(E_80172ED0_S_80172ED0_0 *action, ObjectPositi
         apply_clamped_actor_value_delta(entity);
         motion->velocity_x =
             *(s16 *)((u8 *)((s8 *)dir_step_x) +
-                     ((((EntityRec *)entity)->unk_6A >> 8) & 0xE)) << 19;
+                     ((entity->movement_facing >> 8) & 0xE)) << 19;
         motion->velocity_y =
             *(s16 *)((u8 *)((s8 *)dir_step_y) +
-                     ((((EntityRec *)entity)->unk_6A >> 8) & 0xE)) << 19;
+                     ((entity->movement_facing >> 8) & 0xE)) << 19;
         action->phase++;
 
-        if (((EntityRec *)entity)->unk_28 == 0) {
+        if (entity->hp == 0) {
             motion->velocity_z = 0;
             motion->velocity_y = 0;
             motion->velocity_x = 0;
@@ -1308,7 +1308,7 @@ void dampen_actor_movement_to_tile(E_80172ED0_S_80172ED0_0 *action, ObjectPositi
             action->phase = 2;
             return;
         }
-        if (((EntityRec *)entity)->flags1C & (ACTOR_MP_EMPTY | ACTOR_PARALYZED | ACTOR_ASLEEP)) {
+        if (entity->flags1C & (ACTOR_MP_EMPTY | ACTOR_PARALYZED | ACTOR_ASLEEP)) {
             timer = 8;
         } else {
             timer = -1;
@@ -1333,7 +1333,7 @@ void dampen_actor_movement_to_tile(E_80172ED0_S_80172ED0_0 *action, ObjectPositi
         if (action->timer.s != 0) {
             return;
         }
-        if (((EntityRec *)entity)->unk_28 != 0) {
+        if (entity->hp != 0) {
             action->timer.s = 8;
             action->phase++;
             return;
@@ -1366,7 +1366,7 @@ void dampen_actor_movement_to_tile(E_80172ED0_S_80172ED0_0 *action, ObjectPositi
             return;
         }
         if ((tile_state->flags & 0x6000) &&
-            ((EntityRec *)entity)->unk_28 == 0) {
+            entity->hp == 0) {
             motion->velocity_z = 0;
             motion->velocity_y = 0;
             motion->velocity_x = 0;
@@ -1713,15 +1713,15 @@ void finish_actor_action_flag_propagation_then_resume_facing_animation(ActorReco
 #include "dungeon/monster/volcano.h"
 
 /* Displays directional effects, creates an actor on the tile ahead, initializes its stats, and spends MP. */
-void advance_actor_state_with_child(void *actor, ObjectPosition *context, void *entity, void *creature)
+void advance_actor_state_with_child(void *actor, ObjectPosition *context, SpriteFrameState *entity, void *creature)
 {
     switch (((Rec_func_80173204_arg0 *)actor)->unk_9B) {
     case 0:
     {
-        u16 entity_flags = ((Rec_D_80082E80 *)entity)->unk_14.at00_u16.v;
+        u16 entity_flags = entity->flags;
 
         if (entity_flags & 0x8000) {
-            ((Rec_D_80082E80 *)entity)->unk_14.at00_u16.v = entity_flags | 0x6000;
+            entity->flags = entity_flags | 0x6000;
             ((Rec_func_80173204_arg0 *)actor)->unk_9B = 2;
             return;
         }
@@ -1729,9 +1729,9 @@ void advance_actor_state_with_child(void *actor, ObjectPosition *context, void *
     }
                         /* fall through */
     case 1:
-        if (((((Rec_D_80082E80 *)entity)->unk_04.as_s8 == 8) &&
-             (((Rec_D_80082E80 *)entity)->unk_14.at00_u16.v & 0x1000)) ||
-            (((Rec_D_80082E80 *)entity)->unk_14.at00_u16.v & 0xE000)) {
+        if (((entity->unk_04 == 8) &&
+             (entity->flags & 0x1000)) ||
+            (entity->flags & 0xE000)) {
             display_formatted_actor_message(creature);
             play_sound_if_enabled(0x80C);
             create_four_directional_effects(actor, context, entity);
@@ -1758,7 +1758,7 @@ void advance_actor_state_with_child(void *actor, ObjectPosition *context, void *
         E_80173A20_S_80173A20_2 *shadow;
         E_80173A20_S_80173A20_4 *object;
 
-        if (!(((Rec_D_80082E80 *)entity)->unk_14.at00_u16.v & 0xE000)) {
+        if (!(entity->flags & 0xE000)) {
             return;
         }
 
@@ -1773,10 +1773,10 @@ void advance_actor_state_with_child(void *actor, ObjectPosition *context, void *
         x_offsets = (u8 *)((s8 *)dir_step_x);
         offset_index = direction_bits & 0xE;
         x_offset = (s16 *)(x_offsets + offset_index);
-        world_x = ((((Rec_D_80082E80 *)entity)->unk_24 + *x_offset) << 6) & 0xFFC0;
+        world_x = ((entity->tile_x + *x_offset) << 6) & 0xFFC0;
         y_offset = (s16 *)((u8 *)((s8 *)dir_step_y) + offset_index);
         spawn_height = sample_terrain_surface_height(world_x,
-            ((((Rec_D_80082E80 *)entity)->unk_25 + *y_offset) << 6) & 0xFFC0,
+            ((entity->tile_y + *y_offset) << 6) & 0xFFC0,
             (s16)(creature_height - 0x20));
 
         if (((E_80173A20_S_80173A20_3 *)creature)->unk_88.u < spawn_height) {
@@ -1786,8 +1786,8 @@ void advance_actor_state_with_child(void *actor, ObjectPosition *context, void *
         object_flag = ((E_80173A20_S_80173A20_3 *)creature)->unk_1C & ACTOR_PLAYER_SIDE;
         object = create_actor_with_tile_flags(
             object_flag != 0,
-            (s16)(((Rec_D_80082E80 *)entity)->unk_24 + (u16)*x_offset),
-            (s16)(((Rec_D_80082E80 *)entity)->unk_25 + (u16)*y_offset),
+            (s16)(entity->tile_x + (u16)*x_offset),
+            (s16)(entity->tile_y + (u16)*y_offset),
             spawn_height);
         func_80042640(object, 0x36);
 
@@ -1801,8 +1801,8 @@ void advance_actor_state_with_child(void *actor, ObjectPosition *context, void *
         object->unk_29 = object_value;
 
         spend_actor_mp(creature, 0x400);
-        set_record_integer_tile_center(context, ((Rec_D_80082E80 *)entity)->unk_24,
-                      ((Rec_D_80082E80 *)entity)->unk_25);
+        set_record_integer_tile_center(context, entity->tile_x,
+                      entity->tile_y);
         ((Rec_func_80173204_arg0 *)actor)->unk_8C.as_pv = update_actor_behavior_facing_and_animation_2;
         g_dungeon_status.active_actor = 0;
         (*(u16 *)((u8 *)creature + 0x46)) &= 0x7FFF;
@@ -1999,7 +1999,7 @@ void advance_effect_record_counters(u16 *counter, s32 unused, SpriteFrameState *
 #include "shared/sprite_frame_state.h"
 
 /* Creates a growing gray sprite on the tile ahead and limits its height to the terrain surface. */
-void * create_directional_effect_object(E_801742AC_S_80DE6AAC_2 *source, ObjectPosition *initial_position, E_801742AC_S_80DE6AAC_4 *tile_origin) {
+void * create_directional_effect_object(E_801742AC_S_80DE6AAC_2 *source, ObjectPosition *initial_position, SpriteFrameState *tile_origin) {
     SpriteFrameState *sprite;
     E_801742AC_S_80DE6AAC_5 *position;
     E_801742AC_S_80DE6AAC_1 *effect_state;
@@ -2031,8 +2031,8 @@ void * create_directional_effect_object(E_801742AC_S_80DE6AAC_2 *source, ObjectP
             s32 world_x;
 
             direction_offset = effect_state->unk_02 * 2;
-            world_x = (s32)((tile_origin->unk_24 + *(u16 *)((u8 *)dir_step_x + direction_offset)) << 0x10) >> 0xA;
-            world_y = (s32)((tile_origin->unk_25 + *(u16 *)((u8 *)dir_step_y + direction_offset)) << 0x10) >> 0xA;
+            world_x = (s32)((tile_origin->tile_x + *(u16 *)((u8 *)dir_step_x + direction_offset)) << 0x10) >> 0xA;
+            world_y = (s32)((tile_origin->tile_y + *(u16 *)((u8 *)dir_step_y + direction_offset)) << 0x10) >> 0xA;
             position->unk_02 = (s16)(world_x + 0x20);
             position->unk_06 = (s16)(world_y + 0x20);
             height_limit = sample_terrain_surface_height(world_x & 0xFFC0, world_y & 0xFFC0, (s16)(source->unk_88 - 0x20)) << 0x10;

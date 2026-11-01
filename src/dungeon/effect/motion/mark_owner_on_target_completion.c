@@ -10,11 +10,8 @@
 #include "sdk/libc.h"
 #include "sdk/libgte.h"
 #include "slus.h"
+#include "dungeon/effect/motion.h"
 
-typedef struct S_80024550_1 {
-    u8 pad_00[0x8];
-    s16 unk_08;
-} S_80024550_1;
 
    /* arg0 in mark_owner_on_target_completion */
 
@@ -28,7 +25,7 @@ void mark_owner_on_target_completion(MovingPosition *origin)
     s32 adjusted_random;
     SpriteFrameState *render_data;
     ObjectPosition *position;
-    S_80024550_1 *effect_state;
+    MarkOwnerOnTargetCompletionBody *effect_state;
     ObjectNodeHeader *effect;
 
     scene_state = &g_game_work;

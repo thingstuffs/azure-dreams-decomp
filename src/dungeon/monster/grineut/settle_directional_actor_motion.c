@@ -17,14 +17,14 @@ extern u8 grineut_frame_set_9[];
 extern u8 D_8015C178[];
 
 /* Updates directional movement and settles the actor at its tile center. */
-void settle_directional_actor_motion(ActorRecord *body, ObjectPosition *motion, SpriteFrameState *sprite, void *actor)
+void settle_directional_actor_motion(ActorRecord *body, ObjectPosition *motion, SpriteFrameState *sprite, ActorRecord *actor)
 {
     s32 state;
     s32 direction;
     s16 timer;
     s32 tracked_actor;
 
-    direction = (((EntityRec *)actor)->unk_6A >> 9) & 7;
+    direction = (actor->movement_facing >> 9) & 7;
     state = body->action_phase.u;
     switch (state) {
     case 0:
@@ -33,7 +33,7 @@ void settle_directional_actor_motion(ActorRecord *body, ObjectPosition *motion, 
         motion->velocity_y = ((s16 *)((s8 *)dir_step_y))[direction] << 18;
         body->action_phase.u++;
 
-        if (((EntityRec *)actor)->unk_28 == 0) {
+        if (actor->hp == 0) {
             motion->velocity_z = 0;
             motion->velocity_y = 0;
             motion->velocity_x = 0;
@@ -46,7 +46,7 @@ void settle_directional_actor_motion(ActorRecord *body, ObjectPosition *motion, 
             return;
         }
 
-        if (((u32)((EntityRec *)actor)->flags1C) & (ACTOR_MP_EMPTY | ACTOR_PARALYZED | ACTOR_ASLEEP)) {
+        if (((u32)actor->flags1C) & (ACTOR_MP_EMPTY | ACTOR_PARALYZED | ACTOR_ASLEEP)) {
             timer = 8;
         } else {
             timer = -1;
@@ -69,7 +69,7 @@ void settle_directional_actor_motion(ActorRecord *body, ObjectPosition *motion, 
         if (body->action_timer.s != 0) {
             return;
         }
-        if (((EntityRec *)actor)->unk_28 == 0) {
+        if (actor->hp == 0) {
             motion->velocity_z = 0;
             motion->velocity_y = 0;
             motion->velocity_x = 0;
@@ -79,7 +79,7 @@ void settle_directional_actor_motion(ActorRecord *body, ObjectPosition *motion, 
             sprite->frameTable = grineut_frame_set_9;
             select_sprite_entry(
                 sprite,
-                grineut_frame_set_9[((g_game_work.view.camera_rotation.parts.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9) & 7],
+                grineut_frame_set_9[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
                 0);
             body->action_phase.u++;
             return;
@@ -95,7 +95,7 @@ void settle_directional_actor_motion(ActorRecord *body, ObjectPosition *motion, 
         sprite->frameTable = grineut_frame_set_9;
         select_sprite_entry(
             sprite,
-            grineut_frame_set_9[((g_game_work.view.camera_rotation.parts.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9) & 7],
+            grineut_frame_set_9[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
             0);
         body->action_timer.s = 8;
         body->action_phase.u++;

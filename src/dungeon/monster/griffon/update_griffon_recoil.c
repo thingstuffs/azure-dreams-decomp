@@ -26,7 +26,7 @@ extern u8 griffon_frame_set_12[];
 extern u8 D_8016EC74[];
 
 /* Updates directional motion and animation, then settles the entity at its tile center. */
-void update_griffon_recoil(void *action, ObjectPosition *motion, SpriteFrameState *sprite, void *entity)
+void update_griffon_recoil(void *action, ObjectPosition *motion, SpriteFrameState *sprite, ActorRecord *entity)
 {
     s32 state;
     s16 timer;
@@ -37,12 +37,12 @@ void update_griffon_recoil(void *action, ObjectPosition *motion, SpriteFrameStat
     case 0:
         apply_clamped_actor_value_delta(entity);
         motion->velocity_x =
-            -((s16 *)((s8 *)dir_step_x))[(((EntityRec *)entity)->unk_6A >> 9) & 7] << 15;
+            -((s16 *)((s8 *)dir_step_x))[(entity->movement_facing >> 9) & 7] << 15;
         motion->velocity_y =
-            -((s16 *)((s8 *)dir_step_y))[(((EntityRec *)entity)->unk_6A >> 9) & 7] << 15;
+            -((s16 *)((s8 *)dir_step_y))[(entity->movement_facing >> 9) & 7] << 15;
         ((S_8016D234_0 *)action)->unk_9B++;
 
-        if (((EntityRec *)entity)->unk_28 == 0) {
+        if (entity->hp == 0) {
             motion->velocity_z = 0;
             motion->velocity_y = 0;
             motion->velocity_x = 0;
@@ -55,7 +55,7 @@ void update_griffon_recoil(void *action, ObjectPosition *motion, SpriteFrameStat
             return;
         }
 
-        if (((u32)((EntityRec *)entity)->flags1C) & (ACTOR_MP_EMPTY | ACTOR_PARALYZED | ACTOR_ASLEEP)) {
+        if (((u32)entity->flags1C) & (ACTOR_MP_EMPTY | ACTOR_PARALYZED | ACTOR_ASLEEP)) {
             timer = 8;
         } else {
             timer = -1;
@@ -68,9 +68,9 @@ void update_griffon_recoil(void *action, ObjectPosition *motion, SpriteFrameStat
 
     case 1:
         motion->velocity_x +=
-            ((s16 *)((s8 *)dir_step_x))[(((EntityRec *)entity)->unk_6A >> 9) & 7] << 14;
+            ((s16 *)((s8 *)dir_step_x))[(entity->movement_facing >> 9) & 7] << 14;
         motion->velocity_y +=
-            ((s16 *)((s8 *)dir_step_y))[(((EntityRec *)entity)->unk_6A >> 9) & 7] << 14;
+            ((s16 *)((s8 *)dir_step_y))[(entity->movement_facing >> 9) & 7] << 14;
 
         if (((S_8016D234_0 *)action)->unk_96.s > 0) {
             ((S_8016D234_0 *)action)->unk_96.s = ((S_8016D234_0 *)action)->unk_96.u - 1;
@@ -81,7 +81,7 @@ void update_griffon_recoil(void *action, ObjectPosition *motion, SpriteFrameStat
         if (((S_8016D234_0 *)action)->unk_96.s != 0) {
             return;
         }
-        if (((EntityRec *)entity)->unk_28 == 0) {
+        if (entity->hp == 0) {
             motion->velocity_z = 0;
             motion->velocity_y = 0;
             motion->velocity_x = 0;
@@ -91,16 +91,16 @@ void update_griffon_recoil(void *action, ObjectPosition *motion, SpriteFrameStat
         sprite->frameTable = griffon_frame_set_12;
         select_sprite_entry(
             sprite,
-            griffon_frame_set_12[((g_game_work.view.camera_rotation.parts.viewAngle + ((EntityRec *)entity)->facing + 0x100) >> 9) & 7],
+            griffon_frame_set_12[((g_game_work.view.camera_rotation.parts.viewAngle + entity->facing + 0x100) >> 9) & 7],
             0);
         ((S_8016D234_0 *)action)->unk_9B++;
         return;
 
     case 2:
         motion->velocity_x +=
-            ((s16 *)((s8 *)dir_step_x))[(((EntityRec *)entity)->unk_6A >> 9) & 7] << 14;
+            ((s16 *)((s8 *)dir_step_x))[(entity->movement_facing >> 9) & 7] << 14;
         motion->velocity_y +=
-            ((s16 *)((s8 *)dir_step_y))[(((EntityRec *)entity)->unk_6A >> 9) & 7] << 14;
+            ((s16 *)((s8 *)dir_step_y))[(entity->movement_facing >> 9) & 7] << 14;
         if (!(sprite->flags & 0x6000)) {
             return;
         }
@@ -108,7 +108,7 @@ void update_griffon_recoil(void *action, ObjectPosition *motion, SpriteFrameStat
         sprite->frameTable = griffon_frame_set_12;
         select_sprite_entry(
             sprite,
-            griffon_frame_set_12[((g_game_work.view.camera_rotation.parts.viewAngle + ((EntityRec *)entity)->facing + 0x100) >> 9) & 7],
+            griffon_frame_set_12[((g_game_work.view.camera_rotation.parts.viewAngle + entity->facing + 0x100) >> 9) & 7],
             0);
         ((S_8016D234_0 *)action)->unk_96.s = 8;
         ((S_8016D234_0 *)action)->unk_9B++;

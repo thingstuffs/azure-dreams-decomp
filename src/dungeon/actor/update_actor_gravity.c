@@ -22,7 +22,7 @@ typedef struct S_800D2664_2 {
 /* Runs object callbacks, applies movement and gravity, and updates ground height. */
 void update_actor_gravity(ActorRecord *object, ObjectPosition *motion, void *entity) {
     S_800D2664_2 *ent = entity;
-    void *update_obj = object;
+    ActorRecord *update_obj = object;
     DungeonCallback callback;
     s32 x;
     s32 y;
@@ -36,16 +36,16 @@ void update_actor_gravity(ActorRecord *object, ObjectPosition *motion, void *ent
     s32 base_height_u;
 
     if (g_dungeon_status.flags & 0x2000) {
-        (*((u8 *)update_obj + (0x71))) &= 0x7F;
+        update_obj->movement_queue_state &= 0x7F;
         return;
     }
 
 
-    callback = (*(DungeonCallback *)((u8 *)update_obj + (0x8C)));
+    callback = update_obj->unk_8C.run;
     if (callback != 0) {
         callback(update_obj, motion, ent, update_obj);
     }
-    actor_gravity_callbacks[(*((u8 *)update_obj + (0x9A)))](update_obj, motion, ent, update_obj);
+    actor_gravity_callbacks[update_obj->action_id.u](update_obj, motion, ent, update_obj);
 
     x = motion->x.v;
     dx = motion->velocity_x;
@@ -54,11 +54,11 @@ void update_actor_gravity(ActorRecord *object, ObjectPosition *motion, void *ent
     motion->x.v = x + dx;
     motion->y.v = y + dy;
 
-    if ((*(u16 *)((u8 *)update_obj + (0x98))) & 8) {
-        (*((u8 *)update_obj + (0x9D))) = 0;
+    if (update_obj->action_state_flags & 8) {
+        update_obj->unk_9D.u = 0;
     } else {
-        motion->velocity_z += (*(s8 *)((u8 *)update_obj + (0x9D))) * 0x14000;
-        (*((u8 *)update_obj + (0x9D)))++;
+        motion->velocity_z += update_obj->unk_9D.s * 0x14000;
+        update_obj->unk_9D.u++;
     }
     fall_offset = object->unk_90.value;
     fall_speed = motion->velocity_z;
@@ -70,7 +70,7 @@ void update_actor_gravity(ActorRecord *object, ObjectPosition *motion, void *ent
             ((u16) motion->y.w.i),
             (s16)((*(u16 *)((u8 *)update_obj + (0x88))) - 0x20))) < 0x200) {
             base_height_u = (*(u16 *)((u8 *)update_obj + (0x88)));
-            base_height = (*(s16 *)((u8 *)update_obj + (0x88)));
+            base_height = update_obj->ground_height;
             if (object->unk_90.parts.high.s + base_height < ground_height) {
                 u16 object_flags = object->action_state_flags;
                 object->action_state_flags = object_flags;
@@ -94,7 +94,7 @@ void update_actor_gravity(ActorRecord *object, ObjectPosition *motion, void *ent
                 ground_height = sample_terrain_surface_height(
                     tile_x, tile_y, (s16)((*(u16 *)((u8 *)update_obj + (0x88))) - 0x20));
                 object->unk_90.parts.high.s += (*(u16 *)((u8 *)update_obj + (0x88))) - ground_height;
-                (*(s16 *)((u8 *)update_obj + (0x88))) = ground_height;
+                update_obj->ground_height = ground_height;
             }
     } else {
         (*(u32 *)((u8 *)update_obj + (0x1C))) &= ~0x08000000;

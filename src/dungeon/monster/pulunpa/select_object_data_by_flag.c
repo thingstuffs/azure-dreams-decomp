@@ -14,7 +14,7 @@ typedef struct S_80172538_0 {
 } S_80172538_0;   /* object in select_object_data_by_flag */
 
 /* Selects the object's data pointer by its flag after both update checks succeed. */
-void select_object_data_by_flag(void *state, s32 motion, s32 entity, s32 actor) {
+void select_object_data_by_flag(void *state, ObjectPosition *motion, SpriteFrameState *entity, s32 actor) {
     S_80172538_0 *object = state;
 
     if ((update_linked_actor_motion(state, motion, entity, actor) != 0) &&

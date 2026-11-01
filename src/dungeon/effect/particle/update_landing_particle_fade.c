@@ -7,16 +7,6 @@ extern s16 encounter_blink_update_flag;
 extern s16 sample_terrain_surface_height(u16, u16, s16);
 
 
-typedef struct S_80165AB8_0 {
-    u8 pad_00[0x17];
-    u8 phase; /* 0x17 */
-    u8 pad_18[0x1A];
-    union { s16 s; u16 u; } ticks; /* 0x32 */   /* accessed as both */
-    u8 pad_34[0x20];
-    s32 unk_54;
-    u8 pad_58[0x8];
-    s32 gravity; /* 0x60 */
-} S_80165AB8_0;   /* arg0 in update_landing_particle_fade */
 
 typedef struct S_80165AB8_1 {
     union { struct { s32 v; } at00; struct { u8 pad[0x2]; u16 v; } at02; } x; /* 0x00 */   /* overlapping accesses */
@@ -51,7 +41,7 @@ void update_landing_particle_fade(u8 *object_arg, u8 *motion_arg, u8 *sprite_arg
 {
     S_80165AB8_2 *sprite = sprite_arg;
     S_80165AB8_1 *motion = motion_arg;
-    S_80165AB8_0 *object = object_arg;
+    ScatterLandingSparksOnGridBody *object = object_arg;
     s32 height;
     u32 state;
     s32 counter_check;

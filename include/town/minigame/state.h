@@ -63,7 +63,7 @@ void advance_interaction_state_animating_cursor(struct Obj *self, struct Arg1 *p
 void process_slot_machine_state(State8081FF68 *state, void *position);
 
 /* propagate_linked_flag_if_clear.c */
-void propagate_linked_flag_if_clear(void *record);
+void propagate_linked_flag_if_clear(TerminalSceneTextObject *record);
 
 /* propagate_linked_flag_to_record.c */
 void propagate_linked_flag_to_record(void *record);

@@ -14,13 +14,6 @@ extern M2C_UNK D_80077854;
 extern s16 beldo_large_direction_offsets[];
 extern void *beldo_script_node;
 
-typedef struct S_801715D0_3 {
-    u8 pad_00[0x24];
-    void * unk_24;
-    u8 pad_28[0x30];
-    s8 unk_58;
-    s8 unk_59;
-} S_801715D0_3;
 
 typedef struct S_801715D0_6 {
     u8 pad_00[0x2A];
@@ -43,7 +36,7 @@ void create_action_offset_object(void) {
     ObjectPosition *owner_pos;
     S_801715D0_7 *direction;
     u8 *direction_table;
-    S_801715D0_3 *object_state;
+    ActionOffsetObjectBody *object_state;
     ObjectNodeHeader *object;
     SpriteFrameState *render_flags;
     SpriteFrameState *sprite;

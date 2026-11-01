@@ -17,14 +17,14 @@ extern u8 grineut_frame_set_8[];
 extern u8 D_80156178[];
 
 /* Updates directional motion and animation, then settles the entity at its tile center. */
-void settle_entity_after_directional_motion(ActorRecord *body, ObjectPosition *motion, SpriteFrameState *sprite, void *entity)
+void settle_entity_after_directional_motion(ActorRecord *body, ObjectPosition *motion, SpriteFrameState *sprite, ActorRecord *entity)
 {
     s32 state;
     s32 direction;
     s16 timer;
     s32 tracked_addr;
 
-    direction = (((EntityRec *)entity)->unk_6A >> 9) & 7;
+    direction = (entity->movement_facing >> 9) & 7;
     state = body->action_phase.u;
     switch (state) {
     case 0:
@@ -33,7 +33,7 @@ void settle_entity_after_directional_motion(ActorRecord *body, ObjectPosition *m
         motion->velocity_y = ((s16 *)((s8 *)dir_step_y))[direction] << 18;
         body->action_phase.u++;
 
-        if (((EntityRec *)entity)->unk_28 == 0) {
+        if (entity->hp == 0) {
             motion->velocity_z = 0;
             motion->velocity_y = 0;
             motion->velocity_x = 0;
@@ -46,7 +46,7 @@ void settle_entity_after_directional_motion(ActorRecord *body, ObjectPosition *m
             return;
         }
 
-        if (((u32)((EntityRec *)entity)->flags1C) & (ACTOR_MP_EMPTY | ACTOR_PARALYZED | ACTOR_ASLEEP)) {
+        if (((u32)entity->flags1C) & (ACTOR_MP_EMPTY | ACTOR_PARALYZED | ACTOR_ASLEEP)) {
             timer = 8;
         } else {
             timer = -1;
@@ -69,7 +69,7 @@ void settle_entity_after_directional_motion(ActorRecord *body, ObjectPosition *m
         if (body->action_timer.s != 0) {
             return;
         }
-        if (((EntityRec *)entity)->unk_28 == 0) {
+        if (entity->hp == 0) {
             motion->velocity_z = 0;
             motion->velocity_y = 0;
             motion->velocity_x = 0;
@@ -79,7 +79,7 @@ void settle_entity_after_directional_motion(ActorRecord *body, ObjectPosition *m
             sprite->frameTable = grineut_frame_set_8;
             select_sprite_entry(
                 sprite,
-                grineut_frame_set_8[((g_game_work.view.camera_rotation.parts.viewAngle + ((EntityRec *)entity)->facing + 0x100) >> 9) & 7],
+                grineut_frame_set_8[((g_game_work.view.camera_rotation.parts.viewAngle + entity->facing + 0x100) >> 9) & 7],
                 0);
             body->action_phase.u++;
             return;
@@ -95,7 +95,7 @@ void settle_entity_after_directional_motion(ActorRecord *body, ObjectPosition *m
         sprite->frameTable = grineut_frame_set_8;
         select_sprite_entry(
             sprite,
-            grineut_frame_set_8[((g_game_work.view.camera_rotation.parts.viewAngle + ((EntityRec *)entity)->facing + 0x100) >> 9) & 7],
+            grineut_frame_set_8[((g_game_work.view.camera_rotation.parts.viewAngle + entity->facing + 0x100) >> 9) & 7],
             0);
         body->action_timer.s = 8;
         body->action_phase.u++;

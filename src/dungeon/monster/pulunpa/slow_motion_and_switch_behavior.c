@@ -15,7 +15,7 @@ extern u8 D_80176318[];
 extern u8 D_80176378[];
 
 /* Slows directional motion, returns the entity to its tile, and switches behavior. */
-void slow_motion_and_switch_behavior(ActorRecord *body, ObjectPosition *motion, SpriteFrameState *sprite, void *entity)
+void slow_motion_and_switch_behavior(ActorRecord *body, ObjectPosition *motion, SpriteFrameState *sprite, ActorRecord *entity)
 {
     s32 mark_value;
     s32 tracked_entity;
@@ -26,13 +26,13 @@ void slow_motion_and_switch_behavior(ActorRecord *body, ObjectPosition *motion, 
         apply_clamped_actor_value_delta(entity);
         motion->velocity_x =
             *(s16 *)((u8 *)((s8 *)dir_step_x) +
-                     ((((EntityRec *)entity)->unk_6A >> 8) & 0xE)) << 19;
+                     ((entity->movement_facing >> 8) & 0xE)) << 19;
         motion->velocity_y =
             *(s16 *)((u8 *)((s8 *)dir_step_y) +
-                     ((((EntityRec *)entity)->unk_6A >> 8) & 0xE)) << 19;
+                     ((entity->movement_facing >> 8) & 0xE)) << 19;
         body->action_phase.u++;
 
-        if (((EntityRec *)entity)->unk_28 == 0) {
+        if (entity->hp == 0) {
             motion->velocity_z = 0;
             motion->velocity_y = 0;
             motion->velocity_x = 0;
@@ -57,7 +57,7 @@ void slow_motion_and_switch_behavior(ActorRecord *body, ObjectPosition *motion, 
             return;
         }
         body->action_timer.s =
-            (((EntityRec *)entity)->flags1C & (ACTOR_MP_EMPTY | ACTOR_PARALYZED | ACTOR_ASLEEP)) ? 8 : -1;
+            (entity->flags1C & (ACTOR_MP_EMPTY | ACTOR_PARALYZED | ACTOR_ASLEEP)) ? 8 : -1;
                         /* fall through */
 
     case 1:
@@ -73,7 +73,7 @@ void slow_motion_and_switch_behavior(ActorRecord *body, ObjectPosition *motion, 
         if (body->action_timer.s != 0) {
             return;
         }
-        if (((EntityRec *)entity)->unk_28 == 0) {
+        if (entity->hp == 0) {
             motion->velocity_z = 0;
             motion->velocity_y = 0;
             motion->velocity_x = 0;

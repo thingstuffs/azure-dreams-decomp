@@ -102,7 +102,8 @@ extern u16 D_8001371A;
 extern s32 cd_cue_base;
 
 /* Dispatch the CD-audio fade state machine, then step the actor's shake counter and raise the finished flag. */
-void advance_dungeon_tile_action_state(u8 *state, u8 *actor, u8 *target_arg) {
+void advance_dungeon_tile_action_state(u8 *state, u8 *actor_arg, u8 *target_arg) {
+    S_807AE960_4 *actor = actor_arg;
     S_807AE960_2 *target = target_arg;
     s16 steps;
     s32 dispatch_index;
@@ -190,15 +191,15 @@ void advance_dungeon_tile_action_state(u8 *state, u8 *actor, u8 *target_arg) {
     if (countdown != 0) {
         countdown = countdown_u - 1;
         ((S_807AE960_1 *)state)->unk_0C.s = countdown;
-        actor_pos = ((S_807AE960_4 *)actor)->unk_0A;
+        actor_pos = actor->unk_0A;
         if (countdown & 1) {
             countdown = actor_pos + 1;
         } else {
             countdown = actor_pos - 1;
         }
-        ((S_807AE960_4 *)actor)->unk_0A = countdown;
+        actor->unk_0A = countdown;
         if (((S_807AE960_1 *)state)->unk_0C.s == 0) {
-            ((S_807AE960_4 *)actor)->unk_0A = (s16) ((S_807AE960_1 *)state)->unk_0E;
+            actor->unk_0A = (s16) ((S_807AE960_1 *)state)->unk_0E;
         }
     }
     if (((S_807AE960_1 *)state)->unk_00.u != 0) {

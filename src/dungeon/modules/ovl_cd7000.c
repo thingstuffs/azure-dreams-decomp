@@ -1031,8 +1031,9 @@ void finish_block_linked_motion_slot_a(S_80172944_0 *state,void *position,void *
 }
 
 /* Times an attack animation and sound, resolves its hit, then spends MP and advances status timers. */
-void update_block_attack_slot_a(void *action, void *motion, SpriteFrameState *sprite, ActorRecord *actor)
+void update_block_attack_slot_a(void *action, void *motion_arg, SpriteFrameState *sprite, ActorRecord *actor)
 {
+    CL_CD7000_801729A8_S_801729A8_3 *motion = motion_arg;
     s32 state;
     s32 next_state;
     s32 start_state;
@@ -1052,9 +1053,9 @@ void update_block_attack_slot_a(void *action, void *motion, SpriteFrameState *sp
             return;
         }
 
-        ((CL_CD7000_801729A8_S_801729A8_3 *)motion)->unk_14 = 0;
-        ((CL_CD7000_801729A8_S_801729A8_3 *)motion)->unk_10 = 0;
-        ((CL_CD7000_801729A8_S_801729A8_3 *)motion)->unk_0C = 0;
+        motion->unk_14 = 0;
+        motion->unk_10 = 0;
+        motion->unk_0C = 0;
         sprite->frameTable = D_801512DC;
         select_sprite_entry(sprite,
             D_801512DC[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
@@ -1365,12 +1366,12 @@ void update_block_defeat_slot_a(void *state,void *position,void *render_state,vo
 }
 
 /* Runs the shared hop and shrink sequence for the actor with the supplied callback arguments. */
-void update_block_hop_shrink_slot_a(void *state,void *position,void *render_state,void *entity) {
+void update_block_hop_shrink_slot_a(ActorRecord *state,ObjectPosition *position,SpriteFrameState *render_state,ActorRecord *entity) {
     update_actor_hop_and_shrink(state,position,render_state,entity);
 }
 
 /* Runs the shared actor removal sequence with the supplied callback arguments. */
-void update_block_removal_slot_a(void *state,void *position,void *render_state,void *entity) {
+void update_block_removal_slot_a(void *state,ObjectPosition *position,SpriteFrameState *render_state,ActorRecord *entity) {
     advance_actor_removal(state,position,render_state,entity);
 }
 
@@ -1378,7 +1379,7 @@ void update_block_removal_slot_a(void *state,void *position,void *render_state,v
  * Runs update_actor_hop_and_grow and installs dispatch_block_turn_actions_slot_a when it returns
  * nonzero.
  */
-void finish_block_hop_grow_slot_a(S_80173364_0 *state,void *position,void *render_state,void *entity) {
+void finish_block_hop_grow_slot_a(S_80173364_0 *state,ObjectPosition *position,SpriteFrameState *render_state,ActorRecord *entity) {
     if (update_actor_hop_and_grow(state,position,render_state,entity) != 0) {
         state->CL_CD7000_80173364_handler = dispatch_block_turn_actions_slot_a;
     }
@@ -1999,7 +2000,7 @@ void update_flashing_effect_segment_slot_a(u8 *effect, s32 *position, s32 effect
 }
 
 /* Creates three rings of eight shaded effect segments with staggered brightness timing. */
-void create_segmented_effect_rings_slot_a(CL_CD7000_80174724_S_80C96F24_0 *owner, void *origin, void *entity) {
+void create_segmented_effect_rings_slot_a(CL_CD7000_80174724_S_80C96F24_0 *owner, void *origin, SpriteFrameState *entity) {
     u16 band;
     register s32 shade_offset;
 

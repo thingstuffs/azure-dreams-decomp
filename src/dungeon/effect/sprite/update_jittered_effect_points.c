@@ -323,13 +323,6 @@ typedef struct S_800244BC_0_pre {
     u16 unk_00;
 } S_800244BC_0_pre;   /* the 0x2 bytes before arg0 in func_800244BC, addressed as arg0[-1] */
 
-typedef struct S_800244BC_0 {
-    void * unk_00;
-    u8 pad_04[0x44];
-    u16 unk_48;
-    u8 pad_4A[0x2];
-    s16 unk_4C;
-} S_800244BC_0;   /* arg0 in func_800244BC */
 
 typedef struct S_800244BC_1 {
     u8 pad_00[0x52];
@@ -388,14 +381,14 @@ void advance_target_chasing_emitter(void *object, S_800244BC_2 *position, s32 co
     ObjectNodeHeader *effect;
     S_800244BC_1 *owner;
 
-    owner = ((S_800244BC_0 *)object)->unk_00;
-    ((S_800244BC_0 *)object)->unk_48 = (u16) (((S_800244BC_0 *)object)->unk_48 - 1);
+    owner = ((RunJitteredPointSequenceBody *)object)->unk_00;
+    ((RunJitteredPointSequenceBody *)object)->unk_48 = (u16) (((RunJitteredPointSequenceBody *)object)->unk_48 - 1);
     owner->unk_52 = (u16) (owner->unk_52 | 0x8000);
-    phase = ((S_800244BC_0 *)object)->unk_4C;
+    phase = ((RunJitteredPointSequenceBody *)object)->unk_4C.s;
     switch (phase) {
     case 0:
-        ((S_800244BC_0 *)object)->unk_48 = 0xAU;
-        ((S_800244BC_0 *)object)->unk_4C = (s16) ((u16) ((S_800244BC_0 *)object)->unk_4C + 1);
+        ((RunJitteredPointSequenceBody *)object)->unk_48 = 0xAU;
+        ((RunJitteredPointSequenceBody *)object)->unk_4C.s = (s16) ((u16) ((RunJitteredPointSequenceBody *)object)->unk_4C.s + 1);
                         /* fall through */
     case 1:
         if (resolve_record_orientation_or_fallback(reference_tile_object.sprite_source, ((s32 *)(&reference_tile_object)), target_pos, 0) != 0) {
@@ -408,7 +401,7 @@ void advance_target_chasing_emitter(void *object, S_800244BC_2 *position, s32 co
                 - position->unk_08.at02.v) << 0xE));
             effects_left = 0;
             position->unk_08.at00.v = (s32) (position->unk_08.at00.v
-                - (rsin(((s16) ((S_800244BC_0 *)object)->unk_48 << 0xB) / 10, ((s16 *)(&view_reference_entity))) << 9));
+                - (rsin(((s16) ((RunJitteredPointSequenceBody *)object)->unk_48 << 0xB) / 10, ((s16 *)(&view_reference_entity))) << 9));
             do {
                 effect = allocate_list_node(0x302, &scene_object_list_anchor.next);
                 effect_data = ((void *)effect) + 0x20;
@@ -424,14 +417,14 @@ void advance_target_chasing_emitter(void *object, S_800244BC_2 *position, s32 co
                     effect_data->unk_24 = (u16) position->unk_00.at02.v;
                     effect_data->unk_26 = (u16) position->unk_04.at02.v;
                     effect_data->unk_28 = (u16) position->unk_08.at02.v;
-                    ((S_800244BC_3 *)effect)->unk_20 = ((S_800244BC_0 *)object)->unk_00;
+                    ((S_800244BC_3 *)effect)->unk_20 = ((RunJitteredPointSequenceBody *)object)->unk_00;
                 }
                 effects_left -= 1;
             } while (effects_left >= 0);
         }
-        if ((s16) ((S_800244BC_0 *)object)->unk_48 <= 0) {
-            ((S_800244BC_0 *)object)->unk_48 = 8U;
-            ((S_800244BC_0 *)object)->unk_4C = (s16) ((u16) ((S_800244BC_0 *)object)->unk_4C + 1);
+        if ((s16) ((RunJitteredPointSequenceBody *)object)->unk_48 <= 0) {
+            ((RunJitteredPointSequenceBody *)object)->unk_48 = 8U;
+            ((RunJitteredPointSequenceBody *)object)->unk_4C.s = (s16) ((u16) ((RunJitteredPointSequenceBody *)object)->unk_4C.s + 1);
         }
         break;
     case 2:
@@ -444,7 +437,7 @@ void advance_target_chasing_emitter(void *object, S_800244BC_2 *position, s32 co
             position->unk_08.at00.v = (s32) (position->unk_08.at00.v + (((target_pos[2] + view_reference_entity.z.w.i)
                 - position->unk_08.at02.v) << 0xF));
         }
-        if ((s16) ((S_800244BC_0 *)object)->unk_48 <= 0) {
+        if ((s16) ((RunJitteredPointSequenceBody *)object)->unk_48 <= 0) {
             ((S_800244BC_0_pre *)object)[-1].unk_00 = (u16) (((S_800244BC_0_pre *)object)[-1].unk_00 | 0x8000);
             object_flag_block.flags = (s32) (object_flag_block.flags | OBJECT_REMOVE_PENDING);
         }

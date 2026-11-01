@@ -10,13 +10,13 @@ extern u8 *beldo_script_node;
 extern u8 D_80175DBC[];
 
 /* Initializes an offset position and sends a message at action phase three. */
-void initialize_action_offset_and_notify(void *action, void *position)
+void initialize_action_offset_and_notify(ActionOffsetObjectBody *action, void *position)
 {
     ObjectNodeHeader *object = beldo_script_node;
     u8 *object_position = *(u8 * *)&object->position;
     u8 *object_data = ((u8 *)object) + 0x20;
 
-    if (*(s16 *)((u8 *)action + 0x12) == 0) {
+    if (action->unk_12.s == 0) {
         s16 *direction_offsets = beldo_large_direction_offsets;
 
         ((s32 *)position)[0] = ((s32 *)object_position)[0];
@@ -30,7 +30,7 @@ void initialize_action_offset_and_notify(void *action, void *position)
                      ((*(u16 *)(object_data + 0x2A) >> 7) & 0x1C) + 2) * 6;
     }
 
-    if (*(s16 *)((u8 *)action + 0x12) == 3) {
+    if (action->unk_12.s == 3) {
         u8 *message;
 
         D_80175DBC[0] = 11;

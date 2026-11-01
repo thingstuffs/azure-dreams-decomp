@@ -5,22 +5,22 @@
 #include "town/player/object.h"
 
 /* Move the object toward its target and advance the state when the timer expires. */
-void move_player_toward_target(void *state, void *object) {
+void move_player_toward_target(UnsignedCountdownView *state, void *object) {
     u16 ticks_left;
 
     *(s32 *)((u8 *)object + 0x14) = (player_target_position[2] - *(s32 *)((u8 *)object + 8)) / 2;
-    ticks_left = *(u16 *)((u8 *)state + 0xA) - 1;
-    *(u16 *)((u8 *)state + 0xA) = ticks_left;
+    ticks_left = state->unk_0A - 1;
+    state->unk_0A = ticks_left;
     if ((s16) ticks_left < 0) {
         *(s32 *)((u8 *)object + 8) = player_target_position[2];
         clear_entity_record_fields(object);
-        *(u16 *)((u8 *)state + 0xA) = 0xA;
+        state->unk_0A = 0xA;
         *(s32 **)((u8 *)state + 4) = &D_8009AAB8;
     }
 }
 
 /* Approach the target position and finish the motion when the countdown expires. */
-void approach_player_target_position(void *state, void *motion)
+void approach_player_target_position(UnsignedCountdownView *state, void *motion)
 {
     u16 ticks_left;
 
@@ -29,8 +29,8 @@ void approach_player_target_position(void *state, void *motion)
         (player_target_position[0] - *(s32 *)((u8 *)motion + 0)) / 2;
     *(s32 *)((u8 *)motion + 0x10) =
         (player_target_position[1] - *(s32 *)((u8 *)motion + 4)) / 2;
-    ticks_left = *(u16 *)((u8 *)state + 0xA) - 1;
-    *(u16 *)((u8 *)state + 0xA) = ticks_left;
+    ticks_left = state->unk_0A - 1;
+    state->unk_0A = ticks_left;
     if ((s16)ticks_left < 0) {
         *(s32 *)((u8 *)motion + 0) = player_target_position[0];
         *(s32 *)((u8 *)motion + 4) = player_target_position[1];

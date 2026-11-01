@@ -780,7 +780,7 @@ shared_tail:
         }
         {
             u16 sprite_flags;
-            if ((*((u8 *)dir_sprite_flag + sprite_dir)) != 0) {
+            if ((*(dir_sprite_flag + sprite_dir)) != 0) {
                 sprite_flags = sprite_in->flags | 1;
             } else {
                 sprite_flags = sprite_in->flags & 0xFFFE;

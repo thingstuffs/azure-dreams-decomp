@@ -141,14 +141,14 @@ void build_and_depth_sorts_five_radial_line_segments_effect(void *effect_data, v
         u16 origin_coord;
         line_packet = *((u8 **) (((u8 *) render_ctx) + 0x8D0));
         *((u8 **) (((u8 *) render_ctx) + 0x8D0)) = line_packet + 0x14;
-        *((((u8 *) line_packet) + 3)) = 4;
-        *((((u8 *) line_packet) + 7)) = 0x52;
-        *((((u8 *) line_packet) + 4)) = *((((u8 *) effect_data) + 0x40));
-        *((((u8 *) line_packet) + 5)) = *((((u8 *) effect_data) + 0x41));
-        *((((u8 *) line_packet) + 6)) = *((((u8 *) effect_data) + 0x42));
-        *((((u8 *) line_packet) + 0xC)) = *((((u8 *) effect_data) + 0x40));
-        *((((u8 *) line_packet) + 0xD)) = *((((u8 *) effect_data) + 0x41));
-        *((((u8 *) line_packet) + 0xE)) = *((((u8 *) effect_data) + 0x42));
+        *((line_packet + 3)) = 4;
+        *((line_packet + 7)) = 0x52;
+        *((line_packet + 4)) = *((((u8 *) effect_data) + 0x40));
+        *((line_packet + 5)) = *((((u8 *) effect_data) + 0x41));
+        *((line_packet + 6)) = *((((u8 *) effect_data) + 0x42));
+        *((line_packet + 0xC)) = *((((u8 *) effect_data) + 0x40));
+        *((line_packet + 0xD)) = *((((u8 *) effect_data) + 0x41));
+        *((line_packet + 0xE)) = *((((u8 *) effect_data) + 0x42));
         origin_ptr = origin;
         origin_coord = *((u16 *) (((u8 *) origin_ptr) + 2));
         *((u16 *) (scratch + 0x6C)) = origin_coord;
@@ -611,7 +611,8 @@ void build_and_queue_interpolated_vertical_quads_around_five_perimeter_points(vo
 
 /* Queues a translucent full-screen overlay with countdown-dependent color and removes the effect when
    the count ends. */
-void draw_a_full_screen_color_overlay_mark_effect_complete_countdown_ends(void *effect, void *unused, void *fade_state) {
+void draw_a_full_screen_color_overlay_mark_effect_complete_countdown_ends(void *effect, void *unused, void *fade_state_arg) {
+    ovl_1930844_81911A8C_S_81911A8C_4 *fade_state = fade_state_arg;
     s8 green_blue;
     s8 frames_left;
     void *overlay;
@@ -627,14 +628,14 @@ void draw_a_full_screen_color_overlay_mark_effect_complete_countdown_ends(void *
     ((ovl_1930844_81911A8C_S_81911A8C_3 *)overlay)->unk_08 = 0;
     ((ovl_1930844_81911A8C_S_81911A8C_3 *)overlay)->unk_0A = 0;
     ((ovl_1930844_81911A8C_S_81911A8C_3 *)overlay)->unk_04 = 0xC0;
-    green_blue = -0x40 - (((ovl_1930844_81911A8C_S_81911A8C_4 *)fade_state)->unk_05 * 0xC);
+    green_blue = -0x40 - (fade_state->unk_05 * 0xC);
     ((ovl_1930844_81911A8C_S_81911A8C_3 *)overlay)->unk_06 = green_blue;
     ((ovl_1930844_81911A8C_S_81911A8C_3 *)overlay)->unk_05 = green_blue;
     SetTile(overlay);
     ((ovl_1930844_81911A8C_S_81911A8C_3 *)overlay)->unk_07 = (u8) (((ovl_1930844_81911A8C_S_81911A8C_3 *)overlay)->unk_07 | 2);
     AddPrim(g_game_work.draw_buffer + 0xB0, overlay);
-    frames_left = (u8) ((ovl_1930844_81911A8C_S_81911A8C_4 *)fade_state)->unk_05 - 1;
-    ((ovl_1930844_81911A8C_S_81911A8C_4 *)fade_state)->unk_05 = frames_left;
+    frames_left = (u8) fade_state->unk_05 - 1;
+    fade_state->unk_05 = frames_left;
     if ((frames_left << 0x18) == 0) {
         (*(u16 *)((u8 *)effect + -2)) = (u16) (((ovl_1930844_81911A8C_S_81911A8C_0_pre *)effect)[-1].unk_00 | NODE_REMOVE);
         object_flag_block.flags |= OBJECT_REMOVE_PENDING;

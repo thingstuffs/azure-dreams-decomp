@@ -942,7 +942,7 @@ void finish_actor_tile_move_then_resume_effect_behavior(ActorRecord *state, Obje
 }
 
 /* Hops to the destination tile, updates landing animation, spends MP, and checks for a floor trap. */
-void hop_griffon_to_tile(void *action, void *motion, SpriteFrameState *sprite, void *actor)
+void hop_griffon_to_tile(ActorRecord *action, void *motion, SpriteFrameState *sprite, void *actor)
 {
     s32 state;
     s32 move_ticks;
@@ -957,7 +957,7 @@ void hop_griffon_to_tile(void *action, void *motion, SpriteFrameState *sprite, v
     u16 direction_aux;
     DungeonGlobalStatus *global_base;
 
-    state = ((R08_8017245C_S_80172478_0 *)action)->unk_9B;
+    state = action->action_phase.u;
     switch (state) {
     case 0:
         if (!(sprite->flags & 0x6000)) {
@@ -968,15 +968,15 @@ void hop_griffon_to_tile(void *action, void *motion, SpriteFrameState *sprite, v
             sprite,
             D_80174C54[((g_game_work.view.camera_rotation.parts.viewAngle + ((R08_8017245C_S_80172478_2 *)actor)->unk_2A + 0x100) >> 9) & 7],
             0);
-        ((R08_8017245C_S_80172478_0 *)action)->unk_98 |= 8;
+        action->action_state_flags |= 8;
         ((R08_8017245C_S_80172478_2 *)actor)->unk_1C.s &= 0xF7FFFFFF;
-        ((R08_8017245C_S_80172478_0 *)action)->unk_A8.s = 5;
-        ((R08_8017245C_S_80172478_0 *)action)->unk_A4 = 0;
-        ((R08_8017245C_S_80172478_0 *)action)->unk_9B++;
+        action->unk_A8.s = 5;
+        action->unk_A4.value = 0;
+        action->action_phase.u++;
 
     case 1:
-        move_ticks = ((R08_8017245C_S_80172478_0 *)action)->unk_A8.s;
-        ((R08_8017245C_S_80172478_0 *)action)->unk_90 -= ((R08_8017245C_S_80172478_0 *)action)->unk_A4;
+        move_ticks = action->unk_A8.s;
+        action->unk_90.value -= action->unk_A4.value;
         if (move_ticks != 0) {
             target_x = sprite->tile_x;
             pos_x = ((EntityRec *)motion)->x.w.i;
@@ -989,31 +989,31 @@ void hop_griffon_to_tile(void *action, void *motion, SpriteFrameState *sprite, v
             pos_y -= 0x20;
             ((EntityRec *)motion)->unk_10 =
                 (((sprite->tile_y << 6) - pos_y) << 16) /
-                ((R08_8017245C_S_80172478_0 *)action)->unk_A8.s;
+                action->unk_A8.s;
 
-            ((R08_8017245C_S_80172478_0 *)action)->unk_A4 =
-                (-rsin(((R08_8017245C_S_80172478_0 *)action)->unk_A8.s * 0x199)) << 10;
+            action->unk_A4.value =
+                (-rsin(action->unk_A8.s * 0x199)) << 10;
         }
 
-        height_offset = ((R08_8017245C_S_80172478_0 *)action)->unk_90;
-        arc_offset = ((R08_8017245C_S_80172478_0 *)action)->unk_A4;
-        next_move_ticks = ((R08_8017245C_S_80172478_0 *)action)->unk_A8.u;
+        height_offset = action->unk_90.value;
+        arc_offset = action->unk_A4.value;
+        next_move_ticks = action->unk_A8.u;
         height_offset += arc_offset;
         next_move_ticks -= 1;
-        ((R08_8017245C_S_80172478_0 *)action)->unk_A8.u = next_move_ticks;
-        ((R08_8017245C_S_80172478_0 *)action)->unk_90 = height_offset;
+        action->unk_A8.u = next_move_ticks;
+        action->unk_90.value = height_offset;
         if ((next_move_ticks << 16) >= 0) {
             break;
         }
 
-        ((R08_8017245C_S_80172478_0 *)action)->unk_90 = 0;
-        ((R08_8017245C_S_80172478_0 *)action)->unk_98 &= 0xFFF7;
+        action->unk_90.value = 0;
+        action->action_state_flags &= 0xFFF7;
         ((R08_8017245C_S_80172478_2 *)actor)->unk_1C.s |= 0x08000000;
-        ((R08_8017245C_S_80172478_0 *)action)->unk_9B++;
+        action->action_phase.u++;
         break;
     case 2:
         if (((R08_8017245C_S_80172478_2 *)actor)->unk_1C.s & 0x08000000) {
-            ((R08_8017245C_S_80172478_0 *)action)->unk_98 &= 0xFFF7;
+            action->action_state_flags &= 0xFFF7;
             ((EntityRec *)motion)->flags14 = 0;
             ((EntityRec *)motion)->unk_10 = 0;
             ((EntityRec *)motion)->unk_0C = 0;
@@ -1024,12 +1024,12 @@ void hop_griffon_to_tile(void *action, void *motion, SpriteFrameState *sprite, v
                 griffon_frame_set[((g_game_work.view.camera_rotation.parts.viewAngle + ((R08_8017245C_S_80172478_2 *)actor)->unk_2A + 0x100) >> 9) & 7],
                 0);
 
-            ((R08_8017245C_S_80172478_0 *)action)->unk_9B++;
+            action->action_phase.u++;
         }
         break;
     }
-    action_ticks = ((R08_8017245C_S_80172478_0 *)action)->unk_96 - 1;
-    ((R08_8017245C_S_80172478_0 *)action)->unk_96 = action_ticks;
+    action_ticks = action->action_timer.u - 1;
+    action->action_timer.u = action_ticks;
     if ((action_ticks << 16) > 0) {
         return;
     }
@@ -1059,7 +1059,7 @@ void hop_griffon_to_tile(void *action, void *motion, SpriteFrameState *sprite, v
     }
 
     if ((check_actor_floor_trap(sprite, actor) << 16) > 0) {
-        ((R08_8017245C_S_80172478_0 *)action)->unk_8C = ((void *)update_actor_behavior_and_effect);
+        action->unk_8C.address = ((void *)update_actor_behavior_and_effect);
         on_actor_status_updated(actor);
     }
 }
@@ -1230,7 +1230,7 @@ void update_staged_movement_and_return_to_tile(ActorRecord *action, ObjectPositi
 }
 
 /* Starts a targeted spell with a two-row effect, then restores movement and status after the animation. */
-void update_item_activation_and_cleanup(void *action, ObjectPosition *motion, void *actor, ActorRecord *object) {
+void update_item_activation_and_cleanup(ActorRecord *action, ObjectPosition *motion, void *actor, ActorRecord *object) {
     u16 position[3];
     s16 is_special;
     u8 *item_slot;
@@ -1238,7 +1238,7 @@ void update_item_activation_and_cleanup(void *action, ObjectPosition *motion, vo
     u8 state;
 
     is_special = 0;
-    state = ((R08_80172CE8_S_80172CE8_0 *)action)->unk_9B;
+    state = action->action_phase.u;
     switch (state) {
     case 0:
         if ((((u32)object->flags1C)) & ACTOR_PLAYER_SIDE) {
@@ -1264,7 +1264,7 @@ void update_item_activation_and_cleanup(void *action, ObjectPosition *motion, vo
 
         if (*item_slot != 0) {
 
-            ((R08_80172CE8_S_80172CE8_0 *)action)->unk_98 &= 0xFF7F;
+            action->action_state_flags &= 0xFF7F;
             {
                 s32 use_existing;
                 u32 item_def;
@@ -1316,7 +1316,7 @@ void update_item_activation_and_cleanup(void *action, ObjectPosition *motion, vo
                 ((R08_80172CE8_S_80172CE8_3 *)actor)->unk_14 &= 0xF7FF;
                 play_sound_if_enabled(0x703);
                 create_two_row_object_group(position, (s16)((*item_slot - 1) % 3));
-                ((R08_80172CE8_S_80172CE8_0 *)action)->unk_9B++;
+                action->action_phase.u++;
                 return;
             }
             return;
@@ -1333,7 +1333,7 @@ void update_item_activation_and_cleanup(void *action, ObjectPosition *motion, vo
         }
         advance_status_timers(object);
         object->pending_turn_updates--;
-        ((R08_80172CE8_S_80172CE8_0 *)action)->unk_8C = ((void *)update_actor_behavior_and_effect);
+        action->unk_8C.address = ((void *)update_actor_behavior_and_effect);
         object->target_tile_y = 0;
         object->target_tile_x = 0;
         (object->action_flags) &= 0x7FFF;
@@ -1348,7 +1348,7 @@ void update_item_activation_and_cleanup(void *action, ObjectPosition *motion, vo
             actor,
             griffon_frame_set_14[((g_game_work.view.camera_rotation.parts.viewAngle + (object->facing) + 0x100) >> 9) & 7],
             0);
-        ((R08_80172CE8_S_80172CE8_0 *)action)->unk_9B++;
+        action->action_phase.u++;
         return;
 
     case 2:
@@ -1357,7 +1357,7 @@ void update_item_activation_and_cleanup(void *action, ObjectPosition *motion, vo
             return;
         }
         ((R08_80172CE8_S_80172CE8_3 *)actor)->unk_14 &= 0xF7FF;
-        ((R08_80172CE8_S_80172CE8_0 *)action)->unk_9B++;
+        action->action_phase.u++;
                         /* fall through */
 
     case 3:
@@ -1365,15 +1365,15 @@ void update_item_activation_and_cleanup(void *action, ObjectPosition *motion, vo
             (((R08_80172CE8_S_80172CE8_3 *)actor)->unk_14 & 0x1000)) ||
             (((R08_80172CE8_S_80172CE8_3 *)actor)->unk_14 & 0xE000)) {
             ((R08_80172CE8_S_80172CE8_3 *)actor)->unk_14 |= 0x800;
-            ((R08_80172CE8_S_80172CE8_0 *)action)->unk_96 = 0x10;
-            ((R08_80172CE8_S_80172CE8_0 *)action)->unk_98 |= 0x80;
+            action->action_timer.u = 0x10;
+            action->action_state_flags |= 0x80;
         }
 
         {
-            u16 timer = ((R08_80172CE8_S_80172CE8_0 *)action)->unk_96 - 1;
-            ((R08_80172CE8_S_80172CE8_0 *)action)->unk_96 = timer;
+            u16 timer = action->action_timer.u - 1;
+            action->action_timer.u = timer;
             if ((s16)timer <= 0) {
-                ((R08_80172CE8_S_80172CE8_0 *)action)->unk_96 = 0;
+                action->action_timer.u = 0;
                 ((R08_80172CE8_S_80172CE8_3 *)actor)->unk_14 &= 0xF7FF;
             }
         }
@@ -1402,7 +1402,7 @@ void update_item_activation_and_cleanup(void *action, ObjectPosition *motion, vo
             g_dungeon_status.activity_counts.parts.pending_action_count--;
         }
         ((R08_80172CE8_S_80172CE8_3 *)actor)->unk_14 &= 0xF7FF;
-        ((R08_80172CE8_S_80172CE8_0 *)action)->unk_8C = ((void *)update_actor_behavior_and_effect);
+        action->unk_8C.address = ((void *)update_actor_behavior_and_effect);
         advance_status_timers(object);
         if ((object->pending_turn_updates) > 0) {
             object->pending_turn_updates--;
@@ -2035,21 +2035,21 @@ void create_positioned_sprite_effect(M2C_UNK unused, EntityRec *source_pos, void
 
 /* Stops movement and waits for dungeon activity to finish, then clears the callback and counts the new
  * action. */
-void wait_for_griffon_action_slot(void *entity_data, s32 unused_1, s32 unused_2, void *other_data)
+void wait_for_griffon_action_slot(ActorRecord *entity_data, s32 unused_1, s32 unused_2, void *other_data)
 {
-    u8 *entity = entity_data;
+    ActorRecord *entity = entity_data;
     u8 *other = other_data;
     s32 kind = 0x17;
 
     other[0x71] &= 0x7F;
-    *(void **)(entity + 0x8C) = ((void *)wait_for_griffon_action_slot);
-    entity[0x9A] = kind;
-    entity[0x9B] = 0;
+    entity->unk_8C.address = ((void *)wait_for_griffon_action_slot);
+    entity->action_id.u = kind;
+    entity->action_phase.u = 0;
     other[0x6D] = 0;
     if (!(g_dungeon_status.flags & 0x2000) && ((has_pending_dungeon_activity(other) << 16) == 0)) {
-        *(void **)(entity + 0x8C) = 0;
-        entity[0x9A] = kind;
-        entity[0x9B] = 0;
+        entity->unk_8C.address = 0;
+        entity->action_id.u = kind;
+        entity->action_phase.u = 0;
         (*(s16 *)actor_action_reset_value) = 0;
         g_dungeon_status.activity_counts.parts.pending_action_count++;
     }

@@ -11,7 +11,7 @@ void (*const dungeon_ovl_18ca83c_entry)(void *effect, void *motion, void *appear
 
 /* Adds a random actor value delta with an optional eighth bonus, clamps it, displays a popup, and
    applies it. */
-void apply_large_random_value_gain(void *target, s32 amount_input, void *owner) {
+void apply_large_random_value_gain(void *target, s32 amount_input, ActorRecord *owner) {
     s32 base_amount;
     register s32 adjusted_amount;
 
@@ -235,7 +235,7 @@ void advance_target_travel_effect(void *effect, void *motion, void *appearance) 
     u16 source_z;
     SpriteFrameState *source_info;
     void *source_record;
-    void *source;
+    ActorRecord *source;
     void *target;
     void *source_pos;
     u16 elapsed;
@@ -251,7 +251,7 @@ void advance_target_travel_effect(void *effect, void *motion, void *appearance) 
         ((Rec_func_800243B8_arg0 *)effect)->unk_0E = (u16) (((u16) ((ovl_18ca83c_818AAE60_S_80024660_1 *)source)->unk_2A >> 9) & 7);
         ((ovl_18ca83c_818AAE60_S_80024660_2 *)appearance)->unk_0C = 0x808080;
     case 1:
-        source_record = source - 0x20;
+        source_record = ((ObjectNodeHeader *)source - 1);
         source_info = ((ovl_18ca83c_818AAE60_S_80024660_3 *)source_record)->unk_0C;
         if (resolve_record_orientation_or_fallback(source_info->source, source_info, &scratch.offset.orientation, 0) == 0) {
             if (!(((ovl_18ca83c_818AAE60_S_80024660_12 *)(((ovl_18ca83c_818AAE60_S_80024660_3 *)source_record)->unk_0C))->unk_14 & 0x8000)) {
@@ -275,7 +275,7 @@ void advance_target_travel_effect(void *effect, void *motion, void *appearance) 
             ((Rec_func_800243B8_arg0 *)effect)->unk_14 = 0;
             return;
         }
-        target = ((ovl_18ca83c_818AAE60_S_80024660_1 *)source)->unk_60;
+        target = source->target;
         index = 1;
         if (target != 0) {
             destination = ((ovl_18ca83c_818AAE60_S_80024660_7_pre *)target)[-1].unk_00;
@@ -340,12 +340,12 @@ void advance_target_travel_effect(void *effect, void *motion, void *appearance) 
                 grid_x = (s16)path_x;
                 grid_y = (s16)path_y;
                 if ((s16)check_layer_offset_height((grid_x << 6) & 0xFFC0, (grid_y << 6) & 0xFFC0,
-                        ((ovl_18ca83c_818AAE60_S_80024660_1 *)source)->unk_88,
+                        source->ground_height,
                         (s16)(((Rec_func_800243B8_arg0 *)effect)->unk_0E << 9)) != 0) {
                     break;
                 }
                 source_pos = &dir_step_x[(s16)((Rec_func_800243B8_arg0 *)effect)->unk_0E];
-                probe_z = (u16)((ovl_18ca83c_818AAE60_S_80024660_1 *)source)->unk_88;
+                probe_z = (u16)source->ground_height;
                 probe_z -= 32;
                 probe_z = (u32)probe_z << 16;
                 probe_z >>= 16;
@@ -353,7 +353,7 @@ void advance_target_travel_effect(void *effect, void *motion, void *appearance) 
                 floor_height = sample_terrain_surface_height(((grid_x + *(s16 *)source_pos) << 6) + 32 & 0xFFE0,
                     ((grid_y + *step_y) << 6) + 32 & 0xFFE0, probe_z);
                 if ((s16)floor_height >= 513 ||
-                    (s16)(floor_height - ((ovl_18ca83c_818AAE60_S_80024660_1 *)source)->unk_88) < -63) {
+                    (s16)(floor_height - source->ground_height) < -63) {
                     break;
                 }
                 index++;
@@ -408,7 +408,7 @@ void advance_target_travel_effect(void *effect, void *motion, void *appearance) 
         if ((s16) ((Rec_func_800243B8_arg0 *)effect)->unk_10 < 0x28) {
             break;
         }
-        apply_large_random_value_gain(((ovl_18ca83c_818AAE60_S_80024660_1 *)source)->unk_60, ((Rec_func_800243B8_arg0 *)effect)->unk_09, source);
+        apply_large_random_value_gain(source->target, ((Rec_func_800243B8_arg0 *)effect)->unk_09, source);
         ((Rec_func_800243B8_arg0 *)effect)->unk_10 = 0U;
         ((Rec_func_800243B8_arg0 *)effect)->unk_0A = (s16) ((u16) ((Rec_func_800243B8_arg0 *)effect)->unk_0A + 1);
         break;

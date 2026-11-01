@@ -68,7 +68,7 @@ void update_staged_movement_and_restore_actor(ActorRecord *body, ObjectPosition 
     Vec3sTable effect_vectors_a;
     Vec3sTable effect_vectors_b;
     s32 reverse_facing;
-    u8 * actor_handle;
+    ActorRecord *actor_handle;
     s32 facing;
     void *has_offset;
     s32 direction_index;

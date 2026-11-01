@@ -6,6 +6,7 @@
 #include "records/Rec_func_80094268_arg0.h"
 #include "shared/entity.h"
 #include "shared/sprite_frame_state.h"
+#include "shared/position_views.h"
 
 struct EntityRec;
 struct Rec_func_80094268_arg0;
@@ -31,7 +32,7 @@ void create_familiar_deployment_effect_with_owner_state(void);
 void dispatch_sound_by_global_flag(void);
 
 /* ease_object_value_and_advance_state.c */
-void ease_object_value_and_advance_state(void *state, void *object);
+void ease_object_value_and_advance_state(UnsignedCountdownView *state, void *object);
 
 /* forward_state_value_to_handler_a.c */
 void forward_state_value_to_handler_a(void *state, s32 value);

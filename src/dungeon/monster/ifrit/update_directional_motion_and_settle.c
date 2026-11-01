@@ -12,13 +12,13 @@ extern s32 ifrit_action_resume_address;
 extern s32 D_80174838;
 
 /* Updates directional motion and settles the entity at its grid position. */
-void update_directional_motion_and_settle(ActorRecord *body, ObjectPosition *motion, SpriteFrameState *sprite, void *source)
+void update_directional_motion_and_settle(ActorRecord *body, ObjectPosition *motion, SpriteFrameState *sprite, ActorRecord *source)
 {
     s16 timer;
     s32 direction;
     s32 tracked_addr;
 
-    direction = (((EntityRec *)source)->unk_6A >> 9) & 7;
+    direction = (source->movement_facing >> 9) & 7;
     switch (body->action_phase.u) {
     case 0:
         apply_clamped_actor_value_delta(source);
@@ -28,7 +28,7 @@ void update_directional_motion_and_settle(ActorRecord *body, ObjectPosition *mot
             *(s16 *)((u8 *)((s8 *)dir_step_y) + (direction * 2)) << 18;
         body->action_phase.u++;
 
-        if (((EntityRec *)source)->unk_28 == 0) {
+        if (source->hp == 0) {
             motion->velocity_z = 0;
             motion->velocity_y = 0;
             motion->velocity_x = 0;
@@ -40,7 +40,7 @@ void update_directional_motion_and_settle(ActorRecord *body, ObjectPosition *mot
             body->action_phase.u = 2;
             return;
         }
-        if (((EntityRec *)source)->flags1C & (ACTOR_MP_EMPTY | ACTOR_PARALYZED | ACTOR_ASLEEP)) {
+        if (source->flags1C & (ACTOR_MP_EMPTY | ACTOR_PARALYZED | ACTOR_ASLEEP)) {
             timer = 8;
         } else {
             timer = -1;
@@ -63,7 +63,7 @@ void update_directional_motion_and_settle(ActorRecord *body, ObjectPosition *mot
         if (body->action_timer.s != 0) {
             return;
         }
-        if (((EntityRec *)source)->unk_28 == 0) {
+        if (source->hp == 0) {
             motion->velocity_z = 0;
             motion->velocity_y = 0;
             motion->velocity_x = 0;

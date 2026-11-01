@@ -83,17 +83,6 @@ typedef struct UpdateFlags {
 typedef struct S_8181B078_0_pre {
     u16 unk_00;
 } S_8181B078_0_pre;
-typedef struct S_8181B078_0 {
-    u8 pad_00[0x2];
-    union { u16 s; s16 u; } unk_02;   /* accessed as both */
-    u8 pad_04[0x18];
-    s16 unk_1C;
-    s16 unk_1E;
-    u8 pad_20[0x8];
-    u8 unk_28;
-    u8 pad_29[0x37];
-    s32 unk_60;
-} S_8181B078_0;
 typedef struct S_8181B078_1 {
     u8 pad_00[0x8];
     s32 unk_08;
@@ -107,12 +96,6 @@ typedef struct S_8181B1A0_4 {
     void * unk_08;
 } S_8181B1A0_4;
 
-typedef struct S_8181B1A0_0 {
-    u8 pad_00[0x2];
-    s16 unk_02;
-    u8 pad_04[0x5C];
-    s32 unk_60;
-} S_8181B1A0_0;
 typedef struct S_8181B1A0_2 {
     u8 pad_00[0x8];
     void * unk_08;
@@ -291,5 +274,18 @@ void spawn_scattered_point_particle(ObjectNodeHeader *parent, s16 field_34, s32 
 void cycle_moving_effect_phase(void *object, S_8181B078_1 *position, S_8181B078_2 *source);
 void decrement_object_counter(void *source, s32 offset_x, s32 offset_y, s32 offset_z, s16 effect_value);
 void grow_timed_sprite_effect(void *state_data, s32 unused, void *target);
+
+/* State, animation phase, and lifetime for the counter-driven moving effect. */
+typedef struct DecrementObjectCounterBody {
+    u8 pad_00[0x2];
+    union { u16 s; s16 u; } unk_02;
+    u8 pad_04[0x18];
+    s16 unk_1C;
+    s16 unk_1E;
+    u8 pad_20[0x8];
+    u8 unk_28;
+    u8 pad_29[0x37];
+    s32 unk_60;
+} DecrementObjectCounterBody;
 
 #endif

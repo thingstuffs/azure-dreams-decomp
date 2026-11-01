@@ -53,6 +53,21 @@ void restore_bank_actor_callback_b(ActorRecord *state, ObjectPosition *action, s
 void restore_bank_actor_callback_c(ActorRecord *state, ObjectPosition *action, struct SpriteFrameState *source, ActorRecord *target);
 void restore_bank_actor_callback_d(ActorRecord *state, ObjectPosition *action, struct SpriteFrameState *source, ActorRecord *target);
 void update_bank_effect_fade(void *effect, MovingPosition *position, struct SpriteFrameState *visual);
+
+/* Spin, height drift, and fade phase for a bank effect particle. */
+typedef struct BankEffectFadeBody {
+    u8 pad_00[0x4];
+    u16 unk_04;
+    u8 pad_06[0x2];
+    u16 unk_08;
+    u8 pad_0A[0xA];
+    u16 unk_14;
+    u8 pad_16[0x32];
+    u16 unk_48;
+    u8 pad_4A[0x2];
+    union { s16 s; u16 u; } unk_4C;
+} BankEffectFadeBody;
+
 void start_bank_actor_hit_reaction(ActorRecord *work, ObjectPosition *part_a, SpriteFrameState *part_b, ActorRecord *actor);
 void update_bank_timed_effect(void *state_input, void *motion_input, void *animation_input, void *actor_input);
 void create_cylindrical_effect(void *state);

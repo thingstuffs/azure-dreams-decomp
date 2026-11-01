@@ -64,7 +64,7 @@ extern u8 uboat_aura_sprite_data[];
 #include "dungeon/monster/u_boat.h"
 struct S_80174C64_0;
 void create_owner_linked_directional_object(ActorRecord *owner_data, ObjectPosition *source_position, SpriteFrameState *source_sprite);      /* extern */
-void update_actor_movement_history(ActorRecord *motion, ObjectPosition *position, SpriteFrameState *record, void *object); /* extern */
+void update_actor_movement_history(ActorRecord *motion, ObjectPosition *position, SpriteFrameState *record, ActorRecord *object); /* extern */
 
 /* Update the actor action sequence, including its effect, animations, and position restoration. */
 /* Starts U-Boat's terrain effect, runs its obstacle-following movement, restores its saved position, and

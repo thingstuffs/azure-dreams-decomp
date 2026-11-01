@@ -21,6 +21,7 @@
 /* GPU color/command word embedded in SpriteFrameState; sprite constructors initialize it. */
 typedef union SpriteColor {
     int word; /* packed little-endian R/G/B/command word copied into the primitive */
+    unsigned int unsigned_word; /* follow_brighten copies the same packed color through an unsigned word view */
     struct { unsigned char r /* red modulation byte; 0x80 is neutral */, g /* green modulation byte; 0x80 is neutral */, b /* blue modulation byte; 0x80 is neutral */, code; /* GPU primitive command byte */ } c;
 } SpriteColor;
 

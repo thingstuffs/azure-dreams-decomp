@@ -19,23 +19,16 @@ void select_record_entry_and_value(void *state, void *entries, short index);  /*
 extern void D_800CB374(void *effect, void *unused, SpriteFrameState *primitive);
 #include "shared/sprite_source.h"
 #include "dungeon/actor/effect.h"
+#include "dungeon/effect.h"
 extern SpriteSourceEntry D_800E02CC[];
 
-typedef struct S_800CB4C0_5 {
-    u8 pad_00[0x96];
-    s16 unk_96;
-    u8 pad_98[0x10];
-    void * unk_A8;
-    u8 pad_AC[0x8];
-    s16 unk_B4;
-} S_800CB4C0_5;
 
 /* Creates an object with shared or copied source coordinates and initializes its display state. */
 void *create_source_linked_fading_effect(ObjectNodeHeader *source, s16 copy_position) {
     s32 display_value;
     SpriteFrameState *display;
     ObjectNodeHeader *object;
-    S_800CB4C0_5 *state;
+    AndInitializePlayerTileActorBody *state;
     SpriteFrameState *source_display;
     ObjectPosition *position;
 

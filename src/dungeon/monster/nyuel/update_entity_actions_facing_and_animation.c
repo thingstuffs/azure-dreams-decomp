@@ -46,7 +46,7 @@ void update_actor_status_and_mp(ActorRecord *entity);
 s32 begin_ready_actor_directional_action(ActorRecord *body, ObjectPosition *position, SpriteFrameState *sprite, u8 *direction_frames);
 void begin_actor_move_to_target_facing(ActorRecord *body, ObjectPosition *position, SpriteFrameState *sprite, ActorRecord *actor);
 extern void func_801737C4(Actor *actor, s32 action, Entity *entity, MapObject *map_object);
-s32 complete_timed_tile_movement(void *entity_arg, void *primary_context_arg, void *secondary_context_arg, s32 force_state_arg); /* Unprototyped: this consumer uses the return value, but the owner definition is void. */
+s32 complete_timed_tile_movement(ActorRecord *entity_arg, void *primary_context_arg, void *secondary_context_arg, s32 force_state_arg); /* Unprototyped: this consumer uses the return value, but the owner definition is void. */
 extern void func_801747D0(void *entity_data, ObjectPosition *unused_1, s32 unused_2, void *other_data);
 extern u8 nyuel_frame_set_2[];
 extern u8 nyuel_frame_set_3[];

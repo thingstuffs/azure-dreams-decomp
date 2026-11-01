@@ -1128,7 +1128,7 @@ void update_overlay_object_action(ActorRecord *body, ObjectPosition *position, S
 }
 
 /* Applies a value change and damped motion, then returns the actor to its tile and restores movement. */
-void damp_actor_motion_then_recenter(R16_801729D8_S_80173294_0 *motion_state, ObjectPosition *motion, SpriteFrameState *tile_state, void *entity)
+void damp_actor_motion_then_recenter(R16_801729D8_S_80173294_0 *motion_state, ObjectPosition *motion, SpriteFrameState *tile_state, ActorRecord *entity)
 {
     s16 timer;
     s32 x_speed_or_entity;
@@ -1142,13 +1142,13 @@ void damp_actor_motion_then_recenter(R16_801729D8_S_80173294_0 *motion_state, Ob
         apply_clamped_actor_value_delta(entity);
         motion->velocity_x =
             -*(s16 *)((u8 *)((s8 *)dir_step_x) +
-                ((((EntityRec *)entity)->unk_6A >> 8) & 0xE)) << 15;
+                ((entity->movement_facing >> 8) & 0xE)) << 15;
         motion->velocity_y =
             -*(s16 *)((u8 *)((s8 *)dir_step_y) +
-                ((((EntityRec *)entity)->unk_6A >> 8) & 0xE)) << 15;
+                ((entity->movement_facing >> 8) & 0xE)) << 15;
         motion_state->phase++;
 
-        if (((EntityRec *)entity)->unk_28 == 0) {
+        if (entity->hp == 0) {
             motion->velocity_z = 0;
             motion->velocity_y = 0;
             motion->velocity_x = 0;
@@ -1161,7 +1161,7 @@ void damp_actor_motion_then_recenter(R16_801729D8_S_80173294_0 *motion_state, Ob
             return;
         }
         timer = -1;
-        if (((EntityRec *)entity)->flags1C & (ACTOR_MP_EMPTY | ACTOR_PARALYZED | ACTOR_ASLEEP)) {
+        if (entity->flags1C & (ACTOR_MP_EMPTY | ACTOR_PARALYZED | ACTOR_ASLEEP)) {
             timer = 8;
         }
         motion_state->timer.s = timer;
@@ -1188,7 +1188,7 @@ void damp_actor_motion_then_recenter(R16_801729D8_S_80173294_0 *motion_state, Ob
         if (motion_state->timer.s != 0) {
             return;
         }
-        if (((EntityRec *)entity)->unk_28 == 0) {
+        if (entity->hp == 0) {
             motion->velocity_z = 0;
             motion->velocity_y = 0;
             motion->velocity_x = 0;
@@ -1693,21 +1693,21 @@ void create_angled_source_effect(
 
 /* Stops movement and waits for dungeon activity to finish, then clears the callback and counts the new
  * action. */
-void wait_for_clown_action_slot(void *entity_data, ObjectPosition *unused_1, s32 unused_2, void *other_data)
+void wait_for_clown_action_slot(ActorRecord *entity_data, ObjectPosition *unused_1, s32 unused_2, void *other_data)
 {
-    u8 *entity = entity_data;
+    ActorRecord *entity = entity_data;
     u8 *other = other_data;
     s32 kind = 0x17;
 
     other[0x71] &= 0x7F;
-    *(void **)(entity + 0x8C) = ((void *)wait_for_clown_action_slot);
-    entity[0x9A] = kind;
-    entity[0x9B] = 0;
+    entity->unk_8C.address = ((void *)wait_for_clown_action_slot);
+    entity->action_id.u = kind;
+    entity->action_phase.u = 0;
     other[0x6D] = 0;
     if (!(g_dungeon_status.flags & 0x2000) && ((has_pending_dungeon_activity(other) << 16) == 0)) {
-        *(void **)(entity + 0x8C) = 0;
-        entity[0x9A] = kind;
-        entity[0x9B] = 0;
+        entity->unk_8C.address = 0;
+        entity->action_id.u = kind;
+        entity->action_phase.u = 0;
         (*(s16 *)actor_action_reset_value) = 0;
         g_dungeon_status.activity_counts.parts.pending_action_count++;
     }

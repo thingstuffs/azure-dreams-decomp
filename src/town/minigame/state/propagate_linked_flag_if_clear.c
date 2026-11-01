@@ -4,10 +4,10 @@
 
 
 /* Propagate bit 15 from the linked record when the record status is zero. */
-void propagate_linked_flag_if_clear(void *record) {
-    void *linked_record = *(void **)((u8 *)record + 0xC);
+void propagate_linked_flag_if_clear(TerminalSceneTextObject *record) {
+    void *linked_record = record->owner;
 
-    if (*(s16 *)record == 0 &&
+    if (record->state.s == 0 &&
         (*(u16 *)((u8 *)linked_record + 4) & 0x8000) != 0) {
         *(u16 *)((u8 *)record - 2) |= NODE_REMOVE;
         object_flag_block.flags |= OBJECT_REMOVE_PENDING;

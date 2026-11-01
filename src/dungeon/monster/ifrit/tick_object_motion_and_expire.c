@@ -1,4 +1,5 @@
 #include "common.h"
+#include "dungeon/monster/ifrit.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/object_flags.h"
 

@@ -21,6 +21,8 @@ struct DungeonItemEntry;
 typedef union Fixed1616 {
     int v; /* complete signed 16.16 value */
     struct { unsigned short frac; /* low 16 fractional bits */ short i; /* signed integer part, read by terrain and tile queries */ } w;   /* w.i: the integer half (lh at +2) */
+    /* Sprite-position copies also load the integer half with lhu. */
+    struct { unsigned short fraction; unsigned short integer; } unsigned_parts;
 } Fixed1616;
 
 /* ObjectPosition: the 0x18-byte position/motion record an object node points at through ObjectNodeHeader.unk_08
@@ -231,6 +233,7 @@ typedef struct ActorRecord {
         int word; /* Step 0b width view: handlers clear the slot through an int store */
         unsigned char *byte_ptr; /* Step 0b width view: a handler address stored through a byte-pointer view */
         void **ptr_ptr; /* Step 0b width view: a handler address stored through a void ** view */
+        int *word_ptr; /* ghosh/clown install the address of an action entry word */
     } unk_8C;
     /* 0x090 */ union {
         int value;
@@ -252,6 +255,7 @@ typedef struct ActorRecord {
         int value; /* landing uses it for accumulated 16.16 vertical displacement */
         ActorScratchHalves halves;
         unsigned char bytes[4];
+        void *address; /* kraken links its child ObjectNodeHeader through this scratch slot */
     } unk_A4; /* callback scratch with word/halfword/byte views */
     /* 0x0A8 */ union { unsigned char byte; short s; unsigned short u; } unk_A8; /* saved species or callback scratch */
     /* 0x0AA */ short unk_AA;

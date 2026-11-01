@@ -213,8 +213,9 @@ const Row_819A1450_LocalTable D_80024034 = {{{1, 0}, {1, 1}, {0, 1}, {-1, 1}, {-
 const Row_819A1654_PointTable linked_effect_octant_offsets[1] = {{{{5, 0}, {5, 5}, {0, 5}, {-5, 5}, {-5, 0}, {-5, 65531}, {0, 65531}, {5, 65531}}}};
 
 /* Moves and animates a sprite while fading its grayscale color in proportion to its remaining lifetime. */
-void fade_moving_effect(void *effect, Row_819A0EF0_S_800246F0_2 *motion, SpriteFrameState *primitive)
+void fade_moving_effect(void *effect_arg, Row_819A0EF0_S_800246F0_2 *motion, SpriteFrameState *primitive)
 {
+    Row_819A0EF0_S_800246F0_0 *effect = effect_arg;
     s32 brightness;
     s32 x;
     s32 y;
@@ -222,12 +223,12 @@ void fade_moving_effect(void *effect, Row_819A0EF0_S_800246F0_2 *motion, SpriteF
     s32 dy;
     s32 ticks_left;
 
-    ticks_left = ((Row_819A0EF0_S_800246F0_0 *)effect)->unk_3A.s;
+    ticks_left = effect->unk_3A.s;
     ((s16 *)linked_effect_update_flag)[0] = 1;
-    ((Row_819A0EF0_S_800246F0_0 *)effect)->unk_3A.s = ticks_left - 1;
+    effect->unk_3A.s = ticks_left - 1;
     advance_sprite_animation_and_textures(primitive);
-    brightness = ((s16)((Row_819A0EF0_S_800246F0_0 *)effect)->unk_3A.s << 7) /
-            ((Row_819A0EF0_S_800246F0_0 *)effect)->unk_3C;
+    brightness = ((s16)effect->unk_3A.s << 7) /
+            effect->unk_3C;
     primitive->color.c.b = brightness;
     primitive->color.c.g = brightness;
     primitive->color.c.r = brightness;
@@ -237,7 +238,7 @@ void fade_moving_effect(void *effect, Row_819A0EF0_S_800246F0_2 *motion, SpriteF
     dy = motion->unk_10;
     motion->unk_00 = x + dx;
     motion->unk_04 = y + dy;
-    if (((Row_819A0EF0_S_800246F0_0 *)effect)->unk_3A.u <= 0) {
+    if (effect->unk_3A.u <= 0) {
         ((Row_819A0EF0_S_800246F0_0_pre *)effect)[-1].unk_00 |= 0x8000;
         object_flag_block.flags |= 0x8000;
     }

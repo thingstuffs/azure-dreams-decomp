@@ -6,14 +6,6 @@ typedef struct S_8016F99C_0_pre {
     u16 unk_00;
 } S_8016F99C_0_pre;   /* the 0x2 bytes before arg0 in animate_encounter_overlay_slide, addressed as arg0[-1] */
 
-typedef struct S_8016F99C_0 {
-    u8 pad_00[0x12];
-    union { s16 s; u16 u; } unk_12;   /* accessed as both */
-    u8 pad_14[0x4];
-    u16 unk_18;
-    u8 pad_1A[0x2];
-    s16 unk_1C;
-} S_8016F99C_0;   /* arg0 in animate_encounter_overlay_slide */
 
 typedef struct S_8016F99C_1 {
     u8 pad_00[0x6];
@@ -27,9 +19,9 @@ extern void *encounter_object_slots[];
 extern void *encounter_overlay_object[];
 
 /* Advances a timed transition, updates its target, and marks completion. */
-void animate_encounter_overlay_slide(void *transition_arg, S_8016F99C_1 *target)
+void animate_encounter_overlay_slide(EncounterOverlayBody *transition_arg, S_8016F99C_1 *target)
 {
-    S_8016F99C_0 *transition = transition_arg;
+    EncounterOverlayBody *transition = transition_arg;
     s32 state;
     u16 timer;
     u32 next_state;

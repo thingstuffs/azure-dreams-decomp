@@ -1,5 +1,6 @@
 #include "common.h"
 #include "shared/object_flags.h"
+#include "dungeon/monster/baloon.h"
 
 typedef struct {
     s32 x;
@@ -12,7 +13,7 @@ typedef struct {
 
 
 /* Advance and damp motion, fade the primitive, and flag the effect when its timer expires. */
-void advance_damped_fading_effect(void *effect, Motion *motion, void *primitive) {
+void advance_damped_fading_effect(DirectionalRandomVelocityEffectBody *effect, Motion *motion, void *primitive) {
     s32 intensity;
     s16 ticks_left;
 
@@ -23,14 +24,14 @@ void advance_damped_fading_effect(void *effect, Motion *motion, void *primitive)
     motion->dy /= 2;
     motion->dz /= 2;
 
-    intensity = (*(s16 *)((u8 *)effect + 0xC) << 7) /
-               *(s16 *)((u8 *)effect + 0xE);
+    intensity = (effect->unk_0C << 7) /
+               effect->unk_0E;
     *(s8 *)((u8 *)primitive + 0xE) = intensity;
     *(s8 *)((u8 *)primitive + 0xD) = intensity;
     *(s8 *)((u8 *)primitive + 0xC) = intensity;
 
     ticks_left = *(u16 *)((u8 *)effect + 0xC) - 1;
-    *(s16 *)((u8 *)effect + 0xC) = ticks_left;
+    effect->unk_0C = ticks_left;
     if ((ticks_left << 16) <= 0) {
         *(u16 *)((u8 *)effect - 2) |= NODE_REMOVE;
         object_flag_block.flags |= OBJECT_REMOVE_PENDING;

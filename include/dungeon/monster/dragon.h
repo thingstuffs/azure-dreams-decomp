@@ -262,7 +262,7 @@ void complete_actor_jump_to_destination(void *jump, void *motion, void *map_enti
 void update_dragon_linked_motion(ActorRecord *state, ObjectPosition *entity, SpriteFrameState *position, ActorRecord *graphic);
 void advance_actor_attack_and_resolve_damage(ActorRecord *body, ObjectPosition *position, SpriteFrameState *sprite, ActorRecord *actor);
 void finish_timed_actor_movement(ActorRecord *body, ObjectPosition *transform, SpriteFrameState *sprite, ActorRecord *actor);
-void slow_directional_movement_to_tile(ActorRecord *body, ObjectPosition *motion, SpriteFrameState *sprite, void *source);
+void slow_directional_movement_to_tile(ActorRecord *body, ObjectPosition *motion, SpriteFrameState *sprite, ActorRecord *source);
 void remove_defeated_dragon(ActorRecord *body, ObjectPosition *position, SpriteFrameState *sprite, ActorRecord *actor);
 void shrink_hopping_dragon(void *state, void *motion, void *position, void *actor);
 void advance_dragon_removal(void *state, void *motion, void *position, void *actor);

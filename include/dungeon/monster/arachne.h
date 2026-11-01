@@ -736,8 +736,8 @@ void finish_actor_tile_move_then_select_target(ActorRecord *state, ObjectPositio
 void complete_actor_arc_movement(void *action, void *motion, void *map_actor, void *actor);
 void check_boss_effect_threshold(ActorRecord *state, ObjectPosition *entity, SpriteFrameState *position, ActorRecord *graphic);
 void advance_action_and_spawn_effect(ActorRecord *body, ObjectPosition *position, SpriteFrameState *sprite, void *actor);
-void advance_actor_motion_and_wait(void *action, void *transform, void *sprite, ActorRecord *actor);
-void apply_knockback_then_restore_target_selection(R12_80172FE8_S_801730B8_1 *action, ObjectPosition *motion, SpriteFrameState *entity, void *source);
+void advance_actor_motion_and_wait(ActorRecord *action, ObjectPosition *transform, SpriteFrameState *sprite, ActorRecord *actor);
+void apply_knockback_then_restore_target_selection(R12_80172FE8_S_801730B8_1 *action, ObjectPosition *motion, SpriteFrameState *entity, ActorRecord *source);
 void advance_entity_fade_effect(ActorRecord *body, ObjectPosition *position, R12_801732EC_Entity *entity, R12_801732EC_Object *object);
 void advance_familiar_defeat_sequence(void *state, void *motion, void *position, void *actor);
 void advance_arachne_removal(void *state, void *motion, void *position, void *actor);
@@ -757,7 +757,7 @@ s32 queue_line_packets_for_node_chain(void *initial_state, void *context, void *
 void update_turning_fade_effect_and_model(void *record_data);
 void build_animated_spherical_wireframe(void *effect, void *origin, void *tint);
 void create_offset_effect(void *source_arg, void *spawn_pos_arg, void *unused_context);
-void wait_for_arachne_activity(void *entity_data, ObjectPosition *unused_1, s32 unused_2, void *other_data);
+void wait_for_arachne_activity(ActorRecord *entity_data, ObjectPosition *unused_1, s32 unused_2, void *other_data);
 void fade_effect_to_neutral(void *entity_data, void *unused, void *source_data);
 void advance_effect_sequence_and_restore_actor(void *sequence, void *position, SpriteFrameState *record, void *actor);
 void finish_actor_floor_trap_then_select_target(ActorRecord *state, ObjectPosition *motion, SpriteFrameState *position, ActorRecord *actor);

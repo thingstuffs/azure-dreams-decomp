@@ -22,9 +22,9 @@ void update_block_attack_slot_a(void *action, void *motion, SpriteFrameState *sp
 void update_block_spell_slot_a(CL_CD7000_80172BCC_S_func_80C953CC_1 *work, CL_CD7000_80172BCC_S_func_80C953CC_2 *position, CL_CD7000_80172BCC_S_func_80C953CC_3 *entity,
     CL_CD7000_80172BCC_S_func_80C953CC_4 *actor);
 void update_block_defeat_slot_a(void *state,void *position,void *render_state,void *entity);
-void update_block_hop_shrink_slot_a(void *state,void *position,void *render_state,void *entity);
-void update_block_removal_slot_a(void *state,void *position,void *render_state,void *entity);
-void finish_block_hop_grow_slot_a(S_80173364_0 *state,void *position,void *render_state,void *entity);
+void update_block_hop_shrink_slot_a(ActorRecord *state,ObjectPosition *position,SpriteFrameState *render_state,ActorRecord *entity);
+void update_block_removal_slot_a(void *state,ObjectPosition *position,SpriteFrameState *render_state,ActorRecord *entity);
+void finish_block_hop_grow_slot_a(S_80173364_0 *state,ObjectPosition *position,SpriteFrameState *render_state,ActorRecord *entity);
 void update_block_status_animation_slot_a(void *action, void *context, void *sprite_in, void *actor_in);
 void wait_block_mp_recovery_slot_a(void *actor_in, ObjectPosition *position, void *target, void *entity_in);
 void update_block_parent_motion_slot_a(S_80173A38_0 *state, void *position, CL_CD7000_80173A38_S_80173A38_1 *sprite, CL_CD7000_80173A38_S_80173A38_2 *actor);
@@ -37,7 +37,7 @@ void create_gray_fading_sprite_slot_a(void *unused_context, Rec_func_80173CFC_ar
 void draw_shaded_effect_quad_slot_a(void *quad, void *position, void *render_info, s16 depth_bias);
 s32 draw_linked_effect_quads_slot_a(void *point, void *position, void *color);
 void update_flashing_effect_segment_slot_a(u8 *effect, s32 *position, s32 effect_param);
-void create_segmented_effect_rings_slot_a(CL_CD7000_80174724_S_80C96F24_0 *owner, void *origin, void *entity);
+void create_segmented_effect_rings_slot_a(CL_CD7000_80174724_S_80C96F24_0 *owner, void *origin, SpriteFrameState *entity);
 void begin_block_action_23_slot_a(S_80174B3C_1 *state, void *unused_position, void *unused_render_state, CL_CD7000_80174B3C_S_80174B3C_0 *entity);
 void restore_scene_tint_slot_a(u8 *task, void *context, u8 *input);
 void update_block_replacement_slot_a(void *state, EntityRec *position, SpriteFrameState *entity, void *actor);

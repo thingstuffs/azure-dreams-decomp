@@ -269,7 +269,7 @@ void advance_target_hop(ActorRecord *body, ObjectPosition *motion, SpriteFrameSt
 void update_grineut_linked_motion(ActorRecord *state, ObjectPosition *entity, SpriteFrameState *position, ActorRecord *graphic);
 void complete_staged_destination_movement(ActorRecord *action, ObjectPosition *motion, SpriteFrameState *sprite, ActorRecord *actor);
 void advance_actor_stored_path_2(ActorRecord *body, ObjectPosition *motion, SpriteFrameState *sprite, ActorRecord *actor);
-void settle_directional_motion_at_tile(ActorRecord *body, ObjectPosition *motion, SpriteFrameState *sprite, void *entity);
+void settle_directional_motion_at_tile(ActorRecord *body, ObjectPosition *motion, SpriteFrameState *sprite, ActorRecord *entity);
 void remove_defeated_grineut(ActorRecord *body, ObjectPosition *motion, SpriteFrameState *sprite, ActorRecord *actor);
 void shrink_hopping_grineut(void *state, void *motion, void *position, void *actor);
 void advance_grineut_removal(void *state, void *motion, void *position, void *actor);
@@ -294,9 +294,9 @@ void update_directional_movement_and_center(ActorRecord *action, ObjectPosition 
 
 
 
-void decelerate_directional_motion_and_center(ActorRecord *body, ObjectPosition *motion, SpriteFrameState *sprite, void *entity);
-void settle_directional_actor_motion(ActorRecord *body, ObjectPosition *motion, SpriteFrameState *sprite, void *actor);
-void settle_entity_after_directional_motion(ActorRecord *body, ObjectPosition *motion, SpriteFrameState *sprite, void *entity);
+void decelerate_directional_motion_and_center(ActorRecord *body, ObjectPosition *motion, SpriteFrameState *sprite, ActorRecord *entity);
+void settle_directional_actor_motion(ActorRecord *body, ObjectPosition *motion, SpriteFrameState *sprite, ActorRecord *actor);
+void settle_entity_after_directional_motion(ActorRecord *body, ObjectPosition *motion, SpriteFrameState *sprite, ActorRecord *entity);
 void update_directional_motion_and_tile_alignment(void *action, ObjectPosition *motion, SpriteFrameState *actor, void *entity);
 
 void *spawn_grineut(s16 spawn_flags, s16 tile_x, s16 tile_y, s16 spawn_height);

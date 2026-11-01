@@ -69,7 +69,7 @@ s32 build_transformed_sprite_quads(InactiveTypeTwelveObjectBody *draw_area, void
 
 /* Owner declarations appended by tools/headers (append-only; the lines above are hand-kept). */
 void build_owned_floating_number_widget(void *owner, s32 value_a, s32 value_b, s32 style, s16 compact, u16 flags);
-void *create_panel_effect_object(void *owner);
+void *create_panel_effect_object(ActorRecord *owner);
 
 void *allocate_initialized_child_object(s32 parent_object, s32 type_code, s32 config_value);
 void *create_menu_child_object(s32 parent_obj, s32 descriptor_value);

@@ -5,8 +5,9 @@
 #include "shared/entity.h"
 #include "shared/record_ptrs.h"
 #include "shared/dir_step.h"
+#include "dungeon/effect/motion.h"
 void update_directional_actor_effect(void *, void *);
-void update_spiraling_effect_growth_and_fade(void *, void *, void *);
+void update_spiraling_effect_growth_and_fade(SpiralingBody *, void *, void *);
 void spawn_spiraling(void *, s16, s16, void *, s32);
 void process_effect_modes_and_completion(void *);
 void allocate_and_initialize_effect_object(s32, s16, s16, s32);

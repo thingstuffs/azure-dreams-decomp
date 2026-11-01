@@ -38,7 +38,7 @@ extern void *familiar_record_slots[];
 extern u8 familiar_record_storage[];
 
 /* Copy the indexed record into storage, clear its owner slot, and trigger an effect. */
-void store_recalled_familiar(s32 slot_table, void *unused_arg1, void *unused_arg2, EntityRec *owner) {
+void store_recalled_familiar(s32 slot_table, void *unused_arg1, void *unused_arg2, ActorRecord *owner) {
     s32 effect_mask;
     u8 effect_x;
     u8 effect_y;

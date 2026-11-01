@@ -21,7 +21,7 @@ extern s32 D_800E1996[];
 extern s32 D_800E19AA[];
 
 /* Toggle the 0xB/0xC status pair between attacker and target: roll the attacker's 0x3 chance plus its 0x11 bonus against 0x30, apply or clear the status on the target, and report whether the attempt did not fail. */
-u32 toggle_attacker_target_status_pair(void *attacker, void *target) {
+u32 toggle_attacker_target_status_pair(ActorRecord *attacker, void *target) {
     s32 roll;
     s32 status;
     s32 shifted;
@@ -36,14 +36,14 @@ u32 toggle_attacker_target_status_pair(void *attacker, void *target) {
         return 0;
     }
     roll = generate_random_value() & 0xFFFF;
-    base_chance = *(u8 *)((s8 *)attacker + 0x11) >> 2;
-    if (*(u8 *)((s8 *)attacker + 3) != 0) {
-        chance = roll % *(u8 *)((s8 *)attacker + 3) + base_chance;
+    base_chance = attacker->level >> 2;
+    if (attacker->unk_00[3] != 0) {
+        chance = roll % attacker->unk_00[3] + base_chance;
     } else {
         chance = base_chance;
     }
     if (chance >= 0x30) {
-        if (*(s32 *)((s8 *)attacker + 0x1C) & 0x2000) {
+        if (attacker->flags1C & 0x2000) {
             if (!(*(s32 *)((s8 *)target + 0x1C) & ACTOR_PLAYER_SIDE)) {
                 if ((get_entity_effect_value(target, STATUS_BRAINWASH) << 0x10) != 0) {
                     clear_slots_of_type(target, STATUS_BRAINWASH);

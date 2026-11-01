@@ -94,7 +94,7 @@ void update_entity_behavior_movement_and_height(ActorRecord *body, ObjectPositio
         sprite_direction = direction;
         if (body->unk_94 != sprite_direction) {
             select_indirect_table_entry(sprite,
-                (*((u8 *)(*(u8 **)&sprite->frameTable) + sprite_direction)),
+                (*((*(u8 **)&sprite->frameTable) + sprite_direction)),
                 sprite->unk_04);
             body->unk_94 = direction;
         }

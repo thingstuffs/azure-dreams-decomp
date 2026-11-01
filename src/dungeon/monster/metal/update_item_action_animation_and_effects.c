@@ -24,15 +24,6 @@ extern void play_sound_if_enabled(s32);
 extern u8 metal_action_resume_address[];
 extern u8 metal_frame_set_1[];
 
-typedef struct S_80173078_0 {
-    u8 pad_00[0x8C];
-    void * unk_8C;
-    u8 pad_90[0x6];
-    union { u16 u; s16 s; } unk_96;   /* accessed as both */
-    u16 unk_98;
-    u8 pad_9A[0x1];
-    u8 unk_9B;
-} S_80173078_0;   /* arg0 in update_item_action_animation_and_effects */
 
 typedef struct S_80173078_2 {
     u8 pad_00[0x24];
@@ -43,7 +34,7 @@ typedef struct S_80173078_2 {
 /* Updates an item action, its animation, particle effects, and completion state. */
 /* Starts a targeted spell with returning particles and a 20-particle burst, then restores idle after a
  * 32-tick wait. */
-void update_item_action_animation_and_effects(void *action, ObjectPosition *movement, SpriteFrameState *sprite, void *actor)
+void update_item_action_animation_and_effects(ActorRecord *action, ObjectPosition *movement, SpriteFrameState *sprite, void *actor)
 {
     u8 *item_slot;
     s16 special;
@@ -53,7 +44,7 @@ void update_item_action_animation_and_effects(void *action, ObjectPosition *move
     void *target;
 
     special = 0;
-    state = ((S_80173078_0 *)action)->unk_9B;
+    state = action->action_phase.u;
     if ((u32)state >= 5) {
         return;
     }
@@ -103,7 +94,7 @@ void update_item_action_animation_and_effects(void *action, ObjectPosition *move
         if (*item_slot != 0) {
             S_80173078_2 *item_id;
 
-            ((S_80173078_0 *)action)->unk_98 &= 0xFF7F;
+            action->action_state_flags &= 0xFF7F;
             if (special != 0) {
                 target = primary_actor_record;
                 (*(void * *)((u8 *)actor + 0x60)) = target;
@@ -137,8 +128,8 @@ void update_item_action_animation_and_effects(void *action, ObjectPosition *move
                 if (create_actor_spell_effect(actor, item_slot, special, (u8 *)action + 0x98) == 0) {
                 return;
         }
-        next_state = ((S_80173078_0 *)action)->unk_9B + 1;
-        ((S_80173078_0 *)action)->unk_9B = next_state;
+        next_state = action->action_phase.u + 1;
+        action->action_phase.u = next_state;
         return;
         }
 
@@ -147,10 +138,10 @@ void update_item_action_animation_and_effects(void *action, ObjectPosition *move
         movement->velocity_x = 0;
         set_record_integer_tile_center(movement, sprite->tile_x, sprite->tile_y);
         g_dungeon_status.active_actor = 0;
-        (*(u16 *)((u8 *)primary_actor_record + 0xA6))--;
+        primary_actor_record->unk_A4.halves.high.u--;
         advance_status_timers(actor);
         (*((u8 *)actor + 0x6D))--;
-        ((S_80173078_0 *)action)->unk_8C = metal_action_resume_address;
+        action->unk_8C.address = metal_action_resume_address;
         (*((u8 *)actor + 0x73)) = 0;
         (*((u8 *)actor + 0x72)) = 0;
         (*(u16 *)((u8 *)actor + 0x46)) &= 0x7FFF;
@@ -162,7 +153,7 @@ void update_item_action_animation_and_effects(void *action, ObjectPosition *move
             return;
         }
         sprite->flags &= 0xF7FF;
-        ((S_80173078_0 *)action)->unk_9B++;
+        action->action_phase.u++;
         play_sound_if_enabled(0x703);
 
     case 2:
@@ -172,26 +163,26 @@ void update_item_action_animation_and_effects(void *action, ObjectPosition *move
 
             flags = sprite->flags;
             if (flags & 0x8000) {
-                next_state = ((S_80173078_0 *)action)->unk_9B + 1;
-                ((S_80173078_0 *)action)->unk_96.u = 0;
-                ((S_80173078_0 *)action)->unk_9B = next_state;
+                next_state = action->action_phase.u + 1;
+                action->action_timer.u = 0;
+                action->action_phase.u = next_state;
                 return;
             }
             if (sprite->unk_04 == 2 && (flags & 0x1000)) {
                 sprite->flags = flags | 0x800;
-                ((S_80173078_0 *)action)->unk_96.u = 0x16;
+                action->action_timer.u = 0x16;
             }
             if (sprite->unk_04 < 2) {
                 return;
             }
-            timer = ((S_80173078_0 *)action)->unk_96.u - 1;
-            ((S_80173078_0 *)action)->unk_96.u = timer;
+            timer = action->action_timer.u - 1;
+            action->action_timer.u = timer;
             if (timer <= 0) {
-                ((S_80173078_0 *)action)->unk_96.u = 0;
-                ((S_80173078_0 *)action)->unk_9B++;
+                action->action_timer.u = 0;
+                action->action_phase.u++;
                 sprite->flags &= 0xF7FF;
             }
-            if (((S_80173078_0 *)action)->unk_96.s < 7) {
+            if (action->action_timer.s < 7) {
                 return;
             }
         }
@@ -226,9 +217,9 @@ void update_item_action_animation_and_effects(void *action, ObjectPosition *move
              (sprite->flags & 0x1000)) ||
             (sprite->flags & 0xE000)) {
             sprite->flags |= 0x800;
-            ((S_80173078_0 *)action)->unk_96.u = 0x20;
-            ((S_80173078_0 *)action)->unk_98 |= 0x80;
-            ((S_80173078_0 *)action)->unk_9B++;
+            action->action_timer.u = 0x20;
+            action->action_state_flags |= 0x80;
+            action->action_phase.u++;
             count = 0;
             do {
                 s32 brightness;
@@ -244,12 +235,12 @@ void update_item_action_animation_and_effects(void *action, ObjectPosition *move
             s16 timer;
 
             if ((g_dungeon_status.active_actor) == 0) {
-                ((S_80173078_0 *)action)->unk_96.u = 0;
+                action->action_timer.u = 0;
             }
-            timer = ((S_80173078_0 *)action)->unk_96.u - 1;
-            ((S_80173078_0 *)action)->unk_96.u = timer;
+            timer = action->action_timer.u - 1;
+            action->action_timer.u = timer;
             if (timer <= 0) {
-                ((S_80173078_0 *)action)->unk_96.u = 0;
+                action->action_timer.u = 0;
                 sprite->flags &= 0xF7FF;
             }
             if (!(sprite->flags & 0xE000)) {
@@ -272,7 +263,7 @@ void update_item_action_animation_and_effects(void *action, ObjectPosition *move
                 return;
             }
             g_dungeon_status.activity_counts.parts.pending_action_count--;
-            ((S_80173078_0 *)action)->unk_8C = metal_action_resume_address;
+            action->unk_8C.address = metal_action_resume_address;
             advance_status_timers(actor);
             (*((u8 *)actor + 0x73)) = 0;
             (*((u8 *)actor + 0x72)) = 0;

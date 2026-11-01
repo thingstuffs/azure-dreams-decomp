@@ -14,7 +14,7 @@ extern s32 nyuel_action_resume_address;
 
 /* Updates an eligible actor and conditionally resets the entity state. */
 void update_eligible_actor_and_reset_entity(ActorRecord *body, ObjectPosition *position, s32 value_arg, s32 actor_arg) {
-    void *entity = body;
+    ActorRecord *entity = body;
     s32 check_value = value_arg;
     s32 actor = actor_arg;
 
@@ -22,8 +22,8 @@ void update_eligible_actor_and_reset_entity(ActorRecord *body, ObjectPosition *p
         spend_actor_mp(actor, 3);
         advance_status_timers(actor);
         if ((check_actor_floor_trap(check_value, actor) << 16) > 0) {
-            *(s32 **)((u8 *)entity + 0x8C) = &nyuel_action_resume_address;
-            *(s32 *)((u8 *)entity + 0x90) = 0;
+            entity->unk_8C.word_ptr = &nyuel_action_resume_address;
+            entity->unk_90.value = 0;
         }
     }
 }

@@ -314,7 +314,7 @@ void spawn_scattered_point_particle(ObjectNodeHeader *parent, s16 field_34, s32 
 /* Advances the object cycle and position, flagging expiry or a flagged source. */
 void cycle_moving_effect_phase(void *object_arg, S_8181B078_1 *position, S_8181B078_2 *source)
 {
-    S_8181B078_0 *object = object_arg;
+    DecrementObjectCounterBody *object = object_arg;
     s32 one;
     s16 phase;
 
@@ -358,25 +358,26 @@ void cycle_moving_effect_phase(void *object_arg, S_8181B078_1 *position, S_8181B
 extern s32 D_80025908[];
 
 /* Creates an effect at an offset from the source and initializes its state and appearance. */
-void decrement_object_counter(void *source, s32 offset_x, s32 offset_y, s32 offset_z, s16 effect_value) {
+void decrement_object_counter(void *source_arg, s32 offset_x, s32 offset_y, s32 offset_z, s16 effect_value) {
+    S_8181B1A0_4 *source = source_arg;
     SpriteFrameState *render;
-    S_8181B1A0_0 *state;
+    DecrementObjectCounterBody *state;
     void *effect;
     ObjectPosition *position;
 
     effect = allocate_flagged_object_node(0x212);
     if (effect != NULL) {
         state = effect + 0x20;
-        state->unk_02 = effect_value;
+        state->unk_02.u = effect_value;
         state->unk_60 = (s32) ((rand() & 0x1FFFF) + 0x10000);
         ((ObjectNodeHeader *)effect)->update_callback = &cycle_moving_effect_phase;
         register_node(effect, project_sprite_chain);
         render = ((ObjectNodeHeader *)effect)->sprite;
         render->flags = (u16) (render->flags | 0xC);
         position = ((ObjectNodeHeader *)effect)->position;
-        position->x.w.i = (s16) (((MovingPosition *)(((S_8181B1A0_4 *)source)->unk_08))->x + offset_x);
-        position->y.w.i = (s16) (((MovingPosition *)(((S_8181B1A0_4 *)source)->unk_08))->y + offset_y);
-        position->z.w.i = (s16) (((MovingPosition *)(((S_8181B1A0_4 *)source)->unk_08))->z + offset_z);
+        position->x.w.i = (s16) (((MovingPosition *)(source->unk_08))->x + offset_x);
+        position->y.w.i = (s16) (((MovingPosition *)(source->unk_08))->y + offset_y);
+        position->z.w.i = (s16) (((MovingPosition *)(source->unk_08))->z + offset_z);
         render = ((ObjectNodeHeader *)effect)->sprite;
         render->scale_y = 0x1000;
         render->scale_x = 0x1000;
@@ -509,7 +510,7 @@ void advance_projectile_burst_and_impact(void *effect, ObjectPosition *motion, S
                     target_graphics = ((S_80024BE8_3_pre *)source)[-1].unk_00;
                     direction = *(u8 *)direction;
                     direction_table = (u8 *)(u32)((S_80024BE8_8 *)target_graphics)->unk_24;
-                    direction_table = ((u8 *)direction_table + direction);
+                    direction_table = (direction_table + direction);
                     ((S_80024BE8_0 *)effect)->unk_A2 = (s32)direction_table;
                     direction = ((S_80024BE8_0 *)effect)->unk_7E.s;
                     direction_table = D_8006CCE8;
@@ -517,7 +518,7 @@ void advance_projectile_burst_and_impact(void *effect, ObjectPosition *motion, S
                     direction += (s32)direction_table;
                     direction_table = (u8 *)(u32)((S_80024BE8_8 *)target_graphics)->unk_25;
                     direction = *(u8 *)direction;
-                    direction_table = ((u8 *)direction_table + direction);
+                    direction_table = (direction_table + direction);
                     ((S_80024BE8_0 *)effect)->unk_A3 = (s32)direction_table;
                     tile_distance = ((S_80024BE8_3 *)source)->unk_72;
                     source_coord = ((S_80024BE8_8 *)target_graphics)->unk_24;

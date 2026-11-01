@@ -28,7 +28,7 @@ extern void update_attached_effect_position(void *object, MovingPosition *positi
 extern u8 *dungeon_menu_text_entries[];
 extern s32 transform_linked_quad_batches(u8 *, s32, u8 *);
 /* Creates an entity panel with numeric labels, centered text, and a shaded background. */
-void *create_panel_effect_object(void *owner)
+void *create_panel_effect_object(ActorRecord *owner)
 {
     s8 text_buf[16];
     s32 prim_index;
@@ -49,7 +49,7 @@ void *create_panel_effect_object(void *owner)
     void *prim;
     void *panel_data;
     s32 *color_ptr;
-    void *entity;
+    ActorRecord *entity;
     ObjectNodeHeader *panel;
     SpriteFrameState *transform;
     entity = owner;
@@ -66,7 +66,7 @@ void *create_panel_effect_object(void *owner)
         panel_pos->x.w.i = (u16) (*((u16 *) (((s8 *) owner_pos) + 2)));
         panel_pos->y.w.i = (u16) (*((u16 *) (((s8 *) owner_pos) + 6)));
         panel_pos->z.w.i = (s16) ((*((u16 *) (((s8 *) owner_pos) + 0xA)))
-            - (entity_height_offsets[*((u8 *) (((s8 *) entity) + 0x13))] + 0x50));
+            - (entity_height_offsets[entity->species] + 0x50));
         panel->update_callback = update_attached_effect_position;
         register_node(panel, transform_linked_quad_batches);
         panel_data = ((void *)panel) + 0x20;
@@ -91,23 +91,23 @@ void *create_panel_effect_object(void *owner)
                 text_buf[3] = text_style;
                 text_buf[1] = text_style;
             }
-            func_8004E5A0(*((u8 *) (((s8 *) entity) + 0x28)), count_or_color, digits);
+            func_8004E5A0(entity->hp, count_or_color, digits);
             *((s32 *) (((s8 *) panel) + 0x74)) = build_positioned_text_glyphs(prim, text_buf, 0);
             offset_record_coordinates(prim, 8, ((s32) (0 - (((s32) ((*((u8 *) (((s8 *) prim) + 3))) << 0x18)) >> 8))) >> 0x10);
             set_record_flags_and_negate_x(prim, 8);
             prim += 0x24;
             *((s32 *) (((s8 *) panel) + 0x5C)) = color_or_addr;
-            func_8004E5A0(*((u8 *) (((s8 *) entity) + 0x25)), 3, digits);
+            func_8004E5A0(entity->mp_value.parts.whole, 3, digits);
             *((s32 *) (((s8 *) panel) + 0x78)) = build_positioned_text_glyphs(prim, text_buf, 0);
             offset_record_coordinates(prim, 8, (s32) ((s16) ((0 - ((s8) (*((u8 *) (((s8 *) prim) + 3))))) + 8)));
             set_record_flags_and_negate_x(prim, 8);
             prim += 0x24;
             *((s32 *) (((s8 *) panel) + 0x60)) = color_or_addr;
-            text_id = *((u16 *) (((s8 *) entity) + 0x46));
+            text_id = entity->action_flags;
             color_ptr = (s32 *)((u8 *)panel + 0x64);
             if (text_id & 0x8000) {
                 *((s32 *) (((s8 *) panel) + 0x7C)) = decode_fullwidth_text(prim, dungeon_menu_text_entries[text_id & 0x3FFF] + 1, 0);
-                text_addr = dungeon_menu_text_entries[(*((u16 *) (((s8 *) entity) + 0x46))) & 0x3FFF];
+                text_addr = dungeon_menu_text_entries[entity->action_flags & 0x3FFF];
                 prim_index = 4;
                 text_width = strlen(text_addr + 1);
     

@@ -80,6 +80,29 @@ def test_fn_types():
     assert F.fnptr_arity('void (*)(Body *, s32)') == 2
 
 
+def test_nested_anonymous_members(tmp_path):
+    (tmp_path / 'include').mkdir()
+    (tmp_path / 'include' / 'flow.h').write_text('''
+typedef union Fixed {
+    int value;
+    struct { unsigned short fraction; short integer; } parts;
+} Fixed;
+typedef struct Body {
+    Fixed position;
+    union { unsigned short u; short s; } timer;
+} Body;
+''')
+    (tmp_path / 'src').mkdir()
+    (tmp_path / 'src' / 'flow.c').write_text('#include "flow.h"\nvoid use(Body *b) { b->timer.u = 1; }\n')
+    unit, err = A.clang_unit(tmp_path, 'src/flow.c')
+    assert unit is not None, err
+    graph = S.Graph(write_graph(tmp_path, F.Extract(unit).run().dump()))
+    assert graph.size('Fixed') == 4
+    assert graph.member_at('Body', 2, 'short') == 'position.parts.integer'
+    assert graph.member_at('Body', 4, 'unsigned short') == 'timer.u'
+    assert graph.member_at('Body', 4, 'short') == 'timer.s'
+
+
 def write_graph(tmp_path, d):
     g = tmp_path / 'graph' / 'tu'
     g.mkdir(parents=True)

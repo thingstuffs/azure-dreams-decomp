@@ -25,14 +25,6 @@ typedef struct S_80174428_0 {
     s16 unk_88;
 } S_80174428_0;   /* object in update_movement_destination_selection_recovery_animation */
 
-typedef struct S_80174428_1 {
-    u8 pad_00[0x8C];
-    u8 * unk_8C;
-    u8 pad_90[0x6];
-    union { u16 s; s16 u; } unk_96;   /* accessed as both */
-    u8 pad_98[0x3];
-    u8 unk_9B;
-} S_80174428_1;   /* state in update_movement_destination_selection_recovery_animation */
 
 typedef struct S_80174428_2 {
     u8 pad_00[0x14];
@@ -68,7 +60,7 @@ extern s16 sample_terrain_surface_height(s32, s32, s16);
 /* Updates movement, destination selection, and recovery animation for the object. */
 /* Animates Picket's dash and retreat, selects a new valid tile when allowed, then restores sprite scale
  * and spends MP. */
-void update_movement_destination_selection_recovery_animation(void *state, ObjectPosition *motion, SpriteFrameState *actor, void *object)
+void update_movement_destination_selection_recovery_animation(ActorRecord *state, ObjectPosition *motion, SpriteFrameState *actor, void *object)
 {
     s32 y_step;
     s32 x_step;
@@ -84,7 +76,7 @@ void update_movement_destination_selection_recovery_animation(void *state, Objec
     raw_direction = ((S_80174428_0 *)object)->unk_2A.s;
     direction_offset = raw_direction >> 8;
     direction_offset &= 0xE;
-    state_id = ((S_80174428_1 *)state)->unk_9B;
+    state_id = state->action_phase.u;
     x_step_ptr = (s16 *)((u8 *)x_step_ptr + direction_offset);
     direction_offset += (u32)((u8 *)dir_step_y);
     raw_direction = state_id < 6;
@@ -102,13 +94,13 @@ void update_movement_destination_selection_recovery_animation(void *state, Objec
             picket_frame_set_2[((g_game_work.view.camera_rotation.parts.viewAngle + ((S_80174428_0 *)object)->unk_2A.u + 0x100) >> 9) & 7], 0);
         motion->velocity_x = (x_step << 19) + (x_step << 18);
         motion->velocity_y = (y_step << 19) + (y_step << 18);
-        ((S_80174428_1 *)state)->unk_96.s = 4;
+        state->action_timer.u = 4;
         play_sound_if_enabled(0x80E);
-        ((S_80174428_1 *)state)->unk_9B++;
+        state->action_phase.u++;
     case 1:
         if (!(actor->flags & 0x8000)) {
-            ((S_80174428_1 *)state)->unk_96.s--;
-            if (((S_80174428_1 *)state)->unk_96.u > 0) {
+            state->action_timer.u--;
+            if (state->action_timer.s > 0) {
                 return;
             }
         }
@@ -118,10 +110,10 @@ void update_movement_destination_selection_recovery_animation(void *state, Objec
         select_sprite_entry(actor,
             picket_frame_set_8[((*(s16 *)(((u8 *)(&reference_tile_object)) + 0x3A8) +
                 ((S_80174428_0 *)object)->unk_2A.u + 0x100) >> 9) & 7], 0);
-        ((S_80174428_1 *)state)->unk_96.s = 0;
+        state->action_timer.u = 0;
         motion->velocity_x = (-x_step) << 18;
         motion->velocity_y = (-y_step) << 18;
-        ((S_80174428_1 *)state)->unk_9B++;
+        state->action_phase.u++;
         return;
 
     case 2:
@@ -134,12 +126,12 @@ void update_movement_destination_selection_recovery_animation(void *state, Objec
         select_sprite_entry(actor,
             picket_frame_set_1[((g_game_work.view.camera_rotation.parts.viewAngle + ((S_80174428_0 *)object)->unk_2A.u + 0x100) >> 9) & 7], 0);
         if (((S_80174428_0 *)object)->unk_1C & ACTOR_PLAYER_SIDE) {
-            ((S_80174428_1 *)state)->unk_96.s = 7;
-            ((S_80174428_1 *)state)->unk_9B = 5;
+            state->action_timer.u = 7;
+            state->action_phase.u = 5;
             return;
         }
         ((S_80174428_0 *)object)->unk_2A.s &= 0xFFF;
-        ((S_80174428_1 *)state)->unk_9B++;
+        state->action_phase.u++;
         return;
 
     case 3:
@@ -148,7 +140,7 @@ void update_movement_destination_selection_recovery_animation(void *state, Objec
             if ((((S_80174428_0 *)object)->unk_2A.u == 0x400) ||
                 (actor->flags & 0x8000)) {
                 select_sprite_entry(actor, 0x37, 0);
-                ((S_80174428_1 *)state)->unk_9B++;
+                state->action_phase.u++;
                 return;
             }
             if ((u32)(angle - 0x401) < 0x800) {
@@ -167,7 +159,7 @@ void update_movement_destination_selection_recovery_animation(void *state, Objec
         attempts_left = 0x40;
         world = &reference_tile_object;
         level = floor_generation_state;
-        ((S_80174428_1 *)state)->unk_96.s = 0;
+        state->action_timer.u = 0;
         x_step = actor->tile_x;
         y_step = actor->tile_y;
 
@@ -175,7 +167,7 @@ void update_movement_destination_selection_recovery_animation(void *state, Objec
             if (--attempts_left <= 0) {
                 actor->tile_x = (u8)x_step;
                 actor->tile_y = (u8)y_step;
-                ((S_80174428_1 *)state)->unk_9B++;
+                state->action_phase.u++;
                 return;
             }
             direction_offset = select_dungeon_spawn_tile(&actor->tile_x, &actor->tile_y);
@@ -191,21 +183,21 @@ void update_movement_destination_selection_recovery_animation(void *state, Objec
                 (s16)(((u16) motion->z.w.i) - 0x80));
             raw_direction = direction_offset < 0x201;
             if (raw_direction) {
-                ((S_80174428_1 *)state)->unk_9B++;
+                state->action_phase.u++;
                 return;
             }
         }
 
     case 5:
         {
-            actor->scale_x = D_80174FC4[((S_80174428_1 *)state)->unk_96.u];
-            actor->scale_y = D_80174FD4[((S_80174428_1 *)state)->unk_96.u];
-            if (((S_80174428_1 *)state)->unk_96.u == 4) {
+            actor->scale_x = D_80174FC4[state->action_timer.s];
+            actor->scale_y = D_80174FD4[state->action_timer.s];
+            if (state->action_timer.s == 4) {
                 play_sound_if_enabled(0x705);
             }
             if (!(actor->flags & 0x8000)) {
-                ((S_80174428_1 *)state)->unk_96.s++;
-                if (((S_80174428_1 *)state)->unk_96.u < 8) {
+                state->action_timer.u++;
+                if (state->action_timer.s < 8) {
                     return;
                 }
             }
@@ -225,7 +217,7 @@ void update_movement_destination_selection_recovery_animation(void *state, Objec
             set_record_integer_tile_center(motion, actor->tile_x, actor->tile_y);
             actor->scale_y = 0x1000;
             actor->scale_x = 0x1000;
-            ((S_80174428_1 *)state)->unk_8C = picket_action_resume_address;
+            state->unk_8C.byte_ptr = picket_action_resume_address;
             advance_status_timers(object);
             ((S_80174428_0 *)object)->unk_6D = 0;
             ((S_80174428_0 *)object)->unk_46 &= 0x7FFF;

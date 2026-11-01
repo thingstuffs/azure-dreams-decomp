@@ -2,6 +2,7 @@
 #include "common.h"
 #include "shared/object_flags.h"
 #include "engine/node.h"
+#include "dungeon/monster/beldo_large.h"
 
 /* Sparse views for fields not covered by the existing record types. */
 typedef struct { u16 flags; } AnimationFieldView_813374E8Prefix;
@@ -10,18 +11,6 @@ typedef struct { u16 flags; } AnimationFieldView_813374E8Prefix;
 #define NULL 0
 #endif
 
-typedef struct S_8016E4E8_0 {
-    u8 unk_00;
-    u8 unk_01;
-    u8 unk_02;
-    u8 pad_03[0xF];
-    union { s16 s; u16 u; } unk_12;   /* accessed as both */
-    u8 pad_14[0x4];
-    union { s16 s; u16 u; } unk_18;   /* accessed as both */
-    u16 unk_1A;
-    s16 unk_1C;
-    u16 unk_1E;
-} S_8016E4E8_0;   /* arg0 in emit_multi_form_ring_geometry */
 
 typedef struct S_8016E4E8_1 {
     u8 pad_00[0xC];
@@ -82,7 +71,7 @@ extern Data12 D_80173B4C;
 /* Advances the color fade and creates two rows of animated textured geometry. */
 /* Fades the effect color while creating two textured rows with copied vertices and cycling texture
  * coordinates. */
-void emit_multi_form_ring_geometry(void *animation, s32 *origin, void *color)
+void emit_multi_form_ring_geometry(MultiFormSegmentRingBody *animation, s32 *origin, void *color)
 {
     s32 bottom_y;
     u16 tick_count;
@@ -104,48 +93,48 @@ void emit_multi_form_ring_geometry(void *animation, s32 *origin, void *color)
     u8 *dst_coord;
     s32 state;
 
-    state = ((S_8016E4E8_0 *)animation)->unk_12.s;
+    state = animation->unk_12.s;
     switch ((u32)state) {
     case 0:
         ((S_8016E4E8_1 *)color)->unk_0C =
-            (((S_8016E4E8_0 *)animation)->unk_00 * (50 - ((S_8016E4E8_0 *)animation)->unk_18.s)) / 10;
+            (animation->unk_00.u * (50 - animation->unk_18.s)) / 10;
         ((S_8016E4E8_1 *)color)->unk_0D =
-            (((S_8016E4E8_0 *)animation)->unk_01 * (50 - ((S_8016E4E8_0 *)animation)->unk_18.s)) / 10;
+            (animation->unk_01 * (50 - animation->unk_18.s)) / 10;
         ((S_8016E4E8_1 *)color)->unk_0E =
-            (((S_8016E4E8_0 *)animation)->unk_02 * (50 - ((S_8016E4E8_0 *)animation)->unk_18.s)) / 10;
-        ((S_8016E4E8_0 *)animation)->unk_18.u--;
-        if (((S_8016E4E8_0 *)animation)->unk_18.s >= 41) {
+            (animation->unk_02 * (50 - animation->unk_18.s)) / 10;
+        animation->unk_18.u--;
+        if (animation->unk_18.s >= 41) {
             break;
         }
-        ((S_8016E4E8_0 *)animation)->unk_12.u++;
+        animation->unk_12.u++;
         break;
 
     case 2:
-        ((S_8016E4E8_0 *)animation)->unk_18.u++;
-        if (((S_8016E4E8_0 *)animation)->unk_18.s < 20) {
+        animation->unk_18.u++;
+        if (animation->unk_18.s < 20) {
             break;
         }
-        ((S_8016E4E8_0 *)animation)->unk_18.u = 0;
-        ((S_8016E4E8_0 *)animation)->unk_12.u++;
+        animation->unk_18.u = 0;
+        animation->unk_12.u++;
         break;
 
     case 3:
-        ((S_8016E4E8_0 *)animation)->unk_18.u = 20;
-        ((S_8016E4E8_0 *)animation)->unk_12.u++;
+        animation->unk_18.u = 20;
+        animation->unk_12.u++;
         break;
 
     case 4:
-        ((S_8016E4E8_0 *)animation)->unk_18.u--;
+        animation->unk_18.u--;
         ((S_8016E4E8_1 *)color)->unk_0C =
-            (((S_8016E4E8_0 *)animation)->unk_00 * ((S_8016E4E8_0 *)animation)->unk_18.s) / 20;
+            (animation->unk_00.u * animation->unk_18.s) / 20;
         ((S_8016E4E8_1 *)color)->unk_0D =
-            (((S_8016E4E8_0 *)animation)->unk_01 * ((S_8016E4E8_0 *)animation)->unk_18.s) / 20;
+            (animation->unk_01 * animation->unk_18.s) / 20;
         ((S_8016E4E8_1 *)color)->unk_0E =
-            (((S_8016E4E8_0 *)animation)->unk_02 * ((S_8016E4E8_0 *)animation)->unk_18.s) / 20;
-        if (((S_8016E4E8_0 *)animation)->unk_18.s > 0) {
+            (animation->unk_02 * animation->unk_18.s) / 20;
+        if (animation->unk_18.s > 0) {
             break;
         }
-        ((S_8016E4E8_0 *)animation)->unk_12.u++;
+        animation->unk_12.u++;
         break;
 
     case 5:
@@ -157,7 +146,7 @@ void emit_multi_form_ring_geometry(void *animation, s32 *origin, void *color)
     row = 0;
     one = 1;
     top_y = -0x20;
-    ((S_8016E4E8_0 *)animation)->unk_1E++;
+    animation->unk_1E++;
     for (;;) {
         object = allocate_flagged_object_node(0x12);
         part = (u8 *)object + 0x20;
@@ -205,13 +194,13 @@ void emit_multi_form_ring_geometry(void *animation, s32 *origin, void *color)
             memcpy(part + 0x28, &D_80173B4C, 12);
 
             vertex_index = 0;
-            src_vertices = animation;
+            src_vertices = (u8 *)animation;
             dst_vertices = part;
             texture = part + 0x28;
             effect->unk_08.s = texture;
-            texture[8] += ((S_8016E4E8_0 *)animation)->unk_1C * 4;
+            texture[8] += animation->unk_1C * 4;
             texture = effect->unk_08.u;
-            frame_count = ((S_8016E4E8_0 *)animation)->unk_1E;
+            frame_count = animation->unk_1E;
             texture[9] += (frame_count & 3) << 3;
 
             do {
@@ -241,9 +230,9 @@ void emit_multi_form_ring_geometry(void *animation, s32 *origin, void *color)
             continue;
         }
 
-        if (((S_8016E4E8_0 *)animation)->unk_12.s < 5) {
-            tick_count = ((S_8016E4E8_0 *)animation)->unk_1A;
-            ((S_8016E4E8_0 *)animation)->unk_1A = tick_count + 1;
+        if (animation->unk_12.s < 5) {
+            tick_count = animation->unk_1A.u;
+            animation->unk_1A.u = tick_count + 1;
             if ((tick_count & 0xF) == 1) {
                 play_sound_if_enabled(0x60E);
             }

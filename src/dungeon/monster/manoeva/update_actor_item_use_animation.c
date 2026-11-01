@@ -62,7 +62,7 @@ extern void play_sound_if_enabled(s32);
 extern void create_actor_linked_effect(void *);
 
 /* Advances an actor's item action through source selection, animation, and cleanup. */
-void update_actor_item_use_animation(void *action, void *item, SpriteFrameState *sprite, void *actor)
+void update_actor_item_use_animation(ActorRecord *action, void *item, SpriteFrameState *sprite, void *actor)
 {
     S_801728E4_1 *act = actor;
     u8 state;
@@ -71,7 +71,7 @@ void update_actor_item_use_animation(void *action, void *item, SpriteFrameState 
     s32 item_kind;
     ObjectNodeHeader *source_sprite;
 
-    state = ((ActorRecord *)action)->action_phase.u;
+    state = action->action_phase.u;
     use_global_source = 0;
     switch (state) {
     case 0:
@@ -125,7 +125,7 @@ void update_actor_item_use_animation(void *action, void *item, SpriteFrameState 
             {
                 s16 global_source_test;
 
-                ((ActorRecord *)action)->action_state_flags &= 0xFF7F;
+                action->action_state_flags &= 0xFF7F;
                 global_source_test = use_global_source;
                 if (global_source_test) {
                     source_entity = primary_actor_record;
@@ -157,7 +157,7 @@ void update_actor_item_use_animation(void *action, void *item, SpriteFrameState 
             return;
         }
         create_actor_linked_effect(act);
-        ((ActorRecord *)action)->action_phase.u++;
+        action->action_phase.u++;
         return;
 
     case 1:
@@ -166,7 +166,7 @@ void update_actor_item_use_animation(void *action, void *item, SpriteFrameState 
             return;
         }
         sprite->flags &= 0xF7FF;
-        ((ActorRecord *)action)->action_phase.u++;
+        action->action_phase.u++;
 
     case 2:
         if (!(sprite->flags & 0xE000)) {
@@ -177,16 +177,16 @@ void update_actor_item_use_animation(void *action, void *item, SpriteFrameState 
             *(u8 *)((uptr)(((g_game_work.view.camera_rotation.parts.viewAngle + act->unk_2A + 0x100) >> 9) & 7) +
                     (uptr)D_80176648),
             0);
-        ((ActorRecord *)action)->action_phase.u++;
+        action->action_phase.u++;
         return;
 
     case 3:
         if (sprite->unk_04 == 6 && (sprite->flags & 0x1000)) {
-            ((ActorRecord *)action)->action_state_flags |= 0x80;
+            action->action_state_flags |= 0x80;
         } else if (sprite->flags & 0xE000) {
-            ((ActorRecord *)action)->action_state_flags |= 0x80;
+            action->action_state_flags |= 0x80;
         }
-        if (!(((ActorRecord *)action)->action_state_flags & 0x80)) {
+        if (!(action->action_state_flags & 0x80)) {
             return;
         }
         if (!(sprite->flags & 0xE000)) {
@@ -198,7 +198,7 @@ void update_actor_item_use_animation(void *action, void *item, SpriteFrameState 
             *(u8 *)((uptr)(((g_game_work.view.camera_rotation.parts.viewAngle + act->unk_2A + 0x100) >> 9) & 7) +
                     (uptr)manoeva_frame_set_2),
             0);
-        ((ActorRecord *)action)->action_phase.u++;
+        action->action_phase.u++;
         return;
 
     case 4:
@@ -217,7 +217,7 @@ void update_actor_item_use_animation(void *action, void *item, SpriteFrameState 
             return;
         }
         ((S_801728E4_5 *)source_sprite)->unk_0A--;
-        ((ActorRecord *)action)->unk_8C.byte_ptr = manoeva_action_resume_address;
+        action->unk_8C.byte_ptr = manoeva_action_resume_address;
         advance_status_timers(act);
         act->unk_73.s = 0;
         act->unk_72.s = 0;

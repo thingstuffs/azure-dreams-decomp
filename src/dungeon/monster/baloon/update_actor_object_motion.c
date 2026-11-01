@@ -107,7 +107,7 @@ void update_actor_object_motion(void *object_arg, void *motion_arg, SpriteFrameS
         page_index = direction_index;
         if ((*(s16 *)((u8 *)object_arg + (0x94))) != (s16)page_index) {
             select_indirect_table_entry(part_arg,
-                (*((u8 *)(*(u8 **)&part_arg->frameTable) + (page_index))),
+                (*((*(u8 **)&part_arg->frameTable) + (page_index))),
                 part_arg->unk_04);
             (*(s16 *)((u8 *)object_arg + (0x94))) = direction_index;
         }

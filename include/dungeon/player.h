@@ -76,6 +76,6 @@ s16 get_special_table_data_index(s32 dataAddress);
 
 void resolve_familiar_deployment_request(void *context_ptr, s32 unused_one, void *unused_two, void *selection_ptr);
 s32 reveal_triggered_trap(void *actor);
-void store_recalled_familiar(s32 slot_table, void *unused_arg1, void *unused_arg2, EntityRec *owner);
+void store_recalled_familiar(s32 slot_table, void *unused_arg1, void *unused_arg2, ActorRecord *owner);
 
 #endif

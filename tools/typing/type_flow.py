@@ -669,6 +669,13 @@ class Extract:
                     stack.extend((k, depth + 1) for k in node['kids'])
             recs[r] = {'size': lay['size'], 'kind': lay.get('kind'), 'file': self.u.record_files.get(r, ''),
                        'fields': fields}
+            # A field need not be accessed directly in this TU for its embedded
+            # record's layout to be needed by a later retype of the enclosing record.
+            for _name, _off, field_type, _bits in fields:
+                element_type = re.sub(r'\s*\[\d*\]', '', field_type)
+                nested = self.u.T.record(element_type)
+                if nested and not self.u.T.resolve(element_type).endswith('*'):
+                    todo.append(nested)
         return {'tu': self.u.rel, 'functions': self.functions, 'edges': self.edges, 'uses': self.uses,
                 'int_uses': self.int_uses, 'calls': self.calls, 'protos': self.protos,
                 'decl_types': self.decl_types, 'records': recs,

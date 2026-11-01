@@ -2,6 +2,7 @@
 #define MODULE_DUNGEON_OVL_CD7000_H
 #include "dungeon/system.h"
 #include "engine/texture.h"
+#include "shared/sprite_frame_state.h"
 struct EntityLinkNode;
 
 
@@ -10,7 +11,6 @@ struct SpriteFrameState;
 #include "common.h"
 #include "dungeon/modules.h"
 #include "dungeon/actor.h"
-#include "shared/sprite_frame_state.h"
 #include "shared/slus_callbacks.h"
 #include "shared/object_flags.h"
 #include "shared/object_node.h"
@@ -1119,11 +1119,11 @@ extern s32 begin_ready_actor_directional_action(void *, void *, void *, u8 *);
 extern void begin_actor_move_to_target_facing(void *, void *, void *, void *);
 extern s32 reset_actor_action_state(void *actor, void *unused, SpriteFrameState *sprite, u8 *direction_frames);
 extern s32 update_actor_movement_to_tile(void *,void *,void *,void *);
-extern s32 update_linked_actor_motion(void *state, void *transform, void *config, void *object);
+extern s32 update_linked_actor_motion(void *state, ObjectPosition *transform, SpriteFrameState *config, void *object);
 extern s32 update_actor_hop_and_shrink(void *,void *,struct SpriteFrameState *,void *);
 
 extern s32 interpolate_actor_to_terrain_tile(void *,void *,void *,void *);
-extern s32 update_spinning_actor_fall(void *,void *,void *,void *);
+extern s32 update_spinning_actor_fall(void *,void *,SpriteFrameState *,void *);
 extern s32 propagate_actor_action_flag(void *,void *,void *,void *);
 extern s32 update_actor_transform_from_parent(void *, void *, void *, void *);
 extern s32 update_actor_fade_in(void *,void *,void *);

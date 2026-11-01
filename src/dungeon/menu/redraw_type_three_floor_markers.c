@@ -24,7 +24,7 @@ void redraw_type_three_floor_markers(void) {
     s32 y;
     s32 count;
 
-    mapPtr = ((void *)g_game_work.map.cells);
+    mapPtr = g_game_work.map.cells;
     shiftBase = (u8 *)(&g_game_work.map.cells);
     submit_activation_command();
     count = 0;

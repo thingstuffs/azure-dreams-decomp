@@ -32,7 +32,7 @@ typedef struct S_80174C64_3 {
 /* Updates movement, turning, position history, and timed stop states. */
 /* Steers around obstacles while recording positions; stops on repeated positions, timeout, or the sprite
  * flag. */
-void update_actor_movement_history(ActorRecord *motion, ObjectPosition *position, SpriteFrameState *record, void *object)
+void update_actor_movement_history(ActorRecord *motion, ObjectPosition *position, SpriteFrameState *record, ActorRecord *object)
 {
     u16 angle;
     u16 next_angle;
@@ -108,9 +108,9 @@ void update_actor_movement_history(ActorRecord *motion, ObjectPosition *position
 
         case 2:
             next_angle = angle + 0x200;
-            (*(u16 *)((u8 *)object + 0x2A)) = next_angle;
+            object->facing = next_angle;
             if (((signed short)(next_angle)) >= 0x1000) {
-                (*(u16 *)((u8 *)object + 0x2A)) = 0;
+                object->facing = 0;
             }
             motion->unk_B0.bytes[2] = 1;
             motion->action_timer.u = 1;
@@ -239,9 +239,9 @@ state1_call:
                 switch (motion->unk_B0.bytes[2]) {
                 case 0:
                     next_angle = (*(u16 *)((u8 *)object + 0x2A)) + 0x200;
-                    (*(u16 *)((u8 *)object + 0x2A)) = next_angle;
+                    object->facing = next_angle;
                     if (((signed short)(next_angle)) >= 0x1000) {
-                        (*(u16 *)((u8 *)object + 0x2A)) = 0;
+                        object->facing = 0;
                     }
                     next_phase = motion->unk_B0.bytes[2];
                     motion->action_timer.u = 0;
@@ -259,9 +259,9 @@ state1_call:
                     if (((*(u16 *)((u8 *)object + 0x2A)) & 0x3FF) != 0) {
                         motion->unk_B0.bytes[2] = 0;
                         next_angle = (*(u16 *)((u8 *)object + 0x2A)) + 0x200;
-                        (*(u16 *)((u8 *)object + 0x2A)) = next_angle;
+                        object->facing = next_angle;
                         if (((signed short)(next_angle)) >= 0x1000) {
-                            (*(u16 *)((u8 *)object + 0x2A)) = 0;
+                            object->facing = 0;
                         }
                         next_phase = motion->unk_B0.bytes[2];
                         motion->action_timer.u = 0;
@@ -320,19 +320,19 @@ state1_case2:
 
                     saved_angle = (*(u16 *)((u8 *)object + 0x2A));
                     next_angle = saved_angle - 0x400;
-                    (*(u16 *)((u8 *)object + 0x2A)) = next_angle;
+                    object->facing = next_angle;
                     if ((next_angle << 16) < 0) {
-                        (*(u16 *)((u8 *)object + 0x2A)) = saved_angle + 0xC00;
+                        object->facing = saved_angle + 0xC00;
                     }
                     if (check_forward_collision_and_height(position, object) != 0) {
                         motion->unk_B0.bytes[2] = 0;
                         motion->unk_B0.bytes[1] = 0;
-                        (*(u16 *)((u8 *)object + 0x2A)) = saved_angle;
+                        object->facing = saved_angle;
                         break;
                     }
                     motion->unk_B0.bytes[1] = 3;
                     motion->unk_B0.bytes[2] = 0;
-                    (*(u16 *)((u8 *)object + 0x2A)) = saved_angle;
+                    object->facing = saved_angle;
                     break;
                 }
 
@@ -347,9 +347,9 @@ state1_case2:
 state1_minus_angle:
                     old_angle = (*(u16 *)((u8 *)object + 0x2A));
                     next_angle = old_angle - 0x200;
-                    (*(u16 *)((u8 *)object + 0x2A)) = next_angle;
+                    object->facing = next_angle;
                     if ((next_angle << 16) < 0) {
-                        (*(u16 *)((u8 *)object + 0x2A)) = old_angle + 0xE00;
+                        object->facing = old_angle + 0xE00;
                     }
                     next_phase = motion->unk_B0.bytes[2];
                     motion->action_timer.u = 0;
@@ -464,7 +464,7 @@ state3_test:
         }
 
     }
-    (*(signed short *)((u8 *)object + 0x88)) = sample_terrain_surface_height(
+    object->ground_height = sample_terrain_surface_height(
         (*(u16 *)((u8 *)position + 2)), (*(u16 *)&position->y.w.i),
         (signed short)((*(u16 *)&position->z.w.i) - 0x20));
 }

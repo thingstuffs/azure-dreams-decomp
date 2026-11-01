@@ -95,7 +95,7 @@ void render_textured_effect_parts(Row_818F2800_S_BODY_3 *geometry, void *positio
                     if (half == 0) {
                         s32 texture_v;
                         DM_U32(0x08) = texture_u;
-                        texture_v = (*((u8 *)part + 9));
+                        texture_v = (*(part + 9));
                         DM_U32(0x10) = 1;
                         DM_U32(0x0C) = texture_v;
                         {

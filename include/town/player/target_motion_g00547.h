@@ -4,14 +4,15 @@
 /* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - PD:town/engine:800D0608. */
 
 #include "common.h"
+#include "shared/position_views.h"
 
 extern s32 player_target_position[];
 extern s32 D_8009AAB8;
 extern u32 D_8009AB74;
 
 /* Functions defined in this translation unit. */
-void move_player_toward_target(void *state, void *object);
-void approach_player_target_position(void *state, void *motion);
+void move_player_toward_target(UnsignedCountdownView *state, void *object);
+void approach_player_target_position(UnsignedCountdownView *state, void *motion);
 
 struct SpriteFrameState;
 

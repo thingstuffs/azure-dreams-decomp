@@ -12,7 +12,7 @@
 #include "dungeon/level.h"
 #include "dungeon/system.h"
 
-extern void store_recalled_familiar(void *, void *, void *, void *); /* Unprototyped: uses the value as a pointer where the definition has an integer (or the reverse) */
+extern void store_recalled_familiar(void *, void *, void *, ActorRecord *); /* Unprototyped: uses the value as a pointer where the definition has an integer (or the reverse) */
 extern void unlink_entity_node(void *);
 void update_map_cell_flags_with_item_limit(s32 x, s32 y, u16 flags);
 extern void decrement_monster_entry_count(s16 requested_id, s16 requested_type);
@@ -89,7 +89,7 @@ void advance_actor_transition_state(void *owner_data, ObjectPosition *unused, Sp
             owner[0xA9] = actor_index;
             actor_map->unk_8A = actor_index;
             dungeon_actor_ring_anchor->target = actor;
-            store_recalled_familiar(((u8 *)dungeon_actor_ring_anchor), primary_table, secondary_table, ((u8 *)dungeon_actor_ring_anchor));
+            store_recalled_familiar(((u8 *)dungeon_actor_ring_anchor), primary_table, secondary_table, dungeon_actor_ring_anchor);
             dungeon_actor_ring_anchor->target = saved_actor;
             dungeon_actor_ring_anchor->unk_8A = saved_index;
             g_dungeon_status.activity_counts.parts.pending_action_count--;

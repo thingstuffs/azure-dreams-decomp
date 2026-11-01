@@ -7,13 +7,13 @@
 #include "dungeon/actor.h"
 
 /* Updates directional movement, decelerates it, and recenters the actor on its tile. */
-void update_directional_motion_and_recenter_actor(ActorRecord *body, ObjectPosition *motion, SpriteFrameState *sprite, void *actor)
+void update_directional_motion_and_recenter_actor(ActorRecord *body, ObjectPosition *motion, SpriteFrameState *sprite, ActorRecord *actor)
 {
     s16 timer;
     s32 direction;
     s32 tracked_entity;
 
-    direction = (((EntityRec *)actor)->unk_6A >> 9) & 7;
+    direction = (actor->movement_facing >> 9) & 7;
     switch (body->action_phase.u) {
     case 0:
         apply_clamped_actor_value_delta(actor);
@@ -23,7 +23,7 @@ void update_directional_motion_and_recenter_actor(ActorRecord *body, ObjectPosit
             *(s16 *)((u8 *)((s8 *)dir_step_y) + (direction * 2)) << 19;
         body->action_phase.u++;
 
-        if (((EntityRec *)actor)->unk_28 == 0) {
+        if (actor->hp == 0) {
             motion->velocity_z = 0;
             motion->velocity_y = 0;
             motion->velocity_x = 0;
@@ -35,7 +35,7 @@ void update_directional_motion_and_recenter_actor(ActorRecord *body, ObjectPosit
             body->action_phase.u = 2;
             return;
         }
-        if (((EntityRec *)actor)->flags1C & (ACTOR_MP_EMPTY | ACTOR_PARALYZED | ACTOR_ASLEEP)) {
+        if (actor->flags1C & (ACTOR_MP_EMPTY | ACTOR_PARALYZED | ACTOR_ASLEEP)) {
             timer = 8;
         } else {
             timer = -1;
@@ -58,7 +58,7 @@ void update_directional_motion_and_recenter_actor(ActorRecord *body, ObjectPosit
         if (body->action_timer.s != 0) {
             return;
         }
-        if (((EntityRec *)actor)->unk_28 == 0) {
+        if (actor->hp == 0) {
             motion->velocity_z = 0;
             motion->velocity_y = 0;
             motion->velocity_x = 0;

@@ -10,7 +10,7 @@
 void update_actor_activity_state(ActorRecord *task, ObjectPosition *task_id, SpriteFrameState *sprite_in, ActorRecord *actor_in) {
     u8 *next_anim_table;
     u8 *old_anim_table;
-    void *starting_task;
+    ActorRecord *starting_task;
     void *actor;
     s32 flags;
     s32 state;
@@ -44,7 +44,7 @@ void update_actor_activity_state(ActorRecord *task, ObjectPosition *task_id, Spr
         }
         starting_task = task;
         ((T_80175050_S_80175050_3 *)((u8 *)(&g_dungeon_status)))->unk_0A--;
-        ((T_80175050_S_80175050_4 *)starting_task)->unk_9B++;
+        starting_task->action_phase.u++;
         func_80171BEC_returning(starting_task, task_id, sprite_in);
         return;
 

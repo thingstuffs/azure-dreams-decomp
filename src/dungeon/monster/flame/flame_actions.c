@@ -2609,21 +2609,21 @@ void create_sixteen_segment_ring(R06_80174E78_Source *source, R06_80174E78_Vec3i
 
 /* Stops movement and waits for dungeon activity to finish, then clears the callback and counts the new
  * action. */
-void wait_for_flame_action_slot(void *entity_data, ObjectPosition *unused_1, s32 unused_2, void *other_data)
+void wait_for_flame_action_slot(ActorRecord *entity_data, ObjectPosition *unused_1, s32 unused_2, void *other_data)
 {
-    u8 *entity = entity_data;
+    ActorRecord *entity = entity_data;
     u8 *other = other_data;
     s32 kind = 0x17;
 
     other[0x71] &= 0x7F;
-    *(void **)(entity + 0x8C) = ((void *)wait_for_flame_action_slot);
-    entity[0x9A] = kind;
-    entity[0x9B] = 0;
+    entity->unk_8C.address = ((void *)wait_for_flame_action_slot);
+    entity->action_id.u = kind;
+    entity->action_phase.u = 0;
     other[0x6D] = 0;
     if (!(g_dungeon_status.flags & 0x2000) && ((has_pending_dungeon_activity(other) << 16) == 0)) {
-        *(void **)(entity + 0x8C) = 0;
-        entity[0x9A] = kind;
-        entity[0x9B] = 0;
+        entity->unk_8C.address = 0;
+        entity->action_id.u = kind;
+        entity->action_phase.u = 0;
         (*(s16 *)actor_action_reset_value) = 0;
         g_dungeon_status.activity_counts.parts.pending_action_count++;
     }

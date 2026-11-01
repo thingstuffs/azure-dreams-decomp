@@ -43,7 +43,7 @@ extern u8 D_801740A0[];
 
 /* Displays a directional message, animates a rising attack, applies damage, spends MP, and restores actor
  * state. */
-void advance_directional_lift_effect(void *action_record, ObjectPosition *motion_data, SpriteFrameState *status_record, void *entity_data_arg)
+void advance_directional_lift_effect(ActorRecord *action_record, ObjectPosition *motion_data, SpriteFrameState *status_record, void *entity_data_arg)
 {
     S_80173C20_1 *entity_data = entity_data_arg;
     s32 state;
@@ -52,7 +52,7 @@ void advance_directional_lift_effect(void *action_record, ObjectPosition *motion
     s32 index;
     u16 timer;
 
-    state = ((ActorRecord *)action_record)->action_phase.u;
+    state = action_record->action_phase.u;
     switch (state) {
     case 0:
         saved = get_unused_text_buffer();
@@ -66,8 +66,8 @@ void advance_directional_lift_effect(void *action_record, ObjectPosition *motion
         display_text_with_fullwidth_adjustment(saved);
 
         if (status_record->flags & 0x8000) {
-            ((ActorRecord *)action_record)->action_phase.u = 3;
-            ((ActorRecord *)action_record)->action_timer.u = 0;
+            action_record->action_phase.u = 3;
+            action_record->action_timer.u = 0;
             status_record->flags |= 0x6000;
             resolve_attack_damage_and_effects(entity_data, status_record, entity_data->unk_2A.u, 1);
             break;
@@ -75,28 +75,28 @@ void advance_directional_lift_effect(void *action_record, ObjectPosition *motion
         status_record->frameTable = D_80174090;
         index = (g_game_work.view.camera_rotation.parts.viewAngle + entity_data->unk_2A.u + 0x100) >> 9;
         select_sprite_entry(status_record, D_80174090[index & 7], 0);
-        ((ActorRecord *)action_record)->unk_90.value = 0;
-        ((ActorRecord *)action_record)->action_state_flags |= 8;
+        action_record->unk_90.value = 0;
+        action_record->action_state_flags |= 8;
         motion_data->velocity_z = 0xFFF00000;
-        ((ActorRecord *)action_record)->action_phase.u++;
+        action_record->action_phase.u++;
         break;
     case 1:
         value = motion_data->velocity_z + 0x20000;
         motion_data->velocity_z = value;
-        ((ActorRecord *)action_record)->unk_90.value += value;
+        action_record->unk_90.value += value;
         if (!(status_record->flags & 0xE000)) {
             break;
         }
         status_record->frameTable = D_80174098;
         index = (g_game_work.view.camera_rotation.parts.viewAngle + entity_data->unk_2A.u + 0x100) >> 9;
         select_sprite_entry(status_record, D_80174098[index & 7], 0);
-        ((ActorRecord *)action_record)->action_timer.u = 8;
-        ((ActorRecord *)action_record)->action_state_flags &= 0xFFF7;
-        ((ActorRecord *)action_record)->action_phase.u++;
+        action_record->action_timer.u = 8;
+        action_record->action_state_flags &= 0xFFF7;
+        action_record->action_phase.u++;
         break;
     case 2:
-        timer = ((ActorRecord *)action_record)->action_timer.u - 1;
-        ((ActorRecord *)action_record)->action_timer.u = timer;
+        timer = action_record->action_timer.u - 1;
+        action_record->action_timer.u = timer;
         if (((timer << 16) == 0) || (status_record->flags & 0x8000)) {
             resolve_attack_damage_and_effects(entity_data, status_record, entity_data->unk_2A.u, 1);
         }
@@ -107,23 +107,23 @@ void advance_directional_lift_effect(void *action_record, ObjectPosition *motion
         index = (g_game_work.view.camera_rotation.parts.viewAngle + entity_data->unk_2A.u + 0x100) >> 9;
         select_sprite_entry(status_record, D_801740A0[index & 7], 0);
 
-        ((ActorRecord *)action_record)->action_phase.u++;
+        action_record->action_phase.u++;
         break;
     case 3:
         if (status_record->flags & 0xE000) {
             motion_data->velocity_y = 0;
             motion_data->velocity_x = 0;
             spend_actor_mp(entity_data_arg, 0x1000);
-            ((ActorRecord *)action_record)->unk_8C.address = &killer_action_resume_address;
+            action_record->unk_8C.address = &killer_action_resume_address;
             g_dungeon_status.active_actor = 0;
             advance_status_timers(entity_data);
 
-            if (((ActorRecord *)action_record)->action_state_flags & 0x4000) {
+            if (action_record->action_state_flags & 0x4000) {
                 entity_data->unk_1C |= ACTOR_ANGRY;
             } else {
                 entity_data->unk_1C &= ~ACTOR_ANGRY;
             }
-            entity_data->unk_03 = ((ActorRecord *)action_record)->unk_AC.byte;
+            entity_data->unk_03 = action_record->unk_AC.byte;
             if (entity_data->unk_6D == 0) {
                 entity_data->unk_46 &= 0x7FFF;
             } else {

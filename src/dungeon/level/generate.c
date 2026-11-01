@@ -278,7 +278,7 @@ retry:
 
             slot_index = 0;
             position = dungeon_floor_object_positions;
-            meta = ((u8 *)floor_objects);
+            meta = floor_objects;
 
             do {
                 position_page = (meta + slot_index * 4)[1];
@@ -2571,7 +2571,7 @@ void initialize_random_room_slot(void *room, s32 unused)
         slot_index = 0;
         for (; slot_index < 0x20; slot_index++) {
             slot_info = (u8 *)((u32 *)floor_objects + slot_index);
-            slot_data = ((u8 *)dungeon_floor_object_positions) + slot_index * 0x18;
+            slot_data = dungeon_floor_object_positions + slot_index * 0x18;
             if ((*((u8 *) (((s8 *) slot_info) + 1))) == 0) {
                 x_offset = random_dungeon_range_16(0, ((*((u16 *) (((s8 *) room) + 4))) - 1) & 0xFFFF) & 0xFFFF;
                 y_roll = random_dungeon_range_16(0, ((*((u16 *) (((s8 *) room) + 6))) - 1) & 0xFFFF);

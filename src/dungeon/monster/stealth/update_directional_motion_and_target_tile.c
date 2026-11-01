@@ -12,7 +12,7 @@
 extern u8 D_80173D60[];
 
 /* Updates directional movement and returns the entity to its target tile. */
-void update_directional_motion_and_target_tile(ActorRecord *body, ObjectPosition *motion, SpriteFrameState *target, void *entity)
+void update_directional_motion_and_target_tile(ActorRecord *body, ObjectPosition *motion, SpriteFrameState *target, ActorRecord *entity)
 {
     s16 return_timer;
     s16 next_timer;
@@ -29,7 +29,7 @@ void update_directional_motion_and_target_tile(ActorRecord *body, ObjectPosition
     u8 state;
 
     state = body->action_phase.u;
-    direction = (((EntityRec *)entity)->unk_6A >> 9) & 7;
+    direction = (entity->movement_facing >> 9) & 7;
 
     switch (state) {
     case 0:
@@ -40,7 +40,7 @@ void update_directional_motion_and_target_tile(ActorRecord *body, ObjectPosition
             ((s16 *)((s8 *)dir_step_y))[direction] << 16;
         body->action_phase.u++;
 
-        if (((EntityRec *)entity)->unk_28 == 0) {
+        if (entity->hp == 0) {
             motion->velocity_z = 0;
             motion->velocity_y = 0;
             motion->velocity_x = 0;
@@ -54,7 +54,7 @@ void update_directional_motion_and_target_tile(ActorRecord *body, ObjectPosition
         }
 
         initial_timer = -1;
-        if (((u32)((EntityRec *)entity)->flags1C) & (ACTOR_MP_EMPTY | ACTOR_PARALYZED | ACTOR_ASLEEP)) {
+        if (((u32)entity->flags1C) & (ACTOR_MP_EMPTY | ACTOR_PARALYZED | ACTOR_ASLEEP)) {
             initial_timer = 8;
         }
         body->action_timer.s = initial_timer;
@@ -82,7 +82,7 @@ void update_directional_motion_and_target_tile(ActorRecord *body, ObjectPosition
         if (body->action_timer.s != 0) {
             return;
         }
-        if (((EntityRec *)entity)->unk_28 == 0) {
+        if (entity->hp == 0) {
             motion->velocity_z = 0;
             motion->velocity_y = 0;
             motion->velocity_x = 0;

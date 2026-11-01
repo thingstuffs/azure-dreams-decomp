@@ -39,12 +39,15 @@ void finish_timed_visual_effect(void *object) {
 
 /* Bobs and pulses a substitute sprite while hiding the linked sprite, restoring the linked sprite when
    time expires. */
-void advance_timed_visual_effect(void *state, void *position, void *visual) {
+void advance_timed_visual_effect(void *state_arg, void *position_arg, void *visual_arg) {
+    Row_818FEF80_S_818FEF80_3 *visual = visual_arg;
+    Row_818FEF80_S_818FEF80_2 *position = position_arg;
+    Row_818FEF80_S_818FEF80_0 *state = state_arg;
     void *object;
     Row_818FEF80_S_818FEF80_4 *linked_visual;
     s16 ticks_left;
 
-    object = ((Row_818FEF80_S_818FEF80_0 *)state)->unk_30;
+    object = state->unk_30;
     (*(s16 *)particle_update_flag) = 1;
     if ((u32)(((Row_818FEF80_S_818FEF80_1 *)object)->unk_13 - 0x33) < 4U) {
         (*(u16 *)((u8 *)state + -2)) |= NODE_REMOVE;
@@ -52,31 +55,31 @@ void advance_timed_visual_effect(void *state, void *position, void *visual) {
         return;
     }
 
-    ((Row_818FEF80_S_818FEF80_0 *)state)->unk_02.s--;
-    if (((Row_818FEF80_S_818FEF80_0 *)state)->unk_0A.s == 0) {
-        ((Row_818FEF80_S_818FEF80_0 *)state)->unk_0A.u = 1;
-        ((Row_818FEF80_S_818FEF80_2 *)position)->unk_08.u += -0x20000;
+    state->unk_02.s--;
+    if (state->unk_0A.s == 0) {
+        state->unk_0A.u = 1;
+        position->unk_08.u += -0x20000;
     } else {
-        ((Row_818FEF80_S_818FEF80_0 *)state)->unk_0A.s = 0;
-        ((Row_818FEF80_S_818FEF80_2 *)position)->unk_08.u += 0x20000;
+        state->unk_0A.s = 0;
+        position->unk_08.u += 0x20000;
     }
-    object = ((Row_818FEF80_S_818FEF80_0 *)state)->unk_30;
+    object = state->unk_30;
     linked_visual = ((Row_818FEF80_S_818FEF80_1_pre *)object)[-1].unk_00;
-    ((Row_818FEF80_S_818FEF80_3 *)visual)->unk_14 &= 0xFF7F;
+    visual->unk_14 &= 0xFF7F;
     linked_visual->unk_14 |= 0x80;
 
-    ticks_left = ((Row_818FEF80_S_818FEF80_0 *)state)->unk_02.u;
+    ticks_left = state->unk_02.u;
     if (ticks_left < 0x3C) {
-        ((Row_818FEF80_S_818FEF80_3 *)visual)->unk_0E = (((0x3C - ticks_left) << 6) / 60) + 0x40;
-        ((Row_818FEF80_S_818FEF80_3 *)visual)->unk_0D = (((0x3C - ((Row_818FEF80_S_818FEF80_0 *)state)->unk_02.u) << 6) / 60) + 0x40;
-        ((Row_818FEF80_S_818FEF80_3 *)visual)->unk_0C = (((0x3C - ((Row_818FEF80_S_818FEF80_0 *)state)->unk_02.u) << 6) / 60) + 0x40;
+        visual->unk_0E = (((0x3C - ticks_left) << 6) / 60) + 0x40;
+        visual->unk_0D = (((0x3C - state->unk_02.u) << 6) / 60) + 0x40;
+        visual->unk_0C = (((0x3C - state->unk_02.u) << 6) / 60) + 0x40;
     } else {
-        ((Row_818FEF80_S_818FEF80_3 *)visual)->unk_0E = (((ticks_left - 0x3C) << 6) / 60) + 0x40;
-        ((Row_818FEF80_S_818FEF80_3 *)visual)->unk_0D = (((((Row_818FEF80_S_818FEF80_0 *)state)->unk_02.u - 0x3C) << 6) / 60) + 0x40;
-        ((Row_818FEF80_S_818FEF80_3 *)visual)->unk_0C = (((((Row_818FEF80_S_818FEF80_0 *)state)->unk_02.u - 0x3C) << 6) / 60) + 0x40;
+        visual->unk_0E = (((ticks_left - 0x3C) << 6) / 60) + 0x40;
+        visual->unk_0D = (((state->unk_02.u - 0x3C) << 6) / 60) + 0x40;
+        visual->unk_0C = (((state->unk_02.u - 0x3C) << 6) / 60) + 0x40;
     }
 
-    if (((Row_818FEF80_S_818FEF80_0 *)state)->unk_02.u <= 0) {
+    if (state->unk_02.u <= 0) {
         u16 linked_flags;
 
         ((Row_818FEF80_S_818FEF80_0_pre *)state)[-1].unk_00 |= 0x8000;

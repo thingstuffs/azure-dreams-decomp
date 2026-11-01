@@ -1,5 +1,6 @@
 #include "common.h"
 #include "shared/object_flags.h"
+#include "dungeon/effect/particle.h"
 
 typedef struct {
     s32 x;
@@ -13,7 +14,7 @@ typedef struct {
 #include "slus.h"
 
 /* Advance the position and timer, setting completion flags when the timer expires. */
-void tick_linear_effect_with_double_refresh(void *state, Position *pos, void *handle)
+void tick_linear_effect_with_double_refresh(ShortLivedRedSparkBody *state, Position *pos, void *handle)
 {
     s32 dy;
     s32 dz;
@@ -27,7 +28,7 @@ void tick_linear_effect_with_double_refresh(void *state, Position *pos, void *ha
     advance_sprite_animation_and_textures(handle);
     advance_sprite_animation_and_textures(handle);
     timer = *(u16 *)((u8 *)state + 0x32) - 1;
-    *(u16 *)((u8 *)state + 0x32) = timer;
+    state->unk_32 = timer;
     if ((timer << 16) <= 0) {
         *(u16 *)((u8 *)state - 2) |= NODE_REMOVE;
         object_flag_block.flags |= OBJECT_REMOVE_PENDING;

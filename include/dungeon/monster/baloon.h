@@ -41,4 +41,12 @@ void create_directional_template_effect(void *unused, BaloonTemplateAnchor *anch
 /* Owner declarations appended by tools/headers (append-only; the lines above are hand-kept). */
 void spawn_angled_random_velocity_effect(EntityRec *source, u32 angle, s32 effect_param);
 
+/* Timer and fade divisor for a directional random-velocity effect. */
+typedef struct DirectionalRandomVelocityEffectBody {
+    u8 pad_00[0xA];
+    u16 unk_0A;
+    s16 unk_0C;
+    s16 unk_0E;
+} DirectionalRandomVelocityEffectBody;
+
 #endif

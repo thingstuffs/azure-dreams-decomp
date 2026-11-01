@@ -28,7 +28,7 @@ typedef struct S_800AC5C8_1_pre {
    /* arg2 in update_spinning_actor_fall */
 
 /* Advance the object's timed animation and perform its final cleanup. */
-s32 update_spinning_actor_fall(ActorRecord *animation, ObjectPosition *position, MovingTile *tile, void *object) {
+s32 update_spinning_actor_fall(ActorRecord *animation, ObjectPosition *position, SpriteFrameState *tile, void *object) {
     s32 force;
     u16 ticks_left;
     s32 state;

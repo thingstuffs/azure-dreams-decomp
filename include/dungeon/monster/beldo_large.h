@@ -7,6 +7,54 @@
 #include "shared/entity.h"
 #include "shared/sprite_frame_state.h"
 #include "records/Rec_func_800A9E70_arg0.h"
+
+/* State shared by encounter overlay construction and its slide callback. */
+typedef struct EncounterOverlayBody {
+    u8 pad_00[0x12];
+    union { s16 s; u16 u; } unk_12;
+    u8 pad_14[0x4];
+    u16 unk_18;
+    u8 pad_1A[0x2];
+    s16 unk_1C;
+} EncounterOverlayBody;
+
+/* Body fields observed across the single multi-form segment ring generation. */
+typedef struct MultiFormSegmentRingBody {
+    union { u8 u; s8 s; } unk_00;
+    u8 unk_01;
+    u8 unk_02;
+    u8 pad_03[0x0F];
+    union { u16 u; s16 s; } unk_12;
+    u8 pad_14[0x4];
+    union { u16 u; s16 s; } unk_18;
+    union { u16 u; s16 s; } unk_1A;
+    s16 unk_1C;
+    u16 unk_1E;
+    u8 pad_20[0x54];
+    union { s16 s; u16 u; } unk_74;
+    s16 unk_76;
+    s16 unk_78;
+    s16 unk_7A;
+    s16 unk_7C;
+    s16 unk_7E;
+    s16 unk_80;
+    s16 unk_82;
+    u16 unk_84;
+    s16 unk_86;
+    s16 unk_88;
+    union { s16 s; u16 u; } unk_8A;
+} MultiFormSegmentRingBody;
+
+/* Callback state initialized by create_action_offset_object. */
+typedef struct ActionOffsetObjectBody {
+    u8 pad_00[0x12];
+    union { s16 s; u16 u; } unk_12;
+    u8 pad_14[0x10];
+    void *unk_24;
+    u8 pad_28[0x30];
+    s8 unk_58;
+    s8 unk_59;
+} ActionOffsetObjectBody;
 extern ObjectNodeHeader *beldo_camera_object;
 
 extern ObjectNodeHeader *D_80175D64;
@@ -37,8 +85,8 @@ void start_actor_directional_action(Rec_func_800A9E70_arg0 *state, ObjectPositio
 /* Owner declarations appended by tools/headers (append-only; the lines above are hand-kept). */
 struct BeldoMoveState;
 void advance_actor_movement_step(struct BeldoMoveState *movement_in, ObjectPosition *action_ctx, SpriteFrameState *position, ActorRecord *actor);
-void emit_multi_form_ring_geometry(void *animation, s32 *origin, void *color);
-void initialize_action_offset_and_notify(void *action, void *position);
+void emit_multi_form_ring_geometry(MultiFormSegmentRingBody *animation, s32 *origin, void *color);
+void initialize_action_offset_and_notify(ActionOffsetObjectBody *action, void *position);
 void update_multi_form_actor_control(ActorRecord *actor, ObjectPosition *context, SpriteFrameState *sprite, ActorRecord *entity);
 void upload_encounter_texture(void);
 

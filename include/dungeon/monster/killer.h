@@ -15,6 +15,6 @@ void advance_timed_directional_animation(ActorRecord *action_state, ObjectPositi
 
 
 
-void advance_directional_lift_effect(void *action_record, ObjectPosition *motion_data, SpriteFrameState *status_record, void *entity_data);
+void advance_directional_lift_effect(ActorRecord *action_record, ObjectPosition *motion_data, SpriteFrameState *status_record, void *entity_data);
 
 #endif

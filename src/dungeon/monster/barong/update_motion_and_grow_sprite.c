@@ -35,8 +35,9 @@ s32 check_left_tile_and_center_height(s32 x, s32 y, s32 z);
 extern s16 sample_terrain_surface_height(u16 x, u16 y, s16 min_height);
 
 /* Update motion with collision checks, grow the sprite, and flag expired objects. */
-void update_motion_and_grow_sprite(void *motion, void *position_arg, SpriteFrameState *sprite)
+void update_motion_and_grow_sprite(void *motion_arg, void *position_arg, SpriteFrameState *sprite)
 {
+    S_80170D58_1 *motion = motion_arg;
     S_80170D58_0 *position = position_arg;
     s32 height;
     u16 frame_count;
@@ -44,46 +45,46 @@ void update_motion_and_grow_sprite(void *motion, void *position_arg, SpriteFrame
     u16 scale_y;
     u16 life_ticks;
 
-    position->unk_00.at00.v += ((S_80170D58_1 *)motion)->unk_54;
-    ((S_80170D58_1 *)motion)->unk_54 += ((S_80170D58_1 *)motion)->unk_60;
+    position->unk_00.at00.v += motion->unk_54;
+    motion->unk_54 += motion->unk_60;
     if ((sample_terrain_surface_height(position->unk_00.at02.v, position->unk_04.at02.v,
                        position->unk_08.at02.v) < 0x200) &&
         ((s16)check_left_tile_and_center_height(position->unk_00.at02.v, position->unk_04.at02.v,
                             position->unk_08.at02.v) != 0)) {
-        position->unk_00.at00.v -= ((S_80170D58_1 *)motion)->unk_54;
-        ((S_80170D58_1 *)motion)->unk_54 = 0;
-        ((S_80170D58_1 *)motion)->unk_60 = 0;
+        position->unk_00.at00.v -= motion->unk_54;
+        motion->unk_54 = 0;
+        motion->unk_60 = 0;
     }
 
-    position->unk_04.at00.v += ((S_80170D58_1 *)motion)->unk_58;
-    ((S_80170D58_1 *)motion)->unk_58 += ((S_80170D58_1 *)motion)->unk_64;
+    position->unk_04.at00.v += motion->unk_58;
+    motion->unk_58 += motion->unk_64;
     if ((sample_terrain_surface_height(position->unk_00.at02.v, position->unk_04.at02.v,
                        position->unk_08.at02.v) < 0x200) &&
         ((s16)check_left_tile_and_center_height(position->unk_00.at02.v, position->unk_04.at02.v,
                             position->unk_08.at02.v) != 0)) {
-        position->unk_04.at00.v -= ((S_80170D58_1 *)motion)->unk_58;
-        ((S_80170D58_1 *)motion)->unk_58 = 0;
-        ((S_80170D58_1 *)motion)->unk_64 = 0;
+        position->unk_04.at00.v -= motion->unk_58;
+        motion->unk_58 = 0;
+        motion->unk_64 = 0;
     }
 
-    position->unk_08.at00.v += ((S_80170D58_1 *)motion)->unk_5C;
-    ((S_80170D58_1 *)motion)->unk_5C += ((S_80170D58_1 *)motion)->unk_68;
+    position->unk_08.at00.v += motion->unk_5C;
+    motion->unk_5C += motion->unk_68;
     height = position->unk_08.at02.v;
     if (sample_terrain_surface_height(position->unk_00.at02.v, position->unk_04.at02.v,
                       (s16)(position->unk_08.at02u.v - 4)) - 0x10 < height) {
-        ((S_80170D58_1 *)motion)->unk_5C = 0;
+        motion->unk_5C = 0;
         position->unk_08.at02.v =
             sample_terrain_surface_height(position->unk_00.at02.v, position->unk_04.at02.v,
                           (s16)(position->unk_08.at02u.v - 4)) - 0x11;
         position->unk_08.at00u.v = 0;
-        if (((S_80170D58_1 *)motion)->unk_1A == 0) {
-            ((S_80170D58_1 *)motion)->unk_1A = 1;
-            ((S_80170D58_1 *)motion)->unk_26.s = 0;
+        if (motion->unk_1A == 0) {
+            motion->unk_1A = 1;
+            motion->unk_26.s = 0;
         }
     }
 
-    frame_count = ((S_80170D58_1 *)motion)->unk_28 + 1;
-    ((S_80170D58_1 *)motion)->unk_28 = frame_count;
+    frame_count = motion->unk_28 + 1;
+    motion->unk_28 = frame_count;
     if ((frame_count & 3) == 0) {
         advance_sprite_animation_and_textures(sprite);
     }
@@ -100,8 +101,8 @@ void update_motion_and_grow_sprite(void *motion, void *position_arg, SpriteFrame
         sprite->scale_y = 0x1000;
     }
 
-    life_ticks = ((S_80170D58_1 *)motion)->unk_26.u - 1;
-    ((S_80170D58_1 *)motion)->unk_26.u = life_ticks;
+    life_ticks = motion->unk_26.u - 1;
+    motion->unk_26.u = life_ticks;
     if ((s16)life_ticks <= 0) {
         (*(u16 *)((u8 *)motion + -2)) |= NODE_REMOVE;
         object_flag_block.flags |= OBJECT_REMOVE_PENDING;

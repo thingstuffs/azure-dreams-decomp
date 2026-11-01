@@ -5,6 +5,7 @@
 #include "shared/slus_callbacks.h"
 #include "shared/dungeon_moving_views.h"
 #include "engine/node.h"
+#include "dungeon/monster/baloon.h"
 
 typedef s32 M2C_UNK;
 
@@ -20,12 +21,6 @@ typedef struct S_80D65C5C_1 {
     void * unk_08;
 } S_80D65C5C_1;   /* arg0 in spawn_directional_random_velocity_effect */
 
-typedef struct S_80D65C5C_2 {
-    u8 pad_00[0xA];
-    u16 unk_0A;
-    s16 unk_0C;
-    s16 unk_0E;
-} S_80D65C5C_2;   /* sprite in spawn_directional_random_velocity_effect */
 
 
 typedef struct S_80D65C5C_4 {
@@ -52,7 +47,7 @@ extern u8 D_80171384[];
 void spawn_directional_random_velocity_effect(S_80D65C5C_1 *source, s32 angle)
 {
     ObjectNodeHeader *node;
-    S_80D65C5C_2 *sprite;
+    DirectionalRandomVelocityEffectBody *sprite;
     s16 *direction_step;
 
     node = allocate_flagged_object_node(0x212);

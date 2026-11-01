@@ -103,7 +103,7 @@ void *spawn_mandara_in_slot_d(s16 flags, s16 kind_id, s16 tile_y, s16 spawn_heig
         initialize_actor_sprite_and_animation(init_arg0, position, monster, (s16)saved_flags);
         i = 0;
         value = monster->clut;
-        (*((u8 *)actor + 0x9A)) = 0xFF;
+        (*(actor + 0x9A)) = 0xFF;
         (*(s8 *)(actor + 0x9C)) = -1;
         (*(Callback *)(actor + 0x8C)) = D_8015EF6C;
         (*(s16 *)(actor + 0xAE)) = value;

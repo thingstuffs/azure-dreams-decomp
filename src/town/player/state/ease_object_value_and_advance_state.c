@@ -5,12 +5,12 @@
 extern u8 D_80098544[8];
 
 /* Ease the object's value toward -0x800000 until the timer expires, then advance the state. */
-void ease_object_value_and_advance_state(void *state, void *object) {
+void ease_object_value_and_advance_state(UnsignedCountdownView *state, void *object) {
     u16 ticks_left;
     s32 current_value;
 
-    ticks_left = *(u16 *)((u8 *)state + 0xA) - 1;
-    *(u16 *)((u8 *)state + 0xA) = ticks_left;
+    ticks_left = state->unk_0A - 1;
+    state->unk_0A = ticks_left;
     if ((ticks_left << 16) > 0) {
         current_value = *(s32 *)((u8 *)object + 8);
         current_value += ((s32)0xFF800000 - current_value) / 2;
@@ -20,6 +20,6 @@ void ease_object_value_and_advance_state(void *state, void *object) {
 
     *(s32 *)((u8 *)object + 8) = (s32)0xFF800000;
     clear_entity_record_fields(object);
-    *(u16 *)((u8 *)state + 0xA) = 10;
+    state->unk_0A = 10;
     *(void **)((u8 *)state + 4) = D_80098544;
 }

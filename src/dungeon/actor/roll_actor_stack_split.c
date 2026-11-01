@@ -17,7 +17,7 @@ extern char D_800E1AC2[];
 extern char stack_split_text[];
 
 /* Roll the actor's stack-split chance; on a hit decrement the stack and post the split message. */
-s32 roll_actor_stack_split(void *actor, s32 chance)
+s32 roll_actor_stack_split(ActorRecord *actor, s32 chance)
 {
     s32 mod;
     void *handle;
@@ -31,8 +31,8 @@ s32 roll_actor_stack_split(void *actor, s32 chance)
 
     {
         signed_arg = generate_random_value() & 0xFFFF;
-        if (*((u8 *)actor + 3) != 0) {
-            mod = signed_arg % *((u8 *)actor + 3);
+        if (actor->unk_00[3] != 0) {
+            mod = signed_arg % actor->unk_00[3];
         } else {
             mod = 0;
         }
@@ -52,7 +52,7 @@ s32 roll_actor_stack_split(void *actor, s32 chance)
         }
     }
 
-    count = *((u8 *)actor + 0x26);
+    count = actor->current_attack;
     if (count < 2) {
         return 0;
     }
@@ -63,14 +63,14 @@ s32 roll_actor_stack_split(void *actor, s32 chance)
 
         object = actor;
         decremented = count - 1;
-        *((u8 *)actor + 0x26) = decremented;
+        actor->current_attack = decremented;
         apply_entity_effects(object);
     }
     handle = get_unused_text_buffer();
     text = expand_text_control_codes(D_800E1A88, handle);
 
     {
-        s32 named = *(s32 *)((u8 *)actor + 0x14) & 0x4000;
+        s32 named = actor->flags14 & 0x4000;
         void *msg = actor;
         if (named) {
             text = append_entity_display_text(msg, text);

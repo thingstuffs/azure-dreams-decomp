@@ -1164,7 +1164,7 @@ void advance_action_and_spawn_effect(ActorRecord *body, ObjectPosition *position
 }
 
 /* Starts a targeted spell with a two-row effect, then restores movement and status after the animation. */
-void advance_actor_motion_and_wait(void *action, void *transform, void *sprite, ActorRecord *actor)
+void advance_actor_motion_and_wait(ActorRecord *action, ObjectPosition *transform, SpriteFrameState *sprite, ActorRecord *actor)
 {
     u16 saved_pos[4];
     u8 *motion;
@@ -1174,7 +1174,7 @@ void advance_actor_motion_and_wait(void *action, void *transform, void *sprite, 
     u8 *action_state;
 
     special_motion = 0;
-    switch (((R12_80172AF8_S_80172AF8_0 *)action)->unk_9B) {
+    switch (action->action_phase.u) {
     case 0:
         if (((u32)actor->flags1C) & ACTOR_PLAYER_SIDE) {
             switch (actor->action_flags & ACTOR_ACTION_CODE_MASK) {
@@ -1218,7 +1218,7 @@ void advance_actor_motion_and_wait(void *action, void *transform, void *sprite, 
         }
 
         if (*motion != 0) {
-            ((R12_80172AF8_S_80172AF8_0 *)action)->unk_98 &= 0xFF7F;
+            action->action_state_flags &= 0xFF7F;
             {
                 s16 use_special = special_motion;
                 if (use_special != 0) {
@@ -1236,34 +1236,34 @@ void advance_actor_motion_and_wait(void *action, void *transform, void *sprite, 
                     }
                 } else {
                     actor->target =
-                        scan_actor_along_heading(actor,(u8)(((SpriteAnimationTableView *)sprite)->tile_x),(u8)(((SpriteAnimationTableView *)sprite)->tile_y),(s16)(actor->facing), 0x10);
+                        scan_actor_along_heading(actor,(u8)(sprite->tile_x),(u8)(sprite->tile_y),(s16)(actor->facing), 0x10);
                     actor->target_tile_x = abs(actor->target_tile_x);
                     actor->target_tile_y = abs(actor->target_tile_y);
                 }
             }
-            saved_pos[0] = ((u16)((EntityRec *)transform)->x.w.i);
-            saved_pos[1] = ((u16)((EntityRec *)transform)->y.w.i);
-            saved_pos[2] = ((u16)((EntityRec *)transform)->z.w.i);
+            saved_pos[0] = ((u16)transform->x.w.i);
+            saved_pos[1] = ((u16)transform->y.w.i);
+            saved_pos[2] = ((u16)transform->z.w.i);
             transform = create_actor_spell_effect(actor, motion,(s16)(special_motion), (u8 *)action + 0x98);
             if (transform == 0) {
                 return;
             }
-            ((SpriteAnimationTableView *)sprite)->flags &= 0xF7FF;
+            sprite->flags &= 0xF7FF;
             play_sound_if_enabled(0x703);
             create_two_row_object_group(saved_pos,(s16)((*motion - 1) % 3));
-            ((R12_80172AF8_S_80172AF8_0 *)action)->unk_9B = ((R12_80172AF8_S_80172AF8_0 *)action)->unk_9B + 1;
+            action->action_phase.u = action->action_phase.u + 1;
             return;
         }
 
-        ((EntityRec *)transform)->flags14 = 0;
-        ((EntityRec *)transform)->unk_10 = 0;
-        ((EntityRec *)transform)->unk_0C = 0;
-        set_record_integer_tile_center(transform,(u8)(((SpriteAnimationTableView *)sprite)->tile_x),(u8)(((SpriteAnimationTableView *)sprite)->tile_y));
+        transform->velocity_z = 0;
+        transform->velocity_y = 0;
+        transform->velocity_x = 0;
+        set_record_integer_tile_center(transform,(u8)(sprite->tile_x),(u8)(sprite->tile_y));
         g_dungeon_status.active_actor = 0;
         (*(u16 *)((u8 *)&primary_actor_record->unk_A4.value + 2)) = primary_actor_record->unk_A4.halves.high.u - 1;
         advance_status_timers(actor);
         actor->pending_turn_updates = ((u8)actor->pending_turn_updates) - 1;
-        ((R12_80172AF8_S_80172AF8_0 *)action)->unk_8C = ((u8 *)update_actor_state_and_select_target);
+        action->unk_8C.address = ((u8 *)update_actor_state_and_select_target);
         actor->target_tile_y = 0;
         actor->target_tile_x = 0;
         actor->action_flags &= ACTOR_ACTION_CLEAR_PENDING_MASK;
@@ -1271,37 +1271,37 @@ void advance_actor_motion_and_wait(void *action, void *transform, void *sprite, 
 
     case 1:
         if (get_cd_command_queue_depth() != 0) {
-            ((SpriteAnimationTableView *)sprite)->flags |= 0x800;
+            sprite->flags |= 0x800;
             return;
         }
-        ((SpriteAnimationTableView *)sprite)->flags &= 0xF7FF;
-        ((R12_80172AF8_S_80172AF8_0 *)action)->unk_9B = ((R12_80172AF8_S_80172AF8_0 *)action)->unk_9B + 1;
+        sprite->flags &= 0xF7FF;
+        action->action_phase.u = action->action_phase.u + 1;
                                 /* fallthrough */
     case 2:
-        if ((((SpriteAnimationTableView *)sprite)->frame_index == 4 && (((SpriteAnimationTableView *)sprite)->flags & 0x1000)) ||
-            (((SpriteAnimationTableView *)sprite)->flags & 0xE000)) {
-            ((SpriteAnimationTableView *)sprite)->flags |= 0x800;
-            ((R12_80172AF8_S_80172AF8_0 *)action)->unk_96 = 0x20;
-            ((R12_80172AF8_S_80172AF8_0 *)action)->unk_98 |= 0x80;
+        if ((sprite->unk_04 == 4 && (sprite->flags & 0x1000)) ||
+            (sprite->flags & 0xE000)) {
+            sprite->flags |= 0x800;
+            action->action_timer.u = 0x20;
+            action->action_state_flags |= 0x80;
         }
-        wait_ticks = ((R12_80172AF8_S_80172AF8_0 *)action)->unk_96 - 1;
-        ((R12_80172AF8_S_80172AF8_0 *)action)->unk_96 = wait_ticks;
+        wait_ticks = action->action_timer.u - 1;
+        action->action_timer.u = wait_ticks;
         if ((s16)wait_ticks <= 0) {
-            ((R12_80172AF8_S_80172AF8_0 *)action)->unk_96 = 0;
-            ((SpriteAnimationTableView *)sprite)->flags &= 0xF7FF;
+            action->action_timer.u = 0;
+            sprite->flags &= 0xF7FF;
         }
-        if ((((SpriteAnimationTableView *)sprite)->flags & 0xE000) == 0) {
+        if ((sprite->flags & 0xE000) == 0) {
             return;
         }
-        ((EntityRec *)transform)->flags14 = 0;
-        ((EntityRec *)transform)->unk_10 = 0;
-        ((EntityRec *)transform)->unk_0C = 0;
-        set_record_integer_tile_center(transform,(u8)(((SpriteAnimationTableView *)sprite)->tile_x),(u8)(((SpriteAnimationTableView *)sprite)->tile_y));
+        transform->velocity_z = 0;
+        transform->velocity_y = 0;
+        transform->velocity_x = 0;
+        set_record_integer_tile_center(transform,(u8)(sprite->tile_x),(u8)(sprite->tile_y));
         {
             u8 *idle_frames = arachne_direction_frames;
 
             if (((SpriteAnimationTableView *)sprite)->frame_table != idle_frames) {
-                (*(u8 * *)((u8 *)sprite + 0x2C)) = idle_frames;
+                sprite->frameTable = idle_frames;
                 select_sprite_entry(sprite,
                     idle_frames[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
                     0);
@@ -1312,8 +1312,8 @@ void advance_actor_motion_and_wait(void *action, void *transform, void *sprite, 
             return;
         }
         ((R12_80172AF8_S_80172AF8_7 *)action_state)->unk_0A = ((R12_80172AF8_S_80172AF8_7 *)action_state)->unk_0A - 1;
-        ((SpriteAnimationTableView *)sprite)->flags &= 0xF7FF;
-        ((R12_80172AF8_S_80172AF8_0 *)action)->unk_8C = ((u8 *)update_actor_state_and_select_target);
+        sprite->flags &= 0xF7FF;
+        action->unk_8C.address = ((u8 *)update_actor_state_and_select_target);
         advance_status_timers(actor);
         if (actor->pending_turn_updates > 0) {
             actor->pending_turn_updates = ((u8)actor->pending_turn_updates) - 1;
@@ -1327,13 +1327,13 @@ void advance_actor_motion_and_wait(void *action, void *transform, void *sprite, 
 }
 
 /* Applies a value change and knockback, decelerates the actor, then recenters it and restores movement. */
-void apply_knockback_then_restore_target_selection(R12_80172FE8_S_801730B8_1 *action, ObjectPosition *motion, SpriteFrameState *entity, void *source)
+void apply_knockback_then_restore_target_selection(R12_80172FE8_S_801730B8_1 *action, ObjectPosition *motion, SpriteFrameState *entity, ActorRecord *source)
 {
     s16 timer;
     s32 direction;
     s32 tracked_addr;
 
-    direction = (((EntityRec *)source)->unk_6A >> 9) & 7;
+    direction = (source->movement_facing >> 9) & 7;
     switch (action->phase) {
     case 0:
         apply_clamped_actor_value_delta(source);
@@ -1343,7 +1343,7 @@ void apply_knockback_then_restore_target_selection(R12_80172FE8_S_801730B8_1 *ac
             *(s16 *)((u8 *)((s8 *)dir_step_y) + (direction * 2)) << 18;
         action->phase++;
 
-        if (((EntityRec *)source)->unk_28 == 0) {
+        if (source->hp == 0) {
             motion->velocity_z = 0;
             motion->velocity_y = 0;
             motion->velocity_x = 0;
@@ -1355,7 +1355,7 @@ void apply_knockback_then_restore_target_selection(R12_80172FE8_S_801730B8_1 *ac
             action->phase = 2;
             return;
         }
-        if (((EntityRec *)source)->flags1C & (ACTOR_MP_EMPTY | ACTOR_PARALYZED | ACTOR_ASLEEP)) {
+        if (source->flags1C & (ACTOR_MP_EMPTY | ACTOR_PARALYZED | ACTOR_ASLEEP)) {
             timer = 8;
         } else {
             timer = -1;
@@ -1378,7 +1378,7 @@ void apply_knockback_then_restore_target_selection(R12_80172FE8_S_801730B8_1 *ac
         if (action->timer.s != 0) {
             return;
         }
-        if (((EntityRec *)source)->unk_28 == 0) {
+        if (source->hp == 0) {
             motion->velocity_z = 0;
             motion->velocity_y = 0;
             motion->velocity_x = 0;
@@ -2571,21 +2571,21 @@ void create_offset_effect(void *source_arg, void *spawn_pos_arg, void *unused_co
 
 /* Stops movement and waits for dungeon activity to finish, then clears the callback and counts the new
  * action. */
-void wait_for_arachne_activity(void *entity_data, ObjectPosition *unused_1, s32 unused_2, void *other_data)
+void wait_for_arachne_activity(ActorRecord *entity_data, ObjectPosition *unused_1, s32 unused_2, void *other_data)
 {
-    u8 *entity = entity_data;
+    ActorRecord *entity = entity_data;
     u8 *other = other_data;
     s32 kind = 0x17;
 
     other[0x71] &= 0x7F;
-    *(void **)(entity + 0x8C) = ((void *)wait_for_arachne_activity);
-    entity[0x9A] = kind;
-    entity[0x9B] = 0;
+    entity->unk_8C.address = ((void *)wait_for_arachne_activity);
+    entity->action_id.u = kind;
+    entity->action_phase.u = 0;
     other[0x6D] = 0;
     if (!(g_dungeon_status.flags & 0x2000) && ((has_pending_dungeon_activity(other) << 16) == 0)) {
-        *(void **)(entity + 0x8C) = 0;
-        entity[0x9A] = kind;
-        entity[0x9B] = 0;
+        entity->unk_8C.address = 0;
+        entity->action_id.u = kind;
+        entity->action_phase.u = 0;
         (*(s16 *)actor_action_reset_value) = 0;
         g_dungeon_status.activity_counts.parts.pending_action_count++;
     }

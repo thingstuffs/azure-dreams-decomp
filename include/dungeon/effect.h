@@ -5,6 +5,18 @@
 #include "common.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/entity.h"
+#include "dungeon/effect/object.h"
+#include "dungeon/effect/motion/variant_effect_with_random_motion.h"
+
+/* Body created for the player tile actor's fading primitive callback. */
+typedef struct AndInitializePlayerTileActorBody {
+    u8 pad_00[0x96];
+    s16 unk_96;
+    u8 pad_98[0x10];
+    void *unk_A8;
+    u8 pad_AC[0x8];
+    s16 unk_B4;
+} AndInitializePlayerTileActorBody;
 void apply_effect_bonuses(s16 effect_id, ActorRecord *unused_arg, ActorRecord *record);
 void *create_mode_configured_object(s16 mode, s32 part_b_byte_24, s32 part_b_byte_25, s32 part_a_value, s32 part_b_value);
 void create_record_with_effect_callback(void);
@@ -20,7 +32,7 @@ void *spawn_randomized_particle_burst(s16 x, s16 y, s16 z, s32 sprite_data, u16 
 
 
 void advance_actor_attack_sequence(ActorRecord *action_state, ObjectPosition *motion, void *animation, ActorRecord *actor);
-void advance_effect_fade_and_remove(void *effect, ObjectPosition *motion, SpriteFrameState *primitive);
+void advance_effect_fade_and_remove(VariantEffectWithRandomMotionBody *effect, ObjectPosition *motion, SpriteFrameState *primitive);
 
 struct PointRecord;
 struct ObjectPosition;
@@ -32,7 +44,7 @@ void jitter_effect_position_and_fade(void *effect, void *position, void *sprite)
 
 /* Owner declarations appended by tools/headers (append-only; the lines above are hand-kept). */
 #include "shared/dungeon_moving_views.h"
-void update_oriented_offset_effect_position(void *state, MovingPosition *position);
+void update_oriented_offset_effect_position(PayloadObjectBody *state, MovingPosition *position);
 
 struct Object;
 struct Other;

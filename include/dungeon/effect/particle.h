@@ -128,4 +128,47 @@ void create_random_velocity_child_effect(struct ObjectNodeHeader *parent, s32 st
 void create_short_lived_child_particle(struct ObjectNodeHeader *source, s16 effect_param, s32 state_value, s16 offset_x, s16 offset_y, s16 offset_z, s32 motion_z);
 void update_effect_particles_and_cleanup(struct ParticleCleanupWork *effect, void *motion, void *sprite);
 
+/* Lifetime and original position for a short-lived red spark. */
+typedef struct ShortLivedRedSparkBody {
+    u8 pad_00[0x14];
+    s16 unk_14;
+    u8 pad_16[0x1C];
+    s16 unk_32;
+    s16 unk_34;
+    u8 pad_36[0xC];
+    u16 unk_42;
+    u16 unk_44;
+    u16 unk_46;
+} ShortLivedRedSparkBody;
+
+/* Phase, timer, and launch parameters shared by landing sparks. */
+typedef struct ScatterLandingSparksOnGridBody {
+    u8 pad_00[0x4];
+    s32 unk_04;
+    s32 unk_08;
+    u8 pad_0C[0x8];
+    s16 unk_14;
+    u8 pad_16[0x1];
+    u8 phase;
+    u8 pad_18[0x1A];
+    union { s16 s; u16 u; } ticks;
+    s16 unk_34;
+    u8 pad_36[0xC];
+    u16 unk_42;
+    u16 unk_44;
+    u16 unk_46;
+    u8 pad_48[0xC];
+    s32 unk_54;
+    u8 pad_58[0x8];
+    s32 gravity;
+} ScatterLandingSparksOnGridBody;
+
+/* The two countdown values used by the layered sprite pulse callback. */
+typedef struct LayeredSpritePulseBody {
+    u8 pad_00[0x18];
+    s16 unk_18;
+    s16 unk_1A;
+    s16 unk_1C;
+} LayeredSpritePulseBody;
+
 #endif

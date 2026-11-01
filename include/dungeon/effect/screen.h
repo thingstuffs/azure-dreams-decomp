@@ -6,6 +6,27 @@
 #include "shared/gpu_packets.h"
 #include "shared/entity.h"
 
+/* State shared by the staged effect creator and fade callback. */
+typedef struct EffectObjectGroupsBody {
+    u8 pad_00[0xA];
+    union { s16 s; u16 u; } unk_0A;
+    u8 pad_0C[0xC];
+    union { s16 s; u16 u; } unk_18;
+    union { s16 s; u16 u; } unk_1A;
+    u16 unk_1C;
+    u8 pad_1E[0x4];
+    s16 unk_22;
+    s16 unk_24;
+    u16 unk_26;
+    u8 pad_28[0x34];
+    u16 unk_5C;
+    u16 unk_5E;
+    s16 unk_60;
+    u8 pad_62[0x2];
+    union { s16 s; u16 u; } unk_64;
+    union { s16 s; u16 u; } unk_66;
+} EffectObjectGroupsBody;
+
 typedef struct AdvanceScreenTransitionBody {
     u8 pad_00[0x8];
     void * unk_08;
@@ -38,7 +59,7 @@ typedef struct AdvanceScreenTransitionBody {
     u16 unk_102;
 } AdvanceScreenTransitionBody;
 
-void add_random_quarter_value(ActorRecord *body, void *target);
+void add_random_quarter_value(ActorRecord *body, ActorRecord *target);
 void create_wrapped_texture_scroll(s16 value);
 void draw_content_or_rect(s32 *line_start, s32 *line_end, u8 *rect, s16 fill, s32 content_id);
 s32 get_masked_record_flags(EntityRec *record, s32 mask, s32 mode);

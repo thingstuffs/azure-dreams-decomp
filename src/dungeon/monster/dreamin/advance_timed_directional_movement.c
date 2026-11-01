@@ -15,7 +15,7 @@ extern u8 dreamin_action_continuation_address;
 extern u8 dreamin_frame_set_1[];
 
 /* Updates timed directional movement and settles the entity at its grid position. */
-void advance_timed_directional_movement(ActorRecord *body, ObjectPosition *motion, SpriteFrameState *sprite, void *entity)
+void advance_timed_directional_movement(ActorRecord *body, ObjectPosition *motion, SpriteFrameState *sprite, ActorRecord *entity)
 {
     s16 *direction_y;
     s16 *direction_x_table;
@@ -36,13 +36,13 @@ void advance_timed_directional_movement(ActorRecord *body, ObjectPosition *motio
     s32 tracked_entity;
     u8 state;
 
-    direction = (((EntityRec *)entity)->unk_6A >> 9) & 7;
+    direction = (entity->movement_facing >> 9) & 7;
     state = body->action_phase.u;
 
     switch (state) {
     case 0:
         apply_clamped_actor_value_delta(entity);
-        if (((EntityRec *)entity)->unk_28 == 0) {
+        if (entity->hp == 0) {
             motion->velocity_z = 0;
             motion->velocity_y = 0;
             motion->velocity_x = 0;
@@ -65,7 +65,7 @@ void advance_timed_directional_movement(ActorRecord *body, ObjectPosition *motio
 
         sprite->frameTable = dreamin_frame_set_1;
         select_sprite_entry(sprite,
-            dreamin_frame_set_1[((g_game_work.view.camera_rotation.parts.viewAngle + ((EntityRec *)entity)->facing + 0x100) >> 9) & 7],
+            dreamin_frame_set_1[((g_game_work.view.camera_rotation.parts.viewAngle + entity->facing + 0x100) >> 9) & 7],
             0);
 
         direction_x_table = (s16 *)((s8 *)dir_step_x);
@@ -76,7 +76,7 @@ void advance_timed_directional_movement(ActorRecord *body, ObjectPosition *motio
             *(s16 *)((u8 *)((s8 *)dir_step_y) + launch_offset) << 19;
 
         duration = -1;
-        if (((EntityRec *)entity)->flags1C & (ACTOR_MP_EMPTY | ACTOR_PARALYZED | ACTOR_ASLEEP)) {
+        if (entity->flags1C & (ACTOR_MP_EMPTY | ACTOR_PARALYZED | ACTOR_ASLEEP)) {
             duration = 8;
         }
         body->action_timer.u = duration;
@@ -109,7 +109,7 @@ void advance_timed_directional_movement(ActorRecord *body, ObjectPosition *motio
         if (body->action_timer.s != 0) {
             return;
         }
-        if (((EntityRec *)entity)->unk_28 == 0) {
+        if (entity->hp == 0) {
             motion->velocity_z = 0;
             motion->velocity_y = 0;
             motion->velocity_x = 0;

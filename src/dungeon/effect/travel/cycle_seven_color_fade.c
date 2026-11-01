@@ -255,8 +255,9 @@ void cycle_seven_color_fade(B28_818B6AFC_FxEffect *effect, s32 render_arg, B28_8
    /* arg1 in func_80024790 */
 
 /* Projects a textured color-gradient quad and links it into the ordering table if its depth is in range. */
-s32 draw_indexed_shaded_quad(s32 texture_index, u8 *color_source)
+s32 draw_indexed_shaded_quad(s32 texture_index, u8 *color_source_arg)
 {
+    B28_818B6F90_S_818B6F90_3 *color_source = color_source_arg;
     u8 *render_buffer;
     u8 *packet;
     u8 *scratch;
@@ -309,12 +310,12 @@ s32 draw_indexed_shaded_quad(s32 texture_index, u8 *color_source)
     ((B28_818B6F90_S_818B6F90_2 *)packet)->unk_11 = 0;
     ((B28_818B6F90_S_818B6F90_2 *)packet)->unk_12 = 0;
 
-    ((B28_818B6F90_S_818B6F90_2 *)packet)->unk_1C = ((B28_818B6F90_S_818B6F90_3 *)color_source)->unk_0C;
-    ((B28_818B6F90_S_818B6F90_2 *)packet)->unk_1D = ((B28_818B6F90_S_818B6F90_3 *)color_source)->unk_0D;
-    ((B28_818B6F90_S_818B6F90_2 *)packet)->unk_1E = ((B28_818B6F90_S_818B6F90_3 *)color_source)->unk_0E;
-    ((B28_818B6F90_S_818B6F90_2 *)packet)->unk_28 = ((B28_818B6F90_S_818B6F90_3 *)color_source)->unk_0C;
-    ((B28_818B6F90_S_818B6F90_2 *)packet)->unk_29 = ((B28_818B6F90_S_818B6F90_3 *)color_source)->unk_0D;
-    ((B28_818B6F90_S_818B6F90_2 *)packet)->unk_2A = ((B28_818B6F90_S_818B6F90_3 *)color_source)->unk_0E;
+    ((B28_818B6F90_S_818B6F90_2 *)packet)->unk_1C = color_source->unk_0C;
+    ((B28_818B6F90_S_818B6F90_2 *)packet)->unk_1D = color_source->unk_0D;
+    ((B28_818B6F90_S_818B6F90_2 *)packet)->unk_1E = color_source->unk_0E;
+    ((B28_818B6F90_S_818B6F90_2 *)packet)->unk_28 = color_source->unk_0C;
+    ((B28_818B6F90_S_818B6F90_2 *)packet)->unk_29 = color_source->unk_0D;
+    ((B28_818B6F90_S_818B6F90_2 *)packet)->unk_2A = color_source->unk_0E;
 
     ((B28_818B6F90_S_818B6F90_0 *)scratch)->unk_10 = ((B28_818B6F90_S_818B6F90_0 *)scratch)->unk_30 >> 16;
     ((B28_818B6F90_S_818B6F90_0 *)scratch)->unk_18 = ((B28_818B6F90_S_818B6F90_0 *)scratch)->unk_40 >> 16;

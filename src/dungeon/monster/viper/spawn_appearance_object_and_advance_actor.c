@@ -32,7 +32,7 @@ extern M2C_UNK item_effect_descriptor;
 void func_80173770(void *actor, ObjectPosition *motion, SpriteFrameState *visual);
 
 /* Spawns an object from stored appearance data and advances the actor's state. */
-void spawn_appearance_object_and_advance_actor(ActorRecord *actor, void *transform, struct SpriteFrameState *render, void *actor_data)
+void spawn_appearance_object_and_advance_actor(ActorRecord *actor, void *transform, struct SpriteFrameState *render, ActorRecord *actor_data)
 {
     s32 pos_z;
     s32 pos_x;
@@ -54,7 +54,7 @@ void spawn_appearance_object_and_advance_actor(ActorRecord *actor, void *transfo
         }
         actor->action_phase.u = 1;
     case 1:
-        if (((ActorRecord *)actor_data)->unk_49 != 0) {
+        if (actor_data->unk_49 != 0) {
             spawned_obj = allocate_flagged_object_node(0x12);
             if (spawned_obj != 0) {
                 init_obj = spawned_obj;
@@ -75,12 +75,12 @@ void spawn_appearance_object_and_advance_actor(ActorRecord *actor, void *transfo
                 spawned_data = (u8 *)spawned_obj + 0x20;
                 spawned_render->scale_x = angle;
                 work_data = spawned_data;
-                if (((ActorRecord *)actor_data)->unk_49 == 0x12) {
+                if (actor_data->unk_49 == 0x12) {
                     render_asset = &item_effect_descriptor;
                     spawned_render->source = render_asset;
                 } else {
                     render_asset = (void *)lookup_item_category_mapped_value(
-                        ((ActorRecord *)actor_data)->unk_49, ((ActorRecord *)actor_data)->unk_48);
+                        actor_data->unk_49, actor_data->unk_48);
                     spawned_render->source = render_asset;
                 }
                 work_data->unk_A8 = render->tile_x;
@@ -90,14 +90,14 @@ void spawn_appearance_object_and_advance_actor(ActorRecord *actor, void *transfo
                 create_tracked_effect(spawned_obj, 0, 0, 0);
                 spawned_obj->update_callback = &func_80173770;
             }
-            ((ActorRecord *)actor_data)->unk_48 = 0;
-            ((ActorRecord *)actor_data)->unk_49 = 0;
+            actor_data->unk_48 = 0;
+            actor_data->unk_49 = 0;
         }
 
         render->tpage_abr = 0x20;
         render->clut -= 0x80;
         render->flags |= 0xC;
-        ((ActorRecord *)actor_data)->flags1C |= 0x10000000;
+        actor_data->flags1C |= 0x10000000;
         render->color.word = 0x808080;
         actor->action_timer.s = 0x10;
         actor->action_phase.u++;

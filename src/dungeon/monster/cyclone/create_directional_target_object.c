@@ -28,9 +28,9 @@ extern void select_sprite_entry(void *object, s32 kind, s32 value);
 extern void *resolve_record_orientation_or_fallback(void *ptr, void *ptr1, Vec3u16 *out, s16 value3);
 extern u8 cyclone_spawn_update_address;
 /* Create a render object and initialize its position and motion toward a directional target. */
-void *create_directional_target_object(void *emitter, Copy24 *position, SpriteFrameState *sprite)
+void *create_directional_target_object(ActorRecord *emitter, Copy24 *position, SpriteFrameState *sprite)
 {
-    void *emitter_copy;
+    ActorRecord *emitter_copy;
     Copy24 target_position;
     Vec3u16 position_offset;
     u16 direction_flags;
@@ -48,9 +48,9 @@ void *create_directional_target_object(void *emitter, Copy24 *position, SpriteFr
     target_position = *position_data;
     direction_offset = (direction_flags >> 8) & 0xE;
     *((u16 *) (((u8 *) (&target_position)) + 2)) += ((*((s16 *) (((((u8 *)dir_step_x)))
-        + direction_offset))) * (*((s16 *) (((u8 *) emitter) + 0xB2)))) * 0x40;
+        + direction_offset))) * emitter->unk_B0.halves.high.s) * 0x40;
     *((u16 *) (((u8 *) (&target_position)) + 6)) += ((*((s16 *) (((((u8 *)dir_step_y)))
-        + direction_offset))) * (*((s16 *) (((u8 *) emitter_copy) + 0xB2)))) * 0x40;
+        + direction_offset))) * emitter_copy->unk_B0.halves.high.s) * 0x40;
     object = allocate_flagged_object_node(0x312);
     if (object != 0) {
         object->update_callback = &cyclone_spawn_update_address;

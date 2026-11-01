@@ -47,7 +47,7 @@ struct Rec_func_800A9E70_arg0; struct Rec_func_800AA258_arg2; void begin_actor_m
 void advance_entity_along_path(void *, ObjectPosition *, SpriteFrameState *, void *);
 struct Rec_func_800A9E70_arg0; s32 dispatch_actor_action_phase(struct Rec_func_800A9E70_arg0 *, s32, s32, s32);
 extern void func_8016DAA4(CallbackOwner *owner, s32 unused, s32 first, s32 second);
-s32 execute_actor_script_command(u8 *, s32, u8 *);
+s32 execute_actor_script_command(u8 *, s32, SpriteFrameState *);
 extern u8 D_8017469C[];
 extern u8 D_801746BC[];
 
@@ -121,14 +121,14 @@ void update_main_actor_action_and_facing(Rec_func_800A9E70_arg0 *actor, s32 cont
                 }
             } else {
                 if (entity->hp_delta != 0) {
-                    if (((s32)g_dungeon_status.pending_display_owner) == ((u8 *)entity - 0x20)) {
+                    if ((g_dungeon_status.pending_display_owner) == ((u8 *)entity - 0x20)) {
                         *(s32 *)&g_dungeon_status.pending_display_owner &= 0x7FFFFFFF;
                     }
                 }
             }
         } else {
             if (entity->hp_delta != 0) {
-                if (((s32)g_dungeon_status.pending_display_owner) == ((u8 *)entity - 0x20)) {
+                if ((g_dungeon_status.pending_display_owner) == ((u8 *)entity - 0x20)) {
                     *(s32 *)&g_dungeon_status.pending_display_owner &= 0x7FFFFFFF;
                 }
             }
@@ -164,7 +164,7 @@ void update_main_actor_action_and_facing(Rec_func_800A9E70_arg0 *actor, s32 cont
                 }
             }
             if ((u16) *((s16 *)&system_update_flags) & 8) {
-                execute_actor_script_command((u8 *)(actor), context, (u8 *)(map_actor));
+                execute_actor_script_command((u8 *)(actor), context, (map_actor));
                 entity->movement_queue_state = (u8) (entity->movement_queue_state & 0x7F);
                 update_actor_status_and_mp(entity);
                 entity->action_flags &= ACTOR_ACTION_CLEAR_PENDING_MASK;
@@ -208,7 +208,7 @@ void update_main_actor_action_and_facing(Rec_func_800A9E70_arg0 *actor, s32 cont
         case 2:
         case 3:
             action_data = ghosh_action_resume_address;
-            begin_actor_spell_action(actor, context, map_actor, (u8 *)(&D_801746BC), (s32)(action_data));
+            begin_actor_spell_action(actor, context, map_actor, (u8 *)(&D_801746BC), (action_data));
             return;
         case 11:
         default:

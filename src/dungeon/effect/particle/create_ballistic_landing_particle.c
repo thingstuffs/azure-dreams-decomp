@@ -29,22 +29,6 @@ typedef struct S_80165D0C_0 {
     void * unk_08;
 } S_80165D0C_0;   /* arg0 in create_ballistic_landing_particle */
 
-typedef struct S_80165D0C_1 {
-    u8 pad_00[0x4];
-    s32 unk_04;
-    s32 unk_08;
-    u8 pad_0C[0x8];
-    s16 unk_14;
-    u8 pad_16[0x1C];
-    s16 unk_32;
-    s16 unk_34;
-    u8 pad_36[0xC];
-    u16 unk_42;
-    u16 unk_44;
-    u16 unk_46;
-    u8 pad_48[0x18];
-    s32 unk_60;
-} S_80165D0C_1;
 
 typedef struct S_80165D0C_2 {
     u8 pad_00[0x6];
@@ -77,7 +61,7 @@ void create_ballistic_landing_particle(S_80165D0C_0 *source, s16 duration, s32 s
     s32 velocity_z) {
     s32 sprite_scale;
     SpriteFrameState *sprite;
-    S_80165D0C_1 *effect_state;
+    ScatterLandingSparksOnGridBody *effect_state;
     ObjectNodeHeader *effect;
 
     effect = allocate_flagged_object_node(0x12);
@@ -96,9 +80,9 @@ void create_ballistic_landing_particle(S_80165D0C_0 *source, s16 duration, s32 s
         ((S_80165D0C_3 *)((effect->position)))->unk_0C = (s32) (((rand() & 0x7FFF) - 0x4000) * 8);
         ((S_80165D0C_3 *)((effect->position)))->unk_10 = (s32) (((rand() & 0x7FFF) - 0x4000) * 8);
         ((S_80165D0C_3 *)((effect->position)))->unk_14 = (s32) (velocity_z + 0xFFFC0000);
-        effect_state->unk_60 = 0x10000;
+        effect_state->gravity = 0x10000;
         effect_state->unk_14 = duration;
-        effect_state->unk_32 = 0;
+        effect_state->ticks.s = 0;
         effect_state->unk_34 = 0;
         register_node(effect, project_sprite_chain);
         sprite = effect->sprite;

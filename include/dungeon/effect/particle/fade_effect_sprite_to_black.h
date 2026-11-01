@@ -93,13 +93,6 @@ typedef struct S_8182C800_14 {
     s32 unk_04;
 } S_8182C800_14;   /* state1_tex in func_8002401C */
 
-typedef struct S_8182C800_15 {
-    void * unk_00;
-    u8 pad_04[0x44];
-    s16 unk_48;
-    u8 pad_4A[0x2];
-    s16 unk_4C;
-} S_8182C800_15;   /* temp_s3 in func_8002401C */
 
 typedef struct S_8182C800_16 {
     u8 pad_00[0x4];
@@ -170,13 +163,15 @@ typedef struct S_8182D544_0_pre {
     u16 unk_00;
 } S_8182D544_0_pre;   /* the 0x2 bytes before arg0 in func_80024D44, addressed as arg0[-1] */
 
-typedef struct S_8182D544_0 {
-    void * unk_00;
+/* Owner link, countdown, and fade phase for a directional sprite effect. */
+typedef struct FadeSpriteCountdownBody {
+    void *unk_00;
     u8 pad_04[0x44];
     u16 unk_48;
     u8 pad_4A[0x2];
-    union { s16 s; u16 u; } unk_4C;   /* accessed as both */
-} S_8182D544_0;   /* arg0 in func_80024D44 */
+    union { s16 s; u16 u; } unk_4C;
+} FadeSpriteCountdownBody;
+
 
 typedef struct S_8182D544_1 {
     u8 pad_00[0xC];
@@ -242,6 +237,6 @@ s32 get_definition_entry_byte_13();
 extern u8 D_800DEBD8;
 extern s32 rand(void);
 void update_directional_actor_effect(void *effect, void *motion, void *sprite);
-void move_the_effect_count_down_timer_fade_sprite_black(void *effect, S_8182D544_2 *motion, SpriteFrameState *sprite);
+void move_the_effect_count_down_timer_fade_sprite_black(FadeSpriteCountdownBody *effect, S_8182D544_2 *motion, SpriteFrameState *sprite);
 void advance_motion_damping_downward_acceleration_count_down_fade_effect(Object *object, Motion *motion, SpriteFrameState *effect);
 #endif

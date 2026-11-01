@@ -1298,14 +1298,14 @@ void finish_timed_actor_movement(ActorRecord *body, ObjectPosition *transform, S
 }
 
 /* Applies a value change and knockback, decelerates the actor, then recenters it and restores movement. */
-void slow_directional_movement_to_tile(ActorRecord *body, ObjectPosition *motion, SpriteFrameState *sprite, void *source)
+void slow_directional_movement_to_tile(ActorRecord *body, ObjectPosition *motion, SpriteFrameState *sprite, ActorRecord *source)
 {
     s16 timer;
     s32 direction;
     s32 speed_limit;
     s32 tracked_object;
 
-    direction = (((EntityRec *)source)->unk_6A >> 9) & 7;
+    direction = (source->movement_facing >> 9) & 7;
 
     switch (body->action_phase.u) {
     case 0:
@@ -1316,7 +1316,7 @@ void slow_directional_movement_to_tile(ActorRecord *body, ObjectPosition *motion
             *(s16 *)((u8 *)((s8 *)dir_step_y) + direction * 2) << 19;
         body->action_phase.u++;
 
-        if (((EntityRec *)source)->unk_28 == 0) {
+        if (source->hp == 0) {
             motion->velocity_z = 0;
             motion->velocity_y = 0;
             motion->velocity_x = 0;
@@ -1330,7 +1330,7 @@ void slow_directional_movement_to_tile(ActorRecord *body, ObjectPosition *motion
         }
 
         timer = 5;
-        if (((EntityRec *)source)->flags1C & (ACTOR_MP_EMPTY | ACTOR_PARALYZED | ACTOR_ASLEEP)) {
+        if (source->flags1C & (ACTOR_MP_EMPTY | ACTOR_PARALYZED | ACTOR_ASLEEP)) {
             timer = 8;
         }
         body->action_timer.s = timer;
@@ -1375,7 +1375,7 @@ void slow_directional_movement_to_tile(ActorRecord *body, ObjectPosition *motion
                 body->action_timer.s = 0;
             }
 
-            if (((EntityRec *)source)->unk_28 != 0) {
+            if (source->hp != 0) {
                 {
                     s32 tile_pos = sprite->tile_x << 6;
                     s32 current_pos = motion->x.w.i - 0x20;
@@ -1397,7 +1397,7 @@ void slow_directional_movement_to_tile(ActorRecord *body, ObjectPosition *motion
         if (body->action_timer.s != 0) {
             return;
         }
-        if (((EntityRec *)source)->unk_28 == 0) {
+        if (source->hp == 0) {
             motion->velocity_z = 0;
             begin_actor_display_action(body, motion, sprite, D_80173CC4);
             return;

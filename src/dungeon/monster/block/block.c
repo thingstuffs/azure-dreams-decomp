@@ -1777,8 +1777,10 @@ void create_randomized_rotated_effect(void *unused_context, Rec_func_80173CFC_ar
  * effect+0x20 occupy s2/s1/s0, producing retail's 0x28 frame and full save set. One packed 12-byte
  * assignment emits the retail lwl/lwr and swl/swr copy.
  */
-void project_visible_effect_quad(void *quad, void *position, void *render_info, s16 depth_bias)
+void project_visible_effect_quad(void *quad, void *position_arg, void *render_info_arg, s16 depth_bias)
 {
+    CB_80173E40_S_80173E40_2 *render_info = render_info_arg;
+    CB_80173E40_S_80173E40_1 *position = position_arg;
     u8 *scratch = (u8 *)0x1F800000;
     u8 *packet;
     u8 *texture;
@@ -1790,19 +1792,19 @@ void project_visible_effect_quad(void *quad, void *position, void *render_info, 
     CB_80173E40_MATRIX current_matrix;
 
     ((CB_80173E40_S_80173E40_0 *)scratch)->unk_24.p = *(u8 **)((u8 *)(&g_game_work)) + 0xB0;
-    ((CB_80173E40_S_80173E40_0 *)scratch)->unk_88 = ((CB_80173E40_S_80173E40_1 *)position)->unk_02;
-    ((CB_80173E40_S_80173E40_0 *)scratch)->unk_8C = ((CB_80173E40_S_80173E40_1 *)position)->unk_06;
-    ((CB_80173E40_S_80173E40_0 *)scratch)->unk_90 = ((CB_80173E40_S_80173E40_1 *)position)->unk_0A;
-    ((CB_80173E40_S_80173E40_2 *)render_info)->unk_14 |= 0x8000;
+    ((CB_80173E40_S_80173E40_0 *)scratch)->unk_88 = position->unk_02;
+    ((CB_80173E40_S_80173E40_0 *)scratch)->unk_8C = position->unk_06;
+    ((CB_80173E40_S_80173E40_0 *)scratch)->unk_90 = position->unk_0A;
+    render_info->unk_14 |= 0x8000;
 
     PushMatrix();
 
     ((CB_80173E40_S_80173E40_0 *)scratch)->unk_3C = 0x2000;
     ((CB_80173E40_S_80173E40_0 *)scratch)->unk_38 = 0x2000;
     ((CB_80173E40_S_80173E40_0 *)scratch)->unk_34 = 0x2000;
-    ((CB_80173E40_S_80173E40_0 *)scratch)->unk_A4 = ((CB_80173E40_S_80173E40_2 *)render_info)->unk_16;
-    ((CB_80173E40_S_80173E40_0 *)scratch)->unk_A8 = ((CB_80173E40_S_80173E40_2 *)render_info)->unk_1A;
-    ((CB_80173E40_S_80173E40_0 *)scratch)->unk_A6 = ((CB_80173E40_S_80173E40_2 *)render_info)->unk_18;
+    ((CB_80173E40_S_80173E40_0 *)scratch)->unk_A4 = render_info->unk_16;
+    ((CB_80173E40_S_80173E40_0 *)scratch)->unk_A8 = render_info->unk_1A;
+    ((CB_80173E40_S_80173E40_0 *)scratch)->unk_A6 = render_info->unk_18;
     RotMatrix(scratch + 0xA4, scratch + 0x74);
     ReadRotMatrix(&current_matrix);
     CompMatrix(&current_matrix, scratch + 0x74, scratch + 0x54);
@@ -1811,7 +1813,7 @@ void project_visible_effect_quad(void *quad, void *position, void *render_info, 
     SetRotMatrix(scratch + 0x54);
 
     texture = (*(u8 * *)((u8 *)render_info + 8));
-    ((CB_80173E40_S_80173E40_0 *)scratch)->unk_28 = ((CB_80173E40_S_80173E40_2 *)render_info)->unk_14;
+    ((CB_80173E40_S_80173E40_0 *)scratch)->unk_28 = render_info->unk_14;
     packet = ((CB_80173E40_S_80173E40_3 *)(g_game_work.draw_buffer))->unk_8D0;
     ((CB_80173E40_S_80173E40_3 *)(g_game_work.draw_buffer))->unk_8D0 = packet + 0xC;
     texture_page = GetTPage(0, 0, 0, 0);
@@ -1858,12 +1860,12 @@ void project_visible_effect_quad(void *quad, void *position, void *render_info, 
              ((u16)(((CB_80173E40_S_80173E40_4 *)packet)->unk_1A + 0x20) < 0x121)) |
             (((u16)(((CB_80173E40_S_80173E40_4 *)packet)->unk_20 + 0x20) < 0x181) &&
              ((u16)(((CB_80173E40_S_80173E40_4 *)packet)->unk_22 + 0x20) < 0x121))) {
-            ((CB_80173E40_S_80173E40_2 *)render_info)->unk_14 &= 0x7FFF;
+            render_info->unk_14 &= 0x7FFF;
             texture_flags = texture[1];
-            ((CB_80173E40_S_80173E40_2 *)render_info)->unk_0F = texture_flags;
+            render_info->unk_0F = texture_flags;
             render_flags = ((CB_80173E40_S_80173E40_0 *)scratch)->unk_28;
             if (render_flags & 8) {
-                ((CB_80173E40_S_80173E40_2 *)render_info)->unk_0F = (render_flags & 4) ?
+                render_info->unk_0F = (render_flags & 4) ?
                     (texture_flags | 2) : (texture_flags & 0xFD);
             }
 

@@ -24,12 +24,6 @@ typedef struct S_801733BC_2 {
 
    /* arg1 in update_particles_projectile_and_fade */
 
-typedef struct S_801733BC_4 {
-    u8 pad_00[0x96];
-    u16 unk_96;
-    u8 pad_98[0xC];
-    u32 unk_A4;
-} S_801733BC_4;   /* effectPart in update_particles_projectile_and_fade */
 
 typedef struct S_801733BC_8 {
     u8 pad_00[0x2];
@@ -79,7 +73,7 @@ void update_particles_projectile_and_fade(ActorRecord *body, MovingPosition *pos
     s32 particles_left;
     ObjectNodeHeader *spawned_object;
     void *particle_callback;
-    S_801733BC_4 *particle_state;
+    UpdateActorActionsAndImpactEffectsBody *particle_state;
     SpriteFrameState *particle_render;
     S_801733BC_8 *projectile_state;
 
@@ -127,8 +121,8 @@ void update_particles_projectile_and_fade(ActorRecord *body, MovingPosition *pos
                     spawned_object->position->z.w.i =
                         source_z - random_offset - 0x10;
 
-                    particle_state = (S_801733BC_4 *)((u8 *)spawned_object + 0x20);
-                    particle_state->unk_A4 = particle_render;
+                    particle_state = (UpdateActorActionsAndImpactEffectsBody *)((u8 *)spawned_object + 0x20);
+                    particle_state->unk_A4.u = particle_render;
                     particle_state->unk_96 = 6;
 
                     particle_render = spawned_object->sprite;

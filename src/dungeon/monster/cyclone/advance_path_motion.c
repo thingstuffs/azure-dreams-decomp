@@ -20,14 +20,6 @@ typedef struct S_801716D8_0 {
     s16 unk_8A;
 } S_801716D8_0;   /* state in advance_path_motion */
 
-typedef struct S_801716D8_2 {
-    u8 pad_00[0x74];
-    u8 unk_74;
-    u8 pad_75[0x7];
-    u8 unk_7C;
-} S_801716D8_2;
-
-
 void update_map_cell_flags_with_item_limit(s32 x, s32 y, u16 flags);             /* extern */
 s32 check_movement_clearance_and_height(); /* extern */
 s16 get_rounded_facing_and_rounding_flag(); /* Unprototyped: retail call extends the result to this declared width; no shared prototype keeps it */             /* extern */
@@ -44,31 +36,29 @@ void advance_path_motion(ActorRecord *body, ObjectPosition *position, SpriteFram
     s32 next_x;
     s32 next_y;
     s32 move_flag;
-    S_801716D8_2 *path_step;
-    void *state = actor;
+    ActorRecord *state = actor;
 
     if ((((S_801716D8_0 *)state)->unk_71 > 0) && ((s32) (u8) ((S_801716D8_0 *)state)->unk_71
-        > ((S_801716D8_0 *)state)->unk_8A)) {
+        > state->unk_8A)) {
         if (sprite->frameTable != cyclone_move_direction_frames) {
             (sprite->frameTable) = cyclone_move_direction_frames;
-            select_sprite_entry(sprite, cyclone_move_direction_frames[((g_game_work.view.camera_rotation.parts.viewAngle + ((S_801716D8_0 *)state)->unk_2A + 0x100)
+            select_sprite_entry(sprite, cyclone_move_direction_frames[((g_game_work.view.camera_rotation.parts.viewAngle + state->facing + 0x100)
                 >> 9) & 7], 0);
         }
         old_x = sprite->tile_x;
         old_y = sprite->tile_y;
         old_cell_mask = 0x3000;
-        if (((S_801716D8_0 *)state)->unk_1C & 0x2000) {
+        if (state->flags1C & 0x2000) {
             old_cell_mask = 0x300;
         }
         update_map_cell_flags_with_item_limit(old_x, old_y, old_cell_mask);
-        path_step = state + ((S_801716D8_0 *)state)->unk_8A;
-        heading = get_rounded_facing_and_rounding_flag(old_x, old_y, path_step->unk_74, path_step->unk_7C,
+        heading = get_rounded_facing_and_rounding_flag(old_x, old_y, state->path_x[state->unk_8A], state->path_y[state->unk_8A],
             ((void *)body) + 0x98);
         check_movement_clearance_and_height(heading, sprite, state, 0x20);
-        sprite->tile_x = (u8) ((ActorRecord *)((state + ((S_801716D8_0 *)state)->unk_8A)))->path_x[0];
-        sprite->tile_y = (u8) ((ActorRecord *)((state + ((S_801716D8_0 *)state)->unk_8A)))->path_y[0];
-        ((S_801716D8_0 *)state)->unk_8A = (s16) ((u16) ((S_801716D8_0 *)state)->unk_8A + 1);
-        move_flag = ((S_801716D8_0 *)state)->unk_1C & 0x2000;
+        sprite->tile_x = (u8) state->path_x[state->unk_8A];
+        sprite->tile_y = (u8) state->path_y[state->unk_8A];
+        state->unk_8A = (s16) ((u16) state->unk_8A + 1);
+        move_flag = state->flags1C & 0x2000;
         next_x = sprite->tile_x;
         next_y = sprite->tile_y;
         new_cell_mask = 0x3000;
@@ -78,10 +68,10 @@ void advance_path_motion(ActorRecord *body, ObjectPosition *position, SpriteFram
         } else {
             cycle_map_cell_flags(next_x, next_y, new_cell_mask);
         }
-        ((S_801716D8_0 *)state)->unk_2A = heading;
+        state->facing = heading;
         body->action_id.s = 0xF;
         body->unk_8C.word = 0;
-        (((S_801716D8_0 *)state)->unk_1C) = (s32) (((S_801716D8_0 *)state)->unk_1C | 0x40000000);
+        (state->flags1C) = (s32) (state->flags1C | 0x40000000);
         if (g_dungeon_status.flags & 0x80) {
             body->action_timer.s = 0;
             return;

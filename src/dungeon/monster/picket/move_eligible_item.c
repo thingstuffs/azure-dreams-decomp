@@ -20,17 +20,17 @@ typedef struct { s32 value; } ItemWord;
 /* Moves an eligible item from a nearby slot or target into the shared item slot. */
  void * move_eligible_item(void *origin, ActorRecord *actor) {
     u8 *origin_bytes = origin;
-    u8 *actor_bytes = (u8 *)actor;
+    ActorRecord *actor_bytes = actor;
     s32 direction_offset;
     s16 tile_slot;
     void *target;
     u8 *item_ptr;
 
-    direction_offset = (*(u16 *)(actor_bytes + 0x2A) >> 8) & 0xE;
+    direction_offset = ((u16) actor_bytes->facing >> 8) & 0xE;
     tile_slot = find_floor_item_at_world_position(
         (s16)(*(origin_bytes + 0x24) + *(u16 *)(((u8 *)dir_step_x) + direction_offset)),
         (s16)(*(origin_bytes + 0x25) + *(u16 *)(((u8 *)dir_step_y) + direction_offset)),
-        *(s16 *)(actor_bytes + 0x88));
+        actor_bytes->ground_height);
     if (tile_slot >= 0) {
         s32 *shared_base;
         s32 *shared_slot;
@@ -42,7 +42,7 @@ typedef struct { s32 value; } ItemWord;
     }
 
     target = probe_directional_neighbor(actor, *(origin_bytes + 0x24), *(origin_bytes + 0x25),
-                           *(s16 *)(actor_bytes + 0x2A));
+                           actor_bytes->facing);
     if (target != NULL) {
         if (target == (void *)dungeon_actor_ring_anchor[0]) {
             if (is_linked_entity_flagged_80000(target, target) != 0) {

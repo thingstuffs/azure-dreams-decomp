@@ -226,9 +226,9 @@ void advance_item_visual_action(ActorRecord *controller, ObjectPosition *motion,
                     } else {
                         sprite->color.c.b = dim_channel;
                     }
-                    (*((u8 *)effect_data + 2)) = sprite->color.c.r;
-                    (*((u8 *)effect_data + 3)) = sprite->color.c.g;
-                    (*((u8 *)effect_data + 4)) = sprite->color.c.b;
+                    (*(effect_data + 2)) = sprite->color.c.r;
+                    (*(effect_data + 3)) = sprite->color.c.g;
+                    (*(effect_data + 4)) = sprite->color.c.b;
                     sprite->clut = 0x7DCF;
                     sprite->flags |= 0x100;
                     (*(Copy12 *)(effect_data + 0x34)) = *(Copy12 *)D_80175424;

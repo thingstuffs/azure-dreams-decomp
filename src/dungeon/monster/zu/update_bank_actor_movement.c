@@ -1089,7 +1089,7 @@ void select_bank_resident_callback(ActorRecord *state, ObjectPosition *motion, S
 #include "shared/sprite_frame_state.h"
 
 
-extern s32 update_linked_actor_motion(void *state, void *transform, void *config, void *object);
+extern s32 update_linked_actor_motion(void *state, ObjectPosition *transform, SpriteFrameState *config, void *object);
 /* Select the bank actor callback when the resident checks succeed. */
 void select_bank_actor_callback(ActorRecord *state, ObjectPosition *action, SpriteFrameState *source, ActorRecord *target) {
     if ((update_linked_actor_motion(state, action, source, target) != 0) && ((check_actor_floor_trap(source, target) << 0x10) > 0)) {
@@ -2322,18 +2322,6 @@ void restore_bank_actor_callback_d(ActorRecord *state, ObjectPosition *action, S
 #include "records/Rec_D_80082E80.h"
 #include "shared/dungeon_moving_views.h"
 
-typedef struct S_80173F0C_0 {
-    u8 pad_00[0x4];
-    u16 unk_04;
-    u8 pad_06[0x2];
-    u16 unk_08;
-    u8 pad_0A[0xA];
-    u16 unk_14;
-    u8 pad_16[0x32];
-    u16 unk_48;
-    u8 pad_4A[0x2];
-    union { s16 s; u16 u; } unk_4C;   /* accessed as both */
-} S_80173F0C_0;   /* arg0 in update_bank_effect_fade */
 
    /* arg1 in update_bank_effect_fade */
 
@@ -2363,15 +2351,16 @@ extern s32 rand(void);
 extern void transform_rotated_vertices(void *);
 
 /* Updates the effect's motion and fade, then marks it for removal. */
-void update_bank_effect_fade(void *effect, MovingPosition *position, SpriteFrameState *visual)
+void update_bank_effect_fade(void *effect_arg, MovingPosition *position, SpriteFrameState *visual)
 {
+    BankEffectFadeBody *effect = effect_arg;
     CallRecord transform;
     OutputVector transformed_pos;
     s16 state;
     s32 quarter_angle;
     u16 angle;
 
-    state = ((S_80173F0C_0 *)effect)->unk_4C.s;
+    state = effect->unk_4C.s;
     switch (state) {
     case 0:
         advance_sprite_animation_and_textures(visual);
@@ -2381,13 +2370,13 @@ void update_bank_effect_fade(void *effect, MovingPosition *position, SpriteFrame
         }
         visual->color.word += 0xFFE7E7E8;
         if ((u8)visual->color.word < 0x30U) {
-            ((S_80173F0C_0 *)effect)->unk_4C.u++;
+            effect->unk_4C.u++;
         }
 
-        angle = ((S_80173F0C_0 *)effect)->unk_08 + 10;
+        angle = effect->unk_08 + 10;
         quarter_angle = (s32)(angle << 16) >> 18;
-        ((S_80173F0C_0 *)effect)->unk_08 = angle;
-        ((S_80173F0C_0 *)effect)->unk_04 = (u16)(-(quarter_angle * quarter_angle) >> 4);
+        effect->unk_08 = angle;
+        effect->unk_04 = (u16)(-(quarter_angle * quarter_angle) >> 4);
 
         {
             s32 height_jitter;
@@ -2395,14 +2384,14 @@ void update_bank_effect_fade(void *effect, MovingPosition *position, SpriteFrame
 
             height_jitter = rand() & 0x7F;
 
-            height = ((S_80173F0C_0 *)effect)->unk_14;
+            height = effect->unk_14;
             height += 0x140;
             height += height_jitter;
-            ((S_80173F0C_0 *)effect)->unk_14 = height;
+            effect->unk_14 = height;
         }
-        ((S_80173F0C_0 *)effect)->unk_04 += (s32)(((S_80173F0C_0 *)effect)->unk_48 << 16) >> 17;
-        if (((S_80173F0C_0 *)effect)->unk_48 & 1) {
-            ((S_80173F0C_0 *)effect)->unk_08++;
+        effect->unk_04 += (s32)(effect->unk_48 << 16) >> 17;
+        if (effect->unk_48 & 1) {
+            effect->unk_08++;
         }
 
         transform.field0 = (u8 *)effect + 4;
@@ -2415,7 +2404,7 @@ void update_bank_effect_fade(void *effect, MovingPosition *position, SpriteFrame
         position->x = transformed_pos.x;
         position->y = transformed_pos.y;
         position->z = transformed_pos.z;
-        ((S_80173F0C_0 *)effect)->unk_48--;
+        effect->unk_48--;
         break;
     case 1:
         (*(u16 *)((u8 *)effect + -2)) |= NODE_REMOVE;

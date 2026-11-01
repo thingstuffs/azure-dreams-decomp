@@ -49,20 +49,20 @@ extern void play_sound_if_enabled(s32);
 extern void spend_actor_mp(D3 *, s32);
 struct SpriteFrameState;
 extern void select_sprite_entry(struct SpriteFrameState *, s16, s16);
-extern void create_directional_target_object(D0 *, void *, SpriteFrameState *);
+extern void create_directional_target_object(ActorRecord *, void *, SpriteFrameState *);
 extern void format_entity_message(s32, D3 *);
 
 /* Advances a timed actor state sequence and updates its sprite direction. */
-void advance_timed_actor_state_sequence(D0 *action, ObjectPosition *position, SpriteFrameState *sprite, D3 *actor) {
+void advance_timed_actor_state_sequence(ActorRecord *action, ObjectPosition *position, SpriteFrameState *sprite, D3 *actor) {
     u16 sprite_flags;
     u16 ticks_left;
 
-    switch (action->state) {
+    switch (action->action_phase.u) {
     case 0:
         sprite_flags = sprite->flags;
         if (sprite_flags & 0x8000) {
             sprite->flags = sprite_flags | 0x6000;
-            action->state = 2;
+            action->action_phase.u = 2;
             return;
         }
         if (!(sprite->unk_04 == 1 && (sprite_flags & 0x1000)) && (sprite_flags & 0x6000) == 0) {
@@ -75,25 +75,25 @@ void advance_timed_actor_state_sequence(D0 *action, ObjectPosition *position, Sp
             format_entity_message(0, actor);
         }
         play_sound_if_enabled(0x80D);
-        action->field_96 = 0x20;
-        action->state = action->state + 1;
+        action->action_timer.u = 0x20;
+        action->action_phase.u = action->action_phase.u + 1;
         break;
 
     case 1:
-        ticks_left = action->field_96 - 1;
-        action->field_96 = ticks_left;
+        ticks_left = action->action_timer.u - 1;
+        action->action_timer.u = ticks_left;
         if ((ticks_left << 16) != 0) {
             if (!(sprite->flags & 0x8000)) {
                 break;
             }
         }
-        action->field_96 = 4;
-        action->state = action->state + 1;
+        action->action_timer.u = 4;
+        action->action_phase.u = action->action_phase.u + 1;
         break;
 
     case 2:
-        ticks_left = action->field_96 - 1;
-        action->field_96 = ticks_left;
+        ticks_left = action->action_timer.u - 1;
+        action->action_timer.u = ticks_left;
         if ((ticks_left << 16) != 0) {
             if (!(sprite->flags & 0xE000)) {
                 return;
@@ -101,7 +101,7 @@ void advance_timed_actor_state_sequence(D0 *action, ObjectPosition *position, Sp
         }
         spend_actor_mp(actor, 0x400);
         set_record_integer_tile_center(position, sprite->tile_x, sprite->tile_y);
-        action->field_8C = update_actor_animation;
+        action->unk_8C.address = update_actor_animation;
         g_dungeon_status.active_actor = 0;
         actor->value_46 &= 0x7FFF;
         break;
@@ -110,7 +110,7 @@ void advance_timed_actor_state_sequence(D0 *action, ObjectPosition *position, Sp
     if (sprite->flags & 0xE000) {
         sprite->frameTable = cyclone_move_direction_frames;
         select_sprite_entry(sprite, cyclone_move_direction_frames[(((g_game_work.view.camera_rotation.parts.viewAngle + actor->value_2A + 0x100) >> 9) & 7)], 0);
-        action->field_98 &= 0xFFF7;
+        action->action_state_flags &= 0xFFF7;
     }
 
     return;

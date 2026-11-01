@@ -376,7 +376,7 @@ void finish_actor_tile_move_then_dispatch_transition(void *state, void *motion, 
 void finish_linked_actor_motion_and_floor_trap_then_dispatch_transition(ActorRecord *state, ObjectPosition *entity, SpriteFrameState *position, ActorRecord *graphic);
 
 void update_overlay_object_action(ActorRecord *body, ObjectPosition *position, struct SpriteFrameState *sprite, ActorRecord *actor);
-void damp_actor_motion_then_recenter(R16_801729D8_S_80173294_0 *motion_state, ObjectPosition *motion, SpriteFrameState *tile_state, void *entity);
+void damp_actor_motion_then_recenter(R16_801729D8_S_80173294_0 *motion_state, ObjectPosition *motion, SpriteFrameState *tile_state, ActorRecord *entity);
 void remove_defeated_clown(void *state, void *motion, void *position, void *actor);
 void shrink_hopping_clown(R16_80172CCC_S_80173588_0 *state, void *context, SpriteFrameState *data, void *render);
 void advance_clown_removal(void *state, void *motion, void *position, void *actor);
@@ -394,7 +394,7 @@ s32 project_clown_sprite_chain(void *initial_payload, s32 entry_data, R16_801736
 void update_expanding_spiral_effect(void *effect, R16_80173738_FuncArg1 *position, struct SpriteFrameState *primitive);
 void create_angled_source_effect(
     s32 unused_0, R16_80173904_S_80173904_3 *origin, s32 unused_2, s32 unused_3, s16 angle, u16 depth_offset);
-void wait_for_clown_action_slot(void *entity_data, ObjectPosition *unused_1, s32 unused_2, void *other_data);
+void wait_for_clown_action_slot(ActorRecord *entity_data, ObjectPosition *unused_1, s32 unused_2, void *other_data);
 void fade_entity_colors_to_neutral(void *entity_data, void *unused, void *source_data);
 void advance_actor_effect_sequence(Rec_func_801732A4_arg0 *state, EntityRec *position, struct SpriteFrameState *actor, void *model);
 

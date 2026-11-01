@@ -31,7 +31,7 @@ extern u8 ghosh_frame_set_9[];
 extern u8 ghosh_frame_set_13[];
 
 /* Executes the current actor script command and advances its repeat counter. */
-s32 execute_actor_script_command(u8 *actor_arg, s32 action_context, u8 *entity_arg) {
+s32 execute_actor_script_command(u8 *actor_arg, s32 action_context, SpriteFrameState *entity_arg) {
     u8 *actor = actor_arg;
     SpriteFrameState *entity= entity_arg;
     u8 *command_stream;

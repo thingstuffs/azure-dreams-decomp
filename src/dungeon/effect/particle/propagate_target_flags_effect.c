@@ -223,8 +223,8 @@ void advance_colliding_particle_sprite(void *effect, S_8196ACE4_0 *position, Spr
     u16 collide_y;
     s32 collide_z;
 
-    position->unk_00.at00.v = (s32) (position->unk_00.at00.v + ((S_8196ACE4_1 *)effect)->unk_8C);
-    ((S_8196ACE4_1 *)effect)->unk_8C = (s32) (((S_8196ACE4_1 *)effect)->unk_8C + ((S_8196ACE4_1 *)effect)->unk_98);
+    position->unk_00.at00.v = (s32) (position->unk_00.at00.v + ((RandomizedPalettedSpriteBody *)effect)->unk_8C);
+    ((RandomizedPalettedSpriteBody *)effect)->unk_8C = (s32) (((RandomizedPalettedSpriteBody *)effect)->unk_8C + ((RandomizedPalettedSpriteBody *)effect)->unk_98);
     collide_x = position->unk_00.at02.v;
     collide_y = position->unk_04.at02.v;
     collide_z = position->unk_08.at02.v;
@@ -234,47 +234,47 @@ void advance_colliding_particle_sprite(void *effect, S_8196ACE4_0 *position, Spr
     }
     if (((s16)sample_terrain_surface_height(collide_x, collide_y, collide_z) < 0x200) && ((check_left_tile_and_center_height(position->unk_00.at02.v,
         position->unk_04.at02.v, position->unk_08.at02.v) << 0x10) != 0)) {
-        position->unk_00.at00.v = (s32) (position->unk_00.at00.v - ((S_8196ACE4_1 *)effect)->unk_8C);
-        ((S_8196ACE4_1 *)effect)->unk_8C = 0;
-        ((S_8196ACE4_1 *)effect)->unk_98 = 0;
+        position->unk_00.at00.v = (s32) (position->unk_00.at00.v - ((RandomizedPalettedSpriteBody *)effect)->unk_8C);
+        ((RandomizedPalettedSpriteBody *)effect)->unk_8C = 0;
+        ((RandomizedPalettedSpriteBody *)effect)->unk_98 = 0;
     }
-    position->unk_04.at00.v = (s32) (position->unk_04.at00.v + ((S_8196ACE4_1 *)effect)->unk_90);
-    ((S_8196ACE4_1 *)effect)->unk_90 = (s32) (((S_8196ACE4_1 *)effect)->unk_90 + ((S_8196ACE4_1 *)effect)->unk_9C);
+    position->unk_04.at00.v = (s32) (position->unk_04.at00.v + ((RandomizedPalettedSpriteBody *)effect)->unk_90);
+    ((RandomizedPalettedSpriteBody *)effect)->unk_90 = (s32) (((RandomizedPalettedSpriteBody *)effect)->unk_90 + ((RandomizedPalettedSpriteBody *)effect)->unk_9C);
     if (((s16)sample_terrain_surface_height(position->unk_00.at02.v, position->unk_04.at02.v, position->unk_08.at02.v) < 0x200)
         && ((check_left_tile_and_center_height(position->unk_00.at02.v, position->unk_04.at02.v, position->unk_08.at02.v) << 0x10) != 0)) {
-        position->unk_04.at00.v = (s32) (position->unk_04.at00.v - ((S_8196ACE4_1 *)effect)->unk_90);
-        ((S_8196ACE4_1 *)effect)->unk_90 = 0;
-        ((S_8196ACE4_1 *)effect)->unk_9C = 0;
+        position->unk_04.at00.v = (s32) (position->unk_04.at00.v - ((RandomizedPalettedSpriteBody *)effect)->unk_90);
+        ((RandomizedPalettedSpriteBody *)effect)->unk_90 = 0;
+        ((RandomizedPalettedSpriteBody *)effect)->unk_9C = 0;
     }
-    position->unk_08.at00.v = (s32) (position->unk_08.at00.v + ((S_8196ACE4_1 *)effect)->unk_94);
+    position->unk_08.at00.v = (s32) (position->unk_08.at00.v + ((RandomizedPalettedSpriteBody *)effect)->unk_94);
     {
-        s32 accel_z = ((S_8196ACE4_1 *)effect)->unk_A0;
-        ((S_8196ACE4_1 *)effect)->unk_94 += accel_z;
+        s32 accel_z = ((RandomizedPalettedSpriteBody *)effect)->unk_A0;
+        ((RandomizedPalettedSpriteBody *)effect)->unk_94 += accel_z;
     }
-    ((S_8196ACE4_1 *)effect)->unk_8C = (s32) ((((S_8196ACE4_1 *)effect)->unk_8C * 0x60) / 100);
-    ((S_8196ACE4_1 *)effect)->unk_90 = (s32) ((((S_8196ACE4_1 *)effect)->unk_90 * 0x60) / 100);
+    ((RandomizedPalettedSpriteBody *)effect)->unk_8C = (s32) ((((RandomizedPalettedSpriteBody *)effect)->unk_8C * 0x60) / 100);
+    ((RandomizedPalettedSpriteBody *)effect)->unk_90 = (s32) ((((RandomizedPalettedSpriteBody *)effect)->unk_90 * 0x60) / 100);
     height = position->unk_08.at02.v;
     if (((s16)sample_terrain_surface_height(position->unk_00.at02.v, position->unk_04.at02.v, (s16) (position->unk_08.at02u.v - 4)) - 0x10)
         < height) {
-        ((S_8196ACE4_1 *)effect)->unk_94 = 0;
+        ((RandomizedPalettedSpriteBody *)effect)->unk_94 = 0;
         position->unk_08.at02.v = (s16) ((s16)sample_terrain_surface_height(position->unk_00.at02.v, position->unk_04.at02.v,
             (s16) ((u16) position->unk_08.at02.v - 4)) - 0x11);
         position->unk_08.at00u.v = 0;
-        if (((S_8196ACE4_1 *)effect)->unk_2A == 0) {
-            ((S_8196ACE4_1 *)effect)->unk_2A = 1;
-            ((S_8196ACE4_1 *)effect)->unk_8C = (s32) ((((rand() & 0x7F) << 0xB) + 0xFFFE0000) * 2);
-            ((S_8196ACE4_1 *)effect)->unk_90 = (s32) ((((rand() & 0x7F) << 0xB) + 0xFFFE0000) * 2);
+        if (((RandomizedPalettedSpriteBody *)effect)->unk_2A == 0) {
+            ((RandomizedPalettedSpriteBody *)effect)->unk_2A = 1;
+            ((RandomizedPalettedSpriteBody *)effect)->unk_8C = (s32) ((((rand() & 0x7F) << 0xB) + 0xFFFE0000) * 2);
+            ((RandomizedPalettedSpriteBody *)effect)->unk_90 = (s32) ((((rand() & 0x7F) << 0xB) + 0xFFFE0000) * 2);
         }
     }
-    brightness = (s32) (((S_8196ACE4_1 *)effect)->unk_2C << 7) / (s16) ((S_8196ACE4_1 *)effect)->unk_2E;
+    brightness = (s32) (((RandomizedPalettedSpriteBody *)effect)->unk_2C << 7) / (s16) ((RandomizedPalettedSpriteBody *)effect)->unk_2E;
     sprite->color.c.b = (s8) brightness;
     sprite->color.c.g = (s8) brightness;
     sprite->color.c.r = (s8) brightness;
-    anim_tick = ((S_8196ACE4_1 *)effect)->unk_34 + 1;
-    ((S_8196ACE4_1 *)effect)->unk_34 = anim_tick;
+    anim_tick = ((RandomizedPalettedSpriteBody *)effect)->unk_34 + 1;
+    ((RandomizedPalettedSpriteBody *)effect)->unk_34 = anim_tick;
     if ((s16) anim_tick == 3) {
         advance_sprite_animation_and_textures(sprite);
-        ((S_8196ACE4_1 *)effect)->unk_34 = 0U;
+        ((RandomizedPalettedSpriteBody *)effect)->unk_34 = 0U;
     }
     scale_x = sprite->scale_x + 0xC8;
     sprite->scale_x = scale_x;
@@ -286,8 +286,8 @@ void advance_colliding_particle_sprite(void *effect, S_8196ACE4_0 *position, Spr
     if ((u32) (scale_y & 0xFFFF) >= 0x1001U) {
         sprite->scale_y = 0x1000U;
     }
-    life_left = (u16) ((S_8196ACE4_1 *)effect)->unk_2C - 1;
-    ((S_8196ACE4_1 *)effect)->unk_2C = life_left;
+    life_left = (u16) ((RandomizedPalettedSpriteBody *)effect)->unk_2C - 1;
+    ((RandomizedPalettedSpriteBody *)effect)->unk_2C = life_left;
     if ((life_left << 0x10) <= 0) {
         ((S_8196ACE4_1_pre *)effect)[-1].unk_00 = (u16) (((S_8196ACE4_1_pre *)effect)[-1].unk_00 | 0x8000);
         {
@@ -305,14 +305,14 @@ void advance_colliding_particle_sprite(void *effect, S_8196ACE4_0 *position, Spr
 }
 
    /* Advance motion, resolve collisions, and mark expired objects for removal. */
-void advance_terrain_colliding_sprite(void *motion_arg, void *position, s32 update_id) {
-    S_8196B074_0 *motion = motion_arg;
+void advance_terrain_colliding_sprite(LingeringBallisticSpriteBody *motion_arg, void *position, s32 update_id) {
+    LingeringBallisticSpriteBody *motion = motion_arg;
     s32 height;
     u16 remaining_ticks;
 
-    remaining_ticks = motion->unk_2C;
+    remaining_ticks = motion->unk_2C.u;
     particle_activity = 1;
-    motion->unk_2C = remaining_ticks - 1;
+    motion->unk_2C.u = remaining_ticks - 1;
     advance_sprite_animation_and_textures(update_id);
     ((S_8196B074_1 *)position)->unk_00.at00.v += motion->unk_8C;
     motion->unk_8C += motion->unk_98;
@@ -342,9 +342,9 @@ void advance_terrain_colliding_sprite(void *motion_arg, void *position, s32 upda
             ((S_8196B074_1 *)position)->unk_04.at02.v,
                                                (s16)((u16)((S_8196B074_1 *)position)->unk_08.at02.v - 4)) - 0x11;
         ((S_8196B074_1 *)position)->unk_08.at00u.v = 0;
-        motion->unk_2C = 0;
+        motion->unk_2C.u = 0;
     }
-    if ((s16)motion->unk_2C <= 0) {
+    if ((s16)motion->unk_2C.u <= 0) {
         (*(u16 *)((u8 *)motion + -2)) |= NODE_REMOVE;
         object_flag_block.flags |= OBJECT_REMOVE_PENDING;
     }
@@ -448,7 +448,7 @@ void create_lingering_ballistic_sprite(S_8196B4A4_5 *source, s32 unused_1, s32 u
 {
     LocalPoints direction_points;
     ObjectNodeHeader *effect;
-    S_8196B4A4_0 *motion;
+    LingeringBallisticSpriteBody *motion;
     SpriteFrameState *sprite;
     ObjectPosition *position;
     LocalPoint *directions;
@@ -462,7 +462,7 @@ void create_lingering_ballistic_sprite(S_8196B4A4_5 *source, s32 unused_1, s32 u
     effect = allocate_flagged_object_node(0x212);
     if (effect != 0) {
         motion = (u8 *)effect + 0x20;
-        motion->unk_2C = 0xF;
+        motion->unk_2C.s = 0xF;
         effect->update_callback = advance_terrain_colliding_sprite;
         register_node(effect, project_sprite_chain);
 
@@ -534,7 +534,7 @@ void create_brief_ballistic_sprite(S_8196B780_5 *source, s32 unused_1, s32 unuse
 {
     LocalPoints points;
     ObjectNodeHeader *effect;
-    S_8196B780_0 *motion;
+    LingeringBallisticSpriteBody *motion;
     SpriteFrameState *sprite;
     ObjectPosition *position;
     LocalPoint *point_base;
@@ -548,7 +548,7 @@ void create_brief_ballistic_sprite(S_8196B780_5 *source, s32 unused_1, s32 unuse
     effect = allocate_flagged_object_node(0x212);
     if (effect != 0) {
         motion = (u8 *)effect + 0x20;
-        motion->unk_2C = 0x4;
+        motion->unk_2C.s = 0x4;
         effect->update_callback = advance_terrain_colliding_sprite;
         register_node(effect, project_sprite_chain);
 
@@ -609,7 +609,7 @@ void create_brief_ballistic_sprite(S_8196B780_5 *source, s32 unused_1, s32 unuse
    /* the 0x18 bytes before D_800814A8 in func_8196BA5C, addressed as D_800814A8[-1] */
 
 /* Creates an object in the first free rectangle slot and marks completion when the timer expires. */
-void create_timed_rectangle_effect(void *owner) {
+void create_timed_rectangle_effect(StagedRectangleSpriteBody *owner) {
     s16 center[2];
     RectTable slot_rects;
     u8 *copy_src;
@@ -692,8 +692,8 @@ void create_timed_rectangle_effect(void *owner) {
         }
     }
 
-    ticks_left = (*(u16 *)((u8 *)owner + 0x2C)) - 1;
-    (*(u16 *)((u8 *)owner + 0x2C)) = ticks_left;
+    ticks_left = owner->unk_2C.u - 1;
+    owner->unk_2C.u = ticks_left;
     if ((s16)ticks_left <= 0) {
         (*(u16 *)((u8 *)owner + -2)) |= NODE_REMOVE;
         object_flag_block.flags |= OBJECT_REMOVE_PENDING;
@@ -713,15 +713,15 @@ void create_timed_rectangle_effect(void *owner) {
 /* Creates a display object at the source position with zero scale and color. */
 void create_staged_rectangle_sprite(void *source, s32 unused_position, s32 unused_render) {
     ObjectNodeHeader *object;
-    S_8196BD3C_0 *object_state;
+    StagedRectangleSpriteBody *object_state;
     SpriteFrameState *display;
     void *source_pos;
     ObjectPosition *object_pos;
 
     object = allocate_flagged_object_node(0x212);
     if (object != 0) {
-        object_state = (S_8196BD3C_0 *)((u8 *)object + 0x20);
-        object_state->unk_2C = 0xB;
+        object_state = (StagedRectangleSpriteBody *)((u8 *)object + 0x20);
+        object_state->unk_2C.s = 0xB;
         object_state->unk_7C = source;
         object->update_callback = create_timed_rectangle_effect;
         register_node(object, project_sprite_chain);
@@ -783,19 +783,20 @@ void update_timed(void *effect_data, s32 unused, void *sprite) {
 }
 
    /* Advance the effect animation and flag completion when its countdown expires. */
-void shrink_effect_and_step_texture(void *effect, s32 unused, S_8196BF24_1 *transform) {
+void shrink_effect_and_step_texture(void *effect_arg, s32 unused, S_8196BF24_1 *transform) {
+    S_8196BF24_0 *effect = effect_arg;
     u8 next_u;
 
-    ((S_8196BF24_0 *)effect)->unk_2C.s = (s16)(((S_8196BF24_0 *)effect)->unk_2C.s - 1);
+    effect->unk_2C.s = (s16)(effect->unk_2C.s - 1);
     transform->unk_1C = (u16)(transform->unk_1C - 0x300);
     transform->unk_1E = (u16)(transform->unk_1E - 0x200);
-    next_u = ((S_8196BF24_0 *)effect)->unk_40 - 0x18;
-    ((S_8196BF24_0 *)effect)->unk_40 = next_u;
+    next_u = effect->unk_40 - 0x18;
+    effect->unk_40 = next_u;
     if ((next_u & 0xFF) == 0xE8) {
-        ((S_8196BF24_0 *)effect)->unk_40 = 0x18U;
-        ((S_8196BF24_0 *)effect)->unk_41 = (u8)(((S_8196BF24_0 *)effect)->unk_41 - 0x20);
+        effect->unk_40 = 0x18U;
+        effect->unk_41 = (u8)(effect->unk_41 - 0x20);
     }
-    if (((S_8196BF24_0 *)effect)->unk_2C.u <= 0) {
+    if (effect->unk_2C.u <= 0) {
         ((S_8196BF24_0_pre *)effect)[-1].unk_00 = (u16)(((S_8196BF24_0_pre *)effect)[-1].unk_00 | 0x8000);
         object_flag_block.flags = (s32)(object_flag_block.flags | OBJECT_REMOVE_PENDING);
     }
@@ -1050,9 +1051,9 @@ void update_staged_particle_effect(Work *work, s32 position_arg, s32 sprite_arg)
                         local_y = work->y;
                         pos->y.w.i = local_y;
                         pos->z.w.i = work->z;
-                        *(u16 *)&pos->x.w.i += (((Position *)&view_reference_entity))->x;
-                        *(u16 *)&pos->y.w.i += (((Position *)&view_reference_entity))->y;
-                        *(u16 *)&pos->z.w.i += (((Position *)&view_reference_entity))->z;
+                        *(u16 *)&pos->x.w.i += view_reference_entity.x.unsigned_parts.integer;
+                        *(u16 *)&pos->y.w.i += view_reference_entity.y.unsigned_parts.integer;
+                        *(u16 *)&pos->z.w.i += view_reference_entity.z.unsigned_parts.integer;
                         sprite->scale_x = 0x900;
                         sprite->scale_y = 0x604;
                         sprite->b = 0x80;
@@ -1078,9 +1079,9 @@ void update_staged_particle_effect(Work *work, s32 position_arg, s32 sprite_arg)
                         local_y = work->y;
                         pos->y.w.i = local_y;
                         pos->z.w.i = work->z;
-                        *(u16 *)&pos->x.w.i += (((Position *)&view_reference_entity))->x;
-                        *(u16 *)&pos->y.w.i += (((Position *)&view_reference_entity))->y;
-                        *(u16 *)&pos->z.w.i += (((Position *)&view_reference_entity))->z;
+                        *(u16 *)&pos->x.w.i += view_reference_entity.x.unsigned_parts.integer;
+                        *(u16 *)&pos->y.w.i += view_reference_entity.y.unsigned_parts.integer;
+                        *(u16 *)&pos->z.w.i += view_reference_entity.z.unsigned_parts.integer;
                         sprite->scale_x = 0x1800;
                         sprite->scale_y = 0x1000;
                         sprite->b = 0x80;
@@ -1157,9 +1158,9 @@ void update_staged_particle_effect(Work *work, s32 position_arg, s32 sprite_arg)
                             local_y = work->y;
                             pos->y.w.i = local_y;
                             pos->z.w.i = work->z - 16;
-                            *(u16 *)&pos->x.w.i += (((Position *)&view_reference_entity))->x;
-                            *(u16 *)&pos->y.w.i += (((Position *)&view_reference_entity))->y;
-                            *(u16 *)&pos->z.w.i += (((Position *)&view_reference_entity))->z;
+                            *(u16 *)&pos->x.w.i += view_reference_entity.x.unsigned_parts.integer;
+                            *(u16 *)&pos->y.w.i += view_reference_entity.y.unsigned_parts.integer;
+                            *(u16 *)&pos->z.w.i += view_reference_entity.z.unsigned_parts.integer;
                             sprite->scale_y = 0x1000;
                             sprite->scale_x = 0x1000;
                             sprite->b = 0x80;
@@ -1194,9 +1195,9 @@ void update_staged_particle_effect(Work *work, s32 position_arg, s32 sprite_arg)
                                 local_y = work->y;
                                 pos->y.w.i = local_y;
                                 pos->z.w.i = work->z - 16;
-                                *(u16 *)&pos->x.w.i += (((Position *)&view_reference_entity))->x;
-                                *(u16 *)&pos->y.w.i += (((Position *)&view_reference_entity))->y;
-                                *(u16 *)&pos->z.w.i += (((Position *)&view_reference_entity))->z;
+                                *(u16 *)&pos->x.w.i += view_reference_entity.x.unsigned_parts.integer;
+                                *(u16 *)&pos->y.w.i += view_reference_entity.y.unsigned_parts.integer;
+                                *(u16 *)&pos->z.w.i += view_reference_entity.z.unsigned_parts.integer;
                                 sprite->scale_y = 0x1000;
                                 sprite->scale_x = 0x1000;
                                 sprite->b = 0x80;
@@ -1226,9 +1227,9 @@ void update_staged_particle_effect(Work *work, s32 position_arg, s32 sprite_arg)
                     local_y = work->y;
                     pos->y.w.i = local_y;
                     pos->z.w.i = work->z;
-                    *(u16 *)&pos->x.w.i += (((Position *)&view_reference_entity))->x;
-                    *(u16 *)&pos->y.w.i += (((Position *)&view_reference_entity))->y;
-                    *(u16 *)&pos->z.w.i += (((Position *)&view_reference_entity))->z;
+                    *(u16 *)&pos->x.w.i += view_reference_entity.x.unsigned_parts.integer;
+                    *(u16 *)&pos->y.w.i += view_reference_entity.y.unsigned_parts.integer;
+                    *(u16 *)&pos->z.w.i += view_reference_entity.z.unsigned_parts.integer;
                     sprite->scale_x = 0x1800;
                     sprite->scale_y = 0x1000;
                     sprite->b = 0x80;

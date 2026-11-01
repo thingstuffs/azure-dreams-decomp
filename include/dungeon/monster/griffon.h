@@ -443,10 +443,10 @@ s32 update_actor_animation_behavior_and_facing(ActorRecord *action_state, Object
 void begin_griffon_attack(ActorRecord *action_state, ObjectPosition *action_context, SpriteFrameState *sprite, ActorRecord *actor);
 s32 relink_griffon_path(ActorRecord *body, ObjectPosition *position, SpriteFrameState *sprite, s32 force_state_arg);
 void finish_actor_tile_move_then_resume_effect_behavior(ActorRecord *state, ObjectPosition *context, SpriteFrameState *source, ActorRecord *target);
-void hop_griffon_to_tile(void *action, void *motion,struct SpriteFrameState *sprite, void *actor);
+void hop_griffon_to_tile(ActorRecord *action, void *motion,struct SpriteFrameState *sprite, void *actor);
 void advance_a_timed_actor_animation_applies_completion_effects(ActorRecord *state, ObjectPosition *entity, SpriteFrameState *position, ActorRecord *graphic);
 void update_staged_movement_and_return_to_tile(ActorRecord *action, ObjectPosition *motion, SpriteFrameState *sprite, ActorRecord *actor);
-void update_item_activation_and_cleanup(void *action, ObjectPosition *motion, void *actor, ActorRecord *object);
+void update_item_activation_and_cleanup(ActorRecord *action, ObjectPosition *motion, void *actor, ActorRecord *object);
 void advance_action_phase_and_process_actor(void *action, void *motion,struct SpriteFrameState *sprite, void *entity);
 void remove_defeated_griffon(void *state, void *motion, void *position, void *actor);
 void shrink_hopping_griffon(void *state, void *motion, void *position, void *actor);
@@ -464,7 +464,7 @@ void advance_object_angle_and_height(u16 *record_data, s32 unused, R08_80174180_
 void create_tinted_rotated_sprite(s32 unused_0, R08_801741D0_S_801741D0_3 *source_pos, s32 unused_2, s8 green, u8 red_blue);
 void update_timed_effect_and_expire(void *effect, s32 x, s32 y);
 void create_positioned_sprite_effect(M2C_UNK unused, EntityRec *source_pos, void *unused_context);
-void wait_for_griffon_action_slot(void *entity_data, s32 unused_1, s32 unused_2, void *other_data);
+void wait_for_griffon_action_slot(ActorRecord *entity_data, s32 unused_1, s32 unused_2, void *other_data);
 void finish_griffon_effect_and_tint(u8 *task, void *context, u8 *input);
 void advance_effect_and_child_animation(ActorRecord *effect_state, ObjectPosition *position, SpriteFrameState *entity, ActorRecord *actor);
 void finish_actor_floor_trap_then_resume_effect_behavior(ActorRecord *state, ObjectPosition *motion, SpriteFrameState *position, ActorRecord *actor);
@@ -483,7 +483,7 @@ void update_directional_motion_and_center_variant(ActorRecord *controller, Objec
 
 
 void advance_directional_motion_to_center(void *motion_state, ObjectPosition *motion, SpriteFrameState *sprite, void *actor);
-void update_directional_motion(void *action, ObjectPosition *motion, SpriteFrameState *sprite, void *entity);
-void update_griffon_recoil(void *action, ObjectPosition *motion, SpriteFrameState *sprite, void *entity);
+void update_directional_motion(void *action, ObjectPosition *motion, SpriteFrameState *sprite, ActorRecord *entity);
+void update_griffon_recoil(void *action, ObjectPosition *motion, SpriteFrameState *sprite, ActorRecord *entity);
 
 #endif

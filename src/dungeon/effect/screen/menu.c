@@ -181,20 +181,20 @@ loop_0:
             scratchpad->prev.xy = scratchpad->cur.xy;
             center_u = (u8)scratchpad->tex_u
                 + (scratchpad->tex_w >> 1);
-            *((((u8 *) packet_code) + 17)) = center_u;
-            *((((u8 *) packet_code) + 5)) = center_u;
+            *((packet_code + 17)) = center_u;
+            *((packet_code + 5)) = center_u;
             center_v = (u8)scratchpad->tex_v
                 + (scratchpad->tex_h >> 1);
-            *((((u8 *) packet_code) + 18)) = center_v;
-            *((((u8 *) packet_code) + 6)) = center_v;
+            *((packet_code + 18)) = center_v;
+            *((packet_code + 6)) = center_v;
             trig_value = rcos(angle_step / parameters->count);
             segment += 1;
             {
                 offset = scratchpad->tex_w;
                 scratch = offset * trig_value;
                 offset = scratch >> 13;
-                *((((u8 *) packet_code) + 41)) =
-                    (*((((u8 *) packet_code) + 5))) + offset;
+                *((packet_code + 41)) =
+                    (*((packet_code + 5))) + offset;
             }
             trig_value = rsin(angle_step / parameters->count);
             angle_step += 0x1000;
@@ -202,8 +202,8 @@ loop_0:
                 offset = scratchpad->tex_h;
                 scratch = offset * trig_value;
                 offset = scratch >> 13;
-                *((((u8 *) packet_code) + 42)) =
-                    (*((((u8 *) packet_code) + 6))) + offset;
+                *((packet_code + 42)) =
+                    (*((packet_code + 6))) + offset;
             }
             trig_value = rcos(angle_step / parameters->count);
             {
@@ -230,14 +230,14 @@ loop_0:
                 offset = scratchpad->tex_w;
                 scratch = offset * trig_value;
                 offset = scratch >> 13;
-                *((((u8 *) packet_code) + 29)) = (*((((u8 *) packet_code) + 5))) + offset;
+                *((packet_code + 29)) = (*((packet_code + 5))) + offset;
             }
             trig_value = rsin(angle_step / parameters->count);
             {
                 offset = scratchpad->tex_h;
                 scratch = offset * trig_value;
                 offset = scratch >> 13;
-                *((((u8 *) packet_code) + 30)) = (*((((u8 *) packet_code) + 6))) + offset;
+                *((packet_code + 30)) = (*((packet_code + 6))) + offset;
             }
             *((u16 *) (packet_code + 7)) = parameters->texture;
             texture_page = parameters->flags;
@@ -254,7 +254,7 @@ loop_0:
             *((s32 *) (packet_code + 33)) = outer_color3;
             SetPolyGT4(quad_packet);
             if (blend_setting != 0) {
-                *((((u8 *) packet_code) + 0)) |= 2;
+                *((packet_code + 0)) |= 2;
                 packet_order = draw_order;
             } else {
                 packet_order = draw_order;
@@ -2234,22 +2234,24 @@ extern s32 rsin(s32, ...);
 extern u16 D_800DF37C;
 
 /* Updates enabled output channels with a shared value and sets flags when active. */
-void update_pulsing_sprite_color(void *channel_config, void *unused, void *output) {
+void update_pulsing_sprite_color(void *channel_config_arg, void *unused, void *output_arg) {
+    S_800BA6B8_0 *channel_config = channel_config_arg;
     s8 channel_value;
+    S_800BA6B8_1 *output = output_arg;
 
     if (D_800DF37C != 0) {
         (*(u16 *)((u8 *)channel_config + -2)) = (u16) (((S_800BA6B8_0_pre *)channel_config)[-1].unk_00 | NODE_REMOVE);
         object_flag_block.flags |= OBJECT_REMOVE_PENDING;
     }
     channel_value = (rsin(g_game_work.unk_004 << 8) >> 7) - 0x80;
-    if (((S_800BA6B8_0 *)channel_config)->unk_30 != 0) {
-        ((S_800BA6B8_1 *)output)->unk_0C = channel_value;
+    if (channel_config->unk_30 != 0) {
+        output->unk_0C = channel_value;
     }
-    if (((S_800BA6B8_0 *)channel_config)->unk_31 != 0) {
-        ((S_800BA6B8_1 *)output)->unk_0D = channel_value;
+    if (channel_config->unk_31 != 0) {
+        output->unk_0D = channel_value;
     }
-    if (((S_800BA6B8_0 *)channel_config)->unk_32 != 0) {
-        ((S_800BA6B8_1 *)output)->unk_0E = channel_value;
+    if (channel_config->unk_32 != 0) {
+        output->unk_0E = channel_value;
     }
 }
 #include "shared/object_node.h"

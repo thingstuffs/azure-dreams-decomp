@@ -29,17 +29,6 @@ typedef struct S_80166204_5 {
 
    /* ((S_80166204_4 *)arg0)->unk_08 in create_short_lived_red_spark */
 
-typedef struct S_80166204_1 {
-    u8 pad_00[0x14];
-    s16 unk_14;
-    u8 pad_16[0x1C];
-    s16 unk_32;
-    s16 unk_34;
-    u8 pad_36[0xC];
-    u16 unk_42;
-    u16 unk_44;
-    u16 unk_46;
-} S_80166204_1;
 
 extern void D_80165A0C();
 
@@ -49,7 +38,7 @@ void create_short_lived_red_spark(S_80166204_4 *source, s16 effect_value, s32 un
     s32 color_component;
     s32 sprite_flags;
     SpriteFrameState *sprite;
-    S_80166204_1 *effect_state;
+    ShortLivedRedSparkBody *effect_state;
     ObjectNodeHeader *effect;
 
     effect = allocate_flagged_object_node(0x212);

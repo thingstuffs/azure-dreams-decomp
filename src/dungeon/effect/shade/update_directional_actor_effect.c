@@ -200,7 +200,8 @@ void allocate_effect_and_initialize_sprite(s32 effect_data, s32 effect_param, s3
 
 /* Orbits a sprite around its saved position through a transform while rotating, shrinking, and fading
    it to removal. */
-void update_rotating_effect_and_fade(void *effect, void *position, SpriteFrameState *sprite) {
+void update_rotating_effect_and_fade(void *effect, void *position_arg, SpriteFrameState *sprite) {
+    Row_8194CD5C_S_8002455C_2 *position = position_arg;
     Row_8194CD5C_InputVector local_offset;
     Row_8194CD5C_OutputVector rotated_offset;
     s32 y_product;
@@ -211,9 +212,9 @@ void update_rotating_effect_and_fade(void *effect, void *position, SpriteFrameSt
     counter_state = ((Row_8194CD5C_S_8002455C_0 *)effect)->unk_00;
     counter_state->unk_1A = (u16) (counter_state->unk_1A + 1);
     ((Row_8194CD5C_S_8002455C_0 *)effect)->unk_2E = (u16) (((Row_8194CD5C_S_8002455C_0 *)effect)->unk_2E + 0x100);
-    ((Row_8194CD5C_S_8002455C_2 *)position)->unk_00.at00.v = (s32) ((Row_8194CD5C_S_8002455C_2 *)position)->unk_0C;
-    ((Row_8194CD5C_S_8002455C_2 *)position)->unk_04.at00.v = (s32) ((Row_8194CD5C_S_8002455C_2 *)position)->unk_10;
-    ((Row_8194CD5C_S_8002455C_2 *)position)->unk_08.at00.v = (s32) ((Row_8194CD5C_S_8002455C_2 *)position)->unk_14;
+    position->unk_00.at00.v = (s32) position->unk_0C;
+    position->unk_04.at00.v = (s32) position->unk_10;
+    position->unk_08.at00.v = (s32) position->unk_14;
     local_offset.x = (s16) ((s32) ((rsin((s16) ((Row_8194CD5C_S_8002455C_0 *)effect)->unk_2E)
         >> 4) * ((Row_8194CD5C_S_8002455C_0 *)effect)->unk_2C) >> 8);
     y_product = (rcos((s16) ((Row_8194CD5C_S_8002455C_0 *)effect)->unk_2E) >> 4) * ((Row_8194CD5C_S_8002455C_0 *)effect)->unk_2C;
@@ -222,9 +223,9 @@ void update_rotating_effect_and_fade(void *effect, void *position, SpriteFrameSt
     PushMatrix();
     ApplyMatrixSV(effect + 4, &local_offset, &rotated_offset);
     PopMatrix();
-    ((Row_8194CD5C_S_8002455C_2 *)position)->unk_00.at02.v = (u16) (((Row_8194CD5C_S_8002455C_2 *)position)->unk_00.at02.v + rotated_offset.x);
-    ((Row_8194CD5C_S_8002455C_2 *)position)->unk_04.at02.v = (u16) (((Row_8194CD5C_S_8002455C_2 *)position)->unk_04.at02.v + rotated_offset.y);
-    ((Row_8194CD5C_S_8002455C_2 *)position)->unk_08.at02.v = (u16) (((Row_8194CD5C_S_8002455C_2 *)position)->unk_08.at02.v + rotated_offset.z);
+    position->unk_00.at02.v = (u16) (position->unk_00.at02.v + rotated_offset.x);
+    position->unk_04.at02.v = (u16) (position->unk_04.at02.v + rotated_offset.y);
+    position->unk_08.at02.v = (u16) (position->unk_08.at02.v + rotated_offset.z);
     if (((Row_8194CD5C_S_8002455C_0 *)effect)->unk_30 != 0) {
         ((Row_8194CD5C_S_8002455C_0 *)effect)->unk_30 = 0U;
     }

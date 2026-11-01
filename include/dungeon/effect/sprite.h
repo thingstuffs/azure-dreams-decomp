@@ -4,6 +4,19 @@
 #include "shared/entity.h"
 #include "shared/sprite_frame_state.h"
 
+/* Orbit and anchor fields shared by the jittered point sequence callbacks. */
+typedef struct RunJitteredPointSequenceBody {
+    void *unk_00;
+    u8 pad_04[0x8];
+    u16 unk_0C;
+    u16 unk_0E;
+    u16 unk_10;
+    u8 pad_12[0x36];
+    u16 unk_48;
+    u8 pad_4A[0x2];
+    union { s16 s; u16 u; } unk_4C;
+} RunJitteredPointSequenceBody;
+
 /* Body shared by the ramping-color updater and its four-quad draw callback. */
 typedef struct OffsetColorEffectBody {
     void *unk_00;

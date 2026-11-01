@@ -14,7 +14,7 @@ extern void advance_sprite_animation_and_textures(void *);
 /* Runs object callbacks, applies movement and gravity, and updates ground height. */
 void dispatch_actor_actions_and_integrate_gravity(ActorRecord *body, ObjectPosition *motion, SpriteFrameState *sprite) {
     SpriteFrameState *ent= sprite;
-    void *update_obj = body;
+    ActorRecord *update_obj = body;
     DungeonCallback callback;
     s32 x;
     s32 y;
@@ -28,15 +28,15 @@ void dispatch_actor_actions_and_integrate_gravity(ActorRecord *body, ObjectPosit
     s32 base_height_u;
 
     if (g_dungeon_status.flags & 0x2000) {
-        (*((u8 *)update_obj + (0x71))) &= 0x7F;
+        update_obj->movement_queue_state &= 0x7F;
         return;
     }
 
-    callback = (*(DungeonCallback *)((u8 *)update_obj + (0x8C)));
+    callback = update_obj->unk_8C.run;
     if (callback != 0) {
         callback(update_obj, motion, ent, update_obj);
     }
-    gravity_motion_callbacks[(*((u8 *)update_obj + (0x9A)))](update_obj, motion, ent, update_obj);
+    gravity_motion_callbacks[update_obj->action_id.u](update_obj, motion, ent, update_obj);
 
     {
         u16 render_flags = ent->flags;
@@ -70,7 +70,7 @@ void dispatch_actor_actions_and_integrate_gravity(ActorRecord *body, ObjectPosit
             ((u16) motion->y.w.i),
             (s16)((*(u16 *)((u8 *)update_obj + (0x88))) - 0x20))) < 0x200) {
             base_height_u = (*(u16 *)((u8 *)update_obj + (0x88)));
-            base_height = (*(s16 *)((u8 *)update_obj + (0x88)));
+            base_height = update_obj->ground_height;
             if (body->unk_90.parts.high.s + base_height < ground_height) {
                 u16 object_flags = body->action_state_flags;
                 body->action_state_flags = object_flags;
@@ -94,7 +94,7 @@ void dispatch_actor_actions_and_integrate_gravity(ActorRecord *body, ObjectPosit
                 ground_height = sample_terrain_surface_height(
                     tile_x, tile_y, (s16)((*(u16 *)((u8 *)update_obj + (0x88))) - 0x20));
                 body->unk_90.parts.high.s += (*(u16 *)((u8 *)update_obj + (0x88))) - ground_height;
-                (*(s16 *)((u8 *)update_obj + (0x88))) = ground_height;
+                update_obj->ground_height = ground_height;
             }
     } else {
         (*(u32 *)((u8 *)update_obj + (0x1C))) &= ~0x08000000;

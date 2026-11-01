@@ -2,6 +2,7 @@
 #include "shared/slus_callbacks.h"
 #include "shared/actor_status_flags.h"
 #include "common.h"
+#include "dungeon/monster/ifrit.h"
 #include "shared/actor_action_flags.h"
 #include "shared/def_table.h"
 #include "shared/object_node.h"
@@ -56,15 +57,8 @@ typedef struct S_801728C4_4 {
 } S_801728C4_4;   /* arg2 in update_actor_actions_and_impact_effects */
 
 
-typedef struct S_801728C4_8 {
-    u8 pad_00[0x96];
-    u16 unk_96;
-    u8 pad_98[0xC];
-    s32 unk_A4;
-} S_801728C4_8;   /* part in update_actor_actions_and_impact_effects */
 
 extern u8 ifrit_action_resume_address[];
-#include "dungeon/monster/ifrit.h"
 #include "dungeon/item.h"
 extern u8 D_80174850[];
 
@@ -93,7 +87,7 @@ void update_actor_actions_and_impact_effects(ActorRecord *body, ObjectPosition *
     u8 *anim;
     u16 timer;
     ObjectNodeHeader *effect;
-    S_801728C4_8 *effect_state;
+    UpdateActorActionsAndImpactEffectsBody *effect_state;
     void *target_sprite;
     void (*callback)(void);
     ActorRecord *player_state;
@@ -227,7 +221,7 @@ void update_actor_actions_and_impact_effects(ActorRecord *body, ObjectPosition *
                 effect = allocate_list_node(0x112, &scene_object_list_anchor.next);
                 if (effect != 0) {
                     register_node(effect, project_sprite_chain);
-                    effect_state = (S_801728C4_8 *)((u8 *)effect + 0x20);
+                    effect_state = (UpdateActorActionsAndImpactEffectsBody *)((u8 *)effect + 0x20);
                     effect->update_callback = tick_object_motion_and_expire;
                     effect->position->x.w.i =
                         ((u16)motion->x.w.i) + delta[0];
@@ -235,7 +229,7 @@ void update_actor_actions_and_impact_effects(ActorRecord *body, ObjectPosition *
                         ((u16)motion->y.w.i) + delta[1];
                     effect->position->z.w.i =
                         ((u16)motion->z.w.i) + delta[2];
-                    effect_state->unk_A4 = 0;
+                    effect_state->unk_A4.s = 0;
                     effect_state->unk_96 = 4;
                     target_sprite = effect->sprite;
                     ((S_801728C4_3 *)target_sprite)->unk_28 = sprite->animation_resource;
@@ -276,8 +270,8 @@ void update_actor_actions_and_impact_effects(ActorRecord *body, ObjectPosition *
                         ((rand() & 0xFF) - 0x80) << 11;
                     effect->position->velocity_z =
                         -(rand() & 0xFF) << 12;
-                    effect_state = (S_801728C4_8 *)((u8 *)effect + 0x20);
-                    effect_state->unk_A4 = 0;
+                    effect_state = (UpdateActorActionsAndImpactEffectsBody *)((u8 *)effect + 0x20);
+                    effect_state->unk_A4.s = 0;
                     effect_state->unk_96 = 7;
                     target_sprite = effect->sprite;
                     ((S_801728C4_3 *)target_sprite)->unk_28 = sprite->animation_resource;
