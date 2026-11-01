@@ -37,7 +37,9 @@ typedef struct ItemMenuTransition {
     s32 start_row;
     u8 pad_24[4];
     s32 entry_count;
-    u8 pad_2C[0xAC];
+    u8 pad_2C[0x14];
+    u8 row_data; /* +0x40: address stored in each row display; complete data extent is unestablished */
+    u8 pad_41[0x97];
     ItemMenuRows *rows;
 } ItemMenuTransition;
 

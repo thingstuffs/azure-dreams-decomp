@@ -8,6 +8,15 @@
 /* Monster-owned imports; preserve their registered declaration contracts. */
 extern u8 cyclone_direction_frames[];
 
+/* Radial motion state stored at node body +0. */
+typedef struct RandomizedMotionObjectBody {
+    u16 update_count;
+    u8 pad_02[0x2];
+    s16 phase;
+    u16 radius;
+    u16 radius_growth;
+} RandomizedMotionObjectBody;
+
 void advance_cyclone_frame_effect(u16 *anim_state, u32 *motion, u16 *sprite);
 
 
@@ -35,6 +44,6 @@ void *create_randomized_motion_object(ActorRecord *owner, ObjectPosition *initia
 /* Owner declarations appended by tools/headers (append-only; the lines above are hand-kept). */
 void advance_path_motion(ActorRecord *body, ObjectPosition *position, SpriteFrameState *sprite, ActorRecord *actor);
 
-void update_radial_motion_or_complete(u16 *motion, s32 *position, SpriteFrameState *object);
+void update_radial_motion_or_complete(RandomizedMotionObjectBody *motion, s32 *position, SpriteFrameState *object);
 
 #endif

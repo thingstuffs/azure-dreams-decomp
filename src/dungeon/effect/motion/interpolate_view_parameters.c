@@ -202,12 +202,12 @@ void create_a_type_hex_212_initializes_handler_mode(s32 initial_value) {
 
 /* Advances sprite animation and, when it finishes, removes the child and increments the owner's
    completion counter. */
-void update_the_target_records_counts_flags_status(void *object_slot, void *unused, SpriteFrameState *target)
+void update_the_target_records_counts_flags_status(AnDefaultRenderingSettingsCopiesInitialDataBody *object_slot, void *unused, SpriteFrameState *target)
 {
     void *post_object;
     void *pre_object;
 
-    pre_object = *(void **)object_slot;
+    pre_object = object_slot->owner;
     *(u16 *)((u8 *)pre_object + 0x14) += 1;
     advance_sprite_animation_and_textures(target);
     if (target->flags & 0x6000) {
@@ -216,7 +216,7 @@ void update_the_target_records_counts_flags_status(void *object_slot, void *unus
         s32 global_flags;
 
         slot_flags = *(u16 *)((u8 *)object_slot - 2);
-        post_object = *(void **)object_slot;
+        post_object = object_slot->owner;
         *(u16 *)((u8 *)object_slot - 2) = slot_flags | 0x8000;
         global_flags = object_flag_block.flags;
         object_count = *(u16 *)((u8 *)post_object + 0x18);

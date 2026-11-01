@@ -103,7 +103,8 @@ void * create_an_effect_position_randomized_sprite_angle(Rec_func_80024170_arg0 
 
 /* Projects five radial line segments between successive animation steps and queues them at their
    average depth. */
-void build_and_depth_sorts_five_radial_line_segments_effect(void *effect_data, void *origin, s16 step_index, s16 scale_factor)
+/* Keep the field views: direct owning-member rewrites change the production payload. */
+void build_and_depth_sorts_five_radial_line_segments_effect(ovl_1930844_81911BF4_Obj81911BF4 *effect_data, void *origin, s16 step_index, s16 scale_factor)
 {
     s32 scale;
     register s32 step;

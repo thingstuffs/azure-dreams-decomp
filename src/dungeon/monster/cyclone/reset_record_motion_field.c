@@ -7,7 +7,7 @@ struct SpriteFrameState;
 #include "shared/sprite_frame_state.h"
 
 /* cfail-repair: tf7-phase1-cache-v3 */
-s32 update_actor_hop_and_shrink(void *, void *,struct SpriteFrameState *, void *);                            /* extern */
+s32 update_actor_hop_and_shrink(void *, ObjectPosition *,struct SpriteFrameState *, void *);                            /* extern */
 
 /* Calls update_actor_hop_and_shrink on the record, then clears unk_A6. */
 void reset_record_motion_field(ActorRecord *record, ObjectPosition *motion, SpriteFrameState *scale, ActorRecord *render) {

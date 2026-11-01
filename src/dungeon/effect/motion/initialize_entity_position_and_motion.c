@@ -211,10 +211,9 @@ void *allocate_two_part_object(ovl_19a332c_81982CEC_S_800244EC_2 *source_part, s
 
 /* Advances an accelerating particle, fades its color, and eases its scale toward 0x400 until its
    countdown ends. */
-void move_fade_and_expand_effect(void *effect_data, void *motion_data, void *sprite_data)
+void move_fade_and_expand_effect(UpdateHomingEffectAndAttachedCopiesBody *effect, void *motion_data, void *sprite_data)
 {
     SpriteFrameState *sprite= (ovl_19a332c_81982DF8_Arg2 *) sprite_data;
-    void *effect = effect_data;
     ovl_19a332c_81982DF8_Arg1 *motion = motion_data;
     s16 frames_left;
     s32 next_x;
@@ -233,16 +232,16 @@ void move_fade_and_expand_effect(void *effect_data, void *motion_data, void *spr
     motion->f14 = motion->f14 + 0xC000;
     advance_sprite_animation_and_textures(sprite);
     brightness = sprite->color.c.r;
-    faded_brightness = brightness - (((s32) brightness) / ((s16) (*((s16 *) (((s8 *) effect) + 0x30)))));
+    faded_brightness = brightness - (((s32) brightness) / effect->remaining_ticks);
     sprite->color.c.r = faded_brightness;
     sprite->color.c.g = faded_brightness;
     sprite->color.c.b = faded_brightness;
     scale = sprite->scale_x;
-    count_or_scale = scale + (((s32) (0x400 - scale)) / ((s16) (*((s16 *) (((s8 *) effect) + 0x30)))));
+    count_or_scale = scale + (((s32) (0x400 - scale)) / effect->remaining_ticks);
     sprite->scale_x = count_or_scale;
     sprite->scale_y = count_or_scale;
-    frames_left = ((u16) (*((s16 *) (((s8 *) effect) + 0x30)))) - 1;
-    *((s16 *) (((s8 *) effect) + 0x30)) = frames_left;
+    frames_left = effect->remaining_ticks - 1;
+    effect->remaining_ticks = frames_left;
     if ((frames_left << 0x10) <= zero) {
         *((u16 *) (((s8 *) effect) + (-2))) = (u16) ((*((u16 *) (((s8 *) effect) + (-2)))) | NODE_REMOVE);
         ((s32 *)(&object_flag_block))[zero] = (s32) (object_flag_block.flags | OBJECT_REMOVE_PENDING);
@@ -263,7 +262,7 @@ void *spawn_random_motion_particles(s16 x, s16 y, s16 z, s16 heading, s16 count)
             s32 move_angle;
             ObjectPosition *motion;
             SpriteFrameState *sprite;
-            ovl_19a332c_81982F0C_S_8002470C_2 *extra;
+            UpdateHomingEffectAndAttachedCopiesBody *extra;
 
             particle->update_callback = move_fade_and_expand_effect;
             register_node(particle, project_sprite_chain);
@@ -286,9 +285,9 @@ void *spawn_random_motion_particles(s16 x, s16 y, s16 z, s16 heading, s16 count)
             sprite->color.word = 0x808080;
             select_record_entry_and_value(sprite, D_80026AB0, rand() & 7);
 
-            extra = (ovl_19a332c_81982F0C_S_8002470C_2 *)((u8 *)particle + 0x20);
-            extra->unk_30 = (s16)((rand() & 7) + 0x10);
-            extra->unk_36 = (s16)heading;
+            extra = (UpdateHomingEffectAndAttachedCopiesBody *)((u8 *)particle + 0x20);
+            extra->remaining_ticks = (s16)((rand() & 7) + 0x10);
+            extra->heading = (s16)heading;
         }
         remaining--;
     }
@@ -297,8 +296,7 @@ void *spawn_random_motion_particles(s16 x, s16 y, s16 z, s16 heading, s16 count)
 
 /* Moves a particle with vertical acceleration, fades its grayscale color, and removes it when its
    lifetime expires. */
-void advance_effect_motion_and_color_fade(void *effect_arg, ovl_19a332c_81983088_S_80024888_0 *motion, ovl_19a332c_81983088_S_80024888_1 *color) {
-    ovl_19a332c_81983088_S_80024888_2 *effect = effect_arg;
+void advance_effect_motion_and_color_fade(UpdateHomingEffectAndAttachedCopiesBody *effect, ovl_19a332c_81983088_S_80024888_0 *motion, ovl_19a332c_81983088_S_80024888_1 *color) {
     s32 velocity_x;
     s32 velocity_y;
     u16 update_count;
@@ -319,8 +317,8 @@ void advance_effect_motion_and_color_fade(void *effect_arg, ovl_19a332c_81983088
     color->unk_0C = faded_brightness;
     color->unk_0D = faded_brightness;
     color->unk_0E = faded_brightness;
-    life_left = effect->unk_30 - 1;
-    effect->unk_30 = life_left;
+    life_left = effect->remaining_ticks - 1;
+    effect->remaining_ticks = life_left;
     if ((life_left << 0x10) <= 0) {
         ((ovl_19a332c_81983088_S_80024888_2_pre *)effect)[-1].unk_00 = ((ovl_19a332c_81983088_S_80024888_2_pre *)effect)[-1].unk_00 | 0x8000;
         object_flag_block.flags |= OBJECT_REMOVE_PENDING;
@@ -338,7 +336,7 @@ void *spawn_thirty_two_angled_particles(s16 x, s16 y, s16 z, s16 angle, s32 unus
     SpriteFrameState *sprite;
     ObjectPosition *motion;
     ObjectNodeHeader *particle;
-    union { ovl_19a332c_81983138_S_80024938_3 * pointer; s32 value; } effect_state;
+    union { UpdateHomingEffectAndAttachedCopiesBody * pointer; s32 value; } effect_state;
     union { s32 value; s32 *pointer; } size_texture;
 
     particle_index = 0;
@@ -370,8 +368,8 @@ void *spawn_thirty_two_angled_particles(s16 x, s16 y, s16 z, s16 angle, s32 unus
             sprite->tpage_abr = 0x20;
             sprite->flags = (u16) (effect_state.value | 0xC);
             effect_state.pointer = ((void *)particle) + 0x20;
-            effect_state.pointer->unk_30 = 0xC;
-            effect_state.pointer->unk_36 = (u16) angle;
+            effect_state.pointer->remaining_ticks = 0xC;
+            effect_state.pointer->heading = (s16) angle;
         }
         particle_index += 1;
     } while (particle_index < 0x20);

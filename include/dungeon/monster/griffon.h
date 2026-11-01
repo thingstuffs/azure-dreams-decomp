@@ -1,5 +1,6 @@
 #ifndef DUNGEON_RESOURCE08_SLOT0_H
 #define DUNGEON_RESOURCE08_SLOT0_H
+struct ObjectPosition;
 #include "common.h"
 #include "dungeon/actor.h"
 #include "shared/object_node.h"
@@ -376,7 +377,7 @@ void spend_actor_mp(ActorRecord *entity, s32 base_reduction);
 void func_800A9A04(void *actor);
 s32 get_cd_command_queue_depth(void);
 void create_two_row_object_group(void *payload, s16 value_scale);
-s32 update_actor_hop_and_shrink(void *animation, void *motion, SpriteFrameState *scale, void *render);
+s32 update_actor_hop_and_shrink(void *animation, struct ObjectPosition *motion, SpriteFrameState *scale, void *render);
 
 s32 get_entity_effect_value(ActorRecord *entry, s32 effect_id);
 s32 func_80042900(ActorRecord *entry, s32 effect_id);

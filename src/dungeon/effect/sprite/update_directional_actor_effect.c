@@ -610,10 +610,10 @@ void update_effect_and_spawn_fragments(MainObject *obj)
 #include "shared/object_flags.h"
 
 /* Marks the referenced object and updates entry and global flags based on target status. */
-void mark_referenced_object_and_update_flags(void *entry, void *unused, SpriteFrameState *target) {
+void mark_referenced_object_and_update_flags(UpdateEffectAndSpawnFragmentsBody *entry, void *unused, SpriteFrameState *target) {
     void *object;
 
-    object = *(void **)entry;
+    object = entry->owner;
     *(u16 *)((u8 *)object + 0x52) =
         (u16)(*(u16 *)((u8 *)object + 0x52) | 0x8000);
     advance_sprite_animation_and_textures(target);

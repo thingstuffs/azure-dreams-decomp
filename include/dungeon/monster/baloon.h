@@ -49,4 +49,36 @@ typedef struct DirectionalRandomVelocityEffectBody {
     s16 unk_0E;
 } DirectionalRandomVelocityEffectBody;
 
+/* Motion, terrain-collision state, and lifetime for an origin-relative effect. */
+typedef struct OriginMotionEffectBody {
+    u8 pad_00[0x2];
+    s16 state;
+    u8 pad_04[0x8];
+    union { s16 s; u16 u; } lifetime;
+    s16 lifetime_divisor;
+    u8 pad_10[0x8];
+    u16 animation_counter;
+    u8 pad_1A[0x12];
+    s32 velocity_x;
+    s32 velocity_y;
+    s32 velocity_z;
+    s32 acceleration_x;
+    s32 acceleration_y;
+    s32 acceleration_z;
+} OriginMotionEffectBody;
+
+typedef struct OriginMotionEffectPosition {
+    union { struct { s32 v; } at00; struct { u8 pad[2]; u16 v; } at02; } unk_00;
+    union { struct { s32 v; } at00; struct { u8 pad[2]; u16 v; } at02; } unk_04;
+    union {
+        struct { s32 v; } at00;
+        struct { s16 v; } at00u;
+        struct { u8 pad[2]; u16 v; } at02;
+        struct { u8 pad[2]; s16 v; } at02u;
+    } unk_08;
+} OriginMotionEffectPosition;
+
+void update_effect_collision_and_lifetime(OriginMotionEffectBody *effect,
+    OriginMotionEffectPosition *position, SpriteFrameState *visual);
+
 #endif

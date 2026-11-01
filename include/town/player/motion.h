@@ -1,5 +1,6 @@
 #ifndef TOWN_PLAYER_MOTION_H
 #define TOWN_PLAYER_MOTION_H
+struct PersonObject;
 /* Prototypes of the functions defined in src/town/player/motion/ (one true prototype each; maintained by tools/headers). */
 
 #include "common.h"
@@ -56,6 +57,6 @@ s32 move_value_toward_300(s32 value, struct S_800981D4_0 *field_ptr, struct Spri
 void process_player_motion_state(Rec_func_80094268_arg0 *object, s32 forwardedArg1, s32 forwardedArg2);
 
 /* set_motion_handler_and_copy_signed_byte.c */
-void set_motion_handler_and_copy_signed_byte(void *record_data, void *placement, struct SpriteFrameState *unused_sprite);
+void set_motion_handler_and_copy_signed_byte(struct PersonObject *record_data, void *placement, struct SpriteFrameState *unused_sprite);
 
 #endif

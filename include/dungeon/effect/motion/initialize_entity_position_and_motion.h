@@ -137,12 +137,13 @@ typedef struct
     u16 f1e;
 }
 ovl_19a332c_81982DF8_Arg2;
-typedef struct ovl_19a332c_81982F0C_S_8002470C_2 {
+typedef struct UpdateHomingEffectAndAttachedCopiesBody {
     u8 pad_00[0x30];
-    s16 unk_30;
+    s16 remaining_ticks;
     u8 pad_32[0x4];
-    s16 unk_36;
-} ovl_19a332c_81982F0C_S_8002470C_2;
+    s16 heading;
+} UpdateHomingEffectAndAttachedCopiesBody;
+typedef UpdateHomingEffectAndAttachedCopiesBody ovl_19a332c_81982F0C_S_8002470C_2;
 typedef struct {
     u8 pad0[8];
     void *dst;
@@ -166,16 +167,6 @@ typedef struct ovl_19a332c_81983088_S_80024888_1 {
 typedef struct ovl_19a332c_81983088_S_80024888_2_pre {
     u16 unk_00;
 } ovl_19a332c_81983088_S_80024888_2_pre;
-typedef struct ovl_19a332c_81983088_S_80024888_2 {
-    u8 pad_00[0x30];
-    u16 unk_30;
-} ovl_19a332c_81983088_S_80024888_2;
-typedef struct ovl_19a332c_81983138_S_80024938_3 {
-    u8 pad_00[0x30];
-    s16 unk_30;
-    u8 pad_32[0x4];
-    u16 unk_36;
-} ovl_19a332c_81983138_S_80024938_3;
 typedef struct {
     u8 pad[12];
     u8 red;
@@ -597,9 +588,9 @@ extern u8 camera_transition_timer[16];
 void advance_image_tint_transition(void *transition);
 void initialize_entity_position_and_motion(ovl_19a332c_81982B2C_Entity *entity, ovl_19a332c_81982B2C_Position *position, ovl_19a332c_81982B2C_Motion *motion);
 void *allocate_two_part_object(ovl_19a332c_81982CEC_S_800244EC_2 *source_part, s32 offset);
-void move_fade_and_expand_effect(void *effect_data, void *motion_data, void *sprite_data);
+void move_fade_and_expand_effect(UpdateHomingEffectAndAttachedCopiesBody *effect_data, void *motion_data, void *sprite_data);
 void *spawn_random_motion_particles(s16 x, s16 y, s16 z, s16 heading, s16 count);
-void advance_effect_motion_and_color_fade(void *effect, ovl_19a332c_81983088_S_80024888_0 *motion, ovl_19a332c_81983088_S_80024888_1 *color);
+void advance_effect_motion_and_color_fade(UpdateHomingEffectAndAttachedCopiesBody *effect, ovl_19a332c_81983088_S_80024888_0 *motion, ovl_19a332c_81983088_S_80024888_1 *color);
 void *spawn_thirty_two_angled_particles(s16 x, s16 y, s16 z, s16 angle, s32 unused_context);
 void fade_effect_color_by_quarter(u16 *effect_data, s32 unused, ovl_19a332c_819832B4_EffectColor *color);
 void *spawn_effect_actor_or_curved_trail(s16 x, s16 y, s16 z, s16 angle, s16 spawn_actor);

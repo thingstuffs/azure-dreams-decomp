@@ -1,5 +1,6 @@
 #ifndef DUNGEON_RESOURCE06_SLOT0_H
 #define DUNGEON_RESOURCE06_SLOT0_H
+struct SpriteFrameState;
 #include "common.h"
 #include "shared/vector.h"
 #include "dungeon/actor.h"
@@ -829,7 +830,7 @@ void project_and_queue_textured_quad(void *quad, void *position, void *draw_stat
 s32 project_textured_quad_chain(void *initial_state, void *context, void *data);
 void advance_record_countdown(void *record_data);
 void update_fading_four_strip_effect(u8 *effect, R06_80174934_Vec3w *origin, u8 *render_data);
-void create_sixteen_segment_ring(R06_80174E78_Source *source, R06_80174E78_Vec3i *center, void *unused_context);
+void create_sixteen_segment_ring(R06_80174E78_Source *source, R06_80174E78_Vec3i *center, struct SpriteFrameState *unused_context);
 void wait_for_flame_action_slot(ActorRecord *entity_data, ObjectPosition *unused_1, s32 unused_2, void *other_data);
 void fade_effect_to_neutral_and_finish(void *entity_data, void *unused, void *source_data);
 void advance_actor_transition_and_restore_child_angle(ActorRecord *action, ObjectPosition *position, SpriteFrameState *entity, ActorRecord *actor);

@@ -31,16 +31,16 @@ typedef struct S_8017589C_1 {
     u16 unk_0C;
     union { u16 u; s16 s; } unk_0E;   /* accessed as both */
     u8 pad_10[0x30];
-    s32 unk_40;
+    ActorRecord *unk_40;
     void * unk_44;
     void * unk_48;
-    s32 unk_4C;
+    ActorRecord *unk_4C;
 } S_8017589C_1;   /* work in create_randomized_offset_object */
 
    /* copy in create_randomized_offset_object */
 
 /* Creates an object with randomized initial state and source-derived offsets. */
-void *create_randomized_offset_object(s32 allocation_param, Copy24 *initial_data, SpriteFrameState *sprite)
+void *create_randomized_offset_object(ActorRecord *allocation_param, Copy24 *initial_data, SpriteFrameState *sprite)
 {
     GteOffset delta;
     s32 random_value;
@@ -50,7 +50,7 @@ void *create_randomized_offset_object(s32 allocation_param, Copy24 *initial_data
     SpriteFrameState *source;
     Copy24 *copy;
 
-    object = allocate_list_node(0x312, allocation_param - 0x20);
+    object = allocate_list_node(0x312, (s32)&((ObjectNodeHeader *)allocation_param - 1)->next);
     if (object != NULL) {
         object->update_callback = &D_80175018;
         register_node(object, project_sprite_chain);

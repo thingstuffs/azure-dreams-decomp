@@ -15,6 +15,7 @@
 #include "dungeon/actor/state.h"
 #include "dungeon/effect.h"
 #include "dungeon/effect/screen.h"
+#include "dungeon/effect/motion.h"
 
 struct EntityLinkNode;
 void *(*const dungeon_fa7000_entry)(s16,s16,s16,s16) = spawn_zu_actor;
@@ -1913,7 +1914,7 @@ void slow_directional_motion(void *effect_data, void *motion_data_arg, void *spr
 #include "shared/entity.h"
 #include "shared/sprite_frame_state.h"
 
-s32 update_actor_hop_and_shrink(void *animation, void *motion, SpriteFrameState *scale, void *render);
+s32 update_actor_hop_and_shrink(void *animation, ObjectPosition *motion, SpriteFrameState *scale, void *render);
 
 /* Forward all four bank callback arguments to the resident handler. */
 void forward_bank_actor_callback_a(ActorRecord *state, ObjectPosition *action, SpriteFrameState *source, ActorRecord *target) {
@@ -2643,37 +2644,28 @@ struct SpriteFrameState;
 
    /* the 0x2 bytes before arg0 in create_cylindrical_effect, addressed as arg0[-1] */
 
-typedef struct S_80F8ADE0_0 {
-    u8 pad_00[0x48];
-    u16 unk_48;
-    u8 pad_4A[0x2];
-    s16 unk_4C;
-    u8 pad_4E[0xA];
-    s32 unk_58;
-} S_80F8ADE0_0;   /* arg0 in create_cylindrical_effect */
-
 /* Advances a timed state sequence and sets flags when it reaches stage 15. */
 /* Advances timed effect stages, toggles a stored value, pauses at stage 7, and removes the object at stage
  * 15. */
-void create_cylindrical_effect(void *state) {
+void create_cylindrical_effect(CylindricalEffectWork *state) {
     u16 ticks_left;
     u16 next_delay;
 
-    if (((S_80F8ADE0_0 *)state)->unk_4C == 8) {
-        ((S_80F8ADE0_0 *)state)->unk_58 = (s32) (((S_80F8ADE0_0 *)state)->unk_58 + 8);
+    if (state->stage == 8) {
+        state->shade = (s32) (state->shade + 8);
     }
-    ticks_left = ((S_80F8ADE0_0 *)state)->unk_48 - 1;
-    ((S_80F8ADE0_0 *)state)->unk_48 = ticks_left;
+    ticks_left = state->timer.u - 1;
+    state->timer.u = ticks_left;
     if ((ticks_left << 0x10) <= 0) {
         next_delay = 1;
-        if (((S_80F8ADE0_0 *)state)->unk_4C == 7) {
+        if (state->stage == 7) {
             next_delay = 0xA;
         }
-        ((S_80F8ADE0_0 *)state)->unk_48 = next_delay;
-        ((S_80F8ADE0_0 *)state)->unk_58 = (s32) ((((S_80F8ADE0_0 *)state)->unk_58 == 0) << 7);
-        ((S_80F8ADE0_0 *)state)->unk_4C = (s16) ((u16) ((S_80F8ADE0_0 *)state)->unk_4C + 1);
+        state->timer.u = next_delay;
+        state->shade = (s32) ((state->shade == 0) << 7);
+        state->stage = (s16) ((u16) state->stage + 1);
     }
-    if (((S_80F8ADE0_0 *)state)->unk_4C == 0xF) {
+    if (state->stage == 0xF) {
         ((ObjectStatusPrefix16 *)state)[-1].flags = (u16) (((ObjectStatusPrefix16 *)state)[-1].flags | 0x8000);
         object_flag_block.flags = (s32) (object_flag_block.flags | OBJECT_REMOVE_PENDING);
     }

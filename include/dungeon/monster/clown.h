@@ -214,19 +214,6 @@ typedef struct {
 typedef struct R16_80173738_S_80173738_0_pre {
     u16 unk_00;
 } R16_80173738_S_80173738_0_pre;
-typedef struct R16_80173738_S_80173738_0 {
-    u8 unk_00;
-    u8 unk_01;
-    u8 unk_02;
-    u8 pad_03[0x17];
-    s16 unk_1A;
-    u8 pad_1C[0x2];
-    u16 unk_1E;
-    u16 unk_20;
-    u8 pad_22[0x1E];
-    s32 unk_40;
-    s32 unk_44;
-} R16_80173738_S_80173738_0;
 typedef struct R16_80173738_S_80173738_2 {
     s32 unk_00;
 } R16_80173738_S_80173738_2;
@@ -235,19 +222,21 @@ typedef struct {
     s32 unk04;
     s32 unk08;
 } R16_80173738_FuncArg1;
-typedef struct R16_80173904_S_80173904_0 {
+
+/* Lifetime, angle, center and radius shared by the angled-source updater. */
+typedef struct AngledSourceEffectBody {
     u8 unk_00;
     u8 unk_01;
     u8 unk_02;
     u8 pad_03[0x17];
     s16 unk_1A;
     u8 pad_1C[0x2];
-    s16 unk_1E;
-    s16 unk_20;
+    union { s16 s; u16 u; } unk_1E;
+    union { s16 s; u16 u; } unk_20;
     u8 pad_22[0x1E];
     s32 unk_40;
     s32 unk_44;
-} R16_80173904_S_80173904_0;
+} AngledSourceEffectBody;
 
 
 typedef struct R16_80173904_S_80173904_3 {
@@ -391,7 +380,7 @@ void finish_actor_action_flag_propagation_then_dispatch_transition(ActorRecord *
 void finish_actor_fade_in_then_dispatch_transition(ActorRecord *state, ObjectPosition *motion, SpriteFrameState *position, ActorRecord *actor);
 void finish_actor_floor_trap_then_dispatch_transition(ActorRecord *state, ObjectPosition *motion, SpriteFrameState *position, ActorRecord *actor);
 s32 project_clown_sprite_chain(void *initial_payload, s32 entry_data, R16_801736AC_Entry *entry, s32 unused);
-void update_expanding_spiral_effect(void *effect, R16_80173738_FuncArg1 *position, struct SpriteFrameState *primitive);
+void update_expanding_spiral_effect(AngledSourceEffectBody *effect, R16_80173738_FuncArg1 *position, struct SpriteFrameState *primitive);
 void create_angled_source_effect(
     s32 unused_0, R16_80173904_S_80173904_3 *origin, s32 unused_2, s32 unused_3, s16 angle, u16 depth_offset);
 void wait_for_clown_action_slot(ActorRecord *entity_data, ObjectPosition *unused_1, s32 unused_2, void *other_data);

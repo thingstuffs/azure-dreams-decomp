@@ -10,20 +10,19 @@
 
 /* Moves an animated sprite outward along its saved angle with a fixed vertical step and removes it
    when animation ends. */
-void move_sprite_in_radial_direction(void *motion_arg, Row_8191C848_S_8191C848_3 *position, SpriteFrameState *status) {
-    Row_8191C848_S_8191C848_0 *motion = motion_arg;
+void move_sprite_in_radial_direction(RandomizedSourceEffectBody *motion, Row_8191C848_S_8191C848_3 *position, SpriteFrameState *status) {
     s32 y_step_scaled;
     Row_8191C848_S_8191C848_1 *counter_state;
-    counter_state = motion->unk_00;
+    counter_state = motion->source_context;
     counter_state->unk_14 = (u16) (counter_state->unk_14 + 1);
     advance_sprite_animation_and_textures(status);
     if (status->flags & 0x6000) {
         ((Row_8191C848_S_8191C848_0_pre *)motion)[-1].unk_00 = (u16) (((Row_8191C848_S_8191C848_0_pre *)motion)[-1].unk_00 | 0x8000);
         object_flag_block.flags = (s32) (object_flag_block.flags | OBJECT_REMOVE_PENDING);
     }
-    position->unk_02 = (u16) (position->unk_02 + ((s32) ((rsin(motion->unk_08)
-        >> 4) * motion->unk_0A) >> 8));
-    y_step_scaled = (rcos(motion->unk_08) >> 4) * motion->unk_0A;
+    position->unk_02 = (u16) (position->unk_02 + ((s32) ((rsin(motion->heading)
+        >> 4) * motion->radius) >> 8));
+    y_step_scaled = (rcos(motion->heading) >> 4) * motion->radius;
     position->unk_0A = (u16) (position->unk_0A - 4);
     position->unk_06 = (u16) (position->unk_06 + (y_step_scaled >> 8));
 }
@@ -33,7 +32,7 @@ void *create_randomized_source_effect(Row_8191C938_S_8191C938_3 *source)
 {
     s32 random_value;
     Row_8191C938_CopyBlock *object_block;
-    Row_8191C938_S_8191C938_1 *state;
+    RandomizedSourceEffectBody *state;
     SpriteFrameState *render_data;
     ObjectNodeHeader *object;
     Row_8191C938_CopyBlock *source_block;
@@ -44,12 +43,12 @@ void *create_randomized_source_effect(Row_8191C938_S_8191C938_3 *source)
     if (object != NULL) {
         state = ((void *)object) + 0x20;
         object->update_callback = D_80024048;
-        ((Row_8191C938_S_8191C938_0 *)object)->unk_20 = source;
+        state->source_context = source;
         state->unk_04 = 0;
         state->unk_06 = 6;
         random_value = rand();
-        state->unk_08 = random_value % 0x1000;
-        state->unk_0A = 0x10;
+        state->heading = random_value % 0x1000;
+        state->radius = 0x10;
         render_data = object->sprite;
         render_data->color.c.g = 0x80;
         render_data->color.c.r = 0x80;
@@ -75,8 +74,7 @@ void *create_randomized_source_effect(Row_8191C938_S_8191C938_3 *source)
 }
 
 /* Rotates a sprite through timed movement, a pause, and accelerating vertical motion before removal. */
-void advance_timed_effect_motion(void *object_arg, Row_8191CA88_S_8191CA88_3 *motion, Row_8191CA88_S_8191CA88_2 *effect) {
-    Row_8191CA88_S_8191CA88_0 *object = object_arg;
+void advance_timed_effect_motion(ScaledRotatingEffectBody *object, Row_8191CA88_S_8191CA88_3 *motion, Row_8191CA88_S_8191CA88_2 *effect) {
     s32 state;
     u16 state_unsigned;
     s32 timer;
@@ -96,7 +94,7 @@ void advance_timed_effect_motion(void *object_arg, Row_8191CA88_S_8191CA88_3 *mo
     u16 phase;
     Row_8191CA88_S_8191CA88_1 *inner;
 
-    inner = object->unk_00;
+    inner = object->context;
     inner->unk_14 = inner->unk_14 + 1;
     phase = effect->unk_1A;
     effect->unk_1A = phase + 0x300;
@@ -116,7 +114,7 @@ void advance_timed_effect_motion(void *object_arg, Row_8191CA88_S_8191CA88_3 *mo
         motion->unk_04 += y_velocity;
         motion->unk_08 += z_velocity;
         move_timer = object->unk_10.p;
-        move_duration = object->unk_14;
+        move_duration = object->unk_14.u;
         if (move_timer < move_duration)
             return;
         next_state = object->unk_0E.p + 1;
@@ -169,16 +167,16 @@ void * create_scaled_rotating_effect(void *params_input, void *transform_input) 
     s32 adjusted_depth;
     s32 angle;
     SpriteFrameState *render;
-    Row_8191CBCC_S_8191CBCC_1 *state;
+    ScaledRotatingEffectBody *state;
     ObjectNodeHeader *object;
 
     object = allocate_flagged_object_node(0x212);
     if (object != NULL) {
         state = ((void *)object) + 0x20;
         object->update_callback = &D_80024288;
-        ((Row_8191CBCC_S_8191CBCC_0 *)object)->unk_20 = params;
-        state->unk_0E = 0;
-        state->unk_10 = 0;
+        state->context = params;
+        state->unk_0E.s = 0;
+        state->unk_10.s = 0;
         variant_random = rand();
         state->unk_12 = (s16)(variant_random % 7);
         state->unk_14.s = (u16) params->unk_12;

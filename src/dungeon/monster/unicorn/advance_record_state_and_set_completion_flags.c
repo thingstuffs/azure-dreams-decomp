@@ -59,29 +59,28 @@ void create_tinted_sprite_effect_supplied_position(void *unused, void *position_
 }
 
 /* Update the effect's orbit and height, fade its color, and mark it for removal when its life expires. */
-void update_orbit_height_and_fade_effect(void *effect, ObjectPosition *position, SpriteFrameState *primitive) {
+void update_orbit_height_and_fade_effect(AngularOffsetEffectBody *effect, ObjectPosition *position, SpriteFrameState *primitive) {
     s16 life;
     s16 angle;
     s16 next_life;
 
-    angle = ((T_801741A0_S_801741A0_0 *)effect)->unk_1E - 0x12C;
-    ((T_801741A0_S_801741A0_0 *)effect)->unk_1E = (u16) angle;
-    position->x.v = (s32) (((T_801741A0_S_801741A0_0 *)effect)->unk_40 + (rcos(angle) * 0x280));
-    position->y.v = (s32) (((T_801741A0_S_801741A0_0 *)effect)->unk_44
-        + (rsin((s16) ((T_801741A0_S_801741A0_0 *)effect)->unk_1E) * 0x280));
+    angle = effect->angle - 0x12C;
+    effect->angle = (u16) angle;
+    position->x.v = (s32) (effect->center_x + (rcos(angle) * 0x280));
+    position->y.v = (s32) (effect->center_y + (rsin((s16) effect->angle) * 0x280));
     position->z.v = (s32) (position->z.v + 0xFFF60000);
     advance_sprite_animation_and_textures(primitive);
-    if ((((T_801741A0_S_801741A0_0 *)effect)->unk_1A < 0x11) && (((T_801741A0_S_801741A0_0 *)effect)->unk_20 == 0) && !(rand() & 0xF)) {
+    if ((effect->remaining_ticks < 0x11) && (effect->pulse_state == 0) && !(rand() & 0xF)) {
         create_tinted_sprite_effect_supplied_position(effect, position, primitive);
     }
-    life = ((T_801741A0_S_801741A0_0 *)effect)->unk_1A;
+    life = effect->remaining_ticks;
     if (life < 0xA) {
-        primitive->color.c.r = (s8) ((((T_801741A0_S_801741A0_0 *)effect)->unk_00 * life) / 9);
-        primitive->color.c.g = (s8) ((((T_801741A0_S_801741A0_0 *)effect)->unk_01 * ((T_801741A0_S_801741A0_0 *)effect)->unk_1A) / 9);
-        primitive->color.c.b = (s8) ((((T_801741A0_S_801741A0_0 *)effect)->unk_02 * ((T_801741A0_S_801741A0_0 *)effect)->unk_1A) / 9);
+        primitive->color.c.r = (s8) ((effect->red * life) / 9);
+        primitive->color.c.g = (s8) ((effect->green * effect->remaining_ticks) / 9);
+        primitive->color.c.b = (s8) ((effect->blue * effect->remaining_ticks) / 9);
     }
-    next_life = (u16) ((T_801741A0_S_801741A0_0 *)effect)->unk_1A - 1;
-    ((T_801741A0_S_801741A0_0 *)effect)->unk_1A = next_life;
+    next_life = (u16) effect->remaining_ticks - 1;
+    effect->remaining_ticks = next_life;
     if ((next_life << 0x10) <= 0) {
         ((T_801741A0_S_801741A0_0_pre *)effect)[-1].unk_00 = (u16) (((T_801741A0_S_801741A0_0_pre *)effect)[-1].unk_00 | 0x8000);
         object_flag_block.flags = (s32) (object_flag_block.flags | OBJECT_REMOVE_PENDING);
@@ -94,7 +93,7 @@ void update_orbit_height_and_fade_effect(void *effect, ObjectPosition *position,
 void create_angular_offset_effect(void *unused_context, Rec_func_80173CFC_arg1 *origin, SpriteFrameState *unused_param_2, ActorRecord *unused_param_3,
     s16 angle, u16 height_offset) {
     ObjectNodeHeader *effect;
-    T_80174374_S_80174374_0 *effect_state;
+    AngularOffsetEffectBody *effect_state;
     SpriteFrameState *sprite;
     ObjectPosition *position;
     s16 wrapped_angle;
@@ -103,8 +102,8 @@ void create_angular_offset_effect(void *unused_context, Rec_func_80173CFC_arg1 *
     wrapped_angle = angle;
     if (effect != 0) {
         effect_state = (u8 *)effect + 0x20;
-        effect_state->unk_1A = 0x14;
-        effect_state->unk_1E = angle;
+        effect_state->remaining_ticks = 0x14;
+        effect_state->angle = angle;
         effect->update_callback = &update_orbit_height_and_fade_effect;
         register_node(effect, project_sprite_chain);
 
@@ -113,15 +112,15 @@ void create_angular_offset_effect(void *unused_context, Rec_func_80173CFC_arg1 *
         sprite->flags |= 0xC;
 
         position = effect->position;
-        effect_state->unk_40 = origin->unk_00.at00_s32.v;
-        effect_state->unk_44 = origin->unk_04.at00_s32.v;
+        effect_state->center_x = origin->unk_00.at00_s32.v;
+        effect_state->center_y = origin->unk_04.at00_s32.v;
 
         while (wrapped_angle >= 0x1001) {
             wrapped_angle -= 0x1000;
         }
 
-        position->x.v = effect_state->unk_40 + rcos(wrapped_angle) * 0x280;
-        position->y.v = effect_state->unk_44 + rsin(wrapped_angle) * 0x280;
+        position->x.v = effect_state->center_x + rcos(wrapped_angle) * 0x280;
+        position->y.v = effect_state->center_y + rsin(wrapped_angle) * 0x280;
         position->z.w.i = origin->unk_0A + height_offset;
 
         sprite = effect->sprite;
@@ -130,9 +129,9 @@ void create_angular_offset_effect(void *unused_context, Rec_func_80173CFC_arg1 *
         sprite->color.c.b = 0x60;
         sprite->color.c.g = 0xFF;
         sprite->color.c.r = 0xFF;
-        effect_state->unk_00 = 0xFF;
-        effect_state->unk_01 = sprite->color.c.g;
-        effect_state->unk_02 = sprite->color.c.b;
+        effect_state->red = 0xFF;
+        effect_state->green = sprite->color.c.g;
+        effect_state->blue = sprite->color.c.b;
 
         select_record_entry_and_value(sprite, &directional_sprite_entries, rand() & 1);
         sprite->clut = 0x7DCF;

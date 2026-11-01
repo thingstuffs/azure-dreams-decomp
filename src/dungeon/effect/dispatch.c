@@ -488,18 +488,11 @@ typedef struct S_800C5D80_0 {
     s32 unk_14;
 } S_800C5D80_0;   /* arg1 in advance_effect_motion_and_fade */
 
-typedef struct S_800C5D80_2 {
-    u16 unk_00;
-    u8 pad_02[0xC];
-    s16 unk_0E;
-    u8 pad_10[0x2];
-    s16 unk_12;
-} S_800C5D80_2;   /* arg0 in advance_effect_motion_and_fade; pointer addresses record offset 0x2 */
-
 extern void advance_sprite_animation_and_textures(void *entity);
 
 /* Advance effect motion, fade its color, and mark it finished when its timer expires. */
-void advance_effect_motion_and_fade(void *effect_data, S_800C5D80_0 *motion, SpriteFrameState *primitive) {
+void advance_effect_motion_and_fade(VerticalParticleBurstBody *effect_data, S_800C5D80_0 *motion,
+                                    SpriteFrameState *primitive) {
     s16 ticks_left;
     u8 brightness;
 
@@ -507,19 +500,18 @@ void advance_effect_motion_and_fade(void *effect_data, S_800C5D80_0 *motion, Spr
     motion->unk_14 += 0x2000;
     advance_sprite_animation_and_textures(primitive);
     brightness = primitive->color.c.r
-        - ((s32) primitive->color.c.r / (s16) ((S_800C5D80_2 *)((u8 *)effect_data - 0x2))->unk_12);
+        - ((s32) primitive->color.c.r / (s16) effect_data->remaining_ticks);
     primitive->color.c.r = brightness;
     primitive->color.c.g = brightness;
     primitive->color.c.b = brightness;
-    ticks_left = (u16) ((S_800C5D80_2 *)((u8 *)effect_data - 0x2))->unk_12 - 1;
-    ((S_800C5D80_2 *)((u8 *)effect_data - 0x2))->unk_12 = ticks_left;
+    ticks_left = (u16) effect_data->remaining_ticks - 1;
+    effect_data->remaining_ticks = ticks_left;
     if ((ticks_left << 0x10) <= 0) {
-        if (((S_800C5D80_2 *)((u8 *)effect_data - 0x2))->unk_0E == 0) {
+        if (effect_data->effect_index == 0) {
 
             g_dungeon_status.activity_counts.parts.pending_action_count = (u16) (((u16)g_dungeon_status.activity_counts.parts.pending_action_count) - 1);
         }
-        ((S_800C5D80_2 *)((u8 *)effect_data - 0x2))->unk_00 = (u16) (((S_800C5D80_2 *)((u8 *)effect_data
-            - 0x2))->unk_00 | 0x8000);
+        (*(u16 *)((u8 *)effect_data - 0x2)) |= 0x8000;
         object_flag_block.flags = (s32) (object_flag_block.flags | OBJECT_REMOVE_PENDING);
     }
 }
@@ -540,15 +532,6 @@ typedef struct CounterBlock {
 
 void select_record_entry_and_value(void *state, void *entries, short index);        /* extern */
 extern s32 register_node(); /* Unprototyped: two, three or four arguments; retail reads only the node and draw key. */
-struct S_800C5D80_0;
-extern void advance_effect_motion_and_fade(void *effect_data, struct S_800C5D80_0 *motion, SpriteFrameState *primitive);
-
-typedef struct S_800C5E5C_3 {
-    u8 pad_00[0xC];
-    s16 unk_0C;
-    u8 pad_0E[0x2];
-    s16 unk_10;
-} S_800C5E5C_3;
 
 /* Spawn twelve effects at the given position, optionally playing a sound. */
 void spawn_vertical_particle_burst(s16 x, s16 y, s16 z, s32 sprite_id, s16 play_sound) {
@@ -560,7 +543,7 @@ void spawn_vertical_particle_burst(s16 x, s16 y, s16 z, s32 sprite_id, s16 play_
     DungeonGlobalStatus *counter;
     ObjectNodeHeader *effect;
     ObjectPosition *transform;
-    S_800C5E5C_3 *effect_state;
+    VerticalParticleBurstBody *effect_state;
     u16 sprite_flags;
 
     if (play_sound != 0) {
@@ -604,8 +587,8 @@ void spawn_vertical_particle_burst(s16 x, s16 y, s16 z, s32 sprite_id, s16 play_
             sprite->tpage_abr = size;
             sprite_flags |= 0xC;
             sprite->flags = sprite_flags;
-            effect_state->unk_10 = size;
-            effect_state->unk_0C = effect_index;
+            effect_state->remaining_ticks = size;
+            effect_state->effect_index = effect_index;
             if (effect_index == 0) {
                 counter->activity_counts.parts.pending_action_count = (u16) (((u16)counter->activity_counts.parts.pending_action_count) + 1);
             }
@@ -1032,7 +1015,7 @@ typedef struct Func800C138CData {
     void *data;
 } Func800C138CData;
 
-extern void draw_sprite_parts_as_quad_grid(s32 context, ObjectPosition *position, void *sprite, s16 depth_bias);
+extern void draw_sprite_parts_as_quad_grid(s32 context, ObjectPosition *position, SpriteFrameState *sprite, s16 depth_bias);
 
 /* Process each linked state with draw_sprite_parts_as_quad_grid in mode zero. */
 s32 process_linked_states_mode_zero(void *initial_state, void *context, void *data) {
@@ -1138,7 +1121,7 @@ extern void *RotMatrix(void *, void *);
 extern s32 sprite_projection_matrix[];
 
 /* Draws sprite parts as a 4-by-4 grid of textured quads, invoking custom part callbacks. */
-void draw_sprite_parts_as_quad_grid(s32 context, ObjectPosition *position, void *sprite, s16 depth_bias) {
+void draw_sprite_parts_as_quad_grid(s32 context, ObjectPosition *position, SpriteFrameState *sprite, s16 depth_bias) {
     ScratchPad *scratch = (ScratchPad *)0x1F800000;
     u8 *state;
     GameWork *render_globals;
@@ -1215,13 +1198,14 @@ void draw_sprite_parts_as_quad_grid(s32 context, ObjectPosition *position, void 
     *(u16 *)(scratch->b + 0x07C) = 0;
     *(u16 *)(scratch->b + 0x074) = 0;
     *(u8 **)(scratch->b + 0x020) = state + 0xB0;
+    /* MATCH: retain these views for production byte identity. */
     *(u16 *)(scratch->b + 0x000) = (u16)(*(u16 *)((u8 *)position + 2));
     *(u16 *)(scratch->b + 0x002) = (u16)(*(u16 *)((u8 *)position + 6));
     *(u16 *)(scratch->b + 0x004) = (u16)(*(u16 *)((u8 *)position + 0xA));
     packet_next = *(s32 *)(state + 0x8D0);
     scratch->w[48] = RotTransPers(scratch, scratch->b + 0xB8, scratch->b + 0x90, scratch->b + 0x94);
     matrix_or_u = (s32)sprite_projection_matrix;
-    (*(u16 *)((u8 *)sprite + 0x14)) = (u16)((*(u16 *)((u8 *)sprite + 0x14)) | 0x8000);
+    sprite->flags = (u16)(sprite->flags | 0x8000);
     depth = scratch->w[48];
     *(s32 *)((u8 *)matrix_or_u + 0x1C) = (s32)(depth * 4);
     depth -= 8;
@@ -1234,17 +1218,20 @@ void draw_sprite_parts_as_quad_grid(s32 context, ObjectPosition *position, void 
         *(u32 *)(scratch->b + 0x030) = render_globals->view.camera_rotation.parts.camera_rotation_x;
         *(u32 *)(scratch->b + 0x034) = render_globals->view.camera_rotation.parts.camera_rotation_y;
         *(u32 *)(scratch->b + 0x038) = render_globals->view.camera_rotation.parts.viewAngle;
+    /* MATCH: retain these views for production byte identity. */
         ((RotationWork *)(scratch->b + 0x100))->x = (u16)(*(u16 *)((u8 *)sprite + 0x16));
         ((RotationWork *)(scratch->b + 0x100))->z = (s16)(((S_800C6B40_0 *)sprite)->unk_1A - (u16)*(u32 *)(scratch->b + 0x034));
         ((RotationWork *)(scratch->b + 0x100))->y = (s16)((((u16)*(u32 *)(scratch->b + 0x038) + 0x100) & 0x1FF)
-            + (angle_offset = (s32)((S_800C6B40_0 *)sprite)->unk_18 - 0x100));
-        origin_x = ((S_800C6B40_0 *)sprite)->unk_20;
+            + (angle_offset = (s32)sprite->angle_y - 0x100));
+        origin_x = sprite->offset_x;
         *(u32 *)(scratch->b + 0x0E4) = origin_x;
         ((RotationWork *)(scratch->b + 0x100))->origin_x = origin_x;
+    /* MATCH: retain these views for production byte identity. */
         origin_y = (*(u16 *)((u8 *)sprite + 0x22));
         *(u32 *)(scratch->b + 0x0E8) = origin_y;
         ((RotationWork *)(scratch->b + 0x100))->origin_y = origin_y;
         RotMatrix(0x1F800100, 0x1F8000D0);
+    /* MATCH: retain these views for production byte identity. */
         *(u32 *)(scratch->b + 0x030) = ((S_800C6B40_0 *)sprite)->unk_1C;
         *(u32 *)(scratch->b + 0x034) = *(u16 *)((u8 *)sprite + 0x1E);
         *(u32 *)(scratch->b + 0x038) = NULL;
@@ -1252,8 +1239,8 @@ void draw_sprite_parts_as_quad_grid(s32 context, ObjectPosition *position, void 
         CompMatrix((s32 *)matrix_or_u, scratch->b + 0xD0, scratch->b + 0x50);
         SetTransMatrix(scratch->b + 0x50);
         SetRotMatrix(scratch->b + 0x50);
-        sprite_flags = ((S_800C6B40_0 *)sprite)->unk_14;
-        part = ((S_800C6B40_0 *)sprite)->unk_08;
+        sprite_flags = sprite->flags;
+        part = sprite->source;
         *(u16 *)(scratch->b + 0x024) = (u16)sprite_flags;
         do {
             if (!(((S_800C6B40_1 *)part)->unk_00 & 0x20)) {
@@ -1379,7 +1366,7 @@ void draw_sprite_parts_as_quad_grid(s32 context, ObjectPosition *position, void 
                             bottom_right_visible = bottom_clip_y < 0x121U;
                         }
                         if ((three_visible | bottom_right_visible) != 0) {
-                            uv_inset = ((S_800C6B40_0 *)sprite)->unk_0C.at03.v;
+                            uv_inset = sprite->color.c.code;
                             u_end = (matrix_or_u + u_step) - uv_inset;
                             if (matrix_or_u >= u_end) {
                                 u_end = matrix_or_u + 1;
@@ -1403,17 +1390,17 @@ void draw_sprite_parts_as_quad_grid(s32 context, ObjectPosition *position, void 
                             ((QuadPrim *)packet_next)->u3 = (s8)u_end;
                             ((QuadPrim *)packet_next)->v3 = (s8)v_end;
                             ((QuadPrim *)packet_next)->len = 9;
-                            clut = ((S_800C6B40_0 *)sprite)->unk_12;
-                            ((S_800C6B40_0 *)sprite)->unk_14 = (u16)(((S_800C6B40_0 *)sprite)->unk_14 & 0x7FFF);
+                            clut = sprite->clut;
+                            sprite->flags = (u16)(sprite->flags & 0x7FFF);
                             clut += ((S_800C6B40_1 *)part)->unk_06;
                             ((QuadPrim *)packet_next)->clut = (s16)clut;
-                            if (((S_800C6B40_0 *)sprite)->unk_10 != 0) {
-                                tpage = ((S_800C6B40_0 *)sprite)->unk_10 + (((S_800C6B40_1 *)part)->unk_04 & 0xFF9F);
+                            if (sprite->tpage_abr != 0) {
+                                tpage = sprite->tpage_abr + (((S_800C6B40_1 *)part)->unk_04 & 0xFF9F);
                             } else {
                                 tpage = ((S_800C6B40_1 *)part)->unk_04;
                             }
                             ((QuadPrim *)packet_next)->tpage = tpage;
-                            ((QuadPrim *)packet_next)->unk_04.color = (s32)((S_800C6B40_0 *)sprite)->unk_0C.at00.v;
+                            ((QuadPrim *)packet_next)->unk_04.color = (s32)sprite->color.word;
                             ((QuadPrim *)packet_next)->unk_04.at03.code = 0x2C;
                             draw_flags = *(u16 *)(scratch->b + 0x024);
                             if (draw_flags & 8) {

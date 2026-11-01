@@ -431,26 +431,14 @@ typedef struct B28_818B6AFC_FxEffect {
 typedef struct {
     s32 w[6];
 } B28_818B6954_Copy24;
-typedef struct B28_818B6954_S_818B6954_0 {
-    u8 pad_00[0x8];
-    void * unk_08;
-    void * unk_0C;
-    void * unk_10;
-    u8 pad_14[0xC];
-    s32 unk_20;
-} B28_818B6954_S_818B6954_0;
-typedef struct B28_818B6954_S_818B6954_1 {
-    u8 pad_00[0x4];
-    s16 unk_04;
-    s16 unk_06;
-} B28_818B6954_S_818B6954_1;
+typedef struct ColoredOffsetSpriteBody {
+    union { void *owner; s32 context_value; } owner_context;
+    u16 update_count;
+    u16 state;
+} ColoredOffsetSpriteBody;
 typedef struct B28_818B68B8_S_818B68B8_0_pre {
     u16 unk_00;
 } B28_818B68B8_S_818B68B8_0_pre;
-typedef struct B28_818B68B8_S_818B68B8_0 {
-    void * unk_00;
-    u16 unk_04;
-} B28_818B68B8_S_818B68B8_0;
 typedef struct B28_818B68B8_S_818B68B8_1 {
     u8 pad_00[0x14];
     u16 unk_14;
@@ -460,7 +448,7 @@ typedef struct B28_818B68B8_S_818B68B8_2 {
     s32 unk_08;
 } B28_818B68B8_S_818B68B8_2;
 void interpolate_view_parameters(EntityRec *target, s32 gain_param, void *record);
-void lower_animated_sprite(void *counter_state, B28_818B68B8_S_818B68B8_2 *value_state, SpriteFrameState *status);
+void lower_animated_sprite(ColoredOffsetSpriteBody *counter_state, B28_818B68B8_S_818B68B8_2 *value_state, SpriteFrameState *status);
 void * create_colored_offset_sprite(s32 context_value, void *source_state, s32 render_param, s32 ignored_context);
 void cycle_seven_color_fade(B28_818B6AFC_FxEffect *effect, s32 render_arg, B28_818B6AFC_FxColorOut *color_out);
 s32 draw_indexed_shaded_quad(s32 texture_index, u8 *color_source);

@@ -156,17 +156,16 @@ void *create_vertical_acceleration_sprite(s32 state_value, B22_81892AF0_Copy24 *
 #include "m2c_compat.h"
 
    /* Increment both counters and set completion flags when the count reaches its limit. */
-void expire_counted_child_effect(void *counterState_arg) {
-    B22_81892BF8_S_81892BF8_0 *counterState = counterState_arg;
+void expire_counted_child_effect(TimedTransformCopyEffectBody *counter_state) {
     u16 incrementedCount;
     B22_81892BF8_S_81892BF8_1 *linkedCounter;
 
-    linkedCounter = counterState->unk_00;
+    linkedCounter = counter_state->owner.linked_counter;
     linkedCounter->unk_14 = (u16) (linkedCounter->unk_14 + 1);
-    incrementedCount = counterState->unk_04 + 1;
-    counterState->unk_04 = incrementedCount;
-    if ((s16) incrementedCount >= counterState->unk_06) {
-        ((B22_81892BF8_S_81892BF8_0_pre *)counterState)[-1].unk_00 = (u16) (((B22_81892BF8_S_81892BF8_0_pre *)counterState)[-1].unk_00 | 0x8000);
+    incrementedCount = counter_state->frame.frame_count + 1;
+    counter_state->frame.frame_count = incrementedCount;
+    if ((s16) incrementedCount >= counter_state->frame_limit) {
+        ((B22_81892BF8_S_81892BF8_0_pre *)counter_state)[-1].unk_00 = (u16) (((B22_81892BF8_S_81892BF8_0_pre *)counter_state)[-1].unk_00 | 0x8000);
         object_flag_block.flags = (s32) (object_flag_block.flags | OBJECT_REMOVE_PENDING);
     }
 }
@@ -195,7 +194,7 @@ void expire_counted_child_effect(void *counterState_arg) {
 #define addPrim(ot, p) setaddr(p, getaddr(ot)), setaddr(ot, p)
 
 /* Draw a red ring around the effect center using eight projected polylines. */
-s32 draw_red(void *effect, B22_81892C5C_S_81892C5C_2 *center)
+s32 draw_red(TimedTransformCopyEffectBody *effect, B22_81892C5C_S_81892C5C_2 *center)
 {
     u8 *scratch = (u8 *)0x1F800000;
     void *initial_context;
@@ -209,7 +208,7 @@ s32 draw_red(void *effect, B22_81892C5C_S_81892C5C_2 *center)
     initial_context = ot_ctx->draw_buffer;
     ((B22_81892C5C_S_81892C5C_0 *)scratch)->unk_18.s = (u8 *)initial_context + 0xB0;
     for (;;) {
-        base_height = ((B22_81892C5C_S_81892C5C_1 *)effect)->unk_04;
+        base_height = effect->frame.base_height;
         ((B22_81892C5C_S_81892C5C_0 *)scratch)->unk_68 = ((B22_81892C5C_S_81892C5C_0 *)scratch)->unk_70 =
             ((B22_81892C5C_S_81892C5C_0 *)scratch)->unk_78 = center->unk_0A;
         radius = (s16)((base_height + 1) << 5);
@@ -236,7 +235,7 @@ s32 draw_red(void *effect, B22_81892C5C_S_81892C5C_2 *center)
             ((B22_81892C5C_S_81892C5C_4 *)polyline)->unk_07 |= 2;
             angle_base = angle_step << 1;
             start_angle = segment * angle_base;
-            height = ((B22_81892C5C_S_81892C5C_1 *)effect)->unk_04;
+            height = effect->frame.base_height;
             ((B22_81892C5C_S_81892C5C_4 *)polyline)->unk_05 = 0;
             ((B22_81892C5C_S_81892C5C_4 *)polyline)->unk_06 = 0;
             ((B22_81892C5C_S_81892C5C_4 *)polyline)->unk_04 =
@@ -329,7 +328,7 @@ s32 draw_red(void *effect, B22_81892C5C_S_81892C5C_2 *center)
 void *create_timed_transform_copy_effect(s32 object_arg, void *source_data, s16 initial_value, s16 field_delta) {
     B22_81893024_M2C_BLOCK *src;
     B22_81893024_M2C_OBJECT *object;
-    s32 *object_args;
+    TimedTransformCopyEffectBody *body;
     ObjectPosition *data;
 
     object = allocate_flagged_object_node(0x212);
@@ -337,10 +336,10 @@ void *create_timed_transform_copy_effect(s32 object_arg, void *source_data, s16 
     if (object != NULL) {
         src = source_data;
         object->callback = expire_counted_child_effect;
-        object_args = &object->params;
-        object->params = object_arg;
-        ((s16 *)object_args)[2] = 0;
-        ((s16 *)object_args)[3] = initial_value;
+        body = (u8 *)object + 0x20;
+        body->owner.owner_value = object_arg;
+        body->frame.frame_count = 0;
+        body->frame_limit = initial_value;
         data = object->data;
         *(B22_81893024_M2C_BLOCK *)data = *src;
         data->z.w.i = (s16) (*(u16 *)&data->z.w.i + field_delta);
@@ -382,16 +381,15 @@ void emit_animated_transform_copies(void *state_arg, s32 draw_context, s32 updat
  * Increment the linked counter, reduce the source value by four, and process and flag the target
  * status.
  */
-void step_sprite_height_and_animation(void *entry_arg, B22_818931B8_S_818931B8_2 *source, SpriteFrameState *target) {
-    B22_818931B8_S_818931B8_0_pre *entry = entry_arg;
+void step_sprite_height_and_animation(AnimatedSpriteBurstBody *entry, B22_818931B8_S_818931B8_2 *source, SpriteFrameState *target) {
     B22_818931B8_S_818931B8_1 *counter_state;
 
-    counter_state = ((B22_818931B8_S_818931B8_0 *)entry)->unk_00;
+    counter_state = entry->target.counter_state;
     counter_state->unk_14 = (u16) (counter_state->unk_14 + 1);
     source->unk_0A = (u16) (source->unk_0A - 4);
     advance_sprite_animation_and_textures(target);
     if (target->flags & 0x6000) {
-        entry[-1].unk_00 = (u16) (entry[-1].unk_00 | 0x8000);
+        ((u16 *)entry)[-1] |= 0x8000;
         object_flag_block.flags = (s32) (object_flag_block.flags | OBJECT_REMOVE_PENDING);
     }
 }
@@ -409,16 +407,16 @@ void create_animated_sprite_burst(s32 source, B22_81893244_Func81893244Data *ini
     SpriteFrameState *sprite;
     ObjectPosition *payload;
     B22_81893244_Func81893244Object *effect;
-    B22_81893244_Func81893244Status *status;
+    AnimatedSpriteBurstBody *status;
     s32 brightness;
     s32 particle_index;
     effect = allocate_flagged_object_node(0x212);
     if (effect != NULL) {
         status = &effect->status;
         effect->field10 = emit_animated_transform_copies;
-        status->field20 = source;
-        status->field24 = 0;
-        status->field26 = status_param;
+        status->target.source_value = source;
+        status->update_count = 0;
+        status->update_limit = status_param;
         sprite = effect->fieldC;
         sprite->color.c.b = 0x80;
         sprite->color.c.g = 0x80;
@@ -438,9 +436,9 @@ void create_animated_sprite_burst(s32 source, B22_81893244_Func81893244Data *ini
         if (effect != NULL) {
             effect->field10 = step_sprite_height_and_animation;
             brightness = 0x80;
-            status->field20 = source;
-            status->field24 = 0;
-            status->field26 = status_param;
+            status->target.source_value = source;
+            status->update_count = 0;
+            status->update_limit = status_param;
             sprite = effect->fieldC;
             sprite->color.c.b = brightness;
             sprite->color.c.g = brightness;

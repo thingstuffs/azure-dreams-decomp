@@ -13,18 +13,6 @@ typedef struct { u16 flags; } EffectFieldView_81331C88Prefix;
 #define NULL 0
 #endif
 
-typedef struct S_80168C88_0 {
-    u8 unk_00;
-    u8 unk_01;
-    u8 pad_02[0x10];
-    union { s16 s; u16 u; } unk_12;   /* accessed as both */
-    u8 pad_14[0x4];
-    union { s16 s; u16 u; } unk_18;   /* accessed as both */
-    u8 pad_1A[0x2];
-    s16 unk_1C;
-    u16 unk_1E;
-} S_80168C88_0;   /* arg0 in update_animated_textured_ribbon */
-
 typedef struct S_80168C88_1 {
     u8 pad_00[0xC];
     u8 unk_0C;
@@ -116,7 +104,7 @@ static __inline__ s16 interpolate_value(s32 delta, s32 step, u16 start)
 }
 
 /* Builds seven colored effect segments from interpolated coordinates and decrements their source effect lifetime. */
-void update_animated_textured_ribbon(u8 *effect, void *origin, void *color_in)
+void update_animated_textured_ribbon(EightPartTexturedRibbonBody *effect, void *origin, void *color_in)
 {
     s16 phase;
     s32 red_scaled;
@@ -146,17 +134,17 @@ void update_animated_textured_ribbon(u8 *effect, void *origin, void *color_in)
     u8 *coord_table;
     s32 one;
 
-    phase = ((S_80168C88_0 *)effect)->unk_12.s;
+    phase = effect->unk_12.s;
     switch (phase) {
     case 0:
-        if (((S_80168C88_0 *)effect)->unk_18.s < 6) {
-            ((S_80168C88_0 *)effect)->unk_12.u++;
+        if (effect->unk_18.s < 6) {
+            effect->unk_12.u++;
         }
         break;
     case 1:
-        red_scaled = ((S_80168C88_0 *)effect)->unk_00 * ((S_80168C88_0 *)effect)->unk_18.s;
+        red_scaled = effect->unk_00 * effect->unk_18.s;
         ((S_80168C88_1 *)color_in)->unk_0C = (red_scaled / 4);
-        green_scaled = ((S_80168C88_0 *)effect)->unk_01 * ((S_80168C88_0 *)effect)->unk_18.s;
+        green_scaled = effect->unk_01 * effect->unk_18.s;
         ((S_80168C88_1 *)color_in)->unk_0D = (green_scaled / 4);
         break;
     }
@@ -167,7 +155,7 @@ void update_animated_textured_ribbon(u8 *effect, void *origin, void *color_in)
             axis = 0;
             do {
                 dest_coord = axis * 2;
-                shape_row = (u8 *)(((S_80168C88_0 *)effect)->unk_1C * 0x60 + (s32)ribbon_vertices);
+                shape_row = (u8 *)(effect->unk_1C * 0x60 + (s32)ribbon_vertices);
                 endpoint = (u8 *)(edge * 6 + (long)shape_row);
                 start_coord = (s16 *)dest_coord;
                 start_coord = (s16 *)((u8 *)start_coord + (s32)endpoint);
@@ -186,7 +174,7 @@ void update_animated_textured_ribbon(u8 *effect, void *origin, void *color_in)
     segment = 0;
     coord_table = ribbon_vertices;
     one = 1;
-    ((S_80168C88_0 *)effect)->unk_1E = ((S_80168C88_0 *)effect)->unk_1E - 1;
+    effect->unk_1E = effect->unk_1E - 1;
     segment_offset = segment;
     do {
         task = allocate_flagged_object_node(0x12);
@@ -252,9 +240,9 @@ void update_animated_textured_ribbon(u8 *effect, void *origin, void *color_in)
             vertex_base = segment_data;
             texture_data = vertex_base + 0x28;
             ((S_80168C88_9 *)render_data)->unk_08 = texture_data;
-            ((S_80168C88_11 *)texture_data)->unk_08 += ((S_80168C88_0 *)effect)->unk_1C * 4;
+            ((S_80168C88_11 *)texture_data)->unk_08 += effect->unk_1C * 4;
             texture = ((S_80168C88_9 *)render_data)->unk_08;
-            texture->unk_09 += (((S_80168C88_0 *)effect)->unk_1E & 3) * 8;
+            texture->unk_09 += (effect->unk_1E & 3) * 8;
 
             do {
                 coord = 0;
@@ -262,9 +250,9 @@ void update_animated_textured_ribbon(u8 *effect, void *origin, void *color_in)
                 start_coord = (s16 *)(vertex_base + 0x80);
                 dest_coord = (s32)(vertex_base + 0x74);
                 do {
-                    *(u16 *)dest_coord = *(u16 *)(coord * 2 + (edge_offset + (sample_offset + (((S_80168C88_0 *)effect)->unk_1C * 0x60 + (s32)coord_table))));
+                    *(u16 *)dest_coord = *(u16 *)(coord * 2 + (edge_offset + (sample_offset + (effect->unk_1C * 0x60 + (s32)coord_table))));
                     dest_coord += 2;
-                    far_coord = (u8 *)(sample_offset + (((S_80168C88_0 *)effect)->unk_1C * 0x60 + (s32)coord_table)) + 0xC;
+                    far_coord = (u8 *)(sample_offset + (effect->unk_1C * 0x60 + (s32)coord_table)) + 0xC;
                     *start_coord = *(u16 *)(coord * 2 + (edge_offset + (s32)far_coord));
                     start_coord += 1;
                     coord += 1;
@@ -277,8 +265,8 @@ void update_animated_textured_ribbon(u8 *effect, void *origin, void *color_in)
         segment_offset += 0xC;
     } while (segment < 7);
 
-    ticks_left = ((S_80168C88_0 *)effect)->unk_18.u - 1;
-    ((S_80168C88_0 *)effect)->unk_18.s = ticks_left;
+    ticks_left = effect->unk_18.u - 1;
+    effect->unk_18.s = ticks_left;
     if ((ticks_left << 0x10) <= 0) {
         (((EffectFieldView_81331C88Prefix *)effect)[-1].flags) |= 0x8000;
         object_flag_block.flags |= OBJECT_REMOVE_PENDING;

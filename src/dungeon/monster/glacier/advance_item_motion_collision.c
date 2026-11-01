@@ -1,18 +1,7 @@
 #include "common.h"
 #include "shared/object_flags.h"
+#include "dungeon/monster/glacier/advance_item_motion_collision.h"
 #include "slus.h"
-
-typedef struct S_80174300_0 {
-    u8 pad_00[0x1E];
-    u16 unk_1E;
-    u8 pad_20[0x30];
-    s32 unk_50;
-    s32 unk_54;
-    s32 unk_58;
-    s32 unk_5C;
-    s32 unk_60;
-    s32 unk_64;
-} S_80174300_0;   /* arg0 in advance_item_motion_collision */
 
 typedef struct S_80174300_1 {
     union { struct { s32 v; } at00; struct { u8 pad[0x2]; u16 v; } at02; } unk_00;   /* overlapping accesses */
@@ -30,44 +19,43 @@ extern s32 check_left_tile_and_center_height(s32 x, s32 y, s32 z);
 extern s16 sample_terrain_surface_height();
 
 /* Advance motion, resolve collisions, and flag expired movement. */
-void advance_item_motion_collision(void *motion_arg, void *position_arg, void *update_arg) {
+void advance_item_motion_collision(DirectionalEffectBody *motion, void *position_arg, void *update_arg) {
     S_80174300_1 *position = position_arg;
-    S_80174300_0 *motion = motion_arg;
     s32 height;
 
-    motion->unk_1E = motion->unk_1E - 1;
+    motion->remaining_ticks.unsigned_value = motion->remaining_ticks.unsigned_value - 1;
     advance_sprite_animation_and_textures(update_arg);
-    position->unk_00.at00.v += motion->unk_50;
-    motion->unk_50 += motion->unk_5C;
+    position->unk_00.at00.v += motion->velocity_x;
+    motion->velocity_x += motion->acceleration_x;
     if ((check_left_tile_and_center_height(position->unk_00.at02.v, position->unk_04.at02.v,
         position->unk_08.at02.v) << 16) != 0) {
-        position->unk_00.at00.v -= motion->unk_50;
-        motion->unk_50 = 0;
-        motion->unk_5C = 0;
+        position->unk_00.at00.v -= motion->velocity_x;
+        motion->velocity_x = 0;
+        motion->acceleration_x = 0;
     }
-    position->unk_04.at00.v += motion->unk_54;
-    motion->unk_54 += motion->unk_60;
+    position->unk_04.at00.v += motion->velocity_y;
+    motion->velocity_y += motion->acceleration_y;
     if ((check_left_tile_and_center_height(position->unk_00.at02.v, position->unk_04.at02.v,
         position->unk_08.at02.v) << 16) != 0) {
-        position->unk_04.at00.v -= motion->unk_54;
-        motion->unk_54 = 0;
-        motion->unk_60 = 0;
+        position->unk_04.at00.v -= motion->velocity_y;
+        motion->velocity_y = 0;
+        motion->acceleration_y = 0;
     }
-    position->unk_08.at00.v += motion->unk_58;
-    motion->unk_58 += motion->unk_64;
+    position->unk_08.at00.v += motion->velocity_z;
+    motion->velocity_z += motion->acceleration_z;
     height = position->unk_08.at02.v;
     if ((sample_terrain_surface_height(position->unk_00.at02.v, position->unk_04.at02.v,
                        (s16)((u16)position->unk_08.at02u.v - 4)) - 0x10) < height) {
-        motion->unk_58 = 0;
-        motion->unk_54 = 0;
-        motion->unk_50 = 0;
+        motion->velocity_z = 0;
+        motion->velocity_y = 0;
+        motion->velocity_x = 0;
         position->unk_08.at02.v = sample_terrain_surface_height(position->unk_00.at02.v,
             position->unk_04.at02.v,
                                                (s16)((u16)position->unk_08.at02.v - 4)) - 0x11;
         position->unk_08.at00u.v = 0;
-        motion->unk_1E = 0;
+        motion->remaining_ticks.unsigned_value = 0;
     }
-    if ((s16)motion->unk_1E <= 0) {
+    if ((s16)motion->remaining_ticks.unsigned_value <= 0) {
         (*(u16 *)((u8 *)motion + -2)) |= NODE_REMOVE;
         object_flag_block.flags |= OBJECT_REMOVE_PENDING;
     }

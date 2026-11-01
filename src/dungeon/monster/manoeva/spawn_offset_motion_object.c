@@ -31,7 +31,7 @@ extern s32 D_80175C60;
 extern s32 D_80175D74;
 
 /* Creates an object at a source position offset and sets its orientation from the parent. */
-void spawn_offset_motion_object(void *parent_data, MovingPosition *origin, Rec_D_80082E80 *source_data, s16 position_index) {
+void spawn_offset_motion_object(ActorRecord *parent_data, MovingPosition *origin, Rec_D_80082E80 *source_data, s16 position_index) {
     void *allocation_head_address;
     ObjectNodeHeader **allocation_head;
     u16 position_offset[3];

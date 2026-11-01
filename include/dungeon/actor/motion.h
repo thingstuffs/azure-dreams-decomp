@@ -1,5 +1,6 @@
 #ifndef DUNGEON_ACTOR_MOTION_H
 #define DUNGEON_ACTOR_MOTION_H
+struct ObjectPosition;
 
 #include "common.h"
 #include "shared/entity.h"
@@ -7,6 +8,13 @@
 #include "shared/sprite_frame_state.h"
 #include "shared/dungeon_moving_views.h"
 
+typedef struct RisingLandingEffectBody {
+    void *owner;
+    u8 pad_04[0x44];
+    u16 timer;
+    u8 pad_4A[2];
+    union { s16 s; u16 u; } state;
+} RisingLandingEffectBody;
 
 
 void begin_pushed_actor_move(void *state_in, void *unused, void *position_in, void *actor_in);
@@ -22,7 +30,7 @@ struct ActorHopParams;
 struct ActorHopExtra;
 
 void update_actor_facing_and_lifecycle(ActorRecord *body, ObjectPosition *motion, SpriteFrameState *part);
-void update_rising_landing_effect(void *effect, ObjectPosition *motion, SpriteFrameState *sprite);
+void update_rising_landing_effect(RisingLandingEffectBody *effect, ObjectPosition *motion, SpriteFrameState *sprite);
 
 struct S_800AC480_0;
 struct S_800AC480_3;
@@ -36,7 +44,7 @@ s32 update_actor_transform_from_parent(struct Rec_func_800A9E70_arg0 *state, Obj
 
 void install_actor_action_handler_after_thrown_travel(struct CallbackOwner *owner, ObjectPosition *position, void *tile, ActorRecord *actor);
 
-s32 update_actor_hop_and_shrink(void *animation, void *motion, SpriteFrameState *scale, void *render);
+s32 update_actor_hop_and_shrink(void *animation, struct ObjectPosition *motion, SpriteFrameState *scale, void *render);
 
 s32 update_actor_movement_to_tile(void *move_state, void *motion, void *target_tile, ActorRecord *actor);
 struct S_800D9884_0;

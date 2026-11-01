@@ -396,13 +396,6 @@ typedef struct {
 typedef struct {
     R10_80174C70_LocalVector vectors[4];
 } __attribute__((packed)) R10_80174C70_LocalTable;
-typedef struct R10_80174C70_S_80174C70_0 {
-    u8 pad_00[0x18];
-    s16 unk_18;
-    union { s16 s; u16 u; } unk_1A;   
-    u8 pad_1C[0x46];
-    s16 unk_62;
-} R10_80174C70_S_80174C70_0;
 typedef struct R10_80174C70_S_80174C70_1 {
     u8 pad_00[0xC];
     u8 unk_0C;
@@ -444,13 +437,17 @@ typedef struct R10_80174F24_S_func_80AF3724_2 {
     u16 unk_02;
 } R10_80174F24_S_func_80AF3724_2;
 
-typedef struct R10_80174F24_S_func_80AF3724_4 {
+
+/* Motion, phase, sprite source, and radial extent for oscillating particles. */
+typedef struct RandomizedOscillatingEffectBody {
     u8 pad_00[0x18];
     s16 unk_18;
-    s16 unk_1A;
+    union { s16 s; u16 u; } unk_1A;
     u8 pad_1C[0xC];
     R10_80174F24_LocalPacket unk_28;
-} R10_80174F24_S_func_80AF3724_4;
+    u8 pad_34[0x2E];
+    s16 unk_62;
+} RandomizedOscillatingEffectBody;
 
 
 
@@ -666,7 +663,7 @@ void prepare_directional_attacks_for_neighbor_entities(void *node, s32 tile_x, s
 void select_actor_target_and_advance_status(ActorRecord *action_state, ObjectPosition *effect_arg, SpriteFrameState *anim_state, ActorRecord *actor);
 void advance_directional_attack_sequence(ActorRecord *action, ObjectPosition *position, SpriteFrameState *sprite, ActorRecord *entity);
 s32 project_snowman_sprite_chain(void *initial_payload, s32 entry_data, R10_80174BE4_Entry *entry, s32 unused);
-void update_effect_motion_and_brightness(void *effect, void *motion, void *render);
+void update_effect_motion_and_brightness(RandomizedOscillatingEffectBody *effect, void *motion, void *render);
 void spawn_randomized_oscillating_effect(ActorRecord *body, R10_80174F24_S_func_80AF3724_0 *origin, SpriteFrameState *sprite, ActorRecord *actor);
 void wait_for_snowman_action_slot(ActorRecord *entity_data, ObjectPosition *motion, SpriteFrameState *sprite, void *other_data);
 void restore_snowman_scene_tint(u8 *task, void *context, struct SpriteFrameState *input);

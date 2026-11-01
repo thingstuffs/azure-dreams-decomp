@@ -1,5 +1,6 @@
 #ifndef TOWN_PERSON_OBJECT_H
 #define TOWN_PERSON_OBJECT_H
+struct PersonObject;
 /* Prototypes of the functions defined in src/town/person/object/ (one true prototype each; maintained by tools/headers). */
 
 #include "common.h"
@@ -143,7 +144,7 @@ void initialize_reaction_object_type_4_a(void *object, void *unused, struct Spri
 void initialize_reaction_object_type_4_f(void *object, void *unused, struct SpriteFrameState *stateValues);
 
 /* initialize_transform_object.c */
-void initialize_transform_object(void *object, void *unused_position, struct SpriteFrameState *unused_sprite);
+void initialize_transform_object(struct PersonObject *object, void *unused_position, struct SpriteFrameState *unused_sprite);
 
 /* initialize_transform_object_values.c */
 void initialize_transform_object_values(struct S_800C2664_0 *object, void *setup_context, SpriteFrameState *unused);

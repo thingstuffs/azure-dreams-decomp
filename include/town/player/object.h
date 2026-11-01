@@ -1,5 +1,6 @@
 #ifndef TOWN_PLAYER_OBJECT_H
 #define TOWN_PLAYER_OBJECT_H
+struct SpriteFrameState;
 /* Prototypes of the functions defined in src/town/player/object/ (one true prototype each; maintained by tools/headers). */
 
 #include "common.h"
@@ -31,7 +32,7 @@ void initialize_entry_object_and_play_sound(struct TownObject *object, s32 table
 void initialize_global_player_object(void);
 
 /* initialize_indexed_object_and_clear_flags.c */
-void initialize_indexed_object_and_clear_flags(Rec_func_80094268_arg0 *object, s32 setupValue, s32 initializationValue);
+void initialize_indexed_object_and_clear_flags(Rec_func_80094268_arg0 *object, s32 setupValue, struct SpriteFrameState *initializationValue);
 
 /* initialize_indexed_object_and_lookup_value.c */
 void initialize_indexed_object_and_lookup_value(void *object, s32 lookup_arg, s32 handler_param);

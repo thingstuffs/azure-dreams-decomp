@@ -4,14 +4,8 @@
 #include "m2c_compat.h"
 #include "records/Rec_D_80082E80.h"
 #include "shared/dungeon_moving_views.h"
+#include "dungeon/monster/manoeva/action_sprite_effect.h"
 #include "slus.h"
-
-typedef struct S_801745F0_3 {
-    u8 pad_00[0x1C];
-    void * unk_1C;
-} S_801745F0_3;   /* arg0 in copy_linked_position_and_check_status */
-
-   /* ((S_801745F0_3 *)arg0)->unk_1C in copy_linked_position_and_check_status */
 
    /* arg1 in copy_linked_position_and_check_status */
 
@@ -21,12 +15,10 @@ typedef struct S_801745F0_2 {
 
 
 /* Copy three object fields and set object and global flags from the processed status. */
-void copy_linked_position_and_check_status(void *object_arg, MovingPosition *dest, SpriteFrameState *status) {
-    S_801745F0_3 *object = object_arg;
-
-    dest->x = (u16) ((MovingPosition *)(object->unk_1C))->x;
-    dest->y = (u16) ((MovingPosition *)(object->unk_1C))->y;
-    dest->z = (u16) ((MovingPosition *)(object->unk_1C))->z;
+void copy_linked_position_and_check_status(ActionSpriteEffectBody *object, MovingPosition *dest, SpriteFrameState *status) {
+    dest->x = (u16) ((MovingPosition *)object->linked_position.pointer)->x;
+    dest->y = (u16) ((MovingPosition *)object->linked_position.pointer)->y;
+    dest->z = (u16) ((MovingPosition *)object->linked_position.pointer)->z;
     advance_sprite_animation_and_textures(status);
     if (status->flags & 0x6000) {
         ((S_801745F0_2 *)((u8 *)object - 0x2))->unk_00 = (u16) (((S_801745F0_2 *)((u8 *)object - 0x2))->unk_00

@@ -16,13 +16,6 @@ typedef struct Row_8191C848_S_8191C848_0_pre {
     u16 unk_00;
 } Row_8191C848_S_8191C848_0_pre;   /* the 0x2 bytes before arg0 in func_80024048, addressed as arg0[-1] */
 
-typedef struct Row_8191C848_S_8191C848_0 {
-    void * unk_00;
-    u8 pad_04[0x4];
-    s16 unk_08;
-    s16 unk_0A;
-} Row_8191C848_S_8191C848_0;   /* arg0 in func_80024048 */
-
 typedef struct Row_8191C848_S_8191C848_1 {
     u8 pad_00[0x14];
     u16 unk_14;
@@ -52,22 +45,13 @@ typedef struct Row_8191C938_CopyBlock {
     s32 word[6];
 } Row_8191C938_CopyBlock;
 
-typedef struct Row_8191C938_S_8191C938_0 {
-    u8 pad_00[0x8];
-    Row_8191C938_CopyBlock * unk_08;
-    void * unk_0C;
-    s32 * unk_10;
-    u8 pad_14[0xC];
-    void * unk_20;
-} Row_8191C938_S_8191C938_0;   /* temp_v0 in func_80024138 */
-
-typedef struct Row_8191C938_S_8191C938_1 {
-    u8 pad_00[0x4];
-    s16 unk_04;
-    s16 unk_06;
-    s16 unk_08;
-    s16 unk_0A;
-} Row_8191C938_S_8191C938_1;   /* temp_s0 in func_80024138 */
+typedef struct RandomizedSourceEffectBody {
+    void *source_context;
+    u16 unk_04;
+    u16 unk_06;
+    s16 heading;
+    s16 radius;
+} RandomizedSourceEffectBody;
 
 typedef struct Row_8191C938_S_8191C938_3 {
     u8 pad_00[0x16];
@@ -85,16 +69,6 @@ typedef struct Row_8191C938_S_8191C938_4 {
 typedef struct Row_8191CA88_S_8191CA88_0_pre {
     u16 unk_00;
 } Row_8191CA88_S_8191CA88_0_pre;   /* the 0x2 bytes before object in func_80024288, addressed as object[-1] */
-
-typedef struct Row_8191CA88_S_8191CA88_0 {
-    void * unk_00;
-    u8 pad_04[0xA];
-    union { s16 s; u16 u; u16 p; } unk_0E;   /* accessed as both */
-    union { u16 s; u16 u; s16 p; } unk_10;   /* accessed as both */
-    u8 pad_12[0x2];
-    s16 unk_14;
-    s16 unk_16;
-} Row_8191CA88_S_8191CA88_0;   /* object in func_80024288 */
 
 typedef struct Row_8191CA88_S_8191CA88_1 {
     u8 pad_00[0x14];
@@ -121,23 +95,15 @@ typedef struct Row_8191CA88_S_8191CA88_4 {
 } Row_8191CA88_S_8191CA88_4;   /* global_base in func_80024288 */
 
 /* Updates object motion and timers through movement, waiting, falling, and completion states. */
-typedef struct Row_8191CBCC_S_8191CBCC_0 {
-    u8 pad_00[0x8];
-    void * unk_08;
-    void * unk_0C;
-    M2C_UNK * unk_10;
-    u8 pad_14[0xC];
-    void * unk_20;
-} Row_8191CBCC_S_8191CBCC_0;   /* temp_v0 in func_800243CC */
-
-typedef struct Row_8191CBCC_S_8191CBCC_1 {
-    u8 pad_00[0xE];
-    s16 unk_0E;
-    s16 unk_10;
+typedef struct ScaledRotatingEffectBody {
+    void *context;
+    u8 pad_04[0xA];
+    union { s16 s; u16 u; u16 p; } unk_0E;   /* accessed as both */
+    union { u16 s; u16 u; s16 p; } unk_10;   /* accessed as both */
     s16 unk_12;
     union { u16 s; s16 u; } unk_14;   /* accessed as both */
     s16 unk_16;
-} Row_8191CBCC_S_8191CBCC_1;   /* temp_s2 in func_800243CC */
+} ScaledRotatingEffectBody;
 
 typedef struct Row_8191CBCC_S_8191CBCC_2 {
     u8 pad_00[0x10];
@@ -360,9 +326,9 @@ extern u8 homing_particle_sprite_entries[];
 extern M2C_UNK D_80024288;
 extern M2C_UNK D_80024F74;
 extern s32 clipped_sprite_renderer_address(u8 *first_data, s32 link_value, SpriteFrameState *value_record);
-void move_sprite_in_radial_direction(void *motion, Row_8191C848_S_8191C848_3 *position, SpriteFrameState *status);
+void move_sprite_in_radial_direction(RandomizedSourceEffectBody *motion, Row_8191C848_S_8191C848_3 *position, SpriteFrameState *status);
 void *create_randomized_source_effect(Row_8191C938_S_8191C938_3 *source);
-void advance_timed_effect_motion(void *object, Row_8191CA88_S_8191CA88_3 *motion, Row_8191CA88_S_8191CA88_2 *effect);
+void advance_timed_effect_motion(ScaledRotatingEffectBody *object, Row_8191CA88_S_8191CA88_3 *motion, Row_8191CA88_S_8191CA88_2 *effect);
 void * create_scaled_rotating_effect(void *params_input, void *transform_input);
 void update_actor_effect_sequence(Row_8191CD78_S_func_80024578_1 *effect, Row_8191CD78_S_func_80024578_2 *position, void *render_data);
 #endif

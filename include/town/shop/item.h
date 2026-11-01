@@ -1,5 +1,6 @@
 #ifndef TOWN_SHOP_ITEM_H
 #define TOWN_SHOP_ITEM_H
+struct ItemMenuTransition;
 /* Prototypes of the functions defined in src/town/shop/item/ (one true prototype each; maintained by tools/headers). */
 
 #include "common.h"
@@ -54,7 +55,7 @@ void initialize_item_menu_linked_record_vectors(struct S_800AEBC4_6 *vectors, st
 void initialize_item_menu_list_display(s32 objectData, s32 owner, s32 listConfig, s32 entryCount, s32 x, s32 y, s32 entryIds);
 
 /* initialize_item_menu_list_entries.c */
-void initialize_item_menu_list_entries(void *list);
+void initialize_item_menu_list_entries(struct ItemMenuTransition *list);
 
 /* initialize_item_menu_panel_rectangle.c */
 void initialize_item_menu_panel_rectangle(void *record);

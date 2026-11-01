@@ -1,5 +1,6 @@
 #ifndef MODULE_TOWN_MAP_PROPS_H
 #define MODULE_TOWN_MAP_PROPS_H
+struct SpriteFrameState;
 #include "common.h"
 #include "shared/sprite_frame_state.h"
 #include "m2c_compat.h"
@@ -34,7 +35,7 @@ s32 rcos(s32 angle);
 s32 rand(void);
 s32 draw_linked_lit_meshes(void *group_data, void *position, void *render_data, s32 unused);
 void randomize_paired_object_motion(void *pair);
-void advance_motion_and_flag_zero_velocity(void *actor, void *motion, s32 actor_id);
+void advance_motion_and_flag_zero_velocity(void *actor, void *motion, struct SpriteFrameState *actor_id);
 void *memcpy(void *dst, const void *src, u32 n);
 /* The caller's historical short arguments are explicit casts in its body.
  * The grid helper's third argument is passed by retail and unused by it. */

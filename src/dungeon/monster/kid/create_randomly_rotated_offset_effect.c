@@ -14,14 +14,6 @@ extern s32 rand(void);
 
 extern u8 D_8017520C[12];
 
-typedef struct S_80174800_0 {
-    u8 pad_00[0x1];
-    s8 unk_01;
-    s8 unk_02;
-    u8 pad_03[0x17];
-    s16 unk_1A;
-} S_80174800_0;   /* part in create_randomly_rotated_offset_effect */
-
 typedef struct S_80174800_1 {
     u8 pad_00[0x6];
     s16 unk_06;
@@ -54,14 +46,14 @@ typedef struct S_80174800_2 {
 void create_randomly_rotated_offset_effect(void *unused_ptr, ObjectPosition *source_pos, SpriteFrameState *unused_value, s16 scale)
 {
     ObjectNodeHeader * node;
-    S_80174800_0 *part;
+    RandomlyRotatedOffsetEffectBody *part;
     SpriteFrameState *data;
     ObjectPosition *pos;
 
     node = allocate_flagged_object_node(0x212);
     if (node != 0) {
         part = (u8 *)node + 0x20;
-        part->unk_1A = 65;
+        part->unk_1A.s = 65;
         (node->update_callback) = animate_effect_colors;
         register_node(node, project_sprite_chain);
         data = node->sprite;
@@ -75,9 +67,9 @@ void create_randomly_rotated_offset_effect(void *unused_ptr, ObjectPosition *sou
         data->depth_bias = 6;
         data->scale_y = scale;
         data->scale_x = scale;
-        (*(s8 *)((u8 *)node + 0x20)) = 0x70;
-        part->unk_01 = 0x10;
-        part->unk_02 = 0x10;
+        part->unk_00.s = 0x70;
+        part->unk_01.s = 0x10;
+        part->unk_02.s = 0x10;
         data->color.c.b = 0;
         data->color.c.g = 0;
         data->color.c.r = 0;

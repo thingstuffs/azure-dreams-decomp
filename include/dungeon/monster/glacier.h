@@ -24,7 +24,8 @@ void update_item_hop_animation(ActorRecord *action, ObjectPosition *motion, Spri
 void update_actor_timed_effects(ActorRecord *actor_arg, ObjectPosition *context_arg, SpriteFrameState *sprite_arg, ActorRecord *stats_arg);
 
 /* Callback entry points. */
-void advance_item_motion_collision(void *motion, void *position, void *update_arg);
+struct DirectionalEffectBody;
+void advance_item_motion_collision(struct DirectionalEffectBody *motion, void *position, void *update_arg);
 void update_monster_appearance_motion(ActorRecord *entity_arg, void *motion_arg, SpriteFrameState *monster_arg);
 
 /* Owner declarations appended by tools/headers (append-only; the lines above are hand-kept). */

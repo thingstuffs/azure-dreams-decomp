@@ -90,14 +90,6 @@ typedef struct Row_8194CD5C_S_8002455C_0_pre {
     u16 unk_00;
 } Row_8194CD5C_S_8002455C_0_pre;   /* the 0x2 bytes before arg0 in func_8002455C, addressed as arg0[-1] */
 
-typedef struct Row_8194CD5C_S_8002455C_0 {
-    void * unk_00;
-    u8 pad_04[0x28];
-    s16 unk_2C;
-    u16 unk_2E;
-    u8 unk_30;
-} Row_8194CD5C_S_8002455C_0;   /* arg0 in func_8002455C */
-
 typedef struct Row_8194CD5C_S_8002455C_1 {
     u8 pad_00[0x1A];
     u16 unk_1A;
@@ -144,15 +136,19 @@ typedef struct {
     s32 w;
 } Row_8194CF00_WordQuad;
 
-typedef struct Row_8194CF00_S_80024700_0 {
-    u8 pad_00[0x24];
+typedef struct TexturedOffsetObjectBody {
+    union { void *ptr; s32 s; } unk_00;
+    Row_8194CF00_WordQuad transform;
+    Row_8194CF00_WordQuad source_offset;
     u16 unk_24;
     u16 unk_26;
     u8 pad_28[0x4];
     union { u16 u; s16 s; } unk_2C;   /* accessed as both */
     union { u16 u; s16 s; } unk_2E;   /* accessed as both */
     u8 unk_30;
-} Row_8194CF00_S_80024700_0;   /* data in func_80024700 */
+} TexturedOffsetObjectBody;
+typedef TexturedOffsetObjectBody Row_8194CD5C_S_8002455C_0;
+typedef TexturedOffsetObjectBody Row_8194CF00_S_80024700_0;
 
 /* Creates a textured object from the source and applies a transformed positional offset. */
 typedef struct Row_8194D118_S_80024918_0 {
@@ -298,7 +294,7 @@ void update_directional_actor_effect(s16 start_x, s16 start_y, s16 start_z, s16 
                    s16 end_z, s16 *angles);
 void update_homing_arc_and_brighten_effect(void *effect, void *motion, void *sprite);
 void allocate_effect_and_initialize_sprite(s32 effect_data, s32 effect_param, s32 render_param);
-void update_rotating_effect_and_fade(void *effect, void *position,struct SpriteFrameState *sprite);
+void update_rotating_effect_and_fade(TexturedOffsetObjectBody *effect, void *position,struct SpriteFrameState *sprite);
 void create_textured_offset_object(void *source_object);
 void advance_object_motion_and_animation(void *object);
 void allocate_effect_with_endpoints(s32 object_value, void *start_pos, void *end_pos, s16 setting, Row_8194D1E4_FourWords params_a,

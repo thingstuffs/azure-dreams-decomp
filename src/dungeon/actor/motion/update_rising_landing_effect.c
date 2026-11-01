@@ -753,14 +753,6 @@ typedef struct S_8197D468_0_pre {
     u16 unk_00;
 } S_8197D468_0_pre;   /* the 0x2 bytes before arg0 in update_rising_landing_effect, addressed as arg0[-1] */
 
-typedef struct S_8197D468_0 {
-    void * unk_00;
-    u8 pad_04[0x44];
-    u16 unk_48;
-    u8 pad_4A[0x2];
-    union { s16 s; u16 u; } unk_4C;   /* accessed as both */
-} S_8197D468_0;   /* arg0 in update_rising_landing_effect */
-
 typedef struct S_8197D468_1 {
     u8 pad_00[0x52];
     u16 unk_52;
@@ -789,7 +781,7 @@ typedef struct S_8197D468_8 {
 /* cfail-repair: tf7-phase1-cache-v3 */
 
 /* Update a rising, expanding, and falling effect, spawning particles on landing. */
-void update_rising_landing_effect(void *effect, ObjectPosition *motion, SpriteFrameState *sprite) {
+void update_rising_landing_effect(RisingLandingEffectBody *effect, ObjectPosition *motion, SpriteFrameState *sprite) {
     void *particle_work;
     s16 state;
     s16 ground_height;
@@ -808,7 +800,7 @@ void update_rising_landing_effect(void *effect, ObjectPosition *motion, SpriteFr
     void *owner;
     ObjectNodeHeader *particle;
 
-    owner = ((S_8197D468_0 *)effect)->unk_00;
+    owner = effect->owner;
     ((S_8197D468_1 *)owner)->unk_52 = (u16) (((S_8197D468_1 *)owner)->unk_52 | 0x8000);
     if (sprite->flags & 0x6000) {
         sprite->unk_04 = 0;
@@ -816,7 +808,7 @@ void update_rising_landing_effect(void *effect, ObjectPosition *motion, SpriteFr
         sprite->flags = (u16) (sprite->flags & 0x9FFF);
     }
     advance_sprite_animation_and_textures(sprite);
-    state = ((S_8197D468_0 *)effect)->unk_4C.s;
+    state = effect->state.s;
     switch (state) {
     case 0:
         motion->z.v = (s32) (motion->z.v
@@ -839,8 +831,8 @@ void update_rising_landing_effect(void *effect, ObjectPosition *motion, SpriteFr
             sprite->tpage_abr = 0;
             sprite->source = sprite_frames;
             sprite->flags = (u16) (sprite_flags | 2);
-            ((S_8197D468_0 *)effect)->unk_48 = (u16) ((rand() & 3) + 4);
-            ((S_8197D468_0 *)effect)->unk_4C.u = (u16) (((S_8197D468_0 *)effect)->unk_4C.u + 1);
+            effect->timer = (u16) ((rand() & 3) + 4);
+            effect->state.u = (u16) (effect->state.u + 1);
             return;
         }
         break;
@@ -848,10 +840,10 @@ void update_rising_landing_effect(void *effect, ObjectPosition *motion, SpriteFr
         sprite->color.word = 0x606060;
         sprite->scale_x = (u16) (sprite->scale_x + 0xC8);
         sprite->scale_y = (u16) (sprite->scale_y + 0xC8);
-        frames_left = ((S_8197D468_0 *)effect)->unk_48 - 1;
-        ((S_8197D468_0 *)effect)->unk_48 = frames_left;
+        frames_left = effect->timer - 1;
+        effect->timer = frames_left;
         if ((frames_left << 0x10) <= 0) {
-            ((S_8197D468_0 *)effect)->unk_4C.u = (u16) (((S_8197D468_0 *)effect)->unk_4C.u + 1);
+            effect->state.u = (u16) (effect->state.u + 1);
             return;
         }
         break;
@@ -907,7 +899,7 @@ void update_rising_landing_effect(void *effect, ObjectPosition *motion, SpriteFr
                     particle_sprite->frame_ticks = 0;
                     particle_sprite->color.word = particle_color;
                     particle_sprite->source = particle_frames;
-                    effect_data = ((S_8197D468_0 *)effect)->unk_00;
+                    effect_data = effect->owner;
                     ((S_8197D468_5 *)particle)->unk_20 = effect_data;
                     ((S_8197D468_8 *)particle_work)->unk_4C = 0;
                 }

@@ -90,7 +90,8 @@ void advance_timed_visual_effect(void *state_arg, void *position_arg, void *visu
 }
 
 /* Inverts a tiled texture mask, draws clipped moving sprites, and fades them in and out before completion. */
-void update_tiled_fade_effect(void *effect, void *offset_state, void *render_state) {
+void update_tiled_fade_effect(void *effect, void *offset_state_arg, void *render_state) {
+    Row_818FF19C_S_818FF19C_1 *offset_state = offset_state_arg;
     Row_818FF19C_Rect8 moving_rect;
     Row_818FF19C_Rect8 tile_rect;
     s16 draw_pos[2];
@@ -116,10 +117,10 @@ void update_tiled_fade_effect(void *effect, void *offset_state, void *render_sta
     (*(s16 *)particle_update_flag) = 1;
     if (offset_applied == 0) {
         ((Row_818FF19C_S_818FF19C_0 *)effect)->unk_0A = 1;
-        ((Row_818FF19C_S_818FF19C_1 *)offset_state)->unk_08 += -0x20000;
+        offset_state->unk_08 += -0x20000;
     } else {
         ((Row_818FF19C_S_818FF19C_0 *)effect)->unk_0A = 0;
-        ((Row_818FF19C_S_818FF19C_1 *)offset_state)->unk_08 += 0x20000;
+        offset_state->unk_08 += 0x20000;
     }
     stage = ((Row_818FF19C_S_818FF19C_0 *)effect)->unk_00.s;
     switch (stage) {

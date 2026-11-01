@@ -56,7 +56,7 @@ typedef struct S_800D1824_5 {
 extern void func_80065034(void *ptr, void *ptr2, void *ptr3);
 
 /* Transform grid tiles into quads and add visible ones to the ordering table. */
-void build_visible_tile_quads(u8 *tiles)
+void build_visible_tile_quads(MeshEffectObjectBody *tiles)
 {
     u8 *scratch = (u8 *)0x1F800000;
     GameWork *globals = &g_game_work;
@@ -76,29 +76,29 @@ void build_visible_tile_quads(u8 *tiles)
     ((S_800D1824_0 *)scratch)->unk_2C = -0x1000;
     ((S_800D1824_0 *)scratch)->unk_20 = render_state + 0xB0;
 
-    while (*tiles != 0) {
-        if (*(u16 *)(tiles + 2) != 0x8000) {
-            x = (s32)tiles[0] << 6;
+    while (tiles->x != 0) {
+        if (tiles->height != 0x8000) {
+            x = (s32)tiles->x << 6;
             ((S_800D1824_0 *)scratch)->unk_80 = (s16)x;
             ((S_800D1824_0 *)scratch)->unk_70 = (s16)x;
             x += 0x40;
             ((S_800D1824_0 *)scratch)->unk_88 = (s16)x;
             ((S_800D1824_0 *)scratch)->unk_78 = (s16)x;
 
-            y = (s32)tiles[1] << 6;
+            y = (s32)tiles->y << 6;
             ((S_800D1824_0 *)scratch)->unk_7A = (s16)y;
             ((S_800D1824_0 *)scratch)->unk_72 = (s16)y;
             y += 0x40;
             ((S_800D1824_0 *)scratch)->unk_8A = (s16)y;
             ((S_800D1824_0 *)scratch)->unk_82 = (s16)y;
 
-            z = *(u16 *)(tiles + 2);
+            z = tiles->height;
             ((S_800D1824_0 *)scratch)->unk_84 = z;
             ((S_800D1824_0 *)scratch)->unk_7C = z;
             ((S_800D1824_0 *)scratch)->unk_74 = z;
 
             gte_ldv3(scratch + 0x70, scratch + 0x78, scratch + 0x80);
-            ((S_800D1824_0 *)scratch)->unk_8C = *(u16 *)(tiles + 2);
+            ((S_800D1824_0 *)scratch)->unk_8C = tiles->height;
             gte_rtpt_nn();
             gte_nclip();
             gte_stopz(scratch + 0x114);
@@ -134,7 +134,7 @@ void build_visible_tile_quads(u8 *tiles)
                 }
             }
         }
-        tiles += 4;
+        tiles++;
     }
 
     ((GpuContext *)(((u8 *)globals->draw_buffer)))->packetCursor = prim;

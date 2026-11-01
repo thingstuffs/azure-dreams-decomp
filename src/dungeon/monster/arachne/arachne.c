@@ -2531,7 +2531,7 @@ void build_animated_spherical_wireframe(void *effect, void *origin, void *tint) 
 }
 
 /* Creates a gray spherical wireframe effect offset vertically from the supplied position. */
-void create_offset_effect(void *source_arg, void *spawn_pos_arg, void *unused_context)
+void create_offset_effect(void *source_arg, void *spawn_pos_arg, SpriteFrameState *unused_context)
 {
     R12_80175180_S_80175180_5 *spawn_pos = spawn_pos_arg;
     u16 render_flags;

@@ -264,16 +264,16 @@ void create_jittered_terrain_seeking_point(
 #include "shared/object_flags.h"
 
 /* Advance position and object state, then flag completion on timeout or object status. */
-void move_and_grow_timed_sprite(void *state, void *position, SpriteFrameState *object)
+void move_and_grow_timed_sprite(MoveAndGrowTimedSpriteBody *state, void *position, SpriteFrameState *object)
 {
     s32 position_z;
     s32 step_z;
     u16 ticks_left;
 
-    *(s32 *)((u8 *)position + 0) += *(s32 *)((u8 *)state + 0x4C);
-    *(s32 *)((u8 *)position + 4) += *(s32 *)((u8 *)state + 0x50);
+    *(s32 *)((u8 *)position + 0) += state->velocity_x;
+    *(s32 *)((u8 *)position + 4) += state->velocity_y;
     position_z = *(s32 *)((u8 *)position + 8);
-    step_z = *(s32 *)((u8 *)state + 0x54);
+    step_z = state->velocity_z;
     linked_point_effect_updated[0] = 1;
     *(s32 *)((u8 *)position + 8) = position_z + step_z;
     advance_sprite_animation_and_textures(object);
@@ -281,8 +281,8 @@ void move_and_grow_timed_sprite(void *state, void *position, SpriteFrameState *o
     object->scale_x += 0x80;
     object->scale_y += 0x80;
 
-    ticks_left = *(u16 *)((u8 *)state + 2) - 1;
-    *(u16 *)((u8 *)state + 2) = ticks_left;
+    ticks_left = state->remaining - 1;
+    state->remaining = ticks_left;
     if ((s16)ticks_left <= 0) {
         *(u16 *)((u8 *)state - 2) |= NODE_REMOVE;
         object_flag_block.flags |= OBJECT_REMOVE_PENDING;
@@ -298,17 +298,16 @@ void move_and_grow_timed_sprite(void *state, void *position, SpriteFrameState *o
 #include "shared/object_flags.h"
 
 /* Decrement the record counter and set completion flags when it reaches zero. */
-void update_actor_effect_sequence(void *record)
+void update_actor_effect_sequence(UpdateChasingStarEffectBody *record)
 {
-    u8 *record_bytes = record;
     u16 counter;
 
-    counter = *(u16 *)(record_bytes + 2);
+    counter = record->remaining;
     linked_point_effect_updated[0] = 1;
     counter--;
-    *(u16 *)(record_bytes + 2) = counter;
+    record->remaining = counter;
     if ((counter << 16) <= 0) {
-        *(u16 *)(record_bytes - 2) |= NODE_REMOVE;
+        *(u16 *)((u8 *)record - 2) |= NODE_REMOVE;
         object_flag_block.flags |= OBJECT_REMOVE_PENDING;
     }
 }
@@ -697,7 +696,7 @@ void update_chasing_star_effect(void *entity, B32_818CF0E8_S_818CF0E8_1 *pos, B3
             {
             w1 = ((u8 *)obj + 0x20);
             if (obj != 0) {
-                ((B32_818CF0E8_S_818CF0E8_4 *)w1)->unk_02 = 0x14;
+                ((MoveAndGrowTimedSpriteBody *)w1)->remaining = 0x14;
                 obj->update_callback = move_and_grow_timed_sprite;
                 register_node(obj, project_sprite_chain);
                 p = obj->sprite;
@@ -733,7 +732,7 @@ void update_chasing_star_effect(void *entity, B32_818CF0E8_S_818CF0E8_1 *pos, B3
                 p = obj->sprite;
                 ((B32_818CF0E8_S_818CF0E8_6 *)p)->unk_1C = 0x800;
                 ((B32_818CF0E8_S_818CF0E8_6 *)p)->unk_1E = 0x800;
-                ((B32_818CF0E8_S_818CF0E8_4 *)w1)->unk_54 = rand() + (s32)0xFFFE0000;
+                ((MoveAndGrowTimedSpriteBody *)w1)->velocity_z = rand() + (s32)0xFFFE0000;
                 ((B32_818CF0E8_S_818CF0E8_6 *)p)->unk_0E = 0x80;
                 ((B32_818CF0E8_S_818CF0E8_6 *)p)->unk_0D = 0x80;
                 ((B32_818CF0E8_S_818CF0E8_6 *)p)->unk_0C = 0x80;

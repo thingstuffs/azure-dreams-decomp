@@ -22,18 +22,17 @@ void (*const dungeon_183a800_entry)(void *, void *, void *) = advance_projectile
 const PathBlock textured_particle_direction_offsets = {{{32,0},{32,32},{0,32},{-32,32},{-32,0},{-32,-32},{0,-32},{32,-32}}};
 
 /* Decrement the record counter, process update data, and flag depletion. */
-void render_textured_effect_parts(void *record_data, void *unused, void *update_data) {
+void render_textured_effect_parts(OffsetPalettedSpriteBody *record_data, void *unused, void *update_data) {
     s16 remaining;
     s16 *update_flag;
 
     update_flag = &textured_effect_update_flag;
-    remaining = (s16)((S_8181A800_0 *)((u8 *)record_data - 0x2))->unk_04 - 1;
+    remaining = record_data->remaining - 1;
     update_flag[0] = 1;
-    ((S_8181A800_0 *)((u8 *)record_data - 0x2))->unk_04 = remaining;
+    record_data->remaining = remaining;
     advance_sprite_animation_and_textures(update_data);
-    if (((S_8181A800_0 *)((u8 *)record_data - 0x2))->unk_04 <= 0) {
-        ((S_8181A800_0 *)((u8 *)record_data - 0x2))->unk_00 =
-            (u16)(((S_8181A800_0 *)((u8 *)record_data - 0x2))->unk_00 | 0x8000);
+    if (record_data->remaining <= 0) {
+        *(u16 *)((u8 *)record_data - 2) |= 0x8000;
         object_flag_block.flags |= OBJECT_REMOVE_PENDING;
     }
 }
@@ -46,14 +45,14 @@ void create_offset_paletted_sprite(void *unused_context, void *origin, s32 unuse
     ObjectNodeHeader *object;
     s32 asset_param;
     s32 setup_mode;
-    D8181A8C0Header *header;
+    OffsetPalettedSpriteBody *body;
     ObjectPosition *position;
 
     object = allocate_flagged_object_node(0x212);
     if (object != NULL) {
-        header = (D8181A8C0Header *)((u8 *)object + 0x20);
-        header->f2 = 1;
-        header->f4 = 1;
+        body = (OffsetPalettedSpriteBody *)((u8 *)object + 0x20);
+        body->remaining = 1;
+        body->unk_04 = 1;
         object->update_callback = &render_textured_effect_parts;
         register_node(object, project_sprite_chain);
         asset_param = 0x60;
@@ -390,24 +389,22 @@ void decrement_object_counter(void *source_arg, s32 offset_x, s32 offset_y, s32 
 }
 
 /* Advances the timer, ramps target values, and flags completion on timeout or target status. */
-void grow_timed_sprite_effect(void *state_data, s32 unused, void *target) {
+void grow_timed_sprite_effect(TimedSpriteImpactBody *state, s32 unused, void *target) {
     u16 timer;
-    u8 *state = state_data;
 
-    timer = *(u16 *)(state + 2) + 2;
+    timer = state->timer.u + 2;
     textured_effect_update_flag = 1;
-    *(u16 *)(state + 2) = timer;
+    state->timer.u = timer;
     if ((s16)timer < 40) {
         *(s16 *)((u8 *)target + 0x1C) = (s16)timer * 204;
-        *(s16 *)((u8 *)target + 0x1E) =
-            (s16)*(u16 *)(state + 2) * 204;
+        *(s16 *)((u8 *)target + 0x1E) = (s16)state->timer.u * 204;
     }
-    if ((s16)*(u16 *)(state + 2) >= 120) {
-        *(u16 *)(state - 2) |= NODE_REMOVE;
+    if ((s16)state->timer.u >= 120) {
+        *(u16 *)((u8 *)state - 2) |= NODE_REMOVE;
         object_flag_block.flags |= OBJECT_REMOVE_PENDING;
     }
     if (*(u16 *)((u8 *)target + 0x14) & 0x8000) {
-        *(u16 *)(state - 2) |= NODE_REMOVE;
+        *(u16 *)((u8 *)state - 2) |= NODE_REMOVE;
         object_flag_block.flags |= OBJECT_REMOVE_PENDING;
     }
 }

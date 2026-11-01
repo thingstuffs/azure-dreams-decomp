@@ -1,5 +1,7 @@
 #ifndef DUNGEON_RESOURCE12_SLOT0_H
 #define DUNGEON_RESOURCE12_SLOT0_H
+struct SpriteFrameState;
+struct ObjectPosition;
 #include "common.h"
 #include "dungeon/actor.h"
 #include "shared/object_node.h"
@@ -661,7 +663,7 @@ s32 get_cd_command_queue_depth(void);
 void create_two_row_object_group(void *payload, s16 value_scale);
 void unlink_entity_node();
 void * detach_record_and_update_slot_state(void *record);
-s32 update_actor_hop_and_shrink(void *animation, void *motion, SpriteFrameState *scale, void *render);
+s32 update_actor_hop_and_shrink(void *animation, struct ObjectPosition *motion, SpriteFrameState *scale, void *render);
 
 s32 get_entity_effect_value(ActorRecord *entry, s32 effect_id);
 s32 func_80042900(ActorRecord *entry, s32 effect_id);
@@ -756,7 +758,7 @@ void transform_and_queue_line_packets(R12_80174618_S_80174618_4 *endpoints, R12_
 s32 queue_line_packets_for_node_chain(void *initial_state, void *context, void *data);
 void update_turning_fade_effect_and_model(void *record_data);
 void build_animated_spherical_wireframe(void *effect, void *origin, void *tint);
-void create_offset_effect(void *source_arg, void *spawn_pos_arg, void *unused_context);
+void create_offset_effect(void *source_arg, void *spawn_pos_arg, struct SpriteFrameState *unused_context);
 void wait_for_arachne_activity(ActorRecord *entity_data, ObjectPosition *unused_1, s32 unused_2, void *other_data);
 void fade_effect_to_neutral(void *entity_data, void *unused, void *source_data);
 void advance_effect_sequence_and_restore_actor(void *sequence, void *position, SpriteFrameState *record, void *actor);

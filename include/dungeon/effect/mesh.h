@@ -3,6 +3,24 @@
 #include "common.h"
 #include "shared/entity.h"
 #include "shared/sprite_frame_state.h"
+
+/* One four-byte coordinate record in the mesh renderer's variable-length tile list. */
+typedef struct MeshEffectObjectBody {
+    u8 x;
+    u8 y;
+    u16 height;
+} MeshEffectObjectBody;
+typedef struct TerrainSeekingColoredPointBody {
+    u32 color;
+    s16 unk_04;
+    u8 pad_06[0xA];
+    s16 intensity;
+    s16 divisor;
+    u8 pad_14[0xA0];
+    s32 z_velocity;
+} TerrainSeekingColoredPointBody;
+void advance_colored_point_toward_terrain(TerrainSeekingColoredPointBody *object, s16 *position);
+s32 project_colored_point_to_ordering_table(u8 *render_data, u8 *source_vertex);
 /* Projectile callback work at node +0x20. The +0x98 sprite template is
  * installed in sprite->source and its +8 byte is alternated during impact. */
 typedef struct ProjectileEffect {
@@ -92,7 +110,7 @@ extern u8 shared_decode_staging_buffer[16400];
 
 /* Callback entry points. */
 s32 queue_projected_mesh_points_and_texture_packets(u8 *node_data, u16 *position);
-void build_visible_tile_quads(u8 *tiles);
+void build_visible_tile_quads(MeshEffectObjectBody *tiles);
 
 /* Owner declarations appended by tools/headers (append-only; the lines above are hand-kept). */
 void transform_sprite_parts_to_quads(s32 context, ObjectPosition *position, SpriteFrameState *sprite, s16 depth_bias);

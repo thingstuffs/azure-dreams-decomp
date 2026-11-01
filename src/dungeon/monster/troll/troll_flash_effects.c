@@ -31,19 +31,18 @@ void update_stepped_rgb_flash(void *fade_state_arg, void *unused, T_80170D40_S_8
 }
 
 /* Decrement the countdown, update three scaled output components, and flag completion. */
-void update_normalized_gray_fade(void *countdownState_arg, s32 unused, T_80170DC4_S_80170DC4_1 *output) {
-    T_80170DC4_S_80170DC4_0 *countdownState = countdownState_arg;
+void update_normalized_gray_fade(ActorActionEffectBody *countdownState, s32 unused, T_80170DC4_S_80170DC4_1 *output) {
     s32 scaledRemaining;
     u16 remainingCount;
 
-    remainingCount = countdownState->unk_96 - 1;
-    scaledRemaining = (s32) ((s32) (remainingCount << 16) >> 9) / countdownState->unk_9E;
-    countdownState->unk_96 = remainingCount;
+    remainingCount = countdownState->remaining_count.u - 1;
+    scaledRemaining = (s32) ((s32) (remainingCount << 16) >> 9) / countdownState->divisor;
+    countdownState->remaining_count.u = remainingCount;
     output->unk_0C = (s8) scaledRemaining;
     output->unk_0E = (s8) scaledRemaining;
     output->unk_0D = (s8) scaledRemaining;
-    if ((s16) countdownState->unk_96 <= 0) {
-        ((T_80170DC4_S_80170DC4_0_pre *)countdownState)[-1].unk_00 = ((T_80170DC4_S_80170DC4_0_pre *)countdownState)[-1].unk_00 | 0x8000;
+    if ((s16) countdownState->remaining_count.u <= 0) {
+        ((u16 *)countdownState)[-1] |= 0x8000;
         object_flag_block.flags = object_flag_block.flags | OBJECT_REMOVE_PENDING;
     }
 }
@@ -66,7 +65,7 @@ void update_saved_rgb_fade(T_80170E2C_FadeState *fade, s32 unused, T_80170E2C_Fa
 }
 
 /* Update the effect transform, fade its color, and mark expiration when its timer runs out. */
-void update_growing_rotating_flash(void *effect, s32 unused, void *visual) {
+void update_growing_rotating_flash(GrowingRotatingFlashBody *effect, s32 unused, void *visual) {
     u16 transform_value;
     u16 ticks_left;
     s8 intensity;
@@ -76,8 +75,8 @@ void update_growing_rotating_flash(void *effect, s32 unused, void *visual) {
     *(u16 *)((u8 *)visual + 0x1C) = transform_value;
     *(u16 *)((u8 *)visual + 0x1A) += 0x2BC;
 
-    ticks_left = *(u16 *)((u8 *)effect + 0x18) - 1;
-    *(u16 *)((u8 *)effect + 0x18) = ticks_left;
+    ticks_left = effect->lifetime - 1;
+    effect->lifetime = ticks_left;
     if ((s16)ticks_left < 12) {
         intensity = ((s16)ticks_left << 7) / 12;
         *(s8 *)((u8 *)visual + 0xE) = intensity;
@@ -85,52 +84,53 @@ void update_growing_rotating_flash(void *effect, s32 unused, void *visual) {
         *(s8 *)((u8 *)visual + 0xC) = intensity;
     }
 
-    if (*(s16 *)((u8 *)effect + 0x18) <= 0) {
+    if ((s16)effect->lifetime <= 0) {
         *(u16 *)((u8 *)effect - 2) |= NODE_REMOVE;
         object_flag_block.flags |= OBJECT_REMOVE_PENDING;
     }
 }
 
 /* Updates effect motion, handles collisions, grows the sprite, and flags expiration. */
-void update_growing_bouncing_effect(void *effect, void *position, SpriteFrameState *sprite)
+void update_growing_bouncing_effect(void *effect, void *position_arg, SpriteFrameState *sprite)
 {
+    T_80170F94_S_80170F94_0 *position = position_arg;
     s32 height;
     u16 frame_count;
     u16 scale_x;
     u16 scale_y;
     u16 ticks_left;
 
-    ((T_80170F94_S_80170F94_0 *)position)->unk_00.at00.v += ((T_80170F94_S_80170F94_1 *)effect)->unk_40;
+    position->unk_00.at00.v += ((T_80170F94_S_80170F94_1 *)effect)->unk_40;
     ((T_80170F94_S_80170F94_1 *)effect)->unk_40 += ((T_80170F94_S_80170F94_1 *)effect)->unk_4C;
-    if (check_left_tile_and_center_height(((T_80170F94_S_80170F94_0 *)position)->unk_00.at02.v,
-                      ((T_80170F94_S_80170F94_0 *)position)->unk_04.at02.v,
-                      ((T_80170F94_S_80170F94_0 *)position)->unk_08.at02.v) << 16) {
-        ((T_80170F94_S_80170F94_0 *)position)->unk_00.at00.v -= ((T_80170F94_S_80170F94_1 *)effect)->unk_40;
+    if (check_left_tile_and_center_height(position->unk_00.at02.v,
+                      position->unk_04.at02.v,
+                      position->unk_08.at02.v) << 16) {
+        position->unk_00.at00.v -= ((T_80170F94_S_80170F94_1 *)effect)->unk_40;
         ((T_80170F94_S_80170F94_1 *)effect)->unk_40 = 0;
         ((T_80170F94_S_80170F94_1 *)effect)->unk_4C = 0;
     }
 
-    ((T_80170F94_S_80170F94_0 *)position)->unk_04.at00.v += ((T_80170F94_S_80170F94_1 *)effect)->unk_44;
+    position->unk_04.at00.v += ((T_80170F94_S_80170F94_1 *)effect)->unk_44;
     ((T_80170F94_S_80170F94_1 *)effect)->unk_44 += ((T_80170F94_S_80170F94_1 *)effect)->unk_50;
-    if (check_left_tile_and_center_height(((T_80170F94_S_80170F94_0 *)position)->unk_00.at02.v,
-                      ((T_80170F94_S_80170F94_0 *)position)->unk_04.at02.v,
-                      ((T_80170F94_S_80170F94_0 *)position)->unk_08.at02.v) << 16) {
-        ((T_80170F94_S_80170F94_0 *)position)->unk_04.at00.v -= ((T_80170F94_S_80170F94_1 *)effect)->unk_44;
+    if (check_left_tile_and_center_height(position->unk_00.at02.v,
+                      position->unk_04.at02.v,
+                      position->unk_08.at02.v) << 16) {
+        position->unk_04.at00.v -= ((T_80170F94_S_80170F94_1 *)effect)->unk_44;
         ((T_80170F94_S_80170F94_1 *)effect)->unk_44 = 0;
         ((T_80170F94_S_80170F94_1 *)effect)->unk_50 = 0;
     }
 
-    ((T_80170F94_S_80170F94_0 *)position)->unk_08.at00.v += ((T_80170F94_S_80170F94_1 *)effect)->unk_48;
+    position->unk_08.at00.v += ((T_80170F94_S_80170F94_1 *)effect)->unk_48;
     ((T_80170F94_S_80170F94_1 *)effect)->unk_48 += ((T_80170F94_S_80170F94_1 *)effect)->unk_54;
-    height = ((T_80170F94_S_80170F94_0 *)position)->unk_08.at02.v;
-    if (sample_terrain_surface_height(((T_80170F94_S_80170F94_0 *)position)->unk_00.at02.v,
-                      ((T_80170F94_S_80170F94_0 *)position)->unk_04.at02.v,
-                      (s16)(((T_80170F94_S_80170F94_0 *)position)->unk_08.at02u.v - 4)) - 0x10 < height) {
+    height = position->unk_08.at02.v;
+    if (sample_terrain_surface_height(position->unk_00.at02.v,
+                      position->unk_04.at02.v,
+                      (s16)(position->unk_08.at02u.v - 4)) - 0x10 < height) {
         ((T_80170F94_S_80170F94_1 *)effect)->unk_48 = 0;
-        ((T_80170F94_S_80170F94_0 *)position)->unk_08.at02.v = sample_terrain_surface_height(
-            ((T_80170F94_S_80170F94_0 *)position)->unk_00.at02.v, ((T_80170F94_S_80170F94_0 *)position)->unk_04.at02.v,
-            (s16)(((T_80170F94_S_80170F94_0 *)position)->unk_08.at02u.v - 4)) - 0x11;
-        ((T_80170F94_S_80170F94_0 *)position)->unk_08.at00u.v = 0;
+        position->unk_08.at02.v = sample_terrain_surface_height(
+            position->unk_00.at02.v, position->unk_04.at02.v,
+            (s16)(position->unk_08.at02u.v - 4)) - 0x11;
+        position->unk_08.at00u.v = 0;
         if (((T_80170F94_S_80170F94_1 *)effect)->unk_0E == 0) {
             ((T_80170F94_S_80170F94_1 *)effect)->unk_0E = 1;
             ((T_80170F94_S_80170F94_1 *)effect)->unk_18.s = 0;
@@ -341,7 +341,7 @@ void create_targeted_motion_effect(ActorRecord *body, ObjectPosition *position, 
 /* Create and position an effect using a linked object or stored tile coordinates. */
 void create_actor_action_effect(ActorRecord *source_object, ObjectPosition *source_pos, SpriteFrameState *sprite_template, ActorRecord *actor) {
     ObjectNodeHeader *effect;
-    T_801714FC_S_801714FC_1 *effect_state;
+    ActorActionEffectBody *effect_state;
     void *effect_data;
     void *template_data;
     T_801714FC_S_801714FC_4 *linked_pos;
@@ -354,11 +354,11 @@ void create_actor_action_effect(ActorRecord *source_object, ObjectPosition *sour
     if (effect == 0) {
         return;
     }
-    effect_state = (T_801714FC_S_801714FC_1 *)((u8 *)effect + 0x20);
-    effect_state->unk_96 = 0xa;
-    effect_state->unk_9E = 0xa;
+    effect_state = (ActorActionEffectBody *)((u8 *)effect + 0x20);
+    effect_state->remaining_count.s = 0xa;
+    effect_state->divisor = 0xa;
     effect->update_callback = (void *)&update_normalized_gray_fade;
-    effect_state->unk_94 = ((u16)actor->facing);
+    effect_state->facing = ((u16)actor->facing);
     effect_data = effect->sprite;
     template_data = sprite_template;
     {
@@ -485,15 +485,15 @@ void spawn_random_color_burst_particle(void *source, ObjectPosition *position) {
  */
 void spawn_growing_rotating_flash(ActorRecord *unused, ObjectPosition *position, SpriteFrameState *unused_sprite) {
     T_80171928_Object *object;
-    T_80171928_Header *header;
+    GrowingRotatingFlashBody *body;
     SpriteFrameState *child;
     ObjectPosition *object_pos;
 
     object = allocate_flagged_object_node(0x212);
     if (object != NULL) {
-        header = (T_80171928_Header *)((u8 *)object + 0x20);
-        header->value18 = 0x1C;
-        header->value1a = 0x1C;
+        body = (u8 *)object + 0x20;
+        body->lifetime = 0x1C;
+        body->unk_1A = 0x1C;
         object->header.update_callback = &update_growing_rotating_flash;
         register_node(&object->header, project_sprite_chain);
         child = object->header.sprite;
@@ -515,7 +515,7 @@ void spawn_growing_rotating_flash(ActorRecord *unused, ObjectPosition *position,
 }
 
 /* Update position and part state, then mark the object used unless its part is exempt. */
-void update_tracked_attachment_sprite(void *object, T_80171A38_S_80171A38_4 *position, T_80171A38_S_80171A38_3 *part_state)
+void update_tracked_attachment_sprite(TrackedAttachmentSpriteBody *object, T_80171A38_S_80171A38_4 *position, T_80171A38_S_80171A38_3 *part_state)
 {
     T_80171A38_S_80171A38_1 *record;
     T_80171A38_S_80171A38_2 *part;
@@ -523,7 +523,7 @@ void update_tracked_attachment_sprite(void *object, T_80171A38_S_80171A38_4 *pos
     u16 part_value;
     T_80171A38_Vec3s position_delta;
 
-    record = (u8 *)((T_80171A38_S_80171A38_0 *)object)->unk_20 - 0x20;
+    record = (u8 *)object->owner_body - 0x20;
     if ((record->unk_1E & 0x8000) == 0) {
         part = record->unk_0C;
         part_value = part->unk_06;

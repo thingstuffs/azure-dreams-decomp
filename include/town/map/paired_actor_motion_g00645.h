@@ -1,5 +1,6 @@
 #ifndef TOWN_MAP_PAIRED_ACTOR_MOTION_G00645_H
 #define TOWN_MAP_PAIRED_ACTOR_MOTION_G00645_H
+struct SpriteFrameState;
 #include "town/person/position.h"
 
 struct SpriteFrameState;
@@ -113,7 +114,7 @@ extern s32 D_800E9E14[];
 void update_randomized_actor_movement(void *actor, ObjectPosition *motion,struct SpriteFrameState *sprite, s32 update_mode);
 void initialize_object_and_dispatch_by_state(Func800BFE50Object *object, s32 *params, void *dispatch_context);
 void randomize_paired_object_motion(void *pair_in);
-void advance_motion_and_flag_zero_velocity(Actor *actor, Motion *motion, s32 actor_id);
+void advance_motion_and_flag_zero_velocity(Actor *actor, Motion *motion, struct SpriteFrameState *actor_id);
 s32 event_tori_in(void *source);
 
 #endif

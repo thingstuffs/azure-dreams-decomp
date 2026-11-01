@@ -13,12 +13,12 @@
 void (*const dungeon_ovl_18b8824_entry)(ovl_18b8824_81898EBC_EffectState *state, ovl_18b8824_81898EBC_Motion *motion, ovl_18b8824_81898EBC_ColorPart *part) = advance_launched_effect;
 
 /* Advances and spins a particle, increments its owner's counter, and removes it after its lifetime. */
-void interpolate_view_parameters(void *state, void *motion, void *transform)
+void interpolate_view_parameters(ASpriteRandomRotationCopiesInitialDataBody *state, void *motion, void *transform)
 {
     u16 tick_count;
     void *linked_state;
 
-    linked_state = *(void **)((s8 *)state + 0xC);
+    linked_state = state->owner;
     *(u16 *)((s8 *)linked_state + 0x14) =
         (u16)(*(u16 *)((s8 *)linked_state + 0x14) + 1);
     *(s32 *)((s8 *)motion + 0x00) =
@@ -29,9 +29,9 @@ void interpolate_view_parameters(void *state, void *motion, void *transform)
         *(s32 *)((s8 *)motion + 0x08) + *(s32 *)((s8 *)motion + 0x14);
     *(u16 *)((s8 *)transform + 0x1A) =
         (u16)(*(u16 *)((s8 *)transform + 0x1A) + 0x300);
-    tick_count = *(u16 *)((s8 *)state + 0x10) + 1;
-    *(u16 *)((s8 *)state + 0x10) = tick_count;
-    if (*(s16 *)((s8 *)state + 0x12) < (s16)tick_count) {
+    tick_count = state->ticks.u + 1;
+    state->ticks.u = tick_count;
+    if (state->lifetime.s < (s16)tick_count) {
         *(u16 *)((s8 *)state - 2) =
             (u16)(*(u16 *)((s8 *)state - 2) | NODE_REMOVE);
         object_flag_block.flags |= OBJECT_REMOVE_PENDING;
@@ -43,7 +43,7 @@ void interpolate_view_parameters(void *state, void *motion, void *transform)
 void *create_a_sprite_random_rotation_copies_initial_data(void *context, ovl_18b8824_818988CC_Copy24 *copy_src, s16 initial_value)
 {
     ObjectNodeHeader *obj;
-    ovl_18b8824_818988CC_S_800240CC_0 *fields;
+    ASpriteRandomRotationCopiesInitialDataBody *fields;
     SpriteFrameState *sprite;
     ovl_18b8824_818988CC_Copy24 *dst;
     s32 random_value;
@@ -52,9 +52,9 @@ void *create_a_sprite_random_rotation_copies_initial_data(void *context, ovl_18b
     if (obj != 0) {
         obj->update_callback = (void *)interpolate_view_parameters;
         fields = (u8 *)obj + 0x20;
-        fields->unk_0C = context;
-        fields->unk_10 = 0;
-        fields->unk_12 = initial_value;
+        fields->owner = context;
+        fields->ticks.u = 0;
+        fields->lifetime.s = initial_value;
 
         sprite = obj->sprite;
         sprite->color.c.b = 0x80;

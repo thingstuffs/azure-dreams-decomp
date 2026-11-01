@@ -195,6 +195,8 @@ class Unit:
             return
         m = ARRAY.match(t.strip())
         if m:
+            if off == start and path:
+                yield path, t, node
             elem = m.group(1)
             esize = self.size(elem)
             if not esize or not path:

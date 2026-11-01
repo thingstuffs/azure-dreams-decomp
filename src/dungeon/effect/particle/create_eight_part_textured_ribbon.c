@@ -7,35 +7,6 @@
 #include "engine/node.h"
 #include "dungeon/effect/particle.h"
 #include "slus.h"
-typedef struct S_801690D8_0 {
-    u8 unk_00;
-    u8 unk_01;
-    u8 unk_02;
-    u8 pad_03[0x15];
-    u16 unk_18;
-    u16 unk_1A;
-    s16 unk_1C;
-    s16 unk_1E;
-    u8 pad_20[0x4];
-    s32 unk_24;
-    u8 pad_28[0x34];
-    union { s32 s; s32 u; } unk_5C;   /* accessed as both */
-    s32 unk_60;
-    u8 pad_64[0x10];
-    u16 unk_74;
-    u16 unk_76;
-    u16 unk_78;
-    u16 unk_7A;
-    u16 unk_7C;
-    u16 unk_7E;
-    u16 unk_80;
-    u16 unk_82;
-    u16 unk_84;
-    u16 unk_86;
-    u16 unk_88;
-    u16 unk_8A;
-} S_801690D8_0;
-
 typedef struct S_801690D8_1 {
     u8 pad_00[0x96];
     u16 unk_96;
@@ -77,7 +48,7 @@ typedef struct S_801690D8_8 {
 } S_801690D8_8;
 
 /* Creates eight effect segments with positions, colors, and vertex data. */
-void create_eight_part_textured_ribbon(S_801690D8_1 *source, void *origin, s32 unused, s32 effect_value) {
+void create_eight_part_textured_ribbon(S_801690D8_1 *source, void *origin, SpriteFrameState *unused, s32 effect_value) {
     s32 direction_pairs[8];
     s32 segment;
     s32 trunc_bias;
@@ -93,7 +64,7 @@ void create_eight_part_textured_ribbon(S_801690D8_1 *source, void *origin, s32 u
     SpriteFrameState *render_flags;
     ObjectPosition *position;
     SpriteFrameState *appearance;
-    S_801690D8_0 *effect;
+    EightPartTexturedRibbonBody *effect;
     ObjectNodeHeader *object;
     S_801690D8_6 *heading_source;
     s32 *directions;
@@ -112,15 +83,15 @@ void create_eight_part_textured_ribbon(S_801690D8_1 *source, void *origin, s32 u
         object = allocate_flagged_object_node(0x12);
         effect = ((void *)object) + 0x20;
         if (object != 0) {
-            effect->unk_18 = 0xEU;
+            effect->unk_18.u = 0xEU;
             if ((segment == 0) || (segment == 7)) {
-                effect->unk_18 = 8U;
+                effect->unk_18.u = 8U;
             }
             if ((segment == 1) || (segment == 6)) {
-                effect->unk_18 = (s16) (effect->unk_18 - 4);
+                effect->unk_18.u = (u16) (effect->unk_18.u - 4);
             }
             if ((segment == 2) || (segment == 5)) {
-                effect->unk_18 = (u16) (effect->unk_18 - 2);
+                effect->unk_18.u = (u16) (effect->unk_18.u - 2);
             }
             effect->unk_1A = (u16) source->unk_96;
             effect->unk_1C = segment;

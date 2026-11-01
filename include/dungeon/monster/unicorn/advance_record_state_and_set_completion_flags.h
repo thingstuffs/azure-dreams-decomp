@@ -54,37 +54,24 @@ typedef struct T_801741A0_S_801741A0_0_pre {
     u16 unk_00;
 } T_801741A0_S_801741A0_0_pre;   /* the 0x2 bytes before arg0 in func_801741A0, addressed as arg0[-1] */
 
-typedef struct T_801741A0_S_801741A0_0 {
-    u8 unk_00;
-    u8 unk_01;
-    u8 unk_02;
+typedef struct AngularOffsetEffectBody {
+    u8 red;
+    u8 green;
+    u8 blue;
     u8 pad_03[0x17];
-    s16 unk_1A;
+    s16 remaining_ticks;
     u8 pad_1C[0x2];
-    u16 unk_1E;
-    s16 unk_20;
+    u16 angle;
+    s16 pulse_state;
     u8 pad_22[0x1E];
-    s32 unk_40;
-    s32 unk_44;
-} T_801741A0_S_801741A0_0;   /* arg0 in func_801741A0 */
+    s32 center_x;
+    s32 center_y;
+} AngularOffsetEffectBody;
 
 
 #include "records/Rec_func_80173CFC_arg1.h"
 #include "shared/dungeon_delay_views.h"
 struct ObjectNodeHeader;
-
-typedef struct T_80174374_S_80174374_0 {
-    u8 unk_00;
-    u8 unk_01;
-    u8 unk_02;
-    u8 pad_03[0x17];
-    s16 unk_1A;
-    u8 pad_1C[0x2];
-    s16 unk_1E;
-    u8 pad_20[0x20];
-    s32 unk_40;
-    s32 unk_44;
-} T_80174374_S_80174374_0;   /* work in func_80174374 */
 
 typedef void (*unicorn_orbit_update_fn)(void *effect, ObjectPosition *position, SpriteFrameState *primitive);
 
@@ -96,7 +83,7 @@ extern s32 shared_sprite_entries;
 extern s32 directional_sprite_entries;
 void advance_record_state_and_set_completion_flags(void *record_data, DelayMotionZ *state, s32 update_arg);
 void create_tinted_sprite_effect_supplied_position(void *unused, void *position_data, SpriteFrameState *unused_primitive);
-void update_orbit_height_and_fade_effect(void *effect, ObjectPosition *position, SpriteFrameState *primitive);
+void update_orbit_height_and_fade_effect(AngularOffsetEffectBody *effect, ObjectPosition *position, SpriteFrameState *primitive);
 void create_angular_offset_effect(void *unused_context, Rec_func_80173CFC_arg1 *origin, SpriteFrameState *unused_param_2, ActorRecord *unused_param_3,
     s16 angle, u16 height_offset);
 #endif

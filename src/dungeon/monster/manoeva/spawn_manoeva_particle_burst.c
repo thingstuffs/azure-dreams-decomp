@@ -13,8 +13,7 @@
 
 typedef struct S_80E3CC80_0 {
     ObjectNodeHeader node;
-    u8 pad_20[0x20];
-    s16 unk_40;
+    ManoevaParticleBurstBody body;
 } S_80E3CC80_0;   /* object in spawn_manoeva_particle_burst */
 
    /* arg0 in spawn_manoeva_particle_burst */
@@ -58,7 +57,7 @@ void spawn_manoeva_particle_burst(MovingPosition *origin, SpriteFrameState *sour
             *((s16 *)&motion->velocity_z + 1) = ((0 - (rand() & 0xF)) - 8) * 2;
             motion->velocity_x = ((rand() & 3) - 2) << 0x10;
             motion->velocity_y = ((rand() & 3) - 2) << 0x10;
-            particle->unk_40 = 0x10;
+            particle->body.lifetime.s = 0x10;
         }
         remaining -= 1;
     } while (remaining > 0);

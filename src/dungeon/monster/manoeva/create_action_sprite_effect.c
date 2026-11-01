@@ -1,4 +1,5 @@
 #include "common.h"
+#include "dungeon/monster/manoeva/action_sprite_effect.h"
 #include "shared/object_node.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/slus_callbacks.h"
@@ -21,14 +22,6 @@ typedef struct S_80174690_5 {
 
 s32 register_node(ObjectNodeHeader *entry, void *registration_id);           /* extern */
 void select_sprite_entry(void *object, s16 table_index, s16 entry_index);    /* extern */
-void copy_linked_position_and_check_status(void *object, MovingPosition *dest, SpriteFrameState *status);
-
-typedef struct S_80174690_1 {
-    u8 pad_00[0x18];
-    void * unk_18;
-    s32 unk_1C;
-} S_80174690_1;
-
 typedef struct S_80174690_2 {
     u8 pad_00[0x8];
     s32 unk_08;
@@ -40,7 +33,7 @@ void create_action_sprite_effect(S_80174690_2 *source) {
     void *allocation_head_address;
     ObjectNodeHeader **allocation_head;
     SpriteFrameState *sprite;
-    S_80174690_1 *effect_data;
+    ActionSpriteEffectBody *effect_data;
     ObjectNodeHeader *effect;
 
     allocation_head_address = source;
@@ -50,14 +43,14 @@ void create_action_sprite_effect(S_80174690_2 *source) {
         sprite = effect->sprite;
         effect->update_callback = &copy_linked_position_and_check_status;
         effect_data = ((void *)effect) + 0x20;
-        effect_data->unk_18 = source->unk_0C;
-        effect_data->unk_1C = (s32) source->unk_08;
+        effect_data->source = source->unk_0C;
+        effect_data->linked_position.value = source->unk_08;
         sprite->scale_y = 0x1000;
         sprite->scale_x = 0x1000;
         sprite->color.word = 0x808080;
         sprite->clut = (u16) (sprite->clut - 0x80);
         sprite->flags = (u16) (sprite->flags | 0xC);
-        sprite->animation_resource = (s32) ((S_80174690_5 *)effect_data->unk_18)->unk_28;
+        sprite->animation_resource = (s32) ((S_80174690_5 *)effect_data->source)->unk_28;
         select_sprite_entry(sprite, 0x44, 0);
         register_node(effect, project_sprite_chain);
     }

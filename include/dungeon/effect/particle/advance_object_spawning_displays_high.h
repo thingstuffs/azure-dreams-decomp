@@ -7,6 +7,7 @@ struct ObjectNodeHeader;
 #include "modules/dungeon_native_abi.h"
 #include "m2c_compat.h"
 #include "shared/entity.h"
+#include "dungeon/effect/particle.h"
 typedef struct S_81940800_0_pre {
     u16 unk_00;
 } S_81940800_0_pre;
@@ -22,18 +23,6 @@ typedef struct S_81940800_2 {
     u8 pad_00[0x46];
     s16 unk_46;
 } S_81940800_2;
-typedef struct S_80024104_0 {
-    u8 pad_00[0x2A];
-    s16 unk_2A;
-    s16 unk_2C;
-    u8 pad_2E[0x4];
-    s16 unk_32;
-    u8 pad_34[0x2C];
-    void * unk_60;
-    u8 pad_64[0x16];
-    u8 unk_7A;
-    u8 unk_7B;
-} S_80024104_0;
 typedef struct {
     u16 x;
     u16 y;
@@ -142,10 +131,10 @@ typedef struct {
 typedef struct {
     s32 words[3];
 } __attribute__((packed)) Packed12;
-typedef struct S_800249F0_0 {
+typedef struct PackedSpriteEffectBody {
     u8 pad_00[0x2A];
-    s16 unk_2A;
-} S_800249F0_0;
+    s16 remaining;
+} PackedSpriteEffectBody;
 typedef struct S_800249F0_1 {
     u8 pad_00[0x10];
     s16 unk_10;
@@ -179,7 +168,7 @@ s32 draw_transformed_sprite_with_clip_rect(void *, void *, void *, s32, s32);
 u32 RotTransPers(void *, void *, void *, void *);
 extern s16 tint_particle_effect_updated;
 extern PackedVec3 tint_particle_sprite_data;
-void fade_tinted_display_sprite(void *effect, void *unused, void *primitive);
+void fade_tinted_display_sprite(FreeSlotDisplayEffectBody *effect, void *unused, void *primitive);
 void spawn_free_slot_display_effect(void *owner);
 void advance_object_spawning_displays_high(void *source, void *unused_position, void *unused_sprite);
 s32 draw_brightness_scaled_point_chain(PointRecord *first_point, ObjectPosition *first_position);
@@ -187,7 +176,7 @@ void lower_timed_effect_position(Entity *entity, State *state);
 void handle_spawn_initialize_randomized_offset_parent(Object *source, s32 state_14_value, s32 state_08_value, s32 state_32_value, s16 x_offset, s16 y_offset, s16 z_offset);
 void expand_rotating_countdown_sprite(void *countdownState, s32 unused, void *animationState);
 void advance_timed_effect_animation(DungeonObject *object, s32 unused, void *handlerContext);
-void decrement_object_counter(void *object);
+void decrement_object_counter(PackedSpriteEffectBody *object);
 void *create_packed_sprite_effect(void *source, void *unused_1, void *unused_2, void *packed_data, s32 render_param, s32 render_x, s32 render_y, s32 render_mode);
 /* Work at node +0x20 for advance_actor_tint_particle_sequence. Attachment
  * coordinates are returned by get_sprite_attachment_vector; the previous and

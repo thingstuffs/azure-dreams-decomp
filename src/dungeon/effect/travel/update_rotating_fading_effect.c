@@ -30,7 +30,7 @@ void apply_large_random_value_gain(void *target, s32 amount_input, ActorRecord *
 }
 
 /* Delays a rotating sprite, eases it to its destination, expands and fades it, then plays its final
-   animation. */void update_rotating_fading_effect(void *effect, void *position, SpriteFrameState *sprite)
+   animation. */void update_rotating_fading_effect(RandomizedTargetEffectBody *effect, void *position, SpriteFrameState *sprite)
 {
     s32 quarter_turn;
     s32 rot;
@@ -41,48 +41,48 @@ void apply_large_random_value_gain(void *target, s32 amount_input, ActorRecord *
     s32 brightness;
     u16 state;
     void *owner;
-    owner = *((void **) (((u8 *) effect) + 0));
+    owner = effect->owner;
     *(u16 *)((u8 *) owner + 0x14) = (*(u16 *)((u8 *) owner + 0x14)) + 1;
-    *(u16 *)((u8 *) effect + 0x36) = (*(u16 *)((u8 *) effect + 0x36)) + 1;
+    effect->elapsed_ticks.u = effect->elapsed_ticks.u + 1;
     sprite->angle_z = (sprite->angle_z) + 0x10;
     rot = sprite->angle_z;
     sprite->angle_z = rot & 0xFFF;
-    switch (*(s16 *)((u8 *) effect + 0x34)) {
+    switch (effect->phase.s) {
     case 0:
-        if ((*(s16 *)((u8 *) effect + 0x36)) < (*(s16 *)((u8 *) effect + 0x38))) {
+        if (effect->elapsed_ticks.s < effect->delay_ticks) {
             break;
         }
-        state = *(u16 *)((u8 *) effect + 0x34);
-        *(u16 *)((u8 *) effect + 0x36) = 0;
+        state = effect->phase.u;
+        effect->elapsed_ticks.u = 0;
         state++;
-        *(u16 *)((u8 *) effect + 0x34) = state;
+        effect->phase.u = state;
         register_node(((u8 *) effect) - 0x20, project_sprite_chain);
         return;
 
     case 1:
         quarter_turn = 0x400;
         *(s32 *)((u8 *) position + 0) =
-            (*(s32 *)((u8 *) effect + 4))
-        + ((rsin((quarter_turn / (*(s16 *)((u8 *) effect + 0x3A)))
-            * (*(s16 *)((u8 *) effect + 0x36))) >> 4)
-            * ((*(s32 *)((u8 *) effect + 0x28)) >> 8));
+            effect->start_x
+        + ((rsin((quarter_turn / effect->quarter_turn_ticks.s)
+            * effect->elapsed_ticks.s) >> 4)
+            * (effect->offset_x >> 8));
         *(s32 *)((u8 *) position + 4) =
-            (*(s32 *)((u8 *) effect + 8))
-        + ((rsin((quarter_turn / (*(s16 *)((u8 *) effect + 0x3A)))
-            * (*(s16 *)((u8 *) effect + 0x36))) >> 4)
-            * ((*(s32 *)((u8 *) effect + 0x2C)) >> 8));
+            effect->start_y
+        + ((rsin((quarter_turn / effect->quarter_turn_ticks.s)
+            * effect->elapsed_ticks.s) >> 4)
+            * (effect->offset_y >> 8));
         *(s32 *)((u8 *) position + 8) =
-            (*(s32 *)((u8 *) effect + 0xC))
-        + ((rsin((quarter_turn / (*(s16 *)((u8 *) effect + 0x3A)))
-            * (*(s16 *)((u8 *) effect + 0x36))) >> 4)
-            * ((*(s32 *)((u8 *) effect + 0x30)) >> 8));
-        if ((*(s16 *)((u8 *) effect + 0x36)) < (*(s16 *)((u8 *) effect + 0x3A))) {
+            effect->start_z
+        + ((rsin((quarter_turn / effect->quarter_turn_ticks.s)
+            * effect->elapsed_ticks.s) >> 4)
+            * (effect->offset_z >> 8));
+        if (effect->elapsed_ticks.s < effect->quarter_turn_ticks.s) {
             break;
         }
-        state = *(u16 *)((u8 *) effect + 0x34);
-        *(u16 *)((u8 *) effect + 0x36) = 0;
+        state = effect->phase.u;
+        effect->elapsed_ticks.u = 0;
         state++;
-        *(u16 *)((u8 *) effect + 0x34) = state;
+        effect->phase.u = state;
         return;
 
     case 2:
@@ -100,7 +100,7 @@ void apply_large_random_value_gain(void *target, s32 amount_input, ActorRecord *
         if (((u16) scale) < 0x1801U) {
             break;
         }
-        *(u16 *)((u8 *) effect + 0x34) = (*(u16 *)((u8 *) effect + 0x34)) + 1;
+        effect->phase.u = effect->phase.u + 1;
         sprite->color.c.b = 0x80;
         sprite->color.c.g = 0x80;
         sprite->color.c.r = 0x80;

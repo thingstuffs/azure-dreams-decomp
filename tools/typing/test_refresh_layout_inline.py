@@ -12,6 +12,29 @@ from tools.typing import refresh_layout_inline as R
 
 
 class RefreshRosterTests(unittest.TestCase):
+    def test_reverted_tu_restores_baseline_extents(self):
+        old = b'int f(void) { return 1; }\n'
+        record = dict(member_id='town/f', tu_new='src/town/f.c', offset=0,
+                      inlined_bytes=len(old), bytes=len(old), original_includes=[],
+                      source_sha256=hashlib.sha256(old).hexdigest())
+        stale = dict(record, offset=19, source_sha256='reverted experiment')
+        baseline = (json.dumps(record) + '\n').encode()
+        with tempfile.TemporaryDirectory() as td:
+            root = Path(td)
+            (root / 'ledger').mkdir()
+            (root / 'src/town').mkdir(parents=True)
+            (root / 'src/town/f.c').write_bytes(old)
+            ledger = root / R.LEDGER
+            ledger.write_text(json.dumps(stale) + '\n')
+            def show(_root, _rev, rel):
+                return baseline if rel == R.LEDGER else old
+            args = ['refresh_layout_inline', '--root', str(root), '--base', 'pristine']
+            with patch.object(R, 'git_show', side_effect=show), patch('sys.argv', args), contextlib.redirect_stdout(io.StringIO()):
+                self.assertEqual(R.main(), 0)
+                self.assertEqual(json.loads(ledger.read_text()), record)
+                with patch('sys.argv', args + ['--check']):
+                    self.assertEqual(R.main(), 0)
+
     def test_preserves_new_records_and_skips_retired_records(self):
         old = b'int f(void) { return 1; }\n'
         prefix = b'/* shared declarations */\n'

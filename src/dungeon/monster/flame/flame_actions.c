@@ -2510,7 +2510,7 @@ void update_fading_four_strip_effect(u8 *effect, R06_80174934_Vec3w *origin, u8 
 }
 
 /* Creates sixteen colored ring segments around the supplied position, each with a fading strip callback. */
-void create_sixteen_segment_ring(R06_80174E78_Source *source, R06_80174E78_Vec3i *center, void *unused_context)
+void create_sixteen_segment_ring(R06_80174E78_Source *source, R06_80174E78_Vec3i *center, SpriteFrameState *unused_context)
 {
     s16 segment_index;
     void (*update_callback)(void);

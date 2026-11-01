@@ -8,25 +8,9 @@
 #include "sdk/libgte.h"
 #include "slus.h"
 
-typedef struct S_800D7D30_1 {
-    u8 pad_00[0xC];
-    u16 unk_0C;
-    u16 unk_0E;
-    s16 unk_10;
-    u8 pad_12[0x6];
-    union { s16 s; u16 u; } unk_18;   /* accessed as both */
-    u8 pad_1A[0x2];
-    union { struct { s32 v; } at00; struct { u8 pad[0x2]; s16 v; } at02; } unk_1C;   /* overlapping accesses */
-    u8 pad_20[0x8];
-    s32 unk_28;
-    u8 pad_2C[0x8];
-    s32 unk_34;
-    u8 pad_38[0x14];
-    union { s16 s; u16 u; } unk_4C;   /* accessed as both */
-} S_800D7D30_1;   /* arg0 in update_spiral_effect */
 
 /* Update a spiraling effect's motion and color, then retire it below its height limit. */
-void update_spiral_effect(void *effect, ObjectPosition *motion, SpriteFrameState *sprite) {
+void update_spiral_effect(UpdateRadialEffectBody *effect, ObjectPosition *motion, SpriteFrameState *sprite) {
     s32 radius_step;
     s32 velocity_y;
     s32 velocity_z;
@@ -42,7 +26,7 @@ void update_spiral_effect(void *effect, ObjectPosition *motion, SpriteFrameState
     motion->y.v += velocity_y;
     motion->z.v += velocity_z;
 
-    state = ((S_800D7D30_1 *)effect)->unk_4C.s;
+    state = effect->unk_4C.s;
     switch (state) {
     case 0:
         advance_sprite_animation_and_textures(sprite);
@@ -51,26 +35,26 @@ void update_spiral_effect(void *effect, ObjectPosition *motion, SpriteFrameState
             sprite->frame_ticks = 0;
         }
 
-        motion->x.w.i = (s16)(((S_800D7D30_1 *)effect)->unk_0C +
-            ((rsin(((S_800D7D30_1 *)effect)->unk_18.s) *
-              ((S_800D7D30_1 *)effect)->unk_1C.at02.v) >> 12));
-        motion->y.w.i = (s16)(((S_800D7D30_1 *)effect)->unk_0E +
-            ((rcos(((S_800D7D30_1 *)effect)->unk_18.s) *
-              ((S_800D7D30_1 *)effect)->unk_1C.at02.v) >> 12));
+        motion->x.w.i = (s16)(effect->unk_0C +
+            ((rsin(effect->unk_18.s) *
+              effect->unk_1C.at02.v) >> 12));
+        motion->y.w.i = (s16)(effect->unk_0E +
+            ((rcos(effect->unk_18.s) *
+              effect->unk_1C.at02.v) >> 12));
 
         motion->velocity_z += 0xFFFE0000 +
             ((rand() & 0xFF) << 9);
-        ((S_800D7D30_1 *)effect)->unk_18.s = (s16)(((S_800D7D30_1 *)effect)->unk_18.u + 0x80 +
+        effect->unk_18.s = (s16)(effect->unk_18.u + 0x80 +
             (rand() & 0x3F));
 
-        ((S_800D7D30_1 *)effect)->unk_28 += ((S_800D7D30_1 *)effect)->unk_34;
-        radius_step = ((S_800D7D30_1 *)effect)->unk_28;
-        radius = ((S_800D7D30_1 *)effect)->unk_1C.at00.v;
+        effect->unk_28 += effect->unk_34;
+        radius_step = effect->unk_28;
+        radius = effect->unk_1C.at00.v;
         if (radius <= 0) {
             radius_step >>= 2;
-            ((S_800D7D30_1 *)effect)->unk_1C.at00.v = radius_step + radius;
+            effect->unk_1C.at00.v = radius_step + radius;
         } else {
-            ((S_800D7D30_1 *)effect)->unk_1C.at00.v = radius + radius_step;
+            effect->unk_1C.at00.v = radius + radius_step;
         }
 
         red = sprite->color.c.r;
@@ -84,8 +68,8 @@ void update_spiral_effect(void *effect, ObjectPosition *motion, SpriteFrameState
             sprite->frame_ticks = 0;
         }
 
-        if (motion->z.w.i < ((S_800D7D30_1 *)effect)->unk_10 - 0x60) {
-            ((S_800D7D30_1 *)effect)->unk_4C.u++;
+        if (motion->z.w.i < effect->unk_10 - 0x60) {
+            effect->unk_4C.u++;
         }
         break;
     case 1:

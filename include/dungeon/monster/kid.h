@@ -18,7 +18,14 @@ void advance_fading_directional_entity(ActorRecord *body, ObjectPosition *motion
 void update_staged_actor_movement(ActorRecord *action, ObjectPosition *motion, SpriteFrameState *tile, void *actor);
 
 /* Callback entry points. */
-void animate_effect_colors(void *effect_state, s32 unused, void *primitive);
+typedef struct RandomlyRotatedOffsetEffectBody {
+    union { u8 u; s8 s; } unk_00;
+    union { u8 u; s8 s; } unk_01;
+    union { u8 u; s8 s; } unk_02;
+    u8 pad_03[0x17];
+    union { s16 s; u16 u; } unk_1A;
+} RandomlyRotatedOffsetEffectBody;
+void animate_effect_colors(RandomlyRotatedOffsetEffectBody *effect_state, s32 unused, void *primitive);
 void initialize_counted_entity_action(ActorRecord *entity_data, ObjectPosition *unused_1, s32 unused_2, void *other_data);
 
 void create_randomly_rotated_offset_effect(void *unused_ptr, ObjectPosition *source_pos, SpriteFrameState *unused_value, s16 scale);

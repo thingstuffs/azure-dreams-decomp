@@ -2234,7 +2234,7 @@ s32 project_snowman_sprite_chain(void *initial_payload, s32 entry_data, R10_8017
  *
  * MECHANISM: Typed page and scratch fields preserve the signed lh/sw widths and offsets.
  */
-void update_effect_motion_and_brightness(void *effect, void *motion, void *render)
+void update_effect_motion_and_brightness(RandomizedOscillatingEffectBody *effect, void *motion, void *render)
 {
     R10_80174C70_LocalVector direction;
     R10_80174C70_LocalTable directions;
@@ -2246,7 +2246,7 @@ void update_effect_motion_and_brightness(void *effect, void *motion, void *rende
 
     directions = (*(R10_80174C70_LocalTable *)&D_80170874);
 
-    frame = (u32)((R10_80174C70_S_80174C70_0 *)effect)->unk_1A.s;
+    frame = (u32)effect->unk_1A.s;
     switch (frame) {
     case 0:
     case 1:
@@ -2258,7 +2258,7 @@ void update_effect_motion_and_brightness(void *effect, void *motion, void *rende
         ((R10_80174C70_S_80174C70_1 *)((void *)render_or_step))->unk_0C = brightness;
 
     case 4:
-        ((R10_80174C70_S_80174C70_0 *)effect)->unk_62 = 0x20;
+        effect->unk_62 = 0x20;
         ((R10_80174C70_S_80174C70_1 *)((void *)render_or_step))->unk_1A.s = 0xA00;
         break;
 
@@ -2274,7 +2274,7 @@ void update_effect_motion_and_brightness(void *effect, void *motion, void *rende
     case 14:
     case 16:
     case 15:
-        ((R10_80174C70_S_80174C70_0 *)effect)->unk_62 = 0x18;
+        effect->unk_62 = 0x18;
         ((R10_80174C70_S_80174C70_1 *)((void *)render_or_step))->unk_1A.u += 0x180;
         break;
 
@@ -2291,7 +2291,7 @@ void update_effect_motion_and_brightness(void *effect, void *motion, void *rende
         ((R10_80174C70_S_80174C70_1 *)((void *)render_or_step))->unk_0E = brightness;
         ((R10_80174C70_S_80174C70_1 *)((void *)render_or_step))->unk_0D = brightness;
         ((R10_80174C70_S_80174C70_1 *)((void *)render_or_step))->unk_0C = brightness;
-        ((R10_80174C70_S_80174C70_0 *)effect)->unk_62 = 0x18;
+        effect->unk_62 = 0x18;
         ((R10_80174C70_S_80174C70_1 *)((void *)render_or_step))->unk_1A.u += 0x30;
         break;
 
@@ -2301,7 +2301,7 @@ void update_effect_motion_and_brightness(void *effect, void *motion, void *rende
         return;
     }
 
-    ((R10_80174C70_S_80174C70_0 *)effect)->unk_1A.u++;
+    effect->unk_1A.u++;
 
     if (((R10_80174C70_S_80174C70_1 *)((void *)render_or_step))->unk_1A.u >= 0x1000) {
         ((R10_80174C70_S_80174C70_1 *)((void *)render_or_step))->unk_1A.u -= 0x1000;
@@ -2316,7 +2316,7 @@ void update_effect_motion_and_brightness(void *effect, void *motion, void *rende
     {
         s16 normalized_phase = phase_angle;
         s32 sine = rcos(normalized_phase);
-        s32 sine_radius = ((R10_80174C70_S_80174C70_0 *)effect)->unk_62;
+        s32 sine_radius = effect->unk_62;
         s32 sine_product = sine_radius * sine;
         s32 cosine_angle = normalized_phase;
 
@@ -2326,14 +2326,14 @@ void update_effect_motion_and_brightness(void *effect, void *motion, void *rende
 
     {
         u8 *direction_ptr = (u8 *)&directions;
-        s32 heading_x = ((R10_80174C70_S_80174C70_0 *)effect)->unk_18;
-        s32 radius = ((R10_80174C70_S_80174C70_0 *)effect)->unk_62;
+        s32 heading_x = effect->unk_18;
+        s32 radius = effect->unk_62;
 
         direction.x = (*(u16 *)(direction_ptr + (((heading_x - 0x400) >> 7) & 0x1C)));
 
         {
             s32 cosine_product = radius * phase_offset;
-            s32 heading_y = ((R10_80174C70_S_80174C70_0 *)effect)->unk_18;
+            s32 heading_y = effect->unk_18;
 
             direction_ptr += ((heading_y - 0x400) >> 7) & 0x1C;
             direction.y = (*(u16 *)(direction_ptr + (2)));
@@ -2375,15 +2375,15 @@ void spawn_randomized_oscillating_effect(ActorRecord *body, R10_80174F24_S_func_
     s32 x_offset;
     R10_80174F24_S_func_80AF3724_2 *direction_entry;
     ObjectNodeHeader *object;
-    R10_80174F24_S_func_80AF3724_4 *state;
+    RandomizedOscillatingEffectBody *state;
     ObjectPosition *transform;
     SpriteFrameState *display;
 
     directions = (*(R10_80174F24_LocalTable *)&D_80170874);
     object = allocate_flagged_object_node(0x212);
-    state = (R10_80174F24_S_func_80AF3724_4 *)((u8 *)object + 0x20);
+    state = (RandomizedOscillatingEffectBody *)((u8 *)object + 0x20);
     if (object != 0) {
-        state->unk_1A = 0;
+        state->unk_1A.s = 0;
         angle = 0;
         do {
             if (((g_game_work.view.camera_rotation.parts.viewAngle + angle + 0x100) >> 9 & 7) == 2) {

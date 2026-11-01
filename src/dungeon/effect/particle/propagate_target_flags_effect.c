@@ -351,12 +351,12 @@ void advance_terrain_colliding_sprite(LingeringBallisticSpriteBody *motion_arg, 
 }
 
 /* Dim the effect's color and flag completion when its countdown expires. */
-void draw_effect_and_restore_clip(void *effect, s32 unused, u8 *primitive) {
-    u16 ticks_left = *(u16 *)((u8 *)effect + 0x2C);
+void draw_effect_and_restore_clip(StagedRectangleSpriteBody *effect, s32 unused, u8 *primitive) {
+    u16 ticks_left = effect->unk_2C.u;
 
     particle_activity = 1;
     ticks_left -= 1;
-    *(u16 *)((u8 *)effect + 0x2C) = ticks_left;
+    effect->unk_2C.u = ticks_left;
 
     if (primitive[12] >= 65) {
         primitive[14] = 64;
@@ -372,7 +372,7 @@ void draw_effect_and_restore_clip(void *effect, s32 unused, u8 *primitive) {
         primitive[12] = shade;
     }
 
-    if (*(s16 *)((u8 *)effect + 0x2C) <= 0) {
+    if (effect->unk_2C.s <= 0) {
         *(u16 *)((u8 *)effect - 2) |= NODE_REMOVE;
         object_flag_block.flags |= OBJECT_REMOVE_PENDING;
     }
@@ -803,8 +803,9 @@ void shrink_effect_and_step_texture(void *effect_arg, s32 unused, S_8196BF24_1 *
 }
 
    /* Updates and renders a shrinking object with collision and lifetime checks. */
-void advance_particle_emitting_projectile(void *object, void *position, void *render_state)
+void advance_particle_emitting_projectile(void *object, void *position, void *render_state_arg)
 {
+    S_8196BFB0_2 *render_state = render_state_arg;
     s32 height;
     s16 scale_x;
     s16 scale_y;
@@ -853,8 +854,8 @@ void advance_particle_emitting_projectile(void *object, void *position, void *re
     }
 
     if (((S_8196BFB0_1 *)object)->unk_50++ >= 3) {
-        scale_x = ((S_8196BFB0_2 *)render_state)->unk_1C.u;
-        scale_y = ((S_8196BFB0_2 *)render_state)->unk_1E.u;
+        scale_x = render_state->unk_1C.u;
+        scale_y = render_state->unk_1E.u;
         scale_x = scale_x - 0x100;
         if (scale_x < 0) {
             scale_x = 0;
@@ -863,8 +864,8 @@ void advance_particle_emitting_projectile(void *object, void *position, void *re
         if (scale_y < 0) {
             scale_y = 0;
         }
-        ((S_8196BFB0_2 *)render_state)->unk_1C.s = scale_x;
-        ((S_8196BFB0_2 *)render_state)->unk_1E.s = scale_y;
+        render_state->unk_1C.s = scale_x;
+        render_state->unk_1E.s = scale_y;
     }
 
     create_randomized_paletted_sprite(object, position, render_state,
@@ -877,7 +878,7 @@ void advance_particle_emitting_projectile(void *object, void *position, void *re
         object_flag_block.flags |= OBJECT_REMOVE_PENDING;
     }
 
-    if (((S_8196BFB0_2 *)render_state)->unk_14 & 0x8000) {
+    if (render_state->unk_14 & 0x8000) {
         (*(u16 *)((u8 *)object + -2)) |= NODE_REMOVE;
         object_flag_block.flags |= OBJECT_REMOVE_PENDING;
     }

@@ -213,9 +213,8 @@ const Row_819A1450_LocalTable D_80024034 = {{{1, 0}, {1, 1}, {0, 1}, {-1, 1}, {-
 const Row_819A1654_PointTable linked_effect_octant_offsets[1] = {{{{5, 0}, {5, 5}, {0, 5}, {-5, 5}, {-5, 0}, {-5, 65531}, {0, 65531}, {5, 65531}}}};
 
 /* Moves and animates a sprite while fading its grayscale color in proportion to its remaining lifetime. */
-void fade_moving_effect(void *effect_arg, Row_819A0EF0_S_800246F0_2 *motion, SpriteFrameState *primitive)
+void fade_moving_effect(RotatingDirectionalSpriteBody *effect, Row_819A0EF0_S_800246F0_2 *motion, SpriteFrameState *primitive)
 {
-    Row_819A0EF0_S_800246F0_0 *effect = effect_arg;
     s32 brightness;
     s32 x;
     s32 y;
@@ -296,47 +295,48 @@ void fade_quad_vertex_colors(void *fade_data)
 }
 
 /* Interpolates six saved geometry values and fades four vertex colors over the effect's countdown. */
-void advance_object_motion_and_animation(void *effect) {
+void advance_object_motion_and_animation(void *effect_arg) {
+    Row_819A1118_S_819A1118_0 *effect = effect_arg;
     s32 blend_ticks;
     s32 elapsed_ticks;
     s32 color_index;
     u16 ticks_left;
     Row_819A1118_S_819A1118_1 *color_ptr;
 
-    ticks_left = ((Row_819A1118_S_819A1118_0 *)effect)->unk_3A - 1;
+    ticks_left = effect->unk_3A - 1;
     ((s16 *)linked_effect_update_flag)[0] = 1;
-    blend_ticks = ((Row_819A1118_S_819A1118_0 *)effect)->unk_3E;
-    ((Row_819A1118_S_819A1118_0 *)effect)->unk_3A = ticks_left;
-    elapsed_ticks = ((Row_819A1118_S_819A1118_0 *)effect)->unk_3C - (s16) ticks_left;
+    blend_ticks = effect->unk_3E;
+    effect->unk_3A = ticks_left;
+    elapsed_ticks = effect->unk_3C - (s16) ticks_left;
     if (blend_ticks >= elapsed_ticks) {
-        ((Row_819A1118_S_819A1118_0 *)effect)->unk_54 = (s16) (((Row_819A1118_S_819A1118_0 *)effect)->unk_60
-            + ((s32) (((Row_819A1118_S_819A1118_0 *)effect)->unk_6C * elapsed_ticks) / blend_ticks));
-        ((Row_819A1118_S_819A1118_0 *)effect)->unk_56 = (s16) (((Row_819A1118_S_819A1118_0 *)effect)->unk_62
-            + ((s32) (((Row_819A1118_S_819A1118_0 *)effect)->unk_6E * (((Row_819A1118_S_819A1118_0 *)effect)->unk_3C
-            - (s16) ((Row_819A1118_S_819A1118_0 *)effect)->unk_3A)) / (s16) ((Row_819A1118_S_819A1118_0 *)effect)->unk_3E));
-        ((Row_819A1118_S_819A1118_0 *)effect)->unk_58 = (s16) (((Row_819A1118_S_819A1118_0 *)effect)->unk_64
-            + ((s32) (((Row_819A1118_S_819A1118_0 *)effect)->unk_70 * (((Row_819A1118_S_819A1118_0 *)effect)->unk_3C
-            - (s16) ((Row_819A1118_S_819A1118_0 *)effect)->unk_3A)) / (s16) ((Row_819A1118_S_819A1118_0 *)effect)->unk_3E));
-        ((Row_819A1118_S_819A1118_0 *)effect)->unk_5A = (s16) (((Row_819A1118_S_819A1118_0 *)effect)->unk_66
-            + ((s32) (((Row_819A1118_S_819A1118_0 *)effect)->unk_72 * (((Row_819A1118_S_819A1118_0 *)effect)->unk_3C
-            - (s16) ((Row_819A1118_S_819A1118_0 *)effect)->unk_3A)) / (s16) ((Row_819A1118_S_819A1118_0 *)effect)->unk_3E));
-        ((Row_819A1118_S_819A1118_0 *)effect)->unk_5C = (s16) (((Row_819A1118_S_819A1118_0 *)effect)->unk_68
-            + ((s32) (((Row_819A1118_S_819A1118_0 *)effect)->unk_74 * (((Row_819A1118_S_819A1118_0 *)effect)->unk_3C
-            - (s16) ((Row_819A1118_S_819A1118_0 *)effect)->unk_3A)) / (s16) ((Row_819A1118_S_819A1118_0 *)effect)->unk_3E));
-        ((Row_819A1118_S_819A1118_0 *)effect)->unk_5E = (s16) (((Row_819A1118_S_819A1118_0 *)effect)->unk_6A
-            + ((s32) (((Row_819A1118_S_819A1118_0 *)effect)->unk_76 * (((Row_819A1118_S_819A1118_0 *)effect)->unk_3C
-            - (s16) ((Row_819A1118_S_819A1118_0 *)effect)->unk_3A)) / (s16) ((Row_819A1118_S_819A1118_0 *)effect)->unk_3E));
+        effect->unk_54 = (s16) (effect->unk_60
+            + ((s32) (effect->unk_6C * elapsed_ticks) / blend_ticks));
+        effect->unk_56 = (s16) (effect->unk_62
+            + ((s32) (effect->unk_6E * (effect->unk_3C
+            - (s16) effect->unk_3A)) / (s16) effect->unk_3E));
+        effect->unk_58 = (s16) (effect->unk_64
+            + ((s32) (effect->unk_70 * (effect->unk_3C
+            - (s16) effect->unk_3A)) / (s16) effect->unk_3E));
+        effect->unk_5A = (s16) (effect->unk_66
+            + ((s32) (effect->unk_72 * (effect->unk_3C
+            - (s16) effect->unk_3A)) / (s16) effect->unk_3E));
+        effect->unk_5C = (s16) (effect->unk_68
+            + ((s32) (effect->unk_74 * (effect->unk_3C
+            - (s16) effect->unk_3A)) / (s16) effect->unk_3E));
+        effect->unk_5E = (s16) (effect->unk_6A
+            + ((s32) (effect->unk_76 * (effect->unk_3C
+            - (s16) effect->unk_3A)) / (s16) effect->unk_3E));
     }
     for (color_index = 0; color_index < 4; color_index++) {
         color_ptr = (Row_819A1118_S_819A1118_1 *)((u8 *)effect + color_index * 4);
         color_ptr->unk_0C =
-            (s8) ((s32) (color_ptr->unk_1C * (s16) ((Row_819A1118_S_819A1118_0 *)effect)->unk_3A) / (s16) ((Row_819A1118_S_819A1118_0 *)effect)->unk_3C);
+            (s8) ((s32) (color_ptr->unk_1C * (s16) effect->unk_3A) / (s16) effect->unk_3C);
         color_ptr->unk_0D =
-            (s8) ((s32) (color_ptr->unk_1D * (s16) ((Row_819A1118_S_819A1118_0 *)effect)->unk_3A) / (s16) ((Row_819A1118_S_819A1118_0 *)effect)->unk_3C);
+            (s8) ((s32) (color_ptr->unk_1D * (s16) effect->unk_3A) / (s16) effect->unk_3C);
         color_ptr->unk_0E =
-            (s8) ((s32) (color_ptr->unk_1E * (s16) ((Row_819A1118_S_819A1118_0 *)effect)->unk_3A) / (s16) ((Row_819A1118_S_819A1118_0 *)effect)->unk_3C);
+            (s8) ((s32) (color_ptr->unk_1E * (s16) effect->unk_3A) / (s16) effect->unk_3C);
     }
-    if ((s16) ((Row_819A1118_S_819A1118_0 *)effect)->unk_3A <= 0) {
+    if ((s16) effect->unk_3A <= 0) {
         (*(u16 *)((u8 *)effect + -2)) = (u16) (((Row_819A1118_S_819A1118_0_pre *)effect)[-1].unk_00 | NODE_REMOVE);
         object_flag_block.flags |= OBJECT_REMOVE_PENDING;
     }
@@ -344,22 +344,22 @@ void advance_object_motion_and_animation(void *effect) {
 
 /* Fades and rotates a sprite while decrementing an extra byte field, then removes it when its
    countdown ends. */
-void choose_random_sign(void *effect, s32 unused, void *primitive)
+void choose_random_sign(AdvanceEntityEffectSequenceBody *effect, s32 unused, void *primitive)
 {
+    u8 *state = (u8 *)effect;
     s32 intensity;
     u16 ticks_left;
 
-    ticks_left = *(u16 *)((u8 *)effect + 0x3A) - 1;
-    intensity = ((s32)(ticks_left << 16) >> 9) /
-            *(s16 *)((u8 *)effect + 0x3C);
+    ticks_left = ((AdvanceEntityEffectSequenceBody *)state)->prefix.timer3A.u - 1;
+    intensity = ((s32)(ticks_left << 16) >> 9) / ((AdvanceEntityEffectSequenceBody *)state)->prefix.timer3C;
     (*(s16 *)linked_effect_update_flag) = 1;
-    *(u16 *)((u8 *)effect + 0x3A) = ticks_left;
+    ((AdvanceEntityEffectSequenceBody *)state)->prefix.timer3A.u = ticks_left;
     *(s8 *)((u8 *)primitive + 0x0E) = intensity;
     *(s8 *)((u8 *)primitive + 0x0D) = intensity;
     *(s8 *)((u8 *)primitive + 0x0C) = intensity;
-    *((u8 *)effect + 0x8C) -= 1;
-    *(u16 *)((u8 *)primitive + 0x1A) += *(u16 *)((u8 *)effect + 0x40);
-    if (*(s16 *)((u8 *)effect + 0x3A) <= 0) {
+    ((AdvanceEntityEffectSequenceBody *)state)->unk_8C -= 1;
+    *(u16 *)((u8 *)primitive + 0x1A) += ((AdvanceEntityEffectSequenceBody *)state)->prefix.random40.u;
+    if (((AdvanceEntityEffectSequenceBody *)state)->prefix.timer3A.s <= 0) {
         *(u16 *)((u8 *)effect - 2) |= NODE_REMOVE;
         object_flag_block.flags |= OBJECT_REMOVE_PENDING;
     }
@@ -396,14 +396,14 @@ void create_rotating_directional_sprite(Row_819A1450_S_819A1450_4 *source, s32 u
     ObjectNodeHeader *node;
     SpriteFrameState *part;
     ObjectPosition *coords;
-    Row_819A1450_S_819A1450_0 *setup;
+    RotatingDirectionalSpriteBody *setup;
     s16 direction;
 
     direction_table = D_80024034;
     node = allocate_flagged_object_node(0x212);
     if (node != 0) {
-        setup = (Row_819A1450_S_819A1450_0 *)((u8 *)node + 0x20);
-        setup->unk_3A = 5;
+        setup = (u8 *)node + 0x20;
+        setup->unk_3A.u = 5;
         setup->unk_3C = 5;
         node->update_callback = D_800246F0;
         register_node(node, project_sprite_chain);
@@ -443,7 +443,7 @@ void create_rotating_directional_sprite(Row_819A1450_S_819A1450_4 *source, s32 u
 void advance_entity_effect_sequence(Row_819A1654_Entity *entity, void *saved_context, void *saved_data) {
     Row_819A1654_PointTable points;
     Row_819A1654_Task *task;
-    Row_819A1654_Effect *effect;
+    AdvanceEntityEffectSequencePrefix *effect;
     Row_819A1654_Sprite *sprite;
     ObjectPosition *coord;
     ObjectPosition *start_origin;
@@ -531,9 +531,9 @@ void advance_entity_effect_sequence(Row_819A1654_Entity *entity, void *saved_con
                         task = allocate_flagged_object_node(0x212);
                         effect = &task->effect;
                         if (task != 0) {
-                            effect->timer3A = 20;
+                            effect->timer3A.s = 20;
                             effect->timer3C = 20;
-                            effect->random40 = (s16)((func_80069EF8() & 0xFF) + 200);
+                            effect->random40.s = (s16)((func_80069EF8() & 0xFF) + 200);
                             task->callback = particle_callback;
                             register_node(task, project_sprite_chain);
                             sprite = task->sprite;
@@ -569,7 +569,7 @@ void advance_entity_effect_sequence(Row_819A1654_Entity *entity, void *saved_con
                     if (task != 0) {
                         s32 burst_size;
                         u16 burst_flags;
-                        effect->timer3A = 20;
+                        effect->timer3A.s = 20;
                         effect->timer3C = 20;
                         task->callback = rotate_and_fade_timed_sprite;
                         register_node(task, project_sprite_chain);
@@ -632,7 +632,7 @@ void advance_entity_effect_sequence(Row_819A1654_Entity *entity, void *saved_con
                                 task = allocate_flagged_object_node(0x212);
                                 effect = &task->effect;
                                 if (task != 0) {
-                                    effect->timer3A = 20;
+                                    effect->timer3A.s = 20;
                                     effect->timer3C = 20;
                                     task->callback = fade_quad_vertex_colors;
                                     register_node(task, draw_linked_effect_chain);
@@ -681,7 +681,7 @@ void advance_entity_effect_sequence(Row_819A1654_Entity *entity, void *saved_con
                                     effect->value10 = effect->value20;
                                     effect->value14 = effect->value24;
                                     effect->value18 = effect->value28;
-                                    effect->timer3A = 20;
+                                    effect->timer3A.s = 20;
                                     effect->timer3C = 20;
                                     task->callback = fade_quad_vertex_colors;
                                     register_node(task, draw_linked_effect_chain);
@@ -731,7 +731,7 @@ void advance_entity_effect_sequence(Row_819A1654_Entity *entity, void *saved_con
                                     effect->value10 = effect->value20;
                                     effect->value14 = effect->value24;
                                     effect->value18 = effect->value28;
-                                    effect->timer3A = 20;
+                                    effect->timer3A.s = 20;
                                     effect->timer3C = 20;
                                     task->callback = fade_quad_vertex_colors;
                                     register_node(task, draw_linked_effect_chain);
@@ -769,7 +769,7 @@ void advance_entity_effect_sequence(Row_819A1654_Entity *entity, void *saved_con
                                     task = allocate_flagged_object_node(0x212);
                                     effect = &task->effect;
                                     if (task != 0) {
-                                        effect->timer3A = 20;
+                                        effect->timer3A.s = 20;
                                         effect->timer3C = 20;
                                         effect->value1C = 0x10000;
                                         effect->value24 = 0x804020;
@@ -822,7 +822,7 @@ void advance_entity_effect_sequence(Row_819A1654_Entity *entity, void *saved_con
                                         task = allocate_flagged_object_node(0x212);
                                         effect = &task->effect;
                                         if (task != 0) {
-                                            effect->timer3A = 20;
+                                            effect->timer3A.s = 20;
                                             effect->timer3C = 20;
                                             effect->value1C = 0x10000;
                                             effect->value24 = 0x804020;
@@ -930,7 +930,7 @@ loop_1:
                 task = allocate_flagged_object_node(0x212);
                 effect = &task->effect;
                 if (task != 0) {
-                    effect->timer3A = 13;
+                    effect->timer3A.s = 13;
                     effect->timer3C = 13;
                     task->callback = update_effect_countdown_fields;
                     register_node(task, project_sprite_chain);

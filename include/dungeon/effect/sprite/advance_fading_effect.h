@@ -40,10 +40,10 @@ typedef struct {
 typedef struct ovl_188298c_81862B74_S_81862B74_0_pre {
     u16 unk_00;
 } ovl_188298c_81862B74_S_81862B74_0_pre;
-typedef struct ovl_188298c_81862B74_S_81862B74_0 {
-    void * unk_00;
-    u16 unk_04;
-} ovl_188298c_81862B74_S_81862B74_0;
+typedef struct RadiusDirectionalEffectsBody {
+    void *owner;
+    u16 update_count;
+} RadiusDirectionalEffectsBody;
 typedef struct ovl_188298c_81862B74_S_81862B74_1 {
     u8 pad_00[0x14];
     u16 unk_14;
@@ -222,7 +222,7 @@ static __inline__ s32 first_delta_s32_s32(s32 end, s32 start);
 void apply_status_to_nearby_actors(s32 x, s32 y, void *kind, s32 flags);
 void advance_fading_effect(ovl_188298c_8186298C_Arg0Ent *state, void *unused, ovl_188298c_8186298C_Arg2Ent *effect);
 void spawn_jittered_type_212_effect(s32 owner, void *source);
-void advance_counter_and_propagate_target_flags(void *state, M2C_UNK context,struct SpriteFrameState *target);
+void advance_counter_and_propagate_target_flags(RadiusDirectionalEffectsBody *state, M2C_UNK context,struct SpriteFrameState *target);
 void create_radius_directional_effects(s32 effect_param, void *origin_arg, s16 radius_arg, u8 *blocked_dirs);
 s32 project_and_queue_shaded_line(void *line, void *unused_render_context);
 void move_to_linked_object_and_apply_arrival_effects(ovl_188298c_818632E4_Controller *ctrl, ovl_188298c_818632E4_Motion *motion, void *render_data);

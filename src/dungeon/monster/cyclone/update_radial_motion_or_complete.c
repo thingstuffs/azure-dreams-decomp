@@ -6,22 +6,27 @@
 #include "slus.h"
 
 /* Updates radial position or sets completion flags based on the object state. */
-void update_radial_motion_or_complete(u16 *motion, s32 *position, SpriteFrameState *object)
+void update_radial_motion_or_complete(RandomizedMotionObjectBody *motion, s32 *position, SpriteFrameState *object)
 {
     s32 y_offset;
+    union {
+        RandomizedMotionObjectBody *body;
+        u16 *words;
+    } body_view;
 
-    motion[0]++;
+    body_view.body = motion;
+    motion->update_count++;
     advance_sprite_animation_and_textures(object);
     if (object->flags & 0x6000) {
-        motion[-1] |= 0x8000;
+        body_view.words[-1] |= 0x8000;
         object_flag_block.flags |= OBJECT_REMOVE_PENDING;
         return;
     }
 
-    motion[3] += motion[4];
-    position[0] = position[3] + (((rcos((s16)motion[2]) >> 4) *
-                           (s16)motion[3]) << 8);
-    y_offset = (rsin((s16)motion[2]) >> 4) * (s16)motion[3];
+    motion->radius += motion->radius_growth;
+    position[0] = position[3] + (((rcos(motion->phase) >> 4) *
+                           (s16)motion->radius) << 8);
+    y_offset = (rsin(motion->phase) >> 4) * (s16)motion->radius;
     *(u16 *)((u8 *)position + 0xA) -= 2;
     position[1] = position[4] + (y_offset << 8);
 }

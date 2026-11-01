@@ -1,5 +1,6 @@
 #ifndef TOWN_PERSON_MOTION_H
 #define TOWN_PERSON_MOTION_H
+struct PersonObject;
 /* Prototypes of the functions defined in src/town/person/motion/ (one true prototype each; maintained by tools/headers). */
 
 #include "common.h"
@@ -46,7 +47,7 @@ u32 get_facing_sector(s32 angle);
 void initialize_object_animation_and_facing(void *object, void *position, void *animation_state);
 
 /* move_coordinates_halfway_toward_target.c */
-void move_coordinates_halfway_toward_target(void *state, s32 *coords);
+void move_coordinates_halfway_toward_target(struct PersonObject *state, s32 *coords);
 
 /* move_mother_event_output_to_target.c */
 void move_mother_event_output_to_target(void *object, void *out, void *setup_context);

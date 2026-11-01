@@ -36,9 +36,22 @@ typedef struct TrackingEffect {
     s16 sound_played;
 } TrackingEffect;
 
+/* State for each ring particle emitted while follow_brighten is active. */
+typedef struct RisingFadingEmitterBody {
+    u8 pad_00[0xA];
+    union { s16 s; u16 u; } state;
+    u8 pad_0C[0x8];
+    s16 height_limit;
+    u8 pad_16[0x6];
+    u16 frame_count;
+    u16 initial_delay;
+    u8 pad_20[0x4];
+    s16 effect_value;
+} RisingFadingEmitterBody;
+
 void follow_brighten(TrackingEffect *self, ObjectPosition *motion, SpriteFrameState *part);
 
-void advance_rising_fading_emitter(void *effect, ObjectPosition *motion, SpriteFrameState *primitive);
+void advance_rising_fading_emitter(RisingFadingEmitterBody *effect, ObjectPosition *motion, SpriteFrameState *primitive);
 
 /* Owner declarations appended by tools/headers (append-only; the lines above are hand-kept). */
 #include "shared/dungeon_moving_views.h"

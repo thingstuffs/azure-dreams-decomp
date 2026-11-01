@@ -107,8 +107,9 @@ def main():
             maps[tu] = line_map(old, new) if old != new else None
         old, new = texts[tu]
         if maps[tu] is None:
-            continue
-        out = refresh(record, old, new, maps[tu])
+            out = record
+        else:
+            out = refresh(record, old, new, maps[tu])
         if out != current_record:
             changed += 1
             records[i] = out

@@ -1109,7 +1109,7 @@ void complete_staged_destination_movement(ActorRecord *action, ObjectPosition *m
         motion->velocity_y = direction_y * 0x60000;
         sprite->frameTable = grineut_frame_set_3;
         select_sprite_entry(sprite,
-            (*((((u8 *)grineut_frame_set_3)) + (((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7))),
+            (*(grineut_frame_set_3 + (((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7))),
             0);
         action->action_timer.u = 0;
         action->action_phase.u += 1;
@@ -1123,7 +1123,7 @@ void complete_staged_destination_movement(ActorRecord *action, ObjectPosition *m
         if (sprite->flags & 0xE000) {
             sprite->frameTable = D_80174170;
             select_sprite_entry(sprite,
-                (*((((u8 *)D_80174170)) + (((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7))),
+                (*(D_80174170 + (((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7))),
                 0);
             action->action_timer.u = 0x14;
             action->action_phase.u += 1;

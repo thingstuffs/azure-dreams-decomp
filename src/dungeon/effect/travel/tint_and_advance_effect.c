@@ -544,40 +544,27 @@ void *create_radial_effect_node(MovingPosition *source_coords)
 #include "common.h"
 #include "shared/object_flags.h"
 
-typedef struct S_80024B98_0 {
-    u8 pad_00[0xA];
-    union { s16 s; u16 u; } unk_0A;   /* accessed as both */
-    u8 pad_0C[0x8];
-    s16 unk_14;
-    u8 pad_16[0x6];
-    u16 unk_1C;
-    u16 unk_1E;
-    u8 pad_20[0x4];
-    s16 unk_24;
-} S_80024B98_0;   /* arg0 in func_80024B98 */
-
-
 /* Advance an effect through its delay, motion, brightness changes, and periodic emissions. */
-void advance_rising_fading_emitter(void *effect, ObjectPosition *motion, SpriteFrameState *primitive) {
+void advance_rising_fading_emitter(RisingFadingEmitterBody *effect, ObjectPosition *motion, SpriteFrameState *primitive) {
     s16 state;
     s32 wave_value;
     u16 frame_count;
 
     tint_effect_update_count[0]++;
-    state = ((S_80024B98_0 *)effect)->unk_0A.s;
+    state = effect->state.s;
     if (state != 2) {
         if (state == 0) {
-            frame_count = ((S_80024B98_0 *)effect)->unk_1E - 1;
-            ((S_80024B98_0 *)effect)->unk_1E = frame_count;
+            frame_count = effect->initial_delay - 1;
+            effect->initial_delay = frame_count;
             if ((s16)frame_count > 0) {
                 return;
             }
-            ((S_80024B98_0 *)effect)->unk_0A.u++;
+            effect->state.u++;
         }
-        frame_count = ((S_80024B98_0 *)effect)->unk_1C + 1;
-        ((S_80024B98_0 *)effect)->unk_1C = frame_count;
+        frame_count = effect->frame_count + 1;
+        effect->frame_count = frame_count;
         if ((s16)frame_count >= 0x41) {
-            ((S_80024B98_0 *)effect)->unk_0A.u = 2;
+            effect->state.u = 2;
         }
     } else {
         primitive->color.word += 0xFFFBFBFC;
@@ -590,18 +577,18 @@ void advance_rising_fading_emitter(void *effect, ObjectPosition *motion, SpriteF
     }
     motion->z.v += motion->velocity_z;
     motion->velocity_z += 0x10000;
-    if (motion->z.w.i > ((S_80024B98_0 *)effect)->unk_14)
-        motion->z.w.i = ((S_80024B98_0 *)effect)->unk_14;
-    wave_value = rsin((s16)((S_80024B98_0 *)effect)->unk_1C << 6);
+    if (motion->z.w.i > effect->height_limit)
+        motion->z.w.i = effect->height_limit;
+    wave_value = rsin((s16)effect->frame_count << 6);
     primitive->color.word += 0x20202;
     primitive->scale_y -= wave_value >> 5;
     if (primitive->color.c.r >= 0x41)
         primitive->color.word = 0x404040;
     advance_sprite_animation_and_textures(primitive);
-    if (!(((S_80024B98_0 *)effect)->unk_1C & 0x1F))
-        create_effect_render_object(motion, ((S_80024B98_0 *)effect)->unk_14, ((S_80024B98_0 *)effect)->unk_24);
-    if (!(((S_80024B98_0 *)effect)->unk_1C & 3))
-        allocate_jittered_effect_node(motion, (((S_80024B98_0 *)effect)->unk_24 << 24) >> 16, 0x10, 0);
+    if (!(effect->frame_count & 0x1F))
+        create_effect_render_object(motion, effect->height_limit, effect->effect_value);
+    if (!(effect->frame_count & 3))
+        allocate_jittered_effect_node(motion, (effect->effect_value << 24) >> 16, 0x10, 0);
 }
 #include "modules/dungeon_ovl_18a0800.h"
 #include "dungeon/effect/travel.h"
@@ -614,15 +601,6 @@ void advance_rising_fading_emitter(void *effect, ObjectPosition *motion, SpriteF
 #endif
 
    /* saved_arg0 in spawn_ring_effects */
-
-typedef struct S_80024D90_4 {
-    u8 pad_00[0x14];
-    s16 unk_14;
-    u8 pad_16[0x8];
-    s16 unk_1E;
-    u8 pad_20[0x4];
-    s16 unk_24;
-} S_80024D90_4;
 
 /* Spawns sixteen effects in a ring around the source position. */
 void *spawn_ring_effects(void *source_pos, s16 effect_param) {
@@ -660,9 +638,9 @@ void *spawn_ring_effects(void *source_pos, s16 effect_param) {
             source_pos = (u8 *)effect + 0x20;
             component->angle_x = 0x400;
             component->angle_y = component_offset;
-            ((S_80024D90_4 *)source_pos)->unk_24 = effect_index;
-            ((S_80024D90_4 *)source_pos)->unk_14 = state_param;
-            ((S_80024D90_4 *)source_pos)->unk_1E = (s16)(effect_index * 2);
+            ((RisingFadingEmitterBody *)source_pos)->effect_value = effect_index;
+            ((RisingFadingEmitterBody *)source_pos)->height_limit = state_param;
+            ((RisingFadingEmitterBody *)source_pos)->initial_delay = (s16)(effect_index * 2);
             value += 1;
             counter_page[0x57CC / 2] = value;
         }

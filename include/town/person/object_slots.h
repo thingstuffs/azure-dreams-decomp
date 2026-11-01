@@ -1,5 +1,6 @@
 #ifndef TOWN_PERSON_OBJECT_SLOTS_H
 #define TOWN_PERSON_OBJECT_SLOTS_H
+struct PersonObject;
 
 /* Scene object callbacks that register fixed scene slots. */
 struct SpriteFrameState;
@@ -83,7 +84,7 @@ void configure_actor_slot_65_and_render_state(void *context, void *unused, struc
 
 void configure_actor_slot_66_and_render_state(void *context, void *unused, struct SpriteFrameState *stateWords);
 
-void initialize_transform_object(void *object, void *unused_position, struct SpriteFrameState *unused_sprite);
+void initialize_transform_object(struct PersonObject *object, void *unused_position, struct SpriteFrameState *unused_sprite);
 
 void init_actor_slot_30(void *actor, void *unused_position, struct SpriteFrameState *unused_sprite);
 

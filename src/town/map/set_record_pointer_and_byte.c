@@ -3,6 +3,7 @@
 #include "shared/dungeon_delay_views.h"
 #include "town/map.h"
 #include "town/map/position.h"
+#include "town/person.h"
 
 typedef struct S_800A8B98_0 {
     void (*unk_00)(s32,  s32 *);
@@ -15,10 +16,10 @@ typedef struct S_800A8B98_0 {
    /* arg1 in set_record_pointer_and_byte */
 
 /* Sets the record's pointer and state and copies its signed byte to the output's high half. */
-void set_record_pointer_and_byte(void *record_data, void *placement, struct SpriteFrameState *unused_sprite) {
+void set_record_pointer_and_byte(PersonObject *record_data, void *placement, struct SpriteFrameState *unused_sprite) {
     DelayMotionZ *output = placement;
 
     ((S_800A8B98_0 *)((u8 *)record_data - 0x10))->unk_00 = &process_raised_position_pair;
     output->unk_08 = (s32) (((S_800A8B98_0 *)((u8 *)record_data - 0x10))->unk_A6 << 0x10);
-    ((S_800A8B98_0 *)((u8 *)record_data - 0x10))->unk_7C = 5;
+    record_data->timer = 5;
 }

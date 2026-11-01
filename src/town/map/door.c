@@ -4,6 +4,7 @@
 #include "town/map/door.h"
 #include "town/map.h"
 #include "engine/script.h"
+#include "town/person.h"
 
 
 
@@ -16,7 +17,7 @@ s32 check_door_status_inverted(void *object) {
 }
 
 /* Initialize the record and select its handler according to its variant. */
-void initialize_door_variant(void *record_data, void *position, struct SpriteFrameState *unused_sprite) {
+void initialize_door_variant(PersonObject *record_data, void *position, struct SpriteFrameState *unused_sprite) {
     u32 variant;
 
     variant = ((S_800A06A4_0 *)((u8 *)record_data - 0x10))->unk_A4;

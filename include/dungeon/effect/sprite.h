@@ -68,6 +68,24 @@ typedef struct DirectionalGridEffectBody {
     union { s16 s; u16 u; } unk_42;
 } DirectionalGridEffectBody;
 
+/* Position, angle, velocity, and fade phase for radial spiral particles. */
+typedef struct UpdateRadialEffectBody {
+    u8 pad_00[0xC];
+    u16 unk_0C;
+    u16 unk_0E;
+    s16 unk_10;
+    u8 pad_12[0x6];
+    union { s16 s; u16 u; } unk_18;
+    u8 pad_1A[0x2];
+    union { struct { s32 v; } at00; struct { u8 pad[0x2]; s16 v; } at02; } unk_1C;
+    u8 pad_20[0x8];
+    s32 unk_28;
+    u8 pad_2C[0x8];
+    s32 unk_34;
+    u8 pad_38[0x14];
+    union { s16 s; u16 u; } unk_4C;
+} UpdateRadialEffectBody;
+
 /* Rotating sprite state initialized by create_scaled_rotation_effect. */
 typedef struct ScaledRotationEffectBody {
     void *unk_00;
@@ -115,7 +133,7 @@ void add_hex_200_s_field_64_runs_callbacks_mode_n_2_check_returns_zero(ActorReco
 
 
 void advance_damped_animated_sprite(void *entry, ObjectPosition *motion, SpriteFrameState *object);
-void update_spiral_effect(void *effect, ObjectPosition *motion, SpriteFrameState *sprite);
+void update_spiral_effect(UpdateRadialEffectBody *effect, ObjectPosition *motion, SpriteFrameState *sprite);
 
 /* Callback entry points. */
 void update_linked_monster_effect(void *effect_in, void *motion_in, void *sprite_in);

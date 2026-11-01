@@ -33,24 +33,23 @@ extern u8 effect_sprite_sources[];
 
 /* Fades a red-tinted sprite, adjusts its offset, and clears the owner's indexed slot when the
    countdown ends. */
-void fade_tinted_display_sprite(void *effect_arg, void *unused, void *primitive_arg) {
+void fade_tinted_display_sprite(FreeSlotDisplayEffectBody *effect, void *unused, void *primitive_arg) {
     S_81940800_1 *primitive = primitive_arg;
-    EntityRec *effect = effect_arg;
     s32 shade;
     u16 frames_left;
 
-    frames_left = ((u16)effect->facing) - 1;
-    shade = (s32)((s32)(frames_left << 0x10) >> 9) / (s16)effect->unk_2C;
+    frames_left = effect->remaining.u - 1;
+    shade = (s32)((s32)(frames_left << 0x10) >> 9) / effect->fade_step;
     tint_particle_effect_updated = 1;
-    effect->facing = frames_left;
+    effect->remaining.u = frames_left;
     primitive->unk_0E = (s8)shade;
     primitive->unk_0D = (s8)shade;
     primitive->unk_0C = (s8)(shade + 0x10);
     if (primitive->unk_06 >= -6) {
         primitive->unk_06 = (s16)((u16)primitive->unk_06 - 2);
     }
-    if ((s16)((u16)effect->facing) <= 0) {
-        ((S_81940800_2 *)(((effect->unk_32 * 2) + ((u8 *)effect->target))))->unk_46 = 0;
+    if ((s16)((u16)effect->remaining.u) <= 0) {
+        ((S_81940800_2 *)(((effect->slot_index * 2) + ((u8 *)effect->owner))))->unk_46 = 0;
         (*(u16 *)((u8 *)effect + -2)) = (u16)(((S_81940800_0_pre *)effect)[-1].unk_00 | NODE_REMOVE);
         object_flag_block.flags = object_flag_block.flags | OBJECT_REMOVE_PENDING;
     }
@@ -67,7 +66,7 @@ void spawn_free_slot_display_effect(void *owner) {
     s32 rect_offset;
     Rect16 *rect;
     ObjectNodeHeader *effect;
-    S_80024104_0 *effect_work;
+    FreeSlotDisplayEffectBody *effect_work;
     SpriteFrameState *display;
     ObjectPosition *vector_src;
     ObjectPosition *vector_dst;
@@ -107,11 +106,11 @@ void spawn_free_slot_display_effect(void *owner) {
 
         effect = allocate_flagged_object_node(0x212);
         if (effect != 0) {
-            effect_work = (S_80024104_0 *)((u8 *)effect + 0x20);
-            effect_work->unk_2A = 7;
-            effect_work->unk_2C = 7;
-            effect_work->unk_32 = slot;
-            effect_work->unk_60 = owner;
+            effect_work = (FreeSlotDisplayEffectBody *)((u8 *)effect + 0x20);
+            effect_work->remaining.s = 7;
+            effect_work->fade_step = 7;
+            effect_work->slot_index = slot;
+            effect_work->owner = owner;
             effect->update_callback = fade_tinted_display_sprite;
             register_node(effect, project_sprite_chain);
 
@@ -351,17 +350,16 @@ void advance_timed_effect_animation(DungeonObject *object, s32 unused, void *han
 }
 
 /* Decrements the object counter and sets flags when it reaches zero. */
-void decrement_object_counter(void *object)
+void decrement_object_counter(PackedSpriteEffectBody *object)
 {
-    u8 *object_bytes = object;
     u16 counter;
 
-    counter = *(u16 *)(object_bytes + 42);
+    counter = object->remaining;
     tint_particle_effect_updated = 1;
     counter--;
-    *(u16 *)(object_bytes + 42) = counter;
+    object->remaining = counter;
     if ((counter << 16) <= 0) {
-        *(u16 *)(object_bytes - 2) |= NODE_REMOVE;
+        *(u16 *)((u8 *)object - 2) |= NODE_REMOVE;
         object_flag_block.flags |= OBJECT_REMOVE_PENDING;
     }
 }
@@ -376,14 +374,14 @@ void *create_packed_sprite_effect(void *source, void *unused_1, void *unused_2, 
     s16 render_param_copy;
     ObjectPosition *position;
     SpriteFrameState *render_state;
-    S_800249F0_0 *state;
+    PackedSpriteEffectBody *state;
     ObjectNodeHeader *object;
     S_800249F0_4 *source_position;
 
     object = allocate_flagged_object_node(0x212);
     if (object != NULL) {
         state = ((void *)object) + 0x20;
-        state->unk_2A = 0x3C;
+        state->remaining = 0x3C;
         (object->update_callback) = &decrement_object_counter;
         register_node(object, project_sprite_chain);
         render_state = object->sprite;

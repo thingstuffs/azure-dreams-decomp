@@ -39,7 +39,7 @@ extern u8 view_reference_entity[];
 extern s16 actor_hop_target_height;
 
 /* Move toward the target while shrinking, then mark the animation complete. */
-s32 update_actor_hop_and_shrink(void *animation, void *motion, SpriteFrameState *scale, void *render_arg)
+s32 update_actor_hop_and_shrink(void *animation, ObjectPosition *motion, SpriteFrameState *scale, void *render_arg)
 {
     S_800AB538_1 *render = render_arg;
     s32 move_frames;
@@ -68,14 +68,15 @@ s32 update_actor_hop_and_shrink(void *animation, void *motion, SpriteFrameState 
         if (move_frames > 0) {
             ObjectPosition *target = view_reference_entity;
 
-            (*(s32 *)((u8 *)motion + 0xC)) =
-                ((target->x.w.i - ((S_800AB538_3 *)motion)->unk_02) << 16) / move_frames;
-            ((S_800AB538_3 *)motion)->unk_10 =
-                ((target->y.w.i - ((S_800AB538_3 *)motion)->unk_06.s) << 16) /
+            motion->velocity_x =
+                ((target->x.w.i - motion->x.w.i) << 16) / move_frames;
+            motion->velocity_y =
+                ((target->y.w.i - motion->y.w.i) << 16) /
                 (((S_800AB538_0 *)animation)->unk_96.s - 2);
         } else {
             ObjectPosition *target = view_reference_entity;
 
+    /* MATCH: retain these views for production byte identity. */
             (*(s32 *)((u8 *)motion + 0x10)) = 0;
             (*(s32 *)((u8 *)motion + 0xC)) = 0;
             (*(u16 *)((u8 *)motion + 2)) = *(u16 *)&target->x.w.i;
@@ -88,8 +89,8 @@ s32 update_actor_hop_and_shrink(void *animation, void *motion, SpriteFrameState 
                 s16 *target_height = &actor_hop_target_height;
 
                 height_offset = rsin(frames_left << 6) >> 4;
-                ((S_800AB538_3 *)motion)->unk_14 =
-                    ((*target_height - height_offset - ((S_800AB538_3 *)motion)->unk_0A.s) << 16) /
+                motion->velocity_z =
+                    ((*target_height - height_offset - motion->z.w.i) << 16) /
                     ((S_800AB538_0 *)animation)->unk_96.s;
             }
         }
@@ -101,9 +102,10 @@ s32 update_actor_hop_and_shrink(void *animation, void *motion, SpriteFrameState 
         frames_left = ((S_800AB538_0 *)animation)->unk_96.u - 1;
         ((S_800AB538_0 *)animation)->unk_96.s = frames_left;
         if (frames_left < 0) {
+    /* MATCH: retain these views for production byte identity. */
             (*(s32 *)((u8 *)motion + 0x14)) = 0;
             render->unk_88 = (u16)actor_hop_target_height;
-            ((S_800AB538_3 *)motion)->unk_0A.u = (u16)actor_hop_target_height;
+            motion->z.unsigned_parts.integer = (u16)actor_hop_target_height;
             ((S_800AB538_0 *)animation)->unk_92 = 0;
             next_state = ((S_800AB538_0 *)animation)->unk_9B + 1;
             ((S_800AB538_0 *)animation)->unk_9B = next_state;

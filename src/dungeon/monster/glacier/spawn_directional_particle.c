@@ -4,21 +4,11 @@
 #include "shared/sprite_frame_state.h"
 #include "common.h"
 #include "shared/slus_callbacks.h"
+#include "dungeon/monster/glacier/advance_item_motion_collision.h"
 #include "records/Rec_func_801744DC_arg1.h"
 #include "records/Rec_func_801744DC_arg0.h"
 #include "shared/dungeon_moving_views.h"
 #include "engine/node.h"
-
-typedef struct S_801744DC_0 {
-    u8 pad_00[0x1E];
-    s16 unk_1E;
-    u8 pad_20[0x30];
-    s32 unk_50;
-    s32 unk_54;
-    s32 unk_58;
-    u8 pad_5C[0x8];
-    s32 unk_64;
-} S_801744DC_0;   /* work in spawn_directional_particle */
 
    /* coords in spawn_directional_particle */
 
@@ -38,7 +28,7 @@ extern Pair16 glacier_direction_offsets[];
 void spawn_directional_particle(Rec_func_801744DC_arg0 *source, Rec_func_801744DC_arg1 *origin)
 {
     ObjectNodeHeader *effect;
-    S_801744DC_0 *motion;
+    DirectionalEffectBody *motion;
     SpriteFrameState *sprite;
     ObjectPosition *position;
     s32 velocity_bias;
@@ -46,7 +36,7 @@ void spawn_directional_particle(Rec_func_801744DC_arg0 *source, Rec_func_801744D
     effect = allocate_flagged_object_node(0x212);
     if (effect != 0) {
         motion = (u8 *)effect + 0x20;
-        motion->unk_1E = 0xF;
+        motion->remaining_ticks.signed_value = 0xF;
         effect->update_callback = advance_item_motion_collision;
         register_node(effect, project_sprite_chain);
 
@@ -64,15 +54,15 @@ void spawn_directional_particle(Rec_func_801744DC_arg0 *source, Rec_func_801744D
         position->y.w.i = ({ (u16)position->y.w.i - 0x20; }) + (rand() & 0x3F);
         position->z.w.i = ({ (u16)position->z.w.i - 0x40; }) + (rand() & 0x3F);
 
-        motion->unk_58 = 0xFFFA0000;
-        motion->unk_64 = 0x20000;
-        motion->unk_50 = glacier_direction_offsets[source->unk_1C].x << 18;
-        motion->unk_54 = glacier_direction_offsets[source->unk_1C].y << 18;
+        motion->velocity_z = 0xFFFA0000;
+        motion->acceleration_z = 0x20000;
+        motion->velocity_x = glacier_direction_offsets[source->unk_1C].x << 18;
+        motion->velocity_y = glacier_direction_offsets[source->unk_1C].y << 18;
 
         velocity_bias = 0xFFF80000;
-        motion->unk_50 = (motion->unk_50 + velocity_bias) + ((rand() & 0x3FFF) << 6);
-        motion->unk_54 = (motion->unk_54 + velocity_bias) + ((rand() & 0x3FFF) << 6);
-        motion->unk_58 = (motion->unk_58 + velocity_bias) + ((rand() & 0x3FFF) << 6);
+        motion->velocity_x = (motion->velocity_x + velocity_bias) + ((rand() & 0x3FFF) << 6);
+        motion->velocity_y = (motion->velocity_y + velocity_bias) + ((rand() & 0x3FFF) << 6);
+        motion->velocity_z = (motion->velocity_z + velocity_bias) + ((rand() & 0x3FFF) << 6);
 
         sprite = effect->sprite;
         sprite->scale_y = 0x1000;

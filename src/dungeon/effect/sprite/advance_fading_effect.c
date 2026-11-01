@@ -94,18 +94,17 @@ void spawn_jittered_type_212_effect(s32 owner, void *source)
 
 /* Advances sprite animation, spawns a child at update 10, and removes the effect when its animation
    finishes. */
-void advance_counter_and_propagate_target_flags(void *state_arg, s32 context, SpriteFrameState *target) {
-    ovl_188298c_81862B74_S_81862B74_0 *state = state_arg;
+void advance_counter_and_propagate_target_flags(RadiusDirectionalEffectsBody *state, s32 context, SpriteFrameState *target) {
     u16 update_count;
     ovl_188298c_81862B74_S_81862B74_1 *linked_object;
 
-    linked_object = state->unk_00;
+    linked_object = state->owner;
     linked_object->unk_14 = (u16) (linked_object->unk_14 + 1);
     advance_sprite_animation_and_textures(target);
-    update_count = state->unk_04 + 1;
-    state->unk_04 = update_count;
+    update_count = state->update_count + 1;
+    state->update_count = update_count;
     if ((s16) update_count == 0xA) {
-        spawn_jittered_type_212_effect(state->unk_00, context);
+        spawn_jittered_type_212_effect(state->owner, context);
     }
     if (target->flags & 0x6000) {
         ((ovl_188298c_81862B74_S_81862B74_0_pre *)state)[-1].unk_00 = (u16) (((ovl_188298c_81862B74_S_81862B74_0_pre *)state)[-1].unk_00 | 0x8000);

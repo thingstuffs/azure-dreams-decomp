@@ -155,23 +155,23 @@ void update_actor_callbacks_movement_and_terrain(ActorRecord *body, ObjectPositi
                 if (!(sprite_arg->flags & 0x40)) {
                     animation_table = ((S_80170B64_2 *)sprite_arg)->unk_2C.i;
                     if (animation_table == (s32)&kraken_frame_set_1) {
-                        ((S_80170B64_0 *)body)->unk_AC.at00.v = 0;
+                        body->unk_AC.value = 0;
                     } else if (animation_table == (s32)&D_80174174) {
                         body->unk_A0.parts.low++;
                         if (((S_80170B64_2 *)sprite_arg)->unk_04.u16 == 0x100) {
                             body->unk_A0.parts.low = 0;
-                            ((S_80170B64_0 *)body)->unk_AC.at00.v = 0;
+                            body->unk_AC.value = 0;
                         }
                         if (((S_80170B64_0 *)body)->unk_A0.s < 5) {
-                            ((S_80170B64_0 *)body)->unk_AC.at00.v += -0x33333;
+                            body->unk_AC.value += -0x33333;
                         } else {
-                            ((S_80170B64_0 *)body)->unk_AC.at00.v += 0x12492;
+                            body->unk_AC.value += 0x12492;
                         }
                     }
                 }
                 if (!(body->action_state_flags & 8)) {
-                    hover_floor_offset = sample_terrain_surface_height(((TrailMotion *)motion)->x.unk_02.unk_02,
-                        ((TrailMotion *)motion)->y.unk_06.unk_06,
+                    hover_floor_offset = sample_terrain_surface_height(motion->x.unsigned_parts.integer,
+                        motion->y.unsigned_parts.integer,
                         (s16)(actor_base->unk_88 - 0x20)) -
                         actor_base->unk_88;
                     if (body->unk_90.parts.high.s > ((s16)hover_floor_offset - 0x20)) {
@@ -184,13 +184,13 @@ void update_actor_callbacks_movement_and_terrain(ActorRecord *body, ObjectPositi
                     }
                 }
             } else {
-                s32 height_adjustment = ((S_80170B64_0 *)body)->unk_AC.at00.v;
+                s32 height_adjustment = body->unk_AC.value;
                 body->unk_A8.s = 0;
-                ((S_80170B64_0 *)body)->unk_AC.at00.v = 0;
+                body->unk_AC.value = 0;
                 body->unk_90.value -= height_adjustment;
                 if (!(body->action_state_flags & 8)) {
-                    floor_offset = sample_terrain_surface_height(((TrailMotion *)motion)->x.unk_02.unk_02,
-                        ((TrailMotion *)motion)->y.unk_06.unk_06,
+                    floor_offset = sample_terrain_surface_height(motion->x.unsigned_parts.integer,
+                        motion->y.unsigned_parts.integer,
                         (s16)(actor_base->unk_88 - 0x20)) -
                         actor_base->unk_88;
                     if (floor_offset < body->unk_90.parts.high.s) {
@@ -211,13 +211,13 @@ void update_actor_callbacks_movement_and_terrain(ActorRecord *body, ObjectPositi
             actor_base->unk_1C.s = static_flags;
             if (!(static_flags & 0x40000)) {
 
-                s32 height_adjustment = ((S_80170B64_0 *)body)->unk_AC.at00.v;
+                s32 height_adjustment = body->unk_AC.value;
                 body->unk_A8.s = 0;
-                ((S_80170B64_0 *)body)->unk_AC.at00.v = 0;
+                body->unk_AC.value = 0;
                 body->unk_90.value -= height_adjustment;
                 if (!(body->action_state_flags & 8)) {
-                    floor_offset = sample_terrain_surface_height(((TrailMotion *)motion)->x.unk_02.unk_02,
-                        ((TrailMotion *)motion)->y.unk_06.unk_06,
+                    floor_offset = sample_terrain_surface_height(motion->x.unsigned_parts.integer,
+                        motion->y.unsigned_parts.integer,
                         (s16)(actor_base->unk_88 - 0x20)) -
                         actor_base->unk_88;
                     if (floor_offset < body->unk_90.parts.high.s) {
@@ -231,23 +231,23 @@ void update_actor_callbacks_movement_and_terrain(ActorRecord *body, ObjectPositi
                 if (!(sprite_arg->flags & 0x40)) {
                     static_animation_table = ((S_80170B64_2 *)sprite_arg)->unk_2C.i;
                     if (static_animation_table == (s32)&kraken_frame_set_1) {
-                        ((S_80170B64_0 *)body)->unk_AC.at00.v = 0;
+                        body->unk_AC.value = 0;
                     } else if (static_animation_table == (s32)&D_80174174) {
                         body->unk_A0.parts.low++;
                         if (((S_80170B64_2 *)sprite_arg)->unk_04.u16 == 0x100) {
                             body->unk_A0.parts.low = 0;
-                            ((S_80170B64_0 *)body)->unk_AC.at00.v = 0;
+                            body->unk_AC.value = 0;
                         }
                         if (((S_80170B64_0 *)body)->unk_A0.s < 5) {
-                            ((S_80170B64_0 *)body)->unk_AC.at00.v += -0x33333;
+                            body->unk_AC.value += -0x33333;
                         } else {
-                            ((S_80170B64_0 *)body)->unk_AC.at00.v += 0x12492;
+                            body->unk_AC.value += 0x12492;
                         }
                     }
                 }
                 if (!(body->action_state_flags & 8)) {
-                    hover_floor_offset = sample_terrain_surface_height(((TrailMotion *)motion)->x.unk_02.unk_02,
-                        ((TrailMotion *)motion)->y.unk_06.unk_06,
+                    hover_floor_offset = sample_terrain_surface_height(motion->x.unsigned_parts.integer,
+                        motion->y.unsigned_parts.integer,
                         (s16)(actor_base->unk_88 - 0x20)) -
                         actor_base->unk_88;
                     if (body->unk_90.parts.high.s > ((s16)hover_floor_offset - 0x20)) {

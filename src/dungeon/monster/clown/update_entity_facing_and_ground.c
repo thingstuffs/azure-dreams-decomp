@@ -1600,8 +1600,8 @@ s32 project_clown_sprite_chain(void *initial_payload, s32 entry_data, R16_801736
  *
  * MECHANISM: Typed page and scratch fields preserve the signed lh/sw widths and offsets.
  */
-void update_expanding_spiral_effect(void *effect_arg, R16_80173738_FuncArg1 *position, SpriteFrameState *primitive) {
-    R16_80173738_S_80173738_0 *effect = effect_arg;
+void update_expanding_spiral_effect(AngledSourceEffectBody *effect_arg, R16_80173738_FuncArg1 *position, SpriteFrameState *primitive) {
+    AngledSourceEffectBody *effect = effect_arg;
     s16 life;
     s16 next_life;
     s32 y_offset;
@@ -1609,11 +1609,11 @@ void update_expanding_spiral_effect(void *effect_arg, R16_80173738_FuncArg1 *pos
     s32 z_step;
     void *primitive_dst;
 
-    effect->unk_1E = (u16) (effect->unk_1E - 0x12C);
-    effect->unk_20 = (u16) (effect->unk_20 + 2);
+    effect->unk_1E.u = (u16) (effect->unk_1E.u - 0x12C);
+    effect->unk_20.u = (u16) (effect->unk_20.u + 2);
     position->unk00 = (s32) (effect->unk_40
-        + ((s16) effect->unk_20 * rcos((s16) effect->unk_1E) * 0x10));
-    y_offset = (s16) effect->unk_20 * rsin((s16) effect->unk_1E);
+        + ((s16) effect->unk_20.u * rcos((s16) effect->unk_1E.u) * 0x10));
+    y_offset = (s16) effect->unk_20.u * rsin((s16) effect->unk_1E.u);
     primitive_dst = primitive;
     z_step = 0xFFF40000U;
     base_y = effect->unk_44;
@@ -1643,7 +1643,7 @@ void create_angled_source_effect(
     s32 unused_0, R16_80173904_S_80173904_3 *origin, s32 unused_2, s32 unused_3, s16 angle, u16 depth_offset)
 {
     ObjectNodeHeader *object;
-    R16_80173904_S_80173904_0 *state;
+    AngledSourceEffectBody *state;
     SpriteFrameState *display;
     ObjectPosition *transform;
     s16 wrapped_angle;
@@ -1651,10 +1651,10 @@ void create_angled_source_effect(
     object = allocate_flagged_object_node(0x212);
     wrapped_angle = angle;
     if (object != NULL) {
-        state = (R16_80173904_S_80173904_0 *)((u8 *)object + 0x20);
+        state = (AngledSourceEffectBody *)((u8 *)object + 0x20);
         state->unk_1A = 0x14;
-        state->unk_20 = 0x14;
-        state->unk_1E = angle;
+        state->unk_20.s = 0x14;
+        state->unk_1E.s = angle;
         object->update_callback = ((void *)update_expanding_spiral_effect);
         register_node(object, project_sprite_chain);
 
@@ -1672,8 +1672,8 @@ void create_angled_source_effect(
             wrapped_angle -= 0x1000;
         }
 
-        transform->x.v = state->unk_40 + ((state->unk_20 * rcos(wrapped_angle)) << 4);
-        transform->y.v = state->unk_44 + ((state->unk_20 * rsin(wrapped_angle)) << 4);
+        transform->x.v = state->unk_40 + ((state->unk_20.s * rcos(wrapped_angle)) << 4);
+        transform->y.v = state->unk_44 + ((state->unk_20.s * rsin(wrapped_angle)) << 4);
         transform->z.w.i = origin->unk_0A + depth_offset;
 
         display = object->sprite;

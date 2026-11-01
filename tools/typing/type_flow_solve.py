@@ -72,6 +72,8 @@ class Graph:
         self.decl = collections.defaultdict(collections.Counter)
         self.edges, self.uses, self.int_uses, self.calls = [], [], [], []
         self.records, self.typedefs, self.protos = {}, {}, {}
+        self.record_definitions = collections.defaultdict(set)
+        self.ambiguous_records = set()
         seen_e, seen_u, seen_i, seen_c, seen_f = set(), set(), set(), set(), set()
         for p in sorted((self.dir / 'tu').glob('*.json.gz')):
             with gzip.open(p, 'rt') as fh:
@@ -113,6 +115,10 @@ class Graph:
                     seen_c.add(k)
                     self.calls.append(c)
             for r, v in d['records'].items():
+                definition = (v.get('file', ''), v.get('size'), json.dumps(v.get('fields', []), sort_keys=True))
+                self.record_definitions[r].add(definition)
+                if len(self.record_definitions[r]) > 1:
+                    self.ambiguous_records.add(r)
                 old = self.records.get(r)
                 if old is None or (old['size'] != v['size'] and v['file'].startswith('include/')):
                     self.records[r] = v
@@ -206,6 +212,8 @@ class Graph:
             if core.startswith('rec:'):
                 name = core[4:]
                 spelled = re.sub(r'\b(?:const|volatile|struct|union)\b', '', t).replace('*', '').strip()
+                if name in self.ambiguous_records:
+                    return 'private'
                 if GENERATED.search(name) or GENERATED.search(spelled):
                     return 'gen'
                 rec = self.records.get(name)
@@ -237,6 +245,8 @@ class Graph:
                 continue
             m = re.match(r'^(.*?)\s*\[(\d+)\]$', ftype.strip())
             if m:
+                if foff == off:
+                    yield name, ftype
                 elt = m.group(1)
                 esize = self.size(elt)
                 if not esize:
@@ -289,6 +299,9 @@ class Graph:
     def fn_def(self, key):
         ds = self.functions.get(key) or []
         return ds[0] if ds else None
+
+    def ambiguous_function(self, key):
+        return len({d['file'] for d in self.functions.get(key, [])}) > 1
 
     def declared(self, node):
         if node.startswith('P:'):
@@ -395,6 +408,8 @@ class Runtime:
             key = name
             for d in graph.functions.get(name + '@' + r['file'], []):
                 key = d['key']
+            if graph.ambiguous_function(key):
+                continue
             node = 'P:%s#%s' % (key, r['arg'])
             c = collections.Counter()
             for cell, n in parse_values(r['values']):
@@ -415,6 +430,8 @@ class Runtime:
                 if str(k.get('allocator', '')).startswith('allocate_flagged_object_node') or k.get('role') == 'pool':
                     self.pooled.add(k['id'])
                 for rc in k.get('receivers', []):
+                    if graph.ambiguous_function(rc['function']):
+                        continue
                     node = 'P:%s#%s' % (rc['function'], rc['arg'])
                     t = graph.declared(node)
                     if graph.cls(t) == 'real':
@@ -468,18 +485,20 @@ class Runtime:
             return 'unproven'
         rt = self.g.resolve(t)
         bad = 0
+        unproven = False
         for cell in cells:
             c2 = (cell[0], cell[1], cell[2] + off)
             v = self.votes.get(c2, {})
             if c2[0] == 'heap' and c2[1] in self.pooled and c2[2] == 0 and rt == 'rec:ObjectNodeHeader*':
                 continue
             if not v:
-                return 'unproven'
+                unproven = True
+                continue
             tot = sum(len(x) for x in v.values())
             if rt in v and (len(v[rt]) / tot >= 0.25 or max(len(x) for x in v.values()) == len(v[rt])):
                 continue
             bad += 1
-        return 'wrong' if bad else 'correct'
+        return 'wrong' if bad else 'unproven' if unproven else 'correct'
 
 
 def canon_display(g, t):
@@ -752,11 +771,12 @@ class Solver:
             if g.cls(comp[n].get('from', '')) == 'int' and g.by_node_int.get(n):
                 res['reasons'].add('arith_risk')
                 res['int_casts'] += len(g.by_node_int[n])
+            if n.startswith(('P:', 'L:')):
+                key = n[2:].rpartition('#')[0] if n.startswith('P:') else n[2:].split(':')[0]
+                if g.ambiguous_function(key):
+                    res['reasons'].add('ambiguous_definition'); res['node_reasons'][n].add('ambiguous_definition')
             if n.startswith('P:'):
                 key = n[2:].rpartition('#')[0]
-                defs = g.functions.get(key, [])
-                if len({d['file'] for d in defs}) > 1:
-                    res['reasons'].add('ambiguous_definition'); res['node_reasons'][n].add('ambiguous_definition')
                 d = g.fn_def(key)
                 if d and not d['variadic']:
                     idx = int(n.rpartition('#')[2]) if n.rpartition('#')[2].isdigit() else 0
@@ -815,8 +835,12 @@ def node_for(g, s):
 def seed_target(g, rt, s, n):
     """Target type for a seed: the hold's evidence target, else the runtime vote."""
     tau = s.get('target') or ''
+    if g.record_of(tau) in g.ambiguous_records:
+        tau = ''
     rtype, share, cells = rt.node_type(n)
     s['rt_type'], s['rt_share'] = canon_display(g, rtype) if rtype else '', round(share, 2)
+    if tau and g.cls(tau) == 'gen' and rtype and g.cls(rtype) == 'real' and share >= 0.75:
+        return canon_display(g, rtype)
     if tau and g.cls(tau) not in ('unknown',):
         return tau
     if rtype and share >= 0.6:

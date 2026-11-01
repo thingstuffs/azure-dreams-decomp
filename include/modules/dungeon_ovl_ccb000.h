@@ -1,5 +1,6 @@
 #ifndef MODULE_DUNGEON_OVL_CCB000_H
 #define MODULE_DUNGEON_OVL_CCB000_H
+struct ObjectPosition;
 #include "dungeon/system.h"
 #include "engine/texture.h"
 #include "shared/sprite_frame_state.h"
@@ -1120,7 +1121,7 @@ extern void begin_actor_move_to_target_facing(void *, void *, void *, void *);
 extern s32 reset_actor_action_state(void *actor, void *unused, SpriteFrameState *sprite, u8 *direction_frames);
 extern s32 update_actor_movement_to_tile(void *,void *,void *,void *);
 extern s32 update_linked_actor_motion(void *state, ObjectPosition *transform, SpriteFrameState *config, void *object);
-extern s32 update_actor_hop_and_shrink(void *,void *,struct SpriteFrameState *,void *);
+extern s32 update_actor_hop_and_shrink(void *,struct ObjectPosition *,struct SpriteFrameState *,void *);
 
 extern s32 interpolate_actor_to_terrain_tile(void *,void *,void *,void *);
 extern s32 update_spinning_actor_fall(void *,void *,SpriteFrameState *,void *);

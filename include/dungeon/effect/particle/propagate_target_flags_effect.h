@@ -461,7 +461,7 @@ void update_staged_particle_effect(Work *work, s32 position_arg, s32 sprite_arg)
 void advance_colliding_particle_sprite(void *effect, S_8196ACE4_0 *position, SpriteFrameState *sprite);
 void create_brief_ballistic_sprite(S_8196B780_5 *source, s32 unused_1, s32 unused_2, s16 x, s16 y, s16 z);
 void shrink_particle_emitting_projectile(void *effect, void *position, void *sprite);
-void draw_effect_and_restore_clip(void *effect, s32 unused, u8 *primitive);
+void draw_effect_and_restore_clip(StagedRectangleSpriteBody *effect, s32 unused, u8 *primitive);
 void apply_random_actor_value_adjustment(void *state, void *unused, void *visual);
 void spawn_jittered_point_child(ObjectNodeHeader *source, s32 state_14_value, s32 state_08_value, s32 state_32_value, s16 x_offset, s16 y_offset, s16 z_offset);
 s32 draw_flagged_particle_points(PointRecord *first_point, ObjectPosition *first_position);

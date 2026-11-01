@@ -29,7 +29,7 @@ void run_fading_target_projectile(void *effect, void *motion, void *source_rende
     void *owner_start;
     S_81844800_7 *owner_sprite;
     ObjectNodeHeader *spawned;
-    S_81844800_6 *particle_data;
+    RunFadingTargetProjectileBody *particle_data;
     SpriteFrameState *sprite;
     s32 particles_left;
     S_81844800_5 *sprite_page;
@@ -49,7 +49,7 @@ void run_fading_target_projectile(void *effect, void *motion, void *source_rende
             do {
                 spawned = allocate_list_node(0x312, &scene_object_list_anchor.next);
                 if (spawned != 0) {
-                    particle_data = (S_81844800_6 *)((u8 *)spawned + 0x20);
+                    particle_data = (RunFadingTargetProjectileBody *)((u8 *)spawned + 0x20);
                     sprite = spawned->sprite;
                     spawned->update_callback = fade_effect_sprite_to_black;
                     ((S_81844800_14 *)(spawned->position))->unk_00.s =
@@ -75,9 +75,9 @@ void run_fading_target_projectile(void *effect, void *motion, void *source_rende
                         }
                     }
                     ((S_81844800_2 *)spawned)->unk_20 = effect;
-                    particle_data->unk_48 = rand() & 3;
-                    particle_data->unk_4A = 8;
-                    particle_data->unk_4C = 0;
+                    particle_data->timer = rand() & 3;
+                    particle_data->brightness_step.u = 8;
+                    particle_data->state.u = 0;
                 }
                 particles_left--;
             } while (particles_left >= 0);
@@ -232,7 +232,7 @@ void run_fading_target_projectile(void *effect, void *motion, void *source_rende
         do {
             spawned = allocate_list_node(0x312, &scene_object_list_anchor.next);
             if (spawned != 0) {
-                particle_data = (S_81844800_6 *)((u8 *)spawned + 0x20);
+                particle_data = (RunFadingTargetProjectileBody *)((u8 *)spawned + 0x20);
                 sprite = spawned->sprite;
                 spawned->update_callback = fade_effect_sprite_to_black;
                 spawned->position->x.v =
@@ -261,9 +261,9 @@ void run_fading_target_projectile(void *effect, void *motion, void *source_rende
                     }
                 }
                 ((S_81844800_2 *)spawned)->unk_20 = effect;
-                particle_data->unk_48 = rand() & 3;
-                particle_data->unk_4A = 16;
-                particle_data->unk_4C = 0;
+                particle_data->timer = rand() & 3;
+                particle_data->brightness_step.u = 16;
+                particle_data->state.u = 0;
             }
             particles_left--;
         } while (particles_left >= 0);
@@ -550,8 +550,8 @@ s32 draw_layered_vertical_sprite_chain(u8 *first_node)
 #include "shared/game_work.h"
 
 /* Updates effect motion, waits for its timer, then fades its sprite to black. */
-void fade_effect_sprite_to_black(void *effect, VecState *motion, SpriteFrameState *sprite) {
-    void *owner = *(void **)effect;
+void fade_effect_sprite_to_black(RunFadingTargetProjectileBody *effect, VecState *motion, SpriteFrameState *sprite) {
+    void *owner = effect->owner;
     s32 z_velocity;
     s16 state;
     u16 timer;
@@ -567,14 +567,14 @@ void fade_effect_sprite_to_black(void *effect, VecState *motion, SpriteFrameStat
     motion->y += motion->vy;
     motion->z += motion->vz;
 
-    state = *(s16 *)((s8 *)effect + 0x4C);
+    state = effect->state.s;
     switch (state) {
     case 0:
-        timer = *(u16 *)((s8 *)effect + 0x48) - 1;
-        *(u16 *)((s8 *)effect + 0x48) = timer;
+        timer = effect->timer - 1;
+        effect->timer = timer;
         if ((s16)timer <= 0) {
-            register_node((s8 *)effect - 0x20, project_sprite_chain);
-            *(u16 *)((s8 *)effect + 0x4C) += 1;
+            register_node((u8 *)effect - 0x20, project_sprite_chain);
+            effect->state.u += 1;
         }
         break;
 
@@ -584,14 +584,14 @@ void fade_effect_sprite_to_black(void *effect, VecState *motion, SpriteFrameStat
             sprite->unk_04 = 0;
             sprite->frame_ticks = 0;
         }
-        if (sprite->color.c.r <= *(s16 *)((s8 *)effect + 0x4A)) {
+        if (sprite->color.c.r <= effect->brightness_step.s) {
             sprite->color.word = 0;
             *(u16 *)((s8 *)effect - 2) |= NODE_REMOVE;
             object_flag_block.flags |= OBJECT_REMOVE_PENDING;
             return;
         }
         {
-            u8 brightness = sprite->color.c.b - *(u8 *)((s8 *)effect + 0x4A);
+            u8 brightness = sprite->color.c.b - effect->brightness_step.byte;
             sprite->color.c.b = brightness;
             sprite->color.c.g = brightness;
             sprite->color.c.r = brightness;

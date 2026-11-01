@@ -152,6 +152,13 @@ typedef struct Row_81916E00_S_80024600_0 {
     s16 unk_24;
 } Row_81916E00_S_80024600_0;   /* temp_v0 in func_80024600 */
 
+typedef struct AnDefaultRenderingSettingsCopiesInitialDataBody {
+    void *owner;
+    u16 completion_count;
+} AnDefaultRenderingSettingsCopiesInitialDataBody;
+
+void update_the_target_records_counts_flags_status(AnDefaultRenderingSettingsCopiesInitialDataBody *object_slot, void *unused, SpriteFrameState *target);
+
 /* Creates an object with default rendering settings and copies its initial data. */
 /* extern */
                              /* extern */
@@ -390,7 +397,7 @@ void advance_motion_counters_position_set_completion_flags_past_lifetime(void *m
 void *create_an_initializes_visual_state_copies_initial_data(s32 object_id, void *initial_data, Row_81916AEC_S_800242EC_2 *source);
 void create_counted_sprite_effect(void *context, s32 unused, Row_81916C1C_Arg81916C1C *countdown);
 void create_a_type_hex_212_initializes_handler_mode(s32 initial_value);
-void update_the_target_records_counts_flags_status(void *object_slot, void *unused, struct SpriteFrameState *target);
+void update_the_target_records_counts_flags_status(AnDefaultRenderingSettingsCopiesInitialDataBody *object_slot, void *unused, struct SpriteFrameState *target);
 void *create_an_default_rendering_settings_copies_initial_data(s32 *owner_data, Row_81916E00_Copy24 *initial_data);
 void advance_the_counter_offset_position_using_two_angles(Row_81916F10_S_80024710_0 *object, Row_81916F10_S_80024710_2 *position);
 void *create_radial_effect_from_source(void *source, Row_81917004_Copy24 *origin, s16 size_step);

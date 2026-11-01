@@ -1,5 +1,6 @@
 #ifndef MODULE_DUNGEON_OVL_E0365C_H
 #define MODULE_DUNGEON_OVL_E0365C_H
+struct ObjectPosition;
 #include "sdk/libc.h"
 #include "dungeon/system.h"
 #include "dungeon/actor/state.h"
@@ -668,7 +669,7 @@ extern s32 begin_ready_actor_directional_action(ActorRecord *body, ObjectPositio
 extern void begin_actor_move_to_target_facing(ActorRecord *body, ObjectPosition *position, SpriteFrameState *sprite, ActorRecord *actor);
 extern s32 update_actor_movement_to_tile(void *move_state, void *motion, void *target_tile, ActorRecord *actor);
 extern s32 update_linked_actor_motion(void *state, ObjectPosition *transform, SpriteFrameState *config, void *object);
-extern s32 update_actor_hop_and_shrink(void *,void *,struct SpriteFrameState *,void *);
+extern s32 update_actor_hop_and_shrink(void *,struct ObjectPosition *,struct SpriteFrameState *,void *);
 
 extern s32 interpolate_actor_to_terrain_tile(void *,void *,void *,void *);
 extern s32 update_spinning_actor_fall(void *,void *,SpriteFrameState *,void *);

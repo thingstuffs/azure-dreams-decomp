@@ -38,24 +38,23 @@ typedef struct S_81994800_2 {
 
 extern s16 parent_effect_update_flag;
 /* Advance the effect countdown, update its parameters, and flag completion. */
-void fade_linked_display_sprite(void *effect_arg, void *unused_context, void *effect_params_arg) {
+void fade_linked_display_sprite(FreeSlotDisplayEffectBody *effect, void *unused_context, void *effect_params_arg) {
     S_81994800_1 *effect_params = effect_params_arg;
-    EntityRec *effect = effect_arg;
     s32 scale;
     u16 ticks_left;
 
-    ticks_left = ((u16)effect->facing) - 1;
-    scale = (s32)((s32)(ticks_left << 0x10) >> 9) / (s16)effect->unk_2C;
+    ticks_left = effect->remaining.u - 1;
+    scale = (s32)((s32)(ticks_left << 0x10) >> 9) / (s16)effect->fade_step;
     parent_effect_update_flag = 1;
-    effect->facing = ticks_left;
+    effect->remaining.u = ticks_left;
     effect_params->unk_0D = (u8)(effect_params->unk_0D - 4);
     effect_params->unk_0E = (s8)scale;
     effect_params->unk_0C = (s8)scale;
     if (effect_params->unk_06 >= -6) {
         effect_params->unk_06 = (s16)((u16)effect_params->unk_06 - 2);
     }
-    if ((s16)((u16)effect->facing) <= 0) {
-        ((S_81994800_2 *)(((effect->unk_32 * 2) + ((u8 *)effect->target))))->unk_46 = 0;
+    if ((s16)((u16)effect->remaining.u) <= 0) {
+        ((S_81994800_2 *)(((effect->slot_index * 2) + ((u8 *)effect->owner))))->unk_46 = 0;
         (*(u16 *)((u8 *)effect + -2)) = (u16)(((S_81994800_0_pre *)effect)[-1].unk_00 | NODE_REMOVE);
         object_flag_block.flags = object_flag_block.flags | OBJECT_REMOVE_PENDING;
     }
@@ -65,19 +64,6 @@ void fade_linked_display_sprite(void *effect_arg, void *unused_context, void *ef
 #include "shared/record_ptrs.h"
 #include "shared/slus_callbacks.h"
 #include "shared/object_flags.h"
-
-typedef struct S_80024104_0 {
-    u8 pad_00[0x2A];
-    s16 unk_2A;
-    s16 unk_2C;
-    u8 pad_2E[0x4];
-    s16 unk_32;
-    u8 pad_34[0x2C];
-    void * unk_60;
-    u8 pad_64[0x16];
-    u8 unk_7A;
-    u8 unk_7B;
-} S_80024104_0;   /* work in func_80024104 */
 
 typedef struct {
     u32 word[4];
@@ -116,7 +102,7 @@ void spawn_free_slot_display_effect(void *owner) {
     s32 rect_offset;
     Rect16 *rect;
     ObjectNodeHeader *child;
-    S_80024104_0 *child_work;
+    FreeSlotDisplayEffectBody *child_work;
     SpriteFrameState *display;
     ObjectPosition *source_words;
     ObjectPosition *child_words;
@@ -157,11 +143,11 @@ void spawn_free_slot_display_effect(void *owner) {
 
         child = allocate_flagged_object_node(0x212);
         if (child != 0) {
-            child_work = (S_80024104_0 *)((u8 *)child + 0x20);
-            child_work->unk_2A = 7;
-            child_work->unk_2C = 7;
-            child_work->unk_32 = slot;
-            child_work->unk_60 = owner;
+            child_work = (FreeSlotDisplayEffectBody *)((u8 *)child + 0x20);
+            child_work->remaining.s = 7;
+            child_work->fade_step = 7;
+            child_work->slot_index = slot;
+            child_work->owner = owner;
             child->update_callback = (void *)fade_linked_display_sprite;
             register_node(child, project_sprite_chain);
 

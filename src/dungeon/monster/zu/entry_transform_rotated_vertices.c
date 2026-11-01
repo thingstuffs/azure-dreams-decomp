@@ -1,16 +1,7 @@
 #include "dungeon/effect/particle/create_two_row_object_group.h"
+#include "dungeon/effect/motion.h"
 #include "common.h"
 #include "shared/game_work.h"
-typedef struct S_80F90E88_0 {
-    s32 unk_00;
-    u8 pad_04[0x4];
-    void * unk_08;
-    u8 pad_0C[0x54];
-    s32 unk_60;
-    u8 pad_64[0x6C];
-    u16 unk_D0;
-} S_80F90E88_0;   /* global_base in func_80F90E88; pointer addresses record offset 0x8 */
-
 typedef struct S_80F90E88_1 {
     s32 unk_00;
     s32 unk_04;
@@ -93,12 +84,12 @@ typedef struct S_80F90E88_7 {
  * Projects each linked effect into two color-gradient quads and queues them with a drawing-mode
  * packet by depth.
  */
-s32 draw_linked_gradient_quads(void *object) {
+s32 draw_linked_gradient_quads(CylindricalEffectWork *object) {
     WorkCell work[2];
     TransformRec transform_rec;
     void *transform;
     ScreenPoint screen;
-    void *model;
+    CylindricalEffectWork *model;
     s32 *z_ptr;
     WorkCell *points;
     s32 max_xy;
@@ -213,7 +204,7 @@ loop_1:
             quad = ((S_80F90E88_7 *)gw->draw_buffer)->unk_8D0;
             ((S_80F90E88_7 *)gw->draw_buffer)->unk_8D0 = (s32 *) ((s8 *) quad + 0x24);
             if (side != 0) {
-                color = ((S_80F90E88_0 *)((u8 *)model - 0x8))->unk_60;
+                color = model->shade;
                 ((S_80F90E88_1 *)quad)->unk_1C = 0;
                 ((S_80F90E88_1 *)quad)->unk_14 = 0;
                 ((S_80F90E88_1 *)quad)->unk_0C = color;
@@ -226,7 +217,7 @@ loop_1:
             } else {
                 ((S_80F90E88_1 *)quad)->unk_0C = 0;
                 ((S_80F90E88_1 *)quad)->unk_04 = 0;
-                color = ((S_80F90E88_0 *)((u8 *)model - 0x8))->unk_60;
+                color = model->shade;
                 ((S_80F90E88_1 *)quad)->unk_1C = color;
                 ((S_80F90E88_1 *)quad)->unk_14 = color;
                 center_x = (u16) screen.z;
@@ -268,7 +259,7 @@ loop_1:
         ot_entry_address = mode_ot_offset + (s32)gw->draw_buffer;
         setaddr(((S_80F90E88_2 *)ot_entry_address)->unk_B0, (s32) draw_mode);
     }
-    next_object = ((S_80F90E88_0 *)((u8 *)object - 0x8))->unk_00;
+    next_object = *(s32 *)((u8 *)object - 0x8);
     if (next_object != 0) {
         object = (void *) (next_object + 0x20);
         goto draw_object;

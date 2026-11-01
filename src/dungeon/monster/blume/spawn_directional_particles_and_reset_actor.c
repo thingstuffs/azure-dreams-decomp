@@ -148,7 +148,7 @@ void spawn_directional_particles_and_reset_actor(ActorRecord *state, ObjectPosit
                         s32 position_y;
                         ObjectPosition *position;
                         SpriteFrameState *render;
-                        S_80174BEC_3 *motion;
+                        DirectionalParticlesAndResetActorBody *motion;
                         u8 *copy_src;
                         u8 *copy_dst;
                         u8 *copy_end;
@@ -156,8 +156,8 @@ void spawn_directional_particles_and_reset_actor(ActorRecord *state, ObjectPosit
                         S_80174BEC_7 *map;
                         u32 direction_offset;
 
-                        motion = (S_80174BEC_3 *)((u8 *)particle + 0x20);
-                        motion->unk_96 = 0x28 - state->action_timer.u;
+                        motion = (u8 *)particle + 0x20;
+                        motion->lifetime = 0x28 - state->action_timer.u;
                         motion->unk_9B = 0;
                         render = particle->sprite;
                         particle->update_callback = update_damped_height_effect;
@@ -203,17 +203,17 @@ void spawn_directional_particles_and_reset_actor(ActorRecord *state, ObjectPosit
                         coord -= 0x14;
                         coord += offset_z;
                         position->z.w.i = coord;
-                        motion->unk_A4 = velocity_x;
-                        motion->unk_A8 = velocity_y;
+                        motion->velocity_x = velocity_x;
+                        motion->velocity_y = velocity_y;
 
                         direction_offset = (((u16)actor->facing) >> 7) & 0x1C;
-                        motion->unk_A4 += (s32)((TableEntry *)((u8 *)directions + direction_offset))->x
+                        motion->velocity_x += (s32)((TableEntry *)((u8 *)directions + direction_offset))->x
                         << 19;
                         direction_offset = (((u16)actor->facing) >> 7) & 0x1C;
-                        motion->unk_A8 += (u32)((TableEntry *)((u8 *)directions + direction_offset))->y
+                        motion->velocity_y += (u32)((TableEntry *)((u8 *)directions + direction_offset))->y
                         << 19;
-                        motion->unk_AC = -((rand() & 0x7FFF) * 2);
-                        motion->unk_B0 = 0x1000;
+                        motion->velocity_z = -((rand() & 0x7FFF) * 2);
+                        motion->acceleration_z = 0x1000;
                         render->scale_y = 0x1000;
                         render->scale_x = 0x1000;
                         render->color.c.b = 0x80;

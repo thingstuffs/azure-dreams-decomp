@@ -470,10 +470,10 @@ void randomize_paired_object_motion(void *pair_data) {
 }
 
 /* Advance motion, update every eighth tick, and flag zero horizontal velocity. */
-void advance_motion_and_flag_zero_velocity(Actor *actor, Motion *motion, s32 actor_id) {
+void advance_motion_and_flag_zero_velocity(Actor *actor, Motion *motion, SpriteFrameState *actor_id) {
     u16 tick;
 
-    advance_sprite_animation_and_textures((void *)actor_id);
+    advance_sprite_animation_and_textures(actor_id);
     motion->x += motion->dx;
     motion->y += motion->dy;
     motion->z += motion->dz;
@@ -482,9 +482,9 @@ void advance_motion_and_flag_zero_velocity(Actor *actor, Motion *motion, s32 act
     actor->counter = tick;
     if (tick == 0) {
         if (motion->dz < 0) {
-            select_record_entry_and_value((struct Dst *)((void *)actor_id), (struct Elem *)(D_800E9E34), 0);
+            select_record_entry_and_value(actor_id, (struct Elem *)(D_800E9E34), 0);
         } else {
-            select_record_entry_and_value((struct Dst *)((void *)actor_id), (struct Elem *)(D_800E9E14), 0);
+            select_record_entry_and_value(actor_id, (struct Elem *)(D_800E9E14), 0);
         }
     }
     if (motion->dx == 0) {
@@ -504,7 +504,7 @@ s32 event_tori_in(void *source) {
     S_800BD980_0 *origin;
     EventToriInBody *pair_body;
     void *child_slot;
-    void (*child_handler)(void *, void *, s32);
+    void (*child_handler)(void *, void *, SpriteFrameState *);
 
     source_data = source;
     child_slot = NULL;
@@ -560,7 +560,7 @@ s32 event_tori_in(void *source) {
             render_state->scale_y = 0x1000;
             render_state->scale_x = 0x1000;
             render_state->color.word = color;
-            select_record_entry_and_value((struct Dst *)(render_state), (struct Elem *)(&D_800E9E14), 0);
+            select_record_entry_and_value(render_state, (struct Elem *)(&D_800E9E14), 0);
         }
         x_step += 0xFFD00000;
         child_index -= 1;

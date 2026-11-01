@@ -12,6 +12,14 @@ struct SpriteFrameState;
 #include "dungeon/monster/u_boat.h"
 #include "shared/object_flags.h"
 
+typedef struct ActorActionEffectBody {
+    u8 pad_00[0x94];
+    s16 facing;
+    union { s16 s; u16 u; } remaining_count;
+    u8 pad_98[0x6];
+    s16 divisor;
+} ActorActionEffectBody;
+
 typedef struct T_80170D40_S_80170D40_0_pre {
     u16 unk_00;
 } T_80170D40_S_80170D40_0_pre;   /* the 0x2 bytes before arg0 in func_80170D40, addressed as arg0[-1] */
@@ -30,17 +38,6 @@ typedef struct T_80170D40_S_80170D40_1 {
     u8 unk_0D;
     u8 unk_0E;
 } T_80170D40_S_80170D40_1;   /* arg2 in func_80170D40 */
-
-typedef struct T_80170DC4_S_80170DC4_0_pre {
-    u16 unk_00;
-} T_80170DC4_S_80170DC4_0_pre;   /* the 0x2 bytes before arg0 in func_80170DC4, addressed as arg0[-1] */
-
-typedef struct T_80170DC4_S_80170DC4_0 {
-    u8 pad_00[0x96];
-    u16 unk_96;
-    u8 pad_98[0x6];
-    s16 unk_9E;
-} T_80170DC4_S_80170DC4_0;   /* arg0 in func_80170DC4 */
 
 typedef struct T_80170DC4_S_80170DC4_1 {
     u8 pad_00[0xC];
@@ -161,14 +158,6 @@ typedef struct T_8017121C_Vec3u16 {
 
 typedef struct { s32 w0, w1, w2, w3; } Blk16;
 
-typedef struct T_801714FC_S_801714FC_1 {
-    u8 pad_00[0x94];
-    s16 unk_94;
-    s16 unk_96;
-    u8 pad_98[0x6];
-    s16 unk_9E;
-} T_801714FC_S_801714FC_1;   /* v1 in func_801714FC */
-
 typedef struct T_801714FC_S_801714FC_3 {
     u8 pad_00[0x2];
     s16 unk_02;
@@ -250,11 +239,11 @@ typedef struct {
     u8 data[12];
 } T_80171928_Blob12;
 
-typedef struct {
-    u8 pad0[0x18];
-    s16 value18;
-    s16 value1a;
-} T_80171928_Header;
+typedef struct GrowingRotatingFlashBody {
+    u8 pad_00[0x18];
+    u16 lifetime;
+    u16 unk_1A;
+} GrowingRotatingFlashBody;
 
 typedef struct {
     u8 pad0[8];
@@ -281,10 +270,12 @@ typedef struct T_80171A38_S_80171A38_0_pre {
     u16 unk_00;
 } T_80171A38_S_80171A38_0_pre;   /* the 0x2 bytes before arg0 in func_80171A38, addressed as arg0[-1] */
 
-typedef struct T_80171A38_S_80171A38_0 {
+/* Owner body stored in the tracked attachment node at body offset 0x20. */
+typedef struct TrackedAttachmentSpriteBody {
     u8 pad_00[0x20];
-    void * unk_20;
-} T_80171A38_S_80171A38_0;   /* arg0 in func_80171A38 */
+    ActorRecord *owner_body;
+} TrackedAttachmentSpriteBody;
+
 
 typedef struct T_80171A38_S_80171A38_1 {
     u8 pad_00[0x8];
@@ -415,15 +406,15 @@ extern u8 troll_frame_set_1[];
 extern u8 troll_frame_set_2[];
 extern u8 troll_frame_set_3[];
 void update_stepped_rgb_flash(void *fade_state, void *unused, T_80170D40_S_80170D40_1 *primitive);
-void update_normalized_gray_fade(void *countdownState, s32 unused, T_80170DC4_S_80170DC4_1 *output);
+void update_normalized_gray_fade(ActorActionEffectBody *countdownState, s32 unused, T_80170DC4_S_80170DC4_1 *output);
 void update_saved_rgb_fade(T_80170E2C_FadeState *fade, s32 unused, T_80170E2C_FadeOutput *output);
-void update_growing_rotating_flash(void *effect, s32 unused, void *visual);
+void update_growing_rotating_flash(GrowingRotatingFlashBody *effect, s32 unused, void *visual);
 void update_growing_bouncing_effect(void *effect, void *position,struct SpriteFrameState *sprite);
 void create_targeted_motion_effect(ActorRecord *source_handle, ObjectPosition *origin, SpriteFrameState *unused, EntityRec *target);
 void create_actor_action_effect(ActorRecord *source_object, ObjectPosition *source_pos, SpriteFrameState *sprite_template, ActorRecord *actor);
 void spawn_random_color_burst_particle(void *source, ObjectPosition *position);
 void spawn_growing_rotating_flash(ActorRecord *unused, ObjectPosition *position, SpriteFrameState *unused_sprite);
-void update_tracked_attachment_sprite(void *object, T_80171A38_S_80171A38_4 *position, T_80171A38_S_80171A38_3 *part_state);
+void update_tracked_attachment_sprite(TrackedAttachmentSpriteBody *object, T_80171A38_S_80171A38_4 *position, T_80171A38_S_80171A38_3 *part_state);
 void create_tracked_attachment_sprite(ActorRecord *attachment, T_80171BEC_S_80171BEC_3 *base_position);
 void * create_actor_entity(s16 spawn_flags, s32 sprite_x, s32 sprite_y, s32 initial_height);
 void update_actor_behavior(ActorRecord *actor, ObjectPosition *context, SpriteFrameState *sprite, ActorRecord *state);

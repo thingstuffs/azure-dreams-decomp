@@ -1,5 +1,6 @@
 #ifndef TOWN_MAP_H
 #define TOWN_MAP_H
+struct PersonObject;
 /* Prototypes of the functions defined in src/town/map/ (one true prototype each; maintained by tools/headers). */
 
 #include "common.h"
@@ -138,7 +139,7 @@ void build_two_display_entries(void *data_id, s32 position_offset);
 
 /* door.c */
 s32 check_door_status_inverted(void *object);
-void initialize_door_variant(void *record_data, void *position, struct SpriteFrameState *unused_sprite);
+void initialize_door_variant(struct PersonObject *record_data, void *position, struct SpriteFrameState *unused_sprite);
 void handle_door_check_result(struct S_func_800A0708_0 *object, void *callback_arg, s32 callback_data);
 void install_next_door_handler(void *object, void *unused_context, void *update_context, s32 unused_data);
 void open_door_to_target(void *object, void *context);
@@ -343,7 +344,7 @@ void set_fallback_record_handler(void *record);
 void set_record_handler_below_threshold(void *record);
 
 /* set_record_pointer_and_byte.c */
-void set_record_pointer_and_byte(void *record_data, void *placement, struct SpriteFrameState *unused_sprite);
+void set_record_pointer_and_byte(struct PersonObject *record_data, void *placement, struct SpriteFrameState *unused_sprite);
 
 /* shaded_tile_rendering_g00594.c */
 void set_texture_quad_32_uv(u16 texture_page, u16 palette, u8 texture_u, u8 texture_v);

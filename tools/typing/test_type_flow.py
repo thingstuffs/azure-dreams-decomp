@@ -187,3 +187,86 @@ def test_pruned_seed_is_held_and_pieces_split(tmp_path):
     pieces = S.split_pieces(solver, comps)
     held = [p for p in pieces if p[0].endswith('.held') or not any(v['st'] == 'retype' for v in p[2].values())]
     assert held and seeds[0]['node'] in comps[0][4]['pruned']
+
+
+def test_whole_array_member_and_elements(tmp_path):
+    (tmp_path / 'include').mkdir()
+    (tmp_path / 'include' / 'flow.h').write_text("""
+typedef union Scratch {
+    int value;
+    unsigned char bytes[4];
+} Scratch;
+typedef struct Body { Scratch scratch; short path[8]; } Body;
+""")
+    (tmp_path / 'src').mkdir()
+    (tmp_path / 'src' / 'flow.c').write_text(
+        '#include "flow.h"\nvoid use(Body *b) { b->scratch.bytes[2] = 1; }\n')
+    unit, err = A.clang_unit(tmp_path, 'src/flow.c')
+    assert unit is not None, err
+    graph = S.Graph(write_graph(tmp_path, F.Extract(unit).run().dump()))
+    assert graph.member_at('Body', 0, 'unsigned char[4]') == 'scratch.bytes'
+    assert graph.member_at('Body', 2, 'unsigned char') == 'scratch.bytes[2]'
+    assert graph.member_at('Body', 4, 'short[8]') == 'path'
+    assert graph.member_at('Body', 6, 'short') == 'path[1]'
+    leaves = [(p, t) for p, t, _ in unit.leaves_at('Body', 0)]
+    assert ('scratch.bytes', 'unsigned char[4]') in leaves
+    assert ('scratch.bytes[0]', 'unsigned char') in leaves
+
+
+def test_colliding_record_names_do_not_vote(tmp_path):
+    data = extract(tmp_path)
+    gdir = write_graph(tmp_path, data)
+    other = dict(data)
+    other['records'] = dict(data['records'])
+    other['records']['Body'] = dict(data['records']['Body'], file='src/other.c', size=16)
+    with gzip.open(gdir / 'tu' / 'other.json.gz', 'wt') as fh:
+        json.dump(other, fh)
+    graph = S.Graph(gdir)
+    assert 'Body' in graph.ambiguous_records
+    assert graph.cls('Body *') == 'private'
+    runtime = S.Runtime(write_rt(tmp_path, [('handler', 0, 'rk1+0x20=10')]), graph)
+    assert runtime.winner(('heap', 'rk1', 0x20)) == (None, 0.0)
+    seed = {'target': 'Body *'}
+    assert S.seed_target(graph, runtime, seed, 'P:callee#0') == ''
+
+
+def test_unlabelled_cell_does_not_hide_contradicted_cast(tmp_path):
+    data = extract(tmp_path)
+    graph = S.Graph(write_graph(tmp_path, data))
+    runtime = S.Runtime(write_rt(tmp_path, [('handler', 0, 'rk1+0x20=10')]), graph)
+    known = ('heap', 'rk1', 0x20)
+    unknown = ('heap', 'unobserved', 0x20)
+    assert runtime.cast_ok([unknown, known], 0, 'Owner *') == 'wrong'
+    assert runtime.cast_ok([known, unknown], 0, 'Owner *') == 'wrong'
+    assert runtime.cast_ok([unknown, known], 0, 'Body *') == 'unproven'
+    assert runtime.cast_ok([unknown], 0, 'Body *') == 'unproven'
+
+
+def test_local_in_duplicate_function_is_ambiguous(tmp_path):
+    graph = S.Graph(write_graph(tmp_path, extract(tmp_path)))
+    graph.functions['caller'].append(dict(graph.functions['caller'][0], file='src/other.c'))
+    runtime = S.Runtime(write_rt(tmp_path, [('handler', 0, 'rk1+0x20=10')]), graph)
+    solver = S.Solver(graph, runtime)
+    node = 'L:caller:holder@8'
+    comp = {node: dict(t='Body *', st='retype', seed='P:caller#0', **{'from': 's32'})}
+    result = solver.evaluate(comp, [])
+    assert 'ambiguous_definition' in result['node_reasons'][node]
+
+
+def test_ambiguous_function_does_not_supply_runtime_votes(tmp_path):
+    graph = S.Graph(write_graph(tmp_path, extract(tmp_path)))
+    graph.functions['handler'].append(dict(graph.functions['handler'][0], file='src/other.c'))
+    kinds = [dict(id='rk1', role='pool', receivers=[dict(function='handler', arg=0, offset=32)])]
+    runtime = S.Runtime(write_rt(tmp_path, [('handler', 0, 'rk1+0x20=10')], kinds), graph)
+    assert not runtime.pointer_cells('P:handler#0')
+    assert runtime.winner(('heap', 'rk1', 32)) == (None, 0.0)
+
+
+def test_named_runtime_target_precedes_generated_seed_view(tmp_path):
+    graph = S.Graph(write_graph(tmp_path, extract(tmp_path)))
+    graph.typedefs['Rec_func_80000000_arg0'] = 'Body'
+    runtime = S.Runtime(write_rt(tmp_path, [('handler', 0, 'rk1+0x20=10'),
+                                          ('callee', 0, 'rk1+0x20=10')]), graph)
+    seed = dict(target='Rec_func_80000000_arg0 *')
+    assert graph.cls(seed['target']) == 'gen'
+    assert S.seed_target(graph, runtime, seed, 'P:callee#0') == 'Body *'

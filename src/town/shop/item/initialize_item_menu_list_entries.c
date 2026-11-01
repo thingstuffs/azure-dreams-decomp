@@ -5,6 +5,7 @@
 #include "slus.h"
 #include "town/shop.h"
 #include "town/shop/item.h"
+#include "town/shop/item_menu_cursor_transition_g00601.h"
 
 typedef struct S_800AECA4_2 {
     u8 pad_00[0xD8];
@@ -92,7 +93,7 @@ typedef struct S_800AECA4_1 {
 } S_800AECA4_1;   /* base in initialize_item_menu_list_entries */
 
 /* Initializes the list display entries and activates the list. */
-void initialize_item_menu_list_entries(void *list) {
+void initialize_item_menu_list_entries(ItemMenuTransition *list) {
     s16 row_y;
     s16 entry_y;
     s32 row_slot;
@@ -100,10 +101,10 @@ void initialize_item_menu_list_entries(void *list) {
 
     *((S_800AECA4_5 *)(((S_800AECA4_2 *)list)->unk_D8))->unk_04 = &menu_leaf_template_6;
     row_index = 0;
-    *((S_800AECA4_5 *)(((S_800AECA4_2 *)list)->unk_D8))->unk_00 = get_menu_count_template(((S_800AECA4_0 *)list)->unk_28);
+    *((S_800AECA4_5 *)(((S_800AECA4_2 *)list)->unk_D8))->unk_00 = get_menu_count_template(list->entry_count);
     ((SignedWidgetYView *)(((S_800AECA4_10 *)(((S_800AECA4_5 *)(((S_800AECA4_2 *)list)->unk_D8))->unk_00))->unk_04))->unk_0A =
-        (s16) ((((S_800AECA4_0 *)list)->unk_28 * 8) + 2);
-    if (((S_800AECA4_0 *)list)->unk_28 > 0) {
+        (s16) ((list->entry_count * 8) + 2);
+    if (list->entry_count > 0) {
         u8 *row_data_a = D_80077EF0;
         u8 *row_data_b = D_80077EFC;
         entry_y = 0x82;
@@ -117,7 +118,7 @@ void initialize_item_menu_list_entries(void *list) {
             }
             {
                 row_slots_m = (u8 *)(row_slot + (s32)((S_800AECA4_0 *)list)->unk_D8);
-                *((S_800AECA4_1 *)row_slots_m)->unk_38 = list + 0x40;
+                *((S_800AECA4_1 *)row_slots_m)->unk_38 = &list->row_data;
             }
             {
                 row_slots_m = (u8 *)(row_slot + (s32)((S_800AECA4_0 *)list)->unk_D8);
@@ -145,9 +146,9 @@ void initialize_item_menu_list_entries(void *list) {
             row_slot = row_slot + ((S_800AECA4_0 *)list)->unk_D8;
             ((SignedWidgetYView *)(((S_800AECA4_9 *)(((S_800AECA4_4 *)row_slot)->unk_50))->unk_04))->unk_0A = entry_y;
             entry_y += 0x10;
-        } while (row_index < ((S_800AECA4_0 *)list)->unk_28);
+        } while (row_index < list->entry_count);
     }
-    ((S_800AECA4_0 *)list)->unk_04 = 1;
-    ((S_800AECA4_0 *)list)->unk_08 = 1;
+    list->duration = 1;
+    list->progress = 1;
     animate_item_menu_cursor_transition(list);
 }

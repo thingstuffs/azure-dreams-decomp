@@ -200,7 +200,7 @@ void allocate_effect_and_initialize_sprite(s32 effect_data, s32 effect_param, s3
 
 /* Orbits a sprite around its saved position through a transform while rotating, shrinking, and fading
    it to removal. */
-void update_rotating_effect_and_fade(void *effect, void *position_arg, SpriteFrameState *sprite) {
+void update_rotating_effect_and_fade(TexturedOffsetObjectBody *effect, void *position_arg, SpriteFrameState *sprite) {
     Row_8194CD5C_S_8002455C_2 *position = position_arg;
     Row_8194CD5C_InputVector local_offset;
     Row_8194CD5C_OutputVector rotated_offset;
@@ -209,25 +209,25 @@ void update_rotating_effect_and_fade(void *effect, void *position_arg, SpriteFra
     u8 brightness;
     Row_8194CD5C_S_8002455C_1 *counter_state;
 
-    counter_state = ((Row_8194CD5C_S_8002455C_0 *)effect)->unk_00;
+    counter_state = effect->unk_00.ptr;
     counter_state->unk_1A = (u16) (counter_state->unk_1A + 1);
-    ((Row_8194CD5C_S_8002455C_0 *)effect)->unk_2E = (u16) (((Row_8194CD5C_S_8002455C_0 *)effect)->unk_2E + 0x100);
+    effect->unk_2E.u = (u16) (effect->unk_2E.u + 0x100);
     position->unk_00.at00.v = (s32) position->unk_0C;
     position->unk_04.at00.v = (s32) position->unk_10;
     position->unk_08.at00.v = (s32) position->unk_14;
-    local_offset.x = (s16) ((s32) ((rsin((s16) ((Row_8194CD5C_S_8002455C_0 *)effect)->unk_2E)
-        >> 4) * ((Row_8194CD5C_S_8002455C_0 *)effect)->unk_2C) >> 8);
-    y_product = (rcos((s16) ((Row_8194CD5C_S_8002455C_0 *)effect)->unk_2E) >> 4) * ((Row_8194CD5C_S_8002455C_0 *)effect)->unk_2C;
+    local_offset.x = (s16) ((s32) ((rsin(effect->unk_2E.s)
+        >> 4) * effect->unk_2C.s) >> 8);
+    y_product = (rcos(effect->unk_2E.s) >> 4) * effect->unk_2C.s;
     local_offset.z = 0;
     local_offset.y = (s16) (y_product >> 8);
     PushMatrix();
-    ApplyMatrixSV(effect + 4, &local_offset, &rotated_offset);
+    ApplyMatrixSV(&effect->transform, &local_offset, &rotated_offset);
     PopMatrix();
     position->unk_00.at02.v = (u16) (position->unk_00.at02.v + rotated_offset.x);
     position->unk_04.at02.v = (u16) (position->unk_04.at02.v + rotated_offset.y);
     position->unk_08.at02.v = (u16) (position->unk_08.at02.v + rotated_offset.z);
-    if (((Row_8194CD5C_S_8002455C_0 *)effect)->unk_30 != 0) {
-        ((Row_8194CD5C_S_8002455C_0 *)effect)->unk_30 = 0U;
+    if (effect->unk_30 != 0) {
+        effect->unk_30 = 0U;
     }
     brightness = sprite->color.c.b - 8;
     sprite->color.c.b = brightness;
@@ -235,7 +235,7 @@ void update_rotating_effect_and_fade(void *effect, void *position_arg, SpriteFra
     sprite->color.c.r = brightness;
     if (!(brightness & 0xFF) || (scale = sprite->scale_y - 0x100,
         sprite->scale_y = scale, sprite->scale_x = scale,
-        sprite->angle_z = (u16) ((Row_8194CD5C_S_8002455C_0 *)effect)->unk_2E, advance_sprite_animation_and_textures(sprite),
+        sprite->angle_z = effect->unk_2E.u, advance_sprite_animation_and_textures(sprite),
         ((sprite->flags & 0x6000) != 0))) {
         (*(u16 *)((u8 *)effect + -2)) = (u16) (((Row_8194CD5C_S_8002455C_0_pre *)effect)[-1].unk_00 | NODE_REMOVE);
         object_flag_block.flags |= OBJECT_REMOVE_PENDING;
@@ -260,7 +260,7 @@ void create_textured_offset_object(void *source_object)
     s32 *link;
     void *source = source_object;
     ObjectNodeHeader *object;
-    Row_8194CF00_S_80024700_0 *data;
+    TexturedOffsetObjectBody *data;
     SpriteFrameState *primitive;
     ObjectPosition *primitive_2;
     s32 angle_or_zero;
@@ -270,10 +270,10 @@ void create_textured_offset_object(void *source_object)
         link = D_8002455C;
         (object->update_callback) = link;
         value = (*(s32 *)((u8 *)source + 0));
-        data = (u8 *)object + 0x20;
-        (*(s32 *)((u8 *)object + 0x20)) = value;
-        (*(Row_8194CF00_WordQuad *)((u8 *)object + 0x24)) = (*(Row_8194CF00_WordQuad *)((u8 *)source + 0x4C));
-        (*(Row_8194CF00_WordQuad *)((u8 *)object + 0x34)) = (*(Row_8194CF00_WordQuad *)((u8 *)source + 0x5C));
+        data = (TexturedOffsetObjectBody *)((u8 *)object + 0x20);
+        data->unk_00.s = value;
+        data->transform = *(Row_8194CF00_WordQuad *)((u8 *)source + 0x4C);
+        data->source_offset = *(Row_8194CF00_WordQuad *)((u8 *)source + 0x5C);
 
         offset_length = (*(u16 *)((u8 *)source + 0x78));
         angle_or_zero = 0;
@@ -318,7 +318,7 @@ void create_textured_offset_object(void *source_object)
             data->unk_2C.s) >> 8;
         local_offset[2] = 0;
         PushMatrix();
-        ApplyMatrixSV((u8 *)object + 0x24, local_offset, world_offset);
+        ApplyMatrixSV(&data->transform, local_offset, world_offset);
         PopMatrix();
 
         *(u16 *)&primitive_2->x.w.i += world_offset[0];
@@ -329,25 +329,26 @@ void create_textured_offset_object(void *source_object)
 
 /* Advances an effect along its saved travel steps and emits textured orbiting sprites until its step
    counter reaches nine. */
-void advance_object_motion_and_animation(void *object) {
+void advance_object_motion_and_animation(void *object_arg) {
+    Row_8194D118_S_80024918_0 *object = object_arg;
     s16 next_tick;
     s32 velocity_y;
     s32 velocity_z;
     s32 position_y;
     Row_8194D118_S_80024918_1 *state;
 
-    state = ((Row_8194D118_S_80024918_0 *)object)->unk_00;
+    state = object->unk_00;
     state->unk_1A = state->unk_1A + 1;
-    ((Row_8194D118_S_80024918_0 *)object)->unk_78 = ((u32)rsin(((Row_8194D118_S_80024918_0 *)object)->unk_74 << 8)) >> 6;
-    velocity_y = ((Row_8194D118_S_80024918_0 *)object)->unk_44;
-    ((Row_8194D118_S_80024918_0 *)object)->unk_34 += ((Row_8194D118_S_80024918_0 *)object)->unk_40;
-    position_y = ((Row_8194D118_S_80024918_0 *)object)->unk_38;
-    velocity_z = ((Row_8194D118_S_80024918_0 *)object)->unk_48;
-    ((Row_8194D118_S_80024918_0 *)object)->unk_38 = position_y + velocity_y;
-    ((Row_8194D118_S_80024918_0 *)object)->unk_3C += velocity_z;
+    object->unk_78 = ((u32)rsin(object->unk_74 << 8)) >> 6;
+    velocity_y = object->unk_44;
+    object->unk_34 += object->unk_40;
+    position_y = object->unk_38;
+    velocity_z = object->unk_48;
+    object->unk_38 = position_y + velocity_y;
+    object->unk_3C += velocity_z;
     create_textured_offset_object(object);
-    next_tick = (s16)((Row_8194D118_S_80024918_0 *)object)->unk_74 + 1;
-    ((Row_8194D118_S_80024918_0 *)object)->unk_74 = next_tick;
+    next_tick = (s16)object->unk_74 + 1;
+    object->unk_74 = next_tick;
     if (next_tick >= 9) {
         (*(u16 *)((u8 *)object + -2)) |= NODE_REMOVE;
         object_flag_block.flags |= OBJECT_REMOVE_PENDING;

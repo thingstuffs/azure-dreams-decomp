@@ -36,13 +36,12 @@ void interpolate_view_parameters(EntityRec *target, s32 gain_param, void *record
 #include "records/Rec_D_80082E80.h"
 
    /* Increment counters, reduce the stored value, and propagate status flags. */
-void lower_animated_sprite(void *counter_state_arg, B28_818B68B8_S_818B68B8_2 *value_state, SpriteFrameState *status) {
-    B28_818B68B8_S_818B68B8_0 *counter_state = counter_state_arg;
+void lower_animated_sprite(ColoredOffsetSpriteBody *counter_state, B28_818B68B8_S_818B68B8_2 *value_state, SpriteFrameState *status) {
     B28_818B68B8_S_818B68B8_1 *linked_counter;
 
-    linked_counter = counter_state->unk_00;
+    linked_counter = counter_state->owner_context.owner;
     linked_counter->unk_14 = (u16) (linked_counter->unk_14 + 1);
-    counter_state->unk_04 = (u16) (counter_state->unk_04 + 1);
+    counter_state->update_count = (u16) (counter_state->update_count + 1);
     value_state->unk_08 = (s32) (value_state->unk_08 + 0xFFF60000);
     advance_sprite_animation_and_textures(status);
     if (status->flags & 0x6000) {
@@ -68,15 +67,15 @@ void * create_colored_offset_sprite(s32 context_value, void *source_state, s32 r
     SpriteFrameState *render_state;
     s32 *object_state;
     ObjectNodeHeader *object;
-    B28_818B6954_S_818B6954_1 *object_data;
+    ColoredOffsetSpriteBody *object_data;
 
     object = allocate_flagged_object_node(0x212);
     if (object != NULL) {
         object->update_callback = lower_animated_sprite;
-        object_data = (B28_818B6954_S_818B6954_1 *)((u8 *)object + 0x20);
-        ((B28_818B6954_S_818B6954_0 *)object)->unk_20 = context_value;
-        object_data->unk_04 = 0;
-        object_data->unk_06 = 0;
+        object_data = (ColoredOffsetSpriteBody *)((u8 *)object + 0x20);
+        object_data->owner_context.context_value = context_value;
+        object_data->update_count = 0;
+        object_data->state = 0;
         render_state = object->sprite;
         render_state->color.word = render_param;
         render_state->clut = 0x7DCF;

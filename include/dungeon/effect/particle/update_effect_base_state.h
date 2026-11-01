@@ -63,12 +63,15 @@ typedef struct S_81844800_5 {
     u32 unk_04;
 } S_81844800_5;   /* s8_page in func_80024020 */
 
-typedef struct S_81844800_6 {
-    u8 pad_00[0x48];
-    u16 unk_48;
-    u16 unk_4A;
-    u16 unk_4C;
-} S_81844800_6;   /* part in func_80024020 */
+
+/* Owner and staged fade counters for particles spawned by a fading projectile. */
+typedef struct RunFadingTargetProjectileBody {
+    void *owner;
+    u8 pad_04[0x44];
+    u16 timer;
+    union { u16 u; s16 s; u8 byte; } brightness_step;
+    union { u16 u; s16 s; } state;
+} RunFadingTargetProjectileBody;
 
 typedef struct S_81844800_7 {
     u8 pad_00[0x24];
@@ -209,5 +212,5 @@ extern void SetPolyFT4(void *);
 void run_fading_target_projectile(void *effect, void *motion, void *source_render);
 void update_effect_base_state(s32 effect_or_count);
 s32 draw_layered_vertical_sprite_chain(u8 *first_node);
-void fade_effect_sprite_to_black(void *effect, VecState *motion, SpriteFrameState *sprite);
+void fade_effect_sprite_to_black(RunFadingTargetProjectileBody *effect, VecState *motion, SpriteFrameState *sprite);
 #endif

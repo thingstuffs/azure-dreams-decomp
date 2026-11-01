@@ -829,9 +829,8 @@ s32 project_colored_point_to_ordering_table(u8 *render_data, u8 *source_vertex)
 extern s16 point_cloud_update_flag[5];
 
 /* Conditionally advances the position and decrements a counter, setting flags when it expires. */
-void advance_colored_point_toward_terrain(void *object, s16 *position)
+void advance_colored_point_toward_terrain(TerrainSeekingColoredPointBody *object, s16 *position)
 {
-    s16 *object_fields = object;
     s16 counter;
 
     s16 minimum_height = position[5] + 2;
@@ -840,13 +839,13 @@ void advance_colored_point_toward_terrain(void *object, s16 *position)
 
     *point_cloud_update_flag = 1;
     if (position[5] < (s16)sample_terrain_surface_height(query_x, query_y, minimum_height)) {
-        ((s32 *)position)[2] += *(s32 *)((u8 *)object + 0xB4);
+        ((s32 *)position)[2] += object->z_velocity;
     }
 
-    counter = (u16)object_fields[8] - 4;
-    object_fields[8] = counter;
+    counter = (u16)object->intensity - 4;
+    object->intensity = counter;
     if ((counter << 16) <= 0) {
-        ((u16 *)object_fields)[-1] |= NODE_REMOVE;
+        *(u16 *)((u8 *)object - 2) |= NODE_REMOVE;
         object_flag_block.flags |= OBJECT_REMOVE_PENDING;
     }
 }
@@ -867,17 +866,6 @@ typedef struct S_func_800250B0_0 {
     s32 unk_20;
 } S_func_800250B0_0;
 
-typedef struct S_func_800250B0_3 {
-    u8 pad_00[0x04];
-    s16 unk_04;
-    u8 pad_06[0x0A];
-    s16 unk_10;
-    s16 unk_12;
-    u8 pad_14[0xA0];
-    s32 unk_B4;
-} S_func_800250B0_3;
-
-
 /* Creates an object at a randomized offset from the source and initializes its actor data. */
 void create_terrain_seeking_colored_point(
     void *source,
@@ -894,7 +882,7 @@ void create_terrain_seeking_colored_point(
     s16 saved_pair ;
     s32 saved_z_offset = z_offset;
     S_func_800250B0_0 *spawned_obj;
-    S_func_800250B0_3 *actor_data;
+    TerrainSeekingColoredPointBody *actor_data;
     s32 y_jitter;
     s32 z_jitter;
     s16 x_bias;
@@ -934,18 +922,18 @@ void create_terrain_seeking_colored_point(
         init_data = project_colored_point_to_ordering_table;
         z_jitter &= 0x1F;
         z_pos = ((MovingPosition *)source_obj->position)->z;
-        actor_data = (S_func_800250B0_3 *)((u8 *)spawned_obj + 0x20);
+        actor_data = (TerrainSeekingColoredPointBody *)((u8 *)spawned_obj + 0x20);
         z_dest = spawned_obj->unk_08;
         z_pos += z_jitter;
         z_bias = saved_z_offset - 0x10;
         z_pos += z_bias;
         z_dest->z.w.i = (s16)z_pos;
         actor_data->unk_04 = saved_field_04;
-        actor_data->unk_10 = saved_pair;
-        actor_data->unk_12 = saved_pair;
+        actor_data->intensity = saved_pair;
+        actor_data->divisor = saved_pair;
         register_node(init_obj, init_data);
-        actor_data->unk_B4 = rand() + 0x10000;
-        spawned_obj->unk_20 = saved_field_00;
+        actor_data->z_velocity = rand() + 0x10000;
+        actor_data->color = saved_field_00;
     }
 }
 

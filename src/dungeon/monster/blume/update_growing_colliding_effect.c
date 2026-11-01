@@ -8,22 +8,6 @@
 /* Sparse views for fields not covered by the existing record types. */
 typedef struct { u16 flags; } EffectFieldView_80DB9C2CPrefix;
 
-typedef struct S_8017142C_0 {
-    s16 unk_00;
-    u8 pad_02[0x18];
-    s16 unk_1A;
-    u8 pad_1C[0x8];
-    u16 unk_24;
-    u16 unk_26;
-    u8 pad_28[0x38];
-    s32 unk_60;
-    s32 unk_64;
-    s32 unk_68;
-    s32 unk_6C;
-    s32 unk_70;
-    s32 unk_74;
-} S_8017142C_0;   /* arg0 in update_growing_colliding_effect */
-
 typedef struct S_8017142C_1 {
     union { struct { s32 v; } at00; struct { u8 pad[0x2]; u16 v; } at02; } unk_00;   /* overlapping accesses */
     union { struct { s32 v; } at00; struct { u8 pad[0x2]; u16 v; } at02; } unk_04;   /* overlapping accesses */
@@ -38,7 +22,7 @@ extern s32 check_left_tile_and_center_height(s32 x, s32 y, s32 z);
 extern s16 sample_terrain_surface_height();
 
 /* Update effect motion, collisions, sprite growth, and timed fading. */
-void update_growing_colliding_effect(void *effect, void *position, SpriteFrameState *sprite) {
+void update_growing_colliding_effect(GrowingCollidingEffectBody *effect, void *position, SpriteFrameState *sprite) {
     s32 move_height;
     s32 fade_height;
     s32 phase;
@@ -53,42 +37,42 @@ void update_growing_colliding_effect(void *effect, void *position, SpriteFrameSt
     u16 fade_scale_y;
     u16 fade_ticks_left;
 
-    if (((S_8017142C_0 *)effect)->unk_00 == 0) {
-        ((S_8017142C_1 *)position)->unk_00.at00.v += ((S_8017142C_0 *)effect)->unk_60;
-        velocity_x = ((S_8017142C_0 *)effect)->unk_60;
-        ((S_8017142C_0 *)effect)->unk_60 = (velocity_x * 2) / 3;
+    if (effect->unk_00 == 0) {
+        ((S_8017142C_1 *)position)->unk_00.at00.v += effect->unk_60;
+        velocity_x = effect->unk_60;
+        effect->unk_60 = (velocity_x * 2) / 3;
         if ((check_left_tile_and_center_height(((S_8017142C_1 *)position)->unk_00.at02.v, ((S_8017142C_1 *)position)->unk_04.at02.v,
             ((S_8017142C_1 *)position)->unk_08.at02.v) << 0x10) != 0) {
-            ((S_8017142C_1 *)position)->unk_00.at00.v -= ((S_8017142C_0 *)effect)->unk_60;
-            ((S_8017142C_0 *)effect)->unk_60 = 0;
-            ((S_8017142C_0 *)effect)->unk_6C = 0;
+            ((S_8017142C_1 *)position)->unk_00.at00.v -= effect->unk_60;
+            effect->unk_60 = 0;
+            effect->unk_6C = 0;
         }
-        ((S_8017142C_1 *)position)->unk_04.at00.v += ((S_8017142C_0 *)effect)->unk_64;
-        velocity_y = ((S_8017142C_0 *)effect)->unk_64;
-        ((S_8017142C_0 *)effect)->unk_64 = (velocity_y * 2) / 3;
+        ((S_8017142C_1 *)position)->unk_04.at00.v += effect->unk_64;
+        velocity_y = effect->unk_64;
+        effect->unk_64 = (velocity_y * 2) / 3;
         if ((check_left_tile_and_center_height(((S_8017142C_1 *)position)->unk_00.at02.v, ((S_8017142C_1 *)position)->unk_04.at02.v,
             ((S_8017142C_1 *)position)->unk_08.at02.v) << 0x10) != 0) {
-            ((S_8017142C_1 *)position)->unk_04.at00.v -= ((S_8017142C_0 *)effect)->unk_64;
-            ((S_8017142C_0 *)effect)->unk_64 = 0;
-            ((S_8017142C_0 *)effect)->unk_70 = 0;
+            ((S_8017142C_1 *)position)->unk_04.at00.v -= effect->unk_64;
+            effect->unk_64 = 0;
+            effect->unk_70 = 0;
         }
-        ((S_8017142C_1 *)position)->unk_08.at00.v += ((S_8017142C_0 *)effect)->unk_68;
-        ((S_8017142C_0 *)effect)->unk_68 += ((S_8017142C_0 *)effect)->unk_74;
+        ((S_8017142C_1 *)position)->unk_08.at00.v += effect->unk_68;
+        effect->unk_68 += effect->unk_74;
         move_height = ((S_8017142C_1 *)position)->unk_08.at02.v;
         if ((sample_terrain_surface_height(((S_8017142C_1 *)position)->unk_00.at02.v, ((S_8017142C_1 *)position)->unk_04.at02.v,
             (s16)((u16)((S_8017142C_1 *)position)->unk_08.at02.v - 4)) - 0x10) < move_height) {
-            ((S_8017142C_0 *)effect)->unk_68 = 0;
+            effect->unk_68 = 0;
             ((S_8017142C_1 *)position)->unk_08.at02.v = sample_terrain_surface_height(((S_8017142C_1 *)position)->unk_00.at02.v,
                 ((S_8017142C_1 *)position)->unk_04.at02.v, (s16)((u16)((S_8017142C_1 *)position)->unk_08.at02.v - 4))
             - 0x11;
             ((S_8017142C_1 *)position)->unk_08.at00u.v = 0;
-            if (((S_8017142C_0 *)effect)->unk_1A == 0) {
-                ((S_8017142C_0 *)effect)->unk_1A = 1;
-                ((S_8017142C_0 *)effect)->unk_24 = 0;
+            if (effect->unk_1A == 0) {
+                effect->unk_1A = 1;
+                effect->unk_24 = 0;
             }
         }
-        anim_tick = ((S_8017142C_0 *)effect)->unk_26 + 1;
-        ((S_8017142C_0 *)effect)->unk_26 = anim_tick;
+        anim_tick = effect->unk_26 + 1;
+        effect->unk_26 = anim_tick;
         if (!(anim_tick & 3)) {
             advance_sprite_animation_and_textures(sprite);
         }
@@ -102,25 +86,25 @@ void update_growing_colliding_effect(void *effect, void *position, SpriteFrameSt
         if ((u32)(move_scale_y & 0xFFFF) >= 0x2001U) {
             sprite->scale_y = 0x2000;
         }
-        move_ticks_left = ((S_8017142C_0 *)effect)->unk_24 - 1;
-        ((S_8017142C_0 *)effect)->unk_24 = move_ticks_left;
+        move_ticks_left = effect->unk_24 - 1;
+        effect->unk_24 = move_ticks_left;
         if ((move_ticks_left << 0x10) <= 0) {
-            ((S_8017142C_0 *)effect)->unk_1A = 0;
-            ((S_8017142C_0 *)effect)->unk_00 = (u16)((S_8017142C_0 *)effect)->unk_00 + 1;
+            effect->unk_1A = 0;
+            effect->unk_00 = (u16)effect->unk_00 + 1;
         }
         if (sprite->flags & 0x8000) {
             (((EffectFieldView_80DB9C2CPrefix *)effect)[-1].flags) |= 0x8000;
             object_flag_block.flags |= OBJECT_REMOVE_PENDING;
         }
     }
-    phase = ((S_8017142C_0 *)effect)->unk_00;
+    phase = effect->unk_00;
     if (phase == 1) {
-        if (((S_8017142C_0 *)effect)->unk_1A == 0) {
-            ((S_8017142C_0 *)effect)->unk_1A = phase;
-            ((S_8017142C_0 *)effect)->unk_24 = 0x14;
-            ((S_8017142C_0 *)effect)->unk_26 = 0x14;
-            ((S_8017142C_0 *)effect)->unk_64 = 0;
-            ((S_8017142C_0 *)effect)->unk_60 = 0;
+        if (effect->unk_1A == 0) {
+            effect->unk_1A = phase;
+            effect->unk_24 = 0x14;
+            effect->unk_26 = 0x14;
+            effect->unk_64 = 0;
+            effect->unk_60 = 0;
         }
         fade_scale_x = sprite->scale_x + 0xC8;
         sprite->scale_x = fade_scale_x;
@@ -132,27 +116,27 @@ void update_growing_colliding_effect(void *effect, void *position, SpriteFrameSt
         if ((u32)(fade_scale_y & 0xFFFF) >= 0x2001U) {
             sprite->scale_y = 0x2000;
         }
-        ((S_8017142C_1 *)position)->unk_08.at00.v += ((S_8017142C_0 *)effect)->unk_68;
-        ((S_8017142C_0 *)effect)->unk_68 += ((S_8017142C_0 *)effect)->unk_74;
+        ((S_8017142C_1 *)position)->unk_08.at00.v += effect->unk_68;
+        effect->unk_68 += effect->unk_74;
         fade_height = ((S_8017142C_1 *)position)->unk_08.at02.v;
         if ((sample_terrain_surface_height(((S_8017142C_1 *)position)->unk_00.at02.v, ((S_8017142C_1 *)position)->unk_04.at02.v,
             (s16)((u16)((S_8017142C_1 *)position)->unk_08.at02.v - 4)) - 0x10) < fade_height) {
-            ((S_8017142C_0 *)effect)->unk_68 = 0;
+            effect->unk_68 = 0;
             ((S_8017142C_1 *)position)->unk_08.at02.v = sample_terrain_surface_height(((S_8017142C_1 *)position)->unk_00.at02.v,
                 ((S_8017142C_1 *)position)->unk_04.at02.v, (s16)((u16)((S_8017142C_1 *)position)->unk_08.at02.v - 4))
             - 0x11;
             ((S_8017142C_1 *)position)->unk_08.at00u.v = 0;
-            if (((S_8017142C_0 *)effect)->unk_1A == 0) {
-                ((S_8017142C_0 *)effect)->unk_1A = phase;
-                ((S_8017142C_0 *)effect)->unk_24 = 0;
+            if (effect->unk_1A == 0) {
+                effect->unk_1A = phase;
+                effect->unk_24 = 0;
             }
         }
-        fade_level = ((s16)((S_8017142C_0 *)effect)->unk_24 << 7) / (s16)((S_8017142C_0 *)effect)->unk_26;
+        fade_level = ((s16)effect->unk_24 << 7) / (s16)effect->unk_26;
         sprite->color.c.b = 0;
         sprite->color.c.g = fade_level;
         sprite->color.c.r = fade_level;
-        fade_ticks_left = ((S_8017142C_0 *)effect)->unk_24 - 1;
-        ((S_8017142C_0 *)effect)->unk_24 = fade_ticks_left;
+        fade_ticks_left = effect->unk_24 - 1;
+        effect->unk_24 = fade_ticks_left;
         if ((fade_ticks_left << 0x10) <= 0) {
             (((EffectFieldView_80DB9C2CPrefix *)effect)[-1].flags) |= 0x8000;
             object_flag_block.flags |= OBJECT_REMOVE_PENDING;

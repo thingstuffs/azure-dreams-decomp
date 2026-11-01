@@ -1,5 +1,6 @@
 #ifndef DUNGEON_EFFECT_PARTICLE_H
 #define DUNGEON_EFFECT_PARTICLE_H
+struct LayeredSpritePulseBody;
 #include "common.h"
 #include "shared/entity.h"
 #include "shared/sprite_frame_state.h"
@@ -98,6 +99,52 @@ typedef struct UpdateDirectionalActorEffectBody {
     u16 timer;
 } UpdateDirectionalActorEffectBody;
 
+/* Countdown, owning slot, and source record for a linked display sprite. */
+typedef struct FreeSlotDisplayEffectBody {
+    u8 pad_00[0x2A];
+    union { s16 s; u16 u; } remaining;
+    s16 fade_step;
+    u8 pad_2E[0x4];
+    s16 slot_index;
+    u8 pad_34[0x2C];
+    void *owner;
+    u8 pad_64[0x16];
+    u8 unk_7A;
+    u8 unk_7B;
+} FreeSlotDisplayEffectBody;
+
+/* Indexed parent state and segment shape used by the animated ribbon updater. */
+typedef struct EightPartTexturedRibbonBody {
+    u8 unk_00;
+    u8 unk_01;
+    u8 unk_02;
+    u8 pad_03[0x0F];
+    union { s16 s; u16 u; } unk_12;
+    u8 pad_14[0x4];
+    union { s16 s; u16 u; } unk_18;
+    u16 unk_1A;
+    s16 unk_1C;
+    s16 unk_1E;
+    u8 pad_20[0x4];
+    s32 unk_24;
+    u8 pad_28[0x34];
+    union { s32 s; s32 u; } unk_5C;
+    s32 unk_60;
+    u8 pad_64[0x10];
+    u16 unk_74;
+    u16 unk_76;
+    u16 unk_78;
+    u16 unk_7A;
+    u16 unk_7C;
+    u16 unk_7E;
+    u16 unk_80;
+    u16 unk_82;
+    u16 unk_84;
+    u16 unk_86;
+    u16 unk_88;
+    u16 unk_8A;
+} EightPartTexturedRibbonBody;
+
 /* Owner declarations appended by tools/headers (append-only; the lines above are hand-kept). */
 #include "shared/dungeon_effect_views.h"
 struct D_800DB420_Obj;
@@ -108,14 +155,14 @@ struct S_func_818DA800_1;
 struct S_func_818DA800_2;
 void advance_jittered_effect_modes(struct D_800DB420_Obj *state, struct D_800DB420_RngOut *position, SpriteFrameState *effect);
 s32 draw_flagged_particle_points(PointRecord *first_point, ObjectPosition *first_position);
-void fade_linked_display_sprite(void *effect, void *unused_context, void *effect_params);
+void fade_linked_display_sprite(struct FreeSlotDisplayEffectBody *effect, void *unused_context, void *effect_params);
 void fade_packed_object_color_to_zero(void *object);
-void fade_tinted_display_sprite(void *effect, void *unused, void *primitive);
+void fade_tinted_display_sprite(struct FreeSlotDisplayEffectBody *effect, void *unused, void *primitive);
 void run_fading_sprite_projectile(struct S_func_81856800_1 *action, struct S_func_81856800_2 *motion_arg);
 void run_growing_target_effect(struct S_func_818DA800_1 *effect_state, struct S_func_818DA800_2 *motion);
 void spawn_scattered_timed_objects(void *source_owner, void *spawn_params);
-void update_animated_textured_ribbon(u8 *effect, void *origin, void *color_in);
-void update_flickering_layer_sprite(void *effect_data, void *unused, SpriteFrameState *effect);
+void update_animated_textured_ribbon(EightPartTexturedRibbonBody *effect, void *origin, void *color_in);
+void update_flickering_layer_sprite(struct LayeredSpritePulseBody *effect_data, void *unused, SpriteFrameState *effect);
 void update_landing_particle_fade(u8 *object, u8 *motion, u8 *sprite);
 
 void transform_rotated_vertices(void *transform_data);
