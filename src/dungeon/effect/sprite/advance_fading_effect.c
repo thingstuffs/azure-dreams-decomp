@@ -199,7 +199,7 @@ static __inline__ s32 first_delta_s32_s32(s32 end, s32 start)
 /* Interpolates and projects a shaded line, then links it into the depth ordering table. */
 s32 project_and_queue_shaded_line(void *line, void *unused_render_context)
 {
-    u8 *line_or_red;
+    ovl_188298c_81862ED8_S_800246D8_3 *line_or_red;
     u8 *scratch = (u8 *)0x1F800000;
     u8 *packet;
     void *projection_out_a;
@@ -208,7 +208,7 @@ s32 project_and_queue_shaded_line(void *line, void *unused_render_context)
     s32 mask_or_phase;
     s32 phase_or_depth;
     s32 multiplier;
-    u8 *line_bytes = line;
+    ovl_188298c_81862ED8_S_800246D8_3 *line_bytes = line;
     s32 y;
     s32 first_z;
     s32 second_z;
@@ -225,14 +225,14 @@ s32 project_and_queue_shaded_line(void *line, void *unused_render_context)
     ((ovl_188298c_81862ED8_S_800246D8_2 *)packet)->unk_00.at03.v = 4;
     ((ovl_188298c_81862ED8_S_800246D8_2 *)packet)->unk_07 = 0x50;
 
-    ((ovl_188298c_81862ED8_S_800246D8_0 *)scratch)->unk_64 = ((ovl_188298c_81862ED8_S_800246D8_3 *)line_or_red)->unk_22;
-    ((ovl_188298c_81862ED8_S_800246D8_0 *)scratch)->unk_66 = ((ovl_188298c_81862ED8_S_800246D8_3 *)line_or_red)->unk_26;
-    ((ovl_188298c_81862ED8_S_800246D8_0 *)scratch)->unk_68 = ((ovl_188298c_81862ED8_S_800246D8_3 *)line_or_red)->unk_2A;
-    ((ovl_188298c_81862ED8_S_800246D8_0 *)scratch)->unk_6C = ((ovl_188298c_81862ED8_S_800246D8_3 *)line_or_red)->unk_3A;
-    ((ovl_188298c_81862ED8_S_800246D8_0 *)scratch)->unk_6E = ((ovl_188298c_81862ED8_S_800246D8_3 *)line_or_red)->unk_3E;
-    ((ovl_188298c_81862ED8_S_800246D8_0 *)scratch)->unk_70 = ((ovl_188298c_81862ED8_S_800246D8_3 *)line_or_red)->unk_42;
+    ((ovl_188298c_81862ED8_S_800246D8_0 *)scratch)->unk_64 = line_or_red->unk_22;
+    ((ovl_188298c_81862ED8_S_800246D8_0 *)scratch)->unk_66 = line_or_red->unk_26;
+    ((ovl_188298c_81862ED8_S_800246D8_0 *)scratch)->unk_68 = line_or_red->unk_2A;
+    ((ovl_188298c_81862ED8_S_800246D8_0 *)scratch)->unk_6C = line_or_red->unk_3A;
+    ((ovl_188298c_81862ED8_S_800246D8_0 *)scratch)->unk_6E = line_or_red->unk_3E;
+    ((ovl_188298c_81862ED8_S_800246D8_0 *)scratch)->unk_70 = line_or_red->unk_42;
 
-    phase_or_depth = ((ovl_188298c_81862ED8_S_800246D8_3 *)line_or_red)->unk_10 - 1;
+    phase_or_depth = line_or_red->unk_10 - 1;
     switch (phase_or_depth) {
     case 0:
     case 1:
@@ -253,7 +253,7 @@ s32 project_and_queue_shaded_line(void *line, void *unused_render_context)
         delta.word = first_delta_s32_s32(((ovl_188298c_81862ED8_S_800246D8_0 *)scratch)->unk_6C, (x0 = ((ovl_188298c_81862ED8_S_800246D8_0 *)scratch)->unk_64))
         << 16;
         delta.word >>= 3;
-        delta.word *= ((ovl_188298c_81862ED8_S_800246D8_3 *)line_or_red)->unk_10 + 1;
+        delta.word *= line_or_red->unk_10 + 1;
 
         y0 = ((ovl_188298c_81862ED8_S_800246D8_0 *)scratch)->unk_66;
         mask = 0xFFFF0000;
@@ -262,7 +262,7 @@ s32 project_and_queue_shaded_line(void *line, void *unused_render_context)
         delta.word &= mask;
         ((ovl_188298c_81862ED8_S_800246D8_0 *)scratch)->unk_6C = x0 + step_x;
         delta.word >>= 3;
-        delta.word *= ((ovl_188298c_81862ED8_S_800246D8_3 *)line_or_red)->unk_10 + 1;
+        delta.word *= line_or_red->unk_10 + 1;
 
         end_z = ((ovl_188298c_81862ED8_S_800246D8_0 *)scratch)->unk_70;
         z0 = ((ovl_188298c_81862ED8_S_800246D8_0 *)scratch)->unk_68;
@@ -271,17 +271,17 @@ s32 project_and_queue_shaded_line(void *line, void *unused_render_context)
         delta.word &= mask;
         ((ovl_188298c_81862ED8_S_800246D8_0 *)scratch)->unk_6E = y0 + step_y;
         delta.word >>= 3;
-        delta.word *= ((ovl_188298c_81862ED8_S_800246D8_3 *)line_or_red)->unk_10 + 1;
+        delta.word *= line_or_red->unk_10 + 1;
         z0 += delta.half.high;
         ((ovl_188298c_81862ED8_S_800246D8_0 *)scratch)->unk_70 = z0;
     }
         {
             s32 level;
 
-            mask_or_phase = ((ovl_188298c_81862ED8_S_800246D8_3 *)line_or_red)->unk_10;
+            mask_or_phase = line_or_red->unk_10;
             multiplier = 15;
             level = mask_or_phase + 1;
-            line_or_red = (u8 *)(level * multiplier);
+            line_or_red = (ovl_188298c_81862ED8_S_800246D8_3 *)(level * multiplier);
             multiplier = 23;
             y = level * multiplier;
             level = 0x40;
@@ -323,7 +323,7 @@ s32 project_and_queue_shaded_line(void *line, void *unused_render_context)
         delta.word = first_delta_s32_s32(((ovl_188298c_81862ED8_S_800246D8_0 *)scratch)->unk_6C, (x0 = ((ovl_188298c_81862ED8_S_800246D8_0 *)scratch)->unk_64))
         << 16;
         delta.word >>= 3;
-        delta.word *= ((ovl_188298c_81862ED8_S_800246D8_3 *)line_or_red)->unk_10 - 7;
+        delta.word *= line_or_red->unk_10 - 7;
 
         y0 = ((ovl_188298c_81862ED8_S_800246D8_0 *)scratch)->unk_66;
         mask = 0xFFFF0000;
@@ -332,7 +332,7 @@ s32 project_and_queue_shaded_line(void *line, void *unused_render_context)
         delta.word &= mask;
         ((ovl_188298c_81862ED8_S_800246D8_0 *)scratch)->unk_64 = x0 + step_x;
         delta.word >>= 3;
-        delta.word *= ((ovl_188298c_81862ED8_S_800246D8_3 *)line_or_red)->unk_10 - 7;
+        delta.word *= line_or_red->unk_10 - 7;
 
         end_z = ((ovl_188298c_81862ED8_S_800246D8_0 *)scratch)->unk_70;
         z0 = ((ovl_188298c_81862ED8_S_800246D8_0 *)scratch)->unk_68;
@@ -341,7 +341,7 @@ s32 project_and_queue_shaded_line(void *line, void *unused_render_context)
         delta.word &= mask;
         ((ovl_188298c_81862ED8_S_800246D8_0 *)scratch)->unk_66 = y0 + step_y;
         delta.word >>= 3;
-        delta.word *= ((ovl_188298c_81862ED8_S_800246D8_3 *)line_or_red)->unk_10 - 7;
+        delta.word *= line_or_red->unk_10 - 7;
         z0 += delta.half.high;
         ((ovl_188298c_81862ED8_S_800246D8_0 *)scratch)->unk_68 = z0;
     }
@@ -349,10 +349,10 @@ s32 project_and_queue_shaded_line(void *line, void *unused_render_context)
             s32 k;
             s32 k23;
 
-            y = ((ovl_188298c_81862ED8_S_800246D8_3 *)line_or_red)->unk_10;
+            y = line_or_red->unk_10;
             k = 15;
             mask_or_phase = y - 7;
-            line_or_red = (u8 *)(mask_or_phase * k);
+            line_or_red = (ovl_188298c_81862ED8_S_800246D8_3 *)(mask_or_phase * k);
             k23 = 23;
             mask_or_phase *= k23;
             ((ovl_188298c_81862ED8_S_800246D8_2 *)packet)->unk_0D = 0;

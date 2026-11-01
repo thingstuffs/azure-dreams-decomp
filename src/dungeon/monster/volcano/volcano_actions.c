@@ -242,7 +242,7 @@ void update_actor_behavior_facing_and_animation_2(ActorRecord *actor_in, ObjectP
         if (sprite_in->frameTable == volcano_frame_set_2) {
             actor_in->action_id.u = 0xD;
             actor_in->action_phase.u = 1;
-            ((E_80170E5C_S_80170E5C_0 *)actor_in)->unk_8C = 0;
+            actor_in->unk_8C.word = 0;
             ((E_80170E5C_S_80170E5C_1 *)status)->unk_1C &= ~0x40000;
             return;
         }
@@ -732,10 +732,10 @@ void advance_actor_path_step(ActorRecord *action, ObjectPosition *action_id, Spr
     if (move_result == 3 && !(g_dungeon_status.flags & 0x80)
         && !(entity->flags & 0x8000)) {
         set_actor_directional_animation(action, action_id, entity, state);
-        ((E_80171B68_S_80171570_2 *)action)->unk_8C = 0;
+        action->unk_8C.word = 0;
     } else {
         action->action_id.u = 0x0F;
-        ((E_80171B68_S_80171570_2 *)action)->unk_8C = 0;
+        action->unk_8C.word = 0;
     }
     state->unk_1C |= 0x40000000;
     if (g_dungeon_status.flags & 0x80) {
@@ -826,7 +826,7 @@ void begin_actor_attack_after_status_check(ActorRecord *action_state, ObjectPosi
         apply_camera_offset_and_select_target((u8 *)actor - 0x20, action_context, 8, 0x300);
         if ((try_claim_dungeon_action_slot(actor) << 0x10) == 0) {
             action_state->action_id.s = 0x11;
-            (*(s32 *)((u8 *)action_state + 0x8C)) = 0;
+            action_state->unk_8C.word = 0;
             action_state->action_phase.s = 0;
             sprite->frameTable = &volcano_frame_set_10;
             select_sprite_entry(sprite, *((((s32) (g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7)
@@ -959,7 +959,7 @@ void start_actor_directional_animation(ActorRecord *actor_state, ObjectPosition 
         apply_camera_offset_and_select_target((u8 *)actor - 0x20, action_param, 8, 0x300);
         if ((try_claim_dungeon_action_slot(actor) << 0x10) == 0) {
             actor_state->action_id.s = 0x18;
-            ((E_8017236C_S_8017236C_1 *)actor_state)->unk_8C = 0;
+            actor_state->unk_8C.word = 0;
             actor_state->action_phase.s = 0;
             sprite->frameTable = &volcano_frame_set_9;
             select_sprite_entry(sprite,
@@ -1227,7 +1227,7 @@ void update_actor_spell_action(void *state, E_80172A58_S_80172A58_6 *position, E
         position->unk_0C = 0;
         set_record_integer_tile_center(position, sprite->unk_24, sprite->unk_25);
         g_dungeon_status.active_actor = 0;
-        ((E_80172A58_S_80172A58_7 *)primary_actor_record)->unk_A6 = (u16) (((E_80172A58_S_80172A58_7 *)primary_actor_record)->unk_A6 - 1);
+        primary_actor_record->unk_A4.halves.high.u = (u16) (primary_actor_record->unk_A4.halves.high.u - 1);
         advance_status_timers(actor);
         ((E_80172A58_S_80172A58_1 *)actor)->unk_6D = (u8) (((E_80172A58_S_80172A58_1 *)actor)->unk_6D - 1);
         ((E_80172A58_S_80172A58_0 *)state)->unk_8C = update_actor_behavior_facing_and_animation_2;

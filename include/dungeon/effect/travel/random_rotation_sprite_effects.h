@@ -18,6 +18,20 @@ typedef struct ASpriteRandomRotationCopiesInitialDataBody {
     union { s16 s; u16 u; } ticks;
     union { s16 s; u16 u; } lifetime;
 } ASpriteRandomRotationCopiesInitialDataBody;
+/* Owner link and child counter for the randomized grayscale emitter. */
+typedef struct RandomizedGrayscaleEffectBody {
+    void *owner;
+    u16 ticks_remaining;
+} RandomizedGrayscaleEffectBody;
+/* Owner link and milestone counter for the counted sprite emitter. */
+typedef struct CountedSpriteEffectBody {
+    void *owner;
+    u16 ticks_remaining;
+} CountedSpriteEffectBody;
+/* Parent link stored by the sprite that copies its initial motion data. */
+typedef struct SpriteEffectWithDataBody {
+    void *owner;
+} SpriteEffectWithDataBody;
 typedef struct ovl_18b8824_818988CC_Copy24 {
     s32 word[6];
 } ovl_18b8824_818988CC_Copy24;
@@ -49,10 +63,6 @@ typedef struct ovl_18b8824_81898A64_S_80024264_0 {
 typedef struct ovl_18b8824_81898B70_S_80024370_0_pre {
     u16 unk_00;
 } ovl_18b8824_81898B70_S_80024370_0_pre;
-typedef struct ovl_18b8824_81898B70_S_80024370_0 {
-    void * unk_00;
-    u16 unk_04;
-} ovl_18b8824_81898B70_S_80024370_0;
 typedef struct ovl_18b8824_81898B70_S_80024370_1 {
     u8 pad_00[0x14];
     u16 unk_14;
@@ -160,11 +170,11 @@ extern void func_80042640(void *, s32);
 extern s32 generate_random_value(void);
 void interpolate_view_parameters(ASpriteRandomRotationCopiesInitialDataBody *state, void *motion, void *transform);
 void *create_a_sprite_random_rotation_copies_initial_data(void *context, ovl_18b8824_818988CC_Copy24 *copy_src, s16 initial_value);
-void handle_increment_entry_counters_process_target_propagate_status_flags(void *entry, void *unused, SpriteFrameState *target);
+void handle_increment_entry_counters_process_target_propagate_status_flags(RandomizedGrayscaleEffectBody *entry, void *unused, SpriteFrameState *target);
 void *create_randomized_grayscale_effect(s32 object_tag, Rec_func_80024264_arg1 *initial_state);
-void advance_the_entry_counters_trigger_count_milestones_update_target(void *entry, s32 unused, void *target);
+void advance_the_entry_counters_trigger_count_milestones_update_target(CountedSpriteEffectBody *entry, s32 unused, void *target);
 void *create_counted_sprite_effect(s32 object_id, ovl_18b8824_81898C1C_S_8002441C_3 *initial_state);
-void mark_owner_on_target_completion(void *object_ref, s32 unused, SpriteFrameState *target);
+void mark_owner_on_target_completion(SpriteEffectWithDataBody *object_ref, s32 unused, SpriteFrameState *target);
 ovl_18b8824_81898DCC_Object *create_sprite_effect_with_data(s32 field_value, s32 *initial_data);
 void advance_launched_effect(ovl_18b8824_81898EBC_EffectState *state, ovl_18b8824_81898EBC_Motion *motion, ovl_18b8824_81898EBC_ColorPart *part);
 #endif

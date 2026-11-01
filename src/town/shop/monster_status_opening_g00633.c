@@ -29,7 +29,7 @@ void update_mode_display_spacing(S_800B65D8_3 *base, s32 display_mode) {
         entry->unk_00 = read_display_spacing_word(entry_id);
         spacing = read_display_spacing_byte(entry_id);
         if (spacing == 0x10) {
-            ((SignedWidgetYView *)(((S_800B65D8_4 *)entry)->unk_04))->unk_0A = 0;
+            ((SignedWidgetYView *)entry->unk_04)->unk_0A = 0;
         } else {
             x_offset = total_width - (entry_index * 8);
             position = entry->unk_04;

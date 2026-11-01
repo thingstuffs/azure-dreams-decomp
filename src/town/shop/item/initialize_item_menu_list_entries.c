@@ -139,8 +139,8 @@ void initialize_item_menu_list_entries(ItemMenuTransition *list) {
             row_y += 0x10;
             {
                 s32 entry_handle = func_8004DC14(get_item_menu_table_entry(*(((S_800AECA4_0 *)list)->unk_38 + row_index)), 1);
-                u8 *row_slots = (u8 *)(row_slot + (s32)((S_800AECA4_0 *)list)->unk_D8);
-                *((S_800AECA4_1 *)row_slots)->unk_50 = entry_handle;
+                S_800AECA4_1 *row_slots = (S_800AECA4_1 *)(row_slot + (s32)((S_800AECA4_0 *)list)->unk_D8);
+                *row_slots->unk_50 = entry_handle;
             }
             row_index += 1;
             row_slot = row_slot + ((S_800AECA4_0 *)list)->unk_D8;

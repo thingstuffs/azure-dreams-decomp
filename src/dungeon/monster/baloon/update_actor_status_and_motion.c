@@ -23,7 +23,7 @@ void update_actor_status_and_motion(ActorRecord *action_state, ObjectPosition *a
     if (!(g_dungeon_status.flags & 0x2000) && ((try_claim_dungeon_action_slot(entity) << 0x10) == 0)) {
         apply_camera_offset_and_select_target((u8 *)entity - 0x20, action_context, 8, 0x300);
         if ((try_claim_dungeon_action_slot(entity) << 0x10) == 0) {
-            ((Rec_func_800A9E70_arg0 *)action_state)->unk_8C = 0;
+            action_state->unk_8C.word = 0;
             action_state->action_id.s = 0x11;
             action_state->action_phase.s = 0;
             entity->pending_turn_updates = (u8) (((u8)entity->pending_turn_updates) - 1);

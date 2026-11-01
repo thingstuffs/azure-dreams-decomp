@@ -16,7 +16,7 @@ s32 card_poll_selected_operation_state(void)
     s32 state;
     s32 status;
 
-    state = (*(s32 *)(&card_operation_state));
+    state = card_operation_state.a;
     status = 0;
     if (state != 0) {
         switch (state) {
@@ -25,15 +25,15 @@ s32 card_poll_selected_operation_state(void)
             if (func_80069C38((*(s32 *)(&card_selected_channel_alias))) != 0) {
                 if ((func_80069C18((*(s32 *)(&card_selected_channel_alias)) != 0) & 4) != 0) {
                     (*(s32 *)(&card_event_backend_mode)) = state;
-                    (*(s32 *)(&card_operation_state))++;
+                    card_operation_state.a++;
                     break;
                 }
                 status = 5;
-                (*(s32 *)(&card_operation_state)) = 0;
+                card_operation_state.a = 0;
                 break;
             }
             status = 5;
-            (*(s32 *)(&card_operation_state)) = 0;
+            card_operation_state.a = 0;
             break;
         case 3:
             {
@@ -45,7 +45,7 @@ s32 card_poll_selected_operation_state(void)
                 }
                 status = 3;
                 *selected_slot = 0;
-                (*(s32 *)(&card_operation_state)) = 0;
+                card_operation_state.a = 0;
             }
             break;
         default:

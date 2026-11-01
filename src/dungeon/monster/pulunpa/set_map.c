@@ -95,7 +95,7 @@ void update_creature_actions_and_animation(ActorRecord *actor, ObjectPosition *c
         if (sprite->frameTable == &pulunpa_frame_set_3) {
             actor->action_id.u = 13;
             actor->action_phase.s = 1;
-            ((Rec_func_800A9E70_arg0 *)actor)->unk_8C = 0;
+            actor->unk_8C.word = 0;
             creature->flags1C &= 0xFFFBFFFF;
             return;
         }

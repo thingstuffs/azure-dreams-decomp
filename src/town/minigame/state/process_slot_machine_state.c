@@ -240,8 +240,8 @@ void process_slot_machine_state(State8081FF68 *state, void *position)
     case 5:
     {
         s16 reel_index = state->timer.s;
-        void *reel = state->slot[reel_index];
-        if (((SlotObject *)reel)->unk_24 != 3) {
+        SlotObject *reel = state->slot[reel_index];
+        if (reel->unk_24 != 3) {
             return;
         }
         state->mode.s = 6;
@@ -259,10 +259,10 @@ void process_slot_machine_state(State8081FF68 *state, void *position)
         }
         if ((((u32)input->pressed_buttons) & 0x40) != 0 &&
             state->timer2.s == 0) {
-            void *reel;
+            SlotObject *reel;
             SD_Call(AUDIO_SLOT_REEL_STOP);
             reel = state->slot[state->timer.s];
-            ((SlotObject *)reel)->unk_24 = 4;
+            reel->unk_24 = 4;
             state->timer2.u = 10;
             state->timer.u++;
         }

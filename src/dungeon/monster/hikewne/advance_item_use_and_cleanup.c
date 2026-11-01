@@ -170,7 +170,7 @@ void advance_item_use_and_cleanup(void *action, ObjectPosition *motion, SpriteFr
         motion->velocity_x = 0;
         set_record_integer_tile_center(motion, actor->tile_x, actor->tile_y);
         g_dungeon_status.active_actor = 0;
-        (*(u16 *)((u8 *)primary_actor_record + 0xA6))--;
+        primary_actor_record->unk_A4.halves.high.u--;
         advance_status_timers(item);
         (*((u8 *)item + 0x6D))--;
         ((S_80172A48_0 *)action)->unk_8C = update_actor_behavior_animation_and_facing;

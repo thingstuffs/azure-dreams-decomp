@@ -156,21 +156,6 @@ void update_directional_actor_effect(TargetTintWork *state_data)
 #define NULL 0
 #endif
 
-typedef struct S_8199AAD4_0 {
-    void * unk_00;
-    void * unk_04;
-    void * unk_08;
-    void * unk_0C;
-    union { s32 s; u8 * u; } unk_10;   /* accessed as both */
-    s32 unk_14;
-    u8 pad_18[0x10];
-    union { s16 s; volatile u16 u; u16 p; } unk_28;   /* accessed as both */
-    u8 pad_2A[0x4];
-    union { volatile s16 s; s16 u; u16 p; } unk_2E;   /* accessed as both */
-    union { s16 s; u16 u; } unk_30;   /* accessed as both */
-    u8 pad_32[0x6];
-    s16 unk_38;
-} S_8199AAD4_0;   /* self in update_source_relative_position_delays_movement_advances_arc_toward_target */
 
 typedef struct S_8199AAD4_1 {
     u8 pad_00[0x8];
@@ -273,13 +258,13 @@ void update_source_relative_position_delays_movement_advances_arc_toward_target(
     void *delta_out;
     D_80024A70[0]++;
 
-    state = ((S_8199AAD4_0 *)self)->unk_28.s;
+    state = ((LinkedEffectControllerBody *)self)->field28.s;
     switch (state) {
     case 0:
-        source = ((S_8199AAD4_10 *)(((S_8199AAD4_0 *)self)->unk_00))->unk_0C;
+        source = ((S_8199AAD4_10 *)(((LinkedEffectControllerBody *)self)->field00))->unk_0C;
         if ((((S_8199AAD4_1 *)source)->unk_14 & 0x8000) ||
             resolve_record_orientation_or_fallback(((S_8199AAD4_1 *)source)->unk_08, source, delta, 0)) {
-            position = ((S_8199AAD4_10 *)(((S_8199AAD4_0 *)self)->unk_00))->unk_08;
+            position = ((S_8199AAD4_10 *)(((LinkedEffectControllerBody *)self)->field00))->unk_08;
             ((S_8199AAD4_2 *)coords)->unk_00.at02.v = position->x;
             ((S_8199AAD4_2 *)coords)->unk_04.at02.v = position->y;
             position_z = position->z;
@@ -298,22 +283,22 @@ void update_source_relative_position_delays_movement_advances_arc_toward_target(
             }
         }
 
-        if (((u16 *)(((S_8199AAD4_0 *)self)->unk_0C))[0] & 0x80) {
-            ((S_8199AAD4_0 *)self)->unk_2E.s = 8;
-            tail_z = ((S_8199AAD4_0 *)self)->unk_28.u;
+        if (((u16 *)(((LinkedEffectControllerBody *)self)->field0C))[0] & 0x80) {
+            ((LinkedEffectControllerBody *)self)->field2E.s = 8;
+            tail_z = ((LinkedEffectControllerBody *)self)->field28.u;
             target_node = 9;
-            ((S_8199AAD4_0 *)self)->unk_30.s = target_node;
-            ((S_8199AAD4_0 *)self)->unk_28.p = tail_z + 1;
+            ((LinkedEffectControllerBody *)self)->field30.s = target_node;
+            ((LinkedEffectControllerBody *)self)->field28.p = tail_z + 1;
         }
         return;
     case 1:
-        count = ((S_8199AAD4_0 *)self)->unk_30.u - 1;
-        ((S_8199AAD4_0 *)self)->unk_30.u = count;
+        count = ((LinkedEffectControllerBody *)self)->field30.u - 1;
+        ((LinkedEffectControllerBody *)self)->field30.u = count;
         if ((s16)count > 0) {
             return;
         }
-        tail_z = ((S_8199AAD4_0 *)self)->unk_28.u;
-        ((S_8199AAD4_0 *)self)->unk_28.p = tail_z + 1;
+        tail_z = ((LinkedEffectControllerBody *)self)->field28.u;
+        ((LinkedEffectControllerBody *)self)->field28.p = tail_z + 1;
         return;
 finish:
         ((S_8199AAD4_2 *)coords)->unk_00.at00.v = target[0];
@@ -324,11 +309,11 @@ finish:
         tail_z = ((u16 *)self)[-1];
         global_flags = (s32 *)0x80080000;
         ((u16 *)self)[-1] = tail_z | 0x8000;
-        count = ((S_8199AAD4_0 *)self)->unk_28.p;
+        count = ((LinkedEffectControllerBody *)self)->field28.p;
         flags_value = ((S_8199AAD4_4 *)global_flags)->unk_14A0;
         count++;
         flags_value |= 0x8000;
-        ((S_8199AAD4_0 *)self)->unk_28.p = count;
+        ((LinkedEffectControllerBody *)self)->field28.p = count;
         ((S_8199AAD4_4 *)global_flags)->unk_14A0 = flags_value;
         return;
 
@@ -337,20 +322,20 @@ finish:
         table_end = &D_80024AE0;
         table_start_2 = table_end - 0x54;
 loop_top:
-        object_entry = ((S_8199AAD4_0 *)self)->unk_04;
+        object_entry = ((LinkedEffectControllerBody *)self)->field04;
         start_x = ((S_8199AAD4_2 *)coords)->unk_00.at02u.v;
         start_y = ((S_8199AAD4_2 *)coords)->unk_04.at02u.v;
         target_node = object_entry->unk_08;
         start_z = ((S_8199AAD4_2 *)coords)->unk_08.at02u.v;
         target[0] = target_node->unk_00;
         target[1] = target_node->unk_04;
-        target[2] = (((S_8199AAD4_0 *)self)->unk_38 - 0x50) << 16;
+        target[2] = (((LinkedEffectControllerBody *)self)->field38 - 0x50) << 16;
 
         entry_offset = (g_game_work.view.camera_rotation.parts.viewAngle + primary_actor_record->facing + 0x100) >> 7;
         delta_out = delta;
         entry_base = actor_direction_sprites;
         entry_offset &= 0x1C;
-        call_node = ((S_8199AAD4_0 *)self)->unk_04;
+        call_node = ((LinkedEffectControllerBody *)self)->field04;
         if (resolve_record_orientation_or_fallback(((S_8199AAD4_5 *)(entry_offset + (long)entry_base))->unk_00, call_node->unk_0C, delta_out,
             0)) {
             target[0] += (s32)(s16)delta[0] << 16;
@@ -359,31 +344,31 @@ loop_top:
         }
 
         ((S_8199AAD4_2 *)coords)->unk_00.at00.v +=
-            (target[0] - ((S_8199AAD4_2 *)coords)->unk_00.at00.v) / ((S_8199AAD4_0 *)self)->unk_2E.u;
+            (target[0] - ((S_8199AAD4_2 *)coords)->unk_00.at00.v) / ((LinkedEffectControllerBody *)self)->field2E.u;
         ((S_8199AAD4_2 *)coords)->unk_04.at00.v +=
-            (target[1] - ((S_8199AAD4_2 *)coords)->unk_04.at00.v) / ((S_8199AAD4_0 *)self)->unk_2E.u;
-        arc_height = rsin(((S_8199AAD4_0 *)self)->unk_2E.u * 170);
+            (target[1] - ((S_8199AAD4_2 *)coords)->unk_04.at00.v) / ((LinkedEffectControllerBody *)self)->field2E.u;
+        arc_height = rsin(((LinkedEffectControllerBody *)self)->field2E.u * 170);
         ((S_8199AAD4_2 *)coords)->unk_08.at00.v +=
-            (target[2] - ((S_8199AAD4_2 *)coords)->unk_08.at00.v) / ((S_8199AAD4_0 *)self)->unk_2E.u -
+            (target[2] - ((S_8199AAD4_2 *)coords)->unk_08.at00.v) / ((LinkedEffectControllerBody *)self)->field2E.u -
             (arc_height << 7);
 
-        created = create_positioned(((S_8199AAD4_0 *)self)->unk_08, start_x, start_y, start_z,
-                                coords, ((S_8199AAD4_0 *)self)->unk_10.s, 4,
-                                ((S_8199AAD4_0 *)self)->unk_14, iteration);
+        created = create_positioned(((LinkedEffectControllerBody *)self)->field08, start_x, start_y, start_z,
+                                coords, ((LinkedEffectControllerBody *)self)->field10.s, 4,
+                                ((LinkedEffectControllerBody *)self)->field14, iteration);
         if (created != NULL) {
-            ((S_8199AAD4_0 *)self)->unk_08 = created;
-            ((S_8199AAD4_0 *)self)->unk_14 = created->unk_08;
+            ((LinkedEffectControllerBody *)self)->field08 = created;
+            ((LinkedEffectControllerBody *)self)->field14 = created->unk_08;
         }
 
-        count = ((S_8199AAD4_0 *)self)->unk_2E.p - 1;
-        ((S_8199AAD4_0 *)self)->unk_2E.p = count;
+        count = ((LinkedEffectControllerBody *)self)->field2E.p - 1;
+        ((LinkedEffectControllerBody *)self)->field2E.p = count;
         if ((s16)count <= 0) {
             goto finish;
         }
 
-        ((S_8199AAD4_0 *)self)->unk_10.u += 0xC;
-        if (((S_8199AAD4_0 *)self)->unk_10.u >= table_end) {
-            ((S_8199AAD4_0 *)self)->unk_10.u = table_start_2;
+        ((LinkedEffectControllerBody *)self)->field10.u += 0xC;
+        if (((LinkedEffectControllerBody *)self)->field10.u >= table_end) {
+            ((LinkedEffectControllerBody *)self)->field10.u = table_start_2;
         }
         iteration = (u8 *)iteration + 1;
         goto loop_top;
@@ -409,16 +394,6 @@ typedef struct Node {
     void *field20;
 } Node;
 
-typedef struct Child {
-    char pad00[4];
-    void *field04;
-    void *field08;
-    void *field0C;
-    void *field10;
-    char pad14[0x24];
-    u16 field38;
-} Child;
-
 #define D_800242D4 ((char *)update_source_relative_position_delays_movement_advances_arc_toward_target)
 extern char D_80024A8C[];
 
@@ -426,18 +401,18 @@ extern char D_80024A8C[];
 void create_linked_effect_controller(ObjectNodeHeader *node_value, void *child_value)
 {
     Node *node;
-    Child *child;
+    LinkedEffectControllerBody *child;
     ActorRecord *source;
     void *callback;
     u16 source_value;
 
     node = allocate_list_node(0x10, &scene_object_list_anchor.next);
     if (node != NULL) {
-        child = (Child *)((char *)node + 0x20);
+        child = (LinkedEffectControllerBody *)((char *)node + 0x20);
         node->field10 = D_800242D4;
         callback = D_80024A8C;
         source = primary_actor_record;
-        child->field10 = callback;
+        child->field10.u = callback;
         node->field20 = node_value;
         child->field04 = &scene_object_list_anchor.next;
         source_value = ((u16)source->ground_height);

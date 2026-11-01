@@ -109,11 +109,11 @@ void advance_egg_bomb_sequence(void *egg_bomb, Coord *position, void *effect) {
             find_or_retain_sprite_resource_slot(((S_800B7774_0 *)egg_bomb)->unk_00, 2), 1)(2, held_x, held_y, (s16) (coord_arg->z - 0x20));
         ((S_800B7774_0 *)egg_bomb)->unk_04 = monster;
         if (monster != NULL) {
-            func_8003E188(((S_800B7774_2 *)monster)->unk_13, 0);
+            func_8003E188(monster->species, 0);
             clear_selected_item_flag_400(egg_bomb);
-            func_80042640(monster, ((S_800B7774_2 *)monster)->unk_13);
-            apply_actor_template_and_class(monster, ((S_800B7774_2 *)monster)->unk_13, 0);
-            ((S_800B7774_2 *)monster)->unk_43 = 0xFE;
+            func_80042640(monster, monster->species);
+            apply_actor_template_and_class(monster, monster->species, 0);
+            monster->unk_43 = 0xFE;
             {
                 void *body = monster;
                 ActorRecord *actor = body;
@@ -138,13 +138,13 @@ void advance_egg_bomb_sequence(void *egg_bomb, Coord *position, void *effect) {
                      * (adrando.com/guide/bugs.html).
                      */
                     target_experience = entity_level_thresholds[egg_bomb_level];
-                    ((S_800B7774_2 *)monster)->unk_18 = target_experience;
-                    if ((u32) target_experience >= (u32) entity_level_thresholds[((S_800B7774_2 *)monster)->unk_11]) {
+                    monster->experience = target_experience;
+                    if ((u32) target_experience >= (u32) entity_level_thresholds[monster->level]) {
                         s32 *loop_base = entity_level_thresholds;
                         do {
                             raise_entity_level(monster, 0);
-                        } while ((u32) loop_base[((S_800B7774_2 *)monster)->unk_11]
-                            <= (u32) ((S_800B7774_2 *)monster)->unk_18);
+                        } while ((u32) loop_base[monster->level]
+                            <= (u32) monster->experience);
                     }
                     raw_first_result = get_unused_text_buffer();
                 }
@@ -185,17 +185,17 @@ void advance_egg_bomb_sequence(void *egg_bomb, Coord *position, void *effect) {
                 g_dungeon_status.flags = (u16) (g_dungeon_status.flags | 2);
             }
             action_data = ((S_800B7774_2 *)monster)->unk_60;
-            ((S_800B7774_2 *)monster)->unk_46.u = 0x800C;
+            monster->action_flags = 0x800C;
             if (action_data != 0) {
                 action_id = choose_usable_ability_or_attack(monster, action_data, &action_parameter, 1);
-                ((S_800B7774_2 *)monster)->unk_2A = action_parameter;
+                monster->facing = action_parameter;
                 if ((s16) action_id >= 0) {
-                    ((S_800B7774_2 *)monster)->unk_46.s = (s16) (action_id | 0x8000);
+                    monster->action_flags = (s16) (action_id | 0x8000);
                 }
             }
         }
         ((PlayerRecord *)((u8 *)dungeon_actor_ring_anchor))->pending_item_action = 0;
-        (*(s32 *)((u8 *)monster + (0x1C))) = (s32) (((S_800B7774_2 *)monster)->unk_1C | 0x400000);
+        monster->flags1C = (s32) (monster->flags1C | 0x400000);
         {
             g_dungeon_status.activity_counts.parts.pending_action_count = (u16) (((u16)g_dungeon_status.activity_counts.parts.pending_action_count) - 1);
         }

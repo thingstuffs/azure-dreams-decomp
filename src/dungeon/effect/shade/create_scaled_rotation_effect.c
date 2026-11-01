@@ -52,7 +52,7 @@ s32 create_scaled_rotation_effect(S_818C3A3C_2 *owner, S_818C3A3C_4 *initial_dat
     s32 random_value;
     s32 biased_random;
     SpriteFrameState *sprite;
-    void *effect_state;
+    ScaledRotationEffectBody *effect_state;
     ObjectNodeHeader *effect;
     S_818C3A3C_5 *effect_data;
     void *effect_name;
@@ -60,13 +60,13 @@ s32 create_scaled_rotation_effect(S_818C3A3C_2 *owner, S_818C3A3C_4 *initial_dat
     effect = allocate_flagged_object_node(0x212);
     if (effect != 0) {
         handler = D_80025098;
-        effect_state = (u8 *)effect + 0x20;
+        effect_state = (ScaledRotationEffectBody *)((u8 *)effect + 0x20);
         effect_name = random_variant_sprite_entries;
         effect->update_callback = handler;
         ((S_818C3A3C_0 *)effect)->unk_20 = owner;
-        ((ScaledRotationEffectBody *)effect_state)->unk_10 = 0;
+        effect_state->unk_10 = 0;
         call_zero = 0;
-        *(u16 *)((u8 *)effect_state + 0x14) = owner->unk_14;
+        effect_state->unk_14 = owner->unk_14;
 
         sprite = effect->sprite;
         sprite->color.c.b = 0x80;
@@ -85,7 +85,7 @@ s32 create_scaled_rotation_effect(S_818C3A3C_2 *owner, S_818C3A3C_4 *initial_dat
         }
         sprite->angle_z = (random_value % 4096);
 
-        scale = 0x1400 / ((ScaledRotationEffectBody *)effect_state)->unk_14;
+        scale = 0x1400 / effect_state->unk_14;
         sprite->scale_y = scale;
         sprite->scale_x = scale;
         register_node(effect, draw_linked_sprites_clipped);

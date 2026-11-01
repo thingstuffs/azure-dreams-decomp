@@ -180,8 +180,8 @@ void update_entity_animation_and_color_fade(ActorRecord *controller, ObjectPosit
             }
         }
         {
-            u8 *counter = ((u8 *)(&g_dungeon_status));
-            ((S_80173204_7 *)counter)->unk_0A--;
+            S_80173204_7 *counter = ((S_80173204_7 *)(&g_dungeon_status));
+            counter->unk_0A--;
         }
         entity->flags1C &= 0xEFFFFFFF;
         sprite->color.word = 0x808080;

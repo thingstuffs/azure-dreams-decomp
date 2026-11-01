@@ -130,7 +130,7 @@ void initialize_object_and_clear_state(ActorRecord *action, ObjectPosition *unus
 
         action->action_id.s = 0x17;
         action->action_phase.s = 0;
-        ((S_80173C40_2 *)action)->unk_8C = 0;
+        action->unk_8C.word = 0;
         animation->frameTable = D_80176670;
 
         direction = ((g_game_work.view.camera_rotation.parts.viewAngle + entity->facing + 0x100) >> 9) & 7;

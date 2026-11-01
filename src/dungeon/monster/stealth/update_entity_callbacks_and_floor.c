@@ -206,7 +206,7 @@ void update_entity_callbacks_and_floor(ActorRecord *body, ObjectPosition *motion
 
         body->unk_90.value += motion->velocity_z;
         if (!(body->action_state_flags & 4)) {
-            sample_height = sample_terrain_surface_height(((CallbackActorMotion *)motion)->x.halves.integer, ((CallbackActorMotion *)motion)->y.halves.integer,
+            sample_height = sample_terrain_surface_height(motion->x.unsigned_parts.integer, motion->y.unsigned_parts.integer,
                                           (s16)(state_alias->floor_height - 0x20));
             if ((s16)sample_height < 0x200) {
                 base_height = state_alias->floor_height;

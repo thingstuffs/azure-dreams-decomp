@@ -92,7 +92,7 @@ void initialize_building_scene_assets(void) {
     }
 
     DrawSync(0);
-    *(void **)asset_state = asset_data;
+    asset_state->cells = asset_data;
     clear_and_initialize_building_grid((s32)(asset_data));
     scene_table = town_map_variants;
     {

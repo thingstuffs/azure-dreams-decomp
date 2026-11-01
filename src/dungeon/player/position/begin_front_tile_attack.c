@@ -71,7 +71,7 @@ s32 begin_front_tile_attack(ActorRecord *body, void *unused, void *position_arg,
     }
     body->action_id.s = 0x11;
     body->action_phase.s = 0;
-    ((PlayerRecord *)body)->actor.unk_8C.word = 0;
+    body->unk_8C.word = 0;
     g_dungeon_status.active_actor = entity;
     body->unk_A4.halves.high.s = 0;
     body->action_state_flags = (u16) ((body->action_state_flags | 0x2000) & 0xEFFF);

@@ -43,7 +43,7 @@ void create_paired_offset_effects(S_800A6F48_10 *owner, S_800A6F48_0 *spawn_stat
     position[1] = origin->y + ((S_800A6F48_3 *)offset_data)->unk_04 + ((S_800A6F48_3 *)offset_data)->unk_10;
     position[2] = origin->z;
     first_object = create_preset_sprite_object(position);
-    ((S_800A6F48_14 *)(((ObjectPayloadView *)first_object)->unk_08))->unk_0C = 0x10000;
+    ((S_800A6F48_14 *)first_object->unk_08)->unk_0C = 0x10000;
     first_y_data = first_object->unk_08;
     y_component = first_y_data->unk_10;
     first_y_data->unk_10 = (s32) (y_component / 4);
@@ -56,7 +56,7 @@ void create_paired_offset_effects(S_800A6F48_10 *owner, S_800A6F48_0 *spawn_stat
     position[0] = origin->x - ((((S_800A6F48_7 *)second_offset_data)->unk_04
         + ((S_800A6F48_7 *)second_offset_data)->unk_10) / 3);
     first_object = create_preset_sprite_object(position);
-    ((S_800A6F48_15 *)(((ObjectPayloadView *)first_object)->unk_08))->unk_0C = -0x8000;
+    ((S_800A6F48_15 *)first_object->unk_08)->unk_0C = -0x8000;
     second_y_data = first_object->unk_08;
     second_y_data->unk_10 = (s32) (second_y_data->unk_10 / 3);
     first_object->unk_B0 = 0;

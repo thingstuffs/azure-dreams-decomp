@@ -23,6 +23,44 @@ typedef struct GolemActionWork {
     u8 mode;
 } GolemActionWork;
 
+typedef struct CopiedRenderObjectBody {
+    union { s16 s; u16 u; } phase;
+    u16 frames;
+    void *source_state;
+    void *render_data;
+} CopiedRenderObjectBody;
+
+typedef struct RandomizedOffsetVector {
+    s32 x;
+    s32 y;
+    s32 z;
+    s32 dx;
+    s32 dy;
+    s32 dz;
+} RandomizedOffsetVector;
+
+typedef struct RandomizedOffsetObjectBody {
+    union { s16 s; u16 u; } unk_00;
+    union { s16 s; u16 u; } unk_02;
+    union { s16 s; u16 u; } unk_04;
+    union { s16 s; u16 u; } unk_06;
+    union { s16 s; u16 u; } unk_08;
+    u16 unk_0A;
+    u16 unk_0C;
+    union { u16 u; s16 s; } unk_0E;
+    u8 pad_10[0x18];
+    union { s32 word; struct { u8 pad_00[2]; s16 unk_2A; } half; } unk_28;
+    union { s32 word; struct { u8 pad_00[2]; s16 unk_2E; } half; } unk_2C;
+    union { s32 word; struct { u8 pad_00[2]; union { s16 s; u16 u; } unk_32; } half; } unk_30;
+    s32 unk_34;
+    s32 unk_38;
+    s32 unk_3C;
+    void *unk_40;
+    RandomizedOffsetVector *unk_44;
+    void *unk_48;
+    void *unk_4C;
+} RandomizedOffsetObjectBody;
+
 s32 attempt_actor_action_and_display(ActorRecord *action_out, ObjectPosition *action_param, SpriteFrameState *actor_info, ActorRecord *acting_actor);
 s32 create_copied_render_object(GolemActionWork *owner, ObjectPosition *source_state, Rec_func_800AA258_arg2 *render_data);
 s32 initialize_directional_animation_action(void *state_ptr, ObjectPosition *action_arg, SpriteFrameState *sprite_ptr, void *entity_ptr);
@@ -32,7 +70,8 @@ s32 scan_forward_tiles_for_target(GolemActionWork *action_state, ObjectPosition 
 
 
 void advance_actor_height_arc(ActorRecord *action, ObjectPosition *motion, SpriteFrameState *record, ActorRecord *actor);
-void advance_timed_target_flags(void *state, void *output, SpriteFrameState *target);
+void advance_timed_target_flags(CopiedRenderObjectBody *state, void *output, SpriteFrameState *target);
+void update_staged_target_motion(RandomizedOffsetObjectBody *motion, RandomizedOffsetVector *trajectory, void *context);
 
 void update_dungeon_actor_actions(struct GolemActionWork *actor, ObjectPosition *context, SpriteFrameState *sprite, ActorRecord *stats);
 

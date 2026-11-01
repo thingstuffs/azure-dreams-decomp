@@ -16,7 +16,7 @@ void prepend_entry_to_group_history(s32 entry_index, s32 lookup_arg1, s32 lookup
     s32 entry_id;
     TownStateRecord *group_state;
     Lookup *limits;
-    u8 *page;
+    S_8001D188_0 *page;
     S_8001D188_1 *cursor;
     s16 *entries;
     s32 next_count;
@@ -24,12 +24,12 @@ void prepend_entry_to_group_history(s32 entry_index, s32 lookup_arg1, s32 lookup
     s32 history_base;
 
     do {
-        page = (u8 *)0x80010000;
+        page = (S_8001D188_0 *)0x80010000;
     } while (0);
-    state_base = (s32)((S_8001D188_3 *)page)->unk_6000->town_state;
+    state_base = (s32)page->unk_6000->town_state;
     entry_id = entry_index;
     variant = query_priority_event_state();
-    cursor = ((S_8001D188_0 *)page)->unk_6000;
+    cursor = page->unk_6000;
     cursor = cursor->unk_24;
     cursor = cursor->unk_6C;
     entries = cursor->unk_1EC;

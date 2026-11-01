@@ -269,7 +269,7 @@ void update_actor_behavior_and_effect(ActorRecord *actor, ObjectPosition *positi
         if (object->frameTable == griffon_frame_set_3) {
             actor->action_id.u = 0xD;
             actor->action_phase.u = 1;
-            ((Rec_func_800A9E70_arg0 *)actor)->unk_8C = 0;
+            actor->unk_8C.word = 0;
             actor_data->flags1C &= 0xFFFBFFFF;
             return;
         }
@@ -554,10 +554,10 @@ void advance_griffon_stored_path(ActorRecord *action, ObjectPosition *action_id,
     if (move_result == 3 && !(g_dungeon_status.flags & 0x80)
         && !(entity->flags & 0x8000)) {
         begin_griffon_step_animation(action, action_id, entity, state);
-        ((R08_801715B4_S_80171570_2 *)action)->unk_8C = 0;
+        action->unk_8C.word = 0;
     } else {
         action->action_id.u = 0x0F;
-        ((R08_801715B4_S_80171570_2 *)action)->unk_8C = 0;
+        action->unk_8C.word = 0;
     }
     state->unk_1C |= 0x40000000;
     if (g_dungeon_status.flags & 0x80) {
@@ -866,7 +866,7 @@ void begin_griffon_attack(ActorRecord *action_state, ObjectPosition *action_cont
         apply_camera_offset_and_select_target((u8 *)actor - 0x20, action_context, 8, 0x300);
         if ((try_claim_dungeon_action_slot(actor) << 0x10) == 0) {
             action_state->action_id.s = 0x11;
-            (*(s32 *)((u8 *)action_state + 0x8C)) = 0;
+            action_state->unk_8C.word = 0;
             action_state->action_phase.s = 0;
             sprite->frameTable = griffon_direction_frames;
             select_sprite_entry(sprite, *((((s32) (g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7)
@@ -1938,7 +1938,7 @@ void advance_object_angle_and_height(u16 *record_data, s32 unused, R08_80174180_
 
 /* Creates a tinted sprite above the source with randomized rotation and an angle-and-height update
  * callback. */
-void create_tinted_rotated_sprite(s32 unused_0, R08_801741D0_S_801741D0_3 *source_pos, s32 unused_2, s8 green, u8 red_blue)
+void create_tinted_rotated_sprite(PositionedSpriteEffectBody *unused_0, R08_801741D0_S_801741D0_3 *source_pos, s32 unused_2, s8 green, u8 red_blue)
 {
     void *node;
     R08_801741D0_S_801741D0_1 *sprite;
@@ -1981,9 +1981,9 @@ void create_tinted_rotated_sprite(s32 unused_0, R08_801741D0_S_801741D0_3 *sourc
  * Creates a tinted sprite with scale 16 until the final 15 ticks, then increases its scale by six
  * per tick. Decrements the signed 16-bit lifetime and flags removal at zero or below.
  */
-void update_timed_effect_and_expire(void *effect, s32 x, s32 y)
+void update_timed_effect_and_expire(PositionedSpriteEffectBody *effect, s32 x, s32 y)
 {
-    s32 ticks_left = *(s16 *)((u8 *)effect + 0x1A);
+    s32 ticks_left = effect->ticks_remaining;
 
     if (ticks_left >= 16) {
         create_tinted_rotated_sprite(effect, x, y,(s8)(0x70), 16);
@@ -1995,8 +1995,8 @@ void update_timed_effect_and_expire(void *effect, s32 x, s32 y)
     {
         s32 next_ticks;
 
-        next_ticks = (u16)*(s16 *)((u8 *)effect + 0x1A) - 1;
-        *(s16 *)((u8 *)effect + 0x1A) = next_ticks;
+        next_ticks = (u16)effect->ticks_remaining - 1;
+        effect->ticks_remaining = next_ticks;
         if ((next_ticks << 16) <= 0) {
             *(u16 *)((u8 *)effect - 2) |= NODE_REMOVE;
             object_flag_block.flags |= OBJECT_REMOVE_PENDING;
@@ -2006,24 +2006,26 @@ void update_timed_effect_and_expire(void *effect, s32 x, s32 y)
 
 /* Creates a black sprite effect at the supplied position with a 45-tick lifetime. */
 void create_positioned_sprite_effect(M2C_UNK unused, EntityRec *source_pos, void *unused_context) {
-    R08_801743BC_S_801743BC_0 *effect;
     ObjectNodeHeader *effect_node;
     void *node_storage;
+    void *position_storage;
+    PositionedSpriteEffectBody *effect;
     SpriteFrameState *sprite;
     MovingPosition *effect_pos;
 
     effect_node = allocate_flagged_object_node(0x212);
-    node_storage = effect_node;
-    effect = node_storage;
-    if (effect != NULL) {
-        effect->unk_3A = 0x2D;
-        effect->unk_10 = ((void *)update_timed_effect_and_expire);
+    if (effect_node != NULL) {
+        node_storage = effect_node;
+        effect = node_storage + 0x20;
+        effect->ticks_remaining = 0x2D;
+        effect_node->update_callback = ((void *)update_timed_effect_and_expire);
         register_node(effect_node, project_sprite_chain);
-        effect_pos = effect->unk_08;
+        position_storage = effect_node->position;
+        effect_pos = position_storage;
         effect_pos->x = (u16) ((u16)source_pos->x.w.i);
         effect_pos->y = (u16) ((u16)source_pos->y.w.i);
         effect_pos->z = (u16) ((u16)source_pos->z.w.i);
-        sprite = effect->unk_0C;
+        sprite = effect_node->sprite;
         sprite->scale_y = 0x1000;
         sprite->scale_x = 0x1000;
         sprite->color.c.r = 0;
@@ -2109,7 +2111,7 @@ void advance_effect_and_child_animation(ActorRecord *effect_state, ObjectPositio
 
     case 1:
         run_cd_image_commands(D_80174CF4, D_80174D18, 0);
-        ((R08_80174648_S_80174648_0 *)effect_state)->unk_B0 = 0;
+        effect_state->unk_B0.halves.low.s = 0;
         effect_state->action_phase.u++;
         saved_angle = ((R08_80174648_S_80174648_1 *)actor)->unk_2A.u;
         actor->unk_8A = saved_angle;

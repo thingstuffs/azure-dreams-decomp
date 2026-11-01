@@ -22,13 +22,6 @@ typedef struct S_func_81339A5C_1 {
     u16 unk_16;
 } S_func_81339A5C_1;
 
-typedef struct S_func_81339A5C_2 {
-    u8 pad_00[0x24];
-    void *unk_24;
-    u8 pad_28[0x30];
-    s8 unk_58;
-    s8 unk_59;
-} S_func_81339A5C_2;
 
 extern s32 item_effect_descriptor;
 
@@ -42,7 +35,7 @@ void create_linked_object_position(void)
     u16 source_z;
     u16 object_y;
     ObjectPosition *source_pos;
-    S_func_81339A5C_2 *object_data;
+    LinkedObjectPositionBody *object_data;
     void *source_data;
     ObjectNodeHeader *object;
     SpriteFrameState *render_flags;
@@ -54,18 +47,18 @@ void create_linked_object_position(void)
     object = allocate_list_node(0x12, beldo_actor_nodes);
     if (object != NULL) {
         object->update_callback = update_vertical_motion_and_effect;
-        object_data = (S_func_81339A5C_2 *)((u8 *)object + 0x20);
+        object_data = (LinkedObjectPositionBody *)((u8 *)object + 0x20);
         register_node(object, project_sprite_chain);
         render_flags = object->sprite;
         render_flags->flags =
             (u16)(render_flags->flags & 0xFFF3);
-        object_data->unk_24 = source_data;
+        object_data->source_data = source_data;
         object_pos = object->position;
         object_pos->unk_02.u = (u16)source_pos->x.w.i;
         object_pos->unk_06.u = (u16)source_pos->y.w.i;
         object_pos->unk_0A =
-            ((S_func_81339A5C_1 *)source_pos)->unk_0A;
-        source_z = ((S_func_81339A5C_1 *)source_pos)->unk_0A;
+            source_pos->z.unsigned_parts.integer;
+        source_z = source_pos->z.unsigned_parts.integer;
         object_y = object_pos->unk_06.u;
         object_z = object_pos->unk_0A;
         object_pos->unk_06.u = (u16)(object_y - 0x140);
@@ -75,9 +68,9 @@ void create_linked_object_position(void)
         render_state->scale_y = 0x1000;
         render_state->scale_x = 0x1000;
         render_state->depth_bias = 6;
-        object_data->unk_58 =
+        object_data->tile_x =
             (source_pos->x.w.i - 0x20) / 0x40;
-        object_data->unk_59 =
+        object_data->tile_y =
             (source_pos->y.w.i - 0x20) / 0x40;
         render_state->color.c.b = 0x80;
         render_state->color.c.g = 0x80;

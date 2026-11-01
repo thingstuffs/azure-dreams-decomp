@@ -16,7 +16,7 @@ s32 card_advance_selected_operation(void)
     u32 state;
     s32 result;
 
-    state = (*(s32 *)(&card_operation_state));
+    state = card_operation_state.a;
     result = 0;
     if (state != 0) {
         switch (state) {
@@ -30,7 +30,7 @@ s32 card_advance_selected_operation(void)
                 }
                 if (*completion_flag != 0) {
                     result = 1;
-                    (*(s32 *)(&card_operation_state)) = 0;
+                    card_operation_state.a = 0;
                 } else if ((func_80069C18(0) & 1) != 0 ||
                            (func_80069C18(1) & 1) != 0) {
                     card_boot_drain_software_events();
@@ -38,7 +38,7 @@ s32 card_advance_selected_operation(void)
                         state = func_80069C08((*(s32 *)(&card_selected_channel_alias)));
                     } while (state == 0);
                     (*(s32 *)(&card_event_backend_mode)) = 0;
-                    (*(s32 *)(&card_operation_state)) = 3;
+                    card_operation_state.a = 3;
                 }
                 return result;
             }
@@ -54,7 +54,7 @@ s32 card_advance_selected_operation(void)
                 }
                 result = 2;
                 *completion_flag = 1;
-                (*(s32 *)(&card_operation_state)) = 0;
+                card_operation_state.a = 0;
             }
             break;
         default:

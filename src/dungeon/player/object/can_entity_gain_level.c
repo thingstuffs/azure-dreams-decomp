@@ -953,13 +953,13 @@ typedef struct S_800A2DB8_7 {
 /* Award experience to the target or its party and display experience popups. */
 s32 distribute_experience_awards(S_800A2DB8_0 *source)
 {
-    void *initial_target;
+    S_800A2DB8_1 *initial_target;
     EntityRec *target;
     EntityRec *final_target;
     S_800A2DB8_7 *global_member;
     ActorRecord *member;
     u8 *member_slot;
-    u8 *global_page;
+    S_800A2DB8_6 *global_page;
     s32 recipient_count;
     s32 member_index;
     s32 level_delta;
@@ -974,9 +974,9 @@ s32 distribute_experience_awards(S_800A2DB8_0 *source)
     if (initial_target == NULL) {
         return experience;
     }
-    if (((S_800A2DB8_1 *)initial_target)->unk_13 >= 0) {
+    if (initial_target->unk_13 >= 0) {
         experience = source->unk_06.u;
-        if (((S_800A2DB8_1 *)initial_target)->unk_54 & 0x20) {
+        if (initial_target->unk_54 & 0x20) {
             experience *= 2;
         }
 
@@ -1029,8 +1029,8 @@ s32 distribute_experience_awards(S_800A2DB8_0 *source)
                 member_index--;
             } while (member_index >= 0);
 
-            global_page = (u8 *)0x800E0000;
-            global_member = ((S_800A2DB8_6 *)global_page)->unk_3D7C;
+            global_page = (S_800A2DB8_6 *)0x800E0000;
+            global_member = global_page->unk_3D7C;
             if (global_member->unk_28 == 0) {
                 return 0;
             }
@@ -1051,7 +1051,7 @@ s32 distribute_experience_awards(S_800A2DB8_0 *source)
              * (adrando.com/guide/bugs.html).
              */
             accumulate_experience_award(global_member, award & 0xFFFF);
-            create_actor_value_popup(0x82, ((S_800A2DB8_6 *)global_page)->unk_3D7C, (s16)award, 1);
+            create_actor_value_popup(0x82, global_page->unk_3D7C, (s16)award, 1);
             return award;
         }
 
@@ -1287,7 +1287,7 @@ void * detach_record_and_update_slot_state(void *record) {
     S_800A32A4_3 *entry;
     void *copy_dst;
     void *copy_src;
-    u8 *page_base;
+    S_800A32A4_1 *page_base;
     u8 *status_page;
     S_800E3E48 *copy_base;
     s32 *registry;
@@ -1301,14 +1301,14 @@ void * detach_record_and_update_slot_state(void *record) {
     if (!(((EntityRec *)record)->flags14 & 0x20000000)) {
         mark_owned_linked_actor_actions(record);
         slot_index = 0;
-        page_base = (u8 *)0x80080000;
+        page_base = (S_800A32A4_1 *)0x80080000;
         copy_src = (void *)~0x4000;
         registry = familiar_record_slots;
         copy_base = familiar_record_storage;
         copy_end = record + 0x80;
 scan_slots:
         slot_offset = slot_index * 4;
-        slot = slot_offset + ((S_800A32A4_1 *)page_base)->unk_14A8;
+        slot = slot_offset + page_base->unk_14A8;
         slot_index += 1;
         if (slot->unk_AC == record) {
             ((EntityRec *)record)->flags14 = (s32)(((EntityRec *)record)->flags14 & (s32)copy_src);
@@ -1319,7 +1319,7 @@ scan_slots:
             ((EntityRec *)record)->flags1C = state_flags;
             entry = slot->unk_D0;
             entry->unk_03 = (u8)(entry->unk_03 & 0xDF);
-            dest_base = (void *)((u32)slot_offset + ((S_800A32A4_1 *)page_base)->unk_14A8);
+            dest_base = (void *)((u32)slot_offset + page_base->unk_14A8);
             dest_base->item_address = 0;
             update_mode = 3;
             copy_src = record;

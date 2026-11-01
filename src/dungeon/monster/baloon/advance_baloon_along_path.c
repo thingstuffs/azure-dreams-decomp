@@ -68,10 +68,10 @@ void advance_baloon_along_path(ActorRecord *body, ObjectPosition *position, Spri
         actor->facing = heading;
         if (x == 3 && !(g_dungeon_status.flags & 0x80) && !(sprite->flags & 0x8000)) {
             initialize_angle_indexed_target(body, position, sprite, actor);
-            ((Rec_func_801724B0_arg0 *)body)->unk_8C = 0;
+            body->unk_8C.word = 0;
         } else {
             body->action_id.s = 0xF;
-            ((Rec_func_801724B0_arg0 *)body)->unk_8C = 0;
+            body->unk_8C.word = 0;
         }
 
         (actor->flags1C) |= ACTOR_REFRESH_GROUND;

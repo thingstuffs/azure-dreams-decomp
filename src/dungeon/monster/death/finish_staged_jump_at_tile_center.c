@@ -79,8 +79,8 @@ void finish_staged_jump_at_tile_center(ActorRecord *action, ObjectPosition *moti
             0);
         play_sound_if_enabled(0x707);
         action->action_timer.u = 6;
-        ((S_80172DB0_0 *)action)->unk_AC = 0x80000;
-        ((S_80172DB0_0 *)action)->unk_B0 = (s32)0xFFFE0000;
+        action->unk_AC.value = 0x80000;
+        action->unk_B0.value = (s32)0xFFFE0000;
         action->action_phase.u++;
         motion->velocity_x =
             -*(s16 *)(((s8 *)dir_step_x) + (((u16)actor->facing >> 8) & 0xE)) << 18;
@@ -89,8 +89,8 @@ void finish_staged_jump_at_tile_center(ActorRecord *action, ObjectPosition *moti
         return;
 
     case 2:
-        action->unk_A4.value += ((S_80172DB0_0 *)action)->unk_AC;
-        ((S_80172DB0_0 *)action)->unk_AC += ((S_80172DB0_0 *)action)->unk_B0;
+        action->unk_A4.value += action->unk_AC.value;
+        action->unk_AC.value += action->unk_B0.value;
         if (action->action_timer.s < 2) {
             motion->velocity_x =
                 *(s16 *)(((s8 *)dir_step_x) + (((u16)actor->facing >> 8) & 0xE)) << 19;
@@ -111,8 +111,8 @@ void finish_staged_jump_at_tile_center(ActorRecord *action, ObjectPosition *moti
         return;
 
     case 3:
-        action->unk_A4.value += ((S_80172DB0_0 *)action)->unk_AC;
-        ((S_80172DB0_0 *)action)->unk_AC += ((S_80172DB0_0 *)action)->unk_B0;
+        action->unk_A4.value += action->unk_AC.value;
+        action->unk_AC.value += action->unk_B0.value;
         if (!(sprite->flags & 0xE000)) {
             return;
         }

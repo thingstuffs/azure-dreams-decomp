@@ -574,7 +574,7 @@ void run_radial_sprite_sequence(S_func_81886800_1 *effect, S_func_81886800_11 *m
     }
     g_dungeon_status.active_actor = 0;
     ((S_func_81886800_12 *)((u8 *)effect - 2))->unk_00 |= 0x8000;
-    ((S_func_81886800_19 *)(((u8 *)(&object_flag_block))))->unk_00 |= 0x8000;
+    object_flag_block.flags |= 0x8000;
 
     }
     {
@@ -1103,8 +1103,8 @@ void advance_the_effect_state_updates_motion_sets_display_color(void *effect, s3
     s32 effect_param;
     s32 angle_shifted;
     void *owner;
-    u8 *flag_page;
-    u8 *flags_page;
+    S_80025160_2 *flag_page;
+    S_80025160_3 *flags_page;
 
     COUNTER = COUNTER + 1;
     state = ((S_80025160_0 *)effect)->unk_0A.s;
@@ -1135,8 +1135,8 @@ void advance_the_effect_state_updates_motion_sets_display_color(void *effect, s3
         }
         break;
     case 1:
-        flag_page = (u8 *)0x80020000;
-        if (((S_80025160_2 *)flag_page)->unk_6328 != 0) {
+        flag_page = (S_80025160_2 *)0x80020000;
+        if (flag_page->unk_6328 != 0) {
             visual->unk_06.u = -0x100;
             ((S_80025160_0 *)effect)->unk_1A = 0x10;
             ((S_80025160_0 *)effect)->unk_0A.u++;
@@ -1154,9 +1154,9 @@ void advance_the_effect_state_updates_motion_sets_display_color(void *effect, s3
         value = visual->unk_06.s + 0x80;
         visual->unk_06.s = value;
         if ((value << 16) >= 0) {
-            flags_page = (u8 *)0x80080000;
+            flags_page = (S_80025160_3 *)0x80080000;
             ((S_80025160_0_pre *)effect)[-1].unk_00 |= 0x8000;
-            ((S_80025160_3 *)flags_page)->unk_14A0 |= 0x8000;
+            flags_page->unk_14A0 |= 0x8000;
         }
         break;
     default:
@@ -1677,7 +1677,7 @@ typedef struct GlobalState {
 s32 handle_project_linked_quads_queue_shaded_primitives_draw_modes_depth(void *quad) {
     GlobalState **render_states = ((GlobalState **)(&g_game_work));
     u8 *scratch = (u8 *)0x1F800000;
-    void *packet;
+    S_80025E4C_2 *packet;
     u32 depth_bucket;
     s32 first_color;
     s32 second_color;
@@ -1708,13 +1708,13 @@ s32 handle_project_linked_quads_queue_shaded_primitives_draw_modes_depth(void *q
         ((S_80025E4C_0 *)scratch)->unk_C0 = depth_bucket;
         if (depth_bucket < 0x1E0U) {
             first_color = ((S_80025E4C_1 *)quad)->unk_50;
-            ((S_80025E4C_2 *)packet)->unk_0C = first_color;
-            ((S_80025E4C_2 *)packet)->unk_04.at00.v = first_color;
+            packet->unk_0C = first_color;
+            packet->unk_04.at00.v = first_color;
             second_color = ((S_80025E4C_1 *)quad)->unk_54;
-            ((S_80025E4C_2 *)packet)->unk_1C = second_color;
-            ((S_80025E4C_2 *)packet)->unk_14 = second_color;
+            packet->unk_1C = second_color;
+            packet->unk_14 = second_color;
             SetPolyG4(packet);
-            ((S_80025E4C_2 *)packet)->unk_04.at03.v = (u8)(((S_80025E4C_2 *)packet)->unk_04.at03.v | 2);
+            packet->unk_04.at03.v = (u8)(packet->unk_04.at03.v | 2);
             AddPrim((u8 *)((S_80025E4C_0 *)scratch)->unk_20 +
                           (((S_80025E4C_0 *)scratch)->unk_C0 * 4), packet);
             packet = ((S_80025E4C_0 *)scratch)->unk_18;

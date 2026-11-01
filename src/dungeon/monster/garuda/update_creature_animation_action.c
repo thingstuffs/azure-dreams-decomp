@@ -67,7 +67,7 @@ void update_creature_animation_action(ActorRecord *actor, ObjectPosition *contex
         if ((sprite->frameTable) == garuda_frame_set_2) {
             actor->action_id.u = 0xD;
             actor->action_phase.u = 1;
-            *((s32 *) (((u8 *) actor) + 0x8C)) = 0;
+            actor->unk_8C.word = 0;
             *((u32 *) (((u8 *) creature) + 0x1C)) &= 0xFFFBFFFF;
             return;
         }
@@ -99,8 +99,8 @@ void update_creature_animation_action(ActorRecord *actor, ObjectPosition *contex
                 sprite->frameTable = anim_table;
                 select_sprite_entry(sprite, ((u8 *) anim_table)[(((g_game_work.view.camera_rotation.parts.viewAngle + creature->facing) + 0x100) >> 9) & 7], 0);
                 sprite->frame_ticks = 1;
-                *((s16 *) (((u8 *) actor) + 0xA6)) = 0;
-                *((s16 *) (((u8 *) actor) + 0xB2)) = 0;
+                actor->unk_A4.halves.high.s = 0;
+                actor->unk_B0.halves.high.s = 0;
             }
         }
         *((u32 *) (((u8 *) creature) + 0x1C)) |= 0x40000;
@@ -113,9 +113,9 @@ void update_creature_animation_action(ActorRecord *actor, ObjectPosition *contex
         if ((*((u32 *) (((u8 *) creature) + 0x1C))) & 0x80000) {
             s16 adjusted_offset;
             begin_actor_move_to_target_facing(actor, context, sprite, creature);
-            adjusted_offset = actor->unk_90.parts.high.u - (*((u16 *) (((u8 *) actor) + 0xA6)));
-            *((s16 *) (((u8 *) actor) + 0xA6)) = 0;
-            *((s16 *) (((u8 *) actor) + 0xB2)) = 0;
+            adjusted_offset = actor->unk_90.parts.high.u - actor->unk_A4.halves.high.u;
+            actor->unk_A4.halves.high.s = 0;
+            actor->unk_B0.halves.high.s = 0;
             actor->unk_90.parts.high.s = adjusted_offset;
             func_80173834(actor, context, sprite, creature);
             return;

@@ -157,7 +157,7 @@ void advance_selected_actor_action(ActorRecord *action, ObjectPosition *transfor
         transform->velocity_x = 0;
         set_record_integer_tile_center(transform, sprite->tile_x, sprite->tile_y);
         g_dungeon_status.active_actor = 0;
-        (*(u16 *)((u8 *)primary_actor_record + 0xA6))--;
+        primary_actor_record->unk_A4.halves.high.u--;
         advance_status_timers(actor);
         (*(u8 *)&actor->pending_turn_updates)--;
         action->unk_8C.address = beldo_large_action_resume_address;

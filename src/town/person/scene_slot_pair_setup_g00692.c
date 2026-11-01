@@ -10,7 +10,7 @@
 void initialize_scene_slot_83(void *object, void *unused, struct SpriteFrameState *context)
 {
     initialize_object_and_register_slot(object, 83, D_800D74B4, D_800D74B8, D_800D7484, D_800D748C);
-    *(s16 *)((u8 *)context + 0x12) = 0x40;
+    context->clut = 0x40;
 }
 
 /*
@@ -20,5 +20,5 @@ void initialize_scene_slot_83(void *object, void *unused, struct SpriteFrameStat
 void initialize_scene_slot_84(void *object, void *unused, struct SpriteFrameState *context)
 {
     initialize_object_and_register_slot(object, 84, D_800D74B4, D_800D74B8, D_800D7484, D_800D748C);
-    *(s16 *)((u8 *)context + 0x12) = 0x40;
+    context->clut = 0x40;
 }

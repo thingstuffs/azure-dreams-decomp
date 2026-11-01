@@ -1,18 +1,11 @@
 #include "common.h"
 #include "records/Rec_func_800AA258_arg2.h"
 #include "shared/entity.h"
+#include "dungeon/monster/viper/effect.h"
 
 typedef struct S_801743E8_0_pre {
     u16 unk_00;
 } S_801743E8_0_pre;   /* the 0x2 bytes before arg0 in update_timed_effect_size_and_position, addressed as arg0[-1] */
-
-typedef struct S_801743E8_0 {
-    u8 pad_00[0x96];
-    union { u16 s; s16 u; } unk_96;   /* accessed as both */
-    u8 pad_98[0x3];
-    u8 unk_9B;
-} S_801743E8_0;   /* arg0 in update_timed_effect_size_and_position */
-
 
 typedef struct Page8008 {
     u8 pad[0x14A0];
@@ -23,34 +16,34 @@ typedef struct Page8008 {
  * Shrinks the sprite in staged steps, moves it vertically in state 2, and marks the effect for
  * removal in state 3.
  */
-void update_timed_effect_size_and_position(void *effect, EntityRec *position, Rec_func_800AA258_arg2 *visual)
+void update_timed_effect_size_and_position(ViperTimedEffectBody *effect, EntityRec *position, Rec_func_800AA258_arg2 *visual)
 {
     s32 state;
     u16 size_or_state;
     Page8008 *flag_page;
 
-    state = ((S_801743E8_0 *)effect)->unk_9B;
-    ((S_801743E8_0 *)effect)->unk_96.s--;
+    state = effect->state;
+    effect->timer.s--;
 
     switch (state) {
     case 0:
         if (visual->unk_14 & 0x8000) {
-            ((S_801743E8_0 *)effect)->unk_9B = 3;
+            effect->state = 3;
             return;
         }
-        ((S_801743E8_0 *)effect)->unk_96.s = 3;
-        ((S_801743E8_0 *)effect)->unk_9B++;
+        effect->timer.s = 3;
+        effect->state++;
                         /* fall through */
     case 1:
         size_or_state = visual->unk_1E - 0x50;
         visual->unk_1E = size_or_state;
         visual->unk_1C = size_or_state;
-        if (((S_801743E8_0 *)effect)->unk_96.u < 0) {
+        if (effect->timer.u < 0) {
             state = 2;
-            size_or_state = ((S_801743E8_0 *)effect)->unk_9B;
-            ((S_801743E8_0 *)effect)->unk_96.s = state;
+            size_or_state = effect->state;
+            effect->timer.s = state;
             size_or_state++;
-            ((S_801743E8_0 *)effect)->unk_9B = size_or_state;
+            effect->state = size_or_state;
         }
         return;
     case 2:
@@ -58,10 +51,10 @@ void update_timed_effect_size_and_position(void *effect, EntityRec *position, Re
         size_or_state = visual->unk_1E - 0x80;
         visual->unk_1E = size_or_state;
         visual->unk_1C = size_or_state;
-        if (((S_801743E8_0 *)effect)->unk_96.u < 0) {
-            size_or_state = ((S_801743E8_0 *)effect)->unk_9B;
+        if (effect->timer.u < 0) {
+            size_or_state = effect->state;
             size_or_state++;
-            ((S_801743E8_0 *)effect)->unk_9B = size_or_state;
+            effect->state = size_or_state;
         }
         return;
     case 3:

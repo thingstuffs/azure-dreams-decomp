@@ -20,7 +20,7 @@ void handle_resolve_bounding_box_overlaps_linked_colliders_along_least_penetrati
     s32 min_separation;
     s32 face_index;
     s32 self_size;
-    void *box_operand;
+    CollisionBounds *box_operand;
     register s32 axis_operand;
 
     bounds = collider->bounds;
@@ -81,12 +81,12 @@ void handle_resolve_bounding_box_overlaps_linked_colliders_along_least_penetrati
 
             box_operand = scratch->self_bounds;
             separation = position->x.v;
-            other_pos = (void *)((CollisionBounds *)(box_operand))->offset_x;
-            self_size = ((CollisionBounds *)(box_operand))->size_x;
+            other_pos = (void *)box_operand->offset_x;
+            self_size = box_operand->size_x;
             box_operand = scratch->other_bounds;
             separation += (s32)other_pos;
             other_pos = scratch->other_position;
-            box_operand = (void *)((CollisionBounds *)(box_operand))->offset_x;
+            box_operand = (void *)box_operand->offset_x;
             other_edge = ((EntityRec *)(other_pos))->x.v;
             separation += self_size;
             other_edge += (s32)box_operand;
@@ -131,12 +131,12 @@ void handle_resolve_bounding_box_overlaps_linked_colliders_along_least_penetrati
 
             box_operand = scratch->self_bounds;
             separation = position->y.v;
-            other_pos = (void *)((CollisionBounds *)(box_operand))->offset_y;
-            self_size = ((CollisionBounds *)(box_operand))->size_y;
+            other_pos = (void *)box_operand->offset_y;
+            self_size = box_operand->size_y;
             box_operand = scratch->other_bounds;
             separation += (s32)other_pos;
             other_pos = scratch->other_position;
-            box_operand = (void *)((CollisionBounds *)(box_operand))->offset_y;
+            box_operand = (void *)box_operand->offset_y;
             other_edge = ((EntityRec *)(other_pos))->y.v;
             separation += self_size;
             other_edge += (s32)box_operand;
@@ -181,12 +181,12 @@ void handle_resolve_bounding_box_overlaps_linked_colliders_along_least_penetrati
 
             box_operand = scratch->self_bounds;
             separation = position->z.v;
-            other_pos = (void *)((CollisionBounds *)(box_operand))->offset_z;
-            self_size = ((CollisionBounds *)(box_operand))->size_z;
+            other_pos = (void *)box_operand->offset_z;
+            self_size = box_operand->size_z;
             box_operand = scratch->other_bounds;
             separation += (s32)other_pos;
             other_pos = scratch->other_position;
-            box_operand = (void *)((CollisionBounds *)(box_operand))->offset_z;
+            box_operand = (void *)box_operand->offset_z;
             other_edge = ((EntityRec *)(other_pos))->z.v;
             separation += self_size;
             other_edge += (s32)box_operand;

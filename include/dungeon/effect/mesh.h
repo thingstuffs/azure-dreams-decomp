@@ -10,6 +10,10 @@ typedef struct MeshEffectObjectBody {
     u8 y;
     u16 height;
 } MeshEffectObjectBody;
+/* Owner link stored by the vertically-offset sprite effect's updater. */
+typedef struct AnOwnerLinkedSpriteEffectPositionVerticalOffsetBody {
+    void *owner;
+} AnOwnerLinkedSpriteEffectPositionVerticalOffsetBody;
 typedef struct TerrainSeekingColoredPointBody {
     u32 color;
     s16 unk_04;
@@ -77,6 +81,23 @@ void create_random_radial_vector_effect(s32 radius, s32 initial_value, s16 exten
 void clear_listed_tile_flags(void);
 s32 count_flagged_tiles_along_direction_2(s16 scan_direction, s32 start_x, s32 start_y);
 
+/* Callback work and the fields installed by create_linked_effect_controller. */
+typedef struct LinkedEffectControllerBody {
+    void *field00;
+    void *field04;
+    void *field08;
+    void *field0C;
+    union { s32 s; u8 *u; } field10;
+    s32 field14;
+    u8 pad_18[0x10];
+    union { s16 s; volatile u16 u; u16 p; } field28;
+    u8 pad_2A[0x4];
+    union { volatile s16 s; s16 u; u16 p; } field2E;
+    union { s16 s; u16 u; } field30;
+    u8 pad_32[0x6];
+    s16 field38;
+} LinkedEffectControllerBody;
+
 
 
 
@@ -111,6 +132,7 @@ extern u8 shared_decode_staging_buffer[16400];
 /* Callback entry points. */
 s32 queue_projected_mesh_points_and_texture_packets(u8 *node_data, u16 *position);
 void build_visible_tile_quads(MeshEffectObjectBody *tiles);
+void handle_increment_s_counter_update_state_propagate_status_flags(AnOwnerLinkedSpriteEffectPositionVerticalOffsetBody *object, s32 unused, SpriteFrameState *state);
 
 /* Owner declarations appended by tools/headers (append-only; the lines above are hand-kept). */
 void transform_sprite_parts_to_quads(s32 context, ObjectPosition *position, SpriteFrameState *sprite, s16 depth_bias);

@@ -8,19 +8,18 @@
 
 
 /* Keeps both sprite scales at normal size and removes the effect when its countdown ends. */
-void expire_effect_at_unit_scale(void *state_data, s32 unused, void *scale_data)
+void expire_effect_at_unit_scale(UpdateEffectParticlesAndCleanupBody *state, s32 unused, void *scale_data)
 {
-    u8 *state = state_data;
     s32 remaining_ticks;
     u8 *scale = scale_data;
 
-    *(u16 *)(state + 2) = *(u16 *)(state + 2) - 1;
+    state->unk_02.s -= 1;
     *(s16 *)(scale + 0x1C) = 0x1000;
     *(s16 *)(scale + 0x1E) = 0x1000;
-    remaining_ticks = *(s16 *)(state + 2);
+    remaining_ticks = state->unk_02.u;
     ((s16 *)particle_update_flag)[0] = 1;
     if (remaining_ticks <= 0) {
-        *(u16 *)(state - 2) |= NODE_REMOVE;
+        *(u16 *)((u8 *)state - 2) |= NODE_REMOVE;
         object_flag_block.flags |= OBJECT_REMOVE_PENDING;
     }
 }
@@ -39,10 +38,9 @@ void finish_timed_visual_effect(void *object) {
 
 /* Bobs and pulses a substitute sprite while hiding the linked sprite, restoring the linked sprite when
    time expires. */
-void advance_timed_visual_effect(void *state_arg, void *position_arg, void *visual_arg) {
+void advance_timed_visual_effect(UpdateEffectParticlesAndCleanupBody *state, void *position_arg, void *visual_arg) {
     Row_818FEF80_S_818FEF80_3 *visual = visual_arg;
     Row_818FEF80_S_818FEF80_2 *position = position_arg;
-    Row_818FEF80_S_818FEF80_0 *state = state_arg;
     void *object;
     Row_818FEF80_S_818FEF80_4 *linked_visual;
     s16 ticks_left;
@@ -90,7 +88,7 @@ void advance_timed_visual_effect(void *state_arg, void *position_arg, void *visu
 }
 
 /* Inverts a tiled texture mask, draws clipped moving sprites, and fades them in and out before completion. */
-void update_tiled_fade_effect(void *effect, void *offset_state_arg, void *render_state) {
+void update_tiled_fade_effect(UpdateEffectParticlesAndCleanupBody *effect, void *offset_state_arg, void *render_state) {
     Row_818FF19C_S_818FF19C_1 *offset_state = offset_state_arg;
     Row_818FF19C_Rect8 moving_rect;
     Row_818FF19C_Rect8 tile_rect;
@@ -113,16 +111,16 @@ void update_tiled_fade_effect(void *effect, void *offset_state_arg, void *render
 
     moving_rect = D_80024028;
     tile_rect = D_80024030;
-    offset_applied = ((Row_818FF19C_S_818FF19C_0 *)effect)->unk_0A;
+    offset_applied = effect->unk_0A.s;
     (*(s16 *)particle_update_flag) = 1;
     if (offset_applied == 0) {
-        ((Row_818FF19C_S_818FF19C_0 *)effect)->unk_0A = 1;
+        effect->unk_0A.s = 1;
         offset_state->unk_08 += -0x20000;
     } else {
-        ((Row_818FF19C_S_818FF19C_0 *)effect)->unk_0A = 0;
+        effect->unk_0A.s = 0;
         offset_state->unk_08 += 0x20000;
     }
-    stage = ((Row_818FF19C_S_818FF19C_0 *)effect)->unk_00.s;
+    stage = effect->unk_00.s;
     switch (stage) {
     case 0:
         tile_col = 0;
@@ -163,7 +161,7 @@ void update_tiled_fade_effect(void *effect, void *offset_state_arg, void *render
             column_x += 0x18;
         } while (tile_col < 4);
 
-        ((Row_818FF19C_S_818FF19C_0 *)effect)->unk_00.u++;
+        effect->unk_00.u++;
         ((Row_818FF19C_S_818FF19C_2 *)render_state)->unk_14 &= 0xFF7F;
 
     case 1:
@@ -173,39 +171,39 @@ void update_tiled_fade_effect(void *effect, void *offset_state_arg, void *render
         tile_rect.h = 0x54;
         draw_pos[0] = 0x370;
         draw_pos[1] = 0x148;
-        draw_transformed_sprite_with_clip_rect(((Row_818FF19C_S_818FF19C_0 *)effect)->unk_38, &tile_rect, draw_pos, 0, 1);
+        draw_transformed_sprite_with_clip_rect(effect->unk_38, &tile_rect, draw_pos, 0, 1);
 
         draw_pos[0] = moving_rect.x + (moving_rect.w >> 1) - 6;
-        rounded_frame = ((Row_818FF19C_S_818FF19C_0 *)effect)->unk_02;
+        rounded_frame = effect->unk_02.u;
         y_offset = (rounded_frame / 4) - 0x4E;
         draw_pos[1] = moving_rect.y - y_offset;
-        draw_transformed_sprite_with_clip_rect(((Row_818FF19C_S_818FF19C_0 *)effect)->unk_3C, &moving_rect, draw_pos, 1, 1);
+        draw_transformed_sprite_with_clip_rect(effect->unk_3C, &moving_rect, draw_pos, 1, 1);
 
-        frame = ((Row_818FF19C_S_818FF19C_0 *)effect)->unk_02;
+        frame = effect->unk_02.u;
         if (frame < 0x15) {
             ((Row_818FF19C_S_818FF19C_2 *)render_state)->unk_0E = (frame << 7) / 20;
-            ((Row_818FF19C_S_818FF19C_2 *)render_state)->unk_0D = (((Row_818FF19C_S_818FF19C_0 *)effect)->unk_02 << 7) / 20;
-            ((Row_818FF19C_S_818FF19C_2 *)render_state)->unk_0C = (((Row_818FF19C_S_818FF19C_0 *)effect)->unk_02 << 7) / 20;
+            ((Row_818FF19C_S_818FF19C_2 *)render_state)->unk_0D = (effect->unk_02.u << 7) / 20;
+            ((Row_818FF19C_S_818FF19C_2 *)render_state)->unk_0C = (effect->unk_02.u << 7) / 20;
         }
-        if (((Row_818FF19C_S_818FF19C_0 *)effect)->unk_02 >= 0x51) {
-            ((Row_818FF19C_S_818FF19C_2 *)render_state)->unk_0E = ((0x64 - ((Row_818FF19C_S_818FF19C_0 *)effect)->unk_02) << 7) / 20;
-            ((Row_818FF19C_S_818FF19C_2 *)render_state)->unk_0D = ((0x64 - ((Row_818FF19C_S_818FF19C_0 *)effect)->unk_02) << 7) / 20;
-            ((Row_818FF19C_S_818FF19C_2 *)render_state)->unk_0C = ((0x64 - ((Row_818FF19C_S_818FF19C_0 *)effect)->unk_02) << 7) / 20;
+        if (effect->unk_02.u >= 0x51) {
+            ((Row_818FF19C_S_818FF19C_2 *)render_state)->unk_0E = ((0x64 - effect->unk_02.u) << 7) / 20;
+            ((Row_818FF19C_S_818FF19C_2 *)render_state)->unk_0D = ((0x64 - effect->unk_02.u) << 7) / 20;
+            ((Row_818FF19C_S_818FF19C_2 *)render_state)->unk_0C = ((0x64 - effect->unk_02.u) << 7) / 20;
         }
 
-        next_frame = (u16)((Row_818FF19C_S_818FF19C_0 *)effect)->unk_02 + 1;
-        ((Row_818FF19C_S_818FF19C_0 *)effect)->unk_02 = next_frame;
+        next_frame = (u16)effect->unk_02.u + 1;
+        effect->unk_02.u = next_frame;
         if (next_frame >= 0x65) {
-            ((Row_818FF19C_S_818FF19C_0 *)effect)->unk_02 = 0;
-            ((Row_818FF19C_S_818FF19C_0 *)effect)->unk_00.u++;
-            ((Row_818FF19C_S_818FF19C_3 *)(((Row_818FF19C_S_818FF19C_0 *)effect)->unk_34))->unk_90 = 1;
+            effect->unk_02.u = 0;
+            effect->unk_00.u++;
+            ((Row_818FF19C_S_818FF19C_3 *)effect->unk_34)->unk_90 = 1;
             (*(u16 *)((u8 *)effect + -2)) |= NODE_REMOVE;
             object_flag_block.flags |= OBJECT_REMOVE_PENDING;
         }
         break;
     }
 
-    if ((u32)(((Row_818FF19C_S_818FF19C_4 *)(((Row_818FF19C_S_818FF19C_0 *)effect)->unk_30))->unk_13 - 0x33) < 4U) {
+    if ((u32)(((Row_818FF19C_S_818FF19C_4 *)effect->unk_30)->unk_13 - 0x33) < 4U) {
         ((Row_818FF19C_S_818FF19C_2 *)render_state)->unk_14 |= 0x80;
     }
 }

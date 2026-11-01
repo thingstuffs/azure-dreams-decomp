@@ -34,7 +34,7 @@ void runtime_advance_counter_and_callback(S_800357D0_0 *state) {
 
     counter_state = state->unk_00;
     counter_state->unk_08 = (u16) (counter_state->unk_08 + 0x40);
-    if ((s16) ((S_800357D0_3 *)(((S_800357D0_2 *)state)->unk_00))->unk_08 >= 0x401) {
+    if ((s16) ((S_800357D0_3 *)state->unk_00)->unk_08 >= 0x401) {
         state->unk_4C = 0xFF;
         state->unk_4D = 0xFF;
         state->unk_68 = &cleanup_window_object;

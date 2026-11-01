@@ -46,9 +46,9 @@ void *create_source_linked_fading_effect(ObjectNodeHeader *source, s16 copy_posi
             object->position = source->position;
         } else {
             position = object->position;
-            position->x.w.i = (u16) ((MovingPosition *)(source->position))->x;
-            position->y.w.i = (u16) ((MovingPosition *)(source->position))->y;
-            position->z.w.i = (u16) ((MovingPosition *)(source->position))->z;
+            position->x.w.i = (u16) source->position->x.unsigned_parts.integer;
+            position->y.w.i = (u16) source->position->y.unsigned_parts.integer;
+            position->z.w.i = (u16) source->position->z.unsigned_parts.integer;
             source_display = source->sprite;
             display_value = source_display->color.word;
             display->tpage_abr = 0x60;

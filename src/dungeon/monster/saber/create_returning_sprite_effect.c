@@ -73,11 +73,11 @@ void create_returning_sprite_effect(
     if (node != 0) {
         node->update_callback = saber_return_effect_update_address;
 
-        ((S_80AC55DC_5 *)(node->position))->unk_02 =
+        node->position->x.w.i =
             ((MovingPosition *)(origin->unk_08))->x + offset_x;
-        ((S_80AC55DC_5 *)(node->position))->unk_06 =
+        node->position->y.w.i =
             ((MovingPosition *)(origin->unk_08))->y + offset_y;
-        ((S_80AC55DC_5 *)(node->position))->unk_0A =
+        node->position->z.w.i =
             ((MovingPosition *)(origin->unk_08))->z + offset_z - 0x14;
 
         work = (S_80AC55DC_2 *)((u8 *)node + 0x20);

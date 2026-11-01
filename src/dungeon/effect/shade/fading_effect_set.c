@@ -91,8 +91,7 @@ void create_randomized_grayscale_effect(s32 user_data, ovl_188898c_81868A64_S_81
 
 /* Emits grayscale particles along three expanding spirals, fades the emission color, and signals
    completion. */
-void animate_spiral_grayscale_effect(void *effect_arg, void *position) {
-    ovl_188898c_81868B84_S_81868B84_0 *effect = effect_arg;
+void animate_spiral_grayscale_effect(CoordinateSpriteObjectBody *effect, void *position) {
     s32 radial_product;
     s32 fade_angle;
     s32 grow_angle;
@@ -217,7 +216,7 @@ void create_coordinate_sprite_object(void *owner, ovl_188898c_81868E84_S_81868E8
     u16 y;
     u16 z;
     ObjectNodeHeader *object;
-    ovl_188898c_81868E84_S_81868E84_1 *state;
+    CoordinateSpriteObjectBody *state;
     ObjectPosition *coord_pairs;
 
     object = allocate_flagged_object_node(0x212);
@@ -225,7 +224,7 @@ void create_coordinate_sprite_object(void *owner, ovl_188898c_81868E84_S_81868E8
         object->update_callback = (void *)animate_spiral_grayscale_effect;
         state = ((void *)object) + 0x20;
         ((ovl_188898c_81868E84_S_81868E84_0 *)object)->unk_20 = 0;
-        state->unk_02 = 0;
+        state->unk_02.u = 0;
         owner_value = ((ovl_188898c_81868E84_S_81868E84_2 *)owner)->unk_09;
         state->unk_06 = 0;
         state->unk_08 = 0;
@@ -254,12 +253,12 @@ void create_coordinate_sprite_object(void *owner, ovl_188898c_81868E84_S_81868E8
  * $a0, leaving the allocator result in $a1; u32 avoids the redundant andi and collapses the
  * +1-word branch-displacement cascade.
  */
-void shrink_and_brighten_effect(void *state_ref, void *unused, SpriteFrameState *effect) {
+void shrink_and_brighten_effect(DelayAndFadeParticleBody *state_ref, void *unused, SpriteFrameState *effect) {
     u16 scale;
     u8 brightness;
     void *state;
 
-    state = *(void **)state_ref;
+    state = state_ref->owner;
     *(u16 *)((u8 *)state + 0x14) = *(u16 *)((u8 *)state + 0x14) + 1;
     scale = effect->scale_y - 0x400;
     brightness = effect->color.c.b + 4;
@@ -270,7 +269,7 @@ void shrink_and_brighten_effect(void *state_ref, void *unused, SpriteFrameState 
     effect->color.c.r = brightness;
     advance_sprite_animation_and_textures(effect);
     if (effect->flags & 0x6000) {
-        *(s8 *)((u8 *)*(void **)state_ref + 0x16) = 1;
+        *(s8 *)((u8 *)state_ref->owner + 0x16) = 1;
         *(u16 *)((u8 *)state_ref - 2) |= NODE_REMOVE;
         object_flag_block.flags |= OBJECT_REMOVE_PENDING;
     }
@@ -324,7 +323,7 @@ s32 interpolate_shade_and_queue_line(void *line_data, void *unused_render_contex
     s32 bit_mask;
     s32 index;
     s32 multiplier;
-    u8 *line_bytes = line_data;
+    ovl_188898c_818690C8_S_800248C8_3 *line_bytes = line_data;
     s32 coord_y;
     s32 first_z;
     s32 second_z;
@@ -336,7 +335,7 @@ s32 interpolate_shade_and_queue_line(void *line_data, void *unused_render_contex
 
     ((ovl_188898c_818690C8_S_800248C8_0 *)scratch)->unk_18 = (u32 *)(render_ctx + 0xB0);
     packet = ((GpuContext *)render_ctx)->packetCursor;
-    line = (ovl_188898c_818690C8_S_800248C8_3 *)line_bytes;
+    line = line_bytes;
     ((GpuContext *)render_ctx)->packetCursor = packet + 0x14;
 
     ((ovl_188898c_818690C8_S_800248C8_2 *)packet)->unk_00.at03.v = 4;

@@ -437,7 +437,7 @@ void advance_projectile_burst_and_impact(void *effect, ObjectPosition *motion, S
     S_80024BE8_1 *task;
     MovingPosition *origin;
     S_80024BE8_4 *source_sprite;
-    void *target;
+    S_80024BE8_7 *target;
     u8 *direction_table;
     s32 default_steps;
     s32 tile_distance;
@@ -497,7 +497,7 @@ void advance_projectile_burst_and_impact(void *effect, ObjectPosition *motion, S
                 default_steps = 8;
                 target = ((S_80024BE8_3 *)source)->unk_60;
                 if (target != 0) {
-                    target_height = ((S_80024BE8_7 *)target)->unk_88;
+                    target_height = target->unk_88;
                     direction = ((S_80024BE8_0 *)effect)->unk_7E.s;
                     direction_table = target_height;
                     ((S_80024BE8_0 *)effect)->unk_78.u = direction_table;
@@ -554,7 +554,7 @@ void advance_projectile_burst_and_impact(void *effect, ObjectPosition *motion, S
 
     case 2:
     {
-        void *target_position;
+        S_80024BE8_9 *target_position;
         void *animation;
         s32 color_mode;
         s32 random_intensity;
@@ -588,8 +588,8 @@ void advance_projectile_burst_and_impact(void *effect, ObjectPosition *motion, S
                 ((S_80024BE8_0 *)effect)->unk_86.u = 0;
                 ((S_80024BE8_0 *)effect)->unk_0A.s++;
                 target_position = ((S_80024BE8_23_pre *)(((S_80024BE8_3 *)source)->unk_60))[-1].unk_00;
-                motion->x.w.i = ((S_80024BE8_9 *)target_position)->unk_02;
-                motion->y.w.i = ((S_80024BE8_9 *)target_position)->unk_06;
+                motion->x.w.i = target_position->unk_02;
+                motion->y.w.i = target_position->unk_06;
                 motion->z.w.i = ((S_80024BE8_0 *)effect)->unk_78.u;
                 source_sprite = ((S_80024BE8_3 *)source)->unk_60;
                 ((S_80024BE8_23 *)source_sprite)->unk_1C |= 0x10000000;
@@ -832,8 +832,8 @@ void advance_projectile_burst_and_impact(void *effect, ObjectPosition *motion, S
 
     case 5:
     {
-        void *target_actor;
-        void *current_target;
+        S_80024BE8_19 *target_actor;
+        S_80024BE8_20_pre *current_target;
         s32 target_flag;
         u16 scale_step;
 
@@ -860,9 +860,9 @@ void advance_projectile_burst_and_impact(void *effect, ObjectPosition *motion, S
             ((S_80024BE8_0 *)effect)->unk_82 = 0;
             ((S_80024BE8_0 *)effect)->unk_0A.s++;
             target_actor = ((S_80024BE8_3 *)source)->unk_60;
-            ((S_80024BE8_19 *)target_actor)->unk_1C ^= target_flag;
+            target_actor->unk_1C ^= target_flag;
             current_target = ((S_80024BE8_3 *)source)->unk_60;
-            target_graphics = ((S_80024BE8_20_pre *)current_target)[-1].unk_00;
+            target_graphics = current_target[-1].unk_00;
             ((S_80024BE8_21 *)target_graphics)->unk_0C = 0x80;
             ((S_80024BE8_21 *)target_graphics)->unk_0D = 0x80;
             ((S_80024BE8_21 *)target_graphics)->unk_0E = 0x80;

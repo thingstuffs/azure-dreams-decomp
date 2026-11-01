@@ -148,7 +148,7 @@ void update_actor_callbacks_and_ground(void *actor, ObjectPosition *position, Sp
             *((s32 *) (((u8 *) actor) + 0xA0)) = 0;
             *((s32 *) (((u8 *) actor) + 0x90)) -= bob_offset;
             if (!((*((u16 *) (((u8 *) actor) + 0x98))) & 8)) {
-                ground_height = sample_terrain_surface_height(*((u16 *) (((u8 *) position) + 2)), *((u16 *) (((u8 *) position) + 6)),
+                ground_height = sample_terrain_surface_height(position->x.unsigned_parts.integer, position->y.unsigned_parts.integer,
                     (s16) ((*((u16 *) (((u8 *) actor_base) + 0x88))) - 0x20));
                 ground_offset = ground_height - (*((u16 *) (((u8 *) actor_base) + 0x88)));
                 if (((s16) ground_offset) < (*((s16 *) (((u8 *) actor) + 0x92)))) {

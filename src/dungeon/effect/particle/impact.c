@@ -114,11 +114,11 @@ void *find_impact_surface_polygon(s32 world_x, s32 world_y, s16 min_height) {
     u8 *vertices;
     u8 *planes;
     u8 *best_polygon;
-    u8 *map_entry;
-    u8 *vertex;
-    u8 *plane_vertex;
+    S_func_80024064_2 *map_entry;
+    S_func_80024064_5 *vertex;
+    S_func_80024064_7 *plane_vertex;
     MapGrid *map_data;
-    u8 *plane;
+    S_func_80024064_6 *plane;
     s16 cell_index;
     s32 height;
     u16 cell_x;
@@ -135,15 +135,15 @@ void *find_impact_surface_polygon(s32 world_x, s32 world_y, s16 min_height) {
     map_data = &g_game_work.map;
     cell_index += ((u16)world_y >> 6) << map_data->shiftX;
     (*(s16 *)(scratch + 0x150)) = cell_index;
-    map_entry = (u8 *)((long)cell_index * 6 +
+    map_entry = (S_func_80024064_2 *)((long)cell_index * 6 +
                        (unsigned long)*(u8 **)((u8 *)(&g_game_work.map)));
     vertices = map_data->vertices;
     planes = map_data->surface_planes;
     best_polygon = 0;
-    if (((S_func_80024064_2 *)map_entry)->unk_00 != 0) {
-        ((S_func_80024064_0 *)scratch)->unk_152.s = -((S_func_80024064_2 *)map_entry)->unk_02;
+    if (map_entry->unk_00 != 0) {
+        ((S_func_80024064_0 *)scratch)->unk_152.s = -map_entry->unk_02;
         best_polygon = (*(u8 **)((u8 *)(((u8 **)map_data->cell_faces))
-            + ((S_func_80024064_2 *)map_entry)->unk_00 * 4));
+            + map_entry->unk_00 * 4));
         polygon = best_polygon;
         if (((S_func_80024064_8 *)(planes + ((S_func_80024064_3 *)best_polygon)->unk_10 * 8))->unk_04
             < -0x7FF) {
@@ -153,40 +153,40 @@ void *find_impact_surface_polygon(s32 world_x, s32 world_y, s16 min_height) {
                     cell_y = ((S_func_80024064_0 *)scratch)->unk_142.u;
 
                     vertex =
-                        (u8 *)((unsigned long)((S_func_80024064_4 *)polygon)->unk_00 * 8 +
+                        (S_func_80024064_5 *)((unsigned long)((S_func_80024064_4 *)polygon)->unk_00 * 8 +
                                (unsigned long)vertices);
                     ((S_func_80024064_0 *)scratch)->unk_154.at00.v =
-                        ((S_func_80024064_5 *)vertex)->unk_00;
+                        vertex->unk_00;
                     ((S_func_80024064_0 *)scratch)->unk_154.at00u.v =
                         ((S_func_80024064_0 *)scratch)->unk_154.at00p.v - cell_x;
                     ((S_func_80024064_0 *)scratch)->unk_154.at02.v =
                         ((S_func_80024064_0 *)scratch)->unk_154.at02u.v - cell_y;
 
                     vertex =
-                        (u8 *)((unsigned long)((S_func_80024064_4 *)polygon)->unk_02 * 8 +
+                        (S_func_80024064_5 *)((unsigned long)((S_func_80024064_4 *)polygon)->unk_02 * 8 +
                                (unsigned long)vertices);
                     ((S_func_80024064_0 *)scratch)->unk_158.at00.v =
-                        ((S_func_80024064_5 *)vertex)->unk_00;
+                        vertex->unk_00;
                     ((S_func_80024064_0 *)scratch)->unk_158.at00u.v =
                         ((S_func_80024064_0 *)scratch)->unk_158.at00p.v - cell_x;
                     ((S_func_80024064_0 *)scratch)->unk_158.at02.v =
                         ((S_func_80024064_0 *)scratch)->unk_158.at02u.v - cell_y;
 
                     vertex =
-                        (u8 *)((unsigned long)((S_func_80024064_4 *)polygon)->unk_06 * 8 +
+                        (S_func_80024064_5 *)((unsigned long)((S_func_80024064_4 *)polygon)->unk_06 * 8 +
                                (unsigned long)vertices);
                     ((S_func_80024064_0 *)scratch)->unk_15C.at00.v =
-                        ((S_func_80024064_5 *)vertex)->unk_00;
+                        vertex->unk_00;
                     ((S_func_80024064_0 *)scratch)->unk_15C.at00u.v =
                         ((S_func_80024064_0 *)scratch)->unk_15C.at00p.v - cell_x;
                     ((S_func_80024064_0 *)scratch)->unk_15C.at02.v =
                         ((S_func_80024064_0 *)scratch)->unk_15C.at02u.v - cell_y;
 
                     vertex =
-                        (u8 *)((unsigned long)((S_func_80024064_4 *)polygon)->unk_04 * 8 +
+                        (S_func_80024064_5 *)((unsigned long)((S_func_80024064_4 *)polygon)->unk_04 * 8 +
                                (unsigned long)vertices);
                     ((S_func_80024064_0 *)scratch)->unk_160.at00.v =
-                        ((S_func_80024064_5 *)vertex)->unk_00;
+                        vertex->unk_00;
                     ((S_func_80024064_0 *)scratch)->unk_160.at00u.v =
                         ((S_func_80024064_0 *)scratch)->unk_160.at00p.v - cell_x;
                     ((S_func_80024064_0 *)scratch)->unk_160.at02.v =
@@ -194,22 +194,22 @@ void *find_impact_surface_polygon(s32 world_x, s32 world_y, s16 min_height) {
 
                     if (are_quad_corner_turns_within_half_revolution(scratch) != 0) {
                         plane =
-                            (u8 *)((unsigned long)((S_func_80024064_4 *)polygon)->unk_10 *
+                            (S_func_80024064_6 *)((unsigned long)((S_func_80024064_4 *)polygon)->unk_10 *
                                    8 +
                                    (unsigned long)planes);
                         plane_vertex =
-                            (u8 *)((unsigned long)((S_func_80024064_4 *)polygon)->unk_00 * 8 +
+                            (S_func_80024064_7 *)((unsigned long)((S_func_80024064_4 *)polygon)->unk_00 * 8 +
                                    (unsigned long)vertices);
                         height =
-                            (((S_func_80024064_6 *)plane)->unk_00 *
-                             (((S_func_80024064_7 *)plane_vertex)->unk_00 -
+                            (plane->unk_00 *
+                             (plane_vertex->unk_00 -
                               (s16)((S_func_80024064_0 *)scratch)->unk_140.u) +
-                             ((S_func_80024064_6 *)plane)->unk_02 *
-                             (((S_func_80024064_7 *)plane_vertex)->unk_02 -
+                             plane->unk_02 *
+                             (plane_vertex->unk_02 -
                               (s16)((S_func_80024064_0 *)scratch)->unk_142.u) +
-                             ((S_func_80024064_6 *)plane)->unk_04 *
-                             ((S_func_80024064_7 *)plane_vertex)->unk_04) /
-                            ((S_func_80024064_6 *)plane)->unk_04;
+                             plane->unk_04 *
+                             plane_vertex->unk_04) /
+                            plane->unk_04;
                         ((S_func_80024064_0 *)scratch)->unk_144 = height;
                         height += (s16)((S_func_80024064_0 *)scratch)->unk_152.u;
                         ((S_func_80024064_0 *)scratch)->unk_144 = height;
@@ -528,7 +528,7 @@ typedef struct S_800247C0_7 {
 /* Shrink the effect, spawn inward-moving particles, and finish when its timer expires. */
 void shrink_effect_and_spawn_particles(void *effect, void *origin)
 {
-    void *effect_state;
+    S_800247C0_7 *effect_state;
     u16 offset_x;
     s32 velocity_x;
     s16 next_timer;
@@ -544,7 +544,7 @@ void shrink_effect_and_spawn_particles(void *effect, void *origin)
     u16 scale_y;
     u16 timer;
     ObjectPosition *position;
-    void *particle_state;
+    S_800247C0_5 *particle_state;
     SpriteFrameState *sprite;
     void *object;
 
@@ -585,7 +585,7 @@ void shrink_effect_and_spawn_particles(void *effect, void *origin)
                 continue;
             }
             particle_state = object + 0x20;
-            ((S_800247C0_5 *)particle_state)->unk_28 = 0x14;
+            particle_state->unk_28 = 0x14;
             ((ObjectNodeHeader *)object)->update_callback = (void *)advance_effect_motion_and_animation;
             register_node(object, project_sprite_chain);
             sprite = ((ObjectNodeHeader *)object)->sprite;
@@ -599,10 +599,10 @@ void shrink_effect_and_spawn_particles(void *effect, void *origin)
             ((ObjectNodeHeader *)object)->position->z.w.i =
                 ((S_800247C0_2 *)origin)->unk_08.at02.v + offset_z - 0x10;
             velocity_x = 0 - ((s32)(offset_x << 0x10) >> 7);
-            ((S_800247C0_5 *)particle_state)->unk_88 = velocity_x;
-            ((S_800247C0_5 *)particle_state)->unk_8C =
+            particle_state->unk_88 = velocity_x;
+            particle_state->unk_8C =
                 0 - ((s32)(offset_y << 0x10) >> 7);
-            ((S_800247C0_5 *)particle_state)->unk_90 =
+            particle_state->unk_90 =
                 0 - ((s32)(offset_z << 0x10) >> 7);
             sprite = ((ObjectNodeHeader *)object)->sprite;
             sprite->scale_y = 0x1000;
@@ -635,10 +635,10 @@ void shrink_effect_and_spawn_particles(void *effect, void *origin)
         }
         object = ((S_800247C0_0 *)effect)->unk_20;
         set_or_clear_actor_status_slot(object + 0x20, 0x18, 0x14);
-        ((S_800247C0_7 *)effect_state)->unk_28 = 0;
+        effect_state->unk_28 = 0;
         completion_state = ((s32)dungeon_actor_ring_anchor);
-        ((S_800247C0_7 *)effect_state)->unk_64 = -1;
-        ((S_800247C0_7 *)effect_state)->unk_60 = completion_state;
+        effect_state->unk_64 = -1;
+        effect_state->unk_60 = completion_state;
         (*(u16 *)((u8 *)effect + -2)) |= NODE_REMOVE;
         object_flag_block.flags |= OBJECT_REMOVE_PENDING;
     }
@@ -1101,9 +1101,9 @@ void spawn_randomized_textured_particles(s32 unused, s32 center_x, s16 center_y,
     s32 saved_x;
     s16 iteration;
     ObjectNodeHeader *particle;
-    u8 *particle_work;
+    S_800251F4_0 *particle_work;
     SpriteFrameState *transform;
-    void *quad_template;
+    QuadUV *quad_template;
     s32 tile_u;
     s32 tile_v;
     s32 uv_span;
@@ -1127,10 +1127,10 @@ void spawn_randomized_textured_particles(s32 unused, s32 center_x, s16 center_y,
     brightness = 0x80;
     do {
         particle = allocate_flagged_object_node(0x212);
-        particle_work = (u8 *)particle + 0x20;
+        particle_work = (S_800251F4_0 *)((u8 *)particle + 0x20);
         if (particle != 0) {
-            ((S_800251F4_0 *)particle_work)->unk_28 = 0x78;
-            ((S_800251F4_0 *)particle_work)->unk_2C = rand() & 1;
+            particle_work->unk_28 = 0x78;
+            particle_work->unk_2C = rand() & 1;
             particle->update_callback = (void *)advance_rotating_ballistic_particle_and_expire;
             register_node(particle, draw_linked_meshes);
 
@@ -1146,22 +1146,22 @@ void spawn_randomized_textured_particles(s32 unused, s32 center_x, s16 center_y,
             (particle->position)->y.w.i = quad_word_4 + position_jitter;
             (particle->position)->z.w.i = center_z;
             quad_template = find_impact_surface_polygon((u16)saved_x, (u16)center_y, center_z);
-            *(QuadUV *)((u8 *)particle + 0x52) = *(QuadUV *)quad_template;
+            *(QuadUV *)((u8 *)particle + 0x52) = *quad_template;
 
-            if (((S_800251F4_0 *)particle_work)->unk_3A > ((S_800251F4_0 *)particle_work)->unk_44) {
-                min_u = ((S_800251F4_0 *)particle_work)->unk_44;
-                end_u = ((S_800251F4_0 *)particle_work)->unk_3A + 1;
+            if (particle_work->unk_3A > particle_work->unk_44) {
+                min_u = particle_work->unk_44;
+                end_u = particle_work->unk_3A + 1;
             } else {
-                min_u = ((S_800251F4_0 *)particle_work)->unk_3A;
-                end_u = ((S_800251F4_0 *)particle_work)->unk_44 + 1;
+                min_u = particle_work->unk_3A;
+                end_u = particle_work->unk_44 + 1;
             }
 
-            if (((S_800251F4_0 *)particle_work)->unk_3B > ((S_800251F4_0 *)particle_work)->unk_3F) {
-                min_v = ((S_800251F4_0 *)particle_work)->unk_3F;
-                end_v = ((S_800251F4_0 *)particle_work)->unk_3B + 1;
+            if (particle_work->unk_3B > particle_work->unk_3F) {
+                min_v = particle_work->unk_3F;
+                end_v = particle_work->unk_3B + 1;
             } else {
-                min_v = ((S_800251F4_0 *)particle_work)->unk_3B;
-                end_v = ((S_800251F4_0 *)particle_work)->unk_3F + 1;
+                min_v = particle_work->unk_3B;
+                end_v = particle_work->unk_3F + 1;
             }
 
             tile_u = rand() & 3;
@@ -1179,11 +1179,11 @@ void spawn_randomized_textured_particles(s32 unused, s32 center_x, s16 center_y,
             uv_scratch = min_u;
             tile_max = uv_scratch + tile_end_offset;
             tile_max -= 1;
-            ((S_800251F4_0 *)particle_work)->unk_3E = tile_max;
-            ((S_800251F4_0 *)particle_work)->unk_3A = tile_max;
+            particle_work->unk_3E = tile_max;
+            particle_work->unk_3A = tile_max;
             tile_min = uv_scratch + tile_offset;
-            ((S_800251F4_0 *)particle_work)->unk_46 = tile_min;
-            ((S_800251F4_0 *)particle_work)->unk_44 = tile_min;
+            particle_work->unk_46 = tile_min;
+            particle_work->unk_44 = tile_min;
 
             if (uv_span < 0) {
                 uv_span += 3;
@@ -1196,50 +1196,50 @@ void spawn_randomized_textured_particles(s32 unused, s32 center_x, s16 center_y,
             uv_scratch = min_v;
             tile_max = uv_scratch + tile_end_offset;
             tile_max -= 1;
-            ((S_800251F4_0 *)particle_work)->unk_47 = tile_max;
-            ((S_800251F4_0 *)particle_work)->unk_3F = tile_max;
+            particle_work->unk_47 = tile_max;
+            particle_work->unk_3F = tile_max;
             tile_min = uv_scratch + tile_offset;
-            ((S_800251F4_0 *)particle_work)->unk_45 = tile_min;
-            ((S_800251F4_0 *)particle_work)->unk_3B = tile_min;
+            particle_work->unk_45 = tile_min;
+            particle_work->unk_3B = tile_min;
 
             transform = particle->sprite;
             transform->scale_y = 0x1000;
             transform->scale_x = 0x1000;
 
-            ((S_800251F4_0 *)particle_work)->unk_4A = (rand() & 3) - 5;
-            ((S_800251F4_0 *)particle_work)->unk_4C = (rand() & 3) - 2;
-            ((S_800251F4_0 *)particle_work)->unk_4E = (rand() & 3) - 5;
-            ((S_800251F4_0 *)particle_work)->unk_50 = (rand() & 3) + 1;
-            ((S_800251F4_0 *)particle_work)->unk_52 = (rand() & 3) - 2;
-            ((S_800251F4_0 *)particle_work)->unk_54 = (rand() & 3) - 5;
-            ((S_800251F4_0 *)particle_work)->unk_56 = (rand() & 3) - 5;
-            ((S_800251F4_0 *)particle_work)->unk_58 = (rand() & 3) - 2;
-            ((S_800251F4_0 *)particle_work)->unk_5A = (rand() & 3) + 1;
-            ((S_800251F4_0 *)particle_work)->unk_5C = (rand() & 3) + 1;
-            ((S_800251F4_0 *)particle_work)->unk_5E = (rand() & 3) - 2;
-            ((S_800251F4_0 *)particle_work)->unk_60 = (rand() & 3) + 1;
+            particle_work->unk_4A = (rand() & 3) - 5;
+            particle_work->unk_4C = (rand() & 3) - 2;
+            particle_work->unk_4E = (rand() & 3) - 5;
+            particle_work->unk_50 = (rand() & 3) + 1;
+            particle_work->unk_52 = (rand() & 3) - 2;
+            particle_work->unk_54 = (rand() & 3) - 5;
+            particle_work->unk_56 = (rand() & 3) - 5;
+            particle_work->unk_58 = (rand() & 3) - 2;
+            particle_work->unk_5A = (rand() & 3) + 1;
+            particle_work->unk_5C = (rand() & 3) + 1;
+            particle_work->unk_5E = (rand() & 3) - 2;
+            particle_work->unk_60 = (rand() & 3) + 1;
 
-            ((S_800251F4_0 *)particle_work)->unk_0E = brightness;
-            ((S_800251F4_0 *)particle_work)->unk_0D = brightness;
-            ((S_800251F4_0 *)particle_work)->unk_0C = brightness;
-            ((S_800251F4_0 *)particle_work)->unk_12 = brightness;
-            ((S_800251F4_0 *)particle_work)->unk_11 = brightness;
-            ((S_800251F4_0 *)particle_work)->unk_10 = brightness;
-            ((S_800251F4_0 *)particle_work)->unk_16 = brightness;
-            ((S_800251F4_0 *)particle_work)->unk_15 = brightness;
-            ((S_800251F4_0 *)particle_work)->unk_14 = brightness;
-            ((S_800251F4_0 *)particle_work)->unk_1A = brightness;
-            ((S_800251F4_0 *)particle_work)->unk_19 = brightness;
-            ((S_800251F4_0 *)particle_work)->unk_18 = brightness;
+            particle_work->unk_0E = brightness;
+            particle_work->unk_0D = brightness;
+            particle_work->unk_0C = brightness;
+            particle_work->unk_12 = brightness;
+            particle_work->unk_11 = brightness;
+            particle_work->unk_10 = brightness;
+            particle_work->unk_16 = brightness;
+            particle_work->unk_15 = brightness;
+            particle_work->unk_14 = brightness;
+            particle_work->unk_1A = brightness;
+            particle_work->unk_19 = brightness;
+            particle_work->unk_18 = brightness;
 
             transform->angle_x = rand() & 0xFFF;
             transform->angle_y = rand() & 0xFFF;
             transform->angle_z = rand() & 0xFFF;
-            ((S_800251F4_0 *)particle_work)->unk_7C = ((rand() & 0x7FFF) - 0x4000) << 5;
-            ((S_800251F4_0 *)particle_work)->unk_80 = ((rand() & 0x7FFF) - 0x4000) << 5;
-            ((S_800251F4_0 *)particle_work)->unk_84 =
+            particle_work->unk_7C = ((rand() & 0x7FFF) - 0x4000) << 5;
+            particle_work->unk_80 = ((rand() & 0x7FFF) - 0x4000) << 5;
+            particle_work->unk_84 =
                 (((rand() & 0x7FFF) - 0x6000) << 6) + (s32)0xFFFE0000;
-            ((S_800251F4_0 *)particle_work)->unk_90 = 0x10000;
+            particle_work->unk_90 = 0x10000;
 
             transform->color.c.b = brightness;
             transform->color.c.g = brightness;
@@ -1415,7 +1415,7 @@ typedef struct OwnerFollowingWork {
 void update_owner_following_effect(OwnerFollowingWork *effect_in, ObjectPosition *position_in, SpriteFrameState *visual_in)
 {
     LocalPoints offsets;
-    u8 *copy_src;
+    LocalPoints *copy_src;
     ObjectNodeHeader *owner;
     ObjectPosition *owner_pos;
     SpriteFrameState *owner_visual;
@@ -1432,8 +1432,8 @@ void update_owner_following_effect(OwnerFollowingWork *effect_in, ObjectPosition
     s32 anim_ticks;
     LocalPoint *point;
 
-    copy_src = (u8 *)&impact_grid_offsets;
-    offsets = *(LocalPoints *)copy_src;
+    copy_src = (LocalPoints *)&impact_grid_offsets;
+    offsets = *copy_src;
 
     impact_effect_update_flag = 1;
     half_tile = 0x20;
@@ -1654,8 +1654,8 @@ u16 angle;
     SpriteFrameState *render;
     s32 x_offset;
     u16 y_offset;
-    u8 *data_entry;
-    u8 *data_entry_2;
+    S_80025CE8_0 *data_entry;
+    S_80025CE8_0 *data_entry_2;
 
     s32 slot_offset;
 
@@ -1689,11 +1689,11 @@ u16 angle;
             color = 0x800000;
             new_object->update_callback = (void *)update_owner_following_effect;
             color |= 0x8080;
-            data_entry_2 = (u8 *)&direction_offsets + ((angle >> 7) & 0x1C);
-            x_offset = ((S_80025CE8_0 *)data_entry_2)->unk_00;
+            data_entry_2 = (S_80025CE8_0 *)((u8 *)&direction_offsets + ((angle >> 7) & 0x1C));
+            x_offset = data_entry_2->unk_00;
             position = (*slot)->part8;
             position->x.w.i = x + (x_offset << 7);
-            y_offset = ((S_80025CE8_0 *)data_entry_2)->unk_02;
+            y_offset = data_entry_2->unk_02;
             position->z.w.i = z - 0x90;
             position->y.w.i = y + (((s32)y_offset << 16) >> 9);
 
@@ -1713,9 +1713,9 @@ u16 angle;
             register_node(*slot, draw_linked_model_chain);
 
             current_object = *slot;
-            data_entry = (u8 *)current_object + 0x20;
+            data_entry = (S_80025CE8_0 *)((u8 *)current_object + 0x20);
             if ((s16)object_index != 0) {
-                ((S_80025CE8_0 *)data_entry)->unk_20 = objects[0];
+                data_entry->unk_20 = objects[0];
             } else {
                 alloc_page = (u8 *)&D_80028630 + 0x79D0;
                 ((S_80025CE8_3_pre *)alloc_page)[-1].unk_00 = position;
@@ -1723,10 +1723,10 @@ u16 angle;
             render->scale_y = 0;
             render->scale_x = 0;
             render->offset_x = 0;
-            ((S_80025CE8_0 *)data_entry)->unk_30 = 0x3C;
-            ((S_80025CE8_0 *)data_entry)->unk_36 = angle;
-            ((S_80025CE8_0 *)data_entry)->unk_3A = 0;
-            ((S_80025CE8_0 *)data_entry)->unk_38 = 0xF;
+            data_entry->unk_30 = 0x3C;
+            data_entry->unk_36 = angle;
+            data_entry->unk_3A = 0;
+            data_entry->unk_38 = 0xF;
         } else {
             failure_index = object_index - 1;
             failure_test = failure_index << 16;

@@ -902,7 +902,7 @@ void create_terrain_seeking_colored_point(
         saved_pair = paired_value;
         spawned_obj->unk_10 = advance_colored_point_toward_terrain;
         z_offset = rand() & 0x1F;
-        x_pos = ((MovingPosition *)source_obj->position)->x;
+        x_pos = source_obj->position->x.unsigned_parts.integer;
         x_dest = spawned_obj->unk_08;
         x_pos += z_offset;
         x_bias = x_offset - 0x10;
@@ -910,7 +910,7 @@ void create_terrain_seeking_colored_point(
         x_dest->x.w.i = (s16)x_pos;
 
         y_jitter = rand() & 0x1F;
-        y_pos = ((MovingPosition *)source_obj->position)->y;
+        y_pos = source_obj->position->y.unsigned_parts.integer;
         y_dest = spawned_obj->unk_08;
         y_pos += y_jitter;
         y_bias = y_offset - 0x10;
@@ -921,7 +921,7 @@ void create_terrain_seeking_colored_point(
         init_obj = spawned_obj;
         init_data = project_colored_point_to_ordering_table;
         z_jitter &= 0x1F;
-        z_pos = ((MovingPosition *)source_obj->position)->z;
+        z_pos = source_obj->position->z.unsigned_parts.integer;
         actor_data = (TerrainSeekingColoredPointBody *)((u8 *)spawned_obj + 0x20);
         z_dest = spawned_obj->unk_08;
         z_pos += z_jitter;
@@ -1060,7 +1060,7 @@ extern s16 point_cloud_update_flag[5];
 
 /* Advance the effect animation, fade its colors, and mark it for removal when its lifetime ends. */
 void advance_fading_effect_animation(void *effect_data, s32 unused_arg, void *color_data) {
-    u8 *colors = color_data;
+    S_8187BB80_1 *colors = color_data;
     register s32 tick_limit;
     s32 phase_state;
 
@@ -1152,13 +1152,13 @@ void advance_fading_effect_animation(void *effect_data, s32 unused_arg, void *co
         case 7:
         ((S_8187BB80_0 *)effect_data)->unk_4E = 0;
         ((S_8187BB80_0 *)effect_data)->unk_4F = 0;
-        ((S_8187BB80_1 *)colors)->unk_0D = 0xFF;
-        ((S_8187BB80_1 *)colors)->unk_0C = 0xFF;
-        ((S_8187BB80_1 *)colors)->unk_0E = 0;
+        colors->unk_0D = 0xFF;
+        colors->unk_0C = 0xFF;
+        colors->unk_0E = 0;
         ((S_8187BB80_0 *)effect_data)->unk_37 = 0xFF;
         ((S_8187BB80_0 *)effect_data)->unk_36 = 0xFF;
         ((S_8187BB80_0 *)effect_data)->unk_38 = 0;
-        ((S_8187BB80_1 *)colors)->unk_14 |= 0xC;
+        colors->unk_14 |= 0xC;
         break;
         case 8:
         default:
@@ -1169,11 +1169,11 @@ void advance_fading_effect_animation(void *effect_data, s32 unused_arg, void *co
     }
 
     if (((S_8187BB80_0 *)effect_data)->unk_02.s < 30) {
-        ((S_8187BB80_1 *)colors)->unk_0C =
+        colors->unk_0C =
             (((S_8187BB80_0 *)effect_data)->unk_36 * ((S_8187BB80_0 *)effect_data)->unk_02.s) / 30;
-        ((S_8187BB80_1 *)colors)->unk_0D =
+        colors->unk_0D =
             (((S_8187BB80_0 *)effect_data)->unk_37 * ((S_8187BB80_0 *)effect_data)->unk_02.s) / 30;
-        ((S_8187BB80_1 *)colors)->unk_0E =
+        colors->unk_0E =
             (((S_8187BB80_0 *)effect_data)->unk_38 * ((S_8187BB80_0 *)effect_data)->unk_02.s) / 30;
     }
 
@@ -1393,7 +1393,7 @@ void initialize_star_effect_sequence(void *state_data, void *source_data) {
             register_node(node, decrement_object_counter);
 
             sprite = node->sprite;
-            ((S_8187BFE0_3 *)sprite)->unk_14 &= 0xFFF3;
+            sprite->flags &= 0xFFF3;
 
             dest_position = node->position;
             dest_position->x.w.i = source_position->x;
@@ -1499,14 +1499,14 @@ void initialize_star_effect_sequence(void *state_data, void *source_data) {
                 ((S_8187BFE0_2 *)edge_data)->unk_2C.u;
 
             sprite = node->sprite;
-            ((S_8187BFE0_3 *)sprite)->unk_0C = ((S_8187BFE0_3 *)sprite)->unk_0D = 0xE0;
-            ((S_8187BFE0_3 *)sprite)->unk_0E = 0x20;
+            sprite->color.c.r = sprite->color.c.g = 0xE0;
+            sprite->color.c.b = 0x20;
             ((S_8187BFE0_2 *)edge_data)->unk_36 = ((S_8187BFE0_2 *)edge_data)->unk_37 = 0xE0;
             ((S_8187BFE0_2 *)edge_data)->unk_38 = 0x20;
-            ((S_8187BFE0_3 *)sprite)->unk_1C = ((S_8187BFE0_3 *)sprite)->unk_1E = 0x1000;
+            sprite->scale_x = sprite->scale_y = 0x1000;
 
             *(Data12 *)(edge_data + 0x44) = *(Data12 *)mesh_edge_payload_template;
-            ((S_8187BFE0_3 *)sprite)->unk_08 = edge_data + 0x44;
+            sprite->source = edge_data + 0x44;
             return;
         } else {
             ((S_8187BFE0_0 *)state_data)->unk_02.u++;

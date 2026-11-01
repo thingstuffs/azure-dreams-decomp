@@ -39,7 +39,7 @@ void begin_actor_directional_target_action(ActorRecord *action_state, ObjectPosi
         apply_camera_offset_and_select_target((u8 *)actor - 0x20, action_context, 8, 0x300);
         if ((try_claim_dungeon_action_slot(actor) << 0x10) == 0) {
             action_state->action_id.s = 0x17;
-            (((ActionStateFieldView_80DBD29C *)action_state)->field_8C) = 0;
+            action_state->unk_8C.word = 0;
             action_state->action_phase.s = 0;
             (sprite->frameTable) = &D_80175414;
             select_sprite_entry(sprite,

@@ -345,8 +345,8 @@ ordinary_cleanup:
                         }
                     }
                     {
-                        void *part = object->sprite;
-                        ((SpriteFrameState *)part)->flags |= 0x80;
+                        SpriteFrameState *part = object->sprite;
+                        part->flags |= 0x80;
                         select_record_entry_and_value(part, &secondary_sprite, 0);
                     }
                 }

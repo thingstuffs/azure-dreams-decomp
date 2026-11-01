@@ -15,9 +15,9 @@ extern u8 runtime_script_state[];
 
 /* Store two signed 16-bit values in the runtime state. */
 void runtime_store_signed_state_pair(s16 value_ac, s16 value_ae) {
-    u8 *state;
+    S_8003AAE4_0 *state;
 
-    state = runtime_script_state;
-    ((S_8003AAE4_0 *)state)->unk_AC = value_ac;
-    ((S_8003AAE4_0 *)state)->unk_AE = value_ae;
+    state = (S_8003AAE4_0 *)runtime_script_state;
+    state->unk_AC = value_ac;
+    state->unk_AE = value_ae;
 }

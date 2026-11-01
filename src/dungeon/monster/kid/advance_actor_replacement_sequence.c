@@ -160,7 +160,7 @@ void advance_actor_replacement_sequence(ActorRecord *state, ObjectPosition *posi
         return;
     case 1:
         run_cd_image_commands(&kid_image_commands, (u8 *)(&kid_image_load_done), 0);
-        ((Rec_func_80174800_arg0 *)state)->unk_B0 = 0;
+        state->unk_B0.halves.low.s = 0;
         state->action_phase.u = (u8) (state->action_phase.u + 1);
         actor->unk_8A = (u16) ((S_80174B20_1 *)actor)->unk_2A;
         actor->flags1C = (s32) (actor->flags1C & 0xFFFBFFFF);

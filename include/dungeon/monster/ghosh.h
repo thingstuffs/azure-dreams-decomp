@@ -28,6 +28,37 @@ typedef struct GhoshDirectionOffset {
 
 extern GhoshDirectionOffset ghosh_effect_direction_offsets[8];
 
+/* Motion, item payload, and owner state carried by the two linked Ghosh effects. */
+typedef struct ConditionalSourceEffectBody {
+    u8 pad_00[0x12];
+    s16 unk_12;
+    s16 unk_14;
+    u8 pad_16[0x2];
+    s16 unk_18;
+    u16 unk_1A;
+    u8 pad_1C[0x8];
+    void *unk_24;
+    u8 pad_28[0x1C];
+    u8 unk_44;
+    u8 unk_45;
+    u8 unk_46;
+    u8 unk_47;
+    s8 unk_48;
+    s8 unk_49;
+    u8 pad_4A[0x2];
+    s32 unk_4C;
+    s32 unk_50;
+    s32 unk_54;
+    s32 unk_58;
+    s32 unk_5C;
+    s32 unk_60;
+} ConditionalSourceEffectBody;
+
+typedef struct ConditionalSourceEffectNode {
+    ObjectNodeHeader header;
+    ConditionalSourceEffectBody body;
+} ConditionalSourceEffectNode;
+
 extern ObjectNodeHeader *ghosh_scripted_actor;
 
 extern ObjectNodeHeader *D_80174CDC;
@@ -74,7 +105,7 @@ void advance_ghosh_trail_fade(GhoshTrailFade *fade, ObjectPosition *position);
 void advance_three_state_bytes(u16 *words);
 void animate_timed_fade_effect(void *effect);
 void apply_boss_direction_table_state(void *record_data);
-void update_object_motion_and_landing(void *motion, void *position, void *object);
+void update_object_motion_and_landing(ConditionalSourceEffectBody *motion, void *position, void *object);
 
 /* begin_ghosh_front_attack.c and its imports. */
 s32 begin_ghosh_front_attack(ActorRecord *body, ObjectPosition *position, SpriteFrameState *sprite, ActorRecord *actor);

@@ -84,8 +84,8 @@ void advance_actor_action_state_handle_status(ActorRecord *body, ObjectPosition 
                 packed_adjustment = body->unk_A4.value;
                 body->unk_A4.halves.high.u = 0;
                 ((S_80173CD4_0 *)body)->unk_B8 = 0;
-                ((S_80173CD4_0 *)body)->unk_AC = 0;
-                ((S_80173CD4_0 *)body)->unk_B0 = 0;
+                body->unk_AC.value = 0;
+                body->unk_B0.value = 0;
                 body->unk_90.parts.high.u = current_amount - pending_amount;
                 ((S_80173CD4_0 *)body)->unk_A8 = packed_adjustment;
                 func_801743F0(body, position, sprite, actor);
@@ -262,12 +262,12 @@ void advance_actor_states_and_entity_flags(ActorRecord *actor, ObjectPosition *c
 
             begin_actor_move_to_target_facing(actor, context, animation, entity);
             actor_value = actor->unk_90.parts.high.u;
-            value_delta = ((S_8017409C_0 *)actor)->unk_A4.at02.v;
+            value_delta = actor->unk_A4.halves.high.u;
             packed_delta = ((S_8017409C_0 *)actor)->unk_A4.at00.v;
-            ((S_8017409C_0 *)actor)->unk_A4.at02.v = 0;
+            actor->unk_A4.halves.high.u = 0;
             ((S_8017409C_0 *)actor)->unk_B8 = 0;
-            ((S_8017409C_0 *)actor)->unk_AC = 0;
-            ((S_8017409C_0 *)actor)->unk_B0 = 0;
+            actor->unk_AC.value = 0;
+            actor->unk_B0.value = 0;
             actor->unk_90.parts.high.u = actor_value - value_delta;
             ((S_8017409C_0 *)actor)->unk_A8 = packed_delta;
             func_801743F0(actor, context, animation, entity);

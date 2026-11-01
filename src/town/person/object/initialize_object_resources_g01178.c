@@ -24,7 +24,7 @@ void initialize_object_resources_2(void *object, IntVector3 *position, S_800C4F6
     display_state->unk_1E = 0x800;
     display_state->unk_1C = 0x800;
     position->y = 0x04300000;
-    ((ObjectPosition *)((u8 *)(&view_reference_entity)))->x.v = position->x;
+    view_reference_entity.x.v = position->x;
     shared_position = &view_reference_entity;
     shared_position->y.v = (s32) position->y;
     shared_position->z.v = (s32) position->z;

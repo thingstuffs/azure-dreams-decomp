@@ -11,50 +11,12 @@ struct ObjectPosition;
 
 extern int abs(int);
 
-typedef struct Vec3Work {
-    s32 x;
-    s32 y;
-    s32 z;
-    s32 dx;
-    s32 dy;
-    s32 dz;
-} Vec3Work;
+typedef RandomizedOffsetVector Vec3Work;
 
 typedef struct LocalWork {
     Vec3Work base;
     u16 delta[3];
 } LocalWork;
-
-typedef struct S_81087818_0 {
-    union { s16 s; u16 u; } unk_00;
-    union { s16 s; u16 u; } unk_02;
-    union { s16 s; u16 u; } unk_04;
-    union { s16 s; u16 u; } unk_06;
-    union { s16 s; u16 u; } unk_08;
-    u16 unk_0A;
-    u16 unk_0C;
-    u16 unk_0E;
-    u8 pad_10[0x18];
-    union {
-        s32 word;
-        struct { u8 pad_00[2]; s16 unk_2A; } half;
-    } unk_28;
-    union {
-        s32 word;
-        struct { u8 pad_00[2]; s16 unk_2E; } half;
-    } unk_2C;
-    union {
-        s32 word;
-        struct { u8 pad_00[2]; union { s16 s; u16 u; } unk_32; } half;
-    } unk_30;
-    s32 unk_34;
-    s32 unk_38;
-    s32 unk_3C;
-    void *unk_40;
-    Vec3Work *unk_44;
-    void *unk_48;
-    void *unk_4C;
-} S_81087818_0;
 
 typedef struct S_81087818_1 {
     u8 pad_00[8];
@@ -111,7 +73,7 @@ extern void draw_randomized_shaded_polylines(Vec3Work *, Vec3Work *);
  * Moves a line effect to a tile or actor, applies damage at an actor target, then draws its
  * accelerating return.
  */
-void update_staged_target_motion(S_81087818_0 *motion, Vec3Work *trajectory, void *context)
+void update_staged_target_motion(RandomizedOffsetObjectBody *motion, Vec3Work *trajectory, void *context)
 {
     LocalWork work;
 #define base work.base
@@ -132,11 +94,11 @@ void update_staged_target_motion(S_81087818_0 *motion, Vec3Work *trajectory, voi
             ((S_81087818_4 *)&base)->unk_0A.u += delta[2];
             motion->unk_0A = delta[0];
             motion->unk_0C = delta[1];
-            motion->unk_0E = delta[2];
+            motion->unk_0E.u = delta[2];
         } else {
             ((S_81087818_4 *)&base)->unk_02.u += motion->unk_0A;
             ((S_81087818_4 *)&base)->unk_06.u += motion->unk_0C;
-            ((S_81087818_4 *)&base)->unk_0A.u += motion->unk_0E;
+            ((S_81087818_4 *)&base)->unk_0A.u += motion->unk_0E.u;
         }
     }
 

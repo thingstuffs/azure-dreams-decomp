@@ -68,7 +68,7 @@ void set_selected_entry_position(s32 unused, s32 x, s32 y)
 {
     u8 *root = town_scene_root;
     void *entry_ptr;
-    void *position;
+    S_8001A704_1 *position;
     s32 index;
     s16 value;
 
@@ -81,7 +81,7 @@ void set_selected_entry_position(s32 unused, s32 x, s32 y)
     x <<= 5;
     value = ((S_8001A704_0 *)((void *)index))->unk_0C;
     x += value;
-    ((S_8001A704_1 *)position)->unk_04 = x;
+    position->unk_04 = x;
     {
         TownDestinationYView *position2;
 
@@ -120,10 +120,10 @@ void set_tile_center_destination(s32 unused, s32 x_offset, s32 y_offset) {
 /* Scale and offset the two coordinates stored in the global destination. */
 void set_scaled_destination_coordinates(s32 unused, s32 x, s32 y)
 {
-    void *base;
+    S_8001A7F4_0 *base;
 
     (void)unused;
     base = *(void **)((s8 *)(&town_scene_root));
-    ((S_8001A7F4_1 *)((S_8001A7F4_0 *)base)->unk_1C)->unk_04 = (x << 6) / 10 + 0x220;
-    ((S_8001A7F4_0 *)((S_8001A7F4_0 *)base)->unk_1C)->unk_08 = (y << 6) / 10 + 0x220;
+    ((S_8001A7F4_1 *)base->unk_1C)->unk_04 = (x << 6) / 10 + 0x220;
+    ((S_8001A7F4_0 *)base->unk_1C)->unk_08 = (y << 6) / 10 + 0x220;
 }

@@ -43,9 +43,9 @@ void create_colored_effect_with_event(ObjectNodeHeader *source, s32 color, unsig
         render_setup->tpage_abr = 0x20;
         render_setup->flags = (u16) (render_setup->flags | 0xC);
         position = effect->position;
-        position->x.w.i = (u16) (*((u16 *) (((u8 *) (source->position)) + 2)));
-        position->y.w.i = (u16) (*((u16 *) (((u8 *) (source->position)) + 6)));
-        position->z.w.i = (u16) (*((u16 *) (((u8 *) (source->position)) + 0xA)));
+        position->x.w.i = (u16) source->position->x.unsigned_parts.integer;
+        position->y.w.i = (u16) source->position->y.unsigned_parts.integer;
+        position->z.w.i = (u16) source->position->z.unsigned_parts.integer;
         render_data = effect->sprite;
         render_data->color.c.b = 0x80;
         render_data->color.c.g = 0x80;

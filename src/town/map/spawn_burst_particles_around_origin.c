@@ -73,9 +73,9 @@ void spawn_burst_particles_around_origin(BurstParticleSpawnerObject *self, Objec
                 position = *(s32 * *)&object->position;
                 position[2] = origin->z.v + (((rand_value & 0x1FF) - 0x100) << 13);
 
-                motion->unk_0C = ((S_800BBCA0_2 *)origin)->unk_00.at02.v;
-                motion->unk_0E = ((S_800BBCA0_2 *)origin)->unk_04.at02.v;
-                motion->unk_10 = ((S_800BBCA0_2 *)origin)->unk_08.at02.v;
+                motion->unk_0C = origin->x.unsigned_parts.integer;
+                motion->unk_0E = origin->y.unsigned_parts.integer;
+                motion->unk_10 = origin->z.unsigned_parts.integer;
                 sprite->scale_y = 0x100;
                 sprite->scale_x = 0x100;
                 sprite->tpage_abr = 0x20;

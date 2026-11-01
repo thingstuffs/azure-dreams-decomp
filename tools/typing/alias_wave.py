@@ -113,6 +113,9 @@ def main(argv=None):
     ap.add_argument('--stages', default='alias,fold,synth,fold,redundant')
     ap.add_argument('--min-casts', type=int, default=2)
     ap.add_argument('--no-retry', action='store_true')
+    ap.add_argument('--codemap', nargs='?', const='build/codemap.db',
+                    help='plan only the files whose codemap cast rows give a stage something to do (the map must '
+                         'be fresh; default build/codemap.db)')
     ap.add_argument('--dry-run', action='store_true')
     args = ap.parse_args(argv)
     root = args.root.resolve()
@@ -136,9 +139,11 @@ def main(argv=None):
     if args.skip_list:
         skip = {l.strip() for l in args.skip_list.read_text().splitlines() if l.strip()}
     files = [f for f in F.folder_files(root, args.folder, args.file) if f not in skip]
+    stages = [s for s in args.stages.split(',') if s]
+    if args.codemap:
+        files = W.codemap_prefilter(root, args.codemap, files, stages, log)
     original = {f: (root / f).read_text() for f in files}
     tus, physical = F.physical_for(root, files)
-    stages = [s for s in args.stages.split(',') if s]
     log('%s: %d files, %d physical TUs, stages %s' % (args.folder, len(files), len(tus), ','.join(stages)))
 
     def tu_files(tu):

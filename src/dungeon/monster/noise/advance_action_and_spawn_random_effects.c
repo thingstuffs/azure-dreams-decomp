@@ -113,9 +113,9 @@ void advance_action_and_spawn_random_effects(ActorRecord *action, ObjectPosition
                 effect_sprite->frameTable = &D_80174EC0;
                 select_sprite_entry(effect_sprite, animation, 0);
                 effect_motion = effect->position;
-                effect_motion->x.w.i = (u16) ((T_80172FFC_S_80172FFC_3 *)motion)->unk_02;
-                effect_motion->y.w.i = (u16) ((T_80172FFC_S_80172FFC_3 *)motion)->unk_06;
-                effect_motion->z.w.i = (u16) ((T_80172FFC_S_80172FFC_3 *)motion)->unk_0A;
+                effect_motion->x.w.i = (u16) motion->x.unsigned_parts.integer;
+                effect_motion->y.w.i = (u16) motion->y.unsigned_parts.integer;
+                effect_motion->z.w.i = (u16) motion->z.unsigned_parts.integer;
                 owner_sprite = ((T_80172FFC_S_80172FFC_8 *)owner)->unk_0C;
                 if (resolve_record_orientation_or_fallback(owner_sprite->unk_08, owner_sprite, spawn_offset, 0) != 0) {
                     effect_motion->x.w.i = (u16) (*(u16 *)&effect_motion->x.w.i
@@ -151,9 +151,9 @@ void advance_action_and_spawn_random_effects(ActorRecord *action, ObjectPosition
                 position[1] = *(u16 *)&effect_motion->y.w.i;
                 position[2] = *(u16 *)&effect_motion->z.w.i;
                 effect_depth = RotTransPers(position_ptr, screen_pos, &projection_aux, &projection_flags);
-                position[0] = ((T_80172FFC_S_80172FFC_3 *)motion)->unk_02;
-                position[1] = ((T_80172FFC_S_80172FFC_3 *)motion)->unk_06;
-                position[2] = ((T_80172FFC_S_80172FFC_3 *)motion)->unk_0A;
+                position[0] = motion->x.unsigned_parts.integer;
+                position[1] = motion->y.unsigned_parts.integer;
+                position[2] = motion->z.unsigned_parts.integer;
                 effect_sprite->depth_bias = (s16) ((effect_depth - RotTransPers(position_ptr,
                     screen_pos, &projection_aux, &projection_flags))
                     - (view_direction_depth_biases[((s32) (g_game_work.view.camera_rotation.parts.viewAngle + (s16) effect_data->unk_94

@@ -6,6 +6,7 @@
 #include "engine/node.h"
 #include "engine/graphics.h"
 #include "shared/entity.h"
+#include "dungeon/monster/cyclone.h"
 
 /* Sparse views for fields not covered by the existing record types. */
 typedef struct {
@@ -16,11 +17,6 @@ typedef struct {
 #ifndef NULL
 #define NULL 0
 #endif
-
-typedef struct S_80175858_1 {
-    u8 pad_00[0x4];
-    union { u16 s; s16 u; } unk_04;   /* accessed as both */
-} S_80175858_1;
 
 typedef struct S_80175858_2 {
     u8 pad_00[0x2A];
@@ -44,7 +40,7 @@ extern u8 cyclone_view_direction_entries[];
 /* Allocate and initialize an object with source direction, render properties, and copied data. */
 void *create_directional_render_object(void *direction_src, Copy24 *initial_data, void *render_src) {
     SpriteFrameState *render_data;
-    S_80175858_1 *object_state;
+    DirectionalRenderObjectBody *object_state;
     ObjectNodeHeader *object;
     void *data_dst;
     u16 render_attr;
@@ -57,7 +53,7 @@ void *create_directional_render_object(void *direction_src, Copy24 *initial_data
         object->update_callback = &D_8017573C;
         register_node(object, project_sprite_chain);
         object_state = ((void *)object) + 0x20;
-        object_state->unk_04.s =
+        object_state->facing_angle.u =
             (u16)direction_ref->unk_2A;
         render_data = object->sprite;
         render_data->animation_resource =
@@ -70,7 +66,7 @@ void *create_directional_render_object(void *direction_src, Copy24 *initial_data
         select_sprite_entry(
             render_data,
             cyclone_view_direction_entries[
-                ((g_game_work.view.camera_rotation.parts.viewAngle + object_state->unk_04.u + 0x100) >> 9) &
+                ((g_game_work.view.camera_rotation.parts.viewAngle + object_state->facing_angle.s + 0x100) >> 9) &
                 7],
             0);
         data_dst = object->position;

@@ -13,27 +13,6 @@ typedef struct S_8016ECE4_0 {
     void * unk_08;
 } S_8016ECE4_0;   /* base in spawn_conditional_source_effect */
 
-typedef struct S_8016ECE4_1 {
-    u8 pad_00[0x12];
-    s16 unk_12;
-    u8 pad_14[0x4];
-    s16 unk_18;
-    u8 pad_1A[0xA];
-    void * unk_24;
-    u8 pad_28[0x1C];
-    s8 unk_44;
-    s8 unk_45;
-    s8 unk_46;
-    s8 unk_47;
-    s8 unk_48;
-    s8 unk_49;
-    u8 pad_4A[0x2];
-    s32 unk_4C;
-    s32 unk_50;
-    s32 unk_54;
-    u8 pad_58[0x8];
-    s32 unk_60;
-} S_8016ECE4_1;
 
 typedef struct S_8016ECE4_5 {
     u8 pad_00[0x2];
@@ -62,10 +41,10 @@ void spawn_conditional_source_effect(void) {
     u8 low_byte;
     u16 count;
     register SpriteFrameState *sprite;
-    S_8016ECE4_1 *effect_state;
+    ConditionalSourceEffectBody *effect_state;
     S_8016ECE4_5 *source_pos;
     S_8016ECE4_6 *source_state;
-    ObjectNodeHeader *effect;
+    ConditionalSourceEffectNode *effect;
     ObjectPosition *effect_pos;
     void *source;
 
@@ -81,14 +60,14 @@ void spawn_conditional_source_effect(void) {
     if (((count & 3) == 1) && !(rand() & 1)) {
         effect = allocate_flagged_object_node(0x12);
         if (effect != NULL) {
-            effect_state = ((void *)effect) + 0x20;
+            effect_state = &effect->body;
             effect_state->unk_12 = 3;
-            effect->update_callback = update_object_motion_and_landing;
-            register_node(effect, project_sprite_chain);
-            sprite = effect->sprite;
+            effect->header.update_callback = update_object_motion_and_landing;
+            register_node(&effect->header, project_sprite_chain);
+            sprite = effect->header.sprite;
             sprite->flags = (u16) (sprite->flags & 0xFFF3);
             effect_state->unk_24 = source_state;
-            effect_pos = effect->position;
+            effect_pos = effect->header.position;
             effect_pos->x.w.i = (u16) source_pos->unk_02.s;
             effect_pos->y.w.i = (u16) source_pos->unk_06.s;
             effect_pos->z.w.i = (s16) (source_pos->unk_0A - 0x80);
@@ -97,7 +76,7 @@ void spawn_conditional_source_effect(void) {
             effect_state->unk_54 = 0;
             effect_state->unk_60 = 0;
             effect_state->unk_18 = (s16) (((u16) source_state->unk_2A >> 9) & 7);
-            sprite = effect->sprite;
+            sprite = effect->header.sprite;
             sprite->scale_y = 0x1000;
             sprite->scale_x = 0x1000;
             sprite->depth_bias = (s16) (ghosh_effect_direction_offsets[((u16) source_state->unk_2A >> 9) & 7].y * 6);

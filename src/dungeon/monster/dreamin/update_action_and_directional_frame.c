@@ -20,7 +20,7 @@ void update_action_and_directional_frame(ActorRecord *action_state, ObjectPositi
         ((try_claim_dungeon_action_slot(actor) << 0x10) == 0) &&
         (apply_camera_offset_and_select_target((u8 *)actor - 0x20, update_arg, 8, 0x300),
          ((try_claim_dungeon_action_slot(actor) << 0x10) == 0))) {
-        ((Rec_func_800A9E70_arg0 *)action_state)->unk_8C = 0;
+        action_state->unk_8C.word = 0;
         action_state->action_phase.s = 0;
 
         if (action_state->action_state_flags & 0x8000) {

@@ -9,6 +9,7 @@
 #include "dungeon/actor/status.h"
 #include "dungeon/actor.h"
 #include "dungeon/monster/golem.h"
+#include "dungeon/monster/viper/effect.h"
 
 typedef struct {
     Fixed1616 x;
@@ -63,13 +64,6 @@ typedef struct {
     s16 height;
 } Object;
 
-typedef struct {
-    u8 pad00[0x10];
-    void (*callback)(void);
-    u8 pad14[0xA7];
-    u8 state;
-} Spawned;
-
 extern TileRecord dungeon_ground_item_positions[];
 extern u8 D_80174A74[];
 extern u8 viper_frame_set_1[];
@@ -83,7 +77,6 @@ struct SpriteFrameState;
 extern void select_sprite_entry(void *, s16, s16);
 extern void play_sound_if_enabled(s32);
 extern void spend_actor_mp(Object *, s32);
-extern void update_timed_effect_size_and_position(void);
 extern int abs(int);
 
 /* Moves the entity forward, then returns it to its saved position and restores its callback. */
@@ -95,7 +88,7 @@ void update_viper_item_grab(Entity *entity, Motion *motion, SpriteFrameState *ef
     PackedRecord *records;
     TileRecord *tile;
     TileRecord *tiles;
-    Spawned *spawned;
+    ViperTimedEffectNode *spawned;
     s32 distance;
 
     switch (entity->state) {
@@ -114,8 +107,8 @@ void update_viper_item_grab(Entity *entity, Motion *motion, SpriteFrameState *ef
             spawned = create_item_render_object((u8 *)entity - 0x20, record, (tile->x << 6) | 0x20,
                                     (tile->y << 6) | 0x20, motion->height);
             if (spawned != 0) {
-                spawned->callback = update_timed_effect_size_and_position;
-                spawned->state = 0;
+                spawned->header.update_callback = update_timed_effect_size_and_position;
+                spawned->body.state = 0;
             }
             record->bytes[0] = 0;
             record->bytes[1] = 0;

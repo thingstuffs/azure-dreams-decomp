@@ -44,23 +44,26 @@ typedef struct {
     s32 f28;
 } Display;
 
-typedef struct {
+typedef struct KnockbackTravelObjectBody {
     s16 *facing;
     u8 pad04[8];
-    ObjectNodeHeader *actor_node;
-    ActorRecord *context;
+    ObjectNodeHeader *unk_0C;
+    ActorRecord *unk_10;
     SpriteFrameState *source;
     struct ObjectPosition *position;
-    u8 pad1C[4];
-    s16 f20;
+    u8 pad1C[2];
+    union { s16 s; u16 u; } unk_1E;
+    union { s16 s; u16 u; } unk_20;
     u8 pad22[0x10];
-    s16 x;
-    s16 y;
-    u16 hit;
-    u16 flags;
-    u16 source_id;
+    s16 unk_32;
+    s16 unk_34;
+    union { s16 s; u16 u; } unk_36;
+    union { u16 s; u16 u; } unk_38;
+    u16 unk_3A;
     u16 owner_byte;
-} Work;
+} KnockbackTravelObjectBody;
+
+typedef KnockbackTravelObjectBody Work;
 
 typedef struct {
     ObjectNodeHeader node;
@@ -78,5 +81,6 @@ extern void select_sprite_entry(void *, s32, s32);
 /* Functions defined in this translation unit. */
 s32 check_adjacent_tile_height(s16 tile_x, s16 tile_y, s32 height, s16 direction, s16 *sample_out);
 void create_knockback_travel_object(ActorRecord *owner_data,struct ObjectPosition *position_arg, SpriteFrameState *source_arg, ActorRecord *context_arg);
+void update_knockback_travel_object(KnockbackTravelObjectBody *motion, void *position, SpriteFrameState *record);
 
 #endif

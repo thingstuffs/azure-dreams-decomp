@@ -10,7 +10,7 @@
  */
 void configure_actor_slot_75_and_copy_global(void *actor, void *unused, struct SpriteFrameState *state) {
     *((s8 *)actor + 0x93) = 1;
-    *(s32 *)((u8 *)state + 0x28) = loaded_town_resource_attributes[0];
+    state->animation_resource = loaded_town_resource_attributes[0];
     func_800C3050(actor, 0x4B, D_800D66A4, D_800D66A8, D_800D6674,
                   D_800D667C);
 }
@@ -21,7 +21,7 @@ void configure_actor_slot_75_and_copy_global(void *actor, void *unused, struct S
  */
 void configure_actor_slot_76_and_copy_global(void *actor, void *unused, struct SpriteFrameState *state) {
     *((s8 *)actor + 0x93) = 1;
-    *(s32 *)((u8 *)state + 0x28) = loaded_town_resource_attributes[0];
+    state->animation_resource = loaded_town_resource_attributes[0];
     func_800C3050(actor, 0x4C, D_800D66A4, D_800D66A8, D_800D6674,
                   D_800D667C);
 }
@@ -32,7 +32,7 @@ void configure_actor_slot_76_and_copy_global(void *actor, void *unused, struct S
  */
 void configure_actor_slot_77_and_copy_global(void *actor, void *unused, struct SpriteFrameState *state) {
     *((s8 *)actor + 0x93) = 1;
-    *(s32 *)((u8 *)state + 0x28) = loaded_town_resource_attributes[0];
+    state->animation_resource = loaded_town_resource_attributes[0];
     func_800C3050(actor, 0x4D, D_800D66A4, D_800D66A8, D_800D6674,
                   D_800D667C);
 }
@@ -43,7 +43,7 @@ void configure_actor_slot_77_and_copy_global(void *actor, void *unused, struct S
  */
 void configure_actor_slot_78_and_copy_global(void *actor, void *unused, struct SpriteFrameState *state) {
     *((s8 *)actor + 0x93) = 1;
-    *(s32 *)((u8 *)state + 0x28) = loaded_town_resource_attributes[0];
+    state->animation_resource = loaded_town_resource_attributes[0];
     func_800C3050(actor, 0x4E, D_800D66A4, D_800D66A8, D_800D6674,
                   D_800D667C);
 }

@@ -316,7 +316,7 @@ void advance_actor_queued_path(ActorRecord *body, s32 action_id, SpriteFrameStat
     s16 old_x;
     s32 old_y;
     s32 step_count;
-    void *step;
+    ActorStatusBytesView *step;
 
     if ((((S_800D904C_0 *)state)->unk_71.s > 0) &&
         ((s32)((S_800D904C_0 *)state)->unk_71.u > ((S_800D904C_0 *)state)->unk_8A)) {
@@ -344,10 +344,10 @@ void advance_actor_queued_path(ActorRecord *body, s32 action_id, SpriteFrameStat
         }
         update_map_cell_flags_with_item_limit(old_x, old_y, tile_mask);
 
-        step = (u8 *)state + ((S_800D904C_0 *)state)->unk_8A;
+        step = (ActorStatusBytesView *)((u8 *)state + ((S_800D904C_0 *)state)->unk_8A);
         direction = (s16)get_rounded_facing_and_rounding_flag(old_x, old_y,
-                                  ((ActorStatusBytesView *)step)->path_x,
-                                  ((ActorStatusBytesView *)step)->path_y,
+                                  step->path_x,
+                                  step->path_y,
                                   (u8 *)body + 0x98);
         move_result = (s16)check_movement_clearance_and_height(direction, sprite, state, 0x20);
 

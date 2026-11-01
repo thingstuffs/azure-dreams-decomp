@@ -30,6 +30,18 @@ typedef struct CylindricalEffectWork {
     s32 shade;
 } CylindricalEffectWork;
 
+/* Effect parameters and countdown used by process_effect_modes_and_completion. */
+typedef struct AndInitializeEffectObjectBody {
+    u8 pad_00[0xC];
+    s32 unk_0C;
+    u8 pad_10[0x16];
+    s16 unk_26;
+    u8 pad_28[0x4];
+    s16 unk_2C;
+    u8 pad_2E[0x2];
+    s16 unk_30;
+} AndInitializeEffectObjectBody;
+
 /* Set to 1 by running particle/point effects every frame; the effect
  * controller in entry_play_sound_if_enabled clears it and finishes the effect
  * once a whole period passes with it still clear. */

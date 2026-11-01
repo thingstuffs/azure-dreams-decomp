@@ -72,12 +72,12 @@ void create_terrain_scaled_actor_effect(ObjectNodeHeader *source, s16 *facing, u
         render_data->color.word = 0x808080;
         render_data->animation_resource = (s32) ((S_80174B90_7 *)effect_state->unk_14)->unk_28;
         render_data->clut = (u16) ((S_80174B90_7 *)effect_state->unk_14)->unk_12;
-        ((MovingPosition *)(effect->position))->x =
-            (u16) ((MovingPosition *)source->position)->x;
-        ((MovingPosition *)(effect->position))->y =
-            (u16) ((MovingPosition *)source->position)->y;
-        ((MovingPosition *)(effect->position))->z =
-            (u16) ((MovingPosition *)source->position)->z;
+        effect->position->x.unsigned_parts.integer =
+            (u16) source->position->x.unsigned_parts.integer;
+        effect->position->y.unsigned_parts.integer =
+            (u16) source->position->y.unsigned_parts.integer;
+        effect->position->z.unsigned_parts.integer =
+            (u16) source->position->z.unsigned_parts.integer;
         select_sprite_entry(render_data, 0x46, 0);
         register_node(effect, &D_80175540);
         ((S_80174B90_0 *)effect)->unk_20 = facing;

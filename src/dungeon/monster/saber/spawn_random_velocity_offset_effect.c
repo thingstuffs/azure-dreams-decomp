@@ -4,6 +4,7 @@
 #include "shared/dungeon_moving_views.h"
 #include "slus.h"
 #include "sdk/libgte.h"
+#include "dungeon/monster/saber.h"
 extern u8 resident_globals_page[];
 
    /* arg1 in spawn_random_velocity_offset_effect */
@@ -12,13 +13,6 @@ typedef struct S_80AC5820_1_pre {
     u16 unk_00;
 } S_80AC5820_1_pre;   /* the 0x2 bytes before arg0 in spawn_random_velocity_offset_effect, addressed as arg0[-1] */
 
-typedef struct S_80AC5820_1 {
-    u8 pad_00[0x94];
-    s16 unk_94;
-    u16 unk_96;
-    u8 pad_98[0x10];
-    void * unk_A8;
-} S_80AC5820_1;   /* arg0 in spawn_random_velocity_offset_effect */
 
    /* other in spawn_random_velocity_offset_effect */
 
@@ -37,9 +31,8 @@ typedef struct StackWork {
 /* Updates the relative position value with an angle bias and flags countdown completion. */
 /* Adjusts a Saber effect's draw depth relative to its stored origin and facing, advances animation, and
  * expires its timer. */
-void spawn_random_velocity_offset_effect(void *state_arg, MovingPosition *position, Rec_D_80082E80 *result)
+void spawn_random_velocity_offset_effect(AdvanceSelectedItemAction2Body *state, MovingPosition *position, Rec_D_80082E80 *result)
 {
-    S_80AC5820_1 *state = state_arg;
     StackWork work;
     s16 ticks_left;
     s32 position_value;
@@ -53,7 +46,7 @@ void spawn_random_velocity_offset_effect(void *state_arg, MovingPosition *positi
     work.xyz[2] = position->z;
     position_value = RotTransPers(work.xyz, &work.out18, &work.out20, &work.out24);
 
-    reference_pos = state->unk_A8;
+    reference_pos = state->reference_position;
     work.xyz[0] = reference_pos->x;
     work.xyz[1] = reference_pos->y;
     work.xyz[2] = reference_pos->z;
@@ -61,12 +54,12 @@ void spawn_random_velocity_offset_effect(void *state_arg, MovingPosition *positi
     angle_page = (u32)resident_globals_page;
     angle_bias = &view_direction_depth_biases[
         ((*(s16 *)(angle_page + 0x3228) +
-          state->unk_94 + 0x100) >> 9) & 7];
+          state->facing.s + 0x100) >> 9) & 7];
     result->unk_06.as_s16 = position_value - reference_value - *angle_bias * 2;
 
     advance_sprite_animation_and_textures(result);
-    ticks_left = state->unk_96 - 1;
-    state->unk_96 = ticks_left;
+    ticks_left = state->ticks_remaining - 1;
+    state->ticks_remaining = ticks_left;
     if ((ticks_left << 16) <= 0) {
 
         angle_page = 0x80080000;

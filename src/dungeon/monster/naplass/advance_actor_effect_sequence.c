@@ -234,7 +234,7 @@ void advance_actor_effect_sequence_2(ActorRecord *body, void *transform, SpriteF
         effect_transform = effect_node->position;
         effect_node->update_callback = effect_update_tag;
         *(Copy24 *)effect_transform = *(Copy24 *)transform;
-        ((Rec_func_801732A4_arg0 *)body)->unk_BB = 0;
+        body->unk_BB = 0;
         effect_sprite = effect_node->sprite;
         ((Rec_func_801732A4_arg0 *)body)->unk_4A = (u16)actor_state->facing;
         sprite_data = sprite->animation_resource;

@@ -8,10 +8,10 @@
  * Increments the linked object's counter and advances sprite animation; flags removal when the
  * sprite reports 0x6000.
  */
-void handle_increment_s_counter_update_state_propagate_status_flags(void *object_slot, s32 unused, SpriteFrameState *state) {
+void handle_increment_s_counter_update_state_propagate_status_flags(AnOwnerLinkedSpriteEffectPositionVerticalOffsetBody *object_slot, s32 unused, SpriteFrameState *state) {
     u8 *object;
 
-    object = *(u8 **)((u8 *)object_slot + 0x0);
+    object = object_slot->owner;
     *(u16 *)(object + 0x1A) += 1;
     advance_sprite_animation_and_textures(state);
     if (state->flags & 0x6000) {

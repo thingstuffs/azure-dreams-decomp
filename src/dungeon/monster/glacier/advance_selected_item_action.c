@@ -60,6 +60,7 @@ extern u8 D_801708D4;
 
 #include "dungeon/monster/glacier.h"
 #include "dungeon/item.h"
+#include "dungeon/monster/saber.h"
 extern u8 D_801760FC[];
 
 typedef struct S_801730E4_2 {
@@ -68,13 +69,6 @@ typedef struct S_801730E4_2 {
     u8 unk_25;
 } S_801730E4_2;   /* linked in advance_selected_item_action_2 */
 
-typedef struct S_801730E4_5 {
-    u8 pad_00[0x94];
-    u16 unk_94;
-    u16 unk_96;
-    u8 pad_98[0x10];
-    void * unk_A8;
-} S_801730E4_5;   /* part in advance_selected_item_action_2 */
 
 typedef struct S_801730E4_7 {
     u8 pad_00[0x2];
@@ -246,16 +240,16 @@ void advance_selected_item_action_2(ActorRecord *body, ObjectPosition *position,
 
             effect_object = allocate_list_node(0x112, &scene_object_list_anchor.next);
             if (effect_object != 0) {
-                S_801730E4_5 *effect_state;
+                AdvanceSelectedItemAction2Body *effect_state;
                 u8 *effect_data;
                 void *owner_sprite;
                 u8 animation_id;
 
-                effect_state = (S_801730E4_5 *)(((u8 *)effect_object) + 0x20);
-                effect_state->unk_96 = 0xF;
+                effect_state = (AdvanceSelectedItemAction2Body *)(((u8 *)effect_object) + 0x20);
+                effect_state->ticks_remaining = 0xF;
                 effect_object->update_callback = &D_801708D4;
-                effect_state->unk_A8 = position;
-                effect_state->unk_94 = (actor->facing);
+                effect_state->reference_position = position;
+                effect_state->facing.u = (actor->facing);
                 effect_data = *(u8 * *)&effect_object->sprite;
                 *(Copy48 *)effect_data = *(Copy48 *)sprite;
                 ((S_801730E4_7 *)effect_data)->unk_1E = 0x1000;

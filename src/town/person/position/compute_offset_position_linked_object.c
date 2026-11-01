@@ -23,7 +23,7 @@ void compute_offset_position_linked_object(OwnerFollowingSpriteBody *object, Int
         object_flag_block.flags |= OBJECT_REMOVE_PENDING;
         return;
     }
-    out_pos->x = base_pos->x + rsin(*(s16 *)((u8 *)*(void **)((u8 *)object + 0x9C) + 0x72)) * 0x140;
-    out_pos->y = base_pos->y + rcos(*(s16 *)((u8 *)*(void **)((u8 *)object + 0x9C) + 0x72)) * 0x140;
+    out_pos->x = base_pos->x + rsin(*(s16 *)((u8 *)object->linked_object + 0x72)) * 0x140;
+    out_pos->y = base_pos->y + rcos(*(s16 *)((u8 *)object->linked_object + 0x72)) * 0x140;
     out_pos->z = base_pos->z + (s32)0xFFE60000;
 }

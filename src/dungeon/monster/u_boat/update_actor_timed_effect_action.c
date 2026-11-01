@@ -45,14 +45,6 @@ typedef struct S_8017558C_0 {
     u16 unk_BA;
 } S_8017558C_0;   /* arg0 in update_actor_timed_effect_action */
 
-typedef struct S_8017558C_5 {
-    u8 pad_00[0x38];
-    s16 unk_38;
-    u8 pad_3A[0x6];
-    void * unk_40;
-    void * unk_44;
-} S_8017558C_5;
-
 /* cfail-repair: tf7-phase1-cache-v3 */
 extern u8 uboat_aura_start_frames[];
 extern u8 u_boat_timed_effect_update_address[];
@@ -86,7 +78,7 @@ void update_actor_timed_effect_action(ActorRecord *action, ObjectPosition *posit
     s32 restore_phase;
     s32 next_phase;
     ObjectNodeHeader *effect;
-    S_8017558C_5 *effect_state;
+    UBoatAuraEffectBody *effect_state;
     ObjectPosition *effect_position;
 
     s32 global_flags;
@@ -144,9 +136,9 @@ void update_actor_timed_effect_action(ActorRecord *action, ObjectPosition *posit
         effect->update_callback = u_boat_timed_effect_update_address;
         register_node(effect, clipped_sprite_renderer_address);
         effect_state = ((void *)effect) + 0x20;
-        effect_state->unk_38 = 5;
-        effect_state->unk_40 = action;
-        effect_state->unk_44 = position;
+        effect_state->duration = 5;
+        effect_state->owner = action;
+        effect_state->source.position = position;
         effect_sprite = effect->sprite;
         effect_sprite->tpage_abr = 0x40;
         effect_sprite->flags = (u16) (effect_sprite->flags | 0xC);

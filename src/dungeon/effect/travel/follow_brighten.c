@@ -23,7 +23,7 @@ static __inline__ s32 align_effect_coord(s32 coord)
 void follow_brighten(u8 *self, u8 *motion, u8 *part)
 {
     u8 *owner;
-    u8 *base;
+    MovingObject *base;
     u8 *record;
     u8 *tail_page0;
     u8 *tail_page1;
@@ -37,8 +37,8 @@ void follow_brighten(u8 *self, u8 *motion, u8 *part)
 
     owner = ((MovingEffectState *)self)->unk_00;
     state = ((MovingEffectState *)self)->unk_0A.s;
-    base = owner - 32;
-    record = ((MovingObject *)base)->unk_08;
+    base = (MovingObject *)(owner - 32);
+    record = base->unk_08;
     switch (state) {
     case 0:
         color = 0x00808080;
@@ -65,15 +65,15 @@ void follow_brighten(u8 *self, u8 *motion, u8 *part)
         draw_textured_ellipse(effect_params - 12, scratch + 2, 1, 0);
         ((MovingEffectState *)self)->unk_0A.u++;
     case 1:
-        if (get_sprite_attachment_vector(((MovingSpriteFlags *)(((MovingObject *)base)->unk_0C))->unk_08,
-                          ((MovingObject *)base)->unk_0C, scratch, 0) == 0) {
-            if (!(((MovingSpriteFlags *)(((MovingObject *)base)->unk_0C))->unk_14 & 0x8000)) {
+        if (get_sprite_attachment_vector(((MovingSpriteFlags *)(base->unk_0C))->unk_08,
+                          base->unk_0C, scratch, 0) == 0) {
+            if (!(((MovingSpriteFlags *)(base->unk_0C))->unk_14 & 0x8000)) {
                 break;
             }
         }
         ((MovingMotion *)motion)->unk_00.at02.v = ((MovingPosition *)record)->x;
         ((MovingMotion *)motion)->unk_04.at02.v = ((MovingPosition *)record)->y;
-        if (((MovingSpriteFlags *)(((MovingObject *)base)->unk_0C))->unk_14 & 0x8000) {
+        if (((MovingSpriteFlags *)(base->unk_0C))->unk_14 & 0x8000) {
             u16 height = ((MovingPosition *)record)->z - 64;
             ((MovingMotion *)motion)->unk_08.at02.v = height;
             ((MovingEffectState *)self)->unk_30.at02.v = height;
@@ -97,19 +97,19 @@ void follow_brighten(u8 *self, u8 *motion, u8 *part)
         {
             u8 *target = ((MovingActor *)owner)->unk_60.p;
             if (target != 0) {
-                u8 *target_part = ((MovingTarget_pre *)target)[-1].unk_00;
-                ((MovingEffectState *)self)->unk_0C = ((MovingTargetPosition *)target_part)->unk_02;
-                ((MovingEffectState *)self)->unk_0E = ((MovingTargetPosition *)target_part)->unk_06;
-                ((MovingEffectState *)self)->unk_10.u = ((MovingTargetPosition *)target_part)->unk_0A -
+                MovingTargetPosition *target_part = (MovingTargetPosition *)((MovingTarget_pre *)target)[-1].unk_00;
+                ((MovingEffectState *)self)->unk_0C = target_part->unk_02;
+                ((MovingEffectState *)self)->unk_0E = target_part->unk_06;
+                ((MovingEffectState *)self)->unk_10.u = target_part->unk_0A -
                                           entity_height_offsets[0];
                 {
-                    u8 *target_record = ((MovingActor_pre *)owner)[-1].unk_00;
-                    u8 x = ((MovingTile *)target_record)->tile_x +
+                    MovingTile *target_record = (MovingTile *)((MovingActor_pre *)owner)[-1].unk_00;
+                    u8 x = target_record->tile_x +
                            ((u8 *)dir_step_x)[((MovingEffectState *)self)->unk_16.s * 2];
                     ((MovingEffectState *)self)->unk_1C.at02.v = x;
                     ((MovingEffectState *)self)->unk_20.at00.v = x;
                     {
-                        u8 y = ((MovingTile *)target_record)->tile_y +
+                        u8 y = target_record->tile_y +
                                ((u8 *)dir_step_y)[((MovingEffectState *)self)->unk_16.s * 2];
                         ((MovingEffectState *)self)->unk_1C.at03.v = y;
                         ((MovingEffectState *)self)->unk_20.at01.v = y;
@@ -117,11 +117,11 @@ void follow_brighten(u8 *self, u8 *motion, u8 *part)
                     {
                         s32 owner_coord = ((MovingActor *)owner)->unk_70.at02.v;
                         s32 record_coord =
-                            ((MovingTile *)target_record)->tile_x;
+                            target_record->tile_x;
                         s32 tile_distance;
                         if (owner_coord == record_coord) {
                             owner_coord = ((MovingActor *)owner)->unk_70.at03.v;
-                            record_coord = ((MovingTile *)target_record)->tile_y;
+                            record_coord = target_record->tile_y;
                         }
                         tile_distance = owner_coord - record_coord;
                         tile_distance = abs(tile_distance);

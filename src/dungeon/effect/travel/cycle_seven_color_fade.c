@@ -372,7 +372,7 @@ s32 draw_indexed_shaded_quad(s32 texture_index, u8 *color_source_arg)
 
 /* Builds and draws two eight-segment radial bands around the effect center. */
 s32 draw_two_radial_effect_bands(B28_818B7264_S_80024A64_0 *effect, B28_818B7264_S_80024A64_1 *center, s32 draw_arg) {
-    u8 *scratch;
+    B28_818B7264_S_80024A64_2 *scratch;
     s32 first_outer_x;
     s32 first_outer_y;
     s32 first_inner_x;
@@ -394,12 +394,12 @@ s32 draw_two_radial_effect_bands(B28_818B7264_S_80024A64_0 *effect, B28_818B7264
     s32 jitter_limit;
     s32 scaled;
 
-    scratch = (u8 *)0x1F800000;
+    scratch = (B28_818B7264_S_80024A64_2 *)0x1F800000;
     if (effect->unk_06 < 8) {
         s32 growing_z;
         growing_z = center->unk_08 - (effect->unk_06 * 0x180000);
-        ((B28_818B7264_S_80024A64_2 *)scratch)->unk_48 = growing_z;
-        ((B28_818B7264_S_80024A64_2 *)scratch)->unk_38 = growing_z;
+        scratch->unk_48 = growing_z;
+        scratch->unk_38 = growing_z;
         {
             s32 phase_scale = effect->unk_06;
             s32 inner_scale;
@@ -414,8 +414,8 @@ s32 draw_two_radial_effect_bands(B28_818B7264_S_80024A64_0 *effect, B28_818B7264
     } else if (effect->unk_06 < 40) {
         {
             s32 plateau_z = center->unk_08 - (8 * 0x180000);
-            ((B28_818B7264_S_80024A64_2 *)scratch)->unk_48 = plateau_z;
-            ((B28_818B7264_S_80024A64_2 *)scratch)->unk_38 = plateau_z;
+            scratch->unk_48 = plateau_z;
+            scratch->unk_38 = plateau_z;
         }
         outer_radius = 8 * 6;
         inner_radius = 8 * 2;
@@ -425,8 +425,8 @@ s32 draw_two_radial_effect_bands(B28_818B7264_S_80024A64_0 *effect, B28_818B7264
         s32 fading_z;
         jitter_count = 48;
         fading_z = center->unk_08 - ((jitter_count - effect->unk_06) * 0x180000);
-        ((B28_818B7264_S_80024A64_2 *)scratch)->unk_48 = fading_z;
-        ((B28_818B7264_S_80024A64_2 *)scratch)->unk_38 = fading_z;
+        scratch->unk_48 = fading_z;
+        scratch->unk_38 = fading_z;
         {
             s32 inner_scale;
             s32 tip_value;
@@ -449,7 +449,7 @@ s32 draw_two_radial_effect_bands(B28_818B7264_S_80024A64_0 *effect, B28_818B7264
 
     segment = 0;
     jitter_limit = (s16)jitter_count;
-    ((B28_818B7264_S_80024A64_2 *)scratch)->unk_58 = ((B28_818B7264_S_80024A64_2 *)scratch)->unk_68 = center->unk_08;
+    scratch->unk_58 = scratch->unk_68 = center->unk_08;
     do {
         angle_step = segment * 512;
         radial_offset = rand() % jitter_limit;
@@ -457,24 +457,24 @@ s32 draw_two_radial_effect_bands(B28_818B7264_S_80024A64_0 *effect, B28_818B7264
             s32 wave_x = rsin(effect->unk_0C + angle_step);
             radial_offset = (s16)radial_offset;
             jittered_outer = (s16)outer_radius + radial_offset;
-            ((B28_818B7264_S_80024A64_2 *)scratch)->unk_40 = center->unk_00 +
+            scratch->unk_40 = center->unk_00 +
                 (((wave_x >> 4) * jittered_outer) << 8);
         }
-        ((B28_818B7264_S_80024A64_2 *)scratch)->unk_44 = center->unk_04 +
+        scratch->unk_44 = center->unk_04 +
             (((rcos(effect->unk_0C + angle_step) >> 4) * jittered_outer) << 8);
         {
             s32 wave_x = rsin(effect->unk_0C + angle_step);
             jittered_inner = (s16)inner_radius + radial_offset;
-            ((B28_818B7264_S_80024A64_2 *)scratch)->unk_50 = center->unk_00 +
+            scratch->unk_50 = center->unk_00 +
                 (((wave_x >> 4) * jittered_inner) << 8);
         }
-        ((B28_818B7264_S_80024A64_2 *)scratch)->unk_54 = center->unk_04 +
+        scratch->unk_54 = center->unk_04 +
             (((rcos(effect->unk_0C + angle_step) >> 4) * jittered_inner) << 8);
         next_segment = segment + 1;
         next_angle = next_segment * 512;
-        ((B28_818B7264_S_80024A64_2 *)scratch)->unk_30 = ((B28_818B7264_S_80024A64_2 *)scratch)->unk_60 = center->unk_00 +
+        scratch->unk_30 = scratch->unk_60 = center->unk_00 +
             (((rsin(effect->unk_0C + next_angle) >> 4) * (s16)tip_radius) << 8);
-        ((B28_818B7264_S_80024A64_2 *)scratch)->unk_34 = ((B28_818B7264_S_80024A64_2 *)scratch)->unk_64 = center->unk_04 +
+        scratch->unk_34 = scratch->unk_64 = center->unk_04 +
             (((rcos(effect->unk_0C + next_angle) >> 4) * (s16)tip_radius) << 8);
         draw_indexed_shaded_quad((s16)segment, draw_arg);
         segment = next_segment;
@@ -502,14 +502,14 @@ s32 draw_two_radial_effect_bands(B28_818B7264_S_80024A64_0 *effect, B28_818B7264
         outer_x = center->unk_00 +
             (((wave_x >> 4) * ((s16)outer_radius + (s16)outer_offset)) << 8);
         outer_offset = (s16)outer_radius + (s16)outer_offset;
-        ((B28_818B7264_S_80024A64_2 *)scratch)->unk_30 = outer_x;
+        scratch->unk_30 = outer_x;
         first_outer_x = outer_x;
     }
     {
         s32 outer_y;
         outer_y = center->unk_04 +
             (((rcos(effect->unk_0E) >> 4) * outer_offset) << 8);
-        ((B28_818B7264_S_80024A64_2 *)scratch)->unk_34 = outer_y;
+        scratch->unk_34 = outer_y;
         first_outer_y = outer_y;
     }
     {
@@ -517,26 +517,26 @@ s32 draw_two_radial_effect_bands(B28_818B7264_S_80024A64_0 *effect, B28_818B7264
         s32 inner_x;
         inner_x = center->unk_00 +
             (((wave_x >> 4) * (s16)inner_radius) << 8);
-        ((B28_818B7264_S_80024A64_2 *)scratch)->unk_60 = inner_x;
+        scratch->unk_60 = inner_x;
         first_inner_x = inner_x;
     }
     {
         s32 inner_y = center->unk_04 +
             (((rcos(effect->unk_0E + 512) >> 4) * (s16)inner_radius) << 8);
-        ((B28_818B7264_S_80024A64_2 *)scratch)->unk_64 = inner_y;
+        scratch->unk_64 = inner_y;
         first_inner_y = inner_y;
     }
     angle_step = 512;
     do {
-        ((B28_818B7264_S_80024A64_2 *)scratch)->unk_40 = ((B28_818B7264_S_80024A64_2 *)scratch)->unk_30;
-        ((B28_818B7264_S_80024A64_2 *)scratch)->unk_44 = ((B28_818B7264_S_80024A64_2 *)scratch)->unk_34;
-        ((B28_818B7264_S_80024A64_2 *)scratch)->unk_50 = ((B28_818B7264_S_80024A64_2 *)scratch)->unk_60;
-        ((B28_818B7264_S_80024A64_2 *)scratch)->unk_54 = ((B28_818B7264_S_80024A64_2 *)scratch)->unk_64;
+        scratch->unk_40 = scratch->unk_30;
+        scratch->unk_44 = scratch->unk_34;
+        scratch->unk_50 = scratch->unk_60;
+        scratch->unk_54 = scratch->unk_64;
         if (segment == 7) {
-            ((B28_818B7264_S_80024A64_2 *)scratch)->unk_30 = first_outer_x;
-            ((B28_818B7264_S_80024A64_2 *)scratch)->unk_34 = first_outer_y;
-            ((B28_818B7264_S_80024A64_2 *)scratch)->unk_60 = first_inner_x;
-            ((B28_818B7264_S_80024A64_2 *)scratch)->unk_64 = first_inner_y;
+            scratch->unk_30 = first_outer_x;
+            scratch->unk_34 = first_outer_y;
+            scratch->unk_60 = first_inner_x;
+            scratch->unk_64 = first_inner_y;
         } else {
             {
                 s32 random_raw = rand();
@@ -554,15 +554,15 @@ s32 draw_two_radial_effect_bands(B28_818B7264_S_80024A64_0 *effect, B28_818B7264
             {
                 scaled = rsin(effect->unk_0E + (segment * 512)) >> 4;
                 arm_radius = (s16)outer_radius + (s16)arm_offset;
-                ((B28_818B7264_S_80024A64_2 *)scratch)->unk_30 = center->unk_00 +
+                scratch->unk_30 = center->unk_00 +
                     ((scaled * arm_radius) << 8);
             }
             scaled = rcos(effect->unk_0E + (segment * 512)) >> 4;
-            ((B28_818B7264_S_80024A64_2 *)scratch)->unk_34 = center->unk_04 +
+            scratch->unk_34 = center->unk_04 +
                 ((scaled * arm_radius) << 8);
-            ((B28_818B7264_S_80024A64_2 *)scratch)->unk_60 = center->unk_00 +
+            scratch->unk_60 = center->unk_00 +
                 (((rsin(effect->unk_0E + angle_step) >> 4) * (s16)inner_radius) << 8);
-            ((B28_818B7264_S_80024A64_2 *)scratch)->unk_64 = center->unk_04 +
+            scratch->unk_64 = center->unk_04 +
                 (((rcos(effect->unk_0E + angle_step) >> 4) * (s16)inner_radius) << 8);
         }
         draw_indexed_shaded_quad((s16)segment, draw_arg);
@@ -878,12 +878,12 @@ void advance_movement_toward_reachable_tile(void *state, void *motion_in, void *
     s16 grid_x;
     s16 grid_y;
     SpriteFrameState *source_data;
-    void *destination;
-    void *source_header;
+    B28_818B7F38_S_80025738_7 *destination;
+    B28_818B7F38_S_80025738_3 *source_header;
     void *owner;
-    void *target;
-    void *source_position;
-    void *tile_data;
+    B28_818B7F38_S_80025738_8 *target;
+    B28_818B7F38_S_80025738_6 *source_position;
+    B28_818B7F38_S_80025738_10 *tile_data;
 
     phase = (s32) ((B28_818B7F38_S_80025738_0 *)state)->unk_0A;
     owner = ((B28_818B7F38_S_80025738_0 *)state)->unk_00;
@@ -896,22 +896,22 @@ void advance_movement_toward_reachable_tile(void *state, void *motion_in, void *
         ((B28_818B7F38_S_80025738_2 *)render)->unk_0C = 0x808080;
     case 1:
         source_header = owner - 0x20;
-        source_data = ((B28_818B7F38_S_80025738_3 *)source_header)->unk_0C;
+        source_data = source_header->unk_0C;
         if (resolve_record_orientation_or_fallback(source_data->source, source_data, &frame.offset.orientation, 0) != 0) {
-            source_position = ((B28_818B7F38_S_80025738_3 *)source_header)->unk_08;
-            ((B28_818B7F38_S_80025738_5 *)motion_in)->unk_00.at02.v = (u16) ((B28_818B7F38_S_80025738_6 *)source_position)->unk_02;
-            ((B28_818B7F38_S_80025738_5 *)motion_in)->unk_04.at02.v = (u16) ((B28_818B7F38_S_80025738_6 *)source_position)->unk_06;
+            source_position = source_header->unk_08;
+            ((B28_818B7F38_S_80025738_5 *)motion_in)->unk_00.at02.v = (u16) source_position->unk_02;
+            ((B28_818B7F38_S_80025738_5 *)motion_in)->unk_04.at02.v = (u16) source_position->unk_06;
         } else {
-            if (!(((B28_818B7F38_S_80025738_13 *)(((B28_818B7F38_S_80025738_3 *)source_header)->unk_0C))->unk_14 & 0x8000)) {
+            if (!(((B28_818B7F38_S_80025738_13 *)(source_header->unk_0C))->unk_14 & 0x8000)) {
                 break;
             }
-            source_position = ((B28_818B7F38_S_80025738_3 *)source_header)->unk_08;
-            ((B28_818B7F38_S_80025738_5 *)motion_in)->unk_00.at02.v = (u16) ((B28_818B7F38_S_80025738_6 *)source_position)->unk_02;
-            ((B28_818B7F38_S_80025738_5 *)motion_in)->unk_04.at02.v = (u16) ((B28_818B7F38_S_80025738_6 *)source_position)->unk_06;
+            source_position = source_header->unk_08;
+            ((B28_818B7F38_S_80025738_5 *)motion_in)->unk_00.at02.v = (u16) source_position->unk_02;
+            ((B28_818B7F38_S_80025738_5 *)motion_in)->unk_04.at02.v = (u16) source_position->unk_06;
         }
-        source_z = ((B28_818B7F38_S_80025738_6 *)source_position)->unk_0A;
+        source_z = source_position->unk_0A;
         ((B28_818B7F38_S_80025738_5 *)motion_in)->unk_08.at02.v = source_z;
-        if (!(((B28_818B7F38_S_80025738_13 *)(((B28_818B7F38_S_80025738_3 *)source_header)->unk_0C))->unk_14 & 0x8000)) {
+        if (!(((B28_818B7F38_S_80025738_13 *)(source_header->unk_0C))->unk_14 & 0x8000)) {
             ((B28_818B7F38_S_80025738_5 *)motion_in)->unk_00.at02.v = (u16) (((B28_818B7F38_S_80025738_5 *)motion_in)->unk_00.at02.v
                 + frame.offset.distance[0]);
             ((B28_818B7F38_S_80025738_5 *)motion_in)->unk_04.at02.v = (u16) (((B28_818B7F38_S_80025738_5 *)motion_in)->unk_04.at02.v
@@ -934,19 +934,19 @@ void advance_movement_toward_reachable_tile(void *state, void *motion_in, void *
         if (target != NULL) {
             ((B28_818B7F38_S_80025738_0 *)state)->unk_18 = target;
             destination = ((B28_818B7F38_S_80025738_14_pre *)(((B28_818B7F38_S_80025738_1 *)owner)->unk_60))[-1].unk_00;
-            target_dx = ((B28_818B7F38_S_80025738_7 *)destination)->unk_00.at02.v;
+            target_dx = destination->unk_00.at02.v;
             target_dx -= ((B28_818B7F38_S_80025738_5 *)motion_in)->unk_00.at02u.v;
             if (target_dx < 0) {
                 target_dx = 0 - target_dx;
             }
             frame.offset.distance[0] = (u16) target_dx;
-            target_dy = ((B28_818B7F38_S_80025738_7 *)destination)->unk_04.at02.v;
+            target_dy = destination->unk_04.at02.v;
             target_dy -= ((B28_818B7F38_S_80025738_5 *)motion_in)->unk_04.at02u.v;
             target_dy = abs(target_dy);
             frame.offset.distance[1] = (u16) target_dy;
             target = ((B28_818B7F38_S_80025738_1 *)owner)->unk_60;
             current_z = ((B28_818B7F38_S_80025738_5 *)motion_in)->unk_08.at02u.v;
-            target_dz = ((B28_818B7F38_S_80025738_8 *)target)->unk_88;
+            target_dz = target->unk_88;
             target_dz -= current_z;
             target_delta_cursor = (u16 *)((u8 *)&frame.out_x + 2);
             target_dz = abs(target_dz);
@@ -964,9 +964,9 @@ void advance_movement_toward_reachable_tile(void *state, void *motion_in, void *
             if (target_ticks == 0) {
                 ((B28_818B7F38_S_80025738_0 *)state)->unk_12 = 1;
             }
-            ((B28_818B7F38_S_80025738_5 *)motion_in)->unk_0C = (s32) ((s32) (((B28_818B7F38_S_80025738_7 *)destination)->unk_00.at00.v
+            ((B28_818B7F38_S_80025738_5 *)motion_in)->unk_0C = (s32) ((s32) (destination->unk_00.at00.v
                 - ((B28_818B7F38_S_80025738_5 *)motion_in)->unk_00.at00.v) / (s16) ((B28_818B7F38_S_80025738_0 *)state)->unk_12);
-            ((B28_818B7F38_S_80025738_5 *)motion_in)->unk_10 = (s32) ((s32) (((B28_818B7F38_S_80025738_7 *)destination)->unk_04.at00.v
+            ((B28_818B7F38_S_80025738_5 *)motion_in)->unk_10 = (s32) ((s32) (destination->unk_04.at00.v
                 - ((B28_818B7F38_S_80025738_5 *)motion_in)->unk_04.at00.v) / (s16) ((B28_818B7F38_S_80025738_0 *)state)->unk_12);
             ((B28_818B7F38_S_80025738_5 *)motion_in)->unk_14 =
                 (s32) ((s32) ((((B28_818B7F38_S_80025738_14 *)(((B28_818B7F38_S_80025738_1 *)owner)->unk_60))->unk_88 << 0x10)
@@ -975,9 +975,9 @@ void advance_movement_toward_reachable_tile(void *state, void *motion_in, void *
             next_phase = (u16) ((B28_818B7F38_S_80025738_0 *)state)->unk_0A + 1;
         } else {
             index = 0;
-            tile_data = ((B28_818B7F38_S_80025738_3 *)source_header)->unk_0C;
-            tile_x = ((B28_818B7F38_S_80025738_10 *)tile_data)->unk_24;
-            tile_y = ((B28_818B7F38_S_80025738_10 *)tile_data)->unk_25;
+            tile_data = source_header->unk_0C;
+            tile_x = tile_data->unk_24;
+            tile_y = tile_data->unk_25;
             last_tile_x = tile_x;
             saved_y = tile_y;
             while (index < 8) {
@@ -987,7 +987,7 @@ void advance_movement_toward_reachable_tile(void *state, void *motion_in, void *
                     (s16) (((B28_818B7F38_S_80025738_0 *)state)->unk_0E << 9)) != 0) {
                     break;
                 }
-                source_position = &dir_step_x[(s16) ((B28_818B7F38_S_80025738_0 *)state)->unk_0E];
+                source_position = (B28_818B7F38_S_80025738_6 *)&dir_step_x[(s16) ((B28_818B7F38_S_80025738_0 *)state)->unk_0E];
                 probe_z = (u16) ((B28_818B7F38_S_80025738_1 *)owner)->unk_88;
                 probe_z -= 0x20;
                 probe_z = (u32)probe_z << 16;
@@ -1004,17 +1004,17 @@ void advance_movement_toward_reachable_tile(void *state, void *motion_in, void *
                 saved_y = tile_y;
                 last_tile_x = tile_x;
             }
-            destination = &frame.out_x;
+            destination = (B28_818B7F38_S_80025738_7 *)&frame.out_x;
             index = 1;
             path_delta_cursor = (u16 *)((u8 *)&frame.out_x + 2);
             world_x = ((last_tile_x << 16) >> 10) + ((dir_step_x[(s16) ((B28_818B7F38_S_80025738_0 *)state)->unk_0E] + 1) << 5);
-            ((B28_818B7F38_S_80025738_7 *)destination)->unk_00.at02.v = world_x;
+            destination->unk_00.at02.v = world_x;
             world_y = ((saved_y << 16) >> 10) + ((dir_step_y[(s16) ((B28_818B7F38_S_80025738_0 *)state)->unk_0E] + 1) << 5);
-            ((B28_818B7F38_S_80025738_7 *)destination)->unk_04.at02.v = world_y;
-            ((B28_818B7F38_S_80025738_7 *)destination)->unk_08.at02.v = ((B28_818B7F38_S_80025738_5 *)motion_in)->unk_08.at02u.v + 0x20;
-            frame.offset.distance[0] = abs(((B28_818B7F38_S_80025738_7 *)destination)->unk_00.at02.v - ((B28_818B7F38_S_80025738_5 *)motion_in)->unk_00.at02u.v);
-            frame.offset.distance[1] = abs(((B28_818B7F38_S_80025738_7 *)destination)->unk_04.at02.v - ((B28_818B7F38_S_80025738_5 *)motion_in)->unk_04.at02u.v);
-            frame.offset.distance[2] = abs(((B28_818B7F38_S_80025738_7 *)destination)->unk_08.at02.v - ((B28_818B7F38_S_80025738_5 *)motion_in)->unk_08.at02u.v);
+            destination->unk_04.at02.v = world_y;
+            destination->unk_08.at02.v = ((B28_818B7F38_S_80025738_5 *)motion_in)->unk_08.at02u.v + 0x20;
+            frame.offset.distance[0] = abs(destination->unk_00.at02.v - ((B28_818B7F38_S_80025738_5 *)motion_in)->unk_00.at02u.v);
+            frame.offset.distance[1] = abs(destination->unk_04.at02.v - ((B28_818B7F38_S_80025738_5 *)motion_in)->unk_04.at02u.v);
+            frame.offset.distance[2] = abs(destination->unk_08.at02.v - ((B28_818B7F38_S_80025738_5 *)motion_in)->unk_08.at02u.v);
             ((B28_818B7F38_S_80025738_0 *)state)->unk_12 = frame.offset.distance[0];
             do {
                 if (((B28_818B7F38_S_80025738_11 *)path_delta_cursor)->unk_18.s > ((B28_818B7F38_S_80025738_0 *)state)->unk_12) {
@@ -1028,11 +1028,11 @@ void advance_movement_toward_reachable_tile(void *state, void *motion_in, void *
             if (path_ticks == 0) {
                 ((B28_818B7F38_S_80025738_0 *)state)->unk_12 = 1;
             }
-            ((B28_818B7F38_S_80025738_5 *)motion_in)->unk_0C = (s32) ((s32) (((B28_818B7F38_S_80025738_7 *)destination)->unk_00.at00.v
+            ((B28_818B7F38_S_80025738_5 *)motion_in)->unk_0C = (s32) ((s32) (destination->unk_00.at00.v
                 - ((B28_818B7F38_S_80025738_5 *)motion_in)->unk_00.at00.v) / (s16) ((B28_818B7F38_S_80025738_0 *)state)->unk_12);
-            ((B28_818B7F38_S_80025738_5 *)motion_in)->unk_10 = (s32) ((s32) (((B28_818B7F38_S_80025738_7 *)destination)->unk_04.at00.v
+            ((B28_818B7F38_S_80025738_5 *)motion_in)->unk_10 = (s32) ((s32) (destination->unk_04.at00.v
                 - ((B28_818B7F38_S_80025738_5 *)motion_in)->unk_04.at00.v) / (s16) ((B28_818B7F38_S_80025738_0 *)state)->unk_12);
-            ((B28_818B7F38_S_80025738_5 *)motion_in)->unk_14 = (s32) ((s32) (((B28_818B7F38_S_80025738_7 *)destination)->unk_08.at00.v
+            ((B28_818B7F38_S_80025738_5 *)motion_in)->unk_14 = (s32) ((s32) (destination->unk_08.at00.v
                 - ((B28_818B7F38_S_80025738_5 *)motion_in)->unk_08.at00.v) / (s16) ((B28_818B7F38_S_80025738_0 *)state)->unk_12);
             spawn_owned_random_spin_effect(state, motion_in);
             next_phase = 6;

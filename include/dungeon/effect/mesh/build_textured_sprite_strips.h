@@ -257,10 +257,6 @@ typedef struct S_800251A0_0_pre {
     u16 unk_00;
 } S_800251A0_0_pre;
 
-typedef struct S_800251A0_0 {
-    u8 pad_00[0x2];
-    u16 unk_02;
-} S_800251A0_0;
 
 typedef struct DungeonAnimSlot {
     u8 pad_00[0x50];
@@ -467,20 +463,25 @@ typedef struct S_func_81905FD0_6 {
     u32 state_flags;
 } S_func_81905FD0_6;
 
-typedef struct S_func_81905FD0_7 {
-    u8 pad_00[0x2];
-    s16 unk_02;
+typedef struct UpdateTravelingBody {
+    s16 state;
+    u16 unk_02;
     u8 pad_04[0x6];
     u16 unk_0A;
     u16 unk_0C;
     u8 pad_0E[0x2A];
-    void * unk_38;
-    void * unk_3C;
-    void * unk_40;
-    void * unk_44;
-    void * unk_48;
-    void * unk_4C;
-} S_func_81905FD0_7;
+    void *unk_38;
+    void *unk_3C;
+    void *unk_40;
+    void *unk_44;
+    void *unk_48;
+    void *unk_4C;
+    u8 pad_50[0x2];
+    s16 slot_phase[8];
+    u8 pad_62[0x2];
+    u16 slot_offset[8];
+} UpdateTravelingBody;
+
 
 typedef struct S_func_81905FD0_8 {
     u16 unk_00;
@@ -572,9 +573,9 @@ void decrement_effect_counter_by_twelve(s32 draw_data, ScreenRect *clip_rect, vo
 s32 draw_brightness_scaled_linked_tiles(PointRecord *first_point, ObjectPosition *first_position);
 void raise_effect_to_height_limit(EffectRecord *object, ObjectPosition *source);
 void get_half_byte_length(ObjectNodeHeader *parent, s16 field_34, s32 field_28, s16 field_52, s16 offset_x, s16 offset_y, s16 offset_z);
-void update_effect_animation_slots(void *anim_state);
+void update_effect_animation_slots(UpdateTravelingBody *anim_state);
 void tick_effect_record(CountdownRecord *record);
-void update_effect_brightness_pulse(u8 *effect, void *unused, u8 *target);
-void build_inverted(void *context, void *unused, void *effect_data);
+void update_effect_brightness_pulse(UpdateTravelingBody *effect, void *unused, u8 *target);
+void build_inverted(UpdateTravelingBody *context, void *unused, void *effect_data);
 void update_traveling(S_func_81905FD0_1 *effect, S_func_81905FD0_2 *motion, S_func_81905FD0_3 *render);
 #endif

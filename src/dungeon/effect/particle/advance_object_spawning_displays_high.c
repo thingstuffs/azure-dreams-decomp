@@ -56,7 +56,7 @@ void fade_tinted_display_sprite(FreeSlotDisplayEffectBody *effect, void *unused,
 }
 
 /* Creates a display effect in a free slot and expires the owner when its timer ends. */
-void spawn_free_slot_display_effect(void *owner) {
+void spawn_free_slot_display_effect(AdvanceObjectSpawningDisplaysHighBody *owner) {
     s16 center[2];
     RectTable rect_table;
     u8 *copy_src;
@@ -91,13 +91,13 @@ void spawn_free_slot_display_effect(void *owner) {
     }
 
     for (slot = 0; slot < 8; slot++) {
-        if ((*(s16 *)((u8 *)owner + 0x46 + (((s32)slot << 16) >> 15))) == 0) {
+        if (owner->slot_flags[slot] == 0) {
             break;
         }
     }
 
     if (slot != 8) {
-        (*(s16 *)((u8 *)owner + 0x46 + slot * 2)) = 1;
+        owner->slot_flags[slot] = 1;
         rect_offset = (s32)slot << 3;
         rect = (Rect16 *)((u8 *)&rect_table + rect_offset);
         center[0] = rect->x + ((s16)rect->w >> 1);
@@ -139,7 +139,7 @@ void spawn_free_slot_display_effect(void *owner) {
     }
 
     timer = (*(u16 *)((u8 *)owner + 0x2A)) - 1;
-    (*(u16 *)((u8 *)owner + 0x2A)) = timer;
+    owner->timer = timer;
     if ((s16)timer <= 0) {
         (*(u16 *)((u8 *)owner + -2)) |= NODE_REMOVE;
         object_flag_block.flags |= OBJECT_REMOVE_PENDING;
@@ -153,14 +153,14 @@ void advance_object_spawning_displays_high(void *source, void *unused_position, 
     ObjectPosition *position;
     SpriteFrameState *part;
     ObjectNodeHeader *object;
-    S_800243D8_0 *state;
+    AdvanceObjectSpawningDisplaysHighBody *state;
     S_800243D8_3 *source_position;
 
     object = allocate_flagged_object_node(0x212);
     if (object != NULL) {
         state = ((void *)object) + 0x20;
-        state->unk_2A = 0xB;
-        state->unk_60 = source;
+        state->timer = 0xB;
+        state->source_owner = source;
         (object->update_callback) = &spawn_free_slot_display_effect;
         register_node(object, project_sprite_chain);
         part = object->sprite;
@@ -316,23 +316,20 @@ void handle_spawn_initialize_randomized_offset_parent(Object *source, s32 state_
 }
 
 /* Advance animation values and set completion flags when the countdown expires. */
-void expand_rotating_countdown_sprite(void *countdownState, s32 unused, void *animationState)
+void expand_rotating_countdown_sprite(RotatingCountdownSpriteBody *countdown_state, s32 unused, SpriteFrameState *animation_state)
 {
-    s32 remainingTicks;
+    s32 remaining_ticks;
 
-    *(u16 *)((u8 *)countdownState + 0x2A) =
-        (u16)(*(u16 *)((u8 *)countdownState + 0x2A) - 1);
-    *(u16 *)((u8 *)animationState + 0x1C) =
-        (u16)(*(u16 *)((u8 *)animationState + 0x1C) + 0x320);
-    *(u16 *)((u8 *)animationState + 0x1E) =
-        (u16)(*(u16 *)((u8 *)animationState + 0x1E) + 0x320);
-    *(u16 *)((u8 *)animationState + 0x1A) =
-        (u16)(*(u16 *)((u8 *)animationState + 0x1A) + 0x190);
-    remainingTicks = *(s16 *)((u8 *)countdownState + 0x2A);
+    countdown_state->ticks_remaining.u =
+        (u16)(countdown_state->ticks_remaining.u - 1);
+    animation_state->scale_x = (u16)(animation_state->scale_x + 0x320);
+    animation_state->scale_y = (u16)(animation_state->scale_y + 0x320);
+    animation_state->angle_z = (u16)(animation_state->angle_z + 0x190);
+    remaining_ticks = countdown_state->ticks_remaining.s;
     tint_particle_effect_updated = 1;
-    if (remainingTicks <= 0) {
-        *(u16 *)((u8 *)countdownState - 2) =
-            (u16)(*(u16 *)((u8 *)countdownState - 2) | NODE_REMOVE);
+    if (remaining_ticks <= 0) {
+        *(u16 *)((u8 *)countdown_state - 2) =
+            (u16)(*(u16 *)((u8 *)countdown_state - 2) | NODE_REMOVE);
         object_flag_block.flags = object_flag_block.flags | OBJECT_REMOVE_PENDING;
     }
 }

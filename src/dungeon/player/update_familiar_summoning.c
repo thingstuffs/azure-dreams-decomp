@@ -98,7 +98,7 @@ void update_familiar_summoning(ActorRecord *actor, ObjectPosition *position, voi
     u32 object_flags;
     u16 ticks_left;
     u16 animation_flags;
-    u8 *resource_info;
+    S_80095A10_3 *resource_info;
     u32 state;
     u32 previous_state;
     void *object;
@@ -106,7 +106,7 @@ void update_familiar_summoning(ActorRecord *actor, ObjectPosition *position, voi
     S_80095A10_7 *object_position;
 
     state = actor->action_phase.u;
-    resource_info = ((u8 *)reference_tile_object.selected_item);
+    resource_info = ((S_80095A10_3 *)reference_tile_object.selected_item);
     switch (state) {
     case 0:
         if (!(((SpriteFrameState *)animation)->flags & 0xE000)) {
@@ -122,14 +122,14 @@ void update_familiar_summoning(ActorRecord *actor, ObjectPosition *position, voi
         actor->action_phase.u = (u8) (previous_state + 1);
         return;
     case 1:
-        load_resource = find_or_retain_sprite_resource_slot(((S_80095A10_3 *)resource_info)->unk_00, 2);
+        load_resource = find_or_retain_sprite_resource_slot(resource_info->unk_00, 2);
         if (load_resource == 0) {
             previous_state = actor->action_phase.u;
         actor->action_phase.u = (u8) (previous_state + 1);
         return;
         }
-        loaded_entity_sprite_resource = queue_cd_resource(((S_80095A10_3 *)resource_info)->unk_00);
-        load_monster_code_module(((S_80095A10_3 *)resource_info)->unk_00, load_resource, 0);
+        loaded_entity_sprite_resource = queue_cd_resource(resource_info->unk_00);
+        load_monster_code_module(resource_info->unk_00, load_resource, 0);
         (*&entity_resource_read_complete) = 0;
         Control_CD(0xFF, set_byte_one, &entity_resource_read_complete);
         previous_state = actor->action_phase.u;
@@ -144,17 +144,17 @@ void update_familiar_summoning(ActorRecord *actor, ObjectPosition *position, voi
         actor->action_phase.u = (u8) (previous_state + 1);
         return;
     case 3:
-        spawn_resource = find_or_retain_sprite_resource_slot(((S_80095A10_3 *)resource_info)->unk_00, 2);
+        spawn_resource = find_or_retain_sprite_resource_slot(resource_info->unk_00, 2);
         if (spawn_resource == 0) {
             return;
         }
         runtime_map_type_16_entry_code(((u8 *)reference_tile_object.selected_item));
-        object = load_monster_code_module(((S_80095A10_3 *)resource_info)->unk_00, spawn_resource, 1)(6,
+        object = load_monster_code_module(resource_info->unk_00, spawn_resource, 1)(6,
             context->target_tile_x, context->target_tile_y,
             (s16) (context->ground_height - 0x20));
         if (object != 0) {
             context->target = object;
-            familiar_record_slots[((S_80095A10_3 *)resource_info)->unk_03 & 0x1F] = object;
+            familiar_record_slots[resource_info->unk_03 & 0x1F] = object;
             object_scale = ((S_80095A10_5_pre *)object)[-1].unk_04;
             object_scale->unk_1E = 0x800;
             object_scale->unk_1C = 0x800;

@@ -741,6 +741,8 @@ def graph_main(a):
         tus = [t for t in tus if t in set(a.tus)]
     if a.scope:
         tus = [t for t in tus if t.startswith(tuple(a.scope))]
+    if a.codemap:
+        return graph_from_codemap(root, out, tus, Path(a.codemap))
     done = {}
     jobs = []
     for rel in tus:
@@ -766,6 +768,36 @@ def graph_main(a):
         print('  ', k, v)
 
 
+def graph_from_codemap(root, out, tus, db_path):
+    """Write DIR/tu/*.json.gz + index.json from codemap.db flow_tu blobs (tools/codemap typing facts: the same
+    Extract dump per TU, refreshed per include closure) instead of parsing every TU."""
+    sys.path.insert(0, str(root / 'tools/codemap'))
+    import codemap as CM
+    db_path = db_path if db_path.is_absolute() else root / db_path
+    cm = CM.CodeMap(root, db_path, log=lambda m: None)
+    cm.open_readonly()
+    state = cm.check()
+    if not state['fresh'] or state.get('typing') != 'fresh':
+        raise SystemExit('codemap %s is not fresh for this root (%d changed, typing %s): run '
+                         'python3 tools/codemap/codemap.py refresh' % (db_path, state['changed_count'], state.get('typing')))
+    blobs = {tu: (blob, err) for tu, blob, err in cm.db.execute(
+        'SELECT t.tu, f.blob, t.error FROM typing_tu t LEFT JOIN flow_tu f ON f.tu = t.tu')}
+    status = {}
+    for rel in tus:
+        blob, err = blobs.get(rel, (None, 'not in codemap'))
+        if blob is None:
+            status[rel] = 'parse: %s' % (err or 'no flow facts')
+            continue
+        name = re.sub(r'[^A-Za-z0-9_.-]', '_', rel) + '.json.gz'
+        (out / 'tu' / name).write_bytes(blob)
+        status[rel] = 'ok' if not err else 'ok-with-errors'
+    (out / 'index.json').write_text(json.dumps({'root': str(root), 'tus': status, 'source': 'codemap'}, indent=1))
+    bad = {k: v for k, v in status.items() if not v.startswith('ok')}
+    print('%d TUs from codemap, %d failed' % (len(status), len(bad)))
+    for k, v in list(bad.items())[:20]:
+        print('  ', k, v)
+
+
 def main(argv=None):
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     sub = ap.add_subparsers(dest='cmd', required=True)
@@ -776,6 +808,9 @@ def main(argv=None):
     g.add_argument('--tus', nargs='*')
     g.add_argument('--workers', type=int, default=4)
     g.add_argument('--resume', action='store_true')
+    g.add_argument('--codemap', nargs='?', const='build/codemap.db',
+                   help='take each TU graph from codemap.db (typing facts, refreshed per include closure; '
+                        'default build/codemap.db) instead of parsing; refused when the map is not fresh')
     import type_flow_solve as S
     S.add_parsers(sub)
     a = ap.parse_args(argv)

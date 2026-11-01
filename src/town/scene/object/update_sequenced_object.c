@@ -106,9 +106,9 @@ void update_sequenced_object(TownCollectionActor *in0, ObjectPosition *motion, S
     u16 phase_before_increment;
     u16 sequence_flags;
     u16 primitive_flags;
-    void *floor_height_or_spawned_object;
+    S_8080C650_4 *floor_height_or_spawned_object;
     TownCollectionSequence *sequence;
-    void *spawned_primitive;
+    S_8080C650_1 *spawned_primitive;
     SpriteFrameState *primitive = in2;
     s32 *global_s7;
     s32 *global_s5;
@@ -300,14 +300,14 @@ void update_sequenced_object(TownCollectionActor *in0, ObjectPosition *motion, S
                     do {
                         floor_height_or_spawned_object = func_800374FC(0x136, &scene_object_factory_data);
                         if (floor_height_or_spawned_object != NULL) {
-                            spawned_primitive = ((S_8080C650_4 *)floor_height_or_spawned_object)->unk_0C;
+                            spawned_primitive = floor_height_or_spawned_object->unk_0C;
                             func_8003BC18(floor_height_or_spawned_object, score_sprite_draw_callback_address);
-                            ((S_8080C650_1 *)spawned_primitive)->unk_0C = 0x808080;
-                            ((S_8080C650_1 *)spawned_primitive)->unk_1E = (s16)(s32)global_s5;
-                            ((S_8080C650_1 *)spawned_primitive)->unk_1C = (s16)(s32)global_s5;
-                            ((S_8080C650_4 *)floor_height_or_spawned_object)->unk_22 = 0x78;
-                            ((S_8080C650_4 *)floor_height_or_spawned_object)->unk_24 = motion;
-                            ((S_8080C650_4 *)floor_height_or_spawned_object)->unk_10 = (s32)D_80529080;
+                            spawned_primitive->unk_0C = 0x808080;
+                            spawned_primitive->unk_1E = (s16)(s32)global_s5;
+                            spawned_primitive->unk_1C = (s16)(s32)global_s5;
+                            floor_height_or_spawned_object->unk_22 = 0x78;
+                            floor_height_or_spawned_object->unk_24 = motion;
+                            floor_height_or_spawned_object->unk_10 = (s32)D_80529080;
                             func_80034A1C(spawned_primitive, D_8028954C, (s16)(loop_index * 4));
                         }
                     } while (--loop_index >= 0);

@@ -8,6 +8,29 @@
 /* Monster-owned imports; preserve their registered declaration contracts. */
 extern u8 uboat_behavior_entry[];
 
+/* Facing, countdown, and reference position for the spawned item-action effect. */
+typedef struct AdvanceActorItemActionBody {
+    u8 pad_00[0x2A];
+    s16 facing_angle;
+    u8 pad_2C[0x68];
+    s16 direction_index;
+    u16 ticks_remaining;
+    u8 pad_98[0x14];
+    void *reference_position;
+} AdvanceActorItemActionBody;
+
+/* Phase, fade timer, and source link for U-Boat's two rotating aura effects. */
+typedef struct UBoatAuraEffectBody {
+    u8 pad_00[0x2C];
+    union { s16 s; u16 u; } phase;
+    u8 pad_2E[0x8];
+    union { u16 s; s16 u; } ticks;
+    s16 duration;
+    u8 pad_3A[0x6];
+    ActorRecord *owner;
+    union { ObjectPosition *position; u32 *words; } source;
+} UBoatAuraEffectBody;
+
 
 
 void advance_actor_action(ActorRecord *action, ObjectPosition *context, SpriteFrameState *sprite, ActorRecord *entity);
@@ -20,7 +43,8 @@ void update_actor_timed_tile_motion(ActorRecord *action, ObjectPosition *motion,
 void advance_staged_actor_movement(ActorRecord *action, ObjectPosition *motion, SpriteFrameState *record, ActorRecord *actor);
 void enter_actor_aura_mode(ActorRecord *body, ObjectPosition *position, SpriteFrameState *sprite, ActorRecord *actor);
 void update_actor_visual_motion(ActorRecord *body, ObjectPosition *motion_arg, SpriteFrameState *sprite);
-void update_rotating_actor_aura(void *effect, ObjectPosition *position, SpriteFrameState *visual);
+void update_rotating_actor_aura(UBoatAuraEffectBody *effect, ObjectPosition *position, SpriteFrameState *visual);
+void update_shrinking_sprite_effect(UBoatAuraEffectBody *effect, void *output, void *render_data);
 
 void update_actor_movement_state(ActorRecord *body, ObjectPosition *motion, SpriteFrameState *sprite, ActorRecord *actor_arg);
 

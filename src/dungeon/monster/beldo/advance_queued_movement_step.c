@@ -108,7 +108,7 @@ void advance_queued_movement_step(ActorRecord *motion, ObjectPosition *unused, S
                           sprite->tile_y, (u8 *)motion + 0x98);
     }
     motion->action_id.s = 0xF;
-    ((S_801719C0_2 *)motion)->unk_8C = 0;
+    motion->unk_8C.word = 0;
     path->flags1C |= 0x40000000;
 
     if (g_dungeon_status.flags & 0x80) {

@@ -114,7 +114,7 @@ void select_next_event_state(void) {
         return;
     }
     if ((func_8001E670(F_selfy_get_tamago) == 0) || (func_8001E670(Ft_niko_love) != 0)) {
-        *((s8 *)town_event_state + 5) = 0;
+        town_event_state->selection_mode = 0;
         return;
     }
     state = town_event_state;

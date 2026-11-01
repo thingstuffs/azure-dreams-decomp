@@ -29,7 +29,7 @@ struct Elem;
 
 void select_record_entry_and_value(void *state, void *entries, short index);
 extern s32 play_sound_if_enabled(s32 query_value);
-extern void D_800CB9DC(void *trap_state_in, void *motion_state_in, void *animation_in);
+extern void D_800CB9DC(TrapOwnedTimedEffectBody *trap_state, void *motion_state_in, void *animation_in);
 extern u8 D_800DF650[];
 
 typedef struct S_800CBB98_0 {
@@ -38,7 +38,7 @@ typedef struct S_800CBB98_0 {
     void * unk_0C;
     void (*unk_10)();
     u8 pad_14[0xC];
-    void * unk_20;
+    TrapOwnedTimedEffectBody body;
 } S_800CBB98_0;
 
 typedef struct S_800CBB98_1 {
@@ -95,7 +95,7 @@ void *create_owned_tile_center_effect(s16 tile_x, u16 tile_y, s16 height, void *
         sprite->unk_1E = 0x1000;
         sprite->unk_1C = 0x1000;
         select_record_entry_and_value(sprite, D_800DF650, 0);
-        effect->unk_20 = saved_owner;
+        effect->body.owner = saved_owner;
         saved_owner->unk_14 = (s32) (saved_owner->unk_14 | 0x100000);
         play_sound_if_enabled(0x614);
         g_dungeon_status.activity_counts.parts.pending_action_count = (u16) (((u16)g_dungeon_status.activity_counts.parts.pending_action_count) + 1);
@@ -472,19 +472,19 @@ extern s32 take_map_item_slot(void *object, s16 slot);
 
 
 /* Advance the effect, process collisions, and mark it finished when its steps run out. */
-void advance_trap_effect_and_process_collisions(void *effect)
+void advance_trap_effect_and_process_collisions(FivePartTargetEffectBody *effect)
 {
     s32 target;
     s16 entry_index;
 
-    U16(effect, 0) += D_8006CCD8[U8(effect, 6)];
-    U16(effect, 2) += D_8006CCE8[U8(effect, 6)];
-    target = find_object_near_tile_height(U16(effect, 0), U16(effect, 2), S16(effect, 4));
+    effect->x.u += D_8006CCD8[effect->direction];
+    effect->y.u += D_8006CCE8[effect->direction];
+    target = find_object_near_tile_height(effect->x.u, effect->y.u, effect->z.s);
     if (target) {
         apply_attack_power_and_element_effects(target, 6, U8(((u8 *)dungeon_actor_ring_anchor), 0x11), 9,
-                      (s16)(U8(effect, 6) << 9), 0, 3);
+                      (s16)(effect->direction << 9), 0, 3);
     }
-    entry_index = find_entry_at_tile_coordinates(S16(effect, 0), S16(effect, 2), S16(effect, 4));
+    entry_index = find_entry_at_tile_coordinates(effect->x.s, effect->y.s, effect->z.s);
     if (entry_index >= 0) {
         if (((u8 *)floor_objects)[entry_index * 4] == 7) {
             take_map_item_slot(0, entry_index);
@@ -492,12 +492,12 @@ void advance_trap_effect_and_process_collisions(void *effect)
             U32(floor_objects, entry_index * 4) = 0;
         }
     }
-    entry_index = find_floor_item_at_world_position(S16(effect, 0), S16(effect, 2), S16(effect, 4));
+    entry_index = find_floor_item_at_world_position(effect->x.s, effect->y.s, effect->z.s);
     if (entry_index >= 0) {
         U32(((u8 *)dungeon_ground_items), entry_index * 4) = 0;
     }
-    U8(effect, 7)--;
-    if (!U8(effect, 7)) {
+    effect->ticks_remaining--;
+    if (!effect->ticks_remaining) {
         U16(effect, -2) |= 0x8000;
         object_flag_block.flags |= OBJECT_REMOVE_PENDING;
     }
@@ -770,15 +770,14 @@ ObjectBlock *create_grid_effect_object(s16 grid_x, s16 grid_y, s16 z, s16 value,
 
 
 /* Decrements the record countdown and marks completion when it reaches zero. */
-void tick_byte_timed_trap_effect(void *record) {
+void tick_byte_timed_trap_effect(FivePartTargetEffectBody *effect) {
     u8 countdown;
 
-    countdown = *((u8 *)record + 7) - 1;
-    *((u8 *)record + 7) = countdown;
+    countdown = effect->ticks_remaining - 1;
+    effect->ticks_remaining = countdown;
     if (!(countdown & 0xFF)) {
         g_dungeon_status.activity_counts.parts.pending_action_count = (u16)(((u16)g_dungeon_status.activity_counts.parts.pending_action_count) - 1);
-        *(u16 *)((u8 *)record - 2) =
-            (u16)(*(u16 *)((u8 *)record - 2) | NODE_REMOVE);
+        U16(effect, -2) = (u16)(U16(effect, -2) | NODE_REMOVE);
         object_flag_block.flags = object_flag_block.flags | OBJECT_REMOVE_PENDING;
     }
 }
@@ -790,32 +789,10 @@ void tick_byte_timed_trap_effect(void *record) {
 #include "m2c_compat.h"
 
 
-typedef struct S_800CCA14_0 {
-    u8 pad_00[0x10];
-    u8 * unk_10;
-    u8 pad_14[0xC];
-    u16 unk_20;
-    u16 unk_22;
-    u16 unk_24;
-    u8 pad_26[0x1];
-    s8 unk_27;
-} S_800CCA14_0;
-
 typedef struct S_800CCA14_1 {
     u8 pad_00[0xA];
     u16 unk_0A;
 } S_800CCA14_1;   /* count_base in create_five_part_target_effect */
-
-typedef struct S_800CCA14_2 {
-    u8 pad_00[0x10];
-    u8 * unk_10;
-    u8 pad_14[0xC];
-    u16 unk_20;
-    u16 unk_22;
-    u16 unk_24;
-    s8 unk_26;
-    s8 unk_27;
-} S_800CCA14_2;
 
 
 s32 find_object_near_tile_height();                   /* extern */
@@ -838,44 +815,44 @@ void create_five_part_target_effect(u16 x, u16 y, s16 z) {
     u16 part_x;
     u16 part_y;
     u16 part_z;
-    S_800CCA14_0 *effect;
-    S_800CCA14_2 *part;
+    FivePartTargetEffectRecord *effect;
+    FivePartTargetEffectRecord *part;
 
     effect = initialize_scene_object_in_buffer(0, (trap_resource_slot * 0xC8) + &dungeon_resource_buffer, 0xA);
-    effect->unk_10 = &D_800CC9BC;
-    effect->unk_20 = x;
-    effect->unk_22 = y;
-    effect->unk_24 = z;
-    effect->unk_27 = 8;
+    effect->resource = &D_800CC9BC;
+    effect->body.x.u = x;
+    effect->body.y.u = y;
+    effect->body.z.u = z;
+    effect->body.ticks_remaining = 8;
     g_dungeon_status.activity_counts.parts.pending_action_count = (u16) (((u16)g_dungeon_status.activity_counts.parts.pending_action_count) + 1);
     part_index = 3;
     do {
         part = initialize_scene_object_in_buffer(0, (((trap_resource_slot * 5) + part_index) * 0x28) + (&dungeon_resource_buffer + 0x28), 0xA);
-        part->unk_10 = &D_800CC370;
-        part_x = (u16) effect->unk_20;
+        part->resource = &D_800CC370;
+        part_x = effect->body.x.u;
         direction = part_index * 2;
-        part->unk_20 = part_x;
-        part_y = (u16) effect->unk_22;
+        part->body.x.u = part_x;
+        part_y = effect->body.y.u;
         part_index -= 1;
-        part->unk_22 = part_y;
-        part_z = (u16) effect->unk_24;
-        part->unk_27 = 8;
-        part->unk_26 = direction;
-        part->unk_24 = part_z;
+        part->body.y.u = part_y;
+        part_z = effect->body.z.u;
+        part->body.ticks_remaining = 8;
+        part->body.direction = direction;
+        part->body.z.u = part_z;
     } while (part_index >= 0);
     base_angle = (part_index << 0x1A) >> 0x10;
     first_base_angle = base_angle;
-    create_grid_effect_object((s16) effect->unk_20, (s16) effect->unk_22, (s16) effect->unk_24, first_base_angle, 0);
+    create_grid_effect_object(effect->body.x.s, effect->body.y.s, effect->body.z.s, first_base_angle, 0);
     part_index = 3;
-    create_grid_effect_object((s16) effect->unk_20, (s16) effect->unk_22, (s16) effect->unk_24, base_angle, 1);
+    create_grid_effect_object(effect->body.x.s, effect->body.y.s, effect->body.z.s, base_angle, 1);
     do {
         angle = (part_index << 0x1A) >> 0x10;
         first_angle = angle;
-        create_tile_center_quad_effect((s16) effect->unk_20, (s16) effect->unk_22, (s16) effect->unk_24, first_angle, 0, 0);
-        create_tile_center_quad_effect((s16) effect->unk_20, (s16) effect->unk_22, (s16) effect->unk_24, angle, 1, 1);
+        create_tile_center_quad_effect(effect->body.x.s, effect->body.y.s, effect->body.z.s, first_angle, 0, 0);
+        create_tile_center_quad_effect(effect->body.x.s, effect->body.y.s, effect->body.z.s, angle, 1, 1);
         part_index -= 1;
     } while (part_index >= 0);
-    target = find_object_near_tile_height(effect->unk_20, effect->unk_22, (s16) effect->unk_24);
+    target = find_object_near_tile_height(effect->body.x.u, effect->body.y.u, effect->body.z.s);
     if (target != 0) {
         apply_attack_power_and_element_effects(target, 0xC, dungeon_actor_ring_anchor->level, 9, 0x400, 0, 3);
     }
@@ -1182,7 +1159,7 @@ s32 spawn_source_sprite_effect(void *source_arg, s32 rng_arg_1, s32 rng_arg_2, s
     s32 random;
     s16 roll;
     s32 tile_x;
-    void *effect;
+    S_800CD004_1 *effect;
     S_800CD004_3 *quad;
     S_800CD004_5 *effect_state;
     S_800CD004_4 *sprite;
@@ -1209,17 +1186,17 @@ s32 spawn_source_sprite_effect(void *source_arg, s32 rng_arg_1, s32 rng_arg_2, s
         effect = allocate_flagged_object_node(2);
         if (effect != NULL) {
             init_effect = effect;
-            ((S_800CD004_1 *)effect)->unk_10 = &D_800CCDA0;
+            effect->unk_10 = &D_800CCDA0;
             register_node(init_effect, project_sprite_chain);
 
             map = ((S_800CD004_0_pre *)source)[-1].unk_00;
             tile_x = map->unk_24;
-            quad = ((S_800CD004_1 *)effect)->unk_08;
+            quad = effect->unk_08;
             quad->unk_02 = (tile_x << 6) + 0x20;
             quad->unk_06 = (map->unk_25 << 6) + 0x20;
             quad->unk_0A = source->unk_88 - 0x200;
 
-            sprite = ((S_800CD004_1 *)effect)->unk_0C;
+            sprite = effect->unk_0C;
             sprite->unk_1E = 0x1000;
             sprite->unk_1C = 0x1000;
             color = 0x808080;
@@ -1238,7 +1215,7 @@ s32 spawn_source_sprite_effect(void *source_arg, s32 rng_arg_1, s32 rng_arg_2, s
             effect_state = (u8 *)effect + 0x20;
             height_delta = source->unk_88 - height_offset;
             effect_state->unk_0A = height_delta;
-            ((S_800CD004_1 *)effect)->unk_20 = source;
+            effect->unk_20 = source;
             effect_state->unk_06 = 0xC;
 
             g_dungeon_status.activity_counts.parts.pending_action_count = ((u16)g_dungeon_status.activity_counts.parts.pending_action_count) + 1;
@@ -1424,14 +1401,6 @@ typedef struct S_800CD474_0_pre {
     u16 unk_00;
 } S_800CD474_0_pre;   /* the 0x2 bytes before arg0 in advance_falling_trap_effect, addressed as arg0[-1] */
 
-typedef struct S_800CD474_0 {
-    void *unk_00;
-    s16 unk_04;
-    u16 unk_06;
-    s16 unk_08;
-    union { s16 s; u16 u; } unk_0A;   /* accessed as both */
-    u16 unk_0C;
-} S_800CD474_0;   /* arg0 in advance_falling_trap_effect */
 
 typedef struct S_800CD474_1 {
     u8 pad_00[0x8];
@@ -1460,7 +1429,7 @@ extern void initialize_timed_motion_step(u16 countdown, u32 amount);
 extern s32 play_sound_if_enabled(s32 query_value);
 
 /* Advance a falling effect through impact, flashing, and fade-out. */
-void advance_falling_trap_effect(void *effect, S_800CD474_1 *motion, S_800CD474_2 *primitive) {
+void advance_falling_trap_effect(FourOwnerSpriteEffectsBody *effect, S_800CD474_1 *motion, S_800CD474_2 *primitive) {
     s16 state;
     s32 color;
     u16 sound_timer;
@@ -1468,53 +1437,53 @@ void advance_falling_trap_effect(void *effect, S_800CD474_1 *motion, S_800CD474_
     u16 fade_timer;
     u16 target_y;
 
-    state = ((S_800CD474_0 *)effect)->unk_04;
+    state = effect->state;
     if (state == 0) {
         motion->unk_14 += 0x20000;
-        sound_timer = ((S_800CD474_0 *)effect)->unk_06 - 1;
-        ((S_800CD474_0 *)effect)->unk_06 = sound_timer;
+        sound_timer = effect->timer - 1;
+        effect->timer = sound_timer;
         if ((sound_timer << 16) == 0) {
             play_sound_if_enabled(0x701);
         }
-        if ((motion->unk_08.at02.v + 0x10) >= ((S_800CD474_0 *)effect)->unk_0A.s) {
+        if ((motion->unk_08.at02.v + 0x10) >= effect->threshold.s) {
             initialize_timed_motion_step(8, 8);
-            target_y = ((S_800CD474_0 *)effect)->unk_0A.u;
+            target_y = effect->threshold.u;
             motion->unk_14 = 0;
             motion->unk_08.at02.v = target_y;
-            ((S_800CD474_0 *)effect)->unk_06 = 8;
-            ((S_800CD474_0 *)effect)->unk_04 = (u16)((S_800CD474_0 *)effect)->unk_04 + 1;
+            effect->timer = 8;
+            effect->state = (u16)effect->state + 1;
             play_sound_if_enabled(0x612);
         }
         color = 0x404040;
-        if (((S_800CD474_0 *)effect)->unk_0C & 1) {
+        if (effect->frame_count & 1) {
             color = 0x808080;
         }
         primitive->unk_0C.at00.v = color;
     } else if (state == 1) {
         color = 0x404040;
-        if (((S_800CD474_0 *)effect)->unk_0C & 1) {
+        if (effect->frame_count & 1) {
             color = 0x808080;
         }
         primitive->unk_0C.at00.v = color;
-        hold_timer = ((S_800CD474_0 *)effect)->unk_06 - 1;
-        ((S_800CD474_0 *)effect)->unk_06 = hold_timer;
+        hold_timer = effect->timer - 1;
+        effect->timer = hold_timer;
         if ((hold_timer << 16) <= 0) {
-            ((S_800CD474_0 *)effect)->unk_06 = 0x10;
+            effect->timer = 0x10;
             primitive->unk_0C.at00.v = 0x808080;
-            ((S_800CD474_0 *)effect)->unk_04 = (u16)((S_800CD474_0 *)effect)->unk_04 + 1;
-            if (((S_800CD474_0 *)effect)->unk_08 == 0) {
-                apply_mode_selected_trap_mask(((S_800CD474_0 *)effect)->unk_00, 0x10);
+            effect->state = (u16)effect->state + 1;
+            if (effect->mode == 0) {
+                apply_mode_selected_trap_mask(effect->target, 0x10);
             }
         }
     } else {
         primitive->unk_0C.at00u.v = primitive->unk_0C.at00u.v -
-                               (primitive->unk_0C.at00u.v / (s16)((S_800CD474_0 *)effect)->unk_06);
+                               (primitive->unk_0C.at00u.v / (s16)effect->timer);
         primitive->unk_0C.at01.v = primitive->unk_0C.at01.v -
-                               (primitive->unk_0C.at01.v / (s16)((S_800CD474_0 *)effect)->unk_06);
+                               (primitive->unk_0C.at01.v / (s16)effect->timer);
         primitive->unk_0C.at02.v = primitive->unk_0C.at02.v -
-                               (primitive->unk_0C.at02.v / (s16)((S_800CD474_0 *)effect)->unk_06);
-        fade_timer = ((S_800CD474_0 *)effect)->unk_06 - 1;
-        ((S_800CD474_0 *)effect)->unk_06 = fade_timer;
+                               (primitive->unk_0C.at02.v / (s16)effect->timer);
+        fade_timer = effect->timer - 1;
+        effect->timer = fade_timer;
         if ((fade_timer << 16) <= 0) {
             ((S_800CD474_0_pre *)effect)[-1].unk_00 |= 0x8000;
             object_flag_block.flags |= OBJECT_REMOVE_PENDING;
@@ -1522,7 +1491,7 @@ void advance_falling_trap_effect(void *effect, S_800CD474_1 *motion, S_800CD474_
         }
     }
     motion->unk_08.at00.v += motion->unk_14;
-    ((S_800CD474_0 *)effect)->unk_0C += 1;
+    effect->frame_count += 1;
 }
 #include "modules/trap_effects_candidate.h"
 #include "common.h"
@@ -1611,20 +1580,14 @@ typedef struct S_800CD6E0_6 {
     s16 unk_1E;
 } S_800CD6E0_6;   /* spr in create_four_owner_sprite_effects */
 
-typedef struct S_800CD6E0_7 {
-    u8 pad_00[0x6];
-    s16 unk_06;
-    s16 unk_08;
-    u16 unk_0A;
-} S_800CD6E0_7;   /* link in create_four_owner_sprite_effects */
 
 /* Conditionally creates four sprites around the source owner. */
 s32 create_four_owner_sprite_effects(void *source, s16 slot_index, s32 slot_bits) {
-    void *effect;
+    S_800CD6E0_3 *effect;
     S_800CD6E0_1 *owner;
     S_800CD6E0_4 *position;
     S_800CD6E0_6 *sprite;
-    S_800CD6E0_7 *effect_link;
+    FourOwnerSpriteEffectsBody *effect_link;
     s32 color;
     s16 *x_offsets;
     DungeonGlobalStatus *effect_counts;
@@ -1672,7 +1635,7 @@ s32 create_four_owner_sprite_effects(void *source, s16 slot_index, s32 slot_bits
 
             owner_coord_2 = owner->unk_24 << 6;
             spawn_roll = *x_offsets;
-            position = ((S_800CD6E0_3 *)effect)->unk_08;
+            position = effect->unk_08;
             spawn_roll = (spawn_roll << 5) + 0x20;
             owner_coord_2 += spawn_roll;
             y_table = (u32)dir_step_y;
@@ -1686,7 +1649,7 @@ s32 create_four_owner_sprite_effects(void *source, s16 slot_index, s32 slot_bits
             position->unk_06 = owner_coord;
             position->unk_0A = ((S_800CD6E0_0 *)source)->unk_88 - 0x200;
 
-            sprite = ((S_800CD6E0_3 *)effect)->unk_0C;
+            sprite = effect->unk_0C;
             spawn_roll = 0x1000;
             sprite->unk_1C = spawn_roll;
             spawn_roll = 0x2000;
@@ -1699,13 +1662,13 @@ s32 create_four_owner_sprite_effects(void *source, s16 slot_index, s32 slot_bits
             sprite->unk_18 = (effect_index << 10) + 0x400;
             sprite->unk_14 |= 0xC;
 
-            effect_link = (S_800CD6E0_7 *)((u8 *)effect + 0x20);
-            effect_link->unk_0A = ((S_800CD6E0_0 *)source)->unk_88;
-            ((S_800CD6E0_3 *)effect)->unk_20 = source;
-            effect_link->unk_06 = 0xC;
+            effect_link = (FourOwnerSpriteEffectsBody *)((u8 *)effect + 0x20);
+            effect_link->threshold.u = ((S_800CD6E0_0 *)source)->unk_88;
+            effect->unk_20 = source;
+            effect_link->timer = 0xC;
             color = effect_index;
-            effect_link->unk_08 = color;
-            ((S_800CD6E0_3 *)effect)->unk_20 = source;
+            effect_link->mode = color;
+            effect->unk_20 = source;
             effect_index++;
             effect_counts->activity_counts.parts.pending_action_count++;
             play_sound_if_enabled(0x50D);
@@ -1729,24 +1692,18 @@ s32 create_four_owner_sprite_effects(void *source, s16 slot_index, s32 slot_bits
  * "used"/flags field one halfword before the object (offset -2) is the
  * same shape referenced by the D_800814A0 sibling family (code5.c,
  * code9.c, w_8004FE78.c, ...). */
-typedef struct S_800C81B0_a0 {
-    s32 field_0;            /* 0x00 */
-    u8 pad4[0x6 - 0x4];
-    u16 field_6;             /* 0x06 */
-} S_800C81B0_a0;
-
 /* Shared counter/flags block; only the 16-bit field at offset 0xA is
  * touched here. */
 extern s32 run_action_ten_if_eligible(ActorRecord *entity, s8 action_arg);
 
 /* Ticks the object's countdown, releasing its handle and updating the shared counter and flags on expiry. */
-void tick_trap_effect_countdown(S_800C81B0_a0 *object)
+void tick_trap_effect_countdown(TrapOwnedTimedEffectBody *object)
 {
     s16 countdown;
 
-    countdown = --object->field_6;
+    countdown = --object->ticks_remaining;
     if (countdown <= 0) {
-        run_action_ten_if_eligible(object->field_0, 0x10);
+        run_action_ten_if_eligible(object->owner, 0x10);
         g_dungeon_status.activity_counts.parts.pending_action_count--;
         ((u16 *)object)[-1] |= NODE_REMOVE;
         object_flag_block.flags |= OBJECT_REMOVE_PENDING;
@@ -1805,6 +1762,7 @@ s32 trigger_step_trap_effect(void *object) {
     s32 result;
     void *entry;
     void *effect;
+    TrapOwnedTimedEffectBody *effect_body;
 
     result = 1;
     if ((get_entity_effect_value(object, STATUS_FROG) << 0x10) == 0) {
@@ -1837,8 +1795,9 @@ s32 trigger_step_trap_effect(void *object) {
             if (has_enough_available_runtime_nodes(2) != 0) {
                 effect = allocate_flagged_object_node(2);
                 *(u8 **)((u8 *)effect + 0x10) = D_800CD910;
-                *(void **)((u8 *)effect + 0x20) = object;
-                *(s16 *)((u8 *)effect + 0x26) = 0xC;
+                effect_body = (u8 *)effect + 0x20;
+                effect_body->owner = object;
+                effect_body->ticks_remaining = 0xC;
                 spawn_vertical_particle_burst(
                     ((*((u8 *)entry + 0x24)) << 6) | 0x20,
                     ((*((u8 *)entry + 0x25)) << 6) | 0x20,
@@ -2673,7 +2632,7 @@ extern s32 generate_random_value(void);
 extern s32 random_dungeon_range_16(u32 bound_a, u32 bound_b);
 
 /* Spawns and levels monster den monsters, then advances the event delays and cleanup. */
-void advance_monster_den_sequence(void *den_event) {
+void advance_monster_den_sequence(ClampEntryAndCreateEffectNodeBody *den_event) {
     u16 flags;
     s16 area_index;
     s16 state;
@@ -2695,18 +2654,18 @@ void advance_monster_den_sequence(void *den_event) {
     u16 delay_timer;
     AreaRecord *areas;
 
-    state = *(s16 *)(den_event + 6);
+    state = den_event->state.s;
     if (state == 0) {
         u32 area_byte;
 
         area_byte = ((u8)reference_tile_object.room_index);
         area_index = (s8)area_byte;
         if ((s32)(area_byte << 24) >= 0) {
-            count = ((DungeonSlot *)floor_objects)[*(s16 *)(den_event + 0xC)].count;
+            count = ((DungeonSlot *)floor_objects)[den_event->entry_index].count;
             if (count >= 0) {
                 do {
                     if (has_enough_available_runtime_nodes(3) == 0) {
-                        ((DungeonSlot *)floor_objects)[*(s16 *)(den_event + 0xC)].count -= count;
+                        ((DungeonSlot *)floor_objects)[den_event->entry_index].count -= count;
                         return;
                     }
 
@@ -2780,37 +2739,37 @@ void advance_monster_den_sequence(void *den_event) {
                 } while (count >= 0);
             }
         }
-        next_state = *(u16 *)(den_event + 6);
+        next_state = den_event->state.u;
         tail_value = 10;
-        *(u16 *)(den_event + 4) = tail_value;
+        den_event->delay_timer = tail_value;
                  /* MATCH: keep the timer store before the state increment. */
-        *(u16 *)(den_event + 6) = next_state + 1;
+        den_event->state.u = next_state + 1;
     } else if (state == 1) {
-        delay_timer = *(u16 *)(den_event + 4) - 1;
-        *(u16 *)(den_event + 4) = delay_timer;
+        delay_timer = den_event->delay_timer - 1;
+        den_event->delay_timer = delay_timer;
         if ((s16)delay_timer >= 0) {
             return;
         }
         display_formatted_context_message(&D_800E1C3A);
         initialize_timed_motion_step(0xC, 0x18);
         play_sound_if_enabled(0x602);
-        next_state = *(u16 *)(den_event + 6);
+        next_state = den_event->state.u;
         tail_value = 0x10;
-        *(u16 *)(den_event + 4) = tail_value;
+        den_event->delay_timer = tail_value;
                  /* MATCH: keep the timer store before the state increment. */
-        *(u16 *)(den_event + 6) = next_state + 1;
+        den_event->state.u = next_state + 1;
     } else {
-        delay_timer = *(u16 *)(den_event + 4) - 1;
-        *(u16 *)(den_event + 4) = delay_timer;
+        delay_timer = den_event->delay_timer - 1;
+        den_event->delay_timer = delay_timer;
         if ((s16)delay_timer < 0) {
             select_sound_stream(0, 1);
             SD_Call(0x200);
-            *(s32 *)((u8 *)floor_objects + *(s16 *)(den_event + 0xC) * 4) = 0;
+            *(s32 *)((u8 *)floor_objects + den_event->entry_index * 4) = 0;
             {
 
                 g_dungeon_status.activity_counts.parts.pending_action_count -= 1;
             }
-            *(u16 *)(den_event - 2) |= NODE_REMOVE;
+            *(u16 *)((u8 *)den_event - 2) |= NODE_REMOVE;
             object_flag_block.flags |= OBJECT_REMOVE_PENDING;
         }
     }

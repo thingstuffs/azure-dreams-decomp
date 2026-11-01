@@ -81,7 +81,7 @@ void update_the_actor_action_sequence_including_movement_landing_recovery(ActorR
     switch (state) {
 
     case 0:
-        ((S_80172C90_1 *)action)->unk_AC.s = ((u16)motion->z.w.i);
+        action->unk_AC.halves.low.u = ((u16)motion->z.w.i);
         if (((u32)actor->flags1C) & ACTOR_PLAYER_SIDE) {
             u16 action_kind;
 
@@ -262,8 +262,8 @@ void update_the_actor_action_sequence_including_movement_landing_recovery(ActorR
 
     case 4:
         motion->velocity_z += 0x20000;
-        if (!((((u32)actor->flags1C) & ACTOR_GROUNDED) && (motion->z.w.i <= ((S_80172C90_1 *)action)->unk_AC.u))) {
-            if (motion->z.w.i <= ((S_80172C90_1 *)action)->unk_AC.u) {
+        if (!((((u32)actor->flags1C) & ACTOR_GROUNDED) && (motion->z.w.i <= action->unk_AC.halves.low.s))) {
+            if (motion->z.w.i <= action->unk_AC.halves.low.s) {
                 return;
             }
         }

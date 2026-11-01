@@ -76,10 +76,12 @@ void create_player_centered_sequence_effect(void)
     ObjectNodeHeader * object;
     SpriteFrameState *sub_object;
     ObjectPosition *position;
+    PlayerCenteredSequenceEffectBody *effect_state;
 
     object = allocate_flagged_object_node(0x12);
     if (object != NULL) {
-        (*(s16 *)((u8 *)object + 0x38)) = 0;
+        effect_state = (PlayerCenteredSequenceEffectBody *)((u8 *)object + 0x20);
+        effect_state->ticks_remaining = 0;
         (object->update_callback) = update_staged_particle_emitter;
         register_node(object, project_sprite_chain);
 

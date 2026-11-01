@@ -14,11 +14,11 @@
 
 typedef struct S_81977D08_0 {
     u8 pad_00[0x8];
-    void * unk_08;
-    void * unk_0C;
-    s32 * unk_10;
+    void *unk_08;
+    void *unk_0C;
+    s32 *unk_10;
     u8 pad_14[0xC];
-    void * unk_20;
+    AnOwnerLinkedSpriteEffectPositionVerticalOffsetBody body;
 } S_81977D08_0;
 
 typedef struct S_81977D08_3 {
@@ -65,7 +65,7 @@ void create_an_owner_linked_sprite_effect_position_vertical_offset(S_81977D08_4 
             {
                 s32 zero = 0;
 
-                effect->unk_20 = owner;
+                effect->body.owner = owner;
                 sprite->color.c.b = color;
                 sprite->color.c.g = color;
                 sprite->color.c.r = color;

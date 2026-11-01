@@ -337,14 +337,6 @@ void follow_brighten(TrackingEffect *self, ObjectPosition *motion, SpriteFrameSt
 #include "common.h"
 #include "shared/object_flags.h"
 
-typedef struct S_81880F28_0 {
-    void * unk_00;
-    u8 pad_04[0x6];
-    union { s16 s; u16 u; } unk_0A;   /* accessed as both */
-    u8 pad_0C[0x10];
-    u16 unk_1C;
-} S_81880F28_0;   /* arg0 in tint_effect_and_advance_motion */
-
 typedef struct S_81880F28_1 {
     u8 pad_00[0x1C];
     s32 unk_1C;
@@ -354,28 +346,28 @@ typedef struct S_81880F28_1 {
 typedef struct S_81880F28_3_pre {
     EffectColor * unk_00;
     u8 pad_04[0x10];
-} S_81880F28_3_pre;   /* the 0x14 bytes before ((S_81880F28_0 *)arg0)->unk_00 in tint_effect_and_advance_motion, addressed as ((S_81880F28_0 *)arg0)->unk_00[-1] */
+} S_81880F28_3_pre;   /* the 0x14 bytes before effect->target.pointer in tint_effect_and_advance_motion */
 
 /* Tint the object red, restore its color, and advance its motion. */
 void tint_effect_and_advance_motion(void *effect_arg, void *motion_data) {
-    S_81880F28_0 *effect = effect_arg;
+    FollowBrightenBody *effect = effect_arg;
     ObjectPosition *motion = motion_data;
-    void *object;
+    S_81880F28_1 *object;
     EffectColor *color;
     s16 state;
     s32 channel_value;
 
     tint_effect_update_count[0]++;
-    state = effect->unk_0A.s;
+    state = effect->state.s;
 
     switch (state) {
     case 0:
-        object = effect->unk_00;
-        ((S_81880F28_1 *)object)->unk_1C |= 0x10000000;
-        effect->unk_0A.u++;
+        object = effect->target.pointer;
+        object->unk_1C |= 0x10000000;
+        effect->state.u++;
 
     case 1:
-        color = ((S_81880F28_3_pre *)(effect->unk_00))[-1].unk_00;
+        color = ((S_81880F28_3_pre *)(effect->target.pointer))[-1].unk_00;
 
         channel_value = color->red + 1;
         color->red = channel_value;
@@ -396,11 +388,11 @@ void tint_effect_and_advance_motion(void *effect_arg, void *motion_data) {
         }
 
         if (tint_effect_phase_counts[0] < 14) {
-            effect->unk_0A.u++;
+            effect->state.u++;
         }
         break;
     case 2:
-        color = ((S_81880F28_3_pre *)(effect->unk_00))[-1].unk_00;
+        color = ((S_81880F28_3_pre *)(effect->target.pointer))[-1].unk_00;
 
         channel_value = color->red - 4;
         color->red = channel_value;
@@ -421,7 +413,7 @@ void tint_effect_and_advance_motion(void *effect_arg, void *motion_data) {
         }
 
         if (tint_effect_phase_counts[0] == 0) {
-            ((S_81880F28_1 *)effect->unk_00)->unk_1C &= ~0x10000000;
+            ((S_81880F28_1 *)effect->target.pointer)->unk_1C &= ~0x10000000;
             (*(u16 *)((u8 *)effect + -2)) |= NODE_REMOVE;
             object_flag_block.flags |= OBJECT_REMOVE_PENDING;
         }
@@ -431,7 +423,7 @@ void tint_effect_and_advance_motion(void *effect_arg, void *motion_data) {
     motion->z.v += motion->velocity_z;
     motion->velocity_z += -0x80000;
     create_radial_effect_node(motion);
-    effect->unk_1C++;
+    effect->particle_count++;
 }
 #include "modules/dungeon_ovl_18a0800.h"
 #include "dungeon/effect/travel.h"
@@ -439,30 +431,25 @@ void tint_effect_and_advance_motion(void *effect_arg, void *motion_data) {
 #include "m2c_compat.h"
 #include "shared/dungeon_moving_views.h"
 
-typedef struct S_80024968_0 {
-    u8 pad_00[0x8];
-    void * unk_08;
-    u8 pad_0C[0x4];
-    void (*unk_10)(void *, void *);
-    u8 pad_14[0xC];
-    s32 unk_20;
-} S_80024968_0;
-
-   /* arg1 in create_initialized_effect_object */
-
 /* Creates an object, copies three values into its data, and initializes it. */
 void *create_initialized_effect_object(s32 resource_id, MovingPosition *source_values, s16 setup_value, s32 object_value) {
     MovingPosition *target_values;
-    S_80024968_0 *object;
+    ObjectNodeHeader *object;
+    FollowBrightenBody *body;
+    void *object_storage;
+    void *target_position;
 
     object = allocate_list_node(2, (ObjectNodeHeader **)(resource_id - 0x20));
     if (object != NULL) {
-        target_values = object->unk_08;
-        object->unk_10 = tint_effect_and_advance_motion;
+        target_position = object->position;
+        target_values = target_position;
+        object->update_callback = tint_effect_and_advance_motion;
         target_values->x = (u16) source_values->x;
         target_values->y = (u16) source_values->y;
         target_values->z = (u16) source_values->z;
-        object->unk_20 = object_value;
+        object_storage = object;
+        body = object_storage + 0x20;
+        body->target.address = object_value;
         spawn_ring_effects(target_values, setup_value);
     }
     return object;
@@ -797,7 +784,7 @@ typedef struct S_800250E8_2 {
 /* Updates effect motion and marks it inactive when its lifetime or owner expires. */
 void update_spark_effect(void *effect, S_800250E8_0 *motion, void *owner)
 {
-    void *owner_state;
+    S_800250E8_2 *owner_state;
     s32 life_left;
     s32 y_step;
     s32 z_velocity;
@@ -854,7 +841,7 @@ void update_spark_effect(void *effect, S_800250E8_0 *motion, void *owner)
     life_left = ((S_800250E8_1 *)effect)->unk_1C.u - 1;
     ((S_800250E8_1 *)effect)->unk_1C.s = life_left;
     if ((life_left << 16) <= 0 ||
-        (((S_800250E8_2 *)owner_state)->unk_14 & 0x8000)) {
+        (owner_state->unk_14 & 0x8000)) {
         ((S_800250E8_1_pre *)effect)[-1].unk_00 = (u16)(((S_800250E8_1_pre *)effect)[-1].unk_00 | 0x8000);
         object_flag_block.flags = object_flag_block.flags | OBJECT_REMOVE_PENDING;
     }
@@ -923,17 +910,17 @@ extern u8 resident_globals_page[];
 /* Queue projected point primitives from a linked list into the ordering table. */
 s32 queue_projected_point_primitives(void *node_data, void *position_data, void *appearance_data) {
     MovingPosition *position = position_data;
-    void *appearance = appearance_data;
+    S_800252E0_3 *appearance = appearance_data;
     u8 *scratch = (u8 *)0x1F800000;
     u8 *render_slot = resident_globals_page + 0x3160;
     u32 addr_mask = 0x00FFFFFF;
     u32 length_mask = 0xFF000000;
-    void *packet;
+    S_800252E0_4 *packet;
     union { s32 * pointer; u32 value; } ot_entry;
 
     {
-        void *render_state = (*(void **)(resident_globals_page + 0x3160));
-        void *packet_cursor = ((S_800252E0_0 *)render_state)->unk_8D0;
+        S_800252E0_0 *render_state = (*(void **)(resident_globals_page + 0x3160));
+        void *packet_cursor = render_state->unk_8D0;
         ((S_800252E0_1 *)scratch)->unk_20 = (u8 *)render_state + 0xB0;
         ((S_800252E0_1 *)scratch)->unk_18 = packet_cursor;
     }
@@ -948,11 +935,11 @@ s32 queue_projected_point_primitives(void *node_data, void *position_data, void 
         ((S_800252E0_1 *)scratch)->unk_C0 = RotTransPers(
             scratch, (u8 *)packet + 8, scratch + 0x90, scratch + 0x94);
         if (((S_800252E0_1 *)scratch)->unk_C0 < 0x1E0) {
-            s32 color = ((S_800252E0_3 *)appearance)->unk_0C;
-            ((S_800252E0_4 *)packet)->unk_00.at03.v = 2;
-            ((S_800252E0_4 *)packet)->unk_04.at00.v = color;
-            ((S_800252E0_4 *)packet)->unk_04.at03.v = 0x6A;
-            ((S_800252E0_4 *)packet)->unk_00.at00.v = (((S_800252E0_4 *)packet)->unk_00.at00.v & length_mask) |
+            s32 color = appearance->unk_0C;
+            packet->unk_00.at03.v = 2;
+            packet->unk_04.at00.v = color;
+            packet->unk_04.at03.v = 0x6A;
+            packet->unk_00.at00.v = (packet->unk_00.at00.v & length_mask) |
                 (*(s32 *)((((S_800252E0_1 *)scratch)->unk_C0 << 2) +
                           (u32)((S_800252E0_1 *)scratch)->unk_20) & addr_mask);
             {
@@ -965,7 +952,7 @@ s32 queue_projected_point_primitives(void *node_data, void *position_data, void 
             packet = ((S_800252E0_1 *)scratch)->unk_18;
             ((S_800252E0_1 *)scratch)->unk_18 = (u8 *)packet + 0xC;
             SetDrawMode(packet, 0, 0, GetTPage(0, 1, 0, 0) & 0xFFFF, 0);
-            ((S_800252E0_4 *)packet)->unk_00.at00.v = (((S_800252E0_4 *)packet)->unk_00.at00.v & length_mask) |
+            packet->unk_00.at00.v = (packet->unk_00.at00.v & length_mask) |
                 (*(s32 *)((((S_800252E0_1 *)scratch)->unk_C0 << 2) +
                           (u32)((S_800252E0_1 *)scratch)->unk_20) & addr_mask);
             {
@@ -978,15 +965,15 @@ s32 queue_projected_point_primitives(void *node_data, void *position_data, void 
             }
         }
         {
-            void *next_node = ((S_800252E0_5_pre *)node_data)[-1].unk_00;
+            S_800252E0_7 *next_node = ((S_800252E0_5_pre *)node_data)[-1].unk_00;
             if (next_node == NULL) {
                 ((S_800252E0_8 *)(((S_800252E0_6 *)render_slot)->unk_00))->unk_8D0 =
                     ((S_800252E0_1 *)scratch)->unk_18;
                 return 0;
             }
             node_data = (u8 *)next_node + 0x20;
-            position = ((S_800252E0_7 *)next_node)->unk_08;
-            appearance = ((S_800252E0_7 *)next_node)->unk_0C;
+            position = next_node->unk_08;
+            appearance = next_node->unk_0C;
         }
     }
 }

@@ -14,6 +14,7 @@ const RectTable linked_particle_texture_rects = {{
  {0x380,0x1C0,0x40,0x40}, {0x340,0x100,0x40,0x40}
 }};
 #include "dungeon/effect/particle/create_an_linked_parent_initialize_position_part_data.h"
+#include "dungeon/effect/particle.h"
 #include "common.h"
 #include "shared/object_flags.h"
 #include "shared/entity.h"
@@ -92,7 +93,7 @@ extern PackedVec3 D_8002533C;
 extern s16 parent_effect_update_flag;
 
 /* Creates an object in the first free rectangle slot and decrements the owner timer. */
-void spawn_free_slot_display_effect(void *owner) {
+void spawn_free_slot_display_effect(AdvanceObjectSpawningDisplaysHighBody *owner) {
     s16 center[2];
     RectTable rect_table;
     u8 *copy_src;
@@ -129,12 +130,12 @@ void spawn_free_slot_display_effect(void *owner) {
     parent_effect_update_flag = 1;
 
     slot = 0;
-    while (slot < 8 && (*(s16 *)((u8 *)owner + 0x46 + (((s32)slot << 16) >> 15))) != 0) {
+    while (slot < 8 && owner->slot_flags[slot] != 0) {
         slot++;
     }
 
     if (slot != 8) {
-        (*(s16 *)((u8 *)owner + 0x46 + slot * 2)) = 1;
+        owner->slot_flags[slot] = 1;
         rect_offset = (s32)slot << 3;
         rect = (Rect16 *)((u8 *)&rect_table + rect_offset);
         center[0] = rect->x + ((s16)rect->w >> 1);
@@ -175,8 +176,8 @@ void spawn_free_slot_display_effect(void *owner) {
         }
     }
 
-    timer = (*(u16 *)((u8 *)owner + 0x2A)) - 1;
-    (*(u16 *)((u8 *)owner + 0x2A)) = timer;
+    timer = owner->timer - 1;
+    owner->timer = timer;
     if ((s16)timer <= 0) {
         (*(u16 *)((u8 *)owner + -2)) |= NODE_REMOVE;
         object_flag_block.flags |= OBJECT_REMOVE_PENDING;
@@ -206,13 +207,6 @@ typedef struct {
 
 /* cfail-repair: tf7-phase1-cache-v3 */
 
-typedef struct S_800243E4_0 {
-    u8 pad_00[0x2A];
-    s16 unk_2A;
-    u8 pad_2C[0x34];
-    void * unk_60;
-} S_800243E4_0;
-
 typedef struct S_800243E4_1_pre {
     void * unk_00;
     u8 pad_04[0x14];
@@ -229,14 +223,14 @@ void create_an_linked_parent_initialize_position_part_data(void *parent, void *u
     ObjectPosition *position;
     SpriteFrameState *part;
     ObjectNodeHeader *object;
-    S_800243E4_0 *state;
+    AdvanceObjectSpawningDisplaysHighBody *state;
     S_800243E4_3 *parent_position;
 
     object = allocate_flagged_object_node(0x212);
     if (object != 0) {
         state = ((void *)object) + 0x20;
-        state->unk_2A = 0x9;
-        state->unk_60 = parent;
+        state->timer = 0x9;
+        state->source_owner = parent;
         (object->update_callback) = (s32 *)spawn_free_slot_display_effect;
         register_node(object, project_sprite_chain);
         part = object->sprite;

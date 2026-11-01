@@ -36,29 +36,29 @@ void update_directional_actor_effect(s16 start_x, s16 start_y, s16 start_z, s16 
 
 /* Follows the source sprite until released, arcs toward the actor, then expands and brightens before
    removal. */
-void update_homing_arc_and_brighten_effect(void *effect, void *motion, void *sprite_arg)
+void update_homing_arc_and_brighten_effect(EffectAndInitializeSpriteBody *effect, void *motion, void *sprite_arg)
 {
     Row_8194C8F0_S_800240F0_4 *sprite = sprite_arg;
     u16 offset[3];
     s32 state;
 
-    state = ((Row_8194C8F0_S_800240F0_0 *)effect)->unk_0C.n;
+    state = effect->unk_0C.n;
     switch (state) {
     case 0:
         register_node((u8 *)effect - 0x20, project_sprite_chain);
-        ((Row_8194C8F0_S_800240F0_0 *)effect)->unk_0C.n2 = ((Row_8194C8F0_S_800240F0_0 *)effect)->unk_0C.n2 + 1;
+        effect->unk_0C.n2 = effect->unk_0C.n2 + 1;
                         /* fall through */
 
     case 1:
     {
         Row_8194C8F0_S_800240F0_1 *source;
-        source = ((Row_8194C8F0_S_800240F0_6 *)(((Row_8194C8F0_S_800240F0_0 *)effect)->unk_00))->unk_0C;
+        source = ((Row_8194C8F0_S_800240F0_6 *)(effect->unk_00))->unk_0C;
         if ((source->unk_14 & 0x8000) ||
             resolve_record_orientation_or_fallback(source->unk_08, source, offset, 0) != 0) {
             Row_8194C8F0_S_800240F0_3 *position;
             u16 source_z;
 
-            position = ((Row_8194C8F0_S_800240F0_6 *)(((Row_8194C8F0_S_800240F0_0 *)effect)->unk_00))->unk_08;
+            position = ((Row_8194C8F0_S_800240F0_6 *)(effect->unk_00))->unk_08;
             ((Row_8194C8F0_S_800240F0_2 *)motion)->unk_00.at02.v = position->unk_00.at02.v;
             ((Row_8194C8F0_S_800240F0_2 *)motion)->unk_04.at02.v = position->unk_04.at02.v;
             source_z = position->unk_0A;
@@ -77,12 +77,12 @@ void update_homing_arc_and_brighten_effect(void *effect, void *motion, void *spr
         }
     }
 
-        if (((Row_8194C8F0_S_800240F0_7 *)(((Row_8194C8F0_S_800240F0_0 *)effect)->unk_08))->unk_00 & 0x80) {
+        if (((Row_8194C8F0_S_800240F0_7 *)(effect->unk_08))->unk_00 & 0x80) {
             u16 travel_frames;
 
             travel_frames = 10;
-            ((Row_8194C8F0_S_800240F0_0 *)effect)->unk_10.u = travel_frames;
-            ((Row_8194C8F0_S_800240F0_0 *)effect)->unk_0C.n2 += 1;
+            effect->unk_10.u = travel_frames;
+            effect->unk_0C.n2 += 1;
         }
         break;
 
@@ -94,10 +94,10 @@ void update_homing_arc_and_brighten_effect(void *effect, void *motion, void *spr
         sprite->unk_1C = scale;
     }
         {
-            void *position;
-            position = ((Row_8194C8F0_S_800240F0_8 *)(((Row_8194C8F0_S_800240F0_0 *)effect)->unk_04))->unk_08;
-            ((Row_8194C8F0_S_800240F0_2 *)motion)->unk_0C = ((Row_8194C8F0_S_800240F0_3 *)position)->unk_00.at00.v;
-            ((Row_8194C8F0_S_800240F0_2 *)motion)->unk_10 = ((Row_8194C8F0_S_800240F0_3 *)position)->unk_04.at00.v;
+            Row_8194C8F0_S_800240F0_3 *position;
+            position = ((Row_8194C8F0_S_800240F0_8 *)(effect->unk_04))->unk_08;
+            ((Row_8194C8F0_S_800240F0_2 *)motion)->unk_0C = position->unk_00.at00.v;
+            ((Row_8194C8F0_S_800240F0_2 *)motion)->unk_10 = position->unk_04.at00.v;
         }
         ((Row_8194C8F0_S_800240F0_2 *)motion)->unk_14 = (primary_actor_record->ground_height - 0x50) << 16;
 
@@ -114,18 +114,18 @@ void update_homing_arc_and_brighten_effect(void *effect, void *motion, void *spr
 
         ((Row_8194C8F0_S_800240F0_2 *)motion)->unk_00.at00.v +=
             (((Row_8194C8F0_S_800240F0_2 *)motion)->unk_0C - ((Row_8194C8F0_S_800240F0_2 *)motion)->unk_00.at00.v) /
-            ((Row_8194C8F0_S_800240F0_0 *)effect)->unk_10.s;
+            effect->unk_10.s;
         ((Row_8194C8F0_S_800240F0_2 *)motion)->unk_04.at00.v +=
             (((Row_8194C8F0_S_800240F0_2 *)motion)->unk_10 - ((Row_8194C8F0_S_800240F0_2 *)motion)->unk_04.at00.v) /
-            ((Row_8194C8F0_S_800240F0_0 *)effect)->unk_10.s;
+            effect->unk_10.s;
         ((Row_8194C8F0_S_800240F0_2 *)motion)->unk_08.at00.v +=
             (((Row_8194C8F0_S_800240F0_2 *)motion)->unk_14 - ((Row_8194C8F0_S_800240F0_2 *)motion)->unk_08.at00.v) /
-                ((Row_8194C8F0_S_800240F0_0 *)effect)->unk_10.s -
-            (rsin(((Row_8194C8F0_S_800240F0_0 *)effect)->unk_10.s * 0xAA) << 7);
+                effect->unk_10.s -
+            (rsin(effect->unk_10.s * 0xAA) << 7);
         {
             u16 frames_left;
-            frames_left = ((Row_8194C8F0_S_800240F0_0 *)effect)->unk_10.u - 1;
-            ((Row_8194C8F0_S_800240F0_0 *)effect)->unk_10.u = frames_left;
+            frames_left = effect->unk_10.u - 1;
+            effect->unk_10.u = frames_left;
             if ((s16)frames_left > 0) {
                 break;
             }
@@ -134,8 +134,8 @@ void update_homing_arc_and_brighten_effect(void *effect, void *motion, void *spr
         ((Row_8194C8F0_S_800240F0_2 *)motion)->unk_00.at00.v = ((Row_8194C8F0_S_800240F0_2 *)motion)->unk_0C;
         ((Row_8194C8F0_S_800240F0_2 *)motion)->unk_04.at00.v = ((Row_8194C8F0_S_800240F0_2 *)motion)->unk_10;
         ((Row_8194C8F0_S_800240F0_2 *)motion)->unk_08.at00.v = ((Row_8194C8F0_S_800240F0_2 *)motion)->unk_14;
-        ((Row_8194C8F0_S_800240F0_0 *)effect)->unk_10.u = state;
-        ((Row_8194C8F0_S_800240F0_0 *)effect)->unk_0C.n2 += 1;
+        effect->unk_10.u = state;
+        effect->unk_0C.n2 += 1;
         break;
 
     case 3:
@@ -152,8 +152,8 @@ void update_homing_arc_and_brighten_effect(void *effect, void *motion, void *spr
     }
         {
             u16 frames_left;
-            frames_left = ((Row_8194C8F0_S_800240F0_0 *)effect)->unk_10.u - 1;
-            ((Row_8194C8F0_S_800240F0_0 *)effect)->unk_10.u = frames_left;
+            frames_left = effect->unk_10.u - 1;
+            effect->unk_10.u = frames_left;
             if ((s16)frames_left > 0) {
                 break;
             }
@@ -164,7 +164,7 @@ void update_homing_arc_and_brighten_effect(void *effect, void *motion, void *spr
         return;
     }
 
-    ((Row_8194C8F0_S_800240F0_0 *)effect)->unk_12 = ((Row_8194C8F0_S_800240F0_0 *)effect)->unk_12 + 1;
+    effect->unk_12 = effect->unk_12 + 1;
 }
 
 /* Creates a gray sprite with the supplied image and installs the callback that follows its source and
@@ -246,7 +246,7 @@ void update_rotating_effect_and_fade(TexturedOffsetObjectBody *effect, void *pos
    cdk -G0 plus a direct scalar D_800814A0 RMW removes the extra address addiu and closes the residue. */
 
 /* Creates a gray sprite at a rotated radial offset using the source's saved position and transform. */
-void create_textured_offset_object(void *source_object)
+void create_textured_offset_object(EffectWithEndpointsBody *source_object)
 {
     s16 local_offset[4];
     u16 world_offset[3];
@@ -258,7 +258,7 @@ void create_textured_offset_object(void *source_object)
     u16 offset_length;
     u16 offset_angle;
     s32 *link;
-    void *source = source_object;
+    EffectWithEndpointsBody *source = source_object;
     ObjectNodeHeader *object;
     TexturedOffsetObjectBody *data;
     SpriteFrameState *primitive;
@@ -269,16 +269,16 @@ void create_textured_offset_object(void *source_object)
     if (object != NULL) {
         link = D_8002455C;
         (object->update_callback) = link;
-        value = (*(s32 *)((u8 *)source + 0));
+        value = source->unk_00.object_value;
         data = (TexturedOffsetObjectBody *)((u8 *)object + 0x20);
         data->unk_00.s = value;
-        data->transform = *(Row_8194CF00_WordQuad *)((u8 *)source + 0x4C);
-        data->source_offset = *(Row_8194CF00_WordQuad *)((u8 *)source + 0x5C);
+        data->transform = source->transform;
+        data->source_offset = source->source_offset;
 
-        offset_length = (*(u16 *)((u8 *)source + 0x78));
+        offset_length = (u16)source->angle;
         angle_or_zero = 0;
         data->unk_2C.u = offset_length;
-        offset_angle = (*(u16 *)((u8 *)source + 0x76));
+        offset_angle = (u16)source->phase;
         data->unk_30 = 1;
         data->unk_2E.u = offset_angle;
 
@@ -302,13 +302,13 @@ void create_textured_offset_object(void *source_object)
         register_node(object, project_sprite_chain);
 
         primitive_2 = object->position;
-        word_x = (*(s32 *)((u8 *)source + 0x34));
+        word_x = source->unk_34;
         primitive_2->velocity_x = word_x;
         primitive_2->x.v = word_x;
-        word_y = (*(s32 *)((u8 *)source + 0x38));
+        word_y = source->unk_38;
         primitive_2->velocity_y = word_y;
         primitive_2->y.v = word_y;
-        word_z = (*(s32 *)((u8 *)source + 0x3C));
+        word_z = source->unk_3C;
         primitive_2->velocity_z = word_z;
         primitive_2->z.v = word_z;
 
@@ -329,17 +329,16 @@ void create_textured_offset_object(void *source_object)
 
 /* Advances an effect along its saved travel steps and emits textured orbiting sprites until its step
    counter reaches nine. */
-void advance_object_motion_and_animation(void *object_arg) {
-    Row_8194D118_S_80024918_0 *object = object_arg;
+void advance_object_motion_and_animation(EffectWithEndpointsBody *object) {
     s16 next_tick;
     s32 velocity_y;
     s32 velocity_z;
     s32 position_y;
     Row_8194D118_S_80024918_1 *state;
 
-    state = object->unk_00;
+    state = object->unk_00.state;
     state->unk_1A = state->unk_1A + 1;
-    object->unk_78 = ((u32)rsin(object->unk_74 << 8)) >> 6;
+    object->angle = ((u32)rsin(object->ticks << 8)) >> 6;
     velocity_y = object->unk_44;
     object->unk_34 += object->unk_40;
     position_y = object->unk_38;
@@ -347,8 +346,8 @@ void advance_object_motion_and_animation(void *object_arg) {
     object->unk_38 = position_y + velocity_y;
     object->unk_3C += velocity_z;
     create_textured_offset_object(object);
-    next_tick = (s16)object->unk_74 + 1;
-    object->unk_74 = next_tick;
+    next_tick = (s16)object->ticks + 1;
+    object->ticks = next_tick;
     if (next_tick >= 9) {
         (*(u16 *)((u8 *)object + -2)) |= NODE_REMOVE;
         object_flag_block.flags |= OBJECT_REMOVE_PENDING;
@@ -366,7 +365,7 @@ void allocate_effect_with_endpoints(s32 object_value, void *start_pos, void *end
     s32 word_1;
     s32 word_2;
     s32 word_3;
-    Row_8194D1E4_S_800249E4_0 *state;
+    EffectWithEndpointsBody *state;
     ObjectNodeHeader *object;
 
     object = allocate_flagged_object_node(0x212);
@@ -374,25 +373,25 @@ void allocate_effect_with_endpoints(s32 object_value, void *start_pos, void *end
         state = ((void *)object) + 0x20;
         (object->update_callback) = &D_80024918;
         (*(s32 *)((u8 *)object + 0x20)) = object_value;
-        state->unk_74 = 0;
-        state->unk_76 = setting;
+        state->ticks = 0;
+        state->phase = setting;
         start_x = (*(s32 *)((u8 *)start_pos + 0));
         (*(s32 *)((u8 *)state + 0x1C)) = start_x;
-        (*(s32 *)((u8 *)state + 0x34)) = start_x;
+        state->unk_34 = start_x;
         start_y = (*(s32 *)((u8 *)start_pos + 4));
         (*(s32 *)((u8 *)state + 0x20)) = start_y;
-        (*(s32 *)((u8 *)state + 0x38)) = start_y;
+        state->unk_38 = start_y;
         start_z = (*(s32 *)((u8 *)start_pos + 8));
         (*(s32 *)((u8 *)state + 0x24)) = start_z;
-        (*(s32 *)((u8 *)state + 0x3C)) = start_z;
+        state->unk_3C = start_z;
         (*(s32 *)((u8 *)state + 4)) = (s32) (*(s32 *)((u8 *)end_pos + 0));
         (*(s32 *)((u8 *)state + 8)) = (s32) (*(s32 *)((u8 *)end_pos + 4));
         (*(s32 *)((u8 *)state + 0xC)) = (s32) (*(s32 *)((u8 *)end_pos + 8));
-        (*(s32 *)((u8 *)state + 0x40)) = (s32) ((s32) ((*(s32 *)((u8 *)end_pos + 0)) - (*(s32 *)((u8 *)start_pos + 0)))
+        state->unk_40 = (s32) ((s32) ((*(s32 *)((u8 *)end_pos + 0)) - (*(s32 *)((u8 *)start_pos + 0)))
             >> 3);
-        (*(s32 *)((u8 *)state + 0x44)) = (s32) ((s32) ((*(s32 *)((u8 *)end_pos + 4)) - (*(s32 *)((u8 *)start_pos + 4)))
+        state->unk_44 = (s32) ((s32) ((*(s32 *)((u8 *)end_pos + 4)) - (*(s32 *)((u8 *)start_pos + 4)))
             >> 3);
-        (*(s32 *)((u8 *)state + 0x48)) = (s32) ((s32) ((*(s32 *)((u8 *)end_pos + 8)) - (*(s32 *)((u8 *)start_pos + 8)))
+        state->unk_48 = (s32) ((s32) ((*(s32 *)((u8 *)end_pos + 8)) - (*(s32 *)((u8 *)start_pos + 8)))
             >> 3);
         word_0 = params_a.words[0];
         word_1 = params_a.words[1];

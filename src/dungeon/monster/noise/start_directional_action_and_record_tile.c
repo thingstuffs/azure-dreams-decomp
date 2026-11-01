@@ -17,7 +17,7 @@ void start_directional_action_and_record_tile(ActorRecord *action_state, ObjectP
         if ((try_claim_dungeon_action_slot(actor) << 0x10) == 0) {
             action_state->action_id.s = 0x17;
             action_state->action_timer.s = 0xF;
-            (*(s32 *)((u8 *)action_state + 0x8C)) = 0;
+            action_state->unk_8C.word = 0;
             action_state->action_phase.s = 0;
             (sprite->frameTable) = &D_80174EC8;
             select_sprite_entry(
@@ -42,7 +42,7 @@ void start_directional_action_and_record_tile(ActorRecord *action_state, ObjectP
  * spends MP. */
 void advance_timed_actor_visual_effect(ActorRecord *effect_state, ObjectPosition *position, SpriteFrameState *source_mesh, ActorRecord *actor) {
     T_801748D0_LocalFrame frame;
-    void *effect_body;
+    AdvanceTimedActorVisualEffectBody *effect_body;
     SpriteFrameState *effect_mesh;
     ObjectPosition *anchor_pos;
     T_801748D0_S_801748D0_11 *owner_link;
@@ -85,26 +85,25 @@ void advance_timed_actor_visual_effect(ActorRecord *effect_state, ObjectPosition
         count = 0;
         do {
             object_or_height = allocate_list_node(0x112, &scene_object_list_anchor.next);
-            effect_body = (u8 *)((void *)object_or_height);
-            effect_body += 0x20;
+            effect_body = (AdvanceTimedActorVisualEffectBody *)(object_or_height + 0x20);
             if (((void *)object_or_height) == 0) {
                 continue;
             }
-            ((T_801748D0_S_801748D0_3 *)effect_body)->unk_96 = 0x2D;
-            ((T_801748D0_S_801748D0_3 *)effect_body)->unk_9E = 0x2D;
+            effect_body->ticks_remaining.u = 0x2D;
+            effect_body->secondary_ticks = 0x2D;
             ((T_801748D0_S_801748D0_4 *)((void *)object_or_height))->unk_10 = update_effect_visuals_and_lifetime;
             linked_body = actor->target;
             if (linked_body == 0) {
-                ((T_801748D0_S_801748D0_3 *)effect_body)->unk_A8 = position;
-                ((T_801748D0_S_801748D0_3 *)effect_body)->unk_A2 = 0;
+                effect_body->reference_position = position;
+                effect_body->use_linked_position = 0;
             } else {
                 linked_owner = linked_body[-1].unk_00;
-                ((T_801748D0_S_801748D0_3 *)effect_body)->unk_A2 = 1;
-                ((T_801748D0_S_801748D0_3 *)effect_body)->unk_A8 = linked_owner;
+                effect_body->use_linked_position = 1;
+                effect_body->reference_position = linked_owner;
             }
-            ((T_801748D0_S_801748D0_3 *)effect_body)->unk_94 = actor->facing;
+            effect_body->direction = actor->facing;
             effect_mesh = ((T_801748D0_S_801748D0_4 *)((void *)object_or_height))->unk_0C;
-            anchor_pos = ((T_801748D0_S_801748D0_3 *)effect_body)->unk_A8;
+            anchor_pos = effect_body->reference_position;
             *(T_801748D0_MeshCopy *)effect_mesh = *(T_801748D0_MeshCopy *)source_mesh;
             mesh_flags = effect_mesh->flags;
             effect_mesh->scale_y = 0x400;

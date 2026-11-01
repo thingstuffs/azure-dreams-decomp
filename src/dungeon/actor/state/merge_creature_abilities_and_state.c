@@ -392,7 +392,7 @@ merge_donor_primary:
                     s32 copy_dst_offset;
                     u8 *copy_dst;
                     s32 copy_src_index;
-                    u8 *copy_src;
+                    S_800277F4_5 *copy_src;
 
                     copy_dst_offset = copy_dst_index * 3;
                     copy_dst = merged_abilities;
@@ -400,8 +400,8 @@ merge_donor_primary:
 
                     copy_src = donor + (copy_src_index * 3);
 
-                    copy_dst[copy_dst_offset + 0] = (u8) ((S_800277F4_5 *)copy_src)->unk_08;
-                    copy_dst[copy_dst_offset + 2] = (u8) ((S_800277F4_5 *)copy_src)->unk_0A;
+                    copy_dst[copy_dst_offset + 0] = (u8) copy_src->unk_08;
+                    copy_dst[copy_dst_offset + 2] = (u8) copy_src->unk_0A;
                 }
                 ability_count += 1;
             }

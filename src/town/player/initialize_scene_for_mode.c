@@ -181,9 +181,9 @@ void initialize_scene_render_object(void) {
 void rebuild_menu_node_list(void *owner, ObjectPosition *node_in, s32 mode) {
     func_80092C9C_S_800903FC_3 *node;
     void *handler;
-    u8 *base;
+    func_80092C9C_S_800903FC_2 *base;
     u8 *object;
-    u8 *work;
+    func_80092C9C_S_800903FC_1 *work;
     s16 value;
 
     handler = (*(void **)((u8 *)owner + (0)));
@@ -206,20 +206,20 @@ void rebuild_menu_node_list(void *owner, ObjectPosition *node_in, s32 mode) {
 
     store_position_and_compute_delta(node_in);
 
-    work = (u8 *)&town_motion_list;
-    ((func_80092C9C_S_800903FC_1 *)work)->unk_16 = (*(u16 *)((u8 *)owner + (0x10)));
+    work = (func_80092C9C_S_800903FC_1 *)&town_motion_list;
+    work->unk_16 = (*(u16 *)((u8 *)owner + (0x10)));
     update_the_s_field_10_using_callee_8008_fe_90(work);
     if (get_whether_has_attached_state_type_n_1_n_3(work) != 0) {
         (*(s32 *)((u8 *)owner + (0x2C))) = 0;
-        submit_object_resource_data(((func_80092C9C_S_800903FC_1 *)work)->unk_10);
+        submit_object_resource_data(work->unk_10);
 
         object = window_node_list_storage;
         (*(func_80092C9C_ObjectCallback *)(object + (0x10)))(object + 0x20, 0, 0);
 
         if (service_script_controller() != 0) {
-            base = (u8 *)&town_actor_control;
-            if (((func_80092C9C_S_800903FC_2 *)base)->unk_3B == 0 ||
-                (node = ((func_80092C9C_S_800903FC_4 *)(((func_80092C9C_S_800903FC_2 *)base)->unk_20))->unk_08)->unk_0C != 0 ||
+            base = (func_80092C9C_S_800903FC_2 *)&town_actor_control;
+            if (base->unk_3B == 0 ||
+                (node = ((func_80092C9C_S_800903FC_4 *)(base->unk_20))->unk_08)->unk_0C != 0 ||
                 node->unk_10 != 0 || node->unk_14 != 0) {
                 {
                     s32 *update_work;

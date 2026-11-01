@@ -20,14 +20,19 @@
 typedef struct ovl_1930844_81910844_S_81910844_0_pre {
     u16 unk_00;
 } ovl_1930844_81910844_S_81910844_0_pre;
-typedef struct ovl_1930844_81910844_S_81910844_0 {
-    void * unk_00;
+typedef struct AnEffectPositionRandomizedSpriteAngleBody {
+    void *owner;
     u8 pad_04[0x2];
-    union { u16 s; s16 u; } unk_06;   
-    s16 unk_08;
+    union { u16 s; s16 u; } elapsed;
+    union { s16 s; u16 u; } duration;
     u8 pad_0A[0x2];
-    s32 unk_0C;
-} ovl_1930844_81910844_S_81910844_0;
+    s32 initial_z;
+} AnEffectPositionRandomizedSpriteAngleBody;
+
+typedef struct AnEffectPositionRandomizedSpriteAngleNode {
+    ObjectNodeHeader header;
+    AnEffectPositionRandomizedSpriteAngleBody body;
+} AnEffectPositionRandomizedSpriteAngleNode;
 typedef struct ovl_1930844_81910844_S_81910844_1 {
     u8 pad_00[0x14];
     u16 unk_14;
@@ -47,21 +52,6 @@ typedef struct ovl_1930844_81910844_S_81910844_3 {
     u16 unk_1E;
 } ovl_1930844_81910844_S_81910844_3;
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8 *)(expr) + (offset)))
-typedef struct ovl_1930844_81910970_S_80024170_0 {
-    u8 pad_00[0x8];
-    void * unk_08;
-    void * unk_0C;
-    void * unk_10;
-    u8 pad_14[0xC];
-    void * unk_20;
-} ovl_1930844_81910970_S_80024170_0;
-typedef struct ovl_1930844_81910970_S_80024170_1 {
-    u8 pad_00[0x6];
-    s16 unk_06;
-    u16 unk_08;
-    u8 pad_0A[0x2];
-    s32 unk_0C;
-} ovl_1930844_81910970_S_80024170_1;
 typedef struct ovl_1930844_81910970_S_80024170_4 {
     u8 pad_00[0x8];
     s32 unk_08;
@@ -365,7 +355,7 @@ extern int abs(int);
 void apply_attack_power_and_element_effects();
 s32 check_layer_offset_height();
 static __inline__ s32 radial_coordinate(s32 center, s32 trig, s16 radius);
-void advance_shrinking_arc_effect(void *state, ovl_1930844_81910844_S_81910844_2 *motion, ovl_1930844_81910844_S_81910844_3 *visual);
+void advance_shrinking_arc_effect(AnEffectPositionRandomizedSpriteAngleBody *state, ovl_1930844_81910844_S_81910844_2 *motion, ovl_1930844_81910844_S_81910844_3 *visual);
 void * create_an_effect_position_randomized_sprite_angle(Rec_func_80024170_arg0 *owner, void *source_position);
 void build_and_depth_sorts_five_radial_line_segments_effect(ovl_1930844_81911BF4_Obj81911BF4 *effect_data, void *origin, s16 step_index, s16 scale_factor);
 void build_and_enqueue_five_translucent_quads_between_interpolated_points(u8 *shape, void *position, s16 scale_num, s16 scale_den);

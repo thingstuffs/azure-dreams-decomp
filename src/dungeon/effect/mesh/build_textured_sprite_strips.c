@@ -750,9 +750,8 @@ void get_half_byte_length(ObjectNodeHeader *parent, s16 field_34, s32 field_28, 
 #include "dungeon/effect/mesh/build_textured_sprite_strips.h"
 
    /* Update eight animation slots and mark completion when the countdown expires. */
-void update_effect_animation_slots(void *anim_state_arg)
+void update_effect_animation_slots(UpdateTravelingBody *anim_state)
 {
-    S_800251A0_0 *anim_state = anim_state_arg;
     s16 next_phase;
     s32 slot_index;
     u16 ticks_left;
@@ -818,7 +817,7 @@ void tick_effect_record(CountdownRecord *record)
 #include "dungeon/effect/mesh/build_textured_sprite_strips.h"
 
 /* Updates a timed brightness pulse and clears the linked object flag on completion. */
-void update_effect_brightness_pulse(u8 *effect, void *unused, u8 *target)
+void update_effect_brightness_pulse(UpdateTravelingBody *effect, void *unused, u8 *target)
 {
     u8 *object;
     u8 *linked_object;
@@ -827,20 +826,20 @@ void update_effect_brightness_pulse(u8 *effect, void *unused, u8 *target)
     s32 global_flags;
     u16 linked_flags;
 
-    object = *(u8 **)(effect + 0x3C);
+    object = effect->unk_3C;
     traveling_strip_effect_updated[0] = 1;
     if ((u32)(object[0x13] - 0x33) < 4U) {
-        *(u16 *)(effect - 2) |= NODE_REMOVE;
+        *(u16 *)((u8 *)effect - 2) |= NODE_REMOVE;
         object_flag_block.flags |= OBJECT_REMOVE_PENDING;
         return;
     }
 
-    *(u16 *)(effect + 2) -= 1;
-    linked_object = *(u8 **)(*(u8 **)(effect + 0x3C) - 0x14);
+    effect->unk_02 -= 1;
+    linked_object = *(u8 **)((u8 *)effect->unk_3C - 0x14);
     *(u16 *)(target + 0x14) &= 0xFF7F;
     *(u16 *)(linked_object + 0x14) |= 0x80;
 
-    timer = *(s16 *)(effect + 2);
+    timer = (s16)effect->unk_02;
     if (timer < 20) {
         intensity = ((20 - timer) * 96) / 20 + 32;
         target[0xC] = intensity;
@@ -853,8 +852,8 @@ void update_effect_brightness_pulse(u8 *effect, void *unused, u8 *target)
         target[0xE] = intensity;
     }
 
-    if (*(s16 *)(effect + 2) <= 0) {
-        *(u16 *)(effect - 2) |= 0x8000;
+    if ((s16)effect->unk_02 <= 0) {
+        *(u16 *)((u8 *)effect - 2) |= 0x8000;
         global_flags = object_flag_block.flags;
         linked_flags = *(u16 *)(linked_object + 0x14);
         global_flags |= 0x8000;
@@ -866,7 +865,7 @@ void update_effect_brightness_pulse(u8 *effect, void *unused, u8 *target)
 #include "dungeon/effect/mesh/build_textured_sprite_strips.h"
 
 /* Builds an inverted pixel mask and updates a timed fade effect. */
-void build_inverted(void *context, void *unused, void *effect_data) {
+void build_inverted(UpdateTravelingBody *context, void *unused, void *effect_data) {
     Box image_rect;
     Box mask_rect;
     Point center;
@@ -889,7 +888,7 @@ void build_inverted(void *context, void *unused, void *effect_data) {
     image_rect = *rect_template;
     rect_template = (Box *)((u8 *)&strip_small_texture_rect);
     mask_rect = *rect_template;
-    state = *(s16 *)context;
+    state = context->state;
     traveling_strip_effect_updated[0] = 1;
 
     switch (state) {
@@ -928,7 +927,7 @@ void build_inverted(void *context, void *unused, void *effect_data) {
             tile_column += 1;
             tile_x += 0x18;
         } while (tile_column < 4);
-        *(s16 *)context = (u16)*(s16 *)context + 1;
+        context->state = (u16)context->state + 1;
         *(u16 *)((u8 *)effect_data + 0x14) &= 0xff7f;
 
     case 1:
@@ -940,38 +939,38 @@ void build_inverted(void *context, void *unused, void *effect_data) {
         center.x = 0x370;
         center.y = 0x148;
         one = 1;
-        draw_transformed_sprite_with_clip_rect(*(void **)((u8 *)context + 0x44), &mask_rect, &center, 0, one);
+        draw_transformed_sprite_with_clip_rect(context->unk_44, &mask_rect, &center, 0, one);
         image_rect.x = 0x340;
         image_rect.y = 0x100;
         image_rect.w = 0x60;
         image_rect.h = 0x54;
         center.x = 0x370;
         center.y = 0x12a;
-        decrement_effect_counter_by_twelve(*(void **)((u8 *)context + 0x48), &image_rect, &center, one, one);
-        frame = *(s16 *)((u8 *)context + 2);
+        decrement_effect_counter_by_twelve(context->unk_48, &image_rect, &center, one, one);
+        frame = (s16)context->unk_02;
         if (frame < 0x15) {
             *(s8 *)((u8 *)effect_data + 0xe) = (frame << 7) / 20;
-            *(s8 *)((u8 *)effect_data + 0xd) = (*(s16 *)((u8 *)context + 2) << 7) / 20;
-            *(s8 *)((u8 *)effect_data + 0xc) = (*(s16 *)((u8 *)context + 2) << 7) / 20;
+            *(s8 *)((u8 *)effect_data + 0xd) = ((s16)context->unk_02 << 7) / 20;
+            *(s8 *)((u8 *)effect_data + 0xc) = ((s16)context->unk_02 << 7) / 20;
         }
-        if (*(s16 *)((u8 *)context + 2) >= 0x51) {
-            *(s8 *)((u8 *)effect_data + 0xe) = ((0x64 - *(s16 *)((u8 *)context + 2)) << 7) / 20;
-            *(s8 *)((u8 *)effect_data + 0xd) = ((0x64 - *(s16 *)((u8 *)context + 2)) << 7) / 20;
-            *(s8 *)((u8 *)effect_data + 0xc) = ((0x64 - *(s16 *)((u8 *)context + 2)) << 7) / 20;
+        if ((s16)context->unk_02 >= 0x51) {
+            *(s8 *)((u8 *)effect_data + 0xe) = ((0x64 - (s16)context->unk_02) << 7) / 20;
+            *(s8 *)((u8 *)effect_data + 0xd) = ((0x64 - (s16)context->unk_02) << 7) / 20;
+            *(s8 *)((u8 *)effect_data + 0xc) = ((0x64 - (s16)context->unk_02) << 7) / 20;
         }
-        frame = (u16)*(s16 *)((u8 *)context + 2) + 1;
-        *(s16 *)((u8 *)context + 2) = frame;
+        frame = (u16)(s16)context->unk_02 + 1;
+        context->unk_02 = frame;
         if (frame >= 0x65) {
-            *(s16 *)((u8 *)context + 2) = 0;
-            *(s16 *)context = (u16)*(s16 *)context + 1;
-            *(s16 *)(*(u8 **)((u8 *)context + 0x40) + 0x9c) = one;
+            context->unk_02 = 0;
+            context->state = (u16)context->state + 1;
+            *(s16 *)((u8 *)context->unk_40 + 0x9c) = one;
             *(u16 *)((u8 *)context - 2) |= NODE_REMOVE;
             object_flag_block.flags |= OBJECT_REMOVE_PENDING;
         }
         break;
     }
 
-    if ((u32)(*(*(u8 **)((u8 *)context + 0x3c) + 0x13) - 0x33) < 4U) {
+    if ((u32)(*((u8 *)context->unk_3C + 0x13) - 0x33) < 4U) {
         *(u16 *)((u8 *)effect_data + 0x14) |= 0x80;
     }
     return;
@@ -1279,13 +1278,13 @@ update_coords:
             ObjectNodeHeader *lower_effect;
             ObjectNodeHeader *ring_effect;
             ObjectNodeHeader *control_effect;
-            S_func_81905FD0_7 *child_data;
+            UpdateTravelingBody *child_data;
             SpriteFrameState *child_render;
             ObjectPosition *child_motion;
 
             upper_effect = allocate_flagged_object_node(0x212);
             if (upper_effect != 0) {
-                child_data = (S_func_81905FD0_7 *)((u8 *)upper_effect + 0x20);
+                child_data = (UpdateTravelingBody *)((u8 *)upper_effect + 0x20);
                 child_data->unk_02 = 120;
                 upper_effect->update_callback = (void *)tick_effect_record;
                 register_node(upper_effect, project_sprite_chain);
@@ -1327,7 +1326,7 @@ update_coords:
             }
             lower_effect = allocate_flagged_object_node(0x212);
             if (lower_effect != 0) {
-                child_data = (S_func_81905FD0_7 *)((u8 *)lower_effect + 0x20);
+                child_data = (UpdateTravelingBody *)((u8 *)lower_effect + 0x20);
                 child_data->unk_02 = 140;
                 lower_effect->update_callback = (void *)update_effect_brightness_pulse;
                 register_node(lower_effect, project_sprite_chain);
@@ -1362,7 +1361,7 @@ update_coords:
             }
             ring_effect = allocate_flagged_object_node(0x212);
             if (ring_effect != 0) {
-                child_data = (S_func_81905FD0_7 *)((u8 *)ring_effect + 0x20);
+                child_data = (UpdateTravelingBody *)((u8 *)ring_effect + 0x20);
                 child_data->unk_02 = 120;
                 ring_effect->update_callback = (void *)update_effect_animation_slots;
                 register_node(ring_effect, project_sprite_chain);
@@ -1423,7 +1422,7 @@ update_coords:
                 void *control_script;
                 void *owner_target;
 
-                child_data = (S_func_81905FD0_7 *)((u8 *)control_effect + 0x20);
+                child_data = (UpdateTravelingBody *)((u8 *)control_effect + 0x20);
                 effect_object = control_effect;
                 render_template = project_sprite_chain;
                 child_data->unk_38 = owner;

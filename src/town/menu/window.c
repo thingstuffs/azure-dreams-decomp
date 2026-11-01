@@ -254,7 +254,7 @@ s32 create_object_and_initialize_render_state(s32 callback_id, s32 angle_index, 
     void *object_state;
     SpriteFrameState *render_data;
     u16 angle;
-    void *state;
+    func_8009FCC4_S_8009D424_3 *state;
     u32 color;
     void *callback_render;
     s32 saved_state_48;
@@ -324,14 +324,14 @@ s32 create_object_and_initialize_render_state(s32 callback_id, s32 angle_index, 
             state = object_state;
         }
     }
-    ((func_8009FCC4_S_8009D424_3 *)state)->unk_86 = *(u16 *)&position->y.w.i;
+    state->unk_86 = *(u16 *)&position->y.w.i;
     render_data->scale_y = 0x1000;
     render_data->scale_x = 0x1000;
     render_data->color.word = color;
     angle = town_facing_angles[saved_angle_index & 3];
-    ((func_8009FCC4_S_8009D424_3 *)state)->unk_94 = saved_state_94;
-    ((func_8009FCC4_S_8009D424_3 *)state)->unk_95 = state_95;
-    ((func_8009FCC4_S_8009D424_3 *)state)->unk_96 = state_96;
+    state->unk_94 = saved_state_94;
+    state->unk_95 = state_95;
+    state->unk_96 = state_96;
     if (position != 0) {
         if (render_data != 0) {
             saved_state_48 = state_48;
@@ -342,7 +342,7 @@ s32 create_object_and_initialize_render_state(s32 callback_id, s32 angle_index, 
     } else {
         saved_state_48 = state_48;
     }
-    ((func_8009FCC4_S_8009D424_3 *)state)->unk_48 = saved_state_48;
+    state->unk_48 = saved_state_48;
     if (position != 0) {
         if (render_data != 0) {
             saved_state_98 = state_98;
@@ -353,12 +353,12 @@ s32 create_object_and_initialize_render_state(s32 callback_id, s32 angle_index, 
     } else {
         saved_state_98 = state_98;
     }
-    ((func_8009FCC4_S_8009D424_3 *)state)->unk_93 = 0;
-    ((func_8009FCC4_S_8009D424_3 *)state)->unk_70 = 0;
-    ((func_8009FCC4_S_8009D424_3 *)state)->unk_71 = 0;
-    ((func_8009FCC4_S_8009D424_3 *)state)->unk_72 = angle;
-    ((func_8009FCC4_S_8009D424_3 *)state)->unk_6E = angle;
-    ((func_8009FCC4_S_8009D424_3 *)state)->unk_98 = saved_state_98;
+    state->unk_93 = 0;
+    state->unk_70 = 0;
+    state->unk_71 = 0;
+    state->unk_72 = angle;
+    state->unk_6E = angle;
+    state->unk_98 = saved_state_98;
     if (position != 0) {
         if (render_data != 0) {
             callback_render = render_data;

@@ -10,6 +10,17 @@ known includes back to their original tokens, records new includes verbatim, and
   python3 tools/typing/refresh_layout_inline.py --root . --base HEAD [--check]
 
 --check reports how many records would change and exits 1 if any would, without writing.
+
+Self-healing (a lane that committed its sources but not the refreshed ledger): every record is bound to
+the text it describes by `source_sha256`, so a record is never mapped from a text it does not verify
+against.  Per merged TU the refresh takes, in order:
+  1. the working-tree record when it already verifies against the current text (already fresh);
+  2. the first (record, text) pair that verifies, over the working-tree and --base records and the TU's text
+     at --base, then at each earlier revision that changed the TU (`git rev-list --first-parent`, at most
+     --max-walk), and maps it to the current text.
+A TU none of whose candidates verify stops the refresh with the member, the TU and the revisions tried
+(never a KeyError from a stale extent).  `stale_records(root, rev)` lists the records of a revision whose
+ledger does not describe its own text (affected.py accepts their repair on unedited TUs).
 """
 import argparse
 import difflib
@@ -51,6 +62,61 @@ def line_map(old, new):
     return mp
 
 
+class StaleRecord(Exception):
+    """No candidate (record, text) pair verifies for a merged TU."""
+
+
+def restored_own(record, text):
+    """The member's own bytes as `record` locates them in `text`, original #include tokens restored; None when
+    the extent does not fit the text or its include count differs from the record's."""
+    start, size = record.get('offset'), record.get('inlined_bytes')
+    if not isinstance(start, int) or not isinstance(size, int) or start < 0 or start + size > len(text):
+        return None
+    piece = text[start:start + size]
+    tokens = record.get('original_includes') or []
+    if len(INCLUDE.findall(piece)) != len(tokens):
+        return None
+    it = iter(tokens)
+    restored = INCLUDE.sub(lambda m: m[1] + next(it).encode() + m[3], piece)
+    return restored[:record['bytes']]
+
+
+def verifies(record, text):
+    """True when `record` describes `text`: its extent's own bytes hash to its source_sha256."""
+    own = restored_own(record, text)
+    return own is not None and hashlib.sha256(own).hexdigest() == record.get('source_sha256')
+
+
+def line_starts_ok(record, text):
+    """The extent starts and ends on line boundaries of `text` (line_map maps line starts only)."""
+    starts = {0}
+    pos = 0
+    for line in text.splitlines(True):
+        pos += len(line)
+        starts.add(pos)
+    return record['offset'] in starts and record['offset'] + record['inlined_bytes'] in starts
+
+
+def history(root, rev, rel, limit):
+    """Revisions before `rev` (first parent) that changed `rel`, newest first, at most `limit`."""
+    res = subprocess.run(['git', '-C', str(root), 'rev-list', '--first-parent', '-n', str(limit + 1), rev, '--', rel],
+                         capture_output=True, text=True)
+    revs = res.stdout.split() if res.returncode == 0 else []
+    head = subprocess.run(['git', '-C', str(root), 'rev-parse', rev], capture_output=True, text=True).stdout.strip()
+    # rev-list includes `rev` itself when it changed `rel`; its text is tried first anyway.
+    return [r for r in revs if r != head][:limit]
+
+
+def text_at(root, rev, rel, cache):
+    key = (rev, rel)
+    if key not in cache:
+        try:
+            cache[key] = git_show(root, rev, rel)
+        except subprocess.CalledProcessError:
+            cache[key] = None
+    return cache[key]
+
+
 def refresh(record, old, new, mp):
     start = mp(record['offset'])
     end = mp(record['offset'] + record['inlined_bytes'], True)
@@ -80,11 +146,50 @@ def refresh(record, old, new, mp):
     return out
 
 
+def stale_records(root, rev):
+    """{(member_id, tu_new)} of the records in `rev`'s ledger that do not describe `rev`'s own text of their TU."""
+    blob = git_show(root, rev, LEDGER).decode()
+    cache, out = {}, set()
+    for line in blob.splitlines():
+        if not line.strip():
+            continue
+        r = json.loads(line)
+        text = text_at(root, rev, r['tu_new'], cache)
+        if text is not None and not verifies(r, text):
+            out.add((r['member_id'], r['tu_new']))
+    return out
+
+
+def choose_source(root, base, tu, candidates, new, cache, max_walk):
+    """(record_by_member, old_text) for one TU: the candidate record set and the text it describes.
+
+    `candidates` is a list of {member_id: record} sets for this TU (working tree first, then --base).
+    The --base text is tried first, then earlier revisions that changed the TU."""
+    tried = []
+
+    def revisions():
+        yield base
+        yield from history(root, base, tu, max_walk)
+    for rev in revisions():
+        tried.append(rev if rev == base else rev[:12])
+        old = text_at(root, rev, tu, cache)
+        if old is None:
+            continue
+        for recs in candidates:
+            if recs and all(verifies(r, old) and line_starts_ok(r, old) for r in recs.values()):
+                return recs, old, rev
+    members = sorted({m for recs in candidates for m in recs})
+    raise StaleRecord('%s: no ledger record set verifies against its text at %s (members %s); the ledger was '
+                      'edited by hand or the TU history is not in this repository' % (tu, ', '.join(tried), ', '.join(members[:4])))
+
+
 def main():
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument('--root', default='.')
     ap.add_argument('--base', required=True, help='git revision whose text the current records describe')
     ap.add_argument('--check', action='store_true')
+    ap.add_argument('--max-walk', type=int, default=20, help='earlier revisions of a TU tried when no record set '
+                    'verifies against its --base text (default 20)')
     args = ap.parse_args()
     root = Path(args.root)
     base_ledger = git_show(root, args.base, LEDGER).decode()
@@ -92,29 +197,40 @@ def main():
     current = (root / LEDGER).read_text()
     records = [json.loads(line) for line in current.splitlines() if line.strip()]
     base_by_key = {(r['member_id'], r['tu_new']): r for r in base_records}
-    texts, maps, changed = {}, {}, 0
-    for i, current_record in enumerate(records):
-        # Installs since --base add records and may retire old TUs. Refresh only
-        # surviving baseline records, retaining the current ledger's full roster.
-        record = base_by_key.get((current_record['member_id'], current_record['tu_new']))
-        if record is None:
-            continue
-        tu = record['tu_new']
-        if tu not in texts:
-            old = git_show(root, args.base, tu)
+    # Installs since --base add records and may retire old TUs. Refresh only surviving baseline records,
+    # retaining the current ledger's full roster.
+    by_tu = {}
+    for i, cur in enumerate(records):
+        key = (cur['member_id'], cur['tu_new'])
+        if key in base_by_key:
+            by_tu.setdefault(cur['tu_new'], []).append(i)
+    cache, changed, healed = {}, 0, []
+    try:
+        for tu, idxs in by_tu.items():
             new = (root / tu).read_bytes()
-            texts[tu] = (old, new)
-            maps[tu] = line_map(old, new) if old != new else None
-        old, new = texts[tu]
-        if maps[tu] is None:
-            out = record
-        else:
-            out = refresh(record, old, new, maps[tu])
-        if out != current_record:
-            changed += 1
-            records[i] = out
+            work = {records[i]['member_id']: records[i] for i in idxs}
+            base = {records[i]['member_id']: base_by_key[(records[i]['member_id'], tu)] for i in idxs}
+            if all(verifies(r, new) for r in work.values()):
+                continue                                    # already describes the current text
+            recs, old, rev = choose_source(root, args.base, tu, [work, base], new, cache, args.max_walk)
+            if recs != base or rev != args.base:
+                healed.append('%s (from %s %s)' % (tu, 'working-tree records' if recs is work else 'base records',
+                                                   'at base' if rev == args.base else 'at ' + rev[:12]))
+            mp = line_map(old, new) if old != new else None
+            for i in idxs:
+                record = recs[records[i]['member_id']]
+                out = refresh(record, old, new, mp) if mp else record
+                if out != records[i]:
+                    changed += 1
+                    records[i] = out
+    except StaleRecord as exc:
+        print('refresh_layout_inline: ' + str(exc), file=sys.stderr)
+        return 2
     text = ''.join(json.dumps(r, separators=(',', ':')) + '\n' for r in records)
-    print(f'{changed} records refreshed against {args.base}; ledger {"unchanged" if text == current else "differs"}')
+    for line in healed:
+        print('healed: ' + line)
+    print(f'{changed} records refreshed against {args.base}; ledger {"unchanged" if text == current else "differs"}'
+          + (f'; {len(healed)} TUs healed (ledger was not committed with an earlier batch)' if healed else ''))
     if args.check:
         return 1 if text != current else 0
     (root / LEDGER).write_text(text)

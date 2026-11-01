@@ -19,15 +19,15 @@ void project_and_enqueue_shaded_quad(vertex_0, vertex_1, vertex_2, vertex_3, sha
     u32 depth_cue;
     u32 transform_flags;
     s32 depth_or_page;
-    u8 *draw_ctx;
+    GpuContext *draw_ctx;
     u8 *packet;
 
     {
-        u8 *quad_ctx;
+        GpuContext *quad_ctx;
 
-        quad_ctx = *(u8 **)&g_game_work.draw_buffer;
-        packet = ((GpuContext *)quad_ctx)->packetCursor;
-        ((GpuContext *)quad_ctx)->packetCursor = packet + 0x24;
+        quad_ctx = (GpuContext *)(*(u8 **)&g_game_work.draw_buffer);
+        packet = quad_ctx->packetCursor;
+        quad_ctx->packetCursor = packet + 0x24;
         ((S_800A2E30_1 *)packet)->unk_16 = shade;
         ((S_800A2E30_1 *)packet)->unk_15 = shade;
         ((S_800A2E30_1 *)packet)->unk_14 = shade;
@@ -65,9 +65,9 @@ void project_and_enqueue_shaded_quad(vertex_0, vertex_1, vertex_2, vertex_3, sha
 
     AddPrim(*(u8 **)&g_game_work.draw_buffer + 0xD8, packet);
 
-    draw_ctx = *(u8 **)&g_game_work.draw_buffer;
-    packet = ((GpuContext *)draw_ctx)->packetCursor;
-    ((GpuContext *)draw_ctx)->packetCursor = packet + 0xC;
+    draw_ctx = (GpuContext *)(*(u8 **)&g_game_work.draw_buffer);
+    packet = draw_ctx->packetCursor;
+    draw_ctx->packetCursor = packet + 0xC;
     depth_or_page = GetTPage(0, 1, 0x140, 0);
     SetDrawMode(packet, 0, 0, (u16)depth_or_page, 0);
 

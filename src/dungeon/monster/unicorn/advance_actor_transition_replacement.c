@@ -155,9 +155,9 @@ void advance_actor_transition_replacement(ActorRecord *action, ObjectPosition *p
 
     case 1:
         run_cd_image_commands(D_80174E24, unicorn_image_load_done, 0);
-        ((S_80174704_0 *)action)->unk_B0.s = 0;
+        action->unk_B0.halves.low.s = 0;
         action->action_phase.u++;
-        ((S_80174704_1 *)actor)->unk_8A = ((S_80174704_1 *)actor)->unk_2A.u;
+        actor->unk_8A = ((S_80174704_1 *)actor)->unk_2A.u;
         ((S_80174704_1 *)actor)->unk_1C &= 0xFFFBFFFF;
 
     case 2:
@@ -165,13 +165,13 @@ void advance_actor_transition_replacement(ActorRecord *action, ObjectPosition *p
         s32 direction;
         u16 angle;
 
-        direction = ((g_game_work.view.camera_rotation.parts.viewAngle + ((S_80174704_1 *)actor)->unk_2A.s + 0x100) >> 9) & 7;
+        direction = ((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7;
         angle = ((S_80174704_1 *)actor)->unk_2A.u;
         if (((S_80174704_2 *)unicorn_image_load_done)->unk_00 == 0 || direction != 2) {
             if (direction == 2) {
                 return;
             }
-            ((S_80174704_1 *)actor)->unk_2A.u = angle + 0x200;
+            actor->facing = angle + 0x200;
             return;
         }
         run_cd_image_commands(D_80174E24, unicorn_image_load_done, 1);
@@ -180,20 +180,20 @@ void advance_actor_transition_replacement(ActorRecord *action, ObjectPosition *p
         unicorn_effect_load_done[0] = 0;
         Control_CD(0xFF, set_byte_one, unicorn_effect_load_done);
         select_nearby_target_and_initialize_slot((u8 *)actor - 0x20, position, 8, 0x300);
-        ((S_80174704_0 *)action)->unk_96.u = 0x10;
+        action->action_timer.u = 0x10;
         action->action_phase.u++;
     }
 
     case 3:
     {
-        u16 old_timer = ((S_80174704_0 *)action)->unk_96.u;
+        u16 old_timer = action->action_timer.u;
         u16 timer = old_timer - 1;
-        u8 *target_color;
+        S_80174704_4 *target_color;
 
-        ((S_80174704_0 *)action)->unk_96.u = timer;
+        action->action_timer.u = timer;
         if ((s32)(timer << 16) <= 0) {
             u8 cd_done = unicorn_effect_load_done[0];
-            ((S_80174704_0 *)action)->unk_96.u = old_timer;
+            action->action_timer.u = old_timer;
             if (cd_done == 0) {
                 return;
             }
@@ -202,16 +202,16 @@ void advance_actor_transition_replacement(ActorRecord *action, ObjectPosition *p
             return;
         }
 
-        target_color = actor_effect_color_targets[lookup_masked_byte_table(actor)];
+        target_color = (S_80174704_4 *)actor_effect_color_targets[lookup_masked_byte_table(actor)];
         ((S_80174704_3 *)object)->unk_A8 +=
-            (((S_80174704_4 *)target_color)->unk_00 - ((S_80174704_3 *)object)->unk_A8) /
-            ((S_80174704_0 *)action)->unk_96.s;
+            (target_color->unk_00 - ((S_80174704_3 *)object)->unk_A8) /
+            action->action_timer.s;
         ((S_80174704_3 *)object)->unk_A9 +=
-            (((S_80174704_4 *)target_color)->unk_01 - ((S_80174704_3 *)object)->unk_A9) /
-            ((S_80174704_0 *)action)->unk_96.s;
+            (target_color->unk_01 - ((S_80174704_3 *)object)->unk_A9) /
+            action->action_timer.s;
         ((S_80174704_3 *)object)->unk_AA +=
-            (((S_80174704_4 *)target_color)->unk_02 - ((S_80174704_3 *)object)->unk_AA) /
-            ((S_80174704_0 *)action)->unk_96.s;
+            (target_color->unk_02 - ((S_80174704_3 *)object)->unk_AA) /
+            action->action_timer.s;
         return;
     }
 
@@ -223,7 +223,7 @@ void advance_actor_transition_replacement(ActorRecord *action, ObjectPosition *p
         effect_node->update_callback = D_801745D8;
         register_node(effect_node, D_80173F68);
         color = 0x00808080;
-        ((S_80174704_0 *)action)->unk_AC.p = effect_node;
+        action->unk_AC.address = effect_node;
         effect_node->position->x.v = position->x.v;
         effect_node->position->y.v = position->y.v;
         effect_node->position->z.v = position->z.v;
@@ -247,27 +247,27 @@ void advance_actor_transition_replacement(ActorRecord *action, ObjectPosition *p
             select_record_entry_and_value(effect_sprite, dungeon_resource_buffer + D_80174E2C[effect_index], 0);
         }
         entity->flags |= 0x80;
-        ((S_80174704_0 *)action)->unk_96.u = 0;
+        action->action_timer.u = 0;
         next_state = action->action_phase.u + 1;
         action->action_phase.u = next_state;
         return;
 
     case 5:
     {
-        u16 old_timer = ((S_80174704_0 *)action)->unk_96.u;
-        ((S_80174704_0 *)action)->unk_96.u = old_timer + 1;
+        u16 old_timer = action->action_timer.u;
+        action->action_timer.u = old_timer + 1;
         if ((s16)old_timer < 30) {
-            s32 angle_step = ((S_80174704_0 *)action)->unk_B0.s;
+            s32 angle_step = action->unk_B0.halves.low.s;
 
             create_angular_offset_effect(action, position, entity, actor,
                           (s16)(angle_step << 7), 0);
-            ((S_80174704_0 *)action)->unk_B0.u++;
+            action->unk_B0.halves.low.u++;
         }
     }
         object = ((S_80174704_0 *)action)->unk_AC.p2;
         object = ((S_80174704_3 *)object)->unk_0C.p;
         if (((S_80174704_3 *)object)->unk_14 & 0xE000) {
-            ((S_80174704_0 *)action)->unk_96.u = 0x10;
+            action->action_timer.u = 0x10;
             action->action_phase.u++;
             decrement_monster_entry_count(actor->species, 3);
             update_map_cell_flags_with_item_limit(entity->tile_x, entity->tile_y, 0x300);
@@ -283,7 +283,7 @@ void advance_actor_transition_replacement(ActorRecord *action, ObjectPosition *p
         if (create_status_linked_render_effect(position, D_80174E40[0], D_80174E38[0], &staged_spawn_count) == 0) {
             return;
         }
-        ((S_80174704_0 *)action)->unk_96.u = 0x10;
+        action->action_timer.u = 0x10;
         action->action_phase.u++;
         decrement_monster_entry_count(actor->species, 3);
         update_map_cell_flags_with_item_limit(entity->tile_x, entity->tile_y, 0x300);
@@ -295,11 +295,11 @@ void advance_actor_transition_replacement(ActorRecord *action, ObjectPosition *p
     case 7:
     {
         u8 *replacement = advance_staged_entity_load(entity, actor);
-        ((S_80174704_1 *)actor)->unk_60 = replacement;
+        actor->target = replacement;
         if (replacement == NULL) {
             return;
         }
-        ((S_80174704_0 *)action)->unk_96.u = 0x10;
+        action->action_timer.u = 0x10;
         action->action_phase.u++;
         ((S_80174704_11 *)(((S_80174704_1 *)actor)->unk_60))->unk_2A = ((S_80174704_1 *)actor)->unk_2A.u;
         {
@@ -317,8 +317,8 @@ void advance_actor_transition_replacement(ActorRecord *action, ObjectPosition *p
 
     case 8:
     {
-        u16 timer = ((S_80174704_0 *)action)->unk_96.u - 1;
-        ((S_80174704_0 *)action)->unk_96.u = timer;
+        u16 timer = action->action_timer.u - 1;
+        action->action_timer.u = timer;
         if ((s32)(timer << 16) > 0) {
             return;
         }

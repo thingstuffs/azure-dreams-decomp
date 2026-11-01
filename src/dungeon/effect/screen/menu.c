@@ -1584,14 +1584,14 @@ void update_item_target_marker(Work *work, Out *out, Render *render_arg)
             work->cur_x = target_pos[0];
             work->cur_y = target_pos[1];
             if (work->mode != 2) {
-                u8 *height_base;
+                Node *height_base;
                 s32 target_height;
-                height_base = (u8 *)work->node;
-                entity = ((Node *)height_base)->entity;
+                height_base = work->node;
+                entity = height_base->entity;
                 height_addr = (u8 *)(u32)entity->kind;
                 target_height = entity->height;
                 height_addr += (u32)entity_height_offsets;
-                height_base = (u8 *)(u32)*height_addr;
+                height_base = (Node *)(u32)*height_addr;
                 target_height -= (s32)(u32)height_base;
                 if (entity->flags & 0x40000) {
                     target_height -= 0x40;

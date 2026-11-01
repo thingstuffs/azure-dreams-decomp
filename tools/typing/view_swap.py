@@ -366,21 +366,35 @@ def retype_tu(args):
     return {'tu': rel, 'error': error, 'plans': plans, 'pool': {f: dict(c) for f, c in pool.items()}}
 
 
-def apply_plans(root, plans):
+def apply_plans(root, plans, dropped=None):
+    """Apply retype plans.  A plan whose edits overlap a different edit of an earlier plan in the same file (or
+    each other) - a variable reassigned from its own view, `root = ((V *)root)->position` - is dropped whole and
+    appended to `dropped` (when given) instead of aborting the batch; identical edits shared by two plans apply
+    once."""
     by_file = collections.defaultdict(list)
     for p in plans:
-        by_file[p['file']].extend(p['edits'])
-    for file, edits in by_file.items():
+        by_file[p['file']].append(p)
+    applied = {}
+    for file, file_plans in by_file.items():
+        taken = set()
+        for p in file_plans:
+            mine = sorted(set(map(tuple, p['edits'])))
+            clash = any(b1 > a2 for (a1, b1, _), (a2, b2, _) in zip(mine, mine[1:]))
+            clash = clash or any(e != t and e[0] < t[1] and t[0] < e[1] for e in mine for t in taken)
+            if clash:
+                if dropped is not None:
+                    dropped.append(p)
+                continue
+            taken.update(mine)
+        if not taken:
+            continue
         path = Path(root) / file
         text = path.read_text()
-        edits = sorted(set(map(tuple, edits)), reverse=True)
-        for (a, b, _), (c, d, _) in zip(edits[1:], edits):
-            if b > c:
-                raise ValueError('overlapping retype edits in ' + file)
-        for a, b, rep in edits:
+        for a, b, rep in sorted(taken, reverse=True):
             text = text[:a] + rep + text[b:]
         path.write_text(text)
-    return {f: len(e) for f, e in by_file.items()}
+        applied[file] = len(taken)
+    return applied
 
 
 def retype(root, files, workers=6):

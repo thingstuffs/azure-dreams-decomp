@@ -50,7 +50,7 @@ void *reset_actor_animation_state(ActorRecord *body)
     s32 map_index;
     void *entity_arg;
     u8 *parent;
-    u8 *object;
+    S_800D8590_2 *object;
     s32 frame_index;
 
     entity_arg = body;
@@ -81,20 +81,20 @@ void *reset_actor_animation_state(ActorRecord *body)
         }
         bzero(parent + 0xAC, 0x24);
 
-        object = parent + 0x20;
-        ((S_800D8590_2 *)object)->unk_AC = ((S_800D8590_0 *)parent)->unk_10;
+        object = (S_800D8590_2 *)(parent + 0x20);
+        object->unk_AC = ((S_800D8590_0 *)parent)->unk_10;
         ((S_800D8590_0 *)parent)->unk_10 = (s32)D_800D8728 & 0x7FFFFFFF;
-        ((S_800D8590_2 *)object)->unk_A8 = body->species;
+        object->unk_A8 = body->species;
         body->species = MONSTER_FROG;
-        ((S_800D8590_2 *)object)->unk_9A = 0xFF;
-        ((S_800D8590_2 *)object)->unk_9C = -1;
-        ((S_800D8590_2 *)object)->unk_8C = update_actor_facing_animation;
+        object->unk_9A = 0xFF;
+        object->unk_9C = -1;
+        object->unk_8C = update_actor_facing_animation;
         (*(void ** *)(child + 0x2C)) = actor_action_frames;
 
         frame_index = (g_game_work.view.camera_rotation.parts.viewAngle + body->facing + 0x100) >> 7;
         select_record_entry_and_value(child,
                       *(void **)((u8 *)actor_action_frames + (frame_index & 0x1C)), 0);
-        ((S_800D8590_2 *)object)->unk_A0 = 0x14;
+        object->unk_A0 = 0x14;
         ((S_800D8590_3 *)child)->unk_14 |= 0x8000;
         ((S_800D8590_3 *)child)->unk_12 = 0;
         ((S_800D8590_3 *)child)->unk_14 &= 0xFFF3;

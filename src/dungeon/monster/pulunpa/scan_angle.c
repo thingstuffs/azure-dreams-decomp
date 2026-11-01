@@ -77,7 +77,7 @@ s32 select_nearby_target_and_start_action(ActorRecord *action_state, ObjectPosit
         update_actor_status_and_mp(target);
         action_state->action_id.s = 0x17;
         action_state->action_phase.s = 0;
-        ((Rec_func_800A9E70_arg0 *)action_state)->unk_8C = 0;
+        action_state->unk_8C.word = 0;
         target_pos = ((S_80175E6C_6_pre *)actor->target)[-1].unk_00;
         actor->facing = get_rounded_facing_and_rounding_flag(actor_pos_arg->tile_x,
             actor_pos_arg->tile_y, target_pos->unk_24,

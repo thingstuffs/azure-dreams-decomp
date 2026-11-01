@@ -126,12 +126,12 @@ s32 draw_linked_textured_quads(TwoRowObjectGroupBody *first_quad) {
 
         if ((u32)depth < 0x1E0U) {
             scratch = 0xFF - ((TwoRowObjectGroupBody *)quad_data)->unk_02.signed_value;
-            ((S_800DA93C_2 *)packet)->unk_04 = (*(s32 *)((u8 *)quad_data + 0x10));
+            packet->colorCode = (*(s32 *)((u8 *)quad_data + 0x10));
             SetPolyFT4(packet);
             SetSemiTrans(packet, 1);
 
-            ((S_800DA93C_2 *)packet)->unk_16 = ((TwoRowObjectGroupBody *)quad_data)->unk_04.u;
-            ((S_800DA93C_2 *)packet)->unk_0E = ((TwoRowObjectGroupBody *)quad_data)->unk_06;
+            packet->tpage = ((TwoRowObjectGroupBody *)quad_data)->unk_04.u;
+            packet->clut = ((TwoRowObjectGroupBody *)quad_data)->unk_06;
 
             tile_index = (s16)(((TwoRowObjectGroupBody *)quad_data)->unk_02.signed_value % 8);
             scratch = tile_index;
@@ -139,21 +139,21 @@ s32 draw_linked_textured_quads(TwoRowObjectGroupBody *first_quad) {
             u_offset = (tile_index % 4) << 5;
             u_left = u_offset - 0x80;
             u_right = u_offset - 0x61;
-            ((S_800DA93C_2 *)packet)->unk_14 = u_left;
-            ((S_800DA93C_2 *)packet)->unk_0C = u_left;
-            ((S_800DA93C_2 *)packet)->unk_24 = u_right;
-            ((S_800DA93C_2 *)packet)->unk_1C = u_right;
+            packet->u1 = u_left;
+            packet->u0 = u_left;
+            packet->u3 = u_right;
+            packet->u2 = u_right;
 
             v_offset = (scratch / 4) << 5;
             v_top = v_offset + 0x40;
             v_bottom = v_offset + 0x5F;
-            ((S_800DA93C_2 *)packet)->unk_1D = v_top;
-            ((S_800DA93C_2 *)packet)->unk_0D = v_top;
-            ((S_800DA93C_2 *)packet)->unk_25 = v_bottom;
-            ((S_800DA93C_2 *)packet)->unk_15 = v_bottom;
+            packet->v2 = v_top;
+            packet->v0 = v_top;
+            packet->v3 = v_bottom;
+            packet->v1 = v_bottom;
 
             link_addr = depth << 2;
-            ((S_800DA93C_2 *)packet)->unk_00 =
+            packet->tag =
                 (((S_800DA93C_2 *)packet)->unk_00 & tag_mask) |
                 (((S_800DA93C_3 *)((u8 *)((u32)link_addr + (unsigned long)render_state->draw_buffer)))->unk_B0 & addr_mask);
             link_addr += (s32)render_state->draw_buffer;
@@ -339,10 +339,10 @@ void create_source_positioned_object(ObjectPosition *source_pos, s16 initial_val
     object = allocate_list_node(0x312, &scene_object_list_anchor.next);
     if (object != NULL) {
         object->update_callback = spawn_scattered_timed_objects;
-        ((MovingPosition *)(object->position))->x = (u16) ((u16)source_pos->x.w.i);
-        ((MovingPosition *)(object->position))->y = (u16) ((u16)source_pos->y.w.i);
+        object->position->x.unsigned_parts.integer = (u16) ((u16)source_pos->x.w.i);
+        object->position->y.unsigned_parts.integer = (u16) ((u16)source_pos->y.w.i);
         object_data = ((void *)object) + 0x20;
-        ((MovingPosition *)(object->position))->z = (u16) ((u16)source_pos->z.w.i);
+        object->position->z.unsigned_parts.integer = (u16) ((u16)source_pos->z.w.i);
         object_data->unk_10 = sample_terrain_surface_height(((u16)source_pos->x.w.i), ((u16)source_pos->y.w.i),
             (s16) (((u16)source_pos->z.w.i) - 0x80));
         object_data->unk_48 = initial_value;
@@ -393,7 +393,7 @@ void spawn_scattered_timed_objects(void *source_owner, void *spawn_params_arg)
 {
     S_800DAEF4_2 *spawn_params = spawn_params_arg;
     s32 remaining;
-    u8 *link;
+    S_800DAEF4_6 *link;
     ObjectNodeHeader *object;
     SpriteFrameState *node;
     u8 *work;
@@ -408,7 +408,7 @@ void spawn_scattered_timed_objects(void *source_owner, void *spawn_params_arg)
     ObjectPosition *part;
 
     remaining = 12;
-    link = (u8 *)&secondary_sprite;
+    link = (S_800DAEF4_6 *)&secondary_sprite;
     do {
         object = allocate_list_node(0x312, &scene_object_list_anchor.next);
         if (object != 0) {
@@ -450,7 +450,7 @@ void spawn_scattered_timed_objects(void *source_owner, void *spawn_params_arg)
             node->tpage_abr = 0x60;
             node->color.word = 0xC06060;
             node->unk_00 = link;
-            link_value = ((S_800DAEF4_6 *)link)->unk_04;
+            link_value = link->unk_04;
             node->unk_04 = 0;
             node->frame_ticks = 0;
             node->source = link_value;
@@ -618,11 +618,11 @@ void create_two_effect_groups(MovingPosition *position, S_800DB2DC_2 *source_vis
                 visual->clut =
                     (s16)(source_offset - 0x80);
                 ((S_800DB2DC_0 *)effect)->unk_20 = position;
-                ((MovingPosition *)(effect->position))->x =
+                effect->position->x.unsigned_parts.integer =
                     (u16)position->x;
-                ((MovingPosition *)(effect->position))->y =
+                effect->position->y.unsigned_parts.integer =
                     (u16)position->y;
-                ((MovingPosition *)(effect->position))->z =
+                effect->position->z.unsigned_parts.integer =
                     (u16)position->z;
                 effect_state = ((void *)effect) + 0x20;
                 effect_state->unk_06 = saved_param;
@@ -923,17 +923,17 @@ s32 draw_fading_linked_quads(Item *item)
                     *((u16 *) (((u8 *) primitive) + 0x16)) = current_item->clut;
                     *((u16 *) (((u8 *) primitive) + 0x0E)) = current_item->tex;
                     u_start = current_item->u0;
-                    *(((u8 *) primitive) + 0x14) = u_start;
-                    *(((u8 *) primitive) + 0x0C) = u_start;
+                    primitive->data[12] = u_start;
+                    primitive->data[4] = u_start;
                     u_end = current_item->u0 + current_item->du;
-                    *(((u8 *) primitive) + 0x24) = u_end;
-                    *(((u8 *) primitive) + 0x1C) = u_end;
+                    primitive->data[28] = u_end;
+                    primitive->data[20] = u_end;
                     v_start = current_item->v0;
-                    *(((u8 *) primitive) + 0x1D) = v_start;
-                    *(((u8 *) primitive) + 0x0D) = v_start;
+                    primitive->data[21] = v_start;
+                    primitive->data[5] = v_start;
                     v_end = current_item->v0 + current_item->dv;
-                    *(((u8 *) primitive) + 0x25) = v_end;
-                    *(((u8 *) primitive) + 0x15) = v_end;
+                    primitive->data[29] = v_end;
+                    primitive->data[13] = v_end;
                     {
                         Dungeon *dungeon = *dungeon_ptr;
                         Dungeon *ordering_dungeon;

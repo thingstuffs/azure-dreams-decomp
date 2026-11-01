@@ -132,7 +132,7 @@ void update_actor_animation_and_dispatch(ActorRecord *actor, ObjectPosition *con
             select_sprite_entry(sprite, *(((u8 *)&kraken_frame_set_1) + (((s32) (g_game_work.view.camera_rotation.parts.viewAngle + status->facing + 0x100)
                 >> 9) & 7)), 0);
             sprite->frame_ticks = 1;
-            ((Rec_func_800A9E70_arg0 *)actor)->unk_AE = 0;
+            actor->unk_AC.halves.high.s = 0;
             actor->unk_A8.s = 0;
         }
         status->flags1C = (s32) (status->flags1C | 0x40000);

@@ -105,7 +105,7 @@ void update_actor_behavior(ActorRecord *actor, ObjectPosition *context, SpriteFr
             if (*(s32 **)&sprite->frameTable == &troll_kind13_direction_frames) {
                 actor->action_id.u = transition_mode;
                 actor->action_phase.s = 1;
-                ((Rec_func_800A9E70_arg0 *)actor)->unk_8C = 0;
+                actor->unk_8C.word = 0;
                 state->flags1C = (s32) (state->flags1C & 0xFFFBFFFF);
                 return;
             }
@@ -117,7 +117,7 @@ void update_actor_behavior(ActorRecord *actor, ObjectPosition *context, SpriteFr
             if (*(s32 **)&sprite->frameTable == &troll_kind14_direction_frames) {
                 actor->action_id.u = 0xDU;
                 actor->action_phase.s = 1;
-                ((Rec_func_800A9E70_arg0 *)actor)->unk_8C = 0;
+                actor->unk_8C.word = 0;
                 state->flags1C = (s32) (state->flags1C & 0xFFFBFFFF);
                 return;
             }
@@ -129,7 +129,7 @@ void update_actor_behavior(ActorRecord *actor, ObjectPosition *context, SpriteFr
             if (*(s32 **)&sprite->frameTable == &troll_kind15_direction_frames) {
                 actor->action_id.u = 0xDU;
                 actor->action_phase.s = 1;
-                ((Rec_func_800A9E70_arg0 *)actor)->unk_8C = 0;
+                actor->unk_8C.word = 0;
                 state->flags1C = (s32) (state->flags1C & 0xFFFBFFFF);
                 return;
             }

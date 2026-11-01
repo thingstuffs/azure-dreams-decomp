@@ -13,13 +13,6 @@ typedef struct Sprite {
     u16 z;
 } Sprite;
 
-typedef struct ObjectTail {
-    u8 pad0[8];
-    ObjectNodeHeader *owner;
-    u8 padC[42];
-    s16 angle;
-} ObjectTail;
-
 typedef struct Pair {
     s32 first;
     s32 second;
@@ -39,7 +32,7 @@ void create_owner_positioned_sprite(ObjectNodeHeader *owner, s16 angle) {
     GpuRectBuffer rect;
     ObjectNodeHeader *spawned;
     SpriteFrameState *node;
-    ObjectTail *tail;
+    OwnerPositionedSpriteBody *tail;
 
     spawned = allocate_list_node(0x212, &owner->next);
     if (spawned != 0) {
@@ -54,7 +47,7 @@ void create_owner_positioned_sprite(ObjectNodeHeader *owner, s16 angle) {
         node->scale_x = 0x2800;
         node->depth_bias = 8;
         node->angle_z = angle + 0x400;
-        tail = (ObjectTail *)((u8 *)spawned + 0x20);
+        tail = (OwnerPositionedSpriteBody *)((u8 *)spawned + 0x20);
         node->color.word = 0x808080;
         tail->owner = owner;
         tail->angle = angle;

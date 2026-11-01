@@ -515,10 +515,10 @@ void update_fading_effect_scale(void *effect, s32 unused, void *render_arg)
                 u32 *flags_page = (u32 *)0x80080000;
                 void *slot = effect;
                 for (; slot_index < 4; slot_index++, slot = (u8 *)slot + 4) {
-                    void *object = ((S_800B14FC_2 *)slot)->unk_28;
+                    S_800B14FC_3_pre *object = ((S_800B14FC_2 *)slot)->unk_28;
 
                     if (object != (void *)0) {
-                        ((S_800B14FC_3_pre *)object)[-1].unk_00 |= 0x8000;
+                        object[-1].unk_00 |= 0x8000;
                         flags_page[0x14A0 / 4] |= 0x8000;
                     }
                 }

@@ -67,19 +67,19 @@ void create_ballistic_landing_particle(S_80165D0C_0 *source, s16 duration, s32 s
     effect = allocate_flagged_object_node(0x12);
     if (effect != NULL) {
         (effect->update_callback) = &D_80165AB8;
-        ((S_80165D0C_3 *)((effect->position)))->unk_02 =
+        effect->position->x.w.i =
             (s16) (((MovingPosition *)(source->unk_08))->x + offset_x);
-        ((S_80165D0C_3 *)((effect->position)))->unk_06 =
+        effect->position->y.w.i =
             (s16) (((MovingPosition *)(source->unk_08))->y + offset_y);
-        ((S_80165D0C_3 *)((effect->position)))->unk_0A =
+        effect->position->z.w.i =
             (s16) (((MovingPosition *)(source->unk_08))->z + offset_z);
         effect_state = ((void *)effect) + 0x20;
         effect_state->unk_42 = (u16) ((MovingPosition *)(source->unk_08))->x;
         effect_state->unk_44 = (u16) ((MovingPosition *)(source->unk_08))->y;
         effect_state->unk_46 = (u16) ((MovingPosition *)(source->unk_08))->z;
-        ((S_80165D0C_3 *)((effect->position)))->unk_0C = (s32) (((rand() & 0x7FFF) - 0x4000) * 8);
-        ((S_80165D0C_3 *)((effect->position)))->unk_10 = (s32) (((rand() & 0x7FFF) - 0x4000) * 8);
-        ((S_80165D0C_3 *)((effect->position)))->unk_14 = (s32) (velocity_z + 0xFFFC0000);
+        effect->position->velocity_x = (s32) (((rand() & 0x7FFF) - 0x4000) * 8);
+        effect->position->velocity_y = (s32) (((rand() & 0x7FFF) - 0x4000) * 8);
+        effect->position->velocity_z = (s32) (velocity_z + 0xFFFC0000);
         effect_state->gravity = 0x10000;
         effect_state->unk_14 = duration;
         effect_state->ticks.s = 0;

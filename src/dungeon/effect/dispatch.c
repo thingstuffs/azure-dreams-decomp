@@ -134,7 +134,7 @@ void transform_mesh_and_append_draw_packets(u8 *params, u8 *record_arg, void *me
     u8 *screen_arg;
     void *perspective_out;
     void *flags_out;
-    u8 *descriptor;
+    S_800C55F4_0 *descriptor;
     u8 *vertices;
     Face *face;
     u8 *packet_code;
@@ -154,11 +154,11 @@ void transform_mesh_and_append_draw_packets(u8 *params, u8 *record_arg, void *me
     global_base = &g_game_work;
     perspective_out = (void *)0x1F800090;
 
-    descriptor = (*(u8 ***)((u8 *)mesh_data + 8));
+    descriptor = ((S_800C55F4_0 *)(*(u8 ***)((u8 *)mesh_data + 8)));
     flags_out = (void *)0x1F800094;
 
-    vertices = ((S_800C55F4_0 *)descriptor)->unk_00;
-    face = (Face *)((S_800C55F4_0 *)descriptor)->unk_08;
+    vertices = descriptor->unk_00;
+    face = (Face *)descriptor->unk_08;
 
     PushMatrix();
 
@@ -1020,7 +1020,7 @@ extern void draw_sprite_parts_as_quad_grid(s32 context, ObjectPosition *position
 /* Process each linked state with draw_sprite_parts_as_quad_grid in mode zero. */
 s32 process_linked_states_mode_zero(void *initial_state, void *context, void *data) {
     void *state = initial_state;
-    void *next_node;
+    Func800C138CData *next_node;
 
     for (;;) {
         draw_sprite_parts_as_quad_grid(state, context, data, 0);
@@ -1029,8 +1029,8 @@ s32 process_linked_states_mode_zero(void *initial_state, void *context, void *da
             return 0;
         }
         state = (u8 *)next_node + 0x20;
-        context = ((Func800C138CData *)next_node)->context;
-        data = ((Func800C138CData *)next_node)->data;
+        context = next_node->context;
+        data = next_node->data;
     }
 }
 /* cfail-repair: tf7-phase1-cache-v3 */
@@ -1220,7 +1220,7 @@ void draw_sprite_parts_as_quad_grid(s32 context, ObjectPosition *position, Sprit
         *(u32 *)(scratch->b + 0x038) = render_globals->view.camera_rotation.parts.viewAngle;
     /* MATCH: retain these views for production byte identity. */
         ((RotationWork *)(scratch->b + 0x100))->x = (u16)(*(u16 *)((u8 *)sprite + 0x16));
-        ((RotationWork *)(scratch->b + 0x100))->z = (s16)(((S_800C6B40_0 *)sprite)->unk_1A - (u16)*(u32 *)(scratch->b + 0x034));
+        ((RotationWork *)(scratch->b + 0x100))->z = (s16)(sprite->angle_z - (u16)*(u32 *)(scratch->b + 0x034));
         ((RotationWork *)(scratch->b + 0x100))->y = (s16)((((u16)*(u32 *)(scratch->b + 0x038) + 0x100) & 0x1FF)
             + (angle_offset = (s32)sprite->angle_y - 0x100));
         origin_x = sprite->offset_x;
@@ -1232,7 +1232,7 @@ void draw_sprite_parts_as_quad_grid(s32 context, ObjectPosition *position, Sprit
         ((RotationWork *)(scratch->b + 0x100))->origin_y = origin_y;
         RotMatrix(0x1F800100, 0x1F8000D0);
     /* MATCH: retain these views for production byte identity. */
-        *(u32 *)(scratch->b + 0x030) = ((S_800C6B40_0 *)sprite)->unk_1C;
+        *(u32 *)(scratch->b + 0x030) = sprite->scale_x;
         *(u32 *)(scratch->b + 0x034) = *(u16 *)((u8 *)sprite + 0x1E);
         *(u32 *)(scratch->b + 0x038) = NULL;
         ScaleMatrix(scratch->b + 0xD0, scratch->b + 0x30);
@@ -1774,7 +1774,7 @@ s32 apply_camera_offset_and_select_target(void *object_addr, void *source_pos, s
     u16 source_x;
     S_800C7930_2 *work;
     register ObjectPosition *camera;
-    u8 *destination;
+    S_800C7930_3 *destination;
     register u8 *x_offsets;
     register u8 *y_offsets;
     void *object = object_addr;
@@ -1798,16 +1798,16 @@ s32 apply_camera_offset_and_select_target(void *object_addr, void *source_pos, s
         }
         if (delta < 0xC1) {
             work = (u8 *)object + 0x20;
-            destination = effect_saved_position;
+            destination = (S_800C7930_3 *)effect_saved_position;
             x_offsets = (u8 *)direction_x_offsets;
             x_offset_index = (work->unk_2A >> 8) & 0xE;
             adjusted_x = (s16)*(u16 *)(x_offsets + x_offset_index) / 2;
-            ((S_800C7930_3 *)destination)->unk_02 = ((s32)(source_x - -adjusted_x));
+            destination->unk_02 = ((s32)(source_x - -adjusted_x));
             y_offsets = (u8 *)direction_y_offsets;
             y_offset_index = (work->unk_2A >> 8) & 0xE;
             y_offset = *(u16 *)(y_offsets + y_offset_index);
-            ((S_800C7930_3 *)destination)->unk_06 = source->unk_06.u + (s16)y_offset / 2;
-            ((S_800C7930_3 *)destination)->unk_0A = source->unk_0A;
+            destination->unk_06 = source->unk_06.u + (s16)y_offset / 2;
+            destination->unk_0A = source->unk_0A;
             select_nearby_target_and_initialize_slot(object, destination, (s16)helper_arg, slot_value);
         }
     }

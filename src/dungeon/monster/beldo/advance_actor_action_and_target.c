@@ -189,7 +189,7 @@ void advance_actor_action_and_target(void *action, void *motion, SpriteFrameStat
         ((S_8017256C_5 *)motion)->unk_0C = 0;
         set_record_integer_tile_center(motion, sprite->tile_x, sprite->tile_y);
         g_dungeon_status.active_actor = 0;
-        ((D800814A8FieldView_81252D6C *)primary_actor_record)->field_A6--;
+        primary_actor_record->unk_A4.halves.high.u--;
         advance_status_timers(actor);
         ((S_8017256C_1 *)actor)->unk_6D--;
         ((S_8017256C_0 *)action)->unk_8C = &update_object_animation;

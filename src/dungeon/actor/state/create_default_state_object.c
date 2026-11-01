@@ -66,9 +66,9 @@ void create_default_state_object(s16 new_state) {
         scale = obj->sprite;
         scale->scale_y = 0x1000;
         scale->scale_x = 0x1000;
-        ((S_800B0544_6 *)(obj->position))->unk_02 = 0;
-        ((S_800B0544_6 *)(obj->position))->unk_06 = 0;
-        ((S_800B0544_6 *)(obj->position))->unk_0A = 0x4000;
+        obj->position->x.w.i = 0;
+        obj->position->y.w.i = 0;
+        obj->position->z.w.i = 0x4000;
         mode = *(s32 *)0x80012090;
         obj_state = ((void *)obj) + 0x20;
         if (mode == 0) {

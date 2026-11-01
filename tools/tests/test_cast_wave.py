@@ -188,6 +188,19 @@ s32 use(void *object) {
         self.assertIn('local_refused:several_record_types', res['pool']['src/a.c'])
 
 
+class ApplyPlansTest(unittest.TestCase):
+    def test_overlapping_plan_is_dropped_not_fatal(self):
+        # `root = ((V *)root)->position`: two retype plans touching one span used to abort the whole wave
+        with tempfile.TemporaryDirectory() as td:
+            (Path(td) / 'a.c').write_text('0123456789')
+            plans = [dict(file='a.c', edits=[(0, 2, 'AB'), (5, 6, 'X')]), dict(file='a.c', edits=[(1, 3, 'zz')]),
+                     dict(file='a.c', edits=[(5, 6, 'X'), (8, 9, 'Y')])]
+            dropped = []
+            self.assertEqual(V.apply_plans(td, plans, dropped), {'a.c': 3})
+            self.assertEqual((Path(td) / 'a.c').read_text(), 'AB234X67Y9')     # shared identical edit applied once
+            self.assertEqual(dropped, [plans[1]])
+
+
 class CensusDecisionTest(unittest.TestCase):
     SHARED = {
         'Thing': {'size': 0x20, 'leaves': {'2': [['speed', 'short', 2]], '10': [['angle.s', 'short', 2],

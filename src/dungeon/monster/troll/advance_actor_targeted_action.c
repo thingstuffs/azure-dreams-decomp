@@ -151,7 +151,7 @@ void advance_actor_targeted_action(ActorRecord *action, ObjectPosition *transfor
                 return;
             }
             action->action_timer.u = 0x16;
-            ((S_8017472C_0 *)action)->unk_AE.s = 0xE;
+            action->unk_AC.halves.high.s = 0xE;
             action->action_phase.u++;
             return;
         }
@@ -182,8 +182,8 @@ void advance_actor_targeted_action(ActorRecord *action, ObjectPosition *transfor
     case 2:
         step = 0;
         if (!(action->action_timer.u & 1) &&
-            ((S_8017472C_0 *)action)->unk_AE.s != 0) {
-            ((S_8017472C_0 *)action)->unk_AE.u--;
+            action->unk_AC.halves.high.s != 0) {
+            action->unk_AC.halves.high.u--;
         }
         for (step = 0; step < 10; step++) {
             spawn_random_color_burst_particle(action, transform, sprite, actor);

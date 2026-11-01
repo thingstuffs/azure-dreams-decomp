@@ -298,8 +298,8 @@ void advance_colliding_particle_sprite(void *effect, S_8196ACE4_0 *position, Spr
     if (sprite->flags & 0x8000) {
         ((S_8196ACE4_1_pre *)effect)[-1].unk_00 = (u16) (((S_8196ACE4_1_pre *)effect)[-1].unk_00 | 0x8000);
         {
-            u8 *status_page = (u8 *)0x80080000;
-            ((S_8196ACE4_4 *)status_page)->unk_14A0 |= 0x8000;
+            S_8196ACE4_4 *status_page = (S_8196ACE4_4 *)0x80080000;
+            status_page->unk_14A0 |= 0x8000;
         }
     }
 }
@@ -803,7 +803,7 @@ void shrink_effect_and_step_texture(void *effect_arg, s32 unused, S_8196BF24_1 *
 }
 
    /* Updates and renders a shrinking object with collision and lifetime checks. */
-void advance_particle_emitting_projectile(void *object, void *position, void *render_state_arg)
+void advance_particle_emitting_projectile(UpdateStagedParticleEffectBody *object, void *position, void *render_state_arg)
 {
     S_8196BFB0_2 *render_state = render_state_arg;
     s32 height;
@@ -813,47 +813,47 @@ void advance_particle_emitting_projectile(void *object, void *position, void *re
     s32 collide_y;
     s32 collide_z;
 
-    ((S_8196BFB0_0 *)position)->unk_00.at00.v += ((S_8196BFB0_1 *)object)->unk_8C;
-    ((S_8196BFB0_1 *)object)->unk_8C += ((S_8196BFB0_1 *)object)->unk_98;
+    ((S_8196BFB0_0 *)position)->unk_00.at00.v += object->unk_8C;
+    object->unk_8C += object->unk_98;
     collide_x = ((S_8196BFB0_0 *)position)->unk_00.at02.v;
     collide_y = ((S_8196BFB0_0 *)position)->unk_04.at02.v;
     collide_z = ((S_8196BFB0_0 *)position)->unk_08.at02.v;
     particle_activity = 1;
     if ((s16)check_left_tile_and_center_height(collide_x, collide_y, collide_z) != 0) {
-        ((S_8196BFB0_0 *)position)->unk_00.at00.v -= ((S_8196BFB0_1 *)object)->unk_8C;
-        ((S_8196BFB0_1 *)object)->unk_8C = 0;
-        ((S_8196BFB0_1 *)object)->unk_98 = 0;
+        ((S_8196BFB0_0 *)position)->unk_00.at00.v -= object->unk_8C;
+        object->unk_8C = 0;
+        object->unk_98 = 0;
     }
 
-    ((S_8196BFB0_0 *)position)->unk_04.at00.v += ((S_8196BFB0_1 *)object)->unk_90;
-    ((S_8196BFB0_1 *)object)->unk_90 += ((S_8196BFB0_1 *)object)->unk_9C;
+    ((S_8196BFB0_0 *)position)->unk_04.at00.v += object->unk_90;
+    object->unk_90 += object->unk_9C;
     if ((s16)check_left_tile_and_center_height(((S_8196BFB0_0 *)position)->unk_00.at02.v,
                            ((S_8196BFB0_0 *)position)->unk_04.at02.v,
                            ((S_8196BFB0_0 *)position)->unk_08.at02.v) != 0) {
-        ((S_8196BFB0_0 *)position)->unk_04.at00.v -= ((S_8196BFB0_1 *)object)->unk_90;
-        ((S_8196BFB0_1 *)object)->unk_90 = 0;
-        ((S_8196BFB0_1 *)object)->unk_9C = 0;
+        ((S_8196BFB0_0 *)position)->unk_04.at00.v -= object->unk_90;
+        object->unk_90 = 0;
+        object->unk_9C = 0;
     }
 
-    ((S_8196BFB0_0 *)position)->unk_08.at00.v += ((S_8196BFB0_1 *)object)->unk_94;
-    ((S_8196BFB0_1 *)object)->unk_94 += ((S_8196BFB0_1 *)object)->unk_A0;
+    ((S_8196BFB0_0 *)position)->unk_08.at00.v += object->unk_94;
+    object->unk_94 += object->unk_A0;
 
     height = ((S_8196BFB0_0 *)position)->unk_08.at02.v;
     if ((s16)(s16)sample_terrain_surface_height(((S_8196BFB0_0 *)position)->unk_00.at02.v,
                            ((S_8196BFB0_0 *)position)->unk_04.at02.v,
                            (s16)(((S_8196BFB0_0 *)position)->unk_08.at02u.v - 4)) - 0x10 < height) {
-        ((S_8196BFB0_1 *)object)->unk_94 = 0;
-        ((S_8196BFB0_1 *)object)->unk_90 = 0;
-        ((S_8196BFB0_1 *)object)->unk_8C = 0;
+        object->unk_94 = 0;
+        object->unk_90 = 0;
+        object->unk_8C = 0;
         ((S_8196BFB0_0 *)position)->unk_08.at02.v =
             (s16)sample_terrain_surface_height(((S_8196BFB0_0 *)position)->unk_00.at02.v,
                           ((S_8196BFB0_0 *)position)->unk_04.at02.v,
                           (s16)(((S_8196BFB0_0 *)position)->unk_08.at02p.v - 4)) - 0x11;
         ((S_8196BFB0_0 *)position)->unk_08.at00u.v = 0;
-        ((S_8196BFB0_1 *)object)->unk_2C = 0;
+        object->unk_2C.s = 0;
     }
 
-    if (((S_8196BFB0_1 *)object)->unk_50++ >= 3) {
+    if (object->unk_50.s++ >= 3) {
         scale_x = render_state->unk_1C.u;
         scale_y = render_state->unk_1E.u;
         scale_x = scale_x - 0x100;
@@ -873,7 +873,7 @@ void advance_particle_emitting_projectile(void *object, void *position, void *re
                   (s16)(((S_8196BFB0_0 *)position)->unk_04.at02.v - ((u16)view_reference_entity.y.w.i)),
                   (s16)(((S_8196BFB0_0 *)position)->unk_08.at02p.v - ((u16)view_reference_entity.z.w.i)));
 
-    if (--((S_8196BFB0_1 *)object)->unk_2C <= 0) {
+    if (--object->unk_2C.s <= 0) {
         (*(u16 *)((u8 *)object + -2)) |= NODE_REMOVE;
         object_flag_block.flags |= OBJECT_REMOVE_PENDING;
     }
@@ -885,7 +885,7 @@ void advance_particle_emitting_projectile(void *object, void *position, void *re
 }
 
    /* Move the effect with collision checks, shrink its sprite, and expire it when finished. */
-void shrink_particle_emitting_projectile(void *effect, void *position, void *sprite) {
+void shrink_particle_emitting_projectile(UpdateStagedParticleEffectBody *effect, void *position, void *sprite) {
     u16 age;
     u16 reduced_scale_x;
     u16 reduced_scale_y;
@@ -893,8 +893,8 @@ void shrink_particle_emitting_projectile(void *effect, void *position, void *spr
     u16 scale_x;
     u16 next_scale_y;
 
-    ((S_8196C280_0 *)position)->unk_00.at00.v += ((S_8196C280_1 *)effect)->unk_8C;
-    ((S_8196C280_1 *)effect)->unk_8C += ((S_8196C280_1 *)effect)->unk_98;
+    ((S_8196C280_0 *)position)->unk_00.at00.v += effect->unk_8C;
+    effect->unk_8C += effect->unk_98;
     {
         u16 check_x;
         u16 check_y;
@@ -905,39 +905,39 @@ void shrink_particle_emitting_projectile(void *effect, void *position, void *spr
         check_z = ((S_8196C280_0 *)position)->unk_08.at02.v;
         particle_activity = 1;
         if ((check_left_tile_and_center_height(check_x, check_y, check_z) << 0x10) != 0) {
-            ((S_8196C280_0 *)position)->unk_00.at00.v -= ((S_8196C280_1 *)effect)->unk_8C;
-            ((S_8196C280_1 *)effect)->unk_8C = 0;
-            ((S_8196C280_1 *)effect)->unk_98 = 0;
+            ((S_8196C280_0 *)position)->unk_00.at00.v -= effect->unk_8C;
+            effect->unk_8C = 0;
+            effect->unk_98 = 0;
         }
     }
-    ((S_8196C280_0 *)position)->unk_04.at00.v += ((S_8196C280_1 *)effect)->unk_90;
-    ((S_8196C280_1 *)effect)->unk_90 += ((S_8196C280_1 *)effect)->unk_9C;
+    ((S_8196C280_0 *)position)->unk_04.at00.v += effect->unk_90;
+    effect->unk_90 += effect->unk_9C;
     if ((check_left_tile_and_center_height(((S_8196C280_0 *)position)->unk_00.at02.v, ((S_8196C280_0 *)position)->unk_04.at02.v,
         ((S_8196C280_0 *)position)->unk_08.at02.v) << 0x10) != 0) {
-        ((S_8196C280_0 *)position)->unk_04.at00.v -= ((S_8196C280_1 *)effect)->unk_90;
-        ((S_8196C280_1 *)effect)->unk_90 = 0;
-        ((S_8196C280_1 *)effect)->unk_9C = 0;
+        ((S_8196C280_0 *)position)->unk_04.at00.v -= effect->unk_90;
+        effect->unk_90 = 0;
+        effect->unk_9C = 0;
     }
-    ((S_8196C280_0 *)position)->unk_08.at00.v += ((S_8196C280_1 *)effect)->unk_94;
-    ((S_8196C280_1 *)effect)->unk_94 += ((S_8196C280_1 *)effect)->unk_A0;
+    ((S_8196C280_0 *)position)->unk_08.at00.v += effect->unk_94;
+    effect->unk_94 += effect->unk_A0;
     {
         s32 height;
 
         height = ((S_8196C280_0 *)position)->unk_08.at02.v;
         if (((s16)sample_terrain_surface_height(((S_8196C280_0 *)position)->unk_00.at02.v, ((S_8196C280_0 *)position)->unk_04.at02.v,
             (s16)(((S_8196C280_0 *)position)->unk_08.at02u.v - 4)) - 0x10) < height) {
-            ((S_8196C280_1 *)effect)->unk_94 = 0;
-            ((S_8196C280_1 *)effect)->unk_90 = 0;
-            ((S_8196C280_1 *)effect)->unk_8C = 0;
+            effect->unk_94 = 0;
+            effect->unk_90 = 0;
+            effect->unk_8C = 0;
             ((S_8196C280_0 *)position)->unk_08.at02.v = (s16)sample_terrain_surface_height(((S_8196C280_0 *)position)->unk_00.at02.v,
                 ((S_8196C280_0 *)position)->unk_04.at02.v, (s16)(((S_8196C280_0 *)position)->unk_08.at02u.v - 4))
             - 0x11;
             ((S_8196C280_0 *)position)->unk_08.at00u.v = 0;
-            ((S_8196C280_1 *)effect)->unk_2C = 0;
+            effect->unk_2C.u = 0;
         }
     }
-    age = ((S_8196C280_1 *)effect)->unk_50;
-    ((S_8196C280_1 *)effect)->unk_50 = age + 1;
+    age = effect->unk_50.u;
+    effect->unk_50.u = age + 1;
     if ((s16)age >= 3) {
         scale_x = ((S_8196C280_2 *)sprite)->unk_1C;
         next_scale_y = ((S_8196C280_2 *)sprite)->unk_1E;
@@ -952,7 +952,7 @@ void shrink_particle_emitting_projectile(void *effect, void *position, void *spr
             next_scale_y = 0;
         }
         if (((next_scale_y << 0x10) == 0) || ((scale_x << 0x10) == 0)) {
-            ((S_8196C280_1 *)effect)->unk_2C = 0;
+            effect->unk_2C.u = 0;
         }
         ((S_8196C280_2 *)sprite)->unk_1C = scale_x;
         ((S_8196C280_2 *)sprite)->unk_1E = next_scale_y;
@@ -961,8 +961,8 @@ void shrink_particle_emitting_projectile(void *effect, void *position, void *spr
         (s16)(((S_8196C280_0 *)position)->unk_00.at02.v - ((u16)view_reference_entity.x.w.i)),
         (s16)(((S_8196C280_0 *)position)->unk_04.at02.v - ((u16)view_reference_entity.y.w.i)),
         (s16)(((S_8196C280_0 *)position)->unk_08.at02u.v - ((u16)view_reference_entity.z.w.i)));
-    life_left = ((S_8196C280_1 *)effect)->unk_2C - 1;
-    ((S_8196C280_1 *)effect)->unk_2C = life_left;
+    life_left = effect->unk_2C.u - 1;
+    effect->unk_2C.u = life_left;
     if ((life_left << 0x10) <= 0) {
         (*(u16 *)((u8 *)effect + -2)) |= NODE_REMOVE;
         object_flag_block.flags |= OBJECT_REMOVE_PENDING;

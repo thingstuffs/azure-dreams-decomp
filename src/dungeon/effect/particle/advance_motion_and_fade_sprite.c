@@ -960,11 +960,11 @@ typedef struct S_80024F40_1 {
 void fade_packed_object_color_to_zero(void *object_arg) {
     S_80024F40_0 *object = object_arg;
     s16 fade_state;
-    void *linked_object;
+    S_80024F40_1 *linked_object;
 
     linked_object = object->unk_00;
-    ((S_80024F40_1 *)linked_object)->unk_52 =
-        (u16)(((S_80024F40_1 *)linked_object)->unk_52 | 0x8000);
+    linked_object->unk_52 =
+        (u16)(linked_object->unk_52 | 0x8000);
     object->unk_42 =
         GetClut((rand() & 0xF) * 0x10, 0x1F8);
     fade_state = object->unk_4A.s;

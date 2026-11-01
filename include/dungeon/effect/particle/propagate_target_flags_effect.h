@@ -36,6 +36,24 @@ typedef struct StagedRectangleSpriteBody {
     void *unk_7C;
 } StagedRectangleSpriteBody;
 
+/* Shared motion, lifetime, and packed sprite data for the staged projectiles. */
+typedef struct UpdateStagedParticleEffectBody {
+    u8 pad_00[0x2C];
+    union { s16 s; u16 u; } unk_2C;
+    u16 unk_2E;
+    u8 pad_30[0x8];
+    u8 template_data[0xC];
+    u8 pad_44[0xC];
+    union { s16 s; u16 u; } unk_50;
+    u8 pad_52[0x3A];
+    s32 unk_8C;
+    s32 unk_90;
+    s32 unk_94;
+    s32 unk_98;
+    s32 unk_9C;
+    s32 unk_A0;
+} UpdateStagedParticleEffectBody;
+
 /* Promoted Layer-2 record names and layouts are shared without changing the bodies. */
 
 /* GPU scratchpad (0x1F800000) workspace used while projecting. */
@@ -103,19 +121,6 @@ typedef struct S_8196BFB0_0 {
         struct { u8 pad[0x2]; u16 v; } at02p;
     } unk_08;   /* overlapping accesses */
 } S_8196BFB0_0;
-typedef struct S_8196BFB0_1 {
-    u8 pad_00[0x2C];
-    s16 unk_2C;
-    u8 pad_2E[0x22];
-    s16 unk_50;
-    u8 pad_52[0x3A];
-    s32 unk_8C;
-    s32 unk_90;
-    s32 unk_94;
-    s32 unk_98;
-    s32 unk_9C;
-    s32 unk_A0;
-} S_8196BFB0_1;
 typedef struct S_8196BFB0_2 {
     u8 pad_00[0x14];
     u16 unk_14;
@@ -327,19 +332,6 @@ typedef struct S_8196C280_0 {
         struct { u8 pad[0x2]; u16 v; } at02u;
     } unk_08;   /* overlapping accesses */
 } S_8196C280_0;
-typedef struct S_8196C280_1 {
-    u8 pad_00[0x2C];
-    u16 unk_2C;
-    u8 pad_2E[0x22];
-    u16 unk_50;
-    u8 pad_52[0x3A];
-    s32 unk_8C;
-    s32 unk_90;
-    s32 unk_94;
-    s32 unk_98;
-    s32 unk_9C;
-    s32 unk_A0;
-} S_8196C280_1;
 typedef struct S_8196C280_2 {
     u8 pad_00[0x14];
     u16 unk_14;
@@ -451,7 +443,7 @@ void select_record_entry_and_value(void *state, void *entries, short index);
 s32 check_left_tile_and_center_height(s32 x, s32 y, s32 z);
 void create_lingering_ballistic_sprite(S_8196B4A4_5 *source, s32 unused_1, s32 unused_2, s16 offset_x, s16 offset_y, s16 offset_z);
 void shrink_effect_and_step_texture(void *effect, s32 unused, S_8196BF24_1 *transform);
-void advance_particle_emitting_projectile(void *object, void *position, void *render_state);
+void advance_particle_emitting_projectile(UpdateStagedParticleEffectBody *object, void *position, void *render_state);
 void update_timed(void *effect_data, s32 unused, void *sprite);
 void advance_counter_and_propagate_target_flags(void *object);
 void advance_terrain_colliding_sprite(LingeringBallisticSpriteBody *motion, void *position, s32 update_id);
@@ -460,7 +452,7 @@ void create_timed_rectangle_effect(StagedRectangleSpriteBody *owner);
 void update_staged_particle_effect(Work *work, s32 position_arg, s32 sprite_arg);
 void advance_colliding_particle_sprite(void *effect, S_8196ACE4_0 *position, SpriteFrameState *sprite);
 void create_brief_ballistic_sprite(S_8196B780_5 *source, s32 unused_1, s32 unused_2, s16 x, s16 y, s16 z);
-void shrink_particle_emitting_projectile(void *effect, void *position, void *sprite);
+void shrink_particle_emitting_projectile(UpdateStagedParticleEffectBody *effect, void *position, void *sprite);
 void draw_effect_and_restore_clip(StagedRectangleSpriteBody *effect, s32 unused, u8 *primitive);
 void apply_random_actor_value_adjustment(void *state, void *unused, void *visual);
 void spawn_jittered_point_child(ObjectNodeHeader *source, s32 state_14_value, s32 state_08_value, s32 state_32_value, s16 x_offset, s16 y_offset, s16 z_offset);

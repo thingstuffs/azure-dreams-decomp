@@ -182,7 +182,7 @@ void update_actor_movement_and_height(ActorRecord *body, ObjectPosition *positio
     if ((*(s16 *)((u8 *)body + (0xB8))) == 1) {
         target_height = ((S_8017112C_4 *)position)->unk_14.at02.v;
         height = position->z.w.i;
-        height_fixed = ((S_8017112C_4 *)position)->unk_08.at02u.v;
+        height_fixed = position->z.unsigned_parts.integer;
         if (target_height > height) {
             height_gap = target_height - height;
             height_gap = abs(height_gap);
@@ -205,7 +205,7 @@ void update_actor_movement_and_height(ActorRecord *body, ObjectPosition *positio
     }
 
     if ((*(s16 *)((u8 *)body + (0xB8))) == 2 && position->z.w.i >= -0x3EF) {
-        position->z.w.i = ((S_8017112C_4 *)position)->unk_08.at02u.v - 4;
+        position->z.w.i = position->z.unsigned_parts.integer - 4;
     }
 
     if (actor->unk_1C & 0x40000000) {

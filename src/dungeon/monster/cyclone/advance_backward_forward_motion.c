@@ -42,13 +42,13 @@ void advance_backward_forward_motion(ActorRecord *action, ObjectPosition *motion
     state = action->action_phase.u;
     switch (state) {
     case 0:
-        ((S_80172C98_0 *)action)->unk_AE.s = 6;
+        action->unk_AC.halves.high.s = 6;
         motion->velocity_x =
             -(((rcos(actor->facing) >> 4) << 13) /
-              ((S_80172C98_0 *)action)->unk_AE.s);
+              action->unk_AC.halves.high.s);
         motion->velocity_y =
             -(((rsin(actor->facing) >> 4) << 13) /
-              ((S_80172C98_0 *)action)->unk_AE.s);
+              action->unk_AC.halves.high.s);
         action->action_phase.u++;
 
     case 1:
@@ -62,8 +62,8 @@ void advance_backward_forward_motion(ActorRecord *action, ObjectPosition *motion
             return;
         }
 
-        timer = ((S_80172C98_0 *)action)->unk_AE.u - 1;
-        ((S_80172C98_0 *)action)->unk_AE.u = timer;
+        timer = action->unk_AC.halves.high.u - 1;
+        action->unk_AC.halves.high.u = timer;
         if ((s16)timer < 0) {
             motion->velocity_x =
                 motion->velocity_y =
@@ -78,14 +78,14 @@ void advance_backward_forward_motion(ActorRecord *action, ObjectPosition *motion
                 animation,
                 direction_anims[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
                 0);
-            ((S_80172C98_0 *)action)->unk_AE.s = 6;
+            action->unk_AC.halves.high.s = 6;
             motion->velocity_x =
                 ((rcos(actor->facing) >> 4) << 14) /
-                ((S_80172C98_0 *)action)->unk_AE.s;
+                action->unk_AC.halves.high.s;
             motion->velocity_y =
                 ((rsin(actor->facing) >> 4) << 14) /
-                ((S_80172C98_0 *)action)->unk_AE.s;
-            ((S_80172C98_0 *)action)->unk_AE.u--;
+                action->unk_AC.halves.high.s;
+            action->unk_AC.halves.high.u--;
             create_directional_effect(action, motion, animation);
             create_offset_directional_effect(action, motion, animation);
             play_sound_if_enabled(0x80E);
@@ -95,8 +95,8 @@ void advance_backward_forward_motion(ActorRecord *action, ObjectPosition *motion
         return;
 
     case 2:
-        timer = ((S_80172C98_0 *)action)->unk_AE.u - 1;
-        ((S_80172C98_0 *)action)->unk_AE.u = timer;
+        timer = action->unk_AC.halves.high.u - 1;
+        action->unk_AC.halves.high.u = timer;
         if ((s16)timer < 0) {
             motion->velocity_x =
                 motion->velocity_y =

@@ -7,14 +7,13 @@
 #include "engine/scene.h"
 #include "engine/graphics.h"
 #include "shared/entity.h"
+#include "dungeon/monster/golem.h"
 
 #ifndef NULL
 #define NULL 0
 #endif
 
-typedef struct {
-    u32 words[6];
-} Copy24;
+typedef RandomizedOffsetVector Copy24;
 
 extern void *allocate_list_node(s32, s32);
 extern s32 register_node(ObjectNodeHeader *entry, void *registration_id);
@@ -22,20 +21,6 @@ extern s32 rand(void);
 
 
 extern u8 D_80175018;
-
-typedef struct S_8017589C_1 {
-    u8 pad_00[0x6];
-    s16 unk_06;
-    s16 unk_08;
-    u16 unk_0A;
-    u16 unk_0C;
-    union { u16 u; s16 s; } unk_0E;   /* accessed as both */
-    u8 pad_10[0x30];
-    ActorRecord *unk_40;
-    void * unk_44;
-    void * unk_48;
-    ActorRecord *unk_4C;
-} S_8017589C_1;   /* work in create_randomized_offset_object */
 
    /* copy in create_randomized_offset_object */
 
@@ -45,7 +30,7 @@ void *create_randomized_offset_object(ActorRecord *allocation_param, Copy24 *ini
     GteOffset delta;
     s32 random_value;
     ObjectNodeHeader *object;
-    S_8017589C_1 *work;
+    RandomizedOffsetObjectBody *work;
     SpriteFrameState *node;
     SpriteFrameState *source;
     Copy24 *copy;
@@ -57,10 +42,10 @@ void *create_randomized_offset_object(ActorRecord *allocation_param, Copy24 *ini
         work = (u8 *)object + 0x20;
 
         random_value = rand();
-        work->unk_06 = (s16)(random_value % 0x1000);
+        work->unk_06.s = (s16)(random_value % 0x1000);
 
         random_value = rand();
-        work->unk_08 = (s16)(random_value % 0x1000);
+        work->unk_08.s = (s16)(random_value % 0x1000);
 
         work->unk_40 = allocation_param;
         work->unk_44 = initial_data;

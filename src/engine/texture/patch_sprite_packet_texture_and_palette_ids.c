@@ -21,7 +21,7 @@ typedef struct S_80047054_1 {
 /* Offset coordinates in unprocessed type-2 part chains and mark them processed. */
 void patch_sprite_packet_texture_and_palette_ids(void *data, s32 flagged_x_offset, s32 y_offset, s32 x_offset)
 {
-    void *header = data;
+    S_80047054_0 *header = data;
     s32 skip_bytes;
     u32 entry_addr;
     u8 *entry;
@@ -31,9 +31,9 @@ void patch_sprite_packet_texture_and_palette_ids(void *data, s32 flagged_x_offse
     u16 x_or_end_flag;
     u8 flags;
 
-    skip_bytes = ((S_80047054_0 *)header)->unk_04 << 2;
-    entry_addr = ((S_80047054_0 *)header)->unk_00 + skip_bytes;
-    skip_bytes = ((S_80047054_0 *)header)->unk_08;
+    skip_bytes = header->unk_04 << 2;
+    entry_addr = header->unk_00 + skip_bytes;
+    skip_bytes = header->unk_08;
     if (entry_addr < skip_bytes) {
         part_entry_type = 2;
         entry = (u8 *)entry_addr + 4;
@@ -57,9 +57,9 @@ void patch_sprite_packet_texture_and_palette_ids(void *data, s32 flagged_x_offse
                         part += 0xC;
                     } while (!x_or_end_flag);
                 }
-                entries_end = ((S_80047054_0 *)header)->unk_08;
+                entries_end = header->unk_08;
             } else {
-                entries_end = ((S_80047054_0 *)header)->unk_08;
+                entries_end = header->unk_08;
             }
             entry_addr += 8;
             entry += 8;

@@ -42,7 +42,9 @@ Edit classes outside src/ and include/ (lane cadence, 2026-10-31):
   * derived    - ledger/layout_inline.jsonl: refresh_layout_inline.py output.  Accepted when every changed record's
                  merged TU (tu_new) is itself an edited file: its placement copies are then in the scope (own
                  recipes) and the worker re-projects them from the current ledger, as make does.  A record of an
-                 unedited TU is authority.
+                 unedited TU is authority, except a repair: the committed record does not describe the committed
+                 text (source_sha256) and the new one does (a batch committed without its refreshed ledger;
+                 report key layout_inline_healed).
   * non-build  - files the build never reads (tools/typing, tools/lint, docs, work, ledger/prototype_floors.jsonl,
                  ledger/fields.jsonl): reported, not refused.
   * A .c file outside the graph is ERROR when it is new (needs configure) or a decoded-image source (needs
@@ -432,6 +434,47 @@ def layout_inline_owners(root, rev):
     old = records(res.stdout.decode())
     new = records((Path(root) / DERIVED_LEDGER).read_text())
     return sorted({key[1] for key in set(old) | set(new) if old.get(key) != new.get(key)})
+
+
+def layout_inline_healed(root, rev, tus):
+    """Subset of `tus` (merged TUs not edited since `rev`) whose changed layout_inline records only repair a ledger
+    that did not describe its own text: every changed record exists on both sides, the `rev` record does not verify
+    against the TU text at `rev` (source_sha256), the new record does, and the TU text is unchanged.  This is a lane
+    that committed a batch's sources without the refreshed ledger; the earlier batch proved the placement copies with
+    the records now in the working tree.  Anything else stays graph authority."""
+    import importlib.util
+    spec = importlib.util.spec_from_file_location(
+        'refresh_layout_inline', Path(__file__).resolve().parents[1] / 'typing/refresh_layout_inline.py')
+    R = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(R)
+
+    def by_key(blob):
+        out = {}
+        for line in blob.splitlines():
+            if line.strip():
+                r = json.loads(line)
+                out[(r.get('member_id'), r.get('tu_new'))] = r
+        return out
+    res = subprocess.run(['git', '-C', str(root), 'show', rev + ':' + DERIVED_LEDGER], capture_output=True)
+    if res.returncode:
+        return []
+    old = by_key(res.stdout.decode())
+    new = by_key((Path(root) / DERIVED_LEDGER).read_text())
+    healed = []
+    for tu in tus:
+        keys = {k for k in set(old) | set(new) if k[1] == tu and old.get(k) != new.get(k)}
+        if not keys or any(k not in old or k not in new for k in keys):
+            continue
+        shown = subprocess.run(['git', '-C', str(root), 'show', rev + ':' + tu], capture_output=True)
+        try:
+            text = (Path(root) / tu).read_bytes()
+        except OSError:
+            continue
+        if shown.returncode or shown.stdout != text:
+            continue
+        if all(not R.verifies(old[k], text) and R.verifies(new[k], text) for k in keys):
+            healed.append(tu)
+    return healed
 
 
 def new_files(root, rev):
@@ -871,6 +914,12 @@ def prove(root, edited, base=None, *, workers=8, relink=True, rev='HEAD', keep=F
             return report
         foreign = [t for t in owners if t not in set(scope['files'])]
         report['layout_inline_owners'] = owners
+        healed = layout_inline_healed(root, ledger_rev, foreign) if foreign else []
+        if healed:
+            report['layout_inline_healed'] = healed
+            log('layout_inline: %d unedited TU(s) only repair a stale committed ledger (accepted): %s' % (
+                len(healed), ', '.join(healed[:4])))
+            foreign = [t for t in foreign if t not in set(healed)]
         if foreign:
             report.update(verdict='ERROR', error='layout_inline records changed for TUs that are not edited (graph '
                           'authority; run make configure + a full build): ' + ', '.join(foreign[:8]))

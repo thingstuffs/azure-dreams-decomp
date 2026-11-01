@@ -115,7 +115,7 @@ void build_a_trigonometric_table_processes_up_eight_height_offset_segments(void 
         entry->unk_00 = buffer;
         position->unk_08 = x;
         entry_index += 1;
-        ((S_800249B4_4 *)(((S_800249B4_3 *)entry)->unk_04))->unk_0A = y;
+        ((S_800249B4_4 *)entry->unk_04)->unk_0A = y;
         y += 0x10;
     } while (entry_index < 2);
 }

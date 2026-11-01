@@ -206,7 +206,7 @@ void update_actor_movement_and_actions(State *state, Actor *actor) {
     }
 
     direction = (((u16)input->view.camera_rotation.parts.viewAngle) + 0x800) & 0xFFF;
-    *(u16 *)((u8 *)state + 0x10) = direction;
+    state->direction = direction;
 
     if (((u32)input->buttons) & 0x20) {
         add_a_directional_step_vector_scale_down_exceeds_length_limit(direction, (*((s32 *)town_movement_speed)), actor);

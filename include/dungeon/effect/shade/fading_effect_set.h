@@ -33,19 +33,24 @@ typedef struct ovl_188898c_81868A64_S_81868A64_3 {
     u8 pad_08[0x2];
     u16 unk_0A;
 } ovl_188898c_81868A64_S_81868A64_3;
-typedef struct ovl_188898c_81868B84_S_81868B84_0_pre {
+/* Stage, spiral parameters, source owner, and grayscale intensity for the expanding effect. */
+typedef struct CoordinateSpriteObjectBody {
     u16 unk_00;
-} ovl_188898c_81868B84_S_81868B84_0_pre;
-typedef struct ovl_188898c_81868B84_S_81868B84_0 {
-    u16 unk_00;
-    union { u16 s; s16 u; } unk_02;   
-    u8 pad_04[0x2];
+    union { u16 s; s16 u; } unk_02;
+    s16 unk_04;
     u16 unk_06;
     u16 unk_08;
     u16 unk_0A;
-    void * unk_0C;
+    void *unk_0C;
     u8 unk_10;
-} ovl_188898c_81868B84_S_81868B84_0;
+} CoordinateSpriteObjectBody;
+/* Owner link for the delayed fading particle. */
+typedef struct DelayAndFadeParticleBody {
+    void *owner;
+} DelayAndFadeParticleBody;
+typedef struct ovl_188898c_81868B84_S_81868B84_0_pre {
+    u16 unk_00;
+} ovl_188898c_81868B84_S_81868B84_0_pre;
 typedef struct ovl_188898c_81868B84_S_81868B84_1 {
     u8 pad_00[0x14];
     u16 unk_14;
@@ -62,16 +67,6 @@ typedef struct ovl_188898c_81868E84_S_81868E84_0 {
     u8 pad_14[0xC];
     s16 unk_20;
 } ovl_188898c_81868E84_S_81868E84_0;
-typedef struct ovl_188898c_81868E84_S_81868E84_1 {
-    u8 pad_00[0x2];
-    s16 unk_02;
-    s16 unk_04;
-    s16 unk_06;
-    s16 unk_08;
-    s16 unk_0A;
-    void * unk_0C;
-    s8 unk_10;
-} ovl_188898c_81868E84_S_81868E84_1;
 typedef struct ovl_188898c_81868E84_S_81868E84_2 {
     u8 pad_00[0x9];
     u8 unk_09;
@@ -243,9 +238,9 @@ static __inline__ s32 first_delta_s32_s32(s32 end, s32 start);
 void apply_status_to_nearby_actors(s32 x, s32 y, void *kind, s32 flags);
 void advance_fading_effect(void *effect, void *position, void *render_data);
 void create_randomized_grayscale_effect(s32 user_data, ovl_188898c_81868A64_S_81868A64_3 *source_pos, u8 intensity);
-void animate_spiral_grayscale_effect(void *effect, void *position);
+void animate_spiral_grayscale_effect(CoordinateSpriteObjectBody *effect, void *position);
 void create_coordinate_sprite_object(void *owner, ovl_188898c_81868E84_S_81868E84_3 *coords);
-void shrink_and_brighten_effect(void *state_ref, void *unused, SpriteFrameState *effect);
+void shrink_and_brighten_effect(DelayAndFadeParticleBody *state_ref, void *unused, SpriteFrameState *effect);
 void delay_and_fade_particle(s32 value, void *source_data);
 s32 interpolate_shade_and_queue_line(void *line_data, void *unused_render_context);
 void move_linked_effect_along_path(ovl_188898c_818694D4_Controller *input_ctrl, ovl_188898c_818694D4_Motion *input_motion, void *input_render_data);

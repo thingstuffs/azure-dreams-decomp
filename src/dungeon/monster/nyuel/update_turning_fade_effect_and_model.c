@@ -186,7 +186,7 @@ void update_turning_fade_effect_and_model(ActorRecord *sequence, ObjectPosition 
         }
         effect_node->update_callback = &func_8017487C;
         register_node(effect_node, project_sprite_chain);
-        ((S_801749A8_0 *)sequence)->unk_A4 = effect_node;
+        sequence->unk_A4.address = effect_node;
         effect_node->position->x.v = (s32) position->x.v;
         effect_node->position->y.v = (s32) position->y.v;
         effect_node->position->z.v = (s32) position->z.v;
@@ -206,7 +206,7 @@ void update_turning_fade_effect_and_model(ActorRecord *sequence, ObjectPosition 
         create_cylindrical_effect(sequence, position, actor);
         return;
     case 5:
-        object = ((S_801749A8_0 *)sequence)->unk_A4;
+        object = sequence->unk_A4.address;
         object = object->unk_0C.s;
         if (object->unk_14 & 0xE000) {
             sequence->action_phase.u = (u8) (sequence->action_phase.u + 1);

@@ -235,18 +235,18 @@ zone_found:
             s32 zone_x;
             s32 actor_y;
             s32 actor_x;
-            u8 *zone_data;
+            Zone *zone_data;
             s32 d4_1;
             s32 d4_2;
             s32 d4_3;
             s32 d4_4;
-            zone_data = (u8 *)D_80024020;
+            zone_data = (Zone *)D_80024020;
             current_zone = *zone_id;
             actor_x = actor->x;
             actor_y = actor->y;
-            zone_y_m = ((Zone *)zone_data)[current_zone].y;
-            zone_x = ((Zone *)zone_data)[current_zone].x;
-            d4_1 = zone_y_m + ((Zone *)zone_data)[current_zone].h;
+            zone_y_m = zone_data[current_zone].y;
+            zone_x = zone_data[current_zone].x;
+            d4_1 = zone_y_m + zone_data[current_zone].h;
             edge_coord_2 = zone_x + 0x100;
             old_zone = d4_1 - edge_coord_2;
             d4_2 = actor_x + old_zone;
@@ -255,7 +255,7 @@ zone_found:
             if (d4_2 > 0) {
                 PUSH(-0x100000, 0x100000)
             }
-            d4_3 = zone_x + ((Zone *)zone_data)[current_zone].w;
+            d4_3 = zone_x + zone_data[current_zone].w;
             old_zone = edge_coord - d4_3;
             d4_4 = actor_x + old_zone;
             d4_4 = actor_y - d4_4;

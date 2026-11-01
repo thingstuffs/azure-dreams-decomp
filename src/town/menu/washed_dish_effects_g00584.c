@@ -13,7 +13,7 @@ void initialize_timed_resource_object(void *object, void *unused, struct SpriteF
     *(s32 **) ((s8 *) object - 0x10) = &finalize_object_or_select_town_record;
     dish_counter = 0x14;
     resource_base = &D_800F8A70;
-    *(void **) ((s8 *) context + 8) = (void *) ((s8 *) resource_base + 0xF0);
+    context->source = (void *) ((s8 *) resource_base + 0xF0);
     register_node_if_unregistered(object, (project_sprite_chain));
 }
 

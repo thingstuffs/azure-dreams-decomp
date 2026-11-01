@@ -37,7 +37,7 @@ s32 project_linked_shaded_points(JitteredTerrainSeekingPointBody *start_node, vo
     u8 *packet_end;
     u8 *packet;
     JitteredTerrainSeekingPointBody *node;
-    u8 *coords;
+    B32_818CE83C_S_8002403C_2 *coords;
     void *prev_entry;
     u32 depth_index;
     u16 coord_x;
@@ -52,11 +52,11 @@ s32 project_linked_shaded_points(JitteredTerrainSeekingPointBody *start_node, vo
     ((B32_818CE83C_S_8002403C_1 *)scratch)->unk_20.p = render_state + 0xB0;
 
     for (;;) {
-        coord_x = ((B32_818CE83C_S_8002403C_2 *)coords)->unk_02;
+        coord_x = coords->unk_02;
         packet = *(u8 **)(scratch + 0x18);
         ((B32_818CE83C_S_8002403C_1 *)scratch)->unk_00 = coord_x;
-        ((B32_818CE83C_S_8002403C_1 *)scratch)->unk_02 = ((B32_818CE83C_S_8002403C_2 *)coords)->unk_06;
-        ((B32_818CE83C_S_8002403C_1 *)scratch)->unk_04 = ((B32_818CE83C_S_8002403C_2 *)coords)->unk_0A;
+        ((B32_818CE83C_S_8002403C_1 *)scratch)->unk_02 = coords->unk_06;
+        ((B32_818CE83C_S_8002403C_1 *)scratch)->unk_04 = coords->unk_0A;
         *(u8 **)(scratch + 0x18) = packet + 0xC;
 
         depth_index = RotTransPers(scratch, packet + 8, scratch + 0x90,
@@ -130,7 +130,7 @@ s32 project_linked_shaded_points(JitteredTerrainSeekingPointBody *start_node, vo
         if (prev_entry == 0) {
             break;
         }
-        coords = ((B32_818CE83C_S_8002403C_5 *)prev_entry)->unk_08;
+        coords = (B32_818CE83C_S_8002403C_2 *)((B32_818CE83C_S_8002403C_5 *)prev_entry)->unk_08;
     }
 
     final_state = *state_ptr;
@@ -433,10 +433,10 @@ extern u8 current_spell_effect_variant[];
 /* Per-frame chasing-star step: drift toward the player, steer around the map and spawn the two trailing sprites. */
 void update_chasing_star_effect(void *entity, B32_818CF0E8_S_818CF0E8_1 *pos, B32_818CF0E8_S_818CF0E8_3 *gfx)
 {
-    u8 *star;
+    B32_818CF0E8_S_818CF0E8_2 *star;
     B32_818CF0E8_S_818CF0E8_7 *env;
     ObjectNodeHeader *obj;
-    void *p;
+    B32_818CF0E8_S_818CF0E8_6 *p;
     s32 dv;
     s32 av;
     u16 flags;
@@ -459,7 +459,7 @@ void update_chasing_star_effect(void *entity, B32_818CF0E8_S_818CF0E8_1 *pos, B3
             src = (u8 *)(0xC0C0C0);
             a3v = (rv & 0xFF) | 0x80;
             create_jittered_terrain_seeking_point((void *)w1, ((B32_818CF0E8_S_818CF0E8_0 *)entity)->unk_16, (s32)src, a3v, 0, 0, 0);
-            p = (u8 *)p + 1;
+            p = (B32_818CF0E8_S_818CF0E8_6 *)((u8 *)p + 1);
         } if ((s32)p < 4) goto loop_0;
         if ((check_adjacent_tile_height_clearance(pos->unk_00.at02.v, pos->unk_04.at02.v,
                            pos->unk_08.at02.v, ((B32_818CF0E8_S_818CF0E8_0 *)entity)->unk_30) << 0x10) != 0) {
@@ -472,14 +472,14 @@ void update_chasing_star_effect(void *entity, B32_818CF0E8_S_818CF0E8_1 *pos, B3
             u16 a2v;
             u16 a1v;
             star = ((B32_818CF0E8_S_818CF0E8_8_pre *)(((B32_818CF0E8_S_818CF0E8_0 *)entity)->unk_30))[-1].unk_00;
-            if (pos->unk_08.at00.v < ((B32_818CF0E8_S_818CF0E8_2 *)star)->unk_08.at00.v + (s32)0xFF800000) {
+            if (pos->unk_08.at00.v < star->unk_08.at00.v + (s32)0xFF800000) {
                 ((B32_818CF0E8_S_818CF0E8_0 *)entity)->unk_54 /= 2;
             }
             {
             s32 d;
             s32 aw;
             d = pos->unk_00.at02u.v;
-            d -= ((B32_818CF0E8_S_818CF0E8_2 *)star)->unk_02.s;
+            d -= star->unk_02.s;
             aw = d;
             aw = abs(aw);
             if (aw < 8) {
@@ -505,7 +505,7 @@ void update_chasing_star_effect(void *entity, B32_818CF0E8_S_818CF0E8_1 *pos, B3
             s32 d;
             s32 aw;
             d = pos->unk_04.at02u.v;
-            d -= ((B32_818CF0E8_S_818CF0E8_2 *)star)->unk_06.s;
+            d -= star->unk_06.s;
             aw = (d >= 0) ? d : (0 - d);
             if (aw < 8) {
                 s32 v;
@@ -532,8 +532,8 @@ void update_chasing_star_effect(void *entity, B32_818CF0E8_S_818CF0E8_1 *pos, B3
                 s32 st;
                 a2v = pos->unk_00.at02.v;
                 d = pos->unk_00.at02u.v;
-                a1v = ((B32_818CF0E8_S_818CF0E8_2 *)star)->unk_02.u;
-                st = ((B32_818CF0E8_S_818CF0E8_2 *)star)->unk_02.s;
+                a1v = star->unk_02.u;
+                st = star->unk_02.s;
                 d -= st;
                 aw = (d >= 0) ? d : (0 - d);
                 if (aw >= 0xC1) {
@@ -567,8 +567,8 @@ void update_chasing_star_effect(void *entity, B32_818CF0E8_S_818CF0E8_1 *pos, B3
                 s32 st;
                 a2v = pos->unk_04.at02.v;
                 d = pos->unk_04.at02u.v;
-                a1v = ((B32_818CF0E8_S_818CF0E8_2 *)star)->unk_06.u;
-                st = ((B32_818CF0E8_S_818CF0E8_2 *)star)->unk_06.s;
+                a1v = star->unk_06.u;
+                st = star->unk_06.s;
                 d -= st;
                 aw = (d >= 0) ? d : (0 - d);
                 if (aw >= 0xC1) {
@@ -602,10 +602,10 @@ void update_chasing_star_effect(void *entity, B32_818CF0E8_S_818CF0E8_1 *pos, B3
                 s32 st;
                 if (((B32_818CF0E8_S_818CF0E8_0 *)entity)->unk_4C != 0) {
                     a2v = pos->unk_00.at02.v;
-                    a1v = ((B32_818CF0E8_S_818CF0E8_2 *)star)->unk_02.u;
+                    a1v = star->unk_02.u;
                 } else {
                     a2v = pos->unk_04.at02.v;
-                    a1v = ((B32_818CF0E8_S_818CF0E8_2 *)star)->unk_06.u;
+                    a1v = star->unk_06.u;
                 }
                 d = (s16)a2v;
                 st = (s16)a1v;
@@ -655,18 +655,18 @@ void update_chasing_star_effect(void *entity, B32_818CF0E8_S_818CF0E8_1 *pos, B3
             ((B32_818CF0E8_S_818CF0E8_4 *)s3)->unk_02 = 0x34;
             obj->update_callback = advance_damped_ground_sliding_sprite;
             register_node(obj, project_sprite_chain);
-            p = obj->sprite;
-            ((B32_818CF0E8_S_818CF0E8_6 *)p)->unk_14.s |= 0xC;
-            ((B32_818CF0E8_S_818CF0E8_6 *)p)->unk_10 = 0x60;
-            ((B32_818CF0E8_S_818CF0E8_6 *)p)->unk_14.s |= 2;
-            p = obj->position;
+            p = (B32_818CF0E8_S_818CF0E8_6 *)obj->sprite;
+            p->unk_14.s |= 0xC;
+            p->unk_10 = 0x60;
+            p->unk_14.s |= 2;
+            p = (B32_818CF0E8_S_818CF0E8_6 *)obj->position;
             {
                 s32 r2;
                 s32 b2;
                 r2 = rand() & 0x1F;
                 b2 = pos->unk_00.at02.v - 0x10;
                 b2 += r2;
-                ((B32_818CF0E8_S_818CF0E8_6 *)p)->unk_02.s = b2;
+                p->unk_02.s = b2;
             }
             {
                 s32 r2;
@@ -674,20 +674,20 @@ void update_chasing_star_effect(void *entity, B32_818CF0E8_S_818CF0E8_1 *pos, B3
                 r2 = rand() & 0x1F;
                 b2 = pos->unk_04.at02.v - 0x10;
                 b2 += r2;
-                ((B32_818CF0E8_S_818CF0E8_6 *)p)->unk_06.s = b2;
+                p->unk_06.s = b2;
             }
-            ((B32_818CF0E8_S_818CF0E8_6 *)p)->unk_08.at02.v = pos->unk_08.at02u.v;
+            p->unk_08.at02.v = pos->unk_08.at02u.v;
             ((B32_818CF0E8_S_818CF0E8_4 *)s3)->unk_54 = rand() + 0x30000;
             ((B32_818CF0E8_S_818CF0E8_4 *)s3)->unk_60 = 0x6000;
-            p = obj->sprite;
-            ((B32_818CF0E8_S_818CF0E8_6 *)p)->unk_1C = 0x800;
-            ((B32_818CF0E8_S_818CF0E8_6 *)p)->unk_1E = 0x800;
-            ((B32_818CF0E8_S_818CF0E8_6 *)p)->unk_0E = 0x80;
-            ((B32_818CF0E8_S_818CF0E8_6 *)p)->unk_0D = 0x80;
-            ((B32_818CF0E8_S_818CF0E8_6 *)p)->unk_0C = 0x80;
-            flags = ((B32_818CF0E8_S_818CF0E8_6 *)p)->unk_14.u | 0x100;
-            ((B32_818CF0E8_S_818CF0E8_6 *)p)->unk_12 = 0x7DCF;
-            ((B32_818CF0E8_S_818CF0E8_6 *)p)->unk_14.s = flags;
+            p = (B32_818CF0E8_S_818CF0E8_6 *)obj->sprite;
+            p->unk_1C = 0x800;
+            p->unk_1E = 0x800;
+            p->unk_0E = 0x80;
+            p->unk_0D = 0x80;
+            p->unk_0C = 0x80;
+            flags = p->unk_14.u | 0x100;
+            p->unk_12 = 0x7DCF;
+            p->unk_14.s = flags;
             select_record_entry_and_value(p, effect_sprite_sources, 0);
             }
         }
@@ -699,46 +699,46 @@ void update_chasing_star_effect(void *entity, B32_818CF0E8_S_818CF0E8_1 *pos, B3
                 ((MoveAndGrowTimedSpriteBody *)w1)->remaining = 0x14;
                 obj->update_callback = move_and_grow_timed_sprite;
                 register_node(obj, project_sprite_chain);
-                p = obj->sprite;
-                flags = ((B32_818CF0E8_S_818CF0E8_6 *)p)->unk_14.s | 0xC;
-                ((B32_818CF0E8_S_818CF0E8_6 *)p)->unk_10 = 0;
-                ((B32_818CF0E8_S_818CF0E8_6 *)p)->unk_14.s = flags;
-                p = obj->position;
+                p = (B32_818CF0E8_S_818CF0E8_6 *)obj->sprite;
+                flags = p->unk_14.s | 0xC;
+                p->unk_10 = 0;
+                p->unk_14.s = flags;
+                p = (B32_818CF0E8_S_818CF0E8_6 *)obj->position;
                 star = ((B32_818CF0E8_S_818CF0E8_8_pre *)(((B32_818CF0E8_S_818CF0E8_0 *)entity)->unk_30))[-1].unk_00;
                 {
                     s32 r2;
                     s32 b2;
                     r2 = rand() & 0x1F;
-                    b2 = ((B32_818CF0E8_S_818CF0E8_2 *)star)->unk_02.u - 0x10;
+                    b2 = star->unk_02.u - 0x10;
                     b2 += r2;
-                ((B32_818CF0E8_S_818CF0E8_6 *)p)->unk_02.s = b2;
+                p->unk_02.s = b2;
                 }
                 {
                     s32 r2;
                     s32 b2;
                     r2 = rand() & 0x1F;
-                    b2 = ((B32_818CF0E8_S_818CF0E8_2 *)star)->unk_06.u - 0x10;
+                    b2 = star->unk_06.u - 0x10;
                     b2 += r2;
-                ((B32_818CF0E8_S_818CF0E8_6 *)p)->unk_06.s = b2;
+                p->unk_06.s = b2;
                 }
                 {
                     s32 r2;
                     s32 b2;
                     r2 = (rand() & 0x3F) + 0x20;
-                    b2 = ((B32_818CF0E8_S_818CF0E8_2 *)star)->unk_08.at02.v;
+                    b2 = star->unk_08.at02.v;
                     b2 -= r2;
-                    ((B32_818CF0E8_S_818CF0E8_6 *)p)->unk_08.at02u.v = b2;
+                    p->unk_08.at02u.v = b2;
                 }
-                p = obj->sprite;
-                ((B32_818CF0E8_S_818CF0E8_6 *)p)->unk_1C = 0x800;
-                ((B32_818CF0E8_S_818CF0E8_6 *)p)->unk_1E = 0x800;
+                p = (B32_818CF0E8_S_818CF0E8_6 *)obj->sprite;
+                p->unk_1C = 0x800;
+                p->unk_1E = 0x800;
                 ((MoveAndGrowTimedSpriteBody *)w1)->velocity_z = rand() + (s32)0xFFFE0000;
-                ((B32_818CF0E8_S_818CF0E8_6 *)p)->unk_0E = 0x80;
-                ((B32_818CF0E8_S_818CF0E8_6 *)p)->unk_0D = 0x80;
-                ((B32_818CF0E8_S_818CF0E8_6 *)p)->unk_0C = 0x80;
-                flags = ((B32_818CF0E8_S_818CF0E8_6 *)p)->unk_14.u | 0x100;
-                ((B32_818CF0E8_S_818CF0E8_6 *)p)->unk_12 = 0x7DC0;
-                ((B32_818CF0E8_S_818CF0E8_6 *)p)->unk_14.s = flags;
+                p->unk_0E = 0x80;
+                p->unk_0D = 0x80;
+                p->unk_0C = 0x80;
+                flags = p->unk_14.u | 0x100;
+                p->unk_12 = 0x7DC0;
+                p->unk_14.s = flags;
                 select_record_entry_and_value(p, directional_sprite_entries, 0);
             }
             }
@@ -776,50 +776,50 @@ void update_chasing_star_effect(void *entity, B32_818CF0E8_S_818CF0E8_1 *pos, B3
         ((B32_818CF0E8_S_818CF0E8_5 *)obj)->unk_22 = 1;
         obj->update_callback = update_actor_effect_sequence;
         register_node(obj, project_sprite_chain);
-        p = obj->sprite;
-        flags = ((B32_818CF0E8_S_818CF0E8_6 *)p)->unk_14.s | 0xC;
-        ((B32_818CF0E8_S_818CF0E8_6 *)p)->unk_10 = 0x60;
-        ((B32_818CF0E8_S_818CF0E8_6 *)p)->unk_14.s = flags;
-        p = obj->position;
-        ((B32_818CF0E8_S_818CF0E8_6 *)p)->unk_02.u = pos->unk_00.at02.v;
-        ((B32_818CF0E8_S_818CF0E8_6 *)p)->unk_06.u = pos->unk_04.at02.v;
-        ((B32_818CF0E8_S_818CF0E8_6 *)p)->unk_08.at02.v = pos->unk_08.at02u.v;
-        p = obj->sprite;
-        ((B32_818CF0E8_S_818CF0E8_6 *)p)->unk_1E = 0x1000;
-        ((B32_818CF0E8_S_818CF0E8_6 *)p)->unk_1C = 0x1000;
-        ((B32_818CF0E8_S_818CF0E8_6 *)p)->unk_06.s = -1;
-        ((B32_818CF0E8_S_818CF0E8_6 *)p)->unk_0C = gfx->unk_0C;
-        ((B32_818CF0E8_S_818CF0E8_6 *)p)->unk_0D = gfx->unk_0D;
-        ((B32_818CF0E8_S_818CF0E8_6 *)p)->unk_0E = gfx->unk_0E;
+        p = (B32_818CF0E8_S_818CF0E8_6 *)obj->sprite;
+        flags = p->unk_14.s | 0xC;
+        p->unk_10 = 0x60;
+        p->unk_14.s = flags;
+        p = (B32_818CF0E8_S_818CF0E8_6 *)obj->position;
+        p->unk_02.u = pos->unk_00.at02.v;
+        p->unk_06.u = pos->unk_04.at02.v;
+        p->unk_08.at02.v = pos->unk_08.at02u.v;
+        p = (B32_818CF0E8_S_818CF0E8_6 *)obj->sprite;
+        p->unk_1E = 0x1000;
+        p->unk_1C = 0x1000;
+        p->unk_06.s = -1;
+        p->unk_0C = gfx->unk_0C;
+        p->unk_0D = gfx->unk_0D;
+        p->unk_0E = gfx->unk_0E;
         hi = rand() & 0xFFF;
-        ((B32_818CF0E8_S_818CF0E8_6 *)p)->unk_1A = hi;
+        p->unk_1A = hi;
         *(B32_818CF0E8_Vec12 *)((u8 *)obj + 0x40) = D_8002590C;
-        ((B32_818CF0E8_S_818CF0E8_6 *)p)->unk_08.at00.v = (u8 *)obj + 0x40;
+        p->unk_08.at00.v = (u8 *)obj + 0x40;
     }
     obj = allocate_flagged_object_node(0x12);
     if (obj != 0) {
         ((B32_818CF0E8_S_818CF0E8_5 *)obj)->unk_22 = 1;
         obj->update_callback = update_actor_effect_sequence;
         register_node(obj, project_sprite_chain);
-        p = obj->sprite;
-        flags = ((B32_818CF0E8_S_818CF0E8_6 *)p)->unk_14.s | 0xC;
-        ((B32_818CF0E8_S_818CF0E8_6 *)p)->unk_10 = 0x60;
-        ((B32_818CF0E8_S_818CF0E8_6 *)p)->unk_14.s = flags;
-        p = obj->position;
-        ((B32_818CF0E8_S_818CF0E8_6 *)p)->unk_02.u = pos->unk_00.at02.v;
-        ((B32_818CF0E8_S_818CF0E8_6 *)p)->unk_06.u = pos->unk_04.at02.v;
-        ((B32_818CF0E8_S_818CF0E8_6 *)p)->unk_08.at02.v = pos->unk_08.at02u.v;
-        p = obj->sprite;
-        ((B32_818CF0E8_S_818CF0E8_6 *)p)->unk_1E = 0x1000;
-        ((B32_818CF0E8_S_818CF0E8_6 *)p)->unk_1C = 0x1000;
-        ((B32_818CF0E8_S_818CF0E8_6 *)p)->unk_06.s = -2;
-        ((B32_818CF0E8_S_818CF0E8_6 *)p)->unk_0C = gfx->unk_0C;
-        ((B32_818CF0E8_S_818CF0E8_6 *)p)->unk_0D = gfx->unk_0D;
-        ((B32_818CF0E8_S_818CF0E8_6 *)p)->unk_0E = gfx->unk_0E;
+        p = (B32_818CF0E8_S_818CF0E8_6 *)obj->sprite;
+        flags = p->unk_14.s | 0xC;
+        p->unk_10 = 0x60;
+        p->unk_14.s = flags;
+        p = (B32_818CF0E8_S_818CF0E8_6 *)obj->position;
+        p->unk_02.u = pos->unk_00.at02.v;
+        p->unk_06.u = pos->unk_04.at02.v;
+        p->unk_08.at02.v = pos->unk_08.at02u.v;
+        p = (B32_818CF0E8_S_818CF0E8_6 *)obj->sprite;
+        p->unk_1E = 0x1000;
+        p->unk_1C = 0x1000;
+        p->unk_06.s = -2;
+        p->unk_0C = gfx->unk_0C;
+        p->unk_0D = gfx->unk_0D;
+        p->unk_0E = gfx->unk_0E;
         hi = rand() & 0xFFF;
-        ((B32_818CF0E8_S_818CF0E8_6 *)p)->unk_1A = hi;
+        p->unk_1A = hi;
         *(B32_818CF0E8_Vec12 *)((u8 *)obj + 0x40) = D_80025918;
-        ((B32_818CF0E8_S_818CF0E8_6 *)p)->unk_08.at00.v = (u8 *)obj + 0x40;
+        p->unk_08.at00.v = (u8 *)obj + 0x40;
     }
     gfx->unk_1A = rand() & 0xFFF;
 }
@@ -862,7 +862,7 @@ void follow_entity_effect_and_cleanup(B32_818CFB74_State *state, B32_818CFB74_Ve
         graphic->scale1E = 0x1000;
         graphic->scale1C = 0x1000;
         select_record_entry_and_value(graphic, directional_sprite_entries, 0);
-        flags = *(u16 *)((u8 *)entity + 0x2A);
+        flags = entity->flags2A;
         linked_point_effect_updated[0] = 1;
         next_state = *(u16 *)&state->stateA;
         variant_bits = (flags >> 9) & 7;

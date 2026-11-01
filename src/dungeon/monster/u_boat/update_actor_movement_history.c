@@ -465,6 +465,6 @@ state3_test:
 
     }
     object->ground_height = sample_terrain_surface_height(
-        (*(u16 *)((u8 *)position + 2)), (*(u16 *)&position->y.w.i),
+        position->x.unsigned_parts.integer, (*(u16 *)&position->y.w.i),
         (signed short)((*(u16 *)&position->z.w.i) - 0x20));
 }

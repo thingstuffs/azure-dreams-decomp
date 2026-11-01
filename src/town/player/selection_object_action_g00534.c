@@ -40,8 +40,8 @@ void initialize_town_context_action(void) {
 void handle_selection_and_create_object(void) {
     Unk96134Work work;
     ObjectNodeHeader *data;
-    u8 *context;
-    u8 *object;
+    S_80093894_1 *context;
+    Rec_func_80094268_arg0 *object;
     ObjectPosition *position;
     SpriteFrameState *callback_data;
     void *created_entry;
@@ -52,13 +52,13 @@ void handle_selection_and_create_object(void) {
     s32 mode;
 
     data = &scene_object_list_anchor;
-    object = (u8 *)data + 0x20;
-    context = item_menu_scene_state;
+    object = (Rec_func_80094268_arg0 *)((u8 *)data + 0x20);
+    context = (S_80093894_1 *)item_menu_scene_state;
     position = data->position;
     callback_data = data->sprite;
 
-    if (((S_80093894_1 *)context)->unk_08 == 3) {
-        Unk96134Bytes *source = ((S_80093894_1 *)context)->unk_00;
+    if (context->unk_08 == 3) {
+        Unk96134Bytes *source = context->unk_00;
 
         work.bytes.unk0 = source->unk0;
         state_code = source->unk1;
@@ -121,13 +121,13 @@ void handle_selection_and_create_object(void) {
             void *next_object;
 
             next_object = (u8 *)created_entry + 0x20;
-            ((S_80093894_4 *)object)->unk_2C = next_object;
+            object->unk_2C = next_object;
             state->unk10 = next_object;
             state->unk18 = 0;
             initialize_actor_movement_interaction_action(object, position, callback_data);
             return;
         }
-        initialize_scene_action_record((Rec_func_80094268_arg0 *)object, position, callback_data);
+        initialize_scene_action_record(object, position, callback_data);
         return;
     }
 

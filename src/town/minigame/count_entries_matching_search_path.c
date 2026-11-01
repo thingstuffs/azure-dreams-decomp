@@ -164,24 +164,24 @@ void count_entries_matching_search_path(TownCollectionSequence *scene)
 
     case 2:
     {
-        u8 *motion = ((u8 *)(&view_reference_entity));
+        ObjectPosition *motion = ((&view_reference_entity));
         s32 h2;
         s32 rmw;
 
         rmw = global->unk_10.u;
-        h2 = ((ObjectPosition *)motion)->x.w.i;
+        h2 = motion->x.w.i;
         rmw += 0x200;
         global->unk_10.s = rmw & 0xFFF;
         if (h2 < 0x420) {
-            ((ObjectPosition *)motion)->x.w.i = 0x420;
+            motion->x.w.i = 0x420;
         }
         value = scene->unk_28.u - 1;
         scene->unk_28.u = value;
         if ((s16)value > 0) {
             break;
         }
-        ((ObjectPosition *)motion)->velocity_y = 0;
-        ((ObjectPosition *)motion)->velocity_x = 0;
+        motion->velocity_y = 0;
+        motion->velocity_x = 0;
         scene->state.s = 3;
         break;
     }
@@ -222,7 +222,7 @@ void count_entries_matching_search_path(TownCollectionSequence *scene)
 
     case 5:
     {
-        u8 *motion;
+        ObjectPosition *motion;
 
         if (global->unk_10.s >= 0xA00) {
             global->unk_10.s = global->unk_10.u - 0x200;
@@ -239,9 +239,9 @@ void count_entries_matching_search_path(TownCollectionSequence *scene)
         global->unk_10.s = 0x800;
         create_familiar_deployment_effect_with_owner_state();
         apply_global_scene_value(movement_action_handler_table);
-        motion = ((u8 *)(&view_reference_entity));
-        scene->saved_x.u = *(u16 *)&((ObjectPosition *)motion)->x.w.i;
-        scene->saved_y.u = ((S_8002191C_2 *)motion)->unk_06;
+        motion = ((ObjectPosition *)(&view_reference_entity));
+        scene->saved_x.u = *(u16 *)&motion->x.w.i;
+        scene->saved_y.u = motion->y.unsigned_parts.integer;
         scene->angle.u = 0;
         scene->flags.u &= 0x7FFF;
         scene->state.s = 6;

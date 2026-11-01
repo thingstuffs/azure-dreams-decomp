@@ -38,13 +38,6 @@ typedef struct S_80173230_2 {
     u8 unk_25;
 } S_80173230_2;   /* linked in advance_item_use_and_recovery */
 
-typedef struct S_80173230_5 {
-    u8 pad_00[0x94];
-    u16 unk_94;
-    u16 unk_96;
-    u8 pad_98[0x10];
-    void * unk_A8;
-} S_80173230_5;   /* part in advance_item_use_and_recovery */
 
 typedef struct S_80173230_6 {
     u8 pad_00[0x8];
@@ -220,10 +213,10 @@ void advance_item_use_and_recovery(ActorRecord *body, ObjectPosition *motion, Sp
                     u8 animation_id;
 
                     effect_state = effect_handle + 0x20;
-                    ((S_80173230_5 *)effect_state)->unk_96 = 9;
+                    ((AdvanceSelectedItemAction2Body *)effect_state)->ticks_remaining = 9;
                     ((S_80173230_6 *)((void *)effect_handle))->unk_10 = D_80171020;
-                    ((S_80173230_5 *)effect_state)->unk_A8 = motion;
-                    ((S_80173230_5 *)effect_state)->unk_94 = (*(u16 *)((u8 *)actor + 0x2A));
+                    ((AdvanceSelectedItemAction2Body *)effect_state)->reference_position = motion;
+                    ((AdvanceSelectedItemAction2Body *)effect_state)->facing.u = (*(u16 *)((u8 *)actor + 0x2A));
                     item_slot = ((S_80173230_6 *)((void *)effect_handle))->unk_0C;
                     *(Copy48 *)item_slot = *(Copy48 *)sprite;
                     ((S_80173230_7 *)item_slot)->unk_1E = 0x1000;

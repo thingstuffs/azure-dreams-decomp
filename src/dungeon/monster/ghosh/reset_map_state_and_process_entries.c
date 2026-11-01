@@ -48,7 +48,7 @@ void reset_map_state_and_process_entries(void) {
     u16 lookup_key;
     SpriteFrameState *map_object;
     ObjectNodeHeader *active_object;
-    u8 *map_data;
+    MapDataFieldView_81326794 *map_data;
     u8 *entry;
     SysWork *sys_work;
 
@@ -72,7 +72,7 @@ void reset_map_state_and_process_entries(void) {
     map_data = (void *)(active_object + 1);
     coord_result = get_rounded_facing_and_rounding_flag(map_object->tile_x, map_object->tile_y,
                            reference_tile_object.tile_position.parts.tile_x, reference_tile_object.tile_position.parts.tile_y, &coord_aux);
-    ((MapDataFieldView_81326794 *)map_data)->field_2A = coord_result;
+    map_data->field_2A = coord_result;
     ghosh_script_repeat_count = 0;
     ghosh_script_cursor = D_801749E0[(coord_result >> 9) & 7];
 

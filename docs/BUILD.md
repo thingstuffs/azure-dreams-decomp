@@ -241,6 +241,17 @@ refreshes an existing map at nice 10 under a time limit and never fails on it
 (`build/landing/codemap.log`; `AZURE_CODEMAP_REFRESH=0` skips, `=1` also builds
 a missing map, `AZURE_CODEMAP_TIMEOUT` seconds, default 600).
 
+The map also keeps typing facts (`tools/codemap/typing_facts.py`, refresh phase `typing`): per registered
+physical TU, one clang parse yields the pointer-cast census rows, every record layout with its members and
+the TU's type-flow graph, stamped by include closure, recipe and extractor sources. A cold extraction is
+about 3.5 minutes at six workers; a lane batch of a few dozen files refreshes in about 20 seconds; the phase
+commits every 50 TUs, so a refresh stopped by the landing's time limit resumes on the next run
+(`--no-typing` or `AZURE_CODEMAP_TYPING=0` skips it). `cast_census.py --codemap` and
+`type_flow.py graph --codemap` read these facts instead of parsing, and refuse a stale map;
+`codemap.py load-runtime DIR` / `load-flow DIR` add runtime evidence and type-flow holds, joined per
+`file::function::param` by `query param`. A lane root seeded without link maps keeps the copied
+`call_bind` rows instead of clearing them.
+
 | Symptom | Next step |
 | --- | --- |
 | Setup reports a wrong disc SHA-1 | Check the region, dump format and locked hash; supply an unmodified supported image |

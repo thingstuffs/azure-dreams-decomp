@@ -459,7 +459,7 @@ void update_entity_movement_and_ground_height(ActorRecord *actor, ObjectPosition
         if (*(u8 **)&sprite->frameTable == univern_alt_spawn_direction_frames) {
             actor->action_id.u = 13;
             actor->action_phase.u = 2;
-            ((Rec_func_800A9E70_arg0 *)actor)->unk_8C = 0;
+            actor->unk_8C.word = 0;
             status->flags1C &= ~0x40000;
             return;
         }
@@ -663,7 +663,7 @@ void advance_entity_along_path_2(ActorRecord *motion, ObjectPosition *unused, Sp
         (u8 *)motion + 0x98));
     ((R17_801718D0_S_801718D0_0 *)path_state)->unk_1C.u |= 0x40000000;
     motion->action_id.u = 0xF;
-    (*(s32 *)((u8 *)motion + 0x8C)) = 0;
+    motion->unk_8C.word = 0;
 
     if (g_dungeon_status.flags & 0x80) {
         motion->action_timer.u = 0;
@@ -1949,14 +1949,14 @@ void advance_univern_status_action(ActorRecord *action, ObjectPosition *context,
 
     case 1:
         if (((EntityRec *)entity)->tileY != 0) {
-            register u8 *counter_state;
+            register R17_80173F10_S_80173ED8_2 *counter_state;
 
             (sprite->frameTable) = univern_frame_set_1;
             direction = (g_game_work.view.camera_rotation.parts.viewAngle + ((EntityRec *)entity)->facing + 0x100) >> 9;
             select_sprite_entry(sprite,(u8)(univern_frame_set_1[direction & 7]), 0);
             (*(u32 *)&entity->flags1C) |= 0x40000;
-            counter_state = (u8 *)&g_dungeon_status.turn_scale;
-            ((R17_80173F10_S_80173ED8_2 *)counter_state)->unk_0A++;
+            counter_state = (R17_80173F10_S_80173ED8_2 *)&g_dungeon_status.turn_scale;
+            counter_state->unk_0A++;
             action->action_phase.u++;
             return;
         }
@@ -2017,14 +2017,14 @@ void advance_univern_status_action(ActorRecord *action, ObjectPosition *context,
 
     case 2:
     {
-        u8 *counter_state;
+        R17_80173F10_S_80173ED8_2 *counter_state;
 
         if ((sprite->flags & 0xE000) == 0) {
             return;
         }
 
-        counter_state = (u8 *)&g_dungeon_status.turn_scale;
-        ((R17_80173F10_S_80173ED8_2 *)counter_state)->unk_0A--;
+        counter_state = (R17_80173F10_S_80173ED8_2 *)&g_dungeon_status.turn_scale;
+        counter_state->unk_0A--;
         ((EntityRec *)entity)->flags1C &= ~(ACTOR_MP_EMPTY | ACTOR_ASLEEP);
         ((R17_80173F10_S_80173ED8_0 *)action)->unk_8C = ((u8 *)update_entity_movement_and_ground_height);
         return;

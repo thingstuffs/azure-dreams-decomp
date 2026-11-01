@@ -316,19 +316,19 @@ void update_actor_approach_descent_return(void *action, ObjectPosition *motion, 
 
         case 7:
         {
-            u8 *player = ((u8 *)dungeon_actor_ring_anchor);
+            S_80175CD8_6 *player = ((S_80175CD8_6 *)dungeon_actor_ring_anchor);
             ObjectPosition *scene;
             u8 *scene_base;
             u32 player_flags;
             u16 height;
 
-            player_flags = ((S_80175CD8_6 *)player)->unk_14 & 0xFFEFFFFF;
+            player_flags = player->unk_14 & 0xFFEFFFFF;
 
             scene_base = ((u8 *)(&scene_object_list_anchor));
             scene = scene_base + 0x20;
-            ((S_80175CD8_6 *)player)->unk_14 = player_flags;
+            player->unk_14 = player_flags;
             height = ((u16)view_reference_entity.z.w.i) - ((S_80175CD8_5 *)scene)->unk_88.s;
-            ((S_80175CD8_6 *)player)->unk_92 = height;
+            player->unk_92 = height;
             ((S_80175CD8_5 *)scene)->unk_88.u = height;
             ((S_80175CD8_5 *)scene)->unk_1C |= 0x40000000;
         }

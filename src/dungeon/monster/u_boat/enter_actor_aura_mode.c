@@ -14,14 +14,6 @@
 #endif
 
 
-typedef struct S_80175BA8_5 {
-    u8 pad_00[0x38];
-    s16 unk_38;
-    u8 pad_3A[0x6];
-    void * unk_40;
-    void * unk_44;
-} S_80175BA8_5;
-
 extern s32 register_node(ObjectNodeHeader *entry, void *registration_id);
 
 extern u8 clipped_sprite_renderer_address[];
@@ -44,7 +36,7 @@ void enter_actor_aura_mode(ActorRecord *body, ObjectPosition *position, SpriteFr
     s32 phase;
     SpriteFrameState *effect_sprite;
     ObjectNodeHeader *effect;
-    S_80175BA8_5 *effect_state;
+    UBoatAuraEffectBody *effect_state;
     ObjectPosition *effect_position;
 
     phase = body->action_phase.u;
@@ -79,10 +71,10 @@ void enter_actor_aura_mode(ActorRecord *body, ObjectPosition *position, SpriteFr
                 body->unk_AC.address = effect;
                 effect->update_callback = D_80170CEC;
                 register_node(effect, clipped_sprite_renderer_address);
-                effect_state = (S_80175BA8_5 *)((u8 *)effect + 0x20);
-                effect_state->unk_38 = 5;
-                effect_state->unk_40 = body;
-                effect_state->unk_44 = position;
+                effect_state = (UBoatAuraEffectBody *)((u8 *)effect + 0x20);
+                effect_state->duration = 5;
+                effect_state->owner = body;
+                effect_state->source.position = position;
                 effect_sprite = effect->sprite;
                 effect_sprite->tpage_abr = 0x40;
                 effect_sprite->flags |= 0xC;

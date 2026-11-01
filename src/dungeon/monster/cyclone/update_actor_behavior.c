@@ -75,10 +75,10 @@ void update_actor_behavior_2(ActorRecord *body, ObjectPosition *position, Sprite
             break;
         }
         {
-            u8 *counter_base = (u8 *)&g_dungeon_status.turn_scale;
+            S_80173DD4_3 *counter_base = (S_80173DD4_3 *)&g_dungeon_status.turn_scale;
 
             body->action_phase.u++;
-            ((S_80173DD4_3 *)counter_base)->unk_0A++;
+            counter_base->unk_0A++;
         }
         break;
         } else {
@@ -163,10 +163,10 @@ void update_actor_behavior_2(ActorRecord *body, ObjectPosition *position, Sprite
             break;
         }
         {
-            u8 *counter_base = (u8 *)&g_dungeon_status.turn_scale;
+            S_80173DD4_3 *counter_base = (S_80173DD4_3 *)&g_dungeon_status.turn_scale;
 
             body->action_phase.u++;
-            ((S_80173DD4_3 *)counter_base)->unk_0A++;
+            counter_base->unk_0A++;
         }
         break;
     case 2:

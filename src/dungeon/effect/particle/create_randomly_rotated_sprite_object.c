@@ -81,30 +81,30 @@ void *create_randomly_rotated_sprite_object(void *context, B22_818928F8_Copy24 *
 #include "shared/object_flags.h"
 
 /* Advance the accumulation step, update the target, and flag completion past the final step. */
-void accelerate_and_expire_animated_sprite(void *step_state, void *accumulator, SpriteFrameState *target)
+void accelerate_and_expire_animated_sprite(VerticalAccelerationSpriteBody *step_state, void *accumulator, SpriteFrameState *target)
 {
     void *owner;
     s32 total;
     s32 increment;
 
-    owner = *(void **)step_state;
+    owner = step_state->target.owner;
     *(u16 *)((u8 *)owner + 0x14) += 1;
-    *(u16 *)((u8 *)step_state + 4) += 1;
+    step_state->update_count.u += 1;
 
     total = *(s32 *)((u8 *)accumulator + 8);
     increment = *(s32 *)((u8 *)accumulator + 0x14);
     *(s32 *)((u8 *)accumulator + 8) = total + increment;
-    if (*(s16 *)((u8 *)step_state + 4) < 8) {
+    if (step_state->update_count.s < 8) {
         *(s32 *)((u8 *)accumulator + 0x14) *= 2;
     }
 
-    if (*(s16 *)((u8 *)step_state + 4) == *(s16 *)((u8 *)step_state + 6)) {
+    if (step_state->update_count.s == step_state->update_limit) {
         target->scale_y >>= 1;
     }
 
     advance_sprite_animation_and_textures(target);
 
-    if (*(s16 *)((u8 *)step_state + 4) > *(s16 *)((u8 *)step_state + 6)) {
+    if (step_state->update_count.s > step_state->update_limit) {
         *(u16 *)((u8 *)step_state - 2) |= NODE_REMOVE;
         object_flag_block.flags |= OBJECT_REMOVE_PENDING;
     }
@@ -125,15 +125,15 @@ void *create_vertical_acceleration_sprite(s32 state_value, B22_81892AF0_Copy24 *
     B22_81892AF0_Copy24 *transform;
     SpriteFrameState *sprite;
     ObjectNodeHeader *object;
-    B22_81892AF0_S_81892AF0_1 *state;
+    VerticalAccelerationSpriteBody *state;
 
     object = allocate_flagged_object_node(0x212);
     if (object != NULL) {
         object->update_callback = accelerate_and_expire_animated_sprite;
-        state = ((void *)object) + 0x20;
-        ((B22_81892AF0_S_81892AF0_0 *)object)->unk_20 = state_value;
-        state->unk_04 = 0;
-        state->unk_06 = variant;
+        state = (u8 *)object + 0x20;
+        state->target.state_value = state_value;
+        state->update_count.u = 0;
+        state->update_limit = variant;
         sprite = object->sprite;
         sprite->color.c.b = 0x80;
         sprite->color.c.g = 0x80;

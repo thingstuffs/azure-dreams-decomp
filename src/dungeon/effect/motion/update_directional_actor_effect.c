@@ -437,16 +437,17 @@ void spawn_spiraling(void *anchor, s16 angle, s16 unused, void *target, s32 mirr
 /* Processes both modes and sets completion flags on countdown expiry or an override. */
 void process_effect_modes_and_completion(void *state)
 {
+    AndInitializeEffectObjectBody *effect_state = state;
     u8 * object_addr;
     u16 countdown;
     u16 *counter_base = D_800249A6;
     object_addr = (u8 *)state - 0x20;
-    spawn_spiraling(object_addr, *((s16 *) (((u8 *) state) + 0x26)), *((s16 *) (((u8 *) state) + 0x30)),
+    spawn_spiraling(object_addr, effect_state->unk_26, effect_state->unk_30,
         primary_actor_record->target, (counter_base[0]++, 0));
-    spawn_spiraling(object_addr, *((s16 *) (((u8 *) state) + 0x26)), *((s16 *) (((u8 *) state) + 0x30)),
+    spawn_spiraling(object_addr, effect_state->unk_26, effect_state->unk_30,
         primary_actor_record->target, 1);
-    countdown = (*((u16 *) (((u8 *) state) + 0x2C))) - 1;
-    *((u16 *) (((u8 *) state) + 0x2C)) = countdown;
+    countdown = effect_state->unk_2C - 1;
+    effect_state->unk_2C = countdown;
     if ((((s16) countdown) < 0) || (D_800249A4 != 0)) {
         *((u16 *) (((u8 *) state) - 2)) = (*((u16 *) (((u8 *) state) - 2))) | NODE_REMOVE;
         object_flag_block.flags = object_flag_block.flags | OBJECT_REMOVE_PENDING;
@@ -455,21 +456,11 @@ void process_effect_modes_and_completion(void *state)
 
 /* cfail-repair: tf7-phase1-cache-v3 */
 
-typedef struct S_80024908_1 {
-    u8 pad_00[0xC];
-    s32 unk_0C;
-    u8 pad_10[0x16];
-    s16 unk_26;
-    u8 pad_28[0x4];
-    s16 unk_2C;
-    u8 pad_2E[0x2];
-    s16 unk_30;
-} S_80024908_1;
 
 /* Allocate an object and initialize its handler and state fields. */
 void allocate_and_initialize_effect_object(s32 alloc_arg, s16 value_26, s16 value_30, s32 value_0c) {
     ObjectNodeHeader *object;
-    S_80024908_1 *state;
+    AndInitializeEffectObjectBody *state;
 
     object = allocate_list_node(0x200, (ObjectNodeHeader **)alloc_arg);
     if (object != 0) {

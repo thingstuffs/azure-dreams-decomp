@@ -106,10 +106,10 @@ void advance_actor_stored_path_2(ActorRecord *movement, ObjectPosition *actor_in
     ((T_80172CC0_S_80172CC0_0 *)state)->unk_2A = heading;
     if (move_result == 3 && !(g_dungeon_status.flags & 0x80) && !(actor->flags & 0x8000)) {
         reset_actor_directional_animation(movement, actor_index, actor, state);
-        ((Rec_func_80172CC0_arg0 *)movement)->unk_8C.as_s32 = 0;
+        movement->unk_8C.word = 0;
     } else {
         movement->action_id.u = 0xF;
-        ((Rec_func_80172CC0_arg0 *)movement)->unk_8C.as_s32 = 0;
+        movement->unk_8C.word = 0;
     }
     (((T_80172CC0_S_80172CC0_0 *)state)->unk_1C) |= 0x40000000;
     if (g_dungeon_status.flags & 0x80) {
@@ -460,7 +460,7 @@ s32 check_and_prepare_actor_move(ActorRecord *action_state, ObjectPosition *faci
     }
 
     action_state->action_phase.u = 0;
-    ((T_80173734_S_80173734_3 *)action_state)->unk_8C = 0;
+    action_state->unk_8C.word = 0;
     action_state->action_id.u = 0x11;
 
     switch (actor->unk_48) {
@@ -484,7 +484,7 @@ s32 check_and_prepare_actor_move(ActorRecord *action_state, ObjectPosition *faci
         actor->target =
             scan_actor_along_heading(actor, origin->tile_x,
                           origin->tile_y, actor->facing, 10);
-        ((T_80173734_S_80173734_3 *)action_state)->unk_AC = 0;
+        action_state->unk_AC.halves.low.s = 0;
         if (actor->target != 0) {
             {
                 s16 target_distance = get_tile_chebyshev_distance(
@@ -581,7 +581,7 @@ void prepare_actor_path_movement(ActorRecord *action_input, ObjectPosition *x_of
         return;
     }
 
-    ((T_80173B48_S_80173B48_1 *)action_input)->unk_8C = 0;
+    action_input->unk_8C.word = 0;
     action_input->action_id.u = 0x11;
     action_input->action_phase.u = 0;
     ((T_80173B48_S_80173B48_0 *)actor)->unk_6D--;
@@ -590,7 +590,7 @@ void prepare_actor_path_movement(ActorRecord *action_input, ObjectPosition *x_of
         ((T_80173B48_S_80173B48_0 *)actor)->unk_60 =
             scan_actor_along_heading(actor, position_input->tile_x,
                           position_input->tile_y, ((T_80173B48_S_80173B48_0 *)actor)->unk_2A, 10);
-        ((T_80173B48_S_80173B48_1 *)action_input)->unk_AC = 0;
+        action_input->unk_AC.halves.low.s = 0;
         if (((T_80173B48_S_80173B48_0 *)actor)->unk_60 != 0) {
             {
                 s16 travel_steps = get_tile_chebyshev_distance(

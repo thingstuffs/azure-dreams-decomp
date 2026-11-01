@@ -10,22 +10,22 @@ u8 *build_selected_entry_output(s32 selected_index) {
     s32 first_marked;
     u8 *output_base;
     Record12 *record;
-    void *entry;
+    S_8001A86C_0 *entry;
 
     first_marked = 0;
     output_base = &town_selected_entry_output;
     if (selected_index != 0) {
         for (entry_index = 1; entry_index < 8; entry_index++) {
             record = &((Record12 *)town_selection_records)[entry_index];
-            entry = output_base + entry_index * 0x14;
+            entry = (S_8001A86C_0 *)(output_base + entry_index * 0x14);
             if (func_8001E670(record->field4) != 0) {
                 if (record->field8 != 0) {
-                    ((S_8001A86C_0 *)entry)->unk_02 = 0x400;
+                    entry->unk_02 = 0x400;
                     if (entry_index == 1) {
                         first_marked = 1;
                     }
                 } else if (selected_index == entry_index) {
-                    ((S_8001A86C_0 *)entry)->unk_02 = 0x400;
+                    entry->unk_02 = 0x400;
                 }
             }
         }

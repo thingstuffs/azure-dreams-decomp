@@ -140,11 +140,11 @@ void update_entity_movement_animation_and_ground(ActorRecord *body, ObjectPositi
 
                 if (frames == D_80150634) {
                     if (sprite->unk_04 == 3 && (sprite_flags & 0x1000)) {
-                        (*(s32 *)((u8 *)body + 0xAC)) = 0x60000;
-                        (*(s32 *)((u8 *)body + 0xB0)) = (s32)0xFFFF3000;
+                        body->unk_AC.value = 0x60000;
+                        body->unk_B0.value = (s32)0xFFFF3000;
                     }
-                    body->unk_A4.value += (*(s32 *)((u8 *)body + 0xAC));
-                    (*(s32 *)((u8 *)body + 0xAC)) += (*(s32 *)((u8 *)body + 0xB0));
+                    body->unk_A4.value += body->unk_AC.value;
+                    body->unk_AC.value += body->unk_B0.value;
                     if (body->unk_A4.value <= 0) {
                         body->unk_A4.value = 0;
                     }
@@ -231,7 +231,7 @@ void update_entity_movement_animation_and_ground(ActorRecord *body, ObjectPositi
                 u8 *frames = *(u8 * *)&sprite->frameTable;
 
                 if (frames == D_80150634) {
-                    (*(s32 *)((u8 *)body + 0xAC)) = 0;
+                    body->unk_AC.value = 0;
                     body->unk_A4.value = 0;
                 } else if (frames == D_80150644 || frames == D_8015066C) {
                     body->unk_A4.value -= 0x40000;

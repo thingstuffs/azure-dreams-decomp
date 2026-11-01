@@ -346,20 +346,20 @@ void advance_object_motion_and_animation(void *effect_arg) {
    countdown ends. */
 void choose_random_sign(AdvanceEntityEffectSequenceBody *effect, s32 unused, void *primitive)
 {
-    u8 *state = (u8 *)effect;
+    AdvanceEntityEffectSequenceBody *state = effect;
     s32 intensity;
     u16 ticks_left;
 
-    ticks_left = ((AdvanceEntityEffectSequenceBody *)state)->prefix.timer3A.u - 1;
-    intensity = ((s32)(ticks_left << 16) >> 9) / ((AdvanceEntityEffectSequenceBody *)state)->prefix.timer3C;
+    ticks_left = state->prefix.timer3A.u - 1;
+    intensity = ((s32)(ticks_left << 16) >> 9) / state->prefix.timer3C;
     (*(s16 *)linked_effect_update_flag) = 1;
-    ((AdvanceEntityEffectSequenceBody *)state)->prefix.timer3A.u = ticks_left;
+    state->prefix.timer3A.u = ticks_left;
     *(s8 *)((u8 *)primitive + 0x0E) = intensity;
     *(s8 *)((u8 *)primitive + 0x0D) = intensity;
     *(s8 *)((u8 *)primitive + 0x0C) = intensity;
-    ((AdvanceEntityEffectSequenceBody *)state)->unk_8C -= 1;
-    *(u16 *)((u8 *)primitive + 0x1A) += ((AdvanceEntityEffectSequenceBody *)state)->prefix.random40.u;
-    if (((AdvanceEntityEffectSequenceBody *)state)->prefix.timer3A.s <= 0) {
+    state->unk_8C -= 1;
+    *(u16 *)((u8 *)primitive + 0x1A) += state->prefix.random40.u;
+    if (state->prefix.timer3A.s <= 0) {
         *(u16 *)((u8 *)effect - 2) |= NODE_REMOVE;
         object_flag_block.flags |= OBJECT_REMOVE_PENDING;
     }

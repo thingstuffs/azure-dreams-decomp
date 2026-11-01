@@ -478,7 +478,7 @@ void update_animated_target_effect(void *effect_arg)
     s32 particle_index;
     s32 display_link;
     u16 frames_left;
-    void *owner;
+    S_8002466C_1 *owner;
     void *approach_data;
     SpriteFrameState *approach_target;
     void *follow_data;
@@ -491,7 +491,7 @@ void update_animated_target_effect(void *effect_arg)
 
     owner = effect->unk_00;
     effect->unk_48.s = effect->unk_48.s + 1;
-    ((S_8002466C_1 *)owner)->unk_52 |= 0x8000;
+    owner->unk_52 |= 0x8000;
     last_particle = -1;
     state = effect->unk_4C.s;
     switch (state) {

@@ -17,6 +17,13 @@ typedef struct RandomizedMotionObjectBody {
     u16 radius_growth;
 } RandomizedMotionObjectBody;
 
+/* Direction, delay, and scale phase for the delayed directional render object. */
+typedef struct DirectionalRenderObjectBody {
+    union { s16 s; u16 u; } phase;
+    union { u16 s; s16 u; } ticks;
+    union { s16 s; u16 u; } facing_angle;
+} DirectionalRenderObjectBody;
+
 void advance_cyclone_frame_effect(u16 *anim_state, u32 *motion, u16 *sprite);
 
 
@@ -45,5 +52,6 @@ void *create_randomized_motion_object(ActorRecord *owner, ObjectPosition *initia
 void advance_path_motion(ActorRecord *body, ObjectPosition *position, SpriteFrameState *sprite, ActorRecord *actor);
 
 void update_radial_motion_or_complete(RandomizedMotionObjectBody *motion, s32 *position, SpriteFrameState *object);
+void grow_object_after_delay(DirectionalRenderObjectBody *animation, s32 unused, SpriteFrameState *object);
 
 #endif

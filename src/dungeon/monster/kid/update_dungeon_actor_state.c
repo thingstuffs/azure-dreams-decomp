@@ -83,7 +83,7 @@ void update_dungeon_actor_state(ActorRecord *actor, ObjectPosition *context, Spr
         if (sprite_in->frameTable == kid_frame_set_4) {
             actor->action_id.u = 0xD;
             actor->action_phase.u = 1;
-            ((Rec_func_800A9E70_arg0 *)actor)->unk_8C = 0;
+            actor->unk_8C.word = 0;
             ((S_80171400_1 *)entity)->unk_1C &= ~0x40000;
             return;
         }

@@ -77,7 +77,7 @@ void update_object_animation(ActorRecord *obj, ObjectPosition *motion, SpriteFra
         if (*(u8 **)&part->frameTable == D_80173EC4) {
             obj->action_id.u = 13;
             obj->action_phase.u = 1;
-            (*(u32 *)((u8 *)obj + (0x8C))) = 0;
+            obj->unk_8C.word = 0;
             ((S_80171514_0 *)state)->unk_1C &= ~0x40000;
             return;
         }

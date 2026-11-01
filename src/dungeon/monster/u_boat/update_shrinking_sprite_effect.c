@@ -1,20 +1,10 @@
 #include "common.h"
 #include "shared/object_flags.h"
+#include "dungeon/monster/u_boat.h"
 
 typedef struct S_80170A84_0_pre {
     u16 unk_00;
 } S_80170A84_0_pre;   /* the 0x2 bytes before arg0 in update_shrinking_sprite_effect, addressed as arg0[-1] */
-
-typedef struct S_80170A84_0 {
-    u8 pad_00[0x2C];
-    union { s16 s; u16 u; } unk_2C;   /* accessed as both */
-    u8 pad_2E[0x8];
-    union { u16 s; s16 u; } unk_36;   /* accessed as both */
-    s16 unk_38;
-    u8 pad_3A[0x6];
-    void * unk_40;
-    u32 * unk_44;
-} S_80170A84_0;   /* arg0 in update_shrinking_sprite_effect */
 
 typedef struct S_80170A84_1_pre {
     void * unk_00;
@@ -48,10 +38,10 @@ typedef struct S_80170A84_3 {
 
 
 /* Updates effect rotation and fading, then copies three source words to the output. */
-void update_shrinking_sprite_effect(void *effect_arg, void *output, S_80170A84_2 *render_data)
+void update_shrinking_sprite_effect(UBoatAuraEffectBody *effect, void *output, void *render_arg)
 {
-    S_80170A84_0 *effect = effect_arg;
-    u8 *owner_data;
+    S_80170A84_2 *render_data = render_arg;
+    void *owner_data;
     u32 *source_words;
     u16 header_value;
     u16 angle;
@@ -59,8 +49,8 @@ void update_shrinking_sprite_effect(void *effect_arg, void *output, S_80170A84_2
     u16 reset_ticks;
     s32 phase_index;
 
-    owner_data = effect->unk_40;
-    source_words = effect->unk_44;
+    owner_data = effect->owner;
+    source_words = effect->source.words;
     header_value = ((S_80170A84_3 *)(((S_80170A84_1_pre *)owner_data)[-1].unk_00))->unk_06;
 
     angle = render_data->unk_1A + 400;
@@ -70,82 +60,82 @@ void update_shrinking_sprite_effect(void *effect_arg, void *output, S_80170A84_2
         render_data->unk_1A = angle - 4096;
     }
 
-    phase_index = effect->unk_2C.s;
+    phase_index = effect->phase.s;
     switch (phase_index) {
 
     case 0:
     {
-        u16 ticks = effect->unk_36.s;
-        s16 duration = effect->unk_38;
+        u16 ticks = effect->ticks.s;
+        s16 duration = effect->duration;
         s32 intensity;
 
         ticks++;
         intensity = ((ticks << 16) >> 9) / duration;
-        effect->unk_36.s = ticks;
+        effect->ticks.s = ticks;
         render_data->unk_0C = intensity;
         render_data->unk_0D = intensity;
         render_data->unk_0E = intensity;
     }
-        if (effect->unk_36.u < 5) {
+        if (effect->ticks.u < 5) {
             break;
         }
-        next_phase = effect->unk_2C.u;
+        next_phase = effect->phase.u;
         next_phase++;
-        effect->unk_2C.u = next_phase;
+        effect->phase.u = next_phase;
         break;
 
     case 1:
         if (((S_80170A84_1 *)owner_data)->unk_9B >= 4) {
-            effect->unk_36.s = 0;
-            effect->unk_38 = 20;
-            effect->unk_2C.u++;
+            effect->ticks.s = 0;
+            effect->duration = 20;
+            effect->phase.u++;
         }
         if (((S_80170A84_1 *)owner_data)->unk_B3 != 3 || ((S_80170A84_1 *)owner_data)->unk_B1 != 2) {
             break;
         }
-        effect->unk_2C.u = 4;
-        effect->unk_38 = 20;
-        effect->unk_36.s = 20;
+        effect->phase.u = 4;
+        effect->duration = 20;
+        effect->ticks.s = 20;
         break;
 
     case 2:
     {
-        u16 ticks = effect->unk_36.s;
-        s16 duration = effect->unk_38;
+        u16 ticks = effect->ticks.s;
+        s16 duration = effect->duration;
         s32 intensity;
 
         ticks++;
         intensity = ((ticks << 16) >> 9) / duration;
-        effect->unk_36.s = ticks;
+        effect->ticks.s = ticks;
         render_data->unk_0C = intensity;
         render_data->unk_0D = intensity;
         render_data->unk_0E = intensity;
     }
-        if (effect->unk_36.u < effect->unk_38) {
+        if (effect->ticks.u < effect->duration) {
             break;
         }
-        next_phase = effect->unk_2C.u;
+        next_phase = effect->phase.u;
         reset_ticks = 20;
-        effect->unk_38 = reset_ticks;
-        effect->unk_36.s = reset_ticks;
+        effect->duration = reset_ticks;
+        effect->ticks.s = reset_ticks;
         next_phase++;
-        effect->unk_2C.u = next_phase;
+        effect->phase.u = next_phase;
         break;
 
     case 3:
     {
-        u16 ticks = effect->unk_36.s;
-        s16 duration = effect->unk_38;
+        u16 ticks = effect->ticks.s;
+        s16 duration = effect->duration;
         s32 intensity;
 
         ticks--;
         intensity = ((ticks << 16) >> 9) / duration;
-        effect->unk_36.s = ticks;
+        effect->ticks.s = ticks;
         render_data->unk_0C = intensity;
         render_data->unk_0D = intensity;
         render_data->unk_0E = intensity;
     }
-        if (effect->unk_36.u > 0) {
+        if (effect->ticks.u > 0) {
             break;
         }
         ((S_80170A84_0_pre *)effect)[-1].unk_00 |= 0x8000;
@@ -154,40 +144,40 @@ void update_shrinking_sprite_effect(void *effect_arg, void *output, S_80170A84_2
 
     case 4:
     {
-        u16 ticks = effect->unk_36.s;
-        s16 duration = effect->unk_38;
+        u16 ticks = effect->ticks.s;
+        s16 duration = effect->duration;
         s32 intensity;
 
         ticks--;
         intensity = ((ticks << 16) >> 9) / duration;
-        effect->unk_36.s = ticks;
+        effect->ticks.s = ticks;
         render_data->unk_0C = intensity;
         render_data->unk_0D = intensity;
         render_data->unk_0E = intensity;
     }
-        if (effect->unk_36.u > 0) {
+        if (effect->ticks.u > 0) {
             break;
         }
-        next_phase = effect->unk_2C.u;
+        next_phase = effect->phase.u;
         reset_ticks = 20;
 
-        effect->unk_36.s = reset_ticks;
+        effect->ticks.s = reset_ticks;
         next_phase++;
-        effect->unk_2C.u = next_phase;
+        effect->phase.u = next_phase;
         break;
 
     case 5:
     {
-        u16 ticks = effect->unk_36.s;
+        u16 ticks = effect->ticks.s;
 
-        effect->unk_36.s = ticks - 1;
+        effect->ticks.s = ticks - 1;
         if ((ticks << 16) > 0) {
             break;
         }
     }
-        effect->unk_2C.u = 2;
-        effect->unk_36.s = 0;
-        effect->unk_38 = 20;
+        effect->phase.u = 2;
+        effect->ticks.s = 0;
+        effect->duration = 20;
 
     default:
         break;

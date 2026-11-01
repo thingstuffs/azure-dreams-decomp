@@ -73,7 +73,7 @@ void update_dungeon_actor_behavior_facing_animation_state(ActorRecord *actor, Ob
         if (sprite->frameTable == &picket_frame_set_6) {
             actor->action_id.u = 0xD;
             actor->action_phase.u = 1;
-            ((Rec_func_800A9E70_arg0 *)actor)->unk_8C = 0;
+            actor->unk_8C.word = 0;
             entity->flags1C &= 0xFFFBFFFF;
             return;
         }

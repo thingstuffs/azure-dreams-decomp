@@ -149,7 +149,7 @@ void relocate_entity_after_animation(ActorRecord *body, void *position, SpriteFr
         body->action_timer.s = 0;
         body->action_phase.u++;
         ((S_80175594_1 *)position)->unk_14 = 0;
-        ((S_80175594_0 *)body)->unk_AC = 0;
+        body->unk_AC.value = 0;
         do {
             burst_x = (s16)(random_below_limit(0x2C) - 0x16);
             random_y = random_below_limit(0x2C) - 0x16;
@@ -163,17 +163,17 @@ void relocate_entity_after_animation(ActorRecord *body, void *position, SpriteFr
         switch (body->action_timer.s) {
         case 0:
             ((S_80175594_1 *)position)->unk_14 = -0x140000;
-            ((S_80175594_0 *)body)->unk_AC = 0x30000;
+            body->unk_AC.value = 0x30000;
             break;
         case 6:
             ((S_80175594_1 *)position)->unk_14 = -0x180000;
-            ((S_80175594_0 *)body)->unk_AC = -0x10000;
+            body->unk_AC.value = -0x10000;
             break;
         case 12:
-            ((S_80175594_0 *)body)->unk_AC = -0x20000;
+            body->unk_AC.value = -0x20000;
             break;
         }
-        ((S_80175594_1 *)position)->unk_14 += ((S_80175594_0 *)body)->unk_AC;
+        ((S_80175594_1 *)position)->unk_14 += body->unk_AC.value;
 
         if (body->action_timer.s < 2) {
             particle_index = 0;

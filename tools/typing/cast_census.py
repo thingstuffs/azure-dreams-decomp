@@ -2,6 +2,7 @@
 """Pointer-cast blocker census: every counted pointer cast in src/ classified by what keeps it.
 
     cast_census.py --root ROOT --out DIR [--folder src] [--workers 6] [--runtime DIR] [--runtime-src REV]
+                   [--codemap [build/codemap.db]]     rows from the code map's typing facts (no clang; seconds)
 
 The unit is one lexical pointer cast as tools/lint/debt_check.py counts it (`pointer_casts`).  Clang (the
 field_census front end, mipsel layouts) parses every registered physical TU that compiles a file under
@@ -422,12 +423,20 @@ def scan_tu(args):
         return {'tu': rel, 'error': str(exc)[-300:], 'rows': []}
     if unit is None:
         return {'tu': rel, 'error': error, 'rows': []}
+    return {'tu': rel, 'error': error, 'rows': scan_unit(unit, rel, set(files).__contains__)}
+
+
+def scan_unit(unit, rel, accept):
+    """Classified pointer-cast rows of one parsed physical TU (cast_ast.Unit), for the files `accept(file)` takes.
+    tools/codemap stores these per TU (keyed by include-closure sha) so the census need not re-parse."""
+    import cast_ast as A
+    import cast_fold as F
+    import field_census as C
     ctx = Ctx(unit, A, C, F)
-    files = set(files)
     rows = []
     for d in unit.tree.get('inner', []):
         f = d.get('_f') or rel
-        if f not in files:
+        if not accept(f):
             continue
         if d.get('kind') not in ('FunctionDecl', 'VarDecl'):
             continue
@@ -466,7 +475,7 @@ def scan_tu(args):
             r['cast_line'] = node.get('_l')
             r['col'] = ((node.get('range') or {}).get('begin') or {}).get('col', '')
             rows.append(r)
-    return {'tu': rel, 'error': error, 'rows': rows}
+    return rows
 
 
 def lexical_casts(root, rel):
@@ -561,6 +570,28 @@ def folder_of(f):
     return '/'.join(parts[:3]) if len(parts) > 3 else '/'.join(parts[:2])
 
 
+def codemap_rows(root, db_path, folder):
+    """Cast rows of the files under `folder` from codemap.db typing facts (same rows scan_tu yields).
+
+    The map must be fresh for this root (codemap.py check, quick stat mode) with complete typing facts;
+    otherwise this stops and names the refresh to run."""
+    sys.path.insert(0, str(root / 'tools/codemap'))
+    import codemap as CM
+    import typing_query as T
+    db_path = db_path if db_path.is_absolute() else root / db_path
+    cm = CM.CodeMap(root, db_path, log=lambda m: None)
+    cm.open_readonly()
+    state = cm.check()
+    if not state['fresh'] or state.get('typing') != 'fresh':
+        raise SystemExit('codemap %s is not fresh for this root (%d changed, typing %s): run '
+                         'python3 tools/codemap/codemap.py refresh' % (db_path, state['changed_count'], state.get('typing')))
+    rows, errors = T.cast_rows(cm.db, folder)
+    like = folder.rstrip('/') + '/%'
+    tus = [r[0] for r in cm.db.execute('SELECT tu FROM typing_tu WHERE tu LIKE ? UNION '
+                                       'SELECT DISTINCT tu FROM cast_site WHERE file LIKE ?', (like, like))]
+    return rows, errors, tus
+
+
 def main(argv=None):
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument('--root', type=Path, default=HERE.parents[1])
@@ -570,6 +601,9 @@ def main(argv=None):
     ap.add_argument('--runtime', type=Path, help='site_facts.tsv.gz of the rtti native run')
     ap.add_argument('--runtime-src', help='decomp revision the runtime evidence was taken at')
     ap.add_argument('--git-root', type=Path, help='repository holding --runtime-src')
+    ap.add_argument('--codemap', type=Path, nargs='?', const=Path('build/codemap.db'),
+                    help='read the per-TU cast rows from codemap.db (tools/codemap typing facts; default '
+                         'build/codemap.db) instead of parsing every TU; refused when the map is not fresh')
     args = ap.parse_args(argv)
     root = args.root.resolve()
     args.out = args.out.resolve()
@@ -577,15 +611,19 @@ def main(argv=None):
     os.chdir(root)
     import cast_fold as F
     files = sorted(p.relative_to(root).as_posix() for p in (root / args.folder).rglob('*.c'))
-    tus, _ = F.physical_for(root, files)
-    jobs = [(str(root), tu, recipe, files) for tu, recipe in sorted(tus.items())]
-    rows, errors = {}, []
-    with ProcessPoolExecutor(max_workers=args.workers) as ex:
-        for res in ex.map(scan_tu, jobs, chunksize=2):
-            if res['error']:
-                errors.append((res['tu'], res['error']))
-            for r in res['rows']:
-                rows.setdefault((r['file'], r['start'], r.get('macro', 0), r.get('line'), tuple(r.get('starts', ()))), r)
+    if args.codemap:
+        rows, errors, jobs = codemap_rows(root, args.codemap, args.folder)
+    else:
+        tus, _ = F.physical_for(root, files)
+        jobs = [(str(root), tu, recipe, files) for tu, recipe in sorted(tus.items())]
+        rows, errors = {}, []
+        with ProcessPoolExecutor(max_workers=args.workers) as ex:
+            for res in ex.map(scan_tu, jobs, chunksize=2):
+                if res['error']:
+                    errors.append((res['tu'], res['error']))
+                for r in res['rows']:
+                    rows.setdefault((r['file'], r['start'], r.get('macro', 0), r.get('line'),
+                                     tuple(r.get('starts', ()))), r)
     # Join to lexical casts.
     out_rows = []
     lex_total = 0

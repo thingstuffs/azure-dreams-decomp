@@ -77,7 +77,7 @@ void update_dungeon_actor_behavior(ActorRecord *actor_arg, ObjectPosition *conte
                     >> 9) & 7],
                 0);
         }
-        ((Rec_func_800A9E70_arg0 *)actor_arg)->unk_AE = 0;
+        actor_arg->unk_AC.halves.high.s = 0;
         clear_slots_of_type(actor_state_arg, 0x1A);
         return;
     }
@@ -86,7 +86,7 @@ void update_dungeon_actor_behavior(ActorRecord *actor_arg, ObjectPosition *conte
         if (map_object_arg->frameTable == D_80174000) {
             actor_arg->action_id.u = 0xD;
             actor_arg->action_phase.u = 1;
-            ((Rec_func_800A9E70_arg0 *)actor_arg)->unk_8C = 0;
+            actor_arg->unk_8C.word = 0;
             ((S_80170F68_1 *)actor_state_arg)->unk_1C &= ~0x40000;
             return;
         }

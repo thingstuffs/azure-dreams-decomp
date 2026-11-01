@@ -99,6 +99,11 @@ typedef struct AnimatedSpriteBurstBody {
     u16 update_count;
     s16 update_limit;
 } AnimatedSpriteBurstBody;
+typedef struct VerticalAccelerationSpriteBody {
+    union { void *owner; s32 state_value; } target;
+    union { u16 u; s16 s; } update_count;
+    s16 update_limit;
+} VerticalAccelerationSpriteBody;
 struct B22_81893244_Func81893244Object {
     u8 pad0[8];
     B22_81893244_Func81893244Data *field8;
@@ -227,19 +232,6 @@ typedef struct B22_81892BF8_S_81892BF8_1 {
 typedef struct B22_81892AF0_Copy24 {
     s32 words[6];
 } B22_81892AF0_Copy24;
-typedef struct B22_81892AF0_S_81892AF0_0 {
-    u8 pad_00[0x8];
-    B22_81892AF0_Copy24 * unk_08;
-    void * unk_0C;
-    s32 * unk_10;
-    u8 pad_14[0xC];
-    s32 unk_20;
-} B22_81892AF0_S_81892AF0_0;
-typedef struct B22_81892AF0_S_81892AF0_1 {
-    u8 pad_00[0x4];
-    s16 unk_04;
-    s16 unk_06;
-} B22_81892AF0_S_81892AF0_1;
 typedef struct B22_81892AF0_S_81892AF0_3 {
     u8 pad_00[0x8];
     s32 unk_08;
@@ -295,7 +287,7 @@ typedef struct B22_81892800_Aux {
 } B22_81892800_Aux;
 void advance_accelerating_spin_effect(B22_81892800_Entity *entity, B22_81892800_Motion *motion, B22_81892800_Aux *aux);
 void *create_randomly_rotated_sprite_object(void *context, B22_818928F8_Copy24 *src_data, s16 state_value);
-void accelerate_and_expire_animated_sprite(void *step_state, void *accumulator, SpriteFrameState *target);
+void accelerate_and_expire_animated_sprite(VerticalAccelerationSpriteBody *step_state, void *accumulator, SpriteFrameState *target);
 void *create_vertical_acceleration_sprite(s32 state_value, B22_81892AF0_Copy24 *source_transform, s16 variant);
 void expire_counted_child_effect(TimedTransformCopyEffectBody *counter_state);
 s32 draw_red(TimedTransformCopyEffectBody *effect, B22_81892C5C_S_81892C5C_2 *center);

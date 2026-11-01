@@ -68,7 +68,7 @@ void update_creature_behavior_and_animation_2(ActorRecord *actor_in, ObjectPosit
         if (sprite->frameTable == saber_direction_frames_2) {
             actor_in->action_id.u = 0xD;
             actor_in->action_phase.u = 1;
-            ((Rec_func_800A9E70_arg0 *)actor_in)->unk_8C = 0;
+            actor_in->unk_8C.word = 0;
             creature_in->flags1C &= 0xFFFBFFFF;
             return;
         }

@@ -87,14 +87,14 @@ void update_multi_form_actor_control(ActorRecord *actor, ObjectPosition *context
         if (actor->unk_B0.bytes[0] != 1) {
             return;
         }
-        ((Rec_func_800A9E70_arg0 *)actor)->unk_AD = (u8) (((Rec_func_800A9E70_arg0 *)actor)->unk_AD + 1);
+        actor->unk_AC.bytes[1] = (u8) (actor->unk_AC.bytes[1] + 1);
         g_dungeon_status.activity_counts.parts.pending_action_count = (u16) (((u16)g_dungeon_status.activity_counts.parts.pending_action_count) + 1);
         return;
     }
     if (actor->unk_B0.bytes[0] == 1) {
-        if (((Rec_func_800A9E70_arg0 *)actor)->unk_AD != 0) {
-            g_dungeon_status.activity_counts.parts.pending_action_count = (u16) (((u16)g_dungeon_status.activity_counts.parts.pending_action_count) - ((Rec_func_800A9E70_arg0 *)actor)->unk_AD);
-            ((Rec_func_800A9E70_arg0 *)actor)->unk_AD = 0U;
+        if (actor->unk_AC.bytes[1] != 0) {
+            g_dungeon_status.activity_counts.parts.pending_action_count = (u16) (((u16)g_dungeon_status.activity_counts.parts.pending_action_count) - actor->unk_AC.bytes[1]);
+            actor->unk_AC.bytes[1] = 0U;
         }
     }
     if (entity->mp_value.parts.whole == 0) {
@@ -157,7 +157,7 @@ block_31:
             state_changed = 1;
 block_32:
             actor->action_phase.s = (s8)state_changed;
-            ((Rec_func_800A9E70_arg0 *)actor)->unk_8C = 0;
+            actor->unk_8C.word = 0;
             entity->flags1C = (s32) (entity->flags1C & (clear_mask | 0xFFFFU));
             return;
         default:

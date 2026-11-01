@@ -137,16 +137,16 @@ void animate_six_entry_selection_cursor(S_800500B4_1 *widgets, S_800500B4_0 *ani
     start_index = anim->unk_18;
     cursor_offset = (s32) ((anim->unk_1C - start_index) * (anim->unk_14 << 4)) / (s32) anim->unk_10;
     cursor_offset = cursor_offset - 0x28;
-    ((S_800500B4_16 *)(((S_800500B4_8 *)(((S_800500B4_4 *)widgets)->unk_20))->unk_04))->unk_0A.s =
+    ((S_800500B4_16 *)(((S_800500B4_8 *)widgets->unk_20)->unk_04))->unk_0A.s =
         (s16) ((start_index << 4) + cursor_offset);
     ((UnsignedWidgetYView *)(((S_800500B4_9 *)(((S_800500B4_4 *)widgets)->unk_24))->unk_04))->unk_0A =
-        (u16) ((S_800500B4_16 *)(((S_800500B4_8 *)(((S_800500B4_4 *)widgets)->unk_20))->unk_04))->unk_0A.u;
+        (u16) ((S_800500B4_16 *)(((S_800500B4_8 *)widgets->unk_20)->unk_04))->unk_0A.u;
     cursor_widget = widgets->unk_20;
     ((S_800500B4_10 *)(cursor_widget->unk_08))->unk_08 = (s16) (((UnsignedWidgetYView *)(cursor_widget->unk_04))->unk_0A - 2);
     target_index = anim->unk_1C;
     entry_base = (u8 *) widgets;
     highlight_base = (u8 *) anim;
-    ((S_800500B4_18 *)(((WidgetComponentView *)(((S_800500B4_6 *)widgets)->unk_20))->unk_08))->unk_04 =
+    ((S_800500B4_18 *)(((WidgetComponentView *)widgets->unk_20)->unk_08))->unk_04 =
         (s16) (-(target_index << 9) - ((s32) ((target_index - anim->unk_18) * -(anim->unk_14
         << 9)) / (s32) anim->unk_10));
     for (entry_index = 0; entry_index < 6; entry_index++) {

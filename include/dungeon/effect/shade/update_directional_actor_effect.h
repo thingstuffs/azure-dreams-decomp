@@ -25,16 +25,17 @@ struct Row_8194C81C_Delta {
     s32 z;
 };
 
-/* Computes orientation angles from the displacement between two points. */
-typedef struct Row_8194C8F0_S_800240F0_0 {
-    void * unk_00;
-    void * unk_04;
-    void * unk_08;
-    union { s16 n; u16 n2; } unk_0C;   /* accessed as both */
+/* State installed by allocate_effect_and_initialize_sprite and advanced by its callback. */
+
+typedef struct EffectAndInitializeSpriteBody {
+    void *unk_00;
+    void *unk_04;
+    void *unk_08;
+    union { s16 n; u16 n2; } unk_0C;
     u8 pad_0E[0x2];
-    union { u16 u; s16 s; } unk_10;   /* accessed as both */
+    union { u16 u; s16 s; } unk_10;
     u16 unk_12;
-} Row_8194C8F0_S_800240F0_0;   /* arg0 in func_800240F0 */
+} EffectAndInitializeSpriteBody;
 
 typedef struct Row_8194C8F0_S_800240F0_1 {
     u8 pad_00[0x8];
@@ -151,8 +152,8 @@ typedef TexturedOffsetObjectBody Row_8194CD5C_S_8002455C_0;
 typedef TexturedOffsetObjectBody Row_8194CF00_S_80024700_0;
 
 /* Creates a textured object from the source and applies a transformed positional offset. */
-typedef struct Row_8194D118_S_80024918_0 {
-    void * unk_00;
+typedef struct EffectWithEndpointsBody {
+    union { void *state; s32 object_value; } unk_00;
     u8 pad_04[0x30];
     s32 unk_34;
     s32 unk_38;
@@ -160,11 +161,13 @@ typedef struct Row_8194D118_S_80024918_0 {
     s32 unk_40;
     s32 unk_44;
     s32 unk_48;
-    u8 pad_4C[0x28];
-    s16 unk_74;
-    u8 pad_76[0x2];
-    s16 unk_78;
-} Row_8194D118_S_80024918_0;   /* arg0 in func_80024918 */
+    Row_8194CF00_WordQuad transform;
+    Row_8194CF00_WordQuad source_offset;
+    u8 pad_6C[0x8];
+    s16 ticks;
+    s16 phase;
+    s16 angle;
+} EffectWithEndpointsBody;
 
 typedef struct Row_8194D118_S_80024918_1 {
     u8 pad_00[0x1A];
@@ -292,11 +295,11 @@ extern M2C_UNK D_800DE5DC;
 
 void update_directional_actor_effect(s16 start_x, s16 start_y, s16 start_z, s16 end_x, s16 end_y,
                    s16 end_z, s16 *angles);
-void update_homing_arc_and_brighten_effect(void *effect, void *motion, void *sprite);
+void update_homing_arc_and_brighten_effect(EffectAndInitializeSpriteBody *effect, void *motion, void *sprite);
 void allocate_effect_and_initialize_sprite(s32 effect_data, s32 effect_param, s32 render_param);
 void update_rotating_effect_and_fade(TexturedOffsetObjectBody *effect, void *position,struct SpriteFrameState *sprite);
-void create_textured_offset_object(void *source_object);
-void advance_object_motion_and_animation(void *object);
+void create_textured_offset_object(EffectWithEndpointsBody *source_object);
+void advance_object_motion_and_animation(EffectWithEndpointsBody *object);
 void allocate_effect_with_endpoints(s32 object_value, void *start_pos, void *end_pos, s16 setting, Row_8194D1E4_FourWords params_a,
     Row_8194D1E4_FourWords params_b, Row_8194D1E4_Packed8 packed_params);
 void update_three_way_target_effect(void *effect_arg, void *position);

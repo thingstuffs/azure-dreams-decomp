@@ -581,7 +581,7 @@ s32 select_creature_action_and_target(void *unused, u8 *position, ActorRecord *c
     if (check_tile_path_clear(creature, target) == 0) {
         break;
     }
-    if (((u8 *)creature)[0xAE] != 0) {
+    if (creature->unk_AC.bytes[2] != 0) {
         break;
     }
     creature->action_flags = 0x8009;
@@ -713,7 +713,7 @@ s32 select_creature_action_and_target(void *unused, u8 *position, ActorRecord *c
     if (!(creature->flags1C & ACTOR_PLAYER_AWARE)) {
         break;
     }
-    if (*(s16 *)((u8 *)creature + 0xA6) != 0) {
+    if (creature->unk_A4.halves.high.s != 0) {
         break;
     }
     if (dungeon_floor_flags & 4) {
@@ -867,7 +867,7 @@ s32 select_creature_action_and_target(void *unused, u8 *position, ActorRecord *c
 
     case MONSTER_U_BOAT:
     if ((s16)get_tile_chebyshev_distance(position, ((u8 *)(&reference_tile_object))) >= 2) {
-        if (((u8 *)creature)[0xB5] == 0) {
+        if (creature->unk_B4.bytes[1] == 0) {
             roll_actor_flag_once(creature, 8);
             if (creature->action_state_flags & 0x100) {
                 creature->action_flags = 0x800A;
@@ -875,7 +875,7 @@ s32 select_creature_action_and_target(void *unused, u8 *position, ActorRecord *c
             }
         }
     }
-    if (((u8 *)creature)[0xB5] == 0) {
+    if (creature->unk_B4.bytes[1] == 0) {
         break;
     }
     neighbor = find_eligible_actor_at_tile_and_height(creature, ((TileObject *)position)->tile_position.parts.tile_x, ((TileObject *)position)->tile_position.parts.tile_y, creature->ground_height);
@@ -1089,7 +1089,7 @@ s32 select_creature_action_and_target(void *unused, u8 *position, ActorRecord *c
     }
 
     case MONSTER_PULUNPA:
-    if (((u8 *)creature)[0xA7] != 0) {
+    if (creature->unk_A4.bytes[3] != 0) {
         if (creature->unk_A8.byte == 0) {
             STEPVEC(neighbor);
             target = neighbor;

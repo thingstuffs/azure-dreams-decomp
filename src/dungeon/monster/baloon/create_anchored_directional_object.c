@@ -8,19 +8,12 @@
 #include "engine/node/allocation.h"
 #include "engine/graphics.h"
 #include "engine/node.h"
+#include "dungeon/effect/sprite.h"
 
 #ifndef NULL
 #define NULL 0
 #endif
 
-typedef struct S_80D653B8_0 {
-    u8 pad_00[0x96];
-    s16 unk_96;
-    u8 pad_98[0x12];
-    s16 unk_AA;
-    u8 pad_AC[0x4];
-    void * unk_B0;
-} S_80D653B8_0;   /* work in create_anchored_directional_object */
 
 typedef struct S_80D653B8_2 {
     u8 pad_00[0x6];
@@ -66,16 +59,16 @@ void create_anchored_directional_object(void *unused, S_80D653B8_5 *anchor, S_80
     ObjectNodeHeader *object;
     SpriteFrameState *object_data;
     ObjectPosition *position;
-    S_80D653B8_0 *object_work;
+    AnchoredDirectionalObjectBody *object_work;
 
     (void)unused;
     object = allocate_list_node(0x112, &scene_object_list_anchor.next);
     if (object != NULL) {
         object_work = (u8 *)object + 0x20;
-        object_work->unk_96 = initial_value;
-        object_work->unk_AA = initial_value;
+        object_work->remaining = initial_value;
+        object_work->duration = initial_value;
         object->update_callback = D_800D6FEC;
-        object_work->unk_B0 = anchor;
+        object_work->source_position = anchor;
         object_data = object->sprite;
         *(S_80D653B8_2 *)object_data = *object_template;
 

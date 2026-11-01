@@ -35,7 +35,7 @@ extern u32 sprite_projection_matrix[8];
 /* Projects unhidden sprite groups until the chain ends or the frame packet arena overflows. */
 s32 project_sprite_chain(void *group_data, s32 context, SpriteFrameState *entry, s32 unused)
 {
-    void *current_data = group_data;
+    ObjectNodeHeader *current_data = group_data;
     SpriteFrameState *current_entry = entry;
     ObjectNodeHeader *next_group;
 
@@ -50,7 +50,7 @@ s32 project_sprite_chain(void *group_data, s32 context, SpriteFrameState *entry,
             }
         }
 
-        next_group = ((ObjectNodeHeader *)current_data - 1)->chain_next;
+        next_group = (current_data - 1)->chain_next;
         if (next_group == 0) {
             sprite_command_depth_scale = 0;
             return 0;
@@ -187,9 +187,9 @@ void project_sprite_commands(void *context, void *position, Entry *entry, s16 de
     SP16(scratch, 0x04) = *(u16 *)((u8 *)position + 0xA);
     packet = *(Packet **)((u8 *)render_state->draw_buffer + 0x8D0);
 
-    ((ScratchDepth *)scratch)->depth = RotTransPers(scratch, &scratch->sw[0xB8 / 4], &scratch->sw[0x90 / 4], &scratch->sw[0x94 / 4]);
+    scratch->w[48] = RotTransPers(scratch, &scratch->sw[0xB8 / 4], &scratch->sw[0x90 / 4], &scratch->sw[0x94 / 4]);
     E16(entry, 0x14) |= 0x8000;
-    projected_depth = ((ScratchDepth *)scratch)->depth;
+    projected_depth = scratch->w[48];
     {
         u32 base_depth;
         sort_depth = (base_depth = projected_depth - 10, base_depth - depth_bias);
@@ -236,7 +236,7 @@ void project_sprite_commands(void *context, void *position, Entry *entry, s16 de
         SetTransMatrix(&scratch->h[40]);
         SetRotMatrix(&scratch->h[40]);
 
-        command = *(Command **)((u8 *)entry + 8);
+        command = entry->commands;
         SP16(scratch, 0x24) = E16(entry, 0x14);
 
         do {
@@ -400,7 +400,7 @@ void project_sprite_commands(void *context, void *position, Entry *entry, s16 de
                         u32 depth_offset = SP32(scratch, 0xCC);
                         if (depth + depth_offset < 0x1D6U) {
                             ((GpuLinkTag *)packet)->addr = ((GpuLinkTag *)(((ScratchOt *)scratch)->ot + depth + depth_offset))->addr;
-                            ((GpuLinkTag *)(((ScratchOt *)scratch)->ot + ((ScratchOt *)scratch)->depth + ((ScratchOt *)scratch)->depth_offset))->addr = (u32)packet;
+                            ((GpuLinkTag *)(((ScratchOt *)scratch)->ot + scratch->w[48] + scratch->sw[51]))->addr = (u32)packet;
                         }
                     }
                     packet++;

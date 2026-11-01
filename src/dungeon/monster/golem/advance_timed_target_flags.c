@@ -15,13 +15,6 @@ extern s32 golem_frame_set_3;
 
 void advance_sprite_animation_and_textures(void *);
 
-typedef struct S_80174D24_0 {
-    union { s16 s; u16 u; } unk_00;   /* accessed as both */
-    u16 unk_02;
-    Copy24 * unk_04;
-    void * unk_08;
-} S_80174D24_0;   /* arg0 in advance_timed_target_flags */
-
 typedef struct S_80174D24_1 {
     union { struct { s32 v; } at00; struct { u8 pad[0x2]; u16 v; } at02; } unk_00;   /* overlapping accesses */
     union { struct { s32 v; } at00; struct { u8 pad[0x2]; u16 v; } at02; } unk_04;   /* overlapping accesses */
@@ -34,13 +27,12 @@ typedef struct S_80174D24_1 {
 typedef struct S_80174D24_4 {
     u8 pad_00[0x2C];
     void * unk_2C;
-} S_80174D24_4;   /* ((S_80174D24_0 *)arg0)->unk_08 in advance_timed_target_flags */
+} S_80174D24_4;   /* ((CopiedRenderObjectBody *)arg0)->render_data */
 
 /* Copies object data with offsets and advances a timed target flag cycle. */
-void advance_timed_target_flags(void *state_arg, void *output_arg, SpriteFrameState *target)
+void advance_timed_target_flags(CopiedRenderObjectBody *state, void *output_arg, SpriteFrameState *target)
 {
     S_80174D24_1 *output = output_arg;
-    S_80174D24_0 *state = state_arg;
     GteOffset offsets;
     SpriteFrameState *object;
     Copy24 *source;
@@ -53,16 +45,16 @@ void advance_timed_target_flags(void *state_arg, void *output_arg, SpriteFrameSt
     s32 signed_ticks;
     u16 target_flags;
 
-    if (((S_80174D24_4 *)(state->unk_08))->unk_2C != &golem_frame_set_3) {
+    if (((S_80174D24_4 *)state->render_data)->unk_2C != &golem_frame_set_3) {
         (*(u16 *)((u8 *)state + -2)) |= NODE_REMOVE;
         object_flag_block.flags |= OBJECT_REMOVE_PENDING;
         return;
     }
 
-    source = state->unk_04;
+    source = state->source_state;
     *(Copy24 *)output = *source;
 
-    object = state->unk_08;
+    object = state->render_data;
     offset_mode = 0;
     object_id = object->source;
     if (resolve_record_orientation_or_fallback(object_id, object,
@@ -72,10 +64,10 @@ void advance_timed_target_flags(void *state_arg, void *output_arg, SpriteFrameSt
         output->unk_08.at02.v += offsets.distance[2];
     }
 
-    old_ticks = state->unk_02;
-    phase = state->unk_00.s;
+    old_ticks = state->frames;
+    phase = state->phase.s;
     copy_word_a = old_ticks + 1;
-    state->unk_02 = copy_word_a;
+        state->frames = copy_word_a;
 
     switch (phase) {
     case 0:
@@ -85,8 +77,8 @@ void advance_timed_target_flags(void *state_arg, void *output_arg, SpriteFrameSt
             return;
         }
         target->flags = target_flags | 0x80;
-        state->unk_02 = 0;
-        state->unk_00.u++;
+        state->frames = 0;
+        state->phase.u++;
         break;
     case 1:
         signed_ticks = (s16)copy_word_a;
@@ -95,8 +87,8 @@ void advance_timed_target_flags(void *state_arg, void *output_arg, SpriteFrameSt
         }
         target->flags &= 0xFF7F;
         select_sprite_entry(target, 0x38, 0);
-        state->unk_02 = 0;
-        state->unk_00.s = 0;
+        state->frames = 0;
+        state->phase.s = 0;
         break;
     }
 }

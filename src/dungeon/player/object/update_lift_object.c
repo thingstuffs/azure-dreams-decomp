@@ -110,22 +110,22 @@ void update_lift_object(void *effect_state, void *saved_effect_id, void *animati
             play_sound_if_enabled(0x510);
             adjust_source_value_and_finalize(((S_8008F428_0 *)effect_state)->unk_124, D_800E0523);
             {
-                void *entity;
+                ActorRecord *entity;
                 s32 saved_global;
                 u32 entity_mask;
                 u32 owner_mask;
-                u8 *global_page;
+                S_8008F428_2 *global_page;
                 s32 flags;
 
                 entity_mask = 0xFFF7FFFF;
                 owner_mask = 0xFFEF0000;
-                global_page = (u8 *)0x80080000;
+                global_page = (S_8008F428_2 *)0x80080000;
                 entity = ((S_8008F428_0 *)effect_state)->unk_124;
-                saved_global = ((S_8008F428_2 *)global_page)->unk_1484;
-                flags = ((ActorRecord *)entity)->flags1C;
+                saved_global = global_page->unk_1484;
+                flags = entity->flags1C;
                 owner_mask |= 0xFFFF;
-                ((S_8008F428_2 *)global_page)->unk_1484 = 0;
-                ((ActorRecord *)entity)->flags1C = flags & entity_mask;
+                global_page->unk_1484 = 0;
+                entity->flags1C = flags & entity_mask;
                 saved_held_item_word = saved_global;
                 ((S_8008F428_4 *)owner)->unk_1C = ((S_8008F428_4 *)owner)->unk_1C & owner_mask;
             }

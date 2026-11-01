@@ -87,14 +87,14 @@ void run_warp_effect_sequence(EventState *event) {
         if ((**(u16 **)((u8 *)event + 4) & 0x80) == 0) {
             break;
         }
-        event->result = (s32)allocate_initialized_effect_object(*(void **)(*(u8 **)event - 0x18), *(void **)event);
+        event->result = (s32)allocate_initialized_effect_object(*(void **)(*(u8 **)event - 0x18), event->source);
         if (event->result == 0) {
             break;
         }
         event->mode20 = -1;
         event->timer22 = 0x20;
         event->timer1C = 0x10;
-        ((DungeonObject *)primary_actor_record)->countA6--;
+        primary_actor_record->unk_A4.halves.high.u--;
         event->state++;
         play_sound_if_enabled(AUDIO_PLAY_CD_CUE);
         break;
@@ -473,7 +473,7 @@ void run_warp_cutscene(Motion *motion, Position *position, u8 *color)
                 view_reference_entity.x.w.i + base.x,
                 view_reference_entity.y.w.i + base.y,
                 view_reference_entity.z.w.i + base.z,
-                ((ActorRecord *)((u8 *)dungeon_actor_ring_anchor))->facing, 0);
+                dungeon_actor_ring_anchor->facing, 0);
         }
 
         motion->effect_timer--;
@@ -484,7 +484,7 @@ void run_warp_cutscene(Motion *motion, Position *position, u8 *color)
             view_reference_entity.x.w.i,
             view_reference_entity.y.w.i,
             view_reference_entity.z.w.i - 0x20,
-            ((ActorRecord *)((u8 *)dungeon_actor_ring_anchor))->facing);
+            dungeon_actor_ring_anchor->facing);
 
         break;
     default:
@@ -1004,8 +1004,8 @@ void update_warp_camera_and_effects(void *entity, void *motion, void *gfx) {
                 if (node != head) {
                     do {
                         info = ((ObjectNodeHeader *)((u8 *)node - 0x20))->sprite;
-                        if (((S_819AD81C_4 *)info)->unk_24 == ((S_819AD81C_0 *)entity)->unk_3C.at00.v) {
-                            if (((S_819AD81C_4 *)info)->unk_25 == ((S_819AD81C_0 *)entity)->unk_3C.at02.v) {
+                        if (info->tile_x == ((S_819AD81C_0 *)entity)->unk_3C.at00.v) {
+                            if (info->tile_y == ((S_819AD81C_0 *)entity)->unk_3C.at02.v) {
                                 dz = ((S_819AD81C_3 *)node)->unk_88;
                                 component = ((S_819AD81C_2 *)motion)->unk_08.at02.v;
                                 dz -= component;
@@ -1056,16 +1056,16 @@ void update_warp_camera_and_effects(void *entity, void *motion, void *gfx) {
         ((S_819AD81C_2 *)motion)->unk_00.at02.v = (s16) ((MovingPosition *)link)->x;
         ((S_819AD81C_2 *)motion)->unk_04.at02.v = (s16) ((MovingPosition *)link)->y;
         ((S_819AD81C_2 *)motion)->unk_08.at02.v = (s16) ((MovingPosition *)link)->z;
-        ((S_819AD81C_1 *)gfx)->unk_16 = (u16) ((S_819AD81C_4 *)info)->unk_16;
-        ((S_819AD81C_1 *)gfx)->unk_18 = (u16) ((S_819AD81C_4 *)info)->unk_18;
-        ((S_819AD81C_1 *)gfx)->unk_1A = (u16) ((S_819AD81C_4 *)info)->unk_1A;
-        ((S_819AD81C_1 *)gfx)->unk_1C = (u16) ((S_819AD81C_4 *)info)->unk_1C;
-        ((S_819AD81C_1 *)gfx)->unk_1E = (u16) ((S_819AD81C_4 *)info)->unk_1E;
-        ((S_819AD81C_1 *)gfx)->unk_20 = (u16) ((S_819AD81C_4 *)info)->unk_20;
-        ((S_819AD81C_1 *)gfx)->unk_0C.at00u.v = ((S_819AD81C_4 *)info)->unk_0C;
+        ((S_819AD81C_1 *)gfx)->unk_16 = (u16) info->angle_x;
+        ((S_819AD81C_1 *)gfx)->unk_18 = (u16) info->angle_y;
+        ((S_819AD81C_1 *)gfx)->unk_1A = (u16) info->angle_z;
+        ((S_819AD81C_1 *)gfx)->unk_1C = (u16) info->scale_x;
+        ((S_819AD81C_1 *)gfx)->unk_1E = (u16) info->scale_y;
+        ((S_819AD81C_1 *)gfx)->unk_20 = (u16) info->offset_x;
+        ((S_819AD81C_1 *)gfx)->unk_0C.at00u.v = info->color.word;
         want_kind = D_8002758C[((S_819AD81C_0 *)entity)->unk_48];
         node = ((void *)attached) + 0x20;
-        if ((want_kind >= 0) && (((S_819AD81C_4 *)info)->unk_04 == want_kind)) {
+        if ((want_kind >= 0) && (info->unk_04 == want_kind)) {
             PushMatrix(attached);
             build_install(entity, motion, gfx);
             zero_vec.unk0 = 0;
@@ -1081,7 +1081,7 @@ void update_warp_camera_and_effects(void *entity, void *motion, void *gfx) {
             warp_params.unk14 = 0;
             spawn_opposite_offset_effect(&warp_params, ((S_819AD81C_3 *)node)->unk_34);
         }
-        set_animation_entry_address(gfx, ((S_819AD81C_4 *)info)->unk_04);
+        set_animation_entry_address(gfx, info->unk_04);
         update_traveling(entity, ((S_819AD81C_1 *)gfx)->unk_00);
     }
 }
@@ -1161,7 +1161,7 @@ void *create_linked_sprite_pieces(s16 x, s16 y, s16 z, s16 heading) {
     TileObject *color_table;
     u8 *effect_state;
     u8 *link_data;
-    u8 *component_data;
+    S_800255B8_1 *component_data;
     u8 color_first;
     u32 color_second;
     u32 offset_addr;
@@ -1191,12 +1191,12 @@ void *create_linked_sprite_pieces(s16 x, s16 y, s16 z, s16 heading) {
         register_node(objects[piece_index], draw_linked_model_chain);
 
         offset_addr = (heading >> 8) & 0xE;
-        component_data = ((S_800255B8_0 *)objects[piece_index])->unk_08;
+        component_data = (S_800255B8_1 *)((S_800255B8_0 *)objects[piece_index])->unk_08;
         x_offset = dir_step(x_offsets, offset_addr) << 5;
-        ((S_800255B8_1 *)component_data)->unk_02 = x + x_offset;
+        component_data->unk_02 = x + x_offset;
         y_offset = dir_step(dir_step_y, offset_addr) << 5;
-        ((S_800255B8_1 *)component_data)->unk_0A = z;
-        ((S_800255B8_1 *)component_data)->unk_06 = y + y_offset;
+        component_data->unk_0A = z;
+        component_data->unk_06 = y + y_offset;
 
         effect_state = ((S_800255B8_0 *)objects[piece_index])->unk_0C;
         ((S_800255B8_2 *)effect_state)->unk_20 = 0x1000;
@@ -1449,7 +1449,7 @@ s32 process_effect_buffer_chain(void *initial_state, s32 initial_value, Entry *i
     u8 *slot_base;
     s32 slot_index;
     u8 *slot;
-    void *entry_or_link;
+    Entry *entry_or_link;
 
     slot_base = warp_piece_slots;
     for (;;) {
@@ -1459,7 +1459,7 @@ s32 process_effect_buffer_chain(void *initial_state, s32 initial_value, Entry *i
         do {
             entry->field_8 = slot;
             slot += 0x10;
-            set_animation_entry_address((Entry *)entry_or_link, entry->field_4);
+            set_animation_entry_address(entry_or_link, entry->field_4);
             slot_index++;
             update_traveling(state, entry->field_0);
             transform_shade_and_queue_model_quads(state, value, entry, entry->field_6);

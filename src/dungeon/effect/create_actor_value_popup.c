@@ -85,7 +85,7 @@ void *create_actor_value_popup(s32 flags, void *source_data, s16 value, u16 call
     void *new_object;
     S_800B4C7C_0 *source_object;
     S_800B4C7C_2 *source_position;
-    void *anchor;
+    S_800B4C7C_4 *anchor;
 
     new_object = allocate_list_node(0x212, &scene_object_list_anchor.next);
     saved_flags = flags;
@@ -103,7 +103,7 @@ void *create_actor_value_popup(s32 flags, void *source_data, s16 value, u16 call
         position->x.w.i = anchor_x;
         anchor = ((S_800B4C7C_1 *)state)->unk_14;
         ((S_800B4C7C_1 *)state)->unk_18 = anchor_x;
-        anchor_y = ((S_800B4C7C_4 *)anchor)->unk_06;
+        anchor_y = anchor->unk_06;
         space = 0x20;
         position->y.w.i = anchor_y;
         text_style = flags & 0xF;

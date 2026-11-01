@@ -113,7 +113,7 @@ void advance_multi_form_turn_path(ActorRecord *actor, ObjectPosition *unused, Sp
 
     movement->facing = direction;
     actor->action_id.s = 0xF;
-    ((Rec_func_800A9E70_arg0 *)actor)->unk_8C = 0;
+    actor->unk_8C.word = 0;
     (movement->flags1C) |= ACTOR_REFRESH_GROUND;
 
     if (g_dungeon_status.flags & 0x80) {

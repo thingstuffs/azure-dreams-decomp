@@ -74,7 +74,7 @@ s32 use_item_to_clear_equipment_flags(ActorRecord *target, DungeonItemEntry *ite
             uncursed = 1;
         }
 
-        equipment = *(DungeonItemEntry **)(((u8 *)dungeon_actor_ring_anchor) + 0x50);
+        equipment = dungeon_actor_ring_anchor->unk_50.item;
         if (equipment->kind != 0 && (equipment->unk_03 & 0x40) != 0) {
             equipment->unk_03 &= 0xBF;
             message_buf = get_unused_text_buffer();

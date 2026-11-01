@@ -48,7 +48,7 @@ s32 check_action_eligibility_updates_actor_state_directional_animation_success(A
     }
     action_state->action_id.s = 0x11;
     action_state->action_phase.s = 0;
-    ((Rec_func_800A9E70_arg0 *)action_state)->unk_8C = 0;
+    action_state->unk_8C.word = 0;
     actor->unk_84 = 0x7C;
     actor->unk_85 = 0;
     state_flag = action_state->action_state_flags & 0x8000;

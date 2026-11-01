@@ -13,10 +13,6 @@
 #define NULL 0
 #endif
 
-typedef struct S_80170700_1_body {
-    u8 pad_00[0x18];
-    s16 unk_18;
-} S_80170700_1_body;
 
 typedef struct {
     s32 w[12];
@@ -32,7 +28,7 @@ void create_secondary_encounter_object(void) {
     void *source_data;
     SpriteFrameState *render_data;
     ObjectNodeHeader *object;
-    S_80170700_1_body *body;
+    SecondaryEncounterObjectBody *body;
     void *body_storage;
 
     source_data = ((ObjectNodeHeader *)beldo_actor_nodes)->sprite;
@@ -41,7 +37,7 @@ void create_secondary_encounter_object(void) {
         render_data = object->sprite;
         body_storage = object + 1;
         body = body_storage;
-        body->unk_18 = 0;
+        body->frame = 0;
         object->update_callback = advance_timed_blink_effect;
         *(Copy48 *)render_data = *(Copy48 *)source_data;
         render_data->flags =

@@ -50,7 +50,7 @@ static void *copy_an_entry_slot_creating_associated_type_hex_13(s32 slot_index, 
     s32 record_index;
     void *detail_dst;
     S_8009FB2C_0 *entry;
-    void *detail_src;
+    Copy10 *detail_src;
     S_8009FB2C_2 *slot;
     void *slot_base;
 
@@ -74,7 +74,7 @@ static void *copy_an_entry_slot_creating_associated_type_hex_13(s32 slot_index, 
         *(Record84 *)copy_dst = *(Record84 *)copy_src;
         detail_dst = (record_index * 0x54) + (u8 *)0x80010324;
         detail_src = runtime_get_mode_indexed_value(entry->unk_00);
-        *(Copy10 *)detail_dst = *(Copy10 *)detail_src;
+        *(Copy10 *)detail_dst = *detail_src;
         entry->unk_03 = (u8) ((entry->unk_03 & 0xC0) | record_index);
     }
     slot_base = (void *)0x80010000;

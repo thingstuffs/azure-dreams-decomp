@@ -34,9 +34,9 @@ void create_owner_linked_directional_object(ActorRecord *owner_data, ObjectPosit
                 owner_data->facing + 0x100) >> 9) & 7], 0);
 
         position = object->position;
-        position->x.w.i = ((S_80D3B0B8_6 *)source_position)->unk_02;
-        position->y.w.i = ((S_80D3B0B8_6 *)source_position)->unk_06;
-        position->z.w.i = ((S_80D3B0B8_6 *)source_position)->unk_0A;
+        position->x.w.i = source_position->x.unsigned_parts.integer;
+        position->y.w.i = source_position->y.unsigned_parts.integer;
+        position->z.w.i = source_position->z.unsigned_parts.integer;
         {
             u16 sprite_field_1c;
             u16 sprite_field_1e;

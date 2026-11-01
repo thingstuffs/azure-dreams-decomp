@@ -70,7 +70,7 @@ void advance_item_action_sequence(ActorRecord *action, ObjectPosition *motion, S
     {
         u32 direction_index = ((u16)actor->facing >> 8) & 0xE;
 
-        owner = ((S_80172D74_1 *)action)->unk_A4;
+        owner = action->unk_A4.address;
         owner_flags = (S_80172D74_5 *)((u8 *)owner + 0x20);
         step_x = *(s16 *)(((s8 *)dir_step_x) + direction_index);
         step_z = *(s16 *)(((s8 *)dir_step_y) + direction_index);

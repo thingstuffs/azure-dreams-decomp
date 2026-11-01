@@ -30,11 +30,11 @@ typedef struct OverlayWork {
 /* Copies overlay state into ov_work, prints both kinds, and emits a source mark. */
 void dev_copy_overlay_work_and_trace_48(s8 *overlay_state) {
     s8 *kind_format;
-    s8 *p = overlay_state;
+    OverlayWork *p = (OverlayWork *)overlay_state;
 
-    *(OverlayWork *)(devkit_overlay_page + 0xF40) = *(OverlayWork *)p;
+    *(OverlayWork *)(devkit_overlay_page + 0xF40) = *p;
     kind_format = devkit_overlay_page + 0x144;
-    ((S_808B3620_4 *)(*(void **)(devkit_overlay_page + 0xF58)))->unk_64.u(kind_format, D_A0700150, ((TownFormatKindView *)p)->unk_08);
+    ((S_808B3620_4 *)(*(void **)(devkit_overlay_page + 0xF58)))->unk_64.u(kind_format, D_A0700150, p->words[2]);
     ((S_808B3620_4 *)(*(void **)(devkit_overlay_page + 0xF58)))->unk_64.u(kind_format, D_A0700158, *(s32 *)(devkit_overlay_page + 0xF48));
     ((S_808B3620_4 *)(*(void **)(devkit_overlay_page + 0xF58)))->unk_64.u(D_A0700168, D_A070017C, 0x30);
     ((S_808B3620_3 *)(*(void **)(devkit_overlay_page + 0xF58)))->unk_6C(0);

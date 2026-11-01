@@ -12,6 +12,7 @@
 #include "engine/texture.h"
 #include "slus.h"
 #include "engine/node.h"
+#include "dungeon/monster/u_boat.h"
 
 typedef struct S_800D58D8_0_pre {
     void * unk_00;
@@ -19,13 +20,6 @@ typedef struct S_800D58D8_0_pre {
     u16 unk_12;
 } S_800D58D8_0_pre;   /* the 0x14 bytes before arg0 in update_facing_and_spawn_expired_effect, addressed as arg0[-1] */
 
-typedef struct S_800D58D8_0 {
-    u8 pad_00[0x2A];
-    s16 unk_2A;
-    u8 pad_2C[0x68];
-    s16 unk_94;
-    u16 unk_96;
-} S_800D58D8_0;   /* arg0 in update_facing_and_spawn_expired_effect */
 
    /* arg1 in update_facing_and_spawn_expired_effect */
 
@@ -45,7 +39,7 @@ s32 resolve_record_orientation_or_fallback(void *, void *, Vec3u16 *, s32);     
 extern s32 D_800D586C[];
 
 /* Update sprite facing and animation, then spawn an effect when the countdown expires. */
-void update_facing_and_spawn_expired_effect(void *state, MovingPosition *position, SpriteFrameState *sprite) {
+void update_facing_and_spawn_expired_effect(AdvanceActorItemActionBody *state, MovingPosition *position, SpriteFrameState *sprite) {
     Vec3u16 delta;
     s16 facing;
     void *direction_frames;
@@ -55,17 +49,17 @@ void update_facing_and_spawn_expired_effect(void *state, MovingPosition *positio
     ObjectPosition *effect_pos;
     ObjectNodeHeader *effect;
 
-    facing = ((s32) (g_game_work.view.camera_rotation.parts.viewAngle + ((S_800D58D8_0 *)state)->unk_2A + 0x100) >> 9) & 7;
-    if (((S_800D58D8_0 *)state)->unk_94 != facing) {
+    facing = ((s32) (g_game_work.view.camera_rotation.parts.viewAngle + state->facing_angle + 0x100) >> 9) & 7;
+    if (state->direction_index != facing) {
         direction_frames = sprite->frameTable;
         if (direction_frames != 0) {
             select_indirect_table_entry(sprite, *((u8 *)direction_frames + facing), sprite->unk_04);
         }
-        ((S_800D58D8_0 *)state)->unk_94 = facing;
+        state->direction_index = facing;
     }
     advance_sprite_animation_and_textures(sprite);
-    ticks_left = ((S_800D58D8_0 *)state)->unk_96 - 1;
-    ((S_800D58D8_0 *)state)->unk_96 = ticks_left;
+    ticks_left = state->ticks_remaining - 1;
+    state->ticks_remaining = ticks_left;
     if ((ticks_left << 0x10) <= 0) {
         effect = allocate_flagged_object_node(0x12);
         if (effect != NULL) {

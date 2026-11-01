@@ -469,16 +469,6 @@ typedef struct S_819711E0_0_pre {
     u16 unk_00;
 } S_819711E0_0_pre;   /* the 0x2 bytes before arg0 in func_800249E0, addressed as arg0[-1] */
 
-typedef struct S_819711E0_0 {
-    u8 pad_00[0x38];
-    union { u16 s; s16 u; } unk_38;   /* accessed as both */
-    s16 unk_3A;
-    u8 pad_3C[0x4];
-    void * unk_40;
-    u16 unk_44;
-    u16 unk_46;
-    u16 unk_48;
-} S_819711E0_0;   /* arg0 in func_800249E0 */
 
 typedef struct S_819711E0_1 {
     u8 pad_00[0xC];
@@ -492,29 +482,29 @@ typedef struct S_819711E0_1 {
    /* src in func_800249E0 */
 
 /* Decrement the timer, update scale and position, and flag completion at zero. */
-void follow_origin_and_fade_sprite(void *state_arg, MovingPosition *position, S_819711E0_1 *scale) {
-    S_819711E0_0 *state = state_arg;
+void follow_origin_and_fade_sprite(OriginFollowingFadeSpriteBody *state_arg, MovingPosition *position, S_819711E0_1 *scale) {
+    OriginFollowingFadeSpriteBody *state = state_arg;
     s32 scale_factor;
     u16 ticks_left;
     MovingPosition *base_position;
 
-    ticks_left = state->unk_38.s - 1;
-    scale_factor = (s32) ((s32) (ticks_left << 16) >> 9) / (s16) state->unk_3A;
+    ticks_left = state->ticks_remaining.u - 1;
+    scale_factor = (s32) ((s32) (ticks_left << 16) >> 9) / (s16) state->fade_divisor;
     fading_quad_effect_updated = 1;
-    state->unk_38.s = ticks_left;
+    state->ticks_remaining.u = ticks_left;
     scale->unk_0E = (s8) scale_factor;
     scale->unk_0D = (s8) scale_factor;
     scale->unk_0C = (s8) scale_factor;
 
-    base_position = state->unk_40;
-    position->x = state->unk_44;
-    position->y = state->unk_46;
-    position->z = state->unk_48;
+    base_position = state->base_position;
+    position->x = state->offset_x;
+    position->y = state->offset_y;
+    position->z = state->offset_z;
     position->x = (u16) (position->x + base_position->x);
     position->y = (u16) (position->y + base_position->y);
     position->z = (u16) (position->z + base_position->z);
 
-    if (state->unk_38.u <= 0) {
+    if (state->ticks_remaining.s <= 0) {
         ((S_819711E0_0_pre *)state)[-1].unk_00 |= 0x8000;
         object_flag_block.flags = object_flag_block.flags | OBJECT_REMOVE_PENDING;
     }
@@ -816,16 +806,6 @@ void create_fading_jittered_sprite(u16 *source, s32 unused_1, s32 unused_2, s16 
 s32 rand();
 extern M2C_UNK D_80025FE8;
 
-typedef struct S_81971760_0 {
-    u8 pad_00[0x38];
-    s16 unk_38;
-    s16 unk_3A;
-    u8 pad_3C[0x4];
-    void * unk_40;
-    u16 unk_44;
-    u16 unk_46;
-    u16 unk_48;
-} S_81971760_0;
 
 typedef struct S_81971760_2 {
     u8 pad_00[0x6];
@@ -855,7 +835,7 @@ void create_origin_following_fade_sprite(void *unused_0, void *origin_data, s32 
     u16 coord;
     s32 random_value;
     SpriteFrameState *render_data;
-    S_81971760_0 *effect_state;
+    OriginFollowingFadeSpriteBody *effect_state;
     ObjectNodeHeader *effect;
     MovingPosition *origin = origin_data;
     s32 initial_y = offset_yz.y;
@@ -864,12 +844,12 @@ void create_origin_following_fade_sprite(void *unused_0, void *origin_data, s32 
     if (effect != NULL) {
         effect_arg = effect;
         effect_state = ((void *)effect) + 0x20;
-        effect_state->unk_38 = 0x1E;
-        effect_state->unk_3A = 0x1E;
-        effect_state->unk_44 = offset_x;
-        effect_state->unk_46 = (u16) initial_y;
-        effect_state->unk_48 = (u16) initial_z;
-        effect_state->unk_40 = origin;
+        effect_state->ticks_remaining.s = 0x1E;
+        effect_state->fade_divisor = 0x1E;
+        effect_state->offset_x = offset_x;
+        effect_state->offset_y = (u16) initial_y;
+        effect_state->offset_z = (u16) initial_z;
+        effect_state->base_position = origin;
         effect->update_callback = follow_origin_and_fade_sprite;
         register_node(effect_arg, project_sprite_chain);
         render_data = effect->sprite;
@@ -878,21 +858,21 @@ void create_origin_following_fade_sprite(void *unused_0, void *origin_data, s32 
         render_data->flags = (u16) (render_data->flags | 0xC);
         offset_x = (s32)effect->position;
         random_value = rand();
-        coord = effect_state->unk_44;
+        coord = effect_state->offset_x;
         coord -= 0x10;
-        effect_state->unk_44 = coord + (random_value & 0x1F);
+        effect_state->offset_x = coord + (random_value & 0x1F);
         random_value = rand();
-        coord = effect_state->unk_46;
+        coord = effect_state->offset_y;
         coord -= 0x10;
-        effect_state->unk_46 = coord + (random_value & 0x1F);
+        effect_state->offset_y = coord + (random_value & 0x1F);
         random_value = rand();
-        coord = effect_state->unk_48;
-        jittered_x = effect_state->unk_44;
+        coord = effect_state->offset_z;
+        jittered_x = effect_state->offset_x;
         coord -= 0x10;
-        effect_state->unk_48 = coord + (random_value & 0x1F);
+        effect_state->offset_z = coord + (random_value & 0x1F);
         ((MovingPosition *)offset_x)->x = jittered_x;
-        ((MovingPosition *)offset_x)->y = (u16) effect_state->unk_46;
-        ((MovingPosition *)offset_x)->z = (u16) effect_state->unk_48;
+        ((MovingPosition *)offset_x)->y = (u16) effect_state->offset_y;
+        ((MovingPosition *)offset_x)->z = (u16) effect_state->offset_z;
         ((MovingPosition *)offset_x)->x = (u16) (((MovingPosition *)offset_x)->x + origin->x);
         ((MovingPosition *)offset_x)->y = (u16) (((MovingPosition *)offset_x)->y + origin->y);
         ((MovingPosition *)offset_x)->z = (u16) (((MovingPosition *)offset_x)->z + origin->z);
@@ -1319,9 +1299,9 @@ void advance_effect_sequence(void *effect, void *owner, void *context_arg)
                 }
             }
             if (((S_8197192C_0 *)effect)->unk_2C.u == 2) {
-                u8 *effect_data;
+                S_8197192C_7 *effect_data;
                 effect_obj = allocate_flagged_object_node(0x212);
-                effect_data = (u8 *)effect_obj + 0x20;
+                effect_data = (S_8197192C_7 *)((u8 *)effect_obj + 0x20);
                 if (effect_obj != 0) {
 
                     SpriteFrameState *sprite;
@@ -1329,33 +1309,33 @@ void advance_effect_sequence(void *effect, void *owner, void *context_arg)
                     light_color = 0x00E0E0E0;
                     dark_color = 0x00804020;
                     init_data = (void *)draw_linked_records_zero_depth_bias;
-                    ((S_8197192C_7 *)effect_data)->unk_1C = light_color;
-                    ((S_8197192C_7 *)effect_data)->unk_24 = dark_color;
-                    ((S_8197192C_7 *)effect_data)->unk_28 = dark_color;
-                    ((S_8197192C_7 *)effect_data)->unk_20 = light_color;
-                    ((S_8197192C_7 *)effect_data)->unk_38 = 20;
-                    ((S_8197192C_7 *)effect_data)->unk_3A = 20;
-                    ((S_8197192C_7 *)effect_data)->unk_0C = ((S_8197192C_7 *)effect_data)->unk_1C;
-                    ((S_8197192C_7 *)effect_data)->unk_10 = ((S_8197192C_7 *)effect_data)->unk_20;
-                    ((S_8197192C_7 *)effect_data)->unk_14 = ((S_8197192C_7 *)effect_data)->unk_24;
-                    ((S_8197192C_7 *)effect_data)->unk_18 = ((S_8197192C_7 *)effect_data)->unk_28;
+                    effect_data->unk_1C = light_color;
+                    effect_data->unk_24 = dark_color;
+                    effect_data->unk_28 = dark_color;
+                    effect_data->unk_20 = light_color;
+                    effect_data->unk_38 = 20;
+                    effect_data->unk_3A = 20;
+                    effect_data->unk_0C = effect_data->unk_1C;
+                    effect_data->unk_10 = effect_data->unk_20;
+                    effect_data->unk_14 = effect_data->unk_24;
+                    effect_data->unk_18 = effect_data->unk_28;
                     effect_obj->update_callback = (void *)fade_timed_quad_vertices;
                     register_node(effect_obj, init_data);
                     sprite = effect_obj->sprite;
                     sprite->tpage_abr = 0x20;
                     sprite->flags = sprite->flags | 0x0C;
-                    ((S_8197192C_7 *)effect_data)->unk_4C = ((S_8197192C_0 *)effect)->unk_64.s;
-                    ((S_8197192C_7 *)effect_data)->unk_4E = ((S_8197192C_0 *)effect)->unk_66.s;
-                    ((S_8197192C_7 *)effect_data)->unk_50 = ((S_8197192C_0 *)effect)->unk_68.s;
-                    ((S_8197192C_7 *)effect_data)->unk_52 = ((S_8197192C_0 *)effect)->unk_58.s;
-                    ((S_8197192C_7 *)effect_data)->unk_54 = ((S_8197192C_0 *)effect)->unk_5A.s;
-                    ((S_8197192C_7 *)effect_data)->unk_56 = ((S_8197192C_0 *)effect)->unk_5C.s;
-                    ((S_8197192C_7 *)effect_data)->unk_58 = ((S_8197192C_0 *)effect)->unk_6A;
-                    ((S_8197192C_7 *)effect_data)->unk_5A = ((S_8197192C_0 *)effect)->unk_6C;
-                    ((S_8197192C_7 *)effect_data)->unk_5C = ((S_8197192C_0 *)effect)->unk_6E;
-                    ((S_8197192C_7 *)effect_data)->unk_5E = ((S_8197192C_0 *)effect)->unk_5E;
-                    ((S_8197192C_7 *)effect_data)->unk_60 = ((S_8197192C_0 *)effect)->unk_60;
-                    ((S_8197192C_7 *)effect_data)->unk_62 = ((S_8197192C_0 *)effect)->unk_62;
+                    effect_data->unk_4C = ((S_8197192C_0 *)effect)->unk_64.s;
+                    effect_data->unk_4E = ((S_8197192C_0 *)effect)->unk_66.s;
+                    effect_data->unk_50 = ((S_8197192C_0 *)effect)->unk_68.s;
+                    effect_data->unk_52 = ((S_8197192C_0 *)effect)->unk_58.s;
+                    effect_data->unk_54 = ((S_8197192C_0 *)effect)->unk_5A.s;
+                    effect_data->unk_56 = ((S_8197192C_0 *)effect)->unk_5C.s;
+                    effect_data->unk_58 = ((S_8197192C_0 *)effect)->unk_6A;
+                    effect_data->unk_5A = ((S_8197192C_0 *)effect)->unk_6C;
+                    effect_data->unk_5C = ((S_8197192C_0 *)effect)->unk_6E;
+                    effect_data->unk_5E = ((S_8197192C_0 *)effect)->unk_5E;
+                    effect_data->unk_60 = ((S_8197192C_0 *)effect)->unk_60;
+                    effect_data->unk_62 = ((S_8197192C_0 *)effect)->unk_62;
                     position = effect_obj->position;
                     position->x.w.i = ((S_8197192C_0 *)effect)->unk_7C.s;
                     position->y.w.i = ((S_8197192C_0 *)effect)->unk_7E.s;

@@ -139,11 +139,11 @@ void update_actor_animation_movement(ActorRecord *body, ObjectPosition *motion, 
 
                 if (direction_frames == D_80156634) {
                     if (sprite->unk_04 == 3 && (sprite_flags & 0x1000)) {
-                        (*(s32 *)((u8 *)body + 0xAC)) = 0x60000;
-                        (*(s32 *)((u8 *)body + 0xB0)) = (s32)0xFFFF3000;
+                        body->unk_AC.value = 0x60000;
+                        body->unk_B0.value = (s32)0xFFFF3000;
                     }
-                    body->unk_A4.value += (*(s32 *)((u8 *)body + 0xAC));
-                    (*(s32 *)((u8 *)body + 0xAC)) += (*(s32 *)((u8 *)body + 0xB0));
+                    body->unk_A4.value += body->unk_AC.value;
+                    body->unk_AC.value += body->unk_B0.value;
                     if (body->unk_A4.value <= 0) {
                         body->unk_A4.value = 0;
                     }
@@ -231,7 +231,7 @@ void update_actor_animation_movement(ActorRecord *body, ObjectPosition *motion, 
                 u8 *direction_frames = *(u8 * *)&sprite->frameTable;
 
                 if (direction_frames == D_80156634) {
-                    (*(s32 *)((u8 *)body + 0xAC)) = 0;
+                    body->unk_AC.value = 0;
                     body->unk_A4.value = 0;
                 } else if (direction_frames == D_80156644 || direction_frames == D_8015666C) {
                     body->unk_A4.value -= 0x40000;

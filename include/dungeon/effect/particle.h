@@ -17,6 +17,15 @@ void draw_gouraud_textured_ribbon_quad(void *quad, ObjectPosition *position, voi
 void emit_parent_relative_particles(void *emitter, ObjectPosition *position, s32 spawn_context);
 void spawn_scattered_emitter_particles(void *emitter, ObjectPosition *position, s32 spawn_context);
 void update_converging_fading_particle(void *effect, ObjectPosition *position);
+/* Countdown state and the copied starting position for the clipped rotating sprites. */
+typedef struct RotatingClippedSpriteBody {
+    u8 pad_00[0x18];
+    u16 ticks_remaining;
+    u16 unk_1A;
+    u8 pad_1C[0xC];
+    u8 initial_position[0xC];
+} RotatingClippedSpriteBody;
+
 typedef struct TwoRowObjectGroupBody {
     union { s16 s; u16 u; } unk_00;
     union { u16 s; u16 u; s16 signed_value; } unk_02;
@@ -76,9 +85,15 @@ void create_owner_linked_mirrored_sprite(void *effect, ObjectPosition *source_po
 
 /* Callback entry points. */
 void expire_ribbon_segment(void *record_data);
-void tick_rotating_rect_effect(void *effect, s32 unused, void *phase_state);
-void update_color_cycling_pulse(void *state_data, void *unused, void *color);
-void update_reverse_rotating_clipped_sprite(void *effect, s32 unused, void *rotation);
+void tick_rotating_rect_effect(RotatingClippedSpriteBody *effect, s32 unused, void *phase_state);
+typedef struct ColorCyclingPulseBody {
+    u8 pad_00[0x18];
+    u16 ticks_remaining;
+    u8 pad_1A[0x2];
+    u16 phase_index;
+} ColorCyclingPulseBody;
+void update_color_cycling_pulse(ColorCyclingPulseBody *state_data, void *unused, void *color);
+void update_reverse_rotating_clipped_sprite(RotatingClippedSpriteBody *effect, s32 unused, void *rotation);
 void update_staged_particle_emitter(void *effect_data);
 
 struct DirectionalEffectWork;
@@ -112,6 +127,34 @@ typedef struct FreeSlotDisplayEffectBody {
     u8 unk_7A;
     u8 unk_7B;
 } FreeSlotDisplayEffectBody;
+
+/* Timer, slot flags, source owner, and copied sprite data for the high display updater. */
+typedef struct AdvanceObjectSpawningDisplaysHighBody {
+    u8 pad_00[0x2A];
+    s16 timer;
+    u8 pad_2C[0x1A];
+    s16 slot_flags[8];
+    u8 pad_56[0xA];
+    void *source_owner;
+    u8 pad_64[0xE];
+    u8 initial_sprite_data[0xC];
+} AdvanceObjectSpawningDisplaysHighBody;
+
+/* Shared countdown, phase, position toggle, and linked child records for staged effects. */
+typedef struct UpdateEffectParticlesAndCleanupBody {
+    union { s16 s; u16 u; } unk_00;
+    union { u16 s; s16 u; } unk_02;
+    u8 pad_04[0x6];
+    union { s16 s; s16 u; } unk_0A;
+    s16 unk_0C;
+    u8 pad_0E[0x1E];
+    void *unk_2C;
+    void *unk_30;
+    void *unk_34;
+    void *unk_38;
+    void *unk_3C;
+    void *unk_40;
+} UpdateEffectParticlesAndCleanupBody;
 
 /* Indexed parent state and segment shape used by the animated ribbon updater. */
 typedef struct EightPartTexturedRibbonBody {

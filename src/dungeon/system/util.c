@@ -921,8 +921,8 @@ s32 release_entity_slot_and_update_flags(void *handle, s32 extra_cleanup)
     void **object_slot;
     void **object_table;
     void *object;
-    void *state_entry;
-    void *owner;
+    S_800A6620_2 *state_entry;
+    S_800A6620_3 *owner;
     u8 sound_x;
     u8 sound_y;
 
@@ -942,14 +942,14 @@ s32 release_entity_slot_and_update_flags(void *handle, s32 extra_cleanup)
         index = find_entity_slot_by_field_ac(object);
         if (index >= 0) {
             state_entry = (void *)(index * 4 + ((long)dungeon_actor_ring_anchor));
-            ((S_800A6620_2 *)state_entry)->unk_AC = 0;
-            ((S_800A6620_2 *)state_entry)->unk_D0 = 0;
+            state_entry->unk_AC = 0;
+            state_entry->unk_D0 = 0;
         }
 
         if ((get_entity_effect_value(object, STATUS_NO_TILE_OCCUPANCY) << 16) == 0) {
             owner = ((S_800A6620_1_pre *)object)[-1].unk_00;
-            sound_x = ((S_800A6620_3 *)owner)->unk_24;
-            sound_y = ((S_800A6620_3 *)owner)->unk_25;
+            sound_x = owner->unk_24;
+            sound_y = owner->unk_25;
             sound_mode = 0x3000;
             if (((S_800A6620_1 *)object)->unk_1C & ACTOR_PLAYER_SIDE) {
                 sound_mode = 0x300;
@@ -1178,7 +1178,7 @@ typedef struct S_800A6A9C_0 {
 /* Restores item flag 0x400 across the item category table from the RAM bitmap, then calls clear_item_flag_400_for_egg_one. */
 void restore_item_flag_400_bitmap(void)
 {
-    u8 *group;
+    S_800A6A9C_0 *group;
     s32 bitmap_byte;
     s32 item_index;
     s32 item_offset;
@@ -1193,24 +1193,24 @@ void restore_item_flag_400_bitmap(void)
     clear_flag_mask = -0x401;
     ram_page = (RamPage *)0x80010000;
     do {
-        group = (u8 *)item_category_groups + group_index * sizeof(DungeonGroup);
+        group = (S_800A6A9C_0 *)((u8 *)item_category_groups + group_index * sizeof(DungeonGroup));
         item_index = 0;
-        if (((S_800A6A9C_0 *)group)->unk_02 != 0) {
+        if (group->unk_02 != 0) {
             bitmap_offset = group_index * 8;
             item_offset = 0;
             do {
                 item_flags = (s16 *)(item_offset +
-                    (s32)((S_800A6A9C_0 *)group)->unk_0C);
+                    (s32)group->unk_0C);
                 *item_flags = *item_flags & clear_flag_mask;
                 bitmap_byte = item_index / 8;
                 if (((s32)*(u8 *)(bitmap_offset + bitmap_byte + (long)ram_page + 0x5720) >>
                      (item_index & 7)) & 1) {
                     marked_flags = (s16 *)(item_offset +
-                        (s32)((S_800A6A9C_0 *)group)->unk_0C);
+                        (s32)group->unk_0C);
                     *marked_flags |= 0x400;
                 }
                 item_offset += 0x14;
-            } while (++item_index < (s32)((S_800A6A9C_0 *)group)->unk_02);
+            } while (++item_index < (s32)group->unk_02);
         }
         group_index += 1;
     } while (group_index < 0x13);

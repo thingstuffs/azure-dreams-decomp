@@ -14,5 +14,5 @@ extern u8 D_800D7688[];
 void initialize_scene_slot_48(void *object, void *unused, struct SpriteFrameState *context)
 {
     initialize_object_and_register_slot(object, 48, D_800D7684, D_800D7688, D_800D7654, D_800D765C);
-    *(s16 *)((u8 *)context + 0x12) = 0x40;
+    context->clut = 0x40;
 }

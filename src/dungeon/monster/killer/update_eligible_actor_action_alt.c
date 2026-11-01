@@ -19,7 +19,7 @@ void update_eligible_actor_action_alt(ActorRecord *action_state, ObjectPosition 
     actor->movement_queue_state = (u8) (actor->movement_queue_state & 0x7F);
     if (!(g_dungeon_status.flags & 0x2000) && ((try_claim_dungeon_action_slot(actor) << 0x10) == 0)
         && (apply_camera_offset_and_select_target(((u8 *)actor - 0x20), context, 8, 0x300), ((try_claim_dungeon_action_slot(actor) << 0x10) == 0))) {
-        ((Rec_func_800A9E70_arg0 *)action_state)->unk_8C = 0;
+        action_state->unk_8C.word = 0;
         action_state->action_phase.s = 0;
         if (action_state->action_state_flags & 0x8000) {
             action_state->action_id.s = 0x17;

@@ -153,7 +153,7 @@ void update_long_actor_action(ActorRecord *self_object, ObjectPosition *aux_enti
         if (sprite->frameTable == mandara_frame_set_1) {
             self_object->action_id.u = 0xD;
             self_object->action_phase.u = 1;
-            ((S_80170F6C_0 *)self_object)->unk_8C = 0;
+            self_object->unk_8C.word = 0;
             ((S_80170F6C_1 *)entity)->unk_1C &= ~0x40000;
             return;
         }
@@ -192,16 +192,16 @@ void update_long_actor_action(ActorRecord *self_object, ObjectPosition *aux_enti
                     entity->facing =
                         (entity->movement_facing + 0x800) & 0xFFF;
                     sprite->flags &= 0x9FFF;
-                    ((S_80170F6C_0 *)self_object)->unk_A6 = 300;
+                    self_object->unk_A4.halves.high.u = 300;
                 }
                 self_object->unk_A8.u++;
                 return;
 
             case 1:
             {
-                u16 timer = ((S_80170F6C_0 *)self_object)->unk_A6 - 1;
+                u16 timer = self_object->unk_A4.halves.high.u - 1;
 
-                ((S_80170F6C_0 *)self_object)->unk_A6 = timer;
+                self_object->unk_A4.halves.high.u = timer;
                 if (((s32)timer << 16) <= 0 ||
                     entity->hp_delta != 0) {
                     g_dungeon_status.activity_counts.parts.pending_action_count--;
@@ -219,7 +219,7 @@ void update_long_actor_action(ActorRecord *self_object, ObjectPosition *aux_enti
                     select_sprite_entry(sprite,
                         mandara_frame_set[((g_game_work.view.camera_rotation.parts.viewAngle + entity->facing + 0x100) >> 9) & 7],
                         0);
-                    ((S_80170F6C_0 *)self_object)->unk_A6 = 0;
+                    self_object->unk_A4.halves.high.u = 0;
                     return;
                 }
                 return;
@@ -239,10 +239,10 @@ void update_long_actor_action(ActorRecord *self_object, ObjectPosition *aux_enti
                     dir_step_x[((s32)(entity->movement_facing << 16)) >> 25] << 16;
                 aux_entity->velocity_y =
                     dir_step_y[((s32)(entity->movement_facing << 16)) >> 25] << 16;
-                scale = rsin((s16)((S_80170F6C_0 *)self_object)->unk_A6 << 8);
+                scale = rsin((s16)self_object->unk_A4.halves.high.u << 8);
                 aux_entity->velocity_x = aux_entity->velocity_x +
                     (aux_entity->velocity_x * scale >> 9);
-                scale = rsin((s16)((S_80170F6C_0 *)self_object)->unk_A6 << 8);
+                scale = rsin((s16)self_object->unk_A4.halves.high.u << 8);
                 aux_entity->velocity_y = aux_entity->velocity_y +
                     (aux_entity->velocity_y * scale >> 9);
 
@@ -274,13 +274,13 @@ void update_long_actor_action(ActorRecord *self_object, ObjectPosition *aux_enti
                 }
 
                 {
-                    u16 old_timer = ((S_80170F6C_0 *)self_object)->unk_A6;
-                    ((S_80170F6C_0 *)self_object)->unk_A6 = old_timer + 1;
+                    u16 old_timer = self_object->unk_A4.halves.high.u;
+                    self_object->unk_A4.halves.high.u = old_timer + 1;
                     if ((s16)old_timer >= 3) {
                         sprite->flags &= 0xF7FF;
                         aux_entity->velocity_y = 0;
                         aux_entity->velocity_x = 0;
-                        ((S_80170F6C_0 *)self_object)->unk_A6 = 4;
+                        self_object->unk_A4.halves.high.u = 4;
                         self_object->unk_A8.u++;
                         return;
                     }
@@ -290,14 +290,14 @@ void update_long_actor_action(ActorRecord *self_object, ObjectPosition *aux_enti
 
             case 3:
             {
-                u16 timer = ((S_80170F6C_0 *)self_object)->unk_A6 - 1;
+                u16 timer = self_object->unk_A4.halves.high.u - 1;
 
-                ((S_80170F6C_0 *)self_object)->unk_A6 = timer;
+                self_object->unk_A4.halves.high.u = timer;
                 if (((s32)timer << 16) <= 0) {
                     sprite->flags &= 0xF7FF;
                     aux_entity->velocity_y = 0;
                     aux_entity->velocity_x = 0;
-                    ((S_80170F6C_0 *)self_object)->unk_A6 = 3;
+                    self_object->unk_A4.halves.high.u = 3;
                     self_object->unk_A8.u++;
                     return;
                 }
@@ -322,8 +322,8 @@ void update_long_actor_action(ActorRecord *self_object, ObjectPosition *aux_enti
                 delta = aux_entity->y.w.i - 0x20;
                 y = coord - delta;
                 aux_entity->velocity_y = (s32)((u32)y << 15) >> 1;
-                timer = ((S_80170F6C_0 *)self_object)->unk_A6 - 1;
-                ((S_80170F6C_0 *)self_object)->unk_A6 = timer;
+                timer = self_object->unk_A4.halves.high.u - 1;
+                self_object->unk_A4.halves.high.u = timer;
                 if (((s32)timer << 16) <= 0) {
                     g_dungeon_status.activity_counts.parts.pending_action_count--;
                     aux_entity->velocity_y = 0;

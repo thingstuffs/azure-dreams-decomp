@@ -18,7 +18,7 @@ extern Rect D_8016481C;
 extern void draw_transformed_sprite_with_clip_rect(void *, Rect *, Point *, s32, s32);
 
 /* Updates a timed effect around the rectangle's center and flags its expiration. */
-void tick_rotating_rect_effect(void *effect, s32 unused, void *phase_state)
+void tick_rotating_rect_effect(RotatingClippedSpriteBody *effect, s32 unused, void *phase_state)
 {
     Rect rect;
     Point center;
@@ -30,8 +30,8 @@ void tick_rotating_rect_effect(void *effect, s32 unused, void *phase_state)
     *(u16 *)((u8 *)phase_state + 0x1A) += 0x28;
     draw_transformed_sprite_with_clip_rect(effect, &rect, &center, 1, 1);
 
-    timer = *(u16 *)((u8 *)effect + 0x18) - 1;
-    *(u16 *)((u8 *)effect + 0x18) = timer;
+    timer = effect->ticks_remaining - 1;
+    effect->ticks_remaining = timer;
     if ((s16)timer <= 0) {
         *(u16 *)((u8 *)effect - 2) |= NODE_REMOVE;
         object_flag_block.flags |= OBJECT_REMOVE_PENDING;

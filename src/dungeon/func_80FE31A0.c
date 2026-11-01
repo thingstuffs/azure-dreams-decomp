@@ -305,7 +305,7 @@ void update_item_use_effect_and_idle_return(ActionState *actor, VecData *motion,
         motion->dx = 0;
         set_record_integer_tile_center(motion, sprite->tile_x, sprite->tile_y);
         g_dungeon_status.active_actor = 0;
-        ((PlayerActionCounter *)primary_actor_record)->pendingActions--;
+        primary_actor_record->unk_A4.halves.high.u--;
         advance_status_timers(actor_data);
         actor_data->actionsLeft.u--;
         actor->handler = &dungeon_action_resume_address;

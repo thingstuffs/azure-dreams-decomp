@@ -70,7 +70,12 @@ def run_stages(root, files, stages, workers, log):
     for stage in stages:
         if stage == 'retype':
             plans, pool, errors = V.retype(root, files, workers)
-            V.apply_plans(root, plans)
+            dropped = []
+            V.apply_plans(root, plans, dropped)
+            if dropped:
+                log('retype: %d overlapping plans dropped (%s)' % (len(dropped), ', '.join(
+                    sorted({'%s:%s' % (p['file'], p['var']) for p in dropped})[:6])))
+            plans = [p for p in plans if p not in dropped]
             for p in plans:
                 changes[p['file']].append({'stage': 'retype', 'func': p['func'], 'var': p['var'],
                                            'type': p['type'], 'casts': p['casts'], 'line': p['line']})
@@ -88,6 +93,24 @@ def run_stages(root, files, stages, workers, log):
         for tu, err in errors:
             log('parse error %s: %s' % (tu, err))
     return changes
+
+
+def codemap_prefilter(root, db_path, files, stages, log):
+    """Files whose codemap.db cast rows give one of `stages` something to plan (tools/codemap typing facts).
+    Stops when the map is not fresh for this root."""
+    sys.path.insert(0, str(Path(root) / 'tools/codemap'))
+    import codemap as CM
+    import typing_query as Q
+    db_path = Path(db_path) if Path(db_path).is_absolute() else Path(root) / db_path
+    cm = CM.CodeMap(root, db_path, log=lambda m: None)
+    cm.open_readonly()
+    state = cm.check()
+    if not state['fresh'] or state.get('typing') != 'fresh':
+        raise SystemExit('codemap %s is not fresh (%d changed, typing %s): python3 tools/codemap/codemap.py refresh'
+                         % (db_path, state['changed_count'], state.get('typing')))
+    subset, _ = Q.candidate_files(cm.db, files, stages)
+    log('codemap prefilter: %d of %d files have candidate rows for %s' % (len(subset), len(files), ','.join(stages)))
+    return subset
 
 
 def identical(a, b):
@@ -135,6 +158,9 @@ def main(argv=None):
     ap.add_argument('--workers', type=int, default=6)
     ap.add_argument('--stages', default='retype,fold,fold')
     ap.add_argument('--no-site-retry', action='store_true', help='skip the per-site fold retry')
+    ap.add_argument('--codemap', nargs='?', const='build/codemap.db',
+                    help='plan only the files whose codemap cast rows give a stage something to do (the map must '
+                         'be fresh; default build/codemap.db)')
     ap.add_argument('--dry-run', action='store_true', help='plan and report only; restore every file')
     args = ap.parse_args(argv)
     root = args.root.resolve()
@@ -155,6 +181,8 @@ def main(argv=None):
     if args.skip_list:
         skip = {l.strip() for l in args.skip_list.read_text().splitlines() if l.strip()}
     files = [f for f in F.folder_files(root, args.folder, args.file) if f not in skip]
+    if args.codemap:
+        files = codemap_prefilter(root, args.codemap, files, [s for s in args.stages.split(',') if s], log)
     original = {f: (root / f).read_text() for f in files}
     tus, physical = F.physical_for(root, files)
     log('%s: %d files (%d skipped), %d physical TUs' % (args.folder, len(files), len(skip & set(

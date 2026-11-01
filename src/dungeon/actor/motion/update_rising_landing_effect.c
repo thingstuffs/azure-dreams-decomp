@@ -188,8 +188,8 @@ void update_directional_actor_effect(void *input, void *output)
 {
     s16 offsets[3];
     s32 state;
-    void *owner_data;
-    void *owner;
+    EntityRec *owner_data;
+    S_FUNC_8197C800_BODY_3 *owner;
     void *particle_script;
     ActorRecord *scene;
     ObjectNodeHeader *particle;
@@ -219,17 +219,17 @@ void update_directional_actor_effect(void *input, void *output)
     state = ((S_FUNC_8197C800_BODY_0 *)input)->unk_0A.s;
     timer -= 1;
     ((S_FUNC_8197C800_BODY_0 *)input)->unk_50.s = timer;
-    owner = (u8 *)owner_data - 0x20;
+    owner = (S_FUNC_8197C800_BODY_3 *)((u8 *)owner_data - 0x20);
 
     switch (state) {
     case 0:
     ((PlayerRecord *)(primary_actor_record))->unk_F4 = 0;
     ((S_FUNC_8197C800_BODY_2 *)output)->unk_00 =
-        ((S_FUNC_8197C800_BODY_20 *)(((S_FUNC_8197C800_BODY_3 *)owner)->unk_08))->unk_00;
+        ((S_FUNC_8197C800_BODY_20 *)(owner->unk_08))->unk_00;
     ((S_FUNC_8197C800_BODY_2 *)output)->unk_04 =
-        ((S_FUNC_8197C800_BODY_20 *)(((S_FUNC_8197C800_BODY_3 *)owner)->unk_08))->unk_04;
+        ((S_FUNC_8197C800_BODY_20 *)(owner->unk_08))->unk_04;
     ((S_FUNC_8197C800_BODY_2 *)output)->unk_08 =
-        ((S_FUNC_8197C800_BODY_20 *)(((S_FUNC_8197C800_BODY_3 *)owner)->unk_08))->unk_08;
+        ((S_FUNC_8197C800_BODY_20 *)(owner->unk_08))->unk_08;
     ((S_FUNC_8197C800_BODY_0 *)input)->unk_0A.u += 1;
 
     case 1:
@@ -243,8 +243,8 @@ void update_directional_actor_effect(void *input, void *output)
     scene->unk_A8.byte = ((S_FUNC_8197C800_BODY_0 *)input)->unk_08;
     particle = allocate_list_node(0x312, &scene_object_list_anchor.next);
     if (particle != 0) {
-        if (resolve_record_orientation_or_fallback(((S_FUNC_8197C800_BODY_22 *)(((S_FUNC_8197C800_BODY_3 *)owner)->unk_0C))->unk_08,
-                          ((S_FUNC_8197C800_BODY_3 *)owner)->unk_0C, offsets, 0) == 0) {
+        if (resolve_record_orientation_or_fallback(((S_FUNC_8197C800_BODY_22 *)(owner->unk_0C))->unk_08,
+                          owner->unk_0C, offsets, 0) == 0) {
             offsets[2] = 0;
             offsets[1] = 0;
             offsets[0] = 0;
@@ -255,19 +255,19 @@ void update_directional_actor_effect(void *input, void *output)
         random_value = 0x00800000u;
         sprite = particle->sprite;
         offset_index = offsets[0];
-        src_position = ((S_FUNC_8197C800_BODY_3 *)owner)->unk_08;
+        src_position = owner->unk_08;
         dst_position_2 = particle->position;
         result = src_position->unk_00 + (offset_index << 16);
         ((S_FUNC_8197C800_BODY_2 *)output)->unk_00 = result;
         dst_position_2->x.v = result;
         offset_index = offsets[1];
-        src_position = ((S_FUNC_8197C800_BODY_3 *)owner)->unk_08;
+        src_position = owner->unk_08;
         dst_position = particle->position;
         result = src_position->unk_04 + (offset_index << 16);
         ((S_FUNC_8197C800_BODY_2 *)output)->unk_04 = result;
         dst_position->y.v = result;
         offset_index = offsets[2];
-        src_position = ((S_FUNC_8197C800_BODY_3 *)owner)->unk_08;
+        src_position = owner->unk_08;
         dst_position_3 = particle->position;
         result = src_position->unk_08 + (offset_index << 16);
         ((S_FUNC_8197C800_BODY_2 *)output)->unk_08 = result;
@@ -486,7 +486,7 @@ store_state:
     }
     apply_attack_power_and_element_effects((primary_actor_record)->target, 8,
                   ((S_FUNC_8197C800_BODY_0 *)input)->unk_09, 10,
-                  ((EntityRec *)owner_data)->facing, owner_data, 2);
+                  owner_data->facing, owner_data, 2);
     g_dungeon_status.active_actor = 0;
     g_dungeon_status.activity_counts.parts.pending_action_count -= 1;
     ((S_FUNC_8197C800_BODY_0_pre *)input)[-1].unk_00 |= 0x8000;
@@ -782,7 +782,7 @@ typedef struct S_8197D468_8 {
 
 /* Update a rising, expanding, and falling effect, spawning particles on landing. */
 void update_rising_landing_effect(RisingLandingEffectBody *effect, ObjectPosition *motion, SpriteFrameState *sprite) {
-    void *particle_work;
+    S_8197D468_8 *particle_work;
     s16 state;
     s16 ground_height;
     s32 particle_index;
@@ -797,11 +797,11 @@ void update_rising_landing_effect(RisingLandingEffectBody *effect, ObjectPositio
     void *sprite_frames;
     void *effect_data;
     SpriteFrameState *particle_sprite;
-    void *owner;
+    S_8197D468_1 *owner;
     ObjectNodeHeader *particle;
 
     owner = effect->owner;
-    ((S_8197D468_1 *)owner)->unk_52 = (u16) (((S_8197D468_1 *)owner)->unk_52 | 0x8000);
+    owner->unk_52 = (u16) (owner->unk_52 | 0x8000);
     if (sprite->flags & 0x6000) {
         sprite->unk_04 = 0;
         sprite->frame_ticks = 0;
@@ -901,7 +901,7 @@ void update_rising_landing_effect(RisingLandingEffectBody *effect, ObjectPositio
                     particle_sprite->source = particle_frames;
                     effect_data = effect->owner;
                     ((S_8197D468_5 *)particle)->unk_20 = effect_data;
-                    ((S_8197D468_8 *)particle_work)->unk_4C = 0;
+                    particle_work->unk_4C = 0;
                 }
                 particle_index -= 1;
             } while (particle_index >= 0);

@@ -86,14 +86,14 @@ void advance_entity_animation_actions(ActorRecord *action, ObjectPosition *conte
 
     case 1:
         if (((EntityRec *)entity)->tileY != 0) {
-            register u8 *counter_state;
+            register S_80173ED8_2 *counter_state;
 
             sprite->frameTable = kid_frame_set_3;
             direction = (g_game_work.view.camera_rotation.parts.viewAngle + ((EntityRec *)entity)->facing + 0x100) >> 9;
             select_sprite_entry(sprite, kid_frame_set_3[direction & 7], 0);
             (*(u32 *)((u8 *)entity + 0x1C)) |= 0x40000;
-            counter_state = (u8 *)&g_dungeon_status.turn_scale;
-            ((S_80173ED8_2 *)counter_state)->unk_0A++;
+            counter_state = (S_80173ED8_2 *)&g_dungeon_status.turn_scale;
+            counter_state->unk_0A++;
             action->action_phase.u++;
             return;
         }
@@ -163,14 +163,14 @@ void advance_entity_animation_actions(ActorRecord *action, ObjectPosition *conte
 
     case 2:
     {
-        u8 *counter_state;
+        S_80173ED8_2 *counter_state;
 
         if ((sprite->flags & 0xE000) == 0) {
             return;
         }
 
-        counter_state = (u8 *)&g_dungeon_status.turn_scale;
-        ((S_80173ED8_2 *)counter_state)->unk_0A--;
+        counter_state = (S_80173ED8_2 *)&g_dungeon_status.turn_scale;
+        counter_state->unk_0A--;
         ((EntityRec *)entity)->flags1C &= ~(ACTOR_MP_EMPTY | ACTOR_ASLEEP);
         action->unk_8C.address = kid_action_resume_address;
         return;

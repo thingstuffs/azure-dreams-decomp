@@ -11,8 +11,7 @@ void (*const dungeon_ovl_1930844_entry)(void *state, void *motion, void *appeara
 
 /* Moves a rotating, shrinking sprite along its velocity with a sinusoidal height offset until its
    duration ends. */
-void advance_shrinking_arc_effect(void *state_arg, ovl_1930844_81910844_S_81910844_2 *motion, ovl_1930844_81910844_S_81910844_3 *visual) {
-    ovl_1930844_81910844_S_81910844_0 *state = state_arg;
+void advance_shrinking_arc_effect(AnEffectPositionRandomizedSpriteAngleBody *state, ovl_1930844_81910844_S_81910844_2 *motion, ovl_1930844_81910844_S_81910844_3 *visual) {
     s32 pos_x;
     s32 pos_y;
     s32 velocity_x;
@@ -24,32 +23,32 @@ void advance_shrinking_arc_effect(void *state_arg, ovl_1930844_81910844_S_819108
     s16 duration;
     ovl_1930844_81910844_S_81910844_1 *owner;
 
-    owner = state->unk_00;
+    owner = state->owner;
     owner->unk_14 =
         (u16) (owner->unk_14 + 1);
-    state->unk_06.s =
-        (u16) (state->unk_06.s + 1);
+    state->elapsed.s =
+        (u16) (state->elapsed.s + 1);
     pos_x = motion->unk_00;
     velocity_x = motion->unk_0C;
     pos_y = motion->unk_04;
     velocity_y = motion->unk_10;
     motion->unk_00 = pos_x + velocity_x;
     motion->unk_04 = pos_y + velocity_y;
-    state->unk_0C =
-        state->unk_0C + motion->unk_14;
+    state->initial_z =
+        state->initial_z + motion->unk_14;
     motion->unk_08 =
-        state->unk_0C -
-        ((rsin((0x800 / (s16) state->unk_08) *
-                        (s16) state->unk_06.s) >> 4) << 0xE);
-    scale_step = 0x200 / (s16) state->unk_08;
+        state->initial_z -
+        ((rsin((0x800 / state->duration.s) *
+                        (s16) state->elapsed.s) >> 4) << 0xE);
+    scale_step = 0x200 / state->duration.s;
     angle = visual->unk_1A;
     scale = visual->unk_1E;
     visual->unk_1A = angle + 0x300;
     scale = scale - scale_step;
     visual->unk_1E = scale;
     visual->unk_1C = scale;
-    elapsed = state->unk_06.u;
-    duration = state->unk_08;
+    elapsed = state->elapsed.u;
+    duration = state->duration.s;
     if (elapsed > duration) {
         ((ovl_1930844_81910844_S_81910844_0_pre *)state)[-1].unk_00 =
             ((ovl_1930844_81910844_S_81910844_0_pre *)state)[-1].unk_00 | 0x8000;
@@ -65,18 +64,18 @@ void * create_an_effect_position_randomized_sprite_angle(Rec_func_80024170_arg0 
     s32 initial_z;
     s32 rounded_random;
     SpriteFrameState *sprite;
-    ovl_1930844_81910970_S_80024170_1 *effect_state;
-    ObjectNodeHeader *effect;
+    AnEffectPositionRandomizedSpriteAngleNode *effect;
+    AnEffectPositionRandomizedSpriteAngleBody *effect_state;
     ObjectPosition *position;
 
     effect = allocate_flagged_object_node(0x212);
     if (effect != 0) {
-        effect_state = ((void *)effect) + 0x20;
-        effect->update_callback = (void *)advance_shrinking_arc_effect;
-        ((ovl_1930844_81910970_S_80024170_0 *)effect)->unk_20 = owner;
-        effect_state->unk_06 = 0;
-        effect_state->unk_08 = owner->unk_12.as_u16;
-        sprite = effect->sprite;
+        effect_state = &effect->body;
+        effect->header.update_callback = (void *)advance_shrinking_arc_effect;
+        effect_state->owner = owner;
+        effect_state->elapsed.u = 0;
+        effect_state->duration.u = owner->unk_12.as_u16;
+        sprite = effect->header.sprite;
         sprite->color.c.b = 0x80;
         sprite->color.c.g = 0x80;
         sprite->color.c.r = 0x80;
@@ -91,11 +90,11 @@ void * create_an_effect_position_randomized_sprite_angle(Rec_func_80024170_arg0 
         sprite->angle_z = (random_value % 4096);
         sprite->scale_y = 0x400;
         sprite->scale_x = 0x400;
-        register_node(effect, project_sprite_chain);
-        position = effect->position;
+        register_node(&effect->header, project_sprite_chain);
+        position = effect->header.position;
         *(ovl_1930844_81910970_Copy6 *)position = *(ovl_1930844_81910970_Copy6 *)source_position;
         initial_z = position->z.v;
-        effect_state->unk_0C = initial_z;
+        effect_state->initial_z = initial_z;
         return effect;
     }
     return 0;
@@ -144,18 +143,18 @@ void build_and_depth_sorts_five_radial_line_segments_effect(ovl_1930844_81911BF4
         *((u8 **) (((u8 *) render_ctx) + 0x8D0)) = line_packet + 0x14;
         *((line_packet + 3)) = 4;
         *((line_packet + 7)) = 0x52;
-        *((line_packet + 4)) = *((((u8 *) effect_data) + 0x40));
-        *((line_packet + 5)) = *((((u8 *) effect_data) + 0x41));
-        *((line_packet + 6)) = *((((u8 *) effect_data) + 0x42));
-        *((line_packet + 0xC)) = *((((u8 *) effect_data) + 0x40));
-        *((line_packet + 0xD)) = *((((u8 *) effect_data) + 0x41));
-        *((line_packet + 0xE)) = *((((u8 *) effect_data) + 0x42));
+        *((line_packet + 4)) = effect_data->field40;
+        *((line_packet + 5)) = effect_data->field41;
+        *((line_packet + 6)) = effect_data->field42;
+        *((line_packet + 0xC)) = effect_data->field40;
+        *((line_packet + 0xD)) = effect_data->field41;
+        *((line_packet + 0xE)) = effect_data->field42;
         origin_ptr = origin;
         origin_coord = *((u16 *) (((u8 *) origin_ptr) + 2));
         *((u16 *) (scratch + 0x6C)) = origin_coord;
         *((u16 *) (scratch + 0x64)) = origin_coord;
         radial_x = ((rsin(angle + (*((s16 *) (((u8 *) effect_data) + 0xA))))
-            >> 4) * (*((s16 *) (((u8 *) effect_data) + 0xE)))) << 8;
+            >> 4) * effect_data->scale) << 8;
         start_step_offset = radial_x / scale;
         *((s32 *) (scratch + 0x108)) = radial_x;
         *((u16 *) (scratch + 0x64)) += (start_step_offset * prev_step) >> 16;
@@ -170,7 +169,7 @@ void build_and_depth_sorts_five_radial_line_segments_effect(ovl_1930844_81911BF4
         end_vertex = scratch + 0x6C;
         end_screen = scratch + 0xDC;
         radial_y = ((rcos(angle + (*((s16 *) (((u8 *) effect_data) + 0xA))))
-            >> 4) * (*((s16 *) (((u8 *) effect_data) + 0xE)))) << 8;
+            >> 4) * effect_data->scale) << 8;
         start_step_offset = radial_y / scale;
         *((s32 *) (scratch + 0x10C)) = radial_y;
         *((u16 *) (scratch + 0x66)) += (start_step_offset * prev_step) >> 16;
@@ -181,7 +180,7 @@ void build_and_depth_sorts_five_radial_line_segments_effect(ovl_1930844_81911BF4
         origin_coord = *((u16 *) (((u8 *) origin_ptr) + 0xA));
         *((u16 *) (scratch + 0x70)) = origin_coord;
         *((u16 *) (scratch + 0x68)) = origin_coord;
-        z_delta = (((s32) (*((s16 *) (((u8 *) effect_data) + 0x14)))) << 16) - (*((s32 *) (((u8 *) origin_ptr) + 8)));
+        z_delta = (((s32) effect_data->field14) << 16) - (*((s32 *) (((u8 *) origin_ptr) + 8)));
         *((s32 *) (scratch + 0x110)) = z_delta;
         z_step = z_delta >> scale;
         *((u16 *) (scratch + 0x68)) += (z_step << prev_step) >> 16;
@@ -206,7 +205,7 @@ void build_and_depth_sorts_five_radial_line_segments_effect(ovl_1930844_81911BF4
             render_ctx = *render_ptr;
             draw_mode_packet = *((u8 **) (((u8 *) render_ctx) + 0x8D0));
             *((u8 **) (((u8 *) render_ctx) + 0x8D0)) = draw_mode_packet + 0xC;
-            SetDrawMode(draw_mode_packet, 0, 0, GetTPage(0, *((s16 *) (((u8 *) effect_data) + 0x12)), 0,
+            SetDrawMode(draw_mode_packet, 0, 0, GetTPage(0, effect_data->field12, 0,
                 0) & 0xFFFF, 0);
             OT_SETADDR(draw_mode_packet, OT_GETADDR((*((u32 **) (((u8 *) scratch) + 0x18)))
                 + (*((s32 *) (((u8 *) scratch) + 0xB4))), addr_mask), 0xFF000000, addr_mask);

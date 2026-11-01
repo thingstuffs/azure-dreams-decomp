@@ -61,7 +61,7 @@ s32 attempt_actor_transition(ActorRecord *state, ObjectPosition *action_id, Spri
 
         state_flags = state->action_state_flags;
         state->action_phase.u = 0;
-        ((Rec_func_800A9E70_arg0 *)state)->unk_8C = 0;
+        state->unk_8C.word = 0;
         if (state_flags & 0x8000) {
             state->action_id.u = 0x17;
             actor->unk_84 = 0x10;

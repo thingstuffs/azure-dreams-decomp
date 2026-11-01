@@ -81,7 +81,7 @@ void advance_stored_actor_path(ActorRecord *body, ObjectPosition *unused, Sprite
         (u8 *)body + 0x98);
     ((S_80171960_0 *)actor)->unk_1C.u |= 0x40000000;
     body->action_id.u = 0xF;
-    (*(s32 *)((u8 *)body + 0x8C)) = 0;
+    body->unk_8C.word = 0;
 
     if (g_dungeon_status.flags & 0x80) {
         body->action_timer.u = 0;

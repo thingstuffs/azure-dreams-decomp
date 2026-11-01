@@ -1041,11 +1041,11 @@ void update_effect_quad_and_completion(void *effect, void *position_out_arg, voi
     s32 y_factor;
     s16 next_angle;
     u16 angle;
-    void *owner;
+    S_81876014_1 *owner;
 
     owner = ((S_81876014_0 *)effect)->unk_4C;
     sphere_particle_effect_updated = 1;
-    if (((S_81876014_1 *)owner)->unk_9C == 0x37) {
+    if (owner->unk_9C == 0x37) {
         /* vertex 0 of the quad */
         ((S_81876014_0 *)effect)->unk_50 =
             (u16)((((S_81876014_0 *)effect)->unk_0A *
@@ -1077,7 +1077,7 @@ void update_effect_quad_and_completion(void *effect, void *position_out_arg, voi
         if (next_angle < 0) {
             ((S_81876014_0 *)effect)->unk_0C = angle + 0xF9C;
         }
-        if (((S_81876014_1 *)owner)->unk_0A < 5) {
+        if (owner->unk_0A < 5) {
             return;
         }
     }
@@ -1338,8 +1338,8 @@ void update_animated_effect_sprite(void *effect, void *entity, S_800259D8_2 *spr
     Vec3s delta;
     Copy32 copy;
     void *obj;
-    void *base;
-    void *entry;
+    S_800259D8_1 *base;
+    S_800259D8_5 *entry;
     void *node;
     SpriteFrameState *work;
     ObjectPosition *dst;
@@ -1354,8 +1354,8 @@ void update_animated_effect_sprite(void *effect, void *entity, S_800259D8_2 *spr
     obj = ((S_800259D8_0 *)effect)->unk_00;
     copy = textured_quad_octant_offsets;
     state = ((S_800259D8_0 *)effect)->unk_0A.s;
-    base = (u8 *)obj - 0x20;
-    entry = ((S_800259D8_1 *)base)->unk_08;
+    base = (S_800259D8_1 *)((u8 *)obj - 0x20);
+    entry = base->unk_08;
     switch (state) {
     case 0:
     {
@@ -1379,20 +1379,20 @@ void update_animated_effect_sprite(void *effect, void *entity, S_800259D8_2 *spr
         }
     case 1:
         result = get_sprite_attachment_vector(
-            ((S_800259D8_13 *)(((S_800259D8_1 *)base)->unk_0C))->unk_08,
-            ((S_800259D8_1 *)base)->unk_0C, &delta, 0);
+            ((S_800259D8_13 *)(base->unk_0C))->unk_08,
+            base->unk_0C, &delta, 0);
         if (result == 0) {
-            if (!(((S_800259D8_13 *)(((S_800259D8_1 *)base)->unk_0C))->unk_14 & 0x8000U)) {
+            if (!(((S_800259D8_13 *)(base->unk_0C))->unk_14 & 0x8000U)) {
                 return;
             }
         }
         {
             u16 z_value;
-            ((S_800259D8_4 *)entity)->unk_00.at02.v = ((S_800259D8_5 *)entry)->unk_00.at02.v;
-            ((S_800259D8_4 *)entity)->unk_04.at02.v = ((S_800259D8_5 *)entry)->unk_04.at02.v;
-            z_value = ((S_800259D8_5 *)entry)->unk_08.at02.v;
+            ((S_800259D8_4 *)entity)->unk_00.at02.v = entry->unk_00.at02.v;
+            ((S_800259D8_4 *)entity)->unk_04.at02.v = entry->unk_04.at02.v;
+            z_value = entry->unk_08.at02.v;
             ((S_800259D8_4 *)entity)->unk_08.at02.v = z_value;
-            if (!(((S_800259D8_13 *)(((S_800259D8_1 *)base)->unk_0C))->unk_14 & 0x8000U)) {
+            if (!(((S_800259D8_13 *)(base->unk_0C))->unk_14 & 0x8000U)) {
                 ((S_800259D8_4 *)entity)->unk_00.at02.v += delta.x;
                 ((S_800259D8_4 *)entity)->unk_04.at02.v += delta.y;
                 ((S_800259D8_4 *)entity)->unk_08.at02u.v = ((S_800259D8_4 *)entity)->unk_08.at02.v + delta.z;
@@ -1415,29 +1415,29 @@ L0_adjust_z:
             ((S_800259D8_0 *)effect)->unk_7A |= 4;
         }
         if (((S_800259D8_3 *)obj)->unk_60 != 0) {
-            void *resident_work;
+            S_800259D8_6 *resident_work;
             entry = ((S_800259D8_15_pre *)(((S_800259D8_3 *)obj)->unk_60))[-1].unk_00;
-            ((S_800259D8_0 *)effect)->unk_74.u = ((S_800259D8_5 *)entry)->unk_00.at02u.v;
-            ((S_800259D8_0 *)effect)->unk_76.u = ((S_800259D8_5 *)entry)->unk_04.at02u.v;
+            ((S_800259D8_0 *)effect)->unk_74.u = entry->unk_00.at02u.v;
+            ((S_800259D8_0 *)effect)->unk_76.u = entry->unk_04.at02u.v;
             {
                 s32 depth_bias;
                 s32 resident_value;
                 depth_bias = entity_height_offsets[((S_800259D8_15 *)(((S_800259D8_3 *)obj)->unk_60))->unk_13];
-                resident_value = ((S_800259D8_5 *)entry)->unk_08.at02.v - depth_bias - 0x60;
+                resident_value = entry->unk_08.at02.v - depth_bias - 0x60;
                 ((S_800259D8_0 *)effect)->unk_78.u = resident_value;
             }
             resident_work = ((S_800259D8_3_pre *)obj)[-1].unk_00;
-            ((S_800259D8_0 *)effect)->unk_AE = ((S_800259D8_6 *)resident_work)->unk_24 +
+            ((S_800259D8_0 *)effect)->unk_AE = resident_work->unk_24 +
                 dir_step_x[((S_800259D8_0 *)effect)->unk_80];
-            ((S_800259D8_0 *)effect)->unk_AF = ((S_800259D8_6 *)resident_work)->unk_25 +
+            ((S_800259D8_0 *)effect)->unk_AF = resident_work->unk_25 +
                 dir_step_y[((S_800259D8_0 *)effect)->unk_80];
             entry = ((S_800259D8_15_pre *)(((S_800259D8_3 *)obj)->unk_60))[-1].unk_00;
             {
-                if (((S_800259D8_3 *)obj)->unk_72 != ((S_800259D8_6 *)resident_work)->unk_24) {
+                if (((S_800259D8_3 *)obj)->unk_72 != resident_work->unk_24) {
                     s32 resident_delta;
                     s32 resident_copy;
                     resident_delta = ((S_800259D8_4 *)entity)->unk_00.at02.v;
-                    resident_delta = resident_delta - ((S_800259D8_5 *)entry)->unk_00.at02.v;
+                    resident_delta = resident_delta - entry->unk_00.at02.v;
                     resident_copy = *(s16 *)((u8 *)&copy + (((S_800259D8_0 *)effect)->unk_80 << 2));
                     resident_delta = abs(resident_delta);
                     resident_copy = abs(resident_copy);
@@ -1449,7 +1449,7 @@ L0_adjust_z:
                     s32 resident_copy;
                     resident_delta = ((S_800259D8_4 *)entity)->unk_04.at02.v;
                     cidx = ((S_800259D8_0 *)effect)->unk_80 << 2;
-                    resident_delta = resident_delta - ((S_800259D8_5 *)entry)->unk_04.at02.v;
+                    resident_delta = resident_delta - entry->unk_04.at02.v;
                     cp = (Pair *)&copy;
                     resident_copy = ((Pair *)((u8 *)cp + cidx))->y.u;
                     resident_delta = abs(resident_delta);
@@ -1487,14 +1487,14 @@ L0_adjust_z:
             ObjectNodeHeader *spawn;
             spawn = allocate_flagged_object_node(0x12);
             if (spawn != 0) {
-                entry = (u8 *)spawn + 0x20;
+                entry = (S_800259D8_5 *)((u8 *)spawn + 0x20);
                 {
                     void *spawn_copy = spawn;
                     u8 *tbl = project_linked_quad_record;
-                    ((S_800259D8_5 *)entry)->unk_38 = obj;
-                    ((S_800259D8_5 *)entry)->unk_44 = entity;
-                    ((S_800259D8_5 *)entry)->unk_48 = sprite;
-                    ((S_800259D8_5 *)entry)->unk_4C = effect;
+                    entry->unk_38 = obj;
+                    entry->unk_44 = entity;
+                    entry->unk_48 = sprite;
+                    entry->unk_4C = effect;
                     spawn->update_callback = (void *)update_effect_quad_and_completion;
                     register_node(spawn_copy, tbl);
                 }
@@ -1502,15 +1502,15 @@ L0_adjust_z:
                 work->flags |= 0xC;
                 work->tpage_abr = 0x20;
                 dst = spawn->position;
-                ((S_800259D8_5 *)entry)->unk_08.at02u.v = (rand() & 7) + 12;
-                ((S_800259D8_5 *)entry)->unk_0C = rand() & 0xFFF;
+                entry->unk_08.at02u.v = (rand() & 7) + 12;
+                entry->unk_0C = rand() & 0xFFF;
                 work->angle_x = (rand() & 0xFF) << 4;
                 work->angle_y = (rand() & 0xFF) << 4;
                 work->angle_z = (rand() & 0xFF) << 4;
-                value = rcos(((S_800259D8_5 *)entry)->unk_0C);
-                dst->x.v = (((S_800259D8_5 *)entry)->unk_08.at02u.v * value) << 4;
-                value = rsin(((S_800259D8_5 *)entry)->unk_0C);
-                dst->y.v = (((S_800259D8_5 *)entry)->unk_08.at02u.v * value) << 4;
+                value = rcos(entry->unk_0C);
+                dst->x.v = (entry->unk_08.at02u.v * value) << 4;
+                value = rsin(entry->unk_0C);
+                dst->y.v = (entry->unk_08.at02u.v * value) << 4;
                 dst->z.w.i = ((S_800259D8_4 *)entity)->unk_08.at02.v;
                 work = spawn->sprite;
                 {
@@ -1565,8 +1565,8 @@ L0_adjust_z:
                 ((S_800259D8_0 *)effect)->unk_0A.u = 3;
                 ((S_800259D8_0 *)effect)->unk_84.u = 0;
                 entry = ((S_800259D8_15_pre *)(((S_800259D8_3 *)obj)->unk_60))[-1].unk_00;
-                ((S_800259D8_4 *)entity)->unk_00.at02u.v = ((S_800259D8_5 *)entry)->unk_00.at02u.v;
-                ((S_800259D8_4 *)entity)->unk_04.at02u.v = ((S_800259D8_5 *)entry)->unk_04.at02u.v;
+                ((S_800259D8_4 *)entity)->unk_00.at02u.v = entry->unk_00.at02u.v;
+                ((S_800259D8_4 *)entity)->unk_04.at02u.v = entry->unk_04.at02u.v;
                 ((S_800259D8_4 *)entity)->unk_08.at02.v = ((S_800259D8_0 *)effect)->unk_78.u;
                 play_sound_if_enabled(AUDIO_PLAY_CD_CUE);
                 return;
@@ -1605,18 +1605,18 @@ L1_calc:
             ObjectNodeHeader *spawn;
             spawn = allocate_flagged_object_node(0x12);
             if (spawn != 0) {
-                entry = (u8 *)spawn + 0x20;
-                ((S_800259D8_5 *)entry)->unk_00.at02.v = 0;
-                ((S_800259D8_5 *)entry)->unk_38 = obj;
-                ((S_800259D8_5 *)entry)->unk_3C = ((S_800259D8_3 *)obj)->unk_60;
-                ((S_800259D8_5 *)entry)->unk_40 = effect;
-                ((S_800259D8_5 *)entry)->unk_08.at02u.v = 0x0C;
-                ((S_800259D8_5 *)entry)->unk_0C = 8;
-                ((S_800259D8_5 *)entry)->unk_0E = 0;
-                ((S_800259D8_5 *)entry)->unk_10 = 0;
-                ((S_800259D8_5 *)entry)->unk_12 = 0;
-                ((S_800259D8_5 *)entry)->unk_1C = 0;
-                ((S_800259D8_5 *)entry)->unk_1A = 0x40;
+                entry = (S_800259D8_5 *)((u8 *)spawn + 0x20);
+                entry->unk_00.at02.v = 0;
+                entry->unk_38 = obj;
+                entry->unk_3C = ((S_800259D8_3 *)obj)->unk_60;
+                entry->unk_40 = effect;
+                entry->unk_08.at02u.v = 0x0C;
+                entry->unk_0C = 8;
+                entry->unk_0E = 0;
+                entry->unk_10 = 0;
+                entry->unk_12 = 0;
+                entry->unk_1C = 0;
+                entry->unk_1A = 0x40;
                 entry = ((S_800259D8_15_pre *)(((S_800259D8_3 *)obj)->unk_60))[-1].unk_00;
                 spawn->update_callback = spawn_randomized_spark_burst;
                 register_node(spawn, draw_chained_object_records);
@@ -1624,11 +1624,11 @@ L1_calc:
                 work->tpage_abr = 0x20;
                 work->flags |= 0x000C;
                 dst = spawn->position;
-                dst->x.v = ((S_800259D8_5 *)entry)->unk_00.at00.v;
-                dst->y.v = ((S_800259D8_5 *)entry)->unk_04.at00.v;
+                dst->x.v = entry->unk_00.at00.v;
+                dst->y.v = entry->unk_04.at00.v;
                 index = ((S_800259D8_3 *)obj)->unk_60 != 0;
                 index = ((S_800259D8_15 *)(((S_800259D8_3 *)obj)->unk_60))->unk_13;
-                dst->z.v = ((S_800259D8_5 *)entry)->unk_08.at00.v -
+                dst->z.v = entry->unk_08.at00.v -
                     (entity_height_offsets[index] << 15);
                 work = spawn->sprite;
                 {
@@ -1690,20 +1690,20 @@ L1_calc:
     case 6:
     {
         void *fade_node;
-        void *fade_entry;
+        S_800259D8_11 *fade_entry;
         count = ((S_800259D8_0 *)effect)->unk_84.u + 1;
         ((S_800259D8_0 *)effect)->unk_84.u = count;
         fade_node = ((S_800259D8_3 *)obj)->unk_60;
         ((S_800259D8_10 *)fade_node)->unk_1C |= 0x10000000;
         fade_entry = ((S_800259D8_10_pre *)fade_node)[-1].unk_00;
         if (((S_800259D8_0 *)effect)->unk_84.s >= 36) {
-            ((S_800259D8_11 *)fade_entry)->unk_0C += 2;
-            ((S_800259D8_11 *)fade_entry)->unk_0D += 2;
-            ((S_800259D8_11 *)fade_entry)->unk_0E -= 3;
+            fade_entry->unk_0C += 2;
+            fade_entry->unk_0D += 2;
+            fade_entry->unk_0E -= 3;
         } else {
-            ((S_800259D8_11 *)fade_entry)->unk_0C -= 2;
-            ((S_800259D8_11 *)fade_entry)->unk_0D -= 2;
-            ((S_800259D8_11 *)fade_entry)->unk_0E += 3;
+            fade_entry->unk_0C -= 2;
+            fade_entry->unk_0D -= 2;
+            fade_entry->unk_0E += 3;
         }
         if (((S_800259D8_0 *)effect)->unk_84.s < 71) {
             return;
@@ -1713,9 +1713,9 @@ L1_calc:
             tail_node = ((S_800259D8_3 *)obj)->unk_60;
             ((S_800259D8_12 *)tail_node)->unk_1C &= 0xEFFFFFFF;
             fade_entry = ((S_800259D8_12_pre *)tail_node)[-1].unk_00;
-            ((S_800259D8_11 *)fade_entry)->unk_0E = 0x80;
-            ((S_800259D8_11 *)fade_entry)->unk_0D = 0x80;
-            ((S_800259D8_11 *)fade_entry)->unk_0C = 0x80;
+            fade_entry->unk_0E = 0x80;
+            fade_entry->unk_0D = 0x80;
+            fade_entry->unk_0C = 0x80;
             apply_random_duration_actor_status(((S_800259D8_3 *)obj)->unk_60, ((S_800259D8_0 *)effect)->unk_09, obj);
         }
         ((S_800259D8_0 *)effect)->unk_84.u = 13;

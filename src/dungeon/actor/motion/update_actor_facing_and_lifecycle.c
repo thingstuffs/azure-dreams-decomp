@@ -82,7 +82,7 @@ void update_actor_facing_and_lifecycle(ActorRecord *body, ObjectPosition *motion
         direction_index = direction;
         if (body->unk_94 != direction_index) {
             select_record_entry_and_value(part,
-                ((void **)(*(void **)((u8 *)body + (0xA4))))[direction_index],
+                ((void **)body->unk_A4.address)[direction_index],
                 part->unk_04);
             body->unk_94 = direction;
         }

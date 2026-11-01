@@ -284,11 +284,11 @@ void render_textured_effect_parts(Row_818F2800_S_BODY_3 *geometry, void *positio
                             if (DM_U16(0x24) & 0x100) {
                                 s32 clut;
                                 clut = state->unk_12;
-                                ((Row_818F2800_S_BODY_7 *)packet)->unk_0A = (s16)clut;
+                                packet->clut = (s16)clut;
                             } else {
                                 packed_uv = state->unk_12;
                                 packed_uv = packed_uv + ((Row_818F2800_S_BODY_2 *)part)->unk_06;
-                                ((Row_818F2800_S_BODY_7 *)packet)->unk_0A = (s16)packed_uv;
+                                packet->clut = (s16)packed_uv;
                             }
                                                                                     /* --- retail word 404 --- */
                             packed_uv = DM_U16(0x0C);
@@ -308,7 +308,7 @@ void render_textured_effect_parts(Row_818F2800_S_BODY_3 *geometry, void *positio
                                     texture_page = ((Row_818F2800_S_BODY_2 *)part)->unk_04;
                                 }
                                                                                                 /* --- retail word 424 --- */
-                                ((Row_818F2800_S_BODY_7 *)packet)->unk_12 = (u16)texture_page;
+                                packet->tpage = (u16)texture_page;
                             }
                             packed_uv = DM_U16(0x14);
                             packed_uv = packed_uv + DM_U16(0x08);
@@ -320,24 +320,24 @@ void render_textured_effect_parts(Row_818F2800_S_BODY_3 *geometry, void *positio
                             ((Row_818F2800_S_BODY_7 *)packet)->unk_20.at00.v = (s16)packed_uv;
                             if ((s32)((Row_818F2800_S_BODY_7 *)packet)->unk_1C.s < column_or_x) {
                                 u8 edge_uv, corner_uv;
-                                edge_uv = ((Row_818F2800_S_BODY_7 *)packet)->unk_10.u8;
-                                corner_uv = ((Row_818F2800_S_BODY_7 *)packet)->unk_20.at00u.v;
+                                edge_uv = packet->u1;
+                                corner_uv = packet->u3;
                                 edge_uv = (u8)(edge_uv - 1);
                                 corner_uv = (u8)(corner_uv - 1);
-                                ((Row_818F2800_S_BODY_7 *)packet)->unk_10.u8 = edge_uv;
-                                ((Row_818F2800_S_BODY_7 *)packet)->unk_20.at00u.v = corner_uv;
+                                packet->u1 = edge_uv;
+                                packet->u3 = corner_uv;
                             }
                             {
                                 s32 top_y;
                                 top_y = ((Row_818F2800_S_BODY_7 *)packet)->unk_06.s;
                                 if ((s32)((Row_818F2800_S_BODY_7 *)packet)->unk_1E.s < top_y) {
                                     u8 edge_uv, corner_uv;
-                                    edge_uv = ((Row_818F2800_S_BODY_7 *)packet)->unk_18.at01.v;
-                                    corner_uv = ((Row_818F2800_S_BODY_7 *)packet)->unk_20.at01.v;
+                                    edge_uv = packet->v2;
+                                    corner_uv = packet->v3;
                                     edge_uv = (u8)(edge_uv - 1);
                                     corner_uv = (u8)(corner_uv - 1);
-                                    ((Row_818F2800_S_BODY_7 *)packet)->unk_18.at01.v = edge_uv;
-                                    ((Row_818F2800_S_BODY_7 *)packet)->unk_20.at01.v = corner_uv;
+                                    packet->v2 = edge_uv;
+                                    packet->v3 = corner_uv;
                                 }
                             }
                             texture_value = ((Row_818F2800_S_BODY_2 *)part)->unk_01;
@@ -357,11 +357,11 @@ void render_textured_effect_parts(Row_818F2800_S_BODY_3 *geometry, void *positio
                                     }
                                 }
                             }
-                            ((Row_818F2800_S_BODY_7 *)packet)->unk_00 = state->unk_0C.at00.v;
+                            packet->colorCode = state->unk_0C.at00.v;
                             {
                                 u32 ot_tag = ((u32 *)((u8 *)DM_U32(0x20)))[DM_S32(0xC0)];
                                 u32 packet_tag = *(u32 *)packet & 0xFF000000;
-                                *(u32 *)packet = packet_tag | (ot_tag & 0xFFFFFF);
+                                packet->tag = packet_tag | (ot_tag & 0xFFFFFF);
                             }
                             ((u32 *)((u8 *)DM_U32(0x20)))[DM_S32(0xC0)] =
                                 (((u32 *)((u8 *)DM_U32(0x20)))[DM_S32(0xC0)] & 0xFF000000)

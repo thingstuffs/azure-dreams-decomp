@@ -46,19 +46,6 @@ typedef struct S_80174668_4 {
     u8 unk_25;
 } S_80174668_4;   /* tile in spawn_rotate_and_restore_actor_state */
 
-typedef struct S_80174668_6 {
-    u8 pad_00[0x96];
-    s16 unk_96;
-    u8 pad_98[0x2];
-    u8 unk_9A;
-    u8 pad_9B[0x7];
-    s16 unk_A2;
-    s16 unk_A4;
-    u16 unk_A6;
-    u8 pad_A8[0x4];
-    u32 unk_AC;
-} S_80174668_6;   /* prim in spawn_rotate_and_restore_actor_state */
-
 typedef struct S_80174668_7 {
     u8 pad_00[0x2A];
     u16 unk_2A;
@@ -120,8 +107,8 @@ void spawn_rotate_and_restore_actor_state(ActorRecord *effect, ObjectPosition *m
     S_80174668_7 *rotating_object;
     ObjectPosition *particle_pos;
     ObjectNodeHeader *effect_alloc;
+    RotateAndRestoreActorStateBody *effect_data;
     u8 *direction_table;
-    S_80174668_6 *effect_data;
     SpriteFrameState *tile;
     void *context;
     void *previous_context;
@@ -175,9 +162,9 @@ void spawn_rotate_and_restore_actor_state(ActorRecord *effect, ObjectPosition *m
         }
         register_node(effect_alloc, draw_layered_wavy_object_strips);
         effect_alloc->update_callback = advance_actor_replacement_sequence;
-        effect_data = (S_80174668_6 *)(((u8 *)effect_alloc) + 0x20);
-        effect_data->unk_A2 = (sprite->tile_x << 6) + 0x20;
-        effect_data->unk_A4 = (sprite->tile_y << 6) + 0x20;
+        effect_data = (RotateAndRestoreActorStateBody *)(((u8 *)effect_alloc) + 0x20);
+        effect_data->target_x = (sprite->tile_x << 6) + 0x20;
+        effect_data->target_y = (sprite->tile_y << 6) + 0x20;
         {
             register u32 color;
             s32 countdown;
@@ -185,9 +172,9 @@ void spawn_rotate_and_restore_actor_state(ActorRecord *effect, ObjectPosition *m
             color = 0x00808080;
             motion_param = motion->z.w.i;
             countdown = 0x3C;
-            effect_data->unk_AC = color;
-            effect_data->unk_96 = countdown;
-            effect_data->unk_A6 = motion_param;
+            effect_data->color = color;
+            effect_data->ticks_remaining = countdown;
+            effect_data->vertical_motion = motion_param;
             effect->action_timer.s = countdown;
             return;
         }
@@ -200,7 +187,7 @@ void spawn_rotate_and_restore_actor_state(ActorRecord *effect, ObjectPosition *m
             effect_alloc = allocate_list_node(0x312, &scene_object_list_anchor.next);
             if (effect_alloc != 0) {
                 register_node(effect_alloc, project_sprite_chain);
-                effect_data = (S_80174668_6 *)(((u8 *)effect_alloc) + 0x20);
+                effect_data = (RotateAndRestoreActorStateBody *)(((u8 *)effect_alloc) + 0x20);
                 tile = effect_alloc->sprite;
                 effect_alloc->update_callback = mandara_object_callback_2;
 
@@ -238,7 +225,7 @@ void spawn_rotate_and_restore_actor_state(ActorRecord *effect, ObjectPosition *m
                     tile->color.word = 0x00208020;
                     ((S_80174668_4 *)tile)->unk_08 = texture_word;
                 }
-                effect_data->unk_9A = 0;
+                effect_data->state_9A = 0;
             }
         }
         ticks_left = effect->action_timer.u - 1;

@@ -1155,8 +1155,9 @@ typedef struct S_807AFDEC_1 {
 } S_807AFDEC_1;   /* ((S_807AFDEC_0 *)arg0)->unk_00 in update_owner_attached_color_effect */
 
 /* Position the effect and fade its selected color channels in, then out. */
-void update_owner_attached_color_effect(void *effect, Position3 *position, ColorPart *tint)
+void update_owner_attached_color_effect(void *effect_arg, Position3 *position, ColorPart *tint)
 {
+    S_807AFDEC_0 *effect = effect_arg;
     void *effect_base;
     Offset3 offset;
     Position3 *source_pos;
@@ -1168,59 +1169,59 @@ void update_owner_attached_color_effect(void *effect, Position3 *position, Color
     offset.y = 0;
     offset.z = -D_800DDC42 - 8;
 
-    source_pos = ((S_807AFDEC_1_pre *)(((S_807AFDEC_0 *)effect)->unk_00))[-1].unk_00;
+    source_pos = ((S_807AFDEC_1_pre *)(effect->unk_00))[-1].unk_00;
     source_x = source_pos->x;
     position->x = source_x;
     position->y = source_pos->y + offset.y;
     position->z = source_pos->z + offset.z;
 
-    if (((S_807AFDEC_0 *)effect)->unk_08.s == 0) {
+    if (effect->unk_08.s == 0) {
         intensity = tint->b | (tint->r | tint->g);
-        intensity += (0xC0 - intensity) / ((S_807AFDEC_0 *)effect)->unk_0C.s;
+        intensity += (0xC0 - intensity) / effect->unk_0C.s;
 
-        if (((S_807AFDEC_1 *)(((S_807AFDEC_0 *)effect)->unk_00))->unk_14 & 1) {
+        if (((S_807AFDEC_1 *)(effect->unk_00))->unk_14 & 1) {
             tint->r = intensity;
         }
-        if (((S_807AFDEC_1 *)(((S_807AFDEC_0 *)effect)->unk_00))->unk_14 & 4) {
+        if (((S_807AFDEC_1 *)(effect->unk_00))->unk_14 & 4) {
             tint->g = intensity;
         }
-        if (((S_807AFDEC_1 *)(((S_807AFDEC_0 *)effect)->unk_00))->unk_14 & 2) {
+        if (((S_807AFDEC_1 *)(effect->unk_00))->unk_14 & 2) {
             tint->b = intensity;
         }
 
         {
             effect_base = (u8 *)effect - 0x20;
 
-            if (((S_807AFDEC_0 *)effect)->unk_0C.s >= 8) {
-                create_converging_color_particle(effect_base, position, ((S_807AFDEC_0 *)effect)->unk_00);
-                create_converging_color_particle(effect_base, position, ((S_807AFDEC_0 *)effect)->unk_00);
-                create_converging_color_particle(effect_base, position, ((S_807AFDEC_0 *)effect)->unk_00);
+            if (effect->unk_0C.s >= 8) {
+                create_converging_color_particle(effect_base, position, effect->unk_00);
+                create_converging_color_particle(effect_base, position, effect->unk_00);
+                create_converging_color_particle(effect_base, position, effect->unk_00);
             }
 
-            ticks_left = ((S_807AFDEC_0 *)effect)->unk_0C.u - 1;
-            ((S_807AFDEC_0 *)effect)->unk_0C.u = ticks_left;
+            ticks_left = effect->unk_0C.u - 1;
+            effect->unk_0C.u = ticks_left;
             if ((ticks_left << 16) <= 0) {
-                ((S_807AFDEC_0 *)effect)->unk_0C.u = 8;
-                ((S_807AFDEC_0 *)effect)->unk_08.u++;
+                effect->unk_0C.u = 8;
+                effect->unk_08.u++;
                 return;
             }
         }
     } else {
         intensity = tint->b | (tint->r | tint->g);
-        intensity += -intensity / ((S_807AFDEC_0 *)effect)->unk_0C.s;
+        intensity += -intensity / effect->unk_0C.s;
 
-        if (((S_807AFDEC_1 *)(((S_807AFDEC_0 *)effect)->unk_00))->unk_14 & 1) {
+        if (((S_807AFDEC_1 *)(effect->unk_00))->unk_14 & 1) {
             tint->r = intensity;
         }
-        if (((S_807AFDEC_1 *)(((S_807AFDEC_0 *)effect)->unk_00))->unk_14 & 4) {
+        if (((S_807AFDEC_1 *)(effect->unk_00))->unk_14 & 4) {
             tint->g = intensity;
         }
-        if (((S_807AFDEC_1 *)(((S_807AFDEC_0 *)effect)->unk_00))->unk_14 & 2) {
+        if (((S_807AFDEC_1 *)(effect->unk_00))->unk_14 & 2) {
             tint->b = intensity;
         }
 
-        ticks_left = ((S_807AFDEC_0 *)effect)->unk_0C.u - 1;
-        ((S_807AFDEC_0 *)effect)->unk_0C.u = ticks_left;
+        ticks_left = effect->unk_0C.u - 1;
+        effect->unk_0C.u = ticks_left;
         if ((ticks_left << 16) <= 0) {
             (*(u16 *)((u8 *)effect + -2)) |= NODE_REMOVE;
             object_flag_block.flags |= OBJECT_REMOVE_PENDING;
@@ -2098,25 +2099,25 @@ s32 render_particle_effect_object(void *object, s32 caller_a1, void *caller_a2) 
         }
 
         {
-            u8 *vertex_ptr;
+            S_807B0B3C_3 *vertex_ptr;
             S_807B0B3C_11 *color_ptr;
 
             for (vertex_index = 3; vertex_index >= 0; vertex_index--) {
-                vertex_ptr = scratch + vertex_index * 8;
+                vertex_ptr = (S_807B0B3C_3 *)(scratch + vertex_index * 8);
                 color_ptr = (S_807B0B3C_11 *)(colors + vertex_index * 4);
                 coord = effect->origin_x.s;
                 if (vertex_index < 2) {
-                    ((S_807B0B3C_3 *)vertex_ptr)->unk_00.n = coord - 0x20;
+                    vertex_ptr->unk_00.n = coord - 0x20;
                 } else {
-                    ((S_807B0B3C_3 *)vertex_ptr)->unk_00.n = coord + 0x20;
+                    vertex_ptr->unk_00.n = coord + 0x20;
                 }
                 coord = effect->origin_y.s;
                 if (vertex_index & 1) {
-                    ((S_807B0B3C_3 *)vertex_ptr)->unk_02.n = coord + 0x20;
+                    vertex_ptr->unk_02.n = coord + 0x20;
                 } else {
-                    ((S_807B0B3C_3 *)vertex_ptr)->unk_02.n = coord - 0x20;
+                    vertex_ptr->unk_02.n = coord - 0x20;
                 }
-                ((S_807B0B3C_3 *)vertex_ptr)->unk_04 = effect->height.u;
+                vertex_ptr->unk_04 = effect->height.u;
                 tex_coord = (effect->tick_count.u8 & 3) * 8;
                 color_ptr->unk_02 = tex_coord;
                 color_ptr->unk_01 = tex_coord;

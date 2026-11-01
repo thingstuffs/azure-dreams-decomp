@@ -190,7 +190,7 @@ void update_actor_target_effect_action(ActorRecord *body, void *context, S_80173
 
         actor->unk_1C |= 0x10000;
         effect = spawn_manoeva_from_record(body, context, sprite, actor);
-        ((Rec_func_80173D78_arg0 *)body)->unk_A4 = effect;
+        body->unk_A4.address = effect;
         if (effect != 0) {
             node_storage = (s8 *)body - 0x20;
             object = node_storage;

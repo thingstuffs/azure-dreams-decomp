@@ -54,28 +54,28 @@ void spawn_directional_random_velocity_effect(S_80D65C5C_1 *source, s32 angle)
     if (node != 0) {
         node->update_callback = D_80171384;
 
-        ((S_80D65C5C_4 *)(node->position))->unk_02 =
+        node->position->x.unsigned_parts.integer =
             ((MovingPosition *)(source->unk_08))->x;
-        ((S_80D65C5C_4 *)(node->position))->unk_06 =
+        node->position->y.unsigned_parts.integer =
             ((MovingPosition *)(source->unk_08))->y;
-        ((S_80D65C5C_4 *)(node->position))->unk_0A =
+        node->position->z.w.i =
             ((MovingPosition *)(source->unk_08))->z - 0x58;
 
         direction_step = (s16 *)((u8 *)actor_direction_step_pairs + (((u32)angle >> 7) & 0x1C));
-        ((S_80D65C5C_4 *)(node->position))->unk_02 += direction_step[0] * 0x12;
-        ((S_80D65C5C_4 *)(node->position))->unk_06 += direction_step[1] * 0x12;
+        node->position->x.unsigned_parts.integer += direction_step[0] * 0x12;
+        node->position->y.unsigned_parts.integer += direction_step[1] * 0x12;
 
         node->sprite->depth_bias = 6;
-        ((S_80D65C5C_4 *)(node->position))->unk_0C =
+        node->position->velocity_x =
             ((rand() & 0x7FFF) - 0x4000) * 0x10;
-        ((S_80D65C5C_4 *)(node->position))->unk_10 =
+        node->position->velocity_y =
             ((rand() & 0x7FFF) - 0x4000) * 0x10;
-        ((S_80D65C5C_4 *)(node->position))->unk_14 =
+        node->position->velocity_z =
             ((rand() & 0x7FFF) - 0x4000) * 0x10;
 
-        ((S_80D65C5C_4 *)(node->position))->unk_0C +=
+        node->position->velocity_x +=
             direction_step[0] * 0x1C0000;
-        ((S_80D65C5C_4 *)(node->position))->unk_10 +=
+        node->position->velocity_y +=
             direction_step[1] * 0x1C0000;
 
         sprite = (u8 *)node + 0x20;

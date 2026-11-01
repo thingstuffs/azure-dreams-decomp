@@ -153,17 +153,17 @@ void advance_actor_item_use_sequence_2(ActorRecord *body, ObjectPosition *motion
                         actor->target_tile_y = item_id->unk_25;
                     }
                 } else {
-                    u8 *item_id;
+                    S_801732C4_2 *item_id;
                     u8 *item_defs;
 
                     item_defs = item_action_definitions;
-                    item_id = (u8 *)(*item_slot);
+                    item_id = (S_801732C4_2 *)(*item_slot);
                     if (item_defs[((u8)item_id) * 20 + 0x12] == 2) {
                         target = (actor->target);
                         if (target != 0) {
                             item_id = target[-1].unk_00;
-                            actor->target_tile_x = ((S_801732C4_2 *)item_id)->unk_24;
-                            actor->target_tile_y = ((S_801732C4_2 *)item_id)->unk_25;
+                            actor->target_tile_x = item_id->unk_24;
+                            actor->target_tile_y = item_id->unk_25;
                         }
                     } else {
 
@@ -362,8 +362,8 @@ void advance_actor_item_use_sequence_2(ActorRecord *body, ObjectPosition *motion
             saved_a4 = body->unk_A4.value;
             body->unk_A4.halves.high.u = 0;
             ((S_801732C4_0 *)body)->unk_B8 = 0;
-            ((S_801732C4_0 *)body)->unk_AC = 0;
-            ((S_801732C4_0 *)body)->unk_B0 = 0;
+            body->unk_AC.value = 0;
+            body->unk_B0.value = 0;
             ((S_801732C4_0 *)body)->unk_A8 = saved_a4;
         }
         {

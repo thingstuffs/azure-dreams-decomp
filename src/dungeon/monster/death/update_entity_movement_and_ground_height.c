@@ -142,11 +142,11 @@ void update_entity_movement_and_ground_height(ActorRecord *body, ObjectPosition 
 
                 if (frame_table == death_direction_frames) {
                     if (sprite->unk_04 == 3 && (sprite_flags & 0x1000)) {
-                        (*(s32 *)((u8 *)body + 0xAC)) = 0x60000;
-                        (*(s32 *)((u8 *)body + 0xB0)) = (s32)0xFFFF3000;
+                        body->unk_AC.value = 0x60000;
+                        body->unk_B0.value = (s32)0xFFFF3000;
                     }
-                    body->unk_A4.value += (*(s32 *)((u8 *)body + 0xAC));
-                    (*(s32 *)((u8 *)body + 0xAC)) += (*(s32 *)((u8 *)body + 0xB0));
+                    body->unk_A4.value += body->unk_AC.value;
+                    body->unk_AC.value += body->unk_B0.value;
                     if (body->unk_A4.value <= 0) {
                         body->unk_A4.value = 0;
                     }
@@ -233,7 +233,7 @@ void update_entity_movement_and_ground_height(ActorRecord *body, ObjectPosition 
                 u8 *frame_table = *(u8 * *)&sprite->frameTable;
 
                 if (frame_table == death_direction_frames) {
-                    (*(s32 *)((u8 *)body + 0xAC)) = 0;
+                    body->unk_AC.value = 0;
                     body->unk_A4.value = 0;
                 } else if (frame_table == death_frame_set_7 || frame_table == death_frame_set) {
                     body->unk_A4.value -= 0x40000;

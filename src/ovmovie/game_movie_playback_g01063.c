@@ -118,7 +118,7 @@ void set_movie_strip_offsets(s16 value_d8, s16 value_dc) {
 /* Reset movie state and apply the requested playback settings. */
 void initialize_movie_decoder_and_start_stream(void *playback_state, void (*playback_option)(void)) {
     set_movie_decode_mode(0);
-    *(s32 *)((u8 *)active_movie + 0x34) = 0;
+    active_movie->done = 0;
     register_mode_one_callback(playback_option);
     func_80060B04((u8 *)active_movie + 0x40, 0x20);
     func_800636AC(movie_rgb24_mode & 1, 1, -1, 0, 0);

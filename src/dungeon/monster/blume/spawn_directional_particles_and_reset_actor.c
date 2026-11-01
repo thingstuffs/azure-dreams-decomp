@@ -184,22 +184,22 @@ void spawn_directional_particles_and_reset_actor(ActorRecord *state, ObjectPosit
 
                         map = ((S_80174BEC_0_pre *)state)[-1].unk_00;
                         if (get_sprite_attachment_vector(map->unk_08, map, &map_offset, 1)) {
-                            ((MovingPosition *)position)->x += map_offset.x;
-                            ((MovingPosition *)position)->y += map_offset.y;
-                            ((MovingPosition *)position)->z += map_offset.z;
+                            position->x.unsigned_parts.integer += map_offset.x;
+                            position->y.unsigned_parts.integer += map_offset.y;
+                            position->z.unsigned_parts.integer += map_offset.z;
                         }
 
                         offset_x = (rand() & 0x1F) - 0x10;
                         offset_y = (rand() & 0x1F) - 0x10;
-                        coord = ((MovingPosition *)position)->x;
+                        coord = position->x.unsigned_parts.integer;
                         coord += offset_x;
-                        position_y = ((MovingPosition *)position)->y + offset_y;
+                        position_y = position->y.unsigned_parts.integer + offset_y;
                         position->x.w.i = coord;
                         position->y.w.i = position_y;
                         offset_z = rand() & 0x1F;
                         velocity_x = (s32)(offset_x << 16) >> 4;
                         velocity_y = (s32)(offset_y << 16) >> 4;
-                        coord = ((MovingPosition *)position)->z;
+                        coord = position->z.unsigned_parts.integer;
                         coord -= 0x14;
                         coord += offset_z;
                         position->z.w.i = coord;
@@ -243,13 +243,13 @@ void spawn_directional_particles_and_reset_actor(ActorRecord *state, ObjectPosit
                         s32 position_z;
                         s32 position_y;
                         ObjectPosition *position;
-                        u8 *motion;
+                        S_80174BEC_3 *motion;
                         SpriteFrameState *render;
                         void *map;
                         u32 direction_offset;
 
-                        motion = (u8 *)particle + 0x20;
-                        ((S_80174BEC_3 *)motion)->unk_24 = 0x19 - state->action_timer.u;
+                        motion = (S_80174BEC_3 *)((u8 *)particle + 0x20);
+                        motion->unk_24 = 0x19 - state->action_timer.u;
                         ((S_80174BEC_4 *)particle)->unk_20 = 0;
                         particle->update_callback = update_growing_colliding_effect;
                         register_node(particle, project_sprite_chain);
@@ -266,36 +266,36 @@ void spawn_directional_particles_and_reset_actor(ActorRecord *state, ObjectPosit
 
                         map = ((S_80174BEC_0_pre *)state)[-1].unk_00;
                         if (resolve_record_orientation_or_fallback(((S_80174BEC_7 *)map)->unk_08, map, &map_offset, 1)) {
-                            ((MovingPosition *)position)->x += map_offset.x;
-                            ((MovingPosition *)position)->y += map_offset.y;
-                            ((MovingPosition *)position)->z += map_offset.z;
+                            position->x.unsigned_parts.integer += map_offset.x;
+                            position->y.unsigned_parts.integer += map_offset.y;
+                            position->z.unsigned_parts.integer += map_offset.z;
                         }
 
                         offset_x = (rand() & 0x1F) - 0x10;
                         offset_y = (rand() & 0x1F) - 0x10;
-                        coord = ((MovingPosition *)position)->x;
+                        coord = position->x.unsigned_parts.integer;
                         coord += offset_x;
-                        position_y = ((MovingPosition *)position)->y + offset_y;
+                        position_y = position->y.unsigned_parts.integer + offset_y;
                         position->x.w.i = coord;
                         position->y.w.i = position_y;
                         offset_z = rand() & 0x1F;
                         velocity_x = (s32)(offset_x << 16) >> 4;
                         velocity_y = (s32)(offset_y << 16) >> 4;
-                        position_z = ((MovingPosition *)position)->z;
+                        position_z = position->z.unsigned_parts.integer;
                         position_z -= 0x14;
                         position_z += offset_z;
                         position->z.w.i = position_z;
-                        ((S_80174BEC_3 *)motion)->unk_60 = velocity_x;
-                        ((S_80174BEC_3 *)motion)->unk_64 = velocity_y;
+                        motion->unk_60 = velocity_x;
+                        motion->unk_64 = velocity_y;
 
                         direction_offset = (((u16)actor->facing) >> 7) & 0x1C;
-                        ((S_80174BEC_3 *)motion)->unk_60 += (s32)((TableEntry *)((u8 *)directions + direction_offset))->x
+                        motion->unk_60 += (s32)((TableEntry *)((u8 *)directions + direction_offset))->x
                         << 19;
                         direction_offset = (((u16)actor->facing) >> 7) & 0x1C;
-                        ((S_80174BEC_3 *)motion)->unk_64 += (u32)((TableEntry *)((u8 *)directions + direction_offset))->y
+                        motion->unk_64 += (u32)((TableEntry *)((u8 *)directions + direction_offset))->y
                         << 19;
-                        ((S_80174BEC_3 *)motion)->unk_68 = -((rand() & 0x7FFF) * 2);
-                        ((S_80174BEC_3 *)motion)->unk_74 = 0x400;
+                        motion->unk_68 = -((rand() & 0x7FFF) * 2);
+                        motion->unk_74 = 0x400;
                         render->scale_x = 0x800;
                         render->scale_y = 0x800;
                         render->color.c.g = 0x80;

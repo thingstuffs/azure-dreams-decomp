@@ -67,7 +67,7 @@ void update_actor_behavior_and_direction(ActorRecord *motion, ObjectPosition *re
         if (map_entity->frameTable == noise_frame_set) {
             motion->action_id.u = 0xD;
             motion->action_phase.u = 1;
-            ((Rec_func_800A9E70_arg0 *)motion)->unk_8C = 0;
+            motion->unk_8C.word = 0;
             actor->flags1C &= ~0x40000;
             return;
         }

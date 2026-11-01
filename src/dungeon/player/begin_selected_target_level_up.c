@@ -24,7 +24,7 @@ s32 begin_selected_target_level_up(ActorRecord *actor_state, void *action_arg, v
     if (g_dungeon_status.active_actor == target && g_dungeon_status.activity_counts.parts.pending_action_count == 0 && !(g_dungeon_status.flags & 8)) {
         actor_state->action_id.s = 9;
         actor_state->action_phase.s = 0;
-        *(s32 *)((char *)actor_state + 0x8C) = 0;
+        actor_state->unk_8C.word = 0;
         select_nearby_target_and_initialize_slot((char *)actor_state - 0x20, action_arg, 8, 0x300);
         if (!(target->flags1C & 0x100000)) {
             *(u8 **)((char *)sprite + 0x2C) = return_magic_frames;

@@ -65,11 +65,11 @@ void spawn_random_velocity_offset_effect(ObjectNodeHeader *parent, s16 effect_id
     }
     effect->update_callback = &move_fade_and_accelerate_effect;
     (effect->position)->x.w.i =
-        (s16) (((T_80171020_S_80171020_7 *)parent->position)->unk_02 + x_offset);
+        (s16) (parent->position->x.unsigned_parts.integer + x_offset);
     (effect->position)->y.w.i =
-        (s16) (((T_80171020_S_80171020_7 *)parent->position)->unk_06 + y_offset);
+        (s16) (parent->position->y.unsigned_parts.integer + y_offset);
     (effect->position)->z.w.i =
-        (s16) (((T_80171020_S_80171020_7 *)parent->position)->unk_0A + z_offset);
+        (s16) (parent->position->z.unsigned_parts.integer + z_offset);
     effect_state = ((void *)effect) + 0x20;
     effect_state->unk_40 = (s32) (((rand() & 0x7FFF) - 0x4000) * 0x10);
     effect_state->unk_44 = (s32) (((rand() & 0x7FFF) - 0x4000) * 0x10);

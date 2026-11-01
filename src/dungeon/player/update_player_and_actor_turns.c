@@ -176,7 +176,7 @@ typedef struct S_80089AA0_27 {
 void update_player_and_actor_turns(ActorRecord *in_actor, void *in_motion, void *in_sprite) {
     void *sprite_or_root;
     void *root;
-    void *motion_or_count;
+    S_80089AA0_18 *motion_or_count;
     GameWork *world_state;
     s32 repeat_pass;
     s32 (*update_callback)(void *, void *, void *, void *);
@@ -489,27 +489,27 @@ void update_player_and_actor_turns(ActorRecord *in_actor, void *in_motion, void 
     apply_monster_koyaw_data((*(s32 *)((u8 *)actor + 0x1C)), sprite_or_root + 0xC);
     motion_or_count = in_motion;
     if (!((*(s32 *)((u8 *)actor + 0x14)) & 0x100000)) {
-        ((S_80089AA0_18 *)motion_or_count)->unk_00.at00.v = (s32) (((S_80089AA0_18 *)motion_or_count)->unk_00.at00.v
-            + ((S_80089AA0_18 *)motion_or_count)->unk_0C);
-        ((S_80089AA0_18 *)motion_or_count)->unk_04.at00.v = (s32) (((S_80089AA0_18 *)motion_or_count)->unk_04.at00.v
-            + ((S_80089AA0_18 *)motion_or_count)->unk_10);
+        motion_or_count->unk_00.at00.v = (s32) (motion_or_count->unk_00.at00.v
+            + motion_or_count->unk_0C);
+        motion_or_count->unk_04.at00.v = (s32) (motion_or_count->unk_04.at00.v
+            + motion_or_count->unk_10);
         if (!((*(u16 *)((u8 *)linked_actor + 0x98)) & 8)) {
-            ((S_80089AA0_18 *)motion_or_count)->unk_14 = (s32) (((S_80089AA0_18 *)motion_or_count)->unk_14
+            motion_or_count->unk_14 = (s32) (motion_or_count->unk_14
                 + ((*(s8 *)((u8 *)linked_actor + 0x9D)) * 0x14000));
             (*(s8 *)((u8 *)linked_actor + 0x9D)) = (s8) ((u8) (*(s8 *)((u8 *)linked_actor + 0x9D)) + 1);
         }
         (*(s32 *)((u8 *)linked_actor + 0x90)) = (s32) ((*(s32 *)((u8 *)linked_actor + 0x90))
-            + ((S_80089AA0_18 *)motion_or_count)->unk_14);
-        floor_height = sample_terrain_surface_height(((S_80089AA0_18 *)motion_or_count)->unk_00.at02.v,
-            ((S_80089AA0_18 *)motion_or_count)->unk_04.at02.v, (s16) ((*(u16 *)((u8 *)actor + 0x88)) - 0x20));
+            + motion_or_count->unk_14);
+        floor_height = sample_terrain_surface_height(motion_or_count->unk_00.at02.v,
+            motion_or_count->unk_04.at02.v, (s16) ((*(u16 *)((u8 *)actor + 0x88)) - 0x20));
         if (floor_height < 0x200) {
             if (((*(s16 *)((u8 *)linked_actor + 0x92)) + (s16) (*(u16 *)((u8 *)actor + 0x88))) >= floor_height) {
-                if (((*(u16 *)((u8 *)linked_actor + 0x98)) & 4) || (((S_80089AA0_18 *)motion_or_count)->unk_14 < 0)) {
+                if (((*(u16 *)((u8 *)linked_actor + 0x98)) & 4) || (motion_or_count->unk_14 < 0)) {
                     (*(u16 *)((u8 *)linked_actor + 0xA2)) =
                         (u16)((*(u16 *)((u8 *)linked_actor + 0xA2)) & 0xFFEF);
                 } else {
                     (*(s32 *)((u8 *)linked_actor + 0x90)) = 0;
-                    ((S_80089AA0_18 *)motion_or_count)->unk_14 = 0;
+                    motion_or_count->unk_14 = 0;
                     (*(s8 *)((u8 *)linked_actor + 0x9D)) = 0;
                     if (!((*(u16 *)((u8 *)linked_actor + 0xA2)) & 0x10)) {
                         if (!(((S_80089AA0_6 *)(&dungeon_floor_flags))->unk_00 & 0x80000)) {
@@ -546,7 +546,7 @@ void update_player_and_actor_turns(ActorRecord *in_actor, void *in_motion, void 
                 (*(u16 *)((u8 *)actor + 0x88)) = (u16) flags_or_height;
                 if (g_dungeon_status.flags & 0x80) {
                     (*(s32 *)((u8 *)linked_actor + 0x90)) = 0;
-                    ((S_80089AA0_18 *)motion_or_count)->unk_14 = 0;
+                    motion_or_count->unk_14 = 0;
                     (*(s8 *)((u8 *)linked_actor + 0x9D)) = 0;
                     (*(u16 *)((u8 *)linked_actor + 0xA2)) =
                         (u16)((*(u16 *)((u8 *)linked_actor + 0xA2)) | 0x10);
@@ -559,7 +559,7 @@ void update_player_and_actor_turns(ActorRecord *in_actor, void *in_motion, void 
             }
             (*(u16 *)((u8 *)linked_actor + 0xA2)) = (u16) ((*(u16 *)((u8 *)linked_actor + 0xA2)) | 0x800);
         }
-        ((S_80089AA0_18 *)motion_or_count)->unk_0A = (s16) ((*(u16 *)((u8 *)actor + 0x88))
+        motion_or_count->unk_0A = (s16) ((*(u16 *)((u8 *)actor + 0x88))
             + (u16) (*(s16 *)((u8 *)linked_actor + 0x92)));
     }
     update_sound_settings_from_pad(linked_actor, motion_or_count, sprite_or_root, actor);

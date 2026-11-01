@@ -256,14 +256,11 @@ typedef struct R08_801741D0_S_801741D0_3 {
 typedef struct {
     u32 words[3];
 } R08_801741D0_Packed12 __attribute__((packed));
-typedef struct R08_801743BC_S_801743BC_0 {
-    u8 pad_00[0x8];
-    void * unk_08;
-    void * unk_0C;
-    M2C_UNK * unk_10;
-    u8 pad_14[0x26];
-    s16 unk_3A;
-} R08_801743BC_S_801743BC_0;
+/* Lifetime stored in the body of the positioned black sprite effect. */
+typedef struct PositionedSpriteEffectBody {
+    u8 pad_00[0x1A];
+    s16 ticks_remaining;
+} PositionedSpriteEffectBody;
 
 
 typedef struct R08_80174648_S_80174648_0_pre {
@@ -462,8 +459,8 @@ void create_four_directional_effects(ActorRecord *state, ObjectPosition *motion,
 void finish_actor_fade_in_then_resume_effect_behavior(ActorRecord *state, ObjectPosition *motion, SpriteFrameState *position, ActorRecord *actor);
 s32 start_bank_actor_hit_reaction(void *initial_payload, s32 entry_data, R08_801740F4_Entry *entry, s32 unused);
 void advance_object_angle_and_height(u16 *record_data, s32 unused, R08_80174180_Object *object);
-void create_tinted_rotated_sprite(s32 unused_0, R08_801741D0_S_801741D0_3 *source_pos, s32 unused_2, s8 green, u8 red_blue);
-void update_timed_effect_and_expire(void *effect, s32 x, s32 y);
+void create_tinted_rotated_sprite(PositionedSpriteEffectBody *unused_0, R08_801741D0_S_801741D0_3 *source_pos, s32 unused_2, s8 green, u8 red_blue);
+void update_timed_effect_and_expire(PositionedSpriteEffectBody *effect, s32 x, s32 y);
 void create_positioned_sprite_effect(M2C_UNK unused, EntityRec *source_pos, void *unused_context);
 void wait_for_griffon_action_slot(ActorRecord *entity_data, s32 unused_1, s32 unused_2, void *other_data);
 void finish_griffon_effect_and_tint(u8 *task, void *context, u8 *input);

@@ -95,9 +95,9 @@ void update_directional_actor_effect(void *state_data, void *position_data)
     s16 offset[3];
     ObjectNodeHeader *object;
     u8 *work;
-    void *source;
+    S_81988800_8 *source;
     void *list_head;
-    void *actor;
+    S_81988800_4 *actor;
     u8 *unused_fields;
     s32 timer;
 
@@ -118,12 +118,12 @@ void update_directional_actor_effect(void *state_data, void *position_data)
         ((S_81988800_0 *)state_data)->unk_0A.u++;
     case 1:
     {
-        u8 *spawn_data;
+        S_81988800_6 *spawn_data;
         if (((S_81988800_11 *)(((S_81988800_0 *)state_data)->unk_04))->unk_00 & 0x80) {
-            actor = primary_actor_record;
+            actor = (S_81988800_4 *)primary_actor_record;
             ((S_81988800_0 *)state_data)->unk_50.u = 10;
-            ((S_81988800_4 *)actor)->unk_A6--;
-            ((S_81988800_4 *)actor)->unk_A8 = ((S_81988800_0 *)state_data)->unk_08;
+            actor->unk_A6--;
+            actor->unk_A8 = ((S_81988800_0 *)state_data)->unk_08;
 
             object = allocate_list_node(0x302, &scene_object_list_anchor.next);
             if (object != 0) {
@@ -136,20 +136,20 @@ void update_directional_actor_effect(void *state_data, void *position_data)
                 object->update_callback = update_effect_and_spawn_fragments;
                 register_node(object, create_counted_sprite_effect);
                 ((S_81988800_5 *)object)->unk_20 = state_data;
-                spawn_data = (u8 *)object + 0x20;
+                spawn_data = (S_81988800_6 *)((u8 *)object + 0x20);
 
                 ((S_81988800_2 *)position_data)->unk_00 =
                     ((S_81988800_10 *)(((S_81988800_3 *)work)->unk_08.p32))->unk_00 +
                                       ((s32)offset[0] << 16);
-                ((S_81988800_6 *)spawn_data)->unk_1C = ((S_81988800_2 *)position_data)->unk_00;
+                spawn_data->unk_1C = ((S_81988800_2 *)position_data)->unk_00;
                 ((S_81988800_2 *)position_data)->unk_04 =
                     ((S_81988800_10 *)(((S_81988800_3 *)work)->unk_08.p32))->unk_04 +
                                       ((s32)offset[1] << 16);
-                ((S_81988800_6 *)spawn_data)->unk_20 = ((S_81988800_2 *)position_data)->unk_04;
+                spawn_data->unk_20 = ((S_81988800_2 *)position_data)->unk_04;
                 ((S_81988800_2 *)position_data)->unk_08.at00.v =
                     ((S_81988800_10 *)(((S_81988800_3 *)work)->unk_08.p32))->unk_08 +
                                       ((s32)offset[2] << 16);
-                ((S_81988800_6 *)spawn_data)->unk_24 = ((S_81988800_2 *)position_data)->unk_08.at00.v;
+                spawn_data->unk_24 = ((S_81988800_2 *)position_data)->unk_08.at00.v;
             }
             ((S_81988800_0 *)state_data)->unk_0A.u++;
         }
@@ -213,7 +213,7 @@ loop:
                 if (object != 0) {
                     if (!(((ActorRecord *)object)->flags1C & 0x2000)) {
                         apply_attack_power_and_element_effects(object, 0x10, ((S_81988800_0 *)state_data)->unk_09, 10,
-                                      ((S_81988800_8 *)source)->unk_2A, source, 2);
+                                      source->unk_2A, source, 2);
                     }
                     goto loop;
                 }
@@ -328,18 +328,18 @@ s32 create_counted_sprite_effect(void *first_item) {
     void *next_node;
 
     for (;;) {
-        void *item = node;
+        S_81988C1C_0 *item = node;
         void *screen_point;
         s32 point_index;
         u32 depth_index;
         s32 half_width;
         u16 center_z;
 
-        world_pos[0] = ((S_81988C1C_0 *)item)->unk_1E;
-        world_pos[1] = ((S_81988C1C_0 *)item)->unk_22;
-        center_z = ((S_81988C1C_0 *)item)->unk_26;
+        world_pos[0] = item->unk_1E;
+        world_pos[1] = item->unk_22;
+        center_z = item->unk_26;
         world_pos[2] = center_z;
-        world_pos[2] = center_z - ((s32)(((S_81988C1C_0 *)item)->unk_4E << 16) >> 17);
+        world_pos[2] = center_z - ((s32)(item->unk_4E << 16) >> 17);
 
         point_index = 0;
         screen_point = screen_base;
@@ -347,13 +347,13 @@ s32 create_counted_sprite_effect(void *first_item) {
             depth_index = RotTransPers(world_pos, screen_point, &projection_scratch, &projection_scratch) - 8;
             screen_point = (u8 *)screen_point + 4;
             point_index++;
-            world_pos[2] += ((S_81988C1C_0 *)item)->unk_4E;
+            world_pos[2] += item->unk_4E;
         } while (point_index < 2);
 
         half_width = (((S_81988C1C_1 *)screen_points)->unk_02.s - ((S_81988C1C_1 *)screen_points)->unk_06.s) >> 1;
         if (depth_index < 0x1E0U) {
-            void *packet_pool;
-            void *packet;
+            S_81988C1C_3 *packet_pool;
+            S_81988C1C_4 *packet;
             register u8 tex_v;
             u8 tex_u;
             u8 tex_width;
@@ -364,14 +364,14 @@ s32 create_counted_sprite_effect(void *first_item) {
             u32 color_or_tag_mask = 0;
 
             packet_pool = render_state->draw_buffer;
-            packet = ((S_81988C1C_3 *)packet_pool)->unk_8D0;
-            ((S_81988C1C_3 *)packet_pool)->unk_8D0 = (u8 *)packet + 0x34;
-            ((S_81988C1C_4 *)packet)->unk_04 = 0xA0A0A0;
+            packet = packet_pool->unk_8D0;
+            packet_pool->unk_8D0 = (u8 *)packet + 0x34;
+            packet->unk_04 = 0xA0A0A0;
             SetPolyFT4(packet);
             SetSemiTrans(packet, 1);
 
-            ((S_81988C1C_4 *)packet)->unk_16 = ((S_81988C1C_0 *)item)->unk_50;
-            (*(u16 *)((u8 *)packet + 0x0E)) = ((S_81988C1C_0 *)item)->unk_52;
+            packet->unk_16 = item->unk_50;
+            (*(u16 *)((u8 *)packet + 0x0E)) = item->unk_52;
             screen_coord = ((S_81988C1C_1 *)screen_points)->unk_00 + half_width;
             (*(u16 *)((u8 *)packet + 0x10)) = screen_coord;
             (*(u16 *)((u8 *)packet + 0x08)) = screen_coord;
@@ -379,31 +379,31 @@ s32 create_counted_sprite_effect(void *first_item) {
             (*(u16 *)((u8 *)packet + 0x20)) = screen_coord;
             (*(u16 *)((u8 *)packet + 0x18)) = screen_coord;
             screen_coord = ((S_81988C1C_1 *)screen_points)->unk_02.u;
-            ((S_81988C1C_4 *)packet)->unk_1A = screen_coord;
-            ((S_81988C1C_4 *)packet)->unk_0A = screen_coord;
+            packet->unk_1A = screen_coord;
+            packet->unk_0A = screen_coord;
             screen_coord = ((S_81988C1C_1 *)screen_points)->unk_06.u;
-            ((S_81988C1C_4 *)packet)->unk_22 = screen_coord;
-            ((S_81988C1C_4 *)packet)->unk_12 = screen_coord;
+            packet->unk_22 = screen_coord;
+            packet->unk_12 = screen_coord;
 
-            tex_u = ((S_81988C1C_0 *)item)->unk_40;
+            tex_u = item->unk_40;
             addr_mask = 0xFFFFFF;
-            ((S_81988C1C_4 *)packet)->unk_14 = tex_u;
-            ((S_81988C1C_4 *)packet)->unk_0C = tex_u;
-            tex_width = ((S_81988C1C_0 *)item)->unk_44;
+            packet->unk_14 = tex_u;
+            packet->unk_0C = tex_u;
+            tex_width = item->unk_44;
             tex_u += tex_width;
-            ((S_81988C1C_4 *)packet)->unk_24 = tex_u;
-            ((S_81988C1C_4 *)packet)->unk_1C = tex_u;
-            tex_v = ((S_81988C1C_0 *)item)->unk_42;
+            packet->unk_24 = tex_u;
+            packet->unk_1C = tex_u;
+            tex_v = item->unk_42;
             depth_offset = depth_index << 2;
-            ((S_81988C1C_4 *)packet)->unk_1D = tex_v;
-            ((S_81988C1C_4 *)packet)->unk_0D = tex_v;
-            tex_v += ((S_81988C1C_0 *)item)->unk_46;
+            packet->unk_1D = tex_v;
+            packet->unk_0D = tex_v;
+            tex_v += item->unk_46;
             color_or_tag_mask = 0xFF000000;
-            ((S_81988C1C_4 *)packet)->unk_25 = tex_v;
-            ((S_81988C1C_4 *)packet)->unk_15 = tex_v;
+            packet->unk_25 = tex_v;
+            packet->unk_15 = tex_v;
 
-            ((S_81988C1C_4 *)packet)->unk_00 =
-                (((S_81988C1C_4 *)packet)->unk_00 & color_or_tag_mask) |
+            packet->unk_00 =
+                (packet->unk_00 & color_or_tag_mask) |
                 (((S_81988C1C_7 *)((u8 *)(depth_offset + *(u32 *)&render_state->draw_buffer)))->unk_B0 & addr_mask);
             ot_slot = depth_offset + (u32)render_state->draw_buffer;
             ((S_81988C1C_5 *)((u8 *)ot_slot))->unk_B0 =

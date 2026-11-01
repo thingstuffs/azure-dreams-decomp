@@ -102,7 +102,7 @@ void dispatch_actor_animation_and_action(ActorRecord *motion_in, ObjectPosition 
         if (entity_in->frameTable == death_frame_set_2) {
             motion_in->action_id.u = 0xD;
             motion_in->action_phase.u = 1;
-            ((S_801719DC_0 *)motion_in)->unk_8C = 0;
+            motion_in->unk_8C.word = 0;
             ((S_801719DC_1 *)actor_in)->unk_1C &= 0xFFFBFFFF;
             return;
         }
@@ -138,10 +138,10 @@ void dispatch_actor_animation_and_action(ActorRecord *motion_in, ObjectPosition 
                         1);
                     entity_in->frame_ticks = 1;
                     motion_value = motion_in->unk_A4.value;
-                    ((S_801719DC_0 *)motion_in)->unk_A4.at02.v = 0;
+                    motion_in->unk_A4.halves.high.s = 0;
                     ((S_801719DC_0 *)motion_in)->unk_B8 = 0;
-                    ((S_801719DC_0 *)motion_in)->unk_AC = 0;
-                    ((S_801719DC_0 *)motion_in)->unk_B0 = 0;
+                    motion_in->unk_AC.value = 0;
+                    motion_in->unk_B0.value = 0;
                     ((S_801719DC_0 *)motion_in)->unk_A8 = motion_value;
                 }
                 motion_in->action_id.u = next_state;
@@ -164,12 +164,12 @@ void dispatch_actor_animation_and_action(ActorRecord *motion_in, ObjectPosition 
 
             begin_actor_move_to_target_facing(motion_in, context_in, entity_in, actor_in);
             base_offset = motion_in->unk_90.parts.high.u;
-            offset_delta = ((S_801719DC_0 *)motion_in)->unk_A4.at02u.v;
+            offset_delta = motion_in->unk_A4.halves.high.u;
             motion_value = motion_in->unk_A4.value;
-            ((S_801719DC_0 *)motion_in)->unk_A4.at02.v = 0;
+            motion_in->unk_A4.halves.high.s = 0;
             ((S_801719DC_0 *)motion_in)->unk_B8 = 0;
-            ((S_801719DC_0 *)motion_in)->unk_AC = 0;
-            ((S_801719DC_0 *)motion_in)->unk_B0 = 0;
+            motion_in->unk_AC.value = 0;
+            motion_in->unk_B0.value = 0;
             motion_in->unk_90.parts.high.u = base_offset - offset_delta;
             ((S_801719DC_0 *)motion_in)->unk_A8 = motion_value;
             func_801743F0(motion_in, context_in, entity_in, actor_in);
@@ -305,10 +305,10 @@ void dispatch_actor_animation_and_action(ActorRecord *motion_in, ObjectPosition 
                 1);
             entity_in->frame_ticks = 1;
             motion_value = motion_in->unk_A4.value;
-            ((S_801719DC_0 *)motion_in)->unk_A4.at02.v = 0;
+            motion_in->unk_A4.halves.high.s = 0;
             ((S_801719DC_0 *)motion_in)->unk_B8 = 0;
-            ((S_801719DC_0 *)motion_in)->unk_AC = 0;
-            ((S_801719DC_0 *)motion_in)->unk_B0 = 0;
+            motion_in->unk_AC.value = 0;
+            motion_in->unk_B0.value = 0;
             ((S_801719DC_0 *)motion_in)->unk_A8 = motion_value;
         }
     }

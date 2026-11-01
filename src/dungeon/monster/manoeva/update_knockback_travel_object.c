@@ -6,21 +6,7 @@
 #include "records/Rec_D_80082E80.h"
 #include "dungeon/item.h"
 #include "engine/scene.h"
-
-typedef struct S_80174CCC_0 {
-    u8 pad_00[0xC];
-    void * unk_0C;
-    void * unk_10;
-    u8 pad_14[0xA];
-    union { s16 s; u16 u; } unk_1E;   /* accessed as both */
-    union { s16 s; u16 u; } unk_20;   /* accessed as both */
-    u8 pad_22[0x10];
-    s16 unk_32;
-    s16 unk_34;
-    union { s16 s; u16 u; } unk_36;   /* accessed as both */
-    union { u16 s; u16 u; } unk_38;   /* accessed as both */
-    u16 unk_3A;
-} S_80174CCC_0;   /* arg0 in update_knockback_travel_object */
+#include "dungeon/monster/manoeva/knockback_travel_g00260.h"
 
 typedef struct S_80174CCC_1 {
     union { struct { s32 v; } at00; struct { u8 pad[0x2]; s16 v; } at02; } unk_00;   /* overlapping accesses */
@@ -88,8 +74,9 @@ extern u8 *find_or_retain_sprite_resource_slot(s32, s32);
 extern void *create_grid_position_entity(s16 spawn_flags, s16 grid_x, s16 grid_y, s16 height);
 
 /* Advances the motion arc and creates a linked object when the arrival effect completes. */
-void update_knockback_travel_object(void *motion, S_80174CCC_1 *position, SpriteFrameState *record)
+void update_knockback_travel_object(KnockbackTravelObjectBody *motion, void *position_arg, SpriteFrameState *record)
 {
+    S_80174CCC_1 *position = position_arg;
     s32 state;
     s32 height_offset;
     void *created;
@@ -115,46 +102,46 @@ void update_knockback_travel_object(void *motion, S_80174CCC_1 *position, Sprite
     u16 removal_flags;
     u16 timer;
 
-    state = ((S_80174CCC_0 *)motion)->unk_1E.s;
+    state = motion->unk_1E.s;
     switch (state) {
     case 0:
-        target_coord_x = ((S_80174CCC_0 *)motion)->unk_32 << 6;
+        target_coord_x = motion->unk_32 << 6;
         current_coord_x = position->unk_00.at02.v - 0x20;
         delta_x = target_coord_x - current_coord_x;
         position->unk_00.at00.v +=
-            (delta_x << 16) / ((S_80174CCC_0 *)motion)->unk_20.s;
+            (delta_x << 16) / motion->unk_20.s;
 
-        target_coord_y = ((S_80174CCC_0 *)motion)->unk_34 << 6;
+        target_coord_y = motion->unk_34 << 6;
         current_coord_y = position->unk_04.at02.v - 0x20;
         delta_y = target_coord_y - current_coord_y;
         position->unk_04.at00.v +=
-            (delta_y << 16) / ((S_80174CCC_0 *)motion)->unk_20.s;
+            (delta_y << 16) / motion->unk_20.s;
 
-        height_offset = rsin(((S_80174CCC_0 *)motion)->unk_20.s << 6) >> 4;
+        height_offset = rsin(motion->unk_20.s << 6) >> 4;
         position->unk_08.at00.v +=
-            (((((S_80174CCC_0 *)motion)->unk_36.s - height_offset) -
+            (((motion->unk_36.s - height_offset) -
               position->unk_08.at02.v) << 16) /
-            ((S_80174CCC_0 *)motion)->unk_20.s;
+            motion->unk_20.s;
 
-        if (((S_80174CCC_0 *)motion)->unk_20.s == 6) {
+        if (motion->unk_20.s == 6) {
             select_sprite_entry(record, 0x42, 0);
         }
 
-        timer = ((S_80174CCC_0 *)motion)->unk_20.u - 1;
-        ((S_80174CCC_0 *)motion)->unk_20.u = timer;
+        timer = motion->unk_20.u - 1;
+        motion->unk_20.u = timer;
         if ((s16)timer > 0) {
             break;
         }
 
-        target_coord = ((S_80174CCC_0 *)motion)->unk_32;
+        target_coord = motion->unk_32;
         target_coord = (target_coord << 6) + 0x20;
         position->unk_00.at02.v = target_coord;
-        target_coord = ((S_80174CCC_0 *)motion)->unk_34;
+        target_coord = motion->unk_34;
         target_coord = (target_coord << 6) + 0x20;
         position->unk_04.at02.v = target_coord;
-        position->unk_08.at02u.v = ((S_80174CCC_0 *)motion)->unk_36.u;
+        position->unk_08.at02u.v = motion->unk_36.u;
         select_sprite_entry(record, 0x43, 0);
-        ((S_80174CCC_0 *)motion)->unk_1E.u++;
+        motion->unk_1E.u++;
         break;
 
     case 1:
@@ -172,7 +159,7 @@ void update_knockback_travel_object(void *motion, S_80174CCC_1 *position, Sprite
             g_dungeon_status.activity_counts.parts.pending_action_count--;
             used_page = 0x80080000;
             removal_flags = *(u16 *)((u8 *)motion - 2);
-            flags = ((S_80174CCC_0 *)motion)->unk_38.s;
+            flags = motion->unk_38.s;
             removal_flags |= 0x8000;
             *(u16 *)((u8 *)motion - 2) = removal_flags;
             state_page = &entity_spawn_variant_code;
@@ -183,33 +170,33 @@ void update_knockback_travel_object(void *motion, S_80174CCC_1 *position, Sprite
             }
 
             created = create_grid_position_entity(spawn_kind,
-                ((S_80174CCC_0 *)motion)->unk_32,
-                ((S_80174CCC_0 *)motion)->unk_34,
-                ((S_80174CCC_0 *)motion)->unk_36.s);
+                motion->unk_32,
+                motion->unk_34,
+                motion->unk_36.s);
             if (created != 0) {
                 func_80042640(created, 0x1E);
                 ((S_80174CCC_6 *)created)->unk_14 &= ~7;
                 created_flags_14 = ((S_80174CCC_6 *)created)->unk_14;
-                motion_flags = ((S_80174CCC_0 *)motion)->unk_38.u;
+                motion_flags = motion->unk_38.u;
                 ((S_80174CCC_6 *)created)->unk_1C &= ~7;
                 created_flags_1c = ((S_80174CCC_6 *)created)->unk_1C;
                 created_flags_14 |= motion_flags;
                 ((S_80174CCC_6 *)created)->unk_14 = created_flags_14;
-                created_flags_1c |= ((S_80174CCC_0 *)motion)->unk_38.u;
+                created_flags_1c |= motion->unk_38.u;
                 ((S_80174CCC_6 *)created)->unk_1C = created_flags_1c;
 
                 ((S_80174CCC_6 *)created)->unk_05 =
-                    (((ActorRecord *)(((S_80174CCC_0 *)motion)->unk_10))->unk_00[5] + 1) >> 1;
+                    ((motion->unk_10)->unk_00[5] + 1) >> 1;
                 ((S_80174CCC_6 *)created)->unk_29 =
-                    (((ActorRecord *)(((S_80174CCC_0 *)motion)->unk_10))->max_hp + 1) >> 1;
-                source_value_28 = ((ActorRecord *)(((S_80174CCC_0 *)motion)->unk_10))->hp;
+                    ((motion->unk_10)->max_hp + 1) >> 1;
+                source_value_28 = (motion->unk_10)->hp;
                 ((S_80174CCC_6 *)created)->unk_43 = 0xFD;
                 ((S_80174CCC_6 *)created)->unk_28 = (source_value_28 + 1) >> 1;
 
-                source = ((S_80174CCC_0 *)motion)->unk_10;
+                source = motion->unk_10;
                 linked_object = created;
                 if (source->unk_14 & 0x4000) {
-                    ((S_80174CCC_6 *)created)->unk_A4 = ((S_80174CCC_0 *)motion)->unk_0C;
+                    ((S_80174CCC_6 *)created)->unk_A4 = motion->unk_0C;
                 } else {
                     if (source->unk_A4 != 0) {
                         ((S_80174CCC_6 *)created)->unk_A4 = source->unk_A4;
@@ -224,7 +211,7 @@ void update_knockback_travel_object(void *motion, S_80174CCC_1 *position, Sprite
                 owner = ((S_80174CCC_6_pre *)created)[-1].unk_00;
                 owner->frameTable = manoeva_frame_set_2;
                 owner->flags |= 0x4000;
-                owner->clut = ((S_80174CCC_0 *)motion)->unk_3A;
+                owner->clut = motion->unk_3A;
                 select_sprite_entry(owner,
                     (*(u8 **)&owner->frameTable)
                         [((g_game_work.view.camera_rotation.parts.viewAngle + ((S_80174CCC_6 *)created)->unk_2A + 0x100) >> 9) & 7],

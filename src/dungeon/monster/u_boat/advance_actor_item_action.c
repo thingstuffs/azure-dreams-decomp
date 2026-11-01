@@ -34,15 +34,6 @@ extern u8 D_800E2410[];
 #include "dungeon/item.h"
 #include "dungeon/actor.h"
 
-typedef struct S_80173A60_4 {
-    u8 pad_00[0x2A];
-    u16 unk_2A;
-    u8 pad_2C[0x68];
-    u16 unk_94;
-    u16 unk_96;
-    u8 pad_98[0x14];
-    void * unk_AC;
-} S_80173A60_4;   /* state in advance_actor_item_action */
 
    /* target in advance_actor_item_action */
 
@@ -189,7 +180,7 @@ void advance_actor_item_action(ActorRecord *actor_state, ObjectPosition *motion,
 
             effect = allocate_list_node(0x112, &scene_object_list_anchor.next);
             if (effect != 0) {
-                S_80173A60_4 *effect_state;
+                AdvanceActorItemActionBody *effect_state;
                 SpriteFrameState *effect_sprite;
                 ObjectPosition *effect_pos;
                 u8 *anim_table;
@@ -197,11 +188,11 @@ void advance_actor_item_action(ActorRecord *actor_state, ObjectPosition *motion,
                 s8 *height_offsets;
                 s32 direction_index;
 
-                effect_state = (S_80173A60_4 *)(((u8 *)effect) + 0x20);
-                effect_state->unk_96 = 0x10;
+                effect_state = (AdvanceActorItemActionBody *)(((u8 *)effect) + 0x20);
+                effect_state->ticks_remaining = 0x10;
                 effect->update_callback = D_800D58D8;
-                effect_state->unk_AC = motion;
-                effect_state->unk_94 = (*(u16 *)((u8 *)actor + 0x2A));
+                effect_state->reference_position = motion;
+                effect_state->direction_index = (*(u16 *)((u8 *)actor + 0x2A));
                 effect_sprite = effect->sprite;
                 *(Copy48 *)effect_sprite = *(Copy48 *)sprite;
                 effect_sprite->scale_y = 0x1000;
@@ -222,9 +213,9 @@ void advance_actor_item_action(ActorRecord *actor_state, ObjectPosition *motion,
                           actor_state->facing + 0x100) >> 9) & 7;
                 height_offsets = view_direction_depth_biases;
                 effect_sprite->depth_bias = -(height_offsets[direction_index] * 4);
-                effect_state->unk_94 =
+                effect_state->direction_index =
                     (actor_state->facing >> 9) & 7;
-                effect_state->unk_2A = actor_state->facing;
+                effect_state->facing_angle = actor_state->facing;
 
                 effect_pos = effect->position;
                 effect_pos->x.w.i = ((u16)motion->x.w.i);

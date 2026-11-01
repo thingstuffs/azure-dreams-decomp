@@ -8,18 +8,13 @@
 #include "dungeon/player/item.h"
 #include "engine/texture.h"
 #include "dungeon/system.h"
+#include "dungeon/effect/trap.h"
 struct EntityLinkNode;
 extern u8 resident_globals_page[];
 
 typedef struct S_800CB9DC_0_pre {
     u16 unk_00;
 } S_800CB9DC_0_pre;   /* the 0x2 bytes before arg0 in advance_go_up_trap_sequence, addressed as arg0[-1] */
-
-typedef struct S_800CB9DC_0 {
-    void * unk_00;
-    u8 pad_04[0x2];
-    u16 unk_06;
-} S_800CB9DC_0;   /* arg0 in advance_go_up_trap_sequence */
 
 typedef struct S_800CB9DC_1_pre {
     void * unk_00;
@@ -73,7 +68,7 @@ extern s16 floor_generation_state[3];
 extern u8 scene_mode_code;
 
 /* Updates go-up trap motion, then advances the player or removes the affected actor. */
-void advance_go_up_trap_sequence(void *trap_state_in, void *motion_state_in, void *animation_in) {
+void advance_go_up_trap_sequence(TrapOwnedTimedEffectBody *trap_state, void *motion_state_in, void *animation_in) {
     S_800CB9DC_2 *motion_state = motion_state_in;
     SpriteFrameState *animation= animation_in;
     MovingTile *actor_data;
@@ -84,14 +79,14 @@ void advance_go_up_trap_sequence(void *trap_state_in, void *motion_state_in, voi
     void *actor;
 
     advance_sprite_animation_and_textures(animation);
-    actor = ((S_800CB9DC_0 *)trap_state_in)->unk_00;
+    actor = trap_state->owner;
     actor_data = ((S_800CB9DC_1_pre *)actor)[-1].unk_04;
     position = ((S_800CB9DC_1_pre *)actor)[-1].unk_00;
     vertical_speed = motion_state->unk_14 + 0xFFFA0000;
     motion_state->unk_14 = vertical_speed;
     position->unk_08 = (s32) (position->unk_08 + vertical_speed);
-    elapsed_frames = ((S_800CB9DC_0 *)trap_state_in)->unk_06 + 1;
-    ((S_800CB9DC_0 *)trap_state_in)->unk_06 = elapsed_frames;
+    elapsed_frames = trap_state->ticks_remaining + 1;
+    trap_state->ticks_remaining = elapsed_frames;
     if (((s16) elapsed_frames >= 0x41) || ((animation_in = (void *)(u32)(animation->flags & 0x8000), (u32)animation_in) != 0)) {
         if (actor == ((u8 *)dungeon_actor_ring_anchor)) {
             s16 *trap_counts;
@@ -159,9 +154,9 @@ void advance_go_up_trap_sequence(void *trap_state_in, void *motion_state_in, voi
             S_800CB9DC_9 *status_page_again;
             u16 removal_flags;
 
-            removal_flags = ((S_800CB9DC_0_pre *)trap_state_in)[-1].unk_00;
+            removal_flags = ((S_800CB9DC_0_pre *)trap_state)[-1].unk_00;
             status_page_again = (S_800CB9DC_9 *)0x80080000;
-            ((S_800CB9DC_0_pre *)trap_state_in)[-1].unk_00 = removal_flags | 0x8000;
+            ((S_800CB9DC_0_pre *)trap_state)[-1].unk_00 = removal_flags | 0x8000;
             global_flags = status_page_again->unk_14A0.s;
             global_flags |= 0x8000;
             status_page_again->unk_14A0.u = global_flags;

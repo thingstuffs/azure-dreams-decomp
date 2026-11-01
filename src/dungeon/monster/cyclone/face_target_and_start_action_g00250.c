@@ -79,7 +79,7 @@ s32 search_ahead_and_start_action(ActorRecord *action_state, ObjectPosition *act
     tile_x = sprite->tile_x;
     tile_y = sprite->tile_y;
     x_step = (s16 *)((u8 *)((s8 *)dir_step_x) + step_offset);
-    ((S_80172438_2 *)action_state)->unk_B2 = 0;
+    action_state->unk_B0.halves.high.u = 0;
     call_direction = direction;
 
     do {
@@ -88,12 +88,12 @@ s32 search_ahead_and_start_action(ActorRecord *action_state, ObjectPosition *act
         s32 floor_x;
         s32 floor_y;
 
-        ((S_80172438_2 *)action_state)->unk_B2++;
+        action_state->unk_B0.halves.high.u++;
         if ((check_layer_offset_height((try_x << 6) & 0xFFC0,
                            (try_y << 6) & 0xFFC0,
                            actor->ground_height, call_direction << 9)
              << 16) != 0) {
-            ((S_80172438_2 *)action_state)->unk_B2--;
+            action_state->unk_B0.halves.high.u--;
             return 2;
         }
 
@@ -105,11 +105,11 @@ s32 search_ahead_and_start_action(ActorRecord *action_state, ObjectPosition *act
                               floor_y,
                               (s16)(((u16)actor->ground_height) - 0x20));
         if (floor_height >= 0x201) {
-            ((S_80172438_2 *)action_state)->unk_B2--;
+            action_state->unk_B0.halves.high.u--;
             return 3;
         }
         if ((u16)(floor_height - ((u16)actor->ground_height) + 0x3F) >= 0x7F) {
-            ((S_80172438_2 *)action_state)->unk_B2--;
+            action_state->unk_B0.halves.high.u--;
             return 3;
         }
 
@@ -148,7 +148,7 @@ s32 search_ahead_and_start_action(ActorRecord *action_state, ObjectPosition *act
     }
 
     action_state->action_phase.s = 0;
-    ((S_80172438_2 *)action_state)->unk_8C = 0;
+    action_state->unk_8C.word = 0;
     action_state->action_id.s = 0x17;
     (sprite->frameTable) = cyclone_frame_set_2;
     select_sprite_entry(sprite,
@@ -172,7 +172,7 @@ void update_action_state_direction_specific(ActorRecord *action_state, ObjectPos
         }
         if ((try_claim_dungeon_action_slot(actor) << 0x10) == 0) {
             action_state->action_id.s = 0x17;
-            *(s32 *)((u8 *)action_state + 0x8C) = 0;
+            action_state->unk_8C.word = 0;
             action_state->action_phase.s = 0;
             frame_table = &dungeon_resource_buffer[D_801764A0_OFF];
             sprite->frameTable = frame_table;

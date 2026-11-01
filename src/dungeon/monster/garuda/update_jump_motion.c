@@ -134,7 +134,7 @@ void update_jump_motion_2(void *action_state, ObjectPosition *motion, SpriteFram
         motion->velocity_x = 0;
         set_record_integer_tile_center(motion, sprite->tile_x, sprite->tile_y);
         g_dungeon_status.active_actor = 0;
-        (*(u16 *)((u8 *)primary_actor_record + 0xA6))--;
+        primary_actor_record->unk_A4.halves.high.u--;
         advance_status_timers(actor);
         (*(u8 *)&actor->pending_turn_updates)--;
         ((ActorRecord *)action_state)->unk_8C.address = update_creature_animation_action;

@@ -97,7 +97,7 @@ void card_boot_format_saved_slot_details(void *record) {
     void *asset6;
     S_80024390_2 *table_base;
     S_80024390_1 *assetSlot;
-    void *recordData;
+    S_80024390_3 *recordData;
     void *recordCursor;
     s32 *global_table;
 
@@ -141,7 +141,7 @@ void card_boot_format_saved_slot_details(void *record) {
     ((S_80024390_7 *)(((S_80024390_5 *)assetSlot)->unk_04))->unk_08 = 0x148;
     ((S_80024390_7 *)(((S_80024390_5 *)assetSlot)->unk_04))->unk_0A = 0x110;
     recordData = (((S_80024390_0 *)record)->unk_7C << 7) + recordBase;
-    scaledTime = ((S_80024390_3 *)recordData)->unk_1C / 60;
+    scaledTime = recordData->unk_1C / 60;
     elapsedSeconds = scaledTime;
     assetSlot = ((S_80024390_0 *)record)->unk_B5C;
     hours = elapsedSeconds / 3600;
@@ -196,7 +196,7 @@ void card_boot_format_saved_slot_details(void *record) {
         assetSlot = ((S_80024390_4 *)recordCursor)->unk_B68;
         recordData = (void *)(((S_80024390_0 *)record)->unk_7C << 7);
         recordData = (void *)((u32)recordData + (u32)loop_base);
-        if (((S_80024390_3 *)recordData)->unk_30 & (one << value)) {
+        if (recordData->unk_30 & (one << value)) {
             displayValue = *tableCursor;
         } else {
             displayValue = global_table[8];

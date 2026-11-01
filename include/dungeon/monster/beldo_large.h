@@ -55,6 +55,41 @@ typedef struct ActionOffsetObjectBody {
     s8 unk_58;
     s8 unk_59;
 } ActionOffsetObjectBody;
+
+/* Motion state, source link, tile coordinates, and height accumulator for the linked encounter object. */
+typedef struct LinkedObjectPositionBody {
+    u8 pad_00[0x12];
+    union { s16 s; u16 u; } phase;
+    u8 pad_14[0x4];
+    u16 elapsed_frames;
+    u8 pad_1A[0xA];
+    void *source_data;
+    u8 pad_28[0x30];
+    s8 tile_x;
+    s8 tile_y;
+    u8 pad_5A[0x2];
+    s32 height_offset;
+} LinkedObjectPositionBody;
+
+/* Phase and frame counter for the secondary encounter blink callback. */
+typedef struct SecondaryEncounterObjectBody {
+    u8 pad_00[0x12];
+    union { s16 s; u16 u; } phase;
+    u8 pad_14[0x4];
+    u16 frame;
+} SecondaryEncounterObjectBody;
+
+/* Phase, lifetime, copied initial position, and vertical progression for the player-centered emitter. */
+typedef struct PlayerCenteredSequenceEffectBody {
+    u8 pad_00[0x12];
+    union { s16 s; u16 u; } phase;
+    u8 pad_14[0x4];
+    u16 ticks_remaining;
+    u8 pad_1A[0xE];
+    u8 initial_data[0xC];
+    u8 pad_34[0x30];
+    s32 vertical_progress;
+} PlayerCenteredSequenceEffectBody;
 extern ObjectNodeHeader *beldo_camera_object;
 
 extern ObjectNodeHeader *D_80175D64;
@@ -71,12 +106,12 @@ void advance_linked_actor_motion_script(ActorRecord *state_in, ObjectPosition *m
 
 
 void update_actor_callbacks_and_motion(ActorRecord *body, ObjectPosition *motion, SpriteFrameState *sprite);
-void update_vertical_motion_and_effect(void *motion, ObjectPosition *position, void *effect);
+void update_vertical_motion_and_effect(LinkedObjectPositionBody *motion, ObjectPosition *position, void *effect);
 void *prepare_encounter_resource_descriptor(s32 input_value);
 void register_encounter_cd_callbacks(s32 input_value);
 
 /* Callback entry points. */
-void advance_timed_blink_effect(void *state_data, void *unused, void *color_data);
+void advance_timed_blink_effect(SecondaryEncounterObjectBody *state_data, void *unused, void *color_data);
 void darken_encounter_view_color(u16 *entry);
 void update_dungeon_actor_behavior(void *effect);
 void create_timed_offset_motion_effect(u8 *unused, s16 duration, s32 offset_x, s32 offset_y, s32 offset_z);

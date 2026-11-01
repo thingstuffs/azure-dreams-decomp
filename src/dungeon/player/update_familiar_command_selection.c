@@ -94,14 +94,14 @@ void update_familiar_command_selection(ActorRecord *state, s32 context_a, void *
         selection_code = (s16) selection_result;
         if (selection_code != 0xFFF) {
             ((ActorRecord *)((*(void **)((u8 *)state + 0x104))))->facing = selection_result;
-            append_packed_action_record(actor, 0x70, (s32) (*(void **)((u8 *)state + 0x104)) == (*(s32 *)((u8 *)state + 0xB0)),
+            append_packed_action_record(actor, 0x70, (s32) (*(void **)((u8 *)state + 0x104)) == state->unk_B0.value,
                 (selection_result << 0x10 >> 0x19) & 7);
         }
         if ((*(s16 *)((u8 *)state + 0x120)) == 0) {
             selection_data = (*(void **)((u8 *)state + 0x104));
             if (selection_data != NULL && ((dungeon_state->pressed_buttons) & 0x80)) {
                 if ((reject_forbidden_familiar_recall(0) == 0) && !(actor->flags1C & 0x100000)) {
-                    actor->unk_8A = (s16) ((s32) (*(void **)((u8 *)state + 0x104)) != (*(s32 *)((u8 *)state + 0xAC)));
+                    actor->unk_8A = (s16) ((s32) (*(void **)((u8 *)state + 0x104)) != state->unk_AC.value);
                     selected_item_record_alias[0] = 0;
                     if ((check_familiar_deployment_placement(state, context_a, context_b, &action_id, &action_arg, selected_item_record_alias[0]) << 0x10)
                         != 0) {
@@ -124,7 +124,7 @@ void update_familiar_command_selection(ActorRecord *state, s32 context_a, void *
                     if ((dungeon_state->pressed_buttons) & 0x10) {
                         select_nearby_target_and_initialize_slot(selection_data - 0x20, ((S_80091430_2_pre *)selection_data)[-1].unk_00, 8,
                             *camera_depth_target);
-                        slot_index = (s32) (*(void **)((u8 *)state + 0x104)) != (*(s32 *)((u8 *)state + 0xAC));
+                        slot_index = (s32) (*(void **)((u8 *)state + 0x104)) != state->unk_AC.value;
                         actor->unk_8A = slot_index;
                         *menu_action_argument = (s32) slot_index;
                         begin_player_menu_action(state, context_a, context_b, &familiar_menu_action_data);
@@ -135,7 +135,7 @@ void update_familiar_command_selection(ActorRecord *state, s32 context_a, void *
                         return;
                     }
                     if ((dungeon_state->pressed_buttons) & 0x20) {
-                        slot_index = (s32) (*(void **)((u8 *)state + 0x104)) != (*(s32 *)((u8 *)state + 0xAC));
+                        slot_index = (s32) (*(void **)((u8 *)state + 0x104)) != state->unk_AC.value;
                         actor->unk_8A = slot_index;
                         *menu_action_argument = (s32) slot_index;
                         begin_player_menu_action(state, context_a, context_b, &D_80023C58);
@@ -148,7 +148,7 @@ void update_familiar_command_selection(ActorRecord *state, s32 context_a, void *
                     if ((dungeon_state->pressed_buttons) & 0x40) {
                         select_nearby_target_and_initialize_slot(selection_data - 0x20, ((S_80091430_2_pre *)selection_data)[-1].unk_00, 8,
                             *camera_depth_target);
-                        slot_index = (s32) (*(void **)((u8 *)state + 0x104)) != (*(s32 *)((u8 *)state + 0xAC));
+                        slot_index = (s32) (*(void **)((u8 *)state + 0x104)) != state->unk_AC.value;
                         actor->unk_8A = slot_index;
                         *menu_action_argument = (s32) slot_index;
                         begin_player_menu_action(state, context_a, context_b, D_8004F5F4);
@@ -160,9 +160,9 @@ void update_familiar_command_selection(ActorRecord *state, s32 context_a, void *
                     }
                 }
                 selection = (*(void **)((u8 *)state + 0x104));
-                if ((selection == (*(s32 *)((u8 *)state + 0xAC)))
+                if ((selection == state->unk_AC.value)
                     ? !(dungeon_state->buttons & 2)
-                    : ((selection != (*(s32 *)((u8 *)state + 0xB0))) || !(dungeon_state->buttons & 1))) {
+                    : ((selection != state->unk_B0.value) || !(dungeon_state->buttons & 1))) {
                     if (dungeon_state->buttons & 3) {
                         candidate_slot = ((void *)state) + 0xAC;
                         if (!(dungeon_state->buttons & 2)) {

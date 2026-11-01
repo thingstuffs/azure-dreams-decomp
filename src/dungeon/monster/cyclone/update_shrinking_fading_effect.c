@@ -197,12 +197,12 @@ void update_shrinking_fading_effect(ActorRecord *anim, ObjectPosition *transform
             return;
         }
         sprite->flags &= 0xF7FF;
-        ((S_80172FC0_0 *)anim)->unk_AE.u = 8;
+        anim->unk_AC.halves.high.u = 8;
         anim->action_phase.u++;
 
     case 2:
-        timer = ((S_80172FC0_0 *)anim)->unk_AE.u - 1;
-        ((S_80172FC0_0 *)anim)->unk_AE.u = timer;
+        timer = anim->unk_AC.halves.high.u - 1;
+        anim->unk_AC.halves.high.u = timer;
         if ((s16)timer > 0) {
             u16 scale;
 
@@ -251,12 +251,12 @@ void update_shrinking_fading_effect(ActorRecord *anim, ObjectPosition *transform
                             sprite->source, sprite, &offset.orientation, 0) != 0) {
                         u16 height_offset;
 
-                        ((S_80172FC0_5 *)transform_arg)->unk_02 += offset.distance[0];
-                        ((S_80172FC0_5 *)transform_arg)->unk_06 += offset.distance[1];
+                        transform_arg->x.unsigned_parts.integer += offset.distance[0];
+                        transform_arg->y.unsigned_parts.integer += offset.distance[1];
                         height_offset = offset.distance[2];
-                        ((S_80172FC0_0 *)anim)->unk_B2 = height_offset;
+                        anim->unk_B0.halves.high.u = height_offset;
                         anim->unk_90.parts.high.u =
-                            ((S_80172FC0_5 *)transform_arg)->unk_0A - ((u16)actor->ground_height) +
+                            transform_arg->z.unsigned_parts.integer - ((u16)actor->ground_height) +
                             (s16)height_offset / 2;
                     }
                 }
@@ -275,37 +275,37 @@ void update_shrinking_fading_effect(ActorRecord *anim, ObjectPosition *transform
 
             next_state = anim->action_phase.u;
             timer = 8;
-            ((S_80172FC0_0 *)anim)->unk_AE.u = timer;
+            anim->unk_AC.halves.high.u = timer;
             next_state++;
             anim->action_phase.u = next_state;
             return;
         }
 
     case 3:
-        timer = ((S_80172FC0_0 *)anim)->unk_AE.u - 1;
-        ((S_80172FC0_0 *)anim)->unk_AE.u = timer;
+        timer = anim->unk_AC.halves.high.u - 1;
+        anim->unk_AC.halves.high.u = timer;
         if ((s16)timer >= 0) {
             u16 scale;
 
             scale = sprite->scale_y + 0x100;
             sprite->scale_y = scale;
             sprite->scale_x = scale;
-            anim->unk_90.parts.high.u += (s16)((S_80172FC0_0 *)anim)->unk_B2 >> 4;
+            anim->unk_90.parts.high.u += (s16)anim->unk_B0.halves.high.u >> 4;
             return;
         }
-        ((S_80172FC0_0 *)anim)->unk_AE.u = 4;
+        anim->unk_AC.halves.high.u = 4;
         anim->action_state_flags |= 0x80;
         anim->action_phase.u++;
         return;
 
     case 4:
-        timer = ((S_80172FC0_0 *)anim)->unk_AE.u - 1;
-        ((S_80172FC0_0 *)anim)->unk_AE.u = timer;
+        timer = anim->unk_AC.halves.high.u - 1;
+        anim->unk_AC.halves.high.u = timer;
         if ((s16)timer >= 0) {
             return;
         }
         timer = 9;
-        ((S_80172FC0_0 *)anim)->unk_B4 = sprite->color.word;
+        anim->unk_B4.value = sprite->color.word;
         ((S_80172FC0_0 *)anim)->unk_BA = sprite->tpage_abr;
         ((S_80172FC0_0 *)anim)->unk_B8 = sprite->clut;
         sprite->clut -= 0x80;
@@ -313,25 +313,25 @@ void update_shrinking_fading_effect(ActorRecord *anim, ObjectPosition *transform
             u8 next_state;
 
             next_state = anim->action_phase.u;
-            ((S_80172FC0_0 *)anim)->unk_AE.u = timer;
+            anim->unk_AC.halves.high.u = timer;
             next_state++;
             anim->action_phase.u = next_state;
             return;
         }
 
     case 5:
-        timer = ((S_80172FC0_0 *)anim)->unk_AE.u - 1;
-        ((S_80172FC0_0 *)anim)->unk_AE.u = timer;
+        timer = anim->unk_AC.halves.high.u - 1;
+        anim->unk_AC.halves.high.u = timer;
         if ((s16)timer <= 0) {
             return;
         }
         actor->flags1C |= 0x10000000;
         sprite->flags |= 0xC;
         sprite->tpage_abr |= 0x20;
-        sprite->color.c.r -= sprite->color.c.r / (s16)((S_80172FC0_0 *)anim)->unk_AE.u;
-        sprite->color.c.g -= sprite->color.c.g / (s16)((S_80172FC0_0 *)anim)->unk_AE.u;
-        sprite->color.c.b -= sprite->color.c.b / (s16)((S_80172FC0_0 *)anim)->unk_AE.u;
-        if (((S_80172FC0_0 *)anim)->unk_AE.s != 1) {
+        sprite->color.c.r -= sprite->color.c.r / (s16)anim->unk_AC.halves.high.u;
+        sprite->color.c.g -= sprite->color.c.g / (s16)anim->unk_AC.halves.high.u;
+        sprite->color.c.b -= sprite->color.c.b / (s16)anim->unk_AC.halves.high.u;
+        if (anim->unk_AC.halves.high.s != 1) {
             return;
         }
         {
@@ -339,15 +339,15 @@ void update_shrinking_fading_effect(ActorRecord *anim, ObjectPosition *transform
 
             next_state = anim->action_phase.u;
             timer = 8;
-            ((S_80172FC0_0 *)anim)->unk_AE.u = timer;
+            anim->unk_AC.halves.high.u = timer;
             next_state++;
             anim->action_phase.u = next_state;
             return;
         }
 
     case 6:
-        timer = ((S_80172FC0_0 *)anim)->unk_AE.u - 1;
-        ((S_80172FC0_0 *)anim)->unk_AE.u = timer;
+        timer = anim->unk_AC.halves.high.u - 1;
+        anim->unk_AC.halves.high.u = timer;
         if ((s16)timer > 0 && !(sprite->flags & 0x8000)) {
             return;
         }
@@ -359,7 +359,7 @@ void update_shrinking_fading_effect(ActorRecord *anim, ObjectPosition *transform
             u32 child_flags;
 
             pool_flags = D_800814A0;
-            ((S_80172FC0_0 *)anim)->unk_AC = 0;
+            anim->unk_AC.halves.low.s = 0;
             anim->unk_A4.value = 0;
             anim->unk_90.value = 0;
             active_child = ((S_80172FC0_0 *)anim)->unk_A0;
@@ -373,7 +373,7 @@ void update_shrinking_fading_effect(ActorRecord *anim, ObjectPosition *transform
         }
         actor->flags1C &= 0xEFFFFFFF;
         sprite->clut = ((S_80172FC0_0 *)anim)->unk_B8;
-        sprite->color.word = ((S_80172FC0_0 *)anim)->unk_B4;
+        sprite->color.word = anim->unk_B4.value;
         sprite->tpage_abr = ((S_80172FC0_0 *)anim)->unk_BA;
         transform_arg->velocity_z = 0;
         transform_arg->velocity_y = 0;

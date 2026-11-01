@@ -7,7 +7,7 @@ void dispatch_town_callback_or_default(s32 value0, s32 value1)
 {
     SceneCallType2 callback;
 
-    callback = ((Runtime *)town_scene_root)->callbacks[((Runtime *)town_scene_root)->callbackIndex].callback;
+    callback = ((Runtime *)town_scene_root)->callbacks[town_scene_root->entry_index].callback;
     if (callback == 0) {
         initialize_context_entry_tables_variant_1(value0, value1);
     } else {

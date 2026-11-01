@@ -41,7 +41,7 @@ void advance_actor_walk_animation(ActorRecord *owner, ObjectPosition *unused, Sp
         u8 *table = garuda_walk_direction_frames;
 
         owner->action_id.s = 0x17;
-        ((S_801722E0_2 *)owner)->unk_8C = 0;
+        owner->unk_8C.word = 0;
         owner->action_phase.s = 0;
         (part->frameTable) = table;
         select_sprite_entry(

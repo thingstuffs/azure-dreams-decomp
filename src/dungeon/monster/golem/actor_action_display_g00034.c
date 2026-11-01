@@ -57,7 +57,7 @@ s32 attempt_actor_action_and_display(ActorRecord *action_out, ObjectPosition *ac
         action_out->action_id.s = 0x11;
         action_code = 0x7C;
         action_out->action_phase.s = 0;
-        ((S_80172050_2 *)action_out)->unk_8C = 0;
+        action_out->unk_8C.word = 0;
         acting_actor->unk_84 = action_code;
         acting_actor->unk_85 = 4;
         direction_table = &golem_frame_set;
@@ -80,7 +80,7 @@ void update_eligible_actor_action(ActorRecord *action_state, ObjectPosition *act
         if ((try_claim_dungeon_action_slot((s32)actor) << 0x10) == 0) {
             action_state->action_id.s = 0x11;
             action_state->action_phase.s = 0;
-            ((Rec_func_800A9E70_arg0 *)action_state)->unk_8C = 0;
+            action_state->unk_8C.word = 0;
             (sprite->frameTable) = &golem_frame_set;
             select_sprite_entry(sprite, *((((s32) (g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7)
                 + &golem_frame_set), 0);

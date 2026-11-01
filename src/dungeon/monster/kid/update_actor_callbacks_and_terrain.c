@@ -186,8 +186,8 @@ void update_actor_callbacks_and_terrain(ActorRecord *actor_arg, ObjectPosition *
                     actor_arg->unk_A8.s = (s16) ((u16) actor_arg->unk_A8.s + 1);
                 }
                 if (!(actor_arg->action_state_flags & 8)) {
-                    hover_ground_offset = (s16) (sample_terrain_surface_height(((S_80170BF8_1 *)((void *)(motion_arg)))->unk_00.at02.v,
-                        ((S_80170BF8_1 *)((void *)(motion_arg)))->unk_04.at02.v,
+                    hover_ground_offset = (s16) (sample_terrain_surface_height(motion_arg->x.unsigned_parts.integer,
+                        motion_arg->y.unsigned_parts.integer,
                         (s16) (actor_base->unk_88.u - 0x20))
                         - actor_base->unk_88.u);
                     if (actor_arg->unk_90.parts.high.s > (hover_ground_offset - 0x20)) {
@@ -203,8 +203,8 @@ void update_actor_callbacks_and_terrain(ActorRecord *actor_arg, ObjectPosition *
                 actor_arg->unk_A8.s = 0;
                 actor_arg->action_state_flags = (u16) (motion_flags & 0x7FFF);
                 if (!(motion_flags & 8)) {
-                    ground_offset = sample_terrain_surface_height(((S_80170BF8_1 *)((void *)(motion_arg)))->unk_00.at02.v,
-                        ((S_80170BF8_1 *)((void *)(motion_arg)))->unk_04.at02.v,
+                    ground_offset = sample_terrain_surface_height(motion_arg->x.unsigned_parts.integer,
+                        motion_arg->y.unsigned_parts.integer,
                         (s16) (actor_base->unk_88.u - 0x20));
                     ground_height = (s16) ground_offset;
                     base_height = actor_base->unk_88.s;
@@ -228,8 +228,8 @@ void update_actor_callbacks_and_terrain(ActorRecord *actor_arg, ObjectPosition *
                     - bob_offset);
                 bob_offset = 0;
                 if (!(actor_arg->action_state_flags & 8)) {
-                    ground_offset_3 = sample_terrain_surface_height(((S_80170BF8_1 *)((void *)(motion_arg)))->unk_00.at02.v,
-                        ((S_80170BF8_1 *)((void *)(motion_arg)))->unk_04.at02.v,
+                    ground_offset_3 = sample_terrain_surface_height(motion_arg->x.unsigned_parts.integer,
+                        motion_arg->y.unsigned_parts.integer,
                         (s16) (actor_base->unk_88.u - 0x20));
                     hidden_ground_height = (s16) ground_offset_3;
                     hidden_base_height = actor_base->unk_88.s;
@@ -283,8 +283,8 @@ void update_actor_callbacks_and_terrain(ActorRecord *actor_arg, ObjectPosition *
                     actor_arg->unk_A8.s = (s16) ((u16) actor_arg->unk_A8.s + 1);
                 }
                 if (!(actor_arg->action_state_flags & 8)) {
-                    hidden_hover_offset = sample_terrain_surface_height(((S_80170BF8_1 *)((void *)(motion_arg)))->unk_00.at02.v,
-                        ((S_80170BF8_1 *)((void *)(motion_arg)))->unk_04.at02.v,
+                    hidden_hover_offset = sample_terrain_surface_height(motion_arg->x.unsigned_parts.integer,
+                        motion_arg->y.unsigned_parts.integer,
                         (s16) (actor_base->unk_88.u - 0x20)) - actor_base->unk_88.u;
                     height_offset = actor_arg->unk_90.parts.high.s;
                     if (height_offset > (hidden_hover_offset - 0x20)) {

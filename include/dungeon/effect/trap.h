@@ -18,6 +18,16 @@
 #include "shared/slus_callbacks.h"
 #include "shared/tile_object.h"
 
+/* Delay, state, and entry index for the monster-den sequence callback. */
+typedef struct ClampEntryAndCreateEffectNodeBody {
+    u8 pad_00[0x4];
+    u16 delay_timer;
+    union { s16 s; u16 u; } state;
+    u8 pad_08[0x4];
+    s16 entry_index;
+} ClampEntryAndCreateEffectNodeBody;
+void advance_monster_den_sequence(ClampEntryAndCreateEffectNodeBody *den_event);
+
 /* Fade callback body allocated by create_grid_effect_object (flags 2).
  * The cleared phase starts brightening; the constructor seeds four steps. */
 typedef union TrapFadeHalf { s16 s; u16 u; } TrapFadeHalf;
@@ -28,6 +38,44 @@ typedef struct TrapFadeWork {
     s16 mode;
 } TrapFadeWork;
 void fade_trap_color_to_black(TrapFadeWork *fade, void *unused, SpriteFrameState *color);
+
+typedef struct TrapOwnedTimedEffectBody {
+    void *owner;
+    u8 pad_04[2];
+    u16 ticks_remaining;
+} TrapOwnedTimedEffectBody;
+void advance_go_up_trap_sequence(TrapOwnedTimedEffectBody *trap_state, void *motion_state, void *animation);
+void tick_trap_effect_countdown(TrapOwnedTimedEffectBody *effect);
+
+/* Position and direction carried by each segment of the five-part target effect. */
+typedef struct FivePartTargetEffectBody {
+    union { s16 s; u16 u; } x;
+    union { s16 s; u16 u; } y;
+    union { s16 s; u16 u; } z;
+    u8 direction;
+    u8 ticks_remaining;
+} FivePartTargetEffectBody;
+
+/* Resource-backed slot whose five-part effect payload begins at +0x20. */
+typedef struct FivePartTargetEffectRecord {
+    u8 pad_00[0x10];
+    u8 *resource;
+    u8 pad_14[0xC];
+    FivePartTargetEffectBody body;
+} FivePartTargetEffectRecord;
+
+void advance_trap_effect_and_process_collisions(FivePartTargetEffectBody *effect);
+void tick_byte_timed_trap_effect(FivePartTargetEffectBody *effect);
+
+/* State used by the falling effects installed by create_four_owner_sprite_effects. */
+typedef struct FourOwnerSpriteEffectsBody {
+    void *target;
+    s16 state;
+    u16 timer;
+    s16 mode;
+    union { s16 s; u16 u; } threshold;
+    u16 frame_count;
+} FourOwnerSpriteEffectsBody;
 
 /* Both retail callers pass 0x10 in the second register; the helper ignores it. */
 void apply_mode_selected_trap_mask(void *target, s32 unused_mask);

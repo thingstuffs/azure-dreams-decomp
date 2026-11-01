@@ -83,20 +83,20 @@ void create_jittered_landing_spark(S_80165F00_0 *source)
         x_jitter = rand() & 0x3F;
         base_x =
             ((S_80165F00_4 *)(source->unk_08))->unk_02 - 0x20;
-        ((S_80165F00_5 *)((effect->position)))->unk_02 =
+        effect->position->x.w.i =
             base_x + x_jitter;
         y_jitter = rand() & 0x3F;
         source_pos = source->unk_08;
         base_y = source_pos->unk_06 - 0x1A0;
-        ((S_80165F00_5 *)((effect->position)))->unk_06 =
+        effect->position->y.w.i =
             base_y + y_jitter;
-        ((S_80165F00_5 *)((effect->position)))->unk_0A =
+        effect->position->z.w.i =
             (s16)(((S_80165F00_4 *)(source->unk_08))->unk_0A -
                   0x100);
         effect_transform = effect->position;
         effect_transform->velocity_y = 0;
         effect_transform->velocity_x = 0;
-        ((S_80165F00_5 *)((effect->position)))->unk_14 = 0x200000;
+        effect->position->velocity_z = 0x200000;
         register_node(effect, &draw_linked_sprites_clipped);
         sprite = effect->sprite;
         sprite->flags =

@@ -78,13 +78,13 @@ void *create_a_sprite_random_rotation_copies_initial_data(void *context, ovl_18b
  * Increments the linked object and entry counters, advances sprite animation, and flags removal
  * when animation flags 0x6000 are set.
  */
-void handle_increment_entry_counters_process_target_propagate_status_flags(void *entry, void *unused, SpriteFrameState *target)
+void handle_increment_entry_counters_process_target_propagate_status_flags(RandomizedGrayscaleEffectBody *entry, void *unused, SpriteFrameState *target)
 {
     void *object;
 
-    object = *(void **)entry;
+    object = entry->owner;
     *(u16 *)((u8 *)object + 0x14) += 1;
-    *(u16 *)((u8 *)entry + 4) += 1;
+    entry->ticks_remaining += 1;
     advance_sprite_animation_and_textures(target);
     if (target ->flags & 0x6000) {
         *(u16 *)((u8 *)entry - 2) |= NODE_REMOVE;
@@ -127,21 +127,20 @@ void *create_randomized_grayscale_effect(s32 object_tag, Rec_func_80024264_arg1 
 }
 
 /* Advances sprite animation, creates a gray child at count 8, and removes the effect at count 16. */
-void advance_the_entry_counters_trigger_count_milestones_update_target(void *entry_arg, s32 unused, void *target)
+void advance_the_entry_counters_trigger_count_milestones_update_target(CountedSpriteEffectBody *entry, s32 unused, void *target)
 {
-    ovl_18b8824_81898B70_S_80024370_0 *entry = entry_arg;
     ovl_18b8824_81898B70_S_80024370_1 *object;
     u16 count;
 
-    object = entry->unk_00;
+    object = entry->owner;
     object->unk_14++;
 
-    count = entry->unk_04 + 1;
-    entry->unk_04 = count;
+    count = entry->ticks_remaining + 1;
+    entry->ticks_remaining = count;
 
     switch ((s16)count) {
     case 8:
-        create_randomized_grayscale_effect((s32)entry->unk_00, (Rec_func_80024264_arg1 *)unused);
+        create_randomized_grayscale_effect((s32)entry->owner, (Rec_func_80024264_arg1 *)unused);
         break;
     case 0x10:
     {
@@ -201,10 +200,10 @@ void *create_counted_sprite_effect(s32 object_id, ovl_18b8824_81898C1C_S_8002441
  * Increments the linked object counter and advances sprite animation, setting local and global
  * removal flags when animation flags 0x6000 are set.
  */
-void mark_owner_on_target_completion(void *object_ref, s32 unused, SpriteFrameState *target) {
+void mark_owner_on_target_completion(SpriteEffectWithDataBody *object_ref, s32 unused, SpriteFrameState *target) {
     u8 *object;
 
-    object = *(u8 **)((u8 *)object_ref + 0x0);
+    object = object_ref->owner;
     *(u16 *)(object + 0x14) += 1;
     advance_sprite_animation_and_textures(target);
     if (target ->flags & 0x6000) {

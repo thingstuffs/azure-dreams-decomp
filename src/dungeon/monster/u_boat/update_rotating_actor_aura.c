@@ -5,16 +5,6 @@
 #include "shared/object_flags.h"
 #include "engine/entity.h"
 
-typedef struct S_80170CEC_0 {
-    u8 pad_00[0x2C];
-    union { s16 s; u16 u; } unk_2C;   /* accessed as both */
-    u8 pad_2E[0x8];
-    union { u16 s; s16 u; } unk_36;   /* accessed as both */
-    s16 unk_38;
-    u8 pad_3A[0x6];
-    void * unk_40;
-} S_80170CEC_0;   /* arg0 in update_rotating_actor_aura */
-
 typedef struct S_80170CEC_1 {
     u8 pad_00[0xC];
     void * unk_0C;
@@ -31,21 +21,14 @@ typedef struct S_80170CEC_5 {
 } S_80170CEC_5;   /* entity in update_rotating_actor_aura */
 
 
-typedef struct S_80170CEC_7 {
-    s32 unk_00;
-    s32 unk_04;
-    s32 unk_08;
-} S_80170CEC_7;   /* copy_source in update_rotating_actor_aura */
-
 extern u8 uboat_ready_frames[];
 extern u8 D_800E2408[];
 
 /* Update the effect rotation, position, and fade, marking it finished when needed. */
-void update_rotating_actor_aura(void *effect_arg, ObjectPosition *position, SpriteFrameState *visual) {
-    S_80170CEC_0 *effect = effect_arg;
+void update_rotating_actor_aura(UBoatAuraEffectBody *effect, ObjectPosition *position, SpriteFrameState *visual) {
     S_80170CEC_5 *entity;
     void *entity_saved;
-    S_80170CEC_7 *source_position;
+    ObjectPosition *source_position;
     S_80170CEC_1 *entity_base;
     SpriteFrameState *record;
     u16 old_angle;
@@ -55,8 +38,8 @@ void update_rotating_actor_aura(void *effect_arg, ObjectPosition *position, Spri
     u16 state_bits;
     void *kind;
 
-    entity = effect->unk_40;
-    source_position = *(void **)((u8 *)effect + 0x44);
+    entity = (S_80170CEC_5 *)effect->owner;
+    source_position = effect->source.position;
     old_angle = visual->angle_z;
     entity_base = (S_80170CEC_1 *)((u8 *)entity - 0x20);
     record = entity_base->unk_0C;
@@ -69,62 +52,62 @@ void update_rotating_actor_aura(void *effect_arg, ObjectPosition *position, Spri
         visual->angle_z = old_angle - 0xE70;
     }
 
-    state = effect->unk_2C.s;
-    state_bits = effect->unk_2C.u;
+    state = effect->phase.s;
+    state_bits = effect->phase.u;
     switch (state) {
     case 0:
     {
         u16 fade_step;
         s32 intensity;
 
-        fade_step = effect->unk_36.s + 1;
-        intensity = ((s32)(s16)fade_step << 7) / effect->unk_38;
-        effect->unk_36.s = fade_step;
+        fade_step = effect->ticks.s + 1;
+        intensity = ((s32)(s16)fade_step << 7) / effect->duration;
+        effect->ticks.s = fade_step;
         visual->color.c.r = intensity;
         visual->color.c.g = intensity;
         visual->color.c.b = intensity;
-        if (effect->unk_36.u >= 5) {
-            effect->unk_2C.u++;
+        if (effect->ticks.u >= 5) {
+            effect->phase.u++;
         }
     }
         break;
     case 1:
         if ((((ActorRecord *)entity_saved)->action_id.u == 0x19) ||
             (((ActorRecord *)entity_saved)->unk_B4.bytes[1] == 0)) {
-            effect->unk_2C.u = state_bits + 1;
-            effect->unk_38 = 0x14;
-            effect->unk_36.s = 0x14;
+            effect->phase.u = state_bits + 1;
+            effect->duration = 0x14;
+            effect->ticks.s = 0x14;
         }
         if (entity->unk_9A == 1) {
-            effect->unk_2C.s = 3;
-            effect->unk_38 = 0x14;
-            effect->unk_36.s = 0x14;
+            effect->phase.s = 3;
+            effect->duration = 0x14;
+            effect->ticks.s = 0x14;
         }
         if ((((ActorRecord *)entity_saved)->flags14 & 0x100000) &&
             (dungeon_actor_ring_anchor->action_id.u != 0x28)) {
-            effect->unk_2C.s = 3;
-            effect->unk_38 = 0x14;
-            effect->unk_36.s = 0x14;
+            effect->phase.s = 3;
+            effect->duration = 0x14;
+            effect->ticks.s = 0x14;
         }
         if (entity_base->unk_1E & 0x8000) {
-            effect->unk_2C.s = 3;
-            effect->unk_38 = 0x14;
-            effect->unk_36.s = 0x14;
+            effect->phase.s = 3;
+            effect->duration = 0x14;
+            effect->ticks.s = 0x14;
         }
         kind = record->frameTable;
         if ((kind == uboat_ready_frames) || (kind == D_800E2408)) {
-            effect->unk_2C.s = 3;
-            effect->unk_38 = 0x14;
-            effect->unk_36.s = 0x14;
+            effect->phase.s = 3;
+            effect->duration = 0x14;
+            effect->ticks.s = 0x14;
         }
-        position->x.v = source_position->unk_00;
-        position->y.v = source_position->unk_04;
-        position->z.v = source_position->unk_08;
+        position->x.v = source_position->x.v;
+        position->y.v = source_position->y.v;
+        position->z.v = source_position->z.v;
         break;
     case 3:
-        position->x.v = source_position->unk_00;
-        position->y.v = source_position->unk_04;
-        position->z.v = source_position->unk_08;
+        position->x.v = source_position->x.v;
+        position->y.v = source_position->y.v;
+        position->z.v = source_position->z.v;
         visual->scale_x = record->scale_x;
         visual->scale_y = record->scale_y;
     case 2:
@@ -132,13 +115,13 @@ void update_rotating_actor_aura(void *effect_arg, ObjectPosition *position, Spri
         u16 fade_step;
         s32 intensity;
 
-        fade_step = effect->unk_36.s - 1;
-        intensity = ((s32)(s16)fade_step << 7) / effect->unk_38;
-        effect->unk_36.s = fade_step;
+        fade_step = effect->ticks.s - 1;
+        intensity = ((s32)(s16)fade_step << 7) / effect->duration;
+        effect->ticks.s = fade_step;
         visual->color.c.r = intensity;
         visual->color.c.g = intensity;
         visual->color.c.b = intensity;
-        if (effect->unk_36.u <= 0) {
+        if (effect->ticks.u <= 0) {
             (*(u16 *)((u8 *)effect + -2)) |= NODE_REMOVE;
             object_flag_block.flags |= OBJECT_REMOVE_PENDING;
             return;

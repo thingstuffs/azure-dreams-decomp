@@ -12,6 +12,17 @@
                                                                 stat are hashed; --full hashes every file
     codemap.py query decls NAME | callers NAME | affected PATH... | families [--limit N] [--kind K]
                      | census [OUT.tsv] [--type-level] | abi NAME | voidret | sql "..."
+                     | casts [--folder F] [--cls C] [--sub S] [--func FN] [--by cls,sub]
+                     | views [NAME] [--folder F] [--family S_|R12_|Row_|Rec_|View|local|shared]
+                     | rt FUNCTION [--file F] | param FILE::FUNCTION::INDEX | holds | slots [FUNCTION]
+    codemap.py load-runtime DIR [--source-rev REV]                rtti_merge output -> rt_* tables
+    codemap.py load-flow DIR|item_status.tsv                      type-flow lane holds -> flow_item
+
+Typing facts (tools/codemap/typing_facts.py; `refresh` phase `typing`, skipped with --no-typing or
+AZURE_CODEMAP_TYPING=0): one clang parse per registered physical TU gives the pointer-cast census rows
+(cast_site), every record layout with members (record_layout, record_member) and the type-flow graph of the TU
+(flow_tu); stamped per TU by include-closure sha + recipe + extractor sources, so a batch re-extracts only
+the TUs its edits reach.  tools/typing/cast_census.py --codemap and type_flow.py graph --codemap read them.
 
 Default db: <root>/build/codemap.db (build/ is gitignored).  Sources:
   build graph   build/.state/recipes, slus-recipes, images, index.json (tools/build/affected.Graph)
@@ -21,7 +32,9 @@ Default db: <root>/build/codemap.db (build/ is gitignored).  Sources:
   call binding  each image's link map + linked bytes: the function every call site reaches (bind.py)
 
 Tables: meta, source_file, recipe, tu, tu_dep, image, image_unit, name, function, decl, defn, call_site,
-retail_fn, retail_call, call_bind, debt_site, fact_key (incremental state).  Header declaration sites are stored
+retail_fn, retail_call, call_bind, debt_site, fact_key (incremental state); typing: typing_tu, cast_site,
+record_layout, record_member, flow_tu; runtime: rt_meta, rt_fn_arg, rt_kind, rt_pointee, rt_callsite;
+flow_item.  Header declaration sites are stored
 once (file/line/col/name/signature unique) with the first TU that saw them; `seen` counts TUs.
 """
 from __future__ import annotations
@@ -194,11 +207,12 @@ def _init_worker(nice):
 # ---------------------------------------------------------------------------------------- the map
 
 class CodeMap:
-    def __init__(self, root, db, workers=8, nice=10, log=print, only=None):
+    def __init__(self, root, db, workers=8, nice=10, log=print, only=None, typing=True):
         self.root = Path(root).resolve()
         self.only = only          # path prefix restricting parse/abi/debt work (tests, spot refreshes)
         self.db_path = Path(db) if db else self.root / 'build/codemap.db'
         self.workers, self.nice, self.log = workers, nice, log
+        self.typing = typing and os.environ.get('AZURE_CODEMAP_TYPING', '').strip() != '0'
         self.db = None
 
     def open_readonly(self):
@@ -505,6 +519,12 @@ class CodeMap:
         # A recipe linked only by its check image is placed there (e.g. a row no assembled image holds).
         rows += [r for r in checks if check_units.get(r[0]) not in real]
         layouts = bind.load_layouts(self.root, rows, bind.object_sections(self.root), log=self.log)
+        if rows and not layouts:
+            # A lane root seeded without build/.state/link (no link maps): keep the bindings the copied map
+            # carries instead of replacing them with nothing; they describe the seed's images.
+            self.log('bind: no link maps in this root; %d copied call_bind rows kept' % (
+                db.execute('SELECT COUNT(*) FROM call_bind').fetchone()[0]))
+            return 0
         slus_symbols = {}
         for rid, symbol in db.execute("SELECT f.recipe, f.symbol FROM retail_fn f JOIN recipe r ON r.id = f.recipe "
                                       "WHERE r.family = 'slus'"):
@@ -608,17 +628,26 @@ class CodeMap:
         s = time.monotonic(); objects = self.refresh_abi(stale['abi']); timings['abi'] = time.monotonic() - s
         s = time.monotonic(); self.refresh_debt(files, stale['debt']); timings['debt'] = time.monotonic() - s
         s = time.monotonic(); self.refresh_bind(stale['bind']); timings['bind'] = time.monotonic() - s
+        typed = None
+        if self.typing:
+            import typing_facts
+            s = time.monotonic()
+            self.db.execute("INSERT OR REPLACE INTO meta VALUES ('typing_complete', '0')")
+            self.db.commit()
+            typed = typing_facts.refresh(self, force)
+            self.db.execute("INSERT OR REPLACE INTO meta VALUES ('typing_complete', ?)", (self.typing_tool,))
+            timings['typing'] = time.monotonic() - s
         for phase, stamp in tools.items():
             self.set_key('tool', phase, stamp)
         s = time.monotonic(); self.derive(); self.record_sources(files); timings['derive'] = time.monotonic() - s
         timings = {k: round(v, 1) for k, v in timings.items()}
         timings['total'] = round(time.monotonic() - t, 1)
         self.db.execute("INSERT OR REPLACE INTO meta VALUES ('last_refresh', ?)",
-                        (json.dumps(dict(timings, parsed=parsed, objects=objects)),))
+                        (json.dumps(dict(timings, parsed=parsed, objects=objects, typed=typed)),))
         self.db.commit()
         # Fold the WAL into the db file: lanes copy build/codemap.db alone, and frames left in -wal would be lost.
         self.db.execute('PRAGMA wal_checkpoint(TRUNCATE)')
-        self.log('refresh: ' + json.dumps(dict(timings, parsed=parsed, objects=objects)))
+        self.log('refresh: ' + json.dumps(dict(timings, parsed=parsed, objects=objects, typed=typed)))
         return timings
 
     def check(self, full=False):
@@ -655,12 +684,21 @@ class CodeMap:
                              if self.key('tool', phase) != tool_stamp(paths))
         head = self.db.execute("SELECT value FROM meta WHERE key='scratch_head'").fetchone()
         scratch = self.root / 'SCRATCH_HEAD'
+        # Typing facts follow the clang facts' closures; they are stale on their own only when the extractors
+        # changed or the last typing refresh did not finish.
+        sys.path.insert(0, str(HERE.parent))
+        import typing_facts
+        done = self.db.execute("SELECT value FROM meta WHERE key='typing_complete'").fetchone()
+        typing_stale = None if done is None else done[0] != typing_facts.tool_stamp()
+        if typing_stale:
+            tools_stale = tools_stale + ['typing']
         return dict(fresh=not (changed or removed or graph_stale or names_stale or tools_stale),
                     changed=changed[:50], changed_count=len(changed), removed=removed[:50],
                     removed_count=len(removed), graph_stale=graph_stale, names_stale=names_stale,
                     tools_stale=tools_stale, files=len(stats), hashed=hashed,
                     built_at_head=head[0] if head else None,
                     root_head=scratch.read_text().strip() if scratch.is_file() else None,
+                    typing=('absent' if typing_stale is None else 'stale' if typing_stale else 'fresh'),
                     mode='full' if full else 'quick', seconds=round(time.monotonic() - started, 2))
 
 
@@ -906,7 +944,7 @@ def q_abi(db, name):
 
 def main(argv=None):
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
-    ap.add_argument('mode', choices=('build', 'refresh', 'check', 'query'))
+    ap.add_argument('mode', choices=('build', 'refresh', 'check', 'query', 'load-runtime', 'load-flow'))
     ap.add_argument('args', nargs='*')
     ap.add_argument('--root', type=Path, default=DEFAULT_ROOT)
     ap.add_argument('--db', type=Path)
@@ -916,13 +954,22 @@ def main(argv=None):
     ap.add_argument('--kind', help='families: only this conflict kind prefix')
     ap.add_argument('--only', help='build/refresh: restrict parse/abi/debt work to this path prefix')
     ap.add_argument('--full', action='store_true', help='check: hash every source (default: stat first)')
+    ap.add_argument('--no-typing', action='store_true', help='build/refresh: skip the typing phase')
+    ap.add_argument('--source-rev', help='load-runtime: decomp revision the runtime evidence was taken at')
+    ap.add_argument('--folder', help='casts/views: path prefix (src/town, include/engine ...)')
+    ap.add_argument('--cls', help='casts: cast_census class (n a b c d e f)')
+    ap.add_argument('--sub', help='casts: sub-class prefix')
+    ap.add_argument('--func', help='casts: function name')
+    ap.add_argument('--file', help='rt: definition file')
+    ap.add_argument('--by', default='cls,sub', help='casts: group-by columns')
+    ap.add_argument('--family', help='views: S_ R12_ Row_ Rec_ View Func_state local shared')
     ap.add_argument('--type-level', action='store_true',
                     help='census/families: compare desugared types (typedef/tag spellings are not conflicts)')
     a = ap.parse_intermixed_args(argv)
     if not 1 <= a.workers <= 8:
         ap.error('between 1 and 8 workers on this host')
     cm = CodeMap(a.root, a.db, a.workers, a.nice, log=lambda m: print(m, file=sys.stderr, flush=True),
-                 only=a.only)
+                 only=a.only, typing=not a.no_typing)
     if a.mode in ('build', 'refresh'):
         cm.open(fresh=a.mode == 'build')
         cm.refresh(force=a.mode == 'build')
@@ -930,6 +977,18 @@ def main(argv=None):
     if not cm.db_path.exists():
         print('no codemap at %s (run codemap.py build)' % cm.db_path, file=sys.stderr)
         return 2
+    if a.mode in ('load-runtime', 'load-flow'):
+        import typing_query
+        cm.open()
+        if not a.args:
+            ap.error(a.mode + ' needs a directory')
+        if a.mode == 'load-runtime':
+            res = typing_query.load_runtime(cm.db, a.args[0], a.source_rev, log=cm.log)
+        else:
+            res = typing_query.load_flow(cm.db, a.args[0], log=cm.log)
+        cm.db.execute('PRAGMA wal_checkpoint(TRUNCATE)')
+        print(json.dumps(res))
+        return 0
     if a.mode == 'check':
         cm.open_readonly()
         res = cm.check(full=a.full)
@@ -958,6 +1017,21 @@ def main(argv=None):
         res = q_voidret(db, a.limit)
     elif what == 'census':
         res = q_census(db, rest[0] if rest else None, 'canon_norm' if a.type_level else 'norm')
+    elif what in ('casts', 'views', 'rt', 'param', 'holds', 'slots'):
+        import typing_query as T
+        T.ensure_schema(db)
+        if what == 'casts':
+            res = T.q_casts(db, a.folder, a.cls, a.sub, a.func, a.by, a.limit)
+        elif what == 'views':
+            res = T.q_views(db, rest[0] if rest else None, a.folder, a.family, a.limit)
+        elif what == 'rt':
+            res = T.q_rt(db, rest[0], a.file)
+        elif what == 'param':
+            res = T.q_param(db, rest[0])
+        elif what == 'holds':
+            res = T.q_holds(db, a.limit)
+        else:
+            res = T.q_slots(db, rest[0] if rest else None, a.limit)
     elif what == 'sql':
         cur = db.execute(rest[0])
         cols = [c[0] for c in cur.description or ()]

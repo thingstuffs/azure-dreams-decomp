@@ -79,19 +79,19 @@ void create_short_lived_colored_particle(S_8016583C_0 *source, s16 duration, s32
     if (effect != 0) {
         held_scale = scale;
         (effect->update_callback) = &D_801654F0;
-        ((S_8016583C_3 *)((effect->position)))->unk_02 =
+        effect->position->x.w.i =
             (s16) (((MovingPosition *)(source->unk_08))->x + offset_x);
-        ((S_8016583C_3 *)((effect->position)))->unk_06 =
+        effect->position->y.w.i =
             (s16) (((MovingPosition *)(source->unk_08))->y + offset_y);
-        ((S_8016583C_3 *)((effect->position)))->unk_0A =
+        effect->position->z.w.i =
             (s16) (((MovingPosition *)(source->unk_08))->z + offset_z);
         effect_state = ((void *)effect) + 0x20;
         effect_state->unk_42 = (u16) ((MovingPosition *)(source->unk_08))->x;
         effect_state->unk_44 = (u16) ((MovingPosition *)(source->unk_08))->y;
         effect_state->unk_46 = (u16) ((MovingPosition *)(source->unk_08))->z;
-        ((S_8016583C_3 *)((effect->position)))->unk_0C = (s32) (((rand() & 0x7FFF) - 0x4000) * 0x10);
-        ((S_8016583C_3 *)((effect->position)))->unk_10 = (s32) (((rand() & 0x7FFF) - 0x4000) * 0x10);
-        ((S_8016583C_3 *)((effect->position)))->unk_14 = velocity_z;
+        effect->position->velocity_x = (s32) (((rand() & 0x7FFF) - 0x4000) * 0x10);
+        effect->position->velocity_y = (s32) (((rand() & 0x7FFF) - 0x4000) * 0x10);
+        effect->position->velocity_z = velocity_z;
         effect_state->unk_14 = duration;
         effect_state->unk_32 = 8;
         effect_state->unk_34 = 8;

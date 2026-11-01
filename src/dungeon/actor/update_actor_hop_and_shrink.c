@@ -80,7 +80,7 @@ s32 update_actor_hop_and_shrink(void *animation, ObjectPosition *motion, SpriteF
             (*(s32 *)((u8 *)motion + 0x10)) = 0;
             (*(s32 *)((u8 *)motion + 0xC)) = 0;
             (*(u16 *)((u8 *)motion + 2)) = *(u16 *)&target->x.w.i;
-            ((S_800AB538_3 *)motion)->unk_06.u = *(u16 *)&target->y.w.i;
+            motion->y.unsigned_parts.integer = *(u16 *)&target->y.w.i;
         }
 
         frames_left = ((S_800AB538_0 *)animation)->unk_96.s;

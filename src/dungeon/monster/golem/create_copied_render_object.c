@@ -10,12 +10,6 @@
 
 typedef struct { s32 word[6]; } Copy24;
 
-typedef struct S_80174EB4_1 {
-    u8 pad_00[0x4];
-    void * unk_04;
-    void * unk_08;
-} S_80174EB4_1;   /* slot in create_copied_render_object */
-
 typedef struct S_80174EB4_5 {
     union { struct { s32 v; } at00; struct { u8 pad[0x2]; u16 v; } at02; } unk_00;   /* overlapping accesses */
     union { struct { s32 v; } at00; struct { u8 pad[0x2]; u16 v; } at02; } unk_04;   /* overlapping accesses */
@@ -41,7 +35,7 @@ s32 create_copied_render_object(GolemActionWork *owner, ObjectPosition *source_s
     void *owner_data;
     S_80174EB4_5 *state;
     SpriteFrameState *primitive;
-    S_80174EB4_1 *context;
+    CopiedRenderObjectBody *context;
 
     owner_data = owner;
     owner_node = owner_data - 0x20;
@@ -51,8 +45,8 @@ s32 create_copied_render_object(GolemActionWork *owner, ObjectPosition *source_s
         register_node(object, project_sprite_chain);
 
         context = (u8 *)object + 0x20;
-        context->unk_04 = source_state;
-        context->unk_08 = render_data;
+        context->source_state = source_state;
+        context->render_data = render_data;
 
         primitive = object->sprite;
         primitive->animation_resource = render_data->unk_28;

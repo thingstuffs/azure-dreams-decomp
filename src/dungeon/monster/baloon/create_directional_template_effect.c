@@ -1,4 +1,5 @@
 #include "dungeon/monster/baloon.h"
+#include "dungeon/effect/sprite.h"
 #include "shared/slus_callbacks.h"
 #include "shared/object_node.h"
 #include "shared/game_work.h"
@@ -6,17 +7,8 @@
 #include "engine/node.h"
 
 typedef struct {
-    u8 pad_00[0x96];
-    s16 ticks;
-    u8 pad_98[0x12];
-    s16 duration;
-    u8 pad_AC[4];
-    BaloonTemplateAnchor *anchor;
-} BaloonTemplateWork;
-
-typedef struct {
     ObjectNodeHeader header;
-    BaloonTemplateWork work;
+    AnchoredDirectionalObjectBody work;
 } BaloonTemplateNode;
 
 extern void *allocate_list_node(s32, ObjectNodeHeader **);
@@ -29,16 +21,16 @@ void create_directional_template_effect(void *unused, BaloonTemplateAnchor *anch
 {
     BaloonTemplateNode *object;
     SpriteFrameState *sprite;
-    BaloonTemplateWork *work;
+    AnchoredDirectionalObjectBody *work;
     ObjectPosition *position;
 
     object = allocate_list_node(0x112, &scene_object_list_anchor.next);
     if (object != 0) {
         work = &object->work;
-        work->ticks = 4;
+        work->remaining = 4;
         work->duration = 4;
         object->header.update_callback = D_800D6FEC;
-        work->anchor = anchor;
+        work->source_position = anchor;
         sprite = object->header.sprite;
         *sprite = *object_template;
         sprite->scale_y = 0x1000;

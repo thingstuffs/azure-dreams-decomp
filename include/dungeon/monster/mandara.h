@@ -8,6 +8,20 @@
 /* Monster-owned imports; preserve their registered declaration contracts. */
 extern u8 mandara_direction_frames[];
 
+/* Lifetime and initial placement for the rotating wavy-strip effect. */
+typedef struct RotateAndRestoreActorStateBody {
+    u8 pad_00[0x96];
+    s16 ticks_remaining;
+    u8 pad_98[0x2];
+    u8 state_9A;
+    u8 pad_9B[0x7];
+    s16 target_x;
+    s16 target_y;
+    u16 vertical_motion;
+    u8 pad_A8[0x4];
+    u32 color;
+} RotateAndRestoreActorStateBody;
+
 
 
 void advance_actor_action_animation_to_completion(ActorRecord *action, ObjectPosition *actor_id, SpriteFrameState *animation, ActorRecord *actor);
@@ -18,8 +32,22 @@ void update_long_actor_action(ActorRecord *self_object, ObjectPosition *aux_enti
 
 /* Callback entry points. */
 s32 draw_layered_wavy_object_strips(void *object_data, void *unused, void *appearance);
-void advance_actor_replacement_sequence(void *effect, s32 unused, void *primitive);
-void blend_animation_palette_and_complete(void *effect);
+void advance_actor_replacement_sequence(RotateAndRestoreActorStateBody *effect, s32 unused, void *primitive);
+
+/* Animation counters and the image buffer consumed by StoreImage. */
+typedef struct AdvanceActorEntryActiveExitStatesBody {
+    u8 pad_00[0x96];
+    u16 frame;
+    u8 pad_98[0x6];
+    s16 mode;
+    s16 image_data_00;
+    s16 image_data_02;
+    s16 image_data_04;
+    s16 image_data_06;
+    union { s16 s; u16 u; } duration;
+} AdvanceActorEntryActiveExitStatesBody;
+
+void blend_animation_palette_and_complete(AdvanceActorEntryActiveExitStatesBody *effect);
 
 /* Owner declarations appended by tools/headers (append-only; the lines above are hand-kept). */
 void advance_action_through_recovery(ActorRecord *action_state, ObjectPosition *transform, SpriteFrameState *sprite, ActorRecord *actor);

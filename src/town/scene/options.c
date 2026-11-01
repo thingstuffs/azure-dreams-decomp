@@ -37,9 +37,9 @@ void update_enabled_event_cells(void) {
     u32 initial_y;
     s32 initial_value;
     Rec_D_80016000 *context;
-    void *dispatch_ptr;
+    S_806D85A0_1 *dispatch_ptr;
     void *entry_flags;
-    register void *position;
+    register SignedPair16 *position;
     void *group_flags;
 
     entry_flags = town_scene_root->town_state;
@@ -53,23 +53,23 @@ void update_enabled_event_cells(void) {
         initial_y = initial_x;
         initial_value = 0;
         dispatch_ptr = (void *)0x80010000;
-        context = ((S_806D85A0_1 *)dispatch_ptr)->unk_6000;
-        ((S_806D85A0_1 *)dispatch_ptr)->unk_6000 = context;
+        context = dispatch_ptr->unk_6000;
+        dispatch_ptr->unk_6000 = context;
         group_index = initial_value;
-        dispatch_ptr = context->services;
+        dispatch_ptr = (S_806D85A0_1 *)context->services;
     } else {
         variant = 0;
         initial_x = 4;
         initial_y = initial_x;
         initial_value = 0;
         dispatch_ptr = (void *)0x80010000;
-        context = ((S_806D85A0_1 *)dispatch_ptr)->unk_6000;
-        ((S_806D85A0_1 *)dispatch_ptr)->unk_6000 = context;
+        context = dispatch_ptr->unk_6000;
+        dispatch_ptr->unk_6000 = context;
         group_index = initial_value;
-        dispatch_ptr = context->services;
+        dispatch_ptr = (S_806D85A0_1 *)context->services;
     }
     count_offset = variant * 8;
-    dispatch_ptr = ((S_806D85A0_1 *)dispatch_ptr)->unk_2D0;
+    dispatch_ptr = dispatch_ptr->unk_2D0;
     group_flags = entry_flags;
     ((M2C_UNK (*)(M2C_UNK, M2C_UNK, M2C_UNK))dispatch_ptr)(initial_x, initial_y, initial_value);
     do {
@@ -87,8 +87,8 @@ void update_enabled_event_cells(void) {
                             y_offset = 0;
 y_cell:
                             cell_value = x_offset + y_offset;
-                            cell_x = ((SignedPair16 *)position)->unk_00 + x_offset;
-                            cell_y = ((SignedPair16 *)position)->unk_02 + y_offset;
+                            cell_x = position->unk_00 + x_offset;
+                            cell_y = position->unk_02 + y_offset;
                             town_scene_root->services->callback_2D0(cell_x,
                                 cell_y, cell_value);
                             y_offset += 1;

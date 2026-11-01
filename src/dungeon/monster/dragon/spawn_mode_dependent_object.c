@@ -269,7 +269,7 @@ void dispatch_monster_move_attack_spell(ActorRecord *controller, ObjectPosition 
         if (entity->frameTable == dragon_alt_direction_frames) {
             controller->action_id.u = 0xD;
             controller->action_phase.u = 1;
-            ((Rec_func_800A9E70_arg0 *)controller)->unk_8C = 0;
+            controller->unk_8C.word = 0;
             actor_state->flags1C &= ~0x40000;
             return;
         }
@@ -1049,7 +1049,7 @@ void advance_actor_attack_and_resolve_damage(ActorRecord *body, ObjectPosition *
         if ((sprite->unk_04 == 2) &&
             (sprite->flags & 0x1000)) {
             allocated_effect = allocate_list_node(0x112, &scene_object_list_anchor.next);
-            ((R03_80172620_S_80172620_0 *)body)->unk_A4.s = allocated_effect;
+            body->unk_A4.address = allocated_effect;
             effect = allocated_effect;
             if (effect != 0) {
                 s32 sprite_link;
@@ -1096,7 +1096,7 @@ void advance_actor_attack_and_resolve_damage(ActorRecord *body, ObjectPosition *
             select_sprite_entry(sprite,
                 dragon_frame_set_4[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
                 0);
-            active_effect = ((R03_80172620_S_80172620_0 *)body)->unk_A4.s;
+            active_effect = body->unk_A4.address;
             if (active_effect != 0) {
                 active_effect->unk_BB = 0xFF;
                 body->unk_A4.value = 0;

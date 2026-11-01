@@ -101,7 +101,7 @@ void update_action_and_check_forward_tile(ActorRecord *actor, ObjectPosition *mo
         motion->velocity_x = 0;
         actor->action_timer.u = 0xE;
         actor->unk_AC.byte = 0;
-        ((S_801757E0_0 *)actor)->unk_AD.u = 0;
+        actor->unk_AC.bytes[1] = 0;
         actor->action_phase.u++;
         play_sound_if_enabled(0x80A);
         return;
@@ -182,7 +182,7 @@ void update_action_and_check_forward_tile(ActorRecord *actor, ObjectPosition *mo
 
         if (!(actor->action_timer.s != 0x0A && !(animation->flags & 0x8000))) {
             directions = glacier_direction_offsets;
-            ((S_801757E0_0 *)actor)->unk_AD.s = 0;
+            actor->unk_AC.bytes[1] = 0;
             x = motion->x.w.i +
                 (directions[(((u16)entity->facing) >> 9) & 7].x << 6);
             y = motion->y.w.i +
@@ -192,7 +192,7 @@ void update_action_and_check_forward_tile(ActorRecord *actor, ObjectPosition *mo
 
             if ((s16)check_left_tile_and_center_height(target_x, target_y,
                                    motion->z.w.i) != 0) {
-                ((S_801757E0_0 *)actor)->unk_AD.s = 1;
+                actor->unk_AC.bytes[1] = 1;
             }
             if (((S_801757E0_0 *)actor)->unk_AD.s == 0) {
                 get_offset_map_cell_value_and_flags(animation->tile_x,
@@ -200,7 +200,7 @@ void update_action_and_check_forward_tile(ActorRecord *actor, ObjectPosition *mo
                               (((u16)entity->facing) >> 9) & 7,
                               &collision_flags);
                 if (collision_flags & 0x8400) {
-                    ((S_801757E0_0 *)actor)->unk_AD.s = 1;
+                    actor->unk_AC.bytes[1] = 1;
                 }
             }
             if (((S_801757E0_0 *)actor)->unk_AD.s == 0) {
@@ -210,7 +210,7 @@ void update_action_and_check_forward_tile(ActorRecord *actor, ObjectPosition *mo
                         animation->tile_y +
                             directions[(((u16)entity->facing) >> 9) & 7].y,
                         motion->z.w.i) != 0) {
-                    ((S_801757E0_0 *)actor)->unk_AD.s = 1;
+                    actor->unk_AC.bytes[1] = 1;
                 }
             }
             if (((S_801757E0_0 *)actor)->unk_AD.s == 0) {
@@ -219,7 +219,7 @@ void update_action_and_check_forward_tile(ActorRecord *actor, ObjectPosition *mo
                 if (floor_height >= 0x200 ||
                     floor_height > motion->z.w.i + 0x20 ||
                     floor_height < motion->z.w.i - 0x20) {
-                    ((S_801757E0_0 *)actor)->unk_AD.s = 1;
+                    actor->unk_AC.bytes[1] = 1;
                 }
             }
             if (((S_801757E0_0 *)actor)->unk_AD.s == 0) {

@@ -206,7 +206,7 @@ void initialize_the_town_entity_synchronize_slot_state(Rec_func_80094268_arg0 *e
     s32 record_value;
     s32 slot_index;
     register s32 record_index;
-    void *source_entry;
+    struct PackedTownEntry *source_entry;
     S_8009F4C0_2 *slot_flags;
     S_8009F4C0_1 *slot_state;
     void *data_base;
@@ -225,7 +225,7 @@ void initialize_the_town_entity_synchronize_slot_state(Rec_func_80094268_arg0 *e
     record_offset = record_index * 0x54;
     stored_entry = (u8 *)stored_entry + record_offset;
     source_entry = runtime_get_mode_indexed_value(entity->unk_4C);
-    *(struct PackedTownEntry *)stored_entry = *(struct PackedTownEntry *)source_entry;
+    *(struct PackedTownEntry *)stored_entry = *source_entry;
     data_base = (void *) 0x80010000;
     slot_flags = (slot_index * 4) + (u8 *)data_base;
     slot_flags->unk_983 = (u8) ((slot_flags->unk_983 & 0xC0) | record_index);

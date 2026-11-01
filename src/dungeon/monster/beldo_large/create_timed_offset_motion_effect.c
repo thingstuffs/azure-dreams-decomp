@@ -73,10 +73,10 @@ void create_timed_offset_motion_effect(u8 *unused, s16 duration, s32 offset_x, s
         *(u16 *)&prim->x.w.i += offset_x;
         *(u16 *)&prim->y.w.i += offset_y;
         *(u16 *)&prim->z.w.i += offset_z;
-        work->unk_1C = ((S_80170D2C_4 *)((u8 *)(&view_reference_entity)))->unk_00.at02.v;
-        fixed_value = ((S_80170D2C_4 *)((u8 *)(&view_reference_entity)))->unk_04.at02.v;
+        work->unk_1C = view_reference_entity.x.unsigned_parts.integer;
+        fixed_value = view_reference_entity.y.unsigned_parts.integer;
         work->unk_1E = fixed_value;
-        work->unk_20 = ((S_80170D2C_4 *)((u8 *)(&view_reference_entity)))->unk_08.at02.v;
+        work->unk_20 = view_reference_entity.z.unsigned_parts.integer;
         work->unk_5C = (-(offset_x << 16) / (duration / 8)) / 2;
         work->unk_60 = (-(offset_y << 16) / (duration / 8)) / 2;
         work->unk_64 = (-(offset_z << 16) / (duration / 8)) / 2;
