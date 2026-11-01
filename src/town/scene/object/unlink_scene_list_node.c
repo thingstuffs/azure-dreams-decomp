@@ -1,6 +1,6 @@
 #include "common.h"
 #include "m2c_compat.h"
-#include "records/Rec_func_80094268_arg0.h"
+#include "shared/town_object.h"
 #include "town/scene/object.h"
 
 
@@ -10,7 +10,7 @@ typedef struct S_8008F134_1 {
 } S_8008F134_1;
 
 /* Unlink a linked node and clear its neighbor pointers. */
-void unlink_scene_list_node(Rec_func_80094268_arg0 *node) {
+void unlink_scene_list_node(TownObjectRecord *node) {
     S_8008F134_1 *prev_node;
 
     prev_node = node->unk_00.as_pv;

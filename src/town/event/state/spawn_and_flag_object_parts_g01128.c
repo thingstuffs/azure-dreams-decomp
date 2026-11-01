@@ -76,7 +76,7 @@ void run_object_secondary_callback(S_8009C46C_0 *object, void *motion, void *con
 }
 
 /* Clear state, initialize the context resource, and set a 30-tick countdown and handler. */
-void initialize_timed_fade_object(Struct8009ED34Arg0 *context, void *unused, Struct8009ED34Arg2 *state) {
+void initialize_timed_fade_object(Struct8009ED34Arg0 *context, ObjectPosition *unused, Struct8009ED34Arg2 *state) {
     state->unk00 = 0;
     state->unk04 = 0;
     state->unk05 = 0;
@@ -118,7 +118,7 @@ void update_timed_object_to_height_limit(void *object_arg, ObjectPosition *motio
 }
 
 /* Dims the primitive by six per tick, then unlinks and marks the object for removal at zero brightness. */
-void fade_object_primitive(void *object, void *unusedContext, u8 *primitive)
+void fade_object_primitive(void *object, ObjectPosition *unusedContext, u8 *primitive)
 {
     s32 brightness;
 

@@ -208,6 +208,7 @@ u8 *select_town_byte_array(void);
 void configure_the_set_mode_n_1(void *record, void *position, void *bounds);
 
 #include "shared/entity.h"
+#include "shared/town_object.h"
 s32 advance_counter_modulo_eight(void);
 void advance_town_events_and_dispatch_entry(void);
 void apply_record_value_when_enabled(Rec_func_800165F4_arg0 *record, s32 handler_context);

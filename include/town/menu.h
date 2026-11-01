@@ -43,7 +43,8 @@ s32 *initialize_shared_script_data(void);
 #include "records/Rec_D_80082D58.h"
 s32 classify_record_by_state_and_position(Rec_D_80082D58 *record, void *position_data);
 
-#include "records/Rec_func_80094268_arg0.h"
+#include "shared/town_object.h"
+#include "shared/entity.h"
 struct TownObject;
 s32 build_filtered_catalog_glyph(s32 char_code, s32 dst_addr);
 void *create_configured_object(void *object_data, void *source_position, s32 alternate_callback);
@@ -51,7 +52,7 @@ void draw_catalog_primary_detail(void *entry_state);
 void draw_catalog_secondary_detail(void *state);
 s16 *get_cached_catalog_glyph(s16 char_code);
 void initialize_menu_overlay_objects(u8 *owner, s32 value);
-void initialize_randomized_scale_timer(Rec_func_80094268_arg0 *object);
+void initialize_randomized_scale_timer(TownObjectRecord *object);
 u8 is_catalog_entry_available(s32 index);
 void no_op_callback_a(void);
 void refresh_catalog_entry_grid(struct TownObject *menu);

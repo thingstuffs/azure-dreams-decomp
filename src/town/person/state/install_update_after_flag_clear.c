@@ -7,7 +7,7 @@ extern s32 D_800C5FDC[];
 extern s32 D_800D5590[];
 
 /* Clear the table flag, update the target move, and install D_800C5FDC. */
-void install_update_after_flag_clear(PersonObject *object, ObjectPosition *position, SpriteFrameState *output) {
+void install_update_after_flag_clear(TownObjectRecord *object, ObjectPosition *position, SpriteFrameState *output) {
     void *updateObject;
     SpriteFrameState *stagedUpdateValue;
 

@@ -6,6 +6,7 @@
 #include "shared/entity.h"
 #include "shared/position_views.h"
 #include "shared/sprite_frame_state.h"
+#include "shared/town_object.h"
 
 struct SpriteFrameState;
 struct TownCourseActor;

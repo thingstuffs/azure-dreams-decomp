@@ -14,8 +14,8 @@ void initialize_object_resources_2(void *object, IntVector3 *position, S_800C4F6
     initialize_object_and_register_slot(object, 0x1D, &D_800D5120, &D_800D5124,
                   &D_800D50F0, &D_800D50F8);
     position->z = 0xFF800000;
-    ((S_800C4F6C_6 *)(((S_800C4F6C_5 *)object)->unk_80))->unk_04 = &D_800D50DC;
-    ((S_800C4F6C_1 *)((u8 *)object - 0x10))->unk_00 = &set_camera_chase_data;
+    ((S_800C4F6C_6 *)(((TownObjectRecord *)object)->descriptor))->unk_04 = &D_800D50DC;
+    ((TownObjectRecord *)((u8 *)object - 0x10))->unk_00.as_pm = &set_camera_chase_data;
     display_state->unk_10 = 0;
     display_state->unk_14 = (u16) (display_state->unk_14 | 0xC);
     create_user_data_object_b(object - 0x20);
@@ -32,13 +32,13 @@ void initialize_object_resources_2(void *object, IntVector3 *position, S_800C4F6
 }
 
 /* Set camera chase data and the object handler when the request succeeds. */
-void set_camera_chase_data(void *object, void *chase_data, SpriteFrameState *request_param, s32 check_param) {
+void set_camera_chase_data(TownObjectRecord *object, ObjectPosition *chase_data, SpriteFrameState *request_param, s32 check_param) {
     s32 *chase_fix;
     s32 second_value;
 
     if (service_script_controller() != 0) {
-        D_80113208[0] = ((s32 *)chase_data)[0];
-        second_value = ((s32 *)chase_data)[1];
+        D_80113208[0] = chase_data->x.v;
+        second_value = chase_data->y.v;
         chase_fix = D_80113208;
         chase_fix[2] = 0;
         chase_fix[1] = second_value;
@@ -58,22 +58,22 @@ void clear_object_slot_table_run(void *obj, void *param_a, void *param_b)
 }
 
 /* Updates and clamps record motion, delegating when the lower bound is reached. */
-void accelerate_object_coordinates_to_lower_limits(void *context, EntityRec *record, void *callback_arg) {
+void accelerate_object_coordinates_to_lower_limits(TownObjectRecord *context, ObjectPosition *record, void *callback_arg) {
     if (record->z.v == -0x08000000) {
         apply_object_setup_and_update(context, record, callback_arg);
         return;
     }
 
-    record->unk_10 += 0xFFFE0000;
-    record->flags14 -= 0x8000;
-    record->y.v += record->unk_10;
-    record->z.v += record->flags14;
+    record->velocity_y += 0xFFFE0000;
+    record->velocity_z -= 0x8000;
+    record->y.v += record->velocity_y;
+    record->z.v += record->velocity_z;
 
-    if (record->unk_10 <= (s32)0xFF000000) {
-        record->unk_10 = -0x01000000;
+    if (record->velocity_y <= (s32)0xFF000000) {
+        record->velocity_y = -0x01000000;
     }
-    if (record->flags14 <= (s32)0xFF000000) {
-        record->flags14 = -0x01000000;
+    if (record->velocity_z <= (s32)0xFF000000) {
+        record->velocity_z = -0x01000000;
     }
     if (record->y.v <= (s32)0xF8000000) {
         record->y.v = -0x08000000;
@@ -84,11 +84,11 @@ void accelerate_object_coordinates_to_lower_limits(void *context, EntityRec *rec
 }
 
 /* Clear the actor table flag, install its handler, and initialize state values. */
-void init_actor_handler_state(S_800C51DC_0 *actor, S_800C51DC_1 *state) {
+void init_actor_handler_state(S_800C51DC_0 *actor, ObjectPosition *state) {
     object_index_slots[actor->unk_60].unk_00 = 0;
     actor->unk_54 = &D_800C5100;
-    state->unk_10 = 0x80000;
-    state->unk_14 = 0x40000;
+    state->velocity_y = 0x80000;
+    state->velocity_z = 0x40000;
 }
 
 /* Allocates an object and initializes its display part and user data. */

@@ -26,13 +26,13 @@ extern u8 griffon_frame_set_12[];
 extern u8 D_8016EC74[];
 
 /* Updates directional motion and animation, then settles the entity at its tile center. */
-void update_griffon_recoil(void *action, ObjectPosition *motion, SpriteFrameState *sprite, ActorRecord *entity)
+void update_griffon_recoil(ActorRecord *action, ObjectPosition *motion, SpriteFrameState *sprite, ActorRecord *entity)
 {
     s32 state;
     s16 timer;
     s32 tracked_entity;
 
-    state = ((S_8016D234_0 *)action)->unk_9B;
+    state = action->action_phase.u;
     switch (state) {
     case 0:
         apply_clamped_actor_value_delta(entity);
@@ -40,7 +40,7 @@ void update_griffon_recoil(void *action, ObjectPosition *motion, SpriteFrameStat
             -((s16 *)((s8 *)dir_step_x))[(entity->movement_facing >> 9) & 7] << 15;
         motion->velocity_y =
             -((s16 *)((s8 *)dir_step_y))[(entity->movement_facing >> 9) & 7] << 15;
-        ((S_8016D234_0 *)action)->unk_9B++;
+        action->action_phase.u++;
 
         if (entity->hp == 0) {
             motion->velocity_z = 0;
@@ -50,8 +50,8 @@ void update_griffon_recoil(void *action, ObjectPosition *motion, SpriteFrameStat
             return;
         }
         if (sprite->flags & 0x8000) {
-            ((S_8016D234_0 *)action)->unk_96.s = 0;
-            ((S_8016D234_0 *)action)->unk_9B = 3;
+            action->action_timer.s = 0;
+            action->action_phase.u = 3;
             return;
         }
 
@@ -60,7 +60,7 @@ void update_griffon_recoil(void *action, ObjectPosition *motion, SpriteFrameStat
         } else {
             timer = -1;
         }
-        ((S_8016D234_0 *)action)->unk_96.s = timer;
+        action->action_timer.s = timer;
 
         motion->velocity_x -= motion->velocity_x / 4;
         motion->velocity_y -= motion->velocity_y / 4;
@@ -72,13 +72,13 @@ void update_griffon_recoil(void *action, ObjectPosition *motion, SpriteFrameStat
         motion->velocity_y +=
             ((s16 *)((s8 *)dir_step_y))[(entity->movement_facing >> 9) & 7] << 14;
 
-        if (((S_8016D234_0 *)action)->unk_96.s > 0) {
-            ((S_8016D234_0 *)action)->unk_96.s = ((S_8016D234_0 *)action)->unk_96.u - 1;
+        if (action->action_timer.s > 0) {
+            action->action_timer.s = action->action_timer.u - 1;
         } else if (sprite->flags & 0x6000) {
-            ((S_8016D234_0 *)action)->unk_96.s = 0;
+            action->action_timer.s = 0;
         }
 
-        if (((S_8016D234_0 *)action)->unk_96.s != 0) {
+        if (action->action_timer.s != 0) {
             return;
         }
         if (entity->hp == 0) {
@@ -93,7 +93,7 @@ void update_griffon_recoil(void *action, ObjectPosition *motion, SpriteFrameStat
             sprite,
             griffon_frame_set_12[((g_game_work.view.camera_rotation.parts.viewAngle + entity->facing + 0x100) >> 9) & 7],
             0);
-        ((S_8016D234_0 *)action)->unk_9B++;
+        action->action_phase.u++;
         return;
 
     case 2:
@@ -110,12 +110,12 @@ void update_griffon_recoil(void *action, ObjectPosition *motion, SpriteFrameStat
             sprite,
             griffon_frame_set_12[((g_game_work.view.camera_rotation.parts.viewAngle + entity->facing + 0x100) >> 9) & 7],
             0);
-        ((S_8016D234_0 *)action)->unk_96.s = 8;
-        ((S_8016D234_0 *)action)->unk_9B++;
+        action->action_timer.s = 8;
+        action->action_phase.u++;
         return;
 
     case 3:
-        timer = ((S_8016D234_0 *)action)->unk_96.s;
+        timer = action->action_timer.s;
         if (timer != 0) {
             {
                 s32 target_x = sprite->tile_x << 6;
@@ -126,12 +126,12 @@ void update_griffon_recoil(void *action, ObjectPosition *motion, SpriteFrameStat
                 s32 target_y = sprite->tile_y << 6;
                 s32 current_y = motion->y.w.i - 0x20;
                 motion->velocity_y =
-                    ((target_y - current_y) << 15) / ((S_8016D234_0 *)action)->unk_96.s;
+                    ((target_y - current_y) << 15) / action->action_timer.s;
             }
         }
 
-        timer = ((S_8016D234_0 *)action)->unk_96.u - 1;
-        ((S_8016D234_0 *)action)->unk_96.s = timer;
+        timer = action->action_timer.u - 1;
+        action->action_timer.s = timer;
         if ((s32)(timer << 16) > 0) {
             return;
         }
@@ -147,6 +147,6 @@ void update_griffon_recoil(void *action, ObjectPosition *motion, SpriteFrameStat
         if (tracked_entity == (s32)((u8 *)entity - 0x20)) {
             g_dungeon_status.pending_display_owner = tracked_entity & 0x7FFFFFFF;
         }
-        ((S_8016D234_0 *)action)->unk_8C = &griffon_slot_f_action_callback;
+        action->unk_8C.byte_ptr = &griffon_slot_f_action_callback;
     }
 }

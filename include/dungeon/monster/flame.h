@@ -798,8 +798,8 @@ void update_actor_object_motion(void *motion, ObjectPosition *unused, struct Spr
 void choose_flame_move(ActorRecord *move_data, ObjectPosition *context, SpriteFrameState *position_data, ActorRecord *actor_data);
 s32 try_flame_attack(ActorRecord *action_state, ObjectPosition *motion_param, SpriteFrameState *sprite, ActorRecord *actor);
 void update_actor_action_and_direction(ActorRecord *action_state, ObjectPosition *context, SpriteFrameState *sprite, ActorRecord *actor);
-s32 relink_flame_path(void *entity_arg, ObjectPosition *primary_context_arg, void *secondary_context_arg, s32 force_state_arg);
-void finish_actor_tile_move_then_initialize_destination(void *state, void *motion, void *source, void *target);
+s32 relink_flame_path(ActorRecord *entity_arg, ObjectPosition *primary_context_arg, void *secondary_context_arg, s32 force_state_arg);
+void finish_actor_tile_move_then_initialize_destination(ActorRecord *state, void *motion, void *source, ActorRecord *target);
 void finish_linked_actor_motion_and_floor_trap_then_initialize_destination(ActorRecord *state, ObjectPosition *entity, SpriteFrameState *position, ActorRecord *graphic);
 void advance_action_through_animation(R06_8017278C_S_8017278C_0 *action, struct ObjectPosition *motion, struct SpriteFrameState *sprite, void *actor);
 void start_selected_move_and_reset_action(ActorRecord *action, ObjectPosition *position, SpriteFrameState *sprite, ActorRecord *actor);

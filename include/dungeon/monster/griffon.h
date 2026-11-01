@@ -481,7 +481,7 @@ void update_directional_motion_and_center_variant(ActorRecord *controller, Objec
 
 
 void advance_directional_motion_to_center(void *motion_state, ObjectPosition *motion, SpriteFrameState *sprite, void *actor);
-void update_directional_motion(void *action, ObjectPosition *motion, SpriteFrameState *sprite, ActorRecord *entity);
-void update_griffon_recoil(void *action, ObjectPosition *motion, SpriteFrameState *sprite, ActorRecord *entity);
+void update_directional_motion(ActorRecord *action, ObjectPosition *motion, SpriteFrameState *sprite, ActorRecord *entity);
+void update_griffon_recoil(ActorRecord *action, ObjectPosition *motion, SpriteFrameState *sprite, ActorRecord *entity);
 
 #endif

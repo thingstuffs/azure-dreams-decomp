@@ -1039,7 +1039,7 @@ void update_actor_action_and_direction(ActorRecord *action_state, ObjectPosition
 }
 
 /* Relinks actor state, updates status or movement as needed, and reports whether a new action may start. */
-s32 relink_flame_path(void *entity_arg, ObjectPosition *primary_context_arg, void *secondary_context_arg, s32 force_state_arg) {
+s32 relink_flame_path(ActorRecord *entity_arg, ObjectPosition *primary_context_arg, void *secondary_context_arg, s32 force_state_arg) {
     s16 state_type;
     s32 result;
     void *entity = entity_arg;
@@ -1085,18 +1085,18 @@ s32 relink_flame_path(void *entity_arg, ObjectPosition *primary_context_arg, voi
  * after a positive signed floor-trap check. Sets the secondary timer to -0x20 under dungeon flag
  * 0x80 during movement or after an accepted trap check. /
  */
-void finish_actor_tile_move_then_initialize_destination(void *state, void *motion, void *source, void *target) {
+void finish_actor_tile_move_then_initialize_destination(ActorRecord *state, void *motion, void *source, ActorRecord *target) {
     if (update_actor_movement_to_tile(state, motion, source, target) != 0) {
         spend_actor_mp(target, 4);
         advance_status_timers(target);
         if ((check_actor_floor_trap(source, target) << 16) > 0) {
-            *(s32 **)((u8 *)state + 0x8C) = ((s32 *)initialize_destination_state);
+            state->unk_8C.word_ptr = ((s32 *)initialize_destination_state);
             if (g_dungeon_status.flags & 0x80) {
-                *(s16 *)((u8 *)state + 0x92) = -0x20;
+                state->unk_90.parts.high.s = -0x20;
             }
         }
     } else if (g_dungeon_status.flags & 0x80) {
-        *(s16 *)((u8 *)state + 0x92) = -0x20;
+        state->unk_90.parts.high.s = -0x20;
     }
 }
 

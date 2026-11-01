@@ -2,7 +2,7 @@
 #include "shared/object_flags.h"
 #include "records/Rec_D_80082D58.h"
 #include "shared/object_links.h"
-#include "records/Rec_func_80094268_arg0.h"
+#include "shared/town_object.h"
 #include "town/scene/object.h"
 
 

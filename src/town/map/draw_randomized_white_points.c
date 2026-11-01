@@ -24,12 +24,6 @@ typedef struct S_800BB218_2_pre {
     u8 pad_04[0x4];
 } S_800BB218_2_pre;   /* the 0x8 bytes before object in draw_randomized_white_points, addressed as object[-1] */
 
-typedef struct S_800BB218_2 {
-    u8 pad_00[0x66];
-    s16 unk_66;
-    u8 pad_68[0x2F];
-    s8 unk_97;
-} S_800BB218_2;   /* object in draw_randomized_white_points */
 
    /* coords in draw_randomized_white_points */
 
@@ -91,7 +85,7 @@ s32 draw_randomized_white_points(void *first_object, void *first_coords)
 
             x_scale = rsin(angle) >> 4;
             {
-                s32 base_radius = ((S_800BB218_2 *)object)->unk_97;
+                s32 base_radius = ((TownObjectRecord *)object)->unk_97.as_s8;
                 radius_offset = (point_index / 8) % 12 + 0x48;
                 ((S_800BB218_0 *)scratch)->unk_14 =
                     coords->x + ((x_scale * (base_radius + radius_offset)) >> 8);
@@ -100,12 +94,12 @@ s32 draw_randomized_white_points(void *first_object, void *first_coords)
             ((S_800BB218_0 *)scratch)->unk_16 =
                 coords->y +
                 (((rcos(angle) >> 4) *
-                  (((S_800BB218_2 *)object)->unk_97 + radius_offset)) >> 8);
+                  (((TownObjectRecord *)object)->unk_97.as_s8 + radius_offset)) >> 8);
 
             ((S_800BB218_0 *)scratch)->unk_18 =
                 coords->z -
                 (((rsin((point_index % 16) << 6) >> 4) *
-                  (((S_800BB218_2 *)object)->unk_66 + 0x10)) >> 8);
+                  (((TownObjectRecord *)object)->unk_66.as_s16 + 0x10)) >> 8);
 
             ((S_800BB218_0 *)scratch)->unk_04 = RotTransPers(
                 scratch + 0x14, scratch, scratch + 8, scratch + 0xC);

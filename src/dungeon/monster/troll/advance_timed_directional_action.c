@@ -14,7 +14,7 @@
 #include "dungeon/actor.h"
 #include "dungeon/effect/screen.h"
 
-extern void create_targeted_motion_effect(ActorRecord *, ObjectPosition *, SpriteFrameState *, void *);
+extern void create_targeted_motion_effect(ActorRecord *, ObjectPosition *, SpriteFrameState *, ActorRecord *);
 void create_actor_action_effect(ActorRecord *source_object, ObjectPosition *source_pos, SpriteFrameState *sprite_template, ActorRecord *actor);
 
 extern u8 troll_action_dispatch_address[];

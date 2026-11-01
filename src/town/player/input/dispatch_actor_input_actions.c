@@ -14,13 +14,13 @@
 extern void submit_object_resource_data();
 extern void initialize_scene_action_record();
 void init_ground_input_fallback(s32 * *, void *, void *);
-struct Rec_func_80094268_arg0; void initialize_randomized_object_action(struct Rec_func_80094268_arg0 *, s32, s32);
-struct Rec_func_80094268_arg0; void init_periodic_effect_action(struct Rec_func_80094268_arg0 *, s32, s32);
-struct Rec_func_80094268_arg0; void init_threshold_countdown_action(struct Rec_func_80094268_arg0 *, void *, void *);
-struct Rec_func_80094268_arg0; struct ObjectPosition; void initialize_actor_action_state(struct Rec_func_80094268_arg0 *, struct ObjectPosition *, s32);
+struct TownObjectRecord; void initialize_randomized_object_action(struct TownObjectRecord *, s32, s32);
+struct TownObjectRecord; void init_periodic_effect_action(struct TownObjectRecord *, s32, s32);
+struct TownObjectRecord; void init_threshold_countdown_action(struct TownObjectRecord *, void *, void *);
+struct TownObjectRecord; struct ObjectPosition; void initialize_actor_action_state(struct TownObjectRecord *, struct ObjectPosition *, s32);
 void initialize_action_object(s32 * *, void *, void *);
-struct Rec_func_80094268_arg0; void init_movement_action(struct Rec_func_80094268_arg0 *, void *, s32);
-struct Rec_func_80094268_arg0; void initialize_action_object_with_counter(struct Rec_func_80094268_arg0 *, s32, s32);
+struct TownObjectRecord; void init_movement_action(struct TownObjectRecord *, void *, s32);
+struct TownObjectRecord; void initialize_action_object_with_counter(struct TownObjectRecord *, s32, s32);
 void initialize_actor_movement_interaction_action(s32 * *, void *, void *);
 void play_periodic_sound(s32, s32);
 #include "town/player/store_the_valid_shared_angle_in_offset_hex_10_api.h"
@@ -69,7 +69,7 @@ void dispatch_actor_input_actions(S_80091260_2 *actor, EntityRec *position, s32 
 
     input_flags = (input_state->pressed_buttons);
     if (input_flags & 0x10) {
-        initialize_actor_action_state((struct Rec_func_80094268_arg0 *)(actor), (struct ObjectPosition *)(position), context);
+        initialize_actor_action_state((struct TownObjectRecord *)(actor), (struct ObjectPosition *)(position), context);
         return;
     }
 
@@ -80,11 +80,11 @@ void dispatch_actor_input_actions(S_80091260_2 *actor, EntityRec *position, s32 
                 initialize_actor_movement_interaction_action((s32 * *)(actor), position, (void *)(context));
                 return;
             } else {
-                initialize_action_object_with_counter((struct Rec_func_80094268_arg0 *)(actor), (s32)(position), context);
+                initialize_action_object_with_counter((struct TownObjectRecord *)(actor), (s32)(position), context);
                 return;
             }
         } else if (test_resident_bitmap_bit(F_t_attack_enable) != 0) {
-            init_threshold_countdown_action((struct Rec_func_80094268_arg0 *)(actor), position, (void *)(context));
+            init_threshold_countdown_action((struct TownObjectRecord *)(actor), position, (void *)(context));
             return;
         }
         return;
@@ -100,7 +100,7 @@ void dispatch_actor_input_actions(S_80091260_2 *actor, EntityRec *position, s32 
             submit_object_resource_data(action_data[4]);
             return;
         } else {
-            init_movement_action((struct Rec_func_80094268_arg0 *)(actor), position, context);
+            init_movement_action((struct TownObjectRecord *)(actor), position, context);
             return;
         }
         return;
@@ -111,14 +111,14 @@ void dispatch_actor_input_actions(S_80091260_2 *actor, EntityRec *position, s32 
         if (actor->unk_16 == 1) {
             tile_id = read_map_cell_at_world_position(position->x.w.i, position->y.w.i);
             if (check_masked_value_in_current_range((u16)tile_id) != 0 &&position->z.v > 0) {
-                init_periodic_effect_action((struct Rec_func_80094268_arg0 *)(actor), (s32)(position), context);
+                init_periodic_effect_action((struct TownObjectRecord *)(actor), (s32)(position), context);
                 return;
             } else {
                 init_ground_input_fallback((s32 * *)(actor), position, (void *)(context));
                 return;
             }
         } else {
-            initialize_randomized_object_action((struct Rec_func_80094268_arg0 *)(actor), (s32)(position), context);
+            initialize_randomized_object_action((struct TownObjectRecord *)(actor), (s32)(position), context);
             store_the_valid_shared_angle_in_offset_hex_10(actor);
             call_the_valid_shared_angle_fixed_hex_120000_context_callee_80094_f_58((s32)(position));
             return;

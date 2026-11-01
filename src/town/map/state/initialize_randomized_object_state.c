@@ -10,9 +10,9 @@ extern M2C_UNK D_800A9624[3];
 extern M2C_UNK D_800A970C[3];
 
 /* Initialize object tables, settings, and randomized state. */
-void initialize_randomized_object_state(void *object, void *random_state, void *settings) {
+void initialize_randomized_object_state(TownObjectRecord *object, void *random_state, void *settings) {
     *(s32 **)((s8 *)object - 0x10) = D_800A9624;
-    *(s32 **)((s8 *)object + 0x50) = D_800A970C;
+    object->unk_50.as_pm = D_800A970C;
     *(s16 *)((s8 *)settings + 0x1C) = 0x37;
     *(s16 *)((s8 *)settings + 0x1E) = 0x37;
     *(u16 *)((s8 *)settings + 0x20) = 0xFF00;

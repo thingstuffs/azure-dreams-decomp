@@ -1,6 +1,6 @@
 #include "common.h"
 #include "m2c_compat.h"
-#include "records/Rec_func_80094268_arg0.h"
+#include "shared/town_object.h"
 #include "shared/entity.h"
 #include "town/player/state.h"
 

@@ -5,15 +5,15 @@
 #include "shared/game_work.h"
 #include "m2c_compat.h"
 #include "shared/entity.h"
-#include "records/Rec_func_80094268_arg0.h"
+#include "shared/town_object.h"
 #include "town.h"
 #include "town/player.h"
 #include "town/player/object.h"
 
 #include "engine/object/test_resident_bitmap_bit_api.h"                         /* extern */
 #include "town/player/coordinates.h"
-struct Rec_func_80094268_arg0; struct ObjectPosition; void initialize_actor_action_state(struct Rec_func_80094268_arg0 *, struct ObjectPosition *, s32);     /* extern */
-void initialize_action_handler_with_count_six(Rec_func_80094268_arg0 *record, void *ptr, void *ptr2);
+struct TownObjectRecord; struct ObjectPosition; void initialize_actor_action_state(struct TownObjectRecord *, struct ObjectPosition *, s32);     /* extern */
+void initialize_action_handler_with_count_six(TownObjectRecord *record, void *ptr, void *ptr2);
 void initialize_actor_movement_interaction_action(s32 **record, void *ptr, void *ptr2);
 #include "town/player/store_the_valid_shared_angle_in_offset_hex_10_api.h"                      /* extern */
 #include "town/player/move_both_components_toward_zero_direction_dependent_steps_clamping_zero_api.h"                      /* extern */
@@ -28,7 +28,7 @@ typedef struct S_80092320_1 {
 
 
 /* Update the actor and select an action from the reference value, state flags, and timer. */
-void update_actor_movement_actions(Rec_func_80094268_arg0 *action, EntityRec *actor, s32 context) {
+void update_actor_movement_actions(TownObjectRecord *action, EntityRec *actor, s32 context) {
     GameWork *state = &g_game_work;
     s16 reference_value;
     s32 action_result;

@@ -8,7 +8,7 @@
 #include "shared/town_action_flag.h"
 #include "shared/game_work.h"
 #include "shared/entity.h"
-#include "records/Rec_func_80094268_arg0.h"
+#include "shared/town_object.h"
 #include "shared/town_handler.h"
 #include "shared/sprite_frame_state.h"
 #include "town/player/coordinates.h"
@@ -30,7 +30,7 @@ extern s32 D_800FE4E0;
 extern u8 D_800D0158;
 
 /* Functions defined in this translation unit. */
-void update_actor_with_periodic_effect(Rec_func_80094268_arg0 *actor, EntityRec *position, s32 context);
+void update_actor_with_periodic_effect(TownObjectRecord *actor, EntityRec *position, s32 context);
 void reset_action_handler_on_flag(s32 **handler_slot, s32 context, SpriteFlagsView *state);
 
 #endif

@@ -65,29 +65,29 @@ void update_menu_node_or_retire_on_zero_state(Func800A4A20Object *object, s32 co
 }
 
 /* Initialize object state and placement with a direction-dependent offset. */
-void initialize_directional_object_state(void *object_arg, S_800A21EC_1 *placement, S_800A21EC_0 *state) {
+void initialize_directional_object_state(void *object_arg, ObjectPosition *placement, S_800A21EC_0 *state) {
     S_800A21EC_2 *object = object_arg;
 
     state->unk_00 = 0;
     state->unk_04 = 0;
     state->unk_05 = 0;
     register_node(object_arg - 0x20, &lit_mesh_renderer_address);
-    placement->unk_00.at00.v = (s32) ((IntVector3 *)(object->unk_14))->x;
-    placement->unk_04 = (s32) ((IntVector3 *)(object->unk_14))->y;
-    placement->unk_08 = (s32) ((IntVector3 *)(object->unk_14))->z;
+    placement->x.v = (s32) ((IntVector3 *)(object->unk_14))->x;
+    placement->y.v = (s32) ((IntVector3 *)(object->unk_14))->y;
+    placement->z.v = (s32) ((IntVector3 *)(object->unk_14))->z;
     object->unk_00 = &copy_signed_inner_value_by_flag;
     if (object->unk_20 == 0) {
         s32 heading;
         heading = 1;
         state->unk_08 = heading;
-        heading = (u16) placement->unk_00.at02.v;
-        placement->unk_00.at02.v = (u16) (heading + 0x90);
+        heading = (u16) placement->x.unsigned_parts.integer;
+        placement->x.unsigned_parts.integer = (u16) (heading + 0x90);
     } else {
         s32 flags = (u16) state->unk_14;
         s32 enabled = 1;
         state->unk_08 = enabled;
         state->unk_14 = (u16) (flags | 1);
-        placement->unk_00.at02.v = (u16) (placement->unk_00.at02.v - 0x90);
+        placement->x.unsigned_parts.integer = (u16) (placement->x.unsigned_parts.integer - 0x90);
     }
     state->unk_1A = 0;
 }

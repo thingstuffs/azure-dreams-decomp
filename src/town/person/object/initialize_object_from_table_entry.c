@@ -1,7 +1,7 @@
 #include "common.h"
 #include "shared/entity.h"
 #include "m2c_compat.h"
-#include "records/Rec_func_80094268_arg0.h"
+#include "shared/town_object.h"
 #include "town/person/object.h"
 
 typedef struct {
@@ -22,13 +22,13 @@ extern s32 person_reaction_object_entries[];
 
 
 /* Initializes the object from its table entry and resets the companion state. */
-void initialize_object_from_table_entry(Rec_func_80094268_arg0 *object, ObjectPosition *state, void *init_data) {
+void initialize_object_from_table_entry(TownObjectRecord *object, ObjectPosition *state, void *init_data) {
     s8 entry_value;
 
     initialize_object_entries((Struct800C5724 *)(object), init_data, person_reaction_object_entries);
     object_index_slots[5].unk0 = 0;
-    entry_value = object_index_slots[object->unk_60].unk2;
-    object->unk_54 = &person_bounce_handler_address;
+    entry_value = object_index_slots[object->slot].unk2;
+    object->handler = &person_bounce_handler_address;
     object->unk_90.as_s16 = (s16) entry_value;
     state->velocity_z = 0xFFF60000;
 }

@@ -12,7 +12,7 @@ extern M2C_UNK D_800D0690;
 
 
    /* Select a state value and update the record according to its mode flag. */
-void select_object_state_by_mode(Rec_D_800CFCB4 *record, void *context, SpriteFrameState *state, void *default_value,
+void select_object_state_by_mode(Rec_D_800CFCB4 *record, ObjectPosition *context, SpriteFrameState *state, void *default_value,
     void *alternate_value, void *update_value) {
     if (record->unk_94 != 0) {
         state->source = alternate_value;

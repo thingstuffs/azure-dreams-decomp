@@ -7,13 +7,6 @@ typedef struct S_8009EC3C_0 {
 
    /* arg2 in clear_the_state_fields_initialize_handlers_mode */
 
-typedef struct S_8009EC3C_2 {
-    s32 * unk_00;
-    u8 pad_04[0x5C];
-    s32 * unk_60;
-    u8 pad_64[0x18];
-    s16 unk_7C;
-} S_8009EC3C_2;   /* arg0 in clear_the_state_fields_initialize_handlers_mode; pointer addresses record offset 0x10 */
 #include "town/menu/window.h"
 #include "shared/position_views.h"
 #include "town/shop.h"
@@ -22,12 +15,12 @@ void invoke_entity_callback_and_follow_up(func_800A06C8_EntityLike *entity, s32 
 typedef struct S_8009ECF0_0 S_8009ECF0_0;
 
 /* Clear the state fields and initialize the record handlers and mode. */
-void clear_the_state_fields_initialize_handlers_mode(void *record_data, S_8009EC3C_0 *state, MotionDeltaView *values) {
+void clear_the_state_fields_initialize_handlers_mode(TownObjectRecord *record_data, S_8009EC3C_0 *state, MotionDeltaView *values) {
     state->unk_15 = 0;
     values->velocity_x = 0;
     values->velocity_y = 0;
     values->velocity_z = 0;
-    ((S_8009EC3C_2 *)((u8 *)record_data - 0x10))->unk_60 = &run_both_updates_decrement_countdown_check_completion;
-    ((S_8009EC3C_2 *)((u8 *)record_data - 0x10))->unk_7C = 7;
-    ((S_8009EC3C_2 *)((u8 *)record_data - 0x10))->unk_00 = &invoke_entity_callback_and_follow_up;
+    record_data->unk_50.as_pm = &run_both_updates_decrement_countdown_check_completion;
+    record_data->timer.as_s16 = 7;
+    ((TownObjectRecord *)((u8 *)record_data - 0x10))->unk_00.as_pm = &invoke_entity_callback_and_follow_up;
 }

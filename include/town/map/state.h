@@ -4,6 +4,8 @@
 
 #include "common.h"
 #include "shared/sprite_frame_state.h"
+#include "shared/town_object.h"
+#include "shared/entity.h"
 
 struct S_800BDFA0_0;
 struct S_func_800A9624_1;
@@ -30,7 +32,7 @@ void initialize_paired_state_blocks(void);
 void initialize_paired_state_callbacks(void *state);
 
 /* initialize_randomized_object_state.c */
-void initialize_randomized_object_state(void *object, void *random_state, void *settings);
+void initialize_randomized_object_state(TownObjectRecord *object, void *random_state, void *settings);
 
 /* initialize_record_visual_state.c */
 void initialize_record_visual_state(struct S_800BDFA0_0 *record, s32 unused, SpriteFrameState *value);
@@ -54,6 +56,6 @@ void store_state_and_update_grid_center(s8 state);
 void update_object_link_or_angle_state(void *object, void *context);
 
 /* update_state_and_set_flags.c */
-void update_state_and_set_flags(void *flags_end, void *unused, SpriteFrameState *state);
+void update_state_and_set_flags(void *flags_end, ObjectPosition *unused, SpriteFrameState *state);
 
 #endif

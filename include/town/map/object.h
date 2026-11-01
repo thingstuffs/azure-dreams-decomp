@@ -5,6 +5,7 @@
 #include "common.h"
 #include "shared/entity.h"
 #include "shared/sprite_frame_state.h"
+#include "shared/town_object.h"
 
 struct S_8008BA44_0;
 struct S_800A54FC_0;
@@ -27,10 +28,10 @@ s32 check_building_entity_compatibility(s32 record_id, s32 entity_id);
 /* clear_object_link_and_mark_complete_g01169.c */
 void clear_object_link_and_mark_complete(struct S_func_800BB508_0 *object, void *context);
 void advance_object_state_angle(void *object, void *context, void *state);
-void initialize_object_appearance_with_delay(void *object, void *context, void *state);
+void initialize_object_appearance_with_delay(TownObjectRecord *object, void *context, void *state);
 void clear_object_link_and_complete(void *object, void *value);
 void set_handler_variant_b_with_counter_30(void *object, void *context, void *state);
-void init_object_with_countdown(void *object, void *context, void *state);
+void init_object_with_countdown(TownObjectRecord *object, void *context, void *state);
 void set_handler_variant_b_with_counter_14(void *object, void *context, void *state);
 
 /* copy_entity_record_fields.c */

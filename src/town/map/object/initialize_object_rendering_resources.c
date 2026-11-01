@@ -6,21 +6,13 @@
 #include "engine/node.h"
 #include "town/map/object.h"
 
-typedef struct S_800C02C4_0 {
-    void * unk_00;
-    u8 pad_04[0x1C];
-    s16 unk_20;
-    s16 unk_22;
-    u8 pad_24[0x4];
-    s16 unk_28;
-} S_800C02C4_0;   /* arg0 in initialize_object_rendering_resources; pointer addresses record offset 0x10 */
 
 extern void D_800C035C();
 extern M2C_UNK D_800D0C58;
 
 /* Initializes object and rendering data and registers its resources. */
 void initialize_object_rendering_resources(TownCourseActor *object_data, void *unused, SpriteFrameState *render_data) {
-    ((S_800C02C4_0 *)((u8 *)object_data - 0x10))->unk_00 = &D_800C035C;
+    ((TownObjectRecord *)((u8 *)object_data - 0x10))->unk_00.as_pm = &D_800C035C;
     object_data->sprite_direction = -1;
     object_data->facing.s = 0xC00;
     object_data->unk_18 = 0xC00;

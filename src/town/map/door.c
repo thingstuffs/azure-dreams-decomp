@@ -17,7 +17,7 @@ s32 check_door_status_inverted(void *object) {
 }
 
 /* Initialize the record and select its handler according to its variant. */
-void initialize_door_variant(PersonObject *record_data, void *position, struct SpriteFrameState *unused_sprite) {
+void initialize_door_variant(TownObjectRecord *record_data, void *position, struct SpriteFrameState *unused_sprite) {
     u32 variant;
 
     variant = ((S_800A06A4_0 *)((u8 *)record_data - 0x10))->unk_A4;
@@ -27,20 +27,20 @@ void initialize_door_variant(PersonObject *record_data, void *position, struct S
 
         if (variant == 1) {
             handler.value = 2;
-            ((S_800A06A4_0 *)((u8 *)record_data - 0x10))->unk_A0 = handler.value;
+            record_data->unk_90.as_s16 = handler.value;
             handler.pointer = &advance_door_step;
-            ((S_800A06A4_0 *)((u8 *)record_data - 0x10))->unk_7E = 0;
+            record_data->unk_6E = 0;
         } else if (variant == 0) {
             handler.pointer = &trigger_door_interaction_effect;
         } else {
             handler.pointer = &install_next_door_handler;
-            ((S_800A06A4_0 *)((u8 *)record_data - 0x10))->unk_7E = 0;
+            record_data->unk_6E = 0;
         }
-        ((S_800A06A4_0 *)((u8 *)record_data - 0x10))->unk_60 = handler.pointer;
+        record_data->unk_50.as_pm = handler.pointer;
     }
     ((S_800A06A4_0 *)((u8 *)record_data - 0x10))->position = position;
     ((S_800A06A4_0 *)((u8 *)record_data - 0x10))->unk_1C = &D_800D09E0;
-    ((S_800A06A4_0 *)((u8 *)record_data - 0x10))->unk_78 = 0;
+    record_data->unk_68 = 0;
 }
 
 /* Clear and flag the object on a nonzero check result, or invoke its callback. */
@@ -74,12 +74,12 @@ void handle_door_check_result(S_func_800A0708_0 *object, void *callback_arg, s32
 }
 
 /* Install the next object handler when the update call succeeds. */
-void install_next_door_handler(void *object, void *unused_context, void *update_context, s32 unused_data) {
+void install_next_door_handler(TownObjectRecord *object, void *unused_context, void *update_context, s32 unused_data) {
     s32 linked_record = *(s32 *)((u8 *)object + 0x98);
     u8 status_byte = *((u8 *)object + 0x94);
 
     if (create_object_with_shared_data(object, linked_record, update_context, status_byte) != 0) {
-        *(s32 *)((u8 *)object + 0x50) = (s32) &emit_door_position_effect;
+        object->unk_50.as_s32 = (s32) &emit_door_position_effect;
     }
 }
 
@@ -351,7 +351,7 @@ void into_dn_door_jobs(void) {
 s32 check_door_input_and_angle(Rec_func_800A0668_arg0 *object, void *test_value) {
     if (get_smallest_signed_overlap_axis_amount_two_intersecting_boxes(test_value, &town_actor_control) != 0) {
         s32 *global_base = &scene_object_payload_alias;
-        s32 global_angle = ((S_800A0F10_0 *)global_base)->unk_10 & 0xFFF;
+        s32 global_angle = ((TownObjectRecord *)global_base)->unk_10.as_u16 & 0xFFF;
         s32 object_angle = object->unk_72 & 0xFFF;
 
         if ((u32) ((object_angle - global_angle) + 0x3FF) < 0x7FFU) {

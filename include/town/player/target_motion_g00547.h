@@ -1,6 +1,7 @@
+#include "shared/town_object.h"
 #ifndef TOWN_PLAYER_TARGET_MOTION_G00547_H
 #define TOWN_PLAYER_TARGET_MOTION_G00547_H
-struct PersonObject;
+struct TownObjectRecord;
 /* Move player motion toward target coordinates (G00547). */
 /* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - PD:town/engine:800D0608. */
 
@@ -17,6 +18,6 @@ void approach_player_target_position(UnsignedCountdownView *state, void *motion)
 
 struct SpriteFrameState;
 
-void set_motion_handler_and_copy_signed_byte(struct PersonObject *record_data, void *placement, struct SpriteFrameState *unused_sprite);
+void set_motion_handler_and_copy_signed_byte(TownObjectRecord *record_data, void *placement, struct SpriteFrameState *unused_sprite);
 
 #endif

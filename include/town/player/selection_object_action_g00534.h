@@ -4,7 +4,7 @@
 /* Original-file evidence (G00534): inferred (adjacency/recipe/locality), inferred-strong - CL:town/func_80096098. */
 
 #include "common.h"
-#include "records/Rec_func_80094268_arg0.h"
+#include "shared/town_object.h"
 #include "shared/object_node.h"
 #include "shared/vector.h"
 
@@ -47,10 +47,6 @@ typedef struct S_80093894_3 {
 } S_80093894_3;
 
 /* &D_80110EB8 in handle_selection_and_create_object */
-typedef struct S_80093894_4 {
-    u8 pad_00[0x2C];
-    void * unk_2C;
-} S_80093894_4;
 
 extern TownState map_runtime_state;
 extern void write_resource_command(void *ptr, s32 value);

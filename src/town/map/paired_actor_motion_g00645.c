@@ -344,16 +344,16 @@ case 0xFF:
 }
 
 /* Initialize the object and dispatch setup according to its state. */
-void initialize_object_and_dispatch_by_state(Func800BFE50Object *object, s32 *params, void *dispatch_context) {
+void initialize_object_and_dispatch_by_state(TownObjectRecord *object, s32 *params, void *dispatch_context) {
     u8 state;
 
     *(void **)((u8 *)object - 0x10) = D_800BCE78;
-    object->field50 = 0;
+    object->unk_50.as_s32 = 0;
     register_node((struct ObjectNodeHeader *)((u8 *)object - 0x20), project_sprite_chain);
 
-    object->fieldA0 = params[0];
-    object->fieldA4 = params[1];
-    state = object->field95;
+    object->unk_A0 = params[0];
+    object->unk_A4.as_s32 = params[1];
+    state = object->unk_95;
 
     switch (state) {
     default:
@@ -362,13 +362,13 @@ void initialize_object_and_dispatch_by_state(Func800BFE50Object *object, s32 *pa
     case 0:
         configure_the_set_mode_n_1(object, params, town_map_motion_defaults);
         select_record_entry_and_value((struct Dst *)(dispatch_context), (struct Elem *)(paired_actor_sprite_entries), 0);
-        object->field68 = 0;
-        object->field48 = D_800D2130;
+        object->unk_68 = 0;
+        object->unk_48 = D_800D2130;
         return;
 
     case 1:
         select_record_entry_and_value((struct Dst *)(dispatch_context), (struct Elem *)(paired_actor_sprite_entries), 0);
-        object->field68 = 0;
+        object->unk_68 = 0;
         break;
     }
 }

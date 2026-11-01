@@ -5,8 +5,9 @@
 
 #include "common.h"
 #include "m2c_compat.h"
-#include "records/Rec_func_80094268_arg0.h"
+#include "shared/town_object.h"
 #include "town/person/object/initialize_object_entries_api.h"          /* extern */
+#include "shared/entity.h"
 
 typedef struct S_800C8FF0_1 {
     u8 pad_00[0x4];
@@ -18,7 +19,7 @@ extern s32 D_800D6268[];
 void finish_countdown_and_set_flags(void *object, s32 *position);
 
 /* Functions defined in this translation unit. */
-void advance_object_after_timeout_variant_2(Rec_func_80094268_arg0 *object, s32 unused, void *updateContext);
-void decrement_entity_timer_updating_motion(Rec_func_80094268_arg0 *entity, S_800C8FF0_1 *motion, void *context);
+void advance_object_after_timeout_variant_2(TownObjectRecord *object, s32 unused, void *updateContext);
+void decrement_entity_timer_updating_motion(TownObjectRecord *entity, ObjectPosition *motion, void *context);
 
 #endif

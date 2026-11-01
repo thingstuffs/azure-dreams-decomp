@@ -13,7 +13,7 @@ struct SpriteFrameState;
 #include "records/Rec_D_80082D58.h"
 #include "records/Rec_D_80082E80.h"
 #include "records/Rec_D_800CFCC4.h"
-#include "records/Rec_func_80094268_arg0.h"
+#include "shared/town_object.h"
 #include "shared/game_work.h"
 #include "shared/object_flags.h"
 #include "shared/object_node.h"
@@ -432,7 +432,7 @@ extern s32 D_801006D0;
 extern s32 town_overlap_slots[];
 extern u16 scaled_window_quad_points[];
 extern s16 map_scene_selector_alias;
-typedef void (*TownObjectCallback)(void *state, void *position, SpriteFrameState *sprite);
+typedef void (*TownObjectCallback)(TownObjectRecord *state, void *position, SpriteFrameState *sprite);
 typedef union TownObjectCallbackEntry {
     TownObjectCallback callback;
     u32 address;

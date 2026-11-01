@@ -2,7 +2,7 @@
 #define DUNGEON_OVL_16B08_LOCAL_H
 #include "common.h"
 #include "m2c_compat.h"
-#include "records/Rec_func_80094268_arg0.h"
+#include "shared/town_object.h"
 #include "shared/entity.h"
 #include "records/Rec_func_8009431C_arg0.h"
 typedef struct { void *callback; u8 pad4[6]; s16 count; } ovl_16b08_local_7FFF6D14_InitState;
@@ -43,20 +43,20 @@ extern void update_actor_movement_with_radial_effects(void);
 extern u8 countdown_action_handler_table[];
 extern void update_threshold_countdown_with_busy_check(void);
 extern void update_actor_interaction_actions(void);
-void initialize_action_object_type_three(Rec_func_80094268_arg0 *object);
-void initialize_actor_action_state(Rec_func_80094268_arg0 *object, EntityRec *state, s32 setupArg);
+void initialize_action_object_type_three(TownObjectRecord *object);
+void initialize_actor_action_state(TownObjectRecord *object, EntityRec *state, s32 setupArg);
 void initialize_threshold_interaction_action(Rec_func_8009431C_arg0 *record);
-void initialize_action_object_type_six(Rec_func_80094268_arg0 *object);
+void initialize_action_object_type_six(TownObjectRecord *object);
 void initialize_action_object(s32 **object);
-void initialize_movement_action_count_six(Rec_func_80094268_arg0 *object, s32 setup_arg, s32 context, s32 setup_extra);
+void initialize_movement_action_count_six(TownObjectRecord *object, s32 setup_arg, s32 context, s32 setup_extra);
 void initialize_action_object_and_play_sound(s32 **object, s32 unused, s32 context);
 void initialize_action_handler_with_count_six(ovl_16b08_local_7FFF6D14_InitState *state, void *unused, void *context);
-void initialize_action_object_with_counter(Rec_func_80094268_arg0 *object, s32 unused, s32 context);
+void initialize_action_object_with_counter(TownObjectRecord *object, s32 unused, s32 context);
 void initialize_actor_movement_interaction_action(ovl_16b08_local_7FFF6DBC_InitState *state, void *unused, void *context);
-void initialize_actor_position_interaction_action(Rec_func_80094268_arg0 *object, s32 setup_arg, s32 context, s32 setup_extra);
+void initialize_actor_position_interaction_action(TownObjectRecord *object, s32 setup_arg, s32 context, s32 setup_extra);
 void initialize_input_driven_scene_object(s32 **outputSlot, EntityRec *state, s32 initContext);
 void initialize_threshold_interaction_object(ovl_16b08_local_7FFF6EC0_InitState *state, void *unused, void *context);
 void initialize_action_callback_from_entry(ovl_16b08_local_7FFF6F00_InitState *state, void *unused, void *context);
 void initialize_busy_checked_countdown_action(ovl_16b08_local_7FFF6F40_InitState *state, void *argument, void *context);
-void initialize_actor_interaction_state_19(Rec_func_80094268_arg0 *record);
+void initialize_actor_interaction_state_19(TownObjectRecord *record);
 #endif

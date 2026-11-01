@@ -10,7 +10,7 @@ typedef struct S_80023158_1 {
 } S_80023158_1;   /* obj in run_timed_value_decrease */
 
 /* Runs a 24-tick value decrease with random callbacks, then waits to reset. */
-void run_timed_value_decrease(TimedValueDecreaseObject *sequence, EntityRec *target)
+void run_timed_value_decrease(TimedValueDecreaseObject *sequence, ObjectPosition *target)
 {
     s16 state;
     s32 ticks_left;

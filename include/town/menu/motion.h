@@ -3,6 +3,7 @@
 
 #include "common.h"
 #include "records/Rec_D_80100B70.h"
+#include "shared/entity.h"
 
 struct Obj800A5BC0;
 struct ObjectPosition;

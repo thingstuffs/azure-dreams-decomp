@@ -19,7 +19,7 @@ typedef struct ReactionFlagState {
 } ReactionFlagState;   /* arg2 in advance_actor_reaction_downward */
 
 /* Advance two accumulators and invoke handlers when flag 0x8000 is set. */
-void advance_actor_reaction_downward(void *context, ReactionAccumulators *accumulators, ReactionFlagState *flagState) {
+void advance_actor_reaction_downward(TownObjectRecord *context, ReactionAccumulators *accumulators, ReactionFlagState *flagState) {
     accumulators->unk_00 = (s32) (accumulators->unk_00 + 0x40000);
     accumulators->unk_04 = (s32) (accumulators->unk_04 - 0x15555);
     if (flagState->unk_14 & 0x8000) {

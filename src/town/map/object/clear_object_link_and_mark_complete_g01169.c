@@ -21,7 +21,7 @@ void clear_object_link_and_mark_complete(S_func_800BB508_0 *object, void *contex
 }
 
 /* Initialize object state, scale, and color, then offset and configure the object. */
-void initialize_object_state_and_appearance(void *object_id, void *object, FuncData *state) {
+void initialize_object_state_and_appearance(void *object_id, ObjectPosition *object, FuncData *state) {
     register_node(object_id - 0x20, lit_mesh_renderer_address);
 
     state->unk12 = 0;
@@ -39,7 +39,7 @@ void initialize_object_state_and_appearance(void *object_id, void *object, FuncD
     state->unkC = g_game_work.view.tint.parts.tint_r;
     state->unkD = g_game_work.view.tint.parts.tint_g;
     state->unkE = g_game_work.view.tint.parts.tint_b;
-    *(s32 *)((u8 *)object + 8) += 0x200000;
+    object->z.v += 0x200000;
 
     configure_the_set_mode_n_3(object_id, object, D_800D1BDC);
 }
@@ -55,7 +55,7 @@ void advance_object_state_angle(void *object, void *context, void *state) {
 }
 
 /* Set the object handler table, initialize its state, and set its counter to 30. */
-void initialize_object_appearance_with_delay(void *object, void *context, void *state) {
+void initialize_object_appearance_with_delay(TownObjectRecord *object, void *context, void *state) {
     *(void **)((u8 *)object - 0x10) = D_800BB640;
     initialize_object_state_and_appearance(object, context, state);
     ((s32 *)state)[2] = 30;
@@ -74,7 +74,7 @@ void set_handler_variant_b_with_counter_30(void *object, void *context, void *st
 }
 
 /* Set the object handler table, initialize its state, and set its counter to 14. */
-void init_object_with_countdown(void *object, void *context, void *state) {
+void init_object_with_countdown(TownObjectRecord *object, void *context, void *state) {
     *(void **)((u8 *)object - 0x10) = D_800BB640;
     initialize_object_state_and_appearance(object, context, state);
     ((s32 *)state)[2] = 14;

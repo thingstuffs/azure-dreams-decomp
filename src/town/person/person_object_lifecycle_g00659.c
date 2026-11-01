@@ -6,7 +6,7 @@
 #include "engine/node.h"
 
 /* Update the object motion or clear its state and clean it up when the position check fails. */
-void update_object_position_or_cleanup(Rec_func_80094268_arg0 *object, void *position, void *motion) {
+void update_object_position_or_cleanup(TownObjectRecord *object, void *position, void *motion) {
     s32 check_result;
     s8 *state_flag;
 
@@ -93,7 +93,7 @@ void dispatch_object_state(void *object, void *context, void *dispatch_data) {
 }
 
 /* Initialize the object and its animation, then dispatch its current state. */
-void initialize_person_object(Rec_func_80094268_arg0 *object, void *context, void *animation) {
+void initialize_person_object(TownObjectRecord *object, ObjectPosition *context, void *animation) {
     register_node_if_unregistered(object, project_sprite_chain);
     object->unk_8C = 0x40;
     object->unk_8E = 0x40;

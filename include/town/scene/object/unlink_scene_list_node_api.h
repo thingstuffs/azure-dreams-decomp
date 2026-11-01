@@ -3,6 +3,6 @@
 
 #include "common.h"
 
-struct Rec_func_80094268_arg0;
+struct TownObjectRecord;
 
 #endif

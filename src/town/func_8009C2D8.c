@@ -2,13 +2,13 @@
 #include "common.h"
 #include "m2c_compat.h"
 #include "shared/entity.h"
-#include "records/Rec_func_80094268_arg0.h"
+#include "shared/town_object.h"
 
 #include "town/player/initialize_record_with_handler_table_api.h"
 #include "town/person/position.h"
 
 /* Refreshes height and steps positive X until the countdown becomes negative, then resets the handler. */
-void step_actor_positive_x_until_timer_expires(Rec_func_80094268_arg0 *state, EntityRec *object, s32 context) {
+void step_actor_positive_x_until_timer_expires(TownObjectRecord *state, EntityRec *object, s32 context) {
     u16 ticks_left;
 
     object->z.w.i = query_lowered_transform_position(object);

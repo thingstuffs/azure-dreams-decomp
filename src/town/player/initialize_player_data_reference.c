@@ -5,7 +5,7 @@
 
 typedef struct S_8009A18C_0 {
     u8 pad_00[0x4];
-    void (*unk_04)(struct Rec_func_80094268_arg0 *, EntityRec *, void *);
+    void (*unk_04)(struct TownObjectRecord *, EntityRec *, void *);
 } S_8009A18C_0;   /* arg0 in initialize_player_data_reference */
 
 typedef struct S_8009A18C_1 {

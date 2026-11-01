@@ -51,8 +51,8 @@ void initialize_sprite_six(SpriteSixState *state, ObjectPosition *position, Spri
 void update_panel_aggregate_value(void *entry);
 
 /* Owner declarations appended by tools/headers (append-only; the lines above are hand-kept). */
-#include "records/Rec_func_80094268_arg0.h"
-void unlink_scene_list_node(Rec_func_80094268_arg0 *node);
+#include "shared/town_object.h"
+void unlink_scene_list_node(TownObjectRecord *node);
 
 void func_8052FE94(s16 object_value);
 

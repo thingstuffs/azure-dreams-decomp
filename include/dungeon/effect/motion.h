@@ -54,7 +54,7 @@ void process_effect_modes_and_completion(void *state);
 
 void advance_linked_object_counter(void *entry, s32 unused, SpriteFrameState *target);
 
-void copy_selected_table_pair(void *record_field, s32 pair_index);
+void copy_selected_table_pair(ActorRecord *record_field, s32 pair_index);
 
 /* Orbit center and angle for the indexed-color sprite. */
 typedef struct IndexedColorSpriteBody {

@@ -1,5 +1,5 @@
 #include "common.h"
-#include "records/Rec_func_80094268_arg0.h"
+#include "shared/town_object.h"
 #include "shared/entity.h"
 
 
@@ -7,14 +7,14 @@
 #include "town/person/object.h"
 
 /* Ease the position toward its target, snapping to it when the timer expires. */
-void ease_reaction_position_to_target(Rec_func_80094268_arg0 *state, EntityRec *position, void *update_arg) {
+void ease_reaction_position_to_target(TownObjectRecord *state, ObjectPosition *position, void *update_arg) {
     s32 x_delta;
     s32 y_delta;
     s32 z_delta;
     u16 timer;
 
-    timer = state->unk_6C.as_u16 - 1;
-    state->unk_6C.as_u16 = timer;
+    timer = state->timer.as_u16 - 1;
+    state->timer.as_u16 = timer;
     if ((timer << 16) <= 0) {
         apply_object_setup_and_update(state, position, update_arg);
         position->x.w.i = state->unk_84.as_u16;

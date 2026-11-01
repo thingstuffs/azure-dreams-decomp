@@ -3,7 +3,7 @@
 #include "shared/town_action_flag.h"
 #include "shared/town_handler_entries.h"
 #include "shared/entity.h"
-#include "records/Rec_func_80094268_arg0.h"
+#include "shared/town_object.h"
 
 /* Unknown field access, like `*(type_ptr) &expr->unk_offset` */
 
@@ -15,12 +15,12 @@
 #include "town/player.h"
 #include "town/player/compute_and_clamps_vector_based_adjustment_updates_town_api.h"
 #include "town/player/call_the_handler_selects_nonzero_entry_api.h"
-void init_actor_action_state(Rec_func_80094268_arg0 *record, void *ptr, void *ptr2);
+void init_actor_action_state(TownObjectRecord *record, void *ptr, void *ptr2);
 
 
 
 /* Update the entity, handle a large value change, and advance the state countdown. */
-void update_threshold_timed_action(Rec_func_80094268_arg0 *state, EntityRec *entity, s32 context) {
+void update_threshold_timed_action(TownObjectRecord *state, EntityRec *entity, s32 context) {
     s16 sampled_value;
     s16 ticks_left;
 

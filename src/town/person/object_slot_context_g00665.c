@@ -4,7 +4,7 @@
 #include "shared/sprite_frame_state.h"
 
 /* Registers the object in scene slot 47 using the four local setup tables. */
-void initialize_scene_slot_47_context(void *object, void *unused, struct SpriteFrameState *context)
+void initialize_scene_slot_47_context(TownObjectRecord *object, void *unused, struct SpriteFrameState *context)
 {
     initialize_object_and_register_slot(object, 47, D_800D5AF8, D_800D5AFC, D_800D5AC8, D_800D5AD0);
 }
@@ -13,7 +13,7 @@ void initialize_scene_slot_47_context(void *object, void *unused, struct SpriteF
  * Registers scene slot 0x17 using the four local tables, sets render halfword 9 to 0x280, and
  * clears flag 0x100 in halfword 10.
  */
-void initialize_object_slot_0x17(void *context, void *unused, struct SpriteFrameState *stateWords) {
+void initialize_object_slot_0x17(TownObjectRecord *context, void *unused, struct SpriteFrameState *stateWords) {
     initialize_object_and_register_slot(context, 0x17, D_800D5AF8, D_800D5AFC, D_800D5AC8,
                   D_800D5AD0);
     stateWords->clut = 0x280;

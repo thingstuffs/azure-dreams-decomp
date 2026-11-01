@@ -1,7 +1,7 @@
 #include "common.h"
 #include "m2c_compat.h"
 #include "shared/object_index_slots.h"
-#include "records/Rec_func_80094268_arg0.h"
+#include "shared/town_object.h"
 #include "slus.h"
 #include "town/person.h"
 
@@ -12,11 +12,11 @@ extern s32 D_800D6CF0[];
 
 
 /* Clears the entity's indexed flag and sets its next handler and state. */
-void initialize_fade_action(Rec_func_80094268_arg0 *entity, s32 unused, void *context) {
+void initialize_fade_action(TownObjectRecord *entity, s32 unused, void *context) {
     sound_set_cd_cue_parameters(0, 0x2C3D, 0x02000002, 0x010000EA);
     SD_Call(0x300);
     initialize_object_entries((Struct800C5724 *)(entity), context, (s32 *)(&D_800D6CF0));
-    object_index_slots[entity->unk_60].unk_00 = 0;
-    entity->unk_54 = &D_800CC4B0;
-    entity->unk_6C.as_s16 = 0x19;
+    object_index_slots[entity->slot].unk_00 = 0;
+    entity->handler = &D_800CC4B0;
+    entity->timer.as_s16 = 0x19;
 }

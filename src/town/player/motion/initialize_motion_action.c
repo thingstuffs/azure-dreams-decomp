@@ -1,6 +1,6 @@
 #include "common.h"
 #include "shared/town_handler_entries.h"
-#include "records/Rec_func_80094268_arg0.h"
+#include "shared/town_object.h"
 #include "town/player.h"
 #include "town/player/motion.h"
 
@@ -10,7 +10,7 @@ extern s32 actor_input_dispatch_address;
 
 
 /* Set up the entity state and motion, then install its handler table. */
-void initialize_motion_action(Rec_func_80094268_arg0 *entity, void *motion, s32 value) {
+void initialize_motion_action(TownObjectRecord *entity, void *motion, s32 value) {
     entity->unk_3E.as_s16 = 6;
     store_the_valid_shared_angle_in_offset_hex_10(entity);
     handle_adjust_vector_toward_selected_angle_limit_magnitude(motion);

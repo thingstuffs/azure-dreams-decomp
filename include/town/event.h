@@ -6,6 +6,7 @@
 #include "shared/entity.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/vector.h"
+#include "shared/town_object.h"
 
 struct S_8009B0EC_0;
 struct S_8009B9BC_1;
@@ -25,7 +26,7 @@ void advance_timed_action_handler(struct S_8009B0EC_0 *object);
 void initialize_actor_action_with_default_data(void *actor, void *action_id, struct SpriteFrameState *action_state);
 
 /* initialize_actor_action_with_defaults.c */
-void initialize_actor_action_with_defaults(void *actor, void *action_id, struct SpriteFrameState *action_state, void *state_data);
+void initialize_actor_action_with_defaults(void *actor, ObjectPosition *action_id, struct SpriteFrameState *action_state, void *state_data);
 
 /* initialize_object_resource_table.c */
 void initialize_object_resource_table(void *object, void *context, SpriteFrameState *state);

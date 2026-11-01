@@ -1,7 +1,7 @@
 #include "common.h"
 #include "shared/town_handler_entries.h"
 #include "m2c_compat.h"
-#include "records/Rec_func_80094268_arg0.h"
+#include "shared/town_object.h"
 #include "town/player.h"
 
 #include "town/player/call_the_handler_selects_nonzero_entry_api.h"  /* extern */
@@ -9,7 +9,7 @@ extern void D_80092320();
 
 
 /* Reset and initialize the record with its handler and a count of six. */
-void init_movement_action(Rec_func_80094268_arg0 *record, void *unused, s32 setup_value) {
+void init_movement_action(TownObjectRecord *record, void *unused, s32 setup_value) {
     store_the_valid_shared_angle_in_offset_hex_10(record);
     call_the_handler_selects_nonzero_entry(D_800D0108, record, (void *)(setup_value));
     record->unk_00.as_pm = &D_80092320;

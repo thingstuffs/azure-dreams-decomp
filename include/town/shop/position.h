@@ -4,7 +4,7 @@
 
 #include "common.h"
 #include "records/Rec_D_800CFCB4.h"
-#include "records/Rec_func_80094268_arg0.h"
+#include "shared/town_object.h"
 #include "records/Rec_func_8009EE9C_arg0.h"
 #include "records/Rec_func_800B0C68_arg0.h"
 #include "shared/dungeon_delay_views.h"
@@ -46,6 +46,6 @@ s32 get_target_itemp(void);
 void update_the_target_offset_advance_phase_handle_active_event(void *state, s32 event_id, DelayMotionZ *target, struct SpriteFrameState *context);
 void handle_jitter_position_pulse_scale_until_countdown_expires(Rec_D_800CFCB4 *state, s32 context, EntityRec *position, struct S_8009F374_2 *scale);
 void call_callee_80033_d_08_set_handler(Rec_func_8009EE9C_arg0 *record, s32 value, void *unused_motion, struct SpriteFrameState *unused_context);
-void initialize_the_town_entity_synchronize_slot_state(Rec_func_80094268_arg0 *entity, s32 unused_arg1, s32 unused_arg2, void *context);
+void initialize_the_town_entity_synchronize_slot_state(TownObjectRecord *entity, s32 unused_arg1, s32 unused_arg2, void *context);
 
 #endif

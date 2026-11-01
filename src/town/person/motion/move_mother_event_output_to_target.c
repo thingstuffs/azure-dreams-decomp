@@ -1,5 +1,5 @@
 #include "common.h"
-#include "records/Rec_func_80094268_arg0.h"
+#include "shared/town_object.h"
 #include "shared/dungeon_moving_views.h"
 
 
@@ -20,7 +20,7 @@ typedef struct S_800C7CF0_2 {
 /* Move the output toward the target position until the object countdown expires. */
 void move_mother_event_output_to_target(void *object_arg, void *out_arg, void *setup_context) {
     S_800C7CF0_2 *out = out_arg;
-    Rec_func_80094268_arg0 *object = object_arg;
+    TownObjectRecord *object = object_arg;
     s16 signed_frames;
     u16 target_x;
     u16 target_y;
@@ -28,8 +28,8 @@ void move_mother_event_output_to_target(void *object_arg, void *out_arg, void *s
 
     target_x = ((MovingPosition *)D_800834A0)->x;
     target_y = ((MovingPosition *)D_800834A0)->y - 0x42;
-    frames = object->unk_6C.as_u16 - 1;
-    object->unk_6C.as_u16 = frames;
+    frames = object->timer.as_u16 - 1;
+    object->timer.as_u16 = frames;
     signed_frames = (s32)((u32)frames << 16) >> 16;
 
     if (signed_frames <= 0) {
@@ -46,5 +46,5 @@ void move_mother_event_output_to_target(void *object_arg, void *out_arg, void *s
     out->unk_06 =
         (s16)((u16)out->unk_06 +
               ((s16)target_y - out->unk_06) /
-              (s16)object->unk_6C.as_u16);
+              (s16)object->timer.as_u16);
 }

@@ -1,5 +1,5 @@
 #include "common.h"
-#include "records/Rec_func_80094268_arg0.h"
+#include "shared/town_object.h"
 #include "m2c_compat.h"
 #include "town/person.h"
 
@@ -15,6 +15,6 @@ extern M2C_UNK D_800D6960;
 
 
 /* Set the object's linked data pointer to D_800D6960. */
-void set_linked_data_pointer(Rec_func_80094268_arg0 *object) {
-    ((S_800CB060_1 *)(object->unk_80))->unk_04 = &D_800D6960;
+void set_linked_data_pointer(TownObjectRecord *object) {
+    object->descriptor->entries[1] = &D_800D6960;
 }

@@ -46,7 +46,7 @@ void copy_indexed_motion_value_and_advance(Rec_D_80082D58 *object, EntityRec *ou
 }
 
 /* Invoke the object's callback. */
-void invoke_emote_object_callback(EmoteCallbackObject *object, void *motion, s32 context) {
+void invoke_emote_object_callback(EmoteCallbackObject *object, ObjectPosition *motion, s32 context) {
     object->callback(object, motion, context);
 }
 

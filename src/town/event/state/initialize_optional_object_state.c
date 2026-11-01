@@ -2,13 +2,13 @@
 #include "town/event/object_setup.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/slus_callbacks.h"
-#include "records/Rec_func_80094268_arg0.h"
+#include "shared/town_object.h"
 #include "records/Rec_D_80082E80.h"
 #include "town/event/object.h"
 #include "town/event/state.h"
 #include "engine/node.h"
 
-struct EntityRec; struct Rec_D_80082E80; struct Rec_func_80094268_arg0;
+struct EntityRec; struct Rec_D_80082E80; struct TownObjectRecord;
 void dispatch_object_event_or_retire(void *object, s32 event, s32 event_data);
 void noop_hook(void);
 
@@ -26,7 +26,7 @@ typedef struct S_8009B218_0_pre {
 void initialize_optional_object_state(void *object_arg, void *context, void *state_arg, void *init_value) {
     SpriteFrameState *state = state_arg;
 
-    Rec_func_80094268_arg0 *object = object_arg;
+    TownObjectRecord *object = object_arg;
 
     ((S_8009B218_0_pre *)object)[-1].unk_00 = &dispatch_object_event_or_retire;
     register_node_if_unregistered(object, project_sprite_chain);

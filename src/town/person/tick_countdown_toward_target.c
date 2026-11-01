@@ -1,5 +1,5 @@
 #include "common.h"
-#include "records/Rec_func_80094268_arg0.h"
+#include "shared/town_object.h"
 #include "shared/position_views.h"
 
 /* extern */
@@ -12,12 +12,12 @@
 #include "town/person.h"
 #include "town/person/object.h"
 /* Decrement the countdown and ease the current values toward their targets. */
-void tick_countdown_toward_target(Rec_func_80094268_arg0 *state, SignedPositionView *current, void *context) {
+void tick_countdown_toward_target(TownObjectRecord *state, SignedPositionView *current, void *context) {
     u16 ticks_left;
     u32 target_delta;
 
-    ticks_left = state->unk_6C.as_u16 - 1;
-    state->unk_6C.as_u16 = ticks_left;
+    ticks_left = state->timer.as_u16 - 1;
+    state->timer.as_u16 = ticks_left;
     if ((ticks_left << 0x10) <= 0) {
         apply_object_setup_and_update(state, current, context);
     }

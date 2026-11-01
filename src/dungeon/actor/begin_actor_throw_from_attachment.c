@@ -71,7 +71,7 @@ typedef struct S_800AACA4_11 {
 } S_800AACA4_11;   /* ((S_800AACA4_2_pre *)root)[-1].unk_00 in begin_actor_throw_from_attachment */
 
 /* Initialize movement from the source object, set vertical speed, and advance the tile. */
-void begin_actor_throw_from_attachment(Rec_func_800A9E70_arg0 *state, ObjectPosition *motion, SpriteFrameState *tile, S_800AACA4_1 *entity) {
+void begin_actor_throw_from_attachment(Rec_func_800A9E70_arg0 *state, ObjectPosition *motion, SpriteFrameState *tile, ActorRecord *entity) {
     LocalResult height_adjustment;
     S_800AACA4_3 *source_object;
     S_800AACA4_2_pre *entity_data;
@@ -86,12 +86,12 @@ void begin_actor_throw_from_attachment(Rec_func_800A9E70_arg0 *state, ObjectPosi
     state->unk_9A.as_s8 = 12;
     state->unk_9B.as_s8 = 0;
     state->unk_8C = 0;
-    initial_direction = ((S_800AACA4_8 *)(entity->unk_60))->unk_2A;
-    entity->unk_1C &= 0xFFF7FFFF;
-    entity->unk_6A = initial_direction;
+    initial_direction = ((S_800AACA4_8 *)(entity->target))->unk_2A;
+    entity->flags1C &= 0xFFF7FFFF;
+    entity->movement_facing = initial_direction;
     state->unk_96.as_s16 = 2;
 
-    entity_data = entity->unk_60;
+    entity_data = entity->target;
     source_object = entity_data[-1].unk_04;
     resource_table = ((S_800AACA4_9 *)(source_object->unk_28))->unk_00;
     resource_entry = (*(void * *)((u8 *)(resource_table->unk_00)
@@ -100,31 +100,31 @@ void begin_actor_throw_from_attachment(Rec_func_800A9E70_arg0 *state, ObjectPosi
         height_adjustment.value = -0x60;
     }
 
-    entity_data = entity->unk_60;
+    entity_data = entity->target;
     motion->z.w.i = ((S_800AACA4_11 *)(entity_data[-1].unk_00))->unk_0A + height_adjustment.value;
     tile->tile_x = source_object->unk_24;
     tile->tile_y = source_object->unk_25;
     set_record_integer_tile_center(motion, tile->tile_x, tile->tile_y);
 
-    travel_steps = entity->unk_8A.s;
+    travel_steps = entity->unk_8A;
     if (travel_steps != 0) {
-        target_offset = entity->unk_6A;
+        target_offset = entity->movement_facing;
         target_offset >>= 8;
         target_offset &= 0xE;
         target_height = sample_terrain_surface_height(
             ((tile->tile_x + (*(s16 *)((u8 *)(((s8 *)dir_step_x)) + target_offset)) * travel_steps) << 6) + 0x20 & 0xFFE0,
             ((tile->tile_y + (*(s16 *)((u8 *)(((s8 *)dir_step_y)) + target_offset)) * travel_steps) << 6) + 0x20 & 0xFFE0,
             motion->z.w.i);
-        travel_duration = entity->unk_8A.u + 2;
-        entity->unk_8A.s = travel_duration;
+        travel_duration = entity->unk_8A + 2;
+        entity->unk_8A = travel_duration;
         if (target_height < 0x200) {
             motion->velocity_z = -((motion->z.w.i - target_height) << 15) / travel_duration;
         } else {
-            motion->velocity_z = -((motion->z.w.i - ((S_800AACA4_8 *)(entity->unk_60))->unk_88) << 15) / travel_duration;
+            motion->velocity_z = -((motion->z.w.i - ((S_800AACA4_8 *)(entity->target))->unk_88) << 15) / travel_duration;
         }
-        entity->unk_8A.s = entity->unk_8A.u - 2;
+        entity->unk_8A = entity->unk_8A - 2;
     }
 
-    tile->tile_x += dir_step_x[(entity->unk_6A >> 9) & 7];
-    tile->tile_y += dir_step_y[(entity->unk_6A >> 9) & 7];
+    tile->tile_x += dir_step_x[(entity->movement_facing >> 9) & 7];
+    tile->tile_y += dir_step_y[(entity->movement_facing >> 9) & 7];
 }

@@ -1,6 +1,6 @@
 #include "common.h"
 #include "town/person.h"
-#include "records/Rec_func_80094268_arg0.h"
+#include "shared/town_object.h"
 #include "engine/window.h"
 
 typedef struct S_800C382C_0 {
@@ -16,7 +16,7 @@ typedef struct S_800C382C_0 {
 extern s32 D_800C355C;
 
 /* Chooses a random movement direction and advances the entity state. */
-void choose_random_movement_direction(Rec_func_80094268_arg0 *entity, S_800C382C_0 *movement, void *context) {
+void choose_random_movement_direction(TownObjectRecord *entity, S_800C382C_0 *movement, void *context) {
     s32 attempt;
     s32 direction;
     void *next_node;
@@ -30,25 +30,25 @@ void choose_random_movement_direction(Rec_func_80094268_arg0 *entity, S_800C382C
         if (direction == 0) {
             if (movement->unk_02 <
                 entity->unk_84.as_s16 + entity->unk_8C) {
-                entity->unk_72.as_s16 = 0x400;
+                entity->heading.as_s16 = 0x400;
                 break;
             }
         } else if (direction == 1) {
             if (movement->unk_06 <
                 entity->unk_86.as_s16 + entity->unk_8E) {
-                entity->unk_72.as_s16 = 0;
+                entity->heading.as_s16 = 0;
                 break;
             }
         } else if (direction == 2) {
             if (entity->unk_84.as_s16 - entity->unk_8C <
                 movement->unk_02) {
-                entity->unk_72.as_s16 = 0xC00;
+                entity->heading.as_s16 = 0xC00;
                 break;
             }
         } else {
             if (entity->unk_86.as_s16 - entity->unk_8E <
                 movement->unk_06) {
-                entity->unk_72.as_s16 = 0x800;
+                entity->heading.as_s16 = 0x800;
                 break;
             }
         }

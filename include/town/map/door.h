@@ -18,6 +18,8 @@ struct S_800A0E3C_1;
 #include "shared/runtime_dispatch.h"
 #include "shared/sys_flags.h"
 #include "town/shop.h"
+#include "shared/town_object.h"
+#include "shared/entity.h"
 struct InputRecord;
 
 typedef struct S_800A0668_1 {
@@ -161,15 +163,11 @@ typedef struct S_800A0E3C_1 {
     s32 unk_48;
 } S_800A0E3C_1;
 
-typedef struct S_800A0F10_0 {
-    u8 pad_00[0x10];
-    u16 unk_10;
-} S_800A0F10_0;
 
 s32 check_door_status_inverted(void *object);
 
 void handle_door_check_result(S_func_800A0708_0 *object, void *callback_arg, s32 callback_data);
-void install_next_door_handler(void *object, void *unused_context, void *update_context, s32 unused_data);
+void install_next_door_handler(TownObjectRecord *object, void *unused_context, void *update_context, s32 unused_data);
 void emit_door_position_effect(S800A3088Arg0 *entity, void *action, S800A3088Arg2 *position);
 void open_door_to_target(void *object, void *context);
 void door_no_op(void);

@@ -1,6 +1,6 @@
 #include "common.h"
 #include "shared/town_handler_entries.h"
-#include "records/Rec_func_80094268_arg0.h"
+#include "shared/town_object.h"
 #include "shared/town_handler.h"
 #include "town/player/item.h"
 
@@ -17,7 +17,7 @@ typedef struct S_800947CC_1 {
 } S_800947CC_1;   /* arg1 in initialize_returned_item_action */
 
 /* Initialize an object with its handler, two settings, and a state value of 20. */
-void initialize_returned_item_action(Rec_func_80094268_arg0 *object, S_800947CC_1 *settings, void *ptr2) {
+void initialize_returned_item_action(TownObjectRecord *object, S_800947CC_1 *settings, void *ptr2) {
     u16 secondSetting;
     s32 *handler;
 

@@ -34,7 +34,7 @@ typedef struct S_80173078_2 {
 /* Updates an item action, its animation, particle effects, and completion state. */
 /* Starts a targeted spell with returning particles and a 20-particle burst, then restores idle after a
  * 32-tick wait. */
-void update_item_action_animation_and_effects(ActorRecord *action, ObjectPosition *movement, SpriteFrameState *sprite, void *actor)
+void update_item_action_animation_and_effects(ActorRecord *action, ObjectPosition *movement, SpriteFrameState *sprite, ActorRecord *actor)
 {
     u8 *item_slot;
     s16 special;
@@ -51,7 +51,7 @@ void update_item_action_animation_and_effects(ActorRecord *action, ObjectPositio
     switch (state) {
     case 0:
         if ((*(u32 *)((u8 *)actor + 0x1C)) & ACTOR_PLAYER_SIDE) {
-            switch ((*(u16 *)((u8 *)actor + 0x46)) & 0x3FFF) {
+            switch (actor->action_flags & 0x3FFF) {
             case 7:
                 special = 1;
                 /* fallthrough */
@@ -75,7 +75,7 @@ void update_item_action_animation_and_effects(ActorRecord *action, ObjectPositio
                 break;
             }
         } else {
-            switch ((*(u16 *)((u8 *)actor + 0x46)) & 0x3FFF) {
+            switch (actor->action_flags & 0x3FFF) {
             case 3:
                 item_slot = (u8 *)actor + 0xE;
                 break;
@@ -97,18 +97,18 @@ void update_item_action_animation_and_effects(ActorRecord *action, ObjectPositio
             action->action_state_flags &= 0xFF7F;
             if (special != 0) {
                 target = primary_actor_record;
-                (*(void * *)((u8 *)actor + 0x60)) = target;
+                actor->target = target;
                 item_id = (S_80173078_2 *)((ObjectNodeHeader *)((u8 *)target - 0x20))->sprite;
-                (*((u8 *)actor + 0x72)) = item_id->unk_24;
-                (*((u8 *)actor + 0x73)) = item_id->unk_25;
+                actor->target_tile_x = item_id->unk_24;
+                actor->target_tile_y = item_id->unk_25;
             } else {
                 item_id = (S_80173078_2 *)(*item_slot);
                 if (item_action_definitions[((u8)item_id)].kind == 2) {
-                    target = (*(void * *)((u8 *)actor + 0x60));
+                    target = actor->target;
                     if (target != 0) {
                         item_id = (S_80173078_2 *)((ObjectNodeHeader *)((u8 *)target - 0x20))->sprite;
-                        (*((u8 *)actor + 0x72)) = item_id->unk_24;
-                        (*((u8 *)actor + 0x73)) = item_id->unk_25;
+                        actor->target_tile_x = item_id->unk_24;
+                        actor->target_tile_y = item_id->unk_25;
                     }
                 } else {
                     s32 dx;
@@ -116,12 +116,12 @@ void update_item_action_animation_and_effects(ActorRecord *action, ObjectPositio
 
                     dx = (s32)scan_actor_along_heading(
                         actor, sprite->tile_x, sprite->tile_y,
-                        (*(s16 *)((u8 *)actor + 0x2A)), 0x10);
-                    (*(void * *)((u8 *)actor + 0x60)) = (void *)dx;
-                    dx = abs(*(s8 *)((u8 *)actor + 0x72));
-                    dy = abs(*(s8 *)((u8 *)actor + 0x73));
-                    (*((u8 *)actor + 0x72)) = dx;
-                    (*((u8 *)actor + 0x73)) = dy;
+                        actor->facing, 0x10);
+                    actor->target = (void *)dx;
+                    dx = abs(actor->target_tile_x);
+                    dy = abs(actor->target_tile_y);
+                    actor->target_tile_x = dx;
+                    actor->target_tile_y = dy;
                 }
             }
 
@@ -142,9 +142,9 @@ void update_item_action_animation_and_effects(ActorRecord *action, ObjectPositio
         advance_status_timers(actor);
         (*((u8 *)actor + 0x6D))--;
         action->unk_8C.address = metal_action_resume_address;
-        (*((u8 *)actor + 0x73)) = 0;
-        (*((u8 *)actor + 0x72)) = 0;
-        (*(u16 *)((u8 *)actor + 0x46)) &= 0x7FFF;
+        actor->target_tile_y = 0;
+        actor->target_tile_x = 0;
+        actor->action_flags &= 0x7FFF;
         return;
 
     case 1:
@@ -256,7 +256,7 @@ void update_item_action_animation_and_effects(ActorRecord *action, ObjectPositio
 
                 animation_table = metal_frame_set_1;
                 sprite->frameTable = animation_table;
-                direction = ((g_game_work.view.camera_rotation.parts.viewAngle + (*(s16 *)((u8 *)actor + 0x2A)) + 0x100) >> 9) & 7;
+                direction = ((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7;
                 select_sprite_entry(sprite, animation_table[direction], 0);
             }
             if ((g_dungeon_status.active_actor) != 0) {
@@ -265,10 +265,10 @@ void update_item_action_animation_and_effects(ActorRecord *action, ObjectPositio
             g_dungeon_status.activity_counts.parts.pending_action_count--;
             action->unk_8C.address = metal_action_resume_address;
             advance_status_timers(actor);
-            (*((u8 *)actor + 0x73)) = 0;
-            (*((u8 *)actor + 0x72)) = 0;
+            actor->target_tile_y = 0;
+            actor->target_tile_x = 0;
             (*((u8 *)actor + 0x6D))--;
-            (*(u16 *)((u8 *)actor + 0x46)) &= 0x7FFF;
+            actor->action_flags &= 0x7FFF;
             play_sound_if_enabled(AUDIO_FADE_CD_FAST);
         }
     }

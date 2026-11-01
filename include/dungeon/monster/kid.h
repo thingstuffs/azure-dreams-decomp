@@ -9,7 +9,7 @@
 
 void advance_stored_actor_path(ActorRecord *body, ObjectPosition *context, SpriteFrameState *sprite, ActorRecord *actor);
 
-void advance_entity_animation_actions(ActorRecord *action, ObjectPosition *context, SpriteFrameState *sprite, void *entity);
+void advance_entity_animation_actions(ActorRecord *action, ObjectPosition *context, SpriteFrameState *sprite, ActorRecord *entity);
 void update_actor_action_and_animation(void *controller_in, ObjectPosition *motion, SpriteFrameState *sprite, ActorRecord *actor);
 
 

@@ -1,6 +1,6 @@
 #include "common.h"
 #include "shared/entity.h"
-#include "records/Rec_func_80094268_arg0.h"
+#include "shared/town_object.h"
 #include "town/person/position.h"
 #include "town/person/motion.h"
 #include "town/person/state.h"
@@ -11,7 +11,7 @@ void func_800CDF94(void *object, EntityRec *unusedArg, void *initValue);
 
 
 /* Advance motion, clamp at its limit, and handle the remaining steps. */
-void advance_motion_and_clamp_limit(Rec_func_80094268_arg0 *entity, EntityRec *motion, void *context) {
+void advance_motion_and_clamp_limit(TownObjectRecord *entity, EntityRec *motion, void *context) {
     s16 steps_left;
 
     motion->z.v = (s32) (motion->z.v + motion->flags14);

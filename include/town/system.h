@@ -3,7 +3,7 @@
 /* Prototypes of the functions defined in src/town/system/ (one true prototype each; maintained by tools/headers). */
 
 #include "common.h"
-#include "records/Rec_func_80094268_arg0.h"
+#include "shared/town_object.h"
 #include "records/Rec_func_800AD7F8_arg0.h"
 
 struct KeimaState;
@@ -21,14 +21,14 @@ s32 check_all_flag_test_bits(s16 *flag_ids);
 s32 process_flag_test_record(u32 records, s32 condition_arg, u32 context, s32 record_selector);
 
 /* person_idle_dispatch.c */
-void dispatch_object_when_idle(Rec_func_80094268_arg0 *object, void *callback_arg, s32 unused_a, s32 unused_b);
+void dispatch_object_when_idle(TownObjectRecord *object, void *callback_arg, s32 unused_a, s32 unused_b);
 void clear_object_status_and_dispatch_target(void *object, void *target, int value, s16 flags);
 
 /* person_timers.c */
-void decrement_object_timer_and_update(Rec_func_80094268_arg0 *object, void *callback_arg_1, void *callback_arg_2);
-void func_800C3B7C(Rec_func_80094268_arg0 *object, void *callback_arg_1, void *callback_arg_2);
-void decrement_object_timer_and_call_handler(Rec_func_80094268_arg0 *object);
-void func_800C3BB8(Rec_func_80094268_arg0 *object);
+void decrement_object_timer_and_update(TownObjectRecord *object, void *callback_arg_1, void *callback_arg_2);
+void func_800C3B7C(TownObjectRecord *object, void *callback_arg_1, void *callback_arg_2);
+void decrement_object_timer_and_call_handler(TownObjectRecord *object);
+void func_800C3BB8(TownObjectRecord *object);
 
 /* randomize_four_entries_and_reset_state.c */
 s32 randomize_four_entries_and_reset_state(void);

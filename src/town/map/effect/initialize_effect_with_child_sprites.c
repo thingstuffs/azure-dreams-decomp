@@ -39,13 +39,9 @@ typedef struct S_800BA00C_1 {
     void * unk_10;
 } S_800BA00C_1;   /* obj in initialize_effect_with_child_sprites */
 
-typedef struct S_800BA00C_5 {
-    u8 pad_00[0x66];
-    s16 unk_66;
-} S_800BA00C_5;   /* (*(void * *)((u8 *)entity + 0x9C)) in initialize_effect_with_child_sprites */
 
 /* Initializes a randomly oriented effect and its child sprites at the supplied position. */
-void initialize_effect_with_child_sprites(void *parent, ObjectPosition *position)
+void initialize_effect_with_child_sprites(TownObjectRecord *parent, ObjectPosition *position)
 {
     void *part_callback;
     GameWork *work;
@@ -79,10 +75,10 @@ void initialize_effect_with_child_sprites(void *parent, ObjectPosition *position
 
     ((S_800BA00C_0_pre *)parent)[-1].unk_00 = map_particle_owner_update_address;
     angle_random = rand();
-    ((S_800BA00C_0 *)parent)->unk_66.s = angle_random % 0x1000;
+    parent->unk_66.as_s16 = angle_random % 0x1000;
     variation_random = rand();
-    initial_angle = ((S_800BA00C_0 *)parent)->unk_66.s;
-    ((S_800BA00C_0 *)parent)->unk_97 = (variation_random % 9) + 12;
+    initial_angle = parent->unk_66.as_s16;
+    parent->unk_97.as_s8 = (variation_random % 9) + 12;
     if (initial_angle < 0) {
         initial_angle += 511;
     }
@@ -121,7 +117,7 @@ void initialize_effect_with_child_sprites(void *parent, ObjectPosition *position
             ((S_800BA00C_1 *)obj)->unk_04 = position->y.v;
             angle = (s8)quadrant;
             if ((*(s8 *)(entity + 0x97)) == angle) {
-                angle = ((S_800BA00C_5 *)((*(void * *)(entity + 0x9C))))->unk_66;
+                angle = ((TownObjectRecord *)((*(void * *)(entity + 0x9C))))->unk_66.as_s16;
                 ((S_800BA00C_1 *)obj)->unk_08.i = -((rsin(((angle % 0x200) << 16) >> 15) >> 4) * 0x1E00);
                 (*(s16 *)(entity + 0x66)) = 0x1E;
             } else {
@@ -154,7 +150,7 @@ void initialize_effect_with_child_sprites(void *parent, ObjectPosition *position
             sprite->color.c.r = brightness;
             sprite->angle_x = 0x370;
             sprite->angle_y = 0;
-            sprite_angle = ((S_800BA00C_0 *)parent)->unk_66.u;
+            sprite_angle = parent->unk_66.as_u16;
             scale = 0x1000;
             sprite->scale_y = scale;
             sprite->scale_x = scale;
@@ -190,7 +186,7 @@ void initialize_effect_with_child_sprites(void *parent, ObjectPosition *position
         sprite->color.c.r = 0x80;
         sprite->angle_x = 0x370;
         sprite->angle_y = 0;
-        sprite_angle = ((S_800BA00C_0 *)parent)->unk_66.u;
+        sprite_angle = parent->unk_66.as_u16;
         scale = 0x1000;
         sprite->scale_y = scale;
         sprite->scale_x = scale;
@@ -218,7 +214,7 @@ void initialize_effect_with_child_sprites(void *parent, ObjectPosition *position
         sprite->scale_x = 0x1000;
         sprite->scale_y = 0x1000;
         sprite->offset_x = 0x1000;
-        sprite->angle_z = ((S_800BA00C_0 *)parent)->unk_66.u;
+        sprite->angle_z = parent->unk_66.as_u16;
         palette_red = g_game_work.view.tint.parts.tint_r;
         sprite->color.c.r = palette_red;
         palette_green = g_game_work.view.tint.parts.tint_g;

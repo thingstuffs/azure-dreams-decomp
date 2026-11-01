@@ -8,10 +8,6 @@ typedef struct S_800A7C98_0_pre {
     u8 pad_04[0xC];
 } S_800A7C98_0_pre;   /* the 0x10 bytes before arg0 in initialize_resource_object, addressed as arg0[-1] */
 
-typedef struct S_800A7C98_0 {
-    u8 pad_00[0x50];
-    s32 unk_50;
-} S_800A7C98_0;   /* arg0 in initialize_resource_object */
 
 #include "town/system/clear_object_status_and_dispatch_target_api.h"
 #include "engine/node.h"
@@ -20,9 +16,9 @@ void handle_object_bounds_and_cleanup(void *object, void *check_data, void *fall
 extern M2C_UNK D_800F8F68;
 
 /* Clear the object state field and initialize its resource data and callback. */
-void initialize_resource_object(void *object, void *unused, struct SpriteFrameState *context) {
+void initialize_resource_object(TownObjectRecord *object, void *unused, struct SpriteFrameState *context) {
     ((S_800A7C98_0_pre *)object)[-1].unk_00 = &handle_object_bounds_and_cleanup;
-    ((S_800A7C98_0 *)object)->unk_50 = 0;
+    object->unk_50.as_s32 = 0;
     clear_object_status_and_dispatch_target(object, context, (int)(&D_800F8F68), 0);
     register_node_if_unregistered(object, (project_sprite_chain));
 }

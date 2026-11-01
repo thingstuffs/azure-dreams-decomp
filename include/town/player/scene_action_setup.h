@@ -25,9 +25,9 @@ void forward_player_motion_state(void *state, s32 value, s32 mode);
 /* Registered code-address alias for forward_player_motion_state. */
 void player_slot_state_address(void *state, s32 value, s32 mode);
 
-struct Rec_func_80094268_arg0;
+struct TownObjectRecord;
 struct EntityRec;
-void initialize_player_linked_record(struct Rec_func_80094268_arg0 *object, void *unused, void *output);
-void advance_player_state(struct Rec_func_80094268_arg0 *actor, struct EntityRec *position, void *output);
+void initialize_player_linked_record(struct TownObjectRecord *object, void *unused, void *output);
+void advance_player_state(struct TownObjectRecord *actor, struct EntityRec *position, void *output);
 
 #endif

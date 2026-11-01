@@ -4,10 +4,10 @@
 #include "common.h"
 
 
-struct Rec_func_80094268_arg0;
+struct TownObjectRecord;
 struct S_800935BC_0;
 struct SpriteFrameState;
-void approach_target_tile_until_timeout(struct Rec_func_80094268_arg0 *target, struct S_800935BC_0 *position, void *transition_arg);
+void approach_target_tile_until_timeout(struct TownObjectRecord *target, struct S_800935BC_0 *position, void *transition_arg);
 
 /* get_linked_record_field.c */
 s32 get_linked_record_field_2_d_60(void);
@@ -48,7 +48,7 @@ void no_op_scene_callback_b(void);
 #include "shared/entity.h"
 void add_hex_20000_s_signed_offset_hex_14(EntityRec *record);
 
-#include "records/Rec_func_80094268_arg0.h"
+#include "shared/town_object.h"
 #include "records/Rec_func_8009431C_arg0.h"
 #include "shared/position_views.h"
 struct TownObj;
@@ -60,9 +60,9 @@ void compute_and_clamps_vector_based_adjustment_updates_town(struct TownObj *obj
 void correct_fixed_point_value_at_boundaries(s32 *value);
 void dispatch_actor_interaction_actions(Rec_func_8009431C_arg0 *actor, EntityRec *record, s32 context);
 s32 get_status_active_entry_matching_direction(void *entries);
-void initialize_record_with_handler_and_countdown_800(Rec_func_80094268_arg0 *record, s32 setup_value, struct SpriteFrameState *init_context);
-void initialize_scene_action_record(Rec_func_80094268_arg0 *record, void *ptr, void *ptr2);
-void initialize_timed_scene_action(Rec_func_80094268_arg0 *record, s32 unused, struct SpriteFrameState *setup_value);
+void initialize_record_with_handler_and_countdown_800(TownObjectRecord *record, s32 setup_value, struct SpriteFrameState *init_context);
+void initialize_scene_action_record(TownObjectRecord *record, void *ptr, void *ptr2);
+void initialize_timed_scene_action(TownObjectRecord *record, s32 unused, struct SpriteFrameState *setup_value);
 void move_both_components_toward_zero_direction_dependent_steps_clamping_zero(EntityRec *record);
 void noop_player_scene_action(void);
 void run_the_three_update_routines_context(void *context);
@@ -72,8 +72,8 @@ void set_player_travel_timing(void *actor, void *motion, s32 context);
 void store_the_valid_shared_angle_in_offset_hex_10(void *record);
 void tick_countdown_and_initialize_target(UnsignedCountdownView *state, s32 value);
 void update_falling_actor_and_handle_ground(s32 context, EntityRec *actor, s32 action_arg);
-void update_threshold_and_interaction(Rec_func_80094268_arg0 *state, EntityRec *entity, s32 context);
-void update_threshold_timed_action(Rec_func_80094268_arg0 *state, EntityRec *entity, s32 context);
+void update_threshold_and_interaction(TownObjectRecord *state, EntityRec *entity, s32 context);
+void update_threshold_timed_action(TownObjectRecord *state, EntityRec *entity, s32 context);
 
 #include "shared/dungeon_moving_views.h"
 struct S_80097AD0_1;

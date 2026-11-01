@@ -71,6 +71,11 @@ def _diag(args):
     return rel, sites, other
 
 
+def _on_site_line(diag, site_lines):
+    m = re.match(r'^(?P<file>[^:\n]+):(?P<line>\d+):\d+: ', diag)
+    return bool(m) and (m.group('file'), int(m.group('line'))) in site_lines
+
+
 def consumers(root, header):
     import layout_compile_identity as LCI
     from tu_identity import proof_set
@@ -114,7 +119,11 @@ def main(argv=None):
             with ProcessPoolExecutor(max_workers=args.workers) as ex:
                 results = list(ex.map(_diag, [(str(root), t, args.field, args.struct) for t in tus]))
             sites = sorted({s for _, ss, _ in results for s in ss})
-            other = [(rel, o) for rel, _, oo in results for o in oo if o not in base.get(rel, set())]
+            site_lines = {(f, line) for f, line, _ in sites}
+            # clang's typo correction turns `p->old.leaf` into a second error on the same line (the corrected
+            # member lacks `.leaf`); those cascade from a rename site and disappear once it is rewritten.
+            other = [(rel, o) for rel, _, oo in results for o in oo if o not in base.get(rel, set())
+                     and not _on_site_line(o, site_lines)]
             if other:
                 raise RuntimeError('other diagnostics: %s' % other[:8])
             if not sites:

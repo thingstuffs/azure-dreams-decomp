@@ -5,7 +5,8 @@
 
 #include "common.h"
 #include "m2c_compat.h"
-#include "records/Rec_func_80094268_arg0.h"
+#include "shared/town_object.h"
+#include "shared/entity.h"
 
 typedef struct S_800C6440_2 {
     u8 pad_00[0x4];
@@ -62,10 +63,10 @@ extern M2C_UNK D_800D5930;
 extern M2C_UNK D_800D58B8;
 struct SpriteFrameState;
 
-void set_object_referenced_data_pointers(Rec_func_80094268_arg0 *object, void *unused_context, struct SpriteFrameState *unused_sprite);
+void set_object_referenced_data_pointers(TownObjectRecord *object, void *unused_context, struct SpriteFrameState *unused_sprite);
 
 /* Functions defined in this translation unit. */
-void set_linked_data_pointers_variant_1(Rec_func_80094268_arg0 *record, void *unused_context, struct SpriteFrameState *unused_sprite);
+void set_linked_data_pointers_variant_1(TownObjectRecord *record, ObjectPosition *unused_context, struct SpriteFrameState *unused_sprite);
 void set_linked_data_pointers_variant_2(S_800C645C_0 *object);
 void set_linked_data_pointer_variant_3(S_800C6478_0 *object);
 s32 check_actor_data_references_match(S_800C648C_0 *actor);

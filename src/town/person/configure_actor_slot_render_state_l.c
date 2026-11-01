@@ -13,7 +13,7 @@ extern u8 D_800D71F8[];
  * Configures scene slot 66 with the four local tables, stores 0x300 in render halfword 9, and
  * clears flag 0x100 in halfword 10.
  */
-void configure_actor_slot_66_and_render_state(void *context, void *unused, struct SpriteFrameState *stateWords) {
+void configure_actor_slot_66_and_render_state(TownObjectRecord *context, void *unused, struct SpriteFrameState *stateWords) {
     func_800C3050(context, 0x42, D_800D71F4, D_800D71F8, D_800D71C4,
                   D_800D71CC);
     stateWords->clut = 0x300;

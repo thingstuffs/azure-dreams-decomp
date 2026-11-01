@@ -1,6 +1,6 @@
 #include "shared/entity.h"
 #include "common.h"
-#include "records/Rec_func_80094268_arg0.h"
+#include "shared/town_object.h"
 #include "shared/object_node.h"
 #include "m2c_compat.h"
 #include "shared/position_views.h"
@@ -21,16 +21,16 @@ typedef struct S_800CA134_1 {
 
 
 /* Decrement the lifetime and ease the position toward the target with a vertical offset. */
-void ease_reaction_position_with_vertical_offset(void *state_arg, void *position_arg) {
-    Rec_func_80094268_arg0 *state = state_arg;
+void ease_reaction_position_with_vertical_offset(TownObjectRecord *state_arg, void *position_arg) {
+    TownObjectRecord *state = state_arg;
     ObjectNodeHeader *target_table;
     s32 x_delta;
     s32 y_delta;
     u16 ticks_left;
     S_800CA134_1 *position = position_arg;
 
-    ticks_left = state->unk_6C.as_u16 - 1;
-    state->unk_6C.as_u16 = ticks_left;
+    ticks_left = state->timer.as_u16 - 1;
+    state->timer.as_u16 = ticks_left;
     if ((ticks_left << 0x10) <= 0) {
         initialize_reaction_data_and_timer_13(state);
         return;

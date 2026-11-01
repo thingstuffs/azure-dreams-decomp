@@ -1,6 +1,6 @@
 #include "common.h"
 #include "shared/entity.h"
-#include "records/Rec_func_80094268_arg0.h"
+#include "shared/town_object.h"
 #include "town/player/object.h"
 
 #include "town/player/initialize_record_with_handler_table_api.h"     /* extern */
@@ -8,7 +8,7 @@
 
 
 /* Update the object and its countdown, dispatching expiry handling when it runs out. */
-void update_object_and_countdown(Rec_func_80094268_arg0 *state, EntityRec *object, s32 context) {
+void update_object_and_countdown(TownObjectRecord *state, EntityRec *object, s32 context) {
     u16 ticks_left;
 
     object->z.w.i = query_lowered_transform_position(object);

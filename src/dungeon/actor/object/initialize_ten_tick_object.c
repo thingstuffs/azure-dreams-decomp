@@ -2,15 +2,15 @@
 #include "shared/object_index_slots.h"
 #include "m2c_compat.h"
 
-#include "records/Rec_func_80094268_arg0.h"
+#include "shared/town_object.h"
 
 void initialize_object_entries(void *state, s8 *output, s32 *entries);
-void func_800CB570(Rec_func_80094268_arg0 *record, s32 forward_arg1, s32 forward_arg2);
+void func_800CB570(TownObjectRecord *record, s32 forward_arg1, s32 forward_arg2);
 extern s32 D_800D694C[];
 
 typedef struct S_800CB5DC_0 {
     u8 pad_00[0x54];
-    void (*unk_54)(Rec_func_80094268_arg0 *, s32,  s32);
+    void (*unk_54)(TownObjectRecord *, s32,  s32);
     u8 pad_58[0x8];
     s32 unk_60;
     u8 pad_64[0x8];

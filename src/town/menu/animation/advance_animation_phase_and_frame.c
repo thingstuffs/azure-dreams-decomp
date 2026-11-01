@@ -1,11 +1,8 @@
 #include "common.h"
 #include "town/menu/motion.h"
 #include "shared/entity.h"
+#include "shared/town_object.h"
 
-typedef struct S_800A3918_1 {
-    u8 pad_00[0x74];
-    void * unk_74;
-} S_800A3918_1;   /* D_8008274C in advance_animation_phase_and_frame */
 
 
 extern void *D_8008274C;
@@ -33,7 +30,7 @@ void advance_animation_phase_and_frame(MenuAnimationPhaseObject *anim, ObjectPos
             anim->offset.u = phase;
         }
         anim->frame++;
-        if (((S_800A3918_1 *)D_8008274C)->unk_74 == &D_800C5100) {
+        if (((TownObjectRecord *)D_8008274C)->unk_74.as_pv == &D_800C5100) {
             anim->transition = 1;
         }
         break;

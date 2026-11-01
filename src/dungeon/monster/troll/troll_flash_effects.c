@@ -171,7 +171,7 @@ void update_growing_bouncing_effect(void *effect, void *position_arg, SpriteFram
 /* Creates an effect and sets its movement toward a tracked target or grid position. */
 /* Creates a flashing Troll effect with position offsets toward a tracked actor or the stored target tile
  * coordinates. */
-void create_targeted_motion_effect(ActorRecord *body, ObjectPosition *position, SpriteFrameState *unused, EntityRec *target)
+void create_targeted_motion_effect(ActorRecord *body, ObjectPosition *position, SpriteFrameState *unused, ActorRecord *target)
 {
     T_8017121C_Vec3u16 offset;
     ObjectNodeHeader *effect;
@@ -253,7 +253,7 @@ void create_targeted_motion_effect(ActorRecord *body, ObjectPosition *position, 
         effect_state->unk_60 = 0;
         effect_state->unk_5C = 0;
         effect_state->unk_58 = 0;
-        grid_axis = ((u8)target->unk_73);
+        grid_axis = ((u8)target->target_tile_y);
     } else {
         target_flags = ((u32)target->flags14);
         untracked_mask = 0x04000000;
@@ -304,10 +304,10 @@ void create_targeted_motion_effect(ActorRecord *body, ObjectPosition *position, 
         effect_state->unk_5C = 0;
         effect_state->unk_58 = 0;
 
-        grid_axis = ((u8)target->unk_73);
+        grid_axis = ((u8)target->target_tile_y);
     }
     ;
-    grid_x_bits = ((u8)target->unk_72);
+    grid_x_bits = ((u8)target->target_tile_x);
     grid_axis <<= 24;
     grid_y = grid_axis >> 24;
     grid_x_bits <<= 24;

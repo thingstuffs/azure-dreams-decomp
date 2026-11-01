@@ -42,7 +42,7 @@ void update_and_fallback_on_input(s32 *value, S_80091114_1 *context, s32 update_
     if (previous_value == *value) {
         saved_update_arg = update_arg;
         if (!(state->buttons & 0x20)) {
-            initialize_scene_action_record((Rec_func_80094268_arg0 *)value, context, (void *)saved_update_arg);
+            initialize_scene_action_record((TownObjectRecord *)value, context, (void *)saved_update_arg);
             return;
         }
 
@@ -62,6 +62,6 @@ void update_input_and_fallback_action(s32 *value, s32 input_a, s32 input_b) {
     old_value = *value;
     update_actor_ground_and_input((s32)value, (EntityRec *)input_a, input_b);
     if ((old_value == *value) && !(state->buttons & 0x20)) {
-        initialize_scene_action_record((Rec_func_80094268_arg0 *)value, (void *)input_a, (void *)input_b);
+        initialize_scene_action_record((TownObjectRecord *)value, (void *)input_a, (void *)input_b);
     }
 }

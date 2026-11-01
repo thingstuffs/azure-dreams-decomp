@@ -2,7 +2,7 @@
 #include "shared/object_index_slots.h"
 #include "shared/object_flags.h"
 #include "m2c_compat.h"
-#include "records/Rec_func_80094268_arg0.h"
+#include "shared/town_object.h"
 #include "shared/object_links.h"
 #include "town/person/object.h"
 
@@ -15,7 +15,7 @@ void clear_object_slot_and_mark_removed(void *object) {
     u8 *slots;
 
     slots = object_index_slots;
-    slot_offset = ((Rec_func_80094268_arg0 *)object)->unk_60 * 8;
+    slot_offset = ((TownObjectRecord *)object)->slot * 8;
     (*(s32 *)((slots + slot_offset) + 4)) = 0;
     (*(u16 *)((u8 *)object + -2)) = (u16) (((ObjectStatusPrefix16 *)object)[-1].flags | NODE_REMOVE);
     object_flag_block.flags |= OBJECT_REMOVE_PENDING;

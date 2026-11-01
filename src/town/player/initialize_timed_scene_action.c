@@ -1,6 +1,6 @@
 #include "common.h"
 #include "m2c_compat.h"
-#include "records/Rec_func_80094268_arg0.h"
+#include "shared/town_object.h"
 #include "slus.h"
 #include "town/player.h"
 
@@ -11,7 +11,7 @@ extern s32 timed_scene_handler_entries;
 
 
 /* Initialize the record with its handler and a count of twelve. */
-void initialize_timed_scene_action(Rec_func_80094268_arg0 *record, s32 unused, SpriteFrameState *setup_value) {
+void initialize_timed_scene_action(TownObjectRecord *record, s32 unused, SpriteFrameState *setup_value) {
     SD_Call(0x510);
     call_the_handler_selects_nonzero_entry(&timed_scene_handler_entries, record, (void *)(setup_value));
     record->unk_00.as_pm = &D_80091AF0;

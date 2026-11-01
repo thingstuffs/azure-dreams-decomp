@@ -14,7 +14,7 @@ typedef struct {
 struct ObjectNodeHeader; void * allocate_list_node(s32, struct ObjectNodeHeader * *);            /* extern */
 
 /* Creates an object, initializes its render data, and runs its callback. */
-void * create_owner_following_sprite(void *linked_object) {
+void * create_owner_following_sprite(TownObjectRecord *linked_object) {
     s32 callback_arg;
     SpriteFrameState *render_data;
     OwnerFollowingSpriteBody *state;

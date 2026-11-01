@@ -6,7 +6,7 @@
 #include "shared/object_links.h"
 #include "shared/vector.h"
 #include "town/scene/paired_value_dispatch_g00647.h"
-#include "records/Rec_func_80094268_arg0.h"
+#include "shared/town_object.h"
 #include "engine/node.h"
 #include "town.h"
 #include "town/player/position.h"

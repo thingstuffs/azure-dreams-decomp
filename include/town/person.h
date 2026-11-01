@@ -4,7 +4,7 @@
 #include "common.h"
 #include "town/system/object_hooks.h"
 #include "records/Rec_func_800C9B44_arg0.h"
-#include "records/Rec_func_80094268_arg0.h"
+#include "shared/town_object.h"
 #include "shared/entity.h"
 #include "shared/position_views.h"
 #include "town/person/object/initialize_object_entries_api.h"
@@ -20,32 +20,6 @@ typedef struct EffectScaleState {
 
 /* choose_reaction_action_and_heading.c */
 void choose_reaction_action_and_heading(Rec_func_800C9B44_arg0 *actor, EntityRec *motion, SpriteFrameState *context);
-
-/* Town script objects use a descriptor and callback at +0x80/+0x54.
- * These are separate from the pooled dungeon ActorRecord. */
-typedef struct PersonDescriptor {
-    s32 *entries[10];
-} PersonDescriptor;
-
-typedef struct PersonObject {
-    u8 pad_00[0x54];
-    void *handler;
-    s32 unk_58;
-    s32 unk_5C;
-    s32 slot;
-    u8 pad_64[8];
-    s16 timer;
-    u8 pad_6E[4];
-    s16 heading;
-    u8 pad_74[8];
-    s32 **data_7C;
-    PersonDescriptor *descriptor;
-    u8 pad_84[4];
-    s16 target_x;
-    s16 target_y;
-    u8 pad_8C[0xA];
-    u8 variant;
-} PersonObject;
 
 /* Pooled person effects whose first body word is their update handler. */
 typedef struct OwnerCallbackObject {
@@ -63,18 +37,18 @@ typedef struct PersonOutput {
 /* Install the generic person handlers, store the four per-person data tables
  * (+0x58, +0x5C, +0x7C and the descriptor at +0x80) and register the object in
  * object_index_slots[slot]. */
-void initialize_object_and_register_slot(PersonObject *object, s32 slot, void *data_58, void *data_5C,
+void initialize_object_and_register_slot(TownObjectRecord *object, s32 slot, void *data_58, void *data_5C,
                                          void *data_7C, void *descriptor);
 /* Point descriptor list 1 and the +0x7C table at fixed data; callers pass the
  * whole callback context. */
 struct SpriteFrameState;
-void initialize_object_referenced_data_pointers(PersonObject *object, void *context, struct SpriteFrameState *output);
+void initialize_object_referenced_data_pointers(TownObjectRecord *object, ObjectPosition *context, struct SpriteFrameState *output);
 s32 get_clamped_transform_coordinate(ObjectPosition *position);
 
-/* Handlers the person callbacks install in PersonObject.handler. */
-void advance_actor_reaction_downward(void *context, struct ReactionAccumulators *accumulators, struct ReactionFlagState *flagState);
-void tick_countdown_toward_target(Rec_func_80094268_arg0 *state, SignedPositionView *current, void *context);
-void call_owner_callback(OwnerCallbackObject *owner, void *motion, s32 context);
+/* Handlers the person callbacks install in TownObjectRecord.handler. */
+void advance_actor_reaction_downward(TownObjectRecord *context, struct ReactionAccumulators *accumulators, struct ReactionFlagState *flagState);
+void tick_countdown_toward_target(TownObjectRecord *state, SignedPositionView *current, void *context);
+void call_owner_callback(OwnerCallbackObject *owner, ObjectPosition *motion, s32 context);
 
 
 /* Zero-terminated entry list shared by the quarter-turn and timed-countdown
@@ -93,28 +67,28 @@ extern u8 D_800D6718[], D_800D671C[], D_800D66E8[], D_800D66F0[];
 extern u8 D_800D57A4[], D_800D57A8[], D_800D5774[], D_800D577C[];
 extern u8 D_800D6C7C[], D_800D6C80[], D_800D6C4C[], D_800D6C54[];
 
-void reset_person_descriptor_entries(PersonObject *object, s32 unused, SpriteFrameState *output);
-void apply_person_descriptor_tail(PersonObject *object, ObjectPosition *position, SpriteFrameState *output);
-void reset_person_heading_c00(PersonObject *object, s32 unused, SpriteFrameState *output);
-void step_person_y_up(PersonObject *object, ObjectPosition *position, SpriteFrameState *output);
-void step_person_y_down(PersonObject *object, ObjectPosition *position, SpriteFrameState *output);
-void init_person_timer_sixteen(PersonObject *object, s32 unused, SpriteFrameState *output);
-void init_person_heading_quarter_turn(PersonObject *object, s32 unused, SpriteFrameState *output);
+void reset_person_descriptor_entries(TownObjectRecord *object, s32 unused, SpriteFrameState *output);
+void apply_person_descriptor_tail(TownObjectRecord *object, ObjectPosition *position, SpriteFrameState *output);
+void reset_person_heading_c00(TownObjectRecord *object, s32 unused, SpriteFrameState *output);
+void step_person_y_up(TownObjectRecord *object, ObjectPosition *position, SpriteFrameState *output);
+void step_person_y_down(TownObjectRecord *object, ObjectPosition *position, SpriteFrameState *output);
+void init_person_timer_sixteen(TownObjectRecord *object, s32 unused, SpriteFrameState *output);
+void init_person_heading_quarter_turn(TownObjectRecord *object, s32 unused, SpriteFrameState *output);
 
-void start_person_target_move(PersonObject *object, ObjectPosition *position, SpriteFrameState *output);
+void start_person_target_move(TownObjectRecord *object, ObjectPosition *position, SpriteFrameState *output);
 
-void install_update_after_flag_clear(PersonObject *object, ObjectPosition *position, SpriteFrameState *output);
-
-
+void install_update_after_flag_clear(TownObjectRecord *object, ObjectPosition *position, SpriteFrameState *output);
 
 
 
 
 
-void initialize_object_configuration_x(PersonObject *object);
-void *create_owner_following_sprite(void *linked_object);
 
-void clear_record_indexed_flag(void *state, s32 unused_context, void *unused_state_context);
+
+void initialize_object_configuration_x(TownObjectRecord *object);
+void *create_owner_following_sprite(TownObjectRecord *linked_object);
+
+void clear_record_indexed_flag(TownObjectRecord *state, s32 unused_context, void *unused_state_context);
 
 /* Access view of event initialization callbacks at +0x4C/+0x50/+0x6C. */
 typedef struct PersonSetupState {
@@ -136,7 +110,7 @@ void initialize_reaction_object_four(PersonSetupState *object, void *unused, voi
 s32 advance_person_lookup_value(Rec_func_800AB030_arg0 *record);
 void allocate_variant_object(s32 variant, s32 x, s32 y);
 s32 check_heading_past_half_sector(s32 angle, s16 divisions);
-void func_800CA60C(Rec_func_80094268_arg0 *actor, void *unused, void *output);
+void func_800CA60C(TownObjectRecord *actor, void *unused, void *output);
 s32 get_person_lookup_step(Rec_func_800AAE98_arg0 *coordinates);
 void load_record_halfwords_3(void *destination, s32 entry_index);
 s32 map_angle_to_cardinal_direction(s16 angle);
@@ -160,6 +134,6 @@ s32 check_transform_identifier_and_hook(s32 requested_id);
 void *create_and_invoke_render_object(s32 initial_value, s32 resource_index);
 void initialize_mother_event_actor(void *actor, void *state, void *init_param);
 void load_indexed_state_value(Rec_D_80082D58 *object, EntityRec *state);
-void set_record_data_pointer(Rec_func_80094268_arg0 *record);
+void set_record_data_pointer(TownObjectRecord *record);
 
 #endif

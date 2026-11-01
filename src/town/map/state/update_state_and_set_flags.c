@@ -8,7 +8,7 @@
  * Advances sprite animation and reduces the packed color by adding 0xFFEFEFF0, then flags removal
  * when animation flags 0x6000 are set.
  */
-void update_state_and_set_flags(void *flags_end, void *unused, SpriteFrameState *state) {
+void update_state_and_set_flags(void *flags_end, ObjectPosition *unused, SpriteFrameState *state) {
     advance_sprite_animation_and_textures(state);
     state->color.word += 0xFFEFEFF0;
     if (state->flags & 0x6000) {

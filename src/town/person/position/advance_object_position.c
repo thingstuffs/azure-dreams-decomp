@@ -8,7 +8,7 @@
 #include "town/person/object.h"
 
 /* Advance the object's position and stop its movement when it exceeds the limit. */
-void advance_object_position(void *context, EntityRec *object, void *finish_arg) {
+void advance_object_position(TownObjectRecord *context, EntityRec *object, void *finish_arg) {
     object->z.v = (s32) (object->z.v + object->flags14);
     if (query_lowered_transform_position(object) < object->z.w.i) {
         object->z.w.i = query_lowered_transform_position(object);

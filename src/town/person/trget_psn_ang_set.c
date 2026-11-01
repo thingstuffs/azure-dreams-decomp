@@ -1,7 +1,7 @@
 #include "common.h"
 #include "town/person.h"
 #include "shared/sprite_frame_state.h"
-#include "records/Rec_func_80094268_arg0.h"
+#include "shared/town_object.h"
 #include "shared/object_index_slots.h"
 
 
@@ -36,7 +36,7 @@ void trget_psn_ang_set(s8 object_slot, s8 angle_index)
     void *object;
     S_800C4D80_1 *entry;
     S_800C4D80_2 *child;
-    Rec_func_80094268_arg0 *object_data;
+    TownObjectRecord *object_data;
 
     table = object_index_slots;
     object_index = object_slot;
@@ -45,7 +45,7 @@ void trget_psn_ang_set(s8 object_slot, s8 angle_index)
         angle = town_facing_angles[angle_index];
         entry = object;
         object_data = (u8 *)object + 0x20;
-        if (object_index == object_data->unk_60) {
+        if (object_index == object_data->slot) {
             if (object_index == 1) {
                 object_kind = entry->unk_10;
                 if (object_kind != message_motion_type_a && object_kind != message_motion_type_b) {
@@ -53,9 +53,9 @@ void trget_psn_ang_set(s8 object_slot, s8 angle_index)
                     return;
                 }
             }
-            child = object_data->unk_80;
+            child = object_data->descriptor;
             object_data->unk_6E = angle;
-            object_data->unk_72.as_u16 = angle;
+            object_data->heading.as_u16 = angle;
             initialize_object_entries(object_data, entry->unk_0C,
                           child->unk_04);
         }

@@ -9,10 +9,6 @@
 
    /* arg1 in update_angle_driven_offset */
 
-typedef struct S_800B9D64_2 {
-    u8 pad_00[0x66];
-    s16 unk_66;
-} S_800B9D64_2;   /* ((Rec_D_80082D58 *)arg0)->unk_9C in update_angle_driven_offset */
 
 /* Updates an angle-driven offset and handles inactive objects. */
 void update_angle_driven_offset(void *object_arg, DelayMotionZ *offset_state)
@@ -31,7 +27,7 @@ void update_angle_driven_offset(void *object_arg, DelayMotionZ *offset_state)
         return;
     }
 
-    angle = ((S_800B9D64_2 *)(object->unk_9C))->unk_66;
+    angle = ((TownObjectRecord *)(object->unk_9C))->unk_66.as_s16;
     sector = angle / 0x200;
     if ((s8)(sector % 4) == object->unk_97) {
         phase_value = rsin((s16)(angle % 0x200) * 2);
@@ -45,7 +41,7 @@ void update_angle_driven_offset(void *object_arg, DelayMotionZ *offset_state)
         s32 amplitude;
 
         object->unk_66 = (u16)object->unk_66 - 3;
-        decay_angle = ((S_800B9D64_2 *)(object->unk_9C))->unk_66;
+        decay_angle = ((TownObjectRecord *)(object->unk_9C))->unk_66.as_s16;
         amplitude = ((rcos((s16)(decay_angle % 0x200) * 0x18) >> 4)
                      * object->unk_66) << 8;
         offset = -amplitude;

@@ -10,7 +10,7 @@
  * callers disagree, so the declaration stays with each caller. */
 
 /* Start movement toward the object's target, or place it immediately for speed -128. */
-void start_person_target_move(PersonObject *object, ObjectPosition *position, SpriteFrameState *output) {
+void start_person_target_move(TownObjectRecord *object, ObjectPosition *position, SpriteFrameState *output) {
     ObjectIndexSlot *slots;
     s32 distance;
     s32 timer;
@@ -23,7 +23,7 @@ void start_person_target_move(PersonObject *object, ObjectPosition *position, Sp
     distance = runtime_estimate_vector_length((object->target_x << 16) - position->x.v,
                            (object->target_y << 16) - position->y.v);
     timer = distance / 0x20000;
-    object->timer = timer;
+    object->timer.as_s16 = timer;
     speed = slots[object->slot].unk_02;
     if (speed == -0x80) {
         position->x.v = object->target_x << 16;
@@ -32,9 +32,9 @@ void start_person_target_move(PersonObject *object, ObjectPosition *position, Sp
         position->z.w.i = query_lowered_transform_position(position);
         apply_object_setup_and_update(object, position, output);
     } else if (speed > 0) {
-        object->timer = (timer << 4) / (speed + 0x10);
+        object->timer.as_s16 = (timer << 4) / (speed + 0x10);
     } else if (speed < 0) {
         magnitude = abs(speed);
-        object->timer = timer * (magnitude + 0x10) / 16;
+        object->timer.as_s16 = timer * (magnitude + 0x10) / 16;
     }
 }

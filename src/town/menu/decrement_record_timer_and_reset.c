@@ -1,14 +1,14 @@
 #include "common.h"
 #include "engine/graphics.h"
 #include "m2c_compat.h"
-#include "records/Rec_func_80094268_arg0.h"
+#include "shared/town_object.h"
 #include "engine/node.h"
 
 extern M2C_UNK D_800A7774[3];
 
 
 /* Decrement the countdown and reset the record data and handler when it expires. */
-void decrement_record_timer_and_reset(Rec_func_80094268_arg0 *record) {
+void decrement_record_timer_and_reset(TownObjectRecord *record) {
     u16 countdown;
 
     countdown = record->unk_90.as_u16 - 1;

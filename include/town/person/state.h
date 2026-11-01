@@ -3,11 +3,11 @@
 /* Prototypes of the functions defined in src/town/person/state/ (one true prototype each; maintained by tools/headers). */
 
 #include "common.h"
-#include "records/Rec_func_80094268_arg0.h"
+#include "shared/town_object.h"
 #include "shared/entity.h"
 #include "shared/sprite_frame_state.h"
 
-struct PersonObject;
+struct TownObjectRecord;
 struct ReactionState;
 struct S_800AAE00_0;
 struct S_800AAE00_1;
@@ -23,22 +23,22 @@ struct S_800CEDA4_0;
 struct SpriteFrameState;
 
 /* adjust_two_state_values.c */
-void adjust_two_state_values(Rec_func_80094268_arg0 *object, struct S_800C56A8_0 *state);
+void adjust_two_state_values(TownObjectRecord *object, struct S_800C56A8_0 *state);
 
 /* advance_four_phase_flag_sequence.c */
 void advance_four_phase_flag_sequence(struct S_800CCD68_0 *sequence);
 
 /* advance_reaction_state_and_cleanup.c */
-void advance_reaction_state_and_cleanup(Rec_func_80094268_arg0 *object, struct S_800CA458_0 *state);
+void advance_reaction_state_and_cleanup(TownObjectRecord *object, struct S_800CA458_0 *state);
 
 /* call_state_handler_and_set_four.c */
-void call_state_handler_and_set_four(Rec_func_80094268_arg0 *object, s32 context, s32 update_data);
+void call_state_handler_and_set_four(TownObjectRecord *object, s32 context, s32 update_data);
 
 /* clear_flag_object_direction.c */
 void clear_flag_object_direction(struct S_800CCF60_0 *state);
 
 /* clear_record_indexed_flag.c */
-void clear_record_indexed_flag(void *state, s32 unused_context, void *unused_state_context);
+void clear_record_indexed_flag(TownObjectRecord *state, s32 unused_context, void *unused_state_context);
 
 /* dispatch_status_triggered_handler.c */
 void dispatch_status_triggered_handler(s32 object, s32 unused, SpriteFlagsView *status);
@@ -47,20 +47,20 @@ void dispatch_status_triggered_handler(s32 object, s32 unused, SpriteFlagsView *
 void dispatch_status_triggered_update(void *handler_arg, void *context, SpriteFlagsView *status);
 
 /* forward_flag_state_update.c */
-void forward_flag_state_update(void *object, void *context, void *update_data);
+void forward_flag_state_update(TownObjectRecord *object, ObjectPosition *context, void *update_data);
 
 /* increment_flag_object_counter.c */
 void increment_flag_object_counter(struct S_800CCCCC_0 *object);
 
 /* initialize_actor_clear_shared_flag.c */
-void initialize_actor_clear_shared_flag(Rec_func_80094268_arg0 *actor, s32 unused, void *init_param);
+void initialize_actor_clear_shared_flag(TownObjectRecord *actor, s32 unused, void *init_param);
 
 /* initialize_actor_clear_table_flag.c */
-void initialize_actor_clear_table_flag(Rec_func_80094268_arg0 *actor, s32 unused, void *init_param);
+void initialize_actor_clear_table_flag(TownObjectRecord *actor, s32 unused, void *init_param);
 
 /* initialize_actor_reaction_and_fixed_state.c */
-void func_800CDF00(Rec_func_80094268_arg0 *actor, struct ReactionState *state, SpriteFrameState *output);
-void initialize_actor_reaction_and_fixed_state(Rec_func_80094268_arg0 *actor, struct ReactionState *state, SpriteFrameState *output);
+void func_800CDF00(TownObjectRecord *actor, struct ReactionState *state, SpriteFrameState *output);
+void initialize_actor_reaction_and_fixed_state(TownObjectRecord *actor, struct ReactionState *state, SpriteFrameState *output);
 
 /* initialize_actor_state_table.c */
 void initialize_actor_state_table(void *actor, s32 context, void *state_context);
@@ -75,19 +75,19 @@ void initialize_indexed_callback_state(void *object, s32 unused, void *initValue
 void initialize_mother_event_object_state(void *object, s32 unused, void *initializationArg);
 
 /* initialize_object_assigns_state_data.c */
-void initialize_object_assigns_state_data(Rec_func_80094268_arg0 *object, void *unusedArg, void *initializationArg);
+void initialize_object_assigns_state_data(TownObjectRecord *object, void *unusedArg, void *initializationArg);
 
 /* initialize_person_state.c */
 void initialize_person_state(void *state, void *output);
 
 /* initialize_reaction_object_and_clear_flag.c */
-void initialize_reaction_object_and_clear_flag(Rec_func_80094268_arg0 *object, s32 unused, void *context);
+void initialize_reaction_object_and_clear_flag(TownObjectRecord *object, s32 unused, void *context);
 
 /* install_object_handler_and_clear_slot_flag.c */
 void install_object_handler_and_clear_slot_flag(void *object);
 
 /* install_update_after_flag_clear.c */
-void install_update_after_flag_clear(struct PersonObject *object, ObjectPosition *position, SpriteFrameState *output);
+void install_update_after_flag_clear(struct TownObjectRecord *object, ObjectPosition *position, SpriteFrameState *output);
 
 /* invoke_flag_state_callback.c */
 void invoke_flag_state_callback(struct S_800CCC34_0 *object, s32 context, void *motion);
@@ -102,7 +102,7 @@ void process_object_0x6000_flag_bits(void *contextId, s32 contextData, SpriteFra
 void reset_indexed_flag_install_handlers(void *object, void *context, void *input);
 
 /* reset_menu_state.c */
-void reset_menu_state(void *menu, void *update_arg, void *input);
+void reset_menu_state(void *menu, ObjectPosition *update_arg, void *input);
 
 /* reset_mother_event_global_state.c */
 void reset_mother_event_global_state(void *object);
@@ -111,7 +111,7 @@ void reset_mother_event_global_state(void *object);
 void reset_object_flag_and_set_countdown_400(struct S_800CEDA4_0 *object);
 
 /* reset_object_substate_and_flag.c */
-void reset_object_substate_and_flag(void *context, void *unused, struct SpriteFrameState *stateWords);
+void reset_object_substate_and_flag(TownObjectRecord *context, void *unused, struct SpriteFrameState *stateWords);
 
 /* reset_reaction_global_flag_and_angle.c */
 void reset_reaction_global_flag_and_angle(struct S_800CA7D8_0 *object);
@@ -120,7 +120,7 @@ void reset_reaction_global_flag_and_angle(struct S_800CA7D8_0 *object);
 void run_object_handlers_supplied_state(s32 object, s32 state, s32 context);
 
 /* set_actor_flag_copy_global.c */
-void set_actor_flag_copy_global(void *actor, void *unused, struct SpriteFrameState *state);
+void set_actor_flag_copy_global(TownObjectRecord *actor, void *unused, struct SpriteFrameState *state);
 
 /* set_flag_object_direction_c.c */
 void set_flag_object_direction_12_c(struct S_800CCF18_0 *state);
@@ -129,13 +129,13 @@ void set_flag_object_direction_12_c(struct S_800CCF18_0 *state);
 void set_person_status_and_code(struct S_800AAE00_1 *context, struct S_800AAE00_0 *status);
 
 /* switch_actor_state.c */
-void switch_actor_state(Rec_func_80094268_arg0 *actor, s32 unused, void *state_context);
+void switch_actor_state(TownObjectRecord *actor, s32 unused, void *state_context);
 
 /* tick_counter_and_enter_state_three.c */
-void tick_counter_and_enter_state_three(Rec_func_80094268_arg0 *object, void *context_a, void *context_b, s32 check_arg);
+void tick_counter_and_enter_state_three(TownObjectRecord *object, void *context_a, void *context_b, s32 check_arg);
 
 /* update_object_state_and_lookup.c */
-void update_object_state_and_lookup(Rec_func_80094268_arg0 *object, void *lookup_key, void *state_value);
+void update_object_state_and_lookup(TownObjectRecord *object, void *lookup_key, void *state_value);
 
 /* update_person_global_state.c */
 void update_person_global_state(void *object, s32 call_arg, s32 *values);

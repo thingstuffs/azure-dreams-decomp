@@ -51,7 +51,7 @@ typedef struct S_80173ED8_5 {
 } S_80173ED8_5;   /* owner in advance_entity_animation_actions */
 
 /* Advances entity animation states and handles pending actions. */
-void advance_entity_animation_actions(ActorRecord *action, ObjectPosition *context, SpriteFrameState *sprite, void *entity) {
+void advance_entity_animation_actions(ActorRecord *action, ObjectPosition *context, SpriteFrameState *sprite, ActorRecord *entity) {
     void *saved_context;
     register DungeonGlobalStatus *dungeon_state;
     void *saved_entity;

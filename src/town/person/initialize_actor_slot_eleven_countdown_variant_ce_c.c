@@ -1,7 +1,7 @@
 /* Configure this callback using its own slot, table addresses and state constants. */
 #include "common.h"
 #include "shared/sprite_frame_state.h"
-#include "records/Rec_func_80094268_arg0.h"
+#include "shared/town_object.h"
 #include "town/person.h"
 
 
@@ -13,9 +13,9 @@ extern s8 D_800826B8;
 
 
 /* Initializes entries from D_800D64DC, clears D_800826B8, and installs D_800C9FBC with count eight. */
-void initialize_actor_slot_eleven_countdown_variant_4ce5c(Rec_func_80094268_arg0 *actor, s32 unused, SpriteFrameState *output) {
+void initialize_actor_slot_eleven_countdown_variant_4ce5c(TownObjectRecord *actor, s32 unused, SpriteFrameState *output) {
     func_800C2E84(actor, output, D_800D64DC);
     D_800826B8 = 0;
-    actor->unk_54 = D_800C9FBC;
-    actor->unk_6C.as_s16 = 0x8;
+    actor->handler = D_800C9FBC;
+    actor->timer.as_s16 = 0x8;
 }

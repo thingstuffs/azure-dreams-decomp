@@ -164,7 +164,7 @@ void update_actor_position_and_heading(void *actor, s32 update_context, void *po
         ((DelayMotionZ *)saved_position)->unk_08 = position->z.v;
         initialize_object_entries((Struct800C5724 *)actor, setup_context, (s32 *)D_80100E24);
         select_object_value_by_height_band(actor, update_context, position_arg, setup_context);
-        heading = ((Rec_func_80094268_arg0 *)actor)->unk_72.as_u16;
+        heading = ((TownObjectRecord *)actor)->heading.as_u16;
         heading += 0x200;
         heading &= 0xFC00;
     } else {
@@ -174,5 +174,5 @@ void update_actor_position_and_heading(void *actor, s32 update_context, void *po
         position->z.v = fixed_position->z.v;
         heading = ((S_800A6994_0 *)state)->unk_38;
     }
-    ((Rec_func_80094268_arg0 *)actor)->unk_72.as_u16 = heading;
+    ((TownObjectRecord *)actor)->heading.as_u16 = heading;
 }

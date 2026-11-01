@@ -1,10 +1,10 @@
 #ifndef TOWN_PLAYER_MOTION_H
 #define TOWN_PLAYER_MOTION_H
-struct PersonObject;
+struct TownObjectRecord;
 /* Prototypes of the functions defined in src/town/player/motion/ (one true prototype each; maintained by tools/headers). */
 
 #include "common.h"
-#include "records/Rec_func_80094268_arg0.h"
+#include "shared/town_object.h"
 #include "records/Rec_func_80097D54_arg0.h"
 #include "shared/entity.h"
 #include "shared/position_views.h"
@@ -30,7 +30,7 @@ void forward_player_motion_state(void *state, s32 value, s32 mode);
 void forward_player_motion_update(void *object, s32 value_1, s32 value_2);
 
 /* initialize_motion_action.c */
-void initialize_motion_action(Rec_func_80094268_arg0 *entity, void *motion, s32 value);
+void initialize_motion_action(TownObjectRecord *entity, void *motion, s32 value);
 
 /* initialize_object_from_motion_data.c */
 void initialize_object_from_motion_data(void *object, void *initializationData, void *ptr2);
@@ -42,10 +42,10 @@ void initialize_player_motion_parameters(void *record, s32 update_value, s32 ini
 void move_entity_in_current_direction(Rec_func_80097D54_arg0 *move_state, EntityRec *entity, struct SpriteFrameState *finish_arg);
 
 /* move_player_halfway_to_target.c */
-void move_player_halfway_to_target(Rec_func_80094268_arg0 *state, struct Position *position, struct SpriteFrameState *context);
+void move_player_halfway_to_target(TownObjectRecord *state, struct Position *position, struct SpriteFrameState *context);
 
 /* move_player_toward_target_with_timer.c */
-void move_player_toward_target_with_timer(Rec_func_80094268_arg0 *motion, EntityRec *position, s32 context);
+void move_player_toward_target_with_timer(TownObjectRecord *motion, EntityRec *position, s32 context);
 
 /* move_the_actor_perpendicular_selected_direction_unless_step_changes_sides.c */
 void move_the_actor_perpendicular_selected_direction_unless_step_changes_sides(void *position_data);
@@ -54,9 +54,9 @@ void move_the_actor_perpendicular_selected_direction_unless_step_changes_sides(v
 s32 move_value_toward_300(s32 value, struct S_800981D4_0 *field_ptr, struct SpriteFrameState *other_value);
 
 /* process_player_motion_state.c */
-void process_player_motion_state(Rec_func_80094268_arg0 *object, s32 forwardedArg1, s32 forwardedArg2);
+void process_player_motion_state(TownObjectRecord *object, s32 forwardedArg1, s32 forwardedArg2);
 
 /* set_motion_handler_and_copy_signed_byte.c */
-void set_motion_handler_and_copy_signed_byte(struct PersonObject *record_data, void *placement, struct SpriteFrameState *unused_sprite);
+void set_motion_handler_and_copy_signed_byte(TownObjectRecord *record_data, void *placement, struct SpriteFrameState *unused_sprite);
 
 #endif

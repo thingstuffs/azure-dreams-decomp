@@ -2,7 +2,7 @@
 #include "common.h"
 #include "shared/town_action_flag.h"
 #include "shared/town_handler_entries.h"
-#include "records/Rec_func_80094268_arg0.h"
+#include "shared/town_object.h"
 #include "shared/entity.h"
 #include "shared/town_handler.h"
 #include "town/person/effects.h"
@@ -17,7 +17,7 @@ void handle_adjust_vector_toward_selected_angle_limit_magnitude();              
 #include "town/player/position/handle_resolves_movement_collisions_along_one_axis_using_boundary_probes_tile_api.h"                      /* extern */
 
 /* Advance the state counter and update the entity, handling threshold and flag transitions. */
-void update_threshold_and_interaction(Rec_func_80094268_arg0 *state, EntityRec *entity, s32 context) {
+void update_threshold_and_interaction(TownObjectRecord *state, EntityRec *entity, s32 context) {
     s16 threshold;
     u16 counter;
 

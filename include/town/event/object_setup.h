@@ -1,5 +1,7 @@
 #ifndef TOWN_EVENT_OBJECT_SETUP_H
 #define TOWN_EVENT_OBJECT_SETUP_H
+#include "shared/town_object.h"
+#include "shared/entity.h"
 
 struct SpriteFrameState;
 struct Rec_D_800CFCB4;
@@ -8,10 +10,10 @@ void no_op_action_callback(void *unused_object, void *unused_position, struct Sp
 void initialize_record_pointers_and_clear_state(void *record_data, void *placement, struct SpriteFrameState *unused_sprite);
 void initialize_variant_record_pointers_and_clear_state(void *record_data, void *placement, struct SpriteFrameState *unused_sprite);
 
-void select_object_state_by_mode(struct Rec_D_800CFCB4 *record, void *position,
+void select_object_state_by_mode(struct Rec_D_800CFCB4 *record, ObjectPosition *position,
                                 struct SpriteFrameState *state, void *default_data,
                                 void *alternate_data, void *bounds);
-void initialize_actor_action_with_defaults(void *actor, void *position,
+void initialize_actor_action_with_defaults(void *actor, ObjectPosition *position,
                                           struct SpriteFrameState *state, void *data);
 void initialize_object_resource_table(void *object, void *position, struct SpriteFrameState *state);
 void initialize_object_resource_tables(void *object, void *position, struct SpriteFrameState *state);

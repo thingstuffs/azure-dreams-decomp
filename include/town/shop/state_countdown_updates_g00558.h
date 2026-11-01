@@ -6,6 +6,7 @@
 #include "common.h"
 #include "town/scene/collision.h"
 #include "m2c_compat.h"
+#include "shared/town_object.h"
 
 /* extern */
 typedef struct S_8009ECF0_0 {

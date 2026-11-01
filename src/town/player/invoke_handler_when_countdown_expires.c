@@ -1,14 +1,14 @@
 #include "common.h"
 #include "shared/town_handler_entries.h"
-#include "records/Rec_func_80094268_arg0.h"
+#include "shared/town_object.h"
 #include "town/player.h"
-void init_actor_action_state(Rec_func_80094268_arg0 *record, void *ptr, void *ptr2);    /* extern */
+void init_actor_action_state(TownObjectRecord *record, void *ptr, void *ptr2);    /* extern */
 #include "town/player/call_the_handler_selects_nonzero_entry_api.h"  /* extern */
 #include "town/player/position/handle_resolves_movement_collisions_along_one_axis_using_boundary_probes_tile_api.h"                     /* extern */
 
 
 /* Decrements the state countdown and invokes its handler when it expires. */
-void invoke_handler_when_countdown_expires(Rec_func_80094268_arg0 *state, s32 update_ctx, s32 handler_ctx) {
+void invoke_handler_when_countdown_expires(TownObjectRecord *state, s32 update_ctx, s32 handler_ctx) {
     s16 countdown;
 
     handle_resolves_movement_collisions_along_one_axis_using_boundary_probes_tile((struct EntityRec *)(update_ctx));

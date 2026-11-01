@@ -16,10 +16,10 @@ typedef struct S_800A8B98_0 {
    /* arg1 in set_record_pointer_and_byte */
 
 /* Sets the record's pointer and state and copies its signed byte to the output's high half. */
-void set_record_pointer_and_byte(PersonObject *record_data, void *placement, struct SpriteFrameState *unused_sprite) {
+void set_record_pointer_and_byte(TownObjectRecord *record_data, void *placement, struct SpriteFrameState *unused_sprite) {
     DelayMotionZ *output = placement;
 
     ((S_800A8B98_0 *)((u8 *)record_data - 0x10))->unk_00 = &process_raised_position_pair;
-    output->unk_08 = (s32) (((S_800A8B98_0 *)((u8 *)record_data - 0x10))->unk_A6 << 0x10);
-    record_data->timer = 5;
+    output->unk_08 = (s32) (record_data->variant.as_s8 << 0x10);
+    record_data->timer.as_s16 = 5;
 }

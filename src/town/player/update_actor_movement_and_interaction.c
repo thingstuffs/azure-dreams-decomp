@@ -4,7 +4,7 @@
 #include "shared/game_work.h"
 #include "m2c_compat.h"
 #include "shared/entity.h"
-#include "records/Rec_func_80094268_arg0.h"
+#include "shared/town_object.h"
 #include "records/Rec_D_800CFCC4.h"
 #include "town/player/coordinates.h"
 #include "engine/script.h"
@@ -15,10 +15,10 @@
 #include "town/player/object.h"
 
 void submit_object_resource_data();                         /* extern */
-struct Rec_func_80094268_arg0; void initialize_actor_position_interaction_action(struct Rec_func_80094268_arg0 *, s32, s32);     /* extern */
+struct TownObjectRecord; void initialize_actor_position_interaction_action(struct TownObjectRecord *, s32, s32);     /* extern */
 struct ObjectPosition; void initialize_input_driven_scene_object(s32 * *, struct ObjectPosition *, s32);     /* extern */
 void initialize_action_callback_from_entry(s32 **record, void *ptr, void *ptr2);
-void initialize_busy_checked_countdown_action(Rec_func_80094268_arg0 *record,void *unused,void *setup_value);
+void initialize_busy_checked_countdown_action(TownObjectRecord *record,void *unused,void *setup_value);
 #include "town/player/store_the_valid_shared_angle_in_offset_hex_10_api.h"                      /* extern */
 #include "town/player/move_both_components_toward_zero_direction_dependent_steps_clamping_zero_api.h"                      /* extern */
 #include "town/player/compute_and_clamps_vector_based_adjustment_updates_town_api.h"      /* extern */
@@ -44,7 +44,7 @@ typedef struct S_800927EC_4 {
 typedef struct S_800927EC_5 {
     u8 pad_00[0x50];
     s32 unk_50;
-} S_800927EC_5;   /* ((Rec_func_80094268_arg0 *)arg0)->unk_2C in update_actor_movement_and_interaction */
+} S_800927EC_5;   /* ((TownObjectRecord *)arg0)->unk_2C in update_actor_movement_and_interaction */
 
 /* Update the actor and dispatch town movement and interaction input. */
 void update_actor_movement_and_interaction(void *actor, EntityRec *position, s32 context) {
@@ -95,15 +95,15 @@ void update_actor_movement_and_interaction(void *actor, EntityRec *position, s32
             select_an_available_entry_matching_direction_returns_status(&town_actor_control);
             store_the_valid_shared_angle_in_offset_hex_10(actor);
             init_motion_action_callback(actor, position, context);
-            target_handler = ((S_800927EC_5 *)(((Rec_func_80094268_arg0 *)actor)->unk_2C))->unk_50;
+            target_handler = ((S_800927EC_5 *)(((TownObjectRecord *)actor)->unk_2C))->unk_50;
             if ((target_handler != &D_8009B828) && (target_handler != &actor_target_motion_address)) {
                 if (target_handler != &town_owner_dispatch_address) {
-                    ((Rec_func_80094268_arg0 *)actor)->unk_2C = NULL;
+                    ((TownObjectRecord *)actor)->unk_2C = NULL;
                 }
             }
             interaction = (S_800927EC_4 *)&town_actor_control;
             interaction_result = select_response_for_source_and_target(interaction->unk_10,
-                ((Rec_func_80094268_arg0 *)actor)->unk_2C);
+                ((TownObjectRecord *)actor)->unk_2C);
             if (interaction_result != 0) {
                 call_script(interaction_result);
             } else {

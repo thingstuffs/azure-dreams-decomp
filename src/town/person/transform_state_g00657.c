@@ -10,7 +10,7 @@ void *get_transform_entry_by_index(s32 entry_index) {
 }
 
 /* Sets the motion page and updates the object state and orientation. */
-void update_transform_motion_page(void *object_data, void *motion_data) {
+void update_transform_motion_page(TownObjectRecord *object_data, void *motion_data) {
     register DelayMotionZ *motion = motion_data;
 
     u32 page;
@@ -22,7 +22,7 @@ void update_transform_motion_page(void *object_data, void *motion_data) {
     }
     configure_the_set_mode_n_1(((S_800C2988_1 *)(object_data)), motion, get_transform_entry_by_index(0));
     ((S_800C2988_1 *)(object_data))->unk_50 = &D_800C2A10;
-    ((S_800C2988_1 *)(object_data))->unk_16 = (s16) ((((S_800C2988_1 *)(object_data))->unk_72 - 0x800) & 0xFFF);
+    object_data->unk_16 = (s16) ((object_data->heading.as_u16 - 0x800) & 0xFFF);
 }
 
 /* Update the object's state value according to whether the pair check returns zero. */

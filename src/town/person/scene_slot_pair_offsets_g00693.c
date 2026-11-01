@@ -7,7 +7,7 @@
  * Registers the object in scene slot 62 using the four local setup tables and sets the context
  * halfword at offset 0x12 to 0x40.
  */
-void initialize_scene_slot_62(void *object, void *unused, struct SpriteFrameState *context)
+void initialize_scene_slot_62(TownObjectRecord *object, void *unused, struct SpriteFrameState *context)
 {
     initialize_object_and_register_slot(object, 62, D_800D7610, D_800D7614, D_800D75E0, D_800D75E8);
     context->clut = 0x40;
@@ -17,7 +17,7 @@ void initialize_scene_slot_62(void *object, void *unused, struct SpriteFrameStat
  * Registers the object in scene slot 57 using the four local setup tables and sets the context
  * halfword at offset 0x12 to 0x40.
  */
-void initialize_scene_slot_57(void *object, void *unused, struct SpriteFrameState *context)
+void initialize_scene_slot_57(TownObjectRecord *object, void *unused, struct SpriteFrameState *context)
 {
     initialize_object_and_register_slot(object, 57, D_800D7610, D_800D7614, D_800D75E0, D_800D75E8);
     context->clut = 0x40;

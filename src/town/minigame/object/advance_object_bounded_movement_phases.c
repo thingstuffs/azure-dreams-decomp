@@ -3,10 +3,6 @@
 #include "town/minigame/object.h"
 
 
-typedef struct S_800BF72C_4 {
-    u8 pad_00[0x68];
-    u16 unk_68;
-} S_800BF72C_4;   /* ((S_800BF72C_3 *)arg0)->unk_A0 in advance_object_bounded_movement_phases */
 
 /* The final state reset is coupled to the non-overflow path.  This is a
  * defined source-level guard whose natural branch leader is the epilogue. */
@@ -35,7 +31,7 @@ void advance_object_bounded_movement_phases(BoundedMovementObject *object, S_800
     u32 *clock_base;
     u32 ticks;
 
-    linked_state = ((S_800BF72C_4 *)(object->linked_object))->unk_68;
+    linked_state = ((TownObjectRecord *)(object->linked_object))->unk_68;
     if ((linked_state & 1) && object->movement_state == 0)
         object->movement_state = (s16)linked_state;
     move_state = object->movement_state;

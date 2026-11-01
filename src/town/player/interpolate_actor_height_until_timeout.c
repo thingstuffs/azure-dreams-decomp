@@ -1,12 +1,12 @@
 #include "common.h"
-#include "records/Rec_func_80094268_arg0.h"
+#include "shared/town_object.h"
 #include "shared/entity.h"
 #include "town/player/action_initializers.h"
 #include "town/player.h"
 #include "town/player/position.h"
 
 /* Advance interpolation toward the target and finish when the countdown expires. */
-void interpolate_actor_height_until_timeout(Rec_func_80094268_arg0 *state, EntityRec *motion, void *context) {
+void interpolate_actor_height_until_timeout(TownObjectRecord *state, EntityRec *motion, void *context) {
     s32 target_pos;
     u16 ticks_left;
 

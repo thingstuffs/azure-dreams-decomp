@@ -1,6 +1,6 @@
 #ifndef TOWN_MAP_H
 #define TOWN_MAP_H
-struct PersonObject;
+struct TownObjectRecord;
 /* Prototypes of the functions defined in src/town/map/ (one true prototype each; maintained by tools/headers). */
 
 #include "common.h"
@@ -13,6 +13,7 @@ struct PersonObject;
 #include "shared/town_pointees.h"
 #include "shared/vector.h"
 #include "town/map/animation.h"
+#include "shared/town_object.h"
 
 struct Func800AB788Arg;
 struct Func800BFE50Object;
@@ -139,9 +140,9 @@ void build_two_display_entries(void *data_id, s32 position_offset);
 
 /* door.c */
 s32 check_door_status_inverted(void *object);
-void initialize_door_variant(struct PersonObject *record_data, void *position, struct SpriteFrameState *unused_sprite);
+void initialize_door_variant(TownObjectRecord *record_data, void *position, struct SpriteFrameState *unused_sprite);
 void handle_door_check_result(struct S_func_800A0708_0 *object, void *callback_arg, s32 callback_data);
-void install_next_door_handler(void *object, void *unused_context, void *update_context, s32 unused_data);
+void install_next_door_handler(TownObjectRecord *object, void *unused_context, void *update_context, s32 unused_data);
 void open_door_to_target(void *object, void *context);
 void door_no_op(void);
 void advance_door_open_angle(struct S_800A08F0_0 *door);
@@ -235,7 +236,7 @@ void initialize_building_shared_buffer(void);
 void initialize_control_block(struct TownCameraState *control);
 
 /* initialize_record_with_defaults.c */
-void initialize_record_with_defaults(void *record_data, void *placement, struct SpriteFrameState *unused_sprite);
+void initialize_record_with_defaults(TownObjectRecord *record_data, void *placement, struct SpriteFrameState *unused_sprite);
 
 /* interpolate_view_components.c */
 void interpolate_view_components(struct S_800A526C_1 *transition);
@@ -281,7 +282,7 @@ void p_came_set(s32 position);
 
 /* paired_actor_motion_g00645.c */
 void update_randomized_actor_movement(void *actor, ObjectPosition *motion, SpriteFrameState *sprite, s32 update_mode);
-void initialize_object_and_dispatch_by_state(struct Func800BFE50Object *object, s32 *params, void *dispatch_context);
+void initialize_object_and_dispatch_by_state(TownObjectRecord *object, s32 *params, void *dispatch_context);
 void randomize_paired_object_motion(void *pair);
 s32 event_tori_in(void *source);
 
@@ -311,7 +312,7 @@ s32 check_masked_value_in_current_range(s32 value);
 void release_town_map_record(void *record_ref);
 
 /* replace_active_table_callbacks.c */
-void replace_active_table_callbacks(void *entry_data, void *unused_position, struct SpriteFrameState *unused_sprite);
+void replace_active_table_callbacks(TownObjectRecord *entry_data, void *unused_position, struct SpriteFrameState *unused_sprite);
 
 /* request_event_with_toggled_map_bit.c */
 void request_event_with_toggled_map_bit(void);
@@ -344,7 +345,7 @@ void set_fallback_record_handler(void *record);
 void set_record_handler_below_threshold(void *record);
 
 /* set_record_pointer_and_byte.c */
-void set_record_pointer_and_byte(struct PersonObject *record_data, void *placement, struct SpriteFrameState *unused_sprite);
+void set_record_pointer_and_byte(TownObjectRecord *record_data, void *placement, struct SpriteFrameState *unused_sprite);
 
 /* shaded_tile_rendering_g00594.c */
 void set_texture_quad_32_uv(u16 texture_page, u16 palette, u8 texture_u, u8 texture_v);

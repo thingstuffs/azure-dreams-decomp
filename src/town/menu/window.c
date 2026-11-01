@@ -30,6 +30,7 @@
 #include "town/map/state.h"
 #include "engine/menu.h"
 #include "engine/window.h"
+#include "shared/town_object.h"
 
 
 /* Initializes an object with default transform and global state values. */
@@ -629,7 +630,7 @@ void process_eligible_entries(func_800A02F0_S_8009DA50_2 *entries, void *bounds,
 /* Sets the object state for the selected mode and flags. */
 void set_object_state_for_mode(void *owner, SpriteFrameState *object, s32 mode, s32 flags) {
     if (mode == 2) {
-        ((Rec_func_80094268_arg0 *)owner)->unk_93 = 1;
+        ((TownObjectRecord *)owner)->unk_93 = 1;
         (*(s32 *)((u8 *)object + (0x28))) = loaded_town_resource_attributes[0];
         select_sprite_entry(object, D_800D07AC, 0);
         return;
@@ -1000,16 +1001,16 @@ void initialize_entity_from_table_and_callback(void *entity, func_800A10FC_S_800
     u8 entry_type;
 
     ((func_800A10FC_S_8009E85C_0_pre *)entity)[-1].unk_00 = update_object_pulse_brightness;
-    ((Rec_func_80094268_arg0 *)entity)->unk_A0 = 0xFFE00000;
+    ((TownObjectRecord *)entity)->unk_A0 = 0xFFE00000;
     placement->unk_08 = 0xFFE00000;
-    ((Rec_func_80094268_arg0 *)entity)->unk_4C = table_page[(((Rec_func_80094268_arg0 *)entity)->unk_95 * 4) + 0x980];
-    entry_type = table_page[(((Rec_func_80094268_arg0 *)entity)->unk_95 * 4) + 0x981];
-    ((Rec_func_80094268_arg0 *)entity)->unk_4D = entry_type;
+    ((TownObjectRecord *)entity)->unk_4C = table_page[(((TownObjectRecord *)entity)->unk_95 * 4) + 0x980];
+    entry_type = table_page[(((TownObjectRecord *)entity)->unk_95 * 4) + 0x981];
+    ((TownObjectRecord *)entity)->unk_4D = entry_type;
     if (entry_type == 0x12) {
         state->unk_08 = &item_effect_descriptor;
     } else {
-        set_object_state_for_mode(entity, state, ((Rec_func_80094268_arg0 *)entity)->unk_4C,
-            ((func_800A10FC_S_8009E85C_6 *)(table_page + ((table_page[(((Rec_func_80094268_arg0 *)entity)->unk_95 * 4)
+        set_object_state_for_mode(entity, state, ((TownObjectRecord *)entity)->unk_4C,
+            ((func_800A10FC_S_8009E85C_6 *)(table_page + ((table_page[(((TownObjectRecord *)entity)->unk_95 * 4)
             + 0x983] & 0x3F) * 0x54)))->unk_A94);
     }
     register_node_if_unregistered(entity, project_sprite_chain);
@@ -1020,7 +1021,7 @@ void initialize_entity_from_table_and_callback(void *entity, func_800A10FC_S_800
     state->unk_14.u = (u16)(flags | 0x1C);
     tail_entity = entity;
     if (active == 0) {
-        ((Rec_func_80094268_arg0 *)entity)->unk_6C.as_s16 = scale_random_to_unsigned_halfword_limit(0x1000);
+        ((TownObjectRecord *)entity)->timer.as_s16 = scale_random_to_unsigned_halfword_limit(0x1000);
     } else {
         tail_entity->unk_6C = 0;
     }
@@ -1033,11 +1034,11 @@ void initialize_entity_from_table_and_callback(void *entity, func_800A10FC_S_800
 }
 
 /* Initializers selected by the low callback id in scene object records. */
-extern void select_object_state_by_mode_2(void *, void *, SpriteFrameState *);
+extern void select_object_state_by_mode_2(TownObjectRecord *, void *, SpriteFrameState *);
 extern void initialize_optional_scene_state_a(void *, void *, SpriteFrameState *);
 extern void initialize_optional_scene_state_b(void *, void *, SpriteFrameState *);
 extern void initialize_optional_scene_state_c(void *, void *, SpriteFrameState *);
-extern void initialize_timed_object_action(void *context, void *source, void *record);
+extern void initialize_timed_object_action(TownObjectRecord *context, void *source, void *record);
 extern void initialize_flagged_actor_action_a(void *, void *, SpriteFrameState *);
 extern void initialize_flagged_actor_action_b(void *, void *, SpriteFrameState *);
 extern void initialize_flagged_actor_action_c(void *, void *, SpriteFrameState *);
@@ -1046,21 +1047,21 @@ extern void initialize_projected_sprite_chain_a(void *, void *, SpriteFrameState
 extern void initialize_projected_sprite_chain_b(void *, void *, SpriteFrameState *);
 extern void initialize_projected_sprite_chain_c(void *, void *, SpriteFrameState *);
 extern void initialize_object_data_transform_color(void *, void *, SpriteFrameState *);
-extern void initialize_object_and_dispatch_by_state(void *, void *, SpriteFrameState *);
+extern void initialize_object_and_dispatch_by_state(TownObjectRecord *, void *, SpriteFrameState *);
 extern void initialize_object_resources_2(void *, void *, SpriteFrameState *);
-extern void func_800C60DC(void *, void *, SpriteFrameState *);
-extern void func_800C620C(void *, void *, SpriteFrameState *);
-extern void func_800C629C(void *, void *, SpriteFrameState *);
-extern void func_800C65C8(void *, void *, SpriteFrameState *);
-extern void initialize_scene_slot_6_context(void *, void *, SpriteFrameState *);
+extern void func_800C60DC(TownObjectRecord *, void *, SpriteFrameState *);
+extern void func_800C620C(TownObjectRecord *, void *, SpriteFrameState *);
+extern void func_800C629C(TownObjectRecord *, void *, SpriteFrameState *);
+extern void func_800C65C8(TownObjectRecord *, void *, SpriteFrameState *);
+extern void initialize_scene_slot_6_context(TownObjectRecord *, void *, SpriteFrameState *);
 extern void initialize_object_configuration_x(void *, void *, SpriteFrameState *);
-extern void func_800C83F0(void *, void *, SpriteFrameState *);
-extern void initialize_scene_slot_11(void *, void *, SpriteFrameState *);
-extern void initialize_scene_slot_18_context(void *, void *, SpriteFrameState *);
-extern void func_800CC2E8(void *, void *, SpriteFrameState *);
-extern void initialize_scene_slot_11_context_variant(void *, void *, SpriteFrameState *);
-extern void initialize_scene_slot_1(void *, void *, SpriteFrameState *);
-extern void initialize_scene_slot_12_context(void *, void *, SpriteFrameState *);
+extern void func_800C83F0(TownObjectRecord *, void *, SpriteFrameState *);
+extern void initialize_scene_slot_11(TownObjectRecord *, void *, SpriteFrameState *);
+extern void initialize_scene_slot_18_context(TownObjectRecord *, void *, SpriteFrameState *);
+extern void func_800CC2E8(TownObjectRecord *, void *, SpriteFrameState *);
+extern void initialize_scene_slot_11_context_variant(TownObjectRecord *, void *, SpriteFrameState *);
+extern void initialize_scene_slot_1(TownObjectRecord *, void *, SpriteFrameState *);
+extern void initialize_scene_slot_12_context(TownObjectRecord *, void *, SpriteFrameState *);
 
 TownObjectCallback town_object_callbacks[172] = {
     set_actor_flag_copy_global, /* 0 */

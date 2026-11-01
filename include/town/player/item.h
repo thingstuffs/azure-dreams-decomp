@@ -3,7 +3,7 @@
 /* Prototypes of the functions defined in src/town/player/item/ (one true prototype each; maintained by tools/headers). */
 
 #include "common.h"
-#include "records/Rec_func_80094268_arg0.h"
+#include "shared/town_object.h"
 
 struct S_800947CC_1;
 
@@ -11,7 +11,7 @@ struct S_800947CC_1;
 void *get_linked_carry_item_data(void *record, s32 unused_first, s32 unused_second);
 
 /* initialize_returned_item_action.c */
-void initialize_returned_item_action(Rec_func_80094268_arg0 *object, struct S_800947CC_1 *settings, void *ptr2);
+void initialize_returned_item_action(TownObjectRecord *object, struct S_800947CC_1 *settings, void *ptr2);
 
 /* plt_carry_item_del_ext.c */
 void plt_carry_item_del_ext(void);

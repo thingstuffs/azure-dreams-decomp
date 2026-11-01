@@ -1,6 +1,6 @@
 #include "common.h"
 #include "town/player.h"
-#include "records/Rec_func_80094268_arg0.h"
+#include "shared/town_object.h"
 extern s32 *town_player_action_callback;
 
 /* Initializes the output pointer and the shared data pointer. */

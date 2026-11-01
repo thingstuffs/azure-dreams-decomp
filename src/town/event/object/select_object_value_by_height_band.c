@@ -1,6 +1,6 @@
 #include "common.h"
 #include "shared/sprite_frame_state.h"
-#include "records/Rec_func_80094268_arg0.h"
+#include "shared/town_object.h"
 #include "shared/entity.h"
 #include "records/Rec_D_80082E80.h"
 #include "shared/entity_height_offsets.h"
@@ -12,7 +12,7 @@ extern s32 check_masked_value_in_current_range(s32 value);
 extern s16 terrain_height_limits[];
 
    /* Selects one of three object values using a position-based table difference. */
-void select_object_value_by_height_band(Rec_func_80094268_arg0 *object, void *context, EntityRec *position, Rec_D_80082E80 *output)
+void select_object_value_by_height_band(TownObjectRecord *object, void *context, EntityRec *position, Rec_D_80082E80 *output)
 {
     s32 table_index;
     s16 table_delta;

@@ -122,7 +122,7 @@ void update_linked_four_column_number(void *entry);
 void update_minigame_image_animation(MinigameImageAnimationObject *anim);
 void update_minigame_scroll(MinigameDisplayObjectsBody *scroll);
 void update_tako_minigame(TakoMinigameState *state);
-void run_timed_value_decrease(TimedValueDecreaseObject *sequence, EntityRec *target);
+void run_timed_value_decrease(TimedValueDecreaseObject *sequence, ObjectPosition *target);
 
 /* initialize_casino_minigame.c: the casino image (town +0x79D800) loads at 0x80020000. */
 s32 initialize_casino_minigame(void);

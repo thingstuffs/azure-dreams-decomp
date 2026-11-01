@@ -65,7 +65,7 @@ void update_map_cell_flags_with_item_limit(s32 x, s32 y, u16 flags);
 
 void refresh_actor_proximity_state(ActorRecord *context);
 
-extern void create_radial_effect_segments(void *, void *, void *, void *);
+extern void create_radial_effect_segments(ActorRecord *, void *, void *, ActorRecord *);
 extern void create_anchored_directional_object(void *, void *, void *, ActorRecord *, s32);
 extern void create_origin_motion_effect(ActorRecord *, ObjectPosition *, SpriteFrameState *, s32, s32, s32);
 extern s32 random_below_limit(s32);

@@ -6,7 +6,7 @@
 #include "common.h"
 #include "town/scene/collision.h"
 #include "town/person.h"
-#include "records/Rec_func_80094268_arg0.h"
+#include "shared/town_object.h"
 #include "m2c_compat.h"
 #include "town/person/object/initialize_object_entries_api.h"
 
@@ -37,7 +37,7 @@ extern Timer mother_event_ticks;
 /* Functions defined in this translation unit. */
 void apply_mother_event_motion_offset(void *object, void *position, s32 update_arg);
 void reset_mother_event_callback_on_expiry(void *object, void *motion, void *init_data, s32 check_arg);
-void choose_mother_event_direction(Rec_func_80094268_arg0 *entity, void *bounds_arg, void *context_arg);
+void choose_mother_event_direction(TownObjectRecord *entity, void *bounds_arg, void *context_arg);
 void initialize_mother_event_with_timer_16(void *object, void *unused, void *init_data);
 
 void func_800C7A00(void *object, void *motion, void *init_data, s32 check_arg);

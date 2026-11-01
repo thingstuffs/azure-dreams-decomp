@@ -10,7 +10,7 @@ typedef struct S_800935BC_0 {
 
 
 /* Move the fixed-point position halfway toward the target and advance when the countdown expires. */
-void approach_target_tile_until_timeout(Rec_func_80094268_arg0 *target, S_800935BC_0 *position, void *transition_arg) {
+void approach_target_tile_until_timeout(TownObjectRecord *target, S_800935BC_0 *position, void *transition_arg) {
     s16 ticks_left;
 
     position->unk_00 = ((s32) ((s16)target->unk_30 << 0x10) + position->unk_00) / 2;

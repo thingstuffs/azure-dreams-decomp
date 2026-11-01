@@ -1,5 +1,5 @@
 #include "common.h"
-#include "records/Rec_func_80094268_arg0.h"
+#include "shared/town_object.h"
 #include "shared/entity.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/object_node.h"
@@ -13,7 +13,7 @@ struct Dst;
 struct Elem;
 void load_indexed_state_value(); /* Unprototyped: retail call passes more arguments than the callee reads */      /* extern */
 struct OwnerCallbackObject;
-void call_owner_callback(struct OwnerCallbackObject *owner, void *motion, s32 context);
+void call_owner_callback(struct OwnerCallbackObject *owner, ObjectPosition *motion, s32 context);
 #include "shared/sprite_source.h"
 extern SpriteSourceEntry D_800EE344[];
 
@@ -23,7 +23,7 @@ extern SpriteSourceEntry D_800EE344[];
 /* Allocate and initialize an object at an offset from the supplied position. */
 void * create_offset_effect_object(IntVector3 *source_pos) {
     ObjectPosition *position;
-    Rec_func_80094268_arg0 *object_state;
+    TownObjectRecord *object_state;
     SpriteFrameState *render_state;
     ObjectNodeHeader *object;
     s32 offset_z;

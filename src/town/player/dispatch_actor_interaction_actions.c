@@ -11,10 +11,10 @@
 #include "engine/object/test_resident_bitmap_bit_api.h"                         /* extern */
 #include "town/player/coordinates.h"
 void submit_object_resource_data();                         /* extern */
-struct Rec_func_80094268_arg0; void initialize_motion_action(struct Rec_func_80094268_arg0 *, void *, s32);     /* extern */
-#include "records/Rec_func_80094268_arg0.h"
-struct Rec_func_80094268_arg0; struct ObjectPosition; void initialize_actor_action_state(struct Rec_func_80094268_arg0 *, struct ObjectPosition *, s32);     /* extern */
-struct Rec_func_80094268_arg0; void init_movement_action(struct Rec_func_80094268_arg0 *, void *, s32);     /* extern */
+struct TownObjectRecord; void initialize_motion_action(struct TownObjectRecord *, void *, s32);     /* extern */
+#include "shared/town_object.h"
+struct TownObjectRecord; struct ObjectPosition; void initialize_actor_action_state(struct TownObjectRecord *, struct ObjectPosition *, s32);     /* extern */
+struct TownObjectRecord; void init_movement_action(struct TownObjectRecord *, void *, s32);     /* extern */
 void initialize_actor_movement_interaction_action(s32 **record, void *ptr, void *ptr2);     /* extern */
 #include "town/player/store_the_valid_shared_angle_in_offset_hex_10_api.h"                      /* extern */
 #include "town/player/move_both_components_toward_zero_direction_dependent_steps_clamping_zero_api.h"                      /* extern */
@@ -62,7 +62,7 @@ void dispatch_actor_interaction_actions(Rec_func_8009431C_arg0 *actor, EntityRec
         compute_and_clamps_vector_based_adjustment_updates_town((struct TownObj *)(record), height, (struct TownVec * *)(height_data));
     }
     if ((input_state->pressed_buttons) & 0x10) {
-        initialize_actor_action_state((struct Rec_func_80094268_arg0 *)(actor), (struct ObjectPosition *)(record), context);
+        initialize_actor_action_state((struct TownObjectRecord *)(actor), (struct ObjectPosition *)(record), context);
         return;
     }
     if ((input_state->pressed_buttons) & 0x40) {
@@ -90,12 +90,12 @@ void dispatch_actor_interaction_actions(Rec_func_8009431C_arg0 *actor, EntityRec
                 submit_object_resource_data(shared_data->unk_10);
                 return;
             }
-            init_movement_action((struct Rec_func_80094268_arg0 *)(actor), record, context);
+            init_movement_action((struct TownObjectRecord *)(actor), record, context);
             return;
         }
         page_base = (u8 *)(u32)(input_state->buttons & 0xF000);
         if (page_base != 0) {
-            initialize_motion_action((struct Rec_func_80094268_arg0 *)(actor), record, context);
+            initialize_motion_action((struct TownObjectRecord *)(actor), record, context);
         }
     }
 }

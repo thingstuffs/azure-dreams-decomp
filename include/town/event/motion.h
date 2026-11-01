@@ -4,7 +4,7 @@
 
 #include "common.h"
 #include "records/Rec_D_800CFCB4.h"
-#include "records/Rec_func_80094268_arg0.h"
+#include "shared/town_object.h"
 #include "records/Rec_func_8009B828_arg0.h"
 #include "shared/entity.h"
 #include "shared/position_views.h"
@@ -26,7 +26,7 @@ void initialize_target_motion(Rec_func_8009B828_arg0 *owner, Rec_D_800CFCB4 *tar
 void initialize_target_motion_state(struct S_8009C120_2 *state, struct S_8009C120_0 *status, MotionDeltaView *values);
 
 /* set_actor_motion_state.c */
-void set_actor_motion_state(Rec_func_80094268_arg0 *object, Rec_D_800CFCB4 *state);
+void set_actor_motion_state(TownObjectRecord *object, Rec_D_800CFCB4 *state);
 
 /* update_actor_with_controlled_motion.c */
 void update_actor_with_controlled_motion(struct Actor *actor, struct Subject *subject, struct Motion *motion, TownMovementOutput *context);

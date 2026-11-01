@@ -13,7 +13,7 @@
 #include "shared/entity_objects.h"
 #include "town/person/object/initialize_object_entries_api.h"
 #include "m2c_compat.h"
-#include "records/Rec_func_80094268_arg0.h"
+#include "shared/town_object.h"
 #include "shared/dungeon_delay_views.h"
 #include "town/person/position.h"
 #include "slus.h"

@@ -4,7 +4,7 @@
 /* Original-file evidence (G00532): inferred (adjacency/recipe/locality), inferred-strong - CL:town/func_800938A0. */
 
 #include "common.h"
-#include "records/Rec_func_80094268_arg0.h"
+#include "shared/town_object.h"
 #include "shared/position_query.h"
 #include "shared/town_action_flag.h"
 #include "shared/game_work.h"
@@ -44,7 +44,7 @@ void move_both_components_toward_zero_direction_dependent_steps_clamping_zero(En
 void handle_resolves_movement_collisions_along_one_axis_using_boundary_probes_tile(EntityRec *position);
 extern void init_input_action_fallback(void *, void *, s32);
 
-extern void initialize_scene_action_record(Rec_func_80094268_arg0 *, void *, void *);
+extern void initialize_scene_action_record(TownObjectRecord *, void *, void *);
 
 /* Functions defined in this translation unit. */
 void update_actor_ground_and_input(s32 controller, EntityRec *actor, s32 context);

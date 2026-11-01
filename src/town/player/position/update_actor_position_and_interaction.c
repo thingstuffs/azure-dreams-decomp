@@ -4,7 +4,7 @@
 #include "shared/town_handler_entries.h"
 #include "shared/game_work.h"
 #include "shared/entity.h"
-#include "records/Rec_func_80094268_arg0.h"
+#include "shared/town_object.h"
 #include "town/player/coordinates.h"
 #include "engine/script.h"
 #include "town/event.h"
@@ -17,7 +17,7 @@ void submit_object_resource_data();
 void initialize_actor_movement_interaction_action(s32 **record, void *ptr, void *ptr2);
 struct ObjectPosition; void initialize_input_driven_scene_object(s32 * *, struct ObjectPosition *, s32);
 void initialize_action_callback_from_entry(s32 **record, void *ptr, void *ptr2);
-void initialize_busy_checked_countdown_action(Rec_func_80094268_arg0 *record,void *unused,void *setup_value);
+void initialize_busy_checked_countdown_action(TownObjectRecord *record,void *unused,void *setup_value);
 #include "town/player/call_the_handler_selects_nonzero_entry_api.h"
 #include "town/player/store_the_valid_shared_angle_in_offset_hex_10_api.h"
 void handle_adjust_vector_toward_selected_angle_limit_magnitude();
@@ -42,7 +42,7 @@ typedef struct S_80092A84_4 {
 } S_80092A84_4;   /* base in update_actor_position_and_interaction */
 
 /* Updates the actor's position and dispatches town actions from input and interaction state. */
-void update_actor_position_and_interaction(Rec_func_80094268_arg0 *actor, EntityRec *body, s32 context) {
+void update_actor_position_and_interaction(TownObjectRecord *actor, EntityRec *body, s32 context) {
     GameWork *input_state;
     s32 *position_data;
     s32 *interaction_ctrl;

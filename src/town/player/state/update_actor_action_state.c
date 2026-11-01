@@ -1,5 +1,5 @@
 #include "common.h"
-#include "records/Rec_func_80094268_arg0.h"
+#include "shared/town_object.h"
 #include "shared/entity.h"
 #include "town.h"
 #include "town/player/position.h"
@@ -12,7 +12,7 @@ extern s32 D_800D00F8;
 extern s16 D_800D0454[];
 
 /* Updates countdown-driven motion and invokes callbacks at selected ticks. */
-void update_actor_action_state(Rec_func_80094268_arg0 *state, EntityRec *motion, s32 callback_arg) {
+void update_actor_action_state(TownObjectRecord *state, EntityRec *motion, s32 callback_arg) {
     s16 ticks_left;
     s32 target_position;
 

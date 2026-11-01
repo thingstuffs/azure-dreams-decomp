@@ -1,11 +1,11 @@
 #include "common.h"
-#include "records/Rec_func_80094268_arg0.h"
+#include "shared/town_object.h"
 #include "shared/entity.h"
 #include "town/person/motion.h"
 
 typedef struct S_800C3FC8_0 {
     u8 pad_00[0x54];
-    void (*unk_54)(Rec_func_80094268_arg0 *, EntityRec *, void *);
+    void (*unk_54)(TownObjectRecord *, EntityRec *, void *);
     u8 pad_58[0x14];
     u16 unk_6C;
 } S_800C3FC8_0;   /* arg0 in expire_motion_timer */

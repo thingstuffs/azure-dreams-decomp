@@ -4,6 +4,7 @@
 
 #include "common.h"
 #include "shared/entity.h"
+#include "shared/town_object.h"
 
 struct ColliderView;
 struct CollisionOverlap;
@@ -29,7 +30,7 @@ s32 apply_entry_position(struct ScenePositionEntry *entries, void *object, void 
 void blend_position_and_trace(s32 first_input, s32 second_input, s32 blend_weight, s32 remaining_weight);
 
 /* build_visible_tile_quads.c */
-void initialize_scene_slot_45(void *object, void *unused, struct SpriteFrameState *context);
+void initialize_scene_slot_45(TownObjectRecord *object, void *unused, struct SpriteFrameState *context);
 
 /* check_scene_callback_and_position.c */
 s32 check_scene_callback_and_position(void);

@@ -1,7 +1,7 @@
 #include "common.h"
 #include "shared/entity.h"
 #include "m2c_compat.h"
-#include "records/Rec_func_80094268_arg0.h"
+#include "shared/town_object.h"
 #include "town/person/position.h"
 #include "town/person/motion.h"
 #include "town/player.h"
@@ -12,7 +12,7 @@ extern M2C_UNK person_bounce_handler_address;
 
 
 /* Advance vertical motion, clamp at the landing height, and bounce or finish. */
-void advance_vertical_motion_and_bounce(Rec_func_80094268_arg0 *actor, EntityRec *motion, void *context) {
+void advance_vertical_motion_and_bounce(TownObjectRecord *actor, EntityRec *motion, void *context) {
     u16 bounces_left;
 
     motion->z.v = (s32) (motion->z.v + motion->flags14);
@@ -26,7 +26,7 @@ void advance_vertical_motion_and_bounce(Rec_func_80094268_arg0 *actor, EntityRec
             return;
         }
         motion->flags14 = 0xFFF60000;
-        actor->unk_54 = &person_bounce_handler_address;
+        actor->handler = &person_bounce_handler_address;
         return;
     }
     add_hex_20000_s_signed_offset_hex_14(motion);

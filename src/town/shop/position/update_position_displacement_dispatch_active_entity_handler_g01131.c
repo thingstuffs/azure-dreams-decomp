@@ -149,12 +149,12 @@ s32 get_target_itemp(void) {
  * 0x513, and synchronizes town state.
  */
 void update_the_target_offset_advance_phase_handle_active_event(void *state_arg, s32 event_id, DelayMotionZ *target, SpriteFrameState *context) {
-    Rec_func_80094268_arg0 *state = state_arg;
+    TownObjectRecord *state = state_arg;
     s32 active_event;
 
     target->unk_08 = (s32) (state->unk_A0
-        + (rsin(state->unk_6C.as_s16) << 7));
-    state->unk_6C.as_s16 = (s16) ((u16) state->unk_6C.as_s16 + 0x40);
+        + (rsin(state->timer.as_s16) << 7));
+    state->timer.as_s16 = (s16) ((u16) state->timer.as_s16 + 0x40);
     active_event = (*town_target_record);
     if ((active_event == event_id) && ((*scene_object_payload_alias) == &D_800935BC)) {
         check_adjusted_input_indices(target);
@@ -199,7 +199,7 @@ void call_callee_80033_d_08_set_handler(Rec_func_8009EE9C_arg0 *record, s32 valu
  * type/index fields, and applies the mode-selected object state. Installs the jitter/pulse
  * callback with a ten-tick countdown.
  */
-void initialize_the_town_entity_synchronize_slot_state(Rec_func_80094268_arg0 *entity, s32 unused_arg1, s32 unused_arg2, void *context) {
+void initialize_the_town_entity_synchronize_slot_state(TownObjectRecord *entity, s32 unused_arg1, s32 unused_arg2, void *context) {
     void *stored_entry;
     s32 unused_value;
     s32 record_offset;
@@ -237,5 +237,5 @@ void initialize_the_town_entity_synchronize_slot_state(Rec_func_80094268_arg0 *e
     func_8003E188(entity->unk_4C, 1);
     set_object_state_for_mode(entity, context, entity->unk_4C, record_value);
     entity->unk_50.as_pm = &handle_jitter_position_pulse_scale_until_countdown_expires;
-    entity->unk_6C.as_s16 = 0xA;
+    entity->timer.as_s16 = 0xA;
 }

@@ -16,7 +16,7 @@ extern u8 D_800ED15C[];
 
 
 /* Initialize the object's sprite and behavior, then set its state bytes. */
-void initialize_object_sprite(Rec_D_800CFCB4 *object, void *context, SpriteFrameState *sprite) {
+void initialize_object_sprite(Rec_D_800CFCB4 *object, ObjectPosition *context, SpriteFrameState *sprite) {
     select_record_entry_and_value(sprite, &D_800ED15C, 0);
     handle_insert_initialize_two_values_status_flags(object, context, &D_800D0678);
     initialize_optional_object_state(object, context, sprite, &D_800D0690);

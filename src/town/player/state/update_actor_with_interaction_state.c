@@ -3,7 +3,7 @@
 #include "shared/town_action_flag.h"
 #include "shared/game_work.h"
 #include "shared/entity.h"
-#include "records/Rec_func_80094268_arg0.h"
+#include "shared/town_object.h"
 #include "town/player/coordinates.h"
 #include "town/player.h"
 #include "town/player/position.h"
@@ -26,7 +26,7 @@ typedef struct S_80092698_2 {
 } S_80092698_2;   /* D_800CFCC4[0] in update_actor_with_interaction_state */
 
 /* Update the entity and dispatch its next action from the sampled value, countdown, and global state. */
-void update_actor_with_interaction_state(Rec_func_80094268_arg0 *controller, EntityRec *entity, SpriteFrameState *context) {
+void update_actor_with_interaction_state(TownObjectRecord *controller, EntityRec *entity, SpriteFrameState *context) {
     s16 sampled_value;
     u16 countdown;
     GameWork *state = &g_game_work;

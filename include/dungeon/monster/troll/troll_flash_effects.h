@@ -410,7 +410,7 @@ void update_normalized_gray_fade(ActorActionEffectBody *countdownState, s32 unus
 void update_saved_rgb_fade(T_80170E2C_FadeState *fade, s32 unused, T_80170E2C_FadeOutput *output);
 void update_growing_rotating_flash(GrowingRotatingFlashBody *effect, s32 unused, void *visual);
 void update_growing_bouncing_effect(void *effect, void *position,struct SpriteFrameState *sprite);
-void create_targeted_motion_effect(ActorRecord *source_handle, ObjectPosition *origin, SpriteFrameState *unused, EntityRec *target);
+void create_targeted_motion_effect(ActorRecord *source_handle, ObjectPosition *origin, SpriteFrameState *unused, ActorRecord *target);
 void create_actor_action_effect(ActorRecord *source_object, ObjectPosition *source_pos, SpriteFrameState *sprite_template, ActorRecord *actor);
 void spawn_random_color_burst_particle(void *source, ObjectPosition *position);
 void spawn_growing_rotating_flash(ActorRecord *unused, ObjectPosition *position, SpriteFrameState *unused_sprite);

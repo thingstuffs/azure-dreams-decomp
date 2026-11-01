@@ -3,7 +3,7 @@
 /* Prototypes of the functions defined in src/town/player/position/ (one true prototype each; maintained by tools/headers). */
 
 #include "common.h"
-#include "records/Rec_func_80094268_arg0.h"
+#include "shared/town_object.h"
 #include "shared/entity.h"
 #include "shared/position_views.h"
 #include "shared/vector.h"
@@ -25,7 +25,7 @@ void advance_player_position_and_angle(void *work_data, void *position_data, s32
 void approach_linked_position_until_timeout(struct TownObject *object, IntVector3 *position, void *context);
 
 /* approach_target_tile_until_timeout.c */
-void approach_target_tile_until_timeout(Rec_func_80094268_arg0 *target, struct S_800935BC_0 *position, void *transition_arg);
+void approach_target_tile_until_timeout(TownObjectRecord *target, struct S_800935BC_0 *position, void *transition_arg);
 
 /* clamp_coordinates_to_bounds.c */
 s32 clamp_coordinates_to_bounds(s32 *x_ptr, s32 *y_ptr);
@@ -40,7 +40,7 @@ void follow_linked_position_until_timeout(UnsignedCountdownView *state, IntVecto
 void handle_resolves_movement_collisions_along_one_axis_using_boundary_probes_tile(EntityRec *position);
 
 /* initialize_actor_position_interaction_action.c */
-void initialize_actor_position_interaction_action(Rec_func_80094268_arg0 *record, s32 unused, s32 setup_value);
+void initialize_actor_position_interaction_action(TownObjectRecord *record, s32 unused, s32 setup_value);
 
 /* interpolate_position_by_angle_offset.c */
 void interpolate_position_by_angle_offset(void *motion, EntityRec *position);
@@ -64,6 +64,6 @@ void set_player_handler_and_position_value(void *object, s32 value_arg, struct S
 void store_position_and_compute_delta(s32 *newValue);
 
 /* update_actor_position_and_interaction.c */
-void update_actor_position_and_interaction(Rec_func_80094268_arg0 *actor, EntityRec *body, s32 context);
+void update_actor_position_and_interaction(TownObjectRecord *actor, EntityRec *body, s32 context);
 
 #endif

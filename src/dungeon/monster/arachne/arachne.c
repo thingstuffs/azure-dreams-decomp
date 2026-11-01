@@ -442,7 +442,7 @@ void update_actor_state_and_select_target(ActorRecord *entity, ObjectPosition *c
 
 /* Advances one stored path step, updates occupied tiles and facing, and selects the movement animation and
  * delay. */
-void advance_actor_path_script_step(void *controller, ObjectPosition *context, void *entity, void *path_state)
+void advance_actor_path_script_step(ActorRecord *controller, ObjectPosition *context, void *entity, void *path_state)
 {
     ActorRecord *path_actor = controller;
     R12_801713D4_S_8017139C_0 *state = path_state;
@@ -507,26 +507,26 @@ void advance_actor_path_script_step(void *controller, ObjectPosition *context, v
         if (!(g_dungeon_status.flags & 0x80) && !(((SpriteFrameState *)entity)->flags & 0x8000)) {
             advance_linked_actor_motion_script(controller, context, entity, state);
         } else {
-            ((R12_801713D4_S_8017139C_2 *)controller)->unk_9A = 0xF;
+            controller->action_id.u = 0xF;
         }
     } else {
-        control_flags = ((R12_801713D4_S_8017139C_2 *)controller)->unk_98;
-        ((R12_801713D4_S_8017139C_2 *)controller)->unk_9A = 0xF;
+        control_flags = controller->action_state_flags;
+        controller->action_id.u = 0xF;
         control_flags &= ~8;
-        ((R12_801713D4_S_8017139C_2 *)controller)->unk_98 = control_flags;
+        controller->action_state_flags = control_flags;
     }
-    ((R12_801713D4_S_8017139C_2 *)controller)->unk_8C = 0;
+    controller->unk_8C.word = 0;
     state->unk_1C |= 0x40000000;
     if (g_dungeon_status.flags & 0x80) {
-        ((R12_801713D4_S_8017139C_2 *)controller)->unk_96 = 0;
+        controller->action_timer.s = 0;
         return;
     }
 
-    ((R12_801713D4_S_8017139C_2 *)controller)->unk_96 = 8;
+    controller->action_timer.s = 8;
     {
         s32 step_count = state->unk_71.u;
         if (step_count > 0) {
-            ((R12_801713D4_S_8017139C_2 *)controller)->unk_96 = 8 / step_count;
+            controller->action_timer.s = 8 / step_count;
         }
     }
 }
@@ -839,7 +839,7 @@ void select_and_start_target_action(ActorRecord *action_state, ObjectPosition *a
 }
 
 /* Relinks actor state, updates status or movement as needed, and reports whether a new action may start. */
-s32 relink_arachne_path(void *entity_arg, ObjectPosition *primary_context_arg, void *secondary_context_arg, s32 force_state_arg) {
+s32 relink_arachne_path(ActorRecord *entity_arg, ObjectPosition *primary_context_arg, void *secondary_context_arg, s32 force_state_arg) {
     s16 state_type;
     s32 result;
     void *entity = entity_arg;
@@ -2631,7 +2631,7 @@ void fade_effect_to_neutral(void *entity_data, void *unused, void *source_data)
 }
 
 /* Loads transition effects, fades the view tint, replaces the actor, and restores the new actor's facing. */
-void advance_effect_sequence_and_restore_actor(void *sequence, void *position, SpriteFrameState *record, void *actor) {
+void advance_effect_sequence_and_restore_actor(ActorRecord *sequence, void *position, SpriteFrameState *record, ActorRecord *actor) {
     GameWork *scene_color = &g_game_work;
     R12_80175470_S_80175470_2 *node;
     ObjectNodeHeader *effect_node;
@@ -2650,28 +2650,28 @@ void advance_effect_sequence_and_restore_actor(void *sequence, void *position, S
     s32 next_state;
     s16 effect_index;
 
-    state = ((R12_80175470_S_80175470_0 *)sequence)->phase.n;
+    state = sequence->action_phase.u;
     switch (state) {
 
     case 0:
-        next_state = ((R12_80175470_S_80175470_0 *)sequence)->phase.v + 1;
-        ((R12_80175470_S_80175470_0 *)sequence)->phase.n = next_state;
+        next_state = sequence->action_phase.u + 1;
+        sequence->action_phase.u = next_state;
         return;
 
     case 1:
         run_cd_image_commands(arachne_image_commands, arachne_image_load_done, 0);
-        ((R12_80175470_S_80175470_0 *)sequence)->unk_AC = 0;
-        ((R12_80175470_S_80175470_0 *)sequence)->phase.n++;
-        ((R12_80175470_S_80175470_1 *)actor)->unk_8A = ((R12_80175470_S_80175470_1 *)actor)->unk_2A.u;
+        sequence->unk_AC.halves.low.s = 0;
+        sequence->action_phase.u++;
+        actor->unk_8A = actor->facing;
         return;
 
     case 2:
-        direction = ((g_game_work.view.camera_rotation.parts.viewAngle + ((R12_80175470_S_80175470_1 *)actor)->unk_2A.s + 0x100) >> 9) & 7;
+        direction = ((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7;
         if ((*arachne_image_load_done) == 0 || direction != 2) {
             if (direction == 2) {
                 return;
             }
-            ((R12_80175470_S_80175470_1 *)actor)->unk_2A.u += 0x200;
+            actor->facing += 0x200;
             return;
         }
 
@@ -2681,32 +2681,32 @@ void advance_effect_sequence_and_restore_actor(void *sequence, void *position, S
         (*arachne_effect_load_done) = 0;
         Control_CD(0xFF, ((s32 *)resource_completion_callback_address), arachne_effect_load_done);
         select_nearby_target_and_initialize_slot((u8 *)actor - 0x20, position, 8, 0x300);
-        ((R12_80175470_S_80175470_0 *)sequence)->timer.u = 0x10;
-        ((R12_80175470_S_80175470_0 *)sequence)->phase.n++;
+        sequence->action_timer.u = 0x10;
+        sequence->action_phase.u++;
         create_offset_effect(sequence, position, record);
 
     case 3:
-        timer = ((R12_80175470_S_80175470_0 *)sequence)->timer.u;
+        timer = sequence->action_timer.u;
         next_timer = timer - 1;
-        ((R12_80175470_S_80175470_0 *)sequence)->timer.u = next_timer;
+        sequence->action_timer.u = next_timer;
         if ((s16)next_timer <= 0) {
             cd_ready = (*arachne_effect_load_done);
-            ((R12_80175470_S_80175470_0 *)sequence)->timer.u = timer;
+            sequence->action_timer.u = timer;
             if (cd_ready == 0) {
                 return;
             }
-            ((R12_80175470_S_80175470_0 *)sequence)->phase.n++;
+            sequence->action_phase.u++;
             play_sound_if_enabled(AUDIO_PLAY_CD_CUE);
             return;
         }
         color_index = lookup_masked_byte_table(actor);
         target_color = ((u8 * *)actor_effect_color_targets)[color_index];
         scene_color->view.tint.parts.tint_r += ((s32)target_color[0]
-            - scene_color->view.tint.parts.tint_r) / ((R12_80175470_S_80175470_0 *)sequence)->timer.s;
+            - scene_color->view.tint.parts.tint_r) / sequence->action_timer.s;
         scene_color->view.tint.parts.tint_g += ((s32)target_color[1]
-            - scene_color->view.tint.parts.tint_g) / ((R12_80175470_S_80175470_0 *)sequence)->timer.s;
+            - scene_color->view.tint.parts.tint_g) / sequence->action_timer.s;
         scene_color->view.tint.parts.tint_b += ((s32)target_color[2]
-            - scene_color->view.tint.parts.tint_b) / ((R12_80175470_S_80175470_0 *)sequence)->timer.s;
+            - scene_color->view.tint.parts.tint_b) / sequence->action_timer.s;
         return;
 
     case 4:
@@ -2735,19 +2735,19 @@ void advance_effect_sequence_and_restore_actor(void *sequence, void *position, S
         }
         select_record_entry_and_value(model, dungeon_resource_buffer + ((s32 *)D_80175B14)[(s16)effect_index], 0);
         record->flags |= 0x80;
-        ((R12_80175470_S_80175470_0 *)sequence)->timer.u = 0;
-        next_state = ((R12_80175470_S_80175470_0 *)sequence)->phase.n + 1;
+        sequence->action_timer.u = 0;
+        next_state = sequence->action_phase.u + 1;
 store_next_state:
-        ((R12_80175470_S_80175470_0 *)sequence)->phase.n = next_state;
+        sequence->action_phase.u = next_state;
         return;
 
     case 5:
         node = ((R12_80175470_S_80175470_0 *)sequence)->unk_A8;
         model = node->unk_0C;
         if (model->flags & 0xE000) {
-            ((R12_80175470_S_80175470_0 *)sequence)->timer.u = 0x10;
-            ((R12_80175470_S_80175470_0 *)sequence)->phase.n++;
-            decrement_monster_entry_count(((R12_80175470_S_80175470_1 *)actor)->unk_13, 3);
+            sequence->action_timer.u = 0x10;
+            sequence->action_phase.u++;
+            decrement_monster_entry_count(actor->species, 3);
             update_map_cell_flags_with_item_limit(record->tile_x, record->tile_y, 0x300);
             unlink_entity_node(actor);
             node = (u8 *)actor - 0x20;
@@ -2755,15 +2755,15 @@ store_next_state:
         }
 
     case 6:
-        if (((R12_80175470_S_80175470_0 *)sequence)->phase.n != 6) {
+        if (sequence->action_phase.u != 6) {
             return;
         }
         if (!create_status_linked_render_effect(position, (*(void * *)D_80175B28), (*(s16 *)D_80175B20), ((s32 *)staged_spawn_count))) {
             return;
         }
-        ((R12_80175470_S_80175470_0 *)sequence)->timer.u = 0x10;
-        ((R12_80175470_S_80175470_0 *)sequence)->phase.n++;
-        decrement_monster_entry_count(((R12_80175470_S_80175470_1 *)actor)->unk_13, 3);
+        sequence->action_timer.u = 0x10;
+        sequence->action_phase.u++;
+        decrement_monster_entry_count(actor->species, 3);
         update_map_cell_flags_with_item_limit(record->tile_x, record->tile_y, 0x300);
         unlink_entity_node(actor);
         node = (u8 *)actor - 0x20;
@@ -2771,31 +2771,31 @@ store_next_state:
         return;
 
     case 7:
-        ((R12_80175470_S_80175470_1 *)actor)->unk_60 = advance_staged_entity_load(record, actor);
-        if (((R12_80175470_S_80175470_1 *)actor)->unk_60 == 0) {
+        actor->target = advance_staged_entity_load(record, actor);
+        if (actor->target == 0) {
             return;
         }
-        ((R12_80175470_S_80175470_0 *)sequence)->timer.u = 0x10;
-        ((R12_80175470_S_80175470_0 *)sequence)->phase.n++;
-        ((R12_80175470_S_80175470_5 *)(((R12_80175470_S_80175470_1 *)actor)->unk_60))->unk_2A = ((R12_80175470_S_80175470_1 *)actor)->unk_2A.u;
-        model = ((R12_80175470_S_80175470_5_pre *)(((R12_80175470_S_80175470_1 *)actor)->unk_60))[-1].unk_00;
-        node = ((R12_80175470_S_80175470_1 *)actor)->unk_60;
+        sequence->action_timer.u = 0x10;
+        sequence->action_phase.u++;
+        ((R12_80175470_S_80175470_5 *)(actor->target))->unk_2A = actor->facing;
+        model = ((R12_80175470_S_80175470_5_pre *)(actor->target))[-1].unk_00;
+        node = actor->target;
         select_indirect_table_entry(model, ((u8 *)model->frameTable)[
                       ((g_game_work.view.camera_rotation.parts.viewAngle + node->unk_2A + 0x100) >> 9) & 7],
                       model->unk_04);
         model->flags &= 0xFFFE;
 
     case 8:
-        next_timer = ((R12_80175470_S_80175470_0 *)sequence)->timer.u - 1;
-        ((R12_80175470_S_80175470_0 *)sequence)->timer.u = next_timer;
+        next_timer = sequence->action_timer.u - 1;
+        sequence->action_timer.u = next_timer;
         if ((s16)next_timer > 0) {
             return;
         }
-        ((R12_80175470_S_80175470_5 *)(((R12_80175470_S_80175470_1 *)actor)->unk_60))->unk_2A = ((R12_80175470_S_80175470_1 *)actor)->unk_8A;
+        ((R12_80175470_S_80175470_5 *)(actor->target))->unk_2A = actor->unk_8A;
         ((R12_80175470_S_80175470_0_pre *)sequence)[-1].unk_00 |= 0x8000;
         object_flag_block.flags |= OBJECT_REMOVE_PENDING;
         g_dungeon_status.activity_counts.parts.pending_action_count--;
-        ((R12_80175470_S_80175470_1 *)actor)->unk_6D = 0;
+        actor->pending_turn_updates = 0;
     default:
         return;
     }

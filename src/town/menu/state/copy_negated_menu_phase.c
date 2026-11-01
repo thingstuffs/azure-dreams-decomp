@@ -1,14 +1,11 @@
 #include "common.h"
+#include "shared/town_object.h"
 
 typedef struct S_800A24A8_1 {
     u8 pad_00[0x10];
     void * unk_10;
 } S_800A24A8_1;   /* arg0 in copy_negated_menu_phase */
 
-typedef struct S_800A24A8_2 {
-    u8 pad_00[0x6E];
-    u16 unk_6E;
-} S_800A24A8_2;   /* ((S_800A24A8_1 *)arg0)->unk_10 in copy_negated_menu_phase */
 
 
 typedef struct S_800A24A8_0 {
@@ -18,5 +15,5 @@ typedef struct S_800A24A8_0 {
 
 /* Store the negated value from the source's linked data in the destination. */
 void copy_negated_menu_phase(S_800A24A8_1 *source, s32 unused, S_800A24A8_0 *dest) {
-    dest->unk_1A = (s16) (0 - ((S_800A24A8_2 *)(source->unk_10))->unk_6E);
+    dest->unk_1A = (s16) (0 - ((TownObjectRecord *)(source->unk_10))->unk_6E);
 }

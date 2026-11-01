@@ -1,13 +1,13 @@
 #include "common.h"
 #include "shared/object_index_slots.h"
-#include "records/Rec_func_80094268_arg0.h"
+#include "shared/town_object.h"
 #include "town/person/state.h"
 
 
 typedef struct S_800C4864_2 {
     u8 pad_00[0x14];
     s32 *unk_14;
-} S_800C4864_2;   /* ((Rec_func_80094268_arg0 *)arg0)->unk_80 in update_object_state_and_lookup */
+} S_800C4864_2;   /* ((TownObjectRecord *)arg0)->unk_80 in update_object_state_and_lookup */
 
 
 
@@ -16,9 +16,9 @@ typedef struct S_800C4864_2 {
 
 
 /* Update the object's state, clear its indexed flag, and store the lookup result. */
-void update_object_state_and_lookup(Rec_func_80094268_arg0 *object, void *lookup_key, void *state_value) {
-    initialize_object_entries((Struct800C5724 *)(object), state_value, ((S_800C4864_2 *)object->unk_80)->unk_14);
-    object_index_slots[object->unk_60].unk_00 = 0;
-    object->unk_54 = &apply_object_setup_update;
-    object->unk_72.as_s16 = get_cached_or_coordinate_transform_value(object, lookup_key);
+void update_object_state_and_lookup(TownObjectRecord *object, void *lookup_key, void *state_value) {
+    initialize_object_entries((Struct800C5724 *)(object), state_value, object->descriptor->entries[5]);
+    object_index_slots[object->slot].unk_00 = 0;
+    object->handler = &apply_object_setup_update;
+    object->heading.as_s16 = get_cached_or_coordinate_transform_value(object, lookup_key);
 }

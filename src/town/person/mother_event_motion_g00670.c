@@ -60,7 +60,7 @@ void initialize_mother_event_actor(void *actor, void *state, void *init_param) {
 }
 
 /* Try random directions against the bounds, then initialize the entity state. */
-void choose_mother_event_direction(Rec_func_80094268_arg0 *entity, void *bounds_arg, void *context_arg)
+void choose_mother_event_direction(TownObjectRecord *entity, void *bounds_arg, void *context_arg)
 {
     void *context;
     s32 attempts;
@@ -81,7 +81,7 @@ void choose_mother_event_direction(Rec_func_80094268_arg0 *entity, void *bounds_
             upper_edge += extent;
             bound_test = bound_test < upper_edge;
             if (bound_test != 0) {
-                entity->unk_72.as_s16 = 0x400;
+                entity->heading.as_s16 = 0x400;
                 break;
             }
         } else if (direction == 1) {
@@ -95,7 +95,7 @@ void choose_mother_event_direction(Rec_func_80094268_arg0 *entity, void *bounds_
             upper_edge += extent;
             bound_test = bound_test < upper_edge;
             if (bound_test != 0) {
-                entity->unk_72.as_s16 = 0;
+                entity->heading.as_s16 = 0;
                 break;
             }
         } else if (direction == 2) {
@@ -109,7 +109,7 @@ void choose_mother_event_direction(Rec_func_80094268_arg0 *entity, void *bounds_
             lower_edge -= extent;
             lower_edge = lower_edge < bound_coord;
             if (lower_edge != 0) {
-                entity->unk_72.as_s16 = 0xC00;
+                entity->heading.as_s16 = 0xC00;
                 break;
             }
         } else {
@@ -123,7 +123,7 @@ void choose_mother_event_direction(Rec_func_80094268_arg0 *entity, void *bounds_
             lower_edge -= extent;
             lower_edge = lower_edge < bound_coord;
             if (lower_edge != 0) {
-                entity->unk_72.as_s16 = 0x800;
+                entity->heading.as_s16 = 0x800;
                 break;
             }
         }

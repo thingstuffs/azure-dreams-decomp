@@ -7,7 +7,7 @@
 #include "town/person/object_setup.h"
 #include "town/scene/list_setup.h"
 #include "town/event/object_setup.h"
-#include "records/Rec_func_80094268_arg0.h"
+#include "shared/town_object.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/object_node.h"
 #include "shared/slus_callbacks.h"
@@ -41,10 +41,6 @@ typedef struct S_800CB9B8_1 {
 } S_800CB9B8_1;
 
 /* arg1 in update_entity_relative_position */
-typedef struct S_800CB9B8_5 {
-    u8 pad_00[0x72];
-    s16 unk_72;
-} S_800CB9B8_5;
 
 /* ((Rec_D_80082D58 *)arg0)->unk_9C in update_entity_relative_position */
 typedef struct S_800CB9B8_6 {
@@ -85,7 +81,7 @@ void unlink_node_if_registered(void *block_data);
 /* extern */
 /* extern */
 void clear_object_slot_and_mark_removed(void *);
-s32 is_default_object_data(Rec_func_80094268_arg0 *);
+s32 is_default_object_data(TownObjectRecord *);
 /* extern */
 extern void D_800CBAAC();
 extern M2C_UNK D_800D6A58;

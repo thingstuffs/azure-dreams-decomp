@@ -11,14 +11,14 @@ void (*const dungeon_ovl_18ca83c_entry)(void *effect, void *motion, void *appear
 
 /* Adds a random actor value delta with an optional eighth bonus, clamps it, displays a popup, and
    applies it. */
-void apply_large_random_value_gain(void *target, s32 amount_input, ActorRecord *owner) {
+void apply_large_random_value_gain(ActorRecord *target, s32 amount_input, ActorRecord *owner) {
     s32 base_amount;
     register s32 adjusted_amount;
 
     if (try_trigger_target_record_effect(target, 2, owner) == 0) {
         base_amount = get_random_scaled_value(amount_input & 0xFF) + 16;
         adjusted_amount = base_amount;
-        if (*((u8 *)target + 0x28) & 2) {
+        if (target->hp & 2) {
             adjusted_amount = base_amount + ((s32)(base_amount << 16) >> 19);
         }
         *(u16 *)((u8 *)target + 0x64) += adjusted_amount;

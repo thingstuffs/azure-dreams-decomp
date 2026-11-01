@@ -925,13 +925,13 @@ def prove(root, edited, base=None, *, workers=8, relink=True, rev='HEAD', keep=F
                           'authority; run make configure + a full build): ' + ', '.join(foreign[:8]))
             return report
     if scope['unconsumed'] and not allow_authority:
-        known = new_files(root, ledger_rev)
+        present = new_files(root, ledger_rev)   # paths tracked at the ledger rev (not the sha map `known`)
         try:
             decoded = {u['source'] for u in _read_json(root / DECODED_MANIFEST)['units']}
         except (OSError, ValueError, KeyError):
             decoded = set()
         blocking = [f for f in scope['unconsumed'] if f.endswith('.c') and (
-            f in decoded or (known is not None and f not in known))]
+            f in decoded or (present is not None and f not in present))]
         if blocking:
             report.update(verdict='ERROR', error='C files outside the build graph (new TU: make configure + a full '
                           'build; decoded-image source: make decoded-images): ' + ', '.join(blocking[:8]))

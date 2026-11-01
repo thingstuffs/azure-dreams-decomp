@@ -4,6 +4,6 @@
 #include "town/map/effect.h"
 
 /* Returns without performing any work. */
-void no_op_secondary_effect_callback(void *unused_object, void *unused_position, struct SpriteFrameState *unused_sprite) {
+void no_op_secondary_effect_callback(TownObjectRecord *unused_object, void *unused_position, struct SpriteFrameState *unused_sprite) {
 
 }

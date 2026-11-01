@@ -1,5 +1,5 @@
 #include "common.h"
-#include "records/Rec_func_80094268_arg0.h"
+#include "shared/town_object.h"
 #include "town/person/state_updates.h"
 #include "engine/script.h"
 #include "town/person.h"
@@ -15,13 +15,13 @@ typedef struct S_800C3988_1_pre {
 } S_800C3988_1_pre;
 
 /* Dispatches the record handler or clears its pending state. */
-void dispatch_record_handler(Rec_func_80094268_arg0 *record, void *dispatch_arg, void *dispatch_data, M2C_UNK check_arg) {
+void dispatch_record_handler(TownObjectRecord *record, void *dispatch_arg, void *dispatch_data, M2C_UNK check_arg) {
     s32 slot_offset;
     s32 handler_addr;
     s32 handler_id;
     u8 *handler_slot;
     M2C_UNK (*handler)(void *, void *, void *);
-    Rec_func_80094268_arg0 *dispatch_record;
+    TownObjectRecord *dispatch_record;
     void *saved_arg;
 
     if (service_script_controller() == 0) {
@@ -34,7 +34,7 @@ void dispatch_record_handler(Rec_func_80094268_arg0 *record, void *dispatch_arg,
             return;
         }
     } else {
-        slot_offset = record->unk_60 * 8;
+        slot_offset = record->slot * 8;
         handler_slot = &object_index_slots[slot_offset];
         handler_id = *handler_slot;
         if ((u32) (handler_id - 2) < 0x14U) {

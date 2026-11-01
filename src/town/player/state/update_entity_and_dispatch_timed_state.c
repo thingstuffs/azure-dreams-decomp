@@ -1,5 +1,5 @@
 #include "common.h"
-#include "records/Rec_func_80094268_arg0.h"
+#include "shared/town_object.h"
 #include "town/player/action_initializers.h"
 #include "town/player/state.h"
 #include "town/player/object.h"
@@ -18,7 +18,7 @@ extern s32 town_interaction_pending;
 
 /* Updates the entity and dispatches a state transition when its countdown expires. */
 void update_entity_and_dispatch_timed_state(void *state_arg, void *entity, void *transition_arg) {
-    Rec_func_80094268_arg0 *state = state_arg;
+    TownObjectRecord *state = state_arg;
     s16 countdown;
 
     handle_resolves_movement_collisions_along_one_axis_using_boundary_probes_tile(entity);
