@@ -113,7 +113,6 @@ void draw_fullscreen_fade(void *effect, ObjectPosition *unused, S_8009BE2C_2 *fa
 #include "shared/record_ptrs.h"
 #include "m2c_compat.h"
 
-extern void D_8009BE2C(void *effect, s32 unused, struct S_8009BE2C_2 *fade);
 
 /* Creates a type 0x212 object and initializes its flag and value. */
 void create_type_212_object(s32 flag, s8 value) {
@@ -127,7 +126,7 @@ void create_type_212_object(s32 flag, s8 value) {
     object = allocate_list_node(0x212, &owner->next);
     if (object != NULL) {
         state = object->sprite;
-        object->update_callback = &D_8009BE2C;
+        object->update_callback = &draw_fullscreen_fade;
         state->frame_ticks = value;
         state->depth_bias = (s16) value;
         object->sprite->unk_04 = (s8) ((flag << 0x10) != 0);

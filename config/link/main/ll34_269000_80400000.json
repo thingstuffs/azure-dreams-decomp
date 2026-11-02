@@ -8,6 +8,15 @@
   "evidence": "ledger/instance_load_regions.jsonl; internal link-evidence; documented devkit-linked image",
   "entries": [
     {
+      "row": "main/func_800198A0",
+      "home": "main/func_800198A0",
+      "tu": "src/frontend/card/set_card_selection_state.c",
+      "foff": "0x2698A0",
+      "vma": "0x804008A0",
+      "size": 104,
+      "evidence": "docs/evidence/opus_nobody2.md"
+    },
+    {
       "row": "main/func_8001A53C",
       "home": "main/func_8000E4FC",
       "tu": "src/main/func_8000E4FC.c",
@@ -434,6 +443,24 @@
       "evidence": "r121w_ll34: fresh current-home native object, all relocation fields evaluated and exact retail bytes; docs/evidence/r121w_ll34/results.tsv"
     },
     {
+      "row": "main/func_8001FF70",
+      "home": "main/func_8001FF70",
+      "tu": "src/frontend/card/card_dev_build_load_slot_windows.c",
+      "foff": "0x26FF70",
+      "vma": "0x80406F70",
+      "size": 172,
+      "evidence": "docs/evidence/opus_nobody2.md"
+    },
+    {
+      "row": "main/func_800200C4",
+      "home": "main/func_800200C4",
+      "tu": "src/frontend/card/card_dev_release_load_screen_parts.c",
+      "foff": "0x2700C4",
+      "vma": "0x804070C4",
+      "size": 156,
+      "evidence": "docs/evidence/opus_nobody2.md"
+    },
+    {
       "row": "main/func_800203B0",
       "home": "town/func_802EE624",
       "tu": "src/town/menu/initialize_menu_primitive_settings.c",
@@ -458,6 +485,15 @@
       "foff": "0x2705A8",
       "vma": "0x804075a8",
       "size": 40
+    },
+    {
+      "row": "main/func_800205D0",
+      "home": "main/func_800205D0",
+      "tu": "src/frontend/card/card_dev_init_slot_entry_tables.c",
+      "foff": "0x2705D0",
+      "vma": "0x804075D0",
+      "size": 184,
+      "evidence": "docs/evidence/opus_nobody2.md"
     },
     {
       "row": "main/func_80020688",
@@ -521,6 +557,20 @@
       "vma": "0x80407B14",
       "size": 180,
       "evidence": "docs/evidence/opus_nobody1.md"
+    },
+    {
+      "row": "main/func_80020BD0",
+      "home": "main/func_80014324",
+      "tu": "src/frontend/libcard/prepare_save_heading_layout.c",
+      "foff": "0x270BD0",
+      "vma": "0x80407BD0",
+      "size": 64,
+      "evidence": "docs/evidence/opus_nobody2.md",
+      "bindings": {
+        "0x8002731C": "0x80407BC8",
+        "0x800271C0": "0x80407A44",
+        "0x800270E0": "0x80407964"
+      }
     },
     {
       "row": "main/func_80020D38",

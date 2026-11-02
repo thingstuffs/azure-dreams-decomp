@@ -1,4 +1,5 @@
 #include "common.h"
+#include "dungeon/effect/head_bank_imports.h"
 
 typedef s32 M2C_UNK;
 
@@ -12,8 +13,6 @@ typedef struct {
 } __attribute__((packed)) Packed12;
 
 
-void *func_7003CF18();
-extern s32 func_7010C274(void *, void *, s32, s32);
 
 extern s32 particle_object_flags;
 extern u16 emitted_effect_counter;

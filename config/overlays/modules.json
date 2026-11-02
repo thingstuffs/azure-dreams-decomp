@@ -17366,54 +17366,10 @@
           "evidence": "docs/evidence/dungeon_engine_dungeon_util.imports.json"
         },
         {
-          "symbol": "D_800A5828",
-          "kind": "data",
-          "vma": 2148161576,
-          "foff": 786632,
-          "view_bytes": 4,
-          "owner": "retail_asset:work/disc/containers/DUNGEON_DUNGEON.BIN",
-          "asset": "work/disc/containers/DUNGEON_DUNGEON.BIN",
-          "map": "dungeon_resident",
-          "evidence": "docs/evidence/dungeon_engine_dungeon_util.imports.json"
-        },
-        {
           "symbol": "D_800A5D5C",
           "kind": "data",
           "vma": 2148162908,
           "foff": 787964,
-          "view_bytes": 4,
-          "owner": "retail_asset:work/disc/containers/DUNGEON_DUNGEON.BIN",
-          "asset": "work/disc/containers/DUNGEON_DUNGEON.BIN",
-          "map": "dungeon_resident",
-          "evidence": "docs/evidence/dungeon_engine_dungeon_util.imports.json"
-        },
-        {
-          "symbol": "D_800A5FC0",
-          "kind": "data",
-          "vma": 2148163520,
-          "foff": 788576,
-          "view_bytes": 4,
-          "owner": "retail_asset:work/disc/containers/DUNGEON_DUNGEON.BIN",
-          "asset": "work/disc/containers/DUNGEON_DUNGEON.BIN",
-          "map": "dungeon_resident",
-          "evidence": "docs/evidence/dungeon_engine_dungeon_util.imports.json"
-        },
-        {
-          "symbol": "D_800A6194",
-          "kind": "data",
-          "vma": 2148163988,
-          "foff": 789044,
-          "view_bytes": 4,
-          "owner": "retail_asset:work/disc/containers/DUNGEON_DUNGEON.BIN",
-          "asset": "work/disc/containers/DUNGEON_DUNGEON.BIN",
-          "map": "dungeon_resident",
-          "evidence": "docs/evidence/dungeon_engine_dungeon_util.imports.json"
-        },
-        {
-          "symbol": "D_800A624C",
-          "kind": "data",
-          "vma": 2148164172,
-          "foff": 789228,
           "view_bytes": 4,
           "owner": "retail_asset:work/disc/containers/DUNGEON_DUNGEON.BIN",
           "asset": "work/disc/containers/DUNGEON_DUNGEON.BIN",
@@ -17432,15 +17388,10 @@
           "evidence": "docs/evidence/dungeon_engine_dungeon_util.imports.json"
         },
         {
-          "symbol": "D_800B06F0",
-          "kind": "data",
+          "symbol": "func_800B06F0",
+          "kind": "function",
           "vma": 2148206320,
-          "foff": 831376,
-          "view_bytes": 4,
-          "owner": "retail_asset:work/disc/containers/DUNGEON_DUNGEON.BIN",
-          "asset": "work/disc/containers/DUNGEON_DUNGEON.BIN",
-          "map": "dungeon_resident",
-          "evidence": "docs/evidence/dungeon_engine_dungeon_util.imports.json"
+          "basis": "respelled callback address: transform_linked_quad_batches, the C function linked at this address (config/names.tsv); formerly the address-only data view D_800B06F0"
         },
         {
           "symbol": "D_800DCF08",
@@ -18674,17 +18625,6 @@
           "kind": "data",
           "vma": 2148043952,
           "foff": 669008,
-          "view_bytes": 4,
-          "owner": "retail_asset:work/disc/containers/DUNGEON_DUNGEON.BIN",
-          "asset": "work/disc/containers/DUNGEON_DUNGEON.BIN",
-          "map": "dungeon_resident",
-          "evidence": "docs/evidence/dungeon_engine_transition_effects.imports.json"
-        },
-        {
-          "symbol": "D_8009BE2C",
-          "kind": "data",
-          "vma": 2148122156,
-          "foff": 747212,
           "view_bytes": 4,
           "owner": "retail_asset:work/disc/containers/DUNGEON_DUNGEON.BIN",
           "asset": "work/disc/containers/DUNGEON_DUNGEON.BIN",
@@ -21565,9 +21505,10 @@
           "declaration": "src/dungeon/effect/trap.c"
         },
         {
-          "symbol": "D_800CB9DC",
+          "symbol": "func_800CB9DC",
           "kind": "function",
-          "vma": 2148317660
+          "vma": 2148317660,
+          "basis": "respelled callback address: advance_go_up_trap_sequence, the C function linked at this address (config/names.tsv); formerly the address-only data view D_800CB9DC"
         },
         {
           "symbol": "D_800CBDB4",

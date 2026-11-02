@@ -2,9 +2,8 @@
 #include "common.h"
 #include "dungeon/effect/particle.h"
 #include "m2c_compat.h"
+#include "dungeon/effect/head_bank_imports.h"
 
-s32 func_7006DC5C();                             /* extern */
-s32 func_7006DD28();                             /* extern */
 extern s32 particle_object_flags;
 
 

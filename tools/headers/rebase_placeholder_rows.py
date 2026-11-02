@@ -167,7 +167,7 @@ def main(argv=None):
             if old in imports.get(rel, ()):
                 log.append((old, 'hold_native_module_import', rel))
                 continue
-            if AR.return_conflict(db, new, old, name):
+            if AR.return_conflict(db, new, old, name, rel):
                 log.append((old, 'hold_return_type', rel))
                 continue
             out, action = AR.respell_text(new, old, name, AR.visible(db, rel, name))

@@ -1,7 +1,7 @@
 /* Relink of matched dungeon/process_global_effect_slots_after_reset at file 0x1274460; imports and data use paired retail relocations. */
 #include "common.h"
+#include "dungeon/stale_bank_imports.h"
 
-extern void func_80098E28(s32 node);
 extern s32 D_80173714;
 extern s32 D_80173710;
 extern s16 D_80173718;

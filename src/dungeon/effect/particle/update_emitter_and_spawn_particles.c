@@ -1,5 +1,6 @@
 #include "common.h"
 #include "shared/dungeon_moving_views.h"
+#include "dungeon/effect/head_bank_imports.h"
 
 typedef long long s64;
 typedef s32 M2C_UNK;
@@ -61,11 +62,6 @@ typedef struct S_7FFE79F4_4 {
 
 
 
-void *func_7003CF18();
-s32 func_7006DC5C();
-s32 func_7006DD28();
-s32 func_700750E0();
-M2C_UNK func_7010AE28();
 extern s32 particle_object_flags;
 extern u16 emitted_effect_counter;
 extern M2C_UNK D_8010AA44;

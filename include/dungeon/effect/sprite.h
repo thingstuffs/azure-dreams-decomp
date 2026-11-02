@@ -200,4 +200,8 @@ struct UpdateEffectParticlesAndCleanupBody;
 void advance_timed_visual_effect(struct UpdateEffectParticlesAndCleanupBody *state, void *position_arg, void *visual_arg);
 void update_tiled_fade_effect(struct UpdateEffectParticlesAndCleanupBody *effect, void *offset_state_arg, void *render_state);
 
+void *create_linked_object_chain(s16 x, s16 y, s16 z, s16 angle);
+void create_random_offset_sprite_effect(s32 effect_param, void *source_pos);
+void *spawn_ring_sparks(s16 x, s16 y, s16 z);
+
 #endif

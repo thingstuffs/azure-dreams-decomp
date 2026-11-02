@@ -1,7 +1,5 @@
 #include "dungeon/effect/shade.h"
-typedef unsigned char u8;
-typedef unsigned short u16;
-typedef unsigned int u32;
+#include "dungeon/effect/head_bank_imports.h"
 
 typedef struct Position {
     u8 pad0[2];
@@ -41,9 +39,6 @@ typedef struct Owner {
     Position *position;
 } Owner;
 
-extern Object *func_8003CF18(u32 kind);
-extern void func_8003A7C4(RenderData *render, void *data, u32 value);
-extern void func_8010C0F8(void);
 extern u16 emitted_effect_counter[5];
 
 /* Creates and initializes an object at its owner's position. */

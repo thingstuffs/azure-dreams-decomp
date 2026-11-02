@@ -101,10 +101,22 @@ def returns_void(db, name):
     return None if row is None or row[0] is None else row[0].strip() == 'void'
 
 
-def return_conflict(db, text, old, new):
+def value_ignored(db, path, old):
+    """True when the code map records calls of `old` in `path` and every one ignores the returned value."""
+    if db is None or path is None:
+        return False
+    uses = {u for (u,) in db.execute('SELECT ret_use FROM call_site WHERE file = ? AND callee = ?', (path, old))}
+    return bool(uses) and uses == {'ignored'}
+
+
+def return_conflict(db, text, old, new, path=None):
     """A local declaration of `old` returns a value while the readable name's own prototype returns void: a caller
-    may use the value (gcc 2.7: `void value not ignored`), so the prototype disagreement must be solved first."""
+    may use the value (gcc 2.7: `void value not ignored`), so the prototype disagreement must be solved first.
+    No conflict when every call in `path` ignores the value (code map call_site.ret_use): the void prototype
+    compiles those calls to the same code."""
     if not returns_void(db, new):
+        return False
+    if value_ignored(db, path, old):
         return False
     for m in decl_pattern(old).finditer(text):
         head = m['stmt'].split(old, 1)[0]
@@ -178,7 +190,7 @@ def main(argv=None):
             if old in imports.get(rel, ()):
                 rows.append((rel, old, new, 'hold_native_module_import'))
                 continue
-            if return_conflict(db, new_text, old, new):
+            if return_conflict(db, new_text, old, new, rel):
                 rows.append((rel, old, new, 'hold_return_type'))
                 continue
             out, action = respell_text(new_text, old, new, visible(db, rel, new))

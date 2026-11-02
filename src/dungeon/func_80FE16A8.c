@@ -19,11 +19,11 @@ extern void update_actor_status_and_mp(void *);
 extern void begin_pushed_actor_move(void *state_in, void *unused, void *position_in, void *actor_in);
 extern s32 begin_ready_actor_directional_action(void *, void *, void *, u8 *);
 extern void begin_actor_move_to_target_facing(void *, void *, void *, void *);
-extern void func_8016B438(void *, void *, void *, void *);
-extern void func_8016B67C(void *, void *, void *, void *);
-extern s32 func_8016BE28(void *, void *, void *, void *);
-extern void func_8016C08C(void *, void *, void *, void *);
-extern s32 func_8016C230(void *, void *, void *, s32);
+extern void advance_stored_path_motion(void *, void *, void *, void *);
+extern void choose_block_move_slot_a(void *, void *, void *, void *);
+extern s32 validate_direction_and_initialize_action(void *, void *, void *, void *);
+extern void update_eligible_actor_action_alt(void *, void *, void *, void *);
+extern s32 update_entity_state_from_query(void *, void *, void *, s32);
 extern void func_8016DA84(void *, void *, void *, void *);
 
 extern u8 dungeon_action_resume_address;
@@ -65,7 +65,7 @@ void update_dungeon_entity_action_and_facing(ActorRecord *body, ObjectPosition *
 
     if (dungeon_flags & 0x1000) {
         body->action_id.u = 0xE;
-        func_8016B438(body, position, sprite, actor);
+        advance_stored_path_motion(body, position, sprite, actor);
         return;
     }
 
@@ -139,7 +139,7 @@ void update_dungeon_entity_action_and_facing(ActorRecord *body, ObjectPosition *
             return;
         }
         if (*(u16 *)&sprite->tile_x == reference_tile_object.tile_position.word) {
-            func_8016B67C(body, position, sprite, actor);
+            choose_block_move_slot_a(body, position, sprite, actor);
             return;
         }
         if (!(actor->action_flags & ACTOR_ACTION_PENDING)) {
@@ -149,12 +149,12 @@ void update_dungeon_entity_action_and_facing(ActorRecord *body, ObjectPosition *
                     return;
                 }
             }
-            if ((s16)func_8016C230(body, position, sprite, 0) == 0) {
+            if ((s16)update_entity_state_from_query(body, position, sprite, 0) == 0) {
                     return;
             }
             actor->action_flags |= 0x4000;
             if (!(actor->action_flags & ACTOR_ACTION_PENDING)) {
-                func_8016B67C(body, position, sprite, actor);
+                choose_block_move_slot_a(body, position, sprite, actor);
                 return;
             }
         }
@@ -169,8 +169,8 @@ void update_dungeon_entity_action_and_facing(ActorRecord *body, ObjectPosition *
                     body->action_state_flags &= 0x7FFF;
                 }
             }
-            if ((s16)func_8016BE28(body, position, sprite, actor) == 0) {
-                func_8016C08C(body, position, sprite, actor);
+            if ((s16)validate_direction_and_initialize_action(body, position, sprite, actor) == 0) {
+                update_eligible_actor_action_alt(body, position, sprite, actor);
                     return;
             }
             return;
@@ -202,7 +202,7 @@ void update_dungeon_entity_action_and_facing(ActorRecord *body, ObjectPosition *
             begin_actor_spell_action(body, position, sprite, D_8016E070, &dungeon_action_resume_address);
             return;
         default:
-            func_8016B67C(body, position, sprite, actor);
+            choose_block_move_slot_a(body, position, sprite, actor);
             return;
         }
     } else if (!(((u32)actor->flags1C) & 0x2000)) {

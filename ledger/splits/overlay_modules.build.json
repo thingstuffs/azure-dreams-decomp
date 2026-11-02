@@ -1,6 +1,6 @@
 {
   "schema": "overlay-module-native-v4",
-  "logical_rows": 20872,
+  "logical_rows": 20877,
   "edges": [
     {
       "module": "dungeon_cd_control_d79c4",
@@ -134275,6 +134275,16 @@
       ]
     },
     {
+      "source": "src/frontend/card/set_card_selection_state.c",
+      "recipe": {
+        "cfg": "2.7.2-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "main/func_800198A0"
+      ]
+    },
+    {
       "source": "src/frontend/card/reset_card_selection_state.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
@@ -136185,6 +136195,16 @@
       ]
     },
     {
+      "source": "src/frontend/card/card_dev_build_load_slot_windows.c",
+      "recipe": {
+        "cfg": "2.7.2-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "main/func_8001FF70"
+      ]
+    },
+    {
       "source": "src/frontend/card/card_dev_create_load_screen.c",
       "recipe": {
         "cfg": "2.6.3-G0",
@@ -136192,6 +136212,16 @@
       },
       "rows": [
         "main/func_8002001C"
+      ]
+    },
+    {
+      "source": "src/frontend/card/card_dev_release_load_screen_parts.c",
+      "recipe": {
+        "cfg": "2.7.2-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "main/func_800200C4"
       ]
     },
     {
@@ -136272,6 +136302,16 @@
       },
       "rows": [
         "main/func_800205A8"
+      ]
+    },
+    {
+      "source": "src/frontend/card/card_dev_init_slot_entry_tables.c",
+      "recipe": {
+        "cfg": "2.7.2-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "main/func_800205D0"
       ]
     },
     {
@@ -136392,6 +136432,16 @@
       },
       "rows": [
         "main/func_80020BC8"
+      ]
+    },
+    {
+      "source": "src/frontend/libcard/prepare_save_heading_layout.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "main/func_80020BD0"
       ]
     },
     {

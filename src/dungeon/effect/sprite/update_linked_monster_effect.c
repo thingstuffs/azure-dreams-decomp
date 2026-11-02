@@ -16,7 +16,7 @@
 
 s32 func_8002589C(void *, s32, s32);        /* extern */
 s32 func_80026548(void *, s32);                 /* extern */
-void func_8002660C(Entry *entry, s16 *step, s32 lower, s32 upper);    /* extern */
+void step_entry_index_within_bounds(Entry *entry, s16 *step, s32 lower, s32 upper);    /* extern */
 s32 func_800266D0(void *, void *);                  /* extern */
 s32 find_eligible_entry_at_coordinates();                /* extern */
 void apply_attack_power_and_element_effects(); /* extern */
@@ -140,7 +140,7 @@ void update_linked_monster_effect(void *effect_in, void *motion_in, void *sprite
     sprite = sprite_in;
     sprite_effect_update_count = sprite_effect_update_count + 1;
     if (linked_monster == NULL) {
-        func_8002660C(sprite, effect_in + 0x32, ((S_80025C80_0 *)effect_in)->unk_38,
+        step_entry_index_within_bounds(sprite, effect_in + 0x32, ((S_80025C80_0 *)effect_in)->unk_38,
             ((S_80025C80_0 *)effect_in)->unk_36);
         func_80026548(effect_in, sprite->frame_entry);
         phase = ((S_80025C80_0 *)effect_in)->unk_2C;

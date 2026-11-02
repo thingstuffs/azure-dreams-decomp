@@ -48,9 +48,9 @@ typedef struct S_func_818BD74C_4 {
     u8 unk_13;
 } S_func_818BD74C_4;
 
-extern void func_800247B0(void *, void *, s16);
-extern void create_colored(void *, void *, s16, s32);
-extern void func_80024D2C(void *, void *, s16, s16);
+extern void create_offset_color_effect(void *, void *, s16);
+extern void create_channel_tinted_effect(void *, void *, s16, s32);
+extern void create_phase_colored_effect(void *, void *, s16, s16);
 
 /* Animate a moving effect through color cycling, shrinking, and radial emission. */
 void update_color_cycling_shrink_effect(void *effect_arg, S_func_818BD74C_1 *motion, void *sprite_arg) {
@@ -135,17 +135,17 @@ void update_color_cycling_shrink_effect(void *effect_arg, S_func_818BD74C_1 *mot
         random_value = (s16)rand();
         magnitude_table = entity_height_offsets;
         scaled_magnitude = magnitude_table[((S_func_818BD74C_4 *)effect->unk_18)->unk_13] * 3;
-        create_colored(effect, motion, (s16)random_value, 0 - (scaled_magnitude / 4));
-        func_800247B0(effect, motion, magnitude_table[((S_func_818BD74C_4 *)effect->unk_18)->unk_13]);
+        create_channel_tinted_effect(effect, motion, (s16)random_value, 0 - (scaled_magnitude / 4));
+        create_offset_color_effect(effect, motion, magnitude_table[((S_func_818BD74C_4 *)effect->unk_18)->unk_13]);
         effect->unk_10.s = 0;
         effect->unk_0E.u = (u16)(effect->unk_0E.u + 1);
         return;
 
     case 2:
-        func_80024D2C(effect, motion, (s16)(rand() % 7), effect->unk_16.s);
-        func_80024D2C(effect, motion, (s16)(rand() % 7), (s16)((u16)effect->unk_16.s + 0x400));
-        func_80024D2C(effect, motion, (s16)(rand() % 7), (s16)((u16)effect->unk_16.s + 0x800));
-        func_80024D2C(effect, motion, (s16)(rand() % 7), (s16)((u16)effect->unk_16.s + 0xC00));
+        create_phase_colored_effect(effect, motion, (s16)(rand() % 7), effect->unk_16.s);
+        create_phase_colored_effect(effect, motion, (s16)(rand() % 7), (s16)((u16)effect->unk_16.s + 0x400));
+        create_phase_colored_effect(effect, motion, (s16)(rand() % 7), (s16)((u16)effect->unk_16.s + 0x800));
+        create_phase_colored_effect(effect, motion, (s16)(rand() % 7), (s16)((u16)effect->unk_16.s + 0xC00));
         if (effect->unk_10.s < 0x30) {
             return;
         }

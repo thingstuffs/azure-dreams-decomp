@@ -1,0 +1,12 @@
+{
+ "schema": "azure-clean.copy-links.v1",
+ "units": {
+  "dungeon/func_80FE16A8": {
+   "func_8014D810": "func_8016B67C",
+   "func_80171570": "func_8016B438",
+   "func_80171E28": "func_8016BE28",
+   "func_8017208C": "func_8016C08C",
+   "func_80172628": "func_8016C230"
+  }
+ }
+}

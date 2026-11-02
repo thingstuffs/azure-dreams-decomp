@@ -35,10 +35,6 @@ typedef struct S_819598B4_3 {
     s16 unk_2A;
 } S_819598B4_3;   /* D_800E3D7C[0] in update_ring_effect */
 
-
-extern s32 spawn_ring();
-extern s32 func_80026384();
-
 extern u16 sprite_effect_update_count[];
 extern u8 ring_effect_work[];
 
@@ -92,11 +88,11 @@ void update_ring_effect(UpdateFollowingColorBlendEffectBody *state, S_819598B4_2
         break;
     case 1:
         if (state->unk_38 == 0) {
-            if (func_80026384(state->unk_1C, state->unk_1E,
+            if (create_linked_object_chain(state->unk_1C, state->unk_1E,
                 state->unk_20, dungeon_actor_ring_anchor->facing) == 0) {
                 break;
             }
-            spawn_ring(state->unk_1C, state->unk_1E,
+            spawn_ring_sparks(state->unk_1C, state->unk_1E,
                 state->unk_20);
         }
         state->unk_30 = 0x10;

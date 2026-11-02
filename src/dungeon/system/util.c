@@ -198,7 +198,6 @@ void update_pulsing_effect_brightness(PulsingEffectWork *effect, ObjectPosition 
 s32 register_node(); /* Unprototyped: two, three or four arguments; retail reads only the node and draw key. */           /* extern */
 s32 play_sound_if_enabled(s32 query_value);                     /* extern */
 #include "dungeon/effect/screen.h"
-extern void D_800A5828(struct PulsingEffectWork *effect, s32 unused, SpriteFrameState *render_state);
 extern M2C_UNK D_800DD854;
 extern M2C_UNK D_800DD860;
 
@@ -211,7 +210,7 @@ void *create_textured_ellipse_effect(ObjectPosition *object_id, s32 state_value)
 
     object = allocate_list_node(0x212, &scene_object_list_anchor.next);
     if (object != NULL) {
-        object->update_callback = &D_800A5828;
+        object->update_callback = &update_pulsing_effect_brightness;
         register_node(object, project_sprite_chain);
         render_data = object->sprite;
         object->position = object_id;
@@ -624,7 +623,6 @@ void configure_shared_fade_primitive(void) {
 struct S_800A5FC0_2;
 
 s32 register_node(); /* Unprototyped: two, three or four arguments; retail reads only the node and draw key. */              /* extern */
-extern s32 D_800A5FC0(struct S_800A5FC0_2 *state);
 
 typedef struct S_800A613C_0 {
     u8 pad_00[0x8];
@@ -640,7 +638,7 @@ void * create_expanding_screen_rectangle(void) {
 
     object = allocate_flagged_object_node(0);
     if (object != 0) {
-        register_node(object, &D_800A5FC0);
+        register_node(object, &draw_expanding_screen_rectangle);
         object_data = object + 0x20;
         object_data->unk_08 = 6;
         object_data->unk_0C = 0x10;
@@ -732,8 +730,6 @@ s32 draw_fullscreen_grayscale_quad(Input *input) {
 #include "m2c_compat.h"
 
 s32 register_node(void *entry, void *registration_id);           /* extern */
-extern void D_800A6194(void *ramp);
-extern s32 D_800A624C();
 
 typedef struct S_800A634C_0 {
     u8 pad_00[0x10];
@@ -754,8 +750,8 @@ void *create_fullscreen_quad_updater(s16 initialValue) {
 
     object = allocate_flagged_object_node(0);
     if (object != NULL) {
-        ((S_800A634C_0 *)object)->unk_10 = &D_800A6194;
-        register_node(object, &D_800A624C);
+        ((S_800A634C_0 *)object)->unk_10 = &advance_timed_intensity_ramp;
+        register_node(object, &draw_fullscreen_grayscale_quad);
         objectState = object + 0x20;
         objectState->unk_08 = 8;
         objectState->unk_0C = initialValue;
@@ -1278,7 +1274,7 @@ void advance_record_values_by_step(Record *record, s16 step)
 s32 register_node(void *entry, void *registration_id);
 extern u8 D_80089074[];
 extern M2C_UNK D_800A6B70;
-extern s32 D_800B06F0(u8 *initial_batch, s32 initial_dispatch_arg, u8 *initial_params);
+extern s32 transform_linked_quad_batches(u8 *initial_batch, s32 initial_dispatch_arg, u8 *initial_params);
 
 typedef struct S_800A6C00_0 {
     u8 pad_00[0x8];
@@ -1338,7 +1334,7 @@ void *create_pulsing_effect_object(void) {
         transform->unk_1E = 0x1800;
         transform->unk_1C = 0x1800;
         ((S_800A6C00_0 *)object)->unk_10 = &D_800A6B70;
-        register_node(object, &D_800B06F0);
+        register_node(object, &transform_linked_quad_batches);
         sprite = object + 0x30;
         ((S_800A6C00_0 *)object)->unk_20 = (object + 0xF0);
         render_state->unk_04 = (object + 0xC0);

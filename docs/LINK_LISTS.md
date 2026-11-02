@@ -37,6 +37,29 @@ Address binding uses this priority:
 5. The image symbol map applies.
 6. Otherwise the symbol remains unchanged, such as a resident reference.
 
+Rules 1-6 rebind placements only; a home unit links each undefined `func_<A>` at
+the address in its name.
+
+### Same-image copy links
+
+The original overlays were each linked with their own copy of shared C, so a
+call written with a function's own name reached the copy in the caller's
+overlay. A home unit opts in per symbol through
+`config/link/copy_links.json`
+(`{"schema": "azure-clean.copy-links.v1", "units": {"<caller row>": {"func_<H>": "func_<X>"}}}`):
+its reference to the callee TU's own symbol `func_<H>` binds to the single
+instance of that TU inside the caller's load image, which must be a placement
+at the recorded address `X`. The rule is recomputed at every image link
+(`tools/build/mkbuild.py`), window compile and native port link; a second
+instance, the home itself, a moved copy or an import the object lacks fails
+the link. Unrecorded references keep their home address, so a home unit may
+still call the home of a TU that also has a copy in its image. The record is a
+link input, the link graph carries it as the TU identity's `copy_links`
+attribute (`tools/link/graph.py sync-copy-links`), and
+`tools/headers/address_names.py` (kind `placed_copy`) writes it when it
+respells such a call. Native module callers keep their reviewed import
+inventory instead.
+
 Readable names do not choose bindings. Alias lowering retains canonical
 address symbols; object rebinding replaces source-level relocation macros.
 `tools/relink_lint.py`, run by `tools/row_db.py check`, rejects new relink-copy

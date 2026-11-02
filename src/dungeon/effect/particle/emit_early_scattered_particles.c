@@ -1,5 +1,6 @@
 #include "common.h"
 #include "dungeon/effect/particle.h"
+#include "dungeon/effect/head_bank_imports.h"
 
 typedef struct Position {
     u16 unk0;
@@ -40,10 +41,6 @@ typedef struct Particle {
     s16 size_y;
 } Particle;
 
-extern Particle *func_7003CF18(s32);
-extern s32 func_700750E0(void);
-extern void func_7010B30C(Particle *, Entity *, Position *, s32);
-extern void D_8010B008(void);
 extern s32 particle_object_flags;
 extern u16 emitted_effect_counter;
 

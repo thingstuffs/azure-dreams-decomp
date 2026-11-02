@@ -74,11 +74,11 @@ typedef struct StackLocals {
 } StackLocals;
 
 
-extern void func_80024F0C(State *, Motion *);
+extern void create_random_variant_effect(State *, Motion *);
 extern s32 check_layer_offset_height(s32, s32, s16, s32);
-extern void func_8002523C(State *, Motion *);
+extern void create_scaled_rotation_effect(State *, Motion *);
 extern void play_sound_if_enabled(s32);
-extern void func_80024640(State *, Motion *);
+extern void create_motion_copy_sprite(State *, Motion *);
 extern void interpolate_view_parameters(void *, u8, Owner *);
 
 
@@ -164,7 +164,7 @@ void update_directed_movement_sequence(State *action, Motion *motion, Motion *au
                 motion->dz.val =
                     ((*(s16 *)((u8 *)owner->target + 0x88) << 16) - motion->z.val) /
                     action->duration;
-                func_80024F0C(action, motion);
+                create_random_variant_effect(action, motion);
                 next_state = (u16)action->state + 1;
             } else {
                 u16 path_x;
@@ -242,7 +242,7 @@ void update_directed_movement_sequence(State *action, Motion *motion, Motion *au
                 motion->dx.val = (target->x.val - motion->x.val) / action->duration;
                 motion->dy.val = (target->y.val - motion->y.val) / action->duration;
                 motion->dz.val = (target->z.val - motion->z.val) / action->duration;
-                func_8002523C(action, motion);
+                create_scaled_rotation_effect(action, motion);
                 next_state = 6;
             }
             action->state = next_state;
@@ -263,7 +263,7 @@ void update_directed_movement_sequence(State *action, Motion *motion, Motion *au
 
     case 3:
         if (action->timer >= 12) {
-            func_80024640(action, motion);
+            create_motion_copy_sprite(action, motion);
             action->timer = 0;
             action->state++;
         }

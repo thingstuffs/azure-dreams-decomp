@@ -97,3 +97,39 @@ class NamesFilterTest(unittest.TestCase):
 
 if __name__ == '__main__':
     unittest.main()
+
+
+class LinkRecordsTest(unittest.TestCase):
+    """placed_copy writes the copy-link record; home_self points the name at the true symbol and retires
+    other names of that symbol that nothing spells any more."""
+
+    def test_home_self_names_and_placed_copy_record(self):
+        import json
+        with tempfile.TemporaryDirectory() as d:
+            root = Path(d)
+            for sub in ('src', 'include', 'config/link', 'tools/link'):
+                (root / sub).mkdir(parents=True)
+            (root / 'config/names.tsv').write_text(
+                '# header\n'
+                '0x818BD1C4\tfunc_818BD1C4\tcreate_tinted\tshard:dungeon\n'
+                '0x800249C4\tfunc_800249C4\tcreate_colored\tsrc/dungeon/func_818BD1C4.c:47 call-site alias\n'
+                '0x800249C4\tfunc_800249C4\tstill_used\tother alias\n'
+                '0x800249C4\tfunc_800249C4\tother_slot_fn\tsrc/dungeon/func_81900000.c:6 another row at this slot\n')
+            (root / 'src/a.c').write_text('void g(void) { create_tinted(); still_used(); }\n')
+            # graph producer stand-in: record the call instead of projecting onto a graph
+            (root / 'tools/link/graph.py').write_text(
+                'import sys, pathlib\npathlib.Path(sys.argv[sys.argv.index("--root") + 1], "synced").write_text("1")\n')
+            rows = [dict(kind='home_self', file='src/a.c', old='create_colored', new='create_tinted',
+                         link='func_818BD1C4>func_800249C4', evidence=''),
+                    dict(kind='placed_copy', file='src/a.c', old='func_8016B438', new='advance',
+                         link='func_80171570>func_8016B438', evidence='same-image copy; rows dungeon/func_80FE16A8')]
+            A.link_records(root, rows)
+            names = (root / 'config/names.tsv').read_text().splitlines()
+            self.assertIn('0x800249C4\tfunc_800249C4\tcreate_tinted\tshard:dungeon | true symbol: the definition runs '
+                          'at func_800249C4 (home_self, same-image copy lane)', names)
+            self.assertFalse(any('\tcreate_colored\t' in line for line in names))
+            self.assertTrue(any('\tstill_used\t' in line for line in names))
+            self.assertTrue(any('\tother_slot_fn\t' in line for line in names))   # another row's name stays
+            record = json.loads((root / 'config/link/copy_links.json').read_text())
+            self.assertEqual(record['units'], {'dungeon/func_80FE16A8': {'func_80171570': 'func_8016B438'}})
+            self.assertTrue((root / 'synced').exists())

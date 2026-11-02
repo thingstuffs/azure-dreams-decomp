@@ -33,7 +33,6 @@ struct Elem;
 
 void select_record_entry_and_value(void *state, void *entries, short index);
 extern s32 play_sound_if_enabled(s32 query_value);
-extern void D_800CB9DC(TrapOwnedTimedEffectBody *trap_state, void *motion_state_in, void *animation_in);
 extern u8 D_800DF650[];
 
 typedef struct S_800CBB98_0 {
@@ -86,7 +85,7 @@ void *create_owned_tile_center_effect(s16 tile_x, u16 tile_y, s16 height, void *
 
     effect = allocate_flagged_object_node(2);
     if (effect != 0) {
-        effect->unk_10 = &D_800CB9DC;
+        effect->unk_10 = &advance_go_up_trap_sequence;
         register_node(effect, project_sprite_chain);
         position = effect->unk_08;
         tile_x_low = (u32)saved_tile_x & 0xFFFFU;

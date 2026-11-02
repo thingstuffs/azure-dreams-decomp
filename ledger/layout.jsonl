@@ -7994,3 +7994,7 @@
 {"id":"main/func_8001CAC8","path":"src/frontend/card/card_dev_init_options_menu_entries.c"}
 {"id":"main/func_8001D254","path":"src/frontend/card/card_dev_init_slot_window_menu_entries.c"}
 {"id":"main/func_80020B14","path":"src/frontend/card/card_dev_init_sme_menu_entries.c"}
+{"id":"main/func_800198A0","path":"src/frontend/card/set_card_selection_state.c"}
+{"id":"main/func_8001FF70","path":"src/frontend/card/card_dev_build_load_slot_windows.c"}
+{"id":"main/func_800200C4","path":"src/frontend/card/card_dev_release_load_screen_parts.c"}
+{"id":"main/func_800205D0","path":"src/frontend/card/card_dev_init_slot_entry_tables.c"}

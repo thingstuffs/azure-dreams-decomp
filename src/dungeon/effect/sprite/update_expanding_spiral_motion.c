@@ -9,7 +9,6 @@
 struct Dst;
 struct Elem;
 
-extern void func_8002421C();
 extern u8 ribbon_sprite_entries[];
 
 typedef struct S_8185CB30_0 {
@@ -57,7 +56,7 @@ void update_expanding_spiral_motion(S_8185CB30_0 *motion, S_8185CB30_2 *position
         motion->unk_22 = (u16)(cycle_tick - 7);
     }
     if ((s16)motion->unk_22 == motion->unk_24) {
-        func_8002421C(motion->unk_00, position);
+        create_random_offset_sprite_effect(motion->unk_00, position);
     }
     if (motion->unk_1E < 0xC1) {
         motion->unk_1E = (s16)((u16)motion->unk_1E + 8);

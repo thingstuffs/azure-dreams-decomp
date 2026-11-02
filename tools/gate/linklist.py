@@ -435,6 +435,12 @@ def rebind_object(root, entry, obj, log=None):
     if (any(len(v) > 1 and not set(v) <= undefined for v in groups.values())
             or not clash <= undefined or any(not set(groups[n]) <= undefined for n in clash)):
         raise SystemExit("link list %s: rebinding of %s collides with an existing symbol" % (entry["image"], entry["row"]))
+    _redefine(obj, renames)
+    return renames
+
+
+def _redefine(obj, renames):
+    """Apply symbol renames in objcopy passes (one redefinition per target name per pass)."""
     pending, passes = dict(renames), []
     while pending:
         batch = {}
@@ -449,7 +455,177 @@ def rebind_object(root, entry, obj, log=None):
             args += ["--redefine-sym", o + "=" + n, "--rename-section", ".text." + o + "=.text." + n,
                      "--rename-section", ".rel.text." + o + "=.rel.text." + n]
         subprocess.run(args + [str(obj)], check=True, capture_output=True, text=True)
+
+
+# ---------------------------------------------------------------------------------------------------------------
+# Same-image copy links (owner ruling 11-02): a HOME unit that calls a function by its own name links to that
+# function's placed copy in the caller's load image, as each original overlay was linked with its own copy.
+#
+# config/link/copy_links.json is the opt-in record (captured into the link graph's `tus` table by
+# tools/link/graph.py).  It is keyed by the caller's row id (the graph TU identity) and lists, per home symbol the
+# caller's object references, the copy symbol the rule must produce (a witness: a link-list change that moves the
+# copy or makes it ambiguous fails the link instead of silently rebinding):
+#
+#     {"schema": "azure-clean.copy-links.v1",
+#      "units": {"town/func_8046BBF8": {"func_806D2C3C": "func_8001643C"}}}
+#
+# The rule (copy_link_target): the callee TU is the home whose symbol is func_<H> (its synthetic row key, or its
+# entry vma for a true-space home); its instances (home + placements) are the link-list code entries of that home;
+# exactly ONE instance must lie in the caller's load image and it must be a placement (if the home itself is the
+# only instance there, the name already links and no record is needed).  Unrecorded units and unrecorded symbols are
+# untouched, so a home unit may still call the home address of a TU that also has a copy in its image.
+# Placement units keep rules 1-6 above (rule 3 is the placement form of the same idea).
+# ---------------------------------------------------------------------------------------------------------------
+
+COPY_LINKS = "copy_links.json"
+COPY_SCHEMA = "azure-clean.copy-links.v1"
+
+
+def copy_links_path(root):
+    return link_dir(root) / COPY_LINKS
+
+
+@lru_cache(maxsize=8)
+def _copy_links(stamp):
+    if not stamp:
+        return {}
+    path = stamp[0][0]
+    doc = json.loads(Path(path).read_text())
+    if doc.get("schema") != COPY_SCHEMA or set(doc) != {"schema", "units"} or not isinstance(doc["units"], dict):
+        raise ValueError("copy links: schema/keys")
+    out = {}
+    for row, links in doc["units"].items():
+        if not isinstance(row, str) or not re.fullmatch(r"[a-z_]+/\w+", row) or not isinstance(links, dict) or not links:
+            raise ValueError("copy links: bad unit record " + repr(row))
+        rec = {}
+        for home, copy in links.items():
+            mh, mc = ADDR.match(home), ADDR.match(str(copy))
+            if not mh or not mc or mh.group(1) != "func" or mc.group(1) != "func" or home == copy:
+                raise ValueError("copy links: %s maps %s -> %s (two distinct func_ symbols required)" % (row, home, copy))
+            rec[int(mh.group(2), 16)] = int(mc.group(2), 16)
+        out[row] = rec
+    return out
+
+
+def copy_links(root):
+    """{caller row id: {home address: recorded copy address}}; {} without the record file."""
+    path = copy_links_path(root)
+    return _copy_links(_stamp([path]) if path.is_file() else ())
+
+
+def write_copy_links(root, units):
+    """Write the record ({row: {home symbol: copy symbol}}) in its canonical form; an empty map removes the file."""
+    path = copy_links_path(root)
+    units = {r: dict(sorted(v.items())) for r, v in sorted(units.items()) if v}
+    if not units:
+        if path.exists():
+            path.unlink()
+        return
+    path.write_text(json.dumps({"schema": COPY_SCHEMA, "units": units}, indent=1, sort_keys=True) + "\n")
+
+
+def is_load_view(image, vma):
+    """The complete load images the production link builds (tools/link/combined.selected_images)."""
+    return (image in ("town/engine", "dungeon/engine") or image.startswith("dungeon/bank_")
+            or (image.startswith("town/") and vma == 0x80016000))
+
+
+def callee_home(tables, address):
+    """The home entry whose own symbol is func_<address>: its synthetic row key, else its (body) entry vma."""
+    _, _, by_row, _ = tables
+    hits = [e for e in by_row.values() if e["row"] == e["home"]
+            and (e["row"].split("/", 1)[1] == "func_%08X" % address
+                 or e["vma"] + e.get("body_offset", 0) == address)]
+    if len(hits) != 1:
+        raise ValueError("copy link: func_%08X names %d placed homes" % (address, len(hits)))
+    return hits[0]
+
+
+def copy_link_target(tables, image, address):
+    """Same-image copy rule: the vma of the unique placement of func_<address>'s TU inside link image `image`."""
+    images, _, by_row, _ = tables
+    img = images.get(image)
+    if img is None or img["vma"] is None:
+        raise ValueError("copy link: %s is not a link-list load image" % image)
+    home = callee_home(tables, address)
+    inside = [e for e in by_row.values() if e["home"] == home["row"] and e["container"] == img["container"]
+              and img["foff"] <= e["foff"] < img["foff"] + img["size"]]
+    if len(inside) != 1:
+        raise ValueError("copy link: %s holds %d instances of %s (the rule needs exactly one)"
+                         % (image, len(inside), home["row"]))
+    if inside[0] is home:
+        raise ValueError("copy link: %s holds the home of %s itself, not a copy" % (image, home["row"]))
+    return inside[0]["vma"]
+
+
+def caller_images(tables, container, foff):
+    """The load images (link-list views the production link builds) that contain a caller at (container, foff)."""
+    images = tables[0]
+    return sorted(name for name, img in images.items() if img["container"] == family(container)
+                  and img["vma"] is not None and is_load_view(name, img["vma"])
+                  and img["foff"] <= foff < img["foff"] + img["size"])
+
+
+def copy_link_renames(root, row, image=None, *, container=None, foff=None):
+    """{func_<home>: func_<copy>} for a recorded caller row, each checked against the rule.
+
+    With `image` the rule is evaluated in that load image (the production image link); otherwise in every load
+    image containing (container, foff) (the window gate), which must all agree.  {} for an unrecorded row."""
+    record = copy_links(root).get(row)
+    if not record:
+        return {}
+    tables = load(root)
+    scope = [image] if image is not None else caller_images(tables, container, foff)
+    if not scope:
+        raise ValueError("copy link: %s lies in no load image" % row)
+    out = {}
+    for home, recorded in sorted(record.items()):
+        for name in scope:
+            got = copy_link_target(tables, name, home)
+            if got != recorded:
+                raise ValueError("copy link: %s func_%08X binds to 0x%08X in %s, the record says 0x%08X"
+                                 % (row, home, got, name, recorded))
+        out["func_%08X" % home] = "func_%08X" % recorded
+    return out
+
+
+def copy_link_object(root, row, obj, image=None, *, container=None, foff=None, log=None):
+    """Bind a recorded home unit's references to the copies in its image (object rewritten in place)."""
+    renames = copy_link_renames(root, row, image, container=container, foff=foff)
+    if not renames:
+        return {}
+    out = subprocess.run([NM, str(obj)], capture_output=True, text=True, check=True).stdout
+    names = {l.split()[-1] for l in out.splitlines() if l.split()}
+    undefined = {l.split()[-1] for l in out.splitlines() if len(l.split()) == 2 and l.split()[0] == "U"}
+    missing = sorted(set(renames) - undefined)
+    if missing:
+        raise ValueError("copy link: %s records %s, which its object does not import" % (row, ", ".join(missing)))
+    if any(n in names and n not in undefined for n in renames.values()):
+        raise ValueError("copy link: %s defines a copy symbol itself" % row)
+    if log is not None:
+        Path(log).write_text("".join("%s -> %s\n" % kv for kv in sorted(renames.items())))
+    _redefine(obj, renames)
     return renames
+
+
+def copy_link_files(root, row_ids):
+    """Inputs that decide a recorded unit's copy links: the record and the link lists of the callees' instances."""
+    links = copy_links(root)
+    rows = [r for r in row_ids if r in links]
+    if not rows:
+        return []
+    tables = load(root)
+    images, _, by_row, _ = tables
+    out = {str(copy_links_path(root))}
+    for r in rows:
+        for home in links[r]:
+            try:
+                h = callee_home(tables, home)
+            except ValueError:
+                continue
+            out.update(images[e["image"]]["path"] for e in by_row.values() if e["home"] == h["row"])
+    base = Path(root).absolute()
+    return sorted(str(Path(p).absolute().relative_to(base)) for p in out)
 
 
 def window_files(root, row_ids):
@@ -470,6 +646,7 @@ def window_files(root, row_ids):
         for x in [e, *members[e["image"]]]:
             if x["home"] != x["row"]:
                 out.add(images[by_row[x["home"]]["image"]]["path"])
+    out.update(str(Path(root).absolute() / p) for p in copy_link_files(root, row_ids))
     # These records authorize no-region bases. Their bytes are proof inputs too.
     for img in images.values():
         if img["path"] in out and img.get("load_evidence"):

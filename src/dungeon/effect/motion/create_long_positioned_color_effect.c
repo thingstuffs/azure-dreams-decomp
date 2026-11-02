@@ -2,6 +2,7 @@
 #include "shared/dungeon_effect_source.h"
 #include "shared/dungeon_moving_views.h"
 #include "dungeon/effect/motion.h"
+#include "dungeon/effect/head_bank_imports.h"
 
 typedef s32 M2C_UNK;
 
@@ -56,9 +57,6 @@ typedef struct S_7FFE93E8_4 {
 
 
 
-M2C_UNK func_8003A7C4();
-void *func_8003CF18();
-void func_8010BB90(void);
 extern u16 emitted_effect_counter[5];
 
 /* Creates an effect at the source position with the supplied color. */

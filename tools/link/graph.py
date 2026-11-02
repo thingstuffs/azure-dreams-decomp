@@ -112,7 +112,7 @@ def shard(directory, name, values):
     return out
 
 
-def capture(root, directory):
+def capture(root, directory, base=None):
     """Migration input: current lists + current ledger/source facts; no old TSVs."""
     root, directory = Path(root).resolve(), Path(directory).resolve()
     if directory.exists() and any(directory.iterdir()):
@@ -203,8 +203,19 @@ def capture(root, directory):
             tus['module/' + module['key']].update(allocation_model=module['allocation_model'],
                 allocations=[{k:a[k] for k in ('section','foff','vma','size','link_alignment')}
                              for a in module['allocations']])
+    # Same-image copy links (config/link/copy_links.json, tools/gate/linklist.py): a per-TU opt-in record,
+    # carried as the TU identity's `copy_links` attribute.
+    record = root / 'config/link' / linklist.COPY_LINKS
+    if record.is_file():
+        doc = json.loads(record.read_text())
+        linklist._copy_links(linklist._stamp([record]))  # schema/symbol validation
+        for row, links in doc['units'].items():
+            if row not in tus:
+                raise ValueError('copy link record names no TU identity: ' + row)
+            tus[row]['copy_links'] = dict(sorted(links.items()))
     tables['tus'] = [tus[k] for k in sorted(tus)]
-    base = (root / 'SCRATCH_HEAD').read_text().strip() if (root / 'SCRATCH_HEAD').exists() else 'unspecified'
+    if base is None:
+        base = (root / 'SCRATCH_HEAD').read_text().strip() if (root / 'SCRATCH_HEAD').exists() else 'unspecified'
     manifest = {'schema': SCHEMA, 'base': base, 'tables': {},
                 'build': {'slus': {'file': 'slus', 'image': 'slus/slus_bin',
                                     'recipe': 'build_slus/build/slus_006.14_ordered.ld',
@@ -224,6 +235,36 @@ def capture(root, directory):
     graph = Graph(directory)
     graph.documents(validate=True)
     return graph.stats()
+
+
+def sync_copy_links(root, directory):
+    """Project config/link/copy_links.json onto the committed graph's TU identities (their `copy_links` attribute)
+    and rewrite only the `tus` shards and the manifest.  `capture` derives the same attribute; this producer keeps
+    every other recorded witness (source hashes, base) as committed, so a copy-link change does not re-capture."""
+    root, directory = Path(root).resolve(), Path(directory).resolve()
+    sys.path.insert(0, str(root / 'tools'))
+    from gate import linklist
+    graph = Graph(directory)
+    record = root / 'config/link' / linklist.COPY_LINKS
+    units = {}
+    if record.is_file():
+        linklist._copy_links(linklist._stamp([record]))  # schema/symbol validation
+        units = json.loads(record.read_text())['units']
+    missing = sorted(set(units) - set(graph.tus))
+    if missing:
+        raise ValueError('copy link record names no TU identity: ' + ', '.join(missing[:5]))
+    tus = []
+    for key in sorted(graph.tus):
+        tu = dict(graph.tus[key])
+        tu.pop('copy_links', None)
+        if key in units:
+            tu['copy_links'] = dict(sorted(units[key].items()))
+        tus.append(tu)
+    for part in graph.manifest['tables']['tus']:
+        (directory / part['path']).unlink()
+    graph.manifest['tables']['tus'] = shard(directory, 'tus', tus)
+    write_json(directory / 'graph.json', graph.manifest)
+    return Graph(directory).stats()
 
 
 class Graph:
@@ -331,6 +372,10 @@ class Graph:
             linklist.coverage(images)
         return documents
 
+    def copy_links(self):
+        """{TU identity: {home symbol: copy symbol}}: the projection of config/link/copy_links.json."""
+        return {k: dict(t['copy_links']) for k, t in sorted(self.tus.items()) if t.get('copy_links')}
+
     def stats(self):
         return {'schema': SCHEMA, 'base': self.manifest['base'],
                 'identities': {k: len(getattr(self, k)) for k in TABLES},
@@ -366,6 +411,11 @@ class Graph:
         docs = self.documents(validate=True)
         if output.exists() and any(output.iterdir()):
             raise ValueError('generation requires a new or empty output directory')
+        units = self.copy_links()
+        if units:
+            output.mkdir(parents=True, exist_ok=True)
+            (output / 'copy_links.json').write_text(json.dumps(
+                {'schema': 'azure-clean.copy-links.v1', 'units': units}, indent=1, sort_keys=True) + '\n')
         for image, doc in docs.items():
             path = output / (safe(image) + '.json')
             style = self.views[image].get('serialization')
@@ -406,6 +456,11 @@ def compare(graph, catalogue):
         for kind in sorted(kinds):
             holds.append({'image': image, 'kind': kind, 'reason': why})
             held_kinds[kind] += 1
+    record = Path(catalogue) / 'copy_links.json'
+    want_links = json.loads(record.read_text())['units'] if record.is_file() else {}
+    if canonical(graph.copy_links()) != canonical(want_links):
+        holds.append({'image': 'copy_links', 'kind': 'list', 'reason': 'copy link record differs'})
+        held_kinds['list'] += 1
     total = len(docs.keys() | expected.keys())
     summary = dict(graph.stats(), lists_compared=total,
                    lists_equal=total - len({h['image'] for h in holds}),
@@ -459,15 +514,21 @@ def main():
     p.add_argument('--root', type=Path, default=ROOT)
     p.add_argument('--graph', type=Path, default=ROOT / 'config/link_graph')
     sub = p.add_subparsers(dest='action', required=True)
-    sub.add_parser('capture')
+    cap = sub.add_parser('capture')
+    cap.add_argument('--keep-base-from', type=Path, help='reuse this graph directory\'s recorded base')
     sub.add_parser('validate')
+    sub.add_parser('sync-copy-links')
     gen = sub.add_parser('generate'); gen.add_argument('--output', type=Path, required=True)
     cmp = sub.add_parser('compare'); cmp.add_argument('--catalogue', type=Path)
     cmp.add_argument('--report', type=Path, required=True); cmp.add_argument('--holds', type=Path, required=True)
     a = p.parse_args()
     try:
-        if a.action == 'capture':
-            result = capture(a.root, a.graph)
+        if a.action == 'sync-copy-links':
+            result = sync_copy_links(a.root, a.graph)
+        elif a.action == 'capture':
+            base = (json.loads((a.keep_base_from / 'graph.json').read_text())['base']
+                    if a.keep_base_from else None)
+            result = capture(a.root, a.graph, base)
         else:
             g = Graph(a.graph)
             if a.action == 'generate':

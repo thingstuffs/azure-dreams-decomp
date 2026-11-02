@@ -83,7 +83,7 @@ typedef union WideProduct {
 
 extern s32 check_layer_offset_height();
 extern void draw_animated_shaded_lines(); /* Unprototyped: retail call passes more arguments than the callee reads */
-extern Child *create_effect_indexed();
+extern Child *create_expanding_spiral_effect();
 extern void func_80024060();
 extern void advance_expanding_spiral(void);
 
@@ -277,7 +277,7 @@ void move_to_target_and_run_child_effects(Controller *ctrl, Motion *motion, void
             index = 7;
             next_child_slot = &ctrl->children[1];
             do {
-                next_child_slot[6] = create_effect_indexed(ctrl, motion, (s16)index);
+                next_child_slot[6] = create_expanding_spiral_effect(ctrl, motion, (s16)index);
                 index--;
                 next_child_slot--;
             } while (index >= 0);

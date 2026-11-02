@@ -1010,6 +1010,12 @@ def compile_c_segments(
                 raise SystemExit(f"link list entry {_place['row']}: size {_place['size']} != segment {seg.size}")
             linklist.rebind_object(ROOT, _place, out_o,
                                    log=obj_dir / f"{segment_obj_key(seg, dup_funcs)}.rebind.txt")
+        elif overlay:
+            # A recorded home row's same-image copy links (linklist.copy_link_object): checked in every load image
+            # that contains the row, which must agree (one physical call site has one target).
+            linklist.copy_link_object(ROOT, family_for(overlay) + "/" + Path(seg.match.source).stem, out_o,
+                                      container=family_for(overlay), foff=seg.match.start,
+                                      log=obj_dir / f"{segment_obj_key(seg, dup_funcs)}.copylink.txt")
         objects.append(out_o)
     return objects
 

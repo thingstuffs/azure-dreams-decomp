@@ -2,6 +2,7 @@
 #include "shared/dungeon_effect_source.h"
 #include "shared/dungeon_moving_views.h"
 #include "dungeon/effect/particle.h"
+#include "dungeon/effect/head_bank_imports.h"
 
 typedef struct S_7FFE7BE8_0 {
     u8 pad_00[0x8];
@@ -41,8 +42,6 @@ typedef struct S_7FFE7BE8_5 {
 } S_7FFE7BE8_5;   /* arg1 in initialize_source_position_object */
 
 
-extern void func_70040A18(void *, void *);
-extern void func_7003A7C4(void *, void *, s32);
 extern s32 D_8004136C;
 
 /* Initialize the object from its source and position, then configure its display state. */

@@ -1,6 +1,7 @@
 #include "common.h"
 #include "shared/dungeon_effect_source.h"
 #include "shared/dungeon_moving_views.h"
+#include "dungeon/effect/head_bank_imports.h"
 
 #ifndef NULL
 #define NULL 0
@@ -55,8 +56,6 @@ typedef struct S_7FFE7CBC_4 {
 
 
 
-M2C_UNK func_7003A7C4();
-void *func_7003CF18();
 extern u16 emitted_effect_counter[5];
 extern M2C_UNK D_8010AC34;
 

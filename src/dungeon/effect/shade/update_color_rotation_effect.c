@@ -25,8 +25,8 @@ typedef struct S_818C3448_1 {
     u16 unk_0C;
 } S_818C3448_1;
 
-s32 advance_object_and_global_counters();
-s32 func_80024AF4();
+s32 create_random_rotation_effect();
+s32 create_dimmed_copy_effect();
 
 typedef struct {
     s32 f0;
@@ -114,17 +114,17 @@ void animate_color_cycling_sprite_burst(void *effect_arg, void *motion_arg, Spri
         effect->unk_10.u = 0;
         return;
     case 2:
-        func_80024AF4(effect, motion, visual);
+        create_dimmed_copy_effect(effect, motion, visual);
         random_bias = rand();
         random_value = random_bias;
         angle = (random_value % 4096);
-        advance_object_and_global_counters(effect, motion, angle);
+        create_random_rotation_effect(effect, motion, angle);
         opposite_angle = angle + 0x800;
         opposite_bias = opposite_angle;
         if (opposite_angle < 0) {
             opposite_bias = angle + 0x17FF;
         }
-        advance_object_and_global_counters(effect, motion, (s16) (opposite_angle - ((opposite_bias >> 0xC) << 0xC)));
+        create_random_rotation_effect(effect, motion, (s16) (opposite_angle - ((opposite_bias >> 0xC) << 0xC)));
         if ((s16) effect->unk_10.s < 0x21) {
             return;
         }

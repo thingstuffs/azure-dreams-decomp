@@ -1,6 +1,7 @@
 #include "common.h"
 #include "dungeon/effect/particle.h"
 #include "shared/dungeon_moving_views.h"
+#include "dungeon/effect/head_bank_imports.h"
 
 typedef s32 M2C_UNK;
 
@@ -59,9 +60,6 @@ typedef struct S_7FFE89B0_6 {
 
 
 
-void *func_7003CF18();
-s32 func_700750E0();
-M2C_UNK func_7010B864();
 extern s32 particle_object_flags;
 extern u8 emitter_height_offsets[];
 extern u16 emitted_effect_counter;

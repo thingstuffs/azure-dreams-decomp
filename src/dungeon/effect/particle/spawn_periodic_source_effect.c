@@ -1,6 +1,7 @@
 #include "common.h"
 #include "m2c_compat.h"
 #include "dungeon/effect/particle.h"
+#include "dungeon/effect/head_bank_imports.h"
 
 #ifndef NULL
 #define NULL 0
@@ -51,8 +52,6 @@ typedef struct S_7FFEA1CC_4 {
 
 
 
-void *func_7003CF18();
-s32 func_7010C7A8(void *, void *, s32, s32);
 void *memcpy(void *, const void *, unsigned int);
 extern s32 particle_object_flags;
 extern u8 emitter_height_offsets[0x100];

@@ -918,8 +918,9 @@ def _generate():
                 return [dict(dataclasses.asdict(m), source=str(m.source)) for m in table.values()]
             values = checkpoint('matches:'+family, select, copy_value=False)
             matches[family] = {(v['start'], v['size']): gate.MatchEntry(**dict(v, source=Path(v['source']))) for v in values}
-        old_run, old_rebind = gate.run, linklist.rebind_object
+        old_run, old_rebind, old_copy = gate.run, linklist.rebind_object, linklist.copy_link_object
         gate.run, linklist.rebind_object = record, rebound
+        linklist.copy_link_object = lambda *a, **k: {}  # applied at the image link (_image_one), not per recipe
         try:
             # One enumeration per physical row, independent of the number of views.
             for family, table in matches.items():
@@ -959,7 +960,7 @@ def _generate():
                         replay(name, text)
                     row_plans[(family, off, size)] = cached['plan']
         finally:
-            gate.run, linklist.rebind_object = old_run, old_rebind
+            gate.run, linklist.rebind_object, linklist.copy_link_object = old_run, old_rebind, old_copy
         module_jobs = {}
         def enumerate_module(key, m):
             nonlocal capture
@@ -1363,6 +1364,11 @@ def _image_one(path):
             if unit.get('rebind'):
                 entry = dict(unit['rebind'], bindings={number(k): number(v) for k,v in unit['rebind']['bindings'].items()})
                 rebound_names = linklist.rebind_object(gate.ROOT, entry, original)
+            elif not unit.get('module'):
+                # Same-image copy links (docs/LINK_LISTS.md): a recorded home unit's call by the function's own
+                # name binds to that function's copy placed in THIS image (rule checked against the record).
+                for row in unit.get('rows', []):
+                    linklist.copy_link_object(gate.ROOT, row, original, spec['image'])
             metadata = object_metadata(original)
             if metadata is None:
                 raise ValueError('unsupported object metadata')

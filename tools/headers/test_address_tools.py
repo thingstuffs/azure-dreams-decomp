@@ -69,6 +69,25 @@ class Holds(unittest.TestCase):
         self.assertFalse(AR.return_conflict(void_db, 'extern void func_804075A8(s32 context);\n', 'func_804075A8', 'x'))
         self.assertFalse(AR.return_conflict(self.FakeDB('s32'), 'extern s32 func_804075A8(s32);\n', 'func_804075A8', 'x'))
 
+    def test_return_conflict_value_ignored(self):
+        class DB:
+            def execute(self, sql, args=()):
+                class R:
+                    def __init__(self, rows):
+                        self.rows = rows
+
+                    def fetchone(self):
+                        return self.rows[0] if self.rows else None
+
+                    def __iter__(self):
+                        return iter(self.rows)
+                if 'call_site' in sql:
+                    return R([('ignored',)])
+                return R([('void',)])
+        text = 'extern s32 func_80400A10(void);\n'
+        self.assertFalse(AR.return_conflict(DB(), text, 'func_80400A10', 'card_dev_open_events', 'src/a.c'))
+        self.assertTrue(AR.return_conflict(DB(), text, 'func_80400A10', 'card_dev_open_events'))
+
     def test_delete_held_when_an_include_follows(self):
         text = 'extern void D_800A7CC4();\n#include "dungeon/effect.h"\nvoid f(T *t) { t->cb = &D_800A7CC4; }\n'
         self.assertEqual(AR.respell_text(text, 'D_800A7CC4', 'render_floor_items', True), (text, None))

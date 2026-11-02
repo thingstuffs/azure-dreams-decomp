@@ -2,6 +2,7 @@
 #include "m2c_compat.h"
 #include "shared/dungeon_moving_views.h"
 #include "dungeon/effect/particle.h"
+#include "dungeon/effect/head_bank_imports.h"
 
 typedef struct S_7FFEA9D4_4 {
     u8 pad_00[0xC];
@@ -42,9 +43,6 @@ typedef struct S_7FFEA9D4_3 {
 } S_7FFEA9D4_3;
 
 
-void *func_7003CF18();                       /* extern */
-s32 func_700750E0();                                /* extern */
-extern s32 func_7010CD00(void *, void *, s32, s32); /* extern */
 extern s32 particle_object_flags;
 extern u8 emitter_height_offsets[0x100];
 extern u16 emitted_effect_counter;

@@ -47,7 +47,7 @@ typedef struct FollowingColorPrefix { u16 flags; } FollowingColorPrefix;
 
 extern void draw_ball_effect_points(void *, s16, Vec3i *);
 extern void spawn_spiraling(s16 from_x, s16 from_y, s16 from_z, s16 to_x, s16 to_y, s16 to_z, s16 *angles);
-extern s32 func_80025344(s16, s16, s16, s16);
+extern s32 create_random_spin_effect(s16, s16, s16, s16);
 
 extern u16 sprite_effect_update_count;
 extern s32 linked_mesh_processor_address;
@@ -230,14 +230,14 @@ void update_following_color_blend_effect(FollowingColorEffect *state, ObjectPosi
                     pos->x.w.i = state->target_x.u;
                     pos->y.w.i = state->target_y.u;
                     pos->z.w.i = state->target_z.u;
-                    if (func_80025344(
+                    if (create_random_spin_effect(
                             state->target_x.s,
                             state->target_y.s,
                             (s16)(state->target_z.u + 0x10),
                             0)) {
                         iter = 3;
                         do {
-                            func_80025344(
+                            create_random_spin_effect(
                                 state->target_x.s,
                                 state->target_y.s,
                                 (s16)(state->target_z.u + 0x10),

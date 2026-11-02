@@ -46,8 +46,8 @@ typedef struct EffectState {
 #define U16_AT(p, n) (*(u16 *)((u8 *)(p) + (n)))
 
 extern s32 check_layer_offset_height(s32, s32, s32, s32);
-extern void func_80025344(EffectState *, ObjectPosition *);
-extern void advance_grayscale_fade(EffectState *, ObjectPosition *);
+extern void create_random_spin_effect(EffectState *, ObjectPosition *);
+extern void create_owner_tinted_effect(EffectState *, ObjectPosition *);
 extern void play_sound_if_enabled(s32);
 extern void interpolate_view_parameters(void *, u8, void *);
 
@@ -163,7 +163,7 @@ void advance_an_effect_toward_target_along_facing_direction_handle_timed_states(
         motion->velocity_z = (target_pos->z.v -
                       (((entity_height_offsets[U8_AT(state->target, 0x13)] >> 1) * 3) << 16) -
                       motion->z.v) / state->duration;
-        func_80025344(state, motion);
+        create_random_spin_effect(state, motion);
         next_state = (u16)state->state + 1;
     } else {
         index = 0;
@@ -231,7 +231,7 @@ void advance_an_effect_toward_target_along_facing_direction_handle_timed_states(
         motion->velocity_x = (target_pos->x.v - motion->x.v) / state->duration;
         motion->velocity_y = (target_pos->y.v - motion->y.v) / state->duration;
         motion->velocity_z = (target_pos->z.v - motion->z.v) / state->duration;
-        advance_grayscale_fade(state, motion);
+        create_owner_tinted_effect(state, motion);
         next_state = 6;
     }
     state->state = next_state;

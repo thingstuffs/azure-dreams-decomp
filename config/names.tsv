@@ -5082,7 +5082,6 @@
 0x8001661C	func_8001661C	initialize_store_2_callback	(medium) src/town/func_8069761C.c:14
 0x80016630	func_80016630	process_ids_conditionally_pointer	(medium) src/town/func_80614E30.c:28
 0x80016664	func_80016664	invoke_callback_2_13_two	(medium) src/town/func_8059E664.c:7
-0x800166A0	func_800166A0	process_value_pairs	(medium) src/dungeon/func_808B16A0.c:13-30: iterates key-value pairs and processes both values in each pair.
 0x800166A4	func_800166A4	pass_2	(medium) src/town/func_8059E6A4.c:7
 0x800166D8	func_800166D8	check_stored_meets_minimum	(medium) src/town/func_8059E6D8.c:8
 0x80016700	func_80016700	subtract_amount_from_record_value	(medium) src/town/func_8059E700.c:8
@@ -5312,7 +5311,6 @@
 0x8002458C	func_8002458C	update_palette_particle_transition	(medium) src/dungeon/func_81994D8C.c:97: Five-stage palette/particle transition, reconstructed from the complete retail instruction span. The object views cover only fields used here. Each player (D_800814A8) tint write is preceded by a write-back of the actor's +0x98 halfword (REVIEWER CALL, see MECHANISM.md). Retail reads the field at all five sites and never uses the value; the write-back stores the unchanged value, which gcc's post-reload CSE (reload_cse_regs) deletes as a redundant store after flow has already kept the load alive
 0x800245CC	func_800245CC	create_sprite_effect_with_data	(medium) src/dungeon/func_81898DCC.c:3-32: Allocates a sprite effect, assigns its callback and copies six input words.
 0x800245EC	func_800245EC	advance_frame	(medium) src/dungeon/func_818FEDEC.c:37: Advances an eight-frame animation and flags expiration when its countdown ends
-0x80024628	func_80024628	create_effect_indexed	(medium) src/dungeon/func_8185CE28.c:73: Creates an effect at an indexed radial offset from the supplied position
 0x80024648	func_80024648	update_effect_and_spawn_fragments	(medium) src/dungeon/func_81988E48.c:84-191: Advances the effect through movement states and emits randomized child effects.
 0x80024654	func_80024654	spawn_spiraling	(medium) src/dungeon/func_81952E54.c:56: Spawn the spiraling effect unless the shared bank stop flag is set. The third ABI argument is unused in retail. The final argument mirrors the direction and is retained in the spawned state
 0x80024670	func_80024670	draw_linked_shaded_quads	(medium) src/dungeon/func_81922E70.c:3-14: Walks the linked nodes and queues one shaded quad for each.
@@ -5323,7 +5321,6 @@
 0x80024924	func_80024924	create_positioned	(medium) src/dungeon/func_8199B124.c:16: Create a positioned effect and set its animation and lifetime parameters
 0x80024928	func_80024928	randomize_color	(medium) src/dungeon/func_81935128.c:11: Randomize color and mark the owner complete when the render flags request it
 0x800249A0	func_800249A0	decrement_object_counter	(medium) src/dungeon/func_819411A0.c:6: Decrements the object counter and sets flags when it reaches zero
-0x800249C4	func_800249C4	create_colored	(medium) src/dungeon/func_818BD1C4.c:47: Creates a colored object, copies its transform, and applies a vertical offset
 0x800249DC	func_800249DC	move_effect_toward_target	(medium) src/dungeon/func_818E71DC.c:3-56: Interpolates position toward the target, updates color and retires on completion.
 0x80024A5C	func_80024A5C	draw_effect_and_restore_clip	(medium) src/dungeon/func_818ED25C.c:3-82: Sets the draw area, draws the effect, optionally fills a rectangle and restores clipping.
 0x80024AB4	func_80024AB4	fade_effect_color_by_quarter	(medium) src/dungeon/func_819832B4.c:3-21: Reduces each color channel by one quarter and marks the effect complete near zero.
@@ -5355,7 +5352,6 @@
 0x80025398	func_80025398	process_five_context_entries_or_fallback	(medium) src/main/func_80012398.c:31: Process five context entries if checks pass, or schedule the fallback callback
 0x800253C0	func_800253C0	advance_paired_object_sequence	(medium) src/dungeon/func_8180C3C0.c:166: Advance the paired-object sequence, animating both objects and displaying the result.
 0x80025408	func_80025408	build_inverted	(medium) src/dungeon/func_81905C08.c:4: Builds an inverted pixel mask and updates a timed fade effect
-0x80025604	func_80025604	spawn_ring	(medium) src/dungeon/func_81959E04.c:41: Spawn a ring of 32 spark objects around (x, y, z), each with the velocity of its angle step
 0x8002560C	func_8002560C	expand_fade	(medium) src/dungeon/func_81977E0C.c:38: Expand and fade a spiraling effect while updating its position
 0x80025648	func_80025648	update_timed	(medium) src/dungeon/func_818F9E48.c:79: Update a timed visual effect using its owner's appearance and position
 0x8002569C	func_8002569C	create_object_offset	(medium) src/dungeon/func_81887E9C.c:73: Create an object offset from an origin and record its starting position
@@ -6036,7 +6032,6 @@
 0x80402BB8	func_80402BB8	position_linked_dialog_and_bind_object_data	(medium) src/main/func_8001BBB8.c:26: Set the linked coordinates to (160, 120) and reference the object's embedded data
 0x80402CD4	func_80402CD4	initialize_four_paired_drawing_records	(medium) src/main/func_8001BCD4.c:16: Initializes four pairs of records from D_80400544 and marks the final pair
 0x80402DC8	func_80402DC8	forward_target	(medium) src/main/func_8001BDC8.c:7: Forwards the target with fixed data D_80408C84 and value 6
-0x80402EA4	func_80402EA4	set_four_record_fields	(medium) src/main/func_8001BEA4.c:13: Sets four record fields to the supplied values
 0x804030CC	func_804030CC	forward_target_value	(medium) src/main/func_8001C0CC.c:6: Forward the target and value to initCardMessageObject with selectors 0 and 1
 0x8040311C	func_8040311C	forward_target_value_initcardmessageobject	(medium) src/main/func_8001C11C.c:6: Forwards the target and value to initCardMessageObject with both selectors set to 2
 0x80403144	func_80403144	forward_value_initcardmessageobject	(medium) src/main/func_8001C144.c:6: Forwards value to initCardMessageObject with fixed arguments 8, 0, and 0
@@ -6057,7 +6052,6 @@
 0x804033EC	func_804033EC	process_four_referenced_values	(medium) src/main/func_8001C3EC.c:11: Passes each of four referenced values to func_80051FBC.
 0x8040343C	func_8040343C	process_global	(medium) src/main/func_8001C43C.c:9: Processes the global state, optionally flags its linked object, and returns the state value
 0x80403738	func_80403738	initialize_values	(medium) src/main/func_8001C738.c:58: Initializes values in four groups of four linked records
-0x804038C8	func_804038C8	initialize_panel	(medium) src/main/func_8001C8C8.c:86: Initialize the panel and position four rows of display elements
 0x80403D24	func_80403D24	process_embedded_data_and_propagate_flags	(medium) src/main/func_8001CD24.c:13: Process embedded data and set object and global flags when the object exists
 0x80403D7C	func_80403D7C	save_object_value_and_set_control_fields	(medium) src/main/func_8001CD7C.c:12: Saves and replaces the object's value, setting its control fields to 0 and 3
 0x80403F7C	func_80403F7C	position_selected_entry_content	(medium) src/main/func_8001CF7C.c:29: Sets up display element content and positions for the selected entry
@@ -6342,40 +6336,40 @@
 0x81814A80	func_81814A80	accumulate_effect_motion	owner decisions 65+68; shard:dungeon; src/dungeon/func_81814A80.c
 0x81814EDC	func_81814EDC	update_spark_emitter_effect	owner decisions 65+68; shard:dungeon; src/dungeon/func_81814EDC.c
 0x8185C98C	func_8185C98C	update_growing_sprite_effect	owner decisions 65+68; shard:dungeon; src/dungeon/func_8185C98C.c
-0x8185CA1C	func_8185CA1C	create_random_offset_sprite_effect	owner decisions 65+68; shard:dungeon; src/dungeon/func_8185CA1C.c
+0x8002421C	func_8002421C	create_random_offset_sprite_effect	owner decisions 65+68; shard:dungeon; src/dungeon/func_8185CA1C.c | true symbol: the definition runs at func_8002421C (home_self, same-image copy lane)
 0x8185CB30	func_8185CB30	update_expanding_spiral_motion	owner decisions 65+68; shard:dungeon; src/dungeon/func_8185CB30.c
 0x8185CCD4	func_8185CCD4	update_expanding_spiral_sprite	owner decisions 65+68; shard:dungeon; src/dungeon/func_8185CCD4.c
-0x8185CE28	func_8185CE28	create_expanding_spiral_effect	owner decisions 65+68; shard:dungeon; src/dungeon/func_8185CE28.c
+0x80024628	func_80024628	create_expanding_spiral_effect	owner decisions 65+68; shard:dungeon; src/dungeon/func_8185CE28.c | true symbol: the definition runs at func_80024628 (home_self, same-image copy lane)
 0x818BC888	func_818BC888	update_ramping_color_effect	owner decisions 65+68; shard:dungeon; src/dungeon/func_818BC888.c
 0x818BC9CC	func_818BC9CC	draw_four_shaded_quads	owner decisions 65+68; shard:dungeon; src/dungeon/func_818BC9CC.c
-0x818BCFB0	func_818BCFB0	create_offset_color_effect	owner decisions 65+68; shard:dungeon; src/dungeon/func_818BCFB0.c
+0x800247B0	func_800247B0	create_offset_color_effect	owner decisions 65+68; shard:dungeon; src/dungeon/func_818BCFB0.c | true symbol: the definition runs at func_800247B0 (home_self, same-image copy lane)
 0x818BD0C0	func_818BD0C0	update_triple_flash_effect	owner decisions 65+68; shard:dungeon; src/dungeon/func_818BD0C0.c
-0x818BD1C4	func_818BD1C4	create_channel_tinted_effect	owner decisions 65+68; shard:dungeon; src/dungeon/func_818BD1C4.c
+0x800249C4	func_800249C4	create_channel_tinted_effect	owner decisions 65+68; shard:dungeon; src/dungeon/func_818BD1C4.c | true symbol: the definition runs at func_800249C4 (home_self, same-image copy lane)
 0x818BD3B0	func_818BD3B0	update_orbital_motion_effect	owner decisions 65+68; shard:dungeon; src/dungeon/func_818BD3B0.c
-0x818BD52C	func_818BD52C	create_phase_colored_effect	owner decisions 65+68; shard:dungeon; src/dungeon/func_818BD52C.c
+0x80024D2C	func_80024D2C	create_phase_colored_effect	owner decisions 65+68; shard:dungeon; src/dungeon/func_818BD52C.c | true symbol: the definition runs at func_80024D2C (home_self, same-image copy lane)
 0x818BD74C	func_818BD74C	update_color_cycling_shrink_effect	owner decisions 65+68; shard:dungeon; src/dungeon/func_818BD74C.c
-0x818BDB44	func_818BDB44	create_random_spin_effect	owner decisions 65+68; shard:dungeon; src/dungeon/func_818BDB44.c
-0x818BDD8C	func_818BDD8C	create_owner_tinted_effect	owner decisions 65+68; shard:dungeon; src/dungeon/func_818BDD8C.c
+0x80025344	func_80025344	create_random_spin_effect	owner decisions 65+68; shard:dungeon; src/dungeon/func_818BDB44.c | true symbol: the definition runs at func_80025344 (home_self, same-image copy lane)
+0x8002558C	func_8002558C	create_owner_tinted_effect	owner decisions 65+68; shard:dungeon; src/dungeon/func_818BDD8C.c | true symbol: the definition runs at func_8002558C (home_self, same-image copy lane)
 0x818C2824	func_818C2824	apply_random_value_gain	owner decisions 65+68; shard:dungeon; src/dungeon/func_818C2824.c
 0x818C28C0	func_818C28C0	update_fading_intensity_effect	owner decisions 65+68; shard:dungeon; src/dungeon/func_818C28C0.c
 0x818C2F10	func_818C2F10	update_vertical_drift_effect	owner decisions 65+68; shard:dungeon; src/dungeon/func_818C2F10.c
-0x818C2FAC	func_818C2FAC	create_random_rotation_effect	owner decisions 65+68; shard:dungeon; src/dungeon/func_818C2FAC.c
+0x800247AC	func_800247AC	create_random_rotation_effect	owner decisions 65+68; shard:dungeon; src/dungeon/func_818C2FAC.c | true symbol: the definition runs at func_800247AC (home_self, same-image copy lane)
 0x818C3208	func_818C3208	update_fading_drift_effect	owner decisions 65+68; shard:dungeon; src/dungeon/func_818C3208.c
-0x818C32F4	func_818C32F4	create_dimmed_copy_effect	owner decisions 65+68; shard:dungeon; src/dungeon/func_818C32F4.c
-0x818C370C	func_818C370C	create_random_variant_effect	owner decisions 65+68; shard:dungeon; src/dungeon/func_818C370C.c
-0x818C3A3C	func_818C3A3C	create_scaled_rotation_effect	owner decisions 65+68; shard:dungeon; src/dungeon/func_818C3A3C.c
+0x80024AF4	func_80024AF4	create_dimmed_copy_effect	owner decisions 65+68; shard:dungeon; src/dungeon/func_818C32F4.c | true symbol: the definition runs at func_80024AF4 (home_self, same-image copy lane)
+0x80024F0C	func_80024F0C	create_random_variant_effect	owner decisions 65+68; shard:dungeon; src/dungeon/func_818C370C.c | true symbol: the definition runs at func_80024F0C (home_self, same-image copy lane)
+0x8002523C	func_8002523C	create_scaled_rotation_effect	owner decisions 65+68; shard:dungeon; src/dungeon/func_818C3A3C.c | true symbol: the definition runs at func_8002523C (home_self, same-image copy lane)
 0x818C3B90	func_818C3B90	update_directed_movement_sequence	owner decisions 65+68; shard:dungeon; src/dungeon/func_818C3B90.c
 0x818FEDEC	func_818FEDEC	update_eight_frame_animation_effect	owner decisions 65+68; shard:dungeon; src/dungeon/func_818FEDEC.c
 0x80024740	func_80024740	draw_gradient_line_chain	owner decisions 65+68; shard:dungeon; src/dungeon/func_81934F40.c
 0x80024A88	func_80024A88	update_drifting_effect	owner decisions 65+68; shard:dungeon; src/dungeon/func_81947288.c
 0x81958F28	func_81958F28	update_following_color_blend_effect	owner decisions 65+68; shard:dungeon; src/dungeon/func_81958F28.c
 0x819598B4	func_819598B4	update_ring_effect	owner decisions 65+68; shard:dungeon; src/dungeon/func_819598B4.c
-0x81959E04	func_81959E04	spawn_ring_sparks	owner decisions 65+68; shard:dungeon; src/dungeon/func_81959E04.c
-0x8195AB84	func_8195AB84	create_linked_object_chain	owner decisions 65+68; shard:dungeon; src/dungeon/func_8195AB84.c
-0x8195AE0C	func_8195AE0C	step_entry_index_within_bounds	owner decisions 65+68; shard:dungeon; src/dungeon/func_8195AE0C.c
+0x80025604	func_80025604	spawn_ring_sparks	owner decisions 65+68; shard:dungeon; src/dungeon/func_81959E04.c | true symbol: the definition runs at func_80025604 (home_self, same-image copy lane)
+0x80026384	func_80026384	create_linked_object_chain	owner decisions 65+68; shard:dungeon; src/dungeon/func_8195AB84.c | true symbol: the definition runs at func_80026384 (home_self, same-image copy lane)
+0x8002660C	func_8002660C	step_entry_index_within_bounds	owner decisions 65+68; shard:dungeon; src/dungeon/func_8195AE0C.c | true symbol: the definition runs at func_8002660C (home_self, same-image copy lane)
 0x81977E0C	func_81977E0C	update_expanding_fade_effect	owner decisions 65+68; shard:dungeon; src/dungeon/func_81977E0C.c
 0x81978140	func_81978140	update_timed_movement_sequence	owner decisions 65+68; shard:dungeon; src/dungeon/func_81978140.c
-0x8197829C	func_8197829C	create_interpolated_line_effect	owner decisions 65+68; shard:dungeon; src/dungeon/func_8197829C.c
+0x80025A9C	func_80025A9C	create_interpolated_line_effect	owner decisions 65+68; shard:dungeon; src/dungeon/func_8197829C.c | true symbol: the definition runs at func_80025A9C (home_self, same-image copy lane)
 0x81978428	func_81978428	update_placed_effect_animation	owner decisions 65+68; shard:dungeon; src/dungeon/func_81978428.c
 0x80088B48	func_80088B48	sync_object_with_sub_object	owner decisions 65+68; shard:slus_main; src/main/func_7FDD1BE8.c
 0x80089A14	func_80089A14	mark_object_flags_dirty	owner decisions 65+68; shard:slus_main; src/main/func_7FDD2AB4.c
@@ -6423,13 +6417,13 @@
 0x804025B8	func_804025B8	init_menu_row_entry	owner decisions 65+68; shard:slus_main; src/main/func_8001B5B8.c
 0x8001B74C	func_8001B74C	layout_last_row_item	owner decisions 65+68; shard:slus_main; src/main/func_8001B74C.c
 0x8001B93C	func_8001B93C	clear_global_if_value_zero	owner decisions 65+68; shard:slus_main; src/main/func_8001B93C.c
-0x8001B974	func_8001B974	card_dev_init_view_defaults	owner decisions 65+68; shard:slus_main; src/main/func_8001B974.c
+0x80402974	func_80402974	card_dev_init_view_defaults	owner decisions 65+68; shard:slus_main; src/main/func_8001B974.c
 0x8001BBB8	func_8001BBB8	center_view_on_object	owner decisions 65+68; shard:slus_main; src/main/func_8001BBB8.c
 0x8001BCD4	func_8001BCD4	init_frame_primitive_pairs	owner decisions 65+68; shard:slus_main; src/main/func_8001BCD4.c
-0x8001BD90	func_8001BD90	init_dialog_object	owner decisions 65+68; shard:slus_main; src/main/func_8001BD90.c
+0x80402D90	func_80402D90	init_dialog_object	owner decisions 65+68; shard:slus_main; src/main/func_8001BD90.c
 0x8001BDC8	func_8001BDC8	bind_dialog_template	owner decisions 65+68; shard:slus_main; src/main/func_8001BDC8.c
 0x80402DF0	func_80402DF0	init_menu_entry_pointers	owner decisions 65+68; shard:slus_main; src/main/func_8001BDF0.c
-0x8001BEA4	func_8001BEA4	set_layout_params	owner decisions 65+68; shard:slus_main; src/main/func_8001BEA4.c
+0x80402EA4	func_80402EA4	set_layout_params	owner decisions 65+68; shard:slus_main; src/main/func_8001BEA4.c
 0x8001BF04	func_8001BF04	init_menu_object	owner decisions 65+68; shard:slus_main; src/main/func_8001BF04.c
 0x8001C0CC	func_8001C0CC	card_dev_show_format_confirmation	owner decisions 65+68; shard:slus_main; src/main/func_8001C0CC.c
 0x804030F4	func_804030F4	card_dev_show_no_memory_card_notice	owner decisions 65+68; shard:slus_main; src/main/func_8001C0F4.c
@@ -6455,12 +6449,12 @@
 0x80403698	func_80403698	card_dev_init_row_tables	owner decisions 65+68; shard:slus_main; src/main/func_8001C698.c
 0x8001C738	func_8001C738	card_dev_init_row_layout	owner decisions 65+68; shard:slus_main; src/main/func_8001C738.c
 0x804037F4	func_804037F4	card_dev_bind_row_labels	owner decisions 65+68; shard:slus_main; src/main/func_8001C7F4.c
-0x8001C8C8	func_8001C8C8	card_dev_init_row_panel	owner decisions 65+68; shard:slus_main; src/main/func_8001C8C8.c
+0x804038C8	func_804038C8	card_dev_init_row_panel	owner decisions 65+68; shard:slus_main; src/main/func_8001C8C8.c
 0x80403AA0	func_80403AA0	card_dev_bind_panel_template	owner decisions 65+68; shard:slus_main; src/main/func_8001CAA0.c
-0x8001CB7C	func_8001CB7C	card_dev_set_word	owner decisions 65+68; shard:slus_main; src/main/func_8001CB7C.c
+0x80403B7C	func_80403B7C	card_dev_set_word	owner decisions 65+68; shard:slus_main; src/main/func_8001CB7C.c
 0x8001CD24	func_8001CD24	card_dev_refresh_options_object	owner decisions 65+68; shard:slus_main; src/main/func_8001CD24.c
 0x8001CD7C	func_8001CD7C	card_dev_begin_value_transition	owner decisions 65+68; shard:slus_main; src/main/func_8001CD7C.c
-0x8001CDA0	func_8001CDA0	card_dev_init_row_view	owner decisions 65+68; shard:slus_main; src/main/func_8001CDA0.c
+0x80403DA0	func_80403DA0	card_dev_init_row_view	owner decisions 65+68; shard:slus_main; src/main/func_8001CDA0.c
 0x80403E54	func_80403E54	card_dev_layout_title_entries	owner decisions 65+68; shard:slus_main; src/main/func_8001CE54.c
 0x8001CF7C	func_8001CF7C	card_dev_layout_selected_slot_entries	owner decisions 65+68; shard:slus_main; src/main/func_8001CF7C.c
 0x804040C8	func_804040C8	card_dev_layout_option_entries	owner decisions 65+68; shard:slus_main; src/main/func_8001D0C8.c
@@ -6473,10 +6467,10 @@
 0x80404818	func_80404818	card_background_init_overlay_prims	owner decisions 65+68; shard:slus_main; src/main/func_8001D818.c
 0x804048F8	func_804048F8	card_background_layout_entries	owner decisions 65+68; shard:slus_main; src/main/func_8001D8F8.c
 0x8001DA3C	func_8001DA3C	card_background_build_draw_packets	owner decisions 65+68; shard:slus_main; src/main/func_8001DA3C.c
-0x8001DB10	func_8001DB10	card_background_init_components	owner decisions 65+68; shard:slus_main; src/main/func_8001DB10.c
+0x80404B10	func_80404B10	card_background_init_components	owner decisions 65+68; shard:slus_main; src/main/func_8001DB10.c
 0x80404B5C	func_80404B5C	card_background_bind_dialog_template	owner decisions 65+68; shard:slus_main; src/main/func_8001DB5C.c
 0x80404B84	func_80404B84	card_background_init_entry_tables	owner decisions 65+68; shard:slus_main; src/main/func_8001DB84.c
-0x8001DC3C	func_8001DC3C	card_background_set_word	owner decisions 65+68; shard:slus_main; src/main/func_8001DC3C.c
+0x80404C3C	func_80404C3C	card_background_set_word	owner decisions 65+68; shard:slus_main; src/main/func_8001DC3C.c
 0x80404DBC	func_80404DBC	card_dev_flag_object_dirty	owner decisions 65+68; shard:slus_main; src/main/func_8001DDBC.c
 0x8001DDEC	func_8001DDEC	card_background_build_border_packets	owner decisions 65+68; shard:slus_main; src/main/func_8001DDEC.c
 0x8001E6CC	func_8001E6CC	card_info_bind_template	owner decisions 65+68; shard:slus_main; src/main/func_8001E6CC.c
@@ -8442,7 +8436,7 @@
 0x800243F8	func_800243F8	expire_counted_child_effect	Increments owner and child update counts and marks the child for removal when its configured count is reached.
 0x80024824	func_80024824	create_timed_transform_copy_effect	Copies the complete motion record into a new timed effect, applies the supplied Z offset and registers its renderer.
 0x80024604	func_80024604	advance_scattered_directional_particle	Moves along direction-table X/Y steps with random jitter, advances Z toward terrain and expires as its speed decreases.
-0x818C2E40	func_818C2E40	create_motion_copy_sprite	Creates a sprite node with unit scale, initializes its controller fields and copies a 24-byte motion record from the caller.
+0x80024640	func_80024640	create_motion_copy_sprite	Creates a sprite node with unit scale, initializes its controller fields and copies a 24-byte motion record from the caller. | true symbol: the definition runs at func_80024640 (home_self, same-image copy lane)
 0x80025724	func_80025724	shrink_effect_and_step_texture	Shrinks both sprite axes, steps texture U/V with wrap and removes the node when its countdown reaches zero.
 0x8002420C	func_8002420C	accelerate_and_expire_animated_sprite	Advances Z, doubles velocity early, halves vertical scale at the configured tick and removes the sprite after its duration.
 0x80921A44	func_80921A44	advance_damped_animated_sprite	Integrates X/Y, damps both velocities to four fifths, subtracts a fixed Z step and removes the node when animation ends.
@@ -8495,7 +8489,7 @@
 0x8002408C	func_8002408C	project_vertex_shaded_effect_quad	Transforms four stored vertices, tests depth/screen visibility and queues a Gouraud quad bracketed by draw-mode packets.
 0x80024750	func_80024750	finish_timed_visual_effect	Signals the effect bank update marker and marks the node/global object flags for removal.
 0x800F7B5C	func_800F7B5C	begin_active_object_action	Marks the active object's action byte, resets effect control status, increments pending_action_count and sets the action bit.
-0x808B16A0	func_808B16A0	dispatch_packed_value_pairs	Walks a packed pair array and dispatches each halfword value in order through its local service.
+0x800166A0	func_800166A0	dispatch_packed_value_pairs	Walks a packed pair array and dispatches each halfword value in order through its local service. | true symbol: the definition runs at func_800166A0 (home_self, same-image copy lane)
 0x808B1704	func_808B1704	process_pairs_and_find_callback	Processes the object's configured value pairs then invokes successive callbacks until one returns zero and returns its index.
 0x80024BB8	func_80024BB8	move_sprite_until_animation_ends	Integrates all three motion coordinates, marks its linked primitive active, advances animation and removes on animation completion.
 0x8009A2B8	func_8009A2B8	is_neighbor_tile_blocked	Checks the directional neighbor's blocking flags and returns blocked when those flags are set or its base tile word is zero.
@@ -10701,3 +10695,16 @@
 0x80403AC8	func_80403AC8	card_dev_init_options_menu_entries	devkit card server (MAIN +0x26CAC8); called by init_card_options_object; server build of init_menu_entry_pointers (18 entries, settings at +0x19C); complete reconstruction, docs/evidence/opus_nobody1.md
 0x80404254	func_80404254	card_dev_init_slot_window_menu_entries	devkit card server (MAIN +0x26D254); called by init_card_window_slot_object; server build of init_menu_entry_pointers (10 entries, settings at +0x1BC); complete reconstruction, docs/evidence/opus_nobody1.md
 0x80407B14	func_80407B14	card_dev_init_sme_menu_entries	devkit card server (MAIN +0x270B14); called by init_card_sme_object; server build of init_menu_entry_pointers (4 entries, settings at +0xD4); complete reconstruction, docs/evidence/opus_nobody1.md
+0x80408644	func_80408644	_card_status_80408644	devkit card server (MAIN +0x269000 linked at 0x80400000) library: BIOS call stub B(5Ch) at MAIN 0x271644 (li t2,0xB0; jr t2; li t1,0x5C), the libcard _card_status entry (same stub words as the SLUS _card_status); address-suffixed because the readable _card_status links to the retail SLUS stub (owner ruling 11-02; target_census class DEV_LIB)
+0x80408654	func_80408654	_card_wait_80408654	devkit card server (MAIN +0x269000 linked at 0x80400000) library: BIOS call stub B(5Dh) at MAIN 0x271654 (li t2,0xB0; jr t2; li t1,0x5D), the libcard _card_wait entry (same stub words as the SLUS _card_wait); address-suffixed because the readable _card_wait links to the retail SLUS stub (owner ruling 11-02; target_census class DEV_LIB)
+0x80408664	func_80408664	_card_info_80408664	devkit card server (MAIN +0x269000 linked at 0x80400000) library: BIOS call stub A(ABh) at MAIN 0x271664 (li t2,0xA0; jr t2; li t1,0xAB), the libcard _card_info entry (same stub words as the SLUS _card_info); address-suffixed because the readable _card_info links to the retail SLUS stub (owner ruling 11-02; target_census class DEV_LIB)
+0x80408674	func_80408674	_card_load_80408674	devkit card server (MAIN +0x269000 linked at 0x80400000) library: BIOS call stub A(ACh) at MAIN 0x271674 (li t2,0xA0; jr t2; li t1,0xAC), the libcard _card_load entry (same stub words as the SLUS _card_load); address-suffixed because the readable _card_load links to the retail SLUS stub (owner ruling 11-02; target_census class DEV_LIB)
+0x804086BC	func_804086BC	_card_write_804086BC	devkit card server (MAIN +0x269000 linked at 0x80400000) library: BIOS call stub B(4Eh) at MAIN 0x2716BC (li t2,0xB0; jr t2; li t1,0x4E), the libcard _card_write entry (same stub words as the SLUS _card_write); address-suffixed because the readable _card_write links to the retail SLUS stub (owner ruling 11-02; target_census class DEV_LIB)
+0x804086CC	func_804086CC	_new_card_804086CC	devkit card server (MAIN +0x269000 linked at 0x80400000) library: BIOS call stub B(50h) at MAIN 0x2716CC (li t2,0xB0; jr t2; li t1,0x50), the libcard _new_card entry (same stub words as the SLUS _new_card); address-suffixed because the readable _new_card links to the retail SLUS stub (owner ruling 11-02; target_census class DEV_LIB)
+0x80408798	func_80408798	InitCARD2_80408798	devkit card server (MAIN +0x269000 linked at 0x80400000) library: libcard InitCARD2, the assembler row main/func_80021798 (linked at its 0x8002xxxx placeholder; the server's callers jal the true address); address-suffixed because the readable InitCARD2 names the retail SLUS entry (owner ruling 11-02; target_census class C_PLACEHOLDER, assembler row)
+0x804087A8	func_804087A8	StartCARD2_804087A8	devkit card server (MAIN +0x269000 linked at 0x80400000) library: libcard StartCARD2, the assembler row main/func_800217A8 (linked at its 0x8002xxxx placeholder; the server's callers jal the true address); address-suffixed because the readable StartCARD2 names the retail SLUS entry (owner ruling 11-02; target_census class C_PLACEHOLDER, assembler row)
+0x804087B8	func_804087B8	StopCARD2_804087B8	devkit card server (MAIN +0x269000 linked at 0x80400000) library: libcard StopCARD2, the assembler row main/func_800217B8 (linked at its 0x8002xxxx placeholder; the server's callers jal the true address); address-suffixed because the readable StopCARD2 names the retail SLUS entry (owner ruling 11-02; target_census class C_PLACEHOLDER, assembler row)
+0x804008A0	func_804008A0	set_card_selection_state	devkit card server (MAIN +0x2698A0); selects card channel 16 or 0 and waits on it; sibling of reset_/toggle_card_selection_state; complete reconstruction, docs/evidence/opus_nobody2.md
+0x80406F70	func_80406F70	card_dev_build_load_slot_windows	devkit card server (MAIN +0x26FF70); load-screen build of card_devkit_build_save_slot_windows; complete reconstruction, docs/evidence/opus_nobody2.md
+0x804070C4	func_804070C4	card_dev_release_load_screen_parts	devkit card server (MAIN +0x2700C4); load-screen build of release_card_screen_parts; complete reconstruction, docs/evidence/opus_nobody2.md
+0x804075D0	func_804075D0	card_dev_init_slot_entry_tables	devkit card server (MAIN +0x2705D0); slot-screen build of card_background_init_entry_tables; complete reconstruction, docs/evidence/opus_nobody2.md

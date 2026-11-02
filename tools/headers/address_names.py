@@ -19,6 +19,18 @@ prove which function every one of its calls reaches and that the new spelling li
     such names are reported (`placed_copy`, `home_self`) and never edited here (see
     docs/SIGNATURE_SOLVER.md, "Address names").
 
+Placed copies (owner ruling 11-02, same-image copy rule; docs/LINK_LISTS.md "Same-image copy links"): when R's
+symbol func_<H> names a TU whose copy at X is placed in the caller's load image, the call is `placed_copy` and
+qualifies when, for every unit of the caller's recipes, the link reaches X under R's name: each home unit's image
+holds exactly one instance of R's TU, the copy at X (linklist.copy_link_target), and each placement unit of the
+caller binds func_<H> where it bound func_<X> (rules 1-6).  apply then also writes the caller rows' opt-in record
+(config/link/copy_links.json: {row: {func_<H>: func_<X>}}) and projects it onto the link graph through its
+producer (tools/link/graph.py sync-copy-links).  Native module callers are held (their import inventory names the symbol).
+
+`home_self` (R is the callee unit's own home, called at its TRUE address, while R lowers to the synthetic row key)
+is planned too: `truenames` maps R to the row's true symbol in config/names.tsv (rowbase policy: a TU in a proven
+region defines its true name), after which the call is `same_symbol`.
+
 apply renames every code token of the address name in the TU (comments and strings untouched) to R.  The
 TU's own declaration is respelled to R (same types, so the object is identical: R lowers back to the same
 symbol) unless the TU already sees a declaration of R, in which case the local one is deleted.  The
@@ -41,7 +53,7 @@ HERE = Path(__file__).resolve().parent
 sys.path[:0] = [str(HERE), str(HERE.parent / 'gate')]
 
 ADDR = re.compile(r'^(?:func|D)_([0-9A-Fa-f]{8})$')
-FIELDS = ['file', 'old', 'new', 'kind', 'symbol', 'calls', 'images', 'new_header', 'evidence']
+FIELDS = ['file', 'old', 'new', 'kind', 'symbol', 'calls', 'images', 'new_header', 'evidence', 'link']
 
 
 def names_table(root):
@@ -108,6 +120,68 @@ def plan(root, codemap, scope, exclude=()):
         if len(owners) == 1 and owners <= hs:
             return owners.pop()
         return sorted(hs)[0] if len(hs) == 1 else ''
+    registry = {}
+    for line in (root / 'ledger/rows.jsonl').read_text().splitlines():
+        rec = json.loads(line)
+        registry[rec['id']] = rec
+    unit_info = collections.defaultdict(list)     # recipe -> [(image, rows, rebind, vma)]
+    for img, rec, rows, reb, vma in q('select image, recipe, rows, rebind, vma from image_unit'):
+        unit_info[rec].append((img, json.loads(rows or '[]'), reb, vma))
+    tables = (images, by_place, by_row, local)
+
+    def home_self(r, rm, binds, x):
+        """R is the home unit every call reaches, at the row's TRUE address, while R lowers to the row key."""
+        rows = set()
+        crecs = sorted({b[1] for b in binds})
+        for img, rr in q(f'select callee_image, callee_recipe from call_bind where target = ? and caller_recipe in '
+                         f'({",".join("?" * len(crecs))})', x, *crecs):
+            us = [u for u in unit_info.get(rr, []) if u[0] == img and u[3] == x and not u[2]]
+            if len(us) != 1:
+                return None
+            rows.update(us[0][1])
+        if len(rows) != 1:
+            return None
+        row = registry.get(rows.pop())
+        if (not row or row['id'].split('/', 1)[1] != rm[0] or row.get('true_name') != 'func_%08X' % x
+                or row.get('source_row')):
+            return None
+        home = by_row.get(row['id'])
+        if home is not None and home['vma'] != x:
+            return None
+        return 'home %s runs at %s (registry true_name)' % (row['id'], row['true_name'])
+
+    def copy_link(f, recs, h, x):
+        """Rows to record when every unit of the caller's recipes reaches X under func_<H>; else a hold reason."""
+        rows = []
+        calling = {crec for _, crec, *_ in q(f'select image, caller_recipe from call_bind where target = ? and caller_recipe in '
+                                             f'({",".join("?" * len(recs))})', x, *recs)}
+        for rec in sorted(recs):
+            if rec in module_recipes:
+                return 'module_caller'
+            for img, urows, reb, vma in unit_info.get(rec, []):
+                if reb:
+                    es = [by_row[rid] for rid in urows if rid in by_row and by_row[rid]['row'] != by_row[rid]['home']]
+                    if len(es) != 1:
+                        return 'caller_placement_unknown'
+                    try:
+                        if L._binding(tables, es[0], h) != L._binding(tables, es[0], x):
+                            return 'caller_placement_binds_elsewhere'
+                    except ValueError:
+                        return 'caller_placement_ambiguous'
+                    continue
+                if rec not in calling:
+                    continue
+                try:
+                    got = L.copy_link_target(tables, img, h)
+                except ValueError as e:
+                    msg = str(e)
+                    return ('ambiguous' if 'instances' in msg else 'home_in_image' if 'home of' in msg
+                            else 'not_load_image' if 'load image' in msg else 'callee_home_unknown')
+                if got != x:
+                    return 'copy_elsewhere'
+                rows.extend(urows)
+        return sorted(set(rows)) or 'no_home_caller'
+    module_recipes = {rid for rid, kind in q('select id, kind from recipe') if kind == 'module'}
     sites = sorted(set(q("select distinct file, name from decl where local = 0 and kind = 'proto' and file like 'src/%'"))
                    | set(q("select distinct file, callee from call_site where file like 'src/%.c'")))
     out, report = [], collections.Counter()
@@ -167,6 +241,22 @@ def plan(root, codemap, scope, exclude=()):
             report['no_c_name'] += 1
             continue
         if lower(r) != sym:
+            rm = ADDR.match(lower(r))
+            hs = home_self(r, rm, binds, x) if rm else None
+            if hs:
+                out.append(dict(file=f, old=n, new=r, kind='home_self', symbol=sym, calls=len(binds),
+                                images=len({b[0] for b in binds}), new_header=one_header(r),
+                                evidence=hs, link='%s>%s' % (lower(r), sym)))
+                report['home_self'] += 1
+                continue
+            verdict = copy_link(f, recs, int(rm[1], 16), x) if rm else 'callee_symbol_not_an_address'
+            if isinstance(verdict, list):
+                out.append(dict(file=f, old=n, new=r, kind='placed_copy', symbol=sym, calls=len(binds),
+                                images=len({b[0] for b in binds}), new_header=one_header(r),
+                                evidence='same-image copy of %s at 0x%08X; rows %s' % (lower(r), x, ' '.join(verdict)),
+                                link='%s>%s' % (lower(r), sym)))
+                report['placed_copy'] += 1
+                continue
             # R's symbol is another address: only a placement caller could reach X through rebinding
             ok = True
             for img, crec, *_ in binds:
@@ -180,7 +270,7 @@ def plan(root, codemap, scope, exclude=()):
                     ok = False
                     break
             if not ok:
-                report['placed_copy'] += 1
+                report['held_copy:' + verdict] += 1
                 continue
             kind = 'placement_binding'
         else:
@@ -189,6 +279,14 @@ def plan(root, codemap, scope, exclude=()):
                         images=len({b[0] for b in binds}), new_header=one_header(r),
                         evidence='call_bind: %d retail calls -> %s' % (len(binds), r)))
         report[kind] += 1
+    # A callee whose name this run maps to its true symbol (home_self) lowers differently after the run: its
+    # placed-copy callers are planned on the next run, against the new symbol.
+    renamed = {r['new'] for r in out if r['kind'] == 'home_self'}
+    later = [r for r in out if r['kind'] == 'placed_copy' and r['new'] in renamed]
+    for r in later:
+        out.remove(r)
+        report['placed_copy'] -= 1
+        report['held_copy:callee_home_self_this_run'] += 1
     return out, report
 
 
@@ -298,8 +396,14 @@ def screen(root, codemap, plan_path, out_dir, workers=3):
         args_of[src].add(tuple(a))
     libmap = lib_symbol_names(root)
     by_file = collections.defaultdict(list)
+    links = collections.defaultdict(dict)
     for r in csv.DictReader(open(plan_path), delimiter='\t'):
         by_file[r['file']].append((r['old'], r['new'], r.get('new_header', '')))
+        if r.get('link'):
+            # placed_copy / home_self: the respelled call lowers to A where the old spelling lowered to B; the
+            # link (copy-link record / true-name remap) maps A back to B, so compare the after-object with A -> B
+            a, b = r['link'].split('>')
+            links[(r['file'], r['old'])] = (a, b)
     out_dir = Path(out_dir); out_dir.mkdir(parents=True, exist_ok=True)
     tmp = Path(tempfile.mkdtemp(prefix='addrnames_', dir=out_dir))
 
@@ -342,6 +446,7 @@ def screen(root, codemap, plan_path, out_dir, workers=3):
         after = dst.read_text()
         if after == base:
             return True, 'unchanged'
+        relink = dict(links[(rel, o)] for o, n, h in pairs if (rel, o) in links)
         for args in sorted(args_of.get(rel) or {('2.7.2', '', '')}):
             a, ea = compile_text(rel, base, args, tag + 'a')
             b, eb = compile_text(rel, after, args, tag + 'b')
@@ -349,6 +454,12 @@ def screen(root, codemap, plan_path, out_dir, workers=3):
                 return False, 'baseline_compile:' + ea
             if b is None:
                 return False, 'compile:' + eb.replace('\n', ' ')
+            if relink:
+                used = set(subprocess.run(['mipsel-linux-gnu-nm', str(b)], capture_output=True, text=True).stdout.split())
+                ren = [(x, y) for x, y in relink.items() if x in used]
+                if ren:
+                    subprocess.run(['mipsel-linux-gnu-objcopy'] + ['--redefine-sym=%s=%s' % xy for xy in ren] + [str(b)],
+                                   check=True)
             res = rename_proof.compare_objects(a.read_bytes(), b.read_bytes())
             if not res['equal']:
                 if res['differences'] == ['symbols'] and nm_set(a) == nm_set(b):
@@ -394,6 +505,70 @@ def screen(root, codemap, plan_path, out_dir, workers=3):
     print(collections.Counter(r[3] for r in results))
 
 
+_SOURCES = {}
+
+
+def spelled_anywhere(root, name):
+    """Does any source or header (src/, include/) spell `name` as a token?"""
+    if root not in _SOURCES:
+        _SOURCES[root] = [p.read_text(errors='replace') for d in ('src', 'include') for p in (root / d).rglob('*')
+                          if p.suffix in ('.c', '.h', '.inc') and p.is_file()]
+    pat = re.compile(TOKEN.format(re.escape(name)))
+    return any(name in t and pat.search(t) for t in _SOURCES[root])
+
+
+def link_records(root, rows):
+    """The link side of applied placed_copy / home_self pairs.
+
+    placed_copy: merge {caller row: {func_<H>: func_<X>}} into config/link/copy_links.json, then project it onto the
+    link graph through its producer (tools/link/graph.py capture; never an edit of its shards).
+    home_self: point R's config/names.tsv row at the row's true symbol, and drop other names of that symbol that no
+    source or header spells any more (one name per function)."""
+    import subprocess, tempfile, shutil
+    import linklist as L
+    units = {r: {'func_%08X' % h: 'func_%08X' % c for h, c in v.items()} for r, v in L.copy_links(root).items()}
+    copies = [r for r in rows if r['kind'] == 'placed_copy']
+    for r in copies:
+        h, x = r['link'].split('>')
+        for row in r['evidence'].split('; rows ', 1)[1].split():
+            units.setdefault(row, {})[h] = x
+    if copies:
+        L.write_copy_links(root, units)
+        # the link graph carries the record as a TU attribute: its producer projects it (no shard edits)
+        subprocess.run([sys.executable, str(root / 'tools/link/graph.py'), '--root', str(root),
+                        '--graph', str(root / 'config/link_graph'), 'sync-copy-links'],
+                       check=True, capture_output=True, text=True)
+    selfs = {r['new']: r['link'].split('>')[1] for r in rows if r['kind'] == 'home_self'}
+    # a true symbol is a RAM-slot label other rows may share: retire only aliases whose evidence names the same
+    # row (its synthetic symbol), never a name documented for another function at that slot
+    rowkey = {}
+    for r in rows:
+        if r['kind'] == 'home_self':
+            rowkey.setdefault(r['link'].split('>')[1], set()).add(r['link'].split('>')[0])
+    if selfs:
+        path = root / 'config/names.tsv'
+        lines = path.read_text().splitlines(keepends=True)
+        out, retired = [], []
+        targets = set(selfs.values())
+        for line in lines:
+            cols = line.rstrip('\n').split('\t')
+            if len(cols) >= 3 and cols[2] in selfs:
+                sym = selfs[cols[2]]
+                note = 'true symbol: the definition runs at %s (home_self, same-image copy lane)' % sym
+                evidence = '\t'.join(cols[3:])
+                out.append('\t'.join(['0x' + sym[5:], sym, cols[2], (evidence + ' | ' + note) if evidence else note]) + '\n')
+                continue
+            if len(cols) >= 3 and cols[1] in targets and cols[2] not in selfs:
+                same_row = any(k in '\t'.join(cols[3:]) for k in rowkey.get(cols[1], ()))
+                if same_row and not spelled_anywhere(root, cols[2]):
+                    retired.append(cols[2])
+                    continue
+            out.append(line)
+        path.write_text(''.join(out))
+        print('names: %d mapped to true symbols, %d unused aliases retired (%s)'
+              % (len(selfs), len(retired), ' '.join(retired)))
+
+
 def main():
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     sub = ap.add_subparsers(dest='cmd', required=True)
@@ -408,6 +583,7 @@ def main():
     a2.add_argument('--plan', required=True)
     a2.add_argument('--hold', help='TSV of file<TAB>old pairs to skip (proof back-offs)')
     a2.add_argument('--log')
+    a2.add_argument('--kinds', help='comma list of plan kinds to apply (default: all)')
     s = sub.add_parser('screen')
     s.add_argument('--root', default='.')
     s.add_argument('--codemap')
@@ -434,12 +610,27 @@ def main():
     if a.hold and Path(a.hold).is_file():
         held = {tuple(l.split('\t')[:2]) for l in Path(a.hold).read_text().splitlines() if l.strip()}
     by_file = collections.defaultdict(list)
+    kinds = set(a.kinds.split(',')) if a.kinds else None
     for r in csv.DictReader(open(a.plan), delimiter='\t'):
+        if kinds is not None and r['kind'] not in kinds:
+            held.add((r['file'], r['old']))
         if (r['file'], r['old']) not in held:
             by_file[r['file']].append((r['old'], r['new'], r.get('new_header', '')))
+    selfs = {r['new'] for r in csv.DictReader(open(a.plan), delimiter='\t') if r['kind'] == 'home_self'
+             and (r['file'], r['old']) not in held}
+    late = [r for r in csv.DictReader(open(a.plan), delimiter='\t') if r['kind'] == 'placed_copy'
+            and r['new'] in selfs and (r['file'], r['old']) not in held]
+    if late:
+        raise SystemExit('plan applies home_self and placed_copy to one callee (%s): re-plan' % late[0]['new'])
     log, changed = [], 0
     for rel, pairs in sorted(by_file.items()):
         changed += apply_one(root, rel, pairs, log)
+    applied = {(row[0], row[1]) for row in log if not str(row[4]).startswith('hold')}
+    linked = [r for r in csv.DictReader(open(a.plan), delimiter='\t')
+              if r['kind'] in ('placed_copy', 'home_self') and (r['file'], r['old']) in applied
+              and (r['file'], r['old']) not in held]
+    if linked:
+        link_records(root, linked)
     if a.log:
         Path(a.log).write_text(''.join('\t'.join(map(str, row)) + '\n' for row in log))
     print('files changed: %d, names: %d' % (changed, len(log)))

@@ -6462,8 +6462,15 @@
   {
    "kind": "unresolved",
    "foff": "0x269000",
-   "size": 2312,
+   "size": 2208,
    "evidence": "coverage-prototype: census2 span export absent; classification held"
+  },
+  {
+   "kind": "code_region",
+   "foff": "0x2698a0",
+   "size": 104,
+   "census_label": "proven_code",
+   "evidence": "main/func_800198A0 complete shared C; docs/evidence/opus_nobody2.md"
   },
   {
    "kind": "code_region",
@@ -7825,10 +7832,11 @@
    "census_label": "proven_code"
   },
   {
-   "kind": "unresolved",
+   "kind": "code_region",
    "foff": "0x26ff70",
    "size": 172,
-   "evidence": "coverage-prototype: census2 span export absent; classification held"
+   "census_label": "proven_code",
+   "evidence": "main/func_8001FF70 complete shared C; docs/evidence/opus_nobody2.md"
   },
   {
    "kind": "code_region",
@@ -7838,10 +7846,11 @@
    "census_label": "proven_code"
   },
   {
-   "kind": "unresolved",
+   "kind": "code_region",
    "foff": "0x2700c4",
    "size": 156,
-   "evidence": "coverage-prototype: census2 span export absent; classification held"
+   "census_label": "proven_code",
+   "evidence": "main/func_800200C4 complete shared C; docs/evidence/opus_nobody2.md"
   },
   {
    "kind": "code_region",
@@ -7900,10 +7909,11 @@
    "census_label": "proven_code"
   },
   {
-   "kind": "unresolved",
+   "kind": "code_region",
    "foff": "0x2705d0",
    "size": 184,
-   "evidence": "coverage-prototype: census2 span export absent; classification held"
+   "census_label": "proven_code",
+   "evidence": "main/func_800205D0 complete shared C; docs/evidence/opus_nobody2.md"
   },
   {
    "kind": "code_region",
@@ -7996,10 +8006,11 @@
    "census_label": "proven_code"
   },
   {
-   "kind": "unresolved",
+   "kind": "code_region",
    "foff": "0x270bd0",
    "size": 64,
-   "evidence": "coverage-prototype: census2 span export absent; classification held"
+   "census_label": "proven_code",
+   "evidence": "main/func_80020BD0 complete shared C; docs/evidence/opus_nobody2.md"
   },
   {
    "kind": "code_region",
@@ -8337,13 +8348,13 @@
   }
  ],
  "census": {
-  "proven_code": 70528,
+  "proven_code": 71208,
   "library_code": 72,
   "strongly_code": 0,
   "proven_data": 0,
   "noncode_typing_pending": 0,
   "padding_leftover": 102523,
-  "unknown": 2405309
+  "unknown": 2404629
  },
  "provenance": {
   "labels_sha256": "38e8e13b775802242be29c9c78265ed06877fca3dbcec734f7a6a70775790e7f",

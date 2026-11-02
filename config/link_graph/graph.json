@@ -1,5 +1,5 @@
 {
-  "base": "3afcf173c559b3cd5dd7dfed580d3328d8c0bbea",
+  "base": "83363779f6dbf1fafbfd5d70350406599133eca0",
   "build": {
     "extensions": [
       {
@@ -52,12 +52,12 @@
     }
   },
   "inputs": {
-    "config/overlays/modules.json": "09cdab4202c4c1bfcdbd94eeaf1b20b8d07d127f448f899c1e2dba32271c8dd8",
+    "config/overlays/modules.json": "937e39650ac7f692eb7c10f0d18c7a0b6264262d5e1c1404d24cc7d2aef18c3d",
     "ledger/containers.jsonl": "cf4aad759e95ab9ad808ccfbb5dad565d8affd85ae14e991695c049aeb195cb5",
     "ledger/instance_load_regions.jsonl": "d20e38286662a1404d0711b94785871d533ff046c5cdcf22a82e38f5f583a405",
-    "ledger/layout.jsonl": "a28d02e53da46167502701eb0961400936dbea71b76bb6ed98ba01f297193376",
-    "ledger/layout_inline.jsonl": "7bc5f75416da31860727c3bf69a461dd5fce6a999d5508628cc587a99b25fad8",
-    "ledger/rows.jsonl": "a566ea90408ecce19a3c9fbae20a86d8e866e625b0a92451dfc06e5e7161abaf",
+    "ledger/layout.jsonl": "de6bc8f84a6fd32859b5a0a649682930e3e73bcf363434653b343e27016b7cc8",
+    "ledger/layout_inline.jsonl": "f54944775ee6c8ba47cc7ffdc4626d737de8ed1af43aabdf3cf42fa6782e474c",
+    "ledger/rows.jsonl": "249c5db9ee90c29f9100e06b01c96ab6f72d293afef34d69e938a06fb20a5c04",
     "ledger/splits/slus.jsonl": "dfcc391535160c13637ce7c875fadc5f0f3d37e29b4dfefbbc5588dd0a6a6a18"
   },
   "schema": "azure-clean.link-graph.v1",
@@ -75,13 +75,13 @@
       },
       {
         "path": "entries.002.jsonl",
-        "records": 5304,
-        "sha256": "22ab188079c613e95007a4cb904a4f402fda6a7d6be120dc06a80d7f7aa4e6a9"
+        "records": 5306,
+        "sha256": "e849ad785d278a5f7b23b3971a3a6d10e215fd5461d72e9f20f12f9595cade97"
       },
       {
         "path": "entries.003.jsonl",
-        "records": 902,
-        "sha256": "17b2b576f778f0bff9991654706f57f6bfb432fd0bc7fce75fe1b6e15620f6ce"
+        "records": 906,
+        "sha256": "b7e248868b66c2a330c5df58a476c0963a37b3afb8c4aae3da7ecc644ce7a8fb"
       }
     ],
     "files": [
@@ -101,13 +101,13 @@
     "tus": [
       {
         "path": "tus.000.jsonl",
-        "records": 6542,
-        "sha256": "4f20e569d92b7d1e704d7fe6ec7a23bfe8ae78e178a18f4459e52653de722696"
+        "records": 6541,
+        "sha256": "5bc1ed65a9fe4c67b40259b1c1323599b60bf3f96cb00affe108cb732e17bd2f"
       },
       {
         "path": "tus.001.jsonl",
-        "records": 2023,
-        "sha256": "f5d9f3df428e7668f3fb4446aefbb27edaa4a64a4c940fab8233831fb1175bff"
+        "records": 2028,
+        "sha256": "4b9fc6a05ee04578e9a9819ecbafb2747f404060ab454c3880f1036bbead2f3c"
       }
     ],
     "views": [
@@ -119,7 +119,7 @@
       {
         "path": "views.001.jsonl",
         "records": 629,
-        "sha256": "c18fd5c3476c79396dbb92aff43cf2c674523d3b819cb8bf761358466882576d"
+        "sha256": "b942189d768f9ef7d0eb177973b4080b9ec70cf8bfbe94f2f91eddc9675a065d"
       }
     ]
   }

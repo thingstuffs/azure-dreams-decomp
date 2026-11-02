@@ -79,9 +79,9 @@ extern void func_800243C0(void *, void *);
 extern void play_sound_if_enabled(s32);
 #include "dungeon/item/actor_target.h"
 #include "dungeon/item.h"
+#include "dungeon/effect/mesh.h"
 extern u16 get_surface_height_at_record(void *);
 extern s32 check_left_tile_and_center_height(s32 x, s32 y, s32 z);
-extern void func_80025A9C(void *, void *, void *);
 extern void func_80025508(void *, void *);
 extern void apply_attack_power_and_element_effects(void *, s32, u8, s32, s16, void *, s32);
 
@@ -222,7 +222,7 @@ void update_placed_effect_animation(State81978428 *state, s32 *position_out)
             }
         }
 
-        func_80025A9C(self, position, target_pos);
+        create_interpolated_line_effect(self, position, target_pos);
         {
             u16 next_state = self->state;
             u16 wait_frames;
