@@ -33,11 +33,6 @@ typedef struct S_8004C080_1 {
 
    /* record in apply_command_colors */
 
-
-
-
-extern void SetTexWindow(void *packet, s16 *values);
-
 /* Apply command colors or draw settings to a GPU packet and return the next record. */
 void *apply_command_colors(void *tint0, void *tint1,
                     u8 *packet_arg, void *record, u8 *command_arg, s32 *count)

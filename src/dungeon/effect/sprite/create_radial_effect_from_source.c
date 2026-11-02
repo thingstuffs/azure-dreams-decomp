@@ -797,7 +797,7 @@ extern u16 D_80026326;
 
 /* Retail 81887570 (handle_retail_n_81887570_callee_80024_d_70_fade_colour_n_1_n_8_per_call_mark): fade the colour by 1/8 per call and mark the effect (header and global
  * flags) finished once red falls below eight.  effect is the effect's record; its header precedes it. */
-void handle_retail_n_81887570_callee_80024_d_70_fade_colour_n_1_n_8_per_call_mark(void *effect, s32 unused, EffectColor *color) {
+void handle_retail_n_81887570_callee_80024_d_70_fade_colour_n_1_n_8_per_call_mark(void *effect, ObjectPosition *unused, EffectColor *color) {
     u8 red;
     u8 green;
     u8 blue;

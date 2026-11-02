@@ -1,5 +1,6 @@
 #ifndef DUNGEON_OVL_18C4828_H
 #define DUNGEON_OVL_18C4828_H
+struct ObjectPosition;
 #include "common.h"
 #include "shared/sprite_frame_state.h"
 #include "m2c_compat.h"
@@ -171,7 +172,7 @@ extern u8 ribbon_sprite_entries[];
 extern SpriteSourceEntry fading_sprite_entries[];
 extern u8 D_80025214[];
 void apply_small_random_value_gain(ActorRecord *target, s32 effect_param, ActorRecord *record);
-void animate_randomly_rotated_sprite(Row_818A48C4_Func818A48C4Object **source_ref, s32 unused,
+void animate_randomly_rotated_sprite(Row_818A48C4_Func818A48C4Object **source_ref, struct ObjectPosition *unused,
                    SpriteFrameState *target);
 void *create_coordinate_sprite_effect(s32 user_data, Row_818A4948_S_func_818A4948_2 *source_coords);
 void advance_counted_sprite_animation(void **object_ref, long long value);

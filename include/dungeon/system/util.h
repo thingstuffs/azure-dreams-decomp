@@ -40,7 +40,7 @@ typedef struct PulsingEffectWork {
     PulseHalf brightness;
 } PulsingEffectWork;
 
-void update_pulsing_effect_brightness(PulsingEffectWork *effect, s32 unused, SpriteFrameState *sprite);
+void update_pulsing_effect_brightness(PulsingEffectWork *effect, ObjectPosition *unused, SpriteFrameState *sprite);
 
 /* Tick counter stored in the body of each timed status node. */
 typedef struct TimedStatusObjectBody {

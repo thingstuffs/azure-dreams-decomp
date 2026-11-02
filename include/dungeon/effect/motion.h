@@ -8,7 +8,7 @@ struct S_7FFE83DC_3;
 struct S_80024EF8_0;
 void create_positioned_color_sprite(struct S_7FFE83DC_3 *source, s32 color);
 void * create_indexed_color_sprite(MovingPosition *origin, u16 index);
-s32 draw_counter_rotating_cylinders(struct S_80024EF8_0 *effect, s32 center, s32 unused_value);
+s32 draw_counter_rotating_cylinders(struct S_80024EF8_0 *effect, MovingPosition *center, s32 unused_value);
 void spawn_jittered_child_effect( void *source, s16 field_34, s32 field_28, s16 field_52, s16 offset_x, s16 offset_y, s16 offset_z);
 void spawn_variant_effect_with_random_motion(s32 pos_x, s32 pos_y, s32 pos_z, u32 variant);
 
@@ -33,7 +33,7 @@ typedef struct CylindricalEffectWork {
 /* Effect parameters and countdown used by process_effect_modes_and_completion. */
 typedef struct AndInitializeEffectObjectBody {
     u8 pad_00[0xC];
-    s32 unk_0C;
+    ActorRecord *unk_0C;
     u8 pad_10[0x16];
     s16 unk_26;
     u8 pad_28[0x4];

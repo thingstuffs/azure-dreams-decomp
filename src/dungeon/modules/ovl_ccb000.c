@@ -864,14 +864,14 @@ s32 check_block_action_ready_slot_c(void *entity_arg, ObjectPosition *primary_co
  * When tile movement finishes, spends MP and advances status timers; installs the turn-action
  * dispatcher and clears its counter only after a positive signed floor-trap check. /
  */
-void finish_block_tile_move_slot_c(void *state_arg,ObjectPosition *position,SpriteFrameState *render_state,ActorRecord *entity) {
-    S_801723DC_0 *state=state_arg;
+void finish_block_tile_move_slot_c(ActorRecord *state_arg,ObjectPosition *position,SpriteFrameState *render_state,ActorRecord *entity) {
+    ActorRecord *state=state_arg;
     if (update_actor_movement_to_tile(state,position,render_state,entity) != 0) {
         spend_actor_mp(entity, 4);
         advance_status_timers(entity);
         if ((check_actor_floor_trap(render_state, entity) << 0x10) > 0) {
-            state->CL_CCB000_801723DC_unk_8C = dispatch_block_turn_actions_slot_c;
-            state->unk_90 = 0;
+            state->unk_8C.run = dispatch_block_turn_actions_slot_c;
+            state->unk_90.value = 0;
         }
     }
 }
@@ -1099,7 +1099,7 @@ void update_block_attack_slot_c(ActorRecord *action, ObjectPosition *motion, Spr
 }
 
 /* Selects a queued spell and target, creates its visual effect, and waits for animation and CD completion. */
-void update_block_spell_slot_c(CL_CCB000_80172BCC_S_func_80C953CC_1 *work, CL_CCB000_80172BCC_S_func_80C953CC_2 *position, CL_CCB000_80172BCC_S_func_80C953CC_3 *entity,
+void update_block_spell_slot_c(CL_CCB000_80172BCC_S_func_80C953CC_1 *work, CL_CCB000_80172BCC_S_func_80C953CC_2 *position, SpriteFrameState *entity,
     CL_CCB000_80172BCC_S_func_80C953CC_4 *actor)
 {
     CL_CCB000_80172BCC_S_func_80C953CC_9 *part;
@@ -1169,8 +1169,8 @@ void update_block_spell_slot_c(CL_CCB000_80172BCC_S_func_80C953CC_1 *work, CL_CC
                 s32 target_y;
 
                 actor->unk_60 =
-                    scan_actor_along_heading(actor, entity->unk_24,
-                                  entity->unk_25,
+                    scan_actor_along_heading(actor, entity->tile_x,
+                                  entity->tile_y,
                                   actor->unk_2A, 0x10);
                 target_x = abs(actor->unk_72.s8);
                 target_y = abs(actor->unk_73.s8);
@@ -1187,8 +1187,8 @@ void update_block_spell_slot_c(CL_CCB000_80172BCC_S_func_80C953CC_1 *work, CL_CC
             position->unk_14 = 0;
             position->unk_10 = 0;
             position->unk_0C = 0;
-            set_record_integer_tile_center(position, entity->unk_24,
-                          entity->unk_25);
+            set_record_integer_tile_center(position, entity->tile_x,
+                          entity->tile_y);
             active_actor = primary_actor_record;
             g_dungeon_status.active_actor = 0;
             (active_actor->unk_A6)--;
@@ -1203,11 +1203,11 @@ void update_block_spell_slot_c(CL_CCB000_80172BCC_S_func_80C953CC_1 *work, CL_CC
 
     case 1:
         if (get_cd_command_queue_depth() != 0) {
-            entity->unk_14 |= 0x800;
+            entity->flags |= 0x800;
             break;
         }
 
-        entity->unk_14 &= 0xF7FF;
+        entity->flags &= 0xF7FF;
         work->unk_9B++;
         actor = allocate_flagged_object_node(0x212);
         if (actor != 0) {
@@ -1238,8 +1238,8 @@ void update_block_spell_slot_c(CL_CCB000_80172BCC_S_func_80C953CC_1 *work, CL_CC
 
     case 2:
         if ((entity->unk_04 == 5 &&
-             (entity->unk_14 & 0x1000)) ||
-            (entity->unk_14 & 0xE000)) {
+             (entity->flags & 0x1000)) ||
+            (entity->flags & 0xE000)) {
             work->unk_96 = 0x20;
             work->unk_98 |= 0x80;
             work->unk_9B++;
@@ -1251,19 +1251,19 @@ void update_block_spell_slot_c(CL_CCB000_80172BCC_S_func_80C953CC_1 *work, CL_CC
         if (part->unk_0C == 0) {
             work->unk_96 = 0;
         }
-        if (!(entity->unk_14 & 0xE000)) {
+        if (!(entity->flags & 0xE000)) {
             break;
         }
 
         position->unk_14 = 0;
         position->unk_10 = 0;
         position->unk_0C = 0;
-        set_record_integer_tile_center(position, entity->unk_24,
-                      entity->unk_25);
-        if (entity->unk_2C != block_slot_c_direction_frames) {
+        set_record_integer_tile_center(position, entity->tile_x,
+                      entity->tile_y);
+        if (entity->frameTable != block_slot_c_direction_frames) {
             s32 direction;
 
-            (entity->unk_2C) = block_slot_c_direction_frames;
+            (entity->frameTable) = block_slot_c_direction_frames;
             direction = (g_game_work.view.camera_rotation.parts.viewAngle + actor->unk_2A + 0x100) >> 9;
             select_sprite_entry(entity, block_slot_c_direction_frames[direction & 7], 0);
         }
@@ -1679,7 +1679,7 @@ void finish_block_fade_in_slot_c(S_80173BD4_0 *state,void *position,void *render
 }
 
 /* Spins a sprite and scales its RGB values by the remaining lifetime, removing it when the timer expires. */
-void spin_and_fade_gray_sprite_slot_c(void *effect, s32 unused, void *primitive)
+void spin_and_fade_gray_sprite_slot_c(void *effect, ObjectPosition *unused, void *primitive)
 {
     u16 ticks_left;
 
@@ -1702,7 +1702,7 @@ void spin_and_fade_gray_sprite_slot_c(void *effect, s32 unused, void *primitive)
 }
 
 /* Creates a randomly rotated gray sprite with the requested scale and a five-update fade. */
-void create_gray_fading_sprite_slot_c(void *unused_context, Rec_func_80173CFC_arg1 *source_pos, s32 unused_value, s16 scale)
+void create_gray_fading_sprite_slot_c(void *unused_context, Rec_func_80173CFC_arg1 *source_pos, SpriteFrameState *unused_value, s16 scale)
 {
     ObjectNodeHeader *effect;
     CL_CCB000_80173CFC_S_80173CFC_0 *effect_part;
@@ -1881,7 +1881,7 @@ s32 draw_linked_effect_quads_slot_c(void *point, void *position, void *color) {
 }
 
 /* Brightens and flashes a segmented effect, emits a sprite burst, then moves and fades the segments. */
-void update_flashing_effect_segment_slot_c(u8 *effect, s32 *position, s32 effect_param)
+void update_flashing_effect_segment_slot_c(u8 *effect, s32 *position, SpriteFrameState *effect_param)
 {
     s16 state;
     s16 life_left;

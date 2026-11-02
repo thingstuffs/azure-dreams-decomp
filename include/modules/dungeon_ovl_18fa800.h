@@ -1,10 +1,11 @@
 #ifndef DUNGEON_OVL_18FA800_H
 #define DUNGEON_OVL_18FA800_H
+struct ObjectPosition;
 #include "modules/dungeon_native_abi.h"
 #include "shared/sprite_frame_state.h"
 struct Unk818DAD38Owner;
 struct Unk818DAD38Target;
-void advance_target_growth_and_fade(struct Unk818DAD38Owner *, s32, SpriteFrameState *);
+void advance_target_growth_and_fade(struct Unk818DAD38Owner *, struct ObjectPosition *, SpriteFrameState *);
 void create_coordinate_sprite_object(void *);
 /* Retail callback 80024714 receives its entry in a0; a1/a2/a3 are overwritten before use. */
 void func_80024714(void *entry);

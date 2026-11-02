@@ -1,11 +1,11 @@
 #include "common.h"
 #include "engine/text.h"
+#include "slus/data.h"
 
 /* Flags table indexed by a full byte value (0-255); bit 0x10/0x20 => "range A",
    bit 0x40 => "range B", bit 0x80 => "range C" encoding selector. */
 extern u8 glyph_code_flags[];
 /* Pre-packed word table, one s32 per byte-index, used for the "range C" case. */
-extern s32 glyph_code_values[];
 
 /* Struct describing the caller-supplied record; fields 0x8-0xB form either four
    individually-set byte fields, or (in the word case) a single packed s32. */

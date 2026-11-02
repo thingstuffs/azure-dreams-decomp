@@ -227,9 +227,9 @@ typedef struct S_81952B4C_2 {
 } S_81952B4C_2;   /* arg2 in update_spiraling_effect_growth_and_fade */
 
 /* Updates a spiraling effect's growth, motion, and fade-out. */
-void update_spiraling_effect_growth_and_fade(SpiralingBody *effect, void *position, void *sprite_arg)
+void update_spiraling_effect_growth_and_fade(SpiralingBody *effect, ObjectPosition *position, SpriteFrameState *sprite_arg)
 {
-    S_81952B4C_2 *sprite = sprite_arg;
+    SpriteFrameState *sprite = sprite_arg;
     s16 state;
     s16 radius;
     s16 frames_left;
@@ -251,35 +251,35 @@ void update_spiraling_effect_growth_and_fade(SpiralingBody *effect, void *positi
         effect->unk_24.s = 2;
     }
 
-    ((S_81952B4C_1 *)position)->unk_0E = ((S_81952B4C_1 *)position)->unk_00.at02.v;
-    ((S_81952B4C_1 *)position)->unk_12 = ((S_81952B4C_1 *)position)->unk_04.at02.v;
-    ((S_81952B4C_1 *)position)->unk_16 = ((S_81952B4C_1 *)position)->unk_08.at02.v;
+    ((S_81952B4C_1 *)position)->unk_0E = position->x.unsigned_parts.integer;
+    ((S_81952B4C_1 *)position)->unk_12 = position->y.unsigned_parts.integer;
+    ((S_81952B4C_1 *)position)->unk_16 = position->z.unsigned_parts.integer;
 
     state = effect->unk_24.s;
     switch (state) {
     case 0:
-        scale = sprite->unk_1E;
+        scale = sprite->scale_y;
         scale += (0x1000 - scale) / effect->unk_2C;
-        sprite->unk_1E = scale;
-        sprite->unk_1C = scale;
+        sprite->scale_y = scale;
+        sprite->scale_x = scale;
         if (scale >= 0x801) {
-            sprite->unk_1E = 0x800;
-            sprite->unk_1C = 0x800;
+            sprite->scale_y = 0x800;
+            sprite->scale_x = 0x800;
         }
 
-        brightness = sprite->unk_0C.at02.v + 2;
-        sprite->unk_0C.at02.v = brightness;
-        sprite->unk_0C.at01.v = brightness;
-        sprite->unk_0C.at00.v = brightness;
+        brightness = sprite->color.c.b + 2;
+        sprite->color.c.b = brightness;
+        sprite->color.c.g = brightness;
+        sprite->color.c.r = brightness;
         if (brightness >= 0x81) {
-            sprite->unk_0C.at00u.v = 0x00808080;
+            sprite->color.word = 0x00808080;
         }
 
-        ((S_81952B4C_1 *)position)->unk_00.at00.v =
+        position->x.v =
             (effect->unk_10 << 16) +
             rcos(effect->unk_28.s) *
             effect->unk_34 * 8;
-        ((S_81952B4C_1 *)position)->unk_04.at00.v =
+        position->y.v =
             (effect->unk_12 << 16) +
             rsin(effect->unk_28.s) *
             effect->unk_34 * 8;
@@ -308,10 +308,10 @@ void update_spiraling_effect_growth_and_fade(SpiralingBody *effect, void *positi
         effect->unk_04 = velocity_y + (velocity_y >> 1);
         effect->unk_08 += 0x10000;
 
-        brightness = sprite->unk_0C.at02.v - 4;
-        sprite->unk_0C.at02.v = brightness;
-        sprite->unk_0C.at01.v = brightness;
-        sprite->unk_0C.at00.v = brightness;
+        brightness = sprite->color.c.b - 4;
+        sprite->color.c.b = brightness;
+        sprite->color.c.g = brightness;
+        sprite->color.c.r = brightness;
         if ((s8)brightness <= 0) {
             (*(u16 *)((u8 *)effect + -2)) |= NODE_REMOVE;
             global_flags = object_flag_block.flags | OBJECT_REMOVE_PENDING;
@@ -324,9 +324,9 @@ void update_spiraling_effect_growth_and_fade(SpiralingBody *effect, void *positi
     }
 
     effect->unk_2A++;
-    ((S_81952B4C_1 *)position)->unk_00.at00.v += effect->unk_00;
-    ((S_81952B4C_1 *)position)->unk_04.at00.v += effect->unk_04;
-    ((S_81952B4C_1 *)position)->unk_08.at00.v += effect->unk_08;
+    position->x.v += effect->unk_00;
+    position->y.v += effect->unk_04;
+    position->z.v += effect->unk_08;
 }
 
 typedef struct SpawnPosition {
@@ -458,7 +458,7 @@ void process_effect_modes_and_completion(void *state)
 
 
 /* Allocate an object and initialize its handler and state fields. */
-void allocate_and_initialize_effect_object(s32 alloc_arg, s16 value_26, s16 value_30, s32 value_0c) {
+void allocate_and_initialize_effect_object(s32 alloc_arg, s16 value_26, s16 value_30, ActorRecord *value_0c) {
     ObjectNodeHeader *object;
     AndInitializeEffectObjectBody *state;
 

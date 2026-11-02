@@ -3,6 +3,7 @@
 #include "common.h"
 #include "engine/graphics.h"
 #include "engine/message.h"
+#include "slus/data.h"
 
 typedef struct AnimObject AnimObject;
 typedef struct SignedAnimPrefix SignedAnimPrefix;
@@ -29,8 +30,6 @@ struct AnimObject {
     u8 pad_26[4];
     u8 frame_2a;
 };
-
-extern s32 message_row_heights[];
 
 /* Scrolls the rows up and clears the last row when a row-height step completes. */
 void scroll_message_rows(AnimObject *anim)

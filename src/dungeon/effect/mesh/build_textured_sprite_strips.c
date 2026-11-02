@@ -78,7 +78,7 @@ void try_halve_actor_counter(u8 *entity, s32 chance, void *unused_context) {
 #define D_LITERAL(type_ptr, offset) (*(type_ptr)((u8 *)0x80083160 + (offset)))
 
 /* Build textured sprite strips and append their packets to the ordering table. */
-void build_textured_sprite_strips(void *screen_pos, void *sprite, s32 *ordering_table, s32 draw_mode) {
+void build_textured_sprite_strips(void *screen_pos, UpdateTravelingBody *sprite, s32 *ordering_table, s32 draw_mode) {
     u16 saved_draw_mode;
     s32 callback_arg;
     s32 matrix_arg;
@@ -353,7 +353,7 @@ void build_textured_sprite_strips(void *screen_pos, void *sprite, s32 *ordering_
             first_quad = (Blk40 *)packet;
             packet->unk_04 = (s32) frame->unk_0C.as_s32_0C;
             ((S_func_81904990_1 *)((u8 *)sprite - 0x18))->unk_7A = (u16) packet->unk_0A;
-            strip_bottom = (u16) packet->unk_0A + ((S_func_81904990_1 *)((u8 *)sprite - 0x18))->unk_7C;
+            strip_bottom = (u16) packet->unk_0A + sprite->slot_offset[0];
             packet->unk_22 = strip_bottom;
             packet->unk_1A = strip_bottom;
             first_addr = (s32) packet & addr_mask;

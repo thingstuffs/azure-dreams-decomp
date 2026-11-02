@@ -21,4 +21,7 @@ char * strncat(char *, const char *, s32);
 s32 strncmp(const char *, const char *, s32);
 char * strncpy(char *, const char *, s32);
 
+/* Owner declarations appended by tools/headers (append-only; the lines above are hand-kept). */
+char * rindex(char *, s32);
+
 #endif

@@ -10,9 +10,7 @@
 #include "sdk/libetc.h"
 #include "sdk/libgpu.h"
 #include "slus.h"
-
-extern s32 GetRCnt(s32 counter);
-extern void ResetRCnt(s32 counter);
+#include "sdk/libapi.h"
 
 extern void update_active_nodes_and_render_frame(void);
 

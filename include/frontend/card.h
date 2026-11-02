@@ -531,4 +531,8 @@ void card_boot_open_events(void);
 void card_boot_init_server(void);
 void card_boot_close_events(void);
 
+/* Owner declarations appended by tools/headers (append-only; the lines above are hand-kept). */
+struct SettingsSyncObjectBody;
+void sync_object_with_sub_object(struct SettingsSyncObjectBody *object);
+
 #endif

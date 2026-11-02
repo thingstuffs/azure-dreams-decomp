@@ -45,7 +45,7 @@ typedef struct Scratch800D1A48
 Scratch800D1A48;
 typedef struct OrderingTag { u32 addr : 24; u32 count : 8; } OrderingTag;
 /* Build visible textured quads for the matching sprite and link them into the ordering table. */
-void *draw_sprite_effect_quads(u8 *sprite_list, s32 count_hint, s32 render_state_addr, u8 *placement, u8 *packet_buf)
+void *draw_sprite_effect_quads(u8 *sprite_list, ObjectPosition *position, SpriteFrameState *render_state_addr, u8 *placement, u8 *packet_buf)
 {
     Scratch800D1A48 *scratch;
     s32 index;
@@ -115,7 +115,7 @@ void *draw_sprite_effect_quads(u8 *sprite_list, s32 count_hint, s32 render_state
                     }
                     {
                         s16 x;
-                        if ((placement[0] ^ (*((u16 *) ((((u8 *) render_state_addr)) + 0x14)))) & 1) {
+                        if ((placement[0] ^ render_state_addr->flags) & 1) {
                             x = scratch->data80 - (s8)placement[2];
                             scratch->data80 = x;
                             scratch->data70 = x;
@@ -159,7 +159,7 @@ void *draw_sprite_effect_quads(u8 *sprite_list, s32 count_hint, s32 render_state
                     }
                     {
                         s16 y;
-                        if ((placement[0] ^ (*((u16 *) ((((u8 *) render_state_addr)) + 0x14)))) & 2) {
+                        if ((placement[0] ^ render_state_addr->flags) & 2) {
                             y = scratch->data7A - (s8)placement[3];
                             scratch->data7A = y;
                             scratch->data72 = y;
@@ -229,14 +229,14 @@ void *draw_sprite_effect_quads(u8 *sprite_list, s32 count_hint, s32 render_state
                             scratch->data14 <<= 8;
                             scratch->data0C <<= 8;
                             *((s32 *) (packet + 0xC)) = (scratch->data0C + scratch->data08)
-                                + (((*((u16 *) ((((u8 *) render_state_addr)) + 0x12)))
+                                + ((render_state_addr->clut
                                 + (*((u16 *) (quad + 0x6)))) << 16);
                             *((s16 *) (packet + 0x14)) =
                                 (*((u16 *) (((u8 *) scratch) + 0x0C))) + (*((u16 *) (((u8 *) scratch) + 0x10)));
                             {
                                 u16 blend_mode;
                                 u16 tpage;
-                                blend_mode = *((u16 *) ((((u8 *) render_state_addr)) + 0x10));
+                                blend_mode = render_state_addr->tpage_abr;
                                 if (blend_mode != 0) {
                                     tpage = blend_mode + ((*((u16 *) (quad + 0x4))) & 0xFF9F);
                                 }

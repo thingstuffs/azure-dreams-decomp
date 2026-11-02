@@ -5,6 +5,7 @@
 #include "engine/window/message.h"
 #include "sdk/libgpu.h"
 #include "slus/data.h"
+#include "engine/object.h"
 
 typedef void (*Callback)(void *);
 
@@ -64,11 +65,8 @@ typedef struct S_func_80035E58_5 {
     s32 unk_34;
 } S_func_80035E58_5;
 
-extern void runtime_initialize_state_value(void *, s32);
-extern void prepend_embedded_object_node(void *, void *);
 extern void copy_window_params(struct Container *container, struct Source *source);
 
-extern s32 draw_linked_sprite_nodes(u8 *first_node, u8 *first_transform, u8 *first_context);
 extern void update_window_state(struct RuntimeObject *object, s32 handler_arg1, s32 handler_arg2, s32 state);
 extern void scroll_window_y(void *);
 extern void draw_window_rects(void *);

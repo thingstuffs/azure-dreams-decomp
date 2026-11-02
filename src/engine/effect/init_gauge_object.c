@@ -1,4 +1,5 @@
 #include "common.h"
+#include "engine/effect.h"
 
 /* Struct for init_gauge_object's first argument: only the accessed offset (0x68, a pointer)
    is given a real field; 0x30/0x40/0x58 are only address-taken (sub-object bases). */
@@ -8,7 +9,6 @@ typedef struct {
 } S_80050A00;
 
 extern void set_gauge_context(void *a0, void *a1);
-extern void init_gauge_blocks(void *a0, void *a1, void *a2, void *a3);
 extern void initialize_gauge_menu_display_rows(void *a0, void *a1, void *a2);
 
 /* Reinitializes the object, sets up its sub-objects, and initializes its linked object. */

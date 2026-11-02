@@ -8,10 +8,7 @@ struct ObjectNodeHeader;
 #include "main/data.h"
 #include "sdk/libc.h"
 #include "slus.h"
-
-extern void card_boot_mark_object_complete(struct ObjectNodeHeader *object);
-extern void *card_boot_link_paired_choice_display_entries(void *nodes);
-extern void card_boot_initialize_paired_choice_panel(struct CardChoiceOwner *record, s32 initial_value);
+#include "frontend/libcard.h"
 
 extern u8 menu_backdrop_tag[];
 

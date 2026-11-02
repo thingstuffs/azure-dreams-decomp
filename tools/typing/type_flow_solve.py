@@ -26,6 +26,15 @@ Prediction per component (pointer casts as debt_check counts them: casts to a sp
   `*(W *)((u8 *)p + K)` folds (2 casts) when it has W at K; plain `p->m` through the old record needs the
   same member in the new record, else a view cast (member_missing);
   integer arithmetic on an int holder that becomes a pointer is an arith risk (needs (s32) or byte casts).
+H8/H9 runtime tables (RTDIR/pointees.tsv.gz, RTDIR/callsite_args.tsv.gz; off with TYPE_FLOW_RT_EXT=0):
+  call-site cells label every argument edge with what that caller passed (a generic callee's per-caller kinds) and
+  give the caller's holder (local, field, global) runtime cells; pointer values label field and global holders by
+  the access site; installed functions (value class func) couple the slot holder at that site with the callback's
+  parameters and return (`F:` / `G:` / `L:` slots, dispatch tables, `&fn` installs alike).  Every labelled holder
+  with a real declared type votes for its cells.  `rt_seeds` adds seeds: integer parameters that receive a pointer
+  at every call site, slot families whose installed callbacks disagree with the slot's runtime-voted type, and the
+  placeholder caller holders feeding a multi-kind (generic) parameter, each with its own call-site target.
+
 Verdicts: whole (net pointer casts fall, every cast left or added evidence-correct/neutral, no conflict,
 no arity disagreement), bridge (owner ruling 10-31: every changed declaration runtime-backed or flow-backed,
 casts may rise; each added cast is a bridge cast), hold (reason).
@@ -396,6 +405,63 @@ def parse_values(v):
     return out
 
 
+SITE_LINE_SLACK = 3
+
+
+def parse_site_label(lab):
+    """callsite_args.tsv cell label (rtti_merge cell_label vocabulary) -> fn_args-style cell key."""
+    lab = lab.strip()
+    if lab == 'null':
+        return ('null', '', 0)
+    if lab.startswith('scalar'):
+        return ('scalar', '', 0)
+    m = re.match(r'^(rk\d+)\+0x([0-9A-Fa-f]+)$', lab)
+    if m:
+        return ('heap', m.group(1), int(m.group(2), 16))
+    m = re.match(r'^((?:src|include)/[^:]+):([A-Za-z_]\w*)$', lab)
+    if m:
+        return ('func', m.group(2), 0)
+    if lab.startswith(('scratch', 'native', 'port:')):
+        return ('other', lab.split('+')[0], 0)
+    m = re.match(r'^([A-Za-z_]\w*)\+0x([0-9A-Fa-f]+)$', lab)
+    if m:
+        return ('ram', m.group(1), int(m.group(2), 16))
+    if lab.startswith('ram:'):
+        s, _, off = lab[4:].partition('+')
+        return ('ram', s, int(off, 16) if off else 0)
+    return ('other', lab, 0)
+
+
+def parse_site_cells(text):
+    out = collections.Counter()
+    for t in (text or '').split(', '):
+        lab, _, n = t.strip().rpartition('=')
+        if lab and n.isdigit():
+            out[parse_site_label(lab)] += int(n)
+    return out
+
+
+def pointee_cell(cls, target, off):
+    """pointees.tsv value (class, target, offset) -> cell key."""
+    o = int(off, 16) if off and off.startswith('0x') else 0
+    if cls == 'heap':
+        return ('heap', target, o)
+    if cls in ('ram', 'global'):
+        s, _, roff = target.partition('+')
+        return ('ram', s, (int(roff, 16) if roff.startswith('0x') else 0) + o)
+    if cls == 'func':
+        return ('func', target.rpartition(':')[2], 0)
+    if cls == 'null':
+        return ('null', '', 0)
+    return ('other', cls + ':' + target, 0)
+
+
+def fn_key(graph, name, file):
+    for d in graph.functions.get(name + '@' + file, []):
+        return d['key']
+    return name
+
+
 class Runtime:
     def __init__(self, rt, graph):
         self.g = graph
@@ -436,6 +502,183 @@ class Runtime:
                     t = graph.declared(node)
                     if graph.cls(t) == 'real':
                         self.votes[('heap', k['id'], int(rc.get('offset', 0)))][graph.resolve(t)].add(node)
+        self.ext = os.environ.get('TYPE_FLOW_RT_EXT', '1') != '0' and (
+            (rt / 'callsite_args.tsv.gz').exists() or (rt / 'pointees.tsv.gz').exists())
+        self.site = collections.defaultdict(list)          # (callee key, arg, caller key) -> [(line, cells)]
+        self.site_any = collections.defaultdict(collections.Counter)   # (caller key, line, arg) -> cells, any callee
+        self.derived = {}                                    # holder node -> cells (call sites / pointer values)
+        self.slot_installs = []                              # (file, line, access, function key, count)
+        self.held_values = collections.defaultdict(list)     # (file, line) -> [(access, cell, count)]
+        if self.ext:
+            self._load_ext(rt)
+
+    # ---------------------------------------------------------------- H8/H9 extension
+    def _load_ext(self, rt):
+        g = self.g
+        cs = rt / 'callsite_args.tsv.gz'
+        if cs.exists():
+            with gzip.open(cs, 'rt') as fh:
+                for r in csv.DictReader(fh, delimiter='\t'):
+                    if not r['callee_file'].startswith(('src/', 'include/')) or not r['caller_file'].startswith('src/'):
+                        continue
+                    callee = fn_key(g, r['callee'], r['callee_file'])
+                    caller = fn_key(g, r['caller'], r['caller_file'])
+                    if g.ambiguous_function(callee) or g.ambiguous_function(caller):
+                        continue
+                    cells = parse_site_cells(r['cells'])
+                    line = int(r['line'] or 0)
+                    self.site[(callee, int(r['arg']), caller)].append((line, cells))
+                    self.site_any[(caller, line, int(r['arg']))].update(cells)
+        pt = rt / 'pointees.tsv.gz'
+        if pt.exists():
+            with gzip.open(pt, 'rt') as fh:
+                for r in csv.DictReader(fh, delimiter='\t'):
+                    if not r['file'].startswith('src/'):
+                        continue
+                    cell = pointee_cell(r['value_class'], r['value_target'], r['value_offset'])
+                    n = int(r['count'] or 0)
+                    if cell[0] == 'func':
+                        f, _, name = r['value_target'].rpartition(':')
+                        self.slot_installs.append((r['file'], int(r['line'] or 0), r['access'], fn_key(g, name, f), n))
+                    self.held_values[(r['file'], int(r['line'] or 0))].append((r['access'], cell, n,
+                                                                               r['class'], r['target'], r['offset']))
+        # holder labels: a caller's argument holder takes the cells its call site passed
+        for e in g.edges:
+            if e['k'] != 'arg' or not e.get('src') or e['off'] or e['src'].startswith(('P:', 'FN:', '&FN:')):
+                continue
+            c = self.edge_cells(e)
+            if c:
+                self.derived.setdefault(e['src'], collections.Counter()).update(c)
+        # field / global holders read or written at a site that saw exactly one pointer-typed holder
+        by_site = collections.defaultdict(set)
+        for e in g.edges:
+            if e['k'] in ('init', 'assign') and e.get('src'):
+                for end, t, acc in ((e['dst'], e.get('dt'), 'store'), (e['src'], e.get('st'), 'load')):
+                    if end.startswith('F:') and g.cls(g.declared(end) or t) in POINTERS - {'fnptr'}:
+                        by_site[(e['file'], e['line'], acc)].add(end)
+        known = set(g.decl)
+        for site, vals in self.held_values.items():
+            for access, cell, n, cls, target, off in vals:
+                if cls == 'ram' and cell[0] in ('heap', 'ram', 'null'):
+                    sym, _, roff = target.partition('+')
+                    if roff in ('', '0x0') and 'G:' + sym in known:      # a global's own word holds the pointer
+                        self.derived.setdefault('G:' + sym, collections.Counter())[cell] += n
+            for acc in ('load', 'store'):
+                # a member holder: one pointer-typed member read (written) on the line, and the heap accesses of
+                # that direction on the line all hit one object offset (so the value is that member's)
+                holders = by_site.get(site + (acc,))
+                rows = [v for v in vals if v[0] == acc and v[3] == 'heap']
+                if not holders or len(holders) != 1 or len({v[5] for v in rows}) != 1:
+                    continue
+                h = next(iter(holders))
+                for access, cell, n, cls, target, off in rows:
+                    if cell[0] in ('heap', 'ram', 'null'):
+                        self.derived.setdefault(h, collections.Counter())[cell] += n
+        # a RAM cell nothing typed received is voted by the global that holds it (element / embedded record at
+        # that offset of the global's own declared type)
+        ram_cells = {cell for c in list(self.cells.values()) + list(self.derived.values()) for cell in c
+                     if cell[0] == 'ram'}
+        for rows in self.site.values():
+            for _, c in rows:
+                ram_cells.update(cell for cell in c if cell[0] == 'ram')
+        for cell in ram_cells:
+            if cell in self.votes:
+                continue
+            t = self.global_root_type(cell[1], cell[2])
+            if t:
+                self.votes[cell][t].add('G:' + cell[1])
+        # labelled holders with a real declared type vote for their cells
+        for node, c in self.derived.items():
+            if node in self.cells:
+                continue
+            t = g.declared(node)
+            if g.cls(t) != 'real':
+                continue
+            for cell in c:
+                if cell[0] in ('heap', 'ram'):
+                    self.votes[cell][g.resolve(t)].add(node)
+        self.co_voted = self.co_votes()
+
+    def co_votes(self):
+        """Cells nothing typed received inherit the type of the cells they arrive with: a holder whose voted cells
+        all win the same type (and carry at least half its observations) votes that type for its unvoted cells,
+        as 'co:<holder>'.  Run once, after every direct vote."""
+        add = []
+        for node, c in list(self.cells.items()) + list(self.derived.items()):
+            cells = {k: n for k, n in c.items() if k[0] in ('heap', 'ram')}
+            if not cells:
+                continue
+            voted = {k: self.winner(k)[0] for k in cells if k in self.votes}
+            winners = set(voted.values()) - {None}
+            if len(winners) != 1 or sum(cells[k] for k in voted) * 2 < sum(cells.values()):
+                continue
+            t = winners.pop()
+            add.extend((k, t, node) for k in cells if k not in self.votes)
+        for k, t, node in add:
+            self.votes[k][t].add('co:' + node)
+        return len({k for k, _, _ in add})
+
+    def global_root_type(self, sym, off):
+        """Canonical `rec:T*` a pointer to `sym`+off has by the global's declared type, or None."""
+        g = self.g
+        decl = g.decl.get('G:' + sym)
+        if not decl:
+            return None
+        t = decl.most_common(1)[0][0]
+        r = g.resolve(t)
+        total = g.size(t)
+        if total is not None and not 0 <= off < total:
+            return None                                 # the region label ran past the global
+        m = re.match(r'^rec:(.*?)((?:\[\d*\])+)$', r)
+        if m:                                           # array of records: an element boundary
+            rec = m.group(1)
+            size = g.size(rec)
+            if size and off % size == 0 and g.cls(rec + ' *') == 'real':
+                return 'rec:%s*' % rec
+            return None
+        rec = r[4:] if r.startswith('rec:') and not r.endswith('*') else None
+        if not rec or g.cls(rec + ' *') != 'real':
+            return None
+        if off == 0:
+            return 'rec:%s*' % rec
+        for path, ft in g.leaves(rec, off):
+            fr = g.resolve(ft)
+            if fr.startswith('rec:') and not fr.endswith('*') and '[' not in fr and g.cls(ft + ' *') == 'real':
+                return fr + '*'
+        return None
+
+    def sites_of(self, callee, arg):
+        """[(caller, [(line, cells)])] of one callee argument."""
+        if not hasattr(self, '_by_callee'):
+            self._by_callee = collections.defaultdict(list)
+            for (ce, a, caller), rows in self.site.items():
+                self._by_callee[(ce, a)].append((caller, rows))
+        return self._by_callee.get((callee, arg), [])
+
+    def edge_cells(self, e):
+        """Cells the call site of an argument edge passed (H9), or None."""
+        if not self.ext or e.get('k') != 'arg':
+            return None
+        dst = e['dst']
+        if dst.startswith('P:'):
+            callee, _, i = dst[2:].rpartition('#')
+            if not i.isdigit():
+                return None
+            rows = self.site.get((callee, int(i), e['fn']))
+            if not rows:
+                return None
+            if len(rows) == 1:
+                return rows[0][1]
+            best = min(rows, key=lambda r: abs(r[0] - (e['line'] or 0)))
+            return best[1] if abs(best[0] - (e['line'] or 0)) <= SITE_LINE_SLACK else None
+        m = re.match(r'^(.*)#(\d+)$', dst)
+        if m:                                   # indirect call through a slot holder
+            for d in range(SITE_LINE_SLACK + 1):
+                for ln in {(e['line'] or 0) + d, (e['line'] or 0) - d}:
+                    c = self.site_any.get((e['fn'], ln, int(m.group(2))))
+                    if c:
+                        return c
+        return None
 
     def winner(self, cell):
         v = self.votes.get(cell)
@@ -446,7 +689,7 @@ class Runtime:
         return best, len(v[best]) / tot
 
     def pointer_cells(self, node):
-        c = self.cells.get(node)
+        c = self.cells.get(node) or self.derived.get(node)
         if not c:
             m = re.match(r'^&G:([A-Za-z_]\w*)$', node)
             if m:
@@ -455,7 +698,7 @@ class Runtime:
         return collections.Counter({k: n for k, n in c.items() if k[0] in ('heap', 'ram')})
 
     def scalar_share(self, node):
-        c = self.cells.get(node)
+        c = self.cells.get(node) or self.derived.get(node)
         if not c:
             return None
         tot = sum(c.values())
@@ -510,10 +753,21 @@ def canon_display(g, t):
 
 # --------------------------------------------------------------------------- components
 
+def is_fn(node):
+    """A function designator: `FN:f` (decayed) or `&FN:f` (explicit address-of, the same value)."""
+    return bool(node) and node.startswith(('FN:', '&FN:'))
+
+
+def fn_of(node):
+    return node.split('FN:', 1)[1] if is_fn(node) else None
+
+
 class Solver:
     def __init__(self, g, rt):
         self.g = g
         self.rt = rt
+        self._labelled = set()
+        self.member_needs = set()       # (target type, offset, member type, view member, view, node, site)
         self.adj = collections.defaultdict(list)
         self.offset_adj = collections.defaultdict(list)
         for i, e in enumerate(g.edges):
@@ -528,16 +782,76 @@ class Solver:
             self.adj[e['dst']].append(('e', i, e['src']))
             self.adj[e['src']].append(('e', i, e['dst']))
             dk = g.cls(e.get('dt'))
-            if e['src'].startswith('FN:') or (dk == 'fnptr' and g.cls(e.get('st')) == 'fnptr'):
-                cb = e['src'][3:] if e['src'].startswith('FN:') else None
-                for j in range(6):
-                    a = '%s#%d' % (e['dst'], j)
-                    b = ('P:%s#%d' % (cb, j)) if cb else '%s#%d' % (e['src'], j)
-                    self.adj[a].append(('s', i, b))
-                    self.adj[b].append(('s', i, a))
-                a, b = e['dst'] + '#ret', ('R:' + cb) if cb else e['src'] + '#ret'
-                self.adj[a].append(('s', i, b))
-                self.adj[b].append(('s', i, a))
+            if is_fn(e['src']) or (dk == 'fnptr' and g.cls(e.get('st')) == 'fnptr'):
+                cb = fn_of(e['src'])
+                self.couple_slot(e['dst'], cb, i, other=None if cb else e['src'])
+        self.slots = collections.defaultdict(collections.Counter)   # slot holder -> installed function -> count
+        self.slot_sites = collections.defaultdict(set)
+        self.untyped_slots = collections.defaultdict(collections.Counter)
+        self.couple_runtime_slots()
+
+    def couple_slot(self, holder, cb, i, other=None):
+        """Couple a function-pointer holder's parameters and return with a callback's (or another holder's).
+        With the H8/H9 tables the slot parameter is labelled with every installed callback's cells, so a slot
+        whose callbacks receive different kinds is polymorphic and stops a component instead of merging them."""
+        derived = getattr(self.rt, 'derived', None) if getattr(self.rt, 'ext', False) else None
+        for j in range(6):
+            a = '%s#%d' % (holder, j)
+            b = ('P:%s#%d' % (cb, j)) if cb else '%s#%d' % (other, j)
+            if ('s', i, b) in self.adj[a]:
+                continue
+            self.adj[a].append(('s', i, b))
+            self.adj[b].append(('s', i, a))
+            if derived is not None and cb and self.rt.cells.get(b) and (cb, a) not in self._labelled:
+                self._labelled.add((cb, a))
+                derived.setdefault(a, collections.Counter()).update(self.rt.cells[b])
+        a, b = holder + '#ret', ('R:' + cb) if cb else other + '#ret'
+        if ('s', i, b) not in self.adj[a]:
+            self.adj[a].append(('s', i, b))
+            self.adj[b].append(('s', i, a))
+
+    def couple_runtime_slots(self):
+        """H8 installs: the function value seen at an access site couples the slot holder of that site."""
+        g, rt = self.g, self.rt
+        installs = getattr(rt, 'slot_installs', ())
+        if not installs:
+            return
+        by_site = collections.defaultdict(list)
+        for i, e in enumerate(g.edges):
+            by_site[(e['file'], e['line'])].append(i)
+        for file, line, access, fn, n in installs:
+            if not g.fn_def(fn):
+                continue
+            holders = set()
+            for i in by_site.get((file, line), ()):
+                e = g.edges[i]
+                if not e.get('src'):
+                    continue
+                if e['k'] in ('init', 'assign'):
+                    if access == 'store' and g.cls(g.declared(e['dst']) or e.get('dt')) == 'fnptr':
+                        holders.add((e['dst'], i))                     # store into the slot
+                    elif access == 'store' and (is_fn(e['src']) or g.cls(e.get('st')) == 'fnptr'):
+                        self.untyped_slots[e['dst']][fn] += n          # a function stored into a non-function holder
+                    if access == 'load' and g.cls(g.declared(e['src']) or e.get('st')) == 'fnptr' and not is_fn(e['src']):
+                        holders.add((e['src'], i))                     # load out of the slot
+                elif e['k'] == 'arg' and access == 'load' and not e['dst'].startswith('P:'):
+                    m = re.match(r'^(.*)#\d+$', e['dst'])
+                    if m:
+                        holders.add((m.group(1), i))                   # call through the slot
+            for h, i in holders:
+                if h.startswith(('FN:', '&')):
+                    continue
+                self.couple_slot(h, fn, i)
+                self.slots[h][fn] += n
+                self.slot_sites[h].add('%s:%d' % (file, line))
+
+    scope = ()
+
+    def in_scope(self, node):
+        """A node is editable in a scoped solve when the file that declares it (or, for a slot parameter, the holder)
+        lies under one of the scope prefixes; record members follow their record's header."""
+        h = self.g.home(re.sub(r'#(\d+|ret)$', '', node) if not node.startswith(('P:', 'R:')) else node)
+        return bool(h) and h.startswith(self.scope)
 
     def polymorphic(self, node):
         t, share, cells = self.rt.node_type(node)
@@ -599,13 +913,16 @@ class Solver:
                 if self.g.same(dm, t_n):
                     comp[m] = {'t': t_n, 'st': 'ok', 'seed': seed}
                     continue
-                if m.startswith('FN:'):
+                if is_fn(m):
                     continue
                 if m.startswith('&'):
                     boundary.append((i, m, 'address'))     # retyped only through its object's declaration
                     continue
                 if depth.get(n, 0) >= HOPS:
                     boundary.append((i, m, 'hops'))
+                    continue
+                if self.scope and not self.in_scope(m):
+                    boundary.append((i, m, 'scope'))       # owned by another lane: stays, its edge keeps a cast
                     continue
                 cells = self.rt.pointer_cells(m)
                 if cells:
@@ -727,7 +1044,9 @@ class Solver:
             elif d > 0:
                 res['added'] += d
             if after:
-                src_cells = rt.pointer_cells(e['src'])
+                site = rt.edge_cells(e) if e['k'] == 'arg' else None
+                site = collections.Counter({k: n for k, n in site.items() if k[0] in ('heap', 'ram')}) if site else None
+                src_cells = site or rt.pointer_cells(e['src'])     # what this call site passed, else the holder's
                 if not src_cells and e['src'] in comp:
                     src_cells = seed_ident.get(comp[e['src']].get('seed'), collections.Counter())
                 verdict = rt.cast_ok(src_cells, e['off'], td) if kd in POINTERS else 'int'
@@ -768,6 +1087,8 @@ class Solver:
                                              'cast': (u.get('rec') or '?') + ' *', 'new': True,
                                              'evidence': 'view_member_missing', 'edge': 'macc', 'src': n,
                                              'dst': u['member'], 'off': u['off'], 'from_type': canon_display(g, tau)})
+                        self.member_needs.add((canon_display(g, tau), u['off'], u.get('mtype') or '', u['member'],
+                                               u.get('rec') or '', n, '%s:%s' % (u['file'], u['line'])))
             if g.cls(comp[n].get('from', '')) == 'int' and g.by_node_int.get(n):
                 res['reasons'].add('arith_risk')
                 res['int_casts'] += len(g.by_node_int[n])
@@ -826,6 +1147,8 @@ def load_seeds(holds, actor_holds, grades=('A',)):
 
 
 def node_for(g, s):
+    if s.get('node_key'):
+        return s['node_key']
     key = s['function']
     for d in g.functions.get(key + '@' + s['file'], []):
         key = d['key']
@@ -848,18 +1171,147 @@ def seed_target(g, rt, s, n):
     return ''
 
 
+# --------------------------------------------------------------------------- runtime seeds (H8/H9)
+
+def cells_type(rt, cells):
+    """Runtime-voted type of a cell multiset: (canonical type, share) or (None, 0)."""
+    tv = collections.Counter()
+    for cell, n in cells.items():
+        if cell[0] not in ('heap', 'ram'):
+            continue
+        w, _ = rt.winner(cell)
+        if w:
+            tv[w] += n
+    if not tv:
+        return None, 0.0
+    best = max(tv, key=lambda t: (tv[t], t))
+    return best, tv[best] / sum(tv.values())
+
+
+def pointer_only(cells):
+    """Every observation is a pointer (null allowed) and at least one is a heap/ram pointer."""
+    kinds = {c[0] for c in cells}
+    return bool(kinds & {'heap', 'ram'}) and not (kinds & {'scalar', 'func', 'other'})
+
+
+def rt_seeds(g, rt, S, share=0.75):
+    """Seeds the H8/H9 tables add, and the reasons other candidates stay unseeded (report rows)."""
+    seeds, notes = [], []
+    def add(src, node, target, reason, cells):
+        if node.startswith('P:'):
+            key, _, i = node[2:].rpartition('#')
+            d = g.fn_def(key)
+            if not d:
+                return
+            seeds.append({'src': src, 'file': d['file'], 'function': key.split('@')[0], 'arg': i, 'target': target,
+                          'hold': src, 'reason': reason, 'cur': g.declared(node), 'node_key': node})
+        elif node.startswith('L:'):
+            key = node[2:].split(':')[0]
+            d = g.fn_def(key)
+            if not d:
+                return
+            seeds.append({'src': src, 'file': d['file'], 'function': key.split('@')[0], 'arg': node.split(':', 2)[2],
+                          'target': target, 'hold': src, 'reason': reason, 'cur': g.declared(node), 'node_key': node})
+    # 1. integer parameters that receive a pointer at every call site
+    for node, c in rt.cells.items():
+        if g.cls(g.declared(node)) != 'int' or not pointer_only(c):
+            continue
+        key, _, i = node[2:].rpartition('#')
+        sites = rt.sites_of(key, int(i))
+        if any(not pointer_only(cells) for _, rows in sites for _, cells in rows):
+            notes.append(('rt_intptr', node, '', 'a call site passes a scalar'))
+            continue
+        tau, sh = cells_type(rt, c)
+        if tau and sh >= share and g.cls(canon_display(g, tau)) == 'real':
+            add('rt_intptr', node, canon_display(g, tau), 'pointer at every call site (%d sites)' % len(sites), c)
+        else:
+            notes.append(('rt_intptr', node, canon_display(g, tau) if tau else '', 'no typed voter for its cells'))
+    # 2. slot families: installed callbacks and the slot, typed by the cells the callbacks receive
+    for h, fns in S.slots.items():
+        for j in range(6):
+            members = ['P:%s#%d' % (f, j) for f in fns if g.fn_def(f) and j < len(g.fn_def(f)['params'])]
+            if not members:
+                continue
+            cells = collections.Counter()
+            for m in members:
+                cells.update(rt.pointer_cells(m))
+            tau, sh = cells_type(rt, cells)
+            if not tau or sh < share or g.cls(canon_display(g, tau)) != 'real':
+                if any(g.cls(g.declared(m)) in OPEN for m in members):
+                    notes.append(('rt_slot', '%s#%d' % (h, j), canon_display(g, tau) if tau else '',
+                                  'slot family without a typed majority (%d callbacks)' % len(members)))
+                continue
+            open_members = [m for m in members if g.cls(g.declared(m)) in OPEN and not g.same(g.declared(m), tau)]
+            hj = '%s#%d' % (h, j)
+            if g.cls(g.declared(hj)) in OPEN and not g.same(g.declared(hj), tau):
+                open_members.append(hj)
+            if open_members:
+                m = next((x for x in open_members if x.startswith('P:')), None)
+                if m:
+                    add('rt_slot', m, canon_display(g, tau), 'slot %s (%d callbacks, %d placeholders)' % (
+                        h, len(members), len(open_members)), cells)
+    # 3. generic (multi-kind) parameters: each caller's placeholder holder takes its own call-site type
+    for node in list(rt.cells):
+        cells = rt.pointer_cells(node)
+        if len({c[1] for c in cells if c[0] == 'heap'}) + len({c[1] for c in cells if c[0] == 'ram'}) < 2:
+            continue
+        tau, sh = cells_type(rt, cells)
+        if tau and sh >= 0.75:
+            continue
+        for kind, i, src in S.adj.get(node, ()):
+            e = g.edges[i]
+            if kind != 'e' or e['k'] != 'arg' or e['dst'] != node or e['off'] or not src.startswith(('L:', 'P:')):
+                continue
+            if g.cls(g.declared(src) or e.get('st')) not in OPEN:
+                continue
+            ec = rt.edge_cells(e)
+            if not ec or not pointer_only(ec):
+                continue
+            t2, sh2 = cells_type(rt, ec)
+            if t2 and sh2 >= share and g.cls(canon_display(g, t2)) == 'real':
+                add('rt_split', src, canon_display(g, t2), 'per-caller cells into generic %s' % node, ec)
+            else:
+                notes.append(('rt_split', src, canon_display(g, t2) if t2 else '', 'caller cells without a typed voter'))
+    uniq, seen = [], set()
+    for s in seeds:
+        if s['node_key'] not in seen:
+            seen.add(s['node_key'])
+            uniq.append(s)
+    return uniq, notes
+
+
+def load_seed_tsv(paths):
+    """Seeds from TSV rows with file, function, arg, target (a previous solve's seeds.tsv works)."""
+    out = []
+    for path in paths:
+        for r in csv.DictReader(open(path), delimiter='\t'):
+            node = r.get('node_key') or ''
+            if not (r.get('file') or '').startswith('src/') or not ((r.get('arg') or '').isdigit() or node):
+                continue
+            out.append({'src': r.get('src') or Path(path).stem, 'file': r['file'], 'function': r['function'],
+                        'arg': r['arg'], 'target': r.get('target') or '', 'hold': r.get('hold') or '',
+                        'reason': r.get('reason') or '', 'cur': r.get('cur') or ''})
+            if node:
+                out[-1]['node_key'] = node          # a local holder (rt_split) round-trips by its node
+    return out
+
+
 # --------------------------------------------------------------------------- dry run
 
-def solve_all(g, rt, seeds):
-    S = Solver(g, rt)
+def solve_all(g, rt, seeds, S=None):
+    S = S or Solver(g, rt)
     per = []
     for s in seeds:
         n = node_for(g, s)
         s['node'] = n
         s['cur_now'] = g.declared(n)
         s['tau'] = tau = seed_target(g, rt, s, n)
-        if not g.fn_def(n[2:].rpartition('#')[0]):
+        if not g.fn_def(n[2:].rpartition('#')[0] if n.startswith('P:') else n[2:].split(':')[0]):
             s['state'] = 'no_definition'
+            per.append((s, None, [], collections.Counter()))
+            continue
+        if S.scope and not S.in_scope(n):
+            s['state'] = 'out_of_scope'                 # another lane's seed
             per.append((s, None, [], collections.Counter()))
             continue
         if s['cur_now'] and tau and g.same(s['cur_now'], tau):
@@ -1003,9 +1455,25 @@ def dryrun_main(a):
     out = Path(a.out)
     out.mkdir(parents=True, exist_ok=True)
     seeds = load_seeds(a.holds or [], a.actor_holds or [], tuple(a.grades))
+    seeds += load_seed_tsv(getattr(a, 'seed_tsv', None) or [])
+    S0 = Solver(g, rt)
+    S0.scope = tuple(getattr(a, 'scope', None) or ())
+    import functools
+    for obj, names in ((rt, ('winner', 'pointer_cells', 'scalar_share', 'node_type')), (S0, ('polymorphic', 'void_pays'))):
+        for name in names:      # graph and runtime are immutable during a solve
+            setattr(obj, name, functools.lru_cache(maxsize=None)(getattr(obj, name)))
+    if getattr(a, 'rt_seeds', False):
+        extra, notes = rt_seeds(g, rt, S0)
+        have = {node_for(g, s) for s in seeds}
+        extra = [s for s in extra if s['node_key'] not in have]
+        seeds += extra
+        write_tsv(out / 'rt_seeds.tsv', extra, ['src', 'file', 'function', 'arg', 'node_key', 'cur', 'target', 'reason'])
+        write_tsv(out / 'rt_seed_notes.tsv', [dict(src=a_, node=b_, voted=c_, reason=d_) for a_, b_, c_, d_ in notes],
+                  ['src', 'node', 'voted', 'reason'])
+    write_slots(g, rt, S0, out)
     print('graph: %d functions, %d edges, %d uses; %d seeds (%.0fs)' % (
         len(g.functions), len(g.edges), len(g.uses), len(seeds), time.time() - t0), flush=True)
-    S, comps = solve_all(g, rt, seeds)
+    S, comps = solve_all(g, rt, seeds, S0)
     merged = {cid: (len(sh), sum(1 for v in c.values() if v['st'] == 'retype')) for cid, sh, c, b, r in comps}
     comps = split_pieces(S, comps)
     rows, bridge_rows = [], []
@@ -1014,7 +1482,7 @@ def dryrun_main(a):
         verdict, changed = verdict_of(g, rt, seeds_here, comp, res)
         for sd in seeds_here:
             st = (comp.get(sd.get('node')) or {}).get('st')
-            if sd.get('state') in ('no_definition', 'no_target'):
+            if sd.get('state') in ('no_definition', 'no_target', 'out_of_scope'):
                 sd['outcome'] = 'hold:' + sd['state']
             elif st == 'pruned':
                 sd['outcome'] = 'hold:' + '+'.join(res['pruned'].get(sd['node'], ['pruned']))
@@ -1036,6 +1504,7 @@ def dryrun_main(a):
             'holds': ';'.join(sorted({s['hold'] for s in seeds_here})),
             'nodes': len(comp), 'changed': len(changed),
             'runtime_backed': sum(1 for n in changed if rt.pointer_cells(n)),
+            'evidence': evidence_of(rt, S, changed),
             'boundary': len(boundary), 'files': len(files), 'folders': len(folders),
             'seed_folders': len(seed_folders), 'subsystems': len(subsystems),
             'folder_list': ' '.join(sorted(folders)), 'removed': res['removed'], 'added': res['added'],
@@ -1066,6 +1535,26 @@ def dryrun_main(a):
                                          'tau', 'rt_type', 'rt_share', 'hold', 'state',
                                          'component', 'outcome'])
     write_tsv(out / 'predicted_bridge_casts.tsv', bridge_rows)
+    needs = collections.defaultdict(lambda: dict(nodes=set(), sites=set(), names=collections.Counter()))
+    for tau, off, mtype, member, view, node, site in S.member_needs:
+        k = needs[(tau, off, mtype)]
+        k['nodes'].add(node); k['sites'].add(site); k['names'][member] += 1
+    def existing(tau, off):
+        rec = g.record_of(tau)
+        size = g.size(rec) if rec else None
+        if size is not None and off >= size:
+            return 'beyond the record (0x%X bytes): a containing/next object, not a member' % size
+        leaves = list(g.leaves(rec, off)) if rec else []
+        real = [(path, typ) for path, typ in leaves if not re.match(r'^(pad|unused)', path.split('[')[0].split('.')[-1])]
+        if not real:
+            return 'add' + (' (inside %s)' % leaves[0][0].split('[')[0] if leaves else '')
+        return 'reconcile with ' + ', '.join('%s:%s' % pt for pt in real[:3])
+    write_tsv(out / 'member_needs.tsv', [
+        dict(target=tau.rstrip(' *'), offset='0x%X' % off, member_type=mtype, action=existing(tau, off),
+             nodes_blocked=len(v['nodes']), sites=len(v['sites']),
+             view_names=' '.join(n for n, _ in v['names'].most_common(3)), example=sorted(v['sites'])[0])
+        for (tau, off, mtype), v in sorted(needs.items(), key=lambda kv: -len(kv[1]['nodes']))],
+        ['target', 'offset', 'member_type', 'action', 'nodes_blocked', 'sites', 'view_names', 'example'])
     summary = summarize(rows, seeds)
     summary['holder_check'] = holder_check(g, seeds)
     summary['merged_components'] = len(merged)
@@ -1083,6 +1572,96 @@ def dryrun_main(a):
                                           for src in sorted({sd['src'] for sd in seeds})}
     (out / 'summary.json').write_text(json.dumps(summary, indent=1))
     print(json.dumps(summary, indent=1))
+
+
+def evidence_of(rt, S, changed):
+    """Which runtime tables back the changed nodes: fn_args (entry cells), site (H9 call-site cells), value (H8
+    pointer values at an access site), slot (H8 installed callbacks)."""
+    c = collections.Counter()
+    for n in changed:
+        if n in rt.cells:
+            c['fn_args'] += 1
+        elif n in getattr(rt, 'derived', {}):
+            c['site' if n.startswith(('L:', 'P:')) else 'value'] += 1
+        holder = re.sub(r'#(\d+|ret)$', '', n)
+        if holder in getattr(S, 'slots', {}) or (n.startswith(('P:', 'R:')) and re.sub(
+                r'#\d+$', '', n[2:]) in getattr(S, 'slot_fns', ())):
+            c['slot'] += 1
+    return ','.join('%s:%d' % kv for kv in sorted(c.items()))
+
+
+def write_slots(g, rt, S, out):
+    """slots.tsv: every slot holder the runtime saw a function in, its installed callbacks and prototypes."""
+    S.slot_fns = {f for fns in S.slots.values() for f in fns}
+    rows = []
+    for h, fns in sorted(S.slots.items(), key=lambda kv: -sum(kv[1].values())):
+        protos = collections.Counter()
+        for f in fns:
+            d = g.fn_def(f)
+            if d:
+                protos['%s(%s)' % (d['ret'], ', '.join(p['type'] for p in d['params']))] += 1
+        rows.append({'holder': h, 'declared': g.declared(h), 'callbacks': len(fns), 'calls': sum(fns.values()),
+                     'prototypes': len(protos), 'agree': 'yes' if len(protos) == 1 else 'no',
+                     'prototype_votes': '; '.join('%s=%d' % kv for kv in protos.most_common(4)),
+                     'functions': ' '.join(sorted(f.split('@')[0] for f in fns)[:12]),
+                     'sites': ' '.join(sorted(S.slot_sites[h])[:4])})
+    for h, fns in sorted(S.untyped_slots.items(), key=lambda kv: -sum(kv[1].values())):
+        rows.append({'holder': h, 'declared': g.declared(h), 'callbacks': len(fns), 'calls': sum(fns.values()),
+                     'prototypes': 0, 'agree': 'untyped_holder', 'prototype_votes': '',
+                     'functions': ' '.join(sorted(f.split('@')[0] for f in fns)[:12]), 'sites': ''})
+    write_tsv(out / 'slots.tsv', rows, ['holder', 'declared', 'callbacks', 'calls', 'prototypes', 'agree',
+                                        'prototype_votes', 'functions', 'sites'])
+    write_tsv(out / 'slot_plan.tsv', slot_plan(g, rt, S),
+              ['holder', 'declared', 'callbacks', 'proposed', 'basis', 'retype_callbacks', 'contradicting_callbacks',
+               'retype', 'contradicting'])
+
+
+def slot_plan(g, rt, S):
+    """One prototype per slot family: per parameter position the runtime-voted type of the cells every installed
+    callback received (share >= 0.75), else the type two thirds of the callbacks already declare, else void * (a
+    generic slot).  Lists the callbacks whose placeholder parameters would take it and those that contradict it."""
+    rows = []
+    for h, fns in sorted(S.slots.items(), key=lambda kv: -sum(kv[1].values())):
+        defs = {f: g.fn_def(f) for f in fns if g.fn_def(f)}
+        if len(defs) < 2:
+            continue
+        arity = collections.Counter(len(d['params']) for d in defs.values()).most_common(1)[0][0]
+        proposed, basis, retype, contra = [], [], set(), set()
+        for j in range(arity):
+            cells = collections.Counter()
+            declared = collections.Counter()
+            for f, d in defs.items():
+                if j < len(d['params']):
+                    cells.update(rt.pointer_cells('P:%s#%d' % (f, j)))
+                    if g.cls(d['params'][j]['type']) == 'real':
+                        declared[canon_display(g, d['params'][j]['type'])] += 1
+            tau, sh = cells_type(rt, cells)
+            if tau and sh >= 0.75 and g.cls(canon_display(g, tau)) == 'real':
+                pick, why = canon_display(g, tau), 'runtime'
+            elif declared and declared.most_common(1)[0][1] * 3 >= 2 * len(defs):
+                pick, why = declared.most_common(1)[0][0], 'declared'
+            else:
+                ints = sum(1 for d in defs.values() if j < len(d['params']) and g.cls(d['params'][j]['type']) in ('int', 'small'))
+                pick, why = ('s32', 'declared_int') if ints * 3 >= 2 * len(defs) and not cells else ('void *', 'generic')
+            proposed.append(pick)
+            basis.append(why)
+            for f, d in defs.items():
+                if j >= len(d['params']):
+                    continue
+                have = d['params'][j]['type']
+                if g.same(have, pick) or pick == 'void *':
+                    continue
+                if g.cls(have) in OPEN:
+                    retype.add('%s#%d' % (f.split('@')[0], j))
+                elif g.cls(have) == 'real' and why == 'runtime':
+                    contra.add('%s#%d' % (f.split('@')[0], j))
+        rets = collections.Counter(d['ret'] for d in defs.values())
+        rows.append({'holder': h, 'declared': g.declared(h), 'callbacks': len(defs),
+                     'proposed': '%s (*)(%s)' % (rets.most_common(1)[0][0], ', '.join(proposed)),
+                     'basis': ','.join(basis), 'retype_callbacks': len({x.split('#')[0] for x in retype}),
+                     'contradicting_callbacks': len({x.split('#')[0] for x in contra}),
+                     'retype': ' '.join(sorted(retype)[:20]), 'contradicting': ' '.join(sorted(contra)[:20])})
+    return rows
 
 
 def whole_blockers(res):
@@ -1182,6 +1761,9 @@ def add_parsers(sub):
     d.add_argument('--holds', nargs='*')
     d.add_argument('--actor-holds', nargs='*')
     d.add_argument('--grades', nargs='*', default=['A'])
+    d.add_argument('--seed-tsv', nargs='*', help='seed rows (file, function, arg, target), e.g. a previous seeds.tsv')
+    d.add_argument('--rt-seeds', action='store_true', help='add H8/H9 seeds (rt_intptr, rt_slot, rt_split)')
+    d.add_argument('--scope', nargs='*', help='path prefixes a lane may edit: nodes declared elsewhere are boundaries')
     d.add_argument('--out', required=True)
 
 

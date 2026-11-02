@@ -8,7 +8,7 @@
 
 
 /* Keeps both sprite scales at normal size and removes the effect when its countdown ends. */
-void expire_effect_at_unit_scale(UpdateEffectParticlesAndCleanupBody *state, s32 unused, void *scale_data)
+void expire_effect_at_unit_scale(UpdateEffectParticlesAndCleanupBody *state, ObjectPosition *unused, void *scale_data)
 {
     s32 remaining_ticks;
     u8 *scale = scale_data;

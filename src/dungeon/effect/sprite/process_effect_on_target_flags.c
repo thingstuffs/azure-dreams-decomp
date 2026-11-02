@@ -5,7 +5,7 @@
 #include "slus.h"
 
 /* Marks the record when target flags are set, then processes the target. */
-void process_effect_on_target_flags(u16 *record, void *unused, SpriteFrameState *target) {
+void process_effect_on_target_flags(ActorRecord *record, void *unused, SpriteFrameState *target) {
     if (target->flags & 0x6000) {
         u16 *record_flags = (u16 *)((u8 *)record - 2);
         *record_flags = (u16)(*record_flags | 0x8000);

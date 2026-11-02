@@ -1,5 +1,6 @@
 #ifndef DUNGEON_OVL_18AC800_H
 #define DUNGEON_OVL_18AC800_H
+struct ActorRecord;
 #include "shared/dungeon_moving_views.h"
 #include "shared/dungeon_status.h"
 #include "shared/object_flags.h"
@@ -23,7 +24,7 @@ extern s32 check_left_tile_and_center_height(u16, u16, s16);
 extern void ratan2(s16, s16);
 extern s32 create_effect_object_groups(s16, s16, s16);
 extern s32 play_sound_if_enabled(s32);
-extern void apply_conditional_target_effect(void *, u8, void *);
+extern void apply_conditional_target_effect(struct ActorRecord *, u8, void *);
 extern BankEffectCounter staged_fade_count;
 void follow_brighten(u8 *, u8 *, u8 *);
 void advance_object_and_global_counters(u16 *);

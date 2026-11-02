@@ -5,9 +5,7 @@
 #include "engine/graphics.h"
 #include "engine/text.h"
 #include "sdk/libgpu.h"
-
-extern s32 glyph_vram_column_steps[];
-extern s32 glyph_vram_row_steps[];
+#include "slus/data.h"
 
 /* Copies an image to a table-spaced VRAM position when its destination X is in range. */
 void move_glyph_to_grid_position(u8 *image_code, s16 grid_x, s16 grid_y, s32 spacing, s16 base_x, s16 base_y)

@@ -1,5 +1,6 @@
 #ifndef DUNGEON_EFFECT_PARTICLE_H
 #define DUNGEON_EFFECT_PARTICLE_H
+struct ScatterLandingSparksOnGridBody;
 struct LayeredSpritePulseBody;
 #include "common.h"
 #include "shared/entity.h"
@@ -85,7 +86,7 @@ void create_owner_linked_mirrored_sprite(void *effect, ObjectPosition *source_po
 
 /* Callback entry points. */
 void expire_ribbon_segment(void *record_data);
-void tick_rotating_rect_effect(RotatingClippedSpriteBody *effect, s32 unused, void *phase_state);
+void tick_rotating_rect_effect(RotatingClippedSpriteBody *effect, ObjectPosition *unused, void *phase_state);
 typedef struct ColorCyclingPulseBody {
     u8 pad_00[0x18];
     u16 ticks_remaining;
@@ -93,7 +94,7 @@ typedef struct ColorCyclingPulseBody {
     u16 phase_index;
 } ColorCyclingPulseBody;
 void update_color_cycling_pulse(ColorCyclingPulseBody *state_data, void *unused, void *color);
-void update_reverse_rotating_clipped_sprite(RotatingClippedSpriteBody *effect, s32 unused, void *rotation);
+void update_reverse_rotating_clipped_sprite(RotatingClippedSpriteBody *effect, ObjectPosition *unused, void *rotation);
 void update_staged_particle_emitter(void *effect_data);
 
 struct DirectionalEffectWork;
@@ -206,7 +207,7 @@ void run_growing_target_effect(struct S_func_818DA800_1 *effect_state, struct S_
 void spawn_scattered_timed_objects(void *source_owner, void *spawn_params);
 void update_animated_textured_ribbon(EightPartTexturedRibbonBody *effect, void *origin, void *color_in);
 void update_flickering_layer_sprite(struct LayeredSpritePulseBody *effect_data, void *unused, SpriteFrameState *effect);
-void update_landing_particle_fade(u8 *object, u8 *motion, u8 *sprite);
+void update_landing_particle_fade(struct ScatterLandingSparksOnGridBody *object, u8 *motion, u8 *sprite);
 
 void transform_rotated_vertices(void *transform_data);
 

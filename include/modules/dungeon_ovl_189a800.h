@@ -1,5 +1,7 @@
 #ifndef DUNGEON_OVL_189A800_H
 #define DUNGEON_OVL_189A800_H
+struct ObjectPosition;
+struct RandomRadialVectorEffectBody;
 
 
 struct SpriteFrameState;
@@ -67,8 +69,8 @@ typedef struct S_func_800241A8_4 {
 
 void transform_and_queue_mesh_primitives(S_func_800241A8_4 *,struct ObjectPosition *,struct SpriteFrameState *, s32);
 /* Bank callbacks whose definitions precede their users in the native TU. */
-void rotate_point_cloud_until_expired(void *object, s32 unused, void *target);
-void advance_fading_effect_animation(void *effect_data, s32 unused_arg, void *color_data);
+void rotate_point_cloud_until_expired(struct RandomRadialVectorEffectBody *object, struct ObjectPosition *unused, void *target);
+void advance_fading_effect_animation(void *effect_data, struct ObjectPosition *unused_arg, void *color_data);
 struct S_8187BE9C_1;
 void create_object_offset(void *effect, s32 unused, struct S_8187BE9C_1 *primitive);
 s32 decrement_object_counter(void *record, void *context, void *data);

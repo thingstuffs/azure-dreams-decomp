@@ -4,6 +4,7 @@
  * Original-file evidence: inferred (adjacency/recipe/locality), inferred-weak - group G01029 - CL:main/func_8000F25C, CL:main/func_8000F300, CL:main/func_8000F33C, CL:main/func_8000F3B4.
  */
 #include "frontend/libcard/message/card_boot_measure_dialog_choice_word_g01029.h"
+#include "frontend/libcard/message.h"
 
 /* Finds a word's byte offset and character count, and counts preceding characters. */
 void card_boot_measure_dialog_choice_word(

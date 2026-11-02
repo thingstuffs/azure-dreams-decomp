@@ -1,10 +1,12 @@
 #include "common.h"
 #include "shared/object_flags.h"
 #include "dungeon/effect/shade.h"
+#include "shared/object_node.h"
+#include "modules/dungeon_ovl_be1084.h"
 
 
 /* Advance and damp effect motion, fade its colors, and flag expiration. */
-void advance_damped_effect_and_expire(u8 *effect, s32 *motion)
+void advance_damped_effect_and_expire(FadeEffect *effect, s32 *motion)
 {
     s16 ticks_left;
 
@@ -15,18 +17,18 @@ void advance_damped_effect_and_expire(u8 *effect, s32 *motion)
     motion[4] /= 2;
     motion[5] /= 2;
 
-    effect[4] = (effect[0] * *(s16 *)(effect + 0x32)) /
-                *(s16 *)(effect + 0x34);
-    effect[5] = (effect[1] * *(s16 *)(effect + 0x32)) /
-                *(s16 *)(effect + 0x34);
-    effect[6] = (effect[2] * *(s16 *)(effect + 0x32)) /
-                *(s16 *)(effect + 0x34);
+    effect->current.color.red = (effect->red * effect->remaining) /
+                effect->total;
+    effect->current.color.green = (effect->green * effect->remaining) /
+                effect->total;
+    effect->current.color.blue = (effect->blue * effect->remaining) /
+                effect->total;
 
-    ticks_left = *(u16 *)(effect + 0x32) - 1;
-    *(s16 *)(effect + 0x32) = ticks_left;
-    *(s32 *)(effect + 8) = *(s32 *)(effect + 4);
+    ticks_left = (u16)effect->remaining - 1;
+    effect->remaining = ticks_left;
+    effect->output = effect->current.packed;
     if (ticks_left <= 0) {
-        *(u16 *)(effect - 2) |= NODE_REMOVE;
+        NODE_HEADER(effect)->flags |= NODE_REMOVE;
         object_flag_block.flags |= OBJECT_REMOVE_PENDING;
     }
 }

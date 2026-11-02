@@ -28,7 +28,6 @@ typedef struct Geometry_80046884 {
     SVec4_80046884 vectors[6];
 } Geometry_80046884;
 
-extern s32 ReadGeomScreen(void);
 extern void world_to_local_position(UVec4_80046884 *, SVec4_80046884 *);
 extern s16 intersect_view_ray_with_depth_plane(
     SVec4_80046884 *, SVec4_80046884 *, SVec4_80046884 *, s16);

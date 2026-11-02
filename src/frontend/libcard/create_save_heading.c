@@ -6,8 +6,6 @@
 #include "sdk/libc.h"
 #include "slus.h"
 
-extern void prepare_save_heading_layout(CardHeadingDrawState *work_state, s32 init_value);
-
 extern u8 menu_backdrop_tag[];
 
 /* Creates or resets the shared object and initializes its work state. */

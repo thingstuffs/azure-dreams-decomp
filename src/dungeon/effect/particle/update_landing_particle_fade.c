@@ -37,7 +37,7 @@ typedef struct S_80165AB8_2 {
 } S_80165AB8_2;   /* arg2 in update_landing_particle_fade */
 
 /* Updates object motion, landing, and fading before marking it finished. */
-void update_landing_particle_fade(u8 *object_arg, u8 *motion_arg, u8 *sprite_arg)
+void update_landing_particle_fade(ScatterLandingSparksOnGridBody *object_arg, u8 *motion_arg, u8 *sprite_arg)
 {
     S_80165AB8_2 *sprite = sprite_arg;
     S_80165AB8_1 *motion = motion_arg;

@@ -1,5 +1,6 @@
 #include "common.h"
 #include "engine/menu/animated_panel.h"
+#include "engine/menu.h"
 
 /* Ease a struct's current x/y position (at offsets 0x28/0x2A) halfway toward
  * its target x/y (at offsets 0x4/0x6) each call: pos += (target - pos) >> 1. */

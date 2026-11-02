@@ -8,6 +8,7 @@
 #include "engine/object.h"
 #include "engine/window.h"
 #include "shared/entity.h"
+#include "slus/data.h"
 
 
 
@@ -26,18 +27,6 @@ typedef struct S_8003719C_3 {
 } S_8003719C_3;   /* sprite in init_cursor_sprite_object */
 
 void copy_texture_descriptor_with_page_offsets(); /* extern */
-extern u8 cursor_texture_template_0[];
-extern u8 cursor_texture_template_1[];
-extern u8 cursor_texture_template_2[];
-extern u8 cursor_texture_template_3[];
-extern u8 cursor_texture_template_4[];
-extern u8 cursor_texture_template_5[];
-extern u8 cursor_texture_descriptor_4[];
-extern u8 cursor_texture_descriptor_5[];
-extern u8 cursor_texture_descriptor_0[];
-extern u8 cursor_texture_descriptor_1[];
-extern u8 cursor_texture_descriptor_2[];
-extern u8 cursor_texture_descriptor_3[];
 extern u8 window_node_list_storage[];
 
 /* Initializes a sprite node, links it to its owner, and applies its initial display state. */

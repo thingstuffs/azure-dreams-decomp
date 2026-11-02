@@ -2,6 +2,7 @@
 #include "common.h"
 #include "engine/menu/selection_menu.h"
 #include "shared/game_work.h"
+#include "engine/menu.h"
 
 /* Sparse view of the shared global state struct D_80083160: only the two
  * fields this function reads (offsets 0x8 and 0x10). Declared >8 bytes so
@@ -19,8 +20,6 @@ extern s16 SD_Call(s32 a0);
 extern void begin_selection_menu_teardown_and_fade(u8 *object);
 extern void release_selection_menu_and_preserve_pending_value(void *a0);
 extern s32 resolve_selected_menu_entry(void *a0);
-extern s32 call_state_callback(void *a0);
-extern void run_state_callback_and_restore(void *a0);
 extern s32 advance_index_with_single_wrap(s32 a0, s32 a1, s32 a2);
 
 /* Handles object state changes and directional index updates from global input flags. */

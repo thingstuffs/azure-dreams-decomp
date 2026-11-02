@@ -1,10 +1,13 @@
 #ifndef INCLUDE_DUNGEON_MODULES_OVL_CD7000_H
 #define INCLUDE_DUNGEON_MODULES_OVL_CD7000_H
+struct SpriteFrameState;
+struct ObjectPosition;
+struct ActorRecord;
 
 /* Contracts owned by src/dungeon/modules/ovl_cd7000.c. */
 #include "modules/dungeon_ovl_cd7000.h"
 
-void initialize_gray_sprite_copy_slot_a(CL_CD7000_8017087C_Object *object, s32 field60_value, CL_CD7000_8017087C_CopyFields *source_coords);
+void initialize_gray_sprite_copy_slot_a(CL_CD7000_8017087C_Object *object, struct ActorRecord *field60_value, struct ObjectPosition *source_coords);
 void update_growing_rotating_fade_slot_a(void *effect, void *unused, void *visual);
 void *spawn_block_slot_a(s16 spawn_flags, s16 tile_x, s16 tile_y, s32 spawn_height);
 void update_block_motion_and_facing_slot_a(void *entity, CL_CD7000_80170C24_S_80170C24_2 *motion, void *monster);
@@ -19,7 +22,7 @@ void finish_block_tile_move_slot_a(void *state_arg,void *position,void *render_s
 void update_block_hop_slot_a(void *action, ObjectPosition *motion, SpriteFrameState *map_entry, ActorRecord *actor);
 void finish_block_linked_motion_slot_a(S_80172944_0 *state,void *position,void *render_state,void *entity);
 void update_block_attack_slot_a(void *action, void *motion, SpriteFrameState *sprite, ActorRecord *actor);
-void update_block_spell_slot_a(CL_CD7000_80172BCC_S_func_80C953CC_1 *work, CL_CD7000_80172BCC_S_func_80C953CC_2 *position, CL_CD7000_80172BCC_S_func_80C953CC_3 *entity,
+void update_block_spell_slot_a(struct ActorRecord *work, struct ObjectPosition *position, struct SpriteFrameState *entity,
     CL_CD7000_80172BCC_S_func_80C953CC_4 *actor);
 void update_block_defeat_slot_a(void *state,void *position,void *render_state,void *entity);
 void update_block_hop_shrink_slot_a(ActorRecord *state,ObjectPosition *position,SpriteFrameState *render_state,ActorRecord *entity);

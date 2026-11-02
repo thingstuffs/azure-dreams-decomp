@@ -10,10 +10,7 @@
 #include "sdk/libgte.h"
 #include "slus/data.h"
 #include "slus.h"
-
-extern s32 InitPAD(u8 *buf1, s32 siz1, u8 *buf2, s32 siz2);
-
-extern void StartPAD(void);
+#include "sdk/libapi.h"
 
 /* D_80083160[0] holds the current CD/streaming state pointer; default value is
  * the sentinel D_801C9E40. size>8 to force %hi/%lo. */

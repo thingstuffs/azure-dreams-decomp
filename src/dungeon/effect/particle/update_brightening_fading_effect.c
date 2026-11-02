@@ -512,7 +512,7 @@ static __inline__ void set_v_width(s32 *rect, s32 v, s32 width)
 }
 
 /* Project a textured object quad onto the height grid and add it to the ordering table. */
-void project_height_grid_object_quad(void *unused, void *origin_arg, u8 *object, s16 tile_x, s16 tile_y)
+void project_height_grid_object_quad(void *unused, void *origin_arg, SpriteFrameState *object, s16 tile_x, s16 tile_y)
 {
     S_8195F43C_1 *origin = origin_arg;
     u8 **render_state = (u8 **)((u8 *)(&g_game_work));
@@ -564,8 +564,8 @@ void project_height_grid_object_quad(void *unused, void *origin_arg, u8 *object,
     packet = ((GpuContext *)render_ctx)->packetCursor;
     PushMatrix();
 
-    VFIELD(scratch, u32, 0x30) = ((S_8195F43C_5 *)object)->unk_1C * 2;
-    scale_y = ((S_8195F43C_5 *)object)->unk_1E;
+    VFIELD(scratch, u32, 0x30) = object->scale_x * 2;
+    scale_y = object->scale_y;
     VFIELD(scratch, u32, 0x38) = 0x2000;
     VFIELD(scratch, u16, 0x102) = 0;
     VFIELD(scratch, u16, 0x104) = 0;
@@ -625,8 +625,8 @@ void project_height_grid_object_quad(void *unused, void *origin_arg, u8 *object,
             PFIELD(scratch, s32, 0xC) = texture->unk_09;
             PFIELD(scratch, s32, 0x14) = texture->unk_0B;
 
-            ((S_8195F43C_7 *)packet)->unk_0E = ((S_8195F43C_5 *)object)->unk_12 + (*(u16 *)((u8 *)texture + 6));
-            page_offset = ((S_8195F43C_5 *)object)->unk_10;
+            ((S_8195F43C_7 *)packet)->unk_0E = object->clut + (*(u16 *)((u8 *)texture + 6));
+            page_offset = object->tpage_abr;
             if (page_offset != 0) {
                 (*(u16 *)(packet + 0x16)) = page_offset + (texture->unk_04 & 0xFF9F);
             } else {
@@ -719,10 +719,10 @@ void project_height_grid_object_quad(void *unused, void *origin_arg, u8 *object,
                 ((S_8195F43C_7 *)packet)->unk_25--;
             }
 
-            ((S_8195F43C_7 *)packet)->unk_04.at00.v = ((S_8195F43C_5 *)object)->unk_0C;
+            ((S_8195F43C_7 *)packet)->unk_04.at00.v = object->color.unsigned_word;
             ((S_8195F43C_7 *)packet)->unk_00.at03.v = 9;
             ((S_8195F43C_7 *)packet)->unk_04.at03.v = 0x2C;
-            if (((S_8195F43C_5 *)object)->unk_14 & 4) {
+            if (object->flags & 4) {
                 ((S_8195F43C_7 *)packet)->unk_04.at03.v = 0x2E;
             }
 
@@ -746,7 +746,7 @@ void project_height_grid_object_quad(void *unused, void *origin_arg, u8 *object,
 #include "common.h"
 
 /* Sets tile bounds and dispatches tiles for a seven-by-seven grid. */
-s32 dispatch_seven_by_seven_tile_grid(void *tile_data, s32 draw_arg_1, s32 draw_arg_2) {
+s32 dispatch_seven_by_seven_tile_grid(void *tile_data, ObjectPosition *draw_arg_1, SpriteFrameState *draw_arg_2) {
     s32 column;
     s32 row;
     s32 tile_y;
@@ -1640,7 +1640,7 @@ void create_linked_objects(void *quad, S_81960CD4_2 *motion, S_81960CD4_3 *effec
 #define SCRATCH ((Bank56_819611CC_Scratch *)0x1F800000)
 
 /* Project a textured quad and queue it with semitransparency when its depth is in range. */
-s32 project_and_queue_semitransparent_quad(Quad *quad, s32 unused, Material *material)
+s32 project_and_queue_semitransparent_quad(Quad *quad, ObjectPosition *unused, Material *material)
 {
     Bank56_819611CC_Scratch *scratch;
     Bank56_819611CC_PolyFT4 *packet;

@@ -465,7 +465,7 @@ typedef struct {
 } Global16;
 
 /* Advances counters and conditionally processes the target, propagating its status flag. */
-void advance_sprite_on_alternate_ticks_until_complete(void *record, s32 unused, void *target)
+void advance_sprite_on_alternate_ticks_until_complete(void *record, ObjectPosition *unused, void *target)
 {
     u16 flags = *(u16 *)((u8 *)record + 0x1C);
 
@@ -1045,7 +1045,7 @@ void allocate_jittered_effect_node(void *source_data, s16 initial_1a, s16 initia
 #include "shared/object_flags.h"
 
 /* Fade the effect color and set completion flags when red falls below eight. */
-void fade_effect_color_below_eight(u16 *effect_data, s32 unused, EffectColor *color) {
+void fade_effect_color_below_eight(u16 *effect_data, ObjectPosition *unused, EffectColor *color) {
     u8 red;
     u8 green;
     u8 blue;
@@ -1130,7 +1130,7 @@ void *create_effect_from_endpoints(S_80025654_2 *endpoints, S_80025654_4 *settin
 extern u8 D_800E1CD5[9];
 
 /* Conditionally applies D_800E1CD5 using a check indexed by the supplied value's low byte. */
-void apply_indexed_effect_condition(void *target, u8 packedValue, void *owner_context) {
+void apply_indexed_effect_condition(ActorRecord *target, u8 packedValue, ActorRecord *owner_context) {
     if (try_trigger_target_record_effect(target, 1, owner_context) == 0) {
         s32 valueGroupIndex = packedValue >> 2;
         valueGroupIndex += 2;

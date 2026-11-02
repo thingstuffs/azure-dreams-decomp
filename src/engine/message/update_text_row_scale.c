@@ -2,9 +2,7 @@
 
 #include "common.h"
 #include "engine/message.h"
-
-extern u8 message_mode_row_scale[];
-extern s32 message_row_heights[];
+#include "slus/data.h"
 
 /* Updates the runtime scale and scaled value from lookup tables. */
 void update_text_row_scale(u8 *entity) {

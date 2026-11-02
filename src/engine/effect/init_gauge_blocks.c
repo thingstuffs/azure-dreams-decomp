@@ -4,6 +4,7 @@
 #include "shared/gpu_packets.h"
 #include "engine/graphics.h"
 #include "shared/menu_display.h"
+#include "engine/effect.h"
 
 
 

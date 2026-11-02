@@ -290,4 +290,8 @@ extern u16 wide_texture_pack_y;
 /* Owner declarations appended by tools/headers (append-only; the lines above are hand-kept). */
 void step_actor_animation(SpriteFrameState *entity, s32 slot_index);
 
+struct CdCueEffectNode;
+struct Controller;
+void scene_initialize_arc_motion_sprite(struct CdCueEffectNode *object, struct Controller *sub_object);
+
 #endif

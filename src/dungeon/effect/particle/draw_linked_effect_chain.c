@@ -366,7 +366,7 @@ void choose_random_sign(AdvanceEntityEffectSequenceBody *effect, s32 unused, voi
 }
 
 /* Rotates the sprite and fades its grayscale color in proportion to the countdown, then removes it. */
-void rotate_and_fade_timed_sprite(Row_819A13D0_Work *work, s32 unused, Row_819A13D0_Obj *obj) {
+void rotate_and_fade_timed_sprite(Row_819A13D0_Work *work, ObjectPosition *unused, Row_819A13D0_Obj *obj) {
     s32 scaled_count;
     u16 count;
     u16 angle;
@@ -389,7 +389,7 @@ void rotate_and_fade_timed_sprite(Row_819A13D0_Work *work, s32 unused, Row_819A1
 
 /* Creates a randomly rotated gray sprite at an actor-relative offset with velocity from its direction
    table. */
-void create_rotating_directional_sprite(Row_819A1450_S_819A1450_4 *source, s32 unused_1, s32 unused_2, s16 offset_x, s16 offset_y,
+void create_rotating_directional_sprite(Row_819A1450_S_819A1450_4 *source, ObjectPosition *unused_1, SpriteFrameState *unused_2, s16 offset_x, s16 offset_y,
                    s16 offset_z)
 {
     Row_819A1450_LocalTable direction_table;

@@ -1,5 +1,6 @@
 #ifndef DUNGEON_OVL_7CE800_H
 #define DUNGEON_OVL_7CE800_H
+struct ObjectNodeHeader;
 #include "common.h"
 #include "shared/sprite_frame_state.h"
 #include "m2c_compat.h"
@@ -39,7 +40,7 @@ typedef struct DirectionOffsets {
     u16 y7;
 } __attribute__((packed)) DirectionOffsets;
 extern const DirectionOffsets dungeon_7ce800_directions;
-void update_sprite_from_third_argument(M2C_UNK unused_first, M2C_UNK unused_second, M2C_UNK value);
+void update_sprite_from_third_argument(struct ObjectNodeHeader *unused_first, ObjectPosition *unused_second, SpriteFrameState *value);
 void create_positioned_view_marker(s16 x, s16 y);
 void advance_dungeon_tile_action_state(u8 *state, u8 *actor, u8 *target);
 void create_slot_positioned_effect(s16 x, s16 y, s32 slot);

@@ -316,7 +316,7 @@ void handle_spawn_initialize_randomized_offset_parent(Object *source, s32 state_
 }
 
 /* Advance animation values and set completion flags when the countdown expires. */
-void expand_rotating_countdown_sprite(RotatingCountdownSpriteBody *countdown_state, s32 unused, SpriteFrameState *animation_state)
+void expand_rotating_countdown_sprite(RotatingCountdownSpriteBody *countdown_state, ObjectPosition *unused, SpriteFrameState *animation_state)
 {
     s32 remaining_ticks;
 

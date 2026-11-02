@@ -18,7 +18,7 @@ extern s32 generate_random_value(void);
 extern u8 current_spell_effect_variant;
 
 /* Apply a randomized effect to eligible targets within two tiles of the center. */
-void apply_randomized_effect_near_center(s16 center_x, s16 center_y, s32 source, s32 power) {
+void apply_randomized_effect_near_center(s16 center_x, s16 center_y, ActorRecord *source, s32 power) {
     s32 effect_code;
     s16 base_value;
     s32 effect_value;

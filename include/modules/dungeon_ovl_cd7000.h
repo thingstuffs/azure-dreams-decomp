@@ -54,7 +54,7 @@ typedef struct {
 typedef struct {
     ObjectNodeHeader header;
     u8 pad20[0x40];
-    s32 field60;
+    ActorRecord *field60;
 } CL_CD7000_8017087C_Object;
 
 typedef struct CL_CD7000_80170920_S_80170920_0 {

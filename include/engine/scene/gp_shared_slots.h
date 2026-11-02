@@ -14,12 +14,6 @@ extern u16 scene_sprite_fade_ticks;
 extern u8 scene_sprite_last_field;
 extern s16 scene_sprite_x_history[64];
 extern s16 scene_sprite_y_history[64];
-extern s32 VSync(s32 mode);
-extern void PutDispEnv(void *env);
-extern void PutDrawEnv(void *env);
-extern void DrawSync(s32 mode);
-extern s32 rcos(s32 angle);
-extern s32 rsin(s32 angle);
 extern void draw_sprite_list(void);
 extern void func_8003D0F0(void);
 extern void draw_cd_wait_sprite_trail(s32 layer);
@@ -40,15 +34,6 @@ static inline s32 shift10(s32 value)
 #define U32_AT(p, o) (*(u32 *)((u8 *)(p) + (o)))
 #define S32_AT(p, o) (*(s32 *)((u8 *)(p) + (o)))
 
-extern void PushMatrix(void);
-extern void PopMatrix(void);
-extern void TransMatrix(void *m, void *v);
-extern void RotMatrix(void *r, void *m);
-extern void SetRotMatrix(void *m);
-extern void SetTransMatrix(void *m);
-extern void RotTransSV(void *in, void *out, void *flag);
-extern void DrawPrim(void *p);
-extern s32 rsin(s32);
 
 extern s16 scene_sprite_list_initialized;
 extern void *scene_sprite_list_base;

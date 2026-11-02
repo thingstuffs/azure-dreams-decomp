@@ -1,5 +1,9 @@
 #ifndef INCLUDE_DUNGEON_MODULES_OVL_CCB000_H
 #define INCLUDE_DUNGEON_MODULES_OVL_CCB000_H
+struct ObjectPosition;
+struct SpriteFrameState;
+struct ActorRecord;
+struct SpriteFrameState;
 
 /* Contracts owned by src/dungeon/modules/ovl_ccb000.c. */
 #include "modules/dungeon_ovl_ccb000.h"
@@ -14,11 +18,11 @@ void begin_block_hop_slot_c(CL_CCB000_80171F58_S_80171F58_0 *state, ObjectPositi
 s32 try_begin_block_attack_slot_c(Rec_func_800A9E70_arg0 *action_state, ObjectPosition *motion_param, void *sprite_arg, ActorRecord *actor);
 void begin_block_attack_slot_c(CL_CCB000_80172180_S_80172180_1 *state, s32 position, CL_CCB000_80172180_S_80172180_2 *render_state, void *entity);
 s32 check_block_action_ready_slot_c(void *entity_arg, ObjectPosition *primary_context_arg, void *secondary_context_arg, s32 force_state_arg);
-void finish_block_tile_move_slot_c(void *state_arg,ObjectPosition *position,SpriteFrameState *render_state,ActorRecord *entity);
+void finish_block_tile_move_slot_c(struct ActorRecord *state_arg,ObjectPosition *position,SpriteFrameState *render_state,ActorRecord *entity);
 void update_block_hop_slot_c(ActorRecord *action, ObjectPosition *motion, SpriteFrameState *map_entry, ActorRecord *actor);
 void finish_block_linked_motion_slot_c(S_80172944_0 *state,void *position,void *render_state,void *entity);
 void update_block_attack_slot_c(ActorRecord *action, ObjectPosition *motion, SpriteFrameState *sprite, ActorRecord *actor);
-void update_block_spell_slot_c(CL_CCB000_80172BCC_S_func_80C953CC_1 *work, CL_CCB000_80172BCC_S_func_80C953CC_2 *position, CL_CCB000_80172BCC_S_func_80C953CC_3 *entity,
+void update_block_spell_slot_c(CL_CCB000_80172BCC_S_func_80C953CC_1 *work, CL_CCB000_80172BCC_S_func_80C953CC_2 *position, struct SpriteFrameState *entity,
     CL_CCB000_80172BCC_S_func_80C953CC_4 *actor);
 void update_block_value_reaction_slot_c(CL_CCB000_801730E0_S_801730E0_0 *state, ObjectPosition *motion, SpriteFrameState *action, EntityRec *entity);
 void update_block_defeat_slot_c(ActorRecord *state,ObjectPosition *position,SpriteFrameState *render_state,ActorRecord *entity);
@@ -32,11 +36,11 @@ void finish_block_thrown_travel_slot_c(S_80173B00_0 *state,void *position,void *
 void finish_block_terrain_move_slot_c(S_80173B64_0 *state,void *position,void *render_state,void *entity);
 void finish_block_spinning_fall_slot_c(S_80173B9C_0 *state,void *position,void *render_state,void *entity);
 void finish_block_fade_in_slot_c(S_80173BD4_0 *state,void *position,void *render_state,void *entity);
-void spin_and_fade_gray_sprite_slot_c(void *effect, s32 unused, void *primitive);
-void create_gray_fading_sprite_slot_c(void *unused_context, Rec_func_80173CFC_arg1 *source_pos, s32 unused_value, s16 scale);
+void spin_and_fade_gray_sprite_slot_c(void *effect, struct ObjectPosition *unused, void *primitive);
+void create_gray_fading_sprite_slot_c(void *unused_context, Rec_func_80173CFC_arg1 *source_pos, struct SpriteFrameState *unused_value, s16 scale);
 void draw_shaded_effect_quad_slot_c(void *quad, void *position, void *render_info, s16 depth_bias);
 s32 draw_linked_effect_quads_slot_c(void *point, void *position, void *color);
-void update_flashing_effect_segment_slot_c(u8 *effect, s32 *position, s32 effect_param);
+void update_flashing_effect_segment_slot_c(u8 *effect, s32 *position, struct SpriteFrameState *effect_param);
 void create_segmented_effect_rings_slot_c(CL_CCB000_80174724_S_80C96F24_0 *owner, void *origin, SpriteFrameState *entity);
 void begin_block_action_23_slot_c(S_80174B3C_1 *state, ObjectPosition *unused_position, void *unused_render_state, CL_CCB000_80174B3C_S_80174B3C_0 *entity);
 void restore_scene_tint_slot_c(u8 *task, void *context, u8 *input);

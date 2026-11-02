@@ -1,6 +1,7 @@
 #include "common.h"
 #include "shared/object_flags.h"
 #include "frontend/settings.h"
+#include "frontend/card.h"
 
 /* Updates object flags and display offset from its linked sub-object. */
 void sync_object_with_sub_object(SettingsSyncObjectBody *object)

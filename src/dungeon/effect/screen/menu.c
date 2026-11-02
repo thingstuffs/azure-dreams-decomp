@@ -617,7 +617,7 @@ typedef struct S_800B8CF0_1 {
 
 
 /* Count down the effect, alternating its shade until marking it finished. */
-void update_blinking_sprite_flash(void *state_arg, s32 unused, void *primitive_arg) {
+void update_blinking_sprite_flash(void *state_arg, ObjectPosition *unused, void *primitive_arg) {
     S_800B8CF0_0 *state = state_arg;
     s32 ticks_left;
     S_800B8CF0_1 *primitive = primitive_arg;
@@ -643,14 +643,14 @@ void update_blinking_sprite_flash(void *state_arg, s32 unused, void *primitive_a
 #include "shared/slus_callbacks.h"
 #include "m2c_compat.h"
 
-extern void update_blinking_sprite_flash(void *state, s32 unused, void *primitive);
+extern void update_blinking_sprite_flash(void *state, ObjectPosition *unused, void *primitive);
 extern M2C_UNK visual_object_sprite_data;
 
 typedef struct S_800B8D64_0 {
     u8 pad_00[0x8];
     void * unk_08;
     void * unk_0C;
-    void (*unk_10)(void *, s32,  void *);
+    void (*unk_10)(void *, ObjectPosition *,  void *);
     u8 pad_14[0xE];
     s16 unk_22;
 } S_800B8D64_0;
@@ -716,7 +716,7 @@ typedef struct Effect {
 
 
 /* Attenuates an effect and sets object and global flags when its byte level reaches zero. */
-void attenuate_effect_scale_and_brightness(Object_800B36B8 *object, s32 unused, Effect *effect) {
+void attenuate_effect_scale_and_brightness(Object_800B36B8 *object, ObjectPosition *unused, Effect *effect) {
     u16 magnitude;
     u8 level;
     ObjectFlagBlock *state_flags = &object_flag_block;
@@ -780,7 +780,7 @@ typedef struct {
 
 struct Object_800B36B8;
 struct Effect;
-extern void attenuate_effect_scale_and_brightness(struct Object_800B36B8 *object, s32 unused, struct Effect *effect);
+extern void attenuate_effect_scale_and_brightness(struct Object_800B36B8 *object, ObjectPosition *unused, struct Effect *effect);
 
 /* Allocate and initialize a type-0x12 object with child and metadata values. */
 void create_attenuating_moving_effect(ObjectNodeHeader **alloc_arg, s32 child_x, s32 child_y, s32 child_z,
@@ -2765,7 +2765,7 @@ extern void update_map_cell_flags_with_item_limit(s32 x, s32 y, u16 flags);
 extern void clear_slot_and_detach_entity(s32 slot_index);
 
 /* Updates the object's countdown and triggers an effect when it expires. */
-void update_timed_tile_effect(Func800B5948Object *object, s32 unused, Func800B5948Object *related_object) {
+void update_timed_tile_effect(Func800B5948Object *object, ObjectPosition *unused, Func800B5948Object *related_object) {
     u16 ticks_left;
 
     if (g_dungeon_status.flags & 0x10) {
@@ -3070,7 +3070,7 @@ typedef struct S_800BB55C_4 {
 } S_800BB55C_4;   /* global_ptr in update_five_point_effect */
 
 /* Draws a growing five-point pattern and updates its rotating fade-out effect. */
-void update_five_point_effect(void *effect, S_800BB55C_2 *position, s32 restore_link) {
+void update_five_point_effect(void *effect, ObjectPosition *position, s32 restore_link) {
     s32 draw_params[2];
     s16 start_xy[2];
     s16 end_xy[2];
@@ -3164,7 +3164,7 @@ void update_five_point_effect(void *effect, S_800BB55C_2 *position, s32 restore_
             point_index = point_index + 1;
             rotation = ((S_800BB55C_0 *)effect)->unk_4E + 0x400;
             ((S_800BB55C_0 *)effect)->unk_4E = rotation;
-            create_orbiting_color_particle(position->unk_02, position->unk_06, position->unk_0A, (s16) rotation,
+            create_orbiting_color_particle(position->x.w.i, position->y.w.i, position->z.w.i, (s16) rotation,
                 (s32) ((S_800BB55C_0 *)effect)->unk_50, (s32) ((S_800BB55C_0 *)effect)->unk_58,
                 ((S_800BB55C_0 *)effect)->unk_5C, 6);
         } while (point_index < 4);
@@ -3205,7 +3205,7 @@ void update_five_point_effect(void *effect, S_800BB55C_2 *position, s32 restore_
 /* cfail-repair: tf7-phase1-cache-v3 */
 
 /* Pass the buffer, value, and data to draw_linked_sprites_clipped and return zero. */
-s32 process_linked_menu_effect(u8 *buffer, s32 value, void *data) {
+s32 process_linked_menu_effect(u8 *buffer, s32 value, SpriteFrameState *data) {
     draw_linked_sprites_clipped(buffer, value, data);
     return 0;
 }
@@ -3215,15 +3215,15 @@ s32 process_linked_menu_effect(u8 *buffer, s32 value, void *data) {
 #include "m2c_compat.h"
 
 struct S_800BB55C_2;
-extern void update_five_point_effect(void *effect, struct S_800BB55C_2 *position, s32 restore_link);
-extern s32 process_linked_menu_effect(u8 *buffer, s32 value, void *data);
+extern void update_five_point_effect(void *effect, ObjectPosition *position, s32 restore_link);
+extern s32 process_linked_menu_effect(u8 *buffer, s32 value, SpriteFrameState *data);
 extern M2C_UNK familiar_restore_sprite_data;
 
 typedef struct S_800BBA40_0 {
     u8 pad_00[0x8];
     void * unk_08;
     void * unk_0C;
-    void (*unk_10)(void *, S_800BB55C_2 *, s32);
+    void (*unk_10)(void *, ObjectPosition *, s32);
 } S_800BBA40_0;
 
 typedef struct S_800BBA40_1 {
@@ -3473,7 +3473,7 @@ extern void SetPolyG4(void *);
 extern void SetDrawMode(void *, s32, s32, s32, s32);
 
 /* Projects and queues a shaded quad with optional semitransparency. */
-void draw_shaded_vertical_quad(S_800BBDEC_4 *object, S_800BBDEC_1 *position, S_800BBDEC_3 *appearance, s32 unused_draw_value)
+void draw_shaded_vertical_quad(S_800BBDEC_4 *object, ObjectPosition *position, SpriteFrameState *appearance, s32 unused_draw_value)
 {
     u8 *scratch = (u8 *)0x1F800000;
     void **render_ctx = (void **)((u8 *)(&g_game_work));
@@ -3483,16 +3483,16 @@ void draw_shaded_vertical_quad(S_800BBDEC_4 *object, S_800BBDEC_1 *position, S_8
     s16 end_z;
 
     ((S_800BBDEC_0 *)scratch)->unk_20 = (u8 *)*render_ctx + 0xB0;
-    ((S_800BBDEC_0 *)scratch)->unk_E4 = position->unk_02;
-    ((S_800BBDEC_0 *)scratch)->unk_E8 = position->unk_06;
-    ((S_800BBDEC_0 *)scratch)->unk_EC = position->unk_0A;
+    ((S_800BBDEC_0 *)scratch)->unk_E4 = position->x.w.i;
+    ((S_800BBDEC_0 *)scratch)->unk_E8 = position->y.w.i;
+    ((S_800BBDEC_0 *)scratch)->unk_EC = position->z.w.i;
     prim = ((GpuContext *)(*render_ctx))->packetCursor;
 
     PushMatrix();
 
-    ((S_800BBDEC_0 *)scratch)->unk_100 = appearance->unk_16;
-    ((S_800BBDEC_0 *)scratch)->unk_104 = appearance->unk_1A;
-    ((S_800BBDEC_0 *)scratch)->unk_102 = appearance->unk_18;
+    ((S_800BBDEC_0 *)scratch)->unk_100 = appearance->angle_x;
+    ((S_800BBDEC_0 *)scratch)->unk_104 = appearance->angle_z;
+    ((S_800BBDEC_0 *)scratch)->unk_102 = appearance->angle_y;
     RotMatrix(scratch + 0x100, scratch + 0xD0);
     ReadRotMatrix(scratch + 0x11C);
     CompMatrix(scratch + 0x11C, scratch + 0xD0, scratch + 0x50);
@@ -3520,7 +3520,7 @@ void draw_shaded_vertical_quad(S_800BBDEC_4 *object, S_800BBDEC_1 *position, S_8
     ((S_800BBDEC_0 *)scratch)->unk_C0 = depth_index;
 
     if (depth_index < 0x1E0U) {
-        color_word = appearance->unk_0C;
+        color_word = appearance->color.word;
         ((S_800BBDEC_5 *)prim)->unk_14 = 0;
         ((S_800BBDEC_5 *)prim)->unk_1C = 0;
         ((S_800BBDEC_5 *)prim)->unk_04.at00.v = color_word;
@@ -3529,7 +3529,7 @@ void draw_shaded_vertical_quad(S_800BBDEC_4 *object, S_800BBDEC_1 *position, S_8
         ((S_800BBDEC_5 *)prim)->unk_0E = ((S_800BBDEC_5 *)prim)->unk_04.at02.v >> 2;
         SetPolyG4(prim);
 
-        if (appearance->unk_14 & 4) {
+        if (appearance->flags & 4) {
             ((S_800BBDEC_5 *)prim)->unk_04.at03.v |= 2;
         }
 
@@ -3538,7 +3538,7 @@ void draw_shaded_vertical_quad(S_800BBDEC_4 *object, S_800BBDEC_1 *position, S_8
                       prim);
         prim += 0x24;
 
-        if (appearance->unk_14 & 4) {
+        if (appearance->flags & 4) {
             SetDrawMode(prim, 0, 0, 0x20, 0);
             AddPrim((u8 *)((S_800BBDEC_0 *)scratch)->unk_20 +
                           ((S_800BBDEC_0 *)scratch)->unk_C0 * 4,
@@ -3555,15 +3555,15 @@ void draw_shaded_vertical_quad(S_800BBDEC_4 *object, S_800BBDEC_1 *position, S_8
 struct S_800BBDEC_4;
 struct S_800BBDEC_1;
 struct S_800BBDEC_3;
-extern void draw_shaded_vertical_quad(struct S_800BBDEC_4 *object, struct S_800BBDEC_1 *position, struct S_800BBDEC_3 *appearance, s32 unused_draw_value);
+extern void draw_shaded_vertical_quad(struct S_800BBDEC_4 *object, ObjectPosition *position, SpriteFrameState *appearance, s32 unused_draw_value);
 
 /* Process each linked state using the signed halfword at data offset 6. */
-s32 draw_shaded_quad_chain(void *initial_state, void *context, void *data) {
+s32 draw_shaded_quad_chain(void *initial_state, ObjectPosition *context, SpriteFrameState *data) {
     void *state = initial_state;
     void *next_node;
 
     for (;;) {
-        draw_shaded_vertical_quad(state, context, data, *(s16 *)((s8 *)data + 6));
+        draw_shaded_vertical_quad(state, context, data, data->depth_bias);
         next_node = *(void **)((s8 *)state - 8);
         if (next_node == 0) {
             return 0;
@@ -3580,7 +3580,7 @@ struct State;
 struct Output;
 struct Interp;
 extern void update_orbiting_color_particle(struct State *state, struct Output *output, struct Interp *interp);
-extern s32 draw_shaded_quad_chain(void *initial_state, void *context, void *data);
+extern s32 draw_shaded_quad_chain(void *initial_state, ObjectPosition *context, SpriteFrameState *data);
 
 typedef struct S_800BC0A8_0 {
     u8 pad_00[0x8];

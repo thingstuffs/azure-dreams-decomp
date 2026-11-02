@@ -14,7 +14,6 @@ typedef struct S_8004A24C_0 {
     s32 unk_1C;
 } S_8004A24C_0;   /* arg0 in init_menu_panel */
 
-void menu_initialize_four_sub_blocks_position_offsets_fixed_header_derived_values();       /* extern */
 s32 read_terminal_tagged_entry_value();                             /* extern */
 void menu_copy_the_default_template_fills_five_byte_pairs_negated_half();       /* extern */
 

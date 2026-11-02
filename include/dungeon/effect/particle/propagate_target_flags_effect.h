@@ -1,5 +1,6 @@
 #ifndef DUNGEON_OVL_198A800_H
 #define DUNGEON_OVL_198A800_H
+struct ObjectPosition;
 #include "common.h"
 #include "shared/dungeon_effect_views.h"
 #include "shared/sprite_frame_state.h"
@@ -446,13 +447,13 @@ void shrink_effect_and_step_texture(void *effect, s32 unused, S_8196BF24_1 *tran
 void advance_particle_emitting_projectile(UpdateStagedParticleEffectBody *object, void *position, void *render_state);
 void update_timed(void *effect_data, s32 unused, void *sprite);
 void advance_counter_and_propagate_target_flags(void *object);
-void advance_terrain_colliding_sprite(LingeringBallisticSpriteBody *motion, void *position, s32 update_id);
+void advance_terrain_colliding_sprite(LingeringBallisticSpriteBody *motion, void *position, SpriteFrameState *update_id);
 void create_staged_rectangle_sprite(void *source, s32 unused_position, s32 unused_render);
 void create_timed_rectangle_effect(StagedRectangleSpriteBody *owner);
 void update_staged_particle_effect(Work *work, s32 position_arg, s32 sprite_arg);
 void advance_colliding_particle_sprite(void *effect, S_8196ACE4_0 *position, SpriteFrameState *sprite);
 void create_brief_ballistic_sprite(S_8196B780_5 *source, s32 unused_1, s32 unused_2, s16 x, s16 y, s16 z);
-void shrink_particle_emitting_projectile(UpdateStagedParticleEffectBody *effect, void *position, void *sprite);
+void shrink_particle_emitting_projectile(UpdateStagedParticleEffectBody *effect, struct ObjectPosition *position, SpriteFrameState *sprite);
 void draw_effect_and_restore_clip(StagedRectangleSpriteBody *effect, s32 unused, u8 *primitive);
 void apply_random_actor_value_adjustment(void *state, void *unused, void *visual);
 void spawn_jittered_point_child(ObjectNodeHeader *source, s32 state_14_value, s32 state_08_value, s32 state_32_value, s16 x_offset, s16 y_offset, s16 z_offset);

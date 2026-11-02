@@ -1,6 +1,7 @@
 #include "common.h"
 #include "engine/menu/animated_panel.h"
 #include "shared/menu_display.h"
+#include "engine/menu.h"
 
 /*
  * Positions the first menu block relative to screen center (160, 128), binds the next three blocks

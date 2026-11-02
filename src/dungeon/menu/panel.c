@@ -402,7 +402,7 @@ enum HudFadeState {
 extern void func_8004E994(void *object);
 
 /* Updates effect scale and brightness, then releases its objects when fading out ends. */
-void update_fading_effect_scale(void *effect, s32 unused, void *render_arg)
+void update_fading_effect_scale(void *effect, ObjectPosition *unused, void *render_arg)
 {
     struct { void *p; } render = {render_arg};
     hud_fade_predicate_fn *dispatch_table;
@@ -585,7 +585,7 @@ typedef struct AcObject {
 
 extern void *D_80073618[];
 extern s32 transform_linked_quad_batches(u8 *, s32, u8 *);
-extern void update_fading_effect_scale(void *effect, s32 unused, void *render_arg);
+extern void update_fading_effect_scale(void *effect, ObjectPosition *unused, void *render_arg);
 extern s32 D_800DF03C[];
 
 extern s32 allocate_panel_offset_or_zero(void);
@@ -764,7 +764,7 @@ typedef struct S_800B1B10_0 {
     u8 pad_00[0x8];
     void * unk_08;
     void * unk_0C;
-    void (*unk_10)(void *, s32,  void *);
+    void (*unk_10)(void *, ObjectPosition *,  void *);
     u8 pad_14[0xC];
     void * unk_20;
     u8 pad_24[0x34];
@@ -831,7 +831,7 @@ typedef struct S_800B1B10_6 {
 } S_800B1B10_6;   /* ((style_held++ * 4) + sub) in build_owned_floating_number_widget */
 
 extern s32 allocate_panel_offset_or_zero(void);
-extern void update_fading_effect_scale(void *effect, s32 unused, void *render_arg);
+extern void update_fading_effect_scale(void *effect, ObjectPosition *unused, void *render_arg);
 extern s32 transform_linked_quad_batches(u8 *, s32, u8 *);
 
 /* Build the floating number/icon widget for the owner: allocate it and lay out its digit sprites. */

@@ -14,7 +14,7 @@ typedef struct S_80024EF8_0 {
 /* cfail-repair: tf7-phase1-cache-v3 */
 
 /* Draws two effect layers with opposing angles and phase-dependent sizes. */
-s32 draw_counter_rotating_cylinders(S_80024EF8_0 *effect, s32 center, s32 unused_value) {
+s32 draw_counter_rotating_cylinders(S_80024EF8_0 *effect, MovingPosition *center, s32 unused_value) {
     s32 primary_size;
     s32 secondary_size;
     u8 fade;

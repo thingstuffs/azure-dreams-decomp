@@ -54,7 +54,7 @@ typedef struct {
 typedef struct {
     ObjectNodeHeader header;
     u8 pad20[0x40];
-    s32 field60;
+    ActorRecord *field60;
 } CL_CB9000_8017087C_Object;
 
 typedef struct CL_CB9000_80170920_S_80170920_0 {
@@ -349,7 +349,7 @@ typedef struct S_801723DC_0 {
 
 typedef struct CL_CB9000_80172458_S_80172458_0 {
     u8 pad_00[0x8C];
-    void (*unk_8C)(CL_CB9000_8017102C_S_8017102C_0 *, void *, CL_CB9000_8017102C_S_8017102C_2 *, CL_CB9000_8017102C_S_8017102C_1 *);
+    void (*unk_8C)(CL_CB9000_8017102C_S_8017102C_0 *, void *, CL_CB9000_8017102C_S_8017102C_2 *, ActorRecord *);
     s32 unk_90;
     u8 pad_94[0x2];
     u16 unk_96;
@@ -390,7 +390,7 @@ typedef struct S_80172944_0 {
 
 typedef struct CL_CB9000_801729A8_S_801729A8_0 {
     u8 pad_00[0x8C];
-    void (*unk_8C)(CL_CB9000_8017102C_S_8017102C_0 *, void *, CL_CB9000_8017102C_S_8017102C_2 *, CL_CB9000_8017102C_S_8017102C_1 *);
+    void (*unk_8C)(CL_CB9000_8017102C_S_8017102C_0 *, void *, CL_CB9000_8017102C_S_8017102C_2 *, ActorRecord *);
     u8 pad_90[0x6];
     union { u16 s; s16 u; } timer;   /* accessed as both */
     u8 pad_98[0x3];
@@ -1005,7 +1005,7 @@ s32 Control_CD(); /* extern */
 typedef void (*CL_CB9000_8017523C_ActionCallback)(void *,void *,void *,void *);
 typedef struct {
  u8 pad[0x8C];
- void (*handler)(CL_CB9000_8017102C_S_8017102C_0 *, void *, CL_CB9000_8017102C_S_8017102C_2 *, CL_CB9000_8017102C_S_8017102C_1 *);
+ void (*handler)(CL_CB9000_8017102C_S_8017102C_0 *, void *, CL_CB9000_8017102C_S_8017102C_2 *, ActorRecord *);
 } CL_CB9000_8017523C_CallbackState;
 
 /* Resume the action dispatcher after the resident action completes. */
@@ -1013,7 +1013,7 @@ typedef struct {
 typedef void (*CL_CB9000_80175274_ActionCallback)(void *,void *,void *,void *);
 typedef struct {
  u8 pad[0x8C];
- void (*handler)(CL_CB9000_8017102C_S_8017102C_0 *, void *, CL_CB9000_8017102C_S_8017102C_2 *, CL_CB9000_8017102C_S_8017102C_1 *);
+ void (*handler)(CL_CB9000_8017102C_S_8017102C_0 *, void *, CL_CB9000_8017102C_S_8017102C_2 *, ActorRecord *);
 } CL_CB9000_80175274_CallbackState;
 
 /* Resume the action dispatcher after the resident action completes. */
@@ -1137,7 +1137,7 @@ extern s16 relink_entity_and_clear_high_flag(void *context, void *position, void
 extern s16 sample_terrain_surface_height(s32,s32,s16);
 extern s32 rand(void);
 
-void initialize_gray_sprite_copy(CL_CB9000_8017087C_Object *object, s32 field60_value, CL_CB9000_8017087C_CopyFields *source_coords);
+void initialize_gray_sprite_copy(CL_CB9000_8017087C_Object *object, ActorRecord *field60_value, ObjectPosition *source_coords);
 void func_8016A920(void *effect, void *unused, void *visual);
 void *func_8016AA5C(s16 spawn_flags, s16 attr_a, s16 attr_b, s32 attr_c);
 void func_8016AC24(void *entity, CL_CB9000_80170C24_S_80170C24_2 *motion, void *monster);

@@ -23,7 +23,7 @@ typedef struct S_818BD0C0_1 {
 extern u8 flash_sprite_entries[];
 
 /* Update state counters and cycle the primitive color for up to three flagged updates. */
-void update_triple_flash_effect(void *state_arg, s32 unused, SpriteFrameState *primitive)
+void update_triple_flash_effect(void *state_arg, ObjectPosition *unused, SpriteFrameState *primitive)
 {
     S_818BD0C0_0 *state = state_arg;
     S_818BD0C0_1 *shared_state;

@@ -3,6 +3,7 @@
 #include "shared/object_node.h"
 #include "shared/object_flags.h"
 #include "engine/graphics.h"
+#include "engine/scene.h"
 
 extern int D_800814A0; /* global 32-bit "used"/flags word */
 

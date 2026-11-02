@@ -1,6 +1,7 @@
 #include "common.h"
 #include "shared/object_flags.h"
 #include "slus.h"
+#include "shared/entity.h"
 
 /* Guards on a0's byte field at offset 0x9B == 0xFF: if so, marks bit 0x8000
  * on a0's 16-bit flags word located 2 bytes before the parameter itself,
@@ -15,7 +16,7 @@ typedef struct {
 } S_800D2200_a0;
 
 /* Marks the record and global flags for a sentinel byte, then processes the target. */
-void process_effect_on_sentinel(S_800D2200_a0 *record, s32 unused, void *target)
+void process_effect_on_sentinel(S_800D2200_a0 *record, ObjectPosition *unused, void *target)
 {
     if (record->pad[0x9B] == 0xFF) {
         *(u16 *)((u8 *)record - 2) |= NODE_REMOVE;

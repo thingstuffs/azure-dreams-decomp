@@ -3,6 +3,7 @@
 #include "engine/node.h"
 #include "engine/scene.h"
 #include "sdk/libc.h"
+#include "slus.h"
 
 typedef struct S_8004F418_Node {
     struct S_8004F418_Node *next;
@@ -16,9 +17,6 @@ typedef struct S_8004F418_Node {
 
 extern S_8004F418_Node menu_backdrop_node_storage;
 extern u8 menu_backdrop_tag[16];
-
-extern void *find_active_list_node(void *);
-extern void *link_menu_backdrop_display_nodes(void *);
 
 /* Initialize or reset the shared node, link its owner and state, and select its active sub-object. */
 void *create_or_reset_seven_entry_menu_backdrop(s32 owner, s32 state)

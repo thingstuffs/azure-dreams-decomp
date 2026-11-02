@@ -9,7 +9,7 @@
 #include "slus.h"
 
 extern void func_80024184(void *object);
-extern void func_80023EF4(void *runtime, s32 value);
+extern void init_card_slot_list_nodes(void *runtime, s32 value);
 extern s32 card_boot_link_slot_window_entries(void *value); /* Unprototyped: compile_error */
 extern void card_boot_initialize_slot_window(void *record, s32 setup_value, s32 processing_value);
 
@@ -29,7 +29,7 @@ void *card_boot_create_slot_window(s32 parent_object, s32 object_index)
         object->flags &= 0x7FFF;
         bzero(runtime, 0x3C4);
     }
-    func_80023EF4(runtime, 0xA);
+    init_card_slot_list_nodes(runtime, 0xA);
     object->sprite = runtime->display_data;
     runtime->chain_word = card_boot_link_slot_window_entries(runtime->pointers);
     card_boot_initialize_slot_window(runtime, parent_object, object_index);

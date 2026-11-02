@@ -349,7 +349,7 @@ typedef struct S_801723DC_0 {
 
 typedef struct CL_CC5000_80172458_S_80172458_0 {
     u8 pad_00[0x8C];
-    void (*unk_8C)(CL_CC5000_8017102C_S_8017102C_0 *, void *, CL_CC5000_8017102C_S_8017102C_2 *, CL_CC5000_8017102C_S_8017102C_1 *);
+    void (*unk_8C)(CL_CC5000_8017102C_S_8017102C_0 *, void *, CL_CC5000_8017102C_S_8017102C_2 *, ActorRecord *);
     s32 unk_90;
     u8 pad_94[0x2];
     u16 unk_96;
@@ -390,7 +390,7 @@ typedef struct S_80172944_0 {
 
 typedef struct CL_CC5000_801729A8_S_801729A8_0 {
     u8 pad_00[0x8C];
-    void (*unk_8C)(CL_CC5000_8017102C_S_8017102C_0 *, void *, CL_CC5000_8017102C_S_8017102C_2 *, CL_CC5000_8017102C_S_8017102C_1 *);
+    void (*unk_8C)(CL_CC5000_8017102C_S_8017102C_0 *, void *, CL_CC5000_8017102C_S_8017102C_2 *, ActorRecord *);
     u8 pad_90[0x6];
     union { u16 s; s16 u; } timer;   /* accessed as both */
     u8 pad_98[0x3];
@@ -1005,7 +1005,7 @@ s32 Control_CD(); /* extern */
 typedef void (*CL_CC5000_8017523C_ActionCallback)(void *,void *,void *,void *);
 typedef struct {
  u8 pad[0x8C];
- void (*handler)(CL_CC5000_8017102C_S_8017102C_0 *, void *, CL_CC5000_8017102C_S_8017102C_2 *, CL_CC5000_8017102C_S_8017102C_1 *);
+ void (*handler)(CL_CC5000_8017102C_S_8017102C_0 *, void *, CL_CC5000_8017102C_S_8017102C_2 *, ActorRecord *);
 } CL_CC5000_8017523C_CallbackState;
 
 /* Resume the action dispatcher after the resident action completes. */
@@ -1013,7 +1013,7 @@ typedef struct {
 typedef void (*CL_CC5000_80175274_ActionCallback)(void *,void *,void *,void *);
 typedef struct {
  u8 pad[0x8C];
- void (*handler)(CL_CC5000_8017102C_S_8017102C_0 *, void *, CL_CC5000_8017102C_S_8017102C_2 *, CL_CC5000_8017102C_S_8017102C_1 *);
+ void (*handler)(CL_CC5000_8017102C_S_8017102C_0 *, void *, CL_CC5000_8017102C_S_8017102C_2 *, ActorRecord *);
 } CL_CC5000_80175274_CallbackState;
 
 /* Resume the action dispatcher after the resident action completes. */

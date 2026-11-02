@@ -1,6 +1,7 @@
 #include "common.h"
 #include "shared/gpu_packets.h"
 #include "shared/menu_display.h"
+#include "engine/text.h"
 
 /* Template struct copied wholesale (word-by-word) into a1's target. */
 

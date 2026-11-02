@@ -1,5 +1,7 @@
 #ifndef DUNGEON_MENU_H
 #define DUNGEON_MENU_H
+struct ItemMenuPart;
+struct ObjectNodeHeader;
 #include "common.h"
 #include "shared/entity.h"
 #include "shared/sprite_frame_state.h"
@@ -38,7 +40,7 @@ typedef struct InactiveTypeTwelveObjectBody {
     u16 unk_2C;
     u8 pad_2E[0x2];
 } InactiveTypeTwelveObjectBody;
-void hud_dispatch_no_op(void *object, s32 slot_data);
+void hud_dispatch_no_op(void *object, struct ItemMenuPart *slot_data);
 void advance_wrapped_cycle_index(void);
 void apply_record_flags_through_end(void *record, s32 flag_mask);
 void build_floating_number_widget(s16 icon, s32 value_a, s32 value_b, s32 style, s16 compact, u16 unused_flags);
@@ -65,13 +67,13 @@ void follow_selection_and_blink_sprite(void *motion_state, ObjectPosition *posit
 void draw_padded_first_number(s32 first, s32 second, u16 width, s16 y, u16 x, s16 mode);
 
 /* Callback entry points. */
-s32 build_transformed_sprite_quads(InactiveTypeTwelveObjectBody *draw_area, void *placement, void *sprite);
+s32 build_transformed_sprite_quads(InactiveTypeTwelveObjectBody *draw_area, ObjectPosition *placement, void *sprite);
 
 /* Owner declarations appended by tools/headers (append-only; the lines above are hand-kept). */
 void build_owned_floating_number_widget(void *owner, s32 value_a, s32 value_b, s32 style, s16 compact, u16 flags);
 void *create_panel_effect_object(ActorRecord *owner);
 
-void *allocate_initialized_child_object(s32 parent_object, s32 type_code, s32 config_value);
+void *allocate_initialized_child_object(struct ObjectNodeHeader *parent_object, s32 type_code, s32 config_value);
 void *create_menu_child_object(s32 parent_obj, s32 descriptor_value);
 s8 *find_first_ended_record(s8 *record);
 void *get_mapped_menu_table_entry(s32 row_id, s32 entry_index);

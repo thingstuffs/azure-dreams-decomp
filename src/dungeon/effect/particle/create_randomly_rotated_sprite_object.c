@@ -40,7 +40,7 @@ void advance_accelerating_spin_effect(B22_81892800_Entity *entity, B22_81892800_
 extern u8 D_80025308[];
 
 /* Create an object with a randomly rotated sprite and initialize its copied data. */
-void *create_randomly_rotated_sprite_object(void *context, B22_818928F8_Copy24 *src_data, s16 state_value)
+void *create_randomly_rotated_sprite_object(B22_81893474_EffectState *context, B22_818928F8_Copy24 *src_data, s16 state_value)
 {
     ObjectNodeHeader *obj;
     B22_818928F8_S_818928F8_0 *state;
@@ -353,7 +353,7 @@ void *create_timed_transform_copy_effect(s32 object_arg, void *source_data, s16 
 #include "common.h"
 #include "shared/object_flags.h"
    /* Advance the object counters, apply the initial frame offset, and flag completion. */
-void emit_animated_transform_copies(void *state_arg, s32 draw_context, s32 update_context) {
+void emit_animated_transform_copies(void *state_arg, ObjectPosition *draw_context, SpriteFrameState *update_context) {
     B22_818930F8_S_818930F8_0 *state = state_arg;
     s16 frame;
     B22_818930F8_S_818930F8_1 *object;

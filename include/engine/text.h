@@ -63,4 +63,9 @@ s32 string_has_non_whitespace(u8 *text);
 char *func_8004EAC4(u8 *buffer, char *code, s32 slot_index);
 char *write_char_pair(u8 *buffer, char *code, s32 slot_index);
 
+/* Owner declarations appended by tools/headers (append-only; the lines above are hand-kept). */
+#include "shared/gpu_packets.h"
+#include "shared/menu_display.h"
+void initialize_text_entity_templates(MenuDisplayNode *entity, MenuDisplayBlock *main_data, DisplayPositionWords *aux_data);
+
 #endif

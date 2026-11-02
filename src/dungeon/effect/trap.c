@@ -365,7 +365,7 @@ extern s32 begin_actor_random_warp(void *, s32, s32, void *);
 
 
 /* Resolve a ranged random check, apply its effects, and return the outcome. */
-s32 resolve_random_trap_outcome(void *entity, s32 forwarded_1, s32 forwarded_2, s32 forwarded_3) {
+s32 resolve_random_trap_outcome(ActorRecord *entity, s32 forwarded_1, s32 forwarded_2, s32 forwarded_3) {
     s16 roll;
     s32 random_value;
     s32 remainder;
@@ -376,8 +376,8 @@ s32 resolve_random_trap_outcome(void *entity, s32 forwarded_1, s32 forwarded_2, 
     outcome = 0;
     if (trap_request_blocked == 0) {
         random_value = generate_random_value() & 0xFFFF;
-        if (((s32)(((S_800CC18C_0 *)((u8 *)entity - 0x18))->unk_1B)) != 0) {
-            roll = ((s32)(((S_800CC18C_0 *)((u8 *)entity - 0x18))->unk_1B));
+        if (((s32)entity->unk_00[3]) != 0) {
+            roll = ((s32)entity->unk_00[3]);
             remainder = random_value % roll;
             roll = remainder;
         } else {
@@ -393,10 +393,10 @@ s32 resolve_random_trap_outcome(void *entity, s32 forwarded_1, s32 forwarded_2, 
         if (trap_request_blocked != 0) {
             outcome = -1;
         }
-        feedback_kind = ((S_800CC18C_0 *)((u8 *)entity - 0x18))->unk_2B == 0;
+        feedback_kind = entity->species == 0;
     } else {
         outcome = 1;
-        feedback_kind = (((S_800CC18C_0 *)((u8 *)entity - 0x18))->unk_2B == 0) * 2;
+        feedback_kind = (entity->species == 0) * 2;
     }
     feedback_or_result = feedback_kind;
     if (feedback_or_result != 0) {
@@ -870,7 +870,7 @@ s32 generate_random_value(void);
 void draw_textured_ellipse(void *parameters, GpuRect *rectangle, u16 fill_rect, u16 draw_mode);
 
 /* Take the item in map slot `slot`: with no object, drop the slot's 0x80 flag and bump the pickup count; otherwise roll the object's 0x3 chance and give the fallback cue at or above 0x40, then cue 0x817 for the slot's item. */
-s32 take_map_item_slot(void *object, s16 slot)
+s32 take_map_item_slot(ActorRecord *object, s16 slot)
 {
     GpuRectBuffer stack_args;
     s16 value;
@@ -915,8 +915,8 @@ s32 take_map_item_slot(void *object, s16 slot)
             value = 0;
         } else {
             random = generate_random_value() & 0xFFFF;
-            if (*((u8 *)object + 3) != 0) {
-                value = random % *((u8 *)object + 3);
+            if (object->unk_00[3] != 0) {
+                value = random % object->unk_00[3];
             } else {
                 value = 0;
             }
@@ -1488,7 +1488,7 @@ void advance_falling_trap_effect(FourOwnerSpriteEffectsBody *effect, S_800CD474_
 #include "common.h"
 
 /* Apply the global-mode mask to the target with a fixed value of 0x10. */
-void apply_mode_selected_trap_mask(void *target, s32 unused_mask)
+void apply_mode_selected_trap_mask(ActorRecord *target, s32 unused_mask)
 {
     s32 mode_mask;
 
@@ -1744,7 +1744,7 @@ extern u8 D_800CD910[];
 extern u8 D_800DF820[];
 
 /* Step trigger: stop when all four 0x2C slots are taken, then roll the object's 0x3 chance and either spawn the 0x613 effect object over the owning tile (returning -1) or give the fallback cue. */
-s32 trigger_step_trap_effect(void *object) {
+s32 trigger_step_trap_effect(ActorRecord *object) {
     s16 index;
     s32 seed;
     s32 result;
@@ -1765,8 +1765,8 @@ s32 trigger_step_trap_effect(void *object) {
         }
         if (trap_request_blocked == 0) {
             seed = generate_random_value() & 0xFFFF;
-            if (*((u8 *)object + 3) != 0) {
-                index = seed % *((u8 *)object + 3);
+            if (object->unk_00[3] != 0) {
+                index = seed % object->unk_00[3];
             } else {
                 index = 0;
             }
@@ -1789,7 +1789,7 @@ s32 trigger_step_trap_effect(void *object) {
                 spawn_vertical_particle_burst(
                     ((*((u8 *)entry + 0x24)) << 6) | 0x20,
                     ((*((u8 *)entry + 0x25)) << 6) | 0x20,
-                    *(s16 *)((u8 *)object + 0x88), D_800DF820, 0);
+                    object->ground_height, D_800DF820, 0);
                 play_sound_if_enabled(0x613);
                 {
                     g_dungeon_status.activity_counts.parts.pending_action_count++;
@@ -1798,7 +1798,7 @@ s32 trigger_step_trap_effect(void *object) {
             }
             return result;
         }
-        if (*((u8 *)object + 0x13) == 0) {
+        if (object->species == 0) {
             display_fixed_item_action_message();
         }
         return result;
@@ -1817,19 +1817,19 @@ extern s32 generate_random_value(void);
 
 /* Rolls an actor effect chance, queues a pending action on success, and displays the failure message
    otherwise. */
-s32 roll_trap_trigger_chance(void *ptr, s32 unused1, s32 unused2, s32 unused3)
+s32 roll_trap_trigger_chance(ActorRecord *ptr, s32 unused1, s32 unused2, s32 unused3)
 {
     s32 source_value;
     register s16 divisor;
     s32 remainder_value;
     s16 value;
 
-    if (*((u8 *)ptr + 0x13) == 0) {
+    if (ptr->species == 0) {
         value = 0;
         if (trap_request_blocked == 0) {
             source_value = generate_random_value() & 0xFFFF;
-            if (((u8)(*((u8 *)ptr + 3))) != 0) {
-                remainder_value = source_value % ((s16)((s32)((u8)(*((u8 *)ptr + 3)))));
+            if (((u8)ptr->unk_00[3]) != 0) {
+                remainder_value = source_value % ((s16)((s32)((u8)ptr->unk_00[3])));
                 value = remainder_value;
             }
         }
@@ -1841,7 +1841,7 @@ s32 roll_trap_trigger_chance(void *ptr, s32 unused1, s32 unused2, s32 unused3)
         if (value < 0x30) {
             dungeon_actor_ring_anchor->unk_A0.parts.high |= 0x100;
             g_dungeon_status.activity_counts.parts.pending_action_count += 1;
-        } else if (*((u8 *)ptr + 0x13) == 0) {
+        } else if (ptr->species == 0) {
                         /* garbage-passthru: a3 is 10 left by get_entity_effect_value, not a caller-held C value. */
             display_fixed_item_action_message();
         }
@@ -2441,7 +2441,7 @@ extern u8 D_800E1BAA[18];
 
 /* Rolls against two linked item slots, reduces eligible amounts, reports outcomes, and emits a burst
    on success. */
-s32 update_trap_effect_grid(void *record, s32 unused1, s32 unused2, s32 unused3) {
+s32 update_trap_effect_grid(ActorRecord *record, s32 unused1, s32 unused2, s32 unused3) {
     s32 randomValueSecond;
     s32 randomValueFirst;
     void *secondLookupValue;
@@ -2461,7 +2461,7 @@ s32 update_trap_effect_grid(void *record, s32 unused1, s32 unused2, s32 unused3)
     if (is_linked_object_flagged_10000(record) == 0) {
         s16 probability;
         s32 random_mod;
-        firstEntry = ((S_800CE748_0 *)((u8 *)record - 0x14))->unk_60;
+        firstEntry = record->unk_4C;
         if (firstEntry != NULL) {
 
             entryFlags = 1;
@@ -2474,8 +2474,8 @@ s32 update_trap_effect_grid(void *record, s32 unused1, s32 unused2, s32 unused3)
             if (trap_request_blocked == 0) {
                                 /* garbage-passthru: a1/a3 are residue from is_linked_object_flagged_10000, without a defined C value. */
                 randomValueFirst = generate_random_value() & 0xFFFF;
-                if (((S_800CE748_0 *)((u8 *)record - 0x14))->unk_17 != 0) {
-                    random_mod = randomValueFirst % ((S_800CE748_0 *)((u8 *)record - 0x14))->unk_17;
+                if (record->unk_00[3] != 0) {
+                    random_mod = randomValueFirst % record->unk_00[3];
                     probability = random_mod;
                 } else {
                     probability = 0;
@@ -2492,7 +2492,7 @@ s32 update_trap_effect_grid(void *record, s32 unused1, s32 unused2, s32 unused3)
                 triggerFlags = 1;
             }
         }
-        secondEntry = ((S_800CE748_0 *)((u8 *)record - 0x14))->unk_64;
+        secondEntry = record->unk_50.address;
         if (secondEntry != NULL) {
 
             entryValue = secondEntry->unk_00;
@@ -2503,8 +2503,8 @@ s32 update_trap_effect_grid(void *record, s32 unused1, s32 unused2, s32 unused3)
             if (trap_request_blocked == 0) {
                                 /* garbage-passthru: a1/a3 remain residue from earlier calls. */
                 randomValueSecond = generate_random_value() & 0xFFFF;
-                if (((S_800CE748_0 *)((u8 *)record - 0x14))->unk_17 != 0) {
-                    random_mod = randomValueSecond % ((S_800CE748_0 *)((u8 *)record - 0x14))->unk_17;
+                if (record->unk_00[3] != 0) {
+                    random_mod = randomValueSecond % record->unk_00[3];
                     probability = random_mod;
                 } else {
                     probability = 0;
@@ -2522,7 +2522,7 @@ s32 update_trap_effect_grid(void *record, s32 unused1, s32 unused2, s32 unused3)
             }
         }
     }
-    if (((S_800CE748_0 *)((u8 *)record - 0x14))->unk_28 & 0x4000) {
+    if (record->flags14 & 0x4000) {
         if ((triggerFlags << 0x10) == 0) {
                         /* garbage-passthru: a3 remains residue from earlier calls. */
             display_fixed_item_action_message();
@@ -2531,7 +2531,7 @@ s32 update_trap_effect_grid(void *record, s32 unused1, s32 unused2, s32 unused3)
             initialValue = get_unused_text_buffer();
             currentValue = initialValue;
             if (triggerFlags & 1) {
-                firstLookupValue = apply_type_based_entry_adjustments(((S_800CE748_0 *)((u8 *)record - 0x14))->unk_60, currentValue);
+                firstLookupValue = apply_type_based_entry_adjustments(record->unk_4C, currentValue);
                 {
 
                     if (!(entryFlags & 1)) {
@@ -2545,7 +2545,7 @@ s32 update_trap_effect_grid(void *record, s32 unused1, s32 unused2, s32 unused3)
                 }
             }
             if (triggerFlags & 2) {
-                secondLookupValue = apply_type_based_entry_adjustments(((S_800CE748_0 *)((u8 *)record - 0x14))->unk_64, currentValue);
+                secondLookupValue = apply_type_based_entry_adjustments(record->unk_50.address, currentValue);
                 {
 
                     if (!(entryFlags & 2)) {
@@ -2563,7 +2563,7 @@ s32 update_trap_effect_grid(void *record, s32 unused1, s32 unused2, s32 unused3)
         objectData = ((S_800CE748_0 *)((u8 *)record - 0x14))->unk_00;
         if (!(objectData->unk_14 & 0x8000)) {
             spawn_randomized_particle_burst((objectData->unk_24 << 6) | 0x20, (objectData->unk_25 << 6) | 0x20,
-                ((S_800CE748_0 *)((u8 *)record - 0x14))->unk_9C, 0xC0C040, 0x20, 0);
+                record->ground_height, 0xC0C040, 0x20, 0);
             play_sound_if_enabled(0x615);
         }
     }
@@ -2761,7 +2761,7 @@ extern u8 D_800CEA44[];
 extern void SD_Call(s32 flags);
 
 /* Clamp an indexed entry and create its node if processing succeeds. */
-unsigned int clamp_entry_and_create_effect_node(void *object, s16 entry_index)
+unsigned int clamp_entry_and_create_effect_node(ActorRecord *object, s16 entry_index)
 {
     s32 result;
     u8 *state_page;
@@ -2771,7 +2771,7 @@ unsigned int clamp_entry_and_create_effect_node(void *object, s16 entry_index)
     void *node;
     int entry_ready;
 
-    if (*((u8 *)object + 0x13) != 0) {
+    if (object->species != 0) {
         return 1;
         result = 1;
     } else {

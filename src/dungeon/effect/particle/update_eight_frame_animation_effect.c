@@ -36,7 +36,7 @@ typedef struct {
 extern s16 particle_update_flag[5];
 
 /* Advances an eight-frame animation and flags expiration when its countdown ends. */
-void update_eight_frame_animation_effect(void *anim_state_arg, s32 unused_arg, void *render_state_arg) {
+void update_eight_frame_animation_effect(void *anim_state_arg, ObjectPosition *unused_arg, void *render_state_arg) {
     S_818FEDEC_1 *render_state = render_state_arg;
     S_818FEDEC_0 *anim_state = anim_state_arg;
     u16 ticks_left;

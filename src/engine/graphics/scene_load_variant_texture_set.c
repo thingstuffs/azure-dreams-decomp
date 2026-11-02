@@ -4,9 +4,7 @@
 #include "engine/scene.h"
 #include "sdk/libgpu.h"
 #include "slus/data.h"
-
-extern void Control_CD(s32, void *, void *);
-extern void set_byte_one(unsigned char *flag);
+#include "slus.h"
 
 extern s32 gpu_scratch_write_pointer;
 extern u8 town_map_variants[][32];

@@ -892,7 +892,7 @@ void resolve_selected_menu_entry(char *object)
 extern void handle_object_input(void *a0);
 
 /* Calls handle_object_input with object. */
-void forward_object_input_handler(void *object)
+void forward_object_input_handler(MenuSelectionBody *object)
 {
     handle_object_input(object);
 }

@@ -10,7 +10,7 @@ struct ObjectPosition;
 extern void project_depth_sliced_quads(void *,struct ObjectPosition *,struct SpriteFrameState *, s16);
 
 /* Projects depth-sliced quads for each linked node using its position and rendering state. */
-s32 draw_linked_depth_sliced_quads(void *payload, void *position, void *render_state)
+s32 draw_linked_depth_sliced_quads(void *payload, struct ObjectPosition *position, struct SpriteFrameState *render_state)
 {
     ObjectNodeHeader *next;
     do {

@@ -1,6 +1,7 @@
 #ifndef SLUS_H
 #define SLUS_H
 
+struct MenuSelectionBody;
 struct ObjectNodeHeader;
 /* Prototypes of the functions defined in src/slus/ (one true prototype each; maintained by tools/headers). */
 
@@ -103,7 +104,7 @@ void set_menu_backdrop_initial_value(int *dst, int value);
 void noop_selection_menu_animation_idle(void);
 int read_selected_menu_entry_word(char *object);
 void resolve_selected_menu_entry(char *object);
-void forward_object_input_handler(void *object);
+void forward_object_input_handler(struct MenuSelectionBody *object);
 void invoke_leading_object_callback(struct VtableObj *object, void *position, void *sprite);
 void link_seventeen_indexed_entries(void *entries);
 void submit_enabled_saved_display_value(void);

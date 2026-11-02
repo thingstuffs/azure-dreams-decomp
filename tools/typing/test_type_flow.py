@@ -270,3 +270,229 @@ def test_named_runtime_target_precedes_generated_seed_view(tmp_path):
     seed = dict(target='Rec_func_80000000_arg0 *')
     assert graph.cls(seed['target']) == 'gen'
     assert S.seed_target(graph, runtime, seed, 'P:callee#0') == 'Body *'
+
+
+# --------------------------------------------------------------------------- H8/H9 runtime tables
+
+SLOT_SOURCE = r'''
+#include "flow.h"
+void handler(Body *b, s32 n) { b->hp = n; }
+void handler2(void *b, s32 n) { ((Body *)b)->speed = n; }
+void install(Owner *o) {
+    o->cb = &handler;
+}
+void dispatch(Owner *o, Body *b) {
+    o->cb(b, 1);
+}
+static s32 cell;
+void take(void *p) { cell = (s32)p; }
+void use_addr(void) { take(&cell); }
+void generic(void *p) { cell = 1; }
+void caller_a(Body *b) { void *v = b; generic(v); }
+void caller_b(Owner *o) { void *w = o; generic(w); }
+void *g_body;
+void chase(Body *b) { void *t = b->target; g_body = t; }
+'''
+
+
+def slot_graph(tmp_path):
+    (tmp_path / 'include').mkdir()
+    (tmp_path / 'include' / 'flow.h').write_text(HEADER)
+    (tmp_path / 'src').mkdir()
+    (tmp_path / 'src' / 'flow.c').write_text(SLOT_SOURCE)
+    unit, err = A.clang_unit(tmp_path, 'src/flow.c')
+    assert unit is not None, err
+    return S.Graph(write_graph(tmp_path, F.Extract(unit).run().dump()))
+
+
+def write_ext(rt, pointees=(), sites=()):
+    with gzip.open(rt / 'pointees.tsv.gz', 'wt') as fh:
+        fh.write('file\tline\tfunction\taccess\tclass\ttarget\toffset\tvalue_class\tvalue_target\tvalue_offset\tcount\n')
+        for row in pointees:
+            fh.write('\t'.join(map(str, row)) + '\n')
+    with gzip.open(rt / 'callsite_args.tsv.gz', 'wt') as fh:
+        fh.write('callee_file\tcallee\targ\tcaller_file\tcaller\tline\tcells\tcalls\n')
+        for row in sites:
+            fh.write('\t'.join(map(str, row)) + '\n')
+
+
+def test_function_address_install_couples_slot(tmp_path):
+    g = slot_graph(tmp_path)
+    edges = {(e['k'], e['dst'], e['src']) for e in g.edges}
+    assert ('assign', 'F:Owner.cb', '&FN:handler') in edges      # `&fn` is recorded as an address-of
+    assert ('arg', 'P:take#0', '&G:cell') in edges                # an object address stays an object address
+    rt = S.Runtime(write_rt(tmp_path, [('handler', 0, 'rk1+0x20=10')]), g)
+    solver = S.Solver(g, rt)
+    assert ('P:handler#0') in {m for _, _, m in solver.adj['F:Owner.cb#0']}
+    assert 'R:handler' in {m for _, _, m in solver.adj['F:Owner.cb#ret']}
+    assert not any(m.startswith('P:') for _, _, m in solver.adj['&G:cell#0'])
+    assert S.is_fn('&FN:handler') and S.fn_of('&FN:handler') == 'handler' and not S.is_fn('&G:cell')
+
+
+def test_runtime_installed_callback_couples_call_through_slot(tmp_path):
+    g = slot_graph(tmp_path)
+    rt_dir = write_rt(tmp_path, [('handler', 0, 'rk1+0x20=10'), ('handler2', 0, 'rk1+0x20=4')])
+    write_ext(rt_dir, pointees=[('src/flow.c', 9, 'dispatch', 'load', 'heap', 'rk2', '0x28', 'func',
+                                 'src/flow.c:handler2', '', 4)])
+    rt = S.Runtime(rt_dir, g)
+    solver = S.Solver(g, rt)
+    assert solver.slots['F:Owner.cb'] == {'handler2': 4}
+    assert 'P:handler2#0' in {m for _, _, m in solver.adj['F:Owner.cb#0']}
+    seeds, notes = S.rt_seeds(g, rt, solver)
+    slot = [s for s in seeds if s['src'] == 'rt_slot']
+    assert slot and slot[0]['node_key'] == 'P:handler2#0' and slot[0]['target'] == 'Body *'
+
+
+def test_callsite_cells_label_holders_and_split_generic_params(tmp_path):
+    g = slot_graph(tmp_path)
+    rt_dir = write_rt(tmp_path, [('handler', 0, 'rk1+0x20=10'), ('dispatch', 0, 'rk2+0x20=3'),
+                                 ('generic', 0, 'rk1+0x20=5, rk2+0x20=5')])
+    write_ext(rt_dir, sites=[('src/flow.c', 'generic', 0, 'src/flow.c', 'caller_a', 15, 'rk1+0x20=5', 5),
+                             ('src/flow.c', 'generic', 0, 'src/flow.c', 'caller_b', 16, 'rk2+0x20=5', 5)])
+    rt = S.Runtime(rt_dir, g)
+    assert S.parse_site_label('D_80132000+0x440') == ('ram', 'D_80132000', 0x440)
+    assert S.parse_site_label('src/a.c:fn') == ('func', 'fn', 0)
+    va = [n for n in rt.derived if n.startswith('L:caller_a:v@')]
+    assert va and rt.pointer_cells(va[0]) == {('heap', 'rk1', 0x20): 5}
+    solver = S.Solver(g, rt)
+    seeds, _ = S.rt_seeds(g, rt, solver)
+    split = {s['node_key']: s['target'] for s in seeds if s['src'] == 'rt_split'}
+    assert split.get(va[0]) == 'Body *'
+    wb = [n for n in split if n.startswith('L:caller_b:w@')]
+    assert wb and split[wb[0]] == 'Owner *'
+
+
+def test_integer_parameter_with_pointer_at_every_site_is_seeded(tmp_path):
+    d = extract(tmp_path)
+    g = S.Graph(write_graph(tmp_path, d))
+    rt_dir = write_rt(tmp_path, [('caller', 0, 'rk1+0x20=10'), ('callee', 0, 'rk1+0x20=10'),
+                                 ('handler', 0, 'rk1+0x20=10')])
+    write_ext(rt_dir, sites=[('src/flow.c', 'callee', 0, 'src/flow.c', 'caller', 9, 'rk1+0x20=10', 10)])
+    rt = S.Runtime(rt_dir, g)
+    seeds, _ = S.rt_seeds(g, rt, S.Solver(g, rt))
+    assert [(s['node_key'], s['target']) for s in seeds if s['src'] == 'rt_intptr'] == [('P:callee#0', 'Body *')]
+    # a scalar at any call site keeps the integer
+    write_ext(rt_dir, sites=[('src/flow.c', 'callee', 0, 'src/flow.c', 'caller', 9, 'rk1+0x20=9, scalar=1', 10)])
+    rt = S.Runtime(rt_dir, g)
+    seeds, notes = S.rt_seeds(g, rt, S.Solver(g, rt))
+    assert not [s for s in seeds if s['src'] == 'rt_intptr']
+
+
+def test_extension_can_be_switched_off(tmp_path, monkeypatch):
+    g = slot_graph(tmp_path)
+    rt_dir = write_rt(tmp_path, [('handler', 0, 'rk1+0x20=10')])
+    write_ext(rt_dir, sites=[('src/flow.c', 'generic', 0, 'src/flow.c', 'caller_a', 15, 'rk1+0x20=5', 5)])
+    monkeypatch.setenv('TYPE_FLOW_RT_EXT', '0')
+    rt = S.Runtime(rt_dir, g)
+    assert not rt.ext and not rt.derived
+
+
+def test_pointer_values_label_member_and_global_holders(tmp_path):
+    g = slot_graph(tmp_path)
+    rt_dir = write_rt(tmp_path, [('handler', 0, 'rk1+0x20=10')])
+    write_ext(rt_dir, pointees=[
+        ('src/flow.c', 18, 'chase', 'load', 'heap', 'rk1', '0x28', 'heap', 'rk1', '0x20', 5),
+        ('src/flow.c', 18, 'chase', 'store', 'ram', 'g_body+0x0', '', 'heap', 'rk1', '0x20', 5),
+        ('src/flow.c', 18, 'chase', 'load', 'ram', 'g_body+0x4', '', 'heap', 'rk9', '0x20', 1)])
+    rt = S.Runtime(rt_dir, g)
+    assert rt.pointer_cells('F:Body.target') == {('heap', 'rk1', 0x20): 5}
+    assert rt.pointer_cells('G:g_body') == {('heap', 'rk1', 0x20): 5}       # only the global's own word
+    # the member's declared Body * votes for the cell its values carry
+    assert 'F:Body.target' in rt.votes[('heap', 'rk1', 0x20)]['rec:Body*']
+
+
+def test_global_root_votes_for_unvoted_ram_cells(tmp_path):
+    g = slot_graph(tmp_path)
+    g.decl['G:body_table']['Body[4]'] += 1
+    g.decl['G:owner_one']['Owner'] += 1
+    rt_dir = write_rt(tmp_path, [('generic', 0, 'ram:body_table+0x18=3, ram:owner_one+0x0=2, ram:body_table+0x4=1')])
+    write_ext(rt_dir)
+    rt = S.Runtime(rt_dir, g)
+    assert rt.winner(('ram', 'body_table', 0x18))[0] == 'rec:Body*'      # element 2 of Body[4]
+    assert rt.winner(('ram', 'owner_one', 0))[0] == 'rec:Owner*'
+    assert rt.winner(('ram', 'body_table', 0x4)) == (None, 0.0)          # inside an element
+    assert rt.global_root_type('body_table', 0x30) is None               # past the end
+
+
+def test_slot_plan_proposes_one_prototype_per_family(tmp_path):
+    g = slot_graph(tmp_path)
+    rt_dir = write_rt(tmp_path, [('handler', 0, 'rk1+0x20=10'), ('handler2', 0, 'rk1+0x20=4')])
+    write_ext(rt_dir, pointees=[('src/flow.c', 9, 'dispatch', 'load', 'heap', 'rk2', '0x28', 'func',
+                                 'src/flow.c:handler2', '', 4),
+                                ('src/flow.c', 9, 'dispatch', 'load', 'heap', 'rk2', '0x28', 'func',
+                                 'src/flow.c:handler', '', 6)])
+    rt = S.Runtime(rt_dir, g)
+    solver = S.Solver(g, rt)
+    plan = S.slot_plan(g, rt, solver)
+    assert len(plan) == 1 and plan[0]['holder'] == 'F:Owner.cb'
+    assert plan[0]['proposed'].startswith('void (*)(Body *, ') and plan[0]['basis'].startswith('runtime')
+    assert plan[0]['retype'] == 'handler2#0' and plan[0]['contradicting_callbacks'] == 0
+
+
+def test_scope_keeps_other_lanes_nodes_as_boundaries(tmp_path):
+    d = extract(tmp_path)
+    g = S.Graph(write_graph(tmp_path, d))
+    rt = S.Runtime(write_rt(tmp_path, [('caller', 0, 'rk1+0x20=10'), ('callee', 0, 'rk1+0x20=10'),
+                                       ('handler', 0, 'rk1+0x20=10')]), g)
+    solver = S.Solver(g, rt)
+    solver.scope = ('src/other/',)
+    comp, boundary, _ = solver.expand('P:callee#0', 'Body *')
+    assert 'L:caller:holder@8' not in comp and any(r == 'scope' for _, _, r in boundary)
+    solver.scope = ('src/',)
+    comp, boundary, _ = solver.expand('P:callee#0', 'Body *')
+    assert comp['L:caller:holder@8']['st'] == 'retype'
+
+
+def test_slot_seeds_follow_the_plan_and_the_scope(tmp_path):
+    import type_flow_slot_seeds as SS
+    g = slot_graph(tmp_path)
+    plan = [{'holder': 'F:Owner.cb', 'proposed': 'void (*)(Body *, s32)', 'basis': 'runtime,declared',
+             'retype': 'handler2#0 handler2#1'}]
+    rows = SS.seeds(g, plan, ['src/'])
+    assert [(r['function'], r['arg'], r['target']) for r in rows] == [('handler2', 0, 'Body *')]
+    assert SS.seeds(g, plan, ['src/other/']) == []
+
+
+def test_unvoted_cells_inherit_the_type_they_arrive_with(tmp_path):
+    g = slot_graph(tmp_path)
+    rt_dir = write_rt(tmp_path, [('handler', 0, 'rk1+0x20=10'),
+                                 ('generic', 0, 'rk1+0x20=6, ram:actor_array+0x40=2'),
+                                 ('take', 0, 'rk1+0x20=1, rk7+0x20=9')])
+    write_ext(rt_dir)
+    rt = S.Runtime(rt_dir, g)
+    assert rt.winner(('ram', 'actor_array', 0x40))[0] == 'rec:Body*'       # arrives with Body cells
+    assert rt.winner(('heap', 'rk7', 0x20)) == (None, 0.0)                  # the voted cell is the minority there
+
+
+def test_slot_parameters_carry_their_callbacks_cells(tmp_path):
+    g = slot_graph(tmp_path)
+    rt_dir = write_rt(tmp_path, [('handler', 0, 'rk1+0x20=10'), ('handler2', 0, 'rk2+0x20=10')])
+    write_ext(rt_dir, pointees=[('src/flow.c', 9, 'dispatch', 'load', 'heap', 'rk3', '0x28', 'func',
+                                 'src/flow.c:handler2', '', 4)])
+    rt = S.Runtime(rt_dir, g)
+    solver = S.Solver(g, rt)
+    # handler (static install) and handler2 (runtime) both feed F:Owner.cb#0: two kinds -> polymorphic slot
+    assert set(rt.pointer_cells('F:Owner.cb#0')) == {('heap', 'rk1', 0x20), ('heap', 'rk2', 0x20)}
+
+
+def test_member_retype_text_respells_members_and_slot_parameters():
+    import type_flow_apply as TA
+    text = ('typedef struct Owner {\n    /* 0x00 */ void *body; /* the body */\n    s32 handle;\n'
+            '    void (*cb)(void *b, s32 n);\n    s16 pair[2];\n    u8 a, b;\n} Owner;\n'
+            'typedef struct {\n    s32 value;\n} Anonymous;\n')
+    out = TA.member_retype_text(text, 'Owner', 'body', 'Body *')
+    assert '/* 0x00 */ Body *body; /* the body */' in out
+    out = TA.member_retype_text(text, 'Owner', 'handle', 'Body *')
+    assert '    Body *handle;\n' in out
+    out = TA.member_retype_text(text, 'Owner', 'cb', 'Body *', slot=0)
+    assert 'void (*cb)(Body *b, s32 n);' in out
+    assert TA.member_retype_text(text, 'Owner', 'pair', 'Body *') is None       # array
+    assert TA.member_retype_text(text, 'Owner', 'b', 'Body *') is None          # two declarators
+    assert '    Body *value;' in TA.member_retype_text(text, 'Anonymous', 'value', 'Body *')
+
+
+def test_functions_with_match_notes_are_not_folded():
+    import type_flow_apply as TA
+    text = ('void keep(Body *b) {\n    /* MATCH: retain these views for production byte identity. */\n'
+            '    x = *(u16 *)((u8 *)b + 2);\n}\nvoid fold(Body *b) {\n    x = *(u16 *)((u8 *)b + 2);\n}\n')
+    assert TA.match_note(text, 'keep') and not TA.match_note(text, 'fold') and not TA.match_note(text, 'absent')

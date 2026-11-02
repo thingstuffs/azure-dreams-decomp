@@ -92,7 +92,7 @@ typedef struct S_80BC1264_1 {
 
 /* Advance the effect motion, fade its color, and flag it near its target or when faded out. */
 typedef struct { s32 x,y,z,dx,dy,dz; } EffectMotion;
-typedef struct {
+typedef struct FadeEffect {
  u8 red,green,blue,pad03;
  union {struct {u8 red,green,blue,pad;} color;s32 packed;} current;
  s32 output;

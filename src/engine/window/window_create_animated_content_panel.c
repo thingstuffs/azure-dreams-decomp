@@ -8,8 +8,7 @@
 #include "engine/window.h"
 #include "engine/graphics.h"
 #include "engine/resource.h"
-
-extern s32 D_800814A0_load[3];
+#include "slus/data.h"
 
 /* Allocate and initialize an entity with a resource buffer and position targets. */
 AnimatedMenuPanelNode *window_create_animated_content_panel(s32 style_flags, s16 start_x, s16 start_y, s16 target_x,

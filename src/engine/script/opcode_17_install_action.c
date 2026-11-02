@@ -3,7 +3,6 @@
 
 #include "common.h"
 #include "engine/script.h"
-#include "slus/data.h"
 #include "engine/message/state.h"
 
 typedef struct S_80039568_0 {

@@ -7,7 +7,7 @@
 extern u8 D_800E1D28[9];
 
 /* Conditionally apply D_800E1D28 to the target after checking a scaled low-byte value. */
-void apply_conditional_target_effect(void *target, s32 packedValue, void *record) {
+void apply_conditional_target_effect(ActorRecord *target, s32 packedValue, void *record) {
     u8 savedPackedValue = packedValue;
     if (try_trigger_target_record_effect(target, 4, record) == 0) {
         u32 lowByteQuarter = savedPackedValue;

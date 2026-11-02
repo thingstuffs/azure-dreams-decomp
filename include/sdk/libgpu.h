@@ -41,4 +41,7 @@ void SetLineG2(void *);
 void SetLineG4(void *);
 void SetDrawArea(void *, void *);
 
+/* Owner declarations appended by tools/headers (append-only; the lines above are hand-kept). */
+void SetTexWindow(void *, void *);
+
 #endif

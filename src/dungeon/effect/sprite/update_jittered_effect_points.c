@@ -373,7 +373,7 @@ typedef struct {
 s32 rsin(s32, s16 *); /* extern */
 
 /* Move toward the target while spawning effects, then mark the sequence complete. */
-void advance_target_chasing_emitter(void *object, S_800244BC_2 *position, s32 context) {
+void advance_target_chasing_emitter(void *object, S_800244BC_2 *position, SpriteFrameState *context) {
     s16 target_pos[3];
     s16 phase;
     s32 effects_left;

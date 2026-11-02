@@ -2,6 +2,7 @@
 #include "common.h"
 #include "engine/audio.h"
 #include "slus.h"
+#include "sdk/libcd.h"
 
 /* Canonical status-block struct at D_800847D0 (see src/w_800552C8.c, src/w_800553D4.c, etc). */
 
@@ -13,8 +14,6 @@ typedef struct CdlATV {
     u8 val2;
     u8 val3;
 } CdlATV;
-
-extern int CdMix(CdlATV *vol);
 
 /* Applies the selected CD-audio mix and updates the corresponding status flags. */
 void set_cd_audio_mix_mode(unsigned char mix_mode) {

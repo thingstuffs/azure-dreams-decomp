@@ -7,7 +7,6 @@
 #include "engine/resource.h"
 #include "engine/scene.h"
 #include "sdk/libgpu.h"
-#include "slus/data.h"
 #include "engine/text.h"
 
 extern s32 gpu_scratch_write_pointer[];

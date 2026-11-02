@@ -41,7 +41,7 @@ void render_textured_effect_parts(OffsetPalettedSpriteBody *record_data, void *u
 extern u8 effect_sprite_sources[9];
 
 /* Creates and initializes an object at an offset from the supplied origin. */
-void create_offset_paletted_sprite(void *unused_context, void *origin, s32 unused_id, s16 offset_x, s16 offset_y, s16 offset_z) {
+void create_offset_paletted_sprite(void *unused_context, void *origin, SpriteFrameState *unused_id, s16 offset_x, s16 offset_y, s16 offset_z) {
     SpriteFrameState *asset;
     ObjectNodeHeader *object;
     s32 asset_param;
@@ -309,7 +309,7 @@ void spawn_scattered_point_particle(ObjectNodeHeader *parent, s16 field_34, s32 
 }
 
 /* Advances the object cycle and position, flagging expiry or a flagged source. */
-void cycle_moving_effect_phase(void *object_arg, S_8181B078_1 *position, S_8181B078_2 *source)
+void cycle_moving_effect_phase(DecrementObjectCounterBody *object_arg, S_8181B078_1 *position, S_8181B078_2 *source)
 {
     DecrementObjectCounterBody *object = object_arg;
     s32 one;
@@ -387,7 +387,7 @@ void decrement_object_counter(void *source_arg, s32 offset_x, s32 offset_y, s32 
 }
 
 /* Advances the timer, ramps target values, and flags completion on timeout or target status. */
-void grow_timed_sprite_effect(TimedSpriteImpactBody *state, s32 unused, void *target) {
+void grow_timed_sprite_effect(TimedSpriteImpactBody *state, ObjectPosition *unused, void *target) {
     u16 timer;
 
     timer = state->timer.u + 2;

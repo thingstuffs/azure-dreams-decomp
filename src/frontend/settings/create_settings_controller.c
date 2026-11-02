@@ -10,11 +10,11 @@
 #include "frontend/settings.h"
 #include "main/data.h"
 #include "slus.h"
+#include "frontend/card.h"
 
 struct Dst;
 struct Elem;
 extern s8 animation_tick_scale;
-void sync_object_with_sub_object();  /* extern */
 
 typedef struct { s32 a, b, c; } Desc3;
 

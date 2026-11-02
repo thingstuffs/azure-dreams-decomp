@@ -1,10 +1,11 @@
 #include "common.h"
 #include "shared/record_ptrs.h"
 #include "dungeon/menu.h"
+#include "shared/item_menu.h"
 
 
 /* Updates the target offset from the global byte when it differs from the record value. */
-void update_target_offset_from_global_byte(void *record, void *owner) {
+void update_target_offset_from_global_byte(void *record, ItemMenuPart *owner) {
     u8 current_value;
 
     current_value = *((u8 *)primary_actor_record + 0x29);

@@ -1,5 +1,4 @@
 #include "common.h"
-#include "frontend/libcard/message.h"
 #include "frontend/libcard/paired_choice.h"
 
 #include "frontend/libcard/interfaces.h"

@@ -3,9 +3,7 @@
 #include "frontend/libcard/resource.h"
 #include "main.h"
 #include "main/data.h"
-
-extern s32 card_boot_load_save_and_clear_marker(s32, s32, s32);
-extern void no_op_card_hook(s32);
+#include "frontend/card.h"
 
 /* Select a state pointer from the operation result and clear the trailing word. */
 void card_boot_load_selected_slot(s8 *state) {

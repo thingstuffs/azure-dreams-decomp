@@ -1,6 +1,7 @@
 #include "common.h"
 #include "shared/gpu_packets.h"
 #include "shared/menu_display.h"
+#include "frontend/libcard/message.h"
 
 
 extern MenuDisplayBlock display_block_defaults;

@@ -70,15 +70,6 @@ typedef struct S_800C55F4_2 {
     u16 unk_20;
 } S_800C55F4_2;   /* arg2_alias in transform_mesh_and_append_draw_packets */
 
-typedef struct S_800C55F4_3 {
-    u8 pad_00[0x2];
-    s16 unk_02;
-    u8 pad_04[0x2];
-    s16 unk_06;
-    u8 pad_08[0x2];
-    s16 unk_0A;
-} S_800C55F4_3;   /* arg1_record in transform_mesh_and_append_draw_packets */
-
 typedef struct S_800C55F4_4 {
     u8 unk_00;
     u8 pad_01[0x315F];
@@ -115,9 +106,9 @@ static __inline__ s32 narrow_depth(s32 value)
 }
 
 /* Transform mesh triangles, shade visible vertices, and append draw packets to the ordering table. */
-void transform_mesh_and_append_draw_packets(u8 *params, u8 *record_arg, void *mesh_data, s32 depth_offset)
+void transform_mesh_and_append_draw_packets(u8 *params, ObjectPosition *record_arg, void *mesh_data, s32 depth_offset)
 {
-    S_800C55F4_3 *record = record_arg;
+    ObjectPosition *record = record_arg;
     u8 saved_matrix[0x20];
     s16 depth_bias = depth_offset;
     u8 *scratch;
@@ -170,13 +161,13 @@ void transform_mesh_and_append_draw_packets(u8 *params, u8 *record_arg, void *me
     {
         s32 translation_coord;
 
-        translation_coord = record->unk_02;
+        translation_coord = record->x.w.i;
         ((S_800C55F4_1 *)scratch)->unk_64 = translation_coord;
         ((S_800C55F4_1 *)scratch)->unk_28 = translation_coord;
-        translation_coord = record->unk_06;
+        translation_coord = record->y.w.i;
         ((S_800C55F4_1 *)scratch)->unk_68 = translation_coord;
         ((S_800C55F4_1 *)scratch)->unk_2A = translation_coord;
-        translation_coord = record->unk_0A;
+        translation_coord = record->z.w.i;
         ((S_800C55F4_1 *)scratch)->unk_6C = translation_coord;
         ((S_800C55F4_1 *)scratch)->unk_2C = translation_coord;
     }
@@ -1002,7 +993,7 @@ typedef struct Func800C138CData {
 } Func800C138CData;
 
 /* Process each linked state with draw_sprite_parts_as_quad_grid in mode zero. */
-s32 process_linked_states_mode_zero(void *initial_state, void *context, void *data) {
+s32 process_linked_states_mode_zero(ActorRecord *initial_state, ObjectPosition *context, SpriteFrameState *data) {
     void *state = initial_state;
     Func800C138CData *next_node;
 
@@ -1096,7 +1087,7 @@ typedef struct {
 extern s32 sprite_projection_matrix[];
 
 /* Draws sprite parts as a 4-by-4 grid of textured quads, invoking custom part callbacks. */
-void draw_sprite_parts_as_quad_grid(s32 context, ObjectPosition *position, SpriteFrameState *sprite, s16 depth_bias) {
+void draw_sprite_parts_as_quad_grid(ActorRecord *context, ObjectPosition *position, SpriteFrameState *sprite, s16 depth_bias) {
     ScratchPad *scratch = (ScratchPad *)0x1F800000;
     u8 *state;
     GameWork *render_globals;
@@ -1963,7 +1954,7 @@ typedef struct Object {
 
 extern DungeonGroup item_category_groups[];
 extern u8 pending_player_damage_kind;
-extern void create_textured_ellipse_effect(void *, Object *);
+extern void create_textured_ellipse_effect(ObjectPosition *, Object *);
 
 /* Apply a mode-adjusted quarter-value change when the source and target item flags permit it. */
 s32 prepare_quarter_damage_return(Object *object, ActorRecord *source) {

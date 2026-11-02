@@ -431,7 +431,7 @@ extern u8 directional_sprite_entries[];
 extern u8 current_spell_effect_variant[];
 
 /* Per-frame chasing-star step: drift toward the player, steer around the map and spawn the two trailing sprites. */
-void update_chasing_star_effect(void *entity, B32_818CF0E8_S_818CF0E8_1 *pos, B32_818CF0E8_S_818CF0E8_3 *gfx)
+void update_chasing_star_effect(void *entity, ObjectPosition *pos, B32_818CF0E8_S_818CF0E8_3 *gfx)
 {
     B32_818CF0E8_S_818CF0E8_2 *star;
     B32_818CF0E8_S_818CF0E8_7 *env;
@@ -461,8 +461,8 @@ void update_chasing_star_effect(void *entity, B32_818CF0E8_S_818CF0E8_1 *pos, B3
             create_jittered_terrain_seeking_point((void *)w1, ((B32_818CF0E8_S_818CF0E8_0 *)entity)->unk_16, (s32)src, a3v, 0, 0, 0);
             p = (B32_818CF0E8_S_818CF0E8_6 *)((u8 *)p + 1);
         } if ((s32)p < 4) goto loop_0;
-        if ((check_adjacent_tile_height_clearance(pos->unk_00.at02.v, pos->unk_04.at02.v,
-                           pos->unk_08.at02.v, ((B32_818CF0E8_S_818CF0E8_0 *)entity)->unk_30) << 0x10) != 0) {
+        if ((check_adjacent_tile_height_clearance(pos->x.unsigned_parts.integer, pos->y.unsigned_parts.integer,
+                           pos->z.w.i, ((B32_818CF0E8_S_818CF0E8_0 *)entity)->unk_30) << 0x10) != 0) {
             ((B32_818CF0E8_S_818CF0E8_9 *)(((B32_818CF0E8_S_818CF0E8_0 *)entity)->unk_34))->unk_86 = 1;
             ((B32_818CF0E8_S_818CF0E8_0_pre *)entity)[-1].unk_00 |= 0x8000;
             object_flag_block.flags |= OBJECT_REMOVE_PENDING;
@@ -472,13 +472,13 @@ void update_chasing_star_effect(void *entity, B32_818CF0E8_S_818CF0E8_1 *pos, B3
             u16 a2v;
             u16 a1v;
             star = ((B32_818CF0E8_S_818CF0E8_8_pre *)(((B32_818CF0E8_S_818CF0E8_0 *)entity)->unk_30))[-1].unk_00;
-            if (pos->unk_08.at00.v < star->unk_08.at00.v + (s32)0xFF800000) {
+            if (pos->z.v < star->unk_08.at00.v + (s32)0xFF800000) {
                 ((B32_818CF0E8_S_818CF0E8_0 *)entity)->unk_54 /= 2;
             }
             {
             s32 d;
             s32 aw;
-            d = pos->unk_00.at02u.v;
+            d = pos->x.w.i;
             d -= star->unk_02.s;
             aw = d;
             aw = abs(aw);
@@ -504,7 +504,7 @@ void update_chasing_star_effect(void *entity, B32_818CF0E8_S_818CF0E8_1 *pos, B3
             {
             s32 d;
             s32 aw;
-            d = pos->unk_04.at02u.v;
+            d = pos->y.w.i;
             d -= star->unk_06.s;
             aw = (d >= 0) ? d : (0 - d);
             if (aw < 8) {
@@ -530,16 +530,16 @@ void update_chasing_star_effect(void *entity, B32_818CF0E8_S_818CF0E8_1 *pos, B3
                 s32 aw;
                 s32 d;
                 s32 st;
-                a2v = pos->unk_00.at02.v;
-                d = pos->unk_00.at02u.v;
+                a2v = pos->x.unsigned_parts.integer;
+                d = pos->x.w.i;
                 a1v = star->unk_02.u;
                 st = star->unk_02.s;
                 d -= st;
                 aw = (d >= 0) ? d : (0 - d);
                 if (aw >= 0xC1) {
-                    pos->unk_00.at00.v += ((B32_818CF0E8_S_818CF0E8_0 *)entity)->unk_4C;
+                    pos->x.v += ((B32_818CF0E8_S_818CF0E8_0 *)entity)->unk_4C;
                 } else if (aw >= 4) {
-                    pos->unk_00.at00.v += (((B32_818CF0E8_S_818CF0E8_0 *)entity)->unk_4C * aw) / 192;
+                    pos->x.v += (((B32_818CF0E8_S_818CF0E8_0 *)entity)->unk_4C * aw) / 192;
                 } else if (((B32_818CF0E8_S_818CF0E8_0 *)entity)->unk_38 != ((B32_818CF0E8_S_818CF0E8_0 *)entity)->unk_3C) {
                     s32 one;
                     one = 1;
@@ -565,16 +565,16 @@ void update_chasing_star_effect(void *entity, B32_818CF0E8_S_818CF0E8_1 *pos, B3
                 s32 aw;
                 s32 d;
                 s32 st;
-                a2v = pos->unk_04.at02.v;
-                d = pos->unk_04.at02u.v;
+                a2v = pos->y.unsigned_parts.integer;
+                d = pos->y.w.i;
                 a1v = star->unk_06.u;
                 st = star->unk_06.s;
                 d -= st;
                 aw = (d >= 0) ? d : (0 - d);
                 if (aw >= 0xC1) {
-                    pos->unk_04.at00.v += ((B32_818CF0E8_S_818CF0E8_0 *)entity)->unk_50;
+                    pos->y.v += ((B32_818CF0E8_S_818CF0E8_0 *)entity)->unk_50;
                 } else if (aw >= 4) {
-                    pos->unk_04.at00.v += (((B32_818CF0E8_S_818CF0E8_0 *)entity)->unk_50 * aw) / 192;
+                    pos->y.v += (((B32_818CF0E8_S_818CF0E8_0 *)entity)->unk_50 * aw) / 192;
                 } else if (((B32_818CF0E8_S_818CF0E8_0 *)entity)->unk_3A != ((B32_818CF0E8_S_818CF0E8_0 *)entity)->unk_3E) {
                     s32 one;
                     one = 1;
@@ -601,10 +601,10 @@ void update_chasing_star_effect(void *entity, B32_818CF0E8_S_818CF0E8_1 *pos, B3
                 s32 d;
                 s32 st;
                 if (((B32_818CF0E8_S_818CF0E8_0 *)entity)->unk_4C != 0) {
-                    a2v = pos->unk_00.at02.v;
+                    a2v = pos->x.unsigned_parts.integer;
                     a1v = star->unk_02.u;
                 } else {
-                    a2v = pos->unk_04.at02.v;
+                    a2v = pos->y.unsigned_parts.integer;
                     a1v = star->unk_06.u;
                 }
                 d = (s16)a2v;
@@ -612,16 +612,16 @@ void update_chasing_star_effect(void *entity, B32_818CF0E8_S_818CF0E8_1 *pos, B3
                 d -= st;
                 aw = abs(d);
                 if (aw >= 0xC1) {
-                    pos->unk_08.at00.v += ((B32_818CF0E8_S_818CF0E8_0 *)entity)->unk_54;
+                    pos->z.v += ((B32_818CF0E8_S_818CF0E8_0 *)entity)->unk_54;
                 } else if (aw >= 4) {
-                    pos->unk_08.at00.v += (((B32_818CF0E8_S_818CF0E8_0 *)entity)->unk_54 * aw) / 192;
+                    pos->z.v += (((B32_818CF0E8_S_818CF0E8_0 *)entity)->unk_54 * aw) / 192;
                 }
             }
         } else {
             ((B32_818CF0E8_S_818CF0E8_0 *)entity)->unk_04.s -= 1;
-            pos->unk_00.at00.v += ((B32_818CF0E8_S_818CF0E8_0 *)entity)->unk_4C;
-            pos->unk_04.at00.v += ((B32_818CF0E8_S_818CF0E8_0 *)entity)->unk_50;
-            pos->unk_08.at00.v += ((B32_818CF0E8_S_818CF0E8_0 *)entity)->unk_54;
+            pos->x.v += ((B32_818CF0E8_S_818CF0E8_0 *)entity)->unk_4C;
+            pos->y.v += ((B32_818CF0E8_S_818CF0E8_0 *)entity)->unk_50;
+            pos->z.v += ((B32_818CF0E8_S_818CF0E8_0 *)entity)->unk_54;
             if (((B32_818CF0E8_S_818CF0E8_0 *)entity)->unk_04.u <= 0) {
                 ((B32_818CF0E8_S_818CF0E8_9 *)(((B32_818CF0E8_S_818CF0E8_0 *)entity)->unk_34))->unk_86 = 1;
                 ((B32_818CF0E8_S_818CF0E8_0_pre *)entity)[-1].unk_00 |= 0x8000;
@@ -664,7 +664,7 @@ void update_chasing_star_effect(void *entity, B32_818CF0E8_S_818CF0E8_1 *pos, B3
                 s32 r2;
                 s32 b2;
                 r2 = rand() & 0x1F;
-                b2 = pos->unk_00.at02.v - 0x10;
+                b2 = pos->x.unsigned_parts.integer - 0x10;
                 b2 += r2;
                 p->unk_02.s = b2;
             }
@@ -672,11 +672,11 @@ void update_chasing_star_effect(void *entity, B32_818CF0E8_S_818CF0E8_1 *pos, B3
                 s32 r2;
                 s32 b2;
                 r2 = rand() & 0x1F;
-                b2 = pos->unk_04.at02.v - 0x10;
+                b2 = pos->y.unsigned_parts.integer - 0x10;
                 b2 += r2;
                 p->unk_06.s = b2;
             }
-            p->unk_08.at02.v = pos->unk_08.at02u.v;
+            p->unk_08.at02.v = pos->z.unsigned_parts.integer;
             ((B32_818CF0E8_S_818CF0E8_4 *)s3)->unk_54 = rand() + 0x30000;
             ((B32_818CF0E8_S_818CF0E8_4 *)s3)->unk_60 = 0x6000;
             p = (B32_818CF0E8_S_818CF0E8_6 *)obj->sprite;
@@ -781,9 +781,9 @@ void update_chasing_star_effect(void *entity, B32_818CF0E8_S_818CF0E8_1 *pos, B3
         p->unk_10 = 0x60;
         p->unk_14.s = flags;
         p = (B32_818CF0E8_S_818CF0E8_6 *)obj->position;
-        p->unk_02.u = pos->unk_00.at02.v;
-        p->unk_06.u = pos->unk_04.at02.v;
-        p->unk_08.at02.v = pos->unk_08.at02u.v;
+        p->unk_02.u = pos->x.unsigned_parts.integer;
+        p->unk_06.u = pos->y.unsigned_parts.integer;
+        p->unk_08.at02.v = pos->z.unsigned_parts.integer;
         p = (B32_818CF0E8_S_818CF0E8_6 *)obj->sprite;
         p->unk_1E = 0x1000;
         p->unk_1C = 0x1000;
@@ -806,9 +806,9 @@ void update_chasing_star_effect(void *entity, B32_818CF0E8_S_818CF0E8_1 *pos, B3
         p->unk_10 = 0x60;
         p->unk_14.s = flags;
         p = (B32_818CF0E8_S_818CF0E8_6 *)obj->position;
-        p->unk_02.u = pos->unk_00.at02.v;
-        p->unk_06.u = pos->unk_04.at02.v;
-        p->unk_08.at02.v = pos->unk_08.at02u.v;
+        p->unk_02.u = pos->x.unsigned_parts.integer;
+        p->unk_06.u = pos->y.unsigned_parts.integer;
+        p->unk_08.at02.v = pos->z.unsigned_parts.integer;
         p = (B32_818CF0E8_S_818CF0E8_6 *)obj->sprite;
         p->unk_1E = 0x1000;
         p->unk_1C = 0x1000;

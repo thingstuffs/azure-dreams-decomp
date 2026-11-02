@@ -20,7 +20,7 @@ void *(*const cd7000_spawn_entry)(s16,s16,s16,s32) = spawn_block_slot_a;
 void (*const cd7000_update_entry)(void *,CL_CD7000_80170C24_S_80170C24_2 *,void *) = update_block_motion_and_facing_slot_a;
 
 /* Links a sprite effect, stores its owner value, copies its position, and sets neutral color and scale. */
-void initialize_gray_sprite_copy_slot_a(CL_CD7000_8017087C_Object *object, s32 field60_value, CL_CD7000_8017087C_CopyFields *source_coords)
+void initialize_gray_sprite_copy_slot_a(CL_CD7000_8017087C_Object *object, ActorRecord *field60_value, ObjectPosition *source_coords)
 {
     SpriteFrameState *part;
     ObjectPosition *copy;
@@ -33,9 +33,9 @@ void initialize_gray_sprite_copy_slot_a(CL_CD7000_8017087C_Object *object, s32 f
     part->flags |= 0xC;
 
     copy = object->header.position;
-    copy->x.w.i = source_coords->x;
-    copy->y.w.i = source_coords->y;
-    copy->z.w.i = source_coords->z;
+    copy->x.w.i = source_coords->x.unsigned_parts.integer;
+    copy->y.w.i = source_coords->y.unsigned_parts.integer;
+    copy->z.w.i = source_coords->z.unsigned_parts.integer;
 
     part = object->header.sprite;
     part->scale_y = 0x1000;
@@ -1100,13 +1100,13 @@ void update_block_attack_slot_a(void *action, void *motion_arg, SpriteFrameState
 }
 
 /* Selects a queued spell and target, creates its visual effect, and waits for animation and CD completion. */
-void update_block_spell_slot_a(CL_CD7000_80172BCC_S_func_80C953CC_1 *work, CL_CD7000_80172BCC_S_func_80C953CC_2 *position, CL_CD7000_80172BCC_S_func_80C953CC_3 *entity,
+void update_block_spell_slot_a(ActorRecord *work, ObjectPosition *position, SpriteFrameState *entity,
     CL_CD7000_80172BCC_S_func_80C953CC_4 *actor)
 {
     CL_CD7000_80172BCC_S_func_80C953CC_9 *part;
     s32 alternate = 0;
 
-    switch (work->unk_9B) {
+    switch (work->action_phase.u) {
     case 0:
         if (actor->unk_1C & ACTOR_PLAYER_SIDE) {
             switch (actor->unk_46 & 0x3FFF) {
@@ -1153,7 +1153,7 @@ void update_block_spell_slot_a(CL_CD7000_80172BCC_S_func_80C953CC_1 *work, CL_CD
             void *target_actor;
             SpriteFrameState *target_entity;
 
-            (work->unk_98) &= 0xFF7F;
+            (work->action_state_flags) &= 0xFF7F;
             if ((s8)alternate) {
                 actor->unk_60 = target_actor = primary_actor_record;
                 target_entity = NODE_HEADER(target_actor)->sprite;
@@ -1170,8 +1170,8 @@ void update_block_spell_slot_a(CL_CD7000_80172BCC_S_func_80C953CC_1 *work, CL_CD
                 s32 target_y;
 
                 actor->unk_60 =
-                    scan_actor_along_heading(actor, entity->unk_24,
-                                  entity->unk_25,
+                    scan_actor_along_heading(actor, entity->tile_x,
+                                  entity->tile_y,
                                   actor->unk_2A, 0x10);
                 target_x = abs(actor->unk_72.s8);
                 target_y = abs(actor->unk_73.s8);
@@ -1179,23 +1179,23 @@ void update_block_spell_slot_a(CL_CD7000_80172BCC_S_func_80C953CC_1 *work, CL_CD
                 actor->unk_73.u8 = target_y;
             }
 
-            if (create_actor_spell_effect(actor, part, alternate, &work->unk_98) != 0) {
-                work->unk_9B++;
+            if (create_actor_spell_effect(actor, part, alternate, &work->action_state_flags) != 0) {
+                work->action_phase.u++;
             }
         } else {
             CL_CD7000_80172BCC_S_func_80C953CC_5 *active_actor;
 
-            position->unk_14 = 0;
-            position->unk_10 = 0;
-            position->unk_0C = 0;
-            set_record_integer_tile_center(position, entity->unk_24,
-                          entity->unk_25);
+            position->velocity_z = 0;
+            position->velocity_y = 0;
+            position->velocity_x = 0;
+            set_record_integer_tile_center(position, entity->tile_x,
+                          entity->tile_y);
             active_actor = primary_actor_record;
             g_dungeon_status.active_actor = 0;
             (active_actor->unk_A6)--;
             advance_status_timers(actor);
             actor->unk_6D--;
-            work->unk_8C = dispatch_block_turn_actions_slot_a;
+            work->unk_8C.address = dispatch_block_turn_actions_slot_a;
             actor->unk_73.u8 = 0;
             actor->unk_72.u8 = 0;
             actor->unk_46 &= 0x7FFF;
@@ -1204,12 +1204,12 @@ void update_block_spell_slot_a(CL_CD7000_80172BCC_S_func_80C953CC_1 *work, CL_CD
 
     case 1:
         if (get_cd_command_queue_depth() != 0) {
-            entity->unk_14 |= 0x800;
+            entity->flags |= 0x800;
             break;
         }
 
-        entity->unk_14 &= 0xF7FF;
-        work->unk_9B++;
+        entity->flags &= 0xF7FF;
+        work->action_phase.u++;
         actor = allocate_flagged_object_node(0x212);
         if (actor != 0) {
             CL_CD7000_80172BCC_S_func_80C953CC_6 *transform;
@@ -1239,32 +1239,32 @@ void update_block_spell_slot_a(CL_CD7000_80172BCC_S_func_80C953CC_1 *work, CL_CD
 
     case 2:
         if ((entity->unk_04 == 5 &&
-             (entity->unk_14 & 0x1000)) ||
-            (entity->unk_14 & 0xE000)) {
-            work->unk_96 = 0x20;
-            work->unk_98 |= 0x80;
-            work->unk_9B++;
+             (entity->flags & 0x1000)) ||
+            (entity->flags & 0xE000)) {
+            work->action_timer.u = 0x20;
+            work->action_state_flags |= 0x80;
+            work->action_phase.u++;
         }
         break;
 
     case 3:
         part = (CL_CD7000_80172BCC_S_func_80C953CC_9 *)((u8 *)((s32 *)&g_dungeon_status.active_actor) - 0x0C);
         if (part->unk_0C == 0) {
-            work->unk_96 = 0;
+            work->action_timer.u = 0;
         }
-        if (!(entity->unk_14 & 0xE000)) {
+        if (!(entity->flags & 0xE000)) {
             break;
         }
 
-        position->unk_14 = 0;
-        position->unk_10 = 0;
-        position->unk_0C = 0;
-        set_record_integer_tile_center(position, entity->unk_24,
-                      entity->unk_25);
-        if (entity->unk_2C != block_slot_a_direction_frames) {
+        position->velocity_z = 0;
+        position->velocity_y = 0;
+        position->velocity_x = 0;
+        set_record_integer_tile_center(position, entity->tile_x,
+                      entity->tile_y);
+        if (entity->frameTable != block_slot_a_direction_frames) {
             s32 direction;
 
-            (entity->unk_2C) = block_slot_a_direction_frames;
+            (entity->frameTable) = block_slot_a_direction_frames;
             direction = (g_game_work.view.camera_rotation.parts.viewAngle + actor->unk_2A + 0x100) >> 9;
             select_sprite_entry(entity, block_slot_a_direction_frames[direction & 7], 0);
         }
@@ -1273,7 +1273,7 @@ void update_block_spell_slot_a(CL_CD7000_80172BCC_S_func_80C953CC_1 *work, CL_CD
         }
 
         part->unk_0A--;
-        work->unk_8C = dispatch_block_turn_actions_slot_a;
+        work->unk_8C.address = dispatch_block_turn_actions_slot_a;
         advance_status_timers(actor);
         actor->unk_73.u8 = 0;
         actor->unk_72.u8 = 0;

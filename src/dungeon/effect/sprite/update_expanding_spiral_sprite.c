@@ -12,7 +12,7 @@ extern u8 ribbon_sprite_entries[];
 #define S32_AT(p, o) (*(s32 *)((u8 *)(p) + (o)))
 
 /* Advance an expanding spiral effect and update its sprite. */
-void update_expanding_spiral_sprite(void *state, void *position, SpriteFrameState *sprite)
+void update_expanding_spiral_sprite(void *state, ObjectPosition *position, SpriteFrameState *sprite)
 {
     s16 angle;
     GameWork *angle_table;

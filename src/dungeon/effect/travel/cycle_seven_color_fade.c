@@ -62,7 +62,7 @@ void lower_animated_sprite(ColoredOffsetSpriteBody *counter_state, B28_818B68B8_
 extern u8 shared_sprite_entries[];
 
 /* Create an object with randomized rotation and a radial position offset. */
-void * create_colored_offset_sprite(s32 context_value, void *source_state, s32 render_param, s32 ignored_context) {
+void * create_colored_offset_sprite(s32 context_value, void *source_state, s32 render_param, B28_818B6AFC_FxEffect *ignored_context) {
     s16 offset_angle;
     SpriteFrameState *render_state;
     s32 *object_state;
@@ -100,7 +100,7 @@ void * create_colored_offset_sprite(s32 context_value, void *source_state, s32 r
 #include "common.h"
 #include "shared/object_flags.h"
    /* Cycle through seven colors with fade-in and fade-out, then mark the effect finished. */
-void cycle_seven_color_fade(B28_818B6AFC_FxEffect *effect, s32 render_arg, B28_818B6AFC_FxColorOut *color_out) {
+void cycle_seven_color_fade(B28_818B6AFC_FxEffect *effect, ObjectPosition *render_arg, B28_818B6AFC_FxColorOut *color_out) {
     s32 fade_in_color;
     s16 fade_in_green;
     s32 hold_color;
@@ -254,9 +254,9 @@ void cycle_seven_color_fade(B28_818B6AFC_FxEffect *effect, s32 render_arg, B28_8
    /* arg1 in func_80024790 */
 
 /* Projects a textured color-gradient quad and links it into the ordering table if its depth is in range. */
-s32 draw_indexed_shaded_quad(s32 texture_index, u8 *color_source_arg)
+s32 draw_indexed_shaded_quad(s32 texture_index, SpriteFrameState *color_source_arg)
 {
-    B28_818B6F90_S_818B6F90_3 *color_source = color_source_arg;
+    SpriteFrameState *color_source = color_source_arg;
     u8 *render_buffer;
     u8 *packet;
     u8 *scratch;
@@ -309,12 +309,12 @@ s32 draw_indexed_shaded_quad(s32 texture_index, u8 *color_source_arg)
     ((B28_818B6F90_S_818B6F90_2 *)packet)->unk_11 = 0;
     ((B28_818B6F90_S_818B6F90_2 *)packet)->unk_12 = 0;
 
-    ((B28_818B6F90_S_818B6F90_2 *)packet)->unk_1C = color_source->unk_0C;
-    ((B28_818B6F90_S_818B6F90_2 *)packet)->unk_1D = color_source->unk_0D;
-    ((B28_818B6F90_S_818B6F90_2 *)packet)->unk_1E = color_source->unk_0E;
-    ((B28_818B6F90_S_818B6F90_2 *)packet)->unk_28 = color_source->unk_0C;
-    ((B28_818B6F90_S_818B6F90_2 *)packet)->unk_29 = color_source->unk_0D;
-    ((B28_818B6F90_S_818B6F90_2 *)packet)->unk_2A = color_source->unk_0E;
+    ((B28_818B6F90_S_818B6F90_2 *)packet)->unk_1C = color_source->color.c.r;
+    ((B28_818B6F90_S_818B6F90_2 *)packet)->unk_1D = color_source->color.c.g;
+    ((B28_818B6F90_S_818B6F90_2 *)packet)->unk_1E = color_source->color.c.b;
+    ((B28_818B6F90_S_818B6F90_2 *)packet)->unk_28 = color_source->color.c.r;
+    ((B28_818B6F90_S_818B6F90_2 *)packet)->unk_29 = color_source->color.c.g;
+    ((B28_818B6F90_S_818B6F90_2 *)packet)->unk_2A = color_source->color.c.b;
 
     ((B28_818B6F90_S_818B6F90_0 *)scratch)->unk_10 = ((B28_818B6F90_S_818B6F90_0 *)scratch)->unk_30 >> 16;
     ((B28_818B6F90_S_818B6F90_0 *)scratch)->unk_18 = ((B28_818B6F90_S_818B6F90_0 *)scratch)->unk_40 >> 16;
@@ -371,7 +371,7 @@ s32 draw_indexed_shaded_quad(s32 texture_index, u8 *color_source_arg)
    /* sc in draw_two_radial_effect_bands */
 
 /* Builds and draws two eight-segment radial bands around the effect center. */
-s32 draw_two_radial_effect_bands(B28_818B7264_S_80024A64_0 *effect, B28_818B7264_S_80024A64_1 *center, s32 draw_arg) {
+s32 draw_two_radial_effect_bands(B28_818B7264_S_80024A64_0 *effect, B28_818B7264_S_80024A64_1 *center, SpriteFrameState *draw_arg) {
     B28_818B7264_S_80024A64_2 *scratch;
     s32 first_outer_x;
     s32 first_outer_y;

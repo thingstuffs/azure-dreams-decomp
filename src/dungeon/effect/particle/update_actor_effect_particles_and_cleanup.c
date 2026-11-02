@@ -260,7 +260,7 @@ typedef struct RenderFade33 {
 } RenderFade33;   /* arg2 in func_80024548 */
 
 /* Fades and rotates an effect, decrements its timer, and flags completion. */
-void fade_and_rotate_timed_effect(void *record_data, s32 unused, RenderFade33 *effect)
+void fade_and_rotate_timed_effect(void *record_data, ObjectPosition *unused, RenderFade33 *effect)
 {
     void *record_cursor = record_data;
     u16 old_angle;

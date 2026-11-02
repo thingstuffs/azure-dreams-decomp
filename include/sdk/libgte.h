@@ -38,4 +38,8 @@ void * RotMatrixY(s32, void *);
 void * RotMatrixZ(s32, void *);
 s32 ratan2(s32, s32);
 
+/* Owner declarations appended by tools/headers (append-only; the lines above are hand-kept). */
+void NormalColorCol(void *, void *, void *);
+s32 ReadGeomScreen(void);
+
 #endif

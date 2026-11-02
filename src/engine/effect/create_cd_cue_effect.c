@@ -11,7 +11,6 @@
 extern s16 cd_cue_effect_visual_data[8];
 
 struct CdCueEffectNode;
-extern void scene_initialize_arc_motion_sprite(struct CdCueEffectNode *, struct Controller *);
 extern void init_fade_in_out_effect(struct CdCueEffectNode *, struct Controller *);
 extern void init_color_fade_effect(struct CdCueEffectNode *, struct Controller *);
 

@@ -4,6 +4,7 @@
 
 #include "common.h"
 #include "engine/window.h"
+#include "slus/data.h"
 
 
 typedef struct S_80037394_1 {
@@ -18,20 +19,6 @@ typedef struct S_80037394_2 {
 } S_80037394_2;   /* arg2 in update_cursor_blink_colors */
 
 extern void copy_texture_descriptor_with_page_offsets(s32 *texture_pos, void *src, void *dst);
-
-extern u8 cursor_texture_template_0[];
-extern u8 cursor_texture_template_1[];
-extern u8 cursor_texture_template_2[];
-extern u8 cursor_texture_template_3[];
-extern u8 cursor_texture_template_4[];
-extern u8 cursor_texture_template_5[];
-extern u32 cursor_blink_variant_values[];
-extern u8 cursor_texture_descriptor_4[];
-extern u8 cursor_texture_descriptor_5[];
-extern u8 cursor_texture_descriptor_0[];
-extern u8 cursor_texture_descriptor_1[];
-extern u8 cursor_texture_descriptor_2[];
-extern u8 cursor_texture_descriptor_3[];
 
 /* Updates the current entry's output value and applies its blink color. */
 void update_cursor_blink_colors(WindowCursorBody *body, ObjectPosition *position, void *output_arg) {

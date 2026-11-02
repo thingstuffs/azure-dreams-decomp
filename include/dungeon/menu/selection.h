@@ -137,7 +137,7 @@ typedef struct ovl_1831370_818119A0_S_800269A0_0 {
     s32 unk_10;
     s32 unk_14;
     u8 pad_18[0x4];
-    s32 unk_1C;
+    ObjectNodeHeader *unk_1C;
     u8 pad_20[0x50];
     s32 unk_70;
 } ovl_1831370_818119A0_S_800269A0_0;
@@ -205,8 +205,8 @@ S_800491F4 *forward_value_to_shared_helper(S_800491F4 **value);
 void initialize_owner_defaults(void *unused, ovl_1831370_818117D8_Owner *owner, ovl_1831370_818117D8_S_8002E5D8 *patch_data,
                    ovl_1831370_818117D8_S_8002E5E8 *aux_data);
 void initialize_object_destination_fields(ovl_1831370_81811878_Source *src, ovl_1831370_81811878_Destinations *dst);
-void initialize_object_phase_data(void *recordFields, s32 recordValue2C, s32 typeCode, s32 recordValue24);
-void initialize_embedded_object_state(void *state, s32 parent, s32 type, s32 config);
+void initialize_object_phase_data(void *recordFields, ObjectNodeHeader *recordValue2C, s32 typeCode, s32 recordValue24);
+void initialize_embedded_object_state(void *state, ObjectNodeHeader *parent, s32 type, s32 config);
 s32 get_and_position_object_handle(void *object);
 void release_object_handle(ovl_1831370_81811B44_S_80026B44_0 *owner);
 void cleanup_object_resources(ovl_1831370_81811B94_CleanupObject *object);

@@ -18,7 +18,7 @@ extern Rect D_80164824;
 extern void draw_transformed_sprite_with_clip_rect(void *, Rect *, Point *, s32, s32);
 
 /* Updates effect rotation and rectangle, then flags timer expiration. */
-void update_reverse_rotating_clipped_sprite(RotatingClippedSpriteBody *effect, s32 unused, void *rotation)
+void update_reverse_rotating_clipped_sprite(RotatingClippedSpriteBody *effect, ObjectPosition *unused, void *rotation)
 {
     Rect rect;
     Point center;

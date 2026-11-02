@@ -10,7 +10,7 @@
 #include "engine/cd.h"
 #include "dungeon/level.h"
 /* Advances sprite animation and textures for the third argument, leaving the first two unused. */
-void update_sprite_from_third_argument(s32 unused_first, s32 unused_second, s32 value) {
+void update_sprite_from_third_argument(ObjectNodeHeader *unused_first, ObjectPosition *unused_second, SpriteFrameState *value) {
     advance_sprite_animation_and_textures(value);
 }
 #include "modules/dungeon_ovl_7ce800.h"

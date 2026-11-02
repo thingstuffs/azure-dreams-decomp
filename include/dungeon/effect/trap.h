@@ -78,6 +78,6 @@ typedef struct FourOwnerSpriteEffectsBody {
 } FourOwnerSpriteEffectsBody;
 
 /* Both retail callers pass 0x10 in the second register; the helper ignores it. */
-void apply_mode_selected_trap_mask(void *target, s32 unused_mask);
+void apply_mode_selected_trap_mask(ActorRecord *target, s32 unused_mask);
 
 #endif

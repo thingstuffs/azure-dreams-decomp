@@ -17,7 +17,7 @@ s32 draw_actor_effect_points(void *, void *);
 void accelerate_particle_toward_source(void *, void *);
 void create_accelerating_return_particle(ObjectNodeHeader *, s32, s32, s32, s32, s32, s32);
 struct RenderFade33;
-void fade_and_rotate_timed_effect(void *, s32, struct RenderFade33 *);
+void fade_and_rotate_timed_effect(void *, ObjectPosition *, struct RenderFade33 *);
 extern const PackedOffsets dungeon_18f4800_offsets;
 extern s16 D_80025118[5];
 #endif

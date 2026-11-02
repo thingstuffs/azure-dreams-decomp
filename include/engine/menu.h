@@ -187,4 +187,8 @@ void update_menu_backdrop_variant(SevenEntryMenuBackdropBody *object);
 /* Data declarations. */
 extern u8 menu_element_order[ 4 ];
 
+/* Owner declarations appended by tools/headers (append-only; the lines above are hand-kept). */
+struct AnimatedMenuPanelBody;
+void menu_initialize_four_sub_blocks_position_offsets_fixed_header_derived_values(struct AnimatedMenuPanelBody *object, s32 x, s32 y, s16 extent);
+
 #endif

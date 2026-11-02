@@ -178,4 +178,9 @@ void update_sine_motion_effect(struct EffectState800517CC *effect, struct VecSta
 /* update_staged_motion_effect.c */
 void update_staged_motion_effect(CdCueEffectBody *obj, ObjectPosition *position, SpriteFrameState *flags);
 
+/* Owner declarations appended by tools/headers (append-only; the lines above are hand-kept). */
+#include "shared/gpu_packets.h"
+#include "shared/menu_display.h"
+void init_gauge_blocks(void *unused, MenuDisplayNode *object, MenuDisplayBlock *primary_data, DisplayPositionWords *secondary_data);
+
 #endif

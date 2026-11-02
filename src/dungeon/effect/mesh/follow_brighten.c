@@ -454,7 +454,7 @@ s32 fade_effect_sprite_to_black(ovl_18d0850_818B1484_S_818B1484_1 *effect, ovl_1
  * Dispatches effect states 4 and 5 to their circular segment builders and state 6 to fading; other
  * states do nothing, and the result is always zero.
  */
-s32 dispatch_effect_state_handler(void *state_ptr, void *second_ptr, void *third_ptr)
+s32 dispatch_effect_state_handler(void *state_ptr, void *second_ptr, SpriteFrameState *third_ptr)
 {
     switch (((ovl_18d0850_818B15F4_Func818B15F4Arg *)state_ptr)->state) {
     case 0:

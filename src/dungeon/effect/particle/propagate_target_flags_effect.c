@@ -305,7 +305,7 @@ void advance_colliding_particle_sprite(void *effect, S_8196ACE4_0 *position, Spr
 }
 
    /* Advance motion, resolve collisions, and mark expired objects for removal. */
-void advance_terrain_colliding_sprite(LingeringBallisticSpriteBody *motion_arg, void *position, s32 update_id) {
+void advance_terrain_colliding_sprite(LingeringBallisticSpriteBody *motion_arg, void *position, SpriteFrameState *update_id) {
     LingeringBallisticSpriteBody *motion = motion_arg;
     s32 height;
     u16 remaining_ticks;
@@ -885,7 +885,7 @@ void advance_particle_emitting_projectile(UpdateStagedParticleEffectBody *object
 }
 
    /* Move the effect with collision checks, shrink its sprite, and expire it when finished. */
-void shrink_particle_emitting_projectile(UpdateStagedParticleEffectBody *effect, void *position, void *sprite) {
+void shrink_particle_emitting_projectile(UpdateStagedParticleEffectBody *effect, ObjectPosition *position, SpriteFrameState *sprite) {
     u16 age;
     u16 reduced_scale_x;
     u16 reduced_scale_y;
@@ -893,54 +893,54 @@ void shrink_particle_emitting_projectile(UpdateStagedParticleEffectBody *effect,
     u16 scale_x;
     u16 next_scale_y;
 
-    ((S_8196C280_0 *)position)->unk_00.at00.v += effect->unk_8C;
+    position->x.v += effect->unk_8C;
     effect->unk_8C += effect->unk_98;
     {
         u16 check_x;
         u16 check_y;
         s32 check_z;
 
-        check_x = ((S_8196C280_0 *)position)->unk_00.at02.v;
-        check_y = ((S_8196C280_0 *)position)->unk_04.at02.v;
-        check_z = ((S_8196C280_0 *)position)->unk_08.at02.v;
+        check_x = position->x.unsigned_parts.integer;
+        check_y = position->y.unsigned_parts.integer;
+        check_z = position->z.w.i;
         particle_activity = 1;
         if ((check_left_tile_and_center_height(check_x, check_y, check_z) << 0x10) != 0) {
-            ((S_8196C280_0 *)position)->unk_00.at00.v -= effect->unk_8C;
+            position->x.v -= effect->unk_8C;
             effect->unk_8C = 0;
             effect->unk_98 = 0;
         }
     }
-    ((S_8196C280_0 *)position)->unk_04.at00.v += effect->unk_90;
+    position->y.v += effect->unk_90;
     effect->unk_90 += effect->unk_9C;
-    if ((check_left_tile_and_center_height(((S_8196C280_0 *)position)->unk_00.at02.v, ((S_8196C280_0 *)position)->unk_04.at02.v,
-        ((S_8196C280_0 *)position)->unk_08.at02.v) << 0x10) != 0) {
-        ((S_8196C280_0 *)position)->unk_04.at00.v -= effect->unk_90;
+    if ((check_left_tile_and_center_height(position->x.unsigned_parts.integer, position->y.unsigned_parts.integer,
+        position->z.w.i) << 0x10) != 0) {
+        position->y.v -= effect->unk_90;
         effect->unk_90 = 0;
         effect->unk_9C = 0;
     }
-    ((S_8196C280_0 *)position)->unk_08.at00.v += effect->unk_94;
+    position->z.v += effect->unk_94;
     effect->unk_94 += effect->unk_A0;
     {
         s32 height;
 
-        height = ((S_8196C280_0 *)position)->unk_08.at02.v;
-        if (((s16)sample_terrain_surface_height(((S_8196C280_0 *)position)->unk_00.at02.v, ((S_8196C280_0 *)position)->unk_04.at02.v,
-            (s16)(((S_8196C280_0 *)position)->unk_08.at02u.v - 4)) - 0x10) < height) {
+        height = position->z.w.i;
+        if (((s16)sample_terrain_surface_height(position->x.unsigned_parts.integer, position->y.unsigned_parts.integer,
+            (s16)(position->z.unsigned_parts.integer - 4)) - 0x10) < height) {
             effect->unk_94 = 0;
             effect->unk_90 = 0;
             effect->unk_8C = 0;
-            ((S_8196C280_0 *)position)->unk_08.at02.v = (s16)sample_terrain_surface_height(((S_8196C280_0 *)position)->unk_00.at02.v,
-                ((S_8196C280_0 *)position)->unk_04.at02.v, (s16)(((S_8196C280_0 *)position)->unk_08.at02u.v - 4))
+            position->z.w.i = (s16)sample_terrain_surface_height(position->x.unsigned_parts.integer,
+                position->y.unsigned_parts.integer, (s16)(position->z.unsigned_parts.integer - 4))
             - 0x11;
-            ((S_8196C280_0 *)position)->unk_08.at00u.v = 0;
+            position->z.w.frac = 0;
             effect->unk_2C.u = 0;
         }
     }
     age = effect->unk_50.u;
     effect->unk_50.u = age + 1;
     if ((s16)age >= 3) {
-        scale_x = ((S_8196C280_2 *)sprite)->unk_1C;
-        next_scale_y = ((S_8196C280_2 *)sprite)->unk_1E;
+        scale_x = sprite->scale_x;
+        next_scale_y = sprite->scale_y;
         reduced_scale_x = scale_x - 0x100;
         scale_x = reduced_scale_x;
         if ((s16)reduced_scale_x < 0) {
@@ -954,20 +954,20 @@ void shrink_particle_emitting_projectile(UpdateStagedParticleEffectBody *effect,
         if (((next_scale_y << 0x10) == 0) || ((scale_x << 0x10) == 0)) {
             effect->unk_2C.u = 0;
         }
-        ((S_8196C280_2 *)sprite)->unk_1C = scale_x;
-        ((S_8196C280_2 *)sprite)->unk_1E = next_scale_y;
+        sprite->scale_x = scale_x;
+        sprite->scale_y = next_scale_y;
     }
     create_randomized_paletted_sprite(effect, position, sprite,
-        (s16)(((S_8196C280_0 *)position)->unk_00.at02.v - ((u16)view_reference_entity.x.w.i)),
-        (s16)(((S_8196C280_0 *)position)->unk_04.at02.v - ((u16)view_reference_entity.y.w.i)),
-        (s16)(((S_8196C280_0 *)position)->unk_08.at02u.v - ((u16)view_reference_entity.z.w.i)));
+        (s16)(position->x.unsigned_parts.integer - ((u16)view_reference_entity.x.w.i)),
+        (s16)(position->y.unsigned_parts.integer - ((u16)view_reference_entity.y.w.i)),
+        (s16)(position->z.unsigned_parts.integer - ((u16)view_reference_entity.z.w.i)));
     life_left = effect->unk_2C.u - 1;
     effect->unk_2C.u = life_left;
     if ((life_left << 0x10) <= 0) {
         (*(u16 *)((u8 *)effect + -2)) |= NODE_REMOVE;
         object_flag_block.flags |= OBJECT_REMOVE_PENDING;
     }
-    if (((S_8196C280_2 *)sprite)->unk_14 & 0x8000) {
+    if (sprite->flags & 0x8000) {
         (*(u16 *)((u8 *)effect + -2)) |= NODE_REMOVE;
         object_flag_block.flags |= OBJECT_REMOVE_PENDING;
     }

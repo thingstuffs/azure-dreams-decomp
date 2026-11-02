@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/entity.h"
 
 typedef struct ChainNode ChainNode;
 typedef struct {
@@ -12,16 +13,16 @@ struct ChainNode {
 };
 typedef struct {
     u8 before_value[8];
-    s32 value;
+    ObjectPosition *value;
     ChainPayload *payload;
 } ChainHeader;
-extern void transform_mesh_and_append_draw_packets(void *, s32, ChainPayload *, s16); /* Unprototyped: uses the value as a pointer where the definition has an integer (or the reverse) */
+extern void transform_mesh_and_append_draw_packets(void *, ObjectPosition *, ChainPayload *, s16); /* Unprototyped: uses the value as a pointer where the definition has an integer (or the reverse) */
 
 /*
  * Transforms and queues each linked mesh using its payload kind, follows the chain headers, and
  * returns zero at the end.
  */
-s32 draw_linked_mesh_chain(void *body, s32 value, ChainPayload *payload) {
+s32 draw_linked_mesh_chain(void *body, ObjectPosition *value, ChainPayload *payload) {
     ChainHeader *next;
     do {
         transform_mesh_and_append_draw_packets(body, value, payload, payload->kind);

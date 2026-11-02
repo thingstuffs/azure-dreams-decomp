@@ -20,4 +20,7 @@ s32 CdReset(s32);
 s32 CdSync(s32, u8 *);
 void StUnSetRing(void);
 
+/* Owner declarations appended by tools/headers (append-only; the lines above are hand-kept). */
+s32 CdMix(void *);
+
 #endif

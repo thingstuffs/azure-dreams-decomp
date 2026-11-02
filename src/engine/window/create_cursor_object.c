@@ -33,10 +33,6 @@ typedef struct S_80036B10_8 {
     u8 unk_02;
 } S_80036B10_8;   /* ((S_80036B10_7 *)(((Rec_func_80036210_arg0 *)arg2)->unk_74.as_pm))->unk_80 in create_cursor_object */
 
-
-
-void runtime_initialize_state_value(Rec_D_80081FDC *state, s32 initialValue);
-void prepend_embedded_object_node(void *owner, void *object_data);
 extern u8 window_node_list_storage[];
 
 /* Initializes and links a task, then sets up its source record, state, and rendering data. */

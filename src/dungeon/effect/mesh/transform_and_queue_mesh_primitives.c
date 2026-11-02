@@ -709,7 +709,7 @@ typedef struct S_8187B540_0 {
 extern s16 point_cloud_update_flag[5];
 
 /* Add the object increment to the target and flag completion when its countdown expires. */
-void rotate_point_cloud_until_expired(void *object, s32 unused, void *target) {
+void rotate_point_cloud_until_expired(RandomRadialVectorEffectBody *object, ObjectPosition *unused, void *target) {
     RandomRadialVectorEffectBody *object_data = object;
     u8 *global_base = (u8 *)&point_cloud_update_flag - 0x694C;
     u16 remaining;
@@ -1048,7 +1048,7 @@ typedef struct S_8187BB80_1 {
 extern s16 point_cloud_update_flag[5];
 
 /* Advance the effect animation, fade its colors, and mark it for removal when its lifetime ends. */
-void advance_fading_effect_animation(void *effect_data, s32 unused_arg, void *color_data) {
+void advance_fading_effect_animation(void *effect_data, ObjectPosition *unused_arg, void *color_data) {
     S_8187BB80_1 *colors = color_data;
     register s32 tick_limit;
     s32 phase_state;

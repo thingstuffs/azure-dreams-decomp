@@ -1,6 +1,6 @@
 #include "common.h"
+#include "engine/menu.h"
 
-extern s32 call_state_callback(void *a0);
 extern void release_selection_menu_and_preserve_pending_value(void *a0);
 
 /* Checks sub-state, restores the saved callback and cleans up on a nonzero result, then returns the result. */

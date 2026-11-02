@@ -19,7 +19,6 @@ typedef struct {
 extern s32 record_has_type_twenty(Item *);
 extern int read_item_category_flag_ten(void *item);
 extern s32 submit_script_with_registered_context(char *);
-extern char *rindex(char *, s32);
 
 extern char item_name_suffix_buffer[0x40];
 

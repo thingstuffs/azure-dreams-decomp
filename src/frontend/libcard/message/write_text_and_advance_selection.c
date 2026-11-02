@@ -11,7 +11,6 @@
 #include "frontend/libcard/resource.h"
 #include "slus.h"
 #include "frontend/libcard/save_menu.h"
-extern void release_card_record_handles(CardHandleOwner *object);
 
 /* Handles menu navigation with button repeat and dispatches the selected action. */
 void write_text_and_advance_selection(CardSaveMenuBody *menu)

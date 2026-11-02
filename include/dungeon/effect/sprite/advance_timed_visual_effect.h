@@ -1,5 +1,6 @@
 #ifndef DUNGEON_OVL_191EEF8_H
 #define DUNGEON_OVL_191EEF8_H
+struct ObjectPosition;
 #include "common.h"
 #include "dungeon/effect/particle.h"
 #include "m2c_compat.h"
@@ -115,7 +116,7 @@ extern Row_818FF19C_Rect8 D_80024028;
 extern Row_818FF19C_Rect8 D_80024030;
 extern M2C_UNK D_80024750;
 extern Row_818FF5B8_Copy12 D_80025E64;
-void expire_effect_at_unit_scale(UpdateEffectParticlesAndCleanupBody *state_data, s32 unused, void *scale_data);
+void expire_effect_at_unit_scale(UpdateEffectParticlesAndCleanupBody *state_data, struct ObjectPosition *unused, void *scale_data);
 void finish_timed_visual_effect(void *object);
 void advance_timed_visual_effect(UpdateEffectParticlesAndCleanupBody *state, void *position, void *visual);
 void update_tiled_fade_effect(UpdateEffectParticlesAndCleanupBody *effect, void *offset_state, void *render_state);

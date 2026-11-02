@@ -5,6 +5,7 @@ struct ObjectNodeHeader;
  */
 #include "frontend/libcard/card_boot_stop_timer_and_init_server_g01041.h"
 #include "shared/object_flags.h"
+#include "frontend/libcard.h"
 
 /* Run setup callbacks and set the active flag. */
 void card_boot_stop_timer_and_init_server(void) {

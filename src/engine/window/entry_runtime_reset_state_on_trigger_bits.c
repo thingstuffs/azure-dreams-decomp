@@ -5,15 +5,13 @@
 
 #include "records/Rec_D_80081FDC.h"
 #include "engine/window.h"
+#include "slus/data.h"
 
 
 typedef struct S_80036210_2 {
     u8 pad_00[0x80];
     void *unk_80;
 } S_80036210_2;   /* ((Rec_func_80036210_arg0 *)arg0)->unk_74.as_pv in func_80036210 */
-
-extern u8 triggered_cursor_record_storage[];
-extern u8 triggered_cursor_node_storage[];
 
 /* Initialize the object's runtime state and set its next handler. */
 void create_window_cursor_and_install_reset(Rec_func_80036210_arg0 *object) {

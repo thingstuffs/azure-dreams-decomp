@@ -7,6 +7,7 @@
 #include "shared/game_work.h"
 #include "engine/item.h"
 #include "sdk/libgpu.h"
+#include "engine/graphics.h"
 
 /* Builds character sprites and draw modes for a linked list of text records. */
 s32 build_text_glyph_sprites(TextGlyphBody *first_text)

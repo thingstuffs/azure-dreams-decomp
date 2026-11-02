@@ -1,5 +1,6 @@
 #ifndef DUNGEON_OVL_197E800_H
 #define DUNGEON_OVL_197E800_H
+struct SpriteFrameState;
 #include "common.h"
 #include "m2c_compat.h"
 #include "modules/dungeon_native_abi.h"
@@ -878,8 +879,8 @@ void *create_brightening_fading_effect(S_8195ED3C_2 *source, s32 offset);
 void update_effect_and_spawn_fragments(S_8195EE48_0 *state, S_8195EE48_1 *motion);
 void *allocate_map_cell_object(s16 world_x, s16 world_y, s16 world_z, s16 coord_60);
 void animate_tile_heights_and_transition(DungeonState *state, DungeonOrigin *origin);
-void project_height_grid_object_quad(void *unused, void *origin, u8 *object, s16 tile_x, s16 tile_y);
-s32 dispatch_seven_by_seven_tile_grid(void *tile_data, s32 draw_arg_1, s32 draw_arg_2);
+void project_height_grid_object_quad(void *unused, void *origin, struct SpriteFrameState *object, s16 tile_x, s16 tile_y);
+s32 dispatch_seven_by_seven_tile_grid(void *tile_data, ObjectPosition *draw_arg_1, struct SpriteFrameState *draw_arg_2);
 void create_animated_tile_grid(s16 x, s16 y, s16 z);
 void advance_ballistic_fading_effect(u16 *state, Motion *motion, Effect *effect);
 void draw_depth_biased_textured_quad(s32 unused, S_8195FD40_1 *position, S_8195FD40_3 *quad, s16 depth_bias);
@@ -891,7 +892,7 @@ void *select_containing_cell_surface(s32 world_x, s32 world_y, s16 min_height);
 void draw_buffered_textured_quad_pair(void *draw_data, s32 draw_mode);
 void build_shaded_textured_quad(s32 y_offset, Input *origin, Input *quad_data, s32 draw_depth);
 void create_linked_objects(void *quad, S_81960CD4_2 *motion, S_81960CD4_3 *effect);
-s32 project_and_queue_semitransparent_quad(Quad *quad, s32 unused, Material *material);
+s32 project_and_queue_semitransparent_quad(Quad *quad, ObjectPosition *unused, Material *material);
 void create_terrain_tile_quad(s16 tile_x, s32 tile_y, S_819613A8_0 *origin);
 void interpolate_target_and_finish_transition(State *state, Target *target, S_func_819615E4_0 *color);
 void *allocate_nine_position_objects(void *position);

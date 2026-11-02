@@ -1410,7 +1410,7 @@ void build_install(void *base_matrix, S_8002593C_1 *position, S_8002593C_2 *rota
 #include "shared/object_flags.h"
 
 /* Fade RGB toward black and set flags when red falls below eight. */
-void fade_color_to_black(void *owner, s32 unused, void *color_data) {
+void fade_color_to_black(void *owner, ObjectPosition *unused, void *color_data) {
     u8 red;
     u8 green;
     u8 blue;
@@ -1707,7 +1707,7 @@ typedef struct EffectColor {
 } EffectColor;
 
 /* Fade the effect color and set flags when red falls below four. */
-void fade_effect_color_to_black(void *record, s32 unused, EffectColor *color) {
+void fade_effect_color_to_black(void *record, ObjectPosition *unused, EffectColor *color) {
     u8 red;
     u8 green;
     u8 blue;

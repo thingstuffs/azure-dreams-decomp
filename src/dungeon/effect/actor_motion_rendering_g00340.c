@@ -6,7 +6,7 @@
 #include "dungeon/effect.h"
 
 /* Updates actor state from pending entity flags when entity processing is allowed. */
-void update_pending_entity_action(Rec_func_800A9E70_arg0 *actor, s32 update_arg1, s32 update_arg2, EntityRec *entity) {
+void update_pending_entity_action(Rec_func_800A9E70_arg0 *actor, ObjectPosition *update_arg1, s32 update_arg2, EntityRec *entity) {
     void *active_entity;
     s32 entity_flags;
     s32 next_state;
@@ -69,7 +69,7 @@ void update_pending_entity_action(Rec_func_800A9E70_arg0 *actor, s32 update_arg1
 }
 
 /* Runs actor callbacks, advances motion, and updates ground contact and rendering. */
-void update_actor_motion_and_rendering(u8 *actor, u8 *motion, u8 *render) {
+void update_actor_motion_and_rendering(u8 *actor, ObjectPosition *motion, u8 *render) {
     u16 global_flags = g_dungeon_status.flags;
     u8 *actor_alias = actor;
     s16 old_state;

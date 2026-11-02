@@ -39,7 +39,7 @@ struct ObjectPosition;
 s32 draw_ball_effect_points(struct PointRecord *, struct ObjectPosition *);
 
 /* Callback entry points. */
-s32 process_linked_states_mode_zero(void *initial_state, void *context, void *data);
+s32 process_linked_states_mode_zero(ActorRecord *initial_state, ObjectPosition *context, SpriteFrameState *data);
 void jitter_effect_position_and_fade(void *effect, void *position, void *sprite);
 
 /* Owner declarations appended by tools/headers (append-only; the lines above are hand-kept). */
@@ -56,7 +56,7 @@ void setup_object_within_planar_range(void *object, s32 x, s32 y, s32 height, s3
 struct ObjectNodeHeader;
 void *create_effect_or_fallback(u32 x, u32 y, s32 z, void *effect_data);
 void *create_moving_fading_particle(ObjectPosition *origin, s16 angle, s16 radius, s16 height_offset, struct ObjectNodeHeader **allocation_head);
-void transform_mesh_and_append_draw_packets(u8 *params, u8 *record, void *mesh_data, s32 depth_offset);
+void transform_mesh_and_append_draw_packets(u8 *params, ObjectPosition *record, void *mesh_data, s32 depth_offset);
 
 s32 apply_camera_offset_and_select_target(void *object_addr, void *source_pos, s32 helper_arg, s32 slot_value);
 
@@ -67,13 +67,13 @@ void *create_owned_tile_center_effect(s16 tile_x, u16 tile_y, s16 height, void *
 void *create_tile_center_quad_effect(s16 tile_x, s16 tile_y, s16 z, s16 tail_value, s16 render_mode, u16 tail_config);
 void damp_effect_motion_and_fade(void *effect, s32 *motion, SpriteFrameState *primitive);
 void dispatch_action_callback_by_opcode(u8 *w);
-void draw_sprite_parts_as_quad_grid(s32 context, ObjectPosition *position, SpriteFrameState *sprite, s16 depth_bias);
+void draw_sprite_parts_as_quad_grid(ActorRecord *context, ObjectPosition *position, SpriteFrameState *sprite, s16 depth_bias);
 void *func_8002522C(ObjectPosition *origin, s16 angle, s16 radius, s16 height_offset, ObjectNodeHeader **allocation_head);
 void mark_all_actors_with_high_flag(void);
 s32 run_action_ten_if_eligible(ActorRecord *entity, s8 action_arg);
 void set_value_of_active_entries_at_tile(s16 x, s16 y, s16 value);
 void spawn_vertical_particle_burst(s16 x, s16 y, s16 z, s32 sprite_id, s16 play_sound);
-s32 take_map_item_slot(void *object, s16 slot);
+s32 take_map_item_slot(ActorRecord *object, s16 slot);
 void update_target_tracking_and_transition(void *tracker);
 
 #endif

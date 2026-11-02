@@ -27,7 +27,7 @@ extern void apply_monster_koyaw_data(void *, void *); /* Unprototyped: uses the 
 extern s16 sample_terrain_surface_height(u16, u16, s16);
 
 /* Functions defined in this translation unit. */
-void update_pending_entity_action(Rec_func_800A9E70_arg0 *actor, s32 update_arg1, s32 update_arg2, EntityRec *entity);
-void update_actor_motion_and_rendering(u8 *actor, u8 *motion, u8 *render);
+void update_pending_entity_action(Rec_func_800A9E70_arg0 *actor, ObjectPosition *update_arg1, s32 update_arg2, EntityRec *entity);
+void update_actor_motion_and_rendering(u8 *actor, ObjectPosition *motion, u8 *render);
 
 #endif

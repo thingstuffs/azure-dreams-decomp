@@ -1,5 +1,6 @@
 #ifndef DUNGEON_OVL_1972800_H
 #define DUNGEON_OVL_1972800_H
+struct SpriteFrameState;
 #include "modules/dungeon_native_abi.h"
 #include "shared/tile_object.h"
 #include "shared/entity.h"
@@ -7,10 +8,10 @@
 #include "shared/dir_step.h"
 #include "dungeon/effect/motion.h"
 void update_directional_actor_effect(void *, void *);
-void update_spiraling_effect_growth_and_fade(SpiralingBody *, void *, void *);
+void update_spiraling_effect_growth_and_fade(SpiralingBody *, ObjectPosition *, struct SpriteFrameState *);
 void spawn_spiraling(void *, s16, s16, void *, s32);
 void process_effect_modes_and_completion(void *);
-void allocate_and_initialize_effect_object(s32, s16, s16, s32);
+void allocate_and_initialize_effect_object(s32, s16, s16, ActorRecord *);
 #include "dungeon/effect/screen.h"
 void create_timed_model_effect(s32, void *, s32, s32);
 s32 rsin(s32);

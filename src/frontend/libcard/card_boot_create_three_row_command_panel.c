@@ -6,6 +6,7 @@
 #include "main/data.h"
 #include "sdk/libc.h"
 #include "slus.h"
+#include "frontend/libcard/message.h"
 
 typedef struct CardCommandPanelState {
     u8 pad_00[0x190];
@@ -14,7 +15,6 @@ typedef struct CardCommandPanelState {
     struct S_800491F4 *nodes[18];
 } CardCommandPanelState;   /* work in card_boot_create_three_row_command_panel */
 
-extern void func_800237EC(void *state, s32 value);
 #include "frontend/libcard/interfaces.h"
 
 extern u8 menu_backdrop_tag[];
@@ -37,7 +37,7 @@ void *card_boot_create_three_row_command_panel(void *init_value)
         bzero(state, 0x428);
     }
 
-    func_800237EC(state, 0x12);
+    init_card_continue_nodes(state, 0x12);
     object->sprite = state->sprite;
     state->chain = card_boot_link_three_row_panel_entries(state->nodes);
     card_boot_initialize_three_row_command_panel(state, init_value);

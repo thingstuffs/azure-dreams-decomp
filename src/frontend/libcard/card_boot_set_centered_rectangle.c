@@ -10,6 +10,6 @@ s32 card_boot_set_centered_rectangle(s32 target, s32 width, s32 height) {
     rect[2] = (s16) width;
     rect[1] = (s16) (-height / 2);
     rect[3] = (s16) height;
-    func_80049D80(target, rect);
+    init_sub_record_pair(target, rect);
     return target;
 }

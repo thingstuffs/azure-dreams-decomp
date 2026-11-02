@@ -3,6 +3,6 @@
 #include "dungeon/effect/state.h"
 
 /* Forward the motion, sprite and render state to the hop update. */
-s32 forward_actor_effect_state(void *state, ObjectPosition *context, SpriteFrameState *data, void *render) {
+s32 forward_actor_effect_state(ActorRecord *state, ObjectPosition *context, SpriteFrameState *data, ActorRecord *render) {
     return update_actor_hop_and_shrink(state, context, data, render);
 }

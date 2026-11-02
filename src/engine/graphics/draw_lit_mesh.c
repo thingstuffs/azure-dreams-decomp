@@ -21,8 +21,6 @@ typedef struct {
     u16 scale[3];
 } RenderObject;
 
-extern void NormalColorCol(void *a0, void *a1, void *a2);
-
 /* Transform, light, and queue visible textured mesh quads for rendering. */
 void draw_lit_mesh(void *unused, u8 *position_arg, RenderObject *object, s16 depth_bias)
 {

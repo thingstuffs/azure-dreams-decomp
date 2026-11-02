@@ -3,6 +3,7 @@
 #include "frontend/libcard/slot_detail_refresh_g00388.h"
 #include "engine/audio/sequence.h"
 #include "engine/town.h"
+#include "frontend/libcard.h"
 
 /* Builds status text and assigns it to two or three display nodes. */
 void card_boot_format_empty_slot_guidance(void *context)

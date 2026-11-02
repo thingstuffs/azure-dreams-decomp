@@ -4,7 +4,6 @@
 
 #include "modules/main_server_ship_interfaces.h"
 #include "engine/menu.h"
-#include "frontend/card.h"
 #include "frontend/libcard.h"
 #include "main/data.h"
 #include "engine/scene.h"

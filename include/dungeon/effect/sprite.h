@@ -148,9 +148,9 @@ typedef struct UpdateFollowingColorBlendEffectBody {
 struct S_800244BC_2;
 s32 ground_items_lack_special_pair(void);
 void update_effect_countdown(AnchoredDirectionalObjectBody *object, MovingPosition *output, void *update_arg);
-void advance_target_chasing_emitter(void *object, struct S_800244BC_2 *position, s32 context);
+void advance_target_chasing_emitter(void *object, struct S_800244BC_2 *position, SpriteFrameState *context);
 void *create_an_copies_three_source_fields_child_runs_n_16_child_setup(s32 value, void *source, s32 unused, s32 context);
-void *draw_sprite_effect_quads(u8 *sprite_list, s32 count_hint, s32 render_state_addr, u8 *placement, u8 *packet_buf);
+void *draw_sprite_effect_quads(u8 *sprite_list, ObjectPosition *position, SpriteFrameState *render_state_addr, u8 *placement, u8 *packet_buf);
 void process_effect_block_entries(void *block);
 struct Inner;
 void process_effect_record(OwnerPositionedSpriteBody *body, struct Inner *fields_target, struct Inner *field_c_target);
@@ -182,11 +182,11 @@ struct S_func_81886800_3;
 void check_the_target_using_scaled_low_byte_conditionally_applies_global_800_e_1_d_01(ActorRecord *target, s32 value, void *record);
 void create_a_sprite_effect_position_randomized_rotation(s16 x, s16 y, s16 z);
 void create_quad_fragments_vertex_grid_randomized_motion_rotation(void);
-void handle_retail_n_81887570_callee_80024_d_70_fade_colour_n_1_n_8_per_call_mark(void *effect, s32 unused, struct EffectColor *color);
+void handle_retail_n_81887570_callee_80024_d_70_fade_colour_n_1_n_8_per_call_mark(void *effect, ObjectPosition *unused, struct EffectColor *color);
 void run_jittered_point_sequence(void *sequence, void *out_position);
 void run_radial_sprite_sequence(struct S_func_81886800_1 *effect, struct S_func_81886800_11 *motion, struct S_func_81886800_3 *sprite);
 void update_jittered_effect_points(void *effect);
-void update_pulsing_actor_color(FixedTileEffectIfAvailableBody *state_data, s32 unused, void *actor_data);
+void update_pulsing_actor_color(FixedTileEffectIfAvailableBody *state_data, ObjectPosition *unused, void *actor_data);
 void update_randomized_intermediate_points(void *self);
 
 s32 build_and_enqueue_interpolated_depth_sorted_shaded_lines_linked_list(void *first_owner, void *first_vertices, void *first_line);

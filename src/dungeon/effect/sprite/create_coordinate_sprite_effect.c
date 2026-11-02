@@ -31,7 +31,7 @@ void apply_small_random_value_gain(ActorRecord *target, s32 effect_param, ActorR
  * Increments the owner counter, advances animation, randomizes the sprite angle modulo 0x1000, and
  * restarts D_80025238 when flags 0x6000 are set.
  */
-void animate_randomly_rotated_sprite(Row_818A48C4_Func818A48C4Object **source_ref, s32 unused,
+void animate_randomly_rotated_sprite(Row_818A48C4_Func818A48C4Object **source_ref, ObjectPosition *unused,
                    SpriteFrameState *target) {
     Row_818A48C4_Func818A48C4Object *source;
     s32 random_value;

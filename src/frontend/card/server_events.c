@@ -13,10 +13,7 @@
 #include "modules/main_server_ship.h"
 #include "main.h"
 
-extern int OpenEvent();
-
 extern void bzero(void *dst, s32 size);
-extern s32 CloseEvent(void *event);
 
 /* Opens and enables memory card events, exiting if any setup step fails. */
 void card_boot_open_events(void) {

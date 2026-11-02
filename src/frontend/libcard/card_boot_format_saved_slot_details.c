@@ -90,7 +90,7 @@ void card_boot_format_saved_slot_details(CardSlotDetails *record) {
         assetSlot->block->fields.y = 0x140;
     }
     assetSlot = record->text_nodes[3];
-    func_8004E5A0(recordBase[record->selected_slot].words[9], 0xA, (char *)(&textBuffer));
+    format_int_space_padded(recordBase[record->selected_slot].words[9], 0xA, (char *)(&textBuffer));
     remap_flagged_string_bytes((u8 *)(&textBuffer));
     asset3 = (u8 *)record + 0x504;
     build_positioned_text_glyphs(asset3, (u8 *)(&textBuffer), 1);
@@ -106,13 +106,13 @@ void card_boot_format_saved_slot_details(CardSlotDetails *record) {
     if (hours < 0x3E8) {
         value = hours;
     }
-    func_8004E5A0(value, 3, (char *)(&textBuffer));
+    format_int_space_padded(value, 3, (char *)(&textBuffer));
     strcat(&textBuffer, D_800200A4);
     totalMinutes = elapsedSeconds / 60;
-    func_8004E5E8(totalMinutes - (hours * 0x3C), 2, (char *)numberBuffer);
+    format_int_zero_padded(totalMinutes - (hours * 0x3C), 2, (char *)numberBuffer);
     strcat(&textBuffer, &numberBuffer);
     strcat(&textBuffer, D_800200A4);
-    func_8004E5E8(elapsedSeconds - (totalMinutes * 0x3C), 2, (char *)numberBuffer);
+    format_int_zero_padded(elapsedSeconds - (totalMinutes * 0x3C), 2, (char *)numberBuffer);
     strcat(&textBuffer, &numberBuffer);
     remap_flagged_string_bytes((u8 *)(&textBuffer));
     asset4 = (u8 *)record + 0x684;
@@ -126,7 +126,7 @@ void card_boot_format_saved_slot_details(CardSlotDetails *record) {
     if (displayValue < 0x3E8U) {
         boundedValue = displayValue;
     }
-    func_8004E5A0((s32) boundedValue, 3, (char *)(&textBuffer));
+    format_int_space_padded((s32) boundedValue, 3, (char *)(&textBuffer));
     remap_flagged_string_bytes((u8 *)(&textBuffer));
     asset5 = (u8 *)record + 0x804;
     build_positioned_text_glyphs(asset5, (u8 *)(&textBuffer), 1);
@@ -134,7 +134,7 @@ void card_boot_format_saved_slot_details(CardSlotDetails *record) {
     assetSlot->block->fields.x = 0x100;
     assetSlot->block->fields.y = 0x120;
     assetSlot = record->text_nodes[6];
-    func_8004E5A0(recordBase[record->selected_slot].words[10], 2, (char *)(&textBuffer));
+    format_int_space_padded(recordBase[record->selected_slot].words[10], 2, (char *)(&textBuffer));
     remap_flagged_string_bytes((u8 *)(&textBuffer));
     asset6 = (u8 *)record + 0x984;
     build_positioned_text_glyphs(asset6, (u8 *)(&textBuffer), 1);

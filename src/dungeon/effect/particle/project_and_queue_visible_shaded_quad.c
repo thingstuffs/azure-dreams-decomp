@@ -738,7 +738,7 @@ typedef struct S_819715D4_0 {
 } S_819715D4_0;
 
 /* Creates a sprite object with randomized offsets from the source position. */
-void create_fading_jittered_sprite(u16 *source, s32 unused_1, s32 unused_2, s16 base_x, s16 base_y, s16 base_z) {
+void create_fading_jittered_sprite(u16 *source, ObjectPosition *unused_1, SpriteFrameState *unused_2, s16 base_x, s16 base_y, s16 base_z) {
     s32 random_value;
     SpriteFrameState *sprite;
     SpriteFrameState *render_sprite;
@@ -829,7 +829,7 @@ typedef struct {
 } OffsetYZ;
 
 /* Creates an effect at a randomized offset from the origin and initializes its rendering data. */
-void create_origin_following_fade_sprite(void *unused_0, void *origin_data, s32 unused_2, s32 offset_x, OffsetYZ offset_yz) {
+void create_origin_following_fade_sprite(void *unused_0, void *origin_data, SpriteFrameState *unused_2, s32 offset_x, OffsetYZ offset_yz) {
     u16 jittered_x;
     void *effect_arg;
     u16 coord;

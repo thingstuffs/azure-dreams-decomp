@@ -394,7 +394,7 @@ typedef struct Unk818DAD38Target {
 } Unk818DAD38Target;
 
 /* Advance the target's growth animation, then fade its color and mark completion. */
-void advance_target_growth_and_fade(Unk818DAD38Owner *owner, s32 unused,
+void advance_target_growth_and_fade(Unk818DAD38Owner *owner, ObjectPosition *unused,
                    SpriteFrameState *target) {
     s16 state;
     u16 next_scale;

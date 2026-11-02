@@ -121,7 +121,7 @@ typedef struct GlobalState {
 
 
 /* Fades and pulses the effect, restoring the linked primitive when the fade ends. */
-void update_pulsing_effect_brightness(PulsingEffectWork *effect, s32 unused, SpriteFrameState *render_state)
+void update_pulsing_effect_brightness(PulsingEffectWork *effect, ObjectPosition *unused, SpriteFrameState *render_state)
 {
     s32 fade_step;
     s32 brightness;
@@ -203,7 +203,7 @@ extern M2C_UNK D_800DD854;
 extern M2C_UNK D_800DD860;
 
 /* Creates an object and initializes its attached data and resources. */
-void *create_textured_ellipse_effect(s32 object_id, s32 state_value) {
+void *create_textured_ellipse_effect(ObjectPosition *object_id, s32 state_value) {
     GpuRectBuffer resource_params;
     ObjectNodeHeader *object;
     SpriteFrameState *render_data;
@@ -214,7 +214,7 @@ void *create_textured_ellipse_effect(s32 object_id, s32 state_value) {
         object->update_callback = &D_800A5828;
         register_node(object, project_sprite_chain);
         render_data = object->sprite;
-        object->position = (ObjectPosition *)object_id;
+        object->position = object_id;
         render_data->source = &D_800DD854;
         render_data->scale_y = 0x1000;
         render_data->scale_x = 0x1000;

@@ -5,13 +5,7 @@
 
 extern s32 spu_event_service_active;
 extern s32 spu_transfer_event_handle;
-void EnterCriticalSection(void);
-void ExitCriticalSection(void);
 void set_dma_channel_4_callback(s32 callback);
-s32 OpenEvent(u32 class, s32 spec, s32 mode, void (*callback)(void));
-s32 EnableEvent(u32 event);
-s32 CloseEvent(s32 event);
-s32 DisableEvent(s32 event);
 void SpuStart(void);
 void SpuQuit(void);
 

@@ -10,7 +10,7 @@ typedef struct S_81976BC0_0 {
     void * unk_0C;
     void * unk_10;
     u8 pad_14[0xC];
-    s32 unk_20;
+    ObjectNodeHeader *unk_20;
 } S_81976BC0_0;   /* object in create_an_initialize_fields_randomized_child_state */
 
 typedef struct S_81976BC0_1 {
@@ -26,7 +26,7 @@ extern u8 D_80024050[];
 extern s32 D_800261E4[];
 
 /* Create an object and initialize its fields and randomized child state. */
-void create_an_initialize_fields_randomized_child_state(s32 object_value, s32 field_value)
+void create_an_initialize_fields_randomized_child_state(ObjectNodeHeader *object_value, s32 field_value)
 {
     s32 random_value;
     SpriteFrameState *child;

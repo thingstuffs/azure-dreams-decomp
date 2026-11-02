@@ -13,7 +13,7 @@
 typedef struct S_800D6C18_2 S_800D6C18_2;
 
 /* cfail-repair: tf7-phase1-cache-v3 */
-extern s32 draw_linked_depth_sliced_quads(void *payload, void *position, void *render_state);
+extern s32 draw_linked_depth_sliced_quads(void *payload, ObjectPosition *position, SpriteFrameState *render_state);
 extern void update_expiring_sprite_effect(void *effect, S_800D6C18_2 *size_state);
 extern M2C_UNK radial_effect_frames;
 

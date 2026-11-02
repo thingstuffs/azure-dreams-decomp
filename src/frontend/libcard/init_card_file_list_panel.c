@@ -7,12 +7,11 @@
  * advance_timed_visual is the name bound to 0x80024D10; this copy only stores
  * one word (the name came from a dungeon function at the same address). */
 extern void func_80024BB4(CardDisplayNode *entry, CardDisplayBlock *block, DisplayPositionWords *vector);
-extern void func_80024ACC(CardFileListPanel *panel);
 
 /* Store the selection, link the panel's heading templates, and lay out its display. */
 void init_card_file_list_panel(CardFileListPanel *panel, s32 selection)
 {
     advance_timed_visual(&panel->selection, selection);
     func_80024BB4(&panel->heading, &panel->heading_block, &panel->heading_vector);
-    func_80024ACC(panel);
+    build_and_queue_interpolated_vertical_quads_around_five_perimeter_points(panel);
 }

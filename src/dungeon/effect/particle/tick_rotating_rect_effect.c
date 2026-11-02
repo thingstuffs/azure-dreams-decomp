@@ -18,7 +18,7 @@ extern Rect D_8016481C;
 extern void draw_transformed_sprite_with_clip_rect(void *, Rect *, Point *, s32, s32);
 
 /* Updates a timed effect around the rectangle's center and flags its expiration. */
-void tick_rotating_rect_effect(RotatingClippedSpriteBody *effect, s32 unused, void *phase_state)
+void tick_rotating_rect_effect(RotatingClippedSpriteBody *effect, ObjectPosition *unused, void *phase_state)
 {
     Rect rect;
     Point center;

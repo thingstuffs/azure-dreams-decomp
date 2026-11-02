@@ -299,6 +299,6 @@ s32 draw_n_16_shaded_line_segments_link_them_ordering_table_depth(void *unused_0
 s32 build_a_trigonometric_table_processes_up_eight_height_offset_segments(ovl_18d0850_818B11B4_S_818B11B4_0 *source, ovl_18d0850_818B11B4_S_818B11B4_2 *height_ref, void *context);
 s32 build_a_circular_lookup_table_submit_eight_phase_shifted_entries(ovl_18d0850_818B1334_S_818B1334_1 *source, ovl_18d0850_818B1334_S_818B1334_3 *target, void *context);
 s32 fade_effect_sprite_to_black(ovl_18d0850_818B1484_S_818B1484_1 *effect, ovl_18d0850_818B1484_S_818B1484_3 *target, void *context);
-s32 dispatch_effect_state_handler(void *state_ptr, void *second_ptr, void *third_ptr);
+s32 dispatch_effect_state_handler(void *state_ptr, void *second_ptr, SpriteFrameState *third_ptr);
 void update_movement_toward_child_terrain_target_animates_associated_effects(ovl_18d0850_818B1664_State *state_arg, ovl_18d0850_818B1664_Motion *motion_arg, ovl_18d0850_818B1664_DrawInfo *draw_info);
 #endif
