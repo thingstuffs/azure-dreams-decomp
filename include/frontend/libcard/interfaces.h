@@ -1,5 +1,6 @@
 #ifndef FRONTEND_LIBCARD_INTERFACES_H
 #define FRONTEND_LIBCARD_INTERFACES_H
+struct CardMessageDialogBody;
 
 #include "common.h"
 #include "frontend/libcard/card_chooser.h"
@@ -17,7 +18,7 @@ void card_boot_handle_overwrite_answer(struct Object_800128C8 *object_data);
 void card_boot_initialize_paired_choice_layout(void *record_addr);
 void card_boot_initialize_three_row_command_panel(void *record, void *init_value);
 void func_80023730(void *sprite, void *data, void *context);
-void card_boot_layout_five_entry_list(void *context);
+void card_boot_layout_five_entry_list(struct CardMessageDialogBody *context);
 void card_boot_layout_three_row_command_panel(CardCommandPanelBody *panel);
 void card_boot_position_dialog_selection_marker(void *context, s32 column, s32 mode, s32 row, s32 row_value);
 void card_boot_refresh_paired_choice_labels(u8 *state);

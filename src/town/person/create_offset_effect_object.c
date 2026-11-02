@@ -11,9 +11,7 @@
 #include "slus.h"
 struct Dst;
 struct Elem;
-void load_indexed_state_value(); /* Unprototyped: retail call passes more arguments than the callee reads */      /* extern */
-struct OwnerCallbackObject;
-void call_owner_callback(struct OwnerCallbackObject *owner, ObjectPosition *motion, s32 context);
+#include "town/person.h"
 #include "shared/sprite_source.h"
 extern SpriteSourceEntry D_800EE344[];
 
@@ -23,7 +21,7 @@ extern SpriteSourceEntry D_800EE344[];
 /* Allocate and initialize an object at an offset from the supplied position. */
 void * create_offset_effect_object(IntVector3 *source_pos) {
     ObjectPosition *position;
-    TownObjectRecord *object_state;
+    OwnerCallbackObject *object_state;
     SpriteFrameState *render_state;
     ObjectNodeHeader *object;
     s32 offset_z;
@@ -34,7 +32,7 @@ void * create_offset_effect_object(IntVector3 *source_pos) {
     }
     position = object->position;
     render_state = object->sprite;
-    object_state = ((void *)object) + 0x20;
+    object_state = NODE_BODY(object);
     position->x.v = source_pos->x;
     position->y.v = source_pos->y;
     offset_z = source_pos->z + 0xFFDC0000;
@@ -42,7 +40,7 @@ void * create_offset_effect_object(IntVector3 *source_pos) {
     position->velocity_y = 0;
     position->z.v = offset_z;
     object->update_callback = &call_owner_callback;
-    object_state->unk_90.as_s16 = 2;
+    object_state->contacts_left.as_s16 = 2;
     load_indexed_state_value(object_state, position, render_state);
     render_state->scale_y = 0x1000;
     render_state->scale_x = 0x1000;

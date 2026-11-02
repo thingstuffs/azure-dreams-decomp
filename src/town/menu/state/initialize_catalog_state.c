@@ -15,7 +15,7 @@ void initialize_catalog_state(CatalogDisplay *state) {
     state->unk_04.as_s16 = 0;
     state->unk_06 = 0;
     state->unk_08 = 0;
-    state->unk_0A = 0;
+    state->unk_0A.as_u8 = 0;
     state->unk_0B = 0;
     state->unk_0C = one;
     state->unk_0D = 0;
@@ -43,5 +43,5 @@ void initialize_catalog_state(CatalogDisplay *state) {
     initialize_catalog_slot_records();
     layout_catalog_frame();
     layout_catalog_entry_grid();
-    refresh_catalog_entry_grid((void *)state);
+    refresh_catalog_entry_grid(state);
 }

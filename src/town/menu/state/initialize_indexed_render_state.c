@@ -1,10 +1,12 @@
 #include "shared/game_work.h"
 
-#include "town/menu.h"
+#include "town/menu/state.h"
+#include "town/menu/target_adjustment.h"
 #include "engine/object.h"
 #include "sdk/libgte.h"
 #include "engine/node.h"
 #include "shared/entity.h"
+#include "shared/sprite_frame_state.h"
 
 
 extern s16 D_800D0A10[];
@@ -12,7 +14,7 @@ extern s32 D_800D0A1C[];
 extern u16 D_800D0A34[];
 extern u8 D_800F148C[];
 /* Initializes object and render state from indexed parameter tables. */
-void initialize_indexed_render_state(void *object, ObjectPosition *unused, void *render_state)
+void initialize_indexed_render_state(void *object, ObjectPosition *unused, SpriteFrameState *render_state)
 {
     s16 *angle_entry;
     s32 *property_entry;
@@ -24,14 +26,14 @@ void initialize_indexed_render_state(void *object, ObjectPosition *unused, void 
     s32 variant_offset;
     s32 halfword_offset;
     variant_offset = *((s16 *) (((s8 *) object) + 0x20));
-    *((s32 *) (((s8 *) render_state) + 0)) = 0;
-    *((((s8 *) render_state) + 4)) = 0;
-    *((((s8 *) render_state) + 5)) = 0;
-    *((u8 **) (((s8 *) render_state) + 8)) = D_800F148C;
-    register_node(object - 0x20, runtime_render_linked_textured_sprites);
+    render_state->unk_00 = 0;
+    render_state->unk_04 = 0;
+    render_state->frame_ticks = 0;
+    render_state->source = D_800F148C;
+    register_node(NODE_HEADER(object), runtime_render_linked_textured_sprites);
     angle_table = (u8 *) D_800D0A10;
-    *((s16 *) (((s8 *) render_state) + 0x10)) = 0x20;
-    *((u16 *) (((s8 *) render_state) + 0x14)) |= 0x1C;
+    render_state->tpage_abr = 0x20;
+    render_state->flags |= 0x1C;
     halfword_offset = variant_offset * 2;
     angle_entry = (s16 *) (angle_table + halfword_offset);
     *((s32 *) (((s8 *) object) + 0x24)) = rsin(*angle_entry);

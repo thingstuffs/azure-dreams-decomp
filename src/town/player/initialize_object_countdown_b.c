@@ -12,9 +12,9 @@ extern void tick_countdown_or_advance_cursor();
 
 
 /* Initializes an object with default state and clears the shared flag. */
-void initialize_object_with_countdown_400(TownObjectRecord *object, s32 setupParameter, s32 initializationParameter) {
-    clear_entity_record_fields((struct EntityRec *)(setupParameter));
-    call_the_handler_selects_nonzero_entry(approach_action_handler_table, object, (void *)(initializationParameter));
+void initialize_object_with_countdown_400(TownObjectRecord *object, s32 setup_parameter, SpriteFrameState *sprite) {
+    clear_entity_record_fields((struct EntityRec *)(setup_parameter));
+    call_the_handler_selects_nonzero_entry(approach_action_handler_table, object, sprite);
     town_action_reset_byte = 0;
     object->unk_04.as_pm = &tick_countdown_or_advance_cursor;
     object->unk_0A.as_s16 = 0x10;

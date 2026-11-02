@@ -72,7 +72,7 @@ void set_player_travel_timing(void *actor, void *motion, s32 context);
 void store_the_valid_shared_angle_in_offset_hex_10(void *record);
 void tick_countdown_and_initialize_target(UnsignedCountdownView *state, s32 value);
 void update_falling_actor_and_handle_ground(s32 context, EntityRec *actor, s32 action_arg);
-void update_threshold_and_interaction(TownObjectRecord *state, EntityRec *entity, s32 context);
+void update_threshold_and_interaction(TownObjectRecord *state, EntityRec *entity, struct SpriteFrameState *context);
 void update_threshold_timed_action(TownObjectRecord *state, EntityRec *entity, s32 context);
 
 #include "shared/dungeon_moving_views.h"
@@ -112,5 +112,7 @@ void initialize_shared_scene_data(s32 **out_ptr);
 u32 view_relative_angle_sector(s32 angle);
 
 void init_movement_action(TownObjectRecord *record, void *unused, s32 setup_value);
+
+void initialize_object_with_countdown_400(TownObjectRecord *object, s32 setup_parameter, struct SpriteFrameState *sprite);
 
 #endif

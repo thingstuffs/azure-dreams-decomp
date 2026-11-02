@@ -58,7 +58,7 @@ void clear_object_slot_table_run(void *obj, void *param_a, void *param_b)
 }
 
 /* Updates and clamps record motion, delegating when the lower bound is reached. */
-void accelerate_object_coordinates_to_lower_limits(TownObjectRecord *context, ObjectPosition *record, void *callback_arg) {
+void accelerate_object_coordinates_to_lower_limits(TownObjectRecord *context, ObjectPosition *record, SpriteFrameState *callback_arg) {
     if (record->z.v == -0x08000000) {
         apply_object_setup_and_update(context, record, callback_arg);
         return;

@@ -54,6 +54,6 @@ extern s32 runtime_is_record_field_set(void *);
 void update_object_position_or_cleanup(TownObjectRecord *object, void *position, void *motion);
 void update_object_motion_and_flags(TargetObj *obj, void *callback_arg, void *motion_data);
 void dispatch_object_state(void *object, void *context, void *dispatch_data);
-void initialize_person_object(TownObjectRecord *object, ObjectPosition *context, void *animation);
+void initialize_person_object(TownObjectRecord *object, ObjectPosition *context, SpriteFrameState *animation);
 
 #endif

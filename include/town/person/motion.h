@@ -1,5 +1,6 @@
 #ifndef TOWN_PERSON_MOTION_H
 #define TOWN_PERSON_MOTION_H
+struct SpriteFrameState;
 struct TownObjectRecord;
 /* Prototypes of the functions defined in src/town/person/motion/ (one true prototype each; maintained by tools/headers). */
 
@@ -20,7 +21,7 @@ struct S_800CC070_1;
 struct SpriteFrameState;
 
 /* advance_bounded_motion.c */
-void advance_bounded_motion(struct S_800C355C_1 *entity, void *motion, void *context, s32 check_param);
+void advance_bounded_motion(struct S_800C355C_1 *entity, void *motion, struct SpriteFrameState *context, s32 check_param);
 
 /* advance_mother_event_bounded_motion.c */
 void advance_mother_event_bounded_motion(struct S_800C7674_0 *entity, EntityRec *motion_state, void *context);
@@ -29,7 +30,7 @@ void advance_mother_event_bounded_motion(struct S_800C7674_0 *entity, EntityRec 
 void advance_motion_and_clamp_limit(TownObjectRecord *entity, EntityRec *motion, void *context);
 
 /* advance_motion_and_switch_handler.c */
-void advance_motion_and_switch_handler(TownObjectRecord *object, EntityRec *motion, void *context);
+void advance_motion_and_switch_handler(TownObjectRecord *object, EntityRec *motion, struct SpriteFrameState *context);
 
 /* advance_reaction_motion_to_limit.c */
 void advance_reaction_motion_to_limit(Rec_func_800C9B44_arg0 *state, EntityRec *motion, struct SpriteFrameState *context);

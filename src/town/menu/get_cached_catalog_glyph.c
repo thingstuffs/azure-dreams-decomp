@@ -12,7 +12,6 @@ struct Entry {
     s16 state;
 };
 
-extern s16 *build_filtered_catalog_glyph(s32, s16 *); /* Unprototyped: uses the value as a pointer where the definition has an integer (or the reverse) */
 
 /* Returns cached glyph data, loading it on a miss and updating cache order. */
 s16 *get_cached_catalog_glyph(s16 char_code)

@@ -17,13 +17,13 @@ typedef struct S_800A7B98_2 {
 } S_800A7B98_2;   /* arg2 in create_timed_effect_object */
 
 /* Creates an object, copies its source data fields, and initializes its state. */
-void create_timed_effect_object(s32 ownerDataAddress, s32 creationParam, S_800A7B98_2 *sourceData) {
+void create_timed_effect_object(s32 ownerDataAddress, ObjectPosition *position, S_800A7B98_2 *sourceData) {
     BoundsExpiryObject *objectState;
     ObjectNodeHeader *createdObject;
     SpriteFrameState *objectData;
 
-    createdObject = create_town_effect_object(ownerDataAddress - 0x20, (struct IntVector3 *)(creationParam), (s32)(&finalize_object_after_check_or_expiry), 0);
-    objectState = ((void *)createdObject) + 0x20;
+    createdObject = create_town_effect_object(ownerDataAddress - 0x20, (struct IntVector3 *)(position), (s32)(&finalize_object_after_check_or_expiry), 0);
+    objectState = NODE_BODY(createdObject);
     if (createdObject != NULL) {
         objectData = createdObject->sprite;
         objectData->source = sourceData->unk_08;

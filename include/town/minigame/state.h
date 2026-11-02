@@ -1,5 +1,6 @@
 #ifndef TOWN_MINIGAME_STATE_H
 #define TOWN_MINIGAME_STATE_H
+struct SceneTileObject;
 /* Prototypes of the functions defined in src/town/minigame/state/ (one true prototype each; maintained by tools/headers). */
 
 #include "common.h"
@@ -69,7 +70,7 @@ void process_slot_machine_state(State8081FF68 *state, void *position);
 void propagate_linked_flag_if_clear(TerminalSceneTextObject *record);
 
 /* propagate_linked_flag_to_record.c */
-void propagate_linked_flag_to_record(void *record);
+void propagate_linked_flag_to_record(struct SceneTileObject *record);
 
 /* retire_line_effect_at_phase_eight.c */
 void retire_line_effect_at_phase_eight(RetiringLineEffectObject *record);

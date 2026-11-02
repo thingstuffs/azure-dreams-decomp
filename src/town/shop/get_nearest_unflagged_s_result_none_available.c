@@ -1,6 +1,8 @@
 #include "common.h"
+#include "shared/entity.h"
 #include "engine/resource.h"
 #include "town/shop.h"
+#include "town/shop/state_countdown_updates_g00558.h"
 #include "town/data.h"
 
 typedef struct {
@@ -21,7 +23,7 @@ typedef struct {
 extern TownState *town_script_state_slots;
 
 /* Return the nearest unflagged record's result, or -1 if none is available. */
-s32 get_nearest_unflagged_s_result_n_1_none_available(s32 record_set, void *target)
+s32 get_nearest_unflagged_s_result_n_1_none_available(s32 record_set, ObjectPosition *target)
 {
     TownRecord *records;
     TownRecord *record;
@@ -51,8 +53,8 @@ s32 get_nearest_unflagged_s_result_n_1_none_available(s32 record_set, void *targ
         do {
             if (flag_base[0x981] == 0) {
                 distance = runtime_estimate_vector_length(
-                    ((record->x + base_x) - *(s16 *)(target + 2)) << 16,
-                    ((record->y + base_y) - *(s16 *)(target + 6)) << 16);
+                    ((record->x + base_x) - target->x.w.i) << 16,
+                    ((record->y + base_y) - target->y.w.i) << 16);
                 if (distance < best_distance) {
                     best_distance = distance;
                     record_set = record_index;

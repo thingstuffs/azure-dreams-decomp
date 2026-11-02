@@ -4,6 +4,7 @@
 
 #include "common.h"
 #include "engine/node.h"
+#include "shared/sprite_frame_state.h"
 
 typedef struct {
     u8 unk_00[0x0C];
@@ -17,21 +18,21 @@ typedef struct {
 extern u32 D_800814A0;
 
 /* Decreases intensity and marks the object finished when its countdown expires. */
-void fade_manager_step_out(void *object, ObjectPosition *unused, Func8003C520Data *data) {
-    s32 intensity = data->unk_0E;
-    s32 countdown = data->unk_1C;
+void fade_manager_step_out(void *object, ObjectPosition *unused, SpriteFrameState *data) {
+    s32 intensity = data->color.c.b;
+    s32 countdown = data->scale_x;
 
     intensity -= 0x10;
     countdown -= 0x200;
-    data->unk_1C = countdown;
+    data->scale_x = countdown;
     if (intensity < 0) {
         intensity = 0;
     }
 
-    data->unk_0E = intensity;
-    data->unk_0D = intensity;
-    data->unk_0C = intensity;
-    if (*(s16 *)&data->unk_1C > 0) {
+    data->color.c.b = intensity;
+    data->color.c.g = intensity;
+    data->color.c.r = intensity;
+    if (*(s16 *)&data->scale_x > 0) {
         return;
     }
 

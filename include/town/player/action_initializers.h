@@ -14,7 +14,7 @@ void init_timed_dispatch_action(TownObjectRecord *record, void *unused, void *ha
 void init_actor_action_state(TownObjectRecord *record, void *unused, void *handler_context);
 struct SpriteFrameState;
 void init_record_target_approach(TownObjectRecord *record, s32 setup_value, struct SpriteFrameState *init_context);
-void init_linked_position_action(TownObjectRecord *record, s32 unused, s32 setup_value);
+void init_linked_position_action(TownObjectRecord *record, s32 unused, struct SpriteFrameState *setup_value);
 void init_ground_input_fallback(s32 **record, void *unused, void *handler_context);
 void init_button_transition_action(s32 **record, void *unused, void *handler_context);
 void init_unchanged_action_fallback(s32 **record, void *unused, void *handler_context);

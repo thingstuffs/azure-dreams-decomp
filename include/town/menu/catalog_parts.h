@@ -29,6 +29,27 @@ typedef union CatalogDisplayVector {
     } signed_halves;
 } CatalogDisplayVector;
 
+/* The catalog cursor position reads the two halfwords that the shared part
+ * position view leaves unnamed, and reads x/y as unsigned screen coordinates. */
+typedef struct CatalogCursorPosition {
+    u32 color;
+    u16 scale_x;
+    u16 scale_y;
+    u16 x;
+    u16 y;
+} CatalogCursorPosition;
+
+typedef struct CatalogCursorPart {
+    void *handler;
+    CatalogCursorPosition *position;
+} CatalogCursorPart;
+
+/* Slots 0..96 are display parts; slot 97 carries the selection cursor. */
+typedef struct CatalogNodeSlots {
+    ItemMenuPart *entries[97];
+    CatalogCursorPart *cursor;
+} CatalogNodeSlots;
+
 extern ItemMenuPart *catalog_display_node_slots[98];
 extern CatalogFrameEntry catalog_frame_layout[14];
 

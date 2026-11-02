@@ -1,5 +1,6 @@
 #ifndef ENGINE_SCRIPT_VM_H
 #define ENGINE_SCRIPT_VM_H
+struct ScriptReader;
 /* Prototypes of the functions defined in src/engine/script/vm/ (one true prototype each; maintained by tools/headers). */
 
 #include "common.h"
@@ -76,7 +77,7 @@ void script_yield(struct S_80039ED0_0 *script);
 void script_clear_flag(struct ScriptReader *state);
 
 /* vm_op_clear_image.c */
-void script_clear_text_window(void *vm_state);
+void script_clear_text_window(struct ScriptReader *vm_state);
 
 /* vm_op_clear_value.c */
 void script_clear_variable(struct S_80039F28_0 *vm);

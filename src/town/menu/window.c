@@ -674,15 +674,15 @@ void cleanup_or_dispatch_object(void *object_arg, s32 source, s32 context) {
 }
 
 /* Invoke the entity callback and perform follow-up processing unless its flags suppress it. */
-void invoke_entity_callback_and_follow_up(func_800A06C8_EntityLike *entity, s32 callback_id, s32 callback_data)
+void invoke_entity_callback_and_follow_up(func_800A06C8_EntityLike *entity, s32 callback_id, SpriteFrameState *callback_data)
 {
-    u16 *flags = (u16 *)((u8 *)entity - 2);
+    u16 *flags = &NODE_HEADER(entity)->flags;
 
     entity->unk50(entity, entity, callback_id, callback_data);
     if (!(*flags & 0x8000)) {
         set_state_bytes_from_flags(update_state_when_active(callback_id), entity);
         if (entity->unk4D == 0x13) {
-            advance_sprite_animation_and_textures((void *)callback_data);
+            advance_sprite_animation_and_textures(callback_data);
         }
     }
 }

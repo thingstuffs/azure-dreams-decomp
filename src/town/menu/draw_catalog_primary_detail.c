@@ -1,4 +1,5 @@
 #include "common.h"
+#include "town/menu/catalog.h"
 #include "town/menu.h"
 #include "sdk/libc.h"
 #include "sdk/libgpu.h"
@@ -28,7 +29,7 @@ extern ImageEntry catalog_glyphs[];
 extern ImageList catalog_detail_images[];
 
 /* Clear display regions and draw the selected entry images and number label. */
-void draw_catalog_primary_detail(void *entry_state)
+void draw_catalog_primary_detail(CatalogDisplay *entry_state)
 {
     Rect clear_rect;
     char label[16];
@@ -56,25 +57,25 @@ void draw_catalog_primary_detail(void *entry_state)
     clear_rect.h = 0xF0;
     ClearImage(&clear_rect, 0, 0, 0);
 
-    entry_index = ((u8 *)entry_state)[0x13];
+    entry_index = entry_state->unk_13;
     draw_cached_catalog_text(catalog_glyphs[entry_index].image, 0x1C0, 0x80);
     draw_vram_glyph_text(catalog_habitat_label, 0x1C7, 0xA0);
 
-    entry_index = ((u8 *)entry_state)[0x13];
+    entry_index = entry_state->unk_13;
     draw_vram_glyph_text(*catalog_glyphs[entry_index].image_ref,
                   (s16)(0x1CF - catalog_glyphs[entry_index].width), 0xB0);
 
-    entry_index = ((u8 *)entry_state)[0x13];
+    entry_index = entry_state->unk_13;
     pos = 0;
     if (catalog_detail_images[entry_index].count != 0) {
         image_lists = catalog_detail_images;
         do {
             draw_vram_glyph_text(image_lists[entry_index].images[pos], 0x340, (s16)(pos * 0x10));
-            if ((pos & 1) || (pos < (image_lists[((u8 *)entry_state)[0x13]].count - 1))) {
+            if ((pos & 1) || (pos < (image_lists[entry_state->unk_13].count - 1))) {
                 DrawSync(0);
             }
             pos++;
-            entry_index = ((u8 *)entry_state)[0x13];
+            entry_index = entry_state->unk_13;
         } while (pos < image_lists[entry_index].count);
     }
 
@@ -88,9 +89,9 @@ void draw_catalog_primary_detail(void *entry_state)
 
     strcat(label, catalog_number_prefix);
     number_text[0] = 0x82;
-    number_text[1] = ((((u8 *)entry_state)[0x13] + 1) / 10) + 0x4F;
+    number_text[1] = ((entry_state->unk_13 + 1) / 10) + 0x4F;
     number_text[2] = 0x82;
-    number_text[3] = ((((u8 *)entry_state)[0x13] + 1) % 10) + 0x4F;
+    number_text[3] = ((entry_state->unk_13 + 1) % 10) + 0x4F;
     number_text[4] = 0;
     strcat(label, number_text);
     draw_cached_catalog_text(label, 0x1DB, 0x80);

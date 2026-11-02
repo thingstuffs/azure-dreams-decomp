@@ -233,7 +233,7 @@ typedef struct {
                u8 pad[0x4D];
                u8 unk4D;
                u8 pad2[0x2];
-               void (*unk50)(void *, void *, s32, s32);
+               void (*unk50)(void *, void *, s32, SpriteFrameState *);
 } func_800A06C8_EntityLike;
 
 typedef struct func_800A075C_S_func_8009DEBC_0 {
@@ -373,7 +373,7 @@ void rectangle_to_four_corners(func_800A0284_S_8009D9E4_0 *rectangle, func_800A0
 void process_eligible_entries(func_800A02F0_S_8009DA50_2 *entries, void *bounds, s32 origin_x, s32 origin_y);
 void set_object_state_for_mode(void *owner, struct SpriteFrameState *object, s32 mode, s32 flags);
 void cleanup_or_dispatch_object(void *object, s32 source, s32 context);
-void invoke_entity_callback_and_follow_up(func_800A06C8_EntityLike *entity, s32 callback_id, s32 callback_data);
+void invoke_entity_callback_and_follow_up(func_800A06C8_EntityLike *entity, s32 callback_id, SpriteFrameState *callback_data);
 void dispatch_object_or_switch_alternate_state(func_800A075C_S_func_8009DEBC_0 *object, s32 source, s32 context);
 void reset_object_handler_and_saved_byte(void *object, void *context);
 s32 store_selected_record_fields(void);

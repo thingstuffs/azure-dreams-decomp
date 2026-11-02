@@ -28,7 +28,7 @@ void card_boot_destroy_card_chooser(Struct80014C90 *entry) {
 }
 
 /* Run setup and dispatch the request in mode 1. */
-void *card_boot_open_save_slot_selection(void *request) {
+void *card_boot_open_save_slot_selection(ObjectNodeHeader *request) {
     card_boot_stop_timer_and_init_server();
     return init_card_boot_request_object(request, 1);
 }

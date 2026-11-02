@@ -93,7 +93,7 @@ void dispatch_object_state(void *object, void *context, void *dispatch_data) {
 }
 
 /* Initialize the object and its animation, then dispatch its current state. */
-void initialize_person_object(TownObjectRecord *object, ObjectPosition *context, void *animation) {
+void initialize_person_object(TownObjectRecord *object, ObjectPosition *context, SpriteFrameState *animation) {
     register_node_if_unregistered(object, project_sprite_chain);
     object->unk_8C = 0x40;
     object->unk_8E = 0x40;

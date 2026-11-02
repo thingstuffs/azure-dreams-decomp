@@ -6,12 +6,12 @@
 #include "town/player.h"
 #include "town/scene.h"
 
-extern void load_indexed_state_value(void *, void *, s32); /* Unprototyped: retail call passes more arguments than the callee reads */
+#include "town/person.h"
 extern s32 D_800D636C[2];
 
 
 /* Advance motion and handle ground contact or continued movement. */
-void step_falling_object(Rec_D_80082D58 *entity, EntityRec *motion, s32 context)
+void step_falling_object(OwnerCallbackObject *entity, ObjectPosition *motion, SpriteFrameState *output)
 {
     s32 *velocity;
     u16 contacts_left;
@@ -19,17 +19,17 @@ void step_falling_object(Rec_D_80082D58 *entity, EntityRec *motion, s32 context)
     velocity = D_800D636C;
     motion->x.v += velocity[0];
     motion->y.v += velocity[1];
-    motion->z.v += motion->flags14;
+    motion->z.v += motion->velocity_z;
     if (query_lowered_transform_position(motion) < motion->z.w.i) {
         motion->z.w.i = query_lowered_transform_position(motion);
-        contacts_left = entity->unk_90.as_u16 - 1;
-        entity->unk_90.as_u16 = contacts_left;
+        contacts_left = entity->contacts_left.as_u16 - 1;
+        entity->contacts_left.as_u16 = contacts_left;
         if ((s16)contacts_left < 0) {
             unlink_node_if_registered(entity);
-            func_800C8D34(entity, motion, context);
+            func_800C8D34(entity, motion, output);
             return;
         }
-        load_indexed_state_value(entity, motion, context);
+        load_indexed_state_value(entity, motion, output);
         return;
     }
     add_hex_20000_s_signed_offset_hex_14(motion);

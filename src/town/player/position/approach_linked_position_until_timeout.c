@@ -1,6 +1,7 @@
 #include "common.h"
 #include "shared/vector.h"
 #include "town.h"
+#include "town/player/action_initializers.h"
 #include "town/player/position.h"
 
 

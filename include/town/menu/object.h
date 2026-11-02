@@ -53,7 +53,7 @@ void advance_position_and_handle_ground_contact(void *entity, void *motion, s32 
 ObjectNodeHeader *create_preset_sprite_object(IntVector3 *position);
 
 /* create_timed_effect_object.c */
-void create_timed_effect_object(s32 ownerDataAddress, s32 creationParam, struct S_800A7B98_2 *sourceData);
+void create_timed_effect_object(s32 ownerDataAddress, ObjectPosition *position, struct S_800A7B98_2 *sourceData);
 
 /* decrement_callback_object_timer.c */
 void decrement_callback_object_timer(struct S_func_800A9F90 *self, ObjectPosition *expiry_arg);
@@ -74,7 +74,6 @@ void initialize_timed_scale_object(void *object, ObjectPosition *state, struct S
 void render_shaded_object_primitive(void *object, MovingPosition *coords, void *primitive);
 
 /* swap_paired_entry_values_and_node_halfwords.c */
-void swap_paired_entry_values_and_node_halfwords(u8 *state);
 
 /* Owner declarations appended by tools/headers (append-only; the lines above are hand-kept). */
 #include "shared/sprite_frame_state.h"

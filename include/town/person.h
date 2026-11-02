@@ -21,10 +21,24 @@ typedef struct EffectScaleState {
 /* choose_reaction_action_and_heading.c */
 void choose_reaction_action_and_heading(Rec_func_800C9B44_arg0 *actor, EntityRec *motion, SpriteFrameState *context);
 
-/* Pooled person effects whose first body word is their update handler. */
+/* Eight-byte access view of the two halfwords stepped by the mother event. */
+typedef struct MotherEventValues {
+    u8 pad_00[2];
+    u16 unk_02;
+    u8 pad_04[2];
+    s16 unk_06;
+} MotherEventValues;
+
+void advance_mother_event_values(TownObjectRecord *state, MotherEventValues *values, SpriteFrameState *setup_context);
+void advance_object_after_timeout_variant_1(TownObjectRecord *object, ObjectPosition *update_context, SpriteFrameState *state_context);
+
+/* Effect body allocated by create_offset_effect_object: callback at +0x50
+ * and signed/unsigned contact counter at +0x90. */
 typedef struct OwnerCallbackObject {
     /* 0x00 */ u8 pad_00[0x50];
-    /* 0x50 */ s32 (*callback)(struct OwnerCallbackObject *, void *, s32);
+    /* 0x50 */ void (*callback)(struct OwnerCallbackObject *, ObjectPosition *, SpriteFrameState *);
+    /* 0x54 */ u8 pad_54[0x3C];
+    /* 0x90 */ union { s16 as_s16; u16 as_u16; } contacts_left;
 } OwnerCallbackObject;
 
 /* The callback's third context has a halfword at +0x12; its other fields
@@ -48,7 +62,7 @@ s32 get_clamped_transform_coordinate(ObjectPosition *position);
 /* Handlers the person callbacks install in TownObjectRecord.handler. */
 void advance_actor_reaction_downward(TownObjectRecord *context, struct ReactionAccumulators *accumulators, struct ReactionFlagState *flagState);
 void tick_countdown_toward_target(TownObjectRecord *state, SignedPositionView *current, void *context);
-void call_owner_callback(OwnerCallbackObject *owner, ObjectPosition *motion, s32 context);
+void call_owner_callback(OwnerCallbackObject *owner, ObjectPosition *motion, SpriteFrameState *output);
 
 
 /* Zero-terminated entry list shared by the quarter-turn and timed-countdown
@@ -133,7 +147,9 @@ s32 check_transform_identifier_and_hook(s32 requested_id);
 #include "records/Rec_D_80082D58.h"
 void *create_and_invoke_render_object(s32 initial_value, s32 resource_index);
 void initialize_mother_event_actor(void *actor, void *state, void *init_param);
-void load_indexed_state_value(Rec_D_80082D58 *object, EntityRec *state);
+void load_indexed_state_value(OwnerCallbackObject *object, ObjectPosition *position, SpriteFrameState *unused_output);
+void move_object_velocity(OwnerCallbackObject *owner, ObjectPosition *position, SpriteFrameState *unused_output);
+void step_falling_object(OwnerCallbackObject *entity, ObjectPosition *motion, SpriteFrameState *output);
 void set_record_data_pointer(TownObjectRecord *record);
 
 #endif

@@ -16,8 +16,8 @@ struct S_func_800AC9AC_0;
 struct SpriteFrameState;
 
 /* actor_script_motion_g00549.c */
-void update_actor_surface_motion(void *actor, void *subject, void *motion, void *context);
-void update_actor_slots_and_output(void *state_owner, void *update_target, void *update_context, void *output);
+void update_actor_surface_motion(void *actor, void *subject, void *motion, SpriteFrameState *context);
+void update_actor_slots_and_output(void *state_owner, void *update_target, void *update_context, SpriteFrameState *output);
 
 /* advance_timed_action_handler.c */
 void advance_timed_action_handler(struct S_8009B0EC_0 *object);

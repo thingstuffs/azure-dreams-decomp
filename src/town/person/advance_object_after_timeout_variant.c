@@ -4,13 +4,14 @@
 
 #include "town/person/object/initialize_object_entries_api.h"  /* extern */
 #include "shared/vector.h"
+#include "town/person.h"
 struct IntVector3; void * create_offset_effect_object(IntVector3 *source_pos);                     /* extern */
 extern M2C_UNK D_800C84B8;
 extern s32 D_800D62AC[];
 
 
 /* Decrement the object's countdown and advance its state when it expires. */
-void advance_object_after_timeout_variant_1(TownObjectRecord *object, ObjectPosition *update_context, void *state_context) {
+void advance_object_after_timeout_variant_1(TownObjectRecord *object, ObjectPosition *update_context, SpriteFrameState *state_context) {
     u16 ticks_left;
 
     ticks_left = object->timer.as_u16 - 1;

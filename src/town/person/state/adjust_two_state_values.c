@@ -16,11 +16,11 @@ typedef struct S_800C56A8_0 {
 
 
 /* Adjust the two state values and run completion actions when the countdown expires. */
-void adjust_two_state_values(TownObjectRecord *object, S_800C56A8_0 *state) {
+void adjust_two_state_values(TownObjectRecord *object, ObjectPosition *state) {
     u16 ticks_left;
 
-    state->unk_00 = (s32) (state->unk_00 + 0xFFFEAAAB);
-    state->unk_04 = (s32) (state->unk_04 + 0x40000);
+    state->x.v = (s32) (state->x.v + 0xFFFEAAAB);
+    state->y.v = (s32) (state->y.v + 0x40000);
     ticks_left = object->timer.as_u16 - 1;
     object->timer.as_u16 = ticks_left;
     if ((ticks_left << 0x10) <= 0) {

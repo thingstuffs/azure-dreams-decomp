@@ -1,5 +1,6 @@
 #ifndef ENGINE_MENU_H
 #define ENGINE_MENU_H
+struct DungeonItemEntry;
 /* Prototypes of the functions defined in src/engine/menu/ (one true prototype each; maintained by tools/headers). */
 
 #include "common.h"
@@ -92,7 +93,7 @@ void animate_selection_menu_index_transition(struct S_8004F95C *state);
 
 
 /* apply_scaled_byte_modifier_clamp_one.c */
-s32 apply_scaled_byte_modifier_clamp_one(s32 base_value, struct S_8004A4E4 *modifier);
+s32 apply_scaled_byte_modifier_clamp_one(s32 base_value, struct DungeonItemEntry *modifier);
 
 /* begin_selection_menu_index_change.c */
 void begin_selection_menu_index_change(struct S_8004FA2C *object, int target);

@@ -2,6 +2,7 @@
 /* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - CL:town/func_800B8E20, CL:town/func_800B8E78. */
 #include "town/shop/monster_status_opening_g00633.h"
 #include "town/shop.h"
+#include "town/shop/object.h"
 
 /* Updates two display entries for the mode and adjusts their spacing. */
 void update_mode_display_spacing(S_800B65D8_3 *base, s32 display_mode) {
@@ -47,13 +48,13 @@ void update_mode_display_spacing(S_800B65D8_3 *base, s32 display_mode) {
 }
 
 /* Advance the object's five-step sequence, then reset it and set its next handler. */
-void advance_monster_status_opening(void *object) {
+void advance_monster_status_opening(ShopFirstCallbackObject *object) {
     s16 step;
 
-    step = *(s16 *)((u8 *)object + 0xE);
+    step = object->opening_step.as_s16;
     if (step < 5) {
-        update_mode_display_spacing((S_800B65D8_3 *)*(s32 *)((u8 *)object + 0x98), step);
-        *(u16 *)((u8 *)object + 0xE) = *(u16 *)((u8 *)object + 0xE) + 1;
+        update_mode_display_spacing((S_800B65D8_3 *)object->resource_id, step);
+        object->opening_step.as_u16 = object->opening_step.as_u16 + 1;
         return;
     }
     process_object_data_by_mode(object);

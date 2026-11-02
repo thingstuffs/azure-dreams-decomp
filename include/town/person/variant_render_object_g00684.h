@@ -53,24 +53,12 @@ typedef struct S_800CBAAC_0 {
     void (*unk_50)(void *, void *, s32, s32);
 } S_800CBAAC_0;
 
-typedef struct S_800CBAE0_0 {
-    s32 * unk_00;
-    u8 pad_04[0x6C];
-    s32 unk_70;
-    u8 pad_74[0x32];
-    u8 unk_A6;
-} S_800CBAE0_0;
 
-/* arg0 in initialize_record_from_table_index; pointer addresses record offset 0x10 */
 struct Rec_D_800CFCB4;
 
 /* extern */
 struct Rec_D_80082E80;
 
-typedef struct S_800CBB68_2 {
-    u8 pad_00[0x96];
-    s8 unk_96;
-} S_800CBB68_2;
 
 struct IntVector3;
 

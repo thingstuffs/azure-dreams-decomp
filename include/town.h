@@ -24,7 +24,6 @@ s32 input_angle_with_offset(s32 unused, s32 angle_offset);
 
 void init_sound_threshold_action(s32 **record, s32 unused, s32 setup_value);
 
-void init_linked_position_action(TownObjectRecord *record, s32 unused, s32 setup_value);
 
 void init_height_interpolation_action(TownObjectRecord *record, void *unused, void *handler_context);
 

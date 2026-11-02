@@ -16,16 +16,16 @@ typedef struct MainEntry {
 } MainEntry;
 
 /* Positions five entries in a vertical list and initializes their values from the selected table. */
-void card_boot_layout_five_entry_list(void *context)
+void card_boot_layout_five_entry_list(CardMessageDialogBody *context)
 {
     s32 entry_index;
     MainEntry *entry;
 
     for (entry_index = 0; entry_index < 5; entry_index++) {
         entry = ((MainEntry **)((u8 *)context + 0x8CC))[entry_index];
-        entry->position->x = 0x124 - (((CardMessageDialogBody *)context)->width / 2);
-        entry->position->y = entry_index * 0x11 - (((CardMessageDialogBody *)context)->height / 2) + 0xFC;
-        entry->value = decode_fullwidth_text(((CardMessageDialogBody *)context)->text_buffers[entry_index],
-                                     card_menu_entry_values[((CardMessageDialogBody *)context)->entry_index].words[entry_index], 1);
+        entry->position->x = 0x124 - (context->width / 2);
+        entry->position->y = entry_index * 0x11 - (context->height / 2) + 0xFC;
+        entry->value = decode_fullwidth_text(context->text_buffers[entry_index],
+                                     card_menu_entry_values[context->entry_index].words[entry_index], 1);
     }
 }

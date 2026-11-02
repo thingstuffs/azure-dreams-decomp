@@ -61,22 +61,22 @@ void invoke_object_handler(S_800CBAAC_0 *object, s32 callback_arg1, s32 callback
 }
 
 /* Initializes record state using its stored table index and setup routines. */
-void initialize_record_from_table_index(void *record_data, ObjectPosition *context, SpriteFrameState *state) {
+void initialize_record_from_table_index(TownObjectRecord *record_data, ObjectPosition *context, SpriteFrameState *state) {
     u8 table_index;
 
-    table_index = ((S_800CBAE0_0 *)((u8 *)record_data - 0x10))->unk_A6;
-    ((S_800CBAE0_0 *)((u8 *)record_data - 0x10))->unk_70 = (s32) table_index;
+    table_index = record_data->variant.as_u8;
+    record_data->slot = (s32) table_index;
     state->source = D_800D68B0[table_index];
     configure_the_set_mode_n_3(record_data, context, &D_800D6A58);
     initialize_optional_object_state(record_data, context, state, 0);
-    ((S_800CBAE0_0 *)((u8 *)record_data - 0x10))->unk_00 = &D_800CBAAC;
+    NODE_HEADER(record_data)->update_callback = &D_800CBAAC;
 }
 
 /* Allocate and initialize an object with the given coordinates and variant. */
 void allocate_variant_object(s32 variant, s32 x, s32 y) {
     SpriteFrameState *setup_arg;
     ObjectPosition *position;
-    S_800CBB68_2 *state;
+    TownObjectRecord *state;
     ObjectNodeHeader *object;
 
     object = create_town_effect_object(0, 0, 0, 0);
@@ -88,7 +88,7 @@ void allocate_variant_object(s32 variant, s32 x, s32 y) {
         position->y.v = (s32)(y << 0x10);
         position->z.v = 0xFF000000;
         position->z.w.i = query_lowered_transform_position(position);
-        state->unk_96 = variant;
+        state->variant.as_s8 = variant;
         initialize_record_from_table_index(state, position, setup_arg);
     }
 }

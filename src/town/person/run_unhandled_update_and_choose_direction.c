@@ -7,7 +7,7 @@ void choose_random_movement_direction(); /* Slot contract: loading images do not
 
 
 /* Count down after an unhandled entity update and choose a direction when the timer expires. */
-void run_unhandled_update_and_choose_direction(TownObjectRecord *entity, void *motion, void *context, s32 update_arg) {
+void run_unhandled_update_and_choose_direction(TownObjectRecord *entity, void *motion, SpriteFrameState *context, s32 update_arg) {
     u16 ticks_left;
 
     if (select_object_setup_path(entity, motion, context) == 0) {

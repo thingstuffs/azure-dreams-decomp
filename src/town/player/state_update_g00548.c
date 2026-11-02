@@ -29,16 +29,16 @@ void update_player_global_state(Entity *entity, void *ptr, void *ptr2) {
 }
 
 /* Decrement the countdown, switch the state's table on expiry, and update the state. */
-void advance_player_state_table(Struct8009D814 *state, s32 update_arg, s32 shared_arg) {
+void advance_player_state_table(Struct8009D814 *state, ObjectPosition *update_arg, SpriteFrameState *shared_arg) {
     s16 countdown;
 
     countdown = state->unkA - 1;
     state->unkA = countdown;
     if (countdown <= 0) {
-        call_the_handler_selects_nonzero_entry((s32 *)town_scene_record_handlers, (TownObjectRecord *)state, (void *)shared_arg);
+        call_the_handler_selects_nonzero_entry((s32 *)town_scene_record_handlers, (TownObjectRecord *)state, shared_arg);
         state->unk4 = D_8009AFF4;
     }
-    update_player_global_state((Entity *)state, (void *)update_arg, (void *)shared_arg);
+    update_player_global_state((Entity *)state, update_arg, shared_arg);
 }
 
 /* Forward the object and values to update_player_global_state. */

@@ -3,9 +3,10 @@
 
 #include "common.h"
 #include "engine/node.h"
+#include "shared/entity.h"
 
 /* Runs the entry callback, then processes the entry and sets the output field unless flagged to stop. */
-void run_node_callback_and_set_marker(void *entry, void *output, void *context) {
+void run_node_callback_and_set_marker(void *entry, ObjectPosition *output, void *context) {
     GameWork *runtime_state;
     s32 field_value;
     void (*callback)(void *, void *, void *) = *(void (**)(void *, void *, void *))entry;
@@ -25,5 +26,5 @@ void run_node_callback_and_set_marker(void *entry, void *output, void *context) 
     } else {
         field_value = 0x10;
     }
-    *(u16 *)((u8 *)output + 0xA) = field_value;
+    output->z.unsigned_parts.integer = field_value;
 }

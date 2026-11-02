@@ -97,10 +97,11 @@ void advance_inner_value_and_complete(struct Obj_800B45A0 *obj);
 void apply_linked_record_defaults(void *record);
 
 struct MotionVector;
+struct ObjectPosition;
 struct S_8009ECF0_0;
 struct TownActor;
 void move_toward_target_check_completion_countdown_expires(struct TownActor *actor, s32 context, struct MotionVector *motion, s32 extra);
-void run_both_updates_decrement_countdown_check_completion(struct S_8009ECF0_0 *state, s32 update_ctx, s32 update_data, s32 finish_ctx);
+void run_both_updates_decrement_countdown_check_completion(struct S_8009ECF0_0 *state, s32 update_ctx, struct ObjectPosition *position, s32 finish_ctx);
 
 void advance_item_menu_object_animation(struct ItemMenuTransition *object);
 s8 *clear_bytes(s8 *buffer, s32 length);

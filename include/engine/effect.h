@@ -1,5 +1,6 @@
 #ifndef ENGINE_EFFECT_H
 #define ENGINE_EFFECT_H
+struct ObjectPosition;
 /* Prototypes of the functions defined in src/engine/effect/ (one true prototype each; maintained by tools/headers). */
 
 #include "common.h"
@@ -106,7 +107,7 @@ void decay_gauge_counters(struct S_800504B4 *object);
 void fade_effect_parts(void *effect, void *unused, void *parts);
 
 /* fade_manager_step_black.c */
-void fade_manager_step_black(s32 *active_flag, struct Func8003C4C8State *unused_state, struct Func8003C4C8State *fade_state);
+void fade_manager_step_black(s32 *active_flag, struct ObjectPosition *unused_state, struct Func8003C4C8State *fade_state);
 
 /* flag_fade_manager_dirty.c */
 void flag_fade_manager_dirty(void);

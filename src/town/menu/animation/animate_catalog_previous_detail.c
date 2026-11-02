@@ -1,14 +1,10 @@
 #include "common.h"
+#include "shared/item_menu.h"
+#include "town/menu/catalog.h"
 #include "records/Rec_func_801237A4_arg0.h"
 #include "shared/object_payload.h"
 #include "town/menu.h"
 
-
-typedef struct S_801260E8_1 {
-    s32 unk_00;
-    u8 pad_04[0x6C];
-    void * unk_70;
-} S_801260E8_1;   /* clear_target in animate_catalog_previous_detail */
 
 typedef struct S_801260E8_2 {
     s32 unk_00;
@@ -30,15 +26,13 @@ typedef struct TownInitialPosition {
 
 extern void store_cached_value_at_pointer(void);
 extern void initialize_linked_value_records(void);
-extern void swap_paired_entry_values_and_node_halfwords(u8 *state);
 extern void backup_and_clear_linked_values(void *);
 extern void restore_linked_values_from_backup(void *);
-extern void refresh_catalog_secondary_detail(void *);
 extern TownInitialPosition catalog_grid_layout[5];
 extern void *catalog_display_node_slots[];
 
 /* Initializes, updates, or clears town objects according to the current action. */
-void animate_catalog_previous_detail(Rec_func_801237A4_arg0 *context)
+void animate_catalog_previous_detail(CatalogDisplay *context)
 {
     s32 action_index;
     s32 object_index;
@@ -54,11 +48,7 @@ void animate_catalog_previous_detail(Rec_func_801237A4_arg0 *context)
     switch (action_index) {
     case 0:
     {
-        S_801260E8_1 *clear_target;
-
-        clear_target = context->unk_58;
-        clear_target = clear_target->unk_70;
-        clear_target->unk_00 = 0;
+        context->parts.nodes[28]->handler = 0;
     }
         initialize_linked_value_records();
         refresh_catalog_secondary_detail(context);

@@ -12,20 +12,20 @@ typedef int s32;
 void fill_eligible_negative_slots(void *record, s16 *eligibility, s16 new_value)
 {
     s32 slot_index;
-    void *slot_cursor;
+    s16 *slot_cursor;
     slot_index = 0;
     slot_cursor = record;
     do {
-        if (((*((s16 *) (((s8 *) slot_cursor) + 0x44))) < 0) && ((*eligibility) >= 4)) {
-            *((s16 *) (((s8 *) slot_cursor) + 0x44)) = new_value;
+        if (((slot_cursor[0x22]) < 0) && ((*eligibility) >= 4)) {
+            slot_cursor[0x22] = new_value;
         }
         if (record) {
             slot_index += 1;
-            slot_cursor += 2;
+            slot_cursor += 1;
         }
         else {
             slot_index += 1;
-            slot_cursor += 2;
+            slot_cursor += 1;
         }
     }
     while (slot_index < 2);

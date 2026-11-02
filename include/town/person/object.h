@@ -22,10 +22,10 @@ struct S_800C895C_0;
 struct SpriteFrameState;
 
 /* advance_and_clamp_entity_value.c */
-void advance_and_clamp_entity_value(void *context, EntityRec *object, void *update_data);
+void advance_and_clamp_entity_value(void *context, EntityRec *object, SpriteFrameState *update_data);
 
 /* advance_entity_countdown.c */
-void advance_entity_countdown(TownObjectRecord *object, ObjectPosition *context, void *update_data);
+void advance_entity_countdown(TownObjectRecord *object, ObjectPosition *context, SpriteFrameState *update_data);
 
 /* advance_object_and_run_follow_up.c */
 void advance_object_and_run_follow_up(TownObjectRecord *object, EntityRec *motion, s32 context);
@@ -53,7 +53,7 @@ s32 check_active_transform_object(TownObjectRecord *other);
 void clear_object_slot_and_mark_removed(void *object);
 
 /* clear_object_slot_and_run_callbacks.c */
-void clear_object_slot_and_run_callbacks(Rec_D_80082D58 *object, void *callback_arg_1, void *callback_arg_2);
+void clear_object_slot_and_run_callbacks(TownObjectRecord *object, void *callback_arg_1, void *callback_arg_2);
 
 /* create_person_object.c */
 void create_person_object(void);
@@ -65,7 +65,7 @@ void finalize_transform_object_or_callback(void *object, s32 check_value, s32 ca
 void forward_object_setup_arguments(void *object, void *context, void *update_data);
 
 /* forward_object_update_values.c */
-void forward_object_update_values(void *object, void *value_1, void *value_2, s32 value_3);
+void forward_object_update_values(void *object, void *value_1, SpriteFrameState *value_2, s32 value_3);
 
 /* forward_reaction_object.c */
 void forward_reaction_object(TownObjectRecord *object);
@@ -111,7 +111,7 @@ void initialize_object_referenced_data_pointers(struct TownObjectRecord *object,
 void initialize_object_resources_2(TownObjectRecord *object, ObjectPosition *position, SpriteFrameState *display_state);
 void set_camera_chase_data(TownObjectRecord *object, ObjectPosition *chase_data, SpriteFrameState *request_param, s32 check_param);
 void clear_object_slot_table_run(void *obj, void *param_a, void *param_b);
-void accelerate_object_coordinates_to_lower_limits(TownObjectRecord *context, ObjectPosition *record, void *callback_arg);
+void accelerate_object_coordinates_to_lower_limits(TownObjectRecord *context, ObjectPosition *record, SpriteFrameState *callback_arg);
 void init_actor_handler_state(struct S_800C51DC_0 *actor, ObjectPosition *state);
 void *create_user_data_object_b(s32 user_data);
 

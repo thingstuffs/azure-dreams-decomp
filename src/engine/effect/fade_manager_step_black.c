@@ -17,7 +17,7 @@ typedef struct Func8003C4C8State {
 /* Fades the state to black and clears its active flag when the timer expires. */
 void fade_manager_step_black(
     s32 *active_flag,
-    Func8003C4C8State *unused_state,
+    ObjectPosition *unused_state,
     Func8003C4C8State *fade_state
     ) {
     s32 intensity;

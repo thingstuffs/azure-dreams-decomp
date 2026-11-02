@@ -1,5 +1,6 @@
 #ifndef FRONTEND_LIBCARD_CARD_BOOT_STOP_TIMER_AND_INIT_SERVER_G01041_H
 #define FRONTEND_LIBCARD_CARD_BOOT_STOP_TIMER_AND_INIT_SERVER_G01041_H
+struct ObjectNodeHeader;
 /* Card boot stop timer and init server. Shared declarations. */
 /* Original-file evidence: inferred (adjacency/recipe/locality), inferred-weak - group G01041 - CL:main/func_80014C60. */
 
@@ -28,7 +29,7 @@ void save_and_clear_entity_flag_ten(void);
 /* Functions defined in this translation unit. */
 void card_boot_stop_timer_and_init_server(void);
 void card_boot_destroy_card_chooser(Struct80014C90 *entry);
-void *card_boot_open_save_slot_selection(void *request);
+void *card_boot_open_save_slot_selection(struct ObjectNodeHeader *request);
 void *dispatch_request_mode_two(void *request);
 void *dispatch_menu_update_callback(void *request);
 

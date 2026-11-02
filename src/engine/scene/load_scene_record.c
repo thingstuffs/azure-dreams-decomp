@@ -5,7 +5,7 @@
 extern void *create_catalog_display_node(void *a0);
 
 /* Load the scene data, store the allocated node, and return it to the task dispatcher. */
-void *load_scene_record(void *data)
+void *load_scene_record(SceneLoadBody *data)
 {
     SceneLoadBody *record = data;
     void *node;

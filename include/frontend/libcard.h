@@ -1,6 +1,5 @@
 #ifndef FRONTEND_LIBCARD_H
 #define FRONTEND_LIBCARD_H
-
 struct ObjectNodeHeader;
 /* Prototypes of the functions defined in src/frontend/libcard/ (one true prototype each; maintained by tools/headers). */
 
@@ -53,14 +52,17 @@ struct Object_800128C8;
 typedef struct Object_800128C8 {
     /* 0x00 */ u8 pad00[0x4];
     /* 0x04 */ void *slot_details;
-    /* 0x08 */ u8 pad08[0x1C];
+    /* 0x08 */ u8 pad08[0x0C];
+    /* 0x14 */ void *request; /* chooser request pointer */
+    /* 0x18 */ CardChooserPresence card_presence;
+    /* 0x20 */ void *backdrop;
     /* 0x24 */ s32 unk_24;
-    /* 0x28 */ u8 pad28[0x4];
+    /* 0x28 */ s32 state; /* save-menu state view */
     /* 0x2C */ s32 unk_2C;
     /* 0x30 */ s32 unk_30;
     /* 0x34 */ s32 unk_34;
     /* 0x38 */ s32 wait_notice_state;
-    /* 0x3C */ u8 pad3C[0x4];
+    /* 0x3C */ s32 countdown; /* save-menu countdown view */
     /* 0x40 */ s32 unk_40;
     /* 0x44 */ s32 callback_index;
 } Object_800128C8;
@@ -182,7 +184,7 @@ void card_boot_initialize_save_heading_layout(void *object);
 void card_boot_initialize_three_row_command_panel(void *record, void *init_value);
 
 /* card_boot_layout_five_entry_list.c */
-void card_boot_layout_five_entry_list(void *context);
+void card_boot_layout_five_entry_list(struct CardMessageDialogBody *context);
 
 /* card_boot_layout_left_right_labels.c */
 void card_boot_layout_left_right_labels(struct CardChoiceOwner *owner);
@@ -200,7 +202,7 @@ struct S_800491F4 *card_boot_link_three_row_panel_entries(struct S_800491F4 **in
 void card_boot_mark_object_complete(struct ObjectNodeHeader *object);
 
 /* card_boot_open_save_slot_selection.c */
-void *card_boot_open_save_slot_selection(void *request);
+void *card_boot_open_save_slot_selection(struct ObjectNodeHeader *request);
 
 /* card_boot_open_selected_request_menu.c */
 void card_boot_open_selected_request_menu(CardChooserBody *record);

@@ -11,20 +11,21 @@
 #include "town/player.h"
 #include "town/system.h"
 #include "town/player/store_the_valid_shared_angle_in_offset_hex_10_api.h"                      /* extern */
+#include "shared/sprite_frame_state.h"
 void handle_adjust_vector_toward_selected_angle_limit_magnitude();                      /* extern */
 #include "town/player/clear_global_slot_n_5_copy_source_slot_n_2_global_slot_n_2_api.h"                      /* extern */
 #include "town/player/compute_and_clamps_vector_based_adjustment_updates_town_api.h"      /* extern */
 #include "town/player/position/handle_resolves_movement_collisions_along_one_axis_using_boundary_probes_tile_api.h"                      /* extern */
 
 /* Advance the state counter and update the entity, handling threshold and flag transitions. */
-void update_threshold_and_interaction(TownObjectRecord *state, EntityRec *entity, s32 context) {
+void update_threshold_and_interaction(TownObjectRecord *state, EntityRec *entity, SpriteFrameState *context) {
     s16 threshold;
     u16 counter;
 
     counter = state->unk_0A.as_u16 + 1;
     state->unk_0A.as_u16 = counter;
     if ((s16) counter == 6) {
-        call_the_handler_selects_nonzero_entry(action_object_handler_table, state, (void *) context);
+        call_the_handler_selects_nonzero_entry(action_object_handler_table, state, context);
     }
     handle_resolves_movement_collisions_along_one_axis_using_boundary_probes_tile(entity);
     store_the_valid_shared_angle_in_offset_hex_10(state);

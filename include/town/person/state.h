@@ -23,7 +23,7 @@ struct S_800CEDA4_0;
 struct SpriteFrameState;
 
 /* adjust_two_state_values.c */
-void adjust_two_state_values(TownObjectRecord *object, struct S_800C56A8_0 *state);
+void adjust_two_state_values(TownObjectRecord *object, ObjectPosition *state);
 
 /* advance_four_phase_flag_sequence.c */
 void advance_four_phase_flag_sequence(struct S_800CCD68_0 *sequence);
@@ -117,7 +117,7 @@ void reset_object_substate_and_flag(TownObjectRecord *context, ObjectPosition *u
 void reset_reaction_global_flag_and_angle(struct S_800CA7D8_0 *object);
 
 /* run_object_handlers_supplied_state.c */
-void run_object_handlers_supplied_state(s32 object, s32 state, s32 context);
+void run_object_handlers_supplied_state(s32 object, ObjectPosition *position, s32 context);
 
 /* set_actor_flag_copy_global.c */
 void set_actor_flag_copy_global(TownObjectRecord *actor, ObjectPosition *unused, struct SpriteFrameState *state);

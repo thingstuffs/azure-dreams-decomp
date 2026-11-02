@@ -1,5 +1,6 @@
 #ifndef TOWN_EVENT_ACTOR_SCRIPT_MOTION_G00549_H
 #define TOWN_EVENT_ACTOR_SCRIPT_MOTION_G00549_H
+struct SpriteFrameState;
 /* inferred-strong G00549: actor_script_motion_g00549; shared declarations. */
 /* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - CL:town/func_8009DB64. */
 
@@ -70,7 +71,7 @@ extern TownControl town_actor_control;
 
 /* Functions defined in this translation unit. */
 s32 dispatch_active_town_object_script(TownObject *object, void *owner, void *context, void *extra_ptr);
-void update_actor_surface_motion(void *actor, void *subject, void *motion, void *context);
-void update_actor_slots_and_output(void *state_owner, void *update_target, void *update_context, void *output);
+void update_actor_surface_motion(void *actor, void *subject, void *motion, struct SpriteFrameState *context);
+void update_actor_slots_and_output(void *state_owner, void *update_target, void *update_context, struct SpriteFrameState *output);
 
 #endif

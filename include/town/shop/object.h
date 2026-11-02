@@ -16,7 +16,13 @@ struct S_800B2CE8_0;
 /* Body of the shop object that delegates its update to the first method. */
 typedef struct ShopFirstCallbackObject {
     /* 0x00 */ s32 (*first_callback)(void *object);
-    /* 0x04 */ u8 pad_04[0x90];
+    /* 0x04 */ s32 unk_04; /* first argument forwarded by process_object_data_by_mode */
+    /* 0x08 */ s16 slot_index; /* selects the display-entry setup path */
+    /* 0x0A */ u8 pad_0A[4];
+    /* 0x0E */ union { s16 as_s16; u16 as_u16; } opening_step; /* monster-status opening sequence */
+    /* 0x10 */ u8 pad_10[4];
+    /* 0x14 */ s32 unk_14; /* third argument forwarded by the display-entry setup */
+    /* 0x18 */ u8 pad_18[0x7C];
     /* 0x94 */ void *status_display_entries;
     /* 0x98 */ s32 resource_id;
 } ShopFirstCallbackObject;

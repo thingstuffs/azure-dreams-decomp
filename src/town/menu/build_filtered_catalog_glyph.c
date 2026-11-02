@@ -1,5 +1,6 @@
 #include "common.h"
 #include "town/menu.h"
+#include "town/menu/catalog.h"
 #include "town/data.h"
 #include "sdk/libapi.h"
 
@@ -141,7 +142,7 @@ typedef struct {
     /* 0x004 */ u8 *p1;
     /* 0x008 */ u16 *p2;
     /* 0x00C */ u16 *src;
-    /* 0x010 */ u16 *out;
+    /* 0x010 */ s16 *out;
     /* 0x014 */ u8 n[8];
     /* 0x01C */ u8 pad1C[0x34 - 0x1C];
     /* 0x034 */ u8 grid[180];
@@ -157,7 +158,7 @@ typedef struct {
 
 
 /* Builds a filtered 4-bit glyph bitmap for the requested character. */
-s32 build_filtered_catalog_glyph(s32 char_code, s32 dst_addr) {
+s16 *build_filtered_catalog_glyph(s32 char_code, s16 *destination) {
     u8 frame_pad[32];
     s16 row;
     s16 col;
@@ -497,7 +498,7 @@ s32 build_filtered_catalog_glyph(s32 char_code, s32 dst_addr) {
     }
 
     scratch->p2 = (u16 *)scratch->cell;
-    scratch->out = (u16 *)dst_addr;
+    scratch->out = destination;
     for (row = 0; row < 16; row++) {
         for (col = 0; col < 3; col++) {
             scratch->o[col] = 0;
@@ -548,6 +549,6 @@ s32 build_filtered_catalog_glyph(s32 char_code, s32 dst_addr) {
     for (row = 0; row < 3; row++) {
         *scratch->out++ = 0;
     }
-    scratch->out = (u16 *)dst_addr;
-    return dst_addr;
+    scratch->out = destination;
+    return destination;
 }

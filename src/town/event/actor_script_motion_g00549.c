@@ -58,7 +58,7 @@ s32 dispatch_active_town_object_script(TownObject *object, void *owner_arg, void
 }
 
 /* Update movement and height, transition the actor state, and copy its value to the context. */
-void update_actor_surface_motion(void *actor, void *subject, void *motion, void *context) {
+void update_actor_surface_motion(void *actor, void *subject, void *motion, SpriteFrameState *context) {
     s16 surface_height;
     void *actor_callback;
     s32 *actor_value;
@@ -87,7 +87,7 @@ void update_actor_surface_motion(void *actor, void *subject, void *motion, void 
 }
 
 /* Runs handlers when any slot flag is set and copies the stored value for eligible states. */
-void update_actor_slots_and_output(void *state_owner, void *update_target, void *update_context, void *output) {
+void update_actor_slots_and_output(void *state_owner, void *update_target, void *update_context, SpriteFrameState *output) {
     s32 slot;
     void *current_state;
     s32 *stored_value;

@@ -5,6 +5,6 @@
 
 
 /* Invokes the owner's callback. */
-void call_owner_callback(OwnerCallbackObject *owner, ObjectPosition *motion, s32 context) {
-    owner->callback(owner, motion, context);
+void call_owner_callback(OwnerCallbackObject *owner, ObjectPosition *motion, SpriteFrameState *output) {
+    owner->callback(owner, motion, output);
 }

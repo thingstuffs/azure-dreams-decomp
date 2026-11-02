@@ -1,11 +1,12 @@
 #include "common.h"
+#include "town/menu/catalog.h"
 #include "town/menu/catalog_parts.h"
 #include "town/menu/object.h"
 
 extern void select_paired_value_tables(void *selection);
 
 /* Swaps paired entry values and node halfwords, toggles the state flag, and updates. */
-void swap_paired_entry_values_and_node_halfwords(u8 *state)
+void swap_paired_entry_values_and_node_halfwords(CatalogDisplay *state)
 {
     ItemMenuPart **second_entry;
     ItemMenuPart **first_entry;
@@ -35,6 +36,6 @@ void swap_paired_entry_values_and_node_halfwords(u8 *state)
     first_node->x = (u16)catalog_display_node_slots[22]->position->x;
     catalog_display_node_slots[22]->position->x = saved_half;
 
-    state[0x16] ^= 1;
+    state->unk_16 ^= 1;
     select_paired_value_tables(state);
 }

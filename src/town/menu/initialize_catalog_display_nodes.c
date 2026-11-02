@@ -54,7 +54,7 @@ s32 initialize_catalog_display_nodes(CatalogDisplay *context) {
     } while (node_count < 0x62);
     apply_block_16_template_to_nodes(catalog_display_node_slots, 0x62);
     apply_vector_3_template_to_nodes(catalog_display_node_slots, 0x62);
-    context->nodes = catalog_display_node_slots;
+    context->parts.nodes = catalog_display_node_slots;
     context->last_node = catalog_display_node_slots[97];
     result = 1;
     return result;

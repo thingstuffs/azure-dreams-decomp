@@ -11,7 +11,7 @@ typedef struct S_8009EC3C_0 {
 #include "shared/position_views.h"
 #include "town/shop.h"
 #include "town/shop/state.h"
-void invoke_entity_callback_and_follow_up(func_800A06C8_EntityLike *entity, s32 callback_id, s32 callback_data);
+void invoke_entity_callback_and_follow_up(func_800A06C8_EntityLike *entity, s32 callback_id, SpriteFrameState *callback_data);
 typedef struct S_8009ECF0_0 S_8009ECF0_0;
 
 /* Clear the state fields and initialize the record handlers and mode. */

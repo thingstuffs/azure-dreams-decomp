@@ -12,14 +12,10 @@ typedef struct {
 } ImageEntry;
 extern ImageEntry catalog_glyphs[];
 
-typedef struct S_80123A60_0 {
-    u8 pad_00[0xF];
-    u8 unk_0F;
-} S_80123A60_0;   /* object in draw_catalog_entry_page */
 
 /* Clears the image area and draws available images for the object's category. */
-void draw_catalog_entry_page(void *object_data) {
-    S_80123A60_0 *object = object_data;
+void draw_catalog_entry_page(CatalogDisplay *object_data) {
+    CatalogDisplay *object = object_data; /* Retains the retail register allocation. */
     s16 clear_rect[4];
     ImageEntry *image_entry;
     u8 *loop_image_base;

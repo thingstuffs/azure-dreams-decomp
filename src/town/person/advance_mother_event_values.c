@@ -7,15 +7,8 @@
 #include "town/person/object.h"
 
 
-typedef struct S_800C7DB8_1 {
-    u8 pad_00[0x2];
-    u16 unk_02;
-    u8 pad_04[0x2];
-    s16 unk_06;
-} S_800C7DB8_1;   /* arg1 in advance_mother_event_values */
-
 /* Advances two values toward their targets and finalizes when the countdown expires. */
-void advance_mother_event_values(TownObjectRecord *state, S_800C7DB8_1 *values, void *setup_context) {
+void advance_mother_event_values(TownObjectRecord *state, MotherEventValues *values, SpriteFrameState *setup_context) {
     u16 steps_left;
 
     steps_left = state->timer.as_u16 - 1;

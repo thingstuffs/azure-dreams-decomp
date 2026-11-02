@@ -229,4 +229,6 @@ s32 *select_response_and_set_d_80(void);
 void set_up_town_resolves_record(void);
 void write_value_through_pointer(s32 *destination, s32 value);
 
+void fall_to_ground_height(s32 unused, ObjectPosition *position);
+
 #endif

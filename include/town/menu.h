@@ -1,5 +1,6 @@
 #ifndef TOWN_MENU_H
 #define TOWN_MENU_H
+struct SpriteFrameState;
 
 #include "common.h"
 
@@ -15,9 +16,6 @@ void initialize_item_menu_state(u8 *owner, s32 base_value);
 
 struct MenuResourceOwner;
 s32 load_menu_display_resource(struct MenuResourceOwner *, s32);
-
-/* Callback entry points. */
-void decrement_target_halfword_by_four(void *unused_0, void *unused_1, void *target);
 
 /* Owner declarations appended by tools/headers (append-only; the lines above are hand-kept). */
 struct func_8009F880_S_8009CFE0_0;
@@ -45,18 +43,12 @@ s32 classify_record_by_state_and_position(Rec_D_80082D58 *record, void *position
 
 #include "shared/town_object.h"
 #include "shared/entity.h"
-struct TownObject;
-s32 build_filtered_catalog_glyph(s32 char_code, s32 dst_addr);
 void *create_configured_object(void *object_data, void *source_position, s32 alternate_callback);
-void draw_catalog_primary_detail(void *entry_state);
-void draw_catalog_secondary_detail(void *state);
 s16 *get_cached_catalog_glyph(s16 char_code);
 void initialize_menu_overlay_objects(u8 *owner, s32 value);
 void initialize_randomized_scale_timer(TownObjectRecord *object);
 u8 is_catalog_entry_available(s32 index);
 void no_op_callback_a(void);
-void refresh_catalog_entry_grid(struct TownObject *menu);
-void refresh_catalog_primary_detail(struct TownObject *obj);
 void reset_catalog_scroll_indicators(void *controller);
 s32 store_record_value_and_table_lookup(void);
 

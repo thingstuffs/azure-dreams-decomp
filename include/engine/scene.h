@@ -1,5 +1,6 @@
 #ifndef ENGINE_SCENE_H
 #define ENGINE_SCENE_H
+struct SceneLoadBody;
 /* Prototypes of the functions defined in src/engine/scene/ (one true prototype each; maintained by tools/headers). */
 
 #include "common.h"
@@ -92,7 +93,7 @@ int load_indexed_resource_package(short table_index);
 s32 load_resource_and_mirror_palette(s32 elem_index, s32 array_index);
 
 /* load_scene_record.c */
-void *load_scene_record(void *data);
+void *load_scene_record(struct SceneLoadBody *data);
 
 /* load_scene_resource_group.c */
 void load_scene_resource_group(s16 entry_index);

@@ -1,11 +1,12 @@
 #include "common.h"
+#include "town/menu/catalog.h"
 #include "records/Rec_func_801237A4_arg0.h"
 #include "shared/object_payload.h"
 #include "town/menu.h"
 #include "town/menu/catalog_parts.h"
 
 /* Updates or clears table entries according to the request code. */
-void animate_catalog_grid_to_detail(Rec_func_801237A4_arg0 *request)
+void animate_catalog_grid_to_detail(CatalogDisplay *request)
 {
     s32 action_index;
 

@@ -10,6 +10,7 @@ struct Entity;
 struct CardMessageDialogBody;
 struct CardSaveMenuBody;
 struct CardSaveHeadingDisplayPrefix;
+struct CardDetailDisplayNode;
 struct S_800491F4;
 
 /* Byte index sequences stop at their node limit; complete bounds are unestablished. */
@@ -84,11 +85,18 @@ typedef MenuDisplayNode CardDisplayNode;
  * nodes that share one vector (init_card_file_list_panel, init_card_file_list_nodes). */
 typedef struct CardFileListPanel {
     /* 0x000 */ s32 selection;
-    /* 0x004 */ u8 pad_004[0xB00];
+    /* 0x004 */ u8 pad_004[0x78];
+    /* 0x07C */ s32 selected_slot;
+    /* 0x080 */ u8 pad_080[0x70];
+    /* 0x0F0 */ struct CardDetailDisplayNode *left;
+    /* 0x0F4 */ struct CardDetailDisplayNode *right;
+    /* 0x0F8 */ struct CardDetailDisplayNode *value;
+    /* 0x0FC */ struct CardDetailDisplayNode *heading;
+    /* 0x100 */ u8 pad_100[0xA04];
     /* 0xB04 */ CardDisplayBlock heading_block;
     /* 0xB14 */ DisplayPositionWords heading_vector;
     /* 0xB20 */ DisplayPositionWords vector;
-    /* 0xB2C */ CardDisplayNode heading;
+    /* 0xB2C */ CardDisplayNode list_heading;
     /* 0xB3C */ CardDisplayNode *pointers[21];
     /* 0xB90 */ CardDisplayNode nodes[21];
     /* 0xCE0 */ CardDisplayBlock blocks[21];

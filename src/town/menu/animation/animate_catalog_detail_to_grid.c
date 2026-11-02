@@ -1,4 +1,5 @@
 #include "common.h"
+#include "town/menu/catalog.h"
 #include "records/Rec_func_801237A4_arg0.h"
 #include "shared/object_payload.h"
 #include "town/menu.h"
@@ -26,7 +27,7 @@ extern TownInitialPosition catalog_grid_layout[5];
 extern void *catalog_display_node_slots[];
 
 /* Updates town object data according to the current state. */
-void animate_catalog_detail_to_grid(Rec_func_801237A4_arg0 *state)
+void animate_catalog_detail_to_grid(CatalogDisplay *state)
 {
     s32 state_index;
     s32 object_index;

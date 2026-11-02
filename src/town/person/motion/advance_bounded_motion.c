@@ -37,7 +37,7 @@ typedef struct S_800C355C_1 {
 } S_800C355C_1;   /* arg0 in advance_bounded_motion */
 
 /* Advance motion, clamp at the facing boundary, and update directional speed. */
-void advance_bounded_motion(S_800C355C_1 *entity, void *motion_arg, void *context, s32 check_param)
+void advance_bounded_motion(S_800C355C_1 *entity, void *motion_arg, SpriteFrameState *context, s32 check_param)
 {
     S_800C355C_0 *motion = motion_arg;
     s32 pos_x;

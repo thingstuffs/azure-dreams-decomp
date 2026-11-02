@@ -1,4 +1,6 @@
 #include "common.h"
+#include "shared/item_menu.h"
+#include "town/menu/catalog.h"
 #include "town/menu.h"
 
 typedef struct Inner {
@@ -12,28 +14,14 @@ typedef struct Entry {
     Inner *inner;
 } Entry;
 
-typedef struct TownContext {
-    u8 pad0[0x70];
-    void **slot70;
-} TownContext;
-
-typedef struct TownObject {
-    u8 pad0[4];
-    u16 state;
-    u8 pad6[0x52];
-    TownContext *context;
-} TownObject;
-
 extern Entry *catalog_display_node_slots[28];
 
-extern void refresh_catalog_secondary_detail(TownObject *);
-
 /* Resets the object or updates entry values and words according to its state. */
-void animate_catalog_next_detail(TownObject *obj)
+void animate_catalog_next_detail(CatalogDisplay *obj)
 {
-    switch ((s16)(obj->state - 1)) {
+    switch ((s16)(obj->unk_04.as_u16 - 1)) {
     case 0:
-        *obj->context->slot70 = 0;
+        obj->parts.nodes[28]->handler = 0;
         reset_linked_value_records();
         refresh_catalog_secondary_detail(obj);
         store_cached_value_at_pointer();

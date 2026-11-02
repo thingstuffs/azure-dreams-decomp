@@ -1,5 +1,6 @@
 #ifndef TOWN_SHOP_MONSTER_STATUS_OPENING_G00633_H
 #define TOWN_SHOP_MONSTER_STATUS_OPENING_G00633_H
+struct ShopFirstCallbackObject;
 /* Advance monster status opening and display spacing (G00633): shared declarations. */
 /* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - CL:town/func_800B8E20, CL:town/func_800B8E78. */
 
@@ -41,6 +42,6 @@ extern s32 D_800B6578[];
 
 /* Functions defined in this translation unit. */
 void update_mode_display_spacing(S_800B65D8_3 *base, s32 display_mode);
-void advance_monster_status_opening(void *object);
+void advance_monster_status_opening(struct ShopFirstCallbackObject *object);
 
 #endif
