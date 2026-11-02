@@ -1,5 +1,6 @@
 #include "common.h"
 #include "town/devkit/stage_dispatch.h"
+#include "town/devkit.h"
 
 
 typedef struct {

@@ -5,6 +5,7 @@
 
 #include "town/player/call_the_handler_selects_nonzero_entry_api.h"
 #include "slus.h"
+#include "town.h"
 extern s32 D_80093524;
 extern s32 D_800D0188;
 

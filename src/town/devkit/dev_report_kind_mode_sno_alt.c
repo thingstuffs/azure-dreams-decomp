@@ -1,4 +1,5 @@
 #include "common.h"
+#include "town/devkit.h"
 
 typedef void (*TownCallback)(void *, void *, s32);
 

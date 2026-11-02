@@ -31,6 +31,6 @@ void set_display_entry_text_and_position(S_800B5264_0 *entry, s32 text, s32 text
     }
     ((S_800B5264_2 *)(((S_800B5264_1 *)entry)->unk_04))->unk_08 = x;
     ((S_800B5264_2 *)(((S_800B5264_1 *)entry)->unk_04))->unk_0A = (s16) y;
-    entry->unk_00 = func_8004DC14(text, text_style);
+    entry->unk_00 = create_label_glyph_entries(text, text_style);
     ((S_800B5264_2 *)(((S_800B5264_1 *)entry)->unk_04))->unk_0E = 2;
 }

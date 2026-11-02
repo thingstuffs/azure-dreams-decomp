@@ -2,6 +2,8 @@
 #include "common.h"
 #include "shared/game_work.h"
 #include "sdk/libgpu.h"
+#include "dungeon/monster/ifrit.h"
+#include "sdk/libgte.h"
 
 typedef struct S_func_80174228_0 {
     u8 pad_00[4];
@@ -108,7 +110,6 @@ typedef struct S_func_80174228_10 {
 
 /* Returns the signed input divided by 23 with integer truncation. */
 static __inline__ s16 divide_tex(s16 n) { return n / 23; }
-extern s32 RotTransPers(void *vertex, s32 *screen, s32 *p, s32 *flag);
 extern void transform_rotated_vertices();
 
 extern u8 D_8017087C[];

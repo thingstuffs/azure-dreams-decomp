@@ -1,5 +1,6 @@
 #include "common.h"
 #include "m2c_compat.h"
+#include "town/devkit.h"
 
 typedef struct S_808B2D70_0 {
     u8 pad_00[0xE];

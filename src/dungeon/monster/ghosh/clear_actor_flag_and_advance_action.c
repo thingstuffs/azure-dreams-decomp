@@ -6,12 +6,11 @@
 #include "shared/entity.h"
 #include "records/Rec_func_800A9E70_arg0.h"
 #include "dungeon/effect.h"
+#include "dungeon/player/object.h"
 
 typedef struct Ent Ent;
 
 /* cfail-repair: tf7-phase1-cache-v3 */
-s16 try_claim_dungeon_action_slot(ActorRecord *actor);                          /* extern */
-
 
 /* Clear the actor flag and update its action state when both checks pass. */
 void clear_actor_flag_and_advance_action(ActorRecord *action_state, ObjectPosition *action_context, SpriteFrameState *effect_context, ActorRecord *actor) {

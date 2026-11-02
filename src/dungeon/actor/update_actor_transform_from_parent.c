@@ -14,10 +14,9 @@
 
 extern s16 lift_jitter_offsets[2];
 #include "engine/graphics.h"
-void set_record_integer_tile_center(ObjectPosition *record, s32 tile_x, s32 tile_y);
+#include "dungeon/actor.h"
+#include "dungeon/player/object.h"
 void update_actor_status_and_mp(ActorRecord *entity);
-void begin_actor_throw_from_attachment();
-s32 try_move_actor_to_valid_position(void *action, void *context, void *position, void *entity);
 
 typedef struct S_800AC82C_2_pre {
     void * unk_00;

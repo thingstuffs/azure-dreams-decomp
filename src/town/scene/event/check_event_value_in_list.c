@@ -1,7 +1,6 @@
 #include "common.h"
 #include "town/scene/event.h"
-
-extern u8 town_event_value_list[];
+#include "town/data.h"
 
 /* Check whether the zero-terminated byte list contains the target value. */
 s32 check_event_value_in_list(s32 target_value) {

@@ -4,6 +4,7 @@
 #include "town/menu/randomized_effect_motion_g00570.h"
 #include "town/player/position.h"
 #include "engine/window.h"
+#include "town/menu.h"
 
 /* Initializes the object record and a randomized motion vector. */
 void initialize_randomized_motion_vector(u8 *obj, s32 *vec, SpriteFrameState *record)

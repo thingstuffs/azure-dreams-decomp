@@ -77,7 +77,7 @@ s32 initialize_mogura_minigame(void)
     set_resident_bit(0xA4);
     set_resident_bit(0xA5);
     load_default_object_palette(7);
-    func_8003E188(0x3F, parent_state);
+    set_packed_2bit_flag(0x3F, parent_state);
 
     object = allocate_list_node(0x136, &scene_object_list_anchor.next);
     if (object != NULL) {

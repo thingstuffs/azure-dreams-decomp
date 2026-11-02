@@ -2,6 +2,7 @@
 #include "town/menu/motion.h"
 #include "shared/object_node.h"
 #include "shared/dungeon_effect_views.h"
+#include "engine/node.h"
 
 typedef struct {
     u8 pad_0[8];
@@ -12,7 +13,6 @@ typedef struct {
     void (*callback_20)(void);
 } AllocatedObject;
 
-extern void *allocate_list_node(s32 kind, void *owner);
 extern void initialize_animated_menu_ring(void);
 
 /* Allocate an object, copy its initial data, and set its callbacks. */

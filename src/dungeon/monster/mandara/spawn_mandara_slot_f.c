@@ -11,22 +11,19 @@
 typedef struct { u8 pad[6]; u16 count; } CountView;
 #include "shared/object_node.h"
 #include "shared/slus_callbacks.h"
+#include "dungeon/actor.h"
+#include "dungeon/monster/mandara.h"
+#include "sdk/libgpu.h"
 
 
 
 extern s32 register_node(ObjectNodeHeader *entry, void *registration_id);
 extern s32 generate_random_value(void);
-extern void try_move_actor_to_valid_position(void *, void *, void *, void *);
-extern void MoveImage(s16 *, s32, s32);
 
 extern u8 D_8016AB40[];
 extern u8 D_8016AF6C[];
 extern u8 D_8016F258[];
 extern u8 D_8016F298[];
-
-void *create_mandara_actor_with_parts(s32 spawn_flags, s16 pos_x, s16 pos_y, s16 part_a_value)
-
-;
 
 /* Creates a dungeon actor and initializes its parts, flags, and image regions. */
 /* Creates Mandara with frames at D_8016F258, copies its palette row and four strips, and attempts tile

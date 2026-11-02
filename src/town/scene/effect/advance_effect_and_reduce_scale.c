@@ -4,6 +4,7 @@
 #include "m2c_compat.h"
 #include "shared/object_links.h"
 #include "town/scene/effect.h"
+#include "town/data.h"
 
    /* the 0x2 bytes before arg0 in advance_effect_and_reduce_scale, addressed as arg0[-1] */
 
@@ -17,9 +18,6 @@ typedef struct S_80814CC4_2 {
     u8 pad_00[0x58];
     u16 unk_58;
 } S_80814CC4_2;
-
-
-extern s32 scene_object_flags;
 
 /* Advance motion and reduce scale, marking the effect complete at the scale threshold. */
 void advance_effect_and_reduce_scale(void *effect_arg, ObjectPosition *motion, SpriteFrameState *scale) {

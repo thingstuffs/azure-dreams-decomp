@@ -3,6 +3,7 @@
 #include "m2c_compat.h"
 #include "shared/town_object.h"
 #include "engine/node.h"
+#include "town/menu.h"
 
 extern M2C_UNK D_800A7774[3];
 

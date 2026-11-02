@@ -2,8 +2,8 @@
 #include "dungeon/player/input.h"
 #include "common.h"
 #include "shared/dungeon_status.h"
-
-extern s32 can_entity_gain_level(void *entity);
+#include "dungeon/player.h"
+#include "dungeon/player/object.h"
 
 /* Selects the target's table from flags and clears global state when the update returns zero. */
 void finish_player_action_animation(ActorRecord *target, void *unused, void *flag_data, ActorRecord *source) {

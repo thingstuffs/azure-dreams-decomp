@@ -9,6 +9,7 @@
 #include "dungeon/actor.h"
 #include "dungeon/actor/status.h"
 #include "dungeon/item.h"
+#include "dungeon/player/object.h"
 
 typedef struct S_800D991C_0 {
     u8 pad_00[0x8C];
@@ -24,7 +25,6 @@ typedef struct S_800D991C_0 {
 } S_800D991C_0;   /* arg0 in update_actor_landing */
 
 void select_record_entry_and_value(void *state, void *entries, short index);        /* extern */
-void set_record_integer_tile_center(ObjectPosition *record, s32 tile_x, s32 tile_y);              /* extern */
 void spend_actor_mp(ActorRecord *entity, s32 base_reduction);             /* extern */
                   /* extern */
 extern void *actor_action_frames[];

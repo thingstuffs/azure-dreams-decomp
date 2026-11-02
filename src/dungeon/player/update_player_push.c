@@ -10,6 +10,7 @@
 #include "engine/graphics.h"
 #include "dungeon/level.h"
 #include "dungeon/player/motion.h"
+#include "dungeon/player/object.h"
 
 typedef struct S_80092018_3 {
     u8 pad_00[0x2];
@@ -32,7 +33,6 @@ typedef struct S_80092018_5 {
 struct D83460_VIEW { s16 pad[3]; s16 divisor[1]; };
 
 s32 has_action_input_without_modifier(); /* Unprototyped: zero or one argument; retail replaces all incoming argument registers. */
-void set_record_integer_tile_center(ObjectPosition *record, s32 tile_x, s32 tile_y);
 void spawn_opposite_offset_effect(void *source_data, u32 direction_bits);
 extern u8 player_push_frames[];
 extern u8 D_800DD020[];

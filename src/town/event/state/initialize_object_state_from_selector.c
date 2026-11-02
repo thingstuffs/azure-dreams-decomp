@@ -4,9 +4,8 @@
 #include "town/event/object_setup.h"
 #include "town/scene.h"
 #include "town/event/state.h"
+#include "town/data.h"
 
-
-extern s32 town_object_resource_table[];
 extern s32 D_800F8CEC[];
 
 // Assigns the state's data table and invokes the shared handlers.

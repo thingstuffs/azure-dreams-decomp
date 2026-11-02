@@ -3,6 +3,7 @@
 #include "dungeon/actor.h"
 #include "shared/dungeon_status.h"
 #include "dungeon/actor/status.h"
+#include "dungeon/monster/hikewne.h"
 
 
 extern void spend_actor_mp(ActorRecord *entity, s32 base_reduction);

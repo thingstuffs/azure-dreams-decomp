@@ -14,6 +14,7 @@
 #include "engine/node.h"
 #include "dungeon/actor/animation.h"
 #include "dungeon/actor/status.h"
+#include "dungeon/monster/killer.h"
 
 
 
@@ -38,8 +39,6 @@ extern u8 D_80152A7C[];
 extern M2C_UNK D_80152EA8;
 extern M2C_UNK D_80156038;
 extern M2C_UNK D_80156088;
-
-void *spawn_killer_slot_b(s16 spawn_flags, s32 grid_x, s32 grid_y, s16 part_value) ;
 
 /* Allocates an actor and initializes its parts, position, and spawn flags. */
 /* Creates Killer with default frames at D_80156038, applies spawn flags, and attempts valid tile

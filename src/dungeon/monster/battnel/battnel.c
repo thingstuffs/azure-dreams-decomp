@@ -11,6 +11,7 @@
 #include "dungeon/actor/animation.h"
 #include "engine/node/allocation.h"
 #include "engine/node.h"
+#include "dungeon/monster/battnel.h"
 
 typedef s32 M2C_UNK;
 

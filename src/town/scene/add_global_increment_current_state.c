@@ -3,10 +3,7 @@
 #include "shared/town_root.h"
 #include "m2c_compat.h"
 #include "town/scene.h"
-
-
-
-extern s32 scene_price;
+#include "town/data.h"
 
 /* Adds the global increment to the current state's accumulator. */
 void add_global_increment_current_state(void) {

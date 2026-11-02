@@ -11,7 +11,9 @@
 #include "engine/cd.h"
 #include "dungeon/actor/status.h"
 #include "engine/node/allocation.h"
-extern int abs(int);
+#include "dungeon/effect/particle.h"
+#include "dungeon/player/object.h"
+#include "sdk/libc.h"
 
 typedef struct {
     u32 x;
@@ -79,9 +81,7 @@ typedef struct S_func_80FDD1A0_4 {
 
 extern void register_node(void *, void *);
 extern void select_sprite_entry(void *, s32, s32);
-extern void set_record_integer_tile_center(void *, u8, u8);
 extern void play_sound_if_enabled(s32);
-extern void create_two_row_object_group(void *, s16);
 
 extern u8 effect_update_tag[];
 extern u8 killer_action_resume_address;

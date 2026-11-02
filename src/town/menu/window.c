@@ -31,6 +31,7 @@
 #include "engine/menu.h"
 #include "engine/window.h"
 #include "shared/town_object.h"
+#include "town/map.h"
 
 
 /* Initializes an object with default transform and global state values. */
@@ -1047,7 +1048,6 @@ extern void initialize_projected_sprite_chain_a(TownObjectRecord *, ObjectPositi
 extern void initialize_projected_sprite_chain_b(TownObjectRecord *, ObjectPosition *, SpriteFrameState *);
 extern void initialize_projected_sprite_chain_c(TownObjectRecord *, ObjectPosition *, SpriteFrameState *);
 extern void initialize_object_data_transform_color(TownObjectRecord *, ObjectPosition *, SpriteFrameState *);
-extern void initialize_object_and_dispatch_by_state(TownObjectRecord *, ObjectPosition *, SpriteFrameState *);
 extern void initialize_object_resources_2(TownObjectRecord *, ObjectPosition *, SpriteFrameState *);
 extern void func_800C60DC(TownObjectRecord *, ObjectPosition *, SpriteFrameState *);
 extern void func_800C620C(TownObjectRecord *, ObjectPosition *, SpriteFrameState *);

@@ -3,6 +3,7 @@
 #include "m2c_compat.h"
 #include "shared/dungeon_moving_views.h"
 #include "sdk/libgte.h"
+#include "dungeon/actor/state.h"
 
 
 typedef struct S_800B0654_0 {

@@ -5,20 +5,13 @@
 #include "shared/game_work.h"
 #include "records/Rec_D_80100B70.h"
 #include "shared/object_payload.h"
+#include "sdk/libc.h"
+#include "sdk/libgpu.h"
 
 #define SCALE255(value) ((u32)(value) / 255)
 
-extern s32 rand(void);
-extern void SetLineG4(void *);
-extern void SetSemiTrans(void *, s32);
 extern void copy_odd_halfwords_3(void *, void *);
 extern void copy_menu_vector_halfwords(void *, void *);
-
-extern void AddPrim(void *, void *);
-extern u16 GetTPage(s32, s32, s32, s32);
-extern void SetDrawMode(void *, s32, s32, u16, s32);
-
-
 
    /* ctx in draw_random_tinted_quad_pair */
 

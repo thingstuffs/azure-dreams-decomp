@@ -33,4 +33,7 @@ void create_randomly_rotated_offset_effect(void *unused_ptr, ObjectPosition *sou
 /* Owner declarations appended by tools/headers (append-only; the lines above are hand-kept). */
 void complete_directional_hop_to_tile(ActorRecord *body, ObjectPosition *motion, SpriteFrameState *sprite, ActorRecord *actor);
 
+void blend_effect_channels_to_gray(u8 *task, ObjectPosition *context, SpriteFrameState *input);
+void initialize_status_gated_action(ActorRecord *action_state, ObjectPosition *context, SpriteFrameState *animation, ActorRecord *entity);
+
 #endif

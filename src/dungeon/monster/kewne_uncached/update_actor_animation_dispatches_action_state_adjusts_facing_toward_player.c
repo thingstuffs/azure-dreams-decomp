@@ -13,6 +13,10 @@
 #include "dungeon/actor.h"
 #include "dungeon/actor/motion.h"
 #include "dungeon/actor/state.h"
+#include "dungeon.h"
+#include "dungeon/level.h"
+#include "dungeon/monster/kewne_uncached.h"
+#include "dungeon/player/object.h"
 
 typedef struct S_8015FFA4_0 {
     u8 pad_00[0x8C];
@@ -32,12 +36,8 @@ typedef struct S_8015FFA4_0 {
 } S_8015FFA4_0;   /* arg0 in update_actor_animation_dispatches_action_state_adjusts_facing_toward_player */
 
 extern void select_sprite_entry(void *, s32, s32);
-extern s16 check_entity_relation(ActorRecord *entry, ActorRecord *anchor);
 extern s8 find_active_rect_containing_point(s32, s32);
-extern s32 can_entity_gain_level(void *);
 extern void update_actor_status_and_mp(ActorRecord *entity);
-extern s32 begin_ready_actor_directional_action(ActorRecord *body, ObjectPosition *position, SpriteFrameState *sprite, u8 *direction_frames);
-extern void begin_actor_move_to_target_facing(ActorRecord *body, ObjectPosition *position, SpriteFrameState *sprite, ActorRecord *actor);
 extern void func_80160510(void *, void *, void *, void *);
 extern void func_801606C8(void *, void *, void *, void *);
 extern s32 func_80160E10(ActorRecord *action_state, ObjectPosition *action_param, SpriteFrameState *visual_data, ActorRecord *actor);

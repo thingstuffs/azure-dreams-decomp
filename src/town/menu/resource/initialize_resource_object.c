@@ -12,8 +12,8 @@ typedef struct S_800A7C98_0_pre {
 
 #include "town/system/clear_object_status_and_dispatch_target_api.h"
 #include "engine/node.h"
+#include "town.h"
 
-void handle_object_bounds_and_cleanup(TownObjectRecord *object, void *check_data, void *fallback_data);
 extern M2C_UNK D_800F8F68;
 
 /* Clear the object state field and initialize its resource data and callback. */

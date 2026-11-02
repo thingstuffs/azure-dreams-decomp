@@ -7,6 +7,7 @@
 #include "dungeon/monster/kewne_uncached/create_entity_at_tile_center.h"
 #include "dungeon/item.h"
 #include "engine/object.h"
+#include "dungeon/monster/kewne_uncached.h"
 
 /* Creates the actor at a tile center and installs its script, movement, and animation callbacks. */
 void *create_and_initializes_entity_center_specified_tile(s16 entity_id, s16 tile_x, u16 tile_y, u16 height) {

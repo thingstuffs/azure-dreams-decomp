@@ -18,6 +18,7 @@ struct ObjectPosition;
 #include "slus.h"
 #include "engine/graphics.h"
 #include "dungeon/effect.h"
+#include "dungeon/monster/unicorn.h"
 
 #ifndef NULL
 #define NULL 0

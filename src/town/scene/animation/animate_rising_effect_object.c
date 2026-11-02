@@ -5,6 +5,7 @@
 #include "town/scene/effect.h"
 #include "sdk/libc.h"
 #include "town/scene/animation.h"
+#include "town/data.h"
 struct SpawnSeed;
 
 #ifndef NULL
@@ -68,10 +69,7 @@ extern void func_8003BC18();
 extern short func_80058F88(int flags);
 extern s32 func_80071494(void);
 extern void create_object_position_configures_color(s32 color, s32 x, s32 y, s32 z);
-extern void func_8052F960(struct SpawnSeed *seed);
-extern void func_8052FB08(struct SpawnSeed *seed);
 extern u8 score_sprite_draw_callback_address[12];
-extern s32 scene_object_flags;
 extern s32 D_80095AAC;
 extern s32 collection_target_y;
 extern u8 D_8028E17C[];

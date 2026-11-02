@@ -1,8 +1,6 @@
 #include "common.h"
 #include "town/shop/item_lookup.h"
-
-
-extern void update_the_data_set_local_global_flags();
+#include "town.h"
 
 /*
  * Returns zero when get_item_chk finds no item; otherwise updates the indexed item data and

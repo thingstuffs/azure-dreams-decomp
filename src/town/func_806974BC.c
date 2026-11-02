@@ -1,6 +1,7 @@
 #include "common.h"
 #include "town/scene/entry_requests.h"
 #include "m2c_compat.h"
+#include "town.h"
 void func_800179A0(void);                            /* extern */
 extern M2C_UNK D_800190BC;
 

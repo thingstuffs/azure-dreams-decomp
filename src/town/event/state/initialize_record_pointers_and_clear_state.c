@@ -3,6 +3,7 @@
 #include "shared/sprite_frame_state.h"
 #include "m2c_compat.h"
 #include "shared/dungeon_effect_views.h"
+#include "town/event/state.h"
 
 typedef struct S_800A97D8_0 {
     void (*unk_00)();

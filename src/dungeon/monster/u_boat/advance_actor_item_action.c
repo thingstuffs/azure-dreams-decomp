@@ -7,7 +7,7 @@
 #include "engine/node.h"
 #include "engine/node/allocation.h"
 #include "dungeon/player/object.h"
-extern int abs(int);
+#include "sdk/libc.h"
 #include "shared/def_table.h"
 #include "shared/object_node.h"
 #include "shared/record_ptrs.h"
@@ -24,7 +24,6 @@ typedef struct Copy48 {
 
 extern void select_sprite_entry(void *, u8, s32);
 extern void play_sound_if_enabled(s32);
-void create_owner_linked_directional_object(ActorRecord *owner_data, ObjectPosition *source_position, SpriteFrameState *source_sprite);
 
 extern u8 D_800D58D8[];
 extern s8 view_direction_depth_biases[];

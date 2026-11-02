@@ -1,5 +1,6 @@
 #include "common.h"
 #include "town/menu.h"
+#include "town/data.h"
 
 typedef struct ImageEntry {
     u8 pad0[8];
@@ -31,8 +32,6 @@ typedef struct TownObject {
 } TownObject;
 
 extern u8 catalog_scroll_offset;
-extern void *catalog_detail_pages[4];
-extern u8 catalog_detail_fallback[16];
 extern ImageEntry catalog_glyphs[];
 extern DisplayPair *D_80129748;
 

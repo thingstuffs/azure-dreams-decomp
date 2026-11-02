@@ -7,6 +7,7 @@
 #include "shared/entity.h"
 #include "records/Rec_D_80082E80.h"
 #include "dungeon/actor.h"
+#include "dungeon/player/object.h"
 
 typedef struct S_80173294_0 {
     u8 pad_00[0x8C];
@@ -16,8 +17,6 @@ typedef struct S_80173294_0 {
     u8 pad_98[0x3];
     u8 unk_9B;
 } S_80173294_0;   /* arg0 in slow_directional_motion */
-
-extern void set_record_integer_tile_center(void *, u8, u8);
 
 extern u8 hikewne_motion_frame_set;
 

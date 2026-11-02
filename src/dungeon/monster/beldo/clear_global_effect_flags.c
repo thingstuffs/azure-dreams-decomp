@@ -2,6 +2,7 @@
 #include "shared/sys_flags.h"
 #include "shared/dungeon_floor.h"
 #include "dungeon/item.h"
+#include "dungeon/monster/beldo.h"
 
 extern void spawn_initial_floor_monsters(void);
 

@@ -3,6 +3,7 @@
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 #include "shared/entity.h"
+#include "dungeon/monster/barong.h"
 
 typedef struct S_801750F8_1 {
     u8 pad_00[0x14];

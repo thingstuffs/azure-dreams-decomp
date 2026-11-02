@@ -1,4 +1,5 @@
 #include "common.h"
+#include "town/devkit.h"
 
 typedef struct {
     u8 v[4];

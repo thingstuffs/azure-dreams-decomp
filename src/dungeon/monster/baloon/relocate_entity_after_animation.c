@@ -12,6 +12,8 @@
 #include "dungeon/system.h"
 #include "dungeon/actor.h"
 #include "shared/entity.h"
+#include "dungeon/actor/state.h"
+#include "sdk/libc.h"
 
 
 
@@ -20,17 +22,12 @@ extern u8 baloon_default_frames[];
 extern u8 D_800E23B8[];
 extern u8 D_800E23C0[];
 
-
-extern s32 rand(void);
 void update_map_cell_flags_with_item_limit(s32 x, s32 y, u16 flags);
-
-void refresh_actor_proximity_state(ActorRecord *context);
 
 extern void create_radial_effect_segments(ActorRecord *, void *, void *, ActorRecord *);
 extern void create_anchored_directional_object(void *, void *, void *, ActorRecord *, s32);
 extern void create_origin_motion_effect(ActorRecord *, ObjectPosition *, SpriteFrameState *, s32, s32, s32);
 extern s32 random_below_limit(s32);
-extern int abs(int);
 
 /* Advances the entity animation sequence and relocates it to a distant tile. */
 /* Animates Baloon's rising effect, tries to relocate at least 33 tile steps from the player, then spends

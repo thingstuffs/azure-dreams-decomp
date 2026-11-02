@@ -14,9 +14,9 @@
 #include "dungeon/actor.h"
 #include "shared/object_node.h"
 #include "shared/sprite_frame_state.h"
+#include "dungeon/monster/pulunpa.h"
+#include "sdk/libc.h"
 
-
-extern int abs(int);
 extern void select_sprite_entry(void *, s32, s32);
 extern void play_sound_if_enabled(s32);
 extern void create_actor_linked_effect(void *);

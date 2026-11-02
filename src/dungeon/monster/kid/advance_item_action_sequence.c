@@ -15,9 +15,8 @@
 #include "dungeon/player/object.h"
 #include "dungeon/item.h"
 #include "dungeon/actor.h"
-extern int abs(int);
-
-
+#include "dungeon/monster/kid.h"
+#include "sdk/libc.h"
 
 typedef struct S_80172D74_5 {
     u8 pad_00[0x4];

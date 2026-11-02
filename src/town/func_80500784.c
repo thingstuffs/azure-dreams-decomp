@@ -1,4 +1,5 @@
 #include "common.h"
+#include "town.h"
 
 extern s32 check_result_not_minus_one(s32, s32);
 /* Calls return with check_result_not_minus_one(grid_y,grid_x)! = - 1. */

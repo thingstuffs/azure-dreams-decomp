@@ -2,6 +2,9 @@
 #include "shared/town_object.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/dungeon_effect_views.h"
+#include "town.h"
+#include "town/event/state.h"
+#include "town/player/object.h"
 
 typedef struct S_800A9858_0 {
     s32 * unk_00;
@@ -10,8 +13,6 @@ typedef struct S_800A9858_0 {
 } S_800A9858_0;   /* arg0 in initialize_variant_record_pointers_and_clear_state; pointer addresses record offset 0x10 */
 
    /* arg1 in initialize_variant_record_pointers_and_clear_state */
-void set_resident_flag_when_item_present(u16 *record);
-void retire_object_on_check_or_callback(void *object, void *input, void *context);
 
 /* Initialize the record's pointers and clear the associated state field. */
 void initialize_variant_record_pointers_and_clear_state(TownObjectRecord *record_data, ObjectPosition *placement, struct SpriteFrameState *unused_sprite) {

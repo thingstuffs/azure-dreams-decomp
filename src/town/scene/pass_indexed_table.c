@@ -2,8 +2,7 @@
 #include "common.h"
 #include "town/scene/flags.h"
 #include "town/scene.h"
-
-extern u8 devkit_flag_ids[];
+#include "town/data.h"
 
 /* Pass the indexed table value to set_indexed_flag_bit. */
 void pass_indexed_table(s32 index) {

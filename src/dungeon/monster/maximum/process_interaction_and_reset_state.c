@@ -5,11 +5,12 @@
 #include "shared/dungeon_status.h"
 #include "shared/entity.h"
 #include "dungeon/actor/status.h"
+#include "dungeon/monster/dragon.h"
+#include "dungeon/monster/maximum.h"
 
 
 void spend_actor_mp(ActorRecord *entity, s32 base_reduction);            /* extern */
                 /* extern */
-void dispatch_monster_move_attack_spell(ActorRecord *, ObjectPosition *, SpriteFrameState *, ActorRecord *);
 
 /* Process an interaction and reset the object's state when the checks allow it. */
 void process_interaction_and_reset_state(ActorRecord *body, ObjectPosition *position, SpriteFrameState *sprite, ActorRecord *actor) {

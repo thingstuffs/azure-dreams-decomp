@@ -2,6 +2,7 @@
 #include "common.h"
 #include "shared/entity.h"
 #include "shared/record_ptrs.h"
+#include "dungeon/actor/object.h"
 
 /* Tests the flag on this entity, or on either linked entity for aggregate records. */
 s32 initialize_object_configuration_x(EntityRec *entity)

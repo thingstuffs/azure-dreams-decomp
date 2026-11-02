@@ -1,4 +1,5 @@
 #include "common.h"
+#include "town/menu.h"
 
 extern s32 menu_initial_value_pairs[];
 extern u8 catalog_display_node_slots[];

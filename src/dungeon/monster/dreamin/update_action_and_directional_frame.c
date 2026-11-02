@@ -4,8 +4,8 @@
 #include "shared/dungeon_status.h"
 #include "shared/entity.h"
 #include "records/Rec_func_800A9E70_arg0.h"
+#include "dungeon/player/object.h"
 
-extern s16 try_claim_dungeon_action_slot(ActorRecord *actor);
 extern void prepare_directional_attack();
 
 #include "dungeon/monster/dreamin.h"

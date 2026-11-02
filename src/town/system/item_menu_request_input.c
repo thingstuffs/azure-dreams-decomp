@@ -3,7 +3,6 @@
 #include "common.h"
 #include "town/shop/item_menu_actions.h"
 #include "town/shop/item_menu_cursor_transition_g00601.h"
-extern s32 invoke_item_menu_offset_handler();
 #include "shared/game_work.h"
 #include "town/shop/item.h"
 

@@ -5,13 +5,13 @@
 #include "engine/node/allocation.h"
 #include "dungeon/monster/kewne.h"
 #include "engine/node.h"
+#include "dungeon/effect/screen.h"
 
 typedef struct Pair {
     s32 first;
     s32 second;
 } Pair;
 
-extern void draw_textured_ellipse();
 extern u8 D_80175B1C[12];
 extern u8 D_80175FA8[12];
 extern u8 D_80175FB4[12];

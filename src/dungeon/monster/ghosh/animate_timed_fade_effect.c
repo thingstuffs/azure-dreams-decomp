@@ -2,13 +2,14 @@
 #include "shared/game_work.h"
 #include "shared/object_flags.h"
 #include "shared/dungeon_status.h"
+#include "dungeon/item.h"
+#include "dungeon/monster/ghosh.h"
+#include "dungeon/system.h"
 
 
 extern void *get_unused_text_buffer(s32, u8 *, void *);
 extern u8 *expand_text_control_codes(u8 *src, u8 *dst);
-extern void clear_byte_and_advance(s8 *byte_ptr);
 extern void *write_text_byte_and_advance(s8 value, s8 *dest);
-extern void display_text_with_fullwidth_adjustment(s8 *text);
 
 extern u8 D_8016A808[];
 

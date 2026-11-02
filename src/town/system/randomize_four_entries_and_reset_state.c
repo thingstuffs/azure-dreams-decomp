@@ -1,7 +1,8 @@
 #include "common.h"
+#include "sdk/libc.h"
+#include "town/system.h"
+#include "town/data.h"
 
-extern s32 rand(void);
-extern s16 keima_payout_factors[];
 extern s16 keima_selection_mask;
 extern s32 keima_payout_remaining;
 

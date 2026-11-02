@@ -1,4 +1,5 @@
 #include "common.h"
+#include "town/devkit.h"
 
 typedef struct Func808816D8Callbacks {
     u8 pad68[0x68];

@@ -1,4 +1,6 @@
 #include "common.h"
+#include "town/devkit.h"
+#include "town/scene/hooks.h"
 
 typedef struct S_808B3074_0 {
     u8 pad_00[0x8];
@@ -12,7 +14,6 @@ typedef struct S_808B3074_1 {
 
 
 extern s32 func_8070021C();
-extern void forward_indexed_table_value(s32 index);
 extern void func_807002D4(s32 index);
 extern s32 dispatch_first_failed_entry(void);
 

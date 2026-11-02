@@ -1,6 +1,6 @@
 #include "common.h"
-
-extern s32 rand(void);
+#include "dungeon/monster/golem.h"
+#include "sdk/libc.h"
 
 /* Returns twice the signed 16-bit base plus 0-8, randomly negated and truncated to 16 bits. */
 s32 randomize_signed_offset(s32 base)

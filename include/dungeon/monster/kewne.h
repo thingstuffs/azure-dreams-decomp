@@ -20,4 +20,12 @@ void update_actor_animation_and_behavior(ActorRecord *actor, ObjectPosition *con
 /* Directional frame entries; the full allocation extent is not inferred. */
 extern u8 kewne_direction_frames[];
 
+/* Owner declarations appended by tools/headers (append-only; the lines above are hand-kept). */
+void create_linked_child_object(void *parent_state);
+void create_linked_source_object(void *sourceRecordData);
+void create_parent_position_effect(EntityRec *parent, s32 effect_param, u8 *effect_data);
+void update_actor_callbacks_and_ground(void *actor, ObjectPosition *position, SpriteFrameState *sprite);
+
+void *create_grid_position_entity(s16 spawn_flags, s16 grid_x, s16 grid_y, s16 height);
+
 #endif

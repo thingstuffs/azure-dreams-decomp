@@ -11,6 +11,7 @@
 #include "shared/entity.h"
 #include "dungeon/player/item.h"
 #include "dungeon/item.h"
+#include "dungeon/player.h"
 
 extern u8 dungeon_button_latch[9];
 void snapshot_inventory_and_familiars(void *input_state);

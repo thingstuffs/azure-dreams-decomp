@@ -22,4 +22,7 @@ struct Item;
 struct Unit;
 s32 collect_ground_item(struct Ctx *ctx, char *text, struct Item *item, struct Unit *unit);
 
+#include "records/Rec_func_8008ACDC_arg0.h"
+s16 dispatch_selected_item_use(Rec_func_8008ACDC_arg0 *actor, s16 item_id, s16 other_item_id);
+
 #endif

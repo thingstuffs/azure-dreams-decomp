@@ -3,14 +3,14 @@
 #include "town/menu/catalog.h"
 #include "shared/item_menu.h"
 #include "town/menu/catalog_parts.h"
+#include "engine/graphics.h"
+#include "town/menu.h"
 
 
 #ifndef NULL
 #define NULL 0
 #endif
 
-void apply_block_16_template_to_nodes();
-void apply_vector_3_template_to_nodes();
 /* The position access view occupies the first 12 bytes of each
  * 16-byte data-bank slot; the final word is retained as live unknown bytes. */
 typedef struct CatalogPartPositionSlot {

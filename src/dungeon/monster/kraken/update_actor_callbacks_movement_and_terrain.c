@@ -11,11 +11,11 @@
 #include "dungeon/actor.h"
 #include "dungeon/level.h"
 #include "dungeon/item.h"
+#include "dungeon/monster/kraken.h"
 
 
 void advance_sprite_animation_and_textures(void *entity);
 s32 refresh_actor_facing_and_lifecycle();
-void update_actor_animation_and_dispatch(ActorRecord *actor, ObjectPosition *context, SpriteFrameState *sprite, ActorRecord *status);
 extern M2C_UNK D_80174174[];
 extern u8 kraken_frame_set_1[];
 extern u8 kraken_action_handlers[];

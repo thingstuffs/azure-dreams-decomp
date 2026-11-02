@@ -3,10 +3,7 @@
 #include "shared/town_root.h"
 #include "shared/vector.h"
 #include "town/scene/motion.h"
-
-
-
-extern IntVector3 town_player_fixed_position;
+#include "town/data.h"
 
 /* Builds a record with two 16.16 values and a zero third value, then invokes the context callbacks. */
 void set_player_position_record(void) {

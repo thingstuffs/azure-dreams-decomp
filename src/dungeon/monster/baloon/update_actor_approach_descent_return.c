@@ -14,6 +14,8 @@
 #include "engine/texture.h"
 #include "engine/resource.h"
 #include "dungeon/item/effect.h"
+#include "dungeon/item.h"
+#include "dungeon/item/message.h"
 
 
 
@@ -48,11 +50,6 @@ extern u8 D_801709B8[];
 extern s32 get_entity_class(void *);
 extern void select_sprite_entry(void *, u8, s32);
 extern void snapshot_inventory_and_familiars(void *);
-extern void *get_unused_text_buffer(void);
-extern u8 *expand_text_control_codes(u8 *src, u8 *dst);
-extern void clear_byte_and_advance(s8 *byte_ptr);
-extern void *write_text_byte_and_advance(s8 value, s8 *dest);
-extern u8 *append_entity_display_text(void *record, u8 *out);
 extern void play_sound_if_enabled(s32);
 extern void display_text_with_fullwidth_adjustment(s8 *text);
 extern s32 check_action_boundary_and_set_flag(void);

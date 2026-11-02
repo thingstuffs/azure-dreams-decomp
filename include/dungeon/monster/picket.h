@@ -19,4 +19,8 @@ void update_movement_destination_selection_recovery_animation(ActorRecord *state
 #include "records/Rec_func_800AD058_arg2.h"
 void create_and_initializes_display_source_position_appearance(void *source, Rec_func_800AD058_arg2 *record, ActorRecord *appearance);
 
+void * move_eligible_item(void *origin, ActorRecord *actor);
+void * pick_up_adjacent_item(void *origin, void *actor);
+void update_dungeon_actor_behavior_facing_animation_state(ActorRecord *actor, ObjectPosition *context, SpriteFrameState *sprite, ActorRecord *entity);
+
 #endif

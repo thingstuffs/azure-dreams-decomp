@@ -7,6 +7,7 @@
 #include "shared/monster_ids.h"
 #include "shared/sprite_frame_state.h"
 #include "dungeon/monster/naplass/allocate_kind_object.h"
+#include "dungeon/monster/naplass.h"
 
 /* Allocate an object, initialize its parts and kind flags, and return its work area. */
 /* Creates Naplass with default frames at D_80162194, applies spawn flags, and attempts valid tile

@@ -1,6 +1,7 @@
 #include "common.h"
 #include "shared/object_flags.h"
 #include "dungeon/level.h"
+#include "dungeon/actor/motion.h"
 
 
 /* Update damped motion with gravity, clamp to the floor, and flag expiration. */

@@ -9,6 +9,7 @@
 #include "records/Rec_func_801744DC_arg0.h"
 #include "shared/dungeon_moving_views.h"
 #include "engine/node.h"
+#include "sdk/libc.h"
 
    /* coords in spawn_directional_particle */
 
@@ -18,7 +19,6 @@ typedef struct {
 } Pair16;
 
 extern void select_record_entry_and_value(void *, void *, s32);
-extern s32 rand(void);
 
 extern u8 shared_sprite_entries[];
 

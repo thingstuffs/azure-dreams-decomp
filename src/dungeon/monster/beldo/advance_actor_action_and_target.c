@@ -12,6 +12,8 @@
 #include "shared/dungeon_moving_views.h"
 #include "dungeon/item.h"
 #include "dungeon/actor.h"
+#include "dungeon/player/object.h"
+#include "sdk/libc.h"
 struct S_80170E18_3;
 
 /* Sparse views for fields not covered by the existing record types. */
@@ -20,10 +22,7 @@ typedef struct {
     u16 field_A6;
 } D800814A8FieldView_81252D6C;
 
-extern int abs(int);
-
 extern s32 select_sprite_entry();
-extern void set_record_integer_tile_center();
 extern void play_sound_if_enabled();
 extern void create_effect_from_sprite_and_facing(void *unused, MovingPosition *source_transform, void *sprite_template, struct S_80170E18_3 *facing_source);
 

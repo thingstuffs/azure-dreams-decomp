@@ -19,6 +19,8 @@
 #include "dungeon/actor/status.h"
 #include "dungeon/item.h"
 #include "dungeon/actor.h"
+#include "dungeon/monster/kraken.h"
+#include "sdk/libc.h"
 
 /* Sparse views for fields not covered by the existing record types. */
 
@@ -28,9 +30,6 @@ typedef struct {
     u16 field_A6;
 } D800814A8FieldView_80EB6FC8;
 
-extern int abs(int);
-
-
    /* the 0x14 bytes before owner in update_actor_action_target_and_animation, addressed as owner[-1] */
 
 typedef struct S_801727C8_5 {
@@ -39,7 +38,6 @@ typedef struct S_801727C8_5 {
 } S_801727C8_5;
 
 void create_two_effect_groups();
-void update_actor_animation_and_dispatch(ActorRecord *actor, ObjectPosition *context, SpriteFrameState *sprite, ActorRecord *status);
 extern u8 kraken_frame_set_1;
 extern u8 D_801741B4;
 extern u8 kraken_frame_set_5;

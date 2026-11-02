@@ -1,7 +1,6 @@
 #include "common.h"
 #include "town/scene/hooks.h"
-
-extern u8 catalog_selection_state[];
+#include "town/data.h"
 
 /* Increase the shared byte by four and enter state eight when its low nibble clears
  * (the scroll-down partner of scroll_catalog_text_up, src/town/func_8096D1C4.c). */

@@ -1,9 +1,9 @@
 #include "script_symbols.h"
 #include "common.h"
+#include "town/data.h"
 
 extern void func_80017320(s32);
 extern void func_80017398(s32);
-extern s16 scene_threshold_counter;
 
 /*
  * Increments scene_threshold_counter and wraps 21 to 9; calls func_80017320 for F_sbs12_pad13 at

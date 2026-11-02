@@ -1,5 +1,6 @@
 #include "common.h"
 #include "town/scene/flags.h"
+#include "town.h"
 
 typedef struct {
     u8 pad[0xBBC];

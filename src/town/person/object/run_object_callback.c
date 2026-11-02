@@ -8,6 +8,7 @@ typedef void (*Callback)(void *, void *, void *);
 
 #include "town/system/person_idle_dispatch.h"
 #include "town/person.h"
+#include "town/person/object.h"
 
 /* Run the object callback and update its selected entry and record flags when enabled. */
 void run_object_callback(TownObjectRecord *object, ObjectPosition *context, SpriteFrameState *record) {

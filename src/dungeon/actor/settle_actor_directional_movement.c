@@ -6,6 +6,7 @@
 #include "shared/entity.h"
 #include "records/Rec_D_80082E80.h"
 #include "dungeon/actor.h"
+#include "dungeon/player/object.h"
 
 typedef struct S_800D9C7C_1 {
     u8 pad_00[0x8C];
@@ -15,8 +16,6 @@ typedef struct S_800D9C7C_1 {
     u8 pad_98[0x3];
     u8 unk_9B;
 } S_800D9C7C_1;   /* arg0 in settle_actor_directional_movement */
-
-extern void set_record_integer_tile_center(ObjectPosition *record, s32 tile_x, s32 tile_y);
 
 extern u8 actor_action_resume_address[];
 

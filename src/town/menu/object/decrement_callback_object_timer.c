@@ -2,6 +2,7 @@
 #include "shared/object_flags.h"
 #include "shared/entity.h"
 #include "shared/object_node.h"
+#include "town/menu/object.h"
 
 typedef struct S_func_800A9F90 S_func_800A9F90;
 

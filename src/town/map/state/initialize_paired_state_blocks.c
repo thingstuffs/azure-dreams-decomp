@@ -1,8 +1,7 @@
 #include "town/map/camera.h"
 #include "town/map.h"
 #include "town/map/state.h"
-
-extern s32 town_secondary_callback_state[];
+#include "town/data.h"
 
 /* Initialize both state blocks and finish setup. */
 void initialize_paired_state_blocks(void) {

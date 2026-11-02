@@ -1,6 +1,7 @@
 #include "common.h"
 #include "shared/town_state.h"
 #include "town/scene/animation.h"
+#include "town/data.h"
 
 
 
@@ -43,13 +44,10 @@ typedef struct State {
 
 extern TownRewardValues D_80526448;
 extern s32 score_object_images[];
-extern u8 score_bounce_update_address[];
 extern u8 score_bounce_motion_data[];
 extern u8 town_motion_state[];
-extern u8 score_sprite_handler_address[];
 extern s32 score_sprite_initial_value[3];
 extern s32 scene_value_total;
-extern s32 scene_object_flags;
 
 extern s32 func_80071494(void);
 extern void func_8003EA54(Actor *);

@@ -5,6 +5,8 @@
 #include "engine/node.h"
 #include "town/shop/item.h"
 #include "engine/graphics.h"
+#include "town/shop.h"
+#include "town/menu.h"
 
 /* Sub-record living at offset 0x20 of the allocated node (same node type
  * allocated by func_8003FC64, size class 0x124 per src/w_8003FC64.c /
@@ -24,8 +26,6 @@ typedef struct S_800B3D50_node {
     S_800B3D50_sub sub;      /* 0x20 */
 } S_800B3D50_node;
 
-extern void * copy_records_through_end(void *a0,void *a1);
-extern void *link_shop_nodes_in_configured_order(void *a0); /* Unprototyped: uses the value as a pointer where the definition has an integer (or the reverse) */
 extern void configure_shop_object_and_finalize(void *a0, s32 a1, s32 a2, s32 a3, s32 a4, s32 a5, s32 a6, s32 a7);
 
 /* Allocate and initialize a paged item-list node, returning null on failure. */
@@ -37,7 +37,7 @@ void *allocate_paged_shop_item_list(s32 parent, s32 selected_index, s32 item_cou
 
     if (node != 0) {
         sub = &node->sub;
-        if (copy_records_through_end(sub, 0x1F) != 0) {
+        if (load_menu_display_resource(sub, 0x1F) != 0) {
             node->field_0xC = (u8 *)node + 0xDC;
             sub->result = link_shop_nodes_in_configured_order(sub->input);
             configure_shop_object_and_finalize(sub, parent, selected_index, item_count, page_index, last_page, item_base, display_mode);

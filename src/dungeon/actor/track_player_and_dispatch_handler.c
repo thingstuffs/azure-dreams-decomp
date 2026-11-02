@@ -6,6 +6,7 @@
 #include "engine/script.h"
 #include "town/scene.h"
 #include "town/scene/motion.h"
+#include "dungeon/actor.h"
 
 
 typedef struct {

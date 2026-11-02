@@ -8,10 +8,11 @@
 #include "records/Rec_D_80082E80.h"
 #include "engine/graphics.h"
 #include "dungeon/effect.h"
+#include "dungeon/monster/kid.h"
+#include "dungeon/player/object.h"
 
 typedef struct Ent Ent;
 Ent *prepare_directional_attack();
-s16 try_claim_dungeon_action_slot(ActorRecord *actor);
 
 /* Initialize action state and directional animation when the entity status permits. */
 void initialize_status_gated_action(ActorRecord *action_state, ObjectPosition *context, SpriteFrameState *animation, ActorRecord *entity) {

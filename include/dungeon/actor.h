@@ -106,4 +106,15 @@ s32 feed_actor_restore_mp(ActorRecord *state, s32 mode, DungeonItemEntry *item);
 s32 is_linked_entity_flagged_100000(ActorRecord *entity);
 s32 trigger_actor_floor_trap(struct Actor *actor, ActorRecord *ctx);
 
+#include "shared/town_object.h"
+void advance_actor_status_turn(ActorRecord *actor, ObjectPosition *action_context, SpriteFrameState *sprite, u8 *state);
+void apply_setup_on_timeout_variant_3(TownObjectRecord *object);
+void begin_actor_floor_trap_action(void *unused, ActorRecord *object);
+void begin_actor_throw_from_attachment(Rec_func_800A9E70_arg0 *state, ObjectPosition *motion, SpriteFrameState *tile, ActorRecord *entity);
+s32 check_entity_flag_4000(ActorRecord *entity);
+void store_cached_value_at_pointer(void);
+void update_actor_floor_contact(ActorRecord *object_arg, void *motion_arg, SpriteFrameState *sprite);
+
+s32 update_actor_hop_and_shrink(void *animation, ObjectPosition *motion, SpriteFrameState *scale, void *render_arg);
+
 #endif

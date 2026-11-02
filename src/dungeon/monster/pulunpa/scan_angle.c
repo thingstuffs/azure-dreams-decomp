@@ -23,8 +23,8 @@ typedef struct S_80175E6C_6_pre {
 void select_sprite_entry(void *, u8, s32);
 #include "dungeon/player/object/action_state.h"
 #include "dungeon/item.h"
+#include "dungeon/monster/pulunpa.h"
 void update_actor_status_and_mp(ActorRecord *entity);
-void build_and_display_encoded_message(ActorRecord *);
 extern u8 D_80176348[];
 
 /*

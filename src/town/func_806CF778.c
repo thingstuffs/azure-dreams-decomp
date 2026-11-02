@@ -1,4 +1,5 @@
 #include "common.h"
+#include "town.h"
 
 extern s32 store_run_operation_result(s32, s32);
 /* Calls return with store_run_operation_result(grid_y,grid_x)! = - 1. */

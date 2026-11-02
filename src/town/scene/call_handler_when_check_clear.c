@@ -4,8 +4,7 @@
 #include "town/player.h"
 #include "town/player/script_flags.h"
 #include "town/scene.h"
-
-extern s16 scene_gate_script_flag;
+#include "town/data.h"
 
 /* Call clear_referenced_object_active_flag when the current check returns zero, then return one. */
 s32 call_handler_when_check_clear(void) {

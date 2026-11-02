@@ -60,4 +60,13 @@ void refresh_catalog_primary_detail(struct TownObject *obj);
 void reset_catalog_scroll_indicators(void *controller);
 s32 store_record_value_and_table_lookup(void);
 
+void accumulate_effect_step(void *updateState, s32 unused1, s32 unused2, void *accumulatorState);
+void draw_random_tinted_quad_pair(u8 *effect);
+void draw_segmented_menu_ring(s32 center_source, s32 radius_a, s32 radius_b, s16 segment_arg);
+void initialize_catalog_entry_packets(void);
+void initialize_catalog_glyph_cache(void);
+void layout_catalog_entry_grid(void);
+void reset_linked_value_records(void);
+void store_cached_value_at_pointer(void);
+
 #endif

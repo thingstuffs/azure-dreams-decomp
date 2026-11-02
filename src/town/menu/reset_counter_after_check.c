@@ -1,8 +1,8 @@
 #include "script_symbols.h"
 #include "common.h"
+#include "town/menu.h"
 
 #include "engine/object/test_resident_bitmap_bit_api.h"                         /* extern */
-void accumulate_effect_step(void *updateState, s32 unused1, s32 unused2, void *accumulatorState);
 
 typedef struct S_800A6EA4_0 {
     u8 pad_00[0x50];

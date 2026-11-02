@@ -5,6 +5,8 @@
 #include "town/player.h"
 #include "town/player/position.h"
 #include "shared/object_index_slots.h"
+#include "slus.h"
+#include "town/data.h"
 
 #include "town/player/initialize_record_with_handler_table_api.h"
 /* Set travel timing from distance and speed, or snap motion to the destination. */

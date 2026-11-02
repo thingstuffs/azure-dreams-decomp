@@ -5,9 +5,8 @@
 #include "shared/dungeon_status.h"
 #include "dungeon/actor/status.h"
 #include "dungeon/actor.h"
-
-
-extern s16 try_claim_dungeon_action_slot(ActorRecord *actor);
+#include "dungeon/monster/u_boat.h"
+#include "dungeon/player/object.h"
 
 /* Resets actor state and updates entity flags when global and entity checks allow it. */
 void complete_actor_action(ActorRecord *actor, ObjectPosition *unused_1, SpriteFrameState *unused_2, ActorRecord *entity) {

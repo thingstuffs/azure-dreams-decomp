@@ -15,14 +15,14 @@ struct ObjectNodeHeader;
 #include "m2c_compat.h"
 
 #include "slus/gp_shared_81510.h"
+#include "dungeon/actor/state.h"
+#include "dungeon/player/object.h"
 
 void select_record_entry_and_value(void *state, void *entries, short index);  /* extern */
 void clear_entry_flag_and_link_owner(struct ObjectNodeHeader *entry);                      /* extern */
 s32 find_active_rect_containing_point(s32 point_x, s32 point_y);                           /* extern */
-void set_record_integer_tile_center(ObjectPosition *record, s32 tile_x, s32 tile_y);              /* extern */
 
 void advance_actor_status_turn_second(s32 actor, s32 action_context, s32 sprite, u8 *state);
-s32 process_actor_state_chain(void *state_base, void *entry_data, struct Entry *entry);
 #include "shared/sprite_source.h"
 #include "dungeon/actor/position.h"
 extern SpriteSourceEntry D_800DEF08[];

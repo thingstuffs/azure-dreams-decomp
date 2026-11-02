@@ -19,7 +19,7 @@ struct TownObjectRecord; void init_periodic_effect_action(struct TownObjectRecor
 struct TownObjectRecord; void init_threshold_countdown_action(struct TownObjectRecord *, void *, void *);
 struct TownObjectRecord; struct ObjectPosition; void initialize_actor_action_state(struct TownObjectRecord *, struct ObjectPosition *, s32);
 void initialize_action_object(s32 * *, void *, void *);
-struct TownObjectRecord; void init_movement_action(struct TownObjectRecord *, void *, s32);
+struct TownObjectRecord;
 struct TownObjectRecord; void initialize_action_object_with_counter(struct TownObjectRecord *, s32, s32);
 void initialize_actor_movement_interaction_action(s32 * *, void *, void *);
 void play_periodic_sound(s32, s32);

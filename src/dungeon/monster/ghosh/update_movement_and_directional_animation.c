@@ -9,9 +9,10 @@
 #include "dungeon/actor/status.h"
 #include "dungeon/player/object.h"
 #include "dungeon/item.h"
+#include "dungeon/monster/ghosh.h"
+#include "sdk/libgte.h"
 
 extern void select_sprite_entry(void *, s32, s32);
-extern s32 rsin(s32);
 
 extern u8 ghosh_action_resume_address[];
 extern u8 ghosh_frame_set_3[];

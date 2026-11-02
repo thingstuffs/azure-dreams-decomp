@@ -2,6 +2,7 @@
 #include "common.h"
 #include "town/map.h"
 #include "town/menu.h"
+#include "town/data.h"
 
 typedef struct {
     u16 field0;
@@ -10,7 +11,6 @@ typedef struct {
     u8 field5;
 } Event6;
 
-extern u8 town_building_scene_index;
 extern Event6 D_800D1910[];
 extern u8 town_map_variants[];
 extern u8 town_map_selection_state[12];

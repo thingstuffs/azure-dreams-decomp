@@ -7,11 +7,11 @@ extern void *actor_update_node_cursor;
 #include "dungeon/monster/stealth.h"
 #include "dungeon/actor.h"
 #include "dungeon/effect/screen.h"
+#include "dungeon/player/object.h"
 
 extern u8 D_80173D58[];
 
 void select_sprite_entry(void *, u8, s32);
-void set_record_integer_tile_center(void *, u8, u8);
 void play_sound_if_enabled(s32);
 void spend_actor_mp(void *, s32);
 

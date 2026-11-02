@@ -9,6 +9,8 @@
 #include "engine/texture.h"
 #include "dungeon/system.h"
 #include "dungeon/effect/trap.h"
+#include "dungeon/actor.h"
+#include "engine/resource.h"
 struct EntityLinkNode;
 extern u8 resident_globals_page[];
 
@@ -57,7 +59,6 @@ typedef struct S_800CB9DC_9 {
     union { s32 s; s32 u; } unk_14A0;   /* accessed as both */
 } S_800CB9DC_9;   /* page14_again in advance_go_up_trap_sequence */
 
-extern void request_scene_dispatch_state(s16 requested_state);               /* extern */
 extern void advance_sprite_animation_and_textures(void *entity);                      /* extern */
 void snapshot_inventory_and_familiars(void *input_state);           /* extern */
 void unlink_entity_node(struct EntityLinkNode *node);                      /* extern */

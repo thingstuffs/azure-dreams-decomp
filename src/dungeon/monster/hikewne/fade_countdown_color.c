@@ -3,6 +3,7 @@
 #include "shared/object_flags.h"
 #include "m2c_compat.h"
 #include "records/Rec_D_80082E80.h"
+#include "dungeon/monster/hikewne.h"
 
 typedef struct S_8014C8E8_0 {
     u16 unk_00;

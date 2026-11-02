@@ -9,6 +9,7 @@
 #include "dungeon/actor/spell_resource_ids_g01008.h"
 #include "engine/graphics.h"
 #include "dungeon/system.h"
+#include "dungeon/monster/weadog.h"
 
 #define U8_AT(p, o)  (*(u8 *)((u8 *)(p) + (o)))
 #define S8_AT(p, o)  (*(s8 *)((u8 *)(p) + (o)))

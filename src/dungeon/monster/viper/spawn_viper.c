@@ -12,13 +12,13 @@
 #include "engine/node/allocation.h"
 #include "dungeon/actor/status.h"
 #include "engine/node.h"
+#include "dungeon/monster/golem.h"
 
 
 
 
 extern s32 generate_random_value(void);
 extern u8 D_80170A68[];
-void func_80170E94(ActorRecord *actor_in, ObjectPosition *actor_data_in, SpriteFrameState *sprite_in, ActorRecord *status_in);
 extern u8 viper_frame_set_2[];
 extern u8 viper_default_frames[];
 

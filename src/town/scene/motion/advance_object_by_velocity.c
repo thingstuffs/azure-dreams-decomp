@@ -1,4 +1,5 @@
 #include "common.h"
+#include "town/data.h"
 
 typedef struct {
     s32 position[3];
@@ -11,7 +12,6 @@ typedef struct {
 } Object;
 
 extern void func_8003EA54(Object *object);
-extern s32 scene_object_flags;
 
 /* Advance position by velocity, update the object, and propagate its status flags. */
 void advance_object_by_velocity(u16 *state, Movement *movement, Object *object) {

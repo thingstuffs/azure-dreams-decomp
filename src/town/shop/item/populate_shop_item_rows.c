@@ -44,7 +44,7 @@ void populate_shop_item_rows(ShopWindow *ctx) {
         item_value = lookup_item_category_mapped_value(item->unk_01, item->unk_00);
         row_widgets = row_offset + (s32)ctx->widgets;
         row_widgets->rows[0][0]->value.word = item_value;
-        item_value = func_8004DC14(select_item_data(ctx->item_address + item_offset, &item_info), item_info);
+        item_value = create_label_glyph_entries(select_item_data(ctx->item_address + item_offset, &item_info), item_info);
         row_widgets = row_offset + (s32)ctx->widgets;
         row_widgets->rows[2][0]->value.word = item_value;
         if (check_shop_entry_type_and_flags((void *)(ctx->item_address + item_offset)) != 0) {
@@ -53,10 +53,10 @@ void populate_shop_item_rows(ShopWindow *ctx) {
             } else {
                 item_value = get_item_sell_money((void *)(ctx->item_address + item_offset));
             }
-            func_8004E5A0(item_value, 8, (char *)(&price_text));
+            format_int_space_padded(item_value, 8, (char *)(&price_text));
             remap_flagged_string_bytes((u8 *)(&price_text));
             strcat(&price_text, &D_800D1600);
-            item_value = func_8004E928(&price_text, 0);
+            item_value = alloc_parsed_string(&price_text, 0);
             row_widgets = row_offset + (s32)ctx->widgets;
             row_widgets->rows[3][0]->value.word = item_value;
         }

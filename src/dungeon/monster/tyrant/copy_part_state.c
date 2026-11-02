@@ -10,11 +10,11 @@
 #include "dungeon/actor/animation.h"
 #include "engine/node.h"
 #include "engine/node/allocation.h"
+#include "dungeon/actor.h"
 
 typedef void (*Callback)(void);
 
 extern s32 generate_random_value(void);
-extern void try_move_actor_to_valid_position(void *, void *, void *, void *);
 extern void D_8016AAA4(void);
 extern void D_8016DFB8(void);
 extern void D_8016E000(void);

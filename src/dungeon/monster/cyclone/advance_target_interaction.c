@@ -17,7 +17,6 @@ extern void select_sprite_entry(void *, s16, s16);
 
 
 extern void spawn_312_effect_object(void *, void *, void *);
-extern s32 request_random_slot_effect(ActorRecord *);
 extern s32 check_object_code_19(void *);
 extern void format_entity_message(s32, void *);
 extern void func_80176330(s32, void *);

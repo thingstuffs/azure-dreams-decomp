@@ -1,6 +1,7 @@
 #include "common.h"
 #include "town/scene.h"
 #include "town/scene/object.h"
+#include "town/data.h"
 
 
 typedef struct Func80813E14Stack {
@@ -49,8 +50,6 @@ typedef struct Func80813E14Input {
     u16 flags;
 } Func80813E14Input;
 
-extern s32 scene_object_flags;
-extern u8 shop_panel_sprite_entries[];
 extern u8 D_8028E214[];
 extern u8 town_display_timing_table[];
 

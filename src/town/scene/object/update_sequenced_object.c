@@ -7,6 +7,7 @@
 #include "shared/object_links.h"
 #include "sdk/libc.h"
 #include "town/scene/object.h"
+#include "town/data.h"
 
    /* the 0x2 bytes before in0 in update_sequenced_object, addressed as in0[-1] */
 
@@ -53,7 +54,6 @@ void func_80245C10(void *);             /* extern */
 s16 func_8025E01C(void *position);                          /* extern */
 extern s16 D_800133A0;
 extern u8 score_sprite_draw_callback_address[3];
-extern s32 scene_object_flags;
 extern s32 D_8012F130[5];
 extern s32 collection_round_work[3];
 extern s32 town_motion_state[3];

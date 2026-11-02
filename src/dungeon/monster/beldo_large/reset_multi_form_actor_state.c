@@ -5,6 +5,7 @@ struct ObjectNodeHeader;
 #include "shared/record_ptrs.h"
 #include "dungeon/item.h"
 #include "engine/script.h"
+#include "dungeon/monster/beldo_large.h"
 
 extern void clear_entry_flag_and_link_owner(struct ObjectNodeHeader *entry);
 extern u8 restore_actor_script[];

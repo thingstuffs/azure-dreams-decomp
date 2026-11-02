@@ -1,6 +1,5 @@
 #include "common.h"
-
-extern s32 scene_response_enabled;
+#include "town/data.h"
 
 /* Sets D_8001C360 to one. */
 void set_one(void) {

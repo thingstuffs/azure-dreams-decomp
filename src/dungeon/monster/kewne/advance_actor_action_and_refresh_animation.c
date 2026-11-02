@@ -9,12 +9,13 @@
 #include "shared/dungeon_status.h"
 #include "shared/entity.h"
 #include "records/Rec_D_80082E80.h"
+#include "dungeon.h"
+#include "dungeon/level.h"
 
 
 extern s32 get_entity_effect_value(ActorRecord *entry, s32 effect_id);
 extern void clear_slots_of_type(ActorRecord *owner, s8 match_type);
 extern void select_sprite_entry(void *, u8, s32);
-extern s16 check_entity_relation(ActorRecord *entry, ActorRecord *anchor);
 extern s32 get_tile_chebyshev_distance(void *, void *);
 #include "dungeon/player/object/action_state.h"
 #include "dungeon/actor.h"
@@ -22,8 +23,6 @@ extern s32 get_tile_chebyshev_distance(void *, void *);
 
 extern s32 generate_random_value(void);
 extern void update_actor_status_and_mp(ActorRecord *entity);
-extern s32 begin_ready_actor_directional_action(ActorRecord *body, ObjectPosition *position, SpriteFrameState *sprite, u8 *direction_frames);
-extern void begin_actor_move_to_target_facing(ActorRecord *body, ObjectPosition *position, SpriteFrameState *sprite, ActorRecord *actor);
 extern void update_actor_state_after_map_check(void *, ObjectPosition *, void *, ActorRecord *);
 
 extern u8 kewne_action_resume_address[];

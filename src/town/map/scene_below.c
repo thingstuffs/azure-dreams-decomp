@@ -5,13 +5,11 @@
 #include "engine/scene.h"
 #include "sdk/libgpu.h"
 #include "town/map.h"
+#include "town/data.h"
 
 
 extern u8 town_map_variants[];
 extern u8 town_map_variant[];
-extern u8 building_texture_frame_zero[];
-extern u8 building_texture_backup[];
-extern u8 building_palette_backup[];
 extern u8 building_palette_frame_zero[];
 extern u8 D_8012F004[];
 extern u8 D_8014F004[];

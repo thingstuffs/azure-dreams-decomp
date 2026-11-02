@@ -14,7 +14,6 @@
 #include "dungeon/effect/screen.h"
 
 void spend_actor_mp(ActorRecord *entity, s32 base_reduction);
-void update_entity_actions_facing_and_animation(ActorRecord *entity, ObjectPosition *context, SpriteFrameState *sprite, ActorRecord *state);
 extern u8 nyuel_frame_set_9;
 extern u8 nyuel_frame_set_10;
 extern u8 nyuel_frame_set_4;

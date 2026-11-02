@@ -1,6 +1,7 @@
 #include "common.h"
 #include "shared/object_flags.h"
 #include "shared/dungeon_status.h"
+#include "sdk/libgte.h"
 
 typedef struct {
     u8 pad_00[0x96];
@@ -26,8 +27,6 @@ typedef struct {
     u16 value_1e;
 } Motion;
 
-
-extern s32 rsin(s32 angle);
 extern s32 unlink_entity_node(void *node);
 #include "dungeon/player/object/action_state.h"
 extern void * detach_record_and_update_slot_state(void *record);

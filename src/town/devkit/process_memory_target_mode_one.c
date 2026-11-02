@@ -1,5 +1,6 @@
 #include "common.h"
 void card_dev_init(void);                            /* extern */
+#include "town/devkit.h"
 typedef struct { u8 pad[0x10]; void *callback; } Effect;
 Effect * allocate_or_reuse_effect_and_install_callback(void *first, void *second);                /* extern */
 extern s8 card_dev_effect_mode;

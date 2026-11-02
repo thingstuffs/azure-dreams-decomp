@@ -8,6 +8,7 @@
 #include "records/Rec_D_80082E80.h"
 #include "dungeon/player/object.h"
 #include "dungeon/actor.h"
+#include "dungeon/monster/kid.h"
 
 extern void select_sprite_entry(void *, u8, s32);
 

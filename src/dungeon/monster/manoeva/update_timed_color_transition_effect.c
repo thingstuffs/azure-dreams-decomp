@@ -6,6 +6,7 @@
 #include "slus.h"
 #include "engine/node.h"
 #include "dungeon/effect/screen.h"
+#include "dungeon/monster/manoeva.h"
 
 #define U8_AT(p, off)  (*(u8 *)((u8 *)(p) + (off)))
 #define S16_AT(p, off) (*(s16 *)((u8 *)(p) + (off)))

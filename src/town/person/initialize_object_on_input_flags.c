@@ -1,6 +1,7 @@
 #include "common.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/object_index_slots.h"
+#include "town/person/object.h"
 
 typedef struct {
     s8 pad0[0x54];
@@ -9,8 +10,6 @@ typedef struct {
     s32 unk60;
 } Obj;
 
-
-extern void initialize_object_entries();
 extern u8 D_800C3C28[];
 extern s32 D_800D5CD0[];
 

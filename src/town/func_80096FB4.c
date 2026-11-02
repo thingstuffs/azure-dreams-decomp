@@ -5,6 +5,7 @@
 #include "town/player/call_the_handler_selects_nonzero_entry_api.h"
 #include "town/player/store_the_valid_shared_angle_in_offset_hex_10_api.h"
 #include "slus.h"
+#include "town.h"
 extern s32 town_threshold_update_address;
 
 void init_sound_threshold_action(s32 **record, s32 unused, s32 setup_value) {

@@ -1,4 +1,5 @@
 #include "common.h"
+#include "town.h"
 
 /* Clears the table byte selected by the record's five-bit index. */
 void clear_indexed_table_flag(void *record) {

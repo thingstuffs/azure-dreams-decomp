@@ -3,6 +3,10 @@
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 #include "shared/entity.h"
+#include "dungeon/item.h"
+#include "dungeon/item/message.h"
+#include "dungeon/monster/garuda.h"
+#include "dungeon/system.h"
 
 typedef struct S_80047784 S_80047784;
 
@@ -17,12 +21,7 @@ typedef struct S_801722E0_2 {
 } S_801722E0_2;
 
 extern void select_sprite_entry(void *object, s16 table_index, s16 entry_index);
-extern void *get_unused_text_buffer(void);
-extern u8 *expand_text_control_codes();
-extern void * clear_byte_and_advance(s8 *byte_ptr);
-extern u8 *append_entity_display_text();
 #include "dungeon/player/object/action_state.h"
-extern s32 display_text_with_fullwidth_adjustment();
 
 extern u8 D_80170838[16];
 extern u8 garuda_walk_text[16];

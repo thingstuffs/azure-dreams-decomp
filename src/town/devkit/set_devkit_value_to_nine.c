@@ -1,4 +1,5 @@
 #include "common.h"
+#include "town/devkit.h"
 
 
 /* Set the value at 0x807003B4 to 9. */

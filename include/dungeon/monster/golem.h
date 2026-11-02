@@ -86,4 +86,8 @@ void * create_offset_actor_object(ActorRecord *unused, ObjectPosition *position,
 #include "records/Rec_func_80172D08_arg1.h"
 void *create_primitive_state_object(ActorRecord *unused, ObjectPosition *position, Rec_D_80082E80 *source);
 
+void advance_timed_directional_reset(ActorRecord *body, ObjectPosition *position, SpriteFrameState *sprite, ActorRecord *actor);
+void func_80170E94(struct GolemActionWork *actor, ObjectPosition *context, SpriteFrameState *sprite, ActorRecord *stats);
+void update_eligible_actor_action(ActorRecord *action_state, ObjectPosition *action_context, SpriteFrameState *sprite, ActorRecord *actor);
+
 #endif

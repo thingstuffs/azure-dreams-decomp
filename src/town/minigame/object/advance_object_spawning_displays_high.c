@@ -11,6 +11,7 @@
 #include "engine/runtime.h"
 #include "town/map.h"
 #include "town/minigame/object.h"
+#include "town/data.h"
 
 typedef struct State8081A3D8 {
     s16 state;
@@ -22,11 +23,9 @@ typedef struct State8081A3D8 {
     u16 flags;
 } State8081A3D8;
 
-extern u16 high_display_best_score[];
 extern u8 D_800200B4[];
 extern u8 D_800200C0[];
 extern u8 minigame_display_callback_a[];
-extern u8 minigame_display_callback_b[];
 extern u8 D_80024B48[];
 extern s32 text_sprite_builder_address[4];
 

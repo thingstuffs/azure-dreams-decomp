@@ -2,9 +2,9 @@
 #include "m2c_compat.h"
 #include "shared/town_object.h"
 #include "town/person/object.h"
+#include "town/data.h"
 
 #include "town/person/object/initialize_object_entries_api.h"          /* extern */
-extern s8 mother_event_reset_byte;
 extern void forward_mother_event_update(void *object, void *param_1, void *param_2);
 extern s32 D_800D5FA0[];
 

@@ -2,6 +2,7 @@
 #include "common.h"
 #include "m2c_compat.h"
 #include "shared/entity.h"
+#include "dungeon/actor.h"
 
 
 /* Sets the object's state to 0x15, clears its auxiliary fields, and increments the global counter. */

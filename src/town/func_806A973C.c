@@ -1,4 +1,5 @@
 #include "common.h"
+#include "town.h"
 
 extern s32 func_80016760(s32, s32);
 /* Calls return with func_80016760(grid_y,grid_x)! = - 1. */

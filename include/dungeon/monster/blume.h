@@ -56,4 +56,9 @@ struct T_80170874_S_80DB9000_2;
 struct T_80170874_S_80DB9000_3;
 void project_sprite_entries_to_quads(struct T_80170874_S_80DB9000_1 *sprite_size, struct T_80170874_S_80DB9000_2 *position, struct T_80170874_S_80DB9000_3 *sprite, s16 depth_bias);
 
+void advance_item_visual_action(ActorRecord *controller, ObjectPosition *motion, SpriteFrameState *actor, void *object);
+void begin_actor_directional_target_action(ActorRecord *action_state, ObjectPosition *action_context, SpriteFrameState *sprite, ActorRecord *actor);
+void *spawn_dual_part_overlay_effect(s16 spawn_flags, s16 attr_a, s16 attr_b, s32 attr_c);
+void update_actor_dungeon_behavior_and_animation(ActorRecord *actor_in, ObjectPosition *actor_data_in, SpriteFrameState *sprite_in, ActorRecord *status_in);
+
 #endif

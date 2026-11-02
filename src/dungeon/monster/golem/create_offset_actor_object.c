@@ -8,6 +8,7 @@
 #include "engine/node.h"
 #include "engine/scene.h"
 #include "engine/graphics.h"
+#include "dungeon/monster/golem.h"
 
    /* dst in create_offset_actor_object */
 

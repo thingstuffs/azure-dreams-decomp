@@ -2,10 +2,10 @@
 #include "shared/record_ptrs.h"
 #include "town/scene.h"
 #include "shared/town_root.h"
+#include "town/data.h"
 
 typedef s32 (*Callback)(void *);
 
-extern s32 scene_charge;
 extern u8 selected_scene_row_index;
 
 /* Call the handler with the current kind and store its result in the current slot and global. */

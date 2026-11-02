@@ -1,4 +1,5 @@
 #include "common.h"
+#include "town/devkit.h"
 
 
 extern s32 func_80700D20();

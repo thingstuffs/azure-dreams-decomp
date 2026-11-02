@@ -4,6 +4,7 @@
 #include "town/person/position.h"
 #include "sdk/libc.h"
 #include "town/map.h"
+#include "town/data.h"
 typedef union
 {
     s32 coord;
@@ -23,7 +24,6 @@ extern s32 D_800D2134[][2];
 extern s32 D_800D214C[][2];
 extern s32 D_800D215C[];
 extern s32 D_800D216C[][2];
-extern s32 town_item_layout_coordinates[][3];
 extern s32 D_800D21B4[];
 extern s8 D_800D2238[];
 extern u8 D_800D225C[];

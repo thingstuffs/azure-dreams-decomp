@@ -1,5 +1,6 @@
 #include "common.h"
 #include "town/scene/data_access.h"
+#include "town.h"
 
 extern u8 D_80019678;
 

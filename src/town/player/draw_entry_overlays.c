@@ -12,6 +12,7 @@
 #include "town/map.h"
 #include "town/map/position.h"
 #include "town/player.h"
+#include "town/data.h"
 
    /* coord in draw_entry_overlays */
 
@@ -100,8 +101,6 @@ extern s32 overlay_height_in_range[3];
 extern PlayerOverlayTextureRect player_overlay_texture_rect;
 extern u8 D_800D04D8[];
 extern u8 D_800D04E0[];
-extern u8 town_overlay_rotation_offset[];
-extern s16 terrain_height_limits[];
 extern u8 upper_draw_context[];
 
 #define CUR_CTX (*page_state)

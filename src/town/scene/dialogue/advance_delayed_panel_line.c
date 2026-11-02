@@ -1,6 +1,7 @@
 #include "common.h"
 #include "m2c_compat.h"
 #include "town/scene/dialogue.h"
+#include "town/data.h"
 
 typedef struct S_8080BCD4_0 {
     union { s16 s; u16 u; } unk_00;   /* accessed as both */
@@ -14,9 +15,6 @@ typedef struct S_8080BCD4_1 {
     u8 pad_00[0x2A];
     u16 unk_2A;
 } S_8080BCD4_1;   /* context in advance_delayed_panel_line */
-
-
-extern s32 scene_object_flags;
 
 /* Clears panel flag 2 after a delay, then marks the panel for removal when the linked flag is set. */
 void advance_delayed_panel_line(void *ptr_arg) {

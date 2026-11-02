@@ -7,6 +7,7 @@
 #include "shared/actor_action.h"
 #include "dungeon/player/object.h"
 #include "dungeon/actor.h"
+#include "dungeon/monster/weadog.h"
 
    /* arg0 in advance_actor_timed_transition */
 

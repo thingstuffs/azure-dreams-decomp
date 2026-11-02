@@ -1,5 +1,6 @@
 #include "common.h"
 #include "shared/game_work.h"
+#include "town.h"
 
 typedef struct S_8008E94C_Sub {
     s16 *cells;

@@ -23,10 +23,6 @@ extern u8 D_80170A7C[];
 extern u8 killer_action_resume_address[];
 #include "dungeon/monster/killer.h"
 extern u8 killer_frame_set_2[];
-extern void *spawn_killer(s16, s32, s32, s32);
-
-void *spawn_killer(s16 flags, s32 kind_id, s32 variant, s32 spawn_value)
-;
 
 /* Spawn this overlay's 0x112 object: fill its two sub-parts from kind_id/variant/spawn_value, apply the 0x6000 or 0x2000 flag pair the low two bits of flags select (or the random 0x20-mask variant), and run the two setup calls. */
 /* Creates Killer with default frames at D_80174038, applies spawn flags, and attempts valid tile

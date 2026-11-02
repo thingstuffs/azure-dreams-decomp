@@ -16,7 +16,7 @@ void tick_counter_and_enter_state_three(TownObjectRecord *object, void *context_
         object->timer.as_u16 = remaining_count;
         if ((remaining_count << 0x10) <= 0) {
             object->unk_90.as_s16 = 3;
-            func_800CDF00(object, context_a, context_b);
+            initialize_actor_reaction_and_fixed_state(object, context_a, context_b);
         }
     }
 }

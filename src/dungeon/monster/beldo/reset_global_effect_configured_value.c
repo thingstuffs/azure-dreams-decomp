@@ -1,4 +1,5 @@
 #include "common.h"
+#include "dungeon/monster/beldo.h"
 
 typedef struct {
     u32 value;

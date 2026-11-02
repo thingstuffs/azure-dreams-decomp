@@ -1,12 +1,12 @@
 #include "common.h"
 #include "m2c_compat.h"
+#include "town/devkit.h"
+#include "town/devkit/state.h"
 
 extern s32 devkit_globals_page[];
 extern s32 D_807014C8[];
 extern s32 devkit_selected_shop_row[];
 extern s32 devkit_shop_selection[];
-
-extern void set_entry_bit_flag(s32 index, s32 entry_index);
 
 /* Returns the current entry value or fallback address after calling shop_set_entry_step_flag. */
 s32 read_flag_row_fallback(void) {

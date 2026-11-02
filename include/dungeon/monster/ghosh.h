@@ -125,4 +125,10 @@ void advance_actor_path(ActorRecord *motion, ObjectPosition *context, SpriteFram
 void clear_actor_flag_and_advance_action(ActorRecord *action_state, ObjectPosition *action_context, SpriteFrameState *effect_context, ActorRecord *actor);
 void update_boss_timed_animation(void *actor, ObjectPosition *transform, SpriteFrameState *animation, void *motion);
 
+void allocate_and_initialize_object(void);
+void *allocate_boss_actor(s16 mode, s16 config_24, s16 config_25, s16 config_0a);
+void create_boss_offset_effect(void);
+void create_linked_facing_sprite(u16 x, u16 y, s32 z);
+void update_cascading_trail_emitter(void *record_data);
+
 #endif

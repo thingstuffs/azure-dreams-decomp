@@ -17,7 +17,6 @@
 
 
 extern s32 generate_random_value(void);
-void create_owner_linked_directional_object(ActorRecord *owner_data, ObjectPosition *source_position, SpriteFrameState *source_sprite);
 
 extern u8 uboat_default_frames[];
 extern u8 uboat_action_frames[];

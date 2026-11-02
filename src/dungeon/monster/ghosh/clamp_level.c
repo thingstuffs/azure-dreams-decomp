@@ -14,12 +14,12 @@
 #include "dungeon/player/object.h"
 #include "engine/texture.h"
 #include "shared/object_node.h"
+#include "dungeon/actor.h"
 
 extern u8 resident_globals_page[];
 
 void advance_sprite_animation_and_textures(void *);                      /* extern */
 s32 refresh_actor_facing_and_lifecycle(void *, void *, void *, void *);  /* extern */
-void try_move_actor_to_valid_position(void *, void *, void *, void *); /* extern */
 s16 sample_terrain_surface_height(u16, u16, s16);                   /* extern */
 void clear_actor_action_markers(u8 *state);                         /* extern */
 extern u32 level_experience_table[64];

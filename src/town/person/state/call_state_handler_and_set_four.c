@@ -1,9 +1,9 @@
 #include "common.h"
 #include "shared/town_object.h"
 #include "town/person/state.h"
+#include "town/data.h"
 
 /* extern */
-extern s8 person_slot_reset_byte;
 
 void func_800CEB00(TownObjectRecord *, s32, s32);
 /* Call func_800CEB00, clear D_80082688, and set the object state to 4. */

@@ -11,6 +11,8 @@
 #include "shared/object_links.h"
 #include "shared/actor_status.h"
 #include "dungeon/level.h"
+#include "dungeon/item/state.h"
+#include "dungeon/monster/ghosh.h"
 
 typedef struct S_8016FCE4_0 {
     u8 pad_00[0x14];
@@ -46,7 +48,6 @@ void *find_adjacent_actor(void *entity, u16 x, u16 y);
 s32 probe_directional_neighbor(void *, s32, s32, s32); /* Unprototyped: uses the value as a pointer where the definition has an integer (or the reverse) */
 s16 get_rounded_facing_and_rounding_flag(s32, s32, s32, s32, void *); /* Unprototyped: retail call narrows its arguments to this declaration; no shared prototype keeps it */
 s32 select_actor_route_target(u8 *actor_held, s32 kind, u8 *work_p, u16 *out);
-void update_actor_proximity_flag(void *source, void *state, s32 lower_limit, s32 upper_limit, s8 *result);
 s32 generate_random_value(void);
 void update_actor_status_and_mp(ActorRecord *entity);
 extern s16 actor_turn_angle_offsets[];

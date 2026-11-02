@@ -1,4 +1,5 @@
 #include "common.h"
+#include "dungeon/monster/beldo.h"
 
 extern void unlink_entity_node(s32 node);
 extern s32 beldo_effect_stream;

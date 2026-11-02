@@ -6,6 +6,7 @@
 #include "shared/object_links.h"
 #include "town/paired_indicators.h"
 #include "town/scene/object.h"
+#include "town/data.h"
 
 /* Work passed with the node's motion and sprite parts. The callback integrates
  * and bounces the position, then awards the value selected by kind. */
@@ -30,7 +31,6 @@ extern void func_8023FB18();
 extern s32 func_80240810();
 
 extern s32 scene_value_total;
-extern s32 scene_object_flags;
 extern u8 town_motion_state[16];
 extern u8 score_bounce_motion_data[16];
 extern Copy12 D_80526760;

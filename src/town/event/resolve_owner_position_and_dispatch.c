@@ -8,6 +8,11 @@
 #include "shared/position_views.h"
 #include "town/scene.h"
 #include "town/scene/motion.h"
+#include "town.h"
+#include "town/event.h"
+#include "town/event/object.h"
+#include "town/map.h"
+#include "town/data.h"
 
 
 typedef struct {
@@ -47,7 +52,6 @@ extern s32 D_80092698;
 extern s32 tracked_actor_callback_address;
 extern s32 town_actor_interaction_address;
 extern s32 town_input_object_address;
-extern s32 town_threshold_interaction_address;
 extern s32 town_radial_motion_address;
 extern s32 town_busy_countdown_address;
 extern void town_interaction_action_address(void *self_arg, SignedHeightView *target_arg, s32 context_arg);
@@ -57,10 +61,7 @@ extern s32 scene_deferred_dispatch_address;
 extern s32 scene_fallback_request_address;
 extern s32 town_input_motion_address;
 
-extern void call_the_same_context_both_processing_routines(void *, void *);
-extern s32 check_object_type_and_data_tag(void *);
 extern void unlink_and_remove_scene_object(void *, void *, void *, s32); /* Unprototyped: retail call passes more arguments than the callee reads */
-extern void retry_sound_sequence_when_ready(void);
 
 /* Resolve the owner position and dispatch its handler for the current town state. */
 void resolve_owner_position_and_dispatch(void *object, S_8009B9BC_1 *owner, EntityRec *resolved_pos, s32 dispatch_param)

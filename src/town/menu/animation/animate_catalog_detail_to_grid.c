@@ -22,7 +22,6 @@ typedef struct TownInitialPosition {
     u16 y;
 } TownInitialPosition;
 
-extern void layout_catalog_entry_grid(void);
 extern TownInitialPosition catalog_grid_layout[5];
 extern void *catalog_display_node_slots[];
 

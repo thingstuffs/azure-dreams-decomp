@@ -1,4 +1,5 @@
 #include "common.h"
+#include "town.h"
 
 /* Set the two entries' RGB values to bright or dim gray according to the object's flag. */
 void set_paired_entry_brightness(void *object) {

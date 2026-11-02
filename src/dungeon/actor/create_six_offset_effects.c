@@ -10,6 +10,7 @@
 #include "shared/dungeon_moving_views.h"
 #include "engine/node/allocation.h"
 #include "engine/node.h"
+#include "dungeon/actor.h"
 
 #ifndef NULL
 #define NULL 0

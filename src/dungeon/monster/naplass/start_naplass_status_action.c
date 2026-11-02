@@ -14,6 +14,7 @@
 #include "dungeon/player/object/action_state.h"
 #include "dungeon/actor/status.h"
 #include "dungeon/actor.h"
+#include "dungeon/monster/naplass.h"
 extern u8 naplass_frame_set_4[8];
 
 

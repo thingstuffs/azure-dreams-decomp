@@ -1,5 +1,6 @@
 #include "common.h"
 #include "shared/object_index_slots.h"
+#include "town/person/position.h"
 
 typedef struct S_800C4AEC_0 {
     u8 pad_00[0x60];

@@ -1,8 +1,8 @@
 #include "common.h"
 #include "town/shop/object.h"
+#include "town/data.h"
 
 struct ObjectNodeHeader; void link_typed_list_node(struct ObjectNodeHeader *, struct ObjectNodeHeader *);
-extern u8 shop_display_presets[];
 extern u8 D_800D1630[];
 
 /* Ease two objects toward preset coordinates and shades, then pass them in coordinate order. */

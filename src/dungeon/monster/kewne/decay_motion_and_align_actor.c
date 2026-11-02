@@ -4,6 +4,7 @@
 #include "dungeon/player/object.h"
 #include "shared/sprite_frame_state.h"
 #include "dungeon/actor.h"
+#include "dungeon/monster/kewne.h"
 
 #define FIELD_U8(p, o)  (*(u8 *)((u8 *)(p) + (o)))
 #define FIELD_S16(p, o) (*(s16 *)((u8 *)(p) + (o)))

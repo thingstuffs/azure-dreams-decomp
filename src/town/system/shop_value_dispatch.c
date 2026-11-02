@@ -3,6 +3,7 @@
 #include "common.h"
 #include "m2c_compat.h"
 #include "town/shop/state/set_lshop_special_flag_g00699.h"
+#include "town/system.h"
 
 
              /* extern */

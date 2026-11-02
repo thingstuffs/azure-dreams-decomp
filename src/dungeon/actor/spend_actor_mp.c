@@ -4,6 +4,7 @@
 #include "shared/monster_ids.h"
 #include "shared/dungeon_status.h"
 #include "dungeon/player.h"
+#include "dungeon/actor.h"
 
 
 

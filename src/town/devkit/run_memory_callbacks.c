@@ -1,4 +1,5 @@
 #include "common.h"
+#include "town/devkit.h"
 
 s32 func_804087B8(void);
 s32 func_804087C8(void);

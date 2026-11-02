@@ -13,6 +13,8 @@ struct ObjectPosition;
 #include "dungeon/item.h"
 #include "dungeon/actor.h"
 #include "dungeon/effect.h"
+#include "dungeon/monster/u_boat.h"
+#include "dungeon/player/object.h"
 
 typedef struct S_801717D0_0 {
     u8 pad_00[0x14];
@@ -50,7 +52,6 @@ typedef struct S_801717D0_5 {
 } S_801717D0_5;   /* entry in prepare_actor_directional_action */
 
 extern void select_sprite_entry(void *, u8, s32);
-extern s32 try_claim_dungeon_action_slot(void *);
 extern s32 generate_random_value(void);
 
 /* Prepares an entity action, updates its directional animation, and advances the counter. */

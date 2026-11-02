@@ -1,4 +1,5 @@
 #include "town/scene.h"
+#include "town/devkit.h"
 
 typedef struct {
     u8 pad[0x34];

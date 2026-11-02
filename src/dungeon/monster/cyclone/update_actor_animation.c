@@ -7,25 +7,19 @@
 #include "shared/record_ptrs.h"
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
+#include "dungeon.h"
+#include "dungeon/level.h"
+#include "dungeon/player/object.h"
 
 
 
 extern void select_sprite_entry(void *, u8, s32);
-extern s16 check_entity_relation(ActorRecord *entry, ActorRecord *anchor);
 extern s8 find_active_rect_containing_point(u8, u8);
-extern s32 can_entity_gain_level(void *);
 extern s32 generate_random_value(void);
 extern void update_actor_status_and_mp(ActorRecord *entity);
-extern s32 begin_ready_actor_directional_action(ActorRecord *body, ObjectPosition *position, SpriteFrameState *sprite, u8 *direction_frames);
-extern void begin_actor_move_to_target_facing(ActorRecord *body, ObjectPosition *position, SpriteFrameState *sprite, ActorRecord *actor);
 
-extern void advance_path_motion(ActorRecord *, ObjectPosition *, SpriteFrameState *, ActorRecord *);
 extern void func_801718B4(void *, void *, void *, void *);
 extern s32 func_80171FFC(ActorRecord *action_state, ObjectPosition *action_ctx, SpriteFrameState *sprite, ActorRecord *actor);
-void finish_actor_tile_move_and_check_trap(ActorRecord *action_state, ObjectPosition *action_ctx, SpriteFrameState *sprite, ActorRecord *actor);
-s32 search_ahead_and_start_action(ActorRecord *action_state, ObjectPosition *action_context, SpriteFrameState *sprite, ActorRecord *actor);
-void update_action_state_direction_specific(ActorRecord *action_state, ObjectPosition *action_param, SpriteFrameState *sprite, ActorRecord *actor);
-void clear_actor_action_flag_and_animate(ActorRecord *action_state, ObjectPosition *action_context, SpriteFrameState *animation, ActorRecord *actor);
 
 extern s32 func_80172A5C(void *, void *, void *, s32);
 extern void func_80174520(void *, void *, void *, void *);

@@ -5,6 +5,7 @@
 #include "shared/entity.h"
 #include "shared/dungeon_moving_views.h"
 #include "engine/node/allocation.h"
+#include "dungeon/actor/state.h"
 struct Entry;
 
 s32 register_node(); /* Unprototyped: two, three or four arguments; retail reads only the node and draw key. */           /* extern */

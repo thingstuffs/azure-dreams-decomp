@@ -16,7 +16,7 @@ extern s32 D_800D64DC;
  * and angle 0x400.
  */
 void initialize_mother_event_countdown_variant_4cf44(TownObjectRecord *object, s32 unused, SpriteFrameState *init_data) {
-    func_800C2E84((object), init_data, &D_800D64DC);
+    initialize_object_entries((object), init_data, &D_800D64DC);
     D_800826B8 = 0;
     object->handler = &D_800CA0D4;
     object->timer.as_s16 = 0xA;

@@ -9,6 +9,7 @@
 #include "sdk/libc.h"
 #include "dungeon/item.h"
 #include "dungeon/level.h"
+#include "dungeon/player/object.h"
 
 extern s32 play_sound_if_enabled(s32 query_value);
 extern s32 display_text_with_fullwidth_adjustment(s8 *text);

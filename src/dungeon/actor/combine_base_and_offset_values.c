@@ -2,6 +2,7 @@
 #include "shared/entity.h"
 #include "common.h"
 #include "m2c_compat.h"
+#include "dungeon/actor.h"
 
 typedef struct S_800B06C0_0 {
     u8 pad_00[0xB8];

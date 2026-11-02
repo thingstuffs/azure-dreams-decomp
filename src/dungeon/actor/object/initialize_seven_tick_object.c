@@ -2,6 +2,7 @@
 #include "shared/object_index_slots.h"
 #include "m2c_compat.h"
 #include "shared/town_object.h"
+#include "dungeon/actor/object.h"
 
 /* cfail-repair: tf7-phase1-cache-v3 */
 extern s32 initialize_object_entries(void *,s8 *, s32 *);          /* extern */

@@ -1,5 +1,6 @@
 #include "common.h"
 #include "m2c_compat.h"
+#include "town.h"
 
 extern s32 D_80017674;
 /* Stores 1 in D_80017674. */

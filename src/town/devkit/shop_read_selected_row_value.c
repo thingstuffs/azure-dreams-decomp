@@ -1,10 +1,9 @@
 #include "common.h"
+#include "town/devkit.h"
+#include "town/devkit/state.h"
 
 extern s32 devkit_globals_page[];
 extern s32 devkit_selected_shop_row[];
-
-extern void dev_report_kind_mode_sno(s32 kind);
-extern void set_entry_bit_flag(s32 index, s32 entry_index);
 
 /* Read the selected row value and process entry 3 before returning it. */
 s32 read_flag_row_report(void) {

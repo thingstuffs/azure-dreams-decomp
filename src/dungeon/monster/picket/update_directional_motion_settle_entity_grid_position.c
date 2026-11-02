@@ -8,6 +8,7 @@
 #include "shared/actor_action.h"
 #include "dungeon/actor.h"
 #include "dungeon/player/object.h"
+#include "dungeon/monster/picket.h"
 
    /* arg0 in update_directional_motion_settle_entity_grid_position */
 

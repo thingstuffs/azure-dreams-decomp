@@ -26,9 +26,7 @@ typedef struct TownObject {
 
 extern Entry *catalog_display_node_slots[28];
 
-extern void reset_linked_value_records(void);
 extern void refresh_catalog_secondary_detail(TownObject *);
-extern void store_cached_value_at_pointer(void);
 
 /* Resets the object or updates entry values and words according to its state. */
 void animate_catalog_next_detail(TownObject *obj)

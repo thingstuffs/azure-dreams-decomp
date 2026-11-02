@@ -1,6 +1,6 @@
 #include "common.h"
+#include "town/shop/item.h"
 
-extern s32 func_8009F6E4(void);
 extern void *copy_an_entry_slot_creating_associated_type_hex_13();
 
 /* set_item_w0: Packs four item parameter bytes and dispatches according to slot availability. */

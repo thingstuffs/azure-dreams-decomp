@@ -8,6 +8,8 @@
 #include "shared/entity.h"
 #include "shared/sprite_frame_state.h"
 #include "dungeon/actor.h"
+#include "dungeon/monster/beldo_large.h"
+#include "dungeon/player/object.h"
 
 typedef struct S_func_8016C64C_2 {
     u8 pad_00[0x24];
@@ -23,7 +25,6 @@ typedef struct S_func_8016C64C_5 {
 
 extern void select_sprite_entry(void *, u8, s32);
 extern void play_sound_if_enabled(s32);
-extern void set_record_integer_tile_center(void *, u8, u8);
 
 extern void beldo_large_action_resume_address(ActorRecord *actor, ObjectPosition *context, SpriteFrameState *sprite, ActorRecord *entity);
 extern u8 beldo_large_frame_set_2[];

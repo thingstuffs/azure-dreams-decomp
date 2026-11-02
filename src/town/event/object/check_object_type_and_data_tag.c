@@ -1,5 +1,6 @@
 #include "common.h"
 #include "m2c_compat.h"
+#include "town/event/object.h"
 
 typedef struct S_8009B120_0 {
     u8 unk_00;

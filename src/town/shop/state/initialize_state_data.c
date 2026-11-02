@@ -35,7 +35,7 @@ s32 initialize_state_data(void *state_arg, s32 input)
 
     success = 0;
     state_data = state_arg + 0x60;
-    setup_result = func_80049004(state_data, input, 0xC);
+    setup_result = realloc_field_0_buffer(state_data, input, 0xC);
     state->unk_5C = setup_result;
     if (setup_result != 0) {
         defaults = display_vector_defaults;

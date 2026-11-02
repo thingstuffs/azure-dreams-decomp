@@ -8,12 +8,13 @@
 #include "shared/dungeon_status.h"
 #include "shared/entity.h"
 #include "records/Rec_D_80082E80.h"
+#include "dungeon.h"
+#include "dungeon/level.h"
 
 
 extern s32 get_entity_effect_value(void *, s32);
 extern void clear_slots_of_type(void *, s32);
 extern void select_sprite_entry(void *, u8, s32);
-extern s32 check_entity_relation(void *, void *);
 extern s32 get_tile_chebyshev_distance(void *, void *);
 #include "dungeon/player/object/action_state.h"
 #include "dungeon/actor.h"
@@ -21,8 +22,6 @@ extern s32 get_tile_chebyshev_distance(void *, void *);
 
 extern s32 generate_random_value(); /* Unprototyped: zero or one ignored argument; retail overwrites a0. */
 extern void update_actor_status_and_mp(void *);
-extern s32 begin_ready_actor_directional_action(ActorRecord *body, ObjectPosition *position, SpriteFrameState *sprite, u8 *direction_frames);
-extern void begin_actor_move_to_target_facing(ActorRecord *body, ObjectPosition *position, SpriteFrameState *sprite, ActorRecord *actor);
 extern void update_directional_sprite_state_and_signals(void *, void *, SpriteFrameState *, void *);
 
 extern u8 hikewne_frame_set[];

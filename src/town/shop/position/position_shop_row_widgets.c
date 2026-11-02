@@ -1,4 +1,5 @@
 #include "town/shop/shop_window_layout_g00610.h"
+#include "town/shop/position.h"
 
 void position_shop_row_widgets(ShopWindow *menu) {
     ShopWindowWidgets *widgets;

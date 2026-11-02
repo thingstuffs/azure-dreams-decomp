@@ -1,6 +1,7 @@
 #include "common.h"
 #include "shared/game_work.h"
 #include "shared/object_flags.h"
+#include "sdk/libgte.h"
 
 typedef union {
     s16 s;
@@ -30,8 +31,6 @@ typedef struct {
 typedef struct {
     Output *output;
 } Link;
-
-extern s32 rsin(s32);
 
 /* Advance the effect fades, animate its scale and phase, and pulse the linked output brightness. */
 void advance_effect_fade_scale_and_pulse(Effect *effect, void *unused, Output *output) {

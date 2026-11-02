@@ -7,14 +7,12 @@
 #include "shared/slus_callbacks.h"
 #include "m2c_compat.h"
 #include "dungeon/monster/beldo.h"
+#include "dungeon/actor.h"
 
 void *allocate_list_node();
 s32 register_node();
 void initialize_actor_sprite_and_animation();
-s32 try_move_actor_to_valid_position();
 s32 func_80173C30(void);
-void update_actor_movement_and_height(ActorRecord *entity_arg, ObjectPosition *motion_arg, SpriteFrameState *monster_arg);
-void update_object_animation(ActorRecord *obj, ObjectPosition *motion, SpriteFrameState *part, ActorRecord *state);
 extern u8 beldo_frame_set_1[8];
 extern void *beldo_active_entity;
 

@@ -11,9 +11,9 @@
 #include "dungeon/actor.h"
 #include "dungeon/actor/effect.h"
 #include "engine/graphics.h"
+#include "engine/scene.h"
 
 extern u8 player_wait_frames[8];
-extern s16 transition_runtime_slot_index;
 extern s16 get_entity_effect_value(void *, s32); /* Unprototyped: return_width */
 extern s16 reserve_runtime_slot(s16 slot_id, s16 slot_value);
 

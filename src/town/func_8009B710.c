@@ -4,6 +4,7 @@
 #include "shared/town_handler_entries.h"
 #include "shared/town_object.h"
 #include "shared/town_handler.h"
+#include "town.h"
 
 extern s8 town_action_reset_byte;
 

@@ -1,5 +1,6 @@
 /* cfail-repair baseline: preserve the selected draft's recovered shape. */
 #include "common.h"
+#include "town/data.h"
 
 #define CARRY 0
 #define OVERFLOW(a) (0)
@@ -16,7 +17,6 @@ extern void func_80700E98(void);
 extern void func_80701298(s32, s32);
 
 extern s32 D_807013A4[];
-extern s32 devkit_flag_test_result;
 extern s32 D_807009B4;
 extern CallbackTable *devkit_trace_methods;
 extern u8 D_80700B30[];

@@ -1,4 +1,5 @@
 #include "modules/town_ovl_3ef1c8.h"
+#include "town/scene/dialogue.h"
 
 /* Returns one when func_80019928 (process_checked_entry) accepts the entry; otherwise runs
  * func_800187AC and returns zero. */

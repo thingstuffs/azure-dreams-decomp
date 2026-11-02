@@ -1,7 +1,7 @@
 #include "common.h"
 
 #include "town/scene.h"
-extern s32 town_repeat_value_selected;
+#include "town/data.h"
 extern s32 scene_choice_index;
 
 /* Returns a helper result or a value from the first-use or subsequent-use table. */

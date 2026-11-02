@@ -1,9 +1,9 @@
 #include "common.h"
 #include "town/scene.h"
 #include "town/scene/motion.h"
+#include "town/data.h"
 
 extern s32 D_80017AAC[];
-extern s32 scene_second_component_values[];
 extern s32 D_80017CE0[];
 
 /* Process the stored value and its offset by 0x14, then return the stored value. */

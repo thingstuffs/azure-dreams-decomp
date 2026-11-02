@@ -18,15 +18,14 @@
 #include "dungeon/item.h"
 #include "dungeon/actor.h"
 #include "dungeon/monster/death.h"
+#include "sdk/libc.h"
 
 
 typedef struct {
     u32 words[3];
 } __attribute__((packed)) Packet12;
 
-extern int abs(int);
 extern void select_sprite_entry(void *, s32, s32);
-extern s32 rand(void);
 extern void play_sound_if_enabled(s32);
 
 extern u8 D_80171080[];

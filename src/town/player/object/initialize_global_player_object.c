@@ -1,6 +1,7 @@
 #include "common.h"
 #include "shared/object_node.h"
 #include "town/player/object.h"
+#include "town/data.h"
 
 extern void call_the_handler_selects_nonzero_entry(void *entries, void *record,void *handler_param);
 
@@ -8,7 +9,6 @@ extern u8 scene_object_payload_alias[];
 extern u8 town_position_callback_address[];
 extern u8 D_8009ACFC[];
 extern u8 town_scene_record_handlers[];
-extern s32 town_player_target_adjustment;
 
 /* Initializes the global object and resets its state pointers and flag. */
 void initialize_global_player_object(void)

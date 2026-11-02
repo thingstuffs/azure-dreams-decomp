@@ -1,6 +1,7 @@
 #include "dungeon/monster/troll/advance_actor_timed_tile_motion.h"
 #include "shared/sprite_frame_state.h"
 #include "dungeon/actor.h"
+#include "dungeon/monster/troll.h"
 
 /* Updates timed movement toward the entity's tile and selects the next behavior. */
 void advance_actor_timed_tile_motion(T_80174C44_S_80174C44_0 *controller, ObjectPosition *transform, SpriteFrameState *entity, ActorRecord *actor)

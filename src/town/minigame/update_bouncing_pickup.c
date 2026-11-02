@@ -10,6 +10,7 @@
 #include "slus.h"
 #include "town/scene/object.h"
 #include "town/minigame/pickup_data.h"
+#include "town/data.h"
 
 
 typedef struct S_800206D0_1 {
@@ -21,8 +22,6 @@ typedef struct S_800206D0_1 {
 extern s32 town_money[];
 extern TownRewardValues D_80020020;
 extern Box minigame_source_bounds[];
-extern s32 minigame_pickup_sprite_sources[];
-extern s32 pickup_reward_total[];
 extern s32 D_8007947C[];
 extern Box D_800D0420;
 

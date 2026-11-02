@@ -1,8 +1,7 @@
 #include "common.h"
 #include "shared/entity.h"
 #include "shared/sprite_frame_state.h"
-
-extern void advance_selected_item_action(ActorRecord *action, ObjectPosition *motion, SpriteFrameState *sprite, ActorRecord *actor);
+#include "dungeon/monster/pulunpa.h"
 
 /* jump_table; owner: dungeon/func_80CBEF98. */
 const void *const pulunpa_slot_g_item_targets[7] __attribute__((aligned(4))) = {

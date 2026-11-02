@@ -2,6 +2,7 @@
 #include "shared/sprite_frame_state.h"
 #include "shared/object_flags.h"
 #include "dungeon/effect.h"
+#include "dungeon/actor/effect.h"
 void advance_sprite_animation_and_textures(void *entity);                      /* extern */
 typedef struct S_800CB374_0_pre {
     u16 unk_00;

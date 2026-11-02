@@ -4,6 +4,7 @@
 #include "sdk/libc.h"
 #include "engine/node/allocation.h"
 #include "town/minigame.h"
+#include "town/data.h"
 
 typedef struct {
     s16 unk0;       /* 0x00 */
@@ -57,7 +58,6 @@ extern u8 D_800203D8[];
 extern u8 D_80020468[];
 extern u8 betting_ticket_text[];
 extern u8 D_80020900[];
-extern s16 keima_payout_factors[];
 extern s16 D_8002430A[];
 
 extern void func_800201C8();

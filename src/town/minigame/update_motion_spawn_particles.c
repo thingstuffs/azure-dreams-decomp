@@ -38,11 +38,10 @@ extern void select_record_entry_and_value(void *state, void *entries, short inde
 #include "sdk/libc.h"
 #include "sdk/libgpu.h"
 #include "town/minigame.h"
+#include "town/data.h"
 extern void SD_Call(s32, s32);
 extern void set_linked_object_and_global_flags(void);
 
-extern u8 pool_palette_rect_2[];
-extern u8 pool_palette_rect[];
 extern u8 map_animation_sprite_entries[];
 extern u16 pool_palette_backup[];
 

@@ -1,5 +1,7 @@
 #include "common.h"
 #include "shared/position_views.h"
+#include "sdk/libgte.h"
+#include "town/menu.h"
 
 typedef struct TownMatrix {
     u8 bytes[0x20];
@@ -51,15 +53,6 @@ typedef struct TownObject {
     u8 pad_54[0x26];
     s16 half_height;
 } TownObject;
-
-
-extern s32 rsin(s32 angle);
-extern void PushMatrix(void);
-extern void PopMatrix(void);
-extern void TransMatrix(TownMatrix *matrix, TownVec32 *translation);
-extern void RotMatrix(TownVec16 *rotation, TownMatrix *matrix);
-extern void ScaleMatrix(TownMatrix *matrix, TownVec32 *scale);
-extern void draw_random_tinted_quad_pair(u8 *effect);
 
 /* Spin and shrink the object, update both transforms, and mark completion at zero extent. */
 s32 animate_spinning_shrinking_object(TownObject *object, const SignedPositionView *point)

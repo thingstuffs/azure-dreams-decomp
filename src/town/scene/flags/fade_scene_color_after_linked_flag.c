@@ -1,9 +1,6 @@
 #include "common.h"
 #include "town/scene/flags.h"
-
-
-extern s32 scene_object_flags;
-
+#include "town/data.h"
 
 typedef struct S_80810F98_0 {
     s16 unk_00;

@@ -4,6 +4,7 @@
 #include "town/scene/event.h"
 #include "town/scene/object.h"
 #include "shared/town_root.h"
+#include "town/data.h"
 
 typedef struct TownRuntime {
     u8 pad_00[0x28];
@@ -13,7 +14,6 @@ typedef struct TownRuntime {
     void *field_34;
 } TownRuntime;
 
-extern s16 scene_dependency_ids[3];
 extern s32 D_8001C370;
 extern u8 D_8001C480[0x10];
 extern u8 D_8001DA10;

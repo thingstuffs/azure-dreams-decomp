@@ -3,6 +3,7 @@
 #include "shared/game_work.h"
 #include "shared/object_flags.h"
 #include "shared/dungeon_moving_views.h"
+#include "sdk/libgte.h"
 
 typedef long long s64;
 
@@ -26,7 +27,6 @@ typedef struct S_80D17000_2 {
    /* other in damp_and_fade_effect_sprite */
 
 extern void advance_sprite_animation_and_textures(void *);
-extern s32 RotTransPers(void *, void *, void *, void *);
 
 extern s8 view_direction_depth_biases[8];
 

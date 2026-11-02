@@ -46,4 +46,6 @@ s32 roll_threshold_effect_variant_a(struct State *state_ptr, s16 limit_input, s1
 s32 roll_threshold_effect_variant_b(struct State *state_ptr, s16 limit_input, s16 byte_input);
 s32 try_apply_threshold_effect_variant_b(void *entity, s16 chance, s16 effect_value);
 
+void compact_item_entry_table(s32 entry_index);
+
 #endif

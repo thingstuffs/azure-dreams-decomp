@@ -2,6 +2,9 @@
 #include "shared/dungeon_status.h"
 #include "dungeon/level.h"
 #include "shared/dungeon_item_entries.h"
+#include "dungeon/item/state.h"
+#include "dungeon/player/object.h"
+#include "dungeon/system.h"
 
 typedef struct {
     u8 pad0[0x9B];
@@ -15,7 +18,6 @@ extern u8 D_800E0B39[];
 extern u8 D_80088B14[];
 extern u8 D_800E0B4C[];
 
-extern s32 try_claim_dungeon_action_slot(s32);
 extern void restore_player_control_callback(Actor *, s32); /* Unprototyped: uses the value as a pointer where the definition has an integer (or the reverse) */
 extern void * get_unused_text_buffer(); /* Unprototyped: zero, one or three arguments; retail replaces all incoming arguments. */
 extern u8 * expand_text_control_codes(u8 *src, u8 *dst);
@@ -23,9 +25,7 @@ extern void * write_text_byte_and_advance(s8 value, s8 *dest);
 extern void * append_value_seven_suffix(u8 *dst);
 extern u8 *append_typed_formatted_value(DungeonItemEntry *data, u8 *buffer);
 extern void *copy_fullwidth_vowel_bytes(void *dst, void *character);
-extern void * write_status_prefix_bytes(void *);
 extern void clear_byte_and_advance(s8 *byte_ptr);
-extern void display_text_with_fullwidth_adjustment(s8 *text);
 extern void reveal_triggered_trap(Actor *, s32, s32, s32); /* Unprototyped: retail call passes more arguments than the callee reads */
 
 /* Advance the actor's entry action and clear pending state when it finishes. */

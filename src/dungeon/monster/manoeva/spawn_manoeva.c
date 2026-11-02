@@ -9,6 +9,7 @@
 #include "engine/node.h"
 #include "engine/node/allocation.h"
 #include "dungeon/actor/status.h"
+#include "dungeon/actor.h"
 
 /* The factory also stores the strength variant in the low byte of +0xAC, which
  * ActorRecord types as the saved callback pointer (unk_AC); the view reaches it. */
@@ -21,7 +22,6 @@ typedef union SpawnState {
 } SpawnState;
 
 extern s32 generate_random_value(void);
-extern void try_move_actor_to_valid_position(void *,void *,void *,void *);
 extern u8 entity_spawn_variant_code;
 extern u8 manoeva_frame_set_1[], manoeva_sleep_frames[], manoeva_action_resume_address[];
 

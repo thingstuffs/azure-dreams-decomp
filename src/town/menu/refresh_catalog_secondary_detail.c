@@ -1,5 +1,6 @@
 #include "common.h"
 #include "town/menu.h"
+#include "town/data.h"
 
 typedef struct {
     void *image;
@@ -34,9 +35,7 @@ typedef struct {
 
 extern u8 catalog_scroll_offset[16];
 extern u8 D_80126A0D[16];
-extern void *catalog_detail_pages[4];
 extern ImageEntry catalog_glyphs[];
-extern u8 catalog_detail_fallback[16];
 extern DisplayPair *D_80129780[3];
 
 /* Select the town object's image and update its sprite field from the image entry. */

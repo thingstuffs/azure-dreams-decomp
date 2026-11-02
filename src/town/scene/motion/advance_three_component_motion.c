@@ -3,6 +3,7 @@
 #include "m2c_compat.h"
 #include "shared/object_links.h"
 #include "town/scene/motion.h"
+#include "town/data.h"
 
 
    /* the 0x2 bytes before arg0 in advance_three_component_motion, addressed as arg0[-1] */
@@ -11,9 +12,6 @@ typedef struct S_8081508C_1 {
     u8 pad_00[0xE];
     u16 unk_0E;
 } S_8081508C_1;   /* arg0 in advance_three_component_motion */
-
-
-extern s32 scene_object_flags;
 
 /* Advance the three motion components and set completion flags when the countdown expires. */
 void advance_three_component_motion(void *timer_state_arg, void *motion_arg) {

@@ -9,6 +9,7 @@
 #include "dungeon/system.h"
 #include "dungeon/actor.h"
 #include "dungeon/effect/screen.h"
+#include "dungeon/monster/dreamin.h"
 
 #define U8(p, o) (*(u8 *)((u8 *)(p) + (o)))
 #define S8(p, o) (*(s8 *)((u8 *)(p) + (o)))

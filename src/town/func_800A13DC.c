@@ -1,6 +1,7 @@
 #include "common.h"
 #include "shared/object_flags.h"
 #include "town/scene/object.h"
+#include "town.h"
 
 /* Sibling of w_800510DC.c / code9.c / code10.c: sets the "used"/flag bit
  * (0x8000) on a 16-bit flags field 2 bytes before a0, and on the global

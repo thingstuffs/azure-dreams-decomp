@@ -7,8 +7,9 @@
 
 #include "town/player/object/entity_record_fields.h"
 #include "town/player/object.h"
+#include "town.h"
+#include "town/data.h"
 extern s8 town_action_reset_byte;
-extern s32 player_event_handler_entries;
 
 void init_four_tick_target_action(TownObjectRecord *object, s32 motion_context, void *handler_context) {
     call_the_handler_selects_nonzero_entry(&player_event_handler_entries, object, handler_context);

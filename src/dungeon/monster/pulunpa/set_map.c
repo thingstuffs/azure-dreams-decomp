@@ -19,6 +19,8 @@ typedef struct S_800AA258_2 S_800AA258_2;
 #include "dungeon/actor.h"
 #include "dungeon/actor/motion.h"
 #include "dungeon/actor/state.h"
+#include "dungeon.h"
+#include "dungeon/level.h"
 
 typedef struct S_8017405C_1 S_8017405C_1;
 
@@ -42,11 +44,9 @@ typedef struct S_80173B98_2 {
 } S_80173B98_2;   /* arg2 in update_creature_actions_and_animation */
 
 void select_sprite_entry(void *sprite, u8 frame, s32 mode);
-s16 check_entity_relation(ActorRecord *entry, ActorRecord *anchor);
 s8 find_active_rect_containing_point(u8 tile_x, u8 tile_y);
 s32 can_entity_gain_level(void *creature);
 void update_actor_status_and_mp(ActorRecord *entity);
-extern s32 begin_ready_actor_directional_action(ActorRecord *body, ObjectPosition *position, SpriteFrameState *sprite, u8 *direction_frames);
 extern void begin_actor_move_to_target_facing(ActorRecord *body, ObjectPosition *position, SpriteFrameState *sprite, ActorRecord *actor);
 extern void update_object_or_select_directional_data(void *object_arg, ObjectPosition *context, void *source_arg, ActorRecord *target_arg);
 extern void choose_heading_and_advance_actor(ActorRecord *context, s32 action, S_8017405C_1 *actor, void *movement);

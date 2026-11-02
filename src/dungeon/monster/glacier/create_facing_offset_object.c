@@ -9,6 +9,7 @@ struct ObjectPosition;
 #include "common.h"
 #include "shared/slus_callbacks.h"
 #include "dungeon/effect.h"
+#include "dungeon/monster/glacier.h"
 
 typedef struct {
     s32 value0;
@@ -97,7 +98,6 @@ extern u8 glacier_direction_offsets[];
 extern u8 D_8017612C[];
 
 void update_map_cell_flags_with_item_limit(s32 x, s32 y, u16 flags);
-extern void *find_nearby_eligible_entry(u8 *current, s32 wanted_24, s32 wanted_25, s32 height_center);
 
 /* Creates an object offset from the origin in the owner's facing direction and links its secondary object. */
 void create_facing_offset_object(Arg0Object *owner, ObjectPosition *position, SpriteFrameState *sprite) {

@@ -7,6 +7,7 @@
 #include "shared/entity.h"
 #include "dungeon/system.h"
 #include "shared/object_node.h"
+#include "dungeon/actor/state.h"
 struct EntityLinkNode;
 
 typedef struct S_800D34CC_0 {

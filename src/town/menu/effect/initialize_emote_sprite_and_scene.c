@@ -8,7 +8,7 @@ void select_record_entry_and_value(void *state, void *entries, short index);
 extern M2C_UNK D_800D0690;
 #include "shared/sprite_source.h"
 #include "town/event/state.h"
-extern SpriteSourceEntry emote_sprite_entries[];
+#include "town/data.h"
 extern M2C_UNK D_800D6A58;
 
 /* Initialize the object's sprite, scene data, and behavior. */

@@ -10,6 +10,7 @@
 #include "sdk/libc.h"
 #include "slus.h"
 #include "town/scene/object.h"
+#include "town/data.h"
 
 
 typedef struct S_800236BC_3 {
@@ -21,7 +22,6 @@ extern s32 town_money[];
 extern TownRewardValues D_80020278;
 extern Box minigame_pickup_bounds[];
 extern s32 D_800244DC[];
-extern s32 pickup_reward_total[];
 extern Box D_800D0420;
 
 /* Updates a bouncing pickup, awards its value on collision, and expires it. */

@@ -105,8 +105,8 @@ s32 initialize_snowball_minigame(void)
     root_part = 0;
     SD_Call(0x704);
     set_resident_bit(0xA5);
-    func_8003E188(0x3D, root_part);
-    func_8003E188(0x3E, root_part);
+    set_packed_2bit_flag(0x3D, root_part);
+    set_packed_2bit_flag(0x3E, root_part);
 
     object = allocate_list_node(1, &scene_object_list_anchor.next);
     if (object != 0) {

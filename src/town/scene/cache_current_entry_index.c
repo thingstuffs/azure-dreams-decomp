@@ -3,6 +3,7 @@
 #include "shared/town_root.h"
 #include "m2c_compat.h"
 #include "town/scene.h"
+#include "town/data.h"
 
 
 typedef struct S_805D3860_1 {
@@ -11,8 +12,6 @@ typedef struct S_805D3860_1 {
     u8 unk_06;
 } S_805D3860_1;
 
-
-extern s32 scene_charge;
 extern s32 selected_scene_row_index;
 
 /* Cache the selected record's index and value, then return its value. */

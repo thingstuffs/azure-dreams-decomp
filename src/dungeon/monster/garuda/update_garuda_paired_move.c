@@ -11,6 +11,8 @@
 #include "dungeon/system.h"
 #include "dungeon/actor/status.h"
 #include "dungeon/actor.h"
+#include "dungeon/actor/state.h"
+#include "dungeon/monster/garuda.h"
 
 /* Sparse views for fields not covered by the existing record types. */
 
@@ -112,10 +114,8 @@ typedef struct S_func_81008664_12 {
 } S_func_81008664_12;
 
 void update_map_cell_flags_with_item_limit(s32 x, s32 y, u16 flags);
-void refresh_actor_proximity_state();
 void spend_actor_mp(ActorRecord *entity, s32 base_reduction);
 extern s16 dungeon_room_count;
-void update_creature_animation_action(ActorRecord *actor, ObjectPosition *context, SpriteFrameState *sprite_arg, ActorRecord *creature);
 extern u8 garuda_frame_set_3[];
 extern u8 D_801748F0[];
 extern u8 D_801748F8[];

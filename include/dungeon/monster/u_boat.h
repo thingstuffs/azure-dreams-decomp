@@ -57,4 +57,7 @@ void update_actor_turn_and_action(void *entity, ObjectPosition *context, SpriteF
 #include "records/Rec_func_800A9E70_arg0.h"
 s32 try_turn_actor_toward_target(ActorRecord *action_state, ObjectPosition *action_context, SpriteFrameState *target, ActorRecord *actor);
 
+void update_actor_action_transition(ActorRecord *state, ObjectPosition *update_mode, SpriteFrameState *sprite, ActorRecord *entity);
+void update_actor_movement_history(ActorRecord *motion, ObjectPosition *position, SpriteFrameState *record, ActorRecord *object);
+
 #endif

@@ -10,6 +10,8 @@
 #include "dungeon/actor/status.h"
 #include "engine/node.h"
 #include "engine/node/allocation.h"
+#include "dungeon/actor.h"
+#include "dungeon/monster/weadog.h"
 
    /* object in create_overlay_effect_object */
 
@@ -27,7 +29,6 @@ typedef struct S_80171718_3 {
 
 extern s32 generate_random_value(void);
 extern void initialize_actor_sprite_and_animation(void *, void *, void *, s16);
-extern void try_move_actor_to_valid_position(void *, void *, void *, void *);
 
 extern u8 D_801718E0[];
 extern s32 weadog_action_resume_address;

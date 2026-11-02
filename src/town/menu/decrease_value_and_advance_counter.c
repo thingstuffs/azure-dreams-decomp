@@ -2,6 +2,7 @@
 #include "town/menu/motion.h"
 #include "m2c_compat.h"
 #include "records/Rec_D_80100B70.h"
+#include "town/menu.h"
 
 
 

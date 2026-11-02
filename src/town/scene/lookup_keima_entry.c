@@ -1,13 +1,12 @@
 #include "town/scene/entry_requests.h"
 #include "town/scene.h"
+#include "town/data.h"
 
 /* This overlay's placed copies of apply_entry_position (0x80016D10) and
  * resolve_entry_flag (0x80016C58).  Their names bind to the home copies, not
  * these placements, so the calls keep the addresses. */
 extern void *func_80016D10(void *entries, void *conditions, void *context, s32 selection);
 extern s32 func_80016C58(void *entry_table, void *context, s32 entry_key);
-extern u8 keima_entries[];
-extern u8 keima_flag_conditions[];
 extern u8 D_80018640[];
 extern u8 D_80018C7E[];
 

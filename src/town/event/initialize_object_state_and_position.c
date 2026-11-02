@@ -3,6 +3,7 @@
 #include "shared/town_handler_entries.h"
 #include "shared/town_handler.h"
 #include "shared/vector.h"
+#include "town/event.h"
 
 
 extern u8 town_input_motion_address[];

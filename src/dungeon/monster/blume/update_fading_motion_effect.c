@@ -2,6 +2,7 @@
 #include "shared/entity.h"
 #include "common.h"
 #include "shared/object_flags.h"
+#include "dungeon/monster/blume.h"
 
 typedef struct S_80171284_0 {
     u8 pad_00[0x2];

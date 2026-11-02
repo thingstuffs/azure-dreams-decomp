@@ -4,6 +4,7 @@
 #include "shared/entity.h"
 #include "dungeon/item.h"
 #include "dungeon/actor/effect.h"
+#include "dungeon/actor.h"
 
 
 typedef struct S_800C8150_2 {

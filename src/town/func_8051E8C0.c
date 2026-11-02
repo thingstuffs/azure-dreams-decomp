@@ -1,5 +1,6 @@
 #include "common.h"
 #include "town/scene/entry_requests.h"
+#include "town.h"
 
 extern s32 D_80019170;
 extern s32 D_80019174;

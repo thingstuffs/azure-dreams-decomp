@@ -1,7 +1,7 @@
 #include "common.h"
 #include "town/scene/data_access.h"
-
-extern s32 scene_handler_ready;
+#include "town.h"
+#include "town/data.h"
 
 /* Set D_80019BC4 to 1. */
 void request_scene_rescan_b(void) {

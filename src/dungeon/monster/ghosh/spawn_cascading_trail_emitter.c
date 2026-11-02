@@ -19,7 +19,6 @@ typedef struct S_801722F0_1 {
 } S_801722F0_1;
 
 extern void select_record_entry_and_value(void *state, void *entries, short index);
-extern void update_cascading_trail_emitter(void *record_data);
 
 /* Create an effect at the source position and play its sound. */
 void spawn_cascading_trail_emitter(void) {

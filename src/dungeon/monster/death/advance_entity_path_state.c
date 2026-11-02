@@ -6,6 +6,7 @@
 #include "engine/graphics.h"
 #include "dungeon/level.h"
 #include "dungeon/item.h"
+#include "dungeon/monster/death.h"
 
 
 typedef struct S_80171FC8_2 {

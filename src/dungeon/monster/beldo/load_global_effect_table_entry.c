@@ -1,4 +1,5 @@
 #include "common.h"
+#include "dungeon/monster/beldo.h"
 
 extern s32 beldo_effect_scripts[];
 extern s32 *beldo_active_entity;

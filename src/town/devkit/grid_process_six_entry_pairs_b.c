@@ -1,4 +1,5 @@
 #include "common.h"
+#include "town/devkit.h"
 
 extern void func_807006FC(u16);
 extern u8 devkit_overlay_page[];

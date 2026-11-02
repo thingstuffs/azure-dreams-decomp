@@ -4,6 +4,7 @@
 #include "town/menu/view_effect_state_g00567.h"
 #include "shared/object_node.h"
 #include "engine/window.h"
+#include "town/menu.h"
 
 /*
  * Derives effect angle and intensity from the camera heading, copies camera X/Y, and spawns a

@@ -7,14 +7,15 @@
 #include "records/Rec_func_8009431C_arg0.h"
 #include "town.h"
 #include "town/player.h"
+#include "town/player/motion.h"
 
 #include "engine/object/test_resident_bitmap_bit_api.h"                         /* extern */
 #include "town/player/coordinates.h"
 void submit_object_resource_data();                         /* extern */
-struct TownObjectRecord; void initialize_motion_action(struct TownObjectRecord *, void *, s32);     /* extern */
+struct TownObjectRecord;      /* extern */
 #include "shared/town_object.h"
 struct TownObjectRecord; struct ObjectPosition; void initialize_actor_action_state(struct TownObjectRecord *, struct ObjectPosition *, s32);     /* extern */
-struct TownObjectRecord; void init_movement_action(struct TownObjectRecord *, void *, s32);     /* extern */
+struct TownObjectRecord;      /* extern */
 void initialize_actor_movement_interaction_action(s32 **record, void *ptr, void *ptr2);     /* extern */
 #include "town/player/store_the_valid_shared_angle_in_offset_hex_10_api.h"                      /* extern */
 #include "town/player/move_both_components_toward_zero_direction_dependent_steps_clamping_zero_api.h"                      /* extern */

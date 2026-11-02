@@ -1,6 +1,7 @@
 #include "common.h"
 #include "m2c_compat.h"
 #include "shared/dungeon_moving_views.h"
+#include "town/menu.h"
 
 typedef struct S_800A130C_0 {
     u16 unk_00;

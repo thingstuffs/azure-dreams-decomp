@@ -1,9 +1,9 @@
 #include "common.h"
 #include "town/scene/money.h"
 #include "shared/town_event_buffer.h"
+#include "town/data.h"
 
 extern s32 func_800189FC(void *entries, s32 value);
-extern s32 scene_price;
 
 /* Computes scene_price from town_event_records using func_800189FC in mode 1. */
 s32 store_price_from_entries(void) {

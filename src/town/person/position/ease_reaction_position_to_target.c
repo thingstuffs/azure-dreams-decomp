@@ -5,6 +5,7 @@
 
 #include "town/person/object_setup.h"
 #include "town/person/object.h"
+#include "town/person/position.h"
 
 /* Ease the position toward its target, snapping to it when the timer expires. */
 void ease_reaction_position_to_target(TownObjectRecord *state, ObjectPosition *position, void *update_arg) {

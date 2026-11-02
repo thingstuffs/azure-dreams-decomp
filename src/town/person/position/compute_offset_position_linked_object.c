@@ -3,12 +3,8 @@
 #include "shared/vector.h"
 #include "town/person/position.h"
 #include "shared/object_node.h"
+#include "sdk/libgte.h"
 
-
-
-
-extern s32 rsin(s32 angle);
-extern s32 rcos(s32 angle);
 extern s32 check_actor_data_references_match(void *actor);
 extern void unlink_node_if_registered(void *object);
 

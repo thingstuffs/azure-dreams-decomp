@@ -62,4 +62,6 @@ void reset_eligible_entity_state(void *entity_arg, void *motion, void *check_arg
 /* Owner declarations appended by tools/headers (append-only; the lines above are hand-kept). */
 void initialize_actor_facing_sprite(ActorRecord *body, ObjectPosition *position, SpriteFrameState *sprite, void *orientation);
 
+void process_nodes_at_target_tile(void *node, s32 target_x, s32 target_y, s32 target_height);
+
 #endif

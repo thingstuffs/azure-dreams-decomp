@@ -17,6 +17,7 @@
 #include "dungeon/player/object.h"
 #include "dungeon/item.h"
 #include "dungeon/actor.h"
+#include "sdk/libc.h"
 
 
 
@@ -36,7 +37,6 @@ typedef struct S_80172840_10 {
     s32 unk_04;
 } S_80172840_10;   /* base in advance_move_action_particles */
 
-extern int abs(int);
 extern s32 resolve_record_orientation_or_fallback(s32, void *, u16 *, s32);
 extern void select_sprite_entry(void *, s32, s32);
 extern void play_sound_if_enabled(s32);

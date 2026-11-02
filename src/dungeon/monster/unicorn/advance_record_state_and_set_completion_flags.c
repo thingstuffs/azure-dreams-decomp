@@ -4,6 +4,7 @@
 #include "dungeon/monster/unicorn/advance_record_state_and_set_completion_flags.h"
 #include "shared/object_flags.h"
 #include "shared/sprite_frame_state.h"
+#include "dungeon/monster/unicorn.h"
 
 /* Advance state and decrement the record count, setting record and global flags at completion. */
 void advance_record_state_and_set_completion_flags(void *record_data, DelayMotionZ *state, SpriteFrameState *update_arg) {

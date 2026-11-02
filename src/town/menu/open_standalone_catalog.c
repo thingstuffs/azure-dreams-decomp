@@ -5,17 +5,15 @@
 #include "town/menu/catalog.h"
 #include "engine/node.h"
 #include "engine/graphics.h"
+#include "engine/item.h"
+#include "sdk/libgte.h"
+#include "town/menu.h"
 
 #ifndef NULL
 #define NULL 0
 #endif
 
-
-void release_null_terminated_entries(u16 **entries);
 short SD_Call(int flags);
-void SetGeomOffset(s32, s32);
-void SetGeomScreen(s32);
-void initialize_catalog_glyph_cache(void);
 extern s8 animation_tick_scale;
 extern s32 D_80126704;
 

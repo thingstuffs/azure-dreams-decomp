@@ -1,6 +1,6 @@
 #include "common.h"
 #include "town/scene/dialogue.h"
-extern u8 scene_shared_text_buffer[];
+#include "town/data.h"
 
 extern u8 D_80016108[];
 

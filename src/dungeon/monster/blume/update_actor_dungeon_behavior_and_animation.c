@@ -7,23 +7,21 @@
 #include "shared/record_ptrs.h"
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
+#include "dungeon.h"
+#include "dungeon/level.h"
+#include "dungeon/player/object.h"
 
 
 
 extern void select_sprite_entry(void *, u8, s32);
-extern s16 check_entity_relation(ActorRecord *entry, ActorRecord *anchor);
 extern s8 find_active_rect_containing_point(u8, u8);
-extern s32 can_entity_gain_level(void *);
 extern void update_actor_status_and_mp(ActorRecord *entity);
-extern s32 begin_ready_actor_directional_action(ActorRecord *body, ObjectPosition *position, SpriteFrameState *sprite, u8 *direction_frames);
-extern void begin_actor_move_to_target_facing(ActorRecord *body, ObjectPosition *position, SpriteFrameState *sprite, ActorRecord *actor);
 
 extern void func_80172384(void *, void *, void *, void *);
 extern s32 advance_item_action_sequence(ActorRecord *action_state, ObjectPosition *motion_param, SpriteFrameState *sprite_arg, ActorRecord *actor); /* Unprototyped: this consumer uses the return value, but the owner definition is void. */
 extern void func_80172F38(ActorRecord *action_state, ObjectPosition *action_context, void *sprite, ActorRecord *actor);
 extern s32 func_80173050(void *, void *, void *, s32);
 extern void func_80174890(void *, void *, void *, void *);
-void begin_actor_directional_target_action(ActorRecord *action_state, ObjectPosition *action_context, SpriteFrameState *sprite, ActorRecord *actor);
 
 #include "dungeon/monster/blume.h"
 #include "dungeon/item.h"

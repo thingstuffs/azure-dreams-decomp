@@ -4,6 +4,7 @@
 #include "shared/object_flags.h"
 #include "dungeon/monster/glacier/advance_item_motion_collision.h"
 #include "slus.h"
+#include "dungeon/monster/glacier.h"
 
 typedef struct S_80174300_1 {
     union { struct { s32 v; } at00; struct { u8 pad[0x2]; u16 v; } at02; } unk_00;   /* overlapping accesses */

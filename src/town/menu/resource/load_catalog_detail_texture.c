@@ -1,6 +1,8 @@
 #include "common.h"
 #include "engine/graphics.h"
 #include "sdk/libgpu.h"
+#include "slus.h"
+#include "town/data.h"
 
 typedef struct S_80124DB0_0 {
     u8 pad_00[0x4];
@@ -30,14 +32,7 @@ typedef struct {
     s16 h;
 } Rect;
 
-extern void Control_CD();
-extern void pack_tagged_resource_descriptor();
-
 extern s32 resource_completion_callback_address[];
-extern s32 *catalog_texture_resources[];
-extern u32 catalog_texture_buffer[];
-extern u32 catalog_texture_pixels[];
-extern u8 catalog_texture_request[];
 
 /* Load a texture and its palette, then advance the loader after upload. */
 void load_catalog_detail_texture(void *loader_arg)

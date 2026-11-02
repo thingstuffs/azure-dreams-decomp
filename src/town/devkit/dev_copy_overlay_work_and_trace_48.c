@@ -2,6 +2,7 @@
 #include "common.h"
 #include "m2c_compat.h"
 #include "shared/town_pointees.h"
+#include "town/devkit.h"
 
 typedef struct S_808B3620_4 {
     u8 pad_00[0x64];

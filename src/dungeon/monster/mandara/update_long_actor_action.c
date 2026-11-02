@@ -13,6 +13,7 @@
 #include "engine/node/allocation.h"
 #include "dungeon/player/object.h"
 #include "engine/node.h"
+#include "sdk/libgte.h"
 
 
 
@@ -37,7 +38,6 @@ typedef struct {
 
 extern s32 register_node(ObjectNodeHeader *entry, void *registration_id);
 extern void select_sprite_entry(void *, s16, s16);
-extern s32 rsin(s32);
 extern s16 check_entity_relation(ActorRecord *entry, ActorRecord *anchor);
 extern s8 find_active_rect_containing_point(s32, s32);
 extern s32 can_entity_gain_level(void *);

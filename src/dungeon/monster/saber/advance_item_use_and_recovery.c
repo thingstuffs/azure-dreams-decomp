@@ -11,7 +11,7 @@
 #include "engine/graphics.h"
 #include "dungeon/system.h"
 #include "dungeon/item/actor_target.h"
-extern int abs(int);
+#include "sdk/libc.h"
 #include "shared/def_table.h"
 #include "shared/object_node.h"
 #include "shared/record_ptrs.h"

@@ -2,6 +2,7 @@
 #include "common.h"
 #include "shared/game_work.h"
 #include "town/shop/item.h"
+#include "town.h"
 
 typedef struct S_800B0490_1 {
     u8 pad_00[0x4];
@@ -13,8 +14,6 @@ typedef struct S_800B0490_1 {
 
 
 extern void SD_Call();
-extern void dispatch_item_menu_request_result();
-
 
 /* Handles menu actions and directional input with held-button repeat. */
 void handle_item_menu_input(S_800B0490_1 *menu)

@@ -4,12 +4,12 @@
 #include "shared/record_ptrs.h"
 #include "shared/town_root.h"
 #include "town/scene/event.h"
+#include "town/data.h"
 
 typedef s32 (*Callback)(s32, void *);
 
 extern void *D_80018094[];
 extern void *D_800180B4[];
-extern s16 town_response_key_indices[];
 extern u8 D_8001914C[];
 extern u8 D_80020F85[];
 extern u8 D_80020FC7[];

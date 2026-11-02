@@ -5,6 +5,7 @@
 #include "shared/slus_callbacks.h"
 #include "engine/node/allocation.h"
 #include "engine/node.h"
+#include "dungeon/actor/object.h"
 
 #ifndef NULL
 #define NULL 0

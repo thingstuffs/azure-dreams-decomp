@@ -16,6 +16,7 @@
 #include "dungeon/system.h"
 #include "dungeon/actor.h"
 #include "dungeon/effect/screen.h"
+#include "sdk/libc.h"
 
 typedef u32 az_uptr;
 
@@ -39,10 +40,6 @@ typedef struct S_80172790_3 {
     u8 pad_4A[0x2];
     s16 unk_4C;
 } S_80172790_3;   /* part in update_staged_actor_movement */
-
-
-
-extern s32 rand(void);
 
 extern u8 directional_effect_entries[];
 extern void *actor_update_node_cursor;

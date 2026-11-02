@@ -6,9 +6,8 @@
 #include "shared/sprite_frame_state.h"
 #include "dungeon/actor.h"
 #include "dungeon/effect.h"
-
-s16 try_claim_dungeon_action_slot(ActorRecord *actor);                          /* extern */
-
+#include "dungeon/monster/baloon.h"
+#include "dungeon/player/object.h"
 
 /* Reset motion and transfer the pending amount after the entity checks pass. */
 void update_actor_counter_and_status(ActorRecord *body, ObjectPosition *motion, SpriteFrameState *unused, ActorRecord *actor) {

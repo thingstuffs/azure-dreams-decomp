@@ -1,8 +1,6 @@
 #include "common.h"
-
-extern s32 menu_paired_values[];
-extern s32 selected_menu_value;
-extern s32 menu_alternate_value_table;
+#include "town/menu.h"
+#include "town/data.h"
 
 /* Load the selected table value and its paired value into global state. */
 void select_paired_value_tables(void *selection) {

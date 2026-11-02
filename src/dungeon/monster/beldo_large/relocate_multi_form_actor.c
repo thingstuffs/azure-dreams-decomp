@@ -4,6 +4,7 @@
 #include "shared/tile_object.h"
 #include "dungeon/level.h"
 #include "dungeon/player/object.h"
+#include "dungeon/monster/beldo_large.h"
 
 typedef struct S_8016EC04_1 {
     u8 pad_00[0x1C];

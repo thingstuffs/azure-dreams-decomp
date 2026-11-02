@@ -3,6 +3,7 @@
  */
 #include "dungeon/monster/weadog/steer_effect_toward_target_g00278.h"
 #include "shared/object_flags.h"
+#include "dungeon/monster/weadog.h"
 
 /* Advance position, clamp velocity, and steer acceleration toward the target. */
 /* Clamps the effect's speed on all three axes and steers it toward stored coordinates, reducing

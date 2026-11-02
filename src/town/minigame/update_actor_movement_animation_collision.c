@@ -8,6 +8,7 @@
 #include "town/menu.h"
 #include "town/minigame.h"
 #include "town/scene/object.h"
+#include "town/data.h"
 
 typedef struct Motion {
     s32 x;
@@ -67,8 +68,6 @@ typedef struct AnimData {
 
 extern u8 D_800F7DD4[];
 extern u8 D_800F7D64[];
-extern u8 minigame_sprite_entries[];
-extern u8 minigame_actor_bounds[];
 extern u8 D_800200FC[];
 extern HalfTable D_800200E4;
 extern HalfTable D_800200F0;

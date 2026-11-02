@@ -12,7 +12,7 @@
 #include "town/shop/object.h"
 #include "town/shop/state.h"
 extern int dungeon_menu_tag(void *forwarded_ptr, int unused_arg, void *second_ptr);
-extern ItemMenuPart *func_800B4C94(ItemMenuPart **parts);
+extern ItemMenuPart *process_target_with_code_41(ItemMenuPart **parts);
 
 StorageMenuNode *create_storage_owner_menu(ItemMenuStateNode *owner) {
     StorageMenuNode *object;
@@ -20,9 +20,9 @@ StorageMenuNode *create_storage_owner_menu(ItemMenuStateNode *owner) {
     object = allocate_flagged_object_node(0);
     menu = &object->menu;
     if (object != 0) {
-        if (func_800B4ED8(menu, 41) != 0) {
+        if (initialize_object_resources(menu, 41) != 0) {
             object->header.sprite = &object->menu.links;
-            menu->chain = func_800B4C94(menu->parts);
+            menu->chain = process_target_with_code_41(menu->parts);
             initialize_four_slot_object_owner(menu, owner);
             register_node(object, dungeon_menu_tag);
             return object;

@@ -5,6 +5,7 @@
 #include "shared/object_flags.h"
 #include "shared/dungeon_moving_views.h"
 #include "shared/entity.h"
+#include "dungeon/actor/position.h"
 
 
 extern void func_8004E994(); /* Unprototyped: shared empty hook receives varying ignored arguments. */

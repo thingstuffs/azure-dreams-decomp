@@ -9,6 +9,9 @@
 #include "shared/entity.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/dungeon_trail_views.h"
+#include "dungeon.h"
+#include "dungeon/level.h"
+#include "sdk/libc.h"
 
 typedef struct S_8017352C_0 {
     u8 pad_00[0x8C];
@@ -39,15 +42,12 @@ typedef struct S_8017352C_5 {
 extern s32 get_entity_effect_value(ActorRecord *entry, s32 effect_id);
 extern void clear_slots_of_type(ActorRecord *owner, s8 match_type);
 extern void select_sprite_entry(void *, u8, s32);
-extern s32 rand(void);
-extern s16 check_entity_relation(ActorRecord *entry, ActorRecord *anchor);
 extern s32 get_tile_chebyshev_distance(void *, void *);
 #include "dungeon/player/object/action_state.h"
 #include "dungeon/actor.h"
 extern s32 generate_random_value(void);
 extern void update_actor_status_and_mp(ActorRecord *entity);
 extern void begin_pushed_actor_move(void *state_in, void *unused, void *position_in, void *actor_in);
-extern s32 begin_ready_actor_directional_action(ActorRecord *body, ObjectPosition *position, SpriteFrameState *sprite, u8 *direction_frames);
 extern void begin_actor_move_to_target_facing(ActorRecord *body, ObjectPosition *position, SpriteFrameState *sprite, ActorRecord *actor);
 extern void func_80173D10(void *, void *, void *, void *);
 

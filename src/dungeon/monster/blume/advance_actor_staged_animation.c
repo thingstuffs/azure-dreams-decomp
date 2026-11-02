@@ -11,6 +11,7 @@
 #include "dungeon/system.h"
 #include "dungeon/actor.h"
 #include "dungeon/effect/screen.h"
+#include "dungeon/monster/blume.h"
 
 extern u8 blume_action_resume_address[];
 

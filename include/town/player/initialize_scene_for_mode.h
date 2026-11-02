@@ -137,7 +137,7 @@ extern void initialize_circular_list_head(void);
 extern void initialize_pointer_table_self_links(void);
 extern void initialize_the_store_two_values_set_state_flags(void *record, func_80092868_ScenePos *scene, void *value_0c); /* Unprototyped: uses the value as a pointer where the definition has an integer (or the reverse) */
 extern void initialize_six_global_pointers_corresponding_storage_blocks(void);
-extern void run_the_three_update_routines_context(void *owner); /* Unprototyped: uses the value as a pointer where the definition has an integer (or the reverse) */
+extern void run_the_three_update_routines_context(void *context);
 extern void create_person_object(void);
 extern void initialize_object_at_current_position(void);
 void set_resident_bitmap_bit(s32 bit_id);

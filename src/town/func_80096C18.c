@@ -2,6 +2,7 @@
 #include "common.h"
 #include "shared/town_handler_entries.h"
 #include "shared/town_handler.h"
+#include "town.h"
 
 extern s32 D_8009221C;
 

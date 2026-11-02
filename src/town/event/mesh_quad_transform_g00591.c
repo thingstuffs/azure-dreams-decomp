@@ -3,6 +3,7 @@
 /* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - CL:town/func_800AC7B4, CL:town/func_800AC8E4, CL:town/func_800AC908, CL:town/func_800AC9AC, PD:town/engine:80100D18, PD:town/engine:80100D1C, PD:town/engine:80100D40. */
 #include "town/event/mesh_quad_transform_g00591.h"
 #include "shared/gpu_packets.h"
+#include "town/event.h"
 
 /* Copies three spaced halfwords into contiguous fields. */
 void copy_even_halfwords_3(S_800AA044_0 *dst, S_800AA044_1 *src) {

@@ -3,9 +3,9 @@
 #include "shared/sprite_frame_state.h"
 #include "town/event/object_setup.h"
 #include "town/event/state.h"
+#include "town/event.h"
+#include "town/data.h"
 
-
-extern s32 town_object_resource_table[];
 extern s32 D_800D06AC[];
 extern s32 D_800D0704[];
 extern s32 D_800F8C44[];

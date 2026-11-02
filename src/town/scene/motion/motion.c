@@ -1,6 +1,7 @@
 #include "common.h"
 #include "shared/object_links.h"
 #include "town/scene/motion.h"
+#include "town/data.h"
 
    /* the 0x2 bytes before record in func_808152DC, addressed as record[-1] */
 
@@ -12,7 +13,6 @@ typedef struct S_808152DC_0 {
 
 
 extern short func_80058F88(int flags);
-extern s32 scene_object_flags;
 
 /* Step the record's two-state timer, raising the finished bit when it runs out. */
 void play_timed_sound_sequence(void *record_arg) {

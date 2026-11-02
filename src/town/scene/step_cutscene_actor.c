@@ -2,6 +2,7 @@
 #include "shared/sprite_frame_state.h"
 #include "shared/entity.h"
 #include "town/scene.h"
+#include "town/data.h"
 
 
 typedef struct Copy12 {
@@ -13,7 +14,6 @@ extern s32 func_8003EA54();
 extern s32 func_80071494(void);
 extern s32 func_80245C10();
 extern s16 func_8025E01C(void *position);
-extern s32 scene_object_flags;
 extern s32 D_80526430[3];
 extern u8 D_80288FF0[];
 extern u8 D_80289030[];

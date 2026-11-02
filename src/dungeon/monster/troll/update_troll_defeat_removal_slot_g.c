@@ -2,6 +2,7 @@
 #include "shared/entity.h"
 #include "common.h"
 #include "dungeon/actor.h"
+#include "dungeon/monster/troll.h"
 
 /* Forward all four effect callback arguments and the result. */
 s32 update_troll_defeat_removal_slot_g(ActorRecord *state, ObjectPosition *position, SpriteFrameState *sprite, ActorRecord *entity_data) {

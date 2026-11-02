@@ -5,11 +5,12 @@
 #include "shared/entity.h"
 #include "engine/graphics.h"
 #include "dungeon/effect.h"
+#include "dungeon/monster/kewne.h"
+#include "dungeon/player/object.h"
 
 
 typedef struct Ent Ent;
 Ent *prepare_directional_attack(); /* extern */
-s16 try_claim_dungeon_action_slot(ActorRecord *actor);                          /* extern */
 extern u8 kewne_frame_set_3;
 
 /* Clears the actor flag and conditionally updates its state and directional animation. */

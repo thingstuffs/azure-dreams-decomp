@@ -1,6 +1,7 @@
 #include "town/menu/motion.h"
 #include "shared/object_flags.h"
 #include "shared/object_node.h"
+#include "town/menu.h"
 
 typedef struct Obj800A5BC0 {
     u8 pad0[8];
@@ -12,8 +13,6 @@ typedef struct Obj800A5BC0 {
     s32 dy;
     s16 value;
 } Obj800A5BC0;
-
-extern void draw_segmented_menu_ring(s32 center_source, s32 radius_a, s32 radius_b, s16 segment_arg);
 
 /* Advance the object's motion and timer-scaled value, or mark it expired. */
 void tick_menu_motion_fade(Obj800A5BC0 *obj, void *ctx)

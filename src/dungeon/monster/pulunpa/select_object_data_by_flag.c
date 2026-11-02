@@ -2,6 +2,7 @@
 #include "dungeon/actor.h"
 #include "m2c_compat.h"
 #include "dungeon/actor/motion.h"
+#include "dungeon/monster/pulunpa.h"
 
 extern u8 pulunpa_action_resume_address;
 extern u8 pulunpa_variant_action_address;

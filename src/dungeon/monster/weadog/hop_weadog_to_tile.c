@@ -15,10 +15,8 @@
 #include "dungeon/actor/spell_resource_ids_g01008.h"
 #include "engine/graphics.h"
 #include "dungeon/item.h"
-
-
-
-extern s32 rsin(s32);
+#include "dungeon/monster/weadog.h"
+#include "sdk/libgte.h"
 
 extern s32 weadog_action_resume_address;
 extern u8 weadog_frame_set_3[];

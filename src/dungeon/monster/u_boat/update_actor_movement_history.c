@@ -7,6 +7,7 @@
 #include "dungeon/effect/screen.h"
 #include "dungeon/level.h"
 #include "dungeon/effect/shade.h"
+#include "dungeon/monster/u_boat.h"
 
 typedef struct {
     signed short x;

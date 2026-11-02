@@ -22,6 +22,10 @@ struct ObjectPosition;
 #include "dungeon/effect/screen.h"
 #include "dungeon/player/object.h"
 #include "dungeon/system.h"
+#include "dungeon/item/state.h"
+#include "dungeon/player.h"
+#include "engine/camera.h"
+#include "engine/resource.h"
 
 struct Dst;
 struct Elem;
@@ -29,26 +33,20 @@ struct Elem;
 typedef s32 (*Callback4)(void *, void *, void *, void *);
 extern u8 destination_motion_resume_address[];
 extern void select_record_entry_and_value(void *state, void *entries, short index);             /* extern */
-extern void request_scene_dispatch_state(s16 requested_state);                     /* extern */
 s16 get_entity_effect_value();                 /* extern */ /* Unprototyped: return_width */
 extern void advance_sprite_animation_and_textures(void *entity);                      /* extern */
 #include "engine/texture.h"
-extern void set_camera_targets(void *target_position, void *target_rotation, s32 transition_param); /* extern */
-extern void queue_view_slot(int slot_selector);                     /* extern */
 extern short SD_Call(int flags);                     /* extern */
 #include "dungeon/player/input.h"
 s16 check_entity_relation(ActorRecord *entry, ActorRecord *anchor);                 /* extern */
 void *find_eligible_actor_at_tile_and_height(struct Node *node, s16 x, s16 y_in, s16 value);           /* extern */
-s32 set_monster_reachability_flag(void);                             /* extern */
 s32 find_active_rect_containing_point(s32 point_x, s32 point_y);                           /* extern */
-s32 can_entity_gain_level(void *entity);                      /* extern */
 #include "dungeon/player/object/action_state.h"
 #include "dungeon/item.h"
 #include "slus.h"
 #include "engine/graphics.h"
 
 struct Node;
-s32 lookup_definition_pair_value(s16 firstKey, s16 secondKey);                          /* extern */
 s32 play_sound_if_enabled(s32 query_value);                     /* extern */
 s32 generate_random_value(void);                                /* extern */
 extern s8 scene_music_hold;

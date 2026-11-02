@@ -1,8 +1,8 @@
 #include "common.h"
 #include "town/scene.h"
+#include "town/data.h"
 
 extern u32 func_8001E670(s16 value);
-extern u8 town_counted_record_ids[];
 extern u8 town_selection_records[];
 
 /* Counts listed records whose value at offset 4 passes func_8001E670. */

@@ -3,6 +3,8 @@
 #include "shared/object_flags.h"
 #include "m2c_compat.h"
 #include "shared/dungeon_moving_views.h"
+#include "dungeon/monster/glacier.h"
+#include "sdk/libgte.h"
 
    /* arg1 in apply_relative_projected_depth */
 
@@ -34,7 +36,6 @@ typedef struct {
 } Stack3;
 
 extern s8 view_direction_depth_biases[];
-extern s32 RotTransPers(void *, void *, void *, void *);
 extern void advance_sprite_animation_and_textures(void *);
 
 /* Apply a relative projected depth with a direction bias and propagate output status flags. */

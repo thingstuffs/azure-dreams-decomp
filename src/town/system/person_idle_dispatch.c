@@ -4,6 +4,7 @@
 #include "town/system/person_idle_dispatch.h"
 #include "engine/graphics.h"
 #include "slus.h"
+#include "town/system.h"
 
 
 

@@ -22,7 +22,7 @@ void populate_current_item_menu_page(ItemMenuObject *state) {
         entry_value = state->menu->entries[entry_index];
         item_data = select_item_data(entry_value, &conversion_aux);
         entry_index += 1;
-        label = func_8004DC14(item_data, conversion_aux);
+        label = create_label_glyph_entries(item_data, conversion_aux);
         output_slot = state->parts[slot_index];
         slot_index += 1;
         output_slot->handler = label;

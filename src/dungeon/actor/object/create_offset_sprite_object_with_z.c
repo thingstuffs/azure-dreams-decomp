@@ -4,6 +4,7 @@
 #include "common.h"
 #include "shared/object_node.h"
 #include "shared/slus_callbacks.h"
+#include "dungeon/actor/object.h"
 
 typedef struct S_80027368_2 {
     u8 pad_00[0x13];

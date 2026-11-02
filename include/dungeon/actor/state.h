@@ -42,4 +42,9 @@ s32 check_global_or_linked_flag_20000(struct Actor *actor);
 s16 relink_entity_and_clear_high_flag(void *context, void *position, void *entity, s16 near_range, s16 far_range, s8 *state_out_addr);
 s32 reset_actor_action_state(void *actor, void *unused, SpriteFrameState *sprite, u8 *direction_frames);
 
+struct Entry;
+s32 process_actor_state_chain(void *state_base, void *entry_data, struct Entry *entry);
+
+u32 toggle_attacker_target_status_pair(ActorRecord *attacker, ActorRecord *target);
+
 #endif

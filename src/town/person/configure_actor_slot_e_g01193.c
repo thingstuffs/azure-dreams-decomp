@@ -10,7 +10,7 @@
  * scene_slot_e_data_c, scene_slot_e_data_d.
  */
 void configure_actor_slot_34(TownObjectRecord *actor, ObjectPosition *unused_position, struct SpriteFrameState *unused_sprite) {
-    func_800C3050(actor, 0x22, scene_slot_e_value_58, scene_slot_e_value_5c, scene_slot_e_value_7c, scene_slot_e_value_80);
+    initialize_object_and_register_slot(actor, 0x22, scene_slot_e_value_58, scene_slot_e_value_5c, scene_slot_e_value_7c, scene_slot_e_value_80);
 }
 
 /*
@@ -18,7 +18,7 @@ void configure_actor_slot_34(TownObjectRecord *actor, ObjectPosition *unused_pos
  * scene_slot_e_data_c, scene_slot_e_data_d.
  */
 void configure_actor_slot_14(TownObjectRecord *actor, ObjectPosition *unused_position, struct SpriteFrameState *unused_sprite) {
-    func_800C3050(actor, 0xE, scene_slot_e_value_58, scene_slot_e_value_5c, scene_slot_e_value_7c, scene_slot_e_value_80);
+    initialize_object_and_register_slot(actor, 0xE, scene_slot_e_value_58, scene_slot_e_value_5c, scene_slot_e_value_7c, scene_slot_e_value_80);
 }
 
 /*
@@ -26,7 +26,7 @@ void configure_actor_slot_14(TownObjectRecord *actor, ObjectPosition *unused_pos
  * scene_slot_e_data_c, scene_slot_e_data_d.
  */
 void configure_actor_slot_20(TownObjectRecord *actor, ObjectPosition *unused_position, struct SpriteFrameState *unused_sprite) {
-    func_800C3050(actor, 0x14, scene_slot_e_value_58, scene_slot_e_value_5c, scene_slot_e_value_7c, scene_slot_e_value_80);
+    initialize_object_and_register_slot(actor, 0x14, scene_slot_e_value_58, scene_slot_e_value_5c, scene_slot_e_value_7c, scene_slot_e_value_80);
 }
 
 /*
@@ -34,7 +34,7 @@ void configure_actor_slot_20(TownObjectRecord *actor, ObjectPosition *unused_pos
  * scene_slot_e_data_c, scene_slot_e_data_d.
  */
 void configure_actor_slot_58(TownObjectRecord *actor, ObjectPosition *unused_position, struct SpriteFrameState *unused_sprite) {
-    func_800C3050(actor, 0x3A, scene_slot_e_value_58, scene_slot_e_value_5c, scene_slot_e_value_7c, scene_slot_e_value_80);
+    initialize_object_and_register_slot(actor, 0x3A, scene_slot_e_value_58, scene_slot_e_value_5c, scene_slot_e_value_7c, scene_slot_e_value_80);
 }
 
 /*
@@ -42,7 +42,7 @@ void configure_actor_slot_58(TownObjectRecord *actor, ObjectPosition *unused_pos
  * scene_slot_e_data_c, scene_slot_e_data_d.
  */
 void configure_actor_slot_43(TownObjectRecord *actor, ObjectPosition *unused_position, struct SpriteFrameState *unused_sprite) {
-    func_800C3050(actor, 0x2B, scene_slot_e_value_58, scene_slot_e_value_5c, scene_slot_e_value_7c, scene_slot_e_value_80);
+    initialize_object_and_register_slot(actor, 0x2B, scene_slot_e_value_58, scene_slot_e_value_5c, scene_slot_e_value_7c, scene_slot_e_value_80);
 }
 
 /*
@@ -50,5 +50,5 @@ void configure_actor_slot_43(TownObjectRecord *actor, ObjectPosition *unused_pos
  * scene_slot_e_data_c, scene_slot_e_data_d.
  */
 void configure_actor_slot_80(TownObjectRecord *actor, ObjectPosition *unused_position, struct SpriteFrameState *unused_sprite) {
-    func_800C3050(actor, 0x50, scene_slot_e_value_58, scene_slot_e_value_5c, scene_slot_e_value_7c, scene_slot_e_value_80);
+    initialize_object_and_register_slot(actor, 0x50, scene_slot_e_value_58, scene_slot_e_value_5c, scene_slot_e_value_7c, scene_slot_e_value_80);
 }

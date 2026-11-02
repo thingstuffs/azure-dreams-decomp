@@ -7,6 +7,7 @@
 #include "dungeon/player/object.h"
 #include "dungeon/level.h"
 #include "dungeon/player/item.h"
+#include "dungeon/player.h"
 
 extern s32 player_action_tag;
 extern u8 player_height_step_frames[];

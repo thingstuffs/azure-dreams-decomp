@@ -3,13 +3,13 @@
 #include "shared/sprite_frame_state.h"
 #include "dungeon/player/object.h"
 #include "dungeon/actor.h"
+#include "sdk/libgte.h"
 
 
 
 
 
 extern s16 system_update_flags[8];
-extern s32 rsin(s32);
 
 /* Advance movement to the target tile, updating height and scale until complete. */
 s32 update_actor_hop_and_grow(ActorRecord *state, ObjectPosition *motion, SpriteFrameState *params, ActorRecord *extra) {

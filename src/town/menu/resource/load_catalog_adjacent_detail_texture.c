@@ -1,6 +1,8 @@
 #include "common.h"
 #include "engine/graphics.h"
 #include "sdk/libgpu.h"
+#include "slus.h"
+#include "town/data.h"
 
 typedef struct S_801254D8_0 {
     u8 pad_00[0x4];
@@ -31,15 +33,7 @@ typedef struct {
     s16 h;
 } Rect;
 
-extern s32 Control_CD();
-extern s32 pack_tagged_resource_descriptor();
-
 extern s32 resource_completion_callback_address[];
-extern s32 *catalog_texture_resources[];
-extern u32 catalog_texture_buffer[];
-extern u32 catalog_texture_pixels[];
-extern u8 catalog_texture_request[];
-
 
 /* Loads an image and palette into VRAM, then updates the loading state. */
 void load_catalog_adjacent_detail_texture(void *context_arg) {

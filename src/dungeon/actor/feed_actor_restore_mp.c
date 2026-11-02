@@ -6,13 +6,10 @@
 #include "shared/dungeon_item_entries.h"
 #include "shared/entity.h"
 #include "dungeon/actor.h"
+#include "dungeon/item.h"
+#include "dungeon/item/message.h"
 
-
-extern void *get_unused_text_buffer(void);
 extern s32 get_entity_effect_value(ActorRecord *entry, s32 effect_id);
-extern u8 *expand_text_control_codes(u8 *src, u8 *dst);
-extern u8 *append_entity_display_text(void *record, u8 *out);
-extern void clear_byte_and_advance(s8 *byte_ptr);
 extern void play_sound_if_enabled(s32 query_value);
 extern void display_text_with_fullwidth_adjustment(s8 *text);
 

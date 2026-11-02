@@ -7,7 +7,7 @@ void PushMatrix(void);                            /* extern */
 void PopMatrix(void);                            /* extern */
 void SetRotMatrix(void *);                      /* extern */
 void SetTransMatrix(void *);                      /* extern */
-void func_80065320(void *, void *, void *);     /* extern */
+void RotTransSV(void *, void *, void *);     /* extern */
 
 
    /* the 0x2 bytes before arg0 in render_shaded_object_primitive, addressed as arg0[-1] */
@@ -105,7 +105,7 @@ void render_shaded_object_primitive(void *object, MovingPosition *coords, void *
     SetRotMatrix(matrix);
     SetTransMatrix(matrix);
     position = scratch + 0x2C;
-    func_80065320(position, position, (void *)((u32)scratch | 0x98));
+    RotTransSV(position, position, (void *)((u32)scratch | 0x98));
     PopMatrix();
     coords->x = ((S_800A1D1C_4 *)scratch)->unk_2C;
     coords->y = ((S_800A1D1C_4 *)scratch)->unk_2E;

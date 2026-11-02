@@ -12,6 +12,7 @@
 #include "common.h"
 #include "shared/record_ptrs.h"
 #include "shared/town_root.h"
+#include "town/data.h"
 
 typedef struct {
     s32 v;
@@ -23,7 +24,6 @@ typedef struct S_func_8065C34C_1 {
 } S_func_8065C34C_1;
 
 extern UA32 D_80016020;
-extern s32 scene_command_result;
 
 /* Set the state to 9 and cache the callback result using a copy of the global arguments. */
 void request_handler_state_9(void) {

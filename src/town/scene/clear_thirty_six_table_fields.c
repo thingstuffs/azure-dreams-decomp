@@ -4,10 +4,10 @@
 #include "common.h"
 #include "shared/record_ptrs.h"
 #include "town/scene.h"
+#include "town/data.h"
 
 
 extern void (*D_80017618)(void);
-extern s16 town_event_counter;
 
 extern void func_800173F8(); /* Unprototyped: one or two arguments; the second register argument is ignored. */
 extern void clear_thirty_six_table_fields(void);

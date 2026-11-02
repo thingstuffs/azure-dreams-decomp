@@ -4,6 +4,7 @@
 #include "common.h"
 #include "shared/slus_callbacks.h"
 #include "engine/node.h"
+#include "sdk/libgte.h"
 
 
 
@@ -36,9 +37,6 @@ typedef struct {
     Sub sub;
 } Entity;
 
-
-extern s32 rcos(s32);
-extern s32 rsin(s32);
 extern void fade_effect_and_spawn_textured_objects(void);
 
 /* Creates a 16-segment cylindrical effect at the supplied position. */

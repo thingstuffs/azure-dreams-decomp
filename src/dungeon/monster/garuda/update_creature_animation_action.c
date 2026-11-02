@@ -10,26 +10,23 @@
 #include "common.h"
 #include "dungeon/actor/state.h"
 #include "dungeon/actor/motion.h"
+#include "dungeon.h"
+#include "dungeon/actor.h"
+#include "dungeon/level.h"
+#include "dungeon/monster/garuda.h"
+#include "dungeon/player/object.h"
 
 typedef void (*DungeonCallback)(void *, void *, void *, void *);
 extern void select_sprite_entry(void *, s32, s32);
-extern s16 check_entity_relation(ActorRecord *entry, ActorRecord *anchor);
 extern s8 find_active_rect_containing_point(s32, s32);
 extern s16 test_neighbor_position_relation(s32 src_x, s32 src_y, s32 dst_x, s32 dst_y);
 extern s32 get_rounded_facing_and_rounding_flag(s16 start_x, s16 start_y, s16 end_x, s16 end_y, u16 *flags);
-extern s32 can_entity_gain_level(void *);
 extern void *probe_directional_neighbor(void *entity, s32 x, s32 y, u32 direction);
 extern void update_actor_status_and_mp(ActorRecord *entity);
-extern s32 begin_ready_actor_directional_action(ActorRecord *body, ObjectPosition *position, SpriteFrameState *sprite, u8 *direction_frames);
-extern s32 advance_actor_pending_action(void *actor_state, void *action, void *status, void *actor);
-extern void begin_actor_move_to_target_facing(ActorRecord *body, ObjectPosition *position, SpriteFrameState *sprite, ActorRecord *actor);
-extern s32 process_selected_actor_record(ActorRecord *body, ObjectPosition *position, SpriteFrameState *sprite, ActorRecord *record);
-extern void begin_actor_spell_action(void *actor, void *effect_param, SpriteFrameState *target, u8 *direction_table, void *next_state);
 extern void func_801715F0(void *controller, ObjectPosition *context, void *entity, void *path_state);
 extern void func_80171848(void *, void *, void *, void *);
 extern s32 func_80171FF4(ActorRecord *action_state, ObjectPosition *motion_param, SpriteFrameState *sprite_arg, ActorRecord *actor);
 extern void func_801721B8(ActorRecord *action_state, ObjectPosition *context, SpriteFrameState *sprite, ActorRecord *actor);
-void advance_actor_walk_animation(ActorRecord *owner, ObjectPosition *unused, SpriteFrameState *part, ActorRecord *actor);
 extern s32 func_80172414(void *, void *, void *, s32);
 extern void func_80173834(void *, void *, void *, void *);
 extern u8 garuda_walk_direction_frames[];
@@ -38,7 +35,6 @@ extern u8 garuda_frame_set;
 extern u8 D_801748D8[];
 extern u8 garuda_frame_set_2[];
 
-void update_creature_animation_action(ActorRecord *actor, ObjectPosition *context, SpriteFrameState *sprite_arg, ActorRecord *creature);
 /* Update creature animation and dispatch its dungeon action. */
 void update_creature_animation_action(ActorRecord *actor, ObjectPosition *context, SpriteFrameState *sprite_arg, ActorRecord *creature) {
     u16 direction_aux;

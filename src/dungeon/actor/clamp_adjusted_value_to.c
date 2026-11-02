@@ -1,5 +1,6 @@
 #include "common.h"
 #include "shared/entity.h"
+#include "dungeon/actor.h"
 
 typedef struct {
     u8 pad0[0x50];

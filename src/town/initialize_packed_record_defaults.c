@@ -1,4 +1,5 @@
 #include "common.h"
+#include "town.h"
 
 typedef struct {
     s32 value;

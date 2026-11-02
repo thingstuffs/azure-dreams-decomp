@@ -1,5 +1,6 @@
 #include "common.h"
 #include "town/scene/entry_requests.h"
+#include "town.h"
 void func_80017A48(void *, s32);                            /* extern */
 
 /* Forward an object and its entry index to func_80017A48. */

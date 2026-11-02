@@ -8,6 +8,7 @@
 #include "town/person/effects.h"
 #include "slus.h"
 #include "town/person.h"
+#include "town/data.h"
 
 #ifndef NULL
 #define NULL 0
@@ -53,7 +54,6 @@ typedef struct {
 extern s32 register_node(); /* Unprototyped: two, three or four arguments; retail reads only the node and draw key. */
 
 extern s32 town_radial_offset_callback;
-extern s32 radial_sprite_entries;
 
 /* Spawns an offset effect with randomized motion opposite the source velocity. */
 void spawn_person_offset_effect(void *source_data, u32 angle)

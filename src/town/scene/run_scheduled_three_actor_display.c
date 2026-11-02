@@ -29,6 +29,7 @@
  */
 #include "common.h"
 #include "town/scene.h"
+#include "town/data.h"
 
 typedef struct TownActor {
     u8 pad0[0x70];
@@ -60,7 +61,6 @@ extern void func_80050BD8(s32);
 extern void func_8003F75C(s32);
 
 extern s16 D_8001339E;
-extern s32 scene_object_flags;
 extern u32 D_80095AAC;
 extern u8 D_80095AAD;
 extern u8 D_80095AAE;

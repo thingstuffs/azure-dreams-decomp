@@ -13,10 +13,10 @@
 #include "dungeon/player/object.h"
 #include "dungeon/actor/spell_resource_ids_g01008.h"
 #include "dungeon/item.h"
+#include "sdk/libgte.h"
 
 
 extern void select_sprite_entry(void *, s16, s16);
-extern s32 rsin(s32);
 
 extern u8 D_801760BC;
 extern u8 D_801760C4;

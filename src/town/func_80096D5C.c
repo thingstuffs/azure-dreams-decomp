@@ -5,6 +5,7 @@
 
 #include "town/player/call_the_handler_selects_nonzero_entry_api.h"
 #include "slus.h"
+#include "town.h"
 extern s32 D_80092698;
 
 /* Plays sound 0x511, selects counted_action_handler_table, and installs D_80092698 with count six. */

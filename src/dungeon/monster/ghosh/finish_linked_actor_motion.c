@@ -4,6 +4,7 @@
 #include "dungeon/actor.h"
 #include "m2c_compat.h"
 #include "dungeon/actor/motion.h"
+#include "dungeon/monster/ghosh.h"
 
 /* extern */
             /* extern */

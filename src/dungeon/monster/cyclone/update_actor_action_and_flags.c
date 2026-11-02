@@ -7,14 +7,13 @@
 #include "shared/dungeon_status.h"
 #include "records/Rec_func_800AA258_arg2.h"
 #include "shared/entity.h"
+#include "dungeon.h"
+#include "dungeon/level.h"
 
 
 extern void select_sprite_entry(void *, s32, s32);
-extern s16 check_entity_relation(ActorRecord *entry, ActorRecord *anchor);
 #include "dungeon/player/object/action_state.h"
 extern void update_actor_status_and_mp(ActorRecord *entity);
-extern s32 begin_ready_actor_directional_action(ActorRecord *body, ObjectPosition *position, SpriteFrameState *sprite, u8 *direction_frames);
-extern void begin_actor_move_to_target_facing(ActorRecord *body, ObjectPosition *position, SpriteFrameState *sprite, ActorRecord *actor);
 extern void func_80174520(void *, void *, void *, void *);
 
 #include "dungeon/monster/cyclone.h"

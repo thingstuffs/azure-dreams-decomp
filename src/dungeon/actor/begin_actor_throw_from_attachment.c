@@ -6,6 +6,7 @@
 #include "records/Rec_D_80082E80.h"
 #include "dungeon/player/object.h"
 #include "engine/scene.h"
+#include "dungeon/actor.h"
 
 typedef struct LocalResult {
     s32 unk0;

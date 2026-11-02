@@ -6,10 +6,8 @@
 #include "shared/entity.h"
 #include "dungeon/player.h"
 #include "engine/graphics.h"
+#include "engine/entity.h"
 
-
-
-void clear_slots_of_type(ActorRecord *owner, s8 match_type);             /* extern */
 s32 generate_random_value(void);                                /* extern */
 extern u8 player_damage_frames_2[];
 extern u8 player_damage_frames[];

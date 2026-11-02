@@ -1,6 +1,7 @@
 #include "common.h"
 #include "shared/game_work.h"
 #include "town/menu.h"
+#include "town/data.h"
 
 typedef struct {
     void **images;
@@ -32,7 +33,6 @@ extern void SD_Call(s32);
 extern void select_paired_value_tables(TownState *);
 extern void update_catalog_scroll_availability(TownState *);
 
-extern u8 catalog_selection_state[];
 extern ImageList catalog_detail_images[];
 
 /* Handles selection navigation, scrolling, transitions, and the idle toggle timer. */

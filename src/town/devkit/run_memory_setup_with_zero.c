@@ -1,4 +1,5 @@
 #include "common.h"
+#include "town/devkit.h"
 void func_8007CA38(void);                            /* extern */
 void func_8007CA48(void);                            /* extern */
 void func_8007CB08(s32);                     /* extern */

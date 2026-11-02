@@ -8,8 +8,9 @@
 #include "dungeon/actor/status.h"
 #include "dungeon/actor.h"
 #include "dungeon/effect.h"
+#include "dungeon/monster/saber.h"
+#include "dungeon/player/object.h"
 
-extern s16 try_claim_dungeon_action_slot(ActorRecord *actor);
 extern s32 saber_frame_set_1;
 
 /* Clear the actor flag and apply an effect and animation change when allowed. */

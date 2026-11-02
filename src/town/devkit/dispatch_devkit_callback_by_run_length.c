@@ -1,4 +1,6 @@
 #include "common.h"
+#include "town/devkit.h"
+#include "town/data.h"
 
 typedef void (*TownCallback)(s32);
 typedef struct {
@@ -6,7 +8,6 @@ typedef struct {
 } TownCallbackTable;
 
 extern u8 devkit_globals_page[];
-extern u8 devkit_flag_ids[];
 extern s32 *devkit_state_slots[];
 
 /* Dispatch a callback based on the number of consecutive set flags in the list. */

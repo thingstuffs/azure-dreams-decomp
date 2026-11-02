@@ -6,6 +6,7 @@
 #include "dungeon/actor.h"
 #include "dungeon/actor/effect.h"
 #include "shared/entity.h"
+#include "dungeon/monster/picket.h"
 
 extern void clear_slot_and_update_linked_state(void *, void *); /* Unprototyped: retail call passes more arguments than the callee reads */
 extern s32 generate_random_value(void);
@@ -15,8 +16,6 @@ extern s32 D_80162FE4[];
 
 typedef struct { s32 value; } ItemWord;
 
-
- void * move_eligible_item(void *, ActorRecord *) ;
 /* Moves an eligible item from a nearby slot or target into the shared item slot. */
  void * move_eligible_item(void *origin, ActorRecord *actor) {
     u8 *origin_bytes = origin;

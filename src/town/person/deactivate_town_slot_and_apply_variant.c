@@ -1,6 +1,7 @@
 #include "common.h"
 #include "shared/object_index_slots.h"
 #include "town/person.h"
+#include "town/data.h"
 
 typedef struct {
     u8 active;
@@ -9,7 +10,6 @@ typedef struct {
     u8 unk3[5];
 } TownSlot;
 
-extern u16 town_facing_angles[];
 extern void install_object_handler_and_clear_slot_flag(void *, void *, void *, void *);
 
 /* Deactivate the town slot, apply its variant to the object and child, and update the object. */

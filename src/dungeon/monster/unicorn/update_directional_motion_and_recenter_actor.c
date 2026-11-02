@@ -5,6 +5,7 @@
 #include "shared/object_flags.h"
 #include "shared/sprite_frame_state.h"
 #include "dungeon/actor.h"
+#include "dungeon/monster/unicorn.h"
 
 /* Updates directional movement, decelerates it, and recenters the actor on its tile. */
 void update_directional_motion_and_recenter_actor(ActorRecord *body, ObjectPosition *motion, SpriteFrameState *sprite, ActorRecord *actor)

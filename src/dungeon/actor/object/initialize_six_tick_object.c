@@ -1,11 +1,11 @@
 #include "common.h"
 #include "m2c_compat.h"
 #include "shared/town_object.h"
+#include "dungeon/actor/object.h"
 
 /* cfail-repair: tf7-phase1-cache-v3 */
 extern void initialize_object_entries(void *,s8 *, s32 *);
 extern u8 object_index_slots[][8];
-extern void advance_object_countdown_and_invoke_handlers(TownObjectRecord *object, s32 handlerContext, s32 handlerData);
 extern s32 D_800D6910[];
 
 

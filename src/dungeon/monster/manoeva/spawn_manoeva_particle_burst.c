@@ -6,6 +6,7 @@
 #include "shared/slus_callbacks.h"
 #include "shared/dungeon_moving_views.h"
 #include "engine/node.h"
+#include "sdk/libc.h"
 
 #ifndef NULL
 #define NULL 0
@@ -20,7 +21,6 @@ typedef struct S_80E3CC80_0 {
 
 
 extern void select_sprite_entry(void *object, s32 table_index, s32 entry_index);
-extern s32 rand(void);
 
 /* Spawns up to sixteen particles with randomized offsets and velocities. */
 void spawn_manoeva_particle_burst(MovingPosition *origin, SpriteFrameState *source_sprite) {

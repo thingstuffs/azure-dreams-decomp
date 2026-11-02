@@ -11,7 +11,7 @@ void reset_object_handler_field_6c_value_15(TownObjectRecord *object, s32 unused
     PersonDescriptor *descriptor;
 
     descriptor = object->descriptor;
-    func_800C2E84(object, updateValue, descriptor->entries[4]);
+    initialize_object_entries(object, updateValue, descriptor->entries[4]);
     object_index_slots[object->slot].unk_00 = 0;
     object->handler = &person_countdown_update_address;
     object->timer.as_s16 = 0x15;

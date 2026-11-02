@@ -5,13 +5,6 @@
 #include "dungeon/player/object.h"
 #include "dungeon/system.h"
 
-
-
-void func_80170E94(struct GolemActionWork *actor, ObjectPosition *context, SpriteFrameState *sprite, ActorRecord *stats);
-
-
-
-
 /* Initialize actor motion and transition its handler when action flags are set. */
 void initialize_actor_motion_transition(ActorRecord *body, ObjectPosition *motion, SpriteFrameState *sprite, ActorRecord *actor) {
     u8 phase;

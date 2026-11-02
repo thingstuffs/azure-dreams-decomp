@@ -14,10 +14,10 @@
 #include "dungeon/level/room_flags.h"
 #include "records/Rec_func_800A9E70_arg0.h"
 #include "dungeon/item.h"
+#include "dungeon/item/state.h"
 
 extern s32 func_80171E38(ActorRecord *action_state, ObjectPosition *motion_param, SpriteFrameState *sprite_arg, ActorRecord *actor);
 extern void update_actor_status_and_mp(ActorRecord *entity);
-extern void update_actor_proximity_flag(void *source, void *state, s32 lower_limit, s32 upper_limit, s8 *result);
 extern s32 generate_random_value(void);
 extern s16 get_actor_height_difference(ActorRecord *left_record, ActorRecord *right_record);
 extern s16 check_diagonal_side_height(s32 direction, s16 tile_x, s16 tile_y, s16 height);

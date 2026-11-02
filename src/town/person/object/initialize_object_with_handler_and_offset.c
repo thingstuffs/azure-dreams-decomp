@@ -3,12 +3,10 @@
 #include "m2c_compat.h"
 #include "shared/town_object.h"
 #include "town/person/object.h"
+#include "town/data.h"
 
 #include "town/person/object/initialize_object_entries_api.h"          /* extern */
-extern s8 person_slot_reset_byte;
 extern M2C_UNK D_800CE780;
-extern s32 person_reaction_object_entries[];
-
 
 /* Initialize the object, clear the global flag, and set its handler and initial offset. */
 void initialize_object_with_handler_and_offset(TownObjectRecord *object, ObjectPosition *motion, void *init_data) {

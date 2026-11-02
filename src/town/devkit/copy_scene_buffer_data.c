@@ -1,4 +1,5 @@
 #include "common.h"
+#include "town/devkit.h"
 
 typedef struct CopyBlock {
     s32 words[4];

@@ -33,5 +33,8 @@ void advance_timed_action_and_effects(ActorRecord *action, ObjectPosition *motio
 void advance_timed_action_and_play_sounds(void *action, ObjectPosition *motion, SpriteFrameState *sprite, ActorRecord *actor);
 void spawn_growing_rotating_flash(ActorRecord *unused, ObjectPosition *position, SpriteFrameState *unused_sprite);
 
+/* Owner declarations appended by tools/headers (append-only; the lines above are hand-kept). */
+void create_actor_action_effect(ActorRecord *source_object, ObjectPosition *source_pos, SpriteFrameState *sprite_template, ActorRecord *actor);
+void create_targeted_motion_effect(ActorRecord *body, ObjectPosition *position, SpriteFrameState *unused, ActorRecord *target);
 
 #endif

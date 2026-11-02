@@ -13,6 +13,7 @@
 #include "dungeon/actor/status.h"
 #include "engine/graphics.h"
 #include "engine/node/allocation.h"
+#include "engine/texture.h"
 
    /* obj in update_actor_action_controller */
 
@@ -49,7 +50,6 @@ typedef struct S_8017086C_8 {
 extern s32 register_node(ObjectNodeHeader *entry, void *registration_id);
 extern s32 generate_random_value(void); /* Retail RNG reads no argument registers. */
 extern void initialize_actor_sprite_and_animation();
-extern void texture_set_the_active_entries_matching_id_in_type_n_2_table_slots();
 
 extern u8 child_texture_entries[];
 extern u8 child_object_update_address[];

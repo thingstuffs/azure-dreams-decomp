@@ -1,4 +1,5 @@
 #include "modules/town_ovl_3fe0d0_p00.h"
+#include "town/scene.h"
 
 void initialize_context_entry_tables_variant_2(void) {
     D_8001794C.record._0 = &scene_mode_event_data[0];

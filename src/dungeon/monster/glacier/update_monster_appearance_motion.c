@@ -9,6 +9,7 @@
 #include "dungeon/actor.h"
 #include "engine/texture.h"
 #include "dungeon/item.h"
+#include "dungeon/monster/glacier.h"
 
 /* Sparse views for fields not covered by the existing record types. */
 typedef struct {

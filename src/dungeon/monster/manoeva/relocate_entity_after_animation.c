@@ -4,6 +4,9 @@
 #include "shared/game_work.h"
 #include "records/Rec_func_800D6DC0_arg1.h"
 #include "records/Rec_func_800D6DC0_arg2.h"
+#include "dungeon/monster/manoeva.h"
+#include "sdk/libgpu.h"
+#include "sdk/libgte.h"
 
 typedef struct S_80175594_0 {
     u8 pad_00[0x1C];
@@ -109,17 +112,6 @@ typedef struct S_80175594_7 {
 
    /* *global in project_depth_sorted_sprite_quads */
 
-extern void CompMatrix(void *, void *, void *);
-extern void PushMatrix(void);
-extern void PopMatrix(void);
-extern void ScaleMatrix(void *, void *);
-extern void SetRotMatrix(void *);
-extern void SetTransMatrix(void *);
-extern s32 RotTransPers(void *, void *, void *, void *);
-extern void RotTransPers4(void *, void *, void *, void *, void *, void *, void *, void *, void *, void *);
-extern void RotMatrix(void *, void *);
-extern void AddPrim(void *, void *);
-extern void SetPolyFT4(void *);
 extern u8 sprite_projection_matrix[];
 
 typedef struct {

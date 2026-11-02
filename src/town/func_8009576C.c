@@ -6,10 +6,10 @@
 #include "shared/entity.h"
 #include "town/person/effects.h"
 #include "town/player/coordinates.h"
+#include "town.h"
+#include "town/system.h"
 
 s32 initialize_actor_movement_interaction_action();        
-s32 init_sound_threshold_action();        
-void select_sound_command_from_mode(void);
 #include "town/player/store_the_valid_shared_angle_in_offset_hex_10_api.h"
 void handle_adjust_vector_toward_selected_angle_limit_magnitude();                      
 #include "town/player/clear_global_slot_n_5_copy_source_slot_n_2_global_slot_n_2_api.h"

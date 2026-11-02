@@ -1,5 +1,6 @@
 #include "common.h"
 #include "shared/town_object.h"
+#include "dungeon/actor.h"
 
 /* cfail-repair: tf7-phase1-cache-v3 */
 s32 apply_object_setup_and_update(void *); /* Unprototyped: retail call passes a different argument count */                            /* extern */

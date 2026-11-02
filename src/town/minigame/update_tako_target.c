@@ -5,8 +5,8 @@
 #include "slus.h"
 #include "town/minigame/effect.h"
 #include "town/scene/object.h"
+#include "town/data.h"
 
-extern u8 tako_target_timing_table[];
 extern u8 tako_minigame_sprites[16];
 extern u8 D_800F79E8[16];
 

@@ -36,4 +36,7 @@ void update_timed_hop_and_landing(ActorRecord *action, ObjectPosition *motion, S
 /* Callback entry points. */
 void update_motion_and_terrain_collision(void *motion, void *position, void *object);
 
+/* Owner declarations appended by tools/headers (append-only; the lines above are hand-kept). */
+void start_direction_based_action(ActorRecord *body, ObjectPosition *unused, SpriteFrameState *animation, ActorRecord *actor);
+
 #endif

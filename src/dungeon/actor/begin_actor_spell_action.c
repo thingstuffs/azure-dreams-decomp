@@ -13,6 +13,7 @@ struct ObjectPosition;
 #include "dungeon/item.h"
 #include "dungeon/actor.h"
 #include "dungeon/effect.h"
+#include "dungeon/player/object.h"
 
 
 typedef struct S_800AAF00_2 {
@@ -26,7 +27,6 @@ typedef struct S_800AAF00_2 {
 
 
 struct ActorRecord;
-extern s16 try_claim_dungeon_action_slot(struct ActorRecord *actor);
 extern s32 generate_random_value(void);
 
 /* Updates the object action state and applies direction data to its target. */

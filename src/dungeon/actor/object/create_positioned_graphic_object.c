@@ -7,6 +7,7 @@
 #include "m2c_compat.h"
 #include "engine/node/allocation.h"
 #include "engine/node.h"
+#include "dungeon/actor/object.h"
 
 
 extern u8 linked_graphic_sprite_entries;

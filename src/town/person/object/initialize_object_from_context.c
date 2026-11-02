@@ -5,6 +5,7 @@
 #include "shared/town_object.h"
 #include "engine/window.h"
 #include "shared/entity.h"
+#include "town/person/object.h"
 void count_down_and_select_next_setup(TownObjectRecord *object, void *request_data, void *request_param, s32 check_param);
 extern s32 D_800D7284[];
 

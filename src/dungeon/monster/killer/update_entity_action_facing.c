@@ -9,18 +9,15 @@
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 #include "shared/entity.h"
+#include "dungeon.h"
+#include "dungeon/level.h"
+#include "dungeon/player/object.h"
 
 extern void select_sprite_entry(void *, s32, s32);
-extern s16 check_entity_relation(ActorRecord *entry, ActorRecord *anchor);
 extern s32 find_active_rect_containing_point(s32, s32);
-extern s32 can_entity_gain_level(void *);
 extern void update_actor_status_and_mp(ActorRecord *entity);
-extern s32 begin_ready_actor_directional_action(ActorRecord *body, ObjectPosition *position, SpriteFrameState *sprite, u8 *direction_frames);
-extern void begin_actor_move_to_target_facing(ActorRecord *body, ObjectPosition *position, SpriteFrameState *sprite, ActorRecord *actor);
 extern void func_80171438(ActorRecord *action, ObjectPosition *action_id, SpriteFrameState *entity, ActorRecord *move_state);
 extern void func_8017167C(void *, void *, void *, void *);
-extern s32 validate_direction_and_initialize_action(ActorRecord *, ObjectPosition *, void *, ActorRecord *);
-void update_eligible_actor_action_alt(ActorRecord *action_state, ObjectPosition *context, SpriteFrameState *sprite, ActorRecord *actor);
 extern s32 func_80172230(void *, void *, void *, s32);
 extern void func_80173A84(void *, void *, void *, void *);
 

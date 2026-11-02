@@ -1,7 +1,6 @@
 #include "common.h"
 #include "m2c_compat.h"
-
-void clear_indexed_table_flag();                 /* extern */
+#include "town.h"
 
 typedef struct S_800B2190_0 {
     u8 pad_00[0x1];

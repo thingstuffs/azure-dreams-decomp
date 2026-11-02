@@ -4,6 +4,7 @@
 #include "m2c_compat.h"
 #include "shared/entity.h"
 #include "town/player/object.h"
+#include "town/data.h"
 
 typedef struct S_8009B014_1 {
     u8 pad_00[0x4];
@@ -17,7 +18,6 @@ typedef struct S_8009B014_1 {
 } S_8009B014_1;   /* arg0 in advance_player_toward_target */
 
 extern s32 town_scene_record_handlers[];
-extern s32 town_player_target_adjustment;
 extern s32 D_800D0640[3];
 
 /* Updates motion toward the target and advances the state when the countdown expires. */

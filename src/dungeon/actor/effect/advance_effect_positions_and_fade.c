@@ -1,5 +1,6 @@
 #include "common.h"
 #include "shared/object_flags.h"
+#include "dungeon/actor/effect.h"
 
 typedef struct S_8002744C_0 {
     s32 unk_00;

@@ -14,6 +14,7 @@ struct ObjectNodeHeader;
 #include "shared/slus_callbacks.h"
 #include "m2c_compat.h"
 #include "dungeon/actor/position.h"
+#include "dungeon/player/object.h"
 
 typedef struct S_800D24A8_0 {
     u8 pad_00[0x13];
@@ -33,9 +34,7 @@ typedef struct S_800D24A8_0 {
 
 void clear_entry_flag_and_link_owner(struct ObjectNodeHeader *entry);                      /* extern */
 s32 find_active_rect_containing_point(s32 point_x, s32 point_y);                           /* extern */
-void set_record_integer_tile_center(ObjectPosition *record, s32 tile_x, s32 tile_y);              /* extern */
 
-extern void advance_actor_status_turn(ActorRecord *actor, ObjectPosition *action_context, SpriteFrameState *sprite, u8 *state);
 extern M2C_UNK D_800E221C;
 
 /* Create a dungeon object at the given tile and initialize its sprite and tile flags. */

@@ -1,7 +1,6 @@
 #include "common.h"
 #include "shared/game_work.h"
-
-extern s32 directional_buttons_to_angle(s32);
+#include "town.h"
 
 /* Adds an offset to the shared angle and wraps to 12 bits, preserving failure. */
 s32 input_angle_with_offset(s32 unused, s32 angle_offset) {

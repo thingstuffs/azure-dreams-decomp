@@ -2,6 +2,7 @@
 #include "town/scene/collection.h"
 #include "town/scene/effect.h"
 #include "town/scene/object.h"
+#include "town/data.h"
 
 typedef struct S_80813AB0_0 {
     u8 pad_00[0x8];
@@ -61,7 +62,6 @@ extern s32 func_8023FA58();
 extern u8 score_sprite_draw_callback_address[];
 extern u8 menu_entry_draw_callback_address[];
 extern u8 menu_cursor_object_template[];
-extern u8 shop_panel_sprite_entries[];
 extern RootPair D_80526790;
 extern RootPair D_805267A0;
 extern u8 D_805267A8[];

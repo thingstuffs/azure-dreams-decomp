@@ -3,6 +3,8 @@
 #include "common.h"
 #include "shared/object_flags.h"
 #include "town/menu/catalog.h"
+#include "engine/item.h"
+#include "town/menu.h"
 
 typedef struct S_80126890_0 {
     u8 pad_00[0xC];
@@ -14,9 +16,7 @@ typedef struct S_80126890_0 {
 } S_80126890_0;   /* node in create_catalog_display_node */
 
 extern void register_node(void *, void *);
-extern void release_null_terminated_entries(void *);
 extern void SD_Call(s32);
-extern void initialize_catalog_glyph_cache(void);
 extern void initialize_catalog_state(CatalogDisplay *);
 
 extern s8 animation_tick_scale;

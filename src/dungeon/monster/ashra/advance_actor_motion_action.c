@@ -14,6 +14,9 @@
 #include "dungeon/player/object.h"
 #include "dungeon/item.h"
 #include "dungeon/actor.h"
+#include "dungeon/effect/particle.h"
+#include "dungeon/monster/ashra.h"
+#include "sdk/libc.h"
 
 
 typedef struct S_80172810_3 {
@@ -33,9 +36,7 @@ typedef struct S_80172810_7 {
 
 extern void select_sprite_entry(void *, s32, s32);
 extern void play_sound_if_enabled(s32);
-extern void create_two_row_object_group(void *, s16);
 
-extern int abs(int);
 extern u8 ashra_action_continuation_address[];
 extern u8 D_801739C0[];
 

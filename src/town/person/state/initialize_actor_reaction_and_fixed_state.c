@@ -2,11 +2,11 @@
 #include "shared/sprite_frame_state.h"
 #include "shared/town_object.h"
 #include "town/person/state.h"
+#include "town/person/object.h"
+#include "town/data.h"
 
 /* Pointer arguments follow the matched initialize_object_entries body. */
-extern void initialize_object_entries(void *state, SpriteFrameState *output, s32 *entries);
 
-extern s32 person_reaction_object_entries[];
 extern u8 D_800CDA6C[];
 
 typedef struct ReactionState {

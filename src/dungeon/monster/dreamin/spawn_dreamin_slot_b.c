@@ -15,6 +15,7 @@
 #include "engine/node/allocation.h"
 #include "engine/node.h"
 #include "dungeon/actor/status.h"
+#include "dungeon/monster/dreamin.h"
 
 typedef struct R03_80170A28_S_80170A28_2 R03_80170A28_S_80170A28_2;
 typedef struct ActorActionView ActorActionView;
@@ -27,7 +28,6 @@ void func_80152A3C(void *entity, R03_80170A28_S_80170A28_2 *motion, void *part);
 void func_80152E68(ActorRecord *actor, ObjectPosition *context, SpriteFrameState *sprite, ActorRecord *state);
 extern M2C_UNK D_8015586C;
 
-void *spawn_dreamin_slot_b(s16 spawn_flags, s16 spawn_x, s16 spawn_y, s16 initial_value) ;
 /* Allocates and initializes a dungeon object with the requested flags and placement. */
 /* Creates Dreamin with default frames at D_8015586C, applies spawn flags, and attempts valid tile
  * placement. */

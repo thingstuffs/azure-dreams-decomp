@@ -27,6 +27,7 @@ typedef struct {
 } State;
 
 #include "dungeon/player/object/action_state.h"
+#include "dungeon/monster/picket.h"
 struct SpriteFrameState;
 extern void select_sprite_entry(void *, s16, s16);
 extern u8 picket_frame_set_4[];

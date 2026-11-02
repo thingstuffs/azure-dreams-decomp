@@ -7,6 +7,7 @@
 #include "dungeon/actor.h"
 #include "engine/texture.h"
 #include "dungeon/item.h"
+#include "dungeon/monster/nyuel.h"
 
 typedef void (*Callback)(void *, void *, void *, void *);
 

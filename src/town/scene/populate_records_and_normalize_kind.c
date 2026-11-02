@@ -2,6 +2,7 @@
 #include "shared/record_ptrs.h"
 #include "shared/town_root.h"
 #include "town/scene.h"
+#include "town/data.h"
 
 typedef struct TownRecord {
     u8 pad_00;
@@ -18,7 +19,6 @@ typedef s32 (*TownIndexFunc)(s32);
 s32 apply_stored_value_17974(void);
 extern s32 *D_80018868[];
 extern u8 *D_80018874[];
-extern TownRecord *scene_record_list;
 
 /* Populate town records and conditionally change the first kind-11 record to kind 10. */
 TownRecord *populate_records_and_normalize_kind(void)

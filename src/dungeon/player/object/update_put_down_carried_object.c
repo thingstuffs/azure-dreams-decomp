@@ -5,6 +5,7 @@
 #include "shared/dungeon_status.h"
 #include "m2c_compat.h"
 #include "dungeon/level.h"
+#include "dungeon/player/object.h"
 
 s32 play_sound_if_enabled(s32);                     /* extern */
 extern s32 held_item_record;

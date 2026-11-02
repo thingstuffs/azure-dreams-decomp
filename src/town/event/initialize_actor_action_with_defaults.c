@@ -1,5 +1,6 @@
 #include "common.h"
 #include "town/event/object_setup.h"
+#include "town/event.h"
 
 extern s32 D_800D0678[];
 

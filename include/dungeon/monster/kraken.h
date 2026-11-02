@@ -18,4 +18,7 @@ void update_actor_movement_and_emit_particles(ActorRecord *actor, ObjectPosition
 /* Callback entry points. */
 void update_actor_callbacks_movement_and_terrain(ActorRecord *body, ObjectPosition *motion, SpriteFrameState *sprite_arg);
 
+/* Owner declarations appended by tools/headers (append-only; the lines above are hand-kept). */
+void update_actor_animation_and_dispatch(ActorRecord *actor, ObjectPosition *context, SpriteFrameState *sprite, ActorRecord *status);
+
 #endif

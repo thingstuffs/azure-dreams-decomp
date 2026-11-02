@@ -9,6 +9,7 @@
 #include "dungeon/actor.h"
 #include "engine/object.h"
 #include "dungeon/effect/screen.h"
+#include "dungeon/monster/beldo_large.h"
 
 typedef struct S_8016BE20_0 {
     u8 pad_00[0x8C];

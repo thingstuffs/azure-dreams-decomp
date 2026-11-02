@@ -5,11 +5,11 @@
 #include "shared/dungeon_status.h"
 #include "shared/entity.h"
 #include "dungeon/actor/status.h"
+#include "dungeon/monster/picket.h"
 
 
 void spend_actor_mp(ActorRecord *entity, s32 base_reduction);            /* extern */
                 /* extern */
-void update_dungeon_actor_behavior_facing_animation_state(ActorRecord *actor, ObjectPosition *context, SpriteFrameState *sprite, ActorRecord *entity);
 
 /*
  * On completed tile movement, spends MP and advances status timers, resuming behavior and clearing

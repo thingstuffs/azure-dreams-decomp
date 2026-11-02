@@ -7,6 +7,7 @@
 #include "engine/menu.h"
 #include "engine/node.h"
 #include "engine/script.h"
+#include "town/menu.h"
 
 #include "shared/object_node.h"/* present_flower_set: create a flower gift object and initialize its state and callback data. */
 /*

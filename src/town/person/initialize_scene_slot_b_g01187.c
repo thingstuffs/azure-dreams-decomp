@@ -45,7 +45,7 @@ void initialize_scene_slot_24(TownObjectRecord *object, ObjectPosition *unused, 
  * clears flag 0x100 in halfword 10.
  */
 void configure_actor_slot_25_and_render_state(TownObjectRecord *context, ObjectPosition *unused, struct SpriteFrameState *stateWords) {
-    func_800C3050(context, 0x19, scene_slot_b_value_58, scene_slot_b_value_5c, scene_slot_b_value_7c,
+    initialize_object_and_register_slot(context, 0x19, scene_slot_b_value_58, scene_slot_b_value_5c, scene_slot_b_value_7c,
                   scene_slot_b_value_80);
     stateWords->clut = 0x240;
     stateWords->flags &= ~0x100;

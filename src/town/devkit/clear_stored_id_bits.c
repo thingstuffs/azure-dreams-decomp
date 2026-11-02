@@ -1,4 +1,5 @@
 #include "common.h"
+#include "town/devkit.h"
 
 typedef struct S_808B2E74_0 {
     u8 pad_00[0xF40];

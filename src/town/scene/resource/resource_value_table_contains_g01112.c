@@ -2,6 +2,7 @@
  * Original-file evidence: inferred (adjacency/recipe/locality), inferred-weak - group G01112 - CL:town/func_8008DB84, CL:town/func_8008DBC8, CL:town/func_8008DC4C, PD:town/engine:800CF828, PD:town/engine:800CF838.
  */
 #include "town/scene/resource/resource_value_table_contains_g01112.h"
+#include "town/scene/resource.h"
 
 /* Return whether the zero-terminated table contains the target value. */
 s32 resource_value_table_contains(void *target_value) {

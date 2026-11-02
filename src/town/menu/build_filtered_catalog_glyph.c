@@ -1,10 +1,7 @@
 #include "common.h"
 #include "town/menu.h"
-
-extern s32 Krom2RawAdd(s32);
-
-extern u16 catalog_override_glyph[];
-extern u8 catalog_glyph_blend_table[];
+#include "town/data.h"
+#include "sdk/libapi.h"
 
 #if 0 /* recarved into the func_80969000 data row */
 static const u8 s_func_80969000_text_prefix[0x7F8] __attribute__((section(".text"))) = {

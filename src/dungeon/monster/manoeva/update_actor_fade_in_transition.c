@@ -17,6 +17,7 @@
 #include "engine/node.h"
 #include "dungeon/monster/manoeva.h"
 #include "dungeon/actor.h"
+#include "engine/util.h"
 
 
 
@@ -25,7 +26,6 @@ typedef struct S_8017427C_4 {
     s32 unk_D0;
 } S_8017427C_4;   /* D_800E3D7C + index * 4 in update_actor_fade_in_transition */
 
-extern s8 func_80042518(void *, s32);
 extern s32 register_node(ObjectNodeHeader *entry, void *registration_id);
 extern void resolve_familiar_deployment_request(void *, void *, void *, s32); /* Unprototyped: uses the value as a pointer where the definition has an integer (or the reverse) */
 extern s32 find_entity_slot_by_field_ac(void *);

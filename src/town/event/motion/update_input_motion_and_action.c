@@ -5,14 +5,14 @@
 #include "shared/game_work.h"
 #include "town/player/coordinates.h"
 #include "town/event.h"
+#include "sdk/libgte.h"
+#include "town/event/motion.h"
+#include "town/player.h"
+#include "town/player/position.h"
 struct TownObj;
 struct TownVec;
 
-extern s32 rcos(s32 wave_input);
 extern void initialize_action_object(void *controller, void *object, s32 update_value);
-extern void move_both_components_toward_zero_direction_dependent_steps_clamping_zero(void *record);
-extern void compute_and_clamps_vector_based_adjustment_updates_town(struct TownObj *obj, s32 base_value, struct TownVec **vec_ptr);
-extern void handle_resolves_movement_collisions_along_one_axis_using_boundary_probes_tile(void *position);
 extern void initialize_record_with_pointer_and_code(void *controller, void *object, s32 update_value);
 
 extern s32 town_saved_motion_pointer;

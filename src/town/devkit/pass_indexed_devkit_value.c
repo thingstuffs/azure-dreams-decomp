@@ -1,7 +1,7 @@
 #include "common.h"
-
-void clear_indexed_flag_bit(s32 flag_id);
-extern u8 devkit_flag_ids[];
+#include "town/devkit.h"
+#include "town/scene/flags.h"
+#include "town/data.h"
 
 /* Pass the indexed table value to clear_indexed_flag_bit. */
 void pass_indexed_devkit_value(s32 index) {

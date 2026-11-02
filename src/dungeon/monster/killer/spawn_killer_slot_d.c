@@ -11,6 +11,7 @@
 #include "engine/node/allocation.h"
 #include "engine/node.h"
 #include "dungeon/actor/status.h"
+#include "dungeon/monster/killer.h"
 #if 0 /* rowbase_rename_reverify precondition marker: dead declaration, never
 seen by the real compiler;
 satisfies the tool's textual defines()
@@ -57,8 +58,6 @@ extern u8 D_8015EA7C[];
 extern M2C_UNK D_8015EEA8;
 extern M2C_UNK D_80162038;
 extern M2C_UNK D_80162088;
-
-void *spawn_killer_slot_d(s16 setup_bits, s32 grid_x, s32 grid_y, s16 placement_value) ;
 
 /* Allocate and initialize a dungeon node with the supplied setup and placement. */
 /* Creates Killer with default frames at D_80162038, applies spawn flags, and attempts valid tile

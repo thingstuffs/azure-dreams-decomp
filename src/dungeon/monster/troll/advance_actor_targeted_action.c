@@ -17,6 +17,7 @@
 #include "dungeon/monster/troll.h"
 #include "dungeon/item.h"
 #include "dungeon/actor.h"
+#include "sdk/libc.h"
 
 
 typedef struct S_8017472C_6 {
@@ -25,8 +26,6 @@ typedef struct S_8017472C_6 {
     s32 unk_0C;
 } S_8017472C_6;   /* control in advance_actor_targeted_action */
 
-
-extern int abs(int);
 extern void spawn_random_color_burst_particle();
 
 

@@ -4,9 +4,9 @@
 #include "town.h"
 #include "town/player/position.h"
 #include "town/player/state.h"
+#include "town/data.h"
 
 extern void call_the_handler_selects_nonzero_entry(void *, void *,void *);
-extern s32 timed_scene_handler_entries;
 extern s32 D_800D00F0;
 extern s32 D_800D00F8;
 extern s16 D_800D0454[];

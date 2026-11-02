@@ -1,5 +1,6 @@
 #include "common.h"
 #include "shared/object_flags.h"
+#include "dungeon/actor.h"
 
 typedef struct DungeonFade {
     u8 r;

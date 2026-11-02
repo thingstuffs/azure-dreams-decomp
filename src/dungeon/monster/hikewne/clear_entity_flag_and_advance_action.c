@@ -5,10 +5,11 @@
 #include "shared/entity.h"
 #include "records/Rec_func_800A9E70_arg0.h"
 #include "dungeon/effect.h"
+#include "dungeon/monster/hikewne.h"
+#include "dungeon/player/object.h"
 
 typedef struct Ent Ent;
 Ent *prepare_directional_attack(); /* extern */
-s16 try_claim_dungeon_action_slot(ActorRecord *actor);                          /* extern */
 
 /* Clear the entity flag and advance its action state when the checks pass. */
 void clear_entity_flag_and_advance_action(ActorRecord *action_state, ObjectPosition *effect_context, SpriteFrameState *update_context, ActorRecord *entity) {

@@ -5,8 +5,8 @@
 #include "dungeon/actor/status.h"
 #include "dungeon/actor.h"
 #include "dungeon/effect.h"
-
-s16 try_claim_dungeon_action_slot(ActorRecord *actor);                          /* extern */
+#include "dungeon/monster/weadog.h"
+#include "dungeon/player/object.h"
 
 /* Clears an entity flag and resets its action state after processing completes. */
 void reset_actor_action_state_after_completion(ActorRecord *action_state, ObjectPosition *context, SpriteFrameState *unused, ActorRecord *entity) {

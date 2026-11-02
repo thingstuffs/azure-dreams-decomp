@@ -7,10 +7,9 @@
 #include "town/event/object.h"
 #include "town/event/state.h"
 #include "engine/node.h"
+#include "town/event.h"
 
 struct EntityRec; struct Rec_D_80082E80; struct TownObjectRecord;
-void dispatch_object_event_or_retire(void *object, s32 event, s32 event_data);
-void noop_hook(void);
 
 typedef struct TownObjectSetup {
     u8 pad_00[0x58];

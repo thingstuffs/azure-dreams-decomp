@@ -8,6 +8,7 @@
 #include "engine/graphics.h"
 #include "shared/entity.h"
 #include "dungeon/monster/golem.h"
+#include "sdk/libc.h"
 
 #ifndef NULL
 #define NULL 0
@@ -17,8 +18,6 @@ typedef RandomizedOffsetVector Copy24;
 
 extern void *allocate_list_node(s32, s32);
 extern s32 register_node(ObjectNodeHeader *entry, void *registration_id);
-extern s32 rand(void);
-
 
 extern u8 D_80175018;
 

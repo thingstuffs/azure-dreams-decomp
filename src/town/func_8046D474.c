@@ -1,6 +1,7 @@
 #include "common.h"
 #include "town/scene/data_access.h"
 #include "m2c_compat.h"
+#include "town.h"
 
 /* cfail-repair: tf7-phase1-cache-v3 */
 extern M2C_UNK D_80019134;

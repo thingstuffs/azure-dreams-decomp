@@ -1,6 +1,7 @@
 #include "common.h"
 #include "m2c_compat.h"
 #include "town/shop/state.h"
+#include "town/devkit.h"
 
 void set_linked_flag(s32 bit_index);                         /* extern */
 void clear_linked_flag(s32 bit_index);                         /* extern */

@@ -3,6 +3,7 @@
 #include "town/menu.h"
 #include "town/shop.h"
 #include "town/shop/object.h"
+#include "town/data.h"
 
 typedef struct SlotB {
     u8 pad[8];
@@ -18,8 +19,6 @@ typedef struct Obj {
     u8 pad[0xA8];
     SlotA **unk0xA8;
 } Obj;
-
-extern u8 item_menu_slot_handler_address[];
 
 extern void func_800B3558(void *ptr);
 extern void func_800B2F88(void *ptr);

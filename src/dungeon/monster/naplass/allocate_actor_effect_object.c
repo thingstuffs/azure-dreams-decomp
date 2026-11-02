@@ -6,6 +6,7 @@
 #include "shared/actor_status_ids.h"
 #include "dungeon/monster/naplass/allocate_actor_effect_object.h"
 #include "shared/monster_ids.h"
+#include "dungeon/monster/naplass.h"
 
 /* Allocates an object, initializes its parts and actor state, and returns its work area. */
 /* Creates Naplass with default frames at D_80174194, applies spawn flags, and attempts valid tile

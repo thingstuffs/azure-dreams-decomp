@@ -1,6 +1,7 @@
 #include "common.h"
 #include "shared/object_flags.h"
 #include "dungeon/actor/effect.h"
+#include "dungeon/monster/barong.h"
 
 /* Sparse views for fields not covered by the existing record types. */
 typedef struct { u16 flags; } MotionFieldView_80E64FF0Prefix;

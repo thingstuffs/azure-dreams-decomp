@@ -6,8 +6,9 @@ typedef struct ObjA0 ObjA0;
 typedef struct Motion Motion;
 typedef struct TilePos TilePos;
 #include "shared/entity.h"
+#include "dungeon/actor/position.h"
+#include "dungeon/monster/nyuel.h"
 
-extern s32 update_actor_movement_to_tile(void *move_state,void *motion,void *target_tile, ActorRecord *actor);
 extern void spend_actor_mp(s32, s32);
 
 extern s32 nyuel_action_resume_address;

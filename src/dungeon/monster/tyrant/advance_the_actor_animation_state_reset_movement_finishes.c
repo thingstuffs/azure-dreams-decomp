@@ -15,15 +15,11 @@
 #include "dungeon/actor/status.h"
 #include "dungeon/item.h"
 #include "dungeon/actor.h"
-extern int abs(int);
+#include "dungeon/effect/particle.h"
+#include "sdk/libc.h"
 
 extern s32 tyrant_action_resume_address;
 extern u8 tyrant_direction_frames[8];
-
-extern void create_two_row_object_group(void *payload, s16 value_scale);
-
-
-
 
 /* Advance the actor animation state and reset movement when it finishes. */
 void advance_the_actor_animation_state_reset_movement_finishes(ActorRecord *action, ObjectPosition *motion, SpriteFrameState *sprite, ActorRecord *actor) {

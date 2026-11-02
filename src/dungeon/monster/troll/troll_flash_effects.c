@@ -7,6 +7,7 @@
 #include "dungeon/monster/troll/troll_flash_effects.h"
 #include "shared/object_flags.h"
 #include "shared/sprite_frame_state.h"
+#include "dungeon/monster/troll.h"
 
 /* Fade the primitive color by one step and flag completion when the counter reaches zero. */
 void update_stepped_rgb_flash(void *fade_state_arg, ObjectPosition *unused, T_80170D40_S_80170D40_1 *primitive)

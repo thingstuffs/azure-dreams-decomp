@@ -1,4 +1,5 @@
 #include "common.h"
+#include "town.h"
 
 /* cfail-repair: tf7-phase1-cache-v3 */
 

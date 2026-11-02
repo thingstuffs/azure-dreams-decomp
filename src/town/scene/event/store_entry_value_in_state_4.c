@@ -13,12 +13,12 @@ typedef struct TownStateEntryTable {
     TownStateEntry *entries;
 } TownStateEntryTable;
 
-extern s32 func_8001A79C(); /* Slot contract: loading images do not establish one callee contract. */
+extern s32 prepare_stored_value_pair(); /* Slot contract: loading images do not establish one callee contract. */
 
 /* In event state 4, store func_8001A79C() in the indexed entry and return 0; otherwise return 1. */
 s32 store_entry_value_in_state_4(TownStateEntryTable *table, s32 index) {
     if (town_event_state->selection_mode == 4) {
-        table->entries[index].unk_08 = func_8001A79C();
+        table->entries[index].unk_08 = prepare_stored_value_pair();
         return 0;
     }
     return 1;

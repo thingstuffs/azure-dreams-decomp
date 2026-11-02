@@ -1,4 +1,5 @@
 #include "common.h"
+#include "town/system.h"
 
 extern s32 overlay_height_in_range;
 extern void SD_Call(s32);

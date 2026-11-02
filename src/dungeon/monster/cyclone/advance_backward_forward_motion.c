@@ -14,10 +14,7 @@ struct SpriteFrameState;
 #include "records/Rec_D_80082E80.h"
 #include "dungeon/actor.h"
 #include "dungeon/effect/screen.h"
-
-
-extern s32 rsin(s32);
-extern s32 rcos(s32);
+#include "sdk/libgte.h"
 
 extern void create_directional_effect(ActorRecord *, void *,struct SpriteFrameState *);
 extern void create_offset_directional_effect(ActorRecord *, void *,struct SpriteFrameState *);

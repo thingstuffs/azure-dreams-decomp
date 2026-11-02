@@ -3,6 +3,7 @@
 #include "shared/game_work.h"
 #include "records/Rec_func_801724B0_arg0.h"
 #include "shared/entity.h"
+#include "dungeon/monster/baloon.h"
 
 typedef struct S_80047784 S_80047784;
 

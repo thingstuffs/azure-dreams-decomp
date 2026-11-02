@@ -9,20 +9,15 @@
 #include "shared/dungeon_status.h"
 #include "shared/entity.h"
 #include "dungeon/monster/hikewne.h"
+#include "dungeon.h"
+#include "dungeon/level.h"
+#include "dungeon/player/object.h"
 
 
 extern void select_sprite_entry(void *, u8, s32);
-extern s16 check_entity_relation(ActorRecord *entry, ActorRecord *anchor);
 extern s8 find_active_rect_containing_point(u8, u8);
-extern s32 can_entity_gain_level(void *);
 extern void update_actor_status_and_mp(ActorRecord *entity);
-extern s32 begin_ready_actor_directional_action(ActorRecord *body, ObjectPosition *position, SpriteFrameState *sprite, u8 *direction_frames);
-extern void begin_actor_move_to_target_facing(ActorRecord *body, ObjectPosition *position, SpriteFrameState *sprite, ActorRecord *actor);
 
-void advance_actor_along_queued_path(ActorRecord *motion, ObjectPosition *unused, SpriteFrameState *actor, ActorRecord *move_state);
-s32 validate_action_and_apply_effect(ActorRecord *action, ObjectPosition *effect, SpriteFrameState *target, ActorRecord *actor_data);
-void clear_entity_flag_and_advance_action(ActorRecord *action_state, ObjectPosition *effect_context, SpriteFrameState *update_context, ActorRecord *entity);
-extern s32 update_entity_state_from_query(ActorRecord *, ObjectPosition *, SpriteFrameState *, s32);
 extern void update_directional_sprite_state_and_signals(void *, void *, void *, void *);
 
 extern u8 hikewne_direction_frames[];

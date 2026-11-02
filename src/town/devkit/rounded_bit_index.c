@@ -1,6 +1,7 @@
 /* Clears six selected development bitmap bits using signed index rounding helpers. */
 #include "common.h"
 #include "m2c_compat.h"
+#include "town/devkit.h"
 
 extern u8 devkit_globals_page[];
 

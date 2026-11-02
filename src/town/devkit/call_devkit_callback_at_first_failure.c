@@ -1,5 +1,6 @@
 #include "common.h"
 #include "town/scene/flags.h"
+#include "town/devkit.h"
 
 typedef struct {
     s16 value[4];

@@ -7,6 +7,7 @@
 #include "sdk/libc.h"
 #include "slus.h"
 #include "town/minigame.h"
+#include "town/data.h"
 
 typedef struct S_80023A00_0 {
     u8 pad_00[0x18];
@@ -27,9 +28,6 @@ typedef struct {
 extern s32 loaded_town_resource_attributes[];
 extern s16 view_facing_angle_alias;
 extern u8 D_80083220[];
-
-extern u8 minigame_motion_frames[];
-extern u8 town_minigame_directional_frames[];
 
 /* Updates entity state and selects direction-dependent table entries. */
 void process_nonzero(void *object, void *output, void *entity_data)

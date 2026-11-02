@@ -5,6 +5,8 @@
 #include "shared/entity.h"
 #include "common.h"
 #include "dungeon/player/state.h"
+#include "dungeon/actor/effect.h"
+#include "slus.h"
 
 typedef struct {
     u8 first;
@@ -17,8 +19,6 @@ extern u8 held_item_record[];
 extern DungeonRecord dungeon_ground_item_positions[];
 
 extern s16 find_table_value_index(DungeonItemEntry *); /* Unprototyped: uses the value as a pointer where the definition has an integer (or the reverse) */
-extern void compact_item_entry_table(s32 entry_index);
-extern s16 get_bounded_stride_index(s32 *, u8 *, s32, s32);
 extern void update_map_cell_flags_with_item_limit(u8, u8, s32);
 
 /* Clears a slot and updates its associated entry or dungeon state. */

@@ -18,9 +18,9 @@ struct Rec_D_800FE490;
 extern struct S_800C01DC_1 map_runtime_state;
 typedef struct S_800C02C4_1 S_800C02C4_1;
 #include "records/Rec_D_800CFCB4.h"
+#include "town/data.h"
 extern Rec_D_800CFCB4 town_actor_control;
 extern u8 D_800D0420[];
-extern s32 town_scene_init_callback;
 #include "records/Rec_D_800FE490.h"
 #include "shared/dungeon_projectile_views.h"
 #include "town/scene.h"

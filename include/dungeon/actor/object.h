@@ -15,4 +15,8 @@ void *select_object_by_flags_and_keys(struct Func8180F0F4_Obj *first, struct Fun
 #include "records/Rec_D_80082E80.h"
 void initialize_actor_object_action(void *object_state, void *unused_context, Rec_D_80082E80 *properties, EntityRec *status);
 
+#include "shared/town_object.h"
+void advance_object_countdown_and_invoke_handlers(TownObjectRecord *object, s32 handlerContext, s32 handlerData);
+s32 initialize_object_configuration_x(EntityRec *entity);
+
 #endif

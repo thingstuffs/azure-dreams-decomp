@@ -13,7 +13,8 @@
 #include "dungeon/level/room_flags.h"
 #include "records/Rec_func_800A9E70_arg0.h"
 #include "dungeon/item.h"
-extern int abs(int);
+#include "dungeon/item/state.h"
+#include "sdk/libc.h"
 
 extern s16 check_entity_relation(ActorRecord *entry, ActorRecord *anchor);
 extern void cycle_map_cell_flags(s16 x, s16 y, u16 flags);
@@ -21,7 +22,6 @@ void update_map_cell_flags_with_item_limit(s32 x, s32 y, u16 flags);
 extern s32 check_diagonal_side_height(s32, u8, u8, s16);
 extern s16 check_movement_clearance_and_height(s16, void *, void *, s32);
 extern s16 get_actor_height_difference(ActorRecord *left_record, ActorRecord *right_record);
-extern void update_actor_proximity_flag(void *source, void *state, s32 lower_limit, s32 upper_limit, s8 *result);
 extern s32 generate_random_value(void);
 extern s16 find_nearest_floor_item_in_room(void *, s32, s16 *, s16 *);
 extern void update_actor_status_and_mp(ActorRecord *entity);

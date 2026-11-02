@@ -1,8 +1,8 @@
 #include "common.h"
 #include "town/scene.h"
 #include "town/scene/event.h"
+#include "town/data.h"
 
-extern u8 scene_mode_response_data[];
 extern u8 D_8001914C[];
 extern u8 D_8001EEA7[];
 extern u8 D_8001F0AA[];

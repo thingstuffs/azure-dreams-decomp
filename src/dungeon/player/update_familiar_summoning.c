@@ -15,6 +15,9 @@
 #include "dungeon/player.h"
 #include "dungeon/level.h"
 #include "slus.h"
+#include "dungeon/item.h"
+#include "engine/entity.h"
+#include "engine/texture.h"
 
 
 typedef struct S_80095A10_2 {
@@ -64,15 +67,8 @@ typedef struct S_80095A10_7 {
 
    /* ((S_80095A10_2 *)arg3)->unk_60 in update_familiar_summoning */
 
-s32 Control_CD();
-void apply_actor_template_and_class(void *entity, int value, void *source);
-void replay_actor_status_slots(ActorRecord *object);
-s32 func_80042640(void *, s32);
-void clear_slots_of_type(ActorRecord *owner, s8 match_type);
 void runtime_map_type_16_entry_code();
 s32 queue_cd_resource(); /* Unprototyped: uses the value as a pointer where the definition has an integer (or the reverse) */
-void runtime_no_op_callback(u32 unused_state);
-u8 * find_or_retain_sprite_resource_slot(s32 requested_id, s32 requested_type);
 s32 play_sound_if_enabled(s32 query_value);
 extern s32 loaded_entity_sprite_resource;
 extern u8 player_wait_frames[];

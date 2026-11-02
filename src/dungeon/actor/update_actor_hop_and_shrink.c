@@ -4,6 +4,7 @@
 #include "shared/sprite_frame_state.h"
 #include "shared/sys_flags.h"
 #include "sdk/libgte.h"
+#include "dungeon/actor.h"
 
 
 typedef struct S_800AB538_1 {

@@ -18,6 +18,7 @@ extern TownState town_actor_control;
 extern s16 D_800D5078[];
 
 #include "town/person/object_setup.h"
+#include "town/person/position.h"
 
 /* Return the current object's cached value or look it up at the town coordinates. */
 s16 get_cached_or_coordinate_transform_value(void *object, void *lookup_mode)

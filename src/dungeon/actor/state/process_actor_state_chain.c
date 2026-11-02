@@ -1,4 +1,5 @@
 #include "common.h"
+#include "dungeon/actor/state.h"
 
 typedef struct Entry {
     u8 pad00[6];

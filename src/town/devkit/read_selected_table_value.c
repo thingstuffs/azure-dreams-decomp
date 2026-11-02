@@ -1,7 +1,7 @@
 #include "common.h"
+#include "town/devkit.h"
+#include "town/data.h"
 
-
-extern s32 devkit_cursor_state[];
 extern u8 devkit_globals_page[];
 extern void func_807007D8(s32);
 extern void func_80700868(s32);

@@ -4,6 +4,7 @@
 #include "shared/dungeon_status.h"
 #include "engine/graphics.h"
 #include "shared/entity.h"
+#include "dungeon/monster/golem.h"
 
 
 extern u8 golem_action_continuation_address[];

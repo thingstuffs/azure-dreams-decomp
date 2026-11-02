@@ -5,6 +5,7 @@
 #include "m2c_compat.h"
 #include "dungeon/item.h"
 #include "dungeon/menu.h"
+#include "dungeon/actor.h"
 
 typedef struct S_800C8DB0_0 {
     u8 pad_00[0x3];

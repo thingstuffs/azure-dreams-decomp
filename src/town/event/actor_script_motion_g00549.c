@@ -5,6 +5,7 @@
 #include "town/scene/flags.h"
 #include "town/scene.h"
 #include "town/scene/motion.h"
+#include "town/event.h"
 
 /* Dispatches town object actions for the active script and owner state. */
 s32 dispatch_active_town_object_script(TownObject *object, void *owner_arg, void *context, void *extra_ptr) {

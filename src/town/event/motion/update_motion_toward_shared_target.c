@@ -6,8 +6,8 @@
 #include "records/Rec_func_8009B828_arg0.h"
 #include "town/player/position.h"
 #include "town/scene/motion.h"
+#include "town.h"
 
-void call_the_same_context_both_processing_routines(s32, s32);             /* extern */
 void initialize_target_motion(); /* Unprototyped: retail call passes more arguments than the callee reads */ /* extern */
 extern s32 town_target_height_offset;
 

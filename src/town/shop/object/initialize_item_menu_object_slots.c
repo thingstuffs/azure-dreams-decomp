@@ -3,8 +3,7 @@
 #include "town/shop/item.h"
 #include "town/shop/object.h"
 #include "town/shop/position.h"
-
-extern u8 item_menu_slot_handler_address[];
+#include "town/data.h"
 
 /* Initialize four object slots with shared or embedded data and paired offsets. */
 void initialize_item_menu_object_slots(ItemMenuObject *object) {

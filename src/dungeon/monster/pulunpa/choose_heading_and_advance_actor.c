@@ -6,6 +6,8 @@
 #include "shared/dir_step.h"
 #include "records/Rec_func_800A9E70_arg0.h"
 #include "dungeon/item.h"
+#include "dungeon/item/state.h"
+#include "dungeon/monster/pulunpa.h"
 
 typedef struct S_8017405C_0 {
     u8 pad_00[0x14];
@@ -80,7 +82,6 @@ typedef struct S_8017405C_10 {
 
 
 extern void update_actor_status_and_mp(ActorRecord *entity);
-extern void update_actor_proximity_flag(void *, void *, s32, s32, void *);
 extern s32 generate_random_value(void);
 extern s16 check_movement_clearance_and_height(s16, void *, void *, s32);
 extern s16 get_actor_height_difference(ActorRecord *left_record, ActorRecord *right_record);

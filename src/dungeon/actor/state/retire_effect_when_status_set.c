@@ -1,6 +1,7 @@
 #include "common.h"
 #include "shared/object_flags.h"
 #include "m2c_compat.h"
+#include "dungeon/actor/state.h"
 
 typedef struct S_800ADB8C_0_pre {
     u16 unk_00;

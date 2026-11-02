@@ -10,12 +10,12 @@
 #include "dungeon/actor/status.h"
 #include "dungeon/actor/animation.h"
 #include "engine/node/allocation.h"
+#include "dungeon/actor.h"
 
 
 
 extern s32 register_node(ObjectNodeHeader *entry, void *registration_id);
 extern s32 generate_random_value(void);
-extern void try_move_actor_to_valid_position(void *, void *, void *, void *);
 
 extern u8 entity_spawn_variant_code;
 extern u8 D_80170AE0[];

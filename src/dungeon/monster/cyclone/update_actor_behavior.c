@@ -9,6 +9,8 @@
 #include "shared/entity.h"
 #include "records/Rec_D_80082E80.h"
 #include "records/Rec_func_80173DD4_arg0.h"
+#include "dungeon.h"
+#include "dungeon/level.h"
 
 typedef struct S_80173DD4_3 {
     u8 pad_00[0xA];
@@ -18,13 +20,10 @@ typedef struct S_80173DD4_3 {
 extern s32 get_entity_effect_value(ActorRecord *entry, s32 effect_id);
 extern void clear_slots_of_type(ActorRecord *owner, s8 match_type);
 extern void select_sprite_entry(void *, u8, s32);
-extern s16 check_entity_relation(ActorRecord *entry, ActorRecord *anchor);
 extern s32 get_tile_chebyshev_distance(void *, void *);
 #include "dungeon/player/object/action_state.h"
 extern s32 generate_random_value(void);
 extern void update_actor_status_and_mp(ActorRecord *entity);
-extern s32 begin_ready_actor_directional_action(ActorRecord *body, ObjectPosition *position, SpriteFrameState *sprite, u8 *direction_frames);
-extern void begin_actor_move_to_target_facing(ActorRecord *body, ObjectPosition *position, SpriteFrameState *sprite, ActorRecord *actor);
 extern void func_80174520(void *, void *, void *, void *);
 
 #include "dungeon/monster/cyclone.h"

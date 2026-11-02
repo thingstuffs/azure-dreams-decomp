@@ -13,13 +13,13 @@
 #include "engine/node/allocation.h"
 #include "dungeon/actor/status.h"
 #include "engine/node.h"
+#include "dungeon/monster/picket.h"
 
 
 
 
 extern s32 generate_random_value(void);
 extern u8 D_80170CC8[];
-void update_dungeon_actor_behavior_facing_animation_state(ActorRecord *actor, ObjectPosition *context, SpriteFrameState *sprite, ActorRecord *entity);
 extern u8 picket_frame_set_1[];
 extern u8 picket_frame_set_6[];
 

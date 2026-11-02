@@ -11,7 +11,8 @@
 #include "dungeon/player.h"
 
 #include "dungeon/player/object.h"
-extern void * create_animated_selection_menu_owner(void *unused, void *source);
+#include "dungeon/player/input.h"
+#include "engine/menu.h"
 extern s32 menu_action_argument[];
 
 /* Reset movement and dispatch actor actions based on state and input flags. */

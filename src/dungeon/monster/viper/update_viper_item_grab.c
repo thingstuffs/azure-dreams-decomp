@@ -10,6 +10,7 @@
 #include "dungeon/actor.h"
 #include "dungeon/monster/golem.h"
 #include "dungeon/monster/viper/effect.h"
+#include "sdk/libc.h"
 
 typedef struct {
     Fixed1616 x;
@@ -77,7 +78,6 @@ struct SpriteFrameState;
 extern void select_sprite_entry(void *, s16, s16);
 extern void play_sound_if_enabled(s32);
 extern void spend_actor_mp(Object *, s32);
-extern int abs(int);
 
 /* Moves the entity forward, then returns it to its saved position and restores its callback. */
 void update_viper_item_grab(Entity *entity, Motion *motion, SpriteFrameState *effect, Object *object)

@@ -1,8 +1,9 @@
 #include "common.h"
 #include "town/scene/flags.h"
+#include "town/devkit.h"
+#include "town/data.h"
 
 extern s16 D_80700BAC[];
-extern u8 devkit_flag_ids[];
 
 /* Returns whether the indexed secondary check passes while both primary checks fail. */
 s32 check_devkit_secondary_condition(s32 value_index) {

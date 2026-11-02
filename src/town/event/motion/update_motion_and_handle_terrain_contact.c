@@ -9,6 +9,11 @@
 #include "town/player.h"
 #include "town/player/position.h"
 #include "town/scene/motion.h"
+#include "town.h"
+#include "town/event/motion.h"
+#include "town/map.h"
+#include "town/map/position.h"
+#include "town/data.h"
 
 typedef void (*Callback)(void *, void *, void *, s32);
 
@@ -20,13 +25,9 @@ typedef struct S_8009B6B4_2 {
     void * unk_50;
 } S_8009B6B4_2;   /* arg0 in update_motion_and_handle_terrain_contact */
 
-extern s32 call_the_same_context_both_processing_routines(void *, void *);
-extern s32 read_map_cell_at_world_position(s16, s16);
-extern s32 check_masked_value_in_current_range(u16);
 extern void SD_Call(u32);
 
 extern void actor_surface_callback_address(void *actor, void *subject, void *motion, void *context);
-extern s16 terrain_height_limits[];
 
 /* Update object motion, handle contact, and play the tile height sound. */
 void update_motion_and_handle_terrain_contact(void *object, Rec_D_800CFCB4 *collision, ObjectPosition *motion, s32 callback_arg) {

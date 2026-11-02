@@ -16,16 +16,12 @@
 #include "slus.h"
 #include "town/player/position.h"
 #include "town/scene/object.h"
+#include "town/data.h"
 
 #ifndef NULL
 #define NULL 0
 #endif
 
-
-
-
-
-extern volatile u16 snowball_best_score;
 extern u8 D_80022B80[];
 extern s16 D_800272A0[];
 extern void *scene_object_payload_alias;
@@ -41,7 +37,6 @@ extern u8 D_800F2EE0[];
 extern u8 D_800F2F28[];
 extern u8 D_800F2F80[];
 extern u8 D_800F2FE0[];
-extern u8 snowball_actor_sprites[];
 
 /* Updates actor movement, animation, scoring, and departure through its state sequence. */
 void update_snowball_minigame_actor(TownCollectionActor *object, ObjectPosition *motion, SpriteFrameState *sprite)

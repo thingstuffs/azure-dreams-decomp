@@ -1,4 +1,5 @@
 #include "common.h"
+#include "town/devkit.h"
 
 /* Copy of shop_invoke_runtime_callback (src/town/func_80878640.c) in the devkit image at file 0x800800. */
 

@@ -4,6 +4,7 @@
 #include "shared/tile_object.h"
 #include "shared/game_work.h"
 #include "shared/entity.h"
+#include "dungeon/player.h"
 
 typedef struct ActionActor { u8 pad[0x8C]; s32 action; } ActionActor;
 

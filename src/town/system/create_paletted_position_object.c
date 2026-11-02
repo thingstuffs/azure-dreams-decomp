@@ -6,6 +6,7 @@
 #include "common.h"
 #include "town/minigame/keima.h"
 #include "town/person.h"
+#include "town/system.h"
 
 
 typedef struct S_80956E6C_4 {

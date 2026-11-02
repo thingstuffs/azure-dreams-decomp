@@ -1,6 +1,6 @@
 #include "common.h"
-
-extern s32 rand(void);
+#include "dungeon/monster/baloon.h"
+#include "sdk/libc.h"
 
 /* Returns a random sample below limit, or zero when limit is zero. */
 s32 random_below_limit(s32 limit) {

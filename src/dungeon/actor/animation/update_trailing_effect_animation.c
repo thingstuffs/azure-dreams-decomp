@@ -1,14 +1,13 @@
 #include "dungeon/actor/animation.h"
 #include "common.h"
 #include "shared/object_flags.h"
+#include "sdk/libc.h"
+#include "sdk/libgte.h"
 
 #define U8_AT(p, o) (*(u8 *)((u8 *)(p) + (o)))
 #define U16_AT(p, o) (*(u16 *)((u8 *)(p) + (o)))
 #define PTR_AT(p, o) (*(void **)((u8 *)(p) + (o)))
 
-
-extern s32 rsin(s32);
-extern s32 rand(void);
 extern u8 trailing_effect_frame_limit[];
 
 /* Update a trailing effect's position, brightness, and animation frame. */

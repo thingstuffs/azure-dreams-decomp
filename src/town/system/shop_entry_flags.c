@@ -3,6 +3,8 @@
 #include "common.h"
 #include "m2c_compat.h"
 #include "records/Rec_func_800AD7F8_arg0.h"
+#include "slus.h"
+#include "town/system.h"
 
 
 
@@ -12,8 +14,6 @@ typedef struct S_800AD7F8_1 {
 } S_800AD7F8_1;
 
 /* Toggle the selected entry flag 0x20 when flag 0x80 is clear. */
-extern s32 func_8004A618(u8 *);
-extern s32 func_8004A638(u8 *);
 
 /* Toggles bit 0x20 in the selected four-byte entry unless its byte-3 flags include 0x80. */
 void toggle_selected_entry_flag(Rec_func_800AD7F8_arg0 *state) {
@@ -37,9 +37,9 @@ s32 sum_flagged_entry_values(u8 *entry, s32 mode) {
         do {
             if (entry[3] & 0x20) {
                 if (mode == 0) {
-                    total += func_8004A638(entry);
+                    total += get_item_buy_money(entry);
                 } else {
-                    total += func_8004A618(entry);
+                    total += get_item_sell_money(entry);
                 }
             }
             entry += 4;

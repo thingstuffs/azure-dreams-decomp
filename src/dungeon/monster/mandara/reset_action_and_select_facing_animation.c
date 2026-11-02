@@ -3,11 +3,11 @@
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 #include "shared/entity.h"
+#include "dungeon/player/object.h"
 typedef struct Ent Ent;
 
 
 extern Ent *prepare_directional_attack();
-extern s16 try_claim_dungeon_action_slot(ActorRecord *actor);
 #include "dungeon/monster/mandara.h"
 #include "engine/graphics.h"
 #include "dungeon/effect.h"

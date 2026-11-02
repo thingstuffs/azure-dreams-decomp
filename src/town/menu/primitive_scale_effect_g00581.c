@@ -2,6 +2,7 @@
 /* inferred-strong G00581: primitive_scale_effect_g00581; joins CL:town/func_800AA1AC,CL:town/func_800AA268; no crossing cuts. */
 /* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - CL:town/func_800AA1AC, CL:town/func_800AA268. */
 #include "town/menu/primitive_scale_effect_g00581.h"
+#include "town/menu.h"
 
 /* Update scale from elapsed ticks and advance when the countdown expires. */
 void update_scale_effect_and_advance(S_800A7950_1 *state, void *context, S_800A7950_0 *scale) {

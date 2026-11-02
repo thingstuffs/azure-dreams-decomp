@@ -1,4 +1,5 @@
 #include "common.h"
+#include "town/event.h"
 typedef struct {
     s32 unk0;
     void **unk4;

@@ -2,6 +2,7 @@
 #include "shared/entity.h"
 #include "common.h"
 #include "dungeon/actor.h"
+#include "dungeon/monster/nyuel.h"
 
 /* Forward all four effect callback arguments and the result. */
 s32 update_nyuel_defeat_removal_slot_e(ActorRecord *state, ObjectPosition *position, SpriteFrameState *sprite, ActorRecord *entity_data) {

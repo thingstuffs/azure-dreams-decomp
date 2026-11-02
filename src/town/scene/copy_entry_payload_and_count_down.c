@@ -1,11 +1,11 @@
 #include "common.h"
+#include "town/data.h"
 
 typedef struct {
     s32 words[6];
 } Copy24;
 
 extern void func_8003EA54(s32 call_arg);
-extern s32 scene_object_flags;
 
 /* Copy an entry's 24-byte payload, decrement its count, and flag exhaustion. */
 void copy_entry_payload_and_count_down(void *entry, Copy24 *dst, s32 call_arg) {

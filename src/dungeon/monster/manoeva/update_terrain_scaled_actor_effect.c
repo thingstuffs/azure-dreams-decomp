@@ -5,6 +5,7 @@
 #include "shared/dungeon_moving_views.h"
 #include "dungeon/level.h"
 #include "engine/entity.h"
+#include "sdk/libgte.h"
 
 typedef struct S_8017474C_0 {
     u8 pad_00[0x4];
@@ -58,9 +59,6 @@ typedef struct S_8017474C_8 {
     u8 pad_10[0x2];
     u16 unk_12;
 } S_8017474C_8;   /* ((S_8017474C_0 *)arg0)->unk_14 in update_terrain_scaled_actor_effect */
-
-extern s32 rsin(s32);
-extern s32 rcos(s32);
 
 /* Updates effect position and animated scales, flagging invalid or fully expanded effects. */
 void update_terrain_scaled_actor_effect(void *effect, MovingPosition *out_position, SpriteFrameState *out_render)

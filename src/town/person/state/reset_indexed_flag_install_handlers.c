@@ -8,7 +8,7 @@
 #include "town/person/object_setup.h"
 #include "town/person/state.h"
 #include "town/person/object.h"
-extern s32 person_menu_object_entries[];
+#include "town/data.h"
 extern M2C_UNK D_800D5624;
 extern M2C_UNK D_800D562C;
 extern M2C_UNK D_800D5654;

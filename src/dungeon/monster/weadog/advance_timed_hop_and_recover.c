@@ -12,6 +12,7 @@
 #include "dungeon/actor/spell_resource_ids_g01008.h"
 #include "engine/graphics.h"
 #include "dungeon/item.h"
+#include "sdk/libgte.h"
 
 typedef struct S_801670E0_0 {
     u8 pad_00[0x8C];
@@ -35,9 +36,6 @@ typedef struct S_801670E0_1 {
     u8 pad_2C[0x1A];
     u16 unk_46;
 } S_801670E0_1;   /* arg3 in advance_timed_hop_and_recover */
-
-
-extern s32 rsin(s32);
 
 extern s32 D_80165CE8;
 extern u8 D_80168EB8[];

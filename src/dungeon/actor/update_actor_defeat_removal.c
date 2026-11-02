@@ -9,12 +9,10 @@
 #include "dungeon/actor/state.h"
 #include "dungeon/effect.h"
 #include "dungeon/player/object.h"
+#include "sdk/libgte.h"
 
 struct EntityLinkNode;
 
-
-s32 rsin(s32);
-s32 rcos(s32);
 void unlink_entity_node(struct EntityLinkNode *node); /* extern */
 void update_map_cell_flags_with_item_limit(s32 x, s32 y, u16 flags);
 void * detach_record_and_update_slot_state(void *record); /* extern */

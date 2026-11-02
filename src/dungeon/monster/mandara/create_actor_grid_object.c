@@ -38,9 +38,6 @@ extern void func_80170B40(void);
 extern void func_80175258(void);
 extern void func_80175298(void);
 
-void *create_mandara_actor(s16, s32, s16, s16);
-
-
 typedef struct S_80FB1000_2 {
     u8 pad_00[0x6];
     u16 unk_06;

@@ -17,6 +17,7 @@
 #include "dungeon/item/actor_target.h"
 #include "dungeon/item.h"
 #include "dungeon/actor.h"
+#include "slus.h"
 extern s32 cd_cue_base[];
 extern u8 animation_tick_scale;
 extern u8 D_800DCF50;
@@ -25,15 +26,7 @@ extern u8 kewne_action_resume_address[];
 extern u8 D_80175F40[];
 extern u16 D_80175F6E;
 
-extern s32 Control_CD();
-extern void sound_set_cd_cue_parameters(int value_0, int value_1, int value_2, int value_3);
-extern s32 read_stream_cue_start_offset(void);
 extern void create_actor_linked_effect(void *sourceData);
-extern void create_linked_source_object(void *source);
-extern void create_linked_child_object(void *parent);
-
-
-
 
 /* Advance an item action through targeting, audio playback, and animation cleanup. */
 /* Starts Kewne's targeted spell and linked effects, times optional CD audio playback, then restores

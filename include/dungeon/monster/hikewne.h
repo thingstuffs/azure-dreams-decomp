@@ -31,4 +31,10 @@ void select_state_table_with_flagged_offset(ActorRecord *state, ObjectPosition *
 
 void update_actor_behavior_animation_and_facing(ActorRecord *actor_arg, ObjectPosition *context_arg, SpriteFrameState *sprite_arg, ActorRecord *stats_arg);
 
+/* Owner declarations appended by tools/headers (append-only; the lines above are hand-kept). */
+void advance_actor_along_queued_path(ActorRecord *motion, ObjectPosition *unused, SpriteFrameState *actor, ActorRecord *move_state);
+void clear_entity_flag_and_advance_action(ActorRecord *action_state, ObjectPosition *effect_context, SpriteFrameState *update_context, ActorRecord *entity);
+s32 update_entity_state_from_query(ActorRecord *body, ObjectPosition *position, SpriteFrameState *sprite, s32 force_state_arg);
+s32 validate_action_and_apply_effect(ActorRecord *action, ObjectPosition *effect, SpriteFrameState *target, ActorRecord *actor_data);
+
 #endif

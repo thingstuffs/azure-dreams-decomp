@@ -7,6 +7,7 @@
 #include "shared/monster_ids.h"
 #include "shared/sprite_frame_state.h"
 #include "dungeon/monster/naplass/create_kind_actor.h"
+#include "dungeon/monster/naplass.h"
 
 /* Allocate an actor and initialize its parts and behavior from the kind flags. */
 /* Creates Naplass with default frames at D_8015C194, applies spawn flags, and attempts valid tile

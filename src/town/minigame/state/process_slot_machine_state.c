@@ -11,6 +11,9 @@
 #include "town/person/position.h"
 #include "town/shop/object.h"
 #include "town/minigame/state.h"
+#include "town/menu.h"
+#include "town/player.h"
+#include "town/data.h"
 
 #ifndef NULL
 #define NULL 0
@@ -18,8 +21,6 @@
 
 extern u8 D_80020224[];
 extern s32 town_money[];
-extern s32 slot_bet_display_object[];
-extern s16 slot_payout_digits[8];
 extern s16 D_800244E8[16];
 extern u8 slot_machine_column_tiles[0x30];
 extern u8 minigame_pickup_bounds[0x10];
@@ -28,8 +29,6 @@ extern u8 D_80024470[];
 extern u8 D_8007947C[];
 extern s16 D_800834C8[8];
 
-extern void initialize_town_context_action(void);
-extern s32 test_three_axis_box_overlap(void *box, void *offset);
 extern s16 SD_Call(s32 value);
 extern void *create_dual_buffer_object(s32 setup_value, s32 x, s32 y);
 extern void *create_familiar_deployment_effect_with_owner_state(void);

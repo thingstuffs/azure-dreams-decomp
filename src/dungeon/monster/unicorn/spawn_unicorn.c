@@ -8,12 +8,12 @@
 #include "engine/node.h"
 #include "engine/node/allocation.h"
 #include "dungeon/actor/status.h"
+#include "dungeon/actor.h"
 
 /* The update callback is the shared dragon code at this bank's own address;
  * its canonical name sits at 0x80170A28 and the home bank does not rebind it. */
 extern u8 D_80170A50[];
 extern s32 generate_random_value(void);
-extern void try_move_actor_to_valid_position(void *,void *,void *,void *);
 
 /* Allocate Unicorn, set its spawn state and frames, and try a valid tile. */
 void *spawn_unicorn(s16 spawn_flags, s16 tile_x, s16 tile_y, s16 spawn_height)

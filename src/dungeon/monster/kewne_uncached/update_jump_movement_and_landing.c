@@ -13,9 +13,7 @@
 #include "dungeon/system.h"
 #include "dungeon/actor.h"
 #include "dungeon/effect/screen.h"
-
-
-extern s32 rsin(s32);
+#include "sdk/libgte.h"
 
 extern void func_801753DC(void *, void *);
 

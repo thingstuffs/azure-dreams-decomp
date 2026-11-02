@@ -3,6 +3,7 @@
 #include "m2c_compat.h"
 #include "shared/town_object.h"
 #include "shared/town_handler.h"
+#include "town.h"
 
 extern s32 D_80091CE0;
 extern s32 D_800D00D8;

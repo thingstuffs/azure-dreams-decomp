@@ -1,6 +1,7 @@
 #include "common.h"
 #include "m2c_compat.h"
 #include "records/Rec_func_80021E88_arg1.h"
+#include "town/menu.h"
 
 
 typedef struct S_800A2A18_1 {

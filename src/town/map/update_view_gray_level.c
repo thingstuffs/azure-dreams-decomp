@@ -2,8 +2,7 @@
 #include "shared/game_work.h"
 #include "town/map.h"
 #include "town/player.h"
-
-extern u32 view_gray_command[];
+#include "town/data.h"
 
 /* Applies a pending intensity change to three channels and clears completed state. */
 void update_view_gray_level(void)

@@ -5,13 +5,8 @@
 #include "sdk/libc.h"
 #include "town/person/motion.h"
 #include "town/person/state.h"
+#include "town/data.h"
 extern s16 get_clamped_transform_coordinate(void *object, s32 step_x, s32 step_y);
-
-extern s32 town_x_acceleration[4];
-extern s32 town_x_speed_limits[4];
-extern s32 town_y_acceleration[4];
-extern s32 town_y_speed_limits[4];
-
 
 typedef struct S_800C355C_0 {
     union {

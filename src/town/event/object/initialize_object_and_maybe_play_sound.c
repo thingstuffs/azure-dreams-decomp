@@ -1,7 +1,7 @@
 #include "common.h"
 #include "engine/audio.h"
+#include "town/event/object.h"
 
-extern s32 check_object_type_and_data_tag(void *record);
 extern short SD_Call(int a0);
 extern u8 town_owner_dispatch_address[];
 

@@ -2,6 +2,8 @@
 #include "shared/object_node.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/tile_object.h"
+#include "dungeon/monster/beldo.h"
+#include "dungeon/player/object.h"
 
 typedef struct S_8125414C_1 {
     u8 pad_00[0x1C];
@@ -11,7 +13,6 @@ typedef struct S_8125414C_1 {
 extern u8 *beldo_active_entity;
 
 void update_map_cell_flags_with_item_limit(s32 x, s32 y, u16 flags);
-extern void set_record_integer_tile_center(void *, s32, s32);
 extern void cycle_map_cell_flags(s16 x, s16 y, u16 flags);
 
 /* Repositions the current entity relative to the origin and updates its motion. */

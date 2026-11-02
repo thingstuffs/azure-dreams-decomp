@@ -2,8 +2,7 @@
 #include "m2c_compat.h"
 #include "town/menu/catalog.h"
 #include "town/menu.h"
-void DrawSync(s32);                     /* extern */
-void ClearImage(void *, s32, s32, s32); /* extern */
+#include "sdk/libgpu.h"
 extern u8 D_8011ACD8;
 typedef struct {
     void *image;

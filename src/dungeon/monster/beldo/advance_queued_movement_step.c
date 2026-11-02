@@ -4,6 +4,7 @@
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 #include "dungeon/item.h"
+#include "dungeon/monster/beldo.h"
 
 extern s32 select_sprite_entry();
 extern s32 cycle_map_cell_flags();

@@ -4,6 +4,7 @@
 
 #include "town/person/object/initialize_object_entries_api.h"
 #include "town/person.h"
+#include "town/person/object.h"
 
 /* Store and count a zero-terminated entry list, then initialize the output with a selected entry. */
 void initialize_object_entries(TownObjectRecord *state, SpriteFrameState *output, s32 *entries) {

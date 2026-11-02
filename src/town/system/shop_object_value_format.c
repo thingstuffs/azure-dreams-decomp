@@ -3,6 +3,8 @@
 #include "shared/dungeon_item_entries.h"
 #include "engine/resource.h"
 #include "engine/text.h"
+#include "engine/util.h"
+#include "sdk/libc.h"
 
 typedef struct {
     u8 pad[0x10];
@@ -10,8 +12,6 @@ typedef struct {
     u8 pad2[3];
 } ItemCategory;
 extern ItemCategory item_category_groups[];
-extern s32 memset(void *, s32, s32);
-extern void func_8004E5A0(s32, s32, u8 *);
 /*
  * Builds text glyphs for an item's numeric value and flag marker, returning 0 for unsupported
  * categories.
@@ -30,7 +30,7 @@ static void *format_item_value_and_flag_marker(void *output, DungeonItemEntry *i
 
         if (value != 0) {
             text[0xA] = (value > 0) ? 0x6B : 0x6C;
-            func_8004E5A0((item->unk_02 >= 0) ? item->unk_02 : -item->unk_02,
+            format_int_space_padded((item->unk_02 >= 0) ? item->unk_02 : -item->unk_02,
                           2, &text[0xB]);
             remap_flagged_string_bytes(&text[0xB]);
         }
@@ -42,7 +42,7 @@ static void *format_item_value_and_flag_marker(void *output, DungeonItemEntry *i
         if (category != 4) {
             return 0;
         }
-        func_8004E5A0(item->unk_02, 2, &text[0xB]);
+        format_int_space_padded(item->unk_02, 2, &text[0xB]);
         remap_flagged_string_bytes(&text[0xB]);
     }
     return build_positioned_text_glyphs(output, text, 0);

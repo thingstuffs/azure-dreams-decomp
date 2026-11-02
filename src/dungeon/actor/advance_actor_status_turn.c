@@ -1,9 +1,9 @@
 #include "common.h"
 #include "shared/dungeon_status.h"
 #include "dungeon/actor.h"
+#include "dungeon.h"
 
 extern void update_actor_status_and_mp(void *);
-extern s32 begin_ready_actor_directional_action(void *, void *, void *, u8 *);
 
 /* Processes active status, counts completed transitions, and dispatches follow-up work. */
 void advance_actor_status_turn(ActorRecord *actor, ObjectPosition *action_context, SpriteFrameState *sprite, u8 *state) {

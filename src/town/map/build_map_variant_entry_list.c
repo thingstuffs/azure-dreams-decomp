@@ -1,8 +1,7 @@
 #include "common.h"
 #include "town/map.h"
+#include "town/data.h"
 
-extern void *town_map_entry_list[];
-extern u8 town_map_event_kind;
 extern u8 D_800D1A0C[];
 extern u8 town_map_primary_entry[];
 extern u8 town_map_secondary_entry[];
@@ -19,7 +18,6 @@ extern u8 D_800D1DD4[];
 extern u8 D_800D1DDC[];
 extern u8 D_800D1DE4[];
 extern u8 D_800D1DEC[];
-extern u8 town_map_optional_entry[];
 extern u8 town_map_variants[];
 extern u8 town_map_selection_state[];
 

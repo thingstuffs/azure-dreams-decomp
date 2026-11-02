@@ -9,6 +9,7 @@
 #include "shared/object_payload.h"
 #include "engine/node.h"
 #include "town/event/state.h"
+#include "town/menu.h"
 
 #ifndef NULL
 #define NULL 0

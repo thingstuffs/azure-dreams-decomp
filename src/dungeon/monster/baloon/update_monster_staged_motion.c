@@ -7,6 +7,7 @@
 #include "shared/dungeon_status.h"
 #include "dungeon/actor.h"
 #include "dungeon/player/object.h"
+#include "sdk/libgte.h"
 
 
 typedef struct {
@@ -21,15 +22,12 @@ typedef struct {
 } __attribute__((packed)) LocalTable;
 
 extern void select_sprite_entry(void *, u8, s32);
-extern s32 rsin(s32);
-extern s32 rcos(s32);
 extern void unlink_entity_node(void *);
 void update_map_cell_flags_with_item_limit(s32 x, s32 y, u16 flags);
 extern void * detach_record_and_update_slot_state(void *);
 extern s32 check_left_tile_and_center_height(u16, u16, s16);
 extern void play_sound_if_enabled(s32);
 extern s16 sample_terrain_surface_height(u16, u16, s16);
-extern s32 random_below_limit(s32);
 
 extern u8 baloon_hop_frames[];
 extern LocalTable baloon_motion_direction_vectors;

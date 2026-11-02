@@ -15,6 +15,7 @@
 #include "dungeon/system.h"
 #include "dungeon/actor.h"
 #include "dungeon/effect/screen.h"
+#include "sdk/libgte.h"
 
 
 typedef struct S_80172D08_4_pre {
@@ -22,8 +23,6 @@ typedef struct S_80172D08_4_pre {
     u8 pad_04[0x14];
 } S_80172D08_4_pre;   /* the 0x18 bytes before owner in advance_actor_height_arc, addressed as owner[-1] */
 
-
-extern s32 rsin(s32);
 s16 check_layer_offset_height(u16 x, u16 y, s16 height, u32 flags);
 
 extern u8 golem_action_continuation_address;

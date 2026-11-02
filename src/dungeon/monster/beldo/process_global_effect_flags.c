@@ -4,6 +4,7 @@
 #include "engine/object.h"
 #include "shared/entity.h"
 #include "shared/sprite_frame_state.h"
+#include "dungeon/monster/beldo.h"
 
 extern M2C_UNK beldo_effect_pool_script;
 

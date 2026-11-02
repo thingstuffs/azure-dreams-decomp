@@ -2,6 +2,7 @@
 #include "shared/object_node.h"
 #include "engine/node.h"
 #include "dungeon/system.h"
+#include "dungeon/monster/kewne.h"
 
 typedef struct S807AF9A4 S807AF9A4;
 

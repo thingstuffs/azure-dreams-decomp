@@ -1,4 +1,5 @@
 #include "common.h"
+#include "town/devkit.h"
 
 /* Devkit debug code (sn_main.c, per the "mark" trace below). */
 

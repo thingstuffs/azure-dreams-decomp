@@ -2,6 +2,7 @@
 #include "dungeon/actor/motion.h"
 #include "shared/dungeon_status.h"
 #include "dungeon/level.h"
+#include "dungeon/actor.h"
 
 // Processes the source object's value, sets global flags, and assigns the destination object's data.
 void process_actor_link_callback(void *destinationObject, void *unused1, void *unused2, void *sourceObject) {

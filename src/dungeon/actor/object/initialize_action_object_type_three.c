@@ -1,5 +1,6 @@
 /* Actor action initializers that select handlers, counters, facing values, and sounds. */
 #include "dungeon/actor/object/initialize_action_object_type_three.h"
+#include "dungeon/actor/object.h"
 
 
 /*

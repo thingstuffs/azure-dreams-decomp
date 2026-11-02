@@ -6,6 +6,7 @@
 
 #include "town/player/initialize_record_with_handler_table_api.h"
 #include "town/person/position.h"
+#include "town.h"
 
 /* Refreshes height and steps negative X until the countdown becomes negative, then resets the handler. */
 void step_actor_negative_x_until_timer_expires(TownObjectRecord *state, ObjectPosition *object, s32 context) {

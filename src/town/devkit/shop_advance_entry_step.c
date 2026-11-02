@@ -1,5 +1,7 @@
 #include "common.h"
 #include "town/shop/state.h"
+#include "town/devkit.h"
+#include "town/devkit/state.h"
 
 typedef struct {
     u16 field_0;
@@ -9,9 +11,6 @@ typedef struct {
 extern u16 D_80701DCE[];
 extern TownPair devkit_shop_flag_links[];
 
-extern s32 test_flag_list_terminator(s32 index);
-extern void set_entry_bit_flag(s32 index, s32 value);
-extern s32 advance_clear_flag_row(void);
 extern void set_linked_flag(s32 bit_index);
 extern void clear_linked_flag(s32 value);
 

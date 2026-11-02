@@ -1,7 +1,6 @@
 #include "script_symbols.h"
 #include "common.h"
-
-extern s16 town_event_counter;
+#include "town/data.h"
 
 extern void func_80017380(s32);
 extern void func_800173F8(s32);

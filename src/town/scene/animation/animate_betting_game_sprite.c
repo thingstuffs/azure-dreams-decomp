@@ -1,5 +1,6 @@
 #include "common.h"
 #include "town/scene/animation.h"
+#include "town/data.h"
 
 typedef struct S_80810454_0 {
     s16 unk_00;
@@ -21,7 +22,6 @@ typedef struct S_80810454_2 {
 
 
 extern s32 func_8006A3A4(s32);
-extern s32 scene_object_flags;
 
 /* Moves the sprite into place, bobs it, and marks it for removal after it moves out. */
 void animate_betting_game_sprite(void *state_data_arg, S_80810454_1 *motion_data) {

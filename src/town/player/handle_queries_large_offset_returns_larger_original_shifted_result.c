@@ -1,10 +1,10 @@
 #include "common.h"
 #include "sdk/libc.h"
 #include "town/player.h"
+#include "town/data.h"
 
 
 extern s32 max_adjusted_x_query_at_least_zero();
-extern s32 *town_probe_adjustment_samples;
 extern s32 town_primary_probe_offset;
 
 /* Queries the input and, for a large offset, returns the larger original or shifted result. */

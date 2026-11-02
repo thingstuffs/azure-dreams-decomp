@@ -12,8 +12,8 @@
 #include "engine/cd.h"
 #include "dungeon/actor/status.h"
 #include "dungeon/player/object.h"
-extern int abs(int);
-
+#include "dungeon/effect/particle.h"
+#include "sdk/libc.h"
 
 typedef struct S_80172A04_3 {
     u8 pad_00[0x24];
@@ -32,7 +32,6 @@ typedef struct S_80172A04_7 {
 
 extern void select_sprite_entry(void *, s32, s32);
 extern void play_sound_if_enabled(s32);
-extern void create_two_row_object_group(void *, s16);
 
 extern u8 battnel_action_resume_address[];
 #include "dungeon/monster/battnel.h"

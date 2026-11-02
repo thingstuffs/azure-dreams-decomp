@@ -1,6 +1,7 @@
 #include "common.h"
 #include "shared/object_payload.h"
 #include "town/menu/catalog_parts.h"
+#include "town/menu.h"
 
 /* Initializes fourteen objects from the source table and overrides the last two value pairs. */
 void initialize_catalog_slot_records(void) {

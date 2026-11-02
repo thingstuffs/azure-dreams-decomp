@@ -1,7 +1,6 @@
 #include "common.h"
 #include "town/scene/flags.h"
-
-extern s32 scene_object_flags;
+#include "town/data.h"
 
 /* Set record and global flags when the record is zero and linked flag 2 is set. */
 void raise_object_flag_when_linked_flag_2(void *record) {

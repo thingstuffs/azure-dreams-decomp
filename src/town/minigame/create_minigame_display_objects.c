@@ -9,6 +9,7 @@
 #include "sdk/libgpu.h"
 #include "town/scene/list_setup.h"
 #include "town/minigame/state.h"
+#include "town/data.h"
 
 #ifndef NULL
 #define NULL 0
@@ -41,9 +42,6 @@ extern u8 D_80023EB0[];
 
 extern u8 D_80024470[];
 extern u8 D_800244A0[];
-extern s32 pickup_reward_total[];
-extern u32 minigame_palette_backup[];
-extern u32 minigame_image_backup[];
 extern u8 D_800246E0[];
 
 extern s32 register_node(); /* Unprototyped: two, three or four arguments; retail reads only the node and draw key. */

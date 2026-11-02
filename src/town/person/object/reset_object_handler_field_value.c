@@ -11,7 +11,7 @@ void reset_object_handler_field_72_value_800(TownObjectRecord *object, s32 unuse
     PersonDescriptor *descriptor;
 
     descriptor = object->descriptor;
-    func_800C2E84(object, updateValue, descriptor->entries[5]);
+    initialize_object_entries(object, updateValue, descriptor->entries[5]);
     object_index_slots[object->slot].unk_00 = 0;
     object->handler = &person_reset_handler_address;
     object->heading.as_s16 = 0x800;

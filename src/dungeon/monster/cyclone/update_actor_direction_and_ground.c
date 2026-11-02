@@ -6,6 +6,8 @@
 #include "dungeon/level.h"
 #include "engine/texture.h"
 #include "dungeon/item.h"
+#include "dungeon/actor.h"
+#include "sdk/libgte.h"
 
 /* Sparse views for fields not covered by the existing record types. */
 typedef struct {
@@ -84,9 +86,7 @@ extern u8 cyclone_fade_direction_frames[8];
 extern ActorCallback cyclone_callbacks[];
 
 extern void advance_sprite_animation_and_textures(Entity *);
-extern s32 rsin(s32);
 extern s32 refresh_actor_facing_and_lifecycle(Actor *, Motion *, Entity *, Actor *);
-extern void try_move_actor_to_valid_position(Actor *, Motion *, Entity *, Actor *);
 
 /* Updates actor direction, callbacks, motion, and ground height. */
 /* Runs Cyclone's callbacks, updates table-dependent sprite mirroring and idle bobbing, and resolves ground

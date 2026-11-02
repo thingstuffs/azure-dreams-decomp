@@ -1,4 +1,5 @@
 #include "common.h"
+#include "town/devkit.h"
 
 extern void func_80700CD0(s32);
 extern u8 D_80700670[];

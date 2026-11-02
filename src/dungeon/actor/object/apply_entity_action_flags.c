@@ -12,6 +12,8 @@
 #include "dungeon/player.h"
 #include "shared/object_node.h"
 #include "shared/sprite_frame_state.h"
+#include "dungeon/actor/object.h"
+#include "engine/util.h"
 
 
 
@@ -20,7 +22,6 @@
 
 /* cfail-repair: tf7-phase1-cache-v3 */
 void select_record_entry_and_value(void *state, void *entries, short index);     /* extern */
-extern void func_8003E188(s32 field_index, s32 flag);            /* extern */
 void update_map_cell_flags_with_item_limit(s32 x, s32 y, u16 flags);             /* extern */
  /* extern */
 extern s32 sprite_resource_pointer_slots[];

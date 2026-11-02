@@ -1,5 +1,6 @@
 #include "common.h"
 #include "shared/object_links.h"
+#include "town/menu.h"
 
    /* the 0x2 bytes before arg0 in run_record_handler_if_active, addressed as arg0[-1] */
 

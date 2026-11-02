@@ -2,6 +2,7 @@
 #include "shared/sprite_frame_state.h"
 #include "shared/game_work.h"
 #include "shared/entity.h"
+#include "dungeon/monster/beldo.h"
 
 extern s32 select_sprite_entry();
 extern void update_actor_status_and_mp();

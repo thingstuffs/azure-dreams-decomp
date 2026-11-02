@@ -16,6 +16,8 @@
 #include "dungeon/effect.h"
 #include "dungeon/effect/screen.h"
 #include "dungeon/effect/motion.h"
+#include "sdk/libc.h"
+#include "sdk/libgte.h"
 
 struct EntityLinkNode;
 void *(*const dungeon_fa7000_entry)(s16,s16,s16,s16) = spawn_zu_actor;
@@ -121,7 +123,6 @@ void *spawn_zu_actor(s16 flags, s16 kind_id, s16 variant, s16 spawn_value)
 typedef ActorActionHandler Callback;
 
 extern void advance_sprite_animation_and_textures(void *);
-extern s32 rsin(s32);
 extern void apply_monster_koyaw_data(s32 flags, s8 *dst);
 extern s32 refresh_actor_facing_and_lifecycle(void *, void *, void *, void *);
 extern Callback zu_callbacks[];
@@ -1107,7 +1108,6 @@ typedef struct S_80172494_8 {
     void * unk_3DE8;
 } S_80172494_8;
 
-extern s32 rand(void);
 extern void set_record_integer_tile_center(void *, u8, u8);
 extern u8 directional_effect_entries[];
 extern void *actor_update_node_cursor;
@@ -1336,7 +1336,6 @@ void update_bank_staged_movement(ActorRecord *body, ObjectPosition *motion, Spri
 #include "shared/entity.h"
 #include "shared/dungeon_moving_views.h"
 #include "shared/object_links.h"
-extern int abs(int);
 
 extern void *scan_actor_along_heading(ActorRecord *source, s32 start_x, s32 start_y, s16 heading, s16 max_steps);
 extern void set_record_integer_tile_center(void *, u8, u8);
@@ -2286,7 +2285,6 @@ typedef struct {
 } OutputVector;
 
 extern void advance_sprite_animation_and_textures(void *);
-extern s32 rand(void);
 extern void transform_rotated_vertices(void *);
 
 /* Updates the effect's motion and fade, then marks it for removal. */

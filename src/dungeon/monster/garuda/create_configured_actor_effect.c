@@ -19,7 +19,6 @@
 
 extern s32 generate_random_value(void);
 
-void update_creature_animation_action(ActorRecord *actor, ObjectPosition *context, SpriteFrameState *sprite_arg, ActorRecord *creature);
 extern u8 garuda_walk_direction_frames[];
 extern u8 garuda_frame_set_2[];
 

@@ -2,6 +2,7 @@
 struct ObjectNodeHeader;
 #include "common.h"
 #include "shared/record_ptrs.h"
+#include "dungeon/monster/beldo.h"
 
 extern void func_80173A48(void);
 extern void clear_entry_flag_and_link_owner(struct ObjectNodeHeader *);

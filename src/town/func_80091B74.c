@@ -2,6 +2,7 @@
 #include "m2c_compat.h"
 #include "town/scene/flags.h"
 #include "town/scene/motion.h"
+#include "town.h"
 
 s32 query_position_with_first_component_offset();                           /* extern */
 

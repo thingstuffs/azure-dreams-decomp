@@ -27,7 +27,7 @@ void advance_banked_category_action(ActorRecord *object, void *unused_1, void *u
         bank = callback_entry >> 0x18;
         callback = (s32 (*)(s32, void *, s32, s32))((callback_entry & 0xFFFFFF) | 0x80000000);
         if (bank != 0) {
-            func_800BCFBC(--bank);
+            bank_selector_no_op(--bank);
         }
         if (callback((s32)context | 0xA0000000, callback_data, 0, 0) != 0) {
             *(void **)((u8 *)object + 0x110) = 0;

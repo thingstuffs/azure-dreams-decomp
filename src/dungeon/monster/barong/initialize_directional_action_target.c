@@ -2,6 +2,7 @@
 #include "common.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/game_work.h"
+#include "dungeon/monster/barong.h"
 
 typedef struct {
     u8 pad00[0x1E];

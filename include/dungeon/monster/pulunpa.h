@@ -27,4 +27,8 @@ void select_variant_object_data_when_positive(ActorRecord *object, ObjectPositio
 void display_record_name_message(void *record);
 void build_and_display_encoded_message(ActorRecord *source);
 
+/* Owner declarations appended by tools/headers (append-only; the lines above are hand-kept). */
+void advance_selected_item_action(ActorRecord *body, ObjectPosition *motion, SpriteFrameState *sprite, ActorRecord *actor);
+void update_creature_actions_and_animation(ActorRecord *actor, ObjectPosition *context, SpriteFrameState *sprite, ActorRecord *creature);
+
 #endif

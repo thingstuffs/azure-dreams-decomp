@@ -1,4 +1,5 @@
 #include "common.h"
+#include "town/devkit.h"
 
 extern s32 D_80702C14[];
 

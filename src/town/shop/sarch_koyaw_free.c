@@ -1,7 +1,6 @@
 #include "common.h"
 #include "town/shop.h"
-
-extern s32 town_record_capacities[];
+#include "town/data.h"
 
 /* sarch_koyaw_free: search for a free entry using the selected capacity. */
 void sarch_koyaw_free(void) {

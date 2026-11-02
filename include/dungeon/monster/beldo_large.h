@@ -129,4 +129,6 @@ void complete_actor_facing_action(Rec_func_800A9E70_arg0 *entity, ObjectPosition
 void create_player_centered_sequence_effect(void);
 s32 try_actor_attack(ActorRecord *action_state, ObjectPosition *action_id, SpriteFrameState *target, ActorRecord *actor);
 
+void update_multi_form_actor_movement(ActorRecord *object, ObjectPosition *update_param, SpriteFrameState *state, ActorRecord *input);
+
 #endif

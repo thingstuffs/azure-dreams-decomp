@@ -2,6 +2,7 @@
 #include "common.h"
 #include "town/player/approach_player_angle_target_g01125.h"
 #include "shared/town_handler_entries.h"
+#include "town.h"
 
 typedef struct {
     void *callback0;

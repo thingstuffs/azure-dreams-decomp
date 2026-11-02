@@ -10,12 +10,9 @@
 #include "dungeon/actor/spell_resource_ids_g01008.h"
 #include "engine/graphics.h"
 #include "dungeon/system.h"
-
-
-extern s32 rand(void);
+#include "sdk/libc.h"
 
 extern void spawn_randomized_directional_effect(void *, s16, s32, s32); /* Unprototyped: retail call passes more arguments than the callee reads */
-void create_owner_linked_directional_object(ActorRecord *owner_data, ObjectPosition *source_position, SpriteFrameState *source_sprite);
 
 extern u8 uboat_default_frames[];
 extern u8 u_boat_frame_set_1[];

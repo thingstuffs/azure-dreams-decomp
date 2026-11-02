@@ -9,9 +9,9 @@
 #include "dungeon/player/position.h"
 #include "dungeon/actor/motion.h"
 #include "dungeon/actor.h"
+#include "engine/entity.h"
 
 extern void select_record_entry_and_value(void *state, void *entries, short index);
-extern void clear_slots_of_type(void *actor, s32 value);
 
 extern void *actor_default_frames[8];
 

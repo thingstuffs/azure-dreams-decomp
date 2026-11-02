@@ -1,9 +1,9 @@
 #include "common.h"
 #include "m2c_compat.h"
+#include "town.h"
 
 /* cfail-repair: tf7-phase1-cache-v3 */
 void process_valid_entry_lookup(s32);                            /* extern */
-void set_paired_entry_brightness();                         /* extern */
 
 /*
  * Processes the entry lookup and expired resource countdowns, then updates paired entry brightness

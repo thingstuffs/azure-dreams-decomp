@@ -6,6 +6,7 @@
 #include "shared/game_work.h"
 #include "m2c_compat.h"
 #include "shared/dungeon_moving_views.h"
+#include "dungeon/monster/beldo.h"
 
 typedef struct {
     s32 word0;

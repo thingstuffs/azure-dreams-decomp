@@ -15,7 +15,7 @@
 #include "engine/scene.h"
 #include "engine/graphics.h"
 #include "dungeon/system.h"
-extern int abs(int);
+#include "sdk/libc.h"
 #include "shared/entity.h"
 #include "shared/sprite_frame_state.h"
 #include "dungeon/item.h"

@@ -1,5 +1,8 @@
 #include "common.h"
 #include "town/menu/catalog.h"
+#include "sdk/libgpu.h"
+#include "town/data.h"
+#include "sdk/libapi.h"
 
 typedef struct Entry Entry;
 
@@ -9,13 +12,7 @@ struct Entry {
     s16 state;
 };
 
-extern s32 Krom2RawAdd(s32);
-extern void DrawSync(s32);
 extern s16 *build_filtered_catalog_glyph(s32, s16 *); /* Unprototyped: uses the value as a pointer where the definition has an integer (or the reverse) */
-
-extern s16 catalog_glyph_pixels[];
-extern Entry *catalog_cache_head;
-extern s16 catalog_lookup_count;
 
 /* Returns cached glyph data, loading it on a miss and updating cache order. */
 s16 *get_cached_catalog_glyph(s16 char_code)

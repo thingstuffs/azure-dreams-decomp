@@ -12,7 +12,6 @@ extern u8 D_800E04BA[];
 extern u8 D_800E04E6[];
 
 extern void display_formatted_context_message(void *data_ptr);
-extern s16 get_special_table_data_index(s32 actor_value);
 
 /* Start the actor action and apply its target effect unless a blocking flag is set. */
 s32 begin_target_flagged_action(void *actor, s32 action_arg, s32 unused, ActorRecord *target) {

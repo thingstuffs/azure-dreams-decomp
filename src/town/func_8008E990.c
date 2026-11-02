@@ -1,6 +1,5 @@
 #include "common.h"
-
-extern s16 *map_cell_address_at_tile();
+#include "town.h"
 
 /* town_map_mod_read_p: convert world coordinates to tiles and return the map cell there. */
 s16 *town_map_mod_read_p(s16 world_x, s16 world_y) {

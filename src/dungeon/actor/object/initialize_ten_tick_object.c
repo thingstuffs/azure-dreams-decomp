@@ -3,6 +3,7 @@
 #include "m2c_compat.h"
 
 #include "shared/town_object.h"
+#include "dungeon/actor/object.h"
 
 void initialize_object_entries(void *state, s8 *output, s32 *entries);
 void func_800CB570(TownObjectRecord *record, s32 forward_arg1, s32 forward_arg2);

@@ -10,11 +10,7 @@
 #include "dungeon/player/object.h"
 #include "dungeon/actor/spell_resource_ids_g01008.h"
 #include "engine/graphics.h"
-
-
-extern s32 rsin(s32);
-
-void create_owner_linked_directional_object(ActorRecord *owner_data, ObjectPosition *source_position, SpriteFrameState *source_sprite);
+#include "sdk/libgte.h"
 
 extern u8 uboat_default_frames[];
 extern u8 uboat_timed_motion_frames[];

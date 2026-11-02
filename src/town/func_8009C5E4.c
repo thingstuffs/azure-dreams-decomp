@@ -4,13 +4,13 @@
 #include "m2c_compat.h"
 #include "shared/town_object.h"
 #include "shared/town_handler.h"
+#include "town.h"
+#include "town/data.h"
 
 typedef struct S_80099CE0_2 {
     u8 pad_00[0xC];
     s32 unk_08;
 } S_80099CE0_2;   
-
-extern s32 record_action_update_address;
 
 /*
  * Selects the table from the linked record, clears the indexed object slot, and installs

@@ -7,6 +7,7 @@
 #include "engine/node.h"
 #include "town/minigame/object.h"
 #include "town/scene.h"
+#include "town/data.h"
 
 typedef struct S_80022C8C_0 {
     u8 pad_00[0x8];
@@ -26,7 +27,6 @@ extern s32 D_80022F60;
 
 extern s32 D_800240B0;
 extern s32 D_80026F0C;
-extern s32 gym_sprite_source;
 
 /* Creates linked town objects at fixed positions and initializes their display data. */
 s32 initialize_gym_minigame(void)

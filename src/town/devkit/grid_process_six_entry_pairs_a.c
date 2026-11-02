@@ -1,4 +1,5 @@
 #include "common.h"
+#include "town/devkit.h"
 
 
 extern void clear_indexed_flag_bit_unless(s32 bit_index);

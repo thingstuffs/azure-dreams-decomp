@@ -1,6 +1,7 @@
 #include "shared/actor_status_ids.h"
 #include "common.h"
 #include "dungeon/actor/effect.h"
+#include "dungeon/actor/object.h"
 
 typedef struct State {
     u8 pad[3];
@@ -9,8 +10,6 @@ typedef struct State {
 
 extern s32 set_or_clear_actor_status_slot(State *, s32, s8);
 extern s32 generate_random_value(void);
-extern s32 initialize_object_configuration_x(State *);
-
 
 /* Rolls against the actor's divisor and limit to set status slot 3, returning 1 on success. */
 s32 roll_threshold_effect_variant_b(State *state_ptr, s16 limit_input, s16 byte_input) {

@@ -3,9 +3,9 @@
 #include "shared/object_node.h"
 #include "town/player/position.h"
 #include "town/scene/motion.h"
+#include "sdk/libgte.h"
+#include "town/event/motion.h"
 
-extern s32 rsin(s32 value_a);
-extern s32 rcos(s32 value_b);
 extern s32 scene_object_payload_alias;
 extern void *D_8009BC44;
 

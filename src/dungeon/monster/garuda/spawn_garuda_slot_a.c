@@ -14,6 +14,7 @@
 #include "engine/node/allocation.h"
 #include "engine/node.h"
 #include "dungeon/actor/status.h"
+#include "dungeon/monster/garuda.h"
 
 typedef struct ActionState ActionState;
 typedef struct ActorSprite ActorSprite;
@@ -37,10 +38,6 @@ void func_8014CA78(void *obj, void *input_motion, SpriteFrameState *input_part);
 void func_8014D058(ActorRecord *actor, ObjectPosition *context, SpriteFrameState *sprite_arg, ActorRecord *creature);
 extern M2C_UNK D_80150880;
 extern M2C_UNK D_801508E0;
-
-void *spawn_garuda_slot_a(s16, s16, s16, s16)
-
-;
 
 /* Spawn this overlay's effect object: allocate it, fill its two parts from the attributes and arm its handlers. */
 /* Creates Garuda with default frames at D_80150880, applies spawn flags, and attempts valid tile

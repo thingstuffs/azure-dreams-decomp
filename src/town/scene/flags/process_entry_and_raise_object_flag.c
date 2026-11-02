@@ -1,6 +1,7 @@
 #include "common.h"
 #include "shared/object_links.h"
 #include "town/scene/flags.h"
+#include "town/data.h"
 
    /* the 0x2 bytes before arg0 in process_entry_and_raise_object_flag, addressed as arg0[-1] */
 
@@ -18,7 +19,6 @@ typedef struct S_80810F00_1 {
 } S_80810F00_1;
 void func_80058588(s32 value, s32 query, const char *text);               /* extern */
 s32 func_80071424(const char *);                             /* extern */
-extern s32 scene_object_flags;
 
 /* Process an entry in state zero and propagate its linked status flag. */
 void process_entry_and_raise_object_flag(void *entry_arg) {

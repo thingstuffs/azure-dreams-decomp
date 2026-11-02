@@ -14,6 +14,9 @@
 #include "dungeon/item.h"
 #include "dungeon/actor.h"
 #include "dungeon/actor/state.h"
+#include "dungeon.h"
+#include "dungeon/level.h"
+#include "dungeon/player/object.h"
 #define F(p, t, o) (*(t *)((u8 *)(p) + (o)))
 
 
@@ -27,17 +30,11 @@ extern u8 D_80175F50;
 extern u8 D_80175F60;
 
 extern s32 get_entity_effect_value(ActorRecord *entry, s32 effect_id);
-extern s32 check_entity_relation();
 extern s32 find_active_rect_containing_point(s32 point_x, s32 point_y);
-extern s32 can_entity_gain_level(void *entity);
 extern s32 generate_random_value(void);
 extern void update_actor_status_and_mp(ActorRecord *entity);
-extern s32 begin_ready_actor_directional_action(ActorRecord *body, ObjectPosition *position, SpriteFrameState *sprite, u8 *direction_frames);
-extern void begin_actor_move_to_target_facing(ActorRecord *body, ObjectPosition *position, SpriteFrameState *sprite, ActorRecord *actor);
 extern s32 func_801716B4();
 extern s32 func_801718F8();
-void update_eligible_actor_action(ActorRecord *action_state, ObjectPosition *action_context, SpriteFrameState *sprite, ActorRecord *actor);
-void advance_timed_directional_reset(ActorRecord *state, ObjectPosition *unused, SpriteFrameState *sprite, ActorRecord *orientation);
 extern s32 func_801727D8(); /* Slot contract: loading images do not establish one callee contract. */
 extern s32 func_80174698();
 extern s32 require_object_flag(struct GolemActionWork *object, ActorRecord *flag_record);

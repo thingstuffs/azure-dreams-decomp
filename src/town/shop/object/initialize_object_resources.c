@@ -14,7 +14,7 @@ s32 initialize_object_resources(void *object, s32 resource_id) {
     void *buffer;
     s32 success = 0;
 
-    if ((state->parts = (ItemMenuPart **)func_80049004(&state->unk60, resource_id, 0xC)) != 0) {
+    if ((state->parts = (ItemMenuPart **)realloc_field_0_buffer(&state->unk60, resource_id, 0xC)) != 0) {
         default_values = display_vector_defaults;
         state->vector.unk0 = display_vector_defaults[0];
         state->vector.unk4 = default_values[1];

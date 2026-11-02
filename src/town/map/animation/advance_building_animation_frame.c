@@ -1,11 +1,7 @@
 #include "common.h"
 #include "sdk/libgpu.h"
 #include "town/map/animation.h"
-
-extern u8 building_texture_frame_zero[];
-extern u8 building_texture_frame_one[];
-extern u8 building_texture_frame_two[];
-extern u8 building_texture_frame_three[];
+#include "town/data.h"
 
 /* Advance the animation tick and upload the selected frame to VRAM. */
 void advance_building_animation_frame(BuildingSelectionHandlerBody *state) {

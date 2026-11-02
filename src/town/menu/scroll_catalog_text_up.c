@@ -1,6 +1,6 @@
 #include "common.h"
-
-extern u8 catalog_selection_state[];
+#include "town/menu.h"
+#include "town/data.h"
 
 /* Decrease the shared byte by four and enter state eight when its low nibble clears. */
 void scroll_catalog_text_up(void *controller) {

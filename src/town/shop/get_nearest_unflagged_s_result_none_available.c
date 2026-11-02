@@ -1,6 +1,7 @@
 #include "common.h"
 #include "engine/resource.h"
 #include "town/shop.h"
+#include "town/data.h"
 
 typedef struct {
     u8 pad0[6];
@@ -17,7 +18,6 @@ typedef struct {
     void *recordsOwner;
 } TownState;
 
-extern s32 town_record_capacities[];
 extern TownState *town_script_state_slots;
 
 /* Return the nearest unflagged record's result, or -1 if none is available. */

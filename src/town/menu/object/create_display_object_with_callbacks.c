@@ -2,6 +2,7 @@
 #include "shared/sprite_frame_state.h"
 #include "shared/object_node.h"
 #include "town/menu/object.h"
+#include "engine/node.h"
 
 typedef void (*Callback)(void);
 
@@ -20,7 +21,6 @@ typedef struct S_func_800A1C94_2 {
     s16 unk_20;
 } S_func_800A1C94_2;
 
-extern void *allocate_list_node(s32 kind, void *owner);
 extern void initialize_indexed_render_state(void);
 
 /* Creates a display object with callbacks and the supplied payload values. */

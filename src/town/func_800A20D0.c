@@ -1,6 +1,7 @@
 /* Recovered retail twin; complete-function proof is in the lane receipt. */
 #include "common.h"
 #include "town/shop/item_lookup.h"
+#include "town.h"
 
 #ifndef NULL
 #define NULL 0

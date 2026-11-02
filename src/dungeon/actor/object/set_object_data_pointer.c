@@ -1,4 +1,5 @@
 #include "common.h"
+#include "dungeon/actor/object.h"
 typedef struct {
     s32 field_0;
     s32 field_4;

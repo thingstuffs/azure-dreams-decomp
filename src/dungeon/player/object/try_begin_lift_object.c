@@ -7,6 +7,7 @@
 #include "shared/entity.h"
 #include "dungeon/item.h"
 #include "engine/graphics.h"
+#include "dungeon/player/object.h"
 
 extern u8 resident_globals_page[];
 

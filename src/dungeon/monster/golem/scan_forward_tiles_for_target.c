@@ -10,6 +10,7 @@ struct ObjectPosition;
 #include "dungeon/monster/golem.h"
 #include "dungeon/actor.h"
 #include "dungeon/effect.h"
+#include "dungeon/player/object.h"
 
 typedef struct S_80172504_0 {
     u8 pad_00[0x2A];
@@ -33,7 +34,6 @@ typedef struct S_80172504_0 {
 
 extern s32 find_eligible_entry_at_coordinates();
 extern void prepare_directional_attack();
-extern s16 try_claim_dungeon_action_slot(ActorRecord *actor);
 extern s32 check_layer_offset_height(u16 x, u16 y, s16 height, u32 flags);
 
 /* Scan up to eight tiles ahead for a valid target and update the entity action state. */

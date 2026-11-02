@@ -7,9 +7,8 @@
 #include "town/map/position/read_map_cell_at_tile_g01115.h"
 #include "town/event/object.h"
 #include "town/event/motion.h"
-
-extern s32 check_masked_value_in_current_range(s32 value);
-extern s16 terrain_height_limits[];
+#include "town/map.h"
+#include "town/data.h"
 
    /* Selects one of three object values using a position-based table difference. */
 void select_object_value_by_height_band(TownObjectRecord *object, void *context, EntityRec *position, Rec_D_80082E80 *output)

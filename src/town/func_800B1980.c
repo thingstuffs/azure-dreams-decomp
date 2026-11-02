@@ -1,6 +1,6 @@
 #include "common.h"
-
-void flag_optional_object_for_removal(void *object);
+#include "slus.h"
+#include "town.h"
 
 /*
  * Flags referenced objects for removal across the requested number of entry-table slots, starting

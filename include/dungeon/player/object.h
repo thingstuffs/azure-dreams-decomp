@@ -29,4 +29,10 @@ s32 raise_entity_level(void *entity_data, s32 show_message);
 
 void distribute_experience_and_report_gains(EntityRec *entity);
 
+struct Entity;
+s32 can_entity_gain_level(void *entity);
+void mark_owned_linked_actor_actions(struct Entity *owner_entity);
+
+void * detach_record_and_update_slot_state(void *record);
+
 #endif

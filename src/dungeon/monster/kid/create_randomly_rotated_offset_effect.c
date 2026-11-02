@@ -5,12 +5,11 @@
 #include "shared/slus_callbacks.h"
 #include "shared/entity.h"
 #include "engine/node.h"
+#include "sdk/libc.h"
 
 typedef struct {
     u32 word[3];
 } __attribute__((packed)) Copy12;
-
-extern s32 rand(void);
 
 extern u8 D_8017520C[12];
 

@@ -6,13 +6,13 @@
 #include "dungeon/level.h"
 #include "dungeon/item.h"
 #include "engine/texture.h"
+#include "dungeon/actor.h"
+#include "sdk/libgte.h"
 
 typedef void (*Callback)(void *, void *, void *, void *);
 
 extern void advance_sprite_animation_and_textures(void *);
-extern s32 rsin(s32);
 extern s32 refresh_actor_facing_and_lifecycle(void *, void *, void *, void *);
-extern void try_move_actor_to_valid_position(void *, void *, void *, void *);
 
 extern u8 baloon_default_frames[];
 extern void baloon_action_resume_address(void *, void *, void *, void *);

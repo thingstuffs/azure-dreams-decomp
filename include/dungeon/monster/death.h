@@ -31,4 +31,9 @@ extern u8 death_frame_set[];
 void create_parent_return_effect(void *parent_obj, s16 effect_param, s32 initial_value, s16 duration, s16 offset_x, s16 offset_y, s16 offset_z);
 void spawn_parent_offset_random_motion_effect(void *parent_arg, register s16 effect_param_arg, register s32 state_value_arg, register s32 unused_arg, register s32 offset_x_arg, register s32 offset_y_arg, register s32 offset_z_arg);
 
+void advance_entity_path_state(ActorRecord *motion_state, ObjectPosition *unused, SpriteFrameState *entity, ActorRecord *path_state);
+void apply_conditional_actor_effect(ActorRecord *action_state, ObjectPosition *effect_context, SpriteFrameState *action_context, ActorRecord *actor);
+s32 attempt_target_action(ActorRecord *action_state, ObjectPosition *effect_arg, SpriteFrameState *target, ActorRecord *actor);
+void dispatch_actor_animation_and_action(ActorRecord *motion_in, ObjectPosition *context_in, SpriteFrameState *entity_in, ActorRecord *actor_in);
+
 #endif

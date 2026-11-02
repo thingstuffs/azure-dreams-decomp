@@ -8,7 +8,8 @@
 #include "engine/cd.h"
 #include "dungeon/actor/status.h"
 #include "dungeon/player/object.h"
-extern int abs(int);
+#include "dungeon/effect/particle.h"
+#include "sdk/libc.h"
 #include "shared/def_table.h"
 #include "shared/record_ptrs.h"
 #include "shared/game_work.h"
@@ -27,7 +28,6 @@ typedef struct S_80172834_3 {
 
 extern void select_sprite_entry(void *, s32, s32);
 extern void play_sound_if_enabled(s32);
-extern void create_two_row_object_group(void *payload, s16 value_scale);
 
 extern u8 garuda_frame_set_3[];
 

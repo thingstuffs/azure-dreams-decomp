@@ -1,7 +1,6 @@
 #include "common.h"
 #include "town/shop.h"
-
-extern u8 shop_display_presets[];
+#include "town/data.h"
 
 /* Store the table index and its two byte values in the object. */
 void store_table_index_and_entry_bytes(void *object, s32 index) {

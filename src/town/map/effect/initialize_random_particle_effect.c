@@ -10,6 +10,7 @@
 #include "sdk/libc.h"
 #include "town/map/effect.h"
 #include "town/scene.h"
+#include "town/data.h"
 
 #ifndef NULL
 #define NULL 0
@@ -63,9 +64,6 @@ extern u8 map_particle_owner_update_address[];
 extern u8 town_child_sprite_callback_address[];
 extern u8 map_particle_child_update_address[];
 extern u8 map_random_particle_update_address[];
-extern void *map_particle_part_parameters[];
-extern u8 map_particle_first_sprite_entries[];
-extern u8 map_particle_second_sprite_entries[];
 
 /* Initialize a random effect angle and spawn its particle and textured children. */
 void initialize_random_particle_effect(Core *parent_core, ObjectPosition *origin, struct SpriteFrameState *sprite_unused)

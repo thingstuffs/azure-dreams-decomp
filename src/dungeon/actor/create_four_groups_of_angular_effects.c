@@ -3,10 +3,10 @@
 #include "shared/entity.h"
 #include "shared/sprite_frame_state.h"
 #include "common.h"
+#include "dungeon/actor.h"
+#include "sdk/libgte.h"
 
 void register_node(void *, void *);
-s32 rsin(s32);
-s32 rcos(s32);
 #include "dungeon/effect/screen.h"
 
 extern u8 D_80028880[9];

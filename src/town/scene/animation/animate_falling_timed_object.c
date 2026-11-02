@@ -1,6 +1,7 @@
 #include "common.h"
 #include "shared/entity.h"
 #include "town/scene/animation.h"
+#include "town/data.h"
 
 extern void func_80034A1C(void *, ...);
 extern void func_8003EA54(void *);
@@ -15,7 +16,6 @@ extern u8 D_8028E568[];
 extern u8 D_8028E56C[12];
 extern u8 D_8028E590[];
 extern u8 D_8028E600[];
-extern s32 scene_object_flags;
 extern u8 D_805266C0[];
 extern u8 D_805266CC[];
 extern u8 D_805266D8[];

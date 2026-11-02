@@ -1,4 +1,5 @@
 #include "common.h"
+#include "town/devkit.h"
 
 typedef void (*PrintValue)(char *format, char *name, s32 value);
 

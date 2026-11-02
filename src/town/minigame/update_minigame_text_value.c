@@ -1,7 +1,7 @@
 #include "common.h"
 #include "town/minigame/object.h"
+#include "town/data.h"
 
-extern s32 pickup_reward_total[];
 #include "sdk/libc.h"
 #include "engine/text.h"
 

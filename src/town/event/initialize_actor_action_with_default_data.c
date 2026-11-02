@@ -1,6 +1,7 @@
 #include "common.h"
 #include "town/event/object_setup.h"
 #include "m2c_compat.h"
+#include "town/event.h"
 
 extern M2C_UNK D_800F8A58;
 

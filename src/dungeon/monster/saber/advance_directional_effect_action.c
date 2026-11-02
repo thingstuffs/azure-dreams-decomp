@@ -11,11 +11,6 @@
 #include "engine/graphics.h"
 #include "dungeon/system.h"
 
-
-
-
-
-extern void process_nodes_at_target_tile(void *, s32, s32, s32);
 void create_randomly_rotated_offset_effect(void *node, s32 tile_x, s32 tile_y, s16 target_height);
 
 

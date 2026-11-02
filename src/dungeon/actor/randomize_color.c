@@ -1,6 +1,7 @@
 #include "shared/entity.h"
 #include "common.h"
 #include "shared/sprite_frame_state.h"
+#include "sdk/libc.h"
 
 typedef struct { u8 pad[0xE]; u16 flags; } SpriteOwner;
 typedef struct { u16 flags; u16 unused; SpriteOwner *owner; } OwnerLink;
@@ -8,7 +9,6 @@ typedef struct { u8 pad[0xC]; u8 r, g, b; u8 padF[5]; u16 flags; } Render;
 typedef struct { s32 flags; } GlobalFlags;
 extern GlobalFlags object_flag_block;
 extern void advance_sprite_animation_and_textures(void *);
-extern s32 rand(void);
 
 /* Randomize color and mark the owner complete when the render flags request it. */
 void randomize_color(SpriteOwner **action, ObjectPosition *unused, SpriteFrameState *render) {

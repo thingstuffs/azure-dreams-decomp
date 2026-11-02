@@ -8,6 +8,7 @@
 #include "dungeon/player.h"
 #include "sdk/bzero.h"
 #include "slus.h"
+#include "engine/entity.h"
 
 typedef struct S_800D8590_0 {
     u8 pad_00[0xC];
@@ -21,8 +22,6 @@ typedef struct S_800D8590_3 {
     s16 unk_12;
     u16 unk_14;
 } S_800D8590_3;
-
-extern void clear_slots_of_type(ActorRecord *owner, s8 match_type);
 
 extern u8 D_800D8728[];
 

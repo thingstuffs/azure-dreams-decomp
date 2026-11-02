@@ -56,4 +56,6 @@ void *spawn_mandara_in_slot_c(s32 spawn_flags, s16 tile_x, s16 tile_y, s16 spawn
 void *spawn_mandara_in_slot_d(s16 flags, s16 kind_id, s16 tile_y, s16 spawn_height);
 void *spawn_mandara_slot_a(s16 spawn_flags, s16 tile_x, s16 tile_y, s32 heading);
 
+void *create_mandara_actor(s16 mode, s32 value1, s16 value2, s16 value3);
+
 #endif

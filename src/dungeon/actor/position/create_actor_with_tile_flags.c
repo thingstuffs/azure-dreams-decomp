@@ -12,6 +12,7 @@ struct ObjectNodeHeader;
 #include "shared/object_node.h"
 #include "shared/slus_callbacks.h"
 #include "dungeon/actor/position.h"
+#include "dungeon/player/object.h"
 
 #ifndef NULL
 #define NULL 0
@@ -20,7 +21,6 @@ struct ObjectNodeHeader;
 
 extern void select_record_entry_and_value(void *state, void *entries, short index);
 extern s32 find_active_rect_containing_point(s32 point_x, s32 point_y);
-extern void set_record_integer_tile_center(ObjectPosition *record, s32 tile_x, s32 tile_y);
 extern void clear_entry_flag_and_link_owner(struct ObjectNodeHeader *entry);
 
 extern u8 D_800D4158;

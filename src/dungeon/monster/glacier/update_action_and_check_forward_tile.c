@@ -14,6 +14,7 @@
 #include "engine/scene.h"
 #include "engine/graphics.h"
 #include "dungeon/system.h"
+#include "sdk/libc.h"
 
 typedef struct {
     s16 x;
@@ -22,8 +23,6 @@ typedef struct {
 
 void select_record_entry_and_value(void *state_data, void *entry_data, short index);
 
-
-extern s32 rand(void);
 s32 check_left_tile_and_center_height(s32 x, s32 y, s32 z);
 
 

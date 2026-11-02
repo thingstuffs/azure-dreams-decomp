@@ -1,8 +1,9 @@
 /* Item menu display resource and its file-private helper. */
 #include "common.h"
 #include "shared/object_node.h"
-extern s32 func_80049004(s32 *a0, s32 a1, s32 a2);
-extern s32 texture_set_the_field_offset_hex_8_in_each_entry_pointer_array(s32 a0, void *a1, s32 a2);
+#include "engine/item.h"
+#include "engine/texture.h"
+#include "engine/util.h"
 extern s32 display_vector_defaults[];
 #include "shared/object_flags.h"
 #include "town/shop.h"
@@ -17,17 +18,16 @@ typedef struct S_800AEFD8_1 {
 
 extern void *allocate_list_node(s32 value, void *parent);
 static s32 load_item_menu_display_resource(void *payload, s32 value);
-extern void *link_item_menu_display_entries(void *value); /* Unprototyped: uses the value as a pointer where the definition has an integer (or the reverse) */
+extern void *link_item_menu_display_entries(void *entries);
 extern void initialize_item_menu_list_display(void *payload, void *parent, s32 resource_id, s32 resource_data,
                           s32 x, s32 y, s32 context); /* Unprototyped: uses the value as a pointer where the definition has an integer (or the reverse) */
 extern void register_node(void *object, void *callback);
-extern void release_null_terminated_entries(void *address);
 extern int draw_tinted_node_sprites_scratch(void *forwarded_ptr, int unused_arg, void *second_ptr);
 
 /* Allocates menu display entries, copies the default vector, and shares it among the entries on success. */
 static s32 load_item_menu_display_resource(void *object, s32 resource_id) {
     s32 success = 0;
-    s32 handle = func_80049004((s32 *)((s8 *)object + 0xDC), resource_id, 8);
+    s32 handle = realloc_field_0_buffer((s32 *)((s8 *)object + 0xDC), resource_id, 8);
 
     *(s32 *)((s8 *)object + 0xD8) = handle;
     if (handle != 0) {

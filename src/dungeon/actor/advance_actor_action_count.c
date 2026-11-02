@@ -3,16 +3,15 @@
 #include "shared/record_ptrs.h"
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
+#include "dungeon.h"
+#include "dungeon/actor/motion.h"
+#include "dungeon/level.h"
 
-extern s32 check_entity_relation(ActorRecord *entry, ActorRecord *anchor);
 #include "dungeon/player/object/action_state.h"
 #include "records/Rec_func_800AA258_arg2.h"
 #include "slus.h"
 #include "dungeon/actor.h"
 extern void update_actor_status_and_mp(ActorRecord *entity);
-extern void begin_pushed_actor_move(void *state_in, void *unused, void *position_in, void *actor_in);
-extern s32 begin_ready_actor_directional_action(void *entity, s32 context, Rec_func_800AA258_arg2 *sprite, s32 direction_frames);
-extern void begin_actor_move_to_target_facing();
 
 extern u8 actor_action_resume_address[];
 extern void *actor_action_frames[];

@@ -1,4 +1,6 @@
 #include "common.h"
+#include "engine/util.h"
+#include "sdk/libc.h"
 
 typedef struct {
     u8 pad[0x10];
@@ -14,8 +16,6 @@ typedef struct {
 } Item;
 
 extern ItemCategory item_category_groups[];
-extern s32 memset(void *, s32, s32);
-extern void func_8004E5A0(s32, s32, u8 *);
 extern u8 *remap_flagged_string_bytes(u8 *string);
 extern s32 build_positioned_text_glyphs(void *, u8 *, s32); /* Unprototyped: uses the value as a pointer where the definition has an integer (or the reverse) */
 

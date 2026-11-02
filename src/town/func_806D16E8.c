@@ -1,4 +1,5 @@
 #include "common.h"
+#include "town.h"
 
 extern s32 process_flag_test_record(s32, s32); /* Unprototyped: retail call passes a different argument count */
 /* Calls return with process_flag_test_record(grid_y,grid_x)! = - 1. */

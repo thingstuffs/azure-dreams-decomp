@@ -9,6 +9,9 @@
 #include "records/Rec_D_80082E80.h"
 #include "dungeon/player.h"
 #include "dungeon/item/message.h"
+#include "dungeon/player/object.h"
+#include "dungeon/system.h"
+#include "engine/scene.h"
 
 typedef struct S_800AB778_21 {
     u8 pad_00[0xAC];
@@ -95,7 +98,6 @@ typedef struct {
     u8 pad14[0x78];
 } D_800E3E48_Entry;
 
-void build_entity_slot_snapshot();
 s32 get_entity_effect_value(ActorRecord *entry, s32 effect_id);
 s32 get_entity_class();
 struct DungeonItemEntry;
@@ -110,8 +112,6 @@ s16 find_entity_slot_by_field_ac();
 
 struct Entity;
 struct EntityLinkNode;
-void mark_owned_linked_actor_actions(struct Entity *owner_entity);
-s32 display_text_with_fullwidth_adjustment(s8 *text);
 
 extern s32 object_flag_block;
 extern s16 pending_marked_actor_count;

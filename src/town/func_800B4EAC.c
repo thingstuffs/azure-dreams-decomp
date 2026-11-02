@@ -2,6 +2,8 @@
 #include "common.h"
 #include "shared/game_work.h"
 #include "town/shop.h"
+#include "town.h"
+#include "town/shop/object.h"
 
 typedef struct S_800B260C_1 {
     u8 pad_00[0x10];
@@ -10,12 +12,9 @@ typedef struct S_800B260C_1 {
 
 
 extern void SD_Call(s32);
-extern void interpolate_paired_object_positions_and_shades(void **pair_state);
 extern void update_active_entry_and_notify_handlers(s8 *state, s32 input);
 extern void decrement_entry_and_notify_handlers(void *);
 extern s32 move_item_to_list(void *);
-extern void sort_selected_record_entries(void *);
-extern void set_object_data_pointer_if_present(void *);
 
 /* Handles menu button actions and directional cursor movement with key repeat. */
 void handle_item_menu_input_2(u8 *menu) {

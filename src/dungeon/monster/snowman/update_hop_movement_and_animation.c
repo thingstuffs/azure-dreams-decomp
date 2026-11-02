@@ -13,9 +13,7 @@
 #include "dungeon/actor/spell_resource_ids_g01008.h"
 #include "engine/graphics.h"
 #include "dungeon/item.h"
-
-
-extern s32 rsin(s32);
+#include "sdk/libgte.h"
 
 extern s32 D_8016B7F4;
 extern u8 snowman_frame_set_9[];

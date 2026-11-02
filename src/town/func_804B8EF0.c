@@ -1,6 +1,7 @@
 #include "common.h"
 #include "town/scene/record_services.h"
 #include "shared/record_ptrs.h"
+#include "town.h"
 /* Call the scene object's 0x238 method with (0x11, 0x200). */
 void call_scene_service_pair_b(void)
 {

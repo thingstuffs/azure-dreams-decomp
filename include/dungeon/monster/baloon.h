@@ -81,4 +81,7 @@ typedef struct OriginMotionEffectPosition {
 void update_effect_collision_and_lifetime(OriginMotionEffectBody *effect,
     OriginMotionEffectPosition *position, SpriteFrameState *visual);
 
+void initialize_angle_indexed_target(ActorRecord *state, ObjectPosition *unused, SpriteFrameState *target, ActorRecord *angleSource);
+s32 random_below_limit(s32 limit);
+
 #endif

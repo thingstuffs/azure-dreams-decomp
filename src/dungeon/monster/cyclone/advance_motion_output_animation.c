@@ -4,6 +4,7 @@ struct ObjectPosition;
 #include "shared/sprite_frame_state.h"
 #include "shared/object_flags.h"
 #include "dungeon/effect.h"
+#include "sdk/libgte.h"
 
 typedef struct {
     s16 state;
@@ -24,7 +25,6 @@ typedef struct {
     u16 value;
 } FuncOutput;
 
-extern s32 rsin(u32);
 extern void advance_sprite_animation_and_textures(void *);
 extern void select_sprite_entry(void *, s32, s32);
 

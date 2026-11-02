@@ -5,8 +5,7 @@
 #include "town/scene/value_handler_modes_g00712.h"
 #include "town/scene.h"
 #include "town/scene/hooks.h"
-
-extern s32 scene_price;
+#include "town/data.h"
 
 /* Refresh the shared state and subtract D_8001B210 from the context counter. */
 void refresh_shared_state(void) {

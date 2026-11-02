@@ -17,21 +17,18 @@
 #include "dungeon/player/motion.h"
 #include "dungeon/player/object.h"
 #include "engine/graphics.h"
+#include "dungeon/player/item.h"
+#include "engine/menu.h"
+#include "slus.h"
 
 extern s32 func_8002534C(void *, void *, void *, void *); /* extern */
 s32 request_familiar_deployment_change(void *, void *, void *, s32, u32); /* extern */
-extern s16 dispatch_selected_item_use(Rec_func_8008ACDC_arg0 *actor, s16 item_id, s16 other_item_id);                /* extern */
 
 #include "dungeon/item/actor_target.h"
-s32 can_entity_gain_level(void *entity);                  /* extern */
-void set_record_integer_tile_center(ObjectPosition *record, s32 tile_x, s32 tile_y);              /* extern */
 #include "dungeon/player/object/action_state.h"
               /* extern */
-s32 lookup_definition_pair_value(s16 firstKey, s16 secondKey);                          /* extern */
 s32 generate_random_value(void);                          /* extern */
 extern M2C_UNK player_menu_action_data;
-extern void * create_animated_selection_menu_owner(void *unused, void *source);
-extern void submit_enabled_saved_display_value(void);
 extern u8 player_wait_frames[];
 extern u8 player_carry_frames[];
 extern s32 (*actor_command_handlers[])(s32, u16);

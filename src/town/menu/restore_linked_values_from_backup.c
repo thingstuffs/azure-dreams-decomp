@@ -1,7 +1,8 @@
 #include "common.h"
+#include "town/menu.h"
+#include "town/data.h"
 
 extern s8 catalog_display_node_slots;
-extern s32 menu_value_backup;
 
 /* Restore saved values to the entries in slots sixteen through twenty-seven. */
 void restore_linked_values_from_backup(void) {

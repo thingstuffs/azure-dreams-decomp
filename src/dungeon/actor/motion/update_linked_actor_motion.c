@@ -3,8 +3,7 @@
 #include "shared/dungeon_status.h"
 #include "shared/entity.h"
 #include "dungeon/actor/motion.h"
-
-extern void set_record_integer_tile_center(ObjectPosition *record, s32 tile_x, s32 tile_y);
+#include "dungeon/player/object.h"
 
 /* Follows the linked position until the countdown expires, then resets and marks completion. */
 s32 update_linked_actor_motion(void *state, ObjectPosition *transform, SpriteFrameState *config, void *object) {

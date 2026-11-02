@@ -1,6 +1,7 @@
 #include "common.h"
 #include "town/scene/entry_requests.h"
 #include "shared/town_dispatch_data.h"
+#include "town.h"
 
 /* cfail-repair: tf7-phase1-cache-v3 */
 void func_800171D8(u8 *entries);

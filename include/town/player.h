@@ -111,4 +111,6 @@ void dispatch_parameterized_or_default(s32 handler_param);
 void initialize_shared_scene_data(s32 **out_ptr);
 u32 view_relative_angle_sector(s32 angle);
 
+void init_movement_action(TownObjectRecord *record, void *unused, s32 setup_value);
+
 #endif

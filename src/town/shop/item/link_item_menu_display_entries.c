@@ -1,8 +1,7 @@
 #include "common.h"
 #include "engine/texture.h"
 #include "town/shop/item.h"
-
-extern u8 item_display_chain_indices[];
+#include "town/data.h"
 
 /* Links the item menu entries through item_display_chain_indices (limit 26) and returns the chain. */
 void *link_item_menu_display_entries(void *entries) {

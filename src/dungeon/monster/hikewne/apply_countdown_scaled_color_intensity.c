@@ -3,6 +3,7 @@
 #include "shared/sprite_frame_state.h"
 #include "shared/object_flags.h"
 #include "records/Rec_D_80082E80.h"
+#include "dungeon/monster/hikewne.h"
 
 typedef struct S_801588E8_0 {
     u16 unk_00;

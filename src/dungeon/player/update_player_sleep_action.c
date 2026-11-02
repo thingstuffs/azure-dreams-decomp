@@ -9,6 +9,7 @@
 #include "dungeon/system.h"
 #include "dungeon/level.h"
 #include "engine/graphics.h"
+#include "dungeon/player.h"
 #ifndef NULL
 #define NULL 0
 #endif

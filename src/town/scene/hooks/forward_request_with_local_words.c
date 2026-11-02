@@ -1,12 +1,12 @@
 #include "common.h"
 #include "town/scene/entry_requests.h"
+#include "town/data.h"
 
 typedef struct {
     s32 words[4];
 } UnkStruct80476358;
 
 extern UnkStruct80476358 D_80017124;
-extern u8 scene_pair_dispatch_context[];
 extern void func_80018FC8(UnkStruct80476358 *, u8 *, s32, s32);
 
 /* Pass a local copy of the word template and fixed data to the handler. */

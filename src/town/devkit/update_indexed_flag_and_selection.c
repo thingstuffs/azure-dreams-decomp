@@ -1,6 +1,7 @@
 /* cfail-repair: tf7-phase1-cache-v3 */
 #include "common.h"
 #include "m2c_compat.h"
+#include "town/devkit.h"
 
 typedef struct {
     u8 pad[0x54];

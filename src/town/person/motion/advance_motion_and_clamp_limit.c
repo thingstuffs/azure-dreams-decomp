@@ -25,7 +25,7 @@ void advance_motion_and_clamp_limit(TownObjectRecord *entity, EntityRec *motion,
             return;
         }
         if (select_object_setup_path(entity, motion, context) == 0) {
-            func_800CDF00(entity, motion, context);
+            initialize_actor_reaction_and_fixed_state(entity, motion, context);
             return;
         }
     } else {

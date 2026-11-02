@@ -6,6 +6,9 @@
 #include "engine/cd.h"
 #include "dungeon/item/actor_target.h"
 #include "dungeon/actor/effect.h"
+#include "dungeon/item.h"
+#include "dungeon/monster/manoeva.h"
+#include "engine/entity.h"
 
 #ifndef NULL
 #define NULL 0
@@ -46,12 +49,9 @@ typedef struct S_80E3C98C_7 {
     u16 unk_12;
 } S_80E3C98C_7;
 
-
-extern s32 func_80042640();
 extern s32 copy_entity_record();
 extern s32 set_code_for_entity_mode();
 extern void *(*load_monster_code_module())(s32, u8, u8, s16);
-extern void *find_or_retain_sprite_resource_slot();
 extern s8 entity_spawn_variant_code;
 
 /* Create an entity from spawn data and update its tracked reference. */

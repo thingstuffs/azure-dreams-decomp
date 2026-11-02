@@ -16,9 +16,9 @@
 #include "dungeon/item.h"
 #include "dungeon/actor.h"
 #include "dungeon/monster/death.h"
+#include "dungeon/monster/metal.h"
 
 extern void select_sprite_entry(void *, s32, s32);
-extern s32 rand(void);
 extern void play_sound_if_enabled(s32);
 
 extern u8 metal_action_resume_address[];

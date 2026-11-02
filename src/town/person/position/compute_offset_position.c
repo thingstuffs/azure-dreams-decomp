@@ -3,6 +3,7 @@
 #include "m2c_compat.h"
 #include "shared/object_payload.h"
 #include "shared/vector.h"
+#include "town/person/position.h"
 
 
 typedef struct S_800C52D0_7 {

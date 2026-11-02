@@ -2,6 +2,7 @@
 #include "m2c_compat.h"
 #include "town/player/position.h"
 #include "town/player/state.h"
+#include "town/data.h"
 
 typedef struct {
     s32 unk0;
@@ -12,7 +13,6 @@ typedef struct {
 } State;
 
 extern s16 D_8006ADD6;
-extern s32 player_motion_bounds[4];
 extern State player_blocking_rects;
 
 /* Process the terminated entry list and initialize the state for the current mode. */

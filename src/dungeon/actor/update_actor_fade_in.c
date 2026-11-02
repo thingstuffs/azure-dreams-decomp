@@ -3,6 +3,7 @@
 #include "shared/sprite_frame_state.h"
 #include "shared/slus_callbacks.h"
 #include "shared/dungeon_status.h"
+#include "dungeon/actor.h"
 
 typedef struct StructArg0 {
     u8 pad[0x9B];

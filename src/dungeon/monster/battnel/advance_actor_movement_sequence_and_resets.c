@@ -16,6 +16,7 @@
 #include "dungeon/system.h"
 #include "dungeon/actor.h"
 #include "dungeon/effect/screen.h"
+#include "dungeon/monster/battnel.h"
 
 
 

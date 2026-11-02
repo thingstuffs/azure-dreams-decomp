@@ -1,6 +1,7 @@
 /* Refreshes catalog grid entries and positions the selection sprite using row and column indices. */
 #include "common.h"
 #include "town/menu.h"
+#include "town/data.h"
 
 typedef struct SpriteFields {
     u32 pad0;
@@ -31,17 +32,13 @@ typedef struct TownObject {
 
 extern void draw_catalog_entry_page(TownObject *);
 
-extern void *catalog_detail_pages[4];
 extern void *D_80126998[4];
-extern void *catalog_selected_digits[10];
 extern void *catalog_normal_digits[10];
 extern u16 catalog_cursor_rows[2];
 extern u16 catalog_cursor_columns[8];
 extern u8 catalog_number_marker[16];
-extern u8 catalog_unavailable_marker[16];
 extern u8 D_80127E4C[16];
 extern u8 D_80127F48[16];
-extern u8 catalog_detail_fallback[16];
 extern u8 D_801289EC[16];
 
 /* Returns eight times the signed row plus the entry index. */

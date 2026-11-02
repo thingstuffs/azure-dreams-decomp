@@ -4,9 +4,9 @@
 #include "shared/object_node.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/tile_object.h"
+#include "dungeon/item/state.h"
 
 extern s8 find_active_rect_containing_point(u8, u8);
-extern void update_actor_proximity_flag(void *source, void *state, s32 lower_limit, s32 upper_limit, s8 *result);
 extern void update_all_actor_proximity_flags(s16 near_limit, s16 far_limit);
 
 /* Updates the default or linked state and dispatches action (3, 6). */

@@ -22,7 +22,7 @@ extern void process_unflagged_linked_entries_alt(s32 firstNodeBase);
 extern s32 find_entry_at_tile_coordinates(s16 x, s16 y, s16 z);
 extern s32 call_slot_handler_and_update_status(s32 handler_id, void *object_ptr, s32 slot_id, s8 update_state);
 extern void allocate_object_at_coordinates(void *, void *, s16); /* Unprototyped: retail call passes more arguments than the callee reads */
-extern void func_800BCFBC(s32, u32, s32);
+extern void bank_selector_no_op(s32, u32, s32);
 
 /* Dispatches an action handler after processing special cases and updating dungeon state. */
 s32 dispatch_dungeon_category_action(void *actor, void *action, s16 dispatch_mode, s32 handler_param) {
@@ -57,7 +57,7 @@ s32 dispatch_dungeon_category_action(void *actor, void *action, s16 dispatch_mod
     handler_tag = handler_entry >> 0x18;
     handler = (void (*)(void *, void *, s16, s32))((handler_entry & 0xFFFFFF) | 0x80000000);
     if (handler_tag != 0) {
-        func_800BCFBC(handler_tag - 1, handler_tag, action_index);
+        bank_selector_no_op(handler_tag - 1, handler_tag, action_index);
     }
     if ((s16)dispatch_mode != 0x15) {
         if (reference_tile_object.secondary_item == 0) {

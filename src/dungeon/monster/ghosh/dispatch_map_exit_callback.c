@@ -9,7 +9,6 @@ struct ObjectNodeHeader;
 #include "dungeon/item.h"
 #include "engine/graphics.h"
 
-extern void allocate_and_initialize_object(void);
 extern void clear_entry_flag_and_link_owner(struct ObjectNodeHeader *entry);
 
 extern u8 ghosh_frame_set_4[];

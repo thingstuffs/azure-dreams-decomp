@@ -1,5 +1,6 @@
 #include "common.h"
 #include "town/scene/animation.h"
+#include "town/data.h"
 
 typedef struct S_8052DC78_0 {
     u8 pad_00[0x5C];
@@ -10,10 +11,8 @@ typedef struct S_8052DC78_0 {
 
 extern void func_8006E854(s16 *rect, u8 *image);
 
-extern s32 scene_object_flags;
 extern u8 D_805305B8[];
 extern u8 D_805305D8[];
-extern u8 town_hud_image_data[];
 extern u8 D_80530638[];
 
 typedef struct CallbackState {

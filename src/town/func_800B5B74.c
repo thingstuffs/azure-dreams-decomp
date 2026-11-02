@@ -1,7 +1,7 @@
 #include "common.h"
 #include "records/Rec_func_800B2DA0_arg1.h"
+#include "town.h"
 
-void populate_paged_entries_with_brightness();            /* extern */
 void func_800B39E4(void *);                         /* extern */
 
 

@@ -1,11 +1,8 @@
 #include "common.h"
 #include "sdk/libgpu.h"
 #include "town/map/animation.h"
+#include "town/data.h"
 
-extern u8 building_texture_frame_zero[];
-extern u8 building_texture_frame_one[];
-extern u8 building_texture_frame_two[];
-extern u8 building_texture_frame_three[];
 extern u16 building_palette_frame_zero[];
 extern u16 D_80111F68[];
 extern u16 D_80111F88[];

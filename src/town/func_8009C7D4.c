@@ -5,6 +5,7 @@
 #include "m2c_compat.h"
 #include "shared/town_object.h"
 #include "shared/town_handler.h"
+#include "town.h"
 
 typedef struct S_80099CE0_2 {
     u8 pad_00[0x14];

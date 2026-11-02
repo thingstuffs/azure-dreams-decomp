@@ -1,6 +1,7 @@
 #include "shared/object_node.h"
 #include "common.h"
 #include "shared/object_flags.h"
+#include "dungeon/monster/nyuel.h"
 
 typedef struct EffectState {
     u8 pad00[4];

@@ -5,10 +5,11 @@
 
 #include "town/player/call_the_handler_selects_nonzero_entry_api.h"
 #include "engine/window.h"
+#include "town.h"
+#include "town/data.h"
 void store_the_valid_shared_angle_in_offset_hex_10(TownObjectRecord *);                            
 void call_the_valid_shared_angle_fixed_hex_120000_context_callee_80094_f_58(s32 context);
 extern s32 D_80091990;
-extern s32 player_event_handler_entries;
 
 void init_periodic_effect_action(TownObjectRecord *object, s32 motion, s32 table_arg) {
     object->unk_3E.as_s16 = 6;

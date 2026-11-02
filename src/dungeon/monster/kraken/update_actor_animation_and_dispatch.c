@@ -15,6 +15,10 @@
 #include "dungeon/actor.h"
 #include "dungeon/actor/motion.h"
 #include "dungeon/actor/state.h"
+#include "dungeon.h"
+#include "dungeon/level.h"
+#include "dungeon/monster/kraken.h"
+#include "dungeon/player/object.h"
 
 typedef struct {
     s8 pad_00[0x8C];
@@ -45,21 +49,14 @@ typedef struct S_801711A4_2 {
     void * unk_2C;
 } S_801711A4_2;   /* arg2 in update_actor_animation_and_dispatch */
 
-
-
-s32 check_entity_relation();
 s32 find_active_rect_containing_point(s32 point_x, s32 point_y);
-s32 can_entity_gain_level(void *entity);
 void update_actor_status_and_mp(ActorRecord *entity);
-s32 begin_ready_actor_directional_action(ActorRecord *body, ObjectPosition *position, SpriteFrameState *sprite, u8 *direction_frames);
-void begin_actor_move_to_target_facing(ActorRecord *body, ObjectPosition *position, SpriteFrameState *sprite, ActorRecord *actor);
 extern void func_801716CC(void *motion, ObjectPosition *unused, SpriteFrameState *actor, void *path_state);
 extern void func_80171884(Rec_func_800A9E70_arg0 *move_data, void *context, TileObject *position_data, ActorRecord *actor_data);
 s32 func_80171FCC(ActorRecord *action_state, ObjectPosition *motion_param, SpriteFrameState *sprite_arg, ActorRecord *actor);
 extern void func_80172190(ActorRecord *action_state, ObjectPosition *context, SpriteFrameState *sprite, ActorRecord *actor);
 s32 func_801722B8(void *entity_arg, void *primary_context_arg, void *secondary_context_arg, s32 force_state_arg);
 extern void func_80173D10(Actor *actor, s32 action, Entity *entity, MapObject *map_object);
-void update_actor_animation_and_dispatch(ActorRecord *actor, ObjectPosition *context, SpriteFrameState *sprite, ActorRecord *status);
 extern u8 kraken_frame_set_1[];
 extern u8 kraken_frame_set[];
 extern u8 D_801741AC[];

@@ -18,7 +18,7 @@ extern u8 D_800D160C[];
 /* Refreshes the display with the formatted global value and its suffix. */
 void refresh_formatted_global_display(Func800B40ACArg *display) {
     u8 text[32];
-    func_8004E5A0(READ_D_80012D5C(), 10, text);
+    format_int_space_padded(READ_D_80012D5C(), 10, text);
     remap_flagged_string_bytes(text);
     strcat(text, D_800D160C);
     flag_optional_object_for_removal(*display->handle);

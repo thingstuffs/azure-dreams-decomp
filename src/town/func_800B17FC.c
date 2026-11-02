@@ -1,7 +1,8 @@
 #include "common.h"
+#include "engine/texture.h"
+#include "engine/util.h"
+#include "town.h"
 
-extern s32 func_80049004(s32 *a0, s32 a1, s32 a2);
-extern s32 texture_set_the_field_offset_hex_8_in_each_entry_pointer_array(s32 a0, void *a1, s32 a2);
 extern s32 display_vector_defaults[];
 
 /* Initializes the object handle and applies the default configuration on success. */

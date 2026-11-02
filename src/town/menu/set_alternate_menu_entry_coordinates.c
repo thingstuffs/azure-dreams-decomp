@@ -1,6 +1,7 @@
 /* Set alternate menu entry coordinates. */
 #include "common.h"
 #include "m2c_compat.h"
+#include "town/menu.h"
 typedef struct MenuDisplay {
     void *unk_00;
     u8 pad04[0x58];

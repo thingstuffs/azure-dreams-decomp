@@ -1,6 +1,7 @@
 /* Depth strip projection (G00337). */
 /* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - CL:dungeon/func_800AA854. */
 #include "dungeon/actor/depth_strip_projection_g00337.h"
+#include "dungeon/actor.h"
 
 /* Processes circular segments in both directions and saves the last successful result. */
 s32 process_circular_segments(Arg0_800AFBFC *shape, s32 unused, Arg2_800AFBFC *segment) {

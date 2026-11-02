@@ -1,6 +1,7 @@
 #include "common.h"
 #include "shared/entity.h"
 #include "town/player/position.h"
+#include "dungeon/actor.h"
 
 
 /* cfail-repair: tf7-phase1-cache-v3 */

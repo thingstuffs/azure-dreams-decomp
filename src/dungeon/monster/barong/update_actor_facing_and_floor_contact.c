@@ -6,14 +6,14 @@
 #include "dungeon/item.h"
 #include "engine/texture.h"
 #include "shared/entity.h"
+#include "dungeon/actor.h"
+#include "dungeon/monster/barong.h"
 
 typedef void (*Callback)(void *, void *, void *, void *);
 
 extern void advance_sprite_animation_and_textures(void *);
 extern s32 refresh_actor_facing_and_lifecycle(void *, void *, void *, void *);
-extern void try_move_actor_to_valid_position(void *, void *, void *, void *);
 extern s16 sample_terrain_surface_height(u16, u16, s16);
-extern void start_direction_based_action(ActorRecord *action_state, ObjectPosition *unused, SpriteFrameState *animation, ActorRecord *object);
 
 extern u8 barong_action_resume_address[];
 extern Callback barong_callbacks[];

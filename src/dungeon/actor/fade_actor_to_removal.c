@@ -6,6 +6,7 @@
 #include "shared/entity.h"
 #include "shared/object_node.h"
 #include "shared/sprite_frame_state.h"
+#include "dungeon/actor.h"
 
 
 typedef struct S_800D1A80_1 {

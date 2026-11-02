@@ -14,9 +14,10 @@ struct SpriteFrameState;
 #include "records/Rec_func_8008ACDC_arg0.h"
 #include "records/Rec_D_80082E80.h"
 #include "dungeon/actor.h"
+#include "dungeon/actor/motion.h"
+#include "engine/resource.h"
 
 extern void select_record_entry_and_value(void *state, void *entries, short index);
-extern void request_scene_dispatch_state(s32);
 #include "dungeon/player.h"
 extern s32 begin_actor_attack();
 #include "dungeon/item.h"
@@ -26,7 +27,6 @@ extern s32 begin_actor_attack();
 #include "dungeon/player/motion.h"
 #include "dungeon/player/input.h"
 
-extern s32 lookup_definition_pair_value(s16 firstKey, s16 secondKey);
 extern s32 generate_random_value(void);
 
 extern u8 player_menu_action_data[];

@@ -15,6 +15,7 @@
 #include "engine/node/allocation.h"
 #include "engine/node.h"
 #include "dungeon/actor/status.h"
+#include "dungeon/monster/dreamin.h"
 typedef struct R03_80170A28_S_80170A28_2 R03_80170A28_S_80170A28_2;
 typedef struct ActorActionView ActorActionView;
 typedef struct ActorSpriteView ActorSpriteView;
@@ -26,7 +27,6 @@ void func_8015EA3C(void *entity, R03_80170A28_S_80170A28_2 *motion, void *part);
 void func_8015EE68(ActorRecord *actor, ObjectPosition *context, SpriteFrameState *sprite, ActorRecord *state);
 extern M2C_UNK D_8016186C;
 
-void *move_and_fade_effect_sprite(s16 spawn_flags, s16 grid_x, s16 grid_y, s16 type_id) ;
 /* Allocates an entity and initializes its type, placement, flags, and callbacks. */
 /* Creates Dreamin with default frames at D_8016186C, applies spawn flags, and attempts valid tile
  * placement. */

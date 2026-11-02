@@ -3,9 +3,10 @@
 #include "common.h"
 #include "m2c_compat.h"
 #include "shared/town_object.h"
+#include "dungeon/actor.h"
+#include "dungeon/actor/object.h"
 
 extern s32 initialize_object_entries(void *,s8 *, s32 *);
-extern void apply_setup_on_timeout_variant_3(TownObjectRecord *object);
 extern s32 D_800D6938[];
 
 

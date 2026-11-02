@@ -4,9 +4,8 @@
 #include "records/Rec_func_800A9E70_arg0.h"
 #include "dungeon/actor/status.h"
 #include "dungeon/actor.h"
-
-s16 try_claim_dungeon_action_slot(ActorRecord *actor);                          /* extern */
-
+#include "dungeon/monster/baloon.h"
+#include "dungeon/player/object.h"
 
 /* Clears the object's high flag bit and conditionally resets state and decrements its counter. */
 void clear_high_flag_and_update_counter(ActorRecord *body, ObjectPosition *unused_1, SpriteFrameState *unused_2, ActorRecord *actor) {

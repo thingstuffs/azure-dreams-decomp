@@ -10,6 +10,7 @@
 
 #include "town/person/object_setup.h"
 #include "town/person/object.h"
+#include "town/system.h"
 /* Decrement the countdown and call apply_object_setup_and_update when it reaches zero or becomes negative. */
 void decrement_object_timer_and_update(TownObjectRecord *object, void *callback_arg_1, void *callback_arg_2) {
     u16 countdown;

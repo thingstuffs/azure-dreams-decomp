@@ -4,8 +4,6 @@
 #include "town/menu.h"
 #include "town/menu/catalog_parts.h"
 
-extern void store_cached_value_at_pointer(void);
-
 /* Updates or clears table entries according to the request code. */
 void animate_catalog_grid_to_detail(Rec_func_801237A4_arg0 *request)
 {

@@ -1,4 +1,5 @@
 #include "common.h"
+#include "town/devkit.h"
 
 extern void func_8007BEF0(s32 value);
 extern void func_8007C040(void *ptr0, void *ptr1, s32 value);

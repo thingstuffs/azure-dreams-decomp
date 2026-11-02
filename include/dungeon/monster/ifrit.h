@@ -26,4 +26,8 @@ s32 render_linked_items_as_textured_strips(u8 *item_data);
 void tick_object_motion_and_expire(struct UpdateActorActionsAndImpactEffectsBody *object_data, void *motion_data, SpriteFrameState *work_data);
 
 void advance_actor_action_and_status(ActorRecord *in_action, ObjectPosition *in_context, SpriteFrameState *in_sprite, ActorRecord *in_actor);
+
+/* Owner declarations appended by tools/headers (append-only; the lines above are hand-kept). */
+void update_actor_actions_and_impact_effects(ActorRecord *body, ObjectPosition *motion, SpriteFrameState *sprite, ActorRecord *actor);
+
 #endif

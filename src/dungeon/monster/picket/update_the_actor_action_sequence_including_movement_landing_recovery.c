@@ -16,8 +16,8 @@
 #include "dungeon/player/object.h"
 #include "dungeon/item.h"
 #include "dungeon/actor.h"
-extern int abs(int);
-
+#include "dungeon/monster/picket.h"
+#include "sdk/libc.h"
 
 typedef struct S_80172C90_3 {
     u8 pad_00[0xA6];

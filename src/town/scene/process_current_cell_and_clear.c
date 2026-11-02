@@ -5,6 +5,7 @@
 #include "town.h"
 #include "town/scene.h"
 #include "shared/town_root.h"
+#include "town/data.h"
 
 typedef struct S_80016B0C_0 {
     u8 pad_00[0x8];
@@ -22,7 +23,6 @@ typedef struct S_80016B0C_2 {
 
 
 extern s32 scene_cell_dispatch_code;
-extern void *scene_current_cell_pointer;
 
 extern s32 func_80018504(void *object, s32 entry_index);
 extern void func_80018D54(void *, u8 *);

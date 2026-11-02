@@ -13,11 +13,7 @@
 #include "dungeon/system.h"
 #include "dungeon/actor.h"
 #include "dungeon/effect/screen.h"
-
-
-extern s32 rsin(s32);
-
-extern void create_parent_position_effect(EntityRec *parent, s32 effect_param, u8 *effect_data);
+#include "sdk/libgte.h"
 
 extern u8 kewne_action_resume_address[9];
 extern u8 D_80175E78[8];

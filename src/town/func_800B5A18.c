@@ -1,5 +1,8 @@
 #include "common.h"
 #include "m2c_compat.h"
+#include "engine/item.h"
+#include "engine/util.h"
+#include "town.h"
 
 typedef struct S_800B3178_3 {
     u8 pad_00[0x4];
@@ -11,10 +14,6 @@ typedef struct S_800B3178_4 {
     s8 unk_01;
     s8 unk_02;
 } S_800B3178_4;
-
-
-s32 select_item_data();                   /* extern */
-s32 func_8004DC14();                        /* extern */
 
 typedef struct S_800B3178_0 {
     s32 unk_00;

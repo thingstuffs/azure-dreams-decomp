@@ -2,6 +2,7 @@
 #include "town/menu.h"
 #include "sdk/libc.h"
 #include "sdk/libgpu.h"
+#include "town/data.h"
 
 typedef struct {
     s16 x;
@@ -23,9 +24,6 @@ typedef struct {
     u8 pad[3];
 } ImageList;
 
-
-extern u8 catalog_habitat_label[16];
-extern u8 catalog_number_prefix[16];
 extern ImageEntry catalog_glyphs[];
 extern ImageList catalog_detail_images[];
 

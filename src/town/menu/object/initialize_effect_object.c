@@ -3,6 +3,7 @@
 #include "shared/slus_callbacks.h"
 #include "m2c_compat.h"
 #include "engine/node.h"
+#include "town/menu/object.h"
 
 typedef struct S_800A7AC0_0 {
     void (*unk_00)(void *, void *, void *);

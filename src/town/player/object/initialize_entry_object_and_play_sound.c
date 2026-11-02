@@ -3,6 +3,7 @@
 #include "shared/town_handler.h"
 #include "slus.h"
 #include "town/player/object.h"
+#include "town/data.h"
 
 typedef struct TownEntry {
     u8 pad0[2];
@@ -23,7 +24,6 @@ typedef struct TownObject {
 
 extern u8 D_800983BC;
 extern u8 D_800D0158;
-extern u16 town_facing_angles[];
 
 /* Set the object's handler, state, and entry-specific value, then update the table target. */
 void initialize_entry_object_and_play_sound(TownObject *object, s32 table_target, void *ptr2) {

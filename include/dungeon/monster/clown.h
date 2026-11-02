@@ -390,4 +390,7 @@ void advance_actor_effect_sequence(Rec_func_801732A4_arg0 *state, EntityRec *pos
 
 void finish_actor_action_animation(ActorRecord *action, ObjectPosition *motion, SpriteFrameState *anim, ActorRecord *actor);
 
+/* Owner declarations appended by tools/headers (append-only; the lines above are hand-kept). */
+void *spawn_clown_slot_d(s16 spawn_flags, s16 tile_x, s16 tile_y, s16 spawn_value);
+
 #endif

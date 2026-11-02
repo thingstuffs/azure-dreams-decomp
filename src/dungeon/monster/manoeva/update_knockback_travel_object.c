@@ -7,6 +7,10 @@
 #include "dungeon/item.h"
 #include "engine/scene.h"
 #include "dungeon/monster/manoeva/knockback_travel_g00260.h"
+#include "dungeon/monster/kewne.h"
+#include "dungeon/monster/manoeva.h"
+#include "engine/entity.h"
+#include "sdk/libgte.h"
 
 typedef struct S_80174CCC_1 {
     union { struct { s32 v; } at00; struct { u8 pad[0x2]; s16 v; } at02; } unk_00;   /* overlapping accesses */
@@ -66,12 +70,8 @@ typedef struct S_80174CCC_9 {
 extern s8 entity_spawn_variant_code;
 extern u8 manoeva_frame_set_2[];
 
-extern void func_80042640(void *, s32);
 extern void select_sprite_entry(void *, s32, s32);
 extern void advance_sprite_animation_and_textures(void *);
-extern s32 rsin(s32);
-extern u8 *find_or_retain_sprite_resource_slot(s32, s32);
-extern void *create_grid_position_entity(s16 spawn_flags, s16 grid_x, s16 grid_y, s16 height);
 
 /* Advances the motion arc and creates a linked object when the arrival effect completes. */
 void update_knockback_travel_object(KnockbackTravelObjectBody *motion, void *position_arg, SpriteFrameState *record)
@@ -169,7 +169,7 @@ void update_knockback_travel_object(KnockbackTravelObjectBody *motion, void *pos
                 spawn_kind = 7;
             }
 
-            created = create_grid_position_entity(spawn_kind,
+            created = spawn_manoeva(spawn_kind,
                 motion->unk_32,
                 motion->unk_34,
                 motion->unk_36.s);

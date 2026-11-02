@@ -1,5 +1,6 @@
 #include "town/map/camera.h"
 #include "town/map.h"
+#include "town/data.h"
 
 #ifndef NULL
 #define NULL 0
@@ -23,8 +24,6 @@ typedef struct S_func_800A496C_2 {
 
 extern s16 map_scene_selector_alias;
 extern s8 map_wide_culling;
-
-extern s32 town_secondary_callback_state[];
 
 /* Run both contexts' callbacks, then update the flag from the current mode and threshold. */
 void run_dual_context_callbacks(void)

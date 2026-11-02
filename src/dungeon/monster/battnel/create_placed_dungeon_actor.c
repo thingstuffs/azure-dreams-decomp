@@ -11,6 +11,8 @@
 #include "dungeon/actor/animation.h"
 #include "engine/node.h"
 #include "engine/node/allocation.h"
+#include "dungeon/actor.h"
+#include "dungeon/monster/battnel.h"
 
 
 typedef struct S_80B7F054_4 {
@@ -25,7 +27,6 @@ typedef struct S_80B7F054_4 {
 } S_80B7F054_4;   /* actor in create_placed_dungeon_actor */
 
 extern s32 generate_random_value(void);
-extern void try_move_actor_to_valid_position(void *, void *, void *, void *);
 extern u8 D_8015EA30[];
 extern u8 D_80161D0C[];
 extern u8 D_80161D4C[];

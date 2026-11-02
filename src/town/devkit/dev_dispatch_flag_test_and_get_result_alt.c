@@ -1,5 +1,6 @@
 /* cfail-repair: tf7-phase1-cache-v3 */
 #include "common.h"
+#include "town/devkit.h"
 
 typedef struct S_808B94E0_1 {
     u8 pad_00[0x64];

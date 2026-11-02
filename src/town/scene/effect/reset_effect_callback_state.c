@@ -1,7 +1,6 @@
 #include "common.h"
 #include "town/scene/effect.h"
-
-extern s32 scene_object_flags;
+#include "town/data.h"
 
 /* Waits for linked flag 8, then decreases field +8 until the object is marked for removal. */
 void reset_effect_callback_state(void *ptr) {

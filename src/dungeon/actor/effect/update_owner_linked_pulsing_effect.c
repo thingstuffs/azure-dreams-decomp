@@ -3,6 +3,7 @@
 #include "common.h"
 #include "shared/object_flags.h"
 #include "shared/dungeon_status.h"
+#include "dungeon/actor/effect.h"
 
 
 typedef struct {

@@ -14,6 +14,7 @@ struct ObjectPosition;
 #include "dungeon/item.h"
 #include "dungeon/player/motion.h"
 #include "dungeon/effect.h"
+#include "dungeon/menu.h"
 
 /* cfail-repair: tf7-phase1-cache-v3 */
 extern void *player_action_tag[];
@@ -23,7 +24,6 @@ extern s32 menu_action_argument[];
 s32 check_familiar_deployment_placement(); /* extern */
 void display_formatted_context_message(void *context);                   /* extern */
 s32 play_sound_if_enabled(s32 query_value);                     /* extern */
-void *create_panel_effect_object(ActorRecord *owner);                      /* extern */
 void * create_familiar_selection_marker(struct EntityHdr **entity_ref);                          /* extern */
 void update_selection_tile_markers();                 /* extern */
 extern u8 D_80012D6D;

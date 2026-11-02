@@ -4,6 +4,7 @@
 #include "shared/dungeon_status.h"
 #include "shared/dungeon_moving_views.h"
 #include "dungeon/effect.h"
+#include "dungeon/monster/hikewne.h"
 
 
    /* p2 in validate_action_and_apply_effect */

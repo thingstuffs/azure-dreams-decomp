@@ -1,4 +1,5 @@
 #include "common.h"
+#include "town/devkit.h"
 
 /* Devkit debug code (sn_main.c line 47 trace) in the link-at-0 scene-test image A; the same routine as
  * copy_and_trace_overlay_work_record (src/town/func_80880194.c, line 48) in the 0x80700000-linked image. */

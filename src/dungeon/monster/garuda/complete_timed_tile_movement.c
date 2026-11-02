@@ -14,10 +14,7 @@
 #include "engine/graphics.h"
 #include "dungeon/item.h"
 #include "dungeon/actor.h"
-
-
-
-extern s32 rsin(s32);
+#include "sdk/libgte.h"
 
 extern u8 D_801748A0[];
 extern u8 D_801748A8[];

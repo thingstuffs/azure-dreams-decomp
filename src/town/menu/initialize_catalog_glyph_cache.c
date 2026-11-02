@@ -1,5 +1,7 @@
 #include "common.h"
 #include "town/scene/flags.h"
+#include "town/menu.h"
+#include "town/data.h"
 
 typedef struct Entry Entry;
 
@@ -10,8 +12,6 @@ struct Entry {
 };
 
 extern Entry catalog_cache_nodes[32];
-extern Entry *catalog_cache_head;
-extern s16 catalog_lookup_count;
 
 extern void append_terminated_runtime_word(void *); /* Unprototyped: uses the value as a pointer where the definition has an integer (or the reverse) */
 

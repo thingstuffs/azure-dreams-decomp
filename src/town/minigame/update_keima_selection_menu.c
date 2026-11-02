@@ -3,6 +3,7 @@
 #include "shared/game_work.h"
 #include "shared/object_flags.h"
 #include "engine/runtime.h"
+#include "town/data.h"
 
 typedef struct {
     s16 state;
@@ -68,8 +69,6 @@ extern u8 D_800203D8[];
 extern u8 betting_ticket_text[];
 extern u8 D_80021028[];
 extern s32 town_money;
-extern s32 keima_panel_object[];
-extern s16 keima_payout_factors[];
 extern u16 keima_selection_mask;
 extern s32 keima_payout_remaining;
 

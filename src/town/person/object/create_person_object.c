@@ -13,6 +13,7 @@ extern void fill_person_records(void);
 #include "town/person/object/initialize_object_entries_api.h"
 #include "town/person.h"
 #include "engine/node.h"
+#include "town/person/object.h"
 
 extern s32 loaded_town_resource_attributes[];
 extern u8 person_object_update_address[];

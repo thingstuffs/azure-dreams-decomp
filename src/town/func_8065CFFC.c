@@ -1,5 +1,6 @@
 #include "common.h"
 #include "town/scene/data_access.h"
+#include "town.h"
 
 /* cfail-repair: tf7-phase1-cache-v3 */
 extern s32 D_800183F0;

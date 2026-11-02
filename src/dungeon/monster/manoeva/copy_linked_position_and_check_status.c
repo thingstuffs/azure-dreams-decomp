@@ -6,6 +6,7 @@
 #include "shared/dungeon_moving_views.h"
 #include "dungeon/monster/manoeva/action_sprite_effect.h"
 #include "slus.h"
+#include "dungeon/monster/manoeva.h"
 
    /* arg1 in copy_linked_position_and_check_status */
 

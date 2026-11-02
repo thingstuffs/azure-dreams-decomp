@@ -3,6 +3,7 @@
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 #include "shared/entity.h"
+#include "dungeon/monster/golem.h"
 
 typedef struct S_80047784 S_80047784;
 

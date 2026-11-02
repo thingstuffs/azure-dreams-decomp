@@ -11,9 +11,8 @@
 #include "town/minigame.h"
 #include "town/minigame/effect.h"
 #include "town/player/object.h"
+#include "town/data.h"
 
-extern u16 tako_best_score;
-extern u8 tako_target_timing_table[];
 extern s16 D_800834C8[1];
 
 /* Advances a three-object shuffle sequence and handles its effects and completion. */

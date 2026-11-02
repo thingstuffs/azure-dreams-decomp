@@ -15,6 +15,7 @@
 #include "engine/resource.h"
 #include "slus.h"
 #include "dungeon/item/effect.h"
+#include "dungeon/player.h"
 
 extern u8 resident_globals_page[];
 

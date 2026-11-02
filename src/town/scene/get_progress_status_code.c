@@ -1,8 +1,7 @@
 #include "common.h"
 #include "town/scene.h"
 #include "town/scene/object.h"
-
-extern s32 town_selected_valid_entry[];
+#include "town/data.h"
 
 /* Returns zero for an empty D_8001E954 entry, two when the callback test succeeds, or one otherwise. */
 s32 get_progress_status_code(void) {

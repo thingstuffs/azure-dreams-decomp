@@ -7,6 +7,7 @@
 #include "records/Rec_D_80082E80.h"
 #include "dungeon/actor.h"
 #include "dungeon/player/object.h"
+#include "dungeon/monster/ifrit.h"
 
 extern s32 ifrit_action_resume_address;
 extern s32 D_80174838;

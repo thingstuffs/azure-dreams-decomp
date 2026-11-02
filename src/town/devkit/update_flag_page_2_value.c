@@ -1,4 +1,6 @@
 #include "town/scene.h"
+#include "town/devkit.h"
+#include "town/scene/hooks.h"
 
 typedef struct FlagPageState {
     u8 pad_00[0xE];
@@ -7,7 +9,6 @@ typedef struct FlagPageState {
 
 
 extern s32 func_8070021C();
-extern void forward_indexed_table_value(s32 index);
 extern void func_807002D4(s32 index);
 
 /* Devkit flag page 2: pass the value through when idle, else mark dirty and rescan. */

@@ -1,8 +1,8 @@
 #include "common.h"
 #include "shared/object_flags.h"
 #include "town/menu/object.h"
+#include "town/menu.h"
 
-extern s32 classify_object_against_bounds(void *object, s32 position_data);
 extern void unlink_node_if_registered(void *object);
 
 

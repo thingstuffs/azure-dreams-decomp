@@ -138,7 +138,7 @@ void initialize_item_menu_list_entries(ItemMenuTransition *list) {
             }
             row_y += 0x10;
             {
-                s32 entry_handle = func_8004DC14(get_item_menu_table_entry(*(((S_800AECA4_0 *)list)->unk_38 + row_index)), 1);
+                s32 entry_handle = create_label_glyph_entries(get_item_menu_table_entry(*(((S_800AECA4_0 *)list)->unk_38 + row_index)), 1);
                 S_800AECA4_1 *row_slots = (S_800AECA4_1 *)(row_slot + (s32)((S_800AECA4_0 *)list)->unk_D8);
                 *row_slots->unk_50 = entry_handle;
             }

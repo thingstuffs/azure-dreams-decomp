@@ -7,6 +7,8 @@
 #include "dungeon/level.h"
 #include "dungeon/item.h"
 #include "engine/texture.h"
+#include "dungeon/actor.h"
+#include "sdk/libgte.h"
 
 /* Sparse views for fields not covered by the existing record types. */
 typedef struct {
@@ -46,11 +48,7 @@ extern u8 garuda_walk_direction_frames[9];
 extern Callback garuda_callbacks[];
 
 extern void advance_sprite_animation_and_textures(void *);
-extern s32 rsin(s32);
 extern s32 refresh_actor_facing_and_lifecycle(void *, void *, void *, void *);
-extern void try_move_actor_to_valid_position(void *, void *, void *, void *);
-
-
 
 /* Updates object callbacks, movement, facing, and terrain-relative height. */
 void update_object_movement_facing_terrain(ActorRecord *body, ObjectPosition *motion, SpriteFrameState *sprite)

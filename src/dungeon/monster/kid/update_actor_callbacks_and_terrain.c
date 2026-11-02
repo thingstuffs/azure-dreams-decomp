@@ -9,12 +9,13 @@
 #include "dungeon/level.h"
 #include "dungeon/item.h"
 #include "engine/texture.h"
+#include "dungeon/actor.h"
+#include "dungeon/monster/kid.h"
+#include "sdk/libgte.h"
 
 void select_sprite_entry(void *, u8, s32);             /* extern */
 void advance_sprite_animation_and_textures(void *);                       /* extern */
-s32 rsin(s32);                            /* extern */
 s32 refresh_actor_facing_and_lifecycle(void *, void *, void *, void *); /* extern */
-s32 try_move_actor_to_valid_position(void *, void *, void *, void *); /* extern */
 void kid_action_resume_address(ActorRecord *actor, ObjectPosition *context, SpriteFrameState *sprite_in, ActorRecord *entity);
 extern u8 kid_direction_frames[12];
 extern u8 kid_alt_direction_frames[12];

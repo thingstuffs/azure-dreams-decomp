@@ -1,5 +1,6 @@
 #include "common.h"
 #include "shared/object_flags.h"
+#include "dungeon/actor.h"
 
 typedef struct S_800251E8_0_pre {
     u16 unk_00;

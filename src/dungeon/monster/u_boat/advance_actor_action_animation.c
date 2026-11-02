@@ -7,13 +7,11 @@
 #include "records/Rec_func_800AA258_arg2.h"
 #include "shared/entity.h"
 #include "dungeon/actor/motion.h"
+#include "dungeon.h"
+#include "dungeon/level.h"
 
-extern s32 check_entity_relation();
 #include "dungeon/player/object/action_state.h"
 extern void update_actor_status_and_mp(ActorRecord *entity);
-extern s32 begin_ready_actor_directional_action(ActorRecord *body, ObjectPosition *position, SpriteFrameState *sprite, u8 *direction_frames);
-extern void begin_actor_move_to_target_facing(ActorRecord *body, ObjectPosition *position, SpriteFrameState *sprite, ActorRecord *actor);
-extern void update_actor_action_transition(ActorRecord *state, ObjectPosition *update_mode, SpriteFrameState *sprite, ActorRecord *entity);
 
 extern u8 uboat_action_frames[];
 extern u8 u_boat_motion_frames[];

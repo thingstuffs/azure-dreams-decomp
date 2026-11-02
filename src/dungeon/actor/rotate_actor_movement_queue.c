@@ -3,11 +3,11 @@
 #include "shared/dungeon_moving_views.h"
 #include "dungeon/actor.h"
 #include "dungeon/level.h"
+#include "sdk/libc.h"
 
 
 
 s32 get_entity_effect_value(ActorRecord *entry, s32 effect_id);             /* extern */
-extern s32 memmove(void *, void *, s32);     /* extern */
 void update_map_cell_flags_with_item_limit(s32 x, s32 y, u16 flags);             /* extern */
 
    /* arg0 in rotate_actor_movement_queue */

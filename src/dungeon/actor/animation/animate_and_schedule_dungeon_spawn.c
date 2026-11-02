@@ -4,6 +4,7 @@
 #include "dungeon/actor.h"
 #include "dungeon/actor/effect.h"
 #include "engine/runtime.h"
+#include "dungeon/actor/animation.h"
 
 
 typedef struct {

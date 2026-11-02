@@ -8,13 +8,15 @@
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 #include "m2c_compat.h"
+#include "dungeon.h"
+#include "dungeon/level.h"
+#include "dungeon/monster/beldo_large.h"
 
 
 
 s32 get_entity_effect_value(ActorRecord *entry, s32 effect_id);
 void clear_slots_of_type(ActorRecord *owner, s8 match_type);
 void select_sprite_entry(void *, s32, s32);
-s16 check_entity_relation(ActorRecord *entry, ActorRecord *anchor);
 s16 get_tile_chebyshev_distance(void *, void *);
 #include "dungeon/player/object/action_state.h"
 #include "dungeon/actor.h"
@@ -22,9 +24,6 @@ s16 get_tile_chebyshev_distance(void *, void *);
 
 s32 generate_random_value(void);
 void update_actor_status_and_mp(ActorRecord *entity);
-s32 begin_ready_actor_directional_action(ActorRecord *body, ObjectPosition *position, SpriteFrameState *sprite, u8 *direction_frames);
-void begin_actor_move_to_target_facing(ActorRecord *body, ObjectPosition *position, SpriteFrameState *sprite, ActorRecord *actor);
-void update_multi_form_actor_movement(ActorRecord *object, ObjectPosition *update_param, SpriteFrameState *state, ActorRecord *input);
 void beldo_large_action_resume_address(ActorRecord *actor, ObjectPosition *context, SpriteFrameState *sprite, ActorRecord *entity);
 extern u8 beldo_large_frame_set_4[];
 extern u8 beldo_large_frame_set_7[];

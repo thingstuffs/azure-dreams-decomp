@@ -15,7 +15,6 @@ struct ObjectPosition;
 
 
 extern s32 generate_random_value(void);
-extern void create_knockback_travel_object(ActorRecord *,struct ObjectPosition *, SpriteFrameState *, ActorRecord *);
 
 extern u8 manoeva_action_resume_address[];
 extern u8 manoeva_frame_set[];

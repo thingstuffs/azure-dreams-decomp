@@ -2,6 +2,7 @@
 #include "m2c_compat.h"
 #include "shared/town_object.h"
 #include "town/scene/object.h"
+#include "town/event/object.h"
 
 struct Node;                       /* extern */
 #include "town/scene/object/unlink_scene_list_node_api.h"                      /* extern */

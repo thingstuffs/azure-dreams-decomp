@@ -5,6 +5,7 @@
 #include "shared/sprite_frame_state.h"
 #include "shared/object_flags.h"
 #include "shared/dungeon_moving_views.h"
+#include "dungeon/monster/beldo.h"
 
 typedef struct S_81275000_0_pre {
     u16 unk_00;
@@ -58,8 +59,6 @@ extern s32 resolve_record_orientation_or_fallback(s32, void *, s16 *, s16);
 extern void advance_sprite_animation_and_textures(void *);
 extern void play_sound_if_enabled(s32);
 
-void update_beldo_attached_part(void *root_data, void *position_data, void *render_data)
-;
 /* Updates part position, brightness, and flags from the owner and motion state. */
 void update_beldo_attached_part(void *root_data, void *position_data, void *render_data)
 {

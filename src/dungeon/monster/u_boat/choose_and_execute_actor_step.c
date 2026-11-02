@@ -8,6 +8,7 @@
 #include "shared/record_ptrs.h"
 #include "shared/dungeon_status.h"
 #include "dungeon/item.h"
+#include "dungeon/item/state.h"
 
 #ifndef NULL
 #define NULL 0
@@ -27,7 +28,6 @@ extern void update_map_cell_flags_with_item_limit(s32 x, s32 y, u16 flags);
 extern s32 check_diagonal_side_height(s32 direction, s16 tile_x, s16 tile_y, s16 height);
 extern s32 check_directional_move_and_terrain();
 extern s16 get_actor_height_difference(ActorRecord *left_record, ActorRecord *right_record);
-extern s32 update_actor_proximity_flag(void *source, void *state, s32 lower_limit, s32 upper_limit, s8 *result);
 extern s32 generate_random_value(void);
 extern void update_actor_status_and_mp(ActorRecord *entity);
 extern s16 sample_terrain_surface_height();

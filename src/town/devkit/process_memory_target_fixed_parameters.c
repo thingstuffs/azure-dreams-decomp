@@ -1,4 +1,5 @@
 #include "common.h"
+#include "town/devkit.h"
 
 extern void func_804086CC(void);
 extern s32 func_804086BC(s32, s32, s32);

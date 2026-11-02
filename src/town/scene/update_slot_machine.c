@@ -1,6 +1,7 @@
 #include "common.h"
 #include "shared/entity.h"
 #include "town/scene.h"
+#include "town/data.h"
 
 #define COUNT_VALUE (scene_value_total)
 #define COUNT_STORE(x) (scene_value_total = (x))
@@ -20,16 +21,13 @@ extern void func_8023FA58(void *, void *, void *);
 extern u8 score_sprite_draw_callback_address[];
 extern u32 scene_value_total;
 extern u32 score_sprite_initial_value[4];
-extern u8 score_sprite_handler_address[];
 extern u8 D_8012F130[0x20];
 extern u16 D_801328F8[];
 extern u8 D_80526704[];
 extern u8 D_80530154[];
 extern u8 falling_object_update_address[];
-extern u8 slot_machine_symbol_strips[][12];
 extern s16 D_805301CC[];
 extern s16 D_80530590[];
-extern void *slot_machine_bet_effect[];
 extern u8 D_8052DC78[];
 extern u8 D_8052D770[];
 

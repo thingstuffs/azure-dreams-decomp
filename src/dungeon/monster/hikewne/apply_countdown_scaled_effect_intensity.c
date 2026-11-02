@@ -4,6 +4,7 @@
 #include "dungeon/monster/hikewne/apply_countdown_scaled_effect_intensity.h"
 #include "shared/object_flags.h"
 #include "shared/sprite_frame_state.h"
+#include "dungeon/monster/hikewne.h"
 
 /* Sets sprite brightness from the remaining lifetime, advances animation, and flags the expired effect. */
 void apply_countdown_scaled_effect_intensity(void *record_data, void *unused, SpriteFrameState *color_target) {

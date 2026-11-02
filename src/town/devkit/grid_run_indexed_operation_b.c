@@ -1,4 +1,5 @@
 #include "common.h"
+#include "town/devkit.h"
 
 s32 func_80700244(s32, s32, s32);
 extern s32 D_A0700A3C[];

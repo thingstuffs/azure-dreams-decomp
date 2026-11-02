@@ -1,6 +1,8 @@
 #include "common.h"
 #include "shared/object_flags.h"
 #include "shared/object_links.h"
+#include "engine/item.h"
+#include "town.h"
 
 
 typedef struct S_800AF148_0 {
@@ -9,8 +11,6 @@ typedef struct S_800AF148_0 {
     u8 pad_2C[0xAC];
     s32 unk_D8;
 } S_800AF148_0;
-void release_null_terminated_entries(u16 **entries);                         /* extern */
-void send_item_menu_page_entries_to_formatter();                    /* extern */
 
 /* Updates an object's state and sets its local and global 0x8000 flags. */
 void release_item_menu_list_object(s32 objectAddress) {

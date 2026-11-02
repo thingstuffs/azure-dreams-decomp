@@ -17,6 +17,7 @@ s32 write(s32 file, char *buffer, s32 size);
 s32 CloseEvent(s32);
 s32 GetRCnt(u32);
 s32 InitPAD(u8 *, s32, u8 *, s32);
+s32 Krom2RawAdd(u32);
 s32 OpenEvent(u32, s32, s32, s32 (*)());
 s32 ResetRCnt(u32);
 s32 SetRCnt(u32, u16, s32);

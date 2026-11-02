@@ -9,11 +9,11 @@
 #include "dungeon/actor/animation.h"
 #include "engine/node.h"
 #include "engine/node/allocation.h"
+#include "dungeon/actor.h"
 
 
 
 extern s32 generate_random_value(void);
-extern void try_move_actor_to_valid_position(void *, void *, void *, void *);
 
 extern u8 golem_particle_update_address[];
 

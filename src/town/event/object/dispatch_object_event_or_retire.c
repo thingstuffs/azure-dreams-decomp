@@ -4,13 +4,13 @@
 #include "shared/object_links.h"
 #include "shared/town_object.h"
 #include "town/scene/object.h"
+#include "town/event/object.h"
+#include "town/menu.h"
+#include "town/player/state.h"
 
 
 void unlink_node_if_registered(void *block_data);
 s32 update_object_and_clear_status_fields();
-void set_state_bytes_from_flags(s32 flags, u8 *state);
-s32 classify_object_against_bounds(void *, s32);
-
 
    /* the 0x2 bytes before arg0 in dispatch_object_event_or_retire, addressed as arg0[-1] */
 

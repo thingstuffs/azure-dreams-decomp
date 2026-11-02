@@ -1,6 +1,7 @@
 #include "common.h"
 #include "shared/object_links.h"
 #include "town/scene/object.h"
+#include "town/data.h"
 
    /* the 0x2 bytes before entry in update_panel_aggregate_value, addressed as entry[-1] */
 
@@ -20,7 +21,6 @@ typedef struct S_8080BE0C_1 {
 } S_8080BE0C_1;   /* data_ptr in update_panel_aggregate_value */
 void func_80058588(s32 total, s32 query, const char *text);               /* extern */
 s32 func_80071424(const char *);                             /* extern */
-extern s32 scene_object_flags;
 extern s16 D_80530000[];
 
 /* Waits for a delay, passes the eight-entry sum to func_80058588, and handles a linked cleanup flag. */

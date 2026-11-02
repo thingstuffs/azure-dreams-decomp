@@ -24,11 +24,11 @@ void update_four_slot_element_values_and_positions(StorageMenuObject *owner, Ent
     element->position->x = (u16)layout->unk_08;
     element->position->y = (u16)layout->unk_0A;
     element = (owner->parts + slot_offset)[6];
-    element->handler = func_8004DC14(layout->unk_00, 1);
+    element->handler = create_label_glyph_entries(layout->unk_00, 1);
     element->position->x = (u16)layout->unk_0C;
     element->position->y = (u16)layout->unk_0E;
     element = (owner->parts + slot_offset)[18];
-    element->handler = func_8004DC14(layout->unk_00, 0x90);
+    element->handler = create_label_glyph_entries(layout->unk_00, 0x90);
     element->position->x = (s16)(layout->unk_0C - 1);
     element->position->y = (s16)(layout->unk_0E + 1);
 }

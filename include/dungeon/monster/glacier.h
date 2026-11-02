@@ -37,4 +37,6 @@ void initialize_item_sprite_frame(ActorRecord *body, ObjectPosition *position, S
 void spawn_directional_effect(Rec_func_801744DC_arg0 *source, Rec_func_801744DC_arg1 *origin);
 void spawn_directional_particle(Rec_func_801744DC_arg0 *source, Rec_func_801744DC_arg1 *origin);
 
+void *find_nearby_eligible_entry(u8 *current, s32 wanted_24, s32 wanted_25, s32 height_center);
+
 #endif

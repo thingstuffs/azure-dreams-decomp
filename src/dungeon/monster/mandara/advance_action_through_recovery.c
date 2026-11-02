@@ -13,9 +13,7 @@
 #include "engine/cd.h"
 #include "dungeon/actor/status.h"
 #include "dungeon/player/object.h"
-extern int abs(int);
-
-
+#include "sdk/libc.h"
 
 extern void select_sprite_entry(void *, s32, s32);
 extern void play_sound_if_enabled(s32);

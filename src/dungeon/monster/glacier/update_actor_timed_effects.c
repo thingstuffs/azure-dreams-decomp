@@ -11,19 +11,18 @@
 #include "engine/graphics.h"
 #include "dungeon/item.h"
 #include "slus.h"
+#include "dungeon.h"
+#include "dungeon/level.h"
+#include "dungeon/player/object.h"
+#include "sdk/libc.h"
 
 
 
 
 extern void advance_sprite_animation_and_textures(void *);
-extern s32 rand(void);
-extern s16 check_entity_relation(ActorRecord *entry, ActorRecord *anchor);
 extern s32 find_active_rect_containing_point(s32, s32);
 
-extern s32 can_entity_gain_level(void *);
 extern void update_actor_status_and_mp(ActorRecord *entity);
-extern s32 begin_ready_actor_directional_action(ActorRecord *body, ObjectPosition *position, SpriteFrameState *sprite, u8 *direction_frames);
-extern void begin_actor_move_to_target_facing(ActorRecord *body, ObjectPosition *position, SpriteFrameState *sprite, ActorRecord *actor);
 extern void initialize_object_rendering_and_params(void *, void *, void *);
 extern void func_80171C3C(ActorRecord *action, ObjectPosition *action_id, SpriteFrameState *entity, ActorRecord *move_state);
 extern void func_80171E80(void *, void *, void *, void *);

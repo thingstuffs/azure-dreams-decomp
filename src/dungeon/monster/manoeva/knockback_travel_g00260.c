@@ -4,6 +4,7 @@
 #include "dungeon/monster/manoeva/knockback_travel_g00260.h"
 #include "shared/entity.h"
 #include "shared/object_node.h"
+#include "dungeon/monster/manoeva.h"
 
 /* Checks the adjacent tile's flags and whether its sampled value is below 0x200. */
 s32 check_adjacent_tile_height(s16 tile_x, s16 tile_y, s32 height, s16 direction, s16 *sample_out) {

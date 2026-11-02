@@ -10,6 +10,7 @@
 #include "dungeon/player/object.h"
 #include "dungeon/actor/status.h"
 #include "dungeon/item.h"
+#include "dungeon/monster/maximum.h"
 
 extern void spend_actor_mp(ActorRecord *entity, s32 base_reduction);
 

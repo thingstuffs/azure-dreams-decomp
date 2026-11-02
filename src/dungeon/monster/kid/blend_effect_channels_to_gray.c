@@ -4,8 +4,8 @@
 #include "shared/game_work.h"
 #include "shared/object_flags.h"
 #include "slus.h"
-
-extern void unlink_node(void *node);
+#include "dungeon/monster/kid.h"
+#include "engine/node.h"
 
 extern s32 D_80175220;
 

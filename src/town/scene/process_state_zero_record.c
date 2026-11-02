@@ -1,6 +1,7 @@
 #include "common.h"
 #include "shared/object_links.h"
 #include "town/scene.h"
+#include "town/data.h"
 
    /* the 0x2 bytes before arg0 in process_state_zero_record, addressed as arg0[-1] */
 
@@ -18,7 +19,6 @@ typedef struct S_80815160_1 {
 } S_80815160_1;
 void func_80058588(s32 value, s32 query, const char *text);               /* extern */
 s32 func_80071424(const char *);                             /* extern */
-extern s32 scene_object_flags;
 
 /* Processes a state-zero record and sets record/global flags if its linked record has bit 3 set. */
 void process_state_zero_record(void *record_arg) {

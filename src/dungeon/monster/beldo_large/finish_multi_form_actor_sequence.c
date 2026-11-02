@@ -4,6 +4,7 @@ struct ObjectNodeHeader;
 #include "shared/record_ptrs.h"
 #include "shared/dungeon_status.h"
 #include "dungeon/item.h"
+#include "dungeon/monster/beldo_large.h"
 
 
 typedef struct S_8016ED98_1 {

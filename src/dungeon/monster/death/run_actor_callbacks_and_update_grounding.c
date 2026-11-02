@@ -10,6 +10,7 @@
 #include "dungeon/actor.h"
 #include "dungeon/level.h"
 #include "dungeon/item.h"
+#include "dungeon/monster/death.h"
 
 typedef void (*Callback)(void *, void *, void *, void *);
 

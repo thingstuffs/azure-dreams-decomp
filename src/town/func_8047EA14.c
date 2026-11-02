@@ -1,5 +1,6 @@
 #include "common.h"
 #include "town/scene/grid_entry_query.h"
+#include "town.h"
 
 /* cfail-repair: tf7-phase1-cache-v3 */
 s32 func_80016A38(s32 grid_y, s32 grid_x);                                /* extern */

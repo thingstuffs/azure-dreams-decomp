@@ -8,8 +8,9 @@
 #include "dungeon/actor/animation.h"
 #include "engine/node.h"
 #include "engine/node/allocation.h"
+#include "dungeon/monster/mandara.h"
+#include "sdk/libgpu.h"
 
-extern void MoveImage(s16 *, s32, s32);
 extern void set_or_clear_actor_status_slot(void *, s32, s32);
 extern s32 generate_random_value(void);
 extern void try_move_actor_to_valid_position(void *, void *, void *, void *);
@@ -17,11 +18,6 @@ extern u8 D_8015EB40[];
 extern u8 D_8015EF6C[];
 extern u8 D_80163258[];
 extern u8 D_80163298[];
-
-extern void *spawn_mandara_in_slot_d(s16, s16, s16, s16);
-
-void *spawn_mandara_in_slot_d(s16 flags, s16 kind_id, s16 variant, s16 spawn_value)
-;
 
 typedef void (*Callback)(void);
 typedef struct { s16 x, y, w, h; } Rect;

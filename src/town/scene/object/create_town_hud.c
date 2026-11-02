@@ -1,6 +1,7 @@
 #include "common.h"
 #include "town/scene.h"
 #include "town/scene/object.h"
+#include "town/data.h"
 
 #ifndef NULL
 #define NULL 0
@@ -11,7 +12,6 @@ extern void func_8003BC18();
 extern void func_8006E8B8();
 extern void func_8023FA58();
 
-extern u8 town_hud_object_template[];
 extern u8 D_80526704[];
 
 extern u8 D_8052D4B8[];
@@ -21,7 +21,6 @@ extern u8 D_8052E1E0[];
 extern u8 D_80530154[];
 extern u8 D_80530184[];
 extern u8 D_805305B8[];
-extern u8 town_hud_image_data[];
 
 /* Build the town HUD: the frame object, its three child slots, the gauge sprite and the five icons. */
 void create_town_hud(void) {

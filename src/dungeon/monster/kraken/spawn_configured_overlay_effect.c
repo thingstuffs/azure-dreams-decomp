@@ -8,6 +8,7 @@
 #include "shared/sprite_frame_state.h"
 #include "dungeon/monster/kraken/spawn_configured_overlay_effect.h"
 #include "dungeon/effect/sprite.h"
+#include "dungeon/monster/kraken.h"
 
 /* Spawn this overlay's effect object: allocate it, fill its two parts from the attributes and arm its handlers. */
 /* Creates Kraken with frames at D_8015018C and a gray child display using frame 39 and an adjusted

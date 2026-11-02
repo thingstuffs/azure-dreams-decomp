@@ -7,6 +7,7 @@
 #include "town/scene/animation.h"
 #include "town/scene/object.h"
 #include "town/scene.h"
+#include "town/data.h"
 
 s32 func_80052374();                             /* extern */
 void func_80058F88();        /* extern */ /* Unprototyped: JP identity SD_Call(int); the surplus source arguments preserve the retail instruction stream. */
@@ -17,7 +18,6 @@ void func_80244588();                  /* extern */
 void func_802445FC();                     /* extern */
 void func_80244660();                     /* extern */
 short func_8025E01C(void *position);                     /* extern */
-extern s32 scene_object_flags;
 extern u8 D_80095AA0[8];
 extern u8 collection_round_work[0x14];
 extern u8 town_motion_state[0x18];

@@ -7,8 +7,8 @@
 #include "town/person.h"
 #include "town/event/state.h"
 #include "shared/object_node.h"
+#include "town/data.h"
 
-extern s32 town_object_resource_table[];
 extern s32 D_800D11D0[];
 extern s32 D_800D11EC[];
 extern s32 D_800AAB20[];

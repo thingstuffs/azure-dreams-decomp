@@ -2,6 +2,7 @@
 #include "shared/sprite_frame_state.h"
 #include "shared/dungeon_status.h"
 #include "shared/entity.h"
+#include "dungeon/actor.h"
 
 typedef void (*EntityCallback)(void *, void *, void *, void *);
 

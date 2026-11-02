@@ -10,8 +10,8 @@
 #include "dungeon/level.h"
 #include "dungeon/player/item.h"
 #include "engine/graphics.h"
+#include "dungeon/player/object.h"
 
-void set_record_integer_tile_center(ObjectPosition *record, s32 tile_x, s32 tile_y);              /* extern */
 s32 play_sound_if_enabled(s32 query_value);                     /* extern */
 extern u8 player_height_step_frames[];
 extern u8 player_landing_frame_set[];

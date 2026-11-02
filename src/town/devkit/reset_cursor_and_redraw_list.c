@@ -1,7 +1,8 @@
 /* cfail-repair: tf7-phase1-cache-v3 */
 #include "common.h"
+#include "town/devkit.h"
+#include "town/data.h"
 
-extern s32 devkit_cursor_state[];
 extern s32 D_80700630_return[];
 extern void func_80700868(s32);
 extern s32 scan_table_entry_query_rejects(void);

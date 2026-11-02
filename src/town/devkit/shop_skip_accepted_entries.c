@@ -1,6 +1,7 @@
 #include "common.h"
 #include "m2c_compat.h"
 #include "town/shop/state.h"
+#include "town/devkit.h"
 
 typedef struct ListLink {
     u16 first;

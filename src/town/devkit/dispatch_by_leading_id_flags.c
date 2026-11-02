@@ -1,5 +1,6 @@
 /* cfail-repair: tf7-phase1-cache-v3 */
 #include "common.h"
+#include "town/devkit.h"
 
 typedef s32 (*Callback)(s32);
 

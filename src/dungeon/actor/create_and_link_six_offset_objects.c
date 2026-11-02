@@ -8,6 +8,7 @@
 #include "m2c_compat.h"
 #include "engine/node/allocation.h"
 #include "engine/node.h"
+#include "dungeon/actor.h"
 
 typedef struct {
     s32 words[3];

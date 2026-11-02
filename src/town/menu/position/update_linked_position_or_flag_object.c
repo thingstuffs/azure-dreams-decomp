@@ -5,13 +5,12 @@
 #include "shared/object_links.h"
 #include "shared/object_payload.h"
 #include "shared/position_views.h"
+#include "sdk/libgte.h"
+#include "town/menu.h"
 
 #define FIELD(base, type, offset) (*(type)((u8 *)(base) + (offset)))
 
-extern s32 classify_object_against_bounds(void *, void *);
 extern void unlink_node_if_registered(void *object);
-extern s32 rsin(s32 angle);
-extern s32 rcos(s32 angle);
 
 typedef struct {
     s32 unused;

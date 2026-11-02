@@ -5,6 +5,7 @@
 #include "shared/town_object.h"
 #include "shared/town_handler.h"
 #include "shared/runtime_dispatch.h"
+#include "town.h"
 
 
 extern s32 D_80099AC4;

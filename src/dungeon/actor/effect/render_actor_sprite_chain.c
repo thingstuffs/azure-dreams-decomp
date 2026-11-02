@@ -1,6 +1,7 @@
 #include "shared/entity.h"
 #include "common.h"
 #include "engine/graphics.h"
+#include "dungeon/actor/effect.h"
 
 typedef struct Entry {
     u8 pad00[6];

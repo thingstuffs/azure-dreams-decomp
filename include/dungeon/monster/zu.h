@@ -73,3 +73,8 @@ void start_bank_actor_hit_reaction(ActorRecord *work, ObjectPosition *part_a, Sp
 void update_bank_timed_effect(ActorRecord *state_input, ObjectPosition *motion_input, SpriteFrameState *animation_input, ActorRecord *actor_input);
 void create_cylindrical_effect(struct CylindricalEffectWork *state);
 #endif
+
+/* Owner declarations appended by tools/headers (append-only; the lines above are hand-kept). */
+void *create_actor_kind_object(s16 flags, s16 field24_input, s16 field25_input, s16 field0A_input);
+void *create_configured_overlay_actor_third(s16 flags, s16 kind_id, s16 variant, s16 spawn_value);
+void *spawn_zu_slot_f(s16 spawn_flags, s16 attr_a, s16 attr_b, s16 attr_c);

@@ -18,7 +18,7 @@ extern void update_actor_status_and_mp(ActorRecord *entity);
 extern s32 begin_ready_actor_directional_action(ActorRecord *body, ObjectPosition *position, SpriteFrameState *sprite, u8 *direction_frames);
 extern void begin_actor_move_to_target_facing(ActorRecord *body, ObjectPosition *position, SpriteFrameState *sprite, ActorRecord *actor);
 extern void advance_actor_path_script_step(ActorRecord *controller, ObjectPosition *context, SpriteFrameState *entity, void *path_state);
-extern void func_8017162C(ActorRecord *move_data, ObjectPosition *context, SpriteFrameState *position_data, ActorRecord *actor_data);
+extern void choose_arachne_move(ActorRecord *move_data, ObjectPosition *context, SpriteFrameState *position_data, ActorRecord *actor_data);
 extern s32 func_80171DD8(ActorRecord *action_state, ObjectPosition *motion_param, SpriteFrameState *sprite_arg, ActorRecord *actor);
 extern void select_and_start_target_action(ActorRecord *action_state, ObjectPosition *action_context, void *sprite, ActorRecord *actor);
 extern s32 func_801720B4(void *, void *, void *, s32);
@@ -125,7 +125,7 @@ void update_actor_behavior_facing_and_animation_2(void *actor, ObjectPosition *c
             return;
         }
         if (*(u16 *)&sprite->tile_x == reference_tile_object.tile_position.word) {
-            func_8017162C(actor, context, sprite, status);
+            choose_arachne_move(actor, context, sprite, status);
             return;
         }
         if (!(((ActorRecord *)status)->action_flags & 0x8000)) {
@@ -149,7 +149,7 @@ void update_actor_behavior_facing_and_animation_2(void *actor, ObjectPosition *c
             }
             ((ActorRecord *)status)->action_flags |= 0x4000;
             if (!(((ActorRecord *)status)->action_flags & 0x8000)) {
-                func_8017162C(actor, context, sprite, status);
+                choose_arachne_move(actor, context, sprite, status);
                 return;
             }
         }
@@ -195,7 +195,7 @@ void update_actor_behavior_facing_and_animation_2(void *actor, ObjectPosition *c
         case 9:
         case 10:
         default:
-            func_8017162C(actor, context, sprite, status);
+            choose_arachne_move(actor, context, sprite, status);
             return;
 
         }

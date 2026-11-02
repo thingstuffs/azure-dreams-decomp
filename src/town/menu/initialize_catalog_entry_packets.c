@@ -1,4 +1,5 @@
 #include "common.h"
+#include "town/menu.h"
 
 typedef struct S_80123238_0_pre {
     s8 unk_00;

@@ -11,6 +11,8 @@
 #include "dungeon/actor/animation.h"
 #include "engine/node.h"
 #include "engine/node/allocation.h"
+#include "dungeon/actor.h"
+#include "sdk/libgpu.h"
 
 
 
@@ -19,8 +21,6 @@ typedef struct S_80170890_5 {
 } S_80170890_5;   /* (u8 *)(((index + count) << 2) + (u32)table) + 6 in create_flagged_dungeon_actor_object */
 
 extern s32 generate_random_value(void);
-extern void LoadImage(void *, void *);
-extern void try_move_actor_to_valid_position(void *, void *, void *, void *);
 
 extern u8 D_80170AE8[];
 extern u8 cyclone_move_direction_frames[];

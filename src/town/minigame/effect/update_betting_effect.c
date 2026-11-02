@@ -16,6 +16,7 @@
 #include "sdk/libc.h"
 #include "sdk/libgte.h"
 #include "slus.h"
+#include "town/data.h"
 
 typedef minigame_pickup_source EffectMessage;
 
@@ -30,7 +31,6 @@ typedef struct {
 extern u8 D_80024450[];
 extern u8 scene_object_payload_alias[];
 extern s32 town_money[3];
-extern ObjectNodeHeader *betting_display_object;
 extern s32 camera_height_mode[3];
 extern u8 town_scene_record_handlers[];
 extern u8 D_800D0080[];
@@ -42,6 +42,7 @@ extern void apply_global_scene_value(void *);
 extern void initialize_scene_action_record(void *, void *, void *, ...);
 #include "town/shop/display_objects.h"
 #include "town/shop/object.h"
+#include "town/minigame/effect.h"
 
 
    /* object in update_betting_effect */

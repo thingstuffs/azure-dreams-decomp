@@ -2,6 +2,7 @@
 #include "common.h"
 #include "shared/sprite_frame_state.h"
 #include "records/Rec_D_80082E80.h"
+#include "dungeon/monster/glacier.h"
 
 
 typedef struct S_8102F348_1_pre {

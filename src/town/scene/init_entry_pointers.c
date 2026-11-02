@@ -4,6 +4,7 @@
 #include "shared/town_root.h"
 #include "shared/town_pointees.h"
 #include "town/scene.h"
+#include "town/data.h"
 
 
 
@@ -11,7 +12,6 @@ void func_800174CC(void);                            /* extern */
 extern M2C_UNK D_80019814;
 extern M2C_UNK D_80019884;
 extern s32 D_80019AF8;
-extern void *scene_current_cell_pointer;
 
 /* Initializes data pointers and computes the selected eight-byte entry address. */
 void init_entry_pointers(void) {

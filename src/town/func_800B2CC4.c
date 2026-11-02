@@ -1,7 +1,6 @@
 #include "common.h"
 #include "town/shop/item.h"
-
-extern s32 invoke_item_menu_offset_handler();
+#include "town.h"
 
 /* Dispatch the request's payload according to its result code. */
 void dispatch_item_menu_request_result(void *request) {

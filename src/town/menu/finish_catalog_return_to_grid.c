@@ -1,5 +1,6 @@
 #include "common.h"
 #include "m2c_compat.h"
+#include "town/menu.h"
 
 typedef struct S_801253EC_0 {
     u8 pad_00[0x4];

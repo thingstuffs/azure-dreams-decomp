@@ -2,6 +2,7 @@
 #include "shared/record_ptrs.h"
 #include "shared/town_root.h"
 #include "town/scene.h"
+#include "town/data.h"
 
 
 typedef void (*TownCallback)(void *, s32, s32);
@@ -15,7 +16,6 @@ typedef struct S_8001A3FC_1 {
 
 
 extern s32 D_8001C370;
-extern s32 scene_current_entry_value;
 
 /* Save the current context value and dispatch the selected entry's type callback. */
 void save_context_and_dispatch_entry_type(void) {

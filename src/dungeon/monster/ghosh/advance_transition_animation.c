@@ -8,6 +8,7 @@
 #include "dungeon/actor.h"
 #include "engine/object.h"
 #include "dungeon/effect/screen.h"
+#include "dungeon/monster/ghosh.h"
 
 typedef struct {
     unsigned char pad8c[0x8c];
@@ -57,7 +58,6 @@ struct SpriteFrameState;
 extern void select_sprite_entry(void *, s16, s16);
 extern void play_sound_if_enabled(s32);
 extern void clear_actor_action_markers(u8 *state);
-extern void allocate_type_12_object(void);
 extern void func_8016D11C(void) __attribute__((noreturn));
 
 /* Advances the dungeon transition animation and resets entry resources when it completes. */

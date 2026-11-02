@@ -23,4 +23,7 @@ void func_80171B58(void *action, s32 context, SpriteFrameState *sprite, void *st
 
 void create_cylindrical_effect(ActorRecord *source, ObjectPosition *origin);
 
+/* Owner declarations appended by tools/headers (append-only; the lines above are hand-kept). */
+void update_entity_actions_facing_and_animation(ActorRecord *entity, ObjectPosition *context, SpriteFrameState *sprite, ActorRecord *state);
+
 #endif

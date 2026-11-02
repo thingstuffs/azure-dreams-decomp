@@ -1,4 +1,5 @@
 #include "common.h"
+#include "sdk/libgte.h"
 
 typedef struct {
     u16 field_0;
@@ -7,8 +8,6 @@ typedef struct {
     u16 field_6;
     u16 field_8;
 } Obj;
-
-extern s32 rsin(s32);
 
 /* Advance the object counters and wrapped phase according to its state. */
 void advance_object_phase_counters(Obj *obj)

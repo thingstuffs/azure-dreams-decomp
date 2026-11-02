@@ -8,6 +8,7 @@
 #include "dungeon/item/actor_target.h"
 #include "dungeon/item.h"
 #include "dungeon/actor.h"
+#include "dungeon/item/message.h"
 
 #define U8(p, o) (*(u8 *)((u8 *)(p) + (o)))
 #define S8(p, o) (*(s8 *)((u8 *)(p) + (o)))
@@ -16,14 +17,6 @@
 #define S32(p, o) (*(s32 *)((u8 *)(p) + (o)))
 #define PTR(p, o) (*(void **)((u8 *)(p) + (o)))
 
-
-extern void *get_unused_text_buffer(void);
-extern u8 *expand_text_control_codes(u8 *src, u8 *dst);
-u8 *clear_byte_and_advance(u8 *byte_ptr);
-extern u8 *append_entity_display_text(void *record, u8 *out);
-
-
-s32 display_text_with_fullwidth_adjustment(s8 *text);
 void spend_actor_mp(ActorRecord *entity, s32 base_reduction);
 extern void try_apply_action_by_chance(void *, s32, s32);
 

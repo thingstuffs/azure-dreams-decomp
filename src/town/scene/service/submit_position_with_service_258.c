@@ -2,6 +2,7 @@
 #include "shared/record_ptrs.h"
 #include "shared/town_root.h"
 #include "town/scene/service.h"
+#include "town/data.h"
 
 
 typedef struct S_8072A398_4 {
@@ -13,9 +14,6 @@ typedef struct S_8072A398_5 {
     u8 pad_00[0x8];
     u16 unk_08;
 } S_8072A398_5;   /* (*(void **)((u8 *)(((Rec_D_80016000 *)D_80016000)->unk_00.at00_pv.v) + 0x1C)) in submit_position_with_service_258 */
-
-
-extern s32 town_service_fixed_position;
 
 typedef struct S_8072A398_0 {
     u8 pad_00[0x4];

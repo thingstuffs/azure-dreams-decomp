@@ -1,6 +1,7 @@
 #include "common.h"
 #include "town/player/script_flags.h"
 #include "town/scene.h"
+#include "town/data.h"
 
 typedef struct {
     s16 unk0;
@@ -8,8 +9,6 @@ typedef struct {
     s16 unk4;
     s16 unk6;
 } TownRecord;
-
-extern s16 scene_dependency_ids[3];
 
 /* Processes town records according to global and per-record conditions. */
 void process_town_records(s32 records_addr, s32 record_count)

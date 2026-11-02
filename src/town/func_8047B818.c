@@ -1,5 +1,6 @@
 #include "script_symbols.h"
 #include "common.h"
+#include "town.h"
 
 /* cfail-repair: tf7-phase1-cache-v3 */
 s32 func_800197D8(s32, ...);

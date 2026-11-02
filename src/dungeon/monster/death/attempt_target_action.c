@@ -5,6 +5,7 @@
 #include "shared/entity.h"
 #include "records/Rec_D_80082E80.h"
 #include "dungeon/effect.h"
+#include "dungeon/monster/death.h"
 
 
 

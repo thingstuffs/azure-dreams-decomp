@@ -15,15 +15,14 @@
 #include "dungeon/monster/baloon.h"
 #include "dungeon/actor/motion.h"
 #include "dungeon/actor/state.h"
+#include "dungeon.h"
+#include "dungeon/level.h"
+#include "dungeon/player/object.h"
+#include "sdk/libc.h"
 
 extern void select_sprite_entry(void *, s32, s32);
-extern s32 rand(void);
-extern s16 check_entity_relation(ActorRecord *entry, ActorRecord *anchor);
 extern s32 find_active_rect_containing_point(s32, s32);
-extern s32 can_entity_gain_level(void *);
 extern void update_actor_status_and_mp(ActorRecord *entity);
-extern s32 begin_ready_actor_directional_action(ActorRecord *body, ObjectPosition *position, SpriteFrameState *sprite, u8 *direction_frames);
-extern void begin_actor_move_to_target_facing(ActorRecord *body, ObjectPosition *position, SpriteFrameState *sprite, ActorRecord *actor);
 extern void func_80171CD8(ActorRecord *action, ObjectPosition *action_id, SpriteFrameState *entity, ActorRecord *move_state);
 extern s32 func_801726D0(ActorRecord *action_state, ObjectPosition *motion_param, SpriteFrameState *sprite_arg, ActorRecord *actor);
 extern void func_80172894(ActorRecord *action_state, ObjectPosition *action_context, void *sprite, ActorRecord *actor);

@@ -2,6 +2,8 @@
 #include "common.h"
 #include "shared/game_work.h"
 #include "shared/entity.h"
+#include "dungeon/monster/golem.h"
+#include "sdk/libc.h"
 
 typedef struct S_80175A90_0 {
     u8 pad_00[0x18];
@@ -63,8 +65,6 @@ typedef struct S_80175A90_3 {
     union { u16 u; s16 s; } unk_0A;   /* accessed as both */
 } S_80175A90_3;   /* arg0 in draw_randomized_shaded_polylines */
 
-
-extern s32 rand(void);
 extern s32 func_80065530(void *, void *, void *, void *, void *, void *, void *, void *);
 
 /*

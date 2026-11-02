@@ -11,11 +11,8 @@
 #include "dungeon/system.h"
 #include "dungeon/actor.h"
 #include "dungeon/effect/screen.h"
-
-
-extern void set_record_integer_tile_center(ObjectPosition *, s32, s32);
-
-
+#include "dungeon/monster/ashra.h"
+#include "dungeon/player/object.h"
 
 extern void *actor_update_node_cursor;
 extern s32 ashra_action_continuation_address;

@@ -7,6 +7,7 @@
 #include "sdk/libc.h"
 #include "sdk/libgte.h"
 #include "town/scene.h"
+#include "town/data.h"
 
 static __inline__ EffectNode *effect_node(EffectState *state) {
     EffectPointer view;
@@ -20,9 +21,6 @@ extern u8 map_particle_owner_update_address[];
 extern u8 D_800B9D64[];
 extern u8 town_child_sprite_callback_address[];
 extern u8 map_particle_child_update_address[];
-extern void *map_particle_part_parameters[];
-extern u8 map_particle_first_sprite_entries[];
-extern u8 map_particle_second_sprite_entries[];
 
 void initialize_effect_with_sprite_set_nine(EffectState *parent, ObjectPosition *position, SpriteFrameState *unused_sprite)
 {

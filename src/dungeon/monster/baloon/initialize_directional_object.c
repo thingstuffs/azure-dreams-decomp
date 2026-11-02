@@ -9,6 +9,7 @@
 #include "engine/graphics.h"
 #include "dungeon/item.h"
 #include "dungeon/effect.h"
+#include "dungeon/monster/baloon.h"
 
 typedef struct Ent Ent;
 

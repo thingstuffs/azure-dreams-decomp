@@ -1,4 +1,5 @@
 #include "dungeon/monster/death/queue_linked_object_draw_packets.h"
+#include "dungeon/monster/death.h"
 
 
 /* Projects linked effect positions and queues their colored pixel and drawing-mode packets by depth. */

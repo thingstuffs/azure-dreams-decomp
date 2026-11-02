@@ -2,6 +2,7 @@
 /* inferred-strong G00619: alternate_page_records_g00619; joins CL:town/func_80035C0C,CL:town/func_800B5978,CL:town/func_800B5B74; no crossing cuts. */
 /* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - CL:town/func_80035C0C, CL:town/func_800B5978, CL:town/func_800B5B74. */
 #include "town/menu/alternate_page_records_g00619.h"
+#include "town/menu.h"
 
 /* Shows or hides the two page indicators according to the current page and its limit. */
 void update_alternate_menu_page_bounds(Object *obj)

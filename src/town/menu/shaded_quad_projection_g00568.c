@@ -4,6 +4,7 @@
 /* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - CL:town/func_800A56D0. */
 #include "town/menu/shaded_quad_projection_g00568.h"
 #include "shared/game_work.h"
+#include "town/menu.h"
 
 /* Project and enqueue a shaded quad, then enqueue its draw mode packet. */
 /* C89 promotes the u16 parameter object to the shared s32 prototype. */

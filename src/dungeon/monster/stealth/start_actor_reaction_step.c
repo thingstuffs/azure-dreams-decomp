@@ -7,6 +7,7 @@
 
 extern void select_sprite_entry(void *, s32, s32);
 #include "dungeon/player/object/action_state.h"
+#include "dungeon/monster/stealth.h"
 extern void play_sound_if_enabled(s32);
 extern s32 generate_random_value(void);
 

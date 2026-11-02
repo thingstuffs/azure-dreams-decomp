@@ -3,8 +3,8 @@
 #include "town/scene/event.h"
 
 #include "town/scene.h"
+#include "town/data.h"
 
-extern u8 scene_mode_response_data[];
 extern u8 D_8001914C[];
 extern s32 D_8001E958;
 extern u8 D_8001EEA7[];

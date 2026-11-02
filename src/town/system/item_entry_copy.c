@@ -1,20 +1,20 @@
 /* Item entry copy and its file-private helper. */
 #include "common.h"
 #include "town/shop/item_lookup.h"
+#include "engine/entity.h"
+#include "engine/scene.h"
+#include "sdk/libc.h"
+#include "town/shop/item.h"
+#include "town/data.h"
 typedef struct S_800422DC_Other S_800422DC_Other;
 typedef struct S_800422DC_Self S_800422DC_Self;
 typedef struct S_800423C0_Obj S_800423C0_Obj;
 typedef struct S_800423C0_Src S_800423C0_Src;
 void *runtime_get_mode_indexed_value(); /* Unprototyped: uses the value as a pointer where the definition has an integer (or the reverse) */
 /* extern */
-void build_entity_slot_snapshot(S_800422DC_Self *snapshot, S_800422DC_Other *source);
-void apply_actor_template_and_direction(S_800423C0_Obj *obj, s16 unused, S_800423C0_Src *source);
-void func_80042640(void *obj, s16 monsterId);
-void *memset(void *, s32, u32);
 /* extern */
 void *find_unused_default_pool_slot();
 /* extern */
-extern s32 town_actor_scratch;
 typedef struct {
     s32 words[0x15];
 } Record84;
@@ -41,7 +41,6 @@ typedef struct S_8009FB2C_2 {
     void * unk_29C;
     s32 unk_2A0;
 } S_8009FB2C_2;
-extern s32 func_8009F6E4(void);
 
 /* Copies an item into a slot and creates a saved actor record for type 0x13 entries. */
 static void *copy_an_entry_slot_creating_associated_type_hex_13(s32 slot_index, S_8009FB2C_1 *source_entry) {
@@ -61,7 +60,7 @@ static void *copy_an_entry_slot_creating_associated_type_hex_13(s32 slot_index, 
     entry->unk_03 = (u8) source_entry->unk_03;
     if (entry->unk_01 == 0x13) {
         memset(&town_actor_scratch, 0, 0x54);
-        func_80042640(&town_actor_scratch, entry->unk_00);
+        init_monster_from_stats(&town_actor_scratch, entry->unk_00);
         apply_actor_template_and_direction(&town_actor_scratch, entry->unk_00, 0);
         {
             u8 *record_buffer;
@@ -91,7 +90,7 @@ void *set_item_w0(s8 item_byte_0, s8 item_byte_1, s8 item_byte_2, s8 item_byte_3
     void *result;
     s8 *item_bytes_ptr;
 
-    slot = func_8009F6E4();
+    slot = get_item_chk();
     item_bytes_ptr = item_bytes;
     if (slot == -1) {
         result = 0;

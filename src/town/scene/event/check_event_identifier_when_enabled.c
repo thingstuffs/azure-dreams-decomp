@@ -2,10 +2,10 @@
 #include "common.h"
 #include "m2c_compat.h"
 #include "town/scene/event.h"
+#include "town/data.h"
 
 
 s32 func_8001E670(s32 flagIndex);                             /* extern */
-extern s16 scene_event_test_id;
 
 /* Return whether the identifier check passes when the state permits it. */
 s32 check_event_identifier_when_enabled(void) {

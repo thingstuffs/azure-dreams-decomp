@@ -7,14 +7,14 @@
 #include "dungeon/level.h"
 #include "dungeon/item.h"
 #include "engine/texture.h"
+#include "dungeon/actor.h"
+#include "sdk/libgte.h"
 
 typedef ActorActionHandler Callback;
 
 extern void select_sprite_entry(void *, u8, s32);
 extern void advance_sprite_animation_and_textures(void *);
-extern s32 rsin(s32);
 extern s32 refresh_actor_facing_and_lifecycle(void *, void *, void *, void *);
-extern void try_move_actor_to_valid_position(void *, void *, void *, void *);
 
 extern void D_8016B4D4(void);
 extern u8 hikewne_frame_set_14[];

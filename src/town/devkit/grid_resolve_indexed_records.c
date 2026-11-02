@@ -1,5 +1,6 @@
 /* cfail-repair: tf7-phase1-cache-v3 */
 #include "common.h"
+#include "town/devkit.h"
 typedef void (*Callback3)(void *, void *, s32);
 typedef void (*Callback1)(s32);
 

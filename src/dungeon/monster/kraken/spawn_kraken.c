@@ -8,6 +8,7 @@
 #include "shared/sprite_frame_state.h"
 #include "modules/dungeon_ovl_edb06c.h"
 #include "dungeon/effect/sprite.h"
+#include "dungeon/monster/kraken.h"
 
 /* Spawn this overlay's 0x112 object: fill its two sub-parts from kind_id/variant/spawn_value, apply the 0x6000 or 0x2000 flag pair the low two bits of spawn_flags select (or the random 0x20-mask variant), and run the two setup calls. */
 /* Creates Kraken with frames at D_8016E18C and a gray child display using frame 39 and an adjusted

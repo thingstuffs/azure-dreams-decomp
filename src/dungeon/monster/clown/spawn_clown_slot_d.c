@@ -13,6 +13,7 @@
 #include "engine/node/allocation.h"
 #include "engine/node.h"
 #include "dungeon/actor/status.h"
+#include "dungeon/monster/clown.h"
 
 
 

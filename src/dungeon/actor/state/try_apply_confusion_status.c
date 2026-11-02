@@ -4,6 +4,7 @@
 #include "dungeon/actor/status.h"
 #include "dungeon/item.h"
 #include "dungeon/menu.h"
+#include "dungeon/actor/state.h"
 
 extern s32 generate_random_value(void);
 

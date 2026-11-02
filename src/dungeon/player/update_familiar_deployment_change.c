@@ -14,14 +14,12 @@
 #include "shared/dungeon_moving_views.h"
 #include "dungeon/player/state.h"
 #include "dungeon/player.h"
+#include "dungeon/player/object.h"
+#include "engine/entity.h"
+#include "engine/texture.h"
 
 /* cfail-repair: tf7-phase1-cache-v3 */
-s32 Control_CD(); /* extern */
-void apply_actor_template_and_class(void *entity, int value, void *source);          /* extern */
-void replay_actor_status_slots(ActorRecord *object);                      /* extern */
-void func_80042640();                  /* extern */
 void runtime_map_type_16_entry_code();                      /* extern */
-void * register_and_upload_sprite_resource();                     /* extern */
 s32 begin_sprite_resource_load_with_completion_flag(); /* Unprototyped: uses the value as a pointer where the definition has an integer (or the reverse) */                   /* extern */
 void set_sprite_animation_frame(SpriteFrameState *obj, s16 frame_group, s16 frame_index, s32 slot_index); /* extern */
 void unlink_entity_node(struct EntityLinkNode *node);                      /* extern */
@@ -34,7 +32,6 @@ void decrement_monster_entry_count(s16 requested_id, s16 requested_type);       
 
 struct Entity;
 struct EntityLinkNode;
-void mark_owned_linked_actor_actions(struct Entity *owner_entity);                      /* extern */
 s32 play_sound_if_enabled(s32 query_value);                     /* extern */
 s32 display_text_with_fullwidth_adjustment(s8 *text);                         /* extern */
 extern s32 loaded_entity_sprite_resource;

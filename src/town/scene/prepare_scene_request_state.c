@@ -1,8 +1,8 @@
 #include "common.h"
 #include "m2c_compat.h"
+#include "town/data.h"
 
 /* cfail-repair: tf7-phase1-cache-v3 */
-extern s32 scene_registered_entry_handle;
 extern s32 D_80019544;
 
 typedef struct S_80480444_0 {

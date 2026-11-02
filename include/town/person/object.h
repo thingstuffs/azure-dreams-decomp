@@ -211,4 +211,8 @@ void update_person_object(void *object, s32 update_ctx, SpriteFrameState *displa
 /* update_transform_object_on_request.c */
 void update_transform_object_on_request(void *object, s32 request_data, s32 request_param, s32 check_param);
 
+/* Owner declarations appended by tools/headers (append-only; the lines above are hand-kept). */
+void func_800C2E84(TownObjectRecord *state, SpriteFrameState *output, s32 *entries);
+void initialize_object_entries(TownObjectRecord *state, SpriteFrameState *output, s32 *entries);
+
 #endif

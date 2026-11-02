@@ -7,7 +7,7 @@
 #include "dungeon/actor/status.h"
 #include "engine/node.h"
 #include "dungeon/player/object.h"
-extern int abs(int);
+#include "sdk/libc.h"
 #include "shared/def_table.h"
 #include "shared/record_ptrs.h"
 #include "shared/slus_callbacks.h"
@@ -27,7 +27,6 @@ typedef struct {
 } LocalItemInfo;
 
 extern void select_sprite_entry(void *, s32, s32);
-extern s32 rand(void);
 extern void play_sound_if_enabled(s32);
 
 extern u8 D_80171030[];

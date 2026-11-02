@@ -9,14 +9,12 @@
 #include "sdk/libgte.h"
 #include "town/map/effect.h"
 #include "town/scene.h"
+#include "town/data.h"
 
 extern u8 map_particle_owner_update_address[];
 extern u8 D_800B9D64[];
 extern u8 town_child_sprite_callback_address[];
 extern u8 map_particle_child_update_address[];
-extern void *map_particle_part_parameters[];
-extern u8 map_particle_first_sprite_entries[];
-extern u8 map_particle_second_sprite_entries[];
 
 typedef struct S_800BA00C_0_pre {
     void * unk_00;

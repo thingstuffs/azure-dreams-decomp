@@ -8,6 +8,7 @@
 #include "dungeon/item.h"
 #include "dungeon/level.h"
 #include "engine/graphics.h"
+#include "dungeon/player.h"
 
    /* entity in update_player_jump */
 

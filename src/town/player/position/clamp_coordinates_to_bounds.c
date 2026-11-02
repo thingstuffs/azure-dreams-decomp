@@ -1,7 +1,6 @@
 #include "common.h"
 #include "town/player/position.h"
-
-extern s32 player_motion_bounds[4];
+#include "town/data.h"
 
 /* Clamps coordinates to the configured bounds and returns flags for the crossed edges. */
 s32 clamp_coordinates_to_bounds(s32 *x_ptr, s32 *y_ptr)

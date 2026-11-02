@@ -2,6 +2,7 @@
 #include "shared/entity.h"
 #include "shared/game_work.h"
 #include "shared/object_flags.h"
+#include "dungeon/monster/manoeva.h"
 
 
 typedef struct S_80175C60_1 {

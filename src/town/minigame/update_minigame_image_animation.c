@@ -3,12 +3,9 @@
 #include "shared/object_links.h"
 #include "sdk/libgpu.h"
 #include "town/minigame.h"
+#include "town/data.h"
 
-
-
-extern u32 minigame_palette_backup[];
 extern u32 D_80024660[];
-extern u32 minigame_image_backup[];
 extern u32 D_800246C0[];
 
 

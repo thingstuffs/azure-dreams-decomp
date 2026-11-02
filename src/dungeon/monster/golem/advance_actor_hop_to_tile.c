@@ -11,8 +11,8 @@
 #include "dungeon/player/object.h"
 #include "dungeon/actor/spell_resource_ids_g01008.h"
 #include "dungeon/item.h"
-
-extern s32 rsin(s32);
+#include "dungeon/monster/golem.h"
+#include "sdk/libgte.h"
 
 extern void golem_action_continuation_address();
 

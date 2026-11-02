@@ -18,6 +18,7 @@
 #include "town/player.h"
 #include "town/minigame/position.h"
 #include "town/minigame/object.h"
+#include "town/data.h"
 
 #ifndef NULL
 #define NULL 0
@@ -39,9 +40,6 @@ typedef struct S_80022F60_3 {
     void * unk_20;
 } S_80022F60_3;   /* obj in update_gym_minigame */
 
-
-
-extern u8 gym_object_state_address[];
 extern u8 D_80023994[];
 extern u8 gym_score_update_address[];
 extern u8 gym_object_callback[];
@@ -63,7 +61,6 @@ typedef struct {
     u8 state[0x20];
 } TownPage;
 extern s32 town_position_callback_address[3];
-extern s32 gym_sprite_source;
 
 /* Run the ending cutscene's state machine: swing the camera, spawn the credits sprites and hand over to the next scene. */
 void update_gym_minigame(GymState *state_obj) {

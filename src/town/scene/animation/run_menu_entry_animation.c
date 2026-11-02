@@ -2,6 +2,7 @@
 #include "town/scene/collection.h"
 #include "town/scene/animation.h"
 #include "shared/vector.h"
+#include "town/data.h"
 
 
 typedef struct Part {
@@ -47,7 +48,6 @@ extern s16 D_8001339C;
 extern u8 score_sprite_draw_callback_address[16];
 extern u8 menu_entry_draw_callback_address[16];
 extern u8 menu_cursor_object_template[16];
-extern s32 scene_object_flags;
 extern s32 collection_target_y[4];
 extern u8 D_8028E628[16];
 extern u8 D_80526694[16];

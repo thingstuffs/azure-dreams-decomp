@@ -1,6 +1,7 @@
 #include "common.h"
 #include "m2c_compat.h"
 #include "dungeon/item/message.h"
+#include "dungeon/actor/state.h"
 extern u8 status_name_separator[12];
 extern u8 D_800251E8[9];
 extern u8 D_80025024[];

@@ -2,6 +2,7 @@
 #include "town/scene/animation.h"
 #include "shared/entity.h"
 #include "town/scene/object.h"
+#include "town/data.h"
 
 typedef struct S_8080E59C_0 {
     u8 pad_00[0x8];
@@ -64,7 +65,6 @@ extern void func_8006E590();
 extern void func_8006E8B8();
 extern void func_8023FA58();
 
-extern u8 town_hud_object_template[];
 extern u8 D_8052643C[];
 extern Copy8 D_80526440[];
 

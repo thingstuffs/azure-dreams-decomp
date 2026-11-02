@@ -5,8 +5,7 @@
 #include "shared/entity.h"
 #include "shared/dungeon_moving_views.h"
 #include "dungeon/level.h"
-
-void set_record_integer_tile_center(ObjectPosition *record, s32 tile_x, s32 tile_y);              /* extern */
+#include "dungeon/player/object.h"
 
 typedef struct S_800AC480_0 {
     u8 pad_00[0x92];

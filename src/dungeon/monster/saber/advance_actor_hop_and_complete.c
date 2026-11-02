@@ -14,10 +14,7 @@
 #include "dungeon/actor/spell_resource_ids_g01008.h"
 #include "engine/graphics.h"
 #include "dungeon/item.h"
-
-
-
-extern s32 rsin(s32);
+#include "sdk/libgte.h"
 
 extern s32 D_8014D728;
 extern u8 saber_frame_set_3[];

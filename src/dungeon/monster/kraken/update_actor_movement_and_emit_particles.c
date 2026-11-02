@@ -16,6 +16,7 @@
 #include "engine/node/allocation.h"
 #include "dungeon/player/object.h"
 #include "dungeon/actor.h"
+#include "sdk/libc.h"
 
    /* arg0 in update_actor_movement_and_emit_particles */
 
@@ -37,8 +38,6 @@ typedef struct S_80172D1C_8 {
     s32 unk_10;
     s32 unk_14;
 } S_80172D1C_8;   /* ((S_80172D1C_1 *)obj)->unk_08 in update_actor_movement_and_emit_particles */
-
-extern s32 rand(void);
 
 extern u8 kraken_action_resume_address[];
 extern u8 D_8017406C[];

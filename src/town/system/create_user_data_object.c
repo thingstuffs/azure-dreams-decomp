@@ -6,6 +6,7 @@
 #include "shared/object_payload.h"
 #include "shared/position_views.h"
 #include "engine/node.h"
+#include "town/system.h"
 
 
 extern M2C_UNK D_80023E64;

@@ -4,6 +4,7 @@
 /* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - CL:town/func_800A5CF0. */
 #include "town/menu/indexed_object_state_g00569.h"
 #include "shared/object_node.h"
+#include "town/menu.h"
 
 /* Lowers the third coordinate by 0x240000 and creates up to twelve indexed objects, stopping on failure. */
 void check_adjusted_input_indices(Unk800A5C88 *input) {

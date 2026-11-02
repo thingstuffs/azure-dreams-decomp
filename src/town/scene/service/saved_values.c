@@ -14,10 +14,10 @@
 #include "shared/town_root.h"
 #include "shared/town_pointees.h"
 #include "m2c_compat.h"
+#include "town/data.h"
 
 typedef void (*Callback)(s32);
 
-extern s32 scene_saved_player_value;
 extern s32 D_800183D0;
 
 /* Save the state value in D_800183C8 and invoke the state callback with 0. */

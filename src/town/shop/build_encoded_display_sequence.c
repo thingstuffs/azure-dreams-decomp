@@ -9,7 +9,7 @@ void *build_encoded_display_sequence(s32 source, u8 *outputBuffer) {
 
     payload = outputBuffer + 1;
     outputBuffer[0] = 0x20;
-    func_8004E5A0(source, 2, payload);
+    format_int_space_padded(source, 2, payload);
     outputBuffer[3] = 0xA;
     outputBuffer[4] = 0x6F;
     outputBuffer[5] = 0;

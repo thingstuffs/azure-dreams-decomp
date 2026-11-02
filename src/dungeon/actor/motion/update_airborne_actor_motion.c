@@ -11,6 +11,7 @@ struct ObjectPosition;
 #include "dungeon/level.h"
 #include "dungeon/effect.h"
 #include "dungeon/effect/screen.h"
+#include "dungeon/player/object.h"
 
 typedef struct S_800974DC_0 {
     u8 pad_00[0x8C];
@@ -37,8 +38,6 @@ typedef struct S_800974DC_6 {
 } S_800974DC_6;
 
 void select_record_entry_and_value(void *state, void *entries, short index);
-void set_record_integer_tile_center(ObjectPosition *record, s32 tile_x, s32 tile_y); /* extern */
-void handle_actor_commands_and_facing(void *actor, ObjectPosition *motion, SpriteFrameState *sprite, ActorRecord *actor_data);
 extern void *actor_default_frames[];
 extern u8 actor_alternate_frames[8];
 

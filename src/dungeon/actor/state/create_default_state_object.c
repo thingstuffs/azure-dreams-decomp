@@ -3,6 +3,7 @@
 #include "common.h"
 #include "dungeon/actor/state.h"
 #include "engine/node.h"
+#include "engine/scene.h"
 struct Arg0_800AFBFC;
 struct Arg2_800AFBFC;
 
@@ -17,9 +18,6 @@ typedef struct S_800B0544_4 {
     void * unk_08;
     void * unk_0C;
 } S_800B0544_4;   /* obj in create_default_state_object */
-
-
-extern int load_indexed_resource_package(short table_index);
 
 extern s16 current_dungeon_floor;
 extern void advance_object_phase_counters();

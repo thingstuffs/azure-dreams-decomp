@@ -5,6 +5,8 @@
 #include "records/Rec_D_80082E80.h"
 #include "shared/dungeon_moving_views.h"
 #include "slus.h"
+#include "dungeon/monster/glacier.h"
+#include "sdk/libgte.h"
 
    /* arg1 in update_relative_depth_and_expire */
 
@@ -21,7 +23,6 @@ typedef struct S_8102F0D4_1 {
 } S_8102F0D4_1;   /* arg0 in update_relative_depth_and_expire */
 
 extern s8 view_direction_depth_biases[];
-s32 RotTransPers(void *vertex, s32 *screen, s32 *p, s32 *flag);
 
 /* Updates relative depth with a direction offset and flags expiration when the countdown ends. */
 void update_relative_depth_and_expire(void *state_arg, MovingPosition *position, SpriteFrameState *entity) {

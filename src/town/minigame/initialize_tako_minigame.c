@@ -96,7 +96,7 @@ s32 initialize_tako_minigame(void)
 
     tw_sd_sq_ld_call(0x24, 0x200);
     create_timed_sound(0x5A);
-    func_8003E188(0x3C, (s32)parent_state);
+    set_packed_2bit_flag(0x3C, (s32)parent_state);
 
     object = allocate_flagged_object_node(2);
     if (object != NULL) {

@@ -15,7 +15,6 @@ struct ObjectPosition;
 #include "dungeon/effect.h"
 
 s32 get_entity_effect_value(void *, s32);
-s32 can_entity_gain_level(void *);
 void play_sound_if_enabled(s32);
 extern s32 monster_species_table;
 extern s8 scene_music_hold;

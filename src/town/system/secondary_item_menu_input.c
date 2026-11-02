@@ -14,16 +14,15 @@ void sort_entries_by_category(S_8004AFE8 **entries);
 #include "shared/game_work.h"
 #include "town/shop.h"
 #include "town/shop/resource_entry_initialization_g01156.h"
+#include "town/shop/object.h"
 /* arg0 in handle_item_menu_input_2 */
 
 
 extern void SD_Call(s32);
-extern void interpolate_paired_object_positions_and_shades(void **pair_state);
 extern void update_active_entry_and_notify_handlers(s8 *state, s32 input);
 extern void decrement_entry_and_notify_handlers(void *);
 extern s32 move_item_to_list(void *);
 static void sort_selected_record_entries(void *);
-extern void set_object_data_pointer_if_present(void *);
 
 /*
  * Calls sort_entries_by_category with ((S_800B25D8_0 *)((((*(s32 *)((u8 *)record + 0x14))* 4)+

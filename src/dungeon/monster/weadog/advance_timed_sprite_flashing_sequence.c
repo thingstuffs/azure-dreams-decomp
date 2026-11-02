@@ -12,6 +12,7 @@
 #include "dungeon/system.h"
 #include "dungeon/actor.h"
 #include "dungeon/effect/screen.h"
+#include "dungeon/monster/weadog.h"
 
 extern s32 weadog_action_resume_address;
 extern u8 weadog_frame_set_2[];

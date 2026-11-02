@@ -3,6 +3,7 @@
 #include "m2c_compat.h"
 #include "shared/town_object.h"
 #include "town/person/object.h"
+#include "town/data.h"
 
 typedef struct {
     u8 unk0;
@@ -18,8 +19,6 @@ typedef struct {
 #include "town/person/object/initialize_object_entries_api.h"          /* extern */
 extern D_80082660_entry object_index_slots[];
 extern M2C_UNK person_bounce_handler_address;
-extern s32 person_reaction_object_entries[];
-
 
 /* Initializes the object from its table entry and resets the companion state. */
 void initialize_object_from_table_entry(TownObjectRecord *object, ObjectPosition *state, void *init_data) {

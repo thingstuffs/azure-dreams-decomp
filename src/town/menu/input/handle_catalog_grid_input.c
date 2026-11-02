@@ -3,6 +3,7 @@
 #include "shared/object_flags.h"
 #include "engine/scene.h"
 #include "town/menu.h"
+#include "engine/item.h"
 
 typedef struct {
     void *field_0;
@@ -30,7 +31,6 @@ extern s8 catalog_display_node_slots;
 
 extern void SD_Call(s32);
 extern void select_paired_value_tables(Object *);
-extern void release_null_terminated_entries(void *);
 extern void remove_scene_runtime_callback(void);
 
 /* Handles input to update object selections, action states, and exit behavior. */

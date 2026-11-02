@@ -1,7 +1,7 @@
 #include "common.h"
 #include "town/player/state.h"
+#include "town/data.h"
 
-extern s32 player_motion_bounds[4];
 extern s32 player_blocking_rects[33];
 
 /* Initializes the state tables with an extra entry for mode 10. */

@@ -7,8 +7,8 @@
 #include "dungeon/actor/status.h"
 #include "dungeon/actor.h"
 #include "dungeon/effect.h"
+#include "dungeon/player/object.h"
 
-extern s32 try_claim_dungeon_action_slot(void *);
 extern void select_sprite_entry(void *, u8, s32);
 
 extern u8 D_80175F30[];

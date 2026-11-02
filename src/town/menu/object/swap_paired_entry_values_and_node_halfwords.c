@@ -1,5 +1,6 @@
 #include "common.h"
 #include "town/menu/catalog_parts.h"
+#include "town/menu/object.h"
 
 extern void select_paired_value_tables(void *selection);
 

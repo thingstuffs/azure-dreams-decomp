@@ -1,6 +1,7 @@
 #include "common.h"
 #include "m2c_compat.h"
 #include "shared/entity.h"
+#include "dungeon/monster/golem.h"
 
 
 /* Initialize the object's two state bytes to 0x10 and zero. */

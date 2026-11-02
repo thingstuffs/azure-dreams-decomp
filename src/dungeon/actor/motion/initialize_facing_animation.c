@@ -1,5 +1,6 @@
 #include "common.h"
 #include "shared/game_work.h"
+#include "dungeon/actor/motion.h"
 struct Dst;
 struct Elem;
 

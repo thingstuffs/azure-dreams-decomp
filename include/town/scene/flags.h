@@ -68,4 +68,7 @@ s32 update_scene_action_flags(s32 object, s32 context);
 struct SpawnDisplayObject;
 void decrement_timer_and_set_completion_flag(struct SpawnDisplayObject *work);
 
+void clear_indexed_flag_bit(s32 flag_id);
+void process_pair_16_bit_table(void);
+
 #endif

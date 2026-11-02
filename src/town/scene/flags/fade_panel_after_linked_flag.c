@@ -2,6 +2,7 @@
 #include "m2c_compat.h"
 #include "shared/object_links.h"
 #include "town/scene/flags.h"
+#include "town/data.h"
 
    /* the 0x2 bytes before arg0 in fade_panel_after_linked_flag, addressed as arg0[-1] */
 
@@ -18,9 +19,6 @@ typedef struct S_805267E0_1 {
     u8 pad_00[0x2A];
     u16 unk_2A;
 } S_805267E0_1;   /* sub in fade_panel_after_linked_flag */
-
-
-extern s32 scene_object_flags;
 
 /* Advances a delayed fade and sets completion flags when the color reaches its threshold. */
 void fade_panel_after_linked_flag(void *effect_arg) {

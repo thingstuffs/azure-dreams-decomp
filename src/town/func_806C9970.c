@@ -1,4 +1,5 @@
 #include "common.h"
+#include "town.h"
 
 extern s32 dispatch_event_63_a_through_193_e_0(s32, s32); /* Unprototyped: retail call passes more arguments than the callee reads */
 /* Calls return with dispatch_event_63_a_through_193_e_0(grid_y,grid_x)! = - 1. */

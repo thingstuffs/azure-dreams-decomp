@@ -2,6 +2,7 @@
 #include "shared/entity.h"
 #include "common.h"
 #include "dungeon/actor.h"
+#include "dungeon/monster/kewne_uncached.h"
 
 /* Forward all four effect callback arguments and the result. */
 s32 update_kewne_uncached_defeat_removal_slot_b(ActorRecord *state, ObjectPosition *position, SpriteFrameState *sprite, ActorRecord *entity_data) {

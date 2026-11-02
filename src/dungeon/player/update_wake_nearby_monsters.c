@@ -11,11 +11,12 @@
 #include "records/Rec_D_80083460.h"
 #include "engine/graphics.h"
 #include "slus.h"
+#include "dungeon/player.h"
+#include "dungeon/player/object.h"
 
 extern s32 get_entity_effect_value(ActorRecord *entry, s32 effect_id);
 extern void clear_slots_of_type(ActorRecord *owner, s8 match_type);
 extern void display_formatted_context_message(void *context);
-extern void set_record_integer_tile_center(ObjectPosition *record, s32 tile_x, s32 tile_y);
 
 extern Rec_D_80083460 D_80083460;
 extern u8 D_800DCFF8[];

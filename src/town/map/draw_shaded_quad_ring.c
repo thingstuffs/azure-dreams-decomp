@@ -3,9 +3,7 @@
 #include "town/map.h"
 #include "town/map/effect.h"
 #include "town/shop.h"
-
-extern s32 ring_segment_counts[];
-extern s32 ring_segment_count;
+#include "town/data.h"
 
 /* Draws a closed ring of shaded quads using evenly spaced angular samples. */
 void draw_shaded_quad_ring(s32 shape, s32 source)

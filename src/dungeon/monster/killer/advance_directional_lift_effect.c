@@ -9,6 +9,9 @@
 #include "engine/graphics.h"
 #include "dungeon/actor.h"
 #include "dungeon/effect/screen.h"
+#include "dungeon/item.h"
+#include "dungeon/item/message.h"
+#include "dungeon/system.h"
 
 
 typedef struct S_80173C20_1 {
@@ -24,13 +27,6 @@ typedef struct S_80173C20_1 {
     s8 unk_6D;
 } S_80173C20_1;   /* entity_data in advance_directional_lift_effect */
 
-
-
-extern void *get_unused_text_buffer(void);
-extern u8 *expand_text_control_codes(u8 *src, u8 *dst);
-u8 *clear_byte_and_advance(u8 *byte_ptr);
-extern u8 *append_entity_display_text(void *record, u8 *out);
-s32 display_text_with_fullwidth_adjustment(s8 *text);
 void spend_actor_mp(ActorRecord *entity, s32 base_reduction);
 
 extern void *actor_update_node_cursor;

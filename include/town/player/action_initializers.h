@@ -7,7 +7,6 @@
 void initialize_scene_action_record(TownObjectRecord *record, void *unused, void *handler_context);
 
 void init_threshold_countdown_action(TownObjectRecord *record, void *unused, void *handler_context);
-void init_movement_action(TownObjectRecord *record, void *unused, s32 setup_value);
 void init_sound_threshold_action(s32 **record, s32 unused, s32 setup_value);
 void set_item_selection_data_pointer(void *object, void *unused_position, void *unused_context);
 void select_next_item_state(void *object, void *position, void *context);

@@ -1,5 +1,6 @@
 /* Recovered retail twin; complete-function proof is in the lane receipt. */
 #include "common.h"
+#include "town.h"
 
 extern void release_town_map_record(void **);
 

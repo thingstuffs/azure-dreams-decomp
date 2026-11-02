@@ -1,6 +1,7 @@
 #include "common.h"
 #include "shared/object_payload.h"
 #include "town/menu/catalog_parts.h"
+#include "town/menu.h"
 
 typedef struct TownInitialPosition {
     void *data;
@@ -8,7 +9,6 @@ typedef struct TownInitialPosition {
     u16 y;
 } TownInitialPosition;
 
-extern void initialize_catalog_entry_packets(void);
 extern TownInitialPosition catalog_grid_layout[5];
 extern s8 D_80128614[];
 extern s8 catalog_grid_packets[];

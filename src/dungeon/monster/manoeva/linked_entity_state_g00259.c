@@ -5,6 +5,7 @@
  * Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - group G00259 - CL:dungeon/func_80E3A540@dungeon/bank_e56c58, CL:dungeon/func_80E3A540@dungeon/bank_e5d000, CL:dungeon/func_80E3A540@dungeon/bank_e63000, CL:dungeon/func_80E3A540@dungeon/bank_e69000, CL:dungeon/func_80E3A540@dungeon/bank_e6f000, CL:dungeon/func_80E3A540@dungeon/bank_e75000.
  */
 #include "dungeon/monster/manoeva/linked_entity_state_g00259.h"
+#include "dungeon/monster/manoeva.h"
 
 /* Copies linked object data and transfers or releases its state. */
 void transfer_linked_object_state(ActorRecord *owner, ObjectPosition *object_id, SpriteFrameState *dest_object, ActorRecord *dest_state) {

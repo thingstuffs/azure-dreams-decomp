@@ -11,7 +11,6 @@ typedef struct {
     AnchoredDirectionalObjectBody work;
 } BaloonTemplateNode;
 
-extern void *allocate_list_node(s32, ObjectNodeHeader **);
 extern u8 D_800D6FEC[];
 extern u8 D_800E23C8[];
 

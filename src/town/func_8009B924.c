@@ -6,8 +6,9 @@
 
 #include "town/player/object/entity_record_fields.h"
 #include "town/player/object.h"
+#include "town.h"
+#include "town/data.h"
 extern s8 town_action_reset_byte;
-extern s32 record_action_update_address;
 extern s32 D_800D01F0;
 
 /*

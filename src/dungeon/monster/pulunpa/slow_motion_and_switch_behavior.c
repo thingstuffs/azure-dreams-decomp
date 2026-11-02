@@ -8,6 +8,7 @@
 #include "records/Rec_D_80082E80.h"
 #include "dungeon/actor.h"
 #include "dungeon/player/object.h"
+#include "dungeon/monster/pulunpa.h"
 
 extern u8 pulunpa_action_resume_address[];
 extern u8 pulunpa_variant_action_address[];

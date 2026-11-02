@@ -5,6 +5,7 @@ struct ObjectNodeHeader;
 #include "shared/sys_flags.h"
 #include "shared/record_ptrs.h"
 #include "dungeon/item.h"
+#include "dungeon/monster/beldo_large.h"
 
 extern void clear_entry_flag_and_link_owner(struct ObjectNodeHeader *);
 extern void set_or_clear_actor_status_slot(void *, s32, s32);

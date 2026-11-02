@@ -14,10 +14,10 @@
 #include "dungeon/actor/spell_resource_ids_g01008.h"
 #include "dungeon/item.h"
 #include "dungeon/system.h"
+#include "sdk/libgte.h"
 
 
 extern void select_sprite_entry(void *, s16, s16);
-extern s32 rsin(s32);
 
 extern u8 pulunpa_action_resume_address[];
 extern u8 D_801762D8[];

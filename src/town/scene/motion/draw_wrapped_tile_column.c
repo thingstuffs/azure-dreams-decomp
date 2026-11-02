@@ -1,5 +1,6 @@
 #include "common.h"
 #include "town/scene/motion.h"
+#include "town/data.h"
 
 typedef struct {
     u16 x;
@@ -8,7 +9,6 @@ typedef struct {
     s16 h;
 } Rect;
 
-extern u8 slot_machine_symbol_strips[][12];
 extern void func_8006E91C(Rect *, s32, s32);
 
 /* Draws a wrapped tile column with vertical scrolling and top-edge clipping. */

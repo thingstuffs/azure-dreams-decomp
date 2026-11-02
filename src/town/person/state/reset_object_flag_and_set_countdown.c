@@ -1,9 +1,9 @@
 #include "common.h"
 #include "m2c_compat.h"
 #include "town/person/state.h"
+#include "town/data.h"
 
 /* cfail-repair: tf7-phase1-cache-v3 */
-extern s8 person_slot_reset_byte;
 typedef struct S_800CEDA4_0 {
     u8 pad_00[0x6E];
     s16 unk_6E;

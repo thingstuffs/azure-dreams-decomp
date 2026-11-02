@@ -1,4 +1,5 @@
 #include "common.h"
+#include "dungeon/monster/manoeva.h"
 
 extern void project_sprite_commands(void *context, s32 position, void *entry, s32 depth_bias); /* Unprototyped: uses the value as a pointer where the definition has an integer (or the reverse) */
 

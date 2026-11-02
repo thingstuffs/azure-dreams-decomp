@@ -1,6 +1,6 @@
 #include "town/person/object_setup.h"
-
-extern s16 ratan2(s32, s32);
+#include "sdk/libgte.h"
+#include "town/person/position.h"
 
 /* Clamp the fixed-point coordinate deltas to the minimum before passing them to the helper. */
 s16 clamp_transform_coordinate_deltas(s32 x, s32 y, void *origin) {

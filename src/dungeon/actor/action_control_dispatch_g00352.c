@@ -2,6 +2,7 @@
 /* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - PD:dungeon/engine:800DCF4E. */
 #include "dungeon/actor/action_control_dispatch_g00352.h"
 #include "engine/runtime.h"
+#include "dungeon/actor.h"
 
 /* Invokes action 0x21 once when its conditions hold, or runs the default action. */
 void request_scene_state_21_or_reload_level_module_a(void) {

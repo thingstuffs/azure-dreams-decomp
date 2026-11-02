@@ -4,6 +4,7 @@
 #include "shared/dir_step.h"
 #include "dungeon/player/object.h"
 #include "dungeon/actor.h"
+#include "dungeon/actor/position.h"
 
 typedef struct {
     u8 pad_00[0x8C];

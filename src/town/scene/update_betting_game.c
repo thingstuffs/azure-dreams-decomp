@@ -2,6 +2,7 @@
 #include "town/scene/collection.h"
 #include "shared/vector.h"
 #include "town/scene.h"
+#include "town/data.h"
 
 typedef struct S_func_8080F4A4_1 {
     s32 unk_00;
@@ -123,9 +124,7 @@ extern u8 D_8012F130[0x14];
 extern u8 collection_round_work[0x20];
 extern s32 town_motion_state[6];
 extern s32 D_802BC5C8[3];
-extern s32 betting_round_handle[3];
 extern u8 D_802483B8[];
-extern u8 betting_sprite_animation[];
 extern u8 D_80290270[];
 extern u8 D_80290290[];
 extern u8 D_80290298[];

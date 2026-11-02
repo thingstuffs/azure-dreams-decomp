@@ -2,6 +2,7 @@
 #include "dungeon/actor/motion.h"
 #include "dungeon/actor.h"
 #include "shared/dungeon_status.h"
+#include "dungeon/monster/beldo.h"
 
 void spend_actor_mp();
 

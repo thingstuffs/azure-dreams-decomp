@@ -2,6 +2,7 @@
 #include "common.h"
 #include "shared/object_node.h"
 #include "shared/object_flags.h"
+#include "dungeon/monster/beldo.h"
 
 extern u8 *beldo_active_entity;
 

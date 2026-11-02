@@ -17,7 +17,8 @@
 #include "dungeon/effect/screen.h"
 #include "dungeon/level.h"
 #include "dungeon/actor/state.h"
-extern int abs(int);
+#include "dungeon/item/state.h"
+#include "sdk/libc.h"
 #ifndef NULL
 #define NULL 0
 #endif
@@ -30,7 +31,6 @@ extern u8 *find_eligible_actor_at_tile_and_height();
 extern s32 get_tile_chebyshev_distance();
 extern s32 get_actor_height_difference();
 extern void * find_monster_neighbor_candidate(void *entity, u16 x, u16 y);
-s32 update_actor_proximity_flag(void *source, void *state, s32 lower_limit, s32 upper_limit, s8 *result);
 #include "dungeon/player/object/action_state.h"
 #include "dungeon/actor/state.h"
 #include "dungeon/item.h"

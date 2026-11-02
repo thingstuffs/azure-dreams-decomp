@@ -3,8 +3,9 @@
 #include "shared/town_object.h"
 #include "shared/object_flags.h"
 #include "shared/object_node.h"
+#include "town.h"
+#include "town/menu.h"
 
-extern s32 classify_object_against_bounds(void *, void *);
 extern void unlink_node_if_registered(void *object);
 extern void advance_sprite_animation_and_textures(void *fallback_data);
 

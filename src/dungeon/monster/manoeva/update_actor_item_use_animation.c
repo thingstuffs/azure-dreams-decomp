@@ -13,7 +13,8 @@
 #include "dungeon/player/object.h"
 #include "dungeon/item.h"
 #include "dungeon/actor.h"
-extern int abs(int);
+#include "dungeon/monster/manoeva.h"
+#include "sdk/libc.h"
 
 typedef __SIZE_TYPE__ uptr;
 

@@ -2,12 +2,12 @@
 
 #include "common.h"
 #include "slus.h"
+#include "engine/movie.h"
+#include "engine/scene.h"
+#include "sdk/libgpu.h"
+#include "town/map/resource.h"
 
-extern void play_movie_with_fixed_display_flag(s32 a0, s32 a1);
-extern void SetDispMask(s32 a0);
-extern void file_load_com(void *arg);
 extern void reserve_twch_load(s32 a0);
-extern void town_seq_reserve(s16 sequence_effect, s16 sequence_id);
 extern u8 town_scene_resource_descriptor;
 extern u8 D_800D1D54;
 extern u8 D_80080F48;

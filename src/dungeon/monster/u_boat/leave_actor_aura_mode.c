@@ -9,10 +9,7 @@
 #include "dungeon/actor.h"
 #include "dungeon/player/object.h"
 #include "dungeon/system.h"
-
-
-extern void clear_slots_of_type(ActorRecord *owner, s8 match_type);
-void create_owner_linked_directional_object(ActorRecord *owner_data, ObjectPosition *source_position, SpriteFrameState *source_sprite);
+#include "engine/entity.h"
 
 extern u8 uboat_default_frames[];
 extern u8 u_boat_aura_frames[];

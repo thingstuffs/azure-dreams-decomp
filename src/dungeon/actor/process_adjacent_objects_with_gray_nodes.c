@@ -1,4 +1,5 @@
 #include "common.h"
+#include "dungeon/actor.h"
 
 typedef struct {
     u8 unk0[0xC];

@@ -2,6 +2,7 @@
 #include "dungeon/actor/motion.h"
 #include "slus.h"
 #include "dungeon/player/input.h"
+#include "dungeon/actor.h"
 
 typedef struct S_80096AE0_0 {
     u8 pad_00[0x8C];

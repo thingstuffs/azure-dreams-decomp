@@ -2,6 +2,9 @@
 #include "dungeon/effect/motion.h"
 #include "common.h"
 #include "shared/game_work.h"
+#include "dungeon/monster/zu.h"
+#include "sdk/libgpu.h"
+#include "sdk/libgte.h"
 typedef struct S_80F90E88_1 {
     s32 unk_00;
     s32 unk_04;
@@ -22,16 +25,6 @@ typedef struct S_80F90E88_2 {
     u8 pad_00[0xB0];
     s32 unk_B0;
 } S_80F90E88_2;
-
-
-
-
-
-s32 RotTransPers(void *vertex, s32 *screen, s32 *p, s32 *flag);
-u16 GetTPage(s32, s32, s32, s32);
-s32 SetSemiTrans(void *, s32);
-s32 SetPolyG4(void *);
-s32 SetDrawMode(void *, s32, s32, s32, s32);
 
 struct PackedPair {
     s32 first;

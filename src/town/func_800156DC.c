@@ -1,6 +1,7 @@
 /* Relink of matched town/func_800B1C0C; one recorded literal variant; all other changed words are paired relocations. */
 #include "common.h"
 #include "shared/item_menu.h"
+#include "town.h"
 
 /* Owning menu state as this copy lays it out: the selected position is read from +0x24
  * (set_item_menu_entry_coordinates reads ItemMenuState.position at +0x18). */

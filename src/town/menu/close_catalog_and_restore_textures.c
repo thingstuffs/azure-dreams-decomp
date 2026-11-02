@@ -1,8 +1,8 @@
 #include "common.h"
 #include "shared/object_flags.h"
-
-extern void release_null_terminated_entries(void *entries);
-extern void scene_load_variant_texture_set(void);
+#include "engine/graphics.h"
+#include "engine/item.h"
+#include "town/menu.h"
 
 // Set the linked object's flag, process the embedded data, and signal an update.
 void close_catalog_and_restore_textures(void *object)

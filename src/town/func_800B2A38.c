@@ -1,8 +1,8 @@
 #include "common.h"
 #include "shared/item_menu.h"
 #include "engine/util.h"
-
-extern void texture_set_the_field_offset_hex_8_in_each_entry_pointer_array(ItemMenuPart **entries, DisplayPositionWords *value, s32 count);
+#include "engine/texture.h"
+#include "town.h"
 
 extern s32 display_vector_defaults[];
 

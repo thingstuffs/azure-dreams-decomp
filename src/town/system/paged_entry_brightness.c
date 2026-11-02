@@ -2,6 +2,7 @@
 #include "common.h"
 #include "m2c_compat.h"
 #include "engine/item.h"
+#include "engine/util.h"
 typedef struct S_800B3178_3 {
     u8 pad_00[0x4];
     s8 * unk_04;
@@ -12,7 +13,6 @@ typedef struct S_800B3178_4 {
     s8 unk_02;
 } S_800B3178_4;
 /* extern */
-s32 func_8004DC14();
 /* extern */
 
 typedef struct S_800B3178_0 {
@@ -60,7 +60,7 @@ static void populate_paged_entries_with_brightness(void **entries, S_800B3178_0 
     source_index = page_index * 0xA;
     source = (page_index * 0x28) + source_table;
     while (entry_count < 0xA && source_index < page_info->unk_0C) {
-        ((S_800B3178_1 *)(*entry))->unk_00 = func_8004DC14(select_item_data(*source, &lookup_param), lookup_param);
+        ((S_800B3178_1 *)(*entry))->unk_00 = create_label_glyph_entries(select_item_data(*source, &lookup_param), lookup_param);
         if (((S_800B3178_2 *)(*source))->unk_01 == 0x13) {
             *((S_800B3178_1 *)(*entry))->unk_04 = dim_shade;
             ((S_800B3178_4 *)(((S_800B3178_3 *)(*entry))->unk_04))->unk_01 = dim_shade;

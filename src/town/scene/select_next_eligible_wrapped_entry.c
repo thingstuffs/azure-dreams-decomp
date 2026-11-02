@@ -1,4 +1,5 @@
 #include "common.h"
+#include "town/data.h"
 
 typedef struct {
     s32 unk0;
@@ -9,7 +10,6 @@ typedef struct {
 extern s32 func_800198D0(u32);
 extern u8 *D_80019BBC[];
 extern Entry town_indexed_values[];
-extern u8 town_wrapped_entry_order[];
 
 /* Selects and returns the next eligible entry in the wrapping order list. */
 s32 select_next_eligible_wrapped_entry(void)

@@ -3,6 +3,7 @@
 #include "shared/record_ptrs.h"
 #include "shared/entity.h"
 #include "dungeon/actor/status.h"
+#include "dungeon/monster/cyclone.h"
 
 
 

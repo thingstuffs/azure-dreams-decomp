@@ -3,6 +3,7 @@
 #include "shared/sprite_frame_state.h"
 #include "shared/town_object.h"
 #include "shared/object_index_slots.h"
+#include "town/data.h"
 
 
 typedef struct S_800C4D80_1 {
@@ -24,7 +25,6 @@ typedef struct {
 
 extern u8 message_motion_type_a[];
 extern u8 message_motion_type_b[];
-extern u16 town_facing_angles[];
 
 /* trget_psn_ang_set: set the matching person's angle from the table and refresh its child state. */
 void trget_psn_ang_set(s8 object_slot, s8 angle_index)

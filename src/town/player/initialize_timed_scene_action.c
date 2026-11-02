@@ -3,12 +3,11 @@
 #include "shared/town_object.h"
 #include "slus.h"
 #include "town/player.h"
+#include "town/data.h"
 
 #include "town/player/call_the_handler_selects_nonzero_entry_api.h"  /* extern */
 #include "shared/sprite_frame_state.h"
 extern void D_80091AF0(void *state, void *object, s32 context);
-extern s32 timed_scene_handler_entries;
-
 
 /* Initialize the record with its handler and a count of twelve. */
 void initialize_timed_scene_action(TownObjectRecord *record, s32 unused, SpriteFrameState *setup_value) {

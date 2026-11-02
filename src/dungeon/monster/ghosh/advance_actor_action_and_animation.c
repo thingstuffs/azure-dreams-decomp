@@ -8,18 +8,17 @@
 #include "shared/dungeon_status.h"
 #include "records/Rec_D_80082E80.h"
 #include "shared/entity.h"
+#include "dungeon.h"
+#include "dungeon/actor/motion.h"
+#include "dungeon/level.h"
 
 s32 get_entity_effect_value(ActorRecord *entry, s32 effect_id);
 void clear_slots_of_type(ActorRecord *owner, s8 match_type);
 void select_sprite_entry(void *, s32, s32);
-s16 check_entity_relation(ActorRecord *entry, ActorRecord *anchor);
 s16 get_tile_chebyshev_distance(void *, void *);
 #include "dungeon/player/object/action_state.h"
 s32 generate_random_value(void);
 void update_actor_status_and_mp(ActorRecord *entity);
-void begin_pushed_actor_move(void *state_in, void *unused, void *position_in, void *actor_in);
-s32 begin_ready_actor_directional_action(void *, void *, void *, u8 *);
-void begin_actor_move_to_target_facing(ActorRecord *body, ObjectPosition *position, SpriteFrameState *sprite, ActorRecord *actor);
 void func_8016DAA4(void *, s32, void *, void *);
 
 extern u8 ghosh_action_resume_address[];

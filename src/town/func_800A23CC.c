@@ -1,5 +1,10 @@
 #include "common.h"
 #include "town/shop/item_lookup.h"
+#include "engine/entity.h"
+#include "engine/scene.h"
+#include "sdk/libc.h"
+#include "town.h"
+#include "town/data.h"
 
 typedef struct S_800422DC_Other S_800422DC_Other;
 typedef struct S_800422DC_Self S_800422DC_Self;
@@ -7,12 +12,7 @@ typedef struct S_800423C0_Obj S_800423C0_Obj;
 typedef struct S_800423C0_Src S_800423C0_Src;
 
 void *runtime_get_mode_indexed_value(); /* Unprototyped: uses the value as a pointer where the definition has an integer (or the reverse) */        /* extern */
-void build_entity_slot_snapshot(S_800422DC_Self *snapshot, S_800422DC_Other *source);
-void apply_actor_template_and_direction(S_800423C0_Obj *obj, s16 unused, S_800423C0_Src *source);
-void func_80042640(void *obj, s16 monsterId);
-void *memset(void *, s32, u32);
 void *find_unused_default_pool_slot();                              /* extern */
-extern s32 town_actor_scratch;
 typedef struct {
     s32 words[0x15];
 } Record84;

@@ -19,10 +19,7 @@
 #include "dungeon/actor/status.h"
 #include "dungeon/item.h"
 #include "dungeon/actor.h"
-extern int abs(int);
-
-
-
+#include "dungeon/monster/weadog.h"
 
    /* the 0x14 bytes before ptr in update_actor_targeted_action, addressed as ptr[-1] */
 
@@ -30,8 +27,6 @@ extern int abs(int);
 
 extern u8 weadog_action_resume_address[];
 extern u8 weadog_frame_set_3[];
-
-extern void create_random_color_offset_effect(void *parent, s16 initial_14, s32 unused, s16 initial_32, s16 offset_x, s16 offset_y, s16 offset_z);
 
 /* Updates an actor action through targeting, particle effects, and recovery. */
 /* Starts a targeted spell, emits three randomly colored offset effects per casting tick, then restores

@@ -1,8 +1,7 @@
 #include "common.h"
 #include "engine/texture.h"
 #include "town/shop/state.h"
-
-extern u8 monster_display_chain_indices[];
+#include "town/data.h"
 
 /* Links the monster status entries through monster_display_chain_indices (limit 24) and returns the chain. */
 void *link_monster_status_display_entries(void *target) {

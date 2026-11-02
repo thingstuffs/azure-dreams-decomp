@@ -41,7 +41,7 @@ void try_move_player(); /* extern */
 s32 try_begin_lift_object(struct S_8008C5C4_2 *action, void *unused, SpriteAnimationTableView *position, ActorRecord *actor);  /* extern */
 s32 request_familiar_deployment_change(); /* extern */
 #include "dungeon/player/input.h"
-s16 dispatch_selected_item_use(Rec_func_8008ACDC_arg0 *actor, s16 item_id, s16 other_item_id);                /* extern */
+#include "slus.h"
 
 void *select_item_record_pointer(); /* Unprototyped: one or two arguments; the second register argument is ignored. */                      /* extern */
 s32 can_entity_gain_level(void *entity);                  /* extern */
@@ -51,10 +51,8 @@ void set_record_integer_tile_center(ObjectPosition *record, s32 tile_x, s32 tile
 #include "engine/resource.h"
 struct S_8008C5C4_2;
               /* extern */
-s32 lookup_definition_pair_value(s16 firstKey, s16 secondKey);                          /* extern */
 s32 generate_random_value(void);                      /* extern */
 extern M2C_UNK player_menu_action_data;
-void submit_enabled_saved_display_value(void);
 extern u8 player_wait_frames[8];
 extern u8 player_landing_frame_set[];
 extern M2C_UNK D_800DD148;

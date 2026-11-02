@@ -1,6 +1,7 @@
 #include "shared/monster_ids.h"
 #include "common.h"
 #include "dungeon/actor.h"
+#include "dungeon/monster/glacier.h"
 
 typedef struct S_801748FC_0_pre {
     u8 * unk_00;
