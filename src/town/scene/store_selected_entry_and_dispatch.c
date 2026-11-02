@@ -5,7 +5,7 @@
 #include "town/scene.h"
 
 
-void func_8001E578(); /* Unprototyped: one or two arguments; the second register argument is ignored. */
+void set_script_flag_bit(); /* Unprototyped: one or two arguments; the second register argument is ignored. */
 
 // Updates the selected entry's value and signals the update when the state is 2.
 s32 store_selected_entry_and_dispatch_402(void *entryOwner, s32 entryIndex) {
@@ -25,7 +25,7 @@ s32 store_selected_entry_and_dispatch_402(void *entryOwner, s32 entryIndex) {
         entryValue = prepare_selected_entry_buffer(town_event_state->selected_entry);
         entriesBase = owner->entries;
         entriesBase[entryIndex].buffer = entryValue;
-        func_8001E578(F_sbs01_pad13);
+        set_script_flag_bit(F_sbs01_pad13);
         return 0;
     }
     return 1;

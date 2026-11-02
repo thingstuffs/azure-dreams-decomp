@@ -1,12 +1,11 @@
 #include "common.h"
 #include "town/devkit.h"
+#include "town/devkit/flag_test_imports.h"
 
 extern s32 func_80701134(s32);
 extern s32 func_80700CE8(s32);
 extern void set_indexed_flag_bit_unless(s32);
 extern void clear_indexed_flag_bit_unless(s32);
-extern s32 func_80700E3C();
-extern void func_80700D58(s32, s32);
 
 extern u8 D_807009BA[];
 extern u16 D_807009DC[];

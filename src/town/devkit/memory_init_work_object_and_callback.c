@@ -2,6 +2,7 @@
 #include "common.h"
 #include "frontend/card.h"
 #include "town/devkit.h"
+#include "frontend/card/server_imports.h"
 
 
 extern u8 D_8040C5C0[];
@@ -9,11 +10,6 @@ extern u16 D_8040C5DE_LOAD[5];
 extern u16 D_8040C5DE_STORE[5];
 extern u8 D_8040086C[];
 extern u8 D_80400894[];
-extern void *func_8003C714(s32 value, void *ptr, s32 value_2);
-extern s32 func_80047FD8(void *object);
-extern void func_8007BEF0(s32 value);
-extern void func_8007BFE0(void *state, s32 value);
-extern void func_8007C040(void *data, void *data_2, s32 value);
 extern void set_record_values(void *state, s32 init_value_a, s32 init_value_b);
 extern void memory_process_handles_and_mark_object(void *object);
 

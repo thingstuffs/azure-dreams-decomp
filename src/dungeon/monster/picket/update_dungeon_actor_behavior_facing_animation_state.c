@@ -18,12 +18,12 @@
 #include "dungeon.h"
 #include "dungeon/level.h"
 #include "dungeon/player/object.h"
+#include "dungeon/modules.h"
 
 extern void select_sprite_entry(void *, s32, s32);
 extern s8 find_active_rect_containing_point(s32, s32);
 extern void update_actor_status_and_mp(ActorRecord *entity);
 extern void func_80171684(void *controller, ObjectPosition *context, void *entity, void *path_state);
-extern void func_801718DC(void *, void *, void *, void *);
 extern s32 func_80172088(ActorRecord *action_state, ObjectPosition *motion_param, SpriteFrameState *sprite_arg, ActorRecord *actor);
 extern void func_8017224C(ActorRecord *action_state, ObjectPosition *action_context, void *sprite, ActorRecord *actor);
 extern s32 advance_actor_states(void *, void *, void *, s32);
@@ -127,7 +127,7 @@ void update_dungeon_actor_behavior_facing_animation_state(ActorRecord *actor, Ob
             return;
         }
         if (*(u16 *)&sprite->tile_x == reference_tile_object.tile_position.word) {
-            func_801718DC(actor, context, sprite, entity);
+            choose_block_move_slot_a(actor, context, sprite, entity);
             return;
         }
         if (!(entity->action_flags & ACTOR_ACTION_PENDING)) {
@@ -152,7 +152,7 @@ void update_dungeon_actor_behavior_facing_animation_state(ActorRecord *actor, Ob
             action_state = entity->action_flags | 0x4000;
             entity->action_flags = action_state;
             if (!(action_state & 0x8000)) {
-                func_801718DC(actor, context, sprite, entity);
+                choose_block_move_slot_a(actor, context, sprite, entity);
                 return;
             }
         }
@@ -210,7 +210,7 @@ void update_dungeon_actor_behavior_facing_animation_state(ActorRecord *actor, Ob
         default:
             break;
         }
-        func_801718DC(actor, context, sprite, entity);
+        choose_block_move_slot_a(actor, context, sprite, entity);
         return;
     }
 

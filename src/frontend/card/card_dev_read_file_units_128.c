@@ -1,10 +1,7 @@
 #include "common.h"
 #include "frontend/card.h"
+#include "frontend/card/server_imports.h"
 
-s32 func_8007CA58();
-s32 func_8007CA68();
-s32 func_8007CA78();
-void func_8007CA98();
 
 /* Reads a file range in 128-byte units and returns whether the full read succeeded. */
 s32 card_dev_read_file_units_128(s32 file_path, void *buffer, s32 block_count, s32 block_offset) {

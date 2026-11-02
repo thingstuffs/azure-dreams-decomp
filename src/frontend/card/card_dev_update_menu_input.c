@@ -3,6 +3,7 @@
 #include "frontend/card/save.h"
 #include "frontend/card/service.h"
 #include "main/data.h"
+#include "frontend/card/server_imports.h"
 
 typedef struct S_8001EFC4_0_pre {
     void * unk_00;
@@ -20,7 +21,6 @@ typedef struct S_8001EFC4_0 {
 
 
 extern void func_80063FF8(s32 code);
-extern s32 func_80058FF0(s32 current, s32 direction, s32 amount);
 extern void submit_stored_and_queried_boot_values(void);
 extern void propagate_object_high_bit_flags(void *obj);
 extern void allocate_or_reuse_effect_and_install_callback(void *current,void *mode);

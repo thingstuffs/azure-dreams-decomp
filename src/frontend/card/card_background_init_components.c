@@ -1,9 +1,9 @@
 #include "common.h"
 #include "frontend/card.h"
+#include "frontend/card/server_imports.h"
 
 void *initialize_consecutive();                         /* extern */
 void *card_background_init_overlay_prims();                         /* extern */
-void func_80404888(s32);                         /* extern */
 typedef struct MainPacket12 MainPacket12;
 MainPacket12 *initialize_drawing();                         /* extern */
 

@@ -9,7 +9,7 @@
 s32 tick_scene_counter(void) {
     s32 result;
 
-    if (func_80018B5C(F_sbs11_pad37) != 0) {
+    if (get_script_flag_mask(F_sbs11_pad37) != 0) {
         {
             Rec_D_80016000 *context;
             u8 *entry;
@@ -27,11 +27,11 @@ s32 tick_scene_counter(void) {
             entry = (u8 *)((*(s32 *)((u8 *)context + 8) << 3) + *(s32 *)((u8 *)context + 0x40));
 
             if (entry[1] == 0) {
-                func_80018ADC(F_sbs11_pad37);
+                clear_script_flag_bit(F_sbs11_pad37);
             }
         }
         return result;
     }
-    result = func_80018B5C(Fp_pool_open) != 0;
+    result = get_script_flag_mask(Fp_pool_open) != 0;
     return result;
 }

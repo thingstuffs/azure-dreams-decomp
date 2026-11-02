@@ -8,7 +8,7 @@ extern void toggle_card_selection_state(void);
 extern void submit_stored_and_queried_boot_values(void);
 extern s32 card_dev_get_op_state(void);
 extern void forward_target_value_initcardmessageobject(void *left, void *right);
-extern void func_8003FA78(void *descriptor, s32 value, s32 item);
+extern void func_8003FA78(void *descriptor, s32 value, s32 item); /* Unprototyped: this site's argument count or types differ from the foreign program's import prototype */
 
 /* Updates the object's state and callback and performs a one-time transition. */
 void card_boot_update_object_state_and_callback(void *object_data)

@@ -38,11 +38,11 @@ typedef struct S_8014DFA4_0 {
 extern void select_sprite_entry(void *, s32, s32);
 extern s8 find_active_rect_containing_point(s32, s32);
 extern void update_actor_status_and_mp(ActorRecord *entity);
-extern void func_8014E510(void *, void *, void *, void *);
-extern void func_8014E6C8(void *, void *, void *, void *);
-extern s32 func_8014EE10(ActorRecord *action_state, ObjectPosition *action_param, SpriteFrameState *visual_data, ActorRecord *actor);
-extern void func_8014F0A8(void *, void *, void *, void *);
-extern s32 func_8014F1CC(void *, void *, void *, void *);
+extern void advance_actor_path_and_facing(void *, void *, void *, void *);
+extern void select_bank_actor_movement(void *, void *, void *, void *);
+extern s32 select_and_start_target_action(ActorRecord *action_state, ObjectPosition *action_param, SpriteFrameState *visual_data, ActorRecord *actor);
+extern void start_kewne_attack_action(void *, void *, void *, void *);
+extern s32 update_entity_state_from_query(void *, void *, void *, void *);
 extern void func_80151078(void *, void *, void *, void *);
 
 extern u8 D_8014DFA4[];
@@ -61,7 +61,7 @@ void update_actor_animation_and_dispatch_actions(void *actor, ObjectPosition *ac
 
     if (g_dungeon_status.flags & 0x1000) {
         ((S_8014DFA4_0 *)actor)->unk_9A = 0xE;
-        func_8014E510(actor, actor_aux, sprite, entity);
+        advance_actor_path_and_facing(actor, actor_aux, sprite, entity);
         return;
     }
     if (entity->mp_value.parts.whole == 0) {
@@ -170,7 +170,7 @@ void update_actor_animation_and_dispatch_actions(void *actor, ObjectPosition *ac
             return;
         }
         if (*(u16 *)&sprite->tile_x == reference_tile_object.tile_position.word) {
-            func_8014E6C8(actor, actor_aux, sprite, entity);
+            select_bank_actor_movement(actor, actor_aux, sprite, entity);
             return;
         }
         if (!(entity->action_flags & ACTOR_ACTION_PENDING)) {
@@ -189,7 +189,7 @@ void update_actor_animation_and_dispatch_actions(void *actor, ObjectPosition *ac
                     }
                 }
             }
-            if ((func_8014F1CC(actor, actor_aux, sprite, 0) << 16) == 0) {
+            if ((update_entity_state_from_query(actor, actor_aux, sprite, 0) << 16) == 0) {
                 return;
             }
             action = entity->action_flags | 0x4000;
@@ -201,10 +201,10 @@ void update_actor_animation_and_dispatch_actions(void *actor, ObjectPosition *ac
             switch (action) {
             case 8:
             case 9:
-                if ((func_8014EE10(actor, actor_aux, sprite, entity) << 16) != 0) {
+                if ((select_and_start_target_action(actor, actor_aux, sprite, entity) << 16) != 0) {
                     return;
                 }
-                func_8014F0A8(actor, actor_aux, sprite, entity);
+                start_kewne_attack_action(actor, actor_aux, sprite, entity);
                 return;
 
             case 5:
@@ -241,7 +241,7 @@ void update_actor_animation_and_dispatch_actions(void *actor, ObjectPosition *ac
                 break;
             }
         }
-        func_8014E6C8(actor, actor_aux, sprite, entity);
+        select_bank_actor_movement(actor, actor_aux, sprite, entity);
         return;
     }
 

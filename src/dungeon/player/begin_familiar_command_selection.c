@@ -14,7 +14,7 @@ extern u8 player_wait_frames[8];
 
 
 /* Selects an eligible linked target and initializes the actor's action and directional display. */
-s32 begin_familiar_command_selection(Rec_func_8008D024_arg0 *actor, void *context, SpriteFrameState *display, s32 target_index, s32 action_mode) {
+s32 begin_familiar_command_selection(Rec_func_8008D024_arg0 *actor, ObjectPosition *context, SpriteFrameState *display, s32 target_index, s32 action_mode) {
     s32 target_flags;
     s32 slot_offset;
     ActorRecord *target;

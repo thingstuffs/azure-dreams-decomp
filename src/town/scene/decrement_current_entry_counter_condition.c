@@ -18,7 +18,7 @@ void decrement_current_entry_counter_condition(void) {
     u8 counter;
     S_800169F8_1 *entry;
 
-    if (func_8001894C(F_sbs07_pad29) != 0) {
+    if (get_script_flag_mask(F_sbs07_pad29) != 0) {
         entry = (town_scene_root->entry_index * 8) + ((s32)town_scene_root->event_data);
         counter = entry->unk_02;
         if (counter != 0) {

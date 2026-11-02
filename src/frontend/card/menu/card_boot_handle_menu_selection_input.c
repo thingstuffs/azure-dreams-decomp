@@ -5,14 +5,13 @@
 #include "frontend/card/service.h"
 #include "main/data.h"
 #include "frontend/card/menu.h"
+#include "frontend/card/server_imports.h"
 
 
 
 
 extern s8 card_dev_effect_mode;
 
-extern void func_8003FA78(void *display_object, s32 state_entry);
-extern void func_8003FD58(s32 value0, s32 value1, s32 value2, s32 value3);
 extern void func_80063FF8(s32 sound_code);
 extern void func_804008A0(s32 slot_index);
 extern void card_dev_close_events(void);

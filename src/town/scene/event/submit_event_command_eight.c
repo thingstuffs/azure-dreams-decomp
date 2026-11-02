@@ -1,7 +1,6 @@
 #include "common.h"
 #include "town/scene/event.h"
-
-extern s32 func_800175A8();
+#include "town/shop/object.h"
 
 /* Submit command 8 with its flag set and remaining arguments cleared. */
 void submit_event_command_eight(void) {
@@ -11,5 +10,5 @@ void submit_event_command_eight(void) {
     command_args[0] = 8;
     command_args[2] = 0;
     command_args[3] = 0;
-    func_800175A8(command_args);
+    append_town_item(command_args);
 }

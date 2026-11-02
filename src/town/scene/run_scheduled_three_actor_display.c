@@ -30,6 +30,7 @@
 #include "common.h"
 #include "town/scene.h"
 #include "town/data.h"
+#include "town/devkit/old_minigame_imports.h"
 
 typedef struct TownActor {
     u8 pad0[0x70];
@@ -51,14 +52,7 @@ typedef struct TownState {
     u16 flags;
 } TownState;
 
-extern void func_8003F8A8(s32);
-extern void func_8024A884(void);
-extern void func_8024A900(void);
-extern s32 func_80071494(void);
 extern void create_object_position_configures_color(u32, s32, s32, s32);
-extern void func_80050BFC(s32);
-extern void func_80050BD8(s32);
-extern void func_8003F75C(s32);
 
 extern s16 D_8001339E;
 extern u32 D_80095AAC;

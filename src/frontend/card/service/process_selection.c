@@ -9,7 +9,7 @@ extern s32 card_selected_channel;
 extern s32 card_ui_event_mode;
 
 extern void card_dev_drain_sw_events(void);
-extern s32 func_80408644(s32 slot_selector);
+extern s32 _card_status_80408644(s32 slot_selector);
 
 /* Processes the selection selection_state and clears the selected slot on completion. */
 s32 process_selection(void)
@@ -25,7 +25,7 @@ s32 process_selection(void)
         case 1:
             card_dev_drain_sw_events();
             if ((libcard_select_slot(card_selected_channel) != 0) &&
-                ((func_80408644(card_selected_channel != 0) & 4) != 0)) {
+                ((_card_status_80408644(card_selected_channel != 0) & 4) != 0)) {
                 card_ui_event_mode = selection_state;
                 card_ui_operation_state = card_ui_operation_state + 1;
                 break;

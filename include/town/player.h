@@ -115,4 +115,5 @@ void init_movement_action(TownObjectRecord *record, void *unused, s32 setup_valu
 
 void initialize_object_with_countdown_400(TownObjectRecord *object, s32 setup_parameter, struct SpriteFrameState *sprite);
 
+s32 record_value_table_contains(s32 target_value);
 #endif

@@ -1,8 +1,7 @@
 #include "script_symbols.h"
 #include "common.h"
-
-extern s32 check_inputs_after_threshold_two(u32);
-extern void func_800193E0(s32);
+#include "town/player/state.h"
+#include "town/scene.h"
 
 extern s32 scene_dispatch_mode_index[];
 extern s32 D_80019770[];
@@ -14,8 +13,8 @@ s32 select_table_for_selector(s32 unused_a, s32 unused_b, s32 selector) {
     s32 result = 0;
 
     if (selector == 8) {
-        func_800193E0(Ft_paty_love);
-        result = check_inputs_after_threshold_two(D_80019770[scene_dispatch_mode_index[0]]);
+        set_script_flag_bit(Ft_paty_love);
+        result = select_fallback_when_below_threshold(D_80019770[scene_dispatch_mode_index[0]]);
     } else if (selector == 1) {
         if (scene_dispatch_mode_index[0] != 3) {
             result = (s32)scene_selector_one_default_data;

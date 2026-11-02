@@ -2,6 +2,7 @@
 #include "common.h"
 #include "m2c_compat.h"
 #include "town/devkit.h"
+#include "town/devkit/flag_test_imports.h"
 
 typedef struct {
     u8 pad[0x54];
@@ -11,9 +12,6 @@ typedef struct {
 extern u8 devkit_overlay_page[0x1000];
 extern CallbackOwner *devkit_kind_callback_owner[4];
 
-extern s32 func_80700304(s32, s32, s32, s32);
-extern s32 func_80700590(s32, u8 *);
-extern s32 func_80700DC0(s16);
 
 typedef struct S_808B2B98_0 {
     u8 pad_00[0xE];

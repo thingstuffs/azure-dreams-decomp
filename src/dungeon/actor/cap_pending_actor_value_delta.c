@@ -3,17 +3,18 @@
 
 /* Cap and return the adjustment so the base plus adjustment stays within the limit. */
 s32 cap_pending_actor_value_delta(void *entry) {
+
     s16 adjustment;
     u8 base;
     u8 limit;
     __typeof__(limit - base) hoisted_1;
 
-    adjustment = *(s16 *)((u8 *)entry + 0x64);
-    base = *((u8 *)entry + 0x28);
-    limit = *((u8 *)entry + 0x29);
+    adjustment = ((ActorRecord *)entry)->hp_delta;
+    base = ((ActorRecord *)entry)->hp;
+    limit = ((ActorRecord *)entry)->max_hp;
     if ((s32)limit < (adjustment + base)) {
         hoisted_1 = limit - base;
-        *(s16 *)((u8 *)entry + 0x64) = (s16)hoisted_1;
+        ((ActorRecord *)entry)->hp_delta = (s16)hoisted_1;
     }
-    return *(s16 *)((u8 *)entry + 0x64);
+    return ((ActorRecord *)entry)->hp_delta;
 }

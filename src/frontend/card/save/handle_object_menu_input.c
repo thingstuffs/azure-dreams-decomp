@@ -1,6 +1,7 @@
 #include "common.h"
 #include "frontend/card/save.h"
 #include "frontend/card/service.h"
+#include "frontend/card/server_imports.h"
 
 typedef struct S_80406368_0 {
     u8 pad_00[0x20];
@@ -19,7 +20,6 @@ extern s32 boot_pad_state;
 extern s32 boot_pressed_buttons;
 
 extern void func_80063FF8(s32 sound_code);
-extern s32  func_80058FF0(s32 selection_index, s32 direction, s32 selection_count);
 extern void submit_stored_and_queried_boot_values(void);
 extern void invoke_indexed_object_callback(void *menu);
 extern void func_80406358(void *menu);

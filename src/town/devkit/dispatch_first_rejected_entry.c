@@ -1,9 +1,9 @@
 #include "common.h"
 #include "town/devkit.h"
+#include "town/devkit/flag_test_imports.h"
 
 typedef s32 (*Callback)(s32);
 
-extern s32 func_80700D74(u16 value);
 extern u8 devkit_globals_page[];
 
 /* Scan the table for the first entry the query rejects and dispatch that index's callback. */

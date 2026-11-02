@@ -3,15 +3,14 @@
 #include "shared/record_ptrs.h"
 #include "town/scene/flags.h"
 #include "shared/town_root.h"
+#include "town/player/state.h"
 
-extern s32 func_80018964(s32);
-extern void func_800188E4(s32);
 extern void *D_800190C0[];
 
 /* Conditionally updates flag 0x619, then dispatches D_800190C0 to the callback. */
 void change_map_after_flag_test(void) {
-    if (func_80018964(Fp_bibian_pool) != 0) {
-        func_800188E4(F_sbs13_pad32);
+    if (get_script_flag_mask(Fp_bibian_pool) != 0) {
+        clear_script_flag_bit(F_sbs13_pad32);
     }
     ((void (*)(void *))((void **)(town_scene_root->services))[FNO_change_map])(D_800190C0);
 }

@@ -19333,17 +19333,6 @@
           "declaration": "include/shared/object_node.h"
         },
         {
-          "symbol": "D_800A7548",
-          "kind": "data",
-          "vma": 2148169032,
-          "foff": 794088,
-          "view_bytes": 4,
-          "owner": "retail_asset:work/disc/containers/DUNGEON_DUNGEON.BIN",
-          "asset": "work/disc/containers/DUNGEON_DUNGEON.BIN",
-          "map": "dungeon_resident",
-          "evidence": "docs/evidence/dungeon_engine_entity_effects.imports.json"
-        },
-        {
           "symbol": "D_800A77AC",
           "kind": "data",
           "vma": 2148169644,

@@ -7,7 +7,7 @@
 #include "shared/entity.h"
 #include "shared/sprite_frame_state.h"
 void accumulate_experience_award(u8 *record, u16 amount);
-void begin_throw_carried_object(ActorRecord *object, s32 unusedArg1, s32 unusedArg2, ActorRecord *handlerContext);
+void begin_throw_carried_object(ActorRecord *object, ObjectPosition *unused_context, SpriteFrameState *unused_sprite, ActorRecord *actor);
 s32 find_first_unused_entity_entry(void);
 s32 is_dungeon_action_enabled(void);
 s32 lower_entity_level(ActorRecord *body, s32 show_message);
@@ -34,5 +34,8 @@ s32 can_entity_gain_level(void *entity);
 void mark_owned_linked_actor_actions(struct Entity *owner_entity);
 
 void * detach_record_and_update_slot_state(void *record);
+
+
+void update_lift_object(PlayerRecord *effect_state, void *saved_effect_id, SpriteFrameState *animation, PlayerRecord *owner);
 
 #endif

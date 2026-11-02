@@ -19,7 +19,6 @@ s16 get_tile_chebyshev_distance(void *, void *);
 #include "dungeon/player/object/action_state.h"
 s32 generate_random_value(void);
 void update_actor_status_and_mp(ActorRecord *entity);
-void func_8016DAA4(void *, s32, void *, void *);
 
 extern u8 ghosh_action_resume_address[];
 extern u8 ghosh_frame_set_12[];
@@ -119,7 +118,7 @@ void advance_actor_action_and_animation(S_8016D6F0_0 *actor, void *actor_id, Spr
             }
             if (entity_flags & 0x80000) {
                 begin_actor_move_to_target_facing(action_actor, actor_id, sprite, entity);
-                func_8016DAA4(actor, actor_id, sprite, entity);
+                install_actor_action_handler_after_floor_trap_check(actor, actor_id, sprite, entity);
                 return;
             }
             if (entity->pending_turn_updates == 0) {

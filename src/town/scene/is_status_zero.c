@@ -1,9 +1,8 @@
 #include "common.h"
 #include "town/scene.h"
-
-s32 func_80018B00(void);                                /* extern */
+#include "town/player.h"
 
 /* Returns whether func_80018B00 reports zero. */
 s32 is_status_zero(void) {
-    return func_80018B00() == 0;
+    return get_linked_record_field_2_d_60() == 0;
 }

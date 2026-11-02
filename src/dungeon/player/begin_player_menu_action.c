@@ -13,7 +13,9 @@ extern void *dungeon_menu_action_state[];
 extern void play_sound_if_enabled(u32);
 
 /* Initialize the actor action state or signal that the action is blocked. */
-void begin_player_menu_action(void *actor, void *unused_1, void *unused_2, void *action_value) {
+void begin_player_menu_action(void *actor_data, ObjectPosition *unused_1, SpriteFrameState *unused_2, void *action_value) {
+    ActorRecord *actor = actor_data;
+
     if (!(system_update_flags & 1)) {
         if (dungeon_floor_flags & 0x200000) {
             if ((g_game_work.pressed_buttons) & 0x80) {
@@ -21,11 +23,11 @@ void begin_player_menu_action(void *actor, void *unused_1, void *unused_2, void 
                 return;
             }
         } else {
-            *((u8 *)actor + 0x9A) = 0x19;
+            actor->action_id.u = 0x19;
             play_sound_if_enabled(0x514);
             dungeon_menu_action_state[0] = action_value;
-            *((u8 *)actor + 0x9B) = 0;
-            ((ActionActor *)actor)->action = 0;
+            actor->action_phase.u = 0;
+            actor->unk_8C.word = 0;
             reference_tile_object.unk_038 = 0;
             dungeon_floor_flags |= 0x2000;
         }

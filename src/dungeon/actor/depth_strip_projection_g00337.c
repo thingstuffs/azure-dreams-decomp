@@ -4,7 +4,7 @@
 #include "dungeon/actor.h"
 
 /* Processes circular segments in both directions and saves the last successful result. */
-s32 process_circular_segments(Arg0_800AFBFC *shape, s32 unused, Arg2_800AFBFC *segment) {
+s32 process_circular_segments(Arg0_800AFBFC *shape, ObjectPosition *unused, Arg2_800AFBFC *segment) {
     s32 last_result = 0;
     s32 result;
     s16 angle;

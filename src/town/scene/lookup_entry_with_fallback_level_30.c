@@ -2,11 +2,11 @@
 #include "shared/town_lookup_data.h"
 #include "m2c_compat.h"
 #include "town/scene.h"
+#include "town/player.h"
+#include "town/scene/flags.h"
+#include "town/scene/motion.h"
 
 s32 func_800179A0(void);
-s32 func_80017B24();         /* extern */
-s32 * func_80017BDC(void *, void *, s32, s32);
-s32 func_80018820(void);                                /* extern */
 extern s32 D_80018AD0;
 extern M2C_UNK D_80019C79;
 
@@ -14,11 +14,11 @@ extern M2C_UNK D_80019C79;
 s32 *lookup_entry_with_fallback_level_30(s32 selection_id, s32 unused, s32 context) {
     s32 *result;
 
-    if (func_80018820() >= 0x1E) {
+    if (get_linked_record_field_2_d_60() >= 0x1E) {
         func_800179A0();
     }
-    result = func_80017BDC(&D_8001896C, &D_80018AD0, selection_id, context);
-    if (func_80017B24(&D_8001896C, selection_id, context) != 0) {
+    result = apply_entry_position(&D_8001896C, &D_80018AD0, selection_id, context);
+    if (resolve_entry_flag(&D_8001896C, selection_id, context) != 0) {
         result = &D_80019C79;
     }
     return result;

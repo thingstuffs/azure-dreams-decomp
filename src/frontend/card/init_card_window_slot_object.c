@@ -1,6 +1,7 @@
 #include "common.h"
 #include "frontend/card.h"
 #include "main/data.h"
+#include "frontend/card/server_imports.h"
 
 typedef struct S_80404364_0 {
     u8 pad_00[0xC];
@@ -15,13 +16,6 @@ typedef struct S_80404364_1 {
 } S_80404364_1;   /* body in init_card_window_slot_object */
 
 
-extern s32 func_80047FD8(void *record);
-extern void *func_8003C714(s32 value, void *record, s32 size);
-extern void func_80040560(void *record, void *ptr);
-extern void func_8007BEF0(s32 value);
-extern void func_8007BFE0(void *body, s32 size);
-extern void func_8007C040(void *ptr0, void *ptr1, s32 value);
-extern s32 func_8040422C(void *ptr);
 extern void func_80404254(void *body, s32 value);
 extern void func_80404314(void *body, void *init_value, s32 slot_index);
 extern void func_80404570(void *record);
@@ -61,7 +55,7 @@ u8 *init_card_window_slot_object(u8 *init_value, s32 slot_index)
 
     func_80404254(body, 10);
     ((S_80404364_0 *)record)->unk_0C = body + 0x1C8;
-    ((S_80404364_1 *)body)->unk_1D4 = func_8040422C(body + 0x1D8);
+    ((S_80404364_1 *)body)->unk_1D4 = card_background_bind_template(body + 0x1D8);
     func_80404314(body, init_value, slot_index);
     {
         typedef void (*Callback)(void);

@@ -16,9 +16,9 @@ enum DeploymentOverlayState {
 };
 
 /* Updates an object's scale and brightness through its transition modes. */
-void update_familiar_deployment_overlay(void *object_data, ObjectPosition *unused, void *state_data) {
+void update_familiar_deployment_overlay(void *object_data, ObjectPosition *unused, SpriteFrameState *sprite_data) {
     u8 *obj = object_data;
-    u8 *state = state_data;
+    SpriteFrameState *sprite = sprite_data;
     s16 mode;
     u16 grow_ticks;
     u16 shrink_ticks;
@@ -28,21 +28,21 @@ void update_familiar_deployment_overlay(void *object_data, ObjectPosition *unuse
     u8 dimmed_brightness;
     u8 brightness;
 
-    step_actor_animation(state, *(s16 *)(obj + 8) + 2);
+    step_actor_animation(sprite, *(s16 *)(obj + 8) + 2);
     if (reference_tile_object.sprite_flags & 1) {
-        *(u16 *)(state + 0x14) |= 1;
+        sprite->flags |= 1;
     } else {
-        *(u16 *)(state + 0x14) &= 0xFFFE;
+        sprite->flags &= 0xFFFE;
     }
     mode = *(s16 *)(obj + 4);
     switch (mode) {
     case DEPLOY_OVERLAY_GROW:
-        grow_scale = *(u16 *)(state + 0x1C);
-        *(u16 *)(state + 0x1C) = (u16)(grow_scale + ((s32)(0x1000 - grow_scale) / 4));
+        grow_scale = sprite->scale_x;
+        sprite->scale_x = (u16)(grow_scale + ((s32)(0x1000 - grow_scale) / 4));
         grow_ticks = *(u16 *)(obj + 6) - 1;
         *(u16 *)(obj + 6) = grow_ticks;
         if ((grow_ticks << 0x10) <= 0) {
-            *(u16 *)(state + 0x1C) = 0x1000;
+            sprite->scale_x = 0x1000;
             mode_next = *(u16 *)(obj + 4);
             mode_next += 1;
             *(u16 *)(obj + 4) = mode_next;
@@ -50,12 +50,12 @@ void update_familiar_deployment_overlay(void *object_data, ObjectPosition *unuse
         return;
     case DEPLOY_OVERLAY_WAIT_SAVE:
         if (*(s16 *)(obj + 8) == 0) {
-            brightness = *(state + 0xC);
+            brightness = sprite->color.c.r;
             if (brightness >= 0x81U) {
                 dimmed_brightness = brightness - 8;
-                *(state + 0xC) = dimmed_brightness;
-                *(state + 0xE) = dimmed_brightness;
-                *(state + 0xD) = dimmed_brightness;
+                sprite->color.c.r = dimmed_brightness;
+                sprite->color.c.b = dimmed_brightness;
+                sprite->color.c.g = dimmed_brightness;
             }
         }
         if (*(s32 *)(*(u8 **)obj + 0x2C) != (s32)&familiar_save_frames) {
@@ -73,12 +73,12 @@ void update_familiar_deployment_overlay(void *object_data, ObjectPosition *unuse
         object_flag_block.flags = object_flag_block.flags | OBJECT_REMOVE_PENDING;
         return;
     case DEPLOY_OVERLAY_SHRINK:
-        scale_or_ticks = *(u16 *)(state + 0x1C);
-        *(u16 *)(state + 0x1C) = (u16)(scale_or_ticks + ((s32)(0 - scale_or_ticks) / 4));
+        scale_or_ticks = sprite->scale_x;
+        sprite->scale_x = (u16)(scale_or_ticks + ((s32)(0 - scale_or_ticks) / 4));
         shrink_ticks = *(u16 *)(obj + 6) - 1;
         *(u16 *)(obj + 6) = shrink_ticks;
         if ((shrink_ticks << 0x10) <= 0) {
-            *(u16 *)(state + 0x1C) = 0;
+            sprite->scale_x = 0;
             mode_next = *(u16 *)(obj + 4);
             mode_next += 1;
             *(u16 *)(obj + 4) = mode_next;

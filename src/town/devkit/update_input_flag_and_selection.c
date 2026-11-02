@@ -1,5 +1,6 @@
 #include "common.h"
 #include "town/devkit.h"
+#include "town/devkit/flag_test_imports.h"
 
 typedef struct {
     u8 pad[0xBBC];
@@ -20,8 +21,6 @@ extern InputTable devkit_globals_page;
 extern State *devkit_state_slots[3];
 extern CallbackOwner *devkit_callback_owner[4];
 
-extern s32 func_80700D84(s32 index, s32 input_a, s32 input_b, s32 input_c);
-extern s32 func_80701060(s32 *word, s32 old_value);
 
 /* Sets a selected bitmap bit for accepted input, or updates flag 0x40000000 from the status callback. */
 s32 update_selection_mask_and_status(s32 index, s32 input_a, s32 input_b, s32 input_c) {

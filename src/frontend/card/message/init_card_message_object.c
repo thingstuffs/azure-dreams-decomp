@@ -1,15 +1,10 @@
 #include "frontend/card/message_object.h"
 #include "frontend/card/message.h"
 #include "main/data.h"
+#include "frontend/card/server_imports.h"
 
-s32 func_8003C714(s32, u8 *, s32);
-s32 func_80040560(s32, u8 *);
-s32 func_80047FD8(u8 *);
-s32 func_8007BEF0(s32);
-s32 func_8007BFE0(u8 *, s32);
-s32 func_8007C040(u8 *, u8 *, s32);
 void *forward_target(u8 *);
-s32 func_80402DF0(u8 *, s32);
+s32 init_menu_entry_pointers(u8 *, s32);
 void func_80402EBC(u8 *, s32, s32, s32, s32);
 s32 process_global(s32, u8 *);
 
@@ -45,7 +40,7 @@ u8 *init_card_message_object(s32 message_param_1, s32 message_param_2, s32 messa
         func_8007BFE0(child, 0x764);
     }
 
-    func_80402DF0(child, 6);
+    init_menu_entry_pointers(child, 6);
     ((S_8001BF84_0 *)root)->unk_0C = (s32)(child + 0x67C);
     result = (s32)forward_target(child + 0x68C);
     store_base = child;

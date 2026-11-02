@@ -1,4 +1,5 @@
 #include "common.h"
+#include "town/devkit/flag_test_imports.h"
 
 typedef struct {
     u8 pad[8];
@@ -13,7 +14,6 @@ typedef struct {
 extern ValueHolder *devkit_stage_value_owner[3];
 extern State *devkit_state_slots[3];
 
-extern s32 func_80700C9C(s32 entry);
 extern void shift_index_and_add_offset(s32 entry);
 extern void pass_indexed_table(s32 entry);
 extern s32 call_indexed_callback_failed_test(void);

@@ -1,8 +1,7 @@
 #include "common.h"
 #include "town/scene/resource.h"
+#include "town/devkit/old_minigame_imports.h"
 
-extern void func_8003B0B8(void *, void *);
-extern void *func_800373DC(s32);
 
 extern u8 D_8052664C[];
 extern u8 D_80526640[];

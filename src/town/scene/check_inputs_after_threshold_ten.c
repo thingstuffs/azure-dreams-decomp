@@ -10,7 +10,7 @@ s32 check_inputs_after_threshold_ten(s32 check_value, s32 check_data) {
 
     check_passed = 0;
     if (func_80018604() >= 0xA) {
-        check_passed = func_80017978(check_value, check_data) != 0;
+        check_passed = process_checked_entry(check_value, check_data) != 0;
     }
     return check_passed;
 }

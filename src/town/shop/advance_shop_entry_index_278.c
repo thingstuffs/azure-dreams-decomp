@@ -2,6 +2,7 @@
 #include "common.h"
 #include "town/scene.h"
 #include "town/shop.h"
+#include "town/devkit/flag_test_imports.h"
 
 typedef struct {
     u16 field_0;
@@ -11,10 +12,6 @@ typedef struct {
 extern u16 D_00000F12[];
 extern TownPair D_00000F28[];
 
-extern void func_80000858(s32 index, s32 value);
-extern void func_80000BC8(u16 value);
-extern void func_80000C18(s32 value);
-extern s32 func_80000C6C(u16 value);
 
 /* Advance the shop entry at `index`: start its 0x278 step when eligible, otherwise just clear it. */
 s32 advance_shop_entry_index_278(s32 index) {

@@ -2,6 +2,7 @@
 #include "shared/object_links.h"
 #include "town/scene.h"
 #include "town/data.h"
+#include "town/devkit/old_minigame_imports.h"
 
    /* the 0x2 bytes before arg0 in process_state_zero_record, addressed as arg0[-1] */
 
@@ -17,8 +18,6 @@ typedef struct S_80815160_1 {
     u8 pad_00[0x1A];
     u16 unk_1A;
 } S_80815160_1;
-void func_80058588(s32 value, s32 query, const char *text);               /* extern */
-s32 func_80071424(const char *);                             /* extern */
 
 /* Processes a state-zero record and sets record/global flags if its linked record has bit 3 set. */
 void process_state_zero_record(void *record_arg) {

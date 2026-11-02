@@ -1,8 +1,8 @@
 #include "common.h"
 #include "town/scene/flags.h"
+#include "town/scene/motion.h"
 
-extern void *func_80016BD0(void *, void *, s32, s32);
-extern s32 record_value_table_contains_first_byte_d(u32);
+extern s32 town_table_contains_first_byte_b(u32);
 
 extern u8 D_800176AC[9];
 extern u8 D_80017778[9];
@@ -12,8 +12,8 @@ extern u8 D_80018ED1[9];
 void *select_data_with_override_flag_12(s32 selection_value, s32 unused, s32 selection_mode) {
     void *result;
 
-    result = func_80016BD0(D_800176AC, D_80017778, selection_value, selection_mode);
-    if (record_value_table_contains_first_byte_d(12) != 0) {
+    result = apply_entry_position(D_800176AC, D_80017778, selection_value, selection_mode);
+    if (town_table_contains_first_byte_b(12) != 0) {
         result = D_80018ED1;
     }
     return result;

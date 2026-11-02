@@ -5,7 +5,7 @@
 s32 check_interaction_13_type_3(void) {
     s32 result = 0;
 
-    if ((func_800196F4(13, 3) != 0) ||
+    if ((check_callback_record_bytes(13, 3) != 0) ||
         (is_four_arg_result_valid(13, 3) != 0)) {
         result = 1;
     }

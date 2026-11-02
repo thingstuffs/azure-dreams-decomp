@@ -21,8 +21,8 @@ typedef struct {
 #define U32_AT(p, o) (*(u32 *)((u8 *)(p) + (o)))
 
 extern void draw_transformed_sprite_with_clip_rect(void *, void *, void *, s32, s32);
-extern void create_offset_particle_effect();
-extern void spawn_directional_projectile_effect();
+extern void create_offset_half_scale_sprite();
+extern void create_damped_directional_projectile();
 
 
 extern Copy8 D_80164A4C;
@@ -131,7 +131,7 @@ void update_dungeon_actor_behavior(void *effect) {
                 ramp_count--;
                 ramp_x = (s16)((rand() & 0x3F) - 0x20);
                 ramp_y = (s16)((rand() & 0x3F) - 0x20);
-                create_offset_particle_effect(((u8 *)(&view_reference_entity)), ramp_x, ramp_y,
+                create_offset_half_scale_sprite(((u8 *)(&view_reference_entity)), ramp_x, ramp_y,
                     (s16)(-(rand() & 0x3F) - 0x10));
             } while (ramp_count > 0);
         }
@@ -150,7 +150,7 @@ void update_dungeon_actor_behavior(void *effect) {
                 late_count--;
                 late_x = (s16)((rand() & 0x3F) - 0x20);
                 late_y = (s16)((rand() & 0x3F) - 0x20);
-                spawn_directional_projectile_effect(((u8 *)(&view_reference_entity)), late_x, late_y,
+                create_damped_directional_projectile(((u8 *)(&view_reference_entity)), late_x, late_y,
                     (s16)(-(rand() & 0x1F) - 0x18));
             } while (late_count > 0);
         }
@@ -160,7 +160,7 @@ void update_dungeon_actor_behavior(void *effect) {
                 early_count--;
                 early_x = (s16)((rand() & 0x3F) - 0x20);
                 early_y = (s16)((rand() & 0x3F) - 0x20);
-                create_offset_particle_effect(((u8 *)(&view_reference_entity)), early_x, early_y,
+                create_offset_half_scale_sprite(((u8 *)(&view_reference_entity)), early_x, early_y,
                     (s16)(-(rand() & 0x3F) - 0x10));
             } while (early_count > 0);
         } else {

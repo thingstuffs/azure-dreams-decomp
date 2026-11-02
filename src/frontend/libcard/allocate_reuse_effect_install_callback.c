@@ -1,14 +1,10 @@
 #include "common.h"
 #include "main/data.h"
+#include "frontend/card/server_imports.h"
 
-extern void func_8007C040(void *, void *, s32);
-extern void func_8007BEF0(s32);
 extern u8 D_8040086C[], D_80400894[];
 typedef struct { u8 pad[0x10]; void *callback; } Effect;
-extern s32 func_80047FD8(Effect *);
-extern Effect *func_8003C714(s32, Effect *, s32);
 extern void memory_process_handles_and_mark_object(Effect *);
-extern void func_8007BFE0(void *, s32);
 extern void set_record_values(void *, void *, void *);
 extern Effect D_8040C5C0;
 /* Reuse or allocate a devkit effect, initialize its payload, and attach its callback. */

@@ -2,6 +2,6 @@
 #include "common.h"
 #include "town/scene/event.h"
 
-extern s32 func_800188CC(s32);
+extern s32 clear_script_flag_bit(s32);
 /* Calls func_800188CC with F_sbs07_pad26 and returns its result. */
-s32 query_event_511(void) { return func_800188CC(F_sbs07_pad26); }
+s32 query_event_511(void) { return clear_script_flag_bit(F_sbs07_pad26); }

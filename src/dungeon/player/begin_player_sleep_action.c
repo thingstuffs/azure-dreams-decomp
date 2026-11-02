@@ -8,7 +8,7 @@
 extern u8 D_800DD0E8;
 
 /* Resets the player's sleep action state and installs the directional sleep animation. */
-void begin_player_sleep_action(void *record_arg, void *unused, void *object, ActorRecord *entity) {
+void begin_player_sleep_action(void *record_arg, ObjectPosition *unused, void *object, ActorRecord *entity) {
         Rec_func_8008ACDC_arg0 *record = record_arg;
         /* MATCH: Keep the shared data pointer in a0 after the first call. */
     u8 *data;

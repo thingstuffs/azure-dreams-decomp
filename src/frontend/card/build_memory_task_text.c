@@ -1,6 +1,7 @@
 #include "common.h"
 #include "frontend/card.h"
 #include "main/data.h"
+#include "frontend/card/server_imports.h"
 
 typedef struct S_802EE3A0_2 {
     u8 pad_00[0x4];
@@ -17,9 +18,6 @@ typedef struct S_802EE3A0_3 {
 typedef struct Local64 { s32 word; s8 byte; u8 pad[59]; } Local64;
 typedef struct Local16 { u8 data[16]; } Local16;
 
-s32 func_8003830C(s32, void *);
-s32 func_80051B50(s32, void *, s32);
-s32 func_8007BF50(void *, void *);
 s32 get_table_entry_by_flag(void);
 void *memcpy(void *dst, const void *src, u32 n);
 typedef struct { s32 word; s8 byte; } TextConstant;

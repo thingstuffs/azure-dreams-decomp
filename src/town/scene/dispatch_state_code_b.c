@@ -7,14 +7,14 @@ s32 dispatch_by_state_code_0x799(void *slot_index, s32 slot_value) {
     s32 result;
 
     if (func_8001A510(F_sbs22_pad29) == 0) {
-        apply_signed_value_to_indexed_entry(slot_index, slot_value);
+        pass_indexed_entry(slot_index, slot_value);
         return 1;
     }
 
     if (func_8001A7F8() < 0x1A) {
-        result = func_80019814(slot_index, slot_value);
+        result = apply_selected_entry_values(slot_index, slot_value);
     } else {
-        result = func_80019928(slot_index, slot_value);
+        result = process_checked_entry(slot_index, slot_value);
     }
     return result;
 }

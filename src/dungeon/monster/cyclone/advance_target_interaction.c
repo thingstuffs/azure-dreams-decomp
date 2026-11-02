@@ -16,10 +16,10 @@
 extern void select_sprite_entry(void *, s16, s16);
 
 
-extern void spawn_312_effect_object(void *, void *, void *);
-extern s32 check_object_code_19(void *);
-extern void format_entity_message(s32, void *);
-extern void func_80176330(s32, void *);
+extern void create_source_to_owner_sprite(void *, void *, void *);
+extern s32 consume_object_code_19(void *);
+extern void show_entity_message(s32, void *);
+extern void show_entity_message_with_prefix(s32, void *);
 extern void func_801763CC(s32, void *);
 
 extern u8 cyclone_move_direction_frames[8];
@@ -37,7 +37,7 @@ void advance_target_interaction(ActorRecord *action, ObjectPosition *scene, Spri
             sprite->flags = sprite_flags | 0x6000;
             if (actor->flags14 & ACTOR_PARTY_MEMBER) {
                 target = actor->target;
-                if (check_object_code_19(target)) {
+                if (consume_object_code_19(target)) {
                     func_801763CC(1, actor->target);
                 } else {
                     func_801763CC(0, actor->target);
@@ -46,9 +46,9 @@ void advance_target_interaction(ActorRecord *action, ObjectPosition *scene, Spri
                 target = actor->target;
                 if (target->flags14 & 0x4000) {
                     if (request_random_slot_effect(target)) {
-                        func_80176330(1, actor->target);
+                        show_entity_message_with_prefix(1, actor->target);
                     } else {
-                        func_80176330(0, actor->target);
+                        show_entity_message_with_prefix(0, actor->target);
                     }
                 } else {
                     request_random_slot_effect(target);
@@ -68,11 +68,11 @@ void advance_target_interaction(ActorRecord *action, ObjectPosition *scene, Spri
             break;
         }
 
-        spawn_312_effect_object(action, scene, sprite);
+        create_source_to_owner_sprite(action, scene, sprite);
         if (actor->flags14 & ACTOR_PARTY_MEMBER) {
-            format_entity_message(1, actor);
+            show_entity_message(1, actor);
         } else if (((ActorRecord *)(actor->target))->flags14 & 0x4000) {
-            format_entity_message(0, actor);
+            show_entity_message(0, actor);
         }
         play_sound_if_enabled(0x708);
         timer = 0x20;
@@ -86,7 +86,7 @@ void advance_target_interaction(ActorRecord *action, ObjectPosition *scene, Spri
         if ((timer << 16) == 0 || (sprite->flags & 0x8000)) {
             if (actor->flags14 & ACTOR_PARTY_MEMBER) {
                 target = actor->target;
-                if (check_object_code_19(target)) {
+                if (consume_object_code_19(target)) {
                     func_801763CC(1, actor->target);
                 } else {
                     func_801763CC(0, actor->target);
@@ -95,9 +95,9 @@ void advance_target_interaction(ActorRecord *action, ObjectPosition *scene, Spri
                 target = actor->target;
                 if (target->flags14 & 0x4000) {
                     if (request_random_slot_effect(target)) {
-                        func_80176330(1, actor->target);
+                        show_entity_message_with_prefix(1, actor->target);
                     } else {
-                        func_80176330(0, actor->target);
+                        show_entity_message_with_prefix(0, actor->target);
                     }
                 } else {
                     request_random_slot_effect(target);

@@ -4,6 +4,8 @@
 #include "shared/record_ptrs.h"
 #include "town/scene/resource.h"
 #include "shared/town_root.h"
+#include "town/player/state.h"
+#include "town/scene/event.h"
 
 typedef struct TownRecord {
     s8 pad0[8];
@@ -12,9 +14,6 @@ typedef struct TownRecord {
     u8 *entries;
 } TownRecord;
 
-extern void func_80017E1C(void);
-extern s32 func_80018618(void *object, s32 entry_index);
-extern s32 func_800194D8(s32);
 extern s32 scene_cell_dispatch_code;
 
 /* Loads the current entry's value, conditionally clears it, and handles the follow-up check. */
@@ -23,15 +22,15 @@ s32 load_entry_value_and_handle_followup(void *object, s32 entry_index) {
 
     record = (TownRecord *)town_scene_root;
     scene_cell_dispatch_code = record->entries[(record->index * 8) + 4];
-    if (func_80018618(object, entry_index) != 0) {
+    if (process_checked_entry(object, entry_index) != 0) {
         TownRecord *clear_record;
 
         clear_record = (TownRecord *)town_scene_root;
         clear_record->entries[(clear_record->index * 8) + 4] = 0;
         scene_cell_dispatch_code = 0;
     }
-    if (func_800194D8(F_sbs14_pad20) == 0) {
-        func_80017E1C();
+    if (get_script_flag_mask(F_sbs14_pad20) == 0) {
+        invoke_callback_event_11();
     }
     return 0;
 }

@@ -38,11 +38,11 @@ typedef struct S_8015FFA4_0 {
 extern void select_sprite_entry(void *, s32, s32);
 extern s8 find_active_rect_containing_point(s32, s32);
 extern void update_actor_status_and_mp(ActorRecord *entity);
-extern void func_80160510(void *, void *, void *, void *);
-extern void func_801606C8(void *, void *, void *, void *);
-extern s32 func_80160E10(ActorRecord *action_state, ObjectPosition *action_param, SpriteFrameState *visual_data, ActorRecord *actor);
-extern void func_801610A8(void *, void *, void *, void *);
-extern s32 func_801611CC(void *, void *, void *, void *);
+extern void advance_actor_path_and_facing(void *, void *, void *, void *);
+extern void select_bank_actor_movement(void *, void *, void *, void *);
+extern s32 select_and_start_target_action(ActorRecord *action_state, ObjectPosition *action_param, SpriteFrameState *visual_data, ActorRecord *actor);
+extern void start_kewne_attack_action(void *, void *, void *, void *);
+extern s32 update_entity_state_from_query(void *, void *, void *, void *);
 extern void func_80163078(void *, void *, void *, void *);
 
 extern u8 D_8015FFA4[];
@@ -61,7 +61,7 @@ void update_actor_animation_dispatches_action_state_adjusts_facing_toward_player
 
     if (g_dungeon_status.flags & 0x1000) {
         ((S_8015FFA4_0 *)actor)->unk_9A = 0xE;
-        func_80160510(actor, actor_aux, sprite, entity);
+        advance_actor_path_and_facing(actor, actor_aux, sprite, entity);
         return;
     }
     if (entity->mp_value.parts.whole == 0) {
@@ -166,7 +166,7 @@ table_done:
             return;
         }
         if (*(u16 *)&sprite->tile_x == reference_tile_object.tile_position.word) {
-            func_801606C8(actor, actor_aux, sprite, entity);
+            select_bank_actor_movement(actor, actor_aux, sprite, entity);
             return;
         }
         if (!(entity->action_flags & ACTOR_ACTION_PENDING)) {
@@ -185,13 +185,13 @@ table_done:
                     }
                 }
             }
-            if ((func_801611CC(actor, actor_aux, sprite, 0) << 16) == 0) {
+            if ((update_entity_state_from_query(actor, actor_aux, sprite, 0) << 16) == 0) {
                 return;
             }
             action_state = entity->action_flags | 0x4000;
             entity->action_flags = action_state;
             if (!(action_state & 0x8000)) {
-                func_801606C8(actor, actor_aux, sprite, entity);
+                select_bank_actor_movement(actor, actor_aux, sprite, entity);
                 return;
             }
         }
@@ -200,10 +200,10 @@ table_done:
         switch (action_state) {
         case 8:
         case 9:
-            if ((func_80160E10(actor, actor_aux, sprite, entity) << 16) != 0) {
+            if ((select_and_start_target_action(actor, actor_aux, sprite, entity) << 16) != 0) {
                 return;
             }
-            func_801610A8(actor, actor_aux, sprite, entity);
+            start_kewne_attack_action(actor, actor_aux, sprite, entity);
             return;
 
         case 5:
@@ -237,7 +237,7 @@ table_done:
 
         case 11:
         default:
-            func_801606C8(actor, actor_aux, sprite, entity);
+            select_bank_actor_movement(actor, actor_aux, sprite, entity);
             return;
         }
     }

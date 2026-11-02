@@ -4,8 +4,7 @@
 struct S_8046C8C4_0;
 
 extern s32 copy_indexed_entry_value();
-extern s32 func_8001796C(void);
-extern void pass_entry_identifier_to_handler(struct S_8046C8C4_0 *table, s32 entry_index);
+extern void pass_indexed_entry(struct S_8046C8C4_0 *table, s32 entry_index);
 extern s32 func_800198D0(s32 flagIndex);
 
 extern s32 D_800170B4;
@@ -23,7 +22,7 @@ s32 fill_shop_slot_and_redraw(void *owner, s32 slot_index)
         return 1;
     }
 
-    value = func_8001796C();
+    value = find_first_enabled_entry_id();
     if (value != 0) {
         *(s32 *)((u8 *)*(void **)((u8 *)owner + 0x10) + slot_index * 0x10 + 8) =
             copy_indexed_entry_value(value);
@@ -34,6 +33,6 @@ s32 fill_shop_slot_and_redraw(void *owner, s32 slot_index)
 
     D_80019BBC[5] = value;
     scene_choice_index = value;
-    pass_entry_identifier_to_handler(owner, slot_index);
+    pass_indexed_entry(owner, slot_index);
     return 0;
 }

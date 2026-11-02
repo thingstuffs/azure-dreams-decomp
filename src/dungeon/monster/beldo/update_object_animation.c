@@ -23,7 +23,6 @@ extern void update_actor_status_and_mp(void *);
 extern void func_80171BE0(void *, void *, void *, void *);
 extern s32 func_80172330(void *, void *, void *, s32);
 extern void func_801736B8(void *, void *, void *, void *);
-extern void advance_repeated_command_stream_direction(void *, void *, void *);
 
 extern u8 beldo_action_dispatch_address;
 extern u8 beldo_frame_set_1[8];
@@ -144,7 +143,7 @@ void update_object_animation(ActorRecord *obj, ObjectPosition *motion, SpriteFra
             if (system_update_flags & 8) {
                 u8 callback_flags;
 
-                advance_repeated_command_stream_direction(obj, motion, part);
+                replay_actor_direction_commands(obj, motion, part);
                 callback_flags = state->movement_queue_state;
                 callback_state = state;
                 callback_flags &= 0x7F;

@@ -10,8 +10,8 @@ extern u8 D_8001C59A[16];
 
 /* Look up the slot's record, falling back to the default table when the query fails. */
 void *look_up_slot_record_falling(void *slot, s32 unused, s32 context) {
-    if (func_8001894C(F_sbs07_pad25) == 0) {
-        return (void *)func_80018044(&D_80018B18, &D_80018E38, slot, context);
+    if (get_script_flag_mask(F_sbs07_pad25) == 0) {
+        return (void *)apply_entry_position(&D_80018B18, &D_80018E38, slot, context);
     }
     return D_8001C59A;
 }

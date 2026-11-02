@@ -6,8 +6,8 @@
 /* Update the current script flag when the linked value passes the check. */
 s32 process_entry_linked_five(void *object, s32 entry_index)
 {
-    if (read_entry_linked_value() >= 5) {
+    if (get_linked_record_field_2_d_60() >= 5) {
         mark_active_entry_script_flag();
     }
-    return process_checked_entry_flags(object, entry_index);
+    return process_checked_entry(object, entry_index);
 }

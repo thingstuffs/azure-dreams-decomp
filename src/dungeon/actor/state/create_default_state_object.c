@@ -21,7 +21,7 @@ typedef struct S_800B0544_4 {
 
 extern s16 current_dungeon_floor;
 extern void advance_object_phase_counters();
-extern s32 process_circular_segments(struct Arg0_800AFBFC *shape, s32 unused, struct Arg2_800AFBFC *segment);
+extern s32 process_circular_segments(struct Arg0_800AFBFC *shape, ObjectPosition *unused, struct Arg2_800AFBFC *segment);
 extern s8 D_800DCF4C;
 extern M2C_UNK D_800DEF90;
 

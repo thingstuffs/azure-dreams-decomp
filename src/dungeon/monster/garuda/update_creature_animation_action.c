@@ -15,6 +15,7 @@
 #include "dungeon/level.h"
 #include "dungeon/monster/garuda.h"
 #include "dungeon/player/object.h"
+#include "dungeon/modules.h"
 
 typedef void (*DungeonCallback)(void *, void *, void *, void *);
 extern void select_sprite_entry(void *, s32, s32);
@@ -24,7 +25,6 @@ extern s32 get_rounded_facing_and_rounding_flag(s16 start_x, s16 start_y, s16 en
 extern void *probe_directional_neighbor(void *entity, s32 x, s32 y, u32 direction);
 extern void update_actor_status_and_mp(ActorRecord *entity);
 extern void func_801715F0(void *controller, ObjectPosition *context, void *entity, void *path_state);
-extern void func_80171848(void *, void *, void *, void *);
 extern s32 func_80171FF4(ActorRecord *action_state, ObjectPosition *motion_param, SpriteFrameState *sprite_arg, ActorRecord *actor);
 extern void func_801721B8(ActorRecord *action_state, ObjectPosition *context, SpriteFrameState *sprite, ActorRecord *actor);
 extern s32 func_80172414(void *, void *, void *, s32);
@@ -128,7 +128,7 @@ void update_creature_animation_action(ActorRecord *actor, ObjectPosition *contex
             return;
         }
         if ((*(u16 *)&sprite->tile_x) == (reference_tile_object.tile_position.word)) {
-            func_80171848(actor, context, sprite, creature);
+            choose_block_move_slot_a(actor, context, sprite, creature);
             return;
         }
         if (!(creature->action_flags & 0x8000)) {
@@ -152,13 +152,13 @@ void update_creature_animation_action(ActorRecord *actor, ObjectPosition *contex
             action = creature->action_flags | 0x4000;
             creature->action_flags = action;
             if (!(action & 0x8000)) {
-                func_80171848(actor, context, sprite, creature);
+                choose_block_move_slot_a(actor, context, sprite, creature);
                 return;
             }
         }
         action = creature->action_flags & 0x3FFF;
         if (((u32) (action - 1)) >= 12) {
-            func_80171848(actor, context, sprite, creature);
+            choose_block_move_slot_a(actor, context, sprite, creature);
             return;
         }
         switch (action - 1) {
@@ -167,18 +167,18 @@ void update_creature_animation_action(ActorRecord *actor, ObjectPosition *contex
             void *target = probe_directional_neighbor(creature, sprite->tile_x, sprite->tile_y, creature->facing);
             *((void **) (((u8 *) actor) + 0xA8)) = target;
             if (target == 0) {
-                func_80171848(actor, context, sprite, creature);
+                choose_block_move_slot_a(actor, context, sprite, creature);
                 return;
             }
             if (check_global_or_linked_flag_20000(target) != 0) {
-                func_80171848(actor, context, sprite, creature);
+                choose_block_move_slot_a(actor, context, sprite, creature);
                 return;
             }
             if ((*((((u8 *) (*((void **) (((u8 *) actor) + 0xA8)))) + 0x13))) < 0x33) {
                 advance_actor_walk_animation(actor, context, sprite, creature);
                 return;
             }
-            func_80171848(actor, context, sprite, creature);
+            choose_block_move_slot_a(actor, context, sprite, creature);
             return;
         }
         case 7:
@@ -215,7 +215,7 @@ void update_creature_animation_action(ActorRecord *actor, ObjectPosition *contex
         case 9:
         case 10:
         default:
-            func_80171848(actor, context, sprite, creature);
+            choose_block_move_slot_a(actor, context, sprite, creature);
             return;
         }
     }

@@ -2,8 +2,8 @@
 #include "common.h"
 #include "frontend/card.h"
 #include "main/data.h"
+#include "frontend/card/server_imports.h"
 
-extern void func_8004DDBC(void *ptr, void *ptr1, void *ptr2);
 extern void update_two_slots_using_selection_mapping(void *ptr);
 
 /* Updates or clears selected slot outputs, then refreshes the state if any were selected. */

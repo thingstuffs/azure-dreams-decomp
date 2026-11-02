@@ -4,6 +4,7 @@
 #include "m2c_compat.h"
 #include "frontend/card.h"
 #include "main/data.h"
+#include "frontend/card/server_imports.h"
 
 
 
@@ -11,15 +12,6 @@
 
 
 
-void func_8003830C(s32 value, void *text);                  /* extern */
-void func_80051520(void *, void *, s32);      /* extern */
-void func_80051804(u32 value, s32 digits, void *text);         /* extern */
-void func_8005184C(s32, s32, void *);         /* extern */
-void func_80051898(u32, void *);                  /* extern */
-void func_80051900(void *);                       /* extern */
-void func_80051B50(void *, void *, s32); /* extern */
-void func_8007BF50(void *, void *);                /* extern */
-void func_8007BF80(void *, s32);                  /* extern */
 extern CardSaveSlot card_slot_header_cache[];
 
 /* Build the selected slot's text fields and position its status icons. */

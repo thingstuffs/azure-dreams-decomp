@@ -2,17 +2,16 @@
 #include "shared/town_event_state.h"
 #include "common.h"
 #include "town/scene/event.h"
+#include "town/player/state.h"
 
 extern s32 D_80017F94[];
 extern s32 D_80017FB4[];
-
-extern void func_8001E578(s32 id);
 
 /* Return the indexed value from the mode-selected table, signaling mode 1. */
 s32 select_indexed_event_table_by_mode(s32 unused_0, s32 unused_1, s32 mode)
 {
     if (mode == 1) {
-        func_8001E578(F_sbs01_pad11);
+        set_script_flag_bit(F_sbs01_pad11);
         return D_80017F94[town_event_state->saved_entry];
     }
     return D_80017FB4[town_event_state->saved_entry];

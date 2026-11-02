@@ -327,7 +327,7 @@ void *choose_best_eligible_entry(void *owner_arg, ActorRecord *start, s32 score_
     s16 special_score;
     s16 best_score;
     S_800A3D18_3 *global_page;
-    S_800A3D18_2 *candidate_owner;
+    SpriteFrameState *candidate_owner;
     void *next_link;
     s32 score;
     s32 special_cmp;
@@ -355,8 +355,8 @@ void *choose_best_eligible_entry(void *owner_arg, ActorRecord *start, s32 score_
         while (candidate != base) {
             void *entry_link;
             if ((s16)check_entity_interaction_compatibility(base, candidate) != 0 && (s16)check_entity_eligibility(candidate) != 0) {
-                candidate_owner = ((S_800A3D18_1_pre *)candidate)[-1].unk_00;
-                if (((s8)((ActorRecord *)owner_arg)->current_attack) == candidate_owner->unk_26) {
+                candidate_owner = NODE_HEADER(candidate)->sprite;
+                if (((s8)((ActorRecord *)owner_arg)->current_attack) == ((s8)candidate_owner->room_index)) {
                     score = get_tile_chebyshev_distance(candidate_owner, owner_arg);
                     if ((s16)score < best_score) {
                         if (candidate == global_page->unk_3D7C) {
@@ -370,8 +370,8 @@ void *choose_best_eligible_entry(void *owner_arg, ActorRecord *start, s32 score_
                 } else if ((s16)check_monster_neighbor_relations(((ActorRecord *)owner_arg)->mp_value.parts.fraction,
                                               ((ActorRecord *)owner_arg)->mp_value.parts.whole,
                                               base->unk_88,
-                                              candidate_owner->unk_24,
-                                              candidate_owner->unk_25,
+                                              candidate_owner->tile_x,
+                                              candidate_owner->tile_y,
                                               ((S_800A3D18_1 *)candidate)->unk_88) != 0) {
                     if (candidate == global_page->unk_3D7C) {
                         special = candidate;
@@ -416,7 +416,7 @@ void *find_eligible_nearby_entry(s32 x, s32 y, void *end, void *owner)
     s32 found_id;
     s32 target_x;
     void *current;
-    S_800A3F28_1 *entry_data;
+    SpriteFrameState *entry_data;
     s32 distance;
     s32 radius;
     s32 target_y;
@@ -430,16 +430,16 @@ void *find_eligible_nearby_entry(s32 x, s32 y, void *end, void *owner)
         target_y = (s16)y;
         do {
             if ((check_entity_eligibility(current) << 16) != 0) {
-                entry_data = (S_800A3F28_1 *)((S_800A3F28_0_pre *)current)[-1].unk_00;
-                if (lookup_id == entry_data->unk_26 && lookup_id >= 0) {
+                entry_data = NODE_HEADER(current)->sprite;
+                if (lookup_id == ((s8)entry_data->room_index) && lookup_id >= 0) {
                     return current;
                 }
-                distance = target_x - entry_data->unk_24;
+                distance = target_x - entry_data->tile_x;
                 if (distance < 0) {
                     distance = -distance;
                 }
                 if (radius >= distance) {
-                    distance = target_y - entry_data->unk_25;
+                    distance = target_y - entry_data->tile_y;
                     if (distance < 0) {
                         distance = -distance;
                     }

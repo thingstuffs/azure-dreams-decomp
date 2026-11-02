@@ -14,7 +14,7 @@ extern u8 D_800E04E6[];
 extern void display_formatted_context_message(void *data_ptr);
 
 /* Start the actor action and apply its target effect unless a blocking flag is set. */
-s32 begin_target_flagged_action(void *actor, s32 action_arg, s32 unused, ActorRecord *target) {
+s32 begin_target_flagged_action(void *actor, s32 action_arg, SpriteFrameState *unused, ActorRecord *target) {
     if ((held_item_kind_alias != 0) || (D_80081471 != 0)) {
         if (D_80081471 != 0) {
             display_formatted_context_message(D_800E04BA);

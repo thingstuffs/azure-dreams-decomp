@@ -1,6 +1,7 @@
 #include "common.h"
 #include "frontend/card.h"
 #include "frontend/card/save.h"
+#include "frontend/card/server_imports.h"
 
 #ifndef NULL
 #define NULL 0
@@ -21,7 +22,6 @@ typedef struct {
     s32 unk68;
 } StructA_8001F678;
 
-extern StructA_8001F678 *func_8003C714(s32 value, s32 value2, s32 value3);
 extern void run_slot_operation_code_five(void);
 extern u8 D_8040C628[0x1C];
 

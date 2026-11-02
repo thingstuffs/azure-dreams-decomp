@@ -6,11 +6,11 @@
 
 /* Updates flag 0x5C4 to reflect flag 0x5C3 and returns its state. */
 s32 update_scene_flag_5_c_4(void) {
-    if (func_80018B5C(F_sbs11_pad32) != 0) {
-        func_80018A64(F_sbs11_pad33);
+    if (get_script_flag_mask(F_sbs11_pad32) != 0) {
+        set_script_flag_bit(F_sbs11_pad33);
         return 1;
     }
 
-    func_80018ADC(F_sbs11_pad33);
+    clear_script_flag_bit(F_sbs11_pad33);
     return 0;
 }

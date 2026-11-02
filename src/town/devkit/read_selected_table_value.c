@@ -1,11 +1,9 @@
 #include "common.h"
 #include "town/devkit.h"
 #include "town/data.h"
+#include "town/devkit/flag_test_imports.h"
 
 extern u8 devkit_globals_page[];
-extern void func_807007D8(s32);
-extern void func_80700868(s32);
-extern void func_8070096C(s32, s32);
 
 /* Read the selected table value between mode-one setup and completion calls. */
 s32 read_selected_table_value(void) {

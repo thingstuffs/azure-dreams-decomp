@@ -5,11 +5,8 @@
 #include "frontend/card.h"
 #include "frontend/libcard.h"
 #include "main/data.h"
+#include "frontend/card/server_imports.h"
 
-s32 func_8007BFE0(void *, s32);
-s32 func_8007C040(void *, void *, s32);
-s32 func_8007C958(void);
-s32 func_8007CB08(s32);
 s32 func_80400A10(void);
 extern CardSaveSlot card_slot_header_cache[5];
 extern s32 D_8009E390;

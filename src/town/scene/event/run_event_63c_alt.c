@@ -1,9 +1,9 @@
 #include "script_symbols.h"
 #include "common.h"
 #include "town/scene/event.h"
-void func_800194D8(s32);                     /* extern */
+#include "town/player/state.h"
 
 /* Calls func_800194D8 with ID 0x63C. */
 void run_event_63c_alt(void) {
-    func_800194D8(F_sbs14_pad24);
+    get_script_flag_mask(F_sbs14_pad24);
 }

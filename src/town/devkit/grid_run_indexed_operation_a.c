@@ -1,7 +1,7 @@
 #include "common.h"
 #include "town/devkit.h"
 
-s32 func_80700C54(s32, s32, s32, s32);
+s32 func_80700C54(s32, s32, s32, s32); /* Unprototyped: this site's argument count or types differ from the foreign program's import prototype */
 extern s32 D_80700A18[];
 
 /* Run the indexed operation and return its table value. */

@@ -1,14 +1,13 @@
 #include "script_symbols.h"
 #include "common.h"
 #include "town/scene/event.h"
-void func_80018C74(s32);                     /* extern */
-void func_80018CEC(s32);                     /* extern */
+#include "town/player/state.h"
 
 /* Invoke the setup handlers with four fixed identifiers. */
 s32 invoke_event_setup_handlers(void) {
-    func_80018C74(F_s24_door_open);
-    func_80018CEC(F_cheriru_first_cheriru);
-    func_80018CEC(F_cheriru_first_nadia);
-    func_80018CEC(F_cheriru_first_nadia2);
+    set_script_flag_bit(F_s24_door_open);
+    clear_script_flag_bit(F_cheriru_first_cheriru);
+    clear_script_flag_bit(F_cheriru_first_nadia);
+    clear_script_flag_bit(F_cheriru_first_nadia2);
     return 0;
 }

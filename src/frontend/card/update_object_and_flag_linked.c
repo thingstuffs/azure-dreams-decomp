@@ -2,8 +2,8 @@
 #include "common.h"
 #include "shared/object_links.h"
 #include "frontend/card.h"
+#include "frontend/card/server_imports.h"
 
-s32 func_80047938(void *, s32, s32);
 void update_linked_object_value_and_flags(void *object);                      /* extern */
 
 /* Run the object update and invoke its follow-up when flag 0x2000 is set. */

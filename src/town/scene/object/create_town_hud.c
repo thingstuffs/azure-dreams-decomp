@@ -10,7 +10,7 @@
 extern void *func_800373DC(s32);
 extern void func_8003BC18();
 extern void func_8006E8B8();
-extern void func_8023FA58();
+extern void func_8023FA58(); /* Unprototyped: this site's argument count or types differ from the foreign program's import prototype */
 
 extern u8 D_80526704[];
 

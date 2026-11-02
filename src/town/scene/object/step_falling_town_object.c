@@ -7,6 +7,7 @@
 #include "town/paired_indicators.h"
 #include "town/scene/object.h"
 #include "town/data.h"
+#include "town/devkit/old_minigame_imports.h"
 
 /* Work passed with the node's motion and sprite parts. The callback integrates
  * and bounces the position, then awards the value selected by kind. */
@@ -25,10 +26,6 @@ typedef struct {
     s32 v[3];
 } Copy12;
 
-extern void func_8003EA54();
-extern s32 func_80071494(void);
-extern void func_8023FB18();
-extern s32 func_80240810();
 
 extern s32 scene_value_total;
 extern u8 town_motion_state[16];

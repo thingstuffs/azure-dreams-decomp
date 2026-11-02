@@ -12,7 +12,7 @@ s32 select_handler_by_state_code_0x798(void *primaryInput, s32 secondaryInput) {
         func_80019880();
         result = func_80019814(primaryInput, secondaryInput);
     } else {
-        apply_signed_value_to_indexed_entry(primaryInput, secondaryInput);
+        pass_indexed_entry(primaryInput, secondaryInput);
         result = 1;
     }
 

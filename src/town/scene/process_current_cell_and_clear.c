@@ -6,6 +6,8 @@
 #include "town/scene.h"
 #include "shared/town_root.h"
 #include "town/data.h"
+#include "town/player/state.h"
+#include "town/scene/service.h"
 
 typedef struct S_80016B0C_0 {
     u8 pad_00[0x8];
@@ -24,11 +26,7 @@ typedef struct S_80016B0C_2 {
 
 extern s32 scene_cell_dispatch_code;
 
-extern s32 func_80018504(void *object, s32 entry_index);
-extern void func_80018D54(void *, u8 *);
-extern void func_80019458(s32);
-extern s32 func_800194D8(s32);
-extern void func_80019638(void);
+extern void mark_indexed_records_8000(void *, u8 *);
 
 /* Process the current cell value and clear it when the handler returns nonzero. */
 s32 process_current_cell_and_clear(void *object, s32 entry_index) {
@@ -42,12 +40,12 @@ s32 process_current_cell_and_clear(void *object, s32 entry_index) {
     cell_index = state->unk_08;
     cells = state->unk_40;
     scene_cell_dispatch_code = cells[cell_index * 8 + 4];
-    result = func_80018504(object, entry_index);
+    result = apply_selected_entry_values(object, entry_index);
 
     if (result != 0) {
-        if (func_800194D8(F_sbs14_pad14) == 0) {
-            func_80019458(F_sbs14_pad08);
-            func_80019458(F_sbs14_pad09);
+        if (get_script_flag_mask(F_sbs14_pad14) == 0) {
+            clear_script_flag_bit(F_sbs14_pad08);
+            clear_script_flag_bit(F_sbs14_pad09);
         }
 
         ((S_80016B0C_2 *)((u8 *)town_scene_root->event_data
@@ -55,8 +53,8 @@ s32 process_current_cell_and_clear(void *object, s32 entry_index) {
         scene_cell_dispatch_code = 0;
         set_scene_entry_flag_k();
     } else {
-        func_80018D54(scene_current_cell_pointer, fallback_args);
-        func_80019638();
+        mark_indexed_records_8000(scene_current_cell_pointer, fallback_args);
+        call_scene_service_2f4_fixed();
     }
 
     return result;

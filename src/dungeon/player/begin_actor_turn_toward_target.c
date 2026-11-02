@@ -15,7 +15,7 @@ extern u8 actor_attack_frames[];
    /* the 0x14 bytes before ((S_80091B5C_3 *)base)->unk_0C in begin_actor_turn_toward_target, addressed as ((S_80091B5C_3 *)base)->unk_0C[-1] */
 
 /* Initializes the actor's action and turns it toward the current target. */
-void begin_actor_turn_toward_target(ActorRecord *body, void *unused, void *actor_arg, ActorRecord *motion) {
+void begin_actor_turn_toward_target(ActorRecord *body, ObjectPosition *unused, void *actor_arg, ActorRecord *motion) {
     Rec_D_80082E80 *actor = actor_arg;
     s32 distance;
     MovingTile *target;

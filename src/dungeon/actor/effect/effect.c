@@ -352,7 +352,6 @@ typedef struct DungeonDescriptor {
     u32 fieldB8;
 } DungeonDescriptor;
 
-extern void D_800A7548();
 
 /* Create a dungeon descriptor centered on the given tile at the specified z coordinate. */
 DungeonDescriptor *create_timed_effect_at_tile(s32 tile_x, s32 tile_y, s32 z, s32 *init_data) {
@@ -363,7 +362,7 @@ DungeonDescriptor *create_timed_effect_at_tile(s32 tile_x, s32 tile_y, s32 z, s3
     if (descriptor == 0) {
         return 0;
     }
-    descriptor->field10 = &D_800A7548;
+    descriptor->field10 = &update_effect_bounce_and_fade;
     inner = descriptor->inner;
     inner->x.w.i = (s16)((tile_x << 6) + 0x20);
     inner->y.w.i = (s16)((tile_y << 6) + 0x20);
@@ -649,7 +648,7 @@ typedef struct {
 } Vec4;
 
 /* Draw visible entity sprite quads and their translucent shadows. */
-s32 render_floor_items(s32 unused0, s32 unused1, SpriteFrameState *render_params) {
+s32 render_floor_items(s32 unused0, ObjectPosition *unused1, SpriteFrameState *render_params) {
     s32 entity_index;
     FloorItemScratch *scratch;
     GameWork *render_state;
@@ -974,9 +973,6 @@ typedef struct S_800A871C_0 {
     u8 unk_01;
 } S_800A871C_0;
 
-typedef struct S_800A871C_1_pre {
-    u16 unk_00;
-} S_800A871C_1_pre;   /* the 0x2 bytes before r_arg0 in update_dropped_object_motion, addressed as r_arg0[-1] */
 
 typedef struct S_800A871C_1 {
     u8 pad_00[0x8C];
@@ -1248,7 +1244,7 @@ void update_dropped_object_motion(void *object, register ObjectPosition *motion,
                 }
                 place_item_at_valid_floor_position(((S_800A871C_4 *)tile)->unk_24.n, ((S_800A871C_4 *)tile)->unk_25.n, drop_height,
                     ((S_800A871C_4 *)tile)->unk_08, ((S_800A871C_1 *)object)->unk_9C);
-                ((S_800A871C_1_pre *)object)[-1].unk_00 = (u16) (((S_800A871C_1_pre *)object)[-1].unk_00 | 0x8000);
+                NODE_HEADER(object)->flags = (u16) (NODE_HEADER(object)->flags | 0x8000);
                 dungeon_flags = object_flag_block.flags;
                 height = motion->z.w.i;
                 object_flag_block.flags = (s32) (dungeon_flags | 0x8000);
@@ -1267,7 +1263,7 @@ check_completion:
             void *finished_object = object_data;
             s8 *flags_page = DUNGEON_FLAGS_PAGE;
             s32 floor_flags;
-            ((S_800A871C_1_pre *)object)[-1].unk_00 = (u16) (((S_800A871C_1_pre *)object)[-1].unk_00 | 0x8000);
+            NODE_HEADER(object)->flags = (u16) (NODE_HEADER(object)->flags | 0x8000);
             floor_flags = ((S_800A871C_16 *)flags_page)->unk_14A0;
             floor_flags |= 0x8000;
             unlink_entity_node((((S_800A871C_16 *)flags_page)->unk_14A0 = floor_flags, finished_object));
@@ -1301,14 +1297,14 @@ check_completion:
             if ((hit_object->unk_13 == MONSTER_BARONG) && !(hit_object->unk_1C & 0x228) && (D_800DD7DC[0] != 0)) {
                 hit_object->unk_14 = (s32) (hit_object->unk_14 | 0x800000);
                 hit_object->unk_48 = ((S_800A871C_23 *)(((S_800A871C_1 *)object)->unk_9C))->unk_00;
-                ((S_800A871C_1_pre *)object)[-1].unk_00 = (u16) (((S_800A871C_1_pre *)object)[-1].unk_00 | 0x8000);
+                NODE_HEADER(object)->flags = (u16) (NODE_HEADER(object)->flags | 0x8000);
                 object_flag_block.flags = (s32) (object_flag_block.flags | OBJECT_REMOVE_PENDING);
                 unlink_entity_node(object_data);
                 g_dungeon_status.activity_counts.parts.pending_action_count = (u16) (((u16)g_dungeon_status.activity_counts.parts.pending_action_count) - 1);
                 return;
             }
             if (dispatch_dungeon_category_action(hit_object, ((S_800A871C_1 *)object)->unk_9C, 0xD, object_data) != 0) {
-                ((S_800A871C_1_pre *)object)[-1].unk_00 = (u16) (((S_800A871C_1_pre *)object)[-1].unk_00 | 0x8000);
+                NODE_HEADER(object)->flags = (u16) (NODE_HEADER(object)->flags | 0x8000);
                 object_flag_block.flags = (s32) (object_flag_block.flags | OBJECT_REMOVE_PENDING);
                 unlink_entity_node(object_data);
                 g_dungeon_status.activity_counts.parts.pending_action_count = (u16) (((u16)g_dungeon_status.activity_counts.parts.pending_action_count) - 1);
@@ -1338,7 +1334,7 @@ check_completion:
         }
         place_item_at_valid_floor_position(((S_800A871C_4 *)tile)->unk_24.n, ((S_800A871C_4 *)tile)->unk_25.n, land_height,
             ((S_800A871C_4 *)tile)->unk_08, ((S_800A871C_1 *)object)->unk_9C);
-        ((S_800A871C_1_pre *)object)[-1].unk_00 = (u16) (((S_800A871C_1_pre *)object)[-1].unk_00 | 0x8000);
+        NODE_HEADER(object)->flags = (u16) (NODE_HEADER(object)->flags | 0x8000);
         object_flag_block.flags = (s32) (object_flag_block.flags | OBJECT_REMOVE_PENDING);
         unlink_entity_node(object_data);
         g_dungeon_status.activity_counts.parts.pending_action_count = (u16) (((u16)g_dungeon_status.activity_counts.parts.pending_action_count) - 1);

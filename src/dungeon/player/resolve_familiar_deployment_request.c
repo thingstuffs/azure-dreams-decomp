@@ -40,8 +40,10 @@ typedef struct S_800956B8_2 {
 
 /* Reports unavailable familiar requests or resets the selected action state and saves the familiar
    selection. */
-void resolve_familiar_deployment_request(void *context_ptr, s32 unused_one, void *unused_two, void *selection_ptr)
+void resolve_familiar_deployment_request(void *context_ptr_data, s32 unused_one, void *unused_two, void *selection_ptr)
 {
+    ActorRecord *context_ptr = context_ptr_data;
+
     void *object;
     s32 index;
     void *tail_result;
@@ -102,7 +104,7 @@ void resolve_familiar_deployment_request(void *context_ptr, s32 unused_one, void
             st = tail_selected;
             st->action_id.u = 2;
         } else {
-            st = ((Rec_func_8008D024_arg0 *)context_ptr)->unk_60;
+            st = context_ptr->target;
             st->action_id.u = 2;
         }
         st->action_phase.u = 0;

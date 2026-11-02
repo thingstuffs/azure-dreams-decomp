@@ -1,15 +1,14 @@
 #include "common.h"
 #include "town/scene.h"
 void func_80016A78(void);
-void func_80016B20(s32, s32);
-s32 apply_record_value_for_either_flag(s32, s32);
+s32 get_linked_record_field_2_d_60(s32, s32);
 /* Run the optional pre-step when the guard passes, then the main step. */
 void run_guarded_processing_step(s32 target, s32 param)
 {
-    if (apply_record_value_for_either_flag(target, param) != 0) {
+    if (get_linked_record_field_2_d_60(target, param) != 0) {
         func_80016A78();
     }
-    func_80016B20(target, param);
+    process_checked_entry(target, param);
 }
 
 /* MECHANISM: Preserve the 0x20 frame and the s0/s1 argument holds across all three calls.

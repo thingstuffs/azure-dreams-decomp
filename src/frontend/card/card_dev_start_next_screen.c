@@ -1,7 +1,7 @@
 #include "common.h"
 #include "frontend/card.h"
 #include "main/data.h"
-void func_8003D548(s32);                     /* extern */
+#include "frontend/card/server_imports.h"
 extern s32 D_80010208;
 extern s8 card_dev_effect_mode;
 

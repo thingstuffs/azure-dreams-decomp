@@ -1,7 +1,7 @@
 #include "common.h"
+#include "town/scene/flags.h"
+#include "town/scene/motion.h"
 
-s32 func_80017A54(void *entry_table, void *context, s32 entry_key);         /* extern */
-void *func_80017B0C();       /* extern */
 extern s32 D_80018968;
 extern s32 D_80019104;
 extern s32 D_800197D0;
@@ -16,15 +16,15 @@ void *lookup_code_with_special_results(void *input, s32 unused_1, s32 input_code
     {
         void *lookup_data = &D_80018968;
 
-        result = func_80017B0C(lookup_data, &D_80019104, input, code);
+        result = apply_entry_position(lookup_data, &D_80019104, input, code);
         if (code == 0x2D) {
-            if (func_80017A54(lookup_data, input, 0x2D) != 0) {
+            if (resolve_entry_flag(lookup_data, input, 0x2D) != 0) {
                 return &D_800197D0;
             }
         }
     }
     if (code == 0x2F) {
-        if (func_80017A54(&D_80018968, input, 0x2F) != 0) {
+        if (resolve_entry_flag(&D_80018968, input, 0x2F) != 0) {
             return &D_80019397;
         }
     }

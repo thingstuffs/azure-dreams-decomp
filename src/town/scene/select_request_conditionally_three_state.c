@@ -2,12 +2,10 @@
 #include "common.h"
 #include "m2c_compat.h"
 #include "town/scene.h"
+#include "town/player/state.h"
+#include "town/scene/flags.h"
+#include "town/scene/motion.h"
 
-s32 func_800178A8();             /* extern */
-s32 * func_80017960(void *, void *, s32, s32);
-s32 func_8001868C(s32 flagIndex);                         /* extern */
-s32 func_80018868(s32 start_index, s32 count);                /* extern */
-s32 func_800188E8(s32, s32, s32);
 extern M2C_UNK D_800189BC;
 extern M2C_UNK scene_event_lookup_context;
 extern M2C_UNK D_8001A04A;
@@ -21,16 +19,16 @@ s32 *select_request_conditionally_three_state(s32 entry_id, s32 unused, s32 requ
     if (result != NULL) {
         return result;
     }
-    result = func_80017960(&D_800189BC, &scene_event_lookup_context, entry_id, request_id);
-    cursor = func_80018868(F_sbs34_pad16, 2);
-    if (func_8001868C(F_sbs34_pad23) == 0) {
+    result = apply_entry_position(&D_800189BC, &scene_event_lookup_context, entry_id, request_id);
+    cursor = read_script_flag_range(F_sbs34_pad16, 2);
+    if (get_script_flag_mask(F_sbs34_pad23) == 0) {
         cursor++;
         if (cursor == 3) {
             cursor = 0;
         }
-        func_800188E8(F_sbs34_pad16, cursor, 2);
+        write_script_flag_range(F_sbs34_pad16, cursor, 2);
     }
-    if ((request_id == 0xB) && (func_800178A8(&D_800189BC, entry_id, 0xB) != 0)) {
+    if ((request_id == 0xB) && (resolve_entry_flag(&D_800189BC, entry_id, 0xB) != 0)) {
         result = &D_8001A04A;
     }
     return result;

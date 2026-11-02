@@ -1,13 +1,12 @@
 #include "common.h"
 #include "town/scene.h"
-
-extern s32 func_800194D8(s32 flagIndex);
+#include "town/player/state.h"
 
 /* Return whether all checks from 0x147B through 0x1489 are nonzero. */
 s32 are_all_checks_set(void) {
     s32 index;
     index = 1;
-    while (func_800194D8(index + 0x147A) != 0) {
+    while (get_script_flag_mask(index + 0x147A) != 0) {
         index += 1;
         if (index >= 0x10) {
             break;

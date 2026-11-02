@@ -1,6 +1,7 @@
 #include "script_symbols.h"
 #include "common.h"
 #include "town/scene/event.h"
+#include "town/player/state.h"
 
 typedef struct Func806D835CRoot {
     u8 pad0[0x38];
@@ -8,8 +9,6 @@ typedef struct Func806D835CRoot {
 } Func806D835CRoot;
 
 extern Func806D835CRoot *town_scene_root;
-extern void func_800185C0(s32);
-extern void func_80018548(s32);
 
 /* Selects IDs 0x9AF-0x9B6 from two entry codes and returns the match count. */
 s32 select_entry_event_flags(void)
@@ -20,14 +19,14 @@ s32 select_entry_event_flags(void)
     s32 selected_id;
     u8 *entry_data;
     match_count = 2;
-    func_800185C0(F_sbs35_pad04);
-    func_800185C0(F_sbs35_pad05);
-    func_800185C0(F_sbs35_pad06);
-    func_800185C0(F_sbs35_pad07);
-    func_800185C0(F_sbs35_pad08);
-    func_800185C0(F_sbs35_pad09);
-    func_800185C0(F_sbs35_pad10);
-    func_800185C0(F_sbs35_pad11);
+    clear_script_flag_bit(F_sbs35_pad04);
+    clear_script_flag_bit(F_sbs35_pad05);
+    clear_script_flag_bit(F_sbs35_pad06);
+    clear_script_flag_bit(F_sbs35_pad07);
+    clear_script_flag_bit(F_sbs35_pad08);
+    clear_script_flag_bit(F_sbs35_pad09);
+    clear_script_flag_bit(F_sbs35_pad10);
+    clear_script_flag_bit(F_sbs35_pad11);
 
     entry_index = 1;
     do {
@@ -64,7 +63,7 @@ s32 select_entry_event_flags(void)
             }
             break;
         }
-        func_80018548(selected_id);
+        set_script_flag_bit(selected_id);
     } while (--entry_index >= 0);
 
     return match_count;

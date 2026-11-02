@@ -4,6 +4,7 @@
 #include "shared/record_ptrs.h"
 #include "town/scene/resource.h"
 #include "shared/town_root.h"
+#include "town/player/state.h"
 
 typedef void (*TownCallback)(s32, s32, s32, s32);
 
@@ -15,10 +16,7 @@ extern char event_string_fallback[];
 
 extern char *select_address_based_input(long long); /* Unprototyped: retail call passes more arguments than the callee reads */
 
-
-extern void func_8001A554(s32);
-extern s32 func_8001A64C(s32);
-extern s32 func_80019880(s32, s32);
+extern s32 is_pair_result_valid_b(s32, s32);
 
 /* Selects town text and runs the selected handler's fallback actions. */
 char *load_entry_value_and_handle_follow_up(long long lookup, s32 text_selector)
@@ -41,8 +39,8 @@ char *load_entry_value_and_handle_follow_up(long long lookup, s32 text_selector)
         if (text != 0) {
             return text;
         }
-        func_8001A554(F_sbs32_pad25);
-        if (func_8001A64C(F_sbs32_pad23) != 0 && func_80019880(13, 6) == 0) {
+        set_script_flag_bit(F_sbs32_pad25);
+        if (get_script_flag_mask(F_sbs32_pad23) != 0 && is_pair_result_valid_b(13, 6) == 0) {
             ((TownCallback)(town_scene_root->services->callback_220))
             (6, 13, 0, 0);
         }

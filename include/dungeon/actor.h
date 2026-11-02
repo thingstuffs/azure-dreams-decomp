@@ -26,7 +26,7 @@ void rotate_actor_movement_queue(MovingTile *position, ActorRecord *state);
 void run_saved_actor_action(void *object, void *unused, void *animation, void *actor);
 void spawn_salam_particles(ObjectNodeHeader *source, s16 effect_param, s32 render_param);
 void update_actor_facing_animation(void *actor, EntityRec *motion, void *sprite, ActorRecord *status);
-extern void update_actor_movement_and_map_flags(void *obj, ObjectPosition *move_mode,struct SpriteFrameState *actor, void *map);
+extern void update_actor_movement_and_map_flags(ActorRecord *obj, ObjectPosition *move_mode,struct SpriteFrameState *actor, void *map);
 
 struct S_800AB778_1;
 s32 advance_actor_removal(struct S_800AB778_1 *state, ObjectPosition *unused_context, SpriteFrameState *visual, void *actor);
@@ -109,12 +109,20 @@ s32 trigger_actor_floor_trap(struct Actor *actor, ActorRecord *ctx);
 #include "shared/town_object.h"
 void advance_actor_status_turn(ActorRecord *actor, ObjectPosition *action_context, SpriteFrameState *sprite, u8 *state);
 void apply_setup_on_timeout_variant_3(TownObjectRecord *object);
-void begin_actor_floor_trap_action(void *unused, ActorRecord *object);
+void begin_actor_floor_trap_action(struct SpriteFrameState *unused, ActorRecord *object);
 void begin_actor_throw_from_attachment(Rec_func_800A9E70_arg0 *state, ObjectPosition *motion, SpriteFrameState *tile, ActorRecord *entity);
 s32 check_entity_flag_4000(ActorRecord *entity);
 void store_cached_value_at_pointer(void);
 void update_actor_floor_contact(ActorRecord *object_arg, void *motion_arg, SpriteFrameState *sprite);
 
 s32 update_actor_hop_and_shrink(void *animation, ObjectPosition *motion, SpriteFrameState *scale, void *render_arg);
+
+
+s32 forward_actor_defeat_removal(ActorRecord *body, ObjectPosition *position, SpriteFrameState *sprite, ActorRecord *actor);
+s32 forward_actor_defeat_removal_second(ActorRecord *state, ObjectPosition *position, SpriteFrameState *sprite, ActorRecord *entity_data);
+
+s32 fade_actor_to_removal(ActorRecord *state, ObjectPosition *unused, SpriteFrameState *visual, ActorRecord *entity);
+void initialize_actor_action_data(void *first_ptr, void *second_ptr, SpriteFrameState *sprite, void *entity);
+void handle_actor_action_result(ActorRecord *actor, ObjectPosition *position, SpriteFrameState *sprite, ActorRecord *context);
 
 #endif

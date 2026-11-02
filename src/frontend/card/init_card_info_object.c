@@ -2,14 +2,9 @@
 #include "frontend/card.h"
 #include "main/data.h"
 #include "town/menu.h"
+#include "frontend/card/server_imports.h"
 
-extern s32 func_80047FD8(void *object);
-extern void *func_8003C714(s32 option, void *object, s32 param);
-extern void func_8007C040(void *first_ptr, void *second_ptr, s32 value);
-extern void func_8007BEF0(s32 value);
-extern void func_80040560(void *object, void *data);
 extern void func_804059A8(void *object);
-extern void func_8007BFE0(void *object, s32 value);
 extern void initialize_menu_primitive_entries(void *object, s32 value);
 extern s32 register_owner_handler_table(void *value);
 

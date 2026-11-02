@@ -1,11 +1,8 @@
 #include "script_symbols.h"
 #include "common.h"
 #include "town/scene/milestone_rewards.h"
-
-extern s32 func_8001A934(void);
-extern s32 func_8001A64C(s32);
-extern void func_8001A554(s32);
-
+#include "town/player.h"
+#include "town/player/state.h"
 
 extern s32 D_8001B160[];
 
@@ -38,29 +35,29 @@ void *award_next_unearned_milestone(s32 counter_id)
     base = D_8001B160;
     slot = &base[index];
     if (*slot == 0) {
-        count = func_8001A934();
+        count = get_linked_record_field_2_d_60();
         less = count < 5;
         if (less || (event_base = (s16 *)((u8 *)milestone_response_table - 0x14), events = &event_base[index * 3],
-            func_8001A64C(events[0])) == 0) {
+            get_script_flag_mask(events[0])) == 0) {
             award_base = milestone_flag_ids;
-            func_8001A554(award_base[index * 3]);
+            set_script_flag_bit(award_base[index * 3]);
             result = 1;
             *slot = result;
         } else {
             less = count < 10;
-            if (less || func_8001A64C(events[1]) == 0) {
-                func_8001A554(events[1]);
+            if (less || get_script_flag_mask(events[1]) == 0) {
+                set_script_flag_bit(events[1]);
                 result = 2;
                 *slot = result;
             } else {
                 less = count < 20;
-                if (less || func_8001A64C(events[2]) == 0) {
-                    func_8001A554(events[2]);
+                if (less || get_script_flag_mask(events[2]) == 0) {
+                    set_script_flag_bit(events[2]);
                     result = 3;
                     *slot = result;
                 } else {
                     result = 5;
-                    if (func_8001A64C(F_veld_kill) != 0) {
+                    if (get_script_flag_mask(F_veld_kill) != 0) {
                         *slot = 5;
                     } else {
                         *slot = 4;

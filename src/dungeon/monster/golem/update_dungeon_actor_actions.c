@@ -37,7 +37,6 @@ extern s32 func_801716B4();
 extern s32 func_801718F8();
 extern s32 func_801727D8(); /* Slot contract: loading images do not establish one callee contract. */
 extern s32 func_80174698();
-extern s32 require_object_flag(struct GolemActionWork *object, ActorRecord *flag_record);
 
 /* Update an actor's dungeon actions, status, facing, and animation. */
 /* Dispatches Golem's movement, attacks, spells, and turn processing, creating a sprite copy for its
@@ -61,7 +60,7 @@ void update_dungeon_actor_actions(GolemActionWork *actor, ObjectPosition *contex
     }
 
     if (stats->mp_value.parts.whole == 0) {
-        require_object_flag(actor, stats);
+        consume_pending_flag(actor, stats);
         advance_actor_pending_action(actor, context, sprite, stats);
         if (sprite->frameTable == &golem_alt_direction_frames) {
             return;
@@ -80,7 +79,7 @@ void update_dungeon_actor_actions(GolemActionWork *actor, ObjectPosition *contex
             F(stats, u32, 0x1C) &= ~0x40000;
             return;
         }
-        require_object_flag(actor, stats);
+        consume_pending_flag(actor, stats);
         if (reset_actor_action_state(actor, context, sprite, &golem_frame_set_2)) {
             return;
         }
@@ -150,7 +149,7 @@ void update_dungeon_actor_actions(GolemActionWork *actor, ObjectPosition *contex
         }
         if ((*(u16 *)&sprite->tile_x == reference_tile_object.tile_position.word) &&
             (F(actor, u8, 0xAE) == 0)) {
-            require_object_flag(actor, stats);
+            consume_pending_flag(actor, stats);
             func_801718F8(actor, context, sprite, stats);
             return;
         }
@@ -171,7 +170,7 @@ void update_dungeon_actor_actions(GolemActionWork *actor, ObjectPosition *contex
             if (!(F(stats, u16, 0x46) & 0x8000)) {
                 func_801718F8(actor, context, sprite, stats);
                 if (F(actor, u8, 0xAE) != 0) {
-                    require_object_flag(actor, stats);
+                    consume_pending_flag(actor, stats);
                 }
                 return;
             }
@@ -180,7 +179,7 @@ void update_dungeon_actor_actions(GolemActionWork *actor, ObjectPosition *contex
         action_index = (F(stats, u16, 0x46) & 0x3FFF) - 1;
         switch (action_index) {
         case 11:
-            if (require_object_flag(actor, stats) == 0) {
+            if (consume_pending_flag(actor, stats) == 0) {
                 update_actor_status_and_mp(stats);
                 return;
             }
@@ -192,11 +191,11 @@ void update_dungeon_actor_actions(GolemActionWork *actor, ObjectPosition *contex
 
         case 10:
             func_801718F8(actor, context, sprite, stats);
-            require_object_flag(actor, stats);
+            consume_pending_flag(actor, stats);
             return;
 
         case 7:
-            require_object_flag(actor, stats);
+            consume_pending_flag(actor, stats);
             if ((s16)attempt_actor_action_and_display(actor, context, sprite, stats) != 0) {
                 return;
             }
@@ -240,14 +239,14 @@ void update_dungeon_actor_actions(GolemActionWork *actor, ObjectPosition *contex
         case 0:
         case 1:
         case 2:
-            require_object_flag(actor, stats);
+            consume_pending_flag(actor, stats);
             begin_actor_spell_action(actor, context, sprite, &D_80175F60, update_dungeon_actor_actions);
             return;
 
         default:
             func_801718F8(actor, context, sprite, stats);
             if (F(actor, u8, 0xAE) != 0) {
-                require_object_flag(actor, stats);
+                consume_pending_flag(actor, stats);
             }
             return;
         }

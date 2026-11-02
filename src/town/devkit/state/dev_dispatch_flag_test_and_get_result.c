@@ -1,6 +1,7 @@
 /* cfail-repair baseline: preserve the selected draft's recovered shape. */
 #include "common.h"
 #include "town/data.h"
+#include "town/devkit/flag_test_imports.h"
 
 #define CARRY 0
 #define OVERFLOW(a) (0)
@@ -10,11 +11,6 @@ typedef struct {
     void (*func68)(void *, void *, s32);
 } CallbackTable;
 
-extern void func_80700BC4(s32);
-extern void func_80700C54(s32);
-extern s32 func_80700E3C(void);
-extern void func_80700E98(void);
-extern void func_80701298(s32, s32);
 
 extern s32 D_807013A4[];
 extern s32 D_807009B4;

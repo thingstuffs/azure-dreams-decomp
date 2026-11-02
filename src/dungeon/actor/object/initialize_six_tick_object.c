@@ -10,7 +10,7 @@ extern s32 D_800D6910[];
 
 
 /* Initialize the object's state, clear its slot flag, and set its counter to six. */
-void initialize_object_with_six_tick_counter(void *object_arg, s32 unused, void *context) {
+void initialize_object_with_six_tick_counter(void *object_arg, ObjectPosition *unused, void *context) {
     TownObjectRecord *object = object_arg;
 
     initialize_object_entries(object, context, D_800D6910);

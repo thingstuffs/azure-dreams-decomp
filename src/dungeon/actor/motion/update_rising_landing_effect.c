@@ -748,9 +748,6 @@ void move_sprite_until_animation_ends(void *render_entry, void *motion_data, voi
     }
 }
 
-typedef struct S_8197D468_0_pre {
-    u16 unk_00;
-} S_8197D468_0_pre;   /* the 0x2 bytes before arg0 in update_rising_landing_effect, addressed as arg0[-1] */
 
 typedef struct S_8197D468_1 {
     u8 pad_00[0x52];
@@ -904,7 +901,7 @@ void update_rising_landing_effect(RisingLandingEffectBody *effect, ObjectPositio
                 }
                 particle_index -= 1;
             } while (particle_index >= 0);
-            (*(u16 *)((u8 *)effect + -2)) = (u16) (((S_8197D468_0_pre *)effect)[-1].unk_00 | NODE_REMOVE);
+            NODE_HEADER(effect)->flags = (u16) (NODE_HEADER(effect)->flags | NODE_REMOVE);
             object_flag_block.flags |= OBJECT_REMOVE_PENDING;
         }
         break;

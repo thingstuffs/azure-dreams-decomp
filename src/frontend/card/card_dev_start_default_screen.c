@@ -1,6 +1,6 @@
 #include "common.h"
 #include "frontend/card.h"
-void func_8003D548(s32);                     /* extern */
+#include "frontend/card/server_imports.h"
 extern s8 card_dev_effect_mode;
 
 /* Set the global mode to 2 and invoke the transition routines. */

@@ -1,4 +1,5 @@
 #include "common.h"
+#include "frontend/card/server_imports.h"
 
 #ifndef NULL
 #define NULL 0
@@ -17,7 +18,6 @@ typedef struct {
     s32 unk24;
 } StructA_8001B428;
 
-extern StructA_8001B428 *func_8003C480(s32 value);
 extern void (*card_object_callbacks[1])(StructA_8001B428 *object);
 extern void update_object_and_flag_linked(void);
 

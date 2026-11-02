@@ -5,17 +5,15 @@
 #include "shared/town_pointees.h"
 #include "town/scene.h"
 #include "town/data.h"
+#include "town/scene/event.h"
 
-
-
-void func_800174CC(void);                            /* extern */
 extern M2C_UNK D_80019814;
 extern M2C_UNK D_80019884;
 extern s32 D_80019AF8;
 
 /* Initializes data pointers and computes the selected eight-byte entry address. */
 void init_entry_pointers(void) {
-    func_800174CC();
+    query_event_626();
     scene_current_cell_pointer = &D_80019814;
     D_80019AF8 = ((s32)town_scene_root->event_data)
     + (town_scene_root->entry_index * 8);

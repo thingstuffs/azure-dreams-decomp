@@ -2,6 +2,7 @@
 #include "shared/entity.h"
 #include "town/scene.h"
 #include "town/data.h"
+#include "town/devkit/old_minigame_imports.h"
 
 #define COUNT_VALUE (scene_value_total)
 #define COUNT_STORE(x) (scene_value_total = (x))
@@ -10,14 +11,6 @@
 #define DIGIT1 (D_80530590[1])
 #define DIGIT2 (D_80530590[2])
 
-extern void func_8003BC18(void *, void *);
-extern void *func_800373DC(s32);
-extern void func_80232A08(void *);
-extern void *func_80232868(s32, s32, s32);
-extern void func_802441A4(void *);
-extern void func_80244588(void);
-extern void *func_80252550(void *, void *);
-extern void func_8023FA58(void *, void *, void *);
 extern u8 score_sprite_draw_callback_address[];
 extern u32 scene_value_total;
 extern u32 score_sprite_initial_value[4];

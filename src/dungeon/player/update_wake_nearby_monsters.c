@@ -13,6 +13,7 @@
 #include "slus.h"
 #include "dungeon/player.h"
 #include "dungeon/player/object.h"
+#include "shared/object_node.h"
 
 extern s32 get_entity_effect_value(ActorRecord *entry, s32 effect_id);
 extern void clear_slots_of_type(ActorRecord *owner, s8 match_type);
@@ -35,10 +36,6 @@ typedef struct S_80092E90_5 {
     void * unk_5C;
 } S_80092E90_5;   /* savedArg3 in update_wake_nearby_monsters */
 
-typedef struct S_80092E90_7_pre {
-    void * unk_00;
-    u8 pad_04[0x10];
-} S_80092E90_7_pre;   /* the 0x14 bytes before node in update_wake_nearby_monsters, addressed as node[-1] */
 
 typedef struct S_80092E90_7 {
     u8 pad_00[0x5C];
@@ -108,7 +105,7 @@ void update_wake_nearby_monsters(ActorRecord *controller, ObjectPosition *motion
             node = (u8 *)((S_80092E90_5 *)entry)->unk_5C + 0x20;
             do {
                 if ((reference_tile_object.room_index ==
-                     ((s8)((ActorRecord *)(((S_80092E90_7_pre *)node)[-1].unk_00))->current_attack)) &&
+                     ((s8)NODE_HEADER(node)->sprite->room_index)) &&
                     ((get_entity_effect_value(node, STATUS_SLEEP) << 16) != 0)) {
                     clear_slots_of_type(node, STATUS_SLEEP);
                     found_match = 1;

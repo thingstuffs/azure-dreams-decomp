@@ -48,4 +48,7 @@ s32 try_apply_threshold_effect_variant_b(void *entity, s16 chance, s16 effect_va
 
 void compact_item_entry_table(s32 entry_index);
 
+
+s32 render_floor_items(s32 unused_value, ObjectPosition *unused_position, SpriteFrameState *render_params);
+
 #endif

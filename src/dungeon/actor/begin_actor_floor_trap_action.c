@@ -6,7 +6,7 @@
 
 
 /* Sets the object's state to 0x15, clears its auxiliary fields, and increments the global counter. */
-void begin_actor_floor_trap_action(void *unused, ActorRecord *object) {
+void begin_actor_floor_trap_action(SpriteFrameState *unused, ActorRecord *object) {
     object->action_id.s = 0x15;
     object->action_phase.s = 0;
     object->unk_8C.word = 0;

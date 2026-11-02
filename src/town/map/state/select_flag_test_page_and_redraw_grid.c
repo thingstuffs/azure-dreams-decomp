@@ -3,7 +3,7 @@
 #include "town/map/state.h"
 
 void func_80700188();                     /* extern */
-s32 func_80700590(void);                            /* extern */
+s32 func_80700590(void);                            /* extern */ /* Unprototyped: this site's argument count or types differ from the foreign program's import prototype */
 void func_80700674(void);                            /* extern */
 
 /* Devkit flag-test entry: select page 0, redraw the grid, then run the flag scan. */

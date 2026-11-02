@@ -1,8 +1,8 @@
 #include "common.h"
 #include "frontend/card.h"
 #include "main/data.h"
+#include "frontend/card/server_imports.h"
 
-extern s32 func_80051B50(void *buffer, void *data, s32 option);
 
 typedef struct {
     u8 pad8[8];

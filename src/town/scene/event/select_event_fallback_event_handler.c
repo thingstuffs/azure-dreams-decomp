@@ -9,9 +9,9 @@ s32 select_event_fallback_event_handler(s32 object, s32 request, s32 context) {
     if (check_table_result_below_minus_47() != 0) {
         return (s32)((u8 *)&scene_result_fallback);
     }
-    default_result = func_80019ABC(&D_8001A9AC, &scene_override_context, object, context);
+    default_result = apply_entry_position(&D_8001A9AC, &scene_override_context, object, context);
     result = default_result;
-    if (func_80019A04(&D_8001A9AC, object, context) != 0) {
+    if (resolve_entry_flag(&D_8001A9AC, object, context) != 0) {
         if (func_8001A510(((S_8001747C_0 *)object)->unk_18) != 0) {
             result = select_state_result_with_lookup_overrides(object, request, context);
         } else {

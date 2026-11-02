@@ -4,8 +4,8 @@
 #include "shared/town_root.h"
 #include "m2c_compat.h"
 #include "town/scene.h"
+#include "town/player/state.h"
 
-extern void func_80017670(s32);
 extern M2C_UNK scene_event_data;
 extern M2C_UNK D_8001605E;
 extern M2C_UNK D_800162A4;
@@ -32,6 +32,6 @@ void toggle_active_scene_event(void) {
     }
     event = 0x7E;
     *toggle = (*toggle + 1) & 1;
-    func_80017670(event);
-    func_80017670(F_act_sun);
+    clear_script_flag_bit(event);
+    clear_script_flag_bit(F_act_sun);
 }

@@ -1,8 +1,8 @@
 #include "common.h"
 #include "frontend/card.h"
 #include "main/data.h"
+#include "frontend/card/server_imports.h"
 
-extern void func_80051B50(s32 buffer, s32 value, s32 option);
 
 // Process four entries spaced 0x3C bytes apart using consecutive table values.
 void card_dev_bind_row_labels(s32 baseAddress) {

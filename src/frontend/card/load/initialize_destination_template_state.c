@@ -2,9 +2,8 @@
 #include "common.h"
 #include "frontend/card/load.h"
 #include "main/data.h"
+#include "frontend/card/server_imports.h"
 
-extern void func_8003830C(int a, void *b);
-extern void func_8007BF50(void *a, void *b);
 extern int D_80010208;
 
 /* Initialize the destination from templates, apply index data, and set the mode flag. */

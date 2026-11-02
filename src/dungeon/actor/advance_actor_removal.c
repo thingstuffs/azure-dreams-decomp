@@ -36,9 +36,6 @@ typedef struct S_800AB778_25 {
     u8 unk_03;
 } S_800AB778_25;   /* ((S_800AB778_23 *)(((S_800AB778_20 *)page16)->unk_3D7C))->unk_110 in advance_actor_removal */
 
-typedef struct S_800AB778_0_pre {
-    u16 unk_00;
-} S_800AB778_0_pre;   /* the 0x2 bytes before arg3 in advance_actor_removal, addressed as arg3[-1] */
 
 typedef struct S_800AB778_1 {
     u8 pad_00[0x96];
@@ -294,7 +291,7 @@ s32 advance_actor_removal(S_800AB778_1 *state, ObjectPosition *unused_context, S
             update_map_cell_flags_with_item_limit(effect_x, effect_y, effect_flags);
         }
         unlink_entity_node(actor);
-        ((S_800AB778_0_pre *)actor)[-1].unk_00 |= 0x8000;
+        NODE_HEADER(actor)->flags |= 0x8000;
         ((S_800AB778_10 *)(&object_flag_block))->unk_00 |= 0x8000;
         state4_count = ((u16)g_dungeon_status.activity_counts.parts.pending_action_count);
         state4_owner = ((s32)g_dungeon_status.active_actor);
@@ -359,7 +356,7 @@ s32 advance_actor_removal(S_800AB778_1 *state, ObjectPosition *unused_context, S
         }
         unlink_entity_node(actor);
         update_flags = &object_flag_block;
-        ((S_800AB778_0_pre *)actor)[-1].unk_00 |= 0x8000;
+        NODE_HEADER(actor)->flags |= 0x8000;
         ((S_800AB778_16 *)update_flags)->unk_00 |= 0x8000;
         state16_count = ((u16)g_dungeon_status.activity_counts.parts.pending_action_count);
         state16_count--;

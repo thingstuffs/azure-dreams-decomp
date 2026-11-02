@@ -1,15 +1,12 @@
 #include "common.h"
 #include "frontend/card/service.h"
 #include "main/data.h"
+#include "frontend/card/server_imports.h"
 
 extern s32 card_selected_channel[];
 extern s32 dev_card_paths[2];
 extern s8 dev_card_directory[];
 
-s32 func_8007BF80();
-s32 func_8007BF50();
-s32 func_8007CAB8();
-s32 func_8007CAC8();
 
 /* Collects entries matching the selected search path and returns their count. */
 s32 build_entry_list(void) {

@@ -41,7 +41,7 @@ typedef struct S_80096384_5 {
 } S_80096384_5;   /* temp_v0_2 in handle_actor_commands_and_facing */
 
 /* Handles actor commands, turns toward the requested direction, and updates the sprite. */
-void handle_actor_commands_and_facing(void *actor, ObjectPosition *motion, SpriteFrameState *sprite, ActorRecord *actor_data)
+void handle_actor_commands_and_facing(ActorRecord *actor, ObjectPosition *motion, SpriteFrameState *sprite, ActorRecord *actor_data)
 {
     s16 status_value;
     s16 input_angle;
@@ -70,18 +70,18 @@ void handle_actor_commands_and_facing(void *actor, ObjectPosition *motion, Sprit
     s32 idle_state = 0x32; /* MATCH: preserve retail register allocation after sharing the internal tails. */
     s32 command_state;
 
-    if (((Rec_func_8008ACDC_arg0 *)actor)->unk_9A.as_u8 != idle_state) {
+    if (actor->action_id.u != idle_state) {
         sprite->frameTable = actor_default_frames;
         select_record_entry_and_value(sprite,
             *(void **)((u8 *)actor_default_frames +
                 ((((s32)(input->view.camera_rotation.parts.viewAngle +
                     actor_data->facing + 0x100)) >> 7) & 0x1C)),
             0);
-        ((Rec_func_8008ACDC_arg0 *)actor)->unk_9A.as_u8 = idle_state;
-        ((Rec_func_8008ACDC_arg0 *)actor)->unk_A2 &= 0xFEFF;
+        actor->action_id.u = idle_state;
+        actor->unk_A0.parts.high &= 0xFEFF;
         sprite->flags &= 0xF7FF;
-        ((Rec_func_8008ACDC_arg0 *)actor)->unk_9B.as_s8 = 0;
-        ((Rec_func_8008ACDC_arg0 *)actor)->unk_96.as_s16 = 0;
+        actor->action_phase.s = 0;
+        actor->action_timer.s = 0;
         select_position_data_and_update_owner(sprite, actor_data);
     }
 
@@ -100,7 +100,7 @@ void handle_actor_commands_and_facing(void *actor, ObjectPosition *motion, Sprit
         actor_data->flags14 = data_flags & 0xFFFDFFFF;
     }
 
-    actor_flags = ((Rec_func_8008ACDC_arg0 *)actor)->unk_A2;
+    actor_flags = actor->unk_A0.parts.high;
     if (!(actor_flags & 0x10)) {
         reset_record_to_state_34(actor, motion, sprite, actor_data);
         return;
@@ -120,9 +120,9 @@ void handle_actor_commands_and_facing(void *actor, ObjectPosition *motion, Sprit
         flags_page = (u16 *)0x80010000;
         command_flags = flags_page[0x1B8A];
         if (command_flags & 1) {
-            ((Rec_func_8008ACDC_arg0 *)actor)->unk_A2 = actor_flags & 0xFFFE;
+            actor->unk_A0.parts.high = actor_flags & 0xFFFE;
             if (actor_flags & 0x200) {
-                ((Rec_func_8008ACDC_arg0 *)actor)->unk_A2 = actor_flags & 0xFDFE;
+                actor->unk_A0.parts.high = actor_flags & 0xFDFE;
             }
 
             command = advance_monster_timed_sequence();
@@ -206,15 +206,15 @@ void handle_actor_commands_and_facing(void *actor, ObjectPosition *motion, Sprit
             }
 
             if ((has_action_input_without_modifier() << 16) != 0) {
-                ((Rec_func_8008ACDC_arg0 *)actor)->unk_A4.as_s16 = 0;
+                actor->unk_A4.halves.low.s = 0;
             }
 
-            if ((((Rec_func_8008ACDC_arg0 *)actor)->unk_A2 & 0x200) &&
+            if ((actor->unk_A0.parts.high & 0x200) &&
                 ((has_pending_actor_or_turn_action(actor_data) << 16) == 0) &&
                 !(g_dungeon_status.flags & 4) &&
                 ((lookup_definition_pair_value(sprite->tile_x,
                     sprite->tile_y) << 16) != 0)) {
-                ((Rec_func_8008ACDC_arg0 *)actor)->unk_A2 &= 0xFDFF;
+                actor->unk_A0.parts.high &= 0xFDFF;
                 begin_player_menu_action(actor, motion, sprite, player_menu_action_data);
                 return;
             }
@@ -235,49 +235,49 @@ void handle_actor_commands_and_facing(void *actor, ObjectPosition *motion, Sprit
                 return;
             }
 
-            input_angle = resolve_player_input_facing(((Rec_func_8008ACDC_arg0 *)actor)->unk_9E,
+            input_angle = resolve_player_input_facing(actor->unk_9E.s,
                 flags_ptr, (u8 *)actor_data + 0x2A);
             if (input_angle != 0xFFF) {
                 actor_data->facing = input_angle;
                 if (!(input->buttons & 0x10)) {
-                    move_flags = ((Rec_func_8008ACDC_arg0 *)actor)->unk_A2;
+                    move_flags = actor->unk_A0.parts.high;
                     if (!(move_flags & 0x400)) {
-                        ((Rec_func_8008ACDC_arg0 *)actor)->unk_A2 = move_flags & 0xFFFE;
+                        actor->unk_A0.parts.high = move_flags & 0xFFFE;
                         if (actor_data->flags1C & ACTOR_CONFUSED) {
                             actor_data->facing =
                                 ((u16)actor_data->facing) +
                                 (generate_random_value() & 0xE00);
                         }
                         update_actor_movement_and_map_flags(actor, motion, sprite, actor_data);
-                        if (((Rec_func_8008ACDC_arg0 *)actor)->unk_9A.as_u8 != 0x32) {
+                        if (actor->action_id.u != 0x32) {
                             return;
                         }
                     } else {
-                        ((Rec_func_8008ACDC_arg0 *)actor)->unk_96.as_s16 = 0;
+                        actor->action_timer.s = 0;
                     }
                 } else {
-                    ((Rec_func_8008ACDC_arg0 *)actor)->unk_96.as_s16 = 0;
+                    actor->action_timer.s = 0;
                 }
             }
 
             input_flags = ((u32)input->buttons);
             if ((input_flags & 0x30) == 0x30) {
-                ((Rec_func_8008ACDC_arg0 *)actor)->unk_A2 &= 0xFFFE;
+                actor->unk_A0.parts.high &= 0xFFFE;
                 begin_action_33_and_dispatch(actor, motion, sprite, actor_data);
                 return;
             }
 
-            tail_flags = ((Rec_func_8008ACDC_arg0 *)actor)->unk_A2;
+            tail_flags = actor->unk_A0.parts.high;
             action_bit = tail_flags & 0x40;
             if (action_bit != 0) {
                 action_bit = input_flags & 0x40;
                 if (action_bit == 0) {
-                    ((Rec_func_8008ACDC_arg0 *)actor)->unk_A2 = tail_flags & 0xFFBF;
+                    actor->unk_A0.parts.high = tail_flags & 0xFFBF;
                 }
             } else {
                 action_bit = input_flags & 0x40;
                 if (action_bit != 0) {
-                    ((Rec_func_8008ACDC_arg0 *)actor)->unk_A2 = tail_flags & 0xFFFE;
+                    actor->unk_A0.parts.high = tail_flags & 0xFFFE;
                     if ((begin_actor_attack(actor, motion, sprite, actor_data) << 16) != 0) {
                         return;
                     }
@@ -285,9 +285,9 @@ void handle_actor_commands_and_facing(void *actor, ObjectPosition *motion, Sprit
             }
         }
     }
-    tail_flags = ((Rec_func_8008ACDC_arg0 *)actor)->unk_A2;
+    tail_flags = actor->unk_A0.parts.high;
     if (tail_flags & 1) {
-        ((Rec_func_8008ACDC_arg0 *)actor)->unk_A2 = tail_flags & 0xFFFE;
+        actor->unk_A0.parts.high = tail_flags & 0xFFFE;
         sprite->frameTable = actor_default_frames;
         select_record_entry_and_value(sprite,
             *(void **)((u8 *)actor_default_frames +

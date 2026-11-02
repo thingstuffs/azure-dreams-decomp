@@ -33,8 +33,8 @@ typedef struct TownBucket {
     u8 pad_1c[4];
 } TownBucket;
 
-extern s32 check_query_0x5bc_nonzero(s32, s32, s32, s32);
-extern void get_entry_masked_key_initializes(void *, void *);
+extern s32 copy_records_with_control_bits(s32, s32, s32, s32);
+extern void get_or_init_masked_entry(void *, void *);
 
 extern u8 D_80016178[0x10];
 extern u8 D_80016184[0x10];
@@ -75,18 +75,18 @@ void build_object_set_and_select_lists_rev_b(s32 *entries, s32 ost_w, s32 *osel_
                     s32 next_record;
 
                     entry->flags = choice_flags;
-                    next_record = check_query_0x5bc_nonzero(
+                    next_record = copy_records_with_control_bits(
                         p,
                         ((s32 *)entry->choices)[(choice_index << 2) + 2],
                         choice_flags, entry_index);
                     if ((next_record - 0x14) != p) {
-                        get_entry_masked_key_initializes(&D_80016FC8, entry);
+                        get_or_init_masked_entry(&D_80016FC8, entry);
                         entry->link = p;
                         p = next_record;
                     }
                 } else {
                     entry->link = p;
-                    p = check_query_0x5bc_nonzero(
+                    p = copy_records_with_control_bits(
                         p, (s32)entry->choices, 0, entry_index);
                 }
             }

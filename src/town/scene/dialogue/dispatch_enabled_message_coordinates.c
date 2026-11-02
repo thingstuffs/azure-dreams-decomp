@@ -5,8 +5,7 @@
 #include "shared/town_root.h"
 #include "town/scene/dialogue.h"
 #include "town/scene/event.h"
-
-extern void func_8001E578(s32);
+#include "town/player/state.h"
 
 /* Dispatch the enabled town message coordinates and advance the town state. */
 s32 dispatch_enabled_message_coordinates(void) {
@@ -16,7 +15,7 @@ s32 dispatch_enabled_message_coordinates(void) {
         message = select_event_data_table(0, town_event_state->selection_mode);
         town_scene_root->services->callback_2F8(message->unk_00, message->unk_02);
         town_event_state->dispatchState++;
-        func_8001E578(F_sbs01_pad19);
+        set_script_flag_bit(F_sbs01_pad19);
         return 1;
     }
     return 0;

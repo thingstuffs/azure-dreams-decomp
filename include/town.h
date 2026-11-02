@@ -59,4 +59,6 @@ void sort_selected_record_entries(void *record);
 s16 *town_map_mod_read_p(s16 world_x, s16 world_y);
 void update_the_data_set_local_global_flags(void *object, void *update_data);
 
+void *initialize_packed_record_defaults(void *record);
+
 #endif

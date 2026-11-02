@@ -11,8 +11,8 @@ s32 select_dialogue_with_799_override(s32 speaker, s32 interaction, s32 dialogue
 
         return &scene_result_fallback;
     }
-    dialogue = func_80019ABC(&D_8001A97C, &scene_response_context, speaker, dialogue_id);
-    if (func_80019A04(&D_8001A97C, speaker, dialogue_id) != 0) {
+    dialogue = apply_entry_position(&D_8001A97C, &scene_response_context, speaker, dialogue_id);
+    if (resolve_entry_flag(&D_8001A97C, speaker, dialogue_id) != 0) {
         if (func_8001A510(F_sbs22_pad29) != 0) {
 
             dialogue = &D_8001CDF2;

@@ -9,7 +9,7 @@
 
 extern void (*D_80017618)(void);
 
-extern void func_800173F8(); /* Unprototyped: one or two arguments; the second register argument is ignored. */
+extern void clear_script_flag_bit(); /* Unprototyped: one or two arguments; the second register argument is ignored. */
 extern void clear_thirty_six_table_fields(void);
 
 /* Installs the town callback, enforces a minimum town value of 40, and runs the setup sequence. */
@@ -23,8 +23,8 @@ void initialize_town_counter_and_callback(void)
     if (current_town_value < 40) {
         town->unk_35BE = 40;
     }
-    func_800173F8(F_sbs42_pad11);
-    func_800173F8(F_sbs42_pad12);
+    clear_script_flag_bit(F_sbs42_pad11);
+    clear_script_flag_bit(F_sbs42_pad12);
     town_event_counter = 0;
-    func_800173F8(F_sbs42_pad14);
+    clear_script_flag_bit(F_sbs42_pad14);
 }

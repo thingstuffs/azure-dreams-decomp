@@ -24,7 +24,6 @@
 extern void select_sprite_entry(void *, s32, s32);
 extern s8 find_active_rect_containing_point(s32, s32);
 extern void update_actor_status_and_mp(ActorRecord *entity);
-extern void func_8015969C(void *motion, ObjectPosition *unused, SpriteFrameState *actor, void *path_state);
 extern void func_80159854(ActorRecord *move_data, ObjectPosition *context, SpriteFrameState *position_data, ActorRecord *actor_data);
 extern s32 func_80159F9C(ActorRecord *action_state, ObjectPosition *action_param, SpriteFrameState *visual_data, ActorRecord *actor);
 extern void func_8015A234(ActorRecord *controller, ObjectPosition *action_context, SpriteFrameState *sprite, ActorRecord *actor);
@@ -47,7 +46,7 @@ void update_actor_behavior_from_position(ActorRecord *actor, ObjectPosition *con
 
     if (g_dungeon_status.flags & 0x1000) {
         actor->action_id.u = 0xE;
-        func_8015969C(actor, context, sprite, entity);
+        advance_actor_path_and_facing(actor, context, sprite, entity);
         return;
     }
 

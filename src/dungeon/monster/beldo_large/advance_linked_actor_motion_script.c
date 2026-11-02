@@ -119,7 +119,7 @@ typedef struct { s16 x; u16 y; } ScriptDirection;
 #include "engine/graphics/select_sprite_entry_api.h"         /* extern */
 #include "slus.h"
 void snapshot_inventory_and_familiars();                 /* extern */
-s32 is_special_floor_entry_absent();                      /* extern */
+s32 ground_items_lack_special_pair();                      /* extern */
 void create_rotating_clipped_sprite(u32 *, s16);             /* extern */
 struct S_8016738C_3; void create_color_cycling_pulse(struct S_8016738C_3 *);                      /* extern */
 struct EntityRec; void create_layered_sprite_pulse(EntityRec *origin);                      /* extern */
@@ -713,7 +713,7 @@ shared_tail:
         update_phase_driven_motion_offset(state_in, motion_in, sprite_in);
         break;
     case 40:
-        if ((is_special_floor_entry_absent(phase, target_state) << 0x10) != 0) {
+        if ((ground_items_lack_special_pair(phase, target_state) << 0x10) != 0) {
             state_in->action_timer.u = 0U;
             state_in->action_id.u = (u8) (state_in->action_id.u + 1);
             g_dungeon_status.activity_counts.parts.pending_action_count = (u16) (((u16)g_dungeon_status.activity_counts.parts.pending_action_count) + 1);
@@ -728,7 +728,7 @@ shared_tail:
         }
         break;
     case 45:
-        if ((is_special_floor_entry_absent(phase, target_state) << 0x10) != 0) {
+        if ((ground_items_lack_special_pair(phase, target_state) << 0x10) != 0) {
             state_in->action_timer.u = 0U;
             state_in->action_id.u = (u8) (state_in->action_id.u + 1);
             g_dungeon_status.activity_counts.parts.pending_action_count = (u16) (((u16)g_dungeon_status.activity_counts.parts.pending_action_count) + 1);

@@ -1,8 +1,8 @@
 #include "common.h"
 #include "frontend/card.h"
 #include "main/data.h"
+#include "frontend/card/server_imports.h"
 
-extern void func_8004DDBC(void *base, s32 value, s32 *entry);
 
 /* Updates two object slots using the selected slot mapping and values. */
 void card_dev_update_slot_pair_rows(u8 *object) {

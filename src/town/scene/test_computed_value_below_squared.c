@@ -1,7 +1,7 @@
 typedef signed int s32;
 typedef unsigned int u32;
 
-extern u32 func_8001A250(s32, s32, s32, s32);
+extern u32 squared_distance_3s(s32, s32, s32, s32);
 
 /* Tests whether the computed value is below the squared threshold. */
 u32 test_computed_value_below_squared(s32 input_a, s32 input_b, s32 threshold, s32 input_d)
@@ -10,9 +10,9 @@ u32 test_computed_value_below_squared(s32 input_a, s32 input_b, s32 threshold, s
 
     if (threshold_copy) {
         threshold_copy = threshold;
-        return func_8001A250(input_a, input_b, threshold, input_d) < (u32)(threshold_copy * threshold_copy);
+        return squared_distance_3s(input_a, input_b, threshold, input_d) < (u32)(threshold_copy * threshold_copy);
     } else {
         threshold_copy = threshold;
-        return func_8001A250(input_a, input_b, threshold, input_d) < (u32)(threshold_copy * threshold_copy);
+        return squared_distance_3s(input_a, input_b, threshold, input_d) < (u32)(threshold_copy * threshold_copy);
     }
 }

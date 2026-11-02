@@ -1,6 +1,7 @@
 #include "shared/item_ids.h"
 #include "common.h"
 #include "shared/tile_object.h"
+#include "shared/object_node.h"
 #include "m2c_compat.h"
 #include "records/Rec_D_80082EB0.h"
 #include "records/Rec_func_8008ACDC_arg0.h"
@@ -16,7 +17,7 @@ typedef struct S_80095538_4 {
 
 typedef struct S_80095538_0 {
     s32 unk_00;
-    s32 unk_04;
+    SpriteFrameState *unk_04;
     u8 pad_08[0x5C];
     s32 unk_64;
     s32 unk_68;
@@ -32,7 +33,7 @@ s32 select_item_record_pointer(); /* Unprototyped: one or two arguments; the sec
 /* Dispatches an item effect or equipment update according to the item type. */
 s16 dispatch_selected_item_use(Rec_func_8008ACDC_arg0 *actor, s16 item_id, s16 other_item_id) {
     s32 saved_x;
-    s32 saved_y;
+    SpriteFrameState *saved_sprite;
     s16 result;
     u8 item_type;
     void *actor_base;
@@ -41,7 +42,7 @@ s16 dispatch_selected_item_use(Rec_func_8008ACDC_arg0 *actor, s16 item_id, s16 o
 
     actor_base = actor;
     saved_x = ((S_80095538_0 *)((u8 *)actor_base - 0x18))->unk_00;
-    saved_y = ((S_80095538_0 *)((u8 *)actor_base - 0x18))->unk_04;
+    saved_sprite = NODE_HEADER(actor_base)->sprite;
     result = 1;
     ((S_80095538_1 *)(&reference_tile_object.selected_item))->unk_00.s = select_item_record_pointer(item_id);
     if (other_item_id != 0) {
@@ -84,7 +85,7 @@ s16 dispatch_selected_item_use(Rec_func_8008ACDC_arg0 *actor, s16 item_id, s16 o
         break;
     case ITEM_KIND_EGG:
         actor->unk_BC = ((S_80095538_1 *)(&reference_tile_object.selected_item))->unk_00.u;
-        begin_target_flagged_action(actor, saved_x, saved_y, actor_base);
+        begin_target_flagged_action(actor, saved_x, saved_sprite, actor_base);
         break;
     case ITEM_KIND_FAMILIAR:
     case ITEM_KIND_ELEVATOR:

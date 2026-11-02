@@ -1,8 +1,8 @@
 #include "common.h"
 #include "frontend/card/service.h"
 #include "main/data.h"
+#include "frontend/card/server_imports.h"
 
-extern s32 func_8007C9C8(s32 event_handle);
 
 /* Returns 1 through 4 for the first signaled card software event, or 0 if none is signaled. */
 s32 card_devkit_poll_first_software_event(void) {

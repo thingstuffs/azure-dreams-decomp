@@ -4,6 +4,8 @@
 #include "shared/town_root.h"
 #include "shared/vector.h"
 #include "town/scene.h"
+#include "town/player.h"
+#include "town/scene/history.h"
 extern u8 D_80018FD0[];
 
 
@@ -14,11 +16,6 @@ typedef struct S_806D85A0_1 {
     void * unk_6000;
 } S_806D85A0_1;
 
-
-
-
-void *func_80017024(s32 group, s32 n, s32 lookup_variant);                 /* extern */
-s32 func_8001876C(s32 target_value);                         /* extern */
 extern s32 D_80018FE0;
 
 /* Processes active entries for the selected variant and updates 2x2 cells for the first group. */
@@ -43,8 +40,8 @@ void update_enabled_event_cells(void) {
     void *group_flags;
 
     entry_flags = town_scene_root->town_state;
-    if (func_8001876C(1) == 0) {
-        second_variant_active = func_8001876C(2);
+    if (record_value_table_contains(1) == 0) {
+        second_variant_active = record_value_table_contains(2);
         variant = 2;
         if (second_variant_active != 0) {
             variant = 1;
@@ -80,7 +77,7 @@ void update_enabled_event_cells(void) {
             entry_counts = (s16 *)(D_80018FD0 + 0x10);
             do {
                 if (((TownStateRecord *)(group_flags + entry_index))->history[0][0] != 0) {
-                    position = func_80017024(group_index, entry_index, variant);
+                    position = get_indexed_vertex_and_trace(group_index, entry_index, variant);
                     if (group_index == 0) {
                         x_offset = 0;
                         do {

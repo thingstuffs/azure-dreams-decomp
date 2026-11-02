@@ -50,7 +50,7 @@ enum FamiliarCommandPhase {
 };
 
 /* Updates the selection, handles dungeon input, and restores the actor callback on exit. */
-void update_familiar_command_selection(ActorRecord *state, s32 context_a, void *context_b, ActorRecord *actor_ptr) {
+void update_familiar_command_selection(ActorRecord *state, s32 context_a, SpriteFrameState *sprite, ActorRecord *actor_ptr) {
     ActorRecord *actor = actor_ptr;
     GameWork *dungeon_state = &g_game_work;
     s16 action_id;
@@ -102,14 +102,14 @@ void update_familiar_command_selection(ActorRecord *state, s32 context_a, void *
                 if ((reject_forbidden_familiar_recall(0) == 0) && !(actor->flags1C & 0x100000)) {
                     actor->unk_8A = (s16) ((s32) (*(void **)((u8 *)state + 0x104)) != state->unk_AC.value);
                     selected_item_record_alias[0] = 0;
-                    if ((check_familiar_deployment_placement(state, context_a, context_b, &action_id, &action_arg, selected_item_record_alias[0]) << 0x10)
+                    if ((check_familiar_deployment_placement(state, context_a, sprite, &action_id, &action_arg, selected_item_record_alias[0]) << 0x10)
                         != 0) {
                         display_formatted_context_message(&D_800E2004);
                     } else {
                         enqueue_script_message_command();
                     }
                     (*(s32 *)((u8 *)state + 0xC8)) = 0;
-                    begin_familiar_deployment_change(state, context_a, context_b, action_id, (s32) action_arg);
+                    begin_familiar_deployment_change(state, context_a, sprite, action_id, (s32) action_arg);
                     {
                         s32 tail_flags = dungeon_floor_flags;
 
@@ -126,7 +126,7 @@ void update_familiar_command_selection(ActorRecord *state, s32 context_a, void *
                         slot_index = (s32) (*(void **)((u8 *)state + 0x104)) != state->unk_AC.value;
                         actor->unk_8A = slot_index;
                         *menu_action_argument = (s32) slot_index;
-                        begin_player_menu_action(state, context_a, context_b, &familiar_menu_action_data);
+                        begin_player_menu_action(state, context_a, sprite, &familiar_menu_action_data);
                         ((Rec_D_80082EB0 *)selected_item_record_alias)->unk_00.as_s32 = 0;
                         (*(s32 *)((u8 *)state + 0xC8)) = 0;
                         (*(void **)((u8 *)state + 0x104)) = NULL;
@@ -137,7 +137,7 @@ void update_familiar_command_selection(ActorRecord *state, s32 context_a, void *
                         slot_index = (s32) (*(void **)((u8 *)state + 0x104)) != state->unk_AC.value;
                         actor->unk_8A = slot_index;
                         *menu_action_argument = (s32) slot_index;
-                        begin_player_menu_action(state, context_a, context_b, &D_80023C58);
+                        begin_player_menu_action(state, context_a, sprite, &D_80023C58);
                         ((Rec_D_80082EB0 *)selected_item_record_alias)->unk_00.as_s32 = 0;
                         (*(s32 *)((u8 *)state + 0xC8)) = 0;
                         (*(void **)((u8 *)state + 0x104)) = NULL;
@@ -150,7 +150,7 @@ void update_familiar_command_selection(ActorRecord *state, s32 context_a, void *
                         slot_index = (s32) (*(void **)((u8 *)state + 0x104)) != state->unk_AC.value;
                         actor->unk_8A = slot_index;
                         *menu_action_argument = (s32) slot_index;
-                        begin_player_menu_action(state, context_a, context_b, D_8004F5F4);
+                        begin_player_menu_action(state, context_a, sprite, D_8004F5F4);
                         ((Rec_D_80082EB0 *)selected_item_record_alias)->unk_00.as_s32 = 0;
                         (*(s32 *)((u8 *)state + 0xC8)) = 0;
                         (*(void **)((u8 *)state + 0x104)) = NULL;

@@ -8,6 +8,7 @@
 #include "shared/dungeon_floor.h"
 #include "dungeon/level/room_flags.h"
 #include "records/Rec_func_800A9E70_arg0.h"
+#include "dungeon/stale_bank_imports.h"
 
 typedef struct S_8127C3E0_0 {
     u8 pad_00[0x2];
@@ -21,22 +22,9 @@ typedef struct S_8127C3E0_6 {
     u16 unk_08;
 } S_8127C3E0_6;   /* global_count in step_beldo_old_toward_target */
 
-extern s32 func_80171328(void *, void *, void *, void *);
-extern void func_800A86C4(void *);
-extern void func_800A06B4(void *, void *, s32, s32, void *);
-extern void *func_8009F09C(void *, u8, u8);
-extern s16 func_8009F608(s32, s32, s32, s32, void *);
-extern s32 func_800A59E8(void);
-extern void *func_8009F2E0(void *, u8, u8, s16);
-extern s16 func_8009EF24(void *, void *);
-extern s16 func_80099330(s32, s32, s32, s16);
-extern s16 func_8009EB6C(s32, s32, s32, s32);
+extern s32 return_zero_fn(void *, void *, void *, void *);
 extern void find_active_rect_containing_point(void *, s8, void *, void *);
-extern s16 func_800996B0(s16, void *, void *, s32);
 extern void initialize_indexed_object_and_lookup_value(s32, s32, s32); /* Unprototyped: uses the value as a pointer where the definition has an integer (or the reverse) */
-extern void func_8009900C(s32, s32, s32);
-extern s16 func_80098F70(void *, void *);
-extern s16 func_800BB784(s32, s32, s16);
 
 extern s8 D_8006BDA8;
 extern s8 D_8006BDB8;
@@ -65,7 +53,7 @@ void step_beldo_old_toward_target(Rec_func_800A9E70_arg0 *move_state_arg, void *
 
     if ((dungeon_flags & 0x4000) || (s8)actor_arg->movement_queue_state >= 0) {
         if (actor_arg->unk_12 >= 2 ||
-            (s16)func_80171328(move_state_arg, action_context, position_arg, actor_arg) == 0) {
+            (s16)return_zero_fn(move_state_arg, action_context, position_arg, actor_arg) == 0) {
             func_800A86C4(actor_arg);
             return;
         }

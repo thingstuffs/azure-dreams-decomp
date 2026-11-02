@@ -4,11 +4,10 @@
 #include "shared/record_ptrs.h"
 #include "town/scene/resource.h"
 #include "shared/town_root.h"
+#include "town/player/state.h"
+#include "town/scene/service.h"
 
 extern void func_80019988(void); /* this scene's placed copy of set_current_entry_script_flag */
-extern s32 func_8001991C(s32, s32);
-extern void func_8001A554(s32);
-extern void func_8001A7AC(void);
 
 /* Run the three teardown passes; when the check fails, stop the scene object and report failure. */
 s32 run_three_teardown_passes(s32 kind, s32 value)
@@ -18,12 +17,12 @@ s32 run_three_teardown_passes(s32 kind, s32 value)
     set_script_flag_94c();
     initialize_resources_assigns_pointer_lookup();
     func_80019988();
-    if (func_8001991C(kind, value) == 0) {
-        func_8001A7AC();
+    if (apply_selected_entry_values(kind, value) == 0) {
+        call_scene_service_2f4_fixed();
         ((void (*)(s32, s32))(town_scene_root->services->callback_2F8))(0xE, 0x200);
         result = 0;
     } else {
-        func_8001A554(F_sbs32_pad07);
+        set_script_flag_bit(F_sbs32_pad07);
         result = 1;
     }
 

@@ -2,7 +2,7 @@
 #include "town/devkit.h"
 
 s32 func_80700C08(s32);
-s32 func_80701060(void);
+s32 func_80701060(void); /* Unprototyped: this site's argument count or types differ from the foreign program's import prototype */
 s32 func_8070114C(void);
 
 /* Devkit flag-test entry: select page 0, redraw the grid, then run the flag scan. */

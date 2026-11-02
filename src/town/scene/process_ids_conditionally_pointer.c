@@ -4,16 +4,15 @@
 #include "shared/record_ptrs.h"
 #include "town/scene.h"
 #include "shared/town_root.h"
+#include "town/player/state.h"
 
-extern s32 func_80018BD0(s32);
-extern s32 func_80018C50(s32);
 extern s32 D_8001A3B5;
 
 // Processes IDs 0xFB7 and 0xFB8, conditionally sets a data pointer, and invokes the context callback.
 s32 process_ids_conditionally_pointer(void) {
-    func_80018BD0(F_hos_first_cheriru);
-    func_80018BD0(F_hos_first_hush);
-    if (func_80018C50(Fr_cheriru_scene03) != 0) {
+    clear_script_flag_bit(F_hos_first_cheriru);
+    clear_script_flag_bit(F_hos_first_hush);
+    if (get_script_flag_mask(Fr_cheriru_scene03) != 0) {
         town_scene_root->position->unk_40 =
             &D_8001A3B5;
     }

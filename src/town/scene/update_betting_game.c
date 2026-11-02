@@ -111,7 +111,7 @@ s32 func_8006A470(s32);                             /* extern */
 s32 func_80071494(void);                                /* extern */
 s32 func_80232868(s32, s32, s32);       /* extern */
 void func_80232A08(s32);                         /* extern */
-void func_802441A4();                   /* extern */
+void func_802441A4();                   /* extern */ /* Unprototyped: this site's argument count or types differ from the foreign program's import prototype */
 void func_80244588();                            /* extern */
 void func_802445FC(s32, ...);    /* extern */
 void func_80244660(void *, ...); /* extern */

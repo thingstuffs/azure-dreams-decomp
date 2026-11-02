@@ -11,7 +11,7 @@ extern s32 D_800D6910[];
 
 
 /* Initialize the object's state, clear its slot flag, and set its counter to seven. */
-void initialize_object_with_seven_tick_counter(TownObjectRecord *object, s32 unused, void *context) {
+void initialize_object_with_seven_tick_counter(TownObjectRecord *object, ObjectPosition *unused, void *context) {
     initialize_object_entries(object, context, D_800D6910);
     object_index_slots[object->slot].unk_00 = 0;
     object->handler = &D_800CB21C;

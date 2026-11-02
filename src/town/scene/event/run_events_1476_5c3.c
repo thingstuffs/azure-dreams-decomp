@@ -7,6 +7,6 @@
 
 /* Call func_80018A64 with IDs 0x1476 and 0x5C3 in sequence. */
 void run_events_1476_5c3(void) {
-    func_80018A64(Ft_vivian_love);
-    func_80018A64(F_sbs11_pad32);
+    set_script_flag_bit(Ft_vivian_love);
+    set_script_flag_bit(F_sbs11_pad32);
 }

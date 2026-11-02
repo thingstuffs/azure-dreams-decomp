@@ -51,7 +51,7 @@ typedef struct RootPair {
     void *second;
 } RootPair;
 
-extern s32 func_80034A1C();
+extern s32 func_80034A1C(); /* Unprototyped: this site's argument count or types differ from the foreign program's import prototype */
 extern s32 func_800351A8();
 extern u8 *func_800373DC();
 extern void *func_800374FC(s32 flags, struct ObjectNodeHeader **list_head);

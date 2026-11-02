@@ -46,7 +46,6 @@ extern void begin_pushed_actor_move(void *state_in, void *unused, void *position
 struct Rec_func_800A9E70_arg0; struct Rec_func_800AA258_arg2; void begin_actor_move_to_target_facing(struct Rec_func_800A9E70_arg0 *, void *, struct Rec_func_800AA258_arg2 *, struct ActorRecord *);
 void advance_entity_along_path(void *, ObjectPosition *, SpriteFrameState *, void *);
 struct Rec_func_800A9E70_arg0; s32 dispatch_actor_action_phase(struct Rec_func_800A9E70_arg0 *, s32, s32, s32);
-extern void func_8016DAA4(CallbackOwner *owner, s32 unused, s32 first, s32 second);
 s32 execute_actor_script_command(u8 *, s32, SpriteFrameState *);
 extern u8 D_8017469C[];
 extern u8 D_801746BC[];
@@ -135,7 +134,7 @@ void update_main_actor_action_and_facing(Rec_func_800A9E70_arg0 *actor, s32 cont
         }
         if (entity->flags1C & ACTOR_LIFTED) {
             begin_actor_move_to_target_facing(actor, (void *)(context), (struct Rec_func_800AA258_arg2 *)(map_actor), entity);
-            func_8016DAA4(actor, context, map_actor, entity);
+            install_actor_action_handler_after_floor_trap_check(actor, context, map_actor, entity);
             map_actor->frameTable = ghosh_frame_set_3;
             select_sprite_entry(map_actor, ghosh_frame_set_3[((s32) (g_game_work.view.camera_rotation.parts.viewAngle + entity->facing + 0x100) >> 9) & 7], 0);
             actor->unk_90.at00_s32.v = 0;

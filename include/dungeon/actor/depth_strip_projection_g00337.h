@@ -1,5 +1,6 @@
 #ifndef DUNGEON_ACTOR_DEPTH_STRIP_PROJECTION_G00337_H
 #define DUNGEON_ACTOR_DEPTH_STRIP_PROJECTION_G00337_H
+struct ObjectPosition;
 /* Depth strip projection shared declarations. */
 /* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - CL:dungeon/func_800AA854. */
 
@@ -190,7 +191,7 @@ extern void AddPrim();
 void SetPolyGT4(void *);
 
 /* Functions defined in this translation unit. */
-s32 process_circular_segments(Arg0_800AFBFC *shape, s32 unused, Arg2_800AFBFC *segment);
+s32 process_circular_segments(Arg0_800AFBFC *shape, struct ObjectPosition *unused, Arg2_800AFBFC *segment);
 s32 project_depth_strips_and_quads(S_800AFFB4_0 *origin, void *unused, S_800AFFB4_1 *render_data_in, u8 *packet_buffer, s16 texture_arg);
 
 #endif

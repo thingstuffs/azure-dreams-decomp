@@ -7,7 +7,7 @@
 
 /* Apply operation 0x5BC and the record code, then dispatch the record and context. */
 void apply_event_5bc_and_record_code(Rec_func_800165F4_arg0 *record, s32 context) {
-    func_80018ADC(F_sbs11_pad25);
-    func_80018A64(record->unk_18);
-    func_80017D80(record, context);
+    clear_script_flag_bit(F_sbs11_pad25);
+    set_script_flag_bit(record->unk_18);
+    apply_selected_entry_values(record, context);
 }

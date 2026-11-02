@@ -4,5 +4,5 @@
 
 /* Returns whether the current record value is less than -0x2F. */
 s32 check_table_result_below_minus_47(void) {
-    return func_8001A220() < -0x2F;
+    return get_current_nested_record_value() < -0x2F;
 }

@@ -1,8 +1,8 @@
 #include "common.h"
 #include "town/scene/resource.h"
+#include "town/devkit/old_minigame_imports.h"
 
 extern u8 D_80526650[];
-extern s32 func_8003B0B8();
 
 /* Increment the record counter and pass it to the resource handler. */
 void increment_counter_and_load_resource(void *record) {

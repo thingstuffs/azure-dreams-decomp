@@ -1,11 +1,11 @@
 #include "common.h"
 #include "town/scene/object.h"
+#include "town/devkit/old_minigame_imports.h"
 
 #ifndef NULL
 #define NULL 0
 #endif
 
-extern void *func_800373DC();
 extern u8 D_8052FEDC[];
 
 /* Create an object and assign its data pointer and supplied value. */

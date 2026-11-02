@@ -63,10 +63,6 @@ typedef struct Entity {
 
 
 /* owner in choose_best_eligible_entry */
-typedef struct S_800A3D18_1_pre {
-    void * unk_00;
-    u8 pad_04[0x10];
-} S_800A3D18_1_pre;
 
 /* the 0x14 bytes before cur in choose_best_eligible_entry, addressed as cur[-1] */
 typedef struct S_800A3D18_1 {
@@ -79,12 +75,6 @@ typedef struct S_800A3D18_1 {
 } S_800A3D18_1;
 
 /* cur in choose_best_eligible_entry */
-typedef struct S_800A3D18_2 {
-    u8 pad_00[0x24];
-    u8 unk_24;
-    u8 unk_25;
-    s8 unk_26;
-} S_800A3D18_2;
 
 /* other in choose_best_eligible_entry */
 typedef struct S_800A3D18_3 {
@@ -104,20 +94,10 @@ typedef struct S_800A3D18_5 {
     s32 unk_1C;
 } S_800A3D18_5;
 
-typedef struct S_800A3F28_0_pre {
-    u8 * unk_00;
-    u8 pad_04[0x10];
-} S_800A3F28_0_pre;
 
 /* the 0x14 bytes before current in find_eligible_nearby_entry, addressed as current[-1] */
 
 /* current in find_eligible_nearby_entry */
-typedef struct S_800A3F28_1 {
-    u8 pad_00[0x24];
-    u8 unk_24;
-    u8 unk_25;
-    s8 unk_26;
-} S_800A3F28_1;
 
 typedef struct DungeonSlot {
     s8 pad_00[0x13];

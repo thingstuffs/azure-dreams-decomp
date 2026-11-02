@@ -1,5 +1,6 @@
 #include "town/scene.h"
 #include "town/devkit.h"
+#include "town/devkit/flag_test_imports.h"
 
 typedef struct {
     u8 pad[0x34];
@@ -8,7 +9,6 @@ typedef struct {
 
 extern State *devkit_state_slots[3];
 
-extern s32 func_80700C9C(s32 carry_value);
 extern void shift_index_and_add_offset(s32 carry_value);
 extern void pass_indexed_table(s32 carry_value);
 

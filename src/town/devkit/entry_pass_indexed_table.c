@@ -1,6 +1,7 @@
 #include "common.h"
 #include "town/devkit/stage_dispatch.h"
 #include "town/devkit.h"
+#include "town/devkit/flag_test_imports.h"
 
 
 typedef struct {
@@ -16,10 +17,8 @@ typedef struct {
 extern ValueHolder *devkit_stage_value_owner[3];
 extern State *devkit_state_slots[3];
 
-extern s32 func_80700C9C(s32 entry);
 extern void shift_index_and_add_offset(s32 entry);
 extern void pass_indexed_table(s32 entry);
-extern s32 func_80701404(void);
 
 /* When the gate and the counter both pass, set the stage flag and return the stage handler's result. */
 s32 set_stage_flag_one_if_ready(s32 fallback_result) {

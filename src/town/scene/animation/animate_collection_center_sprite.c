@@ -1,6 +1,7 @@
 #include "common.h"
 #include "sdk/libc.h"
 #include "town/scene/animation.h"
+#include "town/devkit/old_minigame_imports.h"
 
 typedef struct {
     s16 x;
@@ -32,9 +33,6 @@ extern s16 D_80132AF2;
 extern PackedRect D_80526470;
 extern u8 D_8053067C[];
 
-extern s32 func_8006AB90(s32);
-extern void func_8006E854(LocalRecord *, void *);
-extern void func_80058F88(s32);
 
 
 typedef struct S_8080EEC4_0 {

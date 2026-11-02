@@ -1,5 +1,6 @@
 #include "common.h"
 #include "town/devkit.h"
+#include "town/devkit/flag_test_imports.h"
 
 typedef struct {
     u8 pad00[0x68];
@@ -21,7 +22,6 @@ extern TownObject *D_807030AC;
 extern u8 D_80702FB8[];
 extern u8 *D_8070306C[];
 extern u8 **D_807030B4;
-extern void func_80702A54(void);
 
 /* Reset the town display, pick the scene's data block and relocate its pointer table. */
 void load_scene_data_block(s32 scene, s32 mode)

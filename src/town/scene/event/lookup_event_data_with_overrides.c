@@ -3,6 +3,9 @@
 #include "shared/record_ptrs.h"
 #include "shared/town_root.h"
 #include "town/scene/event.h"
+#include "town/player/state.h"
+#include "town/scene/flags.h"
+#include "town/scene/motion.h"
 
 
 typedef struct S_80016714_1 {
@@ -23,11 +26,6 @@ extern u8 scene_event_lookup_context[16];
 extern u8 D_8001A3AE[];
 extern u8 D_8001A495[];
 
-extern s32 func_800178A8(void *, s32, s32);
-extern void *func_80017960(void *, void *, s32, s32);
-extern void initialize_state_two_entries_pointer(s32);
-extern s32 func_8001868C(s32);
-
 /* Looks up event data and applies special-event state updates and overrides. */
 void *lookup_event_data_with_overrides(s32 entry_id, s32 unused, s32 event_id)
 {
@@ -35,23 +33,23 @@ void *lookup_event_data_with_overrides(s32 entry_id, s32 unused, s32 event_id)
     u8 *event_table;
 
     event_table = D_800189DC;
-    event_data = func_80017960(event_table, scene_event_lookup_context, entry_id, event_id);
+    event_data = apply_entry_position(event_table, scene_event_lookup_context, entry_id, event_id);
     if (event_id == 0xB) {
-        initialize_state_two_entries_pointer(F_s34_sero_start);
-        if (func_800178A8(event_table, entry_id, 0xB) != 0) {
+        set_script_flag_bit(F_s34_sero_start);
+        if (resolve_entry_flag(event_table, entry_id, 0xB) != 0) {
             return &D_8001A3AE[0];
         }
         ((S_80016714_1 *)(town_scene_root->entry_index * 8 +
               ((u8 *)town_scene_root->event_data)))->unk_04++;
         if (((S_80016714_2 *)(town_scene_root->entry_index * 8 +
                   ((u8 *)town_scene_root->event_data)))->unk_04 >= 5U) {
-            initialize_state_two_entries_pointer(F_s34_sero_quickstart);
+            set_script_flag_bit(F_s34_sero_quickstart);
         }
         return event_data;
     }
     if (event_id == 0x1C) {
-        if (func_8001868C(F_sbs34_pad18) == 0) {
-            initialize_state_two_entries_pointer(F_sbs34_pad18);
+        if (get_script_flag_mask(F_sbs34_pad18) == 0) {
+            set_script_flag_bit(F_sbs34_pad18);
             return &D_8001A495[0];
         }
     }

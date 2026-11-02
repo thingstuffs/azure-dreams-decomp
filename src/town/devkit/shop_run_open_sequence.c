@@ -2,9 +2,8 @@
 #include "common.h"
 #include "town/devkit.h"
 #include "town/devkit/state.h"
+#include "town/devkit/flag_test_imports.h"
 
-void func_80702924(s32);                         /* extern */
-void reset_town_display_pick_scene(s32 scene, s32 mode);                    /* extern */
 
 extern s32 D_80701DC4_0[];
 extern s32 D_80701DC4_1[];
@@ -25,7 +24,7 @@ s32 initialize_flag_selection(void) {
     D_80701DC8_0[0] = get_selected_flag_state(handle);
     update_combined_flag();
     dev_report_kind_mode_sno(0);
-    reset_town_display_pick_scene(D_80701DC4_1[0], D_80701DC8_1[0]);
+    load_scene_data_block(D_80701DC4_1[0], D_80701DC8_1[0]);
     func_80702924(D_80701DC4_2[0]);
     return D_80701DC4_3[0];
 }

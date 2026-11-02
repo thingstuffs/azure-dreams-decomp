@@ -38,11 +38,11 @@ typedef struct S_8016BFA4_0 {
 extern void select_sprite_entry(void *, s32, s32);
 extern s8 find_active_rect_containing_point(s32, s32);
 extern void update_actor_status_and_mp(ActorRecord *entity);
-extern void func_8016C510(void *, void *, void *, void *);
-extern void func_8016C6C8(void *, void *, void *, void *);
-extern s32 func_8016CE10(ActorRecord *action_state, ObjectPosition *action_param, SpriteFrameState *visual_data, ActorRecord *actor);
-extern void func_8016D0A8(void *, void *, void *, void *);
-extern s32 complete_actor_motion_and_clear_action(void *, void *, void *, void *);
+extern void advance_actor_path_and_facing(void *, void *, void *, void *);
+extern void select_bank_actor_movement(void *, void *, void *, void *);
+extern s32 select_and_start_target_action(ActorRecord *action_state, ObjectPosition *action_param, SpriteFrameState *visual_data, ActorRecord *actor);
+extern void start_kewne_attack_action(void *, void *, void *, void *);
+extern s32 update_entity_state_from_query(void *, void *, void *, void *);
 extern void func_8016F078(void *, void *, void *, void *);
 
 extern u8 D_8016BFA4[];
@@ -61,7 +61,7 @@ void choose_kewne_uncached_action(void *actor, ObjectPosition *context, SpriteFr
 
     if (g_dungeon_status.flags & 0x1000) {
         ((S_8016BFA4_0 *)actor)->unk_9A = 0xE;
-        func_8016C510(actor, context, sprite, entity);
+        advance_actor_path_and_facing(actor, context, sprite, entity);
         return;
     }
     if (entity->mp_value.parts.whole == 0) {
@@ -170,7 +170,7 @@ void choose_kewne_uncached_action(void *actor, ObjectPosition *context, SpriteFr
             return;
         }
         if (*(u16 *)&sprite->tile_x == reference_tile_object.tile_position.word) {
-            func_8016C6C8(actor, context, sprite, entity);
+            select_bank_actor_movement(actor, context, sprite, entity);
             return;
         }
         if (!(entity->action_flags & ACTOR_ACTION_PENDING)) {
@@ -189,7 +189,7 @@ void choose_kewne_uncached_action(void *actor, ObjectPosition *context, SpriteFr
                     }
                 }
             }
-            if ((complete_actor_motion_and_clear_action(actor, context, sprite, 0) << 16) == 0) {
+            if ((update_entity_state_from_query(actor, context, sprite, 0) << 16) == 0) {
                 return;
             }
             action = entity->action_flags | 0x4000;
@@ -201,10 +201,10 @@ void choose_kewne_uncached_action(void *actor, ObjectPosition *context, SpriteFr
             switch (action) {
             case 8:
             case 9:
-                if ((func_8016CE10(actor, context, sprite, entity) << 16) != 0) {
+                if ((select_and_start_target_action(actor, context, sprite, entity) << 16) != 0) {
                     return;
                 }
-                func_8016D0A8(actor, context, sprite, entity);
+                start_kewne_attack_action(actor, context, sprite, entity);
                 return;
 
             case 5:
@@ -241,7 +241,7 @@ void choose_kewne_uncached_action(void *actor, ObjectPosition *context, SpriteFr
                 break;
             }
         }
-        func_8016C6C8(actor, context, sprite, entity);
+        select_bank_actor_movement(actor, context, sprite, entity);
         return;
     }
 

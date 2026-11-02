@@ -63,6 +63,7 @@ extern s32 menu_action_argument;
 
 /* Handles actor commands, movement, and facing updates. */
 void handle_player_input(void *actor, void *motion, register void *sprite, void *stats) {
+
     s16 input_angle;
     s16 status_count;
     s32 target_angle;
@@ -99,23 +100,23 @@ void handle_player_input(void *actor, void *motion, register void *sprite, void 
     GameWork *input;
 
     input = &g_game_work;
-    action_state = ((Rec_func_8008ACDC_arg0 *)actor)->unk_9A.as_u8;
+    action_state = ((ActorRecord *)actor)->action_id.u;
     if (action_state != 0xE) {
         if (action_state != 0x17) {
-            if (((Rec_func_8008ACDC_arg0 *)actor)->unk_A2 & 0x100) {
+            if (((ActorRecord *)actor)->unk_A0.parts.high & 0x100) {
                 begin_wake_nearby_monsters(actor, (s32)motion, sprite, stats);
                 return;
             }
-            ((Rec_func_8008ACDC_arg0 *)actor)->unk_9A.as_u8 = 0xEU;
-            ((Rec_func_8008ACDC_arg0 *)actor)->unk_A2 = (u16) (((Rec_func_8008ACDC_arg0 *)actor)->unk_A2 & 0xFEFF);
+            ((ActorRecord *)actor)->action_id.u = 0xEU;
+            ((ActorRecord *)actor)->unk_A0.parts.high = (u16) (((ActorRecord *)actor)->unk_A0.parts.high & 0xFEFF);
             ((SpriteFrameState *)sprite)->flags = (u16) (((SpriteFrameState *)sprite)->flags & 0xF7FF);
-            ((Rec_func_8008ACDC_arg0 *)actor)->unk_9B.as_s8 = 0;
-            ((Rec_func_8008ACDC_arg0 *)actor)->unk_A4.as_u16 = 0U;
+            ((ActorRecord *)actor)->action_phase.s = 0;
+            ((ActorRecord *)actor)->unk_A4.halves.low.u = 0U;
             ((ObjectPosition *)motion)->velocity_y = 0;
             ((ObjectPosition *)motion)->velocity_x = 0;
             set_record_integer_tile_center(motion, ((SpriteFrameState *)sprite)->tile_x, ((SpriteFrameState *)sprite)->tile_y);
         }
-        ((Rec_func_8008ACDC_arg0 *)actor)->unk_96.as_s16 = 0;
+        ((ActorRecord *)actor)->action_timer.s = 0;
         select_position_data_and_update_owner(sprite, stats);
     }
     g_dungeon_status.flags = (u16) (g_dungeon_status.flags & 0xFF7F);
@@ -131,7 +132,7 @@ void handle_player_input(void *actor, void *motion, register void *sprite, void 
         begin_actor_turn_toward_target(actor, motion, sprite, stats);
         return;
     }
-    if (!(((Rec_func_8008ACDC_arg0 *)actor)->unk_A2 & 0x10)) {
+    if (!(((ActorRecord *)actor)->unk_A0.parts.high & 0x10)) {
         select_state_16_directional_animation(actor, motion, sprite, stats);
         return;
     }
@@ -140,7 +141,7 @@ void handle_player_input(void *actor, void *motion, register void *sprite, void 
         return;
     }
     if (((can_entity_gain_level(stats) << 0x10) == 0) || (begin_selected_target_level_up(actor, motion, sprite, stats) == 0)) {
-        action_flags = ((Rec_func_8008ACDC_arg0 *)actor)->unk_A2;
+        action_flags = ((ActorRecord *)actor)->unk_A0.parts.high;
         if (action_flags & 0x80) {
             begin_player_pickup_animation(actor, motion, sprite, stats);
             return;
@@ -163,9 +164,9 @@ void handle_player_input(void *actor, void *motion, register void *sprite, void 
             flags_page = (u16 *) 0x80010000;
             input_flags = flags_page[0x1B8A];
             if (input_flags & 1) {
-                ((Rec_func_8008ACDC_arg0 *)actor)->unk_A2 = (u16) (action_flags & 0xFFFE);
+                ((ActorRecord *)actor)->unk_A0.parts.high = (u16) (action_flags & 0xFFFE);
                 if (action_flags & 0x200) {
-                    ((Rec_func_8008ACDC_arg0 *)actor)->unk_A2 = (u16) (action_flags & 0xFDFE);
+                    ((ActorRecord *)actor)->unk_A0.parts.high = (u16) (action_flags & 0xFDFE);
                     command = advance_monster_timed_sequence();
                     if (command == NULL) {
                         return;
@@ -328,7 +329,7 @@ void handle_player_input(void *actor, void *motion, register void *sprite, void 
                         func_8002534C(actor, motion, sprite, stats);
                         return;
                     case 0xC8:
-                        ((Rec_func_8008ACDC_arg0 *)actor)->unk_96.as_s16 =
+                        ((ActorRecord *)actor)->action_timer.s =
                             (s16) (command->unk_00 & 0x7F);
                         begin_parameterized_actor_action(actor, motion, sprite, &D_800DD148, 2);
                         return;
@@ -348,12 +349,12 @@ void handle_player_input(void *actor, void *motion, register void *sprite, void 
                     return;
                 } else {
                     if ((has_action_input_without_modifier() << 0x10) != 0) {
-                        ((Rec_func_8008ACDC_arg0 *)actor)->unk_A4.as_u16 = 0U;
+                        ((ActorRecord *)actor)->unk_A4.halves.low.u = 0U;
                     }
-                    if ((((Rec_func_8008ACDC_arg0 *)actor)->unk_A2 & 0x200) && ((has_pending_actor_or_turn_action(stats) << 0x10) == 0)
+                    if ((((ActorRecord *)actor)->unk_A0.parts.high & 0x200) && ((has_pending_actor_or_turn_action(stats) << 0x10) == 0)
                         && !(g_dungeon_status.flags & 4)) {
-                        ((Rec_func_8008ACDC_arg0 *)actor)->unk_A2 =
-                            (u16) (((Rec_func_8008ACDC_arg0 *)actor)->unk_A2 & 0xFDFF);
+                        ((ActorRecord *)actor)->unk_A0.parts.high =
+                            (u16) (((ActorRecord *)actor)->unk_A0.parts.high & 0xFDFF);
                         if ((lookup_definition_pair_value(((SpriteFrameState *)sprite)->tile_x, ((SpriteFrameState *)sprite)->tile_y) << 0x10)
                             != 0) {
                             begin_player_menu_action(actor, motion, sprite, &player_menu_action_data);
@@ -367,47 +368,47 @@ void handle_player_input(void *actor, void *motion, register void *sprite, void 
                     if ((((u32)input->buttons) & 0x10) || !(((u32)input->buttons) & 3)
                         || (begin_familiar_command_selection(actor, motion, sprite, (((u32) ((u32)input->buttons) >> 1) ^ 1) & 1, 0)
                         == 0)) {
-                        input_angle = resolve_player_input_facing(((Rec_func_8008ACDC_arg0 *)actor)->unk_9E, actor + 0xA2, stats
+                        input_angle = resolve_player_input_facing(((ActorRecord *)actor)->unk_9E.s, actor + 0xA2, stats
                             + 0x2A);
                         if (input_angle != 0xFFF) {
                             ((ActorRecord *)stats)->facing = (u16) input_angle;
                             if (!(((u32)input->buttons) & 0x10)) {
-                                move_flags = ((Rec_func_8008ACDC_arg0 *)actor)->unk_A2;
+                                move_flags = ((ActorRecord *)actor)->unk_A0.parts.high;
                                 if (!(move_flags & 0x400)) {
-                                    ((Rec_func_8008ACDC_arg0 *)actor)->unk_A2 = (u16) (move_flags & 0xFFFE);
+                                    ((ActorRecord *)actor)->unk_A0.parts.high = (u16) (move_flags & 0xFFFE);
                                     if (((ActorRecord *)stats)->flags1C & 0x400) {
                                         ((ActorRecord *)stats)->facing =
                                             (u16) (((u16)((ActorRecord *)stats)->facing) + (generate_random_value() & 0xE00));
                                     }
                                     try_move_player(actor, motion, sprite, stats);
-                                    if (((Rec_func_8008ACDC_arg0 *)actor)->unk_9A.as_u8 != 0xE) {
+                                    if (((ActorRecord *)actor)->action_id.u != 0xE) {
                                         return;
                                     }
                                 } else {
-                                    ((Rec_func_8008ACDC_arg0 *)actor)->unk_96.as_s16 = 0;
+                                    ((ActorRecord *)actor)->action_timer.s = 0;
                                 }
                             } else {
-                                ((Rec_func_8008ACDC_arg0 *)actor)->unk_96.as_s16 = 0;
+                                ((ActorRecord *)actor)->action_timer.s = 0;
                             }
                         }
                         button_bits = ((u32)input->buttons);
                         if ((button_bits & 0x30) == 0x30) {
-                            ((Rec_func_8008ACDC_arg0 *)actor)->unk_A2 =
-                                (u16) (((Rec_func_8008ACDC_arg0 *)actor)->unk_A2 & 0xFFFE);
+                            ((ActorRecord *)actor)->unk_A0.parts.high =
+                                (u16) (((ActorRecord *)actor)->unk_A0.parts.high & 0xFFFE);
                             begin_player_wait_turn(actor, motion, sprite, stats);
                             return;
                         }
-                        button_flags = ((Rec_func_8008ACDC_arg0 *)actor)->unk_A2;
+                        button_flags = ((ActorRecord *)actor)->unk_A0.parts.high;
                         angle_or_flags = button_flags & 0x40;
                         if (angle_or_flags != 0) {
                             angle_or_flags = button_bits & 0x40;
                             if (angle_or_flags == 0) {
-                                ((Rec_func_8008ACDC_arg0 *)actor)->unk_A2 = (u16) (button_flags & 0xFFBF);
+                                ((ActorRecord *)actor)->unk_A0.parts.high = (u16) (button_flags & 0xFFBF);
                             }
                         } else {
                             angle_or_flags = button_bits & 0x40;
                             if (angle_or_flags != 0) {
-                                (*(u16 *)((u8 *)actor + 0xA2)) = (u16) (button_flags & 0xFFFE);
+                                ((ActorRecord *)actor)->unk_A0.parts.high = (u16) (button_flags & 0xFFFE);
                                 if (!(((u32)input->buttons) & 0x20)) {
                                     if ((begin_front_tile_attack(actor, motion, sprite, stats) << 0x10) != 0) {
                                         break;
@@ -420,13 +421,13 @@ void handle_player_input(void *actor, void *motion, register void *sprite, void 
                             }
                         }
                         if ((*(u16 *)0x80013714) & 9) {
-                            ((Rec_func_8008ACDC_arg0 *)actor)->unk_A4.as_u16 = 0U;
+                            ((ActorRecord *)actor)->unk_A4.halves.low.u = 0U;
                         }
-                        if (((Rec_func_8008ACDC_arg0 *)actor)->unk_9A.as_u8 == 0xE) {
-                            idle_ticks = ((Rec_func_8008ACDC_arg0 *)actor)->unk_A4.as_u16 + 1;
-                            ((Rec_func_8008ACDC_arg0 *)actor)->unk_A4.as_u16 = idle_ticks;
+                        if (((ActorRecord *)actor)->action_id.u == 0xE) {
+                            idle_ticks = ((ActorRecord *)actor)->unk_A4.halves.low.u + 1;
+                            ((ActorRecord *)actor)->unk_A4.halves.low.u = idle_ticks;
                             if ((s16) idle_ticks >= 0x3D) {
-                                ((Rec_func_8008ACDC_arg0 *)actor)->unk_A4.as_u16 = 0x3CU;
+                                ((ActorRecord *)actor)->unk_A4.halves.low.u = 0x3CU;
                                 enter_directional_state_17(actor, motion, sprite, stats);
                                 return;
                             }
@@ -437,9 +438,9 @@ void handle_player_input(void *actor, void *motion, register void *sprite, void 
                 }
             }
         default:
-            turn_flags = ((Rec_func_8008ACDC_arg0 *)actor)->unk_A2;
+            turn_flags = ((ActorRecord *)actor)->unk_A0.parts.high;
             if (turn_flags & 1) {
-                ((Rec_func_8008ACDC_arg0 *)actor)->unk_A2 = (u16) (turn_flags & 0xFFFE);
+                ((ActorRecord *)actor)->unk_A0.parts.high = (u16) (turn_flags & 0xFFFE);
                 (*(u8 **)((u8 *)sprite + 0x2C)) = player_landing_frame_set;
                 set_sprite_animation_frame(sprite, player_landing_frame_set[((s32) (g_game_work.view.camera_rotation.parts.viewAngle
                     + (s16) ((u16)((ActorRecord *)stats)->facing) + 0x100) >> 9) & 7], 0, 1);

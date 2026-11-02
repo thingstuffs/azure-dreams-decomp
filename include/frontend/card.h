@@ -48,10 +48,10 @@ void build_memory_task_text(s32 panel_addr);
 void card_animate_selection_marker_rows(struct Menu *menu);
 
 /* card_background_bind_dialog_template.c */
-void card_background_bind_dialog_template(s32 context);
+s32 card_background_bind_dialog_template(s32 context);
 
 /* card_background_bind_template.c */
-void card_background_bind_template(s32 context);
+s32 card_background_bind_template(s32 context);
 
 /* card_background_build_border_packets.c */
 void *card_background_build_border_packets(void *buffer, s32 width, s32 height);
@@ -100,7 +100,7 @@ void card_dev_begin_value_transition(struct S_8001CD7C_0 *object, s32 new_value)
 void card_dev_bind_info_template(s32 context);
 
 /* card_dev_bind_panel_template.c */
-void card_dev_bind_panel_template(s32 context);
+s32 card_dev_bind_panel_template(s32 context);
 
 /* card_dev_bind_row_labels.c */
 void card_dev_bind_row_labels(s32 baseAddress);
@@ -109,7 +109,7 @@ void card_dev_bind_row_labels(s32 baseAddress);
 void card_dev_bind_slot_label(s32 object_addr);
 
 /* card_dev_bind_slot_rows_template.c */
-void card_dev_bind_slot_rows_template(s32 context);
+s32 card_dev_bind_slot_rows_template(s32 context);
 
 /* card_dev_build_slot_path.c */
 void card_dev_build_slot_path(s32 target, s32 entry_index);

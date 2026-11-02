@@ -3,13 +3,13 @@
 
 typedef struct { u8 pad[0x10]; void *callback; } Effect;
 
-s32 func_80400E34(void);
+s32 card_dev_init(void);
 Effect *allocate_or_reuse_effect_and_install_callback(void *first, void *second);
 extern s8 card_dev_effect_mode;
 
 /* Set the global flag, prepare state, and process the target in mode 0. */
 void process_memory_target_mode_zero(s32 target) {
     card_dev_effect_mode = 1;
-    func_80400E34();
+    card_dev_init();
     allocate_or_reuse_effect_and_install_callback(target, 0);
 }

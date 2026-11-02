@@ -50,7 +50,7 @@ extern void spend_actor_mp(D3 *, s32);
 struct SpriteFrameState;
 extern void select_sprite_entry(struct SpriteFrameState *, s16, s16);
 extern void create_directional_target_object(ActorRecord *, void *, SpriteFrameState *);
-extern void format_entity_message(s32, D3 *);
+extern void show_entity_message(s32, D3 *);
 
 /* Advances a timed actor state sequence and updates its sprite direction. */
 void advance_timed_actor_state_sequence(ActorRecord *action, ObjectPosition *position, SpriteFrameState *sprite, D3 *actor) {
@@ -70,9 +70,9 @@ void advance_timed_actor_state_sequence(ActorRecord *action, ObjectPosition *pos
         }
         create_directional_target_object(action, position, sprite);
         if (actor->flags & 0x4000) {
-            format_entity_message(1, actor);
+            show_entity_message(1, actor);
         } else if (((D3Nested *) actor->field_60)->flags & 0x4000) {
-            format_entity_message(0, actor);
+            show_entity_message(0, actor);
         }
         play_sound_if_enabled(0x80D);
         action->action_timer.u = 0x20;

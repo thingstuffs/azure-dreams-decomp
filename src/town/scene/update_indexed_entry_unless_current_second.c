@@ -3,10 +3,9 @@
 #include "common.h"
 #include "shared/record_ptrs.h"
 #include "shared/town_root.h"
+#include "town/player/state.h"
 
-extern void func_8001A554(s32);
-extern s32 func_8001A64C(s32);
-extern s32 town_table_contains_first_byte(s32);
+extern s32 town_table_contains_first_byte_b(s32);
 
 typedef void (*TownCallback)(s32, s32);
 
@@ -16,17 +15,17 @@ s32 update_indexed_entry_unless_current(void) {
     s32 status;
 
     set_script_flag_94c();
-    if (town_table_contains_first_byte(0xB) != 0) {
-        func_8001A554(F_sbs32_pad17);
+    if (town_table_contains_first_byte_b(0xB) != 0) {
+        set_script_flag_bit(F_sbs32_pad17);
     }
 
-    if (func_8001A64C(F_sbs32_pad32) == 0) {
-        func_8001A554(F_sbs32_pad28);
+    if (get_script_flag_mask(F_sbs32_pad32) == 0) {
+        set_script_flag_bit(F_sbs32_pad28);
         return 1;
     }
 
-    if (func_8001A64C(F_sbs32_pad28) == 0) {
-        func_8001A554(F_sbs32_pad24);
+    if (get_script_flag_mask(F_sbs32_pad28) == 0) {
+        set_script_flag_bit(F_sbs32_pad24);
         callback_owner = ((s8 *)(town_scene_root->services));
         (*(TownCallback *)(callback_owner + 0x2F8))(0xE, 0x200);
         status = 0;

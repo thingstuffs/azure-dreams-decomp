@@ -7,7 +7,7 @@ typedef struct ListLink {
     u16 next;
 } ListLink;
 
-s32 func_80000C6C();                             /* extern */
+s32 func_80000C6C();                             /* extern */ /* Unprototyped: the foreign program's import prototype changes this site's bytes */
 extern ListLink D_00000F28[];
 extern s16 *D_00000F20[];
 

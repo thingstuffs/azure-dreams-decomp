@@ -1,6 +1,7 @@
 #include "common.h"
 #include "town/scene/animation.h"
 #include "town/data.h"
+#include "town/devkit/old_minigame_imports.h"
 
 typedef struct S_8052DC78_0 {
     u8 pad_00[0x5C];
@@ -9,7 +10,6 @@ typedef struct S_8052DC78_0 {
 } S_8052DC78_0;   /* arg0 in animate_image_strips_signal_completion */
 
 
-extern void func_8006E854(s16 *rect, u8 *image);
 
 extern u8 D_805305B8[];
 extern u8 D_805305D8[];

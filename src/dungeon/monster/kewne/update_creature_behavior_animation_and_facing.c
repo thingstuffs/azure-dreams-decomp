@@ -19,17 +19,16 @@
 #include "dungeon/level.h"
 #include "dungeon/monster/kewne.h"
 #include "dungeon/player/object.h"
+#include "dungeon/monster/hikewne.h"
 
 
 extern void select_sprite_entry(void *, s32, s32);
 extern s8 find_active_rect_containing_point(s32, s32);
 extern void update_actor_status_and_mp(ActorRecord *entity);
 extern void func_8016B69C(void *, void *, void *, void *);
-extern void func_8016B854(ActorRecord *move_data, ObjectPosition *context, SpriteFrameState *position_data, ActorRecord *actor_data);
-extern s32 func_8016BF9C(ActorRecord *action_state, ObjectPosition *action_param, SpriteFrameState *visual_data, ActorRecord *actor);
-extern void func_8016C234(ActorRecord *controller, ObjectPosition *action_context, SpriteFrameState *sprite, ActorRecord *actor);
-extern void func_8016C358(void *, void *, void *, void *);
-extern s32 func_8016C66C(void *, void *, void *, s32);
+extern s32 select_and_start_target_action(ActorRecord *action_state, ObjectPosition *action_param, SpriteFrameState *visual_data, ActorRecord *actor);
+extern void start_kewne_attack_action(ActorRecord *controller, ObjectPosition *action_context, SpriteFrameState *sprite, ActorRecord *actor);
+extern void update_kewne_charge_counter(void *, void *, void *, void *);
 extern void func_8016E574(void *, void *, void *, void *);
 
 extern u8 D_8016FE40[];
@@ -156,7 +155,7 @@ void update_creature_behavior_animation_and_facing(ActorRecord *actor, ObjectPos
             return;
         }
         if (*(u16 *)&sprite->tile_x == reference_tile_object.tile_position.word) {
-            func_8016B854(actor, context, sprite, creature);
+            select_movement_direction_and_advance(actor, context, sprite, creature);
             return;
         }
         if (!(creature->action_flags & ACTOR_ACTION_PENDING)) {
@@ -175,13 +174,13 @@ void update_creature_behavior_animation_and_facing(ActorRecord *actor, ObjectPos
                     }
                 }
             }
-            if ((func_8016C66C(actor, context, sprite, 0) << 16) == 0) {
+            if ((update_entity_state_from_query(actor, context, sprite, 0) << 16) == 0) {
                 return;
             }
             action_flags = creature->action_flags | 0x4000;
             creature->action_flags = action_flags;
             if (!(action_flags & 0x8000)) {
-                func_8016B854(actor, context, sprite, creature);
+                select_movement_direction_and_advance(actor, context, sprite, creature);
                 return;
             }
         }
@@ -192,10 +191,10 @@ void update_creature_behavior_animation_and_facing(ActorRecord *actor, ObjectPos
             switch (action_index) {
             case 7:
             case 8:
-                if ((func_8016BF9C(actor, context, sprite, creature) << 16) != 0) {
+                if ((select_and_start_target_action(actor, context, sprite, creature) << 16) != 0) {
                     return;
                 }
-                func_8016C234(actor, context, sprite, creature);
+                start_kewne_attack_action(actor, context, sprite, creature);
                 return;
 
             case 4:
@@ -232,7 +231,7 @@ void update_creature_behavior_animation_and_facing(ActorRecord *actor, ObjectPos
             case 9:
             case 10:
             default:
-                func_8016B854(actor, context, sprite, creature);
+                select_movement_direction_and_advance(actor, context, sprite, creature);
                 return;
             }
         }
@@ -258,7 +257,7 @@ void update_creature_behavior_animation_and_facing(ActorRecord *actor, ObjectPos
         }
     } else if ((get_entity_effect_value(creature, STATUS_PARALYSIS) << 16) == 0) {
         if (primary_actor_record->action_id.u == 0x17) {
-            func_8016C358(actor, context, sprite, creature);
+            update_kewne_charge_counter(actor, context, sprite, creature);
         }
     }
 }

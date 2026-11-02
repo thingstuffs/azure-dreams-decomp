@@ -2,6 +2,7 @@
 #include "shared/town_root.h"
 #include "shared/record_ptrs.h"
 #include "town/scene/flags.h"
+#include "town/player/state.h"
 
 
 typedef struct S_8001C7A0_1 {
@@ -9,8 +10,6 @@ typedef struct S_8001C7A0_1 {
     union { s32 s; void * u; } unk_10;   /* accessed as both */
 } S_8001C7A0_1;   /* owner in select_record_by_four_flags */
 
-
-extern s32 func_8001E670(s32);
 extern s16 D_80018740[];
 extern u8 D_80018748[];
 
@@ -37,7 +36,7 @@ void select_record_by_four_flags(void)
             check_value = check_values;
 
             do {
-                if ((record->flags[flag_index] != 0) != (func_8001E670(*check_value) != 0)) {
+                if ((record->flags[flag_index] != 0) != (get_script_flag_mask(*check_value) != 0)) {
                     break;
                 }
                 flag_index++;

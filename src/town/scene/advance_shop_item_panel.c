@@ -2,6 +2,7 @@
 #include "town/scene.h"
 #include "town/scene/object.h"
 #include "town/data.h"
+#include "town/devkit/old_minigame_imports.h"
 
 
 typedef struct Func80813E14Stack {
@@ -53,10 +54,6 @@ typedef struct Func80813E14Input {
 extern u8 D_8028E214[];
 extern u8 town_display_timing_table[];
 
-extern void func_80034A1C(void *, void *, s32);
-extern void func_8003EA54(void *);
-extern u32 func_80071494(void);
-extern void func_8023FB18(void *);
 extern void create_object_position_configures_color(u32, s32, s32, u32);
 extern void create_object_initializes_position_sprite(void *, s32, s32);
 

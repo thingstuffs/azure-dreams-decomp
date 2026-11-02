@@ -1,24 +1,19 @@
 #include "common.h"
 #include "dungeon/system.h"
+#include "dungeon/actor.h"
 
-typedef struct {
-    u8 pad12[0x12];
-    s16 value12;
-    u16 value14;
-} Func800CF16CArg;
 
-extern s32 fade_actor_to_removal(void *first_ptr, void *second_ptr, Func800CF16CArg *record, s32 value);
 
 /*
- * Advances removal fading and decrements the bounded counter on completion; otherwise sets value12
- * to 0x7E40 and sets flag 0x100.
+ * Advances removal fading and decrements the bounded counter on completion; otherwise sets the CLUT
+ * to 0x7E40 and enables sprite flag 0x100.
  */
-void initialize_actor_action_data(void *first_ptr, void *second_ptr, Func800CF16CArg *record, s32 value) {
-    if (fade_actor_to_removal(first_ptr, second_ptr, record, value) != 0) {
+void initialize_actor_action_data(void *first_ptr, void *second_ptr, SpriteFrameState *sprite, void *entity) {
+    if (fade_actor_to_removal(first_ptr, second_ptr, sprite, entity) != 0) {
         decrement_bounded_counter();
         return;
     }
 
-    record->value12 = 0x7E40;
-    record->value14 |= 0x100;
+    sprite->clut = 0x7E40;
+    sprite->flags |= 0x100;
 }

@@ -6,9 +6,8 @@
  * which takes a pointer to a four-byte-entry list.  Evidence: docs/evidence/r121_rem_opus.md. */
 
 extern u8 D_800188D0[];
-extern void func_80017108(u8 *entries);
 
 /* Calls func_80017108 with D_800188D0. */
 void process_entry_list_in_mode_one(void) {
-    func_80017108(D_800188D0);
+    process_flagged_entries_follow_four(D_800188D0);
 }

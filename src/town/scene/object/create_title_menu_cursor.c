@@ -52,7 +52,7 @@ extern s32 func_800351A8(s32, s32);
 extern void *func_800374FC(s32, void *);
 extern void func_8003BC18(void *, void *);
 extern void func_8003F8A8(s32);
-extern void func_80050BFC(s32, void *);
+extern void func_80050BFC(s32, void *); /* Unprototyped: this site's argument count or types differ from the foreign program's import prototype */
 extern u32 func_80071494(void);
 
 /* Build the title-screen menu: the cursor object plus the two rows of three entries, linked to the shared anchor. */

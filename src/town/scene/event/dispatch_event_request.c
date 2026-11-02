@@ -15,7 +15,7 @@ typedef struct S_8001B828_0 {
 extern s32 check_event_value_in_list(s32);
 extern void *clear_event_resource_state_and_get_buffer(s32); /* Unprototyped: retail call passes more arguments than the callee reads */
 #include "town/scene.h"
-extern void func_8001E5F0(s32);
+#include "town/player/state.h"
 
 extern s32 scene_event_data;
 extern u8 scene_mode_event_data[];
@@ -30,7 +30,7 @@ void *dispatch_event_request(s32 request, void *data, s32 mode) {
     TownEventState *state;
 
     if (mode == 0) {
-        func_8001E5F0(F_sbs01_pad13);
+        clear_script_flag_bit(F_sbs01_pad13);
         context = town_event_state;
         status = check_event_value_in_list(((S_8001B828_0 *)context)->unk_04);
         if (status == 0) {

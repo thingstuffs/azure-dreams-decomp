@@ -3,13 +3,12 @@
 #include "common.h"
 #include "sdk/libc.h"
 #include "town/scene.h"
+#include "town/devkit/old_minigame_imports.h"
 
 #ifndef NULL
 #define NULL 0
 #endif
 
-extern void *func_800373DC(s32);
-extern void func_8003BC18(void *, void *);
 
 extern u8 score_sprite_draw_callback_address[16];
 extern u8 D_8028DFD8[16];

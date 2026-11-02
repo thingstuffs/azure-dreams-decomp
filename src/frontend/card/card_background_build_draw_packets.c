@@ -1,5 +1,6 @@
 #include "common.h"
 #include "frontend/card.h"
+#include "frontend/card/server_imports.h"
 
 typedef struct MainPacket12 {
     u8 tag;
@@ -13,8 +14,6 @@ typedef struct MainPacket12 {
     u8 a;
 } MainPacket12;
 
-extern s16 func_80078570(s32 first_value, s32 second_value, s32 third_value, s32 fourth_value);
-extern s16 func_80078640(s32 first_value, s32 second_value);
 
 /* Initializes four drawing packets and returns the next free packet. */
 MainPacket12 *card_background_build_draw_packets(MainPacket12 *packet) {

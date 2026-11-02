@@ -9,8 +9,8 @@ extern s32 card_ui_event_mode;
 extern s32 D_8009E390[];
 
 extern void invoke_callback_for_four_global_values(void);
-extern s32 func_80408644(s32 slot_index);
-extern s32 func_80408674(s32 selected_slot);
+extern s32 _card_status_80408644(s32 slot_index);
+extern s32 _card_load_80408674(s32 selected_slot);
 
 /*
  * Polls the selected card slot, starts and waits for a detected card event, and sets the channel
@@ -36,10 +36,10 @@ s32 advance_processing_selected_slot_sets_completion_flag(void) {
             if (*slot_flag != 0) {
                 card_ui_operation_state = 0;
                 status = 1;
-            } else if (((func_80408644(0) & 1) != 0) ||
-                       ((func_80408644(1) & 1) != 0)) {
+            } else if (((_card_status_80408644(0) & 1) != 0) ||
+                       ((_card_status_80408644(1) & 1) != 0)) {
                 invoke_callback_for_four_global_values();
-                while (func_80408674(card_selected_channel) == 0) {
+                while (_card_load_80408674(card_selected_channel) == 0) {
                 }
                 card_ui_event_mode = 0;
                 card_ui_operation_state = 3;

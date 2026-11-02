@@ -4,7 +4,6 @@
 
 extern s32 scene_update_state[3];
 
-extern s32 func_800175B0(void);
 extern s32 func_800198D0(s32 condition_id);
 extern s32 func_80019A8C(void);
 
@@ -20,7 +19,7 @@ s32 get_current_state_result(void) {
         return 1;
     }
 
-    if ((func_800175B0() != 0) && (func_80019A8C() >= 20)) {
+    if ((count_enabled_town_entries() != 0) && (func_80019A8C() >= 20)) {
         return 1;
     }
 

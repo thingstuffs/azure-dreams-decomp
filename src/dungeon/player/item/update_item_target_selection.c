@@ -16,7 +16,7 @@ enum ItemTargetPhase {
 };
 
 /* Starts an operation, waits for completion, then selects the next action from context flags. */
-void update_item_target_selection(PlayerRecord *state, s32 unused_1, s32 unused_2, ActorRecord *context)
+void update_item_target_selection(PlayerRecord *state, ObjectPosition *unused_1, SpriteFrameState *unused_2, ActorRecord *context)
 {
     void *operation;
 

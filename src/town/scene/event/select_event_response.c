@@ -2,14 +2,11 @@
 #include "common.h"
 #include "town/scene.h"
 #include "town/scene/event.h"
+#include "town/player/state.h"
+#include "town/scene/motion.h"
 
-extern s32 func_800178A8(void *, s32, s32);
-extern s32 func_80017904(void *, s32, s32);
-extern s32 func_80017960(void *, void *, s32, s32);
-extern void initialize_state_two_entries_pointer(s32);
-extern s32 func_8001868C(s32);
-extern s32 func_80018868(s32, s32);
-extern void func_800188E8(s32, s32, s32);
+extern s32 resolve_entry_flag(void *, s32, s32);
+extern s32 query_referenced_flag_for_table_entry(void *, s32, s32);
 
 extern u8 D_80018A0C[16];
 extern u8 scene_event_lookup_context[16];
@@ -33,25 +30,25 @@ s32 select_event_11_response(s32 context, s32 unused, s32 event_id)
     }
 
     event_table = D_80018A0C;
-    result = func_80017960(event_table, scene_event_lookup_context, context, event_id);
-    state_index = func_80018868(F_sbs34_pad16, 2);
+    result = apply_entry_position(event_table, scene_event_lookup_context, context, event_id);
+    state_index = read_script_flag_range(F_sbs34_pad16, 2);
 
     if (event_id != 0xB) {
         return result;
     }
 
-    initialize_state_two_entries_pointer(F_sbs34_pad24);
-    if (func_80017904(event_table, context, 0xB) == 0) {
-        if (func_8001868C(F_sbs34_pad23) == 0) {
+    set_script_flag_bit(F_sbs34_pad24);
+    if (query_referenced_flag_for_table_entry(event_table, context, 0xB) == 0) {
+        if (get_script_flag_mask(F_sbs34_pad23) == 0) {
             state_index++;
             if (state_index == 4) {
                 state_index = 0;
             }
-            func_800188E8(F_sbs34_pad16, state_index, 2);
+            write_script_flag_range(F_sbs34_pad16, state_index, 2);
         }
     }
 
-    if (func_800178A8(D_80018A0C, context, event_id) == 0) {
+    if (resolve_entry_flag(D_80018A0C, context, event_id) == 0) {
         return result;
     }
     return (s32) D_8001B333;

@@ -16,7 +16,7 @@ typedef struct { u8 pad[0x3714]; u16 flags; } SysPage;
 extern u8 player_carry_frames[8];
 
 /* Reset state, update control flags, and select the entity's directional sprite. */
-void begin_player_wait_turn(ActorRecord *state, void *mode, void *sprite, ActorRecord *entity) {
+void begin_player_wait_turn(ActorRecord *state, ObjectPosition *mode, void *sprite, ActorRecord *entity) {
     void *entity_arg;
     GameWork *flags;
     s32 initial_state;

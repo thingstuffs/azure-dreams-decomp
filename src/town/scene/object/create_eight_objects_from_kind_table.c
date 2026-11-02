@@ -1,6 +1,7 @@
 #include "common.h"
 #include "town/scene/collection.h"
 #include "town/scene/object.h"
+#include "town/devkit/old_minigame_imports.h"
 
 typedef struct Object Object;
 
@@ -48,9 +49,6 @@ extern TableEntry D_8052FF9C[][8];
 extern u8 score_sprite_draw_callback_address[];
 extern u8 D_80288EE0[];
 
-extern Object *func_800374FC(s32 type, void *descriptor);
-extern void func_8003BC18(Object *object, void *callback);
-extern void func_80034A1C(Primitive *primitive, void *primitive_descriptor, s32 value);
 
 /* Create and initialize the owner's eight objects using its kind-specific table. */
 void create_eight_objects_from_kind_table(void *owner_data)

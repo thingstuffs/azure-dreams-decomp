@@ -24,7 +24,7 @@ typedef struct S_8008E0C4_2 {
 } S_8008E0C4_2;   /* D_800E3CD0 in advance_actor_death_transition */
 
 /* Waits for the death animation and delay, then changes scenes or restores player input in state 0x10. */
-void advance_actor_death_transition(ActorRecord *context, void *unused, SpriteFrameState *input, ActorRecord *entity) {
+void advance_actor_death_transition(ActorRecord *context, ObjectPosition *unused, SpriteFrameState *input, ActorRecord *entity) {
     GameWork *work;
     u16 remaining;
     s32 state;

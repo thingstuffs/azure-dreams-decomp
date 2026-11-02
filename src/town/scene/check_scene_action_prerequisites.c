@@ -1,9 +1,7 @@
 #include "common.h"
 #include "town/player/script_flags.h"
-
-extern void func_80018854(s32); /* placed copy of set_script_flag_bit */
-extern s32 func_80017C7C(s32, s32);
-extern void func_80017BA0(void *, s32);
+#include "town/scene.h"
+#include "town/scene/flags.h"
 
 extern u8 D_8001AADC[16];
 extern u8 D_8001ADE7[16];
@@ -13,14 +11,14 @@ extern u8 D_8001AE39[16];
 void *check_scene_action_prerequisites(void *object, s32 action_arg) {
     void *response;
 
-    if (func_8001894C(*(s16 *)((u8 *)object + 0x18)) == 0) {
-        func_80018854(*(s16 *)((u8 *)object + 0x18));
+    if (get_script_flag_mask(*(s16 *)((u8 *)object + 0x18)) == 0) {
+        set_script_flag_bit(*(s16 *)((u8 *)object + 0x18));
         return D_8001AADC;
     }
-    if (func_80017C7C(13, 5) == 0) {
+    if (check_callback_record_bytes(13, 5) == 0) {
         response = D_8001ADE7;
     } else {
-        func_80017BA0(object, action_arg);
+        set_indexed_entry_flag(object, action_arg);
         response = D_8001AE39;
     }
     return response;

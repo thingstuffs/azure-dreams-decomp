@@ -7,5 +7,5 @@
 
 /* Returns whether func_80018B5C reports zero for ID 0x5BF. */
 s32 check_scene_flag_5_bf(void) {
-    return func_80018B5C(F_sbs11_pad28) == 0;
+    return get_script_flag_mask(F_sbs11_pad28) == 0;
 }

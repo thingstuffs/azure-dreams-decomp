@@ -1,6 +1,7 @@
 #include "common.h"
 #include "town/scene/collection.h"
 #include "town/scene/object.h"
+#include "town/devkit/old_minigame_imports.h"
 
 typedef struct {
     u8 data[8];
@@ -20,8 +21,6 @@ typedef struct {
 } Object;
 
 extern u8 D_805286B8[];
-extern Object *func_800374FC(s32, void *);
-extern void func_8003BC18(void *, void *);
 
 /* Create an object with its callback, pair and word data, and owner. */
 void create_object_from_pairs_and_words(void *callback, void *pair_data, void *word_data, void *owner)

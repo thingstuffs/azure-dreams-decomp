@@ -2,6 +2,7 @@
 #include "common.h"
 #include "town/scene.h"
 #include "town/data.h"
+#include "town/player/state.h"
 
 typedef struct {
     u8 pad0[4];
@@ -9,7 +10,6 @@ typedef struct {
     u8 pad6[6];
 } Entry;
 
-extern s32 func_8001E670(s32 value);
 extern Entry town_selection_records[];
 
 /* Select the next entry whose value passes func_8001E670, wrapping at the terminator. */
@@ -30,7 +30,7 @@ s32 advance_to_next_enabled_entry(void) {
                 entry_id = entry_ids;
                 next_index = 0;
             }
-            if (func_8001E670(entries[*entry_id].value) != 0) {
+            if (get_script_flag_mask(entries[*entry_id].value) != 0) {
                 break;
             }
             next_index++;

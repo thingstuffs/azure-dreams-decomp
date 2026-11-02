@@ -1,18 +1,13 @@
 #include "common.h"
 #include "town/devkit.h"
+#include "frontend/card/server_imports.h"
 
-extern void func_8007CB08(s32);
-extern void func_8007CA38(void);
-extern void func_80408798(void *);
-extern void func_804088A0(void);
-extern void func_80408958(void);
-extern void func_8007CA48(void);
 
 /* Run the setup sequence using the supplied context. */
 void run_memory_setup_sequence(void *context) {
     func_8007CB08(0);
     func_8007CA38();
-    func_80408798(context);
+    InitCARD2_80408798(context);
     func_804088A0();
     func_80408958();
     func_8007CA48();

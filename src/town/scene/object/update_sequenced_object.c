@@ -8,6 +8,7 @@
 #include "sdk/libc.h"
 #include "town/scene/object.h"
 #include "town/data.h"
+#include "town/devkit/old_minigame_imports.h"
 
    /* the 0x2 bytes before in0 in update_sequenced_object, addressed as in0[-1] */
 
@@ -40,17 +41,8 @@ typedef struct S_8080C650_4 {
 } S_8080C650_4;   /* floor_height_or_spawned_object in update_sequenced_object */
 
 
-s32 func_80034A1C();                /* extern */
-extern void *func_800374FC(s32 flags, struct ObjectNodeHeader **list_head);            /* extern */
-void func_8003BC18(void *, void *);           /* extern */
-void func_8003EA54(void *);                      /* extern */
-void func_80050BD8(s32);                     /* extern */
-void func_80050BFC(s32);                     /* extern */
-void func_80058F88(s32);                     /* extern */
 s32 func_8006A3A4(s32);                             /* extern */
 s32 func_8006A470();                             /* extern */
-void func_8023FB18(void *);                      /* extern */
-void func_80245C10(void *);             /* extern */
 s16 func_8025E01C(void *position);                          /* extern */
 extern s16 D_800133A0;
 extern u8 score_sprite_draw_callback_address[3];

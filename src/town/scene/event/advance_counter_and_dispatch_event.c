@@ -1,9 +1,7 @@
 #include "script_symbols.h"
 #include "common.h"
 #include "town/data.h"
-
-extern void func_80017380(s32);
-extern void func_800173F8(s32);
+#include "town/player/state.h"
 
 /* Advances a counter, wraps values above 20 to 9, and chooses the event handler for values 8 and 20. */
 void advance_counter_and_dispatch_event(void)
@@ -16,8 +14,8 @@ void advance_counter_and_dispatch_event(void)
         town_event_counter = 9;
     }
     if ((town_event_counter == 8) || (town_event_counter == 0x14)) {
-        func_80017380(F_sbs42_pad14);
+        set_script_flag_bit(F_sbs42_pad14);
         return;
     }
-    func_800173F8(F_sbs42_pad14);
+    clear_script_flag_bit(F_sbs42_pad14);
 }

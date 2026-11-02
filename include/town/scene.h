@@ -231,4 +231,10 @@ void write_value_through_pointer(s32 *destination, s32 value);
 
 void fall_to_ground_height(s32 unused, ObjectPosition *position);
 
+struct Entry;
+void apply_entry_keyed_values(s16 *entryTable, void *resource, s32 entryKey);
+s32 find_entry_8_index_or_assert_rev_b(struct Entry *entries, s32 key);
+s32 lookup_entry_apply_record_code(void *table, void *context, s32 lookup_key);
+void process_flagged_entries_mode_append(void *entries);
+s32 *select_fallback_when_below_threshold(void *input);
 #endif

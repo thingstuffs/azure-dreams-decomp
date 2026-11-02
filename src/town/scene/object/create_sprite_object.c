@@ -5,6 +5,7 @@
 #include "shared/object_node.h"
 #include "shared/vector.h"
 #include "town/scene/object.h"
+#include "town/devkit/old_minigame_imports.h"
 
 #ifndef NULL
 #define NULL 0
@@ -19,8 +20,6 @@ typedef struct ObjectWithInitialWords {
     FiveWords initial_words;
 } ObjectWithInitialWords;
 
-extern void *func_800373DC(s32);
-extern void func_8003BC18(void *, void *);
 extern u8 score_sprite_draw_callback_address[12];
 
 extern u8 D_8028E170[];

@@ -2,6 +2,7 @@
 #include "common.h"
 #include "town/scene/milestone_rewards.h"
 #include "town/scene/event.h"
+#include "town/player/state.h"
 
 
 extern u8 scene_string_fallback[];
@@ -10,9 +11,6 @@ extern u8 event_string_fallback[];
 extern u8 D_80020934[];
 
 extern void *select_address_based_input(s32, s32); /* Unprototyped: retail call passes more arguments than the callee reads */
-
-
-extern void func_8001A554(s32);
 
 /* Select event response data, using a fallback when an event handler returns null. */
 void *select_event_response_fallback_event(s32 handler_arg_a, s32 handler_arg_b, s32 selector)
@@ -36,7 +34,7 @@ void *select_event_response_fallback_event(s32 handler_arg_a, s32 handler_arg_b,
         if (result != 0) {
             return result;
         }
-        func_8001A554(F_sbs32_pad25);
+        set_script_flag_bit(F_sbs32_pad25);
         return D_80020934;
     case 40:
     case 41:

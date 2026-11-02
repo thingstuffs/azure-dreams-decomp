@@ -1,7 +1,7 @@
 #include "common.h"
 #include "town/devkit.h"
+#include "town/devkit/flag_test_imports.h"
 
-extern s32 func_807006AC();
 extern s32 devkit_overlay_page[];
 
 

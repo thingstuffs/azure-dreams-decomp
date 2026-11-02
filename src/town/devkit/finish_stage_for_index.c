@@ -1,5 +1,6 @@
 #include "common.h"
 #include "town/devkit.h"
+#include "town/devkit/flag_test_imports.h"
 
 typedef struct {
     u16 value;
@@ -12,12 +13,8 @@ extern u16 D_8070065C[5];
 extern u16 D_80700660[5];
 extern Entry4 D_80700650[3];
 
-extern s32 func_80700D74(s32);
-extern s32 func_807008FC(s32);
 extern void func_80700D20(s32);
 extern void func_80700CD0(s32);
-extern void func_8070096C(s32, s32);
-extern s32 scan_table_entry_query_rejects(void);
 
 /* Clear the pending flags for the index's stage and return the follow-up handler's result. */
 s32 finish_stage_for_index(s32 index) {
@@ -31,13 +28,13 @@ s32 finish_stage_for_index(s32 index) {
             func_80700D20(0x281);
             func_80700D20(0x280);
             func_80700D20(0x278);
-            return scan_table_entry_query_rejects();
+            return dispatch_first_rejected_entry();
         }
 
         if (func_80700D74(0x288) != 0) {
             func_80700CD0(D_80700650[index].value);
             func_80700D20(0x278);
-            return scan_table_entry_query_rejects();
+            return dispatch_first_rejected_entry();
         }
     }
 

@@ -12,12 +12,12 @@
 #include "dungeon.h"
 #include "dungeon/level.h"
 #include "dungeon/player/object.h"
+#include "dungeon/modules.h"
 
 extern void select_sprite_entry(void *, s32, s32);
 extern s32 find_active_rect_containing_point(s32, s32);
 extern void update_actor_status_and_mp(ActorRecord *entity);
 extern void func_80171438(ActorRecord *action, ObjectPosition *action_id, SpriteFrameState *entity, ActorRecord *move_state);
-extern void func_8017167C(void *, void *, void *, void *);
 extern s32 func_80172230(void *, void *, void *, s32);
 extern void func_80173A84(void *, void *, void *, void *);
 
@@ -119,7 +119,7 @@ void update_entity_action_facing(ActorRecord *actor, ObjectPosition *context, Sp
             return;
         }
         if (*(u16 *)&sprite->tile_x == reference_tile_object.tile_position.word) {
-            func_8017167C(actor, context, sprite, entity);
+            choose_block_move_slot_a(actor, context, sprite, entity);
             return;
         }
         if (!(entity->action_flags & ACTOR_ACTION_PENDING)) {
@@ -143,7 +143,7 @@ void update_entity_action_facing(ActorRecord *actor, ObjectPosition *context, Sp
             }
             entity->action_flags |= 0x4000;
             if (!(entity->action_flags & ACTOR_ACTION_PENDING)) {
-                func_8017167C(actor, context, sprite, entity);
+                choose_block_move_slot_a(actor, context, sprite, entity);
             return;
             }
         }
@@ -191,7 +191,7 @@ void update_entity_action_facing(ActorRecord *actor, ObjectPosition *context, Sp
             begin_actor_spell_action(actor, context, sprite, D_80174070, &killer_action_resume_address);
             return;
         default:
-            func_8017167C(actor, context, sprite, entity);
+            choose_block_move_slot_a(actor, context, sprite, entity);
             return;
         }
     } else if (!(((u32)entity->flags1C) & ACTOR_PLAYER_SIDE)) {

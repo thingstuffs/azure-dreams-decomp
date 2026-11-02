@@ -1,11 +1,11 @@
 #include "script_symbols.h"
 #include "common.h"
 #include "town/scene/event.h"
+#include "town/player/state.h"
 
 /* cfail-repair: tf7-phase1-cache-v3 */
-s32 func_80019458(s32);
 
 /* Calls func_80019458 with value 0x639. */
 void query_event_639(void) {
-    func_80019458(F_sbs14_pad21);
+    clear_script_flag_bit(F_sbs14_pad21);
 }

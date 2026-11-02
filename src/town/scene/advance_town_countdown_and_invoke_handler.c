@@ -4,7 +4,7 @@
 #include "shared/record_ptrs.h"
 #include "shared/town_root.h"
 #include "town/scene.h"
-void func_8001886C(s32);                     /* extern */
+#include "town/player/state.h"
 
 /* Decrement the countdown and invoke handler 0x5FF when it reaches zero. */
 void advance_town_countdown_and_invoke_handler(void) {
@@ -15,6 +15,6 @@ void advance_town_countdown_and_invoke_handler(void) {
     countdown = countdown_record->counter - 1;
     countdown_record->counter = countdown;
     if (!(countdown & 0xFF)) {
-        func_8001886C(F_sbs13_pad06);
+        set_script_flag_bit(F_sbs13_pad06);
     }
 }

@@ -1,7 +1,7 @@
 #include "common.h"
 #include "frontend/card.h"
+#include "frontend/card/server_imports.h"
 
-extern void func_8007C040(s32 *ptr_a, s32 *ptr_b, s32 value);
 
 extern s32 checksum_trace_format[];
 extern s32 saved_checksum_label[];

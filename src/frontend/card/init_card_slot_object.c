@@ -2,18 +2,12 @@
 #include "frontend/card/slot_assert_bytes.h"
 #include "frontend/card.h"
 #include "main/data.h"
+#include "frontend/card/server_imports.h"
 
 
 
 
 
-extern s32 func_8003C714(s32 option, void *object, s32 param);
-extern void func_80040560(s32 object, void *data);
-extern s32 func_80047FD8(void *object);
-extern void func_8007BEF0(s32 value);
-extern void func_8007BFE0(void *object, s32 value);
-extern void func_8007C040(void *first_ptr, void *second_ptr, s32 value);
-extern s32 func_804075A8(s32 context);
 extern s32 func_804075D0(void *object, s32 value);
 extern u32 func_80407688(void *object, s32 option);
 extern void assert_card_slot_and_set_high_bit(void *card_slot);
@@ -53,7 +47,7 @@ void *init_card_slot_object(s32 init_option)
     }
     func_804075D0(slot_state, 4);
     base->unk_0C = (s32)(unsigned long)((u8 *)slot_state + 0x50);
-    slot_state->unk_5C = func_804075A8(slot_state->unk_60);
+    slot_state->unk_5C = card_dev_bind_slot_rows_template(slot_state->unk_60);
     func_80407688(slot_state, init_option);
     base->unk_10 = (s32)(unsigned long)D_80407298;
     return base;

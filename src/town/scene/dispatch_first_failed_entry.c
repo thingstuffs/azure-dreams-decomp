@@ -1,6 +1,7 @@
 /* Relinked copy of town/func_80875404 (func_80875404.c); retail differs only at relocation sites. */
 #include "common.h"
 #include "town/scene.h"
+#include "town/devkit/flag_test_imports.h"
 
 typedef struct {
     s16 value[4];
@@ -11,7 +12,6 @@ typedef struct {
     Callback callback[4];
 } CallbackTable;
 
-extern s32 func_80700DC0(s16 value);
 extern u8 D_A06FF53C[];
 
 /* Call the indexed callback at the first failed value test or the end of the list. */

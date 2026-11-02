@@ -1,8 +1,7 @@
 #include "common.h"
 #include "town/devkit.h"
+#include "frontend/card/server_imports.h"
 
-extern void func_8007BEF0(s32 value);
-extern void func_8007C040(void *ptr0, void *ptr1, s32 value);
 extern void card_dev_flag_object_dirty(s32 value);
 extern void assert_card_slot_and_set_high_bit(s32 value);
 

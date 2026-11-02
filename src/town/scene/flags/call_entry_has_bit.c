@@ -1,8 +1,8 @@
 #include "common.h"
 #include "town/scene/flags.h"
+#include "town/devkit/flag_test_imports.h"
 
 extern u8 D_00000F48[];
-extern void func_80000BC8(s32);
 
 
 /* Call func_80000BC8 when the selected entry has bit 0 set. */

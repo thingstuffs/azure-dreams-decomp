@@ -59,7 +59,7 @@ typedef struct S_8008F428_4 {
    /* ((S_8008F428_0 *)arg0)->unk_124 in update_lift_object */
 
 /* Updates the timed effect state, entity flags, and directional animation. */
-void update_lift_object(PlayerRecord *effect_state, void *saved_effect_id, void *animation_arg, PlayerRecord *owner) {
+void update_lift_object(PlayerRecord *effect_state, void *saved_effect_id, SpriteFrameState *animation_arg, PlayerRecord *owner) {
     SpriteFrameState *animation = animation_arg;
     u8 *effect_result;
     u16 ticks_left;

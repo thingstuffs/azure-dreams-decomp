@@ -1,10 +1,7 @@
 #include "common.h"
 #include "frontend/card.h"
+#include "frontend/card/server_imports.h"
 
-s32 func_8007CA58();
-s32 func_8007CA68();
-s32 func_8007CA88();
-void func_8007CA98();
 
 /* Writes 128-byte blocks to a file, optionally creating it first. */
 s32 card_dev_write_file_units_128(s32 filename, void *buffer, s32 block_count, s32 block_offset, s32 skip_create) {

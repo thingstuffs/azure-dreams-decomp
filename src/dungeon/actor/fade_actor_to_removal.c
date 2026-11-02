@@ -9,21 +9,6 @@
 #include "dungeon/actor.h"
 
 
-typedef struct S_800D1A80_1 {
-    u8 pad_00[0xC];
-    union {
-        struct { s32 v; } at00;
-        struct { u8 v; } at00u;
-        struct { u8 pad[0x1]; u8 v; } at01;
-        struct { u8 pad[0x2]; u8 v; } at02;
-    } unk_0C;   /* overlapping accesses */
-    s16 unk_10;
-    u16 unk_12;
-    u16 unk_14;
-    u8 pad_16[0xE];
-    u8 unk_24;
-    u8 unk_25;
-} S_800D1A80_1;   /* arg2 in fade_actor_to_removal */
 
 
 void unlink_entity_node(void *node);
@@ -33,7 +18,8 @@ void play_sound_if_enabled(s32 query_value);
 s32 get_entity_effect_value(void *entry, s32 effect_id);
 
 /* Fade the entity to dark gray, then remove it and update its tile flags. */
-s32 fade_actor_to_removal(ActorRecord *state, void *unused, S_800D1A80_1 *visual, void *entity) {
+s32 fade_actor_to_removal(ActorRecord *state, ObjectPosition *unused, SpriteFrameState *visual, ActorRecord *entity) {
+
     s16 fade_frames;
     s32 tile_flags;
     s16 frames_left;
@@ -51,12 +37,12 @@ s32 fade_actor_to_removal(ActorRecord *state, void *unused, S_800D1A80_1 *visual
         if (g_dungeon_status.activity_counts.parts.pending_action_count != 0) {
             return 0;
         }
-        visual->unk_10 = 0x20;
-        visual->unk_12 = (u16) (visual->unk_12 - 0x80);
-        visual->unk_14 = (u16) (visual->unk_14 | 0xC);
-        ((ActorRecord *)entity)->flags1C = (s32) (((ActorRecord *)entity)->flags1C | 0x10000000);
+        visual->tpage_abr = 0x20;
+        visual->clut = (u16) (visual->clut - 0x80);
+        visual->flags = (u16) (visual->flags | 0xC);
+        entity->flags1C = (s32) (entity->flags1C | 0x10000000);
         play_sound_if_enabled(0x805);
-        visual->unk_0C.at00.v = 0x808080;
+        visual->color.word = 0x808080;
         state->action_timer.s = 0x10;
         state->action_phase.u = (u8) (state->action_phase.u + 1);
     case 1:
@@ -64,33 +50,33 @@ s32 fade_actor_to_removal(ActorRecord *state, void *unused, S_800D1A80_1 *visual
     default:
         return 0;
     }
-    red = visual->unk_0C.at00u.v;
+    red = visual->color.c.r;
     fade_frames = state->action_timer.s;
-    visual->unk_0C.at00u.v = (u8) (red + ((s32) (0x20 - red) / fade_frames));
-    green = visual->unk_0C.at01.v;
-    blue = visual->unk_0C.at02.v;
+    visual->color.c.r = (u8) (red + ((s32) (0x20 - red) / fade_frames));
+    green = visual->color.c.g;
+    blue = visual->color.c.b;
     fade_frames = state->action_timer.s;
-    visual->unk_0C.at01.v = (u8) (green + ((s32) (0x20 - green) / fade_frames));
-    visual->unk_0C.at02.v = (u8) (blue + ((s32) (0x20 - blue) / (s16) state->action_timer.s));
+    visual->color.c.g = (u8) (green + ((s32) (0x20 - green) / fade_frames));
+    visual->color.c.b = (u8) (blue + ((s32) (0x20 - blue) / (s16) state->action_timer.s));
     frames_left = (u16) state->action_timer.s - 1;
     state->action_timer.s = frames_left;
-    if (!(((frames_left << 0x10) > 0) && ((visual->unk_14 & 0x8000) == 0))) {
+    if (!(((frames_left << 0x10) > 0) && ((visual->flags & 0x8000) == 0))) {
         entity_ref = ((s32)g_dungeon_status.pending_display_owner);
-        if (entity_ref == (entity - 0x20)) {
+        if (entity_ref == NODE_HEADER(entity)) {
             g_dungeon_status.pending_display_owner = (s32) (entity_ref & 0x7FFFFFFF);
         }
         detach_record_and_update_slot_state(entity);
         if ((get_entity_effect_value(entity, STATUS_NO_TILE_OCCUPANCY) << 0x10) == 0) {
-            tile_x = visual->unk_24;
-            tile_y = visual->unk_25;
+            tile_x = visual->tile_x;
+            tile_y = visual->tile_y;
             tile_flags = 0x3000;
-            if (((ActorRecord *)entity)->flags1C & ACTOR_PLAYER_SIDE) {
+            if (entity->flags1C & ACTOR_PLAYER_SIDE) {
                 tile_flags = 0x300;
             }
             update_map_cell_flags_with_item_limit(tile_x, tile_y, tile_flags);
         }
         unlink_entity_node(entity);
-        ((ObjectNodeHeader *)entity - 1)->flags = (u16) (((ObjectNodeHeader *)entity - 1)->flags | 0x8000);
+        NODE_HEADER(entity)->flags = (u16) (NODE_HEADER(entity)->flags | 0x8000);
         object_flag_block.flags = object_flag_block.flags | OBJECT_REMOVE_PENDING;
         return 1;
     }

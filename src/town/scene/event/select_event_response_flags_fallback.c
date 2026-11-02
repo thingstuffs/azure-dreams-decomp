@@ -2,6 +2,7 @@
 #include "common.h"
 #include "town/scene/milestone_rewards.h"
 #include "town/scene/event.h"
+#include "town/player/state.h"
 
 
 extern char scene_string_fallback[];
@@ -11,10 +12,6 @@ extern char D_800206CC[];
 extern char event_string_fallback[];
 
 extern void *select_address_based_input(s32, s32); /* Unprototyped: retail call passes more arguments than the callee reads */
-
-
-extern s32 func_8001A64C(s32);
-extern void func_8001A554(s32);
 
 /* Select event response data and set flags when using fallback responses. */
 void *select_event_response_flags_fallback(s32 handler_arg_a, s32 handler_arg_b, s32 selector)
@@ -31,8 +28,8 @@ void *select_event_response_flags_fallback(s32 handler_arg_a, s32 handler_arg_b,
         if (response != 0) {
             return response;
         }
-        if (func_8001A64C(F_sbs32_pad02) == 0) {
-            func_8001A554(F_sbs32_pad02);
+        if (get_script_flag_mask(F_sbs32_pad02) == 0) {
+            set_script_flag_bit(F_sbs32_pad02);
             return D_8001B8CC;
         }
         return D_8001B9E0;
@@ -42,10 +39,10 @@ void *select_event_response_flags_fallback(s32 handler_arg_a, s32 handler_arg_b,
         if (response != 0) {
             return response;
         }
-        if (func_8001A64C(F_okami_talk_00) == 0) {
-            func_8001A554(F_okami_talk_00);
+        if (get_script_flag_mask(F_okami_talk_00) == 0) {
+            set_script_flag_bit(F_okami_talk_00);
         }
-        func_8001A554(F_sbs32_pad25);
+        set_script_flag_bit(F_sbs32_pad25);
         return D_800206CC;
     case 52:
     case 53:

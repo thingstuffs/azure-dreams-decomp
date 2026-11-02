@@ -2,7 +2,7 @@
 
 **Azure Dreams (PlayStation, NTSC-U `SLUS-006.14`) rebuilt as readable C that compiles to the retail game's exact bytes.** This page is generated from the ledger by `tools/status.py`; every figure is computed, none is typed in.
 
-Generated 2026-11-02T20:34:49Z. Baseline: first-pass text frozen 2026-09-07.
+Generated 2026-11-02T21:53:04Z. Baseline: first-pass text frozen 2026-09-07.
 
 
 ## At a glance
@@ -62,9 +62,9 @@ Baseline NOT exact: 0 rows
 | level | bytes | % |
 |---|---:|---:|
 | L0 | 8,027,852 | 97.6% |
-| L1 | 8,027,820 | 97.6% |
-| L2 | 8,027,820 | 97.6% |
-| L3 | 7,274,620 | 88.4% |
+| L1 | 8,027,852 | 97.6% |
+| L2 | 8,027,852 | 97.6% |
+| L3 | 7,274,652 | 88.4% |
 | L4 | 1,019,256 | 12.4% |
 | L5 | 989,924 | 12.0% |
 
@@ -83,10 +83,10 @@ Defects still present in the current tree (files = source files, bytes = image b
 | goto | 124 | 369,536 | 4.5% |
 | computed-goto jump table | 1 | 16 | 0.0% |
 | inline asm outside macros | 6 | 7,608 | 0.1% |
-| any live audit site, unnarrowed | 1,596 | 2,663,224 | 32.4% |
+| any live audit site, unnarrowed | 1,595 | 2,663,192 | 32.4% |
 | do{}while(0) scheduling barrier | 18 | 141,144 | 1.7% |
 | fake dependency x=(e)+a;x-=a / arg+v-v | 1 | 408 | 0.0% |
-| local address-named struct | 1,943 | 2,315,552 | 28.2% |
+| local address-named struct | 1,940 | 2,314,684 | 28.1% |
 | clean shape | 8,006 | 7,855,548 | 95.5% |
 
 <details><summary>pinned first-pass text vs current tree, every defect</summary>
@@ -102,12 +102,12 @@ Defects still present in the current tree (files = source files, bytes = image b
 | inline asm outside macros (clean: minus the composite-row carve debt, counted on its own line below) | 360 | 242,072 | 2.9% | 6 | 7,608 | 0.1% |
 | fidelity blocking site, LABEL_AS_CALL/PASSTHRU_NO_ARGS (pin: baseline audit of the frozen text; clean: live, L5 predicate) | 1489 | 676,096 | 8.2% | 0 | 0 | 0.0% |
 | any fidelity site (pin: any baseline audit class; clean: live L5 `fidelity_site` predicate, = levels.py) | 2654 | 1,280,740 | 15.6% | 0 | 0 | 0.0% |
-| any live audit site, unnarrowed (clean column only; pin column repeats the row above) | 2654 | 1,280,740 | 15.6% | 1596 | 2,663,224 | 32.4% |
+| any live audit site, unnarrowed (clean column only; pin column repeats the row above) | 2654 | 1,280,740 | 15.6% | 1595 | 2,663,192 | 32.4% |
 | noreturn tail-call spelling (scaffolding, docs/FIDELITY.md) | 668 | 489,140 | 5.9% | 0 | 0 | 0.0% |
 | maspsx marker pins (scaffolding) | 394 | 347,664 | 4.2% | 0 | 0 | 0.0% |
 | do{}while(0) scheduling barrier (scaffolding, pure C) | 227 | 156,008 | 1.9% | 18 | 141,144 | 1.7% |
 | fake dependency x=(e)+a;x-=a / arg+v-v (scaffolding, pure C) | 1 | 408 | 0.0% | 1 | 408 | 0.0% |
-| local address-named struct | 633 | 346,824 | 4.2% | 1943 | 2,315,552 | 28.2% |
+| local address-named struct | 633 | 346,824 | 4.2% | 1940 | 2,314,684 | 28.1% |
 | clean shape (none of boiler/M2C_FIELD/pins/goto/m2c names) | 631 | 154,308 | 1.9% | 8006 | 7,855,548 | 95.5% |
 
 </details>

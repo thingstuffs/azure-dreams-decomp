@@ -1,8 +1,8 @@
 #include "frontend/card/message_display.h"
 #include "common.h"
 #include "frontend/card/message.h"
+#include "frontend/card/server_imports.h"
 
-extern s32 func_80051B50(void *buffer, s32 value, s32 option);
 extern u8 card_layout_text_items[];
 
 /* Position and update four display items using the selected table row. */

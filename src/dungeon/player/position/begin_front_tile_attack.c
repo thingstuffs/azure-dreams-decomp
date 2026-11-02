@@ -44,7 +44,7 @@ typedef struct S_8008C8BC_2 {
    /* state in begin_front_tile_attack */
 
 /* Selects a target in the facing direction and initializes the entity action state. */
-s32 begin_front_tile_attack(ActorRecord *body, void *unused, void *position_arg, void *entity_arg) {
+s32 begin_front_tile_attack(ActorRecord *body, ObjectPosition *unused, void *position_arg, void *entity_arg) {
     register S_8008C8BC_0 *entity = entity_arg;
     s32 direction;
     u8 *page_or_entity;

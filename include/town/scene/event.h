@@ -24,4 +24,7 @@ s32 *clear_event_resource_state_and_get_buffer(void);
 void dispatch_event_63_a_through_193_e_0(void);
 u8 *get_event_data_pointer(void);
 
+void forward_stored_pair(void);
+void query_event_626(void);
+
 #endif

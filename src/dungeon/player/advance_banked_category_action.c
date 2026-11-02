@@ -5,7 +5,7 @@
 extern s32 *dungeon_category_action_handlers[];
 
 /* Runs a banked callback and advances the object state when it completes. */
-void advance_banked_category_action(ActorRecord *object, void *unused_1, void *unused_2, ActorRecord *context) {
+void advance_banked_category_action(ActorRecord *object, ObjectPosition *unused_1, SpriteFrameState *unused_2, ActorRecord *context) {
     u8 *callback_data;
     u8 state;
     s32 **callback_table;

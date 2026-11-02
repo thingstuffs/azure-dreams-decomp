@@ -1,12 +1,1378 @@
 {
  "schema": "azure-clean.copy-links.v1",
  "units": {
+  "dungeon/func_8099F8EC": {
+   "func_80171C34": "func_80171854"
+  },
+  "dungeon/func_809A58EC": {
+   "func_80171C34": "func_8016B854",
+   "func_80171F9C": "func_8016BF9C",
+   "func_80172234": "func_8016C234",
+   "func_80172358": "func_8016C358",
+   "func_80172628": "func_8016C66C"
+  },
+  "dungeon/func_809B18EC": {
+   "func_8017169C": "func_8015F69C"
+  },
+  "dungeon/func_809B78EC": {
+   "func_8017169C": "func_8015969C"
+  },
+  "dungeon/func_80CF0BC4": {
+   "func_8017121C": "func_8016B21C",
+   "func_801714FC": "func_8016B4FC"
+  },
+  "dungeon/func_80CFCBC4": {
+   "func_8017121C": "func_8015F21C",
+   "func_801714FC": "func_8015F4FC"
+  },
+  "dungeon/func_80E658F8": {
+   "func_800F6D28": "func_801744E0"
+  },
+  "dungeon/func_80E8B8F4": {
+   "func_8014D810": "func_801718DC"
+  },
+  "dungeon/func_80FDB6A8": {
+   "func_8014D810": "func_8017167C"
+  },
   "dungeon/func_80FE16A8": {
    "func_8014D810": "func_8016B67C",
    "func_80171570": "func_8016B438",
    "func_80171E28": "func_8016BE28",
    "func_8017208C": "func_8016C08C",
    "func_80172628": "func_8016C230"
+  },
+  "dungeon/func_81005858": {
+   "func_8014D810": "func_80171848"
+  },
+  "dungeon/func_8127C3E0": {
+   "func_8001A514": "func_80171328"
+  },
+  "dungeon/func_812A67A4": {
+   "func_8017169C": "func_80172510",
+   "func_8017182C": "func_801726C8",
+   "func_80171F9C": "func_80172E10",
+   "func_80172234": "func_801730A8",
+   "func_80172628": "func_801731CC"
+  },
+  "dungeon/func_812AC7A4": {
+   "func_8017169C": "func_8016C510",
+   "func_8017182C": "func_8016C6C8",
+   "func_80171F9C": "func_8016CE10",
+   "func_80172234": "func_8016D0A8",
+   "func_80172628": "func_8016D1CC"
+  },
+  "dungeon/func_812B27A4": {
+   "func_8017169C": "func_80166510",
+   "func_8017182C": "func_801666C8",
+   "func_80171F9C": "func_80166E10",
+   "func_80172234": "func_801670A8",
+   "func_80172628": "func_801671CC"
+  },
+  "dungeon/func_812B87A4": {
+   "func_8017169C": "func_80160510",
+   "func_8017182C": "func_801606C8",
+   "func_80171F9C": "func_80160E10",
+   "func_80172234": "func_801610A8",
+   "func_80172628": "func_801611CC"
+  },
+  "dungeon/func_812BE7A4": {
+   "func_8017169C": "func_8015A510",
+   "func_8017182C": "func_8015A6C8",
+   "func_80171F9C": "func_8015AE10",
+   "func_80172234": "func_8015B0A8",
+   "func_80172628": "func_8015B1CC"
+  },
+  "dungeon/func_812CA7A4": {
+   "func_8017169C": "func_8014E510",
+   "func_8017182C": "func_8014E6C8",
+   "func_80171F9C": "func_8014EE10",
+   "func_80172234": "func_8014F0A8",
+   "func_80172628": "func_8014F1CC"
+  },
+  "dungeon/func_81323F78": {
+   "func_800DA660": "func_8016DAA4"
+  },
+  "dungeon/func_81325EF0": {
+   "func_800DA660": "func_8016DAA4"
+  },
+  "dungeon/func_813266E8": {
+   "func_8017165C": "func_8016ADB8"
+  },
+  "dungeon/func_81327710": {
+   "func_800F6D28": "func_8016A928"
+  },
+  "town/func_8032BCA0": {
+   "func_8001A7B0": "func_8001B080"
+  },
+  "town/func_80468358": {
+   "func_8001ACE8": "func_8001E578"
+  },
+  "town/func_80469414": {
+   "func_8001ADE0": "func_8001E670"
+  },
+  "town/func_804695D0": {
+   "func_8001ADE0": "func_8001E670"
+  },
+  "town/func_80469C78": {
+   "func_8001ACE8": "func_8001E578"
+  },
+  "town/func_80469D6C": {
+   "func_8001ACE8": "func_8001E578"
+  },
+  "town/func_80469E64": {
+   "func_8001ACE8": "func_8001E578"
+  },
+  "town/func_80469F94": {
+   "func_8001ACE8": "func_8001E578"
+  },
+  "town/func_8046A52C": {
+   "func_8001ACE8": "func_8001E578"
+  },
+  "town/func_8046A5A0": {
+   "func_8001ACE8": "func_8001E578"
+  },
+  "town/func_8046A828": {
+   "func_8001AD60": "func_8001E5F0"
+  },
+  "town/func_8046AA8C": {
+   "func_8001ACE8": "func_8001E578",
+   "func_8001ADE0": "func_8001E670"
+  },
+  "town/func_8046ABB4": {
+   "func_8001AD60": "func_8001E5F0"
+  },
+  "town/func_8046AED0": {
+   "func_8001ACE8": "func_8001E578"
+  },
+  "town/func_8046AF58": {
+   "func_8001ACE8": "func_8001E578"
+  },
+  "town/func_8046B108": {
+   "func_8001ACE8": "func_8001E578"
+  },
+  "town/func_8046B2DC": {
+   "func_8001ACE8": "func_8001E578"
+  },
+  "town/func_8046B37C": {
+   "func_8001ADE0": "func_8001E670"
+  },
+  "town/func_8046B7A0": {
+   "func_8001ADE0": "func_8001E670"
+  },
+  "town/func_8046B884": {
+   "func_8001ACE8": "func_8001E578",
+   "func_8001ADE0": "func_8001E670",
+   "func_8001B0C8": "func_8001E82C"
+  },
+  "town/func_8046BD98": {
+   "func_8001ADE0": "func_8001E670"
+  },
+  "town/func_8046BEFC": {
+   "func_8001ACE8": "func_8001E578"
+  },
+  "town/func_8046CA24": {
+   "func_80019ADC": "func_8001DA48"
+  },
+  "town/func_8046F480": {
+   "func_80019C68": "func_80019928"
+  },
+  "town/func_8046F550": {
+   "func_80019C68": "func_80019928"
+  },
+  "town/func_8046F620": {
+   "func_80019C68": "func_80019928"
+  },
+  "town/func_8046F640": {
+   "func_80019D44": "func_80019A04",
+   "func_80019DFC": "func_80019ABC"
+  },
+  "town/func_8046F710": {
+   "func_80019C68": "func_80019928"
+  },
+  "town/func_8046F730": {
+   "func_80019D44": "func_80019A04",
+   "func_80019DFC": "func_80019ABC"
+  },
+  "town/func_8046F800": {
+   "func_80019C68": "func_80019928"
+  },
+  "town/func_8046F980": {
+   "func_80019C68": "func_80019928"
+  },
+  "town/func_8046F9EC": {
+   "func_80019A34": "func_800196F4"
+  },
+  "town/func_8046FAF0": {
+   "func_80019A34": "func_800196F4",
+   "func_80019ADC": "func_8001979C"
+  },
+  "town/func_8046FC00": {
+   "func_80019D44": "func_80019A04",
+   "func_80019DFC": "func_80019ABC"
+  },
+  "town/func_8046FD28": {
+   "func_80019D44": "func_80019A04",
+   "func_80019DFC": "func_80019ABC"
+  },
+  "town/func_8046FDF4": {
+   "func_80019C68": "func_80019928",
+   "func_8001D8C4": "func_80019618"
+  },
+  "town/func_8046FEE8": {
+   "func_80019B54": "func_80019814",
+   "func_80019C68": "func_80019928",
+   "func_8001D8C4": "func_80019618"
+  },
+  "town/func_8046FF64": {
+   "func_80019D44": "func_80019A04",
+   "func_80019DFC": "func_80019ABC"
+  },
+  "town/func_80470030": {
+   "func_80019C68": "func_80019928",
+   "func_8001D8C4": "func_80019618"
+  },
+  "town/func_80470098": {
+   "func_8001D8C4": "func_80019618"
+  },
+  "town/func_80470198": {
+   "func_80019B54": "func_80019814",
+   "func_80019C68": "func_80019928",
+   "func_8001D8C4": "func_80019618"
+  },
+  "town/func_80470214": {
+   "func_80019D44": "func_80019A04",
+   "func_80019DFC": "func_80019ABC"
+  },
+  "town/func_804702F0": {
+   "func_80019C68": "func_80019928",
+   "func_8001D8C4": "func_80019618"
+  },
+  "town/func_80470408": {
+   "func_80019C68": "func_80019928",
+   "func_8001D8C4": "func_80019618"
+  },
+  "town/func_8047047C": {
+   "func_80019D44": "func_80019A04",
+   "func_80019DFC": "func_80019ABC"
+  },
+  "town/func_8047054C": {
+   "func_80019C68": "func_80019928",
+   "func_8001D8C4": "func_80019618"
+  },
+  "town/func_80470664": {
+   "func_80019D44": "func_80019A04",
+   "func_80019DFC": "func_80019ABC"
+  },
+  "town/func_80470A50": {
+   "func_80019C68": "func_80019928"
+  },
+  "town/func_80470B20": {
+   "func_80019C68": "func_80019928"
+  },
+  "town/func_80470BF0": {
+   "func_80019B54": "func_80019814"
+  },
+  "town/func_80470E98": {
+   "func_8001AAF0": "func_8001A220"
+  },
+  "town/func_80471380": {
+   "func_800193F4": "func_80018824"
+  },
+  "town/func_80471F74": {
+   "func_80018E34": "func_80018BE4",
+   "func_80018EA8": "func_80018C58"
+  },
+  "town/func_80472120": {
+   "func_8001932C": "func_800190DC"
+  },
+  "town/func_80472778": {
+   "func_80019ADC": "func_8001979C"
+  },
+  "town/func_8047339C": {
+   "func_8001AB20": "func_8001A250"
+  },
+  "town/func_80476298": {
+   "func_8001ADE0": "func_800198D0"
+  },
+  "town/func_80476338": {
+   "func_8001ADE0": "func_800198D0"
+  },
+  "town/func_804763C0": {
+   "func_8001ACE8": "func_800197D8"
+  },
+  "town/func_804767D4": {
+   "func_8001A2F0": "func_800175B0"
+  },
+  "town/func_80476848": {
+   "func_8001A2F0": "func_800175B0"
+  },
+  "town/func_80476A08": {
+   "func_8001A4F0": "func_8001796C",
+   "func_8001D8C4": "func_80018B24"
+  },
+  "town/func_80477018": {
+   "func_8001ACE8": "func_800197D8"
+  },
+  "town/func_80477C84": {
+   "func_80019ADC": "func_80018CA8"
+  },
+  "town/func_8047AA98": {
+   "func_8001ADE0": "func_800198D0"
+  },
+  "town/func_8047AB38": {
+   "func_8001ADE0": "func_800198D0"
+  },
+  "town/func_8047ABC0": {
+   "func_8001ACE8": "func_800197D8"
+  },
+  "town/func_8047B818": {
+   "func_8001ACE8": "func_800197D8"
+  },
+  "town/func_8047C484": {
+   "func_80019ADC": "func_80018CA8"
+  },
+  "town/func_8047EA14": {
+   "func_80019ADC": "func_80016A38"
+  },
+  "town/func_80480154": {
+   "func_8001D048": "func_80016540"
+  },
+  "town/func_804801D0": {
+   "func_8001ACE8": "func_80018570",
+   "func_8001ADE0": "func_80018668"
+  },
+  "town/func_804802BC": {
+   "func_8001ACE8": "func_80018570",
+   "func_8001ADE0": "func_80018668"
+  },
+  "town/func_80480318": {
+   "func_8001ACE8": "func_80018570",
+   "func_8001ADE0": "func_80018668"
+  },
+  "town/func_804B78EC": {
+   "func_80019958": "func_80017BA0"
+  },
+  "town/func_804B7930": {
+   "func_8001ACE8": "func_80018854"
+  },
+  "town/func_804B7950": {
+   "func_8001AD60": "func_800188CC"
+  },
+  "town/func_804B7970": {
+   "func_8001ACE8": "func_80018854"
+  },
+  "town/func_804B7990": {
+   "func_8001AD60": "func_800188CC"
+  },
+  "town/func_804B79B0": {
+   "func_8001ACE8": "func_80018854"
+  },
+  "town/func_804B79D0": {
+   "func_8001AD60": "func_800188CC"
+  },
+  "town/func_804B7A28": {
+   "func_8001ACE8": "func_80018854"
+  },
+  "town/func_804B7A48": {
+   "func_8001ACE8": "func_80018854"
+  },
+  "town/func_804B7A68": {
+   "func_8001AD60": "func_800188CC"
+  },
+  "town/func_804B7AC0": {
+   "func_80019958": "func_80017BA0"
+  },
+  "town/func_804B7B30": {
+   "func_800198F4": "func_80017B3C",
+   "func_80019D44": "func_80017F8C"
+  },
+  "town/func_804B7BD0": {
+   "func_80019C68": "func_80017EB0",
+   "func_8001AD60": "func_800188CC",
+   "func_8001ADE0": "func_8001894C"
+  },
+  "town/func_804B7CE8": {
+   "func_80019B54": "func_80017D9C",
+   "func_8001ACE8": "func_80018854",
+   "func_8001AD60": "func_800188CC"
+  },
+  "town/func_804B7E18": {
+   "func_80018AEC": "func_800176B4",
+   "func_8001ACE8": "func_80018854",
+   "func_8001AD60": "func_800188CC",
+   "func_8001ADE0": "func_8001894C"
+  },
+  "town/func_804B7E98": {
+   "func_80019958": "func_80017BA0",
+   "func_80019A34": "func_80017C7C",
+   "func_8001ACE8": "func_80018854",
+   "func_8001ADE0": "func_8001894C"
+  },
+  "town/func_804B7F1C": {
+   "func_80019B54": "func_80017D9C",
+   "func_8001ADE0": "func_8001894C"
+  },
+  "town/func_804B7F74": {
+   "func_80019DFC": "func_80018044",
+   "func_8001ADE0": "func_8001894C"
+  },
+  "town/func_804B7FF4": {
+   "func_80019B54": "func_80017D9C",
+   "func_8001ACE8": "func_80018854",
+   "func_8001ADE0": "func_8001894C"
+  },
+  "town/func_804B806C": {
+   "func_80019DFC": "func_80018044",
+   "func_8001ADE0": "func_8001894C"
+  },
+  "town/func_804B80D0": {
+   "func_8001ACE8": "func_80018854",
+   "func_8001AD60": "func_800188CC",
+   "func_8001ADE0": "func_8001894C"
+  },
+  "town/func_804B81A0": {
+   "func_80019B54": "func_80017D9C",
+   "func_8001ACE8": "func_80018854",
+   "func_8001ADE0": "func_8001894C"
+  },
+  "town/func_804B81F8": {
+   "func_8001ADE0": "func_8001894C"
+  },
+  "town/func_804B8384": {
+   "func_80019D44": "func_80017F8C",
+   "func_80019DFC": "func_80018044",
+   "func_8001ACE8": "func_80018854",
+   "func_8001ADE0": "func_8001894C"
+  },
+  "town/func_804B8424": {
+   "func_800198F4": "func_80017B3C",
+   "func_80019D44": "func_80017F8C",
+   "func_80019DFC": "func_80018044",
+   "func_8001ADE0": "func_8001894C"
+  },
+  "town/func_804B8578": {
+   "func_80019958": "func_80017BA0",
+   "func_8001ACE8": "func_80018854",
+   "func_8001ADE0": "func_8001894C"
+  },
+  "town/func_804B85D0": {
+   "func_80019958": "func_80017BA0"
+  },
+  "town/func_804B85F4": {
+   "func_80019958": "func_80017BA0"
+  },
+  "town/func_804B8618": {
+   "func_80019958": "func_80017BA0"
+  },
+  "town/func_804B8B08": {
+   "func_8001ACE8": "func_80018854"
+  },
+  "town/func_804D0FA8": {
+   "func_80019ADC": "func_800167CC"
+  },
+  "town/func_804D80C8": {
+   "func_80019D44": "func_80016B08",
+   "func_80019DFC": "func_80016BC0",
+   "func_8001AD60": "func_80017674",
+   "func_8001ADE0": "func_800176F4"
+  },
+  "town/func_804D81D0": {
+   "func_8001A7B0": "func_80017868",
+   "func_8001ACE8": "func_800175FC",
+   "func_8001AD60": "func_80017674",
+   "func_8001ADE0": "func_800176F4"
+  },
+  "town/func_804F0198": {
+   "func_80019D44": "func_80016B2C",
+   "func_80019DFC": "func_80016BE4"
+  },
+  "town/func_804F08A0": {
+   "func_80019ADC": "func_800168C4"
+  },
+  "town/func_80500784": {
+   "func_80019ADC": "func_800167A8"
+  },
+  "town/func_8050E100": {
+   "func_8001AD60": "func_800173F8"
+  },
+  "town/func_8050E1B0": {
+   "func_8001ACE8": "func_80017380",
+   "func_8001AD60": "func_800173F8"
+  },
+  "town/func_8051E904": {
+   "func_800194E4": "func_80017710",
+   "func_8001ACE8": "func_80018A64"
+  },
+  "town/func_8051EAB0": {
+   "func_8001ADE0": "func_80018B5C"
+  },
+  "town/func_8051EAD0": {
+   "func_8001ACE8": "func_80018A64"
+  },
+  "town/func_8051EB6C": {
+   "func_8001ADE0": "func_80018B5C"
+  },
+  "town/func_8051EBA4": {
+   "func_8001ADE0": "func_80018B5C"
+  },
+  "town/func_8051EBC4": {
+   "func_80019958": "func_80017B84"
+  },
+  "town/func_8051EC18": {
+   "func_8001ACE8": "func_80018A64"
+  },
+  "town/func_8051EC3C": {
+   "func_8001ADE0": "func_80018B5C"
+  },
+  "town/func_8051EC5C": {
+   "func_8001ADE0": "func_80018B5C"
+  },
+  "town/func_8051EC7C": {
+   "func_8001ADE0": "func_80018B5C"
+  },
+  "town/func_8051EDA4": {
+   "func_80019958": "func_80017B84",
+   "func_8001AD60": "func_80018ADC",
+   "func_8001ADE0": "func_80018B5C"
+  },
+  "town/func_8051EE00": {
+   "func_80019B54": "func_80017D80",
+   "func_8001ACE8": "func_80018A64",
+   "func_8001AD60": "func_80018ADC"
+  },
+  "town/func_8051EF40": {
+   "func_8001ACE8": "func_80018A64",
+   "func_8001AD60": "func_80018ADC",
+   "func_8001ADE0": "func_80018B5C",
+   "func_804B78EC": "func_800160D4"
+  },
+  "town/func_8051EFE8": {
+   "func_8001ACE8": "func_80018A64",
+   "func_8001AD60": "func_80018ADC",
+   "func_8001ADE0": "func_80018B5C"
+  },
+  "town/func_8051F220": {
+   "func_8001AD60": "func_80018ADC"
+  },
+  "town/func_8051F2BC": {
+   "func_804B78EC": "func_800160D4"
+  },
+  "town/func_8051F334": {
+   "func_80019B54": "func_80017D80",
+   "func_8001AD60": "func_80018ADC",
+   "func_8001ADE0": "func_80018B5C"
+  },
+  "town/func_8051F3C8": {
+   "func_8001ADE0": "func_80018B5C"
+  },
+  "town/func_8051F3E8": {
+   "func_8001ADE0": "func_80018B5C"
+  },
+  "town/func_8051F408": {
+   "func_80019860": "func_80017A8C",
+   "func_8001ACE8": "func_80018A64",
+   "func_8001ADE0": "func_80018B5C"
+  },
+  "town/func_8051F51C": {
+   "func_8001AD60": "func_80018ADC",
+   "func_8001ADE0": "func_80018B5C"
+  },
+  "town/func_8051F688": {
+   "func_8001ACE8": "func_80018A64"
+  },
+  "town/func_8051F6A8": {
+   "func_8001AD60": "func_80018ADC"
+  },
+  "town/func_8051FABC": {
+   "func_8001ACE8": "func_80018A64",
+   "func_8001AD60": "func_80018ADC",
+   "func_8001ADE0": "func_80018B5C"
+  },
+  "town/func_8051FB00": {
+   "func_8001ACE8": "func_80018A64"
+  },
+  "town/func_8051FBF0": {
+   "func_8001AD60": "func_80018ADC",
+   "func_8001ADE0": "func_80018B5C"
+  },
+  "town/func_8051FC84": {
+   "func_8001ACE8": "func_80018A64"
+  },
+  "town/func_8054F910": {
+   "func_80019D44": "func_80016C58",
+   "func_80019DFC": "func_80016D10"
+  },
+  "town/func_8054FB90": {
+   "func_8001AD60": "func_800177C4"
+  },
+  "town/func_8054FBD0": {
+   "func_8001AD60": "func_800177C4"
+  },
+  "town/func_80579188": {
+   "func_8001ACE8": "func_80017320",
+   "func_8001AD60": "func_80017398"
+  },
+  "town/func_805797CC": {
+   "func_80019ADC": "func_800167F0"
+  },
+  "town/func_8059E4A0": {
+   "func_80019C68": "func_80017D48"
+  },
+  "town/func_8059E540": {
+   "func_8001ADE0": "func_80018964"
+  },
+  "town/func_8059E620": {
+   "func_8001B0C8": "func_80018B00"
+  },
+  "town/func_8059E640": {
+   "func_8001789C": "func_80017B98"
+  },
+  "town/func_8059E6A4": {
+   "func_80017098": "func_800172A4",
+   "func_80019ADC": "func_80017BBC"
+  },
+  "town/func_8059E728": {
+   "func_8001AD60": "func_800188E4",
+   "func_8001ADE0": "func_80018964"
+  },
+  "town/func_8059E77C": {
+   "func_8001ACE8": "func_8001886C",
+   "func_8001AD60": "func_800188E4",
+   "func_8001ADE0": "func_80018964"
+  },
+  "town/func_8059E824": {
+   "func_8001ACE8": "func_8001886C"
+  },
+  "town/func_805D2174": {
+   "func_8001ACE8": "func_800193E0"
+  },
+  "town/func_805D2194": {
+   "func_8001AD60": "func_80019458"
+  },
+  "town/func_805D2250": {
+   "func_8001AAF0": "func_800191E8"
+  },
+  "town/func_805D228C": {
+   "func_8001ACE8": "func_800193E0"
+  },
+  "town/func_805D27E4": {
+   "func_80018AEC": "func_80017E1C",
+   "func_80019958": "func_80018308",
+   "func_8001ACE8": "func_800193E0",
+   "func_8001AD60": "func_80019458",
+   "func_8001ADE0": "func_800194D8"
+  },
+  "town/func_805D28F4": {
+   "func_8001ACE8": "func_800193E0"
+  },
+  "town/func_805D2974": {
+   "func_8001ADE0": "func_800194D8"
+  },
+  "town/func_805D2994": {
+   "func_8001ACE8": "func_800193E0"
+  },
+  "town/func_805D2B0C": {
+   "func_80019B54": "func_80018504",
+   "func_8001A3A4": "func_80018D54",
+   "func_8001A670": "func_80019638",
+   "func_8001AD60": "func_80019458",
+   "func_8001ADE0": "func_800194D8"
+  },
+  "town/func_805D2D5C": {
+   "func_80018AEC": "func_80017E1C",
+   "func_80019B54": "func_80018504"
+  },
+  "town/func_805D2E0C": {
+   "func_8001ADE0": "func_800194D8"
+  },
+  "town/func_805D2E2C": {
+   "func_8001ACE8": "func_800193E0"
+  },
+  "town/func_805D2FC4": {
+   "func_80018AEC": "func_80017E1C",
+   "func_80019B54": "func_80018504",
+   "func_8001ADE0": "func_800194D8"
+  },
+  "town/func_805D30BC": {
+   "func_8001ACE8": "func_800193E0"
+  },
+  "town/func_805D30DC": {
+   "func_8001AD60": "func_80019458"
+  },
+  "town/func_805D30FC": {
+   "func_8001ADE0": "func_800194D8"
+  },
+  "town/func_805D311C": {
+   "func_8001ACE8": "func_800193E0"
+  },
+  "town/func_805D313C": {
+   "func_8001ACE8": "func_800193E0"
+  },
+  "town/func_805D31E8": {
+   "func_8001ACE8": "func_800193E0"
+  },
+  "town/func_805D3208": {
+   "func_8001ACE8": "func_800193E0"
+  },
+  "town/func_805D32DC": {
+   "func_80018AEC": "func_80017E1C",
+   "func_80019C68": "func_80018618",
+   "func_8001ADE0": "func_800194D8"
+  },
+  "town/func_805D3370": {
+   "func_8001AAF0": "func_800191E8"
+  },
+  "town/func_805D34AC": {
+   "func_8001ACE8": "func_800193E0"
+  },
+  "town/func_805D34CC": {
+   "func_8001AD60": "func_80019458"
+  },
+  "town/func_805D3588": {
+   "func_8001ACE8": "func_800193E0",
+   "func_8001AD60": "func_80019458"
+  },
+  "town/func_805D363C": {
+   "func_8001AAF0": "func_800191E8"
+  },
+  "town/func_805D3700": {
+   "func_8001ACE8": "func_800193E0",
+   "func_8001ADE0": "func_800194D8"
+  },
+  "town/func_805D376C": {
+   "func_8001ADE0": "func_800194D8"
+  },
+  "town/func_806011BC": {
+   "func_8001AD60": "func_80017DD4"
+  },
+  "town/func_80614BE8": {
+   "func_8001ACE8": "func_80018B58",
+   "func_8001AD60": "func_80018BD0",
+   "func_8001ADE0": "func_80018C50"
+  },
+  "town/func_80614DF8": {
+   "func_8001AD60": "func_80018BD0",
+   "func_8001ADE0": "func_80018C50"
+  },
+  "town/func_80614E30": {
+   "func_8001AD60": "func_80018BD0",
+   "func_8001ADE0": "func_80018C50"
+  },
+  "town/func_80614EA4": {
+   "func_80019A34": "func_80017E00",
+   "func_80019DFC": "func_800181C8",
+   "func_8001ACE8": "func_80018B58",
+   "func_8001ADE0": "func_80018C50"
+  },
+  "town/func_80614F4C": {
+   "func_8001AD60": "func_80018BD0"
+  },
+  "town/func_80614FAC": {
+   "func_8001ACE8": "func_80018B58",
+   "func_8001AD60": "func_80018BD0",
+   "func_8001ADE0": "func_80018C50"
+  },
+  "town/func_80615000": {
+   "func_80019DFC": "func_800181C8",
+   "func_8001ACE8": "func_80018B58",
+   "func_8001ADE0": "func_80018C50"
+  },
+  "town/func_8061506C": {
+   "func_8001ACE8": "func_80018B58",
+   "func_8001AD60": "func_80018BD0",
+   "func_8001ADE0": "func_80018C50"
+  },
+  "town/func_806151B4": {
+   "func_8001ACE8": "func_80018B58",
+   "func_8001AD60": "func_80018BD0",
+   "func_8001ADE0": "func_80018C50"
+  },
+  "town/func_80615268": {
+   "func_8001ACE8": "func_80018B58",
+   "func_8001AD60": "func_80018BD0",
+   "func_8001ADE0": "func_80018C50"
+  },
+  "town/func_806152EC": {
+   "func_8001ACE8": "func_80018B58",
+   "func_8001AD60": "func_80018BD0",
+   "func_8001ADE0": "func_80018C50"
+  },
+  "town/func_806153E8": {
+   "func_8001AD60": "func_80018BD0",
+   "func_8001ADE0": "func_80018C50"
+  },
+  "town/func_8061545C": {
+   "func_8001ACE8": "func_80018B58"
+  },
+  "town/func_80615604": {
+   "func_8001B0C8": "func_80018CC0"
+  },
+  "town/func_80632100": {
+   "func_8001A7B0": "func_8001764C"
+  },
+  "town/func_80632120": {
+   "func_80019DFC": "func_80016BD0",
+   "func_8001A7B0": "func_8001764C"
+  },
+  "town/func_8064711C": {
+   "func_8001ADE0": "func_80017798"
+  },
+  "town/func_8064713C": {
+   "func_80019DFC": "func_80016C64",
+   "func_8001ACE8": "func_800176A0"
+  },
+  "town/func_80647190": {
+   "func_8001A7B0": "func_8001790C"
+  },
+  "town/func_806471E8": {
+   "func_8001A7B0": "func_8001790C"
+  },
+  "town/func_80647920": {
+   "func_80019ADC": "func_80016944"
+  },
+  "town/func_8065B954": {
+   "func_80019988": "func_80017200",
+   "func_80019B54": "func_800173CC",
+   "func_8001AF7C": "func_80017FEC"
+  },
+  "town/func_8065BCA4": {
+   "func_80019B54": "func_800173CC",
+   "func_8001AF7C": "func_80017FEC"
+  },
+  "town/func_8065BEC4": {
+   "func_80019D44": "func_800175BC",
+   "func_80019DFC": "func_80017674",
+   "func_8001ADE0": "func_80017F7C"
+  },
+  "town/func_8065BF68": {
+   "func_80019C68": "func_800174E0"
+  },
+  "town/func_8065CB30": {
+   "func_80019ADC": "func_80017354"
+  },
+  "town/func_8067F2C0": {
+   "func_80019C68": "func_80017978"
+  },
+  "town/func_8067F3B0": {
+   "func_80019C68": "func_80017978"
+  },
+  "town/func_8067F4E0": {
+   "func_8001ADE0": "func_80018594"
+  },
+  "town/func_8067F5C4": {
+   "func_8001ADE0": "func_80018594"
+  },
+  "town/func_8067F850": {
+   "func_800171DC": "func_80017108"
+  },
+  "town/func_80697184": {
+   "func_80019C68": "func_80017A48"
+  },
+  "town/func_806971A4": {
+   "func_80019D44": "func_80017B24",
+   "func_80019DFC": "func_80017BDC",
+   "func_8001B0C8": "func_80018820"
+  },
+  "town/func_8069723C": {
+   "func_80019C68": "func_80017A48"
+  },
+  "town/func_8069725C": {
+   "func_80019D44": "func_80017B24",
+   "func_80019DFC": "func_80017BDC",
+   "func_8001B0C8": "func_80018820"
+  },
+  "town/func_806972F4": {
+   "func_80019C68": "func_80017A48"
+  },
+  "town/func_80697314": {
+   "func_80019D44": "func_80017B24",
+   "func_80019DFC": "func_80017BDC",
+   "func_8001B0C8": "func_80018820"
+  },
+  "town/func_806973AC": {
+   "func_80019C68": "func_80017A48"
+  },
+  "town/func_806973CC": {
+   "func_80019D44": "func_80017B24",
+   "func_80019DFC": "func_80017BDC",
+   "func_8001A7B0": "func_800187D8",
+   "func_8001ACE8": "func_8001856C"
+  },
+  "town/func_806974E0": {
+   "func_80018ABC": "func_8001689C"
+  },
+  "town/func_8069770C": {
+   "func_80018C4C": "func_80016B1C"
+  },
+  "town/func_806977DC": {
+   "func_800171BC": "func_800171B8"
+  },
+  "town/func_80697800": {
+   "func_800171DC": "func_800171D8"
+  },
+  "town/func_806A973C": {
+   "func_80019ADC": "func_80016760"
+  },
+  "town/func_806C56CC": {
+   "func_80019DFC": "func_800182E4",
+   "func_8001ACE8": "func_80018C74",
+   "func_8001ADE0": "func_80018D6C"
+  },
+  "town/func_806C5744": {
+   "func_8001ACE8": "func_80018C74",
+   "func_8001AD60": "func_80018CEC"
+  },
+  "town/func_806C57B4": {
+   "func_8001ACE8": "func_80018C74",
+   "func_8001AD60": "func_80018CEC",
+   "func_8001ADE0": "func_80018D6C"
+  },
+  "town/func_806C5858": {
+   "func_8001ACE8": "func_80018C74",
+   "func_8001AD60": "func_80018CEC",
+   "func_8001ADE0": "func_80018D6C"
+  },
+  "town/func_806C58DC": {
+   "func_80019DFC": "func_800182E4",
+   "func_8001ADE0": "func_80018D6C"
+  },
+  "town/func_806C5A28": {
+   "func_800190C0": "func_800175A8"
+  },
+  "town/func_806C5A98": {
+   "func_8001ACE8": "func_80018C74",
+   "func_8001AD60": "func_80018CEC",
+   "func_8001ADE0": "func_80018D6C"
+  },
+  "town/func_806C5B5C": {
+   "func_8001ACE8": "func_80018C74",
+   "func_8001AD60": "func_80018CEC",
+   "func_8001ADE0": "func_80018D6C"
+  },
+  "town/func_806C5C20": {
+   "func_8001ACE8": "func_80018C74",
+   "func_8001AD60": "func_80018CEC",
+   "func_8001ADE0": "func_80018D6C"
+  },
+  "town/func_806C5CA4": {
+   "func_8001ACE8": "func_80018C74",
+   "func_8001AD60": "func_80018CEC",
+   "func_8001ADE0": "func_80018D6C"
+  },
+  "town/func_806C5D40": {
+   "func_8001ACE8": "func_80018C74",
+   "func_8001AD60": "func_80018CEC",
+   "func_8001ADE0": "func_80018D6C"
+  },
+  "town/func_806C5DDC": {
+   "func_8001ACE8": "func_80018C74",
+   "func_8001AD60": "func_80018CEC",
+   "func_8001ADE0": "func_80018D6C"
+  },
+  "town/func_806C5E78": {
+   "func_8001ACE8": "func_80018C74",
+   "func_8001AD60": "func_80018CEC",
+   "func_8001ADE0": "func_80018D6C"
+  },
+  "town/func_806C5EDC": {
+   "func_8001ACE8": "func_80018C74"
+  },
+  "town/func_806C5EFC": {
+   "func_80019DFC": "func_800182E4",
+   "func_8001ADE0": "func_80018D6C"
+  },
+  "town/func_806C5FB4": {
+   "func_8001ACE8": "func_80018C74",
+   "func_8001AD60": "func_80018CEC",
+   "func_8001ADE0": "func_80018D6C"
+  },
+  "town/func_806C90F8": {
+   "func_80019C68": "func_80016B20",
+   "func_8001B0C8": "func_8001762C"
+  },
+  "town/func_806C9180": {
+   "func_80019C68": "func_80016B20"
+  },
+  "town/func_806C91D8": {
+   "func_80019C68": "func_80016B20",
+   "func_8001B0C8": "func_8001762C"
+  },
+  "town/func_806C92F0": {
+   "func_80019C68": "func_80016B20",
+   "func_8001ADE0": "func_800175BC"
+  },
+  "town/func_806C9970": {
+   "func_80019ADC": "func_80016994"
+  },
+  "town/func_806CB0F8": {
+   "func_80019C68": "func_80016B1C",
+   "func_8001B0C8": "func_80017628"
+  },
+  "town/func_806CB96C": {
+   "func_80019ADC": "func_80016990"
+  },
+  "town/func_806CD0C0": {
+   "func_80019DFC": "func_80016C58"
+  },
+  "town/func_806CF0F8": {
+   "func_80019C68": "func_80016928"
+  },
+  "town/func_806CF778": {
+   "func_80019ADC": "func_8001679C"
+  },
+  "town/func_806D16E8": {
+   "func_80019ADC": "func_8001670C"
+  },
+  "town/func_806D2BB8": {
+   "func_800196A8": "func_8001637C"
+  },
+  "town/func_806D2EB0": {
+   "func_8095013C": "func_800161EC"
+  },
+  "town/func_806D41C0": {
+   "func_80019C68": "func_800177CC",
+   "func_8001AD60": "func_8001860C"
+  },
+  "town/func_806D4204": {
+   "func_80019DFC": "func_80017960"
+  },
+  "town/func_806D425C": {
+   "func_80019C68": "func_800177CC",
+   "func_8001ACE8": "func_80018594",
+   "func_8001ADE0": "func_8001868C"
+  },
+  "town/func_806D42B4": {
+   "func_80019D44": "func_800178A8",
+   "func_80019DFC": "func_80017960",
+   "func_8001ACE8": "func_80018594"
+  },
+  "town/func_806D435C": {
+   "func_80019C68": "func_800177CC",
+   "func_8001ACE8": "func_80018594",
+   "func_8001AD60": "func_8001860C",
+   "func_8001B038": "func_800187B8"
+  },
+  "town/func_806D43CC": {
+   "func_80019B54": "func_800176B8",
+   "func_8001ACE8": "func_80018594",
+   "func_8001ADE0": "func_8001868C",
+   "func_8001B168": "func_800188E8"
+  },
+  "town/func_806D4430": {
+   "func_80019D44": "func_800178A8",
+   "func_80019DFC": "func_80017960",
+   "func_8001ADE0": "func_8001868C",
+   "func_8001B0E8": "func_80018868",
+   "func_8001B168": "func_800188E8"
+  },
+  "town/func_806D450C": {
+   "func_80018AEC": "func_80016FD0",
+   "func_80019C68": "func_800177CC",
+   "func_8001ACE8": "func_80018594",
+   "func_8001ADE0": "func_8001868C"
+  },
+  "town/func_806D4578": {
+   "func_8001B0E8": "func_80018868"
+  },
+  "town/func_806D45CC": {
+   "func_80019B54": "func_800176B8",
+   "func_8001ACE8": "func_80018594"
+  },
+  "town/func_806D462C": {
+   "func_80019D44": "func_800178A8",
+   "func_80019DFC": "func_80017960",
+   "func_8001ACE8": "func_80018594",
+   "func_8001ADE0": "func_8001868C"
+  },
+  "town/func_806D46F4": {
+   "func_80019B54": "func_800176B8"
+  },
+  "town/func_806D4714": {
+   "func_80019D44": "func_800178A8",
+   "func_80019DFC": "func_80017960",
+   "func_8001ACE8": "func_80018594",
+   "func_8001ADE0": "func_8001868C"
+  },
+  "town/func_806D4844": {
+   "func_80019B54": "func_800176B8",
+   "func_80019C68": "func_800177CC",
+   "func_8001ACE8": "func_80018594",
+   "func_8001ADE0": "func_8001868C"
+  },
+  "town/func_806D4920": {
+   "func_80019C68": "func_800177CC",
+   "func_8001ACE8": "func_80018594",
+   "func_8001ADE0": "func_8001868C"
+  },
+  "town/func_806D4978": {
+   "func_80019DFC": "func_80017960"
+  },
+  "town/func_806D4B50": {
+   "func_8001ACE8": "func_80018594",
+   "func_8001B168": "func_800188E8"
+  },
+  "town/func_806D4B9C": {
+   "func_80017B84": "func_80017904",
+   "func_80019D44": "func_800178A8",
+   "func_80019DFC": "func_80017960",
+   "func_8001ACE8": "func_80018594",
+   "func_8001ADE0": "func_8001868C",
+   "func_8001B0E8": "func_80018868",
+   "func_8001B168": "func_800188E8"
+  },
+  "town/func_806D4CC0": {
+   "func_8001AD60": "func_8001860C"
+  },
+  "town/func_806D4D18": {
+   "func_8001B0E8": "func_80018868"
+  },
+  "town/func_806D4D78": {
+   "func_8001ACE8": "func_80018594"
+  },
+  "town/func_806D4D98": {
+   "func_8001AAF0": "func_8001839C"
+  },
+  "town/func_806D4E00": {
+   "func_8001AAF0": "func_8001839C"
+  },
+  "town/func_806D7918": {
+   "func_80019D44": "func_80017A54",
+   "func_80019DFC": "func_80017B0C"
+  },
+  "town/func_806D7A24": {
+   "func_80019D44": "func_80017A54",
+   "func_80019DFC": "func_80017B0C"
+  },
+  "town/func_806D7DAC": {
+   "func_80019D44": "func_80017A54",
+   "func_80019DFC": "func_80017B0C",
+   "func_8001AD60": "func_800185C0"
+  },
+  "town/func_806D7FDC": {
+   "func_80019C68": "func_80017978",
+   "func_8001B0C8": "func_800187FC"
+  },
+  "town/func_806D80EC": {
+   "func_80019C68": "func_80017978",
+   "func_8001ADE0": "func_80018640"
+  },
+  "town/func_806D8140": {
+   "func_80019D44": "func_80017A54",
+   "func_80019DFC": "func_80017B0C"
+  },
+  "town/func_806D835C": {
+   "func_8001ACE8": "func_80018548",
+   "func_8001AD60": "func_800185C0"
+  },
+  "town/func_806D847C": {
+   "func_8001ACE8": "func_80018548",
+   "func_8001ADE0": "func_80018640"
+  },
+  "town/func_806D8580": {
+   "func_8001B0C8": "func_800187FC"
+  },
+  "town/func_806D85A0": {
+   "func_8001B038": "func_8001876C",
+   "func_8001D280": "func_80017024"
+  },
+  "town/func_806F1A08": {
+   "func_8001AD60": "func_800177BC"
+  },
+  "town/func_806F1A40": {
+   "func_8001ACE8": "func_80017744",
+   "func_8001AD60": "func_800177BC"
+  },
+  "town/func_8070DCE4": {
+   "func_8001ADE0": "func_8001A64C"
+  },
+  "town/func_8070DD18": {
+   "func_80019A34": "func_800197FC",
+   "func_8001ACE8": "func_8001A554",
+   "func_8001AD60": "func_8001A5CC",
+   "func_8001ADE0": "func_8001A64C"
+  },
+  "town/func_8070DDBC": {
+   "func_80017098": "func_80018F8C",
+   "func_80019ADC": "func_800198A4",
+   "func_8001ACE8": "func_8001A554",
+   "func_8001AD60": "func_8001A5CC"
+  },
+  "town/func_8070DE48": {
+   "func_8001ACE8": "func_8001A554",
+   "func_8001ADE0": "func_8001A64C",
+   "func_8001B0C8": "func_8001A934"
+  },
+  "town/func_8070DFE0": {
+   "func_8001ACE8": "func_8001A554",
+   "func_8001ADE0": "func_8001A64C"
+  },
+  "town/func_8070E0DC": {
+   "func_80019B54": "func_8001991C",
+   "func_8001ACE8": "func_8001A554",
+   "func_8001AD60": "func_8001A5CC",
+   "func_8001ADE0": "func_8001A64C"
+  },
+  "town/func_8070E180": {
+   "func_8001ACE8": "func_8001A554"
+  },
+  "town/func_8070E2DC": {
+   "func_8001789C": "func_80019880",
+   "func_8001ACE8": "func_8001A554",
+   "func_8001ADE0": "func_8001A64C"
+  },
+  "town/func_8070E604": {
+   "func_80019B54": "func_8001991C",
+   "func_8001A670": "func_8001A7AC",
+   "func_8001ACE8": "func_8001A554"
+  },
+  "town/func_8070E69C": {
+   "func_8001ACE8": "func_8001A554"
+  },
+  "town/func_8070E728": {
+   "func_8001A670": "func_8001A7AC",
+   "func_8001ADE0": "func_8001A64C"
+  },
+  "town/func_8070E790": {
+   "func_8001ACE8": "func_8001A554"
+  },
+  "town/func_8070E81C": {
+   "func_8001A670": "func_8001A7AC"
+  },
+  "town/func_8070E880": {
+   "func_8001ACE8": "func_8001A554",
+   "func_8001ADE0": "func_8001A64C"
+  },
+  "town/func_8070E940": {
+   "func_80019B54": "func_8001991C",
+   "func_8001AD60": "func_8001A5CC",
+   "func_8001ADE0": "func_8001A64C"
+  },
+  "town/func_8070E9D4": {
+   "func_8001ACE8": "func_8001A554"
+  },
+  "town/func_8070E9F4": {
+   "func_8001ACE8": "func_8001A554"
+  },
+  "town/func_8070EA14": {
+   "func_8001ACE8": "func_8001A554",
+   "func_8001AD60": "func_8001A5CC",
+   "func_8001ADE0": "func_8001A64C"
+  },
+  "town/func_8070EC08": {
+   "func_8001A7B0": "func_8001A8EC",
+   "func_8001ACE8": "func_8001A554",
+   "func_8001ADE0": "func_8001A64C"
+  },
+  "town/func_8070ED94": {
+   "func_8001A7B0": "func_8001A8EC",
+   "func_8001ACE8": "func_8001A554",
+   "func_8001ADE0": "func_8001A64C"
+  },
+  "town/func_8070EEF0": {
+   "func_8001A7B0": "func_8001A8EC",
+   "func_8001ACE8": "func_8001A554",
+   "func_8001ADE0": "func_8001A64C"
+  },
+  "town/func_8070EF90": {
+   "func_8001ACE8": "func_8001A554",
+   "func_8001ADE0": "func_8001A64C"
+  },
+  "town/func_8070F02C": {
+   "func_8001A7B0": "func_8001A8EC",
+   "func_8001ACE8": "func_8001A554",
+   "func_8001ADE0": "func_8001A64C"
+  },
+  "town/func_8070F14C": {
+   "func_8001ADE0": "func_8001A64C"
+  },
+  "town/func_8070F2FC": {
+   "func_80019B54": "func_8001991C",
+   "func_8001ACE8": "func_8001A554",
+   "func_8001ADE0": "func_8001A64C"
+  },
+  "town/func_8070F4A4": {
+   "func_8001ACE8": "func_8001A554",
+   "func_8001ADE0": "func_8001A64C"
+  },
+  "town/func_8070F594": {
+   "func_8001AD60": "func_8001A5CC"
+  },
+  "town/func_8070F7B8": {
+   "func_8001AD60": "func_8001A5CC"
+  },
+  "town/func_8070F854": {
+   "func_8001ADE0": "func_8001A64C"
+  },
+  "town/func_8070F874": {
+   "func_8001ADE0": "func_8001A64C"
+  },
+  "town/func_8070F894": {
+   "func_8001ADE0": "func_8001A64C"
+  },
+  "town/func_8070F8EC": {
+   "func_8001ACE8": "func_8001A554"
+  },
+  "town/func_8070F90C": {
+   "func_8001AD60": "func_8001A5CC"
+  },
+  "town/func_8072A100": {
+   "func_8001ACE8": "func_80017684",
+   "func_8001AD60": "func_800176FC",
+   "func_8001ADE0": "func_8001777C",
+   "func_8001B0C8": "func_80017918"
+  },
+  "town/func_8072A288": {
+   "func_8001ACE8": "func_80017684"
+  },
+  "town/func_8072A2A8": {
+   "func_8001AD60": "func_800176FC"
+  },
+  "town/func_8072A2C8": {
+   "func_8001ACE8": "func_80017684"
+  },
+  "town/func_8072A308": {
+   "func_8001AD60": "func_800176FC"
+  },
+  "town/func_8074C8F8": {
+   "func_80019C68": "func_80016924",
+   "func_8001B0C8": "func_80017430"
+  },
+  "town/func_80761B70": {
+   "func_80017B84": "func_80016EB8",
+   "func_80019DFC": "func_80016F14",
+   "func_8001ADE0": "func_8001781C"
+  },
+  "town/func_80761C08": {
+   "func_80019B54": "func_80016C6C"
+  },
+  "town/func_80761C28": {
+   "func_8001ACE8": "func_80017724",
+   "func_8001AD60": "func_8001779C"
+  },
+  "town/func_80761C70": {
+   "func_80017B84": "func_80016EB8",
+   "func_80019DFC": "func_80016F14",
+   "func_8001AD60": "func_8001779C",
+   "func_8001ADE0": "func_8001781C",
+   "func_8001B038": "func_80017948"
+  },
+  "town/func_80761D30": {
+   "func_8001ACE8": "func_80017724"
+  },
+  "town/func_80761D50": {
+   "func_80019C68": "func_80016D80",
+   "func_8001A7B0": "func_80017990"
+  },
+  "town/func_80761DA4": {
+   "func_8001A7B0": "func_80017990",
+   "func_8001ACE8": "func_80017724",
+   "func_8001B038": "func_80017948"
+  },
+  "town/func_8077DC0C": {
+   "func_8001AD60": "func_80017670"
+  },
+  "town/func_8079A84C": {
+   "func_80019ADC": "func_80016870"
   }
  }
 }

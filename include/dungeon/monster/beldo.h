@@ -56,4 +56,6 @@ void update_actor_part_brightness(void *root_data, void *position_out, void *par
 void update_beldo_attached_part(void *root_data, void *position_data, void *render_data);
 void update_object_animation(ActorRecord *obj, ObjectPosition *motion, SpriteFrameState *part, ActorRecord *state);
 
+s32 replay_actor_direction_commands(u8 *actor, ObjectPosition *action_context, SpriteFrameState *sprite);
+
 #endif

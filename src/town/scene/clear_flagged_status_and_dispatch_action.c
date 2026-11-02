@@ -3,6 +3,9 @@
 #include "shared/record_ptrs.h"
 #include "town/scene.h"
 #include "shared/town_root.h"
+#include "town/player/state.h"
+#include "town/scene/event.h"
+#include "town/scene/flags.h"
 
 typedef struct S_800167E4_0 {
     u8 pad_00[0x18];
@@ -34,12 +37,7 @@ typedef struct S_800167E4_4 {
 } S_800167E4_4;   /* index * 8 + ((S_800167E4_2 *)town2)->unk_40 in clear_flagged_status_and_dispatch_action */
 
 
-extern s32 check_are_nonzero(void);
-extern void func_80017E1C(void);
-extern void func_80018308(void *, s32);
-extern void func_800193E0(s32);
-extern void func_80019458(s32);
-extern s32 func_800194D8(s32);
+extern s32 are_all_checks_set(void);
 
 extern s16 D_80019676;
 extern s32 scene_cell_dispatch_code;
@@ -54,7 +52,7 @@ s32 clear_flagged_status_and_dispatch_action(S_800167E4_0 *entity, s32 action_ar
     flag_id = entity->unk_18;
     scene_cell_dispatch_code = ((S_800167E4_3 *)(town->unk_08 * 8 + town->unk_40))->unk_04;
 
-    if (func_800194D8(flag_id) != 0) {
+    if (get_script_flag_mask(flag_id) != 0) {
         {
             S_800167E4_2 *clear_town;
             s32 entry_index;
@@ -65,19 +63,19 @@ s32 clear_flagged_status_and_dispatch_action(S_800167E4_0 *entity, s32 action_ar
         }
         flag_id = entity->unk_18;
         scene_cell_dispatch_code = 0;
-        func_80019458(flag_id);
+        clear_script_flag_bit(flag_id);
     }
 
-    if (check_are_nonzero() != 0 && func_800194D8(F_sbs14_pad19) != 0) {
-        if (func_800194D8(D_80019676) == 0 && scene_cell_dispatch_code == 0) {
-            func_80019458(F_sbs14_pad19);
-            func_80018308(entity, action_arg);
+    if (are_all_checks_set() != 0 && get_script_flag_mask(F_sbs14_pad19) != 0) {
+        if (get_script_flag_mask(D_80019676) == 0 && scene_cell_dispatch_code == 0) {
+            clear_script_flag_bit(F_sbs14_pad19);
+            set_indexed_entry_flag(entity, action_arg);
             return 1;
         }
     } else {
-        func_800193E0(F_sbs14_pad19);
+        set_script_flag_bit(F_sbs14_pad19);
     }
 
-    func_80017E1C();
+    invoke_callback_event_11();
     return 0;
 }

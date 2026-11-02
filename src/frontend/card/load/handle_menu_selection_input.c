@@ -1,12 +1,12 @@
 #include "common.h"
 #include "frontend/card/load.h"
 #include "frontend/card/service.h"
+#include "frontend/card/server_imports.h"
 
 
 extern s32 boot_pad_state;
 extern s32 boot_pressed_buttons;
 
-extern s32 func_80058FF0(s32 value, s32 direction, s32 amount);
 extern void func_80063FF8(s32 sound);
 extern void submit_stored_and_queried_boot_values(void);
 extern void func_804070C4(void *object);

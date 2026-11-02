@@ -3,6 +3,7 @@
 #include "shared/record_ptrs.h"
 #include "town/scene.h"
 #include "shared/town_root.h"
+#include "town/player/state.h"
 
 typedef struct TownCallback {
     u8 pad_00[0x218];
@@ -14,9 +15,6 @@ typedef struct TownRoot {
     TownCallback *callback;
 } TownRoot;
 
-extern s32 func_80018964(s32);
-extern void func_800188E4(s32);
-extern void func_8001886C(s32);
 extern s32 D_800190D4;
 
 /* Dispatches state-dependent actions for two IDs, then invokes the town callback. */
@@ -25,16 +23,16 @@ void dispatch_state_dependent_actions_two(void)
     void *callback_arg;
     TownRoot *town_root;
 
-    if (func_80018964(F_sbs13_pad08) != 0) {
-        func_800188E4(F_sbs13_pad08);
+    if (get_script_flag_mask(F_sbs13_pad08) != 0) {
+        clear_script_flag_bit(F_sbs13_pad08);
     } else {
-        func_8001886C(F_sbs13_pad08);
+        set_script_flag_bit(F_sbs13_pad08);
     }
 
-    if (func_80018964(F_player_mizugi) != 0) {
-        func_800188E4(F_player_mizugi);
+    if (get_script_flag_mask(F_player_mizugi) != 0) {
+        clear_script_flag_bit(F_player_mizugi);
     } else {
-        func_8001886C(F_player_mizugi);
+        set_script_flag_bit(F_player_mizugi);
     }
 
     callback_arg = &D_800190D4;

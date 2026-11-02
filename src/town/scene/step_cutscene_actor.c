@@ -3,16 +3,13 @@
 #include "shared/entity.h"
 #include "town/scene.h"
 #include "town/data.h"
+#include "town/devkit/old_minigame_imports.h"
 
 
 typedef struct Copy12 {
     s32 word[3];
 } Copy12;
 
-extern s32 func_80034A1C();
-extern s32 func_8003EA54();
-extern s32 func_80071494(void);
-extern s32 func_80245C10();
 extern s16 func_8025E01C(void *position);
 extern s32 D_80526430[3];
 extern u8 D_80288FF0[];

@@ -1,13 +1,10 @@
 #include "common.h"
 #include "town/scene/effect.h"
+#include "town/devkit/old_minigame_imports.h"
 
 
 typedef void (*Callback)(void);
 
-extern void *func_800373DC(s32);
-extern void func_8003BC18(void *, void *);
-extern s32 func_80071494(void);
-extern void func_8028E170(void);
 extern void func_8052FC8C(void);
 extern u8 score_sprite_draw_callback_address[];
 

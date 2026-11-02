@@ -1,9 +1,8 @@
 #include "common.h"
 #include "frontend/card/slot_assert_words.h"
 #include "frontend/card.h"
+#include "frontend/card/server_imports.h"
 
-extern void func_8007BEF0(s32 value) __attribute__((noreturn));
-extern void func_8007C040(void *ptr, void *ptr2, s32 value);
 extern void update_two_slots_using_selection_mapping(s32 slot_state_addr);
 
 

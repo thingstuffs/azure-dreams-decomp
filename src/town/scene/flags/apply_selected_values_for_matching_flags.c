@@ -2,14 +2,13 @@
 #include "shared/record_ptrs.h"
 #include "town/scene/flags.h"
 #include "shared/town_root.h"
+#include "town/player/state.h"
 
 typedef s32 (*IndexFunc)(s32);
 typedef void (*UseFunc)(s16, s8);
 
 extern s8 *D_80018880[];
 extern s16 D_8001888C[];
-
-extern s32 func_8001E670(u16);
 
 /* Applies selected values to entries whose condition checks match their flags. */
 void apply_selected_values_for_matching_flags(void) {
@@ -42,14 +41,14 @@ void apply_selected_values_for_matching_flags(void) {
             do {
                 entry = (s8 *)(entry_offset + (s32)*(s8 **)((s8 *)entry_page - 0x75E4));
                 if (!((u8)entry[1] & 1)) {
-                    condition_result = func_8001E670(*(u16 *)(entry + 2));
+                    condition_result = get_script_flag_mask(*(u16 *)(entry + 2));
                     if (condition_result == 0) {
                         break;
                     }
                     root_page = (void **)0x80010000;
                     entry = selected_values + entry_index;
                 } else {
-                    next_flags = func_8001E670(*(u16 *)(entry + 2));
+                    next_flags = get_script_flag_mask(*(u16 *)(entry + 2));
                     if (next_flags == 1) {
                         break;
                     }

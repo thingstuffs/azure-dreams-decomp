@@ -1,7 +1,7 @@
 #include "common.h"
 #include "frontend/card.h"
+#include "frontend/card/server_imports.h"
 
-s32 func_800484A4(s32, s32 *);
 
 extern s32 card_ui_dirty_flags;
 

@@ -1,8 +1,8 @@
 #include "common.h"
 #include "frontend/card.h"
 #include "main/data.h"
+#include "frontend/card/server_imports.h"
 
-extern s32 func_80047FD8(void *node);
 extern void process_four_referenced_values(void *object);
 extern s32 card_ui_dirty_flags[3];
 extern s32 D_8008DAB4_2[3];

@@ -5,10 +5,10 @@
 #include "shared/dungeon_status.h"
 #include "engine/graphics.h"
 #include "dungeon/effect/screen.h"
+#include "dungeon/item.h"
 
 
 extern s32 update_actor_status_and_mp();
-extern s32 func_8016A928();
 
 extern u8 D_800DF45C[];
 extern u8 D_8016EEBC[];
@@ -80,7 +80,7 @@ s32 execute_actor_script_command(u8 *actor_arg, s32 action_context, SpriteFrameS
 
     case 0xF0:
         if (((ActorRecord *)actor)->action_phase.u == 0) {
-            ((ActorRecord *)actor)->facing = func_8016A928(action_context) << 9;
+            ((ActorRecord *)actor)->facing = get_direction_toward_target_position(action_context) << 9;
             if (*(u8 **)&entity->frameTable != ghosh_frame_set_9) {
                 entity->frameTable = ghosh_frame_set_9;
                 direction_index = ((g_game_work.view.camera_rotation.parts.viewAngle + ((ActorRecord *)actor)->facing + 0x100) >> 9) & 7;

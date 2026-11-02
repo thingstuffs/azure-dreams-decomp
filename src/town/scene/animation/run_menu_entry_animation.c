@@ -3,6 +3,7 @@
 #include "town/scene/animation.h"
 #include "shared/vector.h"
 #include "town/data.h"
+#include "town/devkit/old_minigame_imports.h"
 
 
 typedef struct Part {
@@ -55,12 +56,6 @@ extern u8 D_805266A0[16];
 extern u8 D_8052BC34[16];
 extern u8 D_8052BC80[16];
 
-extern Object *func_800374FC(s32, void *);
-extern void func_8003BC18(Object *, void *);
-extern void func_80034A1C(Part *, void *, s32);
-extern void func_8003F75C(s32);
-extern void func_80050BD8(s32);
-extern void func_80050BFC(s32);
 
 /* Updates timed object spawning, result displays, and the stored best value. */
 void run_menu_entry_animation(FallingSceneController *self) {

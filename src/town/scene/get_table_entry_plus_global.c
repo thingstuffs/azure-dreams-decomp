@@ -1,9 +1,9 @@
 #include "common.h"
 #include "town/scene.h"
+#include "town/devkit/flag_test_imports.h"
 
 extern s32 func_800006C4(s32);
 extern s32 func_80000754(s32);
-extern s32 func_80000858(s32, s32);
 
 extern s32 D_00000F08[3];
 extern s32 D_00000F4C[3];

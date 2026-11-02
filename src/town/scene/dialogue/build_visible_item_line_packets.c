@@ -1,5 +1,6 @@
 #include "common.h"
 #include "town/scene/dialogue.h"
+#include "town/devkit/old_minigame_imports.h"
 
 extern u8 *D_8012F130;
 
@@ -8,11 +9,6 @@ typedef struct {
     u32 len : 8;
 } P_TAG;
 
-extern s32 func_8006BC50(void *, void *, s32 *, s32 *);
-extern u32 func_8006D9DC(s32, s32, s32, s32);
-extern void func_8006DBBC(void *, s32);
-extern void func_8006DD38(void *);
-extern void func_8006F49C(void *, s32, s32, u32, s32);
 
 /* Builds line and draw-state packets for visible list items and links them by depth. */
 s32 build_visible_item_line_packets(void *first_item)

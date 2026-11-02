@@ -14,8 +14,6 @@
 #include "dungeon/effect/screen.h"
 
 
-extern void func_8016B21C(void *, void *, void *, void *);
-extern void func_8016B4FC(ActorRecord *source_object, ObjectPosition *source_pos, SpriteFrameState *sprite_template, ActorRecord *actor);
 
 extern u8 D_8016C4BC[];
 extern u8 D_8016FDDC[8];
@@ -107,8 +105,8 @@ void advance_the_actor_s_action_animation_triggers_timed_effects(ActorRecord *ac
         if ((timer == 10) || (anim->flags & 0x8000)) {
             anim->flags |= 0x0800;
             play_sound_if_enabled(0x804);
-            func_8016B21C(action, motion, anim, actor);
-            func_8016B4FC(action, motion, anim, actor);
+            create_targeted_motion_effect(action, motion, anim, actor);
+            create_actor_action_effect(action, motion, anim, actor);
         }
         if ((action->action_timer.s == 12) ||
             (anim->flags & 0x8000)) {

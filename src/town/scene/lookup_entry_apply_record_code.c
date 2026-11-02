@@ -12,7 +12,6 @@ typedef struct SceneFlagContext {
     s16 flag;
 } SceneFlagContext;
 
-s32 func_80017710(void *table, s32 lookup_key);
 
 /* Look up an entry, apply the context flag, and return the entry value. */
 s32 lookup_entry_apply_record_code(void *table, void *context, s32 lookup_key)
@@ -23,7 +22,7 @@ s32 lookup_entry_apply_record_code(void *table, void *context, s32 lookup_key)
 
     entries = table;
     flag_context = context;
-    entry_index = func_80017710(table, lookup_key);
-    func_80018A64(flag_context->flag);
+    entry_index = find_entry_8_index_or_assert(table, lookup_key);
+    set_script_flag_bit(flag_context->flag);
     return entries[entry_index].value;
 }

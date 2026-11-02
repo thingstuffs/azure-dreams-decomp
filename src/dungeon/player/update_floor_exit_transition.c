@@ -75,7 +75,7 @@ extern s32 D_800DCF64;
 extern void *dungeon_menu_action_state[];
 
 /* Advances the dungeon transition through its delay, setup, and completion phases. */
-void update_floor_exit_transition(PlayerRecord *state, s32 unused, MovingTile *tile, ActorRecord *actor) {
+void update_floor_exit_transition(PlayerRecord *state, ObjectPosition *unused, MovingTile *tile, ActorRecord *actor) {
     s32 *transition_base;
     S_800930F0_4 *saved_state_base;
     s32 *slot_cursor;

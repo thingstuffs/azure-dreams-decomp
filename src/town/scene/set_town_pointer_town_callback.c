@@ -3,10 +3,10 @@
 #include "common.h"
 #include "shared/record_ptrs.h"
 #include "shared/town_root.h"
+#include "town/player/state.h"
 
 typedef void (*TownCallback)(s32, s32);
 
-extern s32 func_8001A64C(s32);
 extern s8 D_8001C921[];
 
 /* Sets the town owner's data pointer and invokes a town callback if the 0x939 check returns zero. */
@@ -17,7 +17,7 @@ s32 set_town_pointer_town_callback(void) {
     TownCallback callback;
 
     set_script_flag_94c();
-    if (func_8001A64C(F_sbs32_pad15) != 0) {
+    if (get_script_flag_mask(F_sbs32_pad15) != 0) {
         return 1;
     }
 

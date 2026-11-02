@@ -6,13 +6,13 @@
 #include "common.h"
 #include "m2c_compat.h"
 #include "town/scene/event.h"
+#include "town/player/state.h"
 
 typedef struct S_8059E540_2 {
     u8 pad_00[0x6000];
     void * unk_6000;
 } S_8059E540_2;   /* page in func_8059E540 */
 
-s32 func_80018964(s32 flagIndex);
 extern u8 D_80010000[];
 extern M2C_UNK D_80018EE4;
 extern M2C_UNK D_80019148[3];
@@ -28,7 +28,7 @@ void restore_pending_town_event(void) {
     void *new_value;
     Rec_D_80016000 *state;
 
-    if (func_80018964(Fp_pool_open) == 0) {
+    if (get_script_flag_mask(Fp_pool_open) == 0) {
         S_8059E540_2 *page = (S_8059E540_2 *)0x80010000;
         ((s32 (*)(s32))(((Rec_D_80016000 *)(page->unk_6000))->services)->callback_27C)(0);
         ((s32 (*)(s32, s32))(((Rec_D_80016000 *)(page->unk_6000))->services)->callback_2F4)(-1, -5);

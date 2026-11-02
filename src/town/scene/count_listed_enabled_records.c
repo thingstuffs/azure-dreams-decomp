@@ -1,8 +1,8 @@
 #include "common.h"
 #include "town/scene.h"
 #include "town/data.h"
+#include "town/player/state.h"
 
-extern u32 func_8001E670(s16 value);
 extern u8 town_selection_records[];
 
 /* Counts listed records whose value at offset 4 passes func_8001E670. */
@@ -21,7 +21,7 @@ s32 count_listed_enabled_records(void) {
     } while (0);
     record_ids = town_counted_record_ids;
     do {
-        if (func_8001E670(*(s16 *)(records + (*record_ids * 0xC) + 4)) != 0) {
+        if (get_script_flag_mask(*(s16 *)(records + (*record_ids * 0xC) + 4)) != 0) {
             match_count += 1;
         }
         record_ids += 1;

@@ -1,12 +1,12 @@
 #include "script_symbols.h"
 #include "common.h"
+#include "town/player/state.h"
 
 typedef struct {
     u32 value;
 } __attribute__((packed)) PackedWord;
 
 extern PackedWord D_80018880;
-extern s32 initialize_state_two_entries_pointer(s32);
 
 /* Copy the header, initialize 32 entries with conditional flags, append a terminator, and return the original buffer. */
 u8 * dispatch_event_d_8_a(u8 *entries) {
@@ -26,7 +26,7 @@ u8 * dispatch_event_d_8_a(u8 *entries) {
         entry = entries + index * 4;
         entry[1] = marker;
         entry[0] = index;
-        if (initialize_state_two_entries_pointer(index + GOODS_SAVE_FLG_00) != 0) {
+        if (get_script_flag_mask(index + GOODS_SAVE_FLG_00) != 0) {
             entry[3] |= 0x80;
         }
         index++;

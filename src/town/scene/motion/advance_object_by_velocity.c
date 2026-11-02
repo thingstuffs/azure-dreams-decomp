@@ -1,5 +1,6 @@
 #include "common.h"
 #include "town/data.h"
+#include "town/devkit/old_minigame_imports.h"
 
 typedef struct {
     s32 position[3];
@@ -11,7 +12,6 @@ typedef struct {
     u16 flags;
 } Object;
 
-extern void func_8003EA54(Object *object);
 
 /* Advance position by velocity, update the object, and propagate its status flags. */
 void advance_object_by_velocity(u16 *state, Movement *movement, Object *object) {

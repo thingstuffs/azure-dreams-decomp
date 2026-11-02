@@ -1,5 +1,6 @@
 #include "common.h"
 #include "town/devkit.h"
+#include "town/devkit/flag_test_imports.h"
 
 typedef struct Func808816D8Callbacks {
     u8 pad68[0x68];
@@ -25,7 +26,6 @@ extern s32 * D_80701008[];
 extern u8 D_807007A8[16];
 extern u8 D_807007D0[16];
 extern u8 D_80700704[16];
-extern void func_80700EB4(void);
 
 
 /* Devkit list redraw: raise the busy flag, rebuild the list and re-key every row. */

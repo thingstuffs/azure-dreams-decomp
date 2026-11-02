@@ -7,7 +7,7 @@
 extern u8 D_800DD000[];
 
 /* Enters state 0x17, selects its directional animation, and resets state progress. */
-void enter_directional_state_17(ActorRecord *state, void *unused, void *animation, ActorRecord *orientation) {
+void enter_directional_state_17(ActorRecord *state, ObjectPosition *unused, void *animation, ActorRecord *orientation) {
     u8 next_state = 0x17;
 
     if (state->action_id.u != next_state) {

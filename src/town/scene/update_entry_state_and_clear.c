@@ -3,6 +3,7 @@
 #include "town/scene/entry_requests.h"
 #include "shared/record_ptrs.h"
 #include "town/scene.h"
+#include "town/scene/event.h"
 
 typedef struct TownEntry {
     s8 pad0[4];
@@ -11,9 +12,6 @@ typedef struct TownEntry {
 } TownEntry;
 
 extern s32 scene_cell_dispatch_code[];
-
-extern void func_80017E1C(void);
-extern s32 func_80018504(void *object, s32 entry_index);
 
 /* Updates the current town entry and clears its state on a nonzero result or global state 1. */
 s32 update_entry_state_and_clear(void *object, s32 entry_index)
@@ -25,9 +23,9 @@ s32 update_entry_state_and_clear(void *object, s32 entry_index)
     entry_state = ((TownEntry *)town_scene_root->event_data)[town_scene_root->entry_index].state;
     scene_cell_dispatch_code[0] = entry_state;
     if (entry_state != 2) {
-        update_result = func_80018504(object, entry_index);
+        update_result = apply_selected_entry_values(object, entry_index);
     }
-    if ((update_result != 0) || (func_80017E1C(), scene_cell_dispatch_code[0] == 1)) {
+    if ((update_result != 0) || (invoke_callback_event_11(), scene_cell_dispatch_code[0] == 1)) {
         ((TownEntry *)town_scene_root->event_data)[town_scene_root->entry_index].state = 0;
         scene_cell_dispatch_code[0] = 0;
     }

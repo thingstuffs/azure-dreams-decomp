@@ -1,6 +1,7 @@
 /* cfail-repair: tf7-phase1-cache-v3 */
 #include "common.h"
 #include "town/scene.h"
+#include "town/devkit/old_minigame_imports.h"
 
 
 typedef struct S_8080DAB8_0 {
@@ -41,11 +42,6 @@ typedef struct {
 } P_TAG;
 #define setaddr(p, _addr) (((P_TAG *)(p))->addr = (u32)(_addr))
 #define getaddr(p) (u32)(((P_TAG *)(p))->addr)
-void func_8006BFA0(void *, void *, void *, void *, void *, s32);
-s32 func_8006D9DC();
-void func_8006DBBC(void *, s32);
-void func_8006DD4C(void *);
-void func_8006F49C(void *, s32, s32, s32, s32);
 extern u8 *D_8012F130;
 
 /* Build projected primitives and draw modes for linked records and add them to the ordering table. */

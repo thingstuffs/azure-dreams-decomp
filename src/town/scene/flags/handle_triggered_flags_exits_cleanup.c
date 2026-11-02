@@ -1,11 +1,8 @@
 #include "common.h"
 #include "town/scene.h"
 #include "town/scene/flags.h"
+#include "town/devkit/flag_test_imports.h"
 
-void func_80000858(s32, s32);                /* extern */
-void func_80000BC8(s32);                         /* extern */
-void func_80000C18(s32);                         /* extern */
-s32 func_80000C6C();                             /* extern */
 typedef struct TownFlagEntry {
     u16 value;
     u16 pad;

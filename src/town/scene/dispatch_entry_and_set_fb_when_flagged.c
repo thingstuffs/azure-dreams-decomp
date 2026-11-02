@@ -9,8 +9,8 @@
 s32 dispatch_entry_and_set_11_fb_when_flagged(void *context, s32 entry_index) {
     if ((func_8001A510(F_sbs22_pad28) != 0) || (func_8001A510(F_sbs22_pad29) != 0)) {
         func_8001A490(Fp_far_kenkatyu);
-        apply_signed_value_to_indexed_entry(context, entry_index);
+        pass_indexed_entry(context, entry_index);
         return 1;
     }
-    return func_80019928(context, entry_index);
+    return process_checked_entry(context, entry_index);
 }

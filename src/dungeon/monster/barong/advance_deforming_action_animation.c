@@ -4,6 +4,7 @@
 #include "shared/dungeon_status.h"
 #include "shared/entity.h"
 #include "dungeon/monster/barong.h"
+#include "dungeon/item.h"
 
 typedef struct S_801750F8_1 {
     u8 pad_00[0x14];
@@ -14,7 +15,6 @@ typedef struct S_801750F8_1 {
     u16 unk_46;
 } S_801750F8_1;   /* arg3 in advance_deforming_action_animation */
 
-extern s32 func_801744E0(void *);
 extern void select_sprite_entry(void *, s32, s32);
 extern void play_sound_if_enabled(s32);
 extern void spend_actor_mp(void *, s32);
@@ -42,7 +42,7 @@ void advance_deforming_action_animation(ActorRecord *body, ObjectPosition *posit
         s16 timer;
         u32 actor_flags;
 
-        facing_angle = func_801744E0(direction_data);
+        facing_angle = get_direction_toward_target_position(direction_data);
         facing_angle = (facing_angle << 16) >> 7;
         actor->unk_2A = facing_angle;
 

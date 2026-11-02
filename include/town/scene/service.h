@@ -12,4 +12,6 @@ s32 run_scene_service_26c_with_state(void);
 /* Owner declarations appended by tools/headers (append-only; the lines above are hand-kept). */
 void run_service_callback_1(void);
 
+void call_scene_service_2f4_fixed(void);
+
 #endif

@@ -1,25 +1,22 @@
 #include "script_symbols.h"
 #include "common.h"
 #include "town/player/script_flags.h"
-
-extern void store_supplied_values(void *, s32);
-extern void func_800176B4(void);
-extern void func_80018854(s32); /* placed copy of set_script_flag_bit */
-extern void func_800188CC(s32);
+#include "town/scene/event.h"
+#include "town/scene/hooks.h"
 
 /* Stores the inputs and switches three scene flags according to the object's status test. */
 s32 process_scene_status_actions(void *object, s32 value)
 {
-    store_supplied_values(object, value);
-    if (func_8001894C(*(s16 *)((u8 *)object + 0x18)) != 0) {
-        func_800188CC(F_sbs07_pad28);
-        func_80018854(F_sbs07_pad27);
-        func_80018854(F_sbs07_pad23);
+    set_global_entry_pair(object, value);
+    if (get_script_flag_mask(*(s16 *)((u8 *)object + 0x18)) != 0) {
+        clear_script_flag_bit(F_sbs07_pad28);
+        set_script_flag_bit(F_sbs07_pad27);
+        set_script_flag_bit(F_sbs07_pad23);
     } else {
-        func_800176B4();
-        func_80018854(F_sbs07_pad28);
-        func_800188CC(F_sbs07_pad27);
-        func_800188CC(F_sbs07_pad23);
+        invoke_callback_event_11();
+        set_script_flag_bit(F_sbs07_pad28);
+        clear_script_flag_bit(F_sbs07_pad27);
+        clear_script_flag_bit(F_sbs07_pad23);
     }
     return 0;
 }

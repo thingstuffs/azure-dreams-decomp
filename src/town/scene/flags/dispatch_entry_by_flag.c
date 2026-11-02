@@ -10,9 +10,9 @@ s32 dispatch_entry_by_799_flag(void *context, s32 entryIndex) {
 
     if (func_8001A510(F_sbs22_pad29) != 0) {
         D_8001B208 = 0;
-        result = func_80019928(context, entryIndex);
+        result = process_checked_entry(context, entryIndex);
     } else {
-        apply_signed_value_to_indexed_entry(context, entryIndex);
+        pass_indexed_entry(context, entryIndex);
         result = 1;
     }
     return result;

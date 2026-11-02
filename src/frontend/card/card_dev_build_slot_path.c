@@ -1,12 +1,11 @@
 #include "common.h"
 #include "frontend/card.h"
 #include "main/data.h"
+#include "frontend/card/server_imports.h"
 
 extern s32 card_selected_channel[];
 extern s32 dev_card_paths[2];
 
-s32 func_8007BF80();
-s32 func_8007BF50();
 
 /* Configures the target using the active state and selected table entry. */
 void card_dev_build_slot_path(s32 target, s32 entry_index) {

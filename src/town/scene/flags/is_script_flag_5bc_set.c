@@ -7,5 +7,5 @@
 
 /* Returns whether the query for 0x5BC yields a nonzero result. */
 s32 is_script_flag_5bc_set(void) {
-    return func_80018B5C(F_sbs11_pad25) != 0;
+    return get_script_flag_mask(F_sbs11_pad25) != 0;
 }

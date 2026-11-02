@@ -3,6 +3,7 @@
 #include "town/scene/object.h"
 #include "town/scene/flags.h"
 #include "shared/vector.h"
+#include "town/devkit/old_minigame_imports.h"
 
 typedef struct S_8080C324_0 {
     u8 pad_00[0x8];
@@ -57,12 +58,6 @@ typedef struct {
     u8 pad1E[0x12];
 } Record30;
 
-extern void func_80034A1C(void *, void *, s32);
-extern void func_800351A8(s32, s32);
-extern void *func_800374FC(s32, void *);
-extern void func_8003BC18(void *, void *);
-extern void func_80058F88(s32);
-extern void func_8023FAE8(void *, void *, void *);
 extern void allocate_record_and_store_three_blocks(void *, void *);
 extern void create_object_payload_registers_callback(void *, void *);
 

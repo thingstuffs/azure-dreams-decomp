@@ -38,11 +38,11 @@ typedef struct S_80159FA4_0 {
 extern void select_sprite_entry(void *, s32, s32);
 extern s8 find_active_rect_containing_point(s32, s32);
 extern void update_actor_status_and_mp(ActorRecord *entity);
-extern void func_8015A510(void *, void *, void *, void *);
-extern void func_8015A6C8(void *, void *, void *, void *);
-extern s32 func_8015AE10(ActorRecord *action_state, ObjectPosition *action_param, SpriteFrameState *visual_data, ActorRecord *actor);
-extern void func_8015B0A8(void *, void *, void *, void *);
-extern s32 func_8015B1CC(void *, void *, void *, void *);
+extern void advance_actor_path_and_facing(void *, void *, void *, void *);
+extern void select_bank_actor_movement(void *, void *, void *, void *);
+extern s32 select_and_start_target_action(ActorRecord *action_state, ObjectPosition *action_param, SpriteFrameState *visual_data, ActorRecord *actor);
+extern void start_kewne_attack_action(void *, void *, void *, void *);
+extern s32 update_entity_state_from_query(void *, void *, void *, void *);
 extern void func_8015D078(void *, void *, void *, void *);
 
 extern u8 D_80159FA4[];
@@ -61,7 +61,7 @@ void update_actor_animation_and_dungeon_behavior(void *actor, ObjectPosition *co
 
     if (g_dungeon_status.flags & 0x1000) {
         ((S_80159FA4_0 *)actor)->unk_9A = 0xE;
-        func_8015A510(actor, context, sprite, entity);
+        advance_actor_path_and_facing(actor, context, sprite, entity);
         return;
     }
     if (entity->mp_value.parts.whole == 0) {
@@ -183,7 +183,7 @@ void update_actor_animation_and_dungeon_behavior(void *actor, ObjectPosition *co
                         }
                     }
                 }
-                if ((func_8015B1CC(actor, context, sprite, 0) << 16) == 0) {
+                if ((update_entity_state_from_query(actor, context, sprite, 0) << 16) == 0) {
                     return;
                 }
                 behavior = entity->action_flags | 0x4000;
@@ -195,10 +195,10 @@ void update_actor_animation_and_dungeon_behavior(void *actor, ObjectPosition *co
                 switch (behavior) {
                 case 8:
                 case 9:
-                    if ((func_8015AE10(actor, context, sprite, entity) << 16) != 0) {
+                    if ((select_and_start_target_action(actor, context, sprite, entity) << 16) != 0) {
                         return;
                     }
-                    func_8015B0A8(actor, context, sprite, entity);
+                    start_kewne_attack_action(actor, context, sprite, entity);
                     return;
 
                 case 5:
@@ -237,7 +237,7 @@ void update_actor_animation_and_dungeon_behavior(void *actor, ObjectPosition *co
             }
         }
 
-        func_8015A6C8(actor, context, sprite, entity);
+        select_bank_actor_movement(actor, context, sprite, entity);
         return;
     }
 

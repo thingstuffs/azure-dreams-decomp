@@ -515,7 +515,6 @@
 0x802F13FC	func_802F13FC	memory_init_work_object_and_callback	knowledge/r121_n0prep_functions.tsv:346; (high) src/town/func_802F13FC.c:21: Initializes the work object and its state, installs the callback and returns the object; ledger/evidence/rows.jsonl:659; memory.c:371; code:25-34
 0x804084DC	func_804084DC	memory_process_handles_and_mark_object	knowledge/r121_n0prep_functions.tsv:347; (high) src/town/func_802F14DC.c:14: Passes the +0x40 and +0x44 handles to their routines, sets bit 0x8000 in the object and global flags; ledger/evidence/rows.jsonl:660; memory.c:387; code:18-31
 0x800162B0	func_800162B0	find_entry_28_index_or_assert_rev_b	knowledge/r121_n0prep_functions.tsv:348; (high) src/town/func_806D2AB0.c:29: Revision-B search of 28-byte records by word key, +8 terminator, asserting if absent; ledger/evidence/rows.jsonl:671; main.c:54; code:35-55; actual declaration is synthetic func_806D2AB0, not stale true_name func_800162B0
-0x80016DDC	func_80016DDC	copy_words_rev_b	knowledge/r121_n0prep_functions.tsv:349; (high) src/town/func_806D35DC.c:4: Revision-B forward integer-word copy using a word count; code:5-10; retains the synthetic definition name; counterpart func_8032EC1C.c:4-19
 0x80701FEC	func_80701FEC	dev_report_kind_mode_sno	knowledge/r121_n0prep_functions.tsv:350; (high) src/town/func_80877FEC.c:19: Reports the supplied kind and the stored mode and sno through callback +0x68; ledger/evidence/rows.jsonl:673; dev_identifiers.json kind/mode/sno; code:21-23
 0x80878974	func_80878974	dev_copy_overlay_work_and_trace_47	knowledge/r121_n0prep_functions.tsv:351; (high) src/town/func_80878974.c:33: Copies the 52-byte record into ov_work, reports p->kind and ov_work.kind, emits sn_main.c:47 trace; ledger/evidence/rows.jsonl:674; sn_main.c:47 and dev_identifiers.json p->kind/ov_work.kind; code:3-7,34-38
 0x8087FEF0	func_8087FEF0	dev_dispatch_flag_test_and_get_result	knowledge/r121_n0prep_functions.tsv:352; (high) src/town/func_8087FEF0.c:29: Runs the flgtst.c dispatch sequence, saves and returns its result and emits the line-201 trace; ledger/evidence/rows.jsonl:675; flgtst.c:201; code:32-44; no gameplay meaning assigned to the result
@@ -5002,7 +5001,6 @@
 0x80016198	func_80016198	run_service_callback_0x2dc	(medium) src/town/func_80480198.c:11: Run town service callback 0x2DC with zero (this TOWN module's copy of the town/func_8035A5E4 wrapper shape). (definition at line 12)
 0x800161A4	func_800161A4	get_result_and_substitute_fallback	(medium) src/town/func_806971A4.c:12
 0x800161B0	func_800161B0	advance_counter_and_dispatch_event	(medium) src/town/func_8050E1B0.c:7
-0x800161B4	func_800161B4	clear_byte_offset_4_eight	(medium) src/town/func_805D21B4.c:12
 0x800161BC	func_800161BC	call_handler_799_zero	(medium) src/town/func_806011BC.c:6
 0x800161C8	func_800161C8	check_any_entry_matches_predicate	(medium) src/town/func_8046F1C8.c:3: body supports check any entry matches predicate; definition identifier func_800161C8
 0x800161D4	func_800161D4	process_entry_two_tables	(medium) src/town/func_8054F9D4.c:7
@@ -5053,7 +5051,6 @@
 0x80016390	func_80016390	dispatch_2_handler	(medium) src/town/func_8054FB90.c:11
 0x80016398	func_80016398	play_town_sound_1700	(medium) src/town/func_8072A398.c:26
 0x800163A4	func_800163A4	check_query_0x11fa_zero	(medium) src/town/func_8051EBA4.c:6
-0x800163B8	func_800163B8	get_entry_masked_key_initializes	(medium) src/town/func_806D2BB8.c:23
 0x800163CC	func_800163CC	lookup_slot_record	(medium) src/town/func_806973CC.c:14
 0x800163E8	func_800163E8	test_success_failure	(medium) src/town/func_80614BE8.c:7
 0x80016430	func_80016430	select_request_conditionally_three_state	(medium) src/town/func_806D4430.c:14
@@ -5184,7 +5181,6 @@
 0x800176D4	func_800176D4	select_next_eligible_wrapped_entry	(medium) src/town/func_804766D4.c:14: Selects and returns the next eligible entry in the wrapping order list. (definition at line 15)
 0x80017700	func_80017700	get_cached_blob_cue_already	(medium) src/town/func_805D3700.c:10
 0x80017728	func_80017728	report_scene_busy_until_message_closes	(medium) src/town/func_8070E728.c:10
-0x8001776C	func_8001776C	check_are_nonzero	(medium) src/town/func_805D376C.c:5
 0x80017790	func_80017790	select_response_string_triggers_event	(medium) src/town/func_8070E790.c:11
 0x800177B4	func_800177B4	get_offset_byte_table_entry	(medium) src/town/func_805D37B4.c:12
 0x8001780C	func_8001780C	copy_entry_object_destination	(medium) src/town/func_805D380C.c:13
@@ -5201,7 +5197,6 @@
 0x80017A14	func_80017A14	select_dialogue_event_state_flags	(medium) src/town/func_8070EA14.c:21
 0x80017A34	func_80017A34	check_record_has_identifier	(medium) src/town/func_805D3A34.c:12
 0x80017A94	func_80017A94	check_record_byte_offset_least	(medium) src/town/func_805D3A94.c:11
-0x80017AC8	func_80017AC8	initialize_fifteen_four_byte_records	(medium) src/town/func_805D3AC8.c:3
 0x80017B14	func_80017B14	register_scene_keep_handle	(medium) src/town/func_805D3B14.c:7
 0x80017B74	func_80017B74	copy_packed_text_into_entries	(medium) src/town/func_805D3B74.c:16
 0x80017B84	func_80017B84	query_referenced_flag_for_table_entry	(medium) src/town/func_80481B84.c:26: Resolve a table entry to its referenced flag and query that flag. (definition at line 27)
@@ -5812,11 +5807,8 @@
 0x800F67F4	func_800F67F4	trigger_floor_event_and_play_sound	(medium) src/dungeon/func_809217F4.c:7-10: triggers the floor event and plays sound effect 0x200.
 0x800F6820	func_800F6820	trigger_floor_action_42_and_play_sound	(medium) src/dungeon/func_80921820.c:7-10: triggers floor action 0x2A and plays sound effect 0x200.
 0x800F684C	func_800F684C	reset_control_status	(medium) src/dungeon/func_8092184C.c:6-8: resets the control status global.
-0x800F685C	func_800F685C	is_special_floor_entry_absent	(medium) src/dungeon/func_8092185C.c:8-33: returns whether the entry key pair (1, 0x12) is absent.
 0x800F68AC	func_800F68AC	update_object_and_retire_on_flags	(medium) src/dungeon/func_809218AC.c:7-14: updates the object and retires its node when target flags 0x6000 are set.
-0x800F692C	func_800F692C	create_offset_particle_effect	(medium) src/dungeon/func_8092192C.c:56-102: creates a particle effect at a base position plus offset and installs its callbacks.
 0x800F6A44	func_800F6A44	advance_gravity_damped_effect_motion	(medium) src/dungeon/func_80921A44.c:23-39: advances three-axis motion with gravity and damping, then invokes rendering.
-0x800F6B2C	func_800F6B2C	spawn_directional_projectile_effect	(medium) src/dungeon/func_80921B2C.c:63-111: creates an effect at an offset from the supplied position and gives it velocity from the facing direction.
 0x800F6D28	func_800F6D28	get_direction_toward_target_position	(medium) src/dungeon/func_807AF528.c:7-34: returns the direction code from the player position toward the target.
 0x800F6DFC	func_800F6DFC	find_linked_entity_of_type_21	(medium) src/dungeon/func_807AF5FC.c:3-22: scans linked entities and returns the first one of type 0x15.
 0x800F6E48	func_800F6E48	draw_linked_particle_effect_primitives	(medium) src/dungeon/func_807AF648.c:71-158: updates linked particle levels and submits their draw primitives.
@@ -5913,12 +5905,10 @@
 0x80171FD4	func_80171FD4	begin_actor_attack_after_status_check	(medium) src/dungeon/func_80DE47D4.c:4-18: After the status and camera checks, sets attack state 0x11 and prepares the directional attack.
 0x8017207C	func_8017207C	dispatch_actor_path_state_and_relink_entity	(medium) src/dungeon/func_809CA87C.c:8: Relink and classify the actor path state, then dispatch path or idle handling.
 0x801721C0	func_801721C0	finish_actor_tile_move_and_check_trap	(medium) src/dungeon/func_809CA9C0.c:4: Finish movement to a tile, spend MP and advance timers, then check its floor trap.
-0x80172234	func_80172234	clear_actor_flag_and_update_action	(medium) src/dungeon/func_809A0A34.c:24: Clears the actor flag and conditionally updates its state and directional animation.
 0x80172258	func_80172258	complete_actor_jump_to_destination	(medium) src/dungeon/func_80B1AA58.c:42: Updates a jump toward the destination tile and completes movement when its timer expires.
 0x80172288	func_80172288	update_actor_jump_and_landing	(medium) src/dungeon/func_80A1EA88.c:44: Updates an actor's jump motion, landing animation, and completion state.
 0x80172290	func_80172290	complete_actor_arc_movement	(medium) src/dungeon/func_80B6EA90.c:31: Advance arcing movement toward the destination tile and finalize the landing.
 0x801722BC	func_801722BC	complete_airborne_actor_recovery	(medium) src/dungeon/func_80D90ABC.c:46: Updates airborne movement, landing animation, and actor recovery when the timer expires.
-0x80172358	func_80172358	advance_counter_unblocked_and_reset_action	(medium) src/dungeon/func_809A0B58.c:52: Advance the counter when unblocked and reset the action when it exceeds 60.
 0x80172364	func_80172364	advance_actor_states	(medium) src/dungeon/func_8127DB64.c:40: Advance actor states, select directional animations, and process entity actions.
 0x8017246C	func_8017246C	move_actor_to_tile_and_check_trap	(medium) src/dungeon/func_80DE4C6C.c:3-10: Moves the actor to its tile, spends its MP, advances timers and checks the floor trap.
 0x801725D0	func_801725D0	advance_actor_movement_sequence_and_resets	(medium) src/dungeon/func_80B6EDD0.c:51: Advances the actor's movement sequence and resets motion and animation on landing.
@@ -5959,7 +5949,6 @@
 0x80173AAC	func_80173AAC	advance_actor_states_and_process_actions	(medium) src/dungeon/func_809782AC.c:25: Advance actor states, select directional animations, and process entity actions.
 0x80173C40	func_80173C40	initialize_object_and_clear_state	(medium) src/dungeon/func_80BC4440.c:16: Initialize the object, save its A4 value, and clear its trailing state.
 0x80173CD4	func_80173CD4	advance_actor_action_state_handle_status	(medium) src/dungeon/func_80BC44D4.c:70: Advance the actor action state, handle status flags, and update directional animation.
-0x80173D6C	func_80173D6C	advance_repeated_command_stream_direction	(medium) src/dungeon/func_8125456C.c:12: Advance the repeated command stream and apply its direction and action to the actor.
 0x80173DD4	func_80173DD4	update_actor_behavior_2	(medium) src/dungeon/func_80E105D4.c:37: Updates actor behavior and directional animation through three states, then sets its next callback.
 0x80173E00	func_80173E00	update_directional_sprite_state_and_signals	(medium) src/dungeon/func_80978600.c:18: Updates the directional sprite state and signals the controller after the actor update.
 0x80173E48	func_80173E48	select_actor_relation_state	(medium) src/dungeon/func_80DE6648.c:3-42: Uses the relinked entity relation result to select the next actor state.
@@ -5987,10 +5976,6 @@
 0x80174FC0	func_80174FC0	spawn_randomized_directional_motion_object	(medium) src/dungeon/func_809A37C0.c:7: Creates object 0x212 and initializes randomized position, speed, and directional update callback.
 0x80175594	func_80175594	relocate_entity_after_animation	(medium) src/dungeon/func_80D69D94.c:73: Advances the entity animation sequence and relocates it to a distant tile.
 0x8017586C	func_8017586C	create_parent_attached_effect	(medium) src/dungeon/func_812AA06C.c:9-35: Allocates an effect object with the parent as owner and installs its update callback.
-0x80175AF4	func_80175AF4	spawn_312_effect_object	(medium) src/dungeon/func_80E122F4.c:84: Spawn a 0x312 effect object at the source's position, offset into the owner's room and depth-sorted against the camera.
-0x80175ED4	func_80175ED4	require_object_flag	(medium) src/dungeon/func_810886D4.c:4: Requires and clears the object flag at 0xAE, then clears record bit 30.
-0x80176258	func_80176258	check_object_code_19	(medium) src/dungeon/func_80E12A58.c:6: Checks object code 0x19, exits on failure, and applies it on success.
-0x801762A4	func_801762A4	format_entity_message	(medium) src/dungeon/func_80E12AA4.c:12: Format an entity message or dispatch its alternate message.
 0x801776D8	func_801776D8	set_movie_decode_mode	(medium) src/ovmovie/func_80040ED8.c:2 — Apply the requested mode, performing setup when it is zero.
 0x80177710	func_80177710	copy_decoder_tables_to_buffer	(medium) src/ovmovie/func_80040F10.c:27 — Copy three global data blocks into a contiguous 256-byte buffer.
 0x8017779C	func_8017779C	copy_decoder_blocks_to_globals	(medium) src/ovmovie/func_80040F9C.c:15 — Copies two 64-byte blocks into global buffers and processes two global regions.
@@ -6056,7 +6041,6 @@
 0x80403D7C	func_80403D7C	save_object_value_and_set_control_fields	(medium) src/main/func_8001CD7C.c:12: Saves and replaces the object's value, setting its control fields to 0 and 3
 0x80403F7C	func_80403F7C	position_selected_entry_content	(medium) src/main/func_8001CF7C.c:29: Sets up display element content and positions for the selected entry
 0x8040454C	func_8040454C	clear_values	(medium) src/main/func_8001D54C.c:3: Clears the ten values referenced by the pointer array at offset 0x1D8
-0x804046C8	func_804046C8	select_object_handler_slots_by_flag	(medium) src/main/func_8001D6C8.c:5: Points the object handler slots at one of two sub-blocks based on a flag word.
 0x804047B0	func_804047B0	initialize_consecutive	(medium) src/main/func_8001D7B0.c:2: Initializes two consecutive buffer records and returns the end pointer
 0x80404A3C	func_80404A3C	initialize_drawing	(medium) src/main/func_8001DA3C.c:18: Initializes four drawing packets and returns the next free packet
 0x80404DEC	func_80404DEC	build_drawing	(medium) src/main/func_8001DDEC.c:5: Builds four drawing packets between state packets and returns the buffer end
@@ -6128,7 +6112,6 @@
 0x80700AAC	func_80700AAC	pass_flag_page_2_value_or_mark_dirty	(medium) src/town/func_808B32AC.c:14
 0x80700AD4	func_80700AD4	process_pair_16_bit_table	(medium) src/town/func_808832D4.c:9
 0x80700B2C	func_80700B2C	copy_devkit_scene_step_reset	(medium) src/town/func_8088332C.c:3
-0x80700B4C	func_80700B4C	scan_table_entry_query_rejects	(medium) src/town/func_8088134C.c:8
 0x80700B80	func_80700B80	read_table_between_one_setup	(medium) src/town/func_80883380.c:11
 0x80700D48	func_80700D48	redraw_devkit_list_and_rekey_rows	(medium) src/town/func_80883548.c:31
 0x80700D54	func_80700D54	pass_indexed_table	(medium) src/town/func_80874D54.c:7
@@ -6151,7 +6134,6 @@
 0x80701858	func_80701858	clear_indexed_flag_bit	(medium) src/town/func_80875858.c:3
 0x807018AC	func_807018AC	test_indexed_flag_bit	(medium) src/town/func_808758AC.c:3
 0x8070190C	func_8070190C	copy_indexed_flag_words	(medium) src/town/func_8087590C.c:5
-0x80702A78	func_80702A78	reset_town_display_pick_scene	(medium) src/town/func_80878A78.c:25
 0x807AF2CC	func_807AF2CC	create_dungeon_tile_update_object	(medium) src/dungeon/func_807AF2CC.c:12-14: allocates an object and installs the dungeon tile-update callback.
 0x807AF2F4	func_807AF2F4	mark_dungeon_room_perimeter_blocked	(medium) src/dungeon/func_807AF2F4.c:17-64: sets the blocked flag on the perimeter tiles around the room.
 0x807AFAE4	func_807AFAE4	create_linked_particle_effect	(medium) src/dungeon/func_807AFAE4.c:26-37: allocates the particle effect and stores its source state.
@@ -6264,8 +6246,8 @@
 0x800F67CC	func_800F67CC	no_op_hook_third	owner decisions 65+68; shard:dungeon; src/dungeon/func_809217CC.c
 0x8016D568	func_8016D568	forward_actor_defeat_removal	owner decisions 65+68; dedupe2:names_after; src/dungeon/func_8097DD68.c
 0x80155568	func_80155568	update_hikewne_defeat_removal	owner decisions 65+68; shard:dungeon; src/dungeon/func_80995D68.c
-0x809A0A34	func_809A0A34	start_kewne_attack_action	owner decisions 65+68; shard:dungeon; src/dungeon/func_809A0A34.c
-0x809A0B58	func_809A0B58	update_kewne_charge_counter	owner decisions 65+68; shard:dungeon; src/dungeon/func_809A0B58.c
+0x80172234	func_80172234	start_kewne_attack_action	owner decisions 65+68; shard:dungeon; src/dungeon/func_809A0A34.c | true symbol: the definition runs at func_80172234 (home_self, same-image copy lane)
+0x80172358	func_80172358	update_kewne_charge_counter	owner decisions 65+68; shard:dungeon; src/dungeon/func_809A0B58.c | true symbol: the definition runs at func_80172358 (home_self, same-image copy lane)
 0x8016DDAC	func_8016DDAC	update_kewne_defeat_removal_slot_f	owner decisions 65+68; shard:dungeon; src/dungeon/func_809A85AC.c
 0x80167DAC	func_80167DAC	update_kewne_defeat_removal_slot_e	owner decisions 65+68; shard:dungeon; src/dungeon/func_809AE5AC.c
 0x80161DAC	func_80161DAC	update_kewne_defeat_removal_slot_d	owner decisions 65+68; shard:dungeon; src/dungeon/func_809B45AC.c
@@ -6294,9 +6276,9 @@
 0x80171780	func_80171780	spawn_baloon	owner decisions 65+68; dedupe2:names_after; src/dungeon/func_80D65F80.c
 0x801724B0	func_801724B0	advance_baloon_along_path	owner decisions 65+68; dedupe2:names_after; src/dungeon/func_80D66CB0.c
 0x8016D1BC	func_8016D1BC	update_volcano_defeat_removal	owner decisions 65+68; shard:dungeon; src/dungeon/func_80DEB9BC.c
-0x80E12A58	func_80E12A58	consume_object_code_19	owner decisions 65+68; shard:dungeon; src/dungeon/func_80E12A58.c
-0x80E12AA4	func_80E12AA4	show_entity_message	owner decisions 65+68; shard:dungeon; src/dungeon/func_80E12AA4.c
-0x80E12B30	func_80E12B30	show_entity_message_with_prefix	owner decisions 65+68; shard:dungeon; src/dungeon/func_80E12B30.c
+0x80176258	func_80176258	consume_object_code_19	owner decisions 65+68; shard:dungeon; src/dungeon/func_80E12A58.c | true symbol: the definition runs at func_80176258 (home_self, same-image copy lane)
+0x801762A4	func_801762A4	show_entity_message	owner decisions 65+68; shard:dungeon; src/dungeon/func_80E12AA4.c | true symbol: the definition runs at func_801762A4 (home_self, same-image copy lane)
+0x80176330	func_80176330	show_entity_message_with_prefix	owner decisions 65+68; shard:dungeon; src/dungeon/func_80E12B30.c | true symbol: the definition runs at func_80176330 (home_self, same-image copy lane)
 0x8017618C	func_8017618C	spawn_manoeva_from_record	owner decisions 65+68; shard:dungeon; src/dungeon/func_80E3C98C.c
 0x80170AF4	func_80170AF4	spawn_picket	owner decisions 65+68; dedupe2:names_after; src/dungeon/func_80E8B2F4.c
 0x80160C90	func_80160C90	update_picket_move_action_slot_d	owner decisions 65+68; shard:dungeon; src/dungeon/func_80E9F490.c
@@ -6314,7 +6296,7 @@
 0x80166404	func_80166404	jump_tyrant_to_tile_slot_e	owner decisions 65+68; shard:dungeon; src/dungeon/func_81066C04.c
 0x80154404	func_80154404	jump_tyrant_to_tile_slot_b	owner decisions 65+68; shard:dungeon; src/dungeon/func_81078C04.c
 0x801735B4	func_801735B4	no_op_golem_hook	owner decisions 65+68; shard:dungeon; src/dungeon/func_81085DB4.c
-0x810886D4	func_810886D4	consume_pending_flag	owner decisions 65+68; shard:dungeon; src/dungeon/func_810886D4.c
+0x80175ED4	func_80175ED4	consume_pending_flag	owner decisions 65+68; shard:dungeon; src/dungeon/func_810886D4.c | true symbol: the definition runs at func_80175ED4 (home_self, same-image copy lane)
 0x80172328	func_80172328	return_zero_beldo_hook	owner decisions 65+68; dedupe2:names_after; src/dungeon/func_81252B28.c
 0x801738F0	func_801738F0	no_op_beldo_hook	owner decisions 65+68; dedupe2:names_after; src/dungeon/func_812540F0.c
 0x80173BE8	func_80173BE8	no_op_beldo_hook_second	owner decisions 65+68; dedupe2:names_after; src/dungeon/func_812543E8.c
@@ -6462,7 +6444,7 @@
 0x8040422C	func_8040422C	card_background_bind_template	owner decisions 65+68; shard:slus_main; src/main/func_8001D22C.c
 0x8001D54C	func_8001D54C	card_dev_clear_ten_values	owner decisions 65+68; shard:slus_main; src/main/func_8001D54C.c
 0x80404668	func_80404668	card_dev_reset_object_tint	owner decisions 65+68; shard:slus_main; src/main/func_8001D668.c
-0x8001D6C8	func_8001D6C8	card_dev_select_sub_block	owner decisions 65+68; shard:slus_main; src/main/func_8001D6C8.c
+0x804046C8	func_804046C8	card_dev_select_sub_block	owner decisions 65+68; shard:slus_main; src/main/func_8001D6C8.c | true symbol: the definition runs at func_804046C8 (home_self, same-image copy lane)
 0x8001D7B0	func_8001D7B0	card_background_init_prims	owner decisions 65+68; shard:slus_main; src/main/func_8001D7B0.c
 0x80404818	func_80404818	card_background_init_overlay_prims	owner decisions 65+68; shard:slus_main; src/main/func_8001D818.c
 0x804048F8	func_804048F8	card_background_layout_entries	owner decisions 65+68; shard:slus_main; src/main/func_8001D8F8.c
@@ -6873,7 +6855,7 @@
 0x800182EC	func_800182EC	get_shared_entry_buffer_l	owner decisions 65+68; shard:town; src/town/func_804822EC.c
 0x800187DC	func_800187DC	record_value_table_contains_first_byte_c	owner decisions 65+68; shard:town; src/town/func_804827DC.c
 0x804B78EC	func_804B78EC	forward_stored_pair	owner decisions 65+68; shard:town; src/town/func_804B78EC.c
-0x804B791C	func_804B791C	set_global_entry_pair	owner decisions 65+68; shard:town; src/town/func_804B791C.c
+0x8001611C	func_8001611C	set_global_entry_pair	owner decisions 65+68; shard:town; src/town/func_804B791C.c | true symbol: the definition runs at func_8001611C (home_self, same-image copy lane)
 0x80016150	func_80016150	query_event_50d	owner decisions 65+68; shard:town; src/town/func_804B7950.c
 0x80016170	func_80016170	query_event_50e	owner decisions 65+68; shard:town; src/town/func_804B7970.c
 0x80016248	func_80016248	query_event_510	owner decisions 65+68; shard:town; src/town/func_804B7A48.c
@@ -6884,7 +6866,7 @@
 0x80016C84	func_80016C84	find_eligible_entry_b	owner decisions 65+68; shard:town; src/town/func_804D1484.c
 0x8050E188	func_8050E188	is_state_counter_35be_at_least_51	owner decisions 65+68; shard:town; src/town/func_8050E188.c
 0x80016220	func_80016220	call_scene_service_280_b1	owner decisions 65+68; shard:town; src/town/func_8050E220.c
-0x8051E904	func_8051E904	lookup_entry_apply_record_code	owner decisions 65+68; shard:town; src/town/func_8051E904.c
+0x80016104	func_80016104	lookup_entry_apply_record_code	owner decisions 65+68; shard:town; src/town/func_8051E904.c | true symbol: the definition runs at func_80016104 (home_self, same-image copy lane)
 0x8051E954	func_8051E954	submit_three_word_command	owner decisions 65+68; shard:town; src/town/func_8051E954.c
 0x8051E9F4	func_8051E9F4	run_scene_services_20c_228	owner decisions 65+68; shard:town; src/town/func_8051E9F4.c
 0x8051EA54	func_8051EA54	run_events_5a5_5c2_and_reset	owner decisions 65+68; shard:town; src/town/func_8051EA54.c
@@ -6922,9 +6904,9 @@
 0x8001610C	func_8001610C	set_scene_mode_1	owner decisions 65+68; shard:town; src/town/func_805D210C.c
 0x805D213C	func_805D213C	enter_mode_4_when_state_2	owner decisions 65+68; shard:town; src/town/func_805D213C.c
 0x80016194	func_80016194	query_event_631	owner decisions 65+68; shard:town; src/town/func_805D2194.c
-0x805D21B4	func_805D21B4	clear_indexed_entry_flag	owner decisions 65+68; shard:town; src/town/func_805D21B4.c
-0x805D21D8	func_805D21D8	set_indexed_entry_flag_b	owner decisions 65+68; shard:town; src/town/func_805D21D8.c
-0x805D2250	func_805D2250	select_fallback_when_below_threshold	owner decisions 65+68; shard:town; src/town/func_805D2250.c
+0x800161B4	func_800161B4	clear_indexed_entry_flag	owner decisions 65+68; shard:town; src/town/func_805D21B4.c | true symbol: the definition runs at func_800161B4 (home_self, same-image copy lane)
+0x800161D8	func_800161D8	set_indexed_entry_flag_b	owner decisions 65+68; shard:town; src/town/func_805D21D8.c | true symbol: the definition runs at func_800161D8 (home_self, same-image copy lane)
+0x80016250	func_80016250	select_fallback_when_below_threshold	owner decisions 65+68; shard:town; src/town/func_805D2250.c | true symbol: the definition runs at func_80016250 (home_self, same-image copy lane)
 0x805D2D5C	func_805D2D5C	update_entry_state_and_clear	owner decisions 65+68; shard:town; src/town/func_805D2D5C.c
 0x805D30BC	func_805D30BC	run_event_639	owner decisions 65+68; shard:town; src/town/func_805D30BC.c
 0x805D30DC	func_805D30DC	query_event_639	owner decisions 65+68; shard:town; src/town/func_805D30DC.c
@@ -6935,13 +6917,13 @@
 0x805D32DC	func_805D32DC	load_entry_value_and_handle_followup	owner decisions 65+68; shard:town; src/town/func_805D32DC.c
 0x805D3370	func_805D3370	select_record_pointer_by_status_b	owner decisions 65+68; shard:town; src/town/func_805D3370.c
 0x805D34AC	func_805D34AC	run_event_626	owner decisions 65+68; shard:town; src/town/func_805D34AC.c
-0x805D34CC	func_805D34CC	query_event_626	owner decisions 65+68; shard:town; src/town/func_805D34CC.c
+0x800174CC	func_800174CC	query_event_626	owner decisions 65+68; shard:town; src/town/func_805D34CC.c | true symbol: the definition runs at func_800174CC (home_self, same-image copy lane)
 0x805D352C	func_805D352C	init_entry_pointers	owner decisions 65+68; shard:town; src/town/func_805D352C.c
 0x805D3588	func_805D3588	run_events_3eb_631_with_service	owner decisions 65+68; shard:town; src/town/func_805D3588.c
 0x805D363C	func_805D363C	is_check_below_minus_47	owner decisions 65+68; shard:town; src/town/func_805D363C.c
 0x805D365C	func_805D365C	set_player_position_record	owner decisions 65+68; shard:town; src/town/func_805D365C.c
 0x805D3700	func_805D3700	get_cue_table_entry	owner decisions 65+68; shard:town; src/town/func_805D3700.c
-0x805D376C	func_805D376C	are_all_checks_set	owner decisions 65+68; shard:town; src/town/func_805D376C.c
+0x8001776C	func_8001776C	are_all_checks_set	owner decisions 65+68; shard:town; src/town/func_805D376C.c | true symbol: the definition runs at func_8001776C (home_self, same-image copy lane)
 0x805D37B4	func_805D37B4	get_selected_row_field_4	owner decisions 65+68; shard:town; src/town/func_805D37B4.c
 0x805D380C	func_805D380C	copy_selected_row_to_player_position	owner decisions 65+68; shard:town; src/town/func_805D380C.c
 0x805D3860	func_805D3860	cache_current_entry_index	owner decisions 65+68; shard:town; src/town/func_805D3860.c
@@ -6953,7 +6935,7 @@
 0x805D39F4	func_805D39F4	get_lookup_value_by_row_byte	owner decisions 65+68; shard:town; src/town/func_805D39F4.c
 0x805D3A34	func_805D3A34	is_selected_row_id_5c	owner decisions 65+68; shard:town; src/town/func_805D3A34.c
 0x805D3A94	func_805D3A94	is_selected_row_byte_at_least_2	owner decisions 65+68; shard:town; src/town/func_805D3A94.c
-0x805D3AC8	func_805D3AC8	init_sequential_command_records	owner decisions 65+68; shard:town; src/town/func_805D3AC8.c
+0x80017AC8	func_80017AC8	init_sequential_command_records	owner decisions 65+68; shard:town; src/town/func_805D3AC8.c | true symbol: the definition runs at func_80017AC8 (home_self, same-image copy lane)
 0x805D3B14	func_805D3B14	register_command_records	owner decisions 65+68; shard:town; src/town/func_805D3B14.c
 0x805D3B74	func_805D3B74	copy_packed_text_to_entries	owner decisions 65+68; shard:town; src/town/func_805D3B74.c
 0x805D3C60	func_805D3C60	copy_packed_text_to_entries_alt	owner decisions 65+68; shard:town; src/town/func_805D3C60.c
@@ -7008,9 +6990,9 @@
 0x80016D40	func_80016D40	set_flag_7d5_if_ready	owner decisions 65+68; shard:town; src/town/func_806C5D40.c
 0x80016E78	func_80016E78	set_flag_7d7_if_ready	owner decisions 65+68; shard:town; src/town/func_806C5E78.c
 0x80016180	func_80016180	forward_pair_to_handler_b	owner decisions 65+68; shard:town; src/town/func_806C9180.c
-0x806D2898	func_806D2898	point_shared_buffer_at_data_e	owner decisions 65+68; shard:town; src/town/func_806D2898.c
-0x806D2BB8	func_806D2BB8	get_or_init_masked_entry	owner decisions 65+68; shard:town; src/town/func_806D2BB8.c
-0x806D2C3C	func_806D2C3C	copy_records_with_control_bits	owner decisions 65+68; shard:town; src/town/func_806D2C3C.c
+0x80016098	func_80016098	point_shared_buffer_at_data_e	owner decisions 65+68; shard:town; src/town/func_806D2898.c | true symbol: the definition runs at func_80016098 (home_self, same-image copy lane)
+0x800163B8	func_800163B8	get_or_init_masked_entry	owner decisions 65+68; shard:town; src/town/func_806D2BB8.c | true symbol: the definition runs at func_800163B8 (home_self, same-image copy lane)
+0x8001643C	func_8001643C	copy_records_with_control_bits	owner decisions 65+68; shard:town; src/town/func_806D2C3C.c | true symbol: the definition runs at func_8001643C (home_self, same-image copy lane)
 0x80016920	func_80016920	init_request_if_flag_1455	owner decisions 65+68; shard:town; src/town/func_806D4920.c
 0x800168EC	func_800168EC	run_handler_after_flag_3ec	owner decisions 65+68; shard:town; src/town/func_806D80EC.c
 0x80016B24	func_80016B24	call_scene_service_54_2	owner decisions 65+68; shard:town; src/town/func_806D8324.c
@@ -7072,10 +7054,10 @@
 0x80701510	func_80701510	noop_hook_i	owner decisions 65+68; shard:town; src/town/func_80875510.c
 0x80701518	func_80701518	advance_stage_2_when_ready	owner decisions 65+68; shard:town; src/town/func_80875518.c
 0x80701800	func_80701800	noop_hook_j	owner decisions 65+68; shard:town; src/town/func_80875800.c
-0x80878A78	func_80878A78	load_scene_data_block	owner decisions 65+68; shard:town; src/town/func_80878A78.c
+0x80702A78	func_80702A78	load_scene_data_block	owner decisions 65+68; shard:town; src/town/func_80878A78.c | true symbol: the definition runs at func_80702A78 (home_self, same-image copy lane)
 0x8087FDA4	func_8087FDA4	run_stage_updates_when_ready	owner decisions 65+68; shard:town; src/town/func_8087FDA4.c
 0x8088124C	func_8088124C	finish_stage_for_index	owner decisions 65+68; shard:town; src/town/func_8088124C.c
-0x8088134C	func_8088134C	dispatch_first_rejected_entry	owner decisions 65+68; shard:town; src/town/func_8088134C.c
+0x80700B4C	func_80700B4C	dispatch_first_rejected_entry	owner decisions 65+68; shard:town; src/town/func_8088134C.c | true symbol: the definition runs at func_80700B4C (home_self, same-image copy lane)
 0x80700D24	func_80700D24	shift_index_and_add_offset	owner decisions 65+68; shard:town; src/town/func_80883524.c
 0x807002A4	func_807002A4	forward_indexed_table_value	owner decisions 65+68; shard:town; src/town/func_808B2AA4.c
 0x808B2CB0	func_808B2CB0	set_slot_bit_when_allowed	owner decisions 65+68; shard:town; src/town/func_808B2CB0.c
@@ -8465,10 +8447,10 @@
 0x800F81A0	func_800F81A0	emit_scattered_animated_particles	On alternate emitter ticks, creates animated particles with random nearby positions, velocities and initialized sprite attributes.
 0x80025334	func_80025334	create_animated_tile_grid	Clears an eight-by-eight height grid and creates the tile-height animation controller and seven-by-seven grid renderer.
 0x800F7348	func_800F7348	converge_particle_position_and_color	Interpolates position toward the stored origin and enabled RGB channels toward target intensity over remaining ticks.
-0x8092192C	func_8092192C	create_offset_half_scale_sprite	Copies a base motion position plus XYZ offsets into a new half-scale sprite and initializes its render data and update callback.
+0x800F692C	func_800F692C	create_offset_half_scale_sprite	Copies a base motion position plus XYZ offsets into a new half-scale sprite and initializes its render data and update callback. | true symbol: the definition runs at func_800F692C (home_self, same-image copy lane)
 0x80024394	func_80024394	create_accelerating_return_particle	Creates a source-relative point particle and computes acceleration toward saved source coordinates from offsets and duration.
 0x80024DD4	func_80024DD4	create_fading_jittered_sprite	Creates a sprite with random source-relative position offsets, initialized upward velocity and fade_effect_color_by_quarter callback.
-0x80921B2C	func_80921B2C	create_damped_directional_projectile	Creates a half-scale sprite at position offsets with direction-table velocity and the gravity/damping callback.
+0x800F6B2C	func_800F6B2C	create_damped_directional_projectile	Creates a half-scale sprite at position offsets with direction-table velocity and the gravity/damping callback. | true symbol: the definition runs at func_800F6B2C (home_self, same-image copy lane)
 0x800250B0	func_800250B0	create_terrain_seeking_colored_point	Creates a jittered colored-point renderer and installs its timed terrain-directed Z motion callback.
 0x80024358	func_80024358	create_jittered_terrain_seeking_point	Creates a source-relative point with randomized offsets, stored color/brightness and its timed terrain-directed callback; renderer emits point opcode 0x6A.
 0x80024F80	func_80024F80	create_brief_ballistic_sprite	Creates a four-tick full-scale paletted sprite with directional/random velocity and positive Z acceleration.
@@ -8497,7 +8479,7 @@
 0x800A794C	func_800A794C	create_tile_centered_item_effect	Creates an item render object at tile-center coordinates and supplied height, stores its effect values and increments pending_action_count.
 0x800A31D0	func_800A31D0	mark_owned_linked_actor_actions	For an eligible owner, walks linked actors of the same kind, clears their action bytes, sets status and increments pending counts.
 0x80025014	func_80025014	follow_selection_and_blink_sprite	Interpolates a sprite toward the selected owner's linked position and toggles visibility according to the shared blink countdown.
-0x806D35DC	func_806D35DC	copy_forward_word_span	Copies the requested count of consecutive words from source to destination in increasing address order.
+0x80016DDC	func_80016DDC	copy_forward_word_span	Copies the requested count of consecutive words from source to destination in increasing address order. | true symbol: the definition runs at func_80016DDC (home_self, same-image copy lane)
 0x8009C340	func_8009C340	unlink_and_remove_scene_object	Unlinks both scene-list and registration membership, then marks the object's prefix and global removal flags.
 0x8009CE34	func_8009CE34	create_entry_builder_controller	Creates a scene controller using build_entries_and_update_state, dispatches its initial descriptor and refreshes world extents.
 0x800C8600	func_800C8600	initialize_indexed_scene_object	Installs the scene descriptor, clears the object's indexed slot and invokes its setup/update operation.
@@ -8540,11 +8522,11 @@
 0x800F6AF4	func_800F6AF4	mark_scripted_map_boundary	Sets cell flags along the scripted rectangular boundary and extra end cells, invokes scaled boundary marking, then enables its dispatch state and map-update flags.
 0x800927E4	func_800927E4	animate_and_display_item_use	Turns the actor to its item animation, creates the item effect and formatted display message, waits for completion, then dispatches the deferred item effect or restores player input.
 0x8102F348	func_8102F348	grow_terrain_colliding_sprite	Integrates accelerating motion with horizontal terrain collision and ground clamping, advances animation every fourth tick, grows scale and removes the sprite on timeout or completion.
-0x80E122F4	func_80E122F4	create_source_to_owner_sprite	Creates a half-scale translucent sprite at the source transform and orientation offset; computes three motion components toward the owner reference over thirty-two steps.
+0x80175AF4	func_80175AF4	create_source_to_owner_sprite	Creates a half-scale translucent sprite at the source transform and orientation offset; computes three motion components toward the owner reference over thirty-two steps. | true symbol: the definition runs at func_80175AF4 (home_self, same-image copy lane)
 0x80170CF8	func_80170CF8	create_converging_fading_sprite	Creates a timed sprite at the supplied offset from an origin, stores the origin and inward velocity/acceleration, and installs the moving shrinking fade callback.
 0x8017380C	func_8017380C	displace_actor_then_recenter	Applies the actor delta, drives brief directional motion, interpolates back to its tile center and restores the home turn callback and ordinary frame table.
 0x801729D8	func_801729D8	damp_actor_motion_then_recenter	Starts opposite-direction motion, damps both horizontal velocities, waits for animation then interpolates back to the tile center and resumes the actor handler.
-0x8125456C	func_8125456C	replay_actor_direction_commands	Consumes repeat-count and direction command pairs, updates actor facing and action flags, dispatches movement or animation, and ends at the zero command.
+0x80173D6C	func_80173D6C	replay_actor_direction_commands	Consumes repeat-count and direction command pairs, updates actor facing and action flags, dispatches movement or animation, and ends at the zero command. | true symbol: the definition runs at func_80173D6C (home_self, same-image copy lane)
 0x80174460	func_80174460	display_formatted_actor_message	Builds actor display text followed by the bank message template, terminates it and displays the formatted buffer.
 0x80761DA4	func_80761DA4	install_table_and_test_entries	Installs the table pointer, tests two indexed entries and invokes the corresponding followup for each positive result; the exact event meanings remain unasserted.
 0x80761B70	func_80761B70	select_checked_table_pointer	Selects the default pointer through the supplied tables; replaces it with a fixed completion pointer only when both subsequent checks return nonzero. No bank-global callee meaning is assumed.
@@ -8562,7 +8544,7 @@
 0x8054FA70	func_8054FA70	increment_scene_selection_index	Increments the halfword D_80017AA0; adjacent homes reset_selection_index, decrement_town_global_counter and run_scene_service_230_by_index reset, decrement and use that same bank-local index to select a service argument.
 0x800F80D4	func_800F80D4	reset_active_object_action	Clears the action timer and phase in the body of the object referenced by D_800FBE1C; nearby item-controller routines use the same root and action state. No additional actor species or script meaning is asserted.
 0x806977B4	func_806977B4	apply_stored_amount_to_town	Adds D_80018AE0 to the town state word; adjacent homes store_lookup_result and get_stored_amount write and read the same stored amount. No currency interpretation is asserted.
-0x806975C4	func_806975C4	initialize_packed_record_defaults	Copies the packed default leading word, initializes byte fields and clears three trailing halfwords before returning the record; the record's game-specific role remains unasserted.
+0x800165C4	func_800165C4	initialize_packed_record_defaults	Copies the packed default leading word, initializes byte fields and clears three trailing halfwords before returning the record; the record's game-specific role remains unasserted. | true symbol: the definition runs at func_800165C4 (home_self, same-image copy lane)
 0x80017580	func_80017580	select_pointer_with_dispatch_cases	Switches on the selector to return one of three static pointers or delegate a subset of cases; the delegate's ambiguous existing alias supplies no gameplay interpretation to this name.
 0x8059E728	func_8059E728	change_map_after_flag_test	Conditionally invokes a flag service after testing Fp_bibian_pool, then calls the explicitly indexed FNO_change_map callback with the stored scene pointer; no interpretation of the other flag service is asserted.
 0x8050E100	func_8050E100	initialize_town_counter_and_callback	Installs a callback pointer, clamps the town halfword to a minimum of 40, clears local sequence state and invokes three flag-service entries; the bank-ambiguous callback's game meaning is not inferred.
@@ -8665,7 +8647,7 @@
 0x80024028	func_80024028	advance_accelerating_spin_effect	Doubles z velocity during first eight ticks, integrates position, rotates sprite and expires past limit.
 0x80024044	func_80024044	advance_shrinking_arc_effect	Integrates motion with a sine arc while shrinking both sprite scales and advancing rotation.
 0x800BCFBC	func_800BCFBC	bank_selector_no_op	Selector hook ignores its argument and returns; called before banked callback dispatch.
-0x8092185C	func_8092185C	ground_items_lack_special_pair	Scans all 64 ground-item entries for bytes 1 and 0x12; returns one only when absent.
+0x800F685C	func_800F685C	ground_items_lack_special_pair	Scans all 64 ground-item entries for bytes 1 and 0x12; returns one only when absent. | true symbol: the definition runs at func_800F685C (home_self, same-image copy lane)
 0x800DC0B4	func_800DC0B4	hud_dispatch_no_op	Empty HUD callback for dispatch slot three; ignores object and slot data.
 0x7FFE83DC	func_7FFE83DC	create_positioned_color_sprite	Allocates a sprite, copies source coordinates and supplied color, installs a 30-tick lifetime.
 0x7FFE9C0C	func_7FFE9C0C	create_owner_color_sprite	Allocates a sprite at owner coordinates, copies supplied color and sets lifetime 55.
@@ -8910,7 +8892,7 @@
 0x800A7D48	func_800A7D48	initialize_projected_sprite_chain_b	src/town/func_800AA5E8.c: Assigns the preceding callback, clears +0x50, dispatches target table D_800F8F88 and registers project_sprite_chain.
 0x800A7DA0	func_800A7DA0	initialize_projected_sprite_chain_c	src/town/func_800AA640.c: Assigns the preceding callback, clears +0x50, dispatches target table D_800F8F98 and registers project_sprite_chain.
 0x804B7BD0	func_804B7BD0	store_scene_values_after_flag_check	src/town/scene/event/store_supplied_values.c: Conditionally processes F_sbs07_pad21, then passes the supplied pair to store_supplied_values and the follow-up handler.
-0x8051E8C0	func_8051E8C0	store_scene_value_pair	src/town/func_8051E8C0.c: Stores the two inputs into D_80019170 and D_80019174 in order.
+0x800160C0	func_800160C0	store_scene_value_pair	src/town/func_8051E8C0.c: Stores the two inputs into D_80019170 and D_80019174 in order. | true symbol: the definition runs at func_800160C0 (home_self, same-image copy lane)
 0x8051EB98	func_8051EB98	get_shared_scene_result	src/town/func_8051EB98.c: Returns D_8001D244, also the shared success result of get_scene_result_address and select_address_based_input.
 0x8051EDA4	func_8051EDA4	dispatch_entry_flag_query_if_ready	src/town/scene/flags/entry_query_referenced_flag_for_table_entry.c: Raises F_sbs11_pad25; only forwards target/value to query_referenced_flag_for_table_entry when F_viv_engei_ok passes; returns whether it dispatched.
 0x8054F9D4	func_8054F9D4	dispatch_scene_entry_value	src/town/func_8054F9D4.c: Passes D_8001795C, D_80017A94 and the first/third arguments to the entry handler.

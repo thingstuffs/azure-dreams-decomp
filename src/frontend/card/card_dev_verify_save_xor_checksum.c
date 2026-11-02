@@ -1,8 +1,8 @@
 #include "common.h"
 #include "frontend/card.h"
 #include "main/data.h"
+#include "frontend/card/server_imports.h"
 
-extern void func_8007C040(void *ptr_a, void *ptr_b, s32 value);
 
 extern u8 checksum_trace_format[];
 extern u8 saved_checksum_label[];

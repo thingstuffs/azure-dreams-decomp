@@ -3,11 +3,9 @@
 #include "shared/town_event_state.h"
 #include "town/scene/build_selected_entry_output_g01237.h"
 #include "town/scene.h"
+#include "town/player/state.h"
 
    /* ((arg1 * 0x10) + arg0->unk_10) in store_built_value_block_in_entry */
-
-
-void func_8001E5F0(s32);                     /* extern */
 
 typedef struct S_8001BBB4_0 {
     u8 pad_00[0x10];
@@ -17,6 +15,6 @@ typedef struct S_8001BBB4_0 {
 /* Store the data block in the indexed entry and invoke func_8001E5F0 for 0x402. */
 s32 store_built_value_block_in_entry(S_8001BBB4_0 *entry_owner, s32 entry_index) {
     ((TownEventEntryValueView *)(((entry_index * 0x10) + entry_owner->unk_10)))->value = build_two_record_value_block();
-    func_8001E5F0(F_sbs01_pad13);
+    clear_script_flag_bit(F_sbs01_pad13);
     return 0;
 }

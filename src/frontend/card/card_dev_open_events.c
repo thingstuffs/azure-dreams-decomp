@@ -1,13 +1,8 @@
 #include "common.h"
 #include "frontend/card.h"
 #include "main/data.h"
+#include "frontend/card/server_imports.h"
 
-extern void func_8007BEF0(s32 value) __attribute__((noreturn));
-extern void func_8007C040(void *ptr, void *ptr2, s32 value);
-extern s32 func_8007C998(s32 value0, s32 value1, s32 value2, void *ptr);
-extern s32 func_8007C9D8(s32 event_handle);
-extern void func_8007CA38(void);
-extern void func_8007CA48(void);
 
 /* Opens and enables memory card events, asserting that each operation succeeds. */
 void card_dev_open_events(s32 unused0, s32 unused1, s32 unused2, s32 unused3) {

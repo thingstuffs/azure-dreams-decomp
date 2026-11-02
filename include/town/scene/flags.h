@@ -71,4 +71,9 @@ void decrement_timer_and_set_completion_flag(struct SpawnDisplayObject *work);
 void clear_indexed_flag_bit(s32 flag_id);
 void process_pair_16_bit_table(void);
 
+void clear_indexed_entry_flag(void);
+void set_indexed_entry_flag(Rec_func_800165F4_arg0 *record, s32 entry_index);
+void set_indexed_entry_flag_b(void);
+s32 update_entry_flags(void *record, s32 entry_index);
+
 #endif

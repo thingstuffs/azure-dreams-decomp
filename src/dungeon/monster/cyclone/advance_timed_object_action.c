@@ -50,7 +50,7 @@ extern void play_sound_if_enabled(s32);
 struct SpriteFrameState;
 extern void select_sprite_entry(struct SpriteFrameState *, s16, s16);
 extern void create_source_adjusted_motion_object(Obj0 *, void *, Obj2 *);
-extern void format_entity_message(s32, Obj3 *);
+extern void show_entity_message(s32, Obj3 *);
 
 /* Advance the timed object state sequence and update its direction from flags. */
 void advance_timed_object_action(Obj0 *controller, void *context, SpriteFrameState *object, Obj3 *actor) {
@@ -83,7 +83,7 @@ void advance_timed_object_action(Obj0 *controller, void *context, SpriteFrameSta
         create_source_adjusted_motion_object(controller, context, object);
         actor_selector = 1;
         if ((actor->field14 & 0x4000) || (actor_selector = 0, (actor->field60->field14 & 0x4000) != 0)) {
-            format_entity_message(actor_selector, actor);
+            show_entity_message(actor_selector, actor);
         }
         play_sound_if_enabled(0x80D);
         old_state = controller->state9b;

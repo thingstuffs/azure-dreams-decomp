@@ -1,6 +1,6 @@
 #include "common.h"
 void func_80700C08(s32);                     /* extern */
-void func_80701060(void);                            /* extern */
+void func_80701060(void);                            /* extern */ /* Unprototyped: this site's argument count or types differ from the foreign program's import prototype */
 
 /* Devkit flag-test entry: select page 3, then run the page's flag scan. */
 void run_devkit_page_3_flag_scan(void) {

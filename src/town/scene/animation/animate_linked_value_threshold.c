@@ -2,6 +2,7 @@
 #include "shared/object_links.h"
 #include "town/scene/animation.h"
 #include "town/data.h"
+#include "town/devkit/old_minigame_imports.h"
 
    /* the 0x2 bytes before arg0 in animate_linked_value_threshold, addressed as arg0[-1] */
 
@@ -21,7 +22,6 @@ typedef struct S_808127A4_1 {
 } S_808127A4_1;
 
 
-s32 func_80058588(s32, s32, s32);
 
 /* Passes the linked value times 1000 to func_80058588, then moves field +0x16 until removal. */
 void animate_linked_value_threshold(void *record_ptr_arg) {

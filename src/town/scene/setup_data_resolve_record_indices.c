@@ -1,6 +1,7 @@
 /* cfail-repair: tf7-phase1-cache-v3 */
 #include "common.h"
 #include "town/scene.h"
+#include "town/devkit/flag_test_imports.h"
 
 typedef struct TownRecord {
     u8 tag;
@@ -19,7 +20,6 @@ typedef struct {
     u8 unk0[0x10];
     u8 *ptr_10;
 } TownData;
-extern void func_80000DC8(void);
 extern s32 D_00001020;
 extern TownState *D_00001040[];
 extern TownData *D_00001034[];

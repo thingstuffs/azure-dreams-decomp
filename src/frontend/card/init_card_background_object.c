@@ -1,15 +1,8 @@
 #include "common.h"
 #include "frontend/card.h"
 #include "main/data.h"
+#include "frontend/card/server_imports.h"
 
-extern void *func_8003C714(s32 value, void *base, s32 size);
-extern void func_80040560(void *base, void *ptr);
-extern s32 func_80047FD8(void *base);
-extern void func_8007BEF0(s32 value);
-extern void func_8007BFE0(void *object, s32 size);
-extern void func_8007C040(void *ptr0, void *ptr1, s32 value);
-extern s32 select_object_handler_slots_by_flag(void *ptr);
-extern s32 func_80404B5C(s32 field_220);
 extern void func_80404C44(void *object, s32 value);
 
 typedef struct {
@@ -59,8 +52,8 @@ void * init_card_background_object(s32 init_value, s32 config_value) {
     D_805030EF[0] = 8;
     card_background_init_entry_tables(obj, 7);
     base->field_0C = (u8 *)obj + 0x210;
-    obj->field_21C = func_80404B5C(obj->field_220);
+    obj->field_21C = card_background_bind_dialog_template(obj->field_220);
     func_80404C44(obj, (obj->field_04 = config_value, init_value));
-    select_object_handler_slots_by_flag((base->field_10 = select_object_handler_slots_by_flag, obj));
+    card_dev_select_sub_block((base->field_10 = card_dev_select_sub_block, obj));
     return base;
 }

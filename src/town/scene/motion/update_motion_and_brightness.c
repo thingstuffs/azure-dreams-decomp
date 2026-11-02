@@ -3,6 +3,7 @@
 #include "shared/object_links.h"
 #include "town/scene/motion.h"
 #include "town/data.h"
+#include "town/devkit/old_minigame_imports.h"
 
 
 typedef struct S_80814610_1 {
@@ -15,7 +16,6 @@ typedef struct S_80814610_1 {
 } S_80814610_1;   /* arg2 in update_motion_and_brightness */
 
    /* the 0x2 bytes before arg0 in update_motion_and_brightness, addressed as arg0[-1] */
-void func_8003EA54(void *);                 /* extern */
 
 /* Updates motion and brightness, processes the visual, and marks flagged objects. */
 void update_motion_and_brightness(void *object, void *motion_arg, void *visual_arg) {

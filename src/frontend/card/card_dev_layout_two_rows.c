@@ -2,8 +2,8 @@
 #include "common.h"
 #include "frontend/card.h"
 #include "main/data.h"
+#include "frontend/card/server_imports.h"
 
-extern void func_8004DDBC(void *base, void *data, void *entry);
 
 /* Configures two object entries and initializes them with shared data. */
 void card_dev_layout_two_rows(void *object) {

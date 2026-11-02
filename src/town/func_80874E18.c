@@ -24,7 +24,7 @@ extern CallbackOwner *devkit_callback_owner[4];
 
 #define STATE_ROOT devkit_state_slots[0]
 
-extern s32 func_80700D84(void);
+extern s32 func_80700D84(void); /* Unprototyped: this site's argument count or types differ from the foreign program's import prototype */
 extern s32 func_80701060(s32 *word, s32 old_value);
 
 /* Record the pressed input, or toggle the 0x40000000 state flag from the callback's answer and advance the slot. */

@@ -1,6 +1,7 @@
 #include "common.h"
 #include "town/scene/motion.h"
 #include "town/data.h"
+#include "town/devkit/old_minigame_imports.h"
 
 typedef struct {
     u16 x;
@@ -9,7 +10,6 @@ typedef struct {
     s16 h;
 } Rect;
 
-extern void func_8006E91C(Rect *, s32, s32);
 
 /* Draws a wrapped tile column with vertical scrolling and top-edge clipping. */
 void draw_wrapped_tile_column(s16 column, s16 row, s16 scroll_y)

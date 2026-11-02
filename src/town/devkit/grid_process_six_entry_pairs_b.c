@@ -1,7 +1,7 @@
 #include "common.h"
 #include "town/devkit.h"
+#include "town/devkit/flag_test_imports.h"
 
-extern void func_807006FC(u16);
 extern u8 devkit_overlay_page[];
 
 /* Pass six consecutive pairs of 16-bit table values to func_807006FC. */

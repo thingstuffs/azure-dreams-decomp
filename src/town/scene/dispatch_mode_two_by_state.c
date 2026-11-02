@@ -1,7 +1,7 @@
 #include "common.h"
 #include "town/scene.h"
+#include "town/scene/flags.h"
 
-extern void initialize_floor_generation_state(void);
 extern s32 set_selected_entry_state_3(s32);
 typedef struct {
     s32 value;
@@ -18,5 +18,5 @@ void dispatch_mode_two_by_state(s32 state_input) {
         set_selected_entry_state_3(state_input);
         return;
     }
-    initialize_floor_generation_state();
+    set_indexed_entry_flag_b();
 }

@@ -3,11 +3,9 @@
 #include "common.h"
 #include "shared/record_ptrs.h"
 #include "shared/town_root.h"
+#include "town/player/state.h"
 
 typedef void (*TownCallback)(s32, s32);
-
-extern void func_8001A554(s32);
-extern s32 func_8001A64C(s32);
 
 // Dispatches the town callback if check 0x1068 fails, otherwise issues commands 0x94F and 0x93E.
 s32 dispatch_town_callback_if_fails(void) {
@@ -15,12 +13,12 @@ s32 dispatch_town_callback_if_fails(void) {
 
     set_script_flag_94c();
 
-    if (func_8001A64C(Frg_vivian_fine) == 0) {
+    if (get_script_flag_mask(Frg_vivian_fine) == 0) {
         ((TownCallback)(town_scene_root->services->callback_2F8))(0xE, 0x200);
         checkPassed = 0;
     } else {
-        func_8001A554(F_sbs32_pad37);
-        func_8001A554(F_sbs32_pad20);
+        set_script_flag_bit(F_sbs32_pad37);
+        set_script_flag_bit(F_sbs32_pad20);
         checkPassed = 1;
     }
     return checkPassed;

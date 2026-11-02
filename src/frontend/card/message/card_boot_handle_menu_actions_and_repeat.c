@@ -2,6 +2,7 @@
 #include "common.h"
 #include "frontend/card/message.h"
 #include "main/data.h"
+#include "frontend/card/server_imports.h"
 
 typedef struct S_804027F8_0 {
     s32 unk_00;
@@ -13,7 +14,6 @@ typedef struct S_804027F8_0 {
     s32 * unk_20;
 } S_804027F8_0;   /* arg0 in card_boot_handle_menu_actions_and_repeat */
 
-extern s32 func_80056450(s32 selection, s32 step, u8 table_value);
 extern void func_80063FF8(s32 code);
 extern void resolve_apply(void *menu);
 extern s32 process_global(s32 value);

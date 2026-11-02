@@ -2,8 +2,8 @@
 #include "m2c_compat.h"
 #include "frontend/card.h"
 #include "main/data.h"
+#include "frontend/card/server_imports.h"
 
-s32 func_80056F14();
 
 typedef struct S_8001C698_0 {
     u8 pad_00[0x1B8];

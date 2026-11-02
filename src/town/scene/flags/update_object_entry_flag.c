@@ -2,6 +2,7 @@
 #include "shared/record_ptrs.h"
 #include "shared/town_root.h"
 #include "town/scene/flags.h"
+#include "town/player/state.h"
 
 typedef struct S_806D45CC_2 {
     u8 pad_00[0x4];
@@ -13,12 +14,11 @@ typedef struct S_806D45CC_0 {
     u8 pad_00[0x18];
     s16 unk_18;
 } S_806D45CC_0;   /* arg0 in update_object_entry_flag */
-void func_800176B8(void *, s32);             /* extern */
-void initialize_state_two_entries_pointer(s32 bit_index);                         /* extern */
+void apply_selected_entry_values(void *, s32);             /* extern */
 
 /* Update the object, clear the current entry flag, and forward the call. */
 void update_object_entry_flag(S_806D45CC_0 *object, s32 context) {
-    initialize_state_two_entries_pointer(object->unk_18);
+    set_script_flag_bit(object->unk_18);
     ((S_806D45CC_2 *)(((town_scene_root->entry_index * 8) + ((s32)town_scene_root->event_data))))->unk_04 = 0;
-    func_800176B8(object, context);
+    apply_selected_entry_values(object, context);
 }

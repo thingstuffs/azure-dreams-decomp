@@ -1,5 +1,6 @@
 #ifndef DUNGEON_ACTOR_OBJECT_H
 #define DUNGEON_ACTOR_OBJECT_H
+struct SpriteFrameState;
 
 /* Function contracts owned by src/dungeon/actor/object/ (decision 74; maintained by tools/headers). */
 #include "common.h"
@@ -16,7 +17,11 @@ void *select_object_by_flags_and_keys(struct Func8180F0F4_Obj *first, struct Fun
 void initialize_actor_object_action(void *object_state, void *unused_context, Rec_D_80082E80 *properties, EntityRec *status);
 
 #include "shared/town_object.h"
-void advance_object_countdown_and_invoke_handlers(TownObjectRecord *object, s32 handlerContext, s32 handlerData);
+void advance_object_countdown_and_invoke_handlers(TownObjectRecord *object, ObjectPosition *position, struct SpriteFrameState *sprite);
 s32 initialize_object_configuration_x(EntityRec *entity);
+
+
+void initialize_object_with_seven_tick_counter(TownObjectRecord *object, ObjectPosition *unused_position, void *context);
+void initialize_object_with_six_tick_counter(void *object_arg, ObjectPosition *unused_position, void *context);
 
 #endif

@@ -5,6 +5,8 @@
 #include "shared/town_root.h"
 #include "town/scene.h"
 #include "town/scene/dialogue.h"
+#include "town/player.h"
+#include "town/player/state.h"
 
 typedef s32 (*StateQuery)(s32);
 
@@ -23,10 +25,6 @@ extern s8 D_800172A3[];
 extern s8 D_800173E4[];
 extern s8 D_80017501[];
 
-extern void func_8001E578(s32);
-extern s32 func_8001E670(s32);
-extern s32 func_8001E82C(void);
-
 /* Pick the next town dialogue line from the progress flags and money, marking each line seen as it is used. */
 s8 *select_next_dialogue_line(void) {
     s32 initial;
@@ -36,28 +34,28 @@ s8 *select_next_dialogue_line(void) {
     s32 value;
 
     initial = 0;
-    if (func_8001E670(Ft_home01_rees_once) == 0) {
-        func_8001E578(Ft_home01_rees_once);
+    if (get_script_flag_mask(Ft_home01_rees_once) == 0) {
+        set_script_flag_bit(Ft_home01_rees_once);
     } else {
         initial = 1;
     }
 
-    if (func_8001E670(initial) == 0 && func_8001E82C() != 0) {
-        if (func_8001E82C() >= 5) {
-            if (func_8001E670(Ftt_fkoya_isaku_scene00_first) == 0) {
-                if (func_8001E670(F_ie_huusya_no_sasoi_once) == 0) {
-                    func_8001E578(F_ie_huusya_no_sasoi_once);
+    if (get_script_flag_mask(initial) == 0 && get_linked_record_field_2_d_60() != 0) {
+        if (get_linked_record_field_2_d_60() >= 5) {
+            if (get_script_flag_mask(Ftt_fkoya_isaku_scene00_first) == 0) {
+                if (get_script_flag_mask(F_ie_huusya_no_sasoi_once) == 0) {
+                    set_script_flag_bit(F_ie_huusya_no_sasoi_once);
                     return D_80017152;
                 }
                 return D_800172A3;
             }
         }
 
-        if (func_8001E670(Ftt_fkoya_isaku_scene01_ok) != 0) {
-            if (func_8001E670(F_sbs13_pad04) == 0) {
-                if (func_8001E670(F_sbs13_pad02) == 0) {
-                    if (func_8001E670(F_ie_pool_no_sasoi_once) == 0) {
-                        func_8001E578(F_ie_pool_no_sasoi_once);
+        if (get_script_flag_mask(Ftt_fkoya_isaku_scene01_ok) != 0) {
+            if (get_script_flag_mask(F_sbs13_pad04) == 0) {
+                if (get_script_flag_mask(F_sbs13_pad02) == 0) {
+                    if (get_script_flag_mask(F_ie_pool_no_sasoi_once) == 0) {
+                        set_script_flag_bit(F_ie_pool_no_sasoi_once);
                         return D_800173E4;
                     }
                     return D_80017501;
@@ -66,7 +64,7 @@ s8 *select_next_dialogue_line(void) {
         }
 
         if ((u32)((s32)(town_scene_root->town_state->unk_2D68)) >= 10000U) {
-            if (func_8001E670(F_sb22_goods_first) == 0) {
+            if (get_script_flag_mask(F_sb22_goods_first) == 0) {
                 return D_800164CC;
             }
         }
@@ -86,8 +84,8 @@ s8 *select_next_dialogue_line(void) {
         if (value > 0) {
             u8 *town = ((u8 *)(town_scene_root->town_state));
             if (town[0x33A8] != 0x12 && town[0x33A9] != 0x12) {
-                if (func_8001E670(F_ie_otera_no_sasoi_once) == 0) {
-                    func_8001E578(F_ie_otera_no_sasoi_once);
+                if (get_script_flag_mask(F_ie_otera_no_sasoi_once) == 0) {
+                    set_script_flag_bit(F_ie_otera_no_sasoi_once);
                     return D_80016E0C;
                 }
             }
@@ -153,7 +151,7 @@ s8 *select_next_dialogue_line(void) {
         }
     }
 
-    if (func_8001E670(sn_mam_pan_give) != 0) {
+    if (get_script_flag_mask(sn_mam_pan_give) != 0) {
         return D_80016359;
     }
     return D_8001602A;

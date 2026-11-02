@@ -1,9 +1,9 @@
 #include "common.h"
 #include "frontend/card.h"
 #include "frontend/card/service.h"
+#include "frontend/card/server_imports.h"
 
 extern void configure_target_for_active_state_and_entry(void *buffer, s32 index);
-extern void func_8007CAD8(void *buffer_a, void *buffer_b);
 extern void compute_store(s32 request_id);
 extern s32 write_byte(void *buffer, s32 request_id, s32 value1, s32 value2, s32 entry_value);
 extern u8 card_slot_header_cache[];

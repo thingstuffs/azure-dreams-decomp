@@ -11,8 +11,8 @@ s32 select_mode_nine_lookup(s32 input, s32 context, s32 mode) {
     }
     if (mode == 9) {
         invoke_handler_with_code_1470();
-        result = func_80019ABC(&D_8001A9BC, &scene_response_context, input, 9);
-        if (func_80019A04(&D_8001A9BC, input, 9) != 0) {
+        result = apply_entry_position(&D_8001A9BC, &scene_response_context, input, 9);
+        if (resolve_entry_flag(&D_8001A9BC, input, 9) != 0) {
             result = select_state_result_with_lookup_overrides(input, context, 9);
         }
     } else {

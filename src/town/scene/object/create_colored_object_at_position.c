@@ -1,5 +1,6 @@
 #include "common.h"
 #include "town/scene/object.h"
+#include "town/devkit/old_minigame_imports.h"
 
 #ifndef NULL
 #define NULL 0
@@ -36,8 +37,6 @@ typedef struct S_808138C0_2 {
 } S_808138C0_2;
 
 
-extern void *func_800373DC();
-extern void func_8003BC18();
 extern u8 score_sprite_draw_callback_address[12];
 extern u8 D_8052F210[];
 extern u8 D_80284430[];

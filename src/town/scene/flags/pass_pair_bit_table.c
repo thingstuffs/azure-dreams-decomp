@@ -1,7 +1,7 @@
 #include "common.h"
 #include "town/scene/flags.h"
+#include "town/devkit/flag_test_imports.h"
 
-extern void func_80000C18(u16);
 extern u8 D_00000000[];
 
 /* Pass a pair of 16-bit table values to func_80000C18. */

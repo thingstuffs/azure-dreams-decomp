@@ -1,19 +1,16 @@
 #include "script_symbols.h"
 #include "common.h"
 #include "town/scene.h"
-
-extern void func_80018B58(s32);
-extern void func_80018BD0(s32);
-extern s32 func_80018C50(s32);
+#include "town/player/state.h"
 
 /* Test 0xFC0 and process 0xFB5 on success or 0xFB7 and 0xFB8 on failure. */
 s32 test_success_failure(void) {
-    if (func_80018C50(Fr_cheriru_scene03) != 0) {
-        func_80018B58(Fr_hospital_scene00);
+    if (get_script_flag_mask(Fr_cheriru_scene03) != 0) {
+        set_script_flag_bit(Fr_hospital_scene00);
         return 1;
     }
 
-    func_80018BD0(F_hos_first_cheriru);
-    func_80018BD0(F_hos_first_hush);
+    clear_script_flag_bit(F_hos_first_cheriru);
+    clear_script_flag_bit(F_hos_first_hush);
     return 0;
 }
