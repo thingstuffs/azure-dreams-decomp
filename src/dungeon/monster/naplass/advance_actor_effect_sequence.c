@@ -19,22 +19,6 @@ struct SpriteFrameState;
 #include "records/Rec_D_80082E80.h"
 #include "records/Rec_func_801732A4_arg0.h"
 
-typedef struct S_801732A4_2 {
-    u8 pad_00[0x14];
-    s32 unk_14;
-    u8 pad_18[0x4];
-    s32 unk_1C;
-    u8 pad_20[0x5];
-    u8 unk_25;
-    u8 pad_26[0x4];
-    s16 unk_2A;
-    u8 pad_2C[0x38];
-    s16 unk_64;
-    u8 pad_66[0x4];
-    u16 unk_6A;
-    u8 pad_6C[0x1];
-    s8 unk_6D;
-} S_801732A4_2;   /* arg3 in advance_actor_effect_sequence_2 */
 
 typedef struct S_801732A4_8 {
     u8 pad_00[0xBB];

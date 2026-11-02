@@ -20,7 +20,7 @@ extern void D_800A78AC(void *record, s32 context, s32 update_data);
 extern M2C_UNK D_800F842C;
 
 /* Initialize the object and reset its state before completing setup. */
-void initialize_timed_scale_object(void *object, ObjectPosition *state, void *context) {
+void initialize_timed_scale_object(void *object, ObjectPosition *state, struct SpriteFrameState *context) {
     ((S_800A782C_0_pre *)object)[-1].unk_00 = &D_800A78AC;
     clear_object_status_and_dispatch_target(object, context, (int)(&D_800F842C), 0);
     register_node_if_unregistered(object, project_sprite_chain);

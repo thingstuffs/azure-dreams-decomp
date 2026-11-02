@@ -16,14 +16,6 @@
 extern u8 barong_action_resume_address[];
 extern u8 D_80175584[];
 
-typedef struct S_80172F94_0 {
-    u8 pad_00[0x8C];
-    u8 * unk_8C;
-    u8 pad_90[0x6];
-    union { u16 u; s16 s; } unk_96;   /* accessed as both */
-    u8 pad_98[0x3];
-    u8 unk_9B;
-} S_80172F94_0;   /* arg0 in advance_timed_actor_animation */
 
 
 /* Advances an actor's timed animation sequence and handles its completion. */

@@ -13,16 +13,6 @@
 #include "dungeon/actor.h"
 #include "dungeon/effect/screen.h"
 
-typedef struct S_8015C3C4_0 {
-    u8 pad_00[0x8C];
-    u8 * unk_8C;
-    u8 pad_90[0x6];
-    union { u16 s; s16 u; } unk_96;   /* accessed as both */
-    u8 pad_98[0x3];
-    u8 unk_9B;
-    u8 pad_9C[0xE];
-    s16 unk_AA;
-} S_8015C3C4_0;   /* arg0 in advance_actor_timed_action_sequence_updating */
 
 extern void func_8015921C(void *, void *, void *, void *);
 extern void func_801594FC(void *, void *, void *, void *);

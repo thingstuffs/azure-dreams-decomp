@@ -7,10 +7,6 @@
 #include "engine/node/allocation.h"
 #include "dungeon/monster/manoeva.h"
 
-typedef struct S_80174B90_4 {
-    u8 pad_00[0x14];
-    void * unk_14;
-} S_80174B90_4;
 
 typedef struct S_80174B90_6 {
     u8 pad_00[0x8];

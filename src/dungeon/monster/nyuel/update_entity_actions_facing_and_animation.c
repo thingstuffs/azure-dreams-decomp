@@ -29,14 +29,6 @@ typedef struct {
     s16 unk_2A;
 } MapObject;
 
-typedef struct S_80170E9C_0 {
-    u8 pad_00[0x8C];
-    s32 unk_8C;
-    u8 pad_90[0x8];
-    u16 unk_98;
-    u8 unk_9A;
-    s8 unk_9B;
-} S_80170E9C_0;   /* arg0 in update_entity_actions_facing_and_animation */
 
 
 s32 check_entity_relation();

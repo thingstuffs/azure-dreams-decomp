@@ -1,6 +1,7 @@
 #include "common.h"
 #include "shared/record_ptrs.h"
 #include "town/scene.h"
+#include "shared/town_root.h"
 
 typedef s32 (*Callback)(s8 *);
 
@@ -15,7 +16,7 @@ void request_handler_kind_10_17(void)
     args[0] = 0x10;
     args[2] = 0;
     args[3] = 0;
-    D_80017FB8[0] = ((Callback)*(void **)((s8 *)*(void **)((s8 *)town_scene_root + 0x20) + 0x50))(args);
+    D_80017FB8[0] = ((Callback)*(void **)((s8 *)((void *)(town_scene_root->services)) + 0x50))(args);
 }
 
 /* MECHANISM: The four-byte args array yields the 0x20 frame with only $ra saved.

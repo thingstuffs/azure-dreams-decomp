@@ -17,17 +17,6 @@
 extern u8 D_800E2380[8];
 extern u8 baloon_fall_frames[8];
 
-typedef struct S_801737F8_0 {
-    u8 pad_00[0x8C];
-    s32 * unk_8C;
-    u8 pad_90[0x2];
-    union { s16 s; u16 u; } unk_92;   /* accessed as both */
-    u8 pad_94[0x2];
-    union { u16 u; s16 s; } unk_96;   /* accessed as both */
-    u16 unk_98;
-    u8 pad_9A[0x1];
-    u8 unk_9B;
-} S_801737F8_0;   /* arg0 in advance_actor_animation_and_fall */
 
 /* Advance the actor animation state, timers, and downward movement. */
 void advance_actor_animation_and_fall(ActorRecord *action, ObjectPosition *motion, SpriteFrameState *sprite, ActorRecord *actor) {

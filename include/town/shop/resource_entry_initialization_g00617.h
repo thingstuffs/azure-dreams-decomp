@@ -5,6 +5,7 @@
 
 #include "common.h"
 #include "m2c_compat.h"
+#include "town/shop/group_index.h"
 
 typedef struct S_800B2964_0 {
     u8 pad_00[0x1];
@@ -12,7 +13,6 @@ typedef struct S_800B2964_0 {
 } S_800B2964_0;
 
 /* extern */
-struct TownB4C60;
 
 /* extern */
 typedef struct S_800B29D0_0 {
@@ -24,12 +24,14 @@ typedef struct S_800B29D0_0 {
 } S_800B29D0_0;
 
 s32 create_callback_pair_default();
-void get_zero_based_group_index(struct TownB4C60 *);
 /* extern */
 
+struct UA32;
+struct ItemMenuInputObject;
+
 /* Functions defined in this translation unit. */
-void collect_enabled_entry_pointers(s32 *entries, s32 entry_count);
+void collect_enabled_entry_pointers(struct UA32 **entries, s32 entry_count);
 s32 count_nonzero_entries(s32 *entries);
-s32 acquire_resource_and_initialize_state(void *state);
+struct UA32 **acquire_resource_and_initialize_state(struct ItemMenuInputObject *state);
 
 #endif

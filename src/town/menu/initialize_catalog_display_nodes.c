@@ -1,6 +1,8 @@
 #include "common.h"
 #include "m2c_compat.h"
 #include "town/menu/catalog.h"
+#include "shared/item_menu.h"
+#include "town/menu/catalog_parts.h"
 
 
 #ifndef NULL
@@ -9,54 +11,51 @@
 
 void apply_block_16_template_to_nodes();
 void apply_vector_3_template_to_nodes();
-extern s32 *catalog_display_node_slots[98];
-extern M2C_UNK D_801298B8;
-extern M2C_UNK D_80129ED8;
-extern M2C_UNK D_8012A4F8;
+/* The position access view occupies the first 12 bytes of each
+ * 16-byte data-bank slot; the final word is retained as live unknown bytes. */
+typedef struct CatalogPartPositionSlot {
+    ItemMenuPartPosition position;
+    u8 unk_0C[4];
+} CatalogPartPositionSlot;
 
-typedef struct S_801264AC_0 {
-    u8 pad_00[0x4];
-    s32 * unk_04;
-} S_801264AC_0;
+extern ItemMenuPart D_801298B8[98];
+extern CatalogPartPositionSlot D_80129ED8[98];
+extern DisplayPositionWords D_8012A4F8[98];
 
-typedef struct S_801264AC_1 {
-    u8 pad_00[0x8];
-    s32 * unk_08;
-    s32 * unk_0C;
-} S_801264AC_1;
+
 
 /* Initializes 98 linked nodes and attaches their table to the context. */
 s32 initialize_catalog_display_nodes(CatalogDisplay *context) {
-    s32 **node_slot;
-    s32 *node;
-    s32 *node_data;
-    s32 *node_aux;
-    s32 *prev_node;
+    ItemMenuPart **node_slot;
+    ItemMenuPart *node;
+    CatalogPartPositionSlot *node_data;
+    DisplayPositionWords *node_aux;
+    ItemMenuPart *prev_node;
     s32 node_count;
     s32 result;
 
     prev_node = NULL;
     node_count = 0;
     node_slot = catalog_display_node_slots;
-    node_aux = &D_8012A4F8;
-    node_data = &D_80129ED8;
-    node = &D_801298B8;
+    node_aux = D_8012A4F8;
+    node_data = D_80129ED8;
+    node = D_801298B8;
     do {
         *node_slot = node;
-        ((S_801264AC_0 *)node)->unk_04 = node_data;
-        node_data += 4;
-        node += 4;
+        node->position = &node_data->position;
+        node_data += 1;
+        node += 1;
         node_count += 1;
-        ((S_801264AC_1 *)(*node_slot))->unk_08 = node_aux;
-        node_aux += 3;
-        ((S_801264AC_1 *)(*node_slot))->unk_0C = prev_node;
+        (*node_slot)->vector = node_aux;
+        node_aux += 1;
+        (*node_slot)->next = prev_node;
         prev_node = *node_slot;
         node_slot += 1;
     } while (node_count < 0x62);
     apply_block_16_template_to_nodes(catalog_display_node_slots, 0x62);
     apply_vector_3_template_to_nodes(catalog_display_node_slots, 0x62);
     context->nodes = catalog_display_node_slots;
-    context->last_node = (s32)catalog_display_node_slots[97];
+    context->last_node = catalog_display_node_slots[97];
     result = 1;
     return result;
 }

@@ -9,14 +9,6 @@
 #include "dungeon/actor.h"
 #include "dungeon/player/object.h"
 
-typedef struct S_80172EF4_1 {
-    u8 pad_00[0x8C];
-    void * unk_8C;
-    u8 pad_90[0x6];
-    union { s16 s; u16 u; } unk_96;   /* accessed as both */
-    u8 pad_98[0x3];
-    u8 unk_9B;
-} S_80172EF4_1;   /* arg0 in decelerate_and_center_actor_on_tile */
 
 extern u8 battnel_action_resume_address[];
 #include "dungeon/monster/battnel.h"

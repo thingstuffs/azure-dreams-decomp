@@ -16,10 +16,6 @@
 #include "dungeon/actor/status.h"
 
 
-typedef struct S_8106B000_2 {
-    u8 pad_00[0xA];
-    s16 unk_0A;
-} S_8106B000_2;
 
 typedef struct S_8106B000_4 {
     u8 pad_00[0x8C];

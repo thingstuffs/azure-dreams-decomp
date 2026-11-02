@@ -38,7 +38,7 @@ s32 process_current_cell_and_clear(void *object, s32 entry_index) {
     s32 cell_index;
     u8 *cells;
 
-    state = *(void **)((s8 *)(&town_scene_root));
+    state = (void *)town_scene_root;
     cell_index = state->unk_08;
     cells = state->unk_40;
     scene_cell_dispatch_code = cells[cell_index * 8 + 4];
@@ -50,8 +50,8 @@ s32 process_current_cell_and_clear(void *object, s32 entry_index) {
             func_80019458(F_sbs14_pad09);
         }
 
-        ((S_80016B0C_2 *)((u8 *)((Rec_D_80016000 *)(*(void **)((s8 *)(&town_scene_root))))->event_data
-                + ((Rec_D_80016000 *)(*(void **)((s8 *)(&town_scene_root))))->entry_index * 8))->unk_04 = 0;
+        ((S_80016B0C_2 *)((u8 *)town_scene_root->event_data
+                + town_scene_root->entry_index * 8))->unk_04 = 0;
         scene_cell_dispatch_code = 0;
         set_scene_entry_flag_k();
     } else {

@@ -16,7 +16,7 @@ struct S_800A5DF8_4;
 void create_colored_scaled_effect(s32 object_id);
 
 /* effect.c */
-void tick_random_radial_spawns(void *object, s32 target);
+void tick_random_radial_spawns(TownObjectRecord *object, s32 target);
 
 /* fade_and_grow_effect.c */
 void fade_and_grow_effect(void *record, s32 unused, void *effect);

@@ -2,6 +2,7 @@
 #include "engine/window.h"
 #include "town/player.h"
 #include "town/player/effect.h"
+#include "town/player/effect/random_spawns.h"
 
 typedef struct {
     s32 unk0;
@@ -15,16 +16,16 @@ typedef struct {
 extern UnkStackData D_80088D60;
 
 /* Decrements an object's countdown and triggers a randomized update when it expires. */
-void tick_random_radial_spawns(void *object, s32 target)
+void tick_random_radial_spawns(TownObjectRecord *object, s32 target)
 {
     UnkStackData update_data;
     u16 ticks_left;
 
     update_data = D_80088D60;
-    ticks_left = *(u16 *)((u8 *)object + 0x6C) - 1;
-    *(u16 *)((u8 *)object + 0x6C) = ticks_left;
+    ticks_left = object->timer.as_u16 - 1;
+    object->timer.as_u16 = ticks_left;
     if ((ticks_left << 0x10) <= 0) {
-        *(u16 *)((u8 *)object + 0x6C) = (u16)(scale_random_to_unsigned_halfword_limit(0xA) + 5);
+        object->timer.as_u16 = (u16)(scale_random_to_unsigned_halfword_limit(0xA) + 5);
         spawn_radial_objects(target, &update_data, (scale_random_to_unsigned_halfword_limit(2) & 0xFFFF) + 1);
     }
 }

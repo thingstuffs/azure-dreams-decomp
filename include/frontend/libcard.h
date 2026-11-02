@@ -67,7 +67,7 @@ typedef struct Object_800128C8 {
 struct CardMessageDialogBody;
 struct S_80023F94_0;
 struct S_80025030_0;
-struct S_80026C94_0;
+struct CardChoiceOwner;
 struct S_800491F4;
 struct UnkStruct1E;
 struct CardDisplayNode;
@@ -173,7 +173,7 @@ void card_boot_handle_overwrite_answer(Object_800128C8 *object_data);
 void card_boot_initialize_paired_choice_layout(void *record_addr);
 
 /* card_boot_initialize_paired_choice_panel.c */
-void card_boot_initialize_paired_choice_panel(s8 *record, s32 initial_value);
+void card_boot_initialize_paired_choice_panel(struct CardChoiceOwner *record, s32 initial_value);
 
 /* card_boot_initialize_save_heading_layout.c */
 void card_boot_initialize_save_heading_layout(void *object);
@@ -185,7 +185,7 @@ void card_boot_initialize_three_row_command_panel(void *record, void *init_value
 void card_boot_layout_five_entry_list(void *context);
 
 /* card_boot_layout_left_right_labels.c */
-void card_boot_layout_left_right_labels(struct S_80026C94_0 *owner);
+void card_boot_layout_left_right_labels(struct CardChoiceOwner *owner);
 
 /* card_boot_layout_three_row_command_panel.c */
 void card_boot_layout_three_row_command_panel(CardCommandPanelBody *panel);

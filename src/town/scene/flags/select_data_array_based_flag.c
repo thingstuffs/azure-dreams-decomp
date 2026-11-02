@@ -1,5 +1,6 @@
 #include "common.h"
 #include "shared/record_ptrs.h"
+#include "shared/town_root.h"
 
 
 /* Returns the indexed flag's bit mask, with indices 0 and 1 returning themselves. */
@@ -13,7 +14,7 @@ s32 select_data_array_based_flag(s32 flagIndex)
 
     if (flagIndex != 0) {
         if (flagIndex != 1) {
-            flagState = *(s32 **)((s8 *)(&town_scene_root));
+            flagState = (s32 *)town_scene_root;
             wordIndex = flagIndex / 32;
             flagWords = *(s32 **)((s8 *)flagState + 0x18);
             flagWord = flagWords[wordIndex];

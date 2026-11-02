@@ -20,16 +20,7 @@ struct ObjectPosition;
 #include "engine/graphics.h"
 #include "dungeon/effect.h"
 
-typedef struct S_801749A8_8 {
-    u8 pad_00[0x8];
-    void * unk_08;
-} S_801749A8_8;
 
-typedef struct S_801749A8_10 {
-    s32 unk_00;
-    s32 unk_04;
-    s32 unk_08;
-} S_801749A8_10;
 
 typedef struct S_801749A8_11 {
     u8 pad_00[0x2A];

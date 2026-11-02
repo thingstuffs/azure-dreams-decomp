@@ -478,7 +478,7 @@ s32 check_and_prepare_actor_move(ActorRecord *action_state, ObjectPosition *faci
         break;
     }
 
-    ((T_80173734_S_80173734_0 *)actor)->unk_6D--;
+    actor->pending_turn_updates = (u8)((u8)actor->pending_turn_updates - 1);
     if (actor->unk_48 == 15) {
 
         actor->target =
@@ -494,7 +494,7 @@ s32 check_and_prepare_actor_move(ActorRecord *action_state, ObjectPosition *faci
                               actor->target);
             }
 
-            if (((T_80173734_S_80173734_0 *)actor)->unk_14 & 0x04000000) {
+            if ((u32)actor->flags14 & 0x04000000) {
                 range_left = 10;
                 origin_x = origin->tile_x;
                 origin_y = origin->tile_y;
@@ -522,7 +522,7 @@ loop:
                             prepare_directional_attack(actor, origin, actor->facing, target_distance,
                                           actor->target);
                         }
-                        if (((T_80173734_S_80173734_0 *)actor)->unk_14 & 0x04000000) {
+                        if ((u32)actor->flags14 & 0x04000000) {
                             goto loop;
                         }
                     } else {

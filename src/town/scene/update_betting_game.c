@@ -17,25 +17,26 @@ typedef struct S_func_8080F4A4_1 {
     s16 unk_24;
 } S_func_8080F4A4_1;
 
-typedef struct S_func_8080F4A4_2 {
-    s16 unk_00;
-    s16 unk_02;
-    void * unk_04;
+typedef struct BettingCoinSpawnData {
+    s16 mode;
+    s16 delay;
+    void * parent;
     u8 pad_08[0x15];
-    s8 unk_1D;
+    s8 variant;
     u8 pad_1E[0x36];
-    s16 unk_54;
-    s16 unk_56;
-    s32 unk_58;
-    s32 unk_5C;
-    s32 unk_60;
-    s32 unk_64;
-    s32 unk_68;
-    s32 unk_6C;
-    s16 unk_70;
-    s16 unk_72;
-    s16 unk_74;
-} S_func_8080F4A4_2;
+    s16 kind;
+    s16 index;
+    s32 x;
+    s32 y;
+    s32 z;
+    s32 velocity_x;
+    s32 velocity_y;
+    s32 velocity_z;
+    s16 ones_left;
+    s16 tens_left;
+    s16 hundreds_left;
+    u8 pad_76[0xA];
+} BettingCoinSpawnData;
 
 typedef struct S_func_8080F4A4_3 {
     u8 pad_00[0x8];
@@ -134,22 +135,7 @@ extern u8 D_8052B1EC[];
 extern u8 D_8053012C[];
 /* Updates the betting game, its animations, and payout or refund coins. */
 void update_betting_game(S_func_8080F4A4_1 *game) {
-    u8 spawn_data[0x80];
-#define spawn_mode ((S_func_8080F4A4_2 *)spawn_data)->unk_00
-#define spawn_delay ((S_func_8080F4A4_2 *)spawn_data)->unk_02
-#define spawn_parent ((S_func_8080F4A4_2 *)spawn_data)->unk_04
-#define spawn_variant ((S_func_8080F4A4_2 *)spawn_data)->unk_1D
-#define coin_kind ((S_func_8080F4A4_2 *)spawn_data)->unk_54
-#define coin_index ((S_func_8080F4A4_2 *)spawn_data)->unk_56
-#define spawn_x ((S_func_8080F4A4_2 *)spawn_data)->unk_58
-#define spawn_y ((S_func_8080F4A4_2 *)spawn_data)->unk_5C
-#define spawn_z ((S_func_8080F4A4_2 *)spawn_data)->unk_60
-#define velocity_x ((S_func_8080F4A4_2 *)spawn_data)->unk_64
-#define velocity_y ((S_func_8080F4A4_2 *)spawn_data)->unk_68
-#define velocity_z ((S_func_8080F4A4_2 *)spawn_data)->unk_6C
-#define ones_left ((S_func_8080F4A4_2 *)spawn_data)->unk_70
-#define tens_left ((S_func_8080F4A4_2 *)spawn_data)->unk_72
-#define hundreds_left ((S_func_8080F4A4_2 *)spawn_data)->unk_74
+    BettingCoinSpawnData spawn_data;
     s32 bounce_anim;
     s32 settle_anim;
     s16 hundreds;
@@ -215,27 +201,27 @@ void update_betting_game(S_func_8080F4A4_1 *game) {
         state_or_x = 1;
         game->unk_18 = state_or_x;
         game->unk_20 = (u16) (flags_or_z & 0xFFF7);
-        spawn_mode = 0;
-        spawn_parent = game;
-        coin_kind = 2;
+        spawn_data.mode = 0;
+        spawn_data.parent = game;
+        spawn_data.kind = 2;
         do {
-            coin_index = 9;
+            spawn_data.index = 9;
             do {
-                spawn_y = 0x03E00000;
-                velocity_z = 0;
-                velocity_y = 0;
-                velocity_x = 0;
-                column_offset = coin_kind << 0x16;
+                spawn_data.y = 0x03E00000;
+                spawn_data.velocity_z = 0;
+                spawn_data.velocity_y = 0;
+                spawn_data.velocity_x = 0;
+                column_offset = spawn_data.kind << 0x16;
                 state_or_x = 0x05200000 - column_offset;
-                spawn_x = state_or_x;
-                flags_or_z = 0 - (coin_index << 0x13);
-                spawn_z = flags_or_z;
-                func_80529438(&spawn_mode, &spawn_x, column_offset);
-                next_coin = (u16) coin_index - 1;
-                coin_index = next_coin;
+                spawn_data.x = state_or_x;
+                flags_or_z = 0 - (spawn_data.index << 0x13);
+                spawn_data.z = flags_or_z;
+                func_80529438(&spawn_data.mode, &spawn_data.x, column_offset);
+                next_coin = (u16) spawn_data.index - 1;
+                spawn_data.index = next_coin;
             } while ((s16) next_coin >= 0);
-            next_kind = (u16) coin_kind - 1;
-            coin_kind = next_kind;
+            next_kind = (u16) spawn_data.kind - 1;
+            spawn_data.kind = next_kind;
         } while ((s16) next_kind >= 0);
         sprite_index = 2;
         sprite_scale = 0x1000;
@@ -515,51 +501,51 @@ settle_done:
             payout_or_index = payout / 1000;
             ones = payout_or_index % 10;
             tens = (payout_or_index / 10) % 10;
-            ones_left = ones;
-            tens_left = tens;
+            spawn_data.ones_left = ones;
+            spawn_data.tens_left = tens;
             hundreds = ((payout_or_index / 10) / 10) % 10;
             coin_count = ones;
             coin_count += tens;
             coin_count += hundreds;
-            hundreds_left = hundreds;
+            spawn_data.hundreds_left = hundreds;
             if (coin_count < 0xA) {
                 if (hundreds > 0) {
                     coin_count += 9;
-                    hundreds_left = hundreds - 1;
-                    tens_left = tens + 0xA;
+                    spawn_data.hundreds_left = hundreds - 1;
+                    spawn_data.tens_left = tens + 0xA;
                 } else if (tens > 0) {
                     coin_count += 9;
-                    tens_left = tens - 1;
-                    ones_left = ones + 0xA;
+                    spawn_data.tens_left = tens - 1;
+                    spawn_data.ones_left = ones + 0xA;
                 }
             }
             payout_or_index = 0;
             game->unk_20 = (u16) (game->unk_20 & 0xFFF7);
-            spawn_mode = 1;
-            spawn_parent = game;
-            spawn_variant = 0;
-            spawn_delay = 8;
+            spawn_data.mode = 1;
+            spawn_data.parent = game;
+            spawn_data.variant = 0;
+            spawn_data.delay = 8;
             if (coin_count > 0) {
                 do {
                     do {
                         random_kind = func_80071494() % 3;
-                        coin_kind = random_kind;
-                        coin_counts = (S_func_8080F4A4_8 *) (((s32) (random_kind << 0x10) >> 0xF) + (long)spawn_data);
+                        spawn_data.kind = random_kind;
+                        coin_counts = (S_func_8080F4A4_8 *) (((s32) (random_kind << 0x10) >> 0xF) + (long)&spawn_data);
                         coins_left = coin_counts->unk_70;
                     } while (coins_left <= 0);
                     /* BYTES: sched1/sched2 region barrier or tie: unwrap reorders independent insns (no memory dependence) (ledger/onetrip_loadbearing.jsonl: town/func_8080F4A4). */
                     do {
                         coin_counts->unk_70 = (s16) (coins_left - 1);
                     } while (0);
-                    spawn_x = 0x03600000;
+                    spawn_data.x = 0x03600000;
                     coin_angle = (s32) (payout_or_index << 0xC) / coin_count;
                     payout_or_index += 1;
-                    spawn_y = 0x03600000;
-                    spawn_z = 0xFF800000;
-                    velocity_x = func_8006A3A4(coin_angle) * 0x140;
-                    velocity_y = func_8006A470(coin_angle) * 0x140;
-                    velocity_z = 0xFFF80000;
-                    func_80529438(&spawn_mode, &spawn_x);
+                    spawn_data.y = 0x03600000;
+                    spawn_data.z = 0xFF800000;
+                    spawn_data.velocity_x = func_8006A3A4(coin_angle) * 0x140;
+                    spawn_data.velocity_y = func_8006A470(coin_angle) * 0x140;
+                    spawn_data.velocity_z = 0xFFF80000;
+                    func_80529438(&spawn_data.mode, &spawn_data.x);
                 } while (payout_or_index < coin_count);
             }
             game->unk_18 = 9;

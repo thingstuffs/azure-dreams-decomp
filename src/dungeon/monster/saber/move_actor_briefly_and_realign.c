@@ -7,14 +7,6 @@
 #include "records/Rec_D_80082E80.h"
 #include "dungeon/player/object.h"
 
-typedef struct S_80173964_0 {
-    u8 pad_00[0x8C];
-    void * unk_8C;
-    u8 pad_90[0x6];
-    union { s16 s; u16 u; } unk_96;   /* accessed as both */
-    u8 pad_98[0x3];
-    u8 unk_9B;
-} S_80173964_0;   /* arg0 in move_actor_briefly_and_realign */
 
 extern void select_sprite_entry(void *, s32, s32);
 

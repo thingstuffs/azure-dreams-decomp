@@ -159,8 +159,8 @@ void update_actor_animation_movement_and_terrain(void *entity, ObjectPosition *m
     u8 *message;
     S_8016B0E8_5 *actor_slot;
     register ObjectNodeHeader *linked_entry;
-    register void *actor_header;
-    register void *linked_sprite;
+    register S_8016B0E8_6 *actor_header;
+    register S_8016B0E8_10 *linked_sprite;
     register S_8016B0E8_12 *status_record;
     register void *slot_cursor;
     S_8016B0E8_1 *seed_page;
@@ -220,8 +220,8 @@ void update_actor_animation_movement_and_terrain(void *entity, ObjectPosition *m
                 if (linked_actor != 0) {
                     clear_actor_action_markers(linked_actor);
                     actor_slot = (void *)(lookup_offset + actors_page->unk_3D7C);
-                    actor_header = actor_slot->unk_AC - 0x20;
-                    ((S_8016B0E8_6 *)actor_header)->unk_10 = (s32) (((S_8016B0E8_6 *)actor_header)->unk_10
+                    actor_header = (S_8016B0E8_6 *)(actor_slot->unk_AC - 0x20);
+                    actor_header->unk_10 = (s32) (actor_header->unk_10
                         | inactive_mask);
                 }
                 actor_index += 1;
@@ -235,8 +235,8 @@ void update_actor_animation_movement_and_terrain(void *entity, ObjectPosition *m
         do {
             linked_entry = ((ActorRecord *)slot_cursor)->unk_AC.address;
             if (linked_entry != 0) {
-                linked_sprite = (linked_entry - 1)->sprite;
-                ((S_8016B0E8_10 *)linked_sprite)->unk_14 = (u16) (((S_8016B0E8_10 *)linked_sprite)->unk_14 & 0xFFBF);
+                linked_sprite = (S_8016B0E8_10 *)(linked_entry - 1)->sprite;
+                linked_sprite->unk_14 = (u16) (linked_sprite->unk_14 & 0xFFBF);
             }
             actor_index -= 1;
             slot_cursor -= 4;

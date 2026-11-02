@@ -87,7 +87,7 @@ void update_item_use_action(ActorRecord *body, ObjectPosition *motion, SpriteFra
     state = body->action_phase.u;
     switch (state) {
     case 0:
-        if ((*(u32 *)((u8 *)actor + 0x1C)) & ACTOR_PLAYER_SIDE) {
+        if ((u32)actor->flags1C & ACTOR_PLAYER_SIDE) {
             switch (actor->action_flags & 0x3FFF) {
             case 7:
                 is_special = 1;
@@ -188,7 +188,7 @@ void update_item_use_action(ActorRecord *body, ObjectPosition *motion, SpriteFra
         g_dungeon_status.active_actor = 0;
         primary_actor_record->unk_A4.halves.high.u--;
         advance_status_timers(actor);
-        (*((u8 *)actor + 0x6D))--;
+        actor->pending_turn_updates = (u8)((u8)actor->pending_turn_updates - 1);
         body->unk_8C.address = barong_action_resume_address;
         actor->target_tile_y = 0;
         actor->target_tile_x = 0;
@@ -362,7 +362,7 @@ void update_item_use_action(ActorRecord *body, ObjectPosition *motion, SpriteFra
             advance_status_timers(actor);
             actor->target_tile_y = 0;
             actor->target_tile_x = 0;
-            (*((u8 *)actor + 0x6D))--;
+            actor->pending_turn_updates = (u8)((u8)actor->pending_turn_updates - 1);
             actor->action_flags &= 0x7FFF;
             play_sound_if_enabled(AUDIO_FADE_CD_FAST);
         }

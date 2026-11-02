@@ -16,15 +16,6 @@
 #include "dungeon/actor.h"
 extern int abs(int);
 
-typedef struct S_80172F5C_0 {
-    u8 pad_00[0x8C];
-    void * unk_8C;
-    u8 pad_90[0x6];
-    u16 unk_96;
-    u16 unk_98;
-    u8 pad_9A[0x1];
-    u8 unk_9B;
-} S_80172F5C_0;   /* arg0 in advance_motion_and_reset_action */
 
 typedef struct S_80172F5C_3 {
     u8 pad_00[0x24];

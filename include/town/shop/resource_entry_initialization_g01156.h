@@ -14,6 +14,7 @@
 #include "shared/item_menu.h"
 #include "town/shop/storage_menu.h"
 #include "town/shop/item_menu_actions.h"
+#include "town/shop/group_index.h"
 
 typedef struct S_800B2964_0 {
     u8 pad_00[0x1];
@@ -21,34 +22,15 @@ typedef struct S_800B2964_0 {
 } S_800B2964_0;
 
 /* extern */
-struct TownB4C60;
 
 /* extern */
-typedef struct S_800B29D0_0 {
-    u8 pad_00[0x38];
-    s32 unk_38;
-    u8 pad_3C[0x4];
-    s32 unk_40;
-    s32 unk_44;
-} S_800B29D0_0;
 
-typedef struct {
+typedef struct UA32 {
     u32 value;
 } __attribute__((packed)) UA32;
 
-typedef struct {
-    u8 pad[0x40];
-    UA32 **items;
-    s32 count;
-} S_800B52D8;
 
 /* extern */
-typedef struct S_800B2B60_0 {
-    u8 pad_00[0x28];
-    s32 unk_28;
-    u8 pad_2C[0x10];
-    u32 unk_3C;
-} S_800B2B60_0;
 
 typedef struct S_800B2BA0_0_pre {
     s32 * unk_00;
@@ -67,12 +49,15 @@ typedef struct ItemMenuInputObject {
     StorageMenuNode *destination_menu;
     u8 pad_0C[0x4];
     s32 input_repeat_ticks;
-    u8 pad_14[0x34];
+    u8 pad_14[8];
+    TownGroupIndex first_group;
+    TownGroupIndex second_group;
+    u32 *table;
+    UA32 **items;
+    s32 count;
     s32 option;
 } ItemMenuInputObject;
 
-s32 create_callback_pair_default();
-void get_zero_based_group_index(struct TownB4C60 *);
 /* extern */
 extern void flag_object_for_removal(unsigned short *object);
 s32 func_800B0718(void);
@@ -89,12 +74,12 @@ s32 obj_disp23_cancel_sw_set(s32 cancel_switch);
 void came_bright_set(u32 brightness);
 
 /* Functions defined in this translation unit. */
-void collect_enabled_entry_pointers(s32 *entries, s32 entry_count);
+void collect_enabled_entry_pointers(UA32 **entries, s32 entry_count);
 s32 count_nonzero_entries(s32 *entries);
-s32 acquire_resource_and_initialize_state(void *state);
-void fill_item_value_buffer(S_800B52D8 *table);
-void initialize_record_table_and_group(void *record);
+UA32 **acquire_resource_and_initialize_state(ItemMenuInputObject *state);
+void fill_item_value_buffer(ItemMenuInputObject *table);
+void initialize_record_table_and_group(ItemMenuInputObject *record);
 void * open_twin_souko(s32 option);
-void apply_record_values_and_process_record(void *record);
+void apply_record_values_and_process_record(ItemMenuInputObject *record);
 
 #endif

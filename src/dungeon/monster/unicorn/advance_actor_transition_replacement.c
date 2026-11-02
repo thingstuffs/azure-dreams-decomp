@@ -106,10 +106,6 @@ typedef struct S_80174704_4 {
     u8 unk_02;
 } S_80174704_4;   /* target in advance_actor_transition_replacement */
 
-typedef struct S_80174704_6 {
-    u8 pad_00[0x8];
-    s32 unk_08;
-} S_80174704_6;   /* repeat_dst in advance_actor_transition_replacement */
 
 typedef struct S_80174704_8_pre {
     u8 * unk_00;
@@ -121,11 +117,6 @@ typedef struct S_80174704_8 {
     s16 unk_2A;
 } S_80174704_8;   /* linked2 in advance_actor_transition_replacement */
 
-typedef struct S_80174704_10 {
-    s32 unk_00;
-    s32 unk_04;
-    s32 unk_08;
-} S_80174704_10;
 
 typedef struct S_80174704_11 {
     u8 pad_00[0x2A];
@@ -158,7 +149,7 @@ void advance_actor_transition_replacement(ActorRecord *action, ObjectPosition *p
         action->unk_B0.halves.low.s = 0;
         action->action_phase.u++;
         actor->unk_8A = ((S_80174704_1 *)actor)->unk_2A.u;
-        ((S_80174704_1 *)actor)->unk_1C &= 0xFFFBFFFF;
+        actor->flags1C = (u32)((u32)actor->flags1C & (0xFFFBFFFF));
 
     case 2:
     {

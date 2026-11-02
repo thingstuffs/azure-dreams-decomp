@@ -59,7 +59,11 @@ typedef struct StorageDisplayLinks {
     StorageVector *position;
 } StorageDisplayLinks;
 typedef struct StorageMenuObject {
-    u8 pad_00[0x4C];
+    s32 unk_00;
+    s32 unk_04;
+    u8 pad_08[0x18];
+    u8 *data;
+    u8 pad_24[0x28];
     ItemMenuDisplayLinks links;
     ItemMenuPart *chain;
     ItemMenuPart **parts;

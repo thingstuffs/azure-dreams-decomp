@@ -9,12 +9,6 @@
 #include "records/Rec_D_80082E80.h"
 #include "shared/entity.h"
 
-typedef struct S_80173564_0 {
-    u8 pad_00[0x8C];
-    void * unk_8C;
-    u8 pad_90[0xB];
-    u8 unk_9B;
-} S_80173564_0;   /* arg0 in update_actor_state_and_directional_effect */
 
 extern void select_sprite_entry(void *, u8, s32);
 extern s16 check_entity_relation(ActorRecord *entry, ActorRecord *anchor);

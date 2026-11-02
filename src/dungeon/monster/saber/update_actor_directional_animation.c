@@ -20,12 +20,6 @@ extern void update_timed_effect_size_and_position(void *, s32, void *, void *); 
 
 extern u8 saber_action_direction_frames[];
 
-typedef struct S_801740DC_0 {
-    u8 pad_00[0x8C];
-    void * unk_8C;
-    u8 pad_90[0xB];
-    u8 unk_9B;
-} S_801740DC_0;   /* arg0 in update_actor_directional_animation */
 
 /* Updates actor state, directional animation, and the shared transition counter. */
 void update_actor_directional_animation(ActorRecord *actor_in, void *actor_index, SpriteFrameState *target, ActorRecord *entity_in) {

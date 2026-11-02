@@ -1,35 +1,21 @@
+#include "engine/graphics/line_packet.h"
+#include "engine/graphics/frame_context.h"
 #include "shared/gpu_packets.h"
 #include "common.h"
 #include "shared/game_work.h"
 #include "engine/graphics.h"
 
-
-
-
-typedef struct {
-    u8 pad0[3];
-    u8 len;
-    u8 r0;
-    u8 g0;
-    u8 b0;
-    u8 code;
-    s16 x0;
-    s16 y0;
-    s16 x1;
-    s16 y1;
-} LineF2;
-
 /* Draw a shaded horizontal line with dimmer translucent lines above and below. */
 void draw_shaded_horizontal_line(s16 x, s16 y, s16 width, s16 shade_step)
 {
-    GameWork *render_state;
-    LineF2 *center_line;
-    LineF2 *upper_line;
-    LineF2 *lower_line;
+    FrameDrawContextSlot *render_state;
+    ShadedLinePacket *center_line;
+    ShadedLinePacket *upper_line;
+    ShadedLinePacket *lower_line;
     s16 red_green;
     s16 blue;
 
-    render_state = &g_game_work;
+    render_state = (FrameDrawContextSlot *)&g_game_work.draw_buffer;
     if (shade_step < 0x11) {
         blue = shade_step * 8 + 0x80;
         if (blue == 0x100) {
@@ -41,9 +27,9 @@ void draw_shaded_horizontal_line(s16 x, s16 y, s16 width, s16 shade_step)
         red_green = 0x100 - shade_step * 8;
     }
 
-    center_line = ((GpuContext *)render_state->draw_buffer)->packetCursor;
-    ((GpuContext *)render_state->draw_buffer)->packetCursor = (u8 *)center_line + 0x10;
-    center_line->len = 3;
+    center_line = render_state->context->packetCursor;
+    render_state->context->packetCursor = center_line + 1;
+    center_line->tag.bytes.len = 3;
     center_line->code = 0x40;
     center_line->r0 = red_green;
     center_line->g0 = red_green;
@@ -59,8 +45,8 @@ void draw_shaded_horizontal_line(s16 x, s16 y, s16 width, s16 shade_step)
         center_line->x1 = x + width - 1;
         center_line->y1 = y;
     }
-    *(u32 *)center_line = (*(u32 *)center_line & 0xFF000000) | (((GpuContext *)render_state->draw_buffer)->orderTag230 & 0xFFFFFF);
-    ((GpuContext *)render_state->draw_buffer)->orderTag230 = (((GpuContext *)render_state->draw_buffer)->orderTag230 & 0xFF000000)
+    center_line->tag.word = (center_line->tag.word & 0xFF000000) | (render_state->context->orderTag230 & 0xFFFFFF);
+    render_state->context->orderTag230 = (render_state->context->orderTag230 & 0xFF000000)
     | ((u32)center_line & 0xFFFFFF);
 
     blue = blue / 3;
@@ -68,9 +54,9 @@ void draw_shaded_horizontal_line(s16 x, s16 y, s16 width, s16 shade_step)
     red_green = red_green / 3;
     red_green = red_green * 2;
 
-    upper_line = ((GpuContext *)render_state->draw_buffer)->packetCursor;
-    ((GpuContext *)render_state->draw_buffer)->packetCursor = (u8 *)upper_line + 0x10;
-    upper_line->len = 3;
+    upper_line = render_state->context->packetCursor;
+    render_state->context->packetCursor = upper_line + 1;
+    upper_line->tag.bytes.len = 3;
     upper_line->code = 0x42;
     upper_line->r0 = red_green;
     upper_line->g0 = red_green;
@@ -86,13 +72,13 @@ void draw_shaded_horizontal_line(s16 x, s16 y, s16 width, s16 shade_step)
         upper_line->x1 = x + width - 1;
         upper_line->y1 = y - 1;
     }
-    *(u32 *)upper_line = (*(u32 *)upper_line & 0xFF000000) | (((GpuContext *)render_state->draw_buffer)->orderTag230 & 0xFFFFFF);
-    ((GpuContext *)render_state->draw_buffer)->orderTag230 = (((GpuContext *)render_state->draw_buffer)->orderTag230 & 0xFF000000)
+    upper_line->tag.word = (upper_line->tag.word & 0xFF000000) | (render_state->context->orderTag230 & 0xFFFFFF);
+    render_state->context->orderTag230 = (render_state->context->orderTag230 & 0xFF000000)
     | ((u32)upper_line & 0xFFFFFF);
 
-    lower_line = ((GpuContext *)render_state->draw_buffer)->packetCursor;
-    ((GpuContext *)render_state->draw_buffer)->packetCursor = (u8 *)lower_line + 0x10;
-    lower_line->len = 3;
+    lower_line = render_state->context->packetCursor;
+    render_state->context->packetCursor = lower_line + 1;
+    lower_line->tag.bytes.len = 3;
     lower_line->code = 0x42;
     lower_line->r0 = red_green;
     lower_line->g0 = red_green;
@@ -108,7 +94,7 @@ void draw_shaded_horizontal_line(s16 x, s16 y, s16 width, s16 shade_step)
         lower_line->x1 = x + width - 1;
         lower_line->y1 = y + 1;
     }
-    *(u32 *)lower_line = (*(u32 *)lower_line & 0xFF000000) | (((GpuContext *)render_state->draw_buffer)->orderTag230 & 0xFFFFFF);
-    ((GpuContext *)render_state->draw_buffer)->orderTag230 = (((GpuContext *)render_state->draw_buffer)->orderTag230 & 0xFF000000)
+    lower_line->tag.word = (lower_line->tag.word & 0xFF000000) | (render_state->context->orderTag230 & 0xFFFFFF);
+    render_state->context->orderTag230 = (render_state->context->orderTag230 & 0xFF000000)
     | ((u32)lower_line & 0xFFFFFF);
 }

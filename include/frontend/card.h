@@ -14,6 +14,7 @@ extern CardSaveSlot card_save_slot_metadata[];
  * stride. The numeric detail is word 8; the full table bound is unknown. */
 extern CardSaveSlot card_slot_detail_records[];
 
+struct ObjectNodeHeader;
 struct MainPacket12;
 struct MainValue;
 struct Menu;
@@ -86,7 +87,7 @@ void card_boot_update_or_clears_selected_slot_outputs_refreshes_state_any_select
 void card_build_selected_slot_details(void *panel);
 
 /* card_choice_state.c */
-void card_boot_set_paired_choice_selection(s32 object_addr, s32 value);
+void card_boot_set_paired_choice_selection(struct ObjectNodeHeader *object_addr, s32 value);
 void card_boot_update_paired_choice_animations(struct ObjectNodeHeader *base_addr, s32 *enable_flags, s32 *active_flags);
 
 /* card_dev_advance_boot_step.c */

@@ -12,9 +12,6 @@ typedef struct S_8014C8E8_0 {
     s16 unk_AC;
 } S_8014C8E8_0;   /* arg0 in fade_countdown_color; pointer addresses record offset 0x2 */
 
-typedef struct S_8014C8E8_2 {
-    s32 unk_00;
-} S_8014C8E8_2;   /* D_800814A0 in fade_countdown_color */
 
 /* cfail-repair: tf7-phase1-cache-v3 */
 

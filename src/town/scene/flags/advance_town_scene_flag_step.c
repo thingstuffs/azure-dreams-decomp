@@ -3,6 +3,7 @@
 #include "common.h"
 #include "shared/record_ptrs.h"
 #include "town/scene/resource.h"
+#include "shared/town_root.h"
 
 extern s32 func_8001991C(s32, s32);
 extern void func_80019988(void); /* this scene's placed copy of set_current_entry_script_flag */
@@ -24,6 +25,6 @@ s32 advance_town_scene_flag_step(s32 kind, s32 value) {
         }
     }
 
-    (*(Callback *)((u8 *)((void **)*(void **)((u8 *)(&town_scene_root)))[8] + 0x2F8))(0xE, 0x200);
+    ((Callback)(town_scene_root->services->callback_2F8))(0xE, 0x200);
     return 0;
 }

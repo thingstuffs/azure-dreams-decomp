@@ -2,10 +2,6 @@
 #include "dungeon/monster/ghosh.h"
 #include "m2c_compat.h"
 
-typedef struct S_801725F0_0 {
-    u8 pad_00[0xBA];
-    u8 unk_BA;
-} S_801725F0_0;   /* D_80174CE0 in check_boss_effect_threshold */
 
 
 

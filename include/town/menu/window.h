@@ -328,10 +328,6 @@ typedef struct func_800A10FC_S_8009E85C_2 {
     union { u16 s; u16 u; } unk_14;                         
 } func_800A10FC_S_8009E85C_2;
 
-typedef struct func_800A10FC_S_8009E85C_4 {
-    u8 pad_00[0x6C];
-    s16 unk_6C;
-} func_800A10FC_S_8009E85C_4;
 
 typedef struct func_800A10FC_S_8009E85C_5_pre {
     s32 (*unk_00)(void *, void *, void *);
@@ -389,9 +385,9 @@ s32 kewn_namewin_open(void);
 s32 kewn_namewin_close_check(void);
 s32 t_soukowin_open(void);
 s32 t_soukowin_close_check(void);
-void set_object_types_and_resource(void *object, ObjectPosition *position, SpriteFrameState *output);
+void set_object_types_and_resource(TownObjectRecord *object, ObjectPosition *position, SpriteFrameState *output);
 void update_object_pulse_brightness(func_800A0FB4_S_func_8009E714_0 *object, s32 context, struct SpriteFrameState *primitive);
-void initialize_entity_from_table_and_callback(void *entity, ObjectPosition *placement, func_800A10FC_S_8009E85C_2 *state);
+void initialize_entity_from_table_and_callback(TownObjectRecord *entity, ObjectPosition *placement, func_800A10FC_S_8009E85C_2 *state);
 
 extern void register_node(s32, void *);
 extern void func_8004491C(s32, void *);

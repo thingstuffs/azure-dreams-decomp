@@ -10,14 +10,6 @@
 
 extern u8 D_801760D4;
 
-typedef struct S_80173730_0 {
-    u8 pad_00[0x8C];
-    void * unk_8C;
-    u8 pad_90[0x6];
-    union { u16 u; s16 s; } unk_96;   /* accessed as both */
-    u8 pad_98[0x3];
-    u8 unk_9B;
-} S_80173730_0;   /* arg0 in update_staged_item_movement */
 
 /* Updates staged movement toward a target tile and finalizes the action. */
 void update_staged_item_movement(ActorRecord *action, ObjectPosition *motion, SpriteFrameState *target, ActorRecord *actor) {

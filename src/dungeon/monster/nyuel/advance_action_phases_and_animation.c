@@ -19,15 +19,6 @@ extern u8 nyuel_frame_set_9;
 extern u8 nyuel_frame_set_10;
 extern u8 nyuel_frame_set_4;
 
-typedef struct S_80172524_0 {
-    u8 pad_00[0x8C];
-    void * unk_8C;
-    u8 pad_90[0x6];
-    union { u16 u; s16 s; } unk_96;   /* accessed as both */
-    u16 unk_98;
-    u8 pad_9A[0x1];
-    union { u8 n; u8 v; } unk_9B;   /* accessed as both */
-} S_80172524_0;   /* arg0 in advance_action_phases_and_animation */
 
 /* Advance the action phases, updating movement and directional animation. */
 void advance_action_phases_and_animation(ActorRecord *action, ObjectPosition *motion, SpriteFrameState *sprite, ActorRecord *actor) {

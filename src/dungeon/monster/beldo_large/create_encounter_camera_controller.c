@@ -18,31 +18,8 @@ extern s32 D_801717A8;
 extern PackedVec encounter_object_position_template;
 
 
-typedef struct S_80171C7C_0 {
-    u8 pad_00[0x6];
-    s16 unk_06;
-    void * unk_08;
-    u8 unk_0C;
-    u8 unk_0D;
-    u8 unk_0E;
-    u8 pad_0F[0x5];
-    u16 unk_14;
-    u8 pad_16[0x6];
-    s16 unk_1C;
-    s16 unk_1E;
-} S_80171C7C_0;
 
-typedef struct S_80171C7C_1 {
-    s32 unk_00;
-    s32 unk_04;
-    s32 unk_08;
-} S_80171C7C_1;
 
-typedef struct S_80171C7C_2 {
-    s32 unk_00;
-    s32 unk_04;
-    s32 unk_08;
-} S_80171C7C_2;
 
 /* Creates an object with default coordinates and initializes its rendering state. */
 void create_encounter_camera_controller(void) {

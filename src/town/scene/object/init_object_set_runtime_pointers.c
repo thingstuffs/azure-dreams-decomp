@@ -3,6 +3,7 @@
 #include "town/scene/flags.h"
 #include "town/scene/event.h"
 #include "town/scene/object.h"
+#include "shared/town_root.h"
 
 typedef struct TownRuntime {
     u8 pad_00[0x28];
@@ -28,7 +29,7 @@ void init_object_set_runtime_pointers(void) {
     update_dependent_entry_ids(scene_dependency_ids[0], position[1], position[2]);
     initialize_active_event_data();
     build_object_set_and_select_lists(D_8001C370, D_8001C480, &D_8001DA10);
-    runtime = *(TownRuntime **)((u8 *)(&town_scene_root));
+    runtime = (TownRuntime *)town_scene_root;
     runtime->field_28 = D_8001C480;
     runtime->field_34 = &scene_object_image_data;
     runtime->field_2C = &D_8001DCD0;

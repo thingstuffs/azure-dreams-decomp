@@ -37,14 +37,14 @@ void run_selected_item_action(ActorRecord *body, ObjectPosition *motion, SpriteF
 {
     s32 is_special;
     u8 *item_slot;
-    void *target;
+    ObjectNodeHeader *target;
     ObjectNodeHeader *scratch_pointer;
 
     is_special = 0;
     item_slot = (u8 *)(body->action_phase.u);
     switch ((u8)item_slot) {
     case 0:
-        if ((*(u32 *)((u8 *)actor + 0x1C)) & ACTOR_PLAYER_SIDE) {
+        if ((u32)actor->flags1C & ACTOR_PLAYER_SIDE) {
             u32 kind_index;
 
             kind_index = actor->action_flags & 0x3FFF;
@@ -96,9 +96,9 @@ void run_selected_item_action(ActorRecord *body, ObjectPosition *motion, SpriteF
 
                 use_special = is_special;
                 if (use_special != 0) {
-                    target = primary_actor_record;
+                    target = (ObjectNodeHeader *)primary_actor_record;
                     actor->target = target;
-                    scratch_pointer = ((ObjectNodeHeader *)target - 1)->sprite;
+                    scratch_pointer = (target - 1)->sprite;
                     actor->target_tile_x = ((SpriteFrameState *)scratch_pointer)->tile_x;
                     actor->target_tile_y = ((SpriteFrameState *)scratch_pointer)->tile_y;
                 } else {
@@ -108,7 +108,7 @@ void run_selected_item_action(ActorRecord *body, ObjectPosition *motion, SpriteF
                     if (item_action_definitions[item_id].kind == 2) {
                         target = actor->target;
                         if (target != 0) {
-                            scratch_pointer = ((ObjectNodeHeader *)target - 1)->sprite;
+                            scratch_pointer = (target - 1)->sprite;
                             actor->target_tile_x = ((SpriteFrameState *)scratch_pointer)->tile_x;
                             actor->target_tile_y = ((SpriteFrameState *)scratch_pointer)->tile_y;
 
@@ -146,7 +146,7 @@ void run_selected_item_action(ActorRecord *body, ObjectPosition *motion, SpriteF
         g_dungeon_status.active_actor = 0;
         primary_actor_record->unk_A4.halves.high.u--;
         advance_status_timers(actor);
-        (*((u8 *)actor + 0x6D))--;
+        actor->pending_turn_updates = (u8)((u8)actor->pending_turn_updates - 1);
         body->unk_8C.address = nyuel_action_resume_address;
         actor->target_tile_y = 0;
         actor->target_tile_x = 0;
@@ -205,7 +205,7 @@ void run_selected_item_action(ActorRecord *body, ObjectPosition *motion, SpriteF
             advance_status_timers(actor);
             actor->target_tile_y = 0;
             actor->target_tile_x = 0;
-            (*((u8 *)actor + 0x6D))--;
+            actor->pending_turn_updates = (u8)((u8)actor->pending_turn_updates - 1);
             actor->action_flags &= 0x7FFF;
             play_sound_if_enabled(AUDIO_FADE_CD_FAST);
         }

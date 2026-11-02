@@ -8,9 +8,9 @@
 #include "shared/object_node.h"
 #include "shared/object_flags.h"
 #include "town/shop/resource_entry_initialization_g01156.h"
+#include "town/shop/group_index.h"
 
 /* extern */
-struct TownB4C60;
 
 /* extern */
 typedef struct S_800B2B60_0 {
@@ -34,7 +34,6 @@ typedef struct S_800B2BA0_1 {
 } S_800B2BA0_1;
 
 s32 func_800B0718();
-void get_zero_based_group_index(struct TownB4C60 *);
 /* extern */
 /* extern */
 /* extern */
@@ -45,7 +44,7 @@ s32 create_storage_item_menu();
 s32 create_storage_owner_menu();
 /* extern */
 void handle_item_menu_input_2(u8 *menu);
-extern void fill_item_value_buffer(void *);
+extern void fill_item_value_buffer(ItemMenuInputObject *table);
 extern void func_800B3A80(s32);
 extern void refresh_object_components_and_high_flag(u8 *object);
 extern void process_object_resources_and_high_flag(u8 *object);
@@ -54,8 +53,8 @@ s32 obj_disp23_cancel_sw_set(s32 cancel_switch);
 void came_bright_set(u32 brightness);
 
 /* Functions defined in this translation unit. */
-void initialize_record_table_and_group(void *record);
+void initialize_record_table_and_group(ItemMenuInputObject *record);
 s32 open_twin_souko(s32 option);
-void apply_record_values_and_process_record(void *record);
+void apply_record_values_and_process_record(ItemMenuInputObject *record);
 
 #endif

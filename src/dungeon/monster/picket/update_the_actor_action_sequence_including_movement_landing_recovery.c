@@ -18,29 +18,12 @@
 #include "dungeon/actor.h"
 extern int abs(int);
 
-typedef struct S_80172C90_1 {
-    u8 pad_00[0x8C];
-    u8 * unk_8C;
-    s32 unk_90;
-    u8 pad_94[0x2];
-    union { u16 s; s16 u; } unk_96;   /* accessed as both */
-    u16 unk_98;
-    u8 pad_9A[0x1];
-    u8 unk_9B;
-    u8 pad_9C[0x10];
-    union { u16 s; s16 u; } unk_AC;   /* accessed as both */
-} S_80172C90_1;   /* arg0 in update_the_actor_action_sequence_including_movement_landing_recovery */
 
 typedef struct S_80172C90_3 {
     u8 pad_00[0xA6];
     u16 unk_A6;
 } S_80172C90_3;   /* localOwner in update_the_actor_action_sequence_including_movement_landing_recovery */
 
-typedef struct S_80172C90_4 {
-    u8 pad_00[0x24];
-    u8 unk_24;
-    u8 unk_25;
-} S_80172C90_4;   /* localLinked in update_the_actor_action_sequence_including_movement_landing_recovery */
 
 extern void play_sound_if_enabled(s32);
 extern void create_two_effect_groups(void *, void *, void *, s32);
@@ -127,26 +110,26 @@ void update_the_actor_action_sequence_including_movement_landing_recovery(ActorR
         }
 
         if (*selector != 0) {
-            void *owner;
+            ObjectNodeHeader *owner;
             u16 use_owner;
             s32 move_result;
 
             action->action_state_flags &= 0xFF7F;
             use_owner = special;
             if (use_owner) {
-                owner = primary_actor_record;
+                owner = (ObjectNodeHeader *)primary_actor_record;
                 actor->target = owner;
-                move_result = ((ObjectNodeHeader *)owner - 1)->sprite;
-                actor->target_tile_x = ((S_80172C90_4 *)move_result)->unk_24;
-                actor->target_tile_y = ((S_80172C90_4 *)move_result)->unk_25;
+                move_result = (owner - 1)->sprite;
+                actor->target_tile_x = ((SpriteFrameState *)move_result)->tile_x;
+                actor->target_tile_y = ((SpriteFrameState *)move_result)->tile_y;
             } else {
                 dir_offset = *selector;
                 if (item_action_definitions[dir_offset].kind == 2) {
                     owner = actor->target;
                     if (owner != 0) {
-                        move_result = ((ObjectNodeHeader *)owner - 1)->sprite;
-                        actor->target_tile_x = ((S_80172C90_4 *)move_result)->unk_24;
-                        actor->target_tile_y = ((S_80172C90_4 *)move_result)->unk_25;
+                        move_result = (owner - 1)->sprite;
+                        actor->target_tile_x = ((SpriteFrameState *)move_result)->tile_x;
+                        actor->target_tile_y = ((SpriteFrameState *)move_result)->tile_y;
                     }
                 } else {
                     actor->target = scan_actor_along_heading(actor,

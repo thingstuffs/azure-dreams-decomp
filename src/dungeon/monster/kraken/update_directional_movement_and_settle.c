@@ -15,14 +15,6 @@
 #include "dungeon/actor.h"
 #include "dungeon/effect/screen.h"
 
-typedef struct S_801724F4_1 {
-    u8 pad_00[0x8C];
-    void * unk_8C;
-    u8 pad_90[0x6];
-    u16 unk_96;
-    u8 pad_98[0x3];
-    u8 unk_9B;
-} S_801724F4_1;   /* arg0 in update_directional_movement_and_settle */
 
 extern void *actor_update_node_cursor;
 extern s32 kraken_action_resume_address;

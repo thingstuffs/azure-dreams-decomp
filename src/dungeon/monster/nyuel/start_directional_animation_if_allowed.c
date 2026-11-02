@@ -7,11 +7,6 @@
 #include "engine/graphics.h"
 #include "dungeon/effect.h"
 
-typedef struct S_80171FC4_1 {
-    u8 pad_00[0x9A];
-    s8 unk_9A;
-    s8 unk_9B;
-} S_80171FC4_1;   /* arg0 in start_directional_animation_if_allowed */
 
 typedef struct Ent Ent;
 Ent *prepare_directional_attack(); /* extern */

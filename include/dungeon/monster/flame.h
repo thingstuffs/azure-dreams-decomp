@@ -815,7 +815,7 @@ void create_randomized_rotated_effect(ActorRecord *state, ObjectPosition *entity
 void finish_actor_terrain_interpolation_then_initialize_destination(ActorRecord *state, ObjectPosition *motion, SpriteFrameState *position, ActorRecord *actor);
 void finish_spinning_actor_fall_then_initialize_destination(ActorRecord *state, ObjectPosition *motion, SpriteFrameState *position, ActorRecord *actor);
 void finish_actor_fade_in_then_initialize_destination(ActorRecord *state, ObjectPosition *motion, SpriteFrameState *position, ActorRecord *actor);
-s32 project_flame_sprite_chain(void *initial_payload, s32 entry_data, R06_80173E08_Entry *entry, s32 unused);
+s32 project_flame_sprite_chain(void *initial_payload, ObjectPosition *entry_data, R06_80173E08_Entry *entry, s32 unused);
 s32 append_linked_shaded_point_packets(u8 *node, void *vertex_arg);
 void advance_randomized_motion_and_complete(PointRecord *object_data, R06_801740E4_S_801740E4_0 *position, R06_801740E4_S_801740E4_2 *state);
 void advance_actor_action_and_update_status(
@@ -831,7 +831,7 @@ s32 project_textured_quad_chain(void *initial_state, ObjectPosition *context, Sp
 void advance_record_countdown(void *record_data);
 void update_fading_four_strip_effect(u8 *effect, R06_80174934_Vec3w *origin, SpriteFrameState *render_data);
 void create_sixteen_segment_ring(R06_80174E78_Source *source, R06_80174E78_Vec3i *center, struct SpriteFrameState *unused_context);
-void wait_for_flame_action_slot(ActorRecord *entity_data, ObjectPosition *unused_1, s32 unused_2, void *other_data);
+void wait_for_flame_action_slot(ActorRecord *entity_data, ObjectPosition *unused_1, SpriteFrameState *unused_2, void *other_data);
 void fade_effect_to_neutral_and_finish(void *entity_data, ObjectPosition *unused, SpriteFrameState *source_data);
 void advance_actor_transition_and_restore_child_angle(ActorRecord *action, ObjectPosition *position, SpriteFrameState *entity, ActorRecord *actor);
 void finish_actor_floor_trap_then_initialize_destination(ActorRecord *state, ObjectPosition *motion, SpriteFrameState *position, ActorRecord *actor);

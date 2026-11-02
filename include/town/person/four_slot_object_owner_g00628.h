@@ -5,33 +5,25 @@
 
 #include "common.h"
 #include "m2c_compat.h"
+#include "shared/item_menu.h"
 
-typedef struct SlotB {
-    s8 pad[8];
-    s16 unk08;
-} SlotB;
 
-typedef struct SlotA {
-    void *unk00;
-    SlotB *unk04;
-} SlotA;
 
-typedef struct Obj {
-    u8 pad20[0x20];
+typedef struct StorageDisplayBody {
+    s32 unk00;
+    u8 pad04[0xC];
+    s32 unk10;
+    u8 pad14[0xC];
     void *unk20;
-    u8 pad5c[0x38];
-    SlotA **unk5c;
-} Obj;
+    u8 pad24[0x1C];
+    DisplayPositionWords vector;
+    u8 pad4c[0x10];
+    ItemMenuPart **parts;
+    s32 unk60;
+} StorageDisplayBody;
 
-typedef struct S_800B4E7C_0 {
-    s32 * unk_00;
-    u8 pad_04[0xC];
-    s32 unk_10;
-    u8 pad_14[0xC];
-    s32 unk_20;
-} S_800B4E7C_0;
 
-struct Obj;
+struct StorageDisplayBody;
 
 extern u8 item_menu_slot_handler_address[];
 extern void func_800B3558(void *);
@@ -45,7 +37,7 @@ extern void func_800B4A60(void *);
 extern M2C_UNK D_800B4C38;
 
 /* Functions defined in this translation unit. */
-void initialize_four_slot_object(Obj *obj);
+void initialize_four_slot_object(StorageDisplayBody *obj);
 void set_record_value_and_data_pointer(void *field_ptr, s32 base_value);
 void initialize_four_slot_object_owner(u8 *owner, s32 base_value);
 

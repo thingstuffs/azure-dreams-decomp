@@ -16,7 +16,7 @@ extern void clear_thirty_six_table_fields(void);
 void initialize_town_counter_and_callback(void)
 {
     s32 current_town_value;
-    TownStateRecord *town = ((Rec_D_80016000 *)(*(void **)((u8 *)(&town_scene_root))))->town_state;
+    TownStateRecord *town = town_scene_root->town_state;
 
     current_town_value = town->unk_35BE;
     D_80017618 = clear_thirty_six_table_fields;

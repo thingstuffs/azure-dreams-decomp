@@ -36,10 +36,6 @@ extern u8 D_80170B48[];
 extern u8 glacier_frame_set_1[];
 extern Pair16 glacier_direction_offsets[];
 
-typedef struct S_801757E0_0_pre {
-    void * unk_00;
-    u8 pad_04[0x10];
-} S_801757E0_0_pre;   /* the 0x14 bytes before arg0 in update_action_and_check_forward_tile, addressed as arg0[-1] */
 
 
 typedef struct S_801757E0_3 {
@@ -111,7 +107,7 @@ void update_action_and_check_forward_tile(ActorRecord *actor, ObjectPosition *mo
                 sprite->tpage_abr = 0x60;
                 sprite->flags |= 2;
 
-                owner = ((S_801757E0_0_pre *)actor)[-1].unk_00;
+                owner = ((ObjectNodeHeader *)actor - 1)->sprite;
                 particle_transform = particle->position;
                 if (resolve_record_orientation_or_fallback(owner->source, owner, &offsets.orientation, 1)) {
                     particle_transform->x.w.i = ((u16) motion->x.w.i);

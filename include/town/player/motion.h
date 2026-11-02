@@ -39,7 +39,7 @@ void initialize_object_from_motion_data(void *object, void *initializationData, 
 void initialize_player_motion_parameters(void *record, s32 update_value, s32 init_context);
 
 /* move_entity_in_current_direction.c */
-void move_entity_in_current_direction(Rec_func_80097D54_arg0 *move_state, EntityRec *entity, struct SpriteFrameState *finish_arg);
+void move_entity_in_current_direction(Rec_func_80097D54_arg0 *move_state, ObjectPosition *entity, struct SpriteFrameState *finish_arg);
 
 /* move_player_halfway_to_target.c */
 void move_player_halfway_to_target(TownObjectRecord *state, struct Position *position, struct SpriteFrameState *context);

@@ -3,22 +3,7 @@
 #include "common.h"
 #include "shared/record_ptrs.h"
 #include "town/scene.h"
-
-typedef struct S_func_80614E30_0 {
-    void *unk_00;
-} S_func_80614E30_0;
-
-typedef struct S_func_80614E30_1 {
-    u8 pad_00[0x1C];
-    void *unk_1C;
-    void *unk_20;
-} S_func_80614E30_1;
-
-
-typedef struct S_func_80614E30_3 {
-    u8 pad_00[0x2F8];
-    s32 (*unk_2F8)(s32, s32);
-} S_func_80614E30_3;
+#include "shared/town_root.h"
 
 extern s32 func_80018BD0(s32);
 extern s32 func_80018C50(s32);
@@ -29,10 +14,10 @@ s32 process_ids_conditionally_pointer(void) {
     func_80018BD0(F_hos_first_cheriru);
     func_80018BD0(F_hos_first_hush);
     if (func_80018C50(Fr_cheriru_scene03) != 0) {
-        ((TownPositionState *)((S_func_80614E30_1 *)((S_func_80614E30_0 *)((s8 *)(&town_scene_root)))->unk_00)->unk_1C)->unk_40 =
+        town_scene_root->position->unk_40 =
             &D_8001A3B5;
     }
-    ((S_func_80614E30_3 *)((S_func_80614E30_1 *)((S_func_80614E30_0 *)((s8 *)(&town_scene_root)))->unk_00)->unk_20)->unk_2F8(0x10,
+    ((s32 (*)(s32, s32))(town_scene_root->services->callback_2F8))(0x10,
         0x200);
     return 0;
 }

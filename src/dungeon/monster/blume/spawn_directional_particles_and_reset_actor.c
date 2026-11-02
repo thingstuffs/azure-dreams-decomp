@@ -15,19 +15,7 @@
 #include "dungeon/actor/spell_resource_ids_g01008.h"
 #include "dungeon/system.h"
 
-typedef struct S_80174BEC_0_pre {
-    void * unk_00;
-    u8 pad_04[0x10];
-} S_80174BEC_0_pre;   /* the 0x14 bytes before arg0 in spawn_directional_particles_and_reset_actor, addressed as arg0[-1] */
 
-typedef struct S_80174BEC_0 {
-    u8 pad_00[0x8C];
-    void * unk_8C;
-    u8 pad_90[0x6];
-    union { u16 s; s16 u; } unk_96;   /* accessed as both */
-    u8 pad_98[0x3];
-    u8 unk_9B;
-} S_80174BEC_0;   /* arg0 in spawn_directional_particles_and_reset_actor */
 
 typedef struct S_80174BEC_3 {
     u8 pad_00[0x24];
@@ -60,10 +48,6 @@ typedef struct S_80174BEC_4 {
 
    /* position in spawn_directional_particles_and_reset_actor */
 
-typedef struct S_80174BEC_7 {
-    u8 pad_00[0x8];
-    void * unk_08;
-} S_80174BEC_7;   /* map in spawn_directional_particles_and_reset_actor */
 
 typedef struct {
     u16 x;
@@ -90,7 +74,7 @@ void select_sprite_entry(void *object_data, s16 table_index, s16 entry_index);
 extern s32 rand(void);
 
 
-u32 toggle_attacker_target_status_pair(ActorRecord *attacker, void *target);
+u32 toggle_attacker_target_status_pair(ActorRecord *attacker, ActorRecord *target);
 
 extern u8 blume_slot_g_direction_steps[];
 
@@ -153,7 +137,7 @@ void spawn_directional_particles_and_reset_actor(ActorRecord *state, ObjectPosit
                         u8 *copy_dst;
                         u8 *copy_end;
                         u8 animation;
-                        S_80174BEC_7 *map;
+                        SpriteFrameState *map;
                         u32 direction_offset;
 
                         motion = (u8 *)particle + 0x20;
@@ -182,8 +166,8 @@ void spawn_directional_particles_and_reset_actor(ActorRecord *state, ObjectPosit
                         position->y.w.i = ((u16)source_pos->y.w.i);
                         position->z.w.i = ((u16)source_pos->z.w.i);
 
-                        map = ((S_80174BEC_0_pre *)state)[-1].unk_00;
-                        if (get_sprite_attachment_vector(map->unk_08, map, &map_offset, 1)) {
+                        map = ((ObjectNodeHeader *)state - 1)->sprite;
+                        if (get_sprite_attachment_vector(map->source, map, &map_offset, 1)) {
                             position->x.unsigned_parts.integer += map_offset.x;
                             position->y.unsigned_parts.integer += map_offset.y;
                             position->z.unsigned_parts.integer += map_offset.z;
@@ -245,7 +229,7 @@ void spawn_directional_particles_and_reset_actor(ActorRecord *state, ObjectPosit
                         ObjectPosition *position;
                         S_80174BEC_3 *motion;
                         SpriteFrameState *render;
-                        void *map;
+                        SpriteFrameState *map;
                         u32 direction_offset;
 
                         motion = (S_80174BEC_3 *)((u8 *)particle + 0x20);
@@ -264,8 +248,8 @@ void spawn_directional_particles_and_reset_actor(ActorRecord *state, ObjectPosit
                         position->y.w.i = ((u16)source_pos->y.w.i);
                         position->z.w.i = ((u16)source_pos->z.w.i);
 
-                        map = ((S_80174BEC_0_pre *)state)[-1].unk_00;
-                        if (resolve_record_orientation_or_fallback(((S_80174BEC_7 *)map)->unk_08, map, &map_offset, 1)) {
+                        map = ((ObjectNodeHeader *)state - 1)->sprite;
+                        if (resolve_record_orientation_or_fallback(map->source, map, &map_offset, 1)) {
                             position->x.unsigned_parts.integer += map_offset.x;
                             position->y.unsigned_parts.integer += map_offset.y;
                             position->z.unsigned_parts.integer += map_offset.z;

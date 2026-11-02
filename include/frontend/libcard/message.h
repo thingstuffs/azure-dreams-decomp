@@ -8,7 +8,8 @@
 
 struct Entity;
 struct CardMessageDialogBody;
-struct S_8002742C_0;
+struct CardSaveMenuBody;
+struct CardSaveHeadingDisplayPrefix;
 struct S_800491F4;
 
 /* Byte index sequences stop at their node limit; complete bounds are unestablished. */
@@ -67,10 +68,10 @@ void format_save_heading_text(u8 *base_addr);
 void initialize_text_editor_context(void *dest, s32 record_index);
 
 /* release_three_row_panel_text.c */
-void release_three_row_panel_text(struct S_8002742C_0 *object);
+void release_three_row_panel_text(struct CardSaveHeadingDisplayPrefix *object);
 
 /* write_text_and_advance_selection.c */
-void write_text_and_advance_selection(u8 *menu);
+void write_text_and_advance_selection(struct CardSaveMenuBody *menu);
 
 /* Panel display records.  A panel copies the resident templates
  * display_block_defaults (one CardDisplayBlock, copied as four words) and

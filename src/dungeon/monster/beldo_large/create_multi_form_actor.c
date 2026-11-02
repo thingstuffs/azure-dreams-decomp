@@ -34,10 +34,6 @@ typedef struct S_80169D28_1 {
     s8 unk_AC;
 } S_80169D28_1;   /* child in create_multi_form_actor */
 
-typedef struct S_80169D28_2 {
-    u8 pad_00[0xA];
-    s16 unk_0A;
-} S_80169D28_2;   /* first in create_multi_form_actor */
 
 /* Creates Beldo's multi-form actor when the center-tile check allows it, then initializes its hidden
  * sprite and state. */

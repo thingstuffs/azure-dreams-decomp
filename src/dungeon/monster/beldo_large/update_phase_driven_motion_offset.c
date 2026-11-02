@@ -19,10 +19,6 @@ typedef struct S_8016F5D8_1 {
     union { struct { s32 v; } at00; struct { u8 pad[0x2]; u16 v; } at02; } unk_A0;   /* overlapping accesses */
 } S_8016F5D8_1;   /* arg0 in update_phase_driven_motion_offset */
 
-typedef struct S_8016F5D8_2 {
-    u8 pad_00[0xA];
-    s16 unk_0A;
-} S_8016F5D8_2;   /* arg1 in update_phase_driven_motion_offset */
 
 extern u8 beldo_large_frame_set_8[16];
 extern u8 beldo_large_frame_set_14[16];

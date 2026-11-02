@@ -10,12 +10,6 @@
 #include "dungeon/monster/mandara.h"
 #include "dungeon/player/object.h"
 
-typedef struct S_801735B8_0 {
-    u8 pad_00[0x96];
-    union { u16 u; s16 s; } unk_96;   /* accessed as both */
-    u8 pad_98[0x3];
-    u8 unk_9B;
-} S_801735B8_0;   /* arg0 in fade_remove_entity_and_update_tile */
 
 
 void unlink_entity_node(void *);

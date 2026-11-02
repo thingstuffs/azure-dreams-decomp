@@ -10,10 +10,6 @@ typedef struct S_801745F0_0 S_801745F0_0;
 
 typedef struct S_80047784 S_80047784;
 
-typedef struct S_80174690_4 {
-    u8 pad_00[0x18];
-    void * unk_18;
-} S_80174690_4;
 
 typedef struct S_80174690_5 {
     u8 pad_00[0x28];

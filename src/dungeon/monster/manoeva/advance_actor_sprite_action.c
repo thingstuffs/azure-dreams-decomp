@@ -12,15 +12,6 @@
 #include "dungeon/actor.h"
 #include "dungeon/effect/screen.h"
 
-typedef struct S_801726A4_0 {
-    u8 pad_00[0x8C];
-    u8 * unk_8C;
-    u8 pad_90[0x6];
-    u16 unk_96;
-    u16 unk_98;
-    u8 pad_9A[0x1];
-    u8 unk_9B;
-} S_801726A4_0;   /* arg0 in advance_actor_sprite_action */
 
 extern void create_action_sprite_effect(void *);
 

@@ -2,6 +2,7 @@
 #include "common.h"
 #include "shared/record_ptrs.h"
 #include "town/scene.h"
+#include "shared/town_root.h"
 
 typedef struct S_800167E4_0 {
     u8 pad_00[0x18];
@@ -49,7 +50,7 @@ s32 clear_flagged_status_and_dispatch_action(S_800167E4_0 *entity, s32 action_ar
     S_800167E4_1 *town;
     s32 flag_id;
 
-    town = *(void **)((s8 *)(&town_scene_root));
+    town = (void *)town_scene_root;
     flag_id = entity->unk_18;
     scene_cell_dispatch_code = ((S_800167E4_3 *)(town->unk_08 * 8 + town->unk_40))->unk_04;
 
@@ -58,7 +59,7 @@ s32 clear_flagged_status_and_dispatch_action(S_800167E4_0 *entity, s32 action_ar
             S_800167E4_2 *clear_town;
             s32 entry_index;
 
-            clear_town = *(void **)((s8 *)(&town_scene_root));
+            clear_town = (void *)town_scene_root;
             entry_index = clear_town->unk_08;
             ((S_800167E4_4 *)(entry_index * 8 + clear_town->unk_40))->unk_04 = 0;
         }

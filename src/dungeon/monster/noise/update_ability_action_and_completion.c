@@ -38,7 +38,7 @@ void update_ability_action_and_completion(ActorRecord *body, ObjectPosition *mot
     u16 finish_ticks;
     u8 *ability;
     s32 phase;
-    void *target;
+    ObjectNodeHeader *target;
     SpriteFrameState *target_sprite;
 
     phase = body->action_phase.u;
@@ -89,11 +89,11 @@ void update_ability_action_and_completion(ActorRecord *body, ObjectPosition *mot
             {
                 s32 player_target = use_player;
                 if (player_target) {
-                    target = primary_actor_record;
+                    target = (ObjectNodeHeader *)primary_actor_record;
                     actor->target = target;
                     {
                         target_sprite =
-                            ((ObjectNodeHeader *)target - 1)->sprite;
+                            (target - 1)->sprite;
                         actor->target_tile_x = target_sprite->tile_x;
                         actor->target_tile_y = target_sprite->tile_y;
                     }
@@ -111,7 +111,7 @@ void update_ability_action_and_completion(ActorRecord *body, ObjectPosition *mot
                         if (target != NULL) {
                             {
                                 target_sprite =
-                                    ((ObjectNodeHeader *)target - 1)->sprite;
+                                    (target - 1)->sprite;
                                 actor->target_tile_x = target_sprite->tile_x;
                                 actor->target_tile_y = target_sprite->tile_y;
                             }

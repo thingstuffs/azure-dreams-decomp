@@ -2,6 +2,7 @@
 #include "script_symbols.h"
 #include "common.h"
 #include "shared/record_ptrs.h"
+#include "shared/town_root.h"
 
 typedef void (*TownCallback)(s32, s32);
 
@@ -15,7 +16,7 @@ s32 dispatch_town_callback_if_fails(void) {
     set_script_flag_94c();
 
     if (func_8001A64C(Frg_vivian_fine) == 0) {
-        (*(TownCallback *)((s8 *)*(void **)((s8 *)*(void **)((s8 *)(&town_scene_root)) + 0x20) + 0x2F8))(0xE, 0x200);
+        ((TownCallback)(town_scene_root->services->callback_2F8))(0xE, 0x200);
         checkPassed = 0;
     } else {
         func_8001A554(F_sbs32_pad37);

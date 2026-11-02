@@ -14,18 +14,6 @@
 #include "engine/graphics.h"
 #include "dungeon/item.h"
 
-typedef struct S_80172288_0 {
-    u8 pad_00[0x8C];
-    s32 * unk_8C;
-    s32 unk_90;
-    u8 pad_94[0x2];
-    s16 unk_96;
-    u16 unk_98;
-    u8 pad_9A[0x1];
-    u8 unk_9B;
-    u8 pad_9C[0x4];
-    s32 unk_A0;
-} S_80172288_0;   /* arg0 in update_actor_jump_and_landing */
 
 typedef struct {
     u16 x;

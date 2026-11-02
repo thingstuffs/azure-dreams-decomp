@@ -44,7 +44,7 @@ void expire_motion_timer(struct S_800C3FC8_0 *object, ObjectPosition *motion);
 u32 get_facing_sector(s32 angle);
 
 /* initialize_object_animation_and_facing.c */
-void initialize_object_animation_and_facing(void *object, void *position, void *animation_state);
+void initialize_object_animation_and_facing(TownObjectRecord *object, void *position, void *animation_state);
 
 /* move_coordinates_halfway_toward_target.c */
 void move_coordinates_halfway_toward_target(struct TownObjectRecord *state, s32 *coords);

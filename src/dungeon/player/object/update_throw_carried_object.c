@@ -29,14 +29,6 @@ extern s32 saved_held_item_word[];
 
    /* state0_call_arg in update_throw_carried_object */
 
-typedef struct S_8008FA7C_2 {
-    u8 pad_00[0x1C];
-    u32 unk_1C;
-    u8 pad_20[0xA];
-    s16 unk_2A;
-    u8 pad_2C[0x30];
-    s32 unk_5C;
-} S_8008FA7C_2;   /* arg3 in update_throw_carried_object */
 
 typedef struct S_8008FA7C_3 {
     u8 pad_00[0x8C];

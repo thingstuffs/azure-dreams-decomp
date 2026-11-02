@@ -14,7 +14,7 @@
 extern void release_card_record_handles(CardHandleOwner *object);
 
 /* Handles menu navigation with button repeat and dispatches the selected action. */
-void write_text_and_advance_selection(u8 *menu)
+void write_text_and_advance_selection(CardSaveMenuBody *menu)
 {
     s32 held_buttons;
     s32 pressed_buttons;
@@ -28,8 +28,8 @@ void write_text_and_advance_selection(u8 *menu)
         pressed_buttons = (g_game_work.pressed_buttons);
         if (pressed_buttons & 0x20) {
             SD_Call(AUDIO_CANCEL);
-            release_card_record_handles(menu - 0x20);
-            init_card_boot_request_object(((CardSaveMenuBody *)menu)->request, ((CardSaveMenuBody *)menu)->mode);
+            release_card_record_handles((u8 *)menu - 0x20);
+            init_card_boot_request_object(menu->request, menu->mode);
             return;
         }
         if (pressed_buttons & 0x40) {
@@ -38,7 +38,7 @@ void write_text_and_advance_selection(u8 *menu)
         } else {
             if (held_buttons & 0x5000) {
                 if (pressed_buttons & 0x5000) {
-                    ((CardSaveMenuBody *)menu)->repeat_ticks = 0;
+                    menu->repeat_ticks = 0;
                     pressed_buttons = (g_game_work.pressed_buttons);
                     if (pressed_buttons & 0x1000) {
                         status = -1;
@@ -46,9 +46,9 @@ void write_text_and_advance_selection(u8 *menu)
                         status = 1;
                     }
                 } else {
-                    repeat_ticks = ((CardSaveMenuBody *)menu)->repeat_ticks;
+                    repeat_ticks = menu->repeat_ticks;
                     if (repeat_ticks >= 13) {
-                        ((CardSaveMenuBody *)menu)->repeat_ticks = repeat_ticks - 4;
+                        menu->repeat_ticks = repeat_ticks - 4;
                         repeat_buttons = g_game_work.buttons;
                         if (repeat_buttons & 0x1000) {
                             status = -1;
@@ -56,15 +56,15 @@ void write_text_and_advance_selection(u8 *menu)
                             status = 1;
                         }
                     } else {
-                        ((CardSaveMenuBody *)menu)->repeat_ticks = repeat_ticks + 1;
+                        menu->repeat_ticks = repeat_ticks + 1;
                     }
                 }
             }
         }
         if (status != 0) {
             SD_Call(AUDIO_CURSOR_MOVE);
-            ((CardSaveMenuBody *)menu)->selection =
-                advance_index_with_single_wrap(((CardSaveMenuBody *)menu)->selection, status, 5);
+            menu->selection =
+                advance_index_with_single_wrap(menu->selection, status, 5);
             card_boot_highlight_selected_load_slot(menu);
         }
     }
@@ -78,6 +78,6 @@ void write_text_and_advance_selection(u8 *menu)
         return;
     }
 
-    release_card_record_handles(menu - 0x20);
-    init_card_boot_request_object(((CardSaveMenuBody *)menu)->request, ((CardSaveMenuBody *)menu)->mode);
+    release_card_record_handles((u8 *)menu - 0x20);
+    init_card_boot_request_object(menu->request, menu->mode);
 }

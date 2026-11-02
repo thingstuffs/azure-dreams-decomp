@@ -13,17 +13,6 @@ extern u8 kewne_turn_frames[];
 extern u8 kewne_frame_set_4[];
 extern u8 D_80175ED0[];
 
-typedef struct S_80172480_0 {
-    u8 pad_00[0x8C];
-    s32 * unk_8C;
-    u8 pad_90[0x2];
-    s16 unk_92;
-    u8 pad_94[0x7];
-    u8 unk_9B;
-    u8 pad_9C[0x14];
-    u16 unk_B0;
-    s16 unk_B2;
-} S_80172480_0;   /* arg0 in advance_turn_animation_and_restore_heading */
 
 typedef struct S_80172480_1 {
     u8 pad_00[0x1C];
@@ -32,10 +21,6 @@ typedef struct S_80172480_1 {
     u16 unk_2A;
 } S_80172480_1;   /* arg3 in advance_turn_animation_and_restore_heading */
 
-typedef struct S_80172480_4 {
-    u8 pad_00[0x9A];
-    u8 unk_9A;
-} S_80172480_4;   /* D_800E3D7C[0] in advance_turn_animation_and_restore_heading */
 
 /* Advances an actor's turn-and-animation sequence and restores its saved heading. */
 void advance_turn_animation_and_restore_heading(ActorRecord *actor, ObjectPosition *unused, SpriteFrameState *animation, S_80172480_1 *transform_in) {

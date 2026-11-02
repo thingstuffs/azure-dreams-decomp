@@ -1,6 +1,7 @@
 #include "common.h"
 #include "shared/record_ptrs.h"
 #include "town/scene.h"
+#include "shared/town_root.h"
 
 typedef s32 (*TownCallback)(s8 *);
 
@@ -12,5 +13,5 @@ void store_scene_service_response(void) {
 
     callback_args[1] = 0x17;
     callback_args[0] = 0x12;
-    D_80017788 = (*(TownCallback *)((u8 *)*(void **)((u8 *)town_scene_root + 0x20) + 0x50))(callback_args);
+    D_80017788 = ((TownCallback)(town_scene_root->services->callback_050))(callback_args);
 }

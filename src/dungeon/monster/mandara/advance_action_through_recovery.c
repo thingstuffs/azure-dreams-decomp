@@ -15,21 +15,7 @@
 #include "dungeon/player/object.h"
 extern int abs(int);
 
-typedef struct S_80172DEC_0 {
-    u8 pad_00[0x8C];
-    void * unk_8C;
-    u8 pad_90[0x6];
-    u16 unk_96;
-    u16 unk_98;
-    u8 pad_9A[0x1];
-    u8 unk_9B;
-} S_80172DEC_0;   /* arg0 in advance_action_through_recovery */
 
-typedef struct S_80172DEC_3 {
-    u8 pad_00[0x24];
-    u8 unk_24;
-    u8 unk_25;
-} S_80172DEC_3;   /* rec in advance_action_through_recovery */
 
 extern void select_sprite_entry(void *, s32, s32);
 extern void play_sound_if_enabled(s32);

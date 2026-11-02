@@ -2,6 +2,7 @@
 #include "common.h"
 #include "shared/record_ptrs.h"
 #include "town/scene/flags.h"
+#include "shared/town_root.h"
 
 extern s32 func_80018964(s32);
 extern void func_800188E4(s32);
@@ -12,7 +13,7 @@ void change_map_after_flag_test(void) {
     if (func_80018964(Fp_bibian_pool) != 0) {
         func_800188E4(F_sbs13_pad32);
     }
-    ((void (*)(void *))(*(void ***)((s8 *)town_scene_root + 0x20))[FNO_change_map])(D_800190C0);
+    ((void (*)(void *))((void **)(town_scene_root->services))[FNO_change_map])(D_800190C0);
 }
 
 /* MECHANISM: The call-shaped body naturally gives the 0x18 frame with only ra saved.

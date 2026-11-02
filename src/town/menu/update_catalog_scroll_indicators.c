@@ -1,4 +1,5 @@
 #include "common.h"
+#include "town/menu/catalog_parts.h"
 
 typedef struct {
     u8 pad00[0xC];
@@ -7,16 +8,6 @@ typedef struct {
     u8 flags;
 } TownObject;
 
-typedef struct {
-    s32 pad00[12];
-    void **slot30;
-    void **slot34;
-    s32 pad38[12];
-    void **slot68;
-    void **slot6C;
-} TownState;
-
-extern TownState catalog_display_node_slots;
 extern void **D_80129758[];
 extern void **D_8012975C[];
 extern u8 D_801285FC[];
@@ -34,11 +25,11 @@ void update_catalog_scroll_indicators(TownObject *object)
             return;
         }
     } else {
-        TownState *state = &catalog_display_node_slots;
+        ItemMenuPart **state = catalog_display_node_slots;
 
-        *state->slot30 = 0;
-        *state->slot34 = 0;
-        *state->slot68 = 0;
-        *state->slot6C = 0;
+        state[12]->handler = 0;
+        state[13]->handler = 0;
+        state[26]->handler = 0;
+        state[27]->handler = 0;
     }
 }

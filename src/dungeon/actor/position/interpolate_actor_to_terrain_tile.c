@@ -23,10 +23,6 @@ typedef struct S_800AC480_3 {
     u16 unk_88;
 } S_800AC480_3;   /* arg3 in interpolate_actor_to_terrain_tile */
 
-typedef struct S_800AC480_4 {
-    u8 pad_00[0xA];
-    u16 unk_0A;
-} S_800AC480_4;   /* global_base in interpolate_actor_to_terrain_tile */
 
 /* Update movement toward the target tile and finalize position and height when the timer expires. */
 s32 interpolate_actor_to_terrain_tile(S_800AC480_0 *move_state, ObjectPosition *motion, MovingTile *target_tile, S_800AC480_3 *height_state) {

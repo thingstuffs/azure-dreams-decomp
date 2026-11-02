@@ -9,14 +9,6 @@
 #include "shared/dungeon_status.h"
 #include "m2c_compat.h"
 
-typedef struct S_8016CC70_0 {
-    u8 pad_00[0x8C];
-    void * unk_8C;
-    u8 pad_90[0xB];
-    u8 unk_9B;
-    u8 pad_9C[0x10];
-    u8 unk_AC;
-} S_8016CC70_0;   /* obj in update_actor_action_state_2 */
 
 
 s32 get_entity_effect_value(ActorRecord *entry, s32 effect_id);

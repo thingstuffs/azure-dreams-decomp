@@ -1,39 +1,38 @@
 #include "common.h"
+#include "town/menu/catalog_parts.h"
 
-extern u32 *catalog_display_node_slots[28];
 extern void select_paired_value_tables(void *selection);
 
 /* Swaps paired entry values and node halfwords, toggles the state flag, and updates. */
 void swap_paired_entry_values_and_node_halfwords(u8 *state)
 {
-    s32 **second_entry;
-    s32 **first_entry;
-    s32 **entries;
-    s32 *first_word;
-    s32 saved_word;
+    ItemMenuPart **second_entry;
+    ItemMenuPart **first_entry;
+    ItemMenuPart **entries;
+    ItemMenuPart *first_word;
+    void *saved_word;
     s32 entry_index;
     u16 saved_half;
-    void *first_node;
+    ItemMenuPartPosition *first_node;
 
     entry_index = 2;
-    entries = (s32 **)catalog_display_node_slots;
+    entries = catalog_display_node_slots;
     second_entry = entries + 16;
     first_entry = entries + 2;
     do {
         first_word = *first_entry;
         first_entry++;
-        saved_word = *first_word;
+        saved_word = first_word->handler;
         entry_index++;
-        *first_word = **second_entry;
-        **second_entry = saved_word;
+        first_word->handler = (*second_entry)->handler;
+        (*second_entry)->handler = saved_word;
         second_entry++;
     } while (entry_index < 14);
 
-    first_node = *(void **)((u8 *)catalog_display_node_slots[8] + 4);
-    saved_half = *(u16 *)((u8 *)first_node + 8);
-    *(u16 *)((u8 *)first_node + 8) =
-        *(u16 *)((u8 *)*(void **)((u8 *)catalog_display_node_slots[22] + 4) + 8);
-    *(u16 *)((u8 *)*(void **)((u8 *)catalog_display_node_slots[22] + 4) + 8) = saved_half;
+    first_node = catalog_display_node_slots[8]->position;
+    saved_half = (u16)first_node->x;
+    first_node->x = (u16)catalog_display_node_slots[22]->position->x;
+    catalog_display_node_slots[22]->position->x = saved_half;
 
     state[0x16] ^= 1;
     select_paired_value_tables(state);

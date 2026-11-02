@@ -72,6 +72,7 @@ void update_shrinking_fading_effect(ActorRecord *anim, ObjectPosition *transform
     u8 *effect_id;
     u8 state;
     u16 timer;
+    SpriteFrameState *target_sprite;
     S_80172FC0_3 *main_actor;
     void *child;
 
@@ -123,21 +124,21 @@ void update_shrinking_fading_effect(ActorRecord *anim, ObjectPosition *transform
             }
         }
         if (*effect_id != 0) {
-            void *effect;
+            ObjectNodeHeader *effect;
 
             anim->action_state_flags &= 0xFF7F;
             if ((s16)is_special != 0) {
-                effect = primary_actor_record;
+                effect = (ObjectNodeHeader *)primary_actor_record;
                 actor->target = effect;
-                main_actor = (S_80172FC0_3 *)((ObjectNodeHeader *)effect - 1)->sprite;
-                actor->target_tile_x = main_actor->unk_24;
-                actor->target_tile_y = main_actor->unk_25;
+                target_sprite = (effect - 1)->sprite;
+                actor->target_tile_x = target_sprite->tile_x;
+                actor->target_tile_y = target_sprite->tile_y;
             } else if (item_action_definitions[*effect_id].kind == 2) {
                 effect = actor->target;
                 if (effect != 0) {
-                    main_actor = (S_80172FC0_3 *)((ObjectNodeHeader *)effect - 1)->sprite;
-                    actor->target_tile_x = main_actor->unk_24;
-                    actor->target_tile_y = main_actor->unk_25;
+                    target_sprite = (effect - 1)->sprite;
+                    actor->target_tile_x = target_sprite->tile_x;
+                    actor->target_tile_y = target_sprite->tile_y;
                 }
             } else {
                 actor->target = scan_actor_along_heading(

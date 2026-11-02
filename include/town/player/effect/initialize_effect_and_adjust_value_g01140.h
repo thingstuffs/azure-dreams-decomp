@@ -146,7 +146,7 @@ extern s32 map_view_transition_address;
 /* Shared import declarations; data casts preserve each measured view. */
 extern u8 D_800903FC[];
 extern u8 town_blocked_directions[];
-extern u8 town_movement_speed[];
+extern s32 town_movement_speed;
 
 /* Functions defined in this translation unit. */
 void initialize_effect_and_adjust_value(void *object, EntityRec *record, s32 init_value);

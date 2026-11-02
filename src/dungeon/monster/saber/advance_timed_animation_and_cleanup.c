@@ -16,14 +16,6 @@
 
 extern u8 D_80174E1C[];
 
-typedef struct S_80172FD8_0 {
-    u8 pad_00[0x8C];
-    s32 * unk_8C;
-    u8 pad_90[0x6];
-    union { u16 u; s16 s; } unk_96;   /* accessed as both */
-    u8 pad_98[0x3];
-    u8 unk_9B;
-} S_80172FD8_0;   /* arg0 in advance_timed_animation_and_cleanup */
 
 
 /* Advances an actor's timed animation sequence and performs its final cleanup. */

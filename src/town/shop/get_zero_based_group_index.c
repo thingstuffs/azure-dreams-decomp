@@ -1,20 +1,15 @@
 #include "common.h"
 #include "town/shop.h"
+#include "town/shop/group_index.h"
 
-typedef struct TownB4C60 {
-    s32 unk0;
-    s32 unk4;
-    s32 unk8;
-    s32 unkC;
-} TownB4C60;
 
 /* Convert the stored value to a zero-based group of ten, preserving zero. */
-void get_zero_based_group_index(TownB4C60 *record) {
-    s32 stored_value = record->unkC;
+void get_zero_based_group_index(TownGroupIndex *record) {
+    s32 stored_value = record->value;
 
     if (stored_value != 0) {
-        record->unk4 = (stored_value - 1) / 10;
+        record->index = (stored_value - 1) / 10;
         return;
     }
-    record->unk4 = 0;
+    record->index = 0;
 }

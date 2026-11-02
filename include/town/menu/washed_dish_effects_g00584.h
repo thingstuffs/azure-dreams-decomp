@@ -6,6 +6,8 @@
 #include "common.h"
 #include "m2c_compat.h"
 #include "shared/object_flags.h"
+#include "shared/town_object.h"
+#include "shared/sprite_frame_state.h"
 struct SpriteFrameState;
 
 typedef struct {
@@ -26,7 +28,7 @@ extern s32 dish_counter;
 extern TownRecord D_800F8A70[];
 
 /* Functions defined in this translation unit. */
-void finalize_object_or_select_town_record(void *object, void *check_context, void *record_holder);
+void finalize_object_or_select_town_record(TownObjectRecord *object, void *check_context, SpriteFrameState *record_holder);
 s32 washed_dish_suu_set(s32 new_count);
 s32 washed_dish_suu_inc(void);
 

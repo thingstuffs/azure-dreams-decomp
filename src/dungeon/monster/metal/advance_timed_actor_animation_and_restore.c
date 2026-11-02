@@ -16,14 +16,6 @@
 extern u8 metal_action_resume_address[];
 extern u8 D_801742F0[];
 
-typedef struct S_80172E04_0 {
-    u8 pad_00[0x8C];
-    u8 * unk_8C;
-    u8 pad_90[0x6];
-    union { u16 u; s16 s; } unk_96;   /* accessed as both */
-    u8 pad_98[0x3];
-    u8 unk_9B;
-} S_80172E04_0;   /* arg0 in advance_timed_actor_animation_and_restore */
 
 
 /* Advance the timed actor animation sequence and restore actor state on completion. */

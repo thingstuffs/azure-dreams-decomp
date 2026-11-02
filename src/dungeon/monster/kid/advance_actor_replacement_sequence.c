@@ -34,9 +34,6 @@ typedef struct S_80174B20_16 {
     u16 unk_2A;
 } S_80174B20_16;   /* ((S_80174B20_14 *)arg3)->unk_60 in advance_actor_replacement_sequence */
 
-typedef struct S_80174B20_0_pre {
-    u16 unk_00;
-} S_80174B20_0_pre;   /* the 0x2 bytes before arg0 in advance_actor_replacement_sequence, addressed as arg0[-1] */
 
 
 typedef struct S_80174B20_2 {
@@ -101,7 +98,7 @@ extern s32 cd_cue_base;
 extern void *actor_effect_color_targets[];
 extern u8 dungeon_resource_buffer[];
 s32 update_actor_state_after_map_check(void *initial_payload, s32 entry_data, Entry *entry, s32 unused);
-void blend_effect_channels_to_gray(u8 *task, void *context, SpriteFrameState *input);
+void blend_effect_channels_to_gray(u8 *task, ObjectPosition *context, SpriteFrameState *input);
 extern u32 kid_image_commands;
 extern s32 D_80175200[];
 extern s16 D_80175218;
@@ -275,7 +272,7 @@ void advance_actor_replacement_sequence(ActorRecord *state, ObjectPosition *posi
         }
         globals_base = (void *)0x80080000;
         ((S_80174B20_16 *)actor->target)->unk_2A = (u16) ((u16)actor->unk_8A);
-        ((S_80174B20_0_pre *)state)[-1].unk_00 = (u16) (((S_80174B20_0_pre *)state)[-1].unk_00 | 0x8000);
+        ((ObjectNodeHeader *)state - 1)->flags = (u16) (((ObjectNodeHeader *)state - 1)->flags | 0x8000);
         global_flags = globals_base->unk_14A0;
         active_count = ((u16)g_dungeon_status.activity_counts.parts.pending_action_count);
         globals_base->unk_14A0 = global_flags | 0x8000;

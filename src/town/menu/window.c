@@ -878,7 +878,7 @@ s32 t_soukowin_close_check(void) {
 }
 
 /* Sets object type fields and selects the corresponding resource. */
-void set_object_types_and_resource(void *object, ObjectPosition *position, SpriteFrameState *output)
+void set_object_types_and_resource(TownObjectRecord *object, ObjectPosition *position, SpriteFrameState *output)
 {
     u32 resource;
     u8 mode;
@@ -988,11 +988,11 @@ void update_object_pulse_brightness(func_800A0FB4_S_func_8009E714_0 *object, s32
 }
 
 /* Initialize the entity from its table entry and invoke its callback. */
-void initialize_entity_from_table_and_callback(void *entity, ObjectPosition *placement, func_800A10FC_S_8009E85C_2 *state) {
+void initialize_entity_from_table_and_callback(TownObjectRecord *entity, ObjectPosition *placement, func_800A10FC_S_8009E85C_2 *state) {
     u8 *table_page = (u8 *)0x80010000;
     s32 active;
     s32 init_flags;
-    func_800A10FC_S_8009E85C_4 *tail_entity;
+    TownObjectRecord *tail_entity;
     void (*callback)(void *, void *, void *);
     void *callback_entity;
     void *callback_placement;
@@ -1001,16 +1001,16 @@ void initialize_entity_from_table_and_callback(void *entity, ObjectPosition *pla
     u8 entry_type;
 
     ((func_800A10FC_S_8009E85C_0_pre *)entity)[-1].unk_00 = update_object_pulse_brightness;
-    ((TownObjectRecord *)entity)->unk_A0 = 0xFFE00000;
+    entity->unk_A0 = 0xFFE00000;
     placement->z.v = 0xFFE00000;
-    ((TownObjectRecord *)entity)->unk_4C = table_page[(((TownObjectRecord *)entity)->unk_95 * 4) + 0x980];
-    entry_type = table_page[(((TownObjectRecord *)entity)->unk_95 * 4) + 0x981];
-    ((TownObjectRecord *)entity)->unk_4D = entry_type;
+    entity->unk_4C = table_page[(entity->unk_95 * 4) + 0x980];
+    entry_type = table_page[(entity->unk_95 * 4) + 0x981];
+    entity->unk_4D = entry_type;
     if (entry_type == 0x12) {
         state->unk_08 = &item_effect_descriptor;
     } else {
-        set_object_state_for_mode(entity, state, ((TownObjectRecord *)entity)->unk_4C,
-            ((func_800A10FC_S_8009E85C_6 *)(table_page + ((table_page[(((TownObjectRecord *)entity)->unk_95 * 4)
+        set_object_state_for_mode(entity, state, entity->unk_4C,
+            ((func_800A10FC_S_8009E85C_6 *)(table_page + ((table_page[(entity->unk_95 * 4)
             + 0x983] & 0x3F) * 0x54)))->unk_A94);
     }
     register_node_if_unregistered(entity, project_sprite_chain);
@@ -1021,9 +1021,9 @@ void initialize_entity_from_table_and_callback(void *entity, ObjectPosition *pla
     state->unk_14.u = (u16)(flags | 0x1C);
     tail_entity = entity;
     if (active == 0) {
-        ((TownObjectRecord *)entity)->timer.as_s16 = scale_random_to_unsigned_halfword_limit(0x1000);
+        entity->timer.as_s16 = scale_random_to_unsigned_halfword_limit(0x1000);
     } else {
-        tail_entity->unk_6C = 0;
+        tail_entity->timer.as_s16 = 0;
     }
     callback_entity = tail_entity;
     callback_placement = placement;

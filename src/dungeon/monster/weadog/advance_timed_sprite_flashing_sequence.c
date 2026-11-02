@@ -16,14 +16,6 @@
 extern s32 weadog_action_resume_address;
 extern u8 weadog_frame_set_2[];
 
-typedef struct S_80173514_0 {
-    u8 pad_00[0x8C];
-    s32 * unk_8C;
-    u8 pad_90[0x6];
-    union { u16 u; s16 s; } unk_96;   /* accessed as both */
-    u8 pad_98[0x3];
-    u8 unk_9B;
-} S_80173514_0;   /* arg0 in advance_timed_sprite_flashing_sequence */
 
    /* arg1 in advance_timed_sprite_flashing_sequence */
 

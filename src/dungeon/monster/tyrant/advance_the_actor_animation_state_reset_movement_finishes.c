@@ -22,15 +22,6 @@ extern u8 tyrant_direction_frames[8];
 
 extern void create_two_row_object_group(void *payload, s16 value_scale);
 
-typedef struct S_801729D4_0 {
-    u8 pad_00[0x8C];
-    void * unk_8C;
-    u8 pad_90[0x6];
-    u16 unk_96;
-    u16 unk_98;
-    u8 pad_9A[0x1];
-    u8 unk_9B;
-} S_801729D4_0;   /* arg0 in advance_the_actor_animation_state_reset_movement_finishes */
 
 
 
@@ -104,7 +95,7 @@ void advance_the_actor_animation_state_reset_movement_finishes(ActorRecord *acti
             if (reuse_test != 0) {
                 target_root = primary_actor_record;
                 actor->target = target_root;
-                target_source = (SpriteFrameState *)((ObjectNodeHeader *)target_root - 1)->sprite;
+                target_source = ((ObjectNodeHeader *)target_root - 1)->sprite;
                 actor->target_tile_x = target_source->tile_x;
                 actor->target_tile_y = target_source->tile_y;
             } else {

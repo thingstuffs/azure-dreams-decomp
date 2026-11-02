@@ -5,10 +5,6 @@ struct ObjectNodeHeader;
 #include "shared/dungeon_status.h"
 #include "dungeon/item.h"
 
-typedef struct S_8016ED98_0 {
-    u8 pad_00[0xA];
-    u16 unk_0A;
-} S_8016ED98_0;   /* state in finish_multi_form_actor_sequence */
 
 typedef struct S_8016ED98_1 {
     u8 pad_00[0x46];

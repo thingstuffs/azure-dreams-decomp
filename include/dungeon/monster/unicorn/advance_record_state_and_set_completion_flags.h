@@ -81,7 +81,7 @@ extern void select_record_entry_and_value(void *state, void *entries, short inde
 extern s32 func_8004491C(struct ObjectNodeHeader *entry, void *registration_id);
 extern s32 shared_sprite_entries;
 extern s32 directional_sprite_entries;
-void advance_record_state_and_set_completion_flags(void *record_data, DelayMotionZ *state, s32 update_arg);
+void advance_record_state_and_set_completion_flags(void *record_data, DelayMotionZ *state, SpriteFrameState *update_arg);
 void create_tinted_sprite_effect_supplied_position(void *unused, void *position_data, SpriteFrameState *unused_primitive);
 void update_orbit_height_and_fade_effect(AngularOffsetEffectBody *effect, ObjectPosition *position, SpriteFrameState *primitive);
 void create_angular_offset_effect(void *unused_context, Rec_func_80173CFC_arg1 *origin, SpriteFrameState *unused_param_2, ActorRecord *unused_param_3,

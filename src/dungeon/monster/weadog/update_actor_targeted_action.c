@@ -23,15 +23,6 @@ extern int abs(int);
 
 
 
-typedef struct S_801737B0_0 {
-    u8 pad_00[0x8C];
-    void * unk_8C;
-    u8 pad_90[0x6];
-    union { u16 s; s16 u; } unk_96;   /* accessed as both */
-    u16 unk_98;
-    u8 pad_9A[0x1];
-    u8 unk_9B;
-} S_801737B0_0;   /* arg0 in update_actor_targeted_action */
 
    /* the 0x14 bytes before ptr in update_actor_targeted_action, addressed as ptr[-1] */
 

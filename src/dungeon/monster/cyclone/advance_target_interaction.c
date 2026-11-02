@@ -10,15 +10,6 @@
 #include "dungeon/actor/spell_resource_ids_g01008.h"
 #include "dungeon/system.h"
 
-typedef struct S_80174764_0 {
-    u8 pad_00[0x8C];
-    void * unk_8C;
-    u8 pad_90[0x6];
-    u16 unk_96;
-    u16 unk_98;
-    u8 pad_9A[0x1];
-    u8 unk_9B;
-} S_80174764_0;   /* arg0 in advance_target_interaction */
 
 
 

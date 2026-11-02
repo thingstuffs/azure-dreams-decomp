@@ -1,100 +1,37 @@
 #include "common.h"
 #include "shared/object_payload.h"
-
-typedef struct S_801234F0_0 {
-    s32 unk_00;
-    void * unk_04;
-    void * unk_08;
-} S_801234F0_0;   /* *dst in layout_catalog_frame */
-
-typedef struct S_801234F0_1 {
-    u8 pad_00[0x30];
-    void * unk_30;
-    void * unk_34;
-} S_801234F0_1;   /* tail_dst in layout_catalog_frame */
-
-typedef struct S_801234F0_2 {
-    u8 pad_00[0x64];
-    u16 unk_64;
-    u16 unk_66;
-    u8 pad_68[0x4];
-    u16 unk_6C;
-    u16 unk_6E;
-} S_801234F0_2;   /* tail_src in layout_catalog_frame */
-
-typedef struct S_801234F0_3 {
-    u8 pad_00[0x8];
-    u16 unk_08;
-    u16 unk_0A;
-} S_801234F0_3;   /* ((S_801234F0_0 *)(*dst))->unk_04 in layout_catalog_frame */
-
-typedef struct S_801234F0_4 {
-    u8 pad_00[0x6];
-    s16 unk_06;
-    s16 unk_08;
-} S_801234F0_4;   /* ((S_801234F0_0 *)(*dst))->unk_08 in layout_catalog_frame */
-
-   /* ((S_801234F0_1 *)tail_dst)->unk_30 in layout_catalog_frame */
-
-   /* ((S_801234F0_1 *)tail_dst)->unk_34 in layout_catalog_frame */
-
-typedef struct S_801234F0_7 {
-    u8 pad_00[0x6];
-    u16 unk_06;
-    u16 unk_08;
-} S_801234F0_7;   /* ((S_801234F0_5 *)(((S_801234F0_1 *)tail_dst)->unk_30))->unk_08 in layout_catalog_frame */
-
-typedef struct S_801234F0_8 {
-    u8 pad_00[0x6];
-    u16 unk_06;
-    u16 unk_08;
-} S_801234F0_8;   /* ((S_801234F0_6 *)(((S_801234F0_1 *)tail_dst)->unk_34))->unk_08 in layout_catalog_frame */
-
-
-
-extern u8 catalog_frame_layout[0x70];
-extern u8 catalog_display_node_slots[0x38];
-
-typedef struct SourceEntry {
-    s32 word;
-    u16 first;
-    u16 second;
-} SourceEntry;
+#include "town/menu/catalog_parts.h"
 
 /* Initialize 14 objects from table data and override the final two field pairs. */
 void layout_catalog_frame(void) {
     {
-        SourceEntry *src_entry;
-        void **object_slot;
+        CatalogFrameEntry *src_entry;
+        ItemMenuPart **object_slot;
         s32 entry_index = 0;
         s16 first_default = 0x10;
         s16 second_default = 0xE0;
 
-        object_slot = (void **)(catalog_display_node_slots);
-        src_entry = (SourceEntry *)catalog_frame_layout;
+        object_slot = catalog_display_node_slots + 0;
+        src_entry = catalog_frame_layout;
         do {
-            ((S_801234F0_0 *)(object_slot[entry_index]))->unk_00 = src_entry[entry_index].word;
-            ((S_801234F0_3 *)(((S_801234F0_0 *)(object_slot[entry_index]))->unk_04))->unk_08 = src_entry[entry_index].first;
-            ((S_801234F0_3 *)(((S_801234F0_0 *)(object_slot[entry_index]))->unk_04))->unk_0A = src_entry[entry_index].second;
-            ((S_801234F0_4 *)(((S_801234F0_0 *)(object_slot[entry_index]))->unk_08))->unk_06 = first_default;
-            ((S_801234F0_4 *)(((S_801234F0_0 *)(object_slot[entry_index]))->unk_08))->unk_08 = second_default;
+            object_slot[entry_index]->handler = src_entry[entry_index].value;
+            object_slot[entry_index]->position->x = src_entry[entry_index].x;
+            object_slot[entry_index]->position->y = src_entry[entry_index].y;
+            ((CatalogDisplayVector *)object_slot[entry_index]->vector)->signed_halves.unk_06 = first_default;
+            ((CatalogDisplayVector *)object_slot[entry_index]->vector)->signed_halves.unk_08 = second_default;
             entry_index++;
         } while (entry_index < 0xE);
     }
 
     {
-        S_801234F0_2 *source_table;
-        S_801234F0_1 *object_table;
+        CatalogFrameEntry *source_table;
+        ItemMenuPart **object_table;
 
-        object_table = (S_801234F0_1 *)&catalog_display_node_slots;
-        source_table = (S_801234F0_2 *)&catalog_frame_layout;
-        ((S_801234F0_7 *)(((ObjectPayloadView *)(object_table->unk_30))->unk_08))->unk_06 =
-            source_table->unk_64;
-        ((S_801234F0_7 *)(((ObjectPayloadView *)(object_table->unk_30))->unk_08))->unk_08 =
-            source_table->unk_66;
-        ((S_801234F0_8 *)(((ObjectPayloadView *)(object_table->unk_34))->unk_08))->unk_06 =
-            source_table->unk_6C;
-        ((S_801234F0_8 *)(((ObjectPayloadView *)(object_table->unk_34))->unk_08))->unk_08 =
-            source_table->unk_6E;
+        object_table = catalog_display_node_slots;
+        source_table = catalog_frame_layout;
+        ((CatalogDisplayVector *)object_table[12]->vector)->unsigned_halves.unk_06 = source_table[12].x;
+        ((CatalogDisplayVector *)object_table[12]->vector)->unsigned_halves.unk_08 = source_table[12].y;
+        ((CatalogDisplayVector *)object_table[13]->vector)->unsigned_halves.unk_06 = source_table[13].x;
+        ((CatalogDisplayVector *)object_table[13]->vector)->unsigned_halves.unk_08 = source_table[13].y;
     }
 }

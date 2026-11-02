@@ -65,27 +65,6 @@ typedef struct S_func_80FDD1A0_2 {
     u8 *unk_2C;
 } S_func_80FDD1A0_2;
 
-typedef struct S_func_80FDD1A0_3 {
-    u8 pad_00[0x08];
-    u8 unk_08;
-    u8 pad_09[0x02];
-    u8 unk_0B;
-    u8 pad_0C[0x02];
-    u8 unk_0E;
-    u8 pad_0F[0x0D];
-    u32 unk_1C;
-    u8 pad_20[0x0A];
-    union { s16 s; u16 u; } unk_2A;
-    u8 pad_2C[0x1A];
-    u16 unk_46;
-    u8 pad_48[0x18];
-    void *unk_60;
-    u8 pad_64[0x09];
-    union { s8 s; u8 u; } unk_6D;
-    u8 pad_6E[0x04];
-    union { s8 s; u8 u; } unk_72;
-    union { s8 s; u8 u; } unk_73;
-} S_func_80FDD1A0_3;
 
 typedef struct S_func_80FDD1A0_4 {
     u8 pad_00[0x08];
@@ -119,7 +98,7 @@ void update_item_use(S_func_80FDD1A0_1 *actor, VecData *motion, SpriteFrameState
 {
     s16 use_player = 0;
     S_func_80FDD1A0_4 *effect = 0;
-    void *target;
+    ObjectNodeHeader *target;
     u8 *item_slot;
     S_func_80FDD1A0_2 *effect_sprite;
     ShortVec sound_pos;
@@ -177,12 +156,12 @@ void update_item_use(S_func_80FDD1A0_1 *actor, VecData *motion, SpriteFrameState
 
                 player_target = use_player;
                 if (player_target != 0) {
-                    target = primary_actor_record;
+                    target = (ObjectNodeHeader *)primary_actor_record;
                     actor_data->target = target;
                     {
                         SpriteFrameState *item_id;
 
-                        item_id = ((ObjectNodeHeader *)target - 1)->sprite;
+                        item_id = (target - 1)->sprite;
                         actor_data->target_tile_x = item_id->tile_x;
                         actor_data->target_tile_y = item_id->tile_y;
                     }
@@ -193,7 +172,7 @@ void update_item_use(S_func_80FDD1A0_1 *actor, VecData *motion, SpriteFrameState
                     if (item_action_definitions[((u8)item_id)].kind == 2) {
                         target = actor_data->target;
                         if (target != 0) {
-                            item_id = ((ObjectNodeHeader *)target - 1)->sprite;
+                            item_id = (target - 1)->sprite;
                             actor_data->target_tile_x = item_id->unk_24;
                             actor_data->target_tile_y = item_id->unk_25;
                         }

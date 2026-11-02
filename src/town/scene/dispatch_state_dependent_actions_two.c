@@ -2,6 +2,7 @@
 #include "common.h"
 #include "shared/record_ptrs.h"
 #include "town/scene.h"
+#include "shared/town_root.h"
 
 typedef struct TownCallback {
     u8 pad_00[0x218];
@@ -37,6 +38,6 @@ void dispatch_state_dependent_actions_two(void)
     }
 
     callback_arg = &D_800190D4;
-    town_root = *(TownRoot **)((s8 *)(&town_scene_root));
+    town_root = (TownRoot *)town_scene_root;
     town_root->callback->callback(callback_arg);
 }

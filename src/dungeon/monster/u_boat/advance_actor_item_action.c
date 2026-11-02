@@ -55,7 +55,7 @@ void advance_actor_item_action(ActorRecord *actor_state, ObjectPosition *motion,
     use_player = 0;
     switch (actor_state->action_phase.u) {
     case 0:
-        if ((*(u32 *)((u8 *)actor + 0x1C)) & ACTOR_PLAYER_SIDE) {
+        if ((u32)actor->flags1C & ACTOR_PLAYER_SIDE) {
             u32 kind_index;
 
             kind_index = (actor->action_flags & 0x3FFF) - 1;
@@ -98,16 +98,16 @@ void advance_actor_item_action(ActorRecord *actor_state, ObjectPosition *motion,
 
         if (*item_id != 0) {
             s32 use_player_test;
-            void *linked_actor;
+            ObjectNodeHeader *linked_actor;
 
             actor_state->action_state_flags &= 0xFF7F;
             use_player_test = use_player;
             if (use_player_test != 0) {
                 u8 *linked_sprite;
 
-                linked_actor = primary_actor_record;
+                linked_actor = (ObjectNodeHeader *)primary_actor_record;
                 actor->target = linked_actor;
-                linked_sprite = *(u8 * *)&((ObjectNodeHeader *)linked_actor - 1)->sprite;
+                linked_sprite = *(u8 * *)&(linked_actor - 1)->sprite;
                 actor->target_tile_x = linked_sprite[0x24];
                 offset_x = linked_sprite[0x25];
                 actor->target_tile_y = offset_x;
@@ -116,7 +116,7 @@ void advance_actor_item_action(ActorRecord *actor_state, ObjectPosition *motion,
                 if (linked_actor != 0) {
                     u8 *linked_sprite;
 
-                    linked_sprite = *(u8 * *)&((ObjectNodeHeader *)linked_actor - 1)->sprite;
+                    linked_sprite = *(u8 * *)&(linked_actor - 1)->sprite;
                     actor->target_tile_x = linked_sprite[0x24];
                     offset_x = linked_sprite[0x25];
                     actor->target_tile_y = offset_x;
@@ -152,7 +152,7 @@ void advance_actor_item_action(ActorRecord *actor_state, ObjectPosition *motion,
         g_dungeon_status.active_actor = 0;
         primary_actor_record->unk_A4.halves.high.u--;
         advance_status_timers(actor);
-        (*((u8 *)actor + 0x6D))--;
+        actor->pending_turn_updates = (u8)((u8)actor->pending_turn_updates - 1);
         actor_state->unk_8C.address = uboat_behavior_entry;
         actor->target_tile_y = 0;
         actor->target_tile_x = 0;
@@ -268,7 +268,7 @@ void advance_actor_item_action(ActorRecord *actor_state, ObjectPosition *motion,
         advance_status_timers(actor);
         actor->target_tile_y = 0;
         actor->target_tile_x = 0;
-        (*((u8 *)actor + 0x6D))--;
+        actor->pending_turn_updates = (u8)((u8)actor->pending_turn_updates - 1);
         actor->action_flags &= 0x7FFF;
         play_sound_if_enabled(AUDIO_FADE_CD_FAST);
         return;

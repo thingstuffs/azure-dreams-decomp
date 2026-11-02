@@ -46,7 +46,7 @@ struct TownMapSpawnState;
 struct TownStripScratch;
 
 /* adjust_record_fields.c */
-void adjust_record_fields(s32 unused, void *record);
+void adjust_record_fields(TownObjectRecord *unused, ObjectPosition *record);
 
 /* advance_building_texture_and_palette.c */
 void advance_building_texture_and_palette(BuildingSelectionHandlerBody *state, s32 unused, s32 upload_arg);
@@ -144,8 +144,8 @@ void build_two_display_entries(void *data_id, s32 position_offset);
 s32 check_door_status_inverted(void *object);
 void initialize_door_variant(TownObjectRecord *record_data, ObjectPosition *position, struct SpriteFrameState *unused_sprite);
 void handle_door_check_result(struct S_func_800A0708_0 *object, void *callback_arg, s32 callback_data);
-void install_next_door_handler(TownObjectRecord *object, void *unused_context, void *update_context, s32 unused_data);
-void open_door_to_target(void *object, void *context);
+void install_next_door_handler(TownObjectRecord *object, void *unused_context, void *update_context, SpriteFrameState *unused_data);
+void open_door_to_target(TownObjectRecord *object, void *context);
 void door_no_op(void);
 void advance_door_open_angle(struct S_800A08F0_0 *door);
 void tick_door_open_countdown(struct S_800A092C_0 *state);
@@ -157,7 +157,7 @@ void door_atari_on_off(s32 door_id, s16 collision_enabled);
 void into_dn_door_demo_set(void);
 void trigger_door_interaction_effect(void *actor, void *target, void *position);
 void change_door_map(void *map_source, s32 *map_table);
-void advance_door_step(void *entity, void *unused_context, void *update_context, s32 unused_data);
+void advance_door_step(void *entity, void *unused_context, void *update_context, SpriteFrameState *unused_data);
 void select_tower_entry_handler_by_item_count(struct S_800A0C30_0 *script_state, void *unused_context, struct S_800A0C30_1 *event_params);
 void set_door_handler_if_ready(struct S_800A0CC0_0 *object, s32 value_1, s32 value_2, s32 value_3);
 void update_door_completion_state(u8 *object, s32 unused, s32 state_id, s32 state_arg);

@@ -17,7 +17,7 @@ extern void register_node(void *, void *);
 extern void release_null_terminated_entries(void *);
 extern void SD_Call(s32);
 extern void initialize_catalog_glyph_cache(void);
-extern void initialize_catalog_state(void *);
+extern void initialize_catalog_state(CatalogDisplay *);
 
 extern s8 animation_tick_scale;
 extern s32 D_80126704;

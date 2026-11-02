@@ -16,10 +16,6 @@
 #include "dungeon/actor/status.h"
 
 
-typedef struct S_80FF9000_2 {
-    u8 pad_00[0xA];
-    s16 unk_0A;
-} S_80FF9000_2;   /* part_a in spawn_killer_slot_b */
 
 typedef struct S_80FF9000_4 {
     u8 pad_00[0x8C];

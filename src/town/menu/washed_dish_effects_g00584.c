@@ -19,7 +19,7 @@ void initialize_timed_resource_object(TownObjectRecord *object, ObjectPosition *
 }
 
 /* Clears and flags a handled object, or clamps the town index and selects a record. */
-void finalize_object_or_select_town_record(void *object, void *check_context, void *record_holder)
+void finalize_object_or_select_town_record(TownObjectRecord *object, void *check_context, SpriteFrameState *record_holder)
 {
     u8 *state_byte;
 
@@ -39,7 +39,7 @@ void finalize_object_or_select_town_record(void *object, void *check_context, vo
     } else if (dish_counter >= 21) {
         dish_counter = 20;
     }
-    *(TownRecord **)((u8 *)record_holder + 8) = &D_800F8A70[D_800D0E40[1]];
+    record_holder->source = &D_800F8A70[D_800D0E40[1]];
 }
 
 /* washed_dish_suu_set: Set and return the washed dish count. */

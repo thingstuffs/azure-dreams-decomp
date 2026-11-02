@@ -1,3 +1,4 @@
+#include "shared/entity.h"
 #include "common.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/game_work.h"
@@ -9,7 +10,7 @@ extern void unlink_node(void *node);
 extern s32 D_80175220;
 
 /* Processes input, then blends three state channels toward 0x80 and marks completion. */
-void blend_effect_channels_to_gray(u8 *task, void *context, SpriteFrameState *input)
+void blend_effect_channels_to_gray(u8 *task, ObjectPosition *context, SpriteFrameState *input)
 {
     s16 frames_left;
     GameWork *fade_state = &g_game_work;

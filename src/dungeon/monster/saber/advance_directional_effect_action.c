@@ -18,14 +18,6 @@
 extern void process_nodes_at_target_tile(void *, s32, s32, s32);
 void create_randomly_rotated_offset_effect(void *node, s32 tile_x, s32 tile_y, s16 target_height);
 
-typedef struct S_80174A28_0 {
-    u8 pad_00[0x8C];
-    s32 * unk_8C;
-    u8 pad_90[0x6];
-    s16 unk_96;
-    u8 pad_98[0x3];
-    u8 unk_9B;
-} S_80174A28_0;   /* arg0 in advance_directional_effect_action */
 
 
 

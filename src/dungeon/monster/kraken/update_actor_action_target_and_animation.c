@@ -30,18 +30,6 @@ typedef struct {
 
 extern int abs(int);
 
-typedef struct S_801727C8_0 {
-    u8 pad_00[0x8C];
-    ActorActionHandler unk_8C;
-    u8 pad_90[0x6];
-    u16 unk_96;
-    u16 unk_98;
-    u8 pad_9A[0x1];
-    u8 unk_9B;
-    u8 pad_9C[0x8];
-    s32 unk_A4;
-    s16 unk_A8;
-} S_801727C8_0;   /* arg0 in update_actor_action_target_and_animation */
 
    /* the 0x14 bytes before owner in update_actor_action_target_and_animation, addressed as owner[-1] */
 
@@ -137,9 +125,9 @@ void update_actor_action_target_and_animation(ActorRecord *action, ObjectPositio
                     target_owner = primary_actor_record;
                     actor->target = target_owner;
                     {
-                        void *owner = target_owner;
+                        ObjectNodeHeader *owner = target_owner;
 
-                        slot = (s32)(((ObjectNodeHeader *)owner - 1)->sprite);
+                        slot = (s32)((owner - 1)->sprite);
                         actor->target_tile_x = (s8) ((MovingTile *)((void *)slot))->tile_x;
                         actor->target_tile_y = (s8) ((MovingTile *)((void *)slot))->tile_y;
                     }

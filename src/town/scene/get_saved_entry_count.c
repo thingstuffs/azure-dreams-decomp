@@ -1,5 +1,6 @@
 #include "common.h"
 #include "shared/record_ptrs.h"
+#include "shared/town_root.h"
 
 extern u8 D_80016524[];
 extern u8 D_80016578[];
@@ -10,7 +11,7 @@ extern void *D_80017C7C;
 
 /* Selects a data table using the current object's ID at offset 8. */
 void get_saved_entry_count(void) {
-    switch (*(s32 *)((u8 *)town_scene_root + 8)) {
+    switch (town_scene_root->entry_index) {
     case 37:
         D_80017C7C = D_80016524;
         return;

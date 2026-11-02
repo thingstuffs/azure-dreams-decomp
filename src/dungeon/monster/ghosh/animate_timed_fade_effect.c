@@ -20,10 +20,6 @@ typedef struct S_8016A9FC_0 {
     u16 unk_1A;
 } S_8016A9FC_0;   /* arg0 in animate_timed_fade_effect */
 
-typedef struct S_8016A9FC_1 {
-    u8 pad_00[0xA];
-    u16 unk_0A;
-} S_8016A9FC_1;   /* counter_base in animate_timed_fade_effect */
 
 /* Handles a timed fade-out and fade-in, then marks the effect complete. */
 void animate_timed_fade_effect(void *effect_arg) {

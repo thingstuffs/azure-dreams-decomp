@@ -7,12 +7,6 @@ typedef struct S_8016F99C_0_pre {
 } S_8016F99C_0_pre;   /* the 0x2 bytes before arg0 in animate_encounter_overlay_slide, addressed as arg0[-1] */
 
 
-typedef struct S_8016F99C_1 {
-    u8 pad_00[0x6];
-    u16 unk_06;
-    u8 pad_08[0x2];
-    u16 unk_0A;
-} S_8016F99C_1;   /* arg1 in animate_encounter_overlay_slide */
 
 
 extern void *encounter_object_slots[];

@@ -156,7 +156,7 @@ void update_bank_actor_movement(ActorRecord *entity, ObjectPosition *motion_arg,
         return;
     }
 
-    state_or_facing = (s8)(*((u8 *)entity + (0x6D)));
+    state_or_facing = (s8)(u8)entity->pending_turn_updates;
     if (refresh_actor_facing_and_lifecycle(entity, motion_arg, sprite_arg, entity) != 0) {
         return;
     }
@@ -1986,7 +1986,7 @@ void handle_actor_action_effects(ActorRecord *controller, ObjectPosition *motion
         on_actor_status_updated(actor);
         if ((get_entity_effect_value(actor, STATUS_SLEEP) << 16) != 0) {
             TileObject *origin = &reference_tile_object;
-            s8 tile = ((Rec_D_80082E80 *)sprite)->unk_26.as_s8;
+            s8 tile = (s8)sprite->room_index;
 
             if (((tile == origin->room_index) && (tile >= 0)) ||
                 ((s16)get_tile_chebyshev_distance(origin, sprite) < 2)) {
@@ -2359,13 +2359,6 @@ void update_bank_effect_fade(void *effect_arg, MovingPosition *position, SpriteF
 #include "shared/entity.h"
 #include "records/Rec_D_80082E80.h"
 
-typedef struct S_801740F4_1 {
-    u8 pad_00[0x8C];
-    s32 unk_8C;
-    u8 pad_90[0xA];
-    s8 unk_9A;
-    s8 unk_9B;
-} S_801740F4_1;   /* work in start_bank_actor_hit_reaction */
 
 extern void *get_unused_text_buffer(void);
 extern u8 *expand_text_control_codes();

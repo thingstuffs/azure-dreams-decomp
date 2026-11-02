@@ -47,10 +47,6 @@ typedef struct S_800AD058_2_pre {
 } S_800AD058_2_pre;   /* the 0x2 bytes before arg3_local in update_actor_defeat_removal, addressed as arg3_local[-1] */
 
 
-typedef struct S_800AD058_3 {
-    union { struct { s32 v; } at00; struct { u8 pad[0x2]; s16 v; } at02; } unk_00;   /* overlapping accesses */
-    union { struct { s32 v; } at00; struct { u8 pad[0x2]; s16 v; } at02; } unk_04;   /* overlapping accesses */
-} S_800AD058_3;   /* arg1 in update_actor_defeat_removal */
 
 
 /* Fades or spirals an entity away, then removes it and updates dungeon state. */

@@ -171,10 +171,10 @@ void update_actor_behavior_2(ActorRecord *body, ObjectPosition *position, Sprite
         break;
     case 2:
         if (sprite->flags & 0xE000) {
-            u8 *counter_base;
+            S_80173DD4_3 *counter_base;
 
-            counter_base = (u8 *)&g_dungeon_status.turn_scale;
-            ((S_80173DD4_3 *)counter_base)->unk_0A--;
+            counter_base = (S_80173DD4_3 *)&g_dungeon_status.turn_scale;
+            counter_base->unk_0A--;
             body->unk_8C.address = update_actor_animation;
         } else {
             create_randomized_motion_object(body, position);

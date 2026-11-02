@@ -34,14 +34,6 @@ typedef struct S_func_810332A4_2 {
     s32 unk_10;
 } S_func_810332A4_2;
 
-typedef struct S_func_810332A4_3 {
-    u8 pad_00[0xC];
-    u8 unk_0C;
-    u8 unk_0D;
-    u8 unk_0E;
-    u8 pad_0F[5];
-    u16 unk_14;
-} S_func_810332A4_3;
 
 
 typedef struct S_func_810332A4_5 {

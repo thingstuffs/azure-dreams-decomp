@@ -1,60 +1,6 @@
 #include "common.h"
 #include "shared/object_payload.h"
-
-typedef struct S_801232DC_0 {
-    void * unk_00;
-} S_801232DC_0;
-
-typedef struct S_801232DC_1 {
-    void * unk_00;
-    void * unk_04;
-    union { struct { void * v; } at00; struct { u8 pad[0x2]; s16 v; } at02; } unk_08;   /* overlapping accesses */
-} S_801232DC_1;   /* object in layout_catalog_entry_grid */
-
-typedef struct S_801232DC_2 {
-    u8 pad_00[0x4];
-    void * unk_04;
-} S_801232DC_2;
-
-typedef struct S_801232DC_3 {
-    void * unk_00;
-    void * unk_04;
-} S_801232DC_3;
-
-typedef struct S_801232DC_4 {
-    void * unk_00;
-} S_801232DC_4;   /* object_base[0x61] in layout_catalog_entry_grid */
-
-
-
-typedef struct S_801232DC_6 {
-    u8 pad_00[0x8];
-    union { u16 s; s16 u; } unk_08;   /* accessed as both */
-    u16 unk_0A;
-} S_801232DC_6;   /* ((S_801232DC_1 *)object)->unk_04 in layout_catalog_entry_grid */
-
-typedef struct S_801232DC_7 {
-    u8 pad_00[0x8];
-    s16 unk_08;
-    s16 unk_0A;
-} S_801232DC_7;
-
-typedef struct S_801232DC_8 {
-    u8 pad_00[0x8];
-    s16 unk_08;
-    s16 unk_0A;
-} S_801232DC_8;
-
-typedef struct S_801232DC_9 {
-    u8 pad_00[0x6];
-    s16 unk_06;
-} S_801232DC_9;
-
-typedef struct S_801232DC_10 {
-    u8 pad_00[0x8];
-    s16 unk_08;
-} S_801232DC_10;   /* ((S_801232DC_1 *)object)->unk_08.at00.v in layout_catalog_entry_grid */
-
+#include "town/menu/catalog_parts.h"
 
 typedef struct TownInitialPosition {
     void *data;
@@ -65,7 +11,6 @@ typedef struct TownInitialPosition {
 extern void initialize_catalog_entry_packets(void);
 extern TownInitialPosition catalog_grid_layout[5];
 extern s8 D_80128614[];
-extern void *catalog_display_node_slots[];
 extern s8 catalog_grid_packets[];
 
 /* Initialize town object data, grid positions, and display dimensions. */
@@ -85,31 +30,32 @@ void layout_catalog_entry_grid(void)
     s32 final_width;
     s32 final_x;
     u16 initial_y;
-    S_801232DC_1 *object;
-    void **display_slot;
-    void **initial_slot;
-    void **entry_slot;
-    void **group_slot;
+    ItemMenuPart *object;
+    ItemMenuPartPosition *position;
+    ItemMenuPart **display_slot;
+    ItemMenuPart **initial_slot;
+    ItemMenuPart **entry_slot;
+    ItemMenuPart **group_slot;
 
     object_index = 0x1C;
     initialize_catalog_entry_packets();
     initial_index = 0;
     {
-        void **object_base;
+        ItemMenuPart **object_base;
         object_base = catalog_display_node_slots;
         initial_slot = &object_base[0x1C];
     }
     initial_pos = catalog_grid_layout;
 initial_loop:
-    ((S_801232DC_0 *)(*initial_slot))->unk_00 = initial_pos->data;
+    (*initial_slot)->handler = initial_pos->data;
     object = *initial_slot;
     initial_index += 1;
-    ((S_801232DC_6 *)(object->unk_04))->unk_08.s = initial_pos->x;
+    object->position->x = initial_pos->x;
     object_index += 1;
     object = *initial_slot;
     initial_y = initial_pos->y;
     initial_pos += 1;
-    ((S_801232DC_6 *)(object->unk_04))->unk_0A = initial_y;
+    object->position->y = initial_y;
     initial_slot += 1;
     if (initial_index < 5) {
         goto initial_loop;
@@ -118,50 +64,50 @@ initial_loop:
     initial_index = 0;
     group_data = catalog_grid_packets;
     {
-        void **object_base;
+        ItemMenuPart **object_base;
         object_base = catalog_display_node_slots;
         object_offset = object_index << 2;
-        group_slot = (void **)(object_offset + (u8 *)object_base);
+        group_slot = (ItemMenuPart **)(object_offset + (u8 *)object_base);
     }
     do {
         object = *group_slot;
         column_offset = initial_index >> 3;
-        object->unk_00 = group_data;
+        object->handler = group_data;
         object = *group_slot;
         column_offset <<= 7;
-        ((S_801232DC_6 *)(object->unk_04))->unk_08.u = column_offset + 0x38;
+        object->position->x = column_offset + 0x38;
         row_offset = (initial_index & 7) * 0x12;
-        ((S_801232DC_7 *)(((S_801232DC_2 *)(*group_slot))->unk_04))->unk_0A = row_offset + 0x2C;
+        (*group_slot)->position->y = row_offset + 0x2C;
         group_slot += 1;
-        ((S_801232DC_7 *)(((S_801232DC_2 *)(*group_slot))->unk_04))->unk_08 = column_offset + 0x3E;
+        (*group_slot)->position->x = column_offset + 0x3E;
         object_index += 3;
         object = *group_slot;
         detail_y = row_offset + 0x30;
-        object = object->unk_04;
+        position = object->position;
         group_slot += 1;
-        object->unk_08.at02.v = detail_y;
+        position->y = detail_y;
         group_data += 0xC;
-        ((S_801232DC_7 *)(((S_801232DC_2 *)(*group_slot))->unk_04))->unk_08 = column_offset + 0x44;
+        (*group_slot)->position->x = column_offset + 0x44;
         initial_index += 1;
-        ((S_801232DC_7 *)(((S_801232DC_2 *)(*group_slot))->unk_04))->unk_0A = detail_y;
+        (*group_slot)->position->y = detail_y;
         group_slot += 1;
     } while (initial_index < 0x10);
 
     initial_index = 0;
     {
-        void **object_base;
+        ItemMenuPart **object_base;
         object_base = catalog_display_node_slots;
-        entry_slot = (void **)((object_index << 2) + (u8 *)object_base);
+        entry_slot = (ItemMenuPart **)((object_index << 2) + (u8 *)object_base);
     }
     entry_data = catalog_grid_packets;
     do {
         column = initial_index >> 3;
         row = initial_index & 7;
         initial_index += 1;
-        ((S_801232DC_3 *)(*entry_slot))->unk_00 = entry_data;
+        (*entry_slot)->handler = entry_data;
         entry_data += 0xC;
-        ((S_801232DC_8 *)(((S_801232DC_3 *)(*entry_slot))->unk_04))->unk_08 = (column << 7) + 0x54;
-        ((S_801232DC_8 *)(((S_801232DC_3 *)(*entry_slot))->unk_04))->unk_0A = row * 0x12 + 0x30;
+        (*entry_slot)->position->x = (column << 7) + 0x54;
+        (*entry_slot)->position->y = row * 0x12 + 0x30;
         entry_slot += 1;
     } while (initial_index < 0x10);
 
@@ -169,16 +115,16 @@ initial_loop:
     final_width = 0x10;
     final_x = 0xE0;
     {
-        void **object_base;
+        ItemMenuPart **object_base;
         object_base = catalog_display_node_slots;
         display_slot = &object_base[0x1C];
-        ((S_801232DC_4 *)(object_base[0x61]))->unk_00 = D_80128614;
+        object_base[0x61]->handler = D_80128614;
     }
     do {
-        ((S_801232DC_9 *)(((ObjectPayloadView *)(*display_slot))->unk_08))->unk_06 = final_width;
+        ((CatalogDisplayVector *)(*display_slot)->vector)->signed_halves.unk_06 = final_width;
         object = *display_slot;
         initial_index += 1;
-        ((S_801232DC_10 *)(object->unk_08.at00.v))->unk_08 = final_x;
+        ((CatalogDisplayVector *)object->vector)->signed_halves.unk_08 = final_x;
         display_slot += 1;
     } while (initial_index < 0x46);
 }

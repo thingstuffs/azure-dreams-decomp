@@ -13,14 +13,14 @@ extern u16 town_facing_angles[];
 extern void install_object_handler_and_clear_slot_flag(void *, void *, void *, void *);
 
 /* Deactivate the town slot, apply its variant to the object and child, and update the object. */
-void deactivate_town_slot_and_apply_variant(void *town_object, void *passthru_1, void *passthru_2, void *child)
+void deactivate_town_slot_and_apply_variant(TownObjectRecord *town_object, void *passthru_1, void *passthru_2, void *child)
 {
     u32 slot;
     u8 raw_variant;
     ObjectIndexSlot *slot_table;
 
     slot_table = object_index_slots;
-    slot = (u32)(&slot_table[*(s32 *)((u8 *)town_object + 0x60)]);
+    slot = (u32)(&slot_table[town_object->slot]);
     raw_variant = ((TownSlot *)slot)->variant;
     ((TownSlot *)slot)->active = 0;
     child = *(void **)((u8 *)town_object + 0x98);
@@ -28,6 +28,6 @@ void deactivate_town_slot_and_apply_variant(void *town_object, void *passthru_1,
     if (child != 0) {
         *((u8 *)child + 4) = slot;
     }
-    *(u16 *)((u8 *)town_object + 0x6E) = town_facing_angles[slot];
+    town_object->unk_6E = town_facing_angles[slot];
     install_object_handler_and_clear_slot_flag(town_object, passthru_1, passthru_2, child);
 }

@@ -15,12 +15,6 @@ typedef struct S_80093E74_1 {
     u8 unk_03;
 } S_80093E74_1;
 
-typedef struct S_80093E74_2 {
-    u8 pad_00[0x13];
-    u8 unk_13;
-    u8 pad_14[0x94];
-    u8 unk_A8;
-} S_80093E74_2;
 
 typedef struct S_80093E74_5 {
     void * unk_00;

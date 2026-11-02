@@ -283,7 +283,7 @@ void update_actor_state_and_select_target(ActorRecord *entity, ObjectPosition *c
         return;
     }
 
-    if (((R12_80170E70_S_80170E70_1 *)actor)->unk_1C & 0x200) {
+    if ((u32)actor->flags1C & 0x200) {
         if (sprite->frameTable == arachne_alt_direction_frames) {
             entity->action_id.u = 13;
             entity->action_phase.u = 1;
@@ -297,7 +297,7 @@ void update_actor_state_and_select_target(ActorRecord *entity, ObjectPosition *c
     }
 
     if ((g_dungeon_status.flags & 0x2000) == 0) {
-        if (((R12_80170E70_S_80170E70_1 *)actor)->unk_1C & 0x100) {
+        if ((u32)actor->flags1C & 0x100) {
             begin_pushed_actor_move(entity, context, sprite, actor);
             return;
         }
@@ -323,7 +323,7 @@ void update_actor_state_and_select_target(ActorRecord *entity, ObjectPosition *c
             }
         }
 
-        if (((R12_80170E70_S_80170E70_1 *)actor)->unk_1C & 0x80000) {
+        if ((u32)actor->flags1C & 0x80000) {
             begin_actor_move_to_target_facing(entity, context, sprite, actor);
             update_arachne_parent_motion(entity, context, sprite, actor);
             return;
@@ -340,7 +340,7 @@ void update_actor_state_and_select_target(ActorRecord *entity, ObjectPosition *c
     sprite->room_index = tile_id;
 
     if (actor->pending_turn_updates > 0) {
-        if (((R12_80170E70_S_80170E70_1 *)actor)->unk_1C & 0x20) {
+        if ((u32)actor->flags1C & 0x20) {
             update_actor_status_and_mp(actor);
             return;
         }
@@ -407,7 +407,7 @@ void update_actor_state_and_select_target(ActorRecord *entity, ObjectPosition *c
         }
     }
 
-    actor_flags = ((R12_80170E70_S_80170E70_1 *)actor)->unk_1C;
+    actor_flags = (u32)actor->flags1C;
     if ((actor_flags & 0x2000) == 0) {
         if ((tile_id < 0) ||
             ((dungeon_rooms[tile_id].flags & 2) == 0)) {

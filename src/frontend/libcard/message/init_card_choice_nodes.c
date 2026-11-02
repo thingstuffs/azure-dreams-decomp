@@ -1,14 +1,7 @@
+#include "frontend/libcard/paired_choice.h"
 #include "frontend/libcard/message.h"
 
 /* create_visual_object clears a 0xF0-byte body and requests four nodes. */
-typedef struct CardChoiceOwner {
-    /* 0x00 */ u8 pad_00[0x44];
-    /* 0x44 */ DisplayPositionWords vector;
-    /* 0x50 */ u8 pad_50[0x10];
-    /* 0x60 */ CardDisplayNode *pointers[4];
-    /* 0x70 */ CardDisplayNode nodes[4];
-    /* 0xB0 */ CardDisplayBlock blocks[4];
-} CardChoiceOwner;
 
 /* Sibling message files declare these templates through their own local views. */
 extern CardDisplayBlock display_block_defaults;

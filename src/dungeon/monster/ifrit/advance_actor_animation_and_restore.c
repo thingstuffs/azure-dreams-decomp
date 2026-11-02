@@ -13,14 +13,6 @@
 #include "dungeon/actor.h"
 #include "dungeon/effect/screen.h"
 
-typedef struct S_801726D4_0 {
-    u8 pad_00[0x8C];
-    s32 * unk_8C;
-    u8 pad_90[0x6];
-    u16 unk_96;
-    u8 pad_98[0x3];
-    u8 unk_9B;
-} S_801726D4_0;   /* arg0 in advance_actor_animation_and_restore */
 
 extern void set_record_integer_tile_center(ObjectPosition *, s32, s32);
 

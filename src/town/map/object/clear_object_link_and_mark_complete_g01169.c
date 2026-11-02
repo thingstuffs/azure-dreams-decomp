@@ -6,6 +6,7 @@
 #include "town/map/object.h"
 #include "town/scene.h"
 #include "town/scene/object.h"
+#include "shared/sprite_frame_state.h"
 
 /* On a successful object check, clear its linked byte and set object and global flags. */
 void clear_object_link_and_mark_complete(S_func_800BB508_0 *object, void *context) {
@@ -45,8 +46,8 @@ void initialize_object_state_and_appearance(void *object_id, ObjectPosition *obj
 }
 
 /* Update the object and advance its state angle by 0x20 modulo 0x1000. */
-void advance_object_state_angle(void *object, void *context, void *state) {
-    u16 *angle = (u16 *)((u8 *)state + 0x1A);
+void advance_object_state_angle(void *object, void *context, SpriteFrameState *state) {
+    u16 *angle = &state->angle_z;
     s32 t;
     clear_object_link_and_mark_complete(object, context);
     *angle += 0x20;

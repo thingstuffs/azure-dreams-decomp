@@ -6,12 +6,6 @@
 #include "engine/graphics.h"
 #include "dungeon/effect.h"
 
-typedef struct S_809A0A34_1 {
-    u8 pad_00[0x98];
-    u16 unk_98;
-    s8 unk_9A;
-    s8 unk_9B;
-} S_809A0A34_1;   /* arg0 in start_kewne_attack_action */
 
 typedef struct Ent Ent;
 Ent *prepare_directional_attack(); /* extern */

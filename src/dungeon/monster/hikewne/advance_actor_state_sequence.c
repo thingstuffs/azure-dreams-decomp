@@ -9,20 +9,6 @@
 #include "shared/entity.h"
 #include "records/Rec_D_80082E80.h"
 
-typedef struct S_8017360C_0 {
-    u8 pad_00[0x8C];
-    void * unk_8C;
-    u8 pad_90[0x2];
-    union { s16 s; u16 u; } unk_92;   /* accessed as both */
-    u8 pad_94[0x2];
-    u16 unk_96;
-    u8 pad_98[0x3];
-    u8 unk_9B;
-    u8 pad_9C[0x2];
-    u16 unk_9E;
-    u8 pad_A0[0x2];
-    u16 unk_A2;
-} S_8017360C_0;   /* arg0 in advance_actor_state_sequence */
 
 extern s32 get_entity_effect_value(void *, s32);
 extern void clear_slots_of_type(void *, s32);

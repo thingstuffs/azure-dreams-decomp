@@ -909,7 +909,7 @@ s32 select_creature_action_and_target(ObjectPosition *unused, u8 *position, Acto
         if ((u32)((distance - 2) & 0xFFFF) >= 7) {
             break;
         }
-        height = *(u16 *)((u8 *)creature + 0x88);
+        height = (u16)creature->ground_height;
         scan_index = 0;
         direction = ((u32)get_rounded_facing_and_rounding_flag(((TileObject *)position)->tile_position.parts.tile_x, ((TileObject *)position)->tile_position.parts.tile_y, player_pos->tile_position.parts.tile_x, player_pos->tile_position.parts.tile_y, &action_or_flags) >> 9) & 7;
         tile_x = ((TileObject *)position)->tile_position.parts.tile_x;

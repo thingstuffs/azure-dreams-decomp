@@ -9,12 +9,6 @@
 
 typedef struct Ent Ent;
 
-typedef struct S_801721C0_1 {
-    u8 pad_00[0x98];
-    u16 unk_98;
-    s8 unk_9A;
-    s8 unk_9B;
-} S_801721C0_1;   /* arg0 in finish_actor_tile_move_and_check_trap */
 
 Ent *prepare_directional_attack(); /* extern */
 s16 try_claim_dungeon_action_slot(ActorRecord *actor);                          /* extern */

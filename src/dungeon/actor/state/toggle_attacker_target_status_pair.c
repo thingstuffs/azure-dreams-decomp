@@ -21,7 +21,7 @@ extern s32 D_800E1996[];
 extern s32 D_800E19AA[];
 
 /* Toggle the 0xB/0xC status pair between attacker and target: roll the attacker's 0x3 chance plus its 0x11 bonus against 0x30, apply or clear the status on the target, and report whether the attempt did not fail. */
-u32 toggle_attacker_target_status_pair(ActorRecord *attacker, void *target) {
+u32 toggle_attacker_target_status_pair(ActorRecord *attacker, ActorRecord *target) {
     s32 roll;
     s32 status;
     s32 shifted;
@@ -30,7 +30,7 @@ u32 toggle_attacker_target_status_pair(ActorRecord *attacker, void *target) {
 
     status = -1;
     if (is_linked_entity_flagged_100000(target) != 0) {
-        if (*(s32 *)((s8 *)target + 0x14) & ACTOR_PARTY_MEMBER) {
+        if (target->flags14 & ACTOR_PARTY_MEMBER) {
             adjust_source_value_and_finalize(target, &D_800E196F);
         }
         return 0;
@@ -44,7 +44,7 @@ u32 toggle_attacker_target_status_pair(ActorRecord *attacker, void *target) {
     }
     if (chance >= 0x30) {
         if (attacker->flags1C & 0x2000) {
-            if (!(*(s32 *)((s8 *)target + 0x1C) & ACTOR_PLAYER_SIDE)) {
+            if (!(target->flags1C & ACTOR_PLAYER_SIDE)) {
                 if ((get_entity_effect_value(target, STATUS_BRAINWASH) << 0x10) != 0) {
                     clear_slots_of_type(target, STATUS_BRAINWASH);
                     status = 0;
@@ -62,7 +62,7 @@ u32 toggle_attacker_target_status_pair(ActorRecord *attacker, void *target) {
                     }
                 }
             }
-        } else if (*(s32 *)((s8 *)target + 0x1C) & ACTOR_PLAYER_SIDE) {
+        } else if (target->flags1C & ACTOR_PLAYER_SIDE) {
             if ((get_entity_effect_value(target, STATUS_PLAYER_SIDE) << 0x10) != 0) {
                 clear_slots_of_type(target, STATUS_PLAYER_SIDE);
                 status = 0;
@@ -78,7 +78,7 @@ u32 toggle_attacker_target_status_pair(ActorRecord *attacker, void *target) {
     shifted = status << 0x10;
     if (shifted < 0) {
 block_error:
-        if (*(s32 *)((s8 *)target + 0x14) & ACTOR_PARTY_MEMBER) {
+        if (target->flags14 & ACTOR_PARTY_MEMBER) {
             adjust_source_value_and_finalize(target, &D_800E19AA);
         }
         shifted = status << 0x10;

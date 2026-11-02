@@ -12,25 +12,7 @@
 
 
 
-typedef struct S_8016AC30_0 {
-    u8 pad_00[0x2];
-    s16 unk_02;
-    u8 pad_04[0x2];
-    s16 unk_06;
-    u8 pad_08[0x2];
-    s16 unk_0A;
-} S_8016AC30_0;   /* position in allocate_and_initialize_object */
 
-typedef struct S_8016AC30_1 {
-    u8 pad_00[0x8];
-    void * unk_08;
-    s8 unk_0C;
-    s8 unk_0D;
-    s8 unk_0E;
-    u8 pad_0F[0xD];
-    s16 unk_1C;
-    s16 unk_1E;
-} S_8016AC30_1;   /* primitive in allocate_and_initialize_object */
 
 /* Allocate and initialize a dungeon object, then increment the object count. */
 void allocate_and_initialize_object(void) {

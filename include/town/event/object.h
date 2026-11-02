@@ -27,7 +27,7 @@ void initialize_object_action_with_default_data(TownObjectRecord *object, Object
 void initialize_object_and_maybe_play_sound(u8 *context, s8 *object, s32 *state);
 
 /* initialize_timed_object_action.c */
-void initialize_timed_object_action(TownObjectRecord *context, ObjectPosition *source, void *record);
+void initialize_timed_object_action(TownObjectRecord *context, ObjectPosition *source, struct SpriteFrameState *record);
 
 /* select_object_value_by_height_band.c */
 void select_object_value_by_height_band(TownObjectRecord *object, void *context, EntityRec *position, Rec_D_80082E80 *output);

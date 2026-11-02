@@ -1,21 +1,21 @@
 #include "shared/record_ptrs.h"
+#include "shared/town_root.h"
 typedef signed char s8;
 typedef short s16;
 typedef int s32;
 
 typedef void (*Callback)();
 
-
 /* Invoke the callback and add two signed deltas to the current stats. */
 void apply_signed_stat_deltas(void *stat_deltas)
 {
-    void *first_stats;
-    void *second_stats;
+    TownPositionState *first_stats;
+    TownPositionState *second_stats;
 
-    (*(Callback *)((s8 *)*(void **)((s8 *)town_scene_root + 0x20) + 0x258))(1);
+    ((Callback)(town_scene_root->services->callback_258))(1);
 
-    first_stats = *(void **)((s8 *)town_scene_root + 0x1C);
-    *(s32 *)((s8 *)first_stats + 4) += *(s16 *)((s8 *)stat_deltas + 0);
-    second_stats = *(void **)((s8 *)town_scene_root + 0x1C);
-    *(s32 *)((s8 *)second_stats + 8) += *(s16 *)((s8 *)stat_deltas + 2);
+    first_stats = town_scene_root->position;
+    first_stats->x += *(s16 *)((s8 *)stat_deltas + 0);
+    second_stats = town_scene_root->position;
+    second_stats->y += *(s16 *)((s8 *)stat_deltas + 2);
 }

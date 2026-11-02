@@ -10,18 +10,6 @@
 #include "shared/entity.h"
 #include "records/Rec_D_80082E80.h"
 
-typedef struct S_80173E50_0 {
-    u8 pad_00[0x8C];
-    void * unk_8C;
-    u8 pad_90[0x2];
-    u16 unk_92;
-    u8 pad_94[0x7];
-    u8 unk_9B;
-    u8 pad_9C[0x2];
-    s16 unk_9E;
-    u8 pad_A0[0x2];
-    u16 unk_A2;
-} S_80173E50_0;   /* arg0 in advance_actor_action_and_refresh_animation */
 
 extern s32 get_entity_effect_value(ActorRecord *entry, s32 effect_id);
 extern void clear_slots_of_type(ActorRecord *owner, s8 match_type);

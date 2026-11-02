@@ -11,19 +11,7 @@ typedef struct S_800B06C0_0 {
     s32 unk_C0;
 } S_800B06C0_0;   /* arg2 in combine_base_and_offset_values */
 
-typedef struct S_800B06C0_1 {
-    u8 pad_00[0x2];
-    u16 unk_02;
-    u8 pad_04[0x2];
-    u16 unk_06;
-    u8 pad_08[0x2];
-    s16 unk_0A;
-} S_800B06C0_1;   /* arg0 in combine_base_and_offset_values */
 
-typedef struct S_800B06C0_2 {
-    u8 pad_00[0x4];
-    s8 unk_04;
-} S_800B06C0_2;   /* arg1 in combine_base_and_offset_values */
 
 /* Copy two base values and combine the base and offset into the output. */
 void combine_base_and_offset_values(ObjectPosition *base_values, SpriteFrameState *offset_values, S_800B06C0_0 *output) {

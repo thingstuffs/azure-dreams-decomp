@@ -28,9 +28,6 @@ typedef struct {
     u32 flags;
 } DungeonControl;
 
-typedef struct S_80089588_3 {
-    s32 unk_00;
-} S_80089588_3;
 
 typedef struct S_80089588_4 {
     u8 pad_00[0x8D0];

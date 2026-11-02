@@ -54,7 +54,7 @@ void advance_item_action_and_cleanup(ActorRecord *body, ObjectPosition *motion, 
     s32 item_index;
     s32 audio_index;
     void *resource;
-    void *target;
+    ObjectNodeHeader *target;
 
     state = body->action_phase.u;
     item_or_audio_base = 0;
@@ -95,15 +95,15 @@ void advance_item_action_and_cleanup(ActorRecord *body, ObjectPosition *motion, 
     }
     D_80175F6E = state;
     if (has_item != 0) {
-        target = primary_actor_record;
+        target = (ObjectNodeHeader *)primary_actor_record;
         ((ActorRecord *)actor)->target = target;
-        state = (s32)((ObjectNodeHeader *)target - 1)->sprite;
+        state = (s32)(target - 1)->sprite;
         ((ActorRecord *)actor)->target_tile_x = ((ActorRecord *)state)->mp_value.parts.fraction;
         ((ActorRecord *)actor)->target_tile_y = ((ActorRecord *)state)->mp_value.parts.whole;
     } else if (item_action_definitions[*item_addr].kind == 2) {
         target = ((ActorRecord *)actor)->target;
         if (target != 0) {
-            state = (s32)((ObjectNodeHeader *)target - 1)->sprite;
+            state = (s32)(target - 1)->sprite;
             ((ActorRecord *)actor)->target_tile_x = ((ActorRecord *)state)->mp_value.parts.fraction;
             ((ActorRecord *)actor)->target_tile_y = ((ActorRecord *)state)->mp_value.parts.whole;
         }

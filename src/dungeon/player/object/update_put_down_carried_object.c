@@ -11,14 +11,6 @@ extern s32 held_item_record;
 extern void *player_put_down_target;
 extern s32 saved_held_item_word;
 
-typedef struct S_8008F878_0 {
-    u8 pad_00[0x8C];
-    void (*unk_8C)(void *, void *, void *, void *);
-    u8 pad_90[0xB];
-    u8 unk_9B;
-    u8 pad_9C[0x88];
-    void * unk_124;
-} S_8008F878_0;   /* arg0 in update_put_down_carried_object */
 
 typedef struct S_8008F878_1 {
     u8 pad_00[0x8];
@@ -39,14 +31,6 @@ typedef struct S_8008F878_3 {
     s8 unk_13;
 } S_8008F878_3;
 
-typedef struct S_8008F878_5 {
-    u8 pad_00[0x1C];
-    s32 unk_1C;
-    u8 pad_20[0xA];
-    u16 unk_2A;
-    u8 pad_2C[0x30];
-    s32 unk_5C;
-} S_8008F878_5;   /* arg3 in update_put_down_carried_object */
 
    /* ((S_8008F878_2 *)(&D_800DD25C))->unk_00.p in update_put_down_carried_object */
 

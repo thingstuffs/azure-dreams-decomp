@@ -9,7 +9,7 @@
 
 
 /* Move the record value toward 0x4C2 by four and invoke completion handlers on arrival. */
-void raise_record_value_to_target(s32 context_id, EntityRec *record, s32 context) {
+void raise_record_value_to_target(s32 context_id, ObjectPosition *record, s32 context) {
     s16 raised_value;
     s16 lowered_value;
     u16 current_value;

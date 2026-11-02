@@ -5,10 +5,6 @@
 #include "shared/dungeon_status.h"
 #include "dungeon/player.h"
 
-typedef struct S_800AD594_1 {
-    u8 pad_00[0xA];
-    u16 unk_0A;
-} S_800AD594_1;   /* counterBase in spend_actor_mp */
 
 
 extern s32 get_entity_effect_value(void *, s32);

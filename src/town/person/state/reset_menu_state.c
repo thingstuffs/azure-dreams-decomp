@@ -12,8 +12,8 @@ extern u8 D_800D55D0[];
 extern u8 D_800D55D4[];
 
 /* Resets menu state and switches handlers when the input flags request it. */
-void reset_menu_state(TownObjectRecord *menu, ObjectPosition *update_arg, void *input) {
-    if (*(u16 *)((u8 *)input + 0x14) & 0x6000) {
+void reset_menu_state(TownObjectRecord *menu, ObjectPosition *update_arg, SpriteFrameState *input) {
+    if (input->flags & 0x6000) {
         initialize_object_entries(menu, input, person_menu_object_entries);
         object_index_slots[menu->slot].unk_00 = 0;
         *(void **)((u8 *)menu + 0x58) = D_800D55D0;

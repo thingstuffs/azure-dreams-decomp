@@ -58,10 +58,6 @@ typedef struct S_80172610_4 {
     u8 * unk_2C;
 } S_80172610_4;   /* context in update_boss_actor_direction_state */
 
-typedef struct S_80172610_5 {
-    u8 pad_00[0xC8];
-    s16 unk_C8;
-} S_80172610_5;   /* state in update_boss_actor_direction_state */
 
    /* output in update_boss_actor_direction_state */
 

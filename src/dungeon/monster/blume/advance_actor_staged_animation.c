@@ -16,21 +16,7 @@ extern u8 blume_action_resume_address[];
 
 extern u8 D_801753E4[];
 
-typedef struct S_801735E8_0 {
-    u8 pad_00[0x8C];
-    u8 * unk_8C;
-    u8 pad_90[0x6];
-    u16 unk_96;
-    u8 pad_98[0x3];
-    u8 unk_9B;
-} S_801735E8_0;   /* base0 in advance_actor_staged_animation */
 
-typedef struct S_801735E8_3 {
-    u8 pad_00[0xC];
-    s32 unk_0C;
-    s32 unk_10;
-    s32 unk_14;
-} S_801735E8_3;   /* arg1 in advance_actor_staged_animation */
 
 /* Advances the actor's staged animation sequence and handles completion. */
 void advance_actor_staged_animation(ActorRecord *action_data, ObjectPosition *motion, SpriteFrameState *animation, ActorRecord *actor) {

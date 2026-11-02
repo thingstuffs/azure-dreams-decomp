@@ -3,6 +3,21 @@
 
 #include "common.h"
 
+struct FallingTimedSceneObject;
+
+struct ObjectPosition;
+
+/* Controller shared by the timed actor creator and its falling objects. */
+typedef struct FallingSceneController {
+    s16 state;
+    s16 timer;
+    u16 phase;
+    union { s16 s; u16 u; } value;
+    union { s16 s; u16 u; } level;
+    s16 count;
+    u16 flags;
+} FallingSceneController;
+
 /* Body of the rising effect object: root link, mode, and per-frame state. */
 typedef struct RisingEffectObject {
     /* 0x00 */ void *root;
@@ -18,7 +33,7 @@ void draw_rotating_collection_frame(u8 *object);
 
 /* Callback entry points. */
 void animate_collection_center_sprite(u8 **ctrl, u8 *setup, u8 *view);
-void animate_falling_timed_object(void *obj, void *motion, void *incoming_out);
+void animate_falling_timed_object(struct FallingTimedSceneObject *obj, struct ObjectPosition *motion, void *incoming_out);
 void animate_rising_effect_object(RisingEffectObject *obj, void *state_in, void *input);
 
 /* Owner declarations appended by tools/headers (append-only; the lines above are hand-kept). */

@@ -37,13 +37,13 @@ void update_actor_item_use(ActorRecord *body, ObjectPosition *motion, SpriteFram
     s32 flag;
     s16 effect_count;
     u32 state;
-    void *target;
+    ObjectNodeHeader *target;
 
     flag = 0;
     state = body->action_phase.u;
     switch (state) {
     case 0:
-        if ((*(u32 *)((u8 *)actor + 0x1C)) & ACTOR_PLAYER_SIDE) {
+        if ((u32)actor->flags1C & ACTOR_PLAYER_SIDE) {
             u32 kind_index;
 
             kind_index = (actor->action_flags & 0x3FFF) - 1;
@@ -96,9 +96,9 @@ void update_actor_item_use(ActorRecord *body, ObjectPosition *motion, SpriteFram
 
                 is_special = flag;
                 if (is_special != 0) {
-                    target = primary_actor_record;
+                    target = (ObjectNodeHeader *)primary_actor_record;
                     actor->target = target;
-                    item_id = (SpriteFrameState *)((ObjectNodeHeader *)target - 1)->sprite;
+                    item_id = (target - 1)->sprite;
                     actor->target_tile_x = item_id->tile_x;
                     actor->target_tile_y = item_id->tile_y;
                 } else {
@@ -106,7 +106,7 @@ void update_actor_item_use(ActorRecord *body, ObjectPosition *motion, SpriteFram
                     if (item_action_definitions[((u8)item_id)].kind == 2) {
                         target = actor->target;
                         if (target != 0) {
-                            item_id = (SpriteFrameState *)((ObjectNodeHeader *)target - 1)->sprite;
+                            item_id = (target - 1)->sprite;
                             actor->target_tile_x = item_id->tile_x;
                             actor->target_tile_y = item_id->tile_y;
                         }
@@ -140,7 +140,7 @@ void update_actor_item_use(ActorRecord *body, ObjectPosition *motion, SpriteFram
             g_dungeon_status.active_actor = 0;
             primary_actor_record->unk_A4.halves.high.u--;
             advance_status_timers(actor);
-            (*((u8 *)actor + 0x6D))--;
+            actor->pending_turn_updates = (u8)((u8)actor->pending_turn_updates - 1);
             body->unk_8C.address = update_actor_turn_behavior;
             actor->target_tile_y = 0;
             actor->target_tile_x = 0;
@@ -160,7 +160,7 @@ void update_actor_item_use(ActorRecord *body, ObjectPosition *motion, SpriteFram
     case 2:
         body->action_phase.u++;
         body->action_state_flags &= 0xFFF7;
-        (*(u32 *)((u8 *)actor + 0x1C)) &= 0xFFFBFFFF;
+        actor->flags1C = (u32)((u32)actor->flags1C & (0xFFFBFFFF));
         motion->velocity_z = 0;
         motion->velocity_y = 0;
         motion->velocity_x = 0;
@@ -179,9 +179,9 @@ void update_actor_item_use(ActorRecord *body, ObjectPosition *motion, SpriteFram
 
             floor_height = sample_terrain_surface_height(((u16)motion->x.w.i),
                                   ((u16)motion->y.w.i),
-                                  (s16)((*(u16 *)((u8 *)actor + 0x88)) - 0x20));
+                                  (s16)((u16)actor->ground_height - 0x20));
             if ((body->unk_90.parts.high.s -
-                 (s16)(floor_height - (*(u16 *)((u8 *)actor + 0x88)))) != 0) {
+                 (s16)(floor_height - (u16)actor->ground_height)) != 0) {
                 return;
             }
         }
@@ -284,7 +284,7 @@ void update_actor_item_use(ActorRecord *body, ObjectPosition *motion, SpriteFram
                 0);
             body->unk_9E.u = 0;
             body->action_state_flags |= 8;
-            (*(u32 *)((u8 *)actor + 0x1C)) |= 0x40000;
+            actor->flags1C = (u32)((u32)actor->flags1C | (0x40000));
             body->unk_90.parts.high.s = -0x20;
             sprite->flags &= 0xFFF3;
         }
@@ -299,7 +299,7 @@ void update_actor_item_use(ActorRecord *body, ObjectPosition *motion, SpriteFram
         }
         actor->target_tile_y = 0;
         actor->target_tile_x = 0;
-        (*((u8 *)actor + 0x6D))--;
+        actor->pending_turn_updates = (u8)((u8)actor->pending_turn_updates - 1);
         actor->action_flags &= 0x7FFF;
         play_sound_if_enabled(AUDIO_FADE_CD_FAST);
 

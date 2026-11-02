@@ -16,17 +16,6 @@
 #include "dungeon/item.h"
 #include "dungeon/actor.h"
 
-typedef struct S_8016C190_0 {
-    u8 pad_00[0x8C];
-    u8 * unk_8C;
-    u8 pad_90[0x6];
-    union { s16 s; u16 u; } unk_96;   /* accessed as both */
-    u16 unk_98;
-    u8 pad_9A[0x1];
-    u8 unk_9B;
-    u8 pad_9C[0x10];
-    u8 unk_AC;
-} S_8016C190_0;   /* arg0 in advance_selected_actor_action */
 
    /* the 0x14 bytes before v0 in advance_selected_actor_action, addressed as v0[-1] */
 typedef struct S_8016C190_5 {

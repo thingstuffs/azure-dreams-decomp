@@ -3,6 +3,7 @@
 #include "common.h"
 #include "shared/record_ptrs.h"
 #include "town/scene/dialogue.h"
+#include "shared/town_root.h"
 
 typedef s32 (*TownCallback)(s32, s32);
 
@@ -16,7 +17,7 @@ s32 report_scene_busy_until_message_closes(void) {
     set_script_flag_94c();
     if (func_8001A64C(F_sbs32_pad08) == 0) {
         func_8001A7AC();
-        (*(TownCallback *)((s8 *)*(void **)((s8 *)*(void **)((s8 *)(&town_scene_root)) + 0x20) + 0x2F8))(0xE, 0x200);
+        ((TownCallback)(town_scene_root->services->callback_2F8))(0xE, 0x200);
         result = 0;
     } else {
         result = 1;

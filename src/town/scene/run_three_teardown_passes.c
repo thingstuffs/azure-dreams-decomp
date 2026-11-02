@@ -5,18 +5,10 @@
 #include "town/scene/resource.h"
 #include "shared/town_root.h"
 
-
 extern void func_80019988(void); /* this scene's placed copy of set_current_entry_script_flag */
 extern s32 func_8001991C(s32, s32);
 extern void func_8001A554(s32);
 extern void func_8001A7AC(void);
-
-
-typedef struct S_80017604_1 {
-    u8 pad_00[0x2F8];
-    void (*unk_2F8)(s32, s32);
-} S_80017604_1;   /* ((S_80017604_0 *)(*(void **)D_80016000))->unk_20 in run_three_teardown_passes */
-
 
 /* Run the three teardown passes; when the check fails, stop the scene object and report failure. */
 s32 run_three_teardown_passes(s32 kind, s32 value)
@@ -28,8 +20,7 @@ s32 run_three_teardown_passes(s32 kind, s32 value)
     func_80019988();
     if (func_8001991C(kind, value) == 0) {
         func_8001A7AC();
-        ((S_80017604_1 *)(((Rec_D_80016000 *)(*(void **)((s8 *)(&town_scene_root))))->services))
-        ->unk_2F8(0xE, 0x200);
+        ((void (*)(s32, s32))(town_scene_root->services->callback_2F8))(0xE, 0x200);
         result = 0;
     } else {
         func_8001A554(F_sbs32_pad07);

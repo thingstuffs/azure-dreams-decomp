@@ -38,30 +38,14 @@ typedef struct S_80D659DC_0 {
     s32 unk_20;
 } S_80D659DC_0;
 
-typedef struct S_80D659DC_1 {
-    u8 pad_00[0x2];
-    u16 unk_02;
-} S_80D659DC_1;
 
 typedef struct S_80D659DC_2 {
     s16 unk_00;
     s16 unk_02;
 } S_80D659DC_2;
 
-typedef struct S_80D659DC_3 {
-    u8 pad_00[0x6];
-    u16 unk_06;
-} S_80D659DC_3;
 
-typedef struct S_80D659DC_4 {
-    u8 pad_00[0xC];
-    s32 unk_0C;
-} S_80D659DC_4;
 
-typedef struct S_80D659DC_5 {
-    u8 pad_00[0x10];
-    s32 unk_10;
-} S_80D659DC_5;
 
 /* Spawns an effect offset from the source with randomized velocity biased along the given angle. */
 void spawn_angled_random_velocity_effect(EntityRec *source, u32 angle, s32 effect_param) {

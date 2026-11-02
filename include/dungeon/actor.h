@@ -72,10 +72,6 @@ s32 lookup_definition_pair_value(s16 firstKey, s16 secondKey);
 
 struct DungeonSlot;
 struct CallbackOwner;
-struct ActorHopExtra;
-struct ActorHopMotion;
-struct ActorHopParams;
-struct ActorHopState;
 s32 advance_actor_pending_action(void *actor_state, void *action, void *status, void *actor);
 s32 advance_staged_entity_load(s32 unused, ActorRecord *entity);
 void advance_status_timers(void *record);
@@ -99,7 +95,7 @@ s16 resolve_alternate_spell_id(s32 tile_index);
 s32 select_creature_action_and_target(ObjectPosition *unused, u8 *position, ActorRecord *creature, s32 lower_limit, u16 upper_limit, s8 *status_out_addr);
 s16 select_highest_value_item(s32 records_addr, s32 item_kind);
 s32 update_actor_defeat_removal(ActorRecord *state, ObjectPosition *position, struct SpriteFrameState *sprite, ActorRecord *entity_data);
-s32 update_actor_hop_and_grow(struct ActorHopState *state, ObjectPosition *motion, SpriteFrameState *params, ActorRecord *extra);
+s32 update_actor_hop_and_grow(ActorRecord *state, ObjectPosition *motion, SpriteFrameState *params, ActorRecord *extra);
 s32 update_thrown_actor_travel(void *move_state, ObjectPosition *motion, SpriteFrameState *tile_pos, ActorRecord *actor);
 
 #include "shared/dungeon_item_entries.h"

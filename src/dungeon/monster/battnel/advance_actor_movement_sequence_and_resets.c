@@ -56,8 +56,8 @@ void advance_actor_movement_sequence_and_resets(ActorRecord *action, ObjectPosit
             0);
 
         if (actor->target != 0) {
-            void *linked = actor->target;
-            ObjectPosition *height_entry = ((ObjectNodeHeader *)linked - 1)->position;
+            ObjectNodeHeader *linked = actor->target;
+            ObjectPosition *height_entry = (linked - 1)->position;
             action->unk_A4.halves.high.s = height_entry->z.unsigned_parts.integer - 0x34;
         } else {
             action->unk_A4.halves.high.s =

@@ -23,12 +23,6 @@ typedef struct S_80097AF8_2 {
     u16 unk_14;
 } S_80097AF8_2;   /* arg2 in advance_timed_motion_continuation */
 
-typedef struct S_80097AF8_3 {
-    u8 pad_00[0x2];
-    u16 unk_02;
-    u8 pad_04[0x6];
-    s16 unk_0A;
-} S_80097AF8_3;   /* global_base in advance_timed_motion_continuation */
 
 typedef struct S_80097AF8_4 {
     u8 pad_00[0x1C];

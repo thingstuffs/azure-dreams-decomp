@@ -6,8 +6,6 @@
 #include "engine/script.h"
 #include "town/person.h"
 
-
-
 /* Test the object status, reversing the result when the linked record has bit 3 set. */
 s32 check_door_status_inverted(void *object) {
     if ((((S_800A0668_1 *)(((Rec_func_800A0668_arg0 *)object)->unk_98))->unk_01 & 8) != 0) {
@@ -20,7 +18,7 @@ s32 check_door_status_inverted(void *object) {
 void initialize_door_variant(TownObjectRecord *record_data, ObjectPosition *position, struct SpriteFrameState *unused_sprite) {
     u32 variant;
 
-    variant = ((S_800A06A4_0 *)((u8 *)record_data - 0x10))->unk_A4;
+    variant = ((u8)(record_data->unk_94));
     ((S_800A06A4_0 *)((u8 *)record_data - 0x10))->unk_00 = &handle_door_check_result;
     {
         union { s32 *pointer; s32 value; } handler;
@@ -74,9 +72,9 @@ void handle_door_check_result(S_func_800A0708_0 *object, void *callback_arg, s32
 }
 
 /* Install the next object handler when the update call succeeds. */
-void install_next_door_handler(TownObjectRecord *object, void *unused_context, void *update_context, s32 unused_data) {
+void install_next_door_handler(TownObjectRecord *object, void *unused_context, void *update_context, SpriteFrameState *unused_data) {
     s32 linked_record = *(s32 *)((u8 *)object + 0x98);
-    u8 status_byte = *((u8 *)object + 0x94);
+    u8 status_byte = ((u8)(object->unk_94));
 
     if (create_object_with_shared_data(object, linked_record, update_context, status_byte) != 0) {
         object->unk_50.as_s32 = (s32) &emit_door_position_effect;
@@ -101,15 +99,15 @@ void emit_door_position_effect(S800A3088Arg0 *entity, void *action, S800A3088Arg
 }
 
 // Increase the object's ramp value, then finalize and change state at the limit.
-void open_door_to_target(void *object, void *context) {
+void open_door_to_target(TownObjectRecord *object, void *context) {
     u16 rampValue;
 
-    rampValue = *(u16 *)((u8 *)object + 0x6E) + 0x40;
-    *(u16 *)((u8 *)object + 0x6E) = rampValue;
+    rampValue = object->unk_6E + 0x40;
+    object->unk_6E = rampValue;
     if ((s16) rampValue >= 0x400) {
-        *(u16 *)((u8 *)object + 0x6E) = 0x400U;
+        object->unk_6E = 0x400U;
         change_door_map(object, *(s32 *)((u8 *)context + 0x48));
-        *(void **)((u8 *)object + 0x50) = &door_no_op;
+        object->unk_50.as_pm = &door_no_op;
     }
 }
 
@@ -265,7 +263,7 @@ void change_door_map(void *map_source, s32 *map_table) {
 }
 
 /* Update the entity step state and switch handlers when the result is zero. */
-void advance_door_step(void *entity, void *unused_context, void *update_context, s32 unused_data) {
+void advance_door_step(void *entity, void *unused_context, void *update_context, SpriteFrameState *unused_data) {
     s16 step_result;
 
     step_result = create_objects_descending_by_count(entity, *(s32 *)((u8 *)entity + 0x98), update_context, *(s16 *)((u8 *)entity

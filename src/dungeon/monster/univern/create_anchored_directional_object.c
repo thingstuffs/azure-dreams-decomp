@@ -619,7 +619,7 @@ void advance_entity_along_path_2(ActorRecord *motion, ObjectPosition *unused, Sp
     s32 new_y;
     s32 occupancy_mask;
 
-    if (((R17_801718D0_S_801718D0_0 *)path_state)->unk_71.s <= 0) {
+    if ((s8)path_state->movement_queue_state <= 0) {
         return;
     }
     if (path_state->movement_queue_state <= path_state->unk_8A) {
@@ -648,7 +648,7 @@ void advance_entity_along_path_2(ActorRecord *motion, ObjectPosition *unused, Sp
         ((ActorStatusBytesView *)((u8 *)path_state + path_state->unk_8A))->path_x;
     entity->tile_y =
         ((ActorStatusBytesView *)((u8 *)path_state + path_state->unk_8A))->path_y;
-    ((R17_801718D0_S_801718D0_0 *)path_state)->unk_8A.u++;
+    path_state->unk_8A = (u16)((u16)path_state->unk_8A + 1);
 
     new_x = entity->tile_x;
     new_y = entity->tile_y;
@@ -661,7 +661,7 @@ void advance_entity_along_path_2(ActorRecord *motion, ObjectPosition *unused, Sp
     path_state->facing = ((s16)get_rounded_facing_and_rounding_flag(
         old_x, old_y, entity->tile_x, entity->tile_y,
         (u8 *)motion + 0x98));
-    ((R17_801718D0_S_801718D0_0 *)path_state)->unk_1C.u |= 0x40000000;
+    path_state->flags1C = (u32)((u32)path_state->flags1C | (0x40000000));
     motion->action_id.u = 0xF;
     motion->unk_8C.word = 0;
 

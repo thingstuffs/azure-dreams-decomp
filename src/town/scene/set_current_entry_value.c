@@ -1,6 +1,7 @@
 #include "common.h"
 #include "shared/record_ptrs.h"
 #include "town/scene.h"
+#include "shared/town_root.h"
 
 typedef struct {
     u8 unk0[8];
@@ -12,7 +13,7 @@ typedef struct {
 
 /* Store the value in the first word of the current state entry. */
 void set_current_entry_value(s32 value) {
-    State *state = *(State **)((u8 *)(&town_scene_root));
+    State *state = (State *)town_scene_root;
 
     state->base[state->count * 2] = value;
 }

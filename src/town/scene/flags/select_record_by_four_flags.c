@@ -45,7 +45,7 @@ void select_record_by_four_flags(void)
             } while (flag_index < 4);
 
             if (flag_index == 4) {
-                Rec_D_80016000 *root = *(void **)((s8 *)(&town_scene_root));
+                Rec_D_80016000 *root = (void *)town_scene_root;
                 TownPositionState *owner = root->position;
 
                 owner->unk_10 = record->next;
@@ -56,7 +56,7 @@ void select_record_by_four_flags(void)
     }
 
     {
-        Rec_D_80016000 *root = *(void **)((s8 *)(&town_scene_root));
+        Rec_D_80016000 *root = (void *)town_scene_root;
         void *owner = root->position;
 
         ((S_8001C7A0_1 *)owner)->unk_10.u = D_80018748;

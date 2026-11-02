@@ -37,20 +37,7 @@ typedef struct S_8008D470_1 {
     void * unk_124;
 } S_8008D470_1;   /* target in update_held_item_attachment */
 
-typedef struct S_8008D470_3 {
-    u8 pad_00[0xC];
-    u8 unk_0C;
-    u8 unk_0D;
-    u8 unk_0E;
-    u8 pad_0F[0xD];
-    s16 unk_1C;
-} S_8008D470_3;   /* arg2 in update_held_item_attachment */
 
-typedef struct S_8008D470_4 {
-    union { struct { s32 v; } at00; struct { u8 pad[0x2]; u16 v; } at02; } unk_00;   /* overlapping accesses */
-    union { struct { s32 v; } at00; struct { u8 pad[0x2]; u16 v; } at02; } unk_04;   /* overlapping accesses */
-    union { struct { s32 v; } at00; struct { u8 pad[0x2]; u16 v; } at02; } unk_08;   /* overlapping accesses */
-} S_8008D470_4;   /* arg1 in update_held_item_attachment */
 
 typedef struct S_8008D470_5 {
     u8 pad_00[0x1C];

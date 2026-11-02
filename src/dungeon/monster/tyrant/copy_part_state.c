@@ -30,10 +30,6 @@ typedef struct S_8016A898_0 {
     u16 unk_98;
 } S_8016A898_0;   /* result in copy_part_state */
 
-typedef struct S_8016A898_1 {
-    u8 pad_00[0xA];
-    s16 unk_0A;
-} S_8016A898_1;   /* motion in copy_part_state */
 
 /* Spawn this overlay's effect object: allocate it, fill its two parts from the attributes and arm its handlers. */
 /* Creates Tyrant with default frames at D_8016DFB8, applies spawn flags, and attempts valid tile

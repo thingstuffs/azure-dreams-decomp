@@ -12,20 +12,6 @@ void update_map_cell_flags_with_item_limit(s32 x, s32 y, u16 flags);
 extern u8 beldo_frame_set_1[8];
 
 
-typedef struct S_801719C0_2 {
-    u8 pad_00[0x8C];
-    s32 unk_8C;
-    u8 pad_90[0x2];
-    u16 unk_92;
-    u8 pad_94[0x2];
-    s16 unk_96;
-    u8 pad_98[0x2];
-    s8 unk_9A;
-    u8 pad_9B[0x3];
-    s16 unk_9E;
-    u8 pad_A0[0x2];
-    s16 unk_A2;
-} S_801719C0_2;   /* arg0 in advance_queued_movement_step */
 
 typedef struct S_801719C0_3 {
     u8 pad_00[0x74];

@@ -6,7 +6,7 @@
 #include "shared/sprite_frame_state.h"
 
 /* Advance state and decrement the record count, setting record and global flags at completion. */
-void advance_record_state_and_set_completion_flags(void *record_data, DelayMotionZ *state, s32 update_arg) {
+void advance_record_state_and_set_completion_flags(void *record_data, DelayMotionZ *state, SpriteFrameState *update_arg) {
     u16 remaining_count;
 
     state->unk_08 = (s32) (state->unk_08 + 0x10000);

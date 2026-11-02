@@ -13,10 +13,10 @@ typedef struct {
 
 
 /* Installs object handlers, sets its status, and clears its object and slot state bytes. */
-void initialize_object_handlers(void *object, void *unused_context, void *unused_setup) {
-    *(void **) ((u8 *) object + 0x50) = &person_motion_tag[0];
-    *(s8 *) ((u8 *) object + 0x92) = 1;
-    *(void **) ((u8 *) object + 0x54) = &person_slot_flag_handler_address[0];
-    *(s8 *) ((u8 *) object + 0x15) = 0;
-    object_index_slots[*(s32 *) ((u8 *) object + 0x60)].unk_01 = 0;
+void initialize_object_handlers(TownObjectRecord *object, void *unused_context, void *unused_setup) {
+    object->unk_50.as_pm = &person_motion_tag[0];
+    object->unk_92 = 1;
+    object->handler = &person_slot_flag_handler_address[0];
+    object->unk_15 = 0;
+    object_index_slots[object->slot].unk_01 = 0;
 }

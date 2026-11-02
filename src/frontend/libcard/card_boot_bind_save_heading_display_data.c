@@ -1,7 +1,7 @@
 #include "common.h"
 #include "frontend/libcard/interfaces.h"
 #include "m2c_compat.h"
-#include "records/Rec_func_80027018_arg0.h"
+#include "frontend/libcard/save_heading.h"
 #include "frontend/libcard.h"
 
 extern M2C_UNK D_80077EF0;
@@ -10,10 +10,10 @@ extern M2C_UNK D_80077EFC;
 
 /* Populate output pointers with shared data and embedded record addresses. */
 void card_boot_bind_save_heading_display_data(void *record_arg) {
-    Rec_func_80027018_arg0 *record = record_arg;
+    CardSaveHeadingDisplayPrefix *record = record_arg;
 
-    *record->unk_F0.as_ppm = &D_80077EF0;
-    *record->unk_F4.as_ppm = &D_80077EFC;
-    *record->unk_F8.as_ppv = record_arg + 4;
-    *record->unk_FC.as_ppv = record_arg + 0x7C;
+    record->left->payload.data = &D_80077EF0;
+    record->right->payload.data = &D_80077EFC;
+    record->value->payload.data = record_arg + 4;
+    record->heading->payload.data = record_arg + 0x7C;
 }

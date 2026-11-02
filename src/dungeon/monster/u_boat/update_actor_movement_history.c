@@ -385,7 +385,7 @@ state1_minus_angle:
         state = motion->unk_B0.bytes[3];
     }
     if (state == 2) {
-        (*(u16 *)((u8 *)object + 0x2A)) &= 0xFC00;
+        object->facing = (u16)((u16)object->facing & (0xFC00));
         motion->action_phase.u++;
         record->flags |= 0x80;
         motion->unk_90.parts.high.u = 0;
@@ -450,7 +450,7 @@ state3_test:
                 break;
             }
         }
-            (*(u16 *)((u8 *)object + 0x2A)) &= 0xFC00;
+            object->facing = (u16)((u16)object->facing & (0xFC00));
             motion->action_phase.u++;
             record->flags |= 0x80;
             motion->unk_90.parts.high.u = 0;

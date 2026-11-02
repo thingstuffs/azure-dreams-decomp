@@ -12,12 +12,12 @@ typedef struct {
 #include "town/person/motion.h"
 
 /* Initialize the object's animation, clear its record flag, and update its facing. */
-void initialize_object_animation_and_facing(void *object, void *position, void *animation_state) {
-    initialize_object_entries(object, animation_state, *(void **)((u8 *)*(void **)((u8 *)object + 0x80) + 0x14));
-    object_index_slots[*(s32 *)((u8 *)object + 0x60)].unk_00 = 0;
-    *(void **)((u8 *)object + 0x54) = (void *)apply_object_setup_update;
-    *(s16 *)((u8 *)object + 0x72) = clamp_transform_coordinate_deltas(
-        *(s16 *)((u8 *)object + 0x88),
-        *(s16 *)((u8 *)object + 0x8A),
+void initialize_object_animation_and_facing(TownObjectRecord *object, void *position, void *animation_state) {
+    initialize_object_entries(object, animation_state, object->descriptor->entries[5]);
+    object_index_slots[object->slot].unk_00 = 0;
+    object->handler = (void *)apply_object_setup_update;
+    object->heading.as_s16 = clamp_transform_coordinate_deltas(
+        object->target_x,
+        object->target_y,
         position);
 }

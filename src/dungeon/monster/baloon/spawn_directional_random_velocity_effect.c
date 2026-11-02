@@ -23,17 +23,6 @@ typedef struct S_80D65C5C_1 {
 
 
 
-typedef struct S_80D65C5C_4 {
-    u8 pad_00[0x2];
-    u16 unk_02;
-    u8 pad_04[0x2];
-    u16 unk_06;
-    u8 pad_08[0x2];
-    s16 unk_0A;
-    s32 unk_0C;
-    s32 unk_10;
-    s32 unk_14;
-} S_80D65C5C_4;   /* ((S_80D65C5C_0 *)node)->unk_08 in spawn_directional_random_velocity_effect */
 
    /* ((S_80D65C5C_1 *)arg0)->unk_08 in spawn_directional_random_velocity_effect */
 

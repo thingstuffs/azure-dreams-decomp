@@ -16,18 +16,6 @@
 
 typedef struct S_80047784 S_80047784;
 
-typedef struct S_80172834_0 {
-    u8 pad_00[0x8C];
-    ActorActionHandler unk_8C;
-    s32 unk_90;
-    u8 pad_94[0x2];
-    union { s16 s; u16 u; } unk_96;   /* accessed as both */
-    u16 unk_98;
-    u8 pad_9A[0x1];
-    u8 unk_9B;
-    u8 pad_9C[0x4];
-    s32 unk_A0;
-} S_80172834_0;   /* arg0 in update_jump_motion_2 */
 
 struct SpriteFrameState;
 

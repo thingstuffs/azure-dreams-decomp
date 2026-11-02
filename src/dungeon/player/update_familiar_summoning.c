@@ -16,14 +16,6 @@
 #include "dungeon/level.h"
 #include "slus.h"
 
-typedef struct S_80095A10_0 {
-    u8 pad_00[0x8C];
-    void (*unk_8C)(void *, void *, void *, void *);
-    u8 pad_90[0x6];
-    u16 unk_96;
-    u8 pad_98[0x3];
-    u8 unk_9B;
-} S_80095A10_0;   /* arg0 in update_familiar_summoning */
 
 typedef struct S_80095A10_2 {
     u8 pad_00[0x2A];

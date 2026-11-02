@@ -16,10 +16,6 @@ typedef struct S_800B0654_0 {
 
    /* arg0 in copy_adjusted_state_values */
 
-typedef struct S_800B0654_2 {
-    u8 pad_00[0x4];
-    s8 unk_04;
-} S_800B0654_2;   /* arg1 in copy_adjusted_state_values */
 
 /* Copy three source values into the destination state and store the adjusted calculation result. */
 void copy_adjusted_state_values(MovingPosition *sourceValues, SpriteFrameState *resultAdjustment, void *destinationState_arg) {

@@ -14,16 +14,6 @@ typedef struct LocalResult {
 
 extern s16 sample_terrain_surface_height(s32, s32, s16);
 
-typedef struct S_800AACA4_1 {
-    u8 pad_00[0x1C];
-    s32 unk_1C;
-    u8 pad_20[0x40];
-    void * unk_60;
-    u8 pad_64[0x6];
-    u16 unk_6A;
-    u8 pad_6C[0x1E];
-    union { s16 s; u16 u; } unk_8A;   /* accessed as both */
-} S_800AACA4_1;   /* arg3 in begin_actor_throw_from_attachment */
 
 typedef struct S_800AACA4_2_pre {
     void * unk_00;

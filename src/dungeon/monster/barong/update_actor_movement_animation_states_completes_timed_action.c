@@ -15,20 +15,6 @@
 #include "engine/graphics.h"
 #include "dungeon/item.h"
 
-typedef struct S_80154B4C_0 {
-    u8 pad_00[0x8C];
-    void * unk_8C;
-    s32 unk_90;
-    u8 pad_94[0x2];
-    u16 unk_96;
-    u16 unk_98;
-    u8 pad_9A[0x1];
-    u8 unk_9B;
-    u8 pad_9C[0x2];
-    union { s16 s; u16 u; } unk_9E;   /* accessed as both */
-    u8 pad_A0[0x4];
-    s32 unk_A4;
-} S_80154B4C_0;   /* arg0 in update_actor_movement_animation_states_completes_timed_action */
 
 
 extern s32 rsin(s32);

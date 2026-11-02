@@ -31,7 +31,7 @@ void update_stepped_rgb_flash(void *fade_state_arg, ObjectPosition *unused, T_80
 }
 
 /* Decrement the countdown, update three scaled output components, and flag completion. */
-void update_normalized_gray_fade(ActorActionEffectBody *countdownState, s32 unused, T_80170DC4_S_80170DC4_1 *output) {
+void update_normalized_gray_fade(ActorActionEffectBody *countdownState, ObjectPosition *unused, T_80170DC4_S_80170DC4_1 *output) {
     s32 scaledRemaining;
     u16 remainingCount;
 
@@ -48,7 +48,7 @@ void update_normalized_gray_fade(ActorActionEffectBody *countdownState, s32 unus
 }
 
 /* Advance the RGB fade toward black and set completion flags when it ends. */
-void update_saved_rgb_fade(T_80170E2C_FadeState *fade, s32 unused, T_80170E2C_FadeOutput *output)
+void update_saved_rgb_fade(T_80170E2C_FadeState *fade, ObjectPosition *unused, T_80170E2C_FadeOutput *output)
 {
     s16 remaining;
 
@@ -65,7 +65,7 @@ void update_saved_rgb_fade(T_80170E2C_FadeState *fade, s32 unused, T_80170E2C_Fa
 }
 
 /* Update the effect transform, fade its color, and mark expiration when its timer runs out. */
-void update_growing_rotating_flash(GrowingRotatingFlashBody *effect, s32 unused, SpriteFrameState *visual) {
+void update_growing_rotating_flash(GrowingRotatingFlashBody *effect, ObjectPosition *unused, SpriteFrameState *visual) {
     u16 transform_value;
     u16 ticks_left;
     s8 intensity;

@@ -34,11 +34,6 @@ typedef struct S_801728E4_1 {
     union { u8 s; s8 u; } unk_73;   /* accessed as both */
 } S_801728E4_1;   /* arg3 in update_actor_item_use_animation */
 
-typedef struct S_801728E4_3 {
-    u8 pad_00[0x24];
-    u8 unk_24;
-    u8 unk_25;
-} S_801728E4_3;   /* entry in update_actor_item_use_animation */
 
 typedef struct S_801728E4_5 {
     u8 pad_00[0xA];
@@ -69,6 +64,7 @@ void update_actor_item_use_animation(ActorRecord *action, void *item, SpriteFram
     s32 use_global_source;
     u16 action_flags;
     s32 item_kind;
+    SpriteFrameState *target_sprite;
     ObjectNodeHeader *source_sprite;
 
     state = action->action_phase.u;
@@ -76,7 +72,7 @@ void update_actor_item_use_animation(ActorRecord *action, void *item, SpriteFram
     switch (state) {
     case 0:
         {
-            void *source_entity;
+            ObjectNodeHeader *source_entity;
 
             item = 0;
             if (act->unk_1C & ACTOR_PLAYER_SIDE) {
@@ -128,17 +124,17 @@ void update_actor_item_use_animation(ActorRecord *action, void *item, SpriteFram
                 action->action_state_flags &= 0xFF7F;
                 global_source_test = use_global_source;
                 if (global_source_test) {
-                    source_entity = primary_actor_record;
+                    source_entity = (ObjectNodeHeader *)primary_actor_record;
                     act->unk_60 = source_entity;
-                    source_sprite = *(u8 * *)&((ObjectNodeHeader *)source_entity - 1)->sprite;
-                    act->unk_72.s = ((S_801728E4_3 *)source_sprite)->unk_24;
-                    act->unk_73.s = ((S_801728E4_3 *)source_sprite)->unk_25;
+                    target_sprite = (source_entity - 1)->sprite;
+                    act->unk_72.s = target_sprite->tile_x;
+                    act->unk_73.s = target_sprite->tile_y;
                 } else if (item_action_definitions[(*(u8 *)&((EntityRec *)item)->x)].kind == 2) {
                     source_entity = act->unk_60;
                     if (source_entity != 0) {
-                        source_sprite = *(u8 * *)&((ObjectNodeHeader *)source_entity - 1)->sprite;
-                        act->unk_72.s = ((S_801728E4_3 *)source_sprite)->unk_24;
-                        act->unk_73.s = ((S_801728E4_3 *)source_sprite)->unk_25;
+                        target_sprite = (source_entity - 1)->sprite;
+                        act->unk_72.s = target_sprite->tile_x;
+                        act->unk_73.s = target_sprite->tile_y;
                     }
                 } else {
                     act->unk_60 =

@@ -12,6 +12,8 @@
 #include "dungeon/player/object.h"
 #include "dungeon/item.h"
 #include "dungeon/actor.h"
+#include "shared/object_node.h"
+#include "shared/sprite_frame_state.h"
 
 
 extern int abs(int);
@@ -23,10 +25,6 @@ extern u8 pulunpa_action_resume_address[];
 extern u8 pulunpa_frame_set_1[];
 
 
-typedef struct S_80172798_1_pre {
-    void * unk_00;
-    u8 pad_04[0x10];
-} S_80172798_1_pre;   /* the 0x14 bytes before active in advance_selected_item_action, addressed as active[-1] */
 
 
 
@@ -41,8 +39,9 @@ void advance_selected_item_action(ActorRecord *body, ObjectPosition *motion, Spr
 {
     s32 special;
     u8 *selection;
-    S_80172798_1_pre *active;
-    u8 *scratch_pointer;
+    ObjectNodeHeader *active;
+    SpriteFrameState *target_sprite;
+    S_80172798_5 *scratch_pointer;
 
     special = 0;
     selection = (u8 *)(body->action_phase.u);
@@ -96,11 +95,11 @@ void advance_selected_item_action(ActorRecord *body, ObjectPosition *motion, Spr
 
                 special_test = special;
                 if (special_test != 0) {
-                    active = (S_80172798_1_pre *)primary_actor_record;
+                    active = (ObjectNodeHeader *)primary_actor_record;
                     (actor->target) = active;
-                    scratch_pointer = active[-1].unk_00;
-                    actor->target_tile_x = ((ActorRecord *)scratch_pointer)->mp_value.parts.fraction;
-                    actor->target_tile_y = ((ActorRecord *)scratch_pointer)->mp_value.parts.whole;
+                    target_sprite = (active - 1)->sprite;
+                    actor->target_tile_x = target_sprite->tile_x;
+                    actor->target_tile_y = target_sprite->tile_y;
                 } else {
                     u8 item_id;
 
@@ -108,9 +107,9 @@ void advance_selected_item_action(ActorRecord *body, ObjectPosition *motion, Spr
                     if (item_action_definitions[item_id].kind == 2) {
                         active = (actor->target);
                         if (active != 0) {
-                            scratch_pointer = active[-1].unk_00;
-                            actor->target_tile_x = ((ActorRecord *)scratch_pointer)->mp_value.parts.fraction;
-                            actor->target_tile_y = ((ActorRecord *)scratch_pointer)->mp_value.parts.whole;
+                            target_sprite = (active - 1)->sprite;
+                            actor->target_tile_x = target_sprite->tile_x;
+                            actor->target_tile_y = target_sprite->tile_y;
                         }
                     } else {
 
@@ -190,11 +189,11 @@ void advance_selected_item_action(ActorRecord *body, ObjectPosition *motion, Spr
             select_sprite_entry(sprite, anim_table[direction], 0);
         }
         {
-            scratch_pointer = (u8 *)&g_dungeon_status.turn_scale;
-            if (((S_80172798_5 *)scratch_pointer)->unk_0C != 0) {
+            scratch_pointer = (S_80172798_5 *)&g_dungeon_status.turn_scale;
+            if (scratch_pointer->unk_0C != 0) {
                 return;
             }
-            ((S_80172798_5 *)scratch_pointer)->unk_0A--;
+            scratch_pointer->unk_0A--;
             body->unk_8C.address = pulunpa_action_resume_address;
             advance_status_timers(actor);
             actor->target_tile_y = 0;

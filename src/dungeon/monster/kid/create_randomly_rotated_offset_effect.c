@@ -14,31 +14,7 @@ extern s32 rand(void);
 
 extern u8 D_8017520C[12];
 
-typedef struct S_80174800_1 {
-    u8 pad_00[0x6];
-    s16 unk_06;
-    void * unk_08;
-    s8 unk_0C;
-    s8 unk_0D;
-    s8 unk_0E;
-    u8 pad_0F[0x1];
-    s16 unk_10;
-    u8 pad_12[0x2];
-    u16 unk_14;
-    u8 pad_16[0x4];
-    s16 unk_1A;
-    s16 unk_1C;
-    s16 unk_1E;
-} S_80174800_1;   /* data in create_randomly_rotated_offset_effect */
 
-typedef struct S_80174800_2 {
-    u8 pad_00[0x2];
-    u16 unk_02;
-    u8 pad_04[0x2];
-    u16 unk_06;
-    u8 pad_08[0x2];
-    s16 unk_0A;
-} S_80174800_2;   /* pos in create_randomly_rotated_offset_effect */
 
 /* Creates an effect at an offset from the source position with a random rotation. */
 /* Creates a randomly rotated Kid sprite 40 units above the source, with the supplied scale and a copied

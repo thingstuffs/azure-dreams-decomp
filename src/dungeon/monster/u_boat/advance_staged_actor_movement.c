@@ -23,19 +23,6 @@ extern u8 u_boat_frame_set_1[];
 #include "dungeon/actor.h"
 #include "dungeon/effect/screen.h"
 
-typedef struct S_80173510_0 {
-    u8 pad_00[0x8C];
-    u8 * unk_8C;
-    u8 pad_90[0x2];
-    s16 unk_92;
-    u8 pad_94[0x2];
-    union { u16 u; s16 s; } unk_96;   /* accessed as both */
-    u16 unk_98;
-    u8 pad_9A[0x1];
-    union { u8 n; u8 v; } unk_9B;   /* accessed as both */
-    u8 pad_9C[0x14];
-    u8 unk_B0;
-} S_80173510_0;   /* arg0 in advance_staged_actor_movement */
 
 
 /* Updates a staged movement animation and returns the entity to its tile center. */

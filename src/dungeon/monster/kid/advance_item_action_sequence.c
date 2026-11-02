@@ -41,7 +41,7 @@ void advance_item_action_sequence(ActorRecord *action, ObjectPosition *motion, S
     S_80172D74_5 *owner_flags;
     SpriteFrameState *owner_sprite;
     u8 *item_slot;
-    void *entity;
+    ObjectNodeHeader *entity;
     SpriteFrameState *position;
     s32 special_item;
     s32 step_x;
@@ -108,9 +108,9 @@ void advance_item_action_sequence(ActorRecord *action, ObjectPosition *motion, S
 
                 special_test = special_item;
                 if (special_test != 0) {
-                    entity = primary_actor_record;
+                    entity = (ObjectNodeHeader *)primary_actor_record;
                     actor->target = entity;
-                    position = ((ObjectNodeHeader *)entity - 1)->sprite;
+                    position = (entity - 1)->sprite;
                     actor->target_tile_x = position->tile_x;
                     actor->target_tile_y = position->tile_y;
                 } else {
@@ -121,7 +121,7 @@ void advance_item_action_sequence(ActorRecord *action, ObjectPosition *motion, S
                         entity = actor->target;
 
                         if (entity != 0) {
-                            position = ((ObjectNodeHeader *)entity - 1)->sprite;
+                            position = (entity - 1)->sprite;
                             actor->target_tile_x = position->tile_x;
                             actor->target_tile_y = position->tile_y;
                         }

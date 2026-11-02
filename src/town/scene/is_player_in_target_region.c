@@ -2,6 +2,7 @@
 #include "shared/town_pointees.h"
 #include "shared/record_ptrs.h"
 #include "town/scene.h"
+#include "shared/town_root.h"
 
 
 typedef void (*Callback)(s32);
@@ -15,12 +16,12 @@ s32 is_player_in_target_region(void) {
     s32 x;
     s32 y;
 
-    currentObject = *(void **)((s8 *)(&town_scene_root));
+    currentObject = (void *)town_scene_root;
     currentObject = (*(void * *)((u8 *)currentObject + 0x20));
     callback = (*(Callback *)((u8 *)currentObject + 0x248));
     callback(1);
 
-    currentObject = *(void **)((s8 *)(&town_scene_root));
+    currentObject = (void *)town_scene_root;
     position = (*(void * *)((u8 *)currentObject + 0x1C));
     x = position->x;
     y = position->y;

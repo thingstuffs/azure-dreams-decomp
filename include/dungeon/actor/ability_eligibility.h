@@ -155,7 +155,7 @@ extern u8 temporary_item_record[];
 extern u8 floor_objects[];
 s16 find_entry_at_tile_coordinates(s16 x, s16 y, s16 z);
 extern void clear_slots_of_type(void *, s8);
-extern void apply_entity_action_flags(void *, s32);
+extern void apply_entity_action_flags(ActorRecord *, s32);
 
 /* Unified external declarations, checked against their definitions and callers. */
 extern s32 get_entity_effect_value(void *entity, s32 effect_id);

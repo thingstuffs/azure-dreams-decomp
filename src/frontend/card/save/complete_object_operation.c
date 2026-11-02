@@ -13,16 +13,17 @@ extern void func_80405A3C(void);
 extern void set_object_state_and_select_action(void);
 
 // Selects the next callback based on the operation result and clears the context's state field.
-void complete_object_operation(void *context)
+void complete_object_operation(void *context_arg)
 {
+    CardSaveOperationBody *context = context_arg;
     void (*next_callback)(void);
     ObjectNodeHeader *object_base;
     s32 operation_result;
 
-    operation_result = read_and_update_indexed_record(((CardSaveOperationBody *)context)->entry_index, 0x80010000);
+    operation_result = read_and_update_indexed_record(context->entry_index, 0x80010000);
     object_base = (ObjectNodeHeader *)context - 1;
     if (operation_result == 0) {
-        ((CardSaveOperationBody *)context)->completion_callback = handle_object_menu_input;
+        context->completion_callback = handle_object_menu_input;
         initialize_card_message_object_with_code_0xb(object_base);
         next_callback = func_80405A3C;
     } else {
@@ -31,5 +32,5 @@ void complete_object_operation(void *context)
     }
     ((ObjectNodeHeader *)context - 1)->update_callback = next_callback;
     func_80400908();
-    ((CardSaveOperationBody *)context)->state = 0;
+    context->state = 0;
 }

@@ -4,60 +4,48 @@
 #include "shared/object_links.h"
 #include "shared/position_views.h"
 #include "town/minigame/state.h"
+#include "shared/object_node.h"
 
    /* the 0x2 bytes before obj in update_object_state_and_size, addressed as obj[-1] */
 
-typedef struct S_80023C80_0 {
-    union { s16 s; u16 u; } unk_00;   /* accessed as both */
-    u8 pad_02[0x2];
-    void ** unk_04;
-    u8 pad_08[0x4];
-    union { u16 s; u16 u; } unk_0C;   /* accessed as both */
-    union { u16 s; u16 u; } unk_0E;   /* accessed as both */
-    s16 unk_10;
-    s16 unk_12;
-} S_80023C80_0;   /* obj in update_object_state_and_size */
 
    /* (void *)work in update_object_state_and_size */
 
 
 /* Advances object state, updates coordinates and size, or sets status flags. */
-void update_object_state_and_size(void *object) {
-    void *obj;
+void update_object_state_and_size(SceneTileObject *object) {
+    SceneTileObject *obj;
     s32 state;
     s32 size;
     u16 state_bits;
 
     obj = object;
 
-    state = ((S_80023C80_0 *)obj)->unk_00.s;
-    state_bits = (u16) ((S_80023C80_0 *)obj)->unk_00.s;
+    state = obj->state.s;
+    state_bits = (u16) obj->state.s;
 
     switch (state) {
     case 0:
-        ((S_80023C80_0 *)obj)->unk_00.u = state_bits + 1;
+        obj->state.u = state_bits + 1;
         break;
     case 1:
     {
-        void **coords_ref;
+        ObjectPosition **coords_ref;
         s32 coord;
         s32 offset;
 
-        coords_ref = ((S_80023C80_0 *)obj)->unk_04;
-        coord = (s32)*coords_ref;
-        coord = ((SignedPositionView *)((void *)coord))->x;
+        coords_ref = obj->linked;
+        coord = (*coords_ref)->x.w.i;
         if (coord < 0) {
             coord += 0x1F;
         }
-        ((S_80023C80_0 *)obj)->unk_0C.s = (u16) ((coord >> 5) + 0x94);
-        coord = (s32)*coords_ref;
-        coord = ((SignedPositionView *)((void *)coord))->y;
+        obj->x = (u16) ((coord >> 5) + 0x94);
+        coord = (*coords_ref)->y.w.i;
         if (coord < 0) {
             coord += 0x1F;
         }
-        ((S_80023C80_0 *)obj)->unk_0E.s = (u16) ((coord >> 5) + 0x75);
-        coord = (s32)*coords_ref;
-        coord = ((SignedPositionView *)((void *)coord))->z;
+        obj->y = (u16) ((coord >> 5) + 0x75);
+        coord = (*coords_ref)->z.w.i;
         coord = 0 - coord;
         offset = coord >> 6;
         if (coord < 0) {
@@ -67,17 +55,16 @@ void update_object_state_and_size(void *object) {
             offset = 0;
         }
         size = offset + 3;
-        ((S_80023C80_0 *)obj)->unk_12 = size;
-        ((S_80023C80_0 *)obj)->unk_10 = size;
-        ((S_80023C80_0 *)obj)->unk_0C.s =
-            (u16) (((S_80023C80_0 *)obj)->unk_0C.u - offset);
-        ((S_80023C80_0 *)obj)->unk_0E.s =
-            (u16) (((S_80023C80_0 *)obj)->unk_0E.u - offset);
+        obj->height = size;
+        obj->width = size;
+        obj->x =
+            (u16) (obj->x - offset);
+        obj->y =
+            (u16) (obj->y - offset);
         break;
     }
     case 2:
-        (*(u16 *)((u8 *)obj + -2)) =
-            (u16) (((ObjectStatusPrefix16 *)obj)[-1].flags | NODE_REMOVE);
+        ((ObjectNodeHeader *)obj - 1)->flags |= NODE_REMOVE;
         object_flag_block.flags |= OBJECT_REMOVE_PENDING;
         break;
     }

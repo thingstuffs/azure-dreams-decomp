@@ -5,24 +5,25 @@
 #include "town/shop/resource_entry_initialization_g01156.h"
 #include "shared/object_flags.h"
 #include "town/shop.h"
+#include "engine/resource.h"
 
 /* Collect pointers to enabled entries and terminate the list with 0. */
-void collect_enabled_entry_pointers(s32 *entries, s32 entry_count) {
-    s32 *output;
-    s8 *entry;
+void collect_enabled_entry_pointers(UA32 **entries, s32 entry_count) {
+    UA32 **output;
+    UA32 *entry;
     s32 entry_index;
 
     output = entries;
     entry_index = 0;
     if (entry_count > 0) {
-        entry = (s8 *)0x80011F80;
+        entry = (UA32 *)0x80011F80;
         do {
             if (((S_800B2964_0 *)entry)->unk_01 != 0) {
-                *output = (s32) entry;
+                *output = entry;
                 output += 1;
             }
             entry_index += 1;
-            entry += 4;
+            entry += 1;
         } while (entry_index < entry_count);
     }
     *output = 0;
@@ -45,24 +46,24 @@ s32 count_nonzero_entries(s32 *entries) {
 }
 
 /* Acquires a resource and initializes its associated state on success. */
-s32 acquire_resource_and_initialize_state(void *state) {
-    s32 resourceHandle;
+UA32 **acquire_resource_and_initialize_state(ItemMenuInputObject *state) {
+    UA32 **resourceHandle;
     s32 resourceConfig;
 
     resourceHandle = create_callback_pair_default(0x100);
-    ((S_800B29D0_0 *)state)->unk_40 = resourceHandle;
+    state->items = resourceHandle;
     if (resourceHandle != 0) {
         resourceConfig = get_mode_selected_value();
-        ((S_800B29D0_0 *)state)->unk_44 = resourceConfig;
-        collect_enabled_entry_pointers((s32 *)(((S_800B29D0_0 *)state)->unk_40), resourceConfig);
-        ((S_800B29D0_0 *)state)->unk_38 = count_nonzero_entries((s32 *)(((S_800B29D0_0 *)state)->unk_40));
-        get_zero_based_group_index(state + 0x2C);
+        state->count = resourceConfig;
+        collect_enabled_entry_pointers(state->items, resourceConfig);
+        state->second_group.value = count_nonzero_entries((s32 *)state->items);
+        get_zero_based_group_index(&state->second_group);
     }
-    return ((S_800B29D0_0 *)state)->unk_40;
+    return state->items;
 }
 
 /* Copy leading item values to the fixed output buffer and zero the remaining slots. */
-void fill_item_value_buffer(S_800B52D8 *table) {
+void fill_item_value_buffer(ItemMenuInputObject *table) {
     UA32 values[64];
     UA32 *item;
     s32 i;
@@ -91,12 +92,10 @@ void fill_item_value_buffer(S_800B52D8 *table) {
 }
 
 /* Initialize the record table pointer, stored value, and group index. */
-void initialize_record_table_and_group(void *record_arg) {
-    S_800B2B60_0 *record = record_arg;
-
-    record->unk_3C = (u32 *)0x8001029C;
-    record->unk_28 = func_800B0718();
-    get_zero_based_group_index(record_arg + 0x1C);
+void initialize_record_table_and_group(ItemMenuInputObject *record) {
+    record->table = (u32 *)0x8001029C;
+    record->first_group.value = func_800B0718();
+    get_zero_based_group_index(&record->first_group);
 }
 
 /* Initializes the task and resources for open_twin_souko. */
@@ -135,12 +134,12 @@ void * open_twin_souko(s32 option) {
 }
 
 /* Apply three record values, set status flags, and process the record. */
-void apply_record_values_and_process_record(void *record)
+void apply_record_values_and_process_record(ItemMenuInputObject *record)
 {
-    func_800B3A80(*(s32 *)((s8 *)record + 0));
-    process_object_resources_and_high_flag(*(s32 *)((s8 *)record + 4));
-    refresh_object_components_and_high_flag(*(s32 *)((s8 *)record + 8));
-    *(u16 *)((s8 *)record - 2) |= NODE_REMOVE;
+    func_800B3A80((s32)record->item_menu_object);
+    process_object_resources_and_high_flag((u8 *)record->source_menu);
+    refresh_object_components_and_high_flag((u8 *)record->destination_menu);
+    ((ObjectNodeHeader *)record - 1)->flags |= NODE_REMOVE;
     object_flag_block.flags |= OBJECT_REMOVE_PENDING;
     came_bright_set(3);
     obj_disp23_cancel_sw_set(0);

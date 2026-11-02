@@ -28,6 +28,6 @@ extern s16 D_800FE4A6;
 /* Functions defined in this translation unit. */
 void *get_transform_entry_by_index(s32 entry_index);
 void update_transform_motion_page(TownObjectRecord *object_data, void *motion_data);
-void update_transform_state_value(void *object);
+void update_transform_state_value(TownObjectRecord *object);
 
 #endif

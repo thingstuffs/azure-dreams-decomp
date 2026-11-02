@@ -3,15 +3,6 @@
 #include "town/scene/animation.h"
 #include "shared/vector.h"
 
-typedef struct TownState {
-    s16 state;
-    s16 timer;
-    u16 phase;
-    s16 value;
-    s16 level;
-    s16 count;
-    u16 flags;
-} TownState;
 
 typedef struct Part {
     u8 pad0[6];
@@ -49,7 +40,7 @@ typedef struct Object {
     u8 pad3c[0x84];
     u16 phase;
     u8 padc2[10];
-    TownState *owner;
+    FallingSceneController *owner;
 } Object;
 
 extern s16 D_8001339C;
@@ -72,7 +63,7 @@ extern void func_80050BD8(s32);
 extern void func_80050BFC(s32);
 
 /* Updates timed object spawning, result displays, and the stored best value. */
-void run_menu_entry_animation(TownState *self) {
+void run_menu_entry_animation(FallingSceneController *self) {
     void *result_data;
     s16 level_period;
     s16 spawn_period;
@@ -82,7 +73,7 @@ void run_menu_entry_animation(TownState *self) {
     Object *obj;
     Part *part;
 
-    level_period = 42 - self->level / 6;
+    level_period = 42 - self->level.s / 6;
     spawn_period = level_period;
     result_data = D_80526694;
     if (level_period < 16) {
@@ -205,8 +196,8 @@ void run_menu_entry_animation(TownState *self) {
         if (self->timer >= 0) {
             break;
         }
-        if (D_8001339C < self->value) {
-            D_8001339C = self->value;
+        if (D_8001339C < self->value.s) {
+            D_8001339C = self->value.s;
             func_80050BFC(0x553);
         } else {
             func_80050BD8(0x553);

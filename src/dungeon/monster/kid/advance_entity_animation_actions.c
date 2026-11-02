@@ -24,14 +24,6 @@ extern u8 kid_action_resume_address[];
 extern u8 kid_frame_set_3[];
 extern u8 kid_alt_spawn_direction_frames[];
 
-typedef struct S_80173ED8_0 {
-    u8 pad_00[0x8C];
-    void * unk_8C;
-    u8 pad_90[0xB];
-    u8 unk_9B;
-    u8 pad_9C[0xC];
-    s16 unk_A8;
-} S_80173ED8_0;   /* arg0 in advance_entity_animation_actions */
 
 typedef struct S_80173ED8_2 {
     u8 pad_00[0xA];
@@ -45,10 +37,6 @@ typedef struct S_80173ED8_4 {
     u16 unk_0A;
 } S_80173ED8_4;   /* global in advance_entity_animation_actions */
 
-typedef struct S_80173ED8_5 {
-    u8 pad_00[0x58];
-    void * unk_58;
-} S_80173ED8_5;   /* owner in advance_entity_animation_actions */
 
 /* Advances entity animation states and handles pending actions. */
 void advance_entity_animation_actions(ActorRecord *action, ObjectPosition *context, SpriteFrameState *sprite, ActorRecord *entity) {

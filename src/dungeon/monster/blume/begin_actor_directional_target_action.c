@@ -18,11 +18,6 @@ typedef struct {
 
 
 
-typedef struct S_80174A9C_1 {
-    u8 pad_00[0x9A];
-    s8 unk_9A;
-    s8 unk_9B;
-} S_80174A9C_1;   /* arg0 in begin_actor_directional_target_action */
 
 struct SpriteFrameState;
 void select_sprite_entry(void *, s16, s16);

@@ -41,14 +41,6 @@ typedef struct S_80AC55DC_2 {
     s32 unk_54;
 } S_80AC55DC_2;   /* work in create_returning_sprite_effect */
 
-typedef struct S_80AC55DC_5 {
-    u8 pad_00[0x2];
-    s16 unk_02;
-    u8 pad_04[0x2];
-    s16 unk_06;
-    u8 pad_08[0x2];
-    s16 unk_0A;
-} S_80AC55DC_5;   /* ((S_80AC55DC_0 *)node)->unk_08 in create_returning_sprite_effect */
 
    /* ((S_80AC55DC_1 *)arg0)->unk_08 in create_returning_sprite_effect */
 

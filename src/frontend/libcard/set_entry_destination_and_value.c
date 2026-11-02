@@ -1,51 +1,29 @@
+#include "frontend/libcard/paired_choice.h"
 #include "common.h"
 #include "m2c_compat.h"
 #include "frontend/libcard.h"
 #include "slus.h"
 
-typedef struct S_80026CF0_1 {
-    u8 pad_00[0x4];
-    void * unk_04;
-} S_80026CF0_1;
 
-typedef struct S_80026CF0_2 {
-    u8 pad_00[0x4];
-    void * unk_04;
-} S_80026CF0_2;
 
-typedef struct S_80026CF0_3 {
-    u8 pad_00[0x8];
-    s16 unk_08;
-    s16 unk_0A;
-} S_80026CF0_3;
 
-typedef struct S_80026CF0_4 {
-    u8 pad_00[0x8];
-    s16 unk_08;
-    s16 unk_0A;
-} S_80026CF0_4;
 struct S8004CBFC_a0;
 struct S8004CBFC_a1;
 struct S8004CBFC_a1; extern struct S8004CBFC_a1 card_choice_cursor_data;
 
-typedef struct S_80026CF0_0 {
-    u8 pad_00[0x68];
-    void * unk_68;
-    void * unk_6C;
-} S_80026CF0_0;   /* arg0 in set_entry_destination_and_value */
 
 /* Position and initialize the left and right items. */
 void set_entry_destination_and_value(void *state_arg) {
-    S_80026CF0_0 *state = state_arg;
-    S_80026CF0_1 *left_item;
-    S_80026CF0_2 *right_item;
+    CardChoiceOwner *state = state_arg;
+    CardChoiceDisplayNode *left_item;
+    CardChoiceDisplayNode *right_item;
 
-    left_item = state->unk_68;
-    ((S_80026CF0_3 *)(left_item->unk_04))->unk_08 = 0x40;
-    ((S_80026CF0_3 *)(left_item->unk_04))->unk_0A = 0x20;
+    left_item = state->pointers[2];
+    left_item->block->fields.x = 0x40;
+    left_item->block->fields.y = 0x20;
     initialize_scaled_entry_cursor(state_arg + 4, &card_choice_cursor_data, left_item);
-    right_item = state->unk_6C;
-    ((S_80026CF0_4 *)(right_item->unk_04))->unk_08 = 0xC0;
-    ((S_80026CF0_4 *)(right_item->unk_04))->unk_0A = 0x20;
+    right_item = state->pointers[3];
+    right_item->block->fields.x = 0xC0;
+    right_item->block->fields.y = 0x20;
     initialize_scaled_entry_cursor(state_arg + 0x10, &card_choice_cursor_data, right_item);
 }

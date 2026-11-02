@@ -7,7 +7,7 @@ typedef struct S_80027DF4_0 {
     u8 pad_00[0xC];
     s32 unk_0C;
     u8 pad_10[0x14];
-    s32 unk_24;
+    ObjectNodeHeader *unk_24;
 } S_80027DF4_0;
 
 /* Sets an object's state value and passes its linked value to card_boot_set_paired_choice_selection. */

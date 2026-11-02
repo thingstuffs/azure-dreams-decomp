@@ -5,14 +5,6 @@
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 
-typedef struct S_8016D0FC_0 {
-    u8 pad_00[0x8C];
-    u8 * unk_8C;
-    u8 pad_90[0xB];
-    u8 unk_9B;
-    u8 pad_9C[0x10];
-    u8 unk_AC;
-} S_8016D0FC_0;   /* arg0 in update_multi_form_actor_behavior */
 
 
 extern void select_sprite_entry(void *, s32, s32);

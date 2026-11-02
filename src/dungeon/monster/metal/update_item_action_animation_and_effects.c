@@ -36,7 +36,7 @@ void update_item_action_animation_and_effects(ActorRecord *action, ObjectPositio
     s32 count;
     s32 next_state;
     u8 state;
-    void *target;
+    ObjectNodeHeader *target;
 
     special = 0;
     state = action->action_phase.u;
@@ -45,7 +45,7 @@ void update_item_action_animation_and_effects(ActorRecord *action, ObjectPositio
     }
     switch (state) {
     case 0:
-        if ((*(u32 *)((u8 *)actor + 0x1C)) & ACTOR_PLAYER_SIDE) {
+        if ((u32)actor->flags1C & ACTOR_PLAYER_SIDE) {
             switch (actor->action_flags & 0x3FFF) {
             case 7:
                 special = 1;
@@ -91,9 +91,9 @@ void update_item_action_animation_and_effects(ActorRecord *action, ObjectPositio
 
             action->action_state_flags &= 0xFF7F;
             if (special != 0) {
-                target = primary_actor_record;
+                target = (ObjectNodeHeader *)primary_actor_record;
                 actor->target = target;
-                item_id = (SpriteFrameState *)((ObjectNodeHeader *)target - 1)->sprite;
+                item_id = (target - 1)->sprite;
                 actor->target_tile_x = item_id->tile_x;
                 actor->target_tile_y = item_id->tile_y;
             } else {
@@ -101,7 +101,7 @@ void update_item_action_animation_and_effects(ActorRecord *action, ObjectPositio
                 if (item_action_definitions[((u8)item_id)].kind == 2) {
                     target = actor->target;
                     if (target != 0) {
-                        item_id = (SpriteFrameState *)((ObjectNodeHeader *)target - 1)->sprite;
+                        item_id = (target - 1)->sprite;
                         actor->target_tile_x = item_id->tile_x;
                         actor->target_tile_y = item_id->tile_y;
                     }
@@ -135,7 +135,7 @@ void update_item_action_animation_and_effects(ActorRecord *action, ObjectPositio
         g_dungeon_status.active_actor = 0;
         primary_actor_record->unk_A4.halves.high.u--;
         advance_status_timers(actor);
-        (*((u8 *)actor + 0x6D))--;
+        actor->pending_turn_updates = (u8)((u8)actor->pending_turn_updates - 1);
         action->unk_8C.address = metal_action_resume_address;
         actor->target_tile_y = 0;
         actor->target_tile_x = 0;
@@ -262,7 +262,7 @@ void update_item_action_animation_and_effects(ActorRecord *action, ObjectPositio
             advance_status_timers(actor);
             actor->target_tile_y = 0;
             actor->target_tile_x = 0;
-            (*((u8 *)actor + 0x6D))--;
+            actor->pending_turn_updates = (u8)((u8)actor->pending_turn_updates - 1);
             actor->action_flags &= 0x7FFF;
             play_sound_if_enabled(AUDIO_FADE_CD_FAST);
         }

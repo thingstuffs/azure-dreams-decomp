@@ -13,16 +13,6 @@
 #include "dungeon/actor.h"
 #include "dungeon/effect/screen.h"
 
-typedef struct S_8016E3C4_0 {
-    u8 pad_00[0x8C];
-    u8 * unk_8C;
-    u8 pad_90[0x6];
-    union { u16 s; s16 u; } unk_96;   /* accessed as both */
-    u8 pad_98[0x3];
-    u8 unk_9B;
-    u8 pad_9C[0xE];
-    s16 unk_AA;
-} S_8016E3C4_0;   /* arg0 in advance_the_actor_s_action_animation_triggers_timed_effects */
 
 extern void func_8016B21C(void *, void *, void *, void *);
 extern void func_8016B4FC(ActorRecord *source_object, ObjectPosition *source_pos, SpriteFrameState *sprite_template, ActorRecord *actor);

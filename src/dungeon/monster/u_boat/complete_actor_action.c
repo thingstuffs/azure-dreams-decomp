@@ -35,6 +35,6 @@ void complete_actor_action(ActorRecord *actor, ObjectPosition *unused_1, SpriteF
         global_page[0x296C / 4] = global_flags;
         actor->action_state_flags = actor_flags;
         advance_status_timers(entity);
-        *((u8 *)entity + 0x6D) -= 1;
+        entity->pending_turn_updates = (u8)((u8)entity->pending_turn_updates - (1));
     }
 }

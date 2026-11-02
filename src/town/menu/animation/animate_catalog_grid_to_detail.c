@@ -2,18 +2,9 @@
 #include "records/Rec_func_801237A4_arg0.h"
 #include "shared/object_payload.h"
 #include "town/menu.h"
-
-
-
-
-typedef struct S_80125DDC_2 {
-    u8 pad_00[0x2];
-    u16 unk_02;
-} S_80125DDC_2;   /* inner in animate_catalog_grid_to_detail */
-
+#include "town/menu/catalog_parts.h"
 
 extern void store_cached_value_at_pointer(void);
-extern s8 catalog_display_node_slots;
 
 /* Updates or clears table entries according to the request code. */
 void animate_catalog_grid_to_detail(Rec_func_801237A4_arg0 *request)
@@ -32,24 +23,24 @@ void animate_catalog_grid_to_detail(Rec_func_801237A4_arg0 *request)
     {
         s32 entry_index;
         u8 *entry_table;
-        void **entry_slot;
-        CatalogObjectPayloadView *entry;
-        S_80125DDC_2 *entry_data;
+        ItemMenuPart **entry_slot;
+        ItemMenuPart *entry;
+        CatalogDisplayVector *entry_data;
         u16 field_value;
 
         entry_index = 0x1C;
         entry_table = (u8 *)&catalog_display_node_slots;
-        entry_slot = (void **)(entry_table + 0x70);
+        entry_slot = (ItemMenuPart **)(entry_table + 0x70);
         do {
             entry = *entry_slot;
-            entry_data = entry->aux;
-            field_value = entry_data->unk_02;
+            entry_data = (CatalogDisplayVector *)entry->vector;
+            field_value = entry_data->unsigned_halves.unk_02;
             do {
                 entry_index++;
             } while (0);
             field_value += 0x100;
-            entry_data->unk_02 = field_value;
-            entry_slot = (void **)((u8 *)entry_slot + 4);
+            entry_data->unsigned_halves.unk_02 = field_value;
+            entry_slot += 1;
         } while (entry_index < 0x62);
     }
         return;
@@ -57,19 +48,19 @@ void animate_catalog_grid_to_detail(Rec_func_801237A4_arg0 *request)
     {
         s32 entry_index;
         u8 *entry_table;
-        s32 **entry_slot;
-        s32 *entry;
+        ItemMenuPart **entry_slot;
+        ItemMenuPart *entry;
 
         entry_index = 0x1E;
         entry_table = (u8 *)&catalog_display_node_slots;
-        entry_slot = (s32 **)(entry_table + 0x78);
+        entry_slot = (ItemMenuPart **)(entry_table + 0x78);
         do {
             do {
                 entry = *entry_slot;
             } while (0);
             entry_index++;
-            *entry = 0;
-            entry_slot = (s32 **)((u8 *)entry_slot + 4);
+            entry->handler = 0;
+            entry_slot += 1;
         } while (entry_index < 0x62);
     }
     case 11:
@@ -78,24 +69,24 @@ void animate_catalog_grid_to_detail(Rec_func_801237A4_arg0 *request)
     {
         s32 entry_index;
         u8 *entry_table;
-        void **entry_slot;
-        CatalogObjectPayloadView *entry;
-        S_80125DDC_2 *entry_data;
+        ItemMenuPart **entry_slot;
+        ItemMenuPart *entry;
+        CatalogDisplayVector *entry_data;
         u16 field_value;
 
         entry_index = 0x1C;
         entry_table = (u8 *)&catalog_display_node_slots;
-        entry_slot = (void **)(entry_table + 0x70);
+        entry_slot = (ItemMenuPart **)(entry_table + 0x70);
         do {
             entry = *entry_slot;
-            entry_data = entry->aux;
-            field_value = entry_data->unk_02;
+            entry_data = (CatalogDisplayVector *)entry->vector;
+            field_value = entry_data->unsigned_halves.unk_02;
             do {
                 entry_index++;
             } while (0);
             field_value += 0x100;
-            entry_data->unk_02 = field_value;
-            entry_slot = (void **)((u8 *)entry_slot + 4);
+            entry_data->unsigned_halves.unk_02 = field_value;
+            entry_slot += 1;
         } while (entry_index < 0x62);
     }
         break;
@@ -103,42 +94,42 @@ void animate_catalog_grid_to_detail(Rec_func_801237A4_arg0 *request)
     {
         s32 entry_index;
         u8 *entry_table;
-        void **entry_slot;
-        CatalogObjectPayloadView *entry;
-        S_80125DDC_2 *entry_data;
+        ItemMenuPart **entry_slot;
+        ItemMenuPart *entry;
+        CatalogDisplayVector *entry_data;
         u16 field_value;
 
         entry_index = 0x1C;
         entry_table = (u8 *)&catalog_display_node_slots;
-        entry_slot = (void **)(entry_table + 0x70);
+        entry_slot = (ItemMenuPart **)(entry_table + 0x70);
         do {
             entry = *entry_slot;
-            entry_data = entry->aux;
-            field_value = entry_data->unk_02;
+            entry_data = (CatalogDisplayVector *)entry->vector;
+            field_value = entry_data->unsigned_halves.unk_02;
             do {
                 entry_index++;
             } while (0);
             field_value += 0x100;
-            entry_data->unk_02 = field_value;
-            entry_slot = (void **)((u8 *)entry_slot + 4);
+            entry_data->unsigned_halves.unk_02 = field_value;
+            entry_slot += 1;
         } while (entry_index < 0x62);
     }
         {
             s32 entry_index;
             u8 *entry_table;
-            s32 **entry_slot;
-            s32 *entry;
+            ItemMenuPart **entry_slot;
+            ItemMenuPart *entry;
 
             entry_index = 0x1C;
             entry_table = (u8 *)&catalog_display_node_slots;
-            entry_slot = (s32 **)(entry_table + 0x70);
+            entry_slot = (ItemMenuPart **)(entry_table + 0x70);
             do {
                 do {
                     entry = *entry_slot;
                 } while (0);
                 entry_index++;
-                *entry = 0;
-                entry_slot = (s32 **)((u8 *)entry_slot + 4);
+                entry->handler = 0;
+                entry_slot += 1;
             } while (entry_index < 0x1E);
         }
     case 19:

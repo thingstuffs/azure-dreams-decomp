@@ -53,7 +53,7 @@ typedef struct S_80527D5C_4 {
     s16 unk_68;
 } S_80527D5C_4;
 
-typedef struct S_80527D5C_5 {
+typedef struct CollectionLineSpawnData {
     u16 unk_00;
     u16 unk_02;
     s16 unk_04;
@@ -64,9 +64,10 @@ typedef struct S_80527D5C_5 {
     u8 pad_0E[0x2];
     s32 unk_10;
     s32 unk_14;
-} S_80527D5C_5;   /* second in run_collection_round_sequence */
+    u8 pad_18[0x10];
+} CollectionLineSpawnData;   /* second in run_collection_round_sequence */
 
-typedef struct S_80527D5C_6 {
+typedef struct CollectionRecordSpawnData {
     s16 unk_00;
     u8 pad_02[0x2];
     s32 unk_04;
@@ -78,7 +79,8 @@ typedef struct S_80527D5C_6 {
     s16 unk_18;
     s16 unk_1A;
     u16 unk_1C;
-} S_80527D5C_6;   /* first in run_collection_round_sequence */
+    u8 pad_1E[0x12];
+} CollectionRecordSpawnData;   /* first in run_collection_round_sequence */
 
    /* state8_item_addr in run_collection_round_sequence */
 
@@ -94,8 +96,8 @@ typedef struct S_80527D5C_8 {
 
 /* Advances the animation and item collection sequence and clamps its position. */
 void run_collection_round_sequence(TownCollectionSequence *sequence) {
-    u8 record_params[0x30];
-    u8 line_params[0x28];
+    CollectionRecordSpawnData record_params;
+    CollectionLineSpawnData line_params;
     s32 coord_or_sound;
     s16 next_round;
     s16 state;
@@ -261,28 +263,28 @@ void run_collection_round_sequence(TownCollectionSequence *sequence) {
             }
             sequence->flags.u = direction_flags;
         }
-        ((S_80527D5C_5 *)line_params)->unk_0C = 0;
-        ((S_80527D5C_5 *)line_params)->unk_04 = 0;
-        ((S_80527D5C_5 *)line_params)->unk_00 = sequence->saved_x.u;
-        ((S_80527D5C_5 *)line_params)->unk_02 = sequence->saved_y.u;
+        line_params.unk_0C = 0;
+        line_params.unk_04 = 0;
+        line_params.unk_00 = sequence->saved_x.u;
+        line_params.unk_02 = sequence->saved_y.u;
         orbit_offset = func_8006A3A4((s16) sequence->angle.u) / 24;
-        ((S_80527D5C_5 *)line_params)->unk_08 = sequence->saved_x.u + orbit_offset;
+        line_params.unk_08 = sequence->saved_x.u + orbit_offset;
         cosine = func_8006A470((s16) sequence->angle.u);
         orbit_offset = cosine / 24;
-        ((S_80527D5C_5 *)line_params)->unk_14 = 0x202020;
-        ((S_80527D5C_5 *)line_params)->unk_10 = 0x202020;
-        ((S_80527D5C_5 *)line_params)->unk_0A = sequence->saved_y.u - orbit_offset;
+        line_params.unk_14 = 0x202020;
+        line_params.unk_10 = 0x202020;
+        line_params.unk_0A = sequence->saved_y.u - orbit_offset;
         if (phase_data->unk_68 == 9) {
             func_80244588();
             func_802445FC((s32) &func_80290318);
-            create_object_pair_word(&set_record_global_flags_object, line_params, line_params + 0x10, sequence);
+            create_object_pair_word(&set_record_global_flags_object, &line_params, &line_params.unk_10, sequence);
             sequence->unk_28.u = 0x200U;
             sequence->angle_step.u = 0U;
             sequence->state.s = 7;
             sequence->flags.u &= 0x7FFF;
             break;
         }
-        create_object_pair_word(&set_bit_preceding_flags_global, line_params, line_params + 0x10, sequence);
+        create_object_pair_word(&set_bit_preceding_flags_global, &line_params, &line_params.unk_10, sequence);
         break;
 
     case 7:
@@ -314,21 +316,21 @@ void run_collection_round_sequence(TownCollectionSequence *sequence) {
             record_color = 0x808080;
             (*(s32 *)((u8 *)render_or_counts + (0))) = (s32) &func_80243A38;
             round_index = sequence->round_index.s;
-            ((S_80527D5C_6 *)record_params)->unk_16 = 0xB6;
-            ((S_80527D5C_6 *)record_params)->unk_18 = 3;
-            ((S_80527D5C_6 *)record_params)->unk_10 = record_color;
-            ((S_80527D5C_6 *)record_params)->unk_1A = 0x7C80;
-            ((S_80527D5C_6 *)record_params)->unk_14 = (round_index * 0x10) + 0x64;
-            ((S_80527D5C_6 *)record_params)->unk_1C &= 0xFFFE;
+            record_params.unk_16 = 0xB6;
+            record_params.unk_18 = 3;
+            record_params.unk_10 = record_color;
+            record_params.unk_1A = 0x7C80;
+            record_params.unk_14 = (round_index * 0x10) + 0x64;
+            record_params.unk_1C &= 0xFFFE;
             record_addr = sequence->round_index.s * 2;
             record_addr += (s32) D_805306C8;
-            ((S_80527D5C_6 *)record_params)->unk_04 = record_addr;
+            record_params.unk_04 = record_addr;
             round_count_addr = sequence->round_index.s * 2;
-            ((S_80527D5C_6 *)record_params)->unk_00 = 0;
-            ((S_80527D5C_6 *)record_params)->unk_0C = sequence;
+            record_params.unk_00 = 0;
+            record_params.unk_0C = sequence;
             round_count_addr += (s32) D_80530658;
-            ((S_80527D5C_6 *)record_params)->unk_08 = round_count_addr;
-            allocate_record_and_store_three_blocks(&tick_timed_object_and_mark_complete, record_params);
+            record_params.unk_08 = round_count_addr;
+            allocate_record_and_store_three_blocks(&tick_timed_object_and_mark_complete, &record_params);
             sequence->state.s = 8;
         }
         break;

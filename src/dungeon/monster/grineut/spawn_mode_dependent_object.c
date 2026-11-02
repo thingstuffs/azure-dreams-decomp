@@ -791,7 +791,7 @@ void initialize_opposite_facing_effect(ActorRecord *effect, ObjectPosition *posi
     s32 direction;
     s16 *direction_x;
 
-    direction = (*(u16 *)((s8 *)source + 0x2A) >> 9) & 7;
+    direction = ((u16)source->facing >> 9) & 7;
     effect->action_id.s = 0x10;
     effect->action_phase.s = 0;
     sprite->frameTable = grineut_frame_set_5;
@@ -1209,7 +1209,7 @@ void advance_actor_stored_path_2(ActorRecord *body, ObjectPosition *motion, Spri
     state = (R07_80172CC0_S_80172CC0_2 *)(body->action_phase.u);
     switch ((u8)state) {
     case 0:
-        if ((*(u32 *)((u8 *)actor + 0x1C)) & ACTOR_PLAYER_SIDE) {
+        if ((u32)actor->flags1C & ACTOR_PLAYER_SIDE) {
             u32 kind = (actor->action_flags & 0x3FFF) - 1;
             switch (kind) {
             case 6:
@@ -1323,7 +1323,7 @@ copy_existing:
             (*(u16 *)(active_entity + 0xA6))--;
         }
         advance_status_timers(actor);
-        (*((u8 *)actor + 0x6D))--;
+        actor->pending_turn_updates = (u8)((u8)actor->pending_turn_updates - 1);
         body->unk_8C.address = ((void *)dispatch_monster_move_attack_spell);
         actor->target_tile_y = 0;
         actor->target_tile_x = 0;
@@ -1405,7 +1405,7 @@ copy_existing:
         body->unk_8C.address = ((void *)dispatch_monster_move_attack_spell);
         advance_status_timers(actor);
         if (actor->pending_turn_updates > 0) {
-            (*((u8 *)actor + 0x6D))--;
+            actor->pending_turn_updates = (u8)((u8)actor->pending_turn_updates - 1);
         }
         actor->target_tile_y = 0;
         actor->target_tile_x = 0;
@@ -1681,7 +1681,7 @@ void update_sleeping_grineut(ActorRecord *controller, ObjectPosition *actor_inde
                     TileObject *room_base;
                     s32 room_id;
                     room_base = &reference_tile_object;
-                    room_id = ((Rec_func_800AA258_arg2 *)sprite)->unk_26.as_s8;
+                    room_id = (s8)sprite->room_index;
                     if (((room_id == room_base->room_index)
                          && (room_id >= 0))
                         || (((s16)get_tile_chebyshev_distance(room_base, sprite)) < 2)) {

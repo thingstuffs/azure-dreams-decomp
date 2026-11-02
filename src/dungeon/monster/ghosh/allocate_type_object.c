@@ -11,25 +11,7 @@
 
 
 
-typedef struct S_8016AD00_0 {
-    u8 pad_00[0x2];
-    s16 unk_02;
-    u8 pad_04[0x2];
-    s16 unk_06;
-    u8 pad_08[0x2];
-    s16 unk_0A;
-} S_8016AD00_0;   /* part1 in allocate_type_12_object */
 
-typedef struct S_8016AD00_1 {
-    u8 pad_00[0x8];
-    void * unk_08;
-    s8 unk_0C;
-    s8 unk_0D;
-    s8 unk_0E;
-    u8 pad_0F[0xD];
-    s16 unk_1C;
-    s16 unk_1E;
-} S_8016AD00_1;   /* part2 in allocate_type_12_object */
 
 /* Allocate a type 0x12 object and initialize its state and default data. */
 /* Creates a zero-sized black sprite at the origin with a copied 12-byte entry from D_80077818 and its

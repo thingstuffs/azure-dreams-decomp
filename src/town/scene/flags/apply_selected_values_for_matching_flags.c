@@ -1,6 +1,7 @@
 #include "common.h"
 #include "shared/record_ptrs.h"
 #include "town/scene/flags.h"
+#include "shared/town_root.h"
 
 typedef s32 (*IndexFunc)(s32);
 typedef void (*UseFunc)(s16, s8);
@@ -28,7 +29,7 @@ void apply_selected_values_for_matching_flags(void) {
     IndexFunc get_selection;
     UseFunc apply_value;
 
-    context = *(void **)((s8 *)(&town_scene_root));
+    context = (void *)town_scene_root;
     first_index = 0;
     table = D_80018880;
     selected_values = table[(*(IndexFunc *)((s8 *)*(void **)((s8 *)context + 0x20) + 0x2D4))(0)];

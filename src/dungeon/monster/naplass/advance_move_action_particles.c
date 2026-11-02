@@ -91,7 +91,7 @@ void advance_move_action_particles(ActorRecord *action, ObjectPosition *position
     case 0:
     {
         s32 move_kind;
-        void *move_object;
+        ObjectNodeHeader *move_object;
         s16 special_flag;
 
         if (((u32)actor->flags1C) & ACTOR_PLAYER_SIDE) {
@@ -134,15 +134,15 @@ void advance_move_action_particles(ActorRecord *action, ObjectPosition *position
             action->action_state_flags &= 0xFF7F;
             special_flag = is_special;
             if (special_flag != 0) {
-                move_object = ((u8 *)primary_actor_record);
+                move_object = ((ObjectNodeHeader *)primary_actor_record);
                 actor->target = move_object;
-                record = ((ObjectNodeHeader *)move_object - 1)->sprite;
+                record = (move_object - 1)->sprite;
                 actor->target_tile_x = record->tile_x;
                 actor->target_tile_y = record->tile_y;
             } else if (item_action_definitions[*move_slot].kind == 2) {
                 move_object = actor->target;
                 if (move_object != 0) {
-                    record = ((ObjectNodeHeader *)move_object - 1)->sprite;
+                    record = (move_object - 1)->sprite;
                     actor->target_tile_x = record->tile_x;
                     actor->target_tile_y = record->tile_y;
                 }

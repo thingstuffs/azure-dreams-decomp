@@ -13,20 +13,6 @@
 #include "dungeon/actor/status.h"
 #include "dungeon/actor.h"
 
-typedef struct S_80173C5C_0 {
-    u8 pad_00[0x8C];
-    s32 * unk_8C;
-    s32 unk_90;
-    u8 pad_94[0x2];
-    union { u16 s; s16 u; } unk_96;   /* accessed as both */
-    u16 unk_98;
-    u8 pad_9A[0x1];
-    u8 unk_9B;
-    u8 pad_9C[0x4];
-    s32 unk_A0;
-    u8 pad_A4[0xA];
-    s16 unk_AE;
-} S_80173C5C_0;   /* work in run_the_actor_s_eight_step_sink_animation_advancing_state_swapping */
 
 extern u8 tyrant_frame_set_1[];
 extern u8 tyrant_direction_frames[];

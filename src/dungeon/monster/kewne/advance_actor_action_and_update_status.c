@@ -23,18 +23,6 @@ extern s32 kewne_action_resume_address;
 extern u8 kewne_frame_set_1[];
 extern u8 kewne_frame_set_2[];
 
-typedef struct S_80174214_0 {
-    u8 pad_00[0x8C];
-    void * unk_8C;
-    u8 pad_90[0x2];
-    u16 unk_92;
-    u8 pad_94[0x7];
-    u8 unk_9B;
-    u8 pad_9C[0x2];
-    u16 unk_9E;
-    u8 pad_A0[0x2];
-    u16 unk_A2;
-} S_80174214_0;   /* arg0 in advance_actor_action_and_update_status */
 
 /* Advances the actor action state, updating directional animation and entity status. */
 void advance_actor_action_and_update_status(ActorRecord *actor, ObjectPosition *context, SpriteFrameState *animation, ActorRecord *entity) {

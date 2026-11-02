@@ -5,14 +5,6 @@
 #include "shared/entity.h"
 typedef struct Ent Ent;
 
-typedef struct S_80172514_1 {
-    u8 pad_00[0x8C];
-    s32 unk_8C;
-    u8 pad_90[0x8];
-    u16 unk_98;
-    u8 unk_9A;
-    u8 unk_9B;
-} S_80172514_1;   /* arg0 in reset_action_and_select_facing_animation */
 
 extern Ent *prepare_directional_attack();
 extern s16 try_claim_dungeon_action_slot(ActorRecord *actor);

@@ -7,20 +7,6 @@
 #include "dungeon/player.h"
 #include "engine/graphics.h"
 
-typedef struct S_80095854_0 {
-    u8 pad_00[0x2A];
-    s16 unk_2A;
-    u8 pad_2C[0x46];
-    s8 unk_72;
-    s8 unk_73;
-    u8 pad_74[0x18];
-    s32 unk_8C;
-    u8 pad_90[0xA];
-    s8 unk_9A;
-    s8 unk_9B;
-    u8 pad_9C[0x88];
-    void * unk_124;
-} S_80095854_0;   /* arg0 in begin_familiar_summoning */
 
 typedef struct S_80095854_1 {
     u8 pad_00[0x13];

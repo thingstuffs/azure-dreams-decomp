@@ -13,12 +13,13 @@ typedef struct S_80020D90_0 {
 
 
 /* Clear flag 0x2000 and copy record offset 0x3C to offset 0x00 when set. */
-void card_sme_commit_pending_value(void *record_data) {
+void card_sme_commit_pending_value(void *record_data_arg) {
+    ObjectNodeHeader *record_data = record_data_arg;
     u16 flags;
 
-    flags = ((ObjectNodeHeader *)record_data - 1)->flags;
+    flags = (record_data - 1)->flags;
     if (flags & 0x2000) {
-        ((ObjectNodeHeader *)record_data - 1)->flags = (u16) (flags & 0xDFFF);
+        (record_data - 1)->flags = (u16) (flags & 0xDFFF);
         ((S_80020D90_0 *)((u8 *)record_data - 0x10))->unk_00 = (s32) ((S_80020D90_0 *)((u8 *)record_data
             - 0x10))->unk_3C;
     }

@@ -12,7 +12,7 @@ typedef struct S_80174600_0 {
 } S_80174600_0;   /* arg2 in animate_effect_colors */
 
 /* Animate primitive colors and mark the effect finished when its timer expires. */
-void animate_effect_colors(RandomlyRotatedOffsetEffectBody *effect_state, s32 unused, void *primitive_arg)
+void animate_effect_colors(RandomlyRotatedOffsetEffectBody *effect_state, ObjectPosition *unused, void *primitive_arg)
 {
     u8 *state = (u8 *)effect_state;
     s16 frames_left;

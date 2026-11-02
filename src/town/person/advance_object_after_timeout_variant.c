@@ -10,7 +10,7 @@ extern s32 D_800D62AC[];
 
 
 /* Decrement the object's countdown and advance its state when it expires. */
-void advance_object_after_timeout_variant_1(TownObjectRecord *object, void *update_context, void *state_context) {
+void advance_object_after_timeout_variant_1(TownObjectRecord *object, ObjectPosition *update_context, void *state_context) {
     u16 ticks_left;
 
     ticks_left = object->timer.as_u16 - 1;

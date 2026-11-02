@@ -15,19 +15,6 @@
 #include "engine/graphics.h"
 #include "dungeon/item.h"
 
-typedef struct S_80172158_0 {
-    u8 pad_00[0x8C];
-    u8 * unk_8C;
-    s32 unk_90;
-    u8 pad_94[0x2];
-    u16 unk_96;
-    u16 unk_98;
-    u8 pad_9A[0x1];
-    u8 unk_9B;
-    u8 pad_9C[0x2];
-    s16 unk_9E;
-    s32 unk_A0;
-} S_80172158_0;   /* arg0 in move_actor_with_vertical_arc */
 
 
 extern s32 rsin(s32);

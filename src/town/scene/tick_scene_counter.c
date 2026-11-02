@@ -3,8 +3,7 @@
 #include "shared/record_ptrs.h"
 #include "town/player/script_flags.h"
 #include "town/scene.h"
-
-
+#include "shared/town_root.h"
 
 /* Decrements the current entry's counter for 0x5C8, otherwise checks 0x11FC. */
 s32 tick_scene_counter(void) {
@@ -12,11 +11,11 @@ s32 tick_scene_counter(void) {
 
     if (func_80018B5C(F_sbs11_pad37) != 0) {
         {
-            void *context;
+            Rec_D_80016000 *context;
             u8 *entry;
 
-            context = *(void **)((u8 *)(&town_scene_root));
-            entry = (u8 *)((*(s32 *)((u8 *)context + 8) << 3) + *(s32 *)((u8 *)context + 0x40));
+            context = town_scene_root;
+            entry = (u8 *)((context->entry_index << 3) + *(s32 *)((u8 *)context + 0x40));
             entry[1] -= 1;
         }
         result = 0;
@@ -24,7 +23,7 @@ s32 tick_scene_counter(void) {
             void *context;
             u8 *entry;
 
-            context = *(void **)((u8 *)(&town_scene_root));
+            context = (void *)town_scene_root;
             entry = (u8 *)((*(s32 *)((u8 *)context + 8) << 3) + *(s32 *)((u8 *)context + 0x40));
 
             if (entry[1] == 0) {

@@ -23,27 +23,7 @@ typedef struct S_80170D2C_0 {
     s32 unk_70;
 } S_80170D2C_0;   /* work in create_timed_offset_motion_effect */
 
-typedef struct S_80170D2C_2 {
-    u8 pad_00[0x6];
-    s16 unk_06;
-    void * unk_08;
-    s8 unk_0C;
-    s8 unk_0D;
-    s8 unk_0E;
-    u8 pad_0F[0x1];
-    s16 unk_10;
-    u8 pad_12[0x2];
-    u16 unk_14;
-    u8 pad_16[0x6];
-    s16 unk_1C;
-    s16 unk_1E;
-} S_80170D2C_2;   /* packet in create_timed_offset_motion_effect */
 
-typedef struct S_80170D2C_4 {
-    union { struct { s32 v; } at00; struct { u8 pad[0x2]; u16 v; } at02; } unk_00;   /* overlapping accesses */
-    union { struct { s32 v; } at00; struct { u8 pad[0x2]; u16 v; } at02; } unk_04;   /* overlapping accesses */
-    union { struct { s32 v; } at00; struct { u8 pad[0x2]; u16 v; } at02; } unk_08;   /* overlapping accesses */
-} S_80170D2C_4;   /* D_80083780 in create_timed_offset_motion_effect */
 
 extern u8 D_80170BB0[];
 extern u8 D_80173B88[];

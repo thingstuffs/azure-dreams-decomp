@@ -15,19 +15,6 @@
 #include "dungeon/item.h"
 #include "dungeon/system.h"
 
-typedef struct S_801721B0_0 {
-    u8 pad_00[0x8C];
-    void * unk_8C;
-    s32 unk_90;
-    u8 pad_94[0x2];
-    u16 unk_96;
-    u16 unk_98;
-    u8 pad_9A[0x1];
-    u8 unk_9B;
-    u8 pad_9C[0x2];
-    union { s16 s; u16 u; } unk_9E;   /* accessed as both */
-    s32 unk_A0;
-} S_801721B0_0;   /* arg0 in animate_hop_to_actor_tile */
 
 extern void select_sprite_entry(void *, s16, s16);
 extern s32 rsin(s32);

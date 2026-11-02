@@ -210,7 +210,7 @@ void update_actor_movement_and_actions(State *state, Actor *actor) {
     state->direction = direction;
 
     if (((u32)input->buttons) & 0x20) {
-        add_a_directional_step_vector_scale_down_exceeds_length_limit(direction, (*((s32 *)town_movement_speed)), actor);
+        add_a_directional_step_vector_scale_down_exceeds_length_limit(direction, town_movement_speed, actor);
         spawn_directional_effects(actor, (u16)scale_random_to_unsigned_halfword_limit(1));
     }
 
@@ -237,11 +237,11 @@ void update_actor_movement_and_actions(State *state, Actor *actor) {
     }
 
     speed = runtime_estimate_vector_length(actor->x, actor->y);
-    if ((*((s32 *)town_movement_speed)) != 0) {
+    if (town_movement_speed != 0) {
         {
             s32 speed_delta;
-            speed_delta = (*((s32 *)town_movement_speed)) - speed;
-            sound_period = (((speed_delta < 0 ? -speed_delta : speed_delta) * 7) / (*((s32 *)town_movement_speed))) + 2;
+            speed_delta = town_movement_speed - speed;
+            sound_period = (((speed_delta < 0 ? -speed_delta : speed_delta) * 7) / town_movement_speed) + 2;
         }
         {
             u16 tick_count;
@@ -256,7 +256,7 @@ void update_actor_movement_and_actions(State *state, Actor *actor) {
         input->view.camera_rotation.parts.viewAngle = (((u16)input->view.camera_rotation.parts.viewAngle) + 8) & 0xFFF0;
     } else {
         if ((((u32)input->buttons) & 0x30) == 0x10) {
-            speed = ((*((s32 *)town_movement_speed)) * 3) / 2;
+            speed = (town_movement_speed * 3) / 2;
         }
     }
     {
@@ -402,7 +402,7 @@ void update_town_movement_and_actions(TownPlayerRecord *state, EntityRec *table,
         direction = input_angle_with_offset(globals->buttons,
                                   globals->view.camera_rotation.parts.viewAngle);
         if (direction != -1) {
-            add_a_directional_step_vector_scale_down_exceeds_length_limit(direction, ((s32 *)town_movement_speed)[0], table);
+            add_a_directional_step_vector_scale_down_exceeds_length_limit(direction, town_movement_speed, table);
         }
         random_choice = scale_random_to_unsigned_halfword_limit(1);
         spawn_directional_effects(table, (u16)random_choice);
@@ -430,9 +430,9 @@ void update_town_movement_and_actions(TownPlayerRecord *state, EntityRec *table,
 
     speed = runtime_estimate_vector_length(table->unk_0C,
                           table->unk_10);
-    if (((s32 *)town_movement_speed)[0] != 0) {
-        speed_delta = abs(((s32 *)town_movement_speed)[0] - speed);
-        sound_interval = (s32)((u32)speed_delta * 7U) / ((s32 *)town_movement_speed)[0];
+    if (town_movement_speed != 0) {
+        speed_delta = abs(town_movement_speed - speed);
+        sound_interval = (s32)((u32)speed_delta * 7U) / town_movement_speed;
         if ((globals->unk_004 % (sound_interval + 2)) == 0) {
             SD_Call(0x60A);
         }

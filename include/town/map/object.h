@@ -27,7 +27,7 @@ s32 check_building_entity_compatibility(s32 record_id, s32 entity_id);
 
 /* clear_object_link_and_mark_complete_g01169.c */
 void clear_object_link_and_mark_complete(struct S_func_800BB508_0 *object, void *context);
-void advance_object_state_angle(void *object, void *context, void *state);
+void advance_object_state_angle(void *object, void *context, SpriteFrameState *state);
 void initialize_object_appearance_with_delay(TownObjectRecord *object, ObjectPosition *context, void *state);
 void clear_object_link_and_complete(void *object, void *value);
 void set_handler_variant_b_with_counter_30(void *object, void *context, void *state);

@@ -10,12 +10,12 @@
 
 extern u8 lit_mesh_renderer_address[];
 
-void initialize_sprite_six(SpriteSixState *state, ObjectPosition *position, SpriteSixRender *render) {
+void initialize_sprite_six(TownObjectRecord *state, ObjectPosition *position, SpriteSixRender *render) {
     SpriteSixNodeView node;
     node.state = state;
     node.header[-1].update_callback = deactivate_object_triggered;
     register_node(node.header - 1, lit_mesh_renderer_address);
-    state->angle = 0;
+    state->unk_66.as_s16 = 0;
     render->sprite.scale_x = 0x1000;
     render->sprite.scale_y = 0x1000;
     render->sprite.offset_x = 0x1000;

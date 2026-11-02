@@ -16,12 +16,12 @@ void run_object_callback(TownObjectRecord *object, ObjectPosition *context, Spri
 
     (*(Callback *)((u8 *)object + 0x50))(object, context, record);
     if (!((((ObjectNodeHeader *)object - 1)->flags) & 0x8000)) {
-        entry_index = quantize_heading_to_sector(object->heading.as_s16, (*(s16 *)((u8 *)object + 0x64)));
-        if ((*(s16 *)((u8 *)object + 0x74)) != entry_index) {
+        entry_index = quantize_heading_to_sector(object->heading.as_s16, ((s16)(object->unk_64)));
+        if (((s16)(object->unk_74.as_u16)) != entry_index) {
             clear_object_status_and_dispatch_target(object, record, object->unk_78[entry_index], record->unk_04);
             object->unk_74.as_u16 = entry_index;
         }
-        if ((check_heading_past_half_sector(object->heading.as_s16, (*(s16 *)((u8 *)object + 0x64))) << 0x10) != 0) {
+        if ((check_heading_past_half_sector(object->heading.as_s16, ((s16)(object->unk_64))) << 0x10) != 0) {
             flags = record->flags | 1;
         } else {
             flags = record->flags & 0xFFFE;

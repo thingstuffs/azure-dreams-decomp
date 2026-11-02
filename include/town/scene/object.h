@@ -2,6 +2,7 @@
 #define TOWN_SCENE_OBJECT_H
 
 #include "common.h"
+#include "shared/town_object.h"
 #include "shared/entity.h"
 #include "shared/object_node.h"
 #include "shared/sprite_frame_state.h"
@@ -27,13 +28,9 @@ typedef struct FallingObjectState {
 } FallingObjectState;
 void initialize_falling_object_sprite(FallingObjectState *object, ObjectPosition *context, SpriteFrameState *sprite);
 
-typedef struct SpriteSixState {
-    u8 pad_00[0x66];
-    s16 angle;
-} SpriteSixState;
 
 typedef union SpriteSixNodeView {
-    SpriteSixState *state;
+    TownObjectRecord *state;
     ObjectNodeHeader *header;
 } SpriteSixNodeView;
 
@@ -45,13 +42,12 @@ typedef union SpriteSixRender {
     } record;
 } SpriteSixRender;
 
-void initialize_sprite_six(SpriteSixState *state, ObjectPosition *position, SpriteSixRender *render);
+void initialize_sprite_six(TownObjectRecord *state, ObjectPosition *position, SpriteSixRender *render);
 
 /* Callback entry points. */
 void update_panel_aggregate_value(void *entry);
 
 /* Owner declarations appended by tools/headers (append-only; the lines above are hand-kept). */
-#include "shared/town_object.h"
 void unlink_scene_list_node(TownObjectRecord *node);
 
 void func_8052FE94(s16 object_value);

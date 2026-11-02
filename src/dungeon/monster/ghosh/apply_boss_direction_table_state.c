@@ -5,10 +5,6 @@
 #include "shared/object_flags.h"
 #include "m2c_compat.h"
 
-typedef struct S_80170A54_0 {
-    u8 pad_00[0x4];
-    s8 unk_04;
-} S_80170A54_0;   /* base in apply_boss_direction_table_state */
 
 typedef struct S_80170A54_1 {
     u8 pad_00[0x2A];

@@ -23,10 +23,6 @@ typedef struct S_80170F6C_4 {
     u8 unk_BA;
 } S_80170F6C_4;   /* object in update_long_actor_action */
 
-typedef struct S_80170F6C_8 {
-    u8 pad_00[0x58];
-    void * unk_58;
-} S_80170F6C_8;   /* D_800814A8[0] in update_long_actor_action */
 
 typedef struct S_80170F6C_10 {
     u8 pad_00[0x9A];

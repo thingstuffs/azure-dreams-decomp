@@ -49,7 +49,8 @@ void advance_actor_item_use_sequence(ActorRecord *body, ObjectPosition *position
     s32 target_x;
     s32 target_y;
     void *active_object;
-    void *copy_object;
+    ObjectNodeHeader *copy_object;
+    SpriteFrameState *target_sprite;
     u8 *action_status;
     s32 use_shared_object;
 
@@ -57,7 +58,7 @@ void advance_actor_item_use_sequence(ActorRecord *body, ObjectPosition *position
     action_state = body->action_phase.u;
     switch (action_state) {
     case 0:
-        if ((*(u32 *)((u8 *)actor + 0x1C)) & ACTOR_PLAYER_SIDE) {
+        if ((u32)actor->flags1C & ACTOR_PLAYER_SIDE) {
             item_selector = (actor->action_flags & 0x3FFF) - 1;
             switch (item_selector) {
             case 6:
@@ -106,17 +107,17 @@ void advance_actor_item_use_sequence(ActorRecord *body, ObjectPosition *position
             body->action_state_flags &= 0xFF7F;
             use_shared_object = (special_mode == 1);
             if (use_shared_object) {
-                copy_object = primary_actor_record;
+                copy_object = (ObjectNodeHeader *)primary_actor_record;
                 actor->target = copy_object;
-                action_status = *(u8 * *)&((ObjectNodeHeader *)copy_object - 1)->sprite;
-                actor->target_tile_x = action_status[0x24];
-                actor->target_tile_y = action_status[0x25];
+                target_sprite = (copy_object - 1)->sprite;
+                actor->target_tile_x = target_sprite->tile_x;
+                actor->target_tile_y = target_sprite->tile_y;
             } else if (item_action_definitions[*item].kind == 2) {
                 copy_object = actor->target;
                 if (copy_object != 0) {
-                    action_status = *(u8 * *)&((ObjectNodeHeader *)copy_object - 1)->sprite;
-                    actor->target_tile_x = action_status[0x24];
-                    actor->target_tile_y = action_status[0x25];
+                    target_sprite = (copy_object - 1)->sprite;
+                    actor->target_tile_x = target_sprite->tile_x;
+                    actor->target_tile_y = target_sprite->tile_y;
                 }
             } else {
                 target_x = (s32)scan_actor_along_heading(actor,
@@ -143,7 +144,7 @@ void advance_actor_item_use_sequence(ActorRecord *body, ObjectPosition *position
             g_dungeon_status.active_actor = 0;
             (*(u16 *)((u8 *)active_object + 0xA6))--;
             advance_status_timers(actor);
-            (*((u8 *)actor + 0x6D))--;
+            actor->pending_turn_updates = (u8)((u8)actor->pending_turn_updates - 1);
             body->unk_8C.run = &golem_action_continuation_address;
             actor->target_tile_y = 0;
             actor->target_tile_x = 0;
@@ -206,7 +207,7 @@ void advance_actor_item_use_sequence(ActorRecord *body, ObjectPosition *position
         advance_status_timers(actor);
         actor->target_tile_y = 0;
         actor->target_tile_x = 0;
-        (*((u8 *)actor + 0x6D))--;
+        actor->pending_turn_updates = (u8)((u8)actor->pending_turn_updates - 1);
         actor->action_flags &= 0x7FFF;
         play_sound_if_enabled(AUDIO_FADE_CD_FAST);
 

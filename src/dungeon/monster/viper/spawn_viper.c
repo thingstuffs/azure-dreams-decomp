@@ -15,14 +15,6 @@
 
 
 
-typedef struct S_80170894_4 {
-    u8 pad_00[0x8C];
-    void * unk_8C;
-    u8 pad_90[0xA];
-    u8 unk_9A;
-    u8 pad_9B[0x1];
-    s8 unk_9C;
-} S_80170894_4;   /* actor in func_80170894 */
 
 extern s32 generate_random_value(void);
 extern u8 D_80170A68[];

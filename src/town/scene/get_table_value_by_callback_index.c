@@ -1,4 +1,5 @@
 #include "shared/record_ptrs.h"
+#include "shared/town_root.h"
 typedef signed int s32;
 typedef unsigned int u32;
 typedef unsigned char u8;
@@ -15,7 +16,7 @@ extern ValueTable D_80019158;
 s32 get_table_value_by_callback_index(void)
 {
     ValueTable valueTable = D_80019158;
-    void *callbackTable = *(void **)((u8 *)town_scene_root + 0x20);
+    TownServiceTable *callbackTable = ((town_scene_root->services));
     Callback getValueIndex = *(Callback *)((u8 *)callbackTable + 0x2D4);
 
     return valueTable.values[getValueIndex(0)];

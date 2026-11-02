@@ -5,6 +5,7 @@
 #include "common.h"
 #include "records/Rec_D_80082D58.h"
 #include "shared/sprite_frame_state.h"
+#include "town/minigame/position.h"
 
 struct Arg1;
 struct Arg2;
@@ -27,7 +28,9 @@ typedef struct State8081FF68 {
 /* Body of the terminal-phase scene-text node. */
 typedef struct TerminalSceneTextObject {
     /* 0x00 */ union { s16 s; u16 u; } state;
-    /* 0x02 */ u8 pad_02[0xA];
+    /* 0x02 */ u16 delay;
+    /* 0x04 */ char *text;
+    /* 0x08 */ u8 pad_08[4];
     /* 0x0C */ void *owner;
     /* 0x10 */ u8 pad_10[0xC];
     /* 0x1C */ u16 flags;
@@ -87,6 +90,6 @@ void toggle_gym_sprite_by_scene_phase(s16 **value_ptr, struct ObjectPosition *un
 void update_derived_value_and_flag(void *object);
 
 /* update_object_state_and_size.c */
-void update_object_state_and_size(void *object);
+void update_object_state_and_size(SceneTileObject *object);
 
 #endif

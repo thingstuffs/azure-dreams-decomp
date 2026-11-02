@@ -1,3 +1,4 @@
+#include "shared/entity.h"
 #include "shared/gpu_packets.h"
 #include "common.h"
 #include "shared/game_work.h"
@@ -156,7 +157,7 @@ typedef struct {
 } Texture;
 
 /* Projects textured sprite quads and queues visible packets for depth-sorted drawing. */
-void project_depth_sorted_sprite_quads(S_80175594_0 *sprite, Rec_func_800D6DC0_arg1 *position, Rec_func_800D6DC0_arg2 *render,
+void project_depth_sorted_sprite_quads(S_80175594_0 *sprite, ObjectPosition *position, Rec_func_800D6DC0_arg2 *render,
     s16 depth_bias)
 {
     GameWork *render_globals = &g_game_work;
@@ -186,9 +187,9 @@ void project_depth_sorted_sprite_quads(S_80175594_0 *sprite, Rec_func_800D6DC0_a
     ((S_80175594_1 *)scratch)->unk_7C = 0;
     ((S_80175594_1 *)scratch)->unk_74 = 0;
     ((S_80175594_1 *)scratch)->unk_20 = state + 0xB0;
-    ((S_80175594_1 *)scratch)->unk_00 = position->unk_02;
-    ((S_80175594_1 *)scratch)->unk_02 = position->unk_06;
-    ((S_80175594_1 *)scratch)->unk_04 = position->unk_0A;
+    ((S_80175594_1 *)scratch)->unk_00 = position->x.unsigned_parts.integer;
+    ((S_80175594_1 *)scratch)->unk_02 = position->y.unsigned_parts.integer;
+    ((S_80175594_1 *)scratch)->unk_04 = position->z.unsigned_parts.integer;
     packet = ((GpuContext *)state)->packetCursor;
     ((S_80175594_1 *)scratch)->unk_C0 = RotTransPers(
         scratch, scratch + 0xB8, scratch + 0x90, scratch + 0x94);

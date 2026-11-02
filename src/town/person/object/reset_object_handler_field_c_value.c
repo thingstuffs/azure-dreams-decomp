@@ -7,12 +7,12 @@
 #include "town/person/object.h"
 
 
-void reset_object_handler_field_6c_value_15(void *object, s32 unused, SpriteFrameState *updateValue) {
-    void *objectData;
+void reset_object_handler_field_6c_value_15(TownObjectRecord *object, s32 unused, SpriteFrameState *updateValue) {
+    PersonDescriptor *descriptor;
 
-    objectData = *(void **)((u8 *)object + 0x80);
-    func_800C2E84(object, updateValue, (s32 *)(*(s32 *)((u8 *)objectData + 0x10)));
-    object_index_slots[*(s32 *)((u8 *)object + 0x60)].unk_00 = 0;
-    *(void **)((u8 *)object + 0x54) = &person_countdown_update_address;
-    *(s16 *)((u8 *)object + 0x6C) = 0x15;
+    descriptor = object->descriptor;
+    func_800C2E84(object, updateValue, descriptor->entries[4]);
+    object_index_slots[object->slot].unk_00 = 0;
+    object->handler = &person_countdown_update_address;
+    object->timer.as_s16 = 0x15;
 }

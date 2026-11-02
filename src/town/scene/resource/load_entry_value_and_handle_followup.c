@@ -3,6 +3,7 @@
 #include "town/scene/entry_requests.h"
 #include "shared/record_ptrs.h"
 #include "town/scene/resource.h"
+#include "shared/town_root.h"
 
 typedef struct TownRecord {
     s8 pad0[8];
@@ -20,12 +21,12 @@ extern s32 scene_cell_dispatch_code;
 s32 load_entry_value_and_handle_followup(void *object, s32 entry_index) {
     TownRecord *record;
 
-    record = *(TownRecord **)((s8 *)(&town_scene_root));
+    record = (TownRecord *)town_scene_root;
     scene_cell_dispatch_code = record->entries[(record->index * 8) + 4];
     if (func_80018618(object, entry_index) != 0) {
         TownRecord *clear_record;
 
-        clear_record = *(TownRecord **)((s8 *)(&town_scene_root));
+        clear_record = (TownRecord *)town_scene_root;
         clear_record->entries[(clear_record->index * 8) + 4] = 0;
         scene_cell_dispatch_code = 0;
     }

@@ -10,12 +10,9 @@
 #include "dungeon/level.h"
 #include "engine/entity.h"
 #include "dungeon/player.h"
+#include "shared/object_node.h"
+#include "shared/sprite_frame_state.h"
 
-typedef struct S_800A4B88_0_pre {
-    s32 unk_00;
-    void * unk_04;
-    u8 pad_08[0x10];
-} S_800A4B88_0_pre;   /* the 0x18 bytes before arg0 in apply_entity_action_flags, addressed as arg0[-1] */
 
 
 
@@ -30,7 +27,7 @@ extern s32 sprite_resource_pointer_slots[];
 extern u8 actor_default_frames[];
 
 /* Applies an action to the object's flags and tile state, then updates the object. */
-void apply_entity_action_flags(void *object, s32 action) {
+void apply_entity_action_flags(ActorRecord *object, s32 action) {
     s32 clear_mask;
     s32 enable_clear_mask;
     s32 set_mask;
@@ -42,57 +39,57 @@ void apply_entity_action_flags(void *object, s32 action) {
     TileObject *update_state;
     u8 tile_x;
     u8 tile_y;
-    MovingTile *position;
+    SpriteFrameState *target_sprite;
 
     action_index = (s16) (action - 1);
     switch (action_index) {
     case STATUS_SLEEP - 1:
-        ((ActorRecord *)object)->flags1C = (s32) (((ActorRecord *)object)->flags1C | ACTOR_ASLEEP);
+        object->flags1C = (s32) (object->flags1C | ACTOR_ASLEEP);
         break;
     case STATUS_CONFUSION - 1:
-        ((ActorRecord *)object)->flags1C = (s32) (((ActorRecord *)object)->flags1C | ACTOR_CONFUSED);
+        object->flags1C = (s32) (object->flags1C | ACTOR_CONFUSED);
         break;
     case STATUS_BLIND - 1:
-        ((ActorRecord *)object)->flags1C = (s32) ((((ActorRecord *)object)->flags1C & ACTOR_PLAYER_AWARE_CLEAR_MASK) | 0x10);
+        object->flags1C = (s32) ((object->flags1C & ACTOR_PLAYER_AWARE_CLEAR_MASK) | 0x10);
         break;
     case STATUS_PARALYSIS - 1:
-        ((ActorRecord *)object)->flags1C = (s32) (((ActorRecord *)object)->flags1C | ACTOR_PARALYZED);
+        object->flags1C = (s32) (object->flags1C | ACTOR_PARALYZED);
         break;
     case STATUS_POISON - 1:
-        ((ActorRecord *)object)->flags1C = (s32) (((ActorRecord *)object)->flags1C | ACTOR_POISONED);
+        object->flags1C = (s32) (object->flags1C | ACTOR_POISONED);
         break;
     case STATUS_MAGIC_BIND - 1:
-        ((ActorRecord *)object)->flags1C = (s32) (((ActorRecord *)object)->flags1C | ACTOR_MAGIC_BOUND);
+        object->flags1C = (s32) (object->flags1C | ACTOR_MAGIC_BOUND);
         break;
     case STATUS_CURSE - 1:
-        ((ActorRecord *)object)->flags1C = (s32) (((ActorRecord *)object)->flags1C | ACTOR_CURSED);
+        object->flags1C = (s32) (object->flags1C | ACTOR_CURSED);
         break;
     case STATUS_ANGER - 1:
-        ((ActorRecord *)object)->flags1C = (s32) (((ActorRecord *)object)->flags1C | ACTOR_ANGRY);
+        object->flags1C = (s32) (object->flags1C | ACTOR_ANGRY);
         break;
     case STATUS_NO_TILE_OCCUPANCY - 1:
-        position = ((S_800A4B88_0_pre *)object)[-1].unk_04;
-        tile_x = position->tile_x;
-        tile_y = position->tile_y;
+        target_sprite = ((ObjectNodeHeader *)object - 1)->sprite;
+        tile_x = target_sprite->tile_x;
+        tile_y = target_sprite->tile_y;
         clear_mask = 0x3000;
-        if (((ActorRecord *)object)->flags1C & ACTOR_PLAYER_SIDE) {
+        if (object->flags1C & ACTOR_PLAYER_SIDE) {
             clear_mask = 0x300;
         }
         update_map_cell_flags_with_item_limit(tile_x, tile_y, clear_mask);
         break;
     case STATUS_PLAYER_SIDE - 1:
-        position = ((S_800A4B88_0_pre *)object)[-1].unk_04;
-        tile_x = position->tile_x;
-        tile_y = position->tile_y;
+        target_sprite = ((ObjectNodeHeader *)object - 1)->sprite;
+        tile_x = target_sprite->tile_x;
+        tile_y = target_sprite->tile_y;
         enable_clear_mask = 0x3000;
-        if (((ActorRecord *)object)->flags1C & ACTOR_PLAYER_SIDE) {
+        if (object->flags1C & ACTOR_PLAYER_SIDE) {
             enable_clear_mask = 0x300;
         }
         update_map_cell_flags_with_item_limit(tile_x, tile_y, enable_clear_mask);
-        updated_flags = ((ActorRecord *)object)->flags1C | ACTOR_PLAYER_SIDE;
-        ((ActorRecord *)object)->flags1C = updated_flags;
-        tile_x = position->tile_x;
-        tile_y = position->tile_y;
+        updated_flags = object->flags1C | ACTOR_PLAYER_SIDE;
+        object->flags1C = updated_flags;
+        tile_x = target_sprite->tile_x;
+        tile_y = target_sprite->tile_y;
         set_mask = 0x3000;
         if (updated_flags & ACTOR_PLAYER_SIDE) {
             set_mask = 0x300;
@@ -100,35 +97,35 @@ void apply_entity_action_flags(void *object, s32 action) {
         cycle_map_cell_flags(tile_x, tile_y, set_mask);
         break;
     case STATUS_BRAINWASH - 1:
-        position = ((S_800A4B88_0_pre *)object)[-1].unk_04;
-        tile_x = position->tile_x;
-        tile_y = position->tile_y;
+        target_sprite = ((ObjectNodeHeader *)object - 1)->sprite;
+        tile_x = target_sprite->tile_x;
+        tile_y = target_sprite->tile_y;
         disable_clear_mask = 0x3000;
-        if (((ActorRecord *)object)->flags1C & ACTOR_PLAYER_SIDE) {
+        if (object->flags1C & ACTOR_PLAYER_SIDE) {
             disable_clear_mask = 0x300;
         }
         update_map_cell_flags_with_item_limit(tile_x, tile_y, disable_clear_mask);
-        ((ActorRecord *)object)->flags1C = (s32) (((ActorRecord *)object)->flags1C & ~ACTOR_PLAYER_SIDE);
-        tile_x = position->tile_x;
-        tile_y = position->tile_y;
+        object->flags1C = (s32) (object->flags1C & ~ACTOR_PLAYER_SIDE);
+        tile_x = target_sprite->tile_x;
+        tile_y = target_sprite->tile_y;
         set_mask = 0x3000;
         cycle_map_cell_flags(tile_x, tile_y, set_mask);
         break;
     case STATUS_FROG - 1:
         func_8003E188(0x2E, 0);
-        if (((ActorRecord *)object)->flags14 & 0x20000000) {
-            begin_actor_flagged_action(object, ((S_800A4B88_0_pre *)object)[-1].unk_00, ((S_800A4B88_0_pre *)object)[-1].unk_04,
-                object);
+        if (object->flags14 & 0x20000000) {
+            begin_actor_flagged_action((Rec_func_800A9E70_arg0 *)object, ((ObjectNodeHeader *)object - 1)->position, ((ObjectNodeHeader *)object - 1)->sprite,
+                (EntityRec *)object);
             return;
         }
         reset_actor_animation_state(object);
-        if (((ActorRecord *)object)->species != 0) {
+        if (object->species != 0) {
             break;
         }
         restore_player_control_callback(object, object);
         update_state = &reference_tile_object;
         update_state->frame_table = actor_default_frames;
-        select_record_entry_and_value(update_state, *(void **)(actor_default_frames + ((((s32) (g_game_work.view.camera_rotation.parts.viewAngle + (((ActorRecord *)object)->facing) + 0x100) >> 7) & 0x1C))), 0);
+        select_record_entry_and_value(update_state, *(void **)(actor_default_frames + ((((s32) (g_game_work.view.camera_rotation.parts.viewAngle + (object->facing) + 0x100) >> 7) & 0x1C))), 0);
         reset_index = 3;
         reset_slot = sprite_resource_pointer_slots;
         reset_slot += 3;

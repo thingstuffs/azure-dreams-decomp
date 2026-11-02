@@ -68,7 +68,7 @@ void initialize_effect_object(void *object, ObjectPosition *unused, struct Sprit
 s32 initialize_object_items_in_reverse(struct TownObject *object, void *item_data, s32 item_count);
 
 /* initialize_timed_scale_object.c */
-void initialize_timed_scale_object(void *object, ObjectPosition *state, void *context);
+void initialize_timed_scale_object(void *object, ObjectPosition *state, struct SpriteFrameState *context);
 
 /* render_shaded_object_primitive.c */
 void render_shaded_object_primitive(void *object, MovingPosition *coords, void *primitive);

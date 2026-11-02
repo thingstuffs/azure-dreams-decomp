@@ -4,12 +4,6 @@
 #include "shared/entity.h"
 #include "dungeon/actor/status.h"
 
-typedef struct S_801761AC_0 {
-    u8 pad_00[0x3];
-    u8 unk_03;
-    u8 pad_04[0xD];
-    u8 unk_11;
-} S_801761AC_0;   /* actor in request_random_slot_effect */
 
 
 extern s32 generate_random_value(void);

@@ -14,18 +14,6 @@
 
 
 
-typedef struct S_80174428_2 {
-    u8 pad_00[0x14];
-    u16 unk_14;
-    u8 pad_16[0x6];
-    u16 unk_1C;
-    u16 unk_1E;
-    u8 pad_20[0x4];
-    u8 unk_24;
-    u8 unk_25;
-    u8 pad_26[0x6];
-    u8 * unk_2C;
-} S_80174428_2;   /* actor in update_movement_destination_selection_recovery_animation */
 
 
 extern s16 floor_generation_state[3];

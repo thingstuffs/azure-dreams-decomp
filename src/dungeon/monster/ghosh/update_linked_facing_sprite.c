@@ -7,10 +7,6 @@
 #include "engine/texture.h"
 #include "slus.h"
 
-typedef struct S_801714B0_0 {
-    u8 pad_00[0x2A];
-    s16 unk_2A;
-} S_801714B0_0;   /* entity in update_linked_facing_sprite */
 
 typedef struct S_801714B0_1 {
     u8 pad_00[0x94];

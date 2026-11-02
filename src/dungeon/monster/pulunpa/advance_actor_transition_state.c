@@ -24,12 +24,6 @@ extern void spend_actor_mp(void *, s32);
 
 extern u8 pulunpa_variant_action_address;
 
-typedef struct S_80176028_0 {
-    u8 pad_00[0x4];
-    s8 unk_04;
-    u8 pad_05[0xF];
-    u16 unk_14;
-} S_80176028_0;   /* arg2 in advance_actor_transition_state */
 
 typedef struct S_80176028_4 {
     u8 pad_00[0x1C];

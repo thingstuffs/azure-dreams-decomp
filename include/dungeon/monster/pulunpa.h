@@ -21,7 +21,7 @@ void advance_directional_action_and_reset(ActorRecord *action, ObjectPosition *m
 
 void animate_hop_to_actor_tile(ActorRecord *action, ObjectPosition *motion, SpriteFrameState *sprite, ActorRecord *actor);
 
-void select_variant_object_data(void *object, ObjectPosition *motion, SpriteFrameState *sprite, ActorRecord *extra);
+void select_variant_object_data(ActorRecord *object, ObjectPosition *motion, SpriteFrameState *sprite, ActorRecord *extra);
 void select_variant_object_data_when_positive(ActorRecord *object, ObjectPosition *position, SpriteFrameState *sprite, ActorRecord *actor);
 
 void display_record_name_message(void *record);

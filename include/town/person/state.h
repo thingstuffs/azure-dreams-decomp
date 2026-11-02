@@ -66,7 +66,7 @@ void initialize_actor_reaction_and_fixed_state(TownObjectRecord *actor, struct R
 void initialize_actor_state_table(TownObjectRecord *actor, s32 context, void *state_context);
 
 /* initialize_entity_action_state.c */
-void initialize_entity_action_state(void *entity, s32 unused, void *init_value);
+void initialize_entity_action_state(TownObjectRecord *entity, s32 unused, void *init_value);
 
 /* initialize_indexed_callback_state.c */
 void initialize_indexed_callback_state(TownObjectRecord *object, s32 unused, void *initValue);
@@ -102,7 +102,7 @@ void process_object_0x6000_flag_bits(TownObjectRecord *contextId, s32 contextDat
 void reset_indexed_flag_install_handlers(void *object, void *context, void *input);
 
 /* reset_menu_state.c */
-void reset_menu_state(TownObjectRecord *menu, ObjectPosition *update_arg, void *input);
+void reset_menu_state(TownObjectRecord *menu, ObjectPosition *update_arg, SpriteFrameState *input);
 
 /* reset_mother_event_global_state.c */
 void reset_mother_event_global_state(void *object);

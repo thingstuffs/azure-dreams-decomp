@@ -10,15 +10,6 @@ extern Func4 actor_brightness_callbacks[];
 extern void advance_sprite_animation_and_textures(void *);
 extern s32 rsin(s32);
 
-typedef struct S_800D4158_1 {
-    union { struct { s32 v; } at00; struct { u8 pad[0x2]; u16 v; } at02; } unk_00;   /* overlapping accesses */
-    union { struct { s32 v; } at00; struct { u8 pad[0x2]; u16 v; } at02; } unk_04;   /* overlapping accesses */
-    u8 pad_08[0x2];
-    s16 unk_0A;
-    s32 unk_0C;
-    s32 unk_10;
-    s32 unk_14;
-} S_800D4158_1;   /* arg1 in update_actor_motion_and_brightness */
 
 /* Updates entity callbacks, motion, ground contact, and sprite brightness. */
 void update_actor_motion_and_brightness(ActorRecord *body, ObjectPosition *motion, SpriteFrameState *sprite) {
