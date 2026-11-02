@@ -1,5 +1,6 @@
 #include "town/menu/motion.h"
 #include "shared/object_flags.h"
+#include "shared/object_node.h"
 
 typedef struct Obj800A5BC0 {
     u8 pad0[8];
@@ -19,7 +20,7 @@ void tick_menu_motion_fade(Obj800A5BC0 *obj, void *ctx)
 {
     obj->timer--;
     if (obj->timer < 0) {
-        *(u16 *)((u8 *)obj - 2) |= NODE_REMOVE;
+        ((ObjectNodeHeader *)obj - 1)->flags |= NODE_REMOVE;
         object_flag_block.flags |= OBJECT_REMOVE_PENDING;
         return;
     }

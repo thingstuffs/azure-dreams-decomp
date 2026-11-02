@@ -36,12 +36,6 @@ typedef struct S_80172050_2 {
 } S_80172050_2;
 
 /* out in attempt_actor_action_and_display */
-typedef struct S_80172050_3 {
-    u8 pad_00[0x2A];
-    s16 unk_2A;
-    u8 pad_2C[0x41];
-    u8 unk_6D;
-} S_80172050_3;
 
 typedef struct Ent Ent;
 

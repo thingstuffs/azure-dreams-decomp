@@ -23,16 +23,16 @@ void update_actor_slots_and_output(void *state_owner, void *update_target, void 
 void advance_timed_action_handler(struct S_8009B0EC_0 *object);
 
 /* initialize_actor_action_with_default_data.c */
-void initialize_actor_action_with_default_data(void *actor, void *action_id, struct SpriteFrameState *action_state);
+void initialize_actor_action_with_default_data(TownObjectRecord *actor, ObjectPosition *action_id, struct SpriteFrameState *action_state);
 
 /* initialize_actor_action_with_defaults.c */
 void initialize_actor_action_with_defaults(void *actor, ObjectPosition *action_id, struct SpriteFrameState *action_state, void *state_data);
 
 /* initialize_object_resource_table.c */
-void initialize_object_resource_table(void *object, void *context, SpriteFrameState *state);
+void initialize_object_resource_table(void *object, ObjectPosition *context, SpriteFrameState *state);
 
 /* initialize_object_resource_tables.c */
-void initialize_object_resource_tables(void *object, void *init_arg, SpriteFrameState *state);
+void initialize_object_resource_tables(TownObjectRecord *object, ObjectPosition *init_arg, SpriteFrameState *state);
 
 /* initialize_object_state_and_position.c */
 void initialize_object_state_and_position(void **object, IntVector3 *start_position, void *ptr2);
@@ -60,7 +60,7 @@ void transform_vector(s32 transform, void *vector, void *transformed);
 void transform_and_queue_mesh_quads(struct S_func_800AC9AC_0 *mesh, void *transform);
 
 /* no_op_action_callback.c */
-void no_op_action_callback(void *unused_object, void *unused_position, struct SpriteFrameState *unused_sprite);
+void no_op_action_callback(TownObjectRecord *unused_object, ObjectPosition *unused_position, struct SpriteFrameState *unused_sprite);
 
 /* noop_hook.c */
 void noop_hook(void);

@@ -1,15 +1,13 @@
 #ifndef TOWN_PLAYER_FALLBACK_HANDLER_POSITION_G00541_H
 #define TOWN_PLAYER_FALLBACK_HANDLER_POSITION_G00541_H
+
+#include "town/player/record.h"
 /* G00541: shared declarations for fallback handler position. */
 /* Original-file evidence (G00541): inferred (adjacency/recipe/locality), inferred-strong - CL:town/func_800991C4, CL:town/func_800992D0, CL:town/func_800992FC. */
 
 #include "common.h"
 #include "shared/vector.h"
 
-typedef struct {
-    void *unk0;
-    void *unk4;
-} Unk99108;
 
 typedef struct Record {
     u8 flags;
@@ -29,7 +27,7 @@ extern IntVector3 computed_position;
 extern IntVector3 *town_overlap_origin;
 
 /* Functions defined in this translation unit. */
-void dispatch_to_matching_fallback_handler_using_sentinel_terminated_key_lists(Unk99108 *entry, void *forwarded_a, void *forwarded_b);
+void dispatch_to_matching_fallback_handler_using_sentinel_terminated_key_lists(TownPlayerRecord *entry, void *forwarded_a, void *forwarded_b);
 void clear_global_80100_d_20(void);
 void compute_the_based_position_offset_publishes_resulting_vector(void *object, IntVector3 *offset, void *resources);
 void *call_an_indexed_byte_s_signed_field_callee_80096_a_5_c(void *object, u8 *values, s32 index);

@@ -43,7 +43,7 @@ typedef struct GrowingCollidingEffectBody {
 } GrowingCollidingEffectBody;
 
 void update_damped_height_effect(DirectionalParticlesAndResetActorBody *state, void *position, SpriteFrameState *object);
-void update_growing_colliding_effect(GrowingCollidingEffectBody *effect, void *position, SpriteFrameState *sprite);
+void update_growing_colliding_effect(GrowingCollidingEffectBody *effect, ObjectPosition *position, SpriteFrameState *sprite);
 
 /* Callback entry points. */
 void update_fading_motion_effect(void *effect, void *transform, void *color);

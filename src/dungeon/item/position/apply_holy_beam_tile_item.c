@@ -10,6 +10,7 @@
 #include "shared/dungeon_moving_views.h"
 #include "shared/object_links.h"
 #include "dungeon/level.h"
+#include "dungeon/level/floor_object_positions.h"
 #include "dungeon/item/position.h"
 #include "dungeon/item/state.h"
 #include "dungeon/player/state.h"
@@ -26,7 +27,6 @@ extern s32 create_central_and_child_effects(u8 x, u8 y, s16 value, s32 mode, s32
 extern u8 D_800893D4[];
 extern u8 D_800E1684[];
 extern u8 D_800E169A[];
-extern u8 dungeon_floor_object_positions[];
 
 
    /* the 0x14 bytes before arg0 in apply_holy_beam_tile_item, addressed as arg0[-1] */
@@ -38,16 +38,11 @@ typedef struct S_800C2CDC_2 {
     s16 unk_20;
 } S_800C2CDC_2;   /* object_fields in apply_holy_beam_tile_item */
 
-typedef struct S_800C2CDC_3 {
-    u8 pad_00[0x8];
-    s32 unk_08;
-} S_800C2CDC_3;   /* entries + (index * 24) in apply_holy_beam_tile_item */
-
 /* Creates an object at the entity position, updates its state, and decrements the global count. */
 s32 apply_holy_beam_tile_item(ActorRecord *body, DungeonItemEntry *object_data, s16 action_type) {
     MovingTile *entity;
     s32 object_fields;
-    u8 *entries;
+    D_800E39C8_entry *entries;
     s32 object;
     void *handle;
     s16 entry_index;
@@ -73,7 +68,7 @@ s32 apply_holy_beam_tile_item(ActorRecord *body, DungeonItemEntry *object_data, 
                           body->ground_height, 6, object);
     entries = dungeon_floor_object_positions;
     ((S_800C2CDC_2 *)object_fields)->unk_20 = entry_index;
-    ((S_800C2CDC_3 *)(entries + (entry_index * 24)))->unk_08 = 0;
+    entries[entry_index].field8.s = 0;
 
     handle = get_unused_text_buffer();
     object = write_text_byte_and_advance(8, handle);

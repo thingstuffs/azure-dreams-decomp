@@ -1,3 +1,4 @@
+#include "town/player/record.h"
 #include "common.h"
 #include "shared/object_index_slots.h"
 #include "engine/node.h"
@@ -6,8 +7,10 @@
 extern void initialize_record_with_handler_table(void *record, s32 setup_value, s32 init_value);
 
 /* Clean up the actor, clear its indexed flag, and complete its current action. */
-void complete_player_action(void *actor, s32 motionState, s32 completionArg) {
+void complete_player_action(void *actor_arg, s32 motionState, s32 completionArg) {
+    TownPlayerRecord *actor = actor_arg;
+
     unlink_node_if_registered(actor);
-    *(((*(s32 *)((u8 *)actor + 0x40)) * 8) + ((u8 *)object_index_slots)) = 0;
+    *(((actor->slot) * 8) + ((u8 *)object_index_slots)) = 0;
     initialize_record_with_handler_table(actor, motionState, completionArg);
 }

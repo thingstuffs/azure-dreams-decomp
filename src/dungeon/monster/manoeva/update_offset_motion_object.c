@@ -20,7 +20,7 @@ typedef struct S_80175C60_2 {
 
 
 /* Advance motion and rotation, update facing, and flag the object when its timer expires. */
-void update_offset_motion_object(void *object_arg, void *motion_data, void *rotation_arg)
+void update_offset_motion_object(void *object_arg, ObjectPosition *motion_data, void *rotation_arg)
 {
     S_80175C60_1 *object = object_arg;
     ObjectPosition *motion = motion_data;

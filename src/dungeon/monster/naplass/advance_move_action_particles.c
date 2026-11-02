@@ -18,21 +18,6 @@
 #include "dungeon/item.h"
 #include "dungeon/actor.h"
 
-typedef struct S_80172840_0 {
-    u8 pad_00[0x1C];
-    u32 unk_1C;
-    u8 pad_20[0xA];
-    union { u16 s; s16 u; } unk_2A;   /* accessed as both */
-    u8 pad_2C[0x1A];
-    u16 unk_46;
-    u8 pad_48[0x18];
-    void * unk_60;
-    u8 pad_64[0x9];
-    union { u8 s; s8 u; } unk_6D;   /* accessed as both */
-    u8 pad_6E[0x4];
-    union { u8 s; s8 u; } unk_72;   /* accessed as both */
-    union { u8 s; s8 u; } unk_73;   /* accessed as both */
-} S_80172840_0;   /* arg3 in advance_move_action_particles */
 
 
 typedef struct S_80172840_8 {
@@ -94,7 +79,7 @@ void advance_move_action_particles(ActorRecord *action, ObjectPosition *position
     u8 *direction_x_ptr;
     is_special = 0;
     direction_x_ptr = dir_step_x;
-    heading = ((S_80172840_0 *)actor)->unk_2A.s;
+    heading = ((u16)actor->facing);
     counter = heading >> 8;
     direction_offset = counter & 0xE;
     direction_x_ptr += direction_offset;
@@ -109,7 +94,7 @@ void advance_move_action_particles(ActorRecord *action, ObjectPosition *position
         void *move_object;
         s16 special_flag;
 
-        if (((S_80172840_0 *)actor)->unk_1C & ACTOR_PLAYER_SIDE) {
+        if (((u32)actor->flags1C) & ACTOR_PLAYER_SIDE) {
             switch (actor->action_flags & 0x3FFF) {
             case 7:
                 is_special = 1;
@@ -151,13 +136,13 @@ void advance_move_action_particles(ActorRecord *action, ObjectPosition *position
             if (special_flag != 0) {
                 move_object = ((u8 *)primary_actor_record);
                 actor->target = move_object;
-                record = ((ObjectNodeHeader *)((u8 *)move_object - 0x20))->sprite;
+                record = ((ObjectNodeHeader *)move_object - 1)->sprite;
                 actor->target_tile_x = record->tile_x;
                 actor->target_tile_y = record->tile_y;
             } else if (item_action_definitions[*move_slot].kind == 2) {
                 move_object = actor->target;
                 if (move_object != 0) {
-                    record = ((ObjectNodeHeader *)((u8 *)move_object - 0x20))->sprite;
+                    record = ((ObjectNodeHeader *)move_object - 1)->sprite;
                     actor->target_tile_x = record->tile_x;
                     actor->target_tile_y = record->tile_y;
                 }
@@ -194,7 +179,7 @@ void advance_move_action_particles(ActorRecord *action, ObjectPosition *position
         g_dungeon_status.active_actor = 0;
         primary_actor_record->unk_A4.halves.high.u--;
         advance_status_timers(actor);
-        ((S_80172840_0 *)actor)->unk_6D.s--;
+        actor->pending_turn_updates--;
         action->unk_8C.address = naplass_action_continuation_address;
         actor->target_tile_y = 0;
         actor->target_tile_x = 0;
@@ -319,7 +304,7 @@ void advance_move_action_particles(ActorRecord *action, ObjectPosition *position
         action->unk_8C.address = naplass_action_continuation_address;
         advance_status_timers(actor);
         if (actor->pending_turn_updates > 0) {
-            ((S_80172840_0 *)actor)->unk_6D.s--;
+            actor->pending_turn_updates--;
         }
         actor->target_tile_y = 0;
         actor->target_tile_x = 0;

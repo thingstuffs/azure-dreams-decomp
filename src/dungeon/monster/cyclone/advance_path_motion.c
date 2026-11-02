@@ -9,16 +9,6 @@
 #include "dungeon/level.h"
 #include "dungeon/monster/cyclone.h"
 
-typedef struct S_801716D8_0 {
-    u8 pad_00[0x1C];
-    s32 unk_1C;
-    u8 pad_20[0xA];
-    s16 unk_2A;
-    u8 pad_2C[0x45];
-    s8 unk_71;
-    u8 pad_72[0x18];
-    s16 unk_8A;
-} S_801716D8_0;   /* state in advance_path_motion */
 
 void update_map_cell_flags_with_item_limit(s32 x, s32 y, u16 flags);             /* extern */
 s32 check_movement_clearance_and_height(); /* extern */
@@ -38,7 +28,7 @@ void advance_path_motion(ActorRecord *body, ObjectPosition *position, SpriteFram
     s32 move_flag;
     ActorRecord *state = actor;
 
-    if ((((S_801716D8_0 *)state)->unk_71 > 0) && ((s32) (u8) ((S_801716D8_0 *)state)->unk_71
+    if ((((s8)state->movement_queue_state) > 0) && ((s32) (u8) ((s8)state->movement_queue_state)
         > state->unk_8A)) {
         if (sprite->frameTable != cyclone_move_direction_frames) {
             (sprite->frameTable) = cyclone_move_direction_frames;
@@ -77,7 +67,7 @@ void advance_path_motion(ActorRecord *body, ObjectPosition *position, SpriteFram
             return;
         }
         body->action_timer.s = 8;
-        step_count = (u8) ((S_801716D8_0 *)state)->unk_71;
+        step_count = (u8) ((s8)state->movement_queue_state);
         if ((s32) step_count > 0) {
             body->action_timer.s = (s16) (8 / (s32) step_count);
         }

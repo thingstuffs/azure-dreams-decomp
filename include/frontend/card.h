@@ -3,6 +3,8 @@
 /* Prototypes of the functions defined in src/frontend/card/ (one true prototype each; maintained by tools/headers). */
 
 #include "common.h"
+#include "frontend/libcard/save_menu.h"
+#include "shared/entity.h"
 
 /* Cached save headers use a 128-byte stride. Retail reads words and the
  * halfword at +8; the complete table allocation bound is unestablished. */
@@ -39,7 +41,6 @@ struct S_8001FF0C_0;
 struct S_80020458_2;
 struct S_80020D0C_0;
 struct S_80021394_0;
-struct S_80026720_0;
 struct ObjectNodeHeader;
 
 /* bind_dialog_template.c */
@@ -417,8 +418,8 @@ void card_info_set_value_and_refresh(void *object, s32 value);
 void card_info_set_word(s32 *dest, s32 value);
 
 /* card_save_request.c */
-void card_boot_set_save_menu_request(struct S_80026720_0 *object, void *value);
-void card_boot_initialize_save_menu_request(void *object, void *value);
+void card_boot_set_save_menu_request(CardSaveMenuBody *object, void *value);
+void card_boot_initialize_save_menu_request(CardSaveMenuBody *object, void *value);
 
 /* card_slot_menu_request.c */
 void card_boot_initialize_slot_menu_request(void *object, void *value);
@@ -456,7 +457,7 @@ void complete_pending_object_state(u8 *ptr);
 void fade_four_entries(void *object);
 
 /* fill_value_output_fields.c */
-void fill_value_output_fields(struct MainValue **value_slot, u8 *output, struct MainValue *value);
+void fill_value_output_fields(struct MainValue **value_slot, ObjectPosition *output, struct MainValue *value);
 
 /* find_text_word_bounds.c */
 void find_text_word_bounds(u8 *text, s32 limit, s32 *start_out, s32 *length_out, s32 *total_out);

@@ -466,7 +466,7 @@ void update_snowball_minigame_actor(TownCollectionActor *object, ObjectPosition 
 
     case 0x109:
         unlink_scene_list_node(object);
-        (*(u16 *)((u8 *)object + -2)) |= NODE_REMOVE;
+        (((ObjectNodeHeader *)object - 1)->flags) |= NODE_REMOVE;
         object_flag_block.flags |= OBJECT_REMOVE_PENDING;
         return;
 

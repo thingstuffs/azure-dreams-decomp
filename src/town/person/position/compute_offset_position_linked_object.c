@@ -2,6 +2,7 @@
 #include "shared/object_flags.h"
 #include "shared/vector.h"
 #include "town/person/position.h"
+#include "shared/object_node.h"
 
 
 
@@ -19,7 +20,7 @@ void compute_offset_position_linked_object(OwnerFollowingSpriteBody *object, Int
 
     if (check_actor_data_references_match(linked_object) == 0) {
         unlink_node_if_registered(object);
-        *(u16 *)((u8 *)object - 2) |= NODE_REMOVE;
+        ((ObjectNodeHeader *)object - 1)->flags |= NODE_REMOVE;
         object_flag_block.flags |= OBJECT_REMOVE_PENDING;
         return;
     }

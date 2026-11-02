@@ -17,7 +17,7 @@ s32 check_door_status_inverted(void *object) {
 }
 
 /* Initialize the record and select its handler according to its variant. */
-void initialize_door_variant(TownObjectRecord *record_data, void *position, struct SpriteFrameState *unused_sprite) {
+void initialize_door_variant(TownObjectRecord *record_data, ObjectPosition *position, struct SpriteFrameState *unused_sprite) {
     u32 variant;
 
     variant = ((S_800A06A4_0 *)((u8 *)record_data - 0x10))->unk_A4;

@@ -27,7 +27,7 @@ typedef struct S_8016F79C_0 {
  * Faces the linked Beldo actor toward the record's octant, copies the player's facing when
  * coincident, and restores X/Y.
  */
-void apply_script_direction_record(void *unused_0, u8 *record, void *unused_2) {
+void apply_script_direction_record(void *unused_0, ObjectPosition *record, SpriteFrameState *unused_2) {
     u8 *source_base = (u8 *)(&scene_object_list_anchor.next);
     register ActorRecord *source_data = (ActorRecord *)(source_base + 0x20);
     u8 *target_base = beldo_actor_nodes[1];
@@ -42,7 +42,7 @@ void apply_script_direction_record(void *unused_0, u8 *record, void *unused_2) {
     }
     {
         register u16 *default_words = (u16 *)((u8 *)(&view_reference_entity));
-        ((RecordFieldView_8133879C *)record)->field_02 = default_words[1];
-        ((RecordFieldView_8133879C *)record)->field_06 = default_words[3];
+        record->x.unsigned_parts.integer = default_words[1];
+        record->y.unsigned_parts.integer = default_words[3];
     }
 }

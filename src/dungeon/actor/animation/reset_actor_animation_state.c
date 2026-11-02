@@ -15,20 +15,6 @@ typedef struct S_800D8590_0 {
     s32 unk_10;
 } S_800D8590_0;
 
-typedef struct S_800D8590_2 {
-    u8 pad_00[0x8C];
-    u8 * unk_8C;
-    u8 pad_90[0xA];
-    u8 unk_9A;
-    u8 pad_9B[0x1];
-    s8 unk_9C;
-    u8 pad_9D[0x3];
-    s16 unk_A0;
-    u8 pad_A2[0x6];
-    s16 unk_A8;
-    u8 pad_AA[0x2];
-    s32 unk_AC;
-} S_800D8590_2;
 
 typedef struct S_800D8590_3 {
     u8 pad_00[0x12];
@@ -50,7 +36,7 @@ void *reset_actor_animation_state(ActorRecord *body)
     s32 map_index;
     void *entity_arg;
     u8 *parent;
-    S_800D8590_2 *object;
+    ActorRecord *object;
     s32 frame_index;
 
     entity_arg = body;
@@ -81,20 +67,20 @@ void *reset_actor_animation_state(ActorRecord *body)
         }
         bzero(parent + 0xAC, 0x24);
 
-        object = (S_800D8590_2 *)(parent + 0x20);
-        object->unk_AC = ((S_800D8590_0 *)parent)->unk_10;
+        object = (ActorRecord *)(parent + 0x20);
+        object->unk_AC.value = ((S_800D8590_0 *)parent)->unk_10;
         ((S_800D8590_0 *)parent)->unk_10 = (s32)D_800D8728 & 0x7FFFFFFF;
-        object->unk_A8 = body->species;
+        object->unk_A8.s = body->species;
         body->species = MONSTER_FROG;
-        object->unk_9A = 0xFF;
+        object->action_id.u = 0xFF;
         object->unk_9C = -1;
-        object->unk_8C = update_actor_facing_animation;
+        object->unk_8C.byte_ptr = update_actor_facing_animation;
         (*(void ** *)(child + 0x2C)) = actor_action_frames;
 
         frame_index = (g_game_work.view.camera_rotation.parts.viewAngle + body->facing + 0x100) >> 7;
         select_record_entry_and_value(child,
                       *(void **)((u8 *)actor_action_frames + (frame_index & 0x1C)), 0);
-        object->unk_A0 = 0x14;
+        object->unk_A0.parts.low = 0x14;
         ((S_800D8590_3 *)child)->unk_14 |= 0x8000;
         ((S_800D8590_3 *)child)->unk_12 = 0;
         ((S_800D8590_3 *)child)->unk_14 &= 0xFFF3;

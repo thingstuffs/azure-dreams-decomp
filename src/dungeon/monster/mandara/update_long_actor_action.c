@@ -14,45 +14,8 @@
 #include "dungeon/player/object.h"
 #include "engine/node.h"
 
-typedef struct S_80170F6C_0 {
-    u8 pad_00[0x8C];
-    s32 unk_8C;
-    u8 pad_90[0x8];
-    u16 unk_98;
-    u8 unk_9A;
-    u8 unk_9B;
-    u8 pad_9C[0xA];
-    u16 unk_A6;
-    union { s16 s; u16 u; } unk_A8;   /* accessed as both */
-    u16 unk_AA;
-} S_80170F6C_0;   /* arg0 in update_long_actor_action */
 
-typedef struct S_80170F6C_1 {
-    u8 pad_00[0x14];
-    u32 unk_14;
-    u8 pad_18[0x4];
-    u32 unk_1C;
-    u8 pad_20[0x5];
-    u8 unk_25;
-    u8 pad_26[0x4];
-    union { s16 s; u16 u; } unk_2A;   /* accessed as both */
-    u8 pad_2C[0x1A];
-    u16 unk_46;
-    u8 pad_48[0x1C];
-    s16 unk_64;
-    u8 pad_66[0x4];
-    u16 unk_6A;
-    u8 pad_6C[0x1];
-    s8 unk_6D;
-} S_80170F6C_1;   /* arg3 in update_long_actor_action */
 
-typedef struct S_80170F6C_3 {
-    union { struct { s32 v; } at00; struct { u8 pad[0x2]; s16 v; } at02; } unk_00;   /* overlapping accesses */
-    union { struct { s32 v; } at00; struct { u8 pad[0x2]; s16 v; } at02; } unk_04;   /* overlapping accesses */
-    u32 unk_08;
-    s32 unk_0C;
-    s32 unk_10;
-} S_80170F6C_3;   /* arg1 in update_long_actor_action */
 
 typedef struct S_80170F6C_4 {
     ObjectNodeHeader node;
@@ -149,12 +112,12 @@ void update_long_actor_action(ActorRecord *self_object, ObjectPosition *aux_enti
         }
     }
 
-    if (((S_80170F6C_1 *)entity)->unk_1C & 0x200) {
+    if (((u32)entity->flags1C) & 0x200) {
         if (sprite->frameTable == mandara_frame_set_1) {
             self_object->action_id.u = 0xD;
             self_object->action_phase.u = 1;
             self_object->unk_8C.word = 0;
-            ((S_80170F6C_1 *)entity)->unk_1C &= ~0x40000;
+            entity->flags1C &= ~0x40000;
             return;
         }
         if (reset_actor_action_state(self_object, aux_entity, sprite, mandara_frame_set_1) != 0) {
@@ -163,7 +126,7 @@ void update_long_actor_action(ActorRecord *self_object, ObjectPosition *aux_enti
     }
 
     if (!(g_dungeon_status.flags & 0x2000)) {
-        if (((S_80170F6C_1 *)entity)->unk_1C & 0x100) {
+        if (((u32)entity->flags1C) & 0x100) {
             begin_pushed_actor_move(self_object, aux_entity, sprite, entity);
             return;
         }
@@ -183,12 +146,12 @@ void update_long_actor_action(ActorRecord *self_object, ObjectPosition *aux_enti
             }
         }
 
-        if (((S_80170F6C_1 *)entity)->unk_14 & 0x20000) {
+        if (((u32)entity->flags14) & 0x20000) {
             switch (self_object->unk_A8.s) {
             case 0:
                 if (sprite->frameTable != mandara_frame_set) {
                     g_dungeon_status.activity_counts.parts.pending_action_count++;
-                    self_object->unk_AA = ((S_80170F6C_1 *)entity)->unk_2A.u;
+                    self_object->unk_AA = ((u16)entity->facing);
                     entity->facing =
                         (entity->movement_facing + 0x800) & 0xFFF;
                     sprite->flags &= 0x9FFF;
@@ -209,11 +172,11 @@ void update_long_actor_action(ActorRecord *self_object, ObjectPosition *aux_enti
                     aux_entity->velocity_x = 0;
                     set_record_integer_tile_center(aux_entity,
                         sprite->tile_x, sprite->tile_y);
-                    ((S_80170F6C_1 *)entity)->unk_14 &= ~0x20000;
+                    entity->flags14 &= ~0x20000;
                     self_object->unk_A8.u = 0;
                     return;
                 }
-                if (((S_80170F6C_1 *)entity)->unk_14 & 0x1000000) {
+                if (((u32)entity->flags14) & 0x1000000) {
                     self_object->unk_A8.u++;
                     sprite->frameTable = mandara_frame_set;
                     select_sprite_entry(sprite,
@@ -256,7 +219,7 @@ void update_long_actor_action(ActorRecord *self_object, ObjectPosition *aux_enti
                     payload = object->node.position;
                     payload->y.v = aux_entity->y.v;
                     payload = object->node.position;
-                    payload_word = ((S_80170F6C_3 *)aux_entity)->unk_08;
+                    payload_word = ((u32)aux_entity->z.v);
                     color = 0x00800000;
                     payload->z.v = payload_word;
                     part->scale_y = 0x1000;
@@ -330,8 +293,8 @@ void update_long_actor_action(ActorRecord *self_object, ObjectPosition *aux_enti
                     aux_entity->velocity_x = 0;
                     set_record_integer_tile_center(aux_entity,
                         sprite->tile_x, sprite->tile_y);
-                    ((S_80170F6C_1 *)entity)->unk_14 &= ~0x20000;
-                    entity->facing = ((S_80170F6C_0 *)self_object)->unk_AA;
+                    entity->flags14 &= ~0x20000;
+                    entity->facing = ((u16)self_object->unk_AA);
                     sprite->frameTable = mandara_direction_frames;
                     select_sprite_entry(sprite,
                         mandara_direction_frames[((g_game_work.view.camera_rotation.parts.viewAngle + entity->facing + 0x100) >> 9) & 7],
@@ -348,7 +311,7 @@ void update_long_actor_action(ActorRecord *self_object, ObjectPosition *aux_enti
             self_object->action_state_flags &= 0xFFF3;
             if (entity->hp_delta == 0 ||
                 begin_ready_actor_directional_action(self_object, aux_entity, sprite, D_80175260) == 0) {
-                if (((S_80170F6C_1 *)entity)->unk_1C & 0x80000) {
+                if (((u32)entity->flags1C) & 0x80000) {
                     begin_actor_move_to_target_facing(self_object, aux_entity, sprite, entity);
                     func_80174250(self_object, aux_entity, sprite, entity);
                     return;
@@ -366,7 +329,7 @@ void update_long_actor_action(ActorRecord *self_object, ObjectPosition *aux_enti
     sprite->room_index = result;
 
     if (entity->pending_turn_updates > 0) {
-        if (((S_80170F6C_1 *)entity)->unk_1C & 0x20) {
+        if (((u32)entity->flags1C) & 0x20) {
             update_actor_status_and_mp(entity);
             return;
         }
@@ -448,7 +411,7 @@ void update_long_actor_action(ActorRecord *self_object, ObjectPosition *aux_enti
 
     {
         u32 final_flags =
-            ((S_80170F6C_1 *)entity)->unk_1C;
+            ((u32)entity->flags1C);
         if (!(final_flags & 0x2000)) {
             if ((result < 0) || !(dungeon_rooms[result].flags & 2)) {
                 u32 final_mask =

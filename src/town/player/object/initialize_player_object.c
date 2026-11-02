@@ -1,15 +1,18 @@
 #include "common.h"
 #include "shared/object_index_slots.h"
 #include "town/player/object.h"
+#include "town/player/record.h"
 
 extern u8 D_800D05E0[];
 
 /* Initializes the object state and registers its enclosing record globally. */
-void initialize_player_object(void *object) {
+void initialize_player_object(void *object_arg) {
+    TownPlayerRecord *object = object_arg;
+
     u8 *global_state;
 
-    *(void **)((u8 *)object + 0x44) = D_800D05E0;
-    *(s32 *)((u8 *)object + 0x40) = 1;
+    object->unk_44 = D_800D05E0;
+    object->slot = 1;
     global_state = object_index_slots;
     *(void **)(global_state + 0xC) = (u8 *)object - 0x20;
     global_state[8] = 0;

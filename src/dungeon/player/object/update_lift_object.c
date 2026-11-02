@@ -58,19 +58,19 @@ typedef struct S_8008F428_4 {
    /* ((S_8008F428_0 *)arg0)->unk_124 in update_lift_object */
 
 /* Updates the timed effect state, entity flags, and directional animation. */
-void update_lift_object(void *effect_state, void *saved_effect_id, void *animation_arg, void *owner) {
+void update_lift_object(PlayerRecord *effect_state, void *saved_effect_id, void *animation_arg, PlayerRecord *owner) {
     SpriteFrameState *animation = animation_arg;
     u8 *effect_result;
     u16 ticks_left;
     u8 state;
     void *target;
 
-    if (((S_8008F428_0 *)effect_state)->unk_124 != 0) {
+    if (effect_state->unk_124 != 0) {
         if (!(animation->flags & 0x6000)) {
             return;
         }
 
-        state = ((S_8008F428_0 *)effect_state)->unk_9B;
+        state = effect_state->actor.action_phase.u;
         if (state == 0) {
             void *effect_target;
             s32 entity_flags;
@@ -78,23 +78,23 @@ void update_lift_object(void *effect_state, void *saved_effect_id, void *animati
 
             lift_jitter_offsets[0] = 0;
             lift_jitter_offsets[1] = 0;
-            entity_flags = ((ActorRecord *)(((S_8008F428_0 *)effect_state)->unk_124))->flags1C;
+            entity_flags = ((ActorRecord *)(effect_state->unk_124))->flags1C;
             effect_target = animation;
             if (!(entity_flags & 0x2000)) {
                 if (!(entity_flags & 0x228)) {
                     wait_roll = random_dungeon_range_16(0, 0x10);
                     effect_target = animation;
                     if ((s16)wait_roll < 6) {
-                        ((S_8008F428_0 *)effect_state)->unk_96 = 0x10;
-                        ((S_8008F428_0 *)effect_state)->unk_9B = ((S_8008F428_0 *)effect_state)->unk_9B + 1;
+                        effect_state->actor.action_timer.u = 0x10;
+                        effect_state->actor.action_phase.u = effect_state->actor.action_phase.u + 1;
                         return;
                     }
                 }
             }
-            ((S_8008F428_0 *)effect_state)->unk_8C = player_action_tag;
+            effect_state->actor.unk_8C.address = player_action_tag;
             (*(u8 * *)((u8 *)effect_target + (0x2C))) = player_carry_frames;
             set_sprite_animation_frame(effect_target,
-                player_carry_frames[((g_game_work.view.camera_rotation.parts.viewAngle + ((S_8008F428_4 *)owner)->unk_2A + 0x100) >> 9) & 7],
+                player_carry_frames[((g_game_work.view.camera_rotation.parts.viewAngle + owner->actor.facing + 0x100) >> 9) & 7],
                 0, 1);
             return;
         }
@@ -102,13 +102,13 @@ void update_lift_object(void *effect_state, void *saved_effect_id, void *animati
         if (state == 1) {
             lift_jitter_offsets[0] = (rand() & 0xF) - 8;
             lift_jitter_offsets[1] = (rand() & 0xF) - 8;
-            ticks_left = ((S_8008F428_0 *)effect_state)->unk_96 - 1;
-            ((S_8008F428_0 *)effect_state)->unk_96 = ticks_left;
+            ticks_left = effect_state->actor.action_timer.u - 1;
+            effect_state->actor.action_timer.u = ticks_left;
             if ((s16)ticks_left > 0) {
                 return;
             }
             play_sound_if_enabled(0x510);
-            adjust_source_value_and_finalize(((S_8008F428_0 *)effect_state)->unk_124, D_800E0523);
+            adjust_source_value_and_finalize(effect_state->unk_124, D_800E0523);
             {
                 ActorRecord *entity;
                 s32 saved_global;
@@ -120,16 +120,16 @@ void update_lift_object(void *effect_state, void *saved_effect_id, void *animati
                 entity_mask = 0xFFF7FFFF;
                 owner_mask = 0xFFEF0000;
                 global_page = (S_8008F428_2 *)0x80080000;
-                entity = ((S_8008F428_0 *)effect_state)->unk_124;
+                entity = effect_state->unk_124;
                 saved_global = global_page->unk_1484;
                 flags = entity->flags1C;
                 owner_mask |= 0xFFFF;
                 global_page->unk_1484 = 0;
                 entity->flags1C = flags & entity_mask;
                 saved_held_item_word = saved_global;
-                ((S_8008F428_4 *)owner)->unk_1C = ((S_8008F428_4 *)owner)->unk_1C & owner_mask;
+                owner->actor.flags1C = owner->actor.flags1C & owner_mask;
             }
-            ((S_8008F428_0 *)effect_state)->unk_9B = ((S_8008F428_0 *)effect_state)->unk_9B + 1;
+            effect_state->actor.action_phase.u = effect_state->actor.action_phase.u + 1;
             return;
         }
 
@@ -140,27 +140,27 @@ void update_lift_object(void *effect_state, void *saved_effect_id, void *animati
         process_unflagged_linked_entries_alt(((S_8008F428_4 *)owner)->unk_5C);
         process_unflagged_linked_entries(((S_8008F428_4 *)owner)->unk_5C);
         target = animation;
-        ((S_8008F428_0 *)effect_state)->unk_8C = (u8 *)handle_player_input;
+        effect_state->actor.unk_8C.address = (u8 *)handle_player_input;
         (*(u8 * *)((u8 *)target + (0x2C))) = player_wait_frames;
         set_sprite_animation_frame(target,
-            player_wait_frames[((g_game_work.view.camera_rotation.parts.viewAngle + ((S_8008F428_4 *)owner)->unk_2A + 0x100) >> 9) & 7],
+            player_wait_frames[((g_game_work.view.camera_rotation.parts.viewAngle + owner->actor.facing + 0x100) >> 9) & 7],
             0, 1);
         return;
     }
 
-    state = ((S_8008F428_0 *)effect_state)->unk_9B;
+    state = effect_state->actor.action_phase.u;
     if (state == 0) {
         if (animation->unk_04 < 2) {
             return;
         }
         animation->flags |= 0x800;
-        ((S_8008F428_0 *)effect_state)->unk_96 = 0x10;
-        ((S_8008F428_0 *)effect_state)->unk_9B = ((S_8008F428_0 *)effect_state)->unk_9B + 1;
+        effect_state->actor.action_timer.u = 0x10;
+        effect_state->actor.action_phase.u = effect_state->actor.action_phase.u + 1;
         return;
     }
 
-    ticks_left = ((S_8008F428_0 *)effect_state)->unk_96 - 1;
-    ((S_8008F428_0 *)effect_state)->unk_96 = ticks_left;
+    ticks_left = effect_state->actor.action_timer.u - 1;
+    effect_state->actor.action_timer.u = ticks_left;
     if ((s16)ticks_left > 0) {
         return;
     }
@@ -177,10 +177,10 @@ void update_lift_object(void *effect_state, void *saved_effect_id, void *animati
         clear_byte_and_advance(expand_text_control_codes(D_800E0683, effect_result));
         display_text_with_fullwidth_adjustment(saved_effect_id);
         target = animation;
-        ((S_8008F428_0 *)effect_state)->unk_8C = (u8 *)handle_player_input;
+        effect_state->actor.unk_8C.address = (u8 *)handle_player_input;
         (*(u8 * *)((u8 *)target + (0x2C))) = player_wait_frames;
         set_sprite_animation_frame(target,
-            player_wait_frames[((g_game_work.view.camera_rotation.parts.viewAngle + ((S_8008F428_4 *)owner)->unk_2A + 0x100) >> 9) & 7],
+            player_wait_frames[((g_game_work.view.camera_rotation.parts.viewAngle + owner->actor.facing + 0x100) >> 9) & 7],
             0, 1);
     }
 }

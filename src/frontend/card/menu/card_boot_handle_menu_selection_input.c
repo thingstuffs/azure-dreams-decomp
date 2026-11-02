@@ -1,5 +1,7 @@
 #include "shared/pad_state.h"
 #include "common.h"
+#include "shared/object_node.h"
+#include "frontend/libcard/card_chooser.h"
 #include "frontend/card/service.h"
 #include "main/data.h"
 #include "frontend/card/menu.h"
@@ -23,10 +25,6 @@ extern void update_embedded_selected_slot_outputs(s32 slot_addr, StatePair *disp
 extern void memory_process_handles_and_mark_object(void *object);
 
 
-typedef struct S_804081AC_0 {
-    u8 pad_00[0x1E];
-    u16 unk_1E;
-} S_804081AC_0;   /* object in card_boot_handle_menu_selection_input */
 
 /* Handles menu selection input and refreshes the displayed state pair. */
 void card_boot_handle_menu_selection_input(void *menu)
@@ -44,15 +42,15 @@ void card_boot_handle_menu_selection_input(void *menu)
     if (buttons != 0) {
         button_flags = boot_pad_state.pressed;
         if (button_flags & 0x40) {
-            s32 *linked_object;
+            ObjectNodeHeader *linked_object;
 
             func_80063FF8(0x515);
             memory_process_handles_and_mark_object((u8 *)menu - 0x20);
             card_dev_effect_mode = 2;
             func_80400EF8();
             func_8003FD58(0, 0xF, 0, 0);
-            linked_object = (*(s32 * *)((u8 *)menu + 0x14));
-            ((S_804081AC_0 *)linked_object)->unk_1E |= 0x2000;
+            linked_object = ((CardChooserBody *)menu)->request;
+            linked_object->flags |= 0x2000;
         } else if (button_flags & 0x20) {
             func_80063FF8(0x514);
             func_804008A0((*(s32 *)((u8 *)menu + 0xC)));

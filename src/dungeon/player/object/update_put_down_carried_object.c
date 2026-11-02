@@ -51,7 +51,7 @@ typedef struct S_8008F878_5 {
    /* ((S_8008F878_2 *)(&D_800DD25C))->unk_00.p in update_put_down_carried_object */
 
 /* Initializes an actor action and completes it when the action flags are set. */
-void update_put_down_carried_object(S_8008F878_0 *action, void *unused, S_8008F878_1 *action_data, ActorRecord *actor) {
+void update_put_down_carried_object(PlayerRecord *action, void *unused, S_8008F878_1 *action_data, ActorRecord *actor) {
     u16 query_flags;
     s32 event_id;
     s32 state;
@@ -59,7 +59,7 @@ void update_put_down_carried_object(S_8008F878_0 *action, void *unused, S_8008F8
     S_8008F878_3 *target;
     ActorRecord *target_flags;
 
-    state = action->unk_9B;
+    state = action->actor.action_phase.u;
     if (state != 1) {
         if (state >= 2) {
             return;
@@ -83,19 +83,19 @@ void update_put_down_carried_object(S_8008F878_0 *action, void *unused, S_8008F8
                 saved_value = (*&held_item_record);
                 (*&held_item_record) = 0;
                 saved_held_item_word = saved_value;
-                action->unk_9B++;
+                action->actor.action_phase.u++;
             }
         }
     } else {
         if (action_data->unk_14 & 0x6000) {
-            action->unk_9B = 2U;
+            action->actor.action_phase.u = 2U;
             g_dungeon_status.flags = (u16) (g_dungeon_status.flags | 0x412);
             process_unflagged_linked_entries_alt(actor->next_actor_header);
             process_unflagged_linked_entries(actor->next_actor_header);
             if (((S_8008F878_2 *)(&player_put_down_target))->unk_00.p != NULL) {
                 ((ActorRecord *)(((S_8008F878_2 *)(&player_put_down_target))->unk_00.p))->pending_turn_updates = 0;
             }
-            action->unk_8C = handle_player_input;
+            action->actor.unk_8C.run = handle_player_input;
             g_dungeon_status.activity_counts.parts.pending_action_count = (u16) (((u16)g_dungeon_status.activity_counts.parts.pending_action_count) - 1);
         }
     }

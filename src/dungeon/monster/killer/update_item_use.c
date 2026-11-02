@@ -115,7 +115,7 @@ extern u8 D_80174078[];
 /* Updates item use, its visual effect, and the actor's return to idle. */
 /* Starts a targeted spell with two effect rows, keeps its child at the actor's position, and releases it
  * on completion. */
-void update_item_use(S_func_80FDD1A0_1 *actor, VecData *motion, SpriteFrameState *sprite, S_func_80FDD1A0_3 *actor_data)
+void update_item_use(S_func_80FDD1A0_1 *actor, VecData *motion, SpriteFrameState *sprite, ActorRecord *actor_data)
 {
     s16 use_player = 0;
     S_func_80FDD1A0_4 *effect = 0;
@@ -129,23 +129,23 @@ void update_item_use(S_func_80FDD1A0_1 *actor, VecData *motion, SpriteFrameState
     phase = actor->unk_9B;
     switch (phase) {
     case 0:
-        if (actor_data->unk_1C & ACTOR_PLAYER_SIDE) {
-            kind_index = (actor_data->unk_46 & 0x3FFF) - 1;
+        if (actor_data->flags1C & ACTOR_PLAYER_SIDE) {
+            kind_index = (actor_data->action_flags & 0x3FFF) - 1;
             switch (kind_index) {
             case 6:
                 use_player = 1;
             case 2:
-                item_slot = &actor_data->unk_0E;
+                item_slot = &actor_data->unk_0C.bytes[2];
                 break;
             case 5:
                 use_player = 1;
             case 1:
-                item_slot = &actor_data->unk_0B;
+                item_slot = &actor_data->unk_00[11];
                 break;
             case 4:
                 use_player = 1;
             case 0:
-                item_slot = &actor_data->unk_08;
+                item_slot = &actor_data->unk_00[8];
                 break;
             case 3:
             default:
@@ -153,16 +153,16 @@ void update_item_use(S_func_80FDD1A0_1 *actor, VecData *motion, SpriteFrameState
                 break;
             }
         } else {
-            s32 action_kind = actor_data->unk_46 & 0x3FFF;
+            s32 action_kind = actor_data->action_flags & 0x3FFF;
             switch (action_kind) {
             case 3:
-                item_slot = &actor_data->unk_0E;
+                item_slot = &actor_data->unk_0C.bytes[2];
                 break;
             case 2:
-                item_slot = &actor_data->unk_0B;
+                item_slot = &actor_data->unk_00[11];
                 break;
             case 1:
-                item_slot = &actor_data->unk_08;
+                item_slot = &actor_data->unk_00[8];
                 break;
             default:
                 item_slot = 0;
@@ -178,24 +178,24 @@ void update_item_use(S_func_80FDD1A0_1 *actor, VecData *motion, SpriteFrameState
                 player_target = use_player;
                 if (player_target != 0) {
                     target = primary_actor_record;
-                    actor_data->unk_60 = target;
+                    actor_data->target = target;
                     {
                         SpriteFrameState *item_id;
 
-                        item_id = ((ObjectNodeHeader *)((u8 *)target - 0x20))->sprite;
-                        actor_data->unk_72.u = item_id->tile_x;
-                        actor_data->unk_73.u = item_id->tile_y;
+                        item_id = ((ObjectNodeHeader *)target - 1)->sprite;
+                        actor_data->target_tile_x = item_id->tile_x;
+                        actor_data->target_tile_y = item_id->tile_y;
                     }
                 } else {
                     S_func_80FDD1A0_2 *item_id;
 
                     item_id = (S_func_80FDD1A0_2 *)(*item_slot);
                     if (item_action_definitions[((u8)item_id)].kind == 2) {
-                        target = actor_data->unk_60;
+                        target = actor_data->target;
                         if (target != 0) {
-                            item_id = ((ObjectNodeHeader *)((u8 *)target - 0x20))->sprite;
-                            actor_data->unk_72.u = item_id->unk_24;
-                            actor_data->unk_73.u = item_id->unk_25;
+                            item_id = ((ObjectNodeHeader *)target - 1)->sprite;
+                            actor_data->target_tile_x = item_id->unk_24;
+                            actor_data->target_tile_y = item_id->unk_25;
                         }
                     } else {
                         s32 target_x;
@@ -207,13 +207,13 @@ void update_item_use(S_func_80FDD1A0_1 *actor, VecData *motion, SpriteFrameState
                             actor_data,
                             sprite->tile_x,
                             sprite->tile_y,
-                            actor_data->unk_2A.s,
+                            actor_data->facing,
                             0x10);
-                        actor_data->unk_60 = target;
-                        abs_x = abs(actor_data->unk_72.s);
-                        abs_y = abs(actor_data->unk_73.s);
-                        actor_data->unk_72.u = abs_x;
-                        actor_data->unk_73.u = abs_y;
+                        actor_data->target = target;
+                        abs_x = abs(actor_data->target_tile_x);
+                        abs_y = abs(actor_data->target_tile_y);
+                        actor_data->target_tile_x = abs_x;
+                        actor_data->target_tile_y = abs_y;
                     }
                 }
             }
@@ -236,7 +236,7 @@ void update_item_use(S_func_80FDD1A0_1 *actor, VecData *motion, SpriteFrameState
                     effect_motion = effect->unk_08;
                     *effect_motion = *motion;
                     effect->unk_BB = 0;
-                    effect->unk_4A = actor_data->unk_2A.u;
+                    effect->unk_4A = actor_data->facing;
                     {
                         s32 sprite_flags = sprite->animation_resource;
                         effect_sprite = effect->unk_0C;
@@ -264,7 +264,7 @@ void update_item_use(S_func_80FDD1A0_1 *actor, VecData *motion, SpriteFrameState
                 effect_sprite = actor->unk_A8;
                 effect_sprite = ((S_func_80FDD1A0_4 *)effect_sprite)->unk_0C;
                 animations = effect_sprite->unk_2C;
-                direction = ((g_game_work.view.camera_rotation.parts.viewAngle + actor_data->unk_2A.s + 0x100) >> 9) & 7;
+                direction = ((g_game_work.view.camera_rotation.parts.viewAngle + actor_data->facing + 0x100) >> 9) & 7;
                 select_sprite_entry(effect_sprite, animations[direction], 0);
             }
             if (create_actor_spell_effect(actor_data, item_slot, use_player,
@@ -285,11 +285,11 @@ void update_item_use(S_func_80FDD1A0_1 *actor, VecData *motion, SpriteFrameState
         g_dungeon_status.active_actor = 0;
         primary_actor_record->unk_A4.halves.high.u--;
         advance_status_timers(actor_data);
-        actor_data->unk_6D.u--;
+        actor_data->pending_turn_updates--;
         actor->unk_8C = &killer_action_resume_address;
-        actor_data->unk_73.u = 0;
-        actor_data->unk_72.u = 0;
-        actor_data->unk_46 &= 0x7FFF;
+        actor_data->target_tile_y = 0;
+        actor_data->target_tile_x = 0;
+        actor_data->action_flags &= 0x7FFF;
         return;
 
     case 1:
@@ -322,7 +322,7 @@ void update_item_use(S_func_80FDD1A0_1 *actor, VecData *motion, SpriteFrameState
         sprite->frameTable = killer_direction_frames;
         select_sprite_entry(
             sprite,
-            killer_direction_frames[((g_game_work.view.camera_rotation.parts.viewAngle + actor_data->unk_2A.s + 0x100) >> 9) & 7],
+            killer_direction_frames[((g_game_work.view.camera_rotation.parts.viewAngle + actor_data->facing + 0x100) >> 9) & 7],
             0);
         motion->dz = 0;
         motion->dy = 0;
@@ -335,12 +335,12 @@ void update_item_use(S_func_80FDD1A0_1 *actor, VecData *motion, SpriteFrameState
         sprite->flags &= 0xF7FF;
         actor->unk_8C = &killer_action_resume_address;
         advance_status_timers(actor_data);
-        if (actor_data->unk_6D.s > 0) {
-            actor_data->unk_6D.u--;
+        if (actor_data->pending_turn_updates > 0) {
+            actor_data->pending_turn_updates--;
         }
-        actor_data->unk_73.u = 0;
-        actor_data->unk_72.u = 0;
-        actor_data->unk_46 &= 0x7FFF;
+        actor_data->target_tile_y = 0;
+        actor_data->target_tile_x = 0;
+        actor_data->action_flags &= 0x7FFF;
         play_sound_if_enabled(AUDIO_FADE_CD_FAST);
         return;
 

@@ -23,16 +23,6 @@ typedef u32 az_uptr;
 #define NULL 0
 #endif
 
-typedef struct S_80172790_0 {
-    u8 pad_00[0x1C];
-    s32 unk_1C;
-    u8 pad_20[0xA];
-    union { u16 s; s16 u; } unk_2A;   /* accessed as both */
-    u8 pad_2C[0x1A];
-    u16 unk_46;
-    u8 pad_48[0x25];
-    s8 unk_6D;
-} S_80172790_0;   /* arg3 in update_staged_actor_movement */
 
 
 typedef struct S_80172790_3 {
@@ -99,7 +89,7 @@ void update_staged_actor_movement(ActorRecord *action, ObjectPosition *motion, S
     u8 *x_step_entry;
     u8 *x_step_base;
 
-    heading_raw = ((S_80172790_0 *)actor)->unk_2A.s;
+    heading_raw = ((u16)((ActorRecord *)actor)->facing);
     x_step_entry = (u8 *)dir_step_x;
     heading_byte = (u32)heading_raw >> 8;
     direction_offset = heading_byte & 0xE;
@@ -141,7 +131,7 @@ void update_staged_actor_movement(ActorRecord *action, ObjectPosition *motion, S
                 particle_motion->unk_0E = particle_y;
                 particle_motion->unk_10 = ((u16) motion->z.w.i) + 8;
                 particle_motion->unk_14 = rand();
-                heading_raw = ((S_80172790_0 *)actor)->unk_2A.s;
+                heading_raw = ((u16)((ActorRecord *)actor)->facing);
                 color = 0x00C00000;
                 particle_motion->unk_4C = 0;
                 particle_motion->unk_48 = 0;
@@ -171,20 +161,20 @@ void update_staged_actor_movement(ActorRecord *action, ObjectPosition *motion, S
         if (flags & 0x8000) {
             action->action_phase.u = 0xFF;
             tile->flags |= 0x6000;
-            resolve_attack_damage_and_effects(actor, tile, ((S_80172790_0 *)actor)->unk_2A.u, 1);
+            resolve_attack_damage_and_effects(actor, tile, ((ActorRecord *)actor)->facing, 1);
             return;
         }
         if (flags & 0xE000) {
             move_frames = D_80175160;
             (tile->frameTable) = move_frames;
-            move_angle = g_game_work.view.camera_rotation.parts.viewAngle + ((S_80172790_0 *)actor)->unk_2A.u;
+            move_angle = g_game_work.view.camera_rotation.parts.viewAngle + ((ActorRecord *)actor)->facing;
             move_direction = ((move_angle + 0x100) >> 9) & 7;
             select_sprite_entry(tile, move_frames[move_direction], 0);
             motion->velocity_x = (-x_step) << 0x12;
             motion->velocity_y = (-y_step) << 0x12;
             action->action_state_flags |= 8;
-            ((S_80172790_0 *)actor)->unk_1C &= ACTOR_GROUNDED_CLEAR_MASK;
-            ((S_80172790_0 *)actor)->unk_1C &= 0xFFFBFFFF;
+            ((ActorRecord *)actor)->flags1C &= ACTOR_GROUNDED_CLEAR_MASK;
+            ((ActorRecord *)actor)->flags1C &= 0xFFFBFFFF;
             action->action_timer.u = 4;
             motion->velocity_z = 0xFFFC0000;
             action->action_phase.u++;
@@ -229,7 +219,7 @@ void update_staged_actor_movement(ActorRecord *action, ObjectPosition *motion, S
             motion->velocity_x = 0;
         }
         if (action->action_timer.s == 1) {
-            resolve_attack_damage_and_effects(actor, tile, ((S_80172790_0 *)actor)->unk_2A.u, 1);
+            resolve_attack_damage_and_effects(actor, tile, ((ActorRecord *)actor)->facing, 1);
             play_sound_if_enabled(0x808);
         }
         if (action->action_timer.s <= 0) {
@@ -262,7 +252,7 @@ void update_staged_actor_movement(ActorRecord *action, ObjectPosition *motion, S
         }
         motion->velocity_y = 0;
         motion->velocity_x = 0;
-        ((S_80172790_0 *)actor)->unk_1C |= 0x40000;
+        ((ActorRecord *)actor)->flags1C |= 0x40000;
         set_record_integer_tile_center(motion, tile->tile_x, tile->tile_y);
         spend_actor_mp(actor, 0x100);
         action->unk_8C.address = kid_action_resume_address;
@@ -270,15 +260,15 @@ void update_staged_actor_movement(ActorRecord *action, ObjectPosition *motion, S
         advance_status_timers(actor);
         motion->velocity_z = 0;
         action->action_state_flags &= 0xFFF7;
-        ((S_80172790_0 *)actor)->unk_1C |= ACTOR_GROUNDED;
+        ((ActorRecord *)actor)->flags1C |= ACTOR_GROUNDED;
         action->unk_A8.s = 7;
         idle_frames = kid_alt_direction_frames;
         (tile->frameTable) = idle_frames;
-        idle_angle = g_game_work.view.camera_rotation.parts.viewAngle + ((S_80172790_0 *)actor)->unk_2A.u;
+        idle_angle = g_game_work.view.camera_rotation.parts.viewAngle + ((ActorRecord *)actor)->facing;
         idle_direction = ((idle_angle + 0x100) >> 9) & 7;
         select_sprite_entry(tile, idle_frames[idle_direction], 2);
-        if (((S_80172790_0 *)actor)->unk_6D == 0) {
-            ((S_80172790_0 *)actor)->unk_46 &= 0x7FFF;
+        if (((ActorRecord *)actor)->pending_turn_updates == 0) {
+            ((ActorRecord *)actor)->action_flags &= 0x7FFF;
         } else {
             actor_update_node_cursor = (u8 *)actor - 0x20;
         }

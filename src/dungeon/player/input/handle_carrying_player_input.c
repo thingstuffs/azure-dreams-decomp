@@ -38,18 +38,6 @@ extern s32 (*actor_command_handlers[])(s32, u16);
 extern u8 active_actor_command_code;
 extern s32 menu_action_argument;
 
-typedef struct S_8008EAC8_1 {
-    u8 pad_00[0x14];
-    s32 unk_14;
-    u8 pad_18[0x4];
-    s32 unk_1C;
-    u8 pad_20[0xA];
-    union { u16 u; s16 s; } unk_2A;   /* accessed as both */
-    u8 pad_2C[0x38];
-    s16 unk_64;
-    u8 pad_66[0x24];
-    s16 unk_8A;
-} S_8008EAC8_1;   /* arg3 in handle_carrying_player_input */
 
 typedef struct S_8008EAC8_6 {
     u8 unk_00;
@@ -102,7 +90,7 @@ void handle_carrying_player_input(void *object, void *aux_entity, SpriteFrameSta
         }
     }
     ((Rec_func_8008ACDC_arg0 *)object)->unk_9A.as_u8 = 0xEU;
-    if (!(((S_8008EAC8_1 *)entity)->unk_14 & 0x100000)) {
+    if (!(((ActorRecord *)entity)->flags14 & 0x100000)) {
         select_position_data_and_update_owner(sprite, entity);
         ((EntityRec *)aux_entity)->unk_10 = 0;
         ((EntityRec *)aux_entity)->unk_0C = 0;
@@ -111,7 +99,7 @@ void handle_carrying_player_input(void *object, void *aux_entity, SpriteFrameSta
     sprite->flags = (u16) (sprite->flags & 0xF7FF);
     ((Rec_func_8008ACDC_arg0 *)object)->unk_9B.as_s8 = 0;
     g_dungeon_status.flags = (u16) (g_dungeon_status.flags & 0xFF7F);
-    value_64 = ((S_8008EAC8_1 *)entity)->unk_64;
+    value_64 = ((ActorRecord *)entity)->hp_delta;
     if ((value_64 < 0) || (((Rec_func_8008ACDC_arg0 *)object)->unk_10C & 1)) {
         begin_player_damage_reaction(object, aux_entity, sprite, entity);
         return;
@@ -119,15 +107,15 @@ void handle_carrying_player_input(void *object, void *aux_entity, SpriteFrameSta
     if (value_64 > 0) {
         apply_pending_byte_increase(object, aux_entity, sprite, entity);
     }
-    flags14 = ((S_8008EAC8_1 *)entity)->unk_14;
+    flags14 = ((ActorRecord *)entity)->flags14;
     if (flags14 & 0x20000) {
-        ((S_8008EAC8_1 *)entity)->unk_14 = (s32) (flags14 & 0xFFFDFFFF);
+        ((ActorRecord *)entity)->flags14 = (s32) (flags14 & 0xFFFDFFFF);
     }
     if (!(((Rec_func_8008ACDC_arg0 *)object)->unk_A2 & 0x10)) {
         select_state_16_directional_animation(object, aux_entity, sprite, entity);
         return;
     }
-    flags1C = ((S_8008EAC8_1 *)entity)->unk_1C;
+    flags1C = ((ActorRecord *)entity)->flags1C;
     if (flags1C & ACTOR_ASLEEP) {
         begin_player_sleep_action(object, aux_entity, sprite, entity);
         return;
@@ -139,7 +127,7 @@ void handle_carrying_player_input(void *object, void *aux_entity, SpriteFrameSta
             u8 *table = (u8 *) &player_wait_frames;
             ((Rec_func_8008ACDC_arg0 *)object)->unk_8C.as_pv = callback;
             call_arg->frameTable = table;
-            set_sprite_animation_frame(call_arg, *((u8 *) (((s32) (g_game_work.view.camera_rotation.parts.viewAngle + (s16) ((S_8008EAC8_1 *)entity)->unk_2A.u
+            set_sprite_animation_frame(call_arg, *((u8 *) (((s32) (g_game_work.view.camera_rotation.parts.viewAngle + (s16) ((u16)((ActorRecord *)entity)->facing)
                 + 0x100) >> 9) & 7) + (u32) table), 0, 1);
         }
         return;
@@ -147,9 +135,9 @@ void handle_carrying_player_input(void *object, void *aux_entity, SpriteFrameSta
     if ((((Rec_func_8008ACDC_arg0 *)object)->unk_124 != 0) && (((can_entity_gain_level(entity) << 0x10) == 0)
         || (begin_selected_target_level_up(object, aux_entity, sprite, entity) == 0))) {
         if (!(g_dungeon_status.flags & 4)) {
-            if (((S_8008EAC8_1 *)entity)->unk_1C & 0x20) {
+            if (((ActorRecord *)entity)->flags1C & 0x20) {
                 if (!((*(u16 *)0x80013714) & 1) && (((u32)held_D_80083160->buttons) & 0x80)) {
-                    ((S_8008EAC8_1 *)entity)->unk_8A = 2;
+                    ((ActorRecord *)entity)->unk_8A = 2;
                     menu_action_argument = 2;
                     begin_player_menu_action(object, aux_entity, sprite, &create_animated_selection_menu_owner);
                     reference_tile_object.selected_item = 0;
@@ -169,12 +157,12 @@ void handle_carrying_player_input(void *object, void *aux_entity, SpriteFrameSta
                 record = advance_monster_timed_sequence();
                 if (record != NULL) {
                     direction = record->unk_01 & 7;
-                    facing = ((S_8008EAC8_1 *)entity)->unk_2A.u;
+                    facing = ((u16)((ActorRecord *)entity)->facing);
                     expected_facing = (u8)direction;
                     target_facing = direction << 9;
                     facing_bits = facing & 0xFFF;
                     expected_facing = ((u8)expected_facing) << 9;
-                    ((S_8008EAC8_1 *)entity)->unk_2A.u = facing_bits;
+                    ((ActorRecord *)entity)->facing = facing_bits;
                     if (facing_bits != expected_facing) {
                         s32 signed_target;
                         s32 diff;
@@ -185,7 +173,7 @@ void handle_carrying_player_input(void *object, void *aux_entity, SpriteFrameSta
                             } else {
                                 normalized = facing & 0x7FF;
                             }
-                            ((S_8008EAC8_1 *)entity)->unk_2A.u = normalized;
+                            ((ActorRecord *)entity)->facing = normalized;
                         }
                         {
                             if (target_facing & 0x800) {
@@ -197,32 +185,32 @@ void handle_carrying_player_input(void *object, void *aux_entity, SpriteFrameSta
                         }
                         facing_bits = (u32) target_facing << 16;
                         signed_target = facing_bits >> 16;
-                        diff = ((S_8008EAC8_1 *)entity)->unk_2A.s;
-                        facing_bits = ((S_8008EAC8_1 *)entity)->unk_2A.u;
+                        diff = ((ActorRecord *)entity)->facing;
+                        facing_bits = ((u16)((ActorRecord *)entity)->facing);
                         diff -= signed_target;
                         if (diff < 0) {
                             diff = 0 - diff;
                         }
                         if (diff >= 0x801) {
-                            ((S_8008EAC8_1 *)entity)->unk_2A.u = (u16) ((target_facing & ~0xFFF) | (facing_bits & 0xFFF));
+                            ((ActorRecord *)entity)->facing = (u16) ((target_facing & ~0xFFF) | (facing_bits & 0xFFF));
                         }
                         {
                             s32 step;
-                            step = ((S_8008EAC8_1 *)entity)->unk_2A.s;
-                            facing_bits = ((S_8008EAC8_1 *)entity)->unk_2A.u;
+                            step = ((ActorRecord *)entity)->facing;
+                            facing_bits = ((u16)((ActorRecord *)entity)->facing);
                             step = signed_target < step;
                             if (step) {
                                 step = facing_bits - 0x200;
                             } else {
                                 step = facing_bits + 0x200;
                             }
-                            ((S_8008EAC8_1 *)entity)->unk_2A.u = step;
+                            ((ActorRecord *)entity)->facing = step;
                         }
                         read_monster_script_entry();
                         call_arg = sprite;
                         call_arg->frameTable = player_carry_frames;
                         set_sprite_animation_frame(call_arg, *((u8 *) (((s32) (g_game_work.view.camera_rotation.parts.viewAngle
-                            + (s16) ((S_8008EAC8_1 *)entity)->unk_2A.u + 0x100) >> 9) & 7) + (u32) player_carry_frames), 0, 1);
+                            + (s16) ((u16)((ActorRecord *)entity)->facing) + 0x100) >> 9) & 7) + (u32) player_carry_frames), 0, 1);
                         return;
                     }
                     active_actor_command_code = (s8) (record->unk_01 & 0xF8);
@@ -335,14 +323,14 @@ void handle_carrying_player_input(void *object, void *aux_entity, SpriteFrameSta
                     == 0)) {
                     new_facing = resolve_player_input_facing(((Rec_func_8008ACDC_arg0 *)object)->unk_9E, object + 0xA2, entity + 0x2A);
                     if (new_facing != 0xFFF) {
-                        ((S_8008EAC8_1 *)entity)->unk_2A.u = (u16) new_facing;
+                        ((ActorRecord *)entity)->facing = (u16) new_facing;
                         if (!(((u32)held_D_80083160->buttons) & 0x10)) {
                             flags_a2_late = ((Rec_func_8008ACDC_arg0 *)object)->unk_A2;
                             if (!(flags_a2_late & 0x400)) {
                                 ((Rec_func_8008ACDC_arg0 *)object)->unk_A2 = (u16) (flags_a2_late & 0xFFFE);
-                                if (((S_8008EAC8_1 *)entity)->unk_1C & 0x400) {
-                                    ((S_8008EAC8_1 *)entity)->unk_2A.u =
-                                        (u16) (((S_8008EAC8_1 *)entity)->unk_2A.u + (generate_random_value() & 0xE00));
+                                if (((ActorRecord *)entity)->flags1C & 0x400) {
+                                    ((ActorRecord *)entity)->facing =
+                                        (u16) (((u16)((ActorRecord *)entity)->facing) + (generate_random_value() & 0xE00));
                                 }
                                 move_state = object;
                                 try_move_carrying_player(move_state, aux_entity, sprite, entity);
@@ -380,13 +368,13 @@ void handle_carrying_player_input(void *object, void *aux_entity, SpriteFrameSta
                     call_arg = sprite;
                     call_arg->frameTable = player_carry_frames;
                     set_sprite_animation_frame(call_arg, *((u8 *) (((s32) (g_game_work.view.camera_rotation.parts.viewAngle
-                        + (s16) ((S_8008EAC8_1 *)entity)->unk_2A.u + 0x100) >> 9) & 7) + (u32) player_carry_frames), 0, 1);
+                        + (s16) ((u16)((ActorRecord *)entity)->facing) + 0x100) >> 9) & 7) + (u32) player_carry_frames), 0, 1);
                 }
             }
         } else {
             call_arg = sprite;
             call_arg->frameTable = player_carry_frames;
-            set_sprite_animation_frame(call_arg, *((u8 *) (((s32) (g_game_work.view.camera_rotation.parts.viewAngle + (s16) ((S_8008EAC8_1 *)entity)->unk_2A.u
+            set_sprite_animation_frame(call_arg, *((u8 *) (((s32) (g_game_work.view.camera_rotation.parts.viewAngle + (s16) ((u16)((ActorRecord *)entity)->facing)
                 + 0x100) >> 9) & 7) + (u32) player_carry_frames), 0, 1);
         }
     }

@@ -35,12 +35,6 @@ typedef struct S_800AC82C_7_pre {
     u8 pad_04[0x10];
 } S_800AC82C_7_pre;   /* the 0x14 bytes before (*(void **)((u8 *)arg3 + 0x60)) in update_actor_transform_from_parent, addressed as (*(void **)((u8 *)arg3 + 0x60))[-1] */
 
-typedef struct S_800AC82C_7 {
-    u8 pad_00[0x2A];
-    u16 unk_2A;
-    u8 pad_2C[0x5C];
-    u16 unk_88;
-} S_800AC82C_7;   /* (*(void **)((u8 *)arg3 + 0x60)) in update_actor_transform_from_parent */
 
 /* Updates the actor's position and facing relative to its parent. */
 s32 update_actor_transform_from_parent(Rec_func_800A9E70_arg0 *state, ObjectPosition *position, Rec_D_80082E80 *tile, void *actor) {
@@ -96,7 +90,7 @@ s32 update_actor_transform_from_parent(Rec_func_800A9E70_arg0 *state, ObjectPosi
         position->velocity_y = 0;
         position->velocity_x = 0;
         state->unk_98 = (u16) (state->unk_98 & 0xFFF7);
-        facing = ((S_800AC82C_7 *)((*(void **)((u8 *)actor + 0x60))))->unk_2A;
+        facing = ((ActorRecord *)((*(void **)((u8 *)actor + 0x60))))->facing;
         (*(u16 *)((u8 *)actor + 0x6A)) = facing;
         tile->unk_24 = (u8) (parent_data->tile_x + *(u8 *) &dir_step_x[(facing >> 9) & 7]);
         tile->unk_25 = (u8) (parent_data->tile_y + *(u8 *) &dir_step_y[((u16) (*(u16 *)((u8 *)actor + 0x6A)) >> 9) & 7]);
@@ -130,7 +124,7 @@ s32 update_actor_transform_from_parent(Rec_func_800A9E70_arg0 *state, ObjectPosi
     if (resolve_record_orientation_or_fallback(parent_data->source, parent_data, &offset, 0) != 0) {
         position->x.w.i = (u16) ((u16) *lift_jitter_offsets + (parent_position->x + ((u16)offset.vx)));
         position->y.w.i = (u16) ((u16) lift_jitter_offsets[1] + (parent_position->y + ((u16)offset.vy)));
-        parent_height = ((S_800AC82C_7 *)((*(void **)((u8 *)actor + 0x60))))->unk_88;
+        parent_height = ((ActorRecord *)((*(void **)((u8 *)actor + 0x60))))->ground_height;
         (*(u16 *)((u8 *)actor + 0x88)) = parent_height;
         state->unk_90.at02_s16.v = (s16) (((parent_position->z + ((u16)offset.vz)) - parent_height) + 8);
         tile->unk_06.as_s16 = 0x10;

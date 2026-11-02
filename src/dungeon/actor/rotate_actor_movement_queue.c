@@ -4,12 +4,6 @@
 #include "dungeon/actor.h"
 #include "dungeon/level.h"
 
-typedef struct S_800A9AFC_2 {
-    u8 pad_00[0x73];
-    u8 unk_73;
-    u8 pad_74[0x7];
-    u8 unk_7B;
-} S_800A9AFC_2;   /* (arg1 + ((S_800A9AFC_0 *)arg1)->unk_71) in rotate_actor_movement_queue */
 
 
 s32 get_entity_effect_value(ActorRecord *entry, s32 effect_id);             /* extern */
@@ -45,8 +39,8 @@ void rotate_actor_movement_queue(MovingTile *position, ActorRecord *state) {
         next_x = state->path_x[0];
         next_y = state->path_y[0];
         memmove(((void *)state) + 0x74, ((void *)state) + 0x75, 0xF);
-        ((S_800A9AFC_2 *)((((void *)state) + state->movement_queue_state)))->unk_73 = (u8) position->tile_x;
-        ((S_800A9AFC_2 *)((((void *)state) + state->movement_queue_state)))->unk_7B = (u8) position->tile_y;
+        ((ActorRecord *)((((void *)state) + state->movement_queue_state)))->target_tile_y = (u8) position->tile_x;
+        ((ActorRecord *)((((void *)state) + state->movement_queue_state)))->path_x[7] = (u8) position->tile_y;
         position->tile_x = next_x;
         position->tile_y = next_y;
         state->ground_height = (u16) state->unk_8A;

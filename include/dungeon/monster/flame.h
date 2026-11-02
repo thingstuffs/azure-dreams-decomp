@@ -798,10 +798,10 @@ void update_actor_object_motion(void *motion, ObjectPosition *unused, struct Spr
 void choose_flame_move(ActorRecord *move_data, ObjectPosition *context, SpriteFrameState *position_data, ActorRecord *actor_data);
 s32 try_flame_attack(ActorRecord *action_state, ObjectPosition *motion_param, SpriteFrameState *sprite, ActorRecord *actor);
 void update_actor_action_and_direction(ActorRecord *action_state, ObjectPosition *context, SpriteFrameState *sprite, ActorRecord *actor);
-s32 relink_flame_path(ActorRecord *entity_arg, ObjectPosition *primary_context_arg, void *secondary_context_arg, s32 force_state_arg);
-void finish_actor_tile_move_then_initialize_destination(ActorRecord *state, void *motion, void *source, ActorRecord *target);
+s32 relink_flame_path(ActorRecord *entity_arg, ObjectPosition *primary_context_arg, SpriteFrameState *secondary_context_arg, s32 force_state_arg);
+void finish_actor_tile_move_then_initialize_destination(ActorRecord *state, ObjectPosition *motion, SpriteFrameState *source, ActorRecord *target);
 void finish_linked_actor_motion_and_floor_trap_then_initialize_destination(ActorRecord *state, ObjectPosition *entity, SpriteFrameState *position, ActorRecord *graphic);
-void advance_action_through_animation(R06_8017278C_S_8017278C_0 *action, struct ObjectPosition *motion, struct SpriteFrameState *sprite, void *actor);
+void advance_action_through_animation(R06_8017278C_S_8017278C_0 *action, struct ObjectPosition *motion, struct SpriteFrameState *sprite, ActorRecord *actor);
 void start_selected_move_and_reset_action(ActorRecord *action, ObjectPosition *position, SpriteFrameState *sprite, ActorRecord *actor);
 void update_directional_motion_and_tile(ActorRecord *action, ObjectPosition *motion, SpriteFrameState *tile_state, ActorRecord *entity);
 void fade_sprites_and_remove_entity(void *actor, ObjectPosition *unused, struct SpriteFrameState *sprite, void *entity);
@@ -827,12 +827,12 @@ void advance_actor_action_and_update_status(
     s16 y_offset,
     s16 z_offset);
 void project_and_queue_textured_quad(void *quad, void *position, void *draw_state, s16 depth_bias);
-s32 project_textured_quad_chain(void *initial_state, void *context, void *data);
+s32 project_textured_quad_chain(void *initial_state, ObjectPosition *context, SpriteFrameState *data);
 void advance_record_countdown(void *record_data);
-void update_fading_four_strip_effect(u8 *effect, R06_80174934_Vec3w *origin, u8 *render_data);
+void update_fading_four_strip_effect(u8 *effect, R06_80174934_Vec3w *origin, SpriteFrameState *render_data);
 void create_sixteen_segment_ring(R06_80174E78_Source *source, R06_80174E78_Vec3i *center, struct SpriteFrameState *unused_context);
 void wait_for_flame_action_slot(ActorRecord *entity_data, ObjectPosition *unused_1, s32 unused_2, void *other_data);
-void fade_effect_to_neutral_and_finish(void *entity_data, void *unused, void *source_data);
+void fade_effect_to_neutral_and_finish(void *entity_data, ObjectPosition *unused, SpriteFrameState *source_data);
 void advance_actor_transition_and_restore_child_angle(ActorRecord *action, ObjectPosition *position, SpriteFrameState *entity, ActorRecord *actor);
 void finish_actor_floor_trap_then_initialize_destination(ActorRecord *state, ObjectPosition *motion, SpriteFrameState *position, ActorRecord *actor);
 void finish_actor_action_flag_propagation_then_initialize_destination(ActorRecord *state, ObjectPosition *motion, SpriteFrameState *position, ActorRecord *actor);

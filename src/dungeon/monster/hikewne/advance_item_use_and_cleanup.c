@@ -56,7 +56,7 @@ void advance_item_use_and_cleanup(void *action, ObjectPosition *motion, SpriteFr
     s32 effect_special;
     s16 next_state;
     u8 state;
-    void *target;
+    ObjectNodeHeader *target;
     MovingTile *linked;
 
     is_special = 0;
@@ -114,9 +114,9 @@ void advance_item_use_and_cleanup(void *action, ObjectPosition *motion, SpriteFr
 
                 special_target = is_special;
                 if (special_target != 0) {
-                    target = primary_actor_record;
+                    target = (ObjectNodeHeader *)primary_actor_record;
                     (*(void * *)((u8 *)item + 0x60)) = target;
-                    linked = (MovingTile *)((ObjectNodeHeader *)((u8 *)target - 0x20))->sprite;
+                    linked = (MovingTile *)(target - 1)->sprite;
                     (*((u8 *)item + 0x72)) = linked->tile_x;
                     (*((u8 *)item + 0x73)) = linked->tile_y;
                 } else {
@@ -126,7 +126,7 @@ void advance_item_use_and_cleanup(void *action, ObjectPosition *motion, SpriteFr
                     if (item_action_definitions[effect_id].kind == 2) {
                         target = (*(void **)((u8 *)item + 0x60));
                         if (target != 0) {
-                            linked = (MovingTile *)((ObjectNodeHeader *)((u8 *)target - 0x20))->sprite;
+                            linked = (MovingTile *)(target - 1)->sprite;
                             (*((u8 *)item + 0x72)) = linked->tile_x;
                             (*((u8 *)item + 0x73)) = linked->tile_y;
                         }

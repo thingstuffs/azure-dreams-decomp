@@ -16,7 +16,7 @@
 void *create_actor_child_display(s32 kind, s32 part_byte_24, s32 part_byte_25, s32 copy_halfword)
 {
     ObjectNodeHeader *root;
-    void *copy;
+    ObjectPosition *copy;
     s32 outer_index;
     s32 saved_kind;
     s32 saved_halfword;
@@ -24,7 +24,7 @@ void *create_actor_child_display(s32 kind, s32 part_byte_24, s32 part_byte_25, s
     u16 saved_part_byte_24;
     ActorRecord *object;
     void *child_slot;
-    S_8014C89C_4 *stable_object;
+    ActorRecord *stable_object;
     s32 kind_copy;
     SpriteFrameState *part;
     ObjectNodeHeader *allocated;
@@ -59,8 +59,8 @@ void *create_actor_child_display(s32 kind, s32 part_byte_24, s32 part_byte_25, s
 
             part_callback = D_80150494;
             copy = root->position;
-            ((S_8014C89C_2 *)copy)->unk_08.at02.v = saved_halfword;
-            stable_object = (S_8014C89C_4 *)object;
+            copy->z.w.i = saved_halfword;
+            stable_object = object;
             part = root->sprite;
             part->frameTable = part_callback;
         }
@@ -100,20 +100,20 @@ void *create_actor_child_display(s32 kind, s32 part_byte_24, s32 part_byte_25, s
 
         child_slot = stable_object;
         outer_index = 0;
-        stable_object->unk_9A = 0xFF;
+        stable_object->action_id.u = 0xFF;
         stable_object->unk_9C = -1;
-        stable_object->unk_8C = update_entity_movement_animation_and_ground;
+        stable_object->unk_8C.address = update_entity_movement_animation_and_ground;
         object->flags1C |= 0x40000;
-        stable_object->unk_92 = -48;
-        stable_object->unk_A8 = 0;
-        stable_object->unk_9E = 1;
-        stable_object->unk_98 |= 0x4000;
+        stable_object->unk_90.parts.high.s = -48;
+        stable_object->unk_A8.s = 0;
+        stable_object->unk_9E.s = 1;
+        stable_object->action_state_flags |= 0x4000;
 
         do {
 
             saved_halfword = (s32)allocate_list_node(0x112, &scene_object_list_anchor.next);
             allocated = (void *)saved_halfword;
-            ((S_8014C89C_5 *)child_slot)->unk_A4 = allocated;
+            ((ActorRecord *)child_slot)->unk_A4.address = allocated;
             if (allocated != 0) {
                 s32 item_offset;
                 s32 item_index;
@@ -160,7 +160,7 @@ void *create_actor_child_display(s32 kind, s32 part_byte_24, s32 part_byte_25, s
             {
                 s32 child_count;
 
-                child_count = stable_object->unk_9E;
+                child_count = stable_object->unk_9E.s;
                 outer_index++;
                 if (outer_index >= child_count) {
                     break;

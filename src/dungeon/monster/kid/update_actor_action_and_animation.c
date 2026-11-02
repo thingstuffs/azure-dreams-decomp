@@ -30,18 +30,6 @@ extern u8 kid_direction_frames[];
 extern u8 kid_alt_spawn_direction_frames[];
 extern u8 kid_frame_set_4[];
 
-typedef struct S_80173A2C_0 {
-    u8 pad_00[0x8C];
-    void * unk_8C;
-    s32 unk_90;
-    u8 pad_94[0x2];
-    u16 unk_96;
-    u16 unk_98;
-    u8 pad_9A[0x1];
-    u8 unk_9B;
-    u8 pad_9C[0xC];
-    s16 unk_A8;
-} S_80173A2C_0;   /* arg0 in update_actor_action_and_animation */
 
 /* Updates an actor's action state and animation before restoring its default callback. */
 void update_actor_action_and_animation(void *controller_in, ObjectPosition *motion, SpriteFrameState *sprite, ActorRecord *actor) {
@@ -49,10 +37,10 @@ void update_actor_action_and_animation(void *controller_in, ObjectPosition *moti
     u16 ticks_left;
     s32 state;
 
-    state = ((S_80173A2C_0 *)controller_in)->unk_9B;
+    state = ((ActorRecord *)controller_in)->action_phase.u;
     switch (state) {
     case 0:
-        ((S_80173A2C_0 *)controller_in)->unk_90 += 0x100000;
+        ((ActorRecord *)controller_in)->unk_90.value += 0x100000;
         if (!(sprite->flags & 0xE000)) {
             return;
         }
@@ -65,7 +53,7 @@ void update_actor_action_and_animation(void *controller_in, ObjectPosition *moti
 
             g_dungeon_status.activity_counts.parts.pending_action_count--;
         }
-        ((S_80173A2C_0 *)controller_in)->unk_9B++;
+        ((ActorRecord *)controller_in)->action_phase.u++;
         return;
 
     case 1:
@@ -108,7 +96,7 @@ void update_actor_action_and_animation(void *controller_in, ObjectPosition *moti
             }
             if (actor_flags & 0x80000) {
                 begin_actor_move_to_target_facing(controller_in, motion, sprite, actor);
-                ((S_80173A2C_0 *)controller_in)->unk_A8 = 0;
+                ((ActorRecord *)controller_in)->unk_A8.s = 0;
                 func_80174218(controller_in, motion, sprite, actor);
                 return;
             }
@@ -165,27 +153,27 @@ void update_actor_action_and_animation(void *controller_in, ObjectPosition *moti
                 return;
             }
         }
-        ((S_80173A2C_0 *)controller_in)->unk_96 = 3;
-        ((S_80173A2C_0 *)controller_in)->unk_98 &= 0xBFFF;
+        ((ActorRecord *)controller_in)->action_timer.u = 3;
+        ((ActorRecord *)controller_in)->action_state_flags &= 0xBFFF;
         {
 
             g_dungeon_status.activity_counts.parts.pending_action_count++;
         }
-        ((S_80173A2C_0 *)controller_in)->unk_9B++;
+        ((ActorRecord *)controller_in)->action_phase.u++;
         return;
 
     case 2:
-        ticks_left = ((S_80173A2C_0 *)controller_in)->unk_96 - 1;
-        ((S_80173A2C_0 *)controller_in)->unk_96 = ticks_left;
+        ticks_left = ((ActorRecord *)controller_in)->action_timer.u - 1;
+        ((ActorRecord *)controller_in)->action_timer.u = ticks_left;
         if ((ticks_left << 16) <= 0) {
-            ((S_80173A2C_0 *)controller_in)->unk_98 |= 0x4000;
+            ((ActorRecord *)controller_in)->action_state_flags |= 0x4000;
             motion->velocity_z = 0xFFEC0000;
         }
         if (!(sprite->flags & 0xE000)) {
             return;
         }
         motion->velocity_z = 0;
-        ((S_80173A2C_0 *)controller_in)->unk_A8 = 0;
+        ((ActorRecord *)controller_in)->unk_A8.s = 0;
         sprite->frameTable = kid_direction_frames;
         select_sprite_entry(sprite,
             kid_direction_frames[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],

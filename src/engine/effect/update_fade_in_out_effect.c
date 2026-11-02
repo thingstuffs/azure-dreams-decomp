@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/entity.h"
 #include "shared/object_flags.h"
 
 #include "common.h"
@@ -19,7 +20,7 @@ typedef struct S_80051CC4_Ptr
 }
 S_80051CC4_Ptr;
 /* Fade through seven table entries, then advance the owner and mark completion. */
-void update_fade_in_out_effect(CdCueEffectBody *state, void *unused_arg, S_80051CC4_Ptr *visual)
+void update_fade_in_out_effect(CdCueEffectBody *state, ObjectPosition *unused_arg, S_80051CC4_Ptr *visual)
 {
     u8 *flags_page;
     u16 next_tick = state->timer.s + 1;

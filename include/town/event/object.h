@@ -21,13 +21,13 @@ void dispatch_object_event_or_retire(void *object, s32 event, s32 event_data);
 void initialize_moving_object(struct S_8009C0D8_1 *context, TownObjectRecord *object);
 
 /* initialize_object_action_with_default_data.c */
-void initialize_object_action_with_default_data(void *object, void *action, struct SpriteFrameState *state);
+void initialize_object_action_with_default_data(TownObjectRecord *object, ObjectPosition *action, struct SpriteFrameState *state);
 
 /* initialize_object_and_maybe_play_sound.c */
 void initialize_object_and_maybe_play_sound(u8 *context, s8 *object, s32 *state);
 
 /* initialize_timed_object_action.c */
-void initialize_timed_object_action(TownObjectRecord *context, void *source, void *record);
+void initialize_timed_object_action(TownObjectRecord *context, ObjectPosition *source, void *record);
 
 /* select_object_value_by_height_band.c */
 void select_object_value_by_height_band(TownObjectRecord *object, void *context, EntityRec *position, Rec_D_80082E80 *output);

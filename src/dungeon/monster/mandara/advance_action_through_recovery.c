@@ -102,13 +102,13 @@ void advance_action_through_recovery(ActorRecord *action_state, ObjectPosition *
                 if (global_target_flag != 0) {
                     target = primary_actor_record;
                     actor->target = target;
-                    target_y = ((ObjectNodeHeader *)((u8 *)target - 0x20))->sprite;
+                    target_y = ((ObjectNodeHeader *)target - 1)->sprite;
                     actor->target_tile_x = target_y->tile_x;
                     actor->target_tile_y = target_y->tile_y;
                 } else if (item_action_definitions[*motion].kind == 2) {
                     target = actor->target;
                     if (target != 0) {
-                        target_y = ((ObjectNodeHeader *)((u8 *)target - 0x20))->sprite;
+                        target_y = ((ObjectNodeHeader *)target - 1)->sprite;
                         actor->target_tile_x = target_y->tile_x;
                         actor->target_tile_y = target_y->tile_y;
                     }

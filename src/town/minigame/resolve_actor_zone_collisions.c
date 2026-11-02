@@ -240,7 +240,7 @@ zone_found:
             s32 d4_2;
             s32 d4_3;
             s32 d4_4;
-            zone_data = (Zone *)D_80024020;
+            zone_data = D_80024020;
             current_zone = *zone_id;
             actor_x = actor->x;
             actor_y = actor->y;

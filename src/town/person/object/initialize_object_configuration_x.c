@@ -19,7 +19,7 @@ extern u8 D_800D630C;
 
 
 /* Initialize the object with configuration 0xA and set its associated data pointer. */
-void initialize_object_configuration_x(TownObjectRecord *object) {
+void initialize_object_configuration_x(TownObjectRecord *object, ObjectPosition *position_unused, struct SpriteFrameState *sprite_unused) {
     initialize_object_and_register_slot(object, 0xA, &D_800D6308, &D_800D630C, &D_800D62D8, &D_800D62E0);
     object->descriptor->entries[1] = &D_800D6244;
 }

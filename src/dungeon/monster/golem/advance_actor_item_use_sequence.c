@@ -108,13 +108,13 @@ void advance_actor_item_use_sequence(ActorRecord *body, ObjectPosition *position
             if (use_shared_object) {
                 copy_object = primary_actor_record;
                 actor->target = copy_object;
-                action_status = *(u8 * *)&((ObjectNodeHeader *)((u8 *)copy_object - 0x20))->sprite;
+                action_status = *(u8 * *)&((ObjectNodeHeader *)copy_object - 1)->sprite;
                 actor->target_tile_x = action_status[0x24];
                 actor->target_tile_y = action_status[0x25];
             } else if (item_action_definitions[*item].kind == 2) {
                 copy_object = actor->target;
                 if (copy_object != 0) {
-                    action_status = *(u8 * *)&((ObjectNodeHeader *)((u8 *)copy_object - 0x20))->sprite;
+                    action_status = *(u8 * *)&((ObjectNodeHeader *)copy_object - 1)->sprite;
                     actor->target_tile_x = action_status[0x24];
                     actor->target_tile_y = action_status[0x25];
                 }

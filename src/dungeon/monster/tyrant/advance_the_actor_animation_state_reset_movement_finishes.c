@@ -32,11 +32,6 @@ typedef struct S_801729D4_0 {
     u8 unk_9B;
 } S_801729D4_0;   /* arg0 in advance_the_actor_animation_state_reset_movement_finishes */
 
-typedef struct S_801729D4_3 {
-    u8 pad_00[0x24];
-    u8 unk_24;
-    u8 unk_25;
-} S_801729D4_3;   /* source in advance_the_actor_animation_state_reset_movement_finishes */
 
 
 /* Advance the actor animation state and reset movement when it finishes. */
@@ -48,7 +43,7 @@ void advance_the_actor_animation_state_reset_movement_finishes(ActorRecord *acti
     s32 state;
     s32 anim_kind;
     void *target_root;
-    S_801729D4_3 *target_source;
+    SpriteFrameState *target_source;
     void *new_target;
     s32 target_x;
     s32 abs_x;
@@ -109,9 +104,9 @@ void advance_the_actor_animation_state_reset_movement_finishes(ActorRecord *acti
             if (reuse_test != 0) {
                 target_root = primary_actor_record;
                 actor->target = target_root;
-                target_source = (S_801729D4_3 *)((ObjectNodeHeader *)((u8 *)target_root - 0x20))->sprite;
-                actor->target_tile_x = target_source->unk_24;
-                actor->target_tile_y = target_source->unk_25;
+                target_source = (SpriteFrameState *)((ObjectNodeHeader *)target_root - 1)->sprite;
+                actor->target_tile_x = target_source->tile_x;
+                actor->target_tile_y = target_source->tile_y;
             } else {
                 new_target = scan_actor_along_heading(
                     actor, sprite->tile_x, sprite->tile_y,

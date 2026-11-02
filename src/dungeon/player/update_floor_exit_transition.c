@@ -20,10 +20,6 @@ extern u8 resident_globals_page[];
 
    /* ((Rec_D_800E3D7C *)arg0)->unk_C8 in update_floor_exit_transition */
 
-typedef struct S_800930F0_3 {
-    u8 pad_00[0xAC];
-    s32 unk_AC;
-} S_800930F0_3;
 
 typedef struct S_800930F0_4 {
     u8 pad_00[0x234];
@@ -104,7 +100,7 @@ void update_floor_exit_transition(PlayerRecord *state, s32 unused, MovingTile *t
         slot_cursor = (s32 *)state + 1;
         actor->flags1C = (s32) (actor->flags1C | 0x40000000);
         do {
-            slot_object = ((S_800930F0_3 *)slot_cursor)->unk_AC;
+            slot_object = ((ActorRecord *)slot_cursor)->unk_AC.value;
             if (slot_object != 0) {
                 create_orbiting_teleport_effect(slot_object, type_values[get_entity_class(slot_object)], (s16)slot_index, 0);
             }

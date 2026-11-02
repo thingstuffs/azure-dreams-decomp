@@ -58,6 +58,7 @@ typedef struct {
 /* Transform sprite quads, clip them to the screen, and link visible packets into the ordering table. */
 void draw_sprite_clipped(void *context, s32 position, S_80045CC4_Arg2 *sprite, s16 depth_bias)
 {
+    ObjectPosition *position_data = (ObjectPosition *)position;
     void (*callback)(void *, s32, S_80045CC4_Arg2 *, u8 *);
     s32 x;
     s32 packet_addr;
@@ -87,11 +88,11 @@ void draw_sprite_clipped(void *context, s32 position, S_80045CC4_Arg2 *sprite, s
     SP_S32(0x20) = (s32)((u8 *)global_base + 0xB0);
     {
         s32 translation;
-        translation = ((ObjectPosition *)position)->x.w.i;
+        translation = position_data->x.w.i;
         SP_S32(0xE4) = translation;
-        translation = ((ObjectPosition *)position)->y.w.i;
+        translation = position_data->y.w.i;
         SP_S32(0xE8) = translation;
-        translation = ((ObjectPosition *)position)->z.w.i;
+        translation = position_data->z.w.i;
         SP_S16(0x8C) = 0;
         SP_S16(0x84) = 0;
         SP_S16(0x7C) = 0;

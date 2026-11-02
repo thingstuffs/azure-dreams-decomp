@@ -1,3 +1,4 @@
+#include "shared/entity.h"
 /* Textured quad batches (G00338). */
 /* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - CL:dungeon/func_800AB480. */
 #include "dungeon/actor/textured_quad_batches_g00338.h"

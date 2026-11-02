@@ -1,5 +1,7 @@
 #ifndef TOWN_PLAYER_EFFECT_INITIALIZE_EFFECT_AND_ADJUST_VALUE_G01140_H
 #define TOWN_PLAYER_EFFECT_INITIALIZE_EFFECT_AND_ADJUST_VALUE_G01140_H
+
+#include "town/player/record.h"
 #include "town/player/coordinates.h"
 
 struct ObjectPosition;
@@ -112,7 +114,7 @@ void initialize_actor_action_state(void *object, EntityRec *state, s32 initData)
 extern u8 player_motion_draw_address[];
 extern s32 D_800D0CC0[];
 /* extern */
-void process_scene_record_update(void *,struct ObjectPosition *, void *);
+void process_scene_record_update(TownPlayerRecord *,struct ObjectPosition *, void *);
 /* extern */
 /* extern */
 void store_position_and_compute_delta(s32 *);
@@ -148,11 +150,11 @@ extern u8 town_movement_speed[];
 
 /* Functions defined in this translation unit. */
 void initialize_effect_and_adjust_value(void *object, EntityRec *record, s32 init_value);
-void update_effect_record_and_dispatch(void *handler, ObjectPosition *record, s32 context);
+void update_effect_record_and_dispatch(TownPlayerRecord *handler, ObjectPosition *record, s32 context);
 s32 compute_height_based_offset(EntityRec *state);
 void update_object_view_transition(S_800A58CC_2 *state_arg, void *object);
 void update_actor_movement_and_actions(State *state, Actor *actor);
 void update_actor_effect_transition(S_800A5DF8_4 *state, S_800A5DF8_0 *actor, s32 context);
-void update_town_movement_and_actions(u8 *state, EntityRec *table, void *action_context);
+void update_town_movement_and_actions(TownPlayerRecord *state, EntityRec *table, void *action_context);
 
 #endif

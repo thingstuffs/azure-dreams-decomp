@@ -18,23 +18,7 @@
 #include "dungeon/item.h"
 #include "dungeon/actor.h"
 
-typedef struct S_8017472C_0 {
-    u8 pad_00[0x8C];
-    void * unk_8C;
-    u8 pad_90[0x6];
-    union { u16 s; s16 u; } unk_96;   /* accessed as both */
-    u16 unk_98;
-    u8 pad_9A[0x1];
-    u8 unk_9B;
-    u8 pad_9C[0x12];
-    union { s16 s; u16 u; } unk_AE;   /* accessed as both */
-} S_8017472C_0;   /* arg0 in advance_actor_targeted_action */
 
-typedef struct S_8017472C_3 {
-    u8 pad_00[0x24];
-    u8 unk_24;
-    u8 unk_25;
-} S_8017472C_3;   /* record in advance_actor_targeted_action */
 typedef struct S_8017472C_6 {
     u8 pad_00[0xA];
     u16 unk_0A;
@@ -60,7 +44,7 @@ void advance_actor_targeted_action(ActorRecord *action, ObjectPosition *transfor
     register s32 use_player_target;
     s32 kind;
     u8 *move;
-    void *target;
+    ObjectNodeHeader *target;
     s32 target_x;
     s32 target_y;
     u16 ticks_left;
@@ -119,17 +103,17 @@ void advance_actor_targeted_action(ActorRecord *action, ObjectPosition *transfor
         if (*move != 0) {
             action->action_state_flags &= 0xFF7F;
             if (use_player_target != 0) {
-                target = primary_actor_record;
+                target = (ObjectNodeHeader *)primary_actor_record;
                 actor->target = target;
-                state = ((ObjectNodeHeader *)((u8 *)target - 0x20))->sprite;
-                actor->target_tile_x = ((S_8017472C_3 *)state)->unk_24;
-                actor->target_tile_y = ((S_8017472C_3 *)state)->unk_25;
+                state = (target - 1)->sprite;
+                actor->target_tile_x = ((ActorRecord *)state)->mp_value.parts.fraction;
+                actor->target_tile_y = ((ActorRecord *)state)->mp_value.parts.whole;
             } else if (item_action_definitions[*move].kind == 2) {
                 target = actor->target;
                 if (target != 0) {
-                    state = ((ObjectNodeHeader *)((u8 *)target - 0x20))->sprite;
-                    actor->target_tile_x = ((S_8017472C_3 *)state)->unk_24;
-                    actor->target_tile_y = ((S_8017472C_3 *)state)->unk_25;
+                    state = (target - 1)->sprite;
+                    actor->target_tile_x = ((ActorRecord *)state)->mp_value.parts.fraction;
+                    actor->target_tile_y = ((ActorRecord *)state)->mp_value.parts.whole;
                 }
             } else {
                 target = scan_actor_along_heading(

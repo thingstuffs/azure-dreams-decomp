@@ -3,13 +3,14 @@
 #include "town/player/fallback_handler_position_g00541.h"
 #include "town/player.h"
 #include "engine/graphics.h"
+#include "town/player/record.h"
 
 /*
  * Computes and publishes a position offset for a matching primary key, requiring a second key
  * match for town_position_callback_address. Clears town_overlap_origin when neither key list
  * matches.
  */
-void dispatch_to_matching_fallback_handler_using_sentinel_terminated_key_lists(Unk99108 *entry, void *forwarded_a, void *forwarded_b)
+void dispatch_to_matching_fallback_handler_using_sentinel_terminated_key_lists(TownPlayerRecord *entry, void *forwarded_a, void *forwarded_b)
 {
     void **key_cursor;
     void **match_cursor;
@@ -18,13 +19,13 @@ void dispatch_to_matching_fallback_handler_using_sentinel_terminated_key_lists(U
     key_cursor = D_800D04A4;
     if (*key_cursor != 0) {
         do {
-            entry_key = entry->unk0;
+            entry_key = entry->unk_00;
             if (entry_key == *key_cursor) {
                 if (entry_key == town_position_callback_address) {
                     match_cursor = D_800D04B8;
                     if (*match_cursor != 0) {
                         do {
-                            if (entry->unk4 == *match_cursor++) {
+                            if (entry->unk_04 == *match_cursor++) {
                                 compute_the_based_position_offset_publishes_resulting_vector(entry, forwarded_a, forwarded_b);
                                 return;
                             }
@@ -51,7 +52,9 @@ void clear_global_80100_d_20(void) {
  * plus the supplied vector, publishing computed_position through town_overlap_origin. Clears the
  * published pointer when no record is found.
  */
-void compute_the_based_position_offset_publishes_resulting_vector(void *object, IntVector3 *offset, void *resources) {
+void compute_the_based_position_offset_publishes_resulting_vector(void *object_arg, IntVector3 *offset, void *resources) {
+    TownPlayerRecord *object = object_arg;
+
     Record *record;
     s32 angle;
     s32 x;
@@ -61,7 +64,7 @@ void compute_the_based_position_offset_publishes_resulting_vector(void *object, 
     record = find_flagged_record_by_id(
         call_an_indexed_byte_s_signed_field_callee_80096_a_5_c(resources, *(u8 **)((u8 *)object + 0x1C), 4), 0);
     if (record != 0) {
-        angle = (*(u16 *)((u8 *)object + 0x10) - 0xC00) & 0xFFF;
+        angle = (object->unk_10.as_u16 - 0xC00) & 0xFFF;
         x = (record->scale * rcos(angle)) << 5;
         y = (-record->scale * rsin(angle)) << 5;
         height = record->height;

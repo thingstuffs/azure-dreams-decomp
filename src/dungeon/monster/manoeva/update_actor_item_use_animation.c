@@ -130,13 +130,13 @@ void update_actor_item_use_animation(ActorRecord *action, void *item, SpriteFram
                 if (global_source_test) {
                     source_entity = primary_actor_record;
                     act->unk_60 = source_entity;
-                    source_sprite = *(u8 * *)&((ObjectNodeHeader *)((u8 *)source_entity - 0x20))->sprite;
+                    source_sprite = *(u8 * *)&((ObjectNodeHeader *)source_entity - 1)->sprite;
                     act->unk_72.s = ((S_801728E4_3 *)source_sprite)->unk_24;
                     act->unk_73.s = ((S_801728E4_3 *)source_sprite)->unk_25;
                 } else if (item_action_definitions[(*(u8 *)&((EntityRec *)item)->x)].kind == 2) {
                     source_entity = act->unk_60;
                     if (source_entity != 0) {
-                        source_sprite = *(u8 * *)&((ObjectNodeHeader *)((u8 *)source_entity - 0x20))->sprite;
+                        source_sprite = *(u8 * *)&((ObjectNodeHeader *)source_entity - 1)->sprite;
                         act->unk_72.s = ((S_801728E4_3 *)source_sprite)->unk_24;
                         act->unk_73.s = ((S_801728E4_3 *)source_sprite)->unk_25;
                     }

@@ -8,21 +8,9 @@
 #include "shared/town_object.h"
 #include "shared/entity.h"
 
-typedef struct S_800C6440_2 {
-    u8 pad_00[0x4];
-    s32 * data; /* 0x04 */
-} S_800C6440_2;
 
-typedef struct S_800C645C_1 {
-    u8 pad_00[0x80];
-    void * linked_data; /* 0x80 */
-} S_800C645C_1;
 
 /* arg0 in set_linked_data_pointers_variant_2 */
-typedef struct S_800C645C_2 {
-    u8 pad_00[0x4];
-    s32 * data; /* 0x04 */
-} S_800C645C_2;
 
 typedef struct S_800C645C_0 {
     u8 pad_00[0x7C];

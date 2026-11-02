@@ -140,13 +140,13 @@ void resolve_actor_attack_damage(ActorRecord *actor, ObjectPosition *motion, Spr
             if (use_player != 0) {
                 target = primary_actor_record;
                 action->target = target;
-                action_value = ((ObjectNodeHeader *)((u8 *)target - 0x20))->sprite;
+                action_value = ((ObjectNodeHeader *)target - 1)->sprite;
                 action->target_tile_x = (s8) ((S_801728B4_3 *)action_value)->unk_24;
                 action->target_tile_y = (s8) ((S_801728B4_3 *)action_value)->unk_25;
             } else if (item_action_definitions[*slot_or_effect].kind == 2) {
                 target = action->target;
                 if (target != NULL) {
-                    action_value = ((ObjectNodeHeader *)((u8 *)target - 0x20))->sprite;
+                    action_value = ((ObjectNodeHeader *)target - 1)->sprite;
                     action->target_tile_x = (s8) ((S_801728B4_3 *)action_value)->unk_24;
                     action->target_tile_y = (s8) ((S_801728B4_3 *)action_value)->unk_25;
                 }

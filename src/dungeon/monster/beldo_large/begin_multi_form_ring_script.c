@@ -41,10 +41,6 @@ typedef struct S_8016EE8C_4 {
     s32 unk_10;
 } S_8016EE8C_4;
 
-typedef struct S_8016EE8C_5 {
-    u8 pad_00[0xAC];
-    s32 unk_AC;
-} S_8016EE8C_5;
 
 
 void unlink_entity_node();                         /* extern */
@@ -81,10 +77,10 @@ void begin_multi_form_ring_script(void) {
     active_data->unk_AB = 0;
     do {
         slot_offset = slot_index * 4;
-        object_data = ((S_8016EE8C_5 *)((slot_offset + ((EntityRec *)(((s32 *)&dungeon_actor_ring_anchor)))->x.v)))->unk_AC;
+        object_data = ((ActorRecord *)((slot_offset + ((EntityRec *)(((s32 *)&dungeon_actor_ring_anchor)))->x.v)))->unk_AC.value;
         if (object_data != 0) {
             unlink_entity_node(object_data);
-            object_header = (S_8016EE8C_4 *)(((S_8016EE8C_5 *)((slot_offset + ((EntityRec *)(((s32 *)&dungeon_actor_ring_anchor)))->x.v)))->unk_AC
+            object_header = (S_8016EE8C_4 *)(((ActorRecord *)((slot_offset + ((EntityRec *)(((s32 *)&dungeon_actor_ring_anchor)))->x.v)))->unk_AC.value
             - 0x20);
             object_header->unk_10 = (s32) (object_header->unk_10 | 0x80000000);
         }

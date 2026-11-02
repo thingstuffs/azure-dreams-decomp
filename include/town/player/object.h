@@ -59,10 +59,10 @@ void initialize_player_object_data(void);
 void initialize_randomized_object_action(TownObjectRecord *object, s32 motion, s32 table_arg);
 
 /* initialize_scaled_effect_object.c */
-void initialize_scaled_effect_object(TownObjectRecord *object, void *position, struct SpriteFrameState *transform);
+void initialize_scaled_effect_object(TownObjectRecord *object, ObjectPosition *position, struct SpriteFrameState *transform);
 
 /* initialize_unit_scale_object.c */
-void initialize_unit_scale_object(TownObjectRecord *object, void *position, struct SpriteFrameState *transform);
+void initialize_unit_scale_object(TownObjectRecord *object, ObjectPosition *position, struct SpriteFrameState *transform);
 
 /* reset_indexed_object_and_process_context.c */
 void reset_indexed_object_and_process_context(TownObjectRecord *object, s32 context, void *ptr2);

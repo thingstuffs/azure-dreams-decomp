@@ -14,20 +14,6 @@
 #include "dungeon/actor/motion.h"
 #include "dungeon/actor/state.h"
 
-typedef struct S_80171400_1 {
-    u8 pad_00[0x1C];
-    u32 unk_1C;
-    u8 pad_20[0x5];
-    u8 unk_25;
-    u8 pad_26[0x4];
-    s16 unk_2A;
-    u8 pad_2C[0x1A];
-    u16 unk_46;
-    u8 pad_48[0x1C];
-    s16 unk_64;
-    u8 pad_66[0x7];
-    s8 unk_6D;
-} S_80171400_1;   /* arg3 in update_dungeon_actor_state */
 
 extern void select_sprite_entry(void *, s32, s32);
 extern s16 check_entity_relation(ActorRecord *entry, ActorRecord *anchor);
@@ -79,12 +65,12 @@ void update_dungeon_actor_state(ActorRecord *actor, ObjectPosition *context, Spr
         return;
     }
 
-    if (((S_80171400_1 *)entity)->unk_1C & 0x200) {
+    if (((u32)entity->flags1C) & 0x200) {
         if (sprite_in->frameTable == kid_frame_set_4) {
             actor->action_id.u = 0xD;
             actor->action_phase.u = 1;
             actor->unk_8C.word = 0;
-            ((S_80171400_1 *)entity)->unk_1C &= ~0x40000;
+            entity->flags1C &= ~0x40000;
             return;
         }
         if (reset_actor_action_state(actor, context, sprite_in, kid_frame_set_3) != 0) {
@@ -93,7 +79,7 @@ void update_dungeon_actor_state(ActorRecord *actor, ObjectPosition *context, Spr
     }
 
     if (!(g_dungeon_status.flags & 0x2000)) {
-        if (((S_80171400_1 *)entity)->unk_1C & 0x100) {
+        if (((u32)entity->flags1C) & 0x100) {
             begin_pushed_actor_move(actor, context, sprite_in, entity);
             return;
         }
@@ -113,7 +99,7 @@ void update_dungeon_actor_state(ActorRecord *actor, ObjectPosition *context, Spr
                 actor->unk_A8.s);
         }
 
-        ((S_80171400_1 *)entity)->unk_1C |= 0x40000;
+        entity->flags1C |= 0x40000;
         actor->action_state_flags &= 0xFFF7;
 
         if (entity->hp_delta != 0) {
@@ -122,7 +108,7 @@ void update_dungeon_actor_state(ActorRecord *actor, ObjectPosition *context, Spr
             }
         }
 
-        if (((S_80171400_1 *)entity)->unk_1C & 0x80000) {
+        if (((u32)entity->flags1C) & 0x80000) {
             begin_actor_move_to_target_facing(actor, context, sprite_in, entity);
             actor->unk_A8.s = 0;
             func_80174218(actor, context, sprite_in, entity);
@@ -140,7 +126,7 @@ void update_dungeon_actor_state(ActorRecord *actor, ObjectPosition *context, Spr
     sprite_in->room_index = room_id;
 
     if (entity->pending_turn_updates > 0) {
-        if (((S_80171400_1 *)entity)->unk_1C & 0x20) {
+        if (((u32)entity->flags1C) & 0x20) {
             update_actor_status_and_mp(entity);
             return;
         }
@@ -227,11 +213,11 @@ void update_dungeon_actor_state(ActorRecord *actor, ObjectPosition *context, Spr
         }
     }
 
-    if (!(((S_80171400_1 *)entity)->unk_1C & 0x2000)) {
+    if (!(((u32)entity->flags1C) & 0x2000)) {
         s32 room_index = room_id;
 
         if ((room_index < 0) || !(dungeon_rooms[room_index].flags & 2)) {
-            if (!(((S_80171400_1 *)entity)->unk_1C & 0x430)) {
+            if (!(((u32)entity->flags1C) & 0x430)) {
 
                 if ((test_neighbor_position_relation(
                         sprite_in->tile_x, sprite_in->tile_y,

@@ -4,6 +4,7 @@
 
 #include "common.h"
 #include "shared/gpu_packets.h"
+#include "shared/menu_display.h"
 
 struct Entity;
 struct S_800226A8_0;
@@ -75,25 +76,8 @@ void write_text_and_advance_selection(u8 *menu);
  * display_block_defaults (one CardDisplayBlock, copied as four words) and
  * display_vector_defaults (one DisplayPositionWords) into its own storage,
  * links them from a node, and then places the block on screen. */
-typedef union CardDisplayBlock {
-    s32 words[4];
-    struct {
-        s32 unk_00;
-        s32 unk_04;
-        s16 x;
-        s16 y;
-        s16 depth;
-        u8 unk_0E;
-        u8 mode;
-    } fields;
-} CardDisplayBlock;
-
-typedef struct CardDisplayNode {
-    s32 unk_00;
-    CardDisplayBlock *block;
-    DisplayPositionWords *vector;
-    s32 unk_0C;
-} CardDisplayNode;
+typedef MenuDisplayBlock CardDisplayBlock;
+typedef MenuDisplayNode CardDisplayNode;
 
 /* File-list panel: a heading node with its own block and vector, then 21 list
  * nodes that share one vector (init_card_file_list_panel, init_card_file_list_nodes). */

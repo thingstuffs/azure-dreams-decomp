@@ -14,7 +14,7 @@ void prepare_and_forward_callback(void *object, void *context, SpriteFrameState 
 void reset_object_entry_and_brighten(void *object, void *draw_arg, SpriteFrameState *packet) {
     u32 intensity;
 
-    initialize_object_entries((Struct800C5724 *)object, packet, (s32 *)D_800D6CA8);
+    initialize_object_entries((TownObjectRecord *)object, packet, (s32 *)D_800D6CA8);
     object_index_slots[*(s32 *)((u8 *)object + 0x60)].unk_00 = 0;
 
     intensity = packet->color.c.r;

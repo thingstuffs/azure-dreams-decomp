@@ -34,14 +34,6 @@ typedef struct S_80098CF8_1 {
 
    /* s5 in begin_holding_item */
 
-typedef struct S_80098CF8_4 {
-    u8 pad_00[0x1C];
-    s32 unk_1C;
-    u8 pad_20[0xA];
-    s16 unk_2A;
-    u8 pad_2C[0x5C];
-    u16 unk_88;
-} S_80098CF8_4;   /* s4 in begin_holding_item */
 
 typedef struct S_80098CF8_5 {
     u8 pad_00[0x8C];
@@ -144,7 +136,7 @@ print_message:
         primitive = result->position;
         primitive->x.w.i = (((MovingTile *)target)->tile_x << 6) + 0x20;
         primitive->y.w.i = (((MovingTile *)target)->tile_y << 6) + 0x20;
-        height = ((S_80098CF8_4 *)actor_state)->unk_88;
+        height = ((u16)((ActorRecord *)actor_state)->ground_height);
         message = target;
         primitive->z.w.i = height - 0x30;
 
@@ -171,11 +163,11 @@ print_message:
 
             set_sprite_animation_frame(
                 message,
-                sound_table[((g_game_work.view.camera_rotation.parts.viewAngle + ((S_80098CF8_4 *)actor_state)->unk_2A + 0x100) >> 9) & 7],
+                sound_table[((g_game_work.view.camera_rotation.parts.viewAngle + ((ActorRecord *)actor_state)->facing + 0x100) >> 9) & 7],
                 0,
                 1);
             play_sound_if_enabled(0x511);
-            ((S_80098CF8_4 *)actor_state)->unk_1C |= 0x100000;
+            ((ActorRecord *)actor_state)->flags1C |= 0x100000;
             clear_slot_and_update_linked_state(item);
         }
     }

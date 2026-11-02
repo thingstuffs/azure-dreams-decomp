@@ -1,3 +1,4 @@
+#include "shared/town_object.h"
 /* Initializes timed resource objects, finalizes them, and updates the washed dish counter. */
 /* inferred-strong G00584: washed_dish_effects_g00584; joins PD:town/engine:800D0E44,PD:town/engine:800F8A70; no crossing cuts. */
 /* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - PD:town/engine:800D0E44, PD:town/engine:800F8A70. */
@@ -7,10 +8,10 @@
 #include "engine/node.h"
 
 /* Initialize the object state, shared counter, context resource, and callback. */
-void initialize_timed_resource_object(void *object, void *unused, struct SpriteFrameState *context) {
+void initialize_timed_resource_object(TownObjectRecord *object, ObjectPosition *unused, struct SpriteFrameState *context) {
     void *resource_base;
 
-    *(s32 **) ((s8 *) object - 0x10) = &finalize_object_or_select_town_record;
+    ((ObjectNodeHeader *)object - 1)->update_callback = &finalize_object_or_select_town_record;
     dish_counter = 0x14;
     resource_base = &D_800F8A70;
     context->source = (void *) ((s8 *) resource_base + 0xF0);

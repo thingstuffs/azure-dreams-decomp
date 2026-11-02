@@ -27,10 +27,6 @@ typedef struct S_800AB778_23 {
     void * unk_110;
 } S_800AB778_23;   /* ((S_800AB778_20 *)page16)->unk_3D7C in advance_actor_removal */
 
-typedef struct S_800AB778_24 {
-    u8 pad_00[0x3];
-    u8 unk_03;
-} S_800AB778_24;   /* ((S_800AB778_22 *)(((S_800AB778_19 *)page4)->unk_3D7C))->unk_110 in advance_actor_removal */
 
 typedef struct S_800AB778_25 {
     u8 pad_00[0x3];
@@ -271,7 +267,7 @@ s32 advance_actor_removal(S_800AB778_1 *state, ObjectPosition *unused_context, S
         if (((S_800AB778_22 *)globals_page4->unk_3D7C)->unk_110 != NULL) {
             decrement_monster_entry_count(((Rec_D_80082E80 *)actor)->unk_12.at01_u8.v, 3);
             object_id4 =
-                ((S_800AB778_24 *)(((S_800AB778_22 *)globals_page4->unk_3D7C)->unk_110))->unk_03 & 0x1F;
+                ((ActorRecord *)(((S_800AB778_22 *)globals_page4->unk_3D7C)->unk_110))->unk_00[3] & 0x1F;
             object_slot4 = &familiar_record_slots[object_id4];
             ((ActorRecord *)(*object_slot4))->species = 0;
             familiar_record_storage[object_id4].field13 = 0;

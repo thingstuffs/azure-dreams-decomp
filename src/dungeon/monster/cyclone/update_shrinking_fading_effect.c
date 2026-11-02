@@ -48,17 +48,6 @@ typedef struct S_80172FC0_3 {
     u8 unk_25;
 } S_80172FC0_3;   /* owner in update_shrinking_fading_effect */
 
-typedef struct S_80172FC0_5 {
-    u8 pad_00[0x2];
-    u16 unk_02;
-    u8 pad_04[0x2];
-    u16 unk_06;
-    u8 pad_08[0x2];
-    u16 unk_0A;
-    s32 unk_0C;
-    s32 unk_10;
-    s32 unk_14;
-} S_80172FC0_5;   /* arg1_s4 in update_shrinking_fading_effect */
 
 typedef struct S_80172FC0_6 {
     u8 pad_00[0x4];
@@ -140,13 +129,13 @@ void update_shrinking_fading_effect(ActorRecord *anim, ObjectPosition *transform
             if ((s16)is_special != 0) {
                 effect = primary_actor_record;
                 actor->target = effect;
-                main_actor = (S_80172FC0_3 *)((ObjectNodeHeader *)((u8 *)effect - 0x20))->sprite;
+                main_actor = (S_80172FC0_3 *)((ObjectNodeHeader *)effect - 1)->sprite;
                 actor->target_tile_x = main_actor->unk_24;
                 actor->target_tile_y = main_actor->unk_25;
             } else if (item_action_definitions[*effect_id].kind == 2) {
                 effect = actor->target;
                 if (effect != 0) {
-                    main_actor = (S_80172FC0_3 *)((ObjectNodeHeader *)((u8 *)effect - 0x20))->sprite;
+                    main_actor = (S_80172FC0_3 *)((ObjectNodeHeader *)effect - 1)->sprite;
                     actor->target_tile_x = main_actor->unk_24;
                     actor->target_tile_y = main_actor->unk_25;
                 }

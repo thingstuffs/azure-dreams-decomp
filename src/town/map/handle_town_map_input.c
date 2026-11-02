@@ -4,6 +4,7 @@
 #include "slus.h"
 #include "engine/script.h"
 #include "town/map.h"
+#include "town/map/body.h"
 
 void send_resource_command_23(s32);
 
@@ -15,30 +16,30 @@ extern u8 town_map_status;
 extern u8 town_building_slot_rectangles;
 
 /* Handle input and update the object display position for its current state. */
-void handle_town_map_input(u8 *object, void *transform, void *context) {
+void handle_town_map_input(TownMapBody *object, ObjectPosition *transform, SpriteFrameState *context) {
     GameWork *input = &g_game_work;
-    u8 *entries = *(u8 **)(object + 0x7C);
+    u8 *entries = object->entries;
     s16 state;
 
     if (town_map_status != 0) {
-        *(void **)(object + 0x68) = D_8008BED8;
+        object->update = D_8008BED8;
         return;
     }
 
-    state = *(s16 *)(object + 0x66);
+    state = object->type_id;
     if (state == 0) {
-        u16 timer = *(u16 *)(object + 0x64) - 1;
+        u16 timer = object->timer.as_u16 - 1;
 
-        *(u16 *)(object + 0x64) = timer;
+        object->timer.as_u16 = timer;
         if ((timer << 16) <= 0) {
             s32 buttons;
 
-            *(u16 *)(object + 0x64) = 0;
+            object->timer.as_u16 = 0;
             if ((input->pressed_buttons) & 0x10000000) {
-                *(u16 *)((u8 *)transform + 0xA) += 0x10;
+                transform->z.unsigned_parts.integer += 0x10;
             }
             if ((input->pressed_buttons) & 0x40000000) {
-                *(u16 *)((u8 *)transform + 0xA) -= 0x10;
+                transform->z.unsigned_parts.integer -= 0x10;
             }
 
             buttons = (input->pressed_buttons);
@@ -56,8 +57,8 @@ void handle_town_map_input(u8 *object, void *transform, void *context) {
     } else if (state == 9) {
 
         advance_sprite_animation_and_textures(context);
-        *(s32 *)(*(u8 **)object + 0x30) = view_reference_entity.x.w.i / 64 - 0x18;
-        *(s32 *)(*(u8 **)object + 0x34) = view_reference_entity.y.w.i / 64 - 0x40;
+        object->context->unk_30 = view_reference_entity.x.w.i / 64 - 0x18;
+        object->context->unk_34 = view_reference_entity.y.w.i / 64 - 0x40;
         return;
     } else if (state == 10) {
         s32 buttons;
@@ -68,26 +69,26 @@ void handle_town_map_input(u8 *object, void *transform, void *context) {
         advance_sprite_animation_and_textures(context);
         buttons = (input->pressed_buttons);
         if (buttons & 0x6000) {
-            if (++*(s32 *)(object + 0x74) >= *(s32 *)(object + 0x78)) {
-                *(s32 *)(object + 0x74) = 0;
+            if (++object->selection >= object->entry_count) {
+                object->selection = 0;
             }
-            send_resource_command_23(entries[*(s32 *)(object + 0x74)]);
+            send_resource_command_23(entries[object->selection]);
         } else if (buttons & 0x9000) {
-            if (--*(s32 *)(object + 0x74) < 0) {
-                *(s32 *)(object + 0x74) = *(s32 *)(object + 0x78) - 1;
+            if (--object->selection < 0) {
+                object->selection = object->entry_count - 1;
             }
-            send_resource_command_23(entries[*(s32 *)(object + 0x74)]);
+            send_resource_command_23(entries[object->selection]);
         }
-        entry_index = *(s32 *)(object + 0x74);
+        entry_index = object->selection;
         positions = &town_building_slot_rectangles;
         entry_id = entries[entry_index];
-        *(s32 *)(*(u8 **)object + 0x30) = positions[entry_id * 8] - 0x18;
+        object->context->unk_30 = positions[entry_id * 8] - 0x18;
 
-        entry_index = *(s32 *)(object + 0x74);
+        entry_index = object->selection;
         entry_id = entries[entry_index];
-        *(s32 *)(*(u8 **)object + 0x34) = positions[entry_id * 8 + 1] - 0x40;
+        object->context->unk_34 = positions[entry_id * 8 + 1] - 0x40;
 
-        entry_index = *(s32 *)(object + 0x74);
+        entry_index = object->selection;
         town_map_selection = entries[entry_index];
     }
 }

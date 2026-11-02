@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/entity.h"
 #include "shared/object_flags.h"
 
 #include "common.h"
@@ -16,7 +17,7 @@ typedef struct {
 extern u32 D_800814A0;
 
 /* Decreases intensity and marks the object finished when its countdown expires. */
-void fade_manager_step_out(void *object, void *unused, Func8003C520Data *data) {
+void fade_manager_step_out(void *object, ObjectPosition *unused, Func8003C520Data *data) {
     s32 intensity = data->unk_0E;
     s32 countdown = data->unk_1C;
 

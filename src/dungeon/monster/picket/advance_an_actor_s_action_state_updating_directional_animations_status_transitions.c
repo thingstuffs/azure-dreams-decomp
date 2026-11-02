@@ -13,18 +13,6 @@
 
    /* arg2 in advance_an_actor_s_action_state_updating_directional_animations_status_transitions */
 
-typedef struct S_80173880_2 {
-    u8 pad_00[0x1C];
-    union { s32 s; u32 u; } unk_1C;   /* accessed as both */
-    u8 pad_20[0x5];
-    u8 unk_25;
-    u8 pad_26[0x4];
-    s16 unk_2A;
-    u8 pad_2C[0x38];
-    s16 unk_64;
-    u8 pad_66[0x7];
-    s8 unk_6D;
-} S_80173880_2;   /* arg3 in advance_an_actor_s_action_state_updating_directional_animations_status_transitions */
 
 extern s32 get_entity_effect_value(ActorRecord *entry, s32 effect_id);
 extern void clear_slots_of_type(ActorRecord *owner, s8 match_type);
@@ -63,7 +51,7 @@ void advance_an_actor_s_action_state_updating_directional_animations_status_tran
             anim_table = D_80174F50;
             (in_sprite->frameTable) = anim_table;
             select_sprite_entry(in_sprite,
-                anim_table[((g_game_work.view.camera_rotation.parts.viewAngle + ((S_80173880_2 *)actor)->unk_2A + 0x100) >> 9) & 7],
+                anim_table[((g_game_work.view.camera_rotation.parts.viewAngle + ((ActorRecord *)actor)->facing + 0x100) >> 9) & 7],
                 0);
             system_state = &g_dungeon_status;
             (*(u16 *)&system_state->activity_counts.parts.pending_action_count)--;
@@ -78,7 +66,7 @@ void advance_an_actor_s_action_state_updating_directional_animations_status_tran
             anim_table = picket_frame_set_6;
             (in_sprite->frameTable) = anim_table;
             select_sprite_entry(in_sprite,
-                anim_table[((g_game_work.view.camera_rotation.parts.viewAngle + ((S_80173880_2 *)actor)->unk_2A + 0x100) >> 9) & 7],
+                anim_table[((g_game_work.view.camera_rotation.parts.viewAngle + ((ActorRecord *)actor)->facing + 0x100) >> 9) & 7],
                 0);
         }
 
@@ -89,7 +77,7 @@ void advance_an_actor_s_action_state_updating_directional_animations_status_tran
                 anim_table = D_80174F50;
                 (in_sprite->frameTable) = anim_table;
                 select_sprite_entry(in_sprite,
-                    anim_table[((g_game_work.view.camera_rotation.parts.viewAngle + ((S_80173880_2 *)actor)->unk_2A + 0x100) >> 9) & 7],
+                    anim_table[((g_game_work.view.camera_rotation.parts.viewAngle + ((ActorRecord *)actor)->facing + 0x100) >> 9) & 7],
                     0);
             }
 
@@ -114,13 +102,13 @@ void advance_an_actor_s_action_state_updating_directional_animations_status_tran
                 return;
             }
 
-            if (((S_80173880_2 *)actor)->unk_64 != 0) {
+            if (((ActorRecord *)actor)->hp_delta != 0) {
                 if (begin_ready_actor_directional_action(in_action, context, in_sprite, 0) != 0) {
                     return;
                 }
             }
 
-            if (((S_80173880_2 *)actor)->unk_25 == 0) {
+            if (((ActorRecord *)actor)->mp_value.parts.whole == 0) {
                 if (input_state->flags & 0x2008) {
                     return;
                 }
@@ -132,7 +120,7 @@ void advance_an_actor_s_action_state_updating_directional_animations_status_tran
                 return;
             }
 
-            actor_flags = ((S_80173880_2 *)actor)->unk_1C.s;
+            actor_flags = ((ActorRecord *)actor)->flags1C;
             if (actor_flags & 0x100) {
                 begin_pushed_actor_move(in_action, context, in_sprite, actor);
                 return;
@@ -144,7 +132,7 @@ void advance_an_actor_s_action_state_updating_directional_animations_status_tran
                 return;
             }
 
-            if (((S_80173880_2 *)actor)->unk_6D == 0) {
+            if (((ActorRecord *)actor)->pending_turn_updates == 0) {
                 return;
             }
 
@@ -192,7 +180,7 @@ void advance_an_actor_s_action_state_updating_directional_animations_status_tran
             anim_table = D_80174F50;
             (in_sprite->frameTable) = anim_table;
             select_sprite_entry(in_sprite,
-                anim_table[((g_game_work.view.camera_rotation.parts.viewAngle + ((S_80173880_2 *)actor)->unk_2A + 0x100) >> 9) & 7],
+                anim_table[((g_game_work.view.camera_rotation.parts.viewAngle + ((ActorRecord *)actor)->facing + 0x100) >> 9) & 7],
                 0);
         }
 
@@ -217,7 +205,7 @@ void advance_an_actor_s_action_state_updating_directional_animations_status_tran
             anim_table = picket_frame_set_3;
             (in_sprite->frameTable) = anim_table;
             select_sprite_entry(in_sprite,
-                anim_table[((g_game_work.view.camera_rotation.parts.viewAngle + ((S_80173880_2 *)actor)->unk_2A + 0x100) >> 9) & 7],
+                anim_table[((g_game_work.view.camera_rotation.parts.viewAngle + ((ActorRecord *)actor)->facing + 0x100) >> 9) & 7],
                 0);
             in_action->action_phase.u++;
             return;
@@ -238,6 +226,6 @@ void advance_an_actor_s_action_state_updating_directional_animations_status_tran
         return;
     }
 
-    ((S_80173880_2 *)actor)->unk_1C.u &= ~0x200;
+    ((ActorRecord *)actor)->flags1C &= ~0x200;
     in_action->unk_8C.address = picket_action_resume_address;
 }

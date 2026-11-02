@@ -96,7 +96,7 @@ s32 is_linked_entity_flagged_80000(ActorRecord *entity, ActorRecord *unused_cont
 void on_actor_status_updated(void *actor);
 s32 resolve_actor_floor_trap_once(ActorRecord *body, ObjectPosition *position, SpriteFrameState *sprite, ActorRecord *actor);
 s16 resolve_alternate_spell_id(s32 tile_index);
-s32 select_creature_action_and_target(void *unused, u8 *position, ActorRecord *creature, s32 lower_limit, u16 upper_limit, s8 *status_out_addr);
+s32 select_creature_action_and_target(ObjectPosition *unused, u8 *position, ActorRecord *creature, s32 lower_limit, u16 upper_limit, s8 *status_out_addr);
 s16 select_highest_value_item(s32 records_addr, s32 item_kind);
 s32 update_actor_defeat_removal(ActorRecord *state, ObjectPosition *position, struct SpriteFrameState *sprite, ActorRecord *entity_data);
 s32 update_actor_hop_and_grow(struct ActorHopState *state, ObjectPosition *motion, SpriteFrameState *params, ActorRecord *extra);
@@ -107,7 +107,7 @@ struct Actor;
 struct Ctx;
 s32 choose_usable_ability_or_attack(struct Actor *actor, struct Actor *target, u16 *out_angle, s32 prefer_ability);
 s32 feed_actor_restore_mp(ActorRecord *state, s32 mode, DungeonItemEntry *item);
-s32 is_linked_entity_flagged_100000(EntityRec *entity);
+s32 is_linked_entity_flagged_100000(ActorRecord *entity);
 s32 trigger_actor_floor_trap(struct Actor *actor, ActorRecord *ctx);
 
 #endif

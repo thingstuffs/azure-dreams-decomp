@@ -12,7 +12,7 @@ extern s32 person_reaction_object_entries[];
 
 /* Initialize the object, clear the global flag, and set its handler and initial offset. */
 void initialize_object_with_handler_and_offset(TownObjectRecord *object, ObjectPosition *motion, void *init_data) {
-    initialize_object_entries((Struct800C5724 *)(object), init_data, person_reaction_object_entries);
+    initialize_object_entries((object), init_data, person_reaction_object_entries);
     person_slot_reset_byte = 0;
     object->handler = &D_800CE780;
     motion->velocity_z = 0xFFF60000;

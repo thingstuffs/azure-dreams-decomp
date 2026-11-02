@@ -26,11 +26,6 @@ extern u8 baloon_default_frames[];
 extern u8 baloon_fall_frames[8];
 extern u8 D_800E2398[8];
 
-typedef struct S_80173B08_2 {
-    u8 pad_00[0x24];
-    u8 unk_24;
-    u8 unk_25;
-} S_80173B08_2;   /* linked in update_actor_item_use */
 
 /* Updates the actor's item-use state, animation, and effects. */
 /* Starts a targeted spell, settles to ground height, emits forward and surrounding particles, then
@@ -97,23 +92,23 @@ void update_actor_item_use(ActorRecord *body, ObjectPosition *motion, SpriteFram
             body->action_state_flags &= 0xFF7F;
             {
                 u8 is_special;
-                S_80173B08_2 *item_id;
+                SpriteFrameState *item_id;
 
                 is_special = flag;
                 if (is_special != 0) {
                     target = primary_actor_record;
                     actor->target = target;
-                    item_id = (S_80173B08_2 *)((ObjectNodeHeader *)((u8 *)target - 0x20))->sprite;
-                    actor->target_tile_x = item_id->unk_24;
-                    actor->target_tile_y = item_id->unk_25;
+                    item_id = (SpriteFrameState *)((ObjectNodeHeader *)target - 1)->sprite;
+                    actor->target_tile_x = item_id->tile_x;
+                    actor->target_tile_y = item_id->tile_y;
                 } else {
                     item_id = (void *)(*item_slot);
                     if (item_action_definitions[((u8)item_id)].kind == 2) {
                         target = actor->target;
                         if (target != 0) {
-                            item_id = (S_80173B08_2 *)((ObjectNodeHeader *)((u8 *)target - 0x20))->sprite;
-                            actor->target_tile_x = item_id->unk_24;
-                            actor->target_tile_y = item_id->unk_25;
+                            item_id = (SpriteFrameState *)((ObjectNodeHeader *)target - 1)->sprite;
+                            actor->target_tile_x = item_id->tile_x;
+                            actor->target_tile_y = item_id->tile_y;
                         }
                     } else {
                         s32 dx;

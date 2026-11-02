@@ -1,3 +1,4 @@
+#include "shared/object_node.h"
 #include "common.h"
 #include "shared/object_flags.h"
 #include "frontend/settings.h"
@@ -12,7 +13,7 @@ void load_indexed(void *entry_data) {
     scaled_value = (s16)(*(u16 *)(value_data + (value_index * 2) + 0xE) << 0x10 >> 0x12);
     entry->value = scaled_value;
     if (*(s16 *)(value_data + 0x16) & 0x8000) {
-        *(u16 *)((u8 *) entry - 2) = *(u16 *)((u8 *) entry - 2) | NODE_REMOVE;
+        ((ObjectNodeHeader *)entry - 1)->flags = ((ObjectNodeHeader *)entry - 1)->flags | NODE_REMOVE;
         object_flag_block.flags |= OBJECT_REMOVE_PENDING;
     }
 }

@@ -23,10 +23,6 @@ extern u8 D_800F8BBC[9];
 extern void ghosh_motion_resume_address(ActorRecord *actor, ObjectPosition *context, SpriteFrameState *sprite, ActorRecord *entity);
 extern Callback ghosh_action_handlers[];
 
-typedef struct S_8016F2E0_0 {
-    u8 pad_00[0xAC];
-    void * unk_AC;
-} S_8016F2E0_0;   /* slot in update_boss_actor_movement */
 
 typedef struct S_8016F2E0_1_pre {
     void * unk_00;
@@ -38,18 +34,6 @@ typedef struct S_8016F2E0_2 {
     u16 unk_14;
 } S_8016F2E0_2;   /* record in update_boss_actor_movement */
 
-typedef struct S_8016F2E0_3 {
-    u8 pad_00[0x1C];
-    s32 unk_1C;
-    u8 pad_20[0xA];
-    s16 unk_2A;
-    u8 pad_2C[0x41];
-    s8 unk_6D;
-    u8 pad_6E[0x3];
-    u8 unk_71;
-    u8 pad_72[0x16];
-    union { u16 u; s16 s; } unk_88;   /* accessed as both */
-} S_8016F2E0_3;   /* actor in update_boss_actor_movement */
 
 
 /* Updates actor callbacks, facing, movement, and floor contact. */
@@ -84,7 +68,7 @@ void update_boss_actor_movement(void *entity, ObjectPosition *motion, SpriteFram
         slot_index = 1;
         actor_slot = ((u8 *)dungeon_actor_ring_anchor) + 4;
         do {
-            actor_node = ((S_8016F2E0_0 *)actor_slot)->unk_AC;
+            actor_node = ((ActorRecord *)actor_slot)->unk_AC.address;
             if (actor_node != 0) {
                 actor_record = actor_node[-1].unk_00;
                 actor_record->unk_14 &= 0xFFBF;
@@ -100,11 +84,11 @@ void update_boss_actor_movement(void *entity, ObjectPosition *motion, SpriteFram
             paused_callback(entity, motion, sprite, actor);
             return;
         }
-        ((S_8016F2E0_3 *)actor)->unk_71 &= 0x7F;
+        ((ActorRecord *)actor)->movement_queue_state &= 0x7F;
         return;
     }
 
-    old_direction = ((S_8016F2E0_3 *)actor)->unk_6D;
+    old_direction = ((ActorRecord *)actor)->pending_turn_updates;
     if (refresh_actor_facing_and_lifecycle(entity, (s32)(motion), sprite, actor) != 0) {
         return;
     }
@@ -117,14 +101,14 @@ void update_boss_actor_movement(void *entity, ObjectPosition *motion, SpriteFram
     }
     ghosh_action_handlers[(*((u8 *)entity + (0x9A)))](entity, motion, sprite, actor);
 
-    if (old_direction != ((S_8016F2E0_3 *)actor)->unk_6D) {
+    if (old_direction != ((ActorRecord *)actor)->pending_turn_updates) {
         try_move_actor_to_valid_position(entity, motion, sprite, actor);
     }
 
     sprite_flags = sprite->flags;
     updated_flags = sprite_flags & 0x8000;
     if (updated_flags == 0) {
-        old_direction = ((g_game_work.view.camera_rotation.parts.viewAngle + ((S_8016F2E0_3 *)actor)->unk_2A + 0x100) >> 9) & 7;
+        old_direction = ((g_game_work.view.camera_rotation.parts.viewAngle + ((ActorRecord *)actor)->facing + 0x100) >> 9) & 7;
         previous_direction = (*(s16 *)((u8 *)entity + (0x94)));
         direction_value = old_direction;
         direction_copy = old_direction;
@@ -145,7 +129,7 @@ void update_boss_actor_movement(void *entity, ObjectPosition *motion, SpriteFram
         } else {
             sprite->flags &= 0xFFFE;
         }
-        if (!(((S_8016F2E0_3 *)actor)->unk_1C & 0x20)) {
+        if (!(((ActorRecord *)actor)->flags1C & 0x20)) {
             if (!(sprite->flags & 0x40)) {
                 advance_sprite_animation_and_textures(sprite);
             }
@@ -153,7 +137,7 @@ void update_boss_actor_movement(void *entity, ObjectPosition *motion, SpriteFram
             sprite->flags |= 0x7000;
         }
 
-        apply_monster_koyaw_data(((S_8016F2E0_3 *)actor)->unk_1C, (u8 *)sprite + 0xC);
+        apply_monster_koyaw_data(((ActorRecord *)actor)->flags1C, (u8 *)sprite + 0xC);
     } else {
         updated_flags = sprite_flags & 0x0800;
         if (updated_flags != 0) {
@@ -178,11 +162,11 @@ void update_boss_actor_movement(void *entity, ObjectPosition *motion, SpriteFram
     if (!((*(u16 *)((u8 *)entity + (0x98))) & 4)) {
         floor_height = sample_terrain_surface_height(((u16) motion->x.w.i),
                               ((u16) motion->y.w.i),
-                              (s16)(((S_8016F2E0_3 *)actor)->unk_88.u - 0x20));
+                              (s16)(((ActorRecord *)actor)->ground_height - 0x20));
         if ((s16)floor_height < 0x200) {
-            actor_height = ((S_8016F2E0_3 *)actor)->unk_88.s;
+            actor_height = ((ActorRecord *)actor)->ground_height;
             if ((*(s16 *)((u8 *)entity + (0x92))) + actor_height < (s16)floor_height) {
-                ((S_8016F2E0_3 *)actor)->unk_1C &= 0xF7FFFFFF;
+                ((ActorRecord *)actor)->flags1C &= 0xF7FFFFFF;
             } else {
                 if ((s16)floor_height >= actor_height) {
                     (*(s32 *)((u8 *)entity + (0x90))) = 0;
@@ -190,24 +174,24 @@ void update_boss_actor_movement(void *entity, ObjectPosition *motion, SpriteFram
                     (*(s16 *)((u8 *)entity + (0x92))) = floor_height - actor_height;
                 }
                 motion->velocity_z = 0;
-                ((S_8016F2E0_3 *)actor)->unk_1C |= 0x08000000;
+                ((ActorRecord *)actor)->flags1C |= 0x08000000;
                 (*((u8 *)entity + (0x9D))) = 0;
             }
 
-            if (((S_8016F2E0_3 *)actor)->unk_1C & 0x40000000) {
-                ((S_8016F2E0_3 *)actor)->unk_1C &= 0xBFFFFFFF;
+            if (((ActorRecord *)actor)->flags1C & 0x40000000) {
+                ((ActorRecord *)actor)->flags1C &= 0xBFFFFFFF;
                 floor_height = sample_terrain_surface_height((sprite->tile_x << 6) | 0x20,
                                       (sprite->tile_y << 6) | 0x20,
-                                      (s16)(((S_8016F2E0_3 *)actor)->unk_88.u - 0x20));
-                (*(s16 *)((u8 *)entity + (0x92))) += ((S_8016F2E0_3 *)actor)->unk_88.u - floor_height;
-                ((S_8016F2E0_3 *)actor)->unk_88.u = floor_height;
+                                      (s16)(((ActorRecord *)actor)->ground_height - 0x20));
+                (*(s16 *)((u8 *)entity + (0x92))) += ((ActorRecord *)actor)->ground_height - floor_height;
+                ((ActorRecord *)actor)->ground_height = floor_height;
             }
         } else {
-            ((S_8016F2E0_3 *)actor)->unk_1C &= 0xF7FFFFFF;
+            ((ActorRecord *)actor)->flags1C &= 0xF7FFFFFF;
         }
     } else {
-        ((S_8016F2E0_3 *)actor)->unk_1C &= 0xF7FFFFFF;
+        ((ActorRecord *)actor)->flags1C &= 0xF7FFFFFF;
     }
-    motion->z.w.i = ((S_8016F2E0_3 *)actor)->unk_88.u + (*(u16 *)((u8 *)entity + (0x92)));
+    motion->z.w.i = ((ActorRecord *)actor)->ground_height + (*(u16 *)((u8 *)entity + (0x92)));
     sprite->flags |= 0x40;
 }

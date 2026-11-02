@@ -6,6 +6,7 @@
 #include "engine/effect/screen_fade.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/vector.h"
+#include "shared/entity.h"
 
 typedef struct CdCueMotionOwner {
     u8 pad_00[6];
@@ -147,10 +148,10 @@ void start_gauge_ramp(struct S_80050640 *obj);
 void tick_screen_fade_slots(void);
 
 /* update_color_fade_effect.c */
-void update_color_fade_effect(CdCueEffectBody *effect, void *unused_1, struct S_80051F58_a2 *color, void *unused_3);
+void update_color_fade_effect(CdCueEffectBody *effect, ObjectPosition *unused_1, SpriteFrameState *color, void *unused_3);
 
 /* update_fade_in_out_effect.c */
-void update_fade_in_out_effect(CdCueEffectBody *state, void *unused_arg, struct S_80051CC4_Ptr *visual);
+void update_fade_in_out_effect(CdCueEffectBody *state, ObjectPosition *unused_arg, struct S_80051CC4_Ptr *visual);
 
 /* update_scene_effect_controller.c */
 void func_80052144(struct Controller *controller);
@@ -158,7 +159,7 @@ void update_scene_effect_controller(struct Controller *controller);
 
 /* update_shaded_line_effect.c */
 void func_80052CE0(struct S_52CE0 *anim, struct S_52CE0_Pos *position, struct S_52CE0_Ent *entity);
-void update_shaded_line_effect(struct S_52CE0 *anim, struct S_52CE0_Pos *position, struct S_52CE0_Ent *entity);
+void update_shaded_line_effect(struct S_52CE0 *anim, ObjectPosition *position, SpriteFrameState *entity);
 
 /* update_sine_motion_effect.c */
 void func_800517CC(struct EffectState800517CC *effect, struct VecState800517CC *motion, SpriteFrameState *color);

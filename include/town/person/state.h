@@ -63,13 +63,13 @@ void func_800CDF00(TownObjectRecord *actor, struct ReactionState *state, SpriteF
 void initialize_actor_reaction_and_fixed_state(TownObjectRecord *actor, struct ReactionState *state, SpriteFrameState *output);
 
 /* initialize_actor_state_table.c */
-void initialize_actor_state_table(void *actor, s32 context, void *state_context);
+void initialize_actor_state_table(TownObjectRecord *actor, s32 context, void *state_context);
 
 /* initialize_entity_action_state.c */
 void initialize_entity_action_state(void *entity, s32 unused, void *init_value);
 
 /* initialize_indexed_callback_state.c */
-void initialize_indexed_callback_state(void *object, s32 unused, void *initValue);
+void initialize_indexed_callback_state(TownObjectRecord *object, s32 unused, void *initValue);
 
 /* initialize_mother_event_object_state.c */
 void initialize_mother_event_object_state(void *object, s32 unused, void *initializationArg);
@@ -96,13 +96,13 @@ void invoke_flag_state_callback(struct S_800CCC34_0 *object, s32 context, void *
 void invoke_state_indexed_callback(void *object, void *context, void *motion);
 
 /* process_object_flag_bits.c */
-void process_object_0x6000_flag_bits(void *contextId, s32 contextData, SpriteFrameState *object);
+void process_object_0x6000_flag_bits(TownObjectRecord *contextId, s32 contextData, SpriteFrameState *object);
 
 /* reset_indexed_flag_install_handlers.c */
 void reset_indexed_flag_install_handlers(void *object, void *context, void *input);
 
 /* reset_menu_state.c */
-void reset_menu_state(void *menu, ObjectPosition *update_arg, void *input);
+void reset_menu_state(TownObjectRecord *menu, ObjectPosition *update_arg, void *input);
 
 /* reset_mother_event_global_state.c */
 void reset_mother_event_global_state(void *object);
@@ -111,7 +111,7 @@ void reset_mother_event_global_state(void *object);
 void reset_object_flag_and_set_countdown_400(struct S_800CEDA4_0 *object);
 
 /* reset_object_substate_and_flag.c */
-void reset_object_substate_and_flag(TownObjectRecord *context, void *unused, struct SpriteFrameState *stateWords);
+void reset_object_substate_and_flag(TownObjectRecord *context, ObjectPosition *unused, struct SpriteFrameState *stateWords);
 
 /* reset_reaction_global_flag_and_angle.c */
 void reset_reaction_global_flag_and_angle(struct S_800CA7D8_0 *object);
@@ -120,7 +120,7 @@ void reset_reaction_global_flag_and_angle(struct S_800CA7D8_0 *object);
 void run_object_handlers_supplied_state(s32 object, s32 state, s32 context);
 
 /* set_actor_flag_copy_global.c */
-void set_actor_flag_copy_global(TownObjectRecord *actor, void *unused, struct SpriteFrameState *state);
+void set_actor_flag_copy_global(TownObjectRecord *actor, ObjectPosition *unused, struct SpriteFrameState *state);
 
 /* set_flag_object_direction_c.c */
 void set_flag_object_direction_12_c(struct S_800CCF18_0 *state);

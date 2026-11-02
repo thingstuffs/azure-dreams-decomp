@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/entity.h"
 
 #include "common.h"
 #include "engine/window.h"
@@ -30,7 +31,7 @@ extern u8 blinking_cursor_texture_descriptor_1[16];
 extern u8 blinking_cursor_texture_descriptor_2[16];
 
 /* Updates lookup data and selects the current entry's table value and blinking color. */
-void update_blinking_cursor_with_dark_idle(Func37090Input *state, void *context, Func37090Output *output) {
+void update_blinking_cursor_with_dark_idle(Func37090Input *state, ObjectPosition *context, Func37090Output *output) {
     u8 entry;
 
     if (unlink_cursor_when_finished(state) != 0) {

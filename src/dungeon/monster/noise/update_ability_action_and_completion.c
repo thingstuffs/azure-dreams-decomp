@@ -93,7 +93,7 @@ void update_ability_action_and_completion(ActorRecord *body, ObjectPosition *mot
                     actor->target = target;
                     {
                         target_sprite =
-                            ((ObjectNodeHeader *)((u8 *)target - 0x20))->sprite;
+                            ((ObjectNodeHeader *)target - 1)->sprite;
                         actor->target_tile_x = target_sprite->tile_x;
                         actor->target_tile_y = target_sprite->tile_y;
                     }
@@ -111,7 +111,7 @@ void update_ability_action_and_completion(ActorRecord *body, ObjectPosition *mot
                         if (target != NULL) {
                             {
                                 target_sprite =
-                                    ((ObjectNodeHeader *)((u8 *)target - 0x20))->sprite;
+                                    ((ObjectNodeHeader *)target - 1)->sprite;
                                 actor->target_tile_x = target_sprite->tile_x;
                                 actor->target_tile_y = target_sprite->tile_y;
                             }

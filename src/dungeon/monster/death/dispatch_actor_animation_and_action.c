@@ -55,20 +55,6 @@ typedef struct S_801719DC_0 {
     s16 unk_B8;
 } S_801719DC_0;   /* arg0 in dispatch_actor_animation_and_action */
 
-typedef struct S_801719DC_1 {
-    u8 pad_00[0x1C];
-    u32 unk_1C;
-    u8 pad_20[0x5];
-    u8 unk_25;
-    u8 pad_26[0x4];
-    s16 unk_2A;
-    u8 pad_2C[0x1A];
-    u16 unk_46;
-    u8 pad_48[0x1C];
-    s16 unk_64;
-    u8 pad_66[0x7];
-    s8 unk_6D;
-} S_801719DC_1;   /* arg3 in dispatch_actor_animation_and_action */
 
 /* Update actor animation, facing, and action dispatch from dungeon state. */
 /* Dispatches Death's movement, attacks, spells, and turn processing, resetting its vertical animation
@@ -98,12 +84,12 @@ void dispatch_actor_animation_and_action(ActorRecord *motion_in, ObjectPosition 
         return;
     }
 
-    if (((S_801719DC_1 *)actor_in)->unk_1C & 0x200) {
+    if (actor_in->flags1C & 0x200) {
         if (entity_in->frameTable == death_frame_set_2) {
             motion_in->action_id.u = 0xD;
             motion_in->action_phase.u = 1;
             motion_in->unk_8C.word = 0;
-            ((S_801719DC_1 *)actor_in)->unk_1C &= 0xFFFBFFFF;
+            actor_in->flags1C &= 0xFFFBFFFF;
             return;
         }
         if (reset_actor_action_state(motion_in, context_in, entity_in, death_frame_set_1) != 0) {
@@ -112,7 +98,7 @@ void dispatch_actor_animation_and_action(ActorRecord *motion_in, ObjectPosition 
     }
 
     if (!(g_dungeon_status.flags & 0x2000)) {
-        if (((S_801719DC_1 *)actor_in)->unk_1C & 0x100) {
+        if (actor_in->flags1C & 0x100) {
             begin_pushed_actor_move(motion_in, context_in, entity_in, actor_in);
             return;
         }
@@ -149,7 +135,7 @@ void dispatch_actor_animation_and_action(ActorRecord *motion_in, ObjectPosition 
         }
 
         motion_in->action_state_flags &= 0xFFF3;
-        ((S_801719DC_1 *)actor_in)->unk_1C |= 0x40000;
+        actor_in->flags1C |= 0x40000;
 
         if (actor_in->hp_delta != 0) {
             if (begin_ready_actor_directional_action(motion_in, context_in, entity_in, death_frame_set_7) != 0) {
@@ -157,7 +143,7 @@ void dispatch_actor_animation_and_action(ActorRecord *motion_in, ObjectPosition 
             }
         }
 
-        if (((S_801719DC_1 *)actor_in)->unk_1C & 0x80000) {
+        if (actor_in->flags1C & 0x80000) {
             u16 base_offset;
             u16 offset_delta;
             s32 motion_value;
@@ -185,7 +171,7 @@ void dispatch_actor_animation_and_action(ActorRecord *motion_in, ObjectPosition 
     entity_in->room_index = room_id;
 
     if (actor_in->pending_turn_updates > 0) {
-        if (((S_801719DC_1 *)actor_in)->unk_1C & 0x20) {
+        if (actor_in->flags1C & 0x20) {
             update_actor_status_and_mp(actor_in);
             return;
         }
@@ -269,12 +255,12 @@ void dispatch_actor_animation_and_action(ActorRecord *motion_in, ObjectPosition 
         }
     }
 
-    if (!(((S_801719DC_1 *)actor_in)->unk_1C & 0x2000)) {
+    if (!(actor_in->flags1C & 0x2000)) {
         s32 room_index = room_id;
 
         if ((room_index < 0) ||
             !(dungeon_rooms[room_index].flags & 2)) {
-            if (!(((S_801719DC_1 *)actor_in)->unk_1C & 0x430)) {
+            if (!(actor_in->flags1C & 0x430)) {
 
                 if ((test_neighbor_position_relation(
                         entity_in->tile_x, entity_in->tile_y,

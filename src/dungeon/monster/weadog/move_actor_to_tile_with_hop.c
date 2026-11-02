@@ -12,28 +12,7 @@
 #include "engine/graphics.h"
 #include "dungeon/item.h"
 
-typedef struct S_801610E0_0 {
-    u8 pad_00[0x8C];
-    s32 * unk_8C;
-    s32 unk_90;
-    u8 pad_94[0x2];
-    u16 unk_96;
-    u16 unk_98;
-    u8 pad_9A[0x1];
-    u8 unk_9B;
-    u8 pad_9C[0x2];
-    union { u16 s; s16 u; } unk_9E;   /* accessed as both */
-    s32 unk_A0;
-} S_801610E0_0;   /* arg0 in move_actor_to_tile_with_hop */
 
-typedef struct S_801610E0_1 {
-    u8 pad_00[0x1C];
-    union { u32 s; s32 u; } unk_1C;   /* accessed as both */
-    u8 pad_20[0xA];
-    s16 unk_2A;
-    u8 pad_2C[0x1A];
-    u16 unk_46;
-} S_801610E0_1;   /* arg3 in move_actor_to_tile_with_hop */
 
 
 extern s32 rsin(s32);
@@ -57,11 +36,11 @@ void move_actor_to_tile_with_hop(void *action, void *motion, void *sprite, void 
     u16 action_ticks;
     u8 *anim_table;
 
-    state = ((S_801610E0_0 *)action)->unk_9B;
+    state = ((ActorRecord *)action)->action_phase.u;
     switch (state) {
     case 0:
-        phase_ticks = ((S_801610E0_0 *)action)->unk_9E.s - 1;
-        ((S_801610E0_0 *)action)->unk_9E.s = phase_ticks;
+        phase_ticks = ((ActorRecord *)action)->unk_9E.u - 1;
+        ((ActorRecord *)action)->unk_9E.u = phase_ticks;
         if ((phase_ticks << 16) != 0) {
             break;
         }
@@ -69,17 +48,17 @@ void move_actor_to_tile_with_hop(void *action, void *motion, void *sprite, void 
         ((SpriteFrameState *)sprite)->frameTable = D_80162ED0;
         select_sprite_entry(
             sprite,
-            D_80162ED0[((g_game_work.view.camera_rotation.parts.viewAngle + ((S_801610E0_1 *)actor)->unk_2A + 0x100) >> 9) & 7],
+            D_80162ED0[((g_game_work.view.camera_rotation.parts.viewAngle + ((ActorRecord *)actor)->facing + 0x100) >> 9) & 7],
             0);
-        ((S_801610E0_0 *)action)->unk_98 |= 8;
-        ((S_801610E0_1 *)actor)->unk_1C.s &= 0xF7FFFFFF;
-        ((S_801610E0_0 *)action)->unk_9E.u = 5;
-        ((S_801610E0_0 *)action)->unk_A0 = 0;
-        ((S_801610E0_0 *)action)->unk_9B++;
+        ((ActorRecord *)action)->action_state_flags |= 8;
+        ((ActorRecord *)actor)->flags1C &= 0xF7FFFFFF;
+        ((ActorRecord *)action)->unk_9E.s = 5;
+        ((ActorRecord *)action)->unk_A0.value = 0;
+        ((ActorRecord *)action)->action_phase.u++;
 
     case 1:
-        move_ticks = ((S_801610E0_0 *)action)->unk_9E.u;
-        ((S_801610E0_0 *)action)->unk_90 -= ((S_801610E0_0 *)action)->unk_A0;
+        move_ticks = ((ActorRecord *)action)->unk_9E.s;
+        ((ActorRecord *)action)->unk_90.value -= ((ActorRecord *)action)->unk_A0.value;
         if (move_ticks != 0) {
             target_x = ((SpriteFrameState *)sprite)->tile_x;
             pos_x = ((ObjectPosition *)motion)->x.w.i;
@@ -91,24 +70,24 @@ void move_actor_to_tile_with_hop(void *action, void *motion, void *sprite, void 
             pos_y -= 0x20;
             ((ObjectPosition *)motion)->velocity_y =
                 (((((SpriteFrameState *)sprite)->tile_y << 6) - pos_y) << 16) /
-                ((S_801610E0_0 *)action)->unk_9E.u;
-            ((S_801610E0_0 *)action)->unk_A0 =
-                (-rsin(((S_801610E0_0 *)action)->unk_9E.u * 0x199)) << 10;
+                ((ActorRecord *)action)->unk_9E.s;
+            ((ActorRecord *)action)->unk_A0.value =
+                (-rsin(((ActorRecord *)action)->unk_9E.s * 0x199)) << 10;
         }
 
-        ((S_801610E0_0 *)action)->unk_90 += ((S_801610E0_0 *)action)->unk_A0;
-        phase_ticks = ((S_801610E0_0 *)action)->unk_9E.s - 1;
-        ((S_801610E0_0 *)action)->unk_9E.s = phase_ticks;
+        ((ActorRecord *)action)->unk_90.value += ((ActorRecord *)action)->unk_A0.value;
+        phase_ticks = ((ActorRecord *)action)->unk_9E.u - 1;
+        ((ActorRecord *)action)->unk_9E.u = phase_ticks;
         if (phase_ticks < 0) {
-            ((S_801610E0_0 *)action)->unk_90 = 0;
-            ((S_801610E0_0 *)action)->unk_98 &= 0xFFF7;
-            ((S_801610E0_1 *)actor)->unk_1C.s |= 0x08000000;
-            ((S_801610E0_0 *)action)->unk_9B++;
+            ((ActorRecord *)action)->unk_90.value = 0;
+            ((ActorRecord *)action)->action_state_flags &= 0xFFF7;
+            ((ActorRecord *)actor)->flags1C |= 0x08000000;
+            ((ActorRecord *)action)->action_phase.u++;
         }
 
     case 2:
-        if (((S_801610E0_1 *)actor)->unk_1C.s & 0x08000000) {
-            ((S_801610E0_0 *)action)->unk_98 &= 0xFFF7;
+        if (((u32)((ActorRecord *)actor)->flags1C) & 0x08000000) {
+            ((ActorRecord *)action)->action_state_flags &= 0xFFF7;
             ((ObjectPosition *)motion)->velocity_z = 0;
             ((ObjectPosition *)motion)->velocity_y = 0;
             ((ObjectPosition *)motion)->velocity_x = 0;
@@ -117,9 +96,9 @@ void move_actor_to_tile_with_hop(void *action, void *motion, void *sprite, void 
             ((SpriteFrameState *)sprite)->frameTable = weadog_frame_set_6;
             select_sprite_entry(
                 sprite,
-                weadog_frame_set_6[((g_game_work.view.camera_rotation.parts.viewAngle + ((S_801610E0_1 *)actor)->unk_2A + 0x100) >> 9) & 7],
+                weadog_frame_set_6[((g_game_work.view.camera_rotation.parts.viewAngle + ((ActorRecord *)actor)->facing + 0x100) >> 9) & 7],
                 0);
-            ((S_801610E0_0 *)action)->unk_9B++;
+            ((ActorRecord *)action)->action_phase.u++;
         }
         break;
 
@@ -129,7 +108,7 @@ void move_actor_to_tile_with_hop(void *action, void *motion, void *sprite, void 
             ((SpriteFrameState *)sprite)->frameTable = anim_table;
             select_sprite_entry(
                 sprite,
-                anim_table[((g_game_work.view.camera_rotation.parts.viewAngle + ((S_801610E0_1 *)actor)->unk_2A + 0x100) >> 9) & 7],
+                anim_table[((g_game_work.view.camera_rotation.parts.viewAngle + ((ActorRecord *)actor)->facing + 0x100) >> 9) & 7],
                 0);
         }
 
@@ -137,8 +116,8 @@ void move_actor_to_tile_with_hop(void *action, void *motion, void *sprite, void 
         break;
     }
 
-    action_ticks = ((S_801610E0_0 *)action)->unk_96 - 1;
-    ((S_801610E0_0 *)action)->unk_96 = action_ticks;
+    action_ticks = ((ActorRecord *)action)->action_timer.u - 1;
+    ((ActorRecord *)action)->action_timer.u = action_ticks;
     if ((s16)action_ticks > 0) {
         return;
     }
@@ -154,21 +133,21 @@ void move_actor_to_tile_with_hop(void *action, void *motion, void *sprite, void 
         g_dungeon_status.activity_counts.parts.pending_movement_count--;
     }
 
-    actor_flags = ((S_801610E0_1 *)actor)->unk_1C.u;
+    actor_flags = ((ActorRecord *)actor)->flags1C;
     if (actor_flags & 0x2000) {
-        if (((S_801610E0_1 *)actor)->unk_46 & 0x8000) {
-            ((S_801610E0_1 *)actor)->unk_46 &= 0x7FFF;
+        if (((ActorRecord *)actor)->action_flags & 0x8000) {
+            ((ActorRecord *)actor)->action_flags &= 0x7FFF;
         }
     } else if (!(actor_flags & 0x410)) {
         if (actor_flags & 0x20000) {
-            ((S_801610E0_1 *)actor)->unk_2A = get_rounded_facing_and_rounding_flag(
+            ((ActorRecord *)actor)->facing = get_rounded_facing_and_rounding_flag(
                 ((SpriteFrameState *)sprite)->tile_x, ((SpriteFrameState *)sprite)->tile_y,
                 reference_tile_object.tile_position.parts.tile_x, reference_tile_object.tile_position.parts.tile_y, &direction_aux);
         }
     }
 
     if ((check_actor_floor_trap(sprite, actor) << 16) > 0) {
-        ((S_801610E0_0 *)action)->unk_8C = &D_8015FCE8;
+        ((ActorRecord *)action)->unk_8C.word_ptr = &D_8015FCE8;
         on_actor_status_updated(actor);
     }
 }

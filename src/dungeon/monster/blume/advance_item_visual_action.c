@@ -50,7 +50,7 @@ void advance_item_visual_action(ActorRecord *controller, ObjectPosition *motion,
     u8 *item_slot;
     s16 use_player;
     u8 state;
-    void *target;
+    ObjectNodeHeader *target;
 
     use_player = 0;
     state = controller->action_phase.u;
@@ -106,9 +106,9 @@ void advance_item_visual_action(ActorRecord *controller, ObjectPosition *motion,
                 if (target_player != 0) {
                     SpriteFrameState *item_data;
 
-                    target = primary_actor_record;
+                    target = (ObjectNodeHeader *)primary_actor_record;
                     (*(void * *)((u8 *)object + 0x60)) = target;
-                    item_data = ((ObjectNodeHeader *)((u8 *)target - 0x20))->sprite;
+                    item_data = (target - 1)->sprite;
                     (*((u8 *)object + 0x72)) = item_data->tile_x;
                     (*((u8 *)object + 0x73)) = item_data->tile_y;
                 } else {
@@ -122,7 +122,7 @@ void advance_item_visual_action(ActorRecord *controller, ObjectPosition *motion,
                     if (item_data == 2) {
                         target = (*(void * *)((u8 *)object + 0x60));
                         if (target != 0) {
-                            item_data = (u32)((ObjectNodeHeader *)((u8 *)target - 0x20))->sprite;
+                            item_data = (u32)(target - 1)->sprite;
                             (*((u8 *)object + 0x72)) = ((S_801737C8_2 *)item_data)->unk_24;
                             (*((u8 *)object + 0x73)) = ((S_801737C8_2 *)item_data)->unk_25;
                         }

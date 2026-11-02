@@ -11,7 +11,7 @@ extern s32 D_800D5670[];
 
 
 /* Initialize the actor state, clear its entry flag, and set a callback with a 32-tick countdown. */
-void initialize_actor_with_32_tick_callback(void *actor_arg, s32 unused, void *state_context) {
+void initialize_actor_with_32_tick_callback(TownObjectRecord *actor_arg, s32 unused, void *state_context) {
     TownObjectRecord *actor = actor_arg;
 
     initialize_object_entries(actor_arg, state_context, D_800D5670);

@@ -60,7 +60,7 @@ void update_minigame_approach_motion(ApproachMotionObject *motion_state, ObjectP
         if ((s32)0xFE000000 < position) {
             return;
         }
-        (*(u16 *)((u8 *)motion_state + -2)) |= NODE_REMOVE;
+        (((ObjectNodeHeader *)motion_state - 1)->flags) |= NODE_REMOVE;
         object_flag_block.flags |= OBJECT_REMOVE_PENDING;
         return;
     }

@@ -39,8 +39,6 @@ void spawn_randomized_timed_objects(TownMapSpawnState *source)
     ObjectNodeHeader *object;
     void *callback;
 
-    object = source;
-    source = object;
     count_bits = source->count;
     count_bits <<= 0x10;
     spawn_count = count_bits >> 0x11;
@@ -88,8 +86,7 @@ void spawn_randomized_timed_objects(TownMapSpawnState *source)
     next_value = source->count - 1;
     source->count = next_value;
     if ((next_value << 0x10) <= 0) {
-        (*(u16 *)((u8 *)source + -2)) =
-            (u16)(((ObjectStatusPrefix16 *)source)[-1].flags | NODE_REMOVE);
+        ((ObjectNodeHeader *)source - 1)->flags |= NODE_REMOVE;
         object_flag_block.flags = object_flag_block.flags | OBJECT_REMOVE_PENDING;
     }
 

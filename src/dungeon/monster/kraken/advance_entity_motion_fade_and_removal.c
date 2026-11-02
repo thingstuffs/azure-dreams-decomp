@@ -20,14 +20,6 @@ s16 sample_terrain_surface_height();
 
    /* the 0x2 bytes before arg3 in advance_entity_motion_fade_and_removal, addressed as arg3[-1] */
 
-typedef struct S_801731FC_1 {
-    u8 pad_00[0x14];
-    s32 unk_14;
-    u8 pad_18[0x4];
-    union { u32 u; s32 s; } unk_1C;   /* accessed as both */
-    u8 pad_20[0x4A];
-    u16 unk_6A;
-} S_801731FC_1;   /* arg3 in advance_entity_motion_fade_and_removal */
 
 typedef struct S_801731FC_2 {
     u8 pad_00[0x2];
@@ -56,7 +48,7 @@ void advance_entity_motion_fade_and_removal(ActorRecord *state, S_801731FC_2 *mo
     u8 brightness;
 
     phase = state->action_phase.u;
-    direction_offset = ((u16) ((S_801731FC_1 *)entity)->unk_6A >> 8) & 0xE;
+    direction_offset = ((u16) ((ActorRecord *)entity)->movement_facing >> 8) & 0xE;
     velocity_x = *(s16 *)((u8 *)((s8 *)dir_step_x) + direction_offset);
     velocity_y = *(s16 *)((u8 *)((s8 *)dir_step_y) + direction_offset);
     switch (phase) {
@@ -71,10 +63,10 @@ void advance_entity_motion_fade_and_removal(ActorRecord *state, S_801731FC_2 *mo
         clear_bit_18 = 0xFFFBFFFF;
         state_flags |= 8;
         state->action_state_flags = state_flags;
-        entity_flags = ((S_801731FC_1 *)entity)->unk_1C.u;
+        entity_flags = ((u32)((ActorRecord *)entity)->flags1C);
         entity_flags &= clear_bit_27;
         entity_flags &= clear_bit_18;
-        ((S_801731FC_1 *)entity)->unk_1C.u = entity_flags;
+        ((ActorRecord *)entity)->flags1C = entity_flags;
         motion->unk_0C = velocity_x << 0x10;
         motion->unk_10 = velocity_y << 0x10;
         motion->unk_14 = 0xFFF40000;
@@ -92,7 +84,7 @@ void advance_entity_motion_fade_and_removal(ActorRecord *state, S_801731FC_2 *mo
         }
         state->action_phase.u = state->action_phase.u + 1;
     case 2:
-        status_flags = ((S_801731FC_1 *)entity)->unk_14;
+        status_flags = ((ActorRecord *)entity)->flags14;
         if (status_flags & 0x4000) {
             if (!(status_flags & 0x20000000)) {
                 announce_familiar_defeat(entity);
@@ -112,7 +104,7 @@ void advance_entity_motion_fade_and_removal(ActorRecord *state, S_801731FC_2 *mo
         state->action_phase.u = state->action_phase.u + 1;
         return;
     case 4:
-        ((S_801731FC_1 *)entity)->unk_1C.s |= 0x10000000;
+        ((ActorRecord *)entity)->flags1C |= 0x10000000;
         brightness = (u8)state->action_timer.u;
         sprite->color.c.b = brightness;
         sprite->color.c.g = brightness;
@@ -130,7 +122,7 @@ void advance_entity_motion_fade_and_removal(ActorRecord *state, S_801731FC_2 *mo
         sound_x = sprite->tile_x;
         sound_y = sprite->tile_y;
         sound_flags = 0x3000;
-        if (((S_801731FC_1 *)entity)->unk_1C.s & 0x2000) {
+        if (((ActorRecord *)entity)->flags1C & 0x2000) {
             sound_flags = 0x300;
         }
         update_map_cell_flags_with_item_limit(sound_x, sound_y, sound_flags);

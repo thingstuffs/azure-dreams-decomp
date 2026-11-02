@@ -1,3 +1,4 @@
+#include "shared/object_node.h"
 #include "common.h"
 #include "shared/game_work.h"
 
@@ -14,7 +15,7 @@ void card_boot_poll_card_chooser_status(Object_800128C8 *state) {
     if ((g_game_work.buttons != 0) && ((g_game_work.pressed_buttons) & 0x20)) {
         card_boot_toggle_channel();
         state->wait_notice_state = 0;
-        *(void **)((u8 *)state - 0x10) = D_8002789C;
+        ((ObjectNodeHeader *)state - 1)->update_callback = D_8002789C;
         return;
     }
 
@@ -25,7 +26,7 @@ void card_boot_poll_card_chooser_status(Object_800128C8 *state) {
         state->unk_30 = callback_index;
         callback = D_8002809C[callback_index];
         state->unk_34 = callback_index;
-        *(void **)((u8 *)state - 0x10) = callback;
+        ((ObjectNodeHeader *)state - 1)->update_callback = callback;
         return;
     }
 

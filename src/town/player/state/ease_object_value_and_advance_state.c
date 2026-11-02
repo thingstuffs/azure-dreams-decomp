@@ -1,16 +1,19 @@
 #include "common.h"
 #include "town/player/object.h"
 #include "town/player/state.h"
+#include "town/player/record.h"
 
 extern u8 D_80098544[8];
 
 /* Ease the object's value toward -0x800000 until the timer expires, then advance the state. */
-void ease_object_value_and_advance_state(UnsignedCountdownView *state, void *object) {
+void ease_object_value_and_advance_state(UnsignedCountdownView *state_arg, void *object) {
+    TownPlayerRecord *state = (TownPlayerRecord *)state_arg;
+
     u16 ticks_left;
     s32 current_value;
 
-    ticks_left = state->unk_0A - 1;
-    state->unk_0A = ticks_left;
+    ticks_left = state->timer.as_u16 - 1;
+    state->timer.as_u16 = ticks_left;
     if ((ticks_left << 16) > 0) {
         current_value = *(s32 *)((u8 *)object + 8);
         current_value += ((s32)0xFF800000 - current_value) / 2;
@@ -20,6 +23,6 @@ void ease_object_value_and_advance_state(UnsignedCountdownView *state, void *obj
 
     *(s32 *)((u8 *)object + 8) = (s32)0xFF800000;
     clear_entity_record_fields(object);
-    state->unk_0A = 10;
-    *(void **)((u8 *)state + 4) = D_80098544;
+    state->timer.as_u16 = 10;
+    state->unk_04 = D_80098544;
 }

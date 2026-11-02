@@ -21,10 +21,6 @@ typedef struct S_8009402C_2 {
     s8 unk_13;
 } S_8009402C_2;   /* temp_v0_2 in check_familiar_deployment_placement */
 
-typedef struct S_8009402C_5 {
-    u8 pad_00[0xAC];
-    void * unk_AC;
-} S_8009402C_5;   /* ((((S_8009402C_3 *)tail_base)->unk_8A * 4) + arg0) in check_familiar_deployment_placement */
 
 typedef struct DungeonSlot {
     u8 pad_00[0x1C];
@@ -73,7 +69,7 @@ s32 check_familiar_deployment_placement(void *actor_arg, void *unused, void *pos
             return 1;
         }
     }
-    selected_slot = ((S_8009402C_5 *)(((actor_base->unk_8A * 4) + actor_arg)))->unk_AC;
+    selected_slot = ((ActorRecord *)(((actor_base->unk_8A * 4) + actor_arg)))->unk_AC.address;
     if ((selected_slot != NULL) && !(selected_slot->flags1C & 0x20000)) {
         return 2;
     }

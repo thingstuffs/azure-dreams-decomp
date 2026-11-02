@@ -15,21 +15,21 @@ typedef struct S_80036154_2 {
 } S_80036154_2;   /* ((S_80036154_1 *)arg0)->unk_74 in func_80036154 */
 
 /* Selects a handler from the linked object, initializes its data, and sets its flag. */
-void select_menu_initializer_from_message_handler(void *object) {
+void select_menu_initializer_from_message_handler(Rec_func_80036210_arg0 *object) {
     s32 source_handler;
 
-    source_handler = ((S_80036154_2 *)(((Rec_func_80036210_arg0 *)object)->unk_74.as_pv))->unk_10;
+    source_handler = ((S_80036154_2 *)(object->unk_74.as_pv))->unk_10;
     if (source_handler == &advance_message_on_flag) {
-        ((Rec_func_80036210_arg0 *)object)->unk_68 = &create_window_cursor_and_install_reset;
+        object->unk_68 = &create_window_cursor_and_install_reset;
     } else if (source_handler == &advance_message_on_confirm_flag) {
-        ((Rec_func_80036210_arg0 *)object)->unk_68 = &init_menu_choice_object;
+        object->unk_68 = &init_menu_choice_object;
     } else if (source_handler == &advance_message_on_input_flag) {
-        ((Rec_func_80036210_arg0 *)object)->unk_68 = &init_menu_choice_timed;
+        object->unk_68 = &init_menu_choice_timed;
     } else if (source_handler == &advance_message_on_ready_flag) {
-        ((Rec_func_80036210_arg0 *)object)->unk_68 = &init_menu_choice_wide;
+        object->unk_68 = &init_menu_choice_wide;
     } else if (source_handler == &noop_runtime_record_idle) {
-        ((Rec_func_80036210_arg0 *)object)->unk_68 = &mark_menu_slot_used;
+        object->unk_68 = &mark_menu_slot_used;
     }
-    copy_window_offset_rectangle(object + 0xC, ((Rec_func_80036210_arg0 *)object)->unk_74.as_pv);
-    ((S_80036154_2 *)(((Rec_func_80036210_arg0 *)object)->unk_74.as_pv))->unk_85 = 1;
+    copy_window_offset_rectangle((u8 *)object + 0xC, object->unk_74.as_pv);
+    ((S_80036154_2 *)(object->unk_74.as_pv))->unk_85 = 1;
 }

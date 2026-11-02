@@ -91,7 +91,7 @@ void update_actor_actions_and_impact_effects(ActorRecord *body, ObjectPosition *
     void *target_sprite;
     void (*callback)(void);
     ActorRecord *player_state;
-    void *special_target;
+    ObjectNodeHeader *special_target;
     s32 offset_x;
     s32 abs_x;
     s32 abs_y;
@@ -145,9 +145,9 @@ void update_actor_actions_and_impact_effects(ActorRecord *body, ObjectPosition *
             body->action_state_flags &= 0xFF7F;
             special_test = special_mode;
             if (special_test != 0) {
-                special_target = ((u8 *)primary_actor_record);
+                special_target = ((ObjectNodeHeader *)primary_actor_record);
                 actor->target = special_target;
-                target_sprite = ((ObjectNodeHeader *)((u8 *)special_target - 0x20))->sprite;
+                target_sprite = (special_target - 1)->sprite;
                 actor->target_tile_x = ((S_801728C4_3 *)target_sprite)->unk_24;
                 actor->target_tile_y = ((S_801728C4_3 *)target_sprite)->unk_25;
             } else {

@@ -3,6 +3,7 @@
 #include "m2c_compat.h"
 #include "shared/object_links.h"
 #include "town/minigame/position.h"
+#include "shared/object_node.h"
 
    /* the 0x2 bytes before arg0 in fade_delayed_scene_tile_on_completion, addressed as arg0[-1] */
 
@@ -48,7 +49,7 @@ void fade_delayed_scene_tile_on_completion(SceneTileObject *effect) {
         fade_rgb = effect->color + 0xFFF7F7F8;
         effect->color = fade_rgb;
         if (fade_rgb <= 0x80808) {
-            (*(u16 *)((u8 *)effect + -2)) = (u16) (((ObjectStatusPrefix16 *)effect)[-1].flags | NODE_REMOVE);
+            (((ObjectNodeHeader *)effect - 1)->flags) = (u16) (((ObjectStatusPrefix16 *)effect)[-1].flags | NODE_REMOVE);
             object_flag_block.flags |= OBJECT_REMOVE_PENDING;
         }
         break;

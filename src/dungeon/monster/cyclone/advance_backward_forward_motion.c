@@ -15,16 +15,6 @@ struct SpriteFrameState;
 #include "dungeon/actor.h"
 #include "dungeon/effect/screen.h"
 
-typedef struct S_80172C98_0 {
-    u8 pad_00[0x8C];
-    u8 * unk_8C;
-    u8 pad_90[0x6];
-    u16 unk_96;
-    u8 pad_98[0x3];
-    u8 unk_9B;
-    u8 pad_9C[0x12];
-    union { s16 s; u16 u; } unk_AE;   /* accessed as both */
-} S_80172C98_0;   /* arg0 in advance_backward_forward_motion */
 
 extern s32 rsin(s32);
 extern s32 rcos(s32);

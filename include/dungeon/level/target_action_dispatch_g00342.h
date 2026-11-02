@@ -6,6 +6,7 @@
 #include "common.h"
 #include "m2c_compat.h"
 #include "shared/dungeon_status.h"
+#include "dungeon/level/floor_object_positions.h"
 #include "dungeon/level.h"
 
 /* cfail-repair: tf7-phase1-cache-v3 */
@@ -15,18 +16,6 @@ typedef struct {
     u8 field2;
     u8 field3;
 } D_800E3648_entry;
-
-typedef struct {
-    u8 pad0[6];
-    s8 field6;
-    s8 field7;
-    u32 field8;
-    s32 fieldC;
-    s16 field10;
-    u8 pad12[2];
-    s16 field14;
-    u8 pad16[2];
-} D_800E39C8_entry;
 
 typedef s32 (*D_800DF2A8_fn)(void *, s16, s32);
 
@@ -56,7 +45,6 @@ extern void select_record_entry_and_value(void *state, void *entries, short inde
 
 extern u8 floor_objects[16];
 extern s32 floor_object_sprite_sources[16];
-extern D_800E39C8_entry dungeon_floor_object_positions[];
 
 /* Functions defined in this translation unit. */
 s32 select_and_initialize_entry_at_position(s16 x, s16 y, s16 z, s32 type_id, s32 entry_value);

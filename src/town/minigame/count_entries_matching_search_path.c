@@ -239,7 +239,7 @@ void count_entries_matching_search_path(TownCollectionSequence *scene)
         global->unk_10.s = 0x800;
         create_familiar_deployment_effect_with_owner_state();
         apply_global_scene_value(movement_action_handler_table);
-        motion = ((ObjectPosition *)(&view_reference_entity));
+        motion = ((&view_reference_entity));
         scene->saved_x.u = *(u16 *)&motion->x.w.i;
         scene->saved_y.u = motion->y.unsigned_parts.integer;
         scene->angle.u = 0;
@@ -421,7 +421,7 @@ void count_entries_matching_search_path(TownCollectionSequence *scene)
 
     case 0x100:
         clear_resident_bit(0xA5);
-        (*(u16 *)((u8 *)scene + -2)) |= NODE_REMOVE;
+        (((ObjectNodeHeader *)scene - 1)->flags) |= NODE_REMOVE;
         object_flag_block.flags |= OBJECT_REMOVE_PENDING;
         break;
 

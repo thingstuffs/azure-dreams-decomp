@@ -878,7 +878,7 @@ s32 t_soukowin_close_check(void) {
 }
 
 /* Sets object type fields and selects the corresponding resource. */
-void set_object_types_and_resource(void *object, void *position, SpriteFrameState *output)
+void set_object_types_and_resource(void *object, ObjectPosition *position, SpriteFrameState *output)
 {
     u32 resource;
     u8 mode;
@@ -988,7 +988,7 @@ void update_object_pulse_brightness(func_800A0FB4_S_func_8009E714_0 *object, s32
 }
 
 /* Initialize the entity from its table entry and invoke its callback. */
-void initialize_entity_from_table_and_callback(void *entity, func_800A10FC_S_8009E85C_1 *placement, func_800A10FC_S_8009E85C_2 *state) {
+void initialize_entity_from_table_and_callback(void *entity, ObjectPosition *placement, func_800A10FC_S_8009E85C_2 *state) {
     u8 *table_page = (u8 *)0x80010000;
     s32 active;
     s32 init_flags;
@@ -1002,7 +1002,7 @@ void initialize_entity_from_table_and_callback(void *entity, func_800A10FC_S_800
 
     ((func_800A10FC_S_8009E85C_0_pre *)entity)[-1].unk_00 = update_object_pulse_brightness;
     ((TownObjectRecord *)entity)->unk_A0 = 0xFFE00000;
-    placement->unk_08 = 0xFFE00000;
+    placement->z.v = 0xFFE00000;
     ((TownObjectRecord *)entity)->unk_4C = table_page[(((TownObjectRecord *)entity)->unk_95 * 4) + 0x980];
     entry_type = table_page[(((TownObjectRecord *)entity)->unk_95 * 4) + 0x981];
     ((TownObjectRecord *)entity)->unk_4D = entry_type;
@@ -1034,34 +1034,34 @@ void initialize_entity_from_table_and_callback(void *entity, func_800A10FC_S_800
 }
 
 /* Initializers selected by the low callback id in scene object records. */
-extern void select_object_state_by_mode_2(TownObjectRecord *, void *, SpriteFrameState *);
-extern void initialize_optional_scene_state_a(void *, void *, SpriteFrameState *);
-extern void initialize_optional_scene_state_b(void *, void *, SpriteFrameState *);
-extern void initialize_optional_scene_state_c(void *, void *, SpriteFrameState *);
-extern void initialize_timed_object_action(TownObjectRecord *context, void *source, void *record);
-extern void initialize_flagged_actor_action_a(void *, void *, SpriteFrameState *);
-extern void initialize_flagged_actor_action_b(void *, void *, SpriteFrameState *);
-extern void initialize_flagged_actor_action_c(void *, void *, SpriteFrameState *);
-extern void initialize_flagged_actor_action_d(void *, void *, SpriteFrameState *);
-extern void initialize_projected_sprite_chain_a(void *, void *, SpriteFrameState *);
-extern void initialize_projected_sprite_chain_b(void *, void *, SpriteFrameState *);
-extern void initialize_projected_sprite_chain_c(void *, void *, SpriteFrameState *);
-extern void initialize_object_data_transform_color(void *, void *, SpriteFrameState *);
-extern void initialize_object_and_dispatch_by_state(TownObjectRecord *, void *, SpriteFrameState *);
-extern void initialize_object_resources_2(void *, void *, SpriteFrameState *);
-extern void func_800C60DC(TownObjectRecord *, void *, SpriteFrameState *);
-extern void func_800C620C(TownObjectRecord *, void *, SpriteFrameState *);
-extern void func_800C629C(TownObjectRecord *, void *, SpriteFrameState *);
-extern void func_800C65C8(TownObjectRecord *, void *, SpriteFrameState *);
-extern void initialize_scene_slot_6_context(TownObjectRecord *, void *, SpriteFrameState *);
-extern void initialize_object_configuration_x(void *, void *, SpriteFrameState *);
-extern void func_800C83F0(TownObjectRecord *, void *, SpriteFrameState *);
-extern void initialize_scene_slot_11(TownObjectRecord *, void *, SpriteFrameState *);
-extern void initialize_scene_slot_18_context(TownObjectRecord *, void *, SpriteFrameState *);
-extern void func_800CC2E8(TownObjectRecord *, void *, SpriteFrameState *);
-extern void initialize_scene_slot_11_context_variant(TownObjectRecord *, void *, SpriteFrameState *);
-extern void initialize_scene_slot_1(TownObjectRecord *, void *, SpriteFrameState *);
-extern void initialize_scene_slot_12_context(TownObjectRecord *, void *, SpriteFrameState *);
+extern void select_object_state_by_mode_2(TownObjectRecord *, ObjectPosition *, SpriteFrameState *);
+extern void initialize_optional_scene_state_a(TownObjectRecord *, ObjectPosition *, SpriteFrameState *);
+extern void initialize_optional_scene_state_b(TownObjectRecord *, ObjectPosition *, SpriteFrameState *);
+extern void initialize_optional_scene_state_c(TownObjectRecord *, ObjectPosition *, SpriteFrameState *);
+extern void initialize_timed_object_action(TownObjectRecord *context, ObjectPosition *source, void *record);
+extern void initialize_flagged_actor_action_a(TownObjectRecord *, ObjectPosition *, SpriteFrameState *);
+extern void initialize_flagged_actor_action_b(TownObjectRecord *, ObjectPosition *, SpriteFrameState *);
+extern void initialize_flagged_actor_action_c(TownObjectRecord *, ObjectPosition *, SpriteFrameState *);
+extern void initialize_flagged_actor_action_d(TownObjectRecord *, ObjectPosition *, SpriteFrameState *);
+extern void initialize_projected_sprite_chain_a(TownObjectRecord *, ObjectPosition *, SpriteFrameState *);
+extern void initialize_projected_sprite_chain_b(TownObjectRecord *, ObjectPosition *, SpriteFrameState *);
+extern void initialize_projected_sprite_chain_c(TownObjectRecord *, ObjectPosition *, SpriteFrameState *);
+extern void initialize_object_data_transform_color(TownObjectRecord *, ObjectPosition *, SpriteFrameState *);
+extern void initialize_object_and_dispatch_by_state(TownObjectRecord *, ObjectPosition *, SpriteFrameState *);
+extern void initialize_object_resources_2(TownObjectRecord *, ObjectPosition *, SpriteFrameState *);
+extern void func_800C60DC(TownObjectRecord *, ObjectPosition *, SpriteFrameState *);
+extern void func_800C620C(TownObjectRecord *, ObjectPosition *, SpriteFrameState *);
+extern void func_800C629C(TownObjectRecord *, ObjectPosition *, SpriteFrameState *);
+extern void func_800C65C8(TownObjectRecord *, ObjectPosition *, SpriteFrameState *);
+extern void initialize_scene_slot_6_context(TownObjectRecord *, ObjectPosition *, SpriteFrameState *);
+extern void initialize_object_configuration_x(TownObjectRecord *object, ObjectPosition *position_unused, struct SpriteFrameState *sprite_unused);
+extern void func_800C83F0(TownObjectRecord *, ObjectPosition *, SpriteFrameState *);
+extern void initialize_scene_slot_11(TownObjectRecord *, ObjectPosition *, SpriteFrameState *);
+extern void initialize_scene_slot_18_context(TownObjectRecord *, ObjectPosition *, SpriteFrameState *);
+extern void func_800CC2E8(TownObjectRecord *, ObjectPosition *, SpriteFrameState *);
+extern void initialize_scene_slot_11_context_variant(TownObjectRecord *, ObjectPosition *, SpriteFrameState *);
+extern void initialize_scene_slot_1(TownObjectRecord *, ObjectPosition *, SpriteFrameState *);
+extern void initialize_scene_slot_12_context(TownObjectRecord *, ObjectPosition *, SpriteFrameState *);
 
 TownObjectCallback town_object_callbacks[172] = {
     set_actor_flag_copy_global, /* 0 */

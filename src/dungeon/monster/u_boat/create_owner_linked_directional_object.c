@@ -20,8 +20,8 @@ void create_owner_linked_directional_object(ActorRecord *owner_data, ObjectPosit
         ((S_80D3B0B8_0 *)object_data)->unk_96 = 0x78;
         object->update_callback = D_800D5594;
         ((S_80D3B0B8_0 *)object_data)->unk_AC = (ObjectNodeHeader *)owner_data - 1;
-        ((S_80D3B0B8_0 *)object_data)->unk_94 = ((S_80D3B0B8_2 *)owner_data)->unk_2A.s;
-        ((S_80D3B0B8_0 *)object_data)->unk_2A = ((S_80D3B0B8_2 *)owner_data)->unk_2A.s;
+        ((S_80D3B0B8_0 *)object_data)->unk_94 = ((u16)owner_data->facing);
+        ((S_80D3B0B8_0 *)object_data)->unk_2A = ((u16)owner_data->facing);
         sprite = object->sprite;
 
         *(Copy48 *)sprite = *(Copy48 *)source_sprite;

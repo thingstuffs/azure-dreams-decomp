@@ -25,7 +25,7 @@ extern s32 person_reaction_object_entries[];
 void initialize_object_from_table_entry(TownObjectRecord *object, ObjectPosition *state, void *init_data) {
     s8 entry_value;
 
-    initialize_object_entries((Struct800C5724 *)(object), init_data, person_reaction_object_entries);
+    initialize_object_entries((object), init_data, person_reaction_object_entries);
     object_index_slots[5].unk0 = 0;
     entry_value = object_index_slots[object->slot].unk2;
     object->handler = &person_bounce_handler_address;

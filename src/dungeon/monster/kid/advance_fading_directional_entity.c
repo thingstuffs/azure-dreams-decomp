@@ -20,14 +20,6 @@ typedef struct S_80173724_1_pre {
     u16 unk_00;
 } S_80173724_1_pre;   /* the 0x2 bytes before arg3 in advance_fading_directional_entity, addressed as arg3[-1] */
 
-typedef struct S_80173724_1 {
-    u8 pad_00[0x14];
-    s32 unk_14;
-    u8 pad_18[0x4];
-    union { u32 u; s32 s; } unk_1C;   /* accessed as both */
-    u8 pad_20[0x4A];
-    u16 unk_6A;
-} S_80173724_1;   /* arg3 in advance_fading_directional_entity */
 
 
 
@@ -46,7 +38,7 @@ void advance_fading_directional_entity(ActorRecord *body, ObjectPosition *motion
     u8 brightness;
 
     phase = body->action_phase.u;
-    direction_offset = ((u16) ((S_80173724_1 *)entity)->unk_6A >> 8) & 0xE;
+    direction_offset = ((u16) ((ActorRecord *)entity)->movement_facing >> 8) & 0xE;
     direction_x = *(s16 *)((u8 *)((s8 *)dir_step_x) + direction_offset);
     direction_y = *(s16 *)((u8 *)((s8 *)dir_step_y) + direction_offset);
     switch (phase) {
@@ -61,10 +53,10 @@ void advance_fading_directional_entity(ActorRecord *body, ObjectPosition *motion
         clear_bit_18 = 0xFFFBFFFF;
         anim_flags |= 8;
         body->action_state_flags = anim_flags;
-        entity_flags = ((S_80173724_1 *)entity)->unk_1C.u;
+        entity_flags = ((u32)((ActorRecord *)entity)->flags1C);
         entity_flags &= clear_bit_27;
         entity_flags &= clear_bit_18;
-        ((S_80173724_1 *)entity)->unk_1C.u = entity_flags;
+        ((ActorRecord *)entity)->flags1C = entity_flags;
         motion->velocity_x = direction_x << 0x10;
         motion->velocity_y = direction_y << 0x10;
         motion->velocity_z = 0xFFF40000;
@@ -78,7 +70,7 @@ void advance_fading_directional_entity(ActorRecord *body, ObjectPosition *motion
         }
         body->action_phase.u = body->action_phase.u + 1;
     case 2:
-        status_flags = ((S_80173724_1 *)entity)->unk_14;
+        status_flags = ((ActorRecord *)entity)->flags14;
         if (status_flags & 0x4000) {
             if (!(status_flags & 0x20000000)) {
                 announce_familiar_defeat(entity);
@@ -96,7 +88,7 @@ void advance_fading_directional_entity(ActorRecord *body, ObjectPosition *motion
         body->action_phase.u = body->action_phase.u + 1;
         return;
     case 4:
-        ((S_80173724_1 *)entity)->unk_1C.s |= 0x10000000;
+        ((ActorRecord *)entity)->flags1C |= 0x10000000;
         motion->velocity_z += 0x20000;
         brightness = (u8)body->action_timer.u;
         sprite->color.c.b = brightness;
@@ -115,7 +107,7 @@ void advance_fading_directional_entity(ActorRecord *body, ObjectPosition *motion
         sound_x = sprite->tile_x;
         sound_y = sprite->tile_y;
         sound_flags = 0x3000;
-        if (((S_80173724_1 *)entity)->unk_1C.s & 0x2000) {
+        if (((ActorRecord *)entity)->flags1C & 0x2000) {
             sound_flags = 0x300;
         }
         update_map_cell_flags_with_item_limit(sound_x, sound_y, sound_flags);

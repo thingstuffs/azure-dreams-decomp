@@ -14,22 +14,6 @@ struct ObjectPosition;
 #include "dungeon/actor.h"
 #include "dungeon/effect.h"
 
-typedef struct S_800AAF00_0 {
-    u8 pad_00[0x14];
-    s32 unk_14;
-    u8 pad_18[0x4];
-    s32 unk_1C;
-    u8 pad_20[0xA];
-    union { u16 u; s16 s; } unk_2A;   /* accessed as both */
-    u8 pad_2C[0x1A];
-    s16 unk_46;
-    u8 pad_48[0x18];
-    void *unk_60;
-    u8 pad_64[0x9];
-    u8 unk_6D;
-    u8 pad_6E[0x3];
-    u8 unk_71;
-} S_800AAF00_0;   /* obj in begin_actor_spell_action */
 
 typedef struct S_800AAF00_2 {
     u8 pad_00[0x98];
@@ -58,13 +42,13 @@ void begin_actor_spell_action(void *actor, void *effect_param, SpriteFrameState 
     s32 type_index;
 
     object = actor;
-    ((S_800AAF00_0 *)object)->unk_71 &= 0x7F;
+    ((ActorRecord *)object)->movement_queue_state &= 0x7F;
     input_flags = g_dungeon_status.flags;
     special_action = 0;
 
     if (!(input_flags & 0x2008)) {
-        if ((((S_800AAF00_0 *)object)->unk_1C & ACTOR_PLAYER_SIDE) &&
-            ((((S_800AAF00_0 *)object)->unk_46 & 0x3FFF) >= 5)) {
+        if ((((ActorRecord *)object)->flags1C & ACTOR_PLAYER_SIDE) &&
+            ((((s16)((ActorRecord *)object)->action_flags) & 0x3FFF) >= 5)) {
             special_action = 1;
             if (((((S_800AAF00_2 *)((u8 *)dungeon_actor_ring_anchor))->unk_98.s32 & 0x3000) == 0x2000) &&
                 (dungeon_actor_ring_anchor->unk_A4.halves.high.u == 0)) {
@@ -73,7 +57,7 @@ void begin_actor_spell_action(void *actor, void *effect_param, SpriteFrameState 
                 g_dungeon_status.activity_counts.parts.pending_action_count++;
             } else {
                 advance_status_timers(object);
-                ((S_800AAF00_0 *)object)->unk_6D--;
+                ((ActorRecord *)object)->pending_turn_updates--;
                 ((ActorRecord *)actor)->unk_8C.address = next_state;
 
                 return;
@@ -88,13 +72,13 @@ void begin_actor_spell_action(void *actor, void *effect_param, SpriteFrameState 
             }
         }
         if (!special_action) {
-            if (((S_800AAF00_0 *)object)->unk_1C & ACTOR_CONFUSED) {
+            if (((ActorRecord *)object)->flags1C & ACTOR_CONFUSED) {
                 s32 object_flags;
-                object_flags = ((S_800AAF00_0 *)object)->unk_14;
+                object_flags = ((ActorRecord *)object)->flags14;
                 if (!(object_flags & 0x80000000)) {
                     object_flags |= 0x80000000;
-                    ((S_800AAF00_0 *)object)->unk_14 = object_flags;
-                    ((S_800AAF00_0 *)object)->unk_2A.u += (generate_random_value() & 7) << 9;
+                    ((ActorRecord *)object)->flags14 = object_flags;
+                    ((ActorRecord *)object)->facing += (generate_random_value() & 7) << 9;
                 }
             }
 
@@ -110,12 +94,12 @@ void begin_actor_spell_action(void *actor, void *effect_param, SpriteFrameState 
                 slot_data += slot_offset;
                 type_index = slot_data[8];
                 type_data = type_table + type_index;
-                if ((type_data->kind == 2) && (((S_800AAF00_0 *)object)->unk_60 == 0)) {
-                    ((S_800AAF00_0 *)object)->unk_60 = scan_actor_along_heading(
+                if ((type_data->kind == 2) && (((ActorRecord *)object)->target == 0)) {
+                    ((ActorRecord *)object)->target = scan_actor_along_heading(
                         object,
                         target->tile_x,
                         target->tile_y,
-                        ((S_800AAF00_0 *)object)->unk_2A.s,
+                        ((ActorRecord *)object)->facing,
                         type_data->unk_13);
 
                 }
@@ -131,7 +115,7 @@ void begin_actor_spell_action(void *actor, void *effect_param, SpriteFrameState 
             (target->frameTable) = direction_table;
             select_sprite_entry(
                 target,
-                direction_table[((g_game_work.view.camera_rotation.parts.viewAngle + ((S_800AAF00_0 *)object)->unk_2A.s + 0x100) >> 9) & 7],
+                direction_table[((g_game_work.view.camera_rotation.parts.viewAngle + ((ActorRecord *)object)->facing + 0x100) >> 9) & 7],
                 0);
         }
         target->flags |= 0x800;

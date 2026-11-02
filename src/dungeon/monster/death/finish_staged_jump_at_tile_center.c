@@ -20,19 +20,6 @@ extern u8 death_frame_set_4[8];
 extern u8 death_frame_set_5[8];
 extern u8 death_frame_set_6[8];
 
-typedef struct S_80172DB0_0 {
-    u8 pad_00[0x8C];
-    s32 * unk_8C;
-    u8 pad_90[0x6];
-    union { u16 u; s16 s; } unk_96;   /* accessed as both */
-    u8 pad_98[0x3];
-    u8 unk_9B;
-    u8 pad_9C[0x8];
-    s32 unk_A4;
-    u8 pad_A8[0x4];
-    s32 unk_AC;
-    s32 unk_B0;
-} S_80172DB0_0;   /* arg0 in finish_staged_jump_at_tile_center */
 
 
 /* Updates a staged jump animation and returns the actor to its tile center. */

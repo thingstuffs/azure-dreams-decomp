@@ -8,26 +8,26 @@
 #include "engine/script.h"
 
 /* Initialize object resources and display state, then copy its position to shared state. */
-void initialize_object_resources_2(void *object, IntVector3 *position, S_800C4F6C_2 *display_state) {
+void initialize_object_resources_2(TownObjectRecord *object, ObjectPosition *position, SpriteFrameState *display_state) {
     ObjectPosition *shared_position;
 
     initialize_object_and_register_slot(object, 0x1D, &D_800D5120, &D_800D5124,
                   &D_800D50F0, &D_800D50F8);
-    position->z = 0xFF800000;
-    ((S_800C4F6C_6 *)(((TownObjectRecord *)object)->descriptor))->unk_04 = &D_800D50DC;
-    ((TownObjectRecord *)((u8 *)object - 0x10))->unk_00.as_pm = &set_camera_chase_data;
-    display_state->unk_10 = 0;
-    display_state->unk_14 = (u16) (display_state->unk_14 | 0xC);
-    create_user_data_object_b(object - 0x20);
+    position->z.v = 0xFF800000;
+    object->descriptor->entries[1] = &D_800D50DC;
+    ((ObjectNodeHeader *)object - 1)->update_callback = &set_camera_chase_data;
+    display_state->tpage_abr = 0;
+    display_state->flags = (u16) (display_state->flags | 0xC);
+    create_user_data_object_b(((void *)object) - 0x20);
     create_resource_display_object(0);
     create_resource_display_object(1);
-    display_state->unk_1E = 0x800;
-    display_state->unk_1C = 0x800;
-    position->y = 0x04300000;
-    view_reference_entity.x.v = position->x;
+    display_state->scale_y = 0x800;
+    display_state->scale_x = 0x800;
+    position->y.v = 0x04300000;
+    view_reference_entity.x.v = position->x.v;
     shared_position = &view_reference_entity;
-    shared_position->y.v = (s32) position->y;
-    shared_position->z.v = (s32) position->z;
+    shared_position->y.v = (s32) position->y.v;
+    shared_position->z.v = (s32) position->z.v;
     copy_entity_record_fields(&town_position_reference_state, shared_position);
 }
 
@@ -43,7 +43,7 @@ void set_camera_chase_data(TownObjectRecord *object, ObjectPosition *chase_data,
         chase_fix[2] = 0;
         chase_fix[1] = second_value;
         tcame_chase_fix(chase_fix);
-        *(void **)((s8 *)object - 0x10) = message_motion_type_b;
+        ((ObjectNodeHeader *)object - 1)->update_callback = message_motion_type_b;
     }
 }
 

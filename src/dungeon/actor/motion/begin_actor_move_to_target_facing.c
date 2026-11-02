@@ -6,10 +6,6 @@
 
 
 
-typedef struct S_800AA888_4 {
-    u8 pad_00[0x2A];
-    u16 unk_2A;
-} S_800AA888_4;   /* the target actor read through ActorRecord.target in begin_actor_move_to_target_facing */
 
 
 
@@ -35,5 +31,5 @@ void begin_actor_move_to_target_facing(ActorRecord *body, ObjectPosition *positi
     body->action_state_flags = (u16)(body->action_state_flags | 8);
     actor->flags1C = (s32)(actor->flags1C & 0xFFFBFFFF);
     body->action_timer.u = 0;
-    actor->movement_facing = (u16)((S_800AA888_4 *)actor->target)->unk_2A;
+    actor->movement_facing = (u16)((ActorRecord *)actor->target)->facing;
 }

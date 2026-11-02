@@ -20,12 +20,6 @@ typedef struct S_80D3B0B8_0 {
     ObjectNodeHeader * unk_AC;
 } S_80D3B0B8_0;   /* temp_s3 in func_801708B8 */
 
-typedef struct S_80D3B0B8_2 {
-    u8 pad_00[0x2A];
-    union { u16 s; s16 u; } unk_2A;   /* accessed as both */
-    u8 pad_2C[0x84];
-    u8 unk_B0;
-} S_80D3B0B8_2;   /* saved_arg0 in func_801708B8 */
 
 typedef struct S_80D3B0B8_6 {
     u8 pad_00[0x2];

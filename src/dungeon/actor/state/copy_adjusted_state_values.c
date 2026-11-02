@@ -1,3 +1,4 @@
+#include "shared/sprite_frame_state.h"
 #include "common.h"
 #include "m2c_compat.h"
 #include "shared/dungeon_moving_views.h"
@@ -21,7 +22,7 @@ typedef struct S_800B0654_2 {
 } S_800B0654_2;   /* arg1 in copy_adjusted_state_values */
 
 /* Copy three source values into the destination state and store the adjusted calculation result. */
-void copy_adjusted_state_values(MovingPosition *sourceValues, S_800B0654_2 *resultAdjustment, void *destinationState_arg) {
+void copy_adjusted_state_values(MovingPosition *sourceValues, SpriteFrameState *resultAdjustment, void *destinationState_arg) {
     S_800B0654_0 *destinationState = destinationState_arg;
 
     destinationState->unk_28 = (u16) sourceValues->x;

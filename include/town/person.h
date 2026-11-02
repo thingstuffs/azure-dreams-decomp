@@ -85,7 +85,7 @@ void install_update_after_flag_clear(TownObjectRecord *object, ObjectPosition *p
 
 
 
-void initialize_object_configuration_x(TownObjectRecord *object);
+void initialize_object_configuration_x(TownObjectRecord *object, ObjectPosition *position_unused, struct SpriteFrameState *sprite_unused);
 void *create_owner_following_sprite(TownObjectRecord *linked_object);
 
 void clear_record_indexed_flag(TownObjectRecord *state, s32 unused_context, void *unused_state_context);

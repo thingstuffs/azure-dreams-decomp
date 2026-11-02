@@ -1,3 +1,4 @@
+#include "shared/object_node.h"
 #include "modules/main_title_callbacks.h"
 #include "engine/graphics.h"
 #include "shared/object_links.h"
@@ -21,16 +22,7 @@ typedef struct S_80089608_1 {
     u16 unk_26;
 } S_80089608_1;
 
-typedef struct S_80089608_3 {
-    u8 pad_00[0x28];
-    s16 unk_28;
-} S_80089608_3;
 
-typedef struct S_80089608_5 {
-    s32 unk_00;
-    u8 pad_04[0x3C];
-    s32 unk_40;
-} S_80089608_5;
 
 typedef struct S_80089608_6 {
     u8 pad_00[0xC];
@@ -57,9 +49,16 @@ typedef struct {
     s32 w1;
 } Words2;
 
+typedef struct SettingsVisualLookup {
+    s32 source_words[10];
+    s16 radii[10];
+    u8 pad_3C[4];
+    s32 masks[10];
+} SettingsVisualLookup;
+
 /* Updates effect brightness and rotation and spawns ten visual elements. */
 void update_settings_effect(SettingsVisualEffectBody *effect) {
-    unsigned char effect_tables[104];
+    SettingsVisualLookup effect_tables;
     Words4 *style_src;
     Words4 *mask_src;
     Words4 *copy_dst;
@@ -77,7 +76,7 @@ void update_settings_effect(SettingsVisualEffectBody *effect) {
     S_80089608_1 *owner;
     void *callback;
 
-    copy_dst = (Words4 *)&effect_tables[0];
+    copy_dst = (Words4 *)&effect_tables.source_words[0];
     style_src = D_80088790.blocks;
     owner = effect->owner;
     do {
@@ -86,8 +85,8 @@ void update_settings_effect(SettingsVisualEffectBody *effect) {
         copy_dst++;
     } while (style_src != ((Words4 *)&D_80088790 + 2));
     *(Words2 *)copy_dst = *(Words2 *)style_src;
-    *(Packed20 *)(effect_tables + 40) = *(Packed20 *)&D_800887B8;
-    copy_dst = (Words4 *)&effect_tables[64];
+    *(Packed20 *)(&effect_tables.radii[0]) = *(Packed20 *)&D_800887B8;
+    copy_dst = (Words4 *)&effect_tables.masks[0];
     mask_src = D_800887CC.blocks;
     do {
         *copy_dst = *mask_src;
@@ -134,7 +133,7 @@ void update_settings_effect(SettingsVisualEffectBody *effect) {
         effect->angle.u -= 12;
         break;
     case 0xFF:
-        (*(u16 *)((u8 *)effect + -2)) = (u16) (((ObjectStatusPrefix16 *)effect)[-1].flags | NODE_REMOVE);
+        (((ObjectNodeHeader *)effect - 1)->flags) = (u16) (((ObjectStatusPrefix16 *)effect)[-1].flags | NODE_REMOVE);
         object_flag_block.flags |= OBJECT_REMOVE_PENDING;
         return;
     default:
@@ -148,14 +147,14 @@ void update_settings_effect(SettingsVisualEffectBody *effect) {
             sprite = element->sprite;
             element->update_callback = callback;
             register_node(element, draw_linked_sprites);
-            x_product = rcos(effect->angle.s) * ((S_80089608_3 *)(effect_tables + color_step_or_index * 2))->unk_28;
+            x_product = rcos(effect->angle.s) * effect_tables.radii[color_step_or_index];
             axis_offset = x_product >> 0xC;
-            ((S_80089608_7 *)(element->position))->unk_02 =
+            element->position->x.w.i =
                 (s16) ((axis_offset - (x_product >> 0xD)) + 0xA0);
             element_state = (void *)((s8 *)element + 0x20);
-            y_product = rsin(effect->angle.s) * ((S_80089608_3 *)(effect_tables + color_step_or_index * 2))->unk_28;
+            y_product = rsin(effect->angle.s) * effect_tables.radii[color_step_or_index];
             axis_offset = y_product >> 0xC;
-            ((S_80089608_7 *)(element->position))->unk_06 =
+            element->position->y.w.i =
                 (s16) ((axis_offset + (y_product >> 0xE)) + 0x78);
             sprite->scale_y = 0x1000;
             sprite->scale_x = 0x1000;
@@ -166,11 +165,11 @@ void update_settings_effect(SettingsVisualEffectBody *effect) {
             }
             sprite->tpage_abr = 0x60;
             sprite->flags = (u16) (sprite->flags | 0xC);
-            sprite->source = (s32) ((S_80089608_5 *)(effect_tables + color_step_or_index * 4))->unk_00;
+            sprite->source = (s32) effect_tables.source_words[color_step_or_index];
             sprite->unk_04 = 0;
             sprite->frame_ticks = 0;
             sprite->color.word =
-                (s32)(effect->color & ((S_80089608_5 *)(effect_tables + color_step_or_index * 4))->unk_40);
+                (s32)(effect->color & effect_tables.masks[color_step_or_index]);
             element_state->unk_0C = color_step_or_index;
         }
         color_step_or_index -= 1;

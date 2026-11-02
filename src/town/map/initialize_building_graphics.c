@@ -21,19 +21,18 @@ typedef struct S_800B6FB8_2 {
 } S_800B6FB8_2;   /* base in initialize_building_graphics */
 
 extern u8 g_game_work[], building_texture_frame_zero[], building_texture_backup[], building_palette_backup[], D_8012F004[], town_tile_grid[];
-extern u16 building_upload_rect[];
 /* Initialize drawing state and upload image and palette data. */
 void initialize_building_graphics(void)
 {
     u8 *base, *status;
-    u16 *image_rect, *first_rect, *palette_rect;
+    BuildingUploadRect *image_rect, *first_rect, *palette_rect;
     u8 *image_data;
     S_800B6FB8_0 *draw;
     s32 width, color, draw_setting;
     u16 image_width;
     void *draw_buffer;
 
-    image_rect = building_upload_rect;
+    image_rect = &building_upload_rect;
     first_rect = image_rect;
     image_data = building_texture_frame_zero;
     base = g_game_work;
@@ -49,25 +48,25 @@ void initialize_building_graphics(void)
     draw->unk_1E = width;
     status = ((u8 *)&runtime_dispatch_state);
 
-    building_upload_rect[0] = 0x328;
-    image_rect[1] = 0x80;
+    building_upload_rect.x = 0x328;
+    image_rect->y = 0x80;
     image_width = 8;
-    image_rect[2] = image_width;
-    image_rect[3] = 0x80;
+    image_rect->w = image_width;
+    image_rect->h = 0x80;
     ((RuntimeDispatchState *)status)->flags16 &= 0xFFFE;
     StoreImage(first_rect, image_data);
 
-    building_upload_rect[0] = 0x330;
-    image_rect[1] = 0x80;
-    image_rect[2] = image_width;
-    image_rect[3] = 0x80;
+    building_upload_rect.x = 0x330;
+    image_rect->y = 0x80;
+    image_rect->w = image_width;
+    image_rect->h = 0x80;
     StoreImage(image_rect, building_texture_backup);
 
-    palette_rect = building_upload_rect;
-    building_upload_rect[0] = 0;
-    palette_rect[1] = 0x1FB;
-    palette_rect[2] = 0x40;
-    palette_rect[3] = 1;
+    palette_rect = &building_upload_rect;
+    building_upload_rect.x = 0;
+    palette_rect->y = 0x1FB;
+    palette_rect->w = 0x40;
+    palette_rect->h = 1;
     StoreImage(palette_rect, building_palette_backup);
     DrawSync(0);
 

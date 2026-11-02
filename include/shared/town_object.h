@@ -2,6 +2,7 @@
 #define SHARED_TOWN_OBJECT_H
 
 #include "common.h"
+#include "shared/entity.h"
 
 /* TownObjectRecord: the body of a pooled TOWN scene object (the 0x20-byte ObjectNodeHeader of
  * shared/object_node.h is in front of it).  create_object_and_initialize_render_state allocates these nodes

@@ -1,6 +1,7 @@
 #include "common.h"
 #include "shared/object_flags.h"
 #include "town/minigame/position.h"
+#include "shared/object_node.h"
 
 
 typedef struct S_80020260_1 {
@@ -43,7 +44,7 @@ void fade_scene_tile_across_terminal_phase(SceneTileObject *effect) {
         faded_color = effect->color + (s32)0xFFF7F7F8;
         effect->color = faded_color;
         if (faded_color <= 0x80808) {
-            (*(u16 *)((u8 *)effect + -2)) |= NODE_REMOVE;
+            (((ObjectNodeHeader *)effect - 1)->flags) |= NODE_REMOVE;
             object_flag_block.flags |= OBJECT_REMOVE_PENDING;
         }
         break;

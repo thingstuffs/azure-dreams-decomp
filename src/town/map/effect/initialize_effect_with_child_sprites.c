@@ -41,7 +41,7 @@ typedef struct S_800BA00C_1 {
 
 
 /* Initializes a randomly oriented effect and its child sprites at the supplied position. */
-void initialize_effect_with_child_sprites(TownObjectRecord *parent, ObjectPosition *position)
+void initialize_effect_with_child_sprites(TownObjectRecord *parent, ObjectPosition *position, struct SpriteFrameState *sprite_unused)
 {
     void *part_callback;
     GameWork *work;

@@ -12,22 +12,11 @@
 #include "frontend/libcard.h"
 #include "main/data.h"
 
-typedef struct CardSaveMenuState {
-    void *backdrop;
-    void *surface;
-    void *heading;
-    u8 pad_0C[0x14];
-    void *request;
-    s32 mode;
-    s32 state;
-    s32 selection;
-} CardSaveMenuState;
-
 /* Allocate an object and initialize its state and dispatch table. */
 void *card_boot_create_save_slot_menu(void *init_value, s32 state_value)
 {
     ObjectNodeHeader *object;
-    CardSaveMenuState *state;
+    CardSaveMenuBody *state;
 
     object = allocate_flagged_object_node(0);
     if (object != NULL) {

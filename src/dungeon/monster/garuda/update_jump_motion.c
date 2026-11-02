@@ -91,13 +91,13 @@ void update_jump_motion_2(void *action_state, ObjectPosition *motion, SpriteFram
             if (x != 0) {
                 target = primary_actor_record;
                 actor->target = target;
-                phase = ((ObjectNodeHeader *)((u8 *)target - 0x20))->sprite;
+                phase = ((ObjectNodeHeader *)target - 1)->sprite;
                 actor->target_tile_x = ((S_80172834_3 *)phase)->unk_24;
                 actor->target_tile_y = ((S_80172834_3 *)phase)->unk_25;
             } else if (item_action_definitions[*action_data].kind == 2) {
                 target = actor->target;
                 if (target != 0) {
-                    phase = ((ObjectNodeHeader *)((u8 *)target - 0x20))->sprite;
+                    phase = ((ObjectNodeHeader *)target - 1)->sprite;
                     actor->target_tile_x = ((S_80172834_3 *)phase)->unk_24;
                     actor->target_tile_y = ((S_80172834_3 *)phase)->unk_25;
                 }

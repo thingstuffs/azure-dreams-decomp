@@ -32,7 +32,7 @@ extern M2C_UNK item_effect_descriptor;
 void func_80173770(void *actor, ObjectPosition *motion, SpriteFrameState *visual);
 
 /* Spawns an object from stored appearance data and advances the actor's state. */
-void spawn_appearance_object_and_advance_actor(ActorRecord *actor, void *transform, struct SpriteFrameState *render, ActorRecord *actor_data)
+void spawn_appearance_object_and_advance_actor(ActorRecord *actor, ObjectPosition *transform, struct SpriteFrameState *render, ActorRecord *actor_data)
 {
     s32 pos_z;
     s32 pos_x;
@@ -59,11 +59,11 @@ void spawn_appearance_object_and_advance_actor(ActorRecord *actor, void *transfo
             if (spawned_obj != 0) {
                 init_obj = spawned_obj;
                 spawned_transform = spawned_obj->position;
-                pos_x = ((S_8017390C_3 *)transform)->unk_00;
+                pos_x = transform->x.v;
                 spawned_render = spawned_obj->sprite;
                 spawned_transform->x.v = pos_x;
-                spawned_transform->y.v = ((S_8017390C_3 *)transform)->unk_04;
-                pos_z = ((S_8017390C_3 *)transform)->unk_08;
+                spawned_transform->y.v = transform->y.v;
+                pos_z = transform->z.v;
                 spawned_transform->velocity_y = 0;
                 spawned_transform->velocity_x = 0;
                 spawned_transform->velocity_z = 0xFFEE0000;

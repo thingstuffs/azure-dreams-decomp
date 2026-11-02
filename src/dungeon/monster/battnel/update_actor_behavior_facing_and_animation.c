@@ -8,31 +8,7 @@
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 
-typedef struct S_80170E5C_0 {
-    u8 pad_00[0x8C];
-    s32 unk_8C;
-    u8 pad_90[0x8];
-    u16 unk_98;
-    u8 unk_9A;
-    u8 unk_9B;
-    u8 pad_9C[0x8];
-    union { s16 s; u16 u; } unk_A4;   /* accessed as both */
-} S_80170E5C_0;   /* arg0 in update_actor_behavior_facing_and_animation_2 */
 
-typedef struct S_80170E5C_1 {
-    u8 pad_00[0x1C];
-    u32 unk_1C;
-    u8 pad_20[0x5];
-    u8 unk_25;
-    u8 pad_26[0x4];
-    s16 unk_2A;
-    u8 pad_2C[0x1A];
-    u16 unk_46;
-    u8 pad_48[0x1C];
-    s16 unk_64;
-    u8 pad_66[0x7];
-    s8 unk_6D;
-} S_80170E5C_1;   /* arg3 in update_actor_behavior_facing_and_animation_2 */
 
 extern void select_sprite_entry(void *, s32, s32);
 extern s16 check_entity_relation(ActorRecord *entry, ActorRecord *anchor);
@@ -41,7 +17,7 @@ extern s32 can_entity_gain_level(void *);
 extern void update_actor_status_and_mp(ActorRecord *entity);
 extern s32 begin_ready_actor_directional_action(ActorRecord *body, ObjectPosition *position, SpriteFrameState *sprite, u8 *direction_frames);
 extern void begin_actor_move_to_target_facing(ActorRecord *body, ObjectPosition *position, SpriteFrameState *sprite, ActorRecord *actor);
-extern void advance_actor_path_script_step(ActorRecord *controller, ObjectPosition *context, void *entity, void *path_state);
+extern void advance_actor_path_script_step(ActorRecord *controller, ObjectPosition *context, SpriteFrameState *entity, void *path_state);
 extern void func_8017162C(ActorRecord *move_data, ObjectPosition *context, SpriteFrameState *position_data, ActorRecord *actor_data);
 extern s32 func_80171DD8(ActorRecord *action_state, ObjectPosition *motion_param, SpriteFrameState *sprite_arg, ActorRecord *actor);
 extern void select_and_start_target_action(ActorRecord *action_state, ObjectPosition *action_context, void *sprite, ActorRecord *actor);
@@ -71,29 +47,29 @@ void update_actor_behavior_facing_and_animation_2(void *actor, ObjectPosition *c
     u32 initial_flags = g_dungeon_status.flags;
 
     if (initial_flags & 0x1000) {
-        ((S_80170E5C_0 *)actor)->unk_9A = 0xE;
+        ((ActorRecord *)actor)->action_id.u = 0xE;
         advance_actor_path_script_step(actor, context, sprite, status);
         return;
     }
 
-    if (((S_80170E5C_1 *)status)->unk_25 == 0) {
+    if (((ActorRecord *)status)->mp_value.parts.whole == 0) {
         advance_actor_pending_action(actor, context, sprite, status);
         if (sprite->frameTable == D_80173D4C) {
             return;
         }
         (sprite->frameTable) = battnel_frame_set;
         select_sprite_entry(sprite,
-            battnel_frame_set[((g_game_work.view.camera_rotation.parts.viewAngle + ((S_80170E5C_1 *)status)->unk_2A + 0x100) >> 9) & 7],
+            battnel_frame_set[((g_game_work.view.camera_rotation.parts.viewAngle + ((ActorRecord *)status)->facing + 0x100) >> 9) & 7],
             0);
         return;
     }
 
-    if (((S_80170E5C_1 *)status)->unk_1C & 0x200) {
+    if (((ActorRecord *)status)->flags1C & 0x200) {
         if (sprite->frameTable == D_80173D4C) {
-            ((S_80170E5C_0 *)actor)->unk_9A = 0xD;
-            ((S_80170E5C_0 *)actor)->unk_9B = 1;
-            ((S_80170E5C_0 *)actor)->unk_8C = 0;
-            ((S_80170E5C_1 *)status)->unk_1C &= ~0x40000;
+            ((ActorRecord *)actor)->action_id.u = 0xD;
+            ((ActorRecord *)actor)->action_phase.u = 1;
+            ((ActorRecord *)actor)->unk_8C.word = 0;
+            ((ActorRecord *)status)->flags1C &= ~0x40000;
             return;
         }
         if (reset_actor_action_state(actor, context, sprite, battnel_frame_set)) {
@@ -102,34 +78,34 @@ void update_actor_behavior_facing_and_animation_2(void *actor, ObjectPosition *c
     }
 
     if (!(g_dungeon_status.flags & 0x2000)) {
-        if (((S_80170E5C_1 *)status)->unk_1C & 0x100) {
+        if (((ActorRecord *)status)->flags1C & 0x100) {
             begin_pushed_actor_move(actor, context, sprite, status);
             return;
         }
 
-        if (((S_80170E5C_0 *)actor)->unk_9A != 0xE) {
+        if (((ActorRecord *)actor)->action_id.u != 0xE) {
             u8 next_state = 0xE;
 
             if (sprite->frameTable != battnel_direction_frames) {
                 s32 anim_delay = 10;
 
-                ((S_80170E5C_0 *)actor)->unk_A4.s = anim_delay;
+                ((ActorRecord *)actor)->unk_A4.halves.low.s = anim_delay;
                 (sprite->frameTable) = D_80173D14;
                 select_sprite_entry(sprite,
-                    D_80173D14[((g_game_work.view.camera_rotation.parts.viewAngle + ((S_80170E5C_1 *)status)->unk_2A + 0x100) >> 9) & 7],
+                    D_80173D14[((g_game_work.view.camera_rotation.parts.viewAngle + ((ActorRecord *)status)->facing + 0x100) >> 9) & 7],
                     0);
             }
-            ((S_80170E5C_0 *)actor)->unk_9A = next_state;
+            ((ActorRecord *)actor)->action_id.u = next_state;
         }
 
-        ((S_80170E5C_0 *)actor)->unk_98 &= 0xFFF3;
-        if (((S_80170E5C_1 *)status)->unk_64 != 0) {
+        ((ActorRecord *)actor)->action_state_flags &= 0xFFF3;
+        if (((ActorRecord *)status)->hp_delta != 0) {
             if (begin_ready_actor_directional_action(actor, context, sprite, D_80173D1C)) {
                 return;
             }
         }
 
-        if (((S_80170E5C_1 *)status)->unk_1C & 0x80000) {
+        if (((ActorRecord *)status)->flags1C & 0x80000) {
             begin_actor_move_to_target_facing(actor, context, sprite, status);
             func_80173AC0(actor, context, sprite, status);
             return;
@@ -143,8 +119,8 @@ void update_actor_behavior_facing_and_animation_2(void *actor, ObjectPosition *c
     room_id = find_active_rect_containing_point(sprite->tile_x, sprite->tile_y);
     sprite->room_index = room_id;
 
-    if (((S_80170E5C_1 *)status)->unk_6D > 0) {
-        if (((S_80170E5C_1 *)status)->unk_1C & 0x20) {
+    if (((ActorRecord *)status)->pending_turn_updates > 0) {
+        if (((ActorRecord *)status)->flags1C & 0x20) {
             update_actor_status_and_mp(status);
             return;
         }
@@ -152,7 +128,7 @@ void update_actor_behavior_facing_and_animation_2(void *actor, ObjectPosition *c
             func_8017162C(actor, context, sprite, status);
             return;
         }
-        if (!(((S_80170E5C_1 *)status)->unk_46 & 0x8000)) {
+        if (!(((ActorRecord *)status)->action_flags & 0x8000)) {
             if (g_dungeon_status.flags & 0x2000) {
                 {
                     ObjectNodeHeader *previous_node;
@@ -171,14 +147,14 @@ void update_actor_behavior_facing_and_animation_2(void *actor, ObjectPosition *c
             if ((s16)func_801720B4(actor, context, sprite, 0) == 0) {
                 return;
             }
-            ((S_80170E5C_1 *)status)->unk_46 |= 0x4000;
-            if (!(((S_80170E5C_1 *)status)->unk_46 & 0x8000)) {
+            ((ActorRecord *)status)->action_flags |= 0x4000;
+            if (!(((ActorRecord *)status)->action_flags & 0x8000)) {
                 func_8017162C(actor, context, sprite, status);
                 return;
             }
         }
 
-        switch ((((S_80170E5C_1 *)status)->unk_46 & 0x3FFF) - 1) {
+        switch ((((ActorRecord *)status)->action_flags & 0x3FFF) - 1) {
         case 7:
         case 8:
             if ((s16)func_80171DD8(actor, context, sprite, status) == 0) {
@@ -198,7 +174,7 @@ void update_actor_behavior_facing_and_animation_2(void *actor, ObjectPosition *c
                     reference_tile_object.tile_position.parts.tile_x, reference_tile_object.tile_position.parts.tile_y,
                     &direction_aux);
                 global_actor = primary_actor_record;
-                ((S_80170E5C_1 *)status)->unk_2A = direction;
+                ((ActorRecord *)status)->facing = direction;
                 if (global_actor->action_id.u == 0x11) {
                     begin_actor_spell_action(actor, context, sprite, D_80173D3C, update_actor_behavior_facing_and_animation_2);
                     return;
@@ -225,17 +201,17 @@ void update_actor_behavior_facing_and_animation_2(void *actor, ObjectPosition *c
         }
     }
 
-    if (!(((S_80170E5C_1 *)status)->unk_1C & 0x2000)) {
+    if (!(((ActorRecord *)status)->flags1C & 0x2000)) {
         s32 room_index = (s8)room_id;
 
         if ((room_index < 0) ||
             !(dungeon_rooms[room_index].flags & 2)) {
-            if (!(((S_80170E5C_1 *)status)->unk_1C & 0x430)) {
+            if (!(((ActorRecord *)status)->flags1C & 0x430)) {
 
                 if ((s16)test_neighbor_position_relation(sprite->tile_x,
                     sprite->tile_y, reference_tile_object.tile_position.parts.tile_x,
                     reference_tile_object.tile_position.parts.tile_y) != 0) {
-                    ((S_80170E5C_1 *)status)->unk_2A = get_rounded_facing_and_rounding_flag(
+                    ((ActorRecord *)status)->facing = get_rounded_facing_and_rounding_flag(
                         sprite->tile_x, sprite->tile_y,
                         reference_tile_object.tile_position.parts.tile_x, reference_tile_object.tile_position.parts.tile_y,
                         &direction_aux);
@@ -254,15 +230,15 @@ void update_actor_behavior_facing_and_animation_2(void *actor, ObjectPosition *c
     if (sprite->frameTable == anim_table) {
         return;
     }
-    anim_ticks = ((S_80170E5C_0 *)actor)->unk_A4.u - 1;
-    ((S_80170E5C_0 *)actor)->unk_A4.s = anim_ticks;
+    anim_ticks = ((ActorRecord *)actor)->unk_A4.halves.low.u - 1;
+    ((ActorRecord *)actor)->unk_A4.halves.low.s = anim_ticks;
     if (anim_ticks > 0) {
         return;
     }
-    ((S_80170E5C_0 *)actor)->unk_A4.s = -1;
+    ((ActorRecord *)actor)->unk_A4.halves.low.s = -1;
 
     (sprite->frameTable) = anim_table;
     select_sprite_entry(sprite,
-        anim_table[((g_game_work.view.camera_rotation.parts.viewAngle + ((S_80170E5C_1 *)status)->unk_2A + 0x100) >> 9) & 7],
+        anim_table[((g_game_work.view.camera_rotation.parts.viewAngle + ((ActorRecord *)status)->facing + 0x100) >> 9) & 7],
         0);
 }

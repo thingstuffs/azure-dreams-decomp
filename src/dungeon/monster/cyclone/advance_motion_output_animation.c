@@ -29,7 +29,7 @@ extern void advance_sprite_animation_and_textures(void *);
 extern void select_sprite_entry(void *, s32, s32);
 
 /* Advances motion and output animation, then signals completion after a short delay. */
-void advance_motion_output_animation(FuncState *motion, void *position, SpriteFrameState *output) {
+void advance_motion_output_animation(FuncState *motion, ObjectPosition *position, SpriteFrameState *output) {
     u16 frame_count;
     void *object;
 
@@ -40,11 +40,11 @@ void advance_motion_output_animation(FuncState *motion, void *position, SpriteFr
         output->scale_y = output->scale_y + 0x40;
         output->scale_x = output->scale_y;
         motion->value0 = motion->value0 + motion->step0;
-        ((s32 *)position)[0] = motion->value0;
+        position->x.v = motion->value0;
         motion->value1 = motion->value1 + motion->step1;
-        ((s32 *)position)[1] = motion->value1;
+        position->y.v = motion->value1;
         motion->value2 = motion->value2 + motion->step2;
-        ((s32 *)position)[2] = motion->value2 - ((rsin((s16)motion->count << 6) >> 4) * 0xC000);
+        position->z.v = motion->value2 - ((rsin((s16)motion->count << 6) >> 4) * 0xC000);
         if ((s16)motion->count >= 0x20) {
             motion->count = 0;
             motion->state = motion->state + 1;

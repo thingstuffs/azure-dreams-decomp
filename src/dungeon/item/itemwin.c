@@ -320,7 +320,8 @@ void initialize_text_editor_context(void *object, s32 range_start, s32 initial_v
 void inventory_initialize_object_from_embedded_data(void *object, s32 init_value, s32 init_value_2, s32 init_value_3) {
     initialize_text_editor_context(object, init_value, init_value_2, init_value_3);
     inventory_initialize_owner_patch_and_state(object, object + 0x44, object + 0x1C, object + 0x2C);
-    inventory_initialize_owner_pointers_and_offsets(object, ((Rec_func_80025850_arg0 *)object)->unk_54);
+    inventory_initialize_owner_pointers_and_offsets(
+        object, ((ovl_1830850_81811168_DungeonSub81811168 *)object)->value54);
 }
 
 /* Allocates inventory widget buffers, copies the default vector, and shares it among 13 entries. */

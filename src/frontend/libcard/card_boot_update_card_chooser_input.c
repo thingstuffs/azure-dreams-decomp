@@ -1,5 +1,7 @@
 #include "shared/audio_commands.h"
 #include "common.h"
+#include "shared/object_node.h"
+#include "frontend/libcard/card_chooser.h"
 #include "shared/game_work.h"
 #include "frontend/libcard/state.h"
 
@@ -23,10 +25,6 @@ extern s32 *card_boot_debounce_card_presence(void);
 extern void restore_entity_flag_ten(void);
 
 
-typedef struct S_8002789C_0 {
-    u8 pad_00[0x1E];
-    u16 unk_1E;
-} S_8002789C_0;   /* object in card_boot_update_card_chooser_input */
 
 /* Handles menu input and refreshes the displayed state. */
 void card_boot_update_card_chooser_input(Object_800128C8 *menu)
@@ -44,7 +42,7 @@ void card_boot_update_card_chooser_input(Object_800128C8 *menu)
     if (buttons != 0) {
         button_flags = (g_game_work.pressed_buttons);
         if (button_flags & 0x20) {
-            s32 *object;
+            ObjectNodeHeader *object;
 
             SD_Call(AUDIO_CANCEL);
             card_boot_destroy_card_chooser(((void *)menu) - 0x20);
@@ -53,8 +51,8 @@ void card_boot_update_card_chooser_input(Object_800128C8 *menu)
                 request_scene_dispatch_state(3);
             } else {
                 create_deferred_resource_transition_task(0, 0, 0, 0);
-                object = (*(s32 * *)((u8 *)menu + 0x14));
-                ((S_8002789C_0 *)object)->unk_1E |= 0x2000;
+                object = ((CardChooserBody *)menu)->request;
+                object->flags |= 0x2000;
                 if ((*(s32 *)((u8 *)menu + 0)) == 2) {
                     restore_entity_flag_ten();
                 }

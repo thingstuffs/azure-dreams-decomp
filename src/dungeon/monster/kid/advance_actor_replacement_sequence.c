@@ -38,20 +38,6 @@ typedef struct S_80174B20_0_pre {
     u16 unk_00;
 } S_80174B20_0_pre;   /* the 0x2 bytes before arg0 in advance_actor_replacement_sequence, addressed as arg0[-1] */
 
-typedef struct S_80174B20_1 {
-    u8 pad_00[0x13];
-    u8 unk_13;
-    u8 pad_14[0x8];
-    s32 unk_1C;
-    u8 pad_20[0xA];
-    u16 unk_2A;
-    u8 pad_2C[0x34];
-    void * unk_60;
-    u8 pad_64[0x9];
-    s8 unk_6D;
-    u8 pad_6E[0x1C];
-    u16 unk_8A;
-} S_80174B20_1;   /* arg3 in advance_actor_replacement_sequence */
 
 typedef struct S_80174B20_2 {
     u8 unk_00;
@@ -162,15 +148,15 @@ void advance_actor_replacement_sequence(ActorRecord *state, ObjectPosition *posi
         run_cd_image_commands(&kid_image_commands, (u8 *)(&kid_image_load_done), 0);
         state->unk_B0.halves.low.s = 0;
         state->action_phase.u = (u8) (state->action_phase.u + 1);
-        actor->unk_8A = (u16) ((S_80174B20_1 *)actor)->unk_2A;
+        actor->unk_8A = (u16) ((u16)actor->facing);
         actor->flags1C = (s32) (actor->flags1C & 0xFFFBFFFF);
     case 2:
-        direction = ((s32) (g_game_work.view.camera_rotation.parts.viewAngle + (s16) ((S_80174B20_1 *)actor)->unk_2A + 0x100) >> 9) & 7;
+        direction = ((s32) (g_game_work.view.camera_rotation.parts.viewAngle + (s16) ((u16)actor->facing) + 0x100) >> 9) & 7;
         if ((*(u8 *)&kid_image_load_done) == 0 || direction != 2) {
             if (direction == 2) {
                 return;
             }
-            actor->facing = (u16) (((S_80174B20_1 *)actor)->unk_2A + 0x200);
+            actor->facing = (u16) (((u16)actor->facing) + 0x200);
             return;
         }
         run_cd_image_commands(&kid_image_commands, (u8 *)(&kid_image_load_done), 1);
@@ -275,7 +261,7 @@ void advance_actor_replacement_sequence(ActorRecord *state, ObjectPosition *posi
         }
         state->action_timer.u = 0x10U;
         state->action_phase.u = (u8) (state->action_phase.u + 1);
-        ((S_80174B20_16 *)actor->target)->unk_2A = (u16) ((S_80174B20_1 *)actor)->unk_2A;
+        ((S_80174B20_16 *)actor->target)->unk_2A = (u16) ((u16)actor->facing);
         replacement = actor->target;
         sprite = ((S_80174B20_11_pre *)replacement)[-1].unk_00;
         select_indirect_table_entry((struct S_80047738 *)(sprite), sprite->unk_2C[((s32) (g_game_work.view.camera_rotation.parts.viewAngle
@@ -288,7 +274,7 @@ void advance_actor_replacement_sequence(ActorRecord *state, ObjectPosition *posi
             return;
         }
         globals_base = (void *)0x80080000;
-        ((S_80174B20_16 *)actor->target)->unk_2A = (u16) ((S_80174B20_1 *)actor)->unk_8A;
+        ((S_80174B20_16 *)actor->target)->unk_2A = (u16) ((u16)actor->unk_8A);
         ((S_80174B20_0_pre *)state)[-1].unk_00 = (u16) (((S_80174B20_0_pre *)state)[-1].unk_00 | 0x8000);
         global_flags = globals_base->unk_14A0;
         active_count = ((u16)g_dungeon_status.activity_counts.parts.pending_action_count);

@@ -49,12 +49,6 @@ typedef struct S_800AACA4_5 {
     void * unk_04;
 } S_800AACA4_5;   /* entry in begin_actor_throw_from_attachment */
 
-typedef struct S_800AACA4_8 {
-    u8 pad_00[0x2A];
-    u16 unk_2A;
-    u8 pad_2C[0x5C];
-    s16 unk_88;
-} S_800AACA4_8;   /* ((S_800AACA4_1 *)arg3)->unk_60 in begin_actor_throw_from_attachment */
 
 typedef struct S_800AACA4_9 {
     void * unk_00;
@@ -86,7 +80,7 @@ void begin_actor_throw_from_attachment(Rec_func_800A9E70_arg0 *state, ObjectPosi
     state->unk_9A.as_s8 = 12;
     state->unk_9B.as_s8 = 0;
     state->unk_8C = 0;
-    initial_direction = ((S_800AACA4_8 *)(entity->target))->unk_2A;
+    initial_direction = ((ActorRecord *)(entity->target))->facing;
     entity->flags1C &= 0xFFF7FFFF;
     entity->movement_facing = initial_direction;
     state->unk_96.as_s16 = 2;
@@ -120,7 +114,7 @@ void begin_actor_throw_from_attachment(Rec_func_800A9E70_arg0 *state, ObjectPosi
         if (target_height < 0x200) {
             motion->velocity_z = -((motion->z.w.i - target_height) << 15) / travel_duration;
         } else {
-            motion->velocity_z = -((motion->z.w.i - ((S_800AACA4_8 *)(entity->target))->unk_88) << 15) / travel_duration;
+            motion->velocity_z = -((motion->z.w.i - ((ActorRecord *)(entity->target))->ground_height) << 15) / travel_duration;
         }
         entity->unk_8A = entity->unk_8A - 2;
     }

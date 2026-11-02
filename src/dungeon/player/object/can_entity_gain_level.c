@@ -927,16 +927,8 @@ typedef struct S_800A2DB8_1 {
     s32 unk_54;
 } S_800A2DB8_1;   /* initial_target in distribute_experience_awards */
 
-typedef struct S_800A2DB8_2 {
-    u8 pad_00[0xAC];
-    void * unk_AC;
-} S_800A2DB8_2;   /* slot in distribute_experience_awards */
 
 
-typedef struct S_800A2DB8_5 {
-    u8 pad_00[0xAC];
-    void * unk_AC;
-} S_800A2DB8_5;   /* (u8 *)D_800E3D7C[0] + index * 4 in distribute_experience_awards */
 
 typedef struct S_800A2DB8_6 {
     u8 pad_00[0x3D7C];
@@ -990,7 +982,7 @@ s32 distribute_experience_awards(S_800A2DB8_0 *source)
         member_index = recipient_count;
         member_slot = (u8 *)dungeon_actor_ring_anchor + 4;
         do {
-            member = ((S_800A2DB8_2 *)member_slot)->unk_AC;
+            member = ((ActorRecord *)member_slot)->unk_AC.address;
             if ((member != NULL) && (member->hp != 0)) {
                 recipient_count++;
             }
@@ -1005,7 +997,7 @@ s32 distribute_experience_awards(S_800A2DB8_0 *source)
         if (target->flags14 & ACTOR_PARTY_MEMBER) {
             member_index = 1;
             do {
-                member = ((S_800A2DB8_5 *)((u8 *)dungeon_actor_ring_anchor + member_index * 4))->unk_AC;
+                member = ((ActorRecord *)((u8 *)dungeon_actor_ring_anchor + member_index * 4))->unk_AC.address;
                 if ((member != NULL) && (member->hp != 0)) {
                     level_delta = member->level - source->unk_11;
                     award = experience;

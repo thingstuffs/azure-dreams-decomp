@@ -162,7 +162,7 @@ typedef struct ActorScratchHalves {
  * allocate_list_node owns pooled bodies; init_monster_from_stats seeds monster template bytes. */
 typedef struct ActorRecord {
     /* 0x000 */ unsigned char unk_00[0xC]; /* template bytes: +0/+1 attack/defense, +4/+5 MP/HP; ability groups begin at +8 */
-    /* 0x00C */ int unk_0C; /* packed bytes within the three ability groups beginning at +0x08 */
+    /* 0x00C */ union { int value; unsigned char bytes[4]; } unk_0C; /* packed ability bytes within the groups beginning at +0x08 */
     /* 0x010 */ unsigned char unk_10; /* stored level of the third ability group (MonsterInitialStats abilities[2] ends here); no fixed-offset reader */
     /* 0x011 */ unsigned char level; /* experience level; indexes the level experience table */
     /* 0x012 */ unsigned char unk_12; /* template byte; movement handlers skip adjacent attacks when it is 2 or more */

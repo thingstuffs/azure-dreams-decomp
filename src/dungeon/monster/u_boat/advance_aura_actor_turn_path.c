@@ -16,16 +16,6 @@ extern s16 check_movement_clearance_and_height();
 extern s16 get_rounded_facing_and_rounding_flag(); /* Unprototyped: retail call extends the result to this declared width; no shared prototype keeps it */
 extern u8 uboat_default_frames[];
 
-typedef struct S_80172144_0 {
-    u8 pad_00[0x1C];
-    s32 unk_1C;
-    u8 pad_20[0xA];
-    s16 unk_2A;
-    u8 pad_2C[0x45];
-    union { s8 s; u8 u; } unk_71;   /* accessed as both */
-    u8 pad_72[0x18];
-    s16 unk_8A;
-} S_80172144_0;   /* state in advance_aura_actor_turn_path */
 
 
 typedef struct S_80172144_3 {
@@ -50,13 +40,13 @@ void advance_aura_actor_turn_path(ActorRecord *actor, ObjectPosition *actor_slot
     s32 step_count;
     S_80172144_3 *path_step;
 
-    if ((((S_80172144_0 *)state)->unk_71.s > 0) &&
-        ((s32)((S_80172144_0 *)state)->unk_71.u > ((S_80172144_0 *)state)->unk_8A)) {
+    if ((((s8)((ActorRecord *)state)->movement_queue_state) > 0) &&
+        ((s32)((ActorRecord *)state)->movement_queue_state > ((ActorRecord *)state)->unk_8A)) {
         if ((actor->unk_B4.bytes[1] == 0) &&
             (*(u8 ***)&entity->frameTable != uboat_default_frames)) {
             entity->frameTable = uboat_default_frames;
             select_sprite_entry(entity,
-                uboat_default_frames[((g_game_work.view.camera_rotation.parts.viewAngle + ((S_80172144_0 *)state)->unk_2A + 0x100) >> 9) & 7],
+                uboat_default_frames[((g_game_work.view.camera_rotation.parts.viewAngle + ((ActorRecord *)state)->facing + 0x100) >> 9) & 7],
                 0);
             if (actor->unk_B0.bytes[0] == 0) {
                 create_owner_linked_directional_object(actor, actor_slot, entity);
@@ -74,21 +64,21 @@ void advance_aura_actor_turn_path(ActorRecord *actor, ObjectPosition *actor_slot
 
             tile_x = old_x;
             mode = 0x3000;
-            flags = ((S_80172144_0 *)state)->unk_1C;
+            flags = ((ActorRecord *)state)->flags1C;
             tile_y = old_y;
             if (flags & 0x2000) {
                 mode = 0x300;
             }
             update_map_cell_flags_with_item_limit(tile_x, tile_y, mode);
         }
-        path_step = (u8 *)state + ((S_80172144_0 *)state)->unk_8A;
+        path_step = (u8 *)state + ((ActorRecord *)state)->unk_8A;
         direction = get_rounded_facing_and_rounding_flag(old_x, old_y,
             path_step->unk_74, path_step->unk_7C,
             (u8 *)actor + 0x98);
         move_result = check_movement_clearance_and_height(direction, entity, state, 0x20);
-        entity->tile_x = ((ActorRecord *)((u8 *)state + ((S_80172144_0 *)state)->unk_8A))->path_x[0];
-        entity->tile_y = ((ActorRecord *)((u8 *)state + ((S_80172144_0 *)state)->unk_8A))->path_y[0];
-        ((S_80172144_0 *)state)->unk_8A = (u16)((S_80172144_0 *)state)->unk_8A + 1;
+        entity->tile_x = ((ActorRecord *)((u8 *)state + ((ActorRecord *)state)->unk_8A))->path_x[0];
+        entity->tile_y = ((ActorRecord *)((u8 *)state + ((ActorRecord *)state)->unk_8A))->path_y[0];
+        ((ActorRecord *)state)->unk_8A = (u16)((ActorRecord *)state)->unk_8A + 1;
         if ((effect_status << 0x10) == 0) {
             s32 new_x;
             s32 new_y;
@@ -96,28 +86,28 @@ void advance_aura_actor_turn_path(ActorRecord *actor, ObjectPosition *actor_slot
             tile_flags = 0x3000;
             new_x = entity->tile_x;
             new_y = entity->tile_y;
-            if (((S_80172144_0 *)state)->unk_1C & ACTOR_PLAYER_SIDE) {
+            if (((ActorRecord *)state)->flags1C & ACTOR_PLAYER_SIDE) {
                 tile_flags = 0x300;
             }
             cycle_map_cell_flags(new_x, new_y, tile_flags);
         }
-        ((S_80172144_0 *)state)->unk_2A = direction;
+        ((ActorRecord *)state)->facing = direction;
         if (move_result == 3 && (actor->unk_B4.bytes[1] == 0) && !(g_dungeon_status.flags & 0x80) &&
             !(entity->flags & 0x8000)) {
             advance_arcing_actor_move(actor, actor_slot, entity, state);
             actor->unk_8C.word = 0;
-            ((S_80172144_0 *)state)->unk_1C |= ACTOR_REFRESH_GROUND;
+            ((ActorRecord *)state)->flags1C |= ACTOR_REFRESH_GROUND;
         } else {
             actor->action_id.s = 0xF;
             actor->unk_8C.word = 0;
-            ((S_80172144_0 *)state)->unk_1C |= ACTOR_REFRESH_GROUND;
+            ((ActorRecord *)state)->flags1C |= ACTOR_REFRESH_GROUND;
         }
         if (g_dungeon_status.flags & 0x80) {
             actor->action_timer.s = 0;
             return;
         }
         actor->action_timer.s = 8;
-        step_count = ((S_80172144_0 *)state)->unk_71.u;
+        step_count = ((ActorRecord *)state)->movement_queue_state;
         if ((s32)step_count > 0) {
             actor->action_timer.s = 8 / (s32)step_count;
         }

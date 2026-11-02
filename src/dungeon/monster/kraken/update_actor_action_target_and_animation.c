@@ -139,7 +139,7 @@ void update_actor_action_target_and_animation(ActorRecord *action, ObjectPositio
                     {
                         void *owner = target_owner;
 
-                        slot = (s32)(((ObjectNodeHeader *)((u8 *)owner - 0x20))->sprite);
+                        slot = (s32)(((ObjectNodeHeader *)owner - 1)->sprite);
                         actor->target_tile_x = (s8) ((MovingTile *)((void *)slot))->tile_x;
                         actor->target_tile_y = (s8) ((MovingTile *)((void *)slot))->tile_y;
                     }
@@ -148,7 +148,7 @@ void update_actor_action_target_and_animation(ActorRecord *action, ObjectPositio
                     if (target_owner != 0) {
                         void *owner = target_owner;
 
-                        slot = (s32)(((ObjectNodeHeader *)((u8 *)owner - 0x20))->sprite);
+                        slot = (s32)(((ObjectNodeHeader *)owner - 1)->sprite);
                         actor->target_tile_x = (s8) ((MovingTile *)((void *)slot))->tile_x;
                         actor->target_tile_y = (s8) ((MovingTile *)((void *)slot))->tile_y;
                     }

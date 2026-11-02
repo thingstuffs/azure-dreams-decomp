@@ -68,7 +68,7 @@ extern u8 map_particle_first_sprite_entries[];
 extern u8 map_particle_second_sprite_entries[];
 
 /* Initialize a random effect angle and spawn its particle and textured children. */
-void initialize_random_particle_effect(Core *parent_core, IntVector3 *origin)
+void initialize_random_particle_effect(Core *parent_core, ObjectPosition *origin, struct SpriteFrameState *sprite_unused)
 {
     s32 random_value;
     s32 quotient;
@@ -123,8 +123,8 @@ void initialize_random_particle_effect(Core *parent_core, IntVector3 *origin)
             particle_prim->source = child_index + 0xA;
             particle_prim->color.c.b = particle_blue;
             child_pos = *(IntVector3 * *)&child_obj->position;
-            child_pos->x = origin->x;
-            particle_y = origin->y;
+            child_pos->x = origin->x.v;
+            particle_y = origin->y.v;
             child_pos->z = 0;
             child_pos->y = particle_y;
             configure_the_set_mode_n_3(child_core, child_pos, map_particle_part_parameters[child_index]);
@@ -154,8 +154,8 @@ void initialize_random_particle_effect(Core *parent_core, IntVector3 *origin)
             texture_prim->scale_y = 0x1000;
             texture_prim->scale_x = 0x1000;
             child_pos = *(IntVector3 * *)&child_obj->position;
-            child_pos->x = origin->x;
-            sprite_y = origin->y;
+            child_pos->x = origin->x.v;
+            sprite_y = origin->y.v;
             child_pos->z = 0xFF2C0000;
             sprite_y += 0x200000;
             child_pos->y = sprite_y;
@@ -183,8 +183,8 @@ void initialize_random_particle_effect(Core *parent_core, IntVector3 *origin)
         texture_prim->scale_y = 0x1000;
         texture_prim->scale_x = 0x1000;
         child_pos = *(IntVector3 * *)&child_obj->position;
-        child_pos->x = origin->x;
-        center_sprite_y = origin->y;
+        child_pos->x = origin->x.v;
+        center_sprite_y = origin->y.v;
         child_pos->z = 0xFF2C0000;
         center_sprite_y += 0x200000;
         child_pos->y = center_sprite_y;
@@ -208,8 +208,8 @@ void initialize_random_particle_effect(Core *parent_core, IntVector3 *origin)
         particle_prim->color.c.b = g_game_work.view.tint.parts.tint_b;
         child_pos = *(IntVector3 * *)&child_obj->position;
         particle_prim->source = 9;
-        child_pos->x = origin->x;
-        center_particle_y = origin->y;
+        child_pos->x = origin->x.v;
+        center_particle_y = origin->y.v;
         child_pos->z = 0;
         child_pos->y = center_particle_y;
     }

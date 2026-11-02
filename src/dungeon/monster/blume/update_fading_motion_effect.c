@@ -1,3 +1,5 @@
+#include "shared/sprite_frame_state.h"
+#include "shared/entity.h"
 #include "common.h"
 #include "shared/object_flags.h"
 

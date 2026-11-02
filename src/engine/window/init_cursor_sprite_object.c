@@ -5,28 +5,15 @@
 #include "engine/node.h"
 #include "engine/object.h"
 #include "engine/window.h"
+#include "shared/entity.h"
 
-
-typedef struct S_8003719C_4 {
-    u8 pad_00[0x20];
-    void * unk_20;
-} S_8003719C_4;   /* node in init_cursor_sprite_object */
 
 typedef struct S_8003719C_5 {
     u8 pad_00[0x10];
     s32 unk_10;
     s32 unk_14;
-} S_8003719C_5;   /* ((S_8003719C_4 *)node)->unk_20 in init_cursor_sprite_object */
+} S_8003719C_5;   /* transform record installed in the node body */
 
-
-typedef struct S_8003719C_0 {
-    u8 pad_00[0x8];
-    s32 unk_08;
-    void * unk_0C;
-    void (*unk_10)(void *, s32, void *);
-    u8 pad_14[0xC];
-    void * unk_20;
-} S_8003719C_0;   /* node in init_cursor_sprite_object */
 
 typedef struct S_8003719C_1 {
     u8 pad_00[0x4];
@@ -71,25 +58,25 @@ extern u8 window_node_list_storage[];
 /* Initializes a sprite node, links it to its owner, and applies its initial display state. */
 void init_cursor_sprite_object(void *node_addr, Rec_D_80081FDC *transform, s32 *script_data, s16 cursor_offset, s32 sprite_base,
     void *owner) {
-    s32 render_data;
+    ObjectPosition *render_data;
     S_8003719C_1 *state;
     S_8003719C_3 *sprite;
-    void *node;
+    ObjectNodeHeader *node;
 
     node = initialize_runtime_node_storage(0x11, node_addr, 0x49, &window_node_list_storage);
-    ((S_8003719C_0 *)node)->unk_10 = update_cursor_blink_colors;
+    node->update_callback = (void *)update_cursor_blink_colors;
     register_node(node, &draw_linked_sprite_nodes);
-    state = node + 0x20;
-    render_data = ((S_8003719C_0 *)node)->unk_08;
-    sprite = ((S_8003719C_0 *)node)->unk_0C;
+    state = (void *)(node + 1);
+    render_data = node->position;
+    sprite = (S_8003719C_3 *)node->sprite;
     state->unk_44 = script_data;
     state->unk_48 = 1;
     state->unk_4A = cursor_offset;
     runtime_initialize_state_value(transform, *script_data);
-    ((S_8003719C_0 *)node)->unk_20 = transform;
+    *(void **)(node + 1) = transform;
     transform->unk_60 = 6;
-    ((S_8003719C_5 *)(((S_8003719C_4 *)node)->unk_20))->unk_10 = 0x47;
-    ((S_8003719C_5 *)(((S_8003719C_4 *)node)->unk_20))->unk_14 = 2;
+    ((S_8003719C_5 *)(*(void **)(node + 1)))->unk_10 = 0x47;
+    ((S_8003719C_5 *)(*(void **)(node + 1)))->unk_14 = 2;
     state->unk_04 = 0;
     state->unk_08 = 0;
     prepend_embedded_object_node(owner, state);

@@ -30,15 +30,6 @@ typedef struct S_8016FCE4_0 {
     u16 unk_88;
 } S_8016FCE4_0;   /* arg3 in advance_boss_actor_movement_state */
 
-typedef struct S_8016FCE4_1 {
-    u8 pad_00[0x24];
-    union {
-        struct { u8 v; } at00;
-        struct { u16 v; } at00u;
-        struct { u8 pad[0x1]; u8 v; } at01;
-    } unk_24;   /* overlapping accesses */
-    u8 unk_26;
-} S_8016FCE4_1;   /* arg2 in advance_boss_actor_movement_state */
 
 typedef struct S_8016FCE4_4 {
     u8 pad_00[0x2A];
@@ -101,12 +92,12 @@ void advance_boss_actor_movement_state(void *move_state, void *unused, void *pos
         move_flags = ((S_8016FCE4_0 *)actor_in)->unk_1C;
         if (move_flags & 0x410) {
             if (move_flags & 0x400) {
-                target = find_adjacent_actor(actor_in, ((S_8016FCE4_1 *)position_in)->unk_24.at00.v,
-                    ((S_8016FCE4_1 *)position_in)->unk_24.at01.v);
+                target = find_adjacent_actor(actor_in, ((ActorRecord *)position_in)->mp_value.parts.fraction,
+                    ((ActorRecord *)position_in)->mp_value.parts.whole);
                 if (target != 0) {
                     target_position = ((SpriteLinkPrefixView *)target)[-1].sprite;
-                    ((S_8016FCE4_0 *)actor_in)->unk_2A.u = get_rounded_facing_and_rounding_flag(((S_8016FCE4_1 *)position_in)->unk_24.at00.v,
-                        ((S_8016FCE4_1 *)position_in)->unk_24.at01.v, target_position->tile_x, target_position->tile_y,
+                    ((S_8016FCE4_0 *)actor_in)->unk_2A.u = get_rounded_facing_and_rounding_flag(((ActorRecord *)position_in)->mp_value.parts.fraction,
+                        ((ActorRecord *)position_in)->mp_value.parts.whole, target_position->tile_x, target_position->tile_y,
                         move_state + 0x98);
                     ((S_8016FCE4_0 *)actor_in)->unk_71.u = ((S_8016FCE4_0 *)actor_in)->unk_71.u & 0x7F;
                     return;
@@ -118,8 +109,8 @@ void advance_boss_actor_movement_state(void *move_state, void *unused, void *pos
                     ((S_8016FCE4_0 *)actor_in)->unk_2A.u += (generate_random_value() & 7) << 9;
                 }
             } else {
-                move_result = probe_directional_neighbor(actor_in, ((S_8016FCE4_1 *)position_in)->unk_24.at00.v,
-                    ((S_8016FCE4_1 *)position_in)->unk_24.at01.v, (s16) ((S_8016FCE4_0 *)actor_in)->unk_2A.u);
+                move_result = probe_directional_neighbor(actor_in, ((ActorRecord *)position_in)->mp_value.parts.fraction,
+                    ((ActorRecord *)position_in)->mp_value.parts.whole, (s16) ((S_8016FCE4_0 *)actor_in)->unk_2A.u);
                 if (move_result != 0) {
                     ((S_8016FCE4_0 *)actor_in)->unk_71.s = (s8) ((u8) ((S_8016FCE4_0 *)actor_in)->unk_71.s & 0x7F);
                     return;
@@ -140,21 +131,21 @@ void advance_boss_actor_movement_state(void *move_state, void *unused, void *pos
                         << 0x10) >> 0x19)) & 7) * 2;
                     target_x = position_base->tile_position.parts.tile_x + *(u16 *)(x_table_base + dir_index);
                     target_y = reference_tile_object.tile_position.parts.tile_y + *(u16 *)(((u8 *)dir_step_y) + dir_index);
-                    if ((((S_8016FCE4_1 *)position_in)->unk_24.at00.v != (u16)target_x)
-                        || (((S_8016FCE4_1 *)position_in)->unk_24.at01.v != (u16)target_y)) {
+                    if ((((ActorRecord *)position_in)->mp_value.parts.fraction != (u16)target_x)
+                        || (((ActorRecord *)position_in)->mp_value.parts.whole != (u16)target_y)) {
                         heading_state = move_state + 0x98;
-                        target_heading = get_rounded_facing_and_rounding_flag(((S_8016FCE4_1 *)position_in)->unk_24.at00.v,
-                            ((S_8016FCE4_1 *)position_in)->unk_24.at01.v, (s16) target_x, (s16) target_y,
+                        target_heading = get_rounded_facing_and_rounding_flag(((ActorRecord *)position_in)->mp_value.parts.fraction,
+                            ((ActorRecord *)position_in)->mp_value.parts.whole, (s16) target_x, (s16) target_y,
                             heading_state);
                         ((S_8016FCE4_0 *)actor_in)->unk_2A.u = (u16) target_heading;
                         if ((check_movement_clearance_and_height(target_heading, position_in, actor_in, 0x20) << 0x10) <= 0) {
                             ((S_8016FCE4_0 *)actor_in)->unk_2A.u =
-                                get_rounded_facing_and_rounding_flag(((S_8016FCE4_1 *)position_in)->unk_24.at00.v,
-                                ((S_8016FCE4_1 *)position_in)->unk_24.at01.v, D_80082E80_b.tile_position.parts.tile_x, D_80082E80_b.tile_position.parts.tile_y,
+                                get_rounded_facing_and_rounding_flag(((ActorRecord *)position_in)->mp_value.parts.fraction,
+                                ((ActorRecord *)position_in)->mp_value.parts.whole, D_80082E80_b.tile_position.parts.tile_x, D_80082E80_b.tile_position.parts.tile_y,
                                 heading_state);
                         }
-                        move_result = test_neighbor_position_relation(((S_8016FCE4_1 *)position_in)->unk_24.at00.v,
-                            ((S_8016FCE4_1 *)position_in)->unk_24.at01.v, D_80082E80_b.tile_position.parts.tile_x, D_80082E80_b.tile_position.parts.tile_y);
+                        move_result = test_neighbor_position_relation(((ActorRecord *)position_in)->mp_value.parts.fraction,
+                            ((ActorRecord *)position_in)->mp_value.parts.whole, D_80082E80_b.tile_position.parts.tile_x, D_80082E80_b.tile_position.parts.tile_y);
                         if ((move_result << 0x10) != 0) {
                             limit_turns = 1;
                         }
@@ -191,21 +182,21 @@ void advance_boss_actor_movement_state(void *move_state, void *unused, void *pos
                 {
                     ((S_8016FCE4_0 *)actor_in)->unk_2A.u = (u16) trial_heading;
                     ((ActorStatusBytesView *)((actor_in + ((u8) ((S_8016FCE4_0 *)actor_in)->unk_71.s & 0x7F))))->path_x =
-                        (u8) ((S_8016FCE4_1 *)position_in)->unk_24.at00.v;
+                        (u8) ((ActorRecord *)position_in)->mp_value.parts.fraction;
                     ((ActorStatusBytesView *)((actor_in + ((u8) ((S_8016FCE4_0 *)actor_in)->unk_71.s & 0x7F))))->path_y =
-                        (u8) ((S_8016FCE4_1 *)position_in)->unk_24.at01.v;
+                        (u8) ((ActorRecord *)position_in)->mp_value.parts.whole;
                     ((S_8016FCE4_0 *)actor_in)->unk_71.s = (s8) ((u8) ((S_8016FCE4_0 *)actor_in)->unk_71.s + 1);
-                    update_map_cell_flags_with_item_limit(((S_8016FCE4_1 *)position_in)->unk_24.at00.v,
-                        ((S_8016FCE4_1 *)position_in)->unk_24.at01.v,
+                    update_map_cell_flags_with_item_limit(((ActorRecord *)position_in)->mp_value.parts.fraction,
+                        ((ActorRecord *)position_in)->mp_value.parts.whole,
                                   (((S_8016FCE4_0 *)actor_in)->unk_1C & 0x2000) ? 0x300 : 0x3000);
                     step_coord = ((u16) ((S_8016FCE4_0 *)actor_in)->unk_2A.u >> 8) & 0xE;
-                    ((S_8016FCE4_1 *)position_in)->unk_24.at00.v =
-                        advance_tile(((S_8016FCE4_1 *)position_in)->unk_24.at00.v, x_offsets, step_coord);
+                    ((ActorRecord *)position_in)->mp_value.parts.fraction =
+                        advance_tile(((ActorRecord *)position_in)->mp_value.parts.fraction, x_offsets, step_coord);
                     y_address = step_coord + (s32)((u8 *)dir_step_y);
-                    ((S_8016FCE4_1 *)position_in)->unk_24.at01.v =
-                        advance_tile(((S_8016FCE4_1 *)position_in)->unk_24.at01.v, (u8 *)y_address, 0);
-                    step_coord = ((S_8016FCE4_1 *)position_in)->unk_24.at00.v;
-                    tile_y = ((S_8016FCE4_1 *)position_in)->unk_24.at01.v;
+                    ((ActorRecord *)position_in)->mp_value.parts.whole =
+                        advance_tile(((ActorRecord *)position_in)->mp_value.parts.whole, (u8 *)y_address, 0);
+                    step_coord = ((ActorRecord *)position_in)->mp_value.parts.fraction;
+                    tile_y = ((ActorRecord *)position_in)->mp_value.parts.whole;
                     if (((S_8016FCE4_0 *)actor_in)->unk_1C & 0x2000) {
                         tile_mask = 0x300;
                     } else {
@@ -215,7 +206,7 @@ void advance_boss_actor_movement_state(void *move_state, void *unused, void *pos
                     break;
                 }
             }
-            if ((turn_index != 0) || (reference_tile_object.tile_position.word == ((S_8016FCE4_1 *)position_in)->unk_24.at00u.v)
+            if ((turn_index != 0) || (reference_tile_object.tile_position.word == ((ActorRecord *)position_in)->mp_value.whole)
                 || ((check_entity_relation(actor_in, (previous_node = primary_actor_record->previous_actor_header,
                     previous_body = previous_node + 1, previous_actor = previous_body)) << 0x10) == 0)) {
                 turn_index += 1;
@@ -232,15 +223,15 @@ void advance_boss_actor_movement_state(void *move_state, void *unused, void *pos
             return;
         }
         ((S_8016FCE4_0 *)actor_in)->unk_46 = (u16) (((S_8016FCE4_0 *)actor_in)->unk_46 & 0x7FFF);
-        ((Rec_func_800A9E70_arg0 *)move_state)->unk_9C.as_s8 = (s8) ((S_8016FCE4_1 *)position_in)->unk_26;
+        ((Rec_func_800A9E70_arg0 *)move_state)->unk_9C.as_s8 = (s8) ((ActorRecord *)position_in)->current_attack;
         ((S_8016FCE4_0 *)actor_in)->unk_6D.u = (u8) (((S_8016FCE4_0 *)actor_in)->unk_6D.u - 1);
         g_dungeon_status.activity_counts.parts.pending_movement_count = (u16) (((u16)g_dungeon_status.activity_counts.parts.pending_movement_count) + 1);
         if (((S_8016FCE4_0 *)actor_in)->unk_6D.s == 0) {
             ((S_8016FCE4_0 *)actor_in)->unk_71.s = (s8) ((u8) ((S_8016FCE4_0 *)actor_in)->unk_71.s & 0x7F);
             return;
         }
-        turn_index = (s16) sample_terrain_surface_height((((S_8016FCE4_1 *)position_in)->unk_24.at00.v << 6) | 0x20,
-            (((S_8016FCE4_1 *)position_in)->unk_24.at01.v << 6) | 0x20,
+        turn_index = (s16) sample_terrain_surface_height((((ActorRecord *)position_in)->mp_value.parts.fraction << 6) | 0x20,
+            (((ActorRecord *)position_in)->mp_value.parts.whole << 6) | 0x20,
             (s16) (((S_8016FCE4_0 *)actor_in)->unk_88 - 0x20));
         if (turn_index < 0x200) {
             ((S_8016FCE4_0 *)actor_in)->unk_88 = (u16) turn_index;

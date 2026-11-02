@@ -1,94 +1,12 @@
 #include "common.h"
 #include "shared/widget_views.h"
 #include "frontend/libcard.h"
-
-typedef struct S_80023258_0 {
-    u8 pad_00[0x80];
-    s32 unk_80;
-    s32 unk_84;
-    s32 unk_88;
-    s32 unk_8C;
-    u8 pad_90[0x114];
-    void * unk_1A4;
-} S_80023258_0;   /* arg0 in card_boot_animate_three_row_selection */
-
-typedef struct S_80023258_1 {
-    u8 pad_00[0x4];
-    void * unk_04;
-} S_80023258_1;   /* initial_node in card_boot_animate_three_row_selection */
+#include "frontend/libcard/message.h"
 
    /* initial_data in card_boot_animate_three_row_selection */
 
-typedef struct S_80023258_3 {
-    u8 pad_00[0x7C];
-    u8 unk_7C;
-} S_80023258_3;   /* cursor1 in card_boot_animate_three_row_selection */
-
-typedef struct S_80023258_4 {
-    u8 pad_00[0x1A8];
-    void * unk_1A8;
-    u8 pad_1AC[0xC];
-    void * unk_1B8;
-    u8 pad_1BC[0xC];
-    void * unk_1C8;
-    u8 pad_1CC[0xC];
-    void * unk_1D8;
-} S_80023258_4;   /* cursor4 in card_boot_animate_three_row_selection */
-
-typedef struct S_80023258_5 {
-    u8 pad_00[0x4];
-    void * unk_04;
-} S_80023258_5;   /* node in card_boot_animate_three_row_selection */
-
-typedef struct S_80023258_6 {
-    u8 pad_00[0x4];
-    void * unk_04;
-} S_80023258_6;   /* ((S_80023258_4 *)cursor4)->unk_1C8 in card_boot_animate_three_row_selection */
-
-typedef struct S_80023258_7 {
-    u8 pad_00[0x4];
-    void * unk_04;
-} S_80023258_7;   /* ((S_80023258_4 *)cursor4)->unk_1D8 in card_boot_animate_three_row_selection */
-
-typedef struct S_80023258_8 {
-    u8 pad_00[0x4];
-    void * unk_04;
-} S_80023258_8;   /* ((S_80023258_4 *)cursor4)->unk_1A8 in card_boot_animate_three_row_selection */
-
-typedef struct S_80023258_9 {
-    u8 pad_00[0x4];
-    void * unk_04;
-} S_80023258_9;   /* ((S_80023258_4 *)cursor4)->unk_1B8 in card_boot_animate_three_row_selection */
-
-typedef struct S_80023258_10 {
-    u8 pad_00[0x2];
-    u8 unk_02;
-} S_80023258_10;   /* ((S_80023258_5 *)node)->unk_04 in card_boot_animate_three_row_selection */
-
-typedef struct S_80023258_11 {
-    u8 unk_00;
-    u8 unk_01;
-    u8 pad_02[0x6];
-    s16 unk_08;
-} S_80023258_11;   /* ((S_80023258_6 *)(((S_80023258_4 *)cursor4)->unk_1C8))->unk_04 in card_boot_animate_three_row_selection */
-
-typedef struct S_80023258_12 {
-    u8 pad_00[0x8];
-    s16 unk_08;
-} S_80023258_12;   /* ((S_80023258_7 *)(((S_80023258_4 *)cursor4)->unk_1D8))->unk_04 in card_boot_animate_three_row_selection */
-
-typedef struct S_80023258_13 {
-    u8 pad_00[0x8];
-    s16 unk_08;
-} S_80023258_13;   /* ((S_80023258_8 *)(((S_80023258_4 *)cursor4)->unk_1A8))->unk_04 in card_boot_animate_three_row_selection */
-
-typedef struct S_80023258_14 {
-    u8 pad_00[0x8];
-    s16 unk_08;
-} S_80023258_14;   /* ((S_80023258_9 *)(((S_80023258_4 *)cursor4)->unk_1B8))->unk_04 in card_boot_animate_three_row_selection */
-
 /* Animate the selection marker and entry offsets, then advance the frame counter. */
-s32 card_boot_animate_three_row_selection(S_80023258_0 *state)
+s32 card_boot_animate_three_row_selection(CardCommandPanelBody *state)
 {
     s32 start_index;
     s32 index_delta;
@@ -103,32 +21,33 @@ s32 card_boot_animate_three_row_selection(S_80023258_0 *state)
     s32 old_offset;
     s32 next_offset;
     u8 offset;
-    S_80023258_5 *color_node;
-    S_80023258_1 *marker_node;
-    SignedWidgetYView *marker_data;
+    CardMenuDisplayNode *color_node;
+    CardMenuDisplayNode *marker_node;
+    MenuDisplayBlock *marker_data;
 
-    start_index = state->unk_8C;
-    index_delta = state->unk_88 - start_index;
-    scaled_frame = state->unk_84 * 0x10;
-    position_delta = (index_delta * scaled_frame) / state->unk_80;
+    start_index = state->previous_selection;
+    index_delta = state->selected_entry - start_index;
+    scaled_frame = state->animation_tick * 0x10;
+    position_delta = (index_delta * scaled_frame) / state->animation_frames;
     entry_index = 0;
-    marker_node = state->unk_1A4;
-    marker_data = marker_node->unk_04;
+    marker_node = state->marker;
+    marker_data = marker_node->block;
     position_delta += 10;
-    marker_data->unk_0A = start_index * 0x10 + position_delta;
+    marker_data->fields.y = start_index * 0x10 + position_delta;
 
     do {
-        old_offset = ((S_80023258_3 *)((u8 *)state + entry_index))->unk_7C;
+        old_offset = state->row_offsets[entry_index];
+        /* Keep the byte-walk address used by the retail induction. */
         offset_slot = ((u8 *)state + entry_index) + 0x7C;
-        if (entry_index == state->unk_88) {
+        if (entry_index == state->selected_entry) {
             s32 offset_left;
             s32 active_offset;
             register s32 offset_step;
 
             active_offset = old_offset;
             offset_left = 8;
-            result_2 = state->unk_80;
-            frame = state->unk_84;
+            result_2 = state->animation_frames;
+            frame = state->animation_tick;
             offset_left -= active_offset;
             result_2 -= frame;
             result_2++;
@@ -141,37 +60,31 @@ s32 card_boot_animate_three_row_selection(S_80023258_0 *state)
             }
         }
         *offset_slot = next_offset;
-        offset = ((S_80023258_3 *)((u8 *)state + entry_index))->unk_7C;
+        offset = state->row_offsets[entry_index];
 
-        ((S_80023258_11 *)(((S_80023258_6 *)(((S_80023258_4 *)((u8 *)state
-            + entry_index * 4))->unk_1C8))->unk_04))->unk_08 =
+        state->highlight[entry_index]->block->fields.x =
             offset + 0x24;
-        ((S_80023258_12 *)(((S_80023258_7 *)(((S_80023258_4 *)((u8 *)state
-            + entry_index * 4))->unk_1D8))->unk_04))->unk_08 =
+        state->labels[entry_index]->block->fields.x =
             offset + 0x8F;
-        ((S_80023258_13 *)(((S_80023258_8 *)(((S_80023258_4 *)((u8 *)state
-            + entry_index * 4))->unk_1A8))->unk_04))->unk_08 =
+        state->left[entry_index]->block->fields.x =
             offset + 9;
-        ((S_80023258_14 *)(((S_80023258_9 *)(((S_80023258_4 *)((u8 *)state
-            + entry_index * 4))->unk_1B8))->unk_04))->unk_08 =
+        state->right[entry_index]->block->fields.x =
             offset + 0x42;
 
-        ((S_80023258_11 *)(((S_80023258_6 *)(((S_80023258_4 *)((u8 *)state
-            + entry_index * 4))->unk_1C8))->unk_04))->unk_00 =
-            ((S_80023258_3 *)((u8 *)state + entry_index))->unk_7C * 3 + 0x68;
-        ((S_80023258_11 *)(((S_80023258_6 *)(((S_80023258_4 *)((u8 *)state
-            + entry_index * 4))->unk_1C8))->unk_04))->unk_01 =
-            ((S_80023258_3 *)((u8 *)state + entry_index))->unk_7C * 3 + 0x68;
-        color_node = ((S_80023258_4 *)((u8 *)state + entry_index * 4))->unk_1C8;
-        ((S_80023258_10 *)(color_node->unk_04))->unk_02 =
-            ((S_80023258_3 *)((u8 *)state + entry_index))->unk_7C * 4 + 0x60;
+        state->highlight[entry_index]->block->color.r =
+            state->row_offsets[entry_index] * 3 + 0x68;
+        state->highlight[entry_index]->block->color.g =
+            state->row_offsets[entry_index] * 3 + 0x68;
+        color_node = state->highlight[entry_index];
+        color_node->block->color.b =
+            state->row_offsets[entry_index] * 4 + 0x60;
         entry_index++;
     } while (entry_index < 3);
 
-    end_frame = state->unk_84;
-    if (end_frame < state->unk_80) {
+    end_frame = state->animation_tick;
+    if (end_frame < state->animation_frames) {
         result = end_frame + 1;
-        state->unk_84 = result;
+        state->animation_tick = result;
     } else {
         result = end_frame + 1;
     }

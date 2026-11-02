@@ -12,12 +12,6 @@ typedef struct { u16 flags; } AnimationFieldView_813374E8Prefix;
 #endif
 
 
-typedef struct S_8016E4E8_1 {
-    u8 pad_00[0xC];
-    u8 unk_0C;
-    u8 unk_0D;
-    u8 unk_0E;
-} S_8016E4E8_1;   /* arg2 in emit_multi_form_ring_geometry */
 
 typedef struct S_8016E4E8_2 {
     u8 pad_00[0x18];
@@ -71,7 +65,7 @@ extern Data12 D_80173B4C;
 /* Advances the color fade and creates two rows of animated textured geometry. */
 /* Fades the effect color while creating two textured rows with copied vertices and cycling texture
  * coordinates. */
-void emit_multi_form_ring_geometry(MultiFormSegmentRingBody *animation, s32 *origin, void *color)
+void emit_multi_form_ring_geometry(MultiFormSegmentRingBody *animation, s32 *origin, SpriteFrameState *color)
 {
     s32 bottom_y;
     u16 tick_count;
@@ -96,11 +90,11 @@ void emit_multi_form_ring_geometry(MultiFormSegmentRingBody *animation, s32 *ori
     state = animation->unk_12.s;
     switch ((u32)state) {
     case 0:
-        ((S_8016E4E8_1 *)color)->unk_0C =
+        color->color.c.r =
             (animation->unk_00.u * (50 - animation->unk_18.s)) / 10;
-        ((S_8016E4E8_1 *)color)->unk_0D =
+        color->color.c.g =
             (animation->unk_01 * (50 - animation->unk_18.s)) / 10;
-        ((S_8016E4E8_1 *)color)->unk_0E =
+        color->color.c.b =
             (animation->unk_02 * (50 - animation->unk_18.s)) / 10;
         animation->unk_18.u--;
         if (animation->unk_18.s >= 41) {
@@ -125,11 +119,11 @@ void emit_multi_form_ring_geometry(MultiFormSegmentRingBody *animation, s32 *ori
 
     case 4:
         animation->unk_18.u--;
-        ((S_8016E4E8_1 *)color)->unk_0C =
+        color->color.c.r =
             (animation->unk_00.u * animation->unk_18.s) / 20;
-        ((S_8016E4E8_1 *)color)->unk_0D =
+        color->color.c.g =
             (animation->unk_01 * animation->unk_18.s) / 20;
-        ((S_8016E4E8_1 *)color)->unk_0E =
+        color->color.c.b =
             (animation->unk_02 * animation->unk_18.s) / 20;
         if (animation->unk_18.s > 0) {
             break;
@@ -175,9 +169,9 @@ void emit_multi_form_ring_geometry(MultiFormSegmentRingBody *animation, s32 *ori
             effect->unk_0C = 0x80;
 
             do {
-                part[color_index * 4] = ((S_8016E4E8_1 *)color)->unk_0C;
-                part[color_index * 4 + 1] = ((S_8016E4E8_1 *)color)->unk_0D;
-                part[color_index * 4 + 2] = ((S_8016E4E8_1 *)color)->unk_0E;
+                part[color_index * 4] = color->color.c.r;
+                part[color_index * 4 + 1] = color->color.c.g;
+                part[color_index * 4 + 2] = color->color.c.b;
                 color_index++;
             } while (color_index < 4);
 

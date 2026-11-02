@@ -6,7 +6,7 @@
 
 
 /* Decrement the countdown, setting completion flags on expiry or advancing the position. */
-void finish_countdown_and_set_flags(void *object, s32 *position) {
+void finish_countdown_and_set_flags(TownObjectRecord *object, s32 *position) {
     u16 countdown;
 
     countdown = FIELD_U16(object, 0x6C) - 1;

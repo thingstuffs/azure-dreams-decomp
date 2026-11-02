@@ -11,7 +11,7 @@ extern s32 D_800D5360[];
 
 /* Initialize the actor, clear the shared flag, and set its handler and counter. */
 void initialize_actor_clear_shared_flag(TownObjectRecord *actor, s32 unused, void *init_param) {
-    initialize_object_entries((Struct800C5724 *)(actor), init_param, D_800D5360);
+    initialize_object_entries((actor), init_param, D_800D5360);
     D_80082710 = 0;
     actor->handler = &D_800C5620;
     actor->timer.as_s16 = 0x15;

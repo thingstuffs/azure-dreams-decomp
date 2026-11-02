@@ -57,6 +57,6 @@ s32 move_value_toward_300(s32 value, struct S_800981D4_0 *field_ptr, struct Spri
 void process_player_motion_state(TownObjectRecord *object, s32 forwardedArg1, s32 forwardedArg2);
 
 /* set_motion_handler_and_copy_signed_byte.c */
-void set_motion_handler_and_copy_signed_byte(TownObjectRecord *record_data, void *placement, struct SpriteFrameState *unused_sprite);
+void set_motion_handler_and_copy_signed_byte(TownObjectRecord *record_data, ObjectPosition *placement, struct SpriteFrameState *unused_sprite);
 
 #endif

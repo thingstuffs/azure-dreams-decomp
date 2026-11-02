@@ -441,8 +441,8 @@ extern u8 D_800CFCAC[];
 extern GlobalState D_80083160;
 
 /* Shared import declarations; data casts preserve each measured view. */
-extern u8 town_map_column_extent[];
-extern u8 town_map_row_extent[];
+extern s32 town_map_column_extent;
+extern s32 town_map_row_extent;
 s32 check_scratch_quad_half_turn_gaps(void *scratch);
 
 /* Functions defined in this translation unit. */

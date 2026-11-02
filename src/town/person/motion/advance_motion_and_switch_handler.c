@@ -20,7 +20,7 @@ void advance_motion_and_switch_handler(TownObjectRecord *object, EntityRec *moti
     motion->z.v = (s32) (motion->z.v + motion->flags14);
     add_hex_20000_s_signed_offset_hex_14(motion);
     if (motion->flags14 >= 0) {
-        initialize_object_entries((Struct800C5724 *)(object), context, object->descriptor->entries[8]);
+        initialize_object_entries((object), context, object->descriptor->entries[8]);
         object->handler = &D_800C3EAC;
     }
 }

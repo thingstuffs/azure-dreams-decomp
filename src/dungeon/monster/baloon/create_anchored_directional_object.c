@@ -15,23 +15,6 @@
 #endif
 
 
-typedef struct S_80D653B8_2 {
-    u8 pad_00[0x6];
-    s16 unk_06;
-    u8 pad_08[0x4];
-    u8 unk_0C;
-    u8 unk_0D;
-    u8 unk_0E;
-    u8 pad_0F[0x1];
-    s16 unk_10;
-    u16 unk_12;
-    u16 unk_14;
-    u8 pad_16[0x6];
-    s16 unk_1C;
-    s16 unk_1E;
-    u8 pad_20[0xC];
-    void * unk_2C;
-} S_80D653B8_2;   /* object_data in create_anchored_directional_object */
 
    /* position in create_anchored_directional_object */
 
@@ -53,7 +36,7 @@ extern u8 baloon_anchored_frames[];
 /* Creates an object from a template, selects its direction, and positions it at the anchor. */
 /* Copies a sprite template into a timed Baloon effect, selects anchored directional frames, and links it
  * to the origin. */
-void create_anchored_directional_object(void *unused, S_80D653B8_5 *anchor, S_80D653B8_2 *object_template,
+void create_anchored_directional_object(void *unused, S_80D653B8_5 *anchor, SpriteFrameState *object_template,
                    ActorRecord *facing_source, s32 initial_value)
 {
     ObjectNodeHeader *object;
@@ -70,7 +53,7 @@ void create_anchored_directional_object(void *unused, S_80D653B8_5 *anchor, S_80
         object->update_callback = D_800D6FEC;
         object_work->source_position = anchor;
         object_data = object->sprite;
-        *(S_80D653B8_2 *)object_data = *object_template;
+        *object_data = *object_template;
 
         object_data->scale_y = 0x1000;
         object_data->scale_x = 0x1000;

@@ -34,16 +34,6 @@ extern s32 random_below_limit(s32);
 extern u8 baloon_hop_frames[];
 extern LocalTable baloon_motion_direction_vectors;
 
-typedef struct S_8017450C_3 {
-    u8 pad_00[0x14];
-    u32 unk_14;
-    u8 pad_18[0x4];
-    u32 unk_1C;
-    u8 pad_20[0xA];
-    s16 unk_2A;
-    u8 pad_2C[0x5C];
-    u16 unk_88;
-} S_8017450C_3;   /* actor in update_monster_staged_motion */
 
 
 /* Update the monster's staged motion, choose a nearby destination, and clean up its actor. */
@@ -80,7 +70,7 @@ void update_monster_staged_motion(ActorRecord *body, ObjectPosition *motion, Spr
         facing_angle = 0;
         do {
             if (((g_game_work.view.camera_rotation.parts.viewAngle + facing_angle + 0x100) >> 9 & 7) == 2) {
-                ((S_8017450C_3 *)actor)->unk_2A = facing_angle;
+                ((ActorRecord *)actor)->facing = facing_angle;
             }
             facing_angle += 0x200;
         } while (facing_angle < 0x1000);
@@ -88,12 +78,12 @@ void update_monster_staged_motion(ActorRecord *body, ObjectPosition *motion, Spr
         {
             u8 *animation_table = baloon_hop_frames;
             (sprite->frameTable) = animation_table;
-            direction_index = (g_game_work.view.camera_rotation.parts.viewAngle + ((S_8017450C_3 *)actor)->unk_2A + 0x100) >> 9 & 7;
+            direction_index = (g_game_work.view.camera_rotation.parts.viewAngle + ((ActorRecord *)actor)->facing + 0x100) >> 9 & 7;
             select_sprite_entry(sprite, animation_table[direction_index], 0);
             body->action_state_flags |= 8;
-            ((S_8017450C_3 *)actor)->unk_1C &= 0xFFFBFFFF;
-            body->unk_90.parts.high.u += ((S_8017450C_3 *)actor)->unk_88;
-            ((S_8017450C_3 *)actor)->unk_88 = 0;
+            ((ActorRecord *)actor)->flags1C &= 0xFFFBFFFF;
+            body->unk_90.parts.high.u += ((ActorRecord *)actor)->ground_height;
+            ((ActorRecord *)actor)->ground_height = 0;
         }
         {
             u16 next_state = body->action_phase.u;
@@ -183,9 +173,9 @@ void update_monster_staged_motion(ActorRecord *body, ObjectPosition *motion, Spr
             scaled_speed = body->unk_AC.halves.high.s * trig_value;
             {
                 u8 *direction_entry = (u8 *)&direction_table;
-                direction.x = (*(u16 *)(direction_entry + (((((S_8017450C_3 *)actor)->unk_2A - 0x400) >> 7) & 0x1C)));
+                direction.x = (*(u16 *)(direction_entry + (((((ActorRecord *)actor)->facing - 0x400) >> 7) & 0x1C)));
                 direction_entry +=
-                    ((((S_8017450C_3 *)actor)->unk_2A - 0x400) >> 7) & 0x1C;
+                    ((((ActorRecord *)actor)->facing - 0x400) >> 7) & 0x1C;
                 direction.y = (*(u16 *)(direction_entry + (2)));
 
                 body->unk_90.value += scaled_speed << 4;
@@ -268,8 +258,8 @@ void update_monster_staged_motion(ActorRecord *body, ObjectPosition *motion, Spr
         if ((s16)(body->action_timer.u++) < 0xA) {
             return;
         }
-        if (((S_8017450C_3 *)actor)->unk_14 & 0x4000) {
-            if (!(((S_8017450C_3 *)actor)->unk_14 & 0x20000000)) {
+        if (((ActorRecord *)actor)->flags14 & 0x4000) {
+            if (!(((ActorRecord *)actor)->flags14 & 0x20000000)) {
                 announce_familiar_defeat((void *)actor);
             }
         }
@@ -290,7 +280,7 @@ void update_monster_staged_motion(ActorRecord *body, ObjectPosition *motion, Spr
         detach_record_and_update_slot_state((void *)actor);
         tile_x = sprite->tile_x;
         tile_y = sprite->tile_y;
-        if (((S_8017450C_3 *)actor)->unk_1C & 0x2000) {
+        if (((ActorRecord *)actor)->flags1C & 0x2000) {
             tile_flags = 0x300;
         } else {
             tile_flags = 0x3000;

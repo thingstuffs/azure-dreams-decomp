@@ -8,13 +8,6 @@
 #include "dungeon/item.h"
 #include "dungeon/effect.h"
 
-typedef struct S_80171F9C_0 {
-    u8 pad_00[0x24];
-    u8 unk_24;
-    u8 unk_25;
-    u8 pad_26[0x6];
-    u8 * unk_2C;
-} S_80171F9C_0;   /* held_arg2 in select_and_start_target_action */
 
 extern s32 prepare_directional_attack();
 extern s32 get_actor_height_difference();
@@ -107,12 +100,12 @@ s32 select_and_start_target_action(ActorRecord *action_state, ObjectPosition *ac
             {
                 u8 *phase_page;
                 phase_page = (u8 *)0x80080000;
-                select_sprite_entry(((S_80171F9C_0 *)(visual_data)),
+                select_sprite_entry(visual_data,
                     (*(u8 **)&visual_data->frameTable)[((*(s16 *)(phase_page + 0x3228) + actor->facing + 0x100)
                     >> 9) & 7], 0);
             }
             actor->pending_turn_updates--;
-            prepare_directional_attack(actor, ((S_80171F9C_0 *)(visual_data)), actor->facing, 1, 0);
+            prepare_directional_attack(actor, visual_data, actor->facing, 1, 0);
             stored_amount = action_state->unk_90.parts.high.u;
             pending_amount = action_state->unk_A0.parts.high;
             action_state->unk_A0.parts.high = 0;

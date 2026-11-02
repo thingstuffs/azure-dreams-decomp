@@ -6,17 +6,6 @@
 #include "shared/actor_status.h"
 #include "dungeon/level.h"
 
-typedef struct S_80171A18_0 {
-    u8 pad_00[0x1C];
-    s32 unk_1C;
-    u8 pad_20[0xA];
-    s16 unk_2A;
-    u8 pad_2C[0x45];
-    union { s8 s; u8 u; } unk_71;   /* accessed as both */
-    u8 pad_72[0x16];
-    u16 unk_88;
-    union { s16 s; u16 u; } unk_8A;   /* accessed as both */
-} S_80171A18_0;   /* arg3 in advance_actor_along_queued_path */
 
    /* cell in advance_actor_along_queued_path */
 
@@ -42,7 +31,7 @@ void advance_actor_along_queued_path(ActorRecord *motion, ObjectPosition *unused
     s32 move_offset;
     s32 remaining_offset;
 
-    if (((S_80171A18_0 *)move_state)->unk_71.s <= 0) {
+    if (((s8)move_state->movement_queue_state) <= 0) {
         return;
     }
     if (move_state->movement_queue_state <= move_state->unk_8A) {
@@ -62,10 +51,10 @@ void advance_actor_along_queued_path(ActorRecord *motion, ObjectPosition *unused
     if (actor->tile_x == next_cell->path_x
         && actor->tile_y == next_cell->path_y) {
         move_offset = motion->unk_90.parts.high.u;
-        remaining_offset = ((S_80171A18_0 *)move_state)->unk_88;
+        remaining_offset = ((u16)move_state->ground_height);
         motion->unk_90.parts.high.u = move_offset + 0x20;
         move_state->ground_height = remaining_offset - 0x20;
-        move_state->unk_8A = ((S_80171A18_0 *)move_state)->unk_8A.u + 1;
+        move_state->unk_8A = ((u16)move_state->unk_8A) + 1;
     } else {
         old_x = actor->tile_x;
         old_y = actor->tile_y;
@@ -79,7 +68,7 @@ void advance_actor_along_queued_path(ActorRecord *motion, ObjectPosition *unused
             + move_state->unk_8A))->path_x;
         actor->tile_y = ((ActorStatusBytesView *)((u8 *)move_state
             + move_state->unk_8A))->path_y;
-        ((S_80171A18_0 *)move_state)->unk_8A.u++;
+        move_state->unk_8A++;
 
         new_x = actor->tile_x;
         new_y = actor->tile_y;

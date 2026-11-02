@@ -14,19 +14,6 @@
 #include "engine/graphics.h"
 #include "dungeon/item.h"
 
-typedef struct S_801722BC_0 {
-    u8 pad_00[0x8C];
-    u8 * unk_8C;
-    s32 unk_90;
-    u8 pad_94[0x2];
-    u16 unk_96;
-    u16 unk_98;
-    u8 pad_9A[0x1];
-    u8 unk_9B;
-    u8 pad_9C[0x2];
-    union { u16 s; s16 u; } unk_9E;   /* accessed as both */
-    s32 unk_A0;
-} S_801722BC_0;   /* arg0 in complete_airborne_actor_recovery */
 
 
 extern s32 rsin(s32);
@@ -47,11 +34,11 @@ void complete_airborne_actor_recovery(void *action, ObjectPosition *motion, void
     s32 axis_pos;
     DungeonGlobalStatus *action_counter;
 
-    phase = ((S_801722BC_0 *)action)->unk_9B;
+    phase = ((ActorRecord *)action)->action_phase.u;
     switch (phase) {
     case 0:
-        timer_next = ((S_801722BC_0 *)action)->unk_9E.s - 1;
-        ((S_801722BC_0 *)action)->unk_9E.s = timer_next;
+        timer_next = ((ActorRecord *)action)->unk_9E.u - 1;
+        ((ActorRecord *)action)->unk_9E.u = timer_next;
         if ((s16)timer_next > 0) {
             break;
         }
@@ -61,16 +48,16 @@ void complete_airborne_actor_recovery(void *action, ObjectPosition *motion, void
             sprite,
             D_801765F0[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
             0);
-        ((S_801722BC_0 *)action)->unk_98 |= 8;
+        ((ActorRecord *)action)->action_state_flags |= 8;
         actor->flags1C &= ACTOR_GROUNDED_CLEAR_MASK;
-        ((S_801722BC_0 *)action)->unk_9E.s = 5;
-        ((S_801722BC_0 *)action)->unk_A0 = 0;
-        ((S_801722BC_0 *)action)->unk_9B++;
+        ((ActorRecord *)action)->unk_9E.u = 5;
+        ((ActorRecord *)action)->unk_A0.value = 0;
+        ((ActorRecord *)action)->action_phase.u++;
                         /* fallthrough */
 
     case 1:
-        ((S_801722BC_0 *)action)->unk_90 -= ((S_801722BC_0 *)action)->unk_A0;
-        move_ticks = ((S_801722BC_0 *)action)->unk_9E.u;
+        ((ActorRecord *)action)->unk_90.value -= ((ActorRecord *)action)->unk_A0.value;
+        move_ticks = ((ActorRecord *)action)->unk_9E.s;
         if (move_ticks != 0) {
             tile_delta = ((SpriteFrameState *)sprite)->tile_x << 6;
             axis_pos = motion->x.w.i;
@@ -83,25 +70,25 @@ void complete_airborne_actor_recovery(void *action, ObjectPosition *motion, void
             axis_pos -= 0x20;
             tile_delta -= axis_pos;
             motion->velocity_y =
-                (tile_delta << 16) / ((S_801722BC_0 *)action)->unk_9E.u;
-            ((S_801722BC_0 *)action)->unk_A0 =
-                (-rsin(((S_801722BC_0 *)action)->unk_9E.u * 0x199)) << 9;
+                (tile_delta << 16) / ((ActorRecord *)action)->unk_9E.s;
+            ((ActorRecord *)action)->unk_A0.value =
+                (-rsin(((ActorRecord *)action)->unk_9E.s * 0x199)) << 9;
         }
 
-        ((S_801722BC_0 *)action)->unk_90 += ((S_801722BC_0 *)action)->unk_A0;
-        timer_next = ((S_801722BC_0 *)action)->unk_9E.s - 1;
-        ((S_801722BC_0 *)action)->unk_9E.s = timer_next;
+        ((ActorRecord *)action)->unk_90.value += ((ActorRecord *)action)->unk_A0.value;
+        timer_next = ((ActorRecord *)action)->unk_9E.u - 1;
+        ((ActorRecord *)action)->unk_9E.u = timer_next;
         if ((s16)timer_next < 0) {
-            ((S_801722BC_0 *)action)->unk_90 = 0;
-            ((S_801722BC_0 *)action)->unk_98 &= 0xFFF7;
+            ((ActorRecord *)action)->unk_90.value = 0;
+            ((ActorRecord *)action)->action_state_flags &= 0xFFF7;
             actor->flags1C |= ACTOR_GROUNDED;
-            ((S_801722BC_0 *)action)->unk_9B++;
+            ((ActorRecord *)action)->action_phase.u++;
         }
                         /* fallthrough */
 
     case 2:
         if (actor->flags1C & ACTOR_GROUNDED) {
-            ((S_801722BC_0 *)action)->unk_98 &= 0xFFF7;
+            ((ActorRecord *)action)->action_state_flags &= 0xFFF7;
             motion->velocity_z = 0;
             motion->velocity_y = 0;
             motion->velocity_x = 0;
@@ -113,13 +100,13 @@ void complete_airborne_actor_recovery(void *action, ObjectPosition *motion, void
                 sprite,
                 D_801765F8[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
                 0);
-            ((S_801722BC_0 *)action)->unk_9B++;
+            ((ActorRecord *)action)->action_phase.u++;
         }
         break;
     }
 
-    timer_next = ((S_801722BC_0 *)action)->unk_96 - 1;
-    ((S_801722BC_0 *)action)->unk_96 = timer_next;
+    timer_next = ((ActorRecord *)action)->action_timer.u - 1;
+    ((ActorRecord *)action)->action_timer.u = timer_next;
     if ((s16)timer_next <= 0) {
         motion->velocity_z = 0;
         motion->velocity_y = 0;
@@ -149,7 +136,7 @@ void complete_airborne_actor_recovery(void *action, ObjectPosition *motion, void
         }
 
         if ((check_actor_floor_trap(sprite, actor) << 16) > 0) {
-            ((S_801722BC_0 *)action)->unk_8C = manoeva_action_resume_address;
+            ((ActorRecord *)action)->unk_8C.byte_ptr = manoeva_action_resume_address;
             on_actor_status_updated(actor);
         }
     }

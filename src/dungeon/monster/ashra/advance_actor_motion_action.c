@@ -110,13 +110,13 @@ void advance_actor_motion_action(ActorRecord *action_state, ObjectPosition *posi
                 if (player_target != 0) {
                     target = primary_actor_record;
                     actor->target = target;
-                    action_globals = ((ObjectNodeHeader *)((u8 *)target - 0x20))->sprite;
+                    action_globals = ((ObjectNodeHeader *)target - 1)->sprite;
                     actor->target_tile_x = ((S_80172810_3 *)action_globals)->unk_24;
                     actor->target_tile_y = ((S_80172810_3 *)action_globals)->unk_25;
                 } else if (item_action_definitions[*motion].kind == 2) {
                     target = actor->target;
                     if (target != 0) {
-                        action_globals = ((ObjectNodeHeader *)((u8 *)target - 0x20))->sprite;
+                        action_globals = ((ObjectNodeHeader *)target - 1)->sprite;
                         actor->target_tile_x = ((S_80172810_3 *)action_globals)->unk_24;
                         actor->target_tile_y = ((S_80172810_3 *)action_globals)->unk_25;
                     }

@@ -20,7 +20,7 @@ void *allocate_object_with_child_entries(s32 kind, s32 part_byte_24, s32 part_by
     u16 saved_part_byte_24;
     ActorRecord *object;
     void *outer;
-    S_8015E8DC_4 *stable_object;
+    ActorRecord *stable_object;
     s32 kind_copy;
     SpriteFrameState *part;
     ObjectNodeHeader *allocated;
@@ -57,7 +57,7 @@ void *allocate_object_with_child_entries(s32 kind, s32 part_byte_24, s32 part_by
             part_callback = D_80163140;
             copy = root->position;
             ((S_8015E8DC_2 *)copy)->unk_08.at02.v = saved_copy_value;
-            stable_object = (S_8015E8DC_4 *)object;
+            stable_object = object;
             part = root->sprite;
             part->frameTable = part_callback;
         }
@@ -97,14 +97,14 @@ void *allocate_object_with_child_entries(s32 kind, s32 part_byte_24, s32 part_by
 
         outer = stable_object;
         outer_index = 0;
-        stable_object->unk_9A = 0xFF;
+        stable_object->action_id.u = 0xFF;
         stable_object->unk_9C = -1;
-        stable_object->unk_8C = D_8015F400;
+        stable_object->unk_8C.address = D_8015F400;
         object->flags1C |= 0x40000;
-        stable_object->unk_92 = -0x20;
-        stable_object->unk_A8 = 0;
-        stable_object->unk_9E = 1;
-        stable_object->unk_98 |= 0x4000;
+        stable_object->unk_90.parts.high.s = -0x20;
+        stable_object->unk_A8.s = 0;
+        stable_object->unk_9E.s = 1;
+        stable_object->action_state_flags |= 0x4000;
 
         do {
 
@@ -157,7 +157,7 @@ void *allocate_object_with_child_entries(s32 kind, s32 part_byte_24, s32 part_by
             {
                 s32 child_count;
 
-                child_count = stable_object->unk_9E;
+                child_count = stable_object->unk_9E.s;
                 outer_index++;
                 if (outer_index >= child_count) {
                     break;

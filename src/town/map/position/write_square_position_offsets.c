@@ -4,17 +4,11 @@
 
 s16 *town_map_mod_read_p();                       /* extern */
 
-typedef struct S_800A8BBC_0 {
-    u8 pad_00[0x2];
-    u16 unk_02;
-    u8 pad_04[0x2];
-    u16 unk_06;
-} S_800A8BBC_0;   /* arg4 in write_square_position_offsets */
 
 /* Writes four values to a square spaced 0x40 units apart ending at the given position. */
-void write_square_position_offsets(s16 top_left, s16 top_right, s16 bottom_left, s16 bottom_right, S_800A8BBC_0 *pos) {
-    *town_map_mod_read_p((s16) (pos->unk_02 - 0x40), (s16) (pos->unk_06 - 0x40)) = top_left;
-    *town_map_mod_read_p((s16) pos->unk_02, (s16) (pos->unk_06 - 0x40)) = top_right;
-    *town_map_mod_read_p((s16) (pos->unk_02 - 0x40), (s16) pos->unk_06) = bottom_left;
-    *town_map_mod_read_p((s16) pos->unk_02, (s16) pos->unk_06) = bottom_right;
+void write_square_position_offsets(s16 top_left, s16 top_right, s16 bottom_left, s16 bottom_right, TownPositionXY *pos) {
+    *town_map_mod_read_p((s16) (pos->x_integer - 0x40), (s16) (pos->y_integer - 0x40)) = top_left;
+    *town_map_mod_read_p((s16) pos->x_integer, (s16) (pos->y_integer - 0x40)) = top_right;
+    *town_map_mod_read_p((s16) (pos->x_integer - 0x40), (s16) pos->y_integer) = bottom_left;
+    *town_map_mod_read_p((s16) pos->x_integer, (s16) pos->y_integer) = bottom_right;
 }

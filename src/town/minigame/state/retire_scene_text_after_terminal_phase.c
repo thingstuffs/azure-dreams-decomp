@@ -1,6 +1,7 @@
 #include "common.h"
 #include "shared/object_flags.h"
 #include "town/minigame/state.h"
+#include "shared/object_node.h"
 
 typedef struct S_80020488_1 {
     u8 pad_00[0x2A];
@@ -26,7 +27,7 @@ void retire_scene_text_after_terminal_phase(TerminalSceneTextObject *context) {
         break;
     case 1:
         if (entity->unk_2A & 1) {
-            (*(u16 *)((u8 *)context + -2)) |= NODE_REMOVE;
+            (((ObjectNodeHeader *)context - 1)->flags) |= NODE_REMOVE;
             object_flag_block.flags |= OBJECT_REMOVE_PENDING;
         }
         break;

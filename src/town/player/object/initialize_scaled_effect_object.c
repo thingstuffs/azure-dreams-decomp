@@ -16,7 +16,7 @@ typedef struct S_800A6DA0_0 {
 extern M2C_UNK D_800D0DA8;
 
 /* Initializes the object and sets its transform scale to 0xC00 on all axes. */
-void initialize_scaled_effect_object(TownObjectRecord *object, void *position, struct SpriteFrameState *transform) {
+void initialize_scaled_effect_object(TownObjectRecord *object, ObjectPosition *position, struct SpriteFrameState *transform) {
     ((S_800A6DA0_0 *)((u8 *)object - 0x10))->unk_00 = &retire_object_on_check_or_callback;
     object->unk_50.as_s32 = 0;
     initialize_object_transform_and_state((s32)(object), transform, 0x48);

@@ -1,5 +1,6 @@
 #include "shared/audio_commands.h"
 #include "common.h"
+#include "engine/menu/selection_menu.h"
 #include "shared/game_work.h"
 
 /* Sparse view of the shared global state struct D_80083160: only the two
@@ -11,21 +12,6 @@
  * bytes into a larger allocation (base = (char*)obj - 0x20, passed to the
  * sibling init/reset routines func_80050DA8/func_80050EA8), and has a
  * "next state" callback pointer at offset -0x10. */
-typedef struct S_80050308 {
-    u8 pad00[0x4];
-    s32 unk04;        /* saved previous state-fn value */
-    u8 pad08[0x4];
-    s32 unk0C;         /* counter */
-    s32 unk10;         /* mode value (2 or 3) */
-    s32 unk14;
-    s32 unk18;
-    s32 unk1C;         /* wrapped index */
-    s32 unk20;         /* result of func_800502E0 */
-    u8 pad24[0x4];
-    void *unk28;       /* arg passed to func_800502E0 */
-    u8 pad2C[0x68 - 0x2C];
-    s32 unk68;         /* arg0 for animate_six_entry_selection_cursor */
-} S_80050308;
 
 typedef void (*StateFn_80050308)(void *);
 
@@ -36,12 +22,11 @@ extern s32 resolve_selected_menu_entry(void *a0);
 extern s32 call_state_callback(void *a0);
 extern void run_state_callback_and_restore(void *a0);
 extern s32 advance_index_with_single_wrap(s32 a0, s32 a1, s32 a2);
-extern void animate_six_entry_selection_cursor(s32 a0, void *a1);
 
 /* Handles object state changes and directional index updates from global input flags. */
 void handle_object_input(void *object)
 {
-    S_80050308 *obj = object;
+    MenuSelectionBody *obj = object;
     s32 action_flags;
     s32 direction;
 
@@ -52,12 +37,12 @@ void handle_object_input(void *object)
             begin_selection_menu_teardown_and_fade((char *)obj - 0x20);
         } else if (action_flags & 0x40) {
             SD_Call(AUDIO_ACCEPT);
-            obj->unk20 = resolve_selected_menu_entry(obj->unk28);
+            obj->result = resolve_selected_menu_entry(obj->unk_28);
             if (call_state_callback(obj) == 0) {
                 s32 prev_callback = *(s32 *)((char *)obj - 0x10);
 
                 *(StateFn_80050308 *)((char *)obj - 0x10) = run_state_callback_and_restore;
-                obj->unk04 = prev_callback;
+                obj->saved_callback_word = prev_callback;
             } else {
                 release_selection_menu_and_preserve_pending_value((char *)obj - 0x20);
             }
@@ -65,34 +50,34 @@ void handle_object_input(void *object)
             direction = 0;
             if (action_flags & 0x4000) {
                 direction = 1;
-                obj->unk0C = 0;
-                obj->unk10 = 3;
+                obj->repeat_ticks = 0;
+                obj->animation_frames = 3;
             } else if (action_flags & 0x1000) {
                 direction = -1;
-                obj->unk0C = 0;
-                obj->unk10 = 3;
-            } else if (obj->unk0C >= 3) {
+                obj->repeat_ticks = 0;
+                obj->animation_frames = 3;
+            } else if (obj->repeat_ticks >= 3) {
                 s32 repeat_flags;
 
-                obj->unk0C = obj->unk0C - 1;
+                obj->repeat_ticks = obj->repeat_ticks - 1;
                 repeat_flags = g_game_work.buttons;
                 if (repeat_flags & 0x4000) {
                     direction = 1;
-                    obj->unk10 = 2;
+                    obj->animation_frames = 2;
                 } else if (repeat_flags & 0x1000) {
                     direction = -1;
-                    obj->unk10 = 2;
+                    obj->animation_frames = 2;
                 }
             } else {
-                obj->unk0C = obj->unk0C + 1;
+                obj->repeat_ticks = obj->repeat_ticks + 1;
             }
             if (direction != 0) {
                 SD_Call(AUDIO_CURSOR_MOVE);
-                obj->unk18 = obj->unk1C;
-                obj->unk14 = 0;
-                obj->unk1C = advance_index_with_single_wrap(obj->unk1C, direction, 6);
+                obj->previous_selection = obj->selected_entry;
+                obj->animation_tick = 0;
+                obj->selected_entry = advance_index_with_single_wrap(obj->selected_entry, direction, 6);
             }
         }
     }
-    animate_six_entry_selection_cursor(obj->unk68, obj);
+    animate_six_entry_selection_cursor(obj->widgets, obj);
 }

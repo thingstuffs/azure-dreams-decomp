@@ -1,3 +1,4 @@
+#include "shared/sprite_frame_state.h"
 #include "common.h"
 #include "shared/object_flags.h"
 #include "shared/entity.h"
@@ -94,7 +95,7 @@ extern Pair16 glacier_direction_offsets[];
 /* Update a moving effect, its pushed objects, and its collision and end animations. */
 /* Moves an effect and pushed actors along tiles, checks terrain and occupants, and applies damage when
  * blocked. */
-void update_moving_item_effect(S_func_810332A4_1 *effect, S_func_810332A4_2 *motion, S_func_810332A4_3 *sprite)
+void update_moving_item_effect(S_func_810332A4_1 *effect, ObjectPosition *motion, SpriteFrameState *sprite)
 {
     u16 collision_flags;
     ActorRecord *owner;
@@ -138,9 +139,9 @@ void update_moving_item_effect(S_func_810332A4_1 *effect, S_func_810332A4_2 *mot
         timer = effect->unk_1E.u + 1;
         effect->unk_1E.u = timer;
         fade_value = ((s16)timer << 7) / 10;
-        sprite->unk_0E = fade_value;
-        sprite->unk_0D = fade_value;
-        sprite->unk_0C = fade_value;
+        sprite->color.c.b = fade_value;
+        sprite->color.c.g = fade_value;
+        sprite->color.c.r = fade_value;
         fade_value = effect->unk_1E.s < 10;
         if (fade_value) {
             return;
@@ -157,14 +158,14 @@ void update_moving_item_effect(S_func_810332A4_1 *effect, S_func_810332A4_2 *mot
         }
         effect->unk_16.u++;
         effect->unk_1E.u = 0;
-        motion->unk_0C = glacier_direction_offsets[effect->unk_1C].x << 20;
-        motion->unk_10 = glacier_direction_offsets[effect->unk_1C].y << 20;
+        motion->velocity_x = glacier_direction_offsets[effect->unk_1C].x << 20;
+        motion->velocity_y = glacier_direction_offsets[effect->unk_1C].y << 20;
         play_sound_if_enabled(0x808);
         return;
 
     case 2:
-        if ((effect->unk_4C.s << 6) + 0x20 == motion->unk_00.half.unk_02) {
-            if ((effect->unk_4D.s << 6) + 0x20 == motion->unk_04.half.unk_06) {
+        if ((effect->unk_4C.s << 6) + 0x20 == motion->x.w.i) {
+            if ((effect->unk_4D.s << 6) + 0x20 == motion->y.w.i) {
                 effect->unk_26 = 0;
                 get_offset_map_cell_value_and_flags(effect->unk_4C.s, effect->unk_4D.s,
                               effect->unk_1C, &collision_flags);
@@ -189,24 +190,24 @@ void update_moving_item_effect(S_func_810332A4_1 *effect, S_func_810332A4_2 *mot
                     check_x = (u16)coord_base;
                     check_y = object_y;
                     if ((check_left_tile_and_center_height(check_x, (u16)check_y,
-                                       motion->unk_0A.s) << 16) != 0) {
+                                       motion->z.w.i) << 16) != 0) {
                         effect->unk_26 = 1;
                     }
                     if (effect->unk_26 == 0) {
                         if (find_first_entry_matching_keys(owner, (u16)(s8)effect->unk_4C.u,
                                           (u16)(s8)effect->unk_4D.u,
-                                          motion->unk_0A.s) != 0) {
+                                          motion->z.w.i) != 0) {
                             effect->unk_26 = 1;
                         }
                     }
                     if (effect->unk_26 == 0) {
                         floor_height = sample_terrain_surface_height(check_x, (u16)check_y,
-                                              (s16)((u16)motion->unk_0A.s - 0x20));
+                                              (s16)((u16)motion->z.w.i - 0x20));
                         if (floor_height >= 0x200) {
                             effect->unk_26 = 1;
-                        } else if (floor_height > motion->unk_0A.s + 0x20) {
+                        } else if (floor_height > motion->z.w.i + 0x20) {
                             effect->unk_26 = 1;
-                        } else if (floor_height < motion->unk_0A.s) {
+                        } else if (floor_height < motion->z.w.i) {
                             effect->unk_26 = 1;
                         }
                     }
@@ -214,8 +215,8 @@ void update_moving_item_effect(S_func_810332A4_1 *effect, S_func_810332A4_2 *mot
                 if (effect->unk_26 == 1) {
                     effect->unk_16.s = 10;
                     effect->unk_1E.s = 0;
-                    motion->unk_10 = 0;
-                    motion->unk_0C = 0;
+                    motion->velocity_y = 0;
+                    motion->velocity_x = 0;
                     object = effect->unk_30;
                     if (object == 0) {
                         return;
@@ -238,7 +239,7 @@ void update_moving_item_effect(S_func_810332A4_1 *effect, S_func_810332A4_2 *mot
                     new_object = find_nearby_eligible_entry(owner,
                                 (u16)(s8)effect->unk_4C.u,
                                 (u16)(s8)effect->unk_4D.u,
-                                motion->unk_0A.s);
+                                motion->z.w.i);
                     effect->unk_2C = new_object;
                     if (new_object == 0) {
                         goto secondary_object;
@@ -278,7 +279,7 @@ void update_moving_item_effect(S_func_810332A4_1 *effect, S_func_810332A4_2 *mot
                     if (!blocked) {
                         if (find_first_entry_matching_keys(owner, display->unk_24,
                                           display->unk_25,
-                                          motion->unk_0A.s) != 0) {
+                                          motion->z.w.i) != 0) {
                             blocked = 1;
                         }
                     }
@@ -311,8 +312,8 @@ void update_moving_item_effect(S_func_810332A4_1 *effect, S_func_810332A4_2 *mot
                         refresh_actor_proximity_state(object_data);
                         effect->unk_16.s = 10;
                         effect->unk_1E.s = 0;
-                        motion->unk_10 = 0;
-                        motion->unk_0C = 0;
+                        motion->velocity_y = 0;
+                        motion->velocity_x = 0;
                         apply_attack_power_and_element_effects(object_data, 7, owner->level, 10,
                                       owner->facing, (u32)owner | 0xA0000000, 2);
 
@@ -346,8 +347,8 @@ void update_moving_item_effect(S_func_810332A4_1 *effect, S_func_810332A4_2 *mot
                     object_data->unk_88 = floor_height;
                 }
             }
-            transform->unk_00.word += motion->unk_0C;
-            transform->unk_04.word += motion->unk_10;
+            transform->unk_00.word += motion->velocity_x;
+            transform->unk_04.word += motion->velocity_y;
 
         }
 
@@ -373,19 +374,19 @@ secondary_object:
                     object_data->unk_88 = floor_height;
                 }
             }
-            transform->unk_00.word += motion->unk_0C;
-            transform->unk_04.word += motion->unk_10;
+            transform->unk_00.word += motion->velocity_x;
+            transform->unk_04.word += motion->velocity_y;
         }
 
         tile_x = effect->unk_4C.s;
         if ((tile_x - glacier_direction_offsets[effect->unk_1C].x) * 64 + 0x20 !=
-            motion->unk_00.half.unk_02) {
+            motion->x.w.i) {
             world_coord = tile_x << 6;
         } else {
             if ((effect->unk_4D.s - glacier_direction_offsets[effect->unk_1C].y) * 64 + 0x20 ==
-                motion->unk_04.half.unk_06) {
-                motion->unk_00.word += motion->unk_0C;
-                motion->unk_04.word += motion->unk_10;
+                motion->y.w.i) {
+                motion->x.v += motion->velocity_x;
+                motion->y.v += motion->velocity_y;
                 return;
             }
             world_coord = tile_x << 6;
@@ -396,13 +397,13 @@ secondary_object:
             world_coord = effect->unk_4D.s << 6;
             world_coord += 0x20;
             floor_y = world_coord & 0xFFE0;
-            floor_height = sample_terrain_surface_height(floor_x, floor_y, motion->unk_0A.s);
-            if (motion->unk_0A.s < floor_height) {
-                motion->unk_0A.u += 0x10;
+            floor_height = sample_terrain_surface_height(floor_x, floor_y, motion->z.w.i);
+            if (motion->z.w.i < floor_height) {
+                motion->z.unsigned_parts.integer += 0x10;
             }
         }
-        motion->unk_00.word += motion->unk_0C;
-        motion->unk_04.word += motion->unk_10;
+        motion->x.v += motion->velocity_x;
+        motion->y.v += motion->velocity_y;
         return;
 
     case 10:
@@ -415,7 +416,7 @@ secondary_object:
         play_sound_if_enabled(0x80B);
         effect->unk_1E.u = 0;
         effect->unk_16.u++;
-        sprite->unk_14 |= 0x80;
+        sprite->flags |= 0x80;
 
     case 11:
         timer = effect->unk_1E.u + 1;

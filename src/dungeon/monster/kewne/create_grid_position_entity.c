@@ -20,13 +20,6 @@ void update_actor_animation_and_behavior(ActorRecord *actor, ObjectPosition *con
 
 extern u8 kewne_frame_set_1[];
 
-typedef struct S_801708B4_1 {
-    u8 pad_00[0x13];
-    s8 unk_13;
-    u32 unk_14;
-    u8 pad_18[0x4];
-    u32 unk_1C;
-} S_801708B4_1;   /* inner in create_grid_position_entity */
 
 
 
@@ -54,7 +47,7 @@ void *create_grid_position_entity(s16 spawn_flags, s16 grid_x, s16 grid_y, s16 h
     if (entity != 0) {
         entity_data = (u8 *)entity + 0x20;
         entity->update_callback = update_actor_callbacks_and_ground;
-        ((S_801708B4_1 *)entity_data)->unk_13 = MONSTER_KEWNE;
+        ((ActorRecord *)entity_data)->species = MONSTER_KEWNE;
         register_node(entity, project_sprite_chain);
 
         position = entity->position;
@@ -67,13 +60,13 @@ void *create_grid_position_entity(s16 spawn_flags, s16 grid_x, s16 grid_y, s16 h
         placement->tile_x = saved_x;
 
         if (spawn_mode == 1) {
-            ((S_801708B4_1 *)entity_data)->unk_14 |= (ACTOR_CLASS_ENABLED | ACTOR_PARTY_MEMBER);
-            ((S_801708B4_1 *)entity_data)->unk_1C |= (ACTOR_PLAYER_SIDE | ACTOR_PARTY_MEMBER);
+            ((ActorRecord *)entity_data)->flags14 |= (ACTOR_CLASS_ENABLED | ACTOR_PARTY_MEMBER);
+            ((ActorRecord *)entity_data)->flags1C |= (ACTOR_PLAYER_SIDE | ACTOR_PARTY_MEMBER);
         } else if (spawn_mode >= 2) {
-            ((S_801708B4_1 *)entity_data)->unk_14 |= ACTOR_CLASS_ENABLED;
-            ((S_801708B4_1 *)entity_data)->unk_1C |= ACTOR_PLAYER_SIDE;
+            ((ActorRecord *)entity_data)->flags14 |= ACTOR_CLASS_ENABLED;
+            ((ActorRecord *)entity_data)->flags1C |= ACTOR_PLAYER_SIDE;
         } else if (((spawn_flags & -4) << 16) == 0) {
-            if (!(((S_801708B4_1 *)entity_data)->unk_14 & ACTOR_RESIST_SLEEP)) {
+            if (!(((u32)((ActorRecord *)entity_data)->flags14) & ACTOR_RESIST_SLEEP)) {
                 void *call_entity = entity;
                 void *call_position = position;
 
@@ -93,7 +86,7 @@ void *create_grid_position_entity(s16 spawn_flags, s16 grid_x, s16 grid_y, s16 h
         actor->action_id.u = 0xFF;
         actor->unk_9C = -1;
         actor->unk_8C.address = update_actor_animation_and_behavior;
-        ((S_801708B4_1 *)entity_data)->unk_1C |= 0x40000;
+        ((ActorRecord *)entity_data)->flags1C |= 0x40000;
         actor->unk_90.parts.high.s = -0x20;
         try_move_actor_to_valid_position(actor, position, placement, entity_data);
     }

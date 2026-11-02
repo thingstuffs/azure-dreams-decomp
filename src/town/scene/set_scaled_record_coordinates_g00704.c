@@ -72,12 +72,12 @@ void set_selected_entry_position(s32 unused, s32 x, s32 y)
     s32 index;
     s16 value;
 
-    entry_ptr = (*(void **)((u8 *)root + 0x30));
-    index = (*(s32 *)((u8 *)root + 8));
+    entry_ptr = (*(void **)(root + 0x30));
+    index = (*(s32 *)(root + 8));
     index <<= 5;
     entry_ptr = (*(void **)((u8 *)entry_ptr + 0));
     index += (s32)entry_ptr;
-    position = (*(void **)((u8 *)root + 0x1C));
+    position = (*(void **)(root + 0x1C));
     x <<= 5;
     value = ((S_8001A704_0 *)((void *)index))->unk_0C;
     x += value;
@@ -85,7 +85,7 @@ void set_selected_entry_position(s32 unused, s32 x, s32 y)
     {
         TownDestinationYView *position2;
 
-        position2 = (*(void **)((u8 *)root + 0x1C));
+        position2 = (*(void **)(root + 0x1C));
         y <<= 5;
         value = ((S_8001A704_0 *)((void *)index))->unk_0E;
         y += value;

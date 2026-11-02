@@ -3,58 +3,39 @@
 #include "common.h"
 #include "shared/gpu_packets.h"
 #include "engine/graphics.h"
-
-typedef struct {
-    s32 unk0;
-    s32 unk4;
-    s32 unk8;
-    s32 unkC;
-} S_8002E5D8;
+#include "shared/menu_display.h"
 
 
-typedef struct {
-    s32 unk0;
-    s32 unk4;
-    s16 unk8;
-    s16 unkA;
-    s16 unkC;
-    u8 unkE;
-    u8 unkF;
-} S_8005084C_A;
 
 
-typedef struct {
-    s32 unk0;
-    S_8005084C_A *unk4;
-    DisplayPositionWords *unk8;
-} S_8005084C_Outer;
 
-extern S_8002E5D8 display_block_defaults;
+
+extern MenuDisplayBlock display_block_defaults;
 extern DisplayPositionWords display_vector_defaults;
 
 /* Initialize the object and its two data blocks from defaults, then apply starting settings. */
-void init_gauge_blocks(void *unused, S_8005084C_Outer *object,
-                   S_8002E5D8 *primary_data, DisplayPositionWords *secondary_data) {
-    S_8002E5D8 *primary_defaults = &display_block_defaults;
+void init_gauge_blocks(void *unused, MenuDisplayNode *object,
+                   MenuDisplayBlock *primary_data, DisplayPositionWords *secondary_data) {
+    MenuDisplayBlock *primary_defaults = &display_block_defaults;
     DisplayPositionWords *secondary_defaults = &display_vector_defaults;
     s32 *secondary_first;
 
-    primary_data->unk0 = primary_defaults->unk0;
+    primary_data->words[0] = primary_defaults->words[0];
     secondary_first = &secondary_defaults->unk0;
-    primary_data->unk4 = primary_defaults->unk4;
-    primary_data->unk8 = primary_defaults->unk8;
-    primary_data->unkC = primary_defaults->unkC;
+    primary_data->words[1] = primary_defaults->words[1];
+    primary_data->words[2] = primary_defaults->words[2];
+    primary_data->words[3] = primary_defaults->words[3];
 
     secondary_data->unk0 = *secondary_first;
     secondary_data->unk4 = secondary_defaults->unk4;
     secondary_data->unk8 = secondary_defaults->unk8;
 
-    object->unk4 = (S_8005084C_A *)primary_data;
-    object->unk8 = secondary_data;
-    object->unk0 = 0;
+    object->block = primary_data;
+    object->vector = secondary_data;
+    object->unk_00 = 0;
 
-    object->unk4->unk8 = -0x6C;
-    object->unk4->unkA = -0x10;
-    object->unk4->unkF = 4;
+    object->block->fields.x = -0x6C;
+    object->block->fields.y = -0x10;
+    object->block->fields.mode = 4;
     set_color_components_and_scaled_fields(object, 0, 1);
 }

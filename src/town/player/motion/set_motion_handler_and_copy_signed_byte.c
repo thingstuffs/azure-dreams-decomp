@@ -19,10 +19,10 @@ typedef struct S_80097D08_0 {
 extern void D_80097C50(void *object, s32 target);
 
 /* Set the record pointer and state, and copy its signed byte to the output in 16.16 format. */
-void set_motion_handler_and_copy_signed_byte(TownObjectRecord *record_data, void *placement, struct SpriteFrameState *unused_sprite) {
-    DelayMotionZ *output = placement;
+void set_motion_handler_and_copy_signed_byte(TownObjectRecord *record_data, ObjectPosition *placement, struct SpriteFrameState *unused_sprite) {
+    ObjectPosition *output = placement;
 
     ((S_80097D08_0 *)((u8 *)record_data - 0x10))->unk_00 = &D_80097C50;
-    output->unk_08 = (s32) (record_data->variant.as_s8 << 0x10);
+    output->z.v = (s32) (record_data->variant.as_s8 << 0x10);
     record_data->timer.as_s16 = 5;
 }

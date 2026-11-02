@@ -36,22 +36,6 @@ extern u8 D_80176660[];
 extern u8 manoeva_frame_set_3[];
 
 
-typedef struct S_80170EE4_1 {
-    u8 pad_00[0x14];
-    u32 unk_14;
-    u8 pad_18[0x4];
-    u32 unk_1C;
-    u8 pad_20[0x5];
-    u8 unk_25;
-    u8 pad_26[0x4];
-    s16 unk_2A;
-    u8 pad_2C[0x1A];
-    u16 unk_46;
-    u8 pad_48[0x1C];
-    s16 unk_64;
-    u8 pad_66[0x7];
-    s8 unk_6D;
-} S_80170EE4_1;   /* arg3 in update_actor_controller */
 
 /* Update dungeon actor behavior, facing, and directional animation. */
 void update_actor_controller(ActorRecord *actor_state_in, ObjectPosition *update_context_in, SpriteFrameState *map_object, ActorRecord *actor_data) {
@@ -83,12 +67,12 @@ void update_actor_controller(ActorRecord *actor_state_in, ObjectPosition *update
         return;
     }
 
-    if (((S_80170EE4_1 *)actor_data)->unk_1C & 0x200) {
+    if (((u32)actor_data->flags1C) & 0x200) {
         if (*(u8 **)&map_object->frameTable == D_80176650) {
             actor_state_in->action_id.u = 13;
             actor_state_in->action_phase.u = 1;
             actor_state_in->unk_8C.word = 0;
-            ((S_80170EE4_1 *)actor_data)->unk_1C &= ~0x40000;
+            actor_data->flags1C &= ~0x40000;
             return;
         }
         if (reset_actor_action_state(actor_state_in, update_context_in, map_object, manoeva_frame_set_3) != 0) {
@@ -97,7 +81,7 @@ void update_actor_controller(ActorRecord *actor_state_in, ObjectPosition *update
     }
 
     if ((g_dungeon_status.flags & 0x2000) == 0) {
-        if (((S_80170EE4_1 *)actor_data)->unk_1C & 0x100) {
+        if (((u32)actor_data->flags1C) & 0x100) {
             begin_pushed_actor_move(actor_state_in, update_context_in, map_object, actor_data);
             return;
         }
@@ -124,7 +108,7 @@ void update_actor_controller(ActorRecord *actor_state_in, ObjectPosition *update
             }
         }
 
-        if (((S_80170EE4_1 *)actor_data)->unk_1C & 0x80000) {
+        if (((u32)actor_data->flags1C) & 0x80000) {
             begin_actor_move_to_target_facing(actor_state_in, update_context_in, map_object, actor_data);
             func_801737B8(actor_state_in, update_context_in, map_object, actor_data);
             return;
@@ -140,7 +124,7 @@ void update_actor_controller(ActorRecord *actor_state_in, ObjectPosition *update
     map_object->room_index = tile_index;
 
     if (actor_data->pending_turn_updates > 0) {
-        if (((S_80170EE4_1 *)actor_data)->unk_1C & 0x20) {
+        if (((u32)actor_data->flags1C) & 0x20) {
             update_actor_status_and_mp(actor_data);
             return;
         }
@@ -185,7 +169,7 @@ void update_actor_controller(ActorRecord *actor_state_in, ObjectPosition *update
             return;
 
         case 9:
-            if (!(((S_80170EE4_1 *)actor_data)->unk_14 & 0x20000000)) {
+            if (!(((u32)actor_data->flags14) & 0x20000000)) {
                 initialize_object_and_clear_state(actor_state_in, update_context_in, map_object, actor_data);
                 return;
             }
@@ -222,7 +206,7 @@ void update_actor_controller(ActorRecord *actor_state_in, ObjectPosition *update
         }
     }
 
-    status_flags = ((S_80170EE4_1 *)actor_data)->unk_1C;
+    status_flags = ((u32)actor_data->flags1C);
     if (!(status_flags & 0x2000)) {
         if ((tile_index < 0) ||
             !(dungeon_rooms[tile_index].flags & 2)) {

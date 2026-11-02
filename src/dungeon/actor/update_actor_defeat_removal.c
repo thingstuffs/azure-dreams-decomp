@@ -46,19 +46,6 @@ typedef struct S_800AD058_2_pre {
     u16 unk_00;
 } S_800AD058_2_pre;   /* the 0x2 bytes before arg3_local in update_actor_defeat_removal, addressed as arg3_local[-1] */
 
-typedef struct S_800AD058_2 {
-    u8 pad_00[0x13];
-    u8 unk_13;
-    s32 unk_14;
-    u8 pad_18[0x4];
-    s32 unk_1C;
-    u8 pad_20[0x29];
-    u8 unk_49;
-    u8 pad_4A[0x1];
-    u8 unk_4B;
-    u8 pad_4C[0x3C];
-    s16 unk_88;
-} S_800AD058_2;   /* arg3_local in update_actor_defeat_removal */
 
 typedef struct S_800AD058_3 {
     union { struct { s32 v; } at00; struct { u8 pad[0x2]; s16 v; } at02; } unk_00;   /* overlapping accesses */
@@ -100,8 +87,8 @@ s32 update_actor_defeat_removal(ActorRecord *state, ObjectPosition *position, st
         sprite->tpage_abr = 0x20;
         sprite->clut = (u16) (sprite->clut - 0x80);
         sprite->flags = (u16) (sprite->flags | 0xC);
-        ((S_800AD058_2 *)entity)->unk_1C = (s32) (((S_800AD058_2 *)entity)->unk_1C | 0x10000000);
-        entity_type = ((S_800AD058_2 *)entity)->unk_13;
+        ((ActorRecord *)entity)->flags1C = (s32) (((ActorRecord *)entity)->flags1C | 0x10000000);
+        entity_type = ((ActorRecord *)entity)->species;
         if ((entity_type == 5) || (sound_id = 0x805, (entity_type == 0x1E))) {
             sound_id = 0x806;
         }
@@ -122,19 +109,19 @@ s32 update_actor_defeat_removal(ActorRecord *state, ObjectPosition *position, st
         fade_ticks = (u16)state->action_timer.u - 1;
         state->action_timer.u = fade_ticks;
         if (((fade_ticks << 0x10) <= 0) || (finished = 0, ((sprite->flags & 0x8000) != 0))) {
-            if (!(((S_800AD058_2 *)entity)->unk_14 & 0x20000000)) {
+            if (!(((ActorRecord *)entity)->flags14 & 0x20000000)) {
                 DungeonGlobalStatus *shared_state = &g_dungeon_status;
                 if ((shared_state->pending_display_owner) == entity - 0x20) {
                     shared_state->pending_display_owner = (s32) (((s32)shared_state->pending_display_owner) & 0x7FFFFFFF);
                 }
             }
-            entity_flags = ((S_800AD058_2 *)entity)->unk_14;
+            entity_flags = ((ActorRecord *)entity)->flags14;
             if (!(entity_flags & 0x4000)) {
                 distribute_experience_and_report_gains(entity);
                 detach_record_and_update_slot_state(entity);
-                if (((S_800AD058_2 *)entity)->unk_49 != 0 && !(((S_800AD058_2 *)entity)->unk_4B & 0x20)) {
+                if (((ActorRecord *)entity)->unk_49 != 0 && !(((ActorRecord *)entity)->unk_4B & 0x20)) {
                     create_effect_or_fallback(position->x.w.i, position->y.w.i,
-                        ((S_800AD058_2 *)entity)->unk_88, entity + 0x48);
+                        ((ActorRecord *)entity)->ground_height, entity + 0x48);
                 }
                 break;
             }
@@ -144,7 +131,7 @@ s32 update_actor_defeat_removal(ActorRecord *state, ObjectPosition *position, st
             distribute_experience_and_report_gains(entity);
             detach_record_and_update_slot_state(entity);
             if ((get_entity_effect_value(entity, STATUS_NO_TILE_OCCUPANCY) << 0x10) == 0) {
-                effect_flags = ((S_800AD058_2 *)entity)->unk_1C;
+                effect_flags = ((ActorRecord *)entity)->flags1C;
                 tile_x = sprite->tile_x;
                 tile_y = sprite->tile_y;
                 special_tile_mask = 0x3000;
@@ -174,8 +161,8 @@ s32 update_actor_defeat_removal(ActorRecord *state, ObjectPosition *position, st
             s32 vertical_step;
 
             vertical_step = rsin(((s16)state->action_timer.u) * 8) >> 6;
-            ((S_800AD058_2 *)entity)->unk_88 = (s16) ((u16) ((S_800AD058_2 *)entity)->unk_88 +
-                ((view_reference_entity.z.w.i - vertical_step - ((S_800AD058_2 *)entity)->unk_88)
+            ((ActorRecord *)entity)->ground_height = (s16) ((u16) ((ActorRecord *)entity)->ground_height +
+                ((view_reference_entity.z.w.i - vertical_step - ((ActorRecord *)entity)->ground_height)
                     >> 4));
         }
         scale_x = sprite->scale_x;
@@ -204,7 +191,7 @@ s32 update_actor_defeat_removal(ActorRecord *state, ObjectPosition *position, st
         return 0;
     }
     if ((get_entity_effect_value(entity, STATUS_NO_TILE_OCCUPANCY) << 0x10) == 0) {
-        effect_flags = ((S_800AD058_2 *)entity)->unk_1C;
+        effect_flags = ((ActorRecord *)entity)->flags1C;
         tile_x = sprite->tile_x;
         tile_y = sprite->tile_y;
         tile_mask = 0x3000;

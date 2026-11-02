@@ -9,7 +9,7 @@
 
 /* Initializes the object, assigns its state data, and sets a value in multiples of 21. */
 void initialize_object_assigns_state_data(TownObjectRecord *object, void *unusedArg, void *initializationArg) {
-    initialize_object_entries((Struct800C5724 *)(object), initializationArg, *object->unk_7C.as_pps32);
+    initialize_object_entries((object), initializationArg, *object->unk_7C.as_pps32);
     object->unk_50.as_pm = &run_unhandled_update_and_choose_direction;
     object->timer.as_s16 = (s16) (((scale_random_to_unsigned_halfword_limit(4) & 0xFFFF) * 0x15) + 0x15);
 }

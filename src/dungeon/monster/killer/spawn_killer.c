@@ -15,13 +15,6 @@
 
 
 
-typedef struct S_80FDB000_1 {
-    u8 pad_00[0x13];
-    s8 unk_13;
-    u32 unk_14;
-    u8 pad_18[0x4];
-    u32 unk_1C;
-} S_80FDB000_1;   /* result in spawn_killer */
 
 
 extern s32 generate_random_value(void);
@@ -76,7 +69,7 @@ void *spawn_killer(s16 flags, s32 kind_id, s32 variant, s32 spawn_value)
     if (created != 0) {
         result = (u8 *)created + 0x20;
         created->update_callback = D_80170A7C;
-        ((S_80FDB000_1 *)result)->unk_13 = MONSTER_KILLER;
+        ((ActorRecord *)result)->species = MONSTER_KILLER;
         register_node(created, project_sprite_chain);
 
         position = created->position;
@@ -89,18 +82,18 @@ void *spawn_killer(s16 flags, s32 kind_id, s32 variant, s32 spawn_value)
         part_b->tile_x = saved_kind_id;
 
         if (kind == 1) {
-            ((S_80FDB000_1 *)result)->unk_14 |= (ACTOR_CLASS_ENABLED | ACTOR_PARTY_MEMBER);
-            ((S_80FDB000_1 *)result)->unk_1C |= (ACTOR_PLAYER_SIDE | ACTOR_PARTY_MEMBER);
+            ((ActorRecord *)result)->flags14 |= (ACTOR_CLASS_ENABLED | ACTOR_PARTY_MEMBER);
+            ((ActorRecord *)result)->flags1C |= (ACTOR_PLAYER_SIDE | ACTOR_PARTY_MEMBER);
         } else if (kind >= 2) {
-            ((S_80FDB000_1 *)result)->unk_14 |= ACTOR_CLASS_ENABLED;
-            ((S_80FDB000_1 *)result)->unk_1C |= ACTOR_PLAYER_SIDE;
+            ((ActorRecord *)result)->flags14 |= ACTOR_CLASS_ENABLED;
+            ((ActorRecord *)result)->flags1C |= ACTOR_PLAYER_SIDE;
         } else {
             call_a0 = created;
             if (((flags & ~3) << 16) == 0) {
-                if (!(((S_80FDB000_1 *)result)->unk_14 & ACTOR_RESIST_SLEEP)) {
+                if (!(((u32)((ActorRecord *)result)->flags14) & ACTOR_RESIST_SLEEP)) {
                     call_a1 = position;
                     if (generate_random_value() & 1) {
-                        ((S_80FDB000_1 *)result)->unk_1C |= ACTOR_ASLEEP;
+                        ((ActorRecord *)result)->flags1C |= ACTOR_ASLEEP;
                         set_or_clear_actor_status_slot(result, STATUS_SLEEP,
                             (generate_random_value() & 0x3F) | 0x20);
                         part_b->frameTable = killer_frame_set_2;

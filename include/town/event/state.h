@@ -14,16 +14,16 @@ struct S_8009C4E8_2;
 struct SpriteFrameState;
 
 /* initialize_object_state_from_selector.c */
-void initialize_object_state_from_selector(void *context, void *selector, SpriteFrameState *state);
+void initialize_object_state_from_selector(TownObjectRecord *context, ObjectPosition *selector, SpriteFrameState *state);
 
 /* initialize_optional_object_state.c */
 void initialize_optional_object_state(void *object, void *context, void *state, void *init_value);
 
 /* initialize_record_pointers_and_clear_state.c */
-void initialize_record_pointers_and_clear_state(void *record_data, void *placement, struct SpriteFrameState *unused_sprite);
+void initialize_record_pointers_and_clear_state(TownObjectRecord *record_data, ObjectPosition *placement, struct SpriteFrameState *unused_sprite);
 
 /* initialize_variant_record_pointers_and_clear_state.c */
-void initialize_variant_record_pointers_and_clear_state(void *record_data, void *placement, struct SpriteFrameState *unused_sprite);
+void initialize_variant_record_pointers_and_clear_state(TownObjectRecord *record_data, ObjectPosition *placement, struct SpriteFrameState *unused_sprite);
 
 /* select_object_state_by_mode.c */
 void select_object_state_by_mode(Rec_D_800CFCB4 *record, ObjectPosition *context, SpriteFrameState *state, void *default_value, void *alternate_value, void *update_value);

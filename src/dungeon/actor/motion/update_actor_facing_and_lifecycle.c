@@ -18,20 +18,12 @@ extern u8 actor_motion_resume_address;
 extern Callback actor_facing_callbacks[];
 
 
-typedef struct S_800C9AAC_2 {
-    u8 pad_00[0x1C];
-    s32 unk_1C;
-    u8 pad_20[0xA];
-    s16 unk_2A;
-    u8 pad_2C[0x5C];
-    u16 unk_88;
-} S_800C9AAC_2;   /* secondary in update_actor_facing_and_lifecycle */
 
 /* Updates object callbacks, motion, sprite direction, and height. */
 void update_actor_facing_and_lifecycle(ActorRecord *body, ObjectPosition *motion, SpriteFrameState *part)
 {
     u32 update_flags = g_dungeon_status.flags;
-    S_800C9AAC_2 *secondary = (S_800C9AAC_2 *)body;
+    ActorRecord *secondary = body;
     ActorActionHandler callback;
     s16 direction;
     s16 direction_index;
@@ -77,7 +69,7 @@ void update_actor_facing_and_lifecycle(ActorRecord *body, ObjectPosition *motion
     part_flags = part->flags;
     adjusted_flags = part_flags & 0x8000;
     if (!adjusted_flags) {
-        direction = ((g_game_work.view.camera_rotation.parts.viewAngle + secondary->unk_2A + 0x100) >> 9);
+        direction = ((g_game_work.view.camera_rotation.parts.viewAngle + secondary->facing + 0x100) >> 9);
         direction &= 7;
         direction_index = direction;
         if (body->unk_94 != direction_index) {
@@ -90,23 +82,23 @@ void update_actor_facing_and_lifecycle(ActorRecord *body, ObjectPosition *motion
         if (dir_sprite_flag[direction_index] != 0) {
             adjusted_flags = part->flags | 1;
             part->flags = adjusted_flags;
-            apply_monster_koyaw_data(secondary->unk_1C, (u8 *)part + 0xC);
+            apply_monster_koyaw_data(secondary->flags1C, (u8 *)part + 0xC);
         } else {
             adjusted_flags = part->flags & 0xFFFE;
             part->flags = adjusted_flags;
-            apply_monster_koyaw_data(secondary->unk_1C, (u8 *)part + 0xC);
+            apply_monster_koyaw_data(secondary->flags1C, (u8 *)part + 0xC);
         }
 
-        if (!(secondary->unk_1C & 0x20)) {
+        if (!(secondary->flags1C & 0x20)) {
             if (!(part->flags & 0x40)) {
                 advance_sprite_animation_and_textures(part);
             }
         } else {
             part->flags |= 0x7000;
-            secondary->unk_1C &= 0xFFFBFFFF;
+            secondary->flags1C &= 0xFFFBFFFF;
         }
 
-        if (secondary->unk_1C & 0x40000) {
+        if (secondary->flags1C & 0x40000) {
             if (!(part->flags & 0x40)) {
                 u16 phase = body->unk_9E.u;
                 body->unk_9E.u = phase + 1;
@@ -117,7 +109,7 @@ void update_actor_facing_and_lifecycle(ActorRecord *body, ObjectPosition *motion
                 s32 min_height = -0x20;
                 s16 height;
                 sample_terrain_surface_height(((u16) motion->x.w.i), ((u16) motion->y.w.i),
-                    (s16)(secondary->unk_88 - 0x20));
+                    (s16)(((u16)secondary->ground_height) - 0x20));
                 height = body->unk_90.parts.high.s;
                 if (min_height < height) {
                     body->unk_90.parts.high.u -= 8;
@@ -134,8 +126,8 @@ void update_actor_facing_and_lifecycle(ActorRecord *body, ObjectPosition *motion
             if (!(body->action_state_flags & 8)) {
                 target_height = sample_terrain_surface_height(((u16) motion->x.w.i),
                     ((u16) motion->y.w.i),
-                    (s16)(secondary->unk_88 - 0x20)) -
-                    secondary->unk_88;
+                    (s16)(((u16)secondary->ground_height) - 0x20)) -
+                    ((u16)secondary->ground_height);
                 old_height = body->unk_90.parts.high.u;
                 if (body->unk_90.parts.high.s < target_height) {
                     body->unk_90.parts.high.u = old_height + 8;
@@ -159,22 +151,22 @@ void update_actor_facing_and_lifecycle(ActorRecord *body, ObjectPosition *motion
 
     {
         s32 object_flags;
-        object_flags = secondary->unk_1C;
+        object_flags = secondary->flags1C;
         if (object_flags & 0x40000000) {
             adjusted_flags = object_flags & 0xBFFFFFFF;
-            secondary->unk_1C = adjusted_flags;
+            secondary->flags1C = adjusted_flags;
             target_height = sample_terrain_surface_height(
                 (part->tile_x << 6) | 0x20,
                 (part->tile_y << 6) | 0x20,
-                (s16)(secondary->unk_88 - 0x20));
+                (s16)(((u16)secondary->ground_height) - 0x20));
             if (target_height < 0x200) {
-                body->unk_90.parts.high.u += secondary->unk_88 - target_height;
-                secondary->unk_88 = target_height;
+                body->unk_90.parts.high.u += ((u16)secondary->ground_height) - target_height;
+                secondary->ground_height = target_height;
             }
         }
     }
 
-    motion->z.w.i = secondary->unk_88 +
+    motion->z.w.i = ((u16)secondary->ground_height) +
         body->unk_90.parts.high.u - body->unk_A0.parts.high;
     part->flags |= 0x40;
 }

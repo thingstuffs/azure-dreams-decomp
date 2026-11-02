@@ -12,7 +12,7 @@ extern u8 D_800D77F4[];
  * Registers the object in scene slot 16 using the four local setup tables and sets the context
  * halfword at offset 0x12 to 0x40.
  */
-void initialize_scene_slot_16(TownObjectRecord *object, void *unused, struct SpriteFrameState *context)
+void initialize_scene_slot_16(TownObjectRecord *object, ObjectPosition *unused, struct SpriteFrameState *context)
 {
     initialize_object_and_register_slot(object, 16, D_800D77F0, D_800D77F4, D_800D77C0, D_800D77C8);
     context->clut = 0x40;

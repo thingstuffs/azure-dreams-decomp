@@ -8,30 +8,14 @@
 #include "dungeon/actor/animation.h"
 #include "engine/node.h"
 #include "engine/node/allocation.h"
+#include "shared/entity.h"
 struct S_80170A98_2;
 
 #ifndef NULL
 #define NULL 0
 #endif
 
-typedef struct S_8016A800_0 {
-    u8 pad_00[0x13];
-    s8 unk_13;
-    u32 unk_14;
-    u8 pad_18[0x4];
-    u32 unk_1C;
-    u8 pad_20[0x6C];
-    void * unk_8C;
-} S_8016A800_0;   /* result in func_8016A854 */
 
-typedef struct S_8016A800_4 {
-    u8 pad_00[0x8C];
-    void * unk_8C;
-    u8 pad_90[0xA];
-    u8 unk_9A;
-    u8 pad_9B[0x1];
-    s8 unk_9C;
-} S_8016A800_4;   /* (void *)arg2_work in func_8016A854 */
 
 extern s32 generate_random_value(void);
 extern void try_move_actor_to_valid_position(void *, void *, void *, void *);

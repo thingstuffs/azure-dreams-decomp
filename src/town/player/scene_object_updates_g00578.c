@@ -61,7 +61,7 @@ void initialize_enabled_scene_object(void) {
             *(s32 *)(state + 0xA0) = position_y;
             handle_insert_initialize_two_values_status_flags(state, position, D_800D0CAC);
             initialize_optional_object_state(state, position, object_resource, D_800D0C90);
-            initialize_object_entries((Struct800C5724 *)state, object_resource, (s32 *)D_80100E24_R);
+            initialize_object_entries((TownObjectRecord *)state, object_resource, (s32 *)D_80100E24_R);
             ((ObjectNodeHeader *)((u8 *)state - 0x20))->update_callback = D_800A6684;
             set_flagged_entry_values((u32 *)D_800D0D54, 0);
         }
@@ -137,7 +137,7 @@ void save_and_clear_entity_flag_ten(Obj *obj, State *state, VecState *motion, vo
     motion->dy = 0;
     motion->dz = 0;
     obj->callback = update_actor_position_and_heading;
-    initialize_object_entries((Struct800C5724 *)obj, resource_arg, (s32 *)resource);
+    initialize_object_entries((TownObjectRecord *)obj, resource_arg, (s32 *)resource);
     update_target_from_previous_state();
     motion->x = view_reference_entity.x.v;
     motion->y = view_reference_entity.y.v;
@@ -162,7 +162,7 @@ void update_actor_position_and_heading(void *actor, s32 update_context, void *po
         saved_position = (s32 *)&bike_saved_position;
         ((EntityRec *)saved_position)->y.v = position->y.v;
         ((DelayMotionZ *)saved_position)->unk_08 = position->z.v;
-        initialize_object_entries((Struct800C5724 *)actor, setup_context, (s32 *)D_80100E24);
+        initialize_object_entries((TownObjectRecord *)actor, setup_context, (s32 *)D_80100E24);
         select_object_value_by_height_band(actor, update_context, position_arg, setup_context);
         heading = ((TownObjectRecord *)actor)->heading.as_u16;
         heading += 0x200;

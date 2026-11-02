@@ -41,17 +41,6 @@ typedef struct S_801757E0_0_pre {
     u8 pad_04[0x10];
 } S_801757E0_0_pre;   /* the 0x14 bytes before arg0 in update_action_and_check_forward_tile, addressed as arg0[-1] */
 
-typedef struct S_801757E0_0 {
-    u8 pad_00[0x8C];
-    void * unk_8C;
-    u8 pad_90[0x6];
-    union { u16 u; s16 s; } unk_96;   /* accessed as both */
-    u8 pad_98[0x3];
-    u8 unk_9B;
-    u8 pad_9C[0x10];
-    union { u8 u; s8 s; } unk_AC;   /* accessed as both */
-    union { u8 u; s8 s; } unk_AD;   /* accessed as both */
-} S_801757E0_0;   /* arg0 in update_action_and_check_forward_tile */
 
 typedef struct S_801757E0_3 {
     u8 pad_00[0x1E];
@@ -194,7 +183,7 @@ void update_action_and_check_forward_tile(ActorRecord *actor, ObjectPosition *mo
                                    motion->z.w.i) != 0) {
                 actor->unk_AC.bytes[1] = 1;
             }
-            if (((S_801757E0_0 *)actor)->unk_AD.s == 0) {
+            if (((s8)actor->unk_AC.bytes[1]) == 0) {
                 get_offset_map_cell_value_and_flags(animation->tile_x,
                               animation->tile_y,
                               (((u16)entity->facing) >> 9) & 7,
@@ -203,7 +192,7 @@ void update_action_and_check_forward_tile(ActorRecord *actor, ObjectPosition *mo
                     actor->unk_AC.bytes[1] = 1;
                 }
             }
-            if (((S_801757E0_0 *)actor)->unk_AD.s == 0) {
+            if (((s8)actor->unk_AC.bytes[1]) == 0) {
                 if (find_first_entry_matching_keys(entity,
                         animation->tile_x +
                             directions[(((u16)entity->facing) >> 9) & 7].x,
@@ -213,7 +202,7 @@ void update_action_and_check_forward_tile(ActorRecord *actor, ObjectPosition *mo
                     actor->unk_AC.bytes[1] = 1;
                 }
             }
-            if (((S_801757E0_0 *)actor)->unk_AD.s == 0) {
+            if (((s8)actor->unk_AC.bytes[1]) == 0) {
                 floor_height = sample_terrain_surface_height(target_x, target_y,
                                      motion->z.w.i - 0x20);
                 if (floor_height >= 0x200 ||
@@ -222,7 +211,7 @@ void update_action_and_check_forward_tile(ActorRecord *actor, ObjectPosition *mo
                     actor->unk_AC.bytes[1] = 1;
                 }
             }
-            if (((S_801757E0_0 *)actor)->unk_AD.s == 0) {
+            if (((s8)actor->unk_AC.bytes[1]) == 0) {
                 create_facing_offset_object(actor, motion, animation);
             }
         }
@@ -243,7 +232,7 @@ void update_action_and_check_forward_tile(ActorRecord *actor, ObjectPosition *mo
                 0);
         }
         actor->action_timer.u = 0;
-        if (((S_801757E0_0 *)actor)->unk_AD.s == 0) {
+        if (((s8)actor->unk_AC.bytes[1]) == 0) {
             actor->action_phase.u++;
             return;
         }

@@ -18,6 +18,6 @@ void approach_player_target_position(UnsignedCountdownView *state, void *motion)
 
 struct SpriteFrameState;
 
-void set_motion_handler_and_copy_signed_byte(TownObjectRecord *record_data, void *placement, struct SpriteFrameState *unused_sprite);
+void set_motion_handler_and_copy_signed_byte(TownObjectRecord *record_data, ObjectPosition *placement, struct SpriteFrameState *unused_sprite);
 
 #endif

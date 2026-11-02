@@ -99,14 +99,7 @@ typedef struct S_80089AA0_7_pre {
     u8 pad_02[0x6];
 } S_80089AA0_7_pre;   /* the 0x8 bytes before copy_dst in update_player_and_actor_turns, addressed as copy_dst[-1] */
 
-typedef struct S_80089AA0_9 {
-    s32 unk_00;
-} S_80089AA0_9;   /* &D_800E3D70 in update_player_and_actor_turns */
 
-typedef struct S_80089AA0_10 {
-    u8 pad_00[0xAC];
-    void * unk_AC;
-} S_80089AA0_10;
 
 typedef struct S_80089AA0_13 {
     u32 unk_00;
@@ -141,15 +134,6 @@ typedef struct S_80089AA0_17 {
     u16 unk_0C;
 } S_80089AA0_17;   /* table_entry in update_player_and_actor_turns */
 
-typedef struct S_80089AA0_18 {
-    union { struct { s32 v; } at00; struct { u8 pad[0x2]; u16 v; } at02; } unk_00;   /* overlapping accesses */
-    union { struct { s32 v; } at00; struct { u8 pad[0x2]; u16 v; } at02; } unk_04;   /* overlapping accesses */
-    u8 pad_08[0x2];
-    s16 unk_0A;
-    s32 unk_0C;
-    s32 unk_10;
-    s32 unk_14;
-} S_80089AA0_18;   /* arg1 in update_player_and_actor_turns */
 
 typedef struct S_80089AA0_19 {
     u8 pad_00[0x2A];
@@ -176,7 +160,7 @@ typedef struct S_80089AA0_27 {
 void update_player_and_actor_turns(ActorRecord *in_actor, void *in_motion, void *in_sprite) {
     void *sprite_or_root;
     void *root;
-    S_80089AA0_18 *motion_or_count;
+    ObjectPosition *motion_or_count;
     GameWork *world_state;
     s32 repeat_pass;
     s32 (*update_callback)(void *, void *, void *, void *);
@@ -319,7 +303,7 @@ void update_player_and_actor_turns(ActorRecord *in_actor, void *in_motion, void 
                 }
                 if (!(system_update_flags & 8)) {
                     g_dungeon_status.turn_counter = (u16) (g_dungeon_status.turn_counter + 1);
-                    actor_fraction = ((S_80089AA0_9 *)(&player_turn_fraction))->unk_00 + (*((u8 *)actor + 0x29));
+                    actor_fraction = ((ObjectPosition *)(&player_turn_fraction))->x.v + (*((u8 *)actor + 0x29));
                     player_turn_fraction = (s32)actor_fraction;
                     turn_sign = (*((u8 *)actor + 0x28));
                     if (actor_fraction >= 0x101U) {
@@ -339,7 +323,7 @@ void update_player_and_actor_turns(ActorRecord *in_actor, void *in_motion, void 
                     companion_fraction = (u32 *)((u8 *)companion_counters + 4);
                     companion_slot = linked_actor + 4;
                     do {
-                        companion = ((S_80089AA0_10 *)companion_slot)->unk_AC;
+                        companion = ((ActorRecord *)companion_slot)->unk_AC.address;
                         if ((companion != 0) && (companion->mp_value.parts.whole != 0)) {
                             companion_total = *companion_fraction + companion->max_hp;
                             *companion_fraction = companion_total;
@@ -489,27 +473,27 @@ void update_player_and_actor_turns(ActorRecord *in_actor, void *in_motion, void 
     apply_monster_koyaw_data((*(s32 *)((u8 *)actor + 0x1C)), sprite_or_root + 0xC);
     motion_or_count = in_motion;
     if (!((*(s32 *)((u8 *)actor + 0x14)) & 0x100000)) {
-        motion_or_count->unk_00.at00.v = (s32) (motion_or_count->unk_00.at00.v
-            + motion_or_count->unk_0C);
-        motion_or_count->unk_04.at00.v = (s32) (motion_or_count->unk_04.at00.v
-            + motion_or_count->unk_10);
+        motion_or_count->x.v = (s32) (motion_or_count->x.v
+            + motion_or_count->velocity_x);
+        motion_or_count->y.v = (s32) (motion_or_count->y.v
+            + motion_or_count->velocity_y);
         if (!((*(u16 *)((u8 *)linked_actor + 0x98)) & 8)) {
-            motion_or_count->unk_14 = (s32) (motion_or_count->unk_14
+            motion_or_count->velocity_z = (s32) (motion_or_count->velocity_z
                 + ((*(s8 *)((u8 *)linked_actor + 0x9D)) * 0x14000));
             (*(s8 *)((u8 *)linked_actor + 0x9D)) = (s8) ((u8) (*(s8 *)((u8 *)linked_actor + 0x9D)) + 1);
         }
         (*(s32 *)((u8 *)linked_actor + 0x90)) = (s32) ((*(s32 *)((u8 *)linked_actor + 0x90))
-            + motion_or_count->unk_14);
-        floor_height = sample_terrain_surface_height(motion_or_count->unk_00.at02.v,
-            motion_or_count->unk_04.at02.v, (s16) ((*(u16 *)((u8 *)actor + 0x88)) - 0x20));
+            + motion_or_count->velocity_z);
+        floor_height = sample_terrain_surface_height(motion_or_count->x.unsigned_parts.integer,
+            motion_or_count->y.unsigned_parts.integer, (s16) ((*(u16 *)((u8 *)actor + 0x88)) - 0x20));
         if (floor_height < 0x200) {
             if (((*(s16 *)((u8 *)linked_actor + 0x92)) + (s16) (*(u16 *)((u8 *)actor + 0x88))) >= floor_height) {
-                if (((*(u16 *)((u8 *)linked_actor + 0x98)) & 4) || (motion_or_count->unk_14 < 0)) {
+                if (((*(u16 *)((u8 *)linked_actor + 0x98)) & 4) || (motion_or_count->velocity_z < 0)) {
                     (*(u16 *)((u8 *)linked_actor + 0xA2)) =
                         (u16)((*(u16 *)((u8 *)linked_actor + 0xA2)) & 0xFFEF);
                 } else {
                     (*(s32 *)((u8 *)linked_actor + 0x90)) = 0;
-                    motion_or_count->unk_14 = 0;
+                    motion_or_count->velocity_z = 0;
                     (*(s8 *)((u8 *)linked_actor + 0x9D)) = 0;
                     if (!((*(u16 *)((u8 *)linked_actor + 0xA2)) & 0x10)) {
                         if (!(((S_80089AA0_6 *)(&dungeon_floor_flags))->unk_00 & 0x80000)) {
@@ -546,7 +530,7 @@ void update_player_and_actor_turns(ActorRecord *in_actor, void *in_motion, void 
                 (*(u16 *)((u8 *)actor + 0x88)) = (u16) flags_or_height;
                 if (g_dungeon_status.flags & 0x80) {
                     (*(s32 *)((u8 *)linked_actor + 0x90)) = 0;
-                    motion_or_count->unk_14 = 0;
+                    motion_or_count->velocity_z = 0;
                     (*(s8 *)((u8 *)linked_actor + 0x9D)) = 0;
                     (*(u16 *)((u8 *)linked_actor + 0xA2)) =
                         (u16)((*(u16 *)((u8 *)linked_actor + 0xA2)) | 0x10);
@@ -559,7 +543,7 @@ void update_player_and_actor_turns(ActorRecord *in_actor, void *in_motion, void 
             }
             (*(u16 *)((u8 *)linked_actor + 0xA2)) = (u16) ((*(u16 *)((u8 *)linked_actor + 0xA2)) | 0x800);
         }
-        motion_or_count->unk_0A = (s16) ((*(u16 *)((u8 *)actor + 0x88))
+        motion_or_count->z.w.i = (s16) ((*(u16 *)((u8 *)actor + 0x88))
             + (u16) (*(s16 *)((u8 *)linked_actor + 0x92)));
     }
     update_sound_settings_from_pad(linked_actor, motion_or_count, sprite_or_root, actor);
@@ -590,7 +574,7 @@ void update_player_and_actor_turns(ActorRecord *in_actor, void *in_motion, void 
     sprite_or_root = actor;
     if (linked_actor != actor) {
         do {
-            linked_sprite = ((ObjectNodeHeader *)((u8 *)linked_actor - 0x20))->sprite;
+            linked_sprite = ((ObjectNodeHeader *)linked_actor - 1)->sprite;
             linked_sprite->flags = (u16) (linked_sprite->flags & 0xFFBF);
             linked_actor = ((S_80089AA0_19 *)linked_actor)->unk_5C.i + 0x20;
         } while (linked_actor != sprite_or_root);
@@ -648,7 +632,7 @@ void update_player_and_actor_turns(ActorRecord *in_actor, void *in_motion, void 
                 root = actor;
                 if (linked_actor != actor) {
                     do {
-                        rotate_actor_movement_queue(*(s32 *)&((ObjectNodeHeader *)((u8 *)linked_actor - 0x20))->sprite, linked_actor);
+                        rotate_actor_movement_queue(*(s32 *)&((ObjectNodeHeader *)linked_actor - 1)->sprite, linked_actor);
                         linked_actor = ((S_80089AA0_19 *)linked_actor)->unk_5C.i + 0x20;
                     } while (linked_actor != root);
                 }

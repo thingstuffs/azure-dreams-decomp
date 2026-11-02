@@ -31,10 +31,6 @@ typedef struct S_8017086C_3 {
 } S_8017086C_3;   /* part_b in update_actor_action_controller */
 
 
-typedef struct S_8017086C_5 {
-    u8 pad_00[0xA4];
-    void * unk_A4;
-} S_8017086C_5;   /* current in update_actor_action_controller */
 
 typedef struct S_8017086C_6 {
     u8 pad_00[0x2];
@@ -147,7 +143,7 @@ void *update_actor_action_controller(s16 mode, s16 value_24, s16 value_25, s16 v
         count = 0;
         do {
             child_obj = allocate_list_node(0x112, &scene_object_list_anchor.next);
-            ((S_8017086C_5 *)current)->unk_A4 = child_obj;
+            ((ActorRecord *)current)->unk_A4.address = child_obj;
             if (child_obj != 0) {
                 S_8017086C_6 *child;
 

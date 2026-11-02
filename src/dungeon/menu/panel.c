@@ -831,11 +831,6 @@ typedef struct S_800B1B10_6 {
     s32 unk_50;
 } S_800B1B10_6;   /* ((style_held++ * 4) + sub) in build_owned_floating_number_widget */
 
-typedef struct S_800B1B10_7 {
-    u8 pad_00[0x50];
-    s32 unk_50;
-} S_800B1B10_7;   /* ((style_held * 4) + sub) in build_owned_floating_number_widget */
-
 extern s32 allocate_panel_offset_or_zero(void);
 extern void update_fading_effect_scale(void *effect, s32 unused, void *render_arg);
 extern s32 transform_linked_quad_batches(u8 *, s32, u8 *);
@@ -952,7 +947,7 @@ void build_owned_floating_number_widget(void *owner, s32 value_a, s32 value_b, s
             ((S_800B1B10_2 *)sub)->unk_30 = b_held;
             *slots = 0x80808;
             geom = 0x80000;
-            ((S_800B1B10_7 *)(((style_held * 4) + sub)))->unk_50 = b_held;
+            ((S_800B1B10_6 *)(((style_held * 4) + sub)))->unk_50 = b_held;
             ((S_800B1B10_5 *)((void *) b_held))->unk_01.n = 0x38U;
             ((S_800B1B10_5 *)((void *) b_held))->unk_02 = -0xA;
             ((S_800B1B10_5 *)((void *) b_held))->unk_03.s = -0x10;
@@ -975,7 +970,7 @@ void build_owned_floating_number_widget(void *owner, s32 value_a, s32 value_b, s
             ((S_800B1B10_5 *)((void *) b_held))->unk_01.n |= 2;
             ((S_800B1B10_5 *)((void *) b_held))->unk_14 = copy_b;
             b_held += 0x18;
-            ((S_800B1B10_7 *)(((style_held * 4) + sub)))->unk_50 = b_held;
+            ((S_800B1B10_6 *)(((style_held * 4) + sub)))->unk_50 = b_held;
             ((S_800B1B10_5 *)((void *) b_held))->unk_01.n = 0x81;
             ((S_800B1B10_5 *)((void *) b_held))->unk_04.at00u.v = 0x20;
             ((S_800B1B10_5 *)((void *) b_held))->unk_04.at02.v = 0;

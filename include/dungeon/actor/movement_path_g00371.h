@@ -95,16 +95,6 @@ typedef struct S_func_800D8728_2 {
     u8 *unk_2C;
 } S_func_800D8728_2;
 
-typedef struct S_800D904C_0 {
-    u8 pad_00[0x1C];
-    s32 unk_1C;
-    u8 pad_20[0xA];
-    s16 unk_2A;
-    u8 pad_2C[0x45];
-    union { s8 s; u8 u; } unk_71;   /* accessed as both */
-    u8 pad_72[0x18];
-    s16 unk_8A;
-} S_800D904C_0;
 
 /* state in advance_actor_queued_path */
 /* entry in advance_actor_queued_path */

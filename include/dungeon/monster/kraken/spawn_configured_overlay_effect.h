@@ -11,13 +11,6 @@
 #include "engine/node/allocation.h"
 struct ObjectNodeHeader;
 
-typedef struct S_8014C86C_1 {
-    u8 pad_00[0x13];
-    s8 unk_13;
-    s32 unk_14;
-    u8 pad_18[0x4];
-    s32 unk_1C;
-} S_8014C86C_1;   /* work in func_8014C86C */
 
 typedef struct S_8014C86C_2 {
     u8 pad_00[0xA];
@@ -40,10 +33,6 @@ typedef struct S_8014C86C_4 {
     u16 unk_A8;
 } S_8014C86C_4;   /* actor in func_8014C86C */
 
-typedef struct S_8014C86C_5 {
-    u8 pad_00[0xA4];
-    void * unk_A4;
-} S_8014C86C_5;   /* current in func_8014C86C */
 
 typedef struct S_8014C86C_6 {
     u8 pad_00[0x2];

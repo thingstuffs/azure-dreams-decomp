@@ -12,10 +12,6 @@
 #include "dungeon/item.h"
 extern u8 encounter_overlay_work[];
 
-typedef struct S_8016FC4C_0 {
-    u8 pad_00[0xAC];
-    void * unk_AC;
-} S_8016FC4C_0;
 
 typedef struct S_8016FC4C_2 {
     u8 pad_00[0x14];
@@ -84,7 +80,7 @@ void advance_encounter_actor_effect_phase(ActorRecord *effect, ObjectPosition *p
     heading = beldo_actor_nodes[0] + 0x20;
     link_slot = ((u8 *)dungeon_actor_ring_anchor) + 4;
     do {
-        linked_entity = ((S_8016FC4C_0 *)link_slot)->unk_AC;
+        linked_entity = ((ActorRecord *)link_slot)->unk_AC.address;
         if (linked_entity != NULL) {
             linked_object = linked_entity[-1].sprite;
             linked_object->unk_14 = (u16)(linked_object->unk_14 & 0xFFBF);

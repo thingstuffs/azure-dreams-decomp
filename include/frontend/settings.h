@@ -4,6 +4,8 @@
 
 #include "common.h"
 #include "shared/transition_slots.h"
+#include "shared/entity.h"
+#include "shared/sprite_frame_state.h"
 
 typedef struct SettingsEffectBlock {
     s32 w0;
@@ -105,7 +107,6 @@ typedef struct MainTitleValueEntry {
 
 struct ColorRampEffect;
 struct MainTitleValueEntry;
-struct Motion;
 struct Obj;
 struct S_7FDD3A2C_1;
 struct State;
@@ -156,14 +157,14 @@ void update_settings_effect(SettingsVisualEffectBody *effect);
 void update_settings_effect_color(struct ColorRampEffect *effect);
 
 /* update_settings_effect_object.c */
-void update_settings_effect_object(SettingsEffectObjectBody *object, void *motion, void *sprite);
+void update_settings_effect_object(SettingsEffectObjectBody *object, ObjectPosition *motion, SpriteFrameState *sprite);
 void sync_object_with_sub_object(SettingsSyncObjectBody *object);
 
 /* update_settings_menu_animation.c */
 void update_settings_menu_animation(struct Obj *obj, s32 *position);
 
 /* update_settings_phase_motion.c */
-void update_settings_phase_motion(struct State *state, struct Motion *motion, void *update_data);
+void update_settings_phase_motion(struct State *state, ObjectPosition *motion, SpriteFrameState *update_data);
 
 
 /* Remove a callback object when its linked owner is marked. */

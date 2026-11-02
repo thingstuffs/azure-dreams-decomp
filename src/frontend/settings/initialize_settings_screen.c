@@ -10,12 +10,9 @@
 #include "main/data.h"
 #include "sdk/libgpu.h"
 #include "slus.h"
+#include "shared/entity.h"
 
 
-typedef struct S_80089C24_2 {
-    u8 pad_00[0x6];
-    s16 unk_06;
-} S_80089C24_2;
 
 typedef struct Sol9Copy8 {
     u8 bytes[8];
@@ -118,7 +115,7 @@ void initialize_settings_screen(void) {
         screen_object->update_callback = (void *)handle_settings_menu_input;
         register_node(screen_object, build_settings_sprite_tiles);
         settings = ((void *)screen_object) + 0x20;
-        ((S_80089C24_2 *)(screen_object->position))->unk_06 = 0xF0;
+        screen_object->position->y.w.i = 0xF0;
         (*(s16 *)((u8 *)settings + 4)) = 0x20;
         (*(s16 *)((u8 *)settings + 0x14)) = (s16) ((u8) D_80013184 >> 5);
         index = 2;

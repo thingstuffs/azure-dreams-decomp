@@ -10,11 +10,11 @@
 /* tick_timed_object_and_mark_complete.c */
 void tick_timed_object_and_mark_complete(void *ptr);
 
-void initialize_scene_slot_thirteen(void *object, void *position, SpriteFrameState *sprite);
+void initialize_scene_slot_thirteen(void *object, ObjectPosition *position, SpriteFrameState *sprite);
 
-void initialize_scene_slot_forty_sprite(void *object, void *position, SpriteFrameState *sprite);
+void initialize_scene_slot_forty_sprite(void *object, ObjectPosition *position, SpriteFrameState *sprite);
 
-void initialize_scene_slot_ten(void *object, void *position, SpriteFrameState *sprite);
+void initialize_scene_slot_ten(void *object, ObjectPosition *position, SpriteFrameState *sprite);
 
 typedef struct FallingObjectState {
     u8 pad_00[0x4C];
@@ -25,7 +25,7 @@ typedef struct FallingObjectState {
     u8 pad_54[0x18];
     s16 timer;
 } FallingObjectState;
-void initialize_falling_object_sprite(FallingObjectState *object, void *context, void *sprite);
+void initialize_falling_object_sprite(FallingObjectState *object, ObjectPosition *context, SpriteFrameState *sprite);
 
 typedef struct SpriteSixState {
     u8 pad_00[0x66];

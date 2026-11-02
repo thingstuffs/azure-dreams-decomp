@@ -40,15 +40,6 @@ typedef struct S_801749A8_0_pre {
     u16 unk_00;
 } S_801749A8_0_pre;   /* the 0x2 bytes before arg0 in update_turning_fade_effect_and_model, addressed as arg0[-1] */
 
-typedef struct S_801749A8_0 {
-    u8 pad_00[0x96];
-    u16 unk_96;
-    u8 pad_98[0x3];
-    u8 unk_9B;
-    u8 pad_9C[0x8];
-    void * unk_A4;
-    s16 unk_A8;
-} S_801749A8_0;   /* arg0 in update_turning_fade_effect_and_model */
 
 typedef struct S_801749A8_2 {
     u8 pad_00[0xC];

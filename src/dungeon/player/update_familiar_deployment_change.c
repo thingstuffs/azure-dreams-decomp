@@ -68,24 +68,7 @@ typedef struct S_8009345C_0 {
 
    /* entity in update_familiar_deployment_change */
 
-typedef struct S_8009345C_2 {
-    u8 pad_00[0x2A];
-    s16 unk_2A;
-    u8 pad_2C[0x30];
-    s32 unk_5C;
-    void * unk_60;
-    u8 pad_64[0xE];
-    s8 unk_72;
-    s8 unk_73;
-    u8 pad_74[0x14];
-    u16 unk_88;
-    union { s16 s; u16 u; } unk_8A;   /* accessed as both */
-} S_8009345C_2;   /* ctx in update_familiar_deployment_change */
 
-typedef struct S_8009345C_3 {
-    u8 pad_00[0xAC];
-    void * unk_AC;
-} S_8009345C_3;
 
 typedef struct S_8009345C_4 {
     union { u16 u; s16 s; } slot; /* 0x00 */   /* accessed as both */
@@ -138,17 +121,7 @@ typedef struct S_8009345C_14 {
     void * unk_D0;
 } S_8009345C_14;
 
-typedef struct S_8009345C_15 {
-    u8 pad_00[0x13];
-    u8 unk_13;
-    u8 pad_14[0x8];
-    s32 unk_1C;
-} S_8009345C_15;   /* ((S_8009345C_2 *)ctx)->unk_60 in update_familiar_deployment_change */
 
-typedef struct S_8009345C_16 {
-    u8 pad_00[0xAC];
-    s32 unk_AC;
-} S_8009345C_16;   /* slot selects the owner's familiar record */
 
 /* Advances the object replacement sequence, including animation, messages, and cleanup. */
 void update_familiar_deployment_change(void *actor, ObjectPosition *map, void *entity, void *context) {
@@ -184,7 +157,7 @@ void update_familiar_deployment_change(void *actor, ObjectPosition *map, void *e
             return;
         }
         (*(void **)((u8 *)entity + (0x2C))) = familiar_save_restore_frames;
-        set_sprite_animation_frame(entity, familiar_save_restore_frames[((s32) (g_game_work.view.camera_rotation.parts.viewAngle + ((S_8009345C_2 *)context)->unk_2A + 0x100)
+        set_sprite_animation_frame(entity, familiar_save_restore_frames[((s32) (g_game_work.view.camera_rotation.parts.viewAngle + ((ActorRecord *)context)->facing + 0x100)
             >> 9) & 7], 0, 1);
         create_familiar_deployment_effect_with_owner_state(actor, map, entity);
         create_familiar_deployment_overlay(actor, map, entity);
@@ -192,11 +165,11 @@ void update_familiar_deployment_change(void *actor, ObjectPosition *map, void *e
         familiar_removed_during_change = 0;
         ((SpriteFrameState *)entity)->flags = (u16) (entity_flags | 0x200);
         ((S_8009345C_0 *)actor)->wait_ticks = 0x10U;
-        selected_slot = ((S_8009345C_2 *)context)->unk_8A.s;
-        slot_bits = ((S_8009345C_2 *)context)->unk_8A.u;
-        selected_object = ((S_8009345C_3 *)(((selected_slot * 4) + actor)))->unk_AC;
+        selected_slot = ((ActorRecord *)context)->unk_8A;
+        slot_bits = ((ActorRecord *)context)->unk_8A;
+        selected_object = ((ActorRecord *)(((selected_slot * 4) + actor)))->unk_AC.address;
         familiar_deployment_slots.slot.u = slot_bits;
-        ((S_8009345C_2 *)context)->unk_60 = selected_object;
+        ((ActorRecord *)context)->target = selected_object;
         ((S_8009345C_0 *)actor)->phase++;
         return;
     case 1:
@@ -205,7 +178,7 @@ void update_familiar_deployment_change(void *actor, ObjectPosition *map, void *e
         if ((start_ticks << 0x10) > 0) {
             return;
         }
-        if (((S_8009345C_2 *)context)->unk_60 != NULL) {
+        if (((ActorRecord *)context)->target != NULL) {
             store_recalled_familiar(actor, map, entity, context);
             ((S_8009345C_0 *)actor)->phase++;
             return;
@@ -213,7 +186,7 @@ void update_familiar_deployment_change(void *actor, ObjectPosition *map, void *e
         next_state = ((S_8009345C_0 *)actor)->phase + 2;
         break;
     case 2:
-        if (!(((S_8009345C_15 *)(((S_8009345C_2 *)context)->unk_60))->unk_1C & 0x800000)) {
+        if (!(((ActorRecord *)(((ActorRecord *)context)->target))->flags1C & 0x800000)) {
             return;
         }
         message_or_list.text = get_unused_text_buffer();
@@ -223,16 +196,16 @@ void update_familiar_deployment_change(void *actor, ObjectPosition *map, void *e
         } else {
             remove_text = D_800E05E1;
         }
-        clear_byte_and_advance(expand_text_control_codes(D_800E06FA, append_entity_display_text(((S_8009345C_2 *)context)->unk_60,
+        clear_byte_and_advance(expand_text_control_codes(D_800E06FA, append_entity_display_text(((ActorRecord *)context)->target,
             expand_text_control_codes(remove_text, remove_message))));
         display_text_with_fullwidth_adjustment(message_or_list.text);
-        old_object = ((S_8009345C_2 *)context)->unk_60;
+        old_object = ((ActorRecord *)context)->target;
         familiar_removed_during_change = 1;
         mark_owned_linked_actor_actions(old_object);
-        ((S_8009345C_16 *)(((familiar_deployment_slots.slot.s * 4) + actor)))->unk_AC = 0;
-        decrement_monster_entry_count(((S_8009345C_15 *)(((S_8009345C_2 *)context)->unk_60))->unk_13, 3);
-        unlink_entity_node(((S_8009345C_2 *)context)->unk_60);
-        removed_object = ((S_8009345C_2 *)context)->unk_60;
+        ((ActorRecord *)(((familiar_deployment_slots.slot.s * 4) + actor)))->unk_AC.value = 0;
+        decrement_monster_entry_count(((ActorRecord *)(((ActorRecord *)context)->target))->species, 3);
+        unlink_entity_node(((ActorRecord *)context)->target);
+        removed_object = ((ActorRecord *)context)->target;
         removed_object[-1].flags = (u16) (removed_object[-1].flags
             | 0x8000);
         (*&object_flag_block.flags) = (s32) (object_flag_block.flags | OBJECT_REMOVE_PENDING);
@@ -272,8 +245,8 @@ void update_familiar_deployment_change(void *actor, ObjectPosition *map, void *e
         if (create_id != 0) {
             runtime_map_type_16_entry_code(*message_or_list.base);
             new_object = load_monster_code_module(((S_8009345C_7 *)(*message_or_list.base))->unk_00, create_id, 1)(1,
-                ((S_8009345C_2 *)context)->unk_72, ((S_8009345C_2 *)context)->unk_73,
-                (s16) (((S_8009345C_2 *)context)->unk_88 - 0x20));
+                ((ActorRecord *)context)->target_tile_x, ((ActorRecord *)context)->target_tile_y,
+                (s16) (((ActorRecord *)context)->ground_height - 0x20));
             if (new_object != NULL) {
                 (*(void **)((u8 *)(((familiar_deployment_slots.slot.s * 4) + actor)) + (0xAC))) = new_object;
                 familiar_record_slots[((S_8009345C_7 *)(*message_or_list.base))->unk_03 & 0x1F] = new_object;
@@ -323,7 +296,7 @@ void update_familiar_deployment_change(void *actor, ObjectPosition *map, void *e
             return;
         }
         (*(void **)((u8 *)entity + (0x2C))) = familiar_save_frames;
-        set_sprite_animation_frame(entity, familiar_save_frames[((s32) (g_game_work.view.camera_rotation.parts.viewAngle + ((S_8009345C_2 *)context)->unk_2A + 0x100)
+        set_sprite_animation_frame(entity, familiar_save_frames[((s32) (g_game_work.view.camera_rotation.parts.viewAngle + ((ActorRecord *)context)->facing + 0x100)
             >> 9) & 7], 0, 1);
         ((S_8009345C_0 *)actor)->phase++;
         return;
@@ -332,8 +305,8 @@ void update_familiar_deployment_change(void *actor, ObjectPosition *map, void *e
             return;
         }
         ((S_8009345C_0 *)actor)->action_callback = handle_player_input;
-        process_unflagged_linked_entries_alt(((S_8009345C_2 *)context)->unk_5C);
-        process_unflagged_linked_entries(((S_8009345C_2 *)context)->unk_5C);
+        process_unflagged_linked_entries_alt(((ActorRecord *)context)->next_actor_header);
+        process_unflagged_linked_entries(((ActorRecord *)context)->next_actor_header);
         g_dungeon_status.flags = (u16) (g_dungeon_status.flags | 0x812);
         ((SpriteFrameState *)entity)->flags = (u16) (((SpriteFrameState *)entity)->flags & 0xFDFF);
     case 6:

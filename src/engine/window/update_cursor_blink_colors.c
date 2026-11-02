@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/entity.h"
 
 #include "common.h"
 #include "engine/window.h"
@@ -41,7 +42,7 @@ extern u8 cursor_texture_descriptor_2[];
 extern u8 cursor_texture_descriptor_3[];
 
 /* Updates the current entry's output value and applies its blink color. */
-void update_cursor_blink_colors(void *state_arg, s32 mode, void *output_arg) {
+void update_cursor_blink_colors(void *state_arg, ObjectPosition *position, void *output_arg) {
     S_80037394_0 *state = state_arg;
     S_80037394_2 *output = output_arg;
     u8 entry_flags;

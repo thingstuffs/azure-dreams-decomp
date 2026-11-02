@@ -15,31 +15,7 @@
 #include "engine/resource.h"
 #include "dungeon/item/effect.h"
 
-typedef struct S_80175CD8_0 {
-    u8 pad_00[0x8C];
-    s32 * unk_8C;
-    union {
-        struct { s32 v; } at00;
-        struct { u8 pad[0x2]; s16 v; } at02;
-        struct { u8 pad[0x2]; u16 v; } at02u;
-    } unk_90;   /* overlapping accesses */
-    u8 pad_94[0x2];
-    union { s16 s; u16 u; } unk_96;   /* accessed as both */
-    u8 pad_98[0x2];
-    u8 unk_9A;
-    u8 unk_9B;
-    u8 pad_9C[0x2];
-    s16 unk_9E;
-    u8 pad_A0[0x2];
-    union { s16 s; u16 u; } unk_A2;   /* accessed as both */
-    u8 pad_A4[0x10];
-    union { s16 s; u16 u; } unk_B4;   /* accessed as both */
-} S_80175CD8_0;   /* arg0 in update_actor_approach_descent_return */
 
-typedef struct S_80175CD8_4 {
-    u8 pad_00[0x14];
-    u32 unk_14;
-} S_80175CD8_4;   /* held in update_actor_approach_descent_return */
 
 typedef struct S_80175CD8_5 {
     u8 pad_00[0x8];
@@ -50,12 +26,6 @@ typedef struct S_80175CD8_5 {
     union { u16 s; s16 u; } unk_88;   /* accessed as both */
 } S_80175CD8_5;   /* globals in update_actor_approach_descent_return */
 
-typedef struct S_80175CD8_6 {
-    u8 pad_00[0x14];
-    u32 unk_14;
-    u8 pad_18[0x7A];
-    s16 unk_92;
-} S_80175CD8_6;   /* global_ptr in update_actor_approach_descent_return */
 
 typedef struct WorldStatePage {
     u8 pad_0000[0x2090];
@@ -108,7 +78,7 @@ void update_actor_approach_descent_return(void *action, ObjectPosition *motion, 
     u8 *companion;
 
     {
-        u32 state = ((S_80175CD8_0 *)action)->unk_9B;
+        u32 state = ((ActorRecord *)action)->action_phase.u;
 
         switch (state) {
         case 0:
@@ -132,8 +102,8 @@ void update_actor_approach_descent_return(void *action, ObjectPosition *motion, 
             tile_dx = __builtin_abs(tile_dx);
             tile_dy = target_tile_y - sprite_tile_y;
             tile_dy = __builtin_abs(tile_dy);
-            ((S_80175CD8_0 *)action)->unk_96.s = ((tile_dx + tile_dy) * 4) + 9;
-            ((S_80175CD8_0 *)action)->unk_9B++;
+            ((ActorRecord *)action)->action_timer.s = ((tile_dx + tile_dy) * 4) + 9;
+            ((ActorRecord *)action)->action_phase.u++;
             spend_actor_mp(effect_actor, effect_flags);
         }
 
@@ -176,43 +146,43 @@ void update_actor_approach_descent_return(void *action, ObjectPosition *motion, 
             target_x = ((reference_tile_object.tile_position.parts.tile_x << 6) + 0x20) << 16;
             target_y = ((reference_tile_object.tile_position.parts.tile_y << 6) + 0x20) << 16;
             target_z = view_reference_entity.z.v - 0x600000;
-            approach_ticks = ((S_80175CD8_0 *)action)->unk_96.s;
+            approach_ticks = ((ActorRecord *)action)->action_timer.s;
             if (approach_ticks >= 0xE) {
                 motion->velocity_x = (target_x
                     - motion->x.v) / (approach_ticks - 9);
                 motion->velocity_y = (target_y - motion->y.v) /
-                    (((S_80175CD8_0 *)action)->unk_96.s - 9);
-                motion->velocity_z = (target_z - ((S_80175CD8_0 *)action)->unk_90.at00.v) /
-                    (((S_80175CD8_0 *)action)->unk_96.s - 9);
+                    (((ActorRecord *)action)->action_timer.s - 9);
+                motion->velocity_z = (target_z - ((ActorRecord *)action)->unk_90.value) /
+                    (((ActorRecord *)action)->action_timer.s - 9);
             } else if (approach_ticks >= 0xB) {
                 motion->velocity_x = (target_x
                     - motion->x.v) / (approach_ticks - 7);
                 motion->velocity_y = (target_y - motion->y.v) /
-                    (((S_80175CD8_0 *)action)->unk_96.s - 7);
-                motion->velocity_z = (target_z - ((S_80175CD8_0 *)action)->unk_90.at00.v) /
-                    (((S_80175CD8_0 *)action)->unk_96.s - 7);
+                    (((ActorRecord *)action)->action_timer.s - 7);
+                motion->velocity_z = (target_z - ((ActorRecord *)action)->unk_90.value) /
+                    (((ActorRecord *)action)->action_timer.s - 7);
             } else if (approach_ticks >= 5) {
                 motion->velocity_x = (target_x
                     - motion->x.v) / (approach_ticks - 2);
                 motion->velocity_y = (target_y - motion->y.v) /
-                    (((S_80175CD8_0 *)action)->unk_96.s - 2);
-                motion->velocity_z = (target_z - ((S_80175CD8_0 *)action)->unk_90.at00.v) /
-                    (((S_80175CD8_0 *)action)->unk_96.s - 2);
+                    (((ActorRecord *)action)->action_timer.s - 2);
+                motion->velocity_z = (target_z - ((ActorRecord *)action)->unk_90.value) /
+                    (((ActorRecord *)action)->action_timer.s - 2);
             } else {
                 motion->velocity_x = (target_x
                     - motion->x.v) / approach_ticks;
                 motion->velocity_y = (target_y - motion->y.v) /
-                    ((S_80175CD8_0 *)action)->unk_96.s;
-                motion->velocity_z = (target_z - ((S_80175CD8_0 *)action)->unk_90.at00.v) /
-                    ((S_80175CD8_0 *)action)->unk_96.s;
+                    ((ActorRecord *)action)->action_timer.s;
+                motion->velocity_z = (target_z - ((ActorRecord *)action)->unk_90.value) /
+                    ((ActorRecord *)action)->action_timer.s;
             }
-            ticks_left = ((S_80175CD8_0 *)action)->unk_96.u - 1;
-            ((S_80175CD8_0 *)action)->unk_96.s = ticks_left;
+            ticks_left = ((ActorRecord *)action)->action_timer.u - 1;
+            ((ActorRecord *)action)->action_timer.s = ticks_left;
             if ((ticks_left << 16) != 0) {
                 return;
             }
-            ((S_80175CD8_0 *)action)->unk_96.s = 0;
-            ((S_80175CD8_0 *)action)->unk_9B++;
+            ((ActorRecord *)action)->action_timer.s = 0;
+            ((ActorRecord *)action)->action_phase.u++;
             motion->velocity_z = 0;
             motion->velocity_y = 0;
             motion->velocity_x = 0;
@@ -222,26 +192,26 @@ void update_actor_approach_descent_return(void *action, ObjectPosition *motion, 
             sprite->frameTable = baloon_hop_frames;
             facing = (g_game_work.view.camera_rotation.parts.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9;
             select_sprite_entry(sprite, baloon_hop_frames[facing & 7], 0);
-            ((S_80175CD8_0 *)action)->unk_96.s = 0;
-            ((S_80175CD8_0 *)action)->unk_9B++;
+            ((ActorRecord *)action)->action_timer.s = 0;
+            ((ActorRecord *)action)->action_phase.u++;
             clear_player_linked_action_flags();
             return;
 
         case 3:
         {
-            u16 old_timer = ((S_80175CD8_0 *)action)->unk_96.u;
+            u16 old_timer = ((ActorRecord *)action)->action_timer.u;
 
-            ((S_80175CD8_0 *)action)->unk_96.s = old_timer + 1;
+            ((ActorRecord *)action)->action_timer.s = old_timer + 1;
             if ((s16)old_timer < 7) {
                 return;
             }
         }
-            ((S_80175CD8_0 *)action)->unk_9B++;
+            ((ActorRecord *)action)->action_phase.u++;
             {
-                S_80175CD8_4 *player = ((S_80175CD8_4 *)dungeon_actor_ring_anchor);
+                ActorRecord *player = dungeon_actor_ring_anchor;
 
-                ((S_80175CD8_0 *)action)->unk_96.s = 0;
-                player->unk_14 |= 0x100000;
+                ((ActorRecord *)action)->action_timer.s = 0;
+                player->flags14 |= 0x100000;
             }
             play_sound_if_enabled(0x603);
             return;
@@ -255,27 +225,27 @@ void update_actor_approach_descent_return(void *action, ObjectPosition *motion, 
             scene->z.v += fall_speed;
         }
             {
-                u16 old_timer = ((S_80175CD8_0 *)action)->unk_96.u;
+                u16 old_timer = ((ActorRecord *)action)->action_timer.u;
 
-                ((S_80175CD8_0 *)action)->unk_96.s = old_timer + 1;
+                ((ActorRecord *)action)->action_timer.s = old_timer + 1;
                 if ((s16)old_timer < 0x1B) {
                     return;
                 }
             }
-            ((S_80175CD8_0 *)action)->unk_96.s = 0;
+            ((ActorRecord *)action)->action_timer.s = 0;
 
             if ((((WorldStatePage *)0x80010000)->actionMode == 0) && (current_dungeon_floor == 0x28)) {
-                ((S_80175CD8_0 *)action)->unk_9B = 7;
+                ((ActorRecord *)action)->action_phase.u = 7;
             } else if ((*((u8 *)&((EntityRec *)actor)->unk_10 + 1)) >= current_dungeon_floor) {
-                ((S_80175CD8_0 *)action)->unk_9B++;
+                ((ActorRecord *)action)->action_phase.u++;
             } else {
-                ((S_80175CD8_0 *)action)->unk_9B = 7;
+                ((ActorRecord *)action)->action_phase.u = 7;
             }
             return;
 
         case 5:
-            ((S_80175CD8_0 *)action)->unk_96.s = 0;
-            ((S_80175CD8_0 *)action)->unk_9B++;
+            ((ActorRecord *)action)->action_timer.s = 0;
+            ((ActorRecord *)action)->action_phase.u++;
             return;
 
         case 6:
@@ -309,31 +279,31 @@ void update_actor_approach_descent_return(void *action, ObjectPosition *motion, 
             motion->velocity_z = 0;
             motion->velocity_y = 0;
             motion->velocity_x = 0;
-            ((S_80175CD8_0 *)action)->unk_96.s = 0;
-            ((S_80175CD8_0 *)action)->unk_9B = 0x14;
+            ((ActorRecord *)action)->action_timer.s = 0;
+            ((ActorRecord *)action)->action_phase.u = 0x14;
             ((EntityRec *)actor)->unk_46 &= 0x7FFF;
             break;
 
         case 7:
         {
-            S_80175CD8_6 *player = ((S_80175CD8_6 *)dungeon_actor_ring_anchor);
+            ActorRecord *player = dungeon_actor_ring_anchor;
             ObjectPosition *scene;
             u8 *scene_base;
             u32 player_flags;
             u16 height;
 
-            player_flags = player->unk_14 & 0xFFEFFFFF;
+            player_flags = ((u32)player->flags14) & 0xFFEFFFFF;
 
             scene_base = ((u8 *)(&scene_object_list_anchor));
             scene = scene_base + 0x20;
-            player->unk_14 = player_flags;
+            player->flags14 = player_flags;
             height = ((u16)view_reference_entity.z.w.i) - ((S_80175CD8_5 *)scene)->unk_88.s;
-            player->unk_92 = height;
+            player->unk_90.parts.high.s = height;
             ((S_80175CD8_5 *)scene)->unk_88.u = height;
             ((S_80175CD8_5 *)scene)->unk_1C |= 0x40000000;
         }
             (*(s16 *)((u8 *)action + 0x96)) = 0x28;
-            ((S_80175CD8_0 *)action)->unk_9B++;
+            ((ActorRecord *)action)->action_phase.u++;
 
             if ((dungeon_mode_state != 0) || (current_dungeon_floor != 0x28)) {
                 text_start = get_unused_text_buffer();
@@ -354,44 +324,44 @@ void update_actor_approach_descent_return(void *action, ObjectPosition *motion, 
         case 8:
             target_x = ((sprite->tile_x << 6) + 0x20) << 16;
             target_y = ((sprite->tile_y << 6) + 0x20) << 16;
-            target_z = (((S_80175CD8_0 *)action)->unk_B4.s - 0x20) << 16;
-            return_ticks = ((S_80175CD8_0 *)action)->unk_96.s;
+            target_z = (((ActorRecord *)action)->unk_B4.halves.low.s - 0x20) << 16;
+            return_ticks = ((ActorRecord *)action)->action_timer.s;
             if (return_ticks >= 0xE) {
                 motion->velocity_x = (target_x - motion->x.v) / (return_ticks
                     - 9);
                 motion->velocity_y = (target_y - motion->y.v) /
-                    (((S_80175CD8_0 *)action)->unk_96.s - 9);
-                motion->velocity_z = (target_z - ((S_80175CD8_0 *)action)->unk_90.at00.v) /
-                    (((S_80175CD8_0 *)action)->unk_96.s - 9);
+                    (((ActorRecord *)action)->action_timer.s - 9);
+                motion->velocity_z = (target_z - ((ActorRecord *)action)->unk_90.value) /
+                    (((ActorRecord *)action)->action_timer.s - 9);
             } else if (return_ticks >= 0xB) {
                 motion->velocity_x = (target_x - motion->x.v) / (return_ticks
                     - 7);
                 motion->velocity_y = (target_y - motion->y.v) /
-                    (((S_80175CD8_0 *)action)->unk_96.s - 7);
-                motion->velocity_z = (target_z - ((S_80175CD8_0 *)action)->unk_90.at00.v) /
-                    (((S_80175CD8_0 *)action)->unk_96.s - 7);
+                    (((ActorRecord *)action)->action_timer.s - 7);
+                motion->velocity_z = (target_z - ((ActorRecord *)action)->unk_90.value) /
+                    (((ActorRecord *)action)->action_timer.s - 7);
             } else if (return_ticks >= 5) {
                 motion->velocity_x = (target_x - motion->x.v) / (return_ticks
                     - 2);
                 motion->velocity_y = (target_y - motion->y.v) /
-                    (((S_80175CD8_0 *)action)->unk_96.s - 2);
-                motion->velocity_z = (target_z - ((S_80175CD8_0 *)action)->unk_90.at00.v) /
-                    (((S_80175CD8_0 *)action)->unk_96.s - 2);
+                    (((ActorRecord *)action)->action_timer.s - 2);
+                motion->velocity_z = (target_z - ((ActorRecord *)action)->unk_90.value) /
+                    (((ActorRecord *)action)->action_timer.s - 2);
             } else {
                 motion->velocity_x = (target_x - motion->x.v) / return_ticks;
                 motion->velocity_y = (target_y - motion->y.v) /
-                    ((S_80175CD8_0 *)action)->unk_96.s;
-                motion->velocity_z = (target_z - ((S_80175CD8_0 *)action)->unk_90.at00.v) /
-                    ((S_80175CD8_0 *)action)->unk_96.s;
+                    ((ActorRecord *)action)->action_timer.s;
+                motion->velocity_z = (target_z - ((ActorRecord *)action)->unk_90.value) /
+                    ((ActorRecord *)action)->action_timer.s;
             }
 
-            ticks_left = ((S_80175CD8_0 *)action)->unk_96.u - 1;
-            ((S_80175CD8_0 *)action)->unk_96.s = ticks_left;
+            ticks_left = ((ActorRecord *)action)->action_timer.u - 1;
+            ((ActorRecord *)action)->action_timer.s = ticks_left;
             if ((ticks_left << 16) != 0) {
                 return;
             }
-            ((S_80175CD8_0 *)action)->unk_96.s = 0;
-            ((S_80175CD8_0 *)action)->unk_9B++;
+            ((ActorRecord *)action)->action_timer.s = 0;
+            ((ActorRecord *)action)->action_phase.u++;
             motion->velocity_z = 0;
             motion->velocity_y = 0;
             motion->velocity_x = 0;
@@ -401,8 +371,8 @@ void update_actor_approach_descent_return(void *action, ObjectPosition *motion, 
             motion->velocity_z = 0;
             motion->velocity_y = 0;
             motion->velocity_x = 0;
-            ((S_80175CD8_0 *)action)->unk_8C = update_actor_turn_behavior;
-            ((S_80175CD8_0 *)action)->unk_9A = 0xE;
+            ((ActorRecord *)action)->unk_8C.word_ptr = update_actor_turn_behavior;
+            ((ActorRecord *)action)->action_id.u = 0xE;
             g_dungeon_status.active_actor = 0;
             ((EntityRec *)actor)->flags1C |= 0x40000;
             (*(u16 *)((u8 *)action + 0x98)) &= 0xFFF7;
@@ -410,14 +380,14 @@ void update_actor_approach_descent_return(void *action, ObjectPosition *motion, 
             facing = (g_game_work.view.camera_rotation.parts.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9;
             select_sprite_entry(sprite, baloon_default_frames[facing & 7], 0);
             sprite->frame_ticks = 1;
-            ((S_80175CD8_0 *)action)->unk_A2.s = 0;
-            ((S_80175CD8_0 *)action)->unk_9E = 0;
-            ((S_80175CD8_0 *)action)->unk_90.at02.v = -0x20;
-            ((EntityRec *)actor)->unk_88 = ((S_80175CD8_0 *)action)->unk_B4.u;
+            ((ActorRecord *)action)->unk_A0.parts.high = 0;
+            ((ActorRecord *)action)->unk_9E.s = 0;
+            ((ActorRecord *)action)->unk_90.parts.high.s = -0x20;
+            ((EntityRec *)actor)->unk_88 = ((ActorRecord *)action)->unk_B4.halves.low.u;
             motion->x.w.i = (sprite->tile_x << 6) + 0x20;
             motion->y.w.i = (sprite->tile_y << 6) + 0x20;
             motion->z.w.i = ((u16)((EntityRec *)actor)->unk_88) +
-                ((S_80175CD8_0 *)action)->unk_90.at02u.v - ((S_80175CD8_0 *)action)->unk_A2.u;
+                ((ActorRecord *)action)->unk_90.parts.high.u - ((ActorRecord *)action)->unk_A0.parts.high;
 
             ((EntityRec *)actor)->unk_46 &= 0x7FFF;
 

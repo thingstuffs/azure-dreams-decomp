@@ -33,10 +33,6 @@ void beldo_large_action_resume_address(ActorRecord *actor, ObjectPosition *conte
 extern Callback beldo_large_callbacks[];
 extern u8 D_80173DDC[];
 
-typedef struct S_80169EC0_0 {
-    u8 pad_00[0xAC];
-    void * unk_AC;
-} S_80169EC0_0;   /* scan in update_actor_callbacks_and_motion */
 
    /* the 0x14 bytes before entry in update_actor_callbacks_and_motion, addressed as entry[-1] */
 
@@ -45,18 +41,6 @@ typedef struct S_80169EC0_2 {
     u16 unk_14;
 } S_80169EC0_2;   /* record in update_actor_callbacks_and_motion */
 
-typedef struct S_80169EC0_3 {
-    u8 pad_00[0x1C];
-    s32 unk_1C;
-    u8 pad_20[0xA];
-    s16 unk_2A;
-    u8 pad_2C[0x41];
-    union { u8 u; s8 s; } unk_6D;   /* accessed as both */
-    u8 pad_6E[0x3];
-    u8 unk_71;
-    u8 pad_72[0x16];
-    union { u16 u; s16 s; } unk_88;   /* accessed as both */
-} S_80169EC0_3;   /* actor in update_actor_callbacks_and_motion */
 
    /* data in update_actor_callbacks_and_motion */
 
@@ -93,7 +77,7 @@ void update_actor_callbacks_and_motion(ActorRecord *body, ObjectPosition *motion
         slot_index = 1;
         slot_ptr = ((u8 *)dungeon_actor_ring_anchor) + 4;
         do {
-            slot_entry = ((S_80169EC0_0 *)slot_ptr)->unk_AC;
+            slot_entry = ((ActorRecord *)slot_ptr)->unk_AC.address;
             if (slot_entry != NULL) {
                 slot_record = slot_entry[-1].sprite;
                 slot_record->unk_14 &= 0xFFBF;
@@ -114,7 +98,7 @@ void update_actor_callbacks_and_motion(ActorRecord *body, ObjectPosition *motion
             special_callback(body, motion, sprite, actor);
             return;
         } else {
-            ((S_80169EC0_3 *)actor)->unk_71 &= 0x7F;
+            ((ActorRecord *)actor)->movement_queue_state &= 0x7F;
             return;
         }
     }
@@ -124,7 +108,7 @@ void update_actor_callbacks_and_motion(ActorRecord *body, ObjectPosition *motion
         void *call_motion = motion;
         void *call_data = sprite;
 
-        initial_state = (s8)((S_80169EC0_3 *)actor)->unk_6D.u;
+        initial_state = (s8)((ActorRecord *)actor)->pending_turn_updates;
         if (refresh_actor_facing_and_lifecycle(call_owner, (s32)(call_motion), call_data, actor) != 0) {
             return;
         }
@@ -135,7 +119,7 @@ void update_actor_callbacks_and_motion(ActorRecord *body, ObjectPosition *motion
         update_callback(body, motion, sprite, actor);
     }
     beldo_large_callbacks[body->action_id.u](body, motion, sprite, actor);
-    if ((s16)initial_state != ((S_80169EC0_3 *)actor)->unk_6D.s) {
+    if ((s16)initial_state != ((ActorRecord *)actor)->pending_turn_updates) {
         try_move_actor_to_valid_position(body, motion, sprite, actor);
     }
 
@@ -143,7 +127,7 @@ void update_actor_callbacks_and_motion(ActorRecord *body, ObjectPosition *motion
     if (!(status & 0x8000)) {
         u16 frame_status;
         u16 cleared_status;
-        state_bits = (u32)(g_game_work.view.camera_rotation.parts.viewAngle + ((S_80169EC0_3 *)actor)->unk_2A + 0x100);
+        state_bits = (u32)(g_game_work.view.camera_rotation.parts.viewAngle + ((ActorRecord *)actor)->facing + 0x100);
         state_bits = (s32)state_bits >> 9;
         direction = state_bits & 7;
         if (body->unk_94 != direction) {
@@ -157,14 +141,14 @@ void update_actor_callbacks_and_motion(ActorRecord *body, ObjectPosition *motion
         frame_status = sprite->flags;
         cleared_status = frame_status & 0xFFFE;
         sprite->flags = cleared_status;
-        if (!(((S_80169EC0_3 *)actor)->unk_1C & ACTOR_PARALYZED)) {
+        if (!(((ActorRecord *)actor)->flags1C & ACTOR_PARALYZED)) {
             if (!(frame_status & 0x40)) {
                 advance_sprite_animation_and_textures(sprite);
             }
         } else {
             sprite->flags = cleared_status | 0x7000;
         }
-        apply_monster_koyaw_data(((S_80169EC0_3 *)actor)->unk_1C, (u8 *)sprite + 0xC);
+        apply_monster_koyaw_data(((ActorRecord *)actor)->flags1C, (u8 *)sprite + 0xC);
     } else {
         sprite->flags = (status & 0x800) ?
                                 (status & 0x8FFF) : (status | 0x7000);
@@ -183,13 +167,13 @@ void update_actor_callbacks_and_motion(ActorRecord *body, ObjectPosition *motion
     if (!(body->action_state_flags & 4) &&
         ((terrain_height = sample_terrain_surface_height(((u16) motion->x.w.i),
             ((u16) motion->y.w.i),
-                           (s16)(((S_80169EC0_3 *)actor)->unk_88.u - 0x20))),
+                           (s16)(((ActorRecord *)actor)->ground_height - 0x20))),
          (s16)terrain_height < 0x200)) {
         height_offset = body->unk_90.parts.high.s;
-        signed_height = ((S_80169EC0_3 *)actor)->unk_88.s;
-        height = ((S_80169EC0_3 *)actor)->unk_88.u;
+        signed_height = ((ActorRecord *)actor)->ground_height;
+        height = ((ActorRecord *)actor)->ground_height;
         if (height_offset + signed_height < (s16)terrain_height) {
-            ((S_80169EC0_3 *)actor)->unk_1C &= ACTOR_GROUNDED_CLEAR_MASK;
+            ((ActorRecord *)actor)->flags1C &= ACTOR_GROUNDED_CLEAR_MASK;
         } else {
             if ((s16)terrain_height >= signed_height) {
                 body->unk_90.value = 0;
@@ -197,24 +181,24 @@ void update_actor_callbacks_and_motion(ActorRecord *body, ObjectPosition *motion
                 body->unk_90.parts.high.s = terrain_height - height;
             }
             motion->velocity_z = 0;
-            ((S_80169EC0_3 *)actor)->unk_1C |= ACTOR_GROUNDED;
+            ((ActorRecord *)actor)->flags1C |= ACTOR_GROUNDED;
             body->unk_9D.u = 0;
         }
-        actor_flags = ((S_80169EC0_3 *)actor)->unk_1C;
+        actor_flags = ((ActorRecord *)actor)->flags1C;
         if (actor_flags & 0x40000000) {
-            ((S_80169EC0_3 *)actor)->unk_1C = actor_flags & 0xBFFFFFFF;
+            ((ActorRecord *)actor)->flags1C = actor_flags & 0xBFFFFFFF;
             terrain_height = sample_terrain_surface_height((sprite->tile_x << 6) | 0x20,
                                    (sprite->tile_y << 6) | 0x20,
-                                   (s16)(((S_80169EC0_3 *)actor)->unk_88.u - 0x20));
-            body->unk_90.parts.high.s += ((S_80169EC0_3 *)actor)->unk_88.u - terrain_height;
-            ((S_80169EC0_3 *)actor)->unk_88.u = terrain_height;
+                                   (s16)(((ActorRecord *)actor)->ground_height - 0x20));
+            body->unk_90.parts.high.s += ((ActorRecord *)actor)->ground_height - terrain_height;
+            ((ActorRecord *)actor)->ground_height = terrain_height;
         }
     } else {
-        ((S_80169EC0_3 *)actor)->unk_1C &= ACTOR_GROUNDED_CLEAR_MASK;
+        ((ActorRecord *)actor)->flags1C &= ACTOR_GROUNDED_CLEAR_MASK;
     }
 
     motion->z.w.i = (*(s8 *)((u8 *)body + (0xAA))) +
-                              (((S_80169EC0_3 *)actor)->unk_88.u +
+                              (((ActorRecord *)actor)->ground_height +
                                body->unk_90.parts.high.u);
     sprite->flags |= 0x40;
 }

@@ -4,7 +4,7 @@
 
 struct SpriteFrameState;
 
-void initialize_scaled_effect_object(TownObjectRecord *object, void *position, struct SpriteFrameState *transform);
-void initialize_unit_scale_object(TownObjectRecord *object, void *position, struct SpriteFrameState *transform);
+void initialize_scaled_effect_object(TownObjectRecord *object, ObjectPosition *position, struct SpriteFrameState *transform);
+void initialize_unit_scale_object(TownObjectRecord *object, ObjectPosition *position, struct SpriteFrameState *transform);
 
 #endif

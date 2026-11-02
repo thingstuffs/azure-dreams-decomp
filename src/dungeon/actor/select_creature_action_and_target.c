@@ -53,7 +53,7 @@ extern void update_actor_status_and_mp(ActorRecord *entity);
     }
 
 /* Selects a creature's next action and target from its behavior, species, and nearby tiles. */
-s32 select_creature_action_and_target(void *unused, u8 *position, ActorRecord *creature, s32 lower_limit, u16 upper_limit, s8 *status_out_addr)
+s32 select_creature_action_and_target(ObjectPosition *unused, u8 *position, ActorRecord *creature, s32 lower_limit, u16 upper_limit, s8 *status_out_addr)
 {
     register s32 neighbor_check;
     s32 saved_lower_limit;

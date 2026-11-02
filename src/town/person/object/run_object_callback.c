@@ -2,6 +2,7 @@
 #include "common.h"
 #include "shared/sprite_frame_state.h"
 #include "records/Rec_D_80082E80.h"
+#include "shared/object_node.h"
 
 typedef void (*Callback)(void *, void *, void *);
 
@@ -14,7 +15,7 @@ void run_object_callback(TownObjectRecord *object, ObjectPosition *context, Spri
     u16 flags;
 
     (*(Callback *)((u8 *)object + 0x50))(object, context, record);
-    if (!((*(u16 *)((u8 *)object + -2)) & 0x8000)) {
+    if (!((((ObjectNodeHeader *)object - 1)->flags) & 0x8000)) {
         entry_index = quantize_heading_to_sector(object->heading.as_s16, (*(s16 *)((u8 *)object + 0x64)));
         if ((*(s16 *)((u8 *)object + 0x74)) != entry_index) {
             clear_object_status_and_dispatch_target(object, record, object->unk_78[entry_index], record->unk_04);

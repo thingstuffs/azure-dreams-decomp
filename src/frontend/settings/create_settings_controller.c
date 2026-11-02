@@ -10,17 +10,6 @@
 #include "main/data.h"
 #include "slus.h"
 
-typedef struct S_80088BD0_0 {
-    u8 pad_00[0x8];
-    void * unk_08;
-    void * unk_0C;
-    s32 * unk_10;
-    u8 pad_14[0xC];
-    union { s16 s16; void * p32; } unk_20;   /* accessed as both */
-    u8 pad_24[0xA];
-    s16 unk_2E;
-} S_80088BD0_0;
-
 typedef struct S_80088BD0_1 {
     u8 pad_00[0x1A];
     s16 unk_1A;
@@ -66,6 +55,7 @@ typedef struct { s32 a, b, c; } Desc3;
 
 /* Creates a controller and its linked sprites and effect objects. */
 void create_settings_controller(void) {
+    SettingsVisualEffectBody *visual;
     s32 sprite_ids[3];
     s32 child_index;
     s32 sprite_y;
@@ -89,7 +79,7 @@ void create_settings_controller(void) {
         object->update_callback = (void *)update_settings_menu_animation;
         register_node(object, queue_settings_sprite_grid);
         ((S_80088BD0_1 *)parent_state)->unk_22 = 0x708;
-        ((S_80088BD0_9 *)(object->position))->unk_06 = 0xF0;
+        object->position->y.w.i = 0xF0;
         ((S_80088BD0_1 *)parent_state)->unk_1A = 0;
         ((S_80088BD0_1 *)parent_state)->unk_1C = 0x40;
     }
@@ -107,9 +97,9 @@ void create_settings_controller(void) {
             sprite = object->sprite;
             object->update_callback = (void *)update_settings_effect_object;
             register_node(object, &draw_linked_sprites);
-            ((S_80088BD0_9 *)(object->position))->unk_02 = -0x40;
-            ((S_80088BD0_9 *)(object->position))->unk_06 = sprite_y;
-            ((S_80088BD0_9 *)(object->position))->unk_0C = 0x150000;
+            object->position->x.w.i = -0x40;
+            object->position->y.w.i = sprite_y;
+            object->position->velocity_x = 0x150000;
             sprite->scale_y = unit_scale;
             sprite->scale_x = unit_scale;
             sprite_id = ((S_80088BD0_4 *)((s8 *)sprite_ids + (s32)id_offset))->unk_00;
@@ -150,17 +140,17 @@ void create_settings_controller(void) {
             sprite = object->sprite;
             object->update_callback = (void *)update_settings_phase_motion;
             register_node(object, &draw_linked_sprites);
-            ((S_80088BD0_9 *)(object->position))->unk_06 = 0xE9;
+            object->position->y.w.i = 0xE9;
             if (child_index != 0) {
-                ((S_80088BD0_9 *)(object->position))->unk_02 = -0x15;
-                ((S_80088BD0_9 *)(object->position))->unk_0C = 0x160000;
+                object->position->x.w.i = -0x15;
+                object->position->velocity_x = 0x160000;
                 select_record_entry_and_value(sprite, &D_8008B270, 0);
             } else {
-                ((S_80088BD0_9 *)(object->position))->unk_02 = 0x155;
-                ((S_80088BD0_9 *)(object->position))->unk_0C = 0xFFEA0000;
+                object->position->x.w.i = 0x155;
+                object->position->velocity_x = 0xFFEA0000;
                 select_record_entry_and_value(sprite, &D_8008B230, 0);
             }
-            ((S_80088BD0_9 *)(object->position))->unk_10 = 0xFFF80000;
+            object->position->velocity_y = 0xFFF80000;
             sprite->scale_y = 0x1000;
             sprite->scale_x = 0x1000;
             sprite->color.word = 0x808080;
@@ -172,7 +162,8 @@ void create_settings_controller(void) {
     object = allocate_flagged_object_node(1);
     if (object != NULL) {
         object->update_callback = (void *)update_settings_effect;
-        ((S_80088BD0_0 *)object)->unk_20.p32 = parent_state;
-        ((S_80088BD0_0 *)object)->unk_2E = 0xE00;
+        visual = (SettingsVisualEffectBody *)(object + 1);
+        visual->owner = parent_state;
+        visual->angle.s = 0xE00;
     }
 }

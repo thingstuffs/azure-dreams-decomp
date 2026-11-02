@@ -21,10 +21,6 @@ typedef struct S_80174764_0 {
 } S_80174764_0;   /* arg0 in advance_target_interaction */
 
 
-typedef struct S_80174764_4 {
-    u8 pad_00[0x14];
-    s32 unk_14;
-} S_80174764_4;   /* ((Rec_D_800E3D7C *)arg3)->unk_60.as_pv in advance_target_interaction */
 
 extern void select_sprite_entry(void *, s16, s16);
 
@@ -85,7 +81,7 @@ void advance_target_interaction(ActorRecord *action, ObjectPosition *scene, Spri
         spawn_312_effect_object(action, scene, sprite);
         if (actor->flags14 & ACTOR_PARTY_MEMBER) {
             format_entity_message(1, actor);
-        } else if (((S_80174764_4 *)(actor->target))->unk_14 & 0x4000) {
+        } else if (((ActorRecord *)(actor->target))->flags14 & 0x4000) {
             format_entity_message(0, actor);
         }
         play_sound_if_enabled(0x708);

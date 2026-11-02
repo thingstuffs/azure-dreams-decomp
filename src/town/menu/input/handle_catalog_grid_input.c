@@ -94,7 +94,7 @@ void handle_catalog_grid_input(Object *object)
             }
             *(u16 *)((u8 *)object->field_0 + 0x1E) |= 0x2000;
             release_null_terminated_entries((u8 *)object + 0x5C);
-            *(u16 *)((u8 *)object - 2) |= NODE_REMOVE;
+            ((ObjectNodeHeader *)object - 1)->flags |= NODE_REMOVE;
             object_flag_block.flags |= OBJECT_REMOVE_PENDING;
             remove_scene_runtime_callback();
             animation_tick_scale = 2;

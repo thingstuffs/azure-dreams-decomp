@@ -24,21 +24,8 @@ typedef struct S_80173C40_2 {
     s8 unk_9B;
 } S_80173C40_2;
 
-typedef struct S_80173D40_0 {
-    u8 pad_00[0x8C];
-    s32 unk_8C;
-    u8 pad_90[0x6];
-    s16 unk_96;
-    u8 pad_98[0x2];
-    s8 unk_9A;
-    s8 unk_9B;
-} S_80173D40_0;
 
 /* arg0 in reset_linked_entity_state */
-typedef struct S_80173D40_1 {
-    u8 pad_00[0x14];
-    u16 unk_14;
-} S_80173D40_1;
 
 extern void copy_entity_record(void *, void *);
 extern void clear_entry_flag_and_link_owner(struct ObjectNodeHeader *);
@@ -47,6 +34,7 @@ extern s32 find_entity_slot_by_field_ac(void *);
 
 extern void select_sprite_entry(void *object, s16 table_index, s16 entry_index);
 #include "dungeon/player/object/action_state.h"
+#include "shared/sprite_frame_state.h"
 extern u8 D_80176670[16];
 
 /* Functions defined in this translation unit. */

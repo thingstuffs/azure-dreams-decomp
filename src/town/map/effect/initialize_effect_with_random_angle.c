@@ -68,7 +68,7 @@ extern u8 map_particle_first_sprite_entries[];
 extern u8 map_particle_second_sprite_entries[];
 
 /* Initialize an effect with a random angle and spawn its particle and textured children. */
-void initialize_effect_with_random_angle(Core *effect, IntVector3 *origin) {
+void initialize_effect_with_random_angle(Core *effect, ObjectPosition *origin, struct SpriteFrameState *sprite_unused) {
     s32 random_angle;
     s32 biased_angle;
     s32 child_index;
@@ -116,8 +116,8 @@ void initialize_effect_with_random_angle(Core *effect, IntVector3 *origin) {
             particle_prim->source = child_index + 0x1A;
             particle_prim->color.c.b = particle_blue;
             child_pos = *(IntVector3 * *)&child_obj->position;
-            child_pos->x = origin->x;
-            particle_y = origin->y;
+            child_pos->x = origin->x.v;
+            particle_y = origin->y.v;
             child_pos->z = 0;
             child_pos->y = particle_y;
             configure_the_set_mode_n_3(child_core, child_pos, map_particle_part_parameters[child_index]);
@@ -147,8 +147,8 @@ void initialize_effect_with_random_angle(Core *effect, IntVector3 *origin) {
             texture_prim->scale_y = 0x1000;
             texture_prim->scale_x = 0x1000;
             child_pos = *(IntVector3 * *)&child_obj->position;
-            child_pos->x = origin->x;
-            sprite_y = origin->y;
+            child_pos->x = origin->x.v;
+            sprite_y = origin->y.v;
             child_pos->z = 0xFF2C0000;
             sprite_y += 0x200000;
             child_pos->y = sprite_y;
@@ -176,8 +176,8 @@ void initialize_effect_with_random_angle(Core *effect, IntVector3 *origin) {
         texture_prim->scale_y = 0x1000;
         texture_prim->scale_x = 0x1000;
         child_pos = *(IntVector3 * *)&child_obj->position;
-        child_pos->x = origin->x;
-        overlay_y = origin->y;
+        child_pos->x = origin->x.v;
+        overlay_y = origin->y.v;
         child_pos->z = 0xFF2C0000;
         overlay_y += 0x200000;
         child_pos->y = overlay_y;
@@ -201,8 +201,8 @@ void initialize_effect_with_random_angle(Core *effect, IntVector3 *origin) {
         particle_prim->color.c.b = g_game_work.view.tint.parts.tint_b;
         child_pos = *(IntVector3 * *)&child_obj->position;
         particle_prim->source = 0x19;
-        child_pos->x = origin->x;
-        center_y = origin->y;
+        child_pos->x = origin->x.v;
+        center_y = origin->y.v;
         child_pos->z = 0;
         child_pos->y = center_y;
     }

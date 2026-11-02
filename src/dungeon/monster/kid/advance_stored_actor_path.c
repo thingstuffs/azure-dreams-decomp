@@ -9,16 +9,6 @@
 #include "dungeon/level.h"
 #include "dungeon/item.h"
 
-typedef struct S_80171960_0 {
-    u8 pad_00[0x1C];
-    union { s32 s; u32 u; } unk_1C;   /* accessed as both */
-    u8 pad_20[0xA];
-    s16 unk_2A;
-    u8 pad_2C[0x45];
-    union { s8 s; u8 u; } unk_71;   /* accessed as both */
-    u8 pad_72[0x18];
-    union { s16 s; u16 u; } unk_8A;   /* accessed as both */
-} S_80171960_0;   /* arg3 in advance_stored_actor_path */
 
    /* (u8 *)arg3 + ((S_80171960_0 *)arg3)->unk_8A.s in advance_stored_actor_path */
 
@@ -37,7 +27,7 @@ void advance_stored_actor_path(ActorRecord *body, ObjectPosition *unused, Sprite
     s32 new_y;
     s32 tile_mask;
 
-    if (((S_80171960_0 *)actor)->unk_71.s <= 0) {
+    if (((s8)actor->movement_queue_state) <= 0) {
         return;
     }
     if (actor->movement_queue_state <= actor->unk_8A) {
@@ -66,7 +56,7 @@ void advance_stored_actor_path(ActorRecord *body, ObjectPosition *unused, Sprite
         ((ActorStatusBytesView *)((u8 *)actor + actor->unk_8A))->path_x;
     sprite->tile_y =
         ((ActorStatusBytesView *)((u8 *)actor + actor->unk_8A))->path_y;
-    ((S_80171960_0 *)actor)->unk_8A.u++;
+    actor->unk_8A++;
 
     new_x = sprite->tile_x;
     new_y = sprite->tile_y;
@@ -79,7 +69,7 @@ void advance_stored_actor_path(ActorRecord *body, ObjectPosition *unused, Sprite
     actor->facing = get_rounded_facing_and_rounding_flag(
         old_x, old_y, sprite->tile_x, sprite->tile_y,
         (u8 *)body + 0x98);
-    ((S_80171960_0 *)actor)->unk_1C.u |= 0x40000000;
+    actor->flags1C |= 0x40000000;
     body->action_id.u = 0xF;
     body->unk_8C.word = 0;
 

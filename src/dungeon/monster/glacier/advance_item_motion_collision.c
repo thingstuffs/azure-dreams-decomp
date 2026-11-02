@@ -1,3 +1,5 @@
+#include "shared/sprite_frame_state.h"
+#include "shared/entity.h"
 #include "common.h"
 #include "shared/object_flags.h"
 #include "dungeon/monster/glacier/advance_item_motion_collision.h"
@@ -19,7 +21,7 @@ extern s32 check_left_tile_and_center_height(s32 x, s32 y, s32 z);
 extern s16 sample_terrain_surface_height();
 
 /* Advance motion, resolve collisions, and flag expired movement. */
-void advance_item_motion_collision(DirectionalEffectBody *motion, void *position_arg, void *update_arg) {
+void advance_item_motion_collision(DirectionalEffectBody *motion, void *position_arg, SpriteFrameState *update_arg) {
     S_80174300_1 *position = position_arg;
     s32 height;
 

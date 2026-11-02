@@ -19,7 +19,7 @@ extern u8 D_800D2348[];
 extern s32 D_800D2360;
 
 /* Initialize an object and its packet, then set the caller and global flags. */
-void spawn_effect_object_with_packet(TownObjectRecord *caller_data, void *unused_position, struct SpriteFrameState *unused_sprite) {
+void spawn_effect_object_with_packet(TownObjectRecord *caller_data, ObjectPosition *unused_position, struct SpriteFrameState *unused_sprite) {
     ObjectNodeHeader *obj;
     SpriteFrameState *part;
     void *setup;
@@ -44,6 +44,6 @@ void spawn_effect_object_with_packet(TownObjectRecord *caller_data, void *unused
         ((ObjectStatePositionObject *)setup)->setup_value = D_800D2360;
         configure_the_set_mode_n_1(setup, packet, D_800D2348);
     }
-    (*(u16 *)((u8 *)caller_data + -2)) |= NODE_REMOVE;
+    (((ObjectNodeHeader *)caller_data - 1)->flags) |= NODE_REMOVE;
     object_flag_block.flags |= OBJECT_REMOVE_PENDING;
 }

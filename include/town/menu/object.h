@@ -62,13 +62,13 @@ void decrement_callback_object_timer(struct S_func_800A9F90 *self, ObjectPositio
 void finalize_object_after_check_or_expiry(BoundsExpiryObject *object, s32 check_value);
 
 /* initialize_effect_object.c */
-void initialize_effect_object(void *object, void *unused, struct SpriteFrameState *context);
+void initialize_effect_object(void *object, ObjectPosition *unused, struct SpriteFrameState *context);
 
 /* initialize_object_items_in_reverse.c */
 s32 initialize_object_items_in_reverse(struct TownObject *object, void *item_data, s32 item_count);
 
 /* initialize_timed_scale_object.c */
-void initialize_timed_scale_object(void *object, ScaleStateHalfView *state, void *context);
+void initialize_timed_scale_object(void *object, ObjectPosition *state, void *context);
 
 /* render_shaded_object_primitive.c */
 void render_shaded_object_primitive(void *object, MovingPosition *coords, void *primitive);

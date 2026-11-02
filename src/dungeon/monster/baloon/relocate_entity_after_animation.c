@@ -13,47 +13,8 @@
 #include "dungeon/actor.h"
 #include "shared/entity.h"
 
-typedef struct S_80175594_0 {
-    u8 pad_00[0x8C];
-    s32 * unk_8C;
-    u8 pad_90[0x2];
-    union { u16 s; s16 u; } unk_92;   /* accessed as both */
-    u8 pad_94[0x2];
-    s16 unk_96;
-    u16 unk_98;
-    u8 pad_9A[0x1];
-    u8 unk_9B;
-    u8 pad_9C[0x2];
-    s16 unk_9E;
-    union { struct { s32 v; } at00; struct { u8 pad[0x2]; s16 v; } at02; } unk_A0;   /* overlapping accesses */
-    u8 pad_A4[0x8];
-    s32 unk_AC;
-    u8 pad_B0[0x6];
-    u16 unk_B6;
-} S_80175594_0;   /* arg0 in relocate_entity_after_animation */
 
-typedef struct S_80175594_1 {
-    u8 pad_00[0x2];
-    union { s16 s; u16 u; } unk_02;   /* accessed as both */
-    u8 pad_04[0x2];
-    union { s16 s; u16 u; } unk_06;   /* accessed as both */
-    u8 pad_08[0x2];
-    union { u16 s; s16 u; } unk_0A;   /* accessed as both */
-    s32 unk_0C;
-    s32 unk_10;
-    s32 unk_14;
-} S_80175594_1;   /* arg1 in relocate_entity_after_animation */
 
-typedef struct S_80175594_3 {
-    u8 pad_00[0x1C];
-    u32 unk_1C;
-    u8 pad_20[0xA];
-    s16 unk_2A;
-    u8 pad_2C[0x1A];
-    u16 unk_46;
-    u8 pad_48[0x40];
-    s16 unk_88;
-} S_80175594_3;   /* object in relocate_entity_after_animation */
 
 extern u8 baloon_default_frames[];
 extern u8 D_800E23B8[];
@@ -92,9 +53,9 @@ void relocate_entity_after_animation(ActorRecord *body, void *position, SpriteFr
 
     switch (body->action_phase.u) {
     case 0:
-        ((S_80175594_1 *)position)->unk_14 = 0;
-        ((S_80175594_1 *)position)->unk_10 = 0;
-        ((S_80175594_1 *)position)->unk_0C = 0;
+        ((ObjectPosition *)position)->velocity_z = 0;
+        ((ObjectPosition *)position)->velocity_y = 0;
+        ((ObjectPosition *)position)->velocity_x = 0;
         if (sprite->flags & 0x8000) {
             body->action_phase.u = 7;
             sprite->flags |= 0x6000;
@@ -104,18 +65,18 @@ void relocate_entity_after_animation(ActorRecord *body, void *position, SpriteFr
             return;
         }
         body->action_state_flags |= 8;
-        ((S_80175594_3 *)object)->unk_1C &= ~0x40000;
+        ((ActorRecord *)object)->flags1C &= ~0x40000;
         body->unk_A0.value = 0;
         body->unk_90.parts.high.u -= 8;
         body->action_phase.u++;
         body->unk_B4.halves.high.u =
-            ((S_80175594_1 *)position)->unk_0A.s + body->unk_90.parts.high.u;
+            ((ObjectPosition *)position)->z.unsigned_parts.integer + body->unk_90.parts.high.u;
         return;
 
     case 1:
         (sprite->frameTable) = D_800E23B8;
         select_sprite_entry(sprite,
-            D_800E23B8[((g_game_work.view.camera_rotation.parts.viewAngle + ((S_80175594_3 *)object)->unk_2A + 0x100) >> 9) & 7],
+            D_800E23B8[((g_game_work.view.camera_rotation.parts.viewAngle + ((ActorRecord *)object)->facing + 0x100) >> 9) & 7],
             0);
         body->action_timer.s = 0;
         body->action_phase.u++;
@@ -127,7 +88,7 @@ void relocate_entity_after_animation(ActorRecord *body, void *position, SpriteFr
         }
         (sprite->frameTable) = D_800E23C0;
         select_sprite_entry(sprite,
-            D_800E23C0[((g_game_work.view.camera_rotation.parts.viewAngle + ((S_80175594_3 *)object)->unk_2A + 0x100) >> 9) & 7],
+            D_800E23C0[((g_game_work.view.camera_rotation.parts.viewAngle + ((ActorRecord *)object)->facing + 0x100) >> 9) & 7],
             0);
         body->action_timer.s = 0;
         body->action_phase.u++;
@@ -148,7 +109,7 @@ void relocate_entity_after_animation(ActorRecord *body, void *position, SpriteFr
         particle_index = 0;
         body->action_timer.s = 0;
         body->action_phase.u++;
-        ((S_80175594_1 *)position)->unk_14 = 0;
+        ((ObjectPosition *)position)->velocity_z = 0;
         body->unk_AC.value = 0;
         do {
             burst_x = (s16)(random_below_limit(0x2C) - 0x16);
@@ -162,18 +123,18 @@ void relocate_entity_after_animation(ActorRecord *body, void *position, SpriteFr
     case 5:
         switch (body->action_timer.s) {
         case 0:
-            ((S_80175594_1 *)position)->unk_14 = -0x140000;
+            ((ObjectPosition *)position)->velocity_z = -0x140000;
             body->unk_AC.value = 0x30000;
             break;
         case 6:
-            ((S_80175594_1 *)position)->unk_14 = -0x180000;
+            ((ObjectPosition *)position)->velocity_z = -0x180000;
             body->unk_AC.value = -0x10000;
             break;
         case 12:
             body->unk_AC.value = -0x20000;
             break;
         }
-        ((S_80175594_1 *)position)->unk_14 += body->unk_AC.value;
+        ((ObjectPosition *)position)->velocity_z += body->unk_AC.value;
 
         if (body->action_timer.s < 2) {
             particle_index = 0;
@@ -203,7 +164,7 @@ void relocate_entity_after_animation(ActorRecord *body, void *position, SpriteFr
         return;
 
     case 6:
-        ((S_80175594_1 *)position)->unk_0A.s = body->unk_B4.halves.high.u;
+        ((ObjectPosition *)position)->z.unsigned_parts.integer = body->unk_B4.halves.high.u;
 
         body->action_timer.s = 0;
         body->action_phase.u++;
@@ -211,7 +172,7 @@ void relocate_entity_after_animation(ActorRecord *body, void *position, SpriteFr
 
     case 7:
         update_map_cell_flags_with_item_limit(sprite->tile_x, sprite->tile_y,
-            (((S_80175594_3 *)object)->unk_1C & ACTOR_PLAYER_SIDE) ? 0x300 : 0x3000);
+            (((ActorRecord *)object)->flags1C & ACTOR_PLAYER_SIDE) ? 0x300 : 0x3000);
         tries_left = 0x20;
         old_x = sprite->tile_x;
         old_y = sprite->tile_y;
@@ -232,46 +193,46 @@ void relocate_entity_after_animation(ActorRecord *body, void *position, SpriteFr
             }
         }
 
-        ((S_80175594_1 *)position)->unk_02.s = (sprite->tile_x << 6) + 0x20;
-        ((S_80175594_1 *)position)->unk_06.s = (sprite->tile_y << 6) + 0x20;
-        ground_z = sample_terrain_surface_height(((S_80175594_1 *)position)->unk_02.u, ((S_80175594_1 *)position)->unk_06.u,
+        ((ObjectPosition *)position)->x.w.i = (sprite->tile_x << 6) + 0x20;
+        ((ObjectPosition *)position)->y.w.i = (sprite->tile_y << 6) + 0x20;
+        ground_z = sample_terrain_surface_height(((ObjectPosition *)position)->x.unsigned_parts.integer, ((ObjectPosition *)position)->y.unsigned_parts.integer,
             -0x200);
         ground_z -= 0x11;
         height_offset = -0x20;
-        ((S_80175594_1 *)position)->unk_0A.u = ground_z;
+        ((ObjectPosition *)position)->z.w.i = ground_z;
         body->unk_90.parts.high.s = height_offset;
         body->unk_A0.value = 0;
-        ((S_80175594_3 *)object)->unk_88 = -0x200;
+        ((ActorRecord *)object)->ground_height = -0x200;
         ground_z = sample_terrain_surface_height(
             (sprite->tile_x << 6) | 0x20,
             (sprite->tile_y << 6) | 0x20,
             -0x200);
-        ((S_80175594_3 *)object)->unk_88 = ground_z;
+        ((ActorRecord *)object)->ground_height = ground_z;
 
         cycle_map_cell_flags(sprite->tile_x, sprite->tile_y,
-            (((S_80175594_3 *)object)->unk_1C & ACTOR_PLAYER_SIDE) ? 0x300 : 0x3000);
+            (((ActorRecord *)object)->flags1C & ACTOR_PLAYER_SIDE) ? 0x300 : 0x3000);
         refresh_actor_proximity_state(object);
         spend_actor_mp(object, 0x1000);
         body->unk_8C.address = update_actor_turn_behavior;
         g_dungeon_status.active_actor = 0;
-        ((S_80175594_1 *)position)->unk_14 = 0;
-        ((S_80175594_1 *)position)->unk_10 = 0;
-        ((S_80175594_1 *)position)->unk_0C = 0;
+        ((ObjectPosition *)position)->velocity_z = 0;
+        ((ObjectPosition *)position)->velocity_y = 0;
+        ((ObjectPosition *)position)->velocity_x = 0;
         body->unk_90.parts.high.s = height_offset;
-        ((S_80175594_3 *)object)->unk_1C |= 0x40000;
+        ((ActorRecord *)object)->flags1C |= 0x40000;
         body->action_state_flags |= 8;
 
         animations = baloon_default_frames;
         if (*(u8 **)&sprite->frameTable != animations) {
             (sprite->frameTable) = animations;
             select_sprite_entry(sprite,
-                animations[((g_game_work.view.camera_rotation.parts.viewAngle + ((S_80175594_3 *)object)->unk_2A + 0x100) >> 9) & 7],
+                animations[((g_game_work.view.camera_rotation.parts.viewAngle + ((ActorRecord *)object)->facing + 0x100) >> 9) & 7],
                 0);
             sprite->frame_ticks = 1;
             body->unk_A0.parts.high = 0;
             body->unk_9E.s = 0;
         }
-        ((S_80175594_3 *)object)->unk_46 &= 0x7FFF;
+        ((ActorRecord *)object)->action_flags &= 0x7FFF;
 
     default:
         return;

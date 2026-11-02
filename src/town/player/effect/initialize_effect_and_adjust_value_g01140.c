@@ -13,6 +13,7 @@
 #include "engine/graphics.h"
 #include "engine/node.h"
 #include "engine/window.h"
+#include "town/player/record.h"
 
 /* Initialize the object and adjust its record value before final setup. */
 void initialize_effect_and_adjust_value(void *object, EntityRec *record, s32 init_value) {
@@ -30,7 +31,7 @@ void initialize_effect_and_adjust_value(void *object, EntityRec *record, s32 ini
 }
 
 /* Updates the record, invokes its handler, clamps values, and dispatches follow-up processing. */
-void update_effect_record_and_dispatch(void *handler, ObjectPosition *record, s32 context) {
+void update_effect_record_and_dispatch(TownPlayerRecord *handler, ObjectPosition *record, s32 context) {
     apply_the_enabled_movement_offsets_adding_z_offset_only_positive((struct IntVector3 *)(record));
     update_the_s_field_10_using_callee_8008_fe_90(&town_motion_list);
     add_motion_deltas_to_position(record);
@@ -55,7 +56,7 @@ void update_effect_record_and_dispatch(void *handler, ObjectPosition *record, s3
 }
 
 /* Turn the entity toward its target angle and update its directional sprite. */
-void turn_entity_toward_target(void *entity, void *transform, void *sprite) {
+void turn_entity_toward_target(TownPlayerRecord *entity, void *transform, void *sprite) {
     GameWork *input_state;
     void *transform_arg;
     s32 direction;
@@ -68,29 +69,29 @@ void turn_entity_toward_target(void *entity, void *transform, void *sprite) {
     {
         void *entity_type;
 
-        entity_type = *(void **)entity;
+        entity_type = entity->unk_00;
         if (entity_type == (u8 *)&D_800A5A98 && (input_state->buttons & 0x2000)) {
-            target_angle = *(s16 *)((u8 *)entity + 0x10);
-            current_angle = *(s16 *)((u8 *)entity + 0x18);
+            target_angle = entity->unk_10.as_s16;
+            current_angle = entity->unk_18;
             target_angle -= 0x200;
-            *(s16 *)((u8 *)entity + 0x18) = step_angle_12_toward(current_angle, target_angle, 0x200);
+            entity->unk_18 = step_angle_12_toward(current_angle, target_angle, 0x200);
         } else if (entity_type == (u8 *)&D_800A5A98 && (input_state->buttons & 0x8000)) {
-            target_angle = *(s16 *)((u8 *)entity + 0x10);
-            current_angle = *(s16 *)((u8 *)entity + 0x18);
+            target_angle = entity->unk_10.as_s16;
+            current_angle = entity->unk_18;
             target_angle += 0x200;
-            *(s16 *)((u8 *)entity + 0x18) = step_angle_12_toward(current_angle, target_angle, 0x200);
+            entity->unk_18 = step_angle_12_toward(current_angle, target_angle, 0x200);
         } else {
-            current_angle = *(s16 *)((u8 *)entity + 0x18);
-            target_angle = *(s16 *)((u8 *)entity + 0x10);
-            *(s16 *)((u8 *)entity + 0x18) = step_angle_12_toward(current_angle, target_angle, 0x200);
+            current_angle = entity->unk_18;
+            target_angle = entity->unk_10.as_s16;
+            entity->unk_18 = step_angle_12_toward(current_angle, target_angle, 0x200);
         }
     }
-    direction = view_relative_angle_sector(*(s16 *)((u8 *)entity + 0x18));
-    if (*(s16 *)((u8 *)entity + 0x12) != direction) {
+    direction = view_relative_angle_sector(entity->unk_18);
+    if (entity->unk_12 != direction) {
         texture_handle_installs_selected_animation_frame_secondary_pointer_updates_animation_flags(sprite,
                       *(*(u8 **)((u8 *)entity + 0x1C) + direction),
                       *(s8 *)((u8 *)sprite + 4), 0);
-        *(s16 *)((u8 *)entity + 0x12) = direction;
+        entity->unk_12 = direction;
     }
     {
         s16 *flip_table = town_scene_effect_flips;
@@ -370,7 +371,7 @@ void update_actor_effect_transition(S_800A5DF8_4 *state, S_800A5DF8_0 *actor, s3
 }
 
 /* Updates town movement, terrain response, facing, and action state from input. */
-void update_town_movement_and_actions(u8 *state, EntityRec *table, void *action_context)
+void update_town_movement_and_actions(TownPlayerRecord *state, EntityRec *table, void *action_context)
 {
     u8 *context;
     GameWork *globals;
@@ -388,9 +389,9 @@ void update_town_movement_and_actions(u8 *state, EntityRec *table, void *action_
     globals = &g_game_work;
     handle_resolves_movement_collisions_along_one_axis_using_boundary_probes_tile(table);
 
-    ((S_800A5FDC_0 *)state)->unk_0A.s--;
-    if (((S_800A5FDC_0 *)state)->unk_0A.u <= 0) {
-        ((S_800A5FDC_0 *)state)->unk_0A.s = scale_random_to_unsigned_halfword_limit(3) + 5;
+    state->timer.as_u16--;
+    if (state->timer.as_s16 <= 0) {
+        state->timer.as_u16 = scale_random_to_unsigned_halfword_limit(3) + 5;
         random_choice = scale_random_to_unsigned_halfword_limit(2);
         spawn_directional_effects(table, (u16)random_choice + 2);
     }
@@ -460,7 +461,7 @@ void update_town_movement_and_actions(u8 *state, EntityRec *table, void *action_
 
     if ((globals->pressed_buttons) & 0x100) {
         ((S_800A5FDC_0 *)state)->unk_00 = (s32)&map_view_transition_address;
-        ((S_800A5FDC_0 *)state)->unk_0A.u = 8;
+        state->timer.as_s16 = 8;
     }
     return;
 }

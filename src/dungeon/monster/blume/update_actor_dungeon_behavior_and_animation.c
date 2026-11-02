@@ -9,20 +9,6 @@
 #include "shared/dungeon_status.h"
 
 
-typedef struct S_80171E20_1 {
-    u8 pad_00[0x1C];
-    u32 unk_1C;
-    u8 pad_20[0x5];
-    u8 unk_25;
-    u8 pad_26[0x4];
-    s16 unk_2A;
-    u8 pad_2C[0x1A];
-    u16 unk_46;
-    u8 pad_48[0x1C];
-    s16 unk_64;
-    u8 pad_66[0x7];
-    s8 unk_6D;
-} S_80171E20_1;   /* arg3 in update_actor_dungeon_behavior_and_animation */
 
 extern void select_sprite_entry(void *, u8, s32);
 extern s16 check_entity_relation(ActorRecord *entry, ActorRecord *anchor);
@@ -86,12 +72,12 @@ void update_actor_dungeon_behavior_and_animation(ActorRecord *actor_in, ObjectPo
         }
     }
 
-    if (((S_80171E20_1 *)status_in)->unk_1C & 0x200) {
+    if (status_in->flags1C & 0x200) {
         if (*(u8 **)&sprite_in->frameTable == blume_direction_frames_2) {
             actor_in->action_id.u = 13;
             actor_in->action_phase.u = 1;
             actor_in->unk_8C.word = 0;
-            ((S_80171E20_1 *)status_in)->unk_1C &= ~0x40000;
+            status_in->flags1C &= ~0x40000;
             return;
         }
         if (reset_actor_action_state(actor_in, actor_data_in, sprite_in, D_801753FC) != 0) {
@@ -100,7 +86,7 @@ void update_actor_dungeon_behavior_and_animation(ActorRecord *actor_in, ObjectPo
     }
 
     if ((g_dungeon_status.flags & 0x2000) == 0) {
-        if (((S_80171E20_1 *)status_in)->unk_1C & 0x100) {
+        if (status_in->flags1C & 0x100) {
             begin_pushed_actor_move(actor_in, actor_data_in, sprite_in, status_in);
             return;
         }
@@ -130,7 +116,7 @@ void update_actor_dungeon_behavior_and_animation(ActorRecord *actor_in, ObjectPo
             }
         }
 
-        if (((S_80171E20_1 *)status_in)->unk_1C & 0x80000) {
+        if (status_in->flags1C & 0x80000) {
             begin_actor_move_to_target_facing(actor_in, actor_data_in, sprite_in, status_in);
             func_80174890(actor_in, actor_data_in, sprite_in, status_in);
             return;
@@ -145,7 +131,7 @@ void update_actor_dungeon_behavior_and_animation(ActorRecord *actor_in, ObjectPo
     sprite_in->room_index = tile_id;
 
     if (status_in->pending_turn_updates > 0) {
-        if (((S_80171E20_1 *)status_in)->unk_1C & 0x20) {
+        if (status_in->flags1C & 0x20) {
             update_actor_status_and_mp(status_in);
             return;
         }
@@ -218,7 +204,7 @@ void update_actor_dungeon_behavior_and_animation(ActorRecord *actor_in, ObjectPo
         }
     }
 
-    status_flags = ((S_80171E20_1 *)status_in)->unk_1C;
+    status_flags = status_in->flags1C;
     if (!(status_flags & 0x2000)) {
         if ((tile_id < 0) ||
             !(dungeon_rooms[tile_id].flags & 2)) {

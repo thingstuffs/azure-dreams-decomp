@@ -55,8 +55,8 @@ void advance_object_state_angle(void *object, void *context, void *state) {
 }
 
 /* Set the object handler table, initialize its state, and set its counter to 30. */
-void initialize_object_appearance_with_delay(TownObjectRecord *object, void *context, void *state) {
-    *(void **)((u8 *)object - 0x10) = D_800BB640;
+void initialize_object_appearance_with_delay(TownObjectRecord *object, ObjectPosition *context, void *state) {
+    ((ObjectNodeHeader *)object - 1)->update_callback = D_800BB640;
     initialize_object_state_and_appearance(object, context, state);
     ((s32 *)state)[2] = 30;
 }
@@ -74,8 +74,8 @@ void set_handler_variant_b_with_counter_30(void *object, void *context, void *st
 }
 
 /* Set the object handler table, initialize its state, and set its counter to 14. */
-void init_object_with_countdown(TownObjectRecord *object, void *context, void *state) {
-    *(void **)((u8 *)object - 0x10) = D_800BB640;
+void init_object_with_countdown(TownObjectRecord *object, ObjectPosition *context, void *state) {
+    ((ObjectNodeHeader *)object - 1)->update_callback = D_800BB640;
     initialize_object_state_and_appearance(object, context, state);
     ((s32 *)state)[2] = 14;
 }

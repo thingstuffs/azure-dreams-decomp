@@ -164,7 +164,7 @@ void update_tako_target(A *entity, C *motion, SpriteFrameState *sprite) {
         entity->timer = timer_left;
         if ((s16)timer_left <= 0) {
             unlink_scene_list_node((u8 *)entity + 4);
-            *(u16 *)((u8 *)entity - 2) |= NODE_REMOVE;
+            ((ObjectNodeHeader *)entity - 1)->flags |= NODE_REMOVE;
             object_flag_block.flags |= OBJECT_REMOVE_PENDING;
         }
     }

@@ -1,3 +1,5 @@
+#include "shared/sprite_frame_state.h"
+#include "shared/entity.h"
 #include "common.h"
 #include "m2c_compat.h"
 
@@ -24,8 +26,8 @@ typedef struct S_800B06C0_2 {
 } S_800B06C0_2;   /* arg1 in combine_base_and_offset_values */
 
 /* Copy two base values and combine the base and offset into the output. */
-void combine_base_and_offset_values(S_800B06C0_1 *base_values, S_800B06C0_2 *offset_values, S_800B06C0_0 *output) {
-    output->unk_B8 = (u16) base_values->unk_02;
-    output->unk_BA = (u16) base_values->unk_06;
-    output->unk_C0 = (s32) (base_values->unk_0A + offset_values->unk_04);
+void combine_base_and_offset_values(ObjectPosition *base_values, SpriteFrameState *offset_values, S_800B06C0_0 *output) {
+    output->unk_B8 = (u16) base_values->x.unsigned_parts.integer;
+    output->unk_BA = (u16) base_values->y.unsigned_parts.integer;
+    output->unk_C0 = (s32) (base_values->z.w.i + offset_values->unk_04);
 }

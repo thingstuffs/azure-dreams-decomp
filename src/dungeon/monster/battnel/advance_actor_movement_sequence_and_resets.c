@@ -18,10 +18,6 @@
 #include "dungeon/effect/screen.h"
 
 
-typedef struct S_801725D0_4 {
-    u8 pad_00[0xA];
-    u16 unk_0A;
-} S_801725D0_4;   /* entry in advance_actor_movement_sequence_and_resets */
 
 extern void *actor_update_node_cursor;
 extern s32 battnel_action_resume_address;
@@ -61,8 +57,8 @@ void advance_actor_movement_sequence_and_resets(ActorRecord *action, ObjectPosit
 
         if (actor->target != 0) {
             void *linked = actor->target;
-            void *height_entry = ((ObjectNodeHeader *)((u8 *)linked - 0x20))->position;
-            action->unk_A4.halves.high.s = ((S_801725D0_4 *)height_entry)->unk_0A - 0x34;
+            ObjectPosition *height_entry = ((ObjectNodeHeader *)linked - 1)->position;
+            action->unk_A4.halves.high.s = height_entry->z.unsigned_parts.integer - 0x34;
         } else {
             action->unk_A4.halves.high.s =
                 sample_terrain_surface_height(

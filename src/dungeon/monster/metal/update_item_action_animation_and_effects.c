@@ -25,11 +25,6 @@ extern u8 metal_action_resume_address[];
 extern u8 metal_frame_set_1[];
 
 
-typedef struct S_80173078_2 {
-    u8 pad_00[0x24];
-    u8 unk_24;
-    u8 unk_25;
-} S_80173078_2;   /* linked in update_item_action_animation_and_effects */
 
 /* Updates an item action, its animation, particle effects, and completion state. */
 /* Starts a targeted spell with returning particles and a 20-particle burst, then restores idle after a
@@ -92,23 +87,23 @@ void update_item_action_animation_and_effects(ActorRecord *action, ObjectPositio
         }
 
         if (*item_slot != 0) {
-            S_80173078_2 *item_id;
+            SpriteFrameState *item_id;
 
             action->action_state_flags &= 0xFF7F;
             if (special != 0) {
                 target = primary_actor_record;
                 actor->target = target;
-                item_id = (S_80173078_2 *)((ObjectNodeHeader *)((u8 *)target - 0x20))->sprite;
-                actor->target_tile_x = item_id->unk_24;
-                actor->target_tile_y = item_id->unk_25;
+                item_id = (SpriteFrameState *)((ObjectNodeHeader *)target - 1)->sprite;
+                actor->target_tile_x = item_id->tile_x;
+                actor->target_tile_y = item_id->tile_y;
             } else {
-                item_id = (S_80173078_2 *)(*item_slot);
+                item_id = (SpriteFrameState *)(*item_slot);
                 if (item_action_definitions[((u8)item_id)].kind == 2) {
                     target = actor->target;
                     if (target != 0) {
-                        item_id = (S_80173078_2 *)((ObjectNodeHeader *)((u8 *)target - 0x20))->sprite;
-                        actor->target_tile_x = item_id->unk_24;
-                        actor->target_tile_y = item_id->unk_25;
+                        item_id = (SpriteFrameState *)((ObjectNodeHeader *)target - 1)->sprite;
+                        actor->target_tile_x = item_id->tile_x;
+                        actor->target_tile_y = item_id->tile_y;
                     }
                 } else {
                     s32 dx;

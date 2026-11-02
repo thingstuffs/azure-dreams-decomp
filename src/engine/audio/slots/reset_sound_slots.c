@@ -1,6 +1,7 @@
 #include "common.h"
 #include "engine/audio/sequence.h"
 #include "engine/audio/slots.h"
+#include "engine/audio/ram_block.h"
 
 /* D_80086A40[16]: slot table, 0x1C-byte stride (see sibling funcs
  * free_sound_slot/audio_get_current_bank_tone_record/audio_reset_and_release_sequence_banks/copy_sound_slot_info). This function
@@ -18,14 +19,6 @@ typedef struct {
     /* 0x1B */ u8 unk1B;
 } S_80086A40; /* size 0x1C (28) */
 
-/* D_800869C0[16]: 8-byte-stride table immediately preceding D_80086A40
- * (0x800869C0 + 16*8 == 0x80086A40). Not referenced by any other matched
- * function yet. */
-typedef struct {
-    /* 0x00 */ s32 unk00;
-    /* 0x04 */ s32 unk04;
-} S_800869C0; /* size 0x8 */
-
 /* D_80086C00: sound-slot table, 12-byte stride (canonical layout from
  * func_8005AE08/sound_activate_loaded_sequence_slot/copy_indexed_entry_pair/set_sound_slot_byte_pair/update_sequence_slot_state).
  * This init function walks 16 entries (0x80086A40 + 16*0x1C == 0x80086C00,
@@ -34,7 +27,6 @@ typedef struct {
  /* size 0xC (12) */
 
 extern S_80086A40 audio_bank_slots[16];
-extern S_800869C0 audio_ram_blocks[16];
 extern SoundSequenceSlot audio_sequence_slots[16];
 extern s32 audio_slot_service_word[3]; /* forced hi/lo via size > 8 */
 
@@ -55,8 +47,8 @@ void reset_sound_slots(void)
         audio_sequence_slots[i].state = 0;
         audio_sequence_slots[i].right_gain = 0x7F;
         audio_sequence_slots[i].left_gain = 0x7F;
-        audio_ram_blocks[i].unk04 = 0;
-        audio_ram_blocks[i].unk00 = 0;
+        audio_ram_blocks[i].size = 0;
+        audio_ram_blocks[i].address.s = 0;
     }
 
     audio_slot_service_word[0] = 0x1000;

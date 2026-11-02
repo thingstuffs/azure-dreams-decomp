@@ -22,10 +22,6 @@ typedef struct S_8016AEDC_1 {
     s8 unk_4B;
 } S_8016AEDC_1;   /* work in initialize_actor_and_companion */
 
-typedef struct S_8016AEDC_2 {
-    u8 pad_00[0xA];
-    s16 unk_0A;
-} S_8016AEDC_2;   /* part_a in initialize_actor_and_companion */
 
 typedef struct S_8016AEDC_3 {
     u8 pad_00[0x24];
@@ -78,7 +74,7 @@ void *initialize_actor_and_companion(s16 mode_flags, s32 config_24, s32 config_2
     s16 saved_config_25;
     ObjectNodeHeader *object;
     S_8016AEDC_1 *work;
-    void *part_a;
+    ObjectPosition *part_a;
     void *part_b;
     u8 *callback;
     ActorRecord *spawned;
@@ -100,7 +96,7 @@ void *initialize_actor_and_companion(s16 mode_flags, s32 config_24, s32 config_2
         callback = ghosh_frame_set_3;
         part_a = object->position;
         work_copy = work;
-        ((S_8016AEDC_2 *)part_a)->unk_0A = config_0a;
+        part_a->z.w.i = config_0a;
         part_b = object->sprite;
         mode_kind = mode_flags & 3;
         ((S_8016AEDC_3 *)part_b)->unk_2C = callback;

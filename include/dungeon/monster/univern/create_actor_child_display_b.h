@@ -6,6 +6,7 @@
 #include "dungeon/actor/status.h"
 #include "dungeon/actor/animation.h"
 #include "engine/node/allocation.h"
+#include "shared/entity.h"
 
 typedef unsigned long uptr;
 
@@ -25,21 +26,6 @@ typedef struct S_8015E89C_2 {
     void * unk_0C;
 } S_8015E89C_2;   /* (void *)temp_t0 in func_8015E89C */
 
-typedef struct S_8015E89C_4 {
-    u8 pad_00[0x8C];
-    void * unk_8C;
-    u8 pad_90[0x2];
-    s16 unk_92;
-    u8 pad_94[0x4];
-    u16 unk_98;
-    u8 unk_9A;
-    u8 pad_9B[0x1];
-    s8 unk_9C;
-    u8 pad_9D[0x1];
-    s16 unk_9E;
-    u8 pad_A0[0x8];
-    s16 unk_A8;
-} S_8015E89C_4;   /* stable_object in func_8015E89C */
 
 typedef struct S_8015E89C_5 {
     u8 pad_00[0xA4];

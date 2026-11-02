@@ -21,7 +21,7 @@ extern s32 D_800D211C[];
 extern s32 D_800D212C;
 
 /* Initialize the object state, motion, and animation. */
-void initialize_object_motion_and_animation(void *object_data, void *motion, struct SpriteFrameState *anim) {
+void initialize_object_motion_and_animation(void *object_data, ObjectPosition *motion, struct SpriteFrameState *anim) {
     Func800BF66CObject *object = object_data;
     *(void **)((u8 *)object - 0x10) = D_800BC990;
     object->field50 = 0;

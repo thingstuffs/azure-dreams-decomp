@@ -3,6 +3,7 @@
 /* Prototypes of the functions defined in src/engine/scene/ (one true prototype each; maintained by tools/headers). */
 
 #include "common.h"
+#include "engine/scene/scene_load.h"
 #include "shared/vector.h"
 #include "shared/object_node.h"
 
@@ -17,7 +18,6 @@ struct S_800422DC_Other;
 struct S_800422DC_Self;
 struct SpriteAttachment;
 struct S_800510A0;
-struct S_80051164;
 struct Task;
 
 /* Callback body for a deferred resource transition task. */
@@ -181,7 +181,7 @@ void await_object_scene_confirmation(void);
 void finish_object_scene_when_slot_idle(void);
 
 /* start_scene_load_task.c */
-void start_scene_load_task(struct S_80051164 *owner);
+void start_scene_load_task(SceneLoadBody *owner);
 
 /* update_controller_buttons_and_triggers.c */
 void update_controller_buttons_and_triggers(void);

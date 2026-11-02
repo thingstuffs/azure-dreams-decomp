@@ -21,7 +21,7 @@ extern s32 town_object_defaults[];
 extern u8 D_800D20F4[];
 
 /* Initializes the object with default data and updates its associated state. */
-void initialize_object_with_default_data(void *object_arg, void *init_arg, SpriteFrameState *state)
+void initialize_object_with_default_data(void *object_arg, ObjectPosition *init_arg, SpriteFrameState *state)
 {
     Rec_D_800CFCB4 *object = object_arg;
     s32 *defaults;

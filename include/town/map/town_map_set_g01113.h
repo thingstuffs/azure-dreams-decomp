@@ -43,6 +43,6 @@ extern u8 town_map_status[];
 s32 town_map_set(s32 value_7c, s32 value_78);
 s32 town_map_del(void);
 s32 clear_town_map_status(void);
-void initialize_town_map_object_state(s32 type_id, s32 *init_value_ptr, void *object, void *context);
+void initialize_town_map_object_state(s32 type_id, s32 *init_value_ptr, struct ObjectNodeHeader *object, struct Rec_D_80081FDC *context);
 
 #endif

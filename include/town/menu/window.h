@@ -389,9 +389,9 @@ s32 kewn_namewin_open(void);
 s32 kewn_namewin_close_check(void);
 s32 t_soukowin_open(void);
 s32 t_soukowin_close_check(void);
-void set_object_types_and_resource(void *object, void *position, SpriteFrameState *output);
+void set_object_types_and_resource(void *object, ObjectPosition *position, SpriteFrameState *output);
 void update_object_pulse_brightness(func_800A0FB4_S_func_8009E714_0 *object, s32 context, struct SpriteFrameState *primitive);
-void initialize_entity_from_table_and_callback(void *entity, func_800A10FC_S_8009E85C_1 *placement, func_800A10FC_S_8009E85C_2 *state);
+void initialize_entity_from_table_and_callback(void *entity, ObjectPosition *placement, func_800A10FC_S_8009E85C_2 *state);
 
 extern void register_node(s32, void *);
 extern void func_8004491C(s32, void *);
@@ -432,7 +432,7 @@ extern s32 D_801006D0;
 extern s32 town_overlap_slots[];
 extern u16 scaled_window_quad_points[];
 extern s16 map_scene_selector_alias;
-typedef void (*TownObjectCallback)(TownObjectRecord *state, void *position, SpriteFrameState *sprite);
+typedef void (*TownObjectCallback)(TownObjectRecord *state, ObjectPosition *position, SpriteFrameState *sprite);
 typedef union TownObjectCallbackEntry {
     TownObjectCallback callback;
     u32 address;

@@ -105,7 +105,7 @@ void animate_catalog_grid_to_detail(Rec_func_801237A4_arg0 *request)
         u8 *entry_table;
         void **entry_slot;
         CatalogObjectPayloadView *entry;
-        void *entry_data;
+        S_80125DDC_2 *entry_data;
         u16 field_value;
 
         entry_index = 0x1C;
@@ -114,12 +114,12 @@ void animate_catalog_grid_to_detail(Rec_func_801237A4_arg0 *request)
         do {
             entry = *entry_slot;
             entry_data = entry->aux;
-            field_value = ((S_80125DDC_2 *)entry_data)->unk_02;
+            field_value = entry_data->unk_02;
             do {
                 entry_index++;
             } while (0);
             field_value += 0x100;
-            ((S_80125DDC_2 *)entry_data)->unk_02 = field_value;
+            entry_data->unk_02 = field_value;
             entry_slot = (void **)((u8 *)entry_slot + 4);
         } while (entry_index < 0x62);
     }

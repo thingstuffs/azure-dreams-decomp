@@ -44,10 +44,6 @@ typedef struct S_80092E90_7 {
     void * unk_5C;
 } S_80092E90_7;   /* node in update_wake_nearby_monsters */
 
-typedef struct S_80092E90_9 {
-    u8 pad_00[0x26];
-    s8 unk_26;
-} S_80092E90_9;   /* ((S_80092E90_7_pre *)node)[-1].unk_00 in update_wake_nearby_monsters */
 
 /* Move toward the target tile, process matching list entries, and advance the effect state. */
 void update_wake_nearby_monsters(ActorRecord *controller, ObjectPosition *motion, void *actor, ActorRecord *entry)
@@ -111,7 +107,7 @@ void update_wake_nearby_monsters(ActorRecord *controller, ObjectPosition *motion
             node = (u8 *)((S_80092E90_5 *)entry)->unk_5C + 0x20;
             do {
                 if ((reference_tile_object.room_index ==
-                     ((S_80092E90_9 *)(((S_80092E90_7_pre *)node)[-1].unk_00))->unk_26) &&
+                     ((s8)((ActorRecord *)(((S_80092E90_7_pre *)node)[-1].unk_00))->current_attack)) &&
                     ((get_entity_effect_value(node, STATUS_SLEEP) << 16) != 0)) {
                     clear_slots_of_type(node, STATUS_SLEEP);
                     found_match = 1;

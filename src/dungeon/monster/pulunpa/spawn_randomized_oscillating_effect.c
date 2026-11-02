@@ -27,16 +27,6 @@ typedef struct S_80174F24_0 {
     s32 unk_A0;
 } S_80174F24_0;   /* arg0 in spawn_randomized_oscillating_effect */
 
-typedef struct S_80174F24_3 {
-    u8 pad_00[0x2];
-    s16 unk_02;
-    u8 pad_04[0x2];
-    s16 unk_06;
-    u8 pad_08[0x4];
-    s32 unk_0C;
-    s32 unk_10;
-    s32 unk_14;
-} S_80174F24_3;   /* arg1 in spawn_randomized_oscillating_effect */
 
 
 extern s32 rsin(s32);
@@ -82,16 +72,16 @@ void spawn_randomized_oscillating_effect(ActorRecord *body, void *motion_arg, Sp
         move_ticks = body->unk_9E.s;
         if (move_ticks != 0) {
             target_delta = sprite->tile_x << 6;
-            axis_pos = ((S_80174F24_3 *)motion_arg)->unk_02 - 0x20;
+            axis_pos = ((ObjectPosition *)motion_arg)->x.w.i - 0x20;
             target_delta -= axis_pos;
             x_velocity = (target_delta << 16) / move_ticks;
 
-            axis_pos = ((S_80174F24_3 *)motion_arg)->unk_06;
-            ((S_80174F24_3 *)motion_arg)->unk_0C = x_velocity;
+            axis_pos = ((ObjectPosition *)motion_arg)->y.w.i;
+            ((ObjectPosition *)motion_arg)->velocity_x = x_velocity;
             axis_pos -= 0x20;
             target_delta = sprite->tile_y << 6;
             target_delta -= axis_pos;
-            ((S_80174F24_3 *)motion_arg)->unk_10 =
+            ((ObjectPosition *)motion_arg)->velocity_y =
                 (target_delta << 16) / body->unk_9E.s;
 
             body->unk_A0.value =
@@ -115,9 +105,9 @@ void spawn_randomized_oscillating_effect(ActorRecord *body, void *motion_arg, Sp
             u8 *direction_table;
 
             body->action_state_flags &= 0xFFF7;
-            ((S_80174F24_3 *)motion_arg)->unk_14 = 0;
-            ((S_80174F24_3 *)motion_arg)->unk_10 = 0;
-            ((S_80174F24_3 *)motion_arg)->unk_0C = 0;
+            ((ObjectPosition *)motion_arg)->velocity_z = 0;
+            ((ObjectPosition *)motion_arg)->velocity_y = 0;
+            ((ObjectPosition *)motion_arg)->velocity_x = 0;
             set_record_integer_tile_center(motion_arg,
                 sprite->tile_x, sprite->tile_y);
             direction_table = D_80176340;
@@ -143,9 +133,9 @@ void spawn_randomized_oscillating_effect(ActorRecord *body, void *motion_arg, Sp
             return;
         }
 
-        ((S_80174F24_3 *)motion_arg)->unk_14 = 0;
-        ((S_80174F24_3 *)motion_arg)->unk_10 = 0;
-        ((S_80174F24_3 *)motion_arg)->unk_0C = 0;
+        ((ObjectPosition *)motion_arg)->velocity_z = 0;
+        ((ObjectPosition *)motion_arg)->velocity_y = 0;
+        ((ObjectPosition *)motion_arg)->velocity_x = 0;
         set_record_integer_tile_center(motion_arg,
             sprite->tile_x, sprite->tile_y);
         spend_actor_mp(actor, 4);

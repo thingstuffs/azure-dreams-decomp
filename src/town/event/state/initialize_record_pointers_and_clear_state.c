@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/town_object.h"
 #include "shared/sprite_frame_state.h"
 #include "m2c_compat.h"
 #include "shared/dungeon_effect_views.h"
@@ -16,10 +17,10 @@ extern void unit_scale_record_handler_address();
 extern void D_800A9778(u16 *record);
 
 /* Initialize the record pointers and clear the associated state field. */
-void initialize_record_pointers_and_clear_state(void *record_data, void *placement, struct SpriteFrameState *unused_sprite) {
-    EffectStateWordView *state = placement;
+void initialize_record_pointers_and_clear_state(TownObjectRecord *record_data, ObjectPosition *placement, struct SpriteFrameState *unused_sprite) {
+    ObjectPosition *state = placement;
 
     ((S_800A97D8_0 *)((u8 *)record_data - 0x10))->unk_00 = &unit_scale_record_handler_address;
     ((S_800A97D8_0 *)((u8 *)record_data - 0x10))->unk_60 = &D_800A9778;
-    state->unk_08 = 0;
+    state->z.v = 0;
 }

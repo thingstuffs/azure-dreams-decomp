@@ -8,10 +8,6 @@
 
 typedef struct S_80047784 S_80047784;
 
-typedef struct S_80172688_1 {
-    u8 pad_00[0x2A];
-    s16 unk_2A;
-} S_80172688_1;   /* arg3 in initialize_actor_facing_sprite */
 
 struct SpriteFrameState;
 extern u8 D_80174E04;
@@ -21,7 +17,7 @@ void initialize_actor_facing_sprite(ActorRecord *body, ObjectPosition *position,
     body->action_id.s = 0x10;
     body->action_phase.s = 0;
     sprite->frameTable = &D_80174E04;
-    select_sprite_entry(sprite, *((((s32) (g_game_work.view.camera_rotation.parts.viewAngle + ((S_80172688_1 *)orientation)->unk_2A + 0x100)
+    select_sprite_entry(sprite, *((((s32) (g_game_work.view.camera_rotation.parts.viewAngle + ((ActorRecord *)orientation)->facing + 0x100)
         >> 9) & 7) + &D_80174E04), 0);
     body->unk_90.value = 0;
     position->velocity_z = 0;

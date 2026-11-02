@@ -1,6 +1,8 @@
 #include "slus/jtbl_80052CE0.h"
 
 #include "common.h"
+#include "shared/entity.h"
+#include "shared/sprite_frame_state.h"
 
 /* Rodata owner: the row's switch emits its jump table(s) into this object's .rodata,
  * placed at the retail address by config/slus_modules.json (assets/800.bin carve). */
@@ -9,7 +11,7 @@
 #include "engine/effect.h"
 
 /* Moves a sprite with a shaded line, copies sixteen VRAM rows, then returns and hides the sprite. */
-void update_shaded_line_effect(S_52CE0 *anim, S_52CE0_Pos *position, S_52CE0_Ent *entity)
+void update_shaded_line_effect(S_52CE0 *anim, ObjectPosition *position, SpriteFrameState *entity)
 {
     S_52CE0_Rect source_rect;
     s16 row_offset;
@@ -24,8 +26,8 @@ void update_shaded_line_effect(S_52CE0 *anim, S_52CE0_Pos *position, S_52CE0_Ent
             anim->unk6 = 2;
             anim->state++;
             entity->flags &= 0xFF7F;
-            position->x = anim->unkA << 16;
-            position->y = anim->unkC << 16;
+            position->x.v = anim->unkA << 16;
+            position->y.v = anim->unkC << 16;
             draw_shaded_horizontal_line(anim->unk10, anim->unkC + 15, anim->unkE, 0);
         }
         break;
@@ -44,7 +46,7 @@ void update_shaded_line_effect(S_52CE0 *anim, S_52CE0_Pos *position, S_52CE0_Ent
             anim->timer = 0;
             anim->state++;
         }
-        position->x = anim->unkA << 16;
+        position->x.v = anim->unkA << 16;
         draw_shaded_horizontal_line(anim->unk10, anim->unkC + 15, anim->unkE, 0);
         break;
     case 3:
@@ -91,7 +93,7 @@ void update_shaded_line_effect(S_52CE0 *anim, S_52CE0_Pos *position, S_52CE0_Ent
             anim->timer = 0;
             anim->state++;
         }
-        position->x = anim->unkA << 16;
+        position->x.v = anim->unkA << 16;
         break;
     case 7:
         entity->flags |= 0x80;

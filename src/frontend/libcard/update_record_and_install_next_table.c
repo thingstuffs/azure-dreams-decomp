@@ -1,3 +1,4 @@
+#include "shared/object_node.h"
 #include "main.h"
 #include "frontend/libcard/message.h"
 #include "common.h"
@@ -12,5 +13,5 @@
 void update_record_and_install_next_table(void *record_data) {
     card_boot_highlight_selected_load_slot(record_data);
     card_boot_recheck_selected_channel();
-    ((CardCallbackState *)((u8 *)record_data - 0x10))->callback = write_text_and_advance_selection;
+    ((ObjectNodeHeader *)record_data - 1)->update_callback = write_text_and_advance_selection;
 }

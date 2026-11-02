@@ -1,4 +1,7 @@
+#include "shared/object_node.h"
 #include "shared/object_flags.h"
+#include "shared/entity.h"
+#include "shared/sprite_frame_state.h"
 typedef unsigned short u16;
 typedef signed short s16;
 typedef unsigned int u32;
@@ -20,24 +23,11 @@ typedef struct State {
     s16 direction;
 } State;
 
-typedef struct Motion {
-    s32 x;
-    s32 y;
-    s32 pad8;
-    s32 dx;
-    s32 dy;
-} Motion;
-
-typedef union MotionView {
-    Motion fields;
-    s16 half[10];
-} MotionView;
-
 extern void advance_sprite_animation_and_textures(void *);
 extern int abs(int);
 
 /* Updates phased motion and marks completion when stopped or out of bounds. */
-void update_settings_phase_motion(State *state, Motion *motion, void *update_data)
+void update_settings_phase_motion(State *state, ObjectPosition *motion, SpriteFrameState *update_data)
 {
     Owner *owner;
     s16 step;
@@ -56,11 +46,11 @@ void update_settings_phase_motion(State *state, Motion *motion, void *update_dat
         return;
 
     case 1:
-        motion->x += motion->dx;
-        motion->y += motion->dy;
-        motion->dx += state->direction != 0 ? -0x10000 : 0x10000;
-        motion->dy += 0x8000;
-        if (motion->dx != 0)
+        motion->x.v += motion->velocity_x;
+        motion->y.v += motion->velocity_y;
+        motion->velocity_x += state->direction != 0 ? -0x10000 : 0x10000;
+        motion->velocity_y += 0x8000;
+        if (motion->velocity_x != 0)
             return;
         state->step++;
         return;
@@ -69,31 +59,31 @@ void update_settings_phase_motion(State *state, Motion *motion, void *update_dat
         horizontal_value = 232;
         if (state->direction != 0)
             horizontal_value = 88;
-        *(s16 *)((unsigned char *)motion + 2) = horizontal_value;
-        *(s16 *)((unsigned char *)motion + 6) = owner->height * 16 + 168;
+        motion->x.w.i = horizontal_value;
+        motion->y.w.i = owner->height * 16 + 168;
         if (owner->kind != 32)
             return;
         horizontal_value = -0x20000;
         if (state->direction != 0)
             horizontal_value = 0x20000;
-        motion->dx = horizontal_value;
-        motion->dy = -0x40000;
+        motion->velocity_x = horizontal_value;
+        motion->velocity_y = -0x40000;
         state->step++;
         return;
 
     case 3:
-        previous_y = motion->y;
-        motion->x += motion->dx;
-        motion->y += motion->dy;
-        x_velocity = motion->dx;
-        motion->dx = x_velocity + (x_velocity >> 3);
-        if (abs(((MotionView *)motion)->half[1]) < 361)
+        previous_y = motion->y.v;
+        motion->x.v += motion->velocity_x;
+        motion->y.v += motion->velocity_y;
+        x_velocity = motion->velocity_x;
+        motion->velocity_x = x_velocity + (x_velocity >> 3);
+        if (abs(motion->x.w.i) < 361)
             return;
         state->step = 255;
         return;
 
     case 255:
-        *(u16 *)((unsigned char *)state - 2) |= NODE_REMOVE;
+        ((ObjectNodeHeader *)state - 1)->flags |= NODE_REMOVE;
         object_flag_block.flags |= OBJECT_REMOVE_PENDING;
         return;
 

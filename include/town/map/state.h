@@ -23,7 +23,7 @@ void copy_record_state_to_destination(struct TownPropAnimationActor *self, s32 u
 void flag_nodes_by_id(s32 id);
 
 /* initialize_object_header_and_state.c */
-void initialize_object_header_and_state(void *body, void *placement, struct SpriteFrameState *unused_sprite);
+void initialize_object_header_and_state(void *body, ObjectPosition *placement, struct SpriteFrameState *unused_sprite);
 
 /* initialize_paired_state_blocks.c */
 void initialize_paired_state_blocks(void);
@@ -32,7 +32,7 @@ void initialize_paired_state_blocks(void);
 void initialize_paired_state_callbacks(void *state);
 
 /* initialize_randomized_object_state.c */
-void initialize_randomized_object_state(TownObjectRecord *object, void *random_state, void *settings);
+void initialize_randomized_object_state(TownObjectRecord *object, ObjectPosition *random_state, SpriteFrameState *settings);
 
 /* initialize_record_visual_state.c */
 void initialize_record_visual_state(struct S_800BDFA0_0 *record, s32 unused, SpriteFrameState *value);

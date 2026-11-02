@@ -1,23 +1,18 @@
 #include "common.h"
 #include "engine/graphics.h"
+#include "shared/menu_display.h"
 
 /* Struct for the global D_8002E5D8: a 16-byte record copied field-by-field
    into each entry's target sub-struct. */
-typedef struct S_8002E5D8 {
-    s32 unk0;
-    s32 unk4;
-    s32 unk8;
-    s32 unkC;
-} S_8002E5D8;
 
-extern S_8002E5D8 display_block_defaults;
+extern MenuDisplayBlock display_block_defaults;
 
 /* Entry type: nodes points to an array of pointers to these nodes.
    unk4 is a pointer to a 16-byte record that gets overwritten with
    the contents of D_8002E5D8. */
 typedef struct S_8004CC38_Node {
     void *unk0;
-    S_8002E5D8 *unk4;
+    MenuDisplayBlock *unk4;
 } S_8004CC38_Node;
 
 /*
@@ -30,11 +25,11 @@ void apply_block_16_template_to_nodes(S_8004CC38_Node **nodes, s32 node_count) {
     node_index = 0;
     if (node_count > 0) {
         do {
-            (*nodes)->unk4->unk0 = display_block_defaults.unk0;
-            (*nodes)->unk4->unk4 = display_block_defaults.unk4;
-            (*nodes)->unk4->unk8 = display_block_defaults.unk8;
+            (*nodes)->unk4->words[0] = display_block_defaults.words[0];
+            (*nodes)->unk4->words[1] = display_block_defaults.words[1];
+            (*nodes)->unk4->words[2] = display_block_defaults.words[2];
             node_index += 1;
-            (*nodes)->unk4->unkC = display_block_defaults.unkC;
+            (*nodes)->unk4->words[3] = display_block_defaults.words[3];
             nodes += 1;
         } while (node_index < node_count);
     }

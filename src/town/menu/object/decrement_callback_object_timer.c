@@ -1,6 +1,7 @@
 #include "common.h"
 #include "shared/object_flags.h"
 #include "shared/entity.h"
+#include "shared/object_node.h"
 
 typedef struct S_func_800A9F90 S_func_800A9F90;
 
@@ -23,8 +24,8 @@ void decrement_callback_object_timer(S_func_800A9F90 *self, ObjectPosition *expi
     self->counter = counter;
     if ((counter << 16) <= 0) {
         unlink_node_if_registered(self);
-        *(u16 *)((u8 *)self - 2) =
-            (u16)(*(u16 *)((u8 *)self - 2) | NODE_REMOVE);
+        ((ObjectNodeHeader *)self - 1)->flags =
+            (u16)(((ObjectNodeHeader *)self - 1)->flags | NODE_REMOVE);
         object_flag_block.flags |= OBJECT_REMOVE_PENDING;
         return;
     }

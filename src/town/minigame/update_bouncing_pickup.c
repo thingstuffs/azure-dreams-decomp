@@ -178,7 +178,7 @@ void update_bouncing_pickup(minigame_pickup_source *pickup, ObjectPosition *moti
 
     case 6:
         unlink_scene_list_node((u8 *)pickup + 8);
-        (*(u16 *)((u8 *)pickup + -2)) |= NODE_REMOVE;
+        (((ObjectNodeHeader *)pickup - 1)->flags) |= NODE_REMOVE;
         object_flag_block.flags |= OBJECT_REMOVE_PENDING;
 
         return;

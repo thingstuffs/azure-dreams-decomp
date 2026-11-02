@@ -22,10 +22,6 @@ typedef struct S_80172D08_4_pre {
     u8 pad_04[0x14];
 } S_80172D08_4_pre;   /* the 0x18 bytes before owner in advance_actor_height_arc, addressed as owner[-1] */
 
-typedef struct S_80172D08_4 {
-    u8 pad_00[0xA];
-    s16 unk_0A;
-} S_80172D08_4;   /* owner in advance_actor_height_arc */
 
 extern s32 rsin(s32);
 s16 check_layer_offset_height(u16 x, u16 y, s16 height, u32 flags);
@@ -128,7 +124,7 @@ void advance_actor_height_arc(ActorRecord *action, ObjectPosition *motion, Sprit
                 fall_step = entity_height_offsets[
                     ((ActorRecord *)actor->target)->species] + 0x20;
                 scaled_arc = arc_sample * fall_step;
-                height_delta = (((S_80172D08_4 *)owner)->unk_0A - actor->ground_height) << 13;
+                height_delta = (((ObjectPosition *)owner)->z.w.i - actor->ground_height) << 13;
                 height_delta *= 0x11 - action->action_timer.s;
                 arc_sample = scaled_arc << 8;
                 next_height = height_delta - arc_sample;
@@ -226,7 +222,7 @@ void advance_actor_height_arc(ActorRecord *action, ObjectPosition *motion, Sprit
                 owner = actor->target;
                 owner = ((S_80172D08_4_pre *)owner)[-1].unk_00;
                 arc_sample = rsin(action->action_timer.s << 8);
-                height_delta = ((S_80172D08_4 *)owner)->unk_0A -
+                height_delta = ((ObjectPosition *)owner)->z.w.i -
                            entity_height_offsets[((ActorRecord *)actor->target)->species] -
                            actor->ground_height;
                 height_delta <<= 13;

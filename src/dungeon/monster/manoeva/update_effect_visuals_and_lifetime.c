@@ -17,23 +17,13 @@ extern s16 sample_terrain_surface_height(u16, u16, s16);
 extern u8 manoeva_action_resume_address[];
 extern Callback manoeva_callbacks[];
 
-typedef struct S_80170AD0_0 {
-    u8 pad_00[0x1C];
-    union { u32 u; s32 s; } unk_1C;   /* accessed as both */
-    u8 pad_20[0xA];
-    s16 unk_2A;
-    u8 pad_2C[0x41];
-    s8 unk_6D;
-    u8 pad_6E[0x1A];
-    union { u16 u; s16 s; } unk_88;   /* accessed as both */
-} S_80170AD0_0;   /* actor in update_effect_visuals_and_lifetime */
 
    /* monster in update_effect_visuals_and_lifetime */
 
 /* Updates actor callbacks, facing, movement, and floor contact. */
 void update_effect_visuals_and_lifetime(ActorRecord *body, ObjectPosition *position, SpriteFrameState *sprite)
 {
-    S_80170AD0_0 *actor = (S_80170AD0_0 *)body;
+    ActorRecord *actor = body;
     s16 direction_index;
     register s32 direction;
     ActorActionHandler callback;
@@ -69,7 +59,7 @@ void update_effect_visuals_and_lifetime(ActorRecord *body, ObjectPosition *posit
 
     manoeva_callbacks[body->action_id.u](body, position, sprite, actor);
 
-    if ((s16)direction_index != actor->unk_6D) {
+    if ((s16)direction_index != actor->pending_turn_updates) {
         try_move_actor_to_valid_position(body, position, sprite, actor);
     }
 
@@ -78,7 +68,7 @@ void update_effect_visuals_and_lifetime(ActorRecord *body, ObjectPosition *posit
         s32 direction_sector;
 
         direction_sector =
-            (g_game_work.view.camera_rotation.parts.viewAngle + actor->unk_2A + 0x100) >> 9;
+            (g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9;
         direction = direction_sector & 7;
         direction_index = direction;
 
@@ -95,7 +85,7 @@ void update_effect_visuals_and_lifetime(ActorRecord *body, ObjectPosition *posit
             sprite->flags &= 0xFFFE;
         }
 
-        if (!(actor->unk_1C.u & 0x20)) {
+        if (!(((u32)actor->flags1C) & 0x20)) {
             if (!(sprite->flags & 0x40)) {
                 advance_sprite_animation_and_textures(sprite);
             }
@@ -103,7 +93,7 @@ void update_effect_visuals_and_lifetime(ActorRecord *body, ObjectPosition *posit
             sprite->flags |= 0x7000;
         }
 
-        apply_monster_koyaw_data(actor->unk_1C.s, (u8 *)sprite + 0xC);
+        apply_monster_koyaw_data(actor->flags1C, (u8 *)sprite + 0xC);
     } else {
         sprite->flags =
             (monster_flags & 0x0800) ? (monster_flags & 0x8FFF) : (monster_flags | 0x7000);
@@ -124,42 +114,42 @@ void update_effect_visuals_and_lifetime(ActorRecord *body, ObjectPosition *posit
     if (!(body->action_state_flags & 4)) {
         floor_height = sample_terrain_surface_height(position->x.w.i,
                               position->y.w.i,
-                              (s16)(actor->unk_88.u - 0x20));
+                              (s16)(((u16)actor->ground_height) - 0x20));
         if (floor_height < 0x200) {
-            actor_height = actor->unk_88.s;
+            actor_height = actor->ground_height;
             if (body->unk_90.parts.high.s + actor_height < floor_height) {
-                actor->unk_1C.u &= 0xF7FFFFFF;
+                actor->flags1C &= 0xF7FFFFFF;
             } else {
                 if (floor_height >= actor_height) {
                     body->unk_90.value = 0;
                 } else {
-                    body->unk_90.parts.high.s = floor_height - actor->unk_88.u;
+                    body->unk_90.parts.high.s = floor_height - ((u16)actor->ground_height);
                 }
 
                 position->velocity_z = 0;
                 body->unk_9D.u = 0;
-                actor->unk_1C.u |= 0x08000000;
+                actor->flags1C |= 0x08000000;
             }
 
-            if (actor->unk_1C.u & 0x40000000) {
-                actor->unk_1C.u &= 0xBFFFFFFF;
+            if (((u32)actor->flags1C) & 0x40000000) {
+                actor->flags1C &= 0xBFFFFFFF;
                 floor_height = sample_terrain_surface_height(
                     (sprite->tile_x << 6) | 0x20,
                     (sprite->tile_y << 6) | 0x20,
-                    (s16)(actor->unk_88.u - 0x20));
+                    (s16)(((u16)actor->ground_height) - 0x20));
                 body->unk_90.parts.high.s +=
-                    actor->unk_88.u - floor_height;
-                actor->unk_88.u = floor_height;
+                    ((u16)actor->ground_height) - floor_height;
+                actor->ground_height = floor_height;
             }
         } else {
-            actor->unk_1C.u &= 0xF7FFFFFF;
+            actor->flags1C &= 0xF7FFFFFF;
         }
     } else {
-        actor->unk_1C.u &= 0xF7FFFFFF;
+        actor->flags1C &= 0xF7FFFFFF;
     }
 
     position->z.w.i =
-        actor->unk_88.u + body->unk_90.parts.high.u;
+        ((u16)actor->ground_height) + body->unk_90.parts.high.u;
     sprite->flags |= 0x40;
 
 }

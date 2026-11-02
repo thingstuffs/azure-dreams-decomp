@@ -26,34 +26,6 @@ typedef union {
     struct { u16 fraction; u16 integer; } halves;
 } MotionCoordinate;
 
-typedef struct {
-    u8 pad_00[0x1C];
-    s32 flags;
-    u8 pad_20[0xA];
-    s16 facing;
-    u8 pad_2C[0x41];
-    union { s8 signed_value; u8 value; } action_count;
-    u8 pad_6E[3];
-    u8 status;
-    u8 pad_72[0x16];
-    u16 floor_height;
-    u8 pad_8A[2];
-    EntityCallback callback;
-    union {
-        s32 value;
-        struct { u16 fraction; s16 integer; } signed_halves;
-        struct { u16 fraction; u16 integer; } unsigned_halves;
-    } height_offset;
-    s16 sprite_direction;
-    u8 pad_96[2];
-    u16 action_flags;
-    u8 handler_index;
-    u8 pad_9B[2];
-    union { s8 signed_value; u8 value; } fall_ticks;
-    u8 pad_9E[6];
-    union { s16 signed_value; u16 value; } fade_frame;
-    s16 fade_state;
-} CallbackActorState;
 
 typedef struct {
     MotionCoordinate x;
@@ -85,7 +57,7 @@ typedef struct {
 /* Update entity callbacks, appearance, movement, and floor contact. */
 void update_entity_callbacks_and_floor(ActorRecord *body, ObjectPosition *motion, SpriteFrameState *sprite)
 {
-    CallbackActorState *state_alias = (CallbackActorState *)body;
+    ActorRecord *state_alias = body;
     u16 part_flags;
     u16 fade_frame;
     u8 *direction_frames;
@@ -178,14 +150,14 @@ void update_entity_callbacks_and_floor(ActorRecord *body, ObjectPosition *motion
                 sprite->flags &= 0xFFFE;
             }
 
-            if (!(state_alias->flags & 0x20)) {
+            if (!(state_alias->flags1C & 0x20)) {
                 if (!(sprite->flags & 0x40)) {
                     advance_sprite_animation_and_textures(sprite);
                 }
             } else {
                 sprite->flags |= 0x7000;
             }
-            apply_monster_koyaw_data(state_alias->flags, &sprite->color.word);
+            apply_monster_koyaw_data(state_alias->flags1C, &sprite->color.word);
         } else {
             if (part_flags & 0x800) {
                 sprite->flags = part_flags & 0x8FFF;
@@ -207,41 +179,41 @@ void update_entity_callbacks_and_floor(ActorRecord *body, ObjectPosition *motion
         body->unk_90.value += motion->velocity_z;
         if (!(body->action_state_flags & 4)) {
             sample_height = sample_terrain_surface_height(motion->x.unsigned_parts.integer, motion->y.unsigned_parts.integer,
-                                          (s16)(state_alias->floor_height - 0x20));
+                                          (s16)(((u16)state_alias->ground_height) - 0x20));
             if ((s16)sample_height < 0x200) {
-                base_height = state_alias->floor_height;
+                base_height = ((u16)state_alias->ground_height);
                 if ((body->unk_90.parts.high.s + base_height) < (s16)sample_height) {
-                    state_alias->flags &= 0xF7FFFFFF;
+                    state_alias->flags1C &= 0xF7FFFFFF;
                 } else {
                     if ((s16)sample_height >= base_height) {
                         body->unk_90.value = 0;
                         motion->velocity_z = 0;
-                        state_alias->flags |= 0x08000000;
+                        state_alias->flags1C |= 0x08000000;
                         body->unk_9D.s = 0;
                     } else {
                         motion->velocity_z = 0;
-                        state_alias->flags |= 0x08000000;
+                        state_alias->flags1C |= 0x08000000;
                         body->unk_9D.s = 0;
-                        body->unk_90.parts.high.s = (s16)sample_height - state_alias->floor_height;
+                        body->unk_90.parts.high.s = (s16)sample_height - ((u16)state_alias->ground_height);
                     }
                 }
-                state_flags = state_alias->flags;
+                state_flags = state_alias->flags1C;
                 if (state_flags & 0x40000000) {
-                    state_alias->flags = state_flags & 0xBFFFFFFF;
+                    state_alias->flags1C = state_flags & 0xBFFFFFFF;
                     sample_height = sample_terrain_surface_height((sprite->tile_x << 6) | 0x20,
                                                  (sprite->tile_y << 6) | 0x20,
-                                                 (s16)(state_alias->floor_height - 0x20));
-                    body->unk_90.parts.high.s += state_alias->floor_height - sample_height;
-                    state_alias->floor_height = sample_height;
+                                                 (s16)(((u16)state_alias->ground_height) - 0x20));
+                    body->unk_90.parts.high.s += ((u16)state_alias->ground_height) - sample_height;
+                    state_alias->ground_height = sample_height;
                 }
-                motion->z.w.i = state_alias->floor_height + body->unk_90.parts.high.u;
+                motion->z.w.i = ((u16)state_alias->ground_height) + body->unk_90.parts.high.u;
                 sprite->flags |= 0x40;
                 return;
             }
         }
-        state_alias->flags &= 0xF7FFFFFF;
+        state_alias->flags1C &= 0xF7FFFFFF;
 
-        motion->z.w.i = state_alias->floor_height + body->unk_90.parts.high.u;
+        motion->z.w.i = ((u16)state_alias->ground_height) + body->unk_90.parts.high.u;
         sprite->flags |= 0x40;
     }
 

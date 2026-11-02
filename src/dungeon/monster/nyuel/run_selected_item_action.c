@@ -23,11 +23,6 @@ extern void create_actor_linked_effect(void *);
 extern u8 nyuel_action_resume_address[];
 extern u8 nyuel_frame_set_2[];
 
-typedef struct S_8017293C_2 {
-    u8 pad_00[0x24];
-    u8 unk_24;
-    u8 unk_25;
-} S_8017293C_2;   /* linked in run_selected_item_action */
 
 typedef struct S_8017293C_5 {
     u8 pad_00[0xA];
@@ -103,9 +98,9 @@ void run_selected_item_action(ActorRecord *body, ObjectPosition *motion, SpriteF
                 if (use_special != 0) {
                     target = primary_actor_record;
                     actor->target = target;
-                    scratch_pointer = ((ObjectNodeHeader *)((u8 *)target - 0x20))->sprite;
-                    actor->target_tile_x = ((S_8017293C_2 *)scratch_pointer)->unk_24;
-                    actor->target_tile_y = ((S_8017293C_2 *)scratch_pointer)->unk_25;
+                    scratch_pointer = ((ObjectNodeHeader *)target - 1)->sprite;
+                    actor->target_tile_x = ((SpriteFrameState *)scratch_pointer)->tile_x;
+                    actor->target_tile_y = ((SpriteFrameState *)scratch_pointer)->tile_y;
                 } else {
                     u8 item_id;
 
@@ -113,9 +108,9 @@ void run_selected_item_action(ActorRecord *body, ObjectPosition *motion, SpriteF
                     if (item_action_definitions[item_id].kind == 2) {
                         target = actor->target;
                         if (target != 0) {
-                            scratch_pointer = ((ObjectNodeHeader *)((u8 *)target - 0x20))->sprite;
-                            actor->target_tile_x = ((S_8017293C_2 *)scratch_pointer)->unk_24;
-                            actor->target_tile_y = ((S_8017293C_2 *)scratch_pointer)->unk_25;
+                            scratch_pointer = ((ObjectNodeHeader *)target - 1)->sprite;
+                            actor->target_tile_x = ((SpriteFrameState *)scratch_pointer)->tile_x;
+                            actor->target_tile_y = ((SpriteFrameState *)scratch_pointer)->tile_y;
 
                         }
                     } else {

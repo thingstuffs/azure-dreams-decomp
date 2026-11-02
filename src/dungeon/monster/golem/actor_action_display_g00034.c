@@ -65,7 +65,7 @@ s32 attempt_actor_action_and_display(ActorRecord *action_out, ObjectPosition *ac
         select_sprite_entry(actor_info,
             direction_table[((g_game_work.view.camera_rotation.parts.viewAngle + acting_actor->facing + 0x100) >> 9) & 7],
             0);
-        ((S_80172050_3 *)acting_actor)->unk_6D--;
+        acting_actor->pending_turn_updates--;
         prepare_directional_attack(acting_actor, actor_info, acting_actor->facing, 1, 0);
         result = 1;
     }

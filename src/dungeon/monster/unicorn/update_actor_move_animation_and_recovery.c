@@ -41,7 +41,7 @@ void update_actor_move_animation_and_recovery(ActorRecord *body, ObjectPosition 
     s32 state;
     s16 use_player;
     s32 move_kind;
-    void *target;
+    ObjectNodeHeader *target;
     s32 target_x;
     u16 position[3];
     u16 ticks_left;
@@ -92,15 +92,15 @@ void update_actor_move_animation_and_recovery(ActorRecord *body, ObjectPosition 
         if (*move_id != 0) {
             body->action_state_flags &= 0xFF7F;
             if (use_player != 0) {
-                target = primary_actor_record;
+                target = (ObjectNodeHeader *)primary_actor_record;
                 actor->target = target;
-                move_kind = (s32)((ObjectNodeHeader *)((u8 *)target - 0x20))->sprite;
+                move_kind = (s32)(target - 1)->sprite;
                 actor->target_tile_x = ((S_80172AB4_3 *)(void *)move_kind)->unk_24;
                 actor->target_tile_y = ((S_80172AB4_3 *)(void *)move_kind)->unk_25;
             } else if (item_action_definitions[*move_id].kind == 2) {
                 target = actor->target;
                 if (target != 0) {
-                    move_kind = (s32)((ObjectNodeHeader *)((u8 *)target - 0x20))->sprite;
+                    move_kind = (s32)(target - 1)->sprite;
                     actor->target_tile_x = ((S_80172AB4_3 *)(void *)move_kind)->unk_24;
                     actor->target_tile_y = ((S_80172AB4_3 *)(void *)move_kind)->unk_25;
                 }

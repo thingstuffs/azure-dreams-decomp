@@ -105,13 +105,13 @@ void advance_actor_motion_and_reset_action(ActorRecord *action_state, ObjectPosi
             if (special_mode != 0) {
                 target = primary_actor_record;
                 actor->target = target;
-                action_counters = ((ObjectNodeHeader *)((u8 *)target - 0x20))->sprite;
+                action_counters = ((ObjectNodeHeader *)target - 1)->sprite;
                 actor->target_tile_x = ((S_80172870_3 *)action_counters)->unk_24;
                 actor->target_tile_y = ((S_80172870_3 *)action_counters)->unk_25;
             } else if (item_action_definitions[*motion].kind == 2) {
                 target = actor->target;
                 if (target != 0) {
-                    action_counters = ((ObjectNodeHeader *)((u8 *)target - 0x20))->sprite;
+                    action_counters = ((ObjectNodeHeader *)target - 1)->sprite;
                     actor->target_tile_x = ((S_80172870_3 *)action_counters)->unk_24;
                     actor->target_tile_y = ((S_80172870_3 *)action_counters)->unk_25;
                 }

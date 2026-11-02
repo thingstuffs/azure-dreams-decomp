@@ -9,49 +9,6 @@
 #include "modules/main_server_ship_interfaces.h"
 #include "m2c_compat.h"
 
-typedef struct Node {
-    void *field0;
-    struct Node *field4;
-    u16 field8;
-    s16 fieldA;
-} Node;
-
-typedef struct S_80024818_0 {
-    u8 pad_00[0x80];
-    s32 unk_80;
-} S_80024818_0;
-
-/* root in card_boot_format_empty_slot_guidance */
-typedef struct S_80024818_1 {
-    u8 pad_00[0xB4C];
-    Node * unk_B4C;
-} S_80024818_1;
-
-typedef struct S_800249B4_3 {
-    u8 pad_00[0x4];
-    void * unk_04;
-} S_800249B4_3;
-
-typedef struct S_800249B4_4 {
-    u8 pad_00[0xA];
-    s16 unk_0A;
-} S_800249B4_4;
-
-typedef struct S_800249B4_0 {
-    u8 pad_00[0xB4C];
-    void * unk_B4C;
-} S_800249B4_0;
-
-typedef struct S_800249B4_1 {
-    s32 unk_00;
-    void * unk_04;
-} S_800249B4_1;
-
-typedef struct S_800249B4_2 {
-    u8 pad_00[0x8];
-    s16 unk_08;
-} S_800249B4_2;
-
 extern void strcat(void *dest, void *src);
 extern void strcpy(void *dest, void *src);
 extern void *D_800283B8[];

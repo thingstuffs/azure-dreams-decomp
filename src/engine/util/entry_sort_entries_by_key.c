@@ -1,13 +1,8 @@
 #include "common.h"
 #include "engine/util.h"
 #include "slus/data.h"
+#include "engine/audio/ram_block.h"
 
-typedef struct {
-    s32 unk00;
-    s32 unk04;
-} S_800869C0;
-
-extern S_800869C0 audio_ram_blocks[16];
 extern u8 sound_ram_reserve_mode[9];
 
 /* Reserves space in the entry table and returns its offset, or -1 if it exceeds the limit. */
@@ -15,12 +10,12 @@ s32 reserve_sound_ram_region(s32 size)
 {
     s32 alloc_size;
     s32 offset;
-    S_800869C0 *first_entry;
+    SoundRamBlock *first_entry;
     s32 initial_end;
     s32 *reserve_sizes;
     s32 alloc_limit;
     s32 end_offset;
-    S_800869C0 *entry;
+    SoundRamBlock *entry;
     s32 reserved_size;
     s32 entry_index;
     u8 reserve_index;
@@ -28,7 +23,7 @@ s32 reserve_sound_ram_region(s32 size)
     alloc_size = size;
     offset = 0x1010;
     first_entry = &audio_ram_blocks[0];
-    if (first_entry->unk00 != 0) {
+    if (first_entry->address.s != 0) {
         goto loop_start;
     }
     initial_end = alloc_size + 0x1010;
@@ -41,13 +36,13 @@ s32 reserve_sound_ram_region(s32 size)
     if ((u32)initial_end >= (u32)alloc_limit) {
         return -1;
     }
-    first_entry->unk00 = offset;
-    first_entry->unk04 = alloc_size;
+    first_entry->address.s = offset;
+    first_entry->size = alloc_size;
     goto tail;
 
 found:
-    entry->unk00 = end_offset;
-    entry->unk04 = alloc_size;
+    entry->address.s = end_offset;
+    entry->size = alloc_size;
     sort_entries_by_key();
     return offset;
 
@@ -60,11 +55,11 @@ loop_start:
         entry = first_entry;
         reserve_index = sound_ram_reserve_mode[0];
         for (; 16 > entry_index; entry_index++, entry++) {
-            if (entry->unk04 != 0) {
+            if (entry->size != 0) {
                 continue;
             }
             reserved_size = (reserve_sizes = sound_ram_reserved_sizes)[reserve_index];
-            offset = entry->unk00;
+            offset = entry->address.s;
             end_offset = offset + alloc_size;
             if ((u32)end_offset >= (u32)(memory_end - reserved_size)) {
                 return -1;

@@ -1,3 +1,4 @@
+#include "shared/object_node.h"
 #include "common.h"
 #include "frontend/libcard.h"
 #include "main/data.h"
@@ -14,5 +15,5 @@ void card_boot_handle_format_answer(void *object) {
         *(s32 *)((s8 *)object + 0x38) = 1;
         handler = D_8002765C;
     }
-    *(void **)((s8 *)object - 0x10) = handler;
+    ((ObjectNodeHeader *)object - 1)->update_callback = handler;
 }

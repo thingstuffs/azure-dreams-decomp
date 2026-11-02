@@ -442,7 +442,7 @@ void update_actor_state_and_select_target(ActorRecord *entity, ObjectPosition *c
 
 /* Advances one stored path step, updates occupied tiles and facing, and selects the movement animation and
  * delay. */
-void advance_actor_path_script_step(ActorRecord *controller, ObjectPosition *context, void *entity, void *path_state)
+void advance_actor_path_script_step(ActorRecord *controller, ObjectPosition *context, SpriteFrameState *entity, void *path_state)
 {
     ActorRecord *path_actor = controller;
     R12_801713D4_S_8017139C_0 *state = path_state;
@@ -461,16 +461,16 @@ void advance_actor_path_script_step(ActorRecord *controller, ObjectPosition *con
         return;
     }
 
-    if (*(u8 * *)&((SpriteFrameState *)entity)->frameTable != arachne_move_direction_frames) {
-        ((SpriteFrameState *)entity)->frameTable = arachne_move_direction_frames;
+    if (*(u8 * *)&entity->frameTable != arachne_move_direction_frames) {
+        entity->frameTable = arachne_move_direction_frames;
         select_sprite_entry(
             entity,
             arachne_move_direction_frames[((g_game_work.view.camera_rotation.parts.viewAngle + state->unk_2A + 0x100) >> 9) & 7],
             0);
     }
 
-    x = ((SpriteFrameState *)entity)->tile_x;
-    y = ((SpriteFrameState *)entity)->tile_y;
+    x = entity->tile_x;
+    y = entity->tile_y;
     move_flags = 0x3000;
     if (state->unk_1C & 0x2000) {
         move_flags = 0x300;
@@ -485,16 +485,16 @@ void advance_actor_path_script_step(ActorRecord *controller, ObjectPosition *con
         &path_actor->action_state_flags));
     move_result = ((s16)check_movement_clearance_and_height(direction, entity, state, 0x20));
 
-    ((SpriteFrameState *)entity)->tile_x =
+    entity->tile_x =
         ((R12_801713D4_S_8017139C_3 *)((u8 *)state + state->unk_8A.s))->unk_74;
     move_flags = 0x3000;
-    ((SpriteFrameState *)entity)->tile_y =
+    entity->tile_y =
         ((R12_801713D4_S_8017139C_3 *)((u8 *)state + state->unk_8A.s))->unk_7C;
     state->unk_8A.u++;
 
     {
-        s32 next_x = ((SpriteFrameState *)entity)->tile_x;
-        s32 next_y = ((SpriteFrameState *)entity)->tile_y;
+        s32 next_x = entity->tile_x;
+        s32 next_y = entity->tile_y;
 
         if (state->unk_1C & 0x2000) {
             move_flags = 0x300;
@@ -504,7 +504,7 @@ void advance_actor_path_script_step(ActorRecord *controller, ObjectPosition *con
 
     state->unk_2A = direction;
     if (move_result == 3) {
-        if (!(g_dungeon_status.flags & 0x80) && !(((SpriteFrameState *)entity)->flags & 0x8000)) {
+        if (!(g_dungeon_status.flags & 0x80) && !(entity->flags & 0x8000)) {
             advance_linked_actor_motion_script(controller, context, entity, state);
         } else {
             controller->action_id.u = 0xF;
@@ -839,7 +839,7 @@ void select_and_start_target_action(ActorRecord *action_state, ObjectPosition *a
 }
 
 /* Relinks actor state, updates status or movement as needed, and reports whether a new action may start. */
-s32 relink_arachne_path(ActorRecord *entity_arg, ObjectPosition *primary_context_arg, void *secondary_context_arg, s32 force_state_arg) {
+s32 relink_arachne_path(ActorRecord *entity_arg, ObjectPosition *primary_context_arg, SpriteFrameState *secondary_context_arg, s32 force_state_arg) {
     s16 state_type;
     s32 result;
     void *entity = entity_arg;
@@ -1871,7 +1871,7 @@ void dim_effect_after_delay(AdvanceActionAndSpawnEffectBody *effect) {
 }
 
 /* Projects curved grids for linked effects and queues their visible line segments by depth. */
-s32 build_linked_curved_wireframe_grid(u8 *node, s32 next_node, s32 unused_2)
+s32 build_linked_curved_wireframe_grid(u8 *node, s32 next_node, SpriteFrameState *unused_2)
 {
     R12_80173FDC_Frame frame;
     u8 *effect;
@@ -2089,7 +2089,7 @@ grid_loop:
 }
 
 /* Projects visible sprites in the linked effect chain using the shared depth adjustment. */
-s32 project_arachne_sprite_chain(void *initial_payload, s32 entry_data, R12_8017458C_Entry *entry, s32 unused)
+s32 project_arachne_sprite_chain(void *initial_payload, ObjectPosition *entry_data, R12_8017458C_Entry *entry, s32 unused)
 {
     void *payload = initial_payload;
     R12_8017458C_Scratchpad *scratch = (R12_8017458C_Scratchpad *)0x1F800000;
@@ -2107,7 +2107,7 @@ s32 project_arachne_sprite_chain(void *initial_payload, s32 entry_data, R12_8017
             return 0;
         }
         payload = (u8 *)next_entry + 0x20;
-        entry_data = (s32)next_entry->unk08;
+        entry_data = next_entry->unk08;
         entry = next_entry->unk0C;
     }
 }
@@ -2245,7 +2245,7 @@ void transform_and_queue_line_packets(R12_80174618_S_80174618_4 *endpoints, R12_
 }
 
 /* Traverses linked effect nodes and projects each node's line endpoints into render packets. */
-s32 queue_line_packets_for_node_chain(void *initial_state, void *context, void *data) {
+s32 queue_line_packets_for_node_chain(void *initial_state, void *context, SpriteFrameState *data) {
     void *state = initial_state;
     R12_80174954_Func800C138CData *next_node;
 
@@ -2278,7 +2278,7 @@ void update_turning_fade_effect_and_model(void *record_data) {
 }
 
 /* Builds opening and closing spherical wireframe segments and expires the effect when its timer runs out. */
-void build_animated_spherical_wireframe(void *effect, void *origin, void *tint) {
+void build_animated_spherical_wireframe(void *effect, void *origin, SpriteFrameState *tint) {
     s16 ring_angles[10];
     s32 coordinate;
     u32 scale;
@@ -2447,9 +2447,9 @@ void build_animated_spherical_wireframe(void *effect, void *origin, void *tint) 
             meridian_render = ((R12_801749EC_S_801749EC_7 *)meridian_object)->unk_0C;
             meridian_render->scale_y = ONE;
             meridian_render->scale_x = ONE;
-            meridian_render->color.c.r = (u8) ((R12_801749EC_S_801749EC_11 *)tint)->unk_0C;
-            meridian_render->color.c.g = (u8) ((R12_801749EC_S_801749EC_11 *)tint)->unk_0D;
-            meridian_render->color.c.b = (u8) ((R12_801749EC_S_801749EC_11 *)tint)->unk_0E;
+            meridian_render->color.c.r = (u8) tint->color.c.r;
+            meridian_render->color.c.g = (u8) tint->color.c.g;
+            meridian_render->color.c.b = (u8) tint->color.c.b;
             segment_index = sector << 0x10;
             segment_index >>= 0x10;
             sector_offset = meridian * 6;
@@ -2498,9 +2498,9 @@ void build_animated_spherical_wireframe(void *effect, void *origin, void *tint) 
                 ring_render = ((R12_801749EC_S_801749EC_15 *)ring_object)->unk_0C;
                 ring_render->scale_y = ONE;
                 ring_render->scale_x = ONE;
-                ring_render->color.c.r = (u8) ((R12_801749EC_S_801749EC_11 *)tint)->unk_0C;
-                ring_render->color.c.g = (u8) ((R12_801749EC_S_801749EC_11 *)tint)->unk_0D;
-                ring_render->color.c.b = (u8) ((R12_801749EC_S_801749EC_11 *)tint)->unk_0E;
+                ring_render->color.c.r = (u8) tint->color.c.r;
+                ring_render->color.c.g = (u8) tint->color.c.g;
+                ring_render->color.c.b = (u8) tint->color.c.b;
                 if (meridian != 5) {
                     next_vertex = (R12_801749EC_S_801749EC_19 *)((s8 *)vertices + (((meridian + 1) * 6) + vertex_base_or_offset));
                     meridian_line->unk_64 = (u16) next_vertex->unk_00;
@@ -2571,7 +2571,7 @@ void create_offset_effect(void *source_arg, void *spawn_pos_arg, SpriteFrameStat
 
 /* Stops movement and waits for dungeon activity to finish, then clears the callback and counts the new
  * action. */
-void wait_for_arachne_activity(ActorRecord *entity_data, ObjectPosition *unused_1, s32 unused_2, void *other_data)
+void wait_for_arachne_activity(ActorRecord *entity_data, ObjectPosition *unused_1, SpriteFrameState *unused_2, void *other_data)
 {
     ActorRecord *entity = entity_data;
     u8 *other = other_data;
@@ -2592,7 +2592,7 @@ void wait_for_arachne_activity(ActorRecord *entity_data, ObjectPosition *unused_
 }
 
 /* Advances the transition sprite, then restores the view tint to neutral and removes the effect. */
-void fade_effect_to_neutral(void *entity_data, void *unused, void *source_data)
+void fade_effect_to_neutral(void *entity_data, ObjectPosition *unused, void *source_data)
 {
     u8 *entity = entity_data;
     u8 *source = source_data;
@@ -2631,7 +2631,7 @@ void fade_effect_to_neutral(void *entity_data, void *unused, void *source_data)
 }
 
 /* Loads transition effects, fades the view tint, replaces the actor, and restores the new actor's facing. */
-void advance_effect_sequence_and_restore_actor(ActorRecord *sequence, void *position, SpriteFrameState *record, ActorRecord *actor) {
+void advance_effect_sequence_and_restore_actor(ActorRecord *sequence, ObjectPosition *position, SpriteFrameState *record, ActorRecord *actor) {
     GameWork *scene_color = &g_game_work;
     R12_80175470_S_80175470_2 *node;
     ObjectNodeHeader *effect_node;
@@ -2720,9 +2720,9 @@ void advance_effect_sequence_and_restore_actor(ActorRecord *sequence, void *posi
         register_node(effect_node, ((u8 *)project_arachne_sprite_chain));
         ((R12_80175470_S_80175470_0 *)sequence)->unk_A8 = node;
         model_color = 0x00808080;
-        *(s32 *)node->unk_08 = ((s32 *)position)[0];
-        ((s32 *)node->unk_08)[1] = ((s32 *)position)[1];
-        ((s32 *)node->unk_08)[2] = ((s32 *)position)[2];
+        *(s32 *)node->unk_08 = position->x.v;
+        ((s32 *)node->unk_08)[1] = position->y.v;
+        ((s32 *)node->unk_08)[2] = position->z.v;
         (*(s16 *)D_80175B20) = -12;
         model = node->unk_0C;
         model->scale_y = 0x1000;

@@ -132,13 +132,6 @@ typedef struct floor_generate_isolated_80285464_RecB {
     s16 f6;
     s32 f8;
 } floor_generate_isolated_80285464_RecB;
-typedef struct floor_generate_isolated_80285464_RecC {
-    u8 pad00[6];
-    u8 f6;
-    u8 f7;
-    s32 f8;
-    u8 pad0C[12];
-} floor_generate_isolated_80285464_RecC;
 typedef struct floor_generate_isolated_80285464_RecD {
     u8 f0;
     u8 f1;
@@ -333,12 +326,6 @@ typedef struct {
     u16 width;
     u16 height;
 } floor_generate_isolated_8028A0F4_DungeonRect;
-typedef struct {
-    u8 pad0[6];
-    u8 px;
-    u8 py;
-    u8 pad8[16];
-} floor_generate_isolated_8028A0F4_DungeonSpot;
 typedef struct {
     u8 kind;
     u8 f1;

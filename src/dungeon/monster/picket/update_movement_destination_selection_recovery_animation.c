@@ -12,18 +12,6 @@
 #include "engine/graphics.h"
 #include "dungeon/system.h"
 
-typedef struct S_80174428_0 {
-    u8 pad_00[0x1C];
-    s32 unk_1C;
-    u8 pad_20[0xA];
-    union { u16 s; s16 u; } unk_2A;   /* accessed as both */
-    u8 pad_2C[0x1A];
-    u16 unk_46;
-    u8 pad_48[0x25];
-    u8 unk_6D;
-    u8 pad_6E[0x1A];
-    s16 unk_88;
-} S_80174428_0;   /* object in update_movement_destination_selection_recovery_animation */
 
 
 typedef struct S_80174428_2 {
@@ -73,7 +61,7 @@ void update_movement_destination_selection_recovery_animation(ActorRecord *state
     s16 *level;
     u32 state_id;
     x_step_ptr = (s16 *)((u8 *)dir_step_x);
-    raw_direction = ((S_80174428_0 *)object)->unk_2A.s;
+    raw_direction = ((u16)((ActorRecord *)object)->facing);
     direction_offset = raw_direction >> 8;
     direction_offset &= 0xE;
     state_id = state->action_phase.u;
@@ -88,10 +76,10 @@ void update_movement_destination_selection_recovery_animation(ActorRecord *state
     switch (state_id) {
     case 0:
         update_map_cell_flags_with_item_limit(actor->tile_x, actor->tile_y,
-            (((S_80174428_0 *)object)->unk_1C & ACTOR_PLAYER_SIDE) ? 0x300 : 0x3000);
+            (((ActorRecord *)object)->flags1C & ACTOR_PLAYER_SIDE) ? 0x300 : 0x3000);
         actor->frameTable = picket_frame_set_2;
         select_sprite_entry(actor,
-            picket_frame_set_2[((g_game_work.view.camera_rotation.parts.viewAngle + ((S_80174428_0 *)object)->unk_2A.u + 0x100) >> 9) & 7], 0);
+            picket_frame_set_2[((g_game_work.view.camera_rotation.parts.viewAngle + ((ActorRecord *)object)->facing + 0x100) >> 9) & 7], 0);
         motion->velocity_x = (x_step << 19) + (x_step << 18);
         motion->velocity_y = (y_step << 19) + (y_step << 18);
         state->action_timer.u = 4;
@@ -109,7 +97,7 @@ void update_movement_destination_selection_recovery_animation(ActorRecord *state
         (*(u8 **)((u8 *)actor + 0x2C)) = picket_frame_set_8;
         select_sprite_entry(actor,
             picket_frame_set_8[((*(s16 *)(((u8 *)(&reference_tile_object)) + 0x3A8) +
-                ((S_80174428_0 *)object)->unk_2A.u + 0x100) >> 9) & 7], 0);
+                ((ActorRecord *)object)->facing + 0x100) >> 9) & 7], 0);
         state->action_timer.u = 0;
         motion->velocity_x = (-x_step) << 18;
         motion->velocity_y = (-y_step) << 18;
@@ -124,30 +112,30 @@ void update_movement_destination_selection_recovery_animation(ActorRecord *state
         motion->velocity_x = 0;
         actor->frameTable = picket_frame_set_1;
         select_sprite_entry(actor,
-            picket_frame_set_1[((g_game_work.view.camera_rotation.parts.viewAngle + ((S_80174428_0 *)object)->unk_2A.u + 0x100) >> 9) & 7], 0);
-        if (((S_80174428_0 *)object)->unk_1C & ACTOR_PLAYER_SIDE) {
+            picket_frame_set_1[((g_game_work.view.camera_rotation.parts.viewAngle + ((ActorRecord *)object)->facing + 0x100) >> 9) & 7], 0);
+        if (((ActorRecord *)object)->flags1C & ACTOR_PLAYER_SIDE) {
             state->action_timer.u = 7;
             state->action_phase.u = 5;
             return;
         }
-        ((S_80174428_0 *)object)->unk_2A.s &= 0xFFF;
+        ((ActorRecord *)object)->facing &= 0xFFF;
         state->action_phase.u++;
         return;
 
     case 3:
         {
-            u16 angle = ((S_80174428_0 *)object)->unk_2A.s;
-            if ((((S_80174428_0 *)object)->unk_2A.u == 0x400) ||
+            u16 angle = ((u16)((ActorRecord *)object)->facing);
+            if ((((ActorRecord *)object)->facing == 0x400) ||
                 (actor->flags & 0x8000)) {
                 select_sprite_entry(actor, 0x37, 0);
                 state->action_phase.u++;
                 return;
             }
             if ((u32)(angle - 0x401) < 0x800) {
-                ((S_80174428_0 *)object)->unk_2A.s = angle - 0x80;
+                ((ActorRecord *)object)->facing = angle - 0x80;
                 return;
             }
-            ((S_80174428_0 *)object)->unk_2A.s = (angle + 0x80) & 0xFFF;
+            ((ActorRecord *)object)->facing = (angle + 0x80) & 0xFFF;
             return;
         }
 
@@ -206,21 +194,21 @@ void update_movement_destination_selection_recovery_animation(ActorRecord *state
             height = sample_terrain_surface_height((actor->tile_x << 6) | 0x20,
                 (actor->tile_y << 6) | 0x20,
                 (s16)(((u16) motion->z.w.i) - 0x80));
-            ((S_80174428_0 *)object)->unk_88 = height;
+            ((ActorRecord *)object)->ground_height = height;
             actor->frameTable = picket_frame_set_1;
             spend_actor_mp(object, 0x200);
             select_sprite_entry(actor,
-                ((u8 *)actor->frameTable)[((g_game_work.view.camera_rotation.parts.viewAngle + ((S_80174428_0 *)object)->unk_2A.u + 0x100)
+                ((u8 *)actor->frameTable)[((g_game_work.view.camera_rotation.parts.viewAngle + ((ActorRecord *)object)->facing + 0x100)
                     >> 9) & 7], 0);
             cycle_map_cell_flags(actor->tile_x, actor->tile_y,
-                (((S_80174428_0 *)object)->unk_1C & ACTOR_PLAYER_SIDE) ? 0x300 : 0x3000);
+                (((ActorRecord *)object)->flags1C & ACTOR_PLAYER_SIDE) ? 0x300 : 0x3000);
             set_record_integer_tile_center(motion, actor->tile_x, actor->tile_y);
             actor->scale_y = 0x1000;
             actor->scale_x = 0x1000;
             state->unk_8C.byte_ptr = picket_action_resume_address;
             advance_status_timers(object);
-            ((S_80174428_0 *)object)->unk_6D = 0;
-            ((S_80174428_0 *)object)->unk_46 &= 0x7FFF;
+            ((ActorRecord *)object)->pending_turn_updates = 0;
+            ((ActorRecord *)object)->action_flags &= 0x7FFF;
             return;
         }
     }

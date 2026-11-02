@@ -4,21 +4,21 @@
 #include "engine/node.h"
 #include "town/map/state.h"
 
-struct S_800A8BBC_0; void write_square_position_offsets(s16, s16, s16, s16, struct S_800A8BBC_0 *);
+struct TownPositionXY; void write_square_position_offsets(s16, s16, s16, s16, struct TownPositionXY *);
 extern M2C_UNK map_random_state_draw_address[3];
 extern M2C_UNK D_800A9624[3];
 extern M2C_UNK D_800A970C[3];
 
 /* Initialize object tables, settings, and randomized state. */
-void initialize_randomized_object_state(TownObjectRecord *object, void *random_state, void *settings) {
-    *(s32 **)((s8 *)object - 0x10) = D_800A9624;
+void initialize_randomized_object_state(TownObjectRecord *object, ObjectPosition *random_state, SpriteFrameState *settings) {
+    ((ObjectNodeHeader *)object - 1)->update_callback = D_800A9624;
     object->unk_50.as_pm = D_800A970C;
-    *(s16 *)((s8 *)settings + 0x1C) = 0x37;
-    *(s16 *)((s8 *)settings + 0x1E) = 0x37;
-    *(u16 *)((s8 *)settings + 0x20) = 0xFF00;
-    *(s16 *)((s8 *)random_state + 0x0E) = scale_random_to_unsigned_halfword_limit(0xFFFF);
-    *(s16 *)((s8 *)random_state + 0x12) = scale_random_to_unsigned_halfword_limit(0xFFFF);
-    *(s16 *)((s8 *)random_state + 0x16) = scale_random_to_unsigned_halfword_limit(0xFFFF);
+    settings->scale_x = 0x37;
+    settings->scale_y = 0x37;
+    settings->offset_x = 0xFF00;
+    ((Fixed1616 *)&random_state->velocity_x)->w.i = scale_random_to_unsigned_halfword_limit(0xFFFF);
+    ((Fixed1616 *)&random_state->velocity_y)->w.i = scale_random_to_unsigned_halfword_limit(0xFFFF);
+    ((Fixed1616 *)&random_state->velocity_z)->w.i = scale_random_to_unsigned_halfword_limit(0xFFFF);
     register_node_if_unregistered(object, map_random_state_draw_address);
-    write_square_position_offsets(0x10, 0x11, 0x12, 0x13, random_state);
+    write_square_position_offsets(0x10, 0x11, 0x12, 0x13, (struct TownPositionXY *)random_state);
 }

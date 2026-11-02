@@ -18,12 +18,6 @@ typedef struct S_8016AFC4_3 {
     u8 unk_7C;
 } S_8016AFC4_3;   /* entry in advance_multi_form_turn_path */
 
-typedef struct S_8016AFC4_4 {
-    u8 pad_00[0x74];
-    u8 unk_74;
-    u8 pad_75[0x7];
-    u8 unk_7C;
-} S_8016AFC4_4;   /* (u8 *)arg3 + ((S_8016AFC4_0 *)arg3)->unk_8A.s in advance_multi_form_turn_path */
 
 extern void update_map_cell_flags_with_item_limit(s32 x, s32 y, u16 flags);
 extern s32 check_movement_clearance_and_height();
@@ -103,9 +97,9 @@ void advance_multi_form_turn_path(ActorRecord *actor, ObjectPosition *unused, Sp
     check_movement_clearance_and_height(direction, sprite, movement, 0x20);
 
     sprite->tile_x =
-        ((S_8016AFC4_4 *)((u8 *)movement + movement->unk_8A))->unk_74;
+        ((ActorRecord *)((u8 *)movement + movement->unk_8A))->path_x[0];
     sprite->tile_y =
-        ((S_8016AFC4_4 *)((u8 *)movement + movement->unk_8A))->unk_7C;
+        ((ActorRecord *)((u8 *)movement + movement->unk_8A))->path_y[0];
     (*(u16 *)&movement->unk_8A)++;
 
     cycle_map_cell_flags(sprite->tile_x, sprite->tile_y,

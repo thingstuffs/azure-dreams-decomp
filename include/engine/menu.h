@@ -3,6 +3,7 @@
 /* Prototypes of the functions defined in src/engine/menu/ (one true prototype each; maintained by tools/headers). */
 
 #include "common.h"
+#include "engine/menu/selection_menu.h"
 #include "shared/gpu_packets.h"
 
 struct ObjA464;
@@ -16,8 +17,6 @@ struct S_8004FA2C;
 struct S_8004FAA4_1;
 struct S_8004FC2C;
 struct S_8004FF20;
-struct S_800500B4_0;
-struct S_800500B4_1;
 struct S_800506BC_Ctx;
 struct S_800506BC_Obj;
 struct S_80053A88_Node;
@@ -91,8 +90,6 @@ void animate_selection_menu_entry_spacing(struct S_8004F9AC_Obj *obj);
 /* animate_selection_menu_index_transition.c */
 void animate_selection_menu_index_transition(struct S_8004F95C *state);
 
-/* animate_six_entry_selection_cursor.c */
-void animate_six_entry_selection_cursor(struct S_800500B4_1 *widgets, struct S_800500B4_0 *anim);
 
 /* apply_scaled_byte_modifier_clamp_one.c */
 s32 apply_scaled_byte_modifier_clamp_one(s32 base_value, struct S_8004A4E4 *modifier);

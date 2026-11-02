@@ -22,6 +22,15 @@ typedef struct RadialParticleBurstBody {
     s16 z;
 } RadialParticleBurstBody;
 
+typedef struct ViewColorFlashState {
+    u8 target_red;
+    u8 target_green;
+    u8 target_blue;
+    u8 pad_03;
+    union { s16 s; u16 u; } phase;
+    union { s16 s; u16 u; } frames_remaining;
+} ViewColorFlashState;
+
 void *append_signed_value_bytes(s32 value, u8 *buffer);
 u8 *apply_type_based_entry_adjustments(void *entry, u8 *value);
 void create_view_color_flash(s32 payload, s16 trigger_event);

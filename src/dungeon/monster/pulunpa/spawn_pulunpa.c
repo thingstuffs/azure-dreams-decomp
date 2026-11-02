@@ -11,15 +11,6 @@
 #include "dungeon/actor/animation.h"
 #include "engine/node/allocation.h"
 
-typedef struct S_80CBD000_0 {
-    u8 pad_00[0x13];
-    s8 unk_13;
-    u32 unk_14;
-    u8 pad_18[0x4];
-    u32 unk_1C;
-    u8 pad_20[0x6C];
-    void * unk_8C;
-} S_80CBD000_0;   /* work in create_actor_grid_object */
 
 
 extern s32 register_node(ObjectNodeHeader *entry, void *registration_id);
@@ -61,7 +52,7 @@ void *create_actor_grid_object(s16 flags, s16 unused_kind_id, s16 variant, s16 u
     arg0_copy = flags;
     if (part != 0) {
         work = (u8 *)part + 0x20;
-        ((S_80CBD000_0 *)work)->unk_13 = MONSTER_PULUNPA;
+        ((ActorRecord *)work)->species = MONSTER_PULUNPA;
         register_node(part, project_sprite_chain);
         coord = part->position;
         kind = flags & 3;
@@ -72,17 +63,17 @@ void *create_actor_grid_object(s16 flags, s16 unused_kind_id, s16 variant, s16 u
         state->tile_x = kind_id;
 
         if (kind == 1) {
-            ((S_80CBD000_0 *)work)->unk_8C = pulunpa_action_resume_address;
-            ((S_80CBD000_0 *)work)->unk_14 |= (ACTOR_CLASS_ENABLED | ACTOR_PARTY_MEMBER);
-            ((S_80CBD000_0 *)work)->unk_1C |= (ACTOR_PLAYER_SIDE | ACTOR_PARTY_MEMBER);
+            ((ActorRecord *)work)->unk_8C.address = pulunpa_action_resume_address;
+            ((ActorRecord *)work)->flags14 |= (ACTOR_CLASS_ENABLED | ACTOR_PARTY_MEMBER);
+            ((ActorRecord *)work)->flags1C |= (ACTOR_PLAYER_SIDE | ACTOR_PARTY_MEMBER);
             state->frameTable = pulunpa_frame_set_1;
         } else if (kind >= 2) {
-            ((S_80CBD000_0 *)work)->unk_8C = pulunpa_action_resume_address;
-            ((S_80CBD000_0 *)work)->unk_14 |= ACTOR_CLASS_ENABLED;
-            ((S_80CBD000_0 *)work)->unk_1C |= ACTOR_PLAYER_SIDE;
+            ((ActorRecord *)work)->unk_8C.address = pulunpa_action_resume_address;
+            ((ActorRecord *)work)->flags14 |= ACTOR_CLASS_ENABLED;
+            ((ActorRecord *)work)->flags1C |= ACTOR_PLAYER_SIDE;
             state->frameTable = pulunpa_frame_set_1;
         } else if (((flags & -4) << 16) == 0) {
-            if (!(((S_80CBD000_0 *)work)->unk_14 & ACTOR_RESIST_SLEEP)) {
+            if (!(((u32)((ActorRecord *)work)->flags14) & ACTOR_RESIST_SLEEP)) {
                 random = generate_random_value();
                 if (random & 1) {
                     random = generate_random_value();
@@ -99,7 +90,7 @@ void *create_actor_grid_object(s16 flags, s16 unused_kind_id, s16 variant, s16 u
                 state->frameTable = pulunpa_frame_set_2;
             }
         } else {
-            ((S_80CBD000_0 *)work)->unk_8C = pulunpa_action_resume_address;
+            ((ActorRecord *)work)->unk_8C.address = pulunpa_action_resume_address;
             state->frameTable = pulunpa_frame_set_1;
         }
 

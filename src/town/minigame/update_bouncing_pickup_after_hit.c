@@ -170,7 +170,7 @@ void update_bouncing_pickup_after_hit(BouncingPickupAfterHitObject *object, Obje
 
     case 255:
         unlink_scene_list_node((u8 *)object + 8);
-        (*(u16 *)((u8 *)object + -2)) |= NODE_REMOVE;
+        (((ObjectNodeHeader *)object - 1)->flags) |= NODE_REMOVE;
         object_flag_block.flags |= OBJECT_REMOVE_PENDING;
     }
 }

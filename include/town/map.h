@@ -1,5 +1,7 @@
 #ifndef TOWN_MAP_H
 #define TOWN_MAP_H
+
+#include "town/map/body.h"
 struct TownObjectRecord;
 /* Prototypes of the functions defined in src/town/map/ (one true prototype each; maintained by tools/headers). */
 
@@ -129,7 +131,7 @@ void decrease_town_record_value_by_two_hundred(void **record_ref);
 s32 create_directional_sprite_effect(void *position, s16 angle);
 void advance_coordinates_and_propagate_flags(void *object_data, ObjectPosition *motion, SpriteFrameState *status);
 void wait_then_process_record(struct S_800BC764_0 *context, void *unused, SpriteFrameState *record);
-void initialize_record_resources(void *record, void *init_context, SpriteFrameState *resource_target);
+void initialize_record_resources(TownObjectRecord *record, ObjectPosition *init_context, SpriteFrameState *resource_target);
 
 /* display_fade_g00643.c */
 struct TimedColorFadeObject;
@@ -140,7 +142,7 @@ void build_two_display_entries(void *data_id, s32 position_offset);
 
 /* door.c */
 s32 check_door_status_inverted(void *object);
-void initialize_door_variant(TownObjectRecord *record_data, void *position, struct SpriteFrameState *unused_sprite);
+void initialize_door_variant(TownObjectRecord *record_data, ObjectPosition *position, struct SpriteFrameState *unused_sprite);
 void handle_door_check_result(struct S_func_800A0708_0 *object, void *callback_arg, s32 callback_data);
 void install_next_door_handler(TownObjectRecord *object, void *unused_context, void *update_context, s32 unused_data);
 void open_door_to_target(void *object, void *context);
@@ -209,7 +211,7 @@ s32 find_highest_valid_cell_height(s32 world_x, s32 world_z, s32 world_y);
 void blit_nonzero_u16_block_to_grid(s16 dst_x, s16 dst_y, u16 *src);
 
 /* handle_town_map_input.c */
-void handle_town_map_input(u8 *object, void *transform, void *context);
+void handle_town_map_input(TownMapBody *object, ObjectPosition *transform, SpriteFrameState *context);
 
 /* increase_town_record_value.c */
 void increase_town_record_value(void **record_ref);
@@ -236,7 +238,7 @@ void initialize_building_shared_buffer(void);
 void initialize_control_block(struct TownCameraState *control);
 
 /* initialize_record_with_defaults.c */
-void initialize_record_with_defaults(TownObjectRecord *record_data, void *placement, struct SpriteFrameState *unused_sprite);
+void initialize_record_with_defaults(TownObjectRecord *record_data, ObjectPosition *placement, struct SpriteFrameState *unused_sprite);
 
 /* interpolate_view_components.c */
 void interpolate_view_components(struct S_800A526C_1 *transition);
@@ -282,7 +284,7 @@ void p_came_set(s32 position);
 
 /* paired_actor_motion_g00645.c */
 void update_randomized_actor_movement(void *actor, ObjectPosition *motion, SpriteFrameState *sprite, s32 update_mode);
-void initialize_object_and_dispatch_by_state(TownObjectRecord *object, s32 *params, void *dispatch_context);
+void initialize_object_and_dispatch_by_state(TownObjectRecord *object, ObjectPosition *params, SpriteFrameState *dispatch_context);
 void randomize_paired_object_motion(void *pair);
 s32 event_tori_in(void *source);
 
@@ -312,7 +314,7 @@ s32 check_masked_value_in_current_range(s32 value);
 void release_town_map_record(void *record_ref);
 
 /* replace_active_table_callbacks.c */
-void replace_active_table_callbacks(TownObjectRecord *entry_data, void *unused_position, struct SpriteFrameState *unused_sprite);
+void replace_active_table_callbacks(TownObjectRecord *entry_data, ObjectPosition *unused_position, struct SpriteFrameState *unused_sprite);
 
 /* request_event_with_toggled_map_bit.c */
 void request_event_with_toggled_map_bit(void);
@@ -321,7 +323,7 @@ void request_event_with_toggled_map_bit(void);
 void request_event_with_toggled_selector(void);
 
 /* restore_town_map_input_state.c */
-void restore_town_map_input_state(void *object);
+void restore_town_map_input_state(TownMapBody *object);
 
 /* retry_sound_sequence_when_ready.c */
 void retry_sound_sequence_when_ready(void);
@@ -345,7 +347,7 @@ void set_fallback_record_handler(void *record);
 void set_record_handler_below_threshold(void *record);
 
 /* set_record_pointer_and_byte.c */
-void set_record_pointer_and_byte(TownObjectRecord *record_data, void *placement, struct SpriteFrameState *unused_sprite);
+void set_record_pointer_and_byte(TownObjectRecord *record_data, ObjectPosition *placement, struct SpriteFrameState *unused_sprite);
 
 /* shaded_tile_rendering_g00594.c */
 void set_texture_quad_32_uv(u16 texture_page, u16 palette, u8 texture_u, u8 texture_v);
@@ -418,7 +420,7 @@ void town_map_mod_yorozu_item(s16 *tile_data, s16 object_type, s32 spawn_value);
 s32 town_map_set(s32 value_7c, s32 value_78);
 s32 town_map_del(void);
 s32 clear_town_map_status(void);
-void initialize_town_map_object_state(s32 type_id, s32 *init_value_ptr, void *object, void *context);
+void initialize_town_map_object_state(s32 type_id, s32 *init_value_ptr, struct ObjectNodeHeader *object, struct Rec_D_80081FDC *context);
 
 /* town_rain_in.c */
 void town_rain_in(s16 x, s16 y);

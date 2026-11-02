@@ -15,7 +15,7 @@ extern s32 D_800D6CF0[];
 void initialize_fade_action(TownObjectRecord *entity, s32 unused, void *context) {
     sound_set_cd_cue_parameters(0, 0x2C3D, 0x02000002, 0x010000EA);
     SD_Call(0x300);
-    initialize_object_entries((Struct800C5724 *)(entity), context, (s32 *)(&D_800D6CF0));
+    initialize_object_entries((entity), context, (s32 *)(&D_800D6CF0));
     object_index_slots[entity->slot].unk_00 = 0;
     entity->handler = &D_800CC4B0;
     entity->timer.as_s16 = 0x19;

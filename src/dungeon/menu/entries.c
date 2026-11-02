@@ -342,9 +342,9 @@ void dispatch_menu_state_update(s32 *state, s32 mode, s32 value, s32 extra_value
  * the embedded menu state.
  */
 void reset_menu_object_state_2(void *record) {
-    ((ovl_1831cd8_818124A8_S_800274A8_0 *)((u8 *)record - 0x10))->unk_00 = (void *)tick_menu_countdown;
-    ((ovl_1831cd8_818124A8_S_800274A8_0 *)((u8 *)record - 0x10))->unk_10 = (s32) ((ovl_1831cd8_818124A8_S_800274A8_0 *)((u8 *)record - 0x10))->unk_14;
-    reset_object_to_default_data(((ovl_1831cd8_818124A8_S_800274A8_0 *)((u8 *)record - 0x10))->unk_54);
+    ((ovl_1831cd8_81813320_S_80028320_0 *)((u8 *)record - 0x10))->unk_00 = (void *)tick_menu_countdown;
+    ((ovl_1831cd8_81813320_S_80028320_0 *)((u8 *)record - 0x10))->unk_10 = (s32) ((ovl_1831cd8_81813320_S_80028320_0 *)((u8 *)record - 0x10))->unk_14;
+    reset_object_to_default_data(((ovl_1831cd8_81813320_S_80028320_0 *)((u8 *)record - 0x10))->unk_54);
     clear_menu_embedded_state(record - 0x20);
 }
 
@@ -556,8 +556,8 @@ void update_enabled_menu_callback(s32 *record) { invoke_enabled_menu_callback(re
  */
 void handle_menu_record_check(void *record) {
     if (advance_timed_tagged_stream(record + 0x2C) != 0) {
-        ((ovl_1831cd8_81812A88_S_80027A88_0 *)((u8 *)record - 0x10))->unk_00 = (void *)update_enabled_menu_callback;
-        ((ovl_1831cd8_81812A88_S_80027A88_0 *)((u8 *)record - 0x10))->unk_10 = 0;
+        ((ovl_1831cd8_81813320_S_80028320_0 *)((u8 *)record - 0x10))->unk_00 = (void *)update_enabled_menu_callback;
+        ((ovl_1831cd8_81813320_S_80028320_0 *)((u8 *)record - 0x10))->unk_10 = 0;
     }
     invoke_enabled_menu_callback(record);
 }
@@ -721,13 +721,13 @@ void advance_menu_value_fade(void *state) {
     s32 nextStep;
 
     ((ovl_1831cd8_81812F34_S_80027F34_2 *)(((ovl_1831cd8_81812F34_S_80027F34_1 *)state)->unk_80))->unk_02 =
-        (s16) (0x400 - ((s32) (((ovl_1831cd8_81812F34_S_80027F34_0 *)((u8 *)state - 0x10))->unk_10
-        << 0xA) / (s32) ((ovl_1831cd8_81812F34_S_80027F34_0 *)((u8 *)state - 0x10))->unk_14));
-    nextStep = ((ovl_1831cd8_81812F34_S_80027F34_0 *)((u8 *)state - 0x10))->unk_10 + 1;
-    ((ovl_1831cd8_81812F34_S_80027F34_0 *)((u8 *)state - 0x10))->unk_10 = nextStep;
-    if (((ovl_1831cd8_81812F34_S_80027F34_0 *)((u8 *)state - 0x10))->unk_14 < nextStep) {
-        ((ovl_1831cd8_81812F34_S_80027F34_0 *)((u8 *)state - 0x10))->unk_10 = 0;
-        ((ovl_1831cd8_81812F34_S_80027F34_0 *)((u8 *)state - 0x10))->unk_00 = (void *)update_enabled_menu_callback;
+        (s16) (0x400 - ((s32) (((ovl_1831cd8_81813320_S_80028320_0 *)((u8 *)state - 0x10))->unk_10
+        << 0xA) / (s32) ((ovl_1831cd8_81813320_S_80028320_0 *)((u8 *)state - 0x10))->unk_14));
+    nextStep = ((ovl_1831cd8_81813320_S_80028320_0 *)((u8 *)state - 0x10))->unk_10 + 1;
+    ((ovl_1831cd8_81813320_S_80028320_0 *)((u8 *)state - 0x10))->unk_10 = nextStep;
+    if (((ovl_1831cd8_81813320_S_80028320_0 *)((u8 *)state - 0x10))->unk_14 < nextStep) {
+        ((ovl_1831cd8_81813320_S_80028320_0 *)((u8 *)state - 0x10))->unk_10 = 0;
+        ((ovl_1831cd8_81813320_S_80028320_0 *)((u8 *)state - 0x10))->unk_00 = (void *)update_enabled_menu_callback;
     }
     invoke_enabled_menu_callback(state);
 }

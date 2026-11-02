@@ -1,8 +1,10 @@
+#include "shared/sprite_frame_state.h"
 #include "shared/entity_height_offsets.h"
 #include "common.h"
 #include "shared/record_ptrs.h"
 #include "shared/object_flags.h"
 #include "shared/dungeon_moving_views.h"
+#include "shared/entity.h"
 
 
 extern void func_8004E994(); /* Unprototyped: shared empty hook receives varying ignored arguments. */
@@ -25,17 +27,6 @@ typedef struct S_800B0D34_1_pre {
     u8 pad_04[0x14];
 } S_800B0D34_1_pre;   /* the 0x18 bytes before info in update_attached_effect_position, addressed as info[-1] */
 
-typedef struct S_800B0D34_1 {
-    u8 pad_00[0x11];
-    u8 unk_11;
-    u8 pad_12[0x1];
-    u8 unk_13;
-    u8 pad_14[0x11];
-    u8 unk_25;
-    u8 pad_26[0x2];
-    u8 unk_28;
-    u8 unk_29;
-} S_800B0D34_1;   /* info in update_attached_effect_position */
 
 typedef struct S_800B0D34_2 {
     s8 unk_00;
@@ -94,16 +85,16 @@ void update_attached_effect_position(void *object_arg, MovingPosition *position,
     }
 
     color = (S_800B0D34_2 *)((u8 *)color + 4);
-    if ((s32)((S_800B0D34_1 *)info)->unk_29 /
-        (s32)((((S_800B0D34_1 *)info)->unk_11 >> 1) + 2) >=
-        (s32)((S_800B0D34_1 *)info)->unk_28) {
+    if ((s32)((ActorRecord *)info)->max_hp /
+        (s32)((((ActorRecord *)info)->level >> 1) + 2) >=
+        (s32)((ActorRecord *)info)->hp) {
         color->unk_00 = -0x80 - phase * 8;
         color->unk_02 = 0x10;
         color->unk_01 = 0x10;
     }
 
     color = (S_800B0D34_2 *)((u8 *)color + 4);
-    if (((S_800B0D34_1 *)info)->unk_25 < 10) {
+    if (((ActorRecord *)info)->mp_value.parts.whole < 10) {
         color->unk_00 = -0x80 - phase * 8;
         color->unk_02 = 0x10;
         color->unk_01 = 0x10;
@@ -163,7 +154,7 @@ void update_attached_effect_position(void *object_arg, MovingPosition *position,
         u16 source_z;
         position->x = source->x;
         position->y = source->y;
-        z_adjustment = entity_height_offsets[((S_800B0D34_1 *)info)->unk_13] + 0x50;
+        z_adjustment = entity_height_offsets[((ActorRecord *)info)->species] + 0x50;
         source_z = source->z;
         position->z = source_z - z_adjustment;
     }

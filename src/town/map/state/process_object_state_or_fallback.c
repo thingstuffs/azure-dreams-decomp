@@ -12,7 +12,7 @@ typedef struct S_func_800A9624_1 {
     s8 *unk_98;
 } S_func_800A9624_1;
 
-struct S_800A8BBC_0; void write_square_position_offsets(s16, s16, s16, s16, struct S_800A8BBC_0 *);
+struct TownPositionXY; void write_square_position_offsets(s16, s16, s16, s16, struct TownPositionXY *);
 extern s32 map_random_state_draw_address;
 
 /* Process object state results or invoke the fallback callback. */
@@ -22,7 +22,7 @@ void process_object_state_or_fallback(S_func_800A9624_1 *object, s32 state_arg, 
 
     state = classify_record_by_state_and_position(object, state_arg);
     if (state == 1) {
-        write_square_position_offsets(0x1B, 0x1C, 0x1D, 0x1E, (struct S_800A8BBC_0 *)(state_arg));
+        write_square_position_offsets(0x1B, 0x1C, 0x1D, 0x1E, (struct TownPositionXY *)(state_arg));
         if (object->unk_98 != 0) {
             *object->unk_98 = 0;
         }

@@ -19,10 +19,6 @@ typedef struct S_80173140_2 {
     u16 unk_0A;
 } S_80173140_2;
 
-typedef struct S_80173140_5 {
-    u8 pad_00[0xA];
-    u16 unk_0A;
-} S_80173140_5;   /* ((Rec_D_800E3D7C *)(&D_80083498))->unk_08.at00_pv.v in create_scripted_encounter_object */
 
 void unlink_entity_node();                      /* extern */
 void update_map_cell_flags_with_item_limit(s32 x, s32 y, u16 flags);             /* extern */
@@ -62,7 +58,7 @@ void create_scripted_encounter_object(void) {
         register_node(object, project_sprite_chain);
         object_attrs = object->position;
         ((S_80173140_2 *)object_attrs)->unk_0A =
-            (u16) ((S_80173140_5 *)((*(void **)&((EntityRec *)(((s32 *)&scene_object_list_anchor.next)))->z)))->unk_0A;
+            (u16) ((ObjectPosition *)((*(void **)&((EntityRec *)(((s32 *)&scene_object_list_anchor.next)))->z)))->z.unsigned_parts.integer;
         sprite = object->sprite;
         origin_x = reference_tile_object.tile_position.parts.tile_x;
         sprite->tile_x = (u8) (origin_x - 1);

@@ -54,7 +54,7 @@ void reset_mother_event_callback_on_expiry(void *object, void *motion, void *ini
 void initialize_mother_event_actor(void *actor, void *state, void *init_param) {
     *(s32 *)((u8 *)state + 0x10) = 0;
     *(s32 *)((u8 *)state + 0xC) = 0;
-    initialize_object_entries((Struct800C5724 *)actor, init_param, (s32 *)D_800D5FC4);
+    initialize_object_entries((TownObjectRecord *)actor, init_param, (s32 *)D_800D5FC4);
     *(void **)((u8 *)actor + 0x50) = D_800C7604;
     *(s16 *)((u8 *)actor + 0x6C) = (s16) (scale_random_to_unsigned_halfword_limit(0x3F) + 0x15);
 }
@@ -131,7 +131,7 @@ void choose_mother_event_direction(TownObjectRecord *entity, void *bounds_arg, v
         attempts++;
     } while (attempts < 0x10);
 
-    initialize_object_entries((Struct800C5724 *)entity, context, &mother_event_object_entries);
+    initialize_object_entries(entity, context, &mother_event_object_entries);
     entity->unk_50.as_pv = &D_800C7674;
 }
 

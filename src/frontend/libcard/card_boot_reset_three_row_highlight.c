@@ -2,74 +2,19 @@
 #include "frontend/libcard/interfaces.h"
 #include "m2c_compat.h"
 #include "frontend/libcard.h"
-
-typedef struct S_80023470_0 {
-    u8 pad_00[0x1A8];
-    void * unk_1A8;
-    u8 pad_1AC[0xC];
-    void * unk_1B8;
-    u8 pad_1BC[0xC];
-    void * unk_1C8;
-    u8 pad_1CC[0xC];
-    void * unk_1D8;
-} S_80023470_0;
-
-typedef struct S_80023470_1 {
-    u8 pad_00[0x4];
-    s8 * unk_04;
-} S_80023470_1;
-
-typedef struct S_80023470_2 {
-    u8 pad_00[0x4];
-    void * unk_04;
-} S_80023470_2;
-
-typedef struct S_80023470_3 {
-    u8 pad_00[0x4];
-    void * unk_04;
-} S_80023470_3;
-
-typedef struct S_80023470_4 {
-    u8 pad_00[0x4];
-    void * unk_04;
-} S_80023470_4;
-
-typedef struct S_80023470_5 {
-    u8 pad_00[0x1];
-    s8 unk_01;
-    s8 unk_02;
-    u8 pad_03[0x5];
-    s16 unk_08;
-} S_80023470_5;
-
-typedef struct S_80023470_6 {
-    u8 pad_00[0x8];
-    s16 unk_08;
-} S_80023470_6;
-
-typedef struct S_80023470_7 {
-    u8 pad_00[0x8];
-    s16 unk_08;
-} S_80023470_7;
-
-typedef struct S_80023470_8 {
-    u8 pad_00[0x8];
-    s16 unk_08;
-} S_80023470_8;
+#include "frontend/libcard/message.h"
 
 /* Initialize three entries in each of the four object groups. */
-void card_boot_reset_three_row_highlight(void *object) {
+void card_boot_reset_three_row_highlight(CardCommandPanelBody *panel) {
     s32 i;
-    S_80023470_0 *entry_base;
 
     for (i = 0; i < 3; i++) {
-        entry_base = (S_80023470_0 *)((u32 *)object + i);
-        ((S_80023470_5 *)(((S_80023470_1 *)(entry_base->unk_1C8))->unk_04))->unk_08 = 0x24;
-        *((S_80023470_1 *)(entry_base->unk_1C8))->unk_04 = 0x68;
-        ((S_80023470_5 *)(((S_80023470_1 *)(entry_base->unk_1C8))->unk_04))->unk_01 = 0x68;
-        ((S_80023470_5 *)(((S_80023470_1 *)(entry_base->unk_1C8))->unk_04))->unk_02 = 0x60;
-        ((S_80023470_6 *)(((S_80023470_2 *)(entry_base->unk_1A8))->unk_04))->unk_08 = 9;
-        ((S_80023470_7 *)(((S_80023470_3 *)(entry_base->unk_1B8))->unk_04))->unk_08 = 0x42;
-        ((S_80023470_8 *)(((S_80023470_4 *)(entry_base->unk_1D8))->unk_04))->unk_08 = 0x8F;
+        panel->highlight[i]->block->fields.x = 0x24;
+        panel->highlight[i]->block->color.r = 0x68;
+        panel->highlight[i]->block->color.g = 0x68;
+        panel->highlight[i]->block->color.b = 0x60;
+        panel->left[i]->block->fields.x = 9;
+        panel->right[i]->block->fields.x = 0x42;
+        panel->labels[i]->block->fields.x = 0x8F;
     }
 }

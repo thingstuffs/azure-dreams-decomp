@@ -1,5 +1,7 @@
 #ifndef MODULES_TOWN_PLAYER_INIT_H
 #define MODULES_TOWN_PLAYER_INIT_H
+
+#include "town/player/record.h"
 #include "town/shop/item_lookup.h"
 #include "town/scene/list_setup.h"
 #include "town/person/position.h"
@@ -119,8 +121,8 @@ void initialize_global_scene_record(void);
 void plt_init_sleep_set(void);
 void initialize_scene_render_state(void);
 void initialize_scene_render_object(void);
-void rebuild_menu_node_list(void *owner, ObjectPosition *node_in, s32 mode);
-void process_scene_record_update(void *context,struct ObjectPosition *input, void *record);
+void rebuild_menu_node_list(TownPlayerRecord *owner, ObjectPosition *node_in, s32 mode);
+void process_scene_record_update(TownPlayerRecord *context,struct ObjectPosition *input, void *record);
 s32 to_camera_zero_00(void);
 void clear_record_state_or_update(struct ObjectPosition *record);
 void noop_player_scene_action(void);
@@ -155,7 +157,7 @@ extern void update_the_s_field_10_using_callee_8008_fe_90(void *owner);
 extern s32 get_whether_has_attached_state_type_n_1_n_3(void *owner);
 extern void compute_and_clamps_vector_based_adjustment_updates_town(struct TownObj *obj, s32 base_value, struct TownVec **vec_ptr);
 extern void update_object_and_clear_status_fields(void *owner);
-extern void turn_entity_toward_target(void *owner, void *node_in, s32 mode); /* Unprototyped: uses the value as a pointer where the definition has an integer (or the reverse) */
+extern void turn_entity_toward_target(TownPlayerRecord *owner, void *node_in, s32 mode); /* Unprototyped: uses the value as a pointer where the definition has an integer (or the reverse) */
 extern s32 check_masked_value_in_current_range(u16 owner);
 extern s32 runtime_estimate_vector_length(s32, s32);
 #include "engine/texture.h"

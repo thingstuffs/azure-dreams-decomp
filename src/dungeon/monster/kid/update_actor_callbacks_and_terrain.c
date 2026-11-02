@@ -23,26 +23,9 @@ extern u8 kid_frame_set_2[12];
 extern void *D_80175198[3];
 
 
-typedef struct S_80170BF8_1 {
-    union { struct { s32 v; } at00; struct { u8 pad[0x2]; u16 v; } at02; } unk_00;   /* overlapping accesses */
-    union { struct { s32 v; } at00; struct { u8 pad[0x2]; u16 v; } at02; } unk_04;   /* overlapping accesses */
-    u8 pad_08[0x2];
-    s16 unk_0A;
-    s32 unk_0C;
-    s32 unk_10;
-    s32 unk_14;
-} S_80170BF8_1;   /* arg1 in update_actor_callbacks_and_terrain */
 
    /* arg2 in update_actor_callbacks_and_terrain */
 
-typedef struct S_80170BF8_3 {
-    u8 pad_00[0x1C];
-    s32 unk_1C;
-    u8 pad_20[0xA];
-    s16 unk_2A;
-    u8 pad_2C[0x5C];
-    union { u16 u; s16 s; } unk_88;   /* accessed as both */
-} S_80170BF8_3;   /* actor2 in update_actor_callbacks_and_terrain */
 
 /* Updates actor callbacks, movement, animation, and terrain-relative height. */
 /* Runs Kid's callbacks and directional animation, alternates idle sprite tables, and adjusts bobbing
@@ -50,7 +33,7 @@ typedef struct S_80170BF8_3 {
 void update_actor_callbacks_and_terrain(ActorRecord *actor_arg, ObjectPosition *motion_arg, void *object_arg) {
     u16 initial_flags = g_dungeon_status.flags;
     s32 bob_offset = 0;
-    S_80170BF8_3 *actor_base = (S_80170BF8_3 *)actor_arg;
+    ActorRecord *actor_base = actor_arg;
 
     ActorActionHandler update_callback;
     ActorActionHandler paused_callback;
@@ -117,7 +100,7 @@ void update_actor_callbacks_and_terrain(ActorRecord *actor_arg, ObjectPosition *
             + motion_arg->velocity_z);
         object_flags = ((SpriteAnimationTableView *)object_arg)->flags;
         if (!(object_flags & 0x8000)) {
-            facing = ((s32) (g_game_work.view.camera_rotation.parts.viewAngle + actor_base->unk_2A + 0x100) >> 9) & 7;
+            facing = ((s32) (g_game_work.view.camera_rotation.parts.viewAngle + actor_base->facing + 0x100) >> 9) & 7;
             state_or_facing = (s16) facing;
             if (actor_arg->unk_94 != state_or_facing) {
                 select_indirect_table_entry(object_arg, *(((SpriteAnimationTableView *)object_arg)->frame_table + state_or_facing),
@@ -132,18 +115,18 @@ void update_actor_callbacks_and_terrain(ActorRecord *actor_arg, ObjectPosition *
             }
             ((SpriteAnimationTableView *)object_arg)->flags = (u16) facing_flags;
             if (actor_arg->action_id.u != 8) {
-                apply_monster_koyaw_data(actor_base->unk_1C, object_arg + 0xC);
+                apply_monster_koyaw_data(actor_base->flags1C, object_arg + 0xC);
             }
-            if (!(actor_base->unk_1C & 0x20)) {
+            if (!(actor_base->flags1C & 0x20)) {
                 if (!(((SpriteAnimationTableView *)object_arg)->flags & 0x40)) {
                     advance_sprite_animation_and_textures(object_arg);
                 }
             } else {
                 ((SpriteAnimationTableView *)object_arg)->flags = (u16) (((SpriteAnimationTableView *)object_arg)->flags | 0x7000);
-                actor_base->unk_1C = (s32) (actor_base->unk_1C & 0xFFFBFFFF);
+                actor_base->flags1C = (s32) (actor_base->flags1C & 0xFFFBFFFF);
             }
-            actor_flags = actor_base->unk_1C & 0xF7FFFFFF;
-            actor_base->unk_1C = actor_flags;
+            actor_flags = actor_base->flags1C & 0xF7FFFFFF;
+            actor_base->flags1C = actor_flags;
             if (actor_flags & 0x40000) {
                 if (!(((SpriteAnimationTableView *)object_arg)->flags & 0x40)) {
                     anim_flags = actor_arg->action_state_flags;
@@ -152,25 +135,25 @@ void update_actor_callbacks_and_terrain(ActorRecord *actor_arg, ObjectPosition *
                         anim_table = ((SpriteAnimationTableView *)object_arg)->frame_table;
                         if (anim_table == kid_alt_direction_frames) {
                             ((SpriteAnimationTableView *)object_arg)->frame_table = kid_direction_frames;
-                            frame_addr = (u32) ((((s32) (g_game_work.view.camera_rotation.parts.viewAngle + actor_base->unk_2A
+                            frame_addr = (u32) ((((s32) (g_game_work.view.camera_rotation.parts.viewAngle + actor_base->facing
                                 + 0x100) >> 9) & 7));
                             frame_addr += (u32) kid_direction_frames;
                             select_sprite_entry(object_arg, *(u8 *) frame_addr, 0);
                         } else if (anim_table == kid_direction_frames) {
                             ((SpriteAnimationTableView *)object_arg)->frame_table = kid_alt_direction_frames;
-                            frame_addr = (u32) ((((s32) (g_game_work.view.camera_rotation.parts.viewAngle + actor_base->unk_2A
+                            frame_addr = (u32) ((((s32) (g_game_work.view.camera_rotation.parts.viewAngle + actor_base->facing
                                 + 0x100) >> 9) & 7));
                             frame_addr += (u32) kid_alt_direction_frames;
                             select_sprite_entry(object_arg, *(u8 *) frame_addr, 0);
                         } else if (anim_table == kid_frame_set_1) {
                             ((SpriteAnimationTableView *)object_arg)->frame_table = kid_frame_set_2;
-                            frame_addr = (u32) ((((s32) (g_game_work.view.camera_rotation.parts.viewAngle + actor_base->unk_2A
+                            frame_addr = (u32) ((((s32) (g_game_work.view.camera_rotation.parts.viewAngle + actor_base->facing
                                 + 0x100) >> 9) & 7));
                             frame_addr += (u32) kid_frame_set_2;
                             select_sprite_entry(object_arg, *(u8 *) frame_addr, 0);
                         } else if (anim_table == kid_frame_set_2) {
                             ((SpriteAnimationTableView *)object_arg)->frame_table = kid_frame_set_1;
-                            frame_addr = (u32) ((((s32) (g_game_work.view.camera_rotation.parts.viewAngle + actor_base->unk_2A
+                            frame_addr = (u32) ((((s32) (g_game_work.view.camera_rotation.parts.viewAngle + actor_base->facing
                                 + 0x100) >> 9) & 7));
                             frame_addr += (u32) kid_frame_set_1;
                             select_sprite_entry(object_arg, *(u8 *) frame_addr, 0);
@@ -188,8 +171,8 @@ void update_actor_callbacks_and_terrain(ActorRecord *actor_arg, ObjectPosition *
                 if (!(actor_arg->action_state_flags & 8)) {
                     hover_ground_offset = (s16) (sample_terrain_surface_height(motion_arg->x.unsigned_parts.integer,
                         motion_arg->y.unsigned_parts.integer,
-                        (s16) (actor_base->unk_88.u - 0x20))
-                        - actor_base->unk_88.u);
+                        (s16) (((u16)actor_base->ground_height) - 0x20))
+                        - ((u16)actor_base->ground_height));
                     if (actor_arg->unk_90.parts.high.s > (hover_ground_offset - 0x20)) {
                         actor_arg->unk_90.parts.high.s =
                             (s16) (((u16) actor_arg->unk_90.parts.high.s) - 8);
@@ -205,23 +188,23 @@ void update_actor_callbacks_and_terrain(ActorRecord *actor_arg, ObjectPosition *
                 if (!(motion_flags & 8)) {
                     ground_offset = sample_terrain_surface_height(motion_arg->x.unsigned_parts.integer,
                         motion_arg->y.unsigned_parts.integer,
-                        (s16) (actor_base->unk_88.u - 0x20));
+                        (s16) (((u16)actor_base->ground_height) - 0x20));
                     ground_height = (s16) ground_offset;
-                    base_height = actor_base->unk_88.s;
+                    base_height = actor_base->ground_height;
                     ground_offset_2 = (s32) ground_height - base_height;
                     if (ground_offset_2 < actor_arg->unk_90.parts.high.s) {
                         actor_arg->unk_90.parts.high.s = ground_offset_2;
                         actor_arg->unk_9D.s = 0;
                         motion_arg->velocity_z = 0;
-                        actor_base->unk_1C = actor_base->unk_1C | 0x08000000;
+                        actor_base->flags1C = actor_base->flags1C | 0x08000000;
                     }
                 }
             }
         } else {
             ((SpriteAnimationTableView *)object_arg)->flags = (object_flags & 0x800)
                 ? (object_flags & 0x8FFF) : (object_flags | 0x7000);
-            hidden_actor_flags = actor_base->unk_1C & 0xF7FFFFFF;
-            actor_base->unk_1C = hidden_actor_flags;
+            hidden_actor_flags = actor_base->flags1C & 0xF7FFFFFF;
+            actor_base->flags1C = hidden_actor_flags;
             if (!(hidden_actor_flags & 0x40000)) {
                 actor_arg->unk_A8.s = 0;
                 actor_arg->unk_90.parts.high.s = (s16) ((u16) actor_arg->unk_90.parts.high.s
@@ -230,15 +213,15 @@ void update_actor_callbacks_and_terrain(ActorRecord *actor_arg, ObjectPosition *
                 if (!(actor_arg->action_state_flags & 8)) {
                     ground_offset_3 = sample_terrain_surface_height(motion_arg->x.unsigned_parts.integer,
                         motion_arg->y.unsigned_parts.integer,
-                        (s16) (actor_base->unk_88.u - 0x20));
+                        (s16) (((u16)actor_base->ground_height) - 0x20));
                     hidden_ground_height = (s16) ground_offset_3;
-                    hidden_base_height = actor_base->unk_88.s;
+                    hidden_base_height = actor_base->ground_height;
                     ground_offset_4 = (s32) hidden_ground_height - hidden_base_height;
                     if (ground_offset_4 < actor_arg->unk_90.parts.high.s) {
                         actor_arg->unk_90.parts.high.s = ground_offset_4;
                         actor_arg->unk_9D.s = 0;
                         motion_arg->velocity_z = 0;
-                        actor_base->unk_1C = actor_base->unk_1C | 0x08000000;
+                        actor_base->flags1C = actor_base->flags1C | 0x08000000;
                     }
                 }
             } else {
@@ -249,25 +232,25 @@ void update_actor_callbacks_and_terrain(ActorRecord *actor_arg, ObjectPosition *
                         hidden_anim_table = ((SpriteAnimationTableView *)object_arg)->frame_table;
                         if (hidden_anim_table == kid_alt_direction_frames) {
                             ((SpriteAnimationTableView *)object_arg)->frame_table = kid_direction_frames;
-                            frame_addr = (u32) ((((s32) (g_game_work.view.camera_rotation.parts.viewAngle + actor_base->unk_2A
+                            frame_addr = (u32) ((((s32) (g_game_work.view.camera_rotation.parts.viewAngle + actor_base->facing
                                 + 0x100) >> 9) & 7));
                             frame_addr += (u32) kid_direction_frames;
                             select_sprite_entry(object_arg, *(u8 *) frame_addr, 0);
                         } else if (hidden_anim_table == kid_direction_frames) {
                             ((SpriteAnimationTableView *)object_arg)->frame_table = kid_alt_direction_frames;
-                            frame_addr = (u32) ((((s32) (g_game_work.view.camera_rotation.parts.viewAngle + actor_base->unk_2A
+                            frame_addr = (u32) ((((s32) (g_game_work.view.camera_rotation.parts.viewAngle + actor_base->facing
                                 + 0x100) >> 9) & 7));
                             frame_addr += (u32) kid_alt_direction_frames;
                             select_sprite_entry(object_arg, *(u8 *) frame_addr, 0);
                         } else if (hidden_anim_table == kid_frame_set_1) {
                             ((SpriteAnimationTableView *)object_arg)->frame_table = kid_frame_set_2;
-                            frame_addr = (u32) ((((s32) (g_game_work.view.camera_rotation.parts.viewAngle + actor_base->unk_2A
+                            frame_addr = (u32) ((((s32) (g_game_work.view.camera_rotation.parts.viewAngle + actor_base->facing
                                 + 0x100) >> 9) & 7));
                             frame_addr += (u32) kid_frame_set_2;
                             select_sprite_entry(object_arg, *(u8 *) frame_addr, 0);
                         } else if (hidden_anim_table == kid_frame_set_2) {
                             ((SpriteAnimationTableView *)object_arg)->frame_table = kid_frame_set_1;
-                            frame_addr = (u32) ((((s32) (g_game_work.view.camera_rotation.parts.viewAngle + actor_base->unk_2A
+                            frame_addr = (u32) ((((s32) (g_game_work.view.camera_rotation.parts.viewAngle + actor_base->facing
                                 + 0x100) >> 9) & 7));
                             frame_addr += (u32) kid_frame_set_1;
                             select_sprite_entry(object_arg, *(u8 *) frame_addr, 0);
@@ -285,7 +268,7 @@ void update_actor_callbacks_and_terrain(ActorRecord *actor_arg, ObjectPosition *
                 if (!(actor_arg->action_state_flags & 8)) {
                     hidden_hover_offset = sample_terrain_surface_height(motion_arg->x.unsigned_parts.integer,
                         motion_arg->y.unsigned_parts.integer,
-                        (s16) (actor_base->unk_88.u - 0x20)) - actor_base->unk_88.u;
+                        (s16) (((u16)actor_base->ground_height) - 0x20)) - ((u16)actor_base->ground_height);
                     height_offset = actor_arg->unk_90.parts.high.s;
                     if (height_offset > (hidden_hover_offset - 0x20)) {
                         actor_arg->unk_90.parts.high.s =
@@ -299,19 +282,19 @@ void update_actor_callbacks_and_terrain(ActorRecord *actor_arg, ObjectPosition *
             actor_arg->unk_A8.s = 0;
             actor_arg->action_state_flags = (u16) (actor_arg->action_state_flags & 0x7FFF);
         }
-        height_flags = actor_base->unk_1C;
+        height_flags = actor_base->flags1C;
         if (height_flags & 0x40000000) {
-            actor_base->unk_1C = (s32) (height_flags & 0xBFFFFFFF);
+            actor_base->flags1C = (s32) (height_flags & 0xBFFFFFFF);
             tile_height = sample_terrain_surface_height((((SpriteAnimationTableView *)object_arg)->tile_x << 6) | 0x20,
                 (((SpriteAnimationTableView *)object_arg)->tile_y << 6) | 0x20,
-                (s16) (actor_base->unk_88.u - 0x20));
+                (s16) (((u16)actor_base->ground_height) - 0x20));
             if (tile_height < 0x200) {
                 actor_arg->unk_90.parts.high.s = (s16) ((u16) actor_arg->unk_90.parts.high.s
-                    + (actor_base->unk_88.u - tile_height));
-                actor_base->unk_88.u = (u16) tile_height;
+                    + (((u16)actor_base->ground_height) - tile_height));
+                actor_base->ground_height = (u16) tile_height;
             }
         }
-        display_height = (s32) (actor_base->unk_88.u
+        display_height = (s32) (((u16)actor_base->ground_height)
             + (u16) actor_arg->unk_90.parts.high.s + bob_offset);
         motion_arg->z.w.i = (s16) display_height;
         ((SpriteAnimationTableView *)object_arg)->flags = (u16) (((SpriteAnimationTableView *)object_arg)->flags | 0x40);

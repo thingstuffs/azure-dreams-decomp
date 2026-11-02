@@ -4,52 +4,14 @@
 #include "frontend/libcard.h"
 #include "slus.h"
 
-
-typedef struct S_800233D0_1 {
-    u8 pad_00[0x1A8];
-    void * unk_1A8;
-    u8 pad_1AC[0xC];
-    void * unk_1B8;
-    u8 pad_1BC[0xC];
-    void * unk_1C8;
-    u8 pad_1CC[0xC];
-    void * unk_1D8;
-} S_800233D0_1;   /* cursor in card_boot_bind_command_panel_resources */
-
-typedef struct S_800233D0_2 {
-    s32 unk_00;
-} S_800233D0_2;   /* ((Rec_func_800233D0_arg0 *)arg0)->unk_1A0 in card_boot_bind_command_panel_resources */
-
-typedef struct S_800233D0_3 {
-    void * unk_00;
-} S_800233D0_3;   /* ((Rec_func_800233D0_arg0 *)arg0)->unk_1A4 in card_boot_bind_command_panel_resources */
-
-typedef struct S_800233D0_4 {
-    void * unk_00;
-} S_800233D0_4;   /* ((S_800233D0_1 *)cursor)->unk_1A8 in card_boot_bind_command_panel_resources */
-
-typedef struct S_800233D0_5 {
-    void * unk_00;
-} S_800233D0_5;   /* ((S_800233D0_1 *)cursor)->unk_1B8 in card_boot_bind_command_panel_resources */
-
-typedef struct S_800233D0_6 {
-    void * unk_00;
-} S_800233D0_6;   /* ((S_800233D0_1 *)cursor)->unk_1C8 in card_boot_bind_command_panel_resources */
-
-typedef struct S_800233D0_7 {
-    void * unk_00;
-} S_800233D0_7;   /* ((S_800233D0_1 *)cursor)->unk_1D8 in card_boot_bind_command_panel_resources */
-
 extern u8 menu_leaf_template_6[];
 extern u8 D_80077EF0[];
 extern u8 D_80077EFC[];
 
-
 /* Initialize the object's shared references and three data block references. */
-void card_boot_bind_command_panel_resources(void *object_arg)
+void card_boot_bind_command_panel_resources(CardCommandPanelBody *object)
 {
-    Rec_func_800233D0_arg0 *object = object_arg;
-    S_800233D0_1 *slot_cursor;
+
     void *shared_data;
     void *primary_table;
     void *secondary_table;
@@ -63,14 +25,13 @@ void card_boot_bind_command_panel_resources(void *object_arg)
     secondary_table = D_80077EFC;
     shared_data = (u8 *)object + 4;
     block_offset = 0x90;
-    ((S_800233D0_2 *)(object->unk_1A0))->unk_00 = kind_value;
-    ((S_800233D0_3 *)(object->unk_1A4))->unk_00 = menu_leaf_template_6;
+    object->heading->payload.word = kind_value;
+    object->marker->payload.data = menu_leaf_template_6;
     do {
-        slot_cursor = (S_800233D0_1 *)((u8 *)object + slot_index * 4);
-        ((S_800233D0_4 *)(slot_cursor->unk_1A8))->unk_00 = primary_table;
-        ((S_800233D0_5 *)(slot_cursor->unk_1B8))->unk_00 = secondary_table;
-        ((S_800233D0_6 *)(slot_cursor->unk_1C8))->unk_00 = shared_data;
-        ((S_800233D0_7 *)(slot_cursor->unk_1D8))->unk_00 = (u8 *)object + block_offset;
+        object->left[slot_index]->payload.data = primary_table;
+        object->right[slot_index]->payload.data = secondary_table;
+        object->highlight[slot_index]->payload.data = shared_data;
+        object->labels[slot_index]->payload.data = (u8 *)object + block_offset;
         block_offset += 0x48;
         slot_index++;
     } while (slot_index < 3);

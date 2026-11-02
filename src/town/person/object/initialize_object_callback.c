@@ -12,7 +12,7 @@ extern s32 D_800D627C[];
 
 /* Initialize the object callback and set its state value to negative ten in fixed point. */
 void initialize_object_callback(TownObjectRecord *object, ObjectPosition *state, void *init_data) {
-    initialize_object_entries((Struct800C5724 *)(object), init_data, D_800D627C);
+    initialize_object_entries((object), init_data, D_800D627C);
     object->handler = &D_800C8788;
     state->velocity_z = 0xFFF60000;
 }

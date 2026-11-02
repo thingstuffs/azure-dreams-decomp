@@ -53,32 +53,7 @@ typedef struct S_801714B8_0_pre {
     u8 pad_04[0x10];
 } S_801714B8_0_pre;   /* the 0x14 bytes before arg0 in update_actor_timed_effects, addressed as arg0[-1] */
 
-typedef struct S_801714B8_0 {
-    u8 pad_00[0x8C];
-    s32 unk_8C;
-    u8 pad_90[0x8];
-    u16 unk_98;
-    u8 unk_9A;
-    u8 unk_9B;
-    u8 pad_9C[0x2];
-    union { s16 s; u16 u; } unk_9E;   /* accessed as both */
-    s16 unk_A0;
-} S_801714B8_0;   /* arg0 in update_actor_timed_effects */
 
-typedef struct S_801714B8_1 {
-    u8 pad_00[0x1C];
-    u32 unk_1C;
-    u8 pad_20[0x5];
-    u8 unk_25;
-    u8 pad_26[0x4];
-    union { s16 s; u16 u; } unk_2A;   /* accessed as both */
-    u8 pad_2C[0x1A];
-    u16 unk_46;
-    u8 pad_48[0x1C];
-    s16 unk_64;
-    u8 pad_66[0x7];
-    s8 unk_6D;
-} S_801714B8_1;   /* arg3 in update_actor_timed_effects */
 typedef struct S_801714B8_7 {
     u8 pad_00[0x1C];
     u16 unk_1C;
@@ -105,31 +80,31 @@ void update_actor_timed_effects(ActorRecord *actor_arg, ObjectPosition *context_
     stats = stats_arg;
 
     if (initial_flags & 0x1000) {
-        ((S_801714B8_0 *)actor)->unk_9A = 0xE;
+        ((ActorRecord *)actor)->action_id.u = 0xE;
         func_80171C3C(actor, context, sprite, stats);
         return;
     }
 
-    if (((S_801714B8_1 *)stats)->unk_25 == 0) {
+    if (((ActorRecord *)stats)->mp_value.parts.whole == 0) {
         advance_actor_pending_action(actor, context, sprite, stats);
         if (sprite->frameTable != glacier_frame_set_2) {
             u8 *state_table = D_801760E4;
 
             (sprite->frameTable) = state_table;
             select_sprite_entry(sprite,
-                state_table[((g_game_work.view.camera_rotation.parts.viewAngle + ((S_801714B8_1 *)stats)->unk_2A.s + 0x100) >> 9) & 7],
+                state_table[((g_game_work.view.camera_rotation.parts.viewAngle + ((ActorRecord *)stats)->facing + 0x100) >> 9) & 7],
                 0);
             return;
         }
         return;
     }
 
-    if (((S_801714B8_1 *)stats)->unk_1C & 0x200) {
+    if (((u32)((ActorRecord *)stats)->flags1C) & 0x200) {
         if (sprite->frameTable == glacier_frame_set_2) {
-            ((S_801714B8_0 *)actor)->unk_9A = 0xD;
-            ((S_801714B8_0 *)actor)->unk_9B = 1;
-            ((S_801714B8_0 *)actor)->unk_8C = 0;
-            ((S_801714B8_1 *)stats)->unk_1C &= ~0x40000;
+            ((ActorRecord *)actor)->action_id.u = 0xD;
+            ((ActorRecord *)actor)->action_phase.u = 1;
+            ((ActorRecord *)actor)->unk_8C.word = 0;
+            ((ActorRecord *)stats)->flags1C &= ~0x40000;
             return;
         }
         if (reset_actor_action_state(actor, context, sprite, D_801760E4)) {
@@ -138,34 +113,34 @@ void update_actor_timed_effects(ActorRecord *actor_arg, ObjectPosition *context_
     }
 
     if (!(g_dungeon_status.flags & 0x2000)) {
-        if (((S_801714B8_1 *)stats)->unk_1C & 0x100) {
+        if (((u32)((ActorRecord *)stats)->flags1C) & 0x100) {
             begin_pushed_actor_move(actor, context, sprite, stats);
             return;
         }
 
-        if (((S_801714B8_0 *)actor)->unk_9A != 0xE) {
+        if (((ActorRecord *)actor)->action_id.u != 0xE) {
             u8 state = 0xE;
             u8 *state_table = glacier_direction_frames;
 
             if (sprite->frameTable != state_table) {
                 (sprite->frameTable) = state_table;
                 select_sprite_entry(sprite,
-                    state_table[((g_game_work.view.camera_rotation.parts.viewAngle + ((S_801714B8_1 *)stats)->unk_2A.s + 0x100) >> 9) & 7],
+                    state_table[((g_game_work.view.camera_rotation.parts.viewAngle + ((ActorRecord *)stats)->facing + 0x100) >> 9) & 7],
                     0);
             }
-            ((S_801714B8_0 *)actor)->unk_9E.s = 0;
-            ((S_801714B8_0 *)actor)->unk_A0 = (rand() & 0x1F) + 0xF;
-            ((S_801714B8_0 *)actor)->unk_9A = state;
+            ((ActorRecord *)actor)->unk_9E.s = 0;
+            ((ActorRecord *)actor)->unk_A0.parts.low = (rand() & 0x1F) + 0xF;
+            ((ActorRecord *)actor)->action_id.u = state;
         }
 
-        ((S_801714B8_0 *)actor)->unk_98 &= 0xFFF3;
-        if (((S_801714B8_1 *)stats)->unk_64 != 0) {
+        ((ActorRecord *)actor)->action_state_flags &= 0xFFF3;
+        if (((ActorRecord *)stats)->hp_delta != 0) {
             if (begin_ready_actor_directional_action(actor, context, sprite, D_801760AC)) {
                 return;
             }
         }
 
-        if (((S_801714B8_1 *)stats)->unk_1C & 0x80000) {
+        if (((u32)((ActorRecord *)stats)->flags1C) & 0x80000) {
             begin_actor_move_to_target_facing(actor, context, sprite, stats);
             func_8017412C(actor, context, sprite, stats);
             return;
@@ -179,13 +154,13 @@ void update_actor_timed_effects(ActorRecord *actor_arg, ObjectPosition *context_
     room_id = find_active_rect_containing_point(sprite->tile_x, sprite->tile_y);
     sprite->room_index = room_id;
 
-    if (((S_801714B8_1 *)stats)->unk_6D > 0) {
-        if (!(((S_801714B8_1 *)stats)->unk_1C & 0x20)) {
+    if (((ActorRecord *)stats)->pending_turn_updates > 0) {
+        if (!(((u32)((ActorRecord *)stats)->flags1C) & 0x20)) {
             if (*(u16 *)&sprite->tile_x == reference_tile_object.tile_position.word) {
                 func_80171E80(actor, context, sprite, stats);
                 return;
             }
-            if (!(((S_801714B8_1 *)stats)->unk_46 & 0x8000)) {
+            if (!(((ActorRecord *)stats)->action_flags & 0x8000)) {
                 if (g_dungeon_status.flags & 0x2000) {
                     {
                         ObjectNodeHeader *previous_node;
@@ -204,14 +179,14 @@ void update_actor_timed_effects(ActorRecord *actor_arg, ObjectPosition *context_
                 if ((s16)func_80172918(actor, context, sprite, 0) == 0) {
                     return;
                 }
-                ((S_801714B8_1 *)stats)->unk_46 |= 0x4000;
-                if (!(((S_801714B8_1 *)stats)->unk_46 & 0x8000)) {
+                ((ActorRecord *)stats)->action_flags |= 0x4000;
+                if (!(((ActorRecord *)stats)->action_flags & 0x8000)) {
                     func_80171E80(actor, context, sprite, stats);
                     return;
                 }
             }
 
-            switch (((S_801714B8_1 *)stats)->unk_46 & 0x3FFF) {
+            switch (((ActorRecord *)stats)->action_flags & 0x3FFF) {
             case 8:
                 if ((s16)func_8017263C(actor, context, sprite, stats) == 0) {
                     func_80172800(actor, context, sprite, stats);
@@ -235,7 +210,7 @@ void update_actor_timed_effects(ActorRecord *actor_arg, ObjectPosition *context_
                     reference_tile_object.tile_position.parts.tile_x, reference_tile_object.tile_position.parts.tile_y,
                     &distance);
                 player = primary_actor_record;
-                ((S_801714B8_1 *)stats)->unk_2A.s = heading;
+                ((ActorRecord *)stats)->facing = heading;
                 if (player->action_id.u == 0x11) {
                     begin_actor_spell_action(actor, context, sprite, D_801760DC, update_actor_timed_effects);
                     return;
@@ -263,16 +238,16 @@ aaf_cleanup:
 ordinary_cleanup:
         func_80171E80(actor, context, sprite, stats);
         return;
-    } else if (!(((S_801714B8_1 *)stats)->unk_1C & 0x2000)) {
+    } else if (!(((u32)((ActorRecord *)stats)->flags1C) & 0x2000)) {
         s32 room_index = (s8)room_id;
 
         if ((room_index < 0) || !(dungeon_rooms[room_index].flags & 2)) {
-            if (!(((S_801714B8_1 *)stats)->unk_1C & 0x430)) {
+            if (!(((u32)((ActorRecord *)stats)->flags1C) & 0x430)) {
 
                 if ((s16)test_neighbor_position_relation(
                         sprite->tile_x, sprite->tile_y,
                         reference_tile_object.tile_position.parts.tile_x, reference_tile_object.tile_position.parts.tile_y) != 0) {
-                    ((S_801714B8_1 *)stats)->unk_2A.s = get_rounded_facing_and_rounding_flag(
+                    ((ActorRecord *)stats)->facing = get_rounded_facing_and_rounding_flag(
                         sprite->tile_x, sprite->tile_y,
                         reference_tile_object.tile_position.parts.tile_x, reference_tile_object.tile_position.parts.tile_y,
                         &distance);
@@ -287,7 +262,7 @@ ordinary_cleanup:
     if (sprite->flags & 0x40) {
         return;
     }
-    if (((S_801714B8_1 *)stats)->unk_1C & 0x20) {
+    if (((u32)((ActorRecord *)stats)->flags1C) & 0x20) {
         return;
     }
 
@@ -298,18 +273,18 @@ ordinary_cleanup:
             if (sprite->frameTable != glacier_frame_set_1) {
                 (sprite->frameTable) = main_table;
                 select_sprite_entry(sprite,
-                    main_table[((g_game_work.view.camera_rotation.parts.viewAngle + ((S_801714B8_1 *)stats)->unk_2A.s + 0x100) >> 9) & 7],
+                    main_table[((g_game_work.view.camera_rotation.parts.viewAngle + ((ActorRecord *)stats)->facing + 0x100) >> 9) & 7],
                     0);
-                ((S_801714B8_0 *)actor)->unk_9E.s = 0;
-                ((S_801714B8_0 *)actor)->unk_A0 = (rand() & 0x1F) + 0xF;
+                ((ActorRecord *)actor)->unk_9E.s = 0;
+                ((ActorRecord *)actor)->unk_A0.parts.low = (rand() & 0x1F) + 0xF;
             }
         }
 
         if (sprite->frameTable == main_table) {
-            s16 idle_timer = ((S_801714B8_0 *)actor)->unk_9E.u;
+            s16 idle_timer = ((ActorRecord *)actor)->unk_9E.u;
 
-            ((S_801714B8_0 *)actor)->unk_9E.u = idle_timer + 1;
-            if (idle_timer >= ((S_801714B8_0 *)actor)->unk_A0) {
+            ((ActorRecord *)actor)->unk_9E.u = idle_timer + 1;
+            if (idle_timer >= ((s16)((ActorRecord *)actor)->unk_A0.parts.low)) {
                 ObjectNodeHeader *object;
                 S_801714B8_7 *object_data;
 
@@ -317,7 +292,7 @@ ordinary_cleanup:
 
                 (sprite->frameTable) = alt_table;
                 select_sprite_entry(sprite,
-                    alt_table[((g_game_work.view.camera_rotation.parts.viewAngle + ((S_801714B8_1 *)stats)->unk_2A.s + 0x100) >> 9) & 7],
+                    alt_table[((g_game_work.view.camera_rotation.parts.viewAngle + ((ActorRecord *)stats)->facing + 0x100) >> 9) & 7],
                     0);
                 advance_sprite_animation_and_textures(sprite);
 
@@ -330,7 +305,7 @@ ordinary_cleanup:
                     object->update_callback = D_80170A0C;
                     object_data = (S_801714B8_7 *)((u8 *)object + 0x20);
                     object_data->unk_28 = context;
-                    object_data->unk_1C = ((S_801714B8_1 *)stats)->unk_2A.u;
+                    object_data->unk_1C = ((u16)((ActorRecord *)stats)->facing);
 
                     {
                         SpriteFrameState *owner = ((S_801714B8_0_pre *)actor)[-1].unk_00;
@@ -360,9 +335,9 @@ ordinary_cleanup:
 
         (sprite->frameTable) = state_table;
         select_sprite_entry(sprite,
-            state_table[((g_game_work.view.camera_rotation.parts.viewAngle + ((S_801714B8_1 *)stats)->unk_2A.s + 0x100) >> 9) & 7],
+            state_table[((g_game_work.view.camera_rotation.parts.viewAngle + ((ActorRecord *)stats)->facing + 0x100) >> 9) & 7],
             0);
-        ((S_801714B8_0 *)actor)->unk_9E.s = 0;
-        ((S_801714B8_0 *)actor)->unk_A0 = (rand() & 0x1F) + 0xF;
+        ((ActorRecord *)actor)->unk_9E.s = 0;
+        ((ActorRecord *)actor)->unk_A0.parts.low = (rand() & 0x1F) + 0xF;
     }
 }

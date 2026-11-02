@@ -1,3 +1,4 @@
+#include "shared/entity.h"
 #include "common.h"
 #include "engine/graphics.h"
 
@@ -16,7 +17,7 @@ typedef struct {
 } Scratchpad;
 
 /* Walk linked entries, update the scratch flag, and process entries without bit 0x80 set. */
-s32 render_actor_sprite_chain(void *initial_state, void *context, Entry *entry)
+s32 render_actor_sprite_chain(void *initial_state, ObjectPosition *context, Entry *entry)
 {
     void *state = initial_state;
     Scratchpad *scratch = (Scratchpad *)0x1F800000;

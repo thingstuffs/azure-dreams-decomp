@@ -85,7 +85,7 @@ void advance_item_use_and_recovery(ActorRecord *body, ObjectPosition *motion, Sp
     u8 *action_object;
     s32 next_state;
     u8 state;
-    void *item_target;
+    ObjectNodeHeader *item_target;
 
     special_or_effect = 0;
     action_object = (u8 *)body - 0x20;
@@ -139,9 +139,9 @@ void advance_item_use_and_recovery(ActorRecord *body, ObjectPosition *motion, Sp
         if (*item_slot != 0) {
             body->action_state_flags &= 0xFF7F;
             if ((s16)special_or_effect != 0) {
-                item_target = primary_actor_record;
+                item_target = (ObjectNodeHeader *)primary_actor_record;
                 actor->target = item_target;
-                    effect_state = ((ObjectNodeHeader *)((u8 *)item_target - 0x20))->sprite;
+                    effect_state = (item_target - 1)->sprite;
                     actor->target_tile_x = ((S_80173230_2 *)effect_state)->unk_24;
                     actor->target_tile_y = ((S_80173230_2 *)effect_state)->unk_25;
             } else {
@@ -150,7 +150,7 @@ void advance_item_use_and_recovery(ActorRecord *body, ObjectPosition *motion, Sp
                 if (item_defs[item_id * 20 + 0x12] == 2) {
                     item_target = actor->target;
                     if (item_target != 0) {
-                    effect_state = ((ObjectNodeHeader *)((u8 *)item_target - 0x20))->sprite;
+                    effect_state = (item_target - 1)->sprite;
                     actor->target_tile_x = ((S_80173230_2 *)effect_state)->unk_24;
                     actor->target_tile_y = ((S_80173230_2 *)effect_state)->unk_25;
                     }

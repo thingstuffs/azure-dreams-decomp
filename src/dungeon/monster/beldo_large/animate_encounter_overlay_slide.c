@@ -19,7 +19,7 @@ extern void *encounter_object_slots[];
 extern void *encounter_overlay_object[];
 
 /* Advances a timed transition, updates its target, and marks completion. */
-void animate_encounter_overlay_slide(EncounterOverlayBody *transition_arg, S_8016F99C_1 *target)
+void animate_encounter_overlay_slide(EncounterOverlayBody *transition_arg, ObjectPosition *target)
 {
     EncounterOverlayBody *transition = transition_arg;
     s32 state;
@@ -34,7 +34,7 @@ void animate_encounter_overlay_slide(EncounterOverlayBody *transition_arg, S_801
         return;
 
     case 1:
-        target->unk_0A = 1;
+        target->z.unsigned_parts.integer = 1;
         return;
 
     case 2:
@@ -45,7 +45,7 @@ void animate_encounter_overlay_slide(EncounterOverlayBody *transition_arg, S_801
         return;
 
     case 3:
-        target->unk_06 = target->unk_06 - 8;
+        target->y.unsigned_parts.integer = target->y.unsigned_parts.integer - 8;
         timer = transition->unk_18 - 1;
         transition->unk_18 = timer;
         if ((timer << 16) > 0) {
@@ -53,11 +53,11 @@ void animate_encounter_overlay_slide(EncounterOverlayBody *transition_arg, S_801
         }
         transition->unk_18 = 0x11;
         transition->unk_12.u = transition->unk_12.u + 1;
-        target->unk_0A = 3;
+        target->z.unsigned_parts.integer = 3;
         return;
 
     case 4:
-        target->unk_06 = target->unk_06 + 8;
+        target->y.unsigned_parts.integer = target->y.unsigned_parts.integer + 8;
         timer = transition->unk_18 - 1;
         transition->unk_18 = timer;
         if ((timer << 16) > 0) {
@@ -81,7 +81,7 @@ void animate_encounter_overlay_slide(EncounterOverlayBody *transition_arg, S_801
         return;
 
     case 11:
-        target->unk_06 = target->unk_06 - 8;
+        target->y.unsigned_parts.integer = target->y.unsigned_parts.integer - 8;
         timer = transition->unk_18 - 1;
         transition->unk_18 = timer;
         if ((timer << 16) > 0) {

@@ -28,10 +28,10 @@ s32 check_building_entity_compatibility(s32 record_id, s32 entity_id);
 /* clear_object_link_and_mark_complete_g01169.c */
 void clear_object_link_and_mark_complete(struct S_func_800BB508_0 *object, void *context);
 void advance_object_state_angle(void *object, void *context, void *state);
-void initialize_object_appearance_with_delay(TownObjectRecord *object, void *context, void *state);
+void initialize_object_appearance_with_delay(TownObjectRecord *object, ObjectPosition *context, void *state);
 void clear_object_link_and_complete(void *object, void *value);
 void set_handler_variant_b_with_counter_30(void *object, void *context, void *state);
-void init_object_with_countdown(TownObjectRecord *object, void *context, void *state);
+void init_object_with_countdown(TownObjectRecord *object, ObjectPosition *context, void *state);
 void set_handler_variant_b_with_counter_14(void *object, void *context, void *state);
 
 /* copy_entity_record_fields.c */
@@ -62,7 +62,7 @@ void initialize_object_rendering_resources(struct TownCourseActor *object_data, 
 void initialize_object_when_inactive(struct S_800A54FC_0 *object, struct ObjectNodeHeader *value_1, s32 value_2, s32 value_3);
 
 /* initialize_object_with_default_data.c */
-void initialize_object_with_default_data(void *object, void *init_arg, SpriteFrameState *state);
+void initialize_object_with_default_data(void *object, ObjectPosition *init_arg, SpriteFrameState *state);
 
 /* select_object_value_with_idle_fallback.c */
 void select_object_value_with_idle_fallback(struct TownCameraState *object);

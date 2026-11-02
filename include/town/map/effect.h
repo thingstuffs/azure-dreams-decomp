@@ -12,19 +12,19 @@ struct S_800A8CA8_2;
 struct SpriteFrameState;
 
 /* initialize_effect_with_child_sprites.c */
-void initialize_effect_with_child_sprites(TownObjectRecord *parent, ObjectPosition *position);
+void initialize_effect_with_child_sprites(TownObjectRecord *parent, ObjectPosition *position, struct SpriteFrameState *sprite_unused);
 
 /* initialize_effect_with_random_angle.c */
-void initialize_effect_with_random_angle(struct Core *effect, IntVector3 *origin);
+void initialize_effect_with_random_angle(struct Core *effect, ObjectPosition *origin, struct SpriteFrameState *sprite_unused);
 
 /* initialize_random_particle_effect.c */
-void initialize_random_particle_effect(struct Core *parent_core, IntVector3 *origin);
+void initialize_random_particle_effect(struct Core *parent_core, ObjectPosition *origin, struct SpriteFrameState *sprite_unused);
 
 /* no_op_effect_callback.c */
 void no_op_effect_callback(void);
 
 /* no_op_secondary_effect_callback.c */
-void no_op_secondary_effect_callback(TownObjectRecord *unused_object, void *unused_position, struct SpriteFrameState *unused_sprite);
+void no_op_secondary_effect_callback(TownObjectRecord *unused_object, ObjectPosition *unused_position, struct SpriteFrameState *unused_sprite);
 
 /* update_projected_effect_points.c */
 void update_projected_effect_points(void *object, s32 phase, void *source_data, struct S_800A8CA8_2 *extent);

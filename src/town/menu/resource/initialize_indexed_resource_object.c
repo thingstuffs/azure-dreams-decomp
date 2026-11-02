@@ -15,7 +15,7 @@ extern s32 item_effect_descriptor;
 extern void D_800A7EC0();
 
 /* Initialize the object state from its byte value and set the context resource and callback. */
-void initialize_indexed_resource_object(TownObjectRecord *object_arg, void *unused, struct SpriteFrameState *context) {
+void initialize_indexed_resource_object(TownObjectRecord *object_arg, ObjectPosition *unused, struct SpriteFrameState *context) {
     TownObjectRecord *object = object_arg;
 
     ((S_800A7E7C_0_pre *)object)[-1].unk_00 = &D_800A7EC0;

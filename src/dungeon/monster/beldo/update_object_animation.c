@@ -32,20 +32,6 @@ extern u8 beldo_frame_set_2[];
 extern u8 D_80173EC4[];
 extern u8 D_80173EE4[];
 
-typedef struct S_80171514_0 {
-    u8 pad_00[0x1C];
-    u32 unk_1C;
-    u8 pad_20[0xA];
-    s16 unk_2A;
-    u8 pad_2C[0x1A];
-    u16 unk_46;
-    u8 pad_48[0x1C];
-    s16 unk_64;
-    u8 pad_66[0x7];
-    s8 unk_6D;
-    u8 pad_6E[0x3];
-    u8 unk_71;
-} S_80171514_0;   /* arg3 in update_object_animation */
 
 typedef struct S_80171514_3 {
     u8 pad_00[0xC];
@@ -73,12 +59,12 @@ void update_object_animation(ActorRecord *obj, ObjectPosition *motion, SpriteFra
         return;
     }
 
-    if (((S_80171514_0 *)state)->unk_1C & 0x200) {
+    if (state->flags1C & 0x200) {
         if (*(u8 **)&part->frameTable == D_80173EC4) {
             obj->action_id.u = 13;
             obj->action_phase.u = 1;
             obj->unk_8C.word = 0;
-            ((S_80171514_0 *)state)->unk_1C &= ~0x40000;
+            state->flags1C &= ~0x40000;
             return;
         }
         if (reset_actor_action_state(obj, motion, part, beldo_frame_set_2) != 0) {
@@ -87,7 +73,7 @@ void update_object_animation(ActorRecord *obj, ObjectPosition *motion, SpriteFra
     }
 
     if ((g_dungeon_status.flags & 0x2000) == 0) {
-        if (((S_80171514_0 *)state)->unk_1C & 0x100) {
+        if (state->flags1C & 0x100) {
             begin_pushed_actor_move(obj, motion, part, state);
             return;
         }
@@ -106,7 +92,7 @@ void update_object_animation(ActorRecord *obj, ObjectPosition *motion, SpriteFra
             obj->unk_9E.s = 0;
         }
 
-        ((S_80171514_0 *)state)->unk_1C |= 0x40000;
+        state->flags1C |= 0x40000;
         obj->action_state_flags &= 0xFFF7;
 
         if (state->hp_delta != 0) {
@@ -115,7 +101,7 @@ void update_object_animation(ActorRecord *obj, ObjectPosition *motion, SpriteFra
             }
         }
 
-        if (((S_80171514_0 *)state)->unk_1C & 0x80000) {
+        if (state->flags1C & 0x80000) {
             u16 previous_amount;
             u16 pending_amount;
 
@@ -138,7 +124,7 @@ void update_object_animation(ActorRecord *obj, ObjectPosition *motion, SpriteFra
     part->room_index = query_result;
 
     if (state->pending_turn_updates > 0) {
-        if (((S_80171514_0 *)state)->unk_1C & 0x20) {
+        if (state->flags1C & 0x20) {
             update_actor_status_and_mp(state);
             return;
         }
@@ -212,7 +198,7 @@ void update_object_animation(ActorRecord *obj, ObjectPosition *motion, SpriteFra
         }
     }
 
-    state_flags = ((S_80171514_0 *)state)->unk_1C;
+    state_flags = state->flags1C;
     if ((state_flags & 0x2000) == 0) {
         entry_index = (s8)query_result;
         if (entry_index >= 0) {

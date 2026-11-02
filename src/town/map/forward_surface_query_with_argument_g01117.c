@@ -42,8 +42,8 @@ void update_map_world_extents(void)
 
     state = (TownViewState *)((u8 *)state + 0x1DC);
 
-    ((s32 *)town_map_column_extent)[0] = 0x40 << state->unk14;
-    ((s32 *)town_map_row_extent)[0] = 0x40 << state->unk16;
+    town_map_column_extent = 0x40 << state->unk14;
+    town_map_row_extent = 0x40 << state->unk16;
 }
 
 /* Finds the lowest qualifying surface height and plane at the query position. */
@@ -119,7 +119,7 @@ s32 find_min_qualifying_plane_height(u32 query_x, u32 query_y, s16 query_height,
     while (scratch->outer_count < 2) {
         y = scratch->y_scan + scratch->outer_offset;
         if (scratch->y_step >= 0) {
-            if (y >= (*((s32 *)town_map_row_extent))) {
+            if (y >= town_map_row_extent) {
                 break;
             }
         } else if (y < 0) {
@@ -140,7 +140,7 @@ s32 find_min_qualifying_plane_height(u32 query_x, u32 query_y, s16 query_height,
             scan_x_value -= (u32)x_step;
             x = scan_x_value;
             if (x_step >= 0) {
-                if ((s16)x_sum >= (*((s32 *)town_map_column_extent))) {
+                if ((s16)x_sum >= town_map_column_extent) {
                     break;
                 }
             } else {
@@ -278,7 +278,7 @@ s32 find_highest_surface_within_range(s32 world_x, s32 world_y, s16 height) {
         scan_y = (u16)scratch->orig_y + (u16)scratch->outer_delta;
         row_y = scan_y;
         if (scratch->step_y >= 0) {
-            if (row_y >= (*((s32 *)town_map_row_extent)))
+            if (row_y >= town_map_row_extent)
                 return (s16)(u16)scratch->best;
         } else {
             if (row_y < 0)
@@ -294,7 +294,7 @@ s32 find_highest_surface_within_range(s32 world_x, s32 world_y, s16 height) {
             scan_x = x_sum;
             col_x = x_sum;
             if (x_step >= 0) {
-                if (col_x >= (*((s32 *)town_map_column_extent)))
+                if (col_x >= town_map_column_extent)
                     break;
             } else {
                 col_x = x_sum;
@@ -435,7 +435,7 @@ s16 find_smallest_surface_x_across_tiles(s32 query_x, s32 query_y, s32 query_z)
         row_y = (u16)scratch->start_y + (u16)scratch->outer_offset;
         y = row_y;
         if (scratch->y_step >= 0) {
-            if ((s16)row_y >= (*((s32 *)town_map_row_extent)))
+            if ((s16)row_y >= town_map_row_extent)
                 break;
         } else if ((s16)row_y < 0) {
             break;
@@ -447,7 +447,7 @@ s16 find_smallest_surface_x_across_tiles(s32 query_x, s32 query_y, s32 query_z)
             column_x = (u16)scratch->start_x + (u16)scratch->inner_offset;
             x = column_x;
             if (scratch->x_step >= 0) {
-                if ((s16)column_x >= (*((s32 *)town_map_column_extent)))
+                if ((s16)column_x >= town_map_column_extent)
                     break;
             } else if ((s16)column_x < 0) {
                 break;
@@ -579,7 +579,7 @@ u16 query_z;
 
             scan_z = next_z;
             if (scratch->z_step >= 0) {
-                if (next_z >= (*((s32 *)town_map_row_extent))) {
+                if (next_z >= town_map_row_extent) {
                     break;
                 }
             } else if (next_z < 0) {
@@ -596,7 +596,7 @@ u16 query_z;
 
                 scan_x = next_x;
                 if (scratch->x_step >= 0) {
-                    if (next_x >= (*((s32 *)town_map_column_extent))) {
+                    if (next_x >= town_map_column_extent) {
                         break;
                     }
                 } else if (next_x < 0) {
@@ -767,7 +767,7 @@ u16 world_z;
         s32 next_y = (u16)scratch->scan_y + (u16)scratch->outer_delta;
         scan_y = next_y;
         if (scratch->step_y >= 0) {
-            if ((s16)next_y >= (*((s32 *)town_map_row_extent))) {
+            if ((s16)next_y >= town_map_row_extent) {
                 break;
             }
         } else if ((s16)next_y < 0) {
@@ -782,7 +782,7 @@ u16 world_z;
             s32 next_x = (u16)scratch->scan_x + (u16)scratch->inner_delta;
             scan_x = next_x;
             if (scratch->step_x >= 0) {
-                if ((s16)next_x >= (*((s32 *)town_map_column_extent))) {
+                if ((s16)next_x >= town_map_column_extent) {
                     break;
                 }
             } else if ((s16)next_x < 0) {
@@ -936,7 +936,7 @@ s32 find_highest_valid_cell_height(s32 world_x, s32 world_z, s32 world_y)
     while (scratch->z_count < 2) {
         scan_z = (u16)scratch->z_start + (u16)scratch->z_offset_acc;
         if (scratch->z_step >= 0) {
-            if (scan_z >= (*((s32 *)town_map_row_extent))) {
+            if (scan_z >= town_map_row_extent) {
                 break;
             }
         } else if (scan_z < 0) {
@@ -953,7 +953,7 @@ s32 find_highest_valid_cell_height(s32 world_x, s32 world_z, s32 world_y)
 
             scan_x = (u16)scratch->x_start + (u16)scratch->x_offset;
             if (scratch->x_step >= 0) {
-                if (scan_x >= (*((s32 *)town_map_column_extent))) {
+                if (scan_x >= town_map_column_extent) {
                     break;
                 }
             } else if (scan_x < 0) {

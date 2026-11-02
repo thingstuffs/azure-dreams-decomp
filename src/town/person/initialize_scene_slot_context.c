@@ -4,10 +4,6 @@
 #include "m2c_compat.h"
 
 
-typedef struct S_800C8600_2 {
-    u8 pad_00[0x4];
-    s32 * unk_04;
-} S_800C8600_2;   /* ((S_800C8600_1 *)arg0)->unk_80 in func_800C8600 */
 
 
 /* extern */

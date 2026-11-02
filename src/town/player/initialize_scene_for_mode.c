@@ -13,6 +13,7 @@
 #include "engine/graphics.h"
 #include "engine/scene.h"
 #include "engine/script.h"
+#include "town/player/record.h"
 
 /* Initialize the town scene and configure its object for the current mode. */
 void initialize_scene_for_mode(void)
@@ -178,7 +179,7 @@ void initialize_scene_render_object(void) {
 }
 
 /* Rebuild the town menu's node list for the current mode and hand it to the drawing pass. */
-void rebuild_menu_node_list(void *owner, ObjectPosition *node_in, s32 mode) {
+void rebuild_menu_node_list(TownPlayerRecord *owner, ObjectPosition *node_in, s32 mode) {
     func_80092C9C_S_800903FC_3 *node;
     void *handler;
     func_80092C9C_S_800903FC_2 *base;
@@ -186,13 +187,13 @@ void rebuild_menu_node_list(void *owner, ObjectPosition *node_in, s32 mode) {
     func_80092C9C_S_800903FC_1 *work;
     s16 value;
 
-    handler = (*(void **)((u8 *)owner + (0)));
+    handler = owner->unk_00;
     if (handler != town_position_callback_address || handler != noop_player_scene_action) {
         apply_the_enabled_movement_offsets_adding_z_offset_only_positive(node_in);
     }
     add_motion_deltas_to_position(node_in);
 
-    handler = (*(void **)((u8 *)owner + (0)));
+    handler = owner->unk_00;
     if (handler != town_position_callback_address || handler != noop_player_scene_action) {
         update_object_and_clear_status_fields(node_in);
     }
@@ -207,10 +208,10 @@ void rebuild_menu_node_list(void *owner, ObjectPosition *node_in, s32 mode) {
     store_position_and_compute_delta(node_in);
 
     work = (func_80092C9C_S_800903FC_1 *)&town_motion_list;
-    work->unk_16 = (*(u16 *)((u8 *)owner + (0x10)));
+    work->unk_16 = owner->unk_10.as_u16;
     update_the_s_field_10_using_callee_8008_fe_90(work);
     if (get_whether_has_attached_state_type_n_1_n_3(work) != 0) {
-        (*(s32 *)((u8 *)owner + (0x2C))) = 0;
+        owner->unk_2C = 0;
         submit_object_resource_data(work->unk_10);
 
         object = window_node_list_storage;
@@ -230,7 +231,7 @@ void rebuild_menu_node_list(void *owner, ObjectPosition *node_in, s32 mode) {
                 }
             }
             run_the_three_update_routines_context(node_in);
-            if ((*(void **)((u8 *)owner + (0))) != town_position_callback_address) {
+            if (owner->unk_00 != town_position_callback_address) {
                 initialize_record_and_select_active_data(owner, node_in, mode);
             }
         }
@@ -251,7 +252,7 @@ void rebuild_menu_node_list(void *owner, ObjectPosition *node_in, s32 mode) {
    GCC coalesces both to s0 and emits the two-edge lui/addiu held base. */
 
 /* Updates camera rotation and facing after collision adjustment, then saves the reference position. */
-void process_scene_record_update(void *context, ObjectPosition *input, void *record) {
+void process_scene_record_update(TownPlayerRecord *context, ObjectPosition *input, void *record) {
     GameWork *work = &g_game_work;
     void *callback;
     s32 initial_flags;
@@ -266,7 +267,7 @@ void process_scene_record_update(void *context, ObjectPosition *input, void *rec
             work->view.camera_rotation.parts.viewAngle |= 0xF000;
         }
 
-        callback = *(void **)context;
+        callback = context->unk_00;
                 /* garbage-passthru: a1/a2/a3 are caller-saved residue after clear_motion_along_blocked_directions_update_affected_axes. */
         if (callback == (void *)town_position_callback_address || callback == (void *)&noop_player_scene_action ||
             service_script_controller() != 0) {
@@ -310,21 +311,21 @@ void process_scene_record_update(void *context, ObjectPosition *input, void *rec
         }
     }
 
-    callback = *(void **)context;
+    callback = context->unk_00;
     if ((callback == (void *)&actor_input_dispatch_address) ||
         (callback == (void *)&actor_input_interaction_address)) {
-        *(s16 *)((u8 *)context + 0x18) =
-            step_angle_12_toward(*(s16 *)((u8 *)context + 0x18),
-                          *(s16 *)((u8 *)context + 0x10), 0x200);
+        context->unk_18 =
+            step_angle_12_toward(context->unk_18,
+                          context->unk_10.as_s16, 0x200);
     } else {
-        *(s16 *)((u8 *)context + 0x18) = *(u16 *)((u8 *)context + 0x10);
+        context->unk_18 = context->unk_10.as_u16;
     }
-    index = view_relative_angle_sector(*(s16 *)((u8 *)context + 0x18));
-    if (*(s16 *)((u8 *)context + 0x12) != index) {
+    index = view_relative_angle_sector(context->unk_18);
+    if (context->unk_12 != index) {
         texture_handle_installs_selected_animation_frame_secondary_pointer_updates_animation_flags(record,
                       *(*(u8 **)((u8 *)context + 0x1C) + index),
                       *(s8 *)((u8 *)record + 4), 0);
-        *(s16 *)((u8 *)context + 0x12) = index;
+        context->unk_12 = index;
     }
 
     {

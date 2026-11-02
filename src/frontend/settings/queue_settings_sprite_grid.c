@@ -3,6 +3,8 @@
 #include "shared/game_work.h"
 #include "frontend/settings.h"
 #include "sdk/libgpu.h"
+#include "shared/entity.h"
+#include "shared/object_node.h"
 
 typedef struct S_8008896C_0 {
     u8 pad_00[0x4];
@@ -15,20 +17,6 @@ typedef struct S_8008896C_0 {
     s16 unk_12;
 } S_8008896C_0;   /* line in queue_settings_sprite_grid */
 
-typedef struct S_8008896C_1 {
-    u8 pad_00[0x6];
-    u16 unk_06;
-} S_8008896C_1;   /* scroll_data in queue_settings_sprite_grid */
-
-typedef struct S_8008896C_2_pre {
-    u8 * unk_00;
-    u8 pad_04[0x4];
-} S_8008896C_2_pre;   /* the 0x8 bytes before entry_data in queue_settings_sprite_grid, addressed as entry_data[-1] */
-
-typedef struct S_8008896C_3 {
-    u8 pad_00[0x8];
-    u8 * unk_08;
-} S_8008896C_3;   /* next in queue_settings_sprite_grid */
 
 #define PTR32(address) ((u32)(unsigned long)(address))
 #define setaddr(packet, address) (((GpuLinkTag *)(packet))->addr = PTR32(address))
@@ -51,10 +39,11 @@ typedef struct MainState {
 /* Queue a 2x2 grid of textured sprites for each linked entry. */
 s32 queue_settings_sprite_grid(u8 *entry_data, u8 *scroll_data)
 {
+    ObjectPosition *position = (ObjectPosition *)scroll_data;
     MainState *main_state;
     u8 *sprite;
     u8 *draw_mode;
-    u8 *next_entry;
+    ObjectNodeHeader *next_entry;
     s32 row;
     s32 column;
     s32 texture_page;
@@ -75,7 +64,7 @@ s32 queue_settings_sprite_grid(u8 *entry_data, u8 *scroll_data)
                 SetSprt(sprite);
                 SetShadeTex(sprite, 1);
                 ((S_8008896C_0 *)sprite)->unk_08 = column << 8;
-                ((S_8008896C_0 *)sprite)->unk_0A = base_y - ((S_8008896C_1 *)scroll_data)->unk_06;
+                ((S_8008896C_0 *)sprite)->unk_0A = base_y - position->y.unsigned_parts.integer;
                 ((S_8008896C_0 *)sprite)->unk_10 = 0x100;
                 ((S_8008896C_0 *)sprite)->unk_12 = 0x100;
                 ((S_8008896C_0 *)sprite)->unk_0C = 0;
@@ -93,11 +82,11 @@ s32 queue_settings_sprite_grid(u8 *entry_data, u8 *scroll_data)
             row++;
         } while (row < 2);
 
-        next_entry = ((S_8008896C_2_pre *)entry_data)[-1].unk_00;
+        next_entry = ((ObjectNodeHeader *)entry_data - 1)->chain_next;
         if (next_entry == 0) {
             return 0;
         }
-        entry_data = next_entry + 0x20;
-        scroll_data = ((S_8008896C_3 *)next_entry)->unk_08;
+        entry_data = (u8 *)(next_entry + 1);
+        position = next_entry->position;
     }
 }

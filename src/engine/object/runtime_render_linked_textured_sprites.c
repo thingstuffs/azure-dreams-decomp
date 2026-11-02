@@ -1,5 +1,7 @@
 #include "shared/gpu_packets.h"
 #include "common.h"
+#include "shared/entity.h"
+#include "shared/object_node.h"
 #include "shared/game_work.h"
 #include "engine/object.h"
 #include "sdk/libc.h"
@@ -16,7 +18,7 @@ extern u8 effect_view_matrix[32];
 extern u8 sprite_projection_matrix[32];
 
 /* Renders linked textured sprites with dimmed offset copies near the screen center. */
-s32 runtime_render_linked_textured_sprites(u8 *node_data, u8 *position, u8 *render_state)
+s32 runtime_render_linked_textured_sprites(u8 *node_data, ObjectPosition *position, u8 *render_state)
 {
     ScratchPad *scratch;
     GteMatrix *fixed_matrix;
@@ -57,7 +59,7 @@ s32 runtime_render_linked_textured_sprites(u8 *node_data, u8 *position, u8 *rend
     u16 texture_bias;
     s32 packed_uv;
     u8 draw_code;
-    void *next_node;
+    ObjectNodeHeader *next_node;
     u8 *copy_matrix_a;
     u8 *copy_matrix_b;
     GpuContext **render_pools;
@@ -74,9 +76,9 @@ s32 runtime_render_linked_textured_sprites(u8 *node_data, u8 *position, u8 *rend
     do {
         copy_matrix_a = sprite_fixed_transform_matrix;
         copy_matrix_b = effect_view_matrix;
-        (((SpU16 *) (scratch->b + 0x04))->v) = *((u16 *) (position + 2));
-        (((SpU16 *) (scratch->b + 0x06))->v) = *((u16 *) (position + 6));
-        (((SpU16 *) (scratch->b + 0x08))->v) = *((u16 *) (position + 10));
+        (((SpU16 *) (scratch->b + 0x04))->v) = position->x.unsigned_parts.integer;
+        (((SpU16 *) (scratch->b + 0x06))->v) = position->y.unsigned_parts.integer;
+        (((SpU16 *) (scratch->b + 0x08))->v) = position->z.unsigned_parts.integer;
         (((SpS32 *) (scratch->b + 0xC4))->v) = RotTransPers(scratch->b + 0x04, &scratch->sw[0xBC / 4], &scratch->sw[0x94 / 4], &scratch->sw[0x98 / 4]);
         *((u16 *) (render_state + 0x14)) |= 0x8000;
         sprite_scaled_depth_word[0] = (scaled_depth = ((((SpS32 *) (scratch->b + 0xC4))->v)) << 2);
@@ -324,11 +326,11 @@ s32 runtime_render_linked_textured_sprites(u8 *node_data, u8 *position, u8 *rend
             }
             PopMatrix();
         }
-        next_node = *((void **) (node_data - 8));
+        next_node = ((ObjectNodeHeader *)node_data - 1)->chain_next;
         if (next_node != 0) {
-            node_data = ((u8 *) next_node) + 0x20;
-            position = *((u8 **) (((u8 *) next_node) + 8));
-            render_state = *((u8 **) (((u8 *) next_node) + 0x0C));
+            node_data = (u8 *)(next_node + 1);
+            position = next_node->position;
+            render_state = (u8 *)next_node->sprite;
         }
     }
     while (next_node != 0);

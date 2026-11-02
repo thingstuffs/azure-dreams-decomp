@@ -15,7 +15,7 @@ void switch_actor_state(TownObjectRecord *actor, s32 unused, void *state_context
     ticks_left = actor->timer.as_u16 - 1;
     actor->timer.as_u16 = ticks_left;
     if ((ticks_left << 0x10) <= 0) {
-        initialize_object_entries((Struct800C5724 *)(actor), state_context, D_800D5944);
+        initialize_object_entries((actor), state_context, D_800D5944);
         actor->handler = &D_800C6644;
         actor->timer.as_u16 = 5U;
     }

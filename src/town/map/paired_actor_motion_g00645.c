@@ -332,7 +332,7 @@ case 0x40:
 case 0xFF:
     unlink_scene_list_node(actor);
     unlink_node_if_registered(actor);
-    (*(u16 *)((u8 *)actor + -2)) |= NODE_REMOVE;
+    (((ObjectNodeHeader *)actor - 1)->flags) |= NODE_REMOVE;
     object_flag_block.flags |= OBJECT_REMOVE_PENDING;
 
     }
@@ -344,15 +344,15 @@ case 0xFF:
 }
 
 /* Initialize the object and dispatch setup according to its state. */
-void initialize_object_and_dispatch_by_state(TownObjectRecord *object, s32 *params, void *dispatch_context) {
+void initialize_object_and_dispatch_by_state(TownObjectRecord *object, ObjectPosition *params, SpriteFrameState *dispatch_context) {
     u8 state;
 
-    *(void **)((u8 *)object - 0x10) = D_800BCE78;
+    ((ObjectNodeHeader *)object - 1)->update_callback = D_800BCE78;
     object->unk_50.as_s32 = 0;
     register_node((struct ObjectNodeHeader *)((u8 *)object - 0x20), project_sprite_chain);
 
-    object->unk_A0 = params[0];
-    object->unk_A4.as_s32 = params[1];
+    object->unk_A0 = params->x.v;
+    object->unk_A4.as_s32 = params->y.v;
     state = object->unk_95;
 
     switch (state) {
@@ -488,7 +488,7 @@ void advance_motion_and_flag_zero_velocity(Actor *actor, Motion *motion, SpriteF
         }
     }
     if (motion->dx == 0) {
-        *(u16 *)((u8 *)actor - 2) |= NODE_REMOVE;
+        ((ObjectNodeHeader *)actor - 1)->flags |= NODE_REMOVE;
         object_flag_block.flags |= OBJECT_REMOVE_PENDING;
     }
 }

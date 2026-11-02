@@ -31,12 +31,6 @@ typedef struct S_800956B8_1_pre {
     u8 pad_08[0x10];
 } S_800956B8_1_pre;   /* the 0x18 bytes before object in resolve_familiar_deployment_request, addressed as object[-1] */
 
-typedef struct S_800956B8_1 {
-    u8 pad_00[0x14];
-    u32 unk_14;
-    u8 pad_18[0x4];
-    u32 unk_1C;
-} S_800956B8_1;   /* object in resolve_familiar_deployment_request */
 
 typedef struct S_800956B8_2 {
     u8 pad_00[0xAC];
@@ -56,7 +50,7 @@ void resolve_familiar_deployment_request(void *context_ptr, s32 unused_one, void
     s32 value;
 
     object = familiar_record_slots[((S_800956B8_0 *)selection_ptr)->unk_03 & 0x1F];
-    if (!(((S_800956B8_1 *)object)->unk_1C & 0x20000)) {
+    if (!(((ActorRecord *)object)->flags1C & 0x20000)) {
         result = find_entity_slot_by_field_ac(object);
                 /* Retail callee sets a3 = 10 at 0x80099114 before reading it; no incoming argument. */
         context_ptr = get_unused_text_buffer();
@@ -91,8 +85,8 @@ void resolve_familiar_deployment_request(void *context_ptr, s32 unused_one, void
     index = (s16)find_entity_slot_by_field_e4(object);
     if (index >= 0) {
         object = ((S_800956B8_2 *)((u8 *)context_ptr + index * 4))->unk_AC;
-        if (((S_800956B8_1 *)object)->unk_14 & 0x20000000) {
-            ((S_800956B8_1 *)object)->unk_1C |= 0x10000;
+        if (((ActorRecord *)object)->flags14 & 0x20000000) {
+            ((ActorRecord *)object)->flags1C |= 0x10000;
             begin_actor_flagged_action(object, ((S_800956B8_1_pre *)object)[-1].unk_00,
                           ((S_800956B8_1_pre *)object)[-1].unk_04, object);
             return;

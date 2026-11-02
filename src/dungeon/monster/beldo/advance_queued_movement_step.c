@@ -11,17 +11,6 @@ void update_map_cell_flags_with_item_limit(s32 x, s32 y, u16 flags);
 
 extern u8 beldo_frame_set_1[8];
 
-typedef struct S_801719C0_0 {
-    u8 pad_00[0x1C];
-    s32 unk_1C;
-    u8 pad_20[0xA];
-    s16 unk_2A;
-    u8 pad_2C[0x45];
-    union { s8 s; u8 u; } unk_71;   /* accessed as both */
-    u8 pad_72[0x16];
-    u16 unk_88;
-    union { s16 s; u16 u; } unk_8A;   /* accessed as both */
-} S_801719C0_0;   /* arg3 in advance_queued_movement_step */
 
 typedef struct S_801719C0_2 {
     u8 pad_00[0x8C];
@@ -60,7 +49,7 @@ void advance_queued_movement_step(ActorRecord *motion, ObjectPosition *unused, S
     s32 old_y;
     S_801719C0_3 *step;
 
-    if (((S_801719C0_0 *)path)->unk_71.s <= 0) {
+    if (((s8)path->movement_queue_state) <= 0) {
         return;
     }
     if (path->movement_queue_state <= path->unk_8A) {
@@ -81,10 +70,10 @@ void advance_queued_movement_step(ActorRecord *motion, ObjectPosition *unused, S
     step = (S_801719C0_3 *)((u8 *)path + path->unk_8A);
     if (sprite->tile_x == step->unk_74 &&
         sprite->tile_y == step->unk_7C) {
-        u16 remaining_offset = ((S_801719C0_0 *)path)->unk_88;
+        u16 remaining_offset = ((u16)path->ground_height);
         motion->unk_90.parts.high.u += 0x20;
         path->ground_height = remaining_offset - 0x20;
-        ((S_801719C0_0 *)path)->unk_8A.u++;
+        path->unk_8A++;
     } else {
         old_x = sprite->tile_x;
         old_y = sprite->tile_y;
@@ -98,7 +87,7 @@ void advance_queued_movement_step(ActorRecord *motion, ObjectPosition *unused, S
             ((S_801719C0_4 *)((u8 *)path + path->unk_8A))->unk_74;
         sprite->tile_y =
             ((S_801719C0_4 *)((u8 *)path + path->unk_8A))->unk_7C;
-        ((S_801719C0_0 *)path)->unk_8A.u++;
+        path->unk_8A++;
 
         cycle_map_cell_flags(sprite->tile_x, sprite->tile_y,
                       (path->flags1C & 0x2000) ? 0x300 : 0x3000);

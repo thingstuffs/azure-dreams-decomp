@@ -19,7 +19,7 @@
 
 struct EntityLinkNode;
 void *(*const dungeon_fa7000_entry)(s16,s16,s16,s16) = spawn_zu_actor;
-void (*const dungeon_fa7000_update)(void *,void *,void *) = update_bank_actor_movement;
+void (*const dungeon_fa7000_update)(ActorRecord *,ObjectPosition *,SpriteFrameState *) = update_bank_actor_movement;
 #include "common.h"
 #include "shared/object_node.h"
 #include "shared/slus_callbacks.h"
@@ -128,31 +128,12 @@ extern Callback zu_callbacks[];
 
    /* arg1 in update_bank_actor_movement */
 
-typedef struct S_80170A70_1 {
-    u8 pad_00[0x4];
-    s8 unk_04;
-    u8 pad_05[0xF];
-    u16 unk_14;
-    u8 pad_16[0xE];
-    u8 unk_24;
-    u8 unk_25;
-    u8 pad_26[0x6];
-    void * unk_2C;
-} S_80170A70_1;   /* arg2 in update_bank_actor_movement */
 
-typedef struct S_80170A70_2 {
-    u8 pad_00[0x1C];
-    s32 unk_1C;
-    u8 pad_20[0xA];
-    s16 unk_2A;
-    u8 pad_2C[0x5C];
-    union { u16 u; s16 s; } unk_88;   /* accessed as both */
-} S_80170A70_2;   /* object in update_bank_actor_movement */
 
 /* Update entity behavior, movement, sprite facing, and ground-relative height. */
-void update_bank_actor_movement(void *entity, void *motion_arg, void *sprite_arg)
+void update_bank_actor_movement(ActorRecord *entity, ObjectPosition *motion_arg, SpriteFrameState *sprite_arg)
 {
-    S_80170A70_2 *object = entity;
+    ActorRecord *object = entity;
     Callback paused_callback;
     Callback update_callback;
     s16 state_or_facing;
@@ -166,12 +147,12 @@ void update_bank_actor_movement(void *entity, void *motion_arg, void *sprite_arg
 
     bob_offset = 0;
     if (g_dungeon_status.flags & 0x2000) {
-        paused_callback = (*(Callback *)((u8 *)entity + (0x8C)));
+        paused_callback = entity->unk_8C.handler;
         if (paused_callback == (Callback)update_bank_actor_state) {
             paused_callback(entity, motion_arg, sprite_arg, entity);
             return;
         }
-        (*((u8 *)entity + (0x71))) &= 0x7F;
+        entity->movement_queue_state &= 0x7F;
         return;
     }
 
@@ -180,177 +161,177 @@ void update_bank_actor_movement(void *entity, void *motion_arg, void *sprite_arg
         return;
     }
 
-    update_callback = (*(Callback *)((u8 *)entity + (0x8C)));
+    update_callback = entity->unk_8C.handler;
     if (update_callback != 0) {
         update_callback(entity, motion_arg, sprite_arg, entity);
     }
-    zu_callbacks[(*((u8 *)entity + (0x9A)))](entity, motion_arg, sprite_arg, entity);
-    if ((s16)state_or_facing != (*(s8 *)((u8 *)entity + (0x6D)))) {
+    zu_callbacks[entity->action_id.u](entity, motion_arg, sprite_arg, entity);
+    if ((s16)state_or_facing != entity->pending_turn_updates) {
         try_move_actor_to_valid_position(entity, motion_arg, sprite_arg, entity);
     }
 
-    ((TrailMotion *)motion_arg)->x.unk_00 += ((TrailMotion *)motion_arg)->velocity_x;
-    ((TrailMotion *)motion_arg)->y.unk_04 += ((TrailMotion *)motion_arg)->velocity_y;
+    motion_arg->x.v += motion_arg->velocity_x;
+    motion_arg->y.v += motion_arg->velocity_y;
 
-    if (!((*(s32 *)((u8 *)entity + (0x1C))) & 0x40000) &&
-        !((*(u16 *)((u8 *)entity + (0x98))) & 8)) {
-        ((TrailMotion *)motion_arg)->unk_14 += (*(s8 *)((u8 *)entity + (0x9D))) * 0x14000;
-        (*((u8 *)entity + (0x9D)))++;
+    if (!(entity->flags1C & 0x40000) &&
+        !(entity->action_state_flags & 8)) {
+        motion_arg->velocity_z += entity->unk_9D.s * 0x14000;
+        entity->unk_9D.u++;
     } else {
-        (*((u8 *)entity + (0x9D))) = 0;
+        entity->unk_9D.u = 0;
     }
-    (*(s32 *)((u8 *)entity + (0x90))) += ((TrailMotion *)motion_arg)->unk_14;
-    sprite_flags = ((S_80170A70_1 *)sprite_arg)->unk_14;
+    entity->unk_90.value += motion_arg->velocity_z;
+    sprite_flags = sprite_arg->flags;
 
     if (!(sprite_flags & 0x8000)) {
-        facing = ((g_game_work.view.camera_rotation.parts.viewAngle + object->unk_2A + 0x100) >> 9) & 7;
+        facing = ((g_game_work.view.camera_rotation.parts.viewAngle + object->facing + 0x100) >> 9) & 7;
         state_or_facing = facing;
-        if ((*(s16 *)((u8 *)entity + (0x94))) != state_or_facing) {
+        if (entity->unk_94 != state_or_facing) {
             select_indirect_table_entry(sprite_arg,
-                ((u8 *)((S_80170A70_1 *)sprite_arg)->unk_2C)[state_or_facing],
-                ((S_80170A70_1 *)sprite_arg)->unk_04);
-            (*(s16 *)((u8 *)entity + (0x94))) = facing;
+                ((u8 *)sprite_arg->frameTable)[state_or_facing],
+                sprite_arg->unk_04);
+            entity->unk_94 = facing;
         }
 
         {
 
             if (dir_sprite_flag[state_or_facing] != 0) {
-                ((S_80170A70_1 *)sprite_arg)->unk_14 |= 1;
+                sprite_arg->flags |= 1;
             } else {
-                ((S_80170A70_1 *)sprite_arg)->unk_14 &= 0xFFFE;
+                sprite_arg->flags &= 0xFFFE;
             }
         }
 
-        if ((*((u8 *)entity + (0x9A))) != 8) {
-            apply_monster_koyaw_data(object->unk_1C, (u8 *)sprite_arg + 0xC);
+        if (entity->action_id.u != 8) {
+            apply_monster_koyaw_data(object->flags1C, (u8 *)sprite_arg + 0xC);
         }
 
-        if (!(object->unk_1C & 0x20)) {
-            if (!(((S_80170A70_1 *)sprite_arg)->unk_14 & 0x40)) {
+        if (!(object->flags1C & 0x20)) {
+            if (!(sprite_arg->flags & 0x40)) {
                 advance_sprite_animation_and_textures(sprite_arg);
             }
         } else {
-            ((S_80170A70_1 *)sprite_arg)->unk_14 |= 0x7000;
-            object->unk_1C &= 0xFFFBFFFF;
+            sprite_arg->flags |= 0x7000;
+            object->flags1C &= 0xFFFBFFFF;
         }
 
-        object->unk_1C &= 0xF7FFFFFF;
-        if (object->unk_1C & 0x40000) {
-            if (!(((S_80170A70_1 *)sprite_arg)->unk_14 & 0x40)) {
+        object->flags1C &= 0xF7FFFFFF;
+        if (object->flags1C & 0x40000) {
+            if (!(sprite_arg->flags & 0x40)) {
                 {
                     s32 bob_wave = rsin(
                         ((*(s16 *)((u8 *)entity + (0xA0))) << 12) / 40);
-                    if ((*((u8 *)entity + (0x9A))) == 0x12) {
+                    if (entity->action_id.u == 0x12) {
                         bob_offset = bob_wave >> 10;
                     } else {
                         bob_offset = bob_wave >> 9;
                     }
                 }
-                (*(s16 *)((u8 *)entity + (0xA0))) = ((*(s16 *)((u8 *)entity + (0xA0))) + 1) % 40;
+                entity->unk_A0.parts.low = ((*(s16 *)((u8 *)entity + (0xA0))) + 1) % 40;
             }
 
-            if (!((*(u16 *)((u8 *)entity + (0x98))) & 8)) {
+            if (!(entity->action_state_flags & 8)) {
                 ground_height = (s16)(sample_terrain_surface_height(
-                    ((TrailMotion *)motion_arg)->x.unk_02.unk_02, ((TrailMotion *)motion_arg)->y.unk_06.unk_06,
-                    (s16)(object->unk_88.u - 0x20)) -
-                    object->unk_88.u);
-                if ((*(s16 *)((u8 *)entity + (0x92))) > ground_height - 0x30) {
-                    (*(s16 *)((u8 *)entity + (0x92))) =
-                        (u16)(*(s16 *)((u8 *)entity + (0x92))) - 8;
-                } else if (ground_height - 0x3A > (*(s16 *)((u8 *)entity + (0x92)))) {
-                    (*(s16 *)((u8 *)entity + (0x92))) =
-                        (u16)(*(s16 *)((u8 *)entity + (0x92))) + 8;
+                    motion_arg->x.unsigned_parts.integer, motion_arg->y.unsigned_parts.integer,
+                    (s16)(((u16)object->ground_height) - 0x20)) -
+                    ((u16)object->ground_height));
+                if (entity->unk_90.parts.high.s > ground_height - 0x30) {
+                    entity->unk_90.parts.high.s =
+                        (u16)entity->unk_90.parts.high.s - 8;
+                } else if (ground_height - 0x3A > entity->unk_90.parts.high.s) {
+                    entity->unk_90.parts.high.s =
+                        (u16)entity->unk_90.parts.high.s + 8;
                 }
             }
         } else {
 
-            (*(s16 *)((u8 *)entity + (0xA0))) = 0;
-            if (!((*(u16 *)((u8 *)entity + (0x98))) & 8)) {
+            entity->unk_A0.parts.low = 0;
+            if (!(entity->action_state_flags & 8)) {
 
                 ground_delta = (s16)sample_terrain_surface_height(
-                    ((TrailMotion *)motion_arg)->x.unk_02.unk_02, ((TrailMotion *)motion_arg)->y.unk_06.unk_06,
-                    (s16)(object->unk_88.u - 0x20)) - object->unk_88.s;
-                if ((*(s16 *)((u8 *)entity + (0x92))) > ground_delta) {
-                    (*(s16 *)((u8 *)entity + (0x92))) = ground_delta;
-                    (*((u8 *)entity + (0x9D))) = 0;
-                    ((TrailMotion *)motion_arg)->unk_14 = 0;
-                    object->unk_1C |= 0x08000000;
+                    motion_arg->x.unsigned_parts.integer, motion_arg->y.unsigned_parts.integer,
+                    (s16)(((u16)object->ground_height) - 0x20)) - object->ground_height;
+                if (entity->unk_90.parts.high.s > ground_delta) {
+                    entity->unk_90.parts.high.s = ground_delta;
+                    entity->unk_9D.u = 0;
+                    motion_arg->velocity_z = 0;
+                    object->flags1C |= 0x08000000;
                 }
             }
         }
     } else {
         if (sprite_flags & 0x800) {
-            ((S_80170A70_1 *)sprite_arg)->unk_14 = sprite_flags & 0x8FFF;
+            sprite_arg->flags = sprite_flags & 0x8FFF;
         } else {
-            ((S_80170A70_1 *)sprite_arg)->unk_14 = sprite_flags | 0x7000;
+            sprite_arg->flags = sprite_flags | 0x7000;
         }
-        object->unk_1C &= 0xF7FFFFFF;
+        object->flags1C &= 0xF7FFFFFF;
 
-        if (!(object->unk_1C & 0x40000)) {
-            (*(s16 *)((u8 *)entity + (0xA0))) = 0;
-            (*(s16 *)((u8 *)entity + (0x92))) = (u16)(*(s16 *)((u8 *)entity + (0x92))) - bob_offset;
+        if (!(object->flags1C & 0x40000)) {
+            entity->unk_A0.parts.low = 0;
+            entity->unk_90.parts.high.s = (u16)entity->unk_90.parts.high.s - bob_offset;
             bob_offset = 0;
-            if (!((*(u16 *)((u8 *)entity + (0x98))) & 8)) {
+            if (!(entity->action_state_flags & 8)) {
 
                 ground_delta = (s16)sample_terrain_surface_height(
-                    ((TrailMotion *)motion_arg)->x.unk_02.unk_02, ((TrailMotion *)motion_arg)->y.unk_06.unk_06,
-                    (s16)(object->unk_88.u - 0x20)) - object->unk_88.s;
-                if ((*(s16 *)((u8 *)entity + (0x92))) > ground_delta) {
-                    (*(s16 *)((u8 *)entity + (0x92))) = ground_delta;
-                    (*((u8 *)entity + (0x9D))) = 0;
-                    ((TrailMotion *)motion_arg)->unk_14 = 0;
-                    object->unk_1C |= 0x08000000;
+                    motion_arg->x.unsigned_parts.integer, motion_arg->y.unsigned_parts.integer,
+                    (s16)(((u16)object->ground_height) - 0x20)) - object->ground_height;
+                if (entity->unk_90.parts.high.s > ground_delta) {
+                    entity->unk_90.parts.high.s = ground_delta;
+                    entity->unk_9D.u = 0;
+                    motion_arg->velocity_z = 0;
+                    object->flags1C |= 0x08000000;
                 }
             }
         } else {
-            if (!(((S_80170A70_1 *)sprite_arg)->unk_14 & 0x40)) {
+            if (!(sprite_arg->flags & 0x40)) {
                 {
                     s32 bob_wave = rsin(
                         ((*(s16 *)((u8 *)entity + (0xA0))) << 12) / 40);
-                    if ((*((u8 *)entity + (0x9A))) == 0x12) {
+                    if (entity->action_id.u == 0x12) {
                         bob_offset = bob_wave >> 10;
                     } else {
                         bob_offset = bob_wave >> 9;
                     }
                 }
-                (*(s16 *)((u8 *)entity + (0xA0))) = ((*(s16 *)((u8 *)entity + (0xA0))) + 1) % 40;
+                entity->unk_A0.parts.low = ((*(s16 *)((u8 *)entity + (0xA0))) + 1) % 40;
             }
 
-            if (!((*(u16 *)((u8 *)entity + (0x98))) & 8)) {
+            if (!(entity->action_state_flags & 8)) {
                 ground_height = (s16)(sample_terrain_surface_height(
-                    ((TrailMotion *)motion_arg)->x.unk_02.unk_02, ((TrailMotion *)motion_arg)->y.unk_06.unk_06,
-                    (s16)(object->unk_88.u - 0x20)) -
-                    object->unk_88.u);
-                if ((*(s16 *)((u8 *)entity + (0x92))) > ground_height - 0x30) {
-                    (*(s16 *)((u8 *)entity + (0x92))) =
-                        (u16)(*(s16 *)((u8 *)entity + (0x92))) - 8;
-                } else if (ground_height - 0x3A > (*(s16 *)((u8 *)entity + (0x92)))) {
-                    (*(s16 *)((u8 *)entity + (0x92))) =
-                        (u16)(*(s16 *)((u8 *)entity + (0x92))) + 8;
+                    motion_arg->x.unsigned_parts.integer, motion_arg->y.unsigned_parts.integer,
+                    (s16)(((u16)object->ground_height) - 0x20)) -
+                    ((u16)object->ground_height));
+                if (entity->unk_90.parts.high.s > ground_height - 0x30) {
+                    entity->unk_90.parts.high.s =
+                        (u16)entity->unk_90.parts.high.s - 8;
+                } else if (ground_height - 0x3A > entity->unk_90.parts.high.s) {
+                    entity->unk_90.parts.high.s =
+                        (u16)entity->unk_90.parts.high.s + 8;
                 }
             }
         }
 
-        (*(s16 *)((u8 *)entity + (0xA0))) = 0;
+        entity->unk_A0.parts.low = 0;
     }
 
-    if (object->unk_1C & 0x40000000) {
-        object->unk_1C &= 0xBFFFFFFF;
+    if (object->flags1C & 0x40000000) {
+        object->flags1C &= 0xBFFFFFFF;
         ground_height = sample_terrain_surface_height(
-            (((S_80170A70_1 *)sprite_arg)->unk_24 << 6) | 0x20,
-            (((S_80170A70_1 *)sprite_arg)->unk_25 << 6) | 0x20,
-            (s16)(object->unk_88.u - 0x20));
+            (sprite_arg->tile_x << 6) | 0x20,
+            (sprite_arg->tile_y << 6) | 0x20,
+            (s16)(((u16)object->ground_height) - 0x20));
         if (ground_height < 0x200) {
-            (*(s16 *)((u8 *)entity + (0x92))) =
-                (u16)(*(s16 *)((u8 *)entity + (0x92))) +
-                (object->unk_88.u - ground_height);
-            object->unk_88.u = ground_height;
+            entity->unk_90.parts.high.s =
+                (u16)entity->unk_90.parts.high.s +
+                (((u16)object->ground_height) - ground_height);
+            object->ground_height = ground_height;
         }
     }
 
-    ((TrailMotion *)motion_arg)->z =
-        object->unk_88.u + (u16)(*(s16 *)((u8 *)entity + (0x92))) + bob_offset;
-    ((S_80170A70_1 *)sprite_arg)->unk_14 |= 0x40;
+    motion_arg->z.w.i =
+        ((u16)object->ground_height) + (u16)entity->unk_90.parts.high.s + bob_offset;
+    sprite_arg->flags |= 0x40;
 }
 
 #include "dungeon/monster/zu.h"
@@ -363,16 +344,6 @@ void update_bank_actor_movement(void *entity, void *motion_arg, void *sprite_arg
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 
-typedef struct S_80171138_0 {
-    u8 pad_00[0x8C];
-    s32 unk_8C;
-    u8 pad_90[0x8];
-    u16 unk_98;
-    u8 unk_9A;
-    u8 unk_9B;
-    u8 pad_9C[0x4];
-    s16 unk_A0;
-} S_80171138_0;   /* arg0 in update_bank_actor_state */
 
    /* arg3 in update_bank_actor_state */
 
@@ -446,7 +417,7 @@ void update_bank_actor_state(ActorRecord *actor, ObjectPosition *context, Sprite
             sprite->frameTable = zu_default_frames;
             select_sprite_entry(sprite,
                 zu_default_frames[((g_game_work.view.camera_rotation.parts.viewAngle + stats->facing + 0x100) >> 9) & 7],
-                ((S_80171138_0 *)actor)->unk_A0);
+                ((s16)actor->unk_A0.parts.low));
         }
 
         stats->flags1C |= 0x40000;
@@ -580,16 +551,6 @@ void update_bank_actor_state(ActorRecord *actor, ObjectPosition *context, Sprite
 #include "shared/actor_status.h"
 #include "shared/sprite_frame_state.h"
 
-typedef struct S_80171670_0 {
-    u8 pad_00[0x1C];
-    union { s32 s; u32 u; } unk_1C;   /* accessed as both */
-    u8 pad_20[0xA];
-    s16 unk_2A;
-    u8 pad_2C[0x45];
-    union { s8 s; u8 u; } unk_71;   /* accessed as both */
-    u8 pad_72[0x18];
-    union { s16 s; u16 u; } unk_8A;   /* accessed as both */
-} S_80171670_0;   /* arg3 in advance_bank_actor_path */
 
    /* arg2 in advance_bank_actor_path */
 
@@ -606,7 +567,7 @@ void advance_bank_actor_path(ActorRecord *body, ObjectPosition *position, Sprite
     s32 new_y;
     s32 cell_mask;
 
-    if (((S_80171670_0 *)actor)->unk_71.s <= 0) {
+    if (((s8)actor->movement_queue_state) <= 0) {
         return;
     }
     if (actor->movement_queue_state <= actor->unk_8A) {
@@ -635,7 +596,7 @@ void advance_bank_actor_path(ActorRecord *body, ObjectPosition *position, Sprite
         ((ActorStatusBytesView *)((u8 *)actor + actor->unk_8A))->path_x;
     entity_view->tile_y =
         ((ActorStatusBytesView *)((u8 *)actor + actor->unk_8A))->path_y;
-    ((S_80171670_0 *)actor)->unk_8A.u++;
+    actor->unk_8A++;
 
     new_x = entity_view->tile_x;
     new_y = entity_view->tile_y;
@@ -648,7 +609,7 @@ void advance_bank_actor_path(ActorRecord *body, ObjectPosition *position, Sprite
     actor->facing = (s16)get_rounded_facing_and_rounding_flag(
         old_x, old_y, entity_view->tile_x, entity_view->tile_y,
         (u8 *)body + 0x98);
-    ((S_80171670_0 *)actor)->unk_1C.u |= 0x40000000;
+    actor->flags1C |= 0x40000000;
     body->action_id.u = 0xF;
     body->unk_8C.word = 0;
 
@@ -1112,16 +1073,6 @@ void select_bank_actor_callback(ActorRecord *state, ObjectPosition *action, Spri
 #define NULL 0
 #endif
 
-typedef struct S_80172494_0 {
-    u8 pad_00[0x1C];
-    s32 unk_1C;
-    u8 pad_20[0xA];
-    union { u16 s; s16 u; } unk_2A;   /* accessed as both */
-    u8 pad_2C[0x1A];
-    u16 unk_46;
-    u8 pad_48[0x25];
-    s8 unk_6D;
-} S_80172494_0;   /* arg3_reg in update_bank_staged_movement */
 
 typedef struct S_80172494_4 {
     u8 pad_00[0xC];
@@ -1194,7 +1145,7 @@ void update_bank_staged_movement(ActorRecord *body, ObjectPosition *motion, Spri
     u8 *direction_x_table;
     u8 *direction_y_table;
 
-    index = ((S_80172494_0 *)actor)->unk_2A.s >> 8;
+    index = ((u16)actor->facing) >> 8;
     setup_value = index & 0xE;
     direction_x_table = (u8 *)((s8 *)dir_step_x);
     direction_x_table += setup_value;
@@ -1328,7 +1279,7 @@ void update_bank_staged_movement(ActorRecord *body, ObjectPosition *motion, Spri
                     random_value = rand();
                     setup_value = 0xC00000;
                     particle_motion->unk_14 = random_value;
-                    operand = ((S_80172494_0 *)actor)->unk_2A.s;
+                    operand = ((u16)actor->facing);
                     particle_motion->unk_48 = 5;
                     particle_motion->unk_18 = operand;
                     operand_4 = particle_sprite->flags;
@@ -1391,19 +1342,6 @@ extern void *scan_actor_along_heading(ActorRecord *source, s32 start_x, s32 star
 extern void set_record_integer_tile_center(void *, u8, u8);
 extern void create_source_positioned_object(ObjectPosition *source_pos, s16 initial_value);
 
-typedef struct S_80172A40_0 {
-    u8 pad_00[0x8C];
-    void * unk_8C;
-    u8 pad_90[0x2];
-    s16 unk_92;
-    u8 pad_94[0x2];
-    union { u16 u; s16 s; } unk_96;   /* accessed as both */
-    u16 unk_98;
-    u8 pad_9A[0x1];
-    u8 unk_9B;
-    u8 pad_9C[0x4];
-    s16 unk_A0;
-} S_80172A40_0;   /* arg0 in update_bank_actor_targeted_action */
 
    /* the 0x14 bytes before target in update_bank_actor_targeted_action, addressed as target[-1] */
 
@@ -1574,7 +1512,7 @@ void update_bank_actor_targeted_action(ActorRecord *owner_input, ObjectPosition 
             select_sprite_entry(actor_input,
                           zu_default_frames[((g_game_work.view.camera_rotation.parts.viewAngle +
                                        object->facing + 0x100) >> 9) & 7],
-                          ((S_80172A40_0 *)owner_input)->unk_A0);
+                          ((s16)owner_input->unk_A0.parts.low));
         }
 
         if ((g_dungeon_status.active_actor) != 0) {
@@ -2506,7 +2444,7 @@ typedef struct {
 } Record10;
 
 extern s32 resolve_record_orientation_or_fallback();
-extern u32 advance_eligible_actor_or_perform_action(EntityRec *, s16, s16);
+extern u32 advance_eligible_actor_or_perform_action(ActorRecord *, s16, s16);
 
 /* Retail stores each five-halfword record in a word-aligned 12-byte slot.
  * Keep the local copies at ten bytes; the storage wrapper owns the two zero
@@ -2521,7 +2459,7 @@ extern u8 D_80174ACC[];
 extern u8 D_80174B14[];
 
 /* Updates a timed effect sequence and restores the actor animation when it finishes. */
-void update_bank_timed_effect(void *state_input, void *motion_input, void *animation_input, void *actor_input) {
+void update_bank_timed_effect(ActorRecord *state_input, ObjectPosition *motion_input, SpriteFrameState *animation_input, ActorRecord *actor_input) {
     void *motion = motion_input;
     u16 spawn_offset[3];
     Record10 effect_values_1c = D_80170868.values;
@@ -2544,7 +2482,7 @@ void update_bank_timed_effect(void *state_input, void *motion_input, void *anima
         if (animation_flags & 0x8000) {
             effect_data = S32_AT(actor_input, 0x60);
             if (effect_data != 0) {
-                advance_eligible_actor_or_perform_action((EntityRec *)effect_data, 0x10, 0x10);
+                advance_eligible_actor_or_perform_action((ActorRecord *)effect_data, 0x10, 0x10);
                 U8_AT(state_input, 0x9B) = 2;
             } else {
                 U8_AT(state_input, 0x9B) = 2;
@@ -2599,7 +2537,7 @@ void update_bank_timed_effect(void *state_input, void *motion_input, void *anima
         if (S16_AT(state_input, 0x96) == 0x14) {
             effect_data = S32_AT(actor_input, 0x60);
             if (effect_data != 0) {
-                advance_eligible_actor_or_perform_action((EntityRec *)effect_data, 0x10, 0x10);
+                advance_eligible_actor_or_perform_action((ActorRecord *)effect_data, 0x10, 0x10);
             }
         }
 

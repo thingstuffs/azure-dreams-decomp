@@ -9,7 +9,7 @@
 #include "shared/sprite_frame_state.h"
 
 /* Fade the primitive color by one step and flag completion when the counter reaches zero. */
-void update_stepped_rgb_flash(void *fade_state_arg, void *unused, T_80170D40_S_80170D40_1 *primitive)
+void update_stepped_rgb_flash(void *fade_state_arg, ObjectPosition *unused, T_80170D40_S_80170D40_1 *primitive)
 {
     T_80170D40_S_80170D40_0 *fade_state = fade_state_arg;
     u16 steps_left;
@@ -65,23 +65,23 @@ void update_saved_rgb_fade(T_80170E2C_FadeState *fade, s32 unused, T_80170E2C_Fa
 }
 
 /* Update the effect transform, fade its color, and mark expiration when its timer runs out. */
-void update_growing_rotating_flash(GrowingRotatingFlashBody *effect, s32 unused, void *visual) {
+void update_growing_rotating_flash(GrowingRotatingFlashBody *effect, s32 unused, SpriteFrameState *visual) {
     u16 transform_value;
     u16 ticks_left;
     s8 intensity;
 
-    transform_value = *(u16 *)((u8 *)visual + 0x1E) + 0x78;
-    *(u16 *)((u8 *)visual + 0x1E) = transform_value;
-    *(u16 *)((u8 *)visual + 0x1C) = transform_value;
-    *(u16 *)((u8 *)visual + 0x1A) += 0x2BC;
+    transform_value = visual->scale_y + 0x78;
+    visual->scale_y = transform_value;
+    visual->scale_x = transform_value;
+    visual->angle_z += 0x2BC;
 
     ticks_left = effect->lifetime - 1;
     effect->lifetime = ticks_left;
     if ((s16)ticks_left < 12) {
         intensity = ((s16)ticks_left << 7) / 12;
-        *(s8 *)((u8 *)visual + 0xE) = intensity;
-        *(s8 *)((u8 *)visual + 0xD) = intensity;
-        *(s8 *)((u8 *)visual + 0xC) = intensity;
+        visual->color.c.b = intensity;
+        visual->color.c.g = intensity;
+        visual->color.c.r = intensity;
     }
 
     if ((s16)effect->lifetime <= 0) {

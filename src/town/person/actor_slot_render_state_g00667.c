@@ -4,19 +4,19 @@
 #include "shared/sprite_frame_state.h"
 
 /* Registers the object in scene slot 53 using the four local setup tables. */
-void initialize_scene_slot_53(TownObjectRecord *object, void *unused, struct SpriteFrameState *context)
+void initialize_scene_slot_53(TownObjectRecord *object, ObjectPosition *unused, struct SpriteFrameState *context)
 {
     initialize_object_and_register_slot(object, 53, D_800D5E04, D_800D5E08, D_800D5DD4, D_800D5DDC);
 }
 
 /* Registers the object in scene slot 55 using the four local setup tables. */
-void initialize_scene_slot_55(TownObjectRecord *object, void *unused, struct SpriteFrameState *context)
+void initialize_scene_slot_55(TownObjectRecord *object, ObjectPosition *unused, struct SpriteFrameState *context)
 {
     initialize_object_and_register_slot(object, 55, D_800D5E04, D_800D5E08, D_800D5DD4, D_800D5DDC);
 }
 
 /* Registers the object in scene slot 49 using the four local setup tables. */
-void initialize_scene_slot_49(TownObjectRecord *object, void *unused, struct SpriteFrameState *context)
+void initialize_scene_slot_49(TownObjectRecord *object, ObjectPosition *unused, struct SpriteFrameState *context)
 {
     initialize_object_and_register_slot(object, 49, D_800D5E04, D_800D5E08, D_800D5DD4, D_800D5DDC);
 }
@@ -25,7 +25,7 @@ void initialize_scene_slot_49(TownObjectRecord *object, void *unused, struct Spr
  * Configures scene slot 28 with the four local tables, stores 0x240 in render halfword 9, and
  * clears flag 0x100 in halfword 10.
  */
-void configure_actor_slot_28_and_render_state(TownObjectRecord *context, void *unused, struct SpriteFrameState *stateWords) {
+void configure_actor_slot_28_and_render_state(TownObjectRecord *context, ObjectPosition *unused, struct SpriteFrameState *stateWords) {
     func_800C3050(context, 0x1C, (s32)D_800D5E04, (s32)D_800D5E08, (s32)D_800D5DD4,
                   (s32)D_800D5DDC);
     stateWords->clut = 0x240;

@@ -10,9 +10,9 @@
    /* arg1 in initialize_object_header_and_state */
 
 /* Initializes an object's header and state, including its associated state value. */
-void initialize_object_header_and_state(void *body, void *placement, struct SpriteFrameState *unused_sprite) {
+void initialize_object_header_and_state(void *body, ObjectPosition *placement, struct SpriteFrameState *unused_sprite) {
     TownMapPhaseObject *objectState = body;
-    DelayMotionZ *associatedState = placement;
+    ObjectPosition *associatedState = placement;
 
     ObjectNodeHeader *objectHeader;
 
@@ -23,5 +23,5 @@ void initialize_object_header_and_state(void *body, void *placement, struct Spri
     objectState->phase.s = 0;
     objectState->ticks.s = 0;
     objectState->unk_66 = 0;
-    associatedState->unk_08 = 0xFFA00000;
+    associatedState->z.v = 0xFFA00000;
 }

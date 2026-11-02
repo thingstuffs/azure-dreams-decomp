@@ -28,10 +28,6 @@ typedef struct S_80174A28_0 {
 } S_80174A28_0;   /* arg0 in advance_directional_effect_action */
 
 
-typedef struct S_80174A28_3 {
-    u8 pad_00[0x2A];
-    union { u16 u; s16 s; } unk_2A;   /* accessed as both */
-} S_80174A28_3;   /* arg3 in advance_directional_effect_action */
 
 /* Advances a timed directional action, triggers its effects, and resets the actor state. */
 void advance_directional_effect_action(ActorRecord *action, ObjectPosition *motion, SpriteFrameState *sprite, ActorRecord *actor) {
@@ -64,7 +60,7 @@ void advance_directional_effect_action(ActorRecord *action, ObjectPosition *moti
             sprite->flags = flags | 0x0800;
             height = motion->z.w.i;
             tile_x = sprite->tile_x;
-            offset = &offsets.entries[(((S_80174A28_3 *)actor)->unk_2A.u >> 9) & 7];
+            offset = &offsets.entries[(((u16)actor->facing) >> 9) & 7];
             x_offset = offset->x;
             x_sum = tile_x + x_offset;
             y_offset = offset->y.s;
@@ -87,7 +83,7 @@ void advance_directional_effect_action(ActorRecord *action, ObjectPosition *moti
             s32 x_sum;
             s32 y_offset;
 
-            angle = ((S_80174A28_3 *)actor)->unk_2A.u;
+            angle = ((u16)actor->facing);
             offset = offsets.entries + ((angle >> 9) & 7);
             height = motion->z.w.i;
             tile_x = sprite->tile_x;

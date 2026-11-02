@@ -34,13 +34,13 @@ s32 select_and_initialize_entry_at_position(s16 x, s16 y, s16 z, s32 type_id, s3
     entry->field3 = 0xC0;
     entry->field0 = entry_type;
     entry->field2 = 0;
-    dungeon_floor_object_positions[slot].field6 = (s8) x;
-    dungeon_floor_object_positions[slot].field7 = (s8) y;
+    dungeon_floor_object_positions[slot].field6.s = (s8) x;
+    dungeon_floor_object_positions[slot].field7.s = (s8) y;
     cycle_map_cell_flags(x, y, TILE_HAS_OBJECT);
     dungeon_floor_object_positions[slot].field10 = z;
     dungeon_floor_object_positions[slot].field14 = 0;
     dungeon_floor_object_positions[slot].fieldC = entry_value;
-    dungeon_floor_object_positions[slot].field8 = *(s32 *)(((s32) (entry_type << 0x10) >> 0xE) + (u8 *)floor_object_sprite_sources);
+    dungeon_floor_object_positions[slot].field8.s = *(s32 *)(((s32) (entry_type << 0x10) >> 0xE) + (u8 *)floor_object_sprite_sources);
     return slot;
 }
 

@@ -16,7 +16,7 @@ enum DeploymentOverlayState {
 };
 
 /* Updates an object's scale and brightness through its transition modes. */
-void update_familiar_deployment_overlay(void *object_data, void *unused, void *state_data) {
+void update_familiar_deployment_overlay(void *object_data, ObjectPosition *unused, void *state_data) {
     u8 *obj = object_data;
     u8 *state = state_data;
     s16 mode;

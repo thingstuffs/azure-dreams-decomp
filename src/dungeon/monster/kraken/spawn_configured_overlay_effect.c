@@ -44,7 +44,7 @@ void *spawn_configured_overlay_effect(s16 spawn_flags, s16 attr_a, s16 attr_b, s
     if (obj != 0) {
         work = (u8 *)obj + 0x20;
         obj->update_callback = func_8014CB64;
-        ((S_8014C86C_1 *)work)->unk_13 = MONSTER_KRAKEN;
+        ((ActorRecord *)work)->species = MONSTER_KRAKEN;
         register_node(obj, project_sprite_chain);
         actor = work;
 
@@ -57,21 +57,21 @@ void *spawn_configured_overlay_effect(s16 spawn_flags, s16 attr_a, s16 attr_b, s
         part_b->tile_y = held_b;
 
         if (kind == 1) {
-            left = ((S_8014C86C_1 *)work)->unk_14 | (ACTOR_CLASS_ENABLED | ACTOR_PARTY_MEMBER);
-            right = ((S_8014C86C_1 *)work)->unk_1C | (ACTOR_PLAYER_SIDE | ACTOR_PARTY_MEMBER);
-            ((S_8014C86C_1 *)work)->unk_14 = left;
-            ((S_8014C86C_1 *)work)->unk_1C = right;
+            left = ((ActorRecord *)work)->flags14 | (ACTOR_CLASS_ENABLED | ACTOR_PARTY_MEMBER);
+            right = ((ActorRecord *)work)->flags1C | (ACTOR_PLAYER_SIDE | ACTOR_PARTY_MEMBER);
+            ((ActorRecord *)work)->flags14 = left;
+            ((ActorRecord *)work)->flags1C = right;
         } else if (kind >= 2) {
-            left = ((S_8014C86C_1 *)work)->unk_14 | ACTOR_CLASS_ENABLED;
-            right = ((S_8014C86C_1 *)work)->unk_1C | ACTOR_PLAYER_SIDE;
-            ((S_8014C86C_1 *)work)->unk_14 = left;
-            ((S_8014C86C_1 *)work)->unk_1C = right;
+            left = ((ActorRecord *)work)->flags14 | ACTOR_CLASS_ENABLED;
+            right = ((ActorRecord *)work)->flags1C | ACTOR_PLAYER_SIDE;
+            ((ActorRecord *)work)->flags14 = left;
+            ((ActorRecord *)work)->flags1C = right;
         } else {
             if (((spawn_flags & ~3) << 16) == 0) {
-                if (!(((S_8014C86C_1 *)work)->unk_14 & ACTOR_RESIST_SLEEP)) {
+                if (!(((ActorRecord *)work)->flags14 & ACTOR_RESIST_SLEEP)) {
                     left = generate_random_value();
                     if (left & 1) {
-                        ((S_8014C86C_1 *)work)->unk_1C |= ACTOR_ASLEEP;
+                        ((ActorRecord *)work)->flags1C |= ACTOR_ASLEEP;
                         right = generate_random_value();
                         set_or_clear_actor_status_slot(work, STATUS_SLEEP, (right & 0x3F) | 0x20);
                         part_b->frameTable = D_801501CC;
@@ -85,7 +85,7 @@ void *spawn_configured_overlay_effect(s16 spawn_flags, s16 attr_a, s16 attr_b, s
         actor->unk_9A = 0xFF;
         actor->unk_9C = -1;
         actor->unk_8C = func_8014D1A4;
-        ((S_8014C86C_1 *)work)->unk_1C |= 0x00040000;
+        ((ActorRecord *)work)->flags1C |= 0x00040000;
         actor->unk_92 = -16;
         flags = actor->unk_98;
         actor->unk_A8 = 0;
@@ -96,7 +96,7 @@ void *spawn_configured_overlay_effect(s16 spawn_flags, s16 attr_a, s16 attr_b, s
         count = 0;
         do {
             child_obj = allocate_list_node(0x112, &scene_object_list_anchor.next);
-            ((S_8014C86C_5 *)current)->unk_A4 = child_obj;
+            ((ActorRecord *)current)->unk_A4.address = child_obj;
             if (child_obj != 0) {
                 S_8014C86C_6 *child;
 

@@ -1,3 +1,4 @@
+#include "shared/object_node.h"
 #include "shared/audio_commands.h"
 #include "common.h"
 #include "frontend/libcard/message.h"
@@ -21,17 +22,17 @@ void *card_boot_save_selected_slot(Object_800128C8 *context) {
     if (card_boot_write_save_via_temporary_path(context->unk_2C, 0x80010000) == 0) {
         *(u8 **)((s8 *)context + 0x34) = (u8 *)write_text_and_advance_selection;
         card_boot_show_overwrite_failure_notice((u8 *)context - 0x20);
-        *(u8 **)((s8 *)context - 0x10) = (u8 *)&D_800261C0;
+        ((ObjectNodeHeader *)context - 1)->update_callback = (u8 *)&D_800261C0;
     } else {
         card_boot_set_slot_details_selection(context->slot_details, context->unk_2C, 3);
         card_boot_refresh_five_slot_objects(context);
         card_boot_set_slot_selection_marker(*(ObjectNodeHeader **)((s8 *)context + context->unk_2C * 4 + 0xC), 1);
         if (D_80010208[0] != 0) {
             configure_shared_fade_primitive();
-            *(u8 **)((s8 *)context - 0x10) = (u8 *)&inventory_copy_and_sign_extend_record_fields;
+            ((ObjectNodeHeader *)context - 1)->update_callback = (u8 *)&inventory_copy_and_sign_extend_record_fields;
         } else {
             SD_Call(AUDIO_MENU_CONFIRM);
-            *(u8 **)((s8 *)context - 0x10) = (u8 *)write_text_and_advance_selection;
+            ((ObjectNodeHeader *)context - 1)->update_callback = (u8 *)write_text_and_advance_selection;
         }
     }
     result = card_boot_recheck_selected_channel();

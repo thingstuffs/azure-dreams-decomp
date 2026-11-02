@@ -318,33 +318,33 @@ void advance_actor_queued_path(ActorRecord *body, s32 action_id, SpriteFrameStat
     s32 step_count;
     ActorStatusBytesView *step;
 
-    if ((((S_800D904C_0 *)state)->unk_71.s > 0) &&
-        ((s32)((S_800D904C_0 *)state)->unk_71.u > ((S_800D904C_0 *)state)->unk_8A)) {
+    if ((((s8)((ActorRecord *)state)->movement_queue_state) > 0) &&
+        ((s32)((ActorRecord *)state)->movement_queue_state > ((ActorRecord *)state)->unk_8A)) {
         anim_table = sprite->frameTable;
         if (anim_table != actor_movement_frames) {
             void *anim_slot;
 
             sprite->frameTable = actor_movement_frames;
             anim_slot = actor_movement_frames +
-                (((g_game_work.view.camera_rotation.parts.viewAngle + ((S_800D904C_0 *)state)->unk_2A + 0x100) >> 7) & 0x1C);
+                (((g_game_work.view.camera_rotation.parts.viewAngle + ((ActorRecord *)state)->facing + 0x100) >> 7) & 0x1C);
             select_record_entry_and_value(sprite, *(void **)anim_slot, 0);
         } else if (sprite->flags & 0x6000) {
             select_record_entry_and_value(
                 sprite,
                 *(void **)(actor_movement_frames +
-                    (((g_game_work.view.camera_rotation.parts.viewAngle + ((S_800D904C_0 *)state)->unk_2A + 0x100) >> 7) & 0x1C)),
+                    (((g_game_work.view.camera_rotation.parts.viewAngle + ((ActorRecord *)state)->facing + 0x100) >> 7) & 0x1C)),
                 0);
         }
 
         old_x = sprite->tile_x;
         old_y = sprite->tile_y;
         tile_mask = 0x3000;
-        if (((S_800D904C_0 *)state)->unk_1C & 0x2000) {
+        if (((ActorRecord *)state)->flags1C & 0x2000) {
             tile_mask = 0x300;
         }
         update_map_cell_flags_with_item_limit(old_x, old_y, tile_mask);
 
-        step = (ActorStatusBytesView *)((u8 *)state + ((S_800D904C_0 *)state)->unk_8A);
+        step = (ActorStatusBytesView *)((u8 *)state + ((ActorRecord *)state)->unk_8A);
         direction = (s16)get_rounded_facing_and_rounding_flag(old_x, old_y,
                                   step->path_x,
                                   step->path_y,
@@ -352,22 +352,22 @@ void advance_actor_queued_path(ActorRecord *body, s32 action_id, SpriteFrameStat
         move_result = (s16)check_movement_clearance_and_height(direction, sprite, state, 0x20);
 
         sprite->tile_x =
-            ((ActorStatusBytesView *)((u8 *)state + ((S_800D904C_0 *)state)->unk_8A))->path_x;
+            ((ActorStatusBytesView *)((u8 *)state + ((ActorRecord *)state)->unk_8A))->path_x;
         tile_mask = 0x3000;
         sprite->tile_y =
-            ((ActorStatusBytesView *)((u8 *)state + ((S_800D904C_0 *)state)->unk_8A))->path_y;
-        ((S_800D904C_0 *)state)->unk_8A = (u16)((S_800D904C_0 *)state)->unk_8A + 1;
+            ((ActorStatusBytesView *)((u8 *)state + ((ActorRecord *)state)->unk_8A))->path_y;
+        ((ActorRecord *)state)->unk_8A = (u16)((ActorRecord *)state)->unk_8A + 1;
 
         {
             s32 new_x = sprite->tile_x;
             s32 new_y = sprite->tile_y;
-            if (((S_800D904C_0 *)state)->unk_1C & 0x2000) {
+            if (((ActorRecord *)state)->flags1C & 0x2000) {
                 tile_mask = 0x300;
             }
             cycle_map_cell_flags(new_x, new_y, tile_mask);
         }
 
-        ((S_800D904C_0 *)state)->unk_2A = direction;
+        ((ActorRecord *)state)->facing = direction;
         if ((move_result == 3) &&
             ((g_dungeon_status.flags & 0x80) || (sprite->flags & 0x8000))) {
             body->action_id.u = 0xF;
@@ -382,7 +382,7 @@ void advance_actor_queued_path(ActorRecord *body, s32 action_id, SpriteFrameStat
         }
 
         body->action_timer.s = 8;
-        step_count = ((S_800D904C_0 *)state)->unk_71.u;
+        step_count = ((ActorRecord *)state)->movement_queue_state;
         if (step_count > 0) {
             body->action_timer.s = 8 / step_count;
         }

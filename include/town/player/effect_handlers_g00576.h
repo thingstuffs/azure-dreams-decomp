@@ -1,5 +1,7 @@
 #ifndef TOWN_PLAYER_EFFECT_HANDLERS_G00576_H
 #define TOWN_PLAYER_EFFECT_HANDLERS_G00576_H
+
+#include "town/player/record.h"
 /* Initialize player effect handlers from prior state (G00576). */
 /* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - CL:town/func_800A7DDC. */
 
@@ -18,7 +20,7 @@ typedef struct S_800A553C_0 {
 void unlink_node_if_registered(void *block_data);
 /* extern */
 extern u8 D_800A5638[];
-void update_town_movement_and_actions(u8 *state, EntityRec *table, void *action_context);
+void update_town_movement_and_actions(TownPlayerRecord *state, EntityRec *table, void *action_context);
 extern s32 overlay_height_in_range;
 extern M2C_UNK D_800D0C50;
 extern s32 scene_object_payload_alias;

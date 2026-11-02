@@ -5,6 +5,7 @@
 #include "common.h"
 #include "records/Rec_D_80081FDC.h"
 #include "records/Rec_func_80036210_arg0.h"
+#include "shared/entity.h"
 
 struct Container;
 struct CursorState;
@@ -83,7 +84,7 @@ void func_80035484(void *object_addr, struct S_func_80035484_4 *model, struct S_
 void create_window_overlay_object(void *node_addr, void *display, u8 *image, s32 *state_ref, s32 option, u8 *owner);
 
 /* entry_copy_window_offset_rectangle.c */
-void select_menu_initializer_from_message_handler(void *object);
+void select_menu_initializer_from_message_handler(Rec_func_80036210_arg0 *object);
 
 /* entry_runtime_reset_state_on_trigger_bits.c */
 void create_window_cursor_and_install_reset(Rec_func_80036210_arg0 *object);
@@ -178,7 +179,7 @@ void fade_and_shrink_window_on_value_change(struct Func80035C80Object *object);
 s32 unlink_cursor_when_finished(struct Func37534State *state);
 
 /* update_cursor_blink_colors.c */
-void update_cursor_blink_colors(void *state, s32 mode, void *output);
+void update_cursor_blink_colors(void *state, ObjectPosition *position, void *output);
 
 /* update_cursor_callback.c */
 void update_cursor_callback(s32 unused_0, s32 unused_1, s32 value);

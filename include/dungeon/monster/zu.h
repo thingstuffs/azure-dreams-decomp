@@ -29,7 +29,7 @@ s32 begin_ready_actor_directional_action(ActorRecord *body, ObjectPosition *posi
 s32 get_rounded_facing_and_rounding_flag(s16 start_x, s16 start_y, s16 end_x, s16 end_y, u16 *flags);
 s32 register_node(struct ObjectNodeHeader *entry, void *registration_id);
 void *spawn_zu_actor(s16 flags, s16 kind_id, s16 variant, s16 spawn_value);
-void update_bank_actor_movement(void *entity, void *motion_arg, void *sprite_arg);
+void update_bank_actor_movement(ActorRecord *entity, ObjectPosition *motion_arg, SpriteFrameState *sprite_arg);
 void update_bank_actor_state(ActorRecord *actor, ObjectPosition *context, struct SpriteFrameState *sprite, ActorRecord *stats_in);
 void advance_bank_actor_path(ActorRecord *body, ObjectPosition *position, SpriteFrameState *sprite, ActorRecord *actor);
 void select_bank_actor_movement(ActorRecord *move_data, ObjectPosition *context, TileObject *position_data, ActorRecord *actor_data);
@@ -70,6 +70,6 @@ typedef struct BankEffectFadeBody {
 } BankEffectFadeBody;
 
 void start_bank_actor_hit_reaction(ActorRecord *work, ObjectPosition *part_a, SpriteFrameState *part_b, ActorRecord *actor);
-void update_bank_timed_effect(void *state_input, void *motion_input, void *animation_input, void *actor_input);
+void update_bank_timed_effect(ActorRecord *state_input, ObjectPosition *motion_input, SpriteFrameState *animation_input, ActorRecord *actor_input);
 void create_cylindrical_effect(struct CylindricalEffectWork *state);
 #endif

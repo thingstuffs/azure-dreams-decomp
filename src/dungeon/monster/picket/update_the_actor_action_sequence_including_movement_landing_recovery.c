@@ -136,7 +136,7 @@ void update_the_actor_action_sequence_including_movement_landing_recovery(ActorR
             if (use_owner) {
                 owner = primary_actor_record;
                 actor->target = owner;
-                move_result = ((ObjectNodeHeader *)((u8 *)owner - 0x20))->sprite;
+                move_result = ((ObjectNodeHeader *)owner - 1)->sprite;
                 actor->target_tile_x = ((S_80172C90_4 *)move_result)->unk_24;
                 actor->target_tile_y = ((S_80172C90_4 *)move_result)->unk_25;
             } else {
@@ -144,7 +144,7 @@ void update_the_actor_action_sequence_including_movement_landing_recovery(ActorR
                 if (item_action_definitions[dir_offset].kind == 2) {
                     owner = actor->target;
                     if (owner != 0) {
-                        move_result = ((ObjectNodeHeader *)((u8 *)owner - 0x20))->sprite;
+                        move_result = ((ObjectNodeHeader *)owner - 1)->sprite;
                         actor->target_tile_x = ((S_80172C90_4 *)move_result)->unk_24;
                         actor->target_tile_y = ((S_80172C90_4 *)move_result)->unk_25;
                     }

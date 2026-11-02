@@ -72,7 +72,7 @@ extern u8 held_item_record[];
 extern s32 create_indexed_floor_object();
 
 /* Move the effect toward its target, pulse its brightness, and handle expiration. */
-void update_held_item_attachment(void *effect, S_8008D470_4 *position, S_8008D470_3 *visual) {
+void update_held_item_attachment(void *effect, ObjectPosition *position, SpriteFrameState *visual) {
     GteShortVector offsets;
     s16 state;
     s32 expiry_mode;
@@ -98,32 +98,32 @@ void update_held_item_attachment(void *effect, S_8008D470_4 *position, S_8008D47
     case 1:
         source_sprite = ((S_8008D470_0 *)effect)->unk_90;
         if (resolve_record_orientation_or_fallback(source_sprite->source, source_sprite, &offsets, 0) != 0 &&((PlayerRecord *)dungeon_actor_ring_anchor)->unk_124 != 0) {
-            visual->unk_1C = 0x1000;
+            visual->scale_x = 0x1000;
             steps_left = ((S_8008D470_0 *)effect)->unk_A4.s - 1;
             ((S_8008D470_0 *)effect)->unk_A4.s = steps_left;
             if ((s16)steps_left > 0) {
-                current_x = position->unk_00.at00.v;
-                position->unk_00.at00.v = current_x +
+                current_x = position->x.v;
+                position->x.v = current_x +
                     (((S_8008D470_6 *)(((S_8008D470_0 *)effect)->unk_8C))->unk_00.at00.v +
                      (offsets.vx << 16) - current_x) / (s16)steps_left;
 
-                current_y = position->unk_04.at00.v;
-                position->unk_04.at00.v = current_y +
+                current_y = position->y.v;
+                position->y.v = current_y +
                     (((S_8008D470_6 *)(((S_8008D470_0 *)effect)->unk_8C))->unk_04.at00.v +
                      (offsets.vy << 16) - current_y) / ((S_8008D470_0 *)effect)->unk_A4.u;
 
-                current_z = position->unk_08.at00.v;
-                position->unk_08.at00.v = current_z +
+                current_z = position->z.v;
+                position->z.v = current_z +
                     (((S_8008D470_6 *)(((S_8008D470_0 *)effect)->unk_8C))->unk_08.at00.v +
                      (offsets.vz << 16) - (((S_8008D470_0 *)effect)->unk_A4.u << 21) - current_z) /
                     ((S_8008D470_0 *)effect)->unk_A4.u;
             } else {
                 ((S_8008D470_0 *)effect)->unk_A4.s = 0;
-                position->unk_00.at02.v = ((S_8008D470_6 *)(((S_8008D470_0 *)effect)->unk_8C))->unk_00.at02.v
+                position->x.unsigned_parts.integer = ((S_8008D470_6 *)(((S_8008D470_0 *)effect)->unk_8C))->unk_00.at02.v
                     + (u16)offsets.vx;
-                position->unk_04.at02.v = ((S_8008D470_6 *)(((S_8008D470_0 *)effect)->unk_8C))->unk_04.at02.v
+                position->y.unsigned_parts.integer = ((S_8008D470_6 *)(((S_8008D470_0 *)effect)->unk_8C))->unk_04.at02.v
                     + (u16)offsets.vy;
-                position->unk_08.at02.v = ((S_8008D470_6 *)(((S_8008D470_0 *)effect)->unk_8C))->unk_08.at02.v
+                position->z.unsigned_parts.integer = ((S_8008D470_6 *)(((S_8008D470_0 *)effect)->unk_8C))->unk_08.at02.v
                     + (u16)offsets.vz;
             }
             if (((S_8008D470_0 *)effect)->unk_AA == 0) {
@@ -133,7 +133,7 @@ void update_held_item_attachment(void *effect, S_8008D470_4 *position, S_8008D47
         } else {
             state = ((S_8008D470_0 *)effect)->unk_AA;
             if (state == 0) {
-                visual->unk_1C = 0;
+                visual->scale_x = 0;
             } else if (state == 1) {
                 if (((S_8008D470_0 *)effect)->unk_AE == 0) {
                     ((ObjectStatusPrefix16 *)effect)[-1].flags |= 0x8000;
@@ -145,11 +145,11 @@ void update_held_item_attachment(void *effect, S_8008D470_4 *position, S_8008D47
 
     if (((S_8008D470_0 *)effect)->unk_AE != 0) {
         brightness = (rsin(((S_8008D470_0 *)effect)->unk_B4.s << 8) >> 6) + 0x80;
-        intensity = visual->unk_0C;
+        intensity = visual->color.c.r;
         intensity += (brightness - intensity) >> 2;
-        visual->unk_0C = intensity;
-        visual->unk_0D = intensity;
-        visual->unk_0E = intensity;
+        visual->color.c.r = intensity;
+        visual->color.c.g = intensity;
+        visual->color.c.b = intensity;
     }
 
     ((S_8008D470_0 *)effect)->unk_B4.u++;

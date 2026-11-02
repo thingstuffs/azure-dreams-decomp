@@ -81,7 +81,7 @@ void update_item_use_action(ActorRecord *body, ObjectPosition *motion, SpriteFra
     s16 is_special;
     s32 next_state;
     s32 state;
-    void *target;
+    ObjectNodeHeader *target;
 
     is_special = 0;
     state = body->action_phase.u;
@@ -131,9 +131,9 @@ void update_item_use_action(ActorRecord *body, ObjectPosition *motion, SpriteFra
         if (*item_slot != 0) {
             body->action_state_flags &= 0xFF7F;
             if (is_special != 0) {
-                target = primary_actor_record;
+                target = (ObjectNodeHeader *)primary_actor_record;
                 actor->target = target;
-                state = (s32)(((ObjectNodeHeader *)((u8 *)target - 0x20))->sprite);
+                state = (s32)((target - 1)->sprite);
                 actor->target_tile_x = ((S_801731C8_2 *)((u8 *)state))->unk_24;
                 actor->target_tile_y = ((S_801731C8_2 *)((u8 *)state))->unk_25;
             } else {
@@ -143,7 +143,7 @@ void update_item_use_action(ActorRecord *body, ObjectPosition *motion, SpriteFra
                 if (((LocalItemInfo *)item_action_definitions)[item_id].kind == 2) {
                     target = actor->target;
                     if (target != 0) {
-                        state = (s32)(((ObjectNodeHeader *)((u8 *)target - 0x20))->sprite);
+                        state = (s32)((target - 1)->sprite);
                         actor->target_tile_x = ((S_801731C8_2 *)((u8 *)state))->unk_24;
                         actor->target_tile_y = ((S_801731C8_2 *)((u8 *)state))->unk_25;
                     }

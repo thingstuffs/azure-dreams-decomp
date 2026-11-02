@@ -1,3 +1,4 @@
+#include "shared/entity.h"
 #include "common.h"
 #include "shared/object_flags.h"
 
@@ -16,7 +17,7 @@ typedef struct {
 
 
 /* Decrement the countdown, adjust both state values, and flag completion or cancellation. */
-void advance_timed_action_counter(Obj0 *countdown, s32 unused, Obj2 *state)
+void advance_timed_action_counter(Obj0 *countdown, ObjectPosition *unused, Obj2 *state)
 {
     u16 next_value;
 

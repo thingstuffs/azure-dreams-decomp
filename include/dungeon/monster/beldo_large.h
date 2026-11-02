@@ -120,7 +120,7 @@ void start_actor_directional_action(Rec_func_800A9E70_arg0 *state, ObjectPositio
 /* Owner declarations appended by tools/headers (append-only; the lines above are hand-kept). */
 struct BeldoMoveState;
 void advance_actor_movement_step(struct BeldoMoveState *movement_in, ObjectPosition *action_ctx, SpriteFrameState *position, ActorRecord *actor);
-void emit_multi_form_ring_geometry(MultiFormSegmentRingBody *animation, s32 *origin, void *color);
+void emit_multi_form_ring_geometry(MultiFormSegmentRingBody *animation, s32 *origin, SpriteFrameState *color);
 void initialize_action_offset_and_notify(ActionOffsetObjectBody *action, void *position);
 void update_multi_form_actor_control(ActorRecord *actor, ObjectPosition *context, SpriteFrameState *sprite, ActorRecord *entity);
 void upload_encounter_texture(void);

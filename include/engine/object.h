@@ -3,6 +3,7 @@
 /* Prototypes of the functions defined in src/engine/object/ (one true prototype each; maintained by tools/headers). */
 
 #include "common.h"
+#include "shared/entity.h"
 #include "records/Rec_D_80081FDC.h"
 #include "records/Rec_D_80082A38.h"
 
@@ -69,7 +70,7 @@ void prepend_embedded_object_node(void *owner, void *object_data);
 void runtime_prepend_doubly_linked_node(void *owner, void *node_data);
 
 /* runtime_render_linked_textured_sprites.c */
-s32 runtime_render_linked_textured_sprites(u8 *node_data, u8 *position, u8 *render_state);
+s32 runtime_render_linked_textured_sprites(u8 *node_data, ObjectPosition *position, u8 *render_state);
 
 /* runtime_set_record_byte_three.c */
 void runtime_set_record_byte_three(Rec_D_80082A38 *record, s32 value);

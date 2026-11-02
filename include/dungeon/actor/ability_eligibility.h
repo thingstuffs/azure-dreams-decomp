@@ -41,19 +41,7 @@ typedef struct {
 } DungeonEntry;
 
 
-typedef struct S_800A36B4_0 {
-    void * unk_00;
-    u8 pad_04[0x3A];
-    u16 unk_3E;
-    u8 pad_40[0x5C];
-    u16 unk_9C;
-} S_800A36B4_0;
-
 /* arg0 in check_tile_path_clear; pointer addresses record offset 0x14 */
-typedef struct S_800A36B4_1 {
-    void * unk_00;
-} S_800A36B4_1;
-
 typedef struct Actor {
     u8 pad00[0x14];
     s32 flags14;
@@ -73,12 +61,6 @@ typedef struct Entity {
     u8 y;
 } Entity;
 
-typedef struct S_800A3D18_0 {
-    u8 pad_00[0x24];
-    u8 unk_24;
-    u8 unk_25;
-    s8 unk_26;
-} S_800A3D18_0;
 
 /* owner in choose_best_eligible_entry */
 typedef struct S_800A3D18_1_pre {
@@ -128,10 +110,6 @@ typedef struct S_800A3F28_0_pre {
 } S_800A3F28_0_pre;
 
 /* the 0x14 bytes before current in find_eligible_nearby_entry, addressed as current[-1] */
-typedef struct S_800A3F28_0 {
-    u8 pad_00[0x5C];
-    s32 unk_5C;
-} S_800A3F28_0;
 
 /* current in find_eligible_nearby_entry */
 typedef struct S_800A3F28_1 {
@@ -160,15 +138,7 @@ typedef struct S_800A4A9C_0 {
     s8 unk_2C;
 } S_800A4A9C_0;
 
-typedef struct S_800A4ACC_0 {
-    u8 pad_00[0x2C];
-    s8 unk_2C;
-    s8 unk_2D;
-} S_800A4ACC_0;
 
-typedef struct S_800A4ACC_1 {
-    s32 unk_00;
-} S_800A4ACC_1;
 
 #include "engine/item.h"
 extern int abs(int);

@@ -17,24 +17,7 @@
 #include "dungeon/actor.h"
 extern int abs(int);
 
-typedef struct S_80172D74_1 {
-    u8 pad_00[0x8C];
-    u8 * unk_8C;
-    u8 pad_90[0x6];
-    union { u16 s; s16 u; } unk_96;   /* accessed as both */
-    u16 unk_98;
-    u8 pad_9A[0x1];
-    u8 unk_9B;
-    u8 pad_9C[0x8];
-    void * unk_A4;
-    u16 unk_A8;
-} S_80172D74_1;   /* arg0 in advance_item_action_sequence */
 
-typedef struct S_80172D74_3 {
-    u8 pad_00[0x24];
-    u8 unk_24;
-    u8 unk_25;
-} S_80172D74_3;   /* position in advance_item_action_sequence */
 
 typedef struct S_80172D74_5 {
     u8 pad_00[0x4];
@@ -59,7 +42,7 @@ void advance_item_action_sequence(ActorRecord *action, ObjectPosition *motion, S
     SpriteFrameState *owner_sprite;
     u8 *item_slot;
     void *entity;
-    S_80172D74_3 *position;
+    SpriteFrameState *position;
     s32 special_item;
     s32 step_x;
     s32 step_z;
@@ -127,9 +110,9 @@ void advance_item_action_sequence(ActorRecord *action, ObjectPosition *motion, S
                 if (special_test != 0) {
                     entity = primary_actor_record;
                     actor->target = entity;
-                    position = (S_80172D74_3 *)((ObjectNodeHeader *)((u8 *)entity - 0x20))->sprite;
-                    actor->target_tile_x = position->unk_24;
-                    actor->target_tile_y = position->unk_25;
+                    position = ((ObjectNodeHeader *)entity - 1)->sprite;
+                    actor->target_tile_x = position->tile_x;
+                    actor->target_tile_y = position->tile_y;
                 } else {
                     u8 *item_defs = item_action_definitions;
                     u8 item_id = *item_slot;
@@ -138,9 +121,9 @@ void advance_item_action_sequence(ActorRecord *action, ObjectPosition *motion, S
                         entity = actor->target;
 
                         if (entity != 0) {
-                            position = (S_80172D74_3 *)((ObjectNodeHeader *)((u8 *)entity - 0x20))->sprite;
-                            actor->target_tile_x = position->unk_24;
-                            actor->target_tile_y = position->unk_25;
+                            position = ((ObjectNodeHeader *)entity - 1)->sprite;
+                            actor->target_tile_x = position->tile_x;
+                            actor->target_tile_y = position->tile_y;
                         }
                     } else {
                         position = scan_actor_along_heading(actor,

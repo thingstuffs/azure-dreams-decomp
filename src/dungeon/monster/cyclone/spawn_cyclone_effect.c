@@ -39,10 +39,6 @@ typedef struct S_80E122F4_6_pre {
     u8 pad_04[0x14];
 } S_80E122F4_6_pre;   /* the 0x18 bytes before ((S_80E122F4_0 *)owner)->unk_60 in func_80E122F4, addressed as ((S_80E122F4_0 *)owner)->unk_60[-1] */
 
-typedef struct S_80E122F4_6 {
-    u8 pad_00[0x13];
-    u8 unk_13;
-} S_80E122F4_6;   /* ((S_80E122F4_0 *)owner)->unk_60 in func_80E122F4 */
 
 /* Spawn a 0x312 effect object at the source's position, offset into the owner's room and depth-sorted against the camera. */
 void *create_source_to_owner_sprite(ActorRecord *owner, ObjectPosition *position, SpriteFrameState *sprite)
@@ -101,7 +97,7 @@ void *create_source_to_owner_sprite(ActorRecord *owner, ObjectPosition *position
         delta >>= 5;
         part->unk_14 = delta;
         delta = (reference->unk_08 -
-                 ((s32)entity_height_offsets[((S_80E122F4_6 *)(owner->target))->unk_13] << 15) -
+                 ((s32)entity_height_offsets[((ActorRecord *)(owner->target))->species] << 15) -
                  part->unk_0C.at00.v) / 32;
         part->unk_18 = delta;
         return obj;

@@ -27,16 +27,7 @@ typedef struct S_800C4F6C_6 {
 /* ((S_800C4F6C_5 *)arg0)->unk_80 in initialize_object_resources_2 */
 /* arg1 in initialize_object_resources_2 */
 
-/* arg0 in initialize_object_resources_2; pointer addresses record offset 0x10 */
-typedef struct S_800C4F6C_2 {
-    u8 pad_00[0x10];
-    s16 unk_10;
-    u8 pad_12[0x2];
-    u16 unk_14;
-    u8 pad_16[0x6];
-    s16 unk_1C;
-    s16 unk_1E;
-} S_800C4F6C_2;
+
 
 /* arg2 in initialize_object_resources_2 */
 typedef struct S_800C4F6C_4 {
@@ -92,7 +83,7 @@ extern u8 D_800F148C[];
 #include "shared/town_object.h"
 
 /* Functions defined in this translation unit. */
-void initialize_object_resources_2(void *object, IntVector3 *position, S_800C4F6C_2 *display_state);
+void initialize_object_resources_2(TownObjectRecord *object, ObjectPosition *position, SpriteFrameState *display_state);
 void set_camera_chase_data(TownObjectRecord *object, ObjectPosition *chase_data, SpriteFrameState *request_param, s32 check_param);
 void clear_object_slot_table_run(void *obj, void *param_a, void *param_b);
 void accelerate_object_coordinates_to_lower_limits(TownObjectRecord *context, ObjectPosition *record, void *callback_arg);

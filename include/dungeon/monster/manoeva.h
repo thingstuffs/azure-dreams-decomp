@@ -43,7 +43,7 @@ void *spawn_manoeva(s16 spawn_flags, s16 tile_x, s16 tile_y, s16 spawn_height);
 
 /* Callback entry points. */
 void transfer_linked_object_state(ActorRecord *owner, ObjectPosition *object_id, SpriteFrameState *dest_object, ActorRecord *dest_state);
-void update_an_effect_s_lifetime_fades_color_advances_motion(ManoevaParticleBurstBody *effect, s32 *motion, u8 *color_data);
+void update_an_effect_s_lifetime_fades_color_advances_motion(ManoevaParticleBurstBody *effect, s32 *motion, SpriteFrameState *color_data);
 
 void create_terrain_scaled_actor_effect(ObjectNodeHeader *source, s16 *facing, u8 *action, u16 *flags);
 void create_knockback_travel_object(ActorRecord *owner_data, ObjectPosition *position_arg, SpriteFrameState *source_arg, ActorRecord *context_arg);

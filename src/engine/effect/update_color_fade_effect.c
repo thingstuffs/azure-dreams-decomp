@@ -1,4 +1,6 @@
 #include "common.h"
+#include "shared/entity.h"
+#include "shared/sprite_frame_state.h"
 
 #include "common.h"
 #include "engine/effect.h"
@@ -12,7 +14,7 @@ typedef struct S_80051F58_a2 {
 } S_80051F58_a2;
 
 /* Fade the color in, hold it, then fade it out and mark the effect complete. */
-void update_color_fade_effect(CdCueEffectBody *effect, void *unused_1, S_80051F58_a2 *color, void *unused_3)
+void update_color_fade_effect(CdCueEffectBody *effect, ObjectPosition *unused_1, SpriteFrameState *color, void *unused_3)
 {
     u16 timer = effect->timer.u;
     u16 advance_state;
@@ -34,10 +36,10 @@ void update_color_fade_effect(CdCueEffectBody *effect, void *unused_1, S_80051F5
         return;
     case 1:
     {
-        u8 intensity = color->unk0E + 2;
-        color->unk0E = intensity;
-        color->unk0D = intensity;
-        color->unk0C = intensity;
+        u8 intensity = color->color.c.b + 2;
+        color->color.c.b = intensity;
+        color->color.c.g = intensity;
+        color->color.c.r = intensity;
     }
         if ((s16)effect->timer.u < 0x40) {
             return;
@@ -58,19 +60,19 @@ void update_color_fade_effect(CdCueEffectBody *effect, void *unused_1, S_80051F5
         return;
     case 3:
     {
-        u8 intensity = color->unk0E - 2;
-        color->unk0E = intensity;
-        color->unk0D = intensity;
-        color->unk0C = intensity;
+        u8 intensity = color->color.c.b - 2;
+        color->color.c.b = intensity;
+        color->color.c.g = intensity;
+        color->color.c.r = intensity;
     }
         if ((s16)effect->timer.u < 0x40) {
             return;
         }
         break;
     default:
-        color->unk0E = 0;
-        color->unk0D = 0;
-        color->unk0C = 0;
+        color->color.c.b = 0;
+        color->color.c.g = 0;
+        color->color.c.r = 0;
         break;
     }
     effect->owner.color->status = 0;

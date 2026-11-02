@@ -2,6 +2,7 @@
 #define DUNGEON_MONSTER_GLACIER_ADVANCE_ITEM_MOTION_COLLISION_H
 
 #include "common.h"
+#include "shared/sprite_frame_state.h"
 
 typedef struct DirectionalEffectBody {
     u8 pad_00[0x1E];
@@ -15,6 +16,6 @@ typedef struct DirectionalEffectBody {
     s32 acceleration_z;
 } DirectionalEffectBody;
 
-void advance_item_motion_collision(DirectionalEffectBody *motion, void *position, void *update);
+void advance_item_motion_collision(DirectionalEffectBody *motion, void *position, SpriteFrameState *update);
 
 #endif

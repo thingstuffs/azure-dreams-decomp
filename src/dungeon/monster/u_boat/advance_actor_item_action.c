@@ -107,7 +107,7 @@ void advance_actor_item_action(ActorRecord *actor_state, ObjectPosition *motion,
 
                 linked_actor = primary_actor_record;
                 actor->target = linked_actor;
-                linked_sprite = *(u8 * *)&((ObjectNodeHeader *)((u8 *)linked_actor - 0x20))->sprite;
+                linked_sprite = *(u8 * *)&((ObjectNodeHeader *)linked_actor - 1)->sprite;
                 actor->target_tile_x = linked_sprite[0x24];
                 offset_x = linked_sprite[0x25];
                 actor->target_tile_y = offset_x;
@@ -116,7 +116,7 @@ void advance_actor_item_action(ActorRecord *actor_state, ObjectPosition *motion,
                 if (linked_actor != 0) {
                     u8 *linked_sprite;
 
-                    linked_sprite = *(u8 * *)&((ObjectNodeHeader *)((u8 *)linked_actor - 0x20))->sprite;
+                    linked_sprite = *(u8 * *)&((ObjectNodeHeader *)linked_actor - 1)->sprite;
                     actor->target_tile_x = linked_sprite[0x24];
                     offset_x = linked_sprite[0x25];
                     actor->target_tile_y = offset_x;

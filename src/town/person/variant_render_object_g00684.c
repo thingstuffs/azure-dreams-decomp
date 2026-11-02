@@ -61,7 +61,7 @@ void invoke_object_handler(S_800CBAAC_0 *object, s32 callback_arg1, s32 callback
 }
 
 /* Initializes record state using its stored table index and setup routines. */
-void initialize_record_from_table_index(void *record_data, void *context, SpriteFrameState *state) {
+void initialize_record_from_table_index(void *record_data, ObjectPosition *context, SpriteFrameState *state) {
     u8 table_index;
 
     table_index = ((S_800CBAE0_0 *)((u8 *)record_data - 0x10))->unk_A6;

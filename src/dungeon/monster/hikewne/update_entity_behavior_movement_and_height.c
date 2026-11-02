@@ -22,21 +22,13 @@ extern u8 hikewne_frame_set_15[];
 extern Callback D_8016E168[];
 
 
-typedef struct S_8016ADA8_2 {
-    u8 pad_00[0x1C];
-    union { s32 s; u32 u; } unk_1C;   /* accessed as both */
-    u8 pad_20[0xA];
-    s16 unk_2A;
-    u8 pad_2C[0x5C];
-    u16 unk_88;
-} S_8016ADA8_2;   /* state in update_entity_behavior_movement_and_height */
 
 /* Updates entity behavior, movement, directional animation, and ground-relative height. */
 /* Runs Hikewne state callbacks from D_8016E168, alternates its bobbing idle frames, and resolves ground
  * contact. */
 void update_entity_behavior_movement_and_height(ActorRecord *body, ObjectPosition *motion, SpriteFrameState *sprite)
 {
-    S_8016ADA8_2 *entity_state = (S_8016ADA8_2 *)body;
+    ActorRecord *entity_state = body;
     s16 old_state_id;
     s16 direction;
     s16 sprite_direction;
@@ -90,7 +82,7 @@ void update_entity_behavior_movement_and_height(ActorRecord *body, ObjectPositio
     sprite_flags = sprite->flags;
 
     if (!(sprite_flags & 0x8000)) {
-        direction = ((g_game_work.view.camera_rotation.parts.viewAngle + entity_state->unk_2A + 0x100) >> 9) & 7;
+        direction = ((g_game_work.view.camera_rotation.parts.viewAngle + entity_state->facing + 0x100) >> 9) & 7;
         sprite_direction = direction;
         if (body->unk_94 != sprite_direction) {
             select_indirect_table_entry(sprite,
@@ -107,20 +99,20 @@ void update_entity_behavior_movement_and_height(ActorRecord *body, ObjectPositio
             }
             sprite->flags = facing_flags;
         }
-        apply_monster_koyaw_data(entity_state->unk_1C.s, (u8 *)sprite + 0xC);
-        if (!(entity_state->unk_1C.u & 0x20)) {
+        apply_monster_koyaw_data(entity_state->flags1C, (u8 *)sprite + 0xC);
+        if (!(((u32)entity_state->flags1C) & 0x20)) {
             if (!(sprite->flags & 0x40)) {
                 advance_sprite_animation_and_textures(sprite);
             }
         } else {
             sprite->flags |= 0x7000;
-            entity_state->unk_1C.u &= 0xFFFBFFFF;
+            entity_state->flags1C &= 0xFFFBFFFF;
         }
 
         {
             u32 masked_flags;
-            masked_flags = entity_state->unk_1C.u & 0xF7FFFFFF;
-            entity_state->unk_1C.u = masked_flags;
+            masked_flags = ((u32)entity_state->flags1C) & 0xF7FFFFFF;
+            entity_state->flags1C = masked_flags;
             masked_flags &= 0x40000;
             if (!masked_flags) {
                 s32 offset = body->unk_A0.value;
@@ -130,13 +122,13 @@ void update_entity_behavior_movement_and_height(ActorRecord *body, ObjectPositio
                 if (!(body->action_state_flags & 8)) {
                     ground_height = sample_terrain_surface_height(((u16) motion->x.w.i),
                         ((u16) motion->y.w.i),
-                        (s16)(entity_state->unk_88 - 0x20));
-                    ground_delta = ground_height - entity_state->unk_88;
+                        (s16)(((u16)entity_state->ground_height) - 0x20));
+                    ground_delta = ground_height - ((u16)entity_state->ground_height);
                     if (ground_delta < body->unk_90.parts.high.s) {
                         body->unk_90.parts.high.s = ground_delta;
                         body->unk_9D.u = 0;
                         motion->velocity_z = 0;
-                        entity_state->unk_1C.u |= 0x08000000;
+                        entity_state->flags1C |= 0x08000000;
                     }
                 }
             } else {
@@ -152,7 +144,7 @@ void update_entity_behavior_movement_and_height(ActorRecord *body, ObjectPositio
                         if (*(u16 *)&sprite->unk_04 == 0x103) {
                             (sprite->frameTable) = hikewne_frame_set_15;
                             select_sprite_entry(sprite, hikewne_frame_set_15[((g_game_work.view.camera_rotation.parts.viewAngle
-                                + entity_state->unk_2A + 0x100) >> 9) & 7], 0);
+                                + entity_state->facing + 0x100) >> 9) & 7], 0);
                         }
                     } else if (*(u8 **)&sprite->frameTable == hikewne_frame_set_15) {
                         bob_tick = body->unk_9E.u++;
@@ -162,7 +154,7 @@ void update_entity_behavior_movement_and_height(ActorRecord *body, ObjectPositio
                         if (*(u16 *)&sprite->unk_04 == 0x103) {
                             (sprite->frameTable) = hikewne_frame_set_14;
                             select_sprite_entry(sprite, hikewne_frame_set_14[((g_game_work.view.camera_rotation.parts.viewAngle
-                                + entity_state->unk_2A + 0x100) >> 9) & 7], 0);
+                                + entity_state->facing + 0x100) >> 9) & 7], 0);
                         }
                     }
                 }
@@ -188,8 +180,8 @@ void update_entity_behavior_movement_and_height(ActorRecord *body, ObjectPositio
         sprite->flags = (sprite_flags & 0x800)
             ? (sprite_flags & 0x8FFF)
         : (sprite_flags | 0x7000);
-        entity_state->unk_1C.u &= 0xF7FFFFFF;
-        if (!(entity_state->unk_1C.u & 0x40000)) {
+        entity_state->flags1C &= 0xF7FFFFFF;
+        if (!(((u32)entity_state->flags1C) & 0x40000)) {
             bob_offset = body->unk_A0.value;
             body->unk_9E.u = 0;
             body->unk_A0.value = 0;
@@ -197,13 +189,13 @@ void update_entity_behavior_movement_and_height(ActorRecord *body, ObjectPositio
             if (!(body->action_state_flags & 8)) {
                 ground_height = sample_terrain_surface_height(((u16) motion->x.w.i),
                     ((u16) motion->y.w.i),
-                    (s16)(entity_state->unk_88 - 0x20));
-                ground_delta = ground_height - entity_state->unk_88;
+                    (s16)(((u16)entity_state->ground_height) - 0x20));
+                ground_delta = ground_height - ((u16)entity_state->ground_height);
                 if (ground_delta < body->unk_90.parts.high.s) {
                     body->unk_90.parts.high.s = ground_delta;
                     body->unk_9D.u = 0;
                     motion->velocity_z = 0;
-                    entity_state->unk_1C.u |= 0x08000000;
+                    entity_state->flags1C |= 0x08000000;
                 }
             }
         } else {
@@ -219,7 +211,7 @@ void update_entity_behavior_movement_and_height(ActorRecord *body, ObjectPositio
                     if (*(u16 *)&sprite->unk_04 == 0x103) {
                         (sprite->frameTable) = hikewne_frame_set_15;
                         select_sprite_entry(sprite, hikewne_frame_set_15[((g_game_work.view.camera_rotation.parts.viewAngle
-                            + entity_state->unk_2A + 0x100) >> 9) & 7], 0);
+                            + entity_state->facing + 0x100) >> 9) & 7], 0);
                     }
                 } else if (*(u8 **)&sprite->frameTable == hikewne_frame_set_15) {
                     bob_tick = body->unk_9E.u++;
@@ -229,7 +221,7 @@ void update_entity_behavior_movement_and_height(ActorRecord *body, ObjectPositio
                     if (*(u16 *)&sprite->unk_04 == 0x103) {
                         (sprite->frameTable) = hikewne_frame_set_14;
                         select_sprite_entry(sprite, hikewne_frame_set_14[((g_game_work.view.camera_rotation.parts.viewAngle
-                            + entity_state->unk_2A + 0x100) >> 9) & 7], 0);
+                            + entity_state->facing + 0x100) >> 9) & 7], 0);
                     }
                 }
             }
@@ -251,22 +243,22 @@ void update_entity_behavior_movement_and_height(ActorRecord *body, ObjectPositio
             }
         }
     }
-    entity_flags = entity_state->unk_1C.u;
+    entity_flags = ((u32)entity_state->flags1C);
     if (entity_flags & 0x40000000) {
-        entity_state->unk_1C.u = entity_flags & 0xBFFFFFFF;
+        entity_state->flags1C = entity_flags & 0xBFFFFFFF;
         ground_height = sample_terrain_surface_height(
             (sprite->tile_x << 6) | 0x20,
             (sprite->tile_y << 6) | 0x20,
-            (s16)(entity_state->unk_88 - 0x20));
+            (s16)(((u16)entity_state->ground_height) - 0x20));
         if (ground_height < 0x200) {
             body->unk_90.parts.high.s =
-                (entity_state->unk_88 - ground_height) +
+                (((u16)entity_state->ground_height) - ground_height) +
                 body->unk_90.parts.high.u;
-            entity_state->unk_88 = ground_height;
+            entity_state->ground_height = ground_height;
         }
     }
 
-    motion->z.w.i = entity_state->unk_88 +
+    motion->z.w.i = ((u16)entity_state->ground_height) +
         body->unk_90.parts.high.u - body->unk_A0.parts.high;
     sprite->flags |= 0x40;
 }

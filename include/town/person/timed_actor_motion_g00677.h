@@ -16,7 +16,7 @@ typedef struct S_800C8FF0_1 {
 
 extern void D_800C8FF0();
 extern s32 D_800D6268[];
-void finish_countdown_and_set_flags(void *object, s32 *position);
+void finish_countdown_and_set_flags(TownObjectRecord *object, s32 *position);
 
 /* Functions defined in this translation unit. */
 void advance_object_after_timeout_variant_2(TownObjectRecord *object, s32 unused, void *updateContext);

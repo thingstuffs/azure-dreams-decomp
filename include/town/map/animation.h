@@ -5,6 +5,16 @@
 #include "shared/entity.h"
 #include "shared/dungeon_delay_views.h"
 
+/* Four halfwords passed to the building texture and palette upload routines. */
+typedef struct BuildingUploadRect {
+    u16 x;
+    u16 y;
+    u16 w;
+    u16 h;
+} BuildingUploadRect;
+
+extern BuildingUploadRect building_upload_rect;
+
 typedef union TownMapAnimHalf { s16 s; u16 u; } TownMapAnimHalf;
 
 typedef struct BuildingSelectionHandlerBody {
@@ -52,7 +62,10 @@ typedef struct TownMapFallingObject {
 } TownMapFallingObject;
 
 typedef struct TownMapSpawnState {
-    u8 pad_00[8];
+    u16 origin_x;
+    u16 origin_y;
+    u16 origin_z;
+    u8 pad_06[2];
     s16 base_y;
     s16 span_y;
     TownMapAnimHalf state;

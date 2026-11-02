@@ -24,21 +24,13 @@ extern u8 D_8016E664[8];
 extern u8 D_8016E66C[8];
 extern Callback D_8016E6A0[];
 
-typedef struct S_8016B3A8_2 {
-    u8 pad_00[0x1C];
-    s32 unk_1C;
-    u8 pad_20[0xA];
-    s16 unk_2A;
-    u8 pad_2C[0x5C];
-    u16 unk_88;
-} S_8016B3A8_2;   /* base in run_actor_callbacks_and_update_grounding */
 
 /* Runs actor callbacks and updates animation, movement, and ground height. */
 /* Runs Death state callbacks from D_8016E6A0, updates sprite facing and height offsets, and resolves
  * ground contact. */
 void run_actor_callbacks_and_update_grounding(ActorRecord *body, ObjectPosition *motion, SpriteFrameState *sprite)
 {
-    S_8016B3A8_2 *actor_base = (S_8016B3A8_2 *)body;
+    ActorRecord *actor_base = body;
     s16 old_state;
     u8 old_state_byte;
     s32 height_offset;
@@ -106,7 +98,7 @@ void run_actor_callbacks_and_update_grounding(ActorRecord *body, ObjectPosition 
     initial_sprite_flags = sprite->flags;
 
     if (!(initial_sprite_flags & 0x8000)) {
-        direction = ((g_game_work.view.camera_rotation.parts.viewAngle + actor_base->unk_2A + 0x100) >> 9) & 7;
+        direction = ((g_game_work.view.camera_rotation.parts.viewAngle + actor_base->facing + 0x100) >> 9) & 7;
         if (body->unk_94 != direction) {
             select_indirect_table_entry(sprite,
                 *(*(u8 * *)&sprite->frameTable + direction),
@@ -123,18 +115,18 @@ void run_actor_callbacks_and_update_grounding(ActorRecord *body, ObjectPosition 
             }
             sprite->flags = flip_flags;
         }
-        apply_monster_koyaw_data(actor_base->unk_1C, (u8 *)sprite + 0xC);
-        if (!(actor_base->unk_1C & 0x20)) {
+        apply_monster_koyaw_data(actor_base->flags1C, (u8 *)sprite + 0xC);
+        if (!(actor_base->flags1C & 0x20)) {
             if (!(sprite->flags & 0x40)) {
                 advance_sprite_animation_and_textures(sprite);
             }
         } else {
             sprite->flags |= 0x7000;
-            actor_base->unk_1C &= 0xFFFBFFFF;
+            actor_base->flags1C &= 0xFFFBFFFF;
         }
 
-        actor_base->unk_1C &= 0xF7FFFFFF;
-        actor_flags = actor_base->unk_1C;
+        actor_base->flags1C &= 0xF7FFFFFF;
+        actor_flags = actor_base->flags1C;
         if (actor_flags & 0x40000) {
             sprite_flags = sprite->flags;
             if (!(sprite_flags & 0x40)) {
@@ -189,13 +181,13 @@ void run_actor_callbacks_and_update_grounding(ActorRecord *body, ObjectPosition 
             if (height_offset == 0) {
                 floor_height = sample_terrain_surface_height(((u16)motion->x.w.i),
                                       ((u16)motion->y.w.i),
-                                      (s16)(actor_base->unk_88 - 0x20)) -
-                        actor_base->unk_88;
+                                      (s16)(((u16)actor_base->ground_height) - 0x20)) -
+                        ((u16)actor_base->ground_height);
                 if (floor_height < body->unk_90.parts.high.s) {
                     body->unk_90.parts.high.s = floor_height;
                     body->unk_9D.u = 0;
                     motion->velocity_z = 0;
-                    actor_base->unk_1C |= 0x08000000;
+                    actor_base->flags1C |= 0x08000000;
                 }
             }
         }
@@ -205,8 +197,8 @@ void run_actor_callbacks_and_update_grounding(ActorRecord *body, ObjectPosition 
         } else {
             sprite->flags = initial_sprite_flags | 0x7000;
         }
-        actor_base->unk_1C &= 0xF7FFFFFF;
-        actor_flags = actor_base->unk_1C;
+        actor_base->flags1C &= 0xF7FFFFFF;
+        actor_flags = actor_base->flags1C;
 
         if (!(actor_flags & 0x40000)) {
             adjustment = body->unk_A4.value;
@@ -220,13 +212,13 @@ void run_actor_callbacks_and_update_grounding(ActorRecord *body, ObjectPosition 
             if (height_offset == 0) {
                 floor_height = sample_terrain_surface_height(((u16)motion->x.w.i),
                                       ((u16)motion->y.w.i),
-                                      (s16)(actor_base->unk_88 - 0x20)) -
-                        actor_base->unk_88;
+                                      (s16)(((u16)actor_base->ground_height) - 0x20)) -
+                        ((u16)actor_base->ground_height);
                 if (floor_height < body->unk_90.parts.high.s) {
                     body->unk_90.parts.high.s = floor_height;
                     body->unk_9D.u = 0;
                     motion->velocity_z = 0;
-                    actor_base->unk_1C |= 0x08000000;
+                    actor_base->flags1C |= 0x08000000;
                 }
             }
         } else {
@@ -264,20 +256,20 @@ void run_actor_callbacks_and_update_grounding(ActorRecord *body, ObjectPosition 
             }
         }
     }
-    actor_flags = actor_base->unk_1C;
+    actor_flags = actor_base->flags1C;
     if (actor_flags & 0x40000000) {
-        actor_base->unk_1C = actor_flags & 0xBFFFFFFF;
+        actor_base->flags1C = actor_flags & 0xBFFFFFFF;
         floor_height = sample_terrain_surface_height((sprite->tile_x << 6) | 0x20,
                               (sprite->tile_y << 6) | 0x20,
-                              (s16)(actor_base->unk_88 - 0x20));
+                              (s16)(((u16)actor_base->ground_height) - 0x20));
         if (floor_height < 0x200) {
             body->unk_90.parts.high.s =
                 (u16)body->unk_90.parts.high.s +
-                (actor_base->unk_88 - floor_height);
-            actor_base->unk_88 = floor_height;
+                (((u16)actor_base->ground_height) - floor_height);
+            actor_base->ground_height = floor_height;
         }
     }
-    motion->z.w.i = actor_base->unk_88 +
+    motion->z.w.i = ((u16)actor_base->ground_height) +
                              (u16)body->unk_90.parts.high.s -
                              body->unk_A4.halves.high.u;
     sprite->flags |= 0x40;

@@ -7,17 +7,6 @@
 #include "dungeon/level.h"
 #include "dungeon/item.h"
 
-typedef struct S_80171FC8_0 {
-    u8 pad_00[0x1C];
-    s32 unk_1C;
-    u8 pad_20[0xA];
-    s16 unk_2A;
-    u8 pad_2C[0x45];
-    union { s8 s; u8 u; } unk_71;   /* accessed as both */
-    u8 pad_72[0x16];
-    u16 unk_88;
-    union { s16 s; u16 u; } unk_8A;   /* accessed as both */
-} S_80171FC8_0;   /* arg3 in advance_entity_path_state */
 
 typedef struct S_80171FC8_2 {
     u8 pad_00[0x74];
@@ -27,12 +16,6 @@ typedef struct S_80171FC8_2 {
 } S_80171FC8_2;   /* tile in advance_entity_path_state */
 
 
-typedef struct S_80171FC8_4 {
-    u8 pad_00[0x74];
-    u8 unk_74;
-    u8 pad_75[0x7];
-    u8 unk_7C;
-} S_80171FC8_4;   /* (u8 *)arg3 + ((S_80171FC8_0 *)arg3)->unk_8A.s in advance_entity_path_state */
 
 extern void update_map_cell_flags_with_item_limit(s32 x, s32 y, u16 flags);
 
@@ -50,7 +33,7 @@ void advance_entity_path_state(ActorRecord *motion_state, ObjectPosition *unused
     u16 step_index;
     S_80171FC8_2 *path_entry;
 
-    if (((S_80171FC8_0 *)path_state)->unk_71.s <= 0) {
+    if (((s8)path_state->movement_queue_state) <= 0) {
         return;
     }
     if ((s32)path_state->movement_queue_state <= path_state->unk_8A) {
@@ -68,9 +51,9 @@ void advance_entity_path_state(ActorRecord *motion_state, ObjectPosition *unused
     if (entity->tile_x == path_entry->unk_74 &&
         entity->tile_y == path_entry->unk_7C) {
         hp = motion_state->unk_90.parts.high.u;
-        energy = ((S_80171FC8_0 *)path_state)->unk_88;
+        energy = ((u16)path_state->ground_height);
         motion_state->unk_90.parts.high.u = hp + 0x20;
-        step_index = ((S_80171FC8_0 *)path_state)->unk_8A.u;
+        step_index = ((u16)path_state->unk_8A);
         path_state->ground_height = energy - 0x20;
         path_state->unk_8A = step_index + 1;
     } else {
@@ -84,11 +67,11 @@ void advance_entity_path_state(ActorRecord *motion_state, ObjectPosition *unused
 
         update_map_cell_flags_with_item_limit(old_x, old_y, distance);
 
-        entity->tile_x = ((S_80171FC8_4 *)((u8 *)path_state
-            + path_state->unk_8A))->unk_74;
-        entity->tile_y = ((S_80171FC8_4 *)((u8 *)path_state
-            + path_state->unk_8A))->unk_7C;
-        ((S_80171FC8_0 *)path_state)->unk_8A.u += 1;
+        entity->tile_x = ((ActorRecord *)((u8 *)path_state
+            + path_state->unk_8A))->path_x[0];
+        entity->tile_y = ((ActorRecord *)((u8 *)path_state
+            + path_state->unk_8A))->path_y[0];
+        path_state->unk_8A += 1;
 
         cycle_map_cell_flags(entity->tile_x, entity->tile_y,
                       (path_state->flags1C & 0x2000) ? 0x300 : 0x3000);

@@ -61,14 +61,6 @@ typedef struct ovl_1831cd8_818123E4_S_800273E4_0 {
     s32 unk_04;
     s32 unk_08;
 } ovl_1831cd8_818123E4_S_800273E4_0;
-typedef struct ovl_1831cd8_818124A8_S_800274A8_0 {
-    void (*unk_00)(s32 *);
-    u8 pad_04[0xC];
-    s32 unk_10;
-    s32 unk_14;
-    u8 pad_18[0x3C];
-    s32 unk_54;
-} ovl_1831cd8_818124A8_S_800274A8_0;
 typedef struct ovl_1831cd8_818124F0_S_8003E2D8 {
     s32 unk0;
     s32 unk4;
@@ -119,11 +111,6 @@ typedef struct ovl_1831cd8_818127A8_S_800277A8_1 {
     u8 pad_48[0x40];
     s32 unk_88;
 } ovl_1831cd8_818127A8_S_800277A8_1;
-typedef struct ovl_1831cd8_81812A88_S_80027A88_0 {
-    void (*unk_00)(s32 *);
-    u8 pad_04[0xC];
-    s32 unk_10;
-} ovl_1831cd8_81812A88_S_80027A88_0;
 typedef struct {
     s16 x;
     s16 y;
@@ -182,12 +169,6 @@ typedef struct ovl_1831cd8_81812F34_S_80027F34_2 {
     u8 pad_00[0x2];
     s16 unk_02;
 } ovl_1831cd8_81812F34_S_80027F34_2;
-typedef struct ovl_1831cd8_81812F34_S_80027F34_0 {
-    void (*unk_00)(s32 *);
-    u8 pad_04[0xC];
-    s32 unk_10;
-    s32 unk_14;
-} ovl_1831cd8_81812F34_S_80027F34_0;
 typedef struct S_800491F4 S_800491F4;
 typedef struct ListNode ListNode;
 typedef struct UnalignedBlock12 UnalignedBlock12;
@@ -306,7 +287,9 @@ typedef struct ovl_1831cd8_81813320_S_80028320_2 {
 } ovl_1831cd8_81813320_S_80028320_2;
 typedef struct ovl_1831cd8_81813320_S_80028320_0 {
     void (*unk_00)(s32 *);
-    u8 pad_04[0x14];
+    u8 pad_04[0xC];
+    s32 unk_10;
+    s32 unk_14;
     s32 unk_18;
     u8 pad_1C[0x8];
     s32 unk_24;
@@ -314,7 +297,9 @@ typedef struct ovl_1831cd8_81813320_S_80028320_0 {
     s32 unk_38;
     u8 pad_3C[0xC];
     s32 unk_48;
-    u8 pad_4C[0x10];
+    u8 pad_4C[0x8];
+    s32 unk_54;
+    u8 pad_58[0x4];
     s32 unk_5C;
     u8 pad_60[0x34];
     s32 unk_94;

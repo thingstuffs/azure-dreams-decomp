@@ -58,22 +58,6 @@ typedef struct S_8016B0E8_1 {
     u8 unk_3611;
 } S_8016B0E8_1;   /* page_8001 in update_actor_animation_movement_and_terrain */
 
-typedef struct S_8016B0E8_2 {
-    u8 pad_00[0x11];
-    u8 unk_11;
-    u8 pad_12[0x2];
-    s32 unk_14;
-    u32 unk_18;
-    s32 unk_1C;
-    u8 pad_20[0xA];
-    s16 unk_2A;
-    u8 pad_2C[0x41];
-    u8 unk_6D;
-    u8 pad_6E[0x3];
-    u8 unk_71;
-    u8 pad_72[0x16];
-    union { u16 u; s16 s; } unk_88;   /* accessed as both */
-} S_8016B0E8_2;   /* obj in update_actor_animation_movement_and_terrain */
 
 
 typedef struct S_8016B0E8_4 {
@@ -91,10 +75,6 @@ typedef struct S_8016B0E8_6 {
     s32 unk_10;
 } S_8016B0E8_6;
 
-typedef struct S_8016B0E8_8 {
-    u8 pad_00[0xAC];
-    void * unk_AC;
-} S_8016B0E8_8;
 
 typedef struct S_8016B0E8_10 {
     u8 pad_00[0x14];
@@ -186,7 +166,7 @@ void update_actor_animation_movement_and_terrain(void *entity, ObjectPosition *m
     S_8016B0E8_1 *seed_page;
 
 
-    S_8016B0E8_2 *actor;
+    ActorRecord *actor;
     S_8016B0E8_4 *actors_page;
     s32 inactive_mask;
 
@@ -213,7 +193,7 @@ void update_actor_animation_movement_and_terrain(void *entity, ObjectPosition *m
                 {
                     raise_entity_level(actor, 0);
                 }
-            } while (!((u32) level_limits[actor->unk_11] > (u32) actor->unk_18));
+            } while (!((u32) level_limits[actor->level] > (u32) actor->experience));
         }
     }
     if (((S_8016B0E8_0 *)entity)->unk_B4 != 0) {
@@ -231,7 +211,7 @@ void update_actor_animation_movement_and_terrain(void *entity, ObjectPosition *m
             actor_index = 0;
             actors_page = (S_8016B0E8_4 *)0x800E0000;
             inactive_mask = 0x80000000;
-            actor->unk_6D = 0U;
+            actor->pending_turn_updates = 0U;
             ((S_8016B0E8_0 *)entity)->unk_9B = 0;
             ((S_8016B0E8_0 *)entity)->unk_B4 = 0U;
             do {
@@ -253,7 +233,7 @@ void update_actor_animation_movement_and_terrain(void *entity, ObjectPosition *m
         actor_index = 1;
         slot_cursor = ((EntityRec *)(((u8 * *)(&dungeon_actor_ring_anchor))))->x.v + 4;
         do {
-            linked_entry = ((S_8016B0E8_8 *)slot_cursor)->unk_AC;
+            linked_entry = ((ActorRecord *)slot_cursor)->unk_AC.address;
             if (linked_entry != 0) {
                 linked_sprite = (linked_entry - 1)->sprite;
                 ((S_8016B0E8_10 *)linked_sprite)->unk_14 = (u16) (((S_8016B0E8_10 *)linked_sprite)->unk_14 & 0xFFBF);
@@ -266,7 +246,7 @@ void update_actor_animation_movement_and_terrain(void *entity, ObjectPosition *m
         countdown = ((S_8016B0E8_0 *)entity)->unk_B1 - 1;
         ((S_8016B0E8_0 *)entity)->unk_B1 = countdown;
         if (!(countdown & 0xFF)) {
-            actor->unk_14 = (s32) (actor->unk_14 & 0xFFEFFFFF);
+            actor->flags14 = (s32) (actor->flags14 & 0xFFEFFFFF);
             ((S_8016B0E8_0 *)entity)->unk_B0.v = 0U;
             g_dungeon_status.activity_counts.parts.pending_action_count = (s16) ((u16) g_dungeon_status.activity_counts.parts.pending_action_count - 1);
             status_record = ((S_8016B0E8_0 *)entity)->unk_A4;
@@ -280,23 +260,23 @@ void update_actor_animation_movement_and_terrain(void *entity, ObjectPosition *m
             paused_callback(entity, motion, sprite, actor);
             return;
         }
-        actor->unk_71 = (u8) (actor->unk_71 & 0x7F);
+        actor->movement_queue_state = (u8) (actor->movement_queue_state & 0x7F);
         return;
     }
-    prior_state = (s8) actor->unk_6D;
+    prior_state = (s8) actor->pending_turn_updates;
     if (refresh_actor_facing_and_lifecycle(entity, motion, sprite, actor) == 0) {
         update_callback = ((S_8016B0E8_0 *)entity)->unk_8C;
         if (update_callback != 0) {
             update_callback(entity, motion, sprite, actor);
         }
         ghosh_callbacks[((S_8016B0E8_0 *)entity)->unk_9A](entity, motion, sprite, actor);
-        if ((s16) prior_state != (s8) actor->unk_6D) {
+        if ((s16) prior_state != (s8) actor->pending_turn_updates) {
             try_move_actor_to_valid_position(entity, motion, sprite, actor);
         }
         sprite_flags = sprite->flags;
         mode_bits = sprite_flags & 0x8000;
         if (!mode_bits) {
-            view_direction = ((s32) (g_game_work.view.camera_rotation.parts.viewAngle + actor->unk_2A + 0x100) >> 9) & 7;
+            view_direction = ((s32) (g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7;
             prior_direction = ((S_8016B0E8_0 *)entity)->unk_94;
             direction_index = view_direction;
             if (prior_direction != direction_index) {
@@ -313,14 +293,14 @@ void update_actor_animation_movement_and_terrain(void *entity, ObjectPosition *m
             } else {
                 sprite->flags &= 0xFFFE;
             }
-            if (!(actor->unk_1C & 0x20)) {
+            if (!(actor->flags1C & 0x20)) {
                 if (!(sprite->flags & 0x40)) {
                     advance_sprite_animation_and_textures(sprite);
                 }
             } else {
                 sprite->flags = (u16) (sprite->flags | 0x7000);
             }
-            apply_monster_koyaw_data(actor->unk_1C, ((void *)sprite) + 0xC);
+            apply_monster_koyaw_data(actor->flags1C, ((void *)sprite) + 0xC);
         } else {
             mode_bits = sprite_flags & 0x800;
             if (mode_bits) {
@@ -349,13 +329,13 @@ void update_actor_animation_movement_and_terrain(void *entity, ObjectPosition *m
         ((S_8016B0E8_0 *)entity)->unk_90.at00.v = motion_position;
         if (!(motion_flags & 4)) {
             floor_height = sample_terrain_surface_height(((u16) motion->x.w.i),
-                ((u16) motion->y.w.i), (s16) (actor->unk_88.u - 0x20));
+                ((u16) motion->y.w.i), (s16) (actor->ground_height - 0x20));
             if (floor_height < 0x200) {
-                base_height = actor->unk_88.s;
+                base_height = actor->ground_height;
                 if ((((S_8016B0E8_0 *)entity)->unk_90.at02.v + base_height) < floor_height) {
-                    actor->unk_1C = (s32) (actor->unk_1C & 0xF7FFFFFF);
+                    actor->flags1C = (s32) (actor->flags1C & 0xF7FFFFFF);
                 } else {
-                    height_bits = actor->unk_88.u;
+                    height_bits = actor->ground_height;
                     if (floor_height >= base_height) {
                         ((S_8016B0E8_0 *)entity)->unk_90.at00.v = 0;
                     } else {
@@ -363,27 +343,27 @@ void update_actor_animation_movement_and_terrain(void *entity, ObjectPosition *m
                         ((S_8016B0E8_0 *)entity)->unk_90.at02.v = height_delta;
                     }
                     motion->velocity_z = 0;
-                    actor->unk_1C = (s32) (actor->unk_1C | 0x08000000);
+                    actor->flags1C = (s32) (actor->flags1C | 0x08000000);
                     ((S_8016B0E8_0 *)entity)->unk_9D = 0;
                 }
-                actor_flags = actor->unk_1C;
+                actor_flags = actor->flags1C;
                 if (actor_flags & 0x40000000) {
-                    actor->unk_1C = (s32) (actor_flags & 0xBFFFFFFF);
+                    actor->flags1C = (s32) (actor_flags & 0xBFFFFFFF);
                     floor_height = sample_terrain_surface_height((sprite->tile_x << 6) | 0x20,
                         (sprite->tile_y << 6) | 0x20,
-                        (s16) (actor->unk_88.u - 0x20));
+                        (s16) (actor->ground_height - 0x20));
                     ((S_8016B0E8_0 *)entity)->unk_90.at02.v = (s16) ((u16) ((S_8016B0E8_0 *)entity)->unk_90.at02.v
-                        + (actor->unk_88.u - floor_height));
-                    actor->unk_88.s = floor_height;
+                        + (actor->ground_height - floor_height));
+                    actor->ground_height = floor_height;
                 }
-                motion->z.w.i = (s16) (actor->unk_88.u
+                motion->z.w.i = (s16) (actor->ground_height
                     + (u16) ((S_8016B0E8_0 *)entity)->unk_90.at02.v);
                 sprite->flags = (u16) (sprite->flags | 0x40);
                 return;
             }
         }
-        actor->unk_1C = (s32) (actor->unk_1C & 0xF7FFFFFF);
-        motion->z.w.i = (s16) (actor->unk_88.u
+        actor->flags1C = (s32) (actor->flags1C & 0xF7FFFFFF);
+        motion->z.w.i = (s16) (actor->ground_height
             + (u16) ((S_8016B0E8_0 *)entity)->unk_90.at02.v);
         sprite->flags = (u16) (sprite->flags | 0x40);
     }

@@ -2,6 +2,9 @@
 #include "slus.h"
 #include "shared/game_work.h"
 #include "engine/node.h"
+#include "shared/entity.h"
+#include "shared/town_object.h"
+#include "shared/object_node.h"
 
 typedef struct {
     u32 unk0;
@@ -27,13 +30,13 @@ typedef struct {
 extern u8 D_800B9998[];
 
 /* Initializes object data, transform, color, and rendering defaults. */
-void initialize_object_data_transform_color(u8 *object, u8 *render_data, FuncData *state) {
+void initialize_object_data_transform_color(TownObjectRecord *object, ObjectPosition *render_data, FuncData *state) {
     u8 blue;
 
-    *(void **)(object - 0x10) = D_800B9998;
-    register_node(object - 0x20, draw_linked_lit_meshes);
+    ((ObjectNodeHeader *)object - 1)->update_callback = D_800B9998;
+    register_node((ObjectNodeHeader *)object - 1, draw_linked_lit_meshes);
 
-    *(s16 *)(object + 0x66) = 0;
+    object->unk_66.as_s16 = 0;
     state->unk1C = 0x1000;
     state->unk1E = 0x1000;
     state->unk20 = 0x1000;
@@ -51,5 +54,5 @@ void initialize_object_data_transform_color(u8 *object, u8 *render_data, FuncDat
     blue = g_game_work.view.tint.parts.tint_b;
     state->unk8 = 0x1F;
     state->unkE = blue;
-    *(s32 *)(render_data + 8) = 0xFF600000;
+    render_data->z.v = 0xFF600000;
 }

@@ -18,7 +18,7 @@ void card_boot_format_empty_slot_guidance(void *context)
     void *text_buffer;
     s32 text;
 
-    selection = ((S_80024818_0 *)context)->unk_80;
+    selection = ((CardSlotDetails *)context)->mode;
     mode_one = selection == 1;
     state = card_boot_get_remaining_block_summary();
     if (mode_one != 0 && card_boot_count_cached_slots() == 0) {
@@ -73,12 +73,12 @@ void card_boot_format_empty_slot_guidance(void *context)
             buffer_offset = 0x84;
             cursor = context;
             do {
-                Node *node;
+                CardDetailDisplayNode *node;
 
-                node = ((S_80024818_1 *)cursor)->unk_B4C;
-                node->field0 = context + buffer_offset;
-                node->field4->field8 = node_kind;
-                node->field4->fieldA = node_value;
+                node = ((CardSlotDetails *)cursor)->text_nodes[0];
+                node->payload.data = context + buffer_offset;
+                node->block->fields.x = node_kind;
+                node->block->fields.y = node_value;
                 buffer_offset += 0x180;
                 cursor += 4;
                 text += 1;
@@ -95,8 +95,8 @@ void build_a_trigonometric_table_processes_up_eight_height_offset_segments(void 
     s16 y;
     s32 buffer_offset;
     void *buffer;
-    S_800249B4_1 *entry;
-    S_800249B4_2 *position;
+    CardDetailDisplayNode *entry;
+    MenuDisplayBlock *position;
     void *entry_cursor;
 
     decode_fullwidth_text((u8 *)context + 0x84, card_empty_slot_guidance_lines[0], 1);
@@ -108,14 +108,14 @@ void build_a_trigonometric_table_processes_up_eight_height_offset_segments(void 
     entry_cursor = context;
     do {
         buffer = (u8 *)context + buffer_offset;
-        entry = ((S_800249B4_0 *)entry_cursor)->unk_B4C;
+        entry = ((CardSlotDetails *)entry_cursor)->text_nodes[0];
         buffer_offset += 0x180;
-        position = entry->unk_04;
+        position = entry->block;
         entry_cursor = (u8 *)entry_cursor + 4;
-        entry->unk_00 = buffer;
-        position->unk_08 = x;
+        entry->payload.data = buffer;
+        position->fields.x = x;
         entry_index += 1;
-        ((S_800249B4_4 *)entry->unk_04)->unk_0A = y;
+        entry->block->fields.y = y;
         y += 0x10;
     } while (entry_index < 2);
 }

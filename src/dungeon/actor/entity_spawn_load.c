@@ -152,7 +152,7 @@ case 2:
         entity_data = ((S_800A504C_1_pre *)entity)[-1].unk_00;
         spawn = load_monster_code_module(entity->species, spawned, 1);
         spawned = spawn(6, entity_data[0x24], entity_data[0x25],
-                        (s16)(((S_800A504C_1 *)entity)->unk_88 - 0x20));
+                        (s16)(((u16)entity->ground_height) - 0x20));
         if (spawned == NULL) {
             return 0;
         }
@@ -262,7 +262,7 @@ case 2:
         entity_data = ((S_800A504C_1_pre *)entity)[-1].unk_00;
         spawn = load_monster_code_module(entity->species, replacement, 1);
         replacement = spawn(1, entity_data[0x24], entity_data[0x25],
-                        (s16)(((S_800A504C_1 *)entity)->unk_88 - 0x20));
+                        (s16)(((u16)entity->ground_height) - 0x20));
         if (replacement != NULL) {
             ((S_800A504C_4 *)replacement)->unk_14 |= ACTOR_PARTY_MEMBER;
             offset = find_entity_slot_by_field_ac(entity);
@@ -298,7 +298,7 @@ case 2:
             }
             retain_spawn_resource(((S_800A504C_4 *)replacement)->unk_10.at03.v, 3);
             replay_actor_status_slots(replacement);
-            angle = ((S_800A504C_1 *)entity)->unk_2A;
+            angle = ((u16)entity->facing);
             (*(u16 *)(replacement + 0x2A)) = angle;
             offset = ((g_game_work.view.camera_rotation.parts.viewAngle + (s16)angle + 0x100) >> 9) & 7;
             select_indirect_table_entry(entity_data, ((u8 *)((S_800A504C_2 *)entity_data)->unk_2C)[offset],

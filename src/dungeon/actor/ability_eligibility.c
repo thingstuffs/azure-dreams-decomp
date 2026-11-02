@@ -1,3 +1,4 @@
+#include "shared/object_node.h"
 #include "shared/actor_status_flags.h"
 #include "shared/actor_property_flags.h"
 #include "shared/actor_status_ids.h"
@@ -117,18 +118,18 @@ s32 check_row_column_or_diagonal_alignment(MovingTile *source, MovingTile *targe
 s32 check_tile_path_clear(ActorRecord *source, void *target) {
     s32 step_y;
     s32 step_x;
-    MovingTile *source_pos;
-    MovingTile *target_pos;
+    SpriteFrameState *source_pos;
+    SpriteFrameState *target_pos;
     s32 check_param;
     s32 tile_x;
     s32 tile_y;
     s32 height;
     s16 check_height;
 
-    source_pos = ((S_800A36B4_0 *)((u8 *)source - 0x14))->unk_00;
-    target_pos = ((S_800A36B4_1 *)((u8 *)target - 0x14))->unk_00;
+    source_pos = ((ObjectNodeHeader *)source - 1)->sprite;
+    target_pos = ((ObjectNodeHeader *)target - 1)->sprite;
     step_x = source_pos->tile_x - target_pos->tile_x;
-    check_param = ((S_800A36B4_0 *)((u8 *)source - 0x14))->unk_3E;
+    check_param = (u16)source->facing;
     if (step_x != 0) {
         if (step_x > 0) {
             step_x = 1;
@@ -146,7 +147,7 @@ s32 check_tile_path_clear(ActorRecord *source, void *target) {
     }
     tile_x = source_pos->tile_x;
     tile_y = source_pos->tile_y;
-    height = ((S_800A36B4_0 *)((u8 *)source - 0x14))->unk_9C;
+    height = (u16)source->ground_height;
 
     while (tile_x != target_pos->tile_x ||
            tile_y != target_pos->tile_y) {
@@ -342,7 +343,7 @@ void *choose_best_eligible_entry(void *owner_arg, ActorRecord *start, s32 score_
         best_score = -score_limit;
     } else {
         best_score = 0x100;
-        if (((S_800A3D18_0 *)owner_arg)->unk_26 < 0) {
+        if (((s8)((ActorRecord *)owner_arg)->current_attack) < 0) {
             best_score = score_limit;
         }
     }
@@ -355,7 +356,7 @@ void *choose_best_eligible_entry(void *owner_arg, ActorRecord *start, s32 score_
             void *entry_link;
             if ((s16)check_entity_interaction_compatibility(base, candidate) != 0 && (s16)check_entity_eligibility(candidate) != 0) {
                 candidate_owner = ((S_800A3D18_1_pre *)candidate)[-1].unk_00;
-                if (((S_800A3D18_0 *)owner_arg)->unk_26 == candidate_owner->unk_26) {
+                if (((s8)((ActorRecord *)owner_arg)->current_attack) == candidate_owner->unk_26) {
                     score = get_tile_chebyshev_distance(candidate_owner, owner_arg);
                     if ((s16)score < best_score) {
                         if (candidate == global_page->unk_3D7C) {
@@ -366,8 +367,8 @@ void *choose_best_eligible_entry(void *owner_arg, ActorRecord *start, s32 score_
                             best_score = score;
                         }
                     }
-                } else if ((s16)check_monster_neighbor_relations(((S_800A3D18_0 *)owner_arg)->unk_24,
-                                              ((S_800A3D18_0 *)owner_arg)->unk_25,
+                } else if ((s16)check_monster_neighbor_relations(((ActorRecord *)owner_arg)->mp_value.parts.fraction,
+                                              ((ActorRecord *)owner_arg)->mp_value.parts.whole,
                                               base->unk_88,
                                               candidate_owner->unk_24,
                                               candidate_owner->unk_25,
@@ -421,7 +422,7 @@ void *find_eligible_nearby_entry(s32 x, s32 y, void *end, void *owner)
     s32 target_y;
 
     found_id = find_active_rect_containing_point((u16)x, (u16)y);
-    current = (u8 *)((S_800A3F28_0 *)owner)->unk_5C + 0x20;
+    current = (u8 *)((ActorRecord *)owner)->next_actor_header + 0x20;
     if (current != end) {
         lookup_id = (s16)found_id;
         target_x = (s16)x;
@@ -447,7 +448,7 @@ void *find_eligible_nearby_entry(s32 x, s32 y, void *end, void *owner)
                     }
                 }
             }
-            current = (u8 *)((S_800A3F28_0 *)current)->unk_5C + 0x20;
+            current = (u8 *)((ActorRecord *)current)->next_actor_header + 0x20;
         } while (current != end);
     }
     return NULL;
@@ -948,23 +949,23 @@ void advance_status_timers(void *record) {
     u8 expired_status;
     slot_index = 3;
     do {
-        status = ((S_800A4ACC_0 *)(record + slot_index * 2))->unk_2C;
+        status = ((ActorRecord *)(record + slot_index * 2))->status[0].type;
         if (status != 0) {
             if (status == STATUS_POISON) {
-                apply_capped_damage_and_hit_effect(record, ((S_800A4ACC_1 *)((u8 *)record - 0x18))->unk_00);
+                apply_capped_damage_and_hit_effect(record, ((ObjectPosition *)((u8 *)record - 0x18))->x.v);
             }
-            duration = ((S_800A4ACC_0 *)(record + slot_index * 2))->unk_2D;
+            duration = ((ActorRecord *)(record + slot_index * 2))->status[0].value;
             if (duration != 0) {
                 if (duration > 0) {
-                    ((S_800A4ACC_0 *)(record + slot_index * 2))->unk_2D =
-                    (s8)((u8)((S_800A4ACC_0 *)(record + slot_index * 2))->unk_2D - 1);
+                    ((ActorRecord *)(record + slot_index * 2))->status[0].value =
+                    (s8)((u8)((ActorRecord *)(record + slot_index * 2))->status[0].value - 1);
                 } else if (duration < 0) {
-                    ((S_800A4ACC_0 *)(record + slot_index * 2))->unk_2D =
-                    (s8)((u8)((S_800A4ACC_0 *)(record + slot_index * 2))->unk_2D + 1);
+                    ((ActorRecord *)(record + slot_index * 2))->status[0].value =
+                    (s8)((u8)((ActorRecord *)(record + slot_index * 2))->status[0].value + 1);
                 }
-                if (((S_800A4ACC_0 *)(record + slot_index * 2))->unk_2D == 0) {
-                    expired_status = (u8)((S_800A4ACC_0 *)(record + slot_index * 2))->unk_2C;
-                    ((S_800A4ACC_0 *)(record + slot_index * 2))->unk_2C = 0;
+                if (((ActorRecord *)(record + slot_index * 2))->status[0].value == 0) {
+                    expired_status = (u8)((ActorRecord *)(record + slot_index * 2))->status[0].type;
+                    ((ActorRecord *)(record + slot_index * 2))->status[0].type = 0;
                     end_status_effect_message(record, (s8)expired_status);
                 }
             }

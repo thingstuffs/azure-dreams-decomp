@@ -21,7 +21,7 @@ typedef struct S_800D4158_1 {
 } S_800D4158_1;   /* arg1 in update_actor_motion_and_brightness */
 
 /* Updates entity callbacks, motion, ground contact, and sprite brightness. */
-void update_actor_motion_and_brightness(ActorRecord *body, S_800D4158_1 *motion, SpriteFrameState *sprite) {
+void update_actor_motion_and_brightness(ActorRecord *body, ObjectPosition *motion, SpriteFrameState *sprite) {
     ActorRecord *entity_ref = body;
     u16 motion_flags;
     u32 entity_flags;
@@ -43,18 +43,18 @@ void update_actor_motion_and_brightness(ActorRecord *body, S_800D4158_1 *motion,
             advance_sprite_animation_and_textures(sprite);
         }
     }
-    motion->unk_00.at00.v += motion->unk_0C;
-    motion->unk_04.at00.v += motion->unk_10;
+    motion->x.v += motion->velocity_x;
+    motion->y.v += motion->velocity_y;
     motion_flags = body->action_state_flags;
     if (motion_flags & 8) {
         body->unk_9D.u = 0;
     } else {
-        motion->unk_14 += body->unk_9D.s * 0x14000;
+        motion->velocity_z += body->unk_9D.s * 0x14000;
         body->unk_9D.s = body->unk_9D.u + 1;
     }
-    body->unk_90.value += motion->unk_14;
+    body->unk_90.value += motion->velocity_z;
     if (!(body->action_state_flags & 4) &&
-        (ground_height = (s16)(ground_height_raw = sample_terrain_surface_height(motion->unk_00.at02.v, motion->unk_04.at02.v,
+        (ground_height = (s16)(ground_height_raw = sample_terrain_surface_height(motion->x.unsigned_parts.integer, motion->y.unsigned_parts.integer,
                         (s16)((*(u16 *)((u8 *)entity_ref + 0x88)) - 0x20)))) < 0x200) {
         if (body->unk_90.parts.high.s + entity_ref->ground_height < ground_height) {
             body->action_state_flags &= 0xF7FFFFFF;
@@ -64,7 +64,7 @@ void update_actor_motion_and_brightness(ActorRecord *body, S_800D4158_1 *motion,
             } else {
                 body->unk_90.parts.high.s = ground_height_raw - (*(u16 *)((u8 *)entity_ref + 0x88));
             }
-            motion->unk_14 = 0;
+            motion->velocity_z = 0;
             entity_ref->flags1C |= 0x08000000;
             body->unk_9D.s = 0;
         }
@@ -81,7 +81,7 @@ void update_actor_motion_and_brightness(ActorRecord *body, S_800D4158_1 *motion,
     } else {
         (*(u32 *)((u8 *)entity_ref + 0x1c)) &= 0xf7ffffff;
     }
-    motion->unk_0A = (*(u16 *)((u8 *)entity_ref + 0x88)) +
+    motion->z.w.i = (*(u16 *)((u8 *)entity_ref + 0x88)) +
                                    body->unk_90.parts.high.s;
     pulse_phase = body->unk_9E.u;
     pulse_phase++;

@@ -7,7 +7,7 @@
  * Decrements the signed lifetime and flags removal when it expires; otherwise fades RGB toward
  * zero using the remaining ticks, integrates motion, and adds Z acceleration 0x60000.
  */
-void update_an_effect_s_lifetime_fades_color_advances_motion(ManoevaParticleBurstBody *effect, s32 *motion, u8 *color_data)
+void update_an_effect_s_lifetime_fades_color_advances_motion(ManoevaParticleBurstBody *effect, s32 *motion, SpriteFrameState *color_data)
 {
     u16 ticks_left;
     u8 intensity;
@@ -20,11 +20,11 @@ void update_an_effect_s_lifetime_fades_color_advances_motion(ManoevaParticleBurs
         return;
     }
 
-    intensity = color_data[0xC];
+    intensity = color_data->color.c.r;
     intensity -= intensity / (s16)ticks_left;
-    color_data[0xC] = intensity;
-    color_data[0xD] = intensity;
-    color_data[0xE] = intensity;
+    color_data->color.c.r = intensity;
+    color_data->color.c.g = intensity;
+    color_data->color.c.b = intensity;
 
     motion[0] += motion[3];
     motion[1] += motion[4];

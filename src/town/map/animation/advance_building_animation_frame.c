@@ -2,7 +2,6 @@
 #include "sdk/libgpu.h"
 #include "town/map/animation.h"
 
-extern u16 building_upload_rect[];
 extern u8 building_texture_frame_zero[];
 extern u8 building_texture_frame_one[];
 extern u8 building_texture_frame_two[];
@@ -12,7 +11,7 @@ extern u8 building_texture_frame_three[];
 void advance_building_animation_frame(BuildingSelectionHandlerBody *state) {
     u16 next_tick;
     s32 tick_index;
-    void *rect;
+    BuildingUploadRect *rect;
 
     next_tick = state->animation_tick.u + 1;
     state->animation_tick.u = next_tick;
@@ -23,41 +22,41 @@ void advance_building_animation_frame(BuildingSelectionHandlerBody *state) {
     tick_index = state->animation_tick.s % 24;
     switch (tick_index) {
     case 0:
-        rect = (void *)building_upload_rect;
-        (*building_upload_rect) = 808;
-        ((u16 *)rect)[1] = 128;
-        ((u16 *)rect)[2] = 8;
-        ((u16 *)rect)[3] = 32;
+        rect = &building_upload_rect;
+        building_upload_rect.x = 808;
+        rect->y = 128;
+        rect->w = 8;
+        rect->h = 32;
         LoadImage(rect, building_texture_frame_zero);
         return;
 
     case 4:
     case 20:
-        rect = (void *)building_upload_rect;
-        (*building_upload_rect) = 808;
-        ((u16 *)rect)[1] = 128;
-        ((u16 *)rect)[2] = 8;
-        ((u16 *)rect)[3] = 32;
+        rect = &building_upload_rect;
+        building_upload_rect.x = 808;
+        rect->y = 128;
+        rect->w = 8;
+        rect->h = 32;
         LoadImage(rect, building_texture_frame_one);
         return;
 
     case 8:
     case 16:
-        rect = (void *)building_upload_rect;
-        (*building_upload_rect) = 808;
-        ((u16 *)rect)[1] = 128;
-        ((u16 *)rect)[2] = 8;
-        ((u16 *)rect)[3] = 32;
+        rect = &building_upload_rect;
+        building_upload_rect.x = 808;
+        rect->y = 128;
+        rect->w = 8;
+        rect->h = 32;
         LoadImage(rect, building_texture_frame_two);
         return;
 
     case 12:
-        rect = (void *)building_upload_rect;
+        rect = &building_upload_rect;
 
-        (*building_upload_rect) = 808;
-        ((u16 *)rect)[1] = 128;
-        ((u16 *)rect)[2] = 8;
-        ((u16 *)rect)[3] = 32;
+        building_upload_rect.x = 808;
+        rect->y = 128;
+        rect->w = 8;
+        rect->h = 32;
         LoadImage(rect, building_texture_frame_three);
     }
 }

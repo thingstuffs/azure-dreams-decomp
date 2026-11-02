@@ -131,17 +131,14 @@ typedef struct {
     s32 **dst8;
     ovl_1831370_81811878_Result *dstC;
 } ovl_1831370_81811878_Destinations;
-typedef struct ovl_1831370_8181192C_S_8002692C_0 {
-    void (*unk_00)(s32 *);
-    u8 pad_04[0x18];
-    s32 unk_1C;
-    s32 unk_20;
-    s32 unk_24;
-    u8 pad_28[0x4];
-    s32 unk_2C;
-} ovl_1831370_8181192C_S_8002692C_0;
 typedef struct ovl_1831370_818119A0_S_800269A0_0 {
-    u8 pad_00[0x70];
+    u8 pad_00[0xC];
+    s32 unk_0C;
+    s32 unk_10;
+    s32 unk_14;
+    u8 pad_18[0x4];
+    s32 unk_1C;
+    u8 pad_20[0x50];
     s32 unk_70;
 } ovl_1831370_818119A0_S_800269A0_0;
 typedef struct {

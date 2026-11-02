@@ -5,49 +5,15 @@
 
 /* Present C interface; historical filename and TU boundary remain inferred. */
 #include "common.h"
+#include "engine/window/attached_message_window.h"
 #include "engine/node/allocation.h"
 
 #include "common.h"
 #include "records/Rec_func_80034F58_arg0.h"
 
-typedef struct S_80035888_0 {
-    u8 pad_00[0x8];
-    void * unk_08;
-    void * unk_0C;
-    void * unk_10;
-    u8 pad_14[0xC];
-    void * unk_20;
-} S_80035888_0;   /* node in func_80035888 */
 
-typedef struct S_80035888_1 {
-    u8 pad_00[0x4];
-    s32 unk_04;
-    void * unk_08;
-    u8 pad_0C[0xC];
-    s32 unk_18;
-    u8 pad_1C[0x28];
-    void * unk_44;
-    u8 unk_48;
-    u8 pad_49[0x1];
-    s16 unk_4A;
-    u8 pad_4C[0x28];
-    void * unk_74;
-    u8 unk_78;
-} S_80035888_1;   /* object in func_80035888 */
 
-typedef struct S_80035888_2 {
-    u8 pad_00[0x2];
-    s16 unk_02;
-} S_80035888_2;   /* part8 in func_80035888 */
 
-typedef struct S_80035888_3 {
-    s32 unk_00;
-    u8 unk_04;
-    u8 unk_05;
-    u8 pad_06[0x2];
-    void * unk_08;
-    s32 unk_0C;
-} S_80035888_3;   /* partC in func_80035888 */
 
 
 typedef struct S_80035888_5 {

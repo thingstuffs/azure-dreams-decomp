@@ -125,8 +125,8 @@ void create_rotating_clipped_sprite(u32 *, s16);             /* extern */
 struct S_8016738C_3; void create_color_cycling_pulse(struct S_8016738C_3 *);                      /* extern */
 struct EntityRec; void create_layered_sprite_pulse(EntityRec *origin);                      /* extern */
 void create_forward_layered_sprite_pulse(); /* Unprototyped: retail call passes more arguments than the callee reads */                  /* extern */
-struct S_8016F5D8_0; struct S_8016F5D8_1; struct S_8016F5D8_2; void update_phase_driven_motion_offset(struct S_8016F5D8_1 *, struct S_8016F5D8_2 *, struct S_8016F5D8_0 *);      /* extern */
-void apply_script_direction_record(void *, u8 *, void *);      /* extern */
+struct S_8016F5D8_0; struct S_8016F5D8_1; struct S_8016F5D8_2; void update_phase_driven_motion_offset(struct S_8016F5D8_1 *, ObjectPosition *, struct S_8016F5D8_0 *);      /* extern */
+void apply_script_direction_record(void *, ObjectPosition *, SpriteFrameState *);      /* extern */
 void create_action_offset_object(void);                            /* extern */
 extern Table32 D_8016482C;
 extern Table32 D_80164AC0;

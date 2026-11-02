@@ -5,6 +5,8 @@ struct ObjectNodeHeader;
 /* Prototypes of the functions defined in src/frontend/libcard/ (one true prototype each; maintained by tools/headers). */
 
 #include "common.h"
+#include "frontend/libcard/command_panel.h"
+#include "frontend/libcard/card_chooser.h"
 #include "shared/object_node.h"
 
 /* Resident message records: five string pointers followed by four layout bytes.
@@ -38,25 +40,10 @@ typedef struct Node8002BB08 {
 void card_boot_destroy_card_chooser(CardChooser *entry);
 #include "records/Rec_func_8002290C_arg0.h"
 /* Slot-menu payload: the request returns to its owning card chooser. */
-typedef struct CardSlotMenuState {
-    u8 pad_00[0x20];
-    void *request;
-    u8 pad_24[0x4];
-    s32 unk_28;
-    u8 pad_2C[0x4];
-    s32 unk_30;
-    u8 pad_34[0x10];
-    s32 unk_44;
-    s32 unk_48;
-    s32 unk_4C;
-} CardSlotMenuState;
+#include "frontend/libcard/slot_menu.h"
 
 /* Selection fields shared by the slot-detail dispatcher and its updater. */
-typedef struct CardSlotDetails {
-    u8 pad_00[0x7C];
-    s32 selected_slot;
-    s32 mode;
-} CardSlotDetails;
+#include "frontend/libcard/slot_details.h"
 
 void card_boot_refresh_slot_details(CardSlotDetails *object);
 
@@ -78,11 +65,9 @@ typedef struct Object_800128C8 {
     /* 0x44 */ s32 callback_index;
 } Object_800128C8;
 struct S_80022524_0;
-struct S_80023258_0;
 struct S_80023F94_0;
 struct S_80025030_0;
 struct S_80026C94_0;
-struct S_80027A68_0;
 struct S_800491F4;
 struct UnkStruct1E;
 struct CardDisplayNode;
@@ -103,7 +88,7 @@ void build_and_queue_interpolated_vertical_quads_around_five_perimeter_points(u8
 void build_install(u8 *object);
 
 /* card_boot_animate_three_row_selection.c */
-s32 card_boot_animate_three_row_selection(struct S_80023258_0 *state);
+s32 card_boot_animate_three_row_selection(CardCommandPanelBody *state);
 
 /* card_boot_apply_slot_deletion_response.c */
 void card_boot_apply_slot_deletion_response(void *object);
@@ -112,7 +97,7 @@ void card_boot_apply_slot_deletion_response(void *object);
 void card_boot_begin_selected_value_transition(s32 object_addr, s32 value);
 
 /* card_boot_bind_command_panel_resources.c */
-void card_boot_bind_command_panel_resources(void *object);
+void card_boot_bind_command_panel_resources(CardCommandPanelBody *panel);
 
 /* card_boot_bind_save_heading_display_data.c */
 void card_boot_bind_save_heading_display_data(void *record);
@@ -172,7 +157,7 @@ void card_boot_format_card_with_retry(void *state);
 void card_boot_format_command_panel_labels(s32 baseAddress);
 
 /* card_boot_format_saved_slot_details.c */
-void card_boot_format_saved_slot_details(void *record);
+void card_boot_format_saved_slot_details(CardSlotDetails *record);
 
 /* card_boot_handle_format_answer.c */
 void card_boot_handle_format_answer(void *object);
@@ -202,7 +187,7 @@ void card_boot_layout_five_entry_list(void *context);
 void card_boot_layout_left_right_labels(struct S_80026C94_0 *owner);
 
 /* card_boot_layout_three_row_command_panel.c */
-void card_boot_layout_three_row_command_panel(void *panel);
+void card_boot_layout_three_row_command_panel(CardCommandPanelBody *panel);
 
 /* card_boot_link_paired_choice_display_entries.c */
 struct S_800491F4 *card_boot_link_paired_choice_display_entries(struct S_800491F4 **nodes);
@@ -217,7 +202,7 @@ void card_boot_mark_object_complete(struct ObjectNodeHeader *object);
 void *card_boot_open_save_slot_selection(void *request);
 
 /* card_boot_open_selected_request_menu.c */
-void card_boot_open_selected_request_menu(void *record);
+void card_boot_open_selected_request_menu(CardChooserBody *record);
 
 /* card_boot_refresh_five_slot_selection.c */
 void card_boot_refresh_five_slot_selection(struct S_80025030_0 *state);
@@ -229,7 +214,7 @@ void card_boot_refresh_paired_choice_labels(u8 *state);
 s16 card_boot_render_panel_hierarchy(s32 first_value, s32 second_value, struct CardDisplayNode *third_value);
 
 /* card_boot_reset_three_row_highlight.c */
-void card_boot_reset_three_row_highlight(void *object);
+void card_boot_reset_three_row_highlight(CardCommandPanelBody *panel);
 
 /* card_boot_restore_saved_selection_callback.c */
 void card_boot_restore_saved_selection_callback(void *object_data);
@@ -376,7 +361,7 @@ void *dispatch_request_mode_two(void *request);
 void draw_cylindrical(void *object);
 
 /* entry_card_boot_has_selected_channel.c */
-void card_boot_init_channel_record(struct S_80027A68_0 *record, void *request, s32 value_00);
+void card_boot_init_channel_record(CardChooserBody *record, ObjectNodeHeader *request, s32 value_00);
 
 /* init_card_boot_request_object.c */
 struct Node8002BB08 *init_card_boot_request_object(void *request, s32 mode);
