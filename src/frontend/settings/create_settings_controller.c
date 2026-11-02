@@ -1,3 +1,4 @@
+#include "frontend/settings/controller_body.h"
 #include "modules/main_title_callbacks.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/object_node.h"
@@ -10,42 +11,6 @@
 #include "main/data.h"
 #include "slus.h"
 
-typedef struct S_80088BD0_1 {
-    u8 pad_00[0x1A];
-    s16 unk_1A;
-    s16 unk_1C;
-    u8 pad_1E[0x4];
-    s16 unk_22;
-} S_80088BD0_1;
-
-typedef struct S_80088BD0_2 {
-    u8 pad_00[0x4];
-    void * unk_04;
-} S_80088BD0_2;
-
-typedef struct S_80088BD0_4 {
-    s32 unk_00;
-} S_80088BD0_4;
-
-typedef struct S_80088BD0_5 {
-    u8 pad_00[0x20];
-    void * unk_20;
-} S_80088BD0_5;
-
-typedef struct S_80088BD0_8 {
-    u8 pad_00[0x10];
-    void * unk_10;
-} S_80088BD0_8;
-
-typedef struct S_80088BD0_9 {
-    u8 pad_00[0x2];
-    s16 unk_02;
-    u8 pad_04[0x2];
-    s16 unk_06;
-    u8 pad_08[0x4];
-    s32 unk_0C;
-    s32 unk_10;
-} S_80088BD0_9;
 struct Dst;
 struct Elem;
 extern s8 animation_tick_scale;
@@ -66,9 +31,9 @@ void create_settings_controller(void) {
     SpriteFrameState *sprite;
     ObjectNodeHeader *object;
     SettingsSyncObjectBody *effect_state;
-    void *parent_state;
+    SettingsMenuBody *parent_state;
     void *id_offset;
-    void *child_slot;
+    SettingsControllerChildNode **child_slot;
 
     parent_state = NULL;
     *(Desc3 *)sprite_ids = *(Desc3 *)&D_80088760;
@@ -78,19 +43,19 @@ void create_settings_controller(void) {
         parent_state = ((void *)object) + 0x20;
         object->update_callback = (void *)update_settings_menu_animation;
         register_node(object, queue_settings_sprite_grid);
-        ((S_80088BD0_1 *)parent_state)->unk_22 = 0x708;
+        parent_state->counter = 0x708;
         object->position->y.w.i = 0xF0;
-        ((S_80088BD0_1 *)parent_state)->unk_1A = 0;
-        ((S_80088BD0_1 *)parent_state)->unk_1C = 0x40;
+        parent_state->fade.unk_2 = 0;
+        parent_state->fade.param = 0x40;
     }
     child_index = 2;
     start_delay = 0x3C;
     sprite_y = 0xC8;
     unit_scale = 0x1000;
-    child_slot = parent_state + 8;
+    child_slot = &parent_state->slotsA[1];
     do {
         object = allocate_flagged_object_node(0x111);
-        ((S_80088BD0_2 *)child_slot)->unk_04 = object;
+        child_slot[1] = (void *)object;
         id_offset = (void *)(child_index << 2);
         if (object != NULL) {
             child_state = ((void *)object) + 0x20;
@@ -102,7 +67,7 @@ void create_settings_controller(void) {
             object->position->velocity_x = 0x150000;
             sprite->scale_y = unit_scale;
             sprite->scale_x = unit_scale;
-            sprite_id = ((S_80088BD0_4 *)((s8 *)sprite_ids + (s32)id_offset))->unk_00;
+            sprite_id = *(s32 *)((s8 *)sprite_ids + (s32)id_offset);
             sprite->unk_04 = 0;
             sprite->frame_ticks = 0;
             sprite->color.word = 0x808080;
@@ -114,7 +79,7 @@ void create_settings_controller(void) {
         start_delay -= 0x1E;
         sprite_y -= 0x10;
         child_index -= 1;
-        child_slot -= 4;
+        child_slot--;
     } while (child_index >= 0);
     object = allocate_flagged_object_node(1);
     if (object != NULL) {
@@ -134,7 +99,7 @@ void create_settings_controller(void) {
     child_index = 1;
     do {
         object = allocate_flagged_object_node(0x111);
-        ((S_80088BD0_8 *)((s8 *)parent_state + (child_index << 2)))->unk_10 = object;
+        parent_state->slotsB[child_index] = (void *)object;
         if (object != NULL) {
             child_state = ((void *)object) + 0x20;
             sprite = object->sprite;

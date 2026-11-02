@@ -7,7 +7,7 @@
 #include "shared/gpu_packets.h"
 
 struct ObjA464;
-struct S_80049F68_Obj;
+struct AnimatedMenuPanelBody;
 struct S_8004A4E4;
 struct S_8004F684;
 struct S_8004F780;
@@ -176,7 +176,7 @@ s32 run_state_callback_and_restore(void *state);
 void set_object_cleanup_flag(unsigned short *object_fields);
 
 /* sound_initialize_ordered_elements.c */
-void sound_initialize_ordered_elements(struct S_80049F68_Obj *obj);
+void sound_initialize_ordered_elements(struct AnimatedMenuPanelBody *obj);
 
 /* update_animated_selection_menu.c */
 void update_animated_selection_menu(struct S_8004FC2C *object);

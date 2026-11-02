@@ -1,116 +1,71 @@
+#include "engine/effect/cd_sequence.h"
 #include "common.h"
 #include "engine/effect.h"
 #include "engine/graphics.h"
 #include "slus/data.h"
 
-typedef struct A0
-{
-    u16 pad0[3];
-    u16 unk6;
-    u8 pad8[0x14];
-    int unk1C;
-}
-A0;
-typedef struct FrameB
-{
-    s16 unk0;
-    u16 unk2;
-    u16 unk4;
-    s16 unk6;
-    u8 pad8[8];
-}
-FrameB;
-typedef struct AnimSub
-{
-    s16 pad0[3];
-    s16 unk6;
-    s16 pad8;
-    s16 unkA;
-    u16 unkC;
-    s16 unkE;
-    s16 unk10;
-}
-AnimSub;
-typedef struct Ent
-{
-    u16 pad[0xF];
-    u16 flags;
-    AnimSub anim;
-}
-Ent;
-typedef struct S_8005313C
-{
-    A0 *unk0;
-    s16 state;
-    u16 counter;
-    s16 unk8;
-    s16 unkA;
-    FrameB *unkC;
-    Ent *unk10[16];
-}
-S_8005313C;
 /* Plays timed entity animations, then flags the sequence and its entities for cleanup. */
-void play_timed_animation_sequence(S_8005313C *sequence)
+void play_timed_animation_sequence(CdCueSequenceBody *sequence)
 {
     s16 *state_ptr;
     u16 elapsed_ticks;
     s16 entity_slot;
-    Ent *entity;
-    Ent *anim_entity;
-    AnimSub *anim;
-    FrameB *frame;
+    CdCueSequenceChildNode *entity;
+    CdCueSequenceChildNode *anim_entity;
+    CdCueSequenceChildBody *anim;
+    CdCueSequenceFrame *frame;
     s16 next_tick;
     int entity_index;
     s32 cleanup_flags;
 
-    elapsed_ticks = sequence->counter + 1;
-    sequence->counter = elapsed_ticks;
+    elapsed_ticks = sequence->timer + 1;
+    sequence->timer = elapsed_ticks;
     switch (sequence->state) {
     case 0:
-        if (sequence->unkA != 0) {
-            sequence->unkA = 0;
-            sequence->counter = 0;
+        if (sequence->trigger != 0) {
+            sequence->trigger = 0;
+            sequence->timer = 0;
             sequence->state = sequence->state + 1;
         }
         break;
 
     case 1:
-        if (sequence->unkC->unk0 == ((s16) elapsed_ticks)) {
+        if (sequence->frame->tick == ((s16) elapsed_ticks)) {
             do {
-                entity_slot = (sequence->unk8 + 1) % 16;
-                sequence->unk8 = entity_slot;
-                anim_entity = sequence->unk10[entity_slot];
-                anim = &anim_entity->anim;
-                if (anim->unk6 == 0) {
-                    anim->unk6 = 1;
-                    anim->unkA = sequence->unkC->unk2 - 0x180;
-                    anim->unk10 = sequence->unkC->unk2 - 0x180;
-                    anim->unkC = sequence->unkC->unk4;
-                    anim->unkE = (sequence->unkC->unk6 * 12) + 12;
-                    clear_and_draw_paired_text_rows(sequence->unk8, sequence->unkC);
+                entity_slot = (sequence->slot_index + 1) % 16;
+                sequence->slot_index = entity_slot;
+                anim_entity = sequence->children[entity_slot];
+                anim = &anim_entity->body;
+                if (anim->activation_state == 0) {
+                    anim->activation_state = 1;
+                    anim->x = sequence->frame->x - 0x180;
+                    anim->line_x = sequence->frame->x - 0x180;
+                    anim->y = sequence->frame->y;
+                    anim->line_width = (sequence->frame->line_units * 12) + 12;
+                    clear_and_draw_paired_text_rows(sequence->slot_index, sequence->frame);
                 }
-                frame = sequence->unkC;
-                sequence->unkC = frame + 1;
-                next_tick = frame[1].unk0;
+                frame = sequence->frame;
+                sequence->frame = frame + 1;
+                next_tick = frame[1].tick;
                 if (next_tick == 0) {
-                    sequence->counter = 0;
+                    sequence->timer = 0;
                     sequence->state = (*(state_ptr = &sequence->state)) + 1;
                     return;
                 }
             }
-            while (next_tick == ((s16) sequence->counter));
+            while (next_tick == ((s16) sequence->timer));
         }
         break;
 
     case 2:
         if (((s16) elapsed_ticks) >= 0x190) {
-            sequence->unk0->unk1C = 0;
-            sequence->unk0->unk6 = sequence->unk0->unk6 + 1;
+            sequence->owner->group_word = 0;
+            sequence->owner->completion_count = sequence->owner->completion_count + 1;
             for (entity_index = 0; entity_index < 0x10; entity_index++) {
-                entity = sequence->unk10[entity_index];
+                entity = sequence->children[entity_index];
                 cleanup_flags = D_800814A0_loop | 0x8000;
                 D_800814A0_loop = cleanup_flags;
-                entity->flags |= 0x8000;
+                entity->header.flags |= 0x8000;
             }
 
             *((u16 *) (((u8 *) sequence) - 2)) |= 0x8000;

@@ -3,6 +3,7 @@
 #include "dungeon/effect/expiring_sprite_effect_g00370.h"
 #include "shared/entity.h"
 #include "shared/object_node.h"
+#include "dungeon/effect.h"
 
 /* Creates an object at an offset from its parent and initializes its motion and state. */
 void create_offset_sprite_effect(ObjectNodeHeader *parent, s32 state_value, s16 x_offset, s16 y_offset, s32 z_offset,

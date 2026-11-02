@@ -1,14 +1,7 @@
+#include "frontend/libcard/slot_list.h"
 #include "frontend/libcard/message.h"
 
-/* The slot-list owner supplies 10 linked display slots at these offsets. */
-typedef struct CardSlotListNodes {
-    /* 0x000 */ u8 pad_000[0x240];
-    /* 0x240 */ DisplayPositionWords vector;
-    /* 0x24C */ u8 pad_24C[0x10];
-    /* 0x25C */ CardDisplayNode *pointers[10];
-    /* 0x284 */ CardDisplayNode nodes[10];
-    /* 0x324 */ CardDisplayBlock blocks[10];
-} CardSlotListNodes;
+
 
 /* Sibling message files declare these templates through their own local views. */
 extern CardDisplayBlock display_block_defaults;

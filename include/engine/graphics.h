@@ -208,7 +208,9 @@ void copy_and_scale_screen_outline_points(void);
 void scene_begin_transition_texture_read(unsigned char *task_state);
 
 /* scene_initialize_orbit_motion_sprite.c */
-void scene_initialize_orbit_motion_sprite(void *object_ptr, void *slot);
+struct SineMotionEffectNode;
+struct Controller;
+void scene_initialize_orbit_motion_sprite(struct SineMotionEffectNode *object, struct Controller *owner);
 
 /* scene_load_texture_and_data_pair.c */
 void scene_load_texture_and_data_pair(s8 *status);

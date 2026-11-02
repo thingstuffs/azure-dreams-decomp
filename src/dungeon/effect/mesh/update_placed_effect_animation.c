@@ -7,6 +7,7 @@
 #include "shared/dungeon_status.h"
 #include "shared/dir_step.h"
 #include "shared/entity.h"
+#include "slus.h"
 
 typedef struct S_81978428_1 {
     u16 unk_00;
@@ -75,7 +76,6 @@ typedef struct {
 
 
 extern void func_800243C0(void *, void *);
-extern s32 read_sound_mode_blocking_status(s32);
 extern void play_sound_if_enabled(s32);
 #include "dungeon/item/actor_target.h"
 #include "dungeon/item.h"

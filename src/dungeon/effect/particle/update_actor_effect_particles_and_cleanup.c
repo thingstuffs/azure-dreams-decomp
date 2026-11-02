@@ -15,6 +15,10 @@
 #include "dungeon/actor.h"
 #include "dungeon/actor/effect.h"
 #include "dungeon/effect/screen.h"
+#include "dungeon/effect/particle.h"
+#include "sdk/libc.h"
+#include "sdk/libgpu.h"
+#include "sdk/libgte.h"
 
 typedef struct DungeonState818D4800 {
     u8 pad0[0x8D0];
@@ -41,10 +45,6 @@ typedef struct PrimTag818D4800 {
     u32 len : 8;
 } PrimTag818D4800;
 
-extern u32 RotTransPers(void *scratch, void *prim_output, void *scratch_90, void *scratch_94);
-extern s32 GetTPage(s32 value0, s32 value1, s32 value2, s32 value3);
-extern void SetDrawMode(void *prim, s32 value0, s32 value1, s32 draw_mode, s32 value2);
-
 void (*const dungeon_18f4800_entry)(struct Actor33 *, struct Motion33 *, struct Render33 *) = update_actor_effect_particles_and_cleanup;
 const PackedOffsets dungeon_18f4800_offsets = { {
     {16, 0}, {16, 16}, {0, 16}, {-16, 16},
@@ -52,12 +52,10 @@ const PackedOffsets dungeon_18f4800_offsets = { {
 } };
 
 /* Queue a shaded tile and draw mode packet, then continue the object chain. */
-int abs(int);
 extern u8 D_80025100[16];
 extern Packed12 actor_particle_images;
 extern u8 current_spell_effect_variant[16];
 extern void unlink_node(void *);
-extern s32 rand(void);
 extern s32 generate_random_value(void);
 
 /* Projects linked points and queues visible square particles with color scaled by each point's intensity. */

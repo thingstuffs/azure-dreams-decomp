@@ -1,5 +1,6 @@
 #include "common.h"
 #include "shared/game_work.h"
+#include "dungeon/menu.h"
 
 /* D_80083160: shared state table. offset 0x1DC holds a pointer to the
  * dungeon map cell array (6-byte cells, first s16 field is the cell
@@ -8,7 +9,6 @@
  * declaration per merge-safety contract -- only a raw byte-offset
  * view is needed here (matches the field access shape in the asm,
  * base symbol used with explicit sub-offsets, not folded). */
-extern void submit_activation_command(void);
 extern void create_transformed_render_object(s16 x, s16 y, s32 color, s32 size, s32 count);
 
 typedef struct {

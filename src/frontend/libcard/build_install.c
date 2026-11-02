@@ -7,7 +7,7 @@
 #include "slus.h"
 
 /* Handle menu selection, directional repeat, and closing from controller input and update status. */
-void build_install(u8 *object)
+void build_install(CardSlotMenuState *object)
 {
     s32 held_buttons;
     s32 pressed_buttons;
@@ -24,21 +24,21 @@ void build_install(u8 *object)
         pressed_buttons = (g_game_work.pressed_buttons);
         if (pressed_buttons & 0x20) {
             SD_Call(AUDIO_CANCEL);
-            card_boot_destroy_slot_selection_menu(object - 0x20);
-            init_card_boot_request_object(((CardSlotMenuState *)object)->request, 0);
+            card_boot_destroy_slot_selection_menu(((ObjectNodeHeader *)object - 1));
+            init_card_boot_request_object(object->request, 0);
             return;
         }
         if (pressed_buttons & 0x40) {
             SD_Call(AUDIO_MENU_CONFIRM);
-            if (((CardSlotMenuState *)object)->unk_48 == 0) {
+            if (object->unk_48 == 0) {
                 set_record_pair_to_one(object);
                 needs_refresh = 1;
             } else {
-                card_boot_dispatch_selected_menu_action(object);
+                card_boot_dispatch_selected_menu_action((struct Object_800128C8 *)object);
             }
         } else if (held_buttons & 0x5000) {
             if (pressed_buttons & 0x5000) {
-                ((CardSlotMenuState *)object)->unk_30 = 0;
+                object->unk_30 = 0;
                 pressed_buttons = (g_game_work.pressed_buttons);
                 if (pressed_buttons & 0x1000) {
                     selection_step = -1;
@@ -46,9 +46,9 @@ void build_install(u8 *object)
                     selection_step = 1;
                 }
             } else {
-                repeat_ticks = ((CardSlotMenuState *)object)->unk_30;
+                repeat_ticks = object->unk_30;
                 if (repeat_ticks >= 13) {
-                    ((CardSlotMenuState *)object)->unk_30 = repeat_ticks - 4;
+                    object->unk_30 = repeat_ticks - 4;
                     repeat_buttons = g_game_work.buttons;
                     if (repeat_buttons & 0x1000) {
                         selection_step = -1;
@@ -56,26 +56,26 @@ void build_install(u8 *object)
                         selection_step = 1;
                     }
                 } else {
-                    ((CardSlotMenuState *)object)->unk_30 = repeat_ticks + 1;
+                    object->unk_30 = repeat_ticks + 1;
                 }
             }
         } else if (held_buttons & 0xA000) {
             if (held_buttons & 0x2000) {
-                ((CardSlotMenuState *)object)->unk_48 = 1;
+                object->unk_48 = 1;
             } else {
-                ((CardSlotMenuState *)object)->unk_48 = 0;
+                object->unk_48 = 0;
             }
             needs_refresh = 1;
         }
 
         if (selection_step != 0) {
             SD_Call(AUDIO_CURSOR_MOVE);
-            if (((CardSlotMenuState *)object)->unk_48 == 1) {
-                ((CardSlotMenuState *)object)->unk_28 =
-                    advance_index_with_single_wrap(((CardSlotMenuState *)object)->unk_28, selection_step, 5);
+            if (object->unk_48 == 1) {
+                object->unk_28 =
+                    advance_index_with_single_wrap(object->unk_28, selection_step, 5);
             } else {
-                ((CardSlotMenuState *)object)->unk_44 =
-                    advance_index_with_single_wrap(((CardSlotMenuState *)object)->unk_44, selection_step, 3);
+                object->unk_44 =
+                    advance_index_with_single_wrap(object->unk_44, selection_step, 3);
             }
             card_boot_refresh_five_slot_selection(object);
         }
@@ -85,8 +85,8 @@ void build_install(u8 *object)
     no_op_card_stub();
     if (update_status != 0) {
         if (update_status != 1) {
-            card_boot_destroy_slot_selection_menu(object - 0x20);
-            init_card_boot_request_object(((CardSlotMenuState *)object)->request, 0);
+            card_boot_destroy_slot_selection_menu(((ObjectNodeHeader *)object - 1));
+            init_card_boot_request_object(object->request, 0);
         }
     }
 

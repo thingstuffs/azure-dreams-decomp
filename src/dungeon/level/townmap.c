@@ -3,6 +3,7 @@
 struct ObjectNodeHeader;
 #include "dungeon/level/townmap.h"
 #include "engine/script.h"
+#include "dungeon/level.h"
 
 
 /* Loads the requested map resource, then schedules resource 1 or clears the request after resource 1

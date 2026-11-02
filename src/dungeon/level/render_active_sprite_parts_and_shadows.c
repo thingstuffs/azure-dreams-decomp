@@ -11,6 +11,7 @@
 #include "m2c_compat.h"
 #include "slus.h"
 #include "dungeon/level.h"
+#include "sdk/libgpu.h"
 extern u8 effect_view_matrix[];
 typedef struct S_SCRATCH {
     union {
@@ -110,8 +111,6 @@ u32 RotAverage4(void *, void *, void *, void *, void *, void *, void *, void *, 
 s32 RotTransPers4(void *, void *, void *, void *, void *, void *, void *, void *, void *, void *, GeomSideEffects);
 
 s32 RotMatrix(void *, void *, ...);        /* extern */
-void AddPrim(void *, void *);         /* extern */
-void SetPolyFT4(void *);                 /* extern */
 extern u32 sprite_projection_matrix[8];
 extern s32 dungeon_floor_flags[3];
 extern u8 floor_objects[128];

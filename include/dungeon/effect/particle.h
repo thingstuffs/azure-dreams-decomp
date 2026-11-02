@@ -261,4 +261,7 @@ typedef struct LayeredSpritePulseBody {
     s16 unk_1C;
 } LayeredSpritePulseBody;
 
+void clear_circular_list_flags(void);
+void process_entries_at_coordinates(void *list_head, s32 x, s32 y, s16 upper_bound, s16 lower_bound);
+
 #endif

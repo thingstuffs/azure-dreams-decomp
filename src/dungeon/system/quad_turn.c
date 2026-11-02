@@ -1,4 +1,5 @@
 #include "dungeon/system/quad_turn.h"
+#include "dungeon/system.h"
 
 
 /* Checks angular gaps between four stored vectors, returning 0 for a gap over half a turn and 1 for a

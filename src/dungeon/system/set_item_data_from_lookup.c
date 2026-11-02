@@ -1,5 +1,6 @@
 #include "common.h"
 #include "shared/dungeon_item_entries.h"
+#include "sdk/libc.h"
 
 typedef struct {
     u8 index;
@@ -30,7 +31,6 @@ extern ItemCategory itemCategoryTable[];
 extern int resolve_record_value(DungeonItemEntry *record);
 extern void *get_item_data_record(s32 category, s32 index);
 extern void *get_or_create_item_data(s32 category, s32 index);
-extern char *strncpy(char *dst, const char *src, u32 count);
 
 /* Sets item data from the supplied pointer or a lookup, copying fallback text when needed. */
 void set_item_data_from_lookup(ItemResult *result, ItemId *item, void *data)

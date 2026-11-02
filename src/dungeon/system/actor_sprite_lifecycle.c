@@ -12,9 +12,7 @@
 static s32 uses_direct_actor_sprite_frames(void *record);
 #include "dungeon/player/object/action_state.h"
 #include "engine/texture.h"
-
-extern void select_record_entry_and_value(void *state, void *entries, short index);
-extern void advance_sprite_animation_and_textures(void *entity);
+#include "slus.h"
 
 extern void initialize_actor_object_action(void *object_state, s32 unused_context, void *properties, void *status); /* Unprototyped: uses the value as a pointer where the definition has an integer (or the reverse) */
 extern s16 pending_marked_actor_count;

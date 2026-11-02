@@ -1,8 +1,8 @@
 #include "common.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/object_flags.h"
-
-extern void advance_sprite_animation_and_textures(void *arg);
+#include "dungeon/effect/shade.h"
+#include "slus.h"
 
 // Updates the object, retains its 0x6000 flags, and marks the preceding and global flags if any remain.
 void update_effect_and_retain_flags(void *dataAfterFlags, void *unused, SpriteFrameState *object) {

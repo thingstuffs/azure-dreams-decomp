@@ -1,7 +1,6 @@
 #include "common.h"
 #include "dungeon/system.h"
-
-extern s32 ratan2(s32, s32);
+#include "sdk/libgte.h"
 
 /* Checks successive angular gaps between four vectors, accepting zero vectors. */
 s32 check_four_vector_half_turn_gaps(

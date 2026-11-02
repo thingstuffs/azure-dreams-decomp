@@ -1,3 +1,5 @@
+#include "frontend/libcard/message_dialog.h"
+#include "frontend/libcard/display_node.h"
 /* Card boot measure dialog choice word g01029.
  * Original-file evidence: inferred (adjacency/recipe/locality), inferred-weak - group G01029 - CL:main/func_8000F25C, CL:main/func_8000F300, CL:main/func_8000F33C, CL:main/func_8000F3B4.
  */
@@ -92,39 +94,41 @@ static __inline__ u32 calculate_x(
     s32 column
     )
 {
+    CardMessageDialogBody *dialog = context;
     u32 x;
 
     x = (u32)column * 4U;
-    x -= (u32)(*(s32 *)((u8 *)context + 0x18) / 2);
+    x -= (u32)(dialog->width / 2);
     return x + 0xA2;
 }
 
 /* Positions the current record and updates the specified row. */
 void card_boot_position_dialog_selection_marker(void *context, s32 column, s32 mode, s32 row, s32 row_value)
 {
-    void *state = context;
-    s32 *record;
+    CardMessageDialogBody *state = context;
+    CardMenuDisplayNode *record;
     void *position;
     u32 x;
     s32 saved_row_value;
 
     x = calculate_x(state, column);
-    position = (u8 *)state + 0xE4;
-    record = *(s32 **)((u8 *)state + 0x8E4);
-    *(s16 *)((u8 *)*(void **)((u8 *)record + 4) + 8) = (s16)x;
-    *(s16 *)((u8 *)*(void **)((u8 *)record + 4) + 0xA) =
-        (s16)((row * 0x11) - (*(s32 *)((u8 *)state + 0x1C) / 2) + 0x7A);
+    position = state->marker_packet;
+    record = state->entries[6];
+    record->block->fields.x = (s16)x;
+    record->block->fields.y =
+        (s16)((row * 0x11) - (state->height / 2) + 0x7A);
     saved_row_value = *&row_value;
     card_boot_build_slot_marker_packet((s32)state, (Struct_8000F300 *)position, mode);
-    record[0] = (s32)(unsigned long)position;
+    record->payload.word = (s32)(unsigned long)position;
     card_boot_highlight_dialog_text_range(
-        **(s32 **)((u8 *)state + row * 4 + 0x8CC),
+        state->entries[row]->payload.word,
         saved_row_value,
         mode);
 }
 
 /* Processes the last word of an enabled table entry for the supplied object. */
 void card_boot_update_message_choice_highlight(void *object) {
+    CardMessageDialogBody *dialog = object;
     s32 result_first;
     s32 result_second;
     s32 result_third;
@@ -134,11 +138,11 @@ void card_boot_update_message_choice_highlight(void *object) {
     CardMenuEntry *table_base;
 
     table_base = card_menu_entry_values;
-    table_index = *(s32 *)((u8 *)object + 8);
+    table_index = dialog->entry_index;
     entry = table_base + table_index;
     last_index = entry->line_count - 1;
     if (entry->choice_count != 0) {
-        card_boot_measure_dialog_choice_word(entry->words[last_index], *(s32 *)object, &result_first, &result_second, &result_third);
+        card_boot_measure_dialog_choice_word(entry->words[last_index], dialog->selected_choice, &result_first, &result_second, &result_third);
         card_boot_position_dialog_selection_marker(object, result_first, result_second, last_index, result_third);
     }
 }

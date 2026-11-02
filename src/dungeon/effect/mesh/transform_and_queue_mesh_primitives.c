@@ -10,23 +10,18 @@
 #include "shared/sprite_frame_state.h"
 #include "dungeon/actor/status.h"
 #include "engine/graphics.h"
+#include "dungeon/item/message.h"
+#include "sdk/libgpu.h"
+#include "dungeon/system.h"
 
-extern void *get_unused_text_buffer(void);
-extern u8 *expand_text_control_codes(u8 *src, u8 *dst);
-extern u8 *clear_byte_and_advance(u8 *byte_ptr);
-extern u8 *append_entity_display_text(void *record, u8 *out);
 #include "dungeon/effect/screen.h"
 #include "dungeon/item.h"
 #include "dungeon/actor.h"
-extern void display_text_with_fullwidth_adjustment(s8 *text);
-extern s32 get_random_scaled_value(s16 input_value);
 
 void (*const dungeon_189a800_entry)(ProjectileEffect *, ObjectPosition *, SpriteFrameState *) = update_projectile_trail_and_hit_effect;
 const u8 no_effect_target_prefix[48] = {0x82,0x73,0x82,0x88,0x82,0x85,0x82,0x92,0x82,0x85,0x81,0x40,0x82,0x97,0x82,0x81,0x82,0x93,0x81,0x40,0x82,0x8e,0x82,0x8f,0x81,0x40,0x82,0x85,0x82,0x86,0x82,0x86,0x82,0x85,0x82,0x83,0x82,0x94,0x81,0x40,0x82,0x8f,0x82,0x8e,0x81,0x40,0x0,0x0};
 const u8 D_80024034[4] = {0x81,0x44,0x0,0x0};
 extern s32 D_800E1CB0;
-
-void try_apply_wind_protection(ActorRecord *target, s32 effect_arg, SpriteFrameState *unused);
 
 /* Attempts to apply an effect and reports the outcome for flagged targets. */
 void try_apply_wind_protection(ActorRecord *target, s32 effect_arg, SpriteFrameState *unused)
@@ -233,8 +228,6 @@ extern void SetRotMatrix(void *);
 extern void SetTransMatrix(void *);
 extern s32 RotAverage4(void *, void *, void *, void *, void *, void *, void *, void *, void *, void *, EmptyArg);
 extern void RotMatrix(void *, void *);
-extern s32 GetTPage(s32, s32, s32, s32);
-extern void SetDrawMode(void *, s32, s32, u32, s32);
 
 typedef struct {
     u8 flags;
@@ -577,8 +570,6 @@ extern void SetRotMatrix(void *);
 extern void SetTransMatrix(void *);
 extern u32 RotTransPers(void *, void *, void *, void *);
 extern void RotMatrix(void *, void *);
-extern s32 GetTPage(s32, s32, s32, s32);
-extern void SetDrawMode(void *, s32, s32, u32, s32);
 
 typedef struct GlobalRef {
     GlobalState *cur;
@@ -742,8 +733,6 @@ void rotate_point_cloud_until_expired(void *object, s32 unused, void *target) {
 
 extern u8 resident_globals_page[];
 extern u32 RotTransPers();
-extern s32 GetTPage(s32, s32, s32, s32);
-extern void SetDrawMode(void *, s32, s32, u32, s32);
 
 /* Projects a colored point and links its drawing packets into the ordering table. */
 s32 project_colored_point_to_ordering_table(u8 *render_data, u8 *source_vertex)

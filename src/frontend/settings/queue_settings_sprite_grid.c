@@ -1,3 +1,5 @@
+#include "engine/graphics/sprite_packet.h"
+#include "engine/graphics/frame_context.h"
 #include "common.h"
 #include "shared/gpu_packets.h"
 #include "shared/game_work.h"
@@ -6,16 +8,6 @@
 #include "shared/entity.h"
 #include "shared/object_node.h"
 
-typedef struct S_8008896C_0 {
-    u8 pad_00[0x4];
-    s32 unk_04;
-    s16 unk_08;
-    s16 unk_0A;
-    s16 unk_0C;
-    s16 unk_0E;
-    s16 unk_10;
-    s16 unk_12;
-} S_8008896C_0;   /* line in queue_settings_sprite_grid */
 
 
 #define PTR32(address) ((u32)(unsigned long)(address))
@@ -25,23 +17,14 @@ typedef struct S_8008896C_0 {
 (setaddr((primitive), getaddr(ordering_table)), \
     setaddr((ordering_table), (primitive)))
 
-typedef struct RenderState {
-    u8 pad0[0x82C];
-    u32 ordering_table;
-    u8 pad830[0xA0];
-    u8 *next_prim;
-} RenderState;
 
-typedef struct MainState {
-    RenderState *render_state;
-} MainState;
 
 /* Queue a 2x2 grid of textured sprites for each linked entry. */
 s32 queue_settings_sprite_grid(u8 *entry_data, u8 *scroll_data)
 {
     ObjectPosition *position = (ObjectPosition *)scroll_data;
-    MainState *main_state;
-    u8 *sprite;
+    FrameDrawContextSlot *main_state;
+    TexturedSpritePacket *sprite;
     u8 *draw_mode;
     ObjectNodeHeader *next_entry;
     s32 row;
@@ -50,7 +33,7 @@ s32 queue_settings_sprite_grid(u8 *entry_data, u8 *scroll_data)
     s32 texture_x;
     s32 base_y;
 
-    main_state = ((MainState *)&g_game_work);
+    main_state = ((FrameDrawContextSlot *)&g_game_work.draw_buffer);
     for (;;) {
         row = 0;
         do {
@@ -58,25 +41,25 @@ s32 queue_settings_sprite_grid(u8 *entry_data, u8 *scroll_data)
             base_y = row << 8;
             texture_x = 0x280;
             do {
-                sprite = main_state->render_state->next_prim;
-                main_state->render_state->next_prim = sprite + 0x14;
-                ((S_8008896C_0 *)sprite)->unk_04 = 0x808080;
+                sprite = main_state->context->packetCursor;
+                main_state->context->packetCursor = sprite + 1;
+                sprite->color_code = 0x808080;
                 SetSprt(sprite);
                 SetShadeTex(sprite, 1);
-                ((S_8008896C_0 *)sprite)->unk_08 = column << 8;
-                ((S_8008896C_0 *)sprite)->unk_0A = base_y - position->y.unsigned_parts.integer;
-                ((S_8008896C_0 *)sprite)->unk_10 = 0x100;
-                ((S_8008896C_0 *)sprite)->unk_12 = 0x100;
-                ((S_8008896C_0 *)sprite)->unk_0C = 0;
-                ((S_8008896C_0 *)sprite)->unk_0E = GetClut(0, 0x1F0);
-                addPrim(&main_state->render_state->ordering_table, sprite);
+                sprite->x = column << 8;
+                sprite->y = base_y - position->y.unsigned_parts.integer;
+                sprite->width = 0x100;
+                sprite->height = 0x100;
+                sprite->texture.packed = 0;
+                sprite->clut = GetClut(0, 0x1F0);
+                addPrim(&main_state->context->orderTag82C, sprite);
 
-                draw_mode = main_state->render_state->next_prim;
-                main_state->render_state->next_prim = draw_mode + 0xC;
+                draw_mode = main_state->context->packetCursor;
+                main_state->context->packetCursor = draw_mode + 0xC;
                 texture_page = GetTPage(1, 0, texture_x, base_y);
                 SetDrawMode(draw_mode, 0, 0, texture_page & 0xFFFF, 0);
                 column--;
-                addPrim(&main_state->render_state->ordering_table, draw_mode);
+                addPrim(&main_state->context->orderTag82C, draw_mode);
                 texture_x -= 0x80;
             } while (column >= 0);
             row++;

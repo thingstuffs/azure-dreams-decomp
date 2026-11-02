@@ -11,12 +11,10 @@
 #include "shared/sprite_frame_state.h"
 #include "dungeon/actor.h"
 #include "dungeon/level.h"
-
-
-extern int abs(int);
+#include "engine/graphics.h"
+#include "sdk/libc.h"
 
 extern void *allocate_list_node(s32, void *);
-extern s32 rand(void);
 extern void apply_attack_power_and_element_effects();
 extern s32 play_sound_if_enabled(s32);
 
@@ -183,9 +181,7 @@ void (*const dungeon_1870800_entry)(S_81850800_0 *, S_81850800_7 *, SpriteFlagsV
 
 /* Advance a directional effect, spawn its particles, and apply its target impact. */
 extern s32 register_node(ObjectNodeHeader *, void *);
-extern s32 project_sprite_chain(void *, s32, struct SpriteFrameState *, s32);
 extern void advance_sprite_animation_and_textures(void *);
-extern s32 rand(void);
 
 /* Emits a ground-following particle trail and target burst, applies the attack, and waits for effect
    cleanup. */

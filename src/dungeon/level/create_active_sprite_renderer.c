@@ -1,6 +1,8 @@
 #include "common.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/object_node.h"
+#include "engine/node.h"
+#include "dungeon/level.h"
 
 /* The registered constructor initializes only this observed render prefix. */
 typedef struct MapRenderPrefix {
@@ -13,9 +15,6 @@ typedef struct MapRenderPrefix {
     s16 scale_x;
     s16 scale_y;
 } MapRenderPrefix;
-
-extern s32 render_active_sprite_parts_and_shadows(void *, void *, void *);
-extern s32 register_node(ObjectNodeHeader *, s32 (*)(void *, void *, void *));
 
 /* SLUS entry17's initialization list calls this constructor with no arguments
  * and ignores v0. No return-value promise is inferred from the final stores. */

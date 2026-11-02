@@ -6,6 +6,8 @@
 #include "shared/dungeon_status.h"
 #include "shared/dungeon_moving_views.h"
 #include "engine/node/allocation.h"
+#include "dungeon/effect/sprite.h"
+#include "engine/node.h"
 
 #ifndef NULL
 #define NULL 0
@@ -55,7 +57,6 @@ typedef struct S_func_800D7FB8_7 {
 extern u8 directional_sprite_entries[];
 extern s32 D_800D81D4;
 
-extern void register_node(void *, void *);
 extern s32 play_sound_if_enabled(s32);
 
 /* Spawns effect entries and marks the controller finished after two delays. */

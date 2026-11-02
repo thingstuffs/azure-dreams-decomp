@@ -9,19 +9,14 @@
 #include "shared/record_ptrs.h"
 #include "shared/dungeon_status.h"
 #include "m2c_compat.h"
-extern void apply_entity_effects(void *entity);
-extern void clear_slots_of_type(void *, s8);
+#include "dungeon/item/effect.h"
+#include "dungeon/item/message.h"
+#include "engine/entity.h"
 #include "dungeon/player/item.h"
 #include "dungeon/actor.h"
 #include "dungeon/player/state.h"
+#include "dungeon/system.h"
 
-extern void *get_unused_text_buffer(void);
-extern u8 *expand_text_control_codes(u8 *src, u8 *dst);
-extern u8 *clear_byte_and_advance(u8 *byte_ptr);
-extern u8 *append_entity_display_text(void *record, u8 *out);
-extern void display_text_with_fullwidth_adjustment(s8 *text);
-extern void place_actor_item(void *object_context, struct DungeonItemEntry *target);
-extern void display_item_status_message(void *entity, struct DungeonItemEntry *item, s32 message_kind);
 extern M2C_UNK D_800E0EB4;
 extern u8 D_800E0EC9[24];
 /* Kill one actor: the player takes the game-over path, others drop their message, clear their slots and decrement the live count. */

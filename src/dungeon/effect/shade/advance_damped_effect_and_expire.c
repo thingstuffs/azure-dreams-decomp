@@ -1,5 +1,6 @@
 #include "common.h"
 #include "shared/object_flags.h"
+#include "dungeon/effect/shade.h"
 
 
 /* Advance and damp effect motion, fade its colors, and flag expiration. */

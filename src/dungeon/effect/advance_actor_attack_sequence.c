@@ -14,9 +14,9 @@ struct ObjectPosition;
 #include "dungeon/effect/state.h"
 #include "engine/graphics.h"
 #include "shared/object_node.h"
+#include "dungeon/player/object.h"
 
 s32 resolve_attack_damage_and_effects(); /* Unprototyped: uses the value as a pointer where the definition has an integer (or the reverse) */    /* extern */
-void set_record_integer_tile_center(ObjectPosition *record, s32 tile_x, s32 tile_y);              /* extern */
 s32 play_sound_if_enabled(s32 query_value);                     /* extern */
 extern u8 actor_attack_frames[];
 extern u8 D_800DD068[];

@@ -2,6 +2,7 @@
 #define FRONTEND_LIBCARD_INTERFACES_H
 
 #include "common.h"
+#include "frontend/libcard/card_chooser.h"
 #include "frontend/libcard/command_panel.h"
 struct Object_800128C8;
 
@@ -27,7 +28,7 @@ void card_boot_show_insufficient_space_overwrite_advice(s32 value);
 void card_boot_show_overwrite_confirmation(s32 owner, s32 data);
 void card_boot_stop_timer_and_init_server(void);
 s32 card_boot_sum_slot_lookup_values(void);
-void card_boot_update_card_chooser_input(struct Object_800128C8 *menu);
+void card_boot_update_card_chooser_input(CardChooserBody *body);
 void card_boot_wait_before_copying_slot(void *record_data);
 void route_save_slot_validation(void *context);
 

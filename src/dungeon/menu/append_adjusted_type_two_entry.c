@@ -1,6 +1,7 @@
 #include "common.h"
 #include "dungeon/menu.h"
 #include "shared/game_work.h"
+#include "sdk/libgpu.h"
 
 typedef struct Inner {
     u8 unk0[3];
@@ -16,7 +17,6 @@ typedef struct State {
 } State;
 
 extern u8 upper_draw_context[16];
-extern void AddPrim(void *submission_target, void *entry);
 
 // Append a single-dot tile at the offset map position with the given color and submit it.
 void append_map_dot_tile(s32 x, s32 y, void *color_data, void *submissionTarget)

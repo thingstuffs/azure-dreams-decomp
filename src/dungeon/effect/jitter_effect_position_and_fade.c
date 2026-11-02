@@ -1,6 +1,6 @@
 #include "common.h"
 #include "m2c_compat.h"
-extern s32 rand(void);
+#include "sdk/libc.h"
 /* The 0x54-byte ring ends at the adjacent weights-table address.
  * Name the bounded ring without guessing the following table's extent. */
 typedef struct { u8 packets[0x54]; } PacketRing;

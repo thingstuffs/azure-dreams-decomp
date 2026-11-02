@@ -1,4 +1,5 @@
 #include "dungeon/menu/entries.h"
+#include "dungeon/menu.h"
 extern char *strcpy(char *destination, const char *source);
 
 char *copy_indexed_menu_string(char *resource, s32 index, s32 unused_data, s32 unused_size) {

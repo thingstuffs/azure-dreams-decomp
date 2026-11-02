@@ -16,6 +16,7 @@
 #include "dungeon/player/item.h"
 #include "dungeon/actor.h"
 #include "engine/entity.h"
+#include "dungeon/item/effect.h"
 
 extern u8 D_800E0EE1[38];
 

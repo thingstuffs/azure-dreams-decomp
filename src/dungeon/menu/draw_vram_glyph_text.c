@@ -2,9 +2,9 @@
 #include "common.h"
 #include "dungeon/menu.h"
 #include "engine/camera.h"
+#include "sdk/libgpu.h"
 
 /* cfail-repair: tf7-phase1-cache-v3 */
-extern s32 MoveImage(s32 *, s32, s32);         /* extern */
 
 typedef struct S_80123928_0 {
     u8 unk_00;

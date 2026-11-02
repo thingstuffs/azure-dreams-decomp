@@ -1,7 +1,6 @@
 #include "dungeon/item/message.h"
 #include "dungeon/item.h"
-
-extern s32 display_text_with_fullwidth_adjustment(s8 *text);
+#include "dungeon/system.h"
 
 /* Prefix the supplied message with the entity text and display the buffer. */
 void adjust_source_value_and_finalize(void *context, const void *source)

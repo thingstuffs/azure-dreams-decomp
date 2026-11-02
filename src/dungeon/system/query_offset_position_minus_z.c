@@ -1,5 +1,6 @@
 #include "common.h"
 #include "m2c_compat.h"
+#include "dungeon/system.h"
 
 extern s32 forward_highest_surface_query(s32 *);
 

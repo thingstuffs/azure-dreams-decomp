@@ -4,6 +4,8 @@
 #include "shared/game_work.h"
 #include "records/Rec_D_80083160.h"
 #include "slus.h"
+#include "sdk/libgpu.h"
+#include "sdk/libgte.h"
 
    /* state in build_transformed_sprite_quads */
 
@@ -133,18 +135,7 @@ typedef struct S_8009E798_6 {
 
    /* ret_state in build_transformed_sprite_quads */
 
-extern void PushMatrix(void);
-extern void PopMatrix(void);
-extern void *ScaleMatrix(void *, void *);
-extern void SetRotMatrix(void *);
-extern void SetTransMatrix(void *);
 extern void func_80065320(void *, void *, void *);
-extern void *RotMatrix(void *, void *);
-extern void AddPrim(void *, void *);
-extern void SetPolyF4(void *);
-extern void SetPolyFT4(void *);
-extern void SetDrawArea(void *, void *);
-extern void SetDrawMode(void *, s32, s32, s32, s32);
 
 extern u8 upper_draw_context[16];
 

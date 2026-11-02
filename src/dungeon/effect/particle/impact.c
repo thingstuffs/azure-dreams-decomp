@@ -9,6 +9,10 @@ struct ObjectPosition;
 #include "dungeon/effect/particle/impact.h"
 #include "shared/sprite_frame_state.h"
 #include "dungeon/effect.h"
+#include "dungeon/effect/particle.h"
+#include "engine/audio.h"
+#include "engine/resource.h"
+#include "sdk/libgpu.h"
 
 void (*const dungeon_19de800_entry)(struct S_func_80026418_0 *effect) = advance_particle_fade_and_cleanup;
 typedef struct { s16 x, y; } BankDirections;
@@ -441,8 +445,6 @@ s32 update_palette_particle_transition(s32 limit) {
 #include "common.h"
 #include "shared/object_flags.h"
 
-extern void advance_sprite_animation_and_textures(void *visual);
-
 /* Advance effect motion and animation, then mark it finished when its lifetime expires. */
 void advance_effect_motion_and_animation(ImpactParticleWork *effect, ObjectPosition *position, SpriteFrameState *visual) {
     s32 accel_y;
@@ -842,7 +844,6 @@ extern void SetRotMatrix(void *);
 extern void SetTransMatrix(void *);
 extern s32 RotAverage4(void *, void *, void *, void *, void *, void *, void *, void *, void *, void *);
 extern void RotMatrix(void *, void *);
-extern void SetPolyGT4(void *);
 
 /* Projects a textured quad and adds it to the ordering table when visible. */
 void project_visible_textured_quad(S_80024BF4_4 *quad, ObjectPosition *position, SpriteFrameState *render_state, s16 depth_bias)
@@ -975,8 +976,6 @@ s32 draw_linked_meshes(void *initial_mesh, void *transform, void *object) {
 
 #include "common.h"
 #include "shared/object_flags.h"
-
-extern void advance_sprite_animation_and_textures(void *render_state);
 
 /* Updates motion and rotation and marks the object finished when flagged or expired. */
 void advance_rotating_ballistic_particle_and_expire(ImpactParticleWork *state, ObjectPosition *position, SpriteFrameState *render_state) {
@@ -1387,7 +1386,6 @@ typedef struct {
 #define S16_AT(p, o) (*(s16 *)((u8 *)(p) + (o)))
 
 extern void update_timed(s32 object, s32 raw_x, s32 raw_y, s32 raw_upper, s16 lower_bound);
-extern void process_entries_at_coordinates(void *list_head, s32 x, s32 y, s16 upper_bound, s16 lower_bound);
 
 extern s16 D_8002992C;
 
@@ -1880,8 +1878,6 @@ void set_mesh_entry_address(Bank19de800_19e092c_EntryCursor *object, s16 entry_i
 #include "common.h"
 #include "shared/object_flags.h"
 
-extern void advance_sprite_animation_and_textures(void *visual);
-
 /* Updates effect motion and visual state, marking the effect inactive when its lifetime expires. */
 void update_effect_motion_and_visual(ImpactParticleWork *effect, ObjectPosition *position, SpriteFrameState *visual) {
     s32 accel_y;
@@ -2044,10 +2040,7 @@ typedef struct S_func_80026418_0 {
 extern u8 D_8006E8A0[];
 extern u8 particle_fade_pixels[];
 
-extern void clear_circular_list_flags(void);
 extern void upload_vram_row_and_cache(void *, s32, s32, s32); /* Unprototyped: uses the value as a pointer where the definition has an integer (or the reverse) */
-extern s32 decode_and_upload_image(void *, void *);
-extern void drain_audio_commands_and_service_channels(void);
 
 /* Advances a particle effect through its timed color fade and cleanup states. */
 void advance_particle_fade_and_cleanup(S_func_80026418_0 *effect)

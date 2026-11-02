@@ -1,8 +1,9 @@
+#include "frontend/card/save_slot.h"
 #include "common.h"
 #include "frontend/card.h"
 #include "frontend/card/save.h"
 
-extern s32 card_slot_header_cache[];
+extern CardSaveSlot card_slot_header_cache[];
 extern void dispatch_operation_mode_context(void *, void *);
 extern void initialize_card_message_object_with_code_7(void *);
 extern void func_80405D2C(void);
@@ -18,7 +19,7 @@ void select_card_slot_message(void *task)
 
     owner = (u8 *)task - 0x20;
     index = *(s32 *)((u8 *)task + 0x28);
-    if (card_slot_header_cache[index * 0x20] != 0) {
+    if (card_slot_header_cache[index].words[0] != 0) {
         one = 1;
         *(s32 *)((u8 *)task + 0x3C) = one;
         dispatch_operation_mode_context(owner, (u8 *)task + 0x40);

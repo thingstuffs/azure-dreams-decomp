@@ -11,7 +11,7 @@ typedef struct Obj {
 
 #include "dungeon/effect/screen.h"
 #include "dungeon/actor.h"
-extern s32 get_random_scaled_value(s16 input_value);
+#include "dungeon/system.h"
 
 /* Applies a flag-adjusted value increase and updates the target. */
 void apply_random_value_gain(ActorRecord *target, s32 amount_param, ActorRecord *record)

@@ -141,4 +141,6 @@ void render_map_cell_mesh(void);
 #include "shared/dungeon_effect_views.h"
 void raise_entity_to_ground(PointRecord *state, ObjectPosition *position);
 
+void try_apply_wind_protection(ActorRecord *target, s32 effect_arg, SpriteFrameState *unused);
+
 #endif

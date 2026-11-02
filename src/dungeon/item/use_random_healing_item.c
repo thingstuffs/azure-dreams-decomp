@@ -35,11 +35,9 @@ extern u8 D_800E0E50[];
 #include "dungeon/actor.h"
 #include "dungeon/player/state.h"
 #include "engine/entity.h"
+#include "dungeon/item/effect.h"
+#include "dungeon/item/message.h"
 
-extern void *get_unused_text_buffer(void);
-extern u8 *expand_text_control_codes(u8 *src, u8 *dst);
-extern u8 *clear_byte_and_advance(u8 *byte_ptr);
-extern u8 *append_entity_display_text(void *record, u8 *out);
 extern void display_text_with_fullwidth_adjustment(s8 *text);
 extern void place_actor_item(void *object_context, struct DungeonItemEntry *target);
 void display_item_status_message(void *entity, struct DungeonItemEntry *item, s32 message_kind);

@@ -10,19 +10,12 @@
 #include "shared/game_work.h"
 #include "shared/entity.h"
 #include "records/Rec_D_80082E80.h"
+#include "sdk/libgte.h"
 
 extern u8 floor_objects[];
 extern u8 dungeon_ground_item_positions[];
 extern u8 dungeon_floor_object_positions[];
 
-extern s32 rsin(s32);
-
-extern s32 get_masked_grid_nibble(s16 x, s16 y);
-extern void draw_green_type_two_markers(void);
-extern void draw_purple_entry_markers(void);
-extern void draw_blue_enabled_entry_markers(void);
-extern void draw_red_active_entry_markers(void);
-extern void redraw_type_three_floor_markers(void);
 extern s16 get_tile_chebyshev_distance(Rec_D_80082E80 *start_record, Rec_D_80082E80 *end_record);
 
 typedef struct {

@@ -1,5 +1,6 @@
 /* Resource descriptor queueing, slot reuse, and deferred loading. */
 #include "dungeon/level/townload.h"
+#include "dungeon/level.h"
 
 
 s32 resource_value_table_contains(void *value) {

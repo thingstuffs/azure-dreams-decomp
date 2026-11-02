@@ -1,28 +1,21 @@
+#include "engine/window/model_prefix.h"
 #include "common.h"
 
 #include "common.h"
 #include "engine/window.h"
 
 typedef struct S_8003571C_0 {
-    void * unk_00;
+    WindowModelPrefix * unk_00;
     u8 pad_04[0x64];
     void (*unk_68)(struct S_80035760_0 *);
 } S_8003571C_0;   /* arg0 in runtime_decrease_state_by_a_0 */
 
-typedef struct S_8003571C_1 {
-    u8 pad_00[0x8];
-    u16 unk_08;
-} S_8003571C_1;   /* temp_v0 in runtime_decrease_state_by_a_0 */
 
-typedef struct S_8003571C_2 {
-    u8 pad_00[0x8];
-    u16 unk_08;
-} S_8003571C_2;   /* temp_v1 in runtime_decrease_state_by_a_0 */
 
 /* Decreases the state field at offset 0x08 by 0xA0, clamping below zero and advancing the handler. */
 void runtime_decrease_state_by_a_0(S_8003571C_0 *object) {
-    S_8003571C_1 *state;
-    S_8003571C_2 *updated_state;
+    WindowModelPrefix *state;
+    WindowModelPrefix *updated_state;
 
     state = object->unk_00;
     state->unk_08 = (u16) (state->unk_08 - 0xA0);

@@ -1,4 +1,5 @@
 #include "common.h"
+#include "dungeon/system.h"
 
 typedef s32 (*Func8094D708Callback)(void *, s32);
 

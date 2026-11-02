@@ -6,7 +6,7 @@
 #include "shared/sound_volume.h"
 #include "engine/audio/commands.h"
 
-struct S_80053374_obj;
+struct CdCueSequenceNode;
 struct SoundTask;
 struct S_800545F4;
 struct S_80055ADC_arg0;
@@ -87,7 +87,7 @@ void reset_audio_command_state(void);
 void reset_audio_status(void);
 
 /* scene_initialize_sixteen_sprite_sequence.c */
-void scene_initialize_sixteen_sprite_sequence(struct S_80053374_obj *entity, void *owner);
+void scene_initialize_sixteen_sprite_sequence(struct CdCueSequenceNode *entity, void *owner);
 
 /* select_marker_table.c */
 void select_marker_table(s32 marker_code);

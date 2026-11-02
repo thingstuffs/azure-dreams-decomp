@@ -8,7 +8,9 @@
 #include "shared/dungeon_status.h"
 #include "shared/dir_step.h"
 #include "dungeon/level.h"
-extern int abs(int);
+#include "dungeon/effect/sprite.h"
+#include "engine/scene.h"
+#include "sdk/libc.h"
 
 typedef struct MotionWork {
     ObjectPosition destination;
@@ -43,8 +45,6 @@ typedef struct EffectState {
 #define S16_AT(p, n) (*(s16 *)((u8 *)(p) + (n)))
 #define U16_AT(p, n) (*(u16 *)((u8 *)(p) + (n)))
 
-
-extern s32 resolve_record_orientation_or_fallback(void *, void *, void *, s32);
 extern s32 check_layer_offset_height(s32, s32, s32, s32);
 extern void func_80025344(EffectState *, ObjectPosition *);
 extern void advance_grayscale_fade(EffectState *, ObjectPosition *);

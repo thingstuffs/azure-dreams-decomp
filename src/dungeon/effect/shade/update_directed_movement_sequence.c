@@ -5,7 +5,8 @@
 #include "shared/dir_step.h"
 #include "dungeon/level.h"
 #include "engine/scene.h"
-extern int abs(int);
+#include "dungeon/effect/shade.h"
+#include "sdk/libc.h"
 
 typedef union Fixed32 {
     s32 val;

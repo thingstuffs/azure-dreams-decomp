@@ -1,5 +1,6 @@
 #include "common.h"
 #include "dungeon/system.h"
+#include "dungeon/effect/sprite.h"
 
 /* cfail-repair: tf7-phase1-cache-v3 */
 

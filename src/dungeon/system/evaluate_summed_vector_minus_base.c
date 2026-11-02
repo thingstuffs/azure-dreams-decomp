@@ -1,6 +1,7 @@
 #include "common.h"
 #include "m2c_compat.h"
 #include "records/Rec_func_8008ACDC_arg0.h"
+#include "dungeon/system.h"
 
 extern s32 forward_smallest_surface_x_query(s32 *);
 

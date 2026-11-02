@@ -1,14 +1,9 @@
+#include "shared/object_node.h"
+#include "frontend/libcard/card_chooser.h"
 #include "common.h"
 #include "frontend/card/menu.h"
 #include "main/data.h"
 
-typedef struct S_80020F68_0 {
-    void * unk_00;
-    u8 pad_04[0x44];
-    s32 unk_48;
-    s32 unk_4C;
-    s32 unk_50;
-} S_80020F68_0;   /* ptr in card_boot_initialize_menu_pointer; pointer addresses record offset 0x10 */
 
 /* Unknown field access, like `*(type_ptr) &expr->unk_offset` */
 
@@ -22,12 +17,12 @@ extern void forward_target_value_initcardmessageobject_parameters(void *first_pt
 
 /* Chooses the next menu callback and, when needed, initializes its message and active-state flags. */
 void card_boot_initialize_menu_pointer(void *ptr) {
-    if (((S_80020F68_0 *)((u8 *)ptr - 0x10))->unk_4C != 0) {
-        ((S_80020F68_0 *)((u8 *)ptr - 0x10))->unk_00 = card_boot_handle_menu_selection_input;
+    if (((CardChooserBody *)ptr)->unk_3C != 0) {
+        ((ObjectNodeHeader *)ptr - 1)->update_callback = card_boot_handle_menu_selection_input;
         return;
     }
-    ((S_80020F68_0 *)((u8 *)ptr - 0x10))->unk_50 = 1;
+    ((CardChooserBody *)ptr)->unk_40 = 1;
     forward_target_value_initcardmessageobject_parameters(ptr - 0x20, ptr + 0x38);
-    ((S_80020F68_0 *)((u8 *)ptr - 0x10))->unk_48 = 1;
-    ((S_80020F68_0 *)((u8 *)ptr - 0x10))->unk_00 = &D_80407F40;
+    ((CardChooserBody *)ptr)->wait_notice_state = 1;
+    ((ObjectNodeHeader *)ptr - 1)->update_callback = &D_80407F40;
 }

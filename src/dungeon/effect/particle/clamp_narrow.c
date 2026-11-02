@@ -109,7 +109,6 @@ typedef struct {
     u8 pad[0x5A];
 } PositionTableEntry;
 
-void select_record_entry_and_value(void *state_data, void *entry_data, short index);
 struct EntityRec; void create_jittered_child_effect(struct EntityRec *, s32, s16, s16, s16, s16);
 void create_ribbon_head_sprite();
 extern u8 ribbon_sprite_entries[];

@@ -1,3 +1,4 @@
+#include "engine/effect.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/entity.h"
 #include "common.h"
@@ -26,29 +27,21 @@ struct Dst {
     unsigned short f14;
 };
 
-extern void update_staged_motion_effect(void);
 struct ObjectPosition;
 struct SpriteFrameState;
 
 /* Sized >8B to force %hi/%lo (not $gp) addressing, matching retail's lui/addiu. */
 extern struct Elem arc_motion_sprite_source[2];
 
-typedef struct {
-    ObjectNodeHeader header;
-    void *f20;           /* 0x20 */
-    short f24;           /* 0x24 */
-    short f26;           /* 0x26 */
-} S_80051708;
-
 /* Initializes the object callbacks, sub-object state, linked record, and fixed vector. */
-void scene_initialize_arc_motion_sprite(S_80051708 *object, void *sub_object)
+void scene_initialize_arc_motion_sprite(CdCueEffectNode *object, struct Controller *sub_object)
 {
     SpriteFrameState *record;
     ObjectPosition *vector;
-    char *sub_fields = (char *)&object->f20;
+    char *sub_fields = (char *)&object->body;
 
     object->header.update_callback = update_staged_motion_effect;
-    object->f20 = sub_object;
+    object->body.owner.controller = sub_object;
     ((short *)sub_fields)[2] = 0;
     ((short *)sub_fields)[3] = 0;
 

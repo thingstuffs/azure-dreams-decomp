@@ -2,6 +2,9 @@
 #include "shared/game_work.h"
 #include "records/Rec_D_80083160.h"
 #include "shared/dungeon_moving_views.h"
+#include "dungeon/effect/shade.h"
+#include "sdk/libgpu.h"
+#include "sdk/libgte.h"
 
 typedef struct { u32 addr:24; u32 len:8; } Tag818C29D4;
 
@@ -14,13 +17,6 @@ typedef struct {
     u8 r3, g3, b3, pad4; s16 x3, y3; u8 u3, v3; u16 pad5;
 } Poly818C29D4;
 typedef struct { s16 x; s16 y; s16 w; s16 h; } Rect818C29D4;
-
-extern s32 rsin(s32);
-extern s32 rcos(s32);
-extern u32 RotAverage4(void *, void *, void *, void *, void *, void *, void *, void *, void *, void *);
-extern s32 GetTPage(s32, s32, s32, s32);
-extern void SetDrawMode(void *, s32, s32, u16, void *);
-
 
 typedef struct S_818C29D4_0 {
     u8 pad_00[0x18];

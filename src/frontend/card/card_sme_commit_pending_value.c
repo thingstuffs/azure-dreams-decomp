@@ -1,3 +1,4 @@
+#include "shared/object_node.h"
 #include "common.h"
 #include "m2c_compat.h"
 #include "frontend/card.h"
@@ -15,9 +16,9 @@ typedef struct S_80020D90_0 {
 void card_sme_commit_pending_value(void *record_data) {
     u16 flags;
 
-    flags = ((S_80020D90_0 *)((u8 *)record_data - 0x10))->unk_0E;
+    flags = ((ObjectNodeHeader *)record_data - 1)->flags;
     if (flags & 0x2000) {
-        ((S_80020D90_0 *)((u8 *)record_data - 0x10))->unk_0E = (u16) (flags & 0xDFFF);
+        ((ObjectNodeHeader *)record_data - 1)->flags = (u16) (flags & 0xDFFF);
         ((S_80020D90_0 *)((u8 *)record_data - 0x10))->unk_00 = (s32) ((S_80020D90_0 *)((u8 *)record_data
             - 0x10))->unk_3C;
     }

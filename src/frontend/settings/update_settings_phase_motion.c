@@ -1,3 +1,4 @@
+#include "frontend/settings/controller_body.h"
 #include "shared/object_node.h"
 #include "shared/object_flags.h"
 #include "shared/entity.h"
@@ -7,16 +8,8 @@ typedef signed short s16;
 typedef unsigned int u32;
 typedef signed int s32;
 
-typedef struct Owner {
-    unsigned char pad0[0x20];
-    s16 kind;
-    unsigned char pad22[2];
-    s16 height;
-    u16 flags;
-} Owner;
-
 typedef struct State {
-    Owner *owner;
+    SettingsMenuBody *owner;
     unsigned char pad4[4];
     u16 step;
     unsigned char padA[2];
@@ -29,7 +22,7 @@ extern int abs(int);
 /* Updates phased motion and marks completion when stopped or out of bounds. */
 void update_settings_phase_motion(State *state, ObjectPosition *motion, SpriteFrameState *update_data)
 {
-    Owner *owner;
+    SettingsMenuBody *owner;
     s16 step;
     s32 x_velocity;
     s32 horizontal_value;
@@ -60,8 +53,8 @@ void update_settings_phase_motion(State *state, ObjectPosition *motion, SpriteFr
         if (state->direction != 0)
             horizontal_value = 88;
         motion->x.w.i = horizontal_value;
-        motion->y.w.i = owner->height * 16 + 168;
-        if (owner->kind != 32)
+        motion->y.w.i = owner->selected_item * 16 + 168;
+        if (owner->state != 32)
             return;
         horizontal_value = -0x20000;
         if (state->direction != 0)

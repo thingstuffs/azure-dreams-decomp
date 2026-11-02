@@ -1,9 +1,9 @@
+#include "engine/effect/sine_motion.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/entity.h"
 #include "shared/sprite_source.h"
 #include "common.h"
 #include "engine/node.h"
-#include "slus.h"
 #include "slus/data.h"
 #include "engine/graphics.h"
 #include "engine/effect.h"
@@ -21,50 +21,22 @@ struct SpriteFrameState;
  * func_8003DB94 alone accesses. */
 
 
-typedef struct S_80051BFC_Dst {
-    SpriteSourceEntry *f0;
-    u8 f4;
-    u8 f5;
-    u8 pad6;
-    u8 pad7;
-    s32 f8;
-    s32 fc;
-    s32 f10;
-    u16 f14;
-    u8 pad16[0x1C - 0x16];
-    u16 f1c;
-    u16 f1e;
-} S_80051BFC_Dst;
-
 /* Sub-record living at offset 0x20 of the top-level object: a word value
  * followed by three shorts. */
-typedef struct S_80051BFC_Sub {
-    void *val;
-    s16 x;
-    s16 y;
-    s16 z;
-} S_80051BFC_Sub;
-
 /* Top-level object initialized by this function. */
-typedef struct S_80051BFC_Obj {
-    ObjectNodeHeader header;
-    S_80051BFC_Sub sub;
-} S_80051BFC_Obj;
-
 /* Initializes the object's slot state, callbacks, and default rendering values. */
-void scene_initialize_orbit_motion_sprite(void *object_ptr, void *slot)
+void scene_initialize_orbit_motion_sprite(SineMotionEffectNode *object, struct Controller *slot)
 {
-    S_80051BFC_Obj *object = object_ptr;
-    S_80051BFC_Sub *slot_state;
+    EffectState800517CC *slot_state;
     SpriteFrameState *render_state;
     ObjectPosition *render_vector;
 
     object->header.update_callback = update_sine_motion_effect;
-    slot_state = &object->sub;
-    object->sub.val = slot;
-    slot_state->x = 0;
-    slot_state->y = 0;
-    slot_state->z = 0;
+    slot_state = &object->body;
+    object->body.parent = slot;
+    slot_state->state = 0;
+    slot_state->timer = 0;
+    slot_state->wait = 0;
 
     render_state = object->header.sprite;
     render_state->color.word = 0x808080;

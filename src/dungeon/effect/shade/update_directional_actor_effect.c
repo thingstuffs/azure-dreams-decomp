@@ -7,6 +7,7 @@
 #include "shared/sprite_frame_state.h"
 #include "dungeon/effect/shade/update_directional_actor_effect.h"
 #include "dungeon/item.h"
+#include "dungeon/effect/shade.h"
 
 /* Computes two orientation angles from the difference between the supplied positions and sets the
    third angle to zero. */

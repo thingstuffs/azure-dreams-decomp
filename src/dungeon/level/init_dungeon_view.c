@@ -1,4 +1,5 @@
 #include "dungeon/level/init_dungeon_view.h"
+#include "dungeon/level.h"
 
 
 /* Initializes dungeon projection, lighting, draw colors, screen clipping, and the default monster

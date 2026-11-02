@@ -1,4 +1,5 @@
 #include "dungeon/effect/sprite/offset_parent.h"
+#include "dungeon/effect/sprite.h"
 
 
 /* Projects two vertical points per linked node and queues a textured quad using the node's tile index. */

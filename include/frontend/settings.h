@@ -124,7 +124,7 @@ void *create_type(struct S_7FDD3A2C_1 *position, s32 object_value, s32 render_va
 void handle_settings_menu_input(SettingsScreenBody *menu);
 
 /* initialize_and_submit_record.c */
-void initialize_and_submit_record(s32 value, void *data);
+void initialize_and_submit_record(void *callback_address, void *data);
 
 /* initialize_available.c */
 void initialize_available(s32 value, void *data);

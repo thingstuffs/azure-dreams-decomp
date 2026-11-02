@@ -6,12 +6,12 @@
 #include "dungeon/actor.h"
 #include "dungeon/system.h"
 #include "dungeon/player/state.h"
+#include "dungeon/item/message.h"
+#include "dungeon/item.h"
 
 extern u8 D_800E1035[];
 
 extern void display_actor_item_status_message(void *actor, struct DungeonItemEntry *item);
-
-extern void display_formatted_context_message(void *context);
 
 /* Handle an item against a target using its type flags, decrementing the counter on fallback. */
 s32 feed_egg_to_monster(void *target, DungeonItemEntry *item) {

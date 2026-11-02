@@ -1,3 +1,4 @@
+#include "frontend/card/save_slot.h"
 #include "common.h"
 #include "frontend/card/service/decimal_format_bytes.h"
 #include "frontend/card/service.h"
@@ -12,7 +13,7 @@ extern void configure_target_for_active_state_and_entry(void *target, s32 entry_
 extern void func_80408654(s32 value);
 
 extern s32 card_selected_channel[];
-extern s32 card_slot_header_cache[];
+extern CardSaveSlot card_slot_header_cache[];
 
 /* Run the slot operation to completion and update its counters. */
 s32 card_dev_run_slot_operation(s32 slot_index)
@@ -45,7 +46,7 @@ s32 card_dev_run_slot_operation(s32 slot_index)
         counters = D_8009EB58;
         counter_dst = counters;
         counter_selector = card_selected_channel[0];
-        card_slot_header_cache[slot_index * 32] = 0;
+        card_slot_header_cache[slot_index].words[0] = 0;
         if (counter_selector != 0) {
             counter_dst++;
         }

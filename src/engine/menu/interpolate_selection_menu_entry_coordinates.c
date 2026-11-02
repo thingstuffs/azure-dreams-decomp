@@ -1,28 +1,14 @@
+#include "shared/menu_display.h"
+#include "shared/object_node.h"
 #include "common.h"
 
 #include "common.h"
 #include "engine/menu.h"
 #include "slus/data.h"
 
-typedef struct S_8004F684_Target {
-    /* 0x00 */ u8 pad[0xA];
-    /* 0x0A */ s16 field_A;
-    /* 0x0C */ s16 field_C;
-} S_8004F684_Target;
-
-typedef struct S_8004F684_Obj {
-    /* 0x00 */ u8 pad0[4];
-    /* 0x04 */ S_8004F684_Target *target;
-} S_8004F684_Obj;
-
-typedef struct S_8004F684_Entry {
-    /* 0x00 */ u8 pad0[0xC];
-    /* 0x0C */ S_8004F684_Obj *obj;
-} S_8004F684_Entry;
-
 typedef struct S_8004F684 {
     /* 0x00 */ u32 unk00;
-    /* 0x04 */ S_8004F684_Entry *entries[8];
+    /* 0x04 */ ObjectNodeHeader *entries[8];
     /* 0x24 */ s32 count;
     /* 0x28 */ s32 divisor;
     /* 0x2C */ s32 multiplier;
@@ -36,7 +22,7 @@ void interpolate_selection_menu_entry_coordinates(S_8004F684 *state)
     S_8004F684 *settings;
     s32 entry_index;
     u8 *value_row;
-    S_8004F684_Entry **entry_slot;
+    ObjectNodeHeader **entry_slot;
     s32 start_value;
     s32 value_delta;
     s32 scaled_weight;
@@ -44,34 +30,35 @@ void interpolate_selection_menu_entry_coordinates(S_8004F684 *state)
     s32 offset2;
     s32 offset3;
     s32 target_value;
-    void *entry_or_target;
-    S_8004F684_Obj *obj;
+    ObjectNodeHeader *entry;
+    MenuDisplayBlock *target;
+    MenuDisplayNode *obj;
 
     settings = state;
 
     for (entry_index = 0; entry_index < settings->count; entry_index++) {
-        entry_slot = (S_8004F684_Entry **)settings + entry_index;
+        entry_slot = (ObjectNodeHeader **)settings + entry_index;
         value_row = selection_menu_animation_keys + entry_index * 3;
         start_value = value_row[settings->idxA];
         value_delta = value_row[settings->idxB] - start_value;
 
         scaled_weight = settings->multiplier * 30;
         offset = (value_delta * scaled_weight) / settings->divisor;
-        entry_or_target = entry_slot[1];
-        obj = ((S_8004F684_Entry *)entry_or_target)->obj;
+        entry = entry_slot[1];
+        obj = (MenuDisplayNode *)entry->sprite;
         target_value = start_value * 30;
         offset2 = offset + 0x200;
         target_value = target_value + offset2;
-        obj->target->field_C = (s16)target_value;
+        obj->block->fields.depth = (s16)target_value;
 
         scaled_weight = settings->multiplier * 12;
         offset2 = (value_delta * scaled_weight) / settings->divisor;
 
-        entry_or_target = obj->target;
+        target = obj->block;
         target_value = start_value * 12;
         offset3 = offset2 - 0x40;
         target_value = target_value + offset3;
-        ((S_8004F684_Target *)entry_or_target)->field_A = (s16)target_value;
+        target->fields.y = (s16)target_value;
 
     }
 }

@@ -1,5 +1,8 @@
 #include "common.h"
 #include "shared/game_work.h"
+#include "dungeon/effect/shade.h"
+#include "sdk/libgpu.h"
+#include "sdk/libgte.h"
 
 typedef struct S_800259DC_0 {
     u8 pad_00[0x18];
@@ -55,13 +58,6 @@ typedef struct S_800259DC_2 {
     u8 pad_18[0x4];
     s32 unk_1C;
 } S_800259DC_2;   /* obj in build_sorted_effect_quads */
-
-
-extern s32 RotTransPers4(void *, void *, void *, void *, void *, void *, void *, void *, void *, void *);
-extern s32 GetTPage(s32, s32, s32, s32);
-extern void AddPrim(void *, void *);
-extern void SetPolyG4(void *);
-extern void SetDrawMode(void *, s32, s32, u16, s32);
 
 typedef struct GlobalState {
     u8 pad[0x8D0];

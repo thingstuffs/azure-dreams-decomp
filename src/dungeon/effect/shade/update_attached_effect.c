@@ -2,6 +2,8 @@
 #include "common.h"
 #include "shared/object_flags.h"
 #include "shared/dungeon_moving_views.h"
+#include "dungeon/effect/shade.h"
+#include "engine/entity.h"
 
 typedef struct S_800D4954_0_pre {
     u16 unk_00;
@@ -45,9 +47,6 @@ typedef struct S_800D4954_5 {
     u8 pad_00[0x1E];
     u16 unk_1E;
 } S_800D4954_5;
-
-
-extern s32 get_entity_effect_value(void *, s32);
 
 /* Updates an attached effect's position, color, growth, and removal flags. */
 void update_attached_effect(void *effect_arg, S_800D4954_2 *position, S_800D4954_4 *appearance) {

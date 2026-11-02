@@ -193,6 +193,19 @@ Batch flow, slus pilot (include/slus.h + include/main.h, 48 candidates, 480 reci
 one census 90 s, 3 proofs 169 s (the second and third reuse 438 and 478 of ~479 compiles), natcheck 9 s,
 4 min 45 s end to end, then one make.
 
+## Faster batches (opus_proto2)
+
+* `sig_batch.py --screen` (needs an affected.py with `prove(select=)`): every candidate set is first proved on
+  one recipe per (compiled source, family, placement copy or not); only a passing screen runs the full proof,
+  which reuses the screen's byte-identical compiles.  Screens are attribution, never acceptance.  Measured on
+  20 dungeon/slus headers (same 14 names applied either way): 2,827 s end to end with screens + precheck,
+  4,338 s without; failing steps 785 s vs 3,146 s (a screen is ~20% of the recipes).
+* Code-map precheck (default; `--no-precheck` to skip): a `void` candidate whose value some call site uses
+  (`call_site.ret_use`, which covers the SLUS partitions the prober does not compile) is held before any proof
+  (`prechecked` in batch.json).
+* `sig_solver.py solve --only-floors --header ALL`: re-solve exactly the recorded floors (did a type change
+  release any?); `--names` over several headers solves each name under the header that owns it.
+
 ## What a reviewer (Luna/Sonnet) checks
 
 Per header, read `txn/txn.json`, `txn/txn.patch` and `decisions.json`:

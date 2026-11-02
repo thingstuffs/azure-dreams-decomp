@@ -95,4 +95,6 @@ void *create_orbiting_color_particle(s16 x, s16 y, s16 z, s16 angle, s16 value_5
 struct FuncInput;
 void create_attenuating_moving_effect(ObjectNodeHeader **alloc_arg, s32 child_x, s32 child_y, s32 child_z, struct FuncInput *input, s32 meta_value, s16 step_count, s32 range_value, s16 object_tag);
 
+void refresh_packed_grid_nibbles(void);
+
 #endif

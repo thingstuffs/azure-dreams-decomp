@@ -1,5 +1,6 @@
 /* Packed resource lookup, cache reordering and loading, and object script submission. */
 #include "dungeon/system/resource.h"
+#include "dungeon/system.h"
 
 
 /* Copies byte_count / 4 words backward, starting at source + byte_count and destination + byte_count. */

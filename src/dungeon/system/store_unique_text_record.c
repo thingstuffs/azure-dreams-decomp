@@ -1,15 +1,13 @@
 #include "common.h"
 #include "dungeon/system.h"
 #include "dungeon/menu.h"
+#include "sdk/libc.h"
 
 typedef struct {
     u8 text[17];
     u8 value;
     u8 type;
 } Record818105FC;
-
-extern s32 strncmp(const char *lhs, const char *rhs, s32 count);
-extern char *strncpy(char *dst, const char *src, s32 count);
 
 /* Stores a text record in the circular table unless it matches an existing entry. */
 void store_unique_text_record(char *text, s32 type, s32 value) {

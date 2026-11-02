@@ -6,8 +6,8 @@
 #include "shared/dungeon_status.h"
 #include "records/Rec_func_800C9F34_arg0.h"
 #include "dungeon/actor.h"
+#include "dungeon/level.h"
 typedef s32 M2C_UNK;
-extern s32 check_entity_relation(ActorRecord *entry, ActorRecord *anchor);
 extern s32 find_active_rect_containing_point(s32 point_x, s32 point_y);
 extern s32 can_entity_gain_level(void *entity);
 static void advance_actor_along_path_points(void *motion, s32 unused, void *position, void *path);

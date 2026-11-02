@@ -102,4 +102,8 @@ s32 select_actor_route_target(u8 *actor_held, s32 kind, u8 *work_p, u16 *out);
 void *teleport_familiar_near_player(void *object, s16 action_arg);
 s16 test_neighbor_position_relation(s32 src_x, s32 src_y, s32 dst_x, s32 dst_y);
 
+void *append_value_seven_suffix(u8 *dst);
+void spawn_floor_monster_from_table(s32 spawn_mode);
+void tick_view_color_flash(void *fade);
+
 #endif

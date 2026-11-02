@@ -5,6 +5,7 @@
 #include "shared/dungeon_moving_views.h"
 #include "dungeon/actor.h"
 #include "dungeon/actor/state.h"
+#include "dungeon/effect/sprite.h"
 
 typedef struct S_8185C860_0 {
     void * unk_00;

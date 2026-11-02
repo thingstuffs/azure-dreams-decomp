@@ -1,3 +1,5 @@
+#include "engine/window/cursor_body.h"
+#include "shared/object_node.h"
 #include "common.h"
 
 #include "common.h"
@@ -9,24 +11,7 @@
 #include "engine/window.h"
 #include "engine/object.h"
 
-typedef struct S_80036B10_0 {
-    u8 pad_00[0xC];
-    void * unk_0C;
-    void (*unk_10)(void);
-    u8 pad_14[0xC];
-    void * unk_20;
-} S_80036B10_0;   /* temp_v0 in create_cursor_object */
 
-typedef struct S_80036B10_1 {
-    u8 pad_00[0x4];
-    s32 unk_04;
-    s32 unk_08;
-    u8 pad_0C[0x38];
-    s32 * unk_44;
-    s8 unk_48;
-    u8 pad_49[0x1];
-    s16 unk_4A;
-} S_80036B10_1;   /* temp_s1 in create_cursor_object */
 
 
 typedef struct S_80036B10_3 {
@@ -35,17 +20,8 @@ typedef struct S_80036B10_3 {
 } S_80036B10_3;   /* temp_s6 in create_cursor_object */
 
 
-typedef struct S_80036B10_4 {
-    u8 pad_00[0x20];
-    void * unk_20;
-} S_80036B10_4;   /* temp_v0 in create_cursor_object */
 
 
-typedef struct S_80036B10_6 {
-    u8 pad_00[0x10];
-    s32 unk_10;
-    s32 unk_14;
-} S_80036B10_6;   /* ((S_80036B10_4 *)temp_v0)->unk_20 in create_cursor_object */
 
 typedef struct S_80036B10_7 {
     u8 pad_00[0x80];
@@ -65,25 +41,25 @@ extern u8 window_node_list_storage[];
 
 /* Initializes and links a task, then sets up its source record, state, and rendering data. */
 void create_cursor_object(void *task_buffer, Rec_D_80081FDC *record, s32 *source, s16 state_value, void *setup_arg) {
-    S_80036B10_1 *state;
+    WindowCursorBody *state;
     S_80036B10_3 *render_data;
-    void *task;
+    ObjectNodeHeader *task;
     s16 *variant_table;
 
     task = initialize_runtime_node_storage(0x11, task_buffer, 0x49, &window_node_list_storage);
-    ((S_80036B10_0 *)task)->unk_10 = update_cursor_callback;
+    task->update_callback = update_cursor_callback;
     register_node(task, &draw_linked_sprite_nodes);
-    state = task + 0x20;
-    render_data = ((S_80036B10_0 *)task)->unk_0C;
-    state->unk_44 = source;
-    state->unk_48 = 1;
-    state->unk_4A = state_value;
+    state = (WindowCursorBody *)(task + 1);
+    render_data = (void *)task->sprite;
+    state->script = source;
+    state->enabled.s = 1;
+    state->cursor_offset = state_value;
     runtime_initialize_state_value(record, *source);
-    ((S_80036B10_0 *)task)->unk_20 = record;
+    state->model = record;
     record->unk_60 = 6;
-    ((S_80036B10_6 *)(((S_80036B10_4 *)task)->unk_20))->unk_10 = 0x10C;
+    state->model->unk_10 = 0x10C;
     variant_table = (s16 *)&cursor_variant_values;
-    ((S_80036B10_6 *)(((S_80036B10_4 *)task)->unk_20))->unk_14 =
+    state->model->unk_14 =
         variant_table[((S_80036B10_8 *)(((S_80036B10_7 *)(((Rec_func_80036210_arg0 *)source)->unk_74.as_pm))->unk_80))->unk_02];
     state->unk_04 = 0;
     state->unk_08 = 0;

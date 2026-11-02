@@ -7,25 +7,7 @@
 #include "frontend/card.h"
 #include "frontend/libcard.h"
 
-typedef struct {
-    u8 pad[8];
-    s16 cmd;
-    s16 arg;
-} Msg80010C44;
-
-typedef struct {
-    void *data;
-    Msg80010C44 *msg;
-} Slot80010C44;
-
-typedef struct {
-    void *unk0;
-    struct {
-        s8 pad[8];
-        s16 unk8;
-        s16 unkA;
-    } *unk4;
-} UnkTarget;
+#include "frontend/libcard/display_node.h"
 
 extern void func_8004E5A0(void *a0, s32 a1, void *a2);
 extern u8 D_80078FD0[16];

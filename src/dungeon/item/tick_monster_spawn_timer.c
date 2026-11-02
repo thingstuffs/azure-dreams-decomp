@@ -7,7 +7,6 @@ typedef struct {
     u8 pad8[4];
 } DungeonState;
 
-extern void spawn_floor_monster_from_table(s32);
 extern s32 generate_random_value(void);
 extern s16 dungeon_room_count;
 

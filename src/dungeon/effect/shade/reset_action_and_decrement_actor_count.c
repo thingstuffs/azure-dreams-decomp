@@ -3,11 +3,11 @@
 #include "shared/dungeon_status.h"
 #include "dungeon/actor/status.h"
 #include "dungeon/actor.h"
+#include "dungeon/effect/shade.h"
+#include "dungeon/player/object.h"
+#include "engine/entity.h"
 
-
-extern void clear_slots_of_type(void *, s32);
 struct ActorRecord;
-extern s16 try_claim_dungeon_action_slot(struct ActorRecord *actor);
 
 /* Reset action state and decrement the actor counter when the checks pass. */
 void reset_action_and_decrement_actor_count(ActorRecord *action_state, ObjectPosition *unused_1, SpriteFrameState *unused_2, ActorRecord *actor) {

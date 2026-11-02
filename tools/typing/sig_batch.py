@@ -69,7 +69,8 @@ def slug(header):
 class Batch:
     """The transactions of several owning headers over one baseline and one census."""
 
-    def __init__(self, root, datas, census, log=print, partial=True, repair=True, scope=None, names=None):
+    def __init__(self, root, datas, census, log=print, partial=True, repair=True, scope=None, names=None,
+                 scope_src=None):
         self.root = Path(root).resolve()
         self.log = log
         self.census = census
@@ -78,6 +79,7 @@ class Batch:
         self.cands = {}          # name -> owning header
         self.decision = {}       # name -> candidate decision (Transaction.candidates form)
         self.scope = tuple(scope or ())
+        self.scope_src = tuple(scope_src or ())     # .c path prefixes this lane may edit (others hold the name)
         for data in datas:
             H = data['header']
             if H in self.txns:
@@ -92,6 +94,30 @@ class Batch:
                     continue
                 self.cands[n] = H
                 self.decision[n] = d
+        self.prechecked = {}
+
+    def precheck(self, db_path):
+        """Static holds before any compile (code-map facts; the cross run's failed proofs were mostly these):
+        a `void` prototype for a name whose value some call site uses ('void value not ignored', the SLUS
+        partition callers the prober does not compile).  Returns {name: why}; the names leave the batch."""
+        import sqlite3
+        if not Path(db_path).is_file():
+            return {}
+        db = sqlite3.connect('file:%s?mode=ro' % db_path, uri=True)
+        out = {}
+        for n, d in sorted(self.decision.items()):
+            ret = (d.get('ret') or (d.get('definition') or {}).get('ret') or '').strip()
+            if ret != 'void':
+                continue
+            row = db.execute("SELECT file, line, ret_use FROM call_site WHERE callee=? AND ret_use != 'ignored' "
+                             "AND ret_use NOT LIKE 'cast:void%' LIMIT 1", (n,)).fetchone()
+            if row:
+                out[n] = 'void_value_used:%s:%s' % (row[0], row[1])
+        for n in out:
+            self.cands.pop(n, None)
+            self.decision.pop(n, None)
+        self.prechecked = out
+        return out
 
     def text(self, rel):
         return next(iter(self.txns.values())).text(rel)
@@ -173,13 +199,16 @@ class Batch:
         return out
 
     def _out_of_scope(self, texts, file_names):
-        if not self.scope:
+        if not self.scope and not self.scope_src:
             return {}
         out = {}
         for path in texts:
-            if path.endswith('.h') and path not in self.txns and not path.startswith(self.scope):
+            if self.scope and path.endswith('.h') and path not in self.txns and not path.startswith(self.scope):
                 for n in file_names.get(path, ()):
                     out[n] = 'out_of_scope_header:' + path
+            elif self.scope_src and path.endswith('.c') and not path.startswith(self.scope_src):
+                for n in file_names.get(path, ()):
+                    out.setdefault(n, 'out_of_scope_source:' + path)
         return out
 
 
@@ -280,7 +309,7 @@ class Runner:
     are injectable (tests); by default the root's affected.prove (in process) and the port natcheck."""
 
     def __init__(self, root, batch, out, *, prover=None, natcheck=None, log=print, no_proof=False,
-                 max_proofs=40, refresh=True):
+                 max_proofs=40, refresh=True, screen=False):
         self.root = Path(root).resolve()
         self.batch = batch
         self.out = out
@@ -290,6 +319,7 @@ class Runner:
         self.no_proof = no_proof
         self.max_proofs = max_proofs
         self.refresh = refresh
+        self.screen = screen
         self.written = {}
         self.dropped = {}        # name -> why
         self.backoffs = []
@@ -438,20 +468,31 @@ class Runner:
         return new
 
     def prove(self, texts, names):
+        """With screen proofs on: a screen first (one compile per distinct source/family/copy kind); only a
+        passing screen goes on to the full proof, which reuses the screen's byte-identical compiles."""
+        if self.screen:
+            proof = self._prove(texts, names, screen=True)
+            if proof.get('verdict') != 'PASS':
+                return proof
+        return self._prove(texts, names)
+
+    def _prove(self, texts, names, screen=False):
         files = sorted(r for r in texts if r.endswith(('.c', '.h')))
         t0 = time.monotonic()
         # the written set: the plan texts plus the refreshed layout ledger (placement-copy reuse keys)
-        proof = self.prover(files, dict(self.written))
+        proof = self.prover(files, dict(self.written), screen=True) if screen else \
+            self.prover(files, dict(self.written))
         bad = [dict(recipe=r, source=v.get('source'), verdict=v['verdict'],
                     why=v.get('difference') or (v.get('cause') or v.get('error', ''))[-300:])
                for r, v in proof.get('recipes', {}).items() if v['verdict'] != 'PASS'][:20]
-        row = dict(n=len(self.proofs) + 1, names=len(names), files=len(files), verdict=proof.get('verdict'),
+        row = dict(n=len(self.proofs) + 1, screen=screen, names=len(names), files=len(files),
+                   verdict=proof.get('verdict'),
                    counts=proof.get('counts'), recipes=len(proof.get('recipes', {})), reused=proof.get('reused', 0),
                    seconds=round(time.monotonic() - t0, 1), failing=bad[:8])
         self.proofs.append(row)
-        self.log('proof %d: %d names, %d files -> %s %s (%d recipes, %d reused, %.0f s)' % (
-            row['n'], len(names), len(files), row['verdict'], row['counts'], row['recipes'], row['reused'],
-            row['seconds']))
+        self.log('proof %d%s: %d names, %d files -> %s %s (%d recipes, %d reused, %.0f s)' % (
+            row['n'], ' (screen)' if screen else '', len(names), len(files), row['verdict'], row['counts'],
+            row['recipes'], row['reused'], row['seconds']))
         for f in bad[:4]:
             self.log('  failing %s %s: %s' % (f['verdict'], T.failing_source(f, self.root), str(f['why'])[-200:]))
         return proof
@@ -546,6 +587,21 @@ def include_targets(corpus, rel, text):
     return out
 
 
+def screen_select(ids, graph):
+    """Screen proof subset (attribution only, never acceptance): one recipe per (compiled source, family,
+    placement copy or not).  A header edit reaches every placement copy of every consumer (b3 of the cross
+    run: 2,847 of 3,497 recipes were copies); a compile error or changed object shows in the owner's own
+    compile and in one copy, so failing bisection steps cost the distinct sources, not the copies."""
+    out, seen = [], set()
+    for rid in ids:
+        spec = graph.recipes[rid]
+        key = (graph.own_source(spec), spec.get('_family'), bool(spec.get('projection')))
+        if key not in seen:
+            seen.add(key)
+            out.append(rid)
+    return out
+
+
 class Prover:
     """affected.prove in process over one graph, with per-recipe reuse keyed by edited input texts."""
 
@@ -559,7 +615,7 @@ class Prover:
         self.log = log
         self.reuse = {}
 
-    def __call__(self, files, texts):
+    def __call__(self, files, texts, screen=False):
         g = self.graph
         by_dep = g.by_dep()
         digest = {f: hashlib.sha256(t.encode('utf-8', 'surrogateescape')).hexdigest() for f, t in texts.items()}
@@ -587,8 +643,9 @@ class Prover:
             if spec.get('projection'):
                 parts.append('layout=' + layout)
             return hashlib.sha256('\n'.join(parts).encode()).hexdigest()
+        extra = dict(select=screen_select) if screen else {}
         return self.mod.prove(self.root, files, workers=self.workers, graph=g, reuse=self.reuse, reuse_key=key,
-                              log=lambda m: self.log('  ' + m))
+                              log=lambda m: self.log('  ' + m), **extra)
 
 
 # ------------------------------------------------------------------------------------------- main
@@ -649,7 +706,8 @@ def write_receipts(out, batch, runner, final, entry, verdict, natcheck, timings,
                    unit_failures=len(natcheck.get('unit_failures', [])),
                    adaptation_errors=len(natcheck.get('adaptation_errors', []))),
                files=sorted(written), debt=dict(yields), timings=timings,
-               repairs=[dict(r, header=H) for H, rep in reports.items() for r in rep.get('repairs', ())])
+               repairs=[dict(r, header=H) for H, rep in reports.items() for r in rep.get('repairs', ())],
+               prechecked=batch.prechecked)
     (out / 'batch.json').write_text(json.dumps(rec, indent=1, default=str) + '\n')
     return rec
 
@@ -671,6 +729,14 @@ def main(argv=None):
     ap.add_argument('--no-proof', action='store_true', help='write only (the caller proves)')
     ap.add_argument('--workers', type=int, default=8)
     ap.add_argument('--max-proofs', type=int, default=40)
+    ap.add_argument('--scope-src', nargs='*', default=[],
+                    help='.c path prefixes the batch may edit; a name whose edits reach another .c holds '
+                         '(out_of_scope_source), e.g. consumers in a folder a live lane owns')
+    ap.add_argument('--no-precheck', action='store_true',
+                    help='skip the code-map static holds (void prototype whose value a caller uses)')
+    ap.add_argument('--screen', action='store_true',
+                    help='screen proofs first (one compile per distinct source/family/copy kind; needs an '
+                         'affected.py with prove(select=)); only a passing screen runs the full proof')
     ap.add_argument('--record-floors', action='store_true', help='upsert ledger/prototype_floors.jsonl after PASS')
     args = ap.parse_args(argv)
     if not 1 <= args.workers <= 8:
@@ -699,14 +765,21 @@ def main(argv=None):
     census = C.Census(root, log=log)
     timings['census'] = round(time.monotonic() - started, 1)
     batch = Batch(root, datas, census, log=log, partial=not args.no_partial, repair=not args.no_repair,
-                  scope=args.scope, names=args.names)
+                  scope=args.scope, names=args.names, scope_src=args.scope_src)
+    if not args.no_precheck:
+        held = batch.precheck(root / 'build/codemap.db')
+        if held:
+            log('precheck (code map): %d names held before any proof: %s' % (
+                len(held), ', '.join('%s (%s)' % kv for kv in sorted(held.items()))[:600]))
     log('%d headers, %d candidate names' % (len(batch.txns), len(batch.cands)))
     prover = None if args.no_proof else Prover(root, affected, census, batch.originals, args.workers, log)
     natcheck = None
     if args.natcheck and not args.no_proof:
         natcheck = lambda: T.run_natcheck(root, args.natcheck, out, log)  # noqa: E731
+    if args.screen and prover is not None and 'select' not in prover.mod.prove.__code__.co_varnames:
+        ap.error('--screen needs an affected.py with prove(select=); pass --affected PATH')
     runner = Runner(root, batch, out, prover=prover, natcheck=natcheck, log=log, no_proof=args.no_proof,
-                    max_proofs=args.max_proofs)
+                    max_proofs=args.max_proofs, screen=args.screen)
     tree = subprocess.run(['git', '-C', str(root), 'rev-parse', 'HEAD'], capture_output=True, text=True).stdout.strip()
     try:
         t0 = time.monotonic()

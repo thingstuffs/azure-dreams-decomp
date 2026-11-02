@@ -3,6 +3,7 @@
 /* Prototypes of the functions defined in src/engine/window/ (one true prototype each; maintained by tools/headers). */
 
 #include "common.h"
+#include "engine/window/cursor_body.h"
 #include "records/Rec_D_80081FDC.h"
 #include "records/Rec_func_80036210_arg0.h"
 #include "shared/entity.h"
@@ -36,7 +37,7 @@ struct S_8003661C_0;
 struct S_80036880_0;
 struct S_80036900;
 struct S_8004A24C_0;
-struct S_8004A330_Entity;
+struct AnimatedMenuPanelNode;
 struct S_func_80035484_4;
 struct S_func_80035484_5;
 struct S_func_800362D0_0;
@@ -179,7 +180,7 @@ void fade_and_shrink_window_on_value_change(struct Func80035C80Object *object);
 s32 unlink_cursor_when_finished(struct Func37534State *state);
 
 /* update_cursor_blink_colors.c */
-void update_cursor_blink_colors(void *state, ObjectPosition *position, void *output);
+void update_cursor_blink_colors(WindowCursorBody *state, ObjectPosition *position, void *output);
 
 /* update_cursor_callback.c */
 void update_cursor_callback(s32 unused_0, s32 unused_1, s32 value);
@@ -197,7 +198,7 @@ void update_window_extents(struct Func80037C7CState *state, s32 offset);
 void update_window_state(struct RuntimeObject *object, s32 handler_arg1, s32 handler_arg2, s32 state);
 
 /* window_create_animated_content_panel.c */
-struct S_8004A330_Entity *window_create_animated_content_panel(s32 style_flags, s16 start_x, s16 start_y, s16 target_x, s16 target_y, s16 width, s32 flags, s32 content_id);
+struct AnimatedMenuPanelNode *window_create_animated_content_panel(s32 style_flags, s16 start_x, s16 start_y, s16 target_x, s16 target_y, s16 width, s32 flags, s32 content_id);
 
 /* window_wait_then_play_sound.c */
 void activate_delayed_window_resource(struct Func80035BE0State *state);

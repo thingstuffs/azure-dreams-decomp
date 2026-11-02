@@ -5,6 +5,7 @@
 #include "shared/dungeon_floor.h"
 #include "shared/game_work.h"
 #include "m2c_compat.h"
+#include "sdk/libgte.h"
 
 typedef struct {
     u8 value0;
@@ -28,11 +29,6 @@ typedef struct {
     u16 counter_copy;
 } InterpTarget;
 
-s32 ScaleMatrix(void *, void *);
-s32 SetRotMatrix(void *);
-s32 SetTransMatrix(void *);
-s32 RotTransPers(void *, void *, void *, void *);
-s32 RotMatrix(void *, void *);
 void interpolate_delayed_target_values(InterpState *state, ObjectPosition *unused, InterpTarget *target);
 extern M2C_UNK D_800DD824;
 

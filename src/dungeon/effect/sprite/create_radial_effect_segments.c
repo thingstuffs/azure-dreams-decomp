@@ -5,15 +5,14 @@
 #include "shared/game_work.h"
 #include "m2c_compat.h"
 #include "records/Rec_func_800D6DC0_arg1.h"
+#include "dungeon/effect/sprite.h"
+#include "engine/graphics.h"
+#include "engine/node.h"
+#include "sdk/libgte.h"
 
 typedef struct S_800D6C18_2 S_800D6C18_2;
 
 /* cfail-repair: tf7-phase1-cache-v3 */
-void *allocate_list_node(s32, void *);       /* extern */
-void register_node(void *, void *); /* extern */
-s32 rsin(s32);                           /* extern */
-s32 rcos(s32);                           /* extern */
-void select_sprite_entry(void *, u8, s32);              /* extern */
 extern s32 draw_linked_depth_sliced_quads(void *payload, void *position, void *render_state);
 extern void update_expiring_sprite_effect(void *effect, S_800D6C18_2 *size_state);
 extern M2C_UNK radial_effect_frames;

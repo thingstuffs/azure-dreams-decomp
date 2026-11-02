@@ -16,6 +16,7 @@
 #include "dungeon/player/state.h"
 #include "dungeon/actor.h"
 #include "shared/object_node.h"
+#include "dungeon/item/effect.h"
 
 extern u8 D_800E0F07[];
 

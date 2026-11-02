@@ -1,6 +1,7 @@
 /* Effect motion with a decaying delta and a timed color fade. */
 #include "common.h"
 #include "shared/object_flags.h"
+#include "dungeon/effect/shade.h"
 
 typedef struct S_800D6804_0 {
     u8 pad_00[0x8];

@@ -1,4 +1,6 @@
 #include "common.h"
+#include "dungeon/menu.h"
+#include "sdk/libgpu.h"
 
 typedef struct HudCopyRect {
     s16 x;
@@ -8,7 +10,6 @@ typedef struct HudCopyRect {
 } __attribute__((packed)) HudCopyRect;
 
 extern HudCopyRect D_80089498;
-extern s32 MoveImage(const HudCopyRect *, s32, s32);
 
 /* Copy the recorded rectangle to its fixed HUD buffer position. */
 void copy_cached_hud_rectangle_to_fixed_position(void)

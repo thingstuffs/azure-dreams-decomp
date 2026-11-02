@@ -23,6 +23,9 @@
 #include "dungeon/player/object.h"
 #include "engine/graphics.h"
 #include "dungeon/level.h"
+#include "dungeon/actor/object.h"
+#include "dungeon/actor/state.h"
+#include "sdk/libc.h"
 
 struct Dst;
 struct Elem;
@@ -119,7 +122,6 @@ typedef struct S_800CBCA0_1 {
 } S_800CBCA0_1;   /* parent in check_entity_chance_and_trigger_parent_action */
 
 extern s32 generate_random_value(void);
-extern void * create_owned_tile_center_effect(s16 tile_x, u16 tile_y, s16 height, void *owner);
 extern u8 D_800E1AE6[];
 
 
@@ -416,9 +418,6 @@ s32 resolve_random_trap_outcome(void *entity, s32 forwarded_1, s32 forwarded_2, 
 #include "modules/trap_effects_candidate.h"
 #include "common.h"
 
-
-
-extern s32 try_apply_confusion_status(void *object, s32 amount, s32 slots);
 extern s32 play_sound_if_enabled(s32 query_value);
 
 typedef struct {
@@ -468,8 +467,6 @@ extern s16 D_8006CCD8[], D_8006CCE8[];
 extern s32 find_object_near_tile_height();
 extern void apply_attack_power_and_element_effects();
 extern s32 find_entry_at_tile_coordinates(s16 x, s16 y, s16 z);
-extern s32 take_map_item_slot(void *object, s16 slot);
-
 
 /* Advance the effect, process collisions, and mark it finished when its steps run out. */
 void advance_trap_effect_and_process_collisions(FivePartTargetEffectBody *effect)
@@ -527,9 +524,6 @@ typedef struct S_800CC4F0_1 {
     s16 unk_06;
     s16 unk_08;
 } S_800CC4F0_1;   /* arg0 in update_directional_trap_effect; pointer addresses record offset 0x2 */
-
-
-extern void * create_tile_center_quad_effect(s16 tile_x, s16 tile_y, s16 z, s16 tail_value, s16 render_mode, u16 tail_config);
 
 /* Updates directional motion, emits paired effects, and marks completion when the timer expires. */
 void update_directional_trap_effect(void *effect_data, S_800CC4F0_0 *position) {
@@ -797,7 +791,6 @@ typedef struct S_800CCA14_1 {
 
 s32 find_object_near_tile_height();                   /* extern */
 void apply_attack_power_and_element_effects(); /* extern */
-extern void * create_tile_center_quad_effect(s16 tile_x, s16 tile_y, s16 z, s16 tail_value, s16 render_mode, u16 tail_config);
 extern u8 D_800CC370;
 extern u8 D_800CC9BC;
 extern u8 trap_resource_slot;
@@ -874,7 +867,6 @@ extern s32 D_800DCF78;
 extern s32 play_sound_if_enabled(s32 query_value);
 s32 generate_random_value(void);
 void draw_textured_ellipse(void *parameters, GpuRect *rectangle, u16 fill_rect, u16 draw_mode);
-extern void create_five_part_target_effect(u16 x, u16 y, s16 z);
 
 /* Take the item in map slot `slot`: with no object, drop the slot's 0x80 flag and bump the pickup count; otherwise roll the object's 0x3 chance and give the fallback cue at or above 0x40, then cue 0x817 for the slot's item. */
 s32 take_map_item_slot(void *object, s16 slot)
@@ -1142,8 +1134,6 @@ typedef struct S_800CD004_6 {
     u16 unk_0A;
 } S_800CD004_6;   /* counter in spawn_source_sprite_effect */
 
-
-extern s32 rand(void);
 extern s32 play_sound_if_enabled(s32 query_value);
 extern s32 generate_random_value(void);
 
@@ -1694,7 +1684,6 @@ s32 create_four_owner_sprite_effects(void *source, s16 slot_index, s32 slot_bits
  * code9.c, w_8004FE78.c, ...). */
 /* Shared counter/flags block; only the 16-bit field at offset 0xA is
  * touched here. */
-extern s32 run_action_ten_if_eligible(ActorRecord *entity, s8 action_arg);
 
 /* Ticks the object's countdown, releasing its handle and updating the shared counter and flags on expiry. */
 void tick_trap_effect_countdown(TrapOwnedTimedEffectBody *object)
@@ -1748,10 +1737,8 @@ s32 run_action_ten_if_eligible(ActorRecord *entity, s8 action_arg) {
 
 
 extern s32 get_entity_effect_value(ActorRecord *entry, s32 effect_id);
-extern void spawn_vertical_particle_burst(s16 x, s16 y, s16 z, s32 sprite_id, s16 play_sound);
 extern s32 play_sound_if_enabled(s32 query_value);
 extern s32 generate_random_value(void);
-extern s32 run_action_ten_if_eligible(ActorRecord *entity, s8 action_arg);
 extern u8 D_800CD910[];
 extern u8 D_800DF820[];
 
@@ -1870,7 +1857,6 @@ extern u8 D_800DF870[];
 
 extern s32 generate_random_value(void);
 extern s32 play_sound_if_enabled(s32 query_value);
-extern void spawn_vertical_particle_burst(s16 x, s16 y, s16 z, s32 sprite_id, s16 play_sound);
 
 /* Applies a chance-based effect, with visual and sound feedback for unflagged entries. */
 s32 apply_chance_based_trap_effect(void *state, s32 unused_1, s32 unused_2, s32 unused_3)
@@ -2073,9 +2059,6 @@ typedef struct {
 
 extern void refresh_packed_grid_nibbles(void);
 extern s32 play_sound_if_enabled(s32 query_value);
-extern void mark_all_actors_with_high_flag(void);
-extern void add_value_to_active_entries_at_tile(s16 x, s16 y, s32 amount);
-extern void set_value_of_active_entries_at_tile(s16 x, s16 y, s16 value);
 extern void initialize_timed_motion_step(u16 countdown, u32 amount);
 
 /* Animate a 5x5 tile patch to target heights, wait, then restore its initial heights. */
@@ -2374,9 +2357,6 @@ void * create_dual_grid_trap_effect(s32 center_x, s32 center_y, s16 unused_value
 #include "common.h"
 #include "shared/dungeon_floor.h"
 
-
-extern void * create_dual_grid_trap_effect(s32 center_x, s32 center_y, s16 unused_value, ActorRecord *unused_data, s32 reverse_offset);
-
 /* Return success if either global high flag is set, otherwise test the record lookup. */
 s32 check_trap_record_or_global_override(ActorRecord *record) {
     void *source_record;
@@ -2391,8 +2371,6 @@ s32 check_trap_record_or_global_override(ActorRecord *record) {
 #include "modules/trap_effects_candidate.h"
 #include "common.h"
 #include "shared/dungeon_floor.h"
-
-extern void * create_dual_grid_trap_effect(s32 center_x, s32 center_y, s16 unused_value, ActorRecord *unused_data, s32 reverse_offset);
 
 /* Checks the entity at its linked coordinates unless a global override is set. */
 s32 check_linked_entity_or_global_override(ActorRecord *entity) {
@@ -2450,12 +2428,10 @@ typedef struct S_800CE748_3 {
 
 void *get_unused_text_buffer(void);
 u8 *expand_text_control_codes(u8 *src, u8 *dst);
-u8 *clear_byte_and_advance(u8 *byte_ptr);
 void * write_text_byte_and_advance(s8 value, s8 *dest);
 extern s32 play_sound_if_enabled(s32 query_value);
 s32 display_text_with_fullwidth_adjustment(s8 *text);
 s32 generate_random_value(void);
-s32 is_linked_object_flagged_10000(void *);
 
 extern u8 D_800E1B76[18];
 extern u8 D_800E1B87[18];
@@ -2626,7 +2602,6 @@ extern void initialize_timed_motion_step(u16 countdown, u32 amount);
 extern void func_80042640(void *, s32);
 extern void SD_Call(s32);
 extern void display_formatted_context_message(void *context);
-extern u8 *find_or_retain_sprite_resource_slot(s32, s32);
 extern s32 play_sound_if_enabled(s32 query_value);
 extern s32 generate_random_value(void);
 extern s32 random_dungeon_range_16(u32 bound_a, u32 bound_b);

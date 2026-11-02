@@ -2,6 +2,7 @@
 #include "shared/object_flags.h"
 #include "m2c_compat.h"
 #include "sdk/libc.h"
+#include "dungeon/effect/shade.h"
 
 typedef struct S_800D50FC_0 {
     u16 unk_00;

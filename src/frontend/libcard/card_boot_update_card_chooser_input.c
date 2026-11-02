@@ -6,10 +6,7 @@
 #include "frontend/libcard/state.h"
 
 
-typedef struct StatePair {
-    s32 first;
-    s32 second;
-} StatePair;
+
 
 extern u8 scene_mode_code;
 
@@ -27,11 +24,12 @@ extern void restore_entity_flag_ten(void);
 
 
 /* Handles menu input and refreshes the displayed state. */
-void card_boot_update_card_chooser_input(Object_800128C8 *menu)
+void card_boot_update_card_chooser_input(CardChooserBody *body)
 {
+    Object_800128C8 *menu = (Object_800128C8 *)body;
     s32 state_changed[2];
-    StatePair *state;
-    StatePair *display_state;
+    CardChooserPresence *state;
+    CardChooserPresence *display_state;
     s32 buttons;
     s32 button_flags;
     s32 selection_changed;
@@ -53,43 +51,43 @@ void card_boot_update_card_chooser_input(Object_800128C8 *menu)
                 create_deferred_resource_transition_task(0, 0, 0, 0);
                 object = ((CardChooserBody *)menu)->request;
                 object->flags |= 0x2000;
-                if ((*(s32 *)((u8 *)menu + 0)) == 2) {
+                if (((CardChooserBody *)menu)->mode == 2) {
                     restore_entity_flag_ten();
                 }
             }
         } else if (button_flags & 0x40) {
             SD_Call(AUDIO_MENU_CONFIRM);
-            card_boot_select_channel_mode((*(s32 *)((u8 *)menu + 0xC)));
+            card_boot_select_channel_mode(((CardChooserBody *)menu)->selected_channel);
             menu->unk_34 = 0;
-            (*(void * *)((u8 *)menu + -0x10)) = card_boot_poll_card_chooser_status;
+            ((ObjectNodeHeader *)menu - 1)->update_callback = card_boot_poll_card_chooser_status;
             return;
         } else if (buttons & 0xA000) {
             if (buttons & 0x8000) {
-                selection = (*(s32 *)((u8 *)menu + 0xC));
+                selection = ((CardChooserBody *)menu)->selected_channel;
                 if (selection != 0) {
                     selection_changed = 1;
                 }
-                (*(s32 *)((u8 *)menu + 0xC)) = 0;
+                ((CardChooserBody *)menu)->selected_channel = 0;
             } else {
-                selection = (*(s32 *)((u8 *)menu + 0xC));
+                selection = ((CardChooserBody *)menu)->selected_channel;
                 if (selection == 0) {
                     selection_changed = 1;
                 }
-                (*(s32 *)((u8 *)menu + 0xC)) = 1;
+                ((CardChooserBody *)menu)->selected_channel = 1;
             }
         }
 
         if (selection_changed != 0) {
             SD_Call(AUDIO_CURSOR_MOVE);
-            card_boot_set_paired_choice_selection(menu->unk_24, (*(s32 *)((u8 *)menu + 0xC)));
+            card_boot_set_paired_choice_selection(menu->unk_24, ((CardChooserBody *)menu)->selected_channel);
         }
     }
 
     state = card_boot_debounce_card_presence();
-    state_changed[0] = state->first != (*(s32 *)((u8 *)menu + 0x18));
-    state_changed[1] = state->second != (*(s32 *)((u8 *)menu + 0x1C));
+    state_changed[0] = state->first != ((CardChooserBody *)menu)->card_presence.first;
+    state_changed[1] = state->second != ((CardChooserBody *)menu)->card_presence.second;
     display_state = state;
-    (*(StatePair *)((u8 *)menu + 0x18)) = *state;
+    ((CardChooserBody *)menu)->card_presence = *state;
     card_boot_update_paired_choice_animations((*(ObjectNodeHeader **)((u8 *)menu + 0x24)), display_state, state_changed);
     no_op_card_stub();
 

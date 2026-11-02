@@ -37,14 +37,13 @@ typedef union {
 void apply_random_actor_value_adjustment(struct Row_818FE800_Target *target, s32 level, void *record);          /* extern */
 #include "dungeon/effect/particle.h"
 #include "dungeon/actor.h"
+#include "dungeon/effect/sprite.h"
 s32 register_node(); /* Unprototyped: two, three or four arguments; retail reads only the node and draw key. */           /* extern */
 void draw_transformed_sprite_with_clip_rect(); /* extern */
 extern Packed8 D_80024028;
 extern Packed32 D_80024038;
 extern M2C_UNK D_800245EC;
 extern M2C_UNK D_800246F8;
-extern void advance_timed_visual_effect(void *state, void *position, void *visual);
-extern void update_tiled_fade_effect(void *effect, void *offset_state, void *render_state);
 extern Packed12 D_80025E28;
 extern Packed12 D_80025E34;
 extern Packed12 D_80025E40;

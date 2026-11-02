@@ -1,5 +1,6 @@
 #include "common.h"
 #include "m2c_compat.h"
+#include "dungeon/system.h"
 
 /* cfail-repair: tf7-phase1-cache-v3 */
 s32 evaluate_surface_components_c(s32 *vector);                      /* extern */

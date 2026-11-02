@@ -3,6 +3,7 @@
 #include "shared/entity.h"
 #include "shared/dungeon_floor.h"
 #include "shared/object_flags.h"
+#include "engine/node.h"
 
 typedef struct {
     u8 value0;
@@ -33,7 +34,6 @@ typedef struct {
     s32 last;
 } E296C;
 
-extern void register_node(void *, u8 *);
 extern void play_sound_if_enabled(s32);
 
 /* Interpolate target values after a delay, then reduce its counter to zero and update flags. */

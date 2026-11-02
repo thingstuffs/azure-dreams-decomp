@@ -8,16 +8,14 @@
 #include "shared/record_ptrs.h"
 #include "shared/dungeon_status.h"
 #include "dungeon/item.h"
+#include "dungeon/item/message.h"
+#include "engine/entity.h"
 
-extern void clear_slots_of_type(void *, s32);
 #include "dungeon/player/item.h"
 #include "dungeon/actor.h"
 
 extern s32 process_record_and_update_linked_state(struct DungeonItemEntry *, s32); /* Unprototyped: uses the value as a pointer where the definition has an integer (or the reverse) */
 extern void clear_slot_and_update_linked_state(DungeonItemEntry *slot);
-extern void *get_unused_text_buffer(void);
-extern u8 *expand_text_control_codes(u8 *src, u8 *dst);
-extern u8 *clear_byte_and_advance(u8 *byte_ptr);
 extern void play_sound_if_enabled(s32);
 extern void display_text_with_fullwidth_adjustment(u8 *text);
 extern void place_actor_item(void *object_context, struct DungeonItemEntry *target);

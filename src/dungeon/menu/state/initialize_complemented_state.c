@@ -1,5 +1,6 @@
 #include "common.h"
 #include "shared/record_ptrs.h"
+#include "dungeon/menu/state.h"
 
 typedef struct S_800DC988_0 {
     u8 pad_00[0x20];

@@ -24,6 +24,9 @@
 #include "dungeon/player/state.h"
 #include "dungeon/item/message.h"
 #include "dungeon/player.h"
+#include "engine/entity.h"
+#include "engine/util.h"
+#include "sdk/libc.h"
 
 typedef struct {
     u8 pad[0x29C];
@@ -155,10 +158,7 @@ typedef struct S_func_800B1364_19 {
 } S_func_800B1364_19;
 
 /* cfail-repair: tf7-phase1-cache-v3 */
-s32 func_8003E188(s32, s32);
-s32 func_80042640(void *, s32);
 #include "engine/graphics.h"
-s32 strcpy(void *, s32);
 struct DungeonItemEntry;
 struct EntityLinkNode;
 void unlink_entity_node(struct EntityLinkNode *node);
@@ -167,7 +167,6 @@ void update_map_cell_flags_with_item_limit(s32 x, s32 y, u16 flags);
 #include "engine/resource.h"
 #include "slus.h"
 
-u8 * find_or_retain_sprite_resource_slot(s32 requested_id, s32 requested_type);
 s32 play_sound_if_enabled(s32 query_value);
 s32 display_text_with_fullwidth_adjustment(s8 *text);
 s32 generate_random_value(void);

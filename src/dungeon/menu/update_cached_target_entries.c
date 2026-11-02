@@ -1,6 +1,7 @@
 #include "shared/entity.h"
 #include "common.h"
 #include "shared/record_ptrs.h"
+#include "dungeon/menu.h"
 
 
 typedef struct S_800DC0BC_1 {
@@ -8,10 +9,6 @@ typedef struct S_800DC0BC_1 {
     s32 unk_10;
     s32 unk_14;
 } S_800DC0BC_1;   /* arg0 in update_cached_target_entries */
-
-
-
-extern void set_scaled_value_and_complement(void *, s32);
 
 /* Updates two target entries when their cached values differ from the current values. */
 void update_cached_target_entries(S_800DC0BC_1 *cached_values, u8 **target_base) {

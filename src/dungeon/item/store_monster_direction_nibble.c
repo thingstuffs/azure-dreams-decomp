@@ -1,5 +1,6 @@
 #include "common.h"
 #include "shared/dungeon_status.h"
+#include "dungeon/item.h"
 
 extern s32 generate_random_value(void);
 

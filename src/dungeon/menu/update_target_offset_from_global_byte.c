@@ -1,5 +1,6 @@
 #include "common.h"
 #include "shared/record_ptrs.h"
+#include "dungeon/menu.h"
 
 
 /* Updates the target offset from the global byte when it differs from the record value. */

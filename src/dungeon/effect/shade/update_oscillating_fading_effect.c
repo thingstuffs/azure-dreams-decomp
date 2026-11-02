@@ -1,5 +1,6 @@
 #include "dungeon/effect/shade/update_oscillating_fading_effect.h"
 #include "shared/object_flags.h"
+#include "dungeon/effect/shade.h"
 
 
 /* Bobs a linked object above terrain, grows and fades its sprite, and restores the camera target on

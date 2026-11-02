@@ -20,23 +20,23 @@ typedef struct {
 void init_monster_from_stats(void *obj, s16 monsterId)
 {
     u8 *dst = obj;
-    u8 *rec = (u8 *)initialStatsTable + (s32)monsterId * 24;
+    EntityInitialStats *rec = &initialStatsTable[monsterId];
     s32 *d6d8 = &D_8006D6D8[monsterId];
     u32 oldFlags, recFlags;
 
-    *(S_80042640_Block16 *)(dst + 0x00) = *(S_80042640_Block16 *)(rec + 0x00);
-    *(u32 *)(dst + 0x10) = *(u32 *)(rec + 0x10);
+    *(S_80042640_Block16 *)(dst + 0x00) = *(S_80042640_Block16 *)rec;
+    *(u32 *)(dst + 0x10) = ((u32 *)rec)[4];
 
     oldFlags = *(u32 *)(dst + 0x14);
-    recFlags = *(u32 *)(rec + 0x14);
+    recFlags = rec->flags;
     dst[0x13] = (u8)monsterId;
     *(u32 *)(dst + 0x14) = oldFlags | recFlags;
 
-    dst[0x28] = rec[0x05];
-    dst[0x25] = rec[0x04];
+    dst[0x28] = rec->hp;
+    dst[0x25] = rec->mp;
     dst[0x24] = 0xFF;
-    dst[0x26] = rec[0x00];
-    dst[0x27] = rec[0x01];
+    dst[0x26] = rec->attack;
+    dst[0x27] = rec->defense;
     dst[0x45] = 6;
     dst[0x42] = 0;
     dst[0x41] = 0;

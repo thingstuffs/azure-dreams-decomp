@@ -1,6 +1,5 @@
 #include "common.h"
-
-extern void call_indexed_handler_and_clear(s32 *record);
+#include "dungeon/system.h"
 
 typedef struct S_80025598_0 {
     u8 pad_00[0x10];

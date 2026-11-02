@@ -11,8 +11,6 @@
 #include "shared/vector.h"
 #include "slus/data.h"
 
-typedef struct { s32 v; } SpS32;
-typedef struct { u16 v; } SpU16;
 
 extern u8 effect_view_matrix[32];
 extern u8 sprite_projection_matrix[32];
@@ -68,35 +66,35 @@ s32 runtime_render_linked_textured_sprites(u8 *node_data, ObjectPosition *positi
     scratch = (ScratchPad *) 0x1F800000;
     render_pool = g_game_work.draw_buffer;
     next_prim = render_pool->packetCursor;
-    (((SpS32 *) (scratch->b + 0x24))->v) = (s32) (((u8 *) render_pool) + 0xB0);
-    (((SpS32 *) (scratch->b + 0xE4))->v) = 0;
-    (((SpS32 *) (scratch->b + 0x1C))->v) = (s32) next_prim;
+    scratch->sw[0x24 / 4] = (s32) (((u8 *) render_pool) + 0xB0);
+    scratch->sw[0xE4 / 4] = 0;
+    scratch->sw[0x1C / 4] = (s32) next_prim;
     render_pools = ((GpuContext * *)(&g_game_work));
     fixed_matrix = (GteMatrix *) 0x1F8000C8;
     do {
         copy_matrix_a = sprite_fixed_transform_matrix;
         copy_matrix_b = effect_view_matrix;
-        (((SpU16 *) (scratch->b + 0x04))->v) = position->x.unsigned_parts.integer;
-        (((SpU16 *) (scratch->b + 0x06))->v) = position->y.unsigned_parts.integer;
-        (((SpU16 *) (scratch->b + 0x08))->v) = position->z.unsigned_parts.integer;
-        (((SpS32 *) (scratch->b + 0xC4))->v) = RotTransPers(scratch->b + 0x04, &scratch->sw[0xBC / 4], &scratch->sw[0x94 / 4], &scratch->sw[0x98 / 4]);
+        scratch->h[0x04 / 2] = position->x.unsigned_parts.integer;
+        scratch->h[0x06 / 2] = position->y.unsigned_parts.integer;
+        scratch->h[0x08 / 2] = position->z.unsigned_parts.integer;
+        scratch->sw[0xC4 / 4] = RotTransPers(scratch->b + 0x04, &scratch->sw[0xBC / 4], &scratch->sw[0x94 / 4], &scratch->sw[0x98 / 4]);
         *((u16 *) (render_state + 0x14)) |= 0x8000;
-        sprite_scaled_depth_word[0] = (scaled_depth = ((((SpS32 *) (scratch->b + 0xC4))->v)) << 2);
+        sprite_scaled_depth_word[0] = (scaled_depth = (scratch->sw[0xC4 / 4]) << 2);
         *((s32 *) (copy_matrix_b + 0x1C)) = scaled_depth;
         *((s32 *) (copy_matrix_a + 0x1C)) = scaled_depth;
-        depth_value = ((((SpS32 *) (scratch->b + 0xC4))->v)) - (*((s16 *) (render_state + 0x06)));
-        (((SpS32 *) (scratch->b + 0xC4))->v) = depth_value;
+        depth_value = (scratch->sw[0xC4 / 4]) - (*((s16 *) (render_state + 0x06)));
+        scratch->sw[0xC4 / 4] = depth_value;
         if (((u32) depth_value) < 0x1E0) {
             copies = 1;
             do {
                 PushMatrix();
-                center_x = ((((SpU16 *) (scratch->b + 0xBC))->v)) - 0xA0;
-                center_y = ((((SpU16 *) (scratch->b + 0xBE))->v)) - 0x78;
+                center_x = (scratch->h[0xBC / 2]) - 0xA0;
+                center_y = (scratch->h[0xBE / 2]) - 0x78;
                 *((u16 *) (scratch->b + 0xBC)) = center_x;
             } while (0);
             base_x = center_x;
             abs_offset = abs((s16)base_x);
-            (((SpU16 *) (scratch->b + 0xBE))->v) = center_y;
+            scratch->h[0xBE / 2] = center_y;
             base_y = center_y;
             if (abs_offset < 0x330) {
                 abs_offset = (s16) center_y;
@@ -111,26 +109,26 @@ s32 runtime_render_linked_textured_sprites(u8 *node_data, ObjectPosition *positi
             if (copies != 0) {
             do {
                 if (copy_index != 0) {
-                    (((SpS32 *) (scratch->b + 0xC4))->v) = 10;
+                    scratch->sw[0xC4 / 4] = 10;
                     sin_x = rsin(ratan2((s16) base_x, 0x200));
                     amplitude_addr = (u8 *)sprite_depth_amplitude_table;
                     amplitude = (s16 *) (amplitude_addr + (copy_index << 1));
                     product_x = (*amplitude) * sin_x;
-                    (((SpU16 *) (scratch->b + 0xBC))->v) = base_x - (product_x / 4096);
+                    scratch->h[0xBC / 2] = base_x - (product_x / 4096);
                     sin_y = rsin(ratan2((s16) base_y, 0x200));
                     product_y = (*amplitude) * sin_y;
-                    (((SpU16 *) (scratch->b + 0xBE))->v) = base_y - (product_y / 4096);
+                    scratch->h[0xBE / 2] = base_y - (product_y / 4096);
                 }
 
-                (((SpU16 *) (scratch->b + 0xF8))->v) = *((u16 *) (render_state + 0x16));
-                (((SpU16 *) (scratch->b + 0xFA))->v) = *((u16 *) (render_state + 0x18));
-                (((SpU16 *) (scratch->b + 0xFC))->v) = *((u16 *) (render_state + 0x1A));
+                scratch->h[0xF8 / 2] = *((u16 *) (render_state + 0x16));
+                scratch->h[0xFA / 2] = *((u16 *) (render_state + 0x18));
+                scratch->h[0xFC / 2] = *((u16 *) (render_state + 0x1A));
                 scale = *((u16 *) (render_state + 0x20));
-                (((SpS32 *) (scratch->b + 0xDC))->v) = scale;
-                (((SpU16 *) (scratch->b + 0x100))->v) = scale;
+                scratch->sw[0xDC / 4] = scale;
+                scratch->h[0x100 / 2] = scale;
                 scale = *((u16 *) (render_state + 0x22));
-                (((SpS32 *) (scratch->b + 0xE0))->v) = scale;
-                (((SpU16 *) (scratch->b + 0x102))->v) = scale;
+                scratch->sw[0xE0 / 4] = scale;
+                scratch->h[0x102 / 2] = scale;
                 RotMatrix(scratch->b + 0xF8, fixed_matrix);
                 if (copy_index != 0) {
                     if (sprite_transform_copy_flags[copy_index] != 0) {
@@ -146,73 +144,73 @@ s32 runtime_render_linked_textured_sprites(u8 *node_data, ObjectPosition *positi
                 SetTransMatrix(scratch->b + 0x54);
                 SetRotMatrix(scratch->b + 0x54);
                 record = *((u8 **) (render_state + 0x08));
-                (((SpU16 *) (scratch->b + 0x28))->v) = *((u16 *) (render_state + 0x14));
+                scratch->h[0x28 / 2] = *((u16 *) (render_state + 0x14));
                 for (;;) {
                 if (!(record[0] & 0x20)) {
-                    prim = (u8 *) ((((SpS32 *) (scratch->b + 0x1C))->v));
-                    (((SpS32 *) (scratch->b + 0x1C))->v) = (s32) (prim + 0x28);
-                    (((SpS32 *) (scratch->b + 0x0C))->v) = record[8];
-                    (((SpS32 *) (scratch->b + 0x10))->v) = record[9];
-                    (((SpS32 *) (scratch->b + 0x14))->v) = record[10];
-                    (((SpS32 *) (scratch->b + 0x18))->v) = record[11];
-                    if ((record[0] ^ (((SpU16 *) (scratch->b + 0x28))->v)) & 1) {
-                        sx = (-((s8 *) record)[2]) - (((SpU16 *) (scratch->b + 0x100))->v);
-                        (((SpU16 *) (scratch->b + 0x84))->v) = sx;
-                        (((SpU16 *) (scratch->b + 0x74))->v) = sx;
-                        ex = sx - (((SpU16 *) (scratch->b + 0x14))->v);
-                        (((SpU16 *) (scratch->b + 0x8C))->v) = ex;
-                        (((SpU16 *) (scratch->b + 0x7C))->v) = ex;
+                    prim = (u8 *) (scratch->sw[0x1C / 4]);
+                    scratch->sw[0x1C / 4] = (s32) (prim + 0x28);
+                    scratch->sw[0x0C / 4] = record[8];
+                    scratch->sw[0x10 / 4] = record[9];
+                    scratch->sw[0x14 / 4] = record[10];
+                    scratch->sw[0x18 / 4] = record[11];
+                    if ((record[0] ^ scratch->h[0x28 / 2]) & 1) {
+                        sx = (-((s8 *) record)[2]) - scratch->h[0x100 / 2];
+                        scratch->h[0x84 / 2] = sx;
+                        scratch->h[0x74 / 2] = sx;
+                        ex = sx - scratch->h[0x14 / 2];
+                        scratch->h[0x8C / 2] = ex;
+                        scratch->h[0x7C / 2] = ex;
                     }
                     else {
-                        sx = ((s8 *) record)[2] - (((SpU16 *) (scratch->b + 0x100))->v);
-                        (((SpU16 *) (scratch->b + 0x84))->v) = sx;
-                        (((SpU16 *) (scratch->b + 0x74))->v) = sx;
-                        ex = sx + (((SpU16 *) (scratch->b + 0x14))->v);
-                        (((SpU16 *) (scratch->b + 0x8C))->v) = ex;
-                        (((SpU16 *) (scratch->b + 0x7C))->v) = ex;
+                        sx = ((s8 *) record)[2] - scratch->h[0x100 / 2];
+                        scratch->h[0x84 / 2] = sx;
+                        scratch->h[0x74 / 2] = sx;
+                        ex = sx + scratch->h[0x14 / 2];
+                        scratch->h[0x8C / 2] = ex;
+                        scratch->h[0x7C / 2] = ex;
                     }
-                    if ((record[0] ^ (((SpU16 *) (scratch->b + 0x28))->v)) & 2) {
-                        sy = (-((s8 *) record)[3]) - (((SpU16 *) (scratch->b + 0x102))->v);
-                        (((SpU16 *) (scratch->b + 0x7E))->v) = sy;
-                        (((SpU16 *) (scratch->b + 0x76))->v) = sy;
-                        ey = sy - (((SpU16 *) (scratch->b + 0x18))->v);
-                        (((SpU16 *) (scratch->b + 0x8E))->v) = ey;
-                        (((SpU16 *) (scratch->b + 0x86))->v) = ey;
+                    if ((record[0] ^ scratch->h[0x28 / 2]) & 2) {
+                        sy = (-((s8 *) record)[3]) - scratch->h[0x102 / 2];
+                        scratch->h[0x7E / 2] = sy;
+                        scratch->h[0x76 / 2] = sy;
+                        ey = sy - scratch->h[0x18 / 2];
+                        scratch->h[0x8E / 2] = ey;
+                        scratch->h[0x86 / 2] = ey;
                     }
                     else {
-                        sy = ((s8 *) record)[3] - (((SpU16 *) (scratch->b + 0x102))->v);
-                        (((SpU16 *) (scratch->b + 0x7E))->v) = sy;
-                        (((SpU16 *) (scratch->b + 0x76))->v) = sy;
-                        ey = sy + (((SpU16 *) (scratch->b + 0x18))->v);
-                        (((SpU16 *) (scratch->b + 0x8E))->v) = ey;
-                        (((SpU16 *) (scratch->b + 0x86))->v) = ey;
+                        sy = ((s8 *) record)[3] - scratch->h[0x102 / 2];
+                        scratch->h[0x7E / 2] = sy;
+                        scratch->h[0x76 / 2] = sy;
+                        ey = sy + scratch->h[0x18 / 2];
+                        scratch->h[0x8E / 2] = ey;
+                        scratch->h[0x86 / 2] = ey;
                     }
-                    (((SpU16 *) (scratch->b + 0x90))->v) = 0;
-                    (((SpU16 *) (scratch->b + 0x88))->v) = 0;
-                    (((SpU16 *) (scratch->b + 0x80))->v) = 0;
-                    (((SpU16 *) (scratch->b + 0x78))->v) = 0;
+                    scratch->h[0x90 / 2] = 0;
+                    scratch->h[0x88 / 2] = 0;
+                    scratch->h[0x80 / 2] = 0;
+                    scratch->h[0x78 / 2] = 0;
                     RotTransPers4(scratch->b + 0x74, scratch->b + 0x7C, scratch->b + 0x84, scratch->b + 0x8C, &scratch->sw[0xE8 / 4],
                         &scratch->sw[0xEC / 4], &scratch->sw[0xF0 / 4], &scratch->sw[0xF4 / 4], &scratch->sw[0x94 / 4], &scratch->sw[0x98 / 4]);
-                    screen_coord = (((SpU16 *) (scratch->b + 0xE8))->v);
-                    screen_coord += (((SpU16 *) (scratch->b + 0xBC))->v);
+                    screen_coord = scratch->h[0xE8 / 2];
+                    screen_coord += scratch->h[0xBC / 2];
                     *((s16 *) (prim + 0x08)) = screen_coord;
-                    screen_coord = (((SpU16 *) (scratch->b + 0xEA))->v);
-                    screen_coord += (((SpU16 *) (scratch->b + 0xBE))->v);
+                    screen_coord = scratch->h[0xEA / 2];
+                    screen_coord += scratch->h[0xBE / 2];
                     *((s16 *) (prim + 0x0A)) = screen_coord;
-                    screen_coord = (((SpU16 *) (scratch->b + 0xEC))->v);
-                    screen_coord += (((SpU16 *) (scratch->b + 0xBC))->v);
+                    screen_coord = scratch->h[0xEC / 2];
+                    screen_coord += scratch->h[0xBC / 2];
                     *((s16 *) (prim + 0x10)) = screen_coord;
-                    screen_coord = (((SpU16 *) (scratch->b + 0xEE))->v);
-                    screen_coord += (((SpU16 *) (scratch->b + 0xBE))->v);
+                    screen_coord = scratch->h[0xEE / 2];
+                    screen_coord += scratch->h[0xBE / 2];
                     *((s16 *) (prim + 0x12)) = screen_coord;
-                    screen_coord = (((SpU16 *) (scratch->b + 0xF0))->v);
-                    screen_coord += (((SpU16 *) (scratch->b + 0xBC))->v);
+                    screen_coord = scratch->h[0xF0 / 2];
+                    screen_coord += scratch->h[0xBC / 2];
                     *((s16 *) (prim + 0x18)) = screen_coord;
-                    screen_coord = (((SpU16 *) (scratch->b + 0xF2))->v);
-                    screen_coord += (((SpU16 *) (scratch->b + 0xBE))->v);
+                    screen_coord = scratch->h[0xF2 / 2];
+                    screen_coord += scratch->h[0xBE / 2];
                     *((s16 *) (prim + 0x1A)) = screen_coord;
-                    *((s16 *) (prim + 0x20)) = ((((SpU16 *) (scratch->b + 0xF4))->v)) + ((((SpU16 *) (scratch->b + 0xBC))->v));
-                    *((s16 *) (prim + 0x22)) = ((((SpU16 *) (scratch->b + 0xF6))->v)) + ((((SpU16 *) (scratch->b + 0xBE))->v));
+                    *((s16 *) (prim + 0x20)) = (scratch->h[0xF4 / 2]) + (scratch->h[0xBC / 2]);
+                    *((s16 *) (prim + 0x22)) = (scratch->h[0xF6 / 2]) + (scratch->h[0xBE / 2]);
                     visible_0 = 0;
                     if (((u16) ((*((s16 *) (prim + 0x08))) + 0x20)) < 0x181) {
                         visible_0 = ((u16) ((*((s16 *) (prim + 0x0A))) + 0x20)) < 0x121;
@@ -234,25 +232,25 @@ s32 runtime_render_linked_textured_sprites(u8 *node_data, ObjectPosition *positi
                     if (visible_012 | visible_3) {
                         prim[3] = 9;
                         *((u16 *) (render_state + 0x14)) &= 0x7FFF;
-                        u_end = ((((SpS32 *) (scratch->b + 0x14))->v)) + ((((SpS32 *) (scratch->b + 0x0C))->v));
-                        (((SpS32 *) (scratch->b + 0x14))->v) = u_end;
+                        u_end = (scratch->sw[0x14 / 4]) + (scratch->sw[0x0C / 4]);
+                        scratch->sw[0x14 / 4] = u_end;
                         if (u_end & 0x100) {
-                            (((SpS32 *) (scratch->b + 0x14))->v) = u_end - 1;
+                            scratch->sw[0x14 / 4] = u_end - 1;
                         }
-                        v_end = ((((SpS32 *) (scratch->b + 0x18))->v)) + ((((SpS32 *) (scratch->b + 0x10))->v));
-                        (((SpS32 *) (scratch->b + 0x18))->v) = v_end;
+                        v_end = (scratch->sw[0x18 / 4]) + (scratch->sw[0x10 / 4]);
+                        scratch->sw[0x18 / 4] = v_end;
                         if (v_end & 0x100) {
-                            (((SpS32 *) (scratch->b + 0x18))->v) = v_end - 1;
+                            scratch->sw[0x18 / 4] = v_end - 1;
                         }
-                        v_end_bits = ((((SpS32 *) (scratch->b + 0x18))->v)) << 8;
-                        v_start_bits = ((((SpS32 *) (scratch->b + 0x10))->v)) << 8;
-                        (((SpS32 *) (scratch->b + 0x18))->v) = v_end_bits;
-                        (((SpS32 *) (scratch->b + 0x10))->v) = v_start_bits;
-                        *((u32 *) (prim + 0x0C)) = (v_start_bits + ((((SpS32 *) (scratch->b + 0x0C))->v)))
+                        v_end_bits = (scratch->sw[0x18 / 4]) << 8;
+                        v_start_bits = (scratch->sw[0x10 / 4]) << 8;
+                        scratch->sw[0x18 / 4] = v_end_bits;
+                        scratch->sw[0x10 / 4] = v_start_bits;
+                        *((u32 *) (prim + 0x0C)) = (v_start_bits + (scratch->sw[0x0C / 4]))
                         + (((*((u16 *) (render_state + 0x12))) + (*((u16 *) (record + 6)))) << 16);
                         if (copy_index != 0) {
-                            packed_uv = (((SpU16 *) (scratch->b + 0x10))->v);
-                            packed_uv += (((SpU16 *) (scratch->b + 0x14))->v);
+                            packed_uv = scratch->h[0x10 / 2];
+                            packed_uv += scratch->h[0x14 / 2];
                             *((u16 *) (prim + 0x14)) = packed_uv;
                             texture_bias = *((u16 *) (render_state + 0x10));
                             if (texture_bias != 0) {
@@ -263,8 +261,8 @@ s32 runtime_render_linked_textured_sprites(u8 *node_data, ObjectPosition *positi
                             }
                         }
                         else {
-                            packed_uv = (((SpU16 *) (scratch->b + 0x10))->v);
-                            packed_uv += (((SpU16 *) (scratch->b + 0x14))->v);
+                            packed_uv = scratch->h[0x10 / 2];
+                            packed_uv += scratch->h[0x14 / 2];
                             *((u16 *) (prim + 0x14)) = packed_uv;
                             texture_bias = *((u16 *) (render_state + 0x10));
                             if (texture_bias != 0) {
@@ -275,10 +273,10 @@ s32 runtime_render_linked_textured_sprites(u8 *node_data, ObjectPosition *positi
                             }
                         }
                         *((u16 *) (prim + 0x16)) = texture_page;
-                        packed_uv = (((SpU16 *) (scratch->b + 0x18))->v);
-                        packed_uv += (((SpU16 *) (scratch->b + 0x0C))->v);
+                        packed_uv = scratch->h[0x18 / 2];
+                        packed_uv += scratch->h[0x0C / 2];
                         *((u16 *) (prim + 0x1C)) = packed_uv;
-                        *((u16 *) (prim + 0x24)) = ((((SpU16 *) (scratch->b + 0x18))->v)) + ((((SpU16 *) (scratch->b + 0x14))->v));
+                        *((u16 *) (prim + 0x24)) = (scratch->h[0x18 / 2]) + (scratch->h[0x14 / 2]);
                         if ((*((s16 *) (prim + 0x08))) > (*((s16 *) (prim + 0x20)))) {
                             prim[0x14]--;
                             prim[0x24]--;
@@ -292,15 +290,15 @@ s32 runtime_render_linked_textured_sprites(u8 *node_data, ObjectPosition *positi
                         if (copy_index != 0) {
                             render_state[0x0F] = draw_code | 2;
                         }
-                        else if (((((SpU16 *) (scratch->b + 0x28))->v)) & 8) {
-                            if (((((SpU16 *) (scratch->b + 0x28))->v)) & 4) {
+                        else if ((scratch->h[0x28 / 2]) & 8) {
+                            if ((scratch->h[0x28 / 2]) & 4) {
                                 render_state[0x0F] = draw_code | 2;
                             }
                             else {
                                 render_state[0x0F] = draw_code & 0xFD;
                             }
                         }
-                        if (((((SpU16 *) (scratch->b + 0x28))->v)) & 0x10) {
+                        if ((scratch->h[0x28 / 2]) & 0x10) {
                             render_state[0x0F] &= 0xFE;
                         }
                         else {
@@ -312,7 +310,7 @@ s32 runtime_render_linked_textured_sprites(u8 *node_data, ObjectPosition *positi
                             prim[5] >>= 2;
                             prim[6] >>= 2;
                         }
-                        AddPrim((void *) (((((SpS32 *) (scratch->b + 0x24))->v)) + (((((SpS32 *) (scratch->b + 0xC4))->v)) << 2)), prim);
+                        AddPrim((void *) ((scratch->sw[0x24 / 4]) + ((scratch->sw[0xC4 / 4]) << 2)), prim);
                     }
                 }
 
@@ -334,6 +332,6 @@ s32 runtime_render_linked_textured_sprites(u8 *node_data, ObjectPosition *positi
         }
     }
     while (next_node != 0);
-    render_pools[0]->packetCursor = (u8 *) ((((SpS32 *) (scratch->b + 0x1C))->v));
+    render_pools[0]->packetCursor = (u8 *) (scratch->sw[0x1C / 4]);
     return 0;
 }

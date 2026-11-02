@@ -8,6 +8,9 @@
 #include "records/Rec_D_80083160.h"
 #include "shared/object_links.h"
 #include "engine/graphics.h"
+#include "dungeon/item/message.h"
+#include "dungeon/item/state.h"
+#include "slus.h"
 
 typedef struct S_800253C0_0 {
     u8 pad_00[0x8C];
@@ -138,24 +141,15 @@ extern u8 D_80025028[];
 extern u8 D_80025068[];
 extern u8 D_800287F0[];
 
-extern void sound_set_cd_cue_parameters(void *, void *, void *, s32);
-extern s32 read_stream_cue_start_offset(void);
-extern void Control_CD(s32,void *, s32);
-
 extern void play_sound_if_enabled(s32);
 extern void *create_and_link_six_offset_objects(s16, s16, s16, void *);
 extern void *create_six_offset_effects(void *, void *, void *, void *);
 #include "dungeon/effect/screen.h"
 #include "dungeon/actor/object.h"
 #include "engine/scene.h"
+#include "dungeon/item.h"
 
 extern void process_adjacent_objects_with_gray_nodes(void *, void *);
-extern void *get_unused_text_buffer(void);
-extern void *write_text_byte_and_advance(s8 value, s8 *dest);
-extern u8 *append_entity_display_text(void *record, u8 *out);
-extern u8 *expand_text_control_codes(u8 *src, u8 *dst);
-extern u8 *clear_byte_and_advance(u8 *byte_ptr);
-extern void * write_status_prefix_bytes(void *);
 extern void display_text_with_fullwidth_adjustment(s8 *text);
 extern void *create_linked_objects(void *, void *, s32, s16);
 extern void *create_positioned_graphic_object(s16 x, s16 y, s16 z, s16 graphic_index, s32 state_value);

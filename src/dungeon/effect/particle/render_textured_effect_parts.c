@@ -17,6 +17,7 @@
 #include "shared/dir_step.h"
 #include "shared/dungeon_status.h"
 #include "dungeon/actor.h"
+#include "sdk/libgpu.h"
 
 void (*const dungeon_183a800_entry)(void *, void *, void *) = advance_projectile_burst_and_impact;
 const PathBlock textured_particle_direction_offsets = {{{32,0},{32,32},{0,32},{-32,32},{-32,0},{-32,-32},{0,-32},{32,-32}}};
@@ -79,9 +80,6 @@ void create_offset_paletted_sprite(void *unused_context, void *origin, s32 unuse
         select_record_entry_and_value(asset, effect_sprite_sources, setup_mode);
     }
 }
-
-extern s32 GetTPage(s32, s32, s32, s32);
-extern void SetDrawMode(void *, s32, s32, s32, s32);
 
 /*
  * Projects linked points and queues brightness-scaled shaded tiles and draw-mode packets for

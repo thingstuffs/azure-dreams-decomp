@@ -2,11 +2,12 @@
 #include "common.h"
 #include "shared/game_work.h"
 #include "shared/object_flags.h"
+#include "dungeon/effect/shade.h"
+#include "engine/entity.h"
+#include "engine/graphics.h"
+#include "slus.h"
 
 extern void apply_monster_koyaw_data(void *, void *); /* Unprototyped: uses the value as a pointer where the definition has an integer (or the reverse) */
-extern void advance_sprite_animation_and_textures(void *);
-extern void select_sprite_entry(void *, s32, s32);
-extern s32 get_entity_effect_value(void *, s32);
 
 extern s8 view_direction_depth_biases[];
 extern u8 uboat_ready_frames[];

@@ -2,6 +2,8 @@
 #include "shared/sprite_frame_state.h"
 #include "shared/object_flags.h"
 #include "records/Rec_D_80082E80.h"
+#include "dungeon/effect/shade.h"
+#include "slus.h"
 
 typedef struct S_818C2F10_0_pre {
     u16 unk_00;
@@ -21,8 +23,6 @@ typedef struct S_818C2F10_2 {
     u8 pad_00[0x8];
     s32 unk_08;
 } S_818C2F10_2;   /* arg1 in update_vertical_drift_effect */
-
-extern void advance_sprite_animation_and_textures(void *entity);                      /* extern */
 
 /* Increment linked counters, reduce the stored value, and propagate status flags. */
 void update_vertical_drift_effect(void *entry_arg, S_818C2F10_2 *value_state, SpriteFrameState *status) {

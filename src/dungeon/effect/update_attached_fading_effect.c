@@ -4,6 +4,7 @@
 #include "shared/object_flags.h"
 #include "shared/dungeon_moving_views.h"
 #include "engine/node.h"
+#include "dungeon/effect.h"
 
 #ifndef NULL
 #define NULL 0

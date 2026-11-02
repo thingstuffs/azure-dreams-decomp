@@ -15,6 +15,10 @@ struct ObjectNodeHeader;
 #include "shared/dungeon_status.h"
 #include "dungeon/actor.h"
 #include "dungeon/actor/effect.h"
+#include "engine/entity.h"
+#include "sdk/libgte.h"
+#include "slus.h"
+#include "dungeon/system.h"
 
 typedef struct {
     s8 pad_00[0x14];
@@ -369,8 +373,6 @@ typedef struct {
     u8 pad[4];
     u16 flags;
 } DungeonCell;
-
-s16 count_floor_items_at_tile(s16 first_key, s16 second_key);
 
 /* Clears selected cell flags or decrements their encoded value, clamping at zero. */
 void update_map_cell_flags_with_item_limit(s32 x, s32 y, u16 flags)
@@ -1301,7 +1303,6 @@ typedef union { s16 coordinate; struct { u8 low; u8 high; } bytes; } CoordinateO
 typedef struct { CoordinateOutput first; CoordinateOutput second; } LocalBytes;
 
 /* cfail-repair: tf7-phase1-cache-v3 */
-s32 get_entity_effect_value(ActorRecord *entry, s32 effect_id);             /* extern */
 
 /* Updates the object's coordinates when a target passes the checks and new coordinates are found. */
 s32 update_object_coordinates_if_valid(SpriteFrameState *object, EntityRec *context) {
@@ -1329,11 +1330,6 @@ s32 update_object_coordinates_if_valid(SpriteFrameState *object, EntityRec *cont
 #include "shared/dungeon_status.h"
 #include "shared/object_node.h"
 
-
-
-
-extern void zero_words(void *, s32);
-extern s32 ratan2(s32, s32);
 extern s16 get_actor_height_difference(ActorRecord *left_record, ActorRecord *right_record);
 extern s32 is_map_coordinate_out_of_bounds(s32, s32);
 

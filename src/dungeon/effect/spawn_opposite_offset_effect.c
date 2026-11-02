@@ -7,6 +7,7 @@
 #include "shared/dir_step.h"
 #include "sdk/libc.h"
 #include "slus.h"
+#include "dungeon/effect.h"
 
 #ifndef NULL
 #define NULL 0

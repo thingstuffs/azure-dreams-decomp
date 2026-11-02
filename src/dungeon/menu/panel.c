@@ -19,12 +19,11 @@
 #include "engine/node.h"
 #include "dungeon/item.h"
 #include "engine/graphics.h"
-
-extern char * func_8004E5A0(int value, unsigned short width, char *buf);
+#include "dungeon/actor/position.h"
+#include "engine/util.h"
 
 extern s32 allocate_panel_offset_or_zero(void);
 extern M2C_UNK D_80077FEC;
-extern void update_attached_effect_position(void *object, MovingPosition *position, void *anim_state);
 extern u8 *dungeon_menu_text_entries[];
 extern s32 transform_linked_quad_batches(u8 *, s32, u8 *);
 /* Creates an entity panel with numeric labels, centered text, and a shaded background. */

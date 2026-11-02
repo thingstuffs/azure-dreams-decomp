@@ -1,4 +1,5 @@
 #include "common.h"
+#include "dungeon/system.h"
 
 typedef void (*Func)(u32);
 

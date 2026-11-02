@@ -45,4 +45,9 @@ void load_indexed_item_module(s32 entry_index);
 #include "records/Rec_func_800A5DFC_arg1.h"
 void apply_capped_damage_and_hit_effect(ActorRecord *entity, Rec_func_800A5DFC_arg1 *effect_pos);
 
+void call_indexed_handler_and_clear(s32 *record);
+s16 count_floor_items_at_tile(s16 first_key, s16 second_key);
+s32 find_slot_by_item_group(void *entry, s16 target);
+s32 get_random_scaled_value(s16 input_value);
+
 #endif

@@ -1,5 +1,7 @@
 #include "common.h"
 #include "shared/game_work.h"
+#include "dungeon/effect/shade.h"
+#include "sdk/libgpu.h"
 
 typedef struct Scratch {
     u8 pad0[0x18];
@@ -40,10 +42,6 @@ extern u32 particle_quad_vertices[];
 extern u32 RotTransPers4(
     u32 *, u32 *, u32 *, u32 *, u32 *, u32 *, u32 *, u32 *, u32 *, u32 *,
     EmptyCallArg);
-extern void SetPolyG4(Entry *);
-extern void AddPrim(u32 *, Entry *);
-extern u32 GetTPage(u32, u32, u32, u32);
-extern void SetDrawMode(Entry *, u32, u32, u32, u32);
 
 /* Builds shaded quads from adjacent vertex rows and adds them to the ordering table. */
 s32 draw_adjacent_row_quads(void)

@@ -5,6 +5,7 @@
 #include "m2c_compat.h"
 #include "records/Rec_D_80082E80.h"
 #include "sdk/libc.h"
+#include "dungeon/effect/shade.h"
 
 typedef struct S_818C3448_0_pre {
     u16 unk_00;

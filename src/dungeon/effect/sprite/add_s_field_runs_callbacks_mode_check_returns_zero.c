@@ -2,6 +2,7 @@
 #include "dungeon/effect/sprite.h"
 #include "m2c_compat.h"
 #include "shared/entity.h"
+#include "dungeon/effect/screen.h"
 
 /* cfail-repair: tf7-phase1-cache-v3 */
 #include "dungeon/effect/screen.h"                 /* extern */

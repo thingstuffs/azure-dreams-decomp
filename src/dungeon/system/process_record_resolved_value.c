@@ -2,6 +2,7 @@
 #include "m2c_compat.h"
 #include "dungeon/item.h"
 #include "dungeon/menu.h"
+#include "dungeon/system.h"
 
 s32 get_work_value();                             /* extern */
 

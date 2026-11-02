@@ -1,5 +1,6 @@
 #include "common.h"
 #include "m2c_compat.h"
+#include "dungeon/menu.h"
 
 typedef struct S_80123700_0 {
     u8 pad_00[0x8];

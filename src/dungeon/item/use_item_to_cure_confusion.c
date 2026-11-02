@@ -15,15 +15,13 @@
 #include "dungeon/system.h"
 #include "dungeon/actor/status.h"
 #include "dungeon/player/state.h"
+#include "dungeon/item/effect.h"
+#include "engine/entity.h"
 
-
-void clear_slots_of_type(ActorRecord *owner, s8 match_type);             /* extern */
 #include "dungeon/player/item.h"
 #include "dungeon/actor.h"
 #include "shared/object_node.h"
 
-void *get_unused_text_buffer(void);                          /* extern */
-s32 display_text_with_fullwidth_adjustment(s8 *text);                         /* extern */
 typedef struct {
     u8 pad[0xA];
     u16 fieldA;

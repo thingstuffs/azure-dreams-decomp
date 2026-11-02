@@ -16,9 +16,8 @@
 #include "dungeon/player/state.h"
 #include "dungeon/actor.h"
 #include "engine/scene.h"
-
-extern void create_type_212_object(s32 flag, s8 value);
-extern void refresh_packed_grid_nibbles(void);
+#include "dungeon/effect/screen.h"
+#include "dungeon/item.h"
 
 extern u8 dungeon_ground_item_positions[];
 extern u8 floor_objects[];

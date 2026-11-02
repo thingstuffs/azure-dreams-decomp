@@ -1,12 +1,9 @@
 #include "common.h"
 #include "shared/game_work.h"
 #include "dungeon/menu.h"
+#include "sdk/libgpu.h"
 
 extern u8 upper_draw_context[16];
-
-extern void AddPrim(void *, void *);
-extern void SetDrawArea(void *, void *);
-
 
 /* Queues drawing commands and a black 64-by-64 rectangle in the active draw buffer. */
 void queue_black_draw_buffer_rectangle(InactiveTypeTwelveObjectBody *object) {

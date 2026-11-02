@@ -6,6 +6,7 @@
 #include "records/Rec_func_800247B8_arg0.h"
 #include "shared/dungeon_moving_views.h"
 #include "engine/node.h"
+#include "dungeon/effect/shade.h"
 
 #define UNALIGNED32(expr) (expr)
 

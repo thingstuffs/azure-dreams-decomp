@@ -1,3 +1,4 @@
+#include "frontend/libcard/message_dialog.h"
 #include "common.h"
 #include "frontend/libcard/interfaces.h"
 #include "engine/audio/sequence.h"
@@ -22,9 +23,9 @@ void card_boot_layout_five_entry_list(void *context)
 
     for (entry_index = 0; entry_index < 5; entry_index++) {
         entry = ((MainEntry **)((u8 *)context + 0x8CC))[entry_index];
-        entry->position->x = 0x124 - (*(s32 *)((u8 *)context + 0x18) / 2);
-        entry->position->y = entry_index * 0x11 - (*(s32 *)((u8 *)context + 0x1C) / 2) + 0xFC;
-        entry->value = decode_fullwidth_text((u8 *)context + 0x114 + entry_index * 0x180,
-                                     card_menu_entry_values[*(s32 *)((u8 *)context + 8)].words[entry_index], 1);
+        entry->position->x = 0x124 - (((CardMessageDialogBody *)context)->width / 2);
+        entry->position->y = entry_index * 0x11 - (((CardMessageDialogBody *)context)->height / 2) + 0xFC;
+        entry->value = decode_fullwidth_text(((CardMessageDialogBody *)context)->text_buffers[entry_index],
+                                     card_menu_entry_values[((CardMessageDialogBody *)context)->entry_index].words[entry_index], 1);
     }
 }

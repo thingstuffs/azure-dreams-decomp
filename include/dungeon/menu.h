@@ -77,4 +77,14 @@ s8 *find_first_ended_record(s8 *record);
 void *get_mapped_menu_table_entry(s32 row_id, s32 entry_index);
 void wrap_position_and_set_state_value(s32 state_value);
 
+void copy_cached_hud_rectangle_to_fixed_position(void);
+void draw_blue_enabled_entry_markers(void);
+void draw_green_type_two_markers(void);
+void draw_purple_entry_markers(void);
+void draw_red_active_entry_markers(void);
+s32 get_masked_grid_nibble(s16 x, s16 y);
+void redraw_type_three_floor_markers(void);
+void set_scaled_value_and_complement(void *record, s32 input_value);
+void submit_activation_command(void);
+
 #endif

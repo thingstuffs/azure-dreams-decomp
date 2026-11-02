@@ -1,5 +1,6 @@
 #include "common.h"
 #include "shared/object_flags.h"
+#include "dungeon/effect/shade.h"
 
 typedef struct Inner {
     u8 pad[0xC];

@@ -2,6 +2,7 @@
 /* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - CL:dungeon/func_800D7228, CL:dungeon/func_800D7484, CL:dungeon/func_800D74DC, CL:dungeon/func_800D7594. */
 #include "dungeon/menu/object_table_initialization_g00375.h"
 #include "shared/object_node.h"
+#include "dungeon/menu.h"
 
 /* Initialize nine records and vectors from templates, setting each record's last byte to 4. */
 void initialize_nine_records_and_vectors(u8 *object) {

@@ -1,5 +1,6 @@
 #include "shared/audio_commands.h"
 #include "common.h"
+#include "dungeon/effect/sprite.h"
 
 extern void play_sound_if_enabled(s32);
 extern s8 spell_effect_selector_cache;

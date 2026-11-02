@@ -196,4 +196,8 @@ s32 draw_animated_shaded_lines(void *effect_data);
 s32 draw_linked_shaded_tiles(RandomOffsetEffectObjectBody *first_point, void *first_position);
 void randomize_counted_sprite_angle(void **object_ref, s32 unused, struct Row_818A4E74_S_func_818A4E74_1 *target);
 
+struct UpdateEffectParticlesAndCleanupBody;
+void advance_timed_visual_effect(struct UpdateEffectParticlesAndCleanupBody *state, void *position_arg, void *visual_arg);
+void update_tiled_fade_effect(struct UpdateEffectParticlesAndCleanupBody *effect, void *offset_state_arg, void *render_state);
+
 #endif

@@ -1,4 +1,7 @@
 #include "common.h"
+#include "dungeon/menu.h"
+#include "sdk/libgpu.h"
+#include "slus.h"
 
 typedef struct {
     s16 first;
@@ -7,8 +10,6 @@ typedef struct {
     s16 fourth;
 } DrawRecord;
 
-extern void format_reversed_decimal_space_padded(s32 value, u16 width, char *buf);
-extern void MoveImage(void *record, s32 y, s32 x);
 extern u8 numeric_character_flags[];
 
 /* Draws the first formatted number with mode-dependent padding glyphs. */

@@ -5,19 +5,11 @@
 #include "frontend/libcard.h"
 #include "frontend/libcard/message.h"
 #include "slus.h"
+#include "frontend/libcard/message_dialog.h"
 
-typedef struct S_80022524_0 {
-    s32 unk_00;
-    u8 pad_04[0x4];
-    s32 unk_08;
-    u8 pad_0C[0x4];
-    s32 unk_10;
-    u8 pad_14[0xC];
-    s32 * unk_20;
-} S_80022524_0;   /* arg0 in card_boot_handle_message_dialog_input */
 
 /* Handles menu exit buttons and repeated left/right selection changes. */
-void card_boot_handle_message_dialog_input(S_80022524_0 *menu)
+void card_boot_handle_message_dialog_input(CardMessageDialogBody *menu)
 {
     s32 direction;
     s32 held_buttons;
@@ -39,7 +31,7 @@ void card_boot_handle_message_dialog_input(S_80022524_0 *menu)
 
         SD_Call(AUDIO_CANCEL);
         card_boot_close_message_dialog(1);
-        exit_status = menu->unk_20;
+        exit_status = menu->result;
         if (exit_status != 0) {
             *exit_status = 1;
         }
@@ -49,16 +41,16 @@ void card_boot_handle_message_dialog_input(S_80022524_0 *menu)
         s32 exit_result;
 
         SD_Call(AUDIO_ACCEPT);
-        exit_status = menu->unk_20;
+        exit_status = menu->result;
         if (exit_status != 0) {
             exit_result = card_boot_close_message_dialog(1);
-            updated_status = menu->unk_20;
+            updated_status = menu->result;
             *updated_status = exit_result;
         } else {
             card_boot_close_message_dialog(1);
         }
     } else if ((held_buttons & 0xA000) != 0 && (pressed_buttons & 0xA000) != 0) {
-        menu->unk_10 = 0;
+        menu->repeat_delay = 0;
         pressed_buttons = input[4];
         if (pressed_buttons & 0x8000) {
             direction = -1;
@@ -68,7 +60,7 @@ void card_boot_handle_message_dialog_input(S_80022524_0 *menu)
             }
         }
     } else if (held_buttons & 0xA000) {
-        repeat_delay = menu->unk_10;
+        repeat_delay = menu->repeat_delay;
         if (repeat_delay >= 3) {
             if (held_buttons & 0x8000) {
                 direction = -1;
@@ -77,7 +69,7 @@ void card_boot_handle_message_dialog_input(S_80022524_0 *menu)
             }
         } else {
             next_delay = repeat_delay + 1;
-            menu->unk_10 = next_delay;
+            menu->repeat_delay = next_delay;
         }
     }
 
@@ -85,11 +77,11 @@ void card_boot_handle_message_dialog_input(S_80022524_0 *menu)
         s32 new_selection;
 
         new_selection = advance_index_with_directional_clamp(
-            menu->unk_00,
+            menu->selected_choice,
             direction,
-            card_menu_entry_values[menu->unk_08].choice_count);
-        if (new_selection != menu->unk_00) {
-            menu->unk_00 = new_selection;
+            card_menu_entry_values[menu->entry_index].choice_count);
+        if (new_selection != menu->selected_choice) {
+            menu->selected_choice = new_selection;
             SD_Call(AUDIO_CURSOR_MOVE);
         }
         card_boot_update_message_choice_highlight(menu);

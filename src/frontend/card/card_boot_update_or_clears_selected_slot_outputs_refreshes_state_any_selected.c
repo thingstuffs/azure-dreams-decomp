@@ -1,3 +1,4 @@
+#include "frontend/card/choice_panel.h"
 #include "common.h"
 #include "frontend/card.h"
 #include "main/data.h"
@@ -11,8 +12,8 @@ void card_boot_update_or_clears_selected_slot_outputs_refreshes_state_any_select
     s32 updated;
     s32 data_offset;
     u8 *record;
-    void **output_table;
-    void *output;
+    CardMenuDisplayNode **output_table;
+    CardMenuDisplayNode *output;
 
     updated = 0;
     slot = 0;
@@ -20,13 +21,13 @@ void card_boot_update_or_clears_selected_slot_outputs_refreshes_state_any_select
     data_offset = 4;
     do {
         if (selected[slot] != 0) {
-            output_table = *(void ***)((u8 *)state + 0x60);
-            output = *(void **)((u8 *)output_table + (slot * 4) + 8);
+            output_table = ((CardDevChoicePanelPrefix *)state)->children;
+            output = output_table[slot + 2];
             updated = 1;
             if (enabled[slot] != 0) {
                 func_8004DDBC((u8 *)state + data_offset, D_80408A30, output);
             } else {
-                *(s32 *)output = 0;
+                output->payload.word = 0;
                 *(s32 *)(record + 8) = 0;
             }
         }

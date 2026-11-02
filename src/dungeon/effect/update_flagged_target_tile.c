@@ -6,6 +6,7 @@
 #include "m2c_compat.h"
 #include "records/Rec_D_80082E80.h"
 #include "shared/object_node.h"
+#include "dungeon/effect.h"
 
 typedef struct S_800B2FAC_0 {
     u8 pad_00[0x14];

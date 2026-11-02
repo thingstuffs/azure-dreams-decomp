@@ -4,6 +4,8 @@
 #include "shared/sprite_frame_state.h"
 #include "dungeon/system.h"
 #include "dungeon/item.h"
+#include "dungeon/effect/particle.h"
+#include "sdk/libc.h"
 void (*const dungeon_18b2800_entry)(B22_81893474_EffectState *, ObjectPosition *, B22_81893474_ColorPart *) = update_effect_launch_travel_impact_cleanup;
 #include "dungeon/effect/particle/create_randomly_rotated_sprite_object.h"
 #include "common.h"
@@ -34,8 +36,6 @@ void advance_accelerating_spin_effect(B22_81892800_Entity *entity, B22_81892800_
 #include "shared/slus_callbacks.h"
 
    /* fields in create_randomly_rotated_sprite_object */
-
-extern s32 rand(void);
 
 extern u8 D_80025308[];
 
@@ -400,7 +400,6 @@ void step_sprite_height_and_animation(AnimatedSpriteBurstBody *entry, B22_818931
 #include "m2c_compat.h"
 
 extern s32 tile_actor_sprite_entries;
-s32 rand(void);
 extern s32 D_800253BC;
 /* Spawns a primary effect and eight randomly offset particles from the supplied data. */
 void create_animated_sprite_burst(s32 source, B22_81893244_Func81893244Data *initial_data, s16 status_param) {
@@ -465,7 +464,6 @@ void create_animated_sprite_burst(s32 source, B22_81893244_Func81893244Data *ini
 #include "shared/dungeon_status.h"
 #include "shared/dir_step.h"
 #include "shared/entity.h"
-extern int abs(int);
 
 #define U16_AT(p, n) (*(u16 *)((u8 *)(p) + (n)))
 #define probe scratch.probe

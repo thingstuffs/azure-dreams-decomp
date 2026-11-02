@@ -142,9 +142,11 @@ class Solver:
                 spelling = normalise_decl(local[0][3], name)
             elif not is_def:
                 closure = self.census.corpus.closure(path)
-                hs = sorted((closure.index(s.path), s) for s in header_sites if s.path in closure)
+                # (a header can declare the name twice: order by position, never by SiteInfo)
+                hs = sorted(((closure.index(s.path), s.start, s) for s in header_sites if s.path in closure),
+                            key=lambda x: x[:2])
                 if hs:
-                    s0 = hs[0][1]
+                    s0 = hs[0][2]
                     if s0.ndecl > 1:
                         site['blocked'] = 'unprobeable:multi_declarator_header'
                         continue
@@ -340,6 +342,9 @@ def main(argv=None):
     sp.add_argument('--names', nargs='*')
     sp.add_argument('--all-names', action='store_true', help='every owned name, not only conflicting ones')
     sp.add_argument('--retry-floors', action='store_true')
+    sp.add_argument('--only-floors', action='store_true',
+                    help='solve only the names recorded in the floors ledger (implies --retry-floors; '
+                         'with --header ALL every owning header that has a recorded floor)')
     sp.add_argument('--out', type=Path, required=True)
     sp.add_argument('--workers', type=int, default=8)
     sp.add_argument('--abi-cache', type=Path)
@@ -382,14 +387,25 @@ def main(argv=None):
     solver.sdk = C.sdk_evidence(args.sdk_evidence)
     floors = K.load_floors(root / FLOORS)
     sha = tree_sha(root)
+    if args.only_floors:
+        args.retry_floors = True
+        if args.header == ['ALL']:
+            args.header = sorted({solver.census.plan.functions[n].header for n in floors
+                                  if n in solver.census.plan.functions
+                                  and solver.census.plan.functions[n].status == 'header'})
     for header in args.header:
         out = args.out if len(args.header) == 1 else args.out / slug(header)
         out.mkdir(parents=True, exist_ok=True)
-        names = args.names or solver.census.names_owned_by(header)
+        owned = solver.census.names_owned_by(header)
+        # --names with several headers: each header solves only the given names it owns
+        names = ([n for n in args.names if n in set(owned)] if len(args.header) > 1 else args.names) \
+            if args.names else owned
         chosen, skipped = [], []
         for n in names:
             info = solver.census.info(n)
-            if not args.names and not args.all_names and not info.conflict:
+            if args.only_floors and n not in floors:
+                continue
+            if not args.names and not args.all_names and not args.only_floors and not info.conflict:
                 continue
             if n in floors and not args.retry_floors:
                 skipped.append(n)

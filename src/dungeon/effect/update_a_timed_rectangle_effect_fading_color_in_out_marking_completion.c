@@ -1,5 +1,6 @@
 #include "common.h"
 #include "shared/object_flags.h"
+#include "dungeon/effect.h"
 
 typedef struct S_80025360_0_pre {
     u16 unk_00;

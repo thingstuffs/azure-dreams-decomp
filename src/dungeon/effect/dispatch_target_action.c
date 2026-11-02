@@ -3,15 +3,14 @@
 #include "dungeon/actor.h"
 #include "shared/dungeon_status.h"
 #include "dungeon/effect.h"
+#include "dungeon.h"
+#include "dungeon/actor/motion.h"
+#include "engine/entity.h"
 
-extern s32 get_entity_effect_value(void *, s32);
 extern s8 find_active_rect_containing_point(u8, u8);
 extern void * find_monster_neighbor_candidate(void *entity, u16 x, u16 y);
 extern s32 can_entity_gain_level(void *);
 #include "dungeon/player/object/action_state.h"
-extern void begin_pushed_actor_move(void *state_in, void *unused, void *position_in, void *actor_in);
-extern s32 begin_ready_actor_directional_action(void *, void *, void *, u8 *);
-extern void begin_actor_move_to_target_facing(void *, void *, void *, void *);
 
 extern void update_actor_transform_from_parent_callback(void *, s32, void *, void *);
 

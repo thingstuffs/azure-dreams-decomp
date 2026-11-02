@@ -1,3 +1,4 @@
+#include "frontend/card/message_display.h"
 #include "common.h"
 #include "frontend/card/message.h"
 
@@ -11,7 +12,7 @@ void card_boot_position_four_display_items(u8 *state)
     s32 draw_offset;
     s32 vertical_offset;
     u8 *item_cursor;
-    u8 *item;
+    CardMenuDisplayNode *item;
     u32 entry_addr;
     u32 row_addr;
     u8 *item_table;
@@ -26,17 +27,17 @@ void card_boot_position_four_display_items(u8 *state)
 
         draw_buffer = state + draw_offset;
         draw_offset += 0x108;
-        item = *(u8 **)(item_cursor + 0x68C);
+        item = ((CardDevDialogDisplay *)item_cursor)->entries[0];
         item_cursor += 4;
-        *(s16 *)(*(u8 **)(item + 4) + 8) = 0x124 - (*(s32 *)(state + 0x18) / 2);
+        item->block->fields.x = 0x124 - (((CardDevDialogDisplay *)state)->width / 2);
         entry_addr = (u32)(item_index * 4);
-        *(s16 *)(*(u8 **)(item + 4) + 0xA) = vertical_offset - (*(s32 *)(state + 0x1C) / 2) + 0xFC;
+        item->block->fields.y = vertical_offset - (((CardDevDialogDisplay *)state)->height / 2) + 0xFC;
         item_index++;
         vertical_offset += 0x11;
-        row_addr = (u32)(*(s32 *)(state + 8) * 0x10);
+        row_addr = (u32)(((CardDevDialogDisplay *)state)->layout_index * 0x10);
         row_addr += (u32)(unsigned long)item_table;
         entry_addr += row_addr;
-        *(s32 *)item = func_80051B50(
+        item->payload.word = func_80051B50(
             draw_buffer,
             *(s32 *)(unsigned long)entry_addr,
             1);

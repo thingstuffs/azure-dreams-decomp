@@ -1,3 +1,4 @@
+#include "frontend/libcard/slot_list.h"
 #include "common.h"
 #include "frontend/libcard.h"
 #include "shared/object_node.h"
@@ -16,10 +17,10 @@ extern void card_boot_initialize_slot_window(void *record, s32 setup_value, s32 
 void *card_boot_create_slot_window(s32 parent_object, s32 object_index)
 {
     ObjectNodeHeader *object;
-    u8 *runtime;
+    CardSlotListNodes *runtime;
 
     object = D_80029618 + object_index * 0x3E4;
-    runtime = ((u8 *)object) + 0x20;
+    runtime = (CardSlotListNodes *)(object + 1);
     if (find_active_list_node(object) == 0) {
         object = initialize_scene_object_in_buffer(0, object, 0xF9);
         register_node(object, card_boot_render_panel_hierarchy);
@@ -29,8 +30,8 @@ void *card_boot_create_slot_window(s32 parent_object, s32 object_index)
         bzero(runtime, 0x3C4);
     }
     func_80023EF4(runtime, 0xA);
-    object->sprite = runtime + 0x24C;
-    *(s32 *)(runtime + 0x258) = card_boot_link_slot_window_entries(runtime + 0x25C);
+    object->sprite = runtime->display_data;
+    runtime->chain_word = card_boot_link_slot_window_entries(runtime->pointers);
     card_boot_initialize_slot_window(runtime, parent_object, object_index);
     object->update_callback = D_80023EC4;
     return object;

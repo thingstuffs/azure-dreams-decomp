@@ -3,24 +3,16 @@
 #include "shared/sprite_frame_state.h"
 #include "common.h"
 #include "shared/game_work.h"
-extern int abs(int);
+#include "dungeon/effect/shade.h"
+#include "sdk/libc.h"
+#include "sdk/libgpu.h"
+#include "sdk/libgte.h"
 
 typedef struct {
     s16 m[3][3];
     s16 pad;
     s32 t[3];
 } MATRIX;
-
-extern void CompMatrix(void *, void *, void *);
-extern void PushMatrix(void);
-extern void PopMatrix(void);
-extern void ReadRotMatrix(void *);
-extern void ScaleMatrix(void *, void *);
-extern void SetRotMatrix(void *);
-extern void SetTransMatrix(void *);
-extern s32 RotAverage4(void *, void *, void *, void *, void *, void *, void *, void *, void *, void *);
-extern void RotMatrix(void *, void *);
-extern void SetPolyF4(void *);
 
 typedef struct S_800D6170_0 {
     u8 pad_00[0x24];

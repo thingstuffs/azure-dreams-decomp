@@ -3,6 +3,7 @@
 /* Actor motion rendering (G00340). */
 /* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - CL:dungeon/func_800ACDDC. */
 #include "dungeon/effect/actor_motion_rendering_g00340.h"
+#include "dungeon/effect.h"
 
 /* Updates actor state from pending entity flags when entity processing is allowed. */
 void update_pending_entity_action(Rec_func_800A9E70_arg0 *actor, s32 update_arg1, s32 update_arg2, EntityRec *entity) {

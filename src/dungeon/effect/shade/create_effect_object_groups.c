@@ -4,10 +4,8 @@
 #include "common.h"
 #include "dungeon/effect/screen.h"
 #include "engine/scene.h"
-
-
-
-extern void register_node(void *, void *);
+#include "dungeon/effect/shade.h"
+#include "engine/node.h"
 
 extern s32 D_80025E48;
 extern s32 D_80026490;

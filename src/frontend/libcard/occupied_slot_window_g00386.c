@@ -9,49 +9,49 @@
 /* Initialize four message slots with their data and command parameters. */
 void card_boot_format_occupied_slot_window(void *slot_owner) {
     s32 data_buffer[2];
-    Slot80010C44 *slot;
+    CardMenuDisplayNode *slot;
 
-    slot = *(Slot80010C44 **) ((u8 *) slot_owner + 0x270);
-    slot->msg->cmd = 0x70;
-    slot->msg->arg = 0x10;
-    slot->data = &D_80078FD0;
+    slot = *(CardMenuDisplayNode **) ((u8 *) slot_owner + 0x270);
+    slot->block->fields.x = 0x70;
+    slot->block->fields.y = 0x10;
+    slot->payload.data = &D_80078FD0;
 
-    slot = *(Slot80010C44 **) ((u8 *) slot_owner + 0x260);
-    slot->data = decode_fullwidth_text((u8 *) slot_owner + 8, card_slot_payload + (*(s32 *) slot_owner << 7), 1);
-    slot->msg->cmd = 0xF0;
-    slot->msg->arg = 0x91;
+    slot = *(CardMenuDisplayNode **) ((u8 *) slot_owner + 0x260);
+    slot->payload.data = decode_fullwidth_text((u8 *) slot_owner + 8, card_slot_payload + (*(s32 *) slot_owner << 7), 1);
+    slot->block->fields.x = 0xF0;
+    slot->block->fields.y = 0x91;
 
-    slot = *(Slot80010C44 **) ((u8 *) slot_owner + 0x26C);
+    slot = *(CardMenuDisplayNode **) ((u8 *) slot_owner + 0x26C);
     func_8004E5A0((void *) *(s32 *) (card_slot_payload + (*(s32 *) slot_owner << 7) + 0x20), 4, data_buffer);
     remap_flagged_string_bytes(data_buffer);
-    slot->data = build_positioned_text_glyphs((u8 *) slot_owner + 0x104, data_buffer, 1);
-    slot->msg->cmd = 0x147;
-    slot->msg->arg = 0x91;
+    slot->payload.data = build_positioned_text_glyphs((u8 *) slot_owner + 0x104, data_buffer, 1);
+    slot->block->fields.x = 0x147;
+    slot->block->fields.y = 0x91;
 
-    slot = *(Slot80010C44 **) ((u8 *) slot_owner + 0x278);
-    slot->data = (u8 *) slot_owner + 0x134;
-    slot->msg->cmd = 0xAE;
-    slot->msg->arg = 0x18;
+    slot = *(CardMenuDisplayNode **) ((u8 *) slot_owner + 0x278);
+    slot->payload.data = (u8 *) slot_owner + 0x134;
+    slot->block->fields.x = 0xAE;
+    slot->block->fields.y = 0x18;
 }
 
 /* Initialize data pointers and layout values for three targets. */
 void card_boot_layout_alternate_slot_window(void *context) {
-    UnkTarget *target;
+    CardMenuDisplayNode *target;
 
-    target = *(UnkTarget **)((u8 *)context + 0x274);
-    target->unk4->unk8 = 0xFA;
-    target->unk4->unkA = 0x10;
-    target->unk0 = &D_80027F7C;
+    target = *(CardMenuDisplayNode **)((u8 *)context + 0x274);
+    target->block->fields.x = 0xFA;
+    target->block->fields.y = 0x10;
+    target->payload.data = &D_80027F7C;
 
-    target = *(UnkTarget **)((u8 *)context + 0x268);
-    target->unk0 = decode_fullwidth_text((u8 *)context + 0xA4, (u8 *)&D_800282B0, 1);
-    target->unk4->unk8 = 0x178;
-    target->unk4->unkA = 0x90;
+    target = *(CardMenuDisplayNode **)((u8 *)context + 0x268);
+    target->payload.data = decode_fullwidth_text((u8 *)context + 0xA4, (u8 *)&D_800282B0, 1);
+    target->block->fields.x = 0x178;
+    target->block->fields.y = 0x90;
 
-    target = *(UnkTarget **)((u8 *)context + 0x27C);
-    target->unk0 = (u8 *)context + 0x1AC;
-    target->unk4->unk8 = 0x10C;
-    target->unk4->unkA = 0x18;
+    target = *(CardMenuDisplayNode **)((u8 *)context + 0x27C);
+    target->payload.data = (u8 *)context + 0x1AC;
+    target->block->fields.x = 0x10C;
+    target->block->fields.y = 0x18;
 }
 
 /* Processes two buffers and selects handlers using the state's indexed entry. */

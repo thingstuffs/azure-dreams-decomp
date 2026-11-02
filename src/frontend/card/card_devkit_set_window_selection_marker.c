@@ -1,3 +1,4 @@
+#include "frontend/card/slot_marker.h"
 #include "common.h"
 #include "frontend/card.h"
 #include "main/data.h"
@@ -5,17 +6,20 @@
 /* Address-taken via %hi/%lo — declare >8B so codegen uses lui+addiu, not gp. */
 
 void card_devkit_set_window_selection_marker(void *basePtr, s32 flag) {
-    void *targetPtr;
+    CardMenuDisplayNode *targetPtr;
+    CardDevSlotMarkerPrefix *panel;
+
+    panel = basePtr;
 
     if (basePtr != 0) {
-        *(s32 *)((s8 *)basePtr + 0x1C0) = 0x808080;
-        targetPtr = *(void **)((s8 *)basePtr + 0x21C);
+        panel->unk_1C0 = 0x808080;
+        targetPtr = panel->marker;
         if (flag != 0) {
-            *(void **)targetPtr = (void *)&D_80083840;
+            targetPtr->payload.data = &D_80083840;
         } else {
-            *(s32 *)targetPtr = 0;
+            targetPtr->payload.word = 0;
         }
-        *(s16 *)((s8 *)(*(void **)((s8 *)targetPtr + 4)) + 8) = 0x60;
-        *(s16 *)((s8 *)(*(void **)((s8 *)targetPtr + 4)) + 0xA) = 0x18;
+        targetPtr->block->fields.x = 0x60;
+        targetPtr->block->fields.y = 0x18;
     }
 }

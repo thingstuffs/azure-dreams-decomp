@@ -6,6 +6,8 @@
 #include "dungeon/actor.h"
 #include "dungeon/actor/effect.h"
 #include "dungeon/effect/state.h"
+#include "dungeon/item/message.h"
+#include "dungeon/item.h"
 
 typedef struct Entity800B4194
 {
@@ -41,10 +43,6 @@ extern u8 D_800E0C09[];
 extern u8 D_800E0C1D[];
 extern volatile u8 *dungeon_actor_ring_anchor[];
 extern s16 get_entity_effect_value(Entity800B4194 *, s32); /* Unprototyped: return_width */
-extern u8 *get_unused_text_buffer(void);
-extern u8 *expand_text_control_codes(const u8 *, u8 *);
-extern u8 *clear_byte_and_advance(u8 *);
-extern u8 * append_entity_display_text(void *, u8 *);
 extern void play_sound_if_enabled(s32);
 extern void display_text_with_fullwidth_adjustment(u8 *);
 extern s32 generate_random_value(void);

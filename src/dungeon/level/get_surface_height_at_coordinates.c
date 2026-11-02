@@ -1,5 +1,6 @@
 #include "common.h"
 #include "shared/game_work.h"
+#include "dungeon/level.h"
 
 
 // Return the negated value of an occupied grid entry at the coordinates, or 0x400.

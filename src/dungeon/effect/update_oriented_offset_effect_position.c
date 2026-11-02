@@ -6,6 +6,7 @@
 #include "shared/dungeon_moving_views.h"
 #include "dungeon/effect/screen.h"
 #include "dungeon/effect/object.h"
+#include "dungeon/effect.h"
 
 typedef struct S_800B328C_0_pre {
     u16 unk_00;

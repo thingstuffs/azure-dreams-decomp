@@ -2,6 +2,7 @@
 #include "shared/record_ptrs.h"
 #include "m2c_compat.h"
 #include "dungeon/menu.h"
+#include "dungeon/menu/state.h"
 
 
 typedef struct S_800DC000_0 {

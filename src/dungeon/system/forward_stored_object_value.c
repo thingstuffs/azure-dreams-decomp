@@ -1,6 +1,7 @@
 #include "common.h"
 #include "m2c_compat.h"
 #include "dungeon/item.h"
+#include "dungeon/system.h"
 
 
 typedef struct S_800255AC_0 {

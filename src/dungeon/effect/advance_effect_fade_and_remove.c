@@ -5,6 +5,7 @@
 #include "shared/object_flags.h"
 #include "records/Rec_D_80082E80.h"
 #include "dungeon/effect/motion/variant_effect_with_random_motion.h"
+#include "slus.h"
 
 struct Dst;
 struct Elem;
@@ -12,11 +13,6 @@ struct Elem;
 typedef struct S_800B7C14_1_pre {
     u16 unk_00;
 } S_800B7C14_1_pre;   /* the 0x2 bytes before arg0 in advance_effect_fade_and_remove, addressed as arg0[-1] */
-
-
-
-extern void select_record_entry_and_value(void *state, void *entries, short index);        /* extern */
-extern void advance_sprite_animation_and_textures(void *entity);                      /* extern */
 
 /* Advance effect motion, fade its primitive, and mark it for removal when its lifetime ends. */
 void advance_effect_fade_and_remove(VariantEffectWithRandomMotionBody *effect, ObjectPosition *motion, SpriteFrameState *primitive) {

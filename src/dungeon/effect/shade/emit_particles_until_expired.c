@@ -11,6 +11,7 @@ struct ObjectNodeHeader;
 #include "records/Rec_func_800D4BD4_arg1.h"
 #include "records/Rec_func_800D4BD4_arg2.h"
 #include "shared/dungeon_moving_views.h"
+#include "sdk/libc.h"
 
 #ifndef NULL
 #define NULL 0
@@ -38,7 +39,6 @@ typedef struct S_800D4DE8_8 {
     u8 unk_13;
 } S_800D4DE8_8;   /* ((Rec_func_800D4BD4_arg1 *)arg0)->unk_00 in emit_particles_until_expired */
 
-extern s32 rand(void);
 extern void initialize_effect_object_state(struct ObjectNodeHeader *, void *, void *, s32);
 
 /* Emit particles around the parent position and retire the emitter when its lifetime expires. */

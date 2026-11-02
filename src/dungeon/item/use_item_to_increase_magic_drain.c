@@ -17,8 +17,8 @@ struct ObjectNodeHeader;
 #include "dungeon/actor.h"
 #include "dungeon/system.h"
 #include "dungeon/player/state.h"
+#include "dungeon/item/message.h"
 
-extern void display_formatted_context_message(void *);
 extern s32 generate_random_value(void);
 extern void create_colored_effect_with_event(struct ObjectNodeHeader *source, s32 color, unsigned short event_id);
 

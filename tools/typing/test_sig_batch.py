@@ -129,6 +129,13 @@ class MergedPlanTests(unittest.TestCase):
                               {'include/elsewhere.h': ['a_fn']})
         self.assertEqual(out, {'a_fn': 'out_of_scope_header:include/elsewhere.h'})
 
+    def test_source_scope_guard_holds_names_editing_other_lanes_sources(self):
+        b = self.batch(scope=['include/feat/a'])
+        b.scope_src = ('src/feat/',)
+        out = b._out_of_scope({'src/feat/a.c': '', 'src/live/x.c': ''},
+                              {'src/live/x.c': ['b_fn'], 'src/feat/a.c': ['a_fn']})
+        self.assertEqual(out, {'b_fn': 'out_of_scope_source:src/live/x.c'})
+
     def test_overlapping_spans_hold_the_later_header(self):
         b = self.batch()
         t1 = types.SimpleNamespace(header='include/feat/a.h')
@@ -296,6 +303,23 @@ class SettleTests(unittest.TestCase):
         r, final, entry, calls = self.run_batch(names, {'n05'}, attribute=False)
         self.assertEqual(final, names - {'n05'})
 
+    def test_screen_proofs_settle_and_full_proof_accepts(self):
+        names = {'n%02d' % i for i in range(20)}
+        batch = FakeBatch(self.root, names, {n: 'include/h%d.h' % (i % 3) for i, n in enumerate(sorted(names))})
+        inner, calls = fake_prover({'n07'})
+        kinds = []
+
+        def prove(files, texts, screen=False):
+            kinds.append(screen)
+            return inner(files, texts)
+        r = B.Runner(self.root, batch, self.root, prover=prove, log=lambda m: None, refresh=False, screen=True)
+        final, entry, nat = r.run()
+        self.assertEqual(final, names - {'n07'})
+        # failing set: screen only; surviving set: screen then the accepting full proof
+        self.assertEqual(kinds, [True, True, False])
+        self.assertFalse(r.proofs[-1]['screen'])
+        self.assertEqual(entry[3]['verdict'], 'PASS')
+
     def test_budget_keeps_the_best_proven_set(self):
         names = {'n%02d' % i for i in range(16)}
         headers = {n: 'include/h.h' for n in names}
@@ -317,6 +341,28 @@ class SettleTests(unittest.TestCase):
         x, y = B.split({'a1', 'a2', 'a3'}, cands)
         self.assertEqual((len(x), len(y)), (1, 2))
 
+
+
+class PrecheckTests(unittest.TestCase):
+    def test_void_prototype_with_used_value_is_held(self):
+        import sqlite3
+        td = Path(tempfile.mkdtemp(prefix='sigbatch_pre_'))
+        self.addCleanup(shutil.rmtree, td, True)
+        db = sqlite3.connect(td / 'codemap.db')
+        db.execute('CREATE TABLE call_site(tu TEXT, caller TEXT, callee TEXT, file TEXT, line INTEGER, col INTEGER, '
+                   'nargs INTEGER, arg_types TEXT, param_types TEXT, callee_type TEXT, ret_use TEXT)')
+        db.executemany('INSERT INTO call_site(callee, file, line, ret_use) VALUES (?, ?, ?, ?)',
+                       [('used', 'src/slus/w.c', 3, 'assigned:s32'), ('quiet', 'src/a.c', 4, 'ignored'),
+                        ('wide', 'src/a.c', 5, 'compared')])
+        db.commit()
+        db.close()
+        b = B.Batch.__new__(B.Batch)
+        b.cands = {'used': 'include/h.h', 'quiet': 'include/h.h', 'wide': 'include/h.h'}
+        b.decision = {'used': dict(ret='void'), 'quiet': dict(ret='void'), 'wide': dict(ret='s32')}
+        held = b.precheck(td / 'codemap.db')
+        self.assertEqual(sorted(held), ['used'])
+        self.assertTrue(held['used'].startswith('void_value_used:src/slus/w.c:3'))
+        self.assertEqual(sorted(b.cands), ['quiet', 'wide'])
 
 if __name__ == '__main__':
     unittest.main()

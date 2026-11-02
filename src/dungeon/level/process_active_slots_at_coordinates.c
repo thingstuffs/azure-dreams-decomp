@@ -1,4 +1,5 @@
 #include "common.h"
+#include "dungeon/level.h"
 
 typedef struct {
     s8 unused0;
@@ -15,7 +16,6 @@ typedef struct {
 
 extern Status dungeon_floor_object_positions[];
 extern Slot floor_objects[];
-extern void clear_slot_and_detach_entity(s32 slot_index);
 
 /* Process each active slot at the given coordinates. */
 void process_active_slots_at_coordinates(s16 x, s16 y) {

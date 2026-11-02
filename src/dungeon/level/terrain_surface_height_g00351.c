@@ -1,6 +1,7 @@
 /* Terrain surface height (G00351). */
 /* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - CL:dungeon/func_800B771C. */
 #include "dungeon/level/terrain_surface_height_g00351.h"
+#include "dungeon/level.h"
 
 /* Finds the lowest surface height at (x, y) that meets the minimum height. */
 s32 sample_terrain_surface_height(s32 x, s32 y, s16 min_height) {

@@ -1,6 +1,8 @@
 #include "shared/object_node.h"
 #include "shared/sprite_frame_state.h"
 #include "common.h"
+#include "dungeon/effect/shade.h"
+#include "engine/node.h"
 
 typedef struct S_818C2E40_0 {
     u8 pad_00[0x8];
@@ -23,7 +25,6 @@ typedef struct {
     s32 word[6];
 } Copy24;
 
-extern void register_node(void *entry, void *registration_id);
 extern u8 D_800240C0[9];
 extern u8 D_800241D4[9];
 

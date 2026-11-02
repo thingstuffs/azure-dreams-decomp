@@ -17,8 +17,8 @@
 #include "dungeon/player/state.h"
 #include "dungeon/item.h"
 #include "dungeon/actor.h"
+#include "dungeon/item/message.h"
 
-void display_formatted_context_message(void *context);                   /* extern */
 s32 play_sound_if_enabled(s32 query_value);                     /* extern */
 extern u8 D_800E17C6[41];
 extern u8 D_800E17EF[];

@@ -7,6 +7,8 @@
 #include "shared/slus_callbacks.h"
 #include "shared/object_flags.h"
 #include "shared/dungeon_status.h"
+#include "engine/node.h"
+#include "engine/scene.h"
 
 #ifndef NULL
 #define NULL 0
@@ -81,9 +83,6 @@ typedef struct {
 
 extern u8 secondary_sprite[];
 
-extern s32 resolve_record_orientation_or_fallback(s32, void *, u16 *, s32);
-extern void *allocate_list_node(s32, void *);
-extern void register_node(DungeonObject *, void *);
 extern void play_sound_if_enabled(s32);
 
 /* Updates the effect position, spawns eight objects per tick, and expires after a delay. */

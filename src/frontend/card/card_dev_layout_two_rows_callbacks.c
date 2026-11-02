@@ -1,40 +1,7 @@
+#include "frontend/card/choice_panel.h"
 #include "common.h"
-#include "shared/widget_views.h"
-#include "m2c_compat.h"
 #include "frontend/card.h"
 #include "main/data.h"
-
-typedef struct S_80020458_2 {
-    u8 pad_00[0x60];
-    void * unk_60;
-} S_80020458_2;   /* arg0 in card_dev_layout_two_rows_callbacks */
-
-typedef struct S_80020458_3 {
-    u8 pad_00[0x4];
-    void * unk_04;
-} S_80020458_3;
-
-typedef struct S_80020458_4 {
-    u8 pad_00[0x4];
-    void * unk_04;
-} S_80020458_4;
-
-typedef struct S_80020458_5 {
-    void * unk_00;
-    void * unk_04;
-} S_80020458_5;   /* ((S_80020458_2 *)arg0)->unk_60 in card_dev_layout_two_rows_callbacks */
-
-typedef struct S_80020458_6 {
-    u8 pad_00[0x8];
-    s16 unk_08;
-    s16 unk_0A;
-} S_80020458_6;
-
-typedef struct S_80020458_7 {
-    u8 pad_00[0x8];
-    s16 unk_08;
-    s16 unk_0A;
-} S_80020458_7;
 
 /* Callback function addresses outside this overlay's own window (0x8000D000-
    0x80022000); they belong to code loaded elsewhere and are only ever stored
@@ -42,15 +9,15 @@ typedef struct S_80020458_7 {
    (established .set idiom) rather than declaring undefined func_ externs. */
 
 /* Initializes two child objects and assigns their callbacks. */
-void card_dev_layout_two_rows_callbacks(S_80020458_2 *owner) {
-    CardCallbackState *firstChild;
+void card_dev_layout_two_rows_callbacks(CardDevChoicePanelPrefix *owner) {
+    CardMenuDisplayNode *firstChild;
 
-    firstChild = ((S_80020458_5 *)(owner->unk_60))->unk_00;
-    ((S_80020458_6 *)(((S_80020458_3 *)firstChild)->unk_04))->unk_08 = 0x40;
-    ((S_80020458_6 *)(((S_80020458_3 *)firstChild)->unk_04))->unk_0A = 0x20;
-    firstChild->callback = &D_80409110;
-    firstChild = (((S_80020458_5 *)(owner->unk_60))->unk_04);
-    ((S_80020458_7 *)(((S_80020458_4 *)firstChild)->unk_04))->unk_08 = 0xC0;
-    ((S_80020458_7 *)(((S_80020458_4 *)firstChild)->unk_04))->unk_0A = 0x20;
-    firstChild->callback = &D_80409128;
+    firstChild = owner->children[0];
+    firstChild->block->fields.x = 0x40;
+    firstChild->block->fields.y = 0x20;
+    firstChild->payload.data = &D_80409110;
+    firstChild = owner->children[1];
+    firstChild->block->fields.x = 0xC0;
+    firstChild->block->fields.y = 0x20;
+    firstChild->payload.data = &D_80409128;
 }

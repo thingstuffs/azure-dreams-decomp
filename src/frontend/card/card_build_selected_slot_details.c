@@ -1,54 +1,15 @@
+#include "frontend/card/slot_details.h"
 #include "sdk/libc.h"
 #include "common.h"
 #include "m2c_compat.h"
 #include "frontend/card.h"
 #include "main/data.h"
 
-typedef struct S_80404EA0_3 {
-    u8 pad_00[0x4];
-    void * unk_04;
-} S_80404EA0_3;
 
-typedef struct S_80404EA0_4 {
-    u8 pad_00[0x8];
-    s32 unk_08;
-    u8 pad_0C[0x10];
-    u32 play_frames; /* 0x1C */
-    u8 pad_20[0x4];
-    s32 unk_24;
-    u8 pad_28[0x4];
-    s32 unk_2C;
-    s32 icon_flags; /* 0x30 */
-    s32 unk_34;
-} S_80404EA0_4;   /* D_8009DDD8 + (((S_80404EA0_0 *)arg0)->slot_index << 7) in card_build_selected_slot_details */
 
-typedef struct S_80404EA0_5 {
-    u8 pad_00[0x8];
-    s16 x; /* 0x08 */
-    s16 y; /* 0x0A */
-} S_80404EA0_5;
 
-typedef struct S_80404EA0_0 {
-    u8 pad_00[0x7C];
-    s32 slot_index; /* 0x7C */
-    u8 pad_80[0xA98];
-    void * slot_widget; /* 0xB18 */
-    void * label_widget; /* 0xB1C */
-    void * detail_widget; /* 0xB20 */
-    void * value_widget; /* 0xB24 */
-    void * time_widget; /* 0xB28 */
-    void * count_widget; /* 0xB2C */
-    void * footer_widget; /* 0xB30 */
-} S_80404EA0_0;   /* arg0 in card_build_selected_slot_details */
 
-typedef struct S_80404EA0_1 {
-    union { void * s; s32 u; } unk_00;   /* accessed as both */
-} S_80404EA0_1;
 
-typedef struct S_80404EA0_2 {
-    u8 pad_00[0xB34];
-    void * icon_widget; /* 0xB34 */
-} S_80404EA0_2;
 
 void func_8003830C(s32 value, void *text);                  /* extern */
 void func_80051520(void *, void *, s32);      /* extern */
@@ -59,10 +20,11 @@ void func_80051900(void *);                       /* extern */
 void func_80051B50(void *, void *, s32); /* extern */
 void func_8007BF50(void *, void *);                /* extern */
 void func_8007BF80(void *, s32);                  /* extern */
-extern u8 card_slot_header_cache[];
+extern CardSaveSlot card_slot_header_cache[];
 
 /* Build the selected slot's text fields and position its status icons. */
-void card_build_selected_slot_details(void *panel) {
+void card_build_selected_slot_details(void *panel_data) {
+    CardDevSlotDetails *panel = panel_data;
     s16 text_buf[32];
     s16 number_buf[8];
     s16 time_buf[4];
@@ -84,79 +46,79 @@ void card_build_selected_slot_details(void *panel) {
     void *time_text;
     void *count_text;
     void *footer_text;
-    S_80404EA0_1 *widget;
+    CardMenuDisplayNode *widget;
     void *widget_cursor;
     void *footer_buf;
     s32 *icon_table;
 
-    widget = ((S_80404EA0_0 *)panel)->slot_widget;
-    func_8003830C(((S_80404EA0_0 *)panel)->slot_index + 1, text_buf);
+    widget = panel->text_nodes[0];
+    func_8003830C(panel->selected_slot + 1, text_buf);
     func_8007BF50(text_buf, D_80400660);
-    func_8007BF50(text_buf, card_slot_detail_records[((S_80404EA0_0 *)panel)->slot_index].halfwords);
-    slot_text = panel + 0x80;
+    func_8007BF50(text_buf, card_slot_detail_records[panel->selected_slot].halfwords);
+    slot_text = panel->text_buffers[0];
     func_80051B50(slot_text, text_buf, 1);
-    widget->unk_00.s = slot_text;
-    ((S_80404EA0_5 *)(((S_80404EA0_3 *)widget)->unk_04))->x = 0xA9;
-    ((S_80404EA0_5 *)(((S_80404EA0_3 *)widget)->unk_04))->y = 0x110;
-    widget = ((S_80404EA0_0 *)panel)->label_widget;
+    widget->payload.data = slot_text;
+    widget->block->fields.x = 0xA9;
+    widget->block->fields.y = 0x110;
+    widget = panel->text_nodes[1];
     memcpy(text_buf, D_80400668, 0x2A);
-    func_80051B50(panel + 0x188, text_buf, 1);
-    widget->unk_00.s = panel + 0x188;
-    ((S_80404EA0_5 *)(((S_80404EA0_3 *)widget)->unk_04))->x = 0xBC;
-    ((S_80404EA0_5 *)(((S_80404EA0_3 *)widget)->unk_04))->y = 0x110;
-    if (((S_80404EA0_4 *)(card_slot_header_cache + (((S_80404EA0_0 *)panel)->slot_index << 7)))->unk_08 != 0) {
-        widget = ((S_80404EA0_0 *)panel)->detail_widget;
+    func_80051B50(panel->text_buffers[1], text_buf, 1);
+    widget->payload.data = panel->text_buffers[1];
+    widget->block->fields.x = 0xBC;
+    widget->block->fields.y = 0x110;
+    if (card_slot_header_cache[panel->selected_slot].fields.unk_08 != 0) {
+        widget = panel->text_nodes[2];
         func_8007BF80(text_buf, D_80408CF4[0]);
-        func_8003830C(((S_80404EA0_4 *)(card_slot_header_cache + (((S_80404EA0_0 *)panel)->slot_index << 7)))->unk_34, number_buf);
+        func_8003830C(card_slot_header_cache[panel->selected_slot].fields.unk_34, number_buf);
         func_8007BF50(text_buf, number_buf);
         func_8007BF50(text_buf, D_804006AC);
-        detail_text = panel + 0x290;
+        detail_text = panel->text_buffers[2];
         func_80051B50(detail_text, text_buf, 1);
-        widget->unk_00.s = detail_text;
-        ((S_80404EA0_5 *)(((S_80404EA0_3 *)widget)->unk_04))->x = 0xBC;
-        ((S_80404EA0_5 *)(((S_80404EA0_3 *)widget)->unk_04))->y = 0x140;
+        widget->payload.data = detail_text;
+        widget->block->fields.x = 0xBC;
+        widget->block->fields.y = 0x140;
     }
-    widget = ((S_80404EA0_0 *)panel)->value_widget;
-    func_80051804(((S_80404EA0_4 *)(card_slot_header_cache + (((S_80404EA0_0 *)panel)->slot_index << 7)))->unk_24, 0xA, text_buf);
+    widget = panel->text_nodes[3];
+    func_80051804(card_slot_header_cache[panel->selected_slot].fields.unk_24, 0xA, text_buf);
     func_80051900(text_buf);
-    value_text = panel + 0x398;
+    value_text = panel->text_buffers[3];
     func_80051520(value_text, text_buf, 1);
-    widget->unk_00.s = value_text;
-    ((S_80404EA0_5 *)(((S_80404EA0_3 *)widget)->unk_04))->x = 0x140;
-    ((S_80404EA0_5 *)(((S_80404EA0_3 *)widget)->unk_04))->y = 0x110;
-    widget = ((S_80404EA0_0 *)panel)->time_widget;
-    func_80051898(((S_80404EA0_4 *)(card_slot_header_cache + (((S_80404EA0_0 *)panel)->slot_index << 7)))->play_frames, text_buf);
-    hours = ((S_80404EA0_4 *)(card_slot_header_cache + (((S_80404EA0_0 *)panel)->slot_index << 7)))->play_frames / 216000;
+    widget->payload.data = value_text;
+    widget->block->fields.x = 0x140;
+    widget->block->fields.y = 0x110;
+    widget = panel->text_nodes[4];
+    func_80051898(card_slot_header_cache[panel->selected_slot].fields.play_frames, text_buf);
+    hours = card_slot_header_cache[panel->selected_slot].fields.play_frames / 216000;
     func_80051804(hours, 3, text_buf);
     func_8007BF50(text_buf, D_804006BC);
-    mins = ((S_80404EA0_4 *)(card_slot_header_cache + (((S_80404EA0_0 *)panel)->slot_index << 7)))->play_frames / 3600;
+    mins = card_slot_header_cache[panel->selected_slot].fields.play_frames / 3600;
     minute_quotient = mins / 3600;
     func_8005184C(mins - minute_quotient * 3600, 2, time_buf);
     func_8007BF50(text_buf, time_buf);
     func_8007BF50(text_buf, D_804006BC);
-    secs = ((S_80404EA0_4 *)(card_slot_header_cache + (((S_80404EA0_0 *)panel)->slot_index << 7)))->play_frames / 60;
+    secs = card_slot_header_cache[panel->selected_slot].fields.play_frames / 60;
     second_quotient = secs / 60;
     func_8005184C(secs - second_quotient * 60, 2, time_buf);
     func_8007BF50(text_buf, time_buf);
     func_80051900(text_buf);
-    time_text = panel + 0x4A0;
+    time_text = panel->text_buffers[4];
     func_80051520(time_text, text_buf, 1);
-    widget->unk_00.s = time_text;
-    ((S_80404EA0_5 *)(((S_80404EA0_3 *)widget)->unk_04))->x = 0x147;
-    ((S_80404EA0_5 *)(((S_80404EA0_3 *)widget)->unk_04))->y = 0x120;
-    widget = ((S_80404EA0_0 *)panel)->count_widget;
-    func_80051804(((S_80404EA0_4 *)(card_slot_header_cache + (((S_80404EA0_0 *)panel)->slot_index << 7)))->unk_2C, 4, text_buf);
+    widget->payload.data = time_text;
+    widget->block->fields.x = 0x147;
+    widget->block->fields.y = 0x120;
+    widget = panel->text_nodes[5];
+    func_80051804(card_slot_header_cache[panel->selected_slot].fields.unk_2C, 4, text_buf);
     func_80051900(text_buf);
-    count_text = panel + 0x5A8;
+    count_text = panel->text_buffers[5];
     func_80051520(count_text, text_buf, 1);
-    widget->unk_00.s = count_text;
-    ((S_80404EA0_5 *)(((S_80404EA0_3 *)widget)->unk_04))->x = 0xF2;
-    ((S_80404EA0_5 *)(((S_80404EA0_3 *)widget)->unk_04))->y = 0x120;
-    widget = ((S_80404EA0_0 *)panel)->footer_widget;
+    widget->payload.data = count_text;
+    widget->block->fields.x = 0xF2;
+    widget->block->fields.y = 0x120;
+    widget = panel->text_nodes[6];
     memcpy(text_buf, D_804006C0, 3);
     footer_buf = text_buf;
     func_80051900(footer_buf);
-    footer_text = panel + 0x6B0;
+    footer_text = panel->text_buffers[6];
     func_80051520(footer_text, footer_buf, 1);
     icon_index = 0;
     bit_one = 1;
@@ -166,22 +128,22 @@ void card_build_selected_slot_details(void *panel) {
     icon_x = 0x38;
     icon_cursor = icon_table;
     widget_cursor = panel;
-    widget->unk_00.s = footer_text;
-    ((S_80404EA0_5 *)(((S_80404EA0_3 *)widget)->unk_04))->x = 0x180;
-    ((S_80404EA0_5 *)(((S_80404EA0_3 *)widget)->unk_04))->y = 0x130;
+    widget->payload.data = footer_text;
+    widget->block->fields.x = 0x180;
+    widget->block->fields.y = 0x130;
     do {
-        widget = ((S_80404EA0_2 *)widget_cursor)->icon_widget;
-        if ((bit_one << icon_index) & ((S_80404EA0_4 *)(card_slot_header_cache + (((S_80404EA0_0 *)panel)->slot_index << 7)))->icon_flags) {
+        widget = ((CardDevSlotDetails *)widget_cursor)->icon_nodes[0];
+        if ((bit_one << icon_index) & card_slot_header_cache[panel->selected_slot].fields.icon_flags) {
             icon_data = *icon_cursor;
         } else {
             icon_data = *inactive_icon;
         }
         icon_cursor += 1;
         widget_cursor += 4;
-        widget->unk_00.u = icon_data;
+        widget->payload.word = icon_data;
         icon_index += 1;
-        ((S_80404EA0_5 *)(((S_80404EA0_3 *)widget)->unk_04))->x = icon_x;
-        ((S_80404EA0_5 *)(((S_80404EA0_3 *)widget)->unk_04))->y = icon_y;
+        widget->block->fields.x = icon_x;
+        widget->block->fields.y = icon_y;
         icon_x += 0x10;
     } while (icon_index < 0xA);
 }

@@ -25,20 +25,20 @@ s32 card_boot_verify_save_xor_checksum(void *save_data) {
 s32 card_boot_write_save_via_temporary_path(s32 slot, void *data) {
     s32 slot_name[8];
     s32 temporary_name[8];
-    s32 *slot_table;
-    s32 *slot_entry;
+    CardSaveSlot *slot_table;
+    CardSaveSlot *slot_entry;
     s32 result;
 
     card_boot_build_slot_path(slot_name, slot);
     card_boot_build_slot_path(temporary_name, 5);
-    slot_table = (s32 *)&(*(s32 (*)[][32])(&card_save_slot_metadata));
-    slot_entry = (s32 *)((u8 *)slot_table + (slot << 7));
-    if (*slot_entry != 0) {
+    slot_table = card_save_slot_metadata;
+    slot_entry = &slot_table[slot];
+    if (slot_entry->words[0] != 0) {
         rename(slot_name, temporary_name);
     }
     *(s32 *)((u8 *)data + 0x204) = 0;
     card_boot_store_save_xor_checksum(data);
-    result = card_boot_write_file_units_128(temporary_name, data, 0xC0, 0, *slot_entry);
+    result = card_boot_write_file_units_128(temporary_name, data, 0xC0, 0, slot_entry->words[0]);
     if (result != 0) {
         card_boot_cache_save_header(slot, data);
         card_boot_refresh_directory_summary();
@@ -51,8 +51,8 @@ s32 card_boot_write_save_via_temporary_path(s32 slot, void *data) {
  * the save cannot be read or fails its checksum, else the final write's result (refreshing) or the checksum result. */
 s32 card_boot_load_save_and_clear_marker(s32 entry_index, void *data, s32 update_entry) {
     s32 context[8];
-    s32 *entry_table;
-    s32 *entry;
+    CardSaveSlot *entry_table;
+    CardSaveSlot *entry;
     s32 saved_state;
     s32 result;
 
@@ -66,12 +66,12 @@ s32 card_boot_load_save_and_clear_marker(s32 entry_index, void *data, s32 update
                 *(s16 *)((u8 *)data + 0x208) = 0;
                 *(s32 *)((u8 *)data + 0x204) = 0;
                 card_boot_store_save_xor_checksum(data);
-                entry_table = (s32 *)&(*(s32 (*)[][32])(&card_save_slot_metadata));
-                entry = (s32 *)((u8 *)entry_table + (entry_index << 7));
-                *(s16 *)((u8 *)entry + 8) = 0;
-                *(s32 *)((u8 *)entry + 4) = *(s32 *)((u8 *)data + 0x204);
-                card_boot_write_file_units_128(context, entry, 1, 4, entry[0]);
-                result = card_boot_write_file_units_128(context, data, 1, 0, entry[0]);
+                entry_table = card_save_slot_metadata;
+                entry = &entry_table[entry_index];
+                entry->halfwords[4] = 0;
+                entry->words[1] = *(s32 *)((u8 *)data + 0x204);
+                card_boot_write_file_units_128(context, entry, 1, 4, entry->words[0]);
+                result = card_boot_write_file_units_128(context, data, 1, 0, entry->words[0]);
                 *(s16 *)((u8 *)data + 0x208) = saved_state;
             } else {
                 *(s16 *)((u8 *)data + 0x208) = 0;

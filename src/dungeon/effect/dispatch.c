@@ -20,6 +20,8 @@ struct ObjectPosition;
 #include "engine/texture.h"
 #include "dungeon/item/effect.h"
 #include "slus.h"
+#include "dungeon/effect/screen.h"
+#include "sdk/libgte.h"
 
 typedef struct S_800C55F4_0 {
     u8 ** unk_00;
@@ -97,17 +99,6 @@ typedef struct S_800C55F4_8 {
 } S_800C55F4_8;   /* arg0_pin in transform_mesh_and_append_draw_packets */
 
    /* ((S_800C55F4_9 *)global_base)->unk_00 in transform_mesh_and_append_draw_packets */
-
-extern void *CompMatrix(void *, void *, void *);
-extern void PushMatrix(void);
-extern void PopMatrix(void);
-void * ReadRotMatrix(void *);
-extern void *ScaleMatrix(void *, void *);
-extern void SetRotMatrix(void *);
-extern void SetTransMatrix(void *);
-extern s32 RotTransPers(void *, void *, ...);
-s32 NormalClip(s32, s32, s32);
-extern void *RotMatrix(void *, void *);
 
 typedef struct Face {
     u8 v0;
@@ -409,7 +400,6 @@ struct Elem;
 
 extern void select_record_entry_and_value(void *state, void *entries, short index);  /* extern */
 extern s32 register_node(); /* Unprototyped: two, three or four arguments; retail reads only the node and draw key. */
-extern void damp_effect_motion_and_fade(void *effect, s32 *motion, SpriteFrameState *primitive);
 
 typedef struct S_800C5BBC_3 {
     u8 pad_00[0xC];
@@ -618,12 +608,9 @@ extern u8 D_800E0BA1[];
 void initialize_timed_motion_step(u16 countdown, u32 amount);
 s32 get_entity_class();
 void snapshot_inventory_and_familiars(void *input_state);
-void *get_unused_text_buffer(void);
-void * copy_four_text_bytes(u8 *src, u8 *dst);
 struct EntityLinkNode;
 void unlink_entity_node(struct EntityLinkNode *node);
 void update_map_cell_flags_with_item_limit(s32 x, s32 y, u16 flags);
-void refresh_packed_grid_nibbles(void);
 void * detach_record_and_update_slot_state(void *record);
 s32 display_text_with_fullwidth_adjustment(s8 *text);
 s32 generate_random_value(void);
@@ -1000,7 +987,6 @@ typedef struct {
 } Func8003FF2CResult;
 
 extern Func8003FF2CResult *initialize_runtime_node_storage(s32, s32 *, s16, ObjectNodeHeader **);
-extern void dispatch_action_callback_by_opcode(u8 *w);
 extern s32 D_800E58B8[];
 
 /* Create a record and assign dispatch_action_callback_by_opcode to its field10 pointer. */
@@ -1014,8 +1000,6 @@ typedef struct Func800C138CData {
     void *context;
     void *data;
 } Func800C138CData;
-
-extern void draw_sprite_parts_as_quad_grid(s32 context, ObjectPosition *position, SpriteFrameState *sprite, s16 depth_bias);
 
 /* Process each linked state with draw_sprite_parts_as_quad_grid in mode zero. */
 s32 process_linked_states_mode_zero(void *initial_state, void *context, void *data) {
@@ -1109,15 +1093,6 @@ typedef struct {
     u16 origin_y;
 } RotationWork;
 
-extern void *CompMatrix(void *, void *, void *);
-extern void PushMatrix(void);
-extern void PopMatrix(void);
-extern void *ScaleMatrix(void *, void *);
-extern void SetRotMatrix(void *);
-extern void SetTransMatrix(void *);
-extern s32 RotTransPers(void *, void *, ...);
-s32 RotTransPers4(void *, void *, void *, void *, s32 *, s32 *, s32 *, s32 *, s32 *, s32 *);
-extern void *RotMatrix(void *, void *);
 extern s32 sprite_projection_matrix[];
 
 /* Draws sprite parts as a 4-by-4 grid of textured quads, invoking custom part callbacks. */
@@ -1501,8 +1476,6 @@ typedef struct {
 
 extern void *allocate_list_node(s32, void *);
 extern s32 register_node(); /* Unprototyped: two, three or four arguments; retail reads only the node and draw key. */
-extern s32 rsin(s32);
-extern s32 rcos(s32);
 extern u8 D_800777E8[];
 extern void update_timed_tile_effect();
 extern void update_pulsing_color_fade();
@@ -1652,7 +1625,6 @@ void update_target_tracking_and_transition(void *tracker) {
 #include "shared/game_work.h"
 #include "shared/entity.h"
 
-extern void update_target_tracking_and_transition(void *tracker);
 extern u8 camera_transition_timer[];
 
 /* Selects a nearby target, initializes its state slot, and returns change flags. */

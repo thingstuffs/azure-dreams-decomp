@@ -2,8 +2,8 @@
 #include "common.h"
 #include "shared/object_node.h"
 #include "shared/record_ptrs.h"
+#include "dungeon/menu.h"
 
-extern void submit_activation_command(void);
 extern void create_transformed_render_object(u8, u8, s32, s32, s32);
 
 /* Create red markers at the owner positions of active list entries. */

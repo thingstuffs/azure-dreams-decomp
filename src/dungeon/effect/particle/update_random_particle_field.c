@@ -8,6 +8,7 @@
 #include "dungeon/effect/particle/update_random_particle_field.h"
 #include "dungeon/actor.h"
 #include "dungeon/actor/object.h"
+#include "dungeon/effect/particle.h"
 
 /* Selector bank entry calls the complete native initialization member. */
 void (*const D_80024000)(void *, void *) = update_random_particle_field;

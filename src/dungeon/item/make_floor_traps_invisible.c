@@ -16,8 +16,6 @@
 #include "dungeon/player/state.h"
 #include "dungeon/actor.h"
 
-extern s32 display_text_with_fullwidth_adjustment(s8 *text);
-
 extern u8 D_800E1567[];
 extern u8 floor_objects[];
 

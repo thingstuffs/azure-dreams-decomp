@@ -18,9 +18,6 @@
 #include "dungeon/player/state.h"
 #include "dungeon/actor.h"
 
-extern u8 * expand_text_control_codes(const u8 *src, u8 *dst);
-extern u8 * clear_byte_and_advance(u8 *byte_ptr);
-extern void * append_value_seven_suffix(u8 *dst);
 extern s32 display_text_with_fullwidth_adjustment(s8 *text);
 extern void place_actor_item(void *object_context, struct DungeonItemEntry *target);
 extern s32 display_actor_item_status_message();

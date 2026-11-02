@@ -6,6 +6,10 @@
 #include "common.h"
 #include "dungeon/actor.h"
 #include "dungeon/effect/mesh.h"
+#include "engine/graphics.h"
+#include "sdk/libc.h"
+#include "sdk/libgpu.h"
+#include "sdk/libgte.h"
 
 void (*const dungeon_1918800_entry)(struct ProjectileSelf *self, struct OutView *position, struct PacketView *render_data) = set_record_pair_to_one;
 const PackedVector wave_texture_rect = {832,340,96,84};
@@ -15,15 +19,6 @@ const Copy24 wave_direction_steps = {{{32,0},{32,32},{0,32},{-32,32},{-32,0},{-3
 #include "common.h"
 #include "shared/game_work.h"
 
-extern s32 rsin(s32);
-extern void CompMatrix(void *, void *, void *);
-extern void PushMatrix(void);
-extern void PopMatrix(void);
-extern void ScaleMatrix(void *, void *);
-extern void SetRotMatrix(void *);
-extern void SetTransMatrix(void *);
-extern void RotTransPers4(void *, void *, void *, void *, void *, void *, void *, void *, void *, void *);
-extern void RotMatrix(void *, void *);
 extern void func_80067EF4(void *, s32, s32);
 extern u8 effect_view_matrix[8];
 
@@ -450,7 +445,6 @@ typedef struct Packet16 {
 } Packet16;
 
 extern u8 upper_draw_context[16];
-extern void SetDrawArea(void *, void *);
 
 /* Queue drawing with an optional cleared rectangle, then restore the drawing area. */
 void move_linked_effect_along_path(s32 draw_param_a, s32 draw_param_b, Position *restore_area, Position *draw_pos,
@@ -535,10 +529,6 @@ void move_linked_effect_along_path(s32 draw_param_a, s32 draw_param_b, Position 
 #include "shared/entity.h"
 #include "shared/game_work.h"
 #include "shared/object_node.h"
-
-extern s32 RotTransPers(void *, void *, void *, void *);
-extern s32 GetTPage(s32, s32, s32, s32);
-extern void SetDrawMode(void *, s32, s32, s32, s32);
 
 /* GPU scratchpad (0x1F800000) workspace used while projecting. */
 typedef struct Scratch80024EDC {
@@ -1144,7 +1134,6 @@ void update_timed(void *state, void *position_out, void *effect_arg_arg) {
 #include "shared/dungeon_status.h"
 #include "shared/dir_step.h"
 #include "shared/dungeon_moving_views.h"
-extern int abs(int);
 
 typedef struct {
     u8 bytes[12];
@@ -1176,8 +1165,6 @@ extern Copy12 D_800266A4;
 extern u8 current_spell_effect_variant[256];
 
 #include "dungeon/effect/screen.h"
-extern s32 get_sprite_attachment_vector(void *, void *, void *, s32);
-extern s32 rand(void);
 extern s32 generate_random_value(void);
 extern void try_apply_action_by_chance(void *, s32, s32);
 

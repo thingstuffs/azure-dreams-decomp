@@ -1,7 +1,7 @@
 /* Item tile distance and its file-private helper. */
 #include "common.h"
 #include "shared/sprite_frame_state.h"
-extern int abs(int);
+#include "sdk/libc.h"
 #include "m2c_compat.h"
 #include "records/Rec_D_80082E80.h"
 static s16 set_item_w0(s32 start_x, s32 start_y, s32 end_x, s32 end_y);

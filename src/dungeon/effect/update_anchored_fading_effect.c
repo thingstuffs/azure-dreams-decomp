@@ -5,6 +5,7 @@
 #include "m2c_compat.h"
 #include "shared/dungeon_moving_views.h"
 #include "engine/node.h"
+#include "dungeon/effect.h"
 
 typedef struct S_800B45E0_0_pre {
     u16 unk_00;

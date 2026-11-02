@@ -6,6 +6,9 @@
 #include "records/Rec_func_800D4BD4_arg2.h"
 #include "records/Rec_func_800D4BD4_arg1.h"
 #include "shared/dungeon_moving_views.h"
+#include "dungeon/effect/shade.h"
+#include "engine/node.h"
+#include "slus.h"
 
 typedef struct S_800D4BD4_0 {
     u8 pad_00[0xC];
@@ -14,8 +17,6 @@ typedef struct S_800D4BD4_0 {
     void * unk_24;
 } S_800D4BD4_0;   /* state in initialize_effect_object_state */
 
-extern void register_node(void *, void *);
-extern void select_record_entry_and_value(void *state, void *entries, short index);
 extern s32 fading_sprite_entries;
 
 /* Initialize object state and rendering data from the source and position. */

@@ -114,3 +114,25 @@ This uses ccproc's last-row name mapping and the object rebinder's address rules
 A copied callback can have a different address from its canonical home function.
 Keep such imports held until the producer can represent the typed placement alias.
 A known C entry and a compatible prototype alone do not prove this substitution.
+
+## Bulk extern wave (many folders per run)
+
+`tools/headers/extern_bulk.py` runs the same planner over many folders at once and proves the result on the
+build graph only (no per-include assembly filter, no standalone TU capture):
+
+```sh
+python3 tools/headers/extern_bulk.py --scope src/dungeon/effect src/dungeon/item ... \
+    --write include/dungeon/effect include/dungeon/item ... --append-shared \
+    --port-adapt <native port>/tools/adapt.py --out <dir> --workers 4 [--plan-only] [--data | --data-named-only]
+```
+
+Settling rounds use screen proofs (`affected.prove(select=)`: one recipe per compiled source / family / copy
+kind); one full proof accepts.  Failures are blamed without bisection (an appended prototype the compiler
+names, the failing TU's own edit, the merged-TU members it compiles, names its source mentions, then the
+includes it sees).  Never removed or published: recorded prototype floors, generated `S_<addr>` types in
+prototypes, port adaptation anchors, decoded-image sources; new headers only with `--new-headers`.  Header
+texts are always built from the committed header (append-only block).  `--plan-only` gives the static yield.
+
+`tools/headers/extern_classes.py --out <dir> [--plan-sites <census.py sites.tsv>]` classifies every
+local_externs site from build/codemap.db (function vs data, visible/elsewhere/no header, identical vs
+disagreeing, no C definition, `D_` vs named) in seconds and fuses it with the planner census.

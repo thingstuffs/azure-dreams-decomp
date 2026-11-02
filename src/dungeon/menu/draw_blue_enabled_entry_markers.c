@@ -2,8 +2,8 @@
 #include "shared/dungeon_item_entries.h"
 #include "common.h"
 #include "m2c_compat.h"
+#include "dungeon/menu.h"
 
-void submit_activation_command(void);                            /* extern */
 void *create_transformed_render_object(s32 x, s32 y, s32 initial_value, s32 update_param, s32 mode); /* extern */
 extern u8 dungeon_ground_item_positions[];
 

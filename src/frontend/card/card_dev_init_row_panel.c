@@ -1,88 +1,30 @@
+#include "frontend/card/command_panel.h"
 #include "common.h"
 #include "shared/widget_views.h"
 #include "frontend/card.h"
 
-typedef struct S_8001C8C8_1 {
-    u8 pad_00[0x1B8];
-    void * unk_1B8;
-} S_8001C8C8_1;   /* arg0 in card_dev_init_row_panel */
 
-typedef struct S_8001C8C8_2 {
-    u8 pad_00[0x1C0];
-    void * unk_1C0;
-    u8 pad_1C4[0xC];
-    void * unk_1D0;
-    u8 pad_1D4[0xC];
-    void * unk_1E0;
-    u8 pad_1E4[0xC];
-    void * unk_1F0;
-} S_8001C8C8_2;
 
-typedef struct S_8001C8C8_3 {
-    u8 pad_00[0x4];
-    void * unk_04;
-} S_8001C8C8_3;   /* ((S_8001C8C8_1 *)arg0)->unk_1B8 in card_dev_init_row_panel */
 
-typedef struct S_8001C8C8_4 {
-    u8 pad_00[0x4];
-    void * unk_04;
-} S_8001C8C8_4;
 
-typedef struct S_8001C8C8_5 {
-    u8 pad_00[0x4];
-    void * unk_04;
-} S_8001C8C8_5;
 
-typedef struct S_8001C8C8_6 {
-    u8 pad_00[0x4];
-    void * unk_04;
-} S_8001C8C8_6;
 
-typedef struct S_8001C8C8_7 {
-    u8 pad_00[0x4];
-    void * unk_04;
-} S_8001C8C8_7;
 
    /* ((S_8001C8C8_3 *)(((S_8001C8C8_1 *)arg0)->unk_1B8))->unk_04 in card_dev_init_row_panel */
 
-typedef struct S_8001C8C8_9 {
-    u8 pad_00[0x8];
-    s16 unk_08;
-    s16 unk_0A;
-} S_8001C8C8_9;
 
-typedef struct S_8001C8C8_10 {
-    u8 pad_00[0x8];
-    s16 unk_08;
-    s16 unk_0A;
-} S_8001C8C8_10;
 
-typedef struct S_8001C8C8_11 {
-    u8 pad_00[0x8];
-    s16 unk_08;
-    s16 unk_0A;
-} S_8001C8C8_11;
 
-typedef struct S_8001C8C8_12 {
-    u8 pad_00[0x8];
-    s16 unk_08;
-    s16 unk_0A;
-} S_8001C8C8_12;
 
 void func_80403698(void *object);                      /* extern */
 void initialize_values(void *record_groups, s32 unused_row_y, s32 unused_lower_y, s32 unused_row);       /* extern */
 void func_804037F4(void *);                            /* extern */
 s32 func_80403868(s32, s32, s32);
 
-typedef struct S_8001C8C8_0 {
-    u8 pad_00[0x80];
-    s32 unk_80;
-    s32 unk_84;
-} S_8001C8C8_0;   /* arg0 in card_dev_init_row_panel */
 
 /* Initialize the panel and position four rows of display elements. */
 void card_dev_init_row_panel(void *panel_arg) {
-    S_8001C8C8_0 *panel = panel_arg;
+    CardDevCommandPanel *panel = panel_arg;
     s32 lower_x;
     s32 left_x;
     s32 right_x;
@@ -90,7 +32,7 @@ void card_dev_init_row_panel(void *panel_arg) {
     s32 row_y;
     s32 lower_y;
     s32 row;
-    S_8001C8C8_2 *row_cursor;
+
 
     panel->unk_80 = 1;
     panel->unk_84 = 1;
@@ -104,18 +46,17 @@ void card_dev_init_row_panel(void *panel_arg) {
     middle_x = 0x24;
     row_y = 0xA;
     lower_y = 0x82;
-    ((SignedWidgetYView *)(((S_8001C8C8_3 *)(((S_8001C8C8_1 *)panel)->unk_1B8))->unk_04))->unk_0A = 0x22;
+    panel->marker->block->fields.y = 0x22;
     for (; row < 4; row++) {
-        row_cursor = (S_8001C8C8_2 *)((u32 *)panel + row);
-        ((S_8001C8C8_9 *)(((S_8001C8C8_4 *)(row_cursor->unk_1F0))->unk_04))->unk_08 = lower_x;
-        ((S_8001C8C8_9 *)(((S_8001C8C8_4 *)(row_cursor->unk_1F0))->unk_04))->unk_0A = lower_y;
-        ((S_8001C8C8_10 *)(((S_8001C8C8_5 *)(row_cursor->unk_1C0))->unk_04))->unk_08 = left_x;
-        ((S_8001C8C8_10 *)(((S_8001C8C8_5 *)(row_cursor->unk_1C0))->unk_04))->unk_0A = row_y;
-        ((S_8001C8C8_11 *)(((S_8001C8C8_6 *)(row_cursor->unk_1D0))->unk_04))->unk_08 = right_x;
-        ((S_8001C8C8_11 *)(((S_8001C8C8_6 *)(row_cursor->unk_1D0))->unk_04))->unk_0A = row_y;
-        ((S_8001C8C8_12 *)(((S_8001C8C8_7 *)(row_cursor->unk_1E0))->unk_04))->unk_08 = middle_x;
+        panel->lower[row]->block->fields.x = lower_x;
+        panel->lower[row]->block->fields.y = lower_y;
+        panel->left[row]->block->fields.x = left_x;
+        panel->left[row]->block->fields.y = row_y;
+        panel->right[row]->block->fields.x = right_x;
+        panel->right[row]->block->fields.y = row_y;
+        panel->middle[row]->block->fields.x = middle_x;
         lower_y += 0x10;
-        ((S_8001C8C8_12 *)(((S_8001C8C8_7 *)(row_cursor->unk_1E0))->unk_04))->unk_0A = row_y;
+        panel->middle[row]->block->fields.y = row_y;
         row_y += 0x10;
     }
     initialize_values(panel, row_y, lower_y, row);

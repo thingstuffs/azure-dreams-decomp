@@ -7,7 +7,7 @@
 #include "shared/menu_display.h"
 
 struct Entity;
-struct S_800226A8_0;
+struct CardMessageDialogBody;
 struct S_8002742C_0;
 struct S_800491F4;
 
@@ -22,7 +22,7 @@ void *card_boot_build_message_window_packets(void *buffer, void *layout);
 void card_boot_center_message_dialog_display(void *object);
 
 /* card_boot_close_dialog_when_response_clears.c */
-void card_boot_close_dialog_when_response_clears(struct S_800226A8_0 *record);
+void card_boot_close_dialog_when_response_clears(struct CardMessageDialogBody *record);
 
 /* card_boot_close_message_dialog.c */
 s32 card_boot_close_message_dialog(s32 flagLinkedRecord);

@@ -1,5 +1,6 @@
 #include "common.h"
 #include "dungeon/actor.h"
+#include "dungeon/effect.h"
 
 /* Four word callback ABI; primary dispatch and individual return-boundary evidence accompany this draft. */
 

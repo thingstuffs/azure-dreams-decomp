@@ -4,6 +4,7 @@
 #include "common.h"
 #include "slus.h"
 #include "engine/node.h"
+#include "dungeon/effect/shade.h"
 
 typedef struct S_818C32F4_0 {
     u8 pad_00[0x8];

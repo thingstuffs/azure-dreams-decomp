@@ -6,13 +6,7 @@
 #include "frontend/libcard/save_menu.h"
 #include "shared/entity.h"
 
-/* Cached save headers use a 128-byte stride. Retail reads words and the
- * halfword at +8; the complete table allocation bound is unestablished. */
-typedef union CardSaveSlot {
-    s32 words[32];
-    s16 halfwords[64];
-    u8 bytes[128];
-} CardSaveSlot;
+#include "frontend/card/save_slot.h"
 
 extern CardSaveSlot card_save_slot_metadata[];
 
@@ -38,7 +32,7 @@ struct S_8001D668_0;
 struct S_8001EC4C_0;
 struct S_8001F568_0;
 struct S_8001FF0C_0;
-struct S_80020458_2;
+struct CardDevChoicePanelPrefix;
 struct S_80020D0C_0;
 struct S_80021394_0;
 struct ObjectNodeHeader;
@@ -237,7 +231,7 @@ void card_dev_layout_title_entries(u8 *owner);
 void card_dev_layout_two_rows(void *object);
 
 /* card_dev_layout_two_rows_callbacks.c */
-void card_dev_layout_two_rows_callbacks(struct S_80020458_2 *owner);
+void card_dev_layout_two_rows_callbacks(struct CardDevChoicePanelPrefix *owner);
 
 /* card_dev_load_forward_object_value.c */
 void card_dev_load_forward_object_value(void *object, s32 value);

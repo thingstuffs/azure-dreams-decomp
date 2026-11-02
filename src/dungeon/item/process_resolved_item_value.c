@@ -5,6 +5,10 @@
 #include "shared/entity.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/object_node.h"
+#include "dungeon/item/message.h"
+#include "engine/node.h"
+#include "slus.h"
+#include "dungeon/item.h"
 /* Selector-image function at DUNGEON file [0x1943DD0, 0x1944338), true 0x800255D0
  * (rowbase img_1942998_80024198 delta 0x7E6E1800 continued).  Five-state handler:
  * spawn a directional effect object, follow it, then print the result message and
@@ -12,13 +16,6 @@
  * builder uses the engine's cursor idiom (message_end / message_start, as in
  * src/dungeon/func_800BB400.c and func_800940E4.c).  Evidence:
  * docs/evidence/r121_rem_opus.md. */
-extern void select_record_entry_and_value(void *, void *, short);
-extern void * allocate_list_node(s32, void *);
-extern s32 register_node(void *, void *);
-extern void * get_unused_text_buffer(void);
-extern void * expand_text_control_codes(void *, void *);
-extern u8 *clear_byte_and_advance(u8 *byte_ptr);
-extern u8 *append_entity_display_text(void *, u8 *);
 extern s16 set_or_clear_actor_status_slot(void *, s8, s8);
 extern s32 display_text_with_fullwidth_adjustment(s8 *);
 extern s32 generate_random_value(void);

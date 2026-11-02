@@ -16,13 +16,10 @@ extern u8 D_800E15E5[];
 #include "dungeon/actor.h"
 #include "dungeon/system.h"
 #include "dungeon/player/state.h"
+#include "dungeon/item/message.h"
+#include "dungeon/item.h"
 
-extern void *get_unused_text_buffer(void);
-extern u8 *expand_text_control_codes(u8 *src, u8 *dst);
-extern u8 *clear_byte_and_advance(u8 *byte_ptr);
-extern u8 *append_entity_display_text(void *record, u8 *out);
 extern s32 set_or_clear_actor_status_slot(void *, s32, s32);
-extern s32 display_text_with_fullwidth_adjustment(s8 *text);
 
 /* Processes an object action, dispatching the player case and reporting failure. */
 s32 use_item_to_enrage_actor(ActorRecord *object, DungeonItemEntry *action, s16 action_type) {

@@ -6,6 +6,7 @@
 #include "slus.h"
 #include "engine/node.h"
 #include "dungeon/effect/sprite.h"
+#include "dungeon/effect/shade.h"
 
 
 extern u8 D_80025098[9];

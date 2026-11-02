@@ -15,12 +15,7 @@
 #include "dungeon/player.h"
 #include "dungeon/actor.h"
 
-extern u8 *expand_text_control_codes(const u8 *source, u8 *buffer);
-extern u8 *clear_byte_and_advance(u8 *byte_ptr);
 struct DungeonItemEntry;
-extern void * copy_fullwidth_vowel_bytes(void *dst, void *character);
-extern void * append_value_seven_suffix(u8 *dst);
-extern s32 display_text_with_fullwidth_adjustment(s8 *text);
 
 extern u8 D_8008936C[];
 extern u8 D_80089370[];

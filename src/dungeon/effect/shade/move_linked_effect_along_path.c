@@ -3,6 +3,7 @@
 #include "m2c_compat.h"
 #include "shared/entity.h"
 #include "shared/object_node.h"
+#include "dungeon/effect.h"
 
 typedef struct S_80024CD4_0_pre {
     u16 unk_00;
@@ -49,7 +50,6 @@ typedef struct {
     u8 pad[8];
 } Flag;
 
-void * func_8002522C(ObjectPosition *origin, s16 angle, s16 radius, s16 height_offset, ObjectNodeHeader **allocation_head);
 void * create_effect_object_groups(s16 x, s16 y, s16 z);
 extern Counter staged_fade_count;
 extern Flag path_effect_release_flag;

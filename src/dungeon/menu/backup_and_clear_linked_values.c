@@ -1,4 +1,5 @@
 #include "common.h"
+#include "dungeon/menu.h"
 
 /* cfail-repair: tf7-phase1-cache-v3 */
 extern u8 catalog_display_node_slots[];

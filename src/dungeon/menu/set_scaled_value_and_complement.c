@@ -1,4 +1,5 @@
 #include "common.h"
+#include "dungeon/menu.h"
 
 /* Stores a scaled input and its complement relative to 0x57 in the record. */
 void set_scaled_value_and_complement(void *record, s32 input_value) {

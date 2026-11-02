@@ -30,8 +30,10 @@ typedef struct CdCueColorOwner {
 } CdCueColorOwner;
 
 /* Shared 16-byte body prefix used by the staged-motion and two fade children. */
+struct Controller;
 typedef struct CdCueEffectBody {
     union {
+        struct Controller *controller;
         CdCueMotionOwner *motion;
         CdCueFadeOwner *fade;
         CdCueColorOwner *color;
@@ -42,6 +44,14 @@ typedef struct CdCueEffectBody {
     s16 index;
     s16 completion;
 } CdCueEffectBody;
+
+#include "shared/object_node.h"
+typedef struct CdCueEffectNode {
+    ObjectNodeHeader header;
+    CdCueEffectBody body;
+} CdCueEffectNode;
+
+void scene_initialize_arc_motion_sprite(CdCueEffectNode *object, struct Controller *owner);
 
 struct ColorState800517CC;
 struct Controller;
@@ -65,7 +75,7 @@ struct S_80051E94;
 struct S_80051F58;
 struct S_80051F58_a2;
 struct S_800520B4;
-struct S_8005313C;
+struct CdCueSequenceBody;
 struct VecState800517CC;
 
 /* append_draw_mode_primitive.c */
@@ -105,10 +115,10 @@ void flag_fade_manager_dirty(void);
 s32 has_runtime_key_pair(s32 first_value, s32 second_value);
 
 /* init_color_fade_effect.c */
-void init_color_fade_effect(struct S_800520B4 *object, void *context);
+void init_color_fade_effect(CdCueEffectNode *object, struct Controller *context);
 
 /* init_fade_in_out_effect.c */
-void init_fade_in_out_effect(struct S_80051E94 *object, s32 sub_value);
+void init_fade_in_out_effect(CdCueEffectNode *object, struct Controller *owner);
 
 /* link_typed_list_node.c */
 void link_typed_list_node(struct ObjectNodeHeader *anchor, struct ObjectNodeHeader *node);
@@ -117,7 +127,7 @@ void link_typed_list_node(struct ObjectNodeHeader *anchor, struct ObjectNodeHead
 void *dispatch_after_controller_release(void *data);
 
 /* play_timed_animation_sequence.c */
-void play_timed_animation_sequence(struct S_8005313C *sequence);
+void play_timed_animation_sequence(struct CdCueSequenceBody *sequence);
 
 /* reorder_and_interpolate_selection_menu_entries.c */
 void reorder_and_interpolate_selection_menu_entries(struct S_8004F884_arg *list);
@@ -166,6 +176,6 @@ void func_800517CC(struct EffectState800517CC *effect, struct VecState800517CC *
 void update_sine_motion_effect(struct EffectState800517CC *effect, struct VecState800517CC *motion, SpriteFrameState *color);
 
 /* update_staged_motion_effect.c */
-void update_staged_motion_effect(CdCueEffectBody *obj, IntVector3 *position, SpriteFrameState *flags);
+void update_staged_motion_effect(CdCueEffectBody *obj, ObjectPosition *position, SpriteFrameState *flags);
 
 #endif

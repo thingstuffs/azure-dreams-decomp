@@ -7,7 +7,7 @@
 #include "slus/data.h"
 
 /* Advances staged object motion and marks completion. */
-void update_staged_motion_effect(CdCueEffectBody *obj, IntVector3 *position, SpriteFrameState *flags)
+void update_staged_motion_effect(CdCueEffectBody *obj, ObjectPosition *position, SpriteFrameState *flags)
 {
     s16 state;
     u16 prior_state;
@@ -18,14 +18,14 @@ void update_staged_motion_effect(CdCueEffectBody *obj, IntVector3 *position, Spr
     state = obj->state.s;
     switch (state) {
     case 1:
-        position->x = 0x01C00000 - (((rsin(((s16) obj->timer.u) << 4) >> 4) * 3) << 14);
-        position->y = ((rcos(((s16) obj->timer.u) << 4) >> 4) << 13) + 0x900000;
+        position->x.v = 0x01C00000 - (((rsin(((s16) obj->timer.u) << 4) >> 4) * 3) << 14);
+        position->y.v = ((rcos(((s16) obj->timer.u) << 4) >> 4) << 13) + 0x900000;
         if (((s16) obj->timer.u) < 0x40) {
             return;
         }
-        position->x = 0x01000000;
-        position->y = 0x900000;
-        position->z = 0x700000;
+        position->x.v = 0x01000000;
+        position->y.v = 0x900000;
+        position->z.v = 0x700000;
         prior_state = obj->state.u;
         obj->timer.u = 0;
         obj->state.s = prior_state + 1;
@@ -43,8 +43,8 @@ void update_staged_motion_effect(CdCueEffectBody *obj, IntVector3 *position, Spr
         return;
 
     case 3:
-        position->x = position->x + 0xFFF40000;
-        position->y = position->y + 0x20000;
+        position->x.v = position->x.v + 0xFFF40000;
+        position->y.v = position->y.v + 0x20000;
         if (((s16) obj->timer.u) < 0x40) {
             return;
         }

@@ -15,8 +15,8 @@
 #include "dungeon/player/state.h"
 #include "dungeon/item.h"
 #include "dungeon/actor.h"
+#include "dungeon/item/message.h"
 
-void display_formatted_context_message(void *context);                   /* extern */
 extern u8 D_800E1580[34];
 extern u8 D_800E15A2[];
 extern void *familiar_record_slots[];

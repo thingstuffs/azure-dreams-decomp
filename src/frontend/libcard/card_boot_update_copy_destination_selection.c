@@ -1,20 +1,10 @@
+#include "frontend/libcard/slot_menu.h"
+#include "shared/object_node.h"
 #include "shared/audio_commands.h"
 #include "common.h"
 #include "shared/game_work.h"
 
-typedef struct S_80025584_0_pre {
-    s32 * unk_00;
-    u8 pad_04[0xC];
-} S_80025584_0_pre;   /* the 0x10 bytes before menu in card_boot_update_copy_destination_selection, addressed as menu[-1] */
 
-typedef struct S_80025584_0 {
-    u8 pad_00[0x20];
-    void *request;
-    u8 pad_24[0x4];
-    s32 unk_28;
-    u8 pad_2C[0x4];
-    s32 unk_30;
-} S_80025584_0;   /* menu in card_boot_update_copy_destination_selection */
 
 #include "modules/main_server_ship_interfaces.h"
 #include "frontend/libcard.h"
@@ -22,8 +12,9 @@ typedef struct S_80025584_0 {
 #include "slus.h"
 
 /* Handle menu input, selection repeat, and transition completion. */
-void card_boot_update_copy_destination_selection(u8 *menu)
+void card_boot_update_copy_destination_selection(u8 *menu_data)
 {
+    CardSlotMenuState *menu = (void *)menu_data;
     s32 selection_delta;
     s32 transition_status;
     s32 repeat_timer;
@@ -33,7 +24,7 @@ void card_boot_update_copy_destination_selection(u8 *menu)
     if (g_game_work.buttons != 0) {
         if ((g_game_work.pressed_buttons) & 0x20) {
             SD_Call(AUDIO_CANCEL);
-            ((S_80025584_0_pre *)menu)[-1].unk_00 = card_boot_resume_menu_after_slot_refresh;
+            ((ObjectNodeHeader *)menu - 1)->update_callback = card_boot_resume_menu_after_slot_refresh;
         }
         buttons = (g_game_work.pressed_buttons);
         if (buttons & 0x40) {
@@ -41,7 +32,7 @@ void card_boot_update_copy_destination_selection(u8 *menu)
             card_boot_prepare_copy_destination_message(menu);
         } else if (g_game_work.buttons & 0x5000) {
             if (buttons & 0x5000) {
-                ((S_80025584_0 *)menu)->unk_30 = 0;
+                menu->unk_30 = 0;
                 buttons = (g_game_work.pressed_buttons);
                 if (buttons & 0x1000) {
                     selection_delta = -1;
@@ -49,9 +40,9 @@ void card_boot_update_copy_destination_selection(u8 *menu)
                     selection_delta = 1;
                 }
             } else {
-                repeat_timer = ((S_80025584_0 *)menu)->unk_30;
+                repeat_timer = menu->unk_30;
                 if (repeat_timer >= 13) {
-                    ((S_80025584_0 *)menu)->unk_30 = repeat_timer - 2;
+                    menu->unk_30 = repeat_timer - 2;
                     buttons = g_game_work.buttons;
                     if (buttons & 0x1000) {
                         selection_delta = -1;
@@ -59,15 +50,15 @@ void card_boot_update_copy_destination_selection(u8 *menu)
                         selection_delta = 1;
                     }
                 } else {
-                    ((S_80025584_0 *)menu)->unk_30 = repeat_timer + 1;
+                    menu->unk_30 = repeat_timer + 1;
                 }
             }
         }
 
         if (selection_delta != 0) {
             SD_Call(AUDIO_CURSOR_MOVE);
-            ((S_80025584_0 *)menu)->unk_28 =
-                advance_index_with_single_wrap(((S_80025584_0 *)menu)->unk_28, selection_delta, 5);
+            menu->unk_28 =
+                advance_index_with_single_wrap(menu->unk_28, selection_delta, 5);
             update_spark_effect(menu);
         }
     }
@@ -80,6 +71,6 @@ void card_boot_update_copy_destination_selection(u8 *menu)
     if (transition_status == 1) {
         return;
     }
-    card_boot_destroy_slot_selection_menu(menu - 0x20);
-    init_card_boot_request_object(((S_80025584_0 *)menu)->request, 0);
+    card_boot_destroy_slot_selection_menu((ObjectNodeHeader *)menu - 1);
+    init_card_boot_request_object(menu->request, 0);
 }

@@ -21,6 +21,7 @@ typedef struct {
 
 void func_80024C48(void *effect, void *motion, Rec_D_80082E80 *visual);
 #include "shared/sprite_source.h"
+#include "dungeon/effect/shade.h"
 extern SpriteSourceEntry random_variant_sprite_entries[];
 
 typedef struct S_818C370C_0 {

@@ -882,7 +882,7 @@ def edited_from_git(root, rev):
 
 def prove(root, edited, base=None, *, workers=8, relink=True, rev='HEAD', keep=False, nice=10,
           allow_authority=False, log=None, graph=None, compile_tasks=None, known=None, reuse=None,
-          reuse_key=None, ledger_rev=None, adopt=False):
+          reuse_key=None, ledger_rev=None, adopt=False, select=None):
     """Compile the affected set at production recipes and compare objects/images with the baseline.
 
     Returns a report: {verdict, scope, recipes: {id: {...}}, images: {image: {...}}, timing}.
@@ -891,7 +891,12 @@ def prove(root, edited, base=None, *, workers=8, relink=True, rev='HEAD', keep=F
     reuse / reuse_key (repeated proofs over one baseline, e.g. tools/typing/sig_batch.py bisection):
     `reuse_key(recipe id)` names the recipe's inputs (None: always compile); a recipe whose key is in
     the `reuse` dict was compiled byte-identical to its baseline object by an earlier proof and is PASS
-    without a compile (its baseline object stands in for any relink).  PASS keys are added to `reuse`."""
+    without a compile (its baseline object stands in for any relink).  PASS keys are added to `reuse`.
+
+    select (screen proofs, e.g. tools/headers/extern_bulk.py settling rounds): `select(ids, graph) -> ids`
+    narrows the affected recipes that are compiled (images are judged on the selected recipes only).  A
+    selected proof is attribution, never acceptance: report['screen'] is True and the verdict is the
+    screen's; the accepting proof is always the full scope."""
     log = log or (lambda msg: None)
     root = Path(root).resolve()
     base = Path(base).resolve() if base else root
@@ -938,6 +943,11 @@ def prove(root, edited, base=None, *, workers=8, relink=True, rev='HEAD', keep=F
             return report
     baseline = Baseline(root, base, scope['files'], rev, known)
     ids = scope['recipes'] + scope['slus_recipes']
+    if select is not None:
+        ids = list(select(ids, graph))
+        report['screen'] = True
+        report['screen_recipes'] = len(ids)
+        log('screen: %d of %d recipes' % (len(ids), len(scope['recipes']) + len(scope['slus_recipes'])))
     for rid in ids:
         problem = graph.view_problem(graph.recipes[rid])
         if problem:
@@ -945,7 +955,8 @@ def prove(root, edited, base=None, *, workers=8, relink=True, rev='HEAD', keep=F
             return report
     # Generated SLUS sources (partition bodies) are re-rendered from the edited parents, as make does.
     try:
-        renders = graph.render_groups(scope['slus_recipes'])
+        chosen = set(ids)
+        renders = graph.render_groups([r for r in scope['slus_recipes'] if r in chosen])
     except ValueError as exc:
         report.update(verdict='ERROR', error=str(exc))
         return report
@@ -1021,7 +1032,9 @@ def prove(root, edited, base=None, *, workers=8, relink=True, rev='HEAD', keep=F
             mine = [r for r in (graph.images[image]['recipes'] if image in graph.images else ids)
                     if r in report['recipes']]
             if image == graph.slus_image:
-                mine = scope['slus_recipes']
+                mine = [r for r in scope['slus_recipes'] if r in report['recipes']]
+            if select is not None and not mine:
+                continue
             states = {report['recipes'][r]['verdict'] for r in mine}
             entry = dict(recipes=len(mine))
             report['images'][image] = entry

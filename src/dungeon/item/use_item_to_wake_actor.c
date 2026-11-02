@@ -10,16 +10,15 @@
 #include "shared/entity.h"
 #include "shared/record_ptrs.h"
 #include "shared/dungeon_status.h"
+#include "dungeon/item/effect.h"
+#include "dungeon/item/message.h"
+#include "engine/entity.h"
 
-
-extern void clear_slots_of_type(void *entity, s32 value);
 #include "dungeon/player/item.h"
 #include "dungeon/actor.h"
 #include "dungeon/system.h"
 #include "dungeon/player/state.h"
 #include "shared/object_node.h"
-
-extern void display_formatted_context_message(void *ptr);
 
 extern u8 D_800E0E9B[];
 

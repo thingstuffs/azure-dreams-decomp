@@ -3,6 +3,8 @@
 #include "shared/object_node.h"
 #include "shared/sprite_frame_state.h"
 #include "common.h"
+#include "engine/node.h"
+#include "sdk/libc.h"
 
 #ifndef NULL
 #define NULL 0
@@ -46,9 +48,6 @@ typedef struct {
     s16 z;
     s16 pad;
 } Cell;
-
-extern void register_node(void *, void *);
-extern s32 rand(void);
 
 extern u8 D_800255E8[];
 

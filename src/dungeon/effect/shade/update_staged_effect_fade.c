@@ -1,5 +1,7 @@
 #include "common.h"
 #include "shared/object_flags.h"
+#include "dungeon/effect/shade.h"
+#include "sdk/libgte.h"
 
 
 typedef struct {
@@ -7,8 +9,6 @@ typedef struct {
     u8 pad[8];
 } Counter;
 
-s32 rsin(s16);
-s32 rcos(s16);
 #include "dungeon/effect/screen.h"
 
 extern Counter staged_fade_count;

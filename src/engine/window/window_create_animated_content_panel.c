@@ -1,3 +1,4 @@
+#include "engine/menu/animated_panel.h"
 #include "shared/object_node.h"
 #include "common.h"
 #include "shared/object_flags.h"
@@ -8,34 +9,15 @@
 #include "engine/graphics.h"
 #include "engine/resource.h"
 
-typedef struct S_8004A330_Sub20 {
-    u16 field0;
-    u16 pad2;
-    s16 x;
-    s16 y;
-    void *field8;
-} S_8004A330_Sub20;
-
-typedef struct S_8004A330_Entity {
-    u8 pad0[0xC];
-    void *field_c;
-    void (*update_fn)(void *);
-    u8 pad1[0x1E - 0x14];
-    u16 flags;
-    S_8004A330_Sub20 sub20;
-    u8 pad2[0x50 - 0x2C];
-    u8 sub50[4];
-} S_8004A330_Entity;
-
-extern void menu_move_the_position_halfway_toward_target_position(void *a0);
 extern s32 D_800814A0_load[3];
 
 /* Allocate and initialize an entity with a resource buffer and position targets. */
-S_8004A330_Entity *window_create_animated_content_panel(s32 style_flags, s16 start_x, s16 start_y, s16 target_x,
+AnimatedMenuPanelNode *window_create_animated_content_panel(s32 style_flags, s16 start_x, s16 start_y, s16 target_x,
                                  s16 target_y, s16 width, s32 flags, s32 content_id) {
-    S_8004A330_Entity *entity;
-    S_8004A330_Sub20 *state;
+    AnimatedMenuPanelNode *entity;
+    AnimatedMenuPanelBody *state;
     void *buffer_addr;
+    void *display_link;
     s32 saved_style_flags = style_flags;
     u16 entity_flags;
     s32 global_flags;
@@ -43,22 +25,23 @@ S_8004A330_Entity *window_create_animated_content_panel(s32 style_flags, s16 sta
 
     entity = allocate_flagged_object_node(0);
     if (entity != 0) {
-        state = &entity->sub20;
+        state = &entity->body;
         buffer_addr = create_callback_pair_default(0);
-        state->field8 = buffer_addr;
+        state->template_buffer = buffer_addr;
         if (buffer_addr != 0) {
-            state->field0 = (u16)flags;
-            state->x = (s16)(target_x - 0xA0);
-            state->y = (s16)(target_y - 0x80);
+            state->flags = (u16)flags;
+            state->target_x = (s16)(target_x - 0xA0);
+            state->target_y = (s16)(target_y - 0x80);
             init_menu_panel(state, saved_style_flags, content_id, (s16)start_x,
                           (s16)start_y,
                           (s16)width);
-            entity->field_c = &entity->sub50;
+            display_link = &state->elements[0].link;
+            entity->header.sprite = display_link;
             register_node(entity, draw_tinted_node_sprites_scratch);
-            entity->update_fn = menu_move_the_position_halfway_toward_target_position;
+            entity->header.update_callback = menu_move_the_position_halfway_toward_target_position;
         } else {
-            entity_flags = entity->flags;
-            entity->flags = entity_flags | 0x8000;
+            entity_flags = entity->header.flags;
+            entity->header.flags = entity_flags | 0x8000;
             global_flags = D_800814A0_load[0];
             entity = 0;
             global_flags |= 0x8000;

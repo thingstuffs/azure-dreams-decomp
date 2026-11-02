@@ -1,6 +1,7 @@
 #include "common.h"
 #include "m2c_compat.h"
 #include "engine/movie.h"
+#include "dungeon/system.h"
 
 /* cfail-repair: tf7-phase1-cache-v3 */
 extern s32 map_scene_selector_alias;

@@ -88,4 +88,6 @@ typedef struct SpiralingBody {
     s16 unk_34;
 } SpiralingBody;
 
+s32 get_a_random_in_n_0_limit_zero_limit_zero_rejection_sampling(s32 limit);
+
 #endif

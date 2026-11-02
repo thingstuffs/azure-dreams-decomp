@@ -12,7 +12,8 @@
 #include "engine/cd.h"
 #include "dungeon/system.h"
 #include "dungeon/item/message.h"
-extern int abs(int);
+#include "dungeon/player/item.h"
+#include "sdk/libc.h"
 
 typedef struct S_800C0E88_2_pre {
     u8 * unk_00;
@@ -30,17 +31,10 @@ typedef struct S_800C0E88_4 {
     u16 unk_0A;
 } S_800C0E88_4;   /* tail_status in use_magic_ball */
 
-
-extern void begin_mode_selected_item_action(void *object,void *unused_1,void *unused_2,void *mode);
 #include "dungeon/player/state.h"
-extern void *get_unused_text_buffer(void);
-extern u8 * copy_selected_text_without_terminator(void *text_id, u8 *dest);
-extern void display_formatted_context_message(void *context);
 #include "dungeon/item/actor_target.h"
 #include "dungeon/item.h"
 #include "dungeon/actor.h"
-extern s32 display_text_with_fullwidth_adjustment(s8 *text);
-extern s32 find_slot_by_item_group(void *entry, s16 target);
 struct DungeonItemEntry;
 
 extern u8 *item_category_tables[];

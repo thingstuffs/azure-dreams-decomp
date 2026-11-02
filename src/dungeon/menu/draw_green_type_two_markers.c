@@ -1,7 +1,7 @@
 #include "dungeon/level/floor_flags.h"
 #include "common.h"
+#include "dungeon/menu.h"
 
-extern void submit_activation_command(void);
 extern void * create_transformed_render_object(s32 x, s32 y, s32 initial_value, s32 update_param, s32 mode);
 
 /* Create green markers for up to four leading type-2 entries. */

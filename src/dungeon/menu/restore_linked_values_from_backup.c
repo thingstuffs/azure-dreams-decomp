@@ -1,5 +1,6 @@
 #include "common.h"
 #include "m2c_compat.h"
+#include "dungeon/menu.h"
 
 extern s32 *catalog_display_node_slots[98];
 extern s32 menu_value_backup;

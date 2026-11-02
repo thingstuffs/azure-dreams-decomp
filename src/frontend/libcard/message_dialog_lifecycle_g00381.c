@@ -4,6 +4,7 @@
 #include "shared/object_node.h"
 #include "frontend/libcard.h"
 #include "engine/scene.h"
+#include "frontend/libcard/message_dialog.h"
 
 /* Record the maximum string length and last nonempty slot across five strings. */
 void card_boot_measure_five_line_message(CardMenuEntry *entry)
@@ -62,16 +63,16 @@ void card_boot_initialize_message_dialog_layout(s32 record, s32 value_14, s32 en
 /* Initialize the object from its table entry and select its callback. */
 void card_boot_activate_message_dialog(void *object_arg)
 {
-    S_80022CD8_0 *object = object_arg;
+    CardMessageDialogBody *object = object_arg;
     void *callback;
     s32 entry_index;
 
     card_boot_build_message_window_packets((u8 *)object + 0x24, object);
     card_boot_layout_five_entry_list(object);
-    entry_index = object->unk_08;
-    object->unk_00 = card_menu_entry_values[entry_index].default_choice;
+    entry_index = object->entry_index;
+    object->selected_choice = card_menu_entry_values[entry_index].default_choice;
     card_boot_update_message_choice_highlight(object);
-    if (object->unk_0C == 2) {
+    if (object->mode == 2) {
         callback = D_800226A8;
     } else {
         callback = D_80022524;
@@ -94,7 +95,7 @@ u8 *card_boot_create_or_reset_message_dialog(s32 value_14, s32 entry_index, s32 
         base = initialize_scene_object_in_buffer(0, base, 0x27A);
         register_node(base, menu_backdrop_tag);
     } else {
-        card_boot_close_message_dialog(((S_80022D60_0 *)context)->unk_0C != 2);
+        card_boot_close_message_dialog(((CardMessageDialogBody *)context)->mode != 2);
         base->flags &= 0x7FFF;
         bzero(context, 0x9C8);
     }
@@ -103,7 +104,7 @@ u8 *card_boot_create_or_reset_message_dialog(s32 value_14, s32 entry_index, s32 
         u8 *body = context;
 
         base->sprite = body + 0x8BC;
-        ((S_80022D60_2 *)body)->unk_8C8 = card_boot_link_message_display_entries(body + 0x8CC);
+        ((CardMessageDialogBody *)body)->chain = card_boot_link_message_display_entries(body + 0x8CC);
         card_boot_initialize_message_dialog_layout((s32)body, value_14, entry_index, value_0c, value_20);
     }
     set_handler(base);

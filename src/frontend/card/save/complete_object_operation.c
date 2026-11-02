@@ -1,19 +1,10 @@
+#include "shared/object_node.h"
+#include "frontend/card/save_operation.h"
 #include "common.h"
 #include "frontend/card/service.h"
 #include "frontend/card/save.h"
 
 #define FIELD(expr, type_ptr, offset) (*(type_ptr)((u8 *)(expr) + (offset)))
-
-typedef struct S_func_80405CB8_0 {
-    u8 pad_00[0x10];
-    void *unk_10;
-    u8 pad_14[0x34];
-    s32 unk_48;
-    u8 pad_4C[0x8];
-    void *unk_54;
-    u8 pad_58[0x8];
-    s32 unk_60;
-} S_func_80405CB8_0;
 
 extern void initialize_card_message_object_with_code_0xb(void *object_base);
 extern void func_80405C44(s32 value);
@@ -25,20 +16,20 @@ extern void set_object_state_and_select_action(void);
 void complete_object_operation(void *context)
 {
     void (*next_callback)(void);
-    S_func_80405CB8_0 *object_base;
+    ObjectNodeHeader *object_base;
     s32 operation_result;
 
-    operation_result = read_and_update_indexed_record(((S_func_80405CB8_0 *)((u8 *)context - 0x20))->unk_48, 0x80010000);
-    object_base = (S_func_80405CB8_0 *)((u8 *)context - 0x20);
+    operation_result = read_and_update_indexed_record(((CardSaveOperationBody *)context)->entry_index, 0x80010000);
+    object_base = (ObjectNodeHeader *)context - 1;
     if (operation_result == 0) {
-        ((S_func_80405CB8_0 *)((u8 *)context - 0x20))->unk_54 = handle_object_menu_input;
+        ((CardSaveOperationBody *)context)->completion_callback = handle_object_menu_input;
         initialize_card_message_object_with_code_0xb(object_base);
         next_callback = func_80405A3C;
     } else {
         func_80405C44(0x80010000);
         next_callback = set_object_state_and_select_action;
     }
-    ((S_func_80405CB8_0 *)((u8 *)context - 0x20))->unk_10 = next_callback;
+    ((ObjectNodeHeader *)context - 1)->update_callback = next_callback;
     func_80400908();
-    ((S_func_80405CB8_0 *)((u8 *)context - 0x20))->unk_60 = 0;
+    ((CardSaveOperationBody *)context)->state = 0;
 }

@@ -1,5 +1,6 @@
 #include "common.h"
 #include "m2c_compat.h"
+#include "dungeon/system.h"
 
 /* cfail-repair: tf7-phase1-cache-v3 */
 void func_80016BDC(s16);                         /* extern */

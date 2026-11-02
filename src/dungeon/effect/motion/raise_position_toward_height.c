@@ -19,6 +19,11 @@
 #include "dungeon/effect.h"
 #include "dungeon/item.h"
 #include "dungeon/actor.h"
+#include "dungeon/effect/motion.h"
+#include "engine/graphics.h"
+#include "sdk/libc.h"
+#include "sdk/libgpu.h"
+#include "sdk/libgte.h"
 
 void (*const dungeon_192a800_entry)(struct S_func_8190B2D0_0 *,void *,void *) = update_a_moving_effect_target_animation_cleanup_state;
 const u8 level_not_decreased_suffix[52] = {0x81,0x66,0x82,0x93,0x81,0x40,0x82,0x8c,0x82,0x85,0x82,0x96,0x82,0x85,0x82,0x8c,0x81,0x40,0x82,0x84,0x82,0x89,0x82,0x84,0x82,0x8e,0x81,0x66,0x82,0x94,0x81,0x40,0x82,0x84,0x82,0x85,0x82,0x83,0x82,0x92,0x82,0x85,0x82,0x81,0x82,0x93,0x82,0x85,0x81,0x44,0x0,0x0};
@@ -30,24 +35,13 @@ extern s32 random_dungeon_range_16(s32 bound_a, s32 bound_b);
 extern const u8 level_not_decreased_suffix[];
 
 /* Runs action 0x53 on the target after state and threshold checks. */
-extern u32 RotTransPers(void *, void *, void *, void *);
-extern s32 func_80066460(s32, s32, s32, s32);
-extern void SetDrawMode(void *, s32, s32, s32, s32);
-extern s32 rand(void);
-extern s32 rand(void);
-extern s32 rand(void);
 extern s32 D_80025638[4];
 extern u8 D_80025648[48];
 extern u8 D_80025678[44];
-extern s32 get_a_random_in_n_0_limit_zero_limit_zero_rejection_sampling(s32);
-extern void LoadImage(Rect *, s32 *);
 extern void *jtbl_80024088[9];
 extern Packed12 D_80025618;
 extern Packed12 D_80025624;
 extern u8 current_spell_effect_variant[];
-extern s32 get_sprite_attachment_vector(void *, void *, void *, s32);
-extern s32 rand(void);
-extern u16 GetTPage(s32, s32, s32, s32);
 
 /* Attempts to lower the target's level after a random threshold check and displays the fallback result
    on failure. */

@@ -1,6 +1,7 @@
 #include "common.h"
 #include "m2c_compat.h"
 #include "dungeon/system.h"
+#include "dungeon/effect/sprite.h"
 
 extern M2C_UNK D_80010248;
 

@@ -64,7 +64,7 @@ typedef struct Object_800128C8 {
     /* 0x40 */ s32 unk_40;
     /* 0x44 */ s32 callback_index;
 } Object_800128C8;
-struct S_80022524_0;
+struct CardMessageDialogBody;
 struct S_80023F94_0;
 struct S_80025030_0;
 struct S_80026C94_0;
@@ -85,7 +85,7 @@ void assign_object_descriptor_on_check(void *object_data_addr);
 void build_and_queue_interpolated_vertical_quads_around_five_perimeter_points(u8 *window_state);
 
 /* build_install.c */
-void build_install(u8 *object);
+void build_install(CardSlotMenuState *object);
 
 /* card_boot_animate_three_row_selection.c */
 s32 card_boot_animate_three_row_selection(CardCommandPanelBody *state);
@@ -112,7 +112,8 @@ void card_boot_build_save_description(s32 record, s32 index);
 void *card_boot_build_shaded_panel_packets(u8 *packet, u32 x, u32 y);
 
 /* card_boot_clear_ten_display_slots.c */
-void card_boot_clear_ten_display_slots(void *object);
+struct CardSlotListNodes;
+void card_boot_clear_ten_display_slots(struct CardSlotListNodes *object);
 
 /* card_boot_close_events_and_resume_timer.c */
 void card_boot_close_events_and_resume_timer(void);
@@ -121,7 +122,7 @@ void card_boot_close_events_and_resume_timer(void);
 void card_boot_confirm_selected_slot_deletion(void *state);
 
 /* card_boot_create_menu_child_panels.c */
-void card_boot_create_menu_child_panels(void *record);
+void card_boot_create_menu_child_panels(CardChooserBody *chooser);
 
 /* card_boot_create_save_slot_menu.c */
 void *card_boot_create_save_slot_menu(void *init_value, s32 state_value);
@@ -163,7 +164,7 @@ void card_boot_format_saved_slot_details(CardSlotDetails *record);
 void card_boot_handle_format_answer(void *object);
 
 /* card_boot_handle_message_dialog_input.c */
-void card_boot_handle_message_dialog_input(struct S_80022524_0 *menu);
+void card_boot_handle_message_dialog_input(struct CardMessageDialogBody *menu);
 
 /* card_boot_handle_overwrite_answer.c */
 void card_boot_handle_overwrite_answer(Object_800128C8 *object_data);
@@ -319,7 +320,7 @@ void card_boot_stop_timer_and_init_server(void);
 s32 card_boot_sum_slot_lookup_values(void);
 
 /* card_boot_update_card_chooser_input.c */
-void card_boot_update_card_chooser_input(Object_800128C8 *menu);
+void card_boot_update_card_chooser_input(CardChooserBody *body);
 
 /* card_boot_update_copy_destination_selection.c */
 void card_boot_update_copy_destination_selection(u8 *menu);

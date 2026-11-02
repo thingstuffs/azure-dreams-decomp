@@ -1,5 +1,6 @@
 #include "common.h"
 #include "shared/object_flags.h"
+#include "dungeon/effect.h"
 
 typedef struct S_800251F0_0 {
     u8 pad_00[0x2];

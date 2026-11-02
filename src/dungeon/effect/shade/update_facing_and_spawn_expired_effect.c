@@ -13,6 +13,8 @@
 #include "slus.h"
 #include "engine/node.h"
 #include "dungeon/monster/u_boat.h"
+#include "dungeon/effect/shade.h"
+#include "engine/scene.h"
 
 typedef struct S_800D58D8_0_pre {
     void * unk_00;
@@ -34,8 +36,6 @@ typedef struct {
     u16 z;
 } Vec3u16;
 
-void select_record_entry_and_value(void *state, void *entries, short index);  /* extern */
-s32 resolve_record_orientation_or_fallback(void *, void *, Vec3u16 *, s32);     /* extern */
 extern s32 D_800D586C[];
 
 /* Update sprite facing and animation, then spawn an effect when the countdown expires. */

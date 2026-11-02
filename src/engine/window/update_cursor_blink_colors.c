@@ -1,18 +1,10 @@
+#include "engine/window/cursor_body.h"
 #include "common.h"
 #include "shared/entity.h"
 
 #include "common.h"
 #include "engine/window.h"
 
-typedef struct S_80037394_0 {
-    u8 pad_00[0x44];
-    s32 * unk_44;
-    u8 pad_48[0x2];
-    s16 unk_4A;
-    u8 pad_4C[0x18];
-    u16 unk_64;
-    s16 unk_66;
-} S_80037394_0;   /* arg0 in update_cursor_blink_colors */
 
 typedef struct S_80037394_1 {
     u8 pad_00[0x4C];
@@ -42,8 +34,9 @@ extern u8 cursor_texture_descriptor_2[];
 extern u8 cursor_texture_descriptor_3[];
 
 /* Updates the current entry's output value and applies its blink color. */
-void update_cursor_blink_colors(void *state_arg, ObjectPosition *position, void *output_arg) {
-    S_80037394_0 *state = state_arg;
+void update_cursor_blink_colors(WindowCursorBody *body, ObjectPosition *position, void *output_arg) {
+    void *state_arg = body;
+    WindowCursorBody *state = state_arg;
     S_80037394_2 *output = output_arg;
     u8 entry_flags;
     s8 *entry_data;
@@ -53,20 +46,20 @@ void update_cursor_blink_colors(void *state_arg, ObjectPosition *position, void 
         return;
     }
 
-    copy_texture_descriptor_with_page_offsets(state->unk_44 + 3, cursor_texture_template_0, cursor_texture_descriptor_0);
-    copy_texture_descriptor_with_page_offsets(state->unk_44 + 3, cursor_texture_template_1, cursor_texture_descriptor_1);
-    copy_texture_descriptor_with_page_offsets(state->unk_44 + 3, cursor_texture_template_2, cursor_texture_descriptor_2);
-    copy_texture_descriptor_with_page_offsets(state->unk_44 + 3, cursor_texture_template_3, cursor_texture_descriptor_3);
-    copy_texture_descriptor_with_page_offsets(state->unk_44 + 3, cursor_texture_template_4, cursor_texture_descriptor_4);
-    copy_texture_descriptor_with_page_offsets(state->unk_44 + 3, cursor_texture_template_5, cursor_texture_descriptor_5);
+    copy_texture_descriptor_with_page_offsets(state->script + 3, cursor_texture_template_0, cursor_texture_descriptor_0);
+    copy_texture_descriptor_with_page_offsets(state->script + 3, cursor_texture_template_1, cursor_texture_descriptor_1);
+    copy_texture_descriptor_with_page_offsets(state->script + 3, cursor_texture_template_2, cursor_texture_descriptor_2);
+    copy_texture_descriptor_with_page_offsets(state->script + 3, cursor_texture_template_3, cursor_texture_descriptor_3);
+    copy_texture_descriptor_with_page_offsets(state->script + 3, cursor_texture_template_4, cursor_texture_descriptor_4);
+    copy_texture_descriptor_with_page_offsets(state->script + 3, cursor_texture_template_5, cursor_texture_descriptor_5);
 
-    entry_data = (s8 *)state->unk_44;
-    entry_offset = state->unk_4A;
+    entry_data = (s8 *)state->script;
+    entry_offset = state->cursor_offset;
     entry_flags = ((S_80037394_1 *)(entry_data + entry_offset))->unk_4C;
     if (entry_flags & 0x80) {
         s32 t;
-        state->unk_64 = state->unk_64 + 1;
-        t = state->unk_64;
+        state->blink_frame = state->blink_frame + 1;
+        t = state->blink_frame;
         if (t & 1) {
             output->unk_0C = 0xC0C0C0;
         } else {
@@ -77,5 +70,5 @@ void update_cursor_blink_colors(void *state_arg, ObjectPosition *position, void 
     }
 
     output->unk_08 =
-        cursor_blink_variant_values[(entry_flags & 0x7F) + state->unk_66];
+        cursor_blink_variant_values[(entry_flags & 0x7F) + state->variant_offset];
 }

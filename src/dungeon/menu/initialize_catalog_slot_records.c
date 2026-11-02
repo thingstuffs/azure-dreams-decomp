@@ -1,4 +1,5 @@
 #include "common.h"
+#include "dungeon/menu.h"
 
 typedef struct {
     u8 pad_0[8];

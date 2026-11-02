@@ -4,6 +4,7 @@
 #include "dungeon/item.h"
 #include "dungeon/menu.h"
 #include "dungeon/menu/state.h"
+#include "engine/menu.h"
 struct ObjA464;
 
 typedef struct {
@@ -24,7 +25,6 @@ typedef struct {
 } Entity;
 
 extern void cleanup_object_resources();
-extern void flag_object_and_release_inner(struct ObjA464 *obj, s32 unused);
 
 /* Processes entity fields and copies its string for selected type and state values. */
 void advance_paired_object_sequence(Entity *entity) {

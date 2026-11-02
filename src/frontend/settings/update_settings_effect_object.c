@@ -1,13 +1,14 @@
+#include "frontend/settings/controller_body.h"
 #include "common.h"
 #include "shared/entity.h"
 #include "shared/sprite_frame_state.h"
 #include "frontend/settings.h"
 /* Updates an object's movement, blinking, and removal flags from its animation state. */
 void update_settings_effect_object(SettingsEffectObjectBody *object, ObjectPosition *motion, SpriteFrameState *sprite) {
-    void *owner = object->owner;
+    SettingsMenuBody *owner = object->owner;
     s16 state;
 
-    if (*(u16 *)((char *)owner + 0x26) & 1)
+    if (owner->flags & 1)
         object->state = 255;
     state = object->state;
     switch (state) {
@@ -40,8 +41,8 @@ void update_settings_effect_object(SettingsEffectObjectBody *object, ObjectPosit
         break;
     case 16:
         motion->x.w.i = 160;
-        if (*(s16 *)((char *)owner + 0x20) == 32) {
-            if (*(s16 *)((char *)owner + 0x24) == object->index)
+        if (owner->state == 32) {
+            if (owner->selected_item == object->index)
                 object->state = 32;
             else {
                 motion->velocity_x = 0xFFF80000;
@@ -50,7 +51,7 @@ void update_settings_effect_object(SettingsEffectObjectBody *object, ObjectPosit
         }
         break;
     case 32:
-        if ((*(u16 *)((char *)owner + 0x22) >> 3) & 1)
+        if ((owner->counter >> 3) & 1)
             sprite->flags |= 0x80;
         else
             sprite->flags &= 0xFF7F;

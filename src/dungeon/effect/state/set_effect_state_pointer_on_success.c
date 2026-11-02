@@ -1,6 +1,7 @@
 #include "common.h"
 #include "dungeon/effect.h"
 #include "dungeon/actor/motion.h"
+#include "dungeon/effect/state.h"
 
 /* extern */
 

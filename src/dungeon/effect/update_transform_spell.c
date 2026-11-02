@@ -6,13 +6,14 @@
 #include "engine/scene.h"
 #include "engine/entity.h"
 #include "dungeon/level.h"
+#include "sdk/libc.h"
+#include "dungeon/effect.h"
 
 extern u16 D_8006CCD8[8],D_8006CCE8[8];
 extern u32 D_800814A0;
 extern SpriteFrameState D_80082E80;
 extern s32 D_8008346C;
 extern s32 D_800DEF08;
-s32 abs(s32);
 s32 get_surface_height_at_record(ObjectPosition *);
 s32 check_left_tile_and_center_height(u16,u16,s16);
 s32 increment_bounded_counter(void);

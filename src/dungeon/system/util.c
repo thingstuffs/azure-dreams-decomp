@@ -18,6 +18,12 @@ void *get_unused_text_buffer(); /* Unprototyped: this retail caller sets three i
 #include "dungeon/player/state.h"
 #include "engine/object.h"
 #include "engine/menu.h"
+#include "dungeon/item/state.h"
+#include "engine/entity.h"
+#include "engine/scene.h"
+#include "sdk/libc.h"
+#include "sdk/libgpu.h"
+#include "slus.h"
 
 extern s16 bounded_runtime_counter;
 
@@ -41,8 +47,6 @@ void decrement_bounded_counter(void) {
 }
 #include "common.h"
 #include "shared/sys_flags.h"
-
-extern s16 SD_Call(s32 query_value);
 
 /* Query the low 16 bits of the input unless flag bit 1 disables the call. */
 s32 play_sound_if_enabled(s32 query_value) {
@@ -320,8 +324,6 @@ void update_effect_position_and_scale_transition(void *transition_arg, S_800A5AF
 #include "shared/dungeon_floor.h"
 #include "shared/tile_object.h"
 #include "shared/record_ptrs.h"
-extern int abs(int);
-
 
 typedef struct S_800A5C70_0_pre {
     void * unk_00;
@@ -548,12 +550,6 @@ typedef struct S_800A5FC0_5 {
     void * unk_8D0;
 } S_800A5FC0_5;   /* ((Rec_D_80083160 *)(&D_80083160))->unk_00.as_pv in draw_expanding_screen_rectangle */
 
-
-extern void AddPrim(void *, void *);
-extern void SetSemiTrans(void *, s32);
-extern void SetPolyF4(void *);
-extern void SetDrawMode(void *, s32, s32, s32, s32);
-
 /* Advance a rectangle's right edge toward 320 and queue it for rendering. */
 s32 draw_expanding_screen_rectangle(S_800A5FC0_2 *state) {
     u16 frames_left;
@@ -700,12 +696,6 @@ typedef struct {
     s32 end;
 } Work;
 
-
-extern void SetDrawMode(void *, s32, s32, s32, s32);
-extern void SetPolyF4(void *);
-extern void SetSemiTrans(void *, s32);
-extern void AddPrim(void *, void *);
-
 /* Queue a full-screen grayscale quad with its draw mode at the input ordering index. */
 s32 draw_fullscreen_grayscale_quad(Input *input) {
     GpuContext *arena;
@@ -828,8 +818,6 @@ void display_fixed_item_action_message(void) {
 
 #include "common.h"
 
-extern s32 get_entity_effect_value(void *, s32);
-
 extern s32 D_800DCF08[];
 extern s32 D_800DCF3C;
 extern s32 D_800DCF44;
@@ -903,9 +891,6 @@ typedef struct S_800A6620_3 {
     u8 unk_25;
 } S_800A6620_3;   /* owner in release_entity_slot_and_update_flags */
 
-
-extern void build_entity_slot_snapshot(void *ptr, void *object);
-extern s32 get_entity_effect_value(void *object, s32 value);
 extern void unlink_entity_node(void *object);
 extern void update_map_cell_flags_with_item_limit(u8 sound_x, u8 sound_y, s32 sound_mode);
 extern s16 find_entity_slot_by_field_ac(void *object);
@@ -998,7 +983,6 @@ extern s8 dungeon_event_pending_flag[];
 extern s8 restore_actor_script[];
 
 extern s32 call_script(void *arg); /* Unprototyped: uses the value as a pointer where the definition has an integer (or the reverse) */
-extern void runtime_clear_state_and_entry_range(void);
 
 /* When unblocked, clears a set flag and decrements its counter before running updates. */
 void clear_pending_item_action_state(void) {

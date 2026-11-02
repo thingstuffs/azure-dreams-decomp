@@ -3,12 +3,13 @@
 /* Prototypes of the functions defined in src/frontend/card/menu/ (one true prototype each; maintained by tools/headers). */
 
 #include "common.h"
+#include "frontend/libcard/card_chooser.h"
 
 /* card_boot_clear_menu_state.c */
 void card_boot_clear_menu_state(void *ptr);
 
 /* card_boot_handle_menu_selection_input.c */
-void card_boot_handle_menu_selection_input(void *menu);
+void card_boot_handle_menu_selection_input(CardChooserBody *menu);
 
 /* card_boot_initialize_menu_pointer.c */
 void card_boot_initialize_menu_pointer(void *ptr);

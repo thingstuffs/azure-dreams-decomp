@@ -8,6 +8,7 @@
 #include "m2c_compat.h"
 #include "records/Rec_func_8002290C_arg0.h"
 #include "frontend/libcard/interfaces.h"
+#include "frontend/libcard/message_dialog.h"
 
 /* body in card_boot_create_or_reset_message_dialog */
 #define FIELD(base, type, offset) (*(type *)((u8 *)(base) + (offset)))
@@ -18,12 +19,6 @@ typedef struct S_80022CD8_0_pre {
 } S_80022CD8_0_pre;
 
 /* the 0x10 bytes before arg0 in card_boot_activate_message_dialog, addressed as arg0[-1] */
-typedef struct S_80022CD8_0 {
-    s32 unk_00;
-    u8 pad_04[0x4];
-    s32 unk_08;
-    s32 unk_0C;
-} S_80022CD8_0;
 
 typedef struct S_set_handler_0 {
     u8 pad_00[0x10];
@@ -31,10 +26,6 @@ typedef struct S_set_handler_0 {
 } S_set_handler_0;
 
 /* out in set_handler */
-typedef struct S_80022D60_0 {
-    u8 pad_00[0xC];
-    s32 unk_0C;
-} S_80022D60_0;
 
 /* context in card_boot_create_or_reset_message_dialog */
 typedef struct S_80022D60_1 {
@@ -45,10 +36,6 @@ typedef struct S_80022D60_1 {
 } S_80022D60_1;
 
 /* base in card_boot_create_or_reset_message_dialog */
-typedef struct S_80022D60_2 {
-    u8 pad_00[0x8C8];
-    struct S_800491F4 *unk_8C8;
-} S_80022D60_2;
 
 extern void card_boot_initialize_message_render_templates(s32 entity, s32 primary_data, s32 secondary_data);
 extern void card_boot_initialize_dialog_packets_and_display(s32 record);

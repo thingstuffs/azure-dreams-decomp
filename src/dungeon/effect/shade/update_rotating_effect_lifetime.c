@@ -4,6 +4,8 @@
 #include "m2c_compat.h"
 #include "records/Rec_D_80082E80.h"
 #include "dungeon/effect/sprite.h"
+#include "dungeon/effect/shade.h"
+#include "slus.h"
 
 typedef struct S_818C3898_0_pre {
     u16 unk_00;
@@ -25,7 +27,6 @@ typedef struct S_818C3898_3 {
 } S_818C3898_3;
 
 /* cfail-repair: tf7-phase1-cache-v3 */
-extern void advance_sprite_animation_and_textures(void *sprite);
 /* Advance effect motion, color, rotation, and size, and flag lifetime expiration. */
 void update_rotating_effect_lifetime(ScaledRotationEffectBody *effect, void *motion_data, SpriteFrameState *sprite) {
     s16 size;

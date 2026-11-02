@@ -12,6 +12,7 @@
 #include "engine/node.h"
 #include "dungeon/item.h"
 #include "dungeon/system.h"
+#include "engine/entity.h"
 struct EntityLinkNode;
 
 typedef struct S_800C2824_0 {
@@ -90,7 +91,6 @@ typedef struct S_800C2824_16 {
     s32 unk_14;
 } S_800C2824_16;   /* ((S_800C2824_0 *)effect)->unk_00 in update_return_magic_sacrifice */
 
-s32 get_entity_effect_value(ActorRecord *entry, s32 effect_id);
 void unlink_entity_node(struct EntityLinkNode *node);
 void update_map_cell_flags_with_item_limit(s32 x, s32 y, u16 flags);
 void *detach_record_and_update_slot_state(void *record);

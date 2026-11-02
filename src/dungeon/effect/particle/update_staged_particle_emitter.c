@@ -1,8 +1,7 @@
 #include "common.h"
 #include "shared/object_flags.h"
+#include "sdk/libc.h"
 
-
-extern s32 rand(void);
 extern void play_sound_if_enabled(s32);
 extern void create_short_lived_child_particle(void *, s32, s32, s32, s32, s32, s32); /* Unprototyped: the wide local parameters preserve this call; canonical s16 parameters change its bytes */
 extern void create_short_lived_colored_particle(void *, s32, s32, s32, s32, s32, s32);

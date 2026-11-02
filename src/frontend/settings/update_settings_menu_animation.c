@@ -1,3 +1,4 @@
+#include "frontend/settings/controller_body.h"
 #include "modules/main_title_callbacks.h"
 #include "common.h"
 #include "shared/game_work.h"
@@ -10,22 +11,6 @@
 #define NULL 0
 #endif
 
-typedef struct SubObj {
-    u8 pad[0x28];
-    s16 f28;
-} SubObj;
-
-typedef struct Obj {
-    /* 0x00 */ u8 pad00[4];
-    /* 0x04 */ SubObj *slotsA[3];
-    /* 0x10 */ SubObj *slotsB[2];
-    /* 0x18 */ TransitionSlot fade;
-    /* 0x20 */ s16 state;
-    /* 0x22 */ u16 counter;
-    /* 0x24 */ s16 f24;
-    /* 0x26 */ u16 f26;
-} Obj;
-
 extern u8 animation_tick_scale[];
 
 extern short func_80053da8(int flags);
@@ -35,7 +20,7 @@ extern void func_80040aa0(s16 requested_state);
 extern void func_80089c24();
 
 /* Updates menu animation, selection, and idle demo transitions. */
-void update_settings_menu_animation(Obj *obj, s32 *position) {
+void update_settings_menu_animation(SettingsMenuBody *obj, s32 *position) {
     int frames_left;
     int slot;
     u16 next_state;
@@ -52,7 +37,7 @@ void update_settings_menu_animation(Obj *obj, s32 *position) {
             return;
         }
         if ((s16) render_screen_fade_decreasing_intensity(&obj->fade)) {
-            obj->f26 &= ~1;
+            obj->flags &= ~1;
             obj->state = 1;
         }
         return;
@@ -80,10 +65,10 @@ void update_settings_menu_animation(Obj *obj, s32 *position) {
             return;
         }
         for (slot = 2; slot >= 0; slot--) {
-            obj->slotsA[slot]->f28 = 1;
+            obj->slotsA[slot]->state = 1;
         }
         for (slot = 1; slot >= 0; slot--) {
-            obj->slotsB[slot]->f28 = 1;
+            obj->slotsB[slot]->state = 1;
         }
         obj->counter = 95;
         obj->state = 3;
@@ -105,12 +90,12 @@ void update_settings_menu_animation(Obj *obj, s32 *position) {
             obj->counter = 1800;
         }
         if ((input->pressed_buttons) & 0x1000) {
-            obj->f24 = (s16) ((obj->f24 + 2) % 3);
+            obj->selected_item = (s16) ((obj->selected_item + 2) % 3);
         } else if ((input->pressed_buttons) & 0x4000) {
-            obj->f24 = (s16) ((obj->f24 + 1) % 3);
+            obj->selected_item = (s16) ((obj->selected_item + 1) % 3);
         }
         if ((input->pressed_buttons) & 0x840) {
-            func_80053da8(obj->f24 == 2 ? 1314 : 1306);
+            func_80053da8(obj->selected_item == 2 ? 1314 : 1306);
             obj->counter = 96;
             obj->state = 32;
             return;
@@ -143,10 +128,10 @@ void update_settings_menu_animation(Obj *obj, s32 *position) {
 
     case 19:
         for (slot = 2; slot >= 0; slot--) {
-            obj->slotsA[slot]->f28 = 16;
+            obj->slotsA[slot]->state = 16;
         }
         for (slot = 1; slot >= 0; slot--) {
-            obj->slotsB[slot]->f28 = 2;
+            obj->slotsB[slot]->state = 2;
         }
         obj->counter = 1800;
         obj->state = 4;
@@ -157,11 +142,11 @@ void update_settings_menu_animation(Obj *obj, s32 *position) {
             return;
         }
         {
-            u16 flags = obj->f26;
+            u16 flags = obj->flags;
             animation_tick_scale[0] = 2;
-            obj->f26 = flags | 1;
+            obj->flags = flags | 1;
         }
-        switch (obj->f24) {
+        switch (obj->selected_item) {
         case 0:
             child = func_8003fc64(256);
             if (child == NULL) {
@@ -235,12 +220,12 @@ void update_settings_menu_animation(Obj *obj, s32 *position) {
         }
         {
             u8 next_demo = attract_scene_index[0];
-            u16 flags = obj->f26;
+            u16 flags = obj->flags;
             obj->state = 255;
             next_demo = (next_demo + 1) & 7;
             flags |= 1;
             attract_scene_index[0] = next_demo;
-            obj->f26 = flags;
+            obj->flags = flags;
         }
         return;
     }

@@ -16,6 +16,7 @@ typedef struct RotatingFadeWork {
 } RotatingFadeWork;
 
 #include "shared/object_flags.h"
+#include "dungeon/effect/shade.h"
 
 
 extern void PushMatrix(s32);

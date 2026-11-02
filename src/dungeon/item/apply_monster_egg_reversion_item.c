@@ -13,6 +13,7 @@
 #include "dungeon/item/message.h"
 #include "dungeon/system.h"
 #include "dungeon/player/state.h"
+#include "engine/entity.h"
 
 typedef struct S_800BE6F0_0_pre {
     void * unk_00;
@@ -38,8 +39,6 @@ typedef struct S_800BE6F0_5 {
     u16 unk_0A;
 } S_800BE6F0_5;   /* state_base2 in apply_monster_egg_reversion_item */
 
-
-s32 get_entity_effect_value(ActorRecord *entry, s32 effect_id);
 #include "dungeon/player/item.h"
 struct EntityLinkNode;
 void unlink_entity_node(struct EntityLinkNode *node);
