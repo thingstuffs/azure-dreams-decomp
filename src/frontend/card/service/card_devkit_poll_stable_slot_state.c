@@ -2,7 +2,7 @@
 #include "frontend/card/service.h"
 #include "main/data.h"
 
-extern s32 func_804019A4(void);
+extern s32 card_dev_has_selected_channel(void);
 extern void func_804008A0(s32 index);
 
 /* Tracks repeated states and updates the selected slot after state-specific delays. */
@@ -15,7 +15,7 @@ s32 card_devkit_poll_stable_slot_state(void)
     s32 *saved_state;
 
     state = card_devkit_dispatch_polled_event();
-    slot_index = func_804019A4();
+    slot_index = card_dev_has_selected_channel();
     if (state != 0) {
         if (D_80409258[slot_index] == state) {
             card_slot_state_repeat_count[slot_index]++;

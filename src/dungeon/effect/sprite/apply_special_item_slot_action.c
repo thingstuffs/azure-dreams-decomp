@@ -3,7 +3,6 @@
 #include "dungeon/system.h"
 #include "dungeon/effect/sprite.h"
 
-extern M2C_UNK D_80010248;
 
 typedef struct S_800F6514_0 {
     u8 unk_00;

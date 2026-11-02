@@ -18,7 +18,7 @@ typedef struct S_800C135C_1 {
 
 
 
-extern s32 func_80042640();
+extern s32 init_monster_from_stats();
 extern void *create_player_tile_actor_at_coordinates();
 
 
@@ -34,7 +34,7 @@ s32 create_and_initialize_player_tile_actor(void) {
         dungeon_actor_ring_anchor->ground_height);
     if (entry != 0) {
         ((S_800C135C_1 *)(((S_800C135C_0_pre *)entry)[-1].unk_00))->unk_0C = 0;
-        func_80042640(entry, entry->species);
+        init_monster_from_stats(entry, entry->species);
         found = 1;
     } else {
         found = 0;

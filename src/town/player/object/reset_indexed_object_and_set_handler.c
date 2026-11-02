@@ -7,7 +7,7 @@
 #include "town/player/object.h"
 
 #include "town/player/object/entity_record_fields.h"                     /* extern */
-extern void D_8009AA2C(void *state, void *object);
+extern void move_player_toward_target(void *state, void *object);
 
 
 /* Clears the object's indexed flag and updates its state and handler. */
@@ -16,5 +16,5 @@ void reset_indexed_object_and_set_handler(TownObjectRecord *object, s32 context,
     object_index_slots[object->unk_40].unk_00 = 0;
     object->unk_0A.as_s16 = 0xA;
     clear_entity_record_fields((struct EntityRec *)(context));
-    object->unk_04.as_pm = &D_8009AA2C;
+    object->unk_04.as_pm = &move_player_toward_target;
 }

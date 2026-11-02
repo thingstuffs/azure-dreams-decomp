@@ -3,9 +3,8 @@
 #include "frontend/card.h"
 
 /* cfail-repair: tf7-phase1-cache-v3 */
-void func_80406568(struct S_8001F568_0 *object, s32 value);                            /* extern */
 
-/* Invoke func_80406568. */
+/* Invoke card_dev_set_object_value. */
 void card_dev_run_init_hook(struct S_8001F568_0 *object, s32 value) {
-    func_80406568(object, value);
+    card_dev_set_object_value(object, value);
 }

@@ -26,6 +26,7 @@
 #include "dungeon/actor/object.h"
 #include "dungeon/actor/state.h"
 #include "sdk/libc.h"
+#include "engine/entity.h"
 
 struct Dst;
 struct Elem;
@@ -2599,7 +2600,6 @@ extern u8 D_800E1C3A;
 extern s8 entity_spawn_variant_code;
 
 extern void initialize_timed_motion_step(u16 countdown, u32 amount);
-extern void func_80042640(void *, s32);
 extern void SD_Call(s32);
 extern void display_formatted_context_message(void *context);
 extern s32 play_sound_if_enabled(s32 query_value);
@@ -2682,7 +2682,7 @@ void advance_monster_den_sequence(ClampEntryAndCreateEffectNodeBody *den_event) 
                             (0, (u8)spawn_x, (u8)y, -0x400);
                             if (monster != 0) {
                                 retain_spawn_resource(spawn_type, 1);
-                                func_80042640(monster, spawn_type);
+                                init_monster_from_stats(monster, spawn_type);
                                 ((u8 *)monster)[0x43] = generate_random_value();
                                 ((u8 *)monster)[0x12] = 0;
 

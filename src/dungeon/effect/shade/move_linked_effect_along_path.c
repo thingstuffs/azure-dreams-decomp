@@ -84,7 +84,7 @@ void move_linked_effect_along_path(void *effect, S_80024CD4_2 *transform, S_8002
             rising_value = ((S_80024CD4_0 *)effect)->unk_1C;
             rising_value += 0x80;
             ((S_80024CD4_0 *)effect)->unk_1C = rising_value;
-            func_8002522C(call_transform, base_value,
+            create_moving_fading_particle(call_transform, base_value,
                 ((S_80024CD4_0 *)effect)->unk_18.p, (s16) rising_value,
                 effect - 0x20);
         }

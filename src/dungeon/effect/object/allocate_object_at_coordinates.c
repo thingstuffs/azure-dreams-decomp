@@ -26,7 +26,7 @@ typedef struct S_800B7B60_1_pre {
 #endif
 
 
-extern void D_800B7774();
+extern void advance_egg_bomb_sequence();
 
 /* Allocates an object, copies the source coordinates, and increments the object counter. */
 void *allocate_object_at_coordinates(void *source, s32 *init_value) {
@@ -37,7 +37,7 @@ void *allocate_object_at_coordinates(void *source, s32 *init_value) {
 
     object = allocate_flagged_object_node(0x12);
     if (object != NULL) {
-        object->unk_10 = &D_800B7774;
+        object->unk_10 = &advance_egg_bomb_sequence;
         object->unk_20 = *init_value;
         src_coords = ((S_800B7B60_1_pre *)source)[-1].unk_00;
         dst_coords = object->unk_08;

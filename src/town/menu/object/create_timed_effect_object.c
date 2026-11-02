@@ -8,7 +8,6 @@
 #include "town/menu/object.h"
 
 struct IntVector3;        /* extern */
-extern void D_800A7C0C(void *object, s32 check_value);
 
 typedef struct S_800A7B98_2 {
     u8 pad_00[0x8];
@@ -23,7 +22,7 @@ void create_timed_effect_object(s32 ownerDataAddress, s32 creationParam, S_800A7
     ObjectNodeHeader *createdObject;
     SpriteFrameState *objectData;
 
-    createdObject = create_town_effect_object(ownerDataAddress - 0x20, (struct IntVector3 *)(creationParam), (s32)(&D_800A7C0C), 0);
+    createdObject = create_town_effect_object(ownerDataAddress - 0x20, (struct IntVector3 *)(creationParam), (s32)(&finalize_object_after_check_or_expiry), 0);
     objectState = ((void *)createdObject) + 0x20;
     if (createdObject != NULL) {
         objectData = createdObject->sprite;

@@ -2,7 +2,7 @@
 #include "m2c_compat.h"
 #include "town/person/state.h"
 
-extern void D_800AAC64(void *object, s32 context, s32 update_param, void *color_data);
+extern void randomize_person_color(void *object, s32 context, s32 update_param, void *color_data);
 
 typedef struct S_800AAE00_0 {
     u8 pad_00[0x15];
@@ -19,6 +19,6 @@ typedef struct S_800AAE00_1 {
 /* Set the status flag and initialize the context's data pointer and code. */
 void set_person_status_and_code(S_800AAE00_1 *context, S_800AAE00_0 *status) {
     status->unk_15 = 1;
-    context->unk_50 = &D_800AAC64;
+    context->unk_50 = &randomize_person_color;
     context->unk_6C = 0x15;
 }

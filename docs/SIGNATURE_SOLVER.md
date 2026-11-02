@@ -206,6 +206,50 @@ one census 90 s, 3 proofs 169 s (the second and third reuse 438 and 478 of ~479 
 * `sig_solver.py solve --only-floors --header ALL`: re-solve exactly the recorded floors (did a type change
   release any?); `--names` over several headers solves each name under the header that owns it.
 
+## Library prototypes and address names (opus_libnames1)
+
+**Library (Psy-Q / BIOS) names.**  One prototype per library function lives in its `include/sdk/<lib>.h`
+stand-in (decision 74).  The call contracts are the table in `tools/headers/extra.py` (`_sig`): the
+documented Psy-Q ABI in the game's scalar aliases (`long` -> `s32`, record pointers opaque `void *`).
+The header planner routes every local declaration of a table name to its stand-in; `extern_bulk.py`
+appends the prototype after the stand-in's APPEND_MARK and removes the local declarations, holding a TU
+whose spelling disagrees (`site_arity`, `consumer_conflict`, a width the bytes need) and a name the
+compiler reports as conflicting.  `--names-from sdk` restricts a run to the library names.  Never hand-append
+a prototype to a stand-in: a TU that already declares the name differently stops compiling.
+Kernel entry points are stubs, not code: B0 table OpenEvent 08, CloseEvent 09, TestEvent 0B, EnableEvent 0C,
+DisableEvent 0D, erase 45, Krom2RawAdd 51; A0 table rindex 1D; EnterCriticalSection / ExitCriticalSection
+are `syscall` 1 / 2.
+
+**Address names.**  `tools/headers/address_names.py` respells a call through a raw address name
+(`func_8002421C`, or an address alias of a library function such as `func_80069EF8` for `rand`) to the
+function the retail call really reaches:
+
+```sh
+python3 tools/headers/address_names.py plan   --scope <folders> --out DIR      # needs a current build/codemap.db
+python3 tools/headers/address_names.py screen --plan DIR/plan.tsv --out DIR    # compile before/after, compare objects
+python3 tools/headers/address_names.py apply  --plan DIR/plan.tsv --hold DIR/holds.tsv
+python3 tools/headers/extern_bulk.py --scope <folders> --names-from sdk --names-file DIR/plan.tsv --write include/sdk ...
+python3 tools/headers/lint_guard.py --port <port>/port --base HEAD --restore
+```
+
+A prototype can keep the bytes and still make the native port compile warn (an int or another pointer kind
+passed where the prototype has a typed pointer).  `lint_guard.py` lints the edited TUs before and after
+(tools/lint/lint_build.py `--only`) and `--restore` puts back the TUs that gain a warning group, trimming the
+names they still declare from the stand-ins' append blocks.
+
+A name qualifies only when every retail call its TU makes to the address (codemap `call_bind`, image by
+image) reaches one C function R, and R's own symbol links to that address: R lowers (config/names.tsv) to the
+same `func_<addr>` (`same_symbol`), or R is the library symbol at that address (`library_alias`).  The object
+is then identical (library aliases differ only in the import's spelling).
+
+A *placed copy* does not qualify.  The image link resolves each unit's undefined `func_<A>` by the address in
+its name (`tools/gate/overlay_local_gate.symbol_addr`, called per unit by `mkbuild._image_one`); only
+placement units are rebound (`tools/gate/linklist.binding`).  The callers of copies are home units, so the
+copy's real name (its TU's home symbol) would link to the home address in another image.  Calling a copy by
+the function's name needs a link feature first (an image-local binding of home symbols, or a TU-scoped
+lowering table); until then those declarations keep the address name.  A native module recipe records its import inventory by
+symbol (config/overlays/modules.json), so a library alias inside a module is held (`library_alias_in_module`).
+
 ## What a reviewer (Luna/Sonnet) checks
 
 Per header, read `txn/txn.json`, `txn/txn.patch` and `decisions.json`:

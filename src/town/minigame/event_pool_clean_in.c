@@ -14,7 +14,7 @@
 #endif
 
 extern M2C_UNK D_8007789C;
-extern void D_800BEBA4();
+extern void update_motion_spawn_particles();
 
 /* event_pool_clean_in: creates the pool cleaning object and initializes its motion and display. */
 s32 event_pool_clean_in(void)
@@ -31,7 +31,7 @@ s32 event_pool_clean_in(void)
     if (object != NULL) {
         SD_Call(0x512);
         motion = object->position;
-        object->update_callback = &D_800BEBA4;
+        object->update_callback = &update_motion_spawn_particles;
         body = (u8 *)object + 0x20;
         register_node(object, project_sprite_chain);
         ((EntityRec *)body)->x.w.i = 0x10;

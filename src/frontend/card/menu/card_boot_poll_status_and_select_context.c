@@ -17,9 +17,9 @@ typedef struct S_80407E64_0 {
     s32 unk_38;
 } S_80407E64_0;   /* arg0 in card_boot_poll_status_and_select_context */
 
-extern void func_80400908(void);
-extern void func_804030F4(void *context);
-extern void func_80403284(void *context);
+extern void reset_card_selection_state(void);
+extern void card_dev_show_no_memory_card_notice(void *context);
+extern void card_dev_show_format_failure_notice(void *context);
 extern void initialize_card_message_object_with_code_0xd(void *context);
 
 /* Polls the status and selects the corresponding context update and data. */
@@ -40,7 +40,7 @@ void card_boot_poll_status_and_select_context(void *state_arg) {
     } while (retries++ < 6);
 
     state->unk_38 = 0;
-    func_80400908();
+    reset_card_selection_state();
     if (status == 1) {
         context = (u8 *)state - 0x20;
         state->unk_2C = card_boot_handle_menu_selection_input;
@@ -49,12 +49,12 @@ void card_boot_poll_status_and_select_context(void *state_arg) {
     } else if (status == 4) {
         context = (u8 *)state - 0x20;
         state->unk_2C = card_boot_handle_menu_selection_input;
-        func_804030F4(context);
+        card_dev_show_no_memory_card_notice(context);
         ((S_80407E64_0_pre *)state)[-1].unk_00 = D_80407D90;
     } else {
         context = (u8 *)state - 0x20;
         state->unk_2C = card_boot_handle_menu_selection_input;
-        func_80403284(context);
+        card_dev_show_format_failure_notice(context);
         ((S_80407E64_0_pre *)state)[-1].unk_00 = D_80407DB8;
     }
 }

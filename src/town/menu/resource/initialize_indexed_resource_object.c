@@ -12,13 +12,13 @@ typedef struct S_800A7E7C_0_pre {
 } S_800A7E7C_0_pre;   /* the 0x10 bytes before arg0 in initialize_indexed_resource_object, addressed as arg0[-1] */
 
 extern s32 item_effect_descriptor;
-extern void D_800A7EC0();
+extern void update_linked_position_or_flag_object();
 
 /* Initialize the object state from its byte value and set the context resource and callback. */
 void initialize_indexed_resource_object(TownObjectRecord *object_arg, ObjectPosition *unused, struct SpriteFrameState *context) {
     TownObjectRecord *object = object_arg;
 
-    ((S_800A7E7C_0_pre *)object)[-1].unk_00 = &D_800A7EC0;
+    ((S_800A7E7C_0_pre *)object)[-1].unk_00 = &update_linked_position_or_flag_object;
     object->slot = (s32) object->variant.as_u8;
     context->source = &item_effect_descriptor;
     register_node_if_unregistered(object, project_sprite_chain);

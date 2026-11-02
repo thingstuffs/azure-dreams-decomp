@@ -22,8 +22,8 @@ typedef struct S_800B0544_4 {
 extern int load_indexed_resource_package(short table_index);
 
 extern s16 current_dungeon_floor;
-extern void D_800AFAD8();
-extern s32 D_800AFBFC(struct Arg0_800AFBFC *shape, s32 unused, struct Arg2_800AFBFC *segment);
+extern void advance_object_phase_counters();
+extern s32 process_circular_segments(struct Arg0_800AFBFC *shape, s32 unused, struct Arg2_800AFBFC *segment);
 extern s8 D_800DCF4C;
 extern M2C_UNK D_800DEF90;
 
@@ -48,8 +48,8 @@ void create_default_state_object(s16 new_state) {
     }
     obj = allocate_flagged_object_node(0x12);
     if (obj != NULL) {
-        obj->update_callback = &D_800AFAD8;
-        register_node(obj, &D_800AFBFC);
+        obj->update_callback = &advance_object_phase_counters;
+        register_node(obj, &process_circular_segments);
         obj->sprite->source = &D_800DEF90;
         color = obj->sprite;
         color->color.c.b = 0xE0;

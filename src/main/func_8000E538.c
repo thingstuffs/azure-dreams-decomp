@@ -1,13 +1,7 @@
 #include "modules/main_server_ship.h"
 #include "common.h"
 #include "main.h"
-
-s32 TestEvent(s32);
-
-
-
-
-
+#include "sdk/libapi.h"
 
 /* Clear the event status and test the four event handles. */
 void card_boot_drain_hardware_events(void) {

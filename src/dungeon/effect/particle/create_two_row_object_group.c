@@ -716,14 +716,6 @@ void subtract_limit_or_flag_record(void *record) {
 #include "common.h"
 #include "shared/game_work.h"
 
-extern int sound_payload_buffer;
-extern int message_handler_mode;
-extern int message_command_start_index;
-extern int message_command_write_index;
-extern unsigned char D_80071298[];
-extern int D_800712B4[];
-extern int card_server_initialized[3];
-extern struct S_80083178State saved_view_vectors;
 typedef struct
 {
     s16 x;

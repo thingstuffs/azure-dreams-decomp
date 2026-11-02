@@ -1805,8 +1805,6 @@ typedef struct D_80083780_t {
 
 extern s32 has_enough_available_runtime_nodes(s32 limit);
 
-extern void func_800BA2A0(void);
-extern void func_800BA308(void);
 struct S_800BA33C_0;
 extern s32 is_selectable_menu_target(struct S_800BA33C_0 *object);
 

@@ -84,7 +84,6 @@ extern void play_sound_if_enabled(s32);
 extern void create_two_row_object_group(void *, s16);
 
 extern u8 effect_update_tag[];
-extern u8 killer_slot_g_item_targets[16];
 extern u8 killer_action_resume_address;
 #include "dungeon/monster/killer.h"
 #include "dungeon/item.h"

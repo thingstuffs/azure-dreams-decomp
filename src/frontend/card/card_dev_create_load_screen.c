@@ -29,9 +29,7 @@ typedef struct {
 } StructA_8002001C;
 
 extern StructA_8002001C *func_8003C480(s32 value);
-extern void func_80402214(void);
 extern void run_slot_operation_code_five(void);
-extern void func_80406F14(void *object, s32 value);
 extern void func_80406F70(void);
 
 /* Allocates and initializes an object and installs its callback. */
@@ -41,9 +39,9 @@ StructA_8002001C *card_dev_create_load_screen(s32 init_value, s32 config_value) 
     object = func_8003C480(0);
     if (object != NULL) {
         object->unk44 = config_value;
-        func_80406F14((void *) ((u8 *) object + 0x20), init_value);
+        card_dev_load_forward_object_value((void *) ((u8 *) object + 0x20), init_value);
         run_slot_operation_code_five();
-        func_80402214();
+        card_dev_cache_slot_summary();
         object->unk20 = init_card_background_object(object, 0);
         object->unk24 = init_card_info_object(object, object->unk4C);
         object->unk28 = init_card_sme_object(object);

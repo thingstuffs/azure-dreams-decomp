@@ -13,4 +13,7 @@ u32 lseek(s32 file, u32 offset, s32 origin);
 s32 read(s32 file, void *buffer, s32 size);
 s32 write(s32 file, char *buffer, s32 size);
 
+/* Owner declarations appended by tools/headers (append-only; the lines above are hand-kept). */
+s32 TestEvent(s32);
+
 #endif

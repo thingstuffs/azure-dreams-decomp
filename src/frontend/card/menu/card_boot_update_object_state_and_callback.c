@@ -4,9 +4,9 @@
 #include "frontend/card/service.h"
 #include "main/data.h"
 
-extern void func_80400948(void);
+extern void toggle_card_selection_state(void);
 extern void submit_stored_and_queried_boot_values(void);
-extern s32 func_804010E0(void);
+extern s32 card_dev_get_op_state(void);
 extern void forward_target_value_initcardmessageobject(void *left, void *right);
 extern void func_8003FA78(void *descriptor, s32 value, s32 item);
 
@@ -20,7 +20,7 @@ void card_boot_update_object_state_and_callback(void *object_data)
 
     object = object_data;
     if ((boot_pad_state.held != 0) && ((boot_pad_state.pressed & 0x40) != 0)) {
-        func_80400948();
+        toggle_card_selection_state();
         object[14] = 0;
         object[-4] = (s32)(unsigned long)card_boot_handle_menu_selection_input;
         return;
@@ -38,7 +38,7 @@ void card_boot_update_object_state_and_callback(void *object_data)
         object[-4] = next_callback;
         return;
     }
-    if ((func_804010E0() == 3) && (object[14] == 0)) {
+    if ((card_dev_get_op_state() == 3) && (object[14] == 0)) {
         forward_target_value_initcardmessageobject((u8 *)object - 0x20, (u8 *)object + 0x38);
         object[14] = 1;
     }

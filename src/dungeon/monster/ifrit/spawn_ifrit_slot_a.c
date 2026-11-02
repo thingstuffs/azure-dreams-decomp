@@ -27,18 +27,6 @@ extern M2C_UNK D_8014CE84;
 
 /* The carved row starts with this 33-word text-local pointer/literal bank. */
 extern void *queue_linked_point_packets(s16, s16, s16, s16);
-extern u8 D_8014D24C[];
-extern u8 D_8014D278[];
-extern u8 D_8014D1F8[];
-extern u8 D_8014D1C0[];
-extern u8 D_8014D23C[];
-extern u8 D_8014E9EC[];
-extern u8 D_8014E9E4[];
-extern u8 D_8014E9DC[];
-extern u8 D_8014E9F4[];
-extern u8 D_8014E99C[];
-extern u8 D_8014E994[];
-extern u8 D_8014E98C[];
 
 /* These text-local table entries have no catalog symbols. */
 

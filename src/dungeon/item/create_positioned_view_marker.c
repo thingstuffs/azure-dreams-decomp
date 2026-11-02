@@ -93,13 +93,10 @@ typedef struct S_807AE960_6 {
     u16 unk_04;
 } S_807AE960_6;   /* entry in advance_dungeon_tile_action_state */
 
-extern void *D_800F6000[];
 s32 Control_CD(s32 event_code, void *event_data, s32 payload);
 void sound_set_cd_cue_parameters(int value_0, int value_1, int value_2, int value_3);
 int read_stream_cue_start_offset(void);
 s32 read_sound_mode_blocking_status(s32 mode);
-extern M2C_UNK D_80010000;
-extern u16 D_8001371A;
 extern s32 cd_cue_base;
 
 /* Dispatch the CD-audio fade state machine, then step the actor's shake counter and raise the finished flag. */

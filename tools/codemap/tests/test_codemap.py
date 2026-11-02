@@ -212,7 +212,7 @@ Linker script and memory map
  .text.func_second 0x{second:08x}        0x8 build/.state/link/{tag}/0.o
 """
 
-    def layout(self, name, base, words, units=('caller_recipe',)):
+    def layout(self, name, base, words, units=('caller_recipe',), offsets=None):
         import bind
         import struct
         tag = name.replace('/', '_')
@@ -221,7 +221,8 @@ Linker script and memory map
         # rebind in the map, matched by position).
         objects = {'caller_recipe': [('.text', []), ('.text.f', [('home_f', 0, 8)]), ('.text.g', [('home_g', 0, 8)])],
                    'other_recipe': [('.text.f', [('other_f', 0, 8)]), ('.text.g', [('other_g', 0, 8)])]}
-        return bind.ImageLayout(name, tag, list(units), text, struct.pack('<4I', *words), objects.get)
+        return bind.ImageLayout(name, tag, list(units), text, struct.pack('<4I', *words), objects.get,
+                                unit_offsets=offsets)
 
     def test_parse_and_positional_symbols(self):
         import bind
@@ -249,6 +250,41 @@ Linker script and memory map
         self.assertEqual(hows, {('dungeon/bank_d', 'other_f', 'ambiguous'), ('dungeon/bank_e', 'home_f', 'ambiguous')})
         self.assertEqual(binder.bind(caller, 'caller_recipe', 'home_g', 4)[0][-1], 'not_jal')
         self.assertEqual(binder.bind(caller, 'other_recipe', 'other_f', 0)[0][-1], 'caller_not_linked')
+
+    def test_placeholder_base_nibble_and_slus_interior(self):
+        """A devkit program linked at 0x80400000 whose rows keep placeholder 0x8001xxxx links; a check-image row
+        linked below KSEG0; a call into the middle of a SLUS function."""
+        import bind
+        jal = lambda target: 0x0C000000 | ((target >> 2) & 0x3FFFFFF)
+        # caller: file 0x1000 linked at its true base 0x80400000; callee: file 0x1010 linked at placeholder 0x80019010
+        caller = self.layout('main/main_bin', 0x80400000, [jal(0x80400018), jal(0x80060010), 0, 0], offsets=[0x1000])
+        callee = self.layout('main/check_x', 0x80019010, [0] * 4, units=('other_recipe',), offsets=[0x1010])
+        stale = self.layout('dungeon/check_y', 0x7FFE0000, [jal(0x80150000), 0, 0, 0], offsets=[0x40])
+        bank = self.layout('dungeon/bank_z', 0x80150000, [0] * 4, units=('other_recipe',), offsets=[0x9000])
+        binder = bind.Binder({l.name: l for l in (caller, callee, stale, bank)},
+                             regions=[('main', 0x1000, 0x800, 0x80400000)],
+                             slus_spans=[(0x80060000, 0x40, 'func_80060000')])
+        self.assertEqual(caller.file_offset(0x80400004), 0x1004)
+        self.assertEqual(binder.bind(caller, 'caller_recipe', 'home_f', 0),
+                         [(0x80400018, 'main/check_x', 'other_recipe', 'other_g', 'placeholder_base')])
+        self.assertEqual(binder.bind(caller, 'caller_recipe', 'home_f', 4),
+                         [(0x80060010, 'slus/slus_bin', None, 'func_80060000+0x10', 'slus_interior')])
+        # 0x7FFE0000 caller: jal_target gives 0x70150000; the KSEG0 retry finds the bank function.
+        self.assertEqual(binder.bind(stale, 'caller_recipe', 'home_f', 0),
+                         [(0x80150000, 'dungeon/bank_z', 'other_recipe', 'other_f', 'nibble_resident')])
+        # the inside of a resident bank function: the caller was linked against another build of that bank
+        mid = self.layout('dungeon/check_w', 0x7FFE0000, [jal(0x80150004), 0, 0, 0], offsets=[0x80])
+        binder2 = bind.Binder({l.name: l for l in (mid, bank)})
+        self.assertEqual(binder2.bind(mid, 'caller_recipe', 'home_f', 0),
+                         [(0x80150004, 'dungeon/bank_z', 'other_recipe', 'other_f+0x4', 'nibble_image_interior')])
+        # SLUS callers: an overlay entry at a fixed address, else the inside of one
+        self.assertEqual(binder.bind_resident_caller(0x80150000),
+                         [(0x80150000, 'dungeon/bank_z', 'other_recipe', 'other_f', 'overlay_entry')])
+        self.assertEqual(binder.bind_resident_caller(0x80150004)[0][-2:], ('other_f+0x4', 'overlay_interior'))
+        self.assertEqual(binder.bind_resident_caller(0x80060008)[0][-2:], ('func_80060000+0x8', 'slus_interior'))
+        # without regions the old answer stands
+        plain = bind.Binder({l.name: l for l in (caller, callee)})
+        self.assertEqual(plain.bind(caller, 'caller_recipe', 'home_f', 0)[0][-1], 'unresolved')
 
 
 if __name__ == '__main__':

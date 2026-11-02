@@ -99,7 +99,7 @@ void draw_transformed_sprite_with_clip_rect();
 void * create_five_point_effect(u8, u8, s16, void *, s32, s32, void *); /* Unprototyped: uses the value as a pointer where the definition has an integer (or the reverse) */
 void retire_tracked_effect_by_id(s32 targetId);
 extern s32 return_magic_begin_address(void);
-extern s32 D_800C27F0(void);
+extern s32 create_and_store_pending_actor_fade(void);
 extern s32 linked_object_draw_address(void *initial_state, s32 value, void *data);
 extern M2C_UNK D_800DF45C;
 extern M2C_UNK return_magic_sprite_data;
@@ -264,7 +264,7 @@ void update_return_magic_sacrifice(void *effect, void *vertices, void *sprite) {
         effect_param = effect_object->ground_height;
         return_magic_effect_object = effect_object;
         if (create_five_point_effect(object_coords->tile_x, object_coords->tile_y,
-            effect_param, &D_800DF45C, 0x2800, 0x208020, &D_800C27F0) == 0) {
+            effect_param, &D_800DF45C, 0x2800, 0x208020, &create_and_store_pending_actor_fade) == 0) {
             return;
         }
         ((S_800C2824_0 *)effect)->unk_06 = 0x3C;

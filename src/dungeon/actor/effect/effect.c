@@ -1601,7 +1601,6 @@ extern s16 has_recorded_value_pair(s32 highByte, s32 lowByte);
 extern s32 generate_random_value(void);
 extern s32 random_dungeon_range_16(s32, s32);
 
-extern s32 dungeon_mode_state[];
 extern s16 current_dungeon_floor;
 extern s8 random_pickup_enabled;
 extern s16 pickup_event_latch;

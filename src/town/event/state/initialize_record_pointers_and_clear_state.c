@@ -14,13 +14,13 @@ typedef struct S_800A97D8_0 {
 
 
 extern void unit_scale_record_handler_address();
-extern void D_800A9778(u16 *record);
+extern void trigger_action_and_finish_record(u16 *record);
 
 /* Initialize the record pointers and clear the associated state field. */
 void initialize_record_pointers_and_clear_state(TownObjectRecord *record_data, ObjectPosition *placement, struct SpriteFrameState *unused_sprite) {
     ObjectPosition *state = placement;
 
     ((S_800A97D8_0 *)((u8 *)record_data - 0x10))->unk_00 = &unit_scale_record_handler_address;
-    ((S_800A97D8_0 *)((u8 *)record_data - 0x10))->unk_60 = &D_800A9778;
+    ((S_800A97D8_0 *)((u8 *)record_data - 0x10))->unk_60 = &trigger_action_and_finish_record;
     state->z.v = 0;
 }

@@ -35,20 +35,6 @@ extern s16 set_or_clear_actor_status_slot(ActorRecord *owner, s8 id, s8 value);
 extern void try_move_actor_to_valid_position(void *, void *, void *, void *);
 
 extern void func_80170B40(void);
-extern void func_80171198(void);
-extern void func_8017126C(void);
-extern void func_801713FC(void);
-extern void func_80171444(void);
-extern void func_80171740(void);
-extern void func_80171784(void);
-extern void func_80171794(void);
-extern void func_801717C0(void);
-extern void func_80172EA8(void);
-extern void func_80172EB0(void);
-extern void func_80172EB8(void);
-extern void func_80172EF8(void);
-extern void func_80172F08(void);
-extern void func_80172F10(void);
 extern void func_80175258(void);
 extern void func_80175298(void);
 

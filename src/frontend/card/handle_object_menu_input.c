@@ -6,7 +6,6 @@
 extern CardSaveSlot card_slot_header_cache[];
 extern void dispatch_operation_mode_context(void *, void *);
 extern void initialize_card_message_object_with_code_7(void *);
-extern void func_80405D2C(void);
 extern void func_80405A64(void);
 
 /* Arm the task's next callback: ready slot -> attach the sub-object, otherwise detach it. */
@@ -23,7 +22,7 @@ void select_card_slot_message(void *task)
         one = 1;
         *(s32 *)((u8 *)task + 0x3C) = one;
         dispatch_operation_mode_context(owner, (u8 *)task + 0x40);
-        callback = func_80405D2C;
+        callback = card_dev_save_wait_countdown;
         *(s32 *)((u8 *)task + 0x40) = one;
     } else {
         *(void (**)(void))((u8 *)task + 0x34) = handle_object_menu_input;

@@ -42,7 +42,6 @@ typedef struct Unit {
 } Unit;
 
 extern u8 held_item_kind_alias[16];
-extern u16 D_80012094;
 extern Ent dungeon_ground_item_positions[];
 extern char D_80088A80[];
 extern char D_80088A84[];

@@ -66,12 +66,29 @@ CONFLICT = re.compile(r"(?:previous declaration of|conflicting types for|redefin
                       r" `([A-Za-z_]\w*)'")
 
 
+def load_names(a):
+    """The --names / --names-from / --names-file filter (None: every planned name)."""
+    out = set(a.names or ())
+    if a.names_from == 'sdk':
+        import extra
+        out |= set(extra.SDK)
+    if a.names_file:
+        lines = a.names_file.read_text().splitlines()
+        if lines and '\t' in lines[0]:
+            cols = lines[0].split('\t')
+            out |= {l.split('\t')[cols.index('new')] for l in lines[1:] if l.strip()}
+        else:
+            out |= {l.strip() for l in lines if l.strip()}
+    return out if (a.names or a.names_from or a.names_file) else None
+
+
 def sha(text):
     return hashlib.sha256((text or '').encode('utf-8', 'surrogateescape')).hexdigest()
 
 
 class Bulk:
-    def __init__(self, root, files, data, writable, log=print, new_headers=False, data_named_only=False):
+    def __init__(self, root, files, data, writable, log=print, new_headers=False, data_named_only=False,
+                 names=None):
         self.root = Path(root).resolve()
         self.new_headers = new_headers
         self._base = {}
@@ -87,6 +104,16 @@ class Bulk:
         self.writable = writable
         hof = lambda r: self.plan.fn_for_def(r.definition).header      # noqa: E731
         self.hof = hof
+        if names is not None:
+            # --names: only these names' declarations move (an extern wave restricted to, e.g., the Psy-Q
+            # library names or the names address_names.py just respelled); every other plan edit is dropped
+            for tp in self.plan.tus.values():
+                tp.remove = [r for r in tp.remove if r.site.name in names]
+                tp.append = {h: [n for n in ns if n in names] for h, ns in tp.append.items()}
+                tp.append = {h: ns for h, ns in tp.append.items() if ns}
+                need = {hof(r) for r in tp.remove} | set(tp.append)
+                tp.add = [h for h in tp.add if h in need]
+                tp.stale = []
         self.jobs = {}
         self.holds = []                 # (tu, header, reason)
         self.static = Counter()
@@ -512,6 +539,9 @@ def main(argv=None):
     ap.add_argument('--data-named-only', action='store_true',
                     help='data externs of named globals only: a TU whose move would publish a raw D_<addr> symbol '
                          'keeps that header\'s declarations (implies --data)')
+    ap.add_argument('--names', nargs='*', help='only these names move (others keep their declarations)')
+    ap.add_argument('--names-from', choices=['sdk'], help="'sdk': the Psy-Q library names of tools/headers/extra.py")
+    ap.add_argument('--names-file', type=Path, help='file with one name per line (or a TSV whose column `new` lists them)')
     ap.add_argument('--port-adapt', type=Path,
                     help="the native port's tools/adapt.py: TUs whose edit would remove an adaptation anchor keep "
                          "their text (natcheck ADAPTATION otherwise)")
@@ -561,7 +591,7 @@ def main(argv=None):
 
     log('scope: %d files, write %s, data=%s' % (len(files), a.write, a.data))
     bulk = Bulk(root, files, a.data or a.data_named_only, writable, log, new_headers=a.new_headers,
-                data_named_only=a.data_named_only)
+                data_named_only=a.data_named_only, names=load_names(a))
     if a.port_adapt:
         bulk.keep_anchors(port_anchors(a.port_adapt))
     log('jobs: %d TUs with edits; static holds %s' % (len(bulk.jobs), dict(bulk.static.most_common(8))))

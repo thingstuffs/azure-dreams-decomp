@@ -195,7 +195,6 @@ extern struct {
     int pad[2];
 } active_node_list_head;
 
-extern s32 dungeon_mode_state[];
 
 extern void clear_entry_flag_and_link_owner(struct ObjectNodeHeader *entry);
 

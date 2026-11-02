@@ -3,7 +3,7 @@
 #include "town/shop/object.h"
 
 /* cfail-repair: tf7-phase1-cache-v3 */
-extern void D_800B2C6C(void *record);
+extern void apply_record_values_and_process_record(void *record);
 
 typedef struct S_800B2CE8_0 {
     u8 pad_00[0x10];
@@ -13,6 +13,6 @@ typedef struct S_800B2CE8_0 {
 /* Set the object's data pointer when the object is present. */
 void set_object_data_pointer_if_present(S_800B2CE8_0 *object) {
     if (object != NULL) {
-        object->unk_10 = &D_800B2C6C;
+        object->unk_10 = &apply_record_values_and_process_record;
     }
 }

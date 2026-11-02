@@ -1,7 +1,6 @@
 #include "common.h"
 #include "town/map.h"
 
-extern u8 D_800136B8;
 extern void *town_map_entry_list[];
 extern u8 town_map_event_kind;
 extern u8 D_800D1A0C[];

@@ -15,7 +15,6 @@ extern s32 func_80245C10();
 extern s16 func_8025E01C(void *position);
 extern s32 scene_object_flags;
 extern s32 D_80526430[3];
-extern u8 D_80288EE0[];
 extern u8 D_80288FF0[];
 extern u8 D_80289030[];
 extern u8 D_80289058[];

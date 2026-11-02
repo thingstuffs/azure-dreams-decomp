@@ -8,8 +8,8 @@
 struct Entry;
 
 s32 register_node(); /* Unprototyped: two, three or four arguments; retail reads only the node and draw key. */           /* extern */
-extern void D_800ADB8C(void *record);
-extern s32 D_800ADBCC(void *initial_state, void *context, struct Entry *entry);
+extern void retire_effect_when_status_set(void *record);
+extern s32 render_actor_sprite_chain(void *initial_state, void *context, struct Entry *entry);
 
 typedef struct S_800ADC4C_0 {
     u8 pad_00[0x8];
@@ -30,8 +30,8 @@ void *create_status_linked_render_effect(EntityRec *source_pos, s32 render_param
 
     object = allocate_list_node(0x12, &scene_object_list_anchor.next);
     if (object != NULL) {
-        object->unk_10 = &D_800ADB8C;
-        register_node(object, &D_800ADBCC);
+        object->unk_10 = &retire_effect_when_status_set;
+        register_node(object, &render_actor_sprite_chain);
         position = object->unk_08;
         position->x = (u16) ((u16)source_pos->x.w.i);
         position->y = (u16) ((u16)source_pos->y.w.i);

@@ -90,13 +90,13 @@ void *create_panel_effect_object(ActorRecord *owner)
                 text_buf[3] = text_style;
                 text_buf[1] = text_style;
             }
-            func_8004E5A0(entity->hp, count_or_color, digits);
+            format_int_space_padded(entity->hp, count_or_color, digits);
             *((s32 *) (((s8 *) panel) + 0x74)) = build_positioned_text_glyphs(prim, text_buf, 0);
             offset_record_coordinates(prim, 8, ((s32) (0 - (((s32) ((*((u8 *) (((s8 *) prim) + 3))) << 0x18)) >> 8))) >> 0x10);
             set_record_flags_and_negate_x(prim, 8);
             prim += 0x24;
             *((s32 *) (((s8 *) panel) + 0x5C)) = color_or_addr;
-            func_8004E5A0(entity->mp_value.parts.whole, 3, digits);
+            format_int_space_padded(entity->mp_value.parts.whole, 3, digits);
             *((s32 *) (((s8 *) panel) + 0x78)) = build_positioned_text_glyphs(prim, text_buf, 0);
             offset_record_coordinates(prim, 8, (s32) ((s16) ((0 - ((s8) (*((u8 *) (((s8 *) prim) + 3))))) + 8)));
             set_record_flags_and_negate_x(prim, 8);

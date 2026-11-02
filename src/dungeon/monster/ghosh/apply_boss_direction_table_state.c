@@ -20,7 +20,6 @@ typedef struct S_80170A54_2 {
 #include "engine/texture.h"
 #include "dungeon/monster/ghosh.h"
 extern void *primary_actor_record[3];
-extern u8 resident_globals_page[];
 
 /* Applies a direction-indexed table entry in state 2 and sets record and global flags. */
 void apply_boss_direction_table_state(void *record_data) {

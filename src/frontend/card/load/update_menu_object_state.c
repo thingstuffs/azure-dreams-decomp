@@ -23,9 +23,9 @@ typedef struct S_func_80406AA8_1 {
 extern void initialize_destination_template_state(short *dest, int index, int mode);
 extern s32 process_entry_with_table_value(s32 entry_id, s32 request_id);
 extern void forward_value_initcardmessageobject(void *value);
-extern void func_80405A00(s32 object, s32 value);
+extern void card_info_set_value_and_refresh(s32 object, s32 value);
 extern void func_80404688(s32 object);
-extern void func_80400908(void);
+extern void reset_card_selection_state(void);
 extern void func_804069FC(void);
 extern void set_global(void);
 extern s32 D_80010208;
@@ -45,7 +45,7 @@ void update_menu_object_state(S_func_80406AA8_0 *state)
         forward_value_initcardmessageobject(state_base);
         ((S_func_80406AA8_1 *)((u8 *)state - 0x20))->unk_10 = func_804069FC;
     } else {
-        func_80405A00(state->unk_04, state->unk_2C);
+        card_info_set_value_and_refresh(state->unk_04, state->unk_2C);
         func_80404688(*(s32 *)((u8 *)state + (0xC + state->unk_2C * 4)));
         if (D_80010208 != 0) {
             ((S_func_80406AA8_1 *)((u8 *)state - 0x20))->unk_10 = set_global;
@@ -53,6 +53,6 @@ void update_menu_object_state(S_func_80406AA8_0 *state)
             ((S_func_80406AA8_1 *)((u8 *)state - 0x20))->unk_10 = handle_menu_selection_input;
         }
     }
-    func_80400908();
+    reset_card_selection_state();
     state->unk_40 = 0;
 }

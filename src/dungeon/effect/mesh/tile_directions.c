@@ -27,8 +27,6 @@ typedef struct S_800D13B8_1 {
     u16 unk_A6;
 } S_800D13B8_1;
 
-extern s16 func_800D0FBC(void);
-extern s16 func_800D10D0(void);
 extern void append_coordinate_record(s32 x, s32 y, s32 value, s32 store_value);
 extern s16 round_sampled_height_to_cell_boundary(s32 grid_x, s32 grid_y);
 extern s16 sound_idle_vsync_frame_alias[8];

@@ -4,7 +4,7 @@
 #include "town/person/state.h"
 
 #include "town/person/object/initialize_object_entries_api.h"          /* extern */
-extern void D_800C6644();
+extern void apply_setup_on_timeout_variant_2();
 extern s32 D_800D5944[];
 
 
@@ -16,7 +16,7 @@ void switch_actor_state(TownObjectRecord *actor, s32 unused, void *state_context
     actor->timer.as_u16 = ticks_left;
     if ((ticks_left << 0x10) <= 0) {
         initialize_object_entries((actor), state_context, D_800D5944);
-        actor->handler = &D_800C6644;
+        actor->handler = &apply_setup_on_timeout_variant_2;
         actor->timer.as_u16 = 5U;
     }
 }

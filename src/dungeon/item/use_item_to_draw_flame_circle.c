@@ -32,7 +32,7 @@ typedef struct S_800C13C8_0 {
 #include "dungeon/player/item.h" /* extern */
 s32 process_record_and_update_linked_state(struct DungeonItemEntry *, s32); /* Unprototyped: uses the value as a pointer where the definition has an integer (or the reverse) */           /* extern */
 void clear_slot_and_update_linked_state(DungeonItemEntry *slot);                         /* extern */
-extern s32 D_800C135C(void);
+extern s32 create_and_initialize_player_tile_actor(void);
 extern u8 ribbon_sprite_entries[];
 extern u8 D_800E1482[];
 
@@ -60,7 +60,7 @@ s32 use_item_to_draw_flame_circle(ActorRecord *object, DungeonItemEntry *value, 
     } else {
         object_data = ((S_800C13C8_0 *)((u8 *)object - 0x14))->unk_00;
         if (create_five_point_effect(object_data->tile_x, object_data->tile_y, object->ground_height,
-            &ribbon_sprite_entries, 0x5000, 0x202080, &D_800C135C) == 0) {
+            &ribbon_sprite_entries, 0x5000, 0x202080, &create_and_initialize_player_tile_actor) == 0) {
             result = 0;
             return result;
         }

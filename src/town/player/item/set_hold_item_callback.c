@@ -2,11 +2,11 @@
 #include "m2c_compat.h"
 #include "town/player/item.h"
 
-extern void D_80093BAC();
+extern void select_next_item_state();
 extern s32 *town_player_action_callback;
 
-/* Selects D_80093BAC as town_player_action_callback and returns zero. */
+/* Selects select_next_item_state as town_player_action_callback and returns zero. */
 s32 set_hold_item_callback(void) {
-    town_player_action_callback = &D_80093BAC;
+    town_player_action_callback = &select_next_item_state;
     return 0;
 }

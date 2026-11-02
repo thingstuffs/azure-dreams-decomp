@@ -15,7 +15,7 @@ typedef MonsterFactory SpawnFunc;
 extern u32 level_experience_table[];
 extern u8 entity_spawn_variant_code;
 
-extern void func_80042640(void *, s32);
+extern void init_monster_from_stats(void *, s32);
 struct EntityLinkNode;
 extern void unlink_entity_node(struct EntityLinkNode *node);
 extern void update_map_cell_flags_with_item_limit(s32, s32, s32);
@@ -108,7 +108,7 @@ void spawn_floor_monster_from_table(s32 spawn_mode) {
         }
 
         retain_spawn_resource(monster_type, 1);
-        func_80042640(monster, monster_type);
+        init_monster_from_stats(monster, monster_type);
         ((u8 *)monster)[0x43] = generate_random_value();
         ((u8 *)monster)[0x12] = 0;
 

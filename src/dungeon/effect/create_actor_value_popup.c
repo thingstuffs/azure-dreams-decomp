@@ -11,8 +11,8 @@
 
 #include "engine/text.h"
 #include "engine/util.h"
-extern void D_800B45E0(void *effect, ObjectPosition *motion, SpriteFrameState *sprite);
-extern void D_800B490C(void *effect, ObjectPosition *motion, SpriteFrameState *sprite);
+extern void update_anchored_fading_effect(void *effect, ObjectPosition *motion, SpriteFrameState *sprite);
+extern void update_attached_fading_effect(void *effect, ObjectPosition *motion, SpriteFrameState *sprite);
 extern u8 *D_800DF24C[];
 
 typedef struct S_800B4C7C_0 {
@@ -159,7 +159,7 @@ void *create_actor_value_popup(s32 flags, void *source_data, s16 value, u16 call
                 text_cursor = (s8 *) text_buffer + 1;
                 break;
             case 0x80:
-                func_8004E634(number, text_cursor);
+                uint_to_dec_str(number, text_cursor);
                 text_cursor = text_cursor + strlen(text_cursor);
                 *text_cursor++ = 0x45;
                 *text_cursor++ = 0x58;
@@ -171,14 +171,14 @@ void *create_actor_value_popup(s32 flags, void *source_data, s16 value, u16 call
                 text_buffer[0] = space;
                 format = number;
                 number = (s32)(text_buffer + 1);
-                func_8004E5A0(format, 3, (u8 *)number);
+                format_int_space_padded(format, 3, (u8 *)number);
                 text_cursor = (s8 *) text_buffer + 6;
                 text_buffer[4] = 0x25;
                 text_buffer[5] = 0;
                 build_positioned_text_glyphs(text, text_buffer, text_style);
                 break;
             case 0x90:
-                func_8004E5A0(number, 4, text_cursor);
+                format_int_space_padded(number, 4, text_cursor);
                 text_cursor = (s8 *) text_buffer + 6;
                 text_buffer[4] = 0x47;
                 text_buffer[5] = 0;
@@ -188,7 +188,7 @@ void *create_actor_value_popup(s32 flags, void *source_data, s16 value, u16 call
                 break;
             }
             if ((saved_flags & 0xF0) < 0x80U) {
-                func_8004E5A0(saved_value, 3, text_cursor);
+                format_int_space_padded(saved_value, 3, text_cursor);
                 build_positioned_text_glyphs(text, text_buffer, number_style);
             }
         } else {
@@ -201,12 +201,12 @@ void *create_actor_value_popup(s32 flags, void *source_data, s16 value, u16 call
         callback_bits = callback_mode;
         callback_kind = (s16) callback_bits;
         if (callback_kind == 1) {
-            callback = &D_800B490C;
+            callback = &update_attached_fading_effect;
             (object->update_callback) = callback;
             text_metrics = find_first_ended_record(text);
             text_position = state + 0x20;
         } else {
-            callback = &D_800B45E0;
+            callback = &update_anchored_fading_effect;
             (object->update_callback) = callback;
             text_metrics = find_first_ended_record(text);
             text_position = state + 0x20;

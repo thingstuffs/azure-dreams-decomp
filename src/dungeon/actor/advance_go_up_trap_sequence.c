@@ -63,9 +63,7 @@ void snapshot_inventory_and_familiars(void *input_state);           /* extern */
 void unlink_entity_node(struct EntityLinkNode *node);                      /* extern */
 void update_map_cell_flags_with_item_limit(s32 x, s32 y, u16 flags);             /* extern */
 void * detach_record_and_update_slot_state(void *record);                      /* extern */
-extern s32 D_80010234;
 extern s16 floor_generation_state[3];
-extern u8 scene_mode_code;
 
 /* Updates go-up trap motion, then advances the player or removes the affected actor. */
 void advance_go_up_trap_sequence(TrapOwnedTimedEffectBody *trap_state, void *motion_state_in, void *animation_in) {

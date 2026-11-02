@@ -14,10 +14,7 @@ extern s32 refresh_actor_facing_and_lifecycle();
 extern s16 sample_terrain_surface_height();
 
 extern u8 nyuel_action_resume_address;
-extern u8 pulunpa_variant_action_address;
 extern Callback nyuel_callbacks[];
-extern Callback D_80176380[];
-extern Callback D_801763E0[];
 
    /* monster in update_monster_facing_and_contact */
 

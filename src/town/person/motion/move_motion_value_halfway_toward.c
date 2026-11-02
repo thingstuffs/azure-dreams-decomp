@@ -4,7 +4,6 @@
 #include "shared/dungeon_delay_views.h"
 #include "town/person/motion.h"
 
-extern void D_800C5BA8(void *state, s32 *coords);
 extern s32 town_target_height_offset;
 
    /* arg1 in move_motion_value_halfway_toward */
@@ -26,6 +25,6 @@ void move_motion_value_halfway_toward(S_800C5B48_1 *actor, DelayMotionZ *motion)
     ticks_left = actor->unk_6C - 1;
     actor->unk_6C = ticks_left;
     if ((ticks_left << 0x10) <= 0) {
-        actor->unk_54 = &D_800C5BA8;
+        actor->unk_54 = &move_coordinates_halfway_toward_target;
     }
 }

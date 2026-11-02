@@ -2,7 +2,7 @@
 #include "m2c_compat.h"
 
 /* extern */
-extern void D_800A77D0();
+extern void decrement_record_timer_and_reset();
 
 typedef struct S_800A7774_0 {
     u8 pad_00[0x50];
@@ -22,6 +22,6 @@ void decrement_effect_timer_and_switch(S_800A7774_0 *object, s32 value) {
     if ((remaining_ticks << 0x10) <= 0) {
         unlink_node_if_registered(object);
         object->unk_90 = 0xAU;
-        object->unk_50 = &D_800A77D0;
+        object->unk_50 = &decrement_record_timer_and_reset;
     }
 }

@@ -21,6 +21,24 @@
       }
     },
     {
+      "row": "main/func_8001B5F8",
+      "home": "main/func_8001B5F8",
+      "tu": "src/frontend/card/card_dev_mark_row_entry_range.c",
+      "foff": "0x26B5F8",
+      "vma": "0x804025F8",
+      "size": 120,
+      "evidence": "docs/evidence/opus_nobody1.md"
+    },
+    {
+      "row": "main/func_8001BEBC",
+      "home": "main/func_8001BEBC",
+      "tu": "src/frontend/card/card_dev_initialize_message_dialog_layout.c",
+      "foff": "0x26BEBC",
+      "vma": "0x80402EBC",
+      "size": 72,
+      "evidence": "docs/evidence/opus_nobody1.md"
+    },
+    {
       "row": "main/func_8001C868",
       "home": "main/func_800105A0",
       "tu": "src/frontend/libcard/card_boot_set_centered_rectangle.c",
@@ -31,6 +49,33 @@
       "bindings": {
         "0x80049D80": "0x80058368"
       }
+    },
+    {
+      "row": "main/func_8001CAC8",
+      "home": "main/func_8001CAC8",
+      "tu": "src/frontend/card/card_dev_init_options_menu_entries.c",
+      "foff": "0x26CAC8",
+      "vma": "0x80403AC8",
+      "size": 180,
+      "evidence": "docs/evidence/opus_nobody1.md"
+    },
+    {
+      "row": "main/func_8001CB84",
+      "home": "main/func_8001CB84",
+      "tu": "src/frontend/card/card_dev_initialize_command_panel.c",
+      "foff": "0x26CB84",
+      "vma": "0x80403B84",
+      "size": 64,
+      "evidence": "docs/evidence/opus_nobody1.md"
+    },
+    {
+      "row": "main/func_8001CCD4",
+      "home": "main/func_8001CCD4",
+      "tu": "src/frontend/card/card_dev_fade_four_values.c",
+      "foff": "0x26CCD4",
+      "vma": "0x80403CD4",
+      "size": 80,
+      "evidence": "docs/evidence/opus_nobody1.md"
     },
     {
       "row": "main/func_8001CD24",
@@ -53,6 +98,15 @@
       }
     },
     {
+      "row": "main/func_8001D254",
+      "home": "main/func_8001D254",
+      "tu": "src/frontend/card/card_dev_init_slot_window_menu_entries.c",
+      "foff": "0x26D254",
+      "vma": "0x80404254",
+      "size": 180,
+      "evidence": "docs/evidence/opus_nobody1.md"
+    },
+    {
       "row": "main/func_8001D308",
       "tu": "src/frontend/libcard/card_boot_set_slot_index_and_owner.c",
       "home": "main/func_80010F94",
@@ -63,6 +117,15 @@
         "0x80023F94": "0x80404308"
       },
       "evidence": "r121w_ll34: fresh current-home native object, all relocation fields evaluated and exact retail bytes; docs/evidence/r121w_ll34/results.tsv"
+    },
+    {
+      "row": "main/func_8001D314",
+      "home": "main/func_8001D314",
+      "tu": "src/frontend/card/card_dev_initialize_slot_window.c",
+      "foff": "0x26D314",
+      "vma": "0x80404314",
+      "size": 80,
+      "evidence": "docs/evidence/opus_nobody1.md"
     },
     {
       "row": "main/func_8001D570",
@@ -110,6 +173,15 @@
         "0x8002D6A4": "0x8002D6A4",
         "0x8002D6A8": "0x8002D6A8"
       }
+    },
+    {
+      "row": "main/func_8001DC44",
+      "home": "main/func_8001DC44",
+      "tu": "src/frontend/card/card_dev_initialize_option_panel.c",
+      "foff": "0x26DC44",
+      "vma": "0x80404C44",
+      "size": 64,
+      "evidence": "docs/evidence/opus_nobody1.md"
     },
     {
       "row": "main/func_8001E3A0",
@@ -180,6 +252,15 @@
         "0x80405624": "0x80405624",
         "0x8040553C": "0x8040553C"
       }
+    },
+    {
+      "row": "main/func_8001E900",
+      "home": "main/func_8001E900",
+      "tu": "src/frontend/card/card_dev_clear_slot_words.c",
+      "foff": "0x26E900",
+      "vma": "0x80405900",
+      "size": 168,
+      "evidence": "docs/evidence/opus_nobody1.md"
     },
     {
       "row": "main/func_8001E9A8",
@@ -431,6 +512,15 @@
         "0x80047358": "0x80047358"
       },
       "evidence": "r124w_dupes1: current complete objects and dependent placements re-paired by tools/tu/copy_place.py; scoped retail proof required"
+    },
+    {
+      "row": "main/func_80020B14",
+      "home": "main/func_80020B14",
+      "tu": "src/frontend/card/card_dev_init_sme_menu_entries.c",
+      "foff": "0x270B14",
+      "vma": "0x80407B14",
+      "size": 180,
+      "evidence": "docs/evidence/opus_nobody1.md"
     },
     {
       "row": "main/func_80020D38",

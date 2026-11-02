@@ -24,19 +24,6 @@ extern u8 killer_action_resume_address[];
 #include "dungeon/monster/killer.h"
 extern u8 killer_frame_set_2[];
 extern void *spawn_killer(s16, s32, s32, s32);
-extern u8 D_801712B8[];
-extern u8 D_801712E4[];
-extern u8 D_80171264[];
-extern u8 D_801711F4[];
-extern u8 D_801711E4[];
-extern u8 D_801712A8[];
-extern u8 D_80172AC4[];
-extern u8 D_80172ABC[];
-extern u8 D_80172AB4[];
-extern u8 D_80172ACC[];
-extern u8 D_80172A74[];
-extern u8 D_80172A6C[];
-extern u8 D_80172A64[];
 
 void *spawn_killer(s16 flags, s32 kind_id, s32 variant, s32 spawn_value)
 ;

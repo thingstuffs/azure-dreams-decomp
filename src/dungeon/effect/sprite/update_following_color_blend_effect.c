@@ -45,7 +45,7 @@ typedef struct FollowingColorEffect {
 
 typedef struct FollowingColorPrefix { u16 flags; } FollowingColorPrefix;
 
-extern void interpolate_view_parameters(void *, s16, Vec3i *);
+extern void draw_ball_effect_points(void *, s16, Vec3i *);
 extern void spawn_spiraling(s16 from_x, s16 from_y, s16 from_z, s16 to_x, s16 to_y, s16 to_z, s16 *angles);
 extern s32 func_80025344(s16, s16, s16, s16);
 
@@ -180,7 +180,7 @@ void update_following_color_blend_effect(FollowingColorEffect *state, ObjectPosi
                 state->angle_y.u += (color.y - state->angle_y.s) >> 2;
                 state->angle_z.u += (color.z - state->angle_z.s) >> 2;
 
-                interpolate_view_parameters(&state->angle_x, state->speed, &delta);
+                draw_ball_effect_points(&state->angle_x, state->speed, &delta);
                 pos->x.v += delta.x;
                 pos->y.v += delta.y;
                 pos->z.v += delta.z;

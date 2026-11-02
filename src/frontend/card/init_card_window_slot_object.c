@@ -22,7 +22,6 @@ extern void func_8007BEF0(s32 value);
 extern void func_8007BFE0(void *body, s32 size);
 extern void func_8007C040(void *ptr0, void *ptr1, s32 value);
 extern s32 func_8040422C(void *ptr);
-extern void func_80404224(void);
 extern void func_80404254(void *body, s32 value);
 extern void func_80404314(void *body, void *init_value, s32 slot_index);
 extern void func_80404570(void *record);
@@ -70,7 +69,7 @@ u8 *init_card_window_slot_object(u8 *init_value, s32 slot_index)
         Callback callback;
 
         callback_record = record;
-        callback = func_80404224;
+        callback = card_dev_clear_object_state;
         (*(Callback *)(callback_record + 0x10)) = callback;
     }
     return record;

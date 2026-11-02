@@ -34,7 +34,6 @@ extern void func_8017412C(void *, void *, void *, void *);
 extern void func_801756E0(ActorRecord *action_state, ObjectPosition *effect_arg, SpriteFrameState *anim_state, ActorRecord *actor);
 
 extern u8 secondary_sprite[];
-extern void *D_80170808[];
 extern u8 D_80170A0C[];
 
 #include "dungeon/monster/glacier.h"

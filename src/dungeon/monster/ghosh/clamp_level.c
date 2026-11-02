@@ -22,7 +22,6 @@ s32 refresh_actor_facing_and_lifecycle(void *, void *, void *, void *);  /* exte
 void try_move_actor_to_valid_position(void *, void *, void *, void *); /* extern */
 s16 sample_terrain_surface_height(u16, u16, s16);                   /* extern */
 void clear_actor_action_markers(u8 *state);                         /* extern */
-extern u8 D_80013610[0x3612];
 extern u32 level_experience_table[64];
 extern u8 D_800F927E[16];
 extern void ghosh_action_resume_address(void);

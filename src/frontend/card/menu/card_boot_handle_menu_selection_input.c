@@ -15,7 +15,7 @@ extern void func_8003FA78(void *display_object, s32 state_entry);
 extern void func_8003FD58(s32 value0, s32 value1, s32 value2, s32 value3);
 extern void func_80063FF8(s32 sound_code);
 extern void func_804008A0(s32 slot_index);
-extern void func_80400EF8(void);
+extern void card_dev_close_events(void);
 extern void submit_stored_and_queried_boot_values(void);
 extern void assert_slot_store_value_and_process_state(s32 slot_addr, s32 slot_value);
 extern void update_embedded_selected_slot_outputs(s32 slot_addr, CardChooserPresence *display_state, s32 *state_changed);
@@ -44,7 +44,7 @@ void card_boot_handle_menu_selection_input(CardChooserBody *menu)
             func_80063FF8(0x515);
             memory_process_handles_and_mark_object((u8 *)menu - 0x20);
             card_dev_effect_mode = 2;
-            func_80400EF8();
+            card_dev_close_events();
             func_8003FD58(0, 0xF, 0, 0);
             linked_object = menu->request;
             linked_object->flags |= 0x2000;

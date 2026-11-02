@@ -38,7 +38,6 @@ extern const u8 level_not_decreased_suffix[];
 extern s32 D_80025638[4];
 extern u8 D_80025648[48];
 extern u8 D_80025678[44];
-extern void *jtbl_80024088[9];
 extern Packed12 D_80025618;
 extern Packed12 D_80025624;
 extern u8 current_spell_effect_variant[];

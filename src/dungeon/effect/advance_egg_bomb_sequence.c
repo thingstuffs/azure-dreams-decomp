@@ -25,7 +25,7 @@ typedef struct {
 } Coord;
 
 extern s32 entity_level_thresholds[];
-extern void func_80042640(void *obj, s16 monsterId);
+extern void init_monster_from_stats(void *obj, s16 monsterId);
 s32 choose_usable_ability_or_attack(struct Actor *actor, struct Actor *target, u16 *out_angle, s32 prefer_ability);
 s32 choose_best_eligible_entry(); /* Unprototyped: uses the value as a pointer where the definition has an integer (or the reverse) */
 #include "dungeon/actor/effect.h"
@@ -108,9 +108,9 @@ void advance_egg_bomb_sequence(void *egg_bomb, Coord *position, void *effect) {
             find_or_retain_sprite_resource_slot(((S_800B7774_0 *)egg_bomb)->unk_00, 2), 1)(2, held_x, held_y, (s16) (coord_arg->z - 0x20));
         ((S_800B7774_0 *)egg_bomb)->unk_04 = monster;
         if (monster != NULL) {
-            func_8003E188(monster->species, 0);
+            set_packed_2bit_flag(monster->species, 0);
             clear_selected_item_flag_400(egg_bomb);
-            func_80042640(monster, monster->species);
+            init_monster_from_stats(monster, monster->species);
             apply_actor_template_and_class(monster, monster->species, 0);
             monster->unk_43 = 0xFE;
             {

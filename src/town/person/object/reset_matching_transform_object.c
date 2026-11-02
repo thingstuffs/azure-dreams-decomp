@@ -2,7 +2,6 @@
 #include "m2c_compat.h"
 #include "town/person/object.h"
 
-extern void D_800C2864();
 extern void *current_transform_object;
 
 typedef struct S_800C283C_0 {
@@ -17,6 +16,6 @@ void reset_matching_transform_object(s32 object_addr) {
     S_800C283C_0 *current_object = current_transform_object;
     if (current_object == (void *)object_addr) {
         current_object->unk_14 = 0;
-        current_object->unk_50 = &D_800C2864;
+        current_object->unk_50 = &set_transform_object_data;
     }
 }

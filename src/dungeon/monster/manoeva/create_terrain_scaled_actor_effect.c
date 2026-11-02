@@ -23,7 +23,7 @@ typedef struct S_80174B90_7 {
    /* ((S_80174B90_6 *)arg0)->unk_08 in create_terrain_scaled_actor_effect */
 
 s32 register_node(ObjectNodeHeader *entry, void *registration_id);           /* extern */
-void D_8017474C(void *effect, MovingPosition *out_position, void *out_render);
+void update_terrain_scaled_actor_effect(void *effect, MovingPosition *out_position, void *out_render);
 extern M2C_UNK D_80175540;
 
 typedef struct S_80174B90_0 {
@@ -60,7 +60,7 @@ void create_terrain_scaled_actor_effect(ObjectNodeHeader *source, s16 *facing, u
     if (effect != NULL) {
         render_data = effect->sprite;
         effect_state = ((void *)effect) + 0x20;
-        effect->update_callback = &D_8017474C;
+        effect->update_callback = &update_terrain_scaled_actor_effect;
         effect_state->unk_14 = (void *) source->sprite;
         effect_state->unk_18 = (void *) source->position;
         render_data->scale_y = 0x1000;

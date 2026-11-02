@@ -3,7 +3,7 @@
 #include "engine/scene.h"
 
 struct S_8003FE78;    /* extern */
-extern void D_800A24FC();
+extern void update_view_driven_state();
 extern M2C_UNK D_80100BF0;
 
 typedef struct S_800A24C4_0 {
@@ -18,6 +18,6 @@ void create_and_reset_resource_object(void) {
     S_800A24C4_0 *object;
 
     object = initialize_scene_object_in_buffer(0x136, (struct S_8003FE78 *)(&D_80100BF0), 0x49);
-    object->unk_10 = &D_800A24FC;
+    object->unk_10 = &update_view_driven_state;
     object->unk_2C = 0;
 }

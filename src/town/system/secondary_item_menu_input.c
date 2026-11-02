@@ -11,7 +11,6 @@ typedef struct {
     u8 unk1;
 } S_8004AFE8;
 void sort_entries_by_category(S_8004AFE8 **entries);
-void func_8004B08C(S_8004AFE8 **entries);
 #include "shared/game_work.h"
 #include "town/shop.h"
 #include "town/shop/resource_entry_initialization_g01156.h"
@@ -23,7 +22,6 @@ extern void interpolate_paired_object_positions_and_shades(void **pair_state);
 extern void update_active_entry_and_notify_handlers(s8 *state, s32 input);
 extern void decrement_entry_and_notify_handlers(void *);
 extern s32 move_item_to_list(void *);
-extern s32 func_800B2400(void *);
 static void sort_selected_record_entries(void *);
 extern void set_object_data_pointer_if_present(void *);
 

@@ -39,7 +39,7 @@ typedef struct {
 
 extern s32 rcos(s32);
 extern s32 rsin(s32);
-extern void D_8017414C(void);
+extern void fade_effect_and_spawn_textured_objects(void);
 
 /* Creates a 16-segment cylindrical effect at the supplied position. */
 void create_cylindrical_effect(ActorRecord *source, ObjectPosition *origin)
@@ -49,7 +49,7 @@ void create_cylindrical_effect(ActorRecord *source, ObjectPosition *origin)
     s32 base_color;
 
     segment = 0;
-    callback = D_8017414C;
+    callback = fade_effect_and_spawn_textured_objects;
     base_color = 32;
     for (; segment < 16; segment++) {
         Entity *entity;

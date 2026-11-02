@@ -5,7 +5,6 @@
 #include "shared/town_root.h"
 extern u8 D_80020000[];
 
-extern s32 D_8001C370[3];
 
 /* Play the sound id held at +0x18 of the current table entry. */
 void set_current_entry_script_flag(void)

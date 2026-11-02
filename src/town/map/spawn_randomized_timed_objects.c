@@ -17,8 +17,6 @@
 
 struct ObjectNodeHeader; void * allocate_list_node(s32, struct ObjectNodeHeader * *);
 void register_node(void *, void *);
-extern void D_800BFD14();
-extern s32 D_800BFFF4(u8 *node);
 
 /* Spawn objects at randomized coordinates and mark completion when the countdown expires. */
 void spawn_randomized_timed_objects(TownMapSpawnState *source)
@@ -44,12 +42,12 @@ void spawn_randomized_timed_objects(TownMapSpawnState *source)
     spawn_count = count_bits >> 0x11;
     town = &g_game_work;
     if (spawn_count >= 0) {
-        kind = (u8 *)&D_800BFD14;
+        kind = (u8 *)&advance_object_animation_and_effect;
         do {
             new_object = allocate_list_node((s32)((void *)0x202), &scene_object_list_anchor.next);
             if (new_object != NULL) {
                 object = new_object;
-                callback = &D_800BFFF4;
+                callback = &draw_depth_sorted_gradient_lines;
                 coords = ((void *)object) + 0x20;
                 object->update_callback = (s32 *)kind;
                 register_node(object, callback);

@@ -16,7 +16,7 @@ typedef struct S_800CB4C0_6 {
    /* ((S_800CB4C0_6 *)arg0)->unk_08 in create_source_linked_fading_effect */
 
 void select_record_entry_and_value(void *state, void *entries, short index);  /* extern */
-extern void D_800CB374(void *effect, void *unused, SpriteFrameState *primitive);
+extern void fade_effect_primitive(void *effect, void *unused, SpriteFrameState *primitive);
 #include "shared/sprite_source.h"
 #include "dungeon/actor/effect.h"
 #include "dungeon/effect.h"
@@ -34,7 +34,7 @@ void *create_source_linked_fading_effect(ObjectNodeHeader *source, s16 copy_posi
 
     object = allocate_list_node(0x100, &source->next);
     if (object != NULL) {
-        object->update_callback = &D_800CB374;
+        object->update_callback = &fade_effect_primitive;
         register_node(object, project_sprite_chain);
         display = object->sprite;
         select_record_entry_and_value(display, &D_800E02CC, 0);

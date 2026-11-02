@@ -5,7 +5,7 @@
 
 #include "town/person/object/initialize_object_entries_api.h"          /* extern */
 extern s8 mother_event_reset_byte;
-extern void D_800C7EF0(void *object, void *param_1, void *param_2);
+extern void forward_mother_event_update(void *object, void *param_1, void *param_2);
 extern s32 D_800D5FA0[];
 
 
@@ -13,6 +13,6 @@ extern s32 D_800D5FA0[];
 void initialize_mother_event_object(TownObjectRecord *object, s32 unused, void *init_data) {
     initialize_object_entries((object), init_data, D_800D5FA0);
     mother_event_reset_byte = 0;
-    object->handler = &D_800C7EF0;
+    object->handler = &forward_mother_event_update;
     object->heading.as_s16 = 0;
 }

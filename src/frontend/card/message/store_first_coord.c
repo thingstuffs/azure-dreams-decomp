@@ -2,7 +2,7 @@
 #include "common.h"
 #include "frontend/card/message.h"
 
-extern void func_804025B8(void *object, void *position, s32 mode);
+extern void init_menu_row_entry(void *object, void *position, s32 mode);
 extern void func_804025F8(s32 row_value, s32 value, s32 mode);
 
 /* Sets the linked record X halfword to twice column_tripled minus half the object width plus 0xA2. */
@@ -45,7 +45,7 @@ void configure_card_grid_entry(void *object, s32 column, s32 mode, s32 row, s32 
     store_second_coord((s32 *)record, object, row);
     saved_value = (u32)value;
     saved_value = (saved_value + (u32)row) - (u32)row;
-    func_804025B8(object, position, mode);
+    init_menu_row_entry(object, position, mode);
     *(s32 *)record = (s32)(unsigned long)position;
     row_data = *(s32 **)((u8 *)object + row * 4 + 0x68C);
     row_value = *row_data;

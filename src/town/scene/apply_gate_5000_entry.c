@@ -11,7 +11,6 @@ extern u8 D_8001E27C[];
 extern u8 D_8001E2E0[];
 extern void *dispatch_request_by_mode(SquareSceneEntry *, s32, s32);
 extern s32 func_80017410(SquareSceneEntry *, s32);
-extern s32 process_checked_entry(void *, s32);
 
 s32 apply_gate_5000_entry(SquareSceneEntry *entry, s32 entry_index) {
     if (get_script_flag_mask(5000) != 0) {

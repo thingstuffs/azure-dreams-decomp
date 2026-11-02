@@ -49,8 +49,6 @@ extern void spend_actor_mp(Obj3 *, s32);
 extern void play_sound_if_enabled(s32);
 struct SpriteFrameState;
 extern void select_sprite_entry(struct SpriteFrameState *, s16, s16);
-extern void func_80174CB0(s32);
-extern void func_80174D0C(s32);
 extern void create_source_adjusted_motion_object(Obj0 *, void *, Obj2 *);
 extern void format_entity_message(s32, Obj3 *);
 

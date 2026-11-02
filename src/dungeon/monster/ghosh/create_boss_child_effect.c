@@ -38,7 +38,7 @@ typedef struct S_80172B00_7 {
 
 void * create_tracked_effect(); /* extern */
 extern s8 view_direction_depth_biases[];
-void D_80172610(void *actor_data, void *output_data, void *context_data);
+void update_boss_actor_direction_state(void *actor_data, void *output_data, void *context_data);
 extern u8 ghosh_frame_set_10[];
 
 typedef struct {
@@ -68,7 +68,7 @@ void create_boss_child_effect(void *parent_data, MovingPosition *source_pos, voi
     effect_data = ((void *)effect_object) + 0x20;
     if (effect_object != NULL) {
         ((S_80172B00_0 *)effect_data)->unk_96 = 0x78;
-        effect_object->update_callback = &D_80172610;
+        effect_object->update_callback = &update_boss_actor_direction_state;
         ((S_80172B00_0 *)effect_data)->unk_AC = parent_object;
         ((S_80172B00_0 *)effect_data)->unk_94 = (u16) ((S_80172B00_2 *)parent_data)->unk_2A.s;
         copy_src = sprite_template;

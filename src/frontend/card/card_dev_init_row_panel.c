@@ -16,9 +16,7 @@
 
 
 
-void func_80403698(void *object);                      /* extern */
 void initialize_values(void *record_groups, s32 unused_row_y, s32 unused_lower_y, s32 unused_row);       /* extern */
-void func_804037F4(void *);                            /* extern */
 s32 func_80403868(s32, s32, s32);
 
 
@@ -36,9 +34,9 @@ void card_dev_init_row_panel(void *panel_arg) {
 
     panel->unk_80 = 1;
     panel->unk_84 = 1;
-    func_804037F4(panel);
+    card_dev_bind_row_labels(panel);
     func_80403868(panel_arg + 4, 0x36, 0x10);
-    func_80403698(panel);
+    card_dev_init_row_tables(panel);
     row = 0;
     lower_x = 0x8E;
     left_x = 9;

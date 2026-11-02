@@ -5,7 +5,6 @@
 #define NULL 0
 #endif
 
-extern void func_80404DBC(s32 value);
 extern void process_embedded_data_and_propagate_flags(s32 value);
 extern void func_804059A8(s32 value);
 extern void func_80404570(s32 value);
@@ -24,7 +23,7 @@ void release_card_screen_parts(void *object) {
 
     component_cursor = (s32 *)((u8 *)object + 0x20);
     if (object != NULL) {
-        func_80404DBC(*(s32 *)((u8 *)object + 0x20));
+        card_dev_flag_object_dirty(*(s32 *)((u8 *)object + 0x20));
         process_embedded_data_and_propagate_flags(*(s32 *)((u8 *)object + 0x38));
         func_804059A8(*(s32 *)((u8 *)object + 0x3C));
         for (component_count = 0; component_count < 5; component_count++) {

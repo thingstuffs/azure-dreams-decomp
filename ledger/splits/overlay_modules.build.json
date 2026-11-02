@@ -1,6 +1,6 @@
 {
   "schema": "overlay-module-native-v4",
-  "logical_rows": 20862,
+  "logical_rows": 20872,
   "edges": [
     {
       "module": "dungeon_cd_control_d79c4",
@@ -134775,6 +134775,16 @@
       ]
     },
     {
+      "source": "src/frontend/card/card_dev_mark_row_entry_range.c",
+      "recipe": {
+        "cfg": "2.7.2-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "main/func_8001B5F8"
+      ]
+    },
+    {
       "source": "src/frontend/card/message/store_first_coord.c",
       "recipe": {
         "cfg": "2.6.3",
@@ -134902,6 +134912,16 @@
       },
       "rows": [
         "main/func_8001BEA4"
+      ]
+    },
+    {
+      "source": "src/frontend/card/card_dev_initialize_message_dialog_layout.c",
+      "recipe": {
+        "cfg": "2.7.2-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "main/func_8001BEBC"
       ]
     },
     {
@@ -135215,6 +135235,16 @@
       ]
     },
     {
+      "source": "src/frontend/card/card_dev_init_options_menu_entries.c",
+      "recipe": {
+        "cfg": "2.7.2-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "main/func_8001CAC8"
+      ]
+    },
+    {
       "source": "src/frontend/card/card_dev_set_word.c",
       "recipe": {
         "cfg": "2.7.2-G0",
@@ -135225,6 +135255,16 @@
       ]
     },
     {
+      "source": "src/frontend/card/card_dev_initialize_command_panel.c",
+      "recipe": {
+        "cfg": "2.7.2-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "main/func_8001CB84"
+      ]
+    },
+    {
       "source": "src/frontend/card/init_card_options_object.c",
       "recipe": {
         "cfg": "2.7.2-G0",
@@ -135232,6 +135272,16 @@
       },
       "rows": [
         "main/func_8001CBC4"
+      ]
+    },
+    {
+      "source": "src/frontend/card/card_dev_fade_four_values.c",
+      "recipe": {
+        "cfg": "2.7.2-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "main/func_8001CCD4"
       ]
     },
     {
@@ -135335,6 +135385,16 @@
       ]
     },
     {
+      "source": "src/frontend/card/card_dev_init_slot_window_menu_entries.c",
+      "recipe": {
+        "cfg": "2.7.2-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "main/func_8001D254"
+      ]
+    },
+    {
       "source": "src/frontend/libcard/card_boot_set_slot_index_and_owner.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
@@ -135342,6 +135402,16 @@
       },
       "rows": [
         "main/func_8001D308"
+      ]
+    },
+    {
+      "source": "src/frontend/card/card_dev_initialize_slot_window.c",
+      "recipe": {
+        "cfg": "2.7.2-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "main/func_8001D314"
       ]
     },
     {
@@ -135505,6 +135575,16 @@
       ]
     },
     {
+      "source": "src/frontend/card/card_dev_initialize_option_panel.c",
+      "recipe": {
+        "cfg": "2.7.2-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "main/func_8001DC44"
+      ]
+    },
+    {
       "source": "src/frontend/card/init_card_background_object.c",
       "recipe": {
         "cfg": "2.7.2",
@@ -135632,6 +135712,16 @@
       },
       "rows": [
         "main/func_8001E7F0"
+      ]
+    },
+    {
+      "source": "src/frontend/card/card_dev_clear_slot_words.c",
+      "recipe": {
+        "cfg": "2.7.2-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "main/func_8001E900"
       ]
     },
     {
@@ -136282,6 +136372,16 @@
       },
       "rows": [
         "main/func_80020AEC"
+      ]
+    },
+    {
+      "source": "src/frontend/card/card_dev_init_sme_menu_entries.c",
+      "recipe": {
+        "cfg": "2.7.2-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "main/func_80020B14"
       ]
     },
     {

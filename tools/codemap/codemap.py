@@ -505,6 +505,7 @@ class CodeMap:
         parts += ['%s=%s' % r for r in db.execute("SELECT key, sha256 FROM fact_key WHERE kind='obj' ORDER BY key")]
         elf = self.root / 'build_slus/build/slus_006.14.elf'
         parts.append(sha256(elf.read_bytes()) if elf.is_file() else '-')
+        parts.append(repr(bind.load_regions(self.root)))      # placeholder_base binding inputs
         stamp = sha256('\n'.join(parts).encode())
         if not force and self.key('bind', 'all') == stamp:
             self.log('bind: unchanged')
@@ -529,7 +530,8 @@ class CodeMap:
         for rid, symbol in db.execute("SELECT f.recipe, f.symbol FROM retail_fn f JOIN recipe r ON r.id = f.recipe "
                                       "WHERE r.family = 'slus'"):
             slus_symbols.setdefault(symbol, rid)
-        binder = bind.Binder(layouts, bind.slus_functions(self.root, slus_symbols))
+        binder = bind.Binder(layouts, bind.slus_functions(self.root, slus_symbols),
+                             regions=bind.load_regions(self.root), slus_spans=bind.slus_spans(self.root))
         calls = defaultdict(list)
         for rid, caller, offset, callee in db.execute("SELECT recipe, caller, offset, callee FROM retail_call "
                                                       "WHERE kind = 'call' AND callee != '<indirect>'"):
@@ -541,11 +543,22 @@ class CodeMap:
                 for caller, offset, _ in calls.get(rid, ()):
                     for target, image, crid, csym, how in binder.bind(layout, rid, caller, offset):
                         out.append((name, rid, caller, offset, target, image, crid, csym, how))
+        real_images = {n for n, _, _ in rows if not n.split('/')[1].startswith('check')}
+        slus_addresses = bind.slus_symbol_addresses(self.root)
         for rid, family in db.execute("SELECT id, family FROM recipe WHERE family = 'slus'").fetchall():
             for caller, offset, callee in calls.get(rid, ()):
                 crid = slus_symbols.get(callee)
-                out.append(('slus/slus_bin', rid, caller, offset, None, 'slus/slus_bin' if crid else None, crid,
-                            callee if crid else None, 'slus_symbol' if crid else 'unresolved'))
+                if crid:
+                    out.append(('slus/slus_bin', rid, caller, offset, None, 'slus/slus_bin', crid, callee, 'slus_symbol'))
+                    continue
+                # Not a SLUS recipe function: an overlay entry point at a fixed address, or SLUS assembler.
+                m = re.match(r'^(?:func|D)_([0-9A-Fa-f]{8})$', callee)
+                target = int(m[1], 16) if m else slus_addresses.get(callee)
+                if target is None:
+                    out.append(('slus/slus_bin', rid, caller, offset, None, None, None, None, 'unresolved'))
+                    continue
+                for bound, image, crid2, csym, how in binder.bind_resident_caller(target, real_images):
+                    out.append(('slus/slus_bin', rid, caller, offset, bound, image, crid2, csym, how))
         db.executemany('INSERT INTO call_bind VALUES (?,?,?,?,?,?,?,?,?)', out)
         self.set_key('bind', 'all', stamp)
         db.commit()

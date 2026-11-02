@@ -2,7 +2,7 @@
 
 extern void func_8007BEF0(s32 value);
 extern void func_8007C040(void *ptr0, void *ptr1, s32 value);
-extern void func_80404DBC(s32 value);
+extern void card_dev_flag_object_dirty(s32 value);
 extern void assert_card_slot_and_set_high_bit(s32 value);
 
 extern u8 D_8040086C[];
@@ -20,7 +20,7 @@ void register_object_handles_and_flag(void *object) {
         func_8007BEF0(1);
     }
 
-    func_80404DBC(*(s32 *)((u8 *)object + 0x40));
+    card_dev_flag_object_dirty(*(s32 *)((u8 *)object + 0x40));
     assert_card_slot_and_set_high_bit(*(s32 *)((u8 *)object + 0x44));
 
     object_flags = *(u16 *)((u8 *)object + 0x1E);

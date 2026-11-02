@@ -83,6 +83,26 @@ _sig('printf', 's32', 'const char *, ...')
 _sig('puts', 's32', 'const char *')
 _sig('FlushCache', 'void', 'void')
 _sig('InitHeap', 'void', 'void *, u32')
+# opus_libnames1: kernel/BIOS entry points and the remaining library calls the game makes (documented Psy-Q
+# ABI in the game's scalar aliases; `long` -> s32, record pointers opaque).  B0/A0 table stubs and syscalls
+# are listed in docs/SIGNATURE_SOLVER.md (library prototypes).
+_sig('OpenEvent', 's32', 'u32, s32, s32, s32 (*)()')
+_sig('CloseEvent TestEvent DisableEvent', 's32', 's32')
+_sig('EnableEvent', 's32', 'u32')
+_sig('EnterCriticalSection ExitCriticalSection', 'void', 'void')
+_sig('SetRCnt', 's32', 'u32, u16, s32')
+_sig('GetRCnt ResetRCnt StartRCnt StopRCnt', 's32', 'u32')
+_sig('InitPAD', 's32', 'u8 *, s32, u8 *, s32')
+_sig('StartPAD', 's32', 'void')
+_sig('Krom2RawAdd', 's32', 'u32')
+_sig('erase', 's32', 'char *')
+_sig('DMACallback', 'void *', 's32, void (*)(void)')
+_sig('CdMix', 's32', 'void *')
+_sig('NormalColorCol', 'void', 'void *, void *, void *')
+_sig('ReadGeomScreen', 's32', 'void')
+_sig('RotTransSV', 'void', 'void *, void *, s32 *')
+_sig('SetTexWindow', 'void', 'void *, void *')
+_sig('rindex', 'char *', 'char *, s32')
 
 
 def library_symbols(root):

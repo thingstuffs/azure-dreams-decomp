@@ -21,9 +21,7 @@ extern void register_node(void *a0, void *a1);
 extern void func_8004491C(void *a0, void *a1);
 /* Same callback registered by func_80050EF8 via func_8004491C in this
  * overlay -- a real code symbol, not the data global m2c guessed. */
-extern int func_8004CAA0(void *a0, int a1, void *a2);
 extern void release_null_terminated_entries(u16 **a0);
-extern void func_8004B248(u16 **a0);
 
 /* Allocates actor display entries, shares a default vector across 40 entries, and reports success. */
 static s32 load_actor_display_resource(ItemMenuObject *object, s32 entry_count) {

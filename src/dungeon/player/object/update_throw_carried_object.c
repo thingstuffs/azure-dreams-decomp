@@ -18,7 +18,6 @@ typedef struct {
 
 extern s16 measure_directional_stopping_distance(s16, void *, void *, s32);
 
-extern s32 held_item_record[3];
 
 extern u8 player_wait_frames[8];
 extern u8 player_jump_frame_set[8];

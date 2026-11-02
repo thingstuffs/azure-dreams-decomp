@@ -1715,7 +1715,7 @@ void create_gray_fading_sprite_slot_a(void *unused_context, Rec_func_80173CFC_ar
         effect_part = NODE_BODY(effect);
         effect_part->unk_24 = 5;
         (effect->update_callback) = spin_and_fade_gray_sprite_slot_a;
-        func_8004491C(effect, func_80045340);
+        register_node(effect, func_80045340);
         effect_data = effect->sprite;
         effect_data->tpage_abr = 0x60;
         effect_data->flags |= 0xC;
@@ -2060,7 +2060,7 @@ void create_segmented_effect_rings_slot_a(CL_CD7000_80174724_S_80C96F24_0 *owner
                 ((CL_CD7000_80174724_S_80C96F24_1 *)effect_data)->unk_2C =
                     init_value - owner->unk_A4;
                 effect->update_callback = update_flashing_effect_segment_slot_a;
-                func_8004491C(effect, draw_linked_effect_quads_slot_a);
+                register_node(effect, draw_linked_effect_quads_slot_a);
 
                 render_state = effect->sprite;
                 render_state->tpage_abr = 0x20;

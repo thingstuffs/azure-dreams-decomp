@@ -408,10 +408,8 @@ void grow_timed_sprite_effect(TimedSpriteImpactBody *state, s32 unused, void *ta
 }
 
 extern s32 get_sprite_attachment_vector(s32, void *, s16 *, s32);
-extern s32 func_8003DF74(s32, void *, s16 *, s32);
 extern void initialize_timed_motion_step(s32, s32, void *);
 extern void unlink_node(void *);
-extern void func_80044A50(void *);
 extern void apply_attack_power_and_element_effects(void *, s32, u8, s32, s32, void *, s32);
 
 extern u8 D_800258FC[];

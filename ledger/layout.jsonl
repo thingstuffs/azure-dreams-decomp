@@ -7984,3 +7984,13 @@
 {"id":"town/func_8081DA98","path":"src/town/minigame/initialize_casino_minigame.c"}
 {"id":"dungeon/func_81324F20","path":"src/dungeon/monster/ghosh/begin_ghosh_front_attack.c"}
 {"id":"dungeon/func_80CE706C","path":"src/dungeon/monster/troll/draw_segmented_motion_lines.c"}
+{"id":"main/func_8001B5F8","path":"src/frontend/card/card_dev_mark_row_entry_range.c"}
+{"id":"main/func_8001BEBC","path":"src/frontend/card/card_dev_initialize_message_dialog_layout.c"}
+{"id":"main/func_8001CB84","path":"src/frontend/card/card_dev_initialize_command_panel.c"}
+{"id":"main/func_8001CCD4","path":"src/frontend/card/card_dev_fade_four_values.c"}
+{"id":"main/func_8001D314","path":"src/frontend/card/card_dev_initialize_slot_window.c"}
+{"id":"main/func_8001DC44","path":"src/frontend/card/card_dev_initialize_option_panel.c"}
+{"id":"main/func_8001E900","path":"src/frontend/card/card_dev_clear_slot_words.c"}
+{"id":"main/func_8001CAC8","path":"src/frontend/card/card_dev_init_options_menu_entries.c"}
+{"id":"main/func_8001D254","path":"src/frontend/card/card_dev_init_slot_window_menu_entries.c"}
+{"id":"main/func_80020B14","path":"src/frontend/card/card_dev_init_sme_menu_entries.c"}

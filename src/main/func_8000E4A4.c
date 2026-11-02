@@ -1,11 +1,7 @@
 #include "modules/main_server_ship.h"
 #include "common.h"
 #include "main.h"
-s32 TestEvent(s32 event);                         /* extern */
-
-
-
-
+#include "sdk/libapi.h"
 
 /* Tests the four card event handles. */
 void card_boot_drain_software_events(void) {

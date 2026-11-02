@@ -34,8 +34,8 @@ extern u8 viper_frame_set_3[];
 extern u8 viper_action_continuation_address[];
 extern void *actor_update_node_cursor[];
 s32 register_node(ObjectNodeHeader *entry, void *registration_id);
-extern void D_800DB618();
-extern s32 D_800DB660();
+extern void subtract_limit_or_flag_record();
+extern s32 draw_fading_linked_quads();
 extern u8 D_80174A8C;
 extern u8 D_80174A94;
 
@@ -152,8 +152,8 @@ void update_staged_movement_and_restore_actor(ActorRecord *body, ObjectPosition 
         } else {
             effect = allocate_list_node(1, &scene_object_list_anchor.next);
             if (effect != NULL) {
-                (((ObjectNodeHeader *)effect)->update_callback) = &D_800DB618;
-                register_node(effect, &D_800DB660);
+                (((ObjectNodeHeader *)effect)->update_callback) = &subtract_limit_or_flag_record;
+                register_node(effect, &draw_fading_linked_quads);
                 effect_data = effect + 0x20;
                 effect_data->unk_10 = (u16) body->unk_AC.halves.low.u;
                 effect_data->unk_12 = (u16) body->unk_AC.halves.high.u;

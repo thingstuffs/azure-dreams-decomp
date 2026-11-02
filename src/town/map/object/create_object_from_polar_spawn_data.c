@@ -7,7 +7,7 @@
 #include "town/map/object.h"
 #include "town/map/animation.h"
 
-extern void D_800BB894();
+extern void spawn_short_lived_objects_around_origin();
 
 typedef struct Copy24 {
     s32 words[6];
@@ -45,7 +45,7 @@ s32 create_object_from_polar_spawn_data(S_800BB798_0 *spawn_data, s16 state_48, 
     object = allocate_list_node(0x312, &scene_object_list_anchor.next);
     if (object != NULL) {
         object_data = object->position;
-        object->update_callback = &D_800BB894;
+        object->update_callback = &spawn_short_lived_objects_around_origin;
         *(Copy24 *)object_data = *(Copy24 *)spawn_data;
         object_state = ((void *)object) + 0x20;
         object_state->timer = state_48;

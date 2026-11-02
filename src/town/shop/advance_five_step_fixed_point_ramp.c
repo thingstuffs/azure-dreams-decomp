@@ -3,7 +3,7 @@
 #include "town/shop.h"
 #include "shared/object_node.h"
 
-extern void D_800B34A8(void *object);
+extern void reset_record_resources(void *object);
 
 /* Advance the five-step fixed-point ramp and switch callbacks after the final step. */
 void advance_five_step_fixed_point_ramp(void *sub_object) {
@@ -14,6 +14,6 @@ void advance_five_step_fixed_point_ramp(void *sub_object) {
     next_step = object->ramp_step + 1;
     object->ramp_step = next_step;
     if (next_step >= 6) {
-        ((ObjectNodeHeader *)sub_object - 1)->update_callback = &D_800B34A8;
+        ((ObjectNodeHeader *)sub_object - 1)->update_callback = &reset_record_resources;
     }
 }

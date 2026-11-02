@@ -61,20 +61,16 @@ s32 get_entity_class();
 void snapshot_inventory_and_familiars(void *input_state); /* extern */
 s32 play_sound_if_enabled(s32 query_value); /* extern */
 s32 create_map_position_object(s32 world_x, s32 world_z);
-extern s32 D_80010234;
 typedef struct {
     s32 unk0;
     s32 unk4;
     s32 unk8;
 } __attribute__((packed)) UnalignedCopy3;
-extern UnalignedCopy3 D_80012080;
-extern UnalignedCopy3 D_80013710;
 extern M2C_UNK D_80021268;
 extern u16 current_dungeon_floor;
 extern u8 scene_mode_code;
 extern s16 actor_event_values[];
 extern s32 D_800DCF64;
-extern u8 dungeon_button_latch;
 extern void *dungeon_menu_action_state[];
 
 /* Advances the dungeon transition through its delay, setup, and completion phases. */

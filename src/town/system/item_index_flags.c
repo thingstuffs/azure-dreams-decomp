@@ -12,7 +12,6 @@
 
 extern void copy_a_pointer_table_initializes_extra_data_tag_hex_13(void *a0, void *a1); /* Unprototyped: uses the value as a pointer where the definition has an integer (or the reverse) */
 extern void unlink_node_if_registered(void *a0);
-extern void func_80033D08(void *a0);
 
 /*
  * Initializes tagged data in the object payload, unlinks the object from both scene lists, and

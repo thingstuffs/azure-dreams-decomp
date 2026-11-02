@@ -13,10 +13,10 @@
 
 extern u8 animation_tick_scale[];
 
-extern short func_80053da8(int flags);
-extern void *func_8003fc64(s32 flags);
-extern void func_8003d468(void);
-extern void func_80040aa0(s16 requested_state);
+extern short SD_Call(int flags);
+extern void *allocate_flagged_object_node(s32 flags);
+extern void reset_game_state_preserving_session_fields(void);
+extern void request_scene_dispatch_state(s16 requested_state);
 extern void func_80089c24();
 
 /* Updates menu animation, selection, and idle demo transitions. */
@@ -95,7 +95,7 @@ void update_settings_menu_animation(SettingsMenuBody *obj, s32 *position) {
             obj->selected_item = (s16) ((obj->selected_item + 1) % 3);
         }
         if ((input->pressed_buttons) & 0x840) {
-            func_80053da8(obj->selected_item == 2 ? 1314 : 1306);
+            SD_Call(obj->selected_item == 2 ? 1314 : 1306);
             obj->counter = 96;
             obj->state = 32;
             return;
@@ -148,7 +148,7 @@ void update_settings_menu_animation(SettingsMenuBody *obj, s32 *position) {
         }
         switch (obj->selected_item) {
         case 0:
-            child = func_8003fc64(256);
+            child = allocate_flagged_object_node(256);
             if (child == NULL) {
                 next_state = 255;
                 obj->state = next_state;
@@ -165,11 +165,11 @@ void update_settings_menu_animation(SettingsMenuBody *obj, s32 *position) {
             globals_base = (u8 *) 0x80010000;
             mode_value = 5;
             phase_value = 2;
-            func_8003d468();
+            reset_game_state_preserving_session_fields();
             *(s16 *) (globals_base + 0x2094) = mode_value;
             *(globals_base + 0x2D6E) = 0;
             *(s16 *) (globals_base + 0x2098) = phase_value;
-            func_80040aa0(6);
+            request_scene_dispatch_state(6);
             next_state = 255;
             obj->state = next_state;
             break;
@@ -199,23 +199,23 @@ void update_settings_menu_animation(SettingsMenuBody *obj, s32 *position) {
         switch (demo_index & 7) {
         case 0:
         case 4:
-            func_80040aa0(30);
+            request_scene_dispatch_state(30);
             break;
         case 2:
         case 6:
-            func_80040aa0(32);
+            request_scene_dispatch_state(32);
             break;
         case 1:
-            func_80040aa0(18);
+            request_scene_dispatch_state(18);
             break;
         case 3:
-            func_80040aa0(19);
+            request_scene_dispatch_state(19);
             break;
         case 5:
-            func_80040aa0(20);
+            request_scene_dispatch_state(20);
             break;
         case 7:
-            func_80040aa0(21);
+            request_scene_dispatch_state(21);
             break;
         }
         {

@@ -5,12 +5,12 @@
 #include "town/person.h"
 
 /* cfail-repair: tf7-phase1-cache-v3 */
-extern void D_800C8BB4();
+extern void move_object_velocity();
 extern M2C_UNK D_800D6374;
 
 
 /* Load the indexed state value and install the object callback. */
 void load_indexed_state_value(Rec_D_80082D58 *object, EntityRec *state) {
     state->flags14 = (s32) *(s32 *)((u8 *)&D_800D6374 + ((object->unk_90.as_s16) * 4));
-    object->unk_50.as_pm = &D_800C8BB4;
+    object->unk_50.as_pm = &move_object_velocity;
 }

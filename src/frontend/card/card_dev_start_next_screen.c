@@ -2,7 +2,6 @@
 #include "frontend/card.h"
 #include "main/data.h"
 void func_8003D548(s32);                     /* extern */
-void func_80400EF8(void);                            /* extern */
 extern s32 D_80010208;
 extern s8 card_dev_effect_mode;
 
@@ -17,7 +16,7 @@ void card_dev_start_next_screen(S_8001EC4C_0 *object) {
     s16 state;
 
     card_dev_effect_mode = 2;
-    func_80400EF8();
+    card_dev_close_events();
     state = 1;
     if (object->unk_44 == 0) {
         state = 3;

@@ -60,7 +60,7 @@ typedef struct MotionDelta {
 extern void call_the_same_context_both_processing_routines(Subject *, Motion *);
 extern void set_actor_drop_state(Actor *, Subject *, Motion *, TownMovementOutput *); /* Unprototyped: retail call passes more arguments than the callee reads */
 
-extern void D_800924EC(void *context, EntityRec *entity, s32 update_arg);
+extern void update_actor_input_actions(void *context, EntityRec *entity, s32 update_arg);
 extern void actor_surface_callback_address(void *actor, void *subject, void *motion, void *context);
 extern void actor_output_update_address(void *state_owner, void *update_target, void *update_context, void *output);
 extern void update_actor_with_controlled_motion(Actor *, Subject *, Motion *, TownMovementOutput *);
@@ -85,7 +85,7 @@ void update_actor_with_controlled_motion(Actor *actor, Subject *subject, Motion 
     s32 *actor_value;
 
     if ((control->subject != subject) || ((control_index = control->index), ((u8 *)control)[control_index + 0x3A] != 1)
-        || ((town_callback = &scene_object_list_anchor.current), (*town_callback != D_800924EC))) {
+        || ((town_callback = &scene_object_list_anchor.current), (*town_callback != update_actor_input_actions))) {
         select_object_value_by_height_band(actor, subject, motion, context);
     } else {
         town_state = &scene_object_list_anchor;

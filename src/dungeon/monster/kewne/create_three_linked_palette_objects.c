@@ -22,7 +22,7 @@ typedef struct S_80174910_9 {
     u8 * unk_08;
 } S_80174910_9;   /* ((S_80174910_6 *)arg0)->unk_0C in create_three_linked_palette_objects */
 
-extern void D_801747B8();
+extern void update_effect_fade_and_history();
 extern u32 kewne_palette_colors[];
 
 typedef struct S_80174910_1 {
@@ -75,7 +75,7 @@ void create_three_linked_palette_objects(S_80174910_2 *source, s32 effect_param)
     void *object_callback;
 
     object_index = 0;
-    object_callback = &D_801747B8;
+    object_callback = &update_effect_fade_and_history;
     do {
         allocation_head_address = source;
         allocation_head = allocation_head_address;

@@ -2,7 +2,7 @@
 #include "m2c_compat.h"
 #include "town/shop.h"
 
-extern void D_800AE2A4();
+extern void process_record_and_apply_flags();
 
 typedef struct S_800AE30C_0 {
     u8 pad_00[0x10];
@@ -12,6 +12,6 @@ typedef struct S_800AE30C_0 {
 /* close_twin_shop: Schedule the shop cleanup callback if the shop exists. */
 void close_twin_shop(S_800AE30C_0 *shop) {
     if (shop != NULL) {
-        shop->unk_10 = &D_800AE2A4;
+        shop->unk_10 = &process_record_and_apply_flags;
     }
 }

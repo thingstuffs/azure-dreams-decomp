@@ -17,6 +17,7 @@
 #include "dungeon/actor.h"
 #include "dungeon/system.h"
 #include "sdk/libgpu.h"
+#include "sdk/libc.h"
 /* cfail-repair: tf7-phase1-cache-v3 */
 void apply_attack_power_and_element_effects(); /* extern */
 
@@ -463,8 +464,6 @@ typedef struct S_8002466C_9 {
     u8 pad_00[0x4C];
     s16 unk_4C;
 } S_8002466C_9;   /* ent in update_animated_target_effect */
-
-extern s32 rand(void);
 
 extern u8 secondary_sprite[];
 

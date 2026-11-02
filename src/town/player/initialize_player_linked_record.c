@@ -12,11 +12,11 @@ typedef struct S_8009A1A4_2 {
 } S_8009A1A4_2;   /* ((TownObjectRecord *)arg0)->unk_44 in initialize_player_linked_record */
 
 
-extern void D_80099B70();
+extern void advance_player_position();
 
 
 /* Set up the object using its linked record and assign its next handler. */
 void initialize_player_linked_record(TownObjectRecord *object, void *ptr, void *ptr2) {
     call_the_handler_selects_nonzero_entry((s32 *) ((S_8009A1A4_2 *)object->unk_44)->unk_20, object, ptr2);
-    object->unk_04.as_pm = &D_80099B70;
+    object->unk_04.as_pm = &advance_player_position;
 }

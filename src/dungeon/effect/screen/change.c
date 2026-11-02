@@ -763,7 +763,7 @@ Ent *prepare_directional_attack(Ent *a, Pos *b, u32 coordArg, s32 mult, Ent *ent
     a->flags14 &= ~0x4000000;
     ent2->flags14 &= ~0x20000;
     if ((u8 *)a == ((u8 *)dungeon_actor_ring_anchor)) {
-        func_8003E188(ent2->unk13, 0);
+        set_packed_2bit_flag(ent2->unk13, 0);
     }
     return ent2;
 }

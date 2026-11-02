@@ -53,7 +53,6 @@ struct IntVector3;                       /* extern */
 #include "town/player/clear_global_slot_n_5_copy_source_slot_n_2_global_slot_n_2_api.h"                      /* extern */
 struct Rec_D_800FE490; void update_the_s_field_10_using_callee_8008_fe_90(struct Rec_D_800FE490 *);                   /* extern */
 struct ObjectPosition; struct ObjectPosition;            /* extern */
-extern s32 D_800135B4;
 extern u8 D_8006CCF8[];
 extern M2C_UNK D_80089960;
 extern u8 town_blocked_directions;

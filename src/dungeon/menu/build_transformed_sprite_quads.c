@@ -135,7 +135,7 @@ typedef struct S_8009E798_6 {
 
    /* ret_state in build_transformed_sprite_quads */
 
-extern void func_80065320(void *, void *, void *);
+extern void RotTransSV(void *, void *, void *);
 
 extern u8 upper_draw_context[16];
 
@@ -187,7 +187,7 @@ s32 build_transformed_sprite_quads(InactiveTypeTwelveObjectBody *draw_area, void
     ((S_8009E798_1 *)scratch)->unk_28 = 0x20 - sprite->unk_20;
     ((S_8009E798_1 *)scratch)->unk_2A = 0x20 - sprite->unk_22;
     ((S_8009E798_1 *)scratch)->unk_2C = 0;
-    func_80065320(scratch + 0x28, scratch + 0x100, scratch + 0x94);
+    RotTransSV(scratch + 0x28, scratch + 0x100, scratch + 0x94);
 
     packet += 0xC;
     ((S_8009E798_1 *)scratch)->unk_100 -= ((S_8009E798_1 *)scratch)->unk_00.u;
@@ -216,10 +216,10 @@ s32 build_transformed_sprite_quads(InactiveTypeTwelveObjectBody *draw_area, void
     ((S_8009E798_1 *)scratch)->unk_8A = vertex_y;
     ((S_8009E798_1 *)scratch)->unk_82 = vertex_y;
 
-    func_80065320(scratch + 0x70, packet + 8, scratch + 0x94);
-    func_80065320(scratch + 0x78, packet + 0x10, scratch + 0x94);
-    func_80065320(scratch + 0x80, packet + 0x18, scratch + 0x94);
-    func_80065320(scratch + 0x88, packet + 0x20, scratch + 0x94);
+    RotTransSV(scratch + 0x70, packet + 8, scratch + 0x94);
+    RotTransSV(scratch + 0x78, packet + 0x10, scratch + 0x94);
+    RotTransSV(scratch + 0x80, packet + 0x18, scratch + 0x94);
+    RotTransSV(scratch + 0x88, packet + 0x20, scratch + 0x94);
 
     (*(u16 *)(packet + 8)) += ((S_8009E798_1 *)scratch)->unk_100;
     (*(u16 *)(packet + 0x10)) += ((S_8009E798_1 *)scratch)->unk_100;

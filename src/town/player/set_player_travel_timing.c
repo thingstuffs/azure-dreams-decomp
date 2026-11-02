@@ -6,13 +6,6 @@
 #include "town/player/position.h"
 #include "shared/object_index_slots.h"
 
-extern int sound_payload_buffer;
-extern int message_handler_mode;
-extern int message_command_start_index;
-extern int message_command_write_index;
-extern unsigned char D_80071298[];
-extern int D_800712B4[];
-extern int card_server_initialized[3];
 #include "town/player/initialize_record_with_handler_table_api.h"
 /* Set travel timing from distance and speed, or snap motion to the destination. */
 void set_player_travel_timing(void *actor, void *motion, s32 context)

@@ -5381,14 +5381,8 @@
 0x80027D08	func_80027D08	update_menu_progress_bar	(medium) src/dungeon/func_81812D08.c:3-9: Updates the ratio, draws the progress bar and refreshes its entries.
 0x80027D7C	func_80027D7C	dispatch_menu_update_callback	(medium) src/dungeon/func_81812D7C.c:3-12: Calls the indexed handler, advances state and installs the next callback.
 0x80027FCC	func_80027FCC	build_menu_entry_chain	(medium) src/dungeon/func_81812FCC.c:3-3: Builds the reverse-indexed chain using the 15-entry menu table.
-0x8002C908	func_8002C908	run_setup_indices	(medium) src/main/func_80019908.c:8: Run setup for both indices and apply the stored value
-0x8002C948	func_8002C948	initialize_complementary_indexed_values	(medium) src/main/func_80019948.c:18: Run setup for both indices and replace the stored value with 16 minus itself
 0x8002C9E8	func_8002C9E8	set_global_value_to_three	(medium) src/main/func_800199E8.c:3-5: Sets the shared word at 0x80409504 to 3 and returns zero.
 0x8002C9FC	func_8002C9FC	set_return	(medium) src/main/func_800199FC.c:3: Set the word at 0x80409504 to 4 and return zero
-0x8002CA10	func_8002CA10	open_memory_card_events	(medium) src/main/func_80019A10.c:25: Opens and enables memory card events, asserting that each operation succeeds
-0x8002CE34	func_8002CE34	initialize_memory	(medium) src/main/func_80019E34.c:18: Initializes memory card support when card_first_flg is clear and resets card server state
-0x8002CEF8	func_8002CEF8	validate_card_server_entries	(medium) src/main/func_80019EF8.c:12: Checks eight c_server entries and asserts on failed checks
-0x8002D0E0	func_8002D0E0	read_signed_boot_value	(medium) src/main/func_8001A0E0.c:3: Returns the signed 32-bit value stored at 0x804094E8
 0x800894A0	func_800894A0	update_active_nodes_and_render_frame	(medium) src/dungeon/func_80083D40.c:22-45: runs active callbacks, removes marked nodes, integrates vectors, updates map state and queues rendering work.
 0x8008A98C	func_8008A98C	create_type	(medium) src/main/func_7FDD3A2C.c:41: Creates a type 0x136 object and initializes its position and rendering state
 0x8008AA40	func_8008AA40	propagate_record_high_bit	(medium) src/main/func_7FDD3AE0.c:21: Propagates the linked record high flag to the record and global flags.
@@ -6390,43 +6384,43 @@
 0x80021904	func_80021904	no_op_card_stub	owner decisions 65+68; shard:slus_main; src/main/func_8000E904.c
 0x8002388C	func_8002388C	card_dev_store_word	owner decisions 65+68; shard:slus_main; src/main/func_8001088C.c
 0x8002519C	func_8002519C	no_op_card_hook	owner decisions 65+68; shard:slus_main; src/main/func_8001219C.c
-0x80019908	func_80019908	reset_card_selection_state	owner decisions 65+68; shard:slus_main; src/main/func_80019908.c
-0x80019948	func_80019948	toggle_card_selection_state	owner decisions 65+68; shard:slus_main; src/main/func_80019948.c
+0x80400908	func_80400908	reset_card_selection_state	owner decisions 65+68; devkit card server at its true base 0x80400908 (MAIN +0x269908; six callers jal 0x80400908), docs/evidence/opus_nobody1.md; src/frontend/card/reset_card_selection_state.c
+0x80400948	func_80400948	toggle_card_selection_state	owner decisions 65+68; shard:slus_main; src/main/func_80019948.c
 0x80019998	func_80019998	clear_card_selection_flag	owner decisions 65+68; shard:slus_main; src/main/func_80019998.c
 0x800199C0	func_800199C0	card_dev_event_ioe_handler	owner decisions 65+68; shard:slus_main; src/main/func_800199C0.c
 0x800199D4	func_800199D4	card_dev_event_error_handler	owner decisions 65+68; shard:slus_main; src/main/func_800199D4.c
 0x800199E8	func_800199E8	card_dev_event_timeout_handler	owner decisions 65+68; shard:slus_main; src/main/func_800199E8.c
 0x800199FC	func_800199FC	card_dev_event_new_handler	owner decisions 65+68; shard:slus_main; src/main/func_800199FC.c
-0x80019A10	func_80019A10	card_dev_open_events	owner decisions 65+68; shard:slus_main; src/main/func_80019A10.c
-0x80019E34	func_80019E34	card_dev_init	owner decisions 65+68; shard:slus_main; src/main/func_80019E34.c
-0x80019EF8	func_80019EF8	card_dev_close_events	owner decisions 65+68; shard:slus_main; src/main/func_80019EF8.c
-0x8001A0E0	func_8001A0E0	card_dev_get_op_state	owner decisions 65+68; shard:slus_main; src/main/func_8001A0E0.c
+0x80400A10	func_80400A10	card_dev_open_events	owner decisions 65+68; shard:slus_main; src/main/func_80019A10.c
+0x80400E34	func_80400E34	card_dev_init	owner decisions 65+68; shard:slus_main; src/main/func_80019E34.c
+0x80400EF8	func_80400EF8	card_dev_close_events	owner decisions 65+68; shard:slus_main; src/main/func_80019EF8.c
+0x804010E0	func_804010E0	card_dev_get_op_state	owner decisions 65+68; shard:slus_main; src/main/func_8001A0E0.c
 0x8001A22C	func_8001A22C	card_dev_advance_boot_step	owner decisions 65+68; shard:slus_main; src/main/func_8001A22C.c
 0x8001A3A8	func_8001A3A8	card_dev_clear_op_busy	owner decisions 65+68; shard:slus_main; src/main/func_8001A3A8.c
 0x8001A3D0	func_8001A3D0	card_dev_clear_op_failed	owner decisions 65+68; shard:slus_main; src/main/func_8001A3D0.c
 0x8001A3F8	func_8001A3F8	card_dev_wait_poll_ready	owner decisions 65+68; shard:slus_main; src/main/func_8001A3F8.c
 0x8001A4E4	func_8001A4E4	card_dev_drain_hw_events	owner decisions 65+68; shard:slus_main; src/main/func_8001A4E4.c
-0x8001A578	func_8001A578	card_dev_drain_sw_events	owner decisions 65+68; shard:slus_main; src/main/func_8001A578.c
+0x80401578	func_80401578	card_dev_drain_sw_events	owner decisions 65+68; shard:slus_main; src/main/func_8001A578.c
 0x8001A8FC	func_8001A8FC	card_dev_print_status	owner decisions 65+68; shard:slus_main; src/main/func_8001A8FC.c
-0x8001A9A4	func_8001A9A4	card_dev_has_selected_channel	owner decisions 65+68; shard:slus_main; src/main/func_8001A9A4.c
-0x8001AA50	func_8001AA50	card_dev_calc_remaining_8k_blocks	owner decisions 65+68; shard:slus_main; src/main/func_8001AA50.c
+0x804019A4	func_804019A4	card_dev_has_selected_channel	owner decisions 65+68; shard:slus_main; src/main/func_8001A9A4.c
+0x80401A50	func_80401A50	card_dev_calc_remaining_8k_blocks	owner decisions 65+68; shard:slus_main; src/main/func_8001AA50.c
 0x8001ABF4	func_8001ABF4	card_dev_build_slot_path	owner decisions 65+68; shard:slus_main; src/main/func_8001ABF4.c
 0x8001AC70	func_8001AC70	card_dev_read_file_units_128	owner decisions 65+68; shard:slus_main; src/main/func_8001AC70.c
 0x8001AD28	func_8001AD28	card_dev_write_file_units_128	owner decisions 65+68; shard:slus_main; src/main/func_8001AD28.c
 0x8001AE14	func_8001AE14	card_dev_get_slot_marker	owner decisions 65+68; shard:slus_main; src/main/func_8001AE14.c
 0x8001AE2C	func_8001AE2C	card_dev_load_slot_metadata	owner decisions 65+68; shard:slus_main; src/main/func_8001AE2C.c
 0x8001AF98	func_8001AF98	card_dev_store_save_xor_checksum	owner decisions 65+68; shard:slus_main; src/main/func_8001AF98.c
-0x8001AFEC	func_8001AFEC	card_dev_verify_save_xor_checksum	owner decisions 65+68; shard:slus_main; src/main/func_8001AFEC.c
+0x80401FEC	func_80401FEC	card_dev_verify_save_xor_checksum	owner decisions 65+68; shard:slus_main; src/main/func_8001AFEC.c
 0x8001B084	func_8001B084	card_dev_write_save_via_temporary_path	owner decisions 65+68; shard:slus_main; src/main/func_8001B084.c
-0x8001B214	func_8001B214	card_dev_cache_slot_summary	owner decisions 65+68; shard:slus_main; src/main/func_8001B214.c
+0x80402214	func_80402214	card_dev_cache_slot_summary	owner decisions 65+68; shard:slus_main; src/main/func_8001B214.c
 0x8001B268	func_8001B268	card_dev_get_remaining_block_summary	owner decisions 65+68; shard:slus_main; src/main/func_8001B268.c
 0x8001B290	func_8001B290	card_dev_count_cached_slots	owner decisions 65+68; shard:slus_main; src/main/func_8001B290.c
 0x8001B3C4	func_8001B3C4	card_dev_run_temp_slot_operation	owner decisions 65+68; shard:slus_main; src/main/func_8001B3C4.c
-0x8001B3E4	func_8001B3E4	update_object_and_flag_linked	owner decisions 65+68; shard:slus_main; src/main/func_8001B3E4.c
+0x804023E4	func_804023E4	update_object_and_flag_linked	owner decisions 65+68; shard:slus_main; src/main/func_8001B3E4.c
 0x8001B428	func_8001B428	create_card_object	owner decisions 65+68; shard:slus_main; src/main/func_8001B428.c
 0x8001B4A4	func_8001B4A4	refresh_object_value	owner decisions 65+68; shard:slus_main; src/main/func_8001B4A4.c
 0x8001B508	func_8001B508	find_text_word_bounds	owner decisions 65+68; shard:slus_main; src/main/func_8001B508.c
-0x8001B5B8	func_8001B5B8	init_menu_row_entry	owner decisions 65+68; shard:slus_main; src/main/func_8001B5B8.c
+0x804025B8	func_804025B8	init_menu_row_entry	owner decisions 65+68; shard:slus_main; src/main/func_8001B5B8.c
 0x8001B74C	func_8001B74C	layout_last_row_item	owner decisions 65+68; shard:slus_main; src/main/func_8001B74C.c
 0x8001B93C	func_8001B93C	clear_global_if_value_zero	owner decisions 65+68; shard:slus_main; src/main/func_8001B93C.c
 0x8001B974	func_8001B974	card_dev_init_view_defaults	owner decisions 65+68; shard:slus_main; src/main/func_8001B974.c
@@ -6434,11 +6428,11 @@
 0x8001BCD4	func_8001BCD4	init_frame_primitive_pairs	owner decisions 65+68; shard:slus_main; src/main/func_8001BCD4.c
 0x8001BD90	func_8001BD90	init_dialog_object	owner decisions 65+68; shard:slus_main; src/main/func_8001BD90.c
 0x8001BDC8	func_8001BDC8	bind_dialog_template	owner decisions 65+68; shard:slus_main; src/main/func_8001BDC8.c
-0x8001BDF0	func_8001BDF0	init_menu_entry_pointers	owner decisions 65+68; shard:slus_main; src/main/func_8001BDF0.c
+0x80402DF0	func_80402DF0	init_menu_entry_pointers	owner decisions 65+68; shard:slus_main; src/main/func_8001BDF0.c
 0x8001BEA4	func_8001BEA4	set_layout_params	owner decisions 65+68; shard:slus_main; src/main/func_8001BEA4.c
 0x8001BF04	func_8001BF04	init_menu_object	owner decisions 65+68; shard:slus_main; src/main/func_8001BF04.c
 0x8001C0CC	func_8001C0CC	card_dev_show_format_confirmation	owner decisions 65+68; shard:slus_main; src/main/func_8001C0CC.c
-0x8001C0F4	func_8001C0F4	card_dev_show_no_memory_card_notice	owner decisions 65+68; shard:slus_main; src/main/func_8001C0F4.c
+0x804030F4	func_804030F4	card_dev_show_no_memory_card_notice	owner decisions 65+68; shard:slus_main; src/main/func_8001C0F4.c
 0x8001C11C	func_8001C11C	card_dev_show_please_wait_notice	owner decisions 65+68; shard:slus_main; src/main/func_8001C11C.c
 0x8001C144	func_8001C144	card_dev_show_overwrite_failure_notice	owner decisions 65+68; shard:slus_main; src/main/func_8001C144.c
 0x8001C16C	func_8001C16C	card_dev_show_formatting_progress	owner decisions 65+68; shard:slus_main; src/main/func_8001C16C.c
@@ -6448,64 +6442,64 @@
 0x8001C20C	func_8001C20C	card_dev_show_insufficient_space_overwrite_advice	owner decisions 65+68; shard:slus_main; src/main/func_8001C20C.c
 0x8001C234	func_8001C234	card_dev_show_insufficient_space_card_advice	owner decisions 65+68; shard:slus_main; src/main/func_8001C234.c
 0x8001C25C	func_8001C25C	card_dev_show_load_failure_notice	owner decisions 65+68; shard:slus_main; src/main/func_8001C25C.c
-0x8001C284	func_8001C284	card_dev_show_format_failure_notice	owner decisions 65+68; shard:slus_main; src/main/func_8001C284.c
+0x80403284	func_80403284	card_dev_show_format_failure_notice	owner decisions 65+68; shard:slus_main; src/main/func_8001C284.c
 0x8001C2AC	func_8001C2AC	card_dev_show_format_success_notice	owner decisions 65+68; shard:slus_main; src/main/func_8001C2AC.c
 0x8001C2D4	func_8001C2D4	card_dev_show_damaged_memory_card_notice	owner decisions 65+68; shard:slus_main; src/main/func_8001C2D4.c
 0x8001C324	func_8001C324	card_dev_show_copying_progress	owner decisions 65+68; shard:slus_main; src/main/func_8001C324.c
 0x8001C34C	func_8001C34C	card_dev_show_copy_failure_notice	owner decisions 65+68; shard:slus_main; src/main/func_8001C34C.c
 0x8001C374	func_8001C374	card_dev_show_overwrite_protected_notice	owner decisions 65+68; shard:slus_main; src/main/func_8001C374.c
-0x8001C39C	func_8001C39C	card_dev_show_delete_confirmation	owner decisions 65+68; shard:slus_main; src/main/func_8001C39C.c
+0x8040339C	func_8040339C	card_dev_show_delete_confirmation	owner decisions 65+68; shard:slus_main; src/main/func_8001C39C.c
 0x8001C3C4	func_8001C3C4	card_dev_show_delete_failure_notice	owner decisions 65+68; shard:slus_main; src/main/func_8001C3C4.c
 0x8001C3EC	func_8001C3EC	fade_four_entries	owner decisions 65+68; shard:slus_main; src/main/func_8001C3EC.c
 0x8001C43C	func_8001C43C	update_global_dialog_state	owner decisions 65+68; shard:slus_main; src/main/func_8001C43C.c
-0x8001C698	func_8001C698	card_dev_init_row_tables	owner decisions 65+68; shard:slus_main; src/main/func_8001C698.c
+0x80403698	func_80403698	card_dev_init_row_tables	owner decisions 65+68; shard:slus_main; src/main/func_8001C698.c
 0x8001C738	func_8001C738	card_dev_init_row_layout	owner decisions 65+68; shard:slus_main; src/main/func_8001C738.c
-0x8001C7F4	func_8001C7F4	card_dev_bind_row_labels	owner decisions 65+68; shard:slus_main; src/main/func_8001C7F4.c
+0x804037F4	func_804037F4	card_dev_bind_row_labels	owner decisions 65+68; shard:slus_main; src/main/func_8001C7F4.c
 0x8001C8C8	func_8001C8C8	card_dev_init_row_panel	owner decisions 65+68; shard:slus_main; src/main/func_8001C8C8.c
-0x8001CAA0	func_8001CAA0	card_dev_bind_panel_template	owner decisions 65+68; shard:slus_main; src/main/func_8001CAA0.c
+0x80403AA0	func_80403AA0	card_dev_bind_panel_template	owner decisions 65+68; shard:slus_main; src/main/func_8001CAA0.c
 0x8001CB7C	func_8001CB7C	card_dev_set_word	owner decisions 65+68; shard:slus_main; src/main/func_8001CB7C.c
 0x8001CD24	func_8001CD24	card_dev_refresh_options_object	owner decisions 65+68; shard:slus_main; src/main/func_8001CD24.c
 0x8001CD7C	func_8001CD7C	card_dev_begin_value_transition	owner decisions 65+68; shard:slus_main; src/main/func_8001CD7C.c
 0x8001CDA0	func_8001CDA0	card_dev_init_row_view	owner decisions 65+68; shard:slus_main; src/main/func_8001CDA0.c
-0x8001CE54	func_8001CE54	card_dev_layout_title_entries	owner decisions 65+68; shard:slus_main; src/main/func_8001CE54.c
+0x80403E54	func_80403E54	card_dev_layout_title_entries	owner decisions 65+68; shard:slus_main; src/main/func_8001CE54.c
 0x8001CF7C	func_8001CF7C	card_dev_layout_selected_slot_entries	owner decisions 65+68; shard:slus_main; src/main/func_8001CF7C.c
-0x8001D0C8	func_8001D0C8	card_dev_layout_option_entries	owner decisions 65+68; shard:slus_main; src/main/func_8001D0C8.c
-0x8001D224	func_8001D224	card_dev_clear_object_state	owner decisions 65+68; shard:slus_main; src/main/func_8001D224.c
-0x8001D22C	func_8001D22C	card_background_bind_template	owner decisions 65+68; shard:slus_main; src/main/func_8001D22C.c
+0x804040C8	func_804040C8	card_dev_layout_option_entries	owner decisions 65+68; shard:slus_main; src/main/func_8001D0C8.c
+0x80404224	func_80404224	card_dev_clear_object_state	owner decisions 65+68; shard:slus_main; src/main/func_8001D224.c
+0x8040422C	func_8040422C	card_background_bind_template	owner decisions 65+68; shard:slus_main; src/main/func_8001D22C.c
 0x8001D54C	func_8001D54C	card_dev_clear_ten_values	owner decisions 65+68; shard:slus_main; src/main/func_8001D54C.c
-0x8001D668	func_8001D668	card_dev_reset_object_tint	owner decisions 65+68; shard:slus_main; src/main/func_8001D668.c
+0x80404668	func_80404668	card_dev_reset_object_tint	owner decisions 65+68; shard:slus_main; src/main/func_8001D668.c
 0x8001D6C8	func_8001D6C8	card_dev_select_sub_block	owner decisions 65+68; shard:slus_main; src/main/func_8001D6C8.c
 0x8001D7B0	func_8001D7B0	card_background_init_prims	owner decisions 65+68; shard:slus_main; src/main/func_8001D7B0.c
-0x8001D818	func_8001D818	card_background_init_overlay_prims	owner decisions 65+68; shard:slus_main; src/main/func_8001D818.c
-0x8001D8F8	func_8001D8F8	card_background_layout_entries	owner decisions 65+68; shard:slus_main; src/main/func_8001D8F8.c
+0x80404818	func_80404818	card_background_init_overlay_prims	owner decisions 65+68; shard:slus_main; src/main/func_8001D818.c
+0x804048F8	func_804048F8	card_background_layout_entries	owner decisions 65+68; shard:slus_main; src/main/func_8001D8F8.c
 0x8001DA3C	func_8001DA3C	card_background_build_draw_packets	owner decisions 65+68; shard:slus_main; src/main/func_8001DA3C.c
 0x8001DB10	func_8001DB10	card_background_init_components	owner decisions 65+68; shard:slus_main; src/main/func_8001DB10.c
-0x8001DB5C	func_8001DB5C	card_background_bind_dialog_template	owner decisions 65+68; shard:slus_main; src/main/func_8001DB5C.c
-0x8001DB84	func_8001DB84	card_background_init_entry_tables	owner decisions 65+68; shard:slus_main; src/main/func_8001DB84.c
+0x80404B5C	func_80404B5C	card_background_bind_dialog_template	owner decisions 65+68; shard:slus_main; src/main/func_8001DB5C.c
+0x80404B84	func_80404B84	card_background_init_entry_tables	owner decisions 65+68; shard:slus_main; src/main/func_8001DB84.c
 0x8001DC3C	func_8001DC3C	card_background_set_word	owner decisions 65+68; shard:slus_main; src/main/func_8001DC3C.c
-0x8001DDBC	func_8001DDBC	card_dev_flag_object_dirty	owner decisions 65+68; shard:slus_main; src/main/func_8001DDBC.c
+0x80404DBC	func_80404DBC	card_dev_flag_object_dirty	owner decisions 65+68; shard:slus_main; src/main/func_8001DDBC.c
 0x8001DDEC	func_8001DDEC	card_background_build_border_packets	owner decisions 65+68; shard:slus_main; src/main/func_8001DDEC.c
 0x8001E6CC	func_8001E6CC	card_info_bind_template	owner decisions 65+68; shard:slus_main; src/main/func_8001E6CC.c
 0x8001E7A8	func_8001E7A8	card_info_set_word	owner decisions 65+68; shard:slus_main; src/main/func_8001E7A8.c
-0x8001EA00	func_8001EA00	card_info_set_value_and_refresh	owner decisions 65+68; shard:slus_main; src/main/func_8001EA00.c
-0x8001EA3C	func_8001EA3C	card_dev_commit_pending_value	owner decisions 65+68; shard:slus_main; src/main/func_8001EA3C.c
-0x8001EC44	func_8001EC44	card_dev_no_op_save	owner decisions 65+68; shard:slus_main; src/main/func_8001EC44.c
+0x80405A00	func_80405A00	card_info_set_value_and_refresh	owner decisions 65+68; shard:slus_main; src/main/func_8001EA00.c
+0x80405A3C	func_80405A3C	card_dev_commit_pending_value	owner decisions 65+68; shard:slus_main; src/main/func_8001EA3C.c
+0x80405C44	func_80405C44	card_dev_no_op_save	owner decisions 65+68; shard:slus_main; src/main/func_8001EC44.c
 0x8001EC4C	func_8001EC4C	card_dev_start_next_screen	owner decisions 65+68; shard:slus_main; src/main/func_8001EC4C.c
-0x8001ED2C	func_8001ED2C	card_dev_save_wait_countdown	owner decisions 65+68; shard:slus_main; src/main/func_8001ED2C.c
+0x80405D2C	func_80405D2C	card_dev_save_wait_countdown	owner decisions 65+68; shard:slus_main; src/main/func_8001ED2C.c
 0x8001EEAC	func_8001EEAC	card_dev_menu_wait_countdown	owner decisions 65+68; shard:slus_main; src/main/func_8001EEAC.c
 0x8001EFC4	func_8001EFC4	card_dev_update_menu_input	owner decisions 65+68; shard:slus_main; src/main/func_8001EFC4.c
 0x8001F274	func_8001F274	card_dev_select_slot_callback	owner decisions 65+68; shard:slus_main; src/main/func_8001F274.c
 0x8001F2F4	func_8001F2F4	card_dev_dispatch_callback_by_index	owner decisions 65+68; shard:slus_main; src/main/func_8001F2F4.c
-0x8001F568	func_8001F568	card_dev_set_object_value	owner decisions 65+68; shard:slus_main; src/main/func_8001F568.c
-0x8001F570	func_8001F570	card_dev_run_init_hook	owner decisions 65+68; shard:slus_main; src/main/func_8001F570.c
-0x8001F590	func_8001F590	card_dev_update_save_slot_selection	owner decisions 65+68; shard:slus_main; src/main/func_8001F590.c
-0x8001F678	func_8001F678	card_dev_create_save_screen	owner decisions 65+68; shard:slus_main; src/main/func_8001F678.c
+0x80406568	func_80406568	card_dev_set_object_value	owner decisions 65+68; shard:slus_main; src/main/func_8001F568.c
+0x80406570	func_80406570	card_dev_run_init_hook	owner decisions 65+68; shard:slus_main; src/main/func_8001F570.c
+0x80406590	func_80406590	card_dev_update_save_slot_selection	owner decisions 65+68; shard:slus_main; src/main/func_8001F590.c
+0x80406678	func_80406678	card_dev_create_save_screen	owner decisions 65+68; shard:slus_main; src/main/func_8001F678.c
 0x8001F720	func_8001F720	card_dev_refresh_save_screen	owner decisions 65+68; shard:slus_main; src/main/func_8001F720.c
 0x8001F720	func_8001F720	release_card_screen_parts	Releases the background/info/options and five slot objects, then sets object/global retirement bits. Refresh is the wrong operation.
 0x8001FA74	func_8001FA74	card_dev_start_default_screen	owner decisions 65+68; shard:slus_main; src/main/func_8001FA74.c
 0x8001FB74	func_8001FB74	card_dev_load_wait_countdown	owner decisions 65+68; shard:slus_main; src/main/func_8001FB74.c
-0x8001FF0C	func_8001FF0C	card_dev_load_set_object_value	owner decisions 65+68; shard:slus_main; src/main/func_8001FF0C.c
-0x8001FF14	func_8001FF14	card_dev_load_forward_object_value	owner decisions 65+68; shard:slus_main; src/main/func_8001FF14.c
+0x80406F0C	func_80406F0C	card_dev_load_set_object_value	owner decisions 65+68; shard:slus_main; src/main/func_8001FF0C.c
+0x80406F14	func_80406F14	card_dev_load_forward_object_value	owner decisions 65+68; shard:slus_main; src/main/func_8001FF14.c
 0x8001FF34	func_8001FF34	card_dev_update_load_slot_highlight	owner decisions 65+68; shard:slus_main; src/main/func_8001FF34.c
 0x8002001C	func_8002001C	card_dev_create_load_screen	owner decisions 65+68; shard:slus_main; src/main/func_8002001C.c
 0x80020160	func_80020160	card_dev_update_slot_pair_rows	owner decisions 65+68; shard:slus_main; src/main/func_80020160.c
@@ -6513,7 +6507,7 @@
 0x80020458	func_80020458	card_dev_layout_two_rows_callbacks	owner decisions 65+68; shard:slus_main; src/main/func_80020458.c
 0x800204C4	func_800204C4	card_dev_layout_two_rows	owner decisions 65+68; shard:slus_main; src/main/func_800204C4.c
 0x80020558	func_80020558	card_dev_init_slot_rows	owner decisions 65+68; shard:slus_main; src/main/func_80020558.c
-0x800205A8	func_800205A8	card_dev_bind_slot_rows_template	owner decisions 65+68; shard:slus_main; src/main/func_800205A8.c
+0x804075A8	func_804075A8	card_dev_bind_slot_rows_template	owner decisions 65+68; shard:slus_main; src/main/func_800205A8.c
 0x800207D4	func_800207D4	card_dev_flag_slot_dirty	owner decisions 65+68; shard:slus_main; src/main/func_800207D4.c
 0x80020830	func_80020830	card_dev_set_slot_value_checked	owner decisions 65+68; shard:slus_main; src/main/func_80020830.c
 0x8002087C	func_8002087C	card_dev_refresh_slot_outputs	owner decisions 65+68; shard:slus_main; src/main/func_8002087C.c
@@ -10697,3 +10691,13 @@
 0x80175594	func_80175594	project_depth_sorted_sprite_quads	src/dungeon/monster/manoeva/relocate_entity_after_animation.c: projects sprite quads and queues packets for depth-sorted drawing; the baloon copy keeps relocate_entity_after_animation
 0x80024798	func_80024798	project_linked_vertical_point_quads	src/dungeon/effect/sprite/offset_parent.c: links semi-transparent quads between projected vertical points; the particle spawner keeps handle_spawn_initialize_randomized_offset_parent
 0x80016178	func_80016178	play_town_sound_b1	src/town/scene/initialize_context_entry_tables_variant_2.c: only requests town sound 0xB1; the variant_b copy keeps initialize_context_entry_tables_variant_2
+0x804025F8	func_804025F8	card_dev_mark_row_entry_range	devkit card server (MAIN +0x26B5F8 at 0x80400000); called by configure_card_grid_entry with a row's 12-byte entries; complete reconstruction, docs/evidence/opus_nobody1.md
+0x80402EBC	func_80402EBC	card_dev_initialize_message_dialog_layout	devkit card server (MAIN +0x26BEBC); server build of card_boot_initialize_message_dialog_layout; complete reconstruction, docs/evidence/opus_nobody1.md
+0x80403B84	func_80403B84	card_dev_initialize_command_panel	devkit card server (MAIN +0x26CB84); server build of card_boot_initialize_three_row_command_panel; complete reconstruction, docs/evidence/opus_nobody1.md
+0x80403CD4	func_80403CD4	card_dev_fade_four_values	devkit card server (MAIN +0x26CCD4); server build of fade_four_entries; complete reconstruction, docs/evidence/opus_nobody1.md
+0x80404314	func_80404314	card_dev_initialize_slot_window	devkit card server (MAIN +0x26D314); server build of card_boot_initialize_slot_window; complete reconstruction, docs/evidence/opus_nobody1.md
+0x80404C44	func_80404C44	card_dev_initialize_option_panel	devkit card server (MAIN +0x26DC44); server build of card_boot_initialize_three_row_command_panel; complete reconstruction, docs/evidence/opus_nobody1.md
+0x80405900	func_80405900	card_dev_clear_slot_words	devkit card server (MAIN +0x26E900); server build of draw_cylindrical; complete reconstruction, docs/evidence/opus_nobody1.md
+0x80403AC8	func_80403AC8	card_dev_init_options_menu_entries	devkit card server (MAIN +0x26CAC8); called by init_card_options_object; server build of init_menu_entry_pointers (18 entries, settings at +0x19C); complete reconstruction, docs/evidence/opus_nobody1.md
+0x80404254	func_80404254	card_dev_init_slot_window_menu_entries	devkit card server (MAIN +0x26D254); called by init_card_window_slot_object; server build of init_menu_entry_pointers (10 entries, settings at +0x1BC); complete reconstruction, docs/evidence/opus_nobody1.md
+0x80407B14	func_80407B14	card_dev_init_sme_menu_entries	devkit card server (MAIN +0x270B14); called by init_card_sme_object; server build of init_menu_entry_pointers (4 entries, settings at +0xD4); complete reconstruction, docs/evidence/opus_nobody1.md

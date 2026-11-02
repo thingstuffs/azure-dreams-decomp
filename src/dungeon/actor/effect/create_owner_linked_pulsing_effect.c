@@ -54,7 +54,7 @@ typedef struct S_800CB82C_5 {
 
 /* cfail-repair: tf7-phase1-cache-v3 */
 void clear_entry_flag_and_link_owner(struct ObjectNodeHeader *entry);                      /* extern */
-extern void D_800CB600(void *effect, ObjectPosition *position, SpriteFrameState *appearance);
+extern void update_owner_linked_pulsing_effect(void *effect, ObjectPosition *position, SpriteFrameState *appearance);
 extern M2C_UNK D_800E03BC;
 extern u8 active_spell_parameters;
 
@@ -72,7 +72,7 @@ void *create_owner_linked_pulsing_effect(void *spawn_pos_arg, EntityRec *source_
 
     object = allocate_flagged_object_node(0x102);
     if (object != NULL) {
-        object->update_callback = &D_800CB600;
+        object->update_callback = &update_owner_linked_pulsing_effect;
         register_node(object, project_sprite_chain);
         position = object->position;
         position->x.w.i = (u16) spawn_pos->unk_02;

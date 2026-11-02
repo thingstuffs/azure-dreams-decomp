@@ -26,8 +26,7 @@ void initialize_busy_checked_countdown_action(TownObjectRecord *record,void *unu
 void init_motion_action_callback(s32 record, s32 setup_value, s32 init_value);
 #include "town/player/object/entity_record_fields.h"                      /* extern */
 #include "town/player.h"
-extern void D_80093B00();
-extern void D_8009B828();
+extern void update_motion_toward_shared_target();
 extern void actor_target_motion_address();
 extern void town_owner_dispatch_address();
 struct Rec_D_800CFCB4; extern struct Rec_D_800CFCB4 town_actor_control;
@@ -83,7 +82,7 @@ void update_actor_movement_and_interaction(void *actor, EntityRec *position, s32
         run_the_three_update_routines_context(position);
         if (run_the_action_sequence_context_unless_flag_hex_a_5_set((s32)(actor - 0x20)) != 0) {
             set_default_scene_data_pointer(actor, position, context);
-            town_player_action_callback = &D_80093B00;
+            town_player_action_callback = &dispatch_actor_action;
             return;
         }
     } else {
@@ -96,7 +95,7 @@ void update_actor_movement_and_interaction(void *actor, EntityRec *position, s32
             store_the_valid_shared_angle_in_offset_hex_10(actor);
             init_motion_action_callback(actor, position, context);
             target_handler = ((S_800927EC_5 *)(((TownObjectRecord *)actor)->unk_2C))->unk_50;
-            if ((target_handler != &D_8009B828) && (target_handler != &actor_target_motion_address)) {
+            if ((target_handler != &update_motion_toward_shared_target) && (target_handler != &actor_target_motion_address)) {
                 if (target_handler != &town_owner_dispatch_address) {
                     ((TownObjectRecord *)actor)->unk_2C = NULL;
                 }
@@ -109,7 +108,7 @@ void update_actor_movement_and_interaction(void *actor, EntityRec *position, s32
             } else {
                 submit_object_resource_data(interaction->unk_10);
             }
-            town_player_action_callback = &D_80093B00;
+            town_player_action_callback = &dispatch_actor_action;
             return;
         }
         if (input->buttons & 0xF000) {

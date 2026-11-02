@@ -419,7 +419,7 @@ void advance_item_interaction_and_save_creature(S_func_800B1364_1 *action, Objec
         if (creature == NULL) {
             return;
         }
-        func_8003E188(creature->unk_13, 0);
+        set_packed_2bit_flag(creature->unk_13, 0);
         clear_selected_item_flag_400(action->unk_C0);
         creature_sprite = ((S_func_800B1364_18 *)((u8 *)creature - 0x18))->unk_04;
         update_map_cell_flags_with_item_limit(creature_sprite->tile_x, creature_sprite->tile_y, 0x300);
@@ -435,7 +435,7 @@ void advance_item_interaction_and_save_creature(S_func_800B1364_1 *action, Objec
         creature_pos->unk_0A = spawn_height;
         creature->unk_88 = spawn_height;
         actor->unk_60 = creature;
-        func_80042640(creature, creature->unk_13);
+        init_monster_from_stats(creature, creature->unk_13);
         apply_actor_template_and_class(creature, creature->unk_13, 0);
         creature->unk_43 = 0xFF;
         creature->unk_60 = actor;

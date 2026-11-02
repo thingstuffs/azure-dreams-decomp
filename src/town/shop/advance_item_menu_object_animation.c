@@ -40,7 +40,6 @@ typedef struct S_800AE630_1 {
 } S_800AE630_1;
 
 
-extern void D_800AE600();
 
 /* Advance the object position and transition step, then invoke its callback. */
 void advance_item_menu_object_animation(ItemMenuTransition *object) {
@@ -65,7 +64,7 @@ void advance_item_menu_object_animation(ItemMenuTransition *object) {
     next_step = ((S_800AE630_0 *)((u8 *)object - 0x10))->unk_34 + 1;
     ((S_800AE630_0 *)((u8 *)object - 0x10))->unk_34 = next_step;
     if (next_step >= 5) {
-        ((S_800AE630_0 *)((u8 *)object - 0x10))->unk_00 = &D_800AE600;
+        ((S_800AE630_0 *)((u8 *)object - 0x10))->unk_00 = &invoke_item_menu_node_callback;
     }
     callback = object->callback;
     if (callback != 0) {

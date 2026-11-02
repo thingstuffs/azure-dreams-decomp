@@ -32,7 +32,6 @@ extern M2C_UNK D_80023C58;
 extern M2C_UNK D_80088904;
 extern M2C_UNK D_80088934;
 extern M2C_UNK D_80088970;
-extern M2C_UNK D_800E0040;
 extern u8 D_800E2004[];
 
    /* actor in update_familiar_command_selection */

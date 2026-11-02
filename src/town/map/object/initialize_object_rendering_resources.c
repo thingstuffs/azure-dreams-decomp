@@ -7,12 +7,11 @@
 #include "town/map/object.h"
 
 
-extern void D_800C035C();
 extern M2C_UNK D_800D0C58;
 
 /* Initializes object and rendering data and registers its resources. */
 void initialize_object_rendering_resources(TownCourseActor *object_data, void *unused, SpriteFrameState *render_data) {
-    ((ObjectNodeHeader *)object_data - 1)->update_callback = &D_800C035C;
+    ((ObjectNodeHeader *)object_data - 1)->update_callback = &update_player_minigame_motion;
     object_data->sprite_direction = -1;
     object_data->facing.s = 0xC00;
     object_data->unk_18 = 0xC00;

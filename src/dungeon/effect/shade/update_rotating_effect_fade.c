@@ -23,7 +23,7 @@ extern void PushMatrix(s32);
 extern void PopMatrix(void);
 extern void SetRotMatrix(void *);
 extern void SetTransMatrix(void *);
-extern void func_80065320(void *, void *, void *);
+extern void RotTransSV(void *, void *, void *);
 extern void RotMatrix(void *, void *);
 
 /* Rotate and move four effect vertices, fade their colors, and mark the effect expired when its lifetime ends. */
@@ -85,13 +85,13 @@ void update_rotating_effect_fade(RotatingFadeWork *effect, ObjectPosition *motio
     SetTransMatrix(matrix);
     SetRotMatrix(matrix);
 
-    func_80065320(&scratch->relative[0], &scratch->rotated[0],
+    RotTransSV(&scratch->relative[0], &scratch->rotated[0],
                   &scratch->transform_flags);
-    func_80065320(&scratch->relative[1], &scratch->rotated[1],
+    RotTransSV(&scratch->relative[1], &scratch->rotated[1],
                   &scratch->transform_flags);
-    func_80065320(&scratch->relative[2], &scratch->rotated[2],
+    RotTransSV(&scratch->relative[2], &scratch->rotated[2],
                   &scratch->transform_flags);
-    func_80065320(&scratch->relative[3], &scratch->rotated[3],
+    RotTransSV(&scratch->relative[3], &scratch->rotated[3],
                   &scratch->transform_flags);
     PopMatrix();
 

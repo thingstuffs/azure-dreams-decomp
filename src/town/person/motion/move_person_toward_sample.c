@@ -7,7 +7,7 @@
 #include "town/person.h"
 #include "town/person/motion.h"
 
-extern void D_800AB5C0();
+extern void approach_person_sample();
 
 typedef struct {
     s16 unk0;
@@ -36,7 +36,7 @@ void move_person_toward_sample(Rec_func_800AB014_arg0 *object, Rec_func_800AAE98
     position->unk_0A = (s16) ((s32) (position->unk_0A + (s16) target_entries[2].value) / 2);
     copy_person_table_value(object, 4);
     if (object->unk_90 >= 0x64) {
-        object->unk_50 = &D_800AB5C0;
+        object->unk_50 = &approach_person_sample;
         object->unk_72.as_s16 = 0;
         object->unk_6C = 0xA;
     }

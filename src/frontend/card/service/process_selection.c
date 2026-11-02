@@ -6,9 +6,8 @@ extern u8 D_800A0000[];
 extern s32 card_ui_operation_state;
 extern s32 card_selected_channel;
 extern s32 card_ui_event_mode;
-extern s32 D_8009E390[];
 
-extern void func_80401578(void);
+extern void card_dev_drain_sw_events(void);
 extern s32 func_80408644(s32 slot_selector);
 extern s32 libcard_select_slot(s32 slot_selector);
 
@@ -24,7 +23,7 @@ s32 process_selection(void)
     if (selection_state != 0) {
         switch (selection_state) {
         case 1:
-            func_80401578();
+            card_dev_drain_sw_events();
             if ((libcard_select_slot(card_selected_channel) != 0) &&
                 ((func_80408644(card_selected_channel != 0) & 4) != 0)) {
                 card_ui_event_mode = selection_state;

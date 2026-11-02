@@ -4,7 +4,7 @@
 #include "sdk/libgte.h"
 #include "town/person.h"
 
-extern void D_800AADB0();
+extern void apply_person_global_offsets();
 
    /* arg2 in initialize_person_vector */
 
@@ -20,5 +20,5 @@ void initialize_person_vector(S_800AAE30_1 *object, void *unusedContext, MotionD
     outputVector->velocity_x = (s32) (rcos(object->unk_72) << 8);
     outputVector->velocity_y = (s32) ((0 - rsin(object->unk_72)) << 8);
     outputVector->velocity_z = 0;
-    object->unk_50 = &D_800AADB0;
+    object->unk_50 = &apply_person_global_offsets;
 }

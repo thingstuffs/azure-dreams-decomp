@@ -28,12 +28,10 @@ typedef struct {
     u8 flags;
     u8 pad_11[3];
 } D_8006DE24_Record;
-extern u8 D_80010980[];
 extern u8 D_800287B4[];
 extern void *familiar_record_slots[];
 extern u8 familiar_record_storage[];
 extern u8 resident_globals_page[];
-extern u8 D_80030000[];
 
 
 typedef struct S_800277F4_0 {

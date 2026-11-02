@@ -31,7 +31,7 @@ typedef struct S_800A23D0_2 {
 
 
 extern u8 lit_mesh_renderer_address[];
-extern void D_800A24A8();
+extern void copy_negated_menu_phase();
 extern M2C_UNK D_800D0A48;
 
 /* Initialize object state and copy its position with an offset. */
@@ -45,7 +45,7 @@ void initialize_object_position_state(void *object_arg, S_800A23D0_1 *position, 
     position->unk_00.at00.v = (s32) ((IntVector3 *)(object->unk_14))->x;
     position->unk_04.at00.v = (s32) ((IntVector3 *)(object->unk_14))->y;
     position->unk_08 = (s32) ((IntVector3 *)(object->unk_14))->z;
-    object->unk_00 = &D_800A24A8;
+    object->unk_00 = &copy_negated_menu_phase;
     value_table = &D_800D0A48;
     state->unk_08 = (s32) value_table[object->unk_20];
     position->unk_00.at02.v = (u16) (position->unk_00.at02.v + 0x28);

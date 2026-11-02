@@ -10,9 +10,7 @@ extern void func_8007BFE0(void *object, s32 size);
 extern void func_8007C040(void *ptr0, void *ptr1, s32 value);
 extern s32 select_object_handler_slots_by_flag(void *ptr);
 extern s32 func_80404B5C(s32 field_220);
-extern void func_80404B84(void *object, s32 value);
 extern void func_80404C44(void *object, s32 value);
-extern void func_80404DBC(void *base);
 
 typedef struct {
     u8 pad_00[4];
@@ -49,7 +47,7 @@ void * init_card_background_object(s32 init_value, s32 config_value) {
         }
         func_80040560(base, card_status_query_address);
     } else {
-        func_80404DBC(base);
+        card_dev_flag_object_dirty(base);
         {
             u16 flags = card_background_object.flags;
             flags &= 0x7FFF;
@@ -59,7 +57,7 @@ void * init_card_background_object(s32 init_value, s32 config_value) {
     }
     D_804F281B[0] = 8;
     D_805030EF[0] = 8;
-    func_80404B84(obj, 7);
+    card_background_init_entry_tables(obj, 7);
     base->field_0C = (u8 *)obj + 0x210;
     obj->field_21C = func_80404B5C(obj->field_220);
     func_80404C44(obj, (obj->field_04 = config_value, init_value));

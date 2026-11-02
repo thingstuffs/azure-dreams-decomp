@@ -8,7 +8,7 @@ extern void func_800702F0(s32 value);
 extern void func_8007C040(void *first_ptr, void *second_ptr, s32 count);
 extern void func_8007CAE8(void *state_ptr);
 extern s32 func_8040153C(void);
-extern void func_80401578(void);
+extern void card_dev_drain_sw_events(void);
 extern void configure_target_for_active_state_and_entry(void *target, s32 entry_index);
 extern void func_80408654(s32 value);
 
@@ -26,7 +26,7 @@ s32 card_dev_run_slot_operation(s32 slot_index)
     configure_target_for_active_state_and_entry(state, slot_index);
     func_80408654(0);
     func_80408654(1);
-    func_80401578();
+    card_dev_drain_sw_events();
     func_8007CAE8(state);
     do {
         result = func_8040153C();

@@ -22,9 +22,7 @@ typedef struct {
 } StructA_8001F678;
 
 extern StructA_8001F678 *func_8003C714(s32 value, s32 value2, s32 value3);
-extern void func_80406570(void *ptr, s32 value);
 extern void run_slot_operation_code_five(void);
-extern void func_80402214(void);
 extern u8 D_8040C628[0x1C];
 
 /* Creates and initializes state and installs its update callback. */
@@ -32,9 +30,9 @@ StructA_8001F678 *card_dev_create_save_screen(s32 init_value) {
     StructA_8001F678 *state;
 
     state = func_8003C714(0, D_8040C628, 0x1C);
-    func_80406570((u8 *)state + 0x20, init_value);
+    card_dev_run_init_hook((u8 *)state + 0x20, init_value);
     run_slot_operation_code_five();
-    func_80402214();
+    card_dev_cache_slot_summary();
     state->unk68 = 1;
     state->unk20 = init_card_background_object(state, &state->unk68);
     state->unk38 = init_card_options_object(state);

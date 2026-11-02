@@ -13,7 +13,7 @@
 
    /* ((Rec_D_800E3D7C *)arg0)->unk_08.at00_pv.v in spawn_salam_particles */
 
-extern void D_800CAED0(void *object, void *motion);
+extern void advance_particle_motion_with_floor_collision(void *object, void *motion);
 extern M2C_UNK D_800E03B0;
 
 
@@ -37,7 +37,7 @@ void spawn_salam_particles(ObjectNodeHeader *source, s16 effect_param, s32 rende
     do {
         particle = allocate_list_node(0x212, &source->next);
         if (particle != NULL) {
-            particle->update_callback = &D_800CAED0;
+            particle->update_callback = &advance_particle_motion_with_floor_collision;
             register_node(particle, project_sprite_chain);
             motion = particle->position;
             motion->x.w.i = (s16) ((source->position->x.w.i + (rand() & 0x3F)) - 0x20);
