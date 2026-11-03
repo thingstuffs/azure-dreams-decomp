@@ -116,5 +116,25 @@ class TypingFacts(unittest.TestCase):
         self.assertEqual(T.q_holds(db)[0]['seeds'], 1)
 
 
+    def test_file_qualified_runtime_join(self):
+        self.map.open(fresh=True)
+        self.refresh()
+        db = self.map.db
+        for file, cell in (('src/a.c', 'rk1+0x0=1'), ('src/b.c', 'rk2+0x0=1')):
+            db.execute('INSERT INTO rt_fn_arg VALUES (?,?,?,?,?,?,?,?,?)',
+                       (file, 'same', 0, 1, 1, 'void *', 1, 1, cell))
+            db.execute('INSERT INTO rt_callsite VALUES (?,?,?,?,?,?,?,?)',
+                       (file, 'same', 0, file, 'caller', 1, cell, 1))
+            db.execute('INSERT INTO rt_pointee VALUES (?,?,?,?,?,?,?,?,?,?)',
+                       (file, 1, 'install', 'store', 'rk1', '0x10', 'func', file + ':same', '', 1))
+            db.execute('INSERT INTO flow_item VALUES (?,?,?,?,?,?,?,?,?)',
+                       ('C1', 'same', file, 0, 'hold', 'hold', file, 0, 'items.tsv'))
+        p = T.q_param(db, 'src/b.c::same::0')
+        self.assertEqual([r['cells'] for r in p['runtime']], ['rk2+0x0=1'])
+        self.assertEqual([r['caller_file'] for r in p['callsites']], ['src/b.c'])
+        self.assertEqual([r['reason'] for r in p['flow']], ['src/b.c'])
+        self.assertEqual([r['value_target'] for r in p['pointee_stores']], ['src/b.c:same'])
+
+
 if __name__ == '__main__':
     unittest.main()

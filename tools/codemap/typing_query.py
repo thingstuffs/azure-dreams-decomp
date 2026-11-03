@@ -194,7 +194,8 @@ def q_rt(db, function, file=None):
         per[f][int(decl.split(':')[1])][cls] = n
     callsites = db.execute('SELECT arg, caller_file, caller, line, cells, calls FROM rt_callsite WHERE callee=?'
                            + (' AND callee_file = ?' if file else '') + ' ORDER BY arg, calls DESC', args).fetchall()
-    holds = db.execute('SELECT item, param, verdict, status, reason FROM flow_item WHERE function=?', (function,)).fetchall()
+    holds = db.execute('SELECT item, param, verdict, status, reason FROM flow_item WHERE function=?'
+                       + (' AND (file IS NULL OR file=?)' if file else ''), args).fetchall()
     meta = dict(db.execute('SELECT key, value FROM rt_meta'))
     return dict(function=function, runtime_source=meta.get('source_rev'), definitions={
         f: dict(params=p, casts_by_param={i: dict(c) for i, c in per.get(f, {}).items()}) for f, p in params.items()},
@@ -222,7 +223,8 @@ def q_param(db, key):
     out['flow'] = [r for r in res['flow'] if r['param'] == index]
     out['pointee_stores'] = [dict(zip(('file', 'line', 'function', 'access', 'target', 'offset', 'value_class',
                                        'value_target', 'value_offset', 'count'), r)) for r in db.execute(
-        "SELECT * FROM rt_pointee WHERE value_class='func' AND value_target LIKE ?", ('%:' + function,)).fetchall()[:20]]
+        "SELECT * FROM rt_pointee WHERE value_class='func' AND value_target "
+        + ('= ?' if file else 'LIKE ?'), ((file or '%') + ':' + function,)).fetchall()[:20]]
     return out
 
 

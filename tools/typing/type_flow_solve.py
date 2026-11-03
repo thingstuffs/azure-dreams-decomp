@@ -50,6 +50,8 @@ from pathlib import Path
 import re
 import sys
 
+from type_flow_keys import FunctionKeys
+
 HERE = Path(__file__).resolve().parent
 sys.path[:0] = [str(HERE)]
 
@@ -84,6 +86,7 @@ class Graph:
         self.record_definitions = collections.defaultdict(set)
         self.ambiguous_records = set()
         seen_e, seen_u, seen_i, seen_c, seen_f = set(), set(), set(), set(), set()
+        units = []
         for p in sorted((self.dir / 'tu').glob('*.json.gz')):
             with gzip.open(p, 'rt') as fh:
                 text = fh.read()
@@ -94,7 +97,11 @@ class Graph:
                 # generated SLUS partition input: attribute its sites to the registered TU
                 tu = json.loads(text)['tu']
                 text = re.sub(r'"(?:/[^"/]+)+/build_ovl/[^"]+"', json.dumps(tu), text)
-            d = json.loads(text)
+            units.append(json.loads(text))
+        keys = FunctionKeys(units)
+        self.ambiguous_functions = keys.collisions
+        for unit in units:
+            d = keys.rewrite(unit)
             for f in d['functions']:
                 k = (f['key'], f['file'], f['line'])
                 if k not in seen_f:
@@ -310,7 +317,7 @@ class Graph:
         return ds[0] if ds else None
 
     def ambiguous_function(self, key):
-        return len({d['file'] for d in self.functions.get(key, [])}) > 1
+        return key in self.ambiguous_functions or len({d['file'] for d in self.functions.get(key, [])}) > 1
 
     def declared(self, node):
         if node.startswith('P:'):
@@ -470,10 +477,7 @@ class Runtime:
         for r in csv.DictReader(open(rt / 'fn_args.tsv'), delimiter='\t'):
             if not r['file'].startswith('src/'):
                 continue
-            name = r['function']
-            key = name
-            for d in graph.functions.get(name + '@' + r['file'], []):
-                key = d['key']
+            key = fn_key(graph, r['function'], r['file'])
             if graph.ambiguous_function(key):
                 continue
             node = 'P:%s#%s' % (key, r['arg'])
@@ -496,9 +500,10 @@ class Runtime:
                 if str(k.get('allocator', '')).startswith('allocate_flagged_object_node') or k.get('role') == 'pool':
                     self.pooled.add(k['id'])
                 for rc in k.get('receivers', []):
-                    if graph.ambiguous_function(rc['function']):
+                    key = fn_key(graph, rc['function'], rc.get('file', ''))
+                    if graph.ambiguous_function(key):
                         continue
-                    node = 'P:%s#%s' % (rc['function'], rc['arg'])
+                    node = 'P:%s#%s' % (key, rc['arg'])
                     t = graph.declared(node)
                     if graph.cls(t) == 'real':
                         self.votes[('heap', k['id'], int(rc.get('offset', 0)))][graph.resolve(t)].add(node)
@@ -511,6 +516,7 @@ class Runtime:
         self.held_values = collections.defaultdict(list)     # (file, line) -> [(access, cell, count)]
         if self.ext:
             self._load_ext(rt)
+        self.layout_votes = self.layout_views()
 
     # ---------------------------------------------------------------- H8/H9 extension
     def _load_ext(self, rt):
@@ -544,11 +550,16 @@ class Runtime:
                                                                                r['class'], r['target'], r['offset']))
         # holder labels: a caller's argument holder takes the cells its call site passed
         for e in g.edges:
-            if e['k'] != 'arg' or not e.get('src') or e['off'] or e['src'].startswith(('P:', 'FN:', '&FN:')):
+            if e['k'] != 'arg' or not e.get('src') or e['src'].startswith(('P:', 'FN:', '&FN:')):
                 continue
             c = self.edge_cells(e)
             if c:
-                self.derived.setdefault(e['src'], collections.Counter()).update(c)
+                # H9 labels the evaluated argument, so undo its arithmetic for the holder.
+                cells = collections.Counter()
+                for cell, count in c.items():
+                    base = (cell[0], cell[1], cell[2] - e['off']) if cell[0] in ('heap', 'ram') else cell
+                    cells[base] += count
+                self.derived.setdefault(e['src'], collections.Counter()).update(cells)
         # field / global holders read or written at a site that saw exactly one pointer-typed holder
         by_site = collections.defaultdict(set)
         for e in g.edges:
@@ -618,6 +629,58 @@ class Runtime:
             self.votes[k][t].add('co:' + node)
         return len({k for k, _, _ in add})
 
+    def layout_views(self):
+        """Votes at observed/requested member offsets, grounded in declared record layouts.
+
+        A record-valued member supplies its own pointer type. A cursor at a known
+        member boundary also retains its containing record view. Pointer members
+        are never followed, and neither padding nor a guessed header/body type is
+        evidence. Direct receiver votes take precedence over these layout views.
+        """
+        g = self.g
+        requested = collections.defaultdict(set)
+
+        def request(cells, offset=0):
+            for cell in cells:
+                if cell[0] in ('heap', 'ram'):
+                    requested[cell[:2]].add(cell[2] + offset)
+
+        for cells in list(self.cells.values()) + list(self.derived.values()):
+            request(cells)
+        for rows in self.site.values():
+            for _, cells in rows:
+                request(cells)
+        for edge in g.edges:
+            if edge['off'] and edge.get('src'):
+                request(self.pointer_cells(edge['src']), edge['off'])
+        views = collections.defaultdict(lambda: collections.defaultdict(set))
+        for base, votes in self.votes.items():
+            for t, voters in votes.items():
+                rec = g.record_of(t)
+                size = g.size(t[:-1]) if rec else None
+                grounded = {v for v in voters if not v.startswith('co:')}
+                if not size or not grounded or g.cls(t) != 'real':
+                    continue
+                for offset in requested.get(base[:2], ()):
+                    relative = offset - base[2]
+                    if not 0 < relative < size:
+                        continue
+                    leaves = [(path, ft) for path, ft in g.leaves(rec, relative)
+                              if not any(re.match(r'^(?:pad|unused)(?:_|\d|$)', part.split('[')[0])
+                                         for part in path.split('.'))]
+                    if not leaves:
+                        continue
+                    cell = base[:2] + (offset,)
+                    embedded = {g.resolve(ft) + '*' for _, ft in leaves
+                                if g.cls(ft) == 'record' and g.cls(g.resolve(ft) + '*') == 'real'}
+                    for view in embedded or {t}:
+                        views[cell][view].update(grounded)
+        return views
+
+    def cell_votes(self, cell):
+        """Prefer directly observed types; use layout views where no receiver voted."""
+        return self.votes.get(cell) or getattr(self, 'layout_votes', {}).get(cell, {})
+
     def global_root_type(self, sym, off):
         """Canonical `rec:T*` a pointer to `sym`+off has by the global's declared type, or None."""
         g = self.g
@@ -681,7 +744,7 @@ class Runtime:
         return None
 
     def winner(self, cell):
-        v = self.votes.get(cell)
+        v = self.cell_votes(cell)
         if not v:
             return None, 0.0
         best = max(v, key=lambda t: (len(v[t]), t))
@@ -731,7 +794,7 @@ class Runtime:
         unproven = False
         for cell in cells:
             c2 = (cell[0], cell[1], cell[2] + off)
-            v = self.votes.get(c2, {})
+            v = self.cell_votes(c2)
             if c2[0] == 'heap' and c2[1] in self.pooled and c2[2] == 0 and rt == 'rec:ObjectNodeHeader*':
                 continue
             if not v:
@@ -1049,7 +1112,9 @@ class Solver:
                 src_cells = site or rt.pointer_cells(e['src'])     # what this call site passed, else the holder's
                 if not src_cells and e['src'] in comp:
                     src_cells = seed_ident.get(comp[e['src']].get('seed'), collections.Counter())
-                verdict = rt.cast_ok(src_cells, e['off'], td) if kd in POINTERS else 'int'
+                # H9 already observes the final argument (including e['off']).
+                cell_off = 0 if site else e['off']
+                verdict = rt.cast_ok(src_cells, cell_off, td) if kd in POINTERS else 'int'
                 res['evidence'][verdict] += after
                 res['remaining'] += after
                 if verdict == 'wrong' and d > 0:
@@ -1058,7 +1123,8 @@ class Solver:
                             res['node_reasons'][end].add('contradicted')
                 res['casts'].append({'file': e['file'], 'fn': e['fn'], 'line': e['line'], 'cast': canon_display(g, td),
                                      'new': d > 0, 'evidence': verdict, 'edge': e['k'], 'src': e['src'],
-                                     'dst': e['dst'], 'off': e['off'], 'from_type': canon_display(g, ts)})
+                                     'dst': e['dst'], 'off': e['off'], 'from_type': canon_display(g, ts),
+                                     **({'cell_off': cell_off} if cell_off != e['off'] else {})})
         for n in changed:
             tau = comp[n]['t']
             rec = g.record_of(tau)

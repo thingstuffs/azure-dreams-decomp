@@ -146,6 +146,18 @@ def member_sites(g):
     return out
 
 
+
+def parameter_declaration_files(graph, index, key):
+    """Files whose declarations can be attributed to this definition safely."""
+    definition = graph.fn_def(key)
+    name = key.split('@')[0]
+    if definition and definition.get('static'):
+        return [definition['file']]
+    if graph.ambiguous_function(name):
+        raise ValueError('ambiguous_declaration_ownership:' + key)
+    return sorted(index.typed.get(name, ()))
+
+
 def main():
     ap=argparse.ArgumentParser();ap.add_argument('--graph',required=True);ap.add_argument('--solve',type=Path,required=True);ap.add_argument('--rt',type=Path,required=True);ap.add_argument('--ids',nargs='+',required=True);ap.add_argument('--out',type=Path,required=True);ap.add_argument('--allow-zero',action='store_true');ap.add_argument('--allow-modules',action='store_true');ap.add_argument('--members',action='store_true',help='also retype record members and function-pointer member parameters (F: nodes)');ap.add_argument('--scope',nargs='*',help='path prefixes this lane may edit: a transaction that changes any other file is restored');a=ap.parse_args();a.out=a.out.resolve();a.out.mkdir(parents=True,exist_ok=True)
     g=S.Graph(a.graph);rt=S.Runtime(a.rt,g);ix=P.Index(ROOT);units=P.Units(ROOT)
@@ -245,7 +257,7 @@ def main():
             for n,v in comp.items():
                 if not n.startswith('P:'):continue
                 key=n[2:].rpartition('#')[0];name=key.split('@')[0];idx=int(n.rpartition('#')[2]);rec=g.record_of(v['t']);home=(g.records.get(rec) or {}).get('file','')
-                for f in sorted(ix.typed.get(name,())):
+                for f in parameter_declaration_files(g,ix,key):
                     old=texts.get(f,(ROOT/f).read_text())
                     spelling=v['t']
                     if f.endswith('.h') and rec and re.fullmatch(r'[A-Za-z_]\w*',rec):
