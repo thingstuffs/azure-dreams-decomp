@@ -1,6 +1,7 @@
 #include "common.h"
 #include "records/Rec_func_80174800_arg0.h"
 #include "shared/entity.h"
+#include "shared/sprite_frame_state.h"
 
 typedef struct S_80174800_0_pre {
     void * unk_00;
@@ -19,11 +20,6 @@ typedef struct S_80174800_1_pre {
 } S_80174800_1_pre;   /* the 0x18 bytes before arg0 in create_randomly_rotated_offset_effect, addressed as arg0[-1] */
 
 
-typedef struct S_80174800_2 {
-    u8 pad_00[0x24];
-    u8 unk_24;
-    u8 unk_25;
-} S_80174800_2;   /* tile in create_randomly_rotated_offset_effect */
 
 
 typedef struct S_80174800_4 {
@@ -54,12 +50,12 @@ void create_randomly_rotated_offset_effect(void *node, s32 tile_x, s32 tile_y, s
     owner = ((S_80174800_0_pre *)head)[-1].unk_00;
     node = (u8 *)((S_80174800_0 *)head)->unk_5C + 0x20;
     while (node != head) {
-        S_80174800_2 *tile = ((S_80174800_1_pre *)node)[-1].unk_04;
+        SpriteFrameState *tile = ((S_80174800_1_pre *)node)[-1].unk_04;
         ObjectPosition *height_data = ((S_80174800_1_pre *)node)[-1].unk_00;
         s16 height;
 
-        if ((tile->unk_24 == (match_x & 0xFFFF)) &&
-            (tile->unk_25 == (match_y & 0xFFFF)) &&
+        if ((tile->tile_x == (match_x & 0xFFFF)) &&
+            (tile->tile_y == (match_y & 0xFFFF)) &&
             (height = height_data->z.w.i, height <= target_height + 0x38) &&
             (height > target_height - 0x38) &&
             ((u32)(((Rec_func_80174800_arg0 *)node)->unk_13 - 0x33) >= 4U)) {

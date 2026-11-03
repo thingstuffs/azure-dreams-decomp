@@ -7,6 +7,7 @@
 #include "dungeon/effect/sprite.h"
 #include "dungeon/actor.h"
 #include "dungeon/effect/screen.h"
+#include "dungeon/system.h"
 
 void (*const dungeon_18ee800_entry)(void *, void *, void *) = follow_entity_effect_and_cleanup;
 const B32_818CFB74_PackedOffsets sprite_route_direction_offsets = {{{32,0},{32,32},{0,32},{-32,32},{-32,0},{-32,65504},{0,65504},{32,65504}}};
@@ -147,7 +148,7 @@ s32 project_linked_shaded_points(JitteredTerrainSeekingPointBody *start_node, vo
 void advance_jittered_effect_toward_terrain(JitteredTerrainSeekingPointBody *object_data, void *source_data)
 {
     JitteredTerrainSeekingPointBody *object = object_data;
-    u8 *source = source_data;
+    ObjectPosition *source = source_data;
     u16 x;
     u16 y;
     u16 z;
@@ -155,15 +156,15 @@ void advance_jittered_effect_toward_terrain(JitteredTerrainSeekingPointBody *obj
     s32 height_limit;
     s32 random_value;
 
-    z = *(u16 *)(source + 0xA);
-    x = *(u16 *)(source + 2);
-    y = *(u16 *)(source + 6);
+    z = source->z.unsigned_parts.integer;
+    x = source->x.unsigned_parts.integer;
+    y = source->y.unsigned_parts.integer;
     probe_z = z + 2;
     linked_point_effect_updated[0] = 1;
     height_limit = sample_terrain_surface_height(x, y, (s16)probe_z);
-    if (*(s16 *)(source + 0xA) < height_limit) {
+    if (source->z.w.i < height_limit) {
         random_value = rand();
-        *(u32 *)(source + 8) += 0x20000 + (random_value & 0xFFF);
+        *(u32 *)(((u8 *)source) + 8) += 0x20000 + (random_value & 0xFFF);
     }
 
     object->unk_32.s -= 8;

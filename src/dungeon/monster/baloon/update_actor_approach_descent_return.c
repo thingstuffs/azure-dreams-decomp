@@ -50,7 +50,7 @@ extern u8 D_801709B8[];
 extern s32 get_entity_class(void *);
 extern void select_sprite_entry(void *, u8, s32);
 extern void snapshot_inventory_and_familiars(void *);
-extern void play_sound_if_enabled(s32);
+extern s32 play_sound_if_enabled(s32 query_value);
 extern void display_text_with_fullwidth_adjustment(s8 *text);
 extern s32 check_action_boundary_and_set_flag(void);
 void spend_actor_mp(ActorRecord *entity, s32 base_reduction);
@@ -373,7 +373,7 @@ void update_actor_approach_descent_return(ActorRecord *action, ObjectPosition *m
             action->action_id.u = 0xE;
             g_dungeon_status.active_actor = 0;
             actor->flags1C |= 0x40000;
-            (*(u16 *)((u8 *)action + 0x98)) &= 0xFFF7;
+            action->action_state_flags &= 0xFFF7;
             sprite->frameTable = baloon_default_frames;
             facing = (g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9;
             select_sprite_entry(sprite, baloon_default_frames[facing & 7], 0);

@@ -25,13 +25,6 @@ typedef struct S_8016AEDC_1 {
 } S_8016AEDC_1;   /* work in initialize_actor_and_companion */
 
 
-typedef struct S_8016AEDC_3 {
-    u8 pad_00[0x24];
-    s8 unk_24;
-    s8 unk_25;
-    u8 pad_26[0x6];
-    u8 * unk_2C;
-} S_8016AEDC_3;   /* part_b in initialize_actor_and_companion */
 
 typedef struct S_8016AEDC_4 {
     u8 pad_00[0x8C];
@@ -47,10 +40,6 @@ typedef struct S_8016AEDC_4 {
     s8 unk_B4;
 } S_8016AEDC_4;   /* a0_copy in initialize_actor_and_companion */
 
-typedef struct S_8016AEDC_5 {
-    u8 pad_00[0x14];
-    u16 unk_14;
-} S_8016AEDC_5;   /* a2_copy in initialize_actor_and_companion */
 
 
 
@@ -98,10 +87,10 @@ void *initialize_actor_and_companion(s16 mode_flags, s32 config_24, s32 config_2
         part_a->z.w.i = config_0a;
         part_b = object->sprite;
         mode_kind = mode_flags & 3;
-        ((S_8016AEDC_3 *)part_b)->unk_2C = callback;
-        ((S_8016AEDC_3 *)part_b)->unk_24 = saved_config_24;
+        ((SpriteFrameState *)part_b)->frameTable = callback;
+        ((SpriteFrameState *)part_b)->tile_x = saved_config_24;
 
-        ((S_8016AEDC_3 *)part_b)->unk_25 = saved_config_25;
+        ((SpriteFrameState *)part_b)->tile_y = saved_config_25;
         if (mode_kind == 1) {
             work->unk_14 |= (ACTOR_CLASS_ENABLED | ACTOR_PARTY_MEMBER);
             work->unk_1C |= (ACTOR_PLAYER_SIDE | ACTOR_PARTY_MEMBER);
@@ -119,7 +108,7 @@ void *initialize_actor_and_companion(s16 mode_flags, s32 config_24, s32 config_2
             work_copy->unk_AE = 0;
             work_copy->unk_B4 = 0;
             work_copy->unk_B0 = 0;
-            ((S_8016AEDC_5 *)part_b)->unk_14 |= 0x80;
+            ((SpriteFrameState *)part_b)->flags |= 0x80;
             try_move_actor_to_valid_position(work_copy, part_a, part_b, work);
         }
         work->unk_49 = 0xE;

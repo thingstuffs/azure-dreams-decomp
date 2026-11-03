@@ -13,10 +13,10 @@
 #include "dungeon/level.h"
 #include "engine/graphics.h"
 #include "sdk/libc.h"
+#include "dungeon/system.h"
 
 extern void *allocate_list_node(s32, void *);
 extern void apply_attack_power_and_element_effects();
-extern s32 play_sound_if_enabled(s32);
 
 extern u8 countdown_sprite_entries[];
 extern u8 directional_effect_entries[];

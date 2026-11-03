@@ -11,7 +11,6 @@
 
 
 extern void select_sprite_entry(void *, s32, s32);
-extern s16 check_entity_relation(ActorRecord *entry, ActorRecord *anchor);
 extern s32 find_active_rect_containing_point(s32, s32);
 extern s32 can_entity_gain_level(void *);
 extern void update_actor_status_and_mp(ActorRecord *entity);
@@ -29,6 +28,7 @@ extern void func_80173AC0(void *, void *, void *, void *);
 #include "dungeon/actor.h"
 #include "dungeon/actor/motion.h"
 #include "dungeon/actor/state.h"
+#include "dungeon/level.h"
 
 extern u8 D_80173D14[];
 extern u8 D_80173D1C[];

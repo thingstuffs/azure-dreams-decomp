@@ -8,13 +8,6 @@
 typedef struct S_80047784 S_80047784;
 
 
-typedef struct S_func_809A0B58_1 {
-    u8 pad_00[0x24];
-    u8 unk_24;
-    u8 unk_25;
-    u8 pad_26[6];
-    u8 *unk_2C;
-} S_func_809A0B58_1;
 
 
 
@@ -22,12 +15,12 @@ struct SpriteFrameState;
 extern u8 kewne_frame_set[9];
 
 /* Advance the counter when unblocked and reset the action when it exceeds 60. */
-void update_kewne_charge_counter(ActorRecord *actor_state, ObjectPosition *position, S_func_809A0B58_1 *sprite, ActorRecord *actor) {
+void update_kewne_charge_counter(ActorRecord *actor_state, ObjectPosition *position, SpriteFrameState *sprite, ActorRecord *actor) {
     u16 tile_flags;
     u16 counter_value;
     u8 *direction_frames;
 
-    get_offset_map_cell_value_and_flags(sprite->unk_24 - 1, sprite->unk_25,
+    get_offset_map_cell_value_and_flags(sprite->tile_x - 1, sprite->tile_y,
                   ((u16)actor->facing >> 9) & 7, &tile_flags);
     if (!(tile_flags & 0x8400)) {
         counter_value = actor_state->unk_B0.halves.high.u + 1;
@@ -40,7 +33,7 @@ void update_kewne_charge_counter(ActorRecord *actor_state, ObjectPosition *posit
             actor_state->unk_8C.word = 0;
             actor_state->action_phase.s = 0;
             direction_frames = kewne_frame_set;
-            sprite->unk_2C = direction_frames;
+            sprite->frameTable = direction_frames;
             select_sprite_entry(sprite,
                           direction_frames[((s32)(g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
                           0);

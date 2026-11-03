@@ -547,7 +547,6 @@ typedef struct {
 } ovl_19a332c_81984E94_S_8191696C_state;
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8 *)(expr) + (offset)))
 extern u16 image_tint_update_count;
-s32 play_sound_if_enabled();
 extern s32 D_800269D0;
 extern M2C_UNK tint_transition_image;
 extern M2C_UNK tint_transition_vram_row;

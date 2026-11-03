@@ -1,3 +1,4 @@
+#include "shared/object_node.h"
 #include "common.h"
 #include "shared/slus_callbacks.h"
 #include "shared/object_flags.h"
@@ -23,9 +24,6 @@ typedef struct FlagsView {
 extern CounterView sprite_effect_update_count;
 
 
-typedef struct S_800243C4_0_pre {
-    u16 unk_00;
-} S_800243C4_0_pre;   /* the 0x2 bytes before arg0 in func_800243C4, addressed as arg0[-1] */
 
 
 
@@ -92,7 +90,7 @@ void advance_linked_segment_flash(AdvanceScreenTransitionBody *effect, Rec_func_
     } else if (phase == 2) {
         color->unk_0C.u32 += 0xFFFBFBFC;
         if (color->unk_0C.u8 == 0) {
-            ((S_800243C4_0_pre *)effect)[-1].unk_00 |= 0x8000;
+            NODE_HEADER(effect)->flags |= 0x8000;
             object_flag_block.flags |= OBJECT_REMOVE_PENDING;
         }
     }

@@ -18,16 +18,11 @@
 #include "shared/entity.h"
 #include "dungeon/item.h"
 #include "dungeon/actor.h"
+#include "dungeon/system.h"
 
 
-typedef struct S_80172834_3 {
-    u8 pad_00[0x24];
-    u8 unk_24;
-    u8 unk_25;
-} S_80172834_3;   /* record in update_jump_motion_2 */
 
 extern void select_sprite_entry(void *, s32, s32);
-extern void play_sound_if_enabled(s32);
 
 extern u8 garuda_frame_set_3[];
 
@@ -91,15 +86,15 @@ void update_jump_motion_2(void *action_state, ObjectPosition *motion, SpriteFram
             if (x != 0) {
                 target = primary_actor_record;
                 actor->target = target;
-                phase = ((ObjectNodeHeader *)target - 1)->sprite;
-                actor->target_tile_x = ((S_80172834_3 *)phase)->unk_24;
-                actor->target_tile_y = ((S_80172834_3 *)phase)->unk_25;
+                phase = NODE_HEADER(target)->sprite;
+                actor->target_tile_x = ((SpriteFrameState *)phase)->tile_x;
+                actor->target_tile_y = ((SpriteFrameState *)phase)->tile_y;
             } else if (item_action_definitions[*action_data].kind == 2) {
                 target = actor->target;
                 if (target != 0) {
-                    phase = ((ObjectNodeHeader *)target - 1)->sprite;
-                    actor->target_tile_x = ((S_80172834_3 *)phase)->unk_24;
-                    actor->target_tile_y = ((S_80172834_3 *)phase)->unk_25;
+                    phase = NODE_HEADER(target)->sprite;
+                    actor->target_tile_x = ((SpriteFrameState *)phase)->tile_x;
+                    actor->target_tile_y = ((SpriteFrameState *)phase)->tile_y;
                 }
             } else {
                 actor->target =

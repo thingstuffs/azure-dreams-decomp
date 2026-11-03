@@ -29,7 +29,7 @@ void initialize_variant_record_pointers_and_clear_state(TownObjectRecord *record
 void select_object_state_by_mode(Rec_D_800CFCB4 *record, ObjectPosition *context, SpriteFrameState *state, void *default_value, void *alternate_value, void *update_value);
 
 /* set_actor_drop_state.c */
-void set_actor_drop_state(TownObjectRecord *object, Rec_D_800CFCB4 *state);
+void set_actor_drop_state(TownObjectRecord *object, Rec_D_800CFCB4 *state, void *unused_motion, void *unused_context);
 
 /* spawn_and_flag_object_parts_g01128.c */
 void spawn_and_flag_object_parts(unsigned short *object, s32 unused, s32 action_id);

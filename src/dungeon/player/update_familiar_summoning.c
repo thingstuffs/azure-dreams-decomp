@@ -18,6 +18,7 @@
 #include "dungeon/item.h"
 #include "engine/entity.h"
 #include "engine/texture.h"
+#include "dungeon/system.h"
 
    /* arg3 in update_familiar_summoning */
 
@@ -37,18 +38,12 @@ typedef struct S_80095A10_5_pre {
     u8 pad_08[0x10];
 } S_80095A10_5_pre;   /* 0x18-byte header immediately before the payload. */
 
-typedef struct S_80095A10_6 {
-    u8 pad_00[0x1C];
-    s16 unk_1C;
-    s16 unk_1E;
-} S_80095A10_6;
 
 
    /* ((S_80095A10_2 *)arg3)->unk_60 in update_familiar_summoning */
 
 void runtime_map_type_16_entry_code();
 s32 queue_cd_resource(); /* Unprototyped: uses the value as a pointer where the definition has an integer (or the reverse) */
-s32 play_sound_if_enabled(s32 query_value);
 extern s32 loaded_entity_sprite_resource;
 extern u8 player_wait_frames[];
 extern u8 familiar_save_restore_frames[];
@@ -69,7 +64,7 @@ void update_familiar_summoning(ActorRecord *actor, ObjectPosition *position, Spr
     u32 state;
     u32 previous_state;
     void *object;
-    S_80095A10_6 *object_scale;
+    SpriteFrameState *object_scale;
     ObjectPosition *object_position;
 
     state = actor->action_phase.u;
@@ -123,8 +118,8 @@ void update_familiar_summoning(ActorRecord *actor, ObjectPosition *position, Spr
             context->target = object;
             familiar_record_slots[resource_info->unk_03 & 0x1F] = object;
             object_scale = ((S_80095A10_5_pre *)object)[-1].unk_04;
-            object_scale->unk_1E = 0x800;
-            object_scale->unk_1C = 0x800;
+            object_scale->scale_y = 0x800;
+            object_scale->scale_x = 0x800;
             object_position = ((S_80095A10_5_pre *)object)[-1].unk_00;
             object_position->x.unsigned_parts.integer = (u16) position->x.w.i;
             object_position->y.unsigned_parts.integer = (u16) position->y.w.i;

@@ -43,7 +43,7 @@ extern u8 D_800E0C09[];
 extern u8 D_800E0C1D[];
 extern volatile u8 *dungeon_actor_ring_anchor[];
 extern s16 get_entity_effect_value(Entity800B4194 *, s32); /* Unprototyped: return_width */
-extern void play_sound_if_enabled(s32);
+extern s32 play_sound_if_enabled(s32 query_value);
 extern void display_text_with_fullwidth_adjustment(u8 *);
 extern s32 generate_random_value(void);
 extern s32 random_dungeon_range_16(s32, s32);

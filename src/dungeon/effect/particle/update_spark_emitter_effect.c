@@ -13,9 +13,6 @@
 #include "engine/node.h"
 #include "dungeon/actor.h"
 
-typedef struct S_81814EDC_0_pre {
-    u16 unk_00;
-} S_81814EDC_0_pre;   /* the 0x2 bytes before arg0 in update_spark_emitter_effect, addressed as arg0[-1] */
 
 
 typedef struct S_81814EDC_1 {
@@ -257,13 +254,13 @@ loop_effects:
                         owner_sprite->color.c.r = 0x30;
                         effect->unk_02.s = 0;
                     } else {
-                        ((S_81814EDC_0_pre *)effect)[-1].unk_00 =
-                            (u16) (((S_81814EDC_0_pre *)effect)[-1].unk_00 | 0x8000);
+                        NODE_HEADER(effect)->flags =
+                            (u16) (NODE_HEADER(effect)->flags | 0x8000);
                         object_flag_block.flags |= OBJECT_REMOVE_PENDING;
                         return;
                     }
                 } else {
-                    ((S_81814EDC_0_pre *)effect)[-1].unk_00 = (u16) (((S_81814EDC_0_pre *)effect)[-1].unk_00 | 0x8000);
+                    NODE_HEADER(effect)->flags = (u16) (NODE_HEADER(effect)->flags | 0x8000);
                     object_flag_block.flags |= OBJECT_REMOVE_PENDING;
                     return;
                 }
@@ -285,7 +282,7 @@ loop_effects:
                 position->z.v = (s32) (position->z.v
                     + effect->unk_60);
             } else {
-                ((S_81814EDC_0_pre *)effect)[-1].unk_00 = (u16) (((S_81814EDC_0_pre *)effect)[-1].unk_00 | 0x8000);
+                NODE_HEADER(effect)->flags = (u16) (NODE_HEADER(effect)->flags | 0x8000);
                 object_flag_block.flags |= OBJECT_REMOVE_PENDING;
                 return;
             }
@@ -304,7 +301,7 @@ loop_effects:
                 owner_sprite->color.c.g = 0x80;
                 owner_sprite->color.c.r = 0x80;
             }
-            ((S_81814EDC_0_pre *)effect)[-1].unk_00 = (u16) (((S_81814EDC_0_pre *)effect)[-1].unk_00 | 0x8000);
+            NODE_HEADER(effect)->flags = (u16) (NODE_HEADER(effect)->flags | 0x8000);
             object_flag_block.flags |= OBJECT_REMOVE_PENDING;
         }
     }

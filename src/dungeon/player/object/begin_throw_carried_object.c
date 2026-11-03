@@ -2,9 +2,7 @@
 #include "records/Rec_func_8008ACDC_arg0.h"
 #include "dungeon/player/object.h"
 #include "dungeon/item.h"
-
-s32 play_sound_if_enabled(s32 query_value);                     /* extern */
-
+#include "dungeon/system.h"
 
 /* Reset object state, clear flag 0x10, and invoke the state handlers. */
 void begin_throw_carried_object(ActorRecord *object, ObjectPosition *unused_context, SpriteFrameState *unused_sprite, ActorRecord *actor) {

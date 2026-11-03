@@ -15,6 +15,7 @@
 #include "dungeon/item.h"
 #include "dungeon/actor.h"
 #include "sdk/libc.h"
+#include "dungeon/system.h"
 
 typedef struct S_80172F5C_3 {
     u8 pad_00[0x24];
@@ -32,7 +33,6 @@ typedef struct S_80172F5C_7 {
 
 
 extern void select_sprite_entry(void *, s32, s32);
-extern void play_sound_if_enabled(s32);
 
 extern u8 viper_action_continuation_address[];
 extern u8 viper_frame_set_2[];
@@ -99,13 +99,13 @@ void advance_motion_and_reset_action(ActorRecord *state, ObjectPosition *transfo
             if (use_player != 0) {
                 target = primary_actor_record;
                 actor->target = target;
-                action_state = ((ObjectNodeHeader *)target - 1)->sprite;
+                action_state = NODE_HEADER(target)->sprite;
                 actor->target_tile_x = ((S_80172F5C_3 *)action_state)->unk_24;
                 actor->target_tile_y = ((S_80172F5C_3 *)action_state)->unk_25;
             } else if (item_action_definitions[*motion].kind == 2) {
                 target = actor->target;
                 if (target != 0) {
-                    action_state = ((ObjectNodeHeader *)target - 1)->sprite;
+                    action_state = NODE_HEADER(target)->sprite;
                     actor->target_tile_x = ((S_80172F5C_3 *)action_state)->unk_24;
                     actor->target_tile_y = ((S_80172F5C_3 *)action_state)->unk_25;
                 }

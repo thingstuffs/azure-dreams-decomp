@@ -3,6 +3,7 @@
 #include "common.h"
 #include "slus.h"
 #include "engine/audio/spu.h"
+#include "engine/audio/spu/sound_reverb.h"
 
 typedef struct
 {
@@ -14,29 +15,6 @@ typedef struct
     s32 unk10;
 }
 S_8005DA88;
-typedef struct
-{
-    s32 unk00;
-    u16 unk04;
-    u16 unk06;
-    u8 pad08[0x0A];
-    s16 unk12;
-    u8 pad14[0x04];
-    s16 unk18;
-    s16 unk1A;
-    s16 unk1C;
-    u16 unk1E;
-    u8 pad20[0x04];
-    s16 unk24;
-    u16 unk26;
-    u8 pad28[0x10];
-    s16 unk38;
-    s16 unk3A;
-    u16 unk3C;
-    u16 unk3E;
-    u8 pad40[0x04];
-}
-S_8005DA88_buf;
 typedef struct
 {
     u8 pad000[0x184];
@@ -55,9 +33,9 @@ extern s32 spu_reverb_delay[];
 extern s32 spu_reverb_feedback[];
 extern S_80079958 *spu_registers;
 extern s32 spu_reverb_start_addresses[];
-extern S_8005DA88_buf spu_reverb_parameter_tables[];
+extern SoundReverbParameters spu_reverb_parameter_tables[];
 /* Return the reverb parameter buffer as bytes for copying. */
-inline u8 *inline_fn_8005DA88(S_8005DA88_buf *params)
+inline u8 *inline_fn_8005DA88(SoundReverbParameters *params)
 {
     return (u8 *) params;
 }
@@ -65,7 +43,7 @@ inline u8 *inline_fn_8005DA88(S_8005DA88_buf *params)
 /* Update reverb mode, depth, delay and feedback, optionally clearing its work area. */
 s32 SpuSetReverbModeParam(S_8005DA88 *settings)
 {
-    S_8005DA88_buf reverb_params;
+    SoundReverbParameters reverb_params;
     s32 flags;
     s32 update_all;
     u32 mode;
@@ -94,7 +72,7 @@ s32 SpuSetReverbModeParam(S_8005DA88 *settings)
     flags = settings->unk00;
     feedback_changed = 0;
     update_all = flags == 0;
-    reverb_params.unk00 = 0;
+    reverb_params.mask = 0;
     if (update_all || (flags & 1)) {
         mode = settings->unk04;
         if (mode & 0x100) {
@@ -150,17 +128,17 @@ s32 SpuSetReverbModeParam(S_8005DA88 *settings)
                         delay_bytes--;
                     }
                     while (delay_bytes != (-1));
-                    reverb_params.unk00 = 0x0C011C00;
+                    reverb_params.mask = 0x0C011C00;
                 }
                 delay = settings->unk0C;
                 spu_reverb_delay[0] = delay;
                 delay_offset = (delay << 12) / 127;
-                reverb_params.unk18 = (s16) (((delay << 13) / 127) - reverb_params.unk04);
-                reverb_params.unk1A = (s16) (delay_offset - reverb_params.unk06);
-                reverb_params.unk1C = (s16) (reverb_params.unk1E + delay_offset);
-                reverb_params.unk24 = (s16) (reverb_params.unk26 + delay_offset);
-                reverb_params.unk38 = (s16) (reverb_params.unk3C + delay_offset);
-                reverb_params.unk3A = (s16) (reverb_params.unk3E + delay_offset);
+                reverb_params.p18 = (s16) (((delay << 13) / 127) - reverb_params.p04);
+                reverb_params.p1A = (s16) (delay_offset - reverb_params.p06);
+                reverb_params.p1C = (s16) (reverb_params.p1E + delay_offset);
+                reverb_params.p24 = (s16) (reverb_params.p26 + delay_offset);
+                reverb_params.p38 = (s16) (reverb_params.p3C + delay_offset);
+                reverb_params.p3A = (s16) (reverb_params.p3E + delay_offset);
             }
         }
     }
@@ -178,15 +156,15 @@ s32 SpuSetReverbModeParam(S_8005DA88 *settings)
                             feedback_bytes--;
                         }
                         while (feedback_bytes != (-1));
-                        reverb_params.unk00 = 0x80;
+                        reverb_params.mask = 0x80;
                     }
                     else {
-                        reverb_params.unk00 |= 0x80;
+                        reverb_params.mask |= 0x80;
                     }
                 }
                 feedback = settings->unk10;
                 spu_reverb_feedback[0] = feedback;
-                reverb_params.unk12 = (s16) ((feedback * 0x8100) / 127);
+                reverb_params.p12 = (s16) ((feedback * 0x8100) / 127);
             }
         }
     }

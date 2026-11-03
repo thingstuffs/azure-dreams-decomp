@@ -65,13 +65,6 @@ typedef struct S_800A6F48_7 {
     s32 unk_10;
 } S_800A6F48_7;
 
-typedef struct S_800A6F48_8 {
-    u8 pad_00[0x8];
-    void * unk_08;
-    u8 pad_0C[0xA4];
-    s16 unk_B0;
-} S_800A6F48_8;
-
 typedef struct S_800A6F48_9 {
     u8 pad_00[0x10];
     s32 unk_10;

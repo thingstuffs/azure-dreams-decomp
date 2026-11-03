@@ -10,7 +10,7 @@
 #include "dungeon/item/message.h"
 
 extern s32 get_entity_effect_value(ActorRecord *entry, s32 effect_id);
-extern void play_sound_if_enabled(s32 query_value);
+extern s32 play_sound_if_enabled(s32 query_value);
 extern void display_text_with_fullwidth_adjustment(s8 *text);
 
 extern u8 D_80089084[];

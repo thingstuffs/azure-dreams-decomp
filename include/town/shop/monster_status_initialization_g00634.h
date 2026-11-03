@@ -1,5 +1,6 @@
 #ifndef TOWN_SHOP_MONSTER_STATUS_INITIALIZATION_G00634_H
 #define TOWN_SHOP_MONSTER_STATUS_INITIALIZATION_G00634_H
+struct ShopFirstCallbackObject;
 /* Initialize monster status state and entry objects (G00634): shared declarations. */
 /* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - CL:town/func_800B9044, CL:town/func_800B90DC, CL:town/func_800B914C, CL:town/func_800B9168. */
 
@@ -14,7 +15,7 @@ s32 invalidate_cached_state_and_queue_read(void *);
 /* extern */
 extern void D_800B66E8();
 extern void initialize_positioned_display_templates(void *owner, void *instance_data, void *instance1, s32 x, s32 y_arg, s32 z_arg);
-extern void clear_linked_entry_state(void *object);
+extern void clear_linked_entry_state(struct ShopFirstCallbackObject *object);
 
 /* Functions defined in this translation unit. */
 s32 get_monster_status_type_data(s32 index);

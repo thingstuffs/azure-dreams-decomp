@@ -84,7 +84,7 @@ void card_boot_jump_to_menu_code_entry(void);
 void card_boot_update_or_clears_selected_slot_outputs_refreshes_state_any_selected(void *state, s32 *enabled, s32 *selected);
 
 /* card_build_selected_slot_details.c */
-void card_build_selected_slot_details(void *panel);
+void card_build_selected_slot_details(void *panel_data);
 
 /* card_choice_state.c */
 void card_boot_set_paired_choice_selection(struct ObjectNodeHeader *object_addr, s32 value);

@@ -36,10 +36,6 @@ extern u8 D_80173DDC[];
 
    /* the 0x14 bytes before entry in update_actor_callbacks_and_motion, addressed as entry[-1] */
 
-typedef struct S_80169EC0_2 {
-    u8 pad_00[0x14];
-    u16 unk_14;
-} S_80169EC0_2;   /* record in update_actor_callbacks_and_motion */
 
 
    /* data in update_actor_callbacks_and_motion */
@@ -59,7 +55,7 @@ void update_actor_callbacks_and_motion(ActorRecord *body, ObjectPosition *motion
     s32 slot_index;
     u8 *slot_ptr;
     SpriteLinkPrefixView *slot_entry;
-    S_80169EC0_2 *slot_record;
+    SpriteFrameState *slot_record;
     u16 status;
     u16 height;
     s32 signed_height;
@@ -80,7 +76,7 @@ void update_actor_callbacks_and_motion(ActorRecord *body, ObjectPosition *motion
             slot_entry = ((ActorRecord *)slot_ptr)->unk_AC.address;
             if (slot_entry != NULL) {
                 slot_record = slot_entry[-1].sprite;
-                slot_record->unk_14 &= 0xFFBF;
+                slot_record->flags &= 0xFFBF;
             }
             slot_index--;
             slot_ptr -= 4;

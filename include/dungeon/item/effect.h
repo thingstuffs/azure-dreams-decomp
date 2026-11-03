@@ -21,7 +21,7 @@ void *create_return_magic_effect(s32 value);
 void create_timed_paired_particle_emitter(ObjectPosition *source, s32 effect_param, void *state_param);
 
 /* spawn_radial_particle_burst.c */
-void spawn_radial_particle_burst(s16 x, s16 y, s16 z, s16 flags);
+void spawn_radial_particle_burst(s16 x, s16 y, s16 z, s16 flags, s32 unused);
 
 /* tick_height_restore_effect.c */
 void tick_height_restore_effect(u16 *entity);

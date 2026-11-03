@@ -42,10 +42,6 @@ typedef struct S_8017086C_6 {
     u32 unk_98;
 } S_8017086C_6;   /* child in update_actor_action_controller */
 
-typedef struct S_8017086C_8 {
-    u8 pad_00[0xA4];
-    void * unk_A4;
-} S_8017086C_8;   /* base in update_actor_action_controller */
 
 extern s32 register_node(ObjectNodeHeader *entry, void *registration_id);
 extern s32 generate_random_value(void); /* Retail RNG reads no argument registers. */
@@ -73,7 +69,7 @@ void *update_actor_action_controller(s16 mode, s16 value_24, s16 value_25, s16 v
     s32 right;
     s16 saved_mode;
     void *current;
-    S_8017086C_8 *base;
+    ActorRecord *base;
     void *child_obj;
     SpriteFrameState *elem;
     s32 count;
@@ -165,7 +161,7 @@ void *update_actor_action_controller(s16 mode, s16 value_24, s16 value_25, s16 v
 
                     elem->clut = part_b->unk_12 - 128;
                     elem->color.word = ((u32)(0x00C0C0C0));
-                    ((ObjectNodeHeader *)base->unk_A4)->update_callback = child_object_update_address;
+                    ((ObjectNodeHeader *)base->unk_A4.address)->update_callback = child_object_update_address;
 
                     select_sprite_entry(elem, 39, 0);
                     elem_offset += 48;

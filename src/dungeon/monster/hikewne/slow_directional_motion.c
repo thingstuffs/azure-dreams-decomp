@@ -9,19 +9,11 @@
 #include "dungeon/actor.h"
 #include "dungeon/player/object.h"
 
-typedef struct S_80173294_0 {
-    u8 pad_00[0x8C];
-    void * unk_8C;
-    u8 pad_90[0x6];
-    union { s16 s; u16 u; s16 p; } unk_96;   /* accessed as both */
-    u8 pad_98[0x3];
-    u8 unk_9B;
-} S_80173294_0;   /* arg0 in slow_directional_motion */
 
 extern u8 hikewne_motion_frame_set;
 
 /* Slows directional motion, then recenters the entity on its tile. */
-void slow_directional_motion(S_80173294_0 *motion_state, ObjectPosition *motion, Rec_D_80082E80 *tile_state, void *entity)
+void slow_directional_motion(ActorRecord *motion_state, ObjectPosition *motion, Rec_D_80082E80 *tile_state, void *entity)
 {
     s16 timer;
     s32 x_speed_or_entity;
@@ -30,7 +22,7 @@ void slow_directional_motion(S_80173294_0 *motion_state, ObjectPosition *motion,
     s32 state;
     s32 countdown;
 
-    switch (motion_state->unk_9B) {
+    switch (motion_state->action_phase.u) {
     case 0:
         apply_clamped_actor_value_delta(entity);
         motion->velocity_x =
@@ -39,7 +31,7 @@ void slow_directional_motion(S_80173294_0 *motion_state, ObjectPosition *motion,
         motion->velocity_y =
             -*(s16 *)((u8 *)((s8 *)dir_step_y) +
                 ((((EntityRec *)entity)->unk_6A >> 8) & 0xE)) << 15;
-        motion_state->unk_9B++;
+        motion_state->action_phase.u++;
 
         if (((EntityRec *)entity)->unk_28 == 0) {
             motion->velocity_z = 0;
@@ -49,15 +41,15 @@ void slow_directional_motion(S_80173294_0 *motion_state, ObjectPosition *motion,
             return;
         }
         if (tile_state->unk_14.at00_u16.v & 0x8000) {
-            motion_state->unk_96.s = 0;
-            motion_state->unk_9B = 2;
+            motion_state->action_timer.s = 0;
+            motion_state->action_phase.u = 2;
             return;
         }
         timer = -1;
         if (((EntityRec *)entity)->flags1C & (ACTOR_MP_EMPTY | ACTOR_PARALYZED | ACTOR_ASLEEP)) {
             timer = 8;
         }
-        motion_state->unk_96.s = timer;
+        motion_state->action_timer.s = timer;
                         /* fall through */
 
     case 1:
@@ -72,13 +64,13 @@ void slow_directional_motion(S_80173294_0 *motion_state, ObjectPosition *motion,
         rounded_velocity = velocity_z;
         motion->velocity_y = velocity_z - (rounded_velocity / 4);
 
-        if (motion_state->unk_96.s > 0) {
-            motion_state->unk_96.u = motion_state->unk_96.u - 1;
+        if (motion_state->action_timer.s > 0) {
+            motion_state->action_timer.u = motion_state->action_timer.u - 1;
         } else if (tile_state->unk_14.at00_u16.v & 0x6000) {
-            motion_state->unk_96.s = 0;
+            motion_state->action_timer.s = 0;
         }
 
-        if (motion_state->unk_96.s != 0) {
+        if (motion_state->action_timer.s != 0) {
             return;
         }
         if (((EntityRec *)entity)->unk_28 == 0) {
@@ -88,12 +80,12 @@ void slow_directional_motion(S_80173294_0 *motion_state, ObjectPosition *motion,
             begin_actor_display_action(motion_state, motion, tile_state, &hikewne_motion_frame_set);
             return;
         }
-        motion_state->unk_96.s = 8;
-        motion_state->unk_9B++;
+        motion_state->action_timer.s = 8;
+        motion_state->action_phase.u++;
         return;
 
     case 2:
-        timer = motion_state->unk_96.s;
+        timer = motion_state->action_timer.s;
         if (timer != 0) {
             s32 tile_coord;
             s32 offset_coord;
@@ -107,11 +99,11 @@ void slow_directional_motion(S_80173294_0 *motion_state, ObjectPosition *motion,
             offset_coord -= 0x20;
             tile_coord = tile_state->unk_25 << 6;
             motion->velocity_y =
-                ((tile_coord - offset_coord) << 15) / motion_state->unk_96.s;
+                ((tile_coord - offset_coord) << 15) / motion_state->action_timer.s;
         }
 
-        countdown = motion_state->unk_96.u - 1;
-        motion_state->unk_96.p = countdown;
+        countdown = motion_state->action_timer.u - 1;
+        motion_state->action_timer.s = countdown;
         if ((countdown << 16) > 0) {
             return;
         }
@@ -128,7 +120,7 @@ void slow_directional_motion(S_80173294_0 *motion_state, ObjectPosition *motion,
                 g_dungeon_status.pending_display_owner = x_speed_or_entity & 0x7FFFFFFF;
             }
         }
-        motion_state->unk_8C = update_actor_behavior_animation_and_facing;
+        motion_state->unk_8C.address = update_actor_behavior_animation_and_facing;
         return;
 
     default:

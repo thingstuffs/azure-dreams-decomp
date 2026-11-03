@@ -17,9 +17,6 @@ struct ObjectNodeHeader;
 #define NULL 0
 #endif
 
-typedef struct S_800D4DE8_0_pre {
-    u16 unk_00;
-} S_800D4DE8_0_pre;   /* the 0x2 bytes before arg0 in emit_particles_until_expired, addressed as arg0[-1] */
 
 
 typedef struct S_800D4DE8_8 {
@@ -78,7 +75,7 @@ void emit_particles_until_expired(void *emitter, Rec_func_800D4BD4_arg2 *positio
     life_left = ((Rec_func_800D4BD4_arg1 *)emitter)->unk_1E - 1;
     ((Rec_func_800D4BD4_arg1 *)emitter)->unk_1E = life_left;
     if ((life_left << 0x10) <= 0) {
-        ((S_800D4DE8_0_pre *)emitter)[-1].unk_00 = ((S_800D4DE8_0_pre *)emitter)[-1].unk_00 | 0x8000;
+        NODE_HEADER(emitter)->flags = NODE_HEADER(emitter)->flags | 0x8000;
         object_flag_block.flags |= OBJECT_REMOVE_PENDING;
         g_dungeon_status.activity_counts.parts.pending_action_count = ((u16)g_dungeon_status.activity_counts.parts.pending_action_count) - 1;
     }

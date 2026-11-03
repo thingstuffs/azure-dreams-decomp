@@ -1,5 +1,6 @@
 #ifndef ENGINE_MENU_H
 #define ENGINE_MENU_H
+#include "engine/menu/animated_selection_body.h"
 struct DungeonItemEntry;
 /* Prototypes of the functions defined in src/engine/menu/ (one true prototype each; maintained by tools/headers). */
 
@@ -14,8 +15,6 @@ struct S_8004F780;
 struct S_8004F95C;
 struct S_8004F9AC_Obj;
 struct S_8004FA2C;
-struct S_8004FAA4_1;
-struct S_8004FC2C;
 struct S_800506BC_Ctx;
 struct S_800506BC_Obj;
 struct S_80053A88_Node;
@@ -125,7 +124,7 @@ void flag_object_and_release_inner(struct ObjA464 *obj, s32 unused);
 void handle_animated_selection_menu_cancel(AnimatedSelectionMenuOwnerBody *payload);
 
 /* handle_animated_selection_menu_input.c */
-void handle_animated_selection_menu_input(struct S_8004FAA4_1 *menu);
+void handle_animated_selection_menu_input(AnimatedSelectionMenuBody *menu);
 
 /* handle_object_input.c */
 void handle_object_input(void *object);
@@ -177,7 +176,7 @@ void set_object_cleanup_flag(unsigned short *object_fields);
 void sound_initialize_ordered_elements(struct AnimatedMenuPanelBody *obj);
 
 /* update_animated_selection_menu.c */
-void update_animated_selection_menu(struct S_8004FC2C *object);
+void update_animated_selection_menu(AnimatedSelectionMenuBody *object);
 
 /* update_menu_backdrop_variant.c */
 void update_menu_backdrop_variant(SevenEntryMenuBackdropBody *object);

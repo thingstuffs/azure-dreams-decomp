@@ -19,6 +19,7 @@
 #include "dungeon/level.h"
 #include "dungeon/player/object.h"
 #include "sdk/libc.h"
+#include "dungeon/modules.h"
 
 extern void select_sprite_entry(void *, s32, s32);
 extern s32 find_active_rect_containing_point(s32, s32);
@@ -202,7 +203,7 @@ void update_actor_behavior_and_direction(ActorRecord *motion, ObjectPosition *re
                 }
             }
         }
-        update_actor_turn_behavior(motion, render_ctx, map_entity, actor);
+        choose_block_move_slot_a(motion, render_ctx, map_entity, actor);
         return;
     } else if (!(((u32)actor->flags1C) & ACTOR_PLAYER_SIDE)) {
         s32 room_index = (s8)room_id;

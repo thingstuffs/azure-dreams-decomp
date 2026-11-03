@@ -17,9 +17,9 @@
 #include "shared/sprite_frame_state.h"
 #include "dungeon/monster/pulunpa.h"
 #include "sdk/libc.h"
+#include "dungeon/system.h"
 
 extern void select_sprite_entry(void *, s32, s32);
-extern void play_sound_if_enabled(s32);
 
 extern u8 pulunpa_action_resume_address[];
 extern u8 pulunpa_frame_set_1[];

@@ -13,6 +13,7 @@ struct ObjectPosition;
 #include "engine/audio.h"
 #include "engine/resource.h"
 #include "sdk/libgpu.h"
+#include "dungeon/system.h"
 
 void (*const dungeon_19de800_entry)(struct S_func_80026418_0 *effect) = advance_particle_fade_and_cleanup;
 typedef struct { s16 x, y; } BankDirections;

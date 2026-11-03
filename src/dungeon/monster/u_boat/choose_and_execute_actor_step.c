@@ -20,7 +20,7 @@
 #define PTR_AT(p, o) (*(void **)((u8 *)(p) + (o)))
 
 extern s32 get_entity_effect_value(ActorRecord *entry, s32 effect_id);
-extern s32 check_entity_relation();
+extern s16 check_entity_relation(ActorRecord *entry, ActorRecord *anchor);
 extern void cycle_map_cell_flags(s16 x, s16 y, u16 flags);
 extern void update_map_cell_flags_with_item_limit(s32 x, s32 y, u16 flags);
 extern s32 check_diagonal_side_height(s32 direction, s16 tile_x, s16 tile_y, s16 height);

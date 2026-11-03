@@ -32,7 +32,6 @@ struct Dst;
 struct Elem;
 
 void select_record_entry_and_value(void *state, void *entries, short index);
-extern s32 play_sound_if_enabled(s32 query_value);
 extern u8 D_800DF650[];
 
 typedef struct S_800CBB98_0 {
@@ -178,7 +177,6 @@ extern u8 D_800E1B2E[];
 extern void display_formatted_context_message(void *context);
 extern s32 get_entity_effect_value(ActorRecord *entry, s32 effect_id);
 extern void initialize_timed_motion_step(u16 countdown, u32 amount);
-extern s32 play_sound_if_enabled(s32 query_value);
 
 /* Advances a timed Z transition, waits for readiness, and marks completion. */
 void advance_timed_z_transition(s16 *transition) {
@@ -249,7 +247,6 @@ extern u8 D_800E1B5D;
 extern s32 get_entity_effect_value(ActorRecord *entry, s32 effect_id);
 #include "dungeon/actor/status.h"
 extern void initialize_timed_motion_step(u16 countdown, u32 amount);
-extern s32 play_sound_if_enabled(s32 query_value);
 extern void display_formatted_context_message(void *context);
 
 /* Creates an effect for the active entity or displays its status message. */
@@ -292,7 +289,6 @@ s32 create_active_entity_effect_or_message(ActorRecord *entity)
 #define P32(p,o) (*(void **)((u8 *)(p)+(o)))
 extern s32 generate_random_value(void);
 #include "dungeon/actor/status.h"
-extern s32 play_sound_if_enabled(s32 query_value);
 
 extern u8 D_800E1BBC[];
 /* Attempts a random status effect and plays its visual and sound effects on success. */
@@ -347,7 +343,6 @@ typedef struct S_800CC18C_0 {
 } S_800CC18C_0;   /* arg0 in resolve_random_trap_outcome; pointer addresses record offset 0x18 */
 
 extern u8 D_800E1BDA[];
-extern s32 play_sound_if_enabled(s32 query_value);
 extern s32 generate_random_value(void);
 extern s32 begin_actor_random_warp(void *, s32, s32, void *);
 
@@ -405,8 +400,6 @@ s32 resolve_random_trap_outcome(ActorRecord *entity, s32 forwarded_1, s32 forwar
 }
 #include "modules/trap_effects_candidate.h"
 #include "common.h"
-
-extern s32 play_sound_if_enabled(s32 query_value);
 
 typedef struct {
     u8 pad0[0x14];
@@ -837,7 +830,6 @@ typedef struct {
 extern u8 trap_resource_slot;
 extern s32 D_800DCF78;
 
-extern s32 play_sound_if_enabled(s32 query_value);
 s32 generate_random_value(void);
 void draw_textured_ellipse(void *parameters, GpuRect *rectangle, u16 fill_rect, u16 draw_mode);
 
@@ -955,7 +947,6 @@ typedef struct S_800CCDA0_3 {
 } S_800CCDA0_3;   /* arg2 in update_bouncing_trap_effect */
 
 extern void apply_attack_power_and_element_effects(void *, s32, s32, s32, s32, void *, s32);
-extern s32 play_sound_if_enabled(s32 query_value);
 
 /* Updates a bouncing effect's motion, rotation, and fading until its lifetime expires. */
 void update_bouncing_trap_effect(void *effect, void *motion, void *sprite)
@@ -1097,7 +1088,6 @@ typedef struct S_800CD004_5 {
 
    /* counter in spawn_source_sprite_effect */
 
-extern s32 play_sound_if_enabled(s32 query_value);
 extern s32 generate_random_value(void);
 
 extern u8 D_800CCDA0;
@@ -1185,7 +1175,6 @@ s32 spawn_source_sprite_effect(void *source_arg, s32 rng_arg_1, s32 rng_arg_2, s
 #include "common.h"
 #include "shared/entity.h"
 
-extern s32 play_sound_if_enabled(s32 query_value);
 extern s32 roll_chance_and_run_action(void *record, s16 chance, s8 action);
 extern s32 D_800DCF0C;
 extern u8 D_800E1BF3[];
@@ -1255,7 +1244,6 @@ typedef struct S_800CD294_1 {
 /* cfail-repair: tf7-phase1-cache-v3 */
 
 extern s32 D_800DCF14;
-extern s32 play_sound_if_enabled(s32 query_value);
 extern u8 D_800E1C03[17];
 
 /* Checks the record and triggers the associated visual and sound effects on success. */
@@ -1335,9 +1323,6 @@ s32 attempt_trap_request_eight_slots(void *object) {
 #include "shared/object_flags.h"
 #include "shared/dungeon_status.h"
 
-typedef struct S_800CD474_0_pre {
-    u16 unk_00;
-} S_800CD474_0_pre;   /* the 0x2 bytes before arg0 in advance_falling_trap_effect, addressed as arg0[-1] */
 
 typedef struct S_800CD474_1 {
     u8 pad_00[0x8];
@@ -1359,7 +1344,6 @@ typedef struct S_800CD474_2 {
    /* global_base in advance_falling_trap_effect */
 
 extern void initialize_timed_motion_step(u16 countdown, u32 amount);
-extern s32 play_sound_if_enabled(s32 query_value);
 
 /* Advance a falling effect through impact, flashing, and fade-out. */
 void advance_falling_trap_effect(FourOwnerSpriteEffectsBody *effect, S_800CD474_1 *motion, S_800CD474_2 *primitive) {
@@ -1418,7 +1402,7 @@ void advance_falling_trap_effect(FourOwnerSpriteEffectsBody *effect, S_800CD474_
         fade_timer = effect->timer - 1;
         effect->timer = fade_timer;
         if ((fade_timer << 16) <= 0) {
-            ((S_800CD474_0_pre *)effect)[-1].unk_00 |= 0x8000;
+            NODE_HEADER(effect)->flags |= 0x8000;
             object_flag_block.flags |= OBJECT_REMOVE_PENDING;
             g_dungeon_status.activity_counts.parts.pending_action_count -= 1;
         }
@@ -1446,7 +1430,6 @@ void apply_mode_selected_trap_mask(ActorRecord *target, s32 unused_mask)
 #include "shared/dungeon_status.h"
 #include "shared/dir_step.h"
 
-extern s32 play_sound_if_enabled(s32 query_value);
 extern s32 generate_random_value(void);
 
 extern u8 D_800CD474[];
@@ -1674,7 +1657,6 @@ s32 run_action_ten_if_eligible(ActorRecord *entity, s8 action_arg) {
 #include "shared/dungeon_status.h"
 
 extern s32 get_entity_effect_value(ActorRecord *entry, s32 effect_id);
-extern s32 play_sound_if_enabled(s32 query_value);
 extern s32 generate_random_value(void);
 extern u8 D_800CD910[];
 extern u8 D_800DF820[];
@@ -1788,7 +1770,6 @@ s32 roll_trap_trigger_chance(ActorRecord *ptr, s32 unused1, s32 unused2, s32 unu
 extern u8 D_800DF870[];
 
 extern s32 generate_random_value(void);
-extern s32 play_sound_if_enabled(s32 query_value);
 
 /* Applies a chance-based effect, with visual and sound feedback for unflagged entries. */
 s32 apply_chance_based_trap_effect(void *state, s32 unused_1, s32 unused_2, s32 unused_3)
@@ -1962,7 +1943,6 @@ typedef struct {
 } DungeonTile;
 
 extern void refresh_packed_grid_nibbles(void);
-extern s32 play_sound_if_enabled(s32 query_value);
 extern void initialize_timed_motion_step(u16 countdown, u32 amount);
 
 /* Animate a 5x5 tile patch to target heights, wait, then restore its initial heights. */
@@ -2327,7 +2307,6 @@ typedef struct S_800CE748_3 {
 void *get_unused_text_buffer(void);
 u8 *expand_text_control_codes(u8 *src, u8 *dst);
 void * write_text_byte_and_advance(s8 value, s8 *dest);
-extern s32 play_sound_if_enabled(s32 query_value);
 s32 display_text_with_fullwidth_adjustment(s8 *text);
 s32 generate_random_value(void);
 
@@ -2499,7 +2478,6 @@ extern s8 entity_spawn_variant_code;
 extern void initialize_timed_motion_step(u16 countdown, u32 amount);
 extern void SD_Call(s32);
 extern void display_formatted_context_message(void *context);
-extern s32 play_sound_if_enabled(s32 query_value);
 extern s32 generate_random_value(void);
 extern s32 random_dungeon_range_16(u32 bound_a, u32 bound_b);
 

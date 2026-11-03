@@ -43,11 +43,6 @@ typedef struct S_80172FC0_0 {
     u16 unk_BA;
 } S_80172FC0_0;   /* arg0 in update_shrinking_fading_effect */
 
-typedef struct S_80172FC0_3 {
-    u8 pad_00[0x24];
-    u8 unk_24;
-    u8 unk_25;
-} S_80172FC0_3;   /* owner in update_shrinking_fading_effect */
 
 
 typedef struct S_80172FC0_6 {
@@ -73,7 +68,7 @@ void update_shrinking_fading_effect(ActorRecord *anim, ObjectPosition *transform
     u8 state;
     u16 timer;
     SpriteFrameState *target_sprite;
-    S_80172FC0_3 *main_actor;
+    ActorRecord *main_actor;
     void *child;
 
     state = anim->action_phase.u;
@@ -170,7 +165,7 @@ void update_shrinking_fading_effect(ActorRecord *anim, ObjectPosition *transform
         transform_arg->velocity_y = 0;
         transform_arg->velocity_x = 0;
         set_record_integer_tile_center(transform_arg, sprite->tile_x, sprite->tile_y);
-        main_actor = (S_80172FC0_3 *)primary_actor_record;
+        main_actor = primary_actor_record;
         g_dungeon_status.active_actor = 0;
         (*(u16 *)((u8 *)main_actor + 0xA6))--;
         advance_status_timers(actor);

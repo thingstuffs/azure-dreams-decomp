@@ -17,6 +17,7 @@
 #include "dungeon/effect/particle.h"
 #include "dungeon/monster/ashra.h"
 #include "sdk/libc.h"
+#include "dungeon/system.h"
 
 
 typedef struct S_80172810_3 {
@@ -35,7 +36,6 @@ typedef struct S_80172810_7 {
 
 
 extern void select_sprite_entry(void *, s32, s32);
-extern void play_sound_if_enabled(s32);
 
 extern u8 ashra_action_continuation_address[];
 extern u8 D_801739C0[];
@@ -102,13 +102,13 @@ void advance_actor_motion_action(ActorRecord *action_state, ObjectPosition *posi
                 if (player_target != 0) {
                     target = primary_actor_record;
                     actor->target = target;
-                    action_globals = ((ObjectNodeHeader *)target - 1)->sprite;
+                    action_globals = NODE_HEADER(target)->sprite;
                     actor->target_tile_x = ((S_80172810_3 *)action_globals)->unk_24;
                     actor->target_tile_y = ((S_80172810_3 *)action_globals)->unk_25;
                 } else if (item_action_definitions[*motion].kind == 2) {
                     target = actor->target;
                     if (target != 0) {
-                        action_globals = ((ObjectNodeHeader *)target - 1)->sprite;
+                        action_globals = NODE_HEADER(target)->sprite;
                         actor->target_tile_x = ((S_80172810_3 *)action_globals)->unk_24;
                         actor->target_tile_y = ((S_80172810_3 *)action_globals)->unk_25;
                     }
@@ -141,7 +141,7 @@ void advance_actor_motion_action(ActorRecord *action_state, ObjectPosition *posi
         position->velocity_x = 0;
         set_record_integer_tile_center(position, sprite->tile_x, sprite->tile_y);
         g_dungeon_status.active_actor = 0;
-        (*(u16 *)((u8 *)&primary_actor_record->unk_A4.value + 2)) = primary_actor_record->unk_A4.halves.high.u - 1;
+        primary_actor_record->unk_A4.halves.high.u = primary_actor_record->unk_A4.halves.high.u - 1;
         advance_status_timers(actor);
         actor->pending_turn_updates = ((u8)actor->pending_turn_updates) - 1;
         action_state->unk_8C.address = ashra_action_continuation_address;

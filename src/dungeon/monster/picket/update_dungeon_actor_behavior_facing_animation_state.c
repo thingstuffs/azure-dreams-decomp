@@ -19,6 +19,7 @@
 #include "dungeon/level.h"
 #include "dungeon/player/object.h"
 #include "dungeon/modules.h"
+#include "dungeon/monster/hikewne.h"
 
 extern void select_sprite_entry(void *, s32, s32);
 extern s8 find_active_rect_containing_point(s32, s32);
@@ -26,7 +27,6 @@ extern void update_actor_status_and_mp(ActorRecord *entity);
 extern void advance_stored_entity_path(void *controller, ObjectPosition *context, void *entity, void *path_state);
 extern s32 check_actor_transition_and_start_effect(ActorRecord *action_state, ObjectPosition *motion_param, SpriteFrameState *sprite_arg, ActorRecord *actor);
 extern void start_directional_actor_effect(ActorRecord *action_state, ObjectPosition *action_context, void *sprite, ActorRecord *actor);
-extern s32 update_entity_state_from_query(void *, void *, void *, s32);
 extern void func_80174060(void *, void *, void *, void *);
 extern void start_the_actor_s_attack_step_clear_hex_71_busy_bit_latch(ActorRecord *, ObjectPosition *, void *, void *);
 extern void clear_the_state_flag_allowed_resets_entity_selects_directional(ActorRecord *, ObjectPosition *, void *, ActorRecord *);

@@ -18,10 +18,10 @@ extern u8 familiar_call_text[];
 extern s32 process_record_and_update_linked_state(struct DungeonItemEntry *, s32); /* Unprototyped: uses the value as a pointer where the definition has an integer (or the reverse) */
 extern void clear_slot_and_update_linked_state(DungeonItemEntry *slot);
 extern u8 *clear_byte_and_advance(u8 *byte_ptr);
-extern void play_sound_if_enabled(s32);
+extern s32 play_sound_if_enabled(s32 query_value);
 extern void display_text_with_fullwidth_adjustment(s8 *text);
 extern void place_actor_item(void *object_context, struct DungeonItemEntry *target);
-extern void display_actor_item_status_message(void *, struct DungeonItemEntry *, s16);
+extern void display_actor_item_status_message(void *actor, struct DungeonItemEntry *item);
 extern void teleport_familiar_near_player(s32, s16); /* Unprototyped: uses the value as a pointer where the definition has an integer (or the reverse) */
 
 /* Applies a target action or processes occupied player slots and updates the action count. */
@@ -44,7 +44,7 @@ s32 apply_familiar_call_item(ActorRecord *target, DungeonItemEntry *action, s16 
     }
 
     if ((u32)target <= 0x9FFFFFFFU) {
-        display_actor_item_status_message(target, action, action_type);
+        display_actor_item_status_message(target, action);
         if (feed_actor_restore_mp(target, entity_action_selectors[target->species] & 3, action) == 0) {
             place_actor_item(target, action);
             return 1;

@@ -17,32 +17,15 @@
 #include "dungeon/level.h"
 #include "dungeon/monster/kewne_uncached.h"
 #include "dungeon/player/object.h"
+#include "dungeon/monster/hikewne.h"
+#include "dungeon/monster/kewne.h"
 
-typedef struct S_80165FA4_0 {
-    u8 pad_00[0x8C];
-    s32 unk_8C;
-    u8 pad_90[0x2];
-    union { u16 u; s16 s; } unk_92;   /* accessed as both */
-    u8 pad_94[0x4];
-    u16 unk_98;
-    u8 unk_9A;
-    u8 unk_9B;
-    u8 pad_9C[0x2];
-    s16 unk_9E;
-    u8 pad_A0[0x2];
-    union { s16 s; u16 u; } unk_A2;   /* accessed as both */
-    u8 pad_A4[0x12];
-    s16 unk_B6;
-} S_80165FA4_0;   /* arg0 in update_dungeon_actor_animation */
 
 extern void select_sprite_entry(void *, s32, s32);
 extern s8 find_active_rect_containing_point(s32, s32);
 extern void update_actor_status_and_mp(ActorRecord *entity);
-extern void advance_actor_path_and_facing(void *, void *, void *, void *);
 extern void select_bank_actor_movement(void *, void *, void *, void *);
 extern s32 select_and_start_target_action(ActorRecord *action_state, ObjectPosition *action_param, SpriteFrameState *visual_data, ActorRecord *actor);
-extern void start_kewne_attack_action(void *, void *, void *, void *);
-extern s32 update_entity_state_from_query(void *, void *, void *, void *);
 extern void func_80169078(void *, void *, void *, void *);
 
 extern u8 D_80165FA4[];
@@ -60,7 +43,7 @@ void update_dungeon_actor_animation(void *actor, ObjectPosition *actor_aux, Spri
     u16 action_state;
 
     if (g_dungeon_status.flags & 0x1000) {
-        ((S_80165FA4_0 *)actor)->unk_9A = 0xE;
+        ((ActorRecord *)actor)->action_id.u = 0xE;
         advance_actor_path_and_facing(actor, actor_aux, sprite, actor_data);
         return;
     }
@@ -81,9 +64,9 @@ void update_dungeon_actor_animation(void *actor, ObjectPosition *actor_aux, Spri
 
     if (((u32)actor_data->flags1C) & ACTOR_ASLEEP) {
         if (sprite->frameTable == D_80169C90) {
-            ((S_80165FA4_0 *)actor)->unk_9A = 0xD;
-            ((S_80165FA4_0 *)actor)->unk_9B = 1;
-            ((S_80165FA4_0 *)actor)->unk_8C = 0;
+            ((ActorRecord *)actor)->action_id.u = 0xD;
+            ((ActorRecord *)actor)->action_phase.u = 1;
+            ((ActorRecord *)actor)->unk_8C.word = 0;
             actor_data->flags1C &= 0xFFFBFFFF;
             return;
         }
@@ -99,14 +82,14 @@ void update_dungeon_actor_animation(void *actor, ObjectPosition *actor_aux, Spri
         }
 
         {
-            u8 current_state = ((S_80165FA4_0 *)actor)->unk_9A;
+            u8 current_state = ((ActorRecord *)actor)->action_id.u;
             u32 next_state = 0xE;
             void *current_anim;
             void *anim_table;
 
             if (current_state != next_state) {
-                ((S_80165FA4_0 *)actor)->unk_9A = next_state;
-                ((S_80165FA4_0 *)actor)->unk_B6 = 0;
+                ((ActorRecord *)actor)->action_id.u = next_state;
+                ((ActorRecord *)actor)->unk_B4.halves.high.s = 0;
             }
             current_anim = sprite->frameTable;
             if (current_anim != D_80169CA8 || (sprite->flags & 0xE000)) {
@@ -126,14 +109,14 @@ void update_dungeon_actor_animation(void *actor, ObjectPosition *actor_aux, Spri
                         0);
                 }
                 sprite->frame_ticks = 1;
-                ((S_80165FA4_0 *)actor)->unk_A2.s = 0;
-                ((S_80165FA4_0 *)actor)->unk_9E = 0;
+                ((ActorRecord *)actor)->unk_A0.halves.high.s = 0;
+                ((ActorRecord *)actor)->unk_9E.s = 0;
             }
         }
 state_done:
 
         (*(u32 *)&actor_data->flags1C) |= 0x40000;
-        ((S_80165FA4_0 *)actor)->unk_98 &= 0xFFF7;
+        ((ActorRecord *)actor)->action_state_flags &= 0xFFF7;
 
         if (actor_data->hp_delta != 0) {
             if (begin_ready_actor_directional_action(actor, actor_aux, sprite, D_80169C38) != 0) {
@@ -145,10 +128,10 @@ state_done:
             s16 delta;
 
             begin_actor_move_to_target_facing(actor, actor_aux, sprite, actor_data);
-            delta = ((S_80165FA4_0 *)actor)->unk_92.u - ((S_80165FA4_0 *)actor)->unk_A2.u;
-            ((S_80165FA4_0 *)actor)->unk_A2.s = 0;
-            ((S_80165FA4_0 *)actor)->unk_9E = 0;
-            ((S_80165FA4_0 *)actor)->unk_92.s = delta;
+            delta = ((ActorRecord *)actor)->unk_90.parts.high.u - ((ActorRecord *)actor)->unk_A0.parts.high;
+            ((ActorRecord *)actor)->unk_A0.halves.high.s = 0;
+            ((ActorRecord *)actor)->unk_9E.s = 0;
+            ((ActorRecord *)actor)->unk_90.parts.high.s = delta;
             func_80169078(actor, actor_aux, sprite, actor_data);
             return;
         }

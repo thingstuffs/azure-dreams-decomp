@@ -22,7 +22,7 @@ extern void clear_slots_of_type(ActorRecord *owner, s8 match_type);
 extern void select_sprite_entry(void *, s32, s32);
 extern s16 get_tile_chebyshev_distance(void *, void *);
 #include "dungeon/player/object/action_state.h"
-extern s32 generate_random_value(void *);
+extern s32 generate_random_value(void);
 extern void update_actor_status_and_mp(ActorRecord *entity);
 extern void func_80174890(void *, void *, void *, void *);
 
@@ -136,7 +136,7 @@ void advance_actor_directional_action(ActorRecord *controller, ObjectPosition *c
                     }
                     check_target = active_actor;
                 }
-                if ((generate_random_value(check_target) & 7) == 0) {
+                if ((generate_random_value() & 7) == 0) {
                     clear_slots_of_type(actor, STATUS_SLEEP);
                 }
             }

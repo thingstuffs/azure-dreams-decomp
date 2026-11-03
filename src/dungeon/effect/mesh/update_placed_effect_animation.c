@@ -69,10 +69,11 @@ typedef struct {
 
 
 extern void func_800243C0(void *, void *);
-extern void play_sound_if_enabled(s32);
 #include "dungeon/item/actor_target.h"
 #include "dungeon/item.h"
 #include "dungeon/effect/mesh.h"
+#include "dungeon/system.h"
+
 extern u16 get_surface_height_at_record(void *);
 extern s32 check_left_tile_and_center_height(s32 x, s32 y, s32 z);
 extern void func_80025508(void *, void *);

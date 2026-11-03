@@ -11,9 +11,9 @@ void set_linked_data_pointers_variant_1(TownObjectRecord *record, ObjectPosition
 }
 
 /* Set both object references to D_800D58F4. */
-void set_linked_data_pointers_variant_2(S_800C645C_0 *object) {
-    *object->data_slot = &D_800D58F4;
-    ((TownObjectRecord *)(((TownObjectRecord *)object)->descriptor))->unk_04.as_pm = &D_800D58F4;
+void set_linked_data_pointers_variant_2(TownObjectRecord *object) {
+    *object->unk_7C.as_pps32 = &D_800D58F4;
+    ((TownObjectRecord *)(object->descriptor))->unk_04.as_pm = &D_800D58F4;
 }
 
 /* Sets the object's linked data pointer to D_800D5930. */
@@ -22,12 +22,12 @@ void set_linked_data_pointer_variant_3(S_800C6478_0 *object) {
 }
 
 /* Check whether both actor data references match D_800D58B8. */
-s32 check_actor_data_references_match(S_800C648C_0 *actor) {
+s32 check_actor_data_references_match(TownObjectRecord *actor) {
     s32 data_addr;
 
-    data_addr = *actor->data_slot;
+    data_addr = *actor->unk_7C.as_pps32;
     if ((data_addr == (s32)&D_800D58B8) &&
-        (((S_800C648C_1 *)(actor->linked_data))->data == data_addr)) {
+        (((S_800C648C_1 *)(actor->descriptor))->data == data_addr)) {
         return 1;
     }
     return 0;

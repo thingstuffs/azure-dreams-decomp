@@ -14,15 +14,6 @@ typedef struct S_800B2964_0 {
 
 /* extern */
 
-/* extern */
-typedef struct S_800B29D0_0 {
-    u8 pad_00[0x38];
-    s32 unk_38;
-    u8 pad_3C[0x4];
-    s32 unk_40;
-    s32 unk_44;
-} S_800B29D0_0;
-
 s32 create_callback_pair_default();
 /* extern */
 

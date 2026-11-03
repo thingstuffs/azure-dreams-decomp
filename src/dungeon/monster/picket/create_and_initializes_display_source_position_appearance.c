@@ -22,7 +22,7 @@ typedef struct {
 #define NULL 0
 #endif
 
-extern void create_tracked_effect(void *, s32, s32, s32);
+extern void create_tracked_effect(void *, s32, s32, s32); /* Unprototyped: uses the value as a pointer where the definition has an integer (or the reverse) */
 
 extern u8 item_effect_descriptor[9];
 

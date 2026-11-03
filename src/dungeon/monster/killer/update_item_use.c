@@ -81,13 +81,14 @@ typedef struct S_func_80FDD1A0_4 {
 
 extern void register_node(void *, void *);
 extern void select_sprite_entry(void *, s32, s32);
-extern void play_sound_if_enabled(s32);
 
 extern u8 effect_update_tag[];
 extern u8 killer_action_resume_address;
 #include "dungeon/monster/killer.h"
 #include "dungeon/item.h"
 #include "dungeon/actor.h"
+#include "dungeon/system.h"
+
 extern u8 D_80174078[];
 
 /* Updates item use, its visual effect, and the actor's return to idle. */

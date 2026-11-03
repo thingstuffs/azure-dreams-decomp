@@ -2,6 +2,7 @@
 #include "m2c_compat.h"
 #include "shared/vector.h"
 #include "engine/node.h"
+#include "shared/entity.h"
 
 typedef struct S_800A23D0_0 {
     s32 unk_00;
@@ -13,11 +14,6 @@ typedef struct S_800A23D0_0 {
     s16 unk_1A;
 } S_800A23D0_0;   /* arg2 in initialize_object_position_state */
 
-typedef struct S_800A23D0_1 {
-    union { struct { s32 v; } at00; struct { u8 pad[0x2]; u16 v; } at02; } unk_00;   /* overlapping accesses */
-    union { struct { s32 v; } at00; struct { u8 pad[0x2]; u16 v; } at02; } unk_04;   /* overlapping accesses */
-    s32 unk_08;
-} S_800A23D0_1;   /* arg1 in initialize_object_position_state */
 
 typedef struct S_800A23D0_2 {
     void (*unk_00)();
@@ -35,20 +31,20 @@ extern void copy_negated_menu_phase();
 extern M2C_UNK D_800D0A48;
 
 /* Initialize object state and copy its position with an offset. */
-void initialize_object_position_state(void *object_arg, S_800A23D0_1 *position, S_800A23D0_0 *state) {
+void initialize_object_position_state(void *object_arg, ObjectPosition *position, S_800A23D0_0 *state) {
     S_800A23D0_2 *object = object_arg;
     s32 *value_table;
     state->unk_00 = 0;
     state->unk_04 = 0;
     state->unk_05 = 0;
     register_node(object_arg - 0x20, &lit_mesh_renderer_address);
-    position->unk_00.at00.v = (s32) ((IntVector3 *)(object->unk_14))->x;
-    position->unk_04.at00.v = (s32) ((IntVector3 *)(object->unk_14))->y;
-    position->unk_08 = (s32) ((IntVector3 *)(object->unk_14))->z;
+    position->x.v = (s32) ((IntVector3 *)(object->unk_14))->x;
+    position->y.v = (s32) ((IntVector3 *)(object->unk_14))->y;
+    position->z.v = (s32) ((IntVector3 *)(object->unk_14))->z;
     object->unk_00 = &copy_negated_menu_phase;
     value_table = &D_800D0A48;
     state->unk_08 = (s32) value_table[object->unk_20];
-    position->unk_00.at02.v = (u16) (position->unk_00.at02.v + 0x28);
-    position->unk_04.at02.v = (u16) (position->unk_04.at02.v - 8);
+    position->x.unsigned_parts.integer = (u16) (position->x.unsigned_parts.integer + 0x28);
+    position->y.unsigned_parts.integer = (u16) (position->y.unsigned_parts.integer - 8);
     state->unk_1A = 0;
 }

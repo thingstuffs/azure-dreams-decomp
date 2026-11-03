@@ -21,7 +21,6 @@ typedef struct S_func_8132B8AC_2 S_func_8132B8AC_2;
 extern u8 ghosh_frame_set_1[];
 void unlink_entity_node(); /* extern */
 void update_map_cell_flags_with_item_limit(s32 x, s32 y, u16 flags); /* extern */
-void create_boss_linked_effect(); /* extern */
 void func_801730AC(S_func_8132B8AC_0 *actor, S_func_8132B8AC_1 *motion, S_func_8132B8AC_2 *sprite);
 
 typedef struct S_80173F6C_0 {

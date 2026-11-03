@@ -5,15 +5,10 @@
 #include "town/person/motion.h"
 #include "town/player.h"
 
-
-typedef struct S_800C3F44_3 {
-    u8 pad_00[0x20];
-    s32 *unk_20;
-} S_800C3F44_3;   /* ((TownObjectRecord *)arg0)->unk_80 in advance_motion_and_switch_handler */
+   /* ((TownObjectRecord *)arg0)->unk_80 in advance_motion_and_switch_handler */
 
 #include "town/person/object/initialize_object_entries_api.h"        /* extern */
 #include "town/person/object.h"
-
 
 /* Advances motion and changes the object handler when the motion step is nonnegative. */
 void advance_motion_and_switch_handler(TownObjectRecord *object, EntityRec *motion, SpriteFrameState *context) {

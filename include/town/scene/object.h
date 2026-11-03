@@ -26,8 +26,6 @@ typedef struct FallingObjectState {
     u8 pad_54[0x18];
     s16 timer;
 } FallingObjectState;
-void initialize_falling_object_sprite(FallingObjectState *object, ObjectPosition *context, SpriteFrameState *sprite);
-
 
 typedef union SpriteSixNodeView {
     TownObjectRecord *state;

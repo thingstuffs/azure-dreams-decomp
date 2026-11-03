@@ -6,6 +6,8 @@
 #include "town/person/object.h"
 #include "town/map/object.h"
 #include "engine/script.h"
+#include "town/person/person_object_lifecycle_g00659.h"
+#include "town/person/position_callbacks_api.h"
 
 /* Initialize object resources and display state, then copy its position to shared state. */
 void initialize_object_resources_2(TownObjectRecord *object, ObjectPosition *position, SpriteFrameState *display_state) {
@@ -43,7 +45,7 @@ void set_camera_chase_data(TownObjectRecord *object, ObjectPosition *chase_data,
         chase_fix[2] = 0;
         chase_fix[1] = second_value;
         tcame_chase_fix(chase_fix);
-        ((ObjectNodeHeader *)object - 1)->update_callback = message_motion_type_b;
+        ((ObjectNodeHeader *)object - 1)->update_callback = update_object_motion_and_flags;
     }
 }
 
@@ -107,7 +109,7 @@ void *create_user_data_object_b(s32 user_data)
         register u16 flags;
         register s32 part_value;
 
-        object->unk_10 = D_800C52D0;
+        object->unk_10 = compute_offset_position;
         object->unk_BC = user_data;
         part = object->unk_0C;
         part->scale_y = 0x1800;

@@ -10,6 +10,7 @@
 #include "sdk/libc.h"
 #include "sdk/libgpu.h"
 #include "sdk/libgte.h"
+#include "dungeon/system.h"
 
 void (*const dungeon_1918800_entry)(struct ProjectileSelf *self, struct OutView *position, struct PacketView *render_data) = set_record_pair_to_one;
 const PackedVector wave_texture_rect = {832,340,96,84};

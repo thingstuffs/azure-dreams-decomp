@@ -13,12 +13,6 @@
 #include "dungeon.h"
 #include "dungeon/level.h"
 
-typedef struct S_800DA014_0 {
-    u8 pad_00[0x8C];
-    void * unk_8C;
-    u8 pad_90[0xB];
-    u8 unk_9B;
-} S_800DA014_0;   /* in_arg0 in advance_actor_action_controller */
 
 extern s32 get_entity_effect_value(void *, s32);
 void clear_slots_of_type(ActorRecord *owner, s8 match_type);
@@ -36,7 +30,7 @@ void advance_actor_action_controller(void *controller, void *action_context, Spr
 {
     s32 state;
 
-    state = ((S_800DA014_0 *)controller)->unk_9B;
+    state = ((ActorRecord *)controller)->action_phase.u;
     switch (state) {
     case 0:
         if (sprite->flags & 0xE000) {
@@ -50,7 +44,7 @@ void advance_actor_action_controller(void *controller, void *action_context, Spr
                 0);
             system_base = &g_dungeon_status;
             (*(u16 *)&system_base->activity_counts.parts.pending_action_count)--;
-            ((S_800DA014_0 *)controller)->unk_9B++;
+            ((ActorRecord *)controller)->action_phase.u++;
         }
         return;
     case 1:
@@ -137,7 +131,7 @@ void advance_actor_action_controller(void *controller, void *action_context, Spr
             DungeonGlobalStatus *system_base = &g_dungeon_status;
 
             (*(u16 *)&system_base->activity_counts.parts.pending_action_count)++;
-            ((S_800DA014_0 *)controller)->unk_9B++;
+            ((ActorRecord *)controller)->action_phase.u++;
             return;
         }
         break;
@@ -155,5 +149,5 @@ void advance_actor_action_controller(void *controller, void *action_context, Spr
     }
 
     actor->flags1C &= ~ACTOR_ASLEEP;
-    ((S_800DA014_0 *)controller)->unk_8C = update_actor_facing_animation;
+    ((ActorRecord *)controller)->unk_8C.address = update_actor_facing_animation;
 }

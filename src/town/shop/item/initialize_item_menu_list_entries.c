@@ -6,20 +6,13 @@
 #include "town/shop.h"
 #include "town/shop/item.h"
 #include "town/shop/item_menu_cursor_transition_g00601.h"
+#include "engine/menu/selection_menu.h"
 
 typedef struct S_800AECA4_2 {
     u8 pad_00[0xD8];
     void * unk_D8;
 } S_800AECA4_2;   /* arg0 in initialize_item_menu_list_entries */
 
-typedef struct S_800AECA4_3 {
-    u8 pad_00[0x8];
-    void * unk_08;
-    u8 pad_0C[0x14];
-    void * unk_20;
-    u8 pad_24[0x14];
-    void * unk_38;
-} S_800AECA4_3;   /* base in initialize_item_menu_list_entries */
 
 typedef struct S_800AECA4_4 {
     u8 pad_00[0x50];
@@ -113,8 +106,8 @@ void initialize_item_menu_list_entries(ItemMenuTransition *list) {
             u8 *row_slots_m;
             row_slot = row_index * 4;
             {
-                S_800AECA4_3 *row_slots = (S_800AECA4_3 *)(row_slot + (s32)((S_800AECA4_0 *)list)->unk_D8);
-                ((SignedWidgetYView *)(((S_800AECA4_6 *)(row_slots->unk_38))->unk_04))->unk_0A = row_y;
+                MenuSelectionWidgets *row_slots = (MenuSelectionWidgets *)(row_slot + (s32)((S_800AECA4_0 *)list)->unk_D8);
+                ((SignedWidgetYView *)(((S_800AECA4_6 *)(row_slots->secondary_entries[4]))->unk_04))->unk_0A = row_y;
             }
             {
                 row_slots_m = (u8 *)(row_slot + (s32)((S_800AECA4_0 *)list)->unk_D8);
@@ -122,7 +115,7 @@ void initialize_item_menu_list_entries(ItemMenuTransition *list) {
             }
             {
                 row_slots_m = (u8 *)(row_slot + (s32)((S_800AECA4_0 *)list)->unk_D8);
-                ((SignedWidgetYView *)(((S_800AECA4_7 *)(((S_800AECA4_3 *)row_slots_m)->unk_08))->unk_04))->unk_0A = row_y;
+                ((SignedWidgetYView *)(((S_800AECA4_7 *)(((MenuSelectionWidgets *)row_slots_m)->entries[1]))->unk_04))->unk_0A = row_y;
             }
             {
                 row_slots_m = (u8 *)(row_slot + (s32)((S_800AECA4_0 *)list)->unk_D8);
@@ -130,7 +123,7 @@ void initialize_item_menu_list_entries(ItemMenuTransition *list) {
             }
             {
                 row_slots_m = (u8 *)(row_slot + (s32)((S_800AECA4_0 *)list)->unk_D8);
-                ((SignedWidgetYView *)(((S_800AECA4_8 *)(((S_800AECA4_3 *)row_slots_m)->unk_20))->unk_04))->unk_0A = row_y;
+                ((SignedWidgetYView *)(((S_800AECA4_8 *)(((MenuSelectionWidgets *)row_slots_m)->cursor))->unk_04))->unk_0A = row_y;
             }
             {
                 row_slots_m = (u8 *)(row_slot + (s32)((S_800AECA4_0 *)list)->unk_D8);

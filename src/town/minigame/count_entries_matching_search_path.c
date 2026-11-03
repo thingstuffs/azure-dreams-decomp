@@ -20,23 +20,7 @@
 
    /* root in count_entries_matching_search_path */
 
-typedef struct S_8002191C_2 {
-    u8 pad_00[0x2];
-    union { u16 s; s16 u; } unk_02;   /* accessed as both */
-    u8 pad_04[0x2];
-    u16 unk_06;
-    u8 pad_08[0x4];
-    s32 unk_0C;
-    s32 unk_10;
-    s32 unk_14;
-} S_8002191C_2;   /* motion in count_entries_matching_search_path */
 
-typedef struct S_8002191C_3 {
-    void * unk_00;
-    void * unk_04;
-    u8 pad_08[0x8];
-    union { s16 s; u16 u; } unk_10;   /* accessed as both */
-} S_8002191C_3;   /* global in count_entries_matching_search_path */
 
    /* work in count_entries_matching_search_path */
 
@@ -102,7 +86,7 @@ void count_entries_matching_search_path(TownCollectionSequence *scene)
     TownDraw32 draw;
     TownPos pos;
     s32 color[2];
-    S_8002191C_3 *global = (S_8002191C_3 *)&scene_object_payload_alias;
+    TownObjectRecord *global = (TownObjectRecord *)&scene_object_payload_alias;
     u8 *work;
     void *root = scene->owner;
     SignedPositionView *compare = ((ObjectPayloadView *)root)->unk_08;
@@ -115,24 +99,24 @@ void count_entries_matching_search_path(TownCollectionSequence *scene)
     switch (mode) {
     case 0:
     {
-        S_8002191C_2 *motion;
+        ObjectPosition *motion;
         u16 t6;
         s32 t10;
 
         SD_Call(0xB1);
-        motion = ((S_8002191C_2 *)(&view_reference_entity));
-        scene->saved_x.u = *(u16 *)&motion->unk_02.u;
-        t6 = motion->unk_06;
+        motion = ((&view_reference_entity));
+        scene->saved_x.u = *(u16 *)&motion->x.w.i;
+        t6 = motion->y.unsigned_parts.integer;
         scene->unk_28.u = 4;
         scene->state.s = 1;
         (*(u16 *)((u8 *)scene + 0x32)) = t6;
-        motion->unk_14 = (s32)0xFFE00000;
+        motion->velocity_z = (s32)0xFFE00000;
         (*(s32 *)((u8 *)motion + 0x10)) = 0;
         (*(s32 *)((u8 *)motion + 0x0C)) = 0;
         scene_object_payload_alias = (s32)town_position_callback_address;
-        global->unk_04 = D_80022C2C;
-        t10 = global->unk_10.s;
-        global->unk_10.s = (t10 + 0x1000) & 0xFE00;
+        global->unk_04.as_pm = D_80022C2C;
+        t10 = global->unk_10.as_s16;
+        global->unk_10.as_s16 = (t10 + 0x1000) & 0xFE00;
     }
                         /* fall through */
 
@@ -140,7 +124,7 @@ void count_entries_matching_search_path(TownCollectionSequence *scene)
     {
         ObjectPosition *motion;
 
-        global->unk_10.s = (global->unk_10.u + 0x200) & 0xFFF;
+        global->unk_10.as_s16 = (global->unk_10.as_u16 + 0x200) & 0xFFF;
         value = scene->unk_28.u - 1;
         scene->unk_28.u = value;
         if ((s16)value > 0) {
@@ -168,10 +152,10 @@ void count_entries_matching_search_path(TownCollectionSequence *scene)
         s32 h2;
         s32 rmw;
 
-        rmw = global->unk_10.u;
+        rmw = global->unk_10.as_u16;
         h2 = motion->x.w.i;
         rmw += 0x200;
-        global->unk_10.s = rmw & 0xFFF;
+        global->unk_10.as_s16 = rmw & 0xFFF;
         if (h2 < 0x420) {
             motion->x.w.i = 0x420;
         }
@@ -199,13 +183,13 @@ void count_entries_matching_search_path(TownCollectionSequence *scene)
         if (m1 > 0x04700000) {
             ((ObjectPosition *)work)->y.v = m1 + ((0x04700000 - m1) >> 1);
         }
-        global->unk_10.s = (global->unk_10.u + 0x200) & 0xFFF;
+        global->unk_10.as_s16 = (global->unk_10.as_u16 + 0x200) & 0xFFF;
         i = query_lowered_transform_position(work);
         if (((ObjectPosition *)work)->z.w.i < i) {
             break;
         }
     }
-        if (global->unk_10.s != 0x800) {
+        if (global->unk_10.as_s16 != 0x800) {
             break;
         }
         tw_sd_sq_ld_call(0x24, 0x200);
@@ -224,19 +208,19 @@ void count_entries_matching_search_path(TownCollectionSequence *scene)
     {
         ObjectPosition *motion;
 
-        if (global->unk_10.s >= 0xA00) {
-            global->unk_10.s = global->unk_10.u - 0x200;
-        } else if (global->unk_10.s < 0x601) {
-            global->unk_10.s = global->unk_10.u + 0x200;
+        if (global->unk_10.as_s16 >= 0xA00) {
+            global->unk_10.as_s16 = global->unk_10.as_u16 - 0x200;
+        } else if (global->unk_10.as_s16 < 0x601) {
+            global->unk_10.as_s16 = global->unk_10.as_u16 + 0x200;
         }
-        return_zero_variadic(D_8002003C, global->unk_10.s);
+        return_zero_variadic(D_8002003C, global->unk_10.as_s16);
         if (service_script_controller() != 0) {
             break;
         }
         if (part->unk_68 != 8) {
             break;
         }
-        global->unk_10.s = 0x800;
+        global->unk_10.as_s16 = 0x800;
         create_familiar_deployment_effect_with_owner_state();
         apply_global_scene_value(movement_action_handler_table);
         motion = ((&view_reference_entity));
@@ -330,7 +314,7 @@ void count_entries_matching_search_path(TownCollectionSequence *scene)
             break;
         }
         initialize_town_context_action();
-        global->unk_00 = town_interaction_action_address;
+        global->unk_00.as_pm = town_interaction_action_address;
         draw.h14 = scene->round_index.s * 0x10 + 0x64;
         draw.h16 = 0xB6;
         draw.h18 = 3;
@@ -349,7 +333,7 @@ void count_entries_matching_search_path(TownCollectionSequence *scene)
 
     case 8:
         i = 7;
-        global = (S_8002191C_3 *)D_800272A0;
+        global = (TownObjectRecord *)D_800272A0;
         work = (u8 *)scene + 0x1C;
         do {
             void *node = ((ObjectPosition *)work)->z.v;

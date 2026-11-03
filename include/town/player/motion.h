@@ -9,16 +9,15 @@ struct TownObjectRecord;
 #include "records/Rec_func_80097D54_arg0.h"
 #include "shared/entity.h"
 #include "shared/position_views.h"
+#include "town/player/record.h"
 
 struct Position;
-struct S_800981D4_0;
-struct S_8009A58C_0;
 
 /* clear_motion_along_blocked_directions_update_affected_axes.c */
 void clear_motion_along_blocked_directions_update_affected_axes(ObjectPosition *state);
 
 /* clear_player_motion_entry.c */
-void clear_player_motion_entry(struct S_8009A58C_0 *object, ObjectPosition *value);
+void clear_player_motion_entry(TownPlayerRecord *object, ObjectPosition *value);
 
 /* copy_motion_parameters_and_reset_flag.c */
 void copy_motion_parameters_and_reset_flag(void *record, ObjectPosition *source);

@@ -11,6 +11,7 @@
 #include "shared/object_flags.h"
 #include "shared/dungeon_status.h"
 #include "shared/dir_step.h"
+#include "dungeon/system.h"
 
    /* obj in update_directional_actor_effect */
 

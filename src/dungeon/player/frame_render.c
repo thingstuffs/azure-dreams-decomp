@@ -81,6 +81,21 @@ void update_active_nodes_and_render_frame(void) {
     queue_framebuffer_strip_quads();
 }
 
+/* The flat-shaded quad packet this function builds twice (code 0x2A, five words after the tag). */
+typedef struct FrameStripPolyF4 {
+    u8 tag_addr[3];
+    s8 len;
+    s32 code_rgb;
+    s16 x0;
+    u16 y0;
+    s16 x1;
+    u16 y1;
+    s16 x2;
+    s16 y2;
+    s16 x3;
+    s16 y3;
+} FrameStripPolyF4;
+
 /* Queue draw settings and horizontal strips for both ordering tables. */
 void queue_framebuffer_strip_quads(void) {
     s32 draw_area[2];
@@ -105,56 +120,56 @@ void queue_framebuffer_strip_quads(void) {
     {
         s32 cmd_value;
         cmd_value = 0x2A000000;
-        (*(s32 *)((u8 *)packet + 4)) = cmd_value;
+        ((FrameStripPolyF4 *)packet)->code_rgb = cmd_value;
         cmd_value = 1;
-        (*(s16 *)((u8 *)packet + 0x10)) = cmd_value;
-        (*(s16 *)((u8 *)packet + 8)) = cmd_value;
+        ((FrameStripPolyF4 *)packet)->x2 = cmd_value;
+        ((FrameStripPolyF4 *)packet)->x0 = cmd_value;
         cmd_value = 0x100;
-        (*(s16 *)((u8 *)packet + 0x14)) = cmd_value;
-        (*(s16 *)((u8 *)packet + 0xC)) = cmd_value;
+        ((FrameStripPolyF4 *)packet)->x3 = cmd_value;
+        ((FrameStripPolyF4 *)packet)->x1 = cmd_value;
     }
     context_slot = (S_80089588_2 *)(&g_game_work.draw_buffer);
     saved_alternate = alternate_buffer != 0;
     {
         register s32 strip_top;
         if (saved_alternate != 0) {
-            (*(u16 *)((u8 *)packet + 0xE)) = 0xE0;
+            ((FrameStripPolyF4 *)packet)->y1 = 0xE0;
         } else {
-            (*(u16 *)((u8 *)packet + 0xE)) = 0x1C0;
+            ((FrameStripPolyF4 *)packet)->y1 = 0x1C0;
         }
     }
-    strip_y = (*(u16 *)((u8 *)packet + 0xE));
-    (*(s8 *)((u8 *)packet + 3)) = 5;
-    (*(u16 *)((u8 *)packet + 0xA)) = strip_y;
-    (*(s16 *)((u8 *)packet + 0x16)) = strip_y + 0xE;
-    (*(s16 *)((u8 *)packet + 0x12)) = strip_y + 0xE;
+    strip_y = ((FrameStripPolyF4 *)packet)->y1;
+    ((FrameStripPolyF4 *)packet)->len = 5;
+    ((FrameStripPolyF4 *)packet)->y0 = strip_y;
+    ((FrameStripPolyF4 *)packet)->y3 = strip_y + 0xE;
+    ((FrameStripPolyF4 *)packet)->y2 = strip_y + 0xE;
     AddPrim(context_slot->unk_00 + 0x830, packet);
     packet += 0x18;
     {
         s32 cmd_value;
         cmd_value = 0x2A000000;
-        (*(s32 *)((u8 *)packet + 4)) = cmd_value;
+        ((FrameStripPolyF4 *)packet)->code_rgb = cmd_value;
         cmd_value = 1;
-        (*(s16 *)((u8 *)packet + 0x10)) = cmd_value;
-        (*(s16 *)((u8 *)packet + 8)) = cmd_value;
+        ((FrameStripPolyF4 *)packet)->x2 = cmd_value;
+        ((FrameStripPolyF4 *)packet)->x0 = cmd_value;
         cmd_value = 0x100;
-        (*(s16 *)((u8 *)packet + 0x14)) = cmd_value;
-        (*(s16 *)((u8 *)packet + 0xC)) = cmd_value;
+        ((FrameStripPolyF4 *)packet)->x3 = cmd_value;
+        ((FrameStripPolyF4 *)packet)->x1 = cmd_value;
     }
     {
         s32 strip_top;
         strip_top = saved_alternate;
         if (strip_top != 0) {
-            (*(u16 *)((u8 *)packet + 0xE)) = 0xE0;
+            ((FrameStripPolyF4 *)packet)->y1 = 0xE0;
         } else {
-            (*(u16 *)((u8 *)packet + 0xE)) = 0x1C0;
+            ((FrameStripPolyF4 *)packet)->y1 = 0x1C0;
         }
     }
-    other_strip_y = (*(u16 *)((u8 *)packet + 0xE));
-    (*(s8 *)((u8 *)packet + 3)) = 5;
-    (*(u16 *)((u8 *)packet + 0xA)) = other_strip_y;
-    (*(s16 *)((u8 *)packet + 0x16)) = other_strip_y + 0xE;
-    (*(s16 *)((u8 *)packet + 0x12)) = other_strip_y + 0xE;
+    other_strip_y = ((FrameStripPolyF4 *)packet)->y1;
+    ((FrameStripPolyF4 *)packet)->len = 5;
+    ((FrameStripPolyF4 *)packet)->y0 = other_strip_y;
+    ((FrameStripPolyF4 *)packet)->y3 = other_strip_y + 0xE;
+    ((FrameStripPolyF4 *)packet)->y2 = other_strip_y + 0xE;
     AddPrim(context_slot->unk_00 + 0x7B0, packet);
     packet += 0x18;
     func_80067EF4(packet, 0, 1);

@@ -51,10 +51,6 @@ typedef struct S_80090C10_8 {
     s32 unk_60;
 } S_80090C10_8;
 
-typedef struct S_80090C10_9 {
-    u8 pad_00[0xAC];
-    void * unk_AC;
-} S_80090C10_9;   /* (((s32) (*(void **)&D_80082EB0) * 4) + arg0) in process_dungeon_menu_selection */
 
 
 typedef struct S_80090C10_11 {
@@ -72,10 +68,6 @@ typedef struct S_80090C10_13 {
     u8 unk_03;
 } S_80090C10_13;   /* ((Rec_D_80082EB0 *)(&D_80082EB0))->unk_00.as_pv in process_dungeon_menu_selection */
 
-typedef struct S_80090C10_14 {
-    u8 pad_00[0xAC];
-    void * unk_AC;
-} S_80090C10_14;   /* (((s32) ((Rec_D_80082EB0 *)(&D_80082EB0))->unk_00.as_pv * 4) + arg0) in process_dungeon_menu_selection */
 
 typedef struct DdcbcEntry {
     u8 pad[7];
@@ -286,8 +278,8 @@ void process_dungeon_menu_selection(void *state, s32 context, SpriteFrameState *
         ((Rec_func_8008D024_arg0 *)state)->unk_C8 = NULL;
         goto block_64;
     case 12:
-        companion_value = (s32) ((S_80090C10_14 *)((((s32) selected_item_record_alias.unk_00.as_pv * 4)
-            + state)))->unk_AC;
+        companion_value = (s32) ((ActorRecord *)((((s32) selected_item_record_alias.unk_00.as_pv * 4)
+            + state)))->unk_AC.address;
         if (!(((S_80090C10_8 *)((void *)companion_value))->unk_1C & 0x80000)) {
             ((S_80090C10_8 *)((void *)companion_value))->unk_60 = 0;
         }
@@ -295,7 +287,7 @@ void process_dungeon_menu_selection(void *state, s32 context, SpriteFrameState *
             selected_item_action_alias = 0;
             break;
         }
-        companion = ((S_80090C10_9 *)((((s32) selected_item_record_alias.unk_00.as_pv * 4) + state)))->unk_AC;
+        companion = ((ActorRecord *)((((s32) selected_item_record_alias.unk_00.as_pv * 4) + state)))->unk_AC.address;
         companion_value = companion->action_flags & 0x3FFF;
         if ((u32) (companion_value - 5) < 3U) {
             selected_item_action_alias = 0;

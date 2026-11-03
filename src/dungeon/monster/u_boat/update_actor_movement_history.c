@@ -8,13 +8,12 @@
 #include "dungeon/level.h"
 #include "dungeon/effect/shade.h"
 #include "dungeon/monster/u_boat.h"
+#include "dungeon/system.h"
 
 typedef struct {
     signed short x;
     signed short y;
 } DirectionDelta;
-
-extern void play_sound_if_enabled(s32);
 
 extern DirectionDelta actor_direction_step_pairs[];
 
@@ -49,7 +48,7 @@ void update_actor_movement_history(ActorRecord *motion, ObjectPosition *position
     unsigned long history_addr;
     signed short history_x;
     s32 history_index;
-    angle = (*(u16 *)((u8 *)object + 0x2A));
+    angle = (u16)(object->facing);
     state = motion->unk_B0.bytes[3];
     direction = (angle >> 9) & 7;
     if (state == 0) {
@@ -239,7 +238,7 @@ state1_call:
             case 1:
                 switch (motion->unk_B0.bytes[2]) {
                 case 0:
-                    next_angle = (*(u16 *)((u8 *)object + 0x2A)) + 0x200;
+                    next_angle = (u16)(object->facing) + 0x200;
                     object->facing = next_angle;
                     if (((signed short)(next_angle)) >= 0x1000) {
                         object->facing = 0;
@@ -257,9 +256,9 @@ state1_call:
                     if ((timer << 16) > 0) {
                         break;
                     }
-                    if (((*(u16 *)((u8 *)object + 0x2A)) & 0x3FF) != 0) {
+                    if (((u16)(object->facing) & 0x3FF) != 0) {
                         motion->unk_B0.bytes[2] = 0;
-                        next_angle = (*(u16 *)((u8 *)object + 0x2A)) + 0x200;
+                        next_angle = (u16)(object->facing) + 0x200;
                         object->facing = next_angle;
                         if (((signed short)(next_angle)) >= 0x1000) {
                             object->facing = 0;
@@ -319,7 +318,7 @@ state1_case2:
                         }
                     }
 
-                    saved_angle = (*(u16 *)((u8 *)object + 0x2A));
+                    saved_angle = (u16)(object->facing);
                     next_angle = saved_angle - 0x400;
                     object->facing = next_angle;
                     if ((next_angle << 16) < 0) {
@@ -346,7 +345,7 @@ state1_case2:
                 switch (motion->unk_B0.bytes[2]) {
                 case 0:
 state1_minus_angle:
-                    old_angle = (*(u16 *)((u8 *)object + 0x2A));
+                    old_angle = (u16)(object->facing);
                     next_angle = old_angle - 0x200;
                     object->facing = next_angle;
                     if ((next_angle << 16) < 0) {
@@ -365,7 +364,7 @@ state1_minus_angle:
                     if ((timer << 16) > 0) {
                         break;
                     }
-                    if (((*(u16 *)((u8 *)object + 0x2A)) & 0x3FF) != 0) {
+                    if (((u16)(object->facing) & 0x3FF) != 0) {
                         motion->unk_B0.bytes[2] = 0;
                         goto state1_minus_angle;
                     }

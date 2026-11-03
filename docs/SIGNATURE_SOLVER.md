@@ -267,3 +267,19 @@ Per header, read `txn/txn.json`, `txn/txn.patch` and `decisions.json`:
   kept from the definition, forward `struct` tags only where needed.
 - **Never**: a cast added at a call site, a changed definition body other than the width-rule narrowing,
   an `#include` of one interface header inside another.
+
+## Arity floors (floor_arity.py)
+
+`tools/typing/floor_arity.py --floors <floor_triage out>/floors.tsv --abi-cache <abi_facts cache> --out DIR`
+routes every `arity` floor from the per-call ABI facts: for each direct C call it joins the decoded call
+sites (caller symbol through config/names.tsv) and reads, per argument position, whether the caller's
+bytes set the register (`set`), leave it over from an earlier call (`stale`) or keep the caller's own
+incoming value (`entry`).  Routes: `extend_definition` (every call passes the same count M above the
+definition's: give the definition unused trailing parameters; no call changes, byte-neutral by
+construction), `drop_phantom_args` / `extend_and_drop` (calls disagree; the larger calls drop artefact
+arguments; each edited call needs its proof), `add_passthrough_args`, `trim_definition`,
+`declarations_only`, `no_direct_calls` and `mixed_real_arity` (callers really pass different counts:
+no prototype keeps every caller's bytes; the floor stays unless the owner accepts an unprototyped owner
+declaration).  After an arity batch is committed, re-solve exactly those names
+(`sig_solver.py solve --only-floors --names ... --header ALL`) and apply with `sig_batch.py
+--record-floors`; the floor then unifies or moves to a width or pointer-kind class.

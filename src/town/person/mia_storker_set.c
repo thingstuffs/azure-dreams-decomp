@@ -11,6 +11,8 @@
 #include "town/person/position.h"
 #include "engine/object.h"
 #include "town/event/state.h"
+#include "town/person/object/run_object_callback_api.h"
+#include "town/person/timed_actor_motion_g00677_api.h"
 
 typedef struct Work { u8 pad_00[0x6C]; s16 field_6C; u8 pad_6E[0x28]; s8 field_96; } Work;
 typedef struct Node { u8 pad_00[8]; ObjectPosition *header; SpriteFrameState *aux; u8 pad_10[0x10]; Work work; } Node;
@@ -18,8 +20,8 @@ extern void register_node_if_unregistered(void *block_data, void *registration_i
 extern void initialize_object_entries(Work * , SpriteFrameState *, void *);
 
 extern u8 scene_object_list_anchor[];
-extern u8 D_800C8E9C[];
-extern u8 D_800C8F80[];
+
+
 extern s32 D_800D620C[];
 /* mia_storker_set: Creates a node and initializes its header and work data. */
 void mia_storker_set(ARG0_TYPE work_value, ARG1_TYPE work_byte, ARG2_TYPE header_value_02, ARG3_TYPE header_value_06)
@@ -30,7 +32,7 @@ void mia_storker_set(ARG0_TYPE work_value, ARG1_TYPE work_byte, ARG2_TYPE header
     SpriteFrameState *node_aux;
     if (test_resident_bitmap_bit(snf_truth) == 0)
         return;
-    node = create_town_effect_object(scene_object_list_anchor, 0, D_800C8E9C, D_800C8F80);
+    node = create_town_effect_object(scene_object_list_anchor, 0, run_object_callback, advance_object_after_timeout_variant_2);
     if (node == 0)
         return;
     header = node->header;

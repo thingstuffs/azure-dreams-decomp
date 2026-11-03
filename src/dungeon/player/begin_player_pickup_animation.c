@@ -6,11 +6,10 @@
 #include "dungeon/player.h"
 #include "dungeon/actor/effect.h"
 #include "engine/graphics.h"
+#include "dungeon/system.h"
 #ifndef NULL
 #define NULL 0
 #endif
-
-extern void play_sound_if_enabled(s32 a0);
 
 extern u8 player_carry_frames[8];
 extern s32 player_item_render_update_address;

@@ -57,6 +57,7 @@
    "func_801714FC": "func_8015F4FC"
   },
   "dungeon/func_80D11F60": {
+   "func_8014D810": "func_80171F1C",
    "func_80171570": "func_80171CD8",
    "func_80171DA0": "func_801726D0",
    "func_80171F64": "func_80172894",
@@ -224,6 +225,9 @@
   },
   "dungeon/func_81327710": {
    "func_800F6D28": "func_8016A928"
+  },
+  "town/func_8009EAAC": {
+   "func_7FFFE4E4": "func_8009BC44"
   },
   "town/func_8032BCA0": {
    "func_8001A7B0": "func_8001B080"
@@ -1413,6 +1417,7 @@
   },
   "town/func_806D435C": {
    "func_80019C68": "func_800177CC",
+   "func_8001A7B0": "func_80018800",
    "func_8001ACE8": "func_80018594",
    "func_8001AD60": "func_8001860C",
    "func_8001B038": "func_800187B8"

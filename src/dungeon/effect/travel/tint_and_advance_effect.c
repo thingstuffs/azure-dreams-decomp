@@ -11,6 +11,7 @@
 #include "sdk/libc.h"
 #include "sdk/libgte.h"
 #include "dungeon/effect.h"
+#include "dungeon/system.h"
 
 void (*const dungeon_18a0800_entry)(TrackingEffect *, ObjectPosition *, SpriteFrameState *) = follow_brighten;
 #include "modules/dungeon_ovl_18a0800.h"
@@ -760,9 +761,6 @@ typedef struct S_800250E8_0 {
     s32 unk_14;
 } S_800250E8_0;   /* arg1 in update_spark_effect */
 
-typedef struct S_800250E8_1_pre {
-    u16 unk_00;
-} S_800250E8_1_pre;   /* the 0x2 bytes before arg0 in update_spark_effect, addressed as arg0[-1] */
 
 typedef struct S_800250E8_1 {
     u8 pad_00[0x1A];
@@ -838,7 +836,7 @@ void update_spark_effect(void *effect, S_800250E8_0 *motion, void *owner)
     ((S_800250E8_1 *)effect)->unk_1C.s = life_left;
     if ((life_left << 16) <= 0 ||
         (owner_state->unk_14 & 0x8000)) {
-        ((S_800250E8_1_pre *)effect)[-1].unk_00 = (u16)(((S_800250E8_1_pre *)effect)[-1].unk_00 | 0x8000);
+        NODE_HEADER(effect)->flags = (u16)(NODE_HEADER(effect)->flags | 0x8000);
         object_flag_block.flags = object_flag_block.flags | OBJECT_REMOVE_PENDING;
     }
 }

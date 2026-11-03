@@ -48,7 +48,6 @@ struct PlaybackState;
 struct S_80055E84;
 struct S_80056654_0;
 struct S_80056800_0;
-struct S_800590E0;
 
 /* activate_sequence_slot.c */
 void activate_sequence_slot(s16 slot_index);
@@ -153,7 +152,7 @@ void set_playback_note(s32 note);
 void set_sound_slot_byte_pair(s16 index, s32 value_8, s32 value_a);
 
 /* skip_vlq_payload_until_f.c */
-void skip_vlq_payload_until_f_7(struct S_800590E0 *stream);
+void skip_vlq_payload_until_f_7(void *stream);
 
 /* sound_activate_loaded_sequence_slot.c */
 void sound_activate_loaded_sequence_slot(s16 slot_index, u8 mode, s16 sub_id);

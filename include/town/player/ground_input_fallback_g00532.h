@@ -16,26 +16,10 @@ typedef struct S_80091000_1 {
     u8 unk_00;
 } S_80091000_1;
 
-/* &D_800CFCEF in update_actor_ground_and_input */
-typedef struct S_80091000_2 {
-    u8 pad_00[0x8];
-    s32 unk_08;
-    u8 pad_0C[0x4];
-    s32 unk_10;
-} S_80091000_2;
-
-/* state in update_and_fallback_on_input */
-typedef struct S_80091114_1 {
-    u8 pad_00[0xC];
-    s32 unk_0C;
-    s32 unk_10;
-} S_80091114_1;
-
 void initialize_actor_action_state();
 /* extern */
 void initialize_action_object();
 /* extern */
-void store_the_valid_shared_angle_in_offset_hex_10();
 /* extern */
 void move_both_components_toward_zero_direction_dependent_steps_clamping_zero(ObjectPosition *record);
 /* extern */

@@ -5,12 +5,11 @@
 #include "shared/game_work.h"
 #include "shared/entity.h"
 #include "dungeon/player.h"
+#include "dungeon/system.h"
 
 typedef struct ActionActor { u8 pad[0x8C]; s32 action; } ActionActor;
 
 extern void *dungeon_menu_action_state[];
-
-extern void play_sound_if_enabled(u32);
 
 /* Initialize the actor action state or signal that the action is blocked. */
 void begin_player_menu_action(void *actor_data, ObjectPosition *unused_1, SpriteFrameState *unused_2, void *action_value) {

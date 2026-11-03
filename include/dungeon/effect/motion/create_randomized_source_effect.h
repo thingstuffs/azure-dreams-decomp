@@ -320,7 +320,6 @@ void initialize_timed_motion_step(u16, u16);
 s32 read_sound_mode_blocking_status(s32);
 void drain_audio_commands_and_service_channels(void);
 void apply_attack_power_and_element_effects(void *, s32, u8, s32, s32, void *, s32);
-void play_sound_if_enabled(s32);
 extern u8 D_80024048[];
 extern u8 homing_particle_sprite_entries[];
 extern M2C_UNK D_80024288;

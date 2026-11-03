@@ -6,9 +6,7 @@
 #include "town/person/state.h"
 
 #include "town/person/object/initialize_object_entries_api.h"          /* extern */
-typedef struct S_800C56A8_0 S_800C56A8_0;
 extern s32 D_800D5388[];
-
 
 /* Initialize the actor and set its counter to 40 and its handler. */
 void initialize_two_value_adjustment_action(TownObjectRecord *actor, s32 unused, void *init_param) {

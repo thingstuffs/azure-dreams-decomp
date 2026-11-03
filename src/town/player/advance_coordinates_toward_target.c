@@ -13,11 +13,7 @@ typedef struct S_80098544_0 {
     s16 unk_38;
 } S_80098544_0;   /* arg0 in advance_coordinates_toward_target */
 
-typedef struct S_80098544_1 {
-    s32 unk_00;
-    s32 unk_04;
-} S_80098544_1;   /* out in advance_coordinates_toward_target */
-
+   /* out in advance_coordinates_toward_target */
 
 #include "town/player/object/entity_record_fields.h"
 #include "town/player.h"

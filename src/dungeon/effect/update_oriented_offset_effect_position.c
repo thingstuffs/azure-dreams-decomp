@@ -1,3 +1,4 @@
+#include "shared/object_node.h"
 #include "engine/scene.h"
 #include "shared/sprite_frame_state.h"
 #include "common.h"
@@ -8,9 +9,6 @@
 #include "dungeon/effect/object.h"
 #include "dungeon/effect.h"
 
-typedef struct S_800B328C_0_pre {
-    u16 unk_00;
-} S_800B328C_0_pre;   /* the 0x2 bytes before arg0 in update_oriented_offset_effect_position, addressed as arg0[-1] */
 
 
    /* arg1 in update_oriented_offset_effect_position */
@@ -62,13 +60,13 @@ void update_oriented_offset_effect_position(PayloadObjectBody *state, MovingPosi
             state->unk_8C = 1;
         }
     } else if (state->unk_8C != 0) {
-        (*(u16 *)((u8 *)state + -2)) = (u16) (((S_800B328C_0_pre *)state)[-1].unk_00 | NODE_REMOVE);
+        (*(u16 *)((u8 *)state + -2)) = (u16) (NODE_HEADER(state)->flags | NODE_REMOVE);
         object_flag_block.flags |= OBJECT_REMOVE_PENDING;
         return;
     }
     if (ticks_left = state->unk_8E.u - 1, state->unk_8E.u = ticks_left,
         ((s16) ticks_left < 0)) {
-        (*(u16 *)((u8 *)state + -2)) = (u16) (((S_800B328C_0_pre *)state)[-1].unk_00 | NODE_REMOVE);
+        (*(u16 *)((u8 *)state + -2)) = (u16) (NODE_HEADER(state)->flags | NODE_REMOVE);
         object_flag_block.flags |= OBJECT_REMOVE_PENDING;
     }
 }

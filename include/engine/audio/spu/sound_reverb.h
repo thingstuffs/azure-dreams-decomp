@@ -1,7 +1,7 @@
 #ifndef SLUS_SOUND_REVERB_H
 #define SLUS_SOUND_REVERB_H
 
-#include "slus/sound_dma_lifecycle.h"
+#include "common.h"
 
 typedef struct SoundReverbParameters {
     s32 mask;

@@ -900,7 +900,7 @@ s32 render_floor_items(s32 unused0, ObjectPosition *unused1, SpriteFrameState *r
 #endif
 extern void * allocate_list_node(s32 flags, void **list_head);
 extern s32 register_node(void *entry, void *registration_id);
-extern void create_tracked_effect(void *, s32, s32, s32);
+extern void create_tracked_effect(void *, s32, s32, s32); /* Unprototyped: uses the value as a pointer where the definition has an integer (or the reverse) */
 
 /* Create a sprite object with the supplied position and default color and scale. */
 void *create_item_render_object(void *parent, void *sprite_source, s16 x, s32 y, s16 z) {
@@ -968,16 +968,6 @@ typedef struct S_800A871C_0 {
     u8 unk_01;
 } S_800A871C_0;
 
-typedef struct S_800A871C_1 {
-    u8 pad_00[0x8C];
-    void * unk_8C;
-    void * unk_90;
-    u8 pad_94[0x8];
-    s32 * unk_9C;
-    s16 unk_A0;
-    s16 unk_A2;
-    s16 unk_A4;
-} S_800A871C_1;   /* r_arg0 in update_dropped_object_motion */
 
    /* &sp18[2] in update_dropped_object_motion */
 
@@ -1095,7 +1085,7 @@ typedef struct S_800A871C_26 {
                                 ((s32) ((S_800A871C_24 *)(((S_800A871C_20 *)(((S_800A871C_1 *)r_arg0)->unk_90))->unk_2C))->unk_02 * 4)))->unk_00 in update_dropped_object_motion */
 
 /* Updates an object's launch, movement, collisions, and landing. */
-void update_dropped_object_motion(void *object, register ObjectPosition *motion, void *tile) {
+void update_dropped_object_motion(DroppedObjectMotionBody *object, register ObjectPosition *motion, void *tile) {
     void *object_data;
     GteOffset offset;
     s16 move_ticks;
@@ -1136,11 +1126,11 @@ void update_dropped_object_motion(void *object, register ObjectPosition *motion,
     s32 height;
 
     object_data = object;
-    payload = (((S_800A871C_1 *)object_data)->unk_9C);
+    payload = (((DroppedObjectMotionBody *)object_data)->unk_9C);
     if ((payload == &held_item_record) && (((S_800A871C_0 *)payload)->unk_01 == 0)) {
-        (((S_800A871C_1 *)object_data)->unk_9C) = &saved_held_item_word;
+        (((DroppedObjectMotionBody *)object_data)->unk_9C) = &saved_held_item_word;
     }
-    state = ((S_800A871C_1 *)object)->unk_A0;
+    state = object->unk_A0;
     switch (state) {
     case 0:
     {
@@ -1148,18 +1138,18 @@ void update_dropped_object_motion(void *object, register ObjectPosition *motion,
             (*(u16 *)((u8 *)object_data + (0x2A))) = (u16) ((S_800A871C_19 *)((*(void **)((u8 *)object_data
                 + (0x60)))))->unk_2A;
             if (resolve_record_orientation_or_fallback(
-                    ((S_800A871C_26 *)(((S_800A871C_25 *)(**((S_800A871C_20 *)(((S_800A871C_1 *)object)->unk_90))->unk_28
+                    ((S_800A871C_26 *)(((S_800A871C_25 *)(**((S_800A871C_20 *)(object->unk_90.address))->unk_28
                         +
-                                ((s32) ((S_800A871C_24 *)(((S_800A871C_20 *)(((S_800A871C_1 *)object)->unk_90))->unk_2C))->unk_02 * 4)))->unk_00))->unk_04,
-                    ((S_800A871C_1 *)object)->unk_90, &offset.orientation, 0) == 0) {
+                                ((s32) ((S_800A871C_24 *)(((S_800A871C_20 *)(object->unk_90.address))->unk_2C))->unk_02 * 4)))->unk_00))->unk_04,
+                    object->unk_90.address, &offset.orientation, 0) == 0) {
                 offset.orientation.vz = -0x30;
             }
             motion->z.w.i =
-                (s16) (((MovingPosition *)(((S_800A871C_1 *)object)->unk_8C))->z + offset.distance[2]);
-            ((S_800A871C_4 *)tile)->unk_24.n = (u8) ((S_800A871C_20 *)(((S_800A871C_1 *)object)->unk_90))->unk_24;
-            ((S_800A871C_4 *)tile)->unk_25.n = (u8) ((S_800A871C_20 *)(((S_800A871C_1 *)object)->unk_90))->unk_25;
+                (s16) (((MovingPosition *)(object->unk_8C.address))->z + offset.distance[2]);
+            ((S_800A871C_4 *)tile)->unk_24.n = (u8) ((S_800A871C_20 *)(object->unk_90.address))->unk_24;
+            ((S_800A871C_4 *)tile)->unk_25.n = (u8) ((S_800A871C_20 *)(object->unk_90.address))->unk_25;
             set_record_integer_tile_center(motion, ((S_800A871C_4 *)tile)->unk_24.v, ((S_800A871C_4 *)tile)->unk_25.v);
-            ((S_800A871C_1 *)object)->unk_A0 = (s16) ((u16) ((S_800A871C_1 *)object)->unk_A0 + 1);
+            object->unk_A0 = (s16) ((u16) object->unk_A0 + 1);
             launch_source = (*(void **)((u8 *)object_data + (0x60)));
             travel_steps = (*(s16 *)((u8 *)object_data + (0x8A)));
             launch_heading = launch_source->unk_2A;
@@ -1191,22 +1181,22 @@ void update_dropped_object_motion(void *object, register ObjectPosition *motion,
             launch_y_step = (u8 *)((s8 *)dir_step_y) + launch_dir_offset;
             ((S_800A871C_4 *)tile)->unk_25.n = (u8) (((S_800A871C_4 *)tile)->unk_25.n
                 + ((S_800A871C_8 *)launch_y_step)->unk_00);
-            ((S_800A871C_1 *)object)->unk_A4 = 2;
+            object->unk_A4 = 2;
             return;
         }
-        source_sprite = ((S_800A871C_1 *)object)->unk_90;
+        source_sprite = object->unk_90.address;
         if ((resolve_record_orientation_or_fallback(source_sprite->source, source_sprite, &offset.orientation, 0) != 0)
             && ((*(s32 *)((u8 *)object_data + (0x1C))) & 0x80000)) {
-            ((S_800A871C_1 *)object)->unk_A2 = 1;
+            object->unk_A2 = 1;
             motion->x.w.i =
-                (s16) (((MovingPosition *)(((S_800A871C_1 *)object)->unk_8C))->x + offset.distance[0]);
+                (s16) (((MovingPosition *)(object->unk_8C.address))->x + offset.distance[0]);
             motion->y.w.i =
-                (s16) (((MovingPosition *)(((S_800A871C_1 *)object)->unk_8C))->y + offset.distance[1]);
-            source_height = ((MovingPosition *)(((S_800A871C_1 *)object)->unk_8C))->z + offset.distance[2];
+                (s16) (((MovingPosition *)(object->unk_8C.address))->y + offset.distance[1]);
+            source_height = ((MovingPosition *)(object->unk_8C.address))->z + offset.distance[2];
             height_source = primary_actor_record;
             motion->z.w.i = (s16) (source_height + 8);
             (*(u16 *)((u8 *)object_data + (0x88))) = ((u16)height_source->ground_height);
-        } else if (((S_800A871C_1 *)object)->unk_A2 != 0) {
+        } else if (object->unk_A2 != 0) {
             if ((*(s32 *)((u8 *)object_data + (0x1C))) & 0x80000) {
                 world_page = (S_800A871C_15 *)0x800E0000;
                 goto check_completion;
@@ -1230,7 +1220,7 @@ void update_dropped_object_motion(void *object, register ObjectPosition *motion,
                     drop_height = (s16) (u16) motion->z.w.i;
                 }
                 place_item_at_valid_floor_position(((S_800A871C_4 *)tile)->unk_24.n, ((S_800A871C_4 *)tile)->unk_25.n, drop_height,
-                    ((S_800A871C_4 *)tile)->unk_08, ((S_800A871C_1 *)object)->unk_9C);
+                    ((S_800A871C_4 *)tile)->unk_08, object->unk_9C);
                 NODE_HEADER(object)->flags = (u16) (NODE_HEADER(object)->flags | 0x8000);
                 dungeon_flags = object_flag_block.flags;
                 height = motion->z.w.i;
@@ -1259,7 +1249,7 @@ check_completion:
         break;
     }
     case 1:
-        move_ticks = ((S_800A871C_1 *)object)->unk_A4;
+        move_ticks = object->unk_A4;
         if (move_ticks != 0) {
             axis_target = ((S_800A871C_4 *)tile)->unk_24.n;
             axis_origin = motion->x.w.i;
@@ -1271,10 +1261,10 @@ check_completion:
             axis_origin -= 0x20;
             axis_target <<= 6;
             motion->velocity_y = (s32) (((axis_target - axis_origin)
-                << 0x10) / (s16) ((S_800A871C_1 *)object)->unk_A4);
+                << 0x10) / (s16) object->unk_A4);
         }
-        ticks_left = (u16) ((S_800A871C_1 *)object)->unk_A4 - 1;
-        ((S_800A871C_1 *)object)->unk_A4 = ticks_left;
+        ticks_left = (u16) object->unk_A4 - 1;
+        object->unk_A4 = ticks_left;
         if ((ticks_left << 0x10) > 0) {
             break;
         }
@@ -1283,14 +1273,14 @@ check_completion:
         if (hit_object != NULL) {
             if ((hit_object->unk_13 == MONSTER_BARONG) && !(hit_object->unk_1C & 0x228) && (D_800DD7DC[0] != 0)) {
                 hit_object->unk_14 = (s32) (hit_object->unk_14 | 0x800000);
-                hit_object->unk_48 = ((ObjectPosition *)(((S_800A871C_1 *)object)->unk_9C))->x.v;
+                hit_object->unk_48 = ((ObjectPosition *)(object->unk_9C))->x.v;
                 NODE_HEADER(object)->flags = (u16) (NODE_HEADER(object)->flags | 0x8000);
                 object_flag_block.flags = (s32) (object_flag_block.flags | OBJECT_REMOVE_PENDING);
                 unlink_entity_node(object_data);
                 g_dungeon_status.activity_counts.parts.pending_action_count = (u16) (((u16)g_dungeon_status.activity_counts.parts.pending_action_count) - 1);
                 return;
             }
-            if (dispatch_dungeon_category_action(hit_object, ((S_800A871C_1 *)object)->unk_9C, 0xD, object_data) != 0) {
+            if (dispatch_dungeon_category_action(hit_object, object->unk_9C, 0xD, object_data) != 0) {
                 NODE_HEADER(object)->flags = (u16) (NODE_HEADER(object)->flags | 0x8000);
                 object_flag_block.flags = (s32) (object_flag_block.flags | OBJECT_REMOVE_PENDING);
                 unlink_entity_node(object_data);
@@ -1310,7 +1300,7 @@ check_completion:
                     + (unsigned long)(u8 *)((s8 *)dir_step_x))))->unk_00);
                 next_y_step = (u8 *)((s8 *)dir_step_y) + next_dir_offset;
                 ((S_800A871C_4 *)tile)->unk_25.n = (u8) (((S_800A871C_4 *)tile)->unk_25.n + *next_y_step);
-                ((S_800A871C_1 *)object)->unk_A4 = 2;
+                object->unk_A4 = 2;
                 break;
             }
         }
@@ -1320,7 +1310,7 @@ check_completion:
             land_height = (s16) (u16) motion->z.w.i;
         }
         place_item_at_valid_floor_position(((S_800A871C_4 *)tile)->unk_24.n, ((S_800A871C_4 *)tile)->unk_25.n, land_height,
-            ((S_800A871C_4 *)tile)->unk_08, ((S_800A871C_1 *)object)->unk_9C);
+            ((S_800A871C_4 *)tile)->unk_08, object->unk_9C);
         NODE_HEADER(object)->flags = (u16) (NODE_HEADER(object)->flags | 0x8000);
         object_flag_block.flags = (s32) (object_flag_block.flags | OBJECT_REMOVE_PENDING);
         unlink_entity_node(object_data);
@@ -1403,7 +1393,7 @@ extern void create_tracked_effect(void *, s32, s32, s32);
 void *create_indexed_floor_object(s32 object_key, DungeonCoords *source_coords, s32 unused,
                     DungeonData *source_data, s32 *init_data, s16 tile_id) {
     ObjectNodeHeader *object;
-    DungeonData *data;
+    DroppedObjectMotionBody *data;
     ObjectPosition *coords;
     SpriteFrameState *state;
     DungeonTile *tiles;
@@ -1415,7 +1405,7 @@ void *create_indexed_floor_object(s32 object_key, DungeonCoords *source_coords, 
         object->update_callback = D_800A871C;
         coords = object->position;
         state = object->sprite;
-        data->field60 = source_data;
+        data->unk_60 = source_data;
         if (tile_id >= 0) {
             DungeonTile *tile;
             tiles = ((DungeonTile *)dungeon_ground_item_positions);
@@ -1423,12 +1413,12 @@ void *create_indexed_floor_object(s32 object_key, DungeonCoords *source_coords, 
             coords->x.w.i = (tile->field0 << 6) + 0x20;
             coords->y.w.i = (tile->field1 << 6) + 0x20;
             coords->z.w.i = tile->field2;
-            data->field88 = tile->field4;
+            data->unk_88.u = tile->field4;
         } else {
             coords->x.w.i = source_coords->field2;
             coords->y.w.i = source_coords->field6;
             coords->z.w.i = source_coords->fieldA;
-            data->field88 = source_data->field88;
+            data->unk_88.u = source_data->field88;
         }
         register_node(object, project_sprite_chain);
         state->color.c.b = 0x80;
@@ -1438,12 +1428,12 @@ void *create_indexed_floor_object(s32 object_key, DungeonCoords *source_coords, 
         state->scale_x = 0x1000;
         state->depth_bias = 2;
         state->source = get_item_category_value(init_data);
-        data->field8C = *(s32 *)((u8 *)source_data - 0x18);
-        data->field90 = *(s32 *)((u8 *)source_data - 0x14);
+        data->unk_8C.word = *(s32 *)((u8 *)source_data - 0x18);
+        data->unk_90.word = *(s32 *)((u8 *)source_data - 0x14);
         init_value = *init_data;
-        data->field9C = &data->field98;
-        *((u8 *)data + 0x13) = 0xFF;
-        data->field98 = init_value;
+        data->unk_9C = &data->unk_98;
+        data->unk_13 = 0xFF;
+        data->unk_98 = init_value;
         clear_entry_flag_and_link_owner(object);
         create_tracked_effect(object, 0, 0, 0);
     }

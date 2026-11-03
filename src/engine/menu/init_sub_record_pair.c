@@ -1,16 +1,10 @@
 #include "common.h"
+#include "shared/sprite_frame_state.h"
 #include "engine/graphics.h"
 #include "engine/menu.h"
 
-/* CVECTOR-style color entry: r,g,b + a 4th (pad/code) byte. */
-typedef struct S_80080B54 {
-    u8 r;
-    u8 g;
-    u8 b;
-    u8 cd;
-} S_80080B54;
-
-extern S_80080B54 shared_primitive_color;
+/* Default packed GPU color shared by the primitive builders. */
+extern SpriteColor shared_primitive_color;
 
 /* Initializes a subrecord pair with shared data and the default color entry. */
 void init_sub_record_pair(void *record_pair, void *init_data)

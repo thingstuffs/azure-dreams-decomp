@@ -42,10 +42,6 @@ typedef struct S_8017405C_2_pre {
     u8 pad_04[0x10];
 } S_8017405C_2_pre;   /* the 0x14 bytes before e in choose_heading_and_advance_actor, addressed as e[-1] */
 
-typedef struct S_8017405C_2 {
-    u8 pad_00[0x1C];
-    s32 unk_1C;
-} S_8017405C_2;   /* e in choose_heading_and_advance_actor */
 
 typedef struct S_8017405C_3 {
     u8 pad_00[0x24];
@@ -190,7 +186,7 @@ void choose_heading_and_advance_actor(ActorRecord *body, s32 action, S_8017405C_
             if (!(((S_8017405C_0 *)movement)->unk_46 & 0x8000)) {
                 target = probe_directional_neighbor(movement, actor->unk_24.at00.v, actor->unk_24.at01.v,
                     ((S_8017405C_0 *)movement)->unk_2A.s);
-                if (target != 0 && (((S_8017405C_2 *)target)->unk_1C & 0x2000)
+                if (target != 0 && (((ActorRecord *)target)->flags1C & 0x2000)
                     && get_actor_height_difference(target, movement) < 0x81) {
                     if (check_diagonal_side_height((((s16)((S_8017405C_0 *)movement)->unk_2A.u >> 9) & 0xFFFF),
                                       actor->unk_24.at00.v, actor->unk_24.at01.v,

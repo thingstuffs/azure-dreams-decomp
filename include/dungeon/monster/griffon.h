@@ -350,7 +350,7 @@ s16 sample_terrain_surface_height();
 s32 resolve_record_orientation_or_fallback();
 void select_sprite_entry();
 void func_80047784(void *object_data, s16 table_index, s16 entry_index);
-s32 check_entity_relation();
+s16 check_entity_relation(ActorRecord *entry, ActorRecord *anchor);
 s32 find_active_rect_containing_point(s32 point_x, s32 point_y);
 s32 can_entity_gain_level(void *entity);
 void update_actor_status_and_mp(ActorRecord *entity);

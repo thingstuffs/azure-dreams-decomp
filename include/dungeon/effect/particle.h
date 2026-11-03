@@ -14,7 +14,7 @@ void advance_centered_fading_effect(void *effect, ObjectPosition *position, void
 void advance_projectile_burst_and_impact(void *effect, ObjectPosition *motion, SpriteFrameState *sprite);
 struct RibbonLineGeometry;
 void draw_ribbon_center_lines(struct RibbonLineGeometry *geometry, ObjectPosition *position, SpriteFrameState *render_data, s32 depth_bias);
-void draw_gouraud_textured_ribbon_quad(void *quad, ObjectPosition *position, void *render_state, s16 depth_bias);
+void draw_gouraud_textured_ribbon_quad(void *quad, ObjectPosition *position, SpriteFrameState *render_state, s16 depth_bias);
 void emit_parent_relative_particles(void *emitter, ObjectPosition *position, s32 spawn_context);
 void spawn_scattered_emitter_particles(void *emitter, ObjectPosition *position, s32 spawn_context);
 void update_converging_fading_particle(void *effect, ObjectPosition *position);
@@ -217,7 +217,7 @@ void create_forward_layered_sprite_pulse(void);
 void create_layered_sprite_pulse(EntityRec *origin);
 void create_random_velocity_child_effect(struct ObjectNodeHeader *parent, s32 state_value, s16 pair_value, s16 offset_x, s16 offset_y, s16 offset_z);
 void create_short_lived_child_particle(struct ObjectNodeHeader *source, s16 effect_param, s32 state_value, s16 offset_x, s16 offset_y, s16 offset_z, s32 motion_z);
-void update_effect_particles_and_cleanup(struct ParticleCleanupWork *effect, ObjectPosition *motion, void *sprite);
+void update_effect_particles_and_cleanup(struct ParticleCleanupWork *effect, ObjectPosition *motion, SpriteFrameState *sprite);
 
 /* Lifetime and original position for a short-lived red spark. */
 typedef struct ShortLivedRedSparkBody {

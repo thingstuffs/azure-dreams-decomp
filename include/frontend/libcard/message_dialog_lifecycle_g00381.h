@@ -32,7 +32,7 @@ typedef struct S_set_handler_0 {
 extern void card_boot_initialize_message_render_templates(s32 entity, s32 primary_data, s32 secondary_data);
 extern void card_boot_initialize_dialog_packets_and_display(s32 record);
 /* arg0 in card_boot_activate_message_dialog */
-extern void *card_boot_build_message_window_packets(void *buffer, void *layout);
+extern void *card_boot_build_message_window_packets(void *buffer, CardMessageDialogBody *layout);
 extern void card_boot_update_message_choice_highlight(void *object);
 extern u8 D_80022524[];
 extern u8 D_800226A8[];
@@ -50,7 +50,7 @@ extern u8 D_800287E8[];
 void card_boot_measure_five_line_message(CardMenuEntry *entry);
 void card_boot_bind_message_dialog_record(Rec_func_8002290C_arg0 *record, s32 value_14, s32 entry_index, s32 value_0c, s32 value_20);
 void card_boot_initialize_message_dialog_layout(s32 record, s32 value_14, s32 entry_index, s32 value_0c, s32 value_20);
-void card_boot_activate_message_dialog(void *object);
+void card_boot_activate_message_dialog(CardMessageDialogBody *object);
 u8 *card_boot_create_or_reset_message_dialog(s32 value_14, s32 entry_index, s32 value_0c, s32 value_20);
 
 #endif

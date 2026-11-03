@@ -9,44 +9,21 @@
 
    /* arg0 in create_terrain_scaled_actor_effect */
 
-typedef struct S_80174B90_7 {
-    u8 pad_00[0x12];
-    u16 unk_12;
-    u8 pad_14[0x14];
-    s32 unk_28;
-} S_80174B90_7;
 
    /* ((S_80174B90_6 *)arg0)->unk_08 in create_terrain_scaled_actor_effect */
 
 s32 register_node(ObjectNodeHeader *entry, void *registration_id);           /* extern */
-void update_terrain_scaled_actor_effect(void *effect, MovingPosition *out_position, void *out_render);
+void update_terrain_scaled_actor_effect(ManoevaTerrainEffectBody *effect, MovingPosition *out_position, void *out_render);
 extern M2C_UNK D_80175540;
 
-typedef struct S_80174B90_0 {
-    u8 pad_00[0xC];
-    void * unk_0C;
-    void (*unk_10)(void *, MovingPosition *, void *);
-    u8 pad_14[0xC];
-    s16 *unk_20;
-} S_80174B90_0;
 
-typedef struct S_80174B90_1 {
-    u8 pad_00[0x4];
-    u8 *unk_04;
-    u16 *unk_08;
-    void * unk_0C;
-    u8 pad_10[0x4];
-    void * unk_14;
-    void * unk_18;
-    s16 unk_1C;
-} S_80174B90_1;
 
 /* Create an effect using the source object's rendering and transform data. */
 void create_terrain_scaled_actor_effect(ObjectNodeHeader *source, s16 *facing, u8 *action, u16 *flags) {
     void *allocation_head_address;
     ObjectNodeHeader **allocation_head;
     SpriteFrameState *render_data;
-    S_80174B90_1 *effect_state;
+    ManoevaTerrainEffectBody *effect_state;
     ObjectNodeHeader *effect;
 
     allocation_head_address = source;
@@ -61,8 +38,8 @@ void create_terrain_scaled_actor_effect(ObjectNodeHeader *source, s16 *facing, u
         render_data->scale_y = 0x1000;
         render_data->scale_x = 0x1000;
         render_data->color.word = 0x808080;
-        render_data->animation_resource = (s32) ((S_80174B90_7 *)effect_state->unk_14)->unk_28;
-        render_data->clut = (u16) ((S_80174B90_7 *)effect_state->unk_14)->unk_12;
+        render_data->animation_resource = (s32) ((SpriteFrameState *)effect_state->unk_14)->animation_resource;
+        render_data->clut = (u16) ((SpriteFrameState *)effect_state->unk_14)->clut;
         effect->position->x.unsigned_parts.integer =
             (u16) source->position->x.unsigned_parts.integer;
         effect->position->y.unsigned_parts.integer =
@@ -71,10 +48,10 @@ void create_terrain_scaled_actor_effect(ObjectNodeHeader *source, s16 *facing, u
             (u16) source->position->z.unsigned_parts.integer;
         select_sprite_entry(render_data, 0x46, 0);
         register_node(effect, &D_80175540);
-        ((S_80174B90_0 *)effect)->unk_20 = facing;
+        ((ManoevaTerrainEffectBody *)NODE_BODY(effect))->unk_00 = facing;
         effect_state->unk_04 = action;
         effect_state->unk_08 = flags;
         effect_state->unk_0C = source;
-        effect_state->unk_1C = 0x1000;
+        effect_state->unk_1C.s = 0x1000;
     }
 }

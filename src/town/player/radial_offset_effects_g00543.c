@@ -5,6 +5,7 @@
 #include "shared/object_node.h"
 #include "town/player.h"
 #include "engine/window.h"
+#include "town/person.h"
 
 /* Creates an offset effect with randomized motion and initializes its appearance. */
 void *create_randomized_offset_effect(S_8009792C_2 *source, u32 angle) {
@@ -21,7 +22,7 @@ void *create_randomized_offset_effect(S_8009792C_2 *source, u32 angle) {
         effect_params = (s16 *)((s8 *)effect + 0x20);
         motion = effect->position;
         appearance = effect->sprite;
-        effect->update_callback = &town_radial_offset_callback;
+        effect->update_callback = update_person_effect_fade;
         register_node(effect, project_sprite_chain);
         motion->x.w.i = source->unk_02 - dir_step_x[direction] * 0x10;
         motion->y.w.i = source->unk_06 - dir_step_y[direction] * 0x10;

@@ -9,7 +9,7 @@
 
 typedef void (*Callback)(void *, void *, void *);
 
-extern void unlink_node_if_registered(void *, void *);
+extern void unlink_node_if_registered(void *);
 /* garbage-passthru: a2/a3 survive load_record_halfwords_3; explicit arguments add saves/reloads absent from retail. */
 #include "town/system/person_idle_dispatch.h"
 
@@ -23,7 +23,7 @@ void update_person_view_and_record(void *ptr, void *value, SpriteFrameState *rec
     u16 flag_value;
 
     if (D_800834A8 == 0) {
-        unlink_node_if_registered(ptr, value);
+        unlink_node_if_registered(ptr);
         (*(u16 *)((u8 *)ptr + (-2))) |= NODE_REMOVE;
         object_flag_block.flags |= OBJECT_REMOVE_PENDING;
         return;

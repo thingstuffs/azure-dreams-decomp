@@ -15,6 +15,7 @@
 #include "dungeon/effect/sprite.h"
 #include "engine/scene.h"
 #include "sdk/libc.h"
+#include "dungeon/system.h"
 
 typedef s32 M2C_UNK;
 
@@ -605,9 +606,6 @@ typedef struct S_80024B20_1 {
     u16 unk_10;
 } S_80024B20_1;   /* src in update_segment */
 
-typedef struct S_80024B20_2_pre {
-    u16 unk_00;
-} S_80024B20_2_pre;   /* the 0x2 bytes before arg0 in update_segment, addressed as arg0[-1] */
 
 typedef struct S_80024B20_3 {
     u8 pad_00[0x12];
@@ -723,7 +721,7 @@ void update_segment(DirectionalGridEffectBody *effect) {
     case 3:
     {
         u32 globals_base = 0x80080000;
-        ((S_80024B20_2_pre *)effect)[-1].unk_00 |= 0x8000;
+        NODE_HEADER(effect)->flags |= 0x8000;
         ((S_80024B20_5 *)globals_base)->unk_14A0 |= 0x8000;
     }
         return;

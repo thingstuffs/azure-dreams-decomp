@@ -8,6 +8,7 @@
 #include "town.h"
 #include "town/player/position_handlers.h"
 
+#include "town/player.h"
 
 void init_sound_threshold_action(s32 **record, ObjectPosition *unused_position, s32 setup_value) {
     SD_Call(0x512);

@@ -25,10 +25,6 @@ typedef struct S_80170F6C_4 {
 } S_80170F6C_4;   /* object in update_long_actor_action */
 
 
-typedef struct S_80170F6C_10 {
-    u8 pad_00[0x9A];
-    u8 unk_9A;
-} S_80170F6C_10;   /* status_object in update_long_actor_action */
 
 typedef struct {
     u8 pad0[0xC];
@@ -38,7 +34,6 @@ typedef struct {
 
 extern s32 register_node(ObjectNodeHeader *entry, void *registration_id);
 extern void select_sprite_entry(void *, s16, s16);
-extern s16 check_entity_relation(ActorRecord *entry, ActorRecord *anchor);
 extern s8 find_active_rect_containing_point(s32, s32);
 extern s32 can_entity_gain_level(void *);
 extern void update_actor_status_and_mp(ActorRecord *entity);
@@ -60,6 +55,7 @@ extern u8 mandara_object_callback_2[];
 #include "dungeon/actor.h"
 #include "dungeon/actor/motion.h"
 #include "dungeon/actor/state.h"
+#include "dungeon/level.h"
 
 extern u8 D_80175260[];
 extern u8 D_80175290[];
@@ -373,7 +369,7 @@ void update_long_actor_action(ActorRecord *self_object, ObjectPosition *aux_enti
         case 7:
         {
             s16 next_position;
-            void *status_object;
+            ActorRecord *status_object;
 
             next_position = get_rounded_facing_and_rounding_flag(
                 sprite->tile_x, sprite->tile_y,
@@ -381,7 +377,7 @@ void update_long_actor_action(ActorRecord *self_object, ObjectPosition *aux_enti
                 &scratch);
             status_object = primary_actor_record;
             entity->facing = next_position;
-            if (((S_80170F6C_10 *)status_object)->unk_9A == 0x11) {
+            if (status_object->action_id.u == 0x11) {
                 begin_actor_spell_action(self_object, aux_entity, sprite, D_80175290, update_long_actor_action);
                 return;
             }

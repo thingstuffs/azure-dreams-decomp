@@ -179,8 +179,8 @@ case 2:
         copy_call_zero = 0;
         scale = 0x1000;
         entity_data = ((S_800A504C_4_pre *)spawned)[-1].unk_00;
-        ((S_800A504C_2 *)entity_data)->unk_1E = scale;
-        ((S_800A504C_2 *)entity_data)->unk_1C = scale;
+        ((SpriteFrameState *)entity_data)->scale_y = scale;
+        ((SpriteFrameState *)entity_data)->scale_x = scale;
         ((S_800A504C_4 *)spawned)->unk_14 &= -8;
         ((S_800A504C_4 *)spawned)->unk_1C &= -8;
         ((S_800A504C_4 *)spawned)->unk_14 |= entity->flags14 & 7;
@@ -276,8 +276,8 @@ case 2:
             (*(u8 * *)(familiar_record_slots + (record_data[3] & 0x1F) * 4)) = replacement;
 
             entity_data = ((S_800A504C_4_pre *)replacement)[-1].unk_00;
-            ((S_800A504C_2 *)entity_data)->unk_1E = 0x1000;
-            ((S_800A504C_2 *)entity_data)->unk_1C = 0x1000;
+            ((SpriteFrameState *)entity_data)->scale_y = 0x1000;
+            ((SpriteFrameState *)entity_data)->scale_x = 0x1000;
             func_80042640(replacement, ((S_800A504C_4 *)replacement)->unk_10.at03.v);
             copy_call_entity = replacement;
             replace_call_zero = 0;
@@ -301,11 +301,11 @@ case 2:
             angle = ((u16)entity->facing);
             (*(u16 *)(replacement + 0x2A)) = angle;
             offset = ((g_game_work.view.camera_rotation.parts.viewAngle + (s16)angle + 0x100) >> 9) & 7;
-            select_indirect_table_entry(entity_data, ((u8 *)((S_800A504C_2 *)entity_data)->unk_2C)[offset],
-                          ((S_800A504C_2 *)entity_data)->unk_04);
-            data_flags = ((S_800A504C_2 *)entity_data)->unk_14;
+            select_indirect_table_entry(entity_data, ((u8 *)((SpriteFrameState *)entity_data)->frameTable)[offset],
+                          ((SpriteFrameState *)entity_data)->unk_04);
+            data_flags = ((SpriteFrameState *)entity_data)->flags;
             sprite_resource_base = dungeon_resource_buffer;
-            ((S_800A504C_2 *)entity_data)->unk_14 = data_flags & 0xFFFE;
+            ((SpriteFrameState *)entity_data)->flags = data_flags & 0xFFFE;
             remaining_count = base->unk_0A.u;
             staged_spawn_count = count;
             base->unk_0A.s = (s16)(remaining_count - 1);

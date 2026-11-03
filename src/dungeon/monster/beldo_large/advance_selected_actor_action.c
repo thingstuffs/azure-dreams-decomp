@@ -17,6 +17,7 @@
 #include "dungeon/actor.h"
 #include "dungeon/monster/beldo_large.h"
 #include "sdk/libc.h"
+#include "dungeon/system.h"
 
 
    /* the 0x14 bytes before v0 in advance_selected_actor_action, addressed as v0[-1] */
@@ -27,7 +28,6 @@ typedef struct S_8016C190_5 {
 } S_8016C190_5;   /* control in advance_selected_actor_action */
 
 extern void select_sprite_entry(void *, u8, s32);
-extern void play_sound_if_enabled(s32);
 
 extern void beldo_large_action_resume_address(ActorRecord *actor, ObjectPosition *context, SpriteFrameState *sprite, ActorRecord *entity);
 extern u8 beldo_large_frame_set_2[];

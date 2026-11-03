@@ -39,7 +39,6 @@ s32 register_node(void *, void *, ...);
 s32 func_8004491C(void *, void *, ...);
 void select_record_entry_and_value(void *state, void *entries, short index);
 void ScaleMatrix(void *, void *);
-s32 play_sound_if_enabled(s32);
 extern s16 impact_effect_update_flag;
 extern void *D_80028630;
 /* Pooled particle callback work shared by the shrinking and rotating variants.

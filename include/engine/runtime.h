@@ -1,5 +1,6 @@
 #ifndef ENGINE_RUNTIME_H
 #define ENGINE_RUNTIME_H
+#include "engine/menu/animated_selection_body.h"
 /* Prototypes of the functions defined in src/engine/runtime/ (one true prototype each; maintained by tools/headers). */
 
 #include "common.h"
@@ -17,7 +18,7 @@ void func_8003E70C(void);
 void clear_resident_bit(s16 value);
 
 /* create_animated_selection_menu_entries.c */
-s32 create_animated_selection_menu_entries(void *state);
+s32 create_animated_selection_menu_entries(AnimatedSelectionMenuBody *state);
 
 /* destroy_animated_selection_menu.c */
 void destroy_animated_selection_menu(struct S_8004FE78_a0 *entity);

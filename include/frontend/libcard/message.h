@@ -5,6 +5,7 @@
 #include "common.h"
 #include "shared/gpu_packets.h"
 #include "shared/menu_display.h"
+#include "frontend/libcard/message_dialog.h"
 
 struct Entity;
 struct CardMessageDialogBody;
@@ -18,10 +19,10 @@ extern u8 card_message_chain_indices[];
 extern u8 card_slot_chain_indices[];
 
 /* card_boot_build_message_window_packets.c */
-void *card_boot_build_message_window_packets(void *buffer, void *layout);
+void *card_boot_build_message_window_packets(void *buffer, CardMessageDialogBody *layout);
 
 /* card_boot_center_message_dialog_display.c */
-void card_boot_center_message_dialog_display(void *object);
+void card_boot_center_message_dialog_display(CardMessageDialogBody *object);
 
 /* card_boot_close_dialog_when_response_clears.c */
 void card_boot_close_dialog_when_response_clears(struct CardMessageDialogBody *record);
@@ -54,7 +55,7 @@ void card_boot_measure_dialog_choice_word(u8 *text, s32 word_index, s32 *offset_
 void card_boot_prepare_copy_destination_message(void *context);
 
 /* card_boot_release_five_message_entries.c */
-void card_boot_release_five_message_entries(void *record);
+void card_boot_release_five_message_entries(CardMessageDialogBody *record);
 
 /* card_boot_release_three_row_panel_text.c */
 void card_boot_release_three_row_panel_text(void *record);

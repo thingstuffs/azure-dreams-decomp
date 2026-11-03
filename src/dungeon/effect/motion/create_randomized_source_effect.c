@@ -7,6 +7,7 @@
 #include "shared/sprite_frame_state.h"
 #include "dungeon/effect/motion/create_randomized_source_effect.h"
 #include "dungeon/effect/motion.h"
+#include "dungeon/system.h"
 
 /* Moves an animated sprite outward along its saved angle with a fixed vertical step and removes it
    when animation ends. */

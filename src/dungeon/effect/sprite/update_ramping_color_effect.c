@@ -1,10 +1,8 @@
+#include "shared/object_node.h"
 #include "common.h"
 #include "shared/object_flags.h"
 #include "dungeon/effect/sprite.h"
 
-typedef struct S_818BC888_0_pre {
-    u16 unk_00;
-} S_818BC888_0_pre;   /* the 0x2 bytes before arg0 in update_ramping_color_effect, addressed as arg0[-1] */
 
 
 typedef struct S_818BC888_1 {
@@ -43,7 +41,7 @@ void update_ramping_color_effect(OffsetColorEffectBody *effect) {
     effect->unk_08.s = scaled_value;
     phase = effect->unk_04.s16;
     if (phase >= 0x40) {
-        ((S_818BC888_0_pre *)effect)[-1].unk_00 |= 0x8000;
+        NODE_HEADER(effect)->flags |= 0x8000;
         object_flag_block.flags |= OBJECT_REMOVE_PENDING;
         return;
     }

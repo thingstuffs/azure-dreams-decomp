@@ -12,7 +12,6 @@
 #include "shared/entity.h"
 
 extern void select_sprite_entry(void *, s32, s32);
-extern s32 check_entity_relation(ActorRecord *entry, ActorRecord *anchor);
 extern s8 find_active_rect_containing_point(s32, s32);
 extern s32 can_entity_gain_level(void *);
 extern void update_actor_status_and_mp(ActorRecord *entity);
@@ -32,6 +31,7 @@ void clear_actor_flag_and_apply_effect(ActorRecord *action_state, ObjectPosition
 #include "dungeon/actor.h"
 #include "dungeon/actor/motion.h"
 #include "dungeon/actor/state.h"
+#include "dungeon/level.h"
 
 extern u8 saber_frame_set_10[];
 extern u8 saber_frame_set_2[];

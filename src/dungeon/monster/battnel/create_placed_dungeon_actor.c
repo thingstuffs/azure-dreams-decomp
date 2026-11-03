@@ -15,16 +15,6 @@
 #include "dungeon/monster/battnel.h"
 
 
-typedef struct S_80B7F054_4 {
-    u8 pad_00[0x8C];
-    void * unk_8C;
-    u8 pad_90[0xA];
-    u8 unk_9A;
-    u8 pad_9B[0x1];
-    s8 unk_9C;
-    u8 pad_9D[0x7];
-    s16 unk_A4;
-} S_80B7F054_4;   /* actor in create_placed_dungeon_actor */
 
 extern s32 generate_random_value(void);
 extern u8 D_8015EA30[];
@@ -42,7 +32,7 @@ void *create_placed_dungeon_actor(s16 spawn_flags, s16 tile_x, s16 tile_y, s16 r
     ObjectNodeHeader *obj;
     ObjectPosition *part_a;
     SpriteFrameState *part_b;
-    S_80B7F054_4 *actor;
+    ActorRecord *actor;
     s32 flags_or_roll;
     s32 pending_flags;
     s8 saved_x;
@@ -101,10 +91,10 @@ void *create_placed_dungeon_actor(s16 spawn_flags, s16 tile_x, s16 tile_y, s16 r
 
         } while (0);
         initialize_actor_sprite_and_animation(saved_part_a, part_a, part_b, spawn_flags);
-        actor->unk_9A = 0xFF;
+        actor->action_id.u = 0xFF;
         actor->unk_9C = -1;
-        actor->unk_8C = &D_8015EE5C;
-        actor->unk_A4 = -1;
+        actor->unk_8C.address = &D_8015EE5C;
+        actor->unk_A4.halves.low.s = -1;
         try_move_actor_to_valid_position(actor, part_a, part_b, work);
     }
     return work;

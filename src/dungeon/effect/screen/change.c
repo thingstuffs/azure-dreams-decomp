@@ -24,6 +24,8 @@
 #include "dungeon/effect.h"
 #include "engine/entity.h"
 #include "engine/util.h"
+#include "dungeon/system.h"
+
 struct S_8009BE2C_2;
 
 typedef struct S_8009BE2C_1 {
@@ -49,9 +51,6 @@ typedef struct S_8009BE2C_2 {
     s16 unk_06;
 } S_8009BE2C_2;   /* arg2 in draw_fullscreen_fade */
 
-typedef struct S_8009BE2C_4_pre {
-    u16 unk_00;
-} S_8009BE2C_4_pre;   /* the 0x2 bytes before arg0 in draw_fullscreen_fade, addressed as arg0[-1] */
 
 typedef struct S_8009BE2C_5 {
     u8 pad_00[0x8D0];
@@ -105,7 +104,7 @@ void draw_fullscreen_fade(void *effect, ObjectPosition *unused, S_8009BE2C_2 *fa
     frames_left = (u8) fade->unk_05 - 1;
     fade->unk_05 = frames_left;
     if ((frames_left << 0x18) == 0) {
-        ((S_8009BE2C_4_pre *)effect)[-1].unk_00 = (u16) (((S_8009BE2C_4_pre *)effect)[-1].unk_00 | NODE_REMOVE);
+        NODE_HEADER(effect)->flags = (u16) (NODE_HEADER(effect)->flags | NODE_REMOVE);
         object_flag_block.flags = object_flag_block.flags | OBJECT_REMOVE_PENDING;
     }
 }
@@ -196,7 +195,6 @@ extern u8 D_800E0000[];
 
 s32 clamp_adjusted_value_0_to_99();
  /* Unprototyped: zero, one or three arguments; retail replaces all incoming arguments. */
-s32 play_sound_if_enabled(s32 query_value);
 extern s32 display_text_with_fullwidth_adjustment(s8 *text);
 s32 find_directional_entry_and_clear_flag(s32 origin_x, s32 origin_y, u32 direction, s16 search_param);
 extern u8 D_800E0D7B[23];
@@ -869,11 +867,6 @@ typedef struct S_8009CE1C_1 {
 
 extern u8 pending_player_damage_kind;
 s32 clamp_adjusted_value_0_to_99();
-
-
-
-
-s32 play_sound_if_enabled(s32);
 
 /* Compute elemental damage for a target and trigger its hit response. */
 void apply_attack_power_and_element_effects(void *target, s16 base_power, s16 power_bonus, s16 elements,

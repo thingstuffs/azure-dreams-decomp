@@ -16,9 +16,9 @@
 #include "dungeon/actor.h"
 #include "dungeon/actor/motion.h"
 #include "dungeon/actor/state.h"
+#include "dungeon/level.h"
 
 /* cfail-repair: tf7-phase1-cache-v3 */
-s32 check_entity_relation();                     /* extern */
 s32 find_active_rect_containing_point(s32 point_x, s32 point_y);                           /* extern */
 s32 can_entity_gain_level(void *entity);                          /* extern */
 void update_actor_status_and_mp(ActorRecord *entity);                      /* extern */

@@ -75181,14 +75181,6 @@
       "owned_data": [],
       "imports": [
         {
-          "symbol": "D_8009ED7C",
-          "kind": "data",
-          "vma": 2148134268,
-          "foff": 136732,
-          "view_bytes": 4,
-          "owner": "retail_asset:town:xfer_town_B000"
-        },
-        {
           "symbol": "D_80100B3B",
           "kind": "data",
           "vma": 2148535099,
@@ -75205,6 +75197,11 @@
           "symbol": "func_8008F664",
           "kind": "function",
           "vma": 2148071012
+        },
+        {
+          "symbol": "func_8009ED7C",
+          "kind": "function",
+          "vma": 2148134268
         },
         {
           "symbol": "func_8009FF8C",
@@ -75967,14 +75964,6 @@
           "declaration": "include/town/shop/item_menu_display_lifecycle_g00607.h"
         },
         {
-          "symbol": "D_800B0490",
-          "kind": "data",
-          "vma": 2148205712,
-          "foff": 208176,
-          "view_bytes": 4,
-          "owner": "retail_asset:town:xfer_town_B000"
-        },
-        {
           "symbol": "bzero",
           "kind": "function",
           "vma": 2147917512
@@ -75998,6 +75987,11 @@
           "symbol": "func_800AF148",
           "kind": "function",
           "vma": 2148200776
+        },
+        {
+          "symbol": "func_800B0490",
+          "kind": "function",
+          "vma": 2148205712
         }
       ],
       "review": {
@@ -76148,14 +76142,6 @@
           "declaration": "include/town/shop/shop_window_layout_g00610.h"
         },
         {
-          "symbol": "D_800B0824",
-          "kind": "data",
-          "vma": 2148206628,
-          "foff": 209092,
-          "view_bytes": 2,
-          "owner": "retail_asset:town:xfer_town_B000"
-        },
-        {
           "symbol": "D_800D15F4",
           "kind": "data",
           "vma": 2148341236,
@@ -76167,6 +76153,11 @@
           "symbol": "func_8004CBFC",
           "kind": "function",
           "vma": 2147798012
+        },
+        {
+          "symbol": "func_800B0824",
+          "kind": "function",
+          "vma": 2148206628
         },
         {
           "symbol": "func_800B08D4",
@@ -82056,14 +82047,6 @@
       "owned_data": [],
       "imports": [
         {
-          "symbol": "D_800B3E68",
-          "kind": "data",
-          "vma": 2148220520,
-          "foff": 222984,
-          "view_bytes": 4,
-          "owner": "retail_asset:town:xfer_town_B000"
-        },
-        {
           "symbol": "D_800D1658",
           "kind": "data",
           "vma": 2148341336,
@@ -82083,6 +82066,11 @@
           "symbol": "func_8004E6F4",
           "kind": "function",
           "vma": 2147804916
+        },
+        {
+          "symbol": "func_800B3E68",
+          "kind": "function",
+          "vma": 2148220520
         },
         {
           "symbol": "func_800B3EEC",
@@ -84700,14 +84688,6 @@
           "declaration": "include/town/menu/view_effect_state_g00567.h"
         },
         {
-          "symbol": "D_800A2690",
-          "kind": "data",
-          "vma": 2148148880,
-          "foff": 151344,
-          "view_bytes": 9,
-          "owner": "retail_asset:town:xfer_town_B000"
-        },
-        {
           "symbol": "func_800374F4",
           "kind": "function",
           "vma": 2147710196
@@ -84718,14 +84698,19 @@
           "vma": 2147744868
         },
         {
-          "symbol": "rcos",
+          "symbol": "func_800A2690",
           "kind": "function",
-          "vma": 2147894660
+          "vma": 2148148880
         },
         {
           "symbol": "ratan2",
           "kind": "function",
           "vma": 2147901328
+        },
+        {
+          "symbol": "rcos",
+          "kind": "function",
+          "vma": 2147894660
         }
       ],
       "review": {
@@ -84792,25 +84777,19 @@
           "declaration": "include/shared/object_node.h"
         },
         {
-          "symbol": "D_800A34E0",
-          "kind": "data",
-          "vma": 2148152544,
-          "foff": 155008,
-          "view_bytes": 6,
-          "owner": "retail_asset:town:xfer_town_B000"
-        },
-        {
-          "symbol": "D_800A3508",
-          "kind": "data",
-          "vma": 2148152584,
-          "foff": 155048,
-          "view_bytes": 6,
-          "owner": "retail_asset:town:xfer_town_B000"
-        },
-        {
           "symbol": "func_8003FD64",
           "kind": "function",
           "vma": 2147745124
+        },
+        {
+          "symbol": "func_800A34E0",
+          "kind": "function",
+          "vma": 2148152544
+        },
+        {
+          "symbol": "func_800A3508",
+          "kind": "function",
+          "vma": 2148152584
         }
       ],
       "review": {
@@ -85002,12 +84981,9 @@
       "owned_data": [],
       "imports": [
         {
-          "symbol": "D_800A79F0",
-          "kind": "data",
-          "vma": 2148170224,
-          "foff": 172688,
-          "view_bytes": 12,
-          "owner": "retail_asset:town:xfer_town_B000"
+          "symbol": "func_800A79F0",
+          "kind": "function",
+          "vma": 2148170224
         }
       ],
       "review": {
@@ -87087,14 +87063,6 @@
           "declaration": "include/town/player/radial_offset_effects_g00543.h"
         },
         {
-          "symbol": "D_800ABB20",
-          "kind": "data",
-          "vma": 2148186912,
-          "foff": 189376,
-          "view_bytes": 4,
-          "owner": "retail_asset:town:xfer_town_B000"
-        },
-        {
           "symbol": "D_800D1464",
           "kind": "data",
           "vma": 2148340836,
@@ -87128,9 +87096,14 @@
           "vma": 2147767104
         },
         {
-          "symbol": "rsin",
+          "symbol": "func_800ABB20",
           "kind": "function",
-          "vma": 2147894456
+          "vma": 2148186912
+        },
+        {
+          "symbol": "rand",
+          "kind": "function",
+          "vma": 2147917560
         },
         {
           "symbol": "rcos",
@@ -87138,9 +87111,9 @@
           "vma": 2147894660
         },
         {
-          "symbol": "rand",
+          "symbol": "rsin",
           "kind": "function",
-          "vma": 2147917560
+          "vma": 2147894456
         }
       ],
       "review": {
@@ -87486,22 +87459,6 @@
           "owner": "retail_asset:town:xfer_town_B000"
         },
         {
-          "symbol": "D_8009B014",
-          "kind": "data",
-          "vma": 2148118548,
-          "foff": 121012,
-          "view_bytes": 6,
-          "owner": "retail_asset:town:xfer_town_B000"
-        },
-        {
-          "symbol": "D_8009B0EC",
-          "kind": "data",
-          "vma": 2148118764,
-          "foff": 121228,
-          "view_bytes": 2,
-          "owner": "retail_asset:town:xfer_town_B000"
-        },
-        {
           "symbol": "D_800D0078",
           "kind": "data",
           "vma": 2148335736,
@@ -87537,6 +87494,16 @@
           "symbol": "func_80094984",
           "kind": "function",
           "vma": 2148092292
+        },
+        {
+          "symbol": "func_8009B014",
+          "kind": "function",
+          "vma": 2148118548
+        },
+        {
+          "symbol": "func_8009B0EC",
+          "kind": "function",
+          "vma": 2148118764
         }
       ],
       "review": {
@@ -90193,20 +90160,17 @@
       "owned_data": [],
       "imports": [
         {
-          "symbol": "D_800A70EC",
-          "kind": "data",
-          "vma": 2148167916,
-          "foff": 170380,
-          "view_bytes": 4,
-          "owner": "retail_asset:town:xfer_town_B000"
-        },
-        {
           "symbol": "D_800D0DD8",
           "kind": "data",
           "vma": 2148339160,
           "foff": 341624,
           "view_bytes": 4,
           "owner": "retail_asset:town:xfer_town_B000"
+        },
+        {
+          "symbol": "func_800A70EC",
+          "kind": "function",
+          "vma": 2148167916
         },
         {
           "symbol": "func_800A75B8",
@@ -91990,27 +91954,11 @@
           "declaration": "include/town/person/object/initialize_object_resources_g01178.h"
         },
         {
-          "symbol": "D_800C321C",
-          "kind": "data",
-          "vma": 2148282908,
-          "foff": 285372,
-          "view_bytes": 6,
-          "owner": "retail_asset:town:xfer_town_B000"
-        },
-        {
           "symbol": "D_800C5100",
           "kind": "data",
           "vma": 2148290816,
           "foff": 293280,
           "view_bytes": 4,
-          "owner": "retail_asset:town:xfer_town_B000"
-        },
-        {
-          "symbol": "D_800C52D0",
-          "kind": "data",
-          "vma": 2148291280,
-          "foff": 293744,
-          "view_bytes": 2,
           "owner": "retail_asset:town:xfer_town_B000"
         },
         {
@@ -92113,9 +92061,19 @@
           "vma": 2148282448
         },
         {
+          "symbol": "func_800C321C",
+          "kind": "function",
+          "vma": 2148282908
+        },
+        {
           "symbol": "func_800C4174",
           "kind": "function",
           "vma": 2148286836
+        },
+        {
+          "symbol": "func_800C52D0",
+          "kind": "function",
+          "vma": 2148291280
         }
       ],
       "review": {
@@ -93076,14 +93034,6 @@
           "declaration": "include/town/player/effect/initialize_effect_and_adjust_value_g01140.h"
         },
         {
-          "symbol": "D_800903FC",
-          "kind": "data",
-          "vma": 2148074492,
-          "foff": 76956,
-          "view_bytes": 6,
-          "owner": "retail_asset:town:xfer_town_B000"
-        },
-        {
           "symbol": "D_800A58CC",
           "kind": "data",
           "vma": 2148161740,
@@ -93226,6 +93176,11 @@
           "symbol": "func_8008F664",
           "kind": "function",
           "vma": 2148071012
+        },
+        {
+          "symbol": "func_800903FC",
+          "kind": "function",
+          "vma": 2148074492
         },
         {
           "symbol": "func_8009065C",
@@ -93473,22 +93428,6 @@
           "owner": "retail_asset:town:xfer_town_B000"
         },
         {
-          "symbol": "D_800A2338",
-          "kind": "data",
-          "vma": 2148148024,
-          "foff": 150488,
-          "view_bytes": 4,
-          "owner": "retail_asset:town:xfer_town_B000"
-        },
-        {
-          "symbol": "D_800A23D0",
-          "kind": "data",
-          "vma": 2148148176,
-          "foff": 150640,
-          "view_bytes": 4,
-          "owner": "retail_asset:town:xfer_town_B000"
-        },
-        {
           "symbol": "func_8003FD64",
           "kind": "function",
           "vma": 2147745124
@@ -93497,6 +93436,16 @@
           "symbol": "func_8004491C",
           "kind": "function",
           "vma": 2147764508
+        },
+        {
+          "symbol": "func_800A2338",
+          "kind": "function",
+          "vma": 2148148024
+        },
+        {
+          "symbol": "func_800A23D0",
+          "kind": "function",
+          "vma": 2148148176
         }
       ],
       "review": {

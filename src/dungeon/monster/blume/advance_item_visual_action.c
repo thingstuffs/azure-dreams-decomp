@@ -23,7 +23,6 @@ typedef struct {
 } __attribute__((packed)) Copy12;
 
 extern void select_sprite_entry(void *, s32, s32);
-extern void play_sound_if_enabled(s32);
 
 extern u8 D_80170FD8[];
 
@@ -31,13 +30,10 @@ extern u8 blume_action_resume_address[];
 #include "dungeon/monster/blume.h"
 #include "dungeon/item.h"
 #include "dungeon/actor.h"
+#include "dungeon/system.h"
+
 extern u8 D_80175424[12];
 
-typedef struct S_801737C8_2 {
-    u8 pad_00[0x24];
-    u8 unk_24;
-    u8 unk_25;
-} S_801737C8_2;   /* linked in advance_item_visual_action */
 
    /* coords in advance_item_visual_action */
 
@@ -122,8 +118,8 @@ void advance_item_visual_action(ActorRecord *controller, ObjectPosition *motion,
                         target_actor = actor_body->target;
                         if (target_actor != 0) {
                             item_data = (u32)NODE_HEADER(target_actor)->sprite;
-                            actor_body->target_tile_x = ((S_801737C8_2 *)item_data)->unk_24;
-                            actor_body->target_tile_y = ((S_801737C8_2 *)item_data)->unk_25;
+                            actor_body->target_tile_x = ((SpriteFrameState *)item_data)->tile_x;
+                            actor_body->target_tile_y = ((SpriteFrameState *)item_data)->tile_y;
                         }
                     } else {
                         s32 dx;

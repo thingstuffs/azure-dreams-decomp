@@ -8,22 +8,6 @@
 #include "town/data.h"
 extern s16 get_clamped_transform_coordinate(void *object, s32 step_x, s32 step_y);
 
-typedef struct S_800C355C_0 {
-    union {
-        struct { s32 v; } at00;
-        struct { u8 pad[0x2]; s16 v; } at02;
-        struct { u8 pad[0x2]; u16 v; } at02u;
-    } unk_00;   /* overlapping accesses */
-    union {
-        struct { s32 v; } at00;
-        struct { u8 pad[0x2]; s16 v; } at02;
-        struct { u8 pad[0x2]; u16 v; } at02u;
-    } unk_04;   /* overlapping accesses */
-    u8 pad_08[0x2];
-    s16 unk_0A;
-    s32 unk_0C;
-    s32 unk_10;
-} S_800C355C_0;   /* arg1 in advance_bounded_motion */
 
 typedef struct S_800C355C_1 {
     u8 pad_00[0x72];
@@ -39,7 +23,7 @@ typedef struct S_800C355C_1 {
 /* Advance motion, clamp at the facing boundary, and update directional speed. */
 void advance_bounded_motion(S_800C355C_1 *entity, void *motion_arg, SpriteFrameState *context, s32 check_param)
 {
-    S_800C355C_0 *motion = motion_arg;
+    ObjectPosition *motion = motion_arg;
     s32 pos_x;
     s32 step_y;
     s32 angle;
@@ -59,46 +43,46 @@ void advance_bounded_motion(S_800C355C_1 *entity, void *motion_arg, SpriteFrameS
     speed = motion_words[1];
     step_y = motion_words[4];
     speed += step_y;
-    motion->unk_00.at00.v = pos_x;
-    motion->unk_04.at00.v = speed;
-    motion->unk_0A = get_clamped_transform_coordinate(motion, max_speed, step_y);
+    motion->x.v = pos_x;
+    motion->y.v = speed;
+    motion->z.w.i = get_clamped_transform_coordinate(motion, max_speed, step_y);
 
     angle = 0x400 - entity->unk_72;
     quadrant = (angle / 0x400) & 3;
 
     switch (quadrant) {
     case 0:
-        if (entity->unk_84.s + entity->unk_8C.s < motion->unk_00.at02.v) {
-            motion->unk_00.at02u.v = entity->unk_84.u + entity->unk_8C.u;
+        if (entity->unk_84.s + entity->unk_8C.s < motion->x.w.i) {
+            motion->x.unsigned_parts.integer = entity->unk_84.u + entity->unk_8C.u;
             initialize_object_assigns_state_data(entity, motion, context);
             return;
         }
         break;
     case 1:
-        if (entity->unk_86.s + entity->unk_8E.s < motion->unk_04.at02.v) {
-            motion->unk_04.at02u.v = entity->unk_86.u + entity->unk_8E.u;
+        if (entity->unk_86.s + entity->unk_8E.s < motion->y.w.i) {
+            motion->y.unsigned_parts.integer = entity->unk_86.u + entity->unk_8E.u;
             initialize_object_assigns_state_data(entity, motion, context);
             return;
         }
         break;
     case 2:
-        if (motion->unk_00.at02.v < entity->unk_84.s - entity->unk_8C.s) {
+        if (motion->x.w.i < entity->unk_84.s - entity->unk_8C.s) {
             u16 center;
             u16 extent;
             center = entity->unk_84.u;
             extent = entity->unk_8C.u;
-            motion->unk_00.at02u.v = center - extent;
+            motion->x.unsigned_parts.integer = center - extent;
             initialize_object_assigns_state_data(entity, motion, context);
             return;
         }
         break;
     default:
-        if (motion->unk_04.at02.v < entity->unk_86.s - entity->unk_8E.s) {
+        if (motion->y.w.i < entity->unk_86.s - entity->unk_8E.s) {
             u16 center;
             u16 extent;
             center = entity->unk_86.u;
             extent = entity->unk_8E.u;
-            motion->unk_04.at02u.v = center - extent;
+            motion->y.unsigned_parts.integer = center - extent;
             initialize_object_assigns_state_data(entity, motion, context);
             return;
         }
@@ -107,19 +91,19 @@ void advance_bounded_motion(S_800C355C_1 *entity, void *motion_arg, SpriteFrameS
 
     max_speed = 0x20000;
 
-    speed = motion->unk_0C + town_x_acceleration[quadrant];
-    motion->unk_0C = speed;
+    speed = motion->velocity_x + town_x_acceleration[quadrant];
+    motion->velocity_x = speed;
     speed = abs(speed);
     speed = max_speed < speed;
     if (speed != 0) {
-        motion->unk_0C = town_x_speed_limits[quadrant];
+        motion->velocity_x = town_x_speed_limits[quadrant];
     }
 
-    speed = motion->unk_10 + town_y_acceleration[quadrant];
-    motion->unk_10 = speed;
+    speed = motion->velocity_y + town_y_acceleration[quadrant];
+    motion->velocity_y = speed;
     speed = abs(speed);
     speed = max_speed < speed;
     if (speed != 0) {
-        motion->unk_10 = town_y_speed_limits[quadrant];
+        motion->velocity_y = town_y_speed_limits[quadrant];
     }
 }

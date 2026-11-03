@@ -16,6 +16,7 @@
 #include "dungeon/actor.h"
 #include "dungeon/monster/manoeva.h"
 #include "sdk/libc.h"
+#include "dungeon/system.h"
 
 typedef __SIZE_TYPE__ uptr;
 
@@ -40,7 +41,6 @@ extern u8 D_80176648[8];
 extern u8 manoeva_frame_set_2[8];
 
 extern void select_sprite_entry(void *, s32, s32);
-extern void play_sound_if_enabled(s32);
 
 /* Advances an actor's item action through source selection, animation, and cleanup. */
 void update_actor_item_use_animation(ActorRecord *action, void *item, SpriteFrameState *sprite, ActorRecord *actor)

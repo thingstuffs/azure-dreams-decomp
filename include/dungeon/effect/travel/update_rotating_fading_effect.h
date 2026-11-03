@@ -123,5 +123,5 @@ s32 check_layer_offset_height(s32, s32, s16, s32);
 void apply_large_random_value_gain(ActorRecord *target, s32 amount_input, ActorRecord *owner);
 void update_rotating_fading_effect(RandomizedTargetEffectBody *effect, void *position, SpriteFrameState *sprite);
 void *create_randomized_target_effect(Rec_func_800243B8_arg0 *source, ObjectPosition *start, ObjectPosition *center, s16 index);
-void advance_target_travel_effect(void *effect, ObjectPosition *motion, void *appearance);
+void advance_target_travel_effect(void *effect, ObjectPosition *motion, SpriteFrameState *appearance);
 #endif

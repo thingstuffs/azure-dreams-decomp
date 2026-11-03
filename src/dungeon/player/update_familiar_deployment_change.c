@@ -29,10 +29,10 @@ void decrement_monster_entry_count(s16 requested_id, s16 requested_type);       
 #include "dungeon/item.h"
 #include "dungeon/level.h"
 #include "slus.h"
+#include "dungeon/system.h"
 
 struct Entity;
 struct EntityLinkNode;
-s32 play_sound_if_enabled(s32 query_value);                     /* extern */
 s32 display_text_with_fullwidth_adjustment(s8 *text);                         /* extern */
 extern s32 loaded_entity_sprite_resource;
 extern s32 sprite_resource_completion_flag;
@@ -96,11 +96,6 @@ typedef struct S_8009345C_10_pre {
 } S_8009345C_10_pre;   /* 0x18-byte header immediately before the payload. */
 
 
-typedef struct S_8009345C_11 {
-    u8 pad_00[0x1C];
-    s16 unk_1C;
-    s16 unk_1E;
-} S_8009345C_11;
 
 
    /* map in update_familiar_deployment_change */
@@ -135,7 +130,7 @@ void update_familiar_deployment_change(void *actor, ObjectPosition *map, SpriteF
     void *selected_object;
     void *old_object;
     ObjectStatusPrefix16 *removed_object;
-    S_8009345C_11 *object_scale;
+    SpriteFrameState *object_scale;
     ObjectPosition *object_position;
     ScratchS1 message_or_list;
 
@@ -240,8 +235,8 @@ void update_familiar_deployment_change(void *actor, ObjectPosition *map, SpriteF
                 (*(void **)((u8 *)(((familiar_deployment_slots.slot.s * 4) + actor)) + (0xAC))) = new_object;
                 familiar_record_slots[((S_8009345C_7 *)(*message_or_list.base))->unk_03 & 0x1F] = new_object;
                 object_scale = ((S_8009345C_10_pre *)new_object)[-1].unk_04;
-                object_scale->unk_1E = 0x800;
-                object_scale->unk_1C = 0x800;
+                object_scale->scale_y = 0x800;
+                object_scale->scale_x = 0x800;
                 object_position = ((S_8009345C_10_pre *)new_object)[-1].unk_00;
                 object_position->x.unsigned_parts.integer = (u16) map->x.w.i;
                 object_position->y.unsigned_parts.integer = (u16) map->y.w.i;

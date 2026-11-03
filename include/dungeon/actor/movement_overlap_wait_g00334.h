@@ -1,5 +1,6 @@
 #ifndef DUNGEON_ACTOR_MOVEMENT_OVERLAP_WAIT_G00334_H
 #define DUNGEON_ACTOR_MOVEMENT_OVERLAP_WAIT_G00334_H
+struct ActorRecord;
 #include "dungeon/level.h"
 
 struct SpriteFrameState;
@@ -16,6 +17,6 @@ extern void begin_actor_random_warp(void *entity, void *unused, void *position, 
 
 /* Functions defined in this translation unit. */
 s32 try_move_actor_to_valid_position(void *action, void *context, void *position, void *entity);
-void begin_actor_overlap_wait(void *entity, void *unused_1, void *unused_2, void *unused_3);
+void begin_actor_overlap_wait(struct ActorRecord *entity, void *unused_1, void *unused_2, void *unused_3);
 
 #endif

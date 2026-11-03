@@ -11,6 +11,29 @@ struct ActorRecord;
 #include "records/Rec_func_800A9E70_arg0.h"
 #include "shared/object_node.h"
 
+/* Body allocated by create_terrain_scaled_actor_effect with flags 0x100.
+ * Its update and depth-sliced draw callbacks share these scale and phase slots. */
+typedef struct ManoevaTerrainEffectBody {
+    s16 *unk_00;
+    u8 *unk_04;
+    u16 *unk_08;
+    ObjectNodeHeader *unk_0C;
+    u8 pad_10[4];
+    SpriteFrameState *unk_14;
+    ObjectPosition *unk_18;
+    union { s16 s; u16 u; } unk_1C;
+    s16 unk_1E;
+    union { s16 s; u16 u; } unk_20;
+    s16 unk_22;
+    s16 unk_24;
+    s16 unk_26;
+    s16 unk_28;
+    s16 unk_2A;
+    s16 unk_2C;
+    s16 unk_2E;
+    s16 unk_30;
+} ManoevaTerrainEffectBody;
+
 /* Actor-state dispatch; the final argument is reserved by the caller ABI. */
 s32 dispatch_actor_action_state(ActorRecord *body, ObjectPosition *position, SpriteFrameState *sprite, s32 unused_force_state);
 typedef struct ManoevaParticleBurstBody {

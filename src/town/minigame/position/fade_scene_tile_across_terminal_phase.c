@@ -2,14 +2,9 @@
 #include "shared/object_flags.h"
 #include "town/minigame/position.h"
 #include "shared/object_node.h"
+#include "town/scene/collection.h"
 
 
-typedef struct S_80020260_1 {
-    u8 pad_00[0x2A];
-    u16 unk_2A;
-    u8 pad_2C[0xA];
-    s16 unk_36;
-} S_80020260_1;   /* object in fade_scene_tile_across_terminal_phase */
 
 
 /* Fades an effect in and out around an object event, then marks completion. */
@@ -17,14 +12,14 @@ void fade_scene_tile_across_terminal_phase(SceneTileObject *effect) {
     s16 state;
     s32 color;
     s32 faded_color;
-    S_80020260_1 *object;
+    TownCollectionSequence *object;
 
     state = effect->state.s;
     object = effect->linked;
 
     switch (state) {
     case 0:
-        if (object->unk_36 != 0xFF) {
+        if (object->state.s != 0xFF) {
             break;
         }
         effect->flags &= 0xFFFD;
@@ -35,7 +30,7 @@ void fade_scene_tile_across_terminal_phase(SceneTileObject *effect) {
         if (color <= 0x40403F) {
             effect->color = color + 0x80808;
         }
-        if ((object->unk_2A & 1) == 0) {
+        if ((object->flags.u & 1) == 0) {
             break;
         }
         effect->state.u++;

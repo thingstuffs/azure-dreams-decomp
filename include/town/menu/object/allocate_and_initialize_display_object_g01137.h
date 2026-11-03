@@ -52,13 +52,6 @@ typedef struct S_800A21EC_0 {
     s16 unk_1A;
 } S_800A21EC_0;
 
-/* arg2 in initialize_directional_object_state */
-typedef struct S_800A21EC_1 {
-    union { struct { s32 v; } at00; struct { u8 pad[0x2]; u16 v; } at02; } unk_00;   /* overlapping accesses */
-    s32 unk_04;
-    s32 unk_08;
-} S_800A21EC_1;
-
 /* arg1 in initialize_directional_object_state */
 typedef struct S_800A21EC_2 {
     void (*unk_00)(struct Func800A4B70Object *, s32,  struct Func800A4B70Output *);
@@ -101,7 +94,6 @@ extern s32 D_800A2338;
 extern s32 D_800A23D0;
 
 /* Shared import declarations; data casts preserve each measured view. */
-
 
 /* Functions defined in this translation unit. */
 void *allocate_and_initialize_display_object(s32 object_key, s32 payload_value, s32 payload_param, s32 payload_halfword, void *object_param, s32 object_value);

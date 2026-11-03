@@ -15,12 +15,12 @@ extern u8 D_800E1224[];
 #include "dungeon/player/item.h"
 #include "dungeon/actor.h"
 #include "dungeon/item.h"
+#include "dungeon/system.h"
 
 extern s32 process_record_and_update_linked_state(struct DungeonItemEntry *, s32); /* Unprototyped: uses the value as a pointer where the definition has an integer (or the reverse) */
 extern void clear_slot_and_update_linked_state(DungeonItemEntry *slot);
 extern void display_formatted_context_message(void *, s32, s16);
 extern void place_actor_item(void *object_context, struct DungeonItemEntry *target);
-extern void display_actor_item_status_message(void *, struct DungeonItemEntry *, s16);
 
 /* Dispatch an action by type and target, updating the shared action state. */
 s32 use_item_to_reveal_elevator(ActorRecord *target, DungeonItemEntry *action_id, s16 action_type, s32 action_param)
@@ -36,7 +36,7 @@ s32 use_item_to_reveal_elevator(ActorRecord *target, DungeonItemEntry *action_id
     }
 
     if ((u32)target <= 0x9FFFFFFF) {
-        display_actor_item_status_message(target, action_id, action_type);
+        display_actor_item_status_message(target, action_id);
         if (feed_actor_restore_mp(target,
                           entity_action_selectors[(*(&target->unk_10 + 3))] & 3,
                           action_id) == 0) {

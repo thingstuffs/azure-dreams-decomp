@@ -10,12 +10,12 @@
 #include "dungeon/player/item.h"
 #include "dungeon/actor.h"
 #include "dungeon/item.h"
+#include "dungeon/system.h"
 
 extern s32 process_record_and_update_linked_state(struct DungeonItemEntry *request, s32 record_data); /* Unprototyped: uses the value as a pointer where the definition has an integer (or the reverse) */
 extern void clear_slot_and_update_linked_state(DungeonItemEntry *slot);
 extern s32 display_formatted_context_message(void *context, s32 first_input, s32 second_input);
 extern void place_actor_item(void *object_context, struct DungeonItemEntry *target);
-extern s32 display_actor_item_status_message(void *actor, struct DungeonItemEntry *item, s32 unused_2);
 
 typedef struct {
     s16 flags;
@@ -50,7 +50,7 @@ s32 dispatch_item_target_action(ActorRecord *target, DungeonItemEntry *item, s16
         return 0;
     }
     if ((u32)target <= 0x9FFFFFFFU) {
-        display_actor_item_status_message(target, item, action_type);
+        display_actor_item_status_message(target, item);
         category_index = item->kind;
         item_index = item->unk_00;
         item_entries = item_category_groups[category_index].entries;

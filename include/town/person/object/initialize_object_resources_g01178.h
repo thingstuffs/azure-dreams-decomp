@@ -17,24 +17,8 @@
 #define NULL 0
 #endif
 
-
-/* arg0 in initialize_object_resources_2 */
-typedef struct S_800C4F6C_6 {
-    u8 pad_00[0x4];
-    s32 * unk_04;
-} S_800C4F6C_6;
-
 /* ((S_800C4F6C_5 *)arg0)->unk_80 in initialize_object_resources_2 */
 /* arg1 in initialize_object_resources_2 */
-
-
-
-/* arg2 in initialize_object_resources_2 */
-typedef struct S_800C4F6C_4 {
-    u8 pad_00[0x4];
-    s32 unk_04;
-    s32 unk_08;
-} S_800C4F6C_4;
 
 typedef struct S_800C51DC_0 {
     u8 pad_00[0x54];
@@ -42,13 +26,6 @@ typedef struct S_800C51DC_0 {
     u8 pad_58[0x8];
     s32 unk_60;
 } S_800C51DC_0;
-
-/* arg0 in init_actor_handler_state */
-typedef struct S_800C51DC_1 {
-    u8 pad_00[0x10];
-    s32 unk_10;
-    s32 unk_14;
-} S_800C51DC_1;
 
 typedef struct S_800C5214_0 {
     u8 pad_00[0xC];

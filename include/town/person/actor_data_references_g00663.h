@@ -12,10 +12,6 @@
 
 /* arg0 in set_linked_data_pointers_variant_2 */
 
-typedef struct S_800C645C_0 {
-    u8 pad_00[0x7C];
-    s32 ** data_slot; /* 0x7C */
-} S_800C645C_0;
 
 typedef struct S_800C6478_0 {
     u8 pad_00[0x80];
@@ -30,11 +26,6 @@ typedef struct S_800C6478_1 {
 
 typedef s32 unk32;
 
-typedef struct S_800C648C_0 {
-    u8 pad_00[0x7C];
-    s32 ** data_slot; /* 0x7C */
-    void ** linked_data; /* 0x80 */
-} S_800C648C_0;
 
 /* arg0 in check_actor_data_references_match */
 typedef struct S_800C648C_1 {
@@ -55,8 +46,8 @@ void set_object_referenced_data_pointers(TownObjectRecord *object, void *unused_
 
 /* Functions defined in this translation unit. */
 void set_linked_data_pointers_variant_1(TownObjectRecord *record, ObjectPosition *unused_context, struct SpriteFrameState *unused_sprite);
-void set_linked_data_pointers_variant_2(S_800C645C_0 *object);
+void set_linked_data_pointers_variant_2(TownObjectRecord *object);
 void set_linked_data_pointer_variant_3(S_800C6478_0 *object);
-s32 check_actor_data_references_match(S_800C648C_0 *actor);
+s32 check_actor_data_references_match(TownObjectRecord *actor);
 
 #endif

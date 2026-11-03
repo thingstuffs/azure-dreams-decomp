@@ -16,15 +16,14 @@
 #include "dungeon.h"
 #include "dungeon/level.h"
 #include "dungeon/player/object.h"
+#include "dungeon/monster/hikewne.h"
+#include "dungeon/monster/kewne.h"
 
 extern void select_sprite_entry(void *, s32, s32);
 extern s8 find_active_rect_containing_point(s32, s32);
 extern void update_actor_status_and_mp(ActorRecord *entity);
-extern void advance_actor_path_and_facing(void *motion, ObjectPosition *unused, SpriteFrameState *actor, void *path_state);
 extern void select_bank_actor_movement(void *, void *, void *, void *);
 extern s32 select_and_start_target_action(ActorRecord *action_state, ObjectPosition *action_param, SpriteFrameState *visual_data, ActorRecord *actor);
-extern void start_kewne_attack_action(ActorRecord *controller, ObjectPosition *action_context, SpriteFrameState *sprite, ActorRecord *actor);
-extern s32 update_entity_state_from_query(void *, void *, void *, void *);
 extern void func_80175078(void *, void *, void *, void *);
 
 extern u8 kewne_uncached_action_resume_address[];
@@ -35,22 +34,6 @@ extern u8 D_80175C90[];
 extern u8 D_80175CA0[];
 extern u8 D_80175CA8[];
 
-typedef struct S_80171FA4_0 {
-    u8 pad_00[0x8C];
-    s32 unk_8C;
-    u8 pad_90[0x2];
-    union { u16 u; s16 s; } unk_92;   /* accessed as both */
-    u8 pad_94[0x4];
-    u16 unk_98;
-    u8 unk_9A;
-    u8 unk_9B;
-    u8 pad_9C[0x2];
-    s16 unk_9E;
-    u8 pad_A0[0x2];
-    union { s16 s; u16 u; } unk_A2;   /* accessed as both */
-    u8 pad_A4[0x12];
-    s16 unk_B6;
-} S_80171FA4_0;   /* arg0 in update_actor_animation_behavior_and_facing */
 
 /* Update dungeon actor animation, behavior, and facing. */
 void update_actor_animation_behavior_and_facing(void *actor, ObjectPosition *actor_aux, SpriteFrameState *sprite, ActorRecord *entity) {
@@ -59,7 +42,7 @@ void update_actor_animation_behavior_and_facing(void *actor, ObjectPosition *act
     u16 action_state;
 
     if (g_dungeon_status.flags & 0x1000) {
-        ((S_80171FA4_0 *)actor)->unk_9A = 0xE;
+        ((ActorRecord *)actor)->action_id.u = 0xE;
         advance_actor_path_and_facing(actor, actor_aux, sprite, entity);
         return;
     }
@@ -80,9 +63,9 @@ void update_actor_animation_behavior_and_facing(void *actor, ObjectPosition *act
 
     if (((u32)entity->flags1C) & ACTOR_ASLEEP) {
         if (sprite->frameTable == D_80175C90) {
-            ((S_80171FA4_0 *)actor)->unk_9A = 0xD;
-            ((S_80171FA4_0 *)actor)->unk_9B = 1;
-            ((S_80171FA4_0 *)actor)->unk_8C = 0;
+            ((ActorRecord *)actor)->action_id.u = 0xD;
+            ((ActorRecord *)actor)->action_phase.u = 1;
+            ((ActorRecord *)actor)->unk_8C.word = 0;
             entity->flags1C &= 0xFFFBFFFF;
             return;
         }
@@ -98,14 +81,14 @@ void update_actor_animation_behavior_and_facing(void *actor, ObjectPosition *act
         }
 
         {
-            u8 current_state = ((S_80171FA4_0 *)actor)->unk_9A;
+            u8 current_state = ((ActorRecord *)actor)->action_id.u;
             u32 idle_state = 0xE;
             void *current_anim;
             void *anim_table;
 
             if (current_state != idle_state) {
-                ((S_80171FA4_0 *)actor)->unk_9A = idle_state;
-                ((S_80171FA4_0 *)actor)->unk_B6 = 0;
+                ((ActorRecord *)actor)->action_id.u = idle_state;
+                ((ActorRecord *)actor)->unk_B4.halves.high.s = 0;
             }
             current_anim = sprite->frameTable;
             if (current_anim == D_80175CA8) {
@@ -117,8 +100,8 @@ void update_actor_animation_behavior_and_facing(void *actor, ObjectPosition *act
                         ((u8 *)idle_anim)[((g_game_work.view.camera_rotation.parts.viewAngle + entity->facing + 0x100) >> 9) & 7],
                         0);
                     sprite->frame_ticks = 1;
-                    ((S_80171FA4_0 *)actor)->unk_A2.s = 0;
-                    ((S_80171FA4_0 *)actor)->unk_9E = 0;
+                    ((ActorRecord *)actor)->unk_A0.halves.high.s = 0;
+                    ((ActorRecord *)actor)->unk_9E.s = 0;
                 }
             } else {
                 anim_table = kewne_uncached_frame_set_1;
@@ -128,14 +111,14 @@ void update_actor_animation_behavior_and_facing(void *actor, ObjectPosition *act
                         ((u8 *)anim_table)[((g_game_work.view.camera_rotation.parts.viewAngle + entity->facing + 0x100) >> 9) & 7],
                         0);
                     sprite->frame_ticks = 1;
-                    ((S_80171FA4_0 *)actor)->unk_A2.s = 0;
-                    ((S_80171FA4_0 *)actor)->unk_9E = 0;
+                    ((ActorRecord *)actor)->unk_A0.halves.high.s = 0;
+                    ((ActorRecord *)actor)->unk_9E.s = 0;
                 }
             }
         }
 
         entity->flags1C |= 0x40000;
-        ((S_80171FA4_0 *)actor)->unk_98 &= 0xFFF7;
+        ((ActorRecord *)actor)->action_state_flags &= 0xFFF7;
 
         if (entity->hp_delta != 0) {
             if (begin_ready_actor_directional_action(actor, actor_aux, sprite, D_80175C38) != 0) {
@@ -147,10 +130,10 @@ void update_actor_animation_behavior_and_facing(void *actor, ObjectPosition *act
             s16 adjusted_angle;
 
             begin_actor_move_to_target_facing(actor, actor_aux, sprite, entity);
-            adjusted_angle = ((S_80171FA4_0 *)actor)->unk_92.u - ((S_80171FA4_0 *)actor)->unk_A2.u;
-            ((S_80171FA4_0 *)actor)->unk_A2.s = 0;
-            ((S_80171FA4_0 *)actor)->unk_9E = 0;
-            ((S_80171FA4_0 *)actor)->unk_92.s = adjusted_angle;
+            adjusted_angle = ((ActorRecord *)actor)->unk_90.parts.high.u - ((ActorRecord *)actor)->unk_A0.parts.high;
+            ((ActorRecord *)actor)->unk_A0.halves.high.s = 0;
+            ((ActorRecord *)actor)->unk_9E.s = 0;
+            ((ActorRecord *)actor)->unk_90.parts.high.s = adjusted_angle;
             func_80175078(actor, actor_aux, sprite, entity);
             return;
         }

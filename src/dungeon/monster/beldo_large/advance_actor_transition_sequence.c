@@ -10,6 +10,7 @@
 #include "engine/object.h"
 #include "dungeon/effect/screen.h"
 #include "dungeon/monster/beldo_large.h"
+#include "dungeon/system.h"
 
 
 
@@ -25,7 +26,6 @@ typedef struct S_8016BE20_6 {
 typedef struct ResetFlagWord { u16 flags; } ResetFlagWord;
 
 extern void select_sprite_entry(void *, u8, s32);
-extern void play_sound_if_enabled(s32);
 extern void func_80164BA4(void *);
 
 extern void beldo_large_action_resume_address(ActorRecord *actor, ObjectPosition *context, SpriteFrameState *sprite, ActorRecord *entity);

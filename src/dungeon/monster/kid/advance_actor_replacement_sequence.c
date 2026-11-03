@@ -264,7 +264,7 @@ void advance_actor_replacement_sequence(ActorRecord *state, ObjectPosition *posi
         }
         globals_base = (void *)0x80080000;
         ((S_80174B20_16 *)actor->target)->unk_2A = (u16) ((u16)actor->unk_8A);
-        ((ObjectNodeHeader *)state - 1)->flags = (u16) (((ObjectNodeHeader *)state - 1)->flags | 0x8000);
+        NODE_HEADER(state)->flags = (u16) (NODE_HEADER(state)->flags | 0x8000);
         global_flags = globals_base->unk_14A0;
         active_count = ((u16)g_dungeon_status.activity_counts.parts.pending_action_count);
         globals_base->unk_14A0 = global_flags | 0x8000;

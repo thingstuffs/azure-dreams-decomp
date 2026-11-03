@@ -4,6 +4,7 @@
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 #include "dungeon/player/object.h"
+#include "dungeon/system.h"
 
 typedef struct {
     u8 pad_00[0x8C];
@@ -45,7 +46,6 @@ typedef struct {
 
 extern u8 cyclone_move_direction_frames[8];
 
-extern void play_sound_if_enabled(s32);
 extern void spend_actor_mp(D3 *, s32);
 struct SpriteFrameState;
 extern void select_sprite_entry(struct SpriteFrameState *, s16, s16);

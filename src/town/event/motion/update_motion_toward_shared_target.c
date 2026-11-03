@@ -7,8 +7,8 @@
 #include "town/player/position.h"
 #include "town/scene/motion.h"
 #include "town.h"
+#include "town/event/motion.h"
 
-void initialize_target_motion(); /* Unprototyped: retail call passes more arguments than the callee reads */ /* extern */
 extern s32 town_target_height_offset;
 
 

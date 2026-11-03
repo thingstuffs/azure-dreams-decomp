@@ -52,7 +52,6 @@ extern s32 D_80077FBC[];
  * addressing (matches src/w_80047694.c sibling; same symbol, same form). */
 /* D_800D1790: declared >8B so a plain value load also uses %hi/%lo. */
 extern s32 D_800D1790[2];
-extern s32 select_object_state_value(void);
 extern s32 D_800892C0[3];
 extern u8 D_8008933C[];
 extern char *func_8004E5A0(s32 value, u16 width, char *dst);

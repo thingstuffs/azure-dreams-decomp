@@ -14,9 +14,6 @@
 #include "engine/node.h"
 #include "slus.h"
 
-typedef struct S_80167C74_0_pre {
-    u16 unk_00;
-} S_80167C74_0_pre;   /* the 0x2 bytes before arg0 in update_targeted_ribbon_trail, addressed as arg0[-1] */
 
 typedef struct S_80167C74_1 {
     s32 unk_00;
@@ -461,7 +458,7 @@ copy_pairs:
     life_left = (u16) ((Rec_func_80167A98_arg0 *)effect_data)->unk_18 - 1;
     ((Rec_func_80167A98_arg0 *)effect_data)->unk_18 = life_left;
     if ((life_left << 0x10) <= 0) {
-        ((S_80167C74_0_pre *)effect_data)[-1].unk_00 = (u16) (((S_80167C74_0_pre *)effect_data)[-1].unk_00 | 0x8000);
+        NODE_HEADER(effect_data)->flags = (u16) (NODE_HEADER(effect_data)->flags | 0x8000);
         object_flag_block.flags = (s32) (object_flag_block.flags | OBJECT_REMOVE_PENDING);
     }
 }

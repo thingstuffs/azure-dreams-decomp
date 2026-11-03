@@ -17,7 +17,6 @@ struct S_800C355C_1;
 struct S_800C3FC8_0;
 struct S_800C5B48_1;
 struct S_800C7674_0;
-struct S_800CC070_0;
 struct S_800CC070_1;
 
 /* advance_bounded_motion.c */
@@ -60,10 +59,10 @@ void move_motion_value_halfway_toward(struct S_800C5B48_1 *actor, DelayMotionZ *
 void move_person_toward_sample(Rec_func_800AB014_arg0 *object, Rec_func_800AAE98_arg0 *position);
 
 /* set_initial_jump_velocity.c */
-void set_initial_jump_velocity(struct S_800CC070_0 *jump_state, struct S_800CC070_1 *body, void *context);
+void set_initial_jump_velocity(TownObjectRecord *jump_state, struct S_800CC070_1 *body, void *context);
 
 /* update_jump_motion.c */
-void update_jump_motion(struct S_800CC070_0 *actor, struct S_800CC070_1 *motion, void *animation_id, s16 jump_velocity);
+void update_jump_motion(TownObjectRecord *actor, struct S_800CC070_1 *motion, void *animation_id, s16 jump_velocity);
 
 /* update_spin_vertical_motion_and_bounces.c */
 void update_spin_vertical_motion_and_bounces(TownObjectRecord *entity, EntityRec *motion, void *context);

@@ -23,7 +23,7 @@ extern u8 D_800E0F85[];
 #include "dungeon/item/state.h"
 #include "dungeon/item.h"
 
-extern void play_sound_if_enabled(s32);
+extern s32 play_sound_if_enabled(s32 query_value);
 extern void display_text_with_fullwidth_adjustment(s8 *text);
 extern void place_actor_item(void *object_context, struct DungeonItemEntry *target);
 void display_item_status_message(void *entity, struct DungeonItemEntry *item, s32 message_kind);

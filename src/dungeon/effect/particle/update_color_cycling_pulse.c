@@ -1,3 +1,4 @@
+#include "shared/object_node.h"
 #include "common.h"
 #include "shared/object_flags.h"
 #include "m2c_compat.h"
@@ -12,9 +13,6 @@ typedef struct S_801671AC_0 {
     u16 unk_14;
 } S_801671AC_0;   /* arg2 in update_color_cycling_pulse */
 
-typedef struct S_801671AC_1_pre {
-    u16 unk_00;
-} S_801671AC_1_pre;   /* the 0x2 bytes before obj in update_color_cycling_pulse, addressed as obj[-1] */
 
 
 
@@ -60,7 +58,7 @@ void update_color_cycling_pulse(ColorCyclingPulseBody *state, void *unused, void
         ((S_801671AC_0 *)color)->unk_0E = (s8) ((blue * (0x1E - (s16) state->ticks_remaining)) / 10);
     }
     if ((s16) state->ticks_remaining <= 0) {
-        (*(u16 *)((u8 *)state + -2)) = (u16) (((S_801671AC_1_pre *)state)[-1].unk_00 | NODE_REMOVE);
+        (*(u16 *)((u8 *)state + -2)) = (u16) (NODE_HEADER(state)->flags | NODE_REMOVE);
         object_flag_block.flags |= OBJECT_REMOVE_PENDING;
     }
 }

@@ -8,19 +8,6 @@
 #include "sdk/libgpu.h"
 #include "sdk/libgte.h"
 
-typedef struct S_80175594_0 {
-    u8 pad_00[0x1C];
-    s16 unk_1C;
-    u8 pad_1E[0x4];
-    s16 unk_22;
-    s16 unk_24;
-    u8 pad_26[0x2];
-    s16 unk_28;
-    s16 unk_2A;
-    s16 unk_2C;
-    u8 pad_2E[0x2];
-    s16 unk_30;
-} S_80175594_0;   /* arg0 in project_depth_sorted_sprite_quads */
 
 typedef struct S_80175594_1 {
     u16 unk_00;
@@ -149,7 +136,7 @@ typedef struct {
 } Texture;
 
 /* Projects textured sprite quads and queues visible packets for depth-sorted drawing. */
-void project_depth_sorted_sprite_quads(S_80175594_0 *sprite, ObjectPosition *position, Rec_func_800D6DC0_arg2 *render,
+void project_depth_sorted_sprite_quads(ManoevaTerrainEffectBody *sprite, ObjectPosition *position, Rec_func_800D6DC0_arg2 *render,
     s16 depth_bias)
 {
     GameWork *render_globals = &g_game_work;
@@ -168,7 +155,7 @@ void project_depth_sorted_sprite_quads(S_80175594_0 *sprite, ObjectPosition *pos
     s32 visible_01;
     s32 visible_012;
 
-    if (sprite->unk_1C == 0) {
+    if (sprite->unk_1C.s == 0) {
         return;
     }
 

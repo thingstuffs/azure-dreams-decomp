@@ -132,7 +132,7 @@ void initialize_action_callback_from_entry(ovl_16b08_local_7FFF6F00_InitState *s
  * update_threshold_countdown_with_busy_check with count 6.
  */
 void initialize_busy_checked_countdown_action(ovl_16b08_local_7FFF6F40_InitState *state, void *argument, void *context) {
-    store_the_valid_shared_angle_in_offset_hex_10(state, argument, context);
+    store_the_valid_shared_angle_in_offset_hex_10(state);
     call_the_handler_selects_nonzero_entry(countdown_action_handler_table, state, context);
     state->callback = (void *)update_threshold_countdown_with_busy_check;
     state->count = 6;

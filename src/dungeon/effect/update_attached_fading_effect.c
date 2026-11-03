@@ -1,3 +1,4 @@
+#include "shared/object_node.h"
 #include "shared/entity.h"
 #include "shared/sprite_frame_state.h"
 #include "common.h"
@@ -10,9 +11,6 @@
 #define NULL 0
 #endif
 
-typedef struct S_800B490C_0_pre {
-    u16 unk_00;
-} S_800B490C_0_pre;   /* the 0x2 bytes before arg0 in update_attached_fading_effect, addressed as arg0[-1] */
 
 typedef struct S_800B490C_0 {
     void * unk_00;
@@ -130,7 +128,7 @@ void update_attached_fading_effect(void *effect, ObjectPosition *motion, SpriteF
             sprite->scale_x = next_scale;
             motion->z.w.i = ((u16)motion->z.w.i + 6);
         } else {
-            ((S_800B490C_0_pre *)effect)[-1].unk_00 = (u16) (((S_800B490C_0_pre *)effect)[-1].unk_00 | 0x8000);
+            NODE_HEADER(effect)->flags = (u16) (NODE_HEADER(effect)->flags | 0x8000);
             object_flag_block.flags |= OBJECT_REMOVE_PENDING;
         }
         break;

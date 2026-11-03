@@ -19,6 +19,7 @@
 #include "sdk/libc.h"
 #include "sdk/libgpu.h"
 #include "sdk/libgte.h"
+#include "dungeon/system.h"
 
 typedef struct DungeonState818D4800 {
     u8 pad0[0x8D0];

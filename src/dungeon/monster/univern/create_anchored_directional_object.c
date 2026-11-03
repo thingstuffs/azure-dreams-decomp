@@ -2095,7 +2095,7 @@ void finish_spinning_actor_fall_then_resume_ground_movement(ActorRecord *state, 
  * nonzero.
  */
 void update_effect_trajectory_and_sprite(ActorRecord *state, ObjectPosition *motion, SpriteFrameState *position, ActorRecord *actor) {
-    if (update_actor_fade_in(state, motion, position, actor)) {
+    if (update_actor_fade_in(state, motion, position)) {
         state->unk_8C.handler = update_entity_movement_and_ground_height;
     }
 }

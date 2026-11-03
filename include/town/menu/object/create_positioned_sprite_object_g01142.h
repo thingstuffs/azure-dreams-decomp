@@ -27,10 +27,6 @@ typedef struct EmoteCallbackObject {
 } EmoteCallbackObject;
 
 
-typedef struct S_800A71F0_3 {
-    u8 pad_00[0x4];
-    s32 unk_04;
-} S_800A71F0_3;
 
 
 struct Dst;

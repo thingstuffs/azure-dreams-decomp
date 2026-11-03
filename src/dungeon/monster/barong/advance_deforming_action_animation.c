@@ -5,10 +5,10 @@
 #include "shared/entity.h"
 #include "dungeon/monster/barong.h"
 #include "dungeon/item.h"
+#include "dungeon/system.h"
 
 
 extern void select_sprite_entry(void *, s32, s32);
-extern void play_sound_if_enabled(s32);
 extern void spend_actor_mp(void *, s32);
 extern void create_randomized_item_object(ActorRecord *, ObjectPosition *, SpriteFrameState *, void *);
 

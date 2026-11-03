@@ -11,14 +11,9 @@ struct TownObjectRecord;
 struct ReactionState;
 struct S_800AAE00_0;
 struct S_800AAE00_1;
-struct S_800C56A8_0;
 struct S_800CA458_0;
 struct S_800CA7D8_0;
 struct S_800CCC34_0;
-struct S_800CCCCC_0;
-struct S_800CCD68_0;
-struct S_800CCF18_0;
-struct S_800CCF60_0;
 struct S_800CEDA4_0;
 struct SpriteFrameState;
 
@@ -26,7 +21,7 @@ struct SpriteFrameState;
 void adjust_two_state_values(TownObjectRecord *object, ObjectPosition *state);
 
 /* advance_four_phase_flag_sequence.c */
-void advance_four_phase_flag_sequence(struct S_800CCD68_0 *sequence);
+void advance_four_phase_flag_sequence(TownObjectRecord *sequence);
 
 /* advance_reaction_state_and_cleanup.c */
 void advance_reaction_state_and_cleanup(TownObjectRecord *object, struct S_800CA458_0 *state);
@@ -35,7 +30,7 @@ void advance_reaction_state_and_cleanup(TownObjectRecord *object, struct S_800CA
 void call_state_handler_and_set_four(TownObjectRecord *object, s32 context, s32 update_data);
 
 /* clear_flag_object_direction.c */
-void clear_flag_object_direction(struct S_800CCF60_0 *state);
+void clear_flag_object_direction(TownObjectRecord *state);
 
 /* clear_record_indexed_flag.c */
 void clear_record_indexed_flag(TownObjectRecord *state, s32 unused_context, void *unused_state_context);
@@ -50,7 +45,7 @@ void dispatch_status_triggered_update(void *handler_arg, void *context, SpriteFl
 void forward_flag_state_update(TownObjectRecord *object, ObjectPosition *context, void *update_data);
 
 /* increment_flag_object_counter.c */
-void increment_flag_object_counter(struct S_800CCCCC_0 *object);
+void increment_flag_object_counter(TownObjectRecord *object);
 
 /* initialize_actor_clear_shared_flag.c */
 void initialize_actor_clear_shared_flag(TownObjectRecord *actor, s32 unused, void *init_param);
@@ -123,7 +118,7 @@ void run_object_handlers_supplied_state(s32 object, ObjectPosition *position, s3
 void set_actor_flag_copy_global(TownObjectRecord *actor, ObjectPosition *unused, struct SpriteFrameState *state);
 
 /* set_flag_object_direction_c.c */
-void set_flag_object_direction_12_c(struct S_800CCF18_0 *state);
+void set_flag_object_direction_12_c(TownObjectRecord *state);
 
 /* set_person_status_and_code.c */
 void set_person_status_and_code(struct S_800AAE00_1 *context, struct S_800AAE00_0 *status);

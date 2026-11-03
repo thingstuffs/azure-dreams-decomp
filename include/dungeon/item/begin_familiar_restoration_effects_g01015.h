@@ -69,7 +69,6 @@ extern u8 D_800E14A6[];
 struct DungeonItemEntry;
 s32 process_record_and_update_linked_state(struct DungeonItemEntry *, s32); /* Unprototyped: uses the value as a pointer where the definition has an integer (or the reverse) */
 void begin_mode_selected_item_action(void *object,void *unused_1,void *unused_2,void *mode);
-void display_actor_item_status_message(void *, struct DungeonItemEntry *);
 void display_formatted_context_message(void *);
 void clear_slot_and_update_linked_state(DungeonItemEntry *slot);
 extern void clear_slots_of_type(void *obj, s8 index);

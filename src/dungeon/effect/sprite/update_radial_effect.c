@@ -9,6 +9,7 @@
 #include "shared/dungeon_status.h"
 #include "engine/node.h"
 #include "engine/scene.h"
+#include "dungeon/system.h"
 
 #ifndef NULL
 #define NULL 0
@@ -82,8 +83,6 @@ typedef struct {
 } DungeonCounter;
 
 extern u8 secondary_sprite[];
-
-extern void play_sound_if_enabled(s32);
 
 /* Updates the effect position, spawns eight objects per tick, and expires after a delay. */
 void update_radial_effect(DungeonState *effect) {

@@ -9,6 +9,7 @@
 #include "dungeon/effect/travel.h"
 #include "dungeon/item.h"
 #include "dungeon/level.h"
+#include "shared/dungeon_effect_state.h"
 
 void (*const dungeon_ovl_18b8824_entry)(ovl_18b8824_81898EBC_EffectState *state, ovl_18b8824_81898EBC_Motion *motion, ovl_18b8824_81898EBC_ColorPart *part) = advance_launched_effect;
 
@@ -16,11 +17,11 @@ void (*const dungeon_ovl_18b8824_entry)(ovl_18b8824_81898EBC_EffectState *state,
 void interpolate_view_parameters(ASpriteRandomRotationCopiesInitialDataBody *state, void *motion, void *transform)
 {
     u16 tick_count;
-    void *linked_state;
+    B22_81893474_EffectState *linked_state;
 
     linked_state = state->owner;
-    *(u16 *)((s8 *)linked_state + 0x14) =
-        (u16)(*(u16 *)((s8 *)linked_state + 0x14) + 1);
+    linked_state->field_14.u =
+        (u16)(linked_state->field_14.u + 1);
     *(s32 *)((s8 *)motion + 0x00) =
         *(s32 *)((s8 *)motion + 0x00) + *(s32 *)((s8 *)motion + 0x0C);
     *(s32 *)((s8 *)motion + 0x04) =

@@ -5,6 +5,7 @@
 
 #include "common.h"
 #include "shared/game_work.h"
+#include "shared/sprite_frame_state.h"
 
 typedef struct S_800B06F0_0 {
     u8 pad_00[0x20];
@@ -149,11 +150,6 @@ typedef struct S_800B0BE0_0 {
 } S_800B0BE0_0;
 
 /* arg3 in submit_textured_quad */
-typedef struct S_800B0BE0_1 {
-    u8 pad_00[0xC];
-    s32 unk_0C;
-    u16 unk_10;
-} S_800B0BE0_1;
 
 /* arg1 in submit_textured_quad */
 typedef struct S_800B0BE0_2 {
@@ -201,6 +197,6 @@ extern s32 (*quad_batch_callbacks[])(s32, void *, void *);
 
 /* Functions defined in this translation unit. */
 s32 transform_linked_quad_batches(u8 *initial_batch, s32 initial_dispatch_arg, u8 *initial_params);
-void *submit_textured_quad(s32 draw_context, S_800B0BE0_1 *draw_settings, void **texture_cursor, void *primitive);
+void *submit_textured_quad(s32 draw_context, SpriteFrameState *draw_settings, void **texture_cursor, void *primitive);
 
 #endif

@@ -118,7 +118,6 @@ extern void clear_slots_of_type(ActorRecord *owner, s8 match_type);
 extern void func_80042B68(ActorRecord *owner, s8 match_type);
 extern void select_sprite_entry(void *object, s16 table_index, s16 entry_index);
 extern void func_80047784(SpriteFrameState *object, s16 table_index, s16 entry_index);
-extern s32 check_entity_relation();
 extern s16 get_tile_chebyshev_distance();
 #include "dungeon/player/object/action_state.h"
 extern s32 generate_random_value(void);

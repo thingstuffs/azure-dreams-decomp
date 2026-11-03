@@ -10,6 +10,7 @@
 #include "dungeon/actor.h"
 #include "dungeon/effect/motion.h"
 #include "engine/graphics.h"
+#include "dungeon/system.h"
 
 void (*const dungeon_ovl_19a332c_entry)(void *transition) = advance_image_tint_transition;
 
@@ -840,7 +841,7 @@ void update_homing_effect_and_attached_copies(ovl_19a332c_819835AC_S_819835AC_1 
             effect->timer.u16 = 0U;
             effect->tile_y = (s16) tile_coord;
             effect->previous_tile_y = (u8) tile_coord;
-            play_sound_if_enabled(tile_call_arg, rise_speed);
+            play_sound_if_enabled(tile_call_arg);
             break;
         case 5:
             motion->velocity_x.word = (s32) (rcos((s16) effect->heading) << 8);

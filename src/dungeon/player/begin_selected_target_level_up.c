@@ -9,12 +9,11 @@ struct ObjectPosition;
 #include "engine/graphics.h"
 #include "dungeon/player/object.h"
 #include "dungeon/effect.h"
+#include "dungeon/system.h"
 
 extern u8  return_magic_frames[];
 extern s8  D_80080AA0;
 extern s8  scene_music_hold;
-
-extern s32 play_sound_if_enabled(s32 query_value);
 
 /* Starts the selected target's action when ready and reports whether a target is active. */
 s32 begin_selected_target_level_up(ActorRecord *actor_state, void *action_arg, void *sprite, ActorRecord *target) {

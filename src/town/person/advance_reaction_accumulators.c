@@ -9,10 +9,7 @@
 
 #include "town/scene/object/unlink_scene_list_node_api.h"                      /* extern */
 
-typedef struct S_800CA020_0 {
-    s32 unk_00;
-    s32 unk_04;
-} S_800CA020_0;   /* arg1 in advance_reaction_accumulators */
+   /* arg1 in advance_reaction_accumulators */
 
    /* arg2 in advance_reaction_accumulators */
 

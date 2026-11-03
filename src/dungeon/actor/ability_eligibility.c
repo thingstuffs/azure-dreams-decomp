@@ -11,6 +11,7 @@
 #include "dungeon/actor.h"
 #include "dungeon/actor/effect.h"
 #include "dungeon/system.h"
+#include "dungeon/item.h"
 
 /* Copy the indexed entry data into the entity and clear its final byte. */
 void copy_indexed_entry_data(void *entity) {

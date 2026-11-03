@@ -3,6 +3,4 @@
 
 #include "common.h"
 
-void store_the_valid_shared_angle_in_offset_hex_10(void *);
-
 #endif

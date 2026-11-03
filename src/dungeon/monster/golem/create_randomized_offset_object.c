@@ -34,7 +34,7 @@ void *create_randomized_offset_object(ActorRecord *allocation_param, Copy24 *ini
     SpriteFrameState *source;
     Copy24 *copy;
 
-    object = allocate_list_node(0x312, (s32)&((ObjectNodeHeader *)allocation_param - 1)->next);
+    object = allocate_list_node(0x312, (s32)&NODE_HEADER(allocation_param)->next);
     if (object != NULL) {
         object->update_callback = &D_80175018;
         register_node(object, project_sprite_chain);

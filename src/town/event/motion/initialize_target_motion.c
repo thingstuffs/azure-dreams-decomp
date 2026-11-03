@@ -13,7 +13,7 @@ extern s32 town_target_height_offset[];
 
 
 /* Initializes the target parameters and updates the owner's state. */
-void initialize_target_motion(Rec_func_8009B828_arg0 *owner, Rec_D_800CFCB4 *target, EntityRec *parameters) {
+void initialize_target_motion(Rec_func_8009B828_arg0 *owner, Rec_D_800CFCB4 *target, EntityRec *parameters, void *unused) {
     s32 combinedValue;
 
     target->unk_15 = 0;

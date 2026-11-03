@@ -1,11 +1,12 @@
 #include "common.h"
 #include "shared/game_work.h"
 #include "dungeon/actor/motion.h"
+#include "dungeon/system.h"
+
 struct Dst;
 struct Elem;
 
 void select_record_entry_and_value(void *state, void *entries, short index);        /* extern */
-s32 play_sound_if_enabled(s32 query_value);                     /* extern */
 extern u8 actor_alternate_frames[];
 
 typedef struct S_func_80097A68_0 {

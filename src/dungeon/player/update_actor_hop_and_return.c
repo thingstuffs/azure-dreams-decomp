@@ -27,7 +27,7 @@ typedef struct S_80091C64_0 {
 } S_80091C64_0;   /* arg0 in update_actor_hop_and_return */
 
 #include "dungeon/player/object.h"
-s32 play_sound_if_enabled(s32 query_value);
+#include "dungeon/system.h"
 
 extern u8 player_hop_frames[];
 extern u8 player_landing_frame_set[];

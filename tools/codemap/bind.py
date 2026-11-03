@@ -172,12 +172,19 @@ class Binder:
         self.slus_spans = sorted(slus_spans or [])   # [(start, size, symbol)] of every SLUS function/data symbol
         self.by_address = {}
         self.by_offset = {}                     # (container, file offset) -> [(layout, fn, linked address)]
+        self._overlap = {}                      # layouts are fixed for this binder's lifetime
         for layout in images.values():
             for address, fn in layout.functions.items():
                 self.by_address.setdefault(address, []).append((layout, fn))
             for off, address in layout.offsets.items():
                 self.by_offset.setdefault((layout.container, off), []).append(
                     (layout, layout.functions[address], address))
+
+    def _overlaps(self, layout, other):
+        key = (layout, other) if id(layout) < id(other) else (other, layout)
+        if key not in self._overlap:
+            self._overlap[key] = layout.overlaps(other)
+        return self._overlap[key]
 
     def bind(self, layout, caller_recipe, caller, offset):
         """[(target, callee_image, callee_recipe, callee_symbol, how)] for one call site in one image."""
@@ -232,7 +239,7 @@ class Binder:
         if own is not None:
             return [(target, layout.name, own[0], own[1], prefix + 'own_image')]
         cands = [(other.name, fn) for other, fn in self.by_address.get(target, ())
-                 if other is not layout and other.container == layout.container and not layout.overlaps(other)]
+                 if other is not layout and other.container == layout.container and not self._overlaps(layout, other)]
         if target in self.slus:
             cands.append(('slus/slus_bin', self.slus[target]))
         if not cands:
@@ -262,7 +269,7 @@ class Binder:
         it (`image_interior`; one row per containing function): the caller was linked against another build."""
         out = []
         for other in [layout] + [o for o in self.images.values() if o is not layout and o.container == layout.container
-                                 and not layout.overlaps(o)]:
+                                 and not self._overlaps(layout, o)]:
             hit = other.containing(target)
             if hit is not None:
                 start, (rid, symbol, size) = hit

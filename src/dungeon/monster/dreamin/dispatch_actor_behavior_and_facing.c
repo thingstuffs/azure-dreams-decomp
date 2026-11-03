@@ -12,7 +12,6 @@
 #include "shared/entity.h"
 
 extern void select_sprite_entry(void *, u8, s32);
-extern s16 check_entity_relation(ActorRecord *entry, ActorRecord *anchor);
 extern s32 find_active_rect_containing_point(u8, u8);
 extern s32 can_entity_gain_level(void *);
 extern void update_actor_status_and_mp(ActorRecord *entity);
@@ -31,6 +30,7 @@ extern u8 dreamin_action_continuation_address[];
 #include "dungeon/item.h"
 #include "dungeon/actor.h"
 #include "dungeon/actor/motion.h"
+#include "dungeon/level.h"
 
 extern u8 dreamin_frame_set_1[];
 extern u8 D_8017389C[];

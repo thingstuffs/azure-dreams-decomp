@@ -175,9 +175,6 @@ s32 draw_linked_textured_quads(TwoRowObjectGroupBody *first_quad) {
 #define NULL 0
 #endif
 
-typedef struct S_800DAB50_0_pre {
-    u16 unk_00;
-} S_800DAB50_0_pre;
 
 typedef struct WorkBlock {
     s16 *unk0;
@@ -295,7 +292,7 @@ void update_rotating_effect_vertices(TwoRowObjectGroupBody *effect_data) {
         }
         if (effect_data->unk_10.at00.v < 0) {
             effect_data->unk_10.at00.v = 0;
-            ((S_800DAB50_0_pre *)effect_data)[-1].unk_00 = (u16)(((S_800DAB50_0_pre *)effect_data)[-1].unk_00 | 0x8000);
+            NODE_HEADER(effect_data)->flags = (u16)(NODE_HEADER(effect_data)->flags | 0x8000);
             object_flag_block.flags |= OBJECT_REMOVE_PENDING;
         }
         break;
@@ -361,9 +358,6 @@ typedef struct S_800DAEF4_2 {
     union { struct { s32 v; } at00; struct { u8 pad[0x2]; u16 v; } at02; } unk_08;   /* overlapping accesses */
 } S_800DAEF4_2;   /* params in spawn_scattered_timed_objects */
 
-typedef struct S_800DAEF4_3_pre {
-    u16 unk_00;
-} S_800DAEF4_3_pre;   /* the 0x2 bytes before owner in spawn_scattered_timed_objects, addressed as owner[-1] */
 
 typedef struct S_800DAEF4_3 {
     u8 pad_00[0x10];
@@ -464,7 +458,7 @@ void spawn_scattered_timed_objects(void *source_owner, void *spawn_params_arg)
     timer = ((S_800DAEF4_3 *)source_owner)->unk_48 - 1;
     ((S_800DAEF4_3 *)source_owner)->unk_48 = timer;
     if ((timer << 16) <= 0) {
-        ((S_800DAEF4_3_pre *)source_owner)[-1].unk_00 |= 0x8000;
+        NODE_HEADER(source_owner)->flags |= 0x8000;
         object_flag_block.flags |= OBJECT_REMOVE_PENDING;
     }
 
@@ -474,9 +468,6 @@ void spawn_scattered_timed_objects(void *source_owner, void *spawn_params_arg)
 #include "m2c_compat.h"
 #include "records/Rec_D_80082E80.h"
 
-typedef struct S_800DB164_0_pre {
-    u16 unk_00;
-} S_800DB164_0_pre;   /* the 0x2 bytes before arg0 in update_timed_effect_animation, addressed as arg0[-1] */
 
 typedef struct S_800DB164_0 {
     u8 pad_00[0x10];
@@ -526,7 +517,7 @@ void update_timed_effect_animation(void *effect, ObjectPosition *motion, SpriteF
 
     case 2:
         if ((ticks_left << 0x10) <= 0) {
-            (*(u16 *)((u8 *)effect + -2)) = (u16) (((S_800DB164_0_pre *)effect)[-1].unk_00 | NODE_REMOVE);
+            (*(u16 *)((u8 *)effect + -2)) = (u16) (NODE_HEADER(effect)->flags | NODE_REMOVE);
             object_flag_block.flags |= OBJECT_REMOVE_PENDING;
         }
         break;

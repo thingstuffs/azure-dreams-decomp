@@ -68,7 +68,7 @@ void noop_player_scene_action(void);
 void run_the_three_update_routines_context(ObjectPosition *context);
 s32 select_an_available_entry_matching_direction_returns_status(void *record);
 s32 select_an_eligible_source_entry_stores_pointer_in_destination(void *destination, void *source);
-void store_the_valid_shared_angle_in_offset_hex_10(void *record);
+void store_the_valid_shared_angle_in_offset_hex_10(void *record_arg);
 void tick_countdown_and_initialize_target(UnsignedCountdownView *state, ObjectPosition *value);
 void update_threshold_and_interaction(TownObjectRecord *state, ObjectPosition *entity, struct SpriteFrameState *context);
 void update_threshold_timed_action(TownObjectRecord *state, ObjectPosition *entity, struct SpriteFrameState *context);
@@ -78,7 +78,6 @@ struct S_80097AD0_1;
 void spawn_radial_objects(MovingPosition *origin, struct S_80097AD0_1 *spread, s32 count);
 
 
-struct S_800980B4_0;
 void call_the_valid_shared_angle_fixed_hex_120000_context_callee_80094_f_58(ObjectPosition *context);
 
 s16 call_callee_8008_c_4_c_8_global_800_d_0410_parameter(s32 input_value, s32 parameter);
@@ -101,6 +100,7 @@ void apply_pending_indexed_value(s32 index, s32 value);
 void apply_pending_table_entry(s32 index, s32 entryValue);
 
 #include "shared/vector.h"
+#include "town/player/record.h"
 void apply_the_enabled_movement_offsets_adding_z_offset_only_positive(IntVector3 *out);
 void copy_current_record_components_3(void *output);
 void dispatch_parameterized_or_default(s32 handler_param);
@@ -119,7 +119,7 @@ void run_player_indexed_handler(TownObjectRecord *object, ObjectPosition *positi
 
 void set_player_travel_timing(void *actor, ObjectPosition *motion, struct SpriteFrameState *sprite);
 
-void tick_countdown_and_reset_value(struct S_800980B4_0 *state, ObjectPosition *value, struct SpriteFrameState *sprite);
+void tick_countdown_and_reset_value(TownPlayerRecord *state, ObjectPosition *value, struct SpriteFrameState *sprite);
 
 void update_falling_actor_and_handle_ground(TownObjectRecord *context, ObjectPosition *actor, struct SpriteFrameState *sprite);
 

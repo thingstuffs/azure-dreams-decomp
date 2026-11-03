@@ -7,9 +7,7 @@
 #include "town/player/call_the_handler_selects_nonzero_entry_api.h"  /* extern */
 #include "town/player/object/entity_record_fields.h"                     /* extern */
 extern s8 town_action_reset_byte;
-typedef struct S_80097EC0_0 S_80097EC0_0;
 extern s32 D_800D0178;
-
 
 /* Initializes the object with default data and resets its state. */
 void initialize_object_with_countdown_24(TownObjectRecord *object, ObjectPosition *position, SpriteFrameState *initializationValue) {

@@ -7,6 +7,8 @@
 #include "sdk/libgpu.h"
 #include "sdk/libgte.h"
 #include "slus.h"
+#include "dungeon/system.h"
+
 void (* const dungeon_1990800_entry)(void *, void *, void *) = advance_effect_sequence;
 /* cfail-repair: tf7-phase1-cache-v3 */
 #include "dungeon/effect/particle.h"
@@ -880,53 +882,7 @@ void create_origin_following_fade_sprite(void *unused_0, void *origin_data, Spri
 #include "shared/dungeon_status.h"
 #include "shared/dungeon_moving_views.h"
 
-typedef struct S_8197192C_0_pre {
-    u16 unk_00;
-} S_8197192C_0_pre;   /* the 0x2 bytes before arg0 in advance_effect_sequence, addressed as arg0[-1] */
 
-typedef struct S_8197192C_0 {
-    u8 pad_00[0x4];
-    void * unk_04;
-    u8 unk_08;
-    u8 pad_09[0x1];
-    union { s16 s; u16 u; } unk_0A;   /* accessed as both */
-    u8 pad_0C[0x20];
-    union { u16 s; s16 u; } unk_2C;   /* accessed as both */
-    union { s16 s; u16 u; } unk_2E;   /* accessed as both */
-    union { s16 s; u16 u; } unk_30;   /* accessed as both */
-    union { s16 s; u16 u; } unk_32;   /* accessed as both */
-    u16 unk_34;
-    u8 pad_36[0x2];
-    u16 unk_38;
-    u8 pad_3A[0x12];
-    union { u16 s; s16 u; } unk_4C;   /* accessed as both */
-    union { u16 s; s16 u; } unk_4E;   /* accessed as both */
-    union { u16 s; s16 u; } unk_50;   /* accessed as both */
-    u16 unk_52;
-    u16 unk_54;
-    u16 unk_56;
-    union { u16 s; s16 u; } unk_58;   /* accessed as both */
-    union { u16 s; s16 u; } unk_5A;   /* accessed as both */
-    union { u16 s; s16 u; } unk_5C;   /* accessed as both */
-    u16 unk_5E;
-    u16 unk_60;
-    u16 unk_62;
-    union { u16 s; s16 u; } unk_64;   /* accessed as both */
-    union { u16 s; s16 u; } unk_66;   /* accessed as both */
-    union { u16 s; s16 u; } unk_68;   /* accessed as both */
-    u16 unk_6A;
-    u16 unk_6C;
-    u16 unk_6E;
-    union { u16 s; s16 u; } unk_70;   /* accessed as both */
-    union { u16 s; s16 u; } unk_72;   /* accessed as both */
-    union { u16 s; s16 u; } unk_74;   /* accessed as both */
-    u16 unk_76;
-    u16 unk_78;
-    u16 unk_7A;
-    union { u16 s; s16 u; } unk_7C;   /* accessed as both */
-    union { u16 s; s16 u; } unk_7E;   /* accessed as both */
-    union { u16 s; s16 u; } unk_80;   /* accessed as both */
-} S_8197192C_0;   /* arg0 in advance_effect_sequence */
 
 
    /* gbase in advance_effect_sequence */
@@ -1022,8 +978,8 @@ void advance_effect_sequence(void *effect, void *owner, void *context_arg)
     u16 coord_z;
     u16 heading;
 
-    ((S_8197192C_0 *)effect)->unk_38 = ((S_8197192C_0 *)effect)->unk_38 + 1;
-    state = ((S_8197192C_0 *)effect)->unk_0A.s;
+    ((FadingSpriteSequenceBody *)effect)->unk_38 = ((FadingSpriteSequenceBody *)effect)->unk_38 + 1;
+    state = ((FadingSpriteSequenceBody *)effect)->spell.phase.s;
     context = context_arg;
     switch (state) {
     case 0:
@@ -1032,36 +988,36 @@ void advance_effect_sequence(void *effect, void *owner, void *context_arg)
         player->action_timer.u = 20;
         reference_tile_object.depth_bias = 6;
         state_2 = (MovingPosition *)(&view_reference_entity);
-        ((S_8197192C_0 *)effect)->unk_0A.u = ((S_8197192C_0 *)effect)->unk_0A.u + 1;
-        ((S_8197192C_0 *)effect)->unk_7C.s = state_2->x;
-        ((S_8197192C_0 *)effect)->unk_7E.s = state_2->y;
+        ((FadingSpriteSequenceBody *)effect)->spell.phase.u = ((FadingSpriteSequenceBody *)effect)->spell.phase.u + 1;
+        ((FadingSpriteSequenceBody *)effect)->unk_7C.s = state_2->x;
+        ((FadingSpriteSequenceBody *)effect)->unk_7E.s = state_2->y;
         coord_z = state_2->z;
         ((S_8197192C_4 *)&fading_quad_effect_updated)->unk_00 = 1;
-        ((S_8197192C_0 *)effect)->unk_80.s = coord_z;
+        ((FadingSpriteSequenceBody *)effect)->unk_80.s = coord_z;
     case 1:
-        if ((((ObjectPosition *)(((S_8197192C_0 *)effect)->unk_04))->x.w.frac & 0x80) == 0) {
+        if ((((ObjectPosition *)(((FadingSpriteSequenceBody *)effect)->spell.context))->x.w.frac & 0x80) == 0) {
             return;
         }
         player_2 = primary_actor_record;
-        ((S_8197192C_0 *)effect)->unk_2C.s = 33;
+        ((FadingSpriteSequenceBody *)effect)->unk_2C.s = 33;
         player_2->unk_A4.halves.high.u = player_2->unk_A4.halves.high.u - 1;
-        player_2->unk_A8.byte = ((S_8197192C_0 *)effect)->unk_08;
+        player_2->unk_A8.byte = ((FadingSpriteSequenceBody *)effect)->spell.spell_id;
         player = primary_actor_record;
         heading = ((u16)player->facing);
-        ((S_8197192C_0 *)effect)->unk_0A.u = ((S_8197192C_0 *)effect)->unk_0A.u + 1;
-        ((S_8197192C_0 *)effect)->unk_38 = 0;
-        ((S_8197192C_0 *)effect)->unk_34 = (heading >> 9) & 7;
+        ((FadingSpriteSequenceBody *)effect)->spell.phase.u = ((FadingSpriteSequenceBody *)effect)->spell.phase.u + 1;
+        ((FadingSpriteSequenceBody *)effect)->unk_38 = 0;
+        ((FadingSpriteSequenceBody *)effect)->unk_34 = (heading >> 9) & 7;
         return;
 
     case 2:
     {
-        ((S_8197192C_0 *)effect)->unk_2C.s = ((S_8197192C_0 *)effect)->unk_2C.s - 1;
-        if ((s16)((S_8197192C_0 *)effect)->unk_2C.s <= 0) {
-            ((S_8197192C_0 *)effect)->unk_2C.s = 16;
-            ((S_8197192C_0 *)effect)->unk_0A.u = ((S_8197192C_0 *)effect)->unk_0A.u + 1;
+        ((FadingSpriteSequenceBody *)effect)->unk_2C.s = ((FadingSpriteSequenceBody *)effect)->unk_2C.s - 1;
+        if ((s16)((FadingSpriteSequenceBody *)effect)->unk_2C.s <= 0) {
+            ((FadingSpriteSequenceBody *)effect)->unk_2C.s = 16;
+            ((FadingSpriteSequenceBody *)effect)->spell.phase.u = ((FadingSpriteSequenceBody *)effect)->spell.phase.u + 1;
             return;
         }
-        if ((s16)((S_8197192C_0 *)effect)->unk_2C.s == 26) {
+        if ((s16)((FadingSpriteSequenceBody *)effect)->unk_2C.s == 26) {
             if (read_sound_mode_blocking_status(4) != 2) {
                 play_sound_if_enabled(AUDIO_PLAY_CD_CUE);
             } else {
@@ -1073,7 +1029,7 @@ void advance_effect_sequence(void *effect, void *owner, void *context_arg)
 
         {
             s32 step;
-            if ((u16)(((S_8197192C_0 *)effect)->unk_2C.s - 5) < 19) {
+            if ((u16)(((FadingSpriteSequenceBody *)effect)->unk_2C.s - 5) < 19) {
                 TileObject *map_base = &reference_tile_object;
                 if (get_sprite_attachment_vector(
                     *(void **)&map_base->sprite_source, map_base,
@@ -1082,15 +1038,15 @@ void advance_effect_sequence(void *effect, void *owner, void *context_arg)
                     do {
                         spawn_random_offset_effect_record((u8 *)(*(void **)&((EntityRec *)((void **)(&primary_actor_record)))->x) - 0x20, 0,
                                       0xE04040, (rand() & 0x3F) | 0x40,
-                                      ((S_8197192C_0 *)effect)->unk_2E.s,
-                                      ((S_8197192C_0 *)effect)->unk_30.s,
-                                      ((S_8197192C_0 *)effect)->unk_32.s);
+                                      ((FadingSpriteSequenceBody *)effect)->unk_2E.s,
+                                      ((FadingSpriteSequenceBody *)effect)->unk_30.s,
+                                      ((FadingSpriteSequenceBody *)effect)->unk_32.s);
                         step++;
                     } while (step < 2);
                 }
             }
 
-            if (((S_8197192C_0 *)effect)->unk_2C.u == 24) {
+            if (((FadingSpriteSequenceBody *)effect)->unk_2C.u == 24) {
                 TileObject *map_base = &reference_tile_object;
                 if (get_sprite_attachment_vector(*(void **)&map_base->sprite_source, map_base,
                                   (u8 *)effect + 0x2E, 0) != 0) {
@@ -1109,11 +1065,11 @@ void advance_effect_sequence(void *effect, void *owner, void *context_arg)
                         sprite->tpage_abr = 0x60;
                         sprite->flags = sprite->flags | 0x0C;
                         position = effect_obj->position;
-                        position->x.w.i = ((S_8197192C_0 *)effect)->unk_2E.u +
+                        position->x.w.i = ((FadingSpriteSequenceBody *)effect)->unk_2E.u +
                                               ((u16)world_pos->x.w.i);
-                        position->y.w.i = ((S_8197192C_0 *)effect)->unk_30.u +
+                        position->y.w.i = ((FadingSpriteSequenceBody *)effect)->unk_30.u +
                                               ((u16)world_pos->y.w.i);
-                        position->z.w.i = ((S_8197192C_0 *)effect)->unk_32.u +
+                        position->z.w.i = ((FadingSpriteSequenceBody *)effect)->unk_32.u +
                                                ((u16)world_pos->z.w.i);
                         sprite = effect_obj->sprite;
                         sprite->scale_y = 0x1000;
@@ -1134,28 +1090,28 @@ void advance_effect_sequence(void *effect, void *owner, void *context_arg)
             s32 step;
             ObjectPosition *world_pos;
             S_8197192C_9 *outer_point;
-            if (((S_8197192C_0 *)effect)->unk_2C.u >= 10) {
+            if (((FadingSpriteSequenceBody *)effect)->unk_2C.u >= 10) {
                 return;
             }
-            if (((S_8197192C_0 *)effect)->unk_2C.u >= 6) {
+            if (((FadingSpriteSequenceBody *)effect)->unk_2C.u >= 6) {
                 return;
             }
-            if (((S_8197192C_0 *)effect)->unk_2C.u == 3) {
+            if (((FadingSpriteSequenceBody *)effect)->unk_2C.u == 3) {
                 return;
             }
-            segment = (((S_8197192C_0 *)effect)->unk_2C.u == 4);
-            if (((S_8197192C_0 *)effect)->unk_2C.u == 2) {
+            segment = (((FadingSpriteSequenceBody *)effect)->unk_2C.u == 4);
+            if (((FadingSpriteSequenceBody *)effect)->unk_2C.u == 2) {
                 segment = 2;
             }
-            if (((S_8197192C_0 *)effect)->unk_2C.u == 1) {
+            if (((FadingSpriteSequenceBody *)effect)->unk_2C.u == 1) {
                 segment = 3;
             }
             {
                 TileObject *map_base = &reference_tile_object;
                 if (get_sprite_attachment_vector(*(void **)&map_base->sprite_source, map_base,
                                   (u8 *)effect + 0x2E, 0) != 0) {
-                if (((S_8197192C_0 *)effect)->unk_2C.u == 1) {
-                    ((S_8197192C_0 *)effect)->unk_32.s = -12;
+                if (((FadingSpriteSequenceBody *)effect)->unk_2C.u == 1) {
+                    ((FadingSpriteSequenceBody *)effect)->unk_32.s = -12;
                 }
             point_index = segment << 1;
             {
@@ -1165,8 +1121,8 @@ void advance_effect_sequence(void *effect, void *owner, void *context_arg)
                     u32 shifted_x;
                     s32 origin_x;
                     s32 half_x;
-                    shifted_x = ((S_8197192C_0 *)effect)->unk_2E.u;
-                    origin_x = ((S_8197192C_0 *)effect)->unk_7C.u;
+                    shifted_x = ((FadingSpriteSequenceBody *)effect)->unk_2E.u;
+                    origin_x = ((FadingSpriteSequenceBody *)effect)->unk_7C.u;
                     shifted_x <<= 16;
                     half_x = (s32)shifted_x >> 16;
                     half_x += shifted_x >> 31;
@@ -1175,25 +1131,25 @@ void advance_effect_sequence(void *effect, void *owner, void *context_arg)
                     outer_point->unk_4C = (s16)(half_x +
                         (world_pos->x.w.i - origin_x) / 2);
                 }
-                outer_point->unk_4E = (s16)(((s16)((S_8197192C_0 *)effect)->unk_30.u) / 2 +
-                    (world_pos->y.w.i - ((S_8197192C_0 *)effect)->unk_7E.u) / 2);
-                outer_point->unk_50 = (s16)(((s16)((S_8197192C_0 *)effect)->unk_32.u) / 2 +
-                    (world_pos->z.w.i - ((S_8197192C_0 *)effect)->unk_80.u) / 2);
+                outer_point->unk_4E = (s16)(((s16)((FadingSpriteSequenceBody *)effect)->unk_30.u) / 2 +
+                    (world_pos->y.w.i - ((FadingSpriteSequenceBody *)effect)->unk_7E.u) / 2);
+                outer_point->unk_50 = (s16)(((s16)((FadingSpriteSequenceBody *)effect)->unk_32.u) / 2 +
+                    (world_pos->z.w.i - ((FadingSpriteSequenceBody *)effect)->unk_80.u) / 2);
             }
 
             {
                 S_8197192C_11 *inner_point = (S_8197192C_11 *)((u8 *)effect + (((point_index << 1) + point_index) << 1));
-                inner_point->unk_4C = (s16)(((s16)((S_8197192C_0 *)effect)->unk_2E.u) / 4 +
-                    (world_pos->x.w.i - ((S_8197192C_0 *)effect)->unk_7C.u) / 2);
-                inner_point->unk_4E = (s16)(((s16)((S_8197192C_0 *)effect)->unk_30.u) / 4 +
-                    (world_pos->y.w.i - ((S_8197192C_0 *)effect)->unk_7E.u) / 2);
-                inner_point->unk_50 = (s16)(((s16)((S_8197192C_0 *)effect)->unk_32.u) / 4 +
-                    (world_pos->z.w.i - ((S_8197192C_0 *)effect)->unk_80.u) / 2);
+                inner_point->unk_4C = (s16)(((s16)((FadingSpriteSequenceBody *)effect)->unk_2E.u) / 4 +
+                    (world_pos->x.w.i - ((FadingSpriteSequenceBody *)effect)->unk_7C.u) / 2);
+                inner_point->unk_4E = (s16)(((s16)((FadingSpriteSequenceBody *)effect)->unk_30.u) / 4 +
+                    (world_pos->y.w.i - ((FadingSpriteSequenceBody *)effect)->unk_7E.u) / 2);
+                inner_point->unk_50 = (s16)(((s16)((FadingSpriteSequenceBody *)effect)->unk_32.u) / 4 +
+                    (world_pos->z.w.i - ((FadingSpriteSequenceBody *)effect)->unk_80.u) / 2);
             }
                 }
             }
 
-            if (((S_8197192C_0 *)effect)->unk_2C.u == 4) {
+            if (((FadingSpriteSequenceBody *)effect)->unk_2C.u == 4) {
                 S_8197192C_7 *effect_data;
                 effect_obj = allocate_flagged_object_node(0x212);
                 effect_data = NODE_BODY(effect_obj);
@@ -1219,22 +1175,22 @@ void advance_effect_sequence(void *effect, void *owner, void *context_arg)
                     sprite = effect_obj->sprite;
                     sprite->tpage_abr = 0x20;
                     sprite->flags = sprite->flags | 0x0C;
-                    effect_data->unk_4C = ((S_8197192C_0 *)effect)->unk_58.s;
-                    effect_data->unk_4E = ((S_8197192C_0 *)effect)->unk_5A.s;
-                    effect_data->unk_50 = ((S_8197192C_0 *)effect)->unk_5C.s;
-                    effect_data->unk_52 = ((S_8197192C_0 *)effect)->unk_4C.s;
-                    effect_data->unk_54 = ((S_8197192C_0 *)effect)->unk_4E.s;
-                    effect_data->unk_56 = ((S_8197192C_0 *)effect)->unk_50.s;
-                    effect_data->unk_58 = ((S_8197192C_0 *)effect)->unk_5E;
-                    effect_data->unk_5A = ((S_8197192C_0 *)effect)->unk_60;
-                    effect_data->unk_5C = ((S_8197192C_0 *)effect)->unk_62;
-                    effect_data->unk_5E = ((S_8197192C_0 *)effect)->unk_52;
-                    effect_data->unk_60 = ((S_8197192C_0 *)effect)->unk_54;
-                    effect_data->unk_62 = ((S_8197192C_0 *)effect)->unk_56;
+                    effect_data->unk_4C = ((FadingSpriteSequenceBody *)effect)->unk_58.s;
+                    effect_data->unk_4E = ((FadingSpriteSequenceBody *)effect)->unk_5A.s;
+                    effect_data->unk_50 = ((FadingSpriteSequenceBody *)effect)->unk_5C.s;
+                    effect_data->unk_52 = ((FadingSpriteSequenceBody *)effect)->unk_4C.s;
+                    effect_data->unk_54 = ((FadingSpriteSequenceBody *)effect)->unk_4E.s;
+                    effect_data->unk_56 = ((FadingSpriteSequenceBody *)effect)->unk_50.s;
+                    effect_data->unk_58 = ((FadingSpriteSequenceBody *)effect)->unk_5E;
+                    effect_data->unk_5A = ((FadingSpriteSequenceBody *)effect)->unk_60;
+                    effect_data->unk_5C = ((FadingSpriteSequenceBody *)effect)->unk_62;
+                    effect_data->unk_5E = ((FadingSpriteSequenceBody *)effect)->unk_52;
+                    effect_data->unk_60 = ((FadingSpriteSequenceBody *)effect)->unk_54;
+                    effect_data->unk_62 = ((FadingSpriteSequenceBody *)effect)->unk_56;
                     position = effect_obj->position;
-                    position->x.w.i = ((S_8197192C_0 *)effect)->unk_7C.s;
-                    position->y.w.i = ((S_8197192C_0 *)effect)->unk_7E.s;
-                    position->z.w.i = ((S_8197192C_0 *)effect)->unk_80.s;
+                    position->x.w.i = ((FadingSpriteSequenceBody *)effect)->unk_7C.s;
+                    position->y.w.i = ((FadingSpriteSequenceBody *)effect)->unk_7E.s;
+                    position->z.w.i = ((FadingSpriteSequenceBody *)effect)->unk_80.s;
                     sprite = effect_obj->sprite;
                     sprite->scale_y = 0x1000;
                     sprite->scale_x = 0x1000;
@@ -1245,7 +1201,7 @@ void advance_effect_sequence(void *effect, void *owner, void *context_arg)
                     sprite->source = (u8 *)effect_obj + 0xA2;
                 }
             }
-            if (((S_8197192C_0 *)effect)->unk_2C.u == 2) {
+            if (((FadingSpriteSequenceBody *)effect)->unk_2C.u == 2) {
                 S_8197192C_7 *effect_data;
                 effect_obj = allocate_flagged_object_node(0x212);
                 effect_data = NODE_BODY(effect_obj);
@@ -1271,22 +1227,22 @@ void advance_effect_sequence(void *effect, void *owner, void *context_arg)
                     sprite = effect_obj->sprite;
                     sprite->tpage_abr = 0x20;
                     sprite->flags = sprite->flags | 0x0C;
-                    effect_data->unk_4C = ((S_8197192C_0 *)effect)->unk_64.s;
-                    effect_data->unk_4E = ((S_8197192C_0 *)effect)->unk_66.s;
-                    effect_data->unk_50 = ((S_8197192C_0 *)effect)->unk_68.s;
-                    effect_data->unk_52 = ((S_8197192C_0 *)effect)->unk_58.s;
-                    effect_data->unk_54 = ((S_8197192C_0 *)effect)->unk_5A.s;
-                    effect_data->unk_56 = ((S_8197192C_0 *)effect)->unk_5C.s;
-                    effect_data->unk_58 = ((S_8197192C_0 *)effect)->unk_6A;
-                    effect_data->unk_5A = ((S_8197192C_0 *)effect)->unk_6C;
-                    effect_data->unk_5C = ((S_8197192C_0 *)effect)->unk_6E;
-                    effect_data->unk_5E = ((S_8197192C_0 *)effect)->unk_5E;
-                    effect_data->unk_60 = ((S_8197192C_0 *)effect)->unk_60;
-                    effect_data->unk_62 = ((S_8197192C_0 *)effect)->unk_62;
+                    effect_data->unk_4C = ((FadingSpriteSequenceBody *)effect)->unk_64.s;
+                    effect_data->unk_4E = ((FadingSpriteSequenceBody *)effect)->unk_66.s;
+                    effect_data->unk_50 = ((FadingSpriteSequenceBody *)effect)->unk_68.s;
+                    effect_data->unk_52 = ((FadingSpriteSequenceBody *)effect)->unk_58.s;
+                    effect_data->unk_54 = ((FadingSpriteSequenceBody *)effect)->unk_5A.s;
+                    effect_data->unk_56 = ((FadingSpriteSequenceBody *)effect)->unk_5C.s;
+                    effect_data->unk_58 = ((FadingSpriteSequenceBody *)effect)->unk_6A;
+                    effect_data->unk_5A = ((FadingSpriteSequenceBody *)effect)->unk_6C;
+                    effect_data->unk_5C = ((FadingSpriteSequenceBody *)effect)->unk_6E;
+                    effect_data->unk_5E = ((FadingSpriteSequenceBody *)effect)->unk_5E;
+                    effect_data->unk_60 = ((FadingSpriteSequenceBody *)effect)->unk_60;
+                    effect_data->unk_62 = ((FadingSpriteSequenceBody *)effect)->unk_62;
                     position = effect_obj->position;
-                    position->x.w.i = ((S_8197192C_0 *)effect)->unk_7C.s;
-                    position->y.w.i = ((S_8197192C_0 *)effect)->unk_7E.s;
-                    position->z.w.i = ((S_8197192C_0 *)effect)->unk_80.s;
+                    position->x.w.i = ((FadingSpriteSequenceBody *)effect)->unk_7C.s;
+                    position->y.w.i = ((FadingSpriteSequenceBody *)effect)->unk_7E.s;
+                    position->z.w.i = ((FadingSpriteSequenceBody *)effect)->unk_80.s;
                     sprite = effect_obj->sprite;
                     sprite->scale_y = 0x1000;
                     sprite->scale_x = 0x1000;
@@ -1297,7 +1253,7 @@ void advance_effect_sequence(void *effect, void *owner, void *context_arg)
                     sprite->source = (u8 *)effect_obj + 0xA2;
                 }
             }
-            if (((S_8197192C_0 *)effect)->unk_2C.u == 1) {
+            if (((FadingSpriteSequenceBody *)effect)->unk_2C.u == 1) {
                 effect_obj = allocate_flagged_object_node(0x212);
                 if (effect_obj != 0) {
                     SpriteFrameState *sprite;
@@ -1321,22 +1277,22 @@ void advance_effect_sequence(void *effect, void *owner, void *context_arg)
                     sprite = effect_obj->sprite;
                     sprite->tpage_abr = 0x20;
                     sprite->flags = sprite->flags | 0x0C;
-                    effect_data_m->unk_4C = ((S_8197192C_0 *)effect)->unk_70.s;
-                    effect_data_m->unk_4E = ((S_8197192C_0 *)effect)->unk_72.s;
-                    effect_data_m->unk_50 = ((S_8197192C_0 *)effect)->unk_74.s;
-                    effect_data_m->unk_52 = ((S_8197192C_0 *)effect)->unk_64.s;
-                    effect_data_m->unk_54 = ((S_8197192C_0 *)effect)->unk_66.s;
-                    effect_data_m->unk_56 = ((S_8197192C_0 *)effect)->unk_68.s;
-                    effect_data_m->unk_58 = ((S_8197192C_0 *)effect)->unk_76;
-                    effect_data_m->unk_5A = ((S_8197192C_0 *)effect)->unk_78;
-                    effect_data_m->unk_5C = ((S_8197192C_0 *)effect)->unk_7A;
-                    effect_data_m->unk_5E = ((S_8197192C_0 *)effect)->unk_6A;
-                    effect_data_m->unk_60 = ((S_8197192C_0 *)effect)->unk_6C;
-                    effect_data_m->unk_62 = ((S_8197192C_0 *)effect)->unk_6E;
+                    effect_data_m->unk_4C = ((FadingSpriteSequenceBody *)effect)->unk_70.s;
+                    effect_data_m->unk_4E = ((FadingSpriteSequenceBody *)effect)->unk_72.s;
+                    effect_data_m->unk_50 = ((FadingSpriteSequenceBody *)effect)->unk_74.s;
+                    effect_data_m->unk_52 = ((FadingSpriteSequenceBody *)effect)->unk_64.s;
+                    effect_data_m->unk_54 = ((FadingSpriteSequenceBody *)effect)->unk_66.s;
+                    effect_data_m->unk_56 = ((FadingSpriteSequenceBody *)effect)->unk_68.s;
+                    effect_data_m->unk_58 = ((FadingSpriteSequenceBody *)effect)->unk_76;
+                    effect_data_m->unk_5A = ((FadingSpriteSequenceBody *)effect)->unk_78;
+                    effect_data_m->unk_5C = ((FadingSpriteSequenceBody *)effect)->unk_7A;
+                    effect_data_m->unk_5E = ((FadingSpriteSequenceBody *)effect)->unk_6A;
+                    effect_data_m->unk_60 = ((FadingSpriteSequenceBody *)effect)->unk_6C;
+                    effect_data_m->unk_62 = ((FadingSpriteSequenceBody *)effect)->unk_6E;
                     position = effect_obj->position;
-                    position->x.w.i = ((S_8197192C_0 *)effect)->unk_7C.s;
-                    position->y.w.i = ((S_8197192C_0 *)effect)->unk_7E.s;
-                    position->z.w.i = ((S_8197192C_0 *)effect)->unk_80.s;
+                    position->x.w.i = ((FadingSpriteSequenceBody *)effect)->unk_7C.s;
+                    position->y.w.i = ((FadingSpriteSequenceBody *)effect)->unk_7E.s;
+                    position->z.w.i = ((FadingSpriteSequenceBody *)effect)->unk_80.s;
                     sprite = effect_obj->sprite;
                     sprite->scale_y = 0x1000;
                     sprite->scale_x = 0x1000;
@@ -1348,47 +1304,47 @@ void advance_effect_sequence(void *effect, void *owner, void *context_arg)
                 }
             }
 
-            if (((S_8197192C_0 *)effect)->unk_2C.u == 4) {
+            if (((FadingSpriteSequenceBody *)effect)->unk_2C.u == 4) {
                 step = 0;
                 do {
                     s32 spawn_x;
                     s32 spawn_y;
                     s32 spawn_z;
-                    spawn_x = (s16)((((S_8197192C_0 *)effect)->unk_58.s +
-                              (((S_8197192C_0 *)effect)->unk_4C.u - ((S_8197192C_0 *)effect)->unk_58.u) * step / 6)
+                    spawn_x = (s16)((((FadingSpriteSequenceBody *)effect)->unk_58.s +
+                              (((FadingSpriteSequenceBody *)effect)->unk_4C.u - ((FadingSpriteSequenceBody *)effect)->unk_58.u) * step / 6)
                                   << 1);
-                    spawn_y = (s16)((((S_8197192C_0 *)effect)->unk_5A.s +
-                              (((S_8197192C_0 *)effect)->unk_4E.u - ((S_8197192C_0 *)effect)->unk_5A.u) * step / 6)
+                    spawn_y = (s16)((((FadingSpriteSequenceBody *)effect)->unk_5A.s +
+                              (((FadingSpriteSequenceBody *)effect)->unk_4E.u - ((FadingSpriteSequenceBody *)effect)->unk_5A.u) * step / 6)
                                   << 1);
-                    spawn_z = (s16)((((S_8197192C_0 *)effect)->unk_5C.s +
-                              (((S_8197192C_0 *)effect)->unk_50.u - ((S_8197192C_0 *)effect)->unk_5C.u) * step / 6)
+                    spawn_z = (s16)((((FadingSpriteSequenceBody *)effect)->unk_5C.s +
+                              (((FadingSpriteSequenceBody *)effect)->unk_50.u - ((FadingSpriteSequenceBody *)effect)->unk_5C.u) * step / 6)
                                   << 1);
                     create_fading_jittered_sprite(effect, owner, context,
                         spawn_x, spawn_y, spawn_z);
                     step++;
                 } while (step < 6);
             }
-            if (((S_8197192C_0 *)effect)->unk_2C.u == 2) {
+            if (((FadingSpriteSequenceBody *)effect)->unk_2C.u == 2) {
                 step = 0;
                 do {
                     s32 spawn_x;
                     s32 spawn_y;
                     s32 spawn_z;
-                    spawn_x = (s16)((((S_8197192C_0 *)effect)->unk_64.s +
-                              (((S_8197192C_0 *)effect)->unk_58.u - ((S_8197192C_0 *)effect)->unk_64.u) * step / 12)
+                    spawn_x = (s16)((((FadingSpriteSequenceBody *)effect)->unk_64.s +
+                              (((FadingSpriteSequenceBody *)effect)->unk_58.u - ((FadingSpriteSequenceBody *)effect)->unk_64.u) * step / 12)
                                   << 1);
-                    spawn_y = (s16)((((S_8197192C_0 *)effect)->unk_66.s +
-                              (((S_8197192C_0 *)effect)->unk_5A.u - ((S_8197192C_0 *)effect)->unk_66.u) * step / 12)
+                    spawn_y = (s16)((((FadingSpriteSequenceBody *)effect)->unk_66.s +
+                              (((FadingSpriteSequenceBody *)effect)->unk_5A.u - ((FadingSpriteSequenceBody *)effect)->unk_66.u) * step / 12)
                                   << 1);
-                    spawn_z = (s16)((((S_8197192C_0 *)effect)->unk_68.s +
-                              (((S_8197192C_0 *)effect)->unk_5C.u - ((S_8197192C_0 *)effect)->unk_68.u) * step / 12)
+                    spawn_z = (s16)((((FadingSpriteSequenceBody *)effect)->unk_68.s +
+                              (((FadingSpriteSequenceBody *)effect)->unk_5C.u - ((FadingSpriteSequenceBody *)effect)->unk_68.u) * step / 12)
                                   << 1);
                     create_fading_jittered_sprite(effect, owner, context,
                         spawn_x, spawn_y, spawn_z);
                     step++;
                 } while (step < 12);
             }
-            if (((S_8197192C_0 *)effect)->unk_2C.u != 1) {
+            if (((FadingSpriteSequenceBody *)effect)->unk_2C.u != 1) {
                 return;
             }
             step = 0;
@@ -1396,12 +1352,12 @@ void advance_effect_sequence(void *effect, void *owner, void *context_arg)
                 s32 spawn_x;
                 s32 spawn_y;
                 s32 spawn_z;
-                spawn_x = (s16)((((S_8197192C_0 *)effect)->unk_70.s +
-                          (((S_8197192C_0 *)effect)->unk_64.u - ((S_8197192C_0 *)effect)->unk_70.u) * step / 2) << 1);
-                spawn_y = (s16)((((S_8197192C_0 *)effect)->unk_72.s +
-                          (((S_8197192C_0 *)effect)->unk_66.u - ((S_8197192C_0 *)effect)->unk_72.u) * step / 2) << 1);
-                spawn_z = (s16)((((S_8197192C_0 *)effect)->unk_74.s +
-                          (((S_8197192C_0 *)effect)->unk_68.u - ((S_8197192C_0 *)effect)->unk_74.u) * step / 2) << 1);
+                spawn_x = (s16)((((FadingSpriteSequenceBody *)effect)->unk_70.s +
+                          (((FadingSpriteSequenceBody *)effect)->unk_64.u - ((FadingSpriteSequenceBody *)effect)->unk_70.u) * step / 2) << 1);
+                spawn_y = (s16)((((FadingSpriteSequenceBody *)effect)->unk_72.s +
+                          (((FadingSpriteSequenceBody *)effect)->unk_66.u - ((FadingSpriteSequenceBody *)effect)->unk_72.u) * step / 2) << 1);
+                spawn_z = (s16)((((FadingSpriteSequenceBody *)effect)->unk_74.s +
+                          (((FadingSpriteSequenceBody *)effect)->unk_68.u - ((FadingSpriteSequenceBody *)effect)->unk_74.u) * step / 2) << 1);
                 create_fading_jittered_sprite(effect, owner, context,
                     spawn_x, spawn_y, spawn_z);
                 step++;
@@ -1419,7 +1375,7 @@ void advance_effect_sequence(void *effect, void *owner, void *context_arg)
         u8 *angle_table;
         u8 angle_count;
         S_8197192C_12 *status_page;
-        if (((S_8197192C_0 *)effect)->unk_2C.u != 16) {
+        if (((FadingSpriteSequenceBody *)effect)->unk_2C.u != 16) {
             status_page = (S_8197192C_12 *)0x80080000;
         } else {
         source_obj = ((ActorRecord *)((*(void **)&((EntityRec *)((void **)(&primary_actor_record)))->x)))->target;
@@ -1443,12 +1399,12 @@ void advance_effect_sequence(void *effect, void *owner, void *context_arg)
         {
             u16 next_state = 4;
             if ((status_page->unk_2E94 & 0x8000) == 0) {
-                ((S_8197192C_0 *)effect)->unk_2C.s = ((S_8197192C_0 *)effect)->unk_2C.s - 1;
-                if ((s16)((S_8197192C_0 *)effect)->unk_2C.s >= 0) {
+                ((FadingSpriteSequenceBody *)effect)->unk_2C.s = ((FadingSpriteSequenceBody *)effect)->unk_2C.s - 1;
+                if ((s16)((FadingSpriteSequenceBody *)effect)->unk_2C.s >= 0) {
                     return;
                 }
             }
-            ((S_8197192C_0 *)effect)->unk_0A.u = next_state;
+            ((FadingSpriteSequenceBody *)effect)->spell.phase.u = next_state;
             return;
         }
     }
@@ -1461,7 +1417,7 @@ void advance_effect_sequence(void *effect, void *owner, void *context_arg)
             g_dungeon_status.active_actor = 0;
             reference_tile_object.depth_bias = 0;
             g_dungeon_status.activity_counts.parts.pending_action_count = cleanup_count - 1;
-            ((S_8197192C_0_pre *)effect)[-1].unk_00 = ((S_8197192C_0_pre *)effect)[-1].unk_00 | 0x8000;
+            NODE_HEADER(effect)->flags = NODE_HEADER(effect)->flags | 0x8000;
             object_flag_block.flags = object_flag_block.flags | OBJECT_REMOVE_PENDING;
             return;
         }

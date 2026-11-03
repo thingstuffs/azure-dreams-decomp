@@ -1,12 +1,10 @@
+#include "shared/object_node.h"
 #include "common.h"
 #include "shared/record_ptrs.h"
 #include "shared/entity.h"
 #include "shared/object_flags.h"
 #include "dungeon/effect/sprite.h"
 
-typedef struct S_819598B4_0_pre {
-    u16 unk_00;
-} S_819598B4_0_pre;   /* the 0x2 bytes before state in update_ring_effect, addressed as state[-1] */
 
 typedef struct S_819598B4_1 {
     u8 pad_00[0xC];
@@ -103,7 +101,7 @@ void update_ring_effect(UpdateFollowingColorBlendEffectBody *state, S_819598B4_2
         timerNextSecond = (u16)state->unk_30 - 1;
         state->unk_30 = timerNextSecond;
         if ((timerNextSecond << 0x10) <= 0) {
-            ((S_819598B4_0_pre *)state)[-1].unk_00 |= 0x8000;
+            NODE_HEADER(state)->flags |= 0x8000;
             object_flag_block.flags |= OBJECT_REMOVE_PENDING;
         }
         break;

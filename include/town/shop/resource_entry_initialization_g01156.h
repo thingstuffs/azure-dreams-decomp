@@ -29,14 +29,7 @@ typedef struct UA32 {
     u32 value;
 } __attribute__((packed)) UA32;
 
-
 /* extern */
-
-typedef struct S_800B2BA0_0_pre {
-    s32 * unk_00;
-    u8 pad_04[0xC];
-} S_800B2BA0_0_pre;
-
 
 typedef struct S_800B2BA0_1 {
     u8 pad_00[0x20];

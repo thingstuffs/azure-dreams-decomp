@@ -34,19 +34,6 @@ typedef struct {
 /* Bicycle work callback invoked with (entity, entity, position, sprite) by update_entity_sprite_and_effects. */
 typedef void (*EntityCallback)(void *, void *, void *, void *);
 
-/* Sprite-part slice of the town bicycle object created by initialize_enabled_scene_object.
- * update_entity_sprite_and_effects selects its directional source and fades its crossing flash. */
-typedef struct S_800A6684_0 {
-    u8 pad_00[0x4];
-    s8 unk_04; /* current sprite-source entry index retained when the directional source changes */
-    u8 pad_05[0x7];
-    u8 unk_0C; /* red modulation byte; crossing flashes set 255, then fade toward 128 */
-    u8 unk_0D; /* green modulation byte; crossing flashes set 255, then fade toward 128 */
-    u8 unk_0E; /* blue modulation byte, kept equal to green during the flash fade */
-    u8 pad_0F[0x5];
-    u16 unk_14; /* sprite status/render flags; heading selection sets or clears bit 0 */
-} S_800A6684_0;
-
 /* Bicycle work callback slice initialized by save_and_clear_entity_flag_ten.
  * initialize_enabled_scene_object owns the node through create_town_effect_object. */
 typedef struct {

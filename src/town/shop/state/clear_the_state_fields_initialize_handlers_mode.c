@@ -1,9 +1,5 @@
 #include "common.h"
 
-typedef struct S_8009EC3C_0 {
-    u8 pad_00[0x15];
-    s8 unk_15;
-} S_8009EC3C_0;   /* arg1 in clear_the_state_fields_initialize_handlers_mode */
 
    /* arg2 in clear_the_state_fields_initialize_handlers_mode */
 
@@ -15,7 +11,7 @@ void invoke_entity_callback_and_follow_up(func_800A06C8_EntityLike *entity, s32 
 typedef struct S_8009ECF0_0 S_8009ECF0_0;
 
 /* Clear the state fields and initialize the record handlers and mode. */
-void clear_the_state_fields_initialize_handlers_mode(TownObjectRecord *record_data, S_8009EC3C_0 *state, MotionDeltaView *values) {
+void clear_the_state_fields_initialize_handlers_mode(TownObjectRecord *record_data, TownObjectRecord *state, MotionDeltaView *values) {
     state->unk_15 = 0;
     values->velocity_x = 0;
     values->velocity_y = 0;

@@ -3,16 +3,8 @@
 #include "engine/entity.h"
 #include "slus.h"
 #include "town/shop.h"
+#include "engine/menu/selection_menu.h"
 
-typedef struct S_800B6094_4 {
-    u8 pad_00[0x38];
-    void * unk_38;
-} S_800B6094_4;
-
-typedef struct S_800B6094_5 {
-    u8 pad_00[0x4];
-    void * unk_04;
-} S_800B6094_5;
 
 typedef struct S_800B6094_6 {
     u8 pad_00[0x8];
@@ -76,7 +68,7 @@ void populate_display_row_with_icon(void *entry_data, s32 display_base, s32 row_
     }
     display_node = (S_800B6094_3 *)((row_index * 4) + display_base);
     *icon_slot = display_value;
-    ((S_800B6094_6 *)(((S_800B6094_5 *)display_node->unk_38)->unk_04))->unk_08 = -0x30;
+    ((S_800B6094_6 *)(((MenuSelectionWidgets *)display_node->unk_38)->entries[0]))->unk_08 = -0x30;
     display_node = display_node->unk_38;
     display_node = display_node->unk_04;
     display_node->unk_0A = (row_index * 0x10) + 0x67;

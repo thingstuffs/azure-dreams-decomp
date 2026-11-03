@@ -2,18 +2,12 @@
 #include "shared/object_index_slots.h"
 #include "shared/town_object.h"
 
-
-typedef struct S_800C70B8_1 {
-    u8 pad_00[0x4];
-    s32 *unk_04;
-} S_800C70B8_1;   /* ((TownObjectRecord *)arg0)->unk_80 in clear_table_flag_and_reset_animation */
-
+   /* ((TownObjectRecord *)arg0)->unk_80 in clear_table_flag_and_reset_animation */
 
 #include "town/person/object/initialize_object_entries_api.h"
 #include "town/person/object_setup.h"
 #include "town/person.h"
 #include "town/person/object.h"
-
 
 /* Clears the object's table flag and resets its animation before updating it. */
 void clear_table_flag_and_reset_animation(TownObjectRecord *object, void *position, void *anim_state) {

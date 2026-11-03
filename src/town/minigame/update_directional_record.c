@@ -9,10 +9,7 @@
 #include "engine/texture.h"
 #include "town/minigame.h"
 
-typedef struct S_800211C4_0 {
-    u8 pad_00[0x2A];
-    u16 unk_2A;
-} S_800211C4_0;   /* arg0 in update_directional_record */
+   /* arg0 in update_directional_record */
 
 typedef struct S_800211C4_2 {
     u8 pad_00[0x20];

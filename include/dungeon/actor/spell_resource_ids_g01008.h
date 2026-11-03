@@ -23,6 +23,7 @@ struct ObjectPosition;
 #include "shared/dungeon_moving_views.h"
 #include "shared/slus_cd_callback.h"
 #include "shared/slus_callbacks.h"
+#include "shared/sprite_frame_state.h"
 struct S_800AD594_0;
 
 typedef struct Inner {
@@ -64,10 +65,6 @@ typedef struct S_800A94A0_6 {
 } S_800A94A0_6;
 
 /* Pointer addresses record offset 0x14. */
-typedef struct S_800A94A0_7 {
-    u8 pad_00[0x14];
-    u16 unk_14;
-} S_800A94A0_7;
 
 
 typedef struct S_800A94A0_9 {

@@ -10,6 +10,7 @@
 #include "engine/graphics.h"
 #include "engine/node/allocation.h"
 #include "engine/node.h"
+#include "dungeon/effect/screen.h"
 
 typedef struct S_80172B00_0 {
     u8 pad_00[0x2A];
@@ -36,7 +37,6 @@ typedef struct S_80172B00_7 {
     u16 unk_1E;
 } S_80172B00_7;   /* arg2 in create_boss_child_effect */
 
-void * create_tracked_effect(); /* extern */
 extern s8 view_direction_depth_biases[];
 void update_boss_actor_direction_state(void *actor_data, void *output_data, SpriteFrameState *context_data);
 extern u8 ghosh_frame_set_10[];

@@ -251,6 +251,24 @@ Linker script and memory map
         self.assertEqual(binder.bind(caller, 'caller_recipe', 'home_g', 4)[0][-1], 'not_jal')
         self.assertEqual(binder.bind(caller, 'other_recipe', 'other_f', 0)[0][-1], 'caller_not_linked')
 
+    def test_repeated_bindings_reuse_the_same_residency_check(self):
+        import bind
+        from unittest.mock import patch
+        jal = lambda target: 0x0C000000 | ((target >> 2) & 0x3FFFFFF)
+        caller = self.layout('dungeon/bank_a', 0x80150000, [jal(0x80170000), jal(0x80170004), 0, 0])
+        callee = self.layout('dungeon/bank_b', 0x80170000, [0] * 4, units=('other_recipe',))
+        images = {l.name: l for l in (caller, callee)}
+        binder = bind.Binder(images)
+        with patch.object(caller, 'overlaps', wraps=caller.overlaps) as overlaps:
+            for _ in range(3):
+                self.assertEqual(binder.bind(caller, 'caller_recipe', 'home_f', 0),
+                                 [(0x80170000, callee.name, 'other_recipe', 'other_f', 'resident')])
+                self.assertEqual(binder.bind(caller, 'caller_recipe', 'home_f', 4),
+                                 [(0x80170004, callee.name, 'other_recipe', 'other_f+0x4', 'image_interior')])
+            self.assertEqual(overlaps.call_count, 1)
+            bind.Binder(images).bind(caller, 'caller_recipe', 'home_f', 0)
+            self.assertEqual(overlaps.call_count, 2)
+
     def test_placeholder_base_nibble_and_slus_interior(self):
         """A devkit program linked at 0x80400000 whose rows keep placeholder 0x8001xxxx links; a check-image row
         linked below KSEG0; a call into the middle of a SLUS function."""

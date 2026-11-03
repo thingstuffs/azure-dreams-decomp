@@ -74,7 +74,7 @@ void step_beldo_old_toward_target(Rec_func_800A9E70_arg0 *move_state_arg, void *
                                   position_arg->tile_y);
             blocker = (ActorRecord *)current_angle;
             if (blocker != 0) {
-                SpriteFrameState *blocker_sprite = ((ObjectNodeHeader *)blocker - 1)->sprite;
+                SpriteFrameState *blocker_sprite = NODE_HEADER(blocker)->sprite;
                 s16 target_angle = func_8009F608(
                     position_arg->tile_x, position_arg->tile_y,
                     blocker_sprite->tile_x,

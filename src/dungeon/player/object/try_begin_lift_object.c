@@ -8,11 +8,11 @@
 #include "dungeon/item.h"
 #include "engine/graphics.h"
 #include "dungeon/player/object.h"
+#include "dungeon/system.h"
 
 extern u8 resident_globals_page[];
 
 extern s32 spawn_object_at_target_position(); /* Unprototyped: uses the value as a pointer where the definition has an integer (or the reverse) */
-extern s32 play_sound_if_enabled(s32 query_value);
 extern u8 player_lift_frames[];
 extern u8 D_800E0495[];
 

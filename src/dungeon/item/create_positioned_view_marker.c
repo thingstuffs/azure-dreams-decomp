@@ -9,6 +9,8 @@
 #include "dungeon/player.h"
 #include "engine/cd.h"
 #include "dungeon/level.h"
+#include "dungeon/system.h"
+
 /* Advances sprite animation and textures for the third argument, leaving the first two unused. */
 void update_sprite_from_third_argument(ObjectNodeHeader *unused_first, ObjectPosition *unused_second, SpriteFrameState *value) {
     advance_sprite_animation_and_textures(value);

@@ -4,8 +4,8 @@
 #include "dungeon/actor.h"
 #include "dungeon/item.h"
 #include "dungeon/item/message.h"
+#include "dungeon/system.h"
 
-extern s32 play_sound_if_enabled(s32);
 extern s32 display_text_with_fullwidth_adjustment(s8 *text);
 extern s32 generate_random_value(void);
 

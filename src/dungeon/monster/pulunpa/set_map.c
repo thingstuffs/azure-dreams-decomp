@@ -13,7 +13,6 @@
 #include "shared/entity.h"
 
 typedef s32 M2C_UNK;
-typedef struct S_800AA258_2 S_800AA258_2;
 #include "records/Rec_func_800AA258_arg2.h"
 #include "dungeon/item.h"
 #include "dungeon/actor.h"

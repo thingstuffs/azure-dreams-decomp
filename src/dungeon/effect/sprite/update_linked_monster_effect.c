@@ -1,3 +1,4 @@
+#include "shared/object_node.h"
 #include "shared/dungeon_effect_status.h"
 #include "engine/scene.h"
 #include "shared/sprite_frame_state.h"
@@ -26,9 +27,6 @@ extern s16 linked_monster_effect_updated[6];
 extern u8 linked_monster_attack_option;
 extern s32 D_800C9034();
 
-typedef struct S_80025C80_0_pre {
-    u16 unk_00;
-} S_80025C80_0_pre;   /* the 0x2 bytes before arg0 in update_linked_monster_effect, addressed as arg0[-1] */
 
 typedef struct S_80025C80_0 {
     u8 pad_00[0x20];
@@ -274,10 +272,10 @@ void update_linked_monster_effect(void *effect_in, ObjectPosition *motion_in, vo
             ((S_80025C80_0 *)effect_in)->unk_30.n = fade_ticks;
             if ((fade_ticks << 0x10) <= 0) {
                 linked_monster_effect_updated[0] = 0;
-                linked_flags = ((S_80025C80_0_pre *)effect_in)[-1].unk_00;
+                linked_flags = NODE_HEADER(effect_in)->flags;
                 linked_global = &object_flag_block;
                 linked_flags |= 0x8000;
-                ((S_80025C80_0_pre *)effect_in)[-1].unk_00 = linked_flags;
+                NODE_HEADER(effect_in)->flags = linked_flags;
                 linked_global->flags |= 0x8000;
                 return;
             }
@@ -292,10 +290,10 @@ void update_linked_monster_effect(void *effect_in, ObjectPosition *motion_in, vo
         }
     } else {
         if ((linked_monster->unk_1E) & 0x8000) {
-            linked_flags = ((S_80025C80_0_pre *)effect_in)[-1].unk_00;
+            linked_flags = NODE_HEADER(effect_in)->flags;
             linked_global = &object_flag_block;
             linked_flags |= 0x8000;
-            ((S_80025C80_0_pre *)effect_in)[-1].unk_00 = linked_flags;
+            NODE_HEADER(effect_in)->flags = linked_flags;
             linked_global->flags |= 0x8000;
             return;
         }

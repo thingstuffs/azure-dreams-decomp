@@ -4,6 +4,7 @@
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 #include "dungeon/player/object.h"
+#include "dungeon/system.h"
 
 /* cfail-repair: tf7-phase1-cache-v3 */
 
@@ -46,7 +47,6 @@ typedef struct Obj3 {
 } Obj3;
 
 extern void spend_actor_mp(Obj3 *, s32);
-extern void play_sound_if_enabled(s32);
 struct SpriteFrameState;
 extern void select_sprite_entry(struct SpriteFrameState *, s16, s16);
 extern void create_source_adjusted_motion_object(Obj0 *, void *, Obj2 *);

@@ -7,7 +7,7 @@
 #include "shared/sprite_frame_state.h"
 #include "dungeon/effect/travel.h"
 #include "dungeon/actor.h"
-void (*const dungeon_ovl_18ca83c_entry)(void *effect, ObjectPosition *motion, void *appearance) = advance_target_travel_effect;
+void (*const dungeon_ovl_18ca83c_entry)(void *effect, ObjectPosition *motion, SpriteFrameState *appearance) = advance_target_travel_effect;
 
 /* Adds a random actor value delta with an optional eighth bonus, clamps it, displays a popup, and
    applies it. */
@@ -217,7 +217,7 @@ void *create_randomized_target_effect(Rec_func_800243B8_arg0 *source, ObjectPosi
 
 /* Moves an effect toward an actor or terrain endpoint, creates 32 linked particles, and handles
    completion. */
-void advance_target_travel_effect(void *effect, ObjectPosition *motion, void *appearance) {
+void advance_target_travel_effect(void *effect, ObjectPosition *motion, SpriteFrameState *appearance) {
     ovl_18ca83c_818AAE60_Func818AAE60Scratch scratch;
     s16 *target_dist_cursor;
     s16 *path_dist_cursor;
@@ -249,7 +249,7 @@ void advance_target_travel_effect(void *effect, ObjectPosition *motion, void *ap
         ((Rec_func_800243B8_arg0 *)effect)->unk_10 = 0U;
         ((Rec_func_800243B8_arg0 *)effect)->unk_0A = (s16) ((u16) ((Rec_func_800243B8_arg0 *)effect)->unk_0A + 1);
         ((Rec_func_800243B8_arg0 *)effect)->unk_0E = (u16) (((u16) ((ovl_18ca83c_818AAE60_S_80024660_1 *)source)->unk_2A >> 9) & 7);
-        ((ovl_18ca83c_818AAE60_S_80024660_2 *)appearance)->unk_0C = 0x808080;
+        appearance->color.word = 0x808080;
     case 1:
         source_record = ((ovl_18ca83c_818AAE60_S_80024660_3 *)NODE_HEADER(source));
         source_info = source_record->unk_0C;

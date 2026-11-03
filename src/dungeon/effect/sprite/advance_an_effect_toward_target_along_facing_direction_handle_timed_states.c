@@ -11,6 +11,7 @@
 #include "dungeon/effect/sprite.h"
 #include "engine/scene.h"
 #include "sdk/libc.h"
+#include "dungeon/system.h"
 
 typedef struct MotionWork {
     ObjectPosition destination;
@@ -48,7 +49,6 @@ typedef struct EffectState {
 extern s32 check_layer_offset_height(s32, s32, s32, s32);
 extern void create_random_spin_effect(EffectState *, ObjectPosition *);
 extern void create_owner_tinted_effect(EffectState *, ObjectPosition *);
-extern void play_sound_if_enabled(s32);
 extern void interpolate_view_parameters(void *, u8, void *);
 
 

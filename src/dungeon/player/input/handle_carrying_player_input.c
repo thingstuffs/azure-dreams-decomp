@@ -42,10 +42,6 @@ typedef struct S_8008EAC8_6 {
     u8 unk_02;
 } S_8008EAC8_6;
 
-typedef struct S_8008EAC8_7 {
-    u8 pad_00[0xAC];
-    s32 unk_AC;
-} S_8008EAC8_7;
 
 typedef struct S_8008EAC8_9 {
     u8 pad_00[0x3];
@@ -228,7 +224,7 @@ void handle_carrying_player_input(void *object, void *aux_entity, SpriteFrameSta
                         data_50 = record->unk_00;
                         record = (void *) ((u32) (data_50 & 0x60) >> 5);
                         looked_up = select_item_record_pointer(data_50 & 0x1F);
-                        if (dispatch_dungeon_category_action(((S_8008EAC8_7 *)(((((u32) record) * 4) + object)))->unk_AC, looked_up, 0x15,
+                        if (dispatch_dungeon_category_action(((ActorRecord *)(((((u32) record) * 4) + object)))->unk_AC.value, looked_up, 0x15,
                             0) < 0) {
                             read_monster_script_entry();
                             return;

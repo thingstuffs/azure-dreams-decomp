@@ -27,7 +27,7 @@ typedef struct S_80099C58_3 {
 } S_80099C58_3;   /* v1 in spawn_radial_particle_burst */
 
 /* Spawns a central particle and sixteen particles moving radially from the given position. */
-void spawn_radial_particle_burst(s16 x, s16 y, s16 z, s16 flags)
+void spawn_radial_particle_burst(s16 x, s16 y, s16 z, s16 flags, s32 unused)
 {
     ObjectNodeHeader *particle;
     ObjectPosition *motion;

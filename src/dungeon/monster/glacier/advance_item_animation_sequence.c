@@ -6,15 +6,10 @@
 #include "dungeon/actor/status.h"
 #include "dungeon/actor.h"
 #include "dungeon/effect/screen.h"
+#include "dungeon/system.h"
 
 extern u8 resident_globals_page[];
 
-typedef struct S_80172F04_2 {
-    u8 pad_00[0x2A];
-    s16 unk_2A;
-    u8 pad_2C[0x1A];
-    u16 unk_46;
-} S_80172F04_2;   /* actor in advance_item_animation_sequence */
 
 typedef struct S_80172F04_4 {
     u8 unk_00;
@@ -25,7 +20,6 @@ typedef struct S_80172F04_4 {
 } S_80172F04_4;   /* (u8 *)work in advance_item_animation_sequence */
 
 extern void select_sprite_entry(void *, u8, s32);
-extern void play_sound_if_enabled(s32);
 extern void spend_actor_mp(void *, s32);
 
 extern u8 D_801760CC[];
@@ -33,7 +27,7 @@ extern u8 D_801760CC[];
 /* Advances a timed actor animation sequence and resets its action on completion. */
 void advance_item_animation_sequence(ActorRecord *action, ObjectPosition *motion, SpriteFrameState *animation, void *actor_ptr)
 {
-    S_80172F04_2 *actor;
+    ActorRecord *actor;
     s32 state;
     u8 current_state;
     u16 timer;
@@ -47,7 +41,7 @@ void advance_item_animation_sequence(ActorRecord *action, ObjectPosition *motion
         if (animation->flags & 0x8000) {
             action->action_phase.u = 3;
             animation->flags |= 0x6000;
-            resolve_attack_damage_and_effects(actor, animation, actor->unk_2A, 1);
+            resolve_attack_damage_and_effects(actor, animation, actor->facing, 1);
             return;
         }
         motion->velocity_z = 0;
@@ -62,7 +56,7 @@ void advance_item_animation_sequence(ActorRecord *action, ObjectPosition *motion
         action->action_timer.u = timer;
         if (((s16)timer == 4) || (animation->flags & 0x8000)) {
             animation->frameTable = D_801760CC;
-            work = g_game_work.view.camera_rotation.parts.viewAngle + actor->unk_2A + 0x100;
+            work = g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100;
             work = ((s32)work >> 9) & 7;
             work += (u32)D_801760CC;
             select_sprite_entry(animation,
@@ -79,7 +73,7 @@ void advance_item_animation_sequence(ActorRecord *action, ObjectPosition *motion
         timer = action->action_timer.u + 1;
         action->action_timer.u = timer;
         if (((s16)timer == 4) || (animation->flags & 0x8000)) {
-            resolve_attack_damage_and_effects(actor, animation, actor->unk_2A, 1);
+            resolve_attack_damage_and_effects(actor, animation, actor->facing, 1);
             current_state = action->action_phase.u;
             action->action_timer.u = 0;
             action->action_phase.u = current_state + 1;
@@ -93,7 +87,7 @@ void advance_item_animation_sequence(ActorRecord *action, ObjectPosition *motion
             action->unk_8C.byte_ptr = (u8 *)(update_actor_timed_effects);
             ((S_80172F04_4 *)resident_globals_page)->unk_346C = 0;
             advance_status_timers(call_actor);
-            actor->unk_46 &= 0x7FFF;
+            actor->action_flags &= 0x7FFF;
         }
         return;
     default:

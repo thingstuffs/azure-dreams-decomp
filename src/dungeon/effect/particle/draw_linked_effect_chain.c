@@ -7,6 +7,7 @@
 #include "shared/dungeon_status.h"
 #include "shared/game_work.h"
 #include "dungeon/effect/particle.h"
+#include "dungeon/system.h"
 
 /* Transforms four colored vertices and queues a visible shaded quad with the requested depth bias. */
 void project_vertex_shaded_effect_quad(void *quad, void *position_arg, void *render_state_arg, s16 depth_bias)
@@ -440,7 +441,7 @@ void create_rotating_directional_sprite(Row_819A1450_S_819A1450_4 *source, Objec
 }
 
 /* Runs a timed attack visual sequence with particle bursts, linked trails, sound, and completion cleanup. */
-void advance_entity_effect_sequence(Row_819A1654_Entity *entity, ObjectPosition *saved_context, void *saved_data) {
+void advance_entity_effect_sequence(Row_819A1654_Entity *entity, ObjectPosition *saved_context, SpriteFrameState *saved_data) {
     Row_819A1654_PointTable points;
     Row_819A1654_Task *task;
     AdvanceEntityEffectSequencePrefix *effect;

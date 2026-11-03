@@ -13,19 +13,6 @@
 #include "dungeon/level.h"
 #include "sdk/libc.h"
 
-typedef struct S_8017352C_0 {
-    u8 pad_00[0x8C];
-    void * unk_8C;
-    s32 unk_90;
-    u8 pad_94[0x2];
-    u16 unk_96;
-    u16 unk_98;
-    u8 pad_9A[0x1];
-    u8 unk_9B;
-    u8 pad_9C[0x8];
-    u8 * unk_A4;
-    u16 unk_A8;
-} S_8017352C_0;   /* arg0 in update_actor_animation_timers_and_transitions */
 
    /* arg2 in update_actor_animation_timers_and_transitions */
 
@@ -70,7 +57,7 @@ void update_actor_animation_timers_and_transitions(ActorRecord *entity, ObjectPo
     u16 timer;
     u16 count;
 
-    body = ((S_8017352C_0 *)entity)->unk_A4;
+    body = entity->unk_A4.byte_address;
     state = entity->action_phase.u;
     body_part = (S_8017352C_5 *)(body + 0x20);
     part_anim = body + 0x28;

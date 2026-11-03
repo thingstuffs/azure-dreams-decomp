@@ -30,9 +30,10 @@ typedef struct Copy24 { u32 words[6]; } Copy24;
 s32 get_entity_effect_value(ActorRecord *entry, s32 effect_id);
 void clear_slots_of_type(ActorRecord *owner, s8 match_type);
 s32 register_node(ObjectNodeHeader *entry, void *registration_id);
-s32 check_entity_relation();
 s16 get_tile_chebyshev_distance();
 #include "dungeon/player/object/action_state.h"
+#include "dungeon/level.h"
+
 s32 generate_random_value(void);
 void update_actor_status_and_mp(ActorRecord *entity);
 s32 begin_ready_actor_directional_action(ActorRecord *body, ObjectPosition *position, SpriteFrameState *sprite, u8 *direction_frames);

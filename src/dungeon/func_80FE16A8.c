@@ -10,9 +10,9 @@
 #include "dungeon/item.h"
 #include "dungeon/actor.h"
 #include "dungeon/actor/state.h"
+#include "dungeon/level.h"
 
 extern void select_sprite_entry(void *, s32, s32);
-extern s32 check_entity_relation(void *, void *);
 extern s32 find_active_rect_containing_point(s32, s32);
 extern s32 can_entity_gain_level(void *);
 extern void update_actor_status_and_mp(void *);

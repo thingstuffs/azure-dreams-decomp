@@ -362,5 +362,5 @@ void draw_a_full_screen_color_overlay_mark_effect_complete_countdown_ends(void *
 void create_object_hex_212_initialize_data_pointer_mode(s32 *initial_value);
 void update_the_five_orbiting_points_advance_effect_animation(ovl_1930844_81911BF4_Obj81911BF4 *effect, s32 *position);
 void *create_and_initializes_copying_n_24_bytes_source_data(s32 state_value, ObjectPosition *source_data, s16 initial_setting);
-void update_movement_toward_target_along_direction_advances_action_phases(void *state, ObjectPosition *motion, void *appearance);
+void update_movement_toward_target_along_direction_advances_action_phases(void *state, ObjectPosition *motion, SpriteFrameState *appearance);
 #endif

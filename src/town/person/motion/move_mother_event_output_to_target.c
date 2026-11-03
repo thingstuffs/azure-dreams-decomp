@@ -10,16 +10,10 @@ extern void *D_800834A0;
 #include "town/person/object.h"
 
 
-typedef struct S_800C7CF0_2 {
-    u8 pad_00[0x2];
-    u16 unk_02;
-    u8 pad_04[0x2];
-    s16 unk_06;
-} S_800C7CF0_2;   /* out in move_mother_event_output_to_target */
 
 /* Move the output toward the target position until the object countdown expires. */
 void move_mother_event_output_to_target(void *object_arg, void *out_arg, void *setup_context) {
-    S_800C7CF0_2 *out = out_arg;
+    ObjectPosition *out = out_arg;
     TownObjectRecord *object = object_arg;
     s16 signed_frames;
     u16 target_x;
@@ -34,17 +28,17 @@ void move_mother_event_output_to_target(void *object_arg, void *out_arg, void *s
 
     if (signed_frames <= 0) {
         apply_object_setup_and_update(object, out, setup_context);
-        out->unk_02 = target_x;
-        out->unk_06 = target_y;
+        out->x.unsigned_parts.integer = target_x;
+        out->y.w.i = target_y;
         return;
     }
 
-    out->unk_02 =
-        (u16)(out->unk_02 +
-              ((s16)target_x - (s16)out->unk_02) /
+    out->x.unsigned_parts.integer =
+        (u16)(out->x.unsigned_parts.integer +
+              ((s16)target_x - (s16)out->x.unsigned_parts.integer) /
               signed_frames);
-    out->unk_06 =
-        (s16)((u16)out->unk_06 +
-              ((s16)target_y - out->unk_06) /
+    out->y.w.i =
+        (s16)((u16)out->y.w.i +
+              ((s16)target_y - out->y.w.i) /
               (s16)object->timer.as_u16);
 }

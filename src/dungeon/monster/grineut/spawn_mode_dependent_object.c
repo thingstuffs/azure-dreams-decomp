@@ -1890,7 +1890,7 @@ void update_spinning_grineut_fall(ActorRecord *state, ObjectPosition *motion, Sp
 
 /* Runs update_actor_fade_in and installs dispatch_monster_move_attack_spell when it returns nonzero. */
 void fade_in_grineut(ActorRecord *state, ObjectPosition *motion, SpriteFrameState *position, ActorRecord *actor) {
-    if (update_actor_fade_in(state, motion, position, actor)) {
+    if (update_actor_fade_in(state, motion, position)) {
         state->unk_8C.handler = dispatch_monster_move_attack_spell;
     }
 }

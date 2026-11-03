@@ -6,8 +6,10 @@
 #include "shared/sprite_frame_state.h"
 #include "dungeon/effect/particle.h"
 #include "dungeon/item.h"
+#include "dungeon/system.h"
+
 /* Normal selector 9: ordinary typed entry pointer; gcc emits the state table. */
-void (*const dungeon_1864800_entry)(void *, ObjectPosition *, void *) = run_fading_target_projectile;
+void (*const dungeon_1864800_entry)(void *, ObjectPosition *, SpriteFrameState *) = run_fading_target_projectile;
 #include "dungeon/effect/particle/update_effect_base_state.h"
 
 /*
@@ -22,7 +24,7 @@ static __inline__ s16 delta_axis(s8 target, u16 start) {
 }
 
 /* Updates a staged effect, moves it toward its target, and emits particles. */
-void run_fading_target_projectile(void *effect, ObjectPosition *motion, void *source_render) {
+void run_fading_target_projectile(void *effect, ObjectPosition *motion, SpriteFrameState *source_render) {
     void *owner;
     Vec3 delta;
     s32 target_timer;
@@ -103,7 +105,7 @@ void run_fading_target_projectile(void *effect, ObjectPosition *motion, void *so
         } else {
             sprite = target[-1].unk_00;
             if ((sprite->flags & 0x8000) != 0) {
-                if ((((SpriteFrameState *)source_render)->flags & 0x8000) != 0) {
+                if ((source_render->flags & 0x8000) != 0) {
                     apply_attack_power_and_element_effects(
                         ((ActorRecord *)owner)->target,
                         10,

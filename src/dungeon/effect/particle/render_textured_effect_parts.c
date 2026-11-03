@@ -18,6 +18,7 @@
 #include "shared/dungeon_status.h"
 #include "dungeon/actor.h"
 #include "sdk/libgpu.h"
+#include "dungeon/system.h"
 
 void (*const dungeon_183a800_entry)(void *, void *, void *) = advance_projectile_burst_and_impact;
 const PathBlock textured_particle_direction_offsets = {{{32,0},{32,32},{0,32},{-32,32},{-32,0},{-32,-32},{0,-32},{32,-32}}};
@@ -372,9 +373,9 @@ void decrement_object_counter(void *source_arg, s32 offset_x, s32 offset_y, s32 
         render = ((ObjectNodeHeader *)effect)->sprite;
         render->flags = (u16) (render->flags | 0xC);
         position = ((ObjectNodeHeader *)effect)->position;
-        position->x.w.i = (s16) (((MovingPosition *)(source->position))->x + offset_x);
-        position->y.w.i = (s16) (((MovingPosition *)(source->position))->y + offset_y);
-        position->z.w.i = (s16) (((MovingPosition *)(source->position))->z + offset_z);
+        position->x.w.i = (s16) (source->position->x.unsigned_parts.integer + offset_x);
+        position->y.w.i = (s16) (source->position->y.unsigned_parts.integer + offset_y);
+        position->z.w.i = (s16) (source->position->z.unsigned_parts.integer + offset_z);
         render = ((ObjectNodeHeader *)effect)->sprite;
         render->scale_y = 0x1000;
         render->scale_x = 0x1000;
@@ -387,21 +388,21 @@ void decrement_object_counter(void *source_arg, s32 offset_x, s32 offset_y, s32 
 }
 
 /* Advances the timer, ramps target values, and flags completion on timeout or target status. */
-void grow_timed_sprite_effect(TimedSpriteImpactBody *state, ObjectPosition *unused, void *target) {
+void grow_timed_sprite_effect(TimedSpriteImpactBody *state, ObjectPosition *unused, SpriteFrameState *target) {
     u16 timer;
 
     timer = state->timer.u + 2;
     textured_effect_update_flag = 1;
     state->timer.u = timer;
     if ((s16)timer < 40) {
-        *(s16 *)((u8 *)target + 0x1C) = (s16)timer * 204;
-        *(s16 *)((u8 *)target + 0x1E) = (s16)state->timer.u * 204;
+        target->scale_x = (s16)timer * 204;
+        target->scale_y = (s16)state->timer.u * 204;
     }
     if ((s16)state->timer.u >= 120) {
         *(u16 *)((u8 *)state - 2) |= NODE_REMOVE;
         object_flag_block.flags |= OBJECT_REMOVE_PENDING;
     }
-    if (*(u16 *)((u8 *)target + 0x14) & 0x8000) {
+    if (target->flags & 0x8000) {
         *(u16 *)((u8 *)state - 2) |= NODE_REMOVE;
         object_flag_block.flags |= OBJECT_REMOVE_PENDING;
     }

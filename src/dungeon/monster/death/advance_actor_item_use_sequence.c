@@ -19,6 +19,7 @@
 #include "dungeon/actor.h"
 #include "dungeon/monster/death.h"
 #include "sdk/libc.h"
+#include "dungeon/system.h"
 
 
 typedef struct {
@@ -26,7 +27,6 @@ typedef struct {
 } __attribute__((packed)) Packet12;
 
 extern void select_sprite_entry(void *, s32, s32);
-extern void play_sound_if_enabled(s32);
 
 extern u8 D_80171080[];
 extern s32 death_action_resume_address;
@@ -56,11 +56,6 @@ typedef struct S_801732C4_1_pre {
     u8 pad_04[0x10];
 } S_801732C4_1_pre;   /* the 0x14 bytes before active in advance_actor_item_use_sequence_2, addressed as active[-1] */
 
-typedef struct S_801732C4_2 {
-    u8 pad_00[0x24];
-    u8 unk_24;
-    u8 unk_25;
-} S_801732C4_2;   /* linked in advance_actor_item_use_sequence_2 */
 
 
 typedef struct S_801732C4_5 {
@@ -145,24 +140,24 @@ void advance_actor_item_use_sequence_2(ActorRecord *body, ObjectPosition *motion
                     target = (S_801732C4_1_pre *)primary_actor_record;
                     (actor->target) = target;
                     {
-                        S_801732C4_2 *item_id;
+                        SpriteFrameState *item_id;
 
                         item_id = target[-1].unk_00;
-                        actor->target_tile_x = item_id->unk_24;
-                        actor->target_tile_y = item_id->unk_25;
+                        actor->target_tile_x = item_id->tile_x;
+                        actor->target_tile_y = item_id->tile_y;
                     }
                 } else {
-                    S_801732C4_2 *item_id;
+                    SpriteFrameState *item_id;
                     u8 *item_defs;
 
                     item_defs = item_action_definitions;
-                    item_id = (S_801732C4_2 *)(*item_slot);
+                    item_id = (SpriteFrameState *)(*item_slot);
                     if (item_defs[((u8)item_id) * 20 + 0x12] == 2) {
                         target = (actor->target);
                         if (target != 0) {
                             item_id = target[-1].unk_00;
-                            actor->target_tile_x = item_id->unk_24;
-                            actor->target_tile_y = item_id->unk_25;
+                            actor->target_tile_x = item_id->tile_x;
+                            actor->target_tile_y = item_id->tile_y;
                         }
                     } else {
 

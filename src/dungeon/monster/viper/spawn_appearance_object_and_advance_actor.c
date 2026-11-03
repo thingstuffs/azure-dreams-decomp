@@ -11,6 +11,7 @@
 #include "engine/node.h"
 #include "dungeon/actor/state.h"
 #include "dungeon/actor.h"
+#include "dungeon/effect/screen.h"
 
 
 typedef struct S_8017390C_3 {
@@ -25,8 +26,6 @@ typedef struct S_8017390C_3 {
 typedef struct {
     s32 value;
 } __attribute__((packed)) Unaligned32;
-
-extern void *create_tracked_effect();
 
 extern M2C_UNK item_effect_descriptor;
 void func_80173770(void *actor, ObjectPosition *motion, SpriteFrameState *visual);

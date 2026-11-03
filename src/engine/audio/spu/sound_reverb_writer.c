@@ -1,4 +1,5 @@
 #include "engine/audio/spu/sound_reverb.h"
+#include "slus/sound_dma_lifecycle.h"
 
 #include "engine/audio/spu/sound_reverb.h"
 #include "engine/audio/spu.h"

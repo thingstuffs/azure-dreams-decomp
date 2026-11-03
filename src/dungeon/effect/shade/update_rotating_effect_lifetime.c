@@ -1,3 +1,4 @@
+#include "shared/object_node.h"
 #include "common.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/object_flags.h"
@@ -7,9 +8,6 @@
 #include "dungeon/effect/shade.h"
 #include "slus.h"
 
-typedef struct S_818C3898_0_pre {
-    u16 unk_00;
-} S_818C3898_0_pre;   /* the 0x2 bytes before arg0 in update_rotating_effect_lifetime, addressed as arg0[-1] */
 
 
 typedef struct S_818C3898_1 {
@@ -66,7 +64,7 @@ void update_rotating_effect_lifetime(ScaledRotationEffectBody *effect, void *mot
     motion->unk_04 = (s32) (motion->unk_04 + motion->unk_10);
     motion->unk_08 = (s32) (motion->unk_08 + motion->unk_14);
     if ((s16) effect->unk_10 > effect->unk_14) {
-        ((S_818C3898_0_pre *)effect)[-1].unk_00 = (u16) (((S_818C3898_0_pre *)effect)[-1].unk_00 | 0x8000);
+        NODE_HEADER(effect)->flags = (u16) (NODE_HEADER(effect)->flags | 0x8000);
         global_flags = &object_flag_block;
         global_flags->flags = (s32) (global_flags->flags | 0x8000);
     }

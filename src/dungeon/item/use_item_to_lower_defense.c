@@ -15,10 +15,10 @@ extern u8 D_800E2082[];
 #include "dungeon/actor.h"
 #include "dungeon/player/state.h"
 #include "engine/entity.h"
+#include "dungeon/system.h"
 
 extern void display_item_status_message(void *entity, struct DungeonItemEntry *item, s32 message_kind);
 extern void place_actor_item(void *object_context, struct DungeonItemEntry *target);
-extern void play_sound_if_enabled(u32);
 
 /* Applies a stat-reducing item to a target and handles item consumption. */
 s32 use_item_to_lower_defense(ActorRecord *target, DungeonItemEntry *item, s16 use_type) {

@@ -547,7 +547,10 @@ class Runner:
                 for n in sorted(set(self.batch.cands) - set(self.dropped) - names):
                     self.drop(n, 'proof_budget')
                 return names, entry, None
-            if not names or self.no_proof or not self.natcheck:
+            if not names:
+                self.restore()
+                return names, entry, nat
+            if self.no_proof or not self.natcheck:
                 return names, entry, nat
             nat = self.natcheck()
             fails = nat.get('unit_failures', []) + nat.get('adaptation_errors', [])

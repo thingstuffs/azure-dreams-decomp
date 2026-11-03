@@ -7,6 +7,7 @@
 #include "shared/object_node.h"
 #include "shared/sprite_frame_state.h"
 #include "dungeon/actor.h"
+#include "dungeon/system.h"
 
 
 
@@ -14,7 +15,6 @@
 void unlink_entity_node(void *node);
 void update_map_cell_flags_with_item_limit(u8 x, u8 y, s32 flag_mask);
 void * detach_record_and_update_slot_state(void *record);
-void play_sound_if_enabled(s32 query_value);
 s32 get_entity_effect_value(void *entry, s32 effect_id);
 
 /* Fade the entity to dark gray, then remove it and update its tile flags. */

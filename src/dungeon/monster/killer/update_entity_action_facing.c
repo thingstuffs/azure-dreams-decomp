@@ -13,12 +13,12 @@
 #include "dungeon/level.h"
 #include "dungeon/player/object.h"
 #include "dungeon/modules.h"
+#include "dungeon/monster/hikewne.h"
 
 extern void select_sprite_entry(void *, s32, s32);
 extern s32 find_active_rect_containing_point(s32, s32);
 extern void update_actor_status_and_mp(ActorRecord *entity);
 extern void advance_stored_path_motion(ActorRecord *action, ObjectPosition *action_id, SpriteFrameState *entity, ActorRecord *move_state);
-extern s32 update_entity_state_from_query(void *, void *, void *, s32);
 extern void func_80173A84(void *, void *, void *, void *);
 
 extern u8 killer_action_resume_address;

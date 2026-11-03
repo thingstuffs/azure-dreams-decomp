@@ -1,10 +1,8 @@
+#include "shared/object_node.h"
 #include "common.h"
 #include "shared/object_flags.h"
 #include "dungeon/effect/sprite.h"
 
-typedef struct S_818BDCE0_0_pre {
-    u16 unk_00;
-} S_818BDCE0_0_pre;   /* the 0x2 bytes before arg0 in advance_effect_counters_motion_rotation_flag_expiry_timer_exceeds_limit, addressed as arg0[-1] */
 
 
 typedef struct S_818BDCE0_1 {
@@ -44,7 +42,7 @@ void advance_effect_counters_motion_rotation_flag_expiry_timer_exceeds_limit(Own
     motion->unk_08 += motion->unk_14;
 
     if (effect->unk_10.u > effect->unk_14) {
-        ((S_818BDCE0_0_pre *)effect)[-1].unk_00 |= 0x8000;
+        NODE_HEADER(effect)->flags |= 0x8000;
         object_flag_block.flags |= OBJECT_REMOVE_PENDING;
     }
 }

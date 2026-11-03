@@ -2,6 +2,7 @@
 #include "common.h"
 #include "m2c_compat.h"
 #include "town/menu.h"
+#include "engine/menu/selection_menu.h"
 typedef struct MenuDisplay {
     void *unk_00;
     u8 pad04[0x58];
@@ -26,30 +27,10 @@ typedef struct S_800AF36C_4 {
     s32 unk_18;
 } S_800AF36C_4;   
 
-typedef struct S_800AF36C_5 {
-    u8 pad_00[0x10];
-    void * unk_10;
-} S_800AF36C_5;   
 
-typedef struct S_800AF36C_6 {
-    u8 pad_00[0x4];
-    void * unk_04;
-} S_800AF36C_6;
 
-typedef struct S_800AF36C_7 {
-    u8 pad_00[0x4];
-    void * unk_04;
-} S_800AF36C_7;
 
-typedef struct S_800AF36C_8 {
-    u8 pad_00[0x4];
-    void * unk_04;
-} S_800AF36C_8;
 
-typedef struct S_800AF36C_9 {
-    u8 pad_00[0x4];
-    void * unk_04;
-} S_800AF36C_9;
 
 typedef struct S_800AF36C_10 {
     u8 pad_00[0x4];
@@ -93,14 +74,14 @@ void set_alternate_menu_entry_coordinates(MenuDisplay *object) {
 
     digit = ((S_800AF36C_4 *)object->unk_00)->unk_18 % 10;
     row = digit / 5;
-    ((S_800AF36C_15 *)(((S_800AF36C_10 *)(((S_800AF36C_5 *)object->unk_A8.as_pv)->unk_10))->unk_04))->unk_08 =
+    ((S_800AF36C_15 *)(((S_800AF36C_10 *)(((MenuSelectionWidgets *)object->unk_A8.as_pv)->entries[3]))->unk_04))->unk_08 =
         (s16) ((row << 7) - 0x38);
-    ((S_800AF36C_15 *)(((S_800AF36C_10 *)(((S_800AF36C_5 *)object->unk_A8.as_pv)->unk_10))->unk_04))->unk_0A =
+    ((S_800AF36C_15 *)(((S_800AF36C_10 *)(((MenuSelectionWidgets *)object->unk_A8.as_pv)->entries[3]))->unk_04))->unk_0A =
         (s16) (((digit - (row * 5)) << 4) + 8);
     x_parts = object->unk_A8.as_pv;
-    ((S_800AF36C_11 *)(((S_800AF36C_6 *)(x_parts->unk_14))->unk_04))->unk_08 =
-        (s16) (((S_800AF36C_12 *)(((S_800AF36C_7 *)(x_parts->unk_10))->unk_04))->unk_08 + 0x38);
+    ((S_800AF36C_11 *)(((MenuSelectionWidgets *)(x_parts->unk_14))->entries[0]))->unk_08 =
+        (s16) (((S_800AF36C_12 *)(((MenuSelectionWidgets *)(x_parts->unk_10))->entries[0]))->unk_08 + 0x38);
     y_parts = object->unk_A8.as_pv;
-    ((S_800AF36C_13 *)(((S_800AF36C_8 *)(y_parts->unk_14))->unk_04))->unk_0A =
-        (s16) (((S_800AF36C_14 *)(((S_800AF36C_9 *)(y_parts->unk_10))->unk_04))->unk_0A - 9);
+    ((S_800AF36C_13 *)(((MenuSelectionWidgets *)(y_parts->unk_14))->entries[0]))->unk_0A =
+        (s16) (((S_800AF36C_14 *)(((MenuSelectionWidgets *)(y_parts->unk_10))->entries[0]))->unk_0A - 9);
 }

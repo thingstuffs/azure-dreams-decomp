@@ -4,7 +4,7 @@
 
 
 
-s32 card_build_selected_slot_details(void); /* Unprototyped: retail call passes a different argument count */
+void card_build_selected_slot_details(void *panel_data); /* Unprototyped: retail call passes a different argument count */
 extern u8 card_slot_header_cache[];
 
 typedef struct S_802EE4E8_0 {
@@ -15,7 +15,7 @@ typedef struct S_802EE4E8_0 {
 /* Select the exit or fallback path using the indexed table entry. */
 void select_memory_task_exit(S_802EE4E8_0 *object) {
     if (*(s32 *)(card_slot_header_cache + (object->unk_7C << 7)) != 0) {
-        card_build_selected_slot_details();
+        card_build_selected_slot_details(object);
     } else {
         build_memory_task_text(object);
     }

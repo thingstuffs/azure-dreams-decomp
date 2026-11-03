@@ -164,7 +164,7 @@ void spawn_directional_particles_and_reset_actor(ActorRecord *state, ObjectPosit
                         position->y.w.i = ((u16)source_pos->y.w.i);
                         position->z.w.i = ((u16)source_pos->z.w.i);
 
-                        map = ((ObjectNodeHeader *)state - 1)->sprite;
+                        map = NODE_HEADER(state)->sprite;
                         if (get_sprite_attachment_vector(map->source, map, &map_offset, 1)) {
                             position->x.unsigned_parts.integer += map_offset.x;
                             position->y.unsigned_parts.integer += map_offset.y;
@@ -246,7 +246,7 @@ void spawn_directional_particles_and_reset_actor(ActorRecord *state, ObjectPosit
                         position->y.w.i = ((u16)source_pos->y.w.i);
                         position->z.w.i = ((u16)source_pos->z.w.i);
 
-                        map = ((ObjectNodeHeader *)state - 1)->sprite;
+                        map = NODE_HEADER(state)->sprite;
                         if (resolve_record_orientation_or_fallback(map->source, map, &map_offset, 1)) {
                             position->x.unsigned_parts.integer += map_offset.x;
                             position->y.unsigned_parts.integer += map_offset.y;

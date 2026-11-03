@@ -313,7 +313,7 @@ static __inline__ s32 first_delta_s32_s32(s32 end, s32 start)
 }
 
 /* Interpolate and shade a line, project its endpoints, and add it to the ordering table. */
-s32 interpolate_shade_and_queue_line(void *line_data, void *unused_render_context)
+s32 interpolate_shade_and_queue_line(void *line_data, SpriteFrameState *unused_render_context)
 {
     ovl_188898c_818690C8_S_800248C8_3 *line;
     u8 *scratch = (u8 *)0x1F800000;

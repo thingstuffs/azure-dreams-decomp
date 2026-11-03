@@ -121,7 +121,7 @@ typedef struct {
 } MATRIX;
 
 /* Transform a textured quad and add it to the ordering table if visible. */
-void draw_gouraud_textured_ribbon_quad(void *quad, ObjectPosition *position, void *render_state, s16 depth_bias)
+void draw_gouraud_textured_ribbon_quad(void *quad, ObjectPosition *position, SpriteFrameState *render_state, s16 depth_bias)
 {
     u8 *scratch = (u8 *)0x1F800000;
     u8 *packet;
@@ -135,16 +135,16 @@ void draw_gouraud_textured_ribbon_quad(void *quad, ObjectPosition *position, voi
     ((S_801663AC_0 *)scratch)->unk_88 = position->x.w.i;
     ((S_801663AC_0 *)scratch)->unk_8C = position->y.w.i;
     ((S_801663AC_0 *)scratch)->unk_90 = position->z.w.i;
-    ((S_801663AC_2 *)render_state)->unk_14 |= 0x8000;
+    render_state->flags |= 0x8000;
 
     PushMatrix();
 
     ((S_801663AC_0 *)scratch)->unk_3C = 0x2000;
     ((S_801663AC_0 *)scratch)->unk_38 = 0x2000;
     ((S_801663AC_0 *)scratch)->unk_34 = 0x2000;
-    ((S_801663AC_0 *)scratch)->unk_A4 = ((S_801663AC_2 *)render_state)->unk_16;
-    ((S_801663AC_0 *)scratch)->unk_A8 = ((S_801663AC_2 *)render_state)->unk_1A;
-    ((S_801663AC_0 *)scratch)->unk_A6 = ((S_801663AC_2 *)render_state)->unk_18;
+    ((S_801663AC_0 *)scratch)->unk_A4 = render_state->angle_x;
+    ((S_801663AC_0 *)scratch)->unk_A8 = render_state->angle_z;
+    ((S_801663AC_0 *)scratch)->unk_A6 = render_state->angle_y;
     RotMatrix(scratch + 0xA4, scratch + 0x74);
     ReadRotMatrix(&view_matrix);
     CompMatrix(&view_matrix, scratch + 0x74, scratch + 0x54);
@@ -153,7 +153,7 @@ void draw_gouraud_textured_ribbon_quad(void *quad, ObjectPosition *position, voi
     SetRotMatrix(scratch + 0x54);
 
     texture = ((S_801663AC_2 *)render_state)->unk_08;
-    ((S_801663AC_0 *)scratch)->unk_28 = ((S_801663AC_2 *)render_state)->unk_14;
+    ((S_801663AC_0 *)scratch)->unk_28 = render_state->flags;
     ((S_801663AC_0 *)scratch)->unk_0C.s32 = texture[8];
     ((S_801663AC_0 *)scratch)->unk_10.s32 = texture[9];
     (*(s32 *)(scratch + 0x14)) = texture[0xA];
@@ -190,7 +190,7 @@ void draw_gouraud_textured_ribbon_quad(void *quad, ObjectPosition *position, voi
              ((u16)(((S_801663AC_5 *)packet)->unk_22 + 0x20) < 0x121)) |
             (((u16)(((S_801663AC_5 *)packet)->unk_2C.u + 0x20) < 0x181) &&
              ((u16)(((S_801663AC_5 *)packet)->unk_2E.u + 0x20) < 0x121))) {
-            ((S_801663AC_2 *)render_state)->unk_14 &= 0x7FFF;
+            render_state->flags &= 0x7FFF;
 
             ((S_801663AC_0 *)scratch)->unk_14.s32 += ((S_801663AC_0 *)scratch)->unk_0C.s32;
             if (((S_801663AC_0 *)scratch)->unk_14.s32 & 0x100) {
@@ -203,11 +203,11 @@ void draw_gouraud_textured_ribbon_quad(void *quad, ObjectPosition *position, voi
             ((S_801663AC_0 *)scratch)->unk_10.s32 <<= 8;
             ((S_801663AC_0 *)scratch)->unk_18.s32 <<= 8;
 
-            if (((S_801663AC_2 *)render_state)->unk_12) {
+            if (render_state->clut) {
                 if (((S_801663AC_0 *)scratch)->unk_28 & 0x100) {
-                    ((S_801663AC_5 *)packet)->unk_0E = ((S_801663AC_2 *)render_state)->unk_12;
+                    ((S_801663AC_5 *)packet)->unk_0E = render_state->clut;
                 } else {
-                    ((S_801663AC_5 *)packet)->unk_0E = ((S_801663AC_2 *)render_state)->unk_12 +
+                    ((S_801663AC_5 *)packet)->unk_0E = render_state->clut +
                                               ((ObjectPosition *)texture)->y.unsigned_parts.integer;
                 }
             } else {
@@ -219,8 +219,8 @@ void draw_gouraud_textured_ribbon_quad(void *quad, ObjectPosition *position, voi
             ((S_801663AC_5 *)packet)->unk_18.u16 = ((S_801663AC_0 *)scratch)->unk_10.u16 +
                                        ((S_801663AC_0 *)scratch)->unk_14.u16;
 
-            if (((S_801663AC_2 *)render_state)->unk_10) {
-                ((S_801663AC_5 *)packet)->unk_1A = ((S_801663AC_2 *)render_state)->unk_10 +
+            if (render_state->tpage_abr) {
+                ((S_801663AC_5 *)packet)->unk_1A = render_state->tpage_abr +
                                            (((ObjectPosition *)texture)->y.w.frac & 0xFF9F);
             } else {
                 ((S_801663AC_5 *)packet)->unk_1A = ((ObjectPosition *)texture)->y.w.frac;
@@ -248,14 +248,14 @@ void draw_gouraud_textured_ribbon_quad(void *quad, ObjectPosition *position, voi
             SetPolyGT4(packet);
 
             tex_flags = texture[1];
-            ((S_801663AC_2 *)render_state)->unk_0F = tex_flags;
+            render_state->color.c.code = tex_flags;
             render_flags = ((S_801663AC_0 *)scratch)->unk_28;
             if (render_flags & 8) {
-                ((S_801663AC_2 *)render_state)->unk_0F = (render_flags & 4) ?
+                render_state->color.c.code = (render_flags & 4) ?
                     (tex_flags | 2) : (tex_flags & 0xFD);
             }
 
-            ((S_801663AC_5 *)packet)->unk_04.at03.v |= ((S_801663AC_2 *)render_state)->unk_0F;
+            ((S_801663AC_5 *)packet)->unk_04.at03.v |= render_state->color.c.code;
             ((S_801663AC_5 *)packet)->unk_00 = (((S_801663AC_5 *)packet)->unk_00 & 0xFF000000) |
                 ((*(u32 *)((u8 *)(((S_801663AC_0 *)scratch)->unk_24.p2)
                     + ((S_801663AC_0 *)scratch)->unk_100 * 4)) & 0x00FFFFFF);

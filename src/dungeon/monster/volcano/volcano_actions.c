@@ -1690,7 +1690,7 @@ void finish_spinning_actor_fall_then_resume_facing_animation(ActorRecord *state,
  * returns nonzero.
  */
 void finish_actor_fade_in_then_resume_facing_animation(ActorRecord *state, ObjectPosition *motion, SpriteFrameState *sprite, ActorRecord *actor) {
- if(update_actor_fade_in(state,motion,sprite,actor) != 0) state->unk_8C.handler=update_actor_behavior_facing_and_animation_2;
+ if(update_actor_fade_in(state,motion,sprite) != 0) state->unk_8C.handler=update_actor_behavior_facing_and_animation_2;
 }
 #include "dungeon/monster/volcano.h"
 

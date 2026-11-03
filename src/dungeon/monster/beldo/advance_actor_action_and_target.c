@@ -14,6 +14,8 @@
 #include "dungeon/actor.h"
 #include "dungeon/player/object.h"
 #include "sdk/libc.h"
+#include "dungeon/system.h"
+
 struct S_80170E18_3;
 
 /* Sparse views for fields not covered by the existing record types. */
@@ -23,7 +25,6 @@ typedef struct {
 } D800814A8FieldView_81252D6C;
 
 extern s32 select_sprite_entry();
-extern void play_sound_if_enabled();
 extern void create_effect_from_sprite_and_facing(void *unused, MovingPosition *source_transform, void *sprite_template, struct S_80170E18_3 *facing_source);
 
 void update_object_animation(ActorRecord *obj, ObjectPosition *motion, SpriteFrameState *part, ActorRecord *state);
@@ -62,11 +63,6 @@ typedef struct S_8017256C_1 {
     union { u8 u; s8 s; } unk_73;   /* accessed as both */
 } S_8017256C_1;   /* arg3 in advance_actor_action_and_target */
 
-typedef struct S_8017256C_3 {
-    u8 pad_00[0x24];
-    u8 unk_24;
-    u8 unk_25;
-} S_8017256C_3;   /* src in advance_actor_action_and_target */
 
 typedef struct S_8017256C_5 {
     u8 pad_00[0xC];
@@ -145,15 +141,15 @@ void advance_actor_action_and_target(void *action, void *motion, SpriteFrameStat
                     ((S_8017256C_1 *)actor)->unk_60.p = target_link;
                     kind = (s32)*(u8 * *)&((ObjectNodeHeader *)(target_link - 0x20))->sprite;
 
-                    ((S_8017256C_1 *)actor)->unk_72.u = ((S_8017256C_3 *)kind)->unk_24;
-                    ((S_8017256C_1 *)actor)->unk_73.u = ((S_8017256C_3 *)kind)->unk_25;
+                    ((S_8017256C_1 *)actor)->unk_72.u = ((SpriteFrameState *)kind)->tile_x;
+                    ((S_8017256C_1 *)actor)->unk_73.u = ((SpriteFrameState *)kind)->tile_y;
                 } else if (item_action_definitions[*action_entry].kind == 2) {
                     target_link = ((S_8017256C_1 *)actor)->unk_60.p2;
                     if (target_link != 0) {
                         kind = (s32)*(u8 * *)&((ObjectNodeHeader *)(target_link - 0x20))->sprite;
 
-                        ((S_8017256C_1 *)actor)->unk_72.u = ((S_8017256C_3 *)kind)->unk_24;
-                        ((S_8017256C_1 *)actor)->unk_73.u = ((S_8017256C_3 *)kind)->unk_25;
+                        ((S_8017256C_1 *)actor)->unk_72.u = ((SpriteFrameState *)kind)->tile_x;
+                        ((S_8017256C_1 *)actor)->unk_73.u = ((SpriteFrameState *)kind)->tile_y;
                     }
                 } else {
                     s32 x;

@@ -15,10 +15,6 @@ typedef struct S_80170CEC_1 {
 
 
 
-typedef struct S_80170CEC_5 {
-    u8 pad_00[0x9A];
-    u8 unk_9A;
-} S_80170CEC_5;   /* entity in update_rotating_actor_aura */
 
 
 extern u8 uboat_ready_frames[];
@@ -26,7 +22,7 @@ extern u8 D_800E2408[];
 
 /* Update the effect rotation, position, and fade, marking it finished when needed. */
 void update_rotating_actor_aura(UBoatAuraEffectBody *effect, ObjectPosition *position, SpriteFrameState *visual) {
-    S_80170CEC_5 *entity;
+    ActorRecord *entity;
     void *entity_saved;
     ObjectPosition *source_position;
     S_80170CEC_1 *entity_base;
@@ -38,7 +34,7 @@ void update_rotating_actor_aura(UBoatAuraEffectBody *effect, ObjectPosition *pos
     u16 state_bits;
     void *kind;
 
-    entity = (S_80170CEC_5 *)effect->owner;
+    entity = effect->owner;
     source_position = effect->source.position;
     old_angle = visual->angle_z;
     entity_base = (S_80170CEC_1 *)((u8 *)entity - 0x20);
@@ -78,7 +74,7 @@ void update_rotating_actor_aura(UBoatAuraEffectBody *effect, ObjectPosition *pos
             effect->duration = 0x14;
             effect->ticks.s = 0x14;
         }
-        if (entity->unk_9A == 1) {
+        if (entity->action_id.u == 1) {
             effect->phase.s = 3;
             effect->duration = 0x14;
             effect->ticks.s = 0x14;

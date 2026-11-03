@@ -18,7 +18,6 @@ typedef struct {
 typedef struct {
     InitPair pair[8];
 } __attribute__((packed)) InitBlock;
-void create_boss_linked_effect();      /* extern */
 void create_boss_display_variant(); /* extern */
 void create_boss_randomized_effect(); /* extern */
 extern InitBlock ghosh_effect_direction_vectors;

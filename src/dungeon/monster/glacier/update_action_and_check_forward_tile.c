@@ -106,7 +106,7 @@ void update_action_and_check_forward_tile(ActorRecord *actor, ObjectPosition *mo
                 sprite->tpage_abr = 0x60;
                 sprite->flags |= 2;
 
-                owner = ((ObjectNodeHeader *)actor - 1)->sprite;
+                owner = NODE_HEADER(actor)->sprite;
                 particle_transform = particle->position;
                 if (resolve_record_orientation_or_fallback(owner->source, owner, &offsets.orientation, 1)) {
                     particle_transform->x.w.i = ((u16) motion->x.w.i);

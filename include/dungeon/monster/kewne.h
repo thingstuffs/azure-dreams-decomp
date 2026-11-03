@@ -32,4 +32,6 @@ void decay_motion_and_align_actor(ActorRecord *action, ObjectPosition *motion, S
 
 void advance_turn_animation_and_restore_heading(ActorRecord *actor, ObjectPosition *unused, SpriteFrameState *animation, ActorRecord *transform_in);
 
+void start_kewne_attack_action(ActorRecord *controller, ObjectPosition *action_context, SpriteFrameState *sprite, ActorRecord *actor);
+
 #endif

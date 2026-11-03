@@ -1,5 +1,6 @@
 #ifndef DUNGEON_H
 #define DUNGEON_H
+struct ActorRecord;
 /* Prototypes of the functions defined in src/dungeon/ (one true prototype each; maintained by tools/headers). */
 
 #include "common.h"
@@ -45,7 +46,7 @@ void update_actor_timed_visual_slot_f(ActorRecord *state_input, ObjectPosition *
 void update_dungeon_entity_action_and_facing(ActorRecord *body, ObjectPosition *position, SpriteFrameState *sprite, ActorRecord *actor);
 
 /* func_8100E664.c */
-void restore_bank_actor_callback(struct PairAction *actor, struct ActorMotion *motion, SpriteFrameState *sprite, void *entity);
+void restore_bank_actor_callback(struct PairAction *actor, struct ActorMotion *motion, SpriteFrameState *sprite, struct ActorRecord *entity);
 
 /* func_8127E460.c */
 void reset_state_occupied_entries(void);

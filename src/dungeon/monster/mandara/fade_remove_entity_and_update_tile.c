@@ -9,13 +9,13 @@
 #include "dungeon/actor.h"
 #include "dungeon/monster/mandara.h"
 #include "dungeon/player/object.h"
+#include "dungeon/system.h"
 
 
 
 void unlink_entity_node(void *);
 void update_map_cell_flags_with_item_limit(s32 x, s32 y, u16 flags);
 void * detach_record_and_update_slot_state(void *);
-void play_sound_if_enabled(s32);
 
 /* Fades out an entity, then removes it and updates its tile flags. */
 void fade_remove_entity_and_update_tile(ActorRecord *fade_state, ObjectPosition *unused, SpriteFrameState *visual_data, ActorRecord *entity) {

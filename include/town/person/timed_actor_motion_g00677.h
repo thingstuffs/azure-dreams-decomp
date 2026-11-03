@@ -9,11 +9,6 @@
 #include "town/person/object/initialize_object_entries_api.h"          /* extern */
 #include "shared/entity.h"
 
-typedef struct S_800C8FF0_1 {
-    u8 pad_00[0x4];
-    s32 unk_04;
-} S_800C8FF0_1;
-
 extern void D_800C8FF0();
 extern s32 D_800D6268[];
 void finish_countdown_and_set_flags(TownObjectRecord *object, s32 *position);

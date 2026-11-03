@@ -368,7 +368,6 @@ int abs(int);
 s32 resolve_record_orientation_or_fallback(void *, void *, void *, s32);
 s16 check_layer_offset_height(u16, u16, s16, s16);
 s32 sample_terrain_surface_height(u16, u16, s16);
-void play_sound_if_enabled(s32);
 void apply_attack_power_and_element_effects(void *, s32, s32, s32, s16, void *, s32);
 extern u8 D_80025B1C[16];
 

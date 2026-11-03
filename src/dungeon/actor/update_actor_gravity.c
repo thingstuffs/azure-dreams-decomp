@@ -11,17 +11,10 @@ extern s16 sample_terrain_surface_height(u16, u16, s16);
 
 
 
-typedef struct S_800D2664_2 {
-    u8 pad_00[0x14];
-    u16 unk_14;
-    u8 pad_16[0xE];
-    u8 unk_24;
-    u8 unk_25;
-} S_800D2664_2;   /* ent in update_actor_gravity */
 
 /* Runs object callbacks, applies movement and gravity, and updates ground height. */
 void update_actor_gravity(ActorRecord *object, ObjectPosition *motion, void *entity) {
-    S_800D2664_2 *ent = entity;
+    SpriteFrameState *ent = entity;
     ActorRecord *update_obj = object;
     DungeonCallback callback;
     s32 x;
@@ -89,8 +82,8 @@ void update_actor_gravity(ActorRecord *object, ObjectPosition *motion, void *ent
                 s32 tile_x;
                 s32 tile_y;
                 (*(u32 *)((u8 *)update_obj + (0x1C))) &= ~0x40000000;
-                tile_x = (ent->unk_24 << 6) | 0x20;
-                tile_y = (ent->unk_25 << 6) | 0x20;
+                tile_x = (ent->tile_x << 6) | 0x20;
+                tile_y = (ent->tile_y << 6) | 0x20;
                 ground_height = sample_terrain_surface_height(
                     tile_x, tile_y, (s16)((*(u16 *)((u8 *)update_obj + (0x88))) - 0x20));
                 object->unk_90.parts.high.s += (*(u16 *)((u8 *)update_obj + (0x88))) - ground_height;
@@ -102,6 +95,6 @@ void update_actor_gravity(ActorRecord *object, ObjectPosition *motion, void *ent
 
 
     motion->z.w.i = (*(u16 *)((u8 *)update_obj + (0x88))) + object->unk_90.parts.high.u;
-    ent->unk_14 |= 0x40;
+    ent->flags |= 0x40;
     (*(u32 *)((u8 *)update_obj + (0x1C))) |= 0x200;
 }

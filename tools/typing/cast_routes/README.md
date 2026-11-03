@@ -86,3 +86,19 @@ alternatives at one span; only `applied.tsv` is a replay input. No candidate is
 kept merely because it compiles. The whole physical compilation stream must
 retain raw, canonical and all-variant hashes, and the final batch must pass its
 production/image, decoded, native and debt gates.
+
+## Byte-cursor classes
+
+`byte_cursor_classify.py --root . --census CENSUS_DIR --out DIR` splits the census
+`byte_cursor` category by what the original code most likely was and names the
+cheapest route for each class: `stream_reader` (a data-dependent cursor or an
+offset read from the same base: legitimate end state candidates), `record_walk`
+(a constant-step cursor over records: one typed element pointer per step),
+`typed_member` (the code map resolves a member), `layout_gap` (typed base, the
+layout lacks the member or has another width), `untyped_record` (void/byte base
+read at constant offsets: retype the variable; `alias_of` says where a local gets
+its value and `candidates` lists existing records matching every accessed
+offset and width), `global_record`, `array_stride` and `other`. It reads the
+census and the code map only (no compiler) and writes `groups.tsv` (one row per
+function and base variable), per-class worklists and `summary.json` beneath an
+ignored output directory. Tests: `test_byte_cursor_classify.py`.

@@ -25,7 +25,7 @@ extern u8 fading_sprite_entries[];
 extern Pair16 glacier_direction_offsets[];
 
 /* Spawn an effect with randomized position and velocity based on the source direction. */
-void spawn_directional_effect(Rec_func_801744DC_arg0 *source, Rec_func_801744DC_arg1 *origin)
+void spawn_directional_effect(Rec_func_801744DC_arg0 *source, Rec_func_801744DC_arg1 *origin, void *unused)
 {
     ObjectNodeHeader *effect;
     DirectionalEffectBody *motion;

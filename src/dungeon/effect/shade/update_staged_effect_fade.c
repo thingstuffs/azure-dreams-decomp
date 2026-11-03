@@ -1,3 +1,4 @@
+#include "shared/object_node.h"
 #include "common.h"
 #include "shared/object_flags.h"
 #include "dungeon/effect/shade.h"
@@ -15,9 +16,6 @@ extern Counter staged_fade_count;
 extern u8 staged_glow_data[];
 
 
-typedef struct S_80025E48_0_pre {
-    u16 unk_00;
-} S_80025E48_0_pre;   /* the 0x2 bytes before arg0 in update_staged_effect_fade, addressed as arg0[-1] */
 
 
 typedef struct S_80025E48_1 {
@@ -206,7 +204,7 @@ void update_staged_effect_fade(EffectObjectGroupsBody *effect, S_80025E48_1 *poi
                 }
             }
 
-            ((S_80025E48_0_pre *)effect)[-1].unk_00 |= 0x8000;
+            NODE_HEADER(effect)->flags |= 0x8000;
             object_flag_block.flags |= OBJECT_REMOVE_PENDING;
         }
 

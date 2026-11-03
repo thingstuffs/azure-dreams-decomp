@@ -40,7 +40,6 @@ typedef struct S_8016FCE4_4 {
 
    /* (arg3 + ((u8) ((S_8016FCE4_0 *)arg3)->unk_71.s & 0x7F)) in advance_boss_actor_movement_state */
 
-s16 check_entity_relation(ActorRecord *entry, ActorRecord *anchor);
 void update_map_cell_flags_with_item_limit(s32 x, s32 y, u16 flags);
 s32 check_movement_clearance_and_height(s32, void *, void *, s32);
 s16 test_neighbor_position_relation(s32 src_x, s32 src_y, s32 dst_x, s32 dst_y);

@@ -91,7 +91,7 @@ void apply_monster_koyaw_data(s32 flags, s8 *dst);
 
 struct ovl_1830850_81811168_DungeonObj81811168;
 struct Object;
-s32 check_monster_neighbor_relations(s16 x0, s16 y0, s16 check_param, s16 x1, s16 y1);
+s32 check_monster_neighbor_relations(s16 x0, s16 y0, s16 check_param, s16 x1, s16 y1, s16 unused);
 void *find_adjacent_actor(void *entity, u16 x, u16 y);
 u8 *find_monster_entry_by_type_and_id(s16 entry_id, s32 entry_type);
 s32 get_active_region_data(s16 entry_index);

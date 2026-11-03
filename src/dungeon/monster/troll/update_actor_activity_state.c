@@ -6,6 +6,7 @@
 #include "dungeon/monster/troll/update_actor_activity_state.h"
 #include "shared/sprite_frame_state.h"
 #include "dungeon/monster/troll.h"
+#include "dungeon/level.h"
 
 /* Updates actor state, directional animations, and the shared activity count. */
 void update_actor_activity_state(ActorRecord *task, ObjectPosition *task_id, SpriteFrameState *sprite_in, ActorRecord *actor_in) {

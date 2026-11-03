@@ -6,7 +6,7 @@ typedef struct S_8004FC2C {
 } S_8004FC2C;
 
 /* Call the object's callback, then run its follow-up routine. */
-void update_animated_selection_menu(S_8004FC2C *object) {
-    object->func(object);
+void update_animated_selection_menu(AnimatedSelectionMenuBody *object) {
+    ((S_8004FC2C *)object)->func(object);
     handle_animated_selection_menu_input(object);
 }

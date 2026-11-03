@@ -7,6 +7,8 @@
 #include "shared/sprite_frame_state.h"
 #include "dungeon/effect/mesh.h"
 #include "dungeon/actor.h"
+#include "dungeon/system.h"
+
 void (*const dungeon_ovl_18d0850_entry)(ovl_18d0850_818B1664_State *state_arg, ovl_18d0850_818B1664_Motion *motion_arg, ovl_18d0850_818B1664_DrawInfo *draw_info) = update_movement_toward_child_terrain_target_animates_associated_effects;
 
 /* Adds a random actor value delta with an optional quarter bonus, clamps it, displays a popup, and
@@ -179,7 +181,7 @@ s32 create_radial_height_offset_effect(s32 owner, void *origin_arg, s16 motion, 
 }
 
 /* Projects 16 shaded line segments from scaled points and queues each visible segment with its draw mode. */
-s32 draw_n_16_shaded_line_segments_link_them_ordering_table_depth(void *unused_0, void *origin, void *unused_2, s32 point_scale, s32 plane_z, s32 *points_addr, u8 intensity, s32 color_phase)
+s32 draw_n_16_shaded_line_segments_link_them_ordering_table_depth(void *unused_0, void *origin, SpriteFrameState *unused_2, s32 point_scale, s32 plane_z, s32 *points_addr, u8 intensity, s32 color_phase)
 {
   u8 *globals_page = resident_globals_page;
   s32 segment = 15;
@@ -243,25 +245,25 @@ s32 draw_n_16_shaded_line_segments_link_them_ordering_table_depth(void *unused_0
       line_prim[0xE] = (s8) phase_offset;
     }
     {
-      u8 *origin_bytes = origin;
+      ObjectPosition *origin_bytes = origin;
       s32 point_component;
       s32 coord_offset;
       point_component = point_base[segment];
       coord_offset = point_component * (s16) point_scale;
       coord_offset >>= 8;
-      scratch->h[50] = (*((u16 *) (origin_bytes + 2))) + coord_offset;
+      scratch->h[50] = origin_bytes->x.unsigned_parts.integer + coord_offset;
       point_component = point_base[segment + 1];
       coord_offset = point_component * (s16) point_scale;
       coord_offset >>= 8;
-      scratch->h[54] = (*((u16 *) (origin_bytes + 2))) + coord_offset;
+      scratch->h[54] = origin_bytes->x.unsigned_parts.integer + coord_offset;
       point_component = point_base[segment + 0x11];
       coord_offset = point_component * (s16) point_scale;
       coord_offset >>= 8;
-      scratch->h[51] = (*((u16 *) (origin_bytes + 6))) + coord_offset;
+      scratch->h[51] = origin_bytes->y.unsigned_parts.integer + coord_offset;
       point_component = point_base[segment + 0x12];
       coord_offset = point_component * (s16) point_scale;
       coord_offset >>= 8;
-      scratch->h[55] = (*((u16 *) (origin_bytes + 6))) + coord_offset;
+      scratch->h[55] = origin_bytes->y.unsigned_parts.integer + coord_offset;
     }
     {
       u8 *start_vertex = &scratch->b[0x64];
@@ -358,7 +360,7 @@ s32 build_a_trigonometric_table_processes_up_eight_height_offset_segments(ovl_18
 
 /* Builds a circle lookup table and draws eight shaded rings with phase-dependent radii and saved
    height offsets. */
-s32 build_a_circular_lookup_table_submit_eight_phase_shifted_entries(ovl_18d0850_818B1334_S_818B1334_1 *source, ObjectPosition *target, void *context) {
+s32 build_a_circular_lookup_table_submit_eight_phase_shifted_entries(ovl_18d0850_818B1334_S_818B1334_1 *source, ObjectPosition *target, SpriteFrameState *context) {
     s32 circle_values[34];
     s32 *circle_entry;
     register s32 *circle_table;

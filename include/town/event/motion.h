@@ -20,7 +20,7 @@ struct Subject;
 void initialize_heading_motion(void *owner, void *object, void *motion);
 
 /* initialize_target_motion.c */
-void initialize_target_motion(Rec_func_8009B828_arg0 *owner, Rec_D_800CFCB4 *target, EntityRec *parameters);
+void initialize_target_motion(Rec_func_8009B828_arg0 *owner, Rec_D_800CFCB4 *target, EntityRec *parameters, void *unused);
 
 /* initialize_target_motion_state.c */
 void initialize_target_motion_state(struct S_8009C120_2 *state, struct S_8009C120_0 *status, MotionDeltaView *values);

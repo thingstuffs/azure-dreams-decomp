@@ -41,12 +41,6 @@ typedef struct S_800A1D1C_2 {
     s32 unk_14A0;
 } S_800A1D1C_2;   /* global_page in render_shaded_object_primitive */
 
-typedef struct S_800A1D1C_3 {
-    u8 pad_00[0xC];
-    union { u8 u; s8 s; } unk_0C;   /* accessed as both */
-    union { u8 u; s8 s; } unk_0D;   /* accessed as both */
-    union { u8 u; s8 s; } unk_0E;   /* accessed as both */
-} S_800A1D1C_3;   /* arg2_local in render_shaded_object_primitive */
 
 typedef struct S_800A1D1C_4 {
     u8 pad_00[0x2C];
@@ -79,22 +73,22 @@ void render_shaded_object_primitive(void *object, MovingPosition *coords, void *
     }
     ((S_800A1D1C_0 *)object)->unk_00(object, coords, primitive);
     if (((S_800A1D1C_0 *)object)->unk_3C != 0) {
-        ((S_800A1D1C_3 *)primitive)->unk_0C.u = ((S_800A1D1C_1 *)render_state)->unk_10.u8;
+        ((SpriteFrameState *)primitive)->color.c.r = ((S_800A1D1C_1 *)render_state)->unk_10.u8;
     } else {
         red_scaled = ((S_800A1D1C_1 *)render_state)->unk_10.s16 * 3;
-        ((S_800A1D1C_3 *)primitive)->unk_0C.s = (s8) (red_scaled / 4);
+        ((SpriteFrameState *)primitive)->color.c.r = (s8) (red_scaled / 4);
     }
     if (((S_800A1D1C_0 *)object)->unk_3D != 0) {
-        ((S_800A1D1C_3 *)primitive)->unk_0D.u = ((S_800A1D1C_1 *)render_state)->unk_10.u8;
+        ((SpriteFrameState *)primitive)->color.c.g = ((S_800A1D1C_1 *)render_state)->unk_10.u8;
     } else {
         green_scaled = ((S_800A1D1C_1 *)render_state)->unk_10.s16 * 3;
-        ((S_800A1D1C_3 *)primitive)->unk_0D.s = (s8) (green_scaled / 4);
+        ((SpriteFrameState *)primitive)->color.c.g = (s8) (green_scaled / 4);
     }
     if (((S_800A1D1C_0 *)object)->unk_3E != 0) {
-        ((S_800A1D1C_3 *)primitive)->unk_0E.u = ((S_800A1D1C_1 *)render_state)->unk_10.u8;
+        ((SpriteFrameState *)primitive)->color.c.b = ((S_800A1D1C_1 *)render_state)->unk_10.u8;
     } else {
         blue_scaled = ((S_800A1D1C_1 *)render_state)->unk_10.s16 * 3;
-        ((S_800A1D1C_3 *)primitive)->unk_0E.s = (s8) (blue_scaled / 4);
+        ((SpriteFrameState *)primitive)->color.c.b = (s8) (blue_scaled / 4);
     }
     ((S_800A1D1C_4 *)scratch)->unk_2C = ((S_800A1D1C_0 *)object)->unk_24;
     ((S_800A1D1C_4 *)scratch)->unk_2E = ((S_800A1D1C_0 *)object)->unk_28;

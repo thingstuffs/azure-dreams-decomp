@@ -44,7 +44,7 @@ extern u8 D_80024A08[9];
 extern u8 shaded_quad_frame_set[9];
 
 /* Creates an object with the supplied identifier, data, and visual template. */
-s32 create_dimmed_copy_effect(s32 *object_id, S_818C32F4_4 *source_data, void *visual_template) {
+s32 create_dimmed_copy_effect(s32 *object_id, S_818C32F4_4 *source_data, SpriteFrameState *visual_template) {
     u16 angle;
     void *init_data;
     SpriteFrameState *visual;
@@ -60,7 +60,7 @@ s32 create_dimmed_copy_effect(s32 *object_id, S_818C32F4_4 *source_data, void *v
         object_state->unk_04 = 0;
         object_state->unk_06 = 0;
         visual = object->sprite;
-        visual->color.word = ((SpriteFrameState *)(visual_template))->color.word;
+        visual->color.word = visual_template->color.word;
         if ((u8)visual->color.word != 0) {
             visual->color.c.r = 0xC0;
         }
@@ -74,7 +74,7 @@ s32 create_dimmed_copy_effect(s32 *object_id, S_818C32F4_4 *source_data, void *v
         visual->tpage_abr = visual->tpage_abr | 0x60;
         select_record_entry_and_value(visual, shaded_quad_frame_set, 0);
         init_data = draw_linked_sprites_clipped;
-        angle = ((SpriteFrameState *)(visual_template))->angle_z;
+        angle = visual_template->angle_z;
         visual->scale_y = 0x1400;
         visual->scale_x = 0x1400;
         visual->angle_z = angle;

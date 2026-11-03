@@ -14,7 +14,6 @@
 #include "dungeon/actor/effect.h"
 #include "dungeon/item.h"
 
-s32 play_sound_if_enabled(s32 query_value);
 extern u16 entity_action_selectors[];
 
 /* Handle item use on a target, deferring the player action or consuming the item. */

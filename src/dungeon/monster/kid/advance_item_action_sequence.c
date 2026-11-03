@@ -17,13 +17,13 @@
 #include "dungeon/actor.h"
 #include "dungeon/monster/kid.h"
 #include "sdk/libc.h"
+#include "dungeon/system.h"
 
 typedef struct S_80172D74_5 {
     u8 pad_00[0x4];
     u16 unk_04;
 } S_80172D74_5;   /* part20 in advance_item_action_sequence */
 extern void select_sprite_entry(void *, s32, s32);
-extern void play_sound_if_enabled(s32);
 extern void create_source_positioned_object(ObjectPosition *source_pos, s16 initial_value);
 
 extern u8 kid_action_resume_address[];

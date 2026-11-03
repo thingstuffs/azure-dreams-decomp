@@ -1,3 +1,4 @@
+#include "shared/object_node.h"
 #include "engine/node/allocation.h"
 #include "shared/sprite_frame_state.h"
 #include "dungeon/system.h"
@@ -293,9 +294,6 @@ typedef struct FuncInput {
     u16 unk4;
 } FuncInput;
 
-typedef struct S_800B8830_0_pre {
-    u16 unk_00;
-} S_800B8830_0_pre;   /* the 0x2 bytes before arg0 in update_arcing_effect, addressed as arg0[-1] */
 
 typedef struct S_800B8830_0 {
     void * unk_00;
@@ -485,10 +483,10 @@ void update_arcing_effect(void *motion, S_800B8830_3 *coords, S_800B8830_1 *rend
             s32 final_flags;
             u16 object_flags;
 
-            object_flags = ((S_800B8830_0_pre *)motion)[-1].unk_00;
+            object_flags = NODE_HEADER(motion)->flags;
             flags_page = (void *)0x80080000;
             object_flags |= 0x8000;
-            ((S_800B8830_0_pre *)motion)[-1].unk_00 = object_flags;
+            NODE_HEADER(motion)->flags = object_flags;
             counter = ((S_800B8830_0 *)motion)->unk_20.u;
             final_flags = flags_page->unk_14A0;
             counter += 1;
@@ -2580,9 +2578,6 @@ s32 rand(void);                                /* extern */
 struct DungeonObject;
 extern s32 draw_particle_effect_primitives(struct DungeonObject *object, u16 *position);
 
-typedef struct S_800BAF04_0_pre {
-    u16 unk_00;
-} S_800BAF04_0_pre;   /* the 0x2 bytes before arg0 in advance_particle_effect_state, addressed as arg0[-1] */
 
 typedef struct S_800BAF04_0 {
     u8 pad_00[0xA];
@@ -2639,7 +2634,7 @@ void advance_particle_effect_state(void *object) {
         ((S_800BAF04_0 *)object)->unk_10 = 1;
     }
     if (((S_800BAF04_0 *)object)->unk_11 == 0) {
-        ((S_800BAF04_0_pre *)object)[-1].unk_00 = (u16) (((S_800BAF04_0_pre *)object)[-1].unk_00 | 0x8000);
+        NODE_HEADER(object)->flags = (u16) (NODE_HEADER(object)->flags | 0x8000);
         object_flag_block.flags |= OBJECT_REMOVE_PENDING;
     }
 }
@@ -3590,7 +3585,7 @@ typedef struct S_800BC26C_1 {
 extern void retire_effect_when_owner_or_value_ends(void *context);
 
 /* Creates an object and initializes its owner, parameter, and mode-dependent fields. */
-void *create_tracked_effect(ObjectNodeHeader **owner, s16 mode, s32 param)
+void *create_tracked_effect(ObjectNodeHeader **owner, s16 mode, s32 param, void *unused)
 {
     S_800BC26C_0 *object;
     S_800BC26C_1 *fields;

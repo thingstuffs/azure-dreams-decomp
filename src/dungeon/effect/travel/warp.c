@@ -1,3 +1,4 @@
+#include "shared/object_node.h"
 #include "shared/gpu_packets.h"
 #include "shared/dungeon_effect_status.h"
 #include "shared/object_node_flags.h"
@@ -7,6 +8,7 @@
 #include "shared/sprite_frame_state.h"
 #include "common.h"
 #include "dungeon/effect.h"
+#include "dungeon/system.h"
 
 void (*const dungeon_19cc800_entry)(struct EventState *event) = run_warp_effect_sequence;
 #include "common.h"
@@ -167,9 +169,6 @@ void run_warp_effect_sequence(EventState *event) {
 #include "records/Rec_func_800249DC_arg0.h"
 #include "shared/dungeon_moving_views.h"
 
-typedef struct S_819ACB28_0_pre {
-    u16 unk_00;
-} S_819ACB28_0_pre;   /* the 0x2 bytes before object in advance_effect_phases, addressed as object[-1] */
 
 typedef struct S_819ACB28_0 {
     u8 pad_00[0x8];
@@ -260,7 +259,7 @@ void advance_effect_phases(void *object, Rec_func_800249DC_arg0 *record, S_819AC
     } else if (mode == 2) {
         packed_value->unk_0C.u32 += 0xFFEFEFF0;
         if (packed_value->unk_0C.u8 == 0) {
-            ((S_819ACB28_0_pre *)object)[-1].unk_00 |= 0x8000;
+            NODE_HEADER(object)->flags |= 0x8000;
             object_flag_block.flags |= OBJECT_REMOVE_PENDING;
         }
     }
@@ -783,9 +782,6 @@ void create_warp_follower_sprite(ObjectNodeHeader *owner, s16 angle) {
 #include "m2c_compat.h"
 #include "shared/dungeon_moving_views.h"
 
-typedef struct S_819AD81C_0_pre {
-    u16 unk_00;
-} S_819AD81C_0_pre;   /* the 0x2 bytes before entity in func_819AD81C, addressed as entity[-1] */
 
 typedef struct S_819AD81C_0 {
     u8 pad_00[0x20];
@@ -938,7 +934,7 @@ void update_warp_camera_and_effects(void *entity, void *motion, void *gfx) {
             ((S_819AD81C_0 *)entity)->unk_30 = fade_left_out;
             if ((fade_left_out << 0x10) <= 0) {
                 ((S_819AD81C_1 *)gfx)->unk_0C.at00u.v = 0;
-                (*(u16 *)((u8 *)entity + -2)) = (u16) (((S_819AD81C_0_pre *)entity)[-1].unk_00 | NODE_REMOVE);
+                (*(u16 *)((u8 *)entity + -2)) = (u16) (NODE_HEADER(entity)->flags | NODE_REMOVE);
                 object_flag_block.flags |= OBJECT_REMOVE_PENDING;
                 return;
             }
@@ -1032,7 +1028,7 @@ void update_warp_camera_and_effects(void *entity, void *motion, void *gfx) {
     } else {
         attached = (void *) ((s32) link | 0x80000000);
         if (attached->flags & 0x8000) {
-            (*(u16 *)((u8 *)entity + -2)) = (u16) (((S_819AD81C_0_pre *)entity)[-1].unk_00 | NODE_REMOVE);
+            (*(u16 *)((u8 *)entity + -2)) = (u16) (NODE_HEADER(entity)->flags | NODE_REMOVE);
             object_flag_block.flags |= OBJECT_REMOVE_PENDING;
             return;
         }

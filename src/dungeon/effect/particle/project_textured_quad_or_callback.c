@@ -331,7 +331,7 @@ extern void project_textured_quad_or_callback(void *record,struct ObjectPosition
 /* Retail 81874F04 (project_linked_quad_record).
  * Draw the record and then every record chained through the previous header's unk_18 link (node + 0x20 is the
  * next record); each node supplies the context and data pointers for its record. */
-s32 project_linked_quad_record(void *record, ObjectPosition *context, void *data) {
+s32 project_linked_quad_record(void *record, ObjectPosition *context, SpriteFrameState *data) {
     ObjectNodeHeader *node;
 
     for (;;) {
@@ -1015,7 +1015,7 @@ typedef struct S_81876014_6 {
 } S_81876014_6;   /* ((S_81876014_0 *)arg0)->unk_48 in update_effect_quad_and_completion */
 
 /* Update the effect quad, copy its position and color, and flag completion based on owner state. */
-void update_effect_quad_and_completion(void *effect, ObjectPosition *position_out_arg, void *color_out_arg) {
+void update_effect_quad_and_completion(void *effect, ObjectPosition *position_out_arg, SpriteFrameState *color_out_arg) {
     SpriteFrameState *color_out = color_out_arg;
     ObjectPosition *position_out = position_out_arg;
     s32 y_factor;
@@ -1073,9 +1073,6 @@ void update_effect_quad_and_completion(void *effect, ObjectPosition *position_ou
 #include "shared/dungeon_status.h"
 #include "shared/dir_step.h"
 
-typedef struct S_800259D8_0_pre {
-    u16 unk_00;
-} S_800259D8_0_pre;   /* the 0x2 bytes before arg0 in update_animated_effect_sprite, addressed as arg0[-1] */
 
 typedef struct S_800259D8_0 {
     void * unk_00;
@@ -1163,11 +1160,6 @@ typedef struct S_800259D8_5 {
     void * unk_4C;
 } S_800259D8_5;   /* entry in update_animated_effect_sprite */
 
-typedef struct S_800259D8_6 {
-    u8 pad_00[0x24];
-    u8 unk_24;
-    u8 unk_25;
-} S_800259D8_6;   /* resident_work in update_animated_effect_sprite */
 
    /* work in update_animated_effect_sprite */
 
@@ -1338,7 +1330,7 @@ L0_adjust_z:
             ((S_800259D8_0 *)effect)->unk_7A |= 4;
         }
         if (((S_800259D8_3 *)obj)->unk_60 != 0) {
-            S_800259D8_6 *resident_work;
+            SpriteFrameState *resident_work;
             entry = ((S_800259D8_15_pre *)(((S_800259D8_3 *)obj)->unk_60))[-1].unk_00;
             ((S_800259D8_0 *)effect)->unk_74.u = entry->unk_00.at02u.v;
             ((S_800259D8_0 *)effect)->unk_76.u = entry->unk_04.at02u.v;
@@ -1350,13 +1342,13 @@ L0_adjust_z:
                 ((S_800259D8_0 *)effect)->unk_78.u = resident_value;
             }
             resident_work = ((S_800259D8_3_pre *)obj)[-1].unk_00;
-            ((S_800259D8_0 *)effect)->unk_AE = resident_work->unk_24 +
+            ((S_800259D8_0 *)effect)->unk_AE = resident_work->tile_x +
                 dir_step_x[((S_800259D8_0 *)effect)->unk_80];
-            ((S_800259D8_0 *)effect)->unk_AF = resident_work->unk_25 +
+            ((S_800259D8_0 *)effect)->unk_AF = resident_work->tile_y +
                 dir_step_y[((S_800259D8_0 *)effect)->unk_80];
             entry = ((S_800259D8_15_pre *)(((S_800259D8_3 *)obj)->unk_60))[-1].unk_00;
             {
-                if (((S_800259D8_3 *)obj)->unk_72 != resident_work->unk_24) {
+                if (((S_800259D8_3 *)obj)->unk_72 != resident_work->tile_x) {
                     s32 resident_delta;
                     s32 resident_copy;
                     resident_delta = entity->x.w.i;
@@ -1658,7 +1650,7 @@ L1_calc:
             ((S_800259D8_0 *)effect)->unk_84.u = old_count;
             if (seen == 0) {
                 g_dungeon_status.active_actor = 0;
-                ((S_800259D8_0_pre *)effect)[-1].unk_00 |= 0x8000;
+                NODE_HEADER(effect)->flags |= 0x8000;
                 object_flag_block.flags |= OBJECT_REMOVE_PENDING;
                 return;
             }

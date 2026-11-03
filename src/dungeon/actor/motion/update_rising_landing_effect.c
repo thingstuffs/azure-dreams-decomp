@@ -18,6 +18,7 @@
 #include "sdk/libc.h"
 #include "sdk/libgte.h"
 #include "slus.h"
+#include "dungeon/system.h"
 
 typedef struct S_FUNC_8197C800_BODY_0_pre {
     u16 unk_00;

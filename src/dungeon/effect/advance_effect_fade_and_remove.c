@@ -1,3 +1,4 @@
+#include "shared/object_node.h"
 #include "common.h"
 #include "shared/sprite_source.h"
 #include "dungeon/effect.h"
@@ -10,9 +11,6 @@
 struct Dst;
 struct Elem;
 
-typedef struct S_800B7C14_1_pre {
-    u16 unk_00;
-} S_800B7C14_1_pre;   /* the 0x2 bytes before arg0 in advance_effect_fade_and_remove, addressed as arg0[-1] */
 
 /* Advance effect motion, fade its primitive, and mark it for removal when its lifetime ends. */
 void advance_effect_fade_and_remove(VariantEffectWithRandomMotionBody *effect, ObjectPosition *motion, SpriteFrameState *primitive) {
@@ -50,7 +48,7 @@ void advance_effect_fade_and_remove(VariantEffectWithRandomMotionBody *effect, O
     life_left = effect->lifetime.u - 1;
     effect->lifetime.u = life_left;
     if ((life_left << 0x10) <= 0) {
-        (*(u16 *)((u8 *)effect + -2)) = (u16) (((S_800B7C14_1_pre *)effect)[-1].unk_00 | NODE_REMOVE);
+        (*(u16 *)((u8 *)effect + -2)) = (u16) (NODE_HEADER(effect)->flags | NODE_REMOVE);
         object_flag_block.flags = object_flag_block.flags | OBJECT_REMOVE_PENDING;
     }
 }

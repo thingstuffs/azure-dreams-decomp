@@ -54,7 +54,6 @@ extern u8 u_boat_aura_frames[];
 extern u8 uboat_default_frames[];
 extern u8 uboat_aura_sprite_data[];
 #include "dungeon/monster/u_boat.h"
-struct S_80174C64_0;
 
 /* Update the actor action sequence, including its effect, animations, and position restoration. */
 /* Starts U-Boat's terrain effect, runs its obstacle-following movement, restores its saved position, and

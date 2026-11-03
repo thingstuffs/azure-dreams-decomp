@@ -11,8 +11,6 @@
 
 extern u8 D_800E1035[];
 
-extern void display_actor_item_status_message(void *actor, struct DungeonItemEntry *item);
-
 /* Handle an item against a target using its type flags, decrementing the counter on fallback. */
 s32 feed_egg_to_monster(void *target, DungeonItemEntry *item) {
     u32 type_flags;

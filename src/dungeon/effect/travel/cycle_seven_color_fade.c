@@ -5,7 +5,9 @@
 #include "sdk/libc.h"
 #include "dungeon/effect/travel.h"
 #include "dungeon/actor.h"
-void (*const dungeon_18d6800_entry)(B28_818B7F38_S_80025738_0 *, ObjectPosition *, B28_818B7F38_S_80025738_2 *) = advance_movement_toward_reachable_tile;
+#include "dungeon/system.h"
+
+void (*const dungeon_18d6800_entry)(B28_818B7F38_S_80025738_0 *, ObjectPosition *, SpriteFrameState *) = advance_movement_toward_reachable_tile;
 #include "dungeon/effect/travel/cycle_seven_color_fade.h"
 #include "common.h"
 #include "m2c_compat.h"
@@ -851,7 +853,7 @@ s32 spawn_owned_random_spin_effect(void *owner, ObjectPosition *source)
 #include "m2c_compat.h"
 
    /* Advance movement toward a target or a reachable tile, then finish the timed action. */
-void advance_movement_toward_reachable_tile(void *state, ObjectPosition *motion_in, void *render) {
+void advance_movement_toward_reachable_tile(void *state, ObjectPosition *motion_in, SpriteFrameState *render) {
     B28_818B7F38_LocalFrame frame;
     u16 *target_delta_cursor;
     u16 *path_delta_cursor;
@@ -893,7 +895,7 @@ void advance_movement_toward_reachable_tile(void *state, ObjectPosition *motion_
         ((B28_818B7F38_S_80025738_0 *)state)->unk_10 = 0U;
         ((B28_818B7F38_S_80025738_0 *)state)->unk_0A = (s16) ((u16) ((B28_818B7F38_S_80025738_0 *)state)->unk_0A + 1);
         ((B28_818B7F38_S_80025738_0 *)state)->unk_0E = (u16) (((u16) ((B28_818B7F38_S_80025738_1 *)owner)->unk_2A >> 9) & 7);
-        ((B28_818B7F38_S_80025738_2 *)render)->unk_0C = 0x808080;
+        render->color.word = 0x808080;
     case 1:
         source_header = owner - 0x20;
         source_data = source_header->unk_0C;

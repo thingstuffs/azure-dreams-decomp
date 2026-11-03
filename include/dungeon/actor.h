@@ -125,4 +125,6 @@ s32 fade_actor_to_removal(ActorRecord *state, ObjectPosition *unused, SpriteFram
 void initialize_actor_action_data(void *first_ptr, void *second_ptr, SpriteFrameState *sprite, void *entity);
 void handle_actor_action_result(ActorRecord *actor, ObjectPosition *position, SpriteFrameState *sprite, ActorRecord *context);
 
+void *create_four_groups_of_angular_effects(s16 pos_x, s16 pos_y, s16 pos_z, s32 unused);
+
 #endif

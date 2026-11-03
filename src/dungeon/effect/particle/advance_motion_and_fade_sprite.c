@@ -20,6 +20,7 @@
 #include "dungeon/effect/particle.h"
 #include "engine/scene.h"
 #include "sdk/libgte.h"
+#include "dungeon/system.h"
 
 typedef struct S_func_81856800_1 {
     void * unk_00;
@@ -211,7 +212,7 @@ void run_fading_sprite_projectile(S_func_81856800_1 *action, S_func_81856800_2 *
     s32 t9_reserve;
     object = action->unk_00;
     state = action->unk_0A.s16_0A;
-    owner = ((S_func_81856800_4 *)((u8 *)object - 32))->unk_0C;
+    owner = ((S_func_81856800_4 *)NODE_HEADER(object))->unk_0C;
     object_base = (S_func_81856800_4 *)((u8 *)object - 32);
 
     if (state != 0 && state != 5) {

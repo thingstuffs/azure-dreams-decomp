@@ -451,7 +451,7 @@ void advance_actor_stored_path(ActorRecord *motion, ObjectPosition *update_param
     old_x = entity->tile_x;
     old_y = entity->tile_y;
     tile_mask = 0x3000;
-    if (((CB_80171590_S_80171590_0 *)state)->unk_1C & 0x2000) {
+    if ((u32)(state->flags1C) & 0x2000) {
         tile_mask = 0x300;
     }
     update_map_cell_flags_with_item_limit(old_x, old_y, tile_mask);
@@ -473,7 +473,7 @@ void advance_actor_stored_path(ActorRecord *motion, ObjectPosition *update_param
     new_x = entity->tile_x;
     new_y = entity->tile_y;
     tile_mask = 0x3000;
-    if (((CB_80171590_S_80171590_0 *)state)->unk_1C & 0x2000) {
+    if ((u32)(state->flags1C) & 0x2000) {
         tile_mask = 0x300;
     }
     cycle_map_cell_flags(new_x, new_y, tile_mask);
@@ -584,7 +584,7 @@ void choose_and_step_actor_path(ActorRecord *move_data, ObjectPosition *context,
                     TileObject *target_position = &reference_tile_object;
                     s32 target_facing = ((u16)primary_actor_record->facing);
                     s32 offset_index =
-                        ((((u8 *)&actor_data->unk_44.whole)[1] + ((s16)target_facing >> 9)) & 7) << 1;
+                        ((actor_data->unk_44.bytes.high + ((s16)target_facing >> 9)) & 7) << 1;
                     target_x = target_position->tile_position.parts.tile_x +
                         *(u16 *)((u8 *)((s8 *)dir_step_x) + offset_index);
                     target_y = target_position->tile_position.parts.tile_y +
@@ -1492,11 +1492,11 @@ void wait_actor_status_and_animate(ActorRecord *action, ObjectPosition *context,
                     if (probe_result >= 2) {
                         break;
                     }
-                    if (!(generate_random_value(actor_in) & 7)) {
+                    if (!(generate_random_value() & 7)) {
                         clear_slots_of_type(actor_in, STATUS_SLEEP);
                     }
                 } else {
-                    if (!(generate_random_value(origin) & 7)) {
+                    if (!(generate_random_value() & 7)) {
                         clear_slots_of_type(actor_in, STATUS_SLEEP);
                     }
                 }
@@ -1871,7 +1871,7 @@ void project_visible_effect_quad(ActorRecord *body, void *position_arg, void *re
 
             ((CB_80173E40_S_80173E40_4 *)packet)->unk_04.at00.v = ((CB_80173E40_S_80173E40_6 *)body)->unk_04;
             ((CB_80173E40_S_80173E40_4 *)packet)->unk_0C = ((CB_80173E40_S_80173E40_6 *)body)->unk_08;
-            ((CB_80173E40_S_80173E40_4 *)packet)->unk_14 = ((CB_80173E40_S_80173E40_6 *)body)->unk_0C;
+            ((CB_80173E40_S_80173E40_4 *)packet)->unk_14 = (u32)(body->unk_0C.value);
             ((CB_80173E40_S_80173E40_4 *)packet)->unk_1C = ((CB_80173E40_S_80173E40_6 *)body)->unk_10;
             SetPolyG4(packet);
             ((CB_80173E40_S_80173E40_4 *)packet)->unk_04.at03.v |= 2;

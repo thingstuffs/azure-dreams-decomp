@@ -335,6 +335,30 @@ class Transaction:
                 file_names[path].add(n)
             report['names'][n] = dict(choice=d['choice'], status=d['status'], prototype=proto,
                                       sites=len(info.sites), floors=sorted(floor_paths))
+        # A replaced prototype stays at its old position. Its type headers must
+        # precede that position even when the owner already includes them later.
+        owner_sites = [s for n in report['names'] for s in infos[n].sites if s.path == H]
+        prefix_types = set()
+        if owner_sites:
+            first = min(s.start for s in owner_sites)
+            directives = self.census.corpus.scan(H).directives
+            early = set()
+            for inc in directives:
+                if inc.kind == 'include' and inc.arg.startswith('"') and inc.end <= first and inc.depth <= 1:
+                    target = self.census.corpus.resolve_include(H, inc.arg.split('"')[1])
+                    if target:
+                        early.update(self.census.corpus.closure(target))
+            needed = {t for n in report['names'] if any(s.path == H for s in infos[n].sites)
+                      for t in infos[n].row.type_headers}
+            prefix_types = needed - early - P.TYPE_ALWAYS - self.no_type_include
+            if prefix_types:
+                for inc in directives:
+                    if inc.kind == 'include' and inc.arg.startswith('"') and inc.start >= first and inc.depth <= 1:
+                        target = self.census.corpus.resolve_include(H, inc.arg.split('"')[1])
+                        if target in prefix_types:
+                            edits[H].append((inc.start, inc.end, ''))
+                block = ''.join('#include "%s"\n' % P.include_token(t) for t in sorted(prefix_types))
+                edits[H].append((first, first, block))
         # the owner header must be self-contained for every type its declarations name (old and new): a TU
         # that newly includes it may not have the typedef in scope (e.g. DungeonItemEntry in item.h)
         if h_append or h_inline or edits.get(H):
@@ -343,7 +367,10 @@ class Transaction:
             # differently): such a TU keeps compiling only without them
             h_inline = [l for l in h_inline if not (l.startswith('#include "') and
                                                      'include/' + l.split('"')[1] in self.no_type_include)]
-            report['header_includes'] = ['include/' + l.split('"')[1] for l in h_inline if l.startswith('#include "')]
+            h_inline = [l for l in h_inline if not (l.startswith('#include "') and
+                                                     'include/' + l.split('"')[1] in prefix_types)]
+            report['header_includes'] = sorted(prefix_types | {
+                'include/' + l.split('"')[1] for l in h_inline if l.startswith('#include "')})
         # include feasibility per TU (static checks; the proof is the final word)
         floor_tus = {f['path'] for f in report['floors']}
         corpus = self.census.corpus

@@ -21,6 +21,7 @@
 #include "engine/graphics.h"
 #include "dungeon/actor/position.h"
 #include "engine/util.h"
+#include "dungeon/system.h"
 
 extern s32 allocate_panel_offset_or_zero(void);
 extern M2C_UNK D_80077FEC;
@@ -1081,7 +1082,6 @@ void advance_timed_panel_motion(S_800B1F34_0 *animation, ObjectPosition *motion)
 #include "shared/record_ptrs.h"
 #include "shared/entity.h"
 #include "shared/game_work.h"
-void play_sound_if_enabled(s32);
 struct S_800B1F34_0;
 extern void advance_timed_panel_motion(struct S_800B1F34_0 *animation, ObjectPosition *motion);
 

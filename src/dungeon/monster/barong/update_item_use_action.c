@@ -27,13 +27,14 @@ typedef struct {
 } LocalItemInfo;
 
 extern void select_sprite_entry(void *, s32, s32);
-extern void play_sound_if_enabled(s32);
 
 extern u8 D_80171030[];
 extern u8 barong_action_resume_address[];
 #include "dungeon/monster/barong.h"
 #include "dungeon/item.h"
 #include "dungeon/actor.h"
+#include "dungeon/system.h"
+
 extern u8 barong_frame_set[];
 extern u8 barong_frame_set_3[];
 extern LocalPacket D_801755D4;

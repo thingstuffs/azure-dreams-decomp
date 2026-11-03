@@ -4,6 +4,7 @@
 #include "town/menu/paired_offset_effects_g00579.h"
 #include "town/person/effects.h"
 #include "town/menu.h"
+#include "town/menu/effect_callbacks_api.h"
 
 /* Increases the step by four, adds it to a capped value, and creates paired effects when it reaches 0x400. */
 void accumulate_effect_step(void *updateState, s32 unused1, s32 unused2, void *accumulatorState) {
@@ -62,7 +63,7 @@ void create_paired_offset_effects(S_800A6F48_10 *owner, S_800A6F48_0 *spawn_stat
     second_y_data->unk_10 = (s32) (second_y_data->unk_10 / 3);
     first_object->unk_B0 = 0;
     spawn_person_radial_effects(position);
-    owner->unk_50 = &D_800A70EC;
+    owner->unk_50 = update_three_axis_scale_effect;
     owner->unk_6C = 0xA;
     color->unk_0E = 0x80;
     color->unk_0D = 0x80;

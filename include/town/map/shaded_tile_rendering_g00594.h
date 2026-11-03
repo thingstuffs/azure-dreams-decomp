@@ -8,18 +8,6 @@
 #include "m2c_compat.h"
 #include "shared/dungeon_floor.h"
 
-typedef struct S_func_800AED64_1 {
-    void * unk_00;
-    u8 pad_04[0x16];
-    s16 unk_1A;
-    u8 pad_1C[0x2];
-    s16 unk_1E;
-    u8 pad_20[0x88];
-    s32 unk_A8;
-    u8 pad_AC[0x130];
-    void * unk_1DC;
-} S_func_800AED64_1;
-
 typedef struct S_func_800AED64_2 {
     u8 pad_00[0x4];
     s32 unk_04;
@@ -236,7 +224,6 @@ typedef struct Slot800AF9D8 {
     u8 pad34[8];
     s32 phase;
 } Slot800AF9D8;
-
 
 /* record in draw_empty_map_cell_quads */
 typedef struct S_800AD138_1 {

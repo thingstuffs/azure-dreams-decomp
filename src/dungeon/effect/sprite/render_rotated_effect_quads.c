@@ -69,7 +69,7 @@ void render_rotated_effect_quads(void *screen_pos, void *effect, s32 *ordering_t
     sprite = *((void **) (((s8 *) effect) + (-0x14)));
     callback_arg = *((s32 *) (((s8 *) effect) + (-0x18)));
     render_context = g_game_work.draw_buffer;
-    render_state = (u8 *) (((struct S_8003E2D8 *)&g_game_work));
+    render_state = (u8 *)&g_game_work;
     frame = *((void **) (((s8 *) sprite) + 8));
     scratch = (ScratchPad *)0x1F800000;
     scratch->sw[59] = 0;

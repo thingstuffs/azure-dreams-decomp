@@ -31,12 +31,12 @@ typedef struct S_80172A04_7 {
 
 
 extern void select_sprite_entry(void *, s32, s32);
-extern void play_sound_if_enabled(s32);
 
 extern u8 battnel_action_resume_address[];
 #include "dungeon/monster/battnel.h"
 #include "dungeon/item.h"
 #include "dungeon/actor.h"
+#include "dungeon/system.h"
 
 /* Advances an actor motion through setup, playback, and completion. */
 void advance_actor_motion_sequence(ActorRecord *state, ObjectPosition *position, SpriteFrameState *sprite, ActorRecord *actor) {
@@ -98,13 +98,13 @@ void advance_actor_motion_sequence(ActorRecord *state, ObjectPosition *position,
                 if (use_special != 0) {
                     target = primary_actor_record;
                     actor->target = target;
-                    action_state = ((ObjectNodeHeader *)target - 1)->sprite;
+                    action_state = NODE_HEADER(target)->sprite;
                     actor->target_tile_x = ((S_80172A04_3 *)action_state)->unk_24;
                     actor->target_tile_y = ((S_80172A04_3 *)action_state)->unk_25;
                 } else if (item_action_definitions[*motion].kind == 2) {
                     target = actor->target;
                     if (target != 0) {
-                        action_state = ((ObjectNodeHeader *)target - 1)->sprite;
+                        action_state = NODE_HEADER(target)->sprite;
                         actor->target_tile_x = ((S_80172A04_3 *)action_state)->unk_24;
                         actor->target_tile_y = ((S_80172A04_3 *)action_state)->unk_25;
                     }

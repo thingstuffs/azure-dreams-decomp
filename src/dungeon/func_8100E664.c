@@ -96,7 +96,7 @@ typedef struct SignedHeight {
 #include "dungeon/level/update_map_cell_flags_with_item_limit_api.h"
 #include "dungeon/actor/state/advance_status_timers_api.h"
 #include "dungeon/actor.h"
-struct S_800AD594_0; void spend_actor_mp(ActorRecord *entity, s32 base_reduction);
+void spend_actor_mp(ActorRecord *entity, s32 base_reduction);
 extern s16 dungeon_room_count;
 extern s32 D_8016B058;
 extern u8 D_8016E888[];
@@ -104,7 +104,7 @@ extern u8 D_8016E8F0[];
 extern u8 D_8016E8F8[];
 
 /* Updates paired actor movement, tile placement, animations, and restored flags. */
-void restore_bank_actor_callback(PairAction *actor, ActorMotion *motion, SpriteFrameState *sprite, void *entity) {
+void restore_bank_actor_callback(PairAction *actor, ActorMotion *motion, SpriteFrameState *sprite, ActorRecord *entity) {
     ActorMotion *partner_motion;
     s16 saved_x;
     s16 saved_y;
@@ -205,7 +205,7 @@ void restore_bank_actor_callback(PairAction *actor, ActorMotion *motion, SpriteF
         }
         update_map_cell_flags_with_item_limit(partner_x, partner_y, partner_tile_mask);
         sprite_x = sprite->tile_x;
-        entity_flags = ((CreatureState *)entity)->flags;
+        entity_flags = entity->flags1C;
         entity_flags &= 0x2000;
         tile_mask = 0x3000;
         sprite_y = sprite->tile_y;
@@ -214,10 +214,10 @@ void restore_bank_actor_callback(PairAction *actor, ActorMotion *motion, SpriteF
         }
         update_map_cell_flags_with_item_limit(sprite_x, sprite_y, tile_mask);
         angle = 0xFFFB0000;
-        cleared_flags = ((CreatureState *)entity)->flags;
+        cleared_flags = entity->flags1C;
         angle |= 0xFFFF;
         cleared_flags &= angle;
-        ((CreatureState *)entity)->flags = cleared_flags;
+        entity->flags1C = cleared_flags;
         actor_flags = (actor->flags);
         angle = ((CreatureState *)entity)->facing;
         actor_flags |= 0xC;
@@ -237,14 +237,14 @@ void restore_bank_actor_callback(PairAction *actor, ActorMotion *motion, SpriteF
         }
         x_step_table = ((u8 *)dir_step_x);
         step_offset = direction * 2;
-        x_step_table = (u8 *) (step_offset + (u8 *) x_step_table);
+        x_step_table =  (step_offset +  x_step_table);
         x_velocity = * (s16 *) x_step_table;
         launch_duration = 0xC;
         x_velocity <<= 0x16;
         x_velocity = x_velocity / launch_duration;
         motion->dx = x_velocity;
         y_step_table = ((u8 *)dir_step_y);
-        y_step_ptr = (s16 *) (step_offset + (u8 *) y_step_table);
+        y_step_ptr = (s16 *) (step_offset +  y_step_table);
         y_velocity = *y_step_ptr;
         y_velocity <<= 0x16;
         y_velocity = y_velocity / (s16) actor->ticks;
@@ -257,7 +257,7 @@ void restore_bank_actor_callback(PairAction *actor, ActorMotion *motion, SpriteF
         sprite->frameTable = anim_table0;
         launch_anim = ((s32) (*angle_or_count + (s16) ((CreatureState *)entity)->facing + 0x100) >> 9) & 7;
         launch_anim = launch_anim + (u32) anim_table0;
-        select_sprite_entry((struct S_80047784 *)(sprite), ((AnimationFrame *) launch_anim)->frame, 0);
+        select_sprite_entry(sprite, ((AnimationFrame *) launch_anim)->frame, 0);
         actor->phase = (u8) (actor->phase + 1);
     case 1:
         launch_ticks = (u16) actor->ticks - 1;
@@ -265,7 +265,7 @@ void restore_bank_actor_callback(PairAction *actor, ActorMotion *motion, SpriteF
         if (launch_ticks == 8) {
             height_offset = entity_height_offsets[partner->species];
             height_value = ((SignedHeight *) partner_motion)->integer;
-            entity_height = (s16)((CreatureState *)entity)->groundHeight;
+            entity_height = (s16)entity->ground_height;
             motion->dz = (s32) ((s32) ((((height_value - entity_height) - height_offset) + 0x10)
                 << 0x10) / launch_ticks);
             partner_actor->heightOffset.parts.integer = (u16) (partner_actor->heightOffset.parts.integer + (u16)partner->ground_height);
@@ -287,7 +287,7 @@ void restore_bank_actor_callback(PairAction *actor, ActorMotion *motion, SpriteF
         sprite->frameTable = anim_table1;
         fall_anim = ((s32) (*angle_or_count + (s16) ((CreatureState *)entity)->facing + 0x100) >> 9) & 7;
         fall_anim = fall_anim + (u32) anim_table1;
-        select_sprite_entry((struct S_80047784 *)(sprite), ((AnimationFrame *) fall_anim)->frame, 0);
+        select_sprite_entry(sprite, ((AnimationFrame *) fall_anim)->frame, 0);
         actor->phase = actor->phase + 1;
         return;
     case 2:
@@ -336,7 +336,7 @@ void restore_bank_actor_callback(PairAction *actor, ActorMotion *motion, SpriteF
             sprite->tile_y = partner_sprite->tileY + dir_step_y[direction];
             landing_height = sample_terrain_surface_height((sprite->tile_x << 6) | 0x20, (sprite->tile_y << 6) | 0x20,
                 (s16) (motion->z.parts.integer - 0x80));
-            ((CreatureState *)entity)->groundHeight = landing_height;
+            entity->ground_height = landing_height;
             if (landing_height >= 0x201) {
                 continue;
             }
@@ -346,7 +346,7 @@ void restore_bank_actor_callback(PairAction *actor, ActorMotion *motion, SpriteF
             if ((s16) partner_height >= 0x201) {
                 continue;
             }
-            if (((CreatureState *)entity)->groundHeight == (s16) partner_height) {
+            if (entity->ground_height == (s16) partner_height) {
                 break;
             }
         }
@@ -362,14 +362,14 @@ commit_tile_positions:
         motion->z.word = (s32) (((s16) (u16)partner->ground_height - 0x100) << 0x10);
         partner_actor->heightOffset.word = (s32) actor->heightOffset.word;
         actor->ticks = 8;
-        motion->dz = (s32) ((s32) ((((CreatureState *)entity)->groundHeight << 0x10)
+        motion->dz = (s32) ((s32) ((entity->ground_height << 0x10)
             - motion->z.word) / (s16) actor->ticks);
         anim_table2 = D_8016E8F8;
         angle_or_count = &g_game_work.view.camera_rotation.parts.viewAngle;
         *(u8 **)((u8 *)sprite + (u32)&((ActorSprite *)0)->directionFrames) = anim_table2;
         rise_anim = ((s32) (*angle_or_count + (s16) ((CreatureState *)entity)->facing + 0x100) >> 9) & 7;
         rise_anim = rise_anim + (u32) anim_table2;
-        select_sprite_entry((struct S_80047784 *)(sprite), ((AnimationFrame *) rise_anim)->frame, 0);
+        select_sprite_entry(sprite, ((AnimationFrame *) rise_anim)->frame, 0);
         refresh_actor_proximity_state(entity);
         refresh_actor_proximity_state(partner);
         actor->phase = actor->phase + 1;
@@ -397,7 +397,7 @@ commit_tile_positions:
         if (!(actor->flags & 0x2000)) {
             partner_actor->flags = (u16) (partner_actor->flags & 0xFFFB);
         }
-        ((CreatureState *)entity)->flags = (s32) (((CreatureState *)entity)->flags | 0x40000000);
+        entity->flags1C = (s32) (entity->flags1C | 0x40000000);
         partner->flags1C = (s32) (partner->flags1C | 0x40000000);
         {
             s16 angle_or_duration;
@@ -451,10 +451,10 @@ commit_tile_positions:
             u32 restore_x;
             u32 restore_y;
 
-            restore_flags = ((CreatureState *)entity)->flags;
+            restore_flags = entity->flags1C;
             restore_mask = 0x40000;
             restore_flags |= restore_mask;
-            ((CreatureState *)entity)->flags = restore_flags;
+            entity->flags1C = restore_flags;
             restore_flags &= 0x2000;
             restore_x = sprite->tile_x;
             restore_y = sprite->tile_y;
@@ -484,9 +484,9 @@ commit_tile_positions:
         sprite->frameTable = anim_table3;
         idle_anim = ((s32) (*angle_or_count + (s16) ((CreatureState *)entity)->facing + 0x100) >> 9) & 7;
         idle_anim = idle_anim + (u32) anim_table3;
-        select_sprite_entry((struct S_80047784 *)(sprite), ((AnimationFrame *) idle_anim)->frame, 0);
-        ((CreatureState *)entity)->actionsLeft = 0;
-        ((CreatureState *)entity)->action = (u16) (((CreatureState *)entity)->action & 0x7FFF);
+        select_sprite_entry(sprite, ((AnimationFrame *) idle_anim)->frame, 0);
+        entity->pending_turn_updates = 0;
+        entity->action_flags = (u16) (entity->action_flags & 0x7FFF);
         actor->phase = actor->phase + 1;
     default:
         return;

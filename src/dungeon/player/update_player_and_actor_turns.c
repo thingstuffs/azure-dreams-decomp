@@ -38,7 +38,6 @@ extern void advance_sprite_animation_and_textures(void *entity);                
 #include "engine/texture.h"
 extern short SD_Call(int flags);                     /* extern */
 #include "dungeon/player/input.h"
-s16 check_entity_relation(ActorRecord *entry, ActorRecord *anchor);                 /* extern */
 void *find_eligible_actor_at_tile_and_height(struct Node *node, s16 x, s16 y_in, s16 value);           /* extern */
 s32 find_active_rect_containing_point(s32 point_x, s32 point_y);                           /* extern */
 #include "dungeon/player/object/action_state.h"
@@ -47,7 +46,6 @@ s32 find_active_rect_containing_point(s32 point_x, s32 point_y);                
 #include "engine/graphics.h"
 
 struct Node;
-s32 play_sound_if_enabled(s32 query_value);                     /* extern */
 s32 generate_random_value(void);                                /* extern */
 extern s8 scene_music_hold;
 extern s16 floor_generation_state[3];

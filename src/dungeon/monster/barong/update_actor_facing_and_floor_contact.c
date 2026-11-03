@@ -50,7 +50,7 @@ void update_actor_facing_and_floor_contact(ActorRecord *body, ObjectPosition *mo
         return;
     }
 
-    if ((*(u32 *)((u8 *)body + 0x14)) & 0x00800000) {
+    if ((u32)(body->flags14) & 0x00800000) {
         if (body->action_id.u != 0x17) {
             body->flags14 = (u32)((u32)body->flags14 & (0xFF7FFFFF));
             start_direction_based_action(body, motion, sprite, body);

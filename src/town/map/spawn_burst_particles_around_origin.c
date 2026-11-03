@@ -10,12 +10,7 @@
 #include "town/map.h"
 #include "town/map/motion.h"
 
-
-typedef struct S_800BBCA0_2 {
-    union { struct { s32 v; } at00; struct { u8 pad[0x2]; u16 v; } at02; } unk_00;   /* overlapping accesses */
-    union { struct { s32 v; } at00; struct { u8 pad[0x2]; u16 v; } at02; } unk_04;   /* overlapping accesses */
-    union { struct { s32 v; } at00; struct { u8 pad[0x2]; u16 v; } at02; } unk_08;   /* overlapping accesses */
-} S_800BBCA0_2;   /* origin in spawn_burst_particles_around_origin */
+   /* origin in spawn_burst_particles_around_origin */
 
 typedef struct S_800BBCA0_3 {
     u8 pad_00[0xC];
@@ -27,7 +22,6 @@ typedef struct S_800BBCA0_3 {
     u8 pad_4A[0x2];
     s16 unk_4C;
 } S_800BBCA0_3;   /* motion in spawn_burst_particles_around_origin */
-
 
 extern u8 D_800F1654[];
 

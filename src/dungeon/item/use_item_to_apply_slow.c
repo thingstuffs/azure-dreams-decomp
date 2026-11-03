@@ -14,8 +14,8 @@
 #include "dungeon/item.h"
 #include "dungeon/actor.h"
 #include "dungeon/player/state.h"
+#include "dungeon/system.h"
 
-extern void play_sound_if_enabled(s32);
 extern void place_actor_item(void *object_context, struct DungeonItemEntry *target);
 extern void display_item_status_message(void *entity, struct DungeonItemEntry *item, s32 message_kind);
 

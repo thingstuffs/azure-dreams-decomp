@@ -7,11 +7,6 @@
 #include "shared/town_root.h"
 #include "shared/record_ptrs.h"
 
-typedef struct S_8001D188_3 {
-    u8 pad_00[0x6000];
-    Rec_D_80016000 *unk_6000;
-} S_8001D188_3;
-
 /* page in prepend_entry_to_group_history */
 typedef struct S_8001D188_0 {
     u8 pad_00[0x6000];

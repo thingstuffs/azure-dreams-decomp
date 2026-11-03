@@ -155,7 +155,9 @@ void clear_script_flag_db3(void);
 /* Owner declarations appended by tools/headers (append-only; the lines above are hand-kept). */
 #include "records/Rec_D_800FE490.h"
 struct FallingObjectState;
-void func_800C8D34(struct FallingObjectState *object, void *context, void *sprite);
+#include "shared/entity.h"
+#include "shared/sprite_frame_state.h"
+void func_800C8D34(struct FallingObjectState *object, ObjectPosition *context, SpriteFrameState *sprite);
 void initialize_the_store_two_values_set_state_flags(Rec_D_800FE490 *record, s32 value_08, s32 value_0c);
 
 struct Node;
@@ -207,7 +209,6 @@ u8 *select_town_byte_array(void);
 
 void configure_the_set_mode_n_1(void *record, void *position, void *bounds);
 
-#include "shared/entity.h"
 #include "shared/town_object.h"
 s32 advance_counter_modulo_eight(void);
 void advance_town_events_and_dispatch_entry(void);
@@ -242,4 +243,8 @@ s32 is_next_entry_zero_after_skipping_80700ce8(s32 list_index);
 
 s32 *select_alternate_data_for_conditions(s32 **out_data);
 
+struct TownInput;
+void initialize_falling_object_sprite(struct FallingObjectState *object, ObjectPosition *context, SpriteFrameState *sprite);
+s32 match_input_low_bits_to_state(struct TownInput *input);
+s32 is_player_in_target_region(void);
 #endif

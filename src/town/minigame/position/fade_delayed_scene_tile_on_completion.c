@@ -4,14 +4,11 @@
 #include "shared/object_links.h"
 #include "town/minigame/position.h"
 #include "shared/object_node.h"
+#include "town/scene/collection.h"
 
    /* the 0x2 bytes before arg0 in fade_delayed_scene_tile_on_completion, addressed as arg0[-1] */
 
 
-typedef struct S_8002017C_1 {
-    u8 pad_00[0x2A];
-    u16 unk_2A;
-} S_8002017C_1;   /* sub in fade_delayed_scene_tile_on_completion */
 
 
 /* Advance a delayed fade after the linked object signals, then flag completion. */
@@ -19,7 +16,7 @@ void fade_delayed_scene_tile_on_completion(SceneTileObject *effect) {
     s16 state;
     s32 fade_rgb;
     u16 delay;
-    S_8002017C_1 *linked_object;
+    TownCollectionSequence *linked_object;
     s16 next_state;
     u16 flags;
 
@@ -40,7 +37,7 @@ void fade_delayed_scene_tile_on_completion(SceneTileObject *effect) {
         }
         return;
     case 1:
-        if (linked_object->unk_2A & 1) {
+        if (linked_object->flags.u & 1) {
             effect->state.s++;
             return;
         }

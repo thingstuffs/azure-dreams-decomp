@@ -5,12 +5,11 @@
 #include "shared/dungeon_status.h"
 #include "dungeon/actor.h"
 #include "dungeon/player/object.h"
+#include "dungeon/system.h"
 
 extern void unlink_entity_node(void *node);
 void update_map_cell_flags_with_item_limit(s32 x, s32 y, u16 flags);
 extern void * detach_record_and_update_slot_state(void *record);
-extern void play_sound_if_enabled(s32 query_value);
-
 
 /* Advance the action phase and process the actor when the tile flags are set. */
 void advance_action_phase_and_process_actor(ActorRecord *action, ObjectPosition *unused, SpriteFrameState *tile, ActorRecord *actor) {

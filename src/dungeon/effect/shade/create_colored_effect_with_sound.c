@@ -6,18 +6,15 @@
 
 typedef struct Rec_func_800D4BD4_arg2 Rec_func_800D4BD4_arg2;
 
-typedef unsigned char u8;
-typedef signed char s8;
-typedef unsigned short u16;
-typedef short s16;
-typedef unsigned int u32;
-typedef int s32;
+#include "common.h"
+
 typedef s32 M2C_UNK;
 
 extern void select_record_entry_and_value(void *state, void *entries, short index);
-extern void play_sound_if_enabled(s32);
 void emit_particles_until_expired(void *emitter, Rec_func_800D4BD4_arg2 *position, s32 init_param);
 #include "shared/sprite_source.h"
+#include "dungeon/system.h"
+
 extern SpriteSourceEntry fading_sprite_entries[];
 /* Creates a colored effect at the source position and optionally plays a sound. */
 void create_colored_effect_with_sound(void *source, s32 color, unsigned short sound_id)

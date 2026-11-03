@@ -31,7 +31,7 @@ typedef struct S_800D4AB0_5_pre {
 } S_800D4AB0_5_pre;   /* the 0x18 bytes before ((Rec_func_800247B8_arg0 *)arg0)->unk_88 in create_attached_effect, addressed as ((Rec_func_800247B8_arg0 *)arg0)->unk_88[-1] */
 
 /* Creates an effect linked to the owner with an offset position and initialized render data. */
-void create_attached_effect(Rec_func_800247B8_arg0 *owner) {
+void create_attached_effect(Rec_func_800247B8_arg0 *owner, void *unused_motion, void *unused_sprite) {
     ObjectPosition *position;
     SpriteFrameState *render_data;
     ObjectNodeHeader *effect;

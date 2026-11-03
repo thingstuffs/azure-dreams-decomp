@@ -34,15 +34,7 @@ typedef struct S_80E3C98C_4 {
 } S_80E3C98C_4;
 
 
-typedef struct S_80E3C98C_6 {
-    u8 pad_00[0x12];
-    s16 unk_12;
-} S_80E3C98C_6;
 
-typedef struct S_80E3C98C_7 {
-    u8 pad_00[0x12];
-    u16 unk_12;
-} S_80E3C98C_7;
 
 extern s32 copy_entity_record();
 extern s32 set_code_for_entity_mode();
@@ -105,8 +97,8 @@ void *spawn_manoeva_from_record(ActorRecord *body, ObjectPosition *unused1, Spri
             copy_entity_record(entity, spawn_data);
             ((ActorRecord *)entity)->hp++;
             ((ActorRecord *)entity)->species = ((ActorRecord *)source_entity)->species;
-            ((S_80E3C98C_6 *)(((S_80E3C98C_2_pre *)entity)[-1].unk_00))->unk_12 =
-                ((S_80E3C98C_7 *)(((S_80E3C98C_3_pre *)source_entity)[-1].unk_00))->unk_12 & 3;
+            ((SpriteFrameState *)(((S_80E3C98C_2_pre *)entity)[-1].unk_00))->clut =
+                ((SpriteFrameState *)(((S_80E3C98C_3_pre *)source_entity)[-1].unk_00))->clut & 3;
             ((ActorRecord *)entity)->flags14 |= 0x20000000;
             ((ActorRecord *)entity)->flags1C = (((ActorRecord *)entity)->flags1C | 0x02000000) & 0xFFFEFFFF;
         }

@@ -21,7 +21,7 @@ extern void update_countdown_and_fallback(void);
 extern s32 D_800D00C0[];
 extern void update_threshold_bound_object(void);
 extern u8 action_object_handler_table[16];
-void store_the_valid_shared_angle_in_offset_hex_10();
+void store_the_valid_shared_angle_in_offset_hex_10(void *record_arg);
 extern void update_actor_movement_actions(void);
 extern s32 D_800D0108[];
 s16 SD_Call(int flags);

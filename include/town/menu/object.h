@@ -15,7 +15,6 @@ struct Func800A4A20Object;
 struct Func800A4B70Object;
 struct Func800A4B70Output;
 struct S_800A21EC_0;
-struct S_800A21EC_1;
 struct EmoteCallbackObject;
 struct S_800A7360_1;
 struct S_800A7B98_2;

@@ -17,7 +17,7 @@ void *find_first_entry_matching_keys(ActorRecord *body, u16 key_a, u16 key_b, s1
 
     body = (ActorRecord *)(body->next_actor_header + 0x20);
     while (body != head) {
-        SpriteFrameState *node_data = ((ObjectNodeHeader *)body - 1)->sprite;
+        SpriteFrameState *node_data = NODE_HEADER(body)->sprite;
         void *entry = ((void *)body) - 0x20;
         s16 node_value;
 

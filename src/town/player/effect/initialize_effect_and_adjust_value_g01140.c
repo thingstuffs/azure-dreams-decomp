@@ -20,7 +20,7 @@
 void initialize_effect_and_adjust_value(void *object, ObjectPosition *record, s32 init_value) {
     s32 delta;
 
-    ((S_800A55CC_0_pre *)object)[-1].unk_00 = ((M2C_UNK *)D_800903FC);
+    ((S_800A55CC_0_pre *)object)[-1].unk_00 = ((M2C_UNK *)rebuild_menu_node_list);
     initialize_actor_action_state(object, record, init_value);
     {
         delta = 0x10000;
@@ -48,7 +48,7 @@ void update_effect_record_and_dispatch(TownPlayerRecord *handler, ObjectPosition
                 record->z.v = 0;
             }
         }
-        if (((S_800A5638_0_pre *)handler)[-1].unk_00 == ((s32 *)D_800903FC)) {
+        if (((S_800A5638_0_pre *)handler)[-1].unk_00 == ((s32 *)rebuild_menu_node_list)) {
             process_scene_record_update(handler, record, sprite);
             return;
         }

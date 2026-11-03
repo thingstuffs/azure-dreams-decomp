@@ -5,6 +5,8 @@
 #include "town/menu/indexed_object_state_g00569.h"
 #include "shared/object_node.h"
 #include "town/menu.h"
+#include "town/menu/randomized_effect_motion_g00570.h"
+#include "town/menu/state_callbacks_api.h"
 
 /* Lowers the third coordinate by 0x240000 and creates up to twelve indexed objects, stopping on failure. */
 void check_adjusted_input_indices(Unk800A5C88 *input) {
@@ -40,8 +42,8 @@ void *allocate_object_with_initial_state(EffectInitialState *source_data, s32 in
     object_data->y.v = source_data->unk_04;
     result = object;
     object_data->z.v = source_data->unk_08;
-    result->update_callback = D_800A34E0;
-    ((S_800A3450_3 *)result)->unk_20 = D_800A3508;
+    result->update_callback = dispatch_menu_state_callback;
+    ((S_800A3450_3 *)result)->unk_20 = initialize_randomized_motion_vector;
     ((S_800A3450_3 *)result)->unk_42 = initial_value;
     return result;
 }

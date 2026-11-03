@@ -8,11 +8,6 @@ struct ShopFirstCallbackObject;
 #include "m2c_compat.h"
 #include "shared/widget_views.h"
 
-typedef struct S_800B65D8_4 {
-    u8 pad_00[0x4];
-    void * unk_04;
-} S_800B65D8_4;
-
 typedef struct S_800B65D8_0 {
     u8 pad_00[0x50];
     void * unk_50;

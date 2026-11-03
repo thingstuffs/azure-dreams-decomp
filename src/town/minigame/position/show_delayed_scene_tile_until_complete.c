@@ -2,14 +2,11 @@
 #include "shared/object_flags.h"
 #include "shared/object_links.h"
 #include "town/minigame/position.h"
+#include "town/scene/collection.h"
 
    /* the 0x2 bytes before arg0 in show_delayed_scene_tile_until_complete, addressed as arg0[-1] */
 
 
-typedef struct S_80020360_1 {
-    u8 pad_00[0x2A];
-    u16 unk_2A;
-} S_80020360_1;   /* data in show_delayed_scene_tile_until_complete */
 
 typedef struct S_80020360_2 {
     u8 pad_00[0x14A0];
@@ -21,7 +18,7 @@ typedef struct S_80020360_2 {
 void show_delayed_scene_tile_until_complete(SceneTileObject *object)
 {
     s16 state;
-    S_80020360_1 *status_data;
+    TownCollectionSequence *status_data;
     u16 ticks_left;
     u16 flags;
     u16 next_state;
@@ -44,7 +41,7 @@ void show_delayed_scene_tile_until_complete(SceneTileObject *object)
         object->state.u = next_state;
         break;
     case 1:
-        if (status_data->unk_2A & 1) {
+        if (status_data->flags.u & 1) {
             page = 0x80080000;
             ((ObjectStatusPrefix16 *)object)[-1].flags |= 0x8000;
             ((S_80020360_2 *)((void *)page))->unk_14A0 |= 0x8000;

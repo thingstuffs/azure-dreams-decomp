@@ -3,15 +3,9 @@
 #include "town/person.h"
 
 /* cfail-repair: tf7-phase1-cache-v3 */
-typedef struct S_800CCF48_0 {
-    u8 pad_00[0x68];
-    u16 unk_68;
-    u8 pad_6A[0x8];
-    s16 unk_72;
-} S_800CCF48_0;   /* arg0 in set_flag_object_direction_400 */
 
 /* Set unk_72 to 0x400 and increment unk_68. */
-void set_flag_object_direction_400(S_800CCF48_0 *state) {
-    state->unk_72 = 0x400;
+void set_flag_object_direction_400(TownObjectRecord *state) {
+    state->heading.as_s16 = 0x400;
     state->unk_68 = (u16) (state->unk_68 + 1);
 }

@@ -6,6 +6,7 @@ struct ObjectPosition;
 #include "shared/object_node.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/game_work.h"
+#include "dungeon/system.h"
 
 typedef struct {
     s32 field_00;
@@ -53,7 +54,6 @@ extern u8 D_80174B30[9];
 
 extern void initialize_timed_motion_step(s32, s32);
 extern void create_offset_animation_sprite(void *,struct ObjectPosition *, Sub *);
-extern void play_sound_if_enabled(s32);
 struct SpriteFrameState;
 extern void select_sprite_entry(void *, s16, s16);
 extern void func_80170CE0(void);

@@ -107,7 +107,7 @@ s32 find_active_rect_containing_point(s32 point_x, s32 point_y);
 extern s16 actor_turn_angle_offsets[];
 s32 update_actor_proximity_flag(void *source, void *state, s32 lower_limit, s32 upper_limit, s8 *result);
 void update_actor_status_and_mp(ActorRecord *entity);
-s32 check_entity_relation();
+s16 check_entity_relation(ActorRecord *entry, ActorRecord *anchor);
 /* object in select_target_tile_for_actor_action */
 extern s32 find_eligible_entry_at_coordinates(u8 *entry, s16 x, s16 y);
 extern void prepare_directional_attack(void *, void *, s32, s32, s32);

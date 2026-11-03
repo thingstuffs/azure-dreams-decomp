@@ -88,21 +88,6 @@ typedef struct S_func_800CDFD8_3 {
     void * unk_8D0;
 } S_func_800CDFD8_3;
 
-typedef struct S_func_800CDFD8_5 {
-    u8 pad_00[0x8];
-    void * unk_08;
-    s32 unk_0C;
-    u16 unk_10;
-    u16 unk_12;
-    u16 unk_14;
-    u16 unk_16;
-    u16 unk_18;
-    u16 unk_1A;
-    u16 unk_1C;
-    u16 unk_1E;
-    u16 unk_20;
-    u16 unk_22;
-} S_func_800CDFD8_5;
 
 typedef struct S_func_800CDFD8_6 {
     u8 pad_00[0x2];
@@ -173,7 +158,7 @@ typedef struct S_func_800CDFD8_9 {
 } S_func_800CDFD8_9;
 
 /* Project sprite parts into textured quads and link visible quads into the ordering table. */
-void render_actor_sprite_parts(void *unused, MovingPosition *position, S_func_800CDFD8_5 *sprite, s16 depth_bias) {
+void render_actor_sprite_parts(void *unused, MovingPosition *position, SpriteFrameState *sprite, s16 depth_bias) {
     s32 screen_y3;
     s16 left_x;
     s32 first_three_visible;
@@ -245,7 +230,7 @@ void render_actor_sprite_parts(void *unused, MovingPosition *position, S_func_80
     scratch->unk_04 = position->z;
     packet = render_root->unk_8D0;
     scratch->unk_C0 = RotTransPers((void *)0x1F800000, (void *)0x1F8000B8, (void *)0x1F800090, (void *)0x1F800094);
-    sprite->unk_14 |= 0x8000;
+    sprite->flags |= 0x8000;
     depth = scratch->unk_C0;
     matrix_or_part = (S_func_800CDFD8_6 *)&sprite_projection_matrix;
     ((S_func_800CDFD8_6 *)((u8 *)matrix_or_part - 4))->unk_20 = (s32) (depth * 4);
@@ -264,30 +249,30 @@ void render_actor_sprite_parts(void *unused, MovingPosition *position, S_func_80
         scratch->unk_34.unk_34_u32 = (u32) camera_rot_y;
         scratch->unk_38 = (u32) camera_rot_z;
         camera_y = scratch->unk_34.unk_34_u16;
-        scratch->unk_100 = (u16) sprite->unk_16;
-        rotation_delta = sprite->unk_1A;
+        scratch->unk_100 = (u16) sprite->angle_x;
+        rotation_delta = sprite->angle_z;
         rotation_z = ((u16)render_state->view.view_rotation_offset.parts.view_rotation_offset_z);
         rotation_delta -= camera_y;
         rotation_z += rotation_delta;
         scratch->unk_104 = (s16) rotation_z;
-        rotation_y = sprite->unk_18 - 0x100;
+        rotation_y = sprite->angle_y - 0x100;
         rotation_y += ((u16) scratch->unk_38 + 0x100) & 0x1FF;
         scratch->unk_102 = (s16) rotation_y;
-        scratch->unk_108 = scratch->unk_E4 = sprite->unk_20;
-        scratch->unk_10A = scratch->unk_E8 = sprite->unk_22;
+        scratch->unk_108 = scratch->unk_E4 = sprite->offset_x;
+        scratch->unk_10A = scratch->unk_E8 = sprite->offset_y;
         RotMatrix(angles, (void *)0x1F8000D0);
         quad_cursor = (S_func_800CDFD8_8 *)((u8 *)packet + 7);
-        scratch->unk_30 = sprite->unk_1C;
-        scale_y = sprite->unk_1E;
+        scratch->unk_30 = sprite->scale_x;
+        scale_y = sprite->scale_y;
         scratch->unk_38 = 0x1000;
         scratch->unk_34.unk_34_u32 = scale_y;
         ScaleMatrix((void *)0x1F8000D0, (void *)0x1F800030);
         CompMatrix(matrix_or_part, (void *)0x1F8000D0, (void *)0x1F800050);
         SetTransMatrix((void *)0x1F800050);
         SetRotMatrix((void *)0x1F800050);
-        part = sprite->unk_08;
+        part = sprite->source;
         matrix_or_part = (S_func_800CDFD8_6 *)((u8 *)part + 4);
-        scratch->unk_24.unk_24_u16 = (u16) sprite->unk_14;
+        scratch->unk_24.unk_24_u16 = (u16) sprite->flags;
         for (;;) {
             void *cursor = 0;
             S_func_800CDFD8_8 *quad = 0;
@@ -298,14 +283,14 @@ void render_actor_sprite_parts(void *unused, MovingPosition *position, S_func_80
                 scratch->unk_08 = (u32) part_u;
                 part_width = ((S_func_800CDFD8_6 *)((u8 *)cursor - 4))->unk_0A;
                 scratch->unk_10 = (u32) part_width;
-                if (((part_u + part_width) >= 0x100) || (sprite->unk_1A != 0)) {
+                if (((part_u + part_width) >= 0x100) || (sprite->angle_z != 0)) {
                     scratch->unk_10 = part_width - 1;
                 }
                 part_v = ((S_func_800CDFD8_6 *)((u8 *)cursor - 4))->unk_09;
                 scratch->unk_0C = (u32) part_v;
                 part_height = ((S_func_800CDFD8_6 *)((u8 *)cursor - 4))->unk_0B;
                 scratch->unk_14.unk_14_u32 = (u32) part_height;
-                if (((part_v + part_height) >= 0x100) || (sprite->unk_1A != 0)) {
+                if (((part_v + part_height) >= 0x100) || (sprite->angle_z != 0)) {
                     scratch->unk_14.unk_14_u32 = part_height - 1;
                 }
                 if ((part->unk_00 ^ scratch->unk_24.unk_24_u16) & 1) {
@@ -389,24 +374,24 @@ void render_actor_sprite_parts(void *unused, MovingPosition *position, S_func_80
                 }
                 any_visible = first_three_visible | vertex3_visible;
                 if (any_visible != 0) {
-                    sprite->unk_14 = (u16) (sprite->unk_14 & 0x7FFF);
+                    sprite->flags = (u16) (sprite->flags & 0x7FFF);
                     scratch->unk_10 += scratch->unk_08;
                     scratch->unk_14.unk_14_u32 += scratch->unk_0C;
                     scratch->unk_14.unk_14_u32 <<= 8;
                     scratch->unk_0C <<= 8;
                     if (scratch->unk_24.unk_24_u16 & 0x100) {
-                        ((S_func_800CDFD8_8 *)((u8 *)quad - 7))->unk_0E = (s16) sprite->unk_12;
+                        ((S_func_800CDFD8_8 *)((u8 *)quad - 7))->unk_0E = (s16) sprite->clut;
                     } else {
                         ((S_func_800CDFD8_8 *)((u8 *)quad - 7))->unk_0E =
-                            (s16) (sprite->unk_12 + ((S_func_800CDFD8_6 *)((u8 *)cursor - 4))->unk_06);
+                            (s16) (sprite->clut + ((S_func_800CDFD8_6 *)((u8 *)cursor - 4))->unk_06);
                     }
                     ((S_func_800CDFD8_8 *)((u8 *)quad - 7))->unk_0C =
                         (s16) ((u16) scratch->unk_0C + (u16) scratch->unk_08);
                     ((S_func_800CDFD8_8 *)((u8 *)quad - 7))->unk_18.unk_18_s16 =
                         (s16) ((u16) scratch->unk_0C + (u16) scratch->unk_10);
-                    if (sprite->unk_10 != 0) {
+                    if (sprite->tpage_abr != 0) {
                         ((S_func_800CDFD8_8 *)((u8 *)quad - 7))->unk_1A =
-                            (u16) (sprite->unk_10 + (((S_func_800CDFD8_6 *)((u8 *)cursor
+                            (u16) (sprite->tpage_abr + (((S_func_800CDFD8_6 *)((u8 *)cursor
                             - 4))->unk_04 & 0xFF9F));
                     } else {
                         ((S_func_800CDFD8_8 *)((u8 *)quad - 7))->unk_1A =
@@ -444,9 +429,9 @@ void render_actor_sprite_parts(void *unused, MovingPosition *position, S_func_80
                     }
                     ((S_func_800CDFD8_8 *)((u8 *)quad - 7))->unk_04.unk_04_s32 = 0;
                     ((S_func_800CDFD8_8 *)((u8 *)quad - 7))->unk_10 = 0;
-                    color2 = sprite->unk_0C;
+                    color2 = sprite->color.word;
                     ((S_func_800CDFD8_8 *)((u8 *)quad - 7))->unk_1C = color2;
-                    color3 = sprite->unk_0C;
+                    color3 = sprite->color.word;
                     ((S_func_800CDFD8_8 *)((u8 *)quad - 7))->unk_03 = 0xC;
                     ((S_func_800CDFD8_8 *)((u8 *)quad - 7))->unk_04.unk_07_s8.unk_07 = 0x3C;
                     ((S_func_800CDFD8_8 *)((u8 *)quad - 7))->unk_28 = color3;

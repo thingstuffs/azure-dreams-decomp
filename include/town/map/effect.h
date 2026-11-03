@@ -6,9 +6,9 @@
 #include "shared/entity.h"
 #include "shared/vector.h"
 #include "shared/town_object.h"
+#include "shared/sprite_frame_state.h"
 
 struct Core;
-struct S_800A8CA8_2;
 struct SpriteFrameState;
 
 /* initialize_effect_with_child_sprites.c */
@@ -27,6 +27,6 @@ void no_op_effect_callback(void);
 void no_op_secondary_effect_callback(TownObjectRecord *unused_object, ObjectPosition *unused_position, struct SpriteFrameState *unused_sprite);
 
 /* update_projected_effect_points.c */
-void update_projected_effect_points(void *object, s32 phase, void *source_data, struct S_800A8CA8_2 *extent);
+void update_projected_effect_points(void *object, s32 phase, void *source_data, SpriteFrameState *extent);
 
 #endif

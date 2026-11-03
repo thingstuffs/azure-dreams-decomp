@@ -25,7 +25,6 @@ struct S_800814A0 {
     s32 pad[2];
 };
 
-
 typedef struct S_8009C390_1 {
     u8 pad_00[0x50];
     s32 unk_50;
@@ -52,12 +51,6 @@ typedef struct {
 } Struct8009ED34Arg0;
 
 /* the 0x2 bytes before arg0 in update_timed_object_to_height_limit, addressed as arg0[-1] */
-typedef struct S_8009C4E8_0 {
-    u8 pad_00[0x50];
-    void * unk_50;
-    u8 pad_54[0x18];
-    u16 unk_6C;
-} S_8009C4E8_0;
 
 /* arg0 in update_timed_object_to_height_limit */
 typedef struct S_8009C4E8_2 {
@@ -71,14 +64,10 @@ typedef struct S_8009C4E8_2 {
     u16 unk_14;
 } S_8009C4E8_2;
 
-
-typedef struct S_8009C390_3 S_8009C390_3;
-
 typedef struct S_8009C648_0 {
     s32 unk_00;
     s32 unk_04;
 } S_8009C648_0;
-
 
 typedef struct S_8009C648_2 {
     u8 pad_00[0x80];
@@ -91,15 +80,6 @@ typedef struct S_8009C648_3 {
     s32 unk_60;
 } S_8009C648_3;
 
-
-typedef struct S_8009C648_5 {
-    s32 unk_00;
-    s32 unk_04;
-    u8 pad_08[0x4];
-    s32 unk_0C;
-    s32 unk_10;
-    s32 unk_14;
-} S_8009C648_5;
 
 extern void SD_Call(s32 flags);
 extern void run_the_follow_up_action_has_eligible_type_passes_check(s32 check_value);

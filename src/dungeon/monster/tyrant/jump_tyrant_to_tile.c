@@ -34,7 +34,7 @@ extern u8 D_8016DFD8[];
 extern u8 D_8016DFE0[];
 
 /* Updates a jump toward the destination tile and completes movement when its timer expires. */
-void jump_tyrant_to_tile(void *jump, void *motion, void *sprite, void *actor) {
+void jump_tyrant_to_tile(void *jump, void *motion, SpriteFrameState *sprite, void *actor) {
     u16 facing_aux;
     s32 frames_left;
     s16 next_timer;
@@ -44,10 +44,10 @@ void jump_tyrant_to_tile(void *jump, void *motion, void *sprite, void *actor) {
     state = ((S_80172258_0 *)jump)->unk_9B;
     switch (state) {
     case 0:
-        if (!(((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0x6000)) {
+        if (!(sprite->flags & 0x6000)) {
             break;
         }
-        (*(u8 * *)((u8 *)sprite + 0x2C)) = D_8016DFD8;
+        sprite->frameTable = D_8016DFD8;
         select_sprite_entry(
             sprite,
             D_8016DFD8[((g_game_work.view.camera_rotation.parts.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9) & 7],
@@ -63,13 +63,13 @@ void jump_tyrant_to_tile(void *jump, void *motion, void *sprite, void *actor) {
         ((S_80172258_0 *)jump)->unk_90 -= ((S_80172258_0 *)jump)->unk_A0;
         if (frames_left != 0) {
             {
-                s32 target_x = ((Rec_D_80082E80 *)sprite)->unk_24 << 6;
+                s32 target_x = sprite->tile_x << 6;
                 s32 current_x = ((EntityRec *)motion)->x.w.i - 0x20;
 
                 ((EntityRec *)motion)->unk_0C = ((target_x - current_x) << 16) / frames_left;
             }
             {
-                s32 target_y = ((Rec_D_80082E80 *)sprite)->unk_25 << 6;
+                s32 target_y = sprite->tile_y << 6;
                 s32 current_y = ((EntityRec *)motion)->y.w.i - 0x20;
 
                 ((EntityRec *)motion)->unk_10 = ((target_y - current_y) << 16) /
@@ -92,8 +92,8 @@ void jump_tyrant_to_tile(void *jump, void *motion, void *sprite, void *actor) {
             ((EntityRec *)motion)->flags14 = 0;
             ((EntityRec *)motion)->unk_10 = 0;
             ((EntityRec *)motion)->unk_0C = 0;
-            set_record_integer_tile_center(motion, ((Rec_D_80082E80 *)sprite)->unk_24, ((Rec_D_80082E80 *)sprite)->unk_25);
-            (*(u8 * *)((u8 *)sprite + 0x2C)) = D_8016DFE0;
+            set_record_integer_tile_center(motion, sprite->tile_x, sprite->tile_y);
+            sprite->frameTable = D_8016DFE0;
             select_sprite_entry(
                 sprite,
                 D_8016DFE0[((g_game_work.view.camera_rotation.parts.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9) & 7],
@@ -110,7 +110,7 @@ void jump_tyrant_to_tile(void *jump, void *motion, void *sprite, void *actor) {
         ((EntityRec *)motion)->flags14 = 0;
         ((EntityRec *)motion)->unk_10 = 0;
         ((EntityRec *)motion)->unk_0C = 0;
-        set_record_integer_tile_center(motion, ((Rec_D_80082E80 *)sprite)->unk_24, ((Rec_D_80082E80 *)sprite)->unk_25);
+        set_record_integer_tile_center(motion, sprite->tile_x, sprite->tile_y);
         spend_actor_mp(actor, 4);
         advance_status_timers(actor);
         {
@@ -129,7 +129,7 @@ void jump_tyrant_to_tile(void *jump, void *motion, void *sprite, void *actor) {
             if (actor_flags & 0x20000) {
 
                 ((EntityRec *)actor)->facing = get_rounded_facing_and_rounding_flag(
-                    ((Rec_D_80082E80 *)sprite)->unk_24, ((Rec_D_80082E80 *)sprite)->unk_25,
+                    sprite->tile_x, sprite->tile_y,
                     reference_tile_object.tile_position.parts.tile_x, reference_tile_object.tile_position.parts.tile_y, &facing_aux);
             }
         }

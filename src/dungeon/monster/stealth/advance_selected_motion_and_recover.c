@@ -31,11 +31,12 @@ typedef struct S_80172AA8_7 {
 
 
 extern void select_sprite_entry(void *, s32, s32);
-extern void play_sound_if_enabled(s32);
 
 #include "dungeon/monster/stealth.h"
 #include "dungeon/item.h"
 #include "dungeon/actor.h"
+#include "dungeon/system.h"
+
 extern u8 stealth_frame_set[];
 
 /* Advances the actor's selected motion and handles completion and recovery. */
@@ -100,13 +101,13 @@ void advance_selected_motion_and_recover(ActorRecord *motion_state, ObjectPositi
                 if (player_target != 0) {
                     target = primary_actor_record;
                     actor->target = target;
-                    action_state = ((ObjectNodeHeader *)target - 1)->sprite;
+                    action_state = NODE_HEADER(target)->sprite;
                     actor->target_tile_x = ((S_80172AA8_3 *)action_state)->unk_24;
                     actor->target_tile_y = ((S_80172AA8_3 *)action_state)->unk_25;
                 } else if (item_action_definitions[*motion].kind == 2) {
                     target = actor->target;
                     if (target != 0) {
-                        action_state = ((ObjectNodeHeader *)target - 1)->sprite;
+                        action_state = NODE_HEADER(target)->sprite;
                         actor->target_tile_x = ((S_80172AA8_3 *)action_state)->unk_24;
                         actor->target_tile_y = ((S_80172AA8_3 *)action_state)->unk_25;
                     }

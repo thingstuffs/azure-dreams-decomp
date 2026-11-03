@@ -6,7 +6,7 @@
 #include "frontend/libcard/message.h"
 
 /* Set the linked coordinates to (160, 120) and bind the object's data. */
-void card_boot_center_message_dialog_display(void *object) {
+void card_boot_center_message_dialog_display(CardMessageDialogBody *object) {
     CardMessageDialogBody *dialog = object;
     CardMenuDisplayNode *linked_state;
 

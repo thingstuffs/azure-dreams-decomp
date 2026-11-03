@@ -19,7 +19,7 @@ typedef struct S_8004FDE0_obj {
     u8 pad0[0x10];              /* 0x00 */
     void (*vtable)(void *self); /* 0x10 - set to update_animated_selection_menu on success */
     u8 pad14[0xC];              /* 0x14 */
-    S_8004FDE0_sub sub;         /* 0x20 */
+    AnimatedSelectionMenuBody sub;         /* 0x20 */
 } S_8004FDE0_obj;
 
 extern void initialize_menu_record_value(void *a0);
@@ -28,19 +28,19 @@ extern void initialize_menu_record_value(void *a0);
 void *create_animated_selection_menu(void *init_data)
 {
     S_8004FDE0_obj *obj;
-    S_8004FDE0_sub *sub;
+    AnimatedSelectionMenuBody *sub;
 
     obj = allocate_flagged_object_node(0);
     if (obj != 0) {
         sub = &obj->sub;
         initialize_menu_record_value(sub);
-        sub->unk30 = find_resolved_selection_menu_index(sub, init_data);
+        sub->selected_index = find_resolved_selection_menu_index(sub, init_data);
         if (create_animated_selection_menu_entries(sub) == 0) {
             destroy_animated_selection_menu(obj);
             obj = 0;
         } else {
             obj->vtable = update_animated_selection_menu;
-            sub->cb = animate_selection_menu_entry_spacing;
+            ((S_8004FDE0_sub *)sub)->cb = animate_selection_menu_entry_spacing;
         }
     }
     return obj;

@@ -5,6 +5,7 @@
 
 #include "common.h"
 #include "m2c_compat.h"
+#include "frontend/libcard/message_dialog.h"
 
 typedef struct { u8 bytes[4]; } Bytes4;
 
@@ -19,7 +20,7 @@ typedef struct {
 } Fields;
 
 extern u8 D_800200A0[];
-void card_boot_center_message_dialog_display(void *);
+void card_boot_center_message_dialog_display(CardMessageDialogBody *);
 
 /* Functions defined in this translation unit. */
 void *card_boot_build_paired_dialog_packets(void *buffer, s32 unused);

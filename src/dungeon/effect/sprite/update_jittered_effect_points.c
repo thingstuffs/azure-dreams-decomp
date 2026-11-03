@@ -12,6 +12,7 @@
 #include "engine/scene.h"
 #include "sdk/libgpu.h"
 #include "slus.h"
+#include "dungeon/system.h"
 
 typedef struct S_func_819A6800_1 {
     void *unk_00;
@@ -319,9 +320,6 @@ void run_jittered_point_sequence(void *sequence, void *out_position_arg)
 #include "shared/entity_objects.h"
 #include "shared/object_flags.h"
 
-typedef struct S_800244BC_0_pre {
-    u16 unk_00;
-} S_800244BC_0_pre;   /* the 0x2 bytes before arg0 in func_800244BC, addressed as arg0[-1] */
 
 
 typedef struct S_800244BC_1 {
@@ -438,7 +436,7 @@ void advance_target_chasing_emitter(void *object, S_800244BC_2 *position, Sprite
                 - position->unk_08.at02.v) << 0xF));
         }
         if ((s16) ((RunJitteredPointSequenceBody *)object)->unk_48 <= 0) {
-            ((S_800244BC_0_pre *)object)[-1].unk_00 = (u16) (((S_800244BC_0_pre *)object)[-1].unk_00 | 0x8000);
+            NODE_HEADER(object)->flags = (u16) (NODE_HEADER(object)->flags | 0x8000);
             object_flag_block.flags = (s32) (object_flag_block.flags | OBJECT_REMOVE_PENDING);
         }
         break;
@@ -454,9 +452,6 @@ void advance_target_chasing_emitter(void *object, S_800244BC_2 *position, Sprite
 #include "shared/dungeon_moving_views.h"
 
 
-typedef struct S_80024810_0_pre {
-    u16 unk_00;
-} S_80024810_0_pre;   /* the 0x2 bytes before arg0 in update_jittered_effect_points, addressed as arg0[-1] */
 
 typedef struct S_80024810_0 {
     void * unk_00;
@@ -496,9 +491,9 @@ void update_jittered_effect_points(void *effect) {
     owner = ((S_80024810_0 *)effect)->unk_00;
     target = (void *) (((S_80024810_0 *)effect)->unk_34 - 0x20);
     owner->unk_52 = (u16) (owner->unk_52 | 0x8000);
-    ((S_80024810_0 *)effect)->unk_24 = (u16) ((MovingPosition *)(target->position))->x;
-    ((S_80024810_0 *)effect)->unk_26 = (u16) ((MovingPosition *)(target->position))->y;
-    ((S_80024810_0 *)effect)->unk_28 = (s16) (((MovingPosition *)(target->position))->z - 0x20);
+    ((S_80024810_0 *)effect)->unk_24 = (u16) target->position->x.unsigned_parts.integer;
+    ((S_80024810_0 *)effect)->unk_26 = (u16) target->position->y.unsigned_parts.integer;
+    ((S_80024810_0 *)effect)->unk_28 = (s16) (target->position->z.unsigned_parts.integer - 0x20);
     ((S_80024810_0 *)effect)->unk_04 = (u16) view_reference_entity.x.w.i;
     ((S_80024810_0 *)effect)->unk_06 = (u16) view_reference_entity.y.w.i;
     ((S_80024810_0 *)effect)->unk_08 = (u16) view_reference_entity.z.w.i;
@@ -543,7 +538,7 @@ void update_jittered_effect_points(void *effect) {
         break;
     case 2:
         if ((s16) ((S_80024810_0 *)effect)->unk_3E >= 8) {
-            ((S_80024810_0_pre *)effect)[-1].unk_00 = (u16) (((S_80024810_0_pre *)effect)[-1].unk_00 | 0x8000);
+            NODE_HEADER(effect)->flags = (u16) (NODE_HEADER(effect)->flags | 0x8000);
             object_flag_block.flags = (s32) (object_flag_block.flags | OBJECT_REMOVE_PENDING);
         }
         break;
@@ -693,9 +688,6 @@ s32 update_segment(void *node)
 #include "common.h"
 #include "shared/object_flags.h"
 
-typedef struct S_819A764C_0_pre {
-    u16 unk_00;
-} S_819A764C_0_pre;   /* the 0x2 bytes before self in func_819A764C, addressed as self[-1] */
 
 typedef struct S_819A764C_0 {
     void * unk_00;
@@ -776,7 +768,7 @@ void update_randomized_intermediate_points(void *self)
         ((S_819A764C_0 *)self)->unk_3C.u++;
         return;
     case 2:
-        ((S_819A764C_0_pre *)self)[-1].unk_00 |= 0x8000;
+        NODE_HEADER(self)->flags |= 0x8000;
         object_flag_block.flags |= OBJECT_REMOVE_PENDING;
         break;
     }

@@ -25,7 +25,7 @@ void initialize_moving_object(struct S_8009C0D8_1 *context, TownObjectRecord *ob
 void initialize_object_action_with_default_data(TownObjectRecord *object, ObjectPosition *action, struct SpriteFrameState *state);
 
 /* initialize_object_and_maybe_play_sound.c */
-void initialize_object_and_maybe_play_sound(u8 *context, s8 *object, s32 *state);
+void initialize_object_and_maybe_play_sound(u8 *context, s8 *object, s32 *state, s32 unused);
 
 /* initialize_timed_object_action.c */
 void initialize_timed_object_action(TownObjectRecord *context, ObjectPosition *source, struct SpriteFrameState *record);

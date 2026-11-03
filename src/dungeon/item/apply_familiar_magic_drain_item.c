@@ -19,7 +19,6 @@
 #include "dungeon/actor.h"
 #include "dungeon/item/message.h"
 
-s32 play_sound_if_enabled(s32 query_value);                     /* extern */
 extern u8 D_800E17C6[41];
 extern u8 D_800E17EF[];
 extern u8 D_800E180E[];

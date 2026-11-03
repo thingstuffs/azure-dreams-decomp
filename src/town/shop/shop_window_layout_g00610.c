@@ -4,6 +4,7 @@
 #include "town/shop.h"
 #include "town/shop/item.h"
 #include "town/shop/position.h"
+#include "town/shop_callbacks_api.h"
 
 /* Initialize UI resources and position five rows of display elements. */
 void initialize_shop_window_layout(ShopWindow *ui) {
@@ -67,7 +68,7 @@ void initialize_shop_subrecord(void *record_data, s32 value_20, s32 value_08, s3
     r->unk_08 = value_08;
     r->unk_0C = value_0c;
     r->unk_20 = value_20;
-    ((S_800B1390_0 *)r)[-1].unk_m10 = D_800B0824;
+    ((S_800B1390_0 *)r)[-1].unk_m10 = increase_shop_subrecord_value;
     r->unk_10 = value_10;
     r->unk_14 = value_14;
     r->unk_24 = value_24;

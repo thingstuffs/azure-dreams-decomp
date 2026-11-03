@@ -9,14 +9,6 @@
 void initialize_reaction_data_and_timer_13(void *);                            /* extern */
 
 
-typedef struct S_800CA134_1 {
-    u8 pad_00[0x2];
-    s16 unk_02;
-    u8 pad_04[0x2];
-    s16 unk_06;
-    u8 pad_08[0x2];
-    union { s16 n; u16 v; } unk_0A;   /* accessed as both */
-} S_800CA134_1;   /* arg1 in ease_reaction_position_with_vertical_offset */
 
    /* target in ease_reaction_position_with_vertical_offset */
 
@@ -28,7 +20,7 @@ void ease_reaction_position_with_vertical_offset(TownObjectRecord *state_arg, vo
     s32 x_delta;
     s32 y_delta;
     u16 ticks_left;
-    S_800CA134_1 *position = position_arg;
+    ObjectPosition *position = position_arg;
 
     ticks_left = state->timer.as_u16 - 1;
     state->timer.as_u16 = ticks_left;
@@ -38,21 +30,21 @@ void ease_reaction_position_with_vertical_offset(TownObjectRecord *state_arg, vo
     }
     target_table = &scene_object_list_anchor;
     x_delta = target_table->position->x.w.i
-        - position->unk_02;
-    position->unk_02 = (s16) ((u16) position->unk_02 + (x_delta / 4));
+        - position->x.w.i;
+    position->x.w.i = (s16) ((u16) position->x.w.i + (x_delta / 4));
     y_delta = target_table->position->y.w.i
-        - position->unk_06;
-    position->unk_06 = (s16) ((u16) position->unk_06 + (y_delta / 4));
+        - position->y.w.i;
+    position->y.w.i = (s16) ((u16) position->y.w.i + (y_delta / 4));
     {
         ObjectPosition *target;
         s32 z_step;
         s32 target_z;
 
         target = target_table->position;
-        z_step = position->unk_0A.n;
+        z_step = position->z.w.i;
         target_z = target->z.w.i;
         z_step += 0xD0;
         z_step = target_z - z_step;
-        position->unk_0A.n += z_step / 4;
+        position->z.w.i += z_step / 4;
     }
 }

@@ -15,10 +15,10 @@ void set_object_value_base_plus(Rec_func_800AB030_arg0 *source, EntityRec *objec
 }
 
 /* Update the output, adding eight while the state's countdown is positive. */
-void update_output_adding_eight_state(Rec_func_800AB030_arg0 *state, S_800C81E4_1 *output) {
+void update_output_adding_eight_state(Rec_func_800AB030_arg0 *state, ObjectPosition *output) {
     set_object_value_base_plus(state, (EntityRec *)output);
     if ((s16)state->unk_6C > 0) {
-        output->unk_06 = (u16) (output->unk_06 + 8);
+        output->y.unsigned_parts.integer = (u16) (output->y.unsigned_parts.integer + 8);
         state->unk_6C = (s16) ((u16) state->unk_6C - 1);
     }
 }

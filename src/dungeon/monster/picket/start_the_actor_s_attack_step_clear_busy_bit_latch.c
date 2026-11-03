@@ -14,10 +14,6 @@ typedef struct {
 
 /* owner in start_the_actor_s_attack_step_clear_hex_71_busy_bit_latch */
 /* part in start_the_actor_s_attack_step_clear_hex_71_busy_bit_latch */
-typedef struct S_80174234_1 {
-    u8 pad_00[0x2C];
-    u8 *unk_2C;
-} S_80174234_1;
 
 /* actor in start_the_actor_s_attack_step_clear_hex_71_busy_bit_latch.  0x48 is written as one packed word (retail's
    lwl/lwr + swl/swr pair) and read one byte deep at 0x49, so the two views
@@ -65,7 +61,7 @@ extern u8 D_801708BC[];
 extern u8 picket_frame_set_8[];
 
 /* Start the actor's attack step: clear its 0x71 busy bit, latch the 0x400 link flag with a random facing nudge, run the animation chain for the sprite record it owns, then arm owner state 0x17 and point the part at the direction table. */
-void start_the_actor_s_attack_step_clear_hex_71_busy_bit_latch(ActorRecord *owner, ObjectPosition *unused, S_80174234_1 *part, S_80174234_2 *actor) {
+void start_the_actor_s_attack_step_clear_hex_71_busy_bit_latch(ActorRecord *owner, ObjectPosition *unused, SpriteFrameState *part, S_80174234_2 *actor) {
     void *session;
     void *anim;
     s32 link_flags;
@@ -100,7 +96,7 @@ void start_the_actor_s_attack_step_clear_hex_71_busy_bit_latch(ActorRecord *owne
         owner->action_id.s = 0x17;
         owner->unk_8C.word = 0;
         owner->action_phase.s = 0;
-        part->unk_2C = picket_frame_set_8;   /* the struct-member form `part->unk_2C = ...` is NOT byte-exact here: reorder-only 4 (same-multiset, one addiu+sw pair drifts) */
+        part->frameTable = picket_frame_set_8;   /* the struct-member form `part->unk_2C = ...` is NOT byte-exact here: reorder-only 4 (same-multiset, one addiu+sw pair drifts) */
         select_sprite_entry(part, picket_frame_set_8[((g_game_work.view.camera_rotation.parts.viewAngle + (s16) actor->unk_2A + 0x100) >> 9) & 7], 0);
         actor->unk_6D = (u8) (actor->unk_6D - 1);
         g_dungeon_status.activity_counts.parts.pending_action_count = (u16) (((u16)g_dungeon_status.activity_counts.parts.pending_action_count) + 1);

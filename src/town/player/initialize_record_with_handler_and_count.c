@@ -7,7 +7,6 @@
 #include "town/player/object.h"
 
 #include "town/player/object/entity_record_fields.h"                     /* extern */
-typedef struct S_80098078_0 S_80098078_0;
 
 /* Initialize the record, assign its handler and count, and apply the setup value. */
 void initialize_record_with_handler_and_count(TownObjectRecord *record, ObjectPosition *position, void *ptr2) {

@@ -12,7 +12,6 @@ extern void register_node(void *, void *);
 extern void func_8004491C(void *, void *);
 extern s32 get_definition_entry_byte_13(s16 entry_index);
 extern void apply_attack_power_and_element_effects(void *, s32, s32, s32, s32, void *, s32);
-extern s32 play_sound_if_enabled(s32);
 extern void unlink_node(void *);
 extern void func_80044A50(void *);
 extern u8 secondary_sprite[];

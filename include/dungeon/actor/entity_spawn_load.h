@@ -89,17 +89,6 @@ typedef struct S_800A504C_2_pre {
 } S_800A504C_2_pre;
 
 /* the 0x30A2 bytes before role1 in advance_staged_entity_load, addressed as role1[-1] */
-typedef struct S_800A504C_2 {
-    u8 pad_00[0x4];
-    s8 unk_04;
-    u8 pad_05[0xF];
-    u16 unk_14;
-    u8 pad_16[0x6];
-    s16 unk_1C;
-    s16 unk_1E;
-    u8 pad_20[0xC];
-    void * unk_2C;
-} S_800A504C_2;
 
 /* role1 in advance_staged_entity_load */
 typedef struct S_800A504C_3 {
@@ -187,6 +176,7 @@ extern u8 familiar_record_slots[];
 extern u8 entity_resource_read_complete[];
 #include "shared/dungeon_image_buffer.h"
 #include "shared/entity.h"
+#include "shared/sprite_frame_state.h"
 extern u8 D_800E0000[];
 
 /* Functions defined in this translation unit. */

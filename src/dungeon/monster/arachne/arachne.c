@@ -568,7 +568,7 @@ void choose_arachne_move(ActorRecord *move_data, ObjectPosition *context, Sprite
             current_angle = (s32)find_adjacent_actor(actor_data,position_data->tile_x,position_data->tile_y);
             blocker = (ActorRecord *)current_angle;
             if (blocker != 0) {
-                SpriteFrameState *blocker_sprite = ((ObjectNodeHeader *)blocker - 1)->sprite;
+                SpriteFrameState *blocker_sprite = NODE_HEADER(blocker)->sprite;
                 s16 target_angle = ((s16)get_rounded_facing_and_rounding_flag((s16)position_data->tile_x,(s16)position_data->tile_y,(s16)(blocker_sprite->tile_x),(s16)(blocker_sprite->tile_y),
                     &move_data->action_state_flags));
                 actor_data->facing = target_angle;
@@ -597,7 +597,7 @@ void choose_arachne_move(ActorRecord *move_data, ObjectPosition *context, Sprite
                     TileObject *target_position = &reference_tile_object;
                     s32 target_facing = ((u16)primary_actor_record->facing);
                     s32 offset_index =
-                        ((((u8 *)&actor_data->unk_44.whole)[1] + ((s16)target_facing >> 9)) & 7) << 1;
+                        ((actor_data->unk_44.bytes.high + ((s16)target_facing >> 9)) & 7) << 1;
                     target_x = target_position->tile_position.parts.tile_x +
                         *(u16 *)((u8 *)((s8 *)dir_step_x) + offset_index);
                     target_y = target_position->tile_position.parts.tile_y +
@@ -1260,7 +1260,7 @@ void advance_actor_motion_and_wait(ActorRecord *action, ObjectPosition *transfor
         transform->velocity_x = 0;
         set_record_integer_tile_center(transform,(u8)(sprite->tile_x),(u8)(sprite->tile_y));
         g_dungeon_status.active_actor = 0;
-        (*(u16 *)((u8 *)&primary_actor_record->unk_A4.value + 2)) = primary_actor_record->unk_A4.halves.high.u - 1;
+        primary_actor_record->unk_A4.halves.high.u = primary_actor_record->unk_A4.halves.high.u - 1;
         advance_status_timers(actor);
         actor->pending_turn_updates = ((u8)actor->pending_turn_updates) - 1;
         action->unk_8C.address = ((u8 *)update_actor_state_and_select_target);
@@ -1835,7 +1835,7 @@ void finish_spinning_actor_fall_then_select_target(ActorRecord *state, ObjectPos
  * nonzero.
  */
 void finish_actor_fade_in_then_select_target(ActorRecord *state, ObjectPosition *motion, SpriteFrameState *position, ActorRecord *actor) {
-    if (update_actor_fade_in(state, motion, position, actor)) {
+    if (update_actor_fade_in(state, motion, position)) {
         state->unk_8C.handler = update_actor_state_and_select_target;
     }
 }

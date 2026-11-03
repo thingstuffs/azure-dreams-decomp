@@ -2,33 +2,25 @@
 #include "m2c_compat.h"
 #include "sdk/libgte.h"
 #include "town/menu.h"
+#include "shared/sprite_frame_state.h"
 
 /* extern */
-typedef struct S_800A79F0_0 {
-    u8 pad_00[0x6C];
-    u16 unk_6C;
-} S_800A79F0_0;   /* arg0 in update_opposing_scale_effect */
 
-typedef struct S_800A79F0_1 {
-    u8 pad_00[0x1C];
-    s16 unk_1C;
-    s16 unk_1E;
-} S_800A79F0_1;   /* arg2 in update_opposing_scale_effect */
 
 /* extern */
 
 /* Update opposing scale offsets until the countdown ends, then restore unit scale. */
-void update_opposing_scale_effect(S_800A79F0_0 *state, s32 unused_1, S_800A79F0_1 *scale, s32 unused_3) {
+void update_opposing_scale_effect(TownObjectRecord *state, s32 unused_1, SpriteFrameState *scale, s32 unused_3) {
     u16 ticks_left;
     s32 scale_wave;
     s32 scale_offset;
     s32 rounded_wave;
 
-    ticks_left = state->unk_6C - 1;
-    state->unk_6C = ticks_left;
+    ticks_left = state->timer.as_u16 - 1;
+    state->timer.as_u16 = ticks_left;
     if ((s16) ticks_left <= 0) {
-        scale->unk_1E = 0x1000;
-        scale->unk_1C = 0x1000;
+        scale->scale_y = 0x1000;
+        scale->scale_x = 0x1000;
         initialize_randomized_scale_timer(state);
         return;
     }
@@ -37,7 +29,7 @@ void update_opposing_scale_effect(S_800A79F0_0 *state, s32 unused_1, S_800A79F0_
     if (scale_wave < 0) {
         scale_offset = (s32) (scale_wave + 3) >> 2;
     }
-    scale->unk_1C = (s16) (0x1000 - scale_offset);
-    rounded_wave = rsin((s16) state->unk_6C * 0xBA);
-    scale->unk_1E = (s16) ((rounded_wave / 4) + 0x1000);
+    scale->scale_x = (s16) (0x1000 - scale_offset);
+    rounded_wave = rsin((s16) state->timer.as_u16 * 0xBA);
+    scale->scale_y = (s16) ((rounded_wave / 4) + 0x1000);
 }

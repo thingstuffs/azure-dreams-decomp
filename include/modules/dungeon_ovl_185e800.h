@@ -13,7 +13,6 @@ void *func_8003FD64(s32, void *);
 s32 rand(void);
 s32 get_definition_entry_byte_13(s16);
 s32 resolve_record_orientation_or_fallback(void *, void *, void *, s32);
-s32 play_sound_if_enabled(s32);
 void register_node(void *, void *);
 void func_8004491C(void *, void *);
 void advance_sprite_animation_and_textures(void *);

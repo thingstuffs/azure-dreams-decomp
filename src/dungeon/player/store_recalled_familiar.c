@@ -4,6 +4,7 @@
 #include "shared/entity.h"
 #include "shared/dungeon_moving_views.h"
 #include "dungeon/player.h"
+#include "dungeon/system.h"
 
 typedef struct S_80093E74_7 {
     u8 pad_00[0xD0];
@@ -27,7 +28,6 @@ typedef struct {
 } Copy140;
 
 void update_map_cell_flags_with_item_limit(u8, u8, s32);     /* extern */
-s32 play_sound_if_enabled(s32 query_value);                     /* extern */
 extern void *familiar_record_slots[];
 extern u8 familiar_record_storage[];
 

@@ -34,7 +34,6 @@ typedef struct {
 struct SpriteFrameState;
 extern void select_sprite_entry(void *, s16, s16);
 extern void func_80047784(void *, u8, s32);
-extern void play_sound_if_enabled(s32);
 extern void spend_actor_mp(T_801727CC_Obj3 *, s32);
 extern void * actor_update_node_cursor[];
 extern u8 D_80173FE8[];

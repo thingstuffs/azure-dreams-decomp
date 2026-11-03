@@ -12,22 +12,6 @@
 
 /* extern */
 
-/* extern */
-typedef struct S_800B2B60_0 {
-    u8 pad_00[0x28];
-    s32 unk_28;
-    u8 pad_2C[0x10];
-    u32 unk_3C;
-} S_800B2B60_0;
-
-typedef struct S_800B2BA0_0 {
-    u8 pad_00[0x4];
-    s32 unk_04;
-    s32 unk_08;
-    u8 pad_0C[0x3C];
-    s32 unk_48;
-} S_800B2BA0_0;
-
 typedef struct S_800B2BA0_1 {
     u8 pad_00[0x20];
     s32 unk_20;

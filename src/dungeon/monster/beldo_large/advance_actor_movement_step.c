@@ -21,11 +21,12 @@
 
 
 
-struct ActorRecord; s16 check_entity_relation(ActorRecord *entry, ActorRecord *anchor);
+struct ActorRecord; 
 void cycle_map_cell_flags(s16, s16, u16);
 #include "dungeon/level/update_map_cell_flags_with_item_limit_api.h"
 #include "dungeon/monster/beldo_large.h"
 #include "dungeon/item/state.h"
+#include "dungeon/level.h"
 
 s32 check_diagonal_side_height(s32, s16, s16, s16);
 extern s32 check_movement_clearance_and_height();
@@ -89,7 +90,7 @@ void advance_actor_movement_step(ActorRecord *movement_in, ObjectPosition *actio
             found = find_adjacent_actor(actor, position->tile_x,
                 position->tile_y);
             if (found != NULL) {
-                object = ((ObjectNodeHeader *)found - 1)->sprite;
+                object = NODE_HEADER(found)->sprite;
                 actor->facing = get_rounded_facing_and_rounding_flag(
                     position->tile_x, position->tile_y,
                     object->tile_x, object->tile_y, &movement_in->action_state_flags);

@@ -11,6 +11,7 @@
 #include "shared/dungeon_status.h"
 #include "dungeon/effect/particle.h"
 #include "dungeon/item.h"
+#include "dungeon/system.h"
 
 #define F(p, t, o) (*(t *)((u8 *)(p) + (o)))
 

@@ -10,7 +10,6 @@ void func_8004491C(void *, void *);
 s32 rand(void);
 void apply_attack_power_and_element_effects(void *, s32, s32, s32, s32, void *, s32);
 s32 get_definition_entry_byte_13(s16);
-s32 play_sound_if_enabled(s32);
 s32 rsin(s32);
 s32 rcos(s32);
 void transform_rotated_vertices(LocalPacket *);

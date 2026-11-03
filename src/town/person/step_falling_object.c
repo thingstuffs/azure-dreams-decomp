@@ -26,7 +26,7 @@ void step_falling_object(OwnerCallbackObject *entity, ObjectPosition *motion, Sp
         entity->contacts_left.as_u16 = contacts_left;
         if ((s16)contacts_left < 0) {
             unlink_node_if_registered(entity);
-            func_800C8D34(entity, motion, output);
+            initialize_falling_object_sprite(entity, motion, output);
             return;
         }
         load_indexed_state_value(entity, motion, output);

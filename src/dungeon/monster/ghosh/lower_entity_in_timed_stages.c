@@ -3,6 +3,7 @@
 #include "dungeon/monster/ghosh.h"
 #include "shared/object_node.h"
 #include "shared/object_flags.h"
+#include "dungeon/system.h"
 
 typedef struct {
     u8 pad0[0x12];
@@ -15,8 +16,6 @@ typedef struct {
     u8 pad0[8];
     s32 y;
 } Position;
-
-extern void play_sound_if_enabled(s32);
 
 /* Lowers the entity in two timed stages, then flags completion and clears the active pointer. */
 void lower_entity_in_timed_stages(Entity *entity, Position *pos)

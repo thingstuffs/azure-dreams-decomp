@@ -14,7 +14,35 @@ void advance_damage_effect_and_particles(void *effect, ObjectPosition *context, 
 
 
 
-void update_dropped_object_motion(void *object, register ObjectPosition *motion, void *tile);
+/* Body created by create_indexed_floor_object (flags 0x110) and consumed by
+ * update_dropped_object_motion. Borrowed position and sprite words retain
+ * their integer views because the creator copies them from the source node. */
+typedef struct DroppedObjectMotionBody {
+    u8 pad_00[0x13];
+    u8 unk_13;
+    u8 pad_14[8];
+    s32 unk_1C;
+    u8 pad_20[0xA];
+    union { s16 s; u16 u; } unk_2A;
+    u8 pad_2C[0x34];
+    void *unk_60;
+    u8 pad_64[6];
+    s16 unk_6A;
+    u8 pad_6C[0x1C];
+    union { s16 s; u16 u; } unk_88;
+    union { s16 s; u16 u; } unk_8A;
+    union { void *address; s32 word; } unk_8C;
+    union { void *address; s32 word; } unk_90;
+    u8 pad_94[4];
+    s32 unk_98;
+    s32 *unk_9C;
+    s16 unk_A0;
+    s16 unk_A2;
+    s16 unk_A4;
+    u8 pad_A6[0x16];
+} DroppedObjectMotionBody;
+
+void update_dropped_object_motion(DroppedObjectMotionBody *object, register ObjectPosition *motion, void *tile);
 
 struct StructArg0;
 struct StructArg2;

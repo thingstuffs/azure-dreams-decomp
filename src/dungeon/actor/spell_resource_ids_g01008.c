@@ -84,7 +84,7 @@ void *create_actor_spell_effect(void *actor, void *record_data, s16 mode, void *
     u8 variant;
     s16 effect_id;
     ObjectPosition *effect_position;
-    S_800A94A0_7 *actor_state;
+    SpriteFrameState *actor_state;
     ObjectNodeHeader *effect;
     S_800A94A0_3 *effect_state;
     void *linked_object;
@@ -144,7 +144,7 @@ void *create_actor_spell_effect(void *actor, void *record_data, s16 mode, void *
             }
         } else {
             map_state = &reference_tile_object;
-            if (!(actor_state->unk_14 & 0x8000) && !(map_state->sprite_flags & 0x8000)) {
+            if (!(actor_state->flags & 0x8000) && !(map_state->sprite_flags & 0x8000)) {
                 process_nearby_object_midpoint(map_state, actor_state, dungeon_actor_ring_anchor->ground_height,
                     ((S_800A94A0_0 *)((u8 *)actor - 0x18))->unk_A0, 8, 0x300);
             } else {

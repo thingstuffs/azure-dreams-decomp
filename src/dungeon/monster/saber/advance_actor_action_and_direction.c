@@ -17,7 +17,7 @@ extern void clear_slots_of_type(ActorRecord *owner, s8 match_type);
 extern void select_sprite_entry(void *, s32, s32);
 extern s16 get_tile_chebyshev_distance(void *, void *);
 #include "dungeon/player/object/action_state.h"
-extern s32 generate_random_value(void *);
+extern s32 generate_random_value(void);
 extern void update_actor_status_and_mp(ActorRecord *entity);
 extern void update_timed_effect_size_and_position(void *, ObjectPosition *, void *, void *); /* Legacy four-argument caller view; callback ignores the last argument. */
 
@@ -114,13 +114,13 @@ void advance_actor_action_and_direction(ActorRecord *action, ObjectPosition *con
                     probe_result = get_tile_chebyshev_distance(origin, sprite_in);
                     actor_to_check = actor_in;
                     if (probe_result < 2) {
-                        if (!(generate_random_value(actor_in) & 7)) {
+                        if (!(generate_random_value() & 7)) {
                             clear_slots_of_type(actor_in, STATUS_SLEEP);
                         }
                         actor_to_check = actor_in;
                     }
                 } else {
-                    if (!(generate_random_value(origin) & 7)) {
+                    if (!(generate_random_value() & 7)) {
                         clear_slots_of_type(actor_in, STATUS_SLEEP);
                     }
                     actor_to_check = actor_in;

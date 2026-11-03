@@ -18,13 +18,6 @@
 
    /* part0 in create_overlay_effect_object */
 
-typedef struct S_80171718_3 {
-    u8 pad_00[0x24];
-    s8 unk_24;
-    s8 unk_25;
-    u8 pad_26[0x6];
-    void * unk_2C;
-} S_80171718_3;   /* part1 in create_overlay_effect_object */
 
 
 extern s32 generate_random_value(void);
@@ -46,7 +39,7 @@ void *create_overlay_effect_object(s16 spawn_flags, s16 attr_a, s16 attr_b, s32 
     void *result;
     void *object;
     SignedHeightView *part0;
-    S_80171718_3 *part1;
+    SpriteFrameState *part1;
     ActorRecord *result_copy;
 
     result = 0;
@@ -66,11 +59,11 @@ void *create_overlay_effect_object(s16 spawn_flags, s16 attr_a, s16 attr_b, s32 
             part0->z = attr_c;
             part1 = ((ProjectileObject *)object)->sprite;
             kind = spawn_flags & 3;
-            part1->unk_25 = attr_b;
+            part1->tile_y = attr_b;
             result_copy = result;
-            part1->unk_2C = handler;
+            part1->frameTable = handler;
         }
-        part1->unk_24 = attr_a;
+        part1->tile_x = attr_a;
 
         if (kind == 1) {
             flags0 = ((ActorRecord *)result)->flags14;
@@ -90,7 +83,7 @@ void *create_overlay_effect_object(s16 spawn_flags, s16 attr_a, s16 attr_b, s32 
                    (((ActorRecord *)result)->flags14 & ACTOR_RESIST_SLEEP) == 0 &&
                    (generate_random_value() & 1) != 0) {
             set_or_clear_actor_status_slot(result, STATUS_SLEEP, (generate_random_value() & 0x3F) | 0x20);
-            part1->unk_2C = weadog_frame_set_1;
+            part1->frameTable = weadog_frame_set_1;
         }
 
         initialize_actor_sprite_and_animation(object, part0, part1, spawn_flags);

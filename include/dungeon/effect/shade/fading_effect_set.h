@@ -242,6 +242,6 @@ void animate_spiral_grayscale_effect(CoordinateSpriteObjectBody *effect, void *p
 void create_coordinate_sprite_object(void *owner, ovl_188898c_81868E84_S_81868E84_3 *coords);
 void shrink_and_brighten_effect(DelayAndFadeParticleBody *state_ref, void *unused, SpriteFrameState *effect);
 void delay_and_fade_particle(s32 value, void *source_data);
-s32 interpolate_shade_and_queue_line(void *line_data, void *unused_render_context);
+s32 interpolate_shade_and_queue_line(void *line_data, SpriteFrameState *unused_render_context);
 void move_linked_effect_along_path(ovl_188898c_818694D4_Controller *input_ctrl, ovl_188898c_818694D4_Motion *input_motion, void *input_render_data);
 #endif

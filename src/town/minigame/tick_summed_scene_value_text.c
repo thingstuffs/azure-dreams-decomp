@@ -9,10 +9,6 @@
    /* the 0x2 bytes before arg0 in tick_summed_scene_value_text, addressed as arg0[-1] */
 
 
-typedef struct S_80020510_1 {
-    u8 pad_00[0x2A];
-    u16 unk_2A;
-} S_80020510_1;
 
 
 extern s16 D_800272A0[];
@@ -24,7 +20,7 @@ void tick_summed_scene_value_text(TerminalSceneTextObject *entry) {
     s32 value_index;
     s32 value_sum;
     u16 ticks_left;
-    S_80020510_1 *linked_object;
+    TownCollectionSequence *linked_object;
 
     value_sum = 0;
     value_index = 7;
@@ -49,7 +45,7 @@ void tick_summed_scene_value_text(TerminalSceneTextObject *entry) {
     case 1:
         format_decimal_field_space_padded(value_sum, strlen(entry->text),
                       entry->text);
-        if (linked_object->unk_2A & 1) {
+        if (linked_object->flags.u & 1) {
             flags = &((ObjectNodeHeader *)entry - 1)->flags;
             *flags =
                 (u16) (*flags | NODE_REMOVE);

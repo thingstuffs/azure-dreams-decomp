@@ -87,12 +87,12 @@ void initialize_timed_fade_object(Struct8009ED34Arg0 *context, ObjectPosition *u
 
 /* Updates a timed object, expiring it or stopping its motion at the height limit. */
 void update_timed_object_to_height_limit(void *object_arg, ObjectPosition *motion, S_8009C4E8_2 *appearance) {
-    S_8009C4E8_0 *object = object_arg;
+    TownObjectRecord *object = object_arg;
     s16 height_limit;
     u16 timer;
 
-    timer = object->unk_6C - 1;
-    object->unk_6C = timer;
+    timer = object->timer.as_u16 - 1;
+    object->timer.as_u16 = timer;
     if ((s16)(timer) < 0) {
         unlink_node_if_registered(object);
         ((ObjectRetirementFlags *)object)[-1].flags |= 0x8000;
@@ -113,7 +113,7 @@ void update_timed_object_to_height_limit(void *object_arg, ObjectPosition *motio
         appearance->unk_0C = 0x40;
         appearance->unk_10 = 0x20;
         appearance->unk_14 |= 0x1C;
-        object->unk_50 = D_8009C5D8;
+        object->unk_50.as_pm = D_8009C5D8;
     }
 }
 
@@ -148,7 +148,7 @@ void spawn_randomized_effect_parts(u8 *source_data, s32 spawn_arg) {
     ObjectNodeHeader *part_object;
     void *source_object;
     s32 random_z;
-    S_8009C648_5 *motion;
+    ObjectPosition *motion;
 
     memcpy(part_indices, D_80088D78, 6);
     part_index = 0;
@@ -171,11 +171,11 @@ void spawn_randomized_effect_parts(u8 *source_data, s32 spawn_arg) {
         random_z = rand();
         motion = velocity;
         part_params += 2;
-        motion->unk_14 = (s32)(0xFFF00000 - (random_z * 0x10));
-        motion->unk_00 =
-            (s32)(motion->unk_00 + (motion->unk_0C * 8));
-        motion->unk_04 =
-            (s32)(motion->unk_04 + (motion->unk_10 * 8));
+        motion->velocity_z = (s32)(0xFFF00000 - (random_z * 0x10));
+        motion->x.v =
+            (s32)(motion->x.v + (motion->velocity_x * 8));
+        motion->y.v =
+            (s32)(motion->y.v + (motion->velocity_y * 8));
         run_object_secondary_callback(part_data, motion, part_object->sprite);
         part_index += 1;
     } while (part_index < 6);

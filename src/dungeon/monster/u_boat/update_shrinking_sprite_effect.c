@@ -20,23 +20,13 @@ typedef struct S_80170A84_1 {
     u8 unk_B3;
 } S_80170A84_1;   /* base in update_shrinking_sprite_effect */
 
-typedef struct S_80170A84_2 {
-    u8 pad_00[0x6];
-    u16 unk_06;
-    u8 pad_08[0x4];
-    u8 unk_0C;
-    u8 unk_0D;
-    u8 unk_0E;
-    u8 pad_0F[0xB];
-    u16 unk_1A;
-} S_80170A84_2;   /* arg2 in update_shrinking_sprite_effect */
 
 
 
 /* Updates effect rotation and fading, then copies three source words to the output. */
 void update_shrinking_sprite_effect(UBoatAuraEffectBody *effect, void *output, void *render_arg)
 {
-    S_80170A84_2 *render_data = render_arg;
+    SpriteFrameState *render_data = render_arg;
     void *owner_data;
     u32 *source_words;
     u16 header_value;
@@ -49,11 +39,11 @@ void update_shrinking_sprite_effect(UBoatAuraEffectBody *effect, void *output, v
     source_words = effect->source.words;
     header_value = ((ObjectPosition *)(((S_80170A84_1_pre *)owner_data)[-1].unk_00))->y.unsigned_parts.integer;
 
-    angle = render_data->unk_1A + 400;
-    render_data->unk_1A = angle;
-    render_data->unk_06 = header_value;
+    angle = render_data->angle_z + 400;
+    render_data->angle_z = angle;
+    render_data->depth_bias = header_value;
     if (angle >= 4097) {
-        render_data->unk_1A = angle - 4096;
+        render_data->angle_z = angle - 4096;
     }
 
     phase_index = effect->phase.s;
@@ -68,9 +58,9 @@ void update_shrinking_sprite_effect(UBoatAuraEffectBody *effect, void *output, v
         ticks++;
         intensity = ((ticks << 16) >> 9) / duration;
         effect->ticks.s = ticks;
-        render_data->unk_0C = intensity;
-        render_data->unk_0D = intensity;
-        render_data->unk_0E = intensity;
+        render_data->color.c.r = intensity;
+        render_data->color.c.g = intensity;
+        render_data->color.c.b = intensity;
     }
         if (effect->ticks.u < 5) {
             break;
@@ -103,9 +93,9 @@ void update_shrinking_sprite_effect(UBoatAuraEffectBody *effect, void *output, v
         ticks++;
         intensity = ((ticks << 16) >> 9) / duration;
         effect->ticks.s = ticks;
-        render_data->unk_0C = intensity;
-        render_data->unk_0D = intensity;
-        render_data->unk_0E = intensity;
+        render_data->color.c.r = intensity;
+        render_data->color.c.g = intensity;
+        render_data->color.c.b = intensity;
     }
         if (effect->ticks.u < effect->duration) {
             break;
@@ -127,9 +117,9 @@ void update_shrinking_sprite_effect(UBoatAuraEffectBody *effect, void *output, v
         ticks--;
         intensity = ((ticks << 16) >> 9) / duration;
         effect->ticks.s = ticks;
-        render_data->unk_0C = intensity;
-        render_data->unk_0D = intensity;
-        render_data->unk_0E = intensity;
+        render_data->color.c.r = intensity;
+        render_data->color.c.g = intensity;
+        render_data->color.c.b = intensity;
     }
         if (effect->ticks.u > 0) {
             break;
@@ -147,9 +137,9 @@ void update_shrinking_sprite_effect(UBoatAuraEffectBody *effect, void *output, v
         ticks--;
         intensity = ((ticks << 16) >> 9) / duration;
         effect->ticks.s = ticks;
-        render_data->unk_0C = intensity;
-        render_data->unk_0D = intensity;
-        render_data->unk_0E = intensity;
+        render_data->color.c.r = intensity;
+        render_data->color.c.g = intensity;
+        render_data->color.c.b = intensity;
     }
         if (effect->ticks.u > 0) {
             break;

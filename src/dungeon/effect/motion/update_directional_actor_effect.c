@@ -11,10 +11,8 @@
 #include "shared/dungeon_status.h"
 #include "shared/dir_step.h"
 #include "dungeon/effect/motion.h"
+#include "dungeon/system.h"
 
-typedef struct S_8195281C_0_pre {
-    u16 unk_00;
-} S_8195281C_0_pre;   /* the 0x2 bytes before arg0 in func_8195281C, addressed as arg0[-1] */
 
 typedef struct S_8195281C_0 {
     s32 unk_00;
@@ -164,7 +162,7 @@ void update_directional_actor_effect(void *effect, void *color_data) {
         }
         g_dungeon_status.active_actor = 0;
         g_dungeon_status.activity_counts.parts.pending_action_count = (u16) (((u16)g_dungeon_status.activity_counts.parts.pending_action_count) - 1);
-        ((S_8195281C_0_pre *)effect)[-1].unk_00 = (u16) (((S_8195281C_0_pre *)effect)[-1].unk_00 | 0x8000);
+        NODE_HEADER(effect)->flags = (u16) (NODE_HEADER(effect)->flags | 0x8000);
         object_flag_block.flags =
             (s32) (object_flag_block.flags | 0x8000);
     }

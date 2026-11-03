@@ -2,6 +2,8 @@
 #include "dungeon/monster/saber.h"
 #include "shared/dungeon_moving_views.h"
 #include "dungeon/effect/screen.h"
+#include "dungeon/item/effect.h"
+#include "dungeon/system.h"
 
 typedef struct S_801745BC_0_pre {
     void * unk_00;
@@ -31,11 +33,6 @@ typedef struct S_801745BC_1 {
     s16 unk_64;
 } S_801745BC_1;   /* node in process_nodes_at_target_tile */
 
-typedef struct S_801745BC_2 {
-    u8 pad_00[0x24];
-    u8 unk_24;
-    u8 unk_25;
-} S_801745BC_2;   /* data in process_nodes_at_target_tile */
 
 
 typedef struct S_801745BC_4 {
@@ -51,8 +48,6 @@ typedef struct S_801745BC_4 {
 
 
 extern void initialize_timed_motion_step(u16, u32);
-extern void spawn_radial_particle_burst(s16, s16, s16, s16, s32); /* Unprototyped: retail call passes more arguments than the callee reads */
-extern void play_sound_if_enabled(s32);
 
 /* Process nodes at the target tile and height, triggering type-specific effects. */
 void process_nodes_at_target_tile(void *node, s32 target_x, s32 target_y, s32 target_height)
@@ -76,12 +71,12 @@ void process_nodes_at_target_tile(void *node, s32 target_x, s32 target_y, s32 ta
         center_height = (s32)(height_arg << 16) >> 16;
         low_height = center_height - 0x40;
         do {
-            S_801745BC_2 *node_data = ((S_801745BC_1_pre *)node)[-1].unk_04;
+            SpriteFrameState *node_data = ((S_801745BC_1_pre *)node)[-1].unk_04;
             ObjectPosition *node_position = ((S_801745BC_1_pre *)node)[-1].unk_00;
             s32 height;
 
-            if ((node_data->unk_24 == (match_x & 0xFFFF)) &&
-                (node_data->unk_25 == (match_y & 0xFFFF))) {
+            if ((node_data->tile_x == (match_x & 0xFFFF)) &&
+                (node_data->tile_y == (match_y & 0xFFFF))) {
                 height = node_position->z.w.i;
                 if (((center_height + 0x40) >= height) && (low_height < height)) {
                     if ((u32)(((S_801745BC_1 *)node)->unk_13 - 0x33) < 4U) {

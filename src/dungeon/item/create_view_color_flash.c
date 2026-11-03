@@ -3,12 +3,11 @@
 #include "shared/dungeon_status.h"
 #include "dungeon/item.h"
 #include "engine/node/allocation.h"
+#include "dungeon/system.h"
 
 #ifndef NULL
 #define NULL 0
 #endif
-
-s32 play_sound_if_enabled(s32 query_value);
 
 typedef struct S_800C4D78_0 {
     u8 pad_00[0x10];

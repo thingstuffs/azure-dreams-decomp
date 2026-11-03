@@ -5,6 +5,7 @@
 #include "shared/object_node.h"
 #include "engine/window.h"
 #include "town/menu.h"
+#include "town/menu_callbacks_api.h"
 
 /*
  * Derives effect angle and intensity from the camera heading, copies camera X/Y, and spawns a
@@ -36,7 +37,7 @@ void *allocate_randomized_effect_object(s32 state_value)
     if (object == 0) {
         return 0;
     }
-    object->update_callback = D_800A2690;
+    object->update_callback = draw_fading_flickering_triangle;
     state = ((void *)object) + 0x20;
     initial_count = scale_random_to_unsigned_halfword_limit(0xB4) + 0x3C;
     state->unk_04 = initial_count;

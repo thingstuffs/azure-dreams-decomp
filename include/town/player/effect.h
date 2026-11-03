@@ -10,7 +10,6 @@ struct SpriteFrameState;
 #include "shared/town_object.h"
 
 struct S_800A58CC_2;
-struct S_800A5DF8_0;
 struct S_800A5DF8_4;
 
 /* create_colored_scaled_effect.c */

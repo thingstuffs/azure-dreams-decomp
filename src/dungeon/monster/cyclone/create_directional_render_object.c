@@ -18,17 +18,7 @@ typedef struct {
 #define NULL 0
 #endif
 
-typedef struct S_80175858_2 {
-    u8 pad_00[0x2A];
-    u16 unk_2A;
-} S_80175858_2;   /* arg0_hold in create_directional_render_object */
 
-typedef struct S_80175858_4 {
-    u8 pad_00[0x12];
-    u16 unk_12;
-    u8 pad_14[0x14];
-    s32 unk_28;
-} S_80175858_4;   /* arg2_hold in create_directional_render_object */
 
 typedef struct {
     s32 words[6];
@@ -44,9 +34,9 @@ void *create_directional_render_object(void *direction_src, Copy24 *initial_data
     ObjectNodeHeader *object;
     void *data_dst;
     u16 render_attr;
-    S_80175858_2 *direction_ref = direction_src;
+    ActorRecord *direction_ref = direction_src;
     Copy24 *data_src = initial_data;
-    S_80175858_4 *render_ref = render_src;
+    SpriteFrameState *render_ref = render_src;
 
     object = allocate_flagged_object_node(0x312);
     if (object != NULL) {
@@ -54,11 +44,11 @@ void *create_directional_render_object(void *direction_src, Copy24 *initial_data
         register_node(object, project_sprite_chain);
         object_state = NODE_BODY(object);
         object_state->facing_angle.u =
-            (u16)direction_ref->unk_2A;
+            (u16)(u16)(direction_ref->facing);
         render_data = object->sprite;
         render_data->animation_resource =
-            render_ref->unk_28;
-        render_attr = render_ref->unk_12;
+            render_ref->animation_resource;
+        render_attr = render_ref->clut;
         render_data->color.word = 0x808080;
         render_data->scale_y = 0x800;
         render_data->scale_x = 0x800;

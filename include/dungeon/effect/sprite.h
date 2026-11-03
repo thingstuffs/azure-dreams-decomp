@@ -187,7 +187,7 @@ void handle_retail_n_81887570_callee_80024_d_70_fade_colour_n_1_n_8_per_call_mar
 void run_jittered_point_sequence(void *sequence, void *out_position);
 void run_radial_sprite_sequence(struct S_func_81886800_1 *effect, struct S_func_81886800_11 *motion, struct S_func_81886800_3 *sprite);
 void update_jittered_effect_points(void *effect);
-void update_pulsing_actor_color(FixedTileEffectIfAvailableBody *state_data, ObjectPosition *unused, void *actor_data);
+void update_pulsing_actor_color(FixedTileEffectIfAvailableBody *state_data, ObjectPosition *unused, SpriteFrameState *actor_data);
 void update_randomized_intermediate_points(void *self);
 
 s32 build_and_enqueue_interpolated_depth_sorted_shaded_lines_linked_list(void *first_owner, void *first_vertices, void *first_line);

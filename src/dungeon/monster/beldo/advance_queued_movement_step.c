@@ -21,12 +21,6 @@ typedef struct S_801719C0_3 {
     u8 unk_7C;
 } S_801719C0_3;   /* entry in advance_queued_movement_step */
 
-typedef struct S_801719C0_4 {
-    u8 pad_00[0x74];
-    u8 unk_74;
-    u8 pad_75[0x7];
-    u8 unk_7C;
-} S_801719C0_4;   /* (u8 *)arg3 + ((S_801719C0_0 *)arg3)->unk_8A.s in advance_queued_movement_step */
 
 /* Advances a queued movement step and updates position, direction, and timing. */
 void advance_queued_movement_step(ActorRecord *motion, ObjectPosition *unused, SpriteFrameState *sprite, ActorRecord *path) {
@@ -71,9 +65,9 @@ void advance_queued_movement_step(ActorRecord *motion, ObjectPosition *unused, S
         update_map_cell_flags_with_item_limit(old_x, old_y, tile_mask);
 
         sprite->tile_x =
-            ((S_801719C0_4 *)((u8 *)path + path->unk_8A))->unk_74;
+            ((ActorRecord *)((u8 *)path + path->unk_8A))->path_x[0];
         sprite->tile_y =
-            ((S_801719C0_4 *)((u8 *)path + path->unk_8A))->unk_7C;
+            ((ActorRecord *)((u8 *)path + path->unk_8A))->path_y[0];
         path->unk_8A++;
 
         cycle_map_cell_flags(sprite->tile_x, sprite->tile_y,

@@ -2,6 +2,7 @@
 #include "m2c_compat.h"
 #include "records/Rec_func_800B683C_arg0.h"
 #include "town/shop/state.h"
+#include "town/shop/object.h"
 
 
 typedef struct S_800B683C_2 {
@@ -13,16 +14,16 @@ typedef struct S_800B683C_2 {
 
 
 /* Clears two linked values and initializes the object's embedded data. */
-void clear_linked_entry_state(void *object) {
+void clear_linked_entry_state(ShopFirstCallbackObject *object) {
     s32 *linkedValue;
     s32 slotIndex;
 
     slotIndex = 0x14;
     do {
-        linkedValue = *(s32 **)((slotIndex * 4) + ((Rec_func_800B683C_arg0 *)object)->unk_98);
+        linkedValue = *(s32 **)((slotIndex * 4) + object->resource_id.as_ptr);
         slotIndex += 1;
         *linkedValue = 0;
     } while (slotIndex < 0x16);
-    *((S_800B683C_2 *)(((Rec_func_800B683C_arg0 *)object)->unk_98))->unk_5C = object + 0x18;
-    set_monster_status_panel_height(*((S_800B683C_2 *)(((Rec_func_800B683C_arg0 *)object)->unk_98))->unk_5C, 0);
+    *((S_800B683C_2 *)(object->resource_id.as_ptr))->unk_5C = ((void *)object) + 0x18;
+    set_monster_status_panel_height(*((S_800B683C_2 *)(object->resource_id.as_ptr))->unk_5C, 0);
 }

@@ -18,14 +18,9 @@
 #include "dungeon/actor.h"
 #include "dungeon/monster/picket.h"
 #include "sdk/libc.h"
-
-typedef struct S_80172C90_3 {
-    u8 pad_00[0xA6];
-    u16 unk_A6;
-} S_80172C90_3;   /* localOwner in update_the_actor_action_sequence_including_movement_landing_recovery */
+#include "dungeon/system.h"
 
 
-extern void play_sound_if_enabled(s32);
 extern void create_two_effect_groups(void *, void *, void *, s32);
 extern void select_sprite_entry(void *, u8, s32);
 
@@ -185,11 +180,11 @@ void update_the_actor_action_sequence_including_movement_landing_recovery(ActorR
         motion->velocity_x = 0;
         set_record_integer_tile_center(motion, sprite->tile_x, sprite->tile_y);
         {
-            void *owner;
+            ActorRecord *owner;
 
             owner = primary_actor_record;
             g_dungeon_status.active_actor = 0;
-            ((S_80172C90_3 *)owner)->unk_A6--;
+            owner->unk_A4.halves.high.u--;
         }
         advance_status_timers(actor);
         (*(u8 *)&actor->pending_turn_updates)--;

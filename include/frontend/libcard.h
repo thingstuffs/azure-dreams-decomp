@@ -1,5 +1,7 @@
 #ifndef FRONTEND_LIBCARD_H
 #define FRONTEND_LIBCARD_H
+#include "frontend/libcard/save_menu.h"
+#include "frontend/libcard/message_dialog.h"
 struct ObjectNodeHeader;
 /* Prototypes of the functions defined in src/frontend/libcard/ (one true prototype each; maintained by tools/headers). */
 
@@ -391,7 +393,7 @@ struct S_800491F4 *link_save_heading_draw_nodes(void *input);
 void card_boot_measure_five_line_message(CardMenuEntry *entry);
 void card_boot_bind_message_dialog_record(Rec_func_8002290C_arg0 *record, s32 value_14, s32 entry_index, s32 value_0c, s32 value_20);
 void card_boot_initialize_message_dialog_layout(s32 record, s32 value_14, s32 entry_index, s32 value_0c, s32 value_20);
-void card_boot_activate_message_dialog(void *object);
+void card_boot_activate_message_dialog(CardMessageDialogBody *object);
 u8 *card_boot_create_or_reset_message_dialog(s32 value_14, s32 entry_index, s32 value_0c, s32 value_20);
 
 /* occupied_slot_window_g00386.c */
@@ -406,7 +408,7 @@ void process_nonzero(void *record);
 void *render_rotated_grid_surface(s32 parent, s32 context, s32 mode);
 
 /* route_save_slot_validation.c */
-void route_save_slot_validation(void *context);
+void route_save_slot_validation(CardSaveMenuBody *context);
 
 /* set_entry_destination_and_value.c */
 void set_entry_destination_and_value(void *state);

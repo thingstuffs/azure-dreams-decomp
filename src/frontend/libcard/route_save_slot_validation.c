@@ -9,7 +9,7 @@
 void func_800264D8(void *context);
 
 /* Selects a state table or handler based on the context and current status. */
-void route_save_slot_validation(void *context) {
+void route_save_slot_validation(CardSaveMenuBody *context) {
     CardSaveMenuBody *state = context;
     if (card_save_slot_metadata[state->selection].words[0] != 0) {
         ((ObjectNodeHeader *)context - 1)->update_callback = D_8002644C;

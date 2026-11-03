@@ -705,7 +705,7 @@ void advance_sprite_animation_and_textures(void *entity);
 s32 rsin(s32);
 s32 refresh_actor_facing_and_lifecycle();
 s16 sample_terrain_surface_height();
-s32 check_entity_relation();
+s16 check_entity_relation(ActorRecord *entry, ActorRecord *anchor);
 s32 find_active_rect_containing_point(s32 point_x, s32 point_y);
 s32 can_entity_gain_level(void *entity);
 void update_actor_status_and_mp(ActorRecord *entity);

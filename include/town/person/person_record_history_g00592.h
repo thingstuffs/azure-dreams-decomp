@@ -23,10 +23,6 @@ typedef struct {
     u16 field_6;
 } TownRecord;
 
-typedef struct S_800AB014_1 {
-    u8 pad_00[0x6];
-    u16 unk_06;
-} S_800AB014_1;
 
 extern u16 scene_object_payload_alias[];
 extern s16 D_800834C8;

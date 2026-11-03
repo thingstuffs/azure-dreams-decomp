@@ -7,10 +7,6 @@
 #include "dungeon/actor.h"
 
 
-typedef struct S_800C8150_2 {
-    u8 pad_00[0x54];
-    u32 unk_54;
-} S_800C8150_2;   /* object in advance_eligible_actor_or_perform_action */
 
 typedef struct TablePage {
     u8 pad[0x2098];
@@ -31,7 +27,7 @@ u32 advance_eligible_actor_or_perform_action(ActorRecord *actor, s16 action_arg_
     u8 *slot_entry;
     void *message_target;
     u8 *message;
-    S_800C8150_2 *linked_object;
+    ActorRecord *linked_object;
     s32 state_index;
     s32 raw_state_index;
     s32 state_offset;
@@ -48,7 +44,7 @@ u32 advance_eligible_actor_or_perform_action(ActorRecord *actor, s16 action_arg_
         status_mask = 0x40000;
         do {
             linked_object = ((ActorRecord *)slot_entry)->unk_AC.address;
-            if ((linked_object != 0) && (linked_object->unk_54 & status_mask)) {
+            if ((linked_object != 0) && ((u32)(linked_object->status_flags) & status_mask)) {
                 message_target = actor;
                 message = D_800E18F5;
                 adjust_source_value_and_finalize(message_target, message);

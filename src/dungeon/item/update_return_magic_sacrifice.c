@@ -94,7 +94,6 @@ typedef struct S_800C2824_16 {
 void unlink_entity_node(struct EntityLinkNode *node);
 void update_map_cell_flags_with_item_limit(s32 x, s32 y, u16 flags);
 void *detach_record_and_update_slot_state(void *record);
-s32 play_sound_if_enabled(s32 query_value);
 void draw_transformed_sprite_with_clip_rect();
 void * create_five_point_effect(u8, u8, s16, void *, s32, s32, void *); /* Unprototyped: uses the value as a pointer where the definition has an integer (or the reverse) */
 void retire_tracked_effect_by_id(s32 targetId);

@@ -677,7 +677,7 @@ extern s32 interpolate_actor_to_terrain_tile(void *,void *,void *,void *);
 extern s32 update_spinning_actor_fall(void *,void *,SpriteFrameState *,void *);
 extern s32 propagate_actor_action_flag(ActorRecord *body, ObjectPosition *position, SpriteFrameState *sprite, ActorRecord *actor);
 extern s32 update_actor_transform_from_parent(void *, void *, void *, void *);
-extern s32 update_actor_fade_in(void *,void *,void *,void *);
+extern s32 update_actor_fade_in(void *,void *,void *);
 void spend_actor_mp(ActorRecord *entity, s32 base_reduction);
 
 extern s16 sample_terrain_surface_height(s32,s32,s16);

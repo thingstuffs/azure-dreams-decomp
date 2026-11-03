@@ -13,9 +13,9 @@ struct ObjectPosition;
 #include "dungeon/actor.h"
 #include "dungeon/player/object.h"
 #include "dungeon/effect.h"
+#include "dungeon/system.h"
 
 s32 get_entity_effect_value(void *, s32);
-void play_sound_if_enabled(s32);
 extern s32 monster_species_table;
 extern s8 scene_music_hold;
 extern s8 D_80080AA0;

@@ -2,11 +2,11 @@
 #include "common.h"
 #include "dungeon/monster/beldo_large.h"
 #include "shared/object_flags.h"
+#include "dungeon/system.h"
 
 
 
 extern void initialize_timed_motion_step(s32, s32);
-extern void play_sound_if_enabled(u32);
 extern s16 encounter_blink_update_flag[5];
 
 

@@ -7,6 +7,7 @@
 #include "shared/entity.h"
 #include "dungeon/player/object.h"
 #include "dungeon/effect/particle.h"
+#include "dungeon/system.h"
 
 /* Sparse views for fields not covered by the existing record types. */
 
@@ -29,7 +30,6 @@ extern u8 beldo_large_frame_set_2[];
 
 extern void initialize_timed_motion_step(s32, s32, void *);
 extern void select_sprite_entry(void *, u8, s32);
-extern void play_sound_if_enabled(s32);
 extern void create_eight_part_textured_ribbon(void *, void *, SpriteFrameState *, void *);
 extern void create_player_centered_sequence_effect(void *, void *, void *); /* Unprototyped: retail call passes more arguments than the callee reads */
 

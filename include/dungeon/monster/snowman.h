@@ -548,7 +548,7 @@ void select_sprite_entry(void *object_data, s16 table_index, s16 entry_index);
 void func_80047784(void *object_data, s16 table_index, s16 entry_index);
 s32 refresh_actor_facing_and_lifecycle();
 s16 sample_terrain_surface_height();
-s32 check_entity_relation();
+s16 check_entity_relation(ActorRecord *entry, ActorRecord *anchor);
 s32 find_active_rect_containing_point(s32 point_x, s32 point_y);
 s32 can_entity_gain_level(void *entity);
 void update_actor_status_and_mp(ActorRecord *entity);
@@ -585,7 +585,6 @@ s32 interpolate_actor_to_terrain_tile(struct S_800AC480_0 *move_state, ObjectPos
 s32 update_spinning_actor_fall();
 s32 update_actor_fade_in();
 void initialize_timed_motion_step(unsigned short countdown, unsigned int amount);
-void spawn_radial_particle_burst(); /* Unprototyped: retail call passes more arguments than the callee reads */
 void func_800453E0(void *context, void *position, struct Entry *entry, s16 depth_bias);
 s32 rcos(s32);
 void unlink_node();

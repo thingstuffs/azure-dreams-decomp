@@ -16,7 +16,6 @@
 #define NULL 0
 #endif
 
-
 /* town in emit_bidirectional_angular_segments */
 typedef struct S_800A3B80_1 {
     u8 pad_00[0x8];
@@ -40,11 +39,6 @@ typedef struct S_800A3B80_3 {
     s16 unk_0C;
 } S_800A3B80_3;
 
-/* arg0 in emit_bidirectional_angular_segments */
-typedef struct S_800A3B80_4 {
-    void * unk_00;
-} S_800A3B80_4;
-
 /* global_base in emit_bidirectional_angular_segments */
 
 /* end_town in emit_bidirectional_angular_segments */
@@ -53,7 +47,6 @@ typedef struct TownGlobals {
     u8 pad04[0xC4];
     u16 angle;
 } TownGlobals;
-
 
 typedef struct S_800A41D8_0 {
     u8 pad_00[0x8];

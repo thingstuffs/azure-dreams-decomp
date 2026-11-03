@@ -7,17 +7,6 @@
 
 
 
-typedef struct S_func_80D40744_1 {
-    u8 pad_00[2];
-    u16 unk_02;
-    u8 pad_04[6];
-    union {
-        s16 s16;
-        u16 u16;
-    } unk_0A;
-    void *unk_0C;
-    void *unk_10;
-} S_func_80D40744_1;
 
 
 /*
@@ -52,13 +41,13 @@ void begin_actor_exclusive_action(ActorRecord *entity, ObjectPosition *unused_1,
         }
     } else {
         state_or_flags = (s32)&g_dungeon_status.turn_scale;
-        if ((((S_func_80D40744_1 *)state_or_flags)->unk_02 & 0x2000) ||
-            ((S_func_80D40744_1 *)state_or_flags)->unk_0A.s16 != 0) {
+        if ((((DungeonGlobalStatus *)state_or_flags)->flags & 0x2000) ||
+            ((DungeonGlobalStatus *)state_or_flags)->activity_counts.parts.pending_action_count != 0) {
             saved_entity->action_id.u = 14;
             return;
         }
-        ((S_func_80D40744_1 *)state_or_flags)->unk_0A.s16 =
-            (u16)((S_func_80D40744_1 *)state_or_flags)->unk_0A.s16 + 1;
+        ((DungeonGlobalStatus *)state_or_flags)->activity_counts.parts.pending_action_count =
+            (u16)((DungeonGlobalStatus *)state_or_flags)->activity_counts.parts.pending_action_count + 1;
     }
 
     {

@@ -1069,7 +1069,7 @@ extern void SetPolyG4(void *);
 extern void SetDrawMode(void *, s32, s32, u16, s32);
 extern s32 rand(void);
 extern void unlink_entity_node(struct EntityLinkNode *node);
-extern s32 check_entity_relation(void *,void *);
+extern s16 check_entity_relation(ActorRecord *entry, ActorRecord *anchor);
 extern void cycle_map_cell_flags(s16 x, s16 y, u16 flags);
 extern void update_map_cell_flags_with_item_limit(s32 x, s32 y, u16 flags);
 extern s16 check_diagonal_side_height(s32 direction, s16 tile_x, s16 tile_y, s16 height);

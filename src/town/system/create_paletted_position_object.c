@@ -8,12 +8,7 @@
 #include "town/person.h"
 #include "town/system.h"
 
-
-typedef struct S_80956E6C_4 {
-    u8 pad_00[0x48];
-    u16 unk_48;
-    u16 unk_4A;
-} S_80956E6C_4;   /* arg2 in create_paletted_position_object */
+   /* arg2 in create_paletted_position_object */
 
 typedef struct Palette {
     s32 value[5];

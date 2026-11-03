@@ -10,8 +10,8 @@
 #include "dungeon/item.h"
 #include "dungeon/level.h"
 #include "dungeon/player/object.h"
+#include "dungeon/system.h"
 
-extern s32 play_sound_if_enabled(s32 query_value);
 extern s32 display_text_with_fullwidth_adjustment(s8 *text);
 extern s32 random_dungeon_range_16(u32 bound_a, u32 bound_b);
 

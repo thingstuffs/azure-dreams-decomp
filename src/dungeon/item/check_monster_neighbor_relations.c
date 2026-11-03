@@ -5,7 +5,7 @@ extern s32 check_diagonal_side_height(s32 direction, s16 tile_x, s16 tile_y, s16
 extern s16 find_active_rect_containing_point(u16, u16);
 
 /* Checks distinct neighboring positions for equal values or a successful fallback check. */
-s32 check_monster_neighbor_relations(s16 x0, s16 y0, s16 check_param, s16 x1, s16 y1) {
+s32 check_monster_neighbor_relations(s16 x0, s16 y0, s16 check_param, s16 x1, s16 y1, s16 unused) {
     s32 dx;
     s32 dy;
     u16 query_aux;

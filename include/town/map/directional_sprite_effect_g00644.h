@@ -23,19 +23,7 @@ struct SpriteFrameState;
 #include "shared/object_links.h"
 #include "sdk/libgte.h"
 
-typedef struct S_800BC574_7 {
-    u8 pad_00[0xC];
-    s32 unk_0C;
-    s32 unk_10;
-} S_800BC574_7;
-
 /* copy_dst in create_directional_sprite_effect */
-/* held_arg0 in create_directional_sprite_effect */
-typedef struct S_800BC574_5 {
-    u8 pad_00[0xC];
-    s32 unk_0C;
-} S_800BC574_5;
-
 
 struct Dst;
 

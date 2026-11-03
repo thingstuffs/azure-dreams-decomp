@@ -9,6 +9,7 @@
 #include "shared/game_work.h"
 #include "dungeon/effect/sprite.h"
 #include "dungeon/actor.h"
+#include "dungeon/effect/shade.h"
 
 /* Transforms four colored vertices and queues a visible shaded quad with the requested depth bias. */
 void project_and_queue_shaded_quad(void *quad, void *position_arg, void *render_state_arg, s16 depth_bias)

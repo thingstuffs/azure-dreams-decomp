@@ -638,7 +638,7 @@ void choose_griffon_move(ActorRecord *move_data, ObjectPosition *context, Sprite
                     TileObject *target_position = &reference_tile_object;
                     s32 target_facing = ((u16)primary_actor_record->facing);
                     s32 offset_index =
-                        ((((u8 *)&actor_data->unk_44.whole)[1] + ((s16)target_facing >> 9)) & 7) << 1;
+                        ((actor_data->unk_44.bytes.high + ((s16)target_facing >> 9)) & 7) << 1;
                     target_x = target_position->tile_position.parts.tile_x +
                         *(u16 *)((u8 *)((s8 *)dir_step_x) + offset_index);
                     target_y = target_position->tile_position.parts.tile_y +
@@ -1012,7 +1012,7 @@ void hop_griffon_to_tile(ActorRecord *action, void *motion, SpriteFrameState *sp
         action->action_phase.u++;
         break;
     case 2:
-        if (((R08_8017245C_S_80172478_2 *)actor)->unk_1C.s & 0x08000000) {
+        if ((u32)(actor->flags1C) & 0x08000000) {
             action->action_state_flags &= 0xFFF7;
             ((EntityRec *)motion)->flags14 = 0;
             ((EntityRec *)motion)->unk_10 = 0;
@@ -1892,7 +1892,7 @@ void create_four_directional_effects(ActorRecord *state, ObjectPosition *motion,
 
 /* Runs update_actor_fade_in and installs update_actor_behavior_and_effect when it returns nonzero. */
 void finish_actor_fade_in_then_resume_effect_behavior(ActorRecord *state, ObjectPosition *motion, SpriteFrameState *position, ActorRecord *actor) {
-    if (update_actor_fade_in(state, motion, position, actor)) {
+    if (update_actor_fade_in(state, motion, position)) {
         state->unk_8C.handler = update_actor_behavior_and_effect;
     }
 }
@@ -2113,14 +2113,14 @@ void advance_effect_and_child_animation(ActorRecord *effect_state, ObjectPositio
         run_cd_image_commands(D_80174CF4, D_80174D18, 0);
         effect_state->unk_B0.halves.low.s = 0;
         effect_state->action_phase.u++;
-        saved_angle = ((R08_80174648_S_80174648_1 *)actor)->unk_2A.u;
+        saved_angle = (u16)(actor->facing);
         actor->unk_8A = saved_angle;
         /* fallthrough */
 
     case 2:
         direction = ((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7;
         mode = ((u8 *)((void * *)griffon_transition_sprite_source))[-4];
-        angle = ((R08_80174648_S_80174648_1 *)actor)->unk_2A.u;
+        angle = (u16)(actor->facing);
         if ((mode == 0) || (direction != 2)) {
             if (direction == 2) {
                 return;
@@ -2246,7 +2246,7 @@ void advance_effect_and_child_animation(ActorRecord *effect_state, ObjectPositio
             }
             effect_state->action_timer.s = 0x10;
             effect_state->action_phase.u++;
-            ((R08_80174648_S_80174648_10 *)actor->target)->unk_2A = ((R08_80174648_S_80174648_1 *)actor)->unk_2A.u;
+            ((R08_80174648_S_80174648_10 *)actor->target)->unk_2A = (u16)(actor->facing);
             child_or_angle = ((R08_80174648_S_80174648_1 *)actor)->unk_60.i;
             child_sprite = ((R08_80174648_S_80174648_6_pre *)((void *)child_or_angle))[-1].unk_00;
             child_or_angle = ((R08_80174648_S_80174648_6 *)((void *)child_or_angle))->unk_2A;

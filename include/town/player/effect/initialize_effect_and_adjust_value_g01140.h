@@ -85,13 +85,6 @@ typedef struct {
     s32 value;
 } Actor;
 
-typedef struct S_800A5DF8_0 {
-    u8 pad_00[0xA];
-    s16 unk_0A;
-    u8 pad_0C[0x8];
-    s32 unk_14;
-} S_800A5DF8_0;
-
 typedef struct S_800A5DF8_1 {
     u8 unk_00;
 } S_800A5DF8_1;

@@ -195,7 +195,7 @@ typedef struct TimedSpriteImpactBody {
     u8 pad_00[0x2];
     union { u16 u; s16 s; } timer;
 } TimedSpriteImpactBody;
-void grow_timed_sprite_effect(TimedSpriteImpactBody *state, ObjectPosition *unused, void *target);
+void grow_timed_sprite_effect(TimedSpriteImpactBody *state, ObjectPosition *unused, SpriteFrameState *target);
 
 /* State, animation phase, and lifetime for the counter-driven moving effect. */
 typedef struct DecrementObjectCounterBody {

@@ -125,7 +125,7 @@ extern void *actor_action_frames[];
  * does not share the base register with the plain D_80082E80 uses (retail rebuilds the address after the calls). */
 extern TileObject D_80082E80_initial __asm__("D_80082E80");
 extern s16 actor_turn_angle_offsets[];
-s32 check_entity_relation();
+s16 check_entity_relation(ActorRecord *entry, ActorRecord *anchor);
 s32 update_actor_proximity_flag(void *source, void *state, s32 lower_limit, s32 upper_limit, s8 *result);
 s32 generate_random_value(void);
 

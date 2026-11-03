@@ -18,7 +18,6 @@
 
    /* &D_800D0504 in draw_entry_overlays */
 
-
 typedef struct S_800970FC_4 {
     u8 pad_00[0x4];
     s32 unk_04;
@@ -56,7 +55,6 @@ typedef struct S_800970FC_8 {
     u16 unk_06;
 } S_800970FC_8;   /* rect in draw_entry_overlays */
 
-
 typedef struct S_800970FC_10 {
     u8 pad_00[0x4];
     u8 unk_04;
@@ -79,13 +77,7 @@ typedef struct S_800970FC_11 {
     s16 unk_14;
 } S_800970FC_11;   /* temp_s0_4 in draw_entry_overlays */
 
-typedef struct S_800970FC_12 {
-    u8 pad_00[0x10];
-    u16 unk_10;
-    u8 pad_12[0x2];
-    u16 unk_14;
-} S_800970FC_12;   /* late_entry in draw_entry_overlays */
-
+   /* late_entry in draw_entry_overlays */
 
 typedef struct S_800970FC_14 {
     u8 pad_00[0x4];

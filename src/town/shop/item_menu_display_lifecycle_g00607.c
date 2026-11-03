@@ -3,6 +3,7 @@
 #include "town/shop/item_menu_display_lifecycle_g00607.h"
 #include "shared/object_node.h"
 #include "town/shop.h"
+#include "town/system_callbacks_api.h"
 
 /* Create a display controller and its child display object. */
 void *create_item_menu_display_controller(s32 owner, s32 display_config, s32 x, s32 y, s32 init_config) {
@@ -21,7 +22,7 @@ void *create_item_menu_display_controller(s32 owner, s32 display_config, s32 x, 
         init_result = set_item_menu_flag_and_return_one(state, init_config);
         state->init_result = init_result;
         if (init_result != 0) {
-            object->update_callback = &D_800B0490;
+            object->update_callback = handle_item_menu_input;
             display_object = create_item_menu_child_at_position(object, x, y, display_config, state->init_result, state);
             state->child = display_object;
             if (display_object == 0) {

@@ -29,7 +29,6 @@ typedef struct S_801734E0_0 {
 /* copy_arg0 in update_actor_status_callback */
 extern s32 get_entity_effect_value(ActorRecord *entry, s32 effect_id);
 extern void clear_slots_of_type(ActorRecord *owner, s8 match_type);
-extern s16 check_entity_relation(ActorRecord *entry, ActorRecord *anchor);
 extern s32 get_tile_chebyshev_distance(void *, void *);
 #include "dungeon/player/object/action_state.h"
 extern s32 generate_random_value(void);

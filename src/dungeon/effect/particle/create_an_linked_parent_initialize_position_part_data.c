@@ -1,3 +1,4 @@
+#include "shared/object_node.h"
 #include "shared/object_node_flags.h"
 /* Timed display slots, parent-linked sprites, and a palette and particle transition. */
 #include "shared/sprite_frame_state.h"
@@ -6,6 +7,8 @@
 #include "engine/graphics.h"
 #include "dungeon/effect/particle.h"
 #include "slus.h"
+#include "dungeon/system.h"
+
 void (*const dungeon_19b4800_entry)(struct TransitionState *, void *, void *) = update_palette_particle_transition;
 const RectTable linked_particle_texture_rects = {{
  {0x340,0x140,0x40,0x40}, {0x340,0x180,0x40,0x40},
@@ -19,9 +22,6 @@ const RectTable linked_particle_texture_rects = {{
 #include "shared/object_flags.h"
 #include "shared/entity.h"
 
-typedef struct S_81994800_0_pre {
-    u16 unk_00;
-} S_81994800_0_pre;   /* the 0x2 bytes before arg0 in func_8002405C, addressed as arg0[-1] */
 
 typedef struct S_81994800_1 {
     u8 pad_00[0x6];
@@ -56,7 +56,7 @@ void fade_linked_display_sprite(FreeSlotDisplayEffectBody *effect, void *unused_
     }
     if ((s16)((u16)effect->remaining.u) <= 0) {
         ((S_81994800_2 *)(((effect->slot_index * 2) + ((u8 *)effect->owner))))->unk_46 = 0;
-        (*(u16 *)((u8 *)effect + -2)) = (u16)(((S_81994800_0_pre *)effect)[-1].unk_00 | NODE_REMOVE);
+        (*(u16 *)((u8 *)effect + -2)) = (u16)(NODE_HEADER(effect)->flags | NODE_REMOVE);
         object_flag_block.flags = object_flag_block.flags | OBJECT_REMOVE_PENDING;
     }
 }
@@ -214,7 +214,7 @@ typedef struct S_800243E4_1_pre {
 
 
 /* Create an object linked to its parent and initialize its position and part data. */
-void create_an_linked_parent_initialize_position_part_data(void *parent, ObjectPosition *unused_context, void *unused_parameters) {
+void create_an_linked_parent_initialize_position_part_data(void *parent, ObjectPosition *unused_context, SpriteFrameState *unused_parameters) {
     ObjectPosition *position;
     SpriteFrameState *part;
     ObjectNodeHeader *object;

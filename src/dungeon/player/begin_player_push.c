@@ -9,6 +9,7 @@
 #include "dungeon/item.h"
 #include "dungeon/player/position.h"
 #include "engine/graphics.h"
+#include "dungeon/system.h"
 
 
 
@@ -24,7 +25,6 @@ typedef struct S_8008CD4C_2 {
 void update_map_cell_flags_with_item_limit(s32 x, s32 y, u16 flags);
 s32 can_push_adjacent_actor();
 void * find_eligible_actor_at_tile_and_height();
-s32 play_sound_if_enabled(s32 query_value);
 
 extern u8 player_push_start_frames[];
 extern u8 player_push_frames[];

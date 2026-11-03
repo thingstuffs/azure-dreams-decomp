@@ -16,6 +16,7 @@
 #include "dungeon/monster/garuda.h"
 #include "dungeon/player/object.h"
 #include "dungeon/modules.h"
+#include "dungeon/monster/hikewne.h"
 
 typedef void (*DungeonCallback)(void *, void *, void *, void *);
 extern void select_sprite_entry(void *, s32, s32);
@@ -27,7 +28,6 @@ extern void update_actor_status_and_mp(ActorRecord *entity);
 extern void advance_stored_entity_path(void *controller, ObjectPosition *context, void *entity, void *path_state);
 extern s32 check_actor_transition_and_start_effect(ActorRecord *action_state, ObjectPosition *motion_param, SpriteFrameState *sprite_arg, ActorRecord *actor);
 extern void update_actor_action_and_direction(ActorRecord *action_state, ObjectPosition *context, SpriteFrameState *sprite, ActorRecord *actor);
-extern s32 update_entity_state_from_query(void *, void *, void *, s32);
 extern void func_80173834(void *, void *, void *, void *);
 extern u8 garuda_walk_direction_frames[];
 extern u8 D_80174890[];

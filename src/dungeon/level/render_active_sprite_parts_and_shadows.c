@@ -282,7 +282,7 @@ s32 render_active_sprite_parts_and_shadows(void *unused_0, void *unused_1, void 
                         scr->unk_078 = world_corner_x;
                         world_y_byte = part_header->unk_03;
                         scr->unk_018 = quad + 0x28;
-                        quad_depth = RotAverage4(&scr->unk_070, ((u8 *)&scr->unk_078), &scr->unk_080,
+                        quad_depth = RotAverage4(&scr->unk_070, (&scr->unk_078), &scr->unk_080,
                             &scr->unk_088, quad + 8, quad + 0x10, quad + 0x18, quad + 0x20,
                             depth_cue, transform_flags,
                             (world_corner_y = (s8) world_y_byte, scr->unk_07A = world_corner_y,
@@ -524,7 +524,7 @@ s32 render_active_sprite_parts_and_shadows(void *unused_0, void *unused_1, void 
                                 u16 right_x;
                                 u16 left_x;
                                 quad = scr->unk_018;
-                                RotTransPers4(&scr->unk_070, ((u8 *)&scr->unk_078), &scr->unk_080,
+                                RotTransPers4(&scr->unk_070, (&scr->unk_078), &scr->unk_080,
                                     &scr->unk_088, &scr->unk_0F0, &scr->unk_0F4, &scr->unk_0F8, &scr->unk_0FC,
                                     depth_cue, transform_flags,
                                     (left_x = scr->unk_070,

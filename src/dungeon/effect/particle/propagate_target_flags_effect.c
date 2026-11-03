@@ -23,6 +23,7 @@
 #include "sdk/libc.h"
 #include "sdk/libgpu.h"
 #include "sdk/libgte.h"
+#include "dungeon/system.h"
 
 void (*const dungeon_198a800_entry)(Work *, s32, s32) = update_staged_particle_effect;
 const NativeOffsets58 target_effect_direction_steps = {{{1,0},{1,1},{0,1},{-1,1},{-1,0},{-1,-1},{0,-1},{1,-1}}};

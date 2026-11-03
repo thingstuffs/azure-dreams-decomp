@@ -100,6 +100,35 @@ class MergedPlanTests(unittest.TestCase):
         kinds = {(r['kind'], r['path']) for r in reports['include/feat/a.h']['repairs']}
         self.assertIn(('include_common_h', 'src/other/bare.c'), kinds)
 
+    def test_replaced_owner_prototype_gets_its_late_type_include_first(self):
+        header = ('#ifndef FEAT_B_H\n#define FEAT_B_H\n#include "common.h"\n'
+                  'void b_fn(void *t, s32 w);\n#include "shared/thing.h"\n#endif\n')
+        tree = Tree(dict(FILES, **{'include/feat/b.h': header}))
+        self.addCleanup(tree.close)
+        census = C.Census(tree.root)
+        data = dict(header='include/feat/b.h', decisions=[
+            decision('b_fn', 'void', 'Thing *t, s32 w', 'src/feat/b/b_def.c', 'include/feat/b.h')])
+        texts, _, _, held = B.Batch(tree.root, [data], census).plan({'b_fn'})
+        self.assertEqual(held, {})
+        text = texts['include/feat/b.h']
+        self.assertLess(text.index('#include "shared/thing.h"'), text.index('void b_fn(Thing *t'))
+        self.assertEqual(text.count('#include "shared/thing.h"'), 1)
+        self.assertIn('void b_fn(Thing *t, s32 w) {\n}\n', texts['src/feat/b/b_def.c'])
+
+    def test_replaced_owner_prototype_gets_a_missing_type_include_first(self):
+        header = ('#ifndef FEAT_B_H\n#define FEAT_B_H\n#include "common.h"\n'
+                  'void b_fn(void *t, s32 w);\n#endif\n')
+        tree = Tree(dict(FILES, **{'include/feat/b.h': header}))
+        self.addCleanup(tree.close)
+        census = C.Census(tree.root)
+        data = dict(header='include/feat/b.h', decisions=[
+            decision('b_fn', 'void', 'Thing *t, s32 w', 'src/feat/b/b_def.c', 'include/feat/b.h')])
+        texts, _, _, held = B.Batch(tree.root, [data], census).plan({'b_fn'})
+        self.assertEqual(held, {})
+        text = texts['include/feat/b.h']
+        self.assertLess(text.index('#include "shared/thing.h"'), text.index('void b_fn(Thing *t'))
+        self.assertEqual(text.count('#include "shared/thing.h"'), 1)
+
     def test_common_h_takes_the_typedef_slot_after_a_file_comment(self):
         tree = Tree(dict(FILES, **{'src/other/bare.c': '/* Bare unit. */\n\ntypedef unsigned char u8;\n'
                                                        'typedef int s32;\n\nextern s32 a_fn(s32 x);\n\n'
@@ -276,6 +305,14 @@ class SettleTests(unittest.TestCase):
         r, final, entry, calls = self.run_batch(names, set())
         self.assertEqual(final, names)
         self.assertEqual(len(calls), 1)
+
+    def test_all_names_refused_restores_the_last_failed_candidate(self):
+        r, final, entry, calls = self.run_batch({'bad'}, {'bad'})
+        self.assertEqual(final, set())
+        self.assertIsNone(entry)
+        self.assertEqual(len(calls), 1)
+        self.assertFalse((self.root / 'src/bad.c').exists())
+        self.assertFalse((self.root / 'src/shared.c').exists())
 
     def test_attributed_culprit_backs_off_alone(self):
         names = {'n%02d' % i for i in range(20)}

@@ -1,3 +1,4 @@
+#include "shared/object_node.h"
 #include "common.h"
 #include "shared/entity_objects.h"
 #include "shared/object_flags.h"
@@ -20,9 +21,6 @@ typedef struct S_800C4F20_10 {
    /* ((S_800C4F20_10 *)arg0)->unk_1C in update_orbiting_teleport_effect */
 
 
-typedef struct S_800C4F20_0_pre {
-    u16 unk_00;
-} S_800C4F20_0_pre;   /* the 0x2 bytes before arg0 in update_orbiting_teleport_effect, addressed as arg0[-1] */
 
 typedef struct S_800C4F20_0 {
     u8 pad_00[0x20];
@@ -219,7 +217,7 @@ void update_orbiting_teleport_effect(void *anim, ObjectPosition *position, Sprit
         }
         owner = ((S_800C4F20_0 *)anim)->unk_24;
         owner->flags14 = (s32) (owner->flags14 & 0xFFEFFFFF);
-        ((S_800C4F20_0_pre *)anim)[-1].unk_00 = (u16) (((S_800C4F20_0_pre *)anim)[-1].unk_00 | 0x8000);
+        NODE_HEADER(anim)->flags = (u16) (NODE_HEADER(anim)->flags | 0x8000);
         (*&object_flag_block.flags) = (s32) (object_flag_block.flags | OBJECT_REMOVE_PENDING);
         return;
     case 17:
@@ -234,7 +232,7 @@ void update_orbiting_teleport_effect(void *anim, ObjectPosition *position, Sprit
         }
         owner = ((S_800C4F20_0 *)anim)->unk_24;
         owner->flags14 = (s32) (owner->flags14 & 0xFFEFFFFF);
-        ((S_800C4F20_0_pre *)anim)[-1].unk_00 = (u16) (((S_800C4F20_0_pre *)anim)[-1].unk_00 | 0x8000);
+        NODE_HEADER(anim)->flags = (u16) (NODE_HEADER(anim)->flags | 0x8000);
         (*&object_flag_block.flags) = (s32) (object_flag_block.flags | OBJECT_REMOVE_PENDING);
         return;
     }

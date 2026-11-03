@@ -21,11 +21,11 @@ extern s32 get_entity_effect_value(void *, s32);
 #include "dungeon/player/object.h"
 #include "dungeon/actor.h"
 #include "dungeon/item/message.h"
+#include "dungeon/system.h"
 
 extern s32 process_record_and_update_linked_state(struct DungeonItemEntry *, s32); /* Unprototyped: uses the value as a pointer where the definition has an integer (or the reverse) */
 extern void clear_slot_and_update_linked_state(DungeonItemEntry *slot);
 extern void place_actor_item(void *object_context, struct DungeonItemEntry *target);
-extern void display_actor_item_status_message(void *, struct DungeonItemEntry *, s16);
 
 typedef struct S_800BF9EC_2 {
     u8 pad_00[0x11];
@@ -56,7 +56,7 @@ s32 use_item_to_level_up_eligible_actors(ActorRecord *target, DungeonItemEntry *
     }
 
     if ((u32)target <= 0x9FFFFFFF) {
-        display_actor_item_status_message(target, action_id, action_type);
+        display_actor_item_status_message(target, action_id);
         if (feed_actor_restore_mp(target, entity_action_selectors[(*(&target->unk_10 + 3))] & 3, action_id) == 0) {
             place_actor_item(target, action_id);
             return 1;

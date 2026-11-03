@@ -17,9 +17,6 @@
 #include "town/player/position.h"
 #include "town/scene/resource.h"
 
-
-
-
 typedef struct S_800C035C_3 {
     u8 pad_00[0x8];
     s32 unk_08;
@@ -28,10 +25,6 @@ typedef struct S_800C035C_3 {
     u8 pad_14[0xB4];
     union { s16 s; s16 u; u16 p; } unk_C8;   /* accessed as both */
 } S_800C035C_3;
-
-
-
-
 
 typedef struct {
     s32 w[6];
@@ -45,10 +38,6 @@ typedef struct InputRecord InputRecord;
 #include "engine/texture.h"
 #include "town/player.h"
 #include "town/map/object.h"
-typedef struct {
-    u8 pad[0x14];
-    u16 unk14;
-} S_80048AC8;
 struct IntVector3;                       /* extern */
 #include "town/player/clear_global_slot_n_5_copy_source_slot_n_2_global_slot_n_2_api.h"                      /* extern */
 struct Rec_D_800FE490; void update_the_s_field_10_using_callee_8008_fe_90(struct Rec_D_800FE490 *);                   /* extern */

@@ -45,10 +45,10 @@ s32 try_move_actor_to_valid_position(void *action, void *context, void *position
 }
 
 /* Sets the entity state to 3, clears its progress, and increments the global counter. */
-void begin_actor_overlap_wait(void *entity, void *unused_1, void *unused_2, void *unused_3) {
-    *((s8 *)entity + 0x9A) = 3;
-    *((s8 *)entity + 0x9B) = 0;
-    *(s32 *)((s8 *)entity + 0x8C) = 0;
-    *(s16 *)((s8 *)entity + 0x96) = 4;
+void begin_actor_overlap_wait(ActorRecord *entity, void *unused_1, void *unused_2, void *unused_3) {
+    entity->action_id.s = 3;
+    entity->action_phase.s = 0;
+    entity->unk_8C.word = 0;
+    entity->action_timer.s = 4;
     g_dungeon_status.activity_counts.parts.pending_action_count += 1;
 }

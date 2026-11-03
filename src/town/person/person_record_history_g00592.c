@@ -74,5 +74,5 @@ void copy_person_table_value(Rec_func_800AB014_arg0 *record, s32 entry_index) {
 
     table_base = (s8 *) &town_position_history;
     entry = table_base + (entry_index * 8);
-    record->unk_72.as_u16 = (u16) ((S_800AB014_1 *)entry)->unk_06;
+    record->unk_72.as_u16 = (u16) ((ObjectPosition *)entry)->y.unsigned_parts.integer;
 }

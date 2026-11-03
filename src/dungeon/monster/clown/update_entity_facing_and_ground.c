@@ -576,7 +576,7 @@ void choose_clown_move(ActorRecord *move_data, ObjectPosition *context, SpriteFr
             current_angle = (s32)find_adjacent_actor(actor_data,(u8)(position_data->tile_x),(u8)(position_data->tile_y));
             blocker = (ActorRecord *)current_angle;
             if (blocker != 0) {
-                SpriteFrameState *blocker_sprite = ((ObjectNodeHeader *)blocker - 1)->sprite;
+                SpriteFrameState *blocker_sprite = NODE_HEADER(blocker)->sprite;
                 s16 target_angle = ((s16)get_rounded_facing_and_rounding_flag((s16)(position_data->tile_x),(s16)(position_data->tile_y),(s16)(blocker_sprite->tile_x),(s16)(blocker_sprite->tile_y),
                     &move_data->action_state_flags));
                 actor_data->facing = target_angle;
@@ -1555,7 +1555,7 @@ void finish_actor_action_flag_propagation_then_dispatch_transition(ActorRecord *
  * returns nonzero.
  */
 void finish_actor_fade_in_then_dispatch_transition(ActorRecord *state, ObjectPosition *motion, SpriteFrameState *position, ActorRecord *actor) {
-    if (update_actor_fade_in(state, motion, position, actor)) {
+    if (update_actor_fade_in(state, motion, position)) {
         state->unk_8C.handler = update_actor_state_and_dispatch_transition;
     }
 }

@@ -5,6 +5,7 @@
 #include "m2c_compat.h"
 #include "records/Rec_func_8008ACDC_arg0.h"
 #include "dungeon/player.h"
+#include "dungeon/system.h"
 
 typedef struct S_80094270_3 {
     u8 pad_00[0xFA];
@@ -22,7 +23,6 @@ typedef struct S_80094270_4 {
 extern void *familiar_record_slots[];
 s16 check_familiar_deployment_placement(); /* extern */
 void display_formatted_context_message(void *context);                   /* extern */
-s32 play_sound_if_enabled(s32 query_value);                     /* extern */
 s32 display_text_with_fullwidth_adjustment(s8 *text);                         /* extern */
 extern u8 D_800E05E1[15];
 extern u8 D_800E05F0[16];

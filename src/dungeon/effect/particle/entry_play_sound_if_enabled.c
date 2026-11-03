@@ -13,9 +13,6 @@
 #include "dungeon/effect/particle.h"
 #include "engine/graphics.h"
 
-typedef struct S_818154FC_0_pre {
-    u16 unk_00;
-} S_818154FC_0_pre;   /* the 0x2 bytes before arg0 in func_818154FC, addressed as arg0[-1] */
 
 typedef struct S_818154FC_0 {
     void * unk_00;
@@ -342,7 +339,7 @@ void emit_attached_directional_particle_chain(void *effect, ObjectPosition *posi
                 ((S_818154FC_0 *)effect)->unk_84.s = old_counter;
                 if (global_state == 0) {
                     g_dungeon_status.active_actor = 0;
-                    ((S_818154FC_0_pre *)effect)[-1].unk_00 |= 0x8000;
+                    NODE_HEADER(effect)->flags |= 0x8000;
                     object_flag_block.flags |= OBJECT_REMOVE_PENDING;
                 } else {
                     D_80025338[0] = 0;

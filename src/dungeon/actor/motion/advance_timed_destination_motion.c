@@ -8,10 +8,9 @@
 #include "dungeon/player.h"
 #include "dungeon/level.h"
 #include "dungeon/player/object.h"
+#include "dungeon/system.h"
 
 typedef struct { u8 pad0[2]; u16 field2; s16 field4; u8 pad6[6]; } D_80083460_t;
-
-extern void play_sound_if_enabled(s32);
 
 /* Advances timed movement toward a destination and handles completion. */
 void advance_timed_destination_motion(Rec_func_8008ACDC_arg0 *action, ObjectPosition *motion, SpriteFrameState *destination, EntityRec *actor) {

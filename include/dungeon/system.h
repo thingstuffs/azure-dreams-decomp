@@ -52,4 +52,6 @@ s32 get_random_scaled_value(s16 input_value);
 
 void dispatch_packed_value_pairs(void *pairs, s32 pairCount);
 
+s32 select_object_state_value(void *object);
+
 #endif

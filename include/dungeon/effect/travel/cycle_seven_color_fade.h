@@ -448,7 +448,7 @@ void update_spark_effect(B28_818B78E8_S818B78E8_Obj *obj, B28_818B78E8_S818B78E8
 s32 spawn_owner_random_variant_effect(B28_818B7BD0_S_818B7BD0_2 *owner, ObjectPosition *transform);
 void advance_spinning_effect_motion(B28_818B7D3C_OwnerState *owner, B28_818B7D3C_VecState *vec, SpriteFrameState *entity);
 s32 spawn_owned_random_spin_effect(void *owner, ObjectPosition *source);
-void advance_movement_toward_reachable_tile(void *state, ObjectPosition *motion_in, void *render);
+void advance_movement_toward_reachable_tile(void *state, ObjectPosition *motion_in, SpriteFrameState *render);
 void select_record_entry_and_value(void *state, void *entries, short index);
 extern u8 seven_color_sprite_data[];
 s32 draw_linked_sprites_clipped(u8 *first_data, s32 link_value, SpriteFrameState *value_record);

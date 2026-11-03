@@ -13,7 +13,7 @@ typedef struct S_800F62BC_0_pre {
 extern u8 D_80173AF8;
 
 /* Pulses the actor color, then fades it out and marks completion. */
-void update_pulsing_actor_color(FixedTileEffectIfAvailableBody *state_data, ObjectPosition *unused, void *actor_data) {
+void update_pulsing_actor_color(FixedTileEffectIfAvailableBody *state_data, ObjectPosition *unused, SpriteFrameState *actor_data) {
     s16 fade_ticks;
     s16 pulse;
     s16 pulse_color;

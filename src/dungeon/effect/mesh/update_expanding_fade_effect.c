@@ -1,3 +1,4 @@
+#include "shared/object_node.h"
 #include "common.h"
 #include "dungeon/effect/mesh.h"
 #include "shared/sprite_frame_state.h"
@@ -7,9 +8,6 @@
 #include "sdk/libgte.h"
 #include "slus.h"
 
-typedef struct S_81977E0C_0_pre {
-    u16 unk_00;
-} S_81977E0C_0_pre;   /* the 0x2 bytes before arg0 in update_expanding_fade_effect, addressed as arg0[-1] */
 
 
 
@@ -42,7 +40,7 @@ void update_expanding_fade_effect(ExpandingFadeEffectBody *effect, ObjectPositio
     }
     advance_sprite_animation_and_textures(sprite);
     if (sprite->flags & 0x6000) {
-        (*(u16 *)((u8 *)effect + -2)) = (u16) (((S_81977E0C_0_pre *)effect)[-1].unk_00 | NODE_REMOVE);
+        (*(u16 *)((u8 *)effect + -2)) = (u16) (NODE_HEADER(effect)->flags | NODE_REMOVE);
         object_flag_block.flags |= OBJECT_REMOVE_PENDING;
         return;
     }

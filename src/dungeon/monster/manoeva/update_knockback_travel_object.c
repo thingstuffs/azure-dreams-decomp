@@ -49,12 +49,6 @@ typedef struct S_80174CCC_6 {
     void * unk_A4;
 } S_80174CCC_6;   /* created in update_knockback_travel_object */
 
-typedef struct S_80174CCC_7 {
-    u8 pad_00[0x14];
-    u32 unk_14;
-    u8 pad_18[0x8C];
-    void * unk_A4;
-} S_80174CCC_7;   /* source in update_knockback_travel_object */
 
 typedef struct S_80174CCC_8 {
     u8 pad_00[0xA4];
@@ -80,7 +74,7 @@ void update_knockback_travel_object(KnockbackTravelObjectBody *motion, void *pos
     s32 state;
     s32 height_offset;
     void *created;
-    S_80174CCC_7 *source;
+    ActorRecord *source;
     SpriteFrameState *owner;
     S_80174CCC_9 *parent;
     register S_80174CCC_8 *linked_object;
@@ -195,11 +189,11 @@ void update_knockback_travel_object(KnockbackTravelObjectBody *motion, void *pos
 
                 source = motion->unk_10;
                 linked_object = created;
-                if (source->unk_14 & 0x4000) {
+                if ((u32)(source->flags14) & 0x4000) {
                     ((S_80174CCC_6 *)created)->unk_A4 = motion->unk_0C;
                 } else {
-                    if (source->unk_A4 != 0) {
-                        ((S_80174CCC_6 *)created)->unk_A4 = source->unk_A4;
+                    if (source->unk_A4.address != 0) {
+                        ((S_80174CCC_6 *)created)->unk_A4 = source->unk_A4.address;
                     }
                 }
 

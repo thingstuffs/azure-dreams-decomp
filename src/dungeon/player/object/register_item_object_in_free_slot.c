@@ -10,7 +10,7 @@
 extern s32 find_last_zero_entry_run_start(void);
 extern s32 find_and_clear_empty_item_slot(void);
 extern void update_map_cell_flags_with_item_limit(u8, u8, s32);
-extern void play_sound_if_enabled(s32);
+extern s32 play_sound_if_enabled(s32 query_value);
 extern void display_text_with_fullwidth_adjustment(s8 *text);
 
 extern u8 temporary_item_record[];

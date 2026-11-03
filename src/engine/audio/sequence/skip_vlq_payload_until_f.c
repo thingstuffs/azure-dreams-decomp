@@ -1,16 +1,11 @@
 #include "common.h"
 #include "engine/audio/sequence.h"
 
-/* S_800590E0: opaque MIDI/sequencer-stream state pointer passed straight
- * through to read_base_128_vlq (reads a variable-length-quantity count) and
- * read_next_byte_and_finish (reads/advances one byte from the stream); this function
- * never touches its fields directly. */
-typedef struct S_800590E0 S_800590E0;
-
-extern s32 read_next_byte_and_finish(S_800590E0 *a0);
+/* The stream is forwarded without inspecting its private state. */
+extern s32 read_next_byte_and_finish(void *a0);
 
 /* Consumes at least one stream byte, stopping at the VLQ byte count or 0xF7. */
-void skip_vlq_payload_until_f_7(S_800590E0 *stream)
+void skip_vlq_payload_until_f_7(void *stream)
 {
     u32 bytes_read = 0;
     u32 byte_count;

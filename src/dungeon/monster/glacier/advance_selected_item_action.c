@@ -53,7 +53,6 @@ typedef struct Copy48 {
 } Copy48;
 
 extern void select_sprite_entry(void *, u8, s32);
-extern void play_sound_if_enabled(s32);
 extern s32 create_actor_spell_effect(void *, u8 *, s32, void *); /* Unprototyped: uses the value as a pointer where the definition has an integer (or the reverse) */
 
 extern u8 D_801708D4;
@@ -61,13 +60,10 @@ extern u8 D_801708D4;
 #include "dungeon/monster/glacier.h"
 #include "dungeon/item.h"
 #include "dungeon/monster/saber.h"
+#include "dungeon/system.h"
+
 extern u8 D_801760FC[];
 
-typedef struct S_801730E4_2 {
-    u8 pad_00[0x24];
-    u8 unk_24;
-    u8 unk_25;
-} S_801730E4_2;   /* linked in advance_selected_item_action_2 */
 
 
 typedef struct S_801730E4_7 {
@@ -91,15 +87,7 @@ typedef struct S_801730E4_7 {
     void * unk_2C;
 } S_801730E4_7;   /* target in advance_selected_item_action_2 */
 
-typedef struct S_801730E4_8 {
-    u8 pad_00[0xC];
-    void * unk_0C;
-} S_801730E4_8;   /* held_base in advance_selected_item_action_2 */
 
-typedef struct S_801730E4_9 {
-    u8 pad_00[0x8];
-    void * unk_08;
-} S_801730E4_9;   /* source in advance_selected_item_action_2 */
 
 /* Advances the selected item's action, visual effect, and cleanup states. */
 /* Starts a targeted spell with an attached copied sprite, waits for its animation, then recenters and
@@ -171,16 +159,16 @@ void advance_selected_item_action_2(ActorRecord *body, ObjectPosition *position,
                     active = primary_actor_record;
                     (actor->target) = active;
                     linked = (u32)*(u8 * *)&((ObjectNodeHeader *)((u8 *)active - 0x20))->sprite;
-                    (actor->target_tile_x) = ((S_801730E4_2 *)linked)->unk_24;
-                    (actor->target_tile_y) = ((S_801730E4_2 *)linked)->unk_25;
+                    (actor->target_tile_x) = ((SpriteFrameState *)linked)->tile_x;
+                    (actor->target_tile_y) = ((SpriteFrameState *)linked)->tile_y;
                 } else {
                     linked = item_action_definitions[*selection].kind;
                     if (linked == 2) {
                         active = (actor->target);
                         if (active != 0) {
                             linked = (u32)*(u8 * *)&((ObjectNodeHeader *)((u8 *)active - 0x20))->sprite;
-                            (actor->target_tile_x) = ((S_801730E4_2 *)linked)->unk_24;
-                            (actor->target_tile_y) = ((S_801730E4_2 *)linked)->unk_25;
+                            (actor->target_tile_x) = ((SpriteFrameState *)linked)->tile_x;
+                            (actor->target_tile_y) = ((SpriteFrameState *)linked)->tile_y;
                         }
                     } else {
                         {
@@ -265,9 +253,9 @@ void advance_selected_item_action_2(ActorRecord *body, ObjectPosition *position,
                 ((S_801730E4_7 *)effect_data)->unk_12 = 0xFF80;
                 ((S_801730E4_7 *)effect_data)->unk_14 |= 0xC;
 
-                owner_sprite = ((S_801730E4_8 *)owner_object)->unk_0C;
+                owner_sprite = ((ActorRecord *)owner_object)->unk_0C.address;
                 effect_data = *(u8 * *)&effect_object->position;
-                if (resolve_record_orientation_or_fallback(((S_801730E4_9 *)owner_sprite)->unk_08, owner_sprite, position_delta, 0) != 0) {
+                if (resolve_record_orientation_or_fallback(((SpriteFrameState *)owner_sprite)->source, owner_sprite, position_delta, 0) != 0) {
                     ((S_801730E4_7 *)effect_data)->unk_02 = ((u16)position->x.w.i);
                     ((S_801730E4_7 *)effect_data)->unk_06 = ((u16)position->y.w.i);
                     ((S_801730E4_7 *)effect_data)->unk_0A = ((u16)position->z.w.i);

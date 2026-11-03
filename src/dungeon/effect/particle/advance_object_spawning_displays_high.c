@@ -19,6 +19,7 @@
 #include "sdk/libc.h"
 #include "sdk/libgpu.h"
 #include "slus.h"
+#include "dungeon/system.h"
 
 void (*const dungeon_1960800_entry)(void *, void *, void *) = (void (*)(void *, void *, void *))advance_actor_tint_particle_sequence;
 const RectTable high_particle_texture_rects = {{{832,320,64,64},{832,384,64,64},{832,448,64,64},{896,256,64,64},{896,320,64,64},{896,384,64,64},{896,448,64,64},{832,256,64,64}}};
@@ -366,7 +367,7 @@ void decrement_object_counter(PackedSpriteEffectBody *object)
    and naturally yields the a1 pointer, a0 constant, and v1 counter roles. */
 
 /* Create an object with copied position and packed data, and initialize its rendering state. */
-void *create_packed_sprite_effect(void *source, ObjectPosition *unused_1, void *unused_2, void *packed_data, s32 render_param, s32 render_x,
+void *create_packed_sprite_effect(void *source, ObjectPosition *unused_1, SpriteFrameState *unused_2, void *packed_data, s32 render_param, s32 render_x,
     s32 render_y, s32 render_mode) {
     s16 render_param_copy;
     ObjectPosition *position;
@@ -414,7 +415,7 @@ static __inline__ u8 particle_alpha_from_random(s32 random_bits)
 }
 
 /* Updates a dungeon effect, spawning particles and fading the actor model through its states. */
-void advance_actor_tint_particle_sequence(TintParticleSequence *effect, ObjectPosition *effect_pos, void *effect_data)
+void advance_actor_tint_particle_sequence(TintParticleSequence *effect, ObjectPosition *effect_pos, SpriteFrameState *effect_data)
 {
     ObjectPosition *position = effect_pos;
     void *effect_context = effect_data;

@@ -4,6 +4,7 @@
 #include "town/person.h"
 #include "shared/object_node.h"
 #include "shared/item_menu.h"
+#include "town/shop_callbacks_api.h"
 
 /* Initializes two child entries with data addresses and coordinate offsets. */
 void initialize_dual_child_entries(StorageMenuObject *owner) {
@@ -40,7 +41,7 @@ void set_record_base_and_data_pointer_alt(void *record_values, s32 base_value) {
 
     object->unk_04 = base_value;
     object->unk_00 = (s32)(base_value + 0x20);
-    ((ObjectNodeHeader *)record_values - 1)->update_callback = &D_800B3E68;
+    ((ObjectNodeHeader *)record_values - 1)->update_callback = update_subobject_and_normalize_color;
 }
 
 /*

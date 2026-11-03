@@ -1,3 +1,4 @@
+#include "engine/window/model_prefix.h"
 #include "common.h"
 #include "engine/window.h"
 
@@ -6,13 +7,9 @@
 
    /* arg0 in runtime_advance_counter_and_callback */
 
-typedef struct S_800357D0_3 {
-    u8 pad_00[0x8];
-    u16 unk_08;
-} S_800357D0_3;   /* state->unk_00 in runtime_advance_counter_and_callback */
 
 typedef struct S_800357D0_0 {
-    void * unk_00;
+    WindowModelPrefix * unk_00;
     u8 pad_04[0x48];
     u8 unk_4C;
     u8 unk_4D;
@@ -20,18 +17,14 @@ typedef struct S_800357D0_0 {
     s32 * unk_68;
 } S_800357D0_0;   /* arg0 in runtime_advance_counter_and_callback */
 
-typedef struct S_800357D0_1 {
-    u8 pad_00[0x8];
-    u16 unk_08;
-} S_800357D0_1;   /* temp_v1 in runtime_advance_counter_and_callback */
 
 /* Increase the counter by 64 and advance the callback after it exceeds 1024. */
 void runtime_advance_counter_and_callback(S_800357D0_0 *state) {
-    S_800357D0_1 *counter_state;
+    WindowModelPrefix *counter_state;
 
     counter_state = state->unk_00;
     counter_state->unk_08 = (u16) (counter_state->unk_08 + 0x40);
-    if ((s16) ((S_800357D0_3 *)state->unk_00)->unk_08 >= 0x401) {
+    if ((s16) state->unk_00->unk_08 >= 0x401) {
         state->unk_4C = 0xFF;
         state->unk_4D = 0xFF;
         state->unk_68 = &cleanup_window_object;

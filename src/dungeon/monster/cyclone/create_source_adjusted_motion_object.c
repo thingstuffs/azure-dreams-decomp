@@ -35,12 +35,6 @@ typedef struct S_80175D04_1 {
     u16 unk_06;
 } S_80175D04_1;   /* &local in create_source_adjusted_motion_object */
 
-typedef struct S_80175D04_3 {
-    u8 pad_00[0x8];
-    void * unk_08;
-    u8 pad_0C[0x1C];
-    s32 unk_28;
-} S_80175D04_3;   /* source in create_source_adjusted_motion_object */
 
 typedef struct S_80175D04_4 {
     u8 pad_00[0x4];
@@ -55,7 +49,7 @@ typedef struct S_80175D04_4 {
    /* child in create_source_adjusted_motion_object */
 
 /* Creates an object with a source-adjusted position and motion toward a directional target. */
-void *create_source_adjusted_motion_object(S_80175D04_0 *actor, Copy24 *start_pos, S_80175D04_3 *source)
+void *create_source_adjusted_motion_object(S_80175D04_0 *actor, Copy24 *start_pos, SpriteFrameState *source)
 {
     Copy24 target_pos;
     Vec3u16 source_offset;
@@ -87,7 +81,7 @@ void *create_source_adjusted_motion_object(S_80175D04_0 *actor, Copy24 *start_po
         register_node(object, project_sprite_chain);
 
         render = object->sprite;
-        render->animation_resource = source->unk_28;
+        render->animation_resource = source->animation_resource;
         render->scale_y = 0x800;
         render->scale_x = 0x800;
         render->color.word = 0x00808080;
@@ -102,7 +96,7 @@ void *create_source_adjusted_motion_object(S_80175D04_0 *actor, Copy24 *start_po
         source_offset.z = 0;
         source_offset.y = 0;
         source_offset.x = 0;
-        if (resolve_record_orientation_or_fallback(source->unk_08, source, &source_offset, 1) != 0) {
+        if (resolve_record_orientation_or_fallback(source->source, source, &source_offset, 1) != 0) {
             ((S_80175D04_4 *)motion)->unk_04.at02.v += source_offset.x;
             child_pos->x.w.i = ((S_80175D04_4 *)motion)->unk_04.at02.v;
             ((S_80175D04_4 *)motion)->unk_08.at02.v += source_offset.y;

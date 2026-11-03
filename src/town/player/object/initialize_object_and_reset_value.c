@@ -6,8 +6,8 @@
 #include "town/player/object.h"
 
 #include "town/player/object/entity_record_fields.h"                     /* extern */
+#include "town/player/record.h"
 extern s8 town_action_reset_byte;
-typedef struct S_800980B4_0 S_800980B4_0;
 
 /* Initialize the object's data and state, then run the setup callback. */
 void initialize_object_and_reset_value(TownObjectRecord *object, ObjectPosition *setupArgument, void *ptr2) {

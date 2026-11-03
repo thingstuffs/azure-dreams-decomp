@@ -9,6 +9,7 @@
 #include "dungeon/item.h"
 #include "dungeon/actor/effect.h"
 #include "dungeon/effect/screen.h"
+#include "dungeon/system.h"
 
 /* Moves to a directional target, emits spiraling particles, and attempts a timed target effect before
    cleanup. */

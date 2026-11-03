@@ -8,6 +8,7 @@
 #include "town/event/object.h"
 #include "town/scene/motion.h"
 #include "town/event.h"
+#include "town/event/state.h"
 
 typedef struct Actor Actor;
 typedef struct Subject Subject;
@@ -59,7 +60,6 @@ typedef struct MotionDelta {
 } MotionDelta;
 
 extern void call_the_same_context_both_processing_routines(Subject *, Motion *);
-extern void set_actor_drop_state(Actor *, Subject *, Motion *, TownMovementOutput *); /* Unprototyped: retail call passes more arguments than the callee reads */
 
 extern void update_actor_input_actions(void *context, ObjectPosition *entity, s32 update_arg);
 

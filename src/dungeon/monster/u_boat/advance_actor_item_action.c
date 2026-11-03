@@ -23,7 +23,6 @@ typedef struct Copy48 {
 } Copy48;
 
 extern void select_sprite_entry(void *, u8, s32);
-extern void play_sound_if_enabled(s32);
 
 extern u8 D_800D58D8[];
 extern s8 view_direction_depth_biases[];
@@ -32,6 +31,7 @@ extern u8 D_800E2410[];
 #include "dungeon/monster/u_boat.h"
 #include "dungeon/item.h"
 #include "dungeon/actor.h"
+#include "dungeon/system.h"
 
 
    /* target in advance_actor_item_action */

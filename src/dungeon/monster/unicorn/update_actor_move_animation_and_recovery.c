@@ -15,6 +15,7 @@
 #include "dungeon/actor.h"
 #include "dungeon/effect/particle.h"
 #include "sdk/libc.h"
+#include "dungeon/system.h"
 
 typedef struct S_80172AB4_3 {
     u8 pad_00[0x24];
@@ -26,7 +27,6 @@ typedef struct S_80172AB4_3 {
 
 
 extern void select_sprite_entry(void *, s32, s32);
-extern void play_sound_if_enabled(s32);
 
 extern u8 D_80174D94[];
 extern u8 unicorn_frame_set_1[];

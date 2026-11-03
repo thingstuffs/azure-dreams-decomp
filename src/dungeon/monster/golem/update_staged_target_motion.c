@@ -39,10 +39,6 @@ typedef struct S_81087818_2 {
     void *unk_60;
 } S_81087818_2;
 
-typedef struct S_81087818_3 {
-    u8 pad_00[0x13];
-    u8 unk_13;
-} S_81087818_3;
 
 typedef struct S_81087818_4 {
     u8 pad_00[2];
@@ -145,7 +141,7 @@ void update_staged_target_motion(RandomizedOffsetObjectBody *motion, Vec3Work *t
 
         case 2:
         {
-            S_81087818_3 *node;
+            ActorRecord *node;
             s32 axis = 1;
             s32 x_distance;
             s32 distance_y;
@@ -161,7 +157,7 @@ void update_staged_target_motion(RandomizedOffsetObjectBody *motion, Vec3Work *t
             x_distance = (s32)(((ObjectNodeHeader *)((u8 *)node - 0x18))->next);
             motion->unk_28.word = ((s32 *)x_distance)[0];
             motion->unk_2C.word = ((s32 *)x_distance)[1];
-            height = entity_height_offsets[((S_81087818_3 *)((S_81087818_2 *)motion->unk_4C)->unk_60)->unk_13];
+            height = entity_height_offsets[((ActorRecord *)((S_81087818_2 *)motion->unk_4C)->unk_60)->species];
             position_z = ((s32 *)x_distance)[2];
             x_distance = motion->unk_28.half.unk_2A;
             motion->unk_30.word = position_z - (height << 15);

@@ -13,6 +13,7 @@
 #include "dungeon/effect/particle.h"
 #include "dungeon/effect/screen.h"
 #include "dungeon/item.h"
+#include "dungeon/system.h"
 
 typedef struct S_func_818DA800_1 {
     void *unk_00;

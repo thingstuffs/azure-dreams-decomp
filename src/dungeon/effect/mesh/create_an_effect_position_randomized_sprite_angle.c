@@ -7,7 +7,7 @@
 #include "shared/object_flags.h"
 #include "shared/sprite_frame_state.h"
 #include "dungeon/effect/mesh.h"
-void (*const dungeon_ovl_1930844_entry)(void *state, ObjectPosition *motion, void *appearance) = update_movement_toward_target_along_direction_advances_action_phases;
+void (*const dungeon_ovl_1930844_entry)(void *state, ObjectPosition *motion, SpriteFrameState *appearance) = update_movement_toward_target_along_direction_advances_action_phases;
 
 /* Moves a rotating, shrinking sprite along its velocity with a sinusoidal height offset until its
    duration ends. */
@@ -832,7 +832,7 @@ void *create_and_initializes_copying_n_24_bytes_source_data(s32 state_value, Obj
 
 /* Moves an effect toward an actor or terrain endpoint, starts its impact visuals, and applies a
    delayed attack. */
-void update_movement_toward_target_along_direction_advances_action_phases(void *state, ObjectPosition *motion, void *appearance) {
+void update_movement_toward_target_along_direction_advances_action_phases(void *state, ObjectPosition *motion, SpriteFrameState *appearance) {
     ovl_1930844_81912154_LocalStack stack;
     s16 floor_height;
     s32 phase;
@@ -881,7 +881,7 @@ void update_movement_toward_target_along_direction_advances_action_phases(void *
         ((Rec_func_80024170_arg0 *)state)->unk_10 = 0U;
         ((Rec_func_80024170_arg0 *)state)->unk_0A = (s16) ((u16) ((Rec_func_80024170_arg0 *)state)->unk_0A + 1);
         ((Rec_func_80024170_arg0 *)state)->unk_0E = (u16) (((u16) ((ovl_1930844_81912154_S_80025954_1 *)owner)->unk_2A >> 9) & 7);
-        ((ovl_1930844_81912154_S_80025954_2 *)appearance)->unk_0C = 0x808080;
+        appearance->color.word = 0x808080;
     case 1:
         owner_links = owner - 0x20;
         source_sprite = owner_links->unk_0C;

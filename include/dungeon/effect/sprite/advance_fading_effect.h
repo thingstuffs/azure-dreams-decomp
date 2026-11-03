@@ -217,6 +217,6 @@ void advance_fading_effect(ovl_188298c_8186298C_Arg0Ent *state, void *unused, ov
 void spawn_jittered_type_212_effect(s32 owner, void *source);
 void advance_counter_and_propagate_target_flags(RadiusDirectionalEffectsBody *state, M2C_UNK context,struct SpriteFrameState *target);
 void create_radius_directional_effects(s32 effect_param, ObjectPosition *origin_arg, s16 radius_arg, u8 *blocked_dirs);
-s32 project_and_queue_shaded_line(void *line, void *unused_render_context);
-void move_to_linked_object_and_apply_arrival_effects(ovl_188298c_818632E4_Controller *ctrl, ObjectPosition *motion, void *render_data);
+s32 project_and_queue_shaded_line(void *line, SpriteFrameState *unused_render_context);
+void move_to_linked_object_and_apply_arrival_effects(ovl_188298c_818632E4_Controller *ctrl, ObjectPosition *motion, SpriteFrameState *render_data);
 #endif

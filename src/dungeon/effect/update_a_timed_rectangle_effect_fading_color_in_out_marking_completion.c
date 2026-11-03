@@ -1,10 +1,8 @@
+#include "shared/object_node.h"
 #include "common.h"
 #include "shared/object_flags.h"
 #include "dungeon/effect.h"
 
-typedef struct S_80025360_0_pre {
-    u16 unk_00;
-} S_80025360_0_pre;   /* the 0x2 bytes before obj in update_a_timed_rectangle_effect_fading_color_in_out_marking_completion, addressed as obj[-1] */
 
 typedef struct S_80025360_0 {
     s16 unk_00;
@@ -103,7 +101,7 @@ void update_a_timed_rectangle_effect_fading_color_in_out_marking_completion(void
         ((S_80025360_0 *)effect_arg)->unk_02 = 0;
         ((S_80025360_0 *)effect_arg)->unk_00 = (s16)((u16)((S_80025360_0 *)effect_arg)->unk_00 + 1);
         ((S_80025360_2 *)(((S_80025360_0 *)effect_arg)->unk_40))->unk_9C = one;
-        (*(u16 *)((u8 *)effect_arg + -2)) = (u16)(((S_80025360_0_pre *)effect_arg)[-1].unk_00 | NODE_REMOVE);
+        (*(u16 *)((u8 *)effect_arg + -2)) = (u16)(NODE_HEADER(effect_arg)->flags | NODE_REMOVE);
         object_flag_block.flags |= OBJECT_REMOVE_PENDING;
     }
 }

@@ -7,6 +7,7 @@
 #include "town/shop/stat_panel.h"
 #include "shared/monster_ids.h"
 #include "engine/text.h"
+#include "dungeon/system.h"
 
 /* Transfer pending texture and palette data, then clear the transfer state. */
 void complete_display_transfer(void *texture_state) {
@@ -75,7 +76,7 @@ void initialize_three_display_entries(s32 source_value, Func800B8500Entry **entr
 /* Returns the global in mode 1, otherwise calls the default handler. */
 s32 get_mode_specific_value(void *entry) {
     if (runtime_dispatch_state.mode != 1) {
-        return select_object_state_value();
+        return select_object_state_value(entry);
     }
     return D_800D1790[0];
 }

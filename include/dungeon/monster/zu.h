@@ -21,7 +21,7 @@ s16 test_neighbor_position_relation(s32 src_x, s32 src_y, s32 dst_x, s32 dst_y);
 s16 sample_terrain_surface_height();
 void update_map_cell_flags_with_item_limit(s32 x, s32 y, u16 flags);
 void cycle_map_cell_flags(s16 x, s16 y, u16 flags);
-s32 check_entity_relation();
+s16 check_entity_relation(ActorRecord *entry, ActorRecord *anchor);
 s16 get_actor_height_difference(ActorRecord *left_record, ActorRecord *right_record);
 void *probe_directional_neighbor(void *entity, s32 x, s32 y, u32 direction);
 void spend_actor_mp(ActorRecord *entity, s32 base_reduction);

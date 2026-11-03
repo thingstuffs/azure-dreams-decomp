@@ -27,7 +27,7 @@ ObjectNodeHeader *create_positioned_sprite_object(IntVector3 *position, s32 stat
     transform->y.v = (s32) position->y;
     (*(s32 *)((u8 *)transform + 8)) = (s32) (position->z + 0xFFDC0000);
     transform->velocity_x = (s32) D_800D0DF0;
-    transform->velocity_y = (s32) ((S_800A71F0_3 *)(&D_800D0DF0))->unk_04;
+    transform->velocity_y = (s32) ((ObjectPosition *)(&D_800D0DF0))->y.v;
     object->update_callback = &invoke_emote_object_callback;
     ((EmoteCallbackObject *)object_state)->state_value = state_value;
     ((EmoteCallbackObject *)object_state)->frame = 2;

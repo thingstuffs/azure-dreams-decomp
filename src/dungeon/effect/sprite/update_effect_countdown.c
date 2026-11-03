@@ -1,3 +1,4 @@
+#include "shared/object_node.h"
 #include "common.h"
 #include "shared/object_flags.h"
 #include "m2c_compat.h"
@@ -5,9 +6,6 @@
 #include "slus.h"
 #include "dungeon/effect/sprite.h"
 
-typedef struct S_800D6FEC_0_pre {
-    u16 unk_00;
-} S_800D6FEC_0_pre;   /* the 0x2 bytes before arg0 in update_effect_countdown, addressed as arg0[-1] */
 
 
    /* arg1 in update_effect_countdown */
@@ -29,7 +27,7 @@ void update_effect_countdown(AnchoredDirectionalObjectBody *object, MovingPositi
     remaining = object->remaining - 1;
     object->remaining = remaining;
     if ((remaining << 0x10) <= 0) {
-        ((S_800D6FEC_0_pre *)object)[-1].unk_00 = (u16) (((S_800D6FEC_0_pre *)object)[-1].unk_00 | 0x8000);
+        NODE_HEADER(object)->flags = (u16) (NODE_HEADER(object)->flags | 0x8000);
         object_flag_block.flags = (s32) (object_flag_block.flags | OBJECT_REMOVE_PENDING);
     }
 }

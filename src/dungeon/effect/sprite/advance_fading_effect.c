@@ -8,7 +8,7 @@
 #include "shared/game_work.h"
 #include "dungeon/effect/sprite.h"
 #include "dungeon/actor/state.h"
-void (*const dungeon_ovl_188298c_entry)(ovl_188298c_818632E4_Controller *ctrl, ObjectPosition *motion, void *render_data) = move_to_linked_object_and_apply_arrival_effects;
+void (*const dungeon_ovl_188298c_entry)(ovl_188298c_818632E4_Controller *ctrl, ObjectPosition *motion, SpriteFrameState *render_data) = move_to_linked_object_and_apply_arrival_effects;
 
 /* Attempts a status effect on compatible, eligible actors within two tiles of the supplied center. */
 void apply_status_to_nearby_actors(s32 x, s32 y, void *kind, s32 flags) {
@@ -197,7 +197,7 @@ static __inline__ s32 first_delta_s32_s32(s32 end, s32 start)
 }
 
 /* Interpolates and projects a shaded line, then links it into the depth ordering table. */
-s32 project_and_queue_shaded_line(void *line, void *unused_render_context)
+s32 project_and_queue_shaded_line(void *line, SpriteFrameState *unused_render_context)
 {
     ovl_188298c_81862ED8_S_800246D8_3 *line_or_red;
     u8 *scratch = (u8 *)0x1F800000;
@@ -419,7 +419,7 @@ s32 project_and_queue_shaded_line(void *line, void *unused_render_context)
  * quantities for local-alloc), while delta and line_or_red stay function-wide; the masked step_x
  * read gives the mask the extra reference that orders it ahead of y0.
  */
-void move_to_linked_object_and_apply_arrival_effects(ovl_188298c_818632E4_Controller *ctrl, ObjectPosition *motion, void *render_data)
+void move_to_linked_object_and_apply_arrival_effects(ovl_188298c_818632E4_Controller *ctrl, ObjectPosition *motion, SpriteFrameState *render_data)
 {
     u8 *root;
     ovl_188298c_818632E4_RootPrefix *prefix;
@@ -458,7 +458,7 @@ void move_to_linked_object_and_apply_arrival_effects(ovl_188298c_818632E4_Contro
             step--;
             slot--;
         } while (step >= 0);
-        ((s32 *)render_data)[3] = 0x00808080;
+        render_data->color.word = 0x00808080;
 
     case 1:
         prefix = (ovl_188298c_818632E4_RootPrefix *)(root - 0x20);

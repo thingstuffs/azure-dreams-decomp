@@ -8,6 +8,9 @@
 #include "shared/sprite_frame_state.h"
 #include "dungeon/effect/motion/interpolate_view_parameters.h"
 #include "dungeon/effect/motion.h"
+#include "dungeon/system.h"
+
+#include "shared/dungeon_effect_state.h"
 /* Selector entry invokes this complete native state machine. */
 void (*const D_80024000)(Row_81917C08_ActionState *action, ObjectPosition *motion, Row_81917C08_EffectVisual *visual) = build_inverted;
 
@@ -204,7 +207,7 @@ void create_a_type_hex_212_initializes_handler_mode(s32 initial_value) {
    completion counter. */
 void update_the_target_records_counts_flags_status(AnDefaultRenderingSettingsCopiesInitialDataBody *object_slot, void *unused, SpriteFrameState *target)
 {
-    void *post_object;
+    B22_81893474_EffectState *post_object;
     void *pre_object;
 
     pre_object = object_slot->owner;
@@ -219,9 +222,9 @@ void update_the_target_records_counts_flags_status(AnDefaultRenderingSettingsCop
         post_object = object_slot->owner;
         *(u16 *)((u8 *)object_slot - 2) = slot_flags | 0x8000;
         global_flags = object_flag_block.flags;
-        object_count = *(u16 *)((u8 *)post_object + 0x18);
+        object_count = post_object->y.u;
         object_flag_block.flags = global_flags | 0x8000;
-        *(u16 *)((u8 *)post_object + 0x18) = object_count + 1;
+        post_object->y.u = object_count + 1;
     }
 }
 

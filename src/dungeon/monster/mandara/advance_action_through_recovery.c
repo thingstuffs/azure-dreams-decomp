@@ -16,12 +16,12 @@
 #include "sdk/libc.h"
 
 extern void select_sprite_entry(void *, s32, s32);
-extern void play_sound_if_enabled(s32);
 extern s32 create_actor_spell_effect(void *actor, EntityRec *effect_record, s16 mode, void *context); /* Unprototyped: uses the value as a pointer where the definition has an integer (or the reverse) */
 extern void create_two_effect_groups(void *, void *, void *, s32);
 
 #include "dungeon/monster/mandara.h"
 #include "dungeon/item.h"
+#include "dungeon/system.h"
 
 /* Advances an actor action through motion selection, execution, and recovery. */
 void advance_action_through_recovery(ActorRecord *action_state, ObjectPosition *transform, SpriteFrameState *sprite, ActorRecord *actor) {
@@ -86,13 +86,13 @@ void advance_action_through_recovery(ActorRecord *action_state, ObjectPosition *
                 if (global_target_flag != 0) {
                     target = primary_actor_record;
                     actor->target = target;
-                    target_y = ((ObjectNodeHeader *)target - 1)->sprite;
+                    target_y = NODE_HEADER(target)->sprite;
                     actor->target_tile_x = target_y->tile_x;
                     actor->target_tile_y = target_y->tile_y;
                 } else if (item_action_definitions[*motion].kind == 2) {
                     target = actor->target;
                     if (target != 0) {
-                        target_y = ((ObjectNodeHeader *)target - 1)->sprite;
+                        target_y = NODE_HEADER(target)->sprite;
                         actor->target_tile_x = target_y->tile_x;
                         actor->target_tile_y = target_y->tile_y;
                     }

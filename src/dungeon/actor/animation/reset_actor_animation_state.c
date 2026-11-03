@@ -17,11 +17,6 @@ typedef struct S_800D8590_0 {
 } S_800D8590_0;
 
 
-typedef struct S_800D8590_3 {
-    u8 pad_00[0x12];
-    s16 unk_12;
-    u16 unk_14;
-} S_800D8590_3;
 
 extern u8 D_800D8728[];
 
@@ -47,9 +42,9 @@ void *reset_actor_animation_state(ActorRecord *body)
     child = ((S_800D8590_0 *)parent)->unk_0C;
     if (body->species == 0) {
         clear_player_linked_action_flags();
-        ((S_800D8590_3 *)child)->unk_14 |= 0x8000;
-        ((S_800D8590_3 *)child)->unk_12 = 0;
-        ((S_800D8590_3 *)child)->unk_14 &= 0xFFF3;
+        ((SpriteFrameState *)child)->flags |= 0x8000;
+        ((SpriteFrameState *)child)->clut = 0;
+        ((SpriteFrameState *)child)->flags &= 0xFFF3;
         return body;
     } else {
         if (body->species == MONSTER_TYRANT) {
@@ -78,11 +73,11 @@ void *reset_actor_animation_state(ActorRecord *body)
 
         frame_index = (g_game_work.view.camera_rotation.parts.viewAngle + body->facing + 0x100) >> 7;
         select_record_entry_and_value(child,
-                      *(void **)((u8 *)actor_action_frames + (frame_index & 0x1C)), 0);
+                      actor_action_frames[(frame_index >> 2) & 7], 0);
         object->unk_A0.parts.low = 0x14;
-        ((S_800D8590_3 *)child)->unk_14 |= 0x8000;
-        ((S_800D8590_3 *)child)->unk_12 = 0;
-        ((S_800D8590_3 *)child)->unk_14 &= 0xFFF3;
+        ((SpriteFrameState *)child)->flags |= 0x8000;
+        ((SpriteFrameState *)child)->clut = 0;
+        ((SpriteFrameState *)child)->flags &= 0xFFF3;
         return body;
     }
 }

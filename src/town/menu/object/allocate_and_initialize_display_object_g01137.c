@@ -6,6 +6,8 @@
 #include "town/menu/object.h"
 
 #include "shared/object_node.h"/* Allocate an object and initialize its payload, display transform, and color. */
+#include "town/menu/position_callbacks_api.h"
+#include "town/menu/state_callbacks_api.h"
 void *allocate_and_initialize_display_object(s32 object_key, s32 payload_value, s32 payload_param, s32 payload_halfword, void *object_param,
     s32 object_value) {
     ObjectNodeHeader *obj = allocate_list_node(0x136, object_key - 0x20);
@@ -105,5 +107,5 @@ void copy_signed_inner_value_by_flag(Func800A4B70Object *object, s32 unused, Fun
 
 /* Forward four inputs to allocate_and_initialize_display_object with two fixed data pointers. */
 void *create_object_with_shared_data(s32 input_first, s32 input_second, s32 input_third, s32 input_fourth) {
-    return allocate_and_initialize_display_object(input_first, input_second, input_third, input_fourth, &D_800A2338, &D_800A23D0);
+    return allocate_and_initialize_display_object(input_first, input_second, input_third, input_fourth, flag_inactive_object_or_run_callback, initialize_object_position_state);
 }

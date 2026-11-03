@@ -7,9 +7,9 @@
 #include "dungeon/actor/status.h"
 #include "dungeon/actor.h"
 #include "dungeon/effect/screen.h"
+#include "dungeon/system.h"
 
 extern void select_sprite_entry(void *, s32, s32);
-extern void play_sound_if_enabled(s32);
 extern void spend_actor_mp(void *, s32);
 
 extern u8 hikewne_frame_set_16[];

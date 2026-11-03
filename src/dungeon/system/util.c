@@ -193,7 +193,6 @@ void update_pulsing_effect_brightness(PulsingEffectWork *effect, ObjectPosition 
 #include "m2c_compat.h"
 
 s32 register_node(); /* Unprototyped: two, three or four arguments; retail reads only the node and draw key. */           /* extern */
-s32 play_sound_if_enabled(s32 query_value);                     /* extern */
 #include "dungeon/effect/screen.h"
 extern M2C_UNK D_800DD854;
 extern M2C_UNK D_800DD860;
@@ -465,8 +464,6 @@ void apply_capped_damage_and_hit_effect(ActorRecord *entity, Rec_func_800A5DFC_a
 #include "shared/dungeon_status.h"
 
 #include "shared/dungeon_item_entries.h"
-
-extern s32 play_sound_if_enabled(s32);
 
 /* Processes a target using the linked object's position, then decrements the shared count. */
 void place_actor_item(void *object_context, struct DungeonItemEntry *target) {

@@ -14,6 +14,7 @@
 #include "dungeon/player/object.h"
 #include "engine/town.h"
 #include "dungeon/effect.h"
+#include "dungeon/system.h"
 #define F(p,t,o) (*(t *)((u8 *)(p) + (o)))
 extern s32 get_entity_effect_value(void *entry, s32 effect_id);
 extern s32 entity_level_thresholds[];
@@ -429,7 +430,6 @@ loop_0:
 
 #include "m2c_compat.h"
 
-extern s32 play_sound_if_enabled(s32 query_value);
 extern s32 display_text_with_fullwidth_adjustment(s8 *text);
 
 extern u8 species_base_stats[];
@@ -855,15 +855,9 @@ s32 has_low_actor_mp(ActorRecord *record) {
 /* cfail-repair: tf7-phase1-cache-v3 */
 extern s32 get_entity_effect_value(void *entry, s32 effect_id);
 
-typedef struct S_800A2CB8_1 {
-    u8 pad_00[0x14];
-    u32 unk_14;
-    u8 pad_18[0x4];
-    u32 unk_1C;
-} S_800A2CB8_1;   /* arg1 in check_entity_interaction_compatibility */
 
 /* Checks entity status and shared flags against another entity. */
-u32 check_entity_interaction_compatibility(void *entity_arg, S_800A2CB8_1 *other_entity) {
+u32 check_entity_interaction_compatibility(void *entity_arg, ActorRecord *other_entity) {
     ActorRecord *entity = entity_arg;
 
     if (other_entity == NULL) {
@@ -876,12 +870,12 @@ u32 check_entity_interaction_compatibility(void *entity_arg, S_800A2CB8_1 *other
         (entity->action_state_flags & 0x8000)) {
         return 1;
     }
-    if ((other_entity->unk_14 & 0x4000) &&
+    if (((u32)(other_entity->flags14) & 0x4000) &&
         (((u32)entity->flags14) & ACTOR_PARTY_MEMBER)) {
         return ((u16)get_entity_effect_value(entity, STATUS_BRAINWASH) << 16) != 0;
     }
     return (((((u32)entity->flags1C) ^
-              other_entity->unk_1C) & 0x2000) << 16) >> 16;
+              (u32)(other_entity->flags1C)) & 0x2000) << 16) >> 16;
 }
 #include "common.h"
 #include "shared/dungeon_floor.h"
@@ -935,12 +929,6 @@ typedef struct S_800A2DB8_6 {
     void * unk_3D7C;
 } S_800A2DB8_6;   /* global_page in distribute_experience_awards */
 
-typedef struct S_800A2DB8_7 {
-    u8 pad_00[0x11];
-    u8 unk_11;
-    u8 pad_12[0x16];
-    u8 unk_28;
-} S_800A2DB8_7;   /* global_member in distribute_experience_awards */
 
 /* Award experience to the target or its party and display experience popups. */
 s32 distribute_experience_awards(S_800A2DB8_0 *source)
@@ -948,7 +936,7 @@ s32 distribute_experience_awards(S_800A2DB8_0 *source)
     S_800A2DB8_1 *initial_target;
     EntityRec *target;
     EntityRec *final_target;
-    S_800A2DB8_7 *global_member;
+    ActorRecord *global_member;
     ActorRecord *member;
     u8 *member_slot;
     S_800A2DB8_6 *global_page;
@@ -1023,10 +1011,10 @@ s32 distribute_experience_awards(S_800A2DB8_0 *source)
 
             global_page = (S_800A2DB8_6 *)0x800E0000;
             global_member = global_page->unk_3D7C;
-            if (global_member->unk_28 == 0) {
+            if (global_member->hp == 0) {
                 return 0;
             }
-            level_delta = global_member->unk_11 - source->unk_11;
+            level_delta = global_member->level - source->unk_11;
             award = experience;
             if (level_delta < 0) {
                 /*

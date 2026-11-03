@@ -6,13 +6,13 @@
 #include "dungeon/actor.h"
 #include "dungeon/effect/screen.h"
 #include "dungeon/player/object.h"
+#include "dungeon/system.h"
 
 extern void *actor_update_node_cursor;
 
 extern u8 D_801748B8[];
 
 void select_sprite_entry(void *, u8, s32);
-void play_sound_if_enabled(s32);
 void spend_actor_mp(void *, s32);
 
 /* Advances the actor animation sequence and resets its action state on completion. */

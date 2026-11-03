@@ -175,7 +175,7 @@ extern void func_80047784(SpriteFrameState *object, s16 table_index, s16 entry_i
 extern void cycle_map_cell_flags(s16 x, s16 y, u16 flags);
 extern void update_map_cell_flags_with_item_limit(s32 x, s32 y, u16 flags);
 extern s16 check_movement_clearance_and_height();
-extern s32 check_entity_relation();
+extern s16 check_entity_relation(ActorRecord *entry, ActorRecord *anchor);
 extern s32 check_diagonal_side_height(s32 direction, s16 tile_x, s16 tile_y, s16 height);
 extern s16 get_actor_height_difference(ActorRecord *left_record, ActorRecord *right_record);
 extern s32 update_actor_proximity_flag(void *source, void *state, s32 lower_limit, s32 upper_limit, s8 *result);

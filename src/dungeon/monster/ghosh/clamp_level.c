@@ -75,10 +75,6 @@ typedef struct S_8016B0E8_6 {
 } S_8016B0E8_6;
 
 
-typedef struct S_8016B0E8_10 {
-    u8 pad_00[0x14];
-    u16 unk_14;
-} S_8016B0E8_10;
 
 
 typedef struct S_8016B0E8_12 {
@@ -159,7 +155,7 @@ void update_actor_animation_movement_and_terrain(ActorRecord *entity, ObjectPosi
     S_8016B0E8_5 *actor_slot;
     register ObjectNodeHeader *linked_entry;
     register S_8016B0E8_6 *actor_header;
-    register S_8016B0E8_10 *linked_sprite;
+    register SpriteFrameState *linked_sprite;
     register S_8016B0E8_12 *status_record;
     register void *slot_cursor;
     S_8016B0E8_1 *seed_page;
@@ -234,8 +230,8 @@ void update_actor_animation_movement_and_terrain(ActorRecord *entity, ObjectPosi
         do {
             linked_entry = ((ActorRecord *)slot_cursor)->unk_AC.address;
             if (linked_entry != 0) {
-                linked_sprite = (S_8016B0E8_10 *)(linked_entry - 1)->sprite;
-                linked_sprite->unk_14 = (u16) (linked_sprite->unk_14 & 0xFFBF);
+                linked_sprite = (SpriteFrameState *)(linked_entry - 1)->sprite;
+                linked_sprite->flags = (u16) (linked_sprite->flags & 0xFFBF);
             }
             actor_index -= 1;
             slot_cursor -= 4;

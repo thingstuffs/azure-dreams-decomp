@@ -61,7 +61,7 @@ void card_boot_initialize_message_dialog_layout(s32 record, s32 value_14, s32 en
 }
 
 /* Initialize the object from its table entry and select its callback. */
-void card_boot_activate_message_dialog(void *object_arg)
+void card_boot_activate_message_dialog(CardMessageDialogBody *object_arg)
 {
     CardMessageDialogBody *object = object_arg;
     void *callback;

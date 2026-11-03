@@ -5,13 +5,11 @@
 #include "shared/entity.h"
 #include "dungeon/actor.h"
 
-
-
-extern s32 check_entity_relation();
 extern s8 find_active_rect_containing_point();
 extern s32 can_entity_gain_level();
 extern void advance_actor_along_path_points(void *motion, s32 unused, void *position, void *path);
 #include "dungeon/actor/state.h"
+#include "dungeon/level.h"
 
 
 typedef struct S_800C9F34_3 {

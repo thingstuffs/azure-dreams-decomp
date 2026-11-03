@@ -3,6 +3,7 @@
 #include "slus.h"
 #include "town/player/input.h"
 #include "town/player/object.h"
+#include "town/player.h"
 #include "town/player/call_the_handler_selects_nonzero_entry_api.h" /* extern */
 #include "town/player/store_the_valid_shared_angle_in_offset_hex_10_api.h"                  /* extern */
 #include "shared/entity.h"

@@ -21,10 +21,6 @@ typedef struct S_80171D74_0 {
 } S_80171D74_0;   /* D_8008333C in advance_linked_actor_motion_script */
 
 
-typedef struct S_80171D74_2 {
-    u8 pad_00[0x8];
-    void * unk_08;
-} S_80171D74_2;   /* D_80175D50[0] in advance_linked_actor_motion_script */
 
 
 typedef struct S_80171D74_4 {
@@ -125,7 +121,7 @@ void create_rotating_clipped_sprite(u32 *, s16);             /* extern */
 struct S_8016738C_3; void create_color_cycling_pulse(struct S_8016738C_3 *);                      /* extern */
 struct EntityRec; void create_layered_sprite_pulse(EntityRec *origin);                      /* extern */
 void create_forward_layered_sprite_pulse(); /* Unprototyped: retail call passes more arguments than the callee reads */                  /* extern */
-struct S_8016F5D8_0; struct S_8016F5D8_1; struct S_8016F5D8_2; void update_phase_driven_motion_offset(struct S_8016F5D8_1 *, ObjectPosition *, struct S_8016F5D8_0 *);      /* extern */
+struct S_8016F5D8_0; struct S_8016F5D8_2; void update_phase_driven_motion_offset(ActorRecord *, ObjectPosition *, struct S_8016F5D8_0 *);      /* extern */
 void apply_script_direction_record(void *, ObjectPosition *, SpriteFrameState *);      /* extern */
 void create_action_offset_object(void);                            /* extern */
 extern Table32 D_8016482C;
@@ -200,7 +196,7 @@ void advance_linked_actor_motion_script(ActorRecord *state_in, ObjectPosition *m
     owner_state = beldo_script_node[0] + 0x20;
     advance_sprite_animation_and_textures(sprite_in);
     phase = state_in->action_id.u;
-    target_pos = ((S_80171D74_2 *)(beldo_actor_nodes[0]))->unk_08;
+    target_pos = ((SpriteFrameState *)(beldo_actor_nodes[0]))->source;
     target_state = beldo_actor_nodes[0] + 0x20;
     switch (phase) {
     case 0:

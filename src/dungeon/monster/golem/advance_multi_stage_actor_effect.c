@@ -7,9 +7,9 @@
 #include "records/Rec_D_80082E80.h"
 #include "dungeon/effect/screen.h"
 #include "dungeon/player/object.h"
+#include "dungeon/system.h"
 
 extern void select_sprite_entry(void *, s32, s32);
-extern void play_sound_if_enabled(s32);
 extern void spend_actor_mp(void *, s32);
 extern s32 create_randomized_offset_object(ActorRecord *, void *, SpriteFrameState *);
 

@@ -29,7 +29,7 @@ extern u8 D_80174ABC[];
 /* Create an effect linked to its owner and initialize its position and rendering. */
 /* Creates a black Ghosh effect at the supplied position and links its owner and source position for later
  * updates. */
-void create_boss_linked_effect(void *owner, MovingPosition *source_pos) {
+void create_boss_linked_effect(void *owner, MovingPosition *source_pos, void *unused) {
     SpriteFrameState *render_flags;
     ObjectNodeHeader *effect;
     S_80172A14_2 *effect_state;

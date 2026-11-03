@@ -28,7 +28,7 @@ extern s32 process_record_and_update_linked_state(struct DungeonItemEntry *, s32
 extern void clear_slot_and_update_linked_state(DungeonItemEntry *slot);
 extern void display_text_with_fullwidth_adjustment(s8 *text);
 extern void place_actor_item(void *object_context, struct DungeonItemEntry *target);
-extern void display_actor_item_status_message(void *, struct DungeonItemEntry *);
+extern void display_actor_item_status_message(void *actor, struct DungeonItemEntry *item);
 #include "dungeon/actor/effect.h"
 #include "dungeon/actor.h"
 #include "dungeon/item.h"

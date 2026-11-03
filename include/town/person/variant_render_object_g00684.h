@@ -21,8 +21,6 @@
 #include "town/person/position.h"
 #include "engine/node.h"
 
-typedef struct S_800CB9B8_2 S_800CB9B8_2;
-
 typedef struct S_800CB8CC_1 {
     u8 pad_00[0x60];
     s32 unk_60;
@@ -31,7 +29,6 @@ typedef struct S_800CB8CC_1 {
 } S_800CB8CC_1;
 
 /* extern */
-
 
 /* extern */
 typedef struct S_800CB9B8_1 {
@@ -53,12 +50,10 @@ typedef struct S_800CBAAC_0 {
     void (*unk_50)(void *, void *, s32, s32);
 } S_800CBAAC_0;
 
-
 struct Rec_D_800CFCB4;
 
 /* extern */
 struct Rec_D_80082E80;
-
 
 struct IntVector3;
 

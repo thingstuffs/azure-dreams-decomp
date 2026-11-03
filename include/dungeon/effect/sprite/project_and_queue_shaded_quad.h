@@ -382,7 +382,6 @@ void select_record_entry_and_value(void *state, void *entries, short index);
 int abs(int);
 void select_sprite_entry(void *object, s16 table_index, s16 entry_index);
 void func_80047784(SpriteFrameState *object, s16 table_index, s16 entry_index);
-void create_attached_effect();
 
 extern s32 D_80024670[];
 extern s32 D_800246C4[];

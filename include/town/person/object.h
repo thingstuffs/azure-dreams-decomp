@@ -16,7 +16,6 @@ struct S_800C2664_0;
 struct S_800C2864_0;
 struct S_800C3960_0;
 struct S_800C51DC_0;
-struct S_800C51DC_1;
 struct S_800C8928_0;
 struct S_800C895C_0;
 struct SpriteFrameState;

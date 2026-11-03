@@ -5,8 +5,8 @@
 #include "records/Rec_func_8008ACDC_arg0.h"
 #include "records/Rec_D_80082E80.h"
 #include "engine/graphics.h"
+#include "dungeon/system.h"
 
-extern void play_sound_if_enabled(u32);
 extern u8 actor_attack_frames[];
 
 /* Initialize the action state and select the actor's directional sprite. */

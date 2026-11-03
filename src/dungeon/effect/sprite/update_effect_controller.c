@@ -8,6 +8,7 @@
 #include "engine/node/allocation.h"
 #include "dungeon/effect/sprite.h"
 #include "engine/node.h"
+#include "dungeon/system.h"
 
 #ifndef NULL
 #define NULL 0
@@ -52,8 +53,6 @@ typedef struct S_func_800D7FB8_7 {
 
 extern u8 directional_sprite_entries[];
 extern s32 D_800D81D4;
-
-extern s32 play_sound_if_enabled(s32);
 
 /* Spawns effect entries and marks the controller finished after two delays. */
 void update_effect_controller(S_func_800D7FB8_0 *controller) {

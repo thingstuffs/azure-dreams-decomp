@@ -142,4 +142,6 @@ void update_main_actor_action_and_facing(ActorRecord *actor, ObjectPosition *con
 
 void advance_object_script_when_ready(void *object, ObjectPosition *unused_position, SpriteFrameState *unused_sprite, ActorRecord *actor);
 
+void create_boss_linked_effect(void *owner, MovingPosition *source_pos, void *unused);
+
 #endif

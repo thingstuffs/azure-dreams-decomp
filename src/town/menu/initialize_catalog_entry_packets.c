@@ -9,11 +9,6 @@ typedef struct S_80123238_0_pre {
     s8 unk_09;
 } S_80123238_0_pre;
 
-typedef struct S_80123238_0 {
-    s8 unk_00;
-} S_80123238_0;
-
-
 typedef struct Row {
     u8 f0;
     s8 f1;

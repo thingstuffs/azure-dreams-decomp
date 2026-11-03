@@ -21,6 +21,7 @@
 #include "engine/graphics.h"
 #include "dungeon/effect.h"
 #include "dungeon/effect/screen.h"
+#include "dungeon/item/effect.h"
 
 void * (*const resource10_slot0_entry0)(s16 flags, s16 kind_id, s16 variant, s32 spawn_value) = create_actor_with_optional_status;
 void (*const resource10_slot0_entry1)(u8 *actor, ObjectPosition *motion, SpriteFrameState *sprite) = update_actor_callbacks_animation_and_ground;
@@ -1781,13 +1782,13 @@ void advance_snowman_status_action(ActorRecord *action, ObjectPosition *context,
                     probe_result = ((s16)get_tile_chebyshev_distance(origin, sprite_in));
                     actor_to_check = actor_in;
                     if (probe_result < 2) {
-                        if (!(generate_random_value(actor_in) & 7)) {
+                        if (!(generate_random_value() & 7)) {
                             clear_slots_of_type(actor_in, STATUS_SLEEP);
                         }
                         actor_to_check = actor_in;
                     }
                 } else {
-                    if (!(generate_random_value(origin) & 7)) {
+                    if (!(generate_random_value() & 7)) {
                         clear_slots_of_type(actor_in, STATUS_SLEEP);
                     }
                     actor_to_check = actor_in;
@@ -1987,7 +1988,7 @@ void create_positioned_sprite_effect(ActorRecord *state, ObjectPosition *motion,
 
 /* Runs update_actor_fade_in and installs update_snowman_behavior when it returns nonzero. */
 void fade_in_snowman(ActorRecord *state, ObjectPosition *motion, SpriteFrameState *position, ActorRecord *actor) {
-    if (update_actor_fade_in(state, motion, position, actor)) {
+    if (update_actor_fade_in(state, motion, position)) {
         state->unk_8C.handler = update_snowman_behavior;
     }
 }

@@ -1,42 +1,31 @@
 #include "common.h"
+#include "shared/sprite_frame_state.h"
 
-/* D_80080B54: 4-byte packed CVECTOR-style color word (r,g,b,cd); D_80080B58 follows. */
-typedef struct S_80080B54 {
-    s32 color; /* offset 0x0: packed r,g,b,cd read/written as one word */
-} S_80080B54;
-
-extern S_80080B54 shared_primitive_color;
-
-/* Local (non-global) color struct pointed to by Struct800497F4.unk4. */
-typedef struct {
-    u8 r;
-    u8 g;
-    u8 b;
-    u8 cd;
-} Color800497F4;
+/* Default packed GPU color shared by the primitive builders. */
+extern SpriteColor shared_primitive_color;
 
 typedef struct {
     s32 unk0;         /* flag/counter; function is a no-op when 0 */
-    Color800497F4 *unk4; /* pointer to the object's color */
+    SpriteColor *unk4; /* pointer to the object's color */
 } Struct800497F4;
 
 /* Fades color toward gray, restoring the template on arrival or optionally stopping if already gray. */
 void fade_color_to_gray(Struct800497F4 *object, s32 stop_at_gray)
 {
-    Color800497F4 *color;
+    SpriteColor *color;
 
     if (object->unk0 == 0) {
         return;
     }
 
     color = object->unk4;
-    if ((*(u32 *)color << 8) != 0x80808000) {
-        object->unk4->r -= 0x10;
-        object->unk4->g -= 0x10;
-        object->unk4->b -= 0x10;
+    if ((color->unsigned_word << 8) != 0x80808000) {
+        object->unk4->c.r -= 0x10;
+        object->unk4->c.g -= 0x10;
+        object->unk4->c.b -= 0x10;
 
-        if ((*(u32 *)object->unk4 << 8) == 0x80808000) {
-            *(u32 *)object->unk4 = shared_primitive_color.color;
+        if ((object->unk4->unsigned_word << 8) == 0x80808000) {
+            object->unk4->unsigned_word = shared_primitive_color.word;
         }
         return;
     }

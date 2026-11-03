@@ -10,6 +10,7 @@
 #include "shared/sprite_frame_state.h"
 #include "dungeon/actor.h"
 #include "dungeon/actor/motion.h"
+#include "dungeon/level.h"
 
 /* Updates actor state, animation, and callback according to entity status flags. */
 void update_actor_status_callback(ActorRecord *body, ObjectPosition *position, SpriteFrameState *sprite, ActorRecord *actor) {

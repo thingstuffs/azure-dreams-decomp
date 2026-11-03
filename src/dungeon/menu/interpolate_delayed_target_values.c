@@ -4,6 +4,7 @@
 #include "shared/dungeon_floor.h"
 #include "shared/object_flags.h"
 #include "engine/node.h"
+#include "dungeon/system.h"
 
 typedef struct {
     u8 value0;
@@ -33,8 +34,6 @@ typedef struct {
     u8 pad04[0x2968];
     s32 last;
 } E296C;
-
-extern void play_sound_if_enabled(s32);
 
 /* Interpolate target values after a delay, then reduce its counter to zero and update flags. */
 void interpolate_delayed_target_values(InterpState *state, ObjectPosition *unused, InterpTarget *target) {

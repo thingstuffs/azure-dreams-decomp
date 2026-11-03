@@ -11,6 +11,7 @@
 #include "dungeon/monster/golem.h"
 #include "dungeon/monster/viper/effect.h"
 #include "sdk/libc.h"
+#include "dungeon/system.h"
 
 typedef struct {
     Fixed1616 x;
@@ -76,7 +77,6 @@ extern void *create_item_render_object(void *parent, void *sprite_source, s16 x,
 void update_map_cell_flags_with_item_limit(s32 x, s32 y, u16 flags);
 struct SpriteFrameState;
 extern void select_sprite_entry(void *, s16, s16);
-extern void play_sound_if_enabled(s32);
 extern void spend_actor_mp(Object *, s32);
 
 /* Moves the entity forward, then returns it to its saved position and restores its callback. */

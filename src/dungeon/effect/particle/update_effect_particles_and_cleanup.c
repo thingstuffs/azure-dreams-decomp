@@ -160,7 +160,7 @@ typedef struct ParticleCleanupWork {
 } ParticleCleanupWork;
 
 /* Updates an effect's movement, particles, target effects, and cleanup state. */
-void update_effect_particles_and_cleanup(ParticleCleanupWork *effect, ObjectPosition *motion, void *sprite) {
+void update_effect_particles_and_cleanup(ParticleCleanupWork *effect, ObjectPosition *motion, SpriteFrameState *sprite) {
     GteShortVector offset;
     Local28 texture_rect;
     Local38 direction_steps;
@@ -229,9 +229,9 @@ void update_effect_particles_and_cleanup(ParticleCleanupWork *effect, ObjectPosi
     parent_position = parent_object->unk_08;
     switch ((u32)(state)) {
     case 0:
-        ((SpriteFrameState *)sprite)->color.word = 0x808080;
+        sprite->color.word = 0x808080;
         effect->sprite_data = D_80025E70;
-        ((SpriteFrameState *)sprite)->source = &effect->sprite_data;
+        sprite->source = &effect->sprite_data;
         parent_flags = ((S_818FF710_2 *)parent)->unk_2A;
         particle_update_flag = 1;
         effect->direction = (s16) ((parent_flags >> 9) & 7);
@@ -255,13 +255,13 @@ void update_effect_particles_and_cleanup(ParticleCleanupWork *effect, ObjectPosi
         }
         if (!(effect->flags & 4)) {
             register_node((u8 *)effect - 0x20, project_sprite_chain);
-            ((SpriteFrameState *)sprite)->tpage_abr = 0x60;
-            ((SpriteFrameState *)sprite)->color.c.b = 0x14;
-            ((SpriteFrameState *)sprite)->color.c.g = 0x14;
-            ((SpriteFrameState *)sprite)->color.c.r = 0x14;
-            ((SpriteFrameState *)sprite)->scale_y = 0x1000;
-            ((SpriteFrameState *)sprite)->scale_x = 0x1000;
-            ((SpriteFrameState *)sprite)->flags = (u16) (((SpriteFrameState *)sprite)->flags | 0xC);
+            sprite->tpage_abr = 0x60;
+            sprite->color.c.b = 0x14;
+            sprite->color.c.g = 0x14;
+            sprite->color.c.r = 0x14;
+            sprite->scale_y = 0x1000;
+            sprite->scale_x = 0x1000;
+            sprite->flags = (u16) (sprite->flags | 0xC);
             effect->flags = (u8) (effect->flags | 4);
         }
         if (!(effect->animation->flags & 0x80)) {
@@ -320,28 +320,28 @@ void update_effect_particles_and_cleanup(ParticleCleanupWork *effect, ObjectPosi
                 spawn_jittered_child_effect((u8 *)effect - 0x20, particle_direction, particle_color, particle_size, 0, 0, 0);
             }
         }
-        old_flight_angle = ((SpriteFrameState *)sprite)->angle_z;
+        old_flight_angle = sprite->angle_z;
         flight_angle = old_flight_angle + 0x190;
-        ((SpriteFrameState *)sprite)->angle_z = flight_angle;
+        sprite->angle_z = flight_angle;
         if ((u32) (flight_angle & 0xFFFF) >= 0x1001U) {
-            ((SpriteFrameState *)sprite)->angle_z = (u16) (old_flight_angle - 0xE70);
+            sprite->angle_z = (u16) (old_flight_angle - 0xE70);
         }
         red_tick = (effect->initial_ticks - effect->flight_ticks) + 1;
-        ((SpriteFrameState *)sprite)->color.c.r =
+        sprite->color.c.r =
             (s8) (((s32) (red_tick * red_tick * 0x6C) / (s16) effect->ticks_squared) + 0x14);
         green_tick = (effect->initial_ticks - effect->flight_ticks) + 1;
-        ((SpriteFrameState *)sprite)->color.c.g =
+        sprite->color.c.g =
             (s8) (((s32) (green_tick * green_tick * 0x6C) / (s16) effect->ticks_squared) + 0x14);
         blue_tick = (effect->initial_ticks - effect->flight_ticks) + 1;
-        ((SpriteFrameState *)sprite)->color.c.b =
+        sprite->color.c.b =
             (s8) (((s32) (blue_tick * blue_tick * 0x6C) / (s16) effect->ticks_squared) + 0x14);
         if ((check_adjacent_tile_height_clearance(motion->x.unsigned_parts.integer, motion->y.unsigned_parts.integer,
             (s16) motion->z.unsigned_parts.integer, ((S_818FF710_2 *)parent)->unk_60) << 0x10) != 0) {
             effect->state = 8;
             effect->timer = 0U;
-            ((SpriteFrameState *)sprite)->color.c.b = 0;
-            ((SpriteFrameState *)sprite)->color.c.g = 0;
-            ((SpriteFrameState *)sprite)->color.c.r = 0;
+            sprite->color.c.b = 0;
+            sprite->color.c.g = 0;
+            sprite->color.c.r = 0;
             return;
         }
         remaining_ticks = (u8) effect->flight_ticks - 1;
@@ -367,9 +367,9 @@ void update_effect_particles_and_cleanup(ParticleCleanupWork *effect, ObjectPosi
             }
             effect->state = 8;
             effect->timer = 0U;
-            ((SpriteFrameState *)sprite)->color.c.b = 0;
-            ((SpriteFrameState *)sprite)->color.c.g = 0;
-            ((SpriteFrameState *)sprite)->color.c.r = 0;
+            sprite->color.c.b = 0;
+            sprite->color.c.g = 0;
+            sprite->color.c.r = 0;
             create_owner_linked_mirrored_sprite(effect, motion, sprite);
             return;
         }
@@ -391,11 +391,11 @@ void update_effect_particles_and_cleanup(ParticleCleanupWork *effect, ObjectPosi
         s32 rect_right;
         s32 rect_height;
         s32 rect_left;
-        old_hit_angle = ((SpriteFrameState *)sprite)->angle_z;
+        old_hit_angle = sprite->angle_z;
         hit_angle = old_hit_angle + 0x190;
-        ((SpriteFrameState *)sprite)->angle_z = hit_angle;
+        sprite->angle_z = hit_angle;
         if ((u32) (hit_angle & 0xFFFF) >= 0x1001U) {
-            ((SpriteFrameState *)sprite)->angle_z = (u16) (old_hit_angle - 0xE70);
+            sprite->angle_z = (u16) (old_hit_angle - 0xE70);
         }
         create_owner_linked_mirrored_sprite(effect, motion, sprite);
         hit_tick = effect->timer + 1;
@@ -592,17 +592,17 @@ void update_effect_particles_and_cleanup(ParticleCleanupWork *effect, ObjectPosi
                 spawn_jittered_child_effect((u8 *)effect - 0x20, particle_direction, particle_color, particle_size, 0, 0, 0);
             }
         }
-        old_impact_angle = ((SpriteFrameState *)sprite)->angle_z;
+        old_impact_angle = sprite->angle_z;
         impact_angle = old_impact_angle + 0x190;
-        ((SpriteFrameState *)sprite)->angle_z = impact_angle;
+        sprite->angle_z = impact_angle;
         if ((u32) (impact_angle & 0xFFFF) >= 0x1001U) {
-            ((SpriteFrameState *)sprite)->angle_z = (u16) (old_impact_angle - 0xE70);
+            sprite->angle_z = (u16) (old_impact_angle - 0xE70);
         }
         fade_tick = (s16) effect->timer;
         if (fade_tick >= 0x51) {
-            ((SpriteFrameState *)sprite)->color.c.r = (s8) (((0x64 - fade_tick) << 7) / 20);
-            ((SpriteFrameState *)sprite)->color.c.g = (s8) (((0x64 - (s16) effect->timer) << 7) / 20);
-            ((SpriteFrameState *)sprite)->color.c.b = (s8) (((0x64 - (s16) effect->timer) << 7) / 20);
+            sprite->color.c.r = (s8) (((0x64 - fade_tick) << 7) / 20);
+            sprite->color.c.g = (s8) (((0x64 - (s16) effect->timer) << 7) / 20);
+            sprite->color.c.b = (s8) (((0x64 - (s16) effect->timer) << 7) / 20);
         }
         create_owner_linked_mirrored_sprite(effect, motion, sprite);
         if ((s16) effect->timer < 0x64) {

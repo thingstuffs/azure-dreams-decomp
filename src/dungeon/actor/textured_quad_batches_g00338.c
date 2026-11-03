@@ -199,7 +199,7 @@ s32 transform_linked_quad_batches(u8 *initial_batch, s32 initial_dispatch_arg, u
 }
 
 /* Fill and submit a textured quad, then advance the primitive and texture cursors. */
-void *submit_textured_quad(s32 draw_context, S_800B0BE0_1 *draw_settings, void **texture_cursor, void *primitive) {
+void *submit_textured_quad(s32 draw_context, SpriteFrameState *draw_settings, void **texture_cursor, void *primitive) {
     s32 submit_context;
     u32 texture_page;
     s8 u_end;
@@ -211,10 +211,10 @@ void *submit_textured_quad(s32 draw_context, S_800B0BE0_1 *draw_settings, void *
     void *texture_entry;
     u16 page_override;
 
-    ((S_800B0BE0_0 *)primitive)->unk_04 = (s32) draw_settings->unk_0C;
+    ((S_800B0BE0_0 *)primitive)->unk_04 = (s32) draw_settings->color.word;
     SetPolyFT4(primitive);
     ((S_800B0BE0_0 *)primitive)->unk_0E = (u16) ((S_800B0BE0_2 *)(*texture_cursor))->unk_06;
-    page_override = draw_settings->unk_10;
+    page_override = draw_settings->tpage_abr;
     if (page_override != 0) {
         texture_page = page_override + (((S_800B0BE0_2 *)(*texture_cursor))->unk_04 & 0xFF9F);
     } else {

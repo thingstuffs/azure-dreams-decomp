@@ -9,7 +9,7 @@ typedef struct Bytes24 { u8 bytes[24]; } Bytes24;
 extern u8 D_800200A0[];
 
 /* Builds four groups of display records and stores the padded layout dimensions. */
-void *card_boot_build_message_window_packets(void *buffer, void *layout_arg)
+void *card_boot_build_message_window_packets(void *buffer, CardMessageDialogBody *layout_arg)
 {
     CardMessageDialogBody *layout = layout_arg;
     Bytes4 record_flags;

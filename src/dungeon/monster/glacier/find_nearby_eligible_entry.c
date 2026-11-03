@@ -9,11 +9,6 @@ typedef struct S_801748FC_0_pre {
 } S_801748FC_0_pre;   /* the 0x14 bytes before current in find_nearby_eligible_entry, addressed as current[-1] */
 
 
-typedef struct S_801748FC_1 {
-    u8 pad_00[0x24];
-    u8 unk_24;
-    u8 unk_25;
-} S_801748FC_1;   /* object in find_nearby_eligible_entry */
 
 
 
@@ -29,7 +24,7 @@ void *find_nearby_eligible_entry(u8 *current, s32 wanted_24, s32 wanted_25, s32 
     s32 filter_25;
     s32 scratch;
     s32 filter_24;
-    S_801748FC_1 *object;
+    SpriteFrameState *object;
     s16 height;
 
     scratch = ((ActorRecord *)current)->next_actor_header;
@@ -42,10 +37,10 @@ void *find_nearby_eligible_entry(u8 *current, s32 wanted_24, s32 wanted_25, s32 
         target_height = scratch >> 0x10;
         min_height = target_height - 0x20;
         do {
-            object = (S_801748FC_1 *)((S_801748FC_0_pre *)current)[-1].unk_00;
+            object = (SpriteFrameState *)((S_801748FC_0_pre *)current)[-1].unk_00;
             entry = current - 0x20;
-            if ((object->unk_24 == (filter_24 & 0xFFFF)) &&
-                (object->unk_25 == (filter_25 & 0xFFFF)) &&
+            if ((object->tile_x == (filter_24 & 0xFFFF)) &&
+                (object->tile_y == (filter_25 & 0xFFFF)) &&
                 (height = ((ActorRecord *)current)->ground_height,
                  height <= target_height + 0x20) &&
                 (height >= min_height) &&

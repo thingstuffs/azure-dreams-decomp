@@ -67,10 +67,6 @@ typedef struct S_80173230_7 {
     void * unk_2C;
 } S_80173230_7;   /* target in advance_item_use_and_recovery */
 
-typedef struct S_80173230_8 {
-    u8 pad_00[0xC];
-    void * unk_0C;
-} S_80173230_8;   /* base in advance_item_use_and_recovery */
 
 /* Advances item use, its visual effect, and the actor's recovery animation. */
 /* Starts a targeted spell, creates an attached sprite effect and briefly changes the actor's palette, then
@@ -232,7 +228,7 @@ void advance_item_use_and_recovery(ActorRecord *body, ObjectPosition *motion, Sp
                     ((S_80173230_7 *)item_slot)->unk_12 = 0xFF80;
                     ((S_80173230_7 *)item_slot)->unk_14 |= 0x0C;
 
-                    actor_model = ((S_80173230_8 *)action_object)->unk_0C;
+                    actor_model = ((ActorRecord *)action_object)->unk_0C.address;
                     item_slot = ((S_80173230_6 *)((void *)effect_handle))->unk_08;
                     if (resolve_record_orientation_or_fallback(
                             actor_model->source, actor_model, &effect_offset.orientation, 1) != 0) {

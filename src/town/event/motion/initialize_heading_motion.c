@@ -5,9 +5,10 @@
 #include "town/scene/motion.h"
 #include "sdk/libgte.h"
 #include "town/event/motion.h"
+#include "dungeon/actor_callbacks_api.h"
 
 extern s32 scene_object_payload_alias;
-extern void *D_8009BC44;
+
 
 /* Initialize heading-based motion, apply it to the object, and update the owner state. */
 void initialize_heading_motion(void *owner, void *object, void *motion) {
@@ -24,5 +25,5 @@ void initialize_heading_motion(void *owner, void *object, void *motion) {
     }
     add_motion_deltas_to_position(motion);
     handle_resolve_bounding_box_overlaps_linked_colliders_along_least_penetrating_axis(object, motion);
-    *(void **)((u8 *)owner + 0x50) = &D_8009BC44;
+    *(void **)((u8 *)owner + 0x50) = update_falling_motion;
 }

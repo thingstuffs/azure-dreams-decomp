@@ -4,7 +4,8 @@
 #include "sdk/libc.h"
 #include "town/shop.h"
 #include "town/shop/position.h"
-s32 select_object_state_value(void *object);                        /* extern */
+#include "dungeon/system.h"
+
 extern M2C_UNK D_800892C0;
 extern char D_800892C8[];
 extern char D_800892CC[];

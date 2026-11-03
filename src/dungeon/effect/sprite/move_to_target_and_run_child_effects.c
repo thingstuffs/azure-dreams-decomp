@@ -88,7 +88,7 @@ extern void func_80024060();
 extern void advance_expanding_spiral(void);
 
 /* Moves to a target cell, runs child effects, and retires the controller. */
-void move_to_target_and_run_child_effects(Controller *ctrl, Motion *motion, void *render_data)
+void move_to_target_and_run_child_effects(Controller *ctrl, Motion *motion, SpriteFrameState *render_data)
 {
     u8 *root;
     RootPrefix *prefix;
@@ -128,7 +128,7 @@ void move_to_target_and_run_child_effects(Controller *ctrl, Motion *motion, void
             index--;
             child_slot--;
         } while (index >= 0);
-        ((s32 *)render_data)[3] = 0x00808080;
+        render_data->color.word = 0x00808080;
 
     case 1:
         prefix = (RootPrefix *)(root - 0x20);

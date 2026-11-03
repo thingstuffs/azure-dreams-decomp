@@ -99,4 +99,6 @@ void refresh_packed_grid_nibbles(void);
 
 void create_actor_linked_effect(ActorRecord *source_data);
 
+void *create_tracked_effect(ObjectNodeHeader **owner, s16 mode, s32 param, void *unused);
+
 #endif

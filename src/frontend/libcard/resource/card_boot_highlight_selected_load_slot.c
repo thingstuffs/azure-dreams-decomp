@@ -4,7 +4,7 @@
 #include "frontend/libcard/resource.h"
 
 /* Update the five entries according to the selected index. */
-void card_boot_highlight_selected_load_slot(void *state) {
+void card_boot_highlight_selected_load_slot(CardSaveMenuBody *state) {
     CardSaveMenuBody *menu = state;
     s32 entry_index;
 

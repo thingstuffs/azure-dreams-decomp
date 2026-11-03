@@ -1,6 +1,7 @@
 #ifndef FRONTEND_LIBCARD_INTERFACES_H
 #define FRONTEND_LIBCARD_INTERFACES_H
 #include "shared/object_node.h"
+#include "frontend/libcard/save_menu.h"
 struct CardMessageDialogBody;
 
 #include "common.h"
@@ -32,6 +33,6 @@ void card_boot_stop_timer_and_init_server(void);
 s32 card_boot_sum_slot_lookup_values(void);
 void card_boot_update_card_chooser_input(CardChooserBody *body);
 void card_boot_wait_before_copying_slot(void *record_data);
-void route_save_slot_validation(void *context);
+void route_save_slot_validation(CardSaveMenuBody *context);
 
 #endif

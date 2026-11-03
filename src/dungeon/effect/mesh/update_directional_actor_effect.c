@@ -13,6 +13,7 @@
 #include "engine/scene.h"
 #include "sdk/libgte.h"
 #include "slus.h"
+#include "dungeon/system.h"
 
 #define U8_AT(p, off) (*(u8 *)((u8 *)(p) + (off)))
 #define U16_AT(p, off) (*(u16 *)((u8 *)(p) + (off)))

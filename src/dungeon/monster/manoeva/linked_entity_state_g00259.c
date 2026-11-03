@@ -22,7 +22,7 @@ void transfer_linked_object_state(ActorRecord *owner, ObjectPosition *object_id,
     u8 kind_byte;
     long slot_address;
 
-    linked_object = *(u8 **)(((u8 *)owner + 0xA4));
+    linked_object = owner->unk_A4.byte_address;
     linked_state = linked_object + 0x20;
     source_object = *(u8 **)(linked_object + 0xC);
     dest_object->tile_x = source_object[0x24];
@@ -30,7 +30,7 @@ void transfer_linked_object_state(ActorRecord *owner, ObjectPosition *object_id,
     dest_state->ground_height = *(u16 *)(linked_state + 0x88);
     set_record_integer_tile_center(object_id, dest_object->tile_x, dest_object->tile_y);
 
-    linked_object = *(u8 **)(((u8 *)owner + 0xA4));
+    linked_object = owner->unk_A4.byte_address;
     if (*(u16 *)(linked_object + 0x1E) & 0x8000) {
         if ((linked_state[0x13] == 0x1E) && (linked_state[0x28] != 0)) {
             dest_state->pending_turn_updates = 1;

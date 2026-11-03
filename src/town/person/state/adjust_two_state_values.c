@@ -9,11 +9,7 @@
 
 #include "town/scene/object/unlink_scene_list_node_api.h"                      /* extern */
 
-typedef struct S_800C56A8_0 {
-    s32 unk_00;
-    s32 unk_04;
-} S_800C56A8_0;   /* arg1 in adjust_two_state_values */
-
+   /* arg1 in adjust_two_state_values */
 
 /* Adjust the two state values and run completion actions when the countdown expires. */
 void adjust_two_state_values(TownObjectRecord *object, ObjectPosition *state) {

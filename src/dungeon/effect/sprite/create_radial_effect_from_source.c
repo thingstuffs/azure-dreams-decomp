@@ -252,6 +252,8 @@ typedef struct S_func_81886800_17 {
 } S_func_81886800_17;
 
 #include "dungeon/effect/screen.h"
+#include "dungeon/system.h"
+
 extern s32 rsin(s32);
 extern s32 check_left_tile_and_center_height(s32, s32, s32);
 extern void ratan2(s32, s32);
@@ -1030,9 +1032,6 @@ s32 build_shaded_quads_adjacent_vertex_rows_adds_them_ordering_table(void)
 #include "common.h"
 #include "shared/object_flags.h"
 
-typedef struct S_80025160_0_pre {
-    u16 unk_00;
-} S_80025160_0_pre;   /* the 0x2 bytes before arg0 in advance_the_effect_state_updates_motion_sets_display_color, addressed as arg0[-1] */
 
 typedef struct S_80025160_0 {
     u8 pad_00[0xA];
@@ -1148,7 +1147,7 @@ void advance_the_effect_state_updates_motion_sets_display_color(void *effect, s3
         visual->unk_06.s = value;
         if ((value << 16) >= 0) {
             flags_page = (S_80025160_3 *)0x80080000;
-            ((S_80025160_0_pre *)effect)[-1].unk_00 |= 0x8000;
+            NODE_HEADER(effect)->flags |= 0x8000;
             flags_page->unk_14A0 |= 0x8000;
         }
         break;

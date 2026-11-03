@@ -7,26 +7,6 @@
 #include "engine/entity.h"
 #include "sdk/libgte.h"
 
-typedef struct S_8017474C_0 {
-    u8 pad_00[0x4];
-    u8 * unk_04;
-    u16 * unk_08;
-    void * unk_0C;
-    u8 pad_10[0x4];
-    void * unk_14;
-    void * unk_18;
-    union { u16 s; s16 u; } unk_1C;   /* accessed as both */
-    s16 unk_1E;
-    union { s16 s; u16 u; } unk_20;   /* accessed as both */
-    s16 unk_22;
-    s16 unk_24;
-    s16 unk_26;
-    s16 unk_28;
-    s16 unk_2A;
-    s16 unk_2C;
-    s16 unk_2E;
-    s16 unk_30;
-} S_8017474C_0;   /* arg0 in update_terrain_scaled_actor_effect */
 
 
 
@@ -37,15 +17,9 @@ typedef struct S_8017474C_0 {
 
 
 
-typedef struct S_8017474C_8 {
-    u8 pad_00[0xC];
-    s32 unk_0C;
-    u8 pad_10[0x2];
-    u16 unk_12;
-} S_8017474C_8;   /* ((S_8017474C_0 *)arg0)->unk_14 in update_terrain_scaled_actor_effect */
 
 /* Updates effect position and animated scales, flagging invalid or fully expanded effects. */
-void update_terrain_scaled_actor_effect(void *effect, MovingPosition *out_position, SpriteFrameState *out_render)
+void update_terrain_scaled_actor_effect(ManoevaTerrainEffectBody *effect, MovingPosition *out_position, SpriteFrameState *out_render)
 {
     ObjectNodeHeader *owner_base;
     void *owner;
@@ -60,12 +34,12 @@ void update_terrain_scaled_actor_effect(void *effect, MovingPosition *out_positi
 
     height_scale = 0x1000;
     target_scale = height_scale;
-    if (((S_8017474C_0 *)effect)->unk_1E == 0) {
-        if (*((S_8017474C_0 *)effect)->unk_08 & 1) {
+    if (effect->unk_1E == 0) {
+        if (*effect->unk_08 & 1) {
             target_scale = 0x1400;
         }
 
-        owner_base = ((S_8017474C_0 *)effect)->unk_0C;
+        owner_base = effect->unk_0C;
         owner = (u8 *)owner_base + 0x20;
         if ((((u32)((ActorRecord *)owner)->flags1C) & 0x00800000) ||
             (owner_base->flags & 0x8000) ||
@@ -77,16 +51,16 @@ void update_terrain_scaled_actor_effect(void *effect, MovingPosition *out_positi
         }
 
         if (((s8)((ActorRecord *)owner)->unk_87) != -1) {
-            MovingPosition *sample_position = ((S_8017474C_0 *)effect)->unk_18;
+            MovingPosition *sample_position = (MovingPosition *)effect->unk_18;
 
             sampled_height = sample_terrain_surface_height(sample_position->x,
                                 sample_position->y,
                                 (s16)(sample_position->z - 4));
         } else {
-            sampled_height = ((ObjectPosition *)(((S_8017474C_0 *)effect)->unk_18))->z.unsigned_parts.integer;
+            sampled_height = ((ObjectPosition *)(effect->unk_18))->z.unsigned_parts.integer;
         }
 
-        source_position = ((S_8017474C_0 *)effect)->unk_18;
+        source_position = effect->unk_18;
         height_scale = height_scale - ((sampled_height - source_position->z.unsigned_parts.integer) << 6);
         if (height_scale < 0) {
             height_scale = 0;
@@ -97,76 +71,76 @@ void update_terrain_scaled_actor_effect(void *effect, MovingPosition *out_positi
 
         if (height_scale >= 0xF81) {
             out_position->x = source_position->x.unsigned_parts.integer;
-            out_position->y = ((ObjectPosition *)(((S_8017474C_0 *)effect)->unk_18))->y.unsigned_parts.integer;
+            out_position->y = ((ObjectPosition *)(effect->unk_18))->y.unsigned_parts.integer;
             out_position->z = sampled_height;
 
             scale_cap = target_scale;
             if (scale_cap == 0x1000) {
-                scale_value = ((S_8017474C_0 *)effect)->unk_1C.s;
-                if (((S_8017474C_0 *)effect)->unk_1C.u >= 0x1001) {
+                scale_value = effect->unk_1C.u;
+                if (effect->unk_1C.s >= 0x1001) {
                     next_scale = scale_value - 0x400;
-                    ((S_8017474C_0 *)effect)->unk_1C.u = next_scale;
+                    effect->unk_1C.s = next_scale;
                     if (next_scale < 0x1000) {
-                        ((S_8017474C_0 *)effect)->unk_1C.u = scale_cap;
+                        effect->unk_1C.s = scale_cap;
                     }
                 } else {
                     next_scale = scale_value + 0x400;
-                    ((S_8017474C_0 *)effect)->unk_1C.u = next_scale;
+                    effect->unk_1C.s = next_scale;
                     if (next_scale >= 0x1001) {
-                        ((S_8017474C_0 *)effect)->unk_1C.u = scale_cap;
+                        effect->unk_1C.s = scale_cap;
                     }
                 }
             } else {
-                next_scale = ((S_8017474C_0 *)effect)->unk_1C.s + 0x800;
-                ((S_8017474C_0 *)effect)->unk_1C.u = next_scale;
+                next_scale = effect->unk_1C.u + 0x800;
+                effect->unk_1C.s = next_scale;
                 if (scale_cap < next_scale) {
-                    ((S_8017474C_0 *)effect)->unk_1C.u = target_scale;
+                    effect->unk_1C.s = target_scale;
                 }
             }
         } else {
-            next_scale = ((S_8017474C_0 *)effect)->unk_1C.s - 0x400;
-            ((S_8017474C_0 *)effect)->unk_1C.u = next_scale;
+            next_scale = effect->unk_1C.u - 0x400;
+            effect->unk_1C.s = next_scale;
             if (next_scale < 0) {
-                ((S_8017474C_0 *)effect)->unk_1C.u = 0;
+                effect->unk_1C.s = 0;
             }
         }
 
-        out_render->clut = ((S_8017474C_8 *)(((S_8017474C_0 *)effect)->unk_14))->unk_12;
-        out_render->color.word = ((S_8017474C_8 *)(((S_8017474C_0 *)effect)->unk_14))->unk_0C;
-        out_render->scale_x = ((S_8017474C_0 *)effect)->unk_1C.s +
-            (rcos(((S_8017474C_0 *)effect)->unk_20.s << 8) >> 4);
-        out_render->scale_y = ((S_8017474C_0 *)effect)->unk_1C.s +
-            (rsin(((S_8017474C_0 *)effect)->unk_20.s << 8) >> 4);
+        out_render->clut = ((SpriteFrameState *)(effect->unk_14))->clut;
+        out_render->color.word = ((SpriteFrameState *)(effect->unk_14))->color.word;
+        out_render->scale_x = effect->unk_1C.u +
+            (rcos(effect->unk_20.s << 8) >> 4);
+        out_render->scale_y = effect->unk_1C.u +
+            (rsin(effect->unk_20.s << 8) >> 4);
 
-        effect_kind = *((S_8017474C_0 *)effect)->unk_04;
+        effect_kind = *effect->unk_04;
         if (effect_kind == 0xF) {
-            ((S_8017474C_0 *)effect)->unk_22 =
-                (rcos(((S_8017474C_0 *)effect)->unk_20.s << 8) >> 3) + 0x1000;
-            ((S_8017474C_0 *)effect)->unk_24 =
-                (rsin(((S_8017474C_0 *)effect)->unk_20.s << 8) >> 3) + 0x1000;
-            ((S_8017474C_0 *)effect)->unk_26 =
-                (rcos((((S_8017474C_0 *)effect)->unk_20.s << 8) + 0x200) >> 3) + 0x1000;
-            ((S_8017474C_0 *)effect)->unk_28 =
-                (rsin((((S_8017474C_0 *)effect)->unk_20.s << 8) + 0x200) >> 3) + 0x1000;
-            ((S_8017474C_0 *)effect)->unk_2A =
-                (rcos((((S_8017474C_0 *)effect)->unk_20.s << 8) + 0x400) >> 3) + 0x1000;
-            ((S_8017474C_0 *)effect)->unk_2C =
-                (rsin((((S_8017474C_0 *)effect)->unk_20.s << 8) + 0x400) >> 3) + 0x1000;
-            ((S_8017474C_0 *)effect)->unk_2E =
-                (rcos((((S_8017474C_0 *)effect)->unk_20.s << 8) + 0x600) >> 3) + 0x1000;
-            ((S_8017474C_0 *)effect)->unk_30 =
-                (rsin((((S_8017474C_0 *)effect)->unk_20.s << 8) + 0x600) >> 3) + 0x1000;
+            effect->unk_22 =
+                (rcos(effect->unk_20.s << 8) >> 3) + 0x1000;
+            effect->unk_24 =
+                (rsin(effect->unk_20.s << 8) >> 3) + 0x1000;
+            effect->unk_26 =
+                (rcos((effect->unk_20.s << 8) + 0x200) >> 3) + 0x1000;
+            effect->unk_28 =
+                (rsin((effect->unk_20.s << 8) + 0x200) >> 3) + 0x1000;
+            effect->unk_2A =
+                (rcos((effect->unk_20.s << 8) + 0x400) >> 3) + 0x1000;
+            effect->unk_2C =
+                (rsin((effect->unk_20.s << 8) + 0x400) >> 3) + 0x1000;
+            effect->unk_2E =
+                (rcos((effect->unk_20.s << 8) + 0x600) >> 3) + 0x1000;
+            effect->unk_30 =
+                (rsin((effect->unk_20.s << 8) + 0x600) >> 3) + 0x1000;
         } else if (effect_kind == 0) {
-            ((S_8017474C_0 *)effect)->unk_1C.u = 0;
+            effect->unk_1C.s = 0;
         } else {
-            ((S_8017474C_0 *)effect)->unk_30 = 0x1000;
-            ((S_8017474C_0 *)effect)->unk_2E = 0x1000;
-            ((S_8017474C_0 *)effect)->unk_2C = 0x1000;
-            ((S_8017474C_0 *)effect)->unk_2A = 0x1000;
-            ((S_8017474C_0 *)effect)->unk_28 = 0x1000;
-            ((S_8017474C_0 *)effect)->unk_26 = 0x1000;
-            ((S_8017474C_0 *)effect)->unk_24 = 0x1000;
-            ((S_8017474C_0 *)effect)->unk_22 = 0x1000;
+            effect->unk_30 = 0x1000;
+            effect->unk_2E = 0x1000;
+            effect->unk_2C = 0x1000;
+            effect->unk_2A = 0x1000;
+            effect->unk_28 = 0x1000;
+            effect->unk_26 = 0x1000;
+            effect->unk_24 = 0x1000;
+            effect->unk_22 = 0x1000;
         }
     } else {
         scale_value = out_render->scale_x + 0x100;
@@ -178,5 +152,5 @@ void update_terrain_scaled_actor_effect(void *effect, MovingPosition *out_positi
         }
         out_render->scale_y += 0x100;
     }
-    ((S_8017474C_0 *)effect)->unk_20.u++;
+    effect->unk_20.u++;
 }
