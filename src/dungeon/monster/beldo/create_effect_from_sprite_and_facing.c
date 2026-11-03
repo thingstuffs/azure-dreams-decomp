@@ -51,7 +51,7 @@ void create_effect_from_sprite_and_facing(void *unused, MovingPosition *source_t
     effect = allocate_list_node(0x112, &scene_object_list_anchor.next);
     sprite_data = sprite_template;
     if (effect != NULL) {
-        effect_state = ((void *)effect) + 0x20;
+        effect_state = NODE_BODY(effect);
         effect_state->unk_96 = 7;
         effect_state->unk_A8 = 7;
         effect->update_callback = &D_80170D44;

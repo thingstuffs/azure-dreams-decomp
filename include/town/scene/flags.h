@@ -76,4 +76,11 @@ void set_indexed_entry_flag(Rec_func_800165F4_arg0 *record, s32 entry_index);
 void set_indexed_entry_flag_b(void);
 s32 update_entry_flags(void *record, s32 entry_index);
 
+/* Address-qualified entries of distinct diagnostic devkit builds; docs/evidence/r141w_town_dev.md. */
+void clear_indexed_flag_bit_unless_index_one_80700d20(s32 bit_index);
+
+/* Additional diagnostic copies recovered while resolving import floors. */
+void dispatch_entry_flags_a0700244(s32 index);
+void dispatch_entry_flags_80700c54(s32 index);
+
 #endif

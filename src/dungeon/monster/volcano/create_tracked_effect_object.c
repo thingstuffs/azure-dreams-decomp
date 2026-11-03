@@ -31,7 +31,7 @@ void *create_tracked_effect_object(s16 flags, s16 kind_id, s16 variant, s16 spaw
     saved_variant = variant;
     obj = allocate_list_node(0x112, &scene_object_list_anchor.next);
     if (obj != 0) {
-        work = (ActorRecord *)(obj + 1);
+        work = NODE_BODY(obj);
         work->species = MONSTER_VOLCANO;
         register_node(obj, project_sprite_chain);
 

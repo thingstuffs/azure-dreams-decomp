@@ -1,5 +1,6 @@
 /* Relinked copy of town/func_808781C8 (func_808781C8.c); its step flag is 0x278 (twin 0x1F9), otherwise retail differs only at relocation sites. */
 #include "common.h"
+#include "town/shop/state.h"
 #include "town/scene.h"
 #include "town/shop.h"
 #include "town/devkit/flag_test_imports.h"
@@ -15,8 +16,8 @@ extern TownPair D_00000F28[];
 
 /* Advance the shop entry at `index`: start its 0x278 step when eligible, otherwise just clear it. */
 s32 advance_shop_entry_index_278(s32 index) {
-    if (func_80000C6C(D_00000F12[0]) == 0 &&
-        func_80000C6C(0x278) != 0) {
+    if (test_linked_flag_80000c6c(D_00000F12[0]) == 0 &&
+        test_linked_flag_80000c6c(0x278) != 0) {
         if (is_next_entry_zero_after_skipping(index) != 0) {
             func_80000BC8(D_00000F28[index].field_0);
             func_80000C18(0x278);

@@ -51,7 +51,7 @@ void create_boss_directional_effect(void *source, s16 angle, s32 initial_value, 
         *((u16 *) (((s8 *) y_position) + 6)) = (u16) ((*((u16 *) (((s8 *) y_position) + 6)))
             + (((s32) ((*((u16 *) (entry + 2))) << 0x10)) >> 0xC));
         effect->sprite->depth_bias = 6;
-        source = ((void *)effect) + 0x20;
+        source = NODE_BODY(effect);
         if (spread_mode == 0) {
             effect->position->velocity_x =
                 (s32) (((rand() & 0x7FFF) - 0x4000) << 7);

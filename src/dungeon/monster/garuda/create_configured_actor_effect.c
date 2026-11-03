@@ -45,7 +45,7 @@ void *create_configured_actor_effect(s16 mask, s16 value_24, s16 value_25, s16 v
     saved_arg2 = value_25;
     obj = allocate_list_node(0x112, &scene_object_list_anchor.next);
     if (obj != 0) {
-        work = (ActorRecord *)(obj + 1);
+        work = NODE_BODY(obj);
         obj->update_callback = update_object_movement_facing_terrain;
         work->species = MONSTER_GARUDA;
         register_node(obj, project_sprite_chain);
@@ -81,7 +81,7 @@ void *create_configured_actor_effect(s16 mask, s16 value_24, s16 value_25, s16 v
                 }
             }
         }
-        initialize_actor_sprite_and_animation(((void *)(obj)), part_a, part_b, mask);
+        initialize_actor_sprite_and_animation(((obj)), part_a, part_b, mask);
         actor->action_id.u = 0xFF;
         actor->unk_9C = -1;
         actor->unk_8C.handler = &update_creature_animation_action;

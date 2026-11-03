@@ -22,7 +22,7 @@ void initialize_and_submit_record(void *callback_address, void *data) {
     Blk16 *end;
 
     record = allocate_flagged_object_node(1);
-    dst = (Blk16 *)(record + 1);
+    dst = NODE_BODY(record);
     if (record != 0) {
         src = data;
         end = src + 3; /* 0x30 bytes */

@@ -38,7 +38,7 @@ void create_timed_offset_motion_effect(u8 *unused, s16 duration, s32 offset_x, s
 
     obj = allocate_flagged_object_node(0x212);
     if (obj != 0) {
-        work = (S_80170D2C_0 *)(((u8 *)obj) + 0x20);
+        work = NODE_BODY(obj);
         work->unk_18 = duration;
         obj->update_callback = D_80170BB0;
         register_node(obj, project_sprite_chain);

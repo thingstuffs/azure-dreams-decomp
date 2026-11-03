@@ -45,7 +45,7 @@ void * create_randomized_motion_object(ActorRecord *owner, ObjectPosition *initi
         object->update_callback = &update_radial_motion_or_complete;
         biased_phase = rand();
         phase_rand = biased_phase;
-        part = ((void *)object) + 0x20;
+        part = NODE_BODY(object);
         if (phase_rand < 0) {
             biased_phase = phase_rand + 0xFFF;
         }

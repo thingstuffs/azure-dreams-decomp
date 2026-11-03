@@ -97,7 +97,7 @@ void *create_source_adjusted_motion_object(S_80175D04_0 *actor, Copy24 *start_po
 
         child_pos = object->position;
         (*(Copy24 *)((u8 *)object + 0x24)) = *start_pos;
-        motion = (Copy24 *)((u8 *)object + 0x20);
+        motion = NODE_BODY(object);
 
         source_offset.z = 0;
         source_offset.y = 0;

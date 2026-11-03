@@ -136,7 +136,7 @@ void update_turning_fade_effect_and_model(ActorRecord *sequence, ObjectPosition 
         Control_CD(0x15, read_stream_cue_start_offset(), NULL);
         nyuel_effect_load_done[0] = 0;
         Control_CD(0xFF, (s32) set_byte_one, &nyuel_effect_load_done);
-        select_nearby_target_and_initialize_slot(((u8 *)target - 0x20), position, 8, 0x300);
+        select_nearby_target_and_initialize_slot(NODE_HEADER(target), position, 8, 0x300);
         sequence->action_timer.u = 0x10U;
         sequence->action_phase.u = (u8) (sequence->action_phase.u + 1);
     case 3:

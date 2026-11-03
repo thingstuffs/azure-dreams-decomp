@@ -58,7 +58,7 @@ void *spawn_animated_monster(s16 kind_flags, s16 tile_x, s16 tile_y, s16 part_id
     saved_y = tile_y;
     obj = allocate_list_node((s32)alloc_or_entry, &scene_object_list_anchor.next);
     if (obj != 0) {
-        work = (u8 *)obj + 0x20;
+        work = NODE_BODY(obj);
         obj->update_callback = create_anchored_directional_object;
         ((R06_8017087C_S_8017087C_1 *)work)->unk_13 = MONSTER_FLAME;
         register_node(obj, project_sprite_chain);
@@ -999,7 +999,7 @@ s32 try_flame_attack(ActorRecord *action_state, ObjectPosition *motion_param, Sp
         return -1;
     }
 
-    apply_camera_offset_and_select_target((ObjectNodeHeader *)actor - 1, motion_param, 8, 0x300);
+    apply_camera_offset_and_select_target(NODE_HEADER(actor), motion_param, 8, 0x300);
     if ((try_claim_dungeon_action_slot(actor) << 16) == 0) {
         action_state->action_id.u = 0x11;
         action_state->action_phase.u = 0;
@@ -1021,7 +1021,7 @@ s32 try_flame_attack(ActorRecord *action_state, ObjectPosition *motion_param, Sp
 void update_actor_action_and_direction(ActorRecord *action_state, ObjectPosition *context, SpriteFrameState *sprite, ActorRecord *actor) {
     actor->movement_queue_state = (u8) (actor->movement_queue_state & 0x7F);
     if (!(g_dungeon_status.flags & 0x2000) && ((try_claim_dungeon_action_slot(actor) << 0x10) == 0)) {
-        apply_camera_offset_and_select_target((u8 *)actor - 0x20, context, 8, 0x300);
+        apply_camera_offset_and_select_target(NODE_HEADER(actor), context, 8, 0x300);
         if ((try_claim_dungeon_action_slot(actor) << 0x10) == 0) {
             action_state->action_id.s = 0x11;
             action_state->unk_8C.word = 0;
@@ -1161,7 +1161,7 @@ void advance_action_through_animation(R06_8017278C_S_8017278C_0 *action, ObjectP
             if (actor->pending_turn_updates == 0) {
                 actor->action_flags = (u16) (actor->action_flags & ACTOR_ACTION_CLEAR_PENDING_MASK);
             } else {
-                *((void **)actor_update_node_cursor) = ((ObjectNodeHeader *)actor - 1);
+                *((void **)actor_update_node_cursor) = NODE_HEADER(actor);
             }
         }
         return;
@@ -1259,7 +1259,7 @@ void start_selected_move_and_reset_action(ActorRecord *action, ObjectPosition *p
 
             action->action_state_flags |= 0x1000;
             if (create_actor_spell_effect(actor, move_data,(s16)(is_special),
-                (u16 *)((u8 *)action + 0x98)) == 0) {
+                ((u8 *)action + 0x98)) == 0) {
                 return;
             }
             sprite->flags &= 0xF7FF;
@@ -1695,7 +1695,7 @@ void update_actor_state_by_flags(ActorRecord *in_actor, ObjectPosition *in_conte
             on_actor_status_updated(in_entity);
             if ((get_entity_effect_value(in_entity, STATUS_SLEEP) << 16) != 0) {
                 TileObject *origin = &reference_tile_object;
-                s8 tile = *(s8 *)&in_sprite->room_index;
+                s8 tile = ((s8)(in_sprite->room_index));
 
                 if (((tile == origin->room_index) && (tile >= 0)) ||
                     ((s16)get_tile_chebyshev_distance(origin, in_sprite) < 2)) {
@@ -2142,7 +2142,7 @@ void advance_actor_action_and_update_status(
         init_data = ((void *)append_linked_shaded_point_packets);
         z_pos = source_obj->position->z.unsigned_parts.integer;
         z_jitter &= 0x1F;
-        fields = (R06_80174214_S_80174214_0 *)((u8 *)object_fields + 0x20);
+        fields = NODE_BODY(object_fields);
         z_dest = object_fields->position;
         z_pos += z_jitter;
         z_bias = z_offset - 0x10;
@@ -2429,7 +2429,7 @@ void update_fading_four_strip_effect(u8 *effect, R06_80174934_Vec3w *origin, Spr
         if (strip_obj != 0) {
             init_obj = strip_obj;
             callback = ((u8 *)project_textured_quad_chain);
-            strip_data = ((u8 *)strip_obj) + 0x20;
+            strip_data = NODE_BODY(strip_obj);
             ((R06_80174934_S_80174934_1 *)strip_data)->unk_1A = 1;
             ((R06_80174934_S_80174934_1 *)strip_data)->unk_1C = 1;
             strip_obj->update_callback = ((u8 *)advance_record_countdown);
@@ -2713,7 +2713,7 @@ void advance_actor_transition_and_restore_child_angle(ActorRecord *action, Objec
         Control_CD(0x15, effect_id, 0);
         flame_effect_load_done[0] = 0;
         Control_CD(0xFF, ((s32 *)resource_completion_callback_address), flame_effect_load_done);
-        select_nearby_target_and_initialize_slot((u8 *)actor - 0x20, position, 8, 0x300);
+        select_nearby_target_and_initialize_slot(NODE_HEADER(actor), position, 8, 0x300);
         action->action_timer.s = 0x10;
         action->action_phase.u++;
         /* fallthrough */

@@ -168,7 +168,7 @@ void create_converging_fading_sprite(
         (node->position)->z.w.i =
             ((R10_80170CF8_S_80AC55DC_6 *)(origin->unk_08))->unk_0A + offset_z - 0x14;
 
-        work = (R10_80170CF8_S_80AC55DC_2 *)((u8 *)node + 0x20);
+        work = NODE_BODY(node);
         work->unk_36 = ((R10_80170CF8_S_80AC55DC_6 *)(origin->unk_08))->unk_02;
         work->unk_38 = ((R10_80170CF8_S_80AC55DC_6 *)(origin->unk_08))->unk_06;
         work->unk_3A = ((R10_80170CF8_S_80AC55DC_6 *)(origin->unk_08))->unk_0A;
@@ -224,7 +224,7 @@ void *create_actor_with_optional_status(s16 flags, s16 kind_id, s16 variant, s32
     result = 0;
     object = allocate_list_node(0x112, &scene_object_list_anchor.next);
     if (object != 0) {
-        result = (u8 *)object;
+        result = object;
         result += 0x20;
         object->update_callback = ((u8 *)update_actor_callbacks_animation_and_ground);
         ((R10_80170F3C_S_80170F3C_1 *)result)->unk_13 = MONSTER_SNOWMAN;
@@ -1034,7 +1034,7 @@ s32 try_snowman_attack(ActorRecord *action_state, ObjectPosition *motion_param, 
         return -1;
     }
 
-    apply_camera_offset_and_select_target((ObjectNodeHeader *)actor - 1, motion_param, 8, 0x300);
+    apply_camera_offset_and_select_target(NODE_HEADER(actor), motion_param, 8, 0x300);
     if ((try_claim_dungeon_action_slot(actor) << 16) == 0) {
         action_state->action_id.u = 0x11;
         action_state->action_phase.u = 0;
@@ -1056,7 +1056,7 @@ s32 try_snowman_attack(ActorRecord *action_state, ObjectPosition *motion_param, 
 void begin_snowman_attack(ActorRecord *action_state, ObjectPosition *action_context, SpriteFrameState *sprite, ActorRecord *actor) {
     actor->movement_queue_state = (u8) (actor->movement_queue_state & 0x7F);
     if (!(g_dungeon_status.flags & 0x2000) && ((try_claim_dungeon_action_slot(actor) << 0x10) == 0)) {
-        apply_camera_offset_and_select_target((u8 *)actor - 0x20, action_context, 8, 0x300);
+        apply_camera_offset_and_select_target(NODE_HEADER(actor), action_context, 8, 0x300);
         if ((try_claim_dungeon_action_slot(actor) << 0x10) == 0) {
             action_state->action_id.s = 0x11;
             action_state->unk_8C.word = 0;
@@ -1773,7 +1773,7 @@ void advance_snowman_status_action(ActorRecord *action, ObjectPosition *context,
             update_actor_status_and_mp(actor_in);
             on_actor_status_updated(actor_in);
             if ((get_entity_effect_value(actor_in, STATUS_SLEEP) << 16) != 0) {
-                s8 coordinate = *(s8 *)&sprite_in->room_index;
+                s8 coordinate = ((s8)(sprite_in->room_index));
                 TileObject *origin = &reference_tile_object;
                 s32 probe_result;
 
@@ -2088,12 +2088,12 @@ void prepare_directional_attacks_for_neighbor_entities(void *node, s32 tile_x, s
 void select_actor_target_and_advance_status(ActorRecord *action_state, ObjectPosition *effect_arg, SpriteFrameState *anim_state, ActorRecord *actor) {
     actor->movement_queue_state = actor->movement_queue_state & 0x7F;
     if (!(g_dungeon_status.flags & 0x2000) && ((try_claim_dungeon_action_slot(actor) << 0x10) == 0)) {
-        apply_camera_offset_and_select_target((u8 *)actor - 0x20, effect_arg, 8, 0x300);
+        apply_camera_offset_and_select_target(NODE_HEADER(actor), effect_arg, 8, 0x300);
         if ((try_claim_dungeon_action_slot(actor) << 0x10) == 0) {
             action_state->action_id.s = 0x17;
             action_state->unk_8C.word = 0;
             action_state->action_phase.s = 0;
-            anim_state->frameTable = ((s32 *)D_801759D8);
+            anim_state->frameTable = (D_801759D8);
             select_sprite_entry(anim_state,
                           *((((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7)
                             + (u8 *)((s32 *)D_801759D8)),
@@ -2381,7 +2381,7 @@ void spawn_randomized_oscillating_effect(ActorRecord *body, R10_80174F24_S_func_
 
     directions = (*(R10_80174F24_LocalTable *)&D_80170874);
     object = allocate_flagged_object_node(0x212);
-    state = (RandomizedOscillatingEffectBody *)((u8 *)object + 0x20);
+    state = NODE_BODY(object);
     if (object != 0) {
         state->unk_1A.s = 0;
         angle = 0;
@@ -2494,7 +2494,7 @@ void restore_snowman_scene_tint(u8 *task, void *context, SpriteFrameState *input
 
 /* Loads transition effects, fades the view tint, replaces the actor, and restores the new actor's facing. */
 void advance_actor_transition_and_restore_facing(void *transition, void *position, SpriteFrameState *record, void *actor) {
-    void *object_data = ((u8 *)(&g_game_work));
+    void *object_data = ((&g_game_work));
     u8 state;
     u32 next_state;
 
@@ -2582,7 +2582,7 @@ void advance_actor_transition_and_restore_facing(void *transition, void *positio
             effect->position->y.v = ((R10_80175398_DungeonCopy3 *)position)->y;
             (*(s16 *)D_80175A18) = -2;
             effect->position->z.v = ((R10_80175398_DungeonCopy3 *)position)->z;
-            object_data = (u8 *)effect->sprite;
+            object_data = effect->sprite;
             ((R10_80175398_DungeonTail *)object_data)->value1e = 0x1000;
             ((R10_80175398_DungeonTail *)object_data)->value1c = 0x1000;
             ((R10_80175398_DungeonTail *)object_data)->color = 0x00808080;

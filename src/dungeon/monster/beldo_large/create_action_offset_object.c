@@ -46,7 +46,7 @@ void create_action_offset_object(void) {
     object = allocate_list_node(0x12, beldo_script_node);
     if (object != NULL) {
         object->update_callback = &initialize_action_offset_and_notify;
-        object_state = ((void *)object) + 0x20;
+        object_state = NODE_BODY(object);
         register_node(object, project_sprite_chain);
         render_flags = object->sprite;
         render_flags->flags = (u16) ((render_flags->flags & 0xFFF3) | 0x80);

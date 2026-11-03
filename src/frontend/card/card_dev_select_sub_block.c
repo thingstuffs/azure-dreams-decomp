@@ -14,7 +14,7 @@ void card_dev_select_sub_block(void *obj) {
             *(void **)((u8 *)obj + 0x284) = alt_block;
             return;
         }
-        *(void **)((u8 *)obj + 0x274) = (void *)((u8 *)obj + 0x80);
+        *(void **)((u8 *)obj + 0x274) = ((u8 *)obj + 0x80);
         *(void **)((u8 *)obj + 0x284) = NULL;
     }
 }

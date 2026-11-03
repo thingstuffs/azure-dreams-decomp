@@ -71,7 +71,7 @@ void advance_timed_actor_effect_sequence(ActorRecord *sequence, ObjectPosition *
         timer = sequence->action_timer.u + 1;
         sequence->action_timer.s = timer;
         if ((s16)timer == 1) {
-            create_eight_part_textured_ribbon(sequence, transform, sprite, ((u8 *)(&view_reference_entity)));
+            create_eight_part_textured_ribbon(sequence, transform, sprite, ((&view_reference_entity)));
         }
         if (sequence->action_timer.s == 2) {
             effect_actor = primary_actor_record;

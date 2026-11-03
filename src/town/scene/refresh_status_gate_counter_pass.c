@@ -1,4 +1,5 @@
 #include "common.h"
+#include "town/devkit.h"
 #include "town/scene.h"
 #include "town/scene/hooks.h"
 
@@ -11,8 +12,6 @@ typedef struct S_80700A20_1 {
     u8 pad_00[0xE];
     u8 unk_0E;
 } S_80700A20_1;
-
-extern s32 func_8070021C();
 extern void func_807002D4(s32 index);
 
 /* When gate 2 and the counter both pass, refresh the status byte and return the stage handler's result. */
@@ -20,7 +19,7 @@ s32 refresh_status_when_gate_2_and_counter_pass(s32 entry)
 {
     S_80700A20_1 *status;
 
-    if ((func_8070021C(2) != 0) &&
+    if ((check_devkit_secondary_condition_8070021c(2) != 0) &&
         (*((S_80700A20_0 *)(*(void **)0xA0700F5C))->unk_08 > 0)) {
         forward_indexed_table_value(2);
         status = *(void **)0xA0700F40;

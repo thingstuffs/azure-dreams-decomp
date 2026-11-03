@@ -58,7 +58,7 @@ void *spawn_mandara_in_slot_d(s16 flags, s16 kind_id, s16 tile_y, s16 spawn_heig
         s32 i;
         s32 scale;
 
-        work = (u8 *)created + 0x20;
+        work = NODE_BODY(created);
         (created ->update_callback) = D_8015EB40;
         ((ActorRecord *)work)->species = MONSTER_MANDARA;
         register_node(created, project_sprite_chain);

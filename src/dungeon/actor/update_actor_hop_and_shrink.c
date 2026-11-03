@@ -61,8 +61,8 @@ s32 update_actor_hop_and_shrink(void *animation, ObjectPosition *motion, SpriteF
     /* MATCH: retain these views for production byte identity. */
             (*(s32 *)((u8 *)motion + 0x10)) = 0;
             (*(s32 *)((u8 *)motion + 0xC)) = 0;
-            (*(u16 *)((u8 *)motion + 2)) = *(u16 *)&target->x.w.i;
-            motion->y.unsigned_parts.integer = *(u16 *)&target->y.w.i;
+            (*(u16 *)((u8 *)motion + 2)) = ((u16)(target->x.w.i));
+            motion->y.unsigned_parts.integer = ((u16)(target->y.w.i));
         }
 
         frames_left = ((ActorRecord *)animation)->action_timer.s;

@@ -52,7 +52,7 @@ void update_airborne_actor_motion(ActorRecord *body, ObjectPosition *motion, Spr
     phase = body->action_phase.u;
     switch (phase) {
     case 0:
-        select_nearby_target_and_initialize_slot((u8 *)actor - 0x20, motion, 8, 0x300);
+        select_nearby_target_and_initialize_slot(NODE_HEADER(actor), motion, 8, 0x300);
         sprite->frameTable = actor_alternate_frames;
         select_record_entry_and_value(sprite, *(void **)(actor_alternate_frames + (((s32) (g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100)
             >> 7) & 0x1C)), 0);

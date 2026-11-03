@@ -133,7 +133,7 @@ void update_actor_timed_effect_action(ActorRecord *action, ObjectPosition *posit
         action->unk_AC.address = effect;
         effect->update_callback = u_boat_timed_effect_update_address;
         register_node(effect, clipped_sprite_renderer_address);
-        effect_state = ((void *)effect) + 0x20;
+        effect_state = NODE_BODY(effect);
         effect_state->duration = 5;
         effect_state->owner = action;
         effect_state->source.position = position;

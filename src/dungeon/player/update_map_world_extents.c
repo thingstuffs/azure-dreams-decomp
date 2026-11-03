@@ -134,7 +134,7 @@ void animate_and_display_item_use(ActorRecord *body, s32 actor_id, SpriteFrameSt
         }
 
         if (!(actor->flags1C & ACTOR_CARRYING)) {
-            void *owner_obj = (u8 *)body - 0x20;
+            void *owner_obj = NODE_HEADER(body);
             s32 zero = 0;   /* Pin: removal changes the whole function shape. */
                            /* Pin: removal reorders the instructions (same instructions, different order). */
                            /* Pin: removal changes the register colouring. */
@@ -147,7 +147,7 @@ void animate_and_display_item_use(ActorRecord *body, s32 actor_id, SpriteFrameSt
                 effect_prim->x.w.i = (sprite->tile_x << 6) + 0x20;
                 effect_prim->y.w.i = (sprite->tile_y << 6) + 0x20;
 
-                effect = (u8 *)effect_obj + 0x20;
+                effect = NODE_BODY(effect_obj);
                 if (sprite->flags & 0x8000) {
                     effect_prim->z.w.i = ((u16)actor->ground_height) - 0x50;
                 } else {

@@ -30,7 +30,7 @@ void *spawn_clown_slot_c(s16 init_flags, s16 pos_x, s16 pos_y, s16 init_value)
     object = allocate_list_node(0x112, &scene_object_list_anchor.next);
     if (object != 0) {
         state = 
-        ((void *)object)+ 0x20;
+        NODE_BODY(object);
         object->update_callback = &clown_object_callback_2;
         state->unk_13 = MONSTER_CLOWN;
         register_node(object, project_sprite_chain);

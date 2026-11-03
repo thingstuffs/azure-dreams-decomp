@@ -46,7 +46,7 @@ void create_blinking_cursor_object(void *node_addr, Rec_D_80081FDC *record, s32 
     node = initialize_runtime_node_storage(0x11, node_addr, 0x49, &window_node_list_storage);
     node->update_callback = &update_blinking_cursor_with_bright_idle;
     register_node(node, &draw_linked_sprite_nodes);
-    state = (WindowCursorBody *)(node + 1);
+    state = NODE_BODY(node);
     display = (void *)node->sprite;
     state->script = config;
     state->enabled.s = 1;

@@ -43,7 +43,7 @@ void *spawn_mode_dependent_112_object(s16 kind_flags, s16 byte_24, s16 byte_25, 
     saved_byte_25 = byte_25;
     obj = allocate_list_node(0x112, &scene_object_list_anchor.next);
     if (obj != 0) {
-        work = (ActorRecord *)(obj + 1);
+        work = NODE_BODY(obj);
         obj->update_callback = ((u8 *)update_entity_facing_motion_and_ground);
         work->species = MONSTER_GRINEUT;
         register_node(obj, project_sprite_chain);
@@ -836,7 +836,7 @@ s32 try_grineut_attack(ActorRecord *action_state, ObjectPosition *motion_param, 
         return -1;
     }
 
-    apply_camera_offset_and_select_target((ObjectNodeHeader *)actor - 1, motion_param, 8, 0x300);
+    apply_camera_offset_and_select_target(NODE_HEADER(actor), motion_param, 8, 0x300);
     if ((try_claim_dungeon_action_slot(actor) << 16) == 0) {
         action_state->action_id.u = 0x11;
         action_state->action_phase.u = 0;
@@ -858,7 +858,7 @@ s32 try_grineut_attack(ActorRecord *action_state, ObjectPosition *motion_param, 
 void begin_grineut_attack(ActorRecord *action_state, ObjectPosition *action_context, SpriteFrameState *sprite, ActorRecord *actor) {
     actor->movement_queue_state = (u8) (actor->movement_queue_state & 0x7F);
     if (!(g_dungeon_status.flags & 0x2000) && ((try_claim_dungeon_action_slot(actor) << 0x10) == 0)) {
-        apply_camera_offset_and_select_target((u8 *)actor - 0x20, action_context, 8, 0x300);
+        apply_camera_offset_and_select_target(NODE_HEADER(actor), action_context, 8, 0x300);
         if ((try_claim_dungeon_action_slot(actor) << 0x10) == 0) {
             action_state->action_id.s = 0x11;
             action_state->unk_8C.word = 0;
@@ -1192,7 +1192,7 @@ void complete_staged_destination_movement(ActorRecord *action, ObjectPosition *m
                 actor->action_flags &= ACTOR_ACTION_CLEAR_PENDING_MASK;
                 return;
             }
-            ((void * *)actor_update_node_cursor)[0] = (u8 *)actor - 0x20;
+            ((void * *)actor_update_node_cursor)[0] = NODE_HEADER(actor);
         }
     }
 }

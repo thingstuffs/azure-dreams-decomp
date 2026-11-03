@@ -39,7 +39,7 @@ void advance_action_and_spawn_random_effects(ActorRecord *action, ObjectPosition
     Packed32 *direction_source = &D_80170838;
 
     effect_work.copy = *direction_source;
-    owner = ((ObjectNodeHeader *)action - 1);
+    owner = NODE_HEADER(action);
     state = action->action_phase.u;
     switch (state) {
     case 0:
@@ -94,7 +94,7 @@ void advance_action_and_spawn_random_effects(ActorRecord *action, ObjectPosition
         screen_pos = (s32 *)&effect_work.out18;
         do {
             effect = allocate_list_node(0x112, &scene_object_list_anchor.next);
-            effect_data = ((void *)effect) + 0x20;
+            effect_data = NODE_BODY(effect);
             if (effect != NULL) {
                 effect_data->unk_96 = 0x19;
                 effect_data->unk_9E = 0x19;
@@ -118,11 +118,11 @@ void advance_action_and_spawn_random_effects(ActorRecord *action, ObjectPosition
                 effect_motion->z.w.i = (u16) motion->z.unsigned_parts.integer;
                 owner_sprite = ((T_80172FFC_S_80172FFC_8 *)owner)->unk_0C;
                 if (resolve_record_orientation_or_fallback(owner_sprite->unk_08, owner_sprite, spawn_offset, 0) != 0) {
-                    effect_motion->x.w.i = (u16) (*(u16 *)&effect_motion->x.w.i
+                    effect_motion->x.w.i = (u16) (((u16)(effect_motion->x.w.i))
                         + spawn_offset[0]);
-                    effect_motion->y.w.i = (u16) (*(u16 *)&effect_motion->y.w.i
+                    effect_motion->y.w.i = (u16) (((u16)(effect_motion->y.w.i))
                         + spawn_offset[1]);
-                    effect_motion->z.w.i = (u16) (*(u16 *)&effect_motion->z.w.i
+                    effect_motion->z.w.i = (u16) (((u16)(effect_motion->z.w.i))
                         + spawn_offset[2]);
                 }
                 effect_motion->velocity_z = (s32) (((0xD - (s16) action->action_timer.u)
@@ -147,9 +147,9 @@ void advance_action_and_spawn_random_effects(ActorRecord *action, ObjectPosition
                 vertical_speed += 0xFFF80000;
                 vertical_speed += (random_value & 0x3FFF) << 6;
                 effect_motion->velocity_z = vertical_speed;
-                position[0] = *(u16 *)&effect_motion->x.w.i;
-                position[1] = *(u16 *)&effect_motion->y.w.i;
-                position[2] = *(u16 *)&effect_motion->z.w.i;
+                position[0] = ((u16)(effect_motion->x.w.i));
+                position[1] = ((u16)(effect_motion->y.w.i));
+                position[2] = ((u16)(effect_motion->z.w.i));
                 effect_depth = RotTransPers(position_ptr, screen_pos, &projection_aux, &projection_flags);
                 position[0] = motion->x.unsigned_parts.integer;
                 position[1] = motion->y.unsigned_parts.integer;

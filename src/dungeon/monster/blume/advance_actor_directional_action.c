@@ -124,12 +124,12 @@ void advance_actor_directional_action(ActorRecord *controller, ObjectPosition *c
         on_actor_status_updated(actor);
         do {
             if ((s16)get_entity_effect_value(actor, STATUS_SLEEP) != 0) {
-                check_target = ((u8 *)(&reference_tile_object));
-                tile = *(s8 *)&sprite->room_index;
+                check_target = ((&reference_tile_object));
+                tile = ((s8)(sprite->room_index));
             if (tile != reference_tile_object.room_index || tile < 0) {
                     s16 distance;
 
-                    distance = get_tile_chebyshev_distance(((u8 *)(&reference_tile_object)), sprite);
+                    distance = get_tile_chebyshev_distance(((&reference_tile_object)), sprite);
                     active_actor = actor;
                     if (distance >= 2) {
                         break;

@@ -12,6 +12,80 @@
   },
   "entries": [
     {
+      "row": "town/func_8087FC54",
+      "home": "town/func_808B7DD4",
+      "tu": "src/town/scene/flags/dispatch_entry_test_flag.c",
+      "foff": "0x7FFC54",
+      "vma": "0x80700C54",
+      "size": 148,
+      "bindings": {
+        "0x3f58": "0x807009b8",
+        "0x80003c70": "0x80701134",
+        "0x80003bcc": "0x80701090",
+        "0x80003c1c": "0x807010e0"
+      },
+      "evidence": "docs/evidence/r141w_town_dev.md"
+    },
+    {
+      "row": "town/func_8087FCE8",
+      "home": "town/func_808C4884",
+      "tu": "src/town/scene/is_next_entry_zero_after_skipping_b.c",
+      "foff": "0x7FFCE8",
+      "vma": "0x80700CE8",
+      "size": 112,
+      "bindings": {
+        "0xdb4": "0x807009dc",
+        "0xdb0": "0x807009d8",
+        "0x80000be4": "0x80701134"
+      },
+      "evidence": "docs/evidence/r141w_town_dev.md"
+    },
+    {
+      "row": "town/func_8087FD58",
+      "home": "town/func_8087FD58",
+      "tu": "src/town/devkit/grid_run_bit_set_operation_a.c",
+      "foff": "0x7FFD58",
+      "vma": "0x80700D58",
+      "size": 76,
+      "evidence": "docs/evidence/r141w_town_dev.md"
+    },
+    {
+      "row": "town/func_8087FDA4",
+      "home": "town/func_8087FDA4",
+      "tu": "src/town/devkit/run_stage_updates_when_ready.c",
+      "foff": "0x7FFDA4",
+      "vma": "0x80700DA4",
+      "size": 152,
+      "evidence": "docs/evidence/r141w_town_dev.md"
+    },
+    {
+      "row": "town/func_8087FE98",
+      "home": "town/func_8087FE98",
+      "tu": "src/town/devkit/grid_process_six_entry_pairs_a.c",
+      "foff": "0x7FFE98",
+      "vma": "0x80700E98",
+      "size": 88,
+      "evidence": "docs/evidence/r141w_town_dev.md"
+    },
+    {
+      "row": "town/func_8087FEF0",
+      "home": "town/func_8087FEF0",
+      "tu": "src/town/devkit/state/dev_dispatch_flag_test_and_get_result.c",
+      "foff": "0x7FFEF0",
+      "vma": "0x80700EF0",
+      "size": 168,
+      "evidence": "docs/evidence/r141w_town_dev.md"
+    },
+    {
+      "row": "town/func_8087FF98",
+      "home": "town/func_8087FF98",
+      "tu": "src/town/devkit/grid_run_indexed_operation_a.c",
+      "foff": "0x7FFF98",
+      "vma": "0x80700F98",
+      "size": 56,
+      "evidence": "docs/evidence/r141w_town_dev.md"
+    },
+    {
       "row": "town/func_8087FFD0",
       "tu": "src/town/devkit/call_helper_fixed_id.c",
       "home": "town/func_8087FFD0",
@@ -92,6 +166,45 @@
         "0x80702670": "0x80702670"
       },
       "evidence": "r121w_ll34: fresh current-home native object, all relocation fields evaluated and exact retail bytes; docs/evidence/r121w_ll34/results.tsv; TU view gather: moved from town/ll34_8000e0_807010e0 (same load delta) so the merged file's members share one view"
+    },
+    {
+      "row": "town/func_80880134",
+      "home": "town/func_80878714",
+      "tu": "src/town/shop/state/shop_test_indexed_flag.c",
+      "foff": "0x800134",
+      "vma": "0x80701134",
+      "size": 96,
+      "bindings": {
+        "0x807030a4": "0x807013a0"
+      },
+      "evidence": "docs/evidence/r141w_town_dev.md"
+    },
+    {
+      "row": "town/func_80880194",
+      "home": "town/func_80880194",
+      "tu": "src/town/devkit/copy_trace_overlay_work_record.c",
+      "foff": "0x800194",
+      "vma": "0x80701194",
+      "size": 224,
+      "evidence": "docs/evidence/r141w_town_dev.md"
+    },
+    {
+      "row": "town/func_80880274",
+      "home": "town/func_80880274",
+      "tu": "src/town/scene/advance_table_index_eight_byte_stride.c",
+      "foff": "0x800274",
+      "vma": "0x80701274",
+      "size": 36,
+      "evidence": "docs/evidence/r141w_town_dev.md"
+    },
+    {
+      "row": "town/func_80880298",
+      "home": "town/func_80880298",
+      "tu": "src/town/devkit/grid_resolve_indexed_records.c",
+      "foff": "0x800298",
+      "vma": "0x80701298",
+      "size": 260,
+      "evidence": "docs/evidence/r141w_town_dev.md"
     }
   ]
 }

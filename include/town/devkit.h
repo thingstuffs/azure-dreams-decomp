@@ -266,4 +266,8 @@ s32 update_flagged_selection_index(s32 initial_index, s32 input1, s32 input2, s3
 /* update_input_flag_and_selection.c */
 s32 update_selection_mask_and_status(s32 index, s32 input_a, s32 input_b, s32 input_c);
 
+/* Address-qualified entries of distinct diagnostic devkit builds; docs/evidence/r141w_town_dev.md. */
+void propagate_devkit_flag_pair(s32 index);
+s32 check_devkit_secondary_condition_8070021c(s32 value_index);
+
 #endif

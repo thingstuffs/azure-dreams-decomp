@@ -111,7 +111,7 @@ void *create_actor_spell_effect(void *actor, void *record_data, s16 mode, void *
             return NULL;
         }
         effect->update_callback = effect_data;
-        effect_state = ((void *)effect )+ 0x20;
+        effect_state = NODE_BODY(effect);
         ((S_800A94A0_2 *)effect)->unk_20 = actor;
         effect_state->unk_04 = context;
         effect_state->unk_08 = effect_id;

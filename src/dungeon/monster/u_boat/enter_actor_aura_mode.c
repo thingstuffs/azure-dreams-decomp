@@ -64,14 +64,14 @@ void enter_actor_aura_mode(ActorRecord *body, ObjectPosition *position, SpriteFr
         body->action_timer.u = phase_ticks;
         if (((s16)phase_ticks == 1) || (sprite->flags & 0x8000)) {
             body->unk_B4.bytes[1] = 1;
-            allocation_head_address = (u8 *)body - 0x20;
+            allocation_head_address = NODE_HEADER(body);
             allocation_head = allocation_head_address;
             effect = allocate_list_node(0x12,allocation_head);
             if (effect != NULL) {
                 body->unk_AC.address = effect;
                 effect->update_callback = D_80170CEC;
                 register_node(effect, clipped_sprite_renderer_address);
-                effect_state = (UBoatAuraEffectBody *)((u8 *)effect + 0x20);
+                effect_state = NODE_BODY(effect);
                 effect_state->duration = 5;
                 effect_state->owner = body;
                 effect_state->source.position = position;

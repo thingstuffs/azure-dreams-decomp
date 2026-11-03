@@ -41,7 +41,7 @@ void runtime_transform_sprite_attachment_point(void *transform, void *point, voi
     U32_AT(scratch, 0x38) = view_angle_z;
     angle_x = U16_AT(transform, 0x16) - 0x400;
     U16_AT(scratch, 0x100) = angle_x - U16_AT(scratch, 0x30);
-    U16_AT(scratch, 0x104) = *(u16 *)&render_state->view.view_rotation_offset.parts.view_rotation_offset_z + (U16_AT(transform, 0x1A) - U16_AT(scratch, 0x34));
+    U16_AT(scratch, 0x104) = ((u16)(render_state->view.view_rotation_offset.parts.view_rotation_offset_z)) + (U16_AT(transform, 0x1A) - U16_AT(scratch, 0x34));
     U16_AT(scratch, 0x102) = U16_AT(transform, 0x18);
     offset_x = U16_AT(transform, 0x20);
     U32_AT(scratch, 0xE4) = offset_x;

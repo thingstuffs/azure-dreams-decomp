@@ -83,7 +83,7 @@ void advance_actor_transition_state(void *owner_data, ObjectPosition *unused, Sp
             owner[0xA9] = actor_index;
             actor_map->unk_8A = actor_index;
             dungeon_actor_ring_anchor->target = actor;
-            store_recalled_familiar(((u8 *)dungeon_actor_ring_anchor), primary_table, secondary_table, dungeon_actor_ring_anchor);
+            store_recalled_familiar((dungeon_actor_ring_anchor), primary_table, secondary_table, dungeon_actor_ring_anchor);
             dungeon_actor_ring_anchor->target = saved_actor;
             dungeon_actor_ring_anchor->unk_8A = saved_index;
             g_dungeon_status.activity_counts.parts.pending_action_count--;

@@ -372,7 +372,7 @@ loop_0:
                 goto loop_0;
         }
 
-        apply_entity_effects(((u8 *)entity_data));
+        apply_entity_effects((entity_data));
 
         if ((show_message << 0x10) != 0) {
             if (!(system_update_flags & 1)) {
@@ -383,12 +383,12 @@ loop_0:
             if ((*(s32 *)(((u8 *)entity_data) + 0x14) & 0x2000) != 0) {
                 stat_gain_m = 0x8002;
             }
-            create_actor_value_popup(stat_gain_m, ((u8 *)entity_data), -2, 1);
+            create_actor_value_popup(stat_gain_m, (entity_data), -2, 1);
 
             message = get_unused_text_buffer();
             text_end = expand_text_control_codes(D_800E0953, message);
             text_end = write_text_byte_and_advance(0xA, text_end);
-            text_end = append_entity_display_text(((u8 *)entity_data), text_end);
+            text_end = append_entity_display_text((entity_data), text_end);
             text_end = expand_text_control_codes(D_800E095F, text_end);
             text_end = format_unsigned_double_byte_decimal(((u8 *)entity_data)[0x11], text_end);
             text_end = expand_text_control_codes(fullwidth_period, text_end);
@@ -811,7 +811,7 @@ s16 try_claim_dungeon_action_slot(ActorRecord *actor) {
 s32 has_pending_dungeon_activity(void *unused_actor) {
     if (g_dungeon_status.active_actor != 0 ||
         g_dungeon_status.pending_display_owner != 0 ||
-        *(s32 *)&g_dungeon_status.activity_counts.word != 0 ||
+        ((s32)(g_dungeon_status.activity_counts.word)) != 0 ||
         (g_dungeon_status.flags & 0x2008) != 0) {
         return 1;
     }

@@ -28,7 +28,7 @@ u8 *init_card_message_object(s32 message_param_1, s32 message_param_2, s32 messa
     u8 *child = card_message_object + 0x20;
 
     if (func_80047FD8(root) == 0) {
-        root = (u8 *)func_8003C714(0, root, 0x1E1);
+        root = func_8003C714(0, root, 0x1E1);
         if (root == 0) {
             func_8007C040(D_80400548, D_80400570, 0x299);
             func_8007BEF0(1);

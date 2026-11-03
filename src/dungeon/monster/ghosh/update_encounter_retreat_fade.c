@@ -72,7 +72,7 @@ void update_encounter_retreat_fade(void) {
     s32 duration;
 
     node = D_80174CDC;
-    effect = (Extra *)((u8 *)node + 0x20);
+    effect = NODE_BODY(node);
     position = node->position;
     state = effect->field_9A;
     sprite = node->sprite;

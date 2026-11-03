@@ -207,7 +207,7 @@ void project_depth_sorted_sprite_quads(S_80175594_0 *sprite, ObjectPosition *pos
 
         ((S_80175594_1 *)scratch)->unk_100 = render->unk_16;
         ((S_80175594_1 *)scratch)->unk_104 =
-            *(u16 *)&render_globals->view.view_rotation_offset.parts.view_rotation_offset_z +
+            ((u16)(render_globals->view.view_rotation_offset.parts.view_rotation_offset_z)) +
             (render->unk_1A - ((S_80175594_1 *)scratch)->unk_34.u16);
         view_angle = (((S_80175594_1 *)scratch)->unk_38.u16 + 0x100) & 0x1FF;
         angle_offset = render->unk_18 - 0x100;

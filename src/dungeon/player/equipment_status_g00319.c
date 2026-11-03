@@ -183,7 +183,7 @@ void change_equipped_item_and_notify(ActorRecord *actor, DungeonItemEntry *reque
         if (had_equipped != 0) {
             state = get_unused_text_buffer();
             text_end = write_text_byte_and_advance(8, state);
-            text_end = append_typed_formatted_value((struct DungeonItemEntry *)actor->unk_50.address, text_end);
+            text_end = append_typed_formatted_value(actor->unk_50.address, text_end);
             text_end = expand_text_control_codes(D_800E08BA, text_end);
             clear_byte_and_advance(text_end);
             display_text_with_fullwidth_adjustment(state);

@@ -47,6 +47,18 @@
         "0x80003544": "0x80003544"
       },
       "evidence": "r121w_ll34: fresh current-home native object, all relocation fields evaluated and exact retail bytes; docs/evidence/r121w_ll34/results.tsv; TU view gather: moved from town/ll34_83af54_80000754 (same load delta) so the merged file's members share one view"
+    },
+    {
+      "row": "town/func_808BB46C",
+      "home": "town/func_80878714",
+      "tu": "src/town/shop/state/shop_test_indexed_flag.c",
+      "foff": "0x83B46C",
+      "vma": "0x80000C6C",
+      "size": 96,
+      "bindings": {
+        "0x807030a4": "0x102c"
+      },
+      "evidence": "docs/evidence/r141w_town_dev.md"
     }
   ]
 }

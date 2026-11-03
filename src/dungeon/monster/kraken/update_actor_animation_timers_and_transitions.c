@@ -157,7 +157,7 @@ void update_actor_animation_timers_and_transitions(ActorRecord *entity, ObjectPo
             on_actor_status_updated(actor);
             if ((get_entity_effect_value(actor, STATUS_SLEEP) << 16) != 0) {
                 TileObject *origin = &reference_tile_object;
-                s8 tile = *(s8 *)&sprite->room_index;
+                s8 tile = ((s8)(sprite->room_index));
 
                 if (((tile == origin->room_index) && (tile >= 0)) ||
                     ((s16)get_tile_chebyshev_distance(origin, sprite) < 2)) {
@@ -180,7 +180,7 @@ void update_actor_animation_timers_and_transitions(ActorRecord *entity, ObjectPo
                 entity->action_timer.u = (s32)animate_counter_base;
                 entity->action_state_flags &= 0xBFFF;
                 animate_counter_base = (u8 *)&g_dungeon_status.turn_scale;
-                count = *(u16 *)&animate_counter_base->activity_counts.parts.pending_action_count + 1;
+                count = ((u16)(animate_counter_base->activity_counts.parts.pending_action_count)) + 1;
                 animate_counter_base->activity_counts.parts.pending_action_count = count;
                 entity->action_phase.u++;
                 return;
@@ -198,7 +198,7 @@ void update_actor_animation_timers_and_transitions(ActorRecord *entity, ObjectPo
                 entity->action_timer.u = (s32)animate_counter_base;
                 entity->action_state_flags &= 0xBFFF;
                 animate_counter_base = (u8 *)&g_dungeon_status.turn_scale;
-                count = *(u16 *)&animate_counter_base->activity_counts.parts.pending_action_count + 1;
+                count = ((u16)(animate_counter_base->activity_counts.parts.pending_action_count)) + 1;
                 animate_counter_base->activity_counts.parts.pending_action_count = count;
                 entity->action_phase.u++;
                 return;

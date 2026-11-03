@@ -49,7 +49,7 @@ void *queue_linked_render_packets(s16 spawn_flags, s16 attr_a, s16 attr_b, s16 a
     held_b = attr_b;
     obj = allocate_list_node(0x112, &scene_object_list_anchor.next);
     if (obj != 0) {
-        work = (ActorRecord *)(obj + 1);
+        work = NODE_BODY(obj);
         obj->update_callback = ifrit_object_callback_3;
         work->species = MONSTER_IFRIT;
         register_node(obj, project_sprite_chain);

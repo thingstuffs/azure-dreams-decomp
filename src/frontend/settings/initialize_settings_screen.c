@@ -92,7 +92,7 @@ void initialize_settings_screen(void) {
     if (screen_object != NULL) {
         screen_object->update_callback = (void *)handle_settings_menu_input;
         register_node(screen_object, build_settings_sprite_tiles);
-        settings = ((void *)screen_object) + 0x20;
+        settings = NODE_BODY(screen_object);
         screen_object->position->y.w.i = 0xF0;
         (*(s16 *)((u8 *)settings + 4)) = 0x20;
         (*(s16 *)((u8 *)settings + 0x14)) = (s16) ((u8) D_80013184 >> 5);

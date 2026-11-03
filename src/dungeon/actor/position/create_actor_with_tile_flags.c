@@ -43,7 +43,7 @@ void *create_actor_with_tile_flags(s16 variant, u16 tile_x, u16 tile_y, s16 spaw
 
     object = allocate_list_node(0x112, &scene_object_list_anchor.next);
     if (object != NULL) {
-        entity = ((s8 *)object) + 0x20;
+        entity = NODE_BODY(object);
         ((ActorRecord *)entity)->species = MONSTER_WALL_OF_ICE;
         if (variant == 1) {
             ((ActorRecord *)entity)->flags14 |= ACTOR_CLASS_ENABLED;
@@ -69,8 +69,8 @@ void *create_actor_with_tile_flags(s16 variant, u16 tile_x, u16 tile_y, s16 spaw
             find_active_rect_containing_point(sprite->tile_x, sprite->tile_y);
         set_record_integer_tile_center(position, sprite->tile_x,
                      sprite->tile_y);
-        ground_height = sample_terrain_surface_height(*(u16 *)&position->x.w.i,
-                               *(u16 *)&position->y.w.i,
+        ground_height = sample_terrain_surface_height(((u16)(position->x.w.i)),
+                               ((u16)(position->y.w.i)),
                                position->z.w.i);
         ((ActorRecord *)entity)->ground_height = ground_height;
         ((ActorRecord *)entity)->unk_90.value = 0;

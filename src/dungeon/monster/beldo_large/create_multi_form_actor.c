@@ -57,10 +57,10 @@ u8 *create_multi_form_actor(s16 init_flags, s32 value24, s32 value25, s32 value0
     if (clear_center_tile_flags_when_enabled() == 0) {
         obj = allocate_list_node(0x112, &scene_object_list_anchor.next);
         if (obj != NULL) {
-            result = ((u8 *)obj) + 0x20;
+            result = NODE_BODY(obj);
             *beldo_actor_nodes = obj;
             obj->update_callback = &update_actor_callbacks_and_motion;
-            child = (S_80169D28_1 *)(((u8 *)obj) + 0x20);
+            child = NODE_BODY(obj);
             child->unk_13 = 0x38;
             register_node(obj, project_sprite_chain);
             first = obj->position;

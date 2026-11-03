@@ -33,7 +33,7 @@ void run_active_node_callbacks(void)
             if (callback_address >= 0 || (node->flags & NODE_SKIP_CALLBACK)) {
                 ;
             } else {
-                ((void (*)(void *, void *, void *))callback_address)((u8 *)node + 0x20, node->position, node->sprite);
+                ((void (*)(void *, void *, void *))callback_address)(NODE_BODY(node), node->position, node->sprite);
             }
             node = next_node;
         } while (node != 0);

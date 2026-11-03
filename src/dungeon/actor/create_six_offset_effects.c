@@ -100,7 +100,7 @@ void *create_six_offset_effects(MovingPosition *origin, S_80026A84_7 *target_pos
             coord_y = origin->y + ((u16)offset.vy);
             effect_pos->y.w.i = coord_y;
             *((u16 *)&effect_pos->velocity_y + 1) = coord_y;
-            effect_data = ((void *)effect) + 0x20;
+            effect_data = NODE_BODY(effect);
             coord_xz = origin->z + ((u16)offset.vz);
             effect_pos->z.w.i = coord_xz;
             *((u16 *)&effect_pos->velocity_z + 1) = coord_xz;
@@ -114,9 +114,9 @@ void *create_six_offset_effects(MovingPosition *origin, S_80026A84_7 *target_pos
             effect_data->unk_66 = 0x20;
             effect_data->unk_6E = effect_index;
             do {
-                ((S_80026A84_6 *)((u8 *)effect_data + point_index * 8))->unk_24 = *(u16 *)&effect_pos->x.w.i;
-                ((S_80026A84_6 *)((u8 *)effect_data + point_index * 8))->unk_26 = *(u16 *)&effect_pos->y.w.i;
-                ((S_80026A84_6 *)((u8 *)effect_data + point_index * 8))->unk_28 = *(u16 *)&effect_pos->z.w.i;
+                ((S_80026A84_6 *)((u8 *)effect_data + point_index * 8))->unk_24 = ((u16)(effect_pos->x.w.i));
+                ((S_80026A84_6 *)((u8 *)effect_data + point_index * 8))->unk_26 = ((u16)(effect_pos->y.w.i));
+                ((S_80026A84_6 *)((u8 *)effect_data + point_index * 8))->unk_28 = ((u16)(effect_pos->z.w.i));
                 point_index += 1;
             } while (point_index < 8);
             effect_data->unk_08 = chain_head;

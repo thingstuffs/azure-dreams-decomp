@@ -40,7 +40,7 @@ void create_boss_linked_effect(void *owner, MovingPosition *source_pos) {
         ((S_80172A14_0 *)owner)->unk_AC = effect;
         effect->update_callback = D_80172874;
         register_node(effect, draw_linked_sprites_clipped);
-        effect_state = (u8 *)effect + 0x20;
+        effect_state = NODE_BODY(effect);
         effect_state->unk_18 = 5;
         effect_state->unk_20 = owner;
         effect_state->unk_24 = source_pos;

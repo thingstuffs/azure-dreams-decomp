@@ -27,7 +27,7 @@ void create_randomly_rotated_offset_effect(void *unused_ptr, ObjectPosition *sou
 
     node = allocate_flagged_object_node(0x212);
     if (node != 0) {
-        part = (u8 *)node + 0x20;
+        part = NODE_BODY(node);
         part->unk_1A.s = 65;
         (node->update_callback) = animate_effect_colors;
         register_node(node, project_sprite_chain);

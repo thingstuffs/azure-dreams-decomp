@@ -74,7 +74,7 @@ void *create_mandara_actor(s16 mode, s32 value1, s16 value2, s16 value3)
         s32 i;
         s32 scale;
 
-        work = (u8 *)created + 0x20;
+        work = NODE_BODY(created);
         (created ->update_callback) = func_80170B40;
         ((ActorRecord *)work)->species = MONSTER_MANDARA;
         register_node(created, project_sprite_chain);

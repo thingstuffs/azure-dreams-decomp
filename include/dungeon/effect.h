@@ -21,7 +21,8 @@ void apply_effect_bonuses(s16 effect_id, ActorRecord *unused_arg, ActorRecord *r
 void *create_mode_configured_object(s16 mode, s32 part_b_byte_24, s32 part_b_byte_25, s32 part_a_value, s32 part_b_value);
 void create_record_with_effect_callback(void);
 void *create_actor_value_popup(s32 flags, void *source_data, s16 value, u16 callback_mode);
-void dispatch_target_action(u8 *actor, s32 action_context, u8 *destination, u8 *target);
+void advance_actor_hop_and_dispatch(ActorRecord *actor, ObjectPosition *motion, SpriteFrameState *render, ActorRecord *context);
+void dispatch_target_action(ActorRecord *actor, s32 action_context, SpriteFrameState *destination, ActorRecord *target);
 void emit_scattered_effects_unless_blocked(void *source);
 void process_nearby_object_midpoint(u8 *start_obj, u8 *end_obj, s16 start_height, s16 end_height, s16 call_param, s32 call_arg);
 void run_indexed_callback_list(s16 list_index);

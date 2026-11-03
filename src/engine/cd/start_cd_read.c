@@ -21,6 +21,6 @@ void start_cd_read(S_80053CFC *source, s32 packed_value)
     low_bits = saved_value & 0x7FFFFF;
     command = &cd_read_command_words;
     *command = ((((u32)*command + 0x7FF) >> 11) << 23) | low_bits;
-    Control_CD(6, (void *)command, saved_value);
+    Control_CD(6, command, saved_value);
     drain_cd_command_queue();
 }

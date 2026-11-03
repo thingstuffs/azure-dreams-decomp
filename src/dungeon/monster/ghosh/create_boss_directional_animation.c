@@ -56,7 +56,7 @@ void create_boss_directional_animation(void) {
 
     object = allocate_list_node(0x112, &scene_object_list_anchor.next);
     if (object != 0) {
-        object_state = ((void *)object) + 0x20;
+        object_state = NODE_BODY(object);
         object_state->unk_13 = MONSTER_U_BOAT;
         object_state->unk_9A = 0;
         object_state->unk_96 = 0;

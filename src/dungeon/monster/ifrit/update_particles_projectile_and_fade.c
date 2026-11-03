@@ -120,7 +120,7 @@ void update_particles_projectile_and_fade(ActorRecord *body, MovingPosition *pos
                     spawned_object->position->z.w.i =
                         source_z - random_offset - 0x10;
 
-                    particle_state = (UpdateActorActionsAndImpactEffectsBody *)((u8 *)spawned_object + 0x20);
+                    particle_state = NODE_BODY(spawned_object);
                     particle_state->unk_A4.u = particle_render;
                     particle_state->unk_96 = 6;
 
@@ -193,7 +193,7 @@ void update_particles_projectile_and_fade(ActorRecord *body, MovingPosition *pos
         spawned_object->update_callback = (void *)frames_left;
         ((S_801733BC_2 *)spawned_object)->unk_20 = position->x;
         projectile_y = position->y;
-        projectile_state = (S_801733BC_8 *)((u8 *)spawned_object + 0x20);
+        projectile_state = NODE_BODY(spawned_object);
         projectile_state->unk_02 = projectile_y;
         projectile_z = position->z;
         projectile_state->unk_10 = 0xFFFC0000;

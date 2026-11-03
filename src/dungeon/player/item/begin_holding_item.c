@@ -140,7 +140,7 @@ print_message:
         message = target;
         primitive->z.w.i = height - 0x30;
 
-        state = (S_80098CF8_5 *)((u8 *)result + 0x20);
+        state = NODE_BODY(result);
         {
             register s32 data_word;
             u8 *sound_table;

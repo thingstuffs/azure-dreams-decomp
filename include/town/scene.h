@@ -237,4 +237,7 @@ s32 find_entry_8_index_or_assert_rev_b(struct Entry *entries, s32 key);
 s32 lookup_entry_apply_record_code(void *table, void *context, s32 lookup_key);
 void process_flagged_entries_mode_append(void *entries);
 s32 *select_fallback_when_below_threshold(void *input);
+/* Address-qualified entries of distinct diagnostic devkit builds; docs/evidence/r141w_town_dev.md. */
+s32 is_next_entry_zero_after_skipping_80700ce8(s32 list_index);
+
 #endif

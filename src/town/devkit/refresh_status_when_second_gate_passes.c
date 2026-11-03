@@ -11,9 +11,6 @@ typedef struct S_808B3074_1 {
     u8 pad_00[0xE];
     u8 unk_0E;
 } S_808B3074_1;   /* status in refresh_status_when_second_gate_passes */
-
-
-extern s32 func_8070021C();
 extern void func_807002D4(s32 index);
 extern s32 dispatch_first_failed_entry(void);
 
@@ -22,7 +19,7 @@ s32 refresh_status_when_second_gate_passes(s32 entry)
 {
     S_808B3074_1 *status;
 
-    if ((func_8070021C(1) != 0) &&
+    if ((check_devkit_secondary_condition_8070021c(1) != 0) &&
         (*((S_808B3074_0 *)(*(void **)0xA0700F5C))->unk_08 >= 3)) {
         forward_indexed_table_value(1);
         status = *(void **)0xA0700F40;

@@ -59,7 +59,7 @@ void *create_actor_sprite_at_tile(s16 object_kind, u16 tile_x, u16 tile_y, s16 h
     saved_tile_y = tile_y;
     object = allocate_list_node(0x112, &scene_object_list_anchor.next);
     if (object != NULL) {
-        state = ((void *)object) + 0x20;
+        state = NODE_BODY(object);
         state->unk_13 = MONSTER_WALL_OF_ICE;
         kind = (s16) saved_kind;
         if (kind == 1) {
@@ -82,7 +82,7 @@ void *create_actor_sprite_at_tile(s16 object_kind, u16 tile_x, u16 tile_y, s16 h
         state->unk_8C = &advance_actor_status_turn;
         sprite->room_index = find_active_rect_containing_point(sprite->tile_x, sprite->tile_y);
         set_record_integer_tile_center(position, sprite->tile_x, sprite->tile_y);
-        state->unk_88 = sample_terrain_surface_height(*(u16 *)&position->x.w.i, *(u16 *)&position->y.w.i, position->z.w.i);
+        state->unk_88 = sample_terrain_surface_height(((u16)(position->x.w.i)), ((u16)(position->y.w.i)), position->z.w.i);
         sprite->color.word = 0x2C808080;
         sprite->flags = (u16) (sprite->flags | 0x8000);
         clear_entry_flag_and_link_owner(object);

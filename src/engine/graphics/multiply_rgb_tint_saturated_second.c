@@ -94,7 +94,7 @@ void *build_elliptical_triangle_fan(void *tint_a, void *tint_b, void *primitives
         U8_AT(shaded_tri, 0x07) = U8_AT(style, 0x01) & 0x7F;
         if (shaded != 0) {
             field_ptr = shaded_tri + 0xC;
-            color_data = (void *)((u8 *)color_data + 0xC);
+            color_data = ((u8 *)color_data + 0xC);
             U32_AT(shaded_tri, 0x0C) = U32_AT(color_data, 0);
             multiply_rgb_tint_saturated(field_ptr, tint_a);
             multiply_rgb_tint_saturated(field_ptr, tint_b);
@@ -142,7 +142,7 @@ void *build_elliptical_triangle_fan(void *tint_a, void *tint_b, void *primitives
         *out_count = segment_count;
     } else {
         if (shaded != 0) {
-            color_data = (void *)((u8 *)color_data + 0xC);
+            color_data = ((u8 *)color_data + 0xC);
         }
         *out_count = 0;
     }

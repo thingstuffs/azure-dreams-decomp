@@ -27,7 +27,7 @@ void *spawn_effect_object(s32 spawn_flags, s16 attr_a, s16 attr_b, s32 attr_c)
     object = allocate_list_node(alloc_kind, list_head);
     flags_s16 = spawn_flags;
     if (object != 0) {
-        work = ((u8 *)object) + 0x20;
+        work = NODE_BODY(object);
         *(work + 0x13) = 0x1C;
         register_node(object, project_sprite_chain);
 

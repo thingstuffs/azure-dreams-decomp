@@ -43,7 +43,7 @@ void *create_actor_child_display_c(s16 spawn_flags, s16 attr_a, s16 attr_b, s16 
     held_flags = spawn_flags;
     obj = allocate_list_node(0x112, (held_a = attr_a, &scene_object_list_anchor.next));
     if (obj != 0) {
-        work = (u8 *)obj + 0x20;
+        work = NODE_BODY(obj);
         obj->update_callback = func_8015EB64;
         ((S_8015E86C_1 *)work)->unk_13 = MONSTER_KRAKEN;
         register_node(obj, project_sprite_chain);
@@ -117,7 +117,7 @@ void *create_actor_child_display_c(s16 spawn_flags, s16 attr_a, s16 attr_b, s16 
                     elem->animation_resource = child_arg;
                     elem->flags = elem_flags | 0xC;
 
-                    elem->clut = *(s16 *)&part_b->clut - 128;
+                    elem->clut = ((s16)(part_b->clut)) - 128;
                     elem->color.word = ((u32)(0x00C0C0C0));
                     ((ObjectNodeHeader *)base->unk_A4)->update_callback = process_effect_block_entries;
 

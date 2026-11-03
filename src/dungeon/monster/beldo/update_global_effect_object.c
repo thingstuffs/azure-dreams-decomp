@@ -18,7 +18,7 @@ void update_global_effect_object(void) {
     active_slot = &beldo_active_entity;
     active_obj = *active_slot;
     if (active_obj != 0) {
-        u8 *obj_state = ((u8 *)active_obj) + 0x20;
+        u8 *obj_state = NODE_BODY(active_obj);
         u8 *obj_data = *(u8 * *)&active_obj->sprite;
         s32 sound_x;
         s32 sound_y;

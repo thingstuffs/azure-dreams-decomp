@@ -52,7 +52,7 @@ void *create_directional_render_object(void *direction_src, Copy24 *initial_data
     if (object != NULL) {
         object->update_callback = &D_8017573C;
         register_node(object, project_sprite_chain);
-        object_state = ((void *)object) + 0x20;
+        object_state = NODE_BODY(object);
         object_state->facing_angle.u =
             (u16)direction_ref->unk_2A;
         render_data = object->sprite;

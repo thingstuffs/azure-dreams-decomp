@@ -44,7 +44,7 @@ void *spawn_configured_actor_object(s16 flags, s16 value_24, s16 value_25, s16 v
     saved_arg2 = value_25;
     obj = allocate_list_node(0x112, &scene_object_list_anchor.next);
     if (obj != 0) {
-        work = (ActorRecord *)(obj + 1);
+        work = NODE_BODY(obj);
         obj->update_callback = D_801713A8;
         work->species = MONSTER_DEATH;
         register_node(obj, project_sprite_chain);
@@ -75,7 +75,7 @@ void *spawn_configured_actor_object(s16 flags, s16 value_24, s16 value_25, s16 v
                 part_b->frameTable = death_frame_set_2;
             }
         }
-        initialize_actor_sprite_and_animation(((void *)(obj)), part_a, part_b, flags);
+        initialize_actor_sprite_and_animation(((obj)), part_a, part_b, flags);
         actor->action_id.u = 0xFF;
         actor->unk_9C = -1;
         actor->unk_8C.handler = &dispatch_actor_animation_and_action;

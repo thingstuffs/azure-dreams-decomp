@@ -20,7 +20,7 @@ void *card_boot_create_slot_window(s32 parent_object, s32 object_index)
     CardSlotListNodes *runtime;
 
     object = D_80029618 + object_index * 0x3E4;
-    runtime = (CardSlotListNodes *)(object + 1);
+    runtime = NODE_BODY(object);
     if (find_active_list_node(object) == 0) {
         object = initialize_scene_object_in_buffer(0, object, 0xF9);
         register_node(object, card_boot_render_panel_hierarchy);

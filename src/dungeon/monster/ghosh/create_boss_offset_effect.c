@@ -22,7 +22,7 @@ void create_boss_offset_effect(void) {
     source_pos = ghosh_boss_node->position;
     effect = allocate_flagged_object_node(0x212);
     if (effect != (void *)0) {
-        effect_state = ((u8 *)effect) + 0x20;
+        effect_state = NODE_BODY(effect);
         *(s16 *)(effect_state + 0x16) = 0x1E;
         *(s16 *)(effect_state + 0x18) = 0x1E;
         effect->update_callback = &D_801723D0;

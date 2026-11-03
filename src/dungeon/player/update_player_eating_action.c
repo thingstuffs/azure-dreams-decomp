@@ -84,7 +84,7 @@ void update_player_eating_action(ActorRecord *controller, s32 action_id, SpriteF
             controller->flags1C &= 0xFFEFFFFF;
         }
         spawned = create_item_render_object(
-            ((ObjectNodeHeader *)controller - 1), ((Rec_func_8008ACDC_arg0 *)controller)->unk_110, 0, 0, 0);
+            NODE_HEADER(controller), ((Rec_func_8008ACDC_arg0 *)controller)->unk_110, 0, 0, 0);
         if (spawned != NULL) {
             spawned->update_callback = &player_item_render_update_address;
             position = spawned->position;
@@ -94,7 +94,7 @@ void update_player_eating_action(ActorRecord *controller, s32 action_id, SpriteF
                 (actor->tile_y << 6) + 0x20;
             position->z.w.i =
                 ((u16)transform->ground_height) - 0x30;
-            spawned_state = ((void *)spawned) + 0x20;
+            spawned_state = NODE_BODY(spawned);
             spawned_state->unk_A8 = 0x1E;
             spawned_state->unk_AA = 2;
             spawned_state->unk_90 = actor;

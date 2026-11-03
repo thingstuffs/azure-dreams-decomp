@@ -12,7 +12,7 @@ void leave_map_screen_and_clear_flags(void) {
     u8 *ptr;
     u16 *h = (&system_update_flags);
 
-    ptr = (u8 *)(ghosh_actor_node + 1);
+    ptr = NODE_BODY(ghosh_actor_node);
     *(u16 *)(ptr + 0x46) &= 0x7FFF;
     dungeon_floor_flags &= 0xF7FFFFFF;
     h[0] &= 0xFFF6;

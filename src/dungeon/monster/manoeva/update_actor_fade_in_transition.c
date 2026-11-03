@@ -49,7 +49,7 @@ void update_actor_fade_in_transition(ActorRecord *actor_state, ObjectPosition *c
     state = actor_state->action_phase.u;
     switch (state) {
     case 0:
-        actor_base = (u8 *)actor_state - 0x20;
+        actor_base = NODE_HEADER(actor_state);
         actor_state->action_timer.s = 0x10;
         register_node(actor_base, process_linked_states_mode_zero);
         sprite->color.word = 0x08000000;
@@ -75,7 +75,7 @@ void update_actor_fade_in_transition(ActorRecord *actor_state, ObjectPosition *c
         break;
 
     case 2:
-        actor_base = (u8 *)actor_state - 0x20;
+        actor_base = NODE_HEADER(actor_state);
         fade_delay = sprite->color.c.code;
         if (fade_delay >= 2) {
             sprite->color.c.code = fade_delay - 1;
@@ -107,7 +107,7 @@ void update_actor_fade_in_transition(ActorRecord *actor_state, ObjectPosition *c
         }
         g_dungeon_status.activity_counts.parts.pending_action_count--;
         if (actor_data->hp == 0) {
-            g_dungeon_status.pending_display_owner = (u8 *)actor_data - 0x20;
+            g_dungeon_status.pending_display_owner = NODE_HEADER(actor_data);
             begin_actor_display_action(actor_state, context, sprite, manoeva_frame_set);
             break;
         }
@@ -117,7 +117,7 @@ void update_actor_fade_in_transition(ActorRecord *actor_state, ObjectPosition *c
             if (entry_index < 0) {
                 break;
             }
-            resolve_familiar_deployment_request(((u8 *)dungeon_actor_ring_anchor), ((u8 *)(&view_reference_entity)), ((u8 *)(&reference_tile_object)),
+            resolve_familiar_deployment_request((dungeon_actor_ring_anchor), ((&view_reference_entity)), ((&reference_tile_object)),
                           ((S_8017427C_4 *)(((u8 *)dungeon_actor_ring_anchor) + entry_index * 4))->unk_D0);
             actor_data->flags1C &= 0xFFFEFFFF;
             break;

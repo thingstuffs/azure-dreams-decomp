@@ -47,7 +47,7 @@ void *create_flagged_dungeon_actor_object(s16 flags, s16 kind_id, s16 variant, s
 
     obj = allocate_list_node(274, &scene_object_list_anchor.next);
     if (obj != 0) {
-        work = (u8 *)obj + 0x20;
+        work = NODE_BODY(obj);
         obj->update_callback = D_80170AE8;
         ((ActorRecord *)work)->species = MONSTER_CYCLONE;
         register_node(obj, project_sprite_chain);

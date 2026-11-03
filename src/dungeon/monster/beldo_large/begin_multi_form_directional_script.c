@@ -63,7 +63,7 @@ void begin_multi_form_directional_script(void)
     sys_work->handler = *(void **)(handler_table + (handler_index & 0x1C));
     position_data = *(u8 * *)&active_object->sprite;
     dungeon_floor_flags |= 0x200000;
-    object_state = ((u8 *)active_object) + 0x20;
+    object_state = NODE_BODY(active_object);
     direction = get_rounded_facing_and_rounding_flag(position_data[0x24], position_data[0x25],
                               reference_tile_object.tile_position.parts.tile_x, reference_tile_object.tile_position.parts.tile_y, &unused_result);
     *(u16 *)(object_state + 0x2A) = direction;

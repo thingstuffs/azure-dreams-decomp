@@ -48,7 +48,7 @@ void spawn_salam_particles(ObjectNodeHeader *source, s16 effect_param, s32 rende
             motion->velocity_y = rsin(angle) << 5;
             *((s16 *)&motion->velocity_z + 1) = (s16) ((0 - (rand() & 7)) - 8);
             render = particle->sprite;
-            effect_state = ((void *)particle) + 0x20;
+            effect_state = NODE_BODY(particle);
             render->scale_y = 0x1000;
             render->scale_x = 0x1000;
             /*

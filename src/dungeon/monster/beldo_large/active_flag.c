@@ -51,7 +51,7 @@ void create_scripted_encounter_object(void) {
 
     object = allocate_list_node(0x112, &scene_object_list_anchor.next);
     if (object != NULL) {
-        state = ((void *)object) + 0x20;
+        state = NODE_BODY(object);
         st = state;
         object->update_callback = &advance_linked_actor_motion_script;
         st->species = MONSTER_KEWNE;

@@ -119,7 +119,7 @@ void advance_actor_action_and_status(ActorRecord *in_action, ObjectPosition *in_
                 s8 coordinate;
 
                 origin = &reference_tile_object;
-                coordinate = *(s8 *)&in_sprite->room_index;
+                coordinate = ((s8)(in_sprite->room_index));
                 if ((((coordinate == origin->room_index) &&
                     (coordinate >= 0)) ||
                     (get_tile_chebyshev_distance(origin, in_sprite) < 2)) &&

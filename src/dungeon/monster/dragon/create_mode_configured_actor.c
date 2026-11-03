@@ -29,7 +29,7 @@ void *create_mode_configured_actor_object(s16 kind_flags, s16 byte_24, s16 byte_
     saved_byte_25 = byte_25;
     obj = allocate_list_node(0x112, &scene_object_list_anchor.next);
     if (obj != 0) {
-        work = (ActorRecord *)(obj + 1);
+        work = NODE_BODY(obj);
         obj->update_callback = D_8016AA28;
         work->species = MONSTER_DRAGON;
         register_node(obj, project_sprite_chain);

@@ -65,7 +65,7 @@ void create_player_centered_sequence_effect(void)
 
     object = allocate_flagged_object_node(0x12);
     if (object != NULL) {
-        effect_state = (PlayerCenteredSequenceEffectBody *)((u8 *)object + 0x20);
+        effect_state = NODE_BODY(object);
         effect_state->ticks_remaining = 0;
         (object->update_callback) = update_staged_particle_emitter;
         register_node(object, project_sprite_chain);

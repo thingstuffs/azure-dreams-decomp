@@ -24,7 +24,7 @@ s32 attempt_actor_action_and_display(ActorRecord *action_out, ObjectPosition *ac
 
     computed_angle = probe_directional_neighbor(acting_actor, actor_info->tile_x,
         actor_info->tile_y, acting_actor->facing);
-    if ((check_entity_interaction_compatibility(((void *)(acting_actor)), computed_angle) << 16) == 0) {
+    if ((check_entity_interaction_compatibility(((acting_actor)), computed_angle) << 16) == 0) {
         result = 0;
         return result;
     }
@@ -50,7 +50,7 @@ s32 attempt_actor_action_and_display(ActorRecord *action_out, ObjectPosition *ac
         return result;
     }
 
-    apply_camera_offset_and_select_target((u8 *)acting_actor - 0x20, (void *)action_param, 8, 0x300);
+    apply_camera_offset_and_select_target(NODE_HEADER(acting_actor), action_param, 8, 0x300);
     if ((try_claim_dungeon_action_slot((s32)acting_actor) << 16) != 0) {
         result = -1;
     } else {
@@ -76,7 +76,7 @@ s32 attempt_actor_action_and_display(ActorRecord *action_out, ObjectPosition *ac
 void update_eligible_actor_action(ActorRecord *action_state, ObjectPosition *action_context, SpriteFrameState *sprite, ActorRecord *actor) {
     actor->movement_queue_state = (u8) (actor->movement_queue_state & 0x7F);
     if (!(g_dungeon_status.flags & 0x2000) && ((try_claim_dungeon_action_slot((s32)actor) << 0x10) == 0)) {
-        apply_camera_offset_and_select_target((u8 *)actor - 0x20, (void *)action_context, 8, 0x300);
+        apply_camera_offset_and_select_target(NODE_HEADER(actor), action_context, 8, 0x300);
         if ((try_claim_dungeon_action_slot((s32)actor) << 0x10) == 0) {
             action_state->action_id.s = 0x11;
             action_state->action_phase.s = 0;

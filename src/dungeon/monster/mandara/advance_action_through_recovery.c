@@ -59,7 +59,7 @@ void advance_action_through_recovery(ActorRecord *action_state, ObjectPosition *
                 motion = (u8 *)actor + 8;
                 break;
             default:
-                motion = (u8 *)0;
+                motion = 0;
                 break;
             }
         } else {
@@ -74,7 +74,7 @@ void advance_action_through_recovery(ActorRecord *action_state, ObjectPosition *
                 motion = (u8 *)actor + 8;
                 break;
             default:
-                motion = (u8 *)0;
+                motion = 0;
                 break;
             }
         }

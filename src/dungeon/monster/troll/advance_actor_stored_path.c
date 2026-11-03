@@ -454,7 +454,7 @@ s32 check_and_prepare_actor_move(ActorRecord *action_state, ObjectPosition *faci
     if ((try_claim_dungeon_action_slot(actor) << 16) != 0) {
         return -1;
     }
-    apply_camera_offset_and_select_target((u8 *)actor - 0x20, facing, 8, 0x300);
+    apply_camera_offset_and_select_target(NODE_HEADER(actor), facing, 8, 0x300);
     if ((try_claim_dungeon_action_slot(actor) << 16) != 0) {
         return -1;
     }
@@ -541,7 +541,7 @@ loop:
         {
             u32 direction_offset = (actor->movement_facing >> 8) & 0xE;
             setup_object_within_planar_range(
-                (u8 *)actor - 0x20,
+                NODE_HEADER(actor),
                 (origin->tile_x << 6) +
                     ((s16)*(u16 *)((u8 *)direction_x_offsets + direction_offset) >> 1) + 0x20,
                 (origin->tile_y << 6) +

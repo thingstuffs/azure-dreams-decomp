@@ -101,14 +101,14 @@ create_object:
         *((u16 *)&position->velocity_z + 1) = pos_z;
         sprite = object->sprite;
         sprite_flags = sprite->flags;
-        sprite->source = (void *) ((sprite_index * 0xC) + &linked_graphic_sprite_entries);
+        sprite->source =  ((sprite_index * 0xC) + &linked_graphic_sprite_entries);
         sprite->scale_y = 0x1000;
         sprite->scale_x = 0x1000;
         sprite->tpage_abr = 0x60;
         new_flags = sprite_flags;
         new_flags |= 0xC;
         sprite->flags = new_flags;
-        effect_state = ((void *)object) + 0x20;
+        effect_state = NODE_BODY(object);
         effect_state->unk_04 = effect_value;
         ((S_800264D4_0 *)object)->unk_20 = source_pos;
         effect_state->unk_66 = 0x20;
@@ -123,9 +123,9 @@ create_object:
         effect_state->unk_20 = fixed_z;
         effect_state->unk_14 = fixed_z;
         for (history_index = 0; history_index < 8; history_index++) {
-            effect_state->history[history_index].x = *(u16 *)&position->x.w.i;
-            effect_state->history[history_index].y = *(u16 *)&position->y.w.i;
-            effect_state->history[history_index].z = *(u16 *)&position->z.w.i;
+            effect_state->history[history_index].x = ((u16)(position->x.w.i));
+            effect_state->history[history_index].y = ((u16)(position->y.w.i));
+            effect_state->history[history_index].z = ((u16)(position->z.w.i));
         }
         effect_state->unk_08 = previous_object;
         previous_object = object;

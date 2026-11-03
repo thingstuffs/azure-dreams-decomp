@@ -301,7 +301,7 @@ ordinary_cleanup:
                 if (object != 0) {
                     initialize_object_rendering_and_params(object, actor, context);
                     object->update_callback = D_80170A0C;
-                    object_data = (S_801714B8_7 *)((u8 *)object + 0x20);
+                    object_data = NODE_BODY(object);
                     object_data->unk_28 = context;
                     object_data->unk_1C = ((u16)((ActorRecord *)stats)->facing);
 

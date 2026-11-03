@@ -27,7 +27,7 @@ void relocate_multi_form_actor(s32 offset_index)
     TileObject *origin;
 
     object = beldo_actor_nodes;
-    state = (S_8016EC04_1 *)(((u8 *)object) + 0x20);
+    state = NODE_BODY(object);
     entity = *(u8 * *)&object->sprite;
     motion = object->position;
 

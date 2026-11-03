@@ -83,7 +83,7 @@ void *create_owner_linked_pulsing_effect(void *spawn_pos_arg, EntityRec *source_
         map_data->flags = (u16) (map_data->flags | 0xC);
         map_data->tile_x = (s8) ((u16) position->x.w.i >> 6);
         map_data->tile_y = (s8) ((u16) position->y.w.i >> 6);
-        object_state = ((void *)object) + 0x20;
+        object_state = NODE_BODY(object);
         (*(s16 *)((u8 *)object_state + 0x96)) = 0x10;
         object_state->unk_08 = (u8) active_spell_parameters;
         object_state->unk_09 = (u8) ((S_800CB82C_5 *)(&active_spell_parameters))->unk_01;

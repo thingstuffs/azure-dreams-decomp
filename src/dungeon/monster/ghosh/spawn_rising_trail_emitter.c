@@ -41,7 +41,7 @@ void spawn_rising_trail_emitter(void)
     source_pos = ghosh_boss_node->position;
     effect = allocate_flagged_object_node(0x212);
     if (effect != NULL) {
-        effect_state = ((void *)effect) + 0x20;
+        effect_state = NODE_BODY(effect);
         effect_state->unk_16 = 0x1E;
         effect_state->unk_18 = 0x1E;
         effect->update_callback = &update_rising_trail_emitter;
@@ -53,13 +53,13 @@ void spawn_rising_trail_emitter(void)
         effect_pos->y.v = source_pos->y.v;
         effect_pos->z.v = source_pos->z.v;
         random_offset = rand(sprite_header);
-        coord = *(u16 *)&effect_pos->x.w.i;
+        coord = ((u16)(effect_pos->x.w.i));
         random_offset &= 0x3F;
         coord -= 0x20;
         coord += random_offset;
         effect_pos->x.w.i = coord;
         random_offset = rand();
-        coord = *(u16 *)&effect_pos->y.w.i;
+        coord = ((u16)(effect_pos->y.w.i));
         random_offset &= 0x3F;
         coord -= 0x20;
         coord += random_offset;

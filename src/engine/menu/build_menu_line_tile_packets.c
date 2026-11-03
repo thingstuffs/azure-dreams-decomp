@@ -48,7 +48,7 @@ s32 build_menu_line_tile_packets(S_80053A88_Node *first_node)
         {
             draw_base = work->draw_buffer;
             tile = draw_base->packetCursor;
-            draw_base->packetCursor = (void *)(((u8 *)tile) + 0x10);
+            draw_base->packetCursor = (((u8 *)tile) + 0x10);
             tile->x0 = node->unkC;
             tile->y0 = node->unkE;
             tile->w = node->unk10;
@@ -66,7 +66,7 @@ s32 build_menu_line_tile_packets(S_80053A88_Node *first_node)
             }
             draw_base = work->draw_buffer;
             draw_mode = draw_base->packetCursor;
-            draw_base->packetCursor = (void *)(((u8 *)draw_mode) + 0xC);
+            draw_base->packetCursor = (((u8 *)draw_mode) + 0xC);
             tpage = GetTPage(0, node->unk14, 0, 0);
             SetDrawMode(draw_mode, 0, 0, tpage & 0xFFFF, 0);
             if (!(node->unk16 & 2)) {

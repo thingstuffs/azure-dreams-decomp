@@ -36,7 +36,7 @@ void reposition_object_by_indexed_offset(s32 offset_index) {
     state = ghosh_actor_node;
     object = state->sprite;
     old_tile_mask = 0x3000;
-    status = (Status *)state + 1;
+    status = NODE_BODY(state);
     position = state->position;
     object->flags &= 0xFF7F;
     x = object->tile_x;

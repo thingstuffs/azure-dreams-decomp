@@ -59,7 +59,7 @@ spawn:
         positions->z.w.i = pos_z;
         *(s16 *)(((u8 *)positions) + 0x16) = pos_z;
         sample_angle = sample_index << 7;
-        effect_state = (u8 *)effect + 0x20;
+        effect_state = NODE_BODY(effect);
         *(s32 *)(effect_state + 0xC) = (rcos(motion_angle) * rcos(sample_angle)) >> scale_shift;
         *(s32 *)(effect_state + 0x10) = (rsin(motion_angle) * rcos(sample_angle)) >> scale_shift;
         *(s32 *)(effect_state + 0x14) = rsin(sample_angle) << ((group_index >> 1) + 7);

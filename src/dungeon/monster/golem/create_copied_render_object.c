@@ -44,7 +44,7 @@ s32 create_copied_render_object(GolemActionWork *owner, ObjectPosition *source_s
         object->update_callback = advance_timed_target_flags;
         register_node(object, project_sprite_chain);
 
-        context = (u8 *)object + 0x20;
+        context = NODE_BODY(object);
         context->source_state = source_state;
         context->render_data = render_data;
 

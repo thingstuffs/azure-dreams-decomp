@@ -42,7 +42,7 @@ void advance_actor_step_sequence(S_800477F4_Actor *actor)
         u8 ticks_left = actor->f5 - 1;
         actor->f5 = ticks_left;
         if ((s8)ticks_left <= 0) {
-            node = (S_800477F4_Node *)actor->cur;
+            node = actor->cur;
             if (((S_800477F4_Node *)node)->typeA != 0) {
                 s16 step_type;
                 node = (u8 *)node + 8;

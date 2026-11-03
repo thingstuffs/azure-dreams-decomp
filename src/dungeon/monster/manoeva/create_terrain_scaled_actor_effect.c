@@ -59,10 +59,10 @@ void create_terrain_scaled_actor_effect(ObjectNodeHeader *source, s16 *facing, u
     effect = allocate_list_node(0x100,allocation_head);
     if (effect != NULL) {
         render_data = effect->sprite;
-        effect_state = ((void *)effect) + 0x20;
+        effect_state = NODE_BODY(effect);
         effect->update_callback = &update_terrain_scaled_actor_effect;
-        effect_state->unk_14 = (void *) source->sprite;
-        effect_state->unk_18 = (void *) source->position;
+        effect_state->unk_14 =  source->sprite;
+        effect_state->unk_18 =  source->position;
         render_data->scale_y = 0x1000;
         render_data->scale_x = 0x1000;
         render_data->color.word = 0x808080;

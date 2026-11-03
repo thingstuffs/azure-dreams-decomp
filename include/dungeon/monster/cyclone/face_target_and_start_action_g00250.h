@@ -79,4 +79,6 @@ void update_action_state_direction_specific(ActorRecord *action_state, ObjectPos
 void clear_actor_action_flag_and_animate(ActorRecord *action_state, ObjectPosition *action_context, SpriteFrameState *animation, ActorRecord *actor);
 
 
+#include "shared/object_node.h"
+
 #endif

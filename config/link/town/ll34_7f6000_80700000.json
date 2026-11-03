@@ -12,6 +12,24 @@
   },
   "entries": [
     {
+      "row": "town/func_80877FEC",
+      "home": "town/func_80877FEC",
+      "tu": "src/town/devkit/dev_report_kind_mode_sno.c",
+      "foff": "0x7F7FEC",
+      "vma": "0x80701FEC",
+      "size": 144,
+      "evidence": "docs/evidence/r141w_town_dev.md"
+    },
+    {
+      "row": "town/func_8087807C",
+      "home": "town/func_8087807C",
+      "tu": "src/town/devkit/shop_dispatch_entry_value.c",
+      "foff": "0x7F807C",
+      "vma": "0x8070207C",
+      "size": 148,
+      "evidence": "docs/evidence/r141w_town_dev.md"
+    },
+    {
       "row": "town/func_80878110",
       "tu": "src/town/devkit/shop_skip_accepted_entries.c",
       "home": "town/func_80878110",
@@ -57,6 +75,51 @@
       "evidence": "TU view gather: moved from town/ll34_7f7fec_80701fec (same load delta) so the merged file's members share one view"
     },
     {
+      "row": "town/func_80878314",
+      "home": "town/func_80878314",
+      "tu": "src/town/devkit/state/shop_check_selected_entry_state.c",
+      "foff": "0x7F8314",
+      "vma": "0x80702314",
+      "size": 76,
+      "evidence": "docs/evidence/r141w_town_dev.md"
+    },
+    {
+      "row": "town/func_80878360",
+      "home": "town/func_80878360",
+      "tu": "src/town/devkit/state/shop_update_availability_flag.c",
+      "foff": "0x7F8360",
+      "vma": "0x80702360",
+      "size": 80,
+      "evidence": "docs/evidence/r141w_town_dev.md"
+    },
+    {
+      "row": "town/func_808783B0",
+      "home": "town/func_808783B0",
+      "tu": "src/town/devkit/shop_run_open_sequence.c",
+      "foff": "0x7F83B0",
+      "vma": "0x807023B0",
+      "size": 148,
+      "evidence": "docs/evidence/r141w_town_dev.md"
+    },
+    {
+      "row": "town/func_80878444",
+      "home": "town/func_80878444",
+      "tu": "src/town/devkit/shop_get_entry_value_or_fallback.c",
+      "foff": "0x7F8444",
+      "vma": "0x80702444",
+      "size": 108,
+      "evidence": "docs/evidence/r141w_town_dev.md"
+    },
+    {
+      "row": "town/func_808784B0",
+      "home": "town/func_808784B0",
+      "tu": "src/town/devkit/shop_read_selected_row_value.c",
+      "foff": "0x7F84B0",
+      "vma": "0x807024B0",
+      "size": 76,
+      "evidence": "docs/evidence/r141w_town_dev.md"
+    },
+    {
       "row": "town/func_807D8540",
       "tu": "src/main/func_8000E904.c",
       "home": "main/func_8000E904",
@@ -64,6 +127,69 @@
       "vma": "0x80702540",
       "size": 8,
       "evidence": "opus_place1: relinked copy -> placement; home object == copy object outside relocation fields, relocation map derived by tools/tu/copy_place.py derive; window gate MATCH; TU view gather: moved from town/ll34_7f7fec_80701fec (same load delta) so the merged file's members share one view"
+    },
+    {
+      "row": "town/func_80878548",
+      "home": "town/func_80878548",
+      "tu": "src/town/devkit/shop_get_current_entry_value.c",
+      "foff": "0x7F8548",
+      "vma": "0x80702548",
+      "size": 48,
+      "evidence": "docs/evidence/r141w_town_dev.md"
+    },
+    {
+      "row": "town/func_80878578",
+      "home": "town/func_80878578",
+      "tu": "src/town/devkit/shop_get_indexed_value_at_f.c",
+      "foff": "0x7F8578",
+      "vma": "0x80702578",
+      "size": 48,
+      "evidence": "docs/evidence/r141w_town_dev.md"
+    },
+    {
+      "row": "town/func_808785A8",
+      "home": "town/func_808785A8",
+      "tu": "src/town/devkit/shop_get_indexed_value_at_fa.c",
+      "foff": "0x7F85A8",
+      "vma": "0x807025A8",
+      "size": 48,
+      "evidence": "docs/evidence/r141w_town_dev.md"
+    },
+    {
+      "row": "town/func_808785D8",
+      "home": "town/func_808785D8",
+      "tu": "src/town/devkit/shop_get_global_value.c",
+      "foff": "0x7F85D8",
+      "vma": "0x807025D8",
+      "size": 16,
+      "evidence": "docs/evidence/r141w_town_dev.md"
+    },
+    {
+      "row": "town/func_808785E8",
+      "home": "town/func_808785E8",
+      "tu": "src/town/shop/shop_prepare_special_value.c",
+      "foff": "0x7F85E8",
+      "vma": "0x807025E8",
+      "size": 40,
+      "evidence": "docs/evidence/r141w_town_dev.md"
+    },
+    {
+      "row": "town/func_80878610",
+      "home": "town/func_80878610",
+      "tu": "src/town/shop/shop_get_indexed_value_at_fc.c",
+      "foff": "0x7F8610",
+      "vma": "0x80702610",
+      "size": 48,
+      "evidence": "docs/evidence/r141w_town_dev.md"
+    },
+    {
+      "row": "town/func_80878640",
+      "home": "town/func_80878640",
+      "tu": "src/town/shop/shop_invoke_runtime_callback.c",
+      "foff": "0x7F8640",
+      "vma": "0x80702640",
+      "size": 48,
+      "evidence": "docs/evidence/r141w_town_dev.md"
     },
     {
       "row": "town/func_80878670",
@@ -91,6 +217,42 @@
       "vma": "0x80702714",
       "size": 96,
       "evidence": "TU view gather: moved from town/ll34_7f7fec_80701fec (same load delta) so the merged file's members share one view"
+    },
+    {
+      "row": "town/func_80878924",
+      "home": "town/func_80878924",
+      "tu": "src/town/devkit/invoke_indexed_runtime_operation.c",
+      "foff": "0x7F8924",
+      "vma": "0x80702924",
+      "size": 80,
+      "evidence": "docs/evidence/r141w_town_dev.md"
+    },
+    {
+      "row": "town/func_80878974",
+      "home": "town/func_80878974",
+      "tu": "src/town/devkit/dev_copy_overlay_work_and_trace.c",
+      "foff": "0x7F8974",
+      "vma": "0x80702974",
+      "size": 224,
+      "evidence": "docs/evidence/r141w_town_dev.md"
+    },
+    {
+      "row": "town/func_80878A54",
+      "home": "town/func_80878A54",
+      "tu": "src/town/devkit/scale_stored_value_and_base.c",
+      "foff": "0x7F8A54",
+      "vma": "0x80702A54",
+      "size": 36,
+      "evidence": "docs/evidence/r141w_town_dev.md"
+    },
+    {
+      "row": "town/func_80878A78",
+      "home": "town/func_80878A78",
+      "tu": "src/town/devkit/load_scene_data_block.c",
+      "foff": "0x7F8A78",
+      "vma": "0x80702A78",
+      "size": 304,
+      "evidence": "docs/evidence/r141w_town_dev.md"
     }
   ]
 }

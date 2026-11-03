@@ -40,5 +40,5 @@ void upload_tile_texture(S_80048870_hdr *tile, S_80048870_rec *image, s32 data_o
     tile_header.unk06 = (s16)(tile->unkB + 1);
     tile_header.unk00 = (s16)(((u32)tile->unk8 >> 1) + ((tile->unk4 << 6) & 0x3C0));
     tile_header.unk02 = (s16)(tile->unk9 + ((tile->unk4 << 4) & 0x100));
-    decode_compressed_image_to_vram((void *)((u8 *)image->unkC + data_offset), &tile_header);
+    decode_compressed_image_to_vram(((u8 *)image->unkC + data_offset), &tile_header);
 }

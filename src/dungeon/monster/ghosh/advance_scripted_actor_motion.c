@@ -128,7 +128,7 @@ void advance_scripted_actor_motion(S_func_8132B8AC_0 *actor, S_func_8132B8AC_1 *
     s32 particle_color;
 
     direction_vectors = ghosh_effect_direction_vectors;
-    beldo = (S_func_8132B8AC_3 *)(ghosh_scripted_actor + 1);
+    beldo = NODE_BODY(ghosh_scripted_actor);
     advance_sprite_animation_and_textures(sprite);
     state = actor->unk_9A;
     switch (state) {

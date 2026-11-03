@@ -114,7 +114,7 @@ void create_facing_offset_object(Arg0Object *owner, ObjectPosition *position, Sp
 
     allocated = allocate_flagged_object_node(0x212);
     if (allocated != 0) {
-        block = (BlockObject *)((u8 *)allocated + 0x20);
+        block = NODE_BODY(allocated);
         block->owner = owner;
         block->field30 = 0;
         block->field2c = 0;
@@ -134,7 +134,7 @@ void create_facing_offset_object(Arg0Object *owner, ObjectPosition *position, Sp
         payload = allocated->position;
         payload->x.v = (((block->field4c << 6) + 0x20) << 0x10);
         payload->y.v = (((block->field4d << 6) + 0x20) << 0x10);
-        payload->z.v = sample_terrain_surface_height(payload->x.unsigned_parts.integer, *(u16 *)&payload->y.w.i,
+        payload->z.v = sample_terrain_surface_height(payload->x.unsigned_parts.integer, ((u16)(payload->y.w.i)),
             (s16)(position->z.w.i - 0x20)) << 0x10;
         block->angle_copy = owner->angle;
         block->angle_index = (owner->angle >> 9) & 7;

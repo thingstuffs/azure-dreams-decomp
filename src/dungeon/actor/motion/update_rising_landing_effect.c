@@ -248,7 +248,7 @@ void update_directional_actor_effect(void *input, void *output)
             offsets[1] = 0;
             offsets[0] = 0;
         }
-        particle_data = (u8 *)particle + 0x20;
+        particle_data = NODE_BODY(particle);
         particle->update_callback = (void *)build_and_enqueue_five_translucent_quads_between_interpolated_points;
         register_node(particle, project_sprite_chain);
         random_value = 0x00800000u;
@@ -319,7 +319,7 @@ void update_directional_actor_effect(void *input, void *output)
                 particle->update_callback = particle_script;
                 register_node(particle, project_sprite_chain);
                 sprite = particle->sprite;
-                particle_data = (u8 *)particle + 0x20;
+                particle_data = NODE_BODY(particle);
                 random_value = rand();
                 angle = (primary_actor_record)->facing;
                 step = angle;
@@ -394,7 +394,7 @@ void update_directional_actor_effect(void *input, void *output)
                 particle->update_callback = particle_script_debris;
                 register_node(particle, project_sprite_chain);
                 sprite = particle->sprite;
-                particle_data = (u8 *)particle + 0x20;
+                particle_data = NODE_BODY(particle);
                 random_value = rand();
                 angle = (primary_actor_record)->facing;
                 step = angle;
@@ -581,7 +581,7 @@ void build_and_enqueue_five_translucent_quads_between_interpolated_points(Actor 
             sprite->bottom = sprite->bottom + 0x78;
             sprite->top = sprite->bottom;
         }
-        if (resolve_record_orientation_or_fallback(((void *)reference_tile_object.sprite_source), ((EntryTable *)&reference_tile_object), entry_pos, 0) != 0) {
+        if (resolve_record_orientation_or_fallback(((void *)reference_tile_object.sprite_source), (&reference_tile_object), entry_pos, 0) != 0) {
             target->x.word += ((((s16)entry_pos[0] + view_reference_entity.x.w.i) - (s16)target->x.half.coord) << 14);
             target->y.word += ((((s16)entry_pos[1] + view_reference_entity.y.w.i) - (s16)target->y.half.coord) << 14);
             target->z.word += ((((s16)entry_pos[2] + view_reference_entity.z.w.i) - (s16)target->z.half.coord) << 14);
@@ -593,7 +593,7 @@ void build_and_enqueue_five_translucent_quads_between_interpolated_points(Actor 
         }
         break;
     case 1:
-        if (resolve_record_orientation_or_fallback(((void *)reference_tile_object.sprite_source), ((EntryTable *)&reference_tile_object), entry_pos, 0) != 0) {
+        if (resolve_record_orientation_or_fallback(((void *)reference_tile_object.sprite_source), (&reference_tile_object), entry_pos, 0) != 0) {
             target->x.word += ((((s16)entry_pos[0] + view_reference_entity.x.w.i) - (s16)target->x.half.coord) << 15);
             target->y.word += ((((s16)entry_pos[1] + view_reference_entity.y.w.i) - (s16)target->y.half.coord) << 15);
             target->z.word += ((((s16)entry_pos[2] + view_reference_entity.z.w.i) - (s16)target->z.half.coord) << 15);
@@ -880,7 +880,7 @@ void update_rising_landing_effect(RisingLandingEffectBody *effect, ObjectPositio
                         (s32) (((rand() & 0x3FF) - 0x1FF) << 0xA);
                     (particle->position)->velocity_y =
                         (s32) (((rand() & 0x3FF) - 0x1FF) << 0xA);
-                    particle_work = ((void *)particle) + 0x20;
+                    particle_work = NODE_BODY(particle);
                     (particle->position)->velocity_z =
                         (s32) (0 - ((rand() & 0x3FF) << 8));
                     particle_color = 0xC00000;

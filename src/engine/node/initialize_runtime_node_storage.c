@@ -36,9 +36,9 @@ void *initialize_runtime_node_storage(s32 flags, void *storage, s16 word_count, 
     node->link0 = *list_head;
     *list_head = node;
     old_head = node->link0;
-    node->link4 = (void *)list_head;
+    node->link4 = list_head;
     if (old_head != NULL) {
-        old_head->link4 = (void *)node;
+        old_head->link4 = node;
     }
     node->flags1E = (s16)(flags | 0x4000);
     payload_cursor = (S_8003FF2C *)((u8 *)node + (word_count << 2));

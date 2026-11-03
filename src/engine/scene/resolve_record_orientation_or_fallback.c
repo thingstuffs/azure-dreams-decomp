@@ -19,7 +19,7 @@ SpriteAttachment *resolve_record_orientation_or_fallback(SpriteAttachment *recor
 
     record = find_flagged_record_by_id(records, record_id);
     if (record != NULL) {
-        runtime_transform_sprite_attachment_point(actor, (void *)record, &orientation);
+        runtime_transform_sprite_attachment_point(actor, record, &orientation);
         out_vec->vx = orientation.vx;
         out_vec->vy = orientation.vy;
         out_vec->vz = orientation.vz;

@@ -72,7 +72,7 @@ void create_returning_sprite_effect(
         node->position->z.w.i =
             ((MovingPosition *)(origin->unk_08))->z + offset_z - 0x14;
 
-        work = (S_80AC55DC_2 *)((u8 *)node + 0x20);
+        work = NODE_BODY(node);
         work->unk_36 = ((MovingPosition *)(origin->unk_08))->x;
         work->unk_38 = ((MovingPosition *)(origin->unk_08))->y;
         work->unk_3A = ((MovingPosition *)(origin->unk_08))->z;

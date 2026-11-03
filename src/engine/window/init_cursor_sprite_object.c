@@ -40,7 +40,7 @@ void init_cursor_sprite_object(void *node_addr, Rec_D_80081FDC *transform, s32 *
     node = initialize_runtime_node_storage(0x11, node_addr, 0x49, &window_node_list_storage);
     node->update_callback = (void *)update_cursor_blink_colors;
     register_node(node, &draw_linked_sprite_nodes);
-    state = (WindowCursorBody *)(node + 1);
+    state = NODE_BODY(node);
     render_data = node->position;
     sprite = (S_8003719C_3 *)node->sprite;
     state->script = script_data;

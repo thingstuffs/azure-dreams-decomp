@@ -70,7 +70,7 @@ void spawn_random_velocity_offset_effect(ObjectNodeHeader *parent, s16 effect_id
         (s16) (parent->position->y.unsigned_parts.integer + y_offset);
     (effect->position)->z.w.i =
         (s16) (parent->position->z.unsigned_parts.integer + z_offset);
-    effect_state = ((void *)effect) + 0x20;
+    effect_state = NODE_BODY(effect);
     effect_state->unk_40 = (s32) (((rand() & 0x7FFF) - 0x4000) * 0x10);
     effect_state->unk_44 = (s32) (((rand() & 0x7FFF) - 0x4000) * 0x10);
     effect_state->unk_48 = (s32) (((rand() & 0x3FFF) - 0x6000) * 0x10);

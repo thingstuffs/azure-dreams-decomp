@@ -34,7 +34,7 @@ void initialize_shared_state_active_entries(void)
     u8 *entry_header;
 
     ghosh_command_stream = D_80174B38;
-    state_data = (StateData *)((u8 *)ghosh_boss_node + 0x20);
+    state_data = NODE_BODY(ghosh_boss_node);
     ghosh_command_ticks = 0;
     {
         Unaligned32 *source;
@@ -59,7 +59,7 @@ void initialize_shared_state_active_entries(void)
             state_page->field_371A = 0;
             state_page->field_3718 = 0;
             state_page->field_3716 = 0;
-            state_page->field_371C = (void *)&D_80174C58;
+            state_page->field_371C = &D_80174C58;
             state_page->flags = (state_flags | 9) & 0xFFEF;
         }
     }

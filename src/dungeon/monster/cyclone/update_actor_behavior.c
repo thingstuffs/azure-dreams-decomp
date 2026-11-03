@@ -139,7 +139,7 @@ void update_actor_behavior_2(ActorRecord *body, ObjectPosition *position, Sprite
             on_actor_status_updated(actor);
             if ((get_entity_effect_value(actor, STATUS_SLEEP) << 16) != 0) {
                 TileObject *origin = &reference_tile_object;
-                s8 tile = *(s8 *)&sprite->room_index;
+                s8 tile = ((s8)(sprite->room_index));
 
                 if (((tile == origin->room_index) && (tile >= 0)) ||
                     ((s16)get_tile_chebyshev_distance(origin, sprite) < 2)) {

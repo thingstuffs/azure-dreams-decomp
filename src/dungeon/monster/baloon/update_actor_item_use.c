@@ -234,7 +234,7 @@ void update_actor_item_use(ActorRecord *body, ObjectPosition *motion, SpriteFram
                 if (angle != actor->facing) {
                     effect_count = 0;
                     do {
-                        spawn_directional_random_velocity_effect((u8 *)body - 0x20, angle);
+                        spawn_directional_random_velocity_effect(NODE_HEADER(body), angle);
                         effect_count++;
                     } while ((s16)effect_count <= 0);
                 }

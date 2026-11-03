@@ -32,7 +32,7 @@ void *create_tracked_effect_object(s16 flags, s16 x, s16 y, s16 part_id)
     saved_y = y;
     obj = allocate_list_node(0x112, &scene_object_list_anchor.next);
     if (obj != 0) {
-        work = (ActorRecord *)(obj + 1);
+        work = NODE_BODY(obj);
         obj->update_callback = D_8015EA28;
         work->species = MONSTER_DRAGON;
         register_node(obj, project_sprite_chain);

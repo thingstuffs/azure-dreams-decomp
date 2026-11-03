@@ -45,7 +45,7 @@ void pack_texture_into_vram_narrow(S_80047468_arg0 *image, S_80047468_arg1 *sour
     image->unk08 = (s8)((((u8)narrow_texture_pack_x) * 4) - 0x80);
     image->unk09 = (s8)(((u8)narrow_texture_pack_y) + 0x80);
     narrow_texture_pack_y += rect.unk06;
-    decode_upload_image_from_wrapping_buffer((void *)(source->unk0C + data_offset), &rect);
+    decode_upload_image_from_wrapping_buffer((source->unk0C + data_offset), &rect);
 }
 u16 narrow_texture_pack_x = 0;
 u16 narrow_texture_pack_y = 0;

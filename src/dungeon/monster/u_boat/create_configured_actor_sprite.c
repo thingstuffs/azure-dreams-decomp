@@ -44,7 +44,7 @@ void *create_configured_actor_sprite(s16 mode, s16 value_24, s16 value_25, s16 v
     object = allocate_list_node(0x112, &scene_object_list_anchor.next);
     mode_copy = mode;
     if (object != 0) {
-        work = (ActorRecord *)(object + 1);
+        work = NODE_BODY(object);
         object->update_callback = update_actor_visual_motion;
         work->species = MONSTER_U_BOAT;
         register_node(object, project_sprite_chain);

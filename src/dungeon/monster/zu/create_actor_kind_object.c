@@ -46,7 +46,7 @@ void *create_actor_kind_object(s16 flags, s16 field24_input, s16 field25_input, 
     field25_value = field25_input;
     obj = allocate_list_node(0x112, &scene_object_list_anchor.next);
     if (obj != 0) {
-        work = (ActorRecord *)(obj + 1);
+        work = NODE_BODY(obj);
         obj->update_callback = D_8014CA70;
         work->species = MONSTER_ZU;
         register_node(obj, project_sprite_chain);
@@ -84,7 +84,7 @@ void *create_actor_kind_object(s16 flags, s16 field24_input, s16 field25_input, 
                 }
             }
         }
-        initialize_actor_sprite_and_animation(((void *)(obj)), part_a, part_b, flags);
+        initialize_actor_sprite_and_animation(((obj)), part_a, part_b, flags);
         actor->action_id.u = 0xFF;
         actor->unk_9C = -1;
         actor->unk_8C.address = &D_8014D138;

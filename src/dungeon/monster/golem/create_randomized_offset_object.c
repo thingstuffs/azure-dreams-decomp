@@ -38,7 +38,7 @@ void *create_randomized_offset_object(ActorRecord *allocation_param, Copy24 *ini
     if (object != NULL) {
         object->update_callback = &D_80175018;
         register_node(object, project_sprite_chain);
-        work = (u8 *)object + 0x20;
+        work = NODE_BODY(object);
 
         random_value = rand();
         work->unk_06.s = (s16)(random_value % 0x1000);

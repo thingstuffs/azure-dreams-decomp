@@ -72,7 +72,7 @@ void advance_selected_motion_and_recover(ActorRecord *motion_state, ObjectPositi
                 motion = (u8 *)actor + 8;
                 break;
             default:
-                motion = (u8 *)0;
+                motion = 0;
                 break;
             }
         } else {
@@ -87,7 +87,7 @@ void advance_selected_motion_and_recover(ActorRecord *motion_state, ObjectPositi
                 motion = (u8 *)actor + 8;
                 break;
             default:
-                motion = (u8 *)0;
+                motion = 0;
                 break;
             }
         }

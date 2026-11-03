@@ -46,7 +46,7 @@ void *create_configured_overlay_actor_third(s16 flags, s16 kind_id, s16 variant,
     saved_variant = variant;
     obj = allocate_list_node(0x112, &scene_object_list_anchor.next);
     if (obj != 0) {
-        work = (ActorRecord *)(obj + 1);
+        work = NODE_BODY(obj);
         obj->update_callback = D_80164A70;
         work->species = MONSTER_ZU;
         register_node(obj, project_sprite_chain);

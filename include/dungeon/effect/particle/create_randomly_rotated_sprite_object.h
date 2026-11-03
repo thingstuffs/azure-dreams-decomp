@@ -16,19 +16,19 @@ struct B22_81893474_EffectState;
 #include "m2c_compat.h"
 #include "modules/dungeon_native_abi.h"
 typedef struct B22_81893474_EffectState {
-    ActorRecord *owner;
-    void *image;
+    union { ActorRecord *actor; void *address; } owner; /* +0x00: borrowed owner, also passed through generic effect callbacks */
+    union { void *address; u16 *flags; } image; /* +0x04: image address and its leading flag halfword */
     u8 unk8;
     u8 id;
-    s16 state;
-    s16 unkC;
-    s16 direction;
-    s16 timer;
-    s16 duration;
-    s16 field_14;
-    s16 x;
-    s16 y;
-    s16 z;
+    union { s16 s; u16 u; } state;
+    union { s16 s; u16 u; } unkC;
+    union { s16 s; u16 u; } direction;
+    union { s16 s; u16 u; } timer;
+    union { s16 s; u16 u; } duration;
+    union { s16 s; u16 u; } field_14;
+    union { s16 s; u16 u; } x;
+    union { s16 s; u16 u; } y;
+    union { s16 s; u16 u; } z;
     u8 status;
     u8 pad1D[0x7B];
 } B22_81893474_EffectState;

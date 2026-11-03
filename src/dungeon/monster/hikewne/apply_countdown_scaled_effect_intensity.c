@@ -72,7 +72,7 @@ void create_directional_template_effect(void *unused, MovingPosition *source_pos
     effect = allocate_list_node(0x112, &scene_object_list_anchor.next);
     template_data = sprite_template;
     if (effect != NULL) {
-        effect_state = ((void *)effect) + 0x20;
+        effect_state = NODE_BODY(effect);
         effect_state->unk_96 = 7;
         effect_state->unk_AA = 7;
         effect->update_callback = advance_and_fade_transformed_effect;

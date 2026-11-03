@@ -38,7 +38,7 @@ void *spawn_configured_action_object(s16 flags, s16 kind_id, s16 variant, s32 sp
     result = 0;
     object = allocate_list_node(0x112, &scene_object_list_anchor.next);
     if (object != 0) {
-        result = (u8 *)object;
+        result = object;
         result += 0x20;
         object->update_callback = D_801712A8;
         ((ActorRecord *)result)->species = MONSTER_BARONG;

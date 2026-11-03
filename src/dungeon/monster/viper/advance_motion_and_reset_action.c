@@ -74,7 +74,7 @@ void advance_motion_and_reset_action(ActorRecord *state, ObjectPosition *transfo
                 motion = (u8 *)actor + 8;
                 break;
             default:
-                motion = (u8 *)0;
+                motion = 0;
                 break;
             }
         } else {
@@ -89,7 +89,7 @@ void advance_motion_and_reset_action(ActorRecord *state, ObjectPosition *transfo
                 motion = (u8 *)actor + 8;
                 break;
             default:
-                motion = (u8 *)0;
+                motion = 0;
                 break;
             }
         }

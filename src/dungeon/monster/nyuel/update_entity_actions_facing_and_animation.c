@@ -210,7 +210,7 @@ block_59:
     if (sprite->frameTable == (void *)nyuel_frame_set_2) {
         return;
     }
-    (sprite->frameTable) = (void *)nyuel_frame_set_2;
+    (sprite->frameTable) = nyuel_frame_set_2;
     select_sprite_entry(sprite, nyuel_frame_set_2[((s32)(g_game_work.view.camera_rotation.parts.viewAngle + state->facing + 0x100)
         >> 9) & 7], 0);
     return;

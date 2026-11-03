@@ -18,7 +18,7 @@ void leave_map_screen_and_release_objects(void)
     void *object;
     u8 *ptr;
 
-    ptr = (u8 *)(ghosh_actor_node + 1);
+    ptr = NODE_BODY(ghosh_actor_node);
     *(u16 *)(ptr + 0x46) &= 0x7FFF;
     dungeon_floor_flags &= 0xF7FFFFFF;
     system_update_flags &= 0xFFF6;

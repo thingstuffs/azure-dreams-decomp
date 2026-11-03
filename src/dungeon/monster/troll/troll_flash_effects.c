@@ -214,7 +214,7 @@ void create_targeted_motion_effect(ActorRecord *body, ObjectPosition *position, 
 
     init_effect = effect;
     init_data = ((u8 *)update_rotating_actor_aura);
-    effect_state = (T_8017121C_S_8017121C_0 *)((u8 *)effect + 0x20);
+    effect_state = NODE_BODY(effect);
     effect_state->unk_18 = 2;
     effect_state->unk_1A = 2;
     effect->update_callback = update_stepped_rgb_flash;
@@ -355,7 +355,7 @@ void create_actor_action_effect(ActorRecord *source_object, ObjectPosition *sour
     if (effect == 0) {
         return;
     }
-    effect_state = (ActorActionEffectBody *)((u8 *)effect + 0x20);
+    effect_state = NODE_BODY(effect);
     effect_state->remaining_count.s = 0xa;
     effect_state->divisor = 0xa;
     effect->update_callback = (void *)&update_normalized_gray_fade;
@@ -444,10 +444,10 @@ void spawn_random_color_burst_particle(void *source, ObjectPosition *position) {
         ((SpriteFrameState *)data_or_speed)->flags =
             (u16) (((SpriteFrameState *)data_or_speed)->flags | 0xC);
         effect_pos = ((T_80171790_S_80171790_1 *)((void *) obj_or_angle))->unk_08;
-        effect_pos->x.w.i = *(u16 *)&source_pos->x.w.i;
-        effect_pos->y.w.i = *(u16 *)&source_pos->y.w.i;
+        effect_pos->x.w.i = ((u16)(source_pos->x.w.i));
+        effect_pos->y.w.i = ((u16)(source_pos->y.w.i));
         effect_pos->z.w.i =
-            (s16) (*(u16 *)&source_pos->z.w.i - 0x50);
+            (s16) (((u16)(source_pos->z.w.i)) - 0x50);
         data_or_speed = (s32) ((T_80171790_S_80171790_1 *)((void *) obj_or_angle))->unk_0C;
         ((SpriteFrameState *)data_or_speed)->scale_y = 0x1000;
         ((SpriteFrameState *)data_or_speed)->scale_x = 0x1000;
@@ -653,7 +653,7 @@ void *create_actor_entity(s16 spawn_flags, s32 sprite_x, s32 sprite_y, s32 initi
     object = allocate_list_node(call_object, (void *)call_position);
     init_flags = spawn_flags;
     if (object != 0) {
-        result = (ActorRecord *)((u8 *)object + 0x20);
+        result = NODE_BODY(object);
         object->update_callback = D_801720B4;
         result->species = 0x16;
         register_node(object, project_sprite_chain);
@@ -666,7 +666,7 @@ void *create_actor_entity(s16 spawn_flags, s32 sprite_x, s32 sprite_y, s32 initi
         sprite = object->sprite;
         
         sprite->tile_x = saved_x;
-        sprite->frameTable = (void *)default_frames;
+        sprite->frameTable = default_frames;
         record_kind = 0x20;
         sprite->tile_y = saved_y;
         record_addr = (u8 *)result;
@@ -744,7 +744,7 @@ void *create_actor_entity(s16 spawn_flags, s32 sprite_x, s32 sprite_y, s32 initi
         ((T_80171D64_S_80171D64_4 *)((void *)record_addr))->unk_9A = 0xFF;
         ((T_80171D64_S_80171D64_4 *)((void *)record_addr))->unk_9C = -1;
         ((T_80171D64_S_80171D64_4 *)((void *)record_addr))->unk_8C = update_actor_behavior;
-        try_move_actor_to_valid_position((void *)record_addr, position, sprite, result);
+        try_move_actor_to_valid_position(record_addr, position, sprite, result);
 
         kind = result->unk_48;
         switch (kind) {

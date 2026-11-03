@@ -27,7 +27,7 @@ void dispatch_actor_action_2(ActorRecord *actor, ObjectPosition *position, Sprit
             state->hp -= 1;
         }
         if (state->hp == 0) {
-            g_dungeon_status.pending_display_owner = ((ObjectNodeHeader *)state - 1);
+            g_dungeon_status.pending_display_owner = NODE_HEADER(state);
             begin_actor_display_action(actor, position, sprite, 0);
             return;
         }

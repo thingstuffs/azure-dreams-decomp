@@ -113,11 +113,11 @@ void advance_encounter_actor_effect_phase(ActorRecord *effect, ObjectPosition *p
         rounded_step = scaled_step;
         count = 0;
         shrink_step = rounded_step >> 0xC;
-        shrink_source = ((void *)effect) - 0x20;
+        shrink_source = NODE_HEADER(effect);
         do {
             create_random_velocity_child_effect(shrink_source, 0xFFFFFF, 0xE, 0, 0, shrink_step);
             count += 1;
-            shrink_source = ((void *)effect) - 0x20;
+            shrink_source = NODE_HEADER(effect);
         } while (count < 6);
         if ((s16)effect->action_timer.u == 1)
             play_sound_if_enabled(0xB1);
@@ -140,11 +140,11 @@ void advance_encounter_actor_effect_phase(ActorRecord *effect, ObjectPosition *p
             scaled_step += 0xFFF;
         count = 0;
         burst_step = scaled_step >> 0xC;
-        burst_source = ((void *)effect) - 0x20;
+        burst_source = NODE_HEADER(effect);
         do {
             create_random_velocity_child_effect(burst_source, 0xFFFFFF, 0xE, 0, 0, burst_step);
             count += 1;
-            burst_source = ((void *)effect) - 0x20;
+            burst_source = NODE_HEADER(effect);
         } while (count < 6);
         burst_ticks = effect->action_timer.u + 1;
         effect->action_timer.u = burst_ticks;

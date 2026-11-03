@@ -32,7 +32,7 @@ void *spawn_mode_configured_monster_slot_f(s16 flags, s16 tile_x, s16 tile_y, s1
     saved_tile_y = tile_y;
     obj = allocate_list_node(0x112, &scene_object_list_anchor.next);
     if (obj != 0) {
-        work = (ActorRecord *)(obj + 1);
+        work = NODE_BODY(obj);
         obj->update_callback = func_8016AA68;
         work->species = MONSTER_VIPER;
         register_node(obj, project_sprite_chain);

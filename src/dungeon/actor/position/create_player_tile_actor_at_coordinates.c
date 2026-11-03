@@ -54,7 +54,7 @@ void *create_player_tile_actor_at_coordinates(u16 tile_x, u16 tile_z, u16 height
     state = 0;
     entity = allocate_list_node(0x112, &scene_object_list_anchor.next);
     if (entity != 0) {
-        state = (u8 *)entity + 0x20;
+        state = NODE_BODY(entity);
         entity->update_callback = update_actor_facing_and_lifecycle;
         FLD(state, s8, 0x13) = 0x2f;
         state_tail = entity->position;

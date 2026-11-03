@@ -56,7 +56,7 @@ void *create_source_linked_fading_effect(ObjectNodeHeader *source, s16 copy_posi
         }
 
         display->depth_bias = -1;
-        state = ((void *)object) + 0x20;
+        state = NODE_BODY(object);
         state->unk_A8 = source;
         state->unk_B4 = copy_position;
         state->unk_96 = 8;

@@ -33,7 +33,7 @@ void move_boss_effect_to_offset(s32 offset_index) {
     offsets = *offset_table;
     offset_pair = (s16 *)offsets.data;
     old_cell_mask = 0x3000;
-    entity_state = (void *)(ghosh_boss_node + 1);
+    entity_state = NODE_BODY(ghosh_boss_node);
     entity = ghosh_boss_node->sprite;
     position = ghosh_boss_node->position;
     entity->flags = (u16) (entity->flags & 0xFF7F);

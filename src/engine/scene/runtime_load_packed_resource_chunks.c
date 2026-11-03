@@ -55,7 +55,7 @@ void runtime_load_packed_resource_chunks(s16 entry_id, u8 *stream)
 
     if (remaining > 0) {
         do {
-            Control_CD(6, (s32 *)&pair, 0);
+            Control_CD(6, &pair, 0);
             data_offset += 0x10;
             drain_cd_command_queue();
             stream = decompress_lz(gpu_scratch_write_pointer, stream);

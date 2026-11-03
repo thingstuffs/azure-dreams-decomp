@@ -32,7 +32,7 @@ void begin_actor_directional_target_action(ActorRecord *action_state, ObjectPosi
 
     actor->movement_queue_state = (u8)(actor->movement_queue_state & 0x7F);
     if (!(g_dungeon_status.flags & 0x2000) && ((try_claim_dungeon_action_slot(actor) << 0x10) == 0)) {
-        apply_camera_offset_and_select_target((u8 *)actor - 0x20, action_context, 8, 0x300);
+        apply_camera_offset_and_select_target(NODE_HEADER(actor), action_context, 8, 0x300);
         if ((try_claim_dungeon_action_slot(actor) << 0x10) == 0) {
             action_state->action_id.s = 0x17;
             action_state->unk_8C.word = 0;

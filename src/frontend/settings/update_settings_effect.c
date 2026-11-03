@@ -151,7 +151,7 @@ void update_settings_effect(SettingsVisualEffectBody *effect) {
             axis_offset = x_product >> 0xC;
             element->position->x.w.i =
                 (s16) ((axis_offset - (x_product >> 0xD)) + 0xA0);
-            element_state = (void *)((s8 *)element + 0x20);
+            element_state = NODE_BODY(element);
             y_product = rsin(effect->angle.s) * effect_tables.radii[color_step_or_index];
             axis_offset = y_product >> 0xC;
             element->position->y.w.i =

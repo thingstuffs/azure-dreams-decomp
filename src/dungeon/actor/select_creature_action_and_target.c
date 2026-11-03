@@ -156,7 +156,7 @@ s32 select_creature_action_and_target(ObjectPosition *unused, u8 *position, Acto
                     }
                     return 0;
                 }
-                (*(u16 *)&creature->facing) = get_rounded_facing_and_rounding_flag(
+                (creature->facing) = get_rounded_facing_and_rounding_flag(
                     ((TileObject *)position)->tile_position.parts.tile_x, ((TileObject *)position)->tile_position.parts.tile_y,
                     tile_x, tile_y, &slot_or_distance);
                 creature->action_flags = 0x800B;
@@ -197,7 +197,7 @@ s32 select_creature_action_and_target(ObjectPosition *unused, u8 *position, Acto
                                 s32 result;
                                 register ActorRecord *player_target;
                                 creature->action_flags = (*(u16 *)&slot_or_distance + 1) | 0x8000;
-                                (*(u16 *)&creature->facing) = get_rounded_facing_and_rounding_flag(
+                                (creature->facing) = get_rounded_facing_and_rounding_flag(
                                     ((TileObject *)position)->tile_position.parts.tile_x, ((TileObject *)position)->tile_position.parts.tile_y,
                                     idle_player_pos->tile_position.parts.tile_x, idle_player_pos->tile_position.parts.tile_y, &slot_or_distance);
                                 player_target = primary_actor_record;
@@ -231,7 +231,7 @@ s32 select_creature_action_and_target(ObjectPosition *unused, u8 *position, Acto
                                             creature->action_flags = slot_action;
                                         }
                                         if (creature != *(u8 **)(ally_slot_base + 0xAC)) {
-                                            (*(u16 *)&creature->facing) = get_rounded_facing_and_rounding_flag(
+                                            (creature->facing) = get_rounded_facing_and_rounding_flag(
                                                 ((TileObject *)position)->tile_position.parts.tile_x, ((TileObject *)position)->tile_position.parts.tile_y,
                                                 target_pos[0x24], target_pos[0x25], &slot_or_distance);
                                         }
@@ -257,7 +257,7 @@ s32 select_creature_action_and_target(ObjectPosition *unused, u8 *position, Acto
                 s32 result;
                 action_code = choose_usable_ability_or_attack(creature, move_target, &direction, 0);
                 action_or_flags = action_code;
-                (*(u16 *)&creature->facing) = *&direction;
+                (creature->facing) = *&direction;
                 case_code0 = action_code;
                 if ((case_code0 << 16) < 0) {
                     creature->action_flags = 0x800B;
@@ -289,7 +289,7 @@ s32 select_creature_action_and_target(ObjectPosition *unused, u8 *position, Acto
                                     ((TileObject *)position)->tile_position.parts.tile_x, ((TileObject *)position)->tile_position.parts.tile_y,
                                     follow_player_pos->tile_position.parts.tile_x, follow_player_pos->tile_position.parts.tile_y, &slot_or_distance);
                                 player_target = primary_actor_record;
-                                (*(u16 *)&creature->facing) = target_direction;
+                                (creature->facing) = target_direction;
                                 creature->target = player_target;
                                 return 4;
                             }
@@ -317,7 +317,7 @@ s32 select_creature_action_and_target(ObjectPosition *unused, u8 *position, Acto
                                             creature->action_flags = slot_action;
                                         }
                                         if (creature != *(u8 **)(ally_slot_base + 0xAC)) {
-                                            (*(u16 *)&creature->facing) = get_rounded_facing_and_rounding_flag(
+                                            (creature->facing) = get_rounded_facing_and_rounding_flag(
                                                 ((TileObject *)position)->tile_position.parts.tile_x, ((TileObject *)position)->tile_position.parts.tile_y,
                                                 target_pos[0x24], target_pos[0x25], &slot_or_distance);
                                         }
@@ -343,7 +343,7 @@ s32 select_creature_action_and_target(ObjectPosition *unused, u8 *position, Acto
                 s32 result;
                 action_code = choose_usable_ability_or_attack(creature, move_target, &direction, 0);
                 action_or_flags = action_code;
-                (*(u16 *)&creature->facing) = *&direction;
+                (creature->facing) = *&direction;
                 case_code1 = action_code;
                 if ((s16)case_code1 < 4) {
                     creature->action_flags = 0x800B;
@@ -376,7 +376,7 @@ s32 select_creature_action_and_target(ObjectPosition *unused, u8 *position, Acto
                                         ((TileObject *)position)->tile_position.parts.tile_x, ((TileObject *)position)->tile_position.parts.tile_y,
                                         assist_player_pos->tile_position.parts.tile_x, assist_player_pos->tile_position.parts.tile_y, &slot_or_distance);
                                     player_target = primary_actor_record;
-                                    (*(u16 *)&creature->facing) = target_direction;
+                                    (creature->facing) = target_direction;
                                     creature->target = player_target;
                                     return 4;
                                 }
@@ -407,7 +407,7 @@ s32 select_creature_action_and_target(ObjectPosition *unused, u8 *position, Acto
                                         creature->action_flags = slot_action;
                                     }
                                     if (creature != *(u8 **)(ally_slot_base + 0xAC)) {
-                                        (*(u16 *)&creature->facing) = get_rounded_facing_and_rounding_flag(
+                                        (creature->facing) = get_rounded_facing_and_rounding_flag(
                                             ((TileObject *)position)->tile_position.parts.tile_x, ((TileObject *)position)->tile_position.parts.tile_y,
                                             target_pos[0x24], target_pos[0x25], &slot_or_distance);
                                     }
@@ -435,7 +435,7 @@ s32 select_creature_action_and_target(ObjectPosition *unused, u8 *position, Acto
                                         if ((checked_action << 16) >= 0) {
                                             action_code = checked_action | 0x8000;
                                             creature->action_flags = action_code;
-                                            (*(u16 *)&creature->facing) = get_rounded_facing_and_rounding_flag(
+                                            (creature->facing) = get_rounded_facing_and_rounding_flag(
                                                 ((TileObject *)position)->tile_position.parts.tile_x, ((TileObject *)position)->tile_position.parts.tile_y,
                                                 reference_tile_object.tile_position.parts.tile_x, reference_tile_object.tile_position.parts.tile_y, &action_or_flags);
                                             return 3;
@@ -470,7 +470,7 @@ s32 select_creature_action_and_target(ObjectPosition *unused, u8 *position, Acto
                     }
                     move_direction = direction;
                     creature->action_flags = action_code | 0x8000;
-                    (*(u16 *)&creature->facing) = move_direction;
+                    (creature->facing) = move_direction;
                     return 1;
                 }
             }
@@ -542,11 +542,11 @@ s32 select_creature_action_and_target(ObjectPosition *unused, u8 *position, Acto
     if (check_row_column_or_diagonal_alignment(position, near_player_pos) == 0) {
         break;
     }
-    if (check_tile_path_clear(creature, ((u8 *)dungeon_actor_ring_anchor)) == 0) {
+    if (check_tile_path_clear(creature, (dungeon_actor_ring_anchor)) == 0) {
         break;
     }
     creature->action_flags = 0x8008;
-    (*(u16 *)&creature->facing) = get_rounded_facing_and_rounding_flag(
+    (creature->facing) = get_rounded_facing_and_rounding_flag(
         ((TileObject *)position)->tile_position.parts.tile_x, ((TileObject *)position)->tile_position.parts.tile_y,
         near_player_pos->tile_position.parts.tile_x, near_player_pos->tile_position.parts.tile_y, &action_or_flags);
     return 1;
@@ -585,7 +585,7 @@ s32 select_creature_action_and_target(ObjectPosition *unused, u8 *position, Acto
         break;
     }
     creature->action_flags = 0x8009;
-    (*(u16 *)&creature->facing) = get_rounded_facing_and_rounding_flag(
+    (creature->facing) = get_rounded_facing_and_rounding_flag(
         ((TileObject *)position)->tile_position.parts.tile_x, ((TileObject *)position)->tile_position.parts.tile_y,
         ranged_player_pos->tile_position.parts.tile_x, ranged_player_pos->tile_position.parts.tile_y, &action_or_flags);
     return 5;
@@ -605,7 +605,7 @@ s32 select_creature_action_and_target(ObjectPosition *unused, u8 *position, Acto
         }
     }
     creature->action_flags = 0x8009;
-    (*(u16 *)&creature->facing) = get_rounded_facing_and_rounding_flag(
+    (creature->facing) = get_rounded_facing_and_rounding_flag(
         ((TileObject *)position)->tile_position.parts.tile_x, ((TileObject *)position)->tile_position.parts.tile_y,
         reference_tile_object.tile_position.parts.tile_x, reference_tile_object.tile_position.parts.tile_y, &action_or_flags);
     return 5;
@@ -627,7 +627,7 @@ s32 select_creature_action_and_target(ObjectPosition *unused, u8 *position, Acto
         if (ally != NULL) {
             if ((has_low_actor_mp(ally) << 16) != 0) {
                 creature->action_flags = 0x8009;
-                (*(u16 *)&creature->facing) = get_rounded_facing_and_rounding_flag(
+                (creature->facing) = get_rounded_facing_and_rounding_flag(
                     ((TileObject *)position)->tile_position.parts.tile_x, ((TileObject *)position)->tile_position.parts.tile_y,
                     reference_tile_object.tile_position.parts.tile_x, reference_tile_object.tile_position.parts.tile_y, &action_or_flags);
                 return 5;
@@ -655,7 +655,7 @@ s32 select_creature_action_and_target(ObjectPosition *unused, u8 *position, Acto
                         if (check_global_or_linked_flag_20000(target) == 0) {
                             creature->action_flags = 0x8009;
                             *(void **)((u8 *)creature + 0xA8) = target;
-                            (*(u16 *)&creature->facing) = get_rounded_facing_and_rounding_flag(
+                            (creature->facing) = get_rounded_facing_and_rounding_flag(
                                 ((TileObject *)position)->tile_position.parts.tile_x, ((TileObject *)position)->tile_position.parts.tile_y,
                                 target_pos[0x24], target_pos[0x25], &action_or_flags);
                             return 5;
@@ -802,7 +802,7 @@ s32 select_creature_action_and_target(ObjectPosition *unused, u8 *position, Acto
     } else {
         flee_player_pos = &reference_tile_object;
         if ((s16)get_tile_chebyshev_distance(position, flee_player_pos) == 1) {
-            (*(u16 *)&creature->facing) = get_rounded_facing_and_rounding_flag(
+            (creature->facing) = get_rounded_facing_and_rounding_flag(
                 ((TileObject *)position)->tile_position.parts.tile_x, ((TileObject *)position)->tile_position.parts.tile_y,
                 flee_player_pos->tile_position.parts.tile_x, flee_player_pos->tile_position.parts.tile_y, (u8 *)creature + 0x98) + 0x800;
         }
@@ -827,7 +827,7 @@ s32 select_creature_action_and_target(ObjectPosition *unused, u8 *position, Acto
         s32 target_y = *(u16 *)&tile_y;
         s32 ability_flags = creature->action_state_flags;
         s32 x_delta, y_distance, y_delta;
-        (*(u16 *)&creature->facing) = action_result;
+        (creature->facing) = action_result;
         ability_flags |= 0x8000;
         creature->unk_A8.u = target_x;
         target_x <<= 16;
@@ -886,7 +886,7 @@ s32 select_creature_action_and_target(ObjectPosition *unused, u8 *position, Acto
         creature->action_flags = 0x800B;
         return 2;
     }
-    (*(u16 *)&creature->facing) = get_rounded_facing_and_rounding_flag(
+    (creature->facing) = get_rounded_facing_and_rounding_flag(
         ((TileObject *)position)->tile_position.parts.tile_x, ((TileObject *)position)->tile_position.parts.tile_y,
         reference_tile_object.tile_position.parts.tile_x, reference_tile_object.tile_position.parts.tile_y, (u8 *)creature + 0x98);
     goto return_wait;
@@ -955,7 +955,7 @@ s32 select_creature_action_and_target(ObjectPosition *unused, u8 *position, Acto
             facing = direction;
             action_word = 0x8009;
             creature->action_flags = action_word;
-            (*(u16 *)&creature->facing) = facing << 9;
+            (creature->facing) = facing << 9;
             return result;
         }
     }
@@ -979,7 +979,7 @@ s32 select_creature_action_and_target(ObjectPosition *unused, u8 *position, Acto
                         target_pos = *(void **)(target - 0x14);
                         if ((s16)get_tile_chebyshev_distance(target_pos, position) == 1) {
                             creature->action_flags = 0x8009;
-                            (*(u16 *)&creature->facing) = get_rounded_facing_and_rounding_flag( ((TileObject *)position)->tile_position.parts.tile_x, ((TileObject *)position)->tile_position.parts.tile_y, target_pos[0x24], target_pos[0x25], &action_or_flags);
+                            (creature->facing) = get_rounded_facing_and_rounding_flag( ((TileObject *)position)->tile_position.parts.tile_x, ((TileObject *)position)->tile_position.parts.tile_y, target_pos[0x24], target_pos[0x25], &action_or_flags);
                             return 5;
                         }
                     }
@@ -1001,7 +1001,7 @@ s32 select_creature_action_and_target(ObjectPosition *unused, u8 *position, Acto
     }
     creature->action_flags = 0x8009;
     target_pos = *(void **)(target - 0x14);
-    (*(u16 *)&creature->facing) = get_rounded_facing_and_rounding_flag(
+    (creature->facing) = get_rounded_facing_and_rounding_flag(
         ((TileObject *)position)->tile_position.parts.tile_x, ((TileObject *)position)->tile_position.parts.tile_y,
         target_pos[0x24], target_pos[0x25], &action_or_flags);
     return 5;
@@ -1057,7 +1057,7 @@ s32 select_creature_action_and_target(ObjectPosition *unused, u8 *position, Acto
         facing = direction;
         action_word = 0x8009;
         creature->action_flags = action_word;
-        (*(u16 *)&creature->facing) = facing << 9;
+        (creature->facing) = facing << 9;
         return result;
     }
 
@@ -1096,7 +1096,7 @@ s32 select_creature_action_and_target(ObjectPosition *unused, u8 *position, Acto
             if (target != NULL) {
                 if (target == ((u8 *)dungeon_actor_ring_anchor)) {
                     creature->action_flags = 0x8009;
-                    (*(u16 *)&creature->facing) = get_rounded_facing_and_rounding_flag(
+                    (creature->facing) = get_rounded_facing_and_rounding_flag(
                         ((TileObject *)position)->tile_position.parts.tile_x, ((TileObject *)position)->tile_position.parts.tile_y,
                         reference_tile_object.tile_position.parts.tile_x, reference_tile_object.tile_position.parts.tile_y, &action_or_flags);
                     return 5;
@@ -1112,7 +1112,7 @@ s32 select_creature_action_and_target(ObjectPosition *unused, u8 *position, Acto
     if (move_target != NULL) {
         action_result = choose_usable_ability_or_attack(creature, move_target, &direction, 1);
         action_or_flags = action_result;
-        (*(u16 *)&creature->facing) = *&direction;
+        (creature->facing) = *&direction;
         if ((action_result << 16) < 0) {
             creature->action_flags = 0x800B;
             return 2;
@@ -1142,7 +1142,7 @@ check_forward_target:
             }
         }
         {
-            u16 facing = ((*(u16 *)&creature->facing) >> 9) & 7;
+            u16 facing = ((((u16)(creature->facing))) >> 9) & 7;
             direction = facing;
             tile_x = ((TileObject *)position)->tile_position.parts.tile_x + *(u16 *)((facing * 2) + (u8 *)dir_step_x);
             tile_y = ((TileObject *)position)->tile_position.parts.tile_y + *(u16 *)((facing * 2) + (u8 *)dir_step_y);

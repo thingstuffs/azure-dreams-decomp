@@ -45,7 +45,7 @@ void create_cursor_object(void *task_buffer, Rec_D_80081FDC *record, s32 *source
     task = initialize_runtime_node_storage(0x11, task_buffer, 0x49, &window_node_list_storage);
     task->update_callback = update_cursor_callback;
     register_node(task, &draw_linked_sprite_nodes);
-    state = (WindowCursorBody *)(task + 1);
+    state = NODE_BODY(task);
     render_data = (void *)task->sprite;
     state->script = source;
     state->enabled.s = 1;

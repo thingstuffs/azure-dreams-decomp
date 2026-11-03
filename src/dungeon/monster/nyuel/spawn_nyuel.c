@@ -51,7 +51,7 @@ void *spawn_mode_configured_monster(s32 spawn_flags, s8 tile_x, s16 tile_y, s16 
         register SpriteFrameState *part_b;
         ActorRecord *actor;
 
-        work = (u8 *)obj;
+        work = obj;
         work += 0x20;
         ((ActorRecord *)work)->species = MONSTER_NYUEL;
         register_node(obj, project_sprite_chain);

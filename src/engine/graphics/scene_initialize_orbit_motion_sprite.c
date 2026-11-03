@@ -40,7 +40,7 @@ void scene_initialize_orbit_motion_sprite(SineMotionEffectNode *object, struct C
 
     render_state = object->header.sprite;
     render_state->color.word = 0x808080;
-    select_record_entry_and_value(render_state, (SpriteSourceEntry *)orbit_motion_sprite_source, 0);
+    select_record_entry_and_value(render_state, orbit_motion_sprite_source, 0);
 
     render_state->scale_y = 0x1000;
     render_state->scale_x = 0x1000;

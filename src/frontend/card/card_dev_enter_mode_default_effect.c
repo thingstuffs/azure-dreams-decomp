@@ -11,5 +11,5 @@ extern Effect *allocate_or_reuse_effect_and_install_callback(void *, void *);
 void card_dev_enter_mode_default_effect(void *owner) {
     card_dev_effect_mode = 1;
     card_dev_init();
-    allocate_or_reuse_effect_and_install_callback(owner, (void *)0);
+    allocate_or_reuse_effect_and_install_callback(owner, 0);
 }

@@ -19,7 +19,7 @@ void *create_visual_object(s32 init_value, s32 stored_value)
     void *data;
 
     object = D_8002B850;
-    data = (u8 *)object + 0x20;
+    data = NODE_BODY(object);
     if (find_active_list_node(object) == 0) {
         object = initialize_scene_object_in_buffer(0, object, 0x45);
         register_node(object, menu_backdrop_tag);

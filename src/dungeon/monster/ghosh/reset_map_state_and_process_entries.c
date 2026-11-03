@@ -69,7 +69,7 @@ void reset_map_state_and_process_entries(void) {
     sys_work->handler = (void *)D_801748C8[(lookup_key >> 9) & 7];
     map_object = active_object->sprite;
     spell_effect_selector_cache = -1;
-    map_data = (void *)(active_object + 1);
+    map_data = NODE_BODY(active_object);
     coord_result = get_rounded_facing_and_rounding_flag(map_object->tile_x, map_object->tile_y,
                            reference_tile_object.tile_position.parts.tile_x, reference_tile_object.tile_position.parts.tile_y, &coord_aux);
     map_data->field_2A = coord_result;

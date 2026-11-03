@@ -40,7 +40,7 @@ void create_boss_randomized_effect(S_80172F44_4 *position, s32 x_offset, s32 y_o
 
     object = allocate_flagged_object_node(0x212);
     if (object != 0) {
-        state = (S_80172F44_0 *)((u8 *)object + 0x20);
+        state = NODE_BODY(object);
         state->unk_16 = 0x1A;
         object->update_callback = update_accelerating_growing_particle;
         register_node(object, project_sprite_chain);
@@ -54,7 +54,7 @@ void create_boss_randomized_effect(S_80172F44_4 *position, s32 x_offset, s32 y_o
         transform->x.v = position->unk_00;
         transform->y.v = position->unk_04;
 
-        x_integer = *(u16 *)&transform->x.w.i;
+        x_integer = ((u16)(transform->x.w.i));
         z_fixed = position->unk_08;
         transform->x.w.i = x_integer + x_offset;
         transform->z.v = z_fixed;

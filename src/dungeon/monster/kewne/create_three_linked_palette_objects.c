@@ -80,7 +80,7 @@ void create_three_linked_palette_objects(S_80174910_2 *source, s32 effect_param)
         allocation_head_address = source;
         allocation_head = allocation_head_address;
         object = allocate_list_node(0x12,allocation_head);
-        object_data = ((void *)object) + 0x20;
+        object_data = NODE_BODY(object);
         if (object != NULL) {
             object->update_callback = object_callback;
             object_data->unk_18 = source->unk_0C;

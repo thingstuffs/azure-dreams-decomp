@@ -51,7 +51,7 @@ void pack_texture_into_vram_wide(S_80047338_hdr *texture, S_80047338_rec *record
     texture->unk9 = *(u8 *)&wide_texture_pack_y;
     wide_texture_pack_y += rect.unk06;
 
-    decode_upload_image_from_wrapping_buffer((void *)((u8 *)record->unkC + data_offset), &rect);
+    decode_upload_image_from_wrapping_buffer(((u8 *)record->unkC + data_offset), &rect);
 }
 u16 wide_texture_pack_x = 0;
 u16 wide_texture_pack_y = 0;

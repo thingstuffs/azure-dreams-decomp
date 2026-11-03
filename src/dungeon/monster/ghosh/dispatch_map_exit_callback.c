@@ -23,7 +23,7 @@ void dispatch_map_exit_callback(s32 unused0, s32 unused1, s32 unused2, s32 unuse
     SpriteFrameState *linked;
 
     allocate_and_initialize_object();
-    base = (void *)(ghosh_actor_node + 1);
+    base = NODE_BODY(ghosh_actor_node);
     linked = ghosh_actor_node->sprite;
     *(u16 *)(base + 0x46) &= 0x7FFF;
     system_update_flags &= 0xFFF6;

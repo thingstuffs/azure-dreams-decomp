@@ -13,6 +13,6 @@ typedef struct S_80033CD8_0_pre {
 /* Call register_node on the block header when the preceding status is zero. */
 void register_node_if_unregistered(void *block_data, void *registration_id) {
     if (((S_80033CD8_0_pre *)block_data)[-1].unk_00 == 0) {
-        register_node((ObjectNodeHeader *)(block_data - 0x20), registration_id);
+        register_node((block_data - 0x20), registration_id);
     }
 }

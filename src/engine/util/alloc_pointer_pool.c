@@ -14,14 +14,14 @@ void *alloc_pointer_pool(void **pool, s32 record_count)
 
     pool = (*pool = create_callback_pair_default(0x104));
     if (pool != 0) {
-        next_record = (void *)&pool[record_count];
+        next_record = &pool[record_count];
         for (record_index = 0; record_index < record_count; record_index++) {
             pool[record_index] = next_record;
-            next_record = (void *)((char *)next_record + 0x10);
+            next_record = ((char *)next_record + 0x10);
         }
         for (record_index = 0; record_index < record_count; record_index++) {
             *(void **)((char *)pool[record_index] + 4) = next_record;
-            next_record = (void *)((char *)next_record + 0x10);
+            next_record = ((char *)next_record + 0x10);
         }
         apply_block_16_template_to_nodes(pool, record_count);
     }

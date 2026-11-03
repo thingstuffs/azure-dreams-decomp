@@ -256,23 +256,23 @@ void update_player_and_actor_turns(ActorRecord *in_actor, void *in_motion, void 
         effect_data[2] = (s16) angle_step;
         g_game_work.view.slot[2].callback = 0;
         queue_view_slot(1);
-        set_camera_targets(0, (s16 *)((u8 *)&dungeon_event_pending_flag - 0xEF), 2);
+        set_camera_targets(0, ((u8 *)&dungeon_event_pending_flag - 0xEF), 2);
     }
     (*(s16 *)((u8 *)linked_actor + 0x9E)) = (s16) (((u16) world_object->unk_B0 >> 9) & 7);
     status_base = &g_dungeon_status.turn_scale;
     status_base->flags = (u16) (status_base->flags & 0xFFCF);
     previous_input = D_800E4948;
-    if ((*(s32 *)&status_base->activity_counts.word == D_800E4948[0]) && (*(s32 *)&status_base->active_actor == ((S_80089AA0_4 *)previous_input)->unk_04)
+    if ((((s32)(status_base->activity_counts.word)) == D_800E4948[0]) && (*(s32 *)&status_base->active_actor == ((S_80089AA0_4 *)previous_input)->unk_04)
         && (*(s32 *)&status_base->pending_display_owner == ((S_80089AA0_4 *)previous_input)->unk_08)
         && (status_base->trap_counts.parts.pending_trap_count == ((S_80089AA0_4 *)previous_input)->unk_0C) && !(system_update_flags & 8)
         && ((action_id = (*((u8 *)linked_actor + 0x9A))) != 0x17) && (action_id != 0x27) && (action_id != 0x29)
         && (dungeon_event_pending_flag == 0) && ((status_base->active_actor != 0) || (status_base->pending_display_owner != 0) || (status_base->trap_counts.parts.pending_trap_count != 0)
-        || (*(s32 *)&status_base->activity_counts.word != 0))) {
+        || (((s32)(status_base->activity_counts.word)) != 0))) {
         player_idle_turn_count += 1;
     } else {
         player_idle_turn_count = 0;
     }
-    input_snapshot = ((u8 *)(&g_dungeon_status.activity_counts.parts.pending_movement_count));
+    input_snapshot = ((&g_dungeon_status.activity_counts.parts.pending_movement_count));
     copy_words_forward(D_800E4948, input_snapshot, 4);
     input_status = (u8 *)input_snapshot - 8;
     if ((input_status->active_actor == 0) && (input_status->pending_display_owner == 0)) {
@@ -580,7 +580,7 @@ void update_player_and_actor_turns(ActorRecord *in_actor, void *in_motion, void 
     early_status = &g_dungeon_status.turn_scale;
     if (early_status->flags & 0x800) {
         if ((has_pending_actor_or_turn_action(0) << 0x10) == 0) {
-            if ((s16) *(s32 *)&early_status->activity_counts.word == 0) {
+            if ((s16) ((s32)(early_status->activity_counts.word)) == 0) {
                 if (early_status->trap_counts.parts.pending_trap_count == 0) {
                     early_status->flags =
                         (u16) ((early_status->flags & 0xF7FF) | 0x2000);
@@ -605,7 +605,7 @@ void update_player_and_actor_turns(ActorRecord *in_actor, void *in_motion, void 
                 root = actor;
                 do {
                     record_or_page = (*(void **)((u8 *)actor + 0x5C));
-                    linked_actor = (u8 *)record_or_page + 0x20;
+                    linked_actor = NODE_BODY(record_or_page);
                     companion_index = 0;
                     if (linked_actor != actor) {
                         do {
@@ -622,7 +622,7 @@ void update_player_and_actor_turns(ActorRecord *in_actor, void *in_motion, void 
                                 }
                             }
                             record_or_page = actor_update_node_cursor;
-                            linked_actor = (u8 *)record_or_page + 0x20;
+                            linked_actor = NODE_BODY(record_or_page);
                         } while (linked_actor != root);
                     }
                 } while (companion_index != 0);
@@ -669,7 +669,7 @@ void update_player_and_actor_turns(ActorRecord *in_actor, void *in_motion, void 
     loop_status->flags = next_flags;
     for (;;) {
         if ((dungeon_floor_flags & 0x100000) && ((has_pending_actor_or_turn_action(0) << 0x10) == 0)) {
-            actor = (void *)dungeon_actor_ring_anchor;
+            actor = dungeon_actor_ring_anchor;
 apply_pending_points:
             pending_high = (*((u8 *)actor + 0x41));
             pending_low = (*((u8 *)actor + 0x42));
@@ -687,9 +687,9 @@ apply_pending_points:
             dungeon_floor_flags &= ~0x100000;
         }
 begin_linked_pass:
-        root = (void *)dungeon_actor_ring_anchor;
+        root = dungeon_actor_ring_anchor;
         record_or_page = ((S_80089AA0_16 *)root)->unk_5C;
-        actor = (u8 *)record_or_page + 0x20;
+        actor = NODE_BODY(record_or_page);
         motion_or_count = 0;
         if (actor != root) {
             do {
@@ -701,10 +701,10 @@ begin_linked_pass:
                     if (loop_status->trap_counts.parts.pending_trap_count != 0) {
                         if (linked_actor == 0) {
                             if ((((S_80089AA0_1 *)record_or_page)->unk_B8 & 0xFFFF0000) == 0x150000) {
-                                loop_status->active_actor = (void *) ((u8 *)record_or_page + 0x20);
+                                loop_status->active_actor =  NODE_BODY(record_or_page);
                             } else {
                                 record_or_page = actor_update_node_cursor;
-                                actor = (u8 *)record_or_page + 0x20;
+                                actor = NODE_BODY(record_or_page);
                                 continue;
                             }
                         }
@@ -726,14 +726,14 @@ begin_linked_pass:
                         }
                         if ((linked_actor == 0) || ((has_pending_actor_or_turn_action(0) << 0x10) != 0)) {
                             record_or_page = actor_update_node_cursor;
-                            actor = (u8 *)record_or_page + 0x20;
+                            actor = NODE_BODY(record_or_page);
                             continue;
                         }
                     }
                     break;
                 } else {
                     record_or_page = actor_update_node_cursor;
-                    actor = (u8 *)record_or_page + 0x20;
+                    actor = NODE_BODY(record_or_page);
                 }
             } while (actor != root);
         }

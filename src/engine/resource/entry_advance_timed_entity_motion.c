@@ -24,7 +24,7 @@ void compose_and_install_camera_transform(void)
     offset_mat_ptr = &offset_mat;
     base_mat.t[1] = 0;
     base_mat.t[0] = 0;
-    RotMatrix((GteShortVector *)&transform->camera_rotation.parts.camera_rotation_x, &offset_mat);
+    RotMatrix(&transform->camera_rotation.parts.camera_rotation_x, &offset_mat);
     SetRotMatrix(offset_mat_ptr);
     SetTransMatrix(&offset_mat);
     neg_offset.vx = -transform->camera_position.parts.camera_position_x;
@@ -32,10 +32,10 @@ void compose_and_install_camera_transform(void)
     neg_offset.vz = -transform->camera_position.parts.camera_position_z;
     RotTrans(&neg_offset, &rotated_pos, &gte_flags);
     TransMatrix(&offset_mat, &rotated_pos);
-    RotMatrix((GteShortVector *)&transform->view_rotation_offset.parts.view_rotation_offset_x, &base_mat);
+    RotMatrix(&transform->view_rotation_offset.parts.view_rotation_offset_x, &base_mat);
     SetRotMatrix(&base_mat);
     SetTransMatrix(&base_mat);
-    RotTrans((GteShortVector *)&transform->view_offset.parts.view_offset_x, &rotated_pos, &gte_flags);
+    RotTrans(&transform->view_offset.parts.view_offset_x, &rotated_pos, &gte_flags);
     TransMatrix(&base_mat, &rotated_pos);
     advance_timed_entity_motion(&base_mat);
     CompMatrix(&base_mat, &offset_mat, &combined_mat);

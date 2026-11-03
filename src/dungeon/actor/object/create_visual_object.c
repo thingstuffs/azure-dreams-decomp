@@ -46,7 +46,7 @@ void *create_visual_object(s16 x, s16 y, s16 z, s32 size) {
         render_data->scale_x = saved_size;
         render_data->tpage_abr = 0x20;
         render_data->flags |= 0xC;
-        effect_data = (u8 *)object + 0x20;
+        effect_data = NODE_BODY(object);
         effect_data->unk_66 = 0x20;
         effect_data->unk_6A = 0x80;
     }

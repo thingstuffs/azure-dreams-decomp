@@ -71,7 +71,7 @@ extern void *optional_resource_descriptor[4];
 /* Selects primary_optional_resource_descriptor and starts loading that optional resource descriptor. */
 void load_primary_optional_resource_descriptor(void)
 {
-    optional_resource_descriptor[0] = (void *)primary_optional_resource_descriptor;
+    optional_resource_descriptor[0] = primary_optional_resource_descriptor;
     resource_load_current_optional_descriptor();
 }
 

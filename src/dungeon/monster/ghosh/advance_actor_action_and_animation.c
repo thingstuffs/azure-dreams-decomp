@@ -136,7 +136,7 @@ void advance_actor_action_and_animation(S_8016D6F0_0 *actor, void *actor_id, Spr
             on_actor_status_updated(entity);
             if ((get_entity_effect_value(entity, STATUS_SLEEP) << 0x10) != 0) {
                 reference_pos = &reference_tile_object;
-                room_id = *(s8 *)&sprite->room_index;
+                room_id = ((s8)(sprite->room_index));
                 if (((room_id == reference_pos->room_index && room_id >= 0) ||
                      get_tile_chebyshev_distance(reference_pos, sprite) < 2) &&
                     (generate_random_value() & 7) == 0) {

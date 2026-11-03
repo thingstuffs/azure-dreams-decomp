@@ -19,10 +19,10 @@ void card_boot_select_copy_source_slot(void *state) {
     if (card_save_slot_metadata[entry_id].words[0] != 0) {
         menu->unk_2C = entry_id;
         update_spark_effect(state, entry_id);
-        ((ObjectNodeHeader *)state - 1)->update_callback = (s32 *)D_80025584;
+        ((ObjectNodeHeader *)state - 1)->update_callback = D_80025584;
     } else {
-        menu->saved_callback = (s32 *)D_8002593C;
+        menu->saved_callback = D_8002593C;
         card_boot_show_no_saved_game_notice((u8 *)state - 0x20, entry_id);
-        ((ObjectNodeHeader *)state - 1)->update_callback = (s32 *)D_80024FAC;
+        ((ObjectNodeHeader *)state - 1)->update_callback = D_80024FAC;
     }
 }

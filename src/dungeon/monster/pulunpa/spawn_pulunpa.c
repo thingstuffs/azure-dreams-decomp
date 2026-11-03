@@ -51,7 +51,7 @@ void *create_actor_grid_object(s16 flags, s16 unused_kind_id, s16 variant, s16 u
     part = allocate_list_node(alloc_id, list_head);
     arg0_copy = flags;
     if (part != 0) {
-        work = (u8 *)part + 0x20;
+        work = NODE_BODY(part);
         ((ActorRecord *)work)->species = MONSTER_PULUNPA;
         register_node(part, project_sprite_chain);
         coord = part->position;

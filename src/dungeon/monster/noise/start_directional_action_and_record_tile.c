@@ -13,7 +13,7 @@ void start_directional_action_and_record_tile(ActorRecord *action_state, ObjectP
 
     actor->movement_queue_state = (u8)(actor->movement_queue_state & 0x7F);
     if (!(g_dungeon_status.flags & 0x2000) && ((try_claim_dungeon_action_slot(actor) << 0x10) == 0)) {
-        apply_camera_offset_and_select_target((u8 *)actor - 0x20, action_context, 8, 0x300);
+        apply_camera_offset_and_select_target(NODE_HEADER(actor), action_context, 8, 0x300);
         if ((try_claim_dungeon_action_slot(actor) << 0x10) == 0) {
             action_state->action_id.s = 0x17;
             action_state->action_timer.s = 0xF;
@@ -61,7 +61,7 @@ void advance_timed_actor_visual_effect(ActorRecord *effect_state, ObjectPosition
     s32 lookup_value;
     s32 phase;
 
-    owner = (u8 *)effect_state - 0x20;
+    owner = NODE_HEADER(effect_state);
     phase = effect_state->action_phase.u;
     switch (phase) {
     case 0:
@@ -120,9 +120,9 @@ void advance_timed_actor_visual_effect(ActorRecord *effect_state, ObjectPosition
             effect_mesh->frameTable = noise_frame_set_2;
             select_sprite_entry(effect_mesh, call_value, 0);
             object_or_height = ((T_801748D0_S_801748D0_4 *)((void *)object_or_height))->unk_08.at00.v;
-            ((T_801748D0_S_801748D0_4 *)((void *)object_or_height))->unk_02 = *(u16 *)&anchor_pos->x.w.i;
-            ((T_801748D0_S_801748D0_4 *)((void *)object_or_height))->unk_06 = *(u16 *)&anchor_pos->y.w.i;
-            anchor_z = *(u16 *)&anchor_pos->z.w.i;
+            ((T_801748D0_S_801748D0_4 *)((void *)object_or_height))->unk_02 = ((u16)(anchor_pos->x.w.i));
+            ((T_801748D0_S_801748D0_4 *)((void *)object_or_height))->unk_06 = ((u16)(anchor_pos->y.w.i));
+            anchor_z = ((u16)(anchor_pos->z.w.i));
             ((T_801748D0_S_801748D0_4 *)((void *)object_or_height))->unk_08.at02.v = anchor_z;
             if (actor->target == 0) {
                 owner_link = ((T_801748D0_S_801748D0_10 *)owner)->unk_0C;
@@ -135,11 +135,11 @@ void advance_timed_actor_visual_effect(ActorRecord *effect_state, ObjectPosition
                 frame.pos[1] = ((T_801748D0_S_801748D0_4 *)((void *)object_or_height))->unk_06;
                 frame.pos[2] = ((T_801748D0_S_801748D0_4 *)((void *)object_or_height))->unk_08.at02.v;
                 first_height = RotTransPers(frame.pos, frame.out0, &frame.out1, &frame.out2);
-                mesh_flags = *(u16 *)&anchor_pos->x.w.i;
+                mesh_flags = ((u16)(anchor_pos->x.w.i));
                 frame.pos[0] = mesh_flags;
-                mesh_flags = *(u16 *)&anchor_pos->y.w.i;
+                mesh_flags = ((u16)(anchor_pos->y.w.i));
                 frame.pos[1] = mesh_flags;
-                mesh_flags = *(u16 *)&anchor_pos->z.w.i;
+                mesh_flags = ((u16)(anchor_pos->z.w.i));
                 frame.pos[2] = mesh_flags;
                 anchor_height = RotTransPers(frame.pos, frame.out0, &frame.out1, &frame.out2);
                 lookup_value = view_direction_depth_biases[((g_game_work.view.camera_rotation.parts.viewAngle + (s16)((T_801748D0_S_801748D0_3 *)effect_body)->unk_94 + 0x100)

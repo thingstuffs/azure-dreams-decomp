@@ -32,7 +32,7 @@ void fade_manager_step_out(void *object, ObjectPosition *unused, SpriteFrameStat
     data->color.c.b = intensity;
     data->color.c.g = intensity;
     data->color.c.r = intensity;
-    if (*(s16 *)&data->scale_x > 0) {
+    if (((s16)(data->scale_x)) > 0) {
         return;
     }
 

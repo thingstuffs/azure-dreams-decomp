@@ -22,7 +22,7 @@ void *create_and_initializes_entity_center_specified_tile(s16 entity_id, s16 til
         if (active_action_object[0] == 0) {
             active_action_object[0] = parent;
         }
-        entity = (ActorRecord *)((u8 *)parent + 0x20);
+        entity = NODE_BODY(parent);
         parent->update_callback = update_actor_scripts_and_motion;
         entity->species = 0x39;
         register_node(parent, project_sprite_chain);

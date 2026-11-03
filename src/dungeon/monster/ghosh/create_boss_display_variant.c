@@ -68,12 +68,12 @@ void create_boss_display_variant(S_80172CC8_1 *origin, s16 x_offset, s16 y_offse
         position = node->position;
         position->x.v = origin->unk_00;
         position->y.v = origin->unk_04;
-        x = *(u16 *)&position->x.w.i;
+        x = ((u16)(position->x.w.i));
         origin_z = origin->unk_08;
         position->x.w.i = (u16)(x + x_offset);
-        y = *(u16 *)&position->y.w.i;
+        y = ((u16)(position->y.w.i));
         position->z.v = origin_z;
-        z = *(u16 *)&position->z.w.i;
+        z = ((u16)(position->z.w.i));
         position->y.w.i = (u16)(y + y_offset);
         position->z.w.i = (u16)(z + z_offset);
         display_sub = node->sprite;

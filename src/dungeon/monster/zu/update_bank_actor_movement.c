@@ -63,7 +63,7 @@ void *spawn_zu_actor(s16 flags, s16 kind_id, s16 variant, s16 spawn_value)
     saved_variant = variant;
     obj = allocate_list_node(0x112, &scene_object_list_anchor.next);
     if (obj != 0) {
-        work = (ActorRecord *)(obj + 1);
+        work = NODE_BODY(obj);
         obj->update_callback = update_bank_actor_movement;
         work->species = MONSTER_ZU;
         register_node(obj, project_sprite_chain);
@@ -761,7 +761,7 @@ void select_bank_actor_movement(ActorRecord *move_data, ObjectPosition *context,
             (blocker->flags1C & ACTOR_PLAYER_SIDE) &&
             (s16)get_actor_height_difference(blocker, actor_data) < 0x81) {
             if (check_diagonal_side_height(
-                    ((s16)*(u16 *)&actor_data->facing >> 9) & 0xFFFF,
+                    ((s16)((u16)(actor_data->facing)) >> 9) & 0xFFFF,
                     position_data->tile_position.parts.tile_x, position_data->tile_position.parts.tile_y,
                     (s16)((u16)actor_data->ground_height - 0x20)) != 0) {
                 actor_data->movement_queue_state &= 0x7F;
@@ -779,7 +779,7 @@ void select_bank_actor_movement(ActorRecord *move_data, ObjectPosition *context,
                     target_position->tile_position.parts.tile_x, target_position->tile_position.parts.tile_y) != 0) {
                 if (get_actor_height_difference(primary_actor_record, actor_data) < 0x81) {
                     if (check_diagonal_side_height(
-                            ((s16)*(u16 *)&actor_data->facing >> 9) & 0xFFFF,
+                            ((s16)((u16)(actor_data->facing)) >> 9) & 0xFFFF,
                             position_data->tile_position.parts.tile_x,
                                 position_data->tile_position.parts.tile_y,
                             (s16)((u16)actor_data->ground_height - 0x20)) != 0) {
@@ -829,7 +829,7 @@ void select_bank_actor_movement(ActorRecord *move_data, ObjectPosition *context,
                 u8 *x_step;
 
                 x_step = (u8 *)((s8 *)dir_step_x);
-                step_offset = (*(u16 *)&actor_data->facing >> 8) & 0xE;
+                step_offset = (((u16)(actor_data->facing)) >> 8) & 0xE;
                 x_step += step_offset;
                 position_data->tile_position.parts.tile_x += *x_step;
                 position_data->tile_position.parts.tile_y += *((u8 *)((s8 *)dir_step_y) + step_offset);
@@ -924,7 +924,7 @@ s32 begin_bank_directional_effect(ActorRecord *action_state, ObjectPosition *mot
         return -1;
     }
 
-    apply_camera_offset_and_select_target((ObjectNodeHeader *)actor - 1, motion_param, 8, 0x300);
+    apply_camera_offset_and_select_target(NODE_HEADER(actor), motion_param, 8, 0x300);
     if ((try_claim_dungeon_action_slot(actor) << 16) == 0) {
         action_state->action_id.u = 0x11;
         action_state->action_phase.u = 0;
@@ -954,7 +954,7 @@ s16 try_claim_dungeon_action_slot(ActorRecord *actor);
 void initialize_bank_actor_action(ActorRecord *action_state, ObjectPosition *motion_param, SpriteFrameState *sprite, ActorRecord *entity) {
     entity->movement_queue_state &= 0x7F;
     if (!(g_dungeon_status.flags & 0x2000) && ((try_claim_dungeon_action_slot(entity) << 0x10) == 0)) {
-        apply_camera_offset_and_select_target((ObjectNodeHeader *)entity - 1, motion_param, 8, 0x300);
+        apply_camera_offset_and_select_target(NODE_HEADER(entity), motion_param, 8, 0x300);
         if ((try_claim_dungeon_action_slot(entity) << 0x10) == 0) {
             action_state->action_id.u = 0x11;
             action_state->unk_8C.handler = 0;
@@ -1318,7 +1318,7 @@ void update_bank_staged_movement(ActorRecord *body, ObjectPosition *motion, Spri
         }
         operand = (s32)((u8 *)&actor_update_node_cursor - 0x3DE8);
         actor_base = ((u8 *)actor - 0x20);
-        ((S_80172494_8 *)((void *)operand))->unk_3DE8 = (void *)actor_base;
+        ((S_80172494_8 *)((void *)operand))->unk_3DE8 = actor_base;
         return;
 
     default:
@@ -1447,7 +1447,7 @@ void update_bank_actor_targeted_action(ActorRecord *owner_input, ObjectPosition 
             }
 
             if (create_actor_spell_effect(object, item_slot, special,
-                              (u16 *)((u8 *)owner_input + 0x98)) == 0) {
+                              ((u8 *)owner_input + 0x98)) == 0) {
                 return;
             }
             actor_input->flags &= 0xF7FF;

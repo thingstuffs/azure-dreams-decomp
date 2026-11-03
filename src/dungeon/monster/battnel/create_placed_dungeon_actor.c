@@ -56,7 +56,7 @@ void *create_placed_dungeon_actor(s16 spawn_flags, s16 tile_x, s16 tile_y, s16 r
     saved_y = tile_y;
     obj = allocate_list_node(0x112, &scene_object_list_anchor.next);
     if (obj != 0) {
-        work = (u8 *)obj;
+        work = obj;
         work += 0x20;
         obj->update_callback = D_8015EA30;
         ((ActorRecord *)work)->species = MONSTER_BATTNEL;

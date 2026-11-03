@@ -25,7 +25,7 @@ void create_boss_effect_node(void)
 
     node = allocate_flagged_object_node(0x212);
     if (node != 0) {
-        node_params = (s16 *)((u8 *)node + 0x20);
+        node_params = NODE_BODY(node);
         node_params[11] = 0x1E;
         node_params[12] = 0x1E;
         node->update_callback = apply_boss_direction_table_state;

@@ -15,6 +15,6 @@ void clear_twenty_runtime_records(void) {
     do {
         runtime_clear_value(record);
         record_index += 1;
-        record = (void *)((u8 *)record + 0x64);
+        record = ((u8 *)record + 0x64);
     } while (record_index < 0x14);
 }

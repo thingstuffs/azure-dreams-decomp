@@ -9,7 +9,7 @@ void card_boot_set_slot_selection_marker(ObjectNodeHeader *object_addr, s32 enab
     void *display_data;
 
     if (object_addr != 0) {
-        object_data = (s8 *) object_addr + 0x20;
+        object_data = NODE_BODY(object_addr);
         display_data = *(void **) (object_data + 0x280);
         *(s32 *) (object_data + 0x224) = 0x808080;
         if (enable_table != 0) {

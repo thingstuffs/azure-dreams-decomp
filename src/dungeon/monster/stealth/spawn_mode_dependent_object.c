@@ -85,7 +85,7 @@ BODY_STORAGE void *spawn_mode_dependent_112_object(s16 flags, s16 kind_id, s16 v
         if (mode != 0) {
             actor->unk_A4.halves.high.s = 0;
         } else {
-            object_base = (u8 *)actor - 0x20;
+            object_base = NODE_HEADER(actor);
             actor->unk_A4.halves.high.s = 1;
             part1->tpage_abr = 0x60;
             part1->flags |= 0xC;

@@ -123,7 +123,7 @@ void spawn_jittered_trail_particle(S_80171F30_1 *parent, s32 state_value, s16 ta
     call_object = object;
     init_data = ghosh_object_callback_2;
     header = object->sprite;
-    tail = (S_80171F30_4 *)((u8 *)object + 0x20);
+    tail = NODE_BODY(object);
     header->depth_bias = 0;
     tail->unk_32 = tail_value;
     tail->unk_34 = tail_value;

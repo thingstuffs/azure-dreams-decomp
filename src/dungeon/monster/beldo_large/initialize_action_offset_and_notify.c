@@ -14,7 +14,7 @@ void initialize_action_offset_and_notify(ActionOffsetObjectBody *action, void *p
 {
     ObjectNodeHeader *object = beldo_script_node;
     u8 *object_position = *(u8 * *)&object->position;
-    u8 *object_data = ((u8 *)object) + 0x20;
+    u8 *object_data = NODE_BODY(object);
 
     if (action->unk_12.s == 0) {
         s16 *direction_offsets = beldo_large_direction_offsets;
@@ -38,7 +38,7 @@ void initialize_action_offset_and_notify(ActionOffsetObjectBody *action, void *p
         message[1] = 15;
         message[2] = 0;
         message[3] = 0;
-        equip_item_and_update_status(((u8 *)dungeon_actor_ring_anchor), message);
+        equip_item_and_update_status((dungeon_actor_ring_anchor), message);
         ((u16 *)action)[-1] |= NODE_REMOVE;
         object_flag_block.flags |= OBJECT_REMOVE_PENDING;
     }

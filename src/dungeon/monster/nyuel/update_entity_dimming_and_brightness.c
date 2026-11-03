@@ -129,7 +129,7 @@ void update_entity_dimming_and_brightness(ActorRecord *controller, ObjectPositio
             on_actor_status_updated(entity);
             if ((get_entity_effect_value(entity, STATUS_SLEEP) << 16) != 0) {
                 TileObject *origin = &reference_tile_object;
-                s8 tile = *(s8 *)&sprite->room_index;
+                s8 tile = ((s8)(sprite->room_index));
 
                 if (((tile == origin->room_index) && (tile >= 0)) ||
                     ((s16)get_tile_chebyshev_distance(origin, sprite) < 2)) {

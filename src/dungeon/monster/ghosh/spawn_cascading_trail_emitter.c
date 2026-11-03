@@ -33,7 +33,7 @@ void spawn_cascading_trail_emitter(void) {
     effect = allocate_flagged_object_node(0x212);
     if (effect != 0) {
         setup_data = project_sprite_chain;
-        effect_params = ((void *)effect) + 0x20;
+        effect_params = NODE_BODY(effect);
         effect_params->unk_16 = 0x1E;
         effect_params->unk_18 = 0x1E;
         effect->update_callback = &update_cascading_trail_emitter;

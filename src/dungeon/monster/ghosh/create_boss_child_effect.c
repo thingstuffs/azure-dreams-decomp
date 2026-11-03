@@ -65,7 +65,7 @@ void create_boss_child_effect(void *parent_data, MovingPosition *source_pos, voi
 
     parent_object = parent_data - 0x20;
     effect_object = allocate_list_node(0x112, &parent_object->next);
-    effect_data = ((void *)effect_object) + 0x20;
+    effect_data = NODE_BODY(effect_object);
     if (effect_object != NULL) {
         ((S_80172B00_0 *)effect_data)->unk_96 = 0x78;
         effect_object->update_callback = &update_boss_actor_direction_state;

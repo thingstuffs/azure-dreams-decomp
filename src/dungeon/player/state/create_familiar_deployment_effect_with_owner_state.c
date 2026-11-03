@@ -57,7 +57,7 @@ void create_familiar_deployment_effect_with_owner_state(void *owner_body, Object
         }
         set_sprite_animation_frame(sprite, 0xCE, 0, 3);
         register_node(effect, project_sprite_chain);
-        effect_state = ((void *)effect) + 0x20;
+        effect_state = NODE_BODY(effect);
         ((S_80093C70_0 *)effect)->unk_20 = owner;
         effect_state->unk_06 = 0x10;
         sprite->color.word = 0x2C808080;

@@ -26,7 +26,7 @@ void * init_card_options_object(s32 option_param) {
     subobject = object + 0x20;
     object_status = func_80047FD8(object_arg);
     if (object_status == 0) {
-        object = (u8 *)func_8003C714(0, object, 0x118);
+        object = func_8003C714(0, object, 0x118);
         if (object == 0) {
             func_8007C040(D_804005A0, D_804005C8, 0x151);
             func_8007BEF0(1);

@@ -30,10 +30,10 @@ void card_dev_layout_title_entries(u8 *owner) {
     child = *(SubStruct **)(owner + 0x1EC);
     child->unk4->unk8 = 0x70;
     child->unk4->unkA = 0x10;
-    child->unk0 = (void *) &D_8008432C;
+    child->unk0 =  &D_8008432C;
 
     child = *(SubStruct **)(owner + 0x1F4);
-    child->unk0 = (void *) (owner + 0xB0);
+    child->unk0 =  (owner + 0xB0);
     child->unk4->unk8 = 0xAE;
     child->unk4->unkA = 0x18;
 }

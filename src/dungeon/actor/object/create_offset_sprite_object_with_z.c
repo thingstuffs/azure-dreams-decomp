@@ -45,7 +45,7 @@ void *create_offset_sprite_object_with_z(s16 pos_x, s16 pos_y, s16 pos_z, S_8002
         sprite->source = &D_80028874;
         sprite->scale_y = 0x1000;
         sprite->scale_x = 0x1000;
-        work = (u8 *)object + 0x20;
+        work = NODE_BODY(object);
         work->unk_04 = source;
         work->unk_66 = 0x10;
     }

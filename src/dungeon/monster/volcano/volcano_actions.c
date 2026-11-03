@@ -34,7 +34,7 @@ void *spawn_mode_dependent_112_object(s16 flags,s16 attr_x,s16 attr_y,s16 attr_h
  object=allocate_list_node(0x112,&scene_object_list_anchor.next);
  saved_flags=flags;
  if(object) {
-  actor=(ActorRecord *)(&object->header+1);
+  actor=NODE_BODY(&object->header);
   actor->species=0x1C;
   register_node(&object->header,project_sprite_chain);
   motion=object->header.position;
@@ -800,7 +800,7 @@ s32 begin_actor_directional_attack(ActorRecord *action_state, ObjectPosition *ac
     if ((try_claim_dungeon_action_slot(actor) << 0x10) != 0) {
         return -1;
     }
-    apply_camera_offset_and_select_target((u8 *)actor - 0x20, action_ctx, 8, 0x300);
+    apply_camera_offset_and_select_target(NODE_HEADER(actor), action_ctx, 8, 0x300);
     if ((try_claim_dungeon_action_slot(actor) << 0x10) == 0) {
         action_state->action_id.s = 0x11;
         action_state->action_phase.s = 0;
@@ -823,7 +823,7 @@ s32 begin_actor_directional_attack(ActorRecord *action_state, ObjectPosition *ac
 void begin_actor_attack_after_status_check(ActorRecord *action_state, ObjectPosition *action_context, SpriteFrameState *sprite, ActorRecord *actor) {
     actor->movement_queue_state = (u8) (actor->movement_queue_state & 0x7F);
     if (!(g_dungeon_status.flags & 0x2000) && ((try_claim_dungeon_action_slot(actor) << 0x10) == 0)) {
-        apply_camera_offset_and_select_target((u8 *)actor - 0x20, action_context, 8, 0x300);
+        apply_camera_offset_and_select_target(NODE_HEADER(actor), action_context, 8, 0x300);
         if ((try_claim_dungeon_action_slot(actor) << 0x10) == 0) {
             action_state->action_id.s = 0x11;
             action_state->unk_8C.word = 0;
@@ -882,7 +882,7 @@ s32 check_actor_ahead_height(ActorRecord *action_state, ObjectPosition *source_p
         return -1;
     }
 
-    output = (u8 *)actor - 0x20;
+    output = NODE_HEADER(actor);
     apply_camera_offset_and_select_target(output, source_pos, 8, 0x300);
     if ((s16)try_claim_dungeon_action_slot(actor) != 0) {
         return -1;
@@ -956,7 +956,7 @@ return_tail:
 void start_actor_directional_animation(ActorRecord *actor_state, ObjectPosition *action_param, SpriteFrameState *sprite, ActorRecord *actor) {
     actor->movement_queue_state = actor->movement_queue_state & 0x7F;
     if (!(g_dungeon_status.flags & 0x2000) && ((try_claim_dungeon_action_slot(actor) << 0x10) == 0)) {
-        apply_camera_offset_and_select_target((u8 *)actor - 0x20, action_param, 8, 0x300);
+        apply_camera_offset_and_select_target(NODE_HEADER(actor), action_param, 8, 0x300);
         if ((try_claim_dungeon_action_slot(actor) << 0x10) == 0) {
             actor_state->action_id.s = 0x18;
             actor_state->unk_8C.word = 0;
@@ -2061,7 +2061,7 @@ void display_formatted_actor_message(ActorRecord *record) {
  cursor=append_entity_display_text(record,current=get_unused_text_buffer());
  original=current;
  current=cursor;
- clear_byte_and_advance((s8 *)expand_text_control_codes(D_801745CC,current));
+ clear_byte_and_advance(expand_text_control_codes(D_801745CC,current));
  display_text_with_fullwidth_adjustment((s8 *)original);
 }
 #include "dungeon/monster/volcano.h"
@@ -2077,6 +2077,6 @@ void display_entity_action_message(void *record) {
  cursor=append_entity_display_text(record,current=get_unused_text_buffer());
  original=current;
  current=cursor;
- clear_byte_and_advance((s8 *)expand_text_control_codes(D_801745F8,current));
+ clear_byte_and_advance(expand_text_control_codes(D_801745F8,current));
  display_text_with_fullwidth_adjustment((s8 *)original);
 }

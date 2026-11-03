@@ -41,8 +41,8 @@ void configure_card_grid_entry(void *object, s32 column, s32 mode, s32 row, s32 
     column_tripled = (u32)column * 3U;
     record = *(s32 **)((u8 *)object + 0x6A0);
     position = (u8 *)object + 0x12C;
-    store_first_coord((s32 *)record, object, column_tripled);
-    store_second_coord((s32 *)record, object, row);
+    store_first_coord(record, object, column_tripled);
+    store_second_coord(record, object, row);
     saved_value = (u32)value;
     saved_value = (saved_value + (u32)row) - (u32)row;
     init_menu_row_entry(object, position, mode);

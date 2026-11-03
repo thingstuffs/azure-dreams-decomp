@@ -72,7 +72,7 @@ void spawn_appearance_object_and_advance_actor(ActorRecord *actor, ObjectPositio
                 register_node(init_obj, project_sprite_chain);
                 spawned_render->color.word = 0x808080;
                 spawned_render->scale_y = angle;
-                spawned_data = (u8 *)spawned_obj + 0x20;
+                spawned_data = NODE_BODY(spawned_obj);
                 spawned_render->scale_x = angle;
                 work_data = spawned_data;
                 if (actor_data->unk_49 == 0x12) {

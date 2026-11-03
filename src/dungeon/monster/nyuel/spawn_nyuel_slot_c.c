@@ -29,7 +29,7 @@ void *spawn_mode_configured_monster_slot_c(s16 flags, s16 tile_x, s32 variant, s
     created = allocate_list_node(0x112, &scene_object_list_anchor.next);
     original_flags = saved_flags;
     if (created != 0) {
-        result = (u8 *)created + 0x20;
+        result = NODE_BODY(created);
         ((S_80158894_0 *)result)->unk_13 = MONSTER_NYUEL;
         register_node(created, project_sprite_chain);
 
@@ -65,10 +65,10 @@ void *spawn_mode_configured_monster_slot_c(s16 flags, s16 tile_x, s32 variant, s
             }
         }
         created->update_callback = func_80158A98;
-        initialize_actor_sprite_and_animation(created, position, (void *)part_ptr, (s16)original_flags);
+        initialize_actor_sprite_and_animation(created, position, part_ptr, (s16)original_flags);
         ((S_80158894_4 *)((void *)actor_ptr))->unk_9A = 0xFF;
         ((S_80158894_4 *)((void *)actor_ptr))->unk_9C = -1;
-        try_move_actor_to_valid_position((void *)actor_ptr, position, (void *)part_ptr, result);
+        try_move_actor_to_valid_position(actor_ptr, position, part_ptr, result);
     }
     return result;
 }

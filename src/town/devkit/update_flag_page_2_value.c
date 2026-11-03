@@ -6,9 +6,6 @@ typedef struct FlagPageState {
     u8 pad_00[0xE];
     u8 unk_0E;
 } FlagPageState;   /* page_state in update_flag_page_2_value */
-
-
-extern s32 func_8070021C();
 extern void func_807002D4(s32 index);
 
 /* Devkit flag page 2: pass the value through when idle, else mark dirty and rescan. */
@@ -17,7 +14,7 @@ s32 update_flag_page_2_value(s32 carry_value)
     FlagPageState *page_state;
     s32 result;
 
-    if (func_8070021C(2) == 0) {
+    if (check_devkit_secondary_condition_8070021c(2) == 0) {
         func_807002D4(2);
         result = carry_value;
     }

@@ -39,7 +39,7 @@ void create_action_sprite_effect(S_80174690_2 *source) {
     if (effect != 0) {
         sprite = effect->sprite;
         effect->update_callback = &copy_linked_position_and_check_status;
-        effect_data = ((void *)effect) + 0x20;
+        effect_data = NODE_BODY(effect);
         effect_data->source = source->unk_0C;
         effect_data->linked_position.value = source->unk_08;
         sprite->scale_y = 0x1000;

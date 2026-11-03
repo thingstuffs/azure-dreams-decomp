@@ -134,7 +134,7 @@ void advance_selected_actor_action(ActorRecord *action, ObjectPosition *transfor
             }
 
             if (create_actor_spell_effect(actor, action_slot, target_mode,
-                              (u16 *)((u8 *)action + 0x98)) != 0) {
+                              ((u8 *)action + 0x98)) != 0) {
                 action->action_timer.s = 8;
                 action->action_phase.u++;
             }

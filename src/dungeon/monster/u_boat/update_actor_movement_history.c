@@ -84,8 +84,8 @@ void update_actor_movement_history(ActorRecord *motion, ObjectPosition *position
                         u16 position_y;
 
                         history_base = (u8 *)history + 0x20;
-                        (*(u16 *)(history_base + 0x62)) = (*(u16 *)&position->x.w.i);
-                        position_y = (*(u16 *)&position->y.w.i);
+                        (*(u16 *)(history_base + 0x62)) = (((u16)(position->x.w.i)));
+                        position_y = (((u16)(position->y.w.i)));
                         (*(u16 *)(history_base + 0x68)) = 0;
                         (*(u16 *)(history_base + 0x66)) = 0;
                         (*(u16 *)(history_base + 0x64)) = position_y;
@@ -149,8 +149,8 @@ void update_actor_movement_history(ActorRecord *motion, ObjectPosition *position
             if ((timer << 16) <= 0) {
                 motion->unk_B0.bytes[2] = 0;
             }
-            (position->x.w.i) = actor_direction_step_pairs[direction].x * 16 + (*(u16 *)&position->x.w.i);
-            (position->y.w.i) = actor_direction_step_pairs[direction].y * 16 + (*(u16 *)&position->y.w.i);
+            (position->x.w.i) = actor_direction_step_pairs[direction].x * 16 + (((u16)(position->x.w.i)));
+            (position->y.w.i) = actor_direction_step_pairs[direction].y * 16 + (((u16)(position->y.w.i)));
             break;
         }
 
@@ -292,8 +292,8 @@ state1_case2:
                 {
                     u16 timer;
 
-                    (position->x.w.i) = actor_direction_step_pairs[direction].x * 16 + (*(u16 *)&position->x.w.i);
-                    (position->y.w.i) = actor_direction_step_pairs[direction].y * 16 + (*(u16 *)&position->y.w.i);
+                    (position->x.w.i) = actor_direction_step_pairs[direction].x * 16 + (((u16)(position->x.w.i)));
+                    (position->y.w.i) = actor_direction_step_pairs[direction].y * 16 + (((u16)(position->y.w.i)));
 
                     timer = motion->action_timer.u;
                     motion->action_timer.u = timer - 1;
@@ -314,8 +314,8 @@ state1_case2:
                                     ((S_80174C64_3 *)((u8 *)((unsigned long)history_base
                                         + ((history_index - 1) << 2))))->unk_64;
                             }
-                            (*(u16 *)(history_base + 0x66)) = (*(u16 *)&position->x.w.i);
-                            (*(u16 *)(history_base + 0x68)) = (*(u16 *)&position->y.w.i);
+                            (*(u16 *)(history_base + 0x66)) = (((u16)(position->x.w.i)));
+                            (*(u16 *)(history_base + 0x68)) = (((u16)(position->y.w.i)));
                         }
                     }
 
@@ -466,6 +466,6 @@ state3_test:
 
     }
     object->ground_height = sample_terrain_surface_height(
-        position->x.unsigned_parts.integer, (*(u16 *)&position->y.w.i),
-        (signed short)((*(u16 *)&position->z.w.i) - 0x20));
+        position->x.unsigned_parts.integer, (((u16)(position->y.w.i))),
+        (signed short)((((u16)(position->z.w.i))) - 0x20));
 }

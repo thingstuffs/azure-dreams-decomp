@@ -173,7 +173,7 @@ void create_parent_return_effect(
         effect->position->z.w.i =
             ((MovingPosition *)(parent->unk_08))->z + offset_z - 100;
 
-        effect_data = (u8 *)effect + 0x20;
+        effect_data = NODE_BODY(effect);
         effect_data->unk_36 = ((MovingPosition *)(parent->unk_08))->x;
         effect_data->unk_38 = ((MovingPosition *)(parent->unk_08))->y;
         effect_data->unk_3A = ((MovingPosition *)(parent->unk_08))->z;
@@ -238,7 +238,7 @@ void spawn_parent_offset_random_motion_effect(void *parent_arg, register s16 eff
         effect->sprite->depth_bias = 6;
         effect->position->velocity_x = (s32) (((rand() & 0x7FFF) - 0x4000) << 7);
         effect->position->velocity_y = (s32) (((rand() & 0x7FFF) - 0x4000) << 7);
-        effect_data = ((void *)effect) + 0x20;
+        effect_data = NODE_BODY(effect);
         effect->position->velocity_z = (s32) (((rand() & 0x7FFF) - 0x4000) << 7);
         effect_data->unk_14 = effect_param;
         effect_data->unk_32 = 5;

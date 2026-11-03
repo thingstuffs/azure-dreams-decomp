@@ -43,7 +43,7 @@ void *spawn_animated_monster(s16 kind_flags, s16 tile_x, s16 tile_y, s16 part_id
     saved_tile_y = tile_y;
     obj = allocate_list_node(0x112, &scene_object_list_anchor.next);
     if (obj != 0) {
-        work = (ActorRecord *)(obj + 1);
+        work = NODE_BODY(obj);
         obj->update_callback = ((u8 *)update_griffon_motion_and_facing);
         work->species = MONSTER_GRIFFON;
         register_node(obj, project_sprite_chain);
@@ -841,7 +841,7 @@ s32 update_actor_animation_behavior_and_facing(ActorRecord *action_state, Object
         return -1;
     }
 
-    apply_camera_offset_and_select_target((ObjectNodeHeader *)actor - 1, motion_param, 8, 0x300);
+    apply_camera_offset_and_select_target(NODE_HEADER(actor), motion_param, 8, 0x300);
     if ((try_claim_dungeon_action_slot(actor) << 16) == 0) {
         action_state->action_id.u = 0x11;
         action_state->action_phase.u = 0;
@@ -863,7 +863,7 @@ s32 update_actor_animation_behavior_and_facing(ActorRecord *action_state, Object
 void begin_griffon_attack(ActorRecord *action_state, ObjectPosition *action_context, SpriteFrameState *sprite, ActorRecord *actor) {
     actor->movement_queue_state = (u8) (actor->movement_queue_state & 0x7F);
     if (!(g_dungeon_status.flags & 0x2000) && ((try_claim_dungeon_action_slot(actor) << 0x10) == 0)) {
-        apply_camera_offset_and_select_target((u8 *)actor - 0x20, action_context, 8, 0x300);
+        apply_camera_offset_and_select_target(NODE_HEADER(actor), action_context, 8, 0x300);
         if ((try_claim_dungeon_action_slot(actor) << 0x10) == 0) {
             action_state->action_id.s = 0x11;
             action_state->unk_8C.word = 0;
@@ -1223,7 +1223,7 @@ void update_staged_movement_and_return_to_tile(ActorRecord *action, ObjectPositi
             actor->action_flags &= ACTOR_ACTION_CLEAR_PENDING_MASK;
             return;
         }
-        ((void * *)actor_update_node_cursor)[0] = (u8 *)actor - 0x20;
+        ((void * *)actor_update_node_cursor)[0] = NODE_HEADER(actor);
 
         return;
     }
@@ -2134,7 +2134,7 @@ void advance_effect_and_child_animation(ActorRecord *effect_state, ObjectPositio
         Control_CD(0x15, effect_id, 0);
         griffon_effect_load_done[0] = 0;
         Control_CD(0xFF, ((s32 *)resource_completion_callback_address), griffon_effect_load_done);
-        select_nearby_target_and_initialize_slot((u8 *)actor - 0x20, position, 8, 0x300);
+        select_nearby_target_and_initialize_slot(NODE_HEADER(actor), position, 8, 0x300);
         effect_state->action_timer.s = 0x10;
         effect_state->action_phase.u++;
 

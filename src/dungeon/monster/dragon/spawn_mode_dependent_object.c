@@ -42,7 +42,7 @@ void *spawn_mode_dependent_112_object(s16 kind_flags, s16 byte_24, s16 byte_25, 
     saved_byte_25 = byte_25;
     obj = allocate_list_node(0x112, &scene_object_list_anchor.next);
     if (obj != 0) {
-        work = (ActorRecord *)(obj + 1);
+        work = NODE_BODY(obj);
         obj->update_callback = ((u8 *)update_entity_facing_motion_and_ground);
         work->species = MONSTER_DRAGON;
         register_node(obj, project_sprite_chain);
@@ -778,7 +778,7 @@ s32 check_actor_transition_and_start_effect(ActorRecord *action_state, ObjectPos
         return -1;
     }
 
-    apply_camera_offset_and_select_target((u8 *)actor - 0x20, motion_param, 8, 0x300);
+    apply_camera_offset_and_select_target(NODE_HEADER(actor), motion_param, 8, 0x300);
     if ((try_claim_dungeon_action_slot(actor) << 16) == 0) {
         action_state->action_id.s = 0x11;
         action_state->action_phase.s = 0;
@@ -799,7 +799,7 @@ s32 check_actor_transition_and_start_effect(ActorRecord *action_state, ObjectPos
 void start_directional_actor_effect(ActorRecord *action_state, ObjectPosition *action_context, void *sprite, ActorRecord *actor) {
     actor->movement_queue_state = (u8) (actor->movement_queue_state & 0x7F);
     if (!(g_dungeon_status.flags & 0x2000) && ((try_claim_dungeon_action_slot(actor) << 0x10) == 0)) {
-        apply_camera_offset_and_select_target((u8 *)actor - 0x20, action_context, 8, 0x300);
+        apply_camera_offset_and_select_target(NODE_HEADER(actor), action_context, 8, 0x300);
         if ((try_claim_dungeon_action_slot(actor) << 0x10) == 0) {
             action_state->action_id.s = 0x11;
             action_state->unk_8C.run = 0;
@@ -1126,7 +1126,7 @@ void advance_actor_attack_and_resolve_damage(ActorRecord *body, ObjectPosition *
         if (actor->pending_turn_updates == 0) {
             actor->action_flags &= ACTOR_ACTION_CLEAR_PENDING_MASK;
         } else {
-            (*(void **)actor_update_node_cursor) = (u8 *)actor - 0x20;
+            (*(void **)actor_update_node_cursor) = NODE_HEADER(actor);
         }
 
         return;
@@ -1167,7 +1167,7 @@ void finish_timed_actor_movement(ActorRecord *body, ObjectPosition *transform, S
                 motion = (u8 *)actor + 8;
                 break;
             default:
-                motion = (u8 *)0;
+                motion = 0;
                 break;
             }
         } else {
@@ -1182,7 +1182,7 @@ void finish_timed_actor_movement(ActorRecord *body, ObjectPosition *transform, S
                 motion = (u8 *)actor + 8;
                 break;
             default:
-                motion = (u8 *)0;
+                motion = 0;
                 break;
             }
         }

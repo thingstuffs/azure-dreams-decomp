@@ -18,7 +18,7 @@ Ent *prepare_directional_attack();
 void initialize_status_gated_action(ActorRecord *action_state, ObjectPosition *context, SpriteFrameState *animation, ActorRecord *entity) {
     entity->movement_queue_state = (s8) (entity->movement_queue_state & 0x7F);
     if (!(g_dungeon_status.flags & 0x2000) && ((try_claim_dungeon_action_slot(entity) << 0x10) == 0)) {
-        apply_camera_offset_and_select_target((u8 *)entity - 0x20, context, 8, 0x300);
+        apply_camera_offset_and_select_target(NODE_HEADER(entity), context, 8, 0x300);
         if ((try_claim_dungeon_action_slot(entity) << 0x10) == 0) {
             action_state->action_id.u = 0x11;
             action_state->unk_8C.handler = 0;

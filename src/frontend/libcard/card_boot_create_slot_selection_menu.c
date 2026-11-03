@@ -15,8 +15,8 @@ void *card_boot_create_slot_selection_menu(void *init_value, s32 unused) {
     CardSlotMenuState *state;
     ObjectNodeHeader *object;
 
-    object = initialize_scene_object_in_buffer(0, (struct S_8003FE78 *)(&D_8002B7E0), 0x1C);
-    state = (CardSlotMenuState *)(object + 1);
+    object = initialize_scene_object_in_buffer(0, (&D_8002B7E0), 0x1C);
+    state = NODE_BODY(object);
     card_boot_initialize_slot_menu_request(state, init_value);
     card_boot_erase_temporary_file();
     card_boot_refresh_directory_summary();

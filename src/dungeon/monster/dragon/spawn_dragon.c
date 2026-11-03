@@ -29,7 +29,7 @@ void *spawn_variant_monster_slot_c(s16 mode_flags, s16 attribute_24, s16 attribu
     saved_attribute_25 = attribute_25;
     obj = allocate_list_node(0x112, &scene_object_list_anchor.next);
     if (obj != 0) {
-        work = (ActorRecord *)(obj + 1);
+        work = NODE_BODY(obj);
         obj->update_callback = D_80158A28;
         work->species = MONSTER_DRAGON;
         register_node(obj, project_sprite_chain);

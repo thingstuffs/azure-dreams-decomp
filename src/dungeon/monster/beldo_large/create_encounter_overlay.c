@@ -42,7 +42,7 @@ void create_encounter_overlay(s32 variant)
     obj = allocate_flagged_object_node(0x12);
     if (obj != NULL) {
         call_obj = obj;
-        part = ((u8 *)obj) + 0x20;
+        part = NODE_BODY(obj);
         ((EncounterOverlayBody *)part)->unk_18 = 0;
         ((EncounterOverlayBody *)part)->unk_1C = variant;
         (obj->update_callback) = D_8016F99C;

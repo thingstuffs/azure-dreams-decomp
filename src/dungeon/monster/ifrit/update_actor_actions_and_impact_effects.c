@@ -220,7 +220,7 @@ void update_actor_actions_and_impact_effects(ActorRecord *body, ObjectPosition *
                 effect = allocate_list_node(0x112, &scene_object_list_anchor.next);
                 if (effect != 0) {
                     register_node(effect, project_sprite_chain);
-                    effect_state = (UpdateActorActionsAndImpactEffectsBody *)((u8 *)effect + 0x20);
+                    effect_state = NODE_BODY(effect);
                     effect->update_callback = tick_object_motion_and_expire;
                     effect->position->x.w.i =
                         ((u16)motion->x.w.i) + delta[0];
@@ -269,7 +269,7 @@ void update_actor_actions_and_impact_effects(ActorRecord *body, ObjectPosition *
                         ((rand() & 0xFF) - 0x80) << 11;
                     effect->position->velocity_z =
                         -(rand() & 0xFF) << 12;
-                    effect_state = (UpdateActorActionsAndImpactEffectsBody *)((u8 *)effect + 0x20);
+                    effect_state = NODE_BODY(effect);
                     effect_state->unk_A4.s = 0;
                     effect_state->unk_96 = 7;
                     target_sprite = effect->sprite;

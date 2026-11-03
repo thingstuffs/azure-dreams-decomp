@@ -47,7 +47,7 @@ void *create_randomized_flagged_object(s16 flags, s16 value_24, s16 value_25, s1
     saved_arg2 = value_25;
     obj = allocate_list_node(0x112, &scene_object_list_anchor.next);
     if (obj != 0) {
-        work = (ActorRecord *)(obj + 1);
+        work = NODE_BODY(obj);
         obj->update_callback = D_8015EA50;
         work->species = MONSTER_GRIFFON;
         register_node(obj, project_sprite_chain);
@@ -83,7 +83,7 @@ void *create_randomized_flagged_object(s16 flags, s16 value_24, s16 value_25, s1
                 }
             }
         }
-        initialize_actor_sprite_and_animation(((void *)(obj)), part_a, part_b, flags);
+        initialize_actor_sprite_and_animation(((obj)), part_a, part_b, flags);
         actor->action_id.u = 0xFF;
         actor->unk_9C = -1;
         actor->unk_8C.address = &griffon_slot_d_action_callback;

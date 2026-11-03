@@ -102,7 +102,7 @@ void update_staged_actor_movement(ActorRecord *action, ObjectPosition *motion, S
             particle = allocate_list_node(0x312, &scene_object_list_anchor.next);
             if (particle != NULL) {
                 register_node(particle, project_sprite_chain);
-                particle_motion = (u8 *)particle + 0x20;
+                particle_motion = NODE_BODY(particle);
                 particle->update_callback = D_801743EC;
                 sprite = particle->sprite;
                 if (action->action_phase.u < 3U) {

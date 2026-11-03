@@ -48,7 +48,7 @@ void *spawn_clown_actor(s16 spawn_flags, s32 attr_a, s32 attr_b, s32 attr_c)
     flags_copy = spawn_flags;
     if (created != 0) {
 
-        result = (u8 *)created + 0x20;
+        result = NODE_BODY(created);
         created->update_callback = update_entity_facing_and_ground;
         ((R16_80170878_S_80170878_1 *)result)->unk_13 = MONSTER_CLOWN;
         register_node(created, project_sprite_chain);
@@ -785,7 +785,7 @@ s32 initialize_transition_action(ActorRecord *action_state, ObjectPosition *acti
     if ((try_claim_dungeon_action_slot(actor) << 16) != 0) {
         return -1;
     }
-    apply_camera_offset_and_select_target((u8 *)actor - 0x20, action_id, 8, 0x300);
+    apply_camera_offset_and_select_target(NODE_HEADER(actor), action_id, 8, 0x300);
     if ((try_claim_dungeon_action_slot(actor) << 16) == 0) {
         action_state->action_id.u = 0x11;
         action_state->action_phase.u = 0;
@@ -815,7 +815,7 @@ s32 initialize_transition_action(ActorRecord *action_state, ObjectPosition *acti
 void begin_eligible_actor_action(ActorRecord *action_state, ObjectPosition *context, SpriteFrameState *animation, ActorRecord *actor) {
     actor->movement_queue_state = (u8) (actor->movement_queue_state & 0x7F);
     if (!(g_dungeon_status.flags & 0x2000) && ((((s16)try_claim_dungeon_action_slot(actor)) << 0x10) == 0)) {
-        apply_camera_offset_and_select_target((u8 *)actor - 0x20, context, 8, 0x300);
+        apply_camera_offset_and_select_target(NODE_HEADER(actor), context, 8, 0x300);
         if ((((s16)try_claim_dungeon_action_slot(actor)) << 0x10) == 0) {
             action_state->action_id.u = 0x11;
             action_state->unk_8C.handler = 0;
@@ -1052,7 +1052,7 @@ void update_overlay_object_action(ActorRecord *body, ObjectPosition *position, S
             }
 
             if (create_actor_spell_effect(object, action_data, is_special,
-                              (u16 *)((u8 *)body + 0x98)) == 0) {
+                              ((u8 *)body + 0x98)) == 0) {
                 return;
             }
             create_actor_linked_effect(object);
@@ -1344,7 +1344,7 @@ void advance_clown_status_action(ActorRecord *actor, ObjectPosition *context, Sp
             on_actor_status_updated(actor_state);
             if ((get_entity_effect_value(actor_state, STATUS_SLEEP) << 16) != 0) {
                 TileObject *origin = &reference_tile_object;
-                s8 tile = *(s8 *)&render_record->room_index;
+                s8 tile = ((s8)(render_record->room_index));
 
                 if (((tile == origin->room_index) && (tile >= 0)) ||
                     ((s16)get_tile_chebyshev_distance(origin, render_record) < 2)) {
@@ -1621,7 +1621,7 @@ void update_expanding_spiral_effect(AngledSourceEffectBody *effect_arg, R16_8017
     position->unk04 = (s32) (base_y + (y_offset * 0x10));
     advance_sprite_animation_and_textures(primitive_dst);
     if (primitive->flags & 0x4000) {
-        select_record_entry_and_value(primitive, ((s32 *)shared_sprite_entries), 0);
+        select_record_entry_and_value(primitive, (shared_sprite_entries), 0);
     }
     life = effect->unk_1A;
     if (life < 0xA) {
@@ -1651,7 +1651,7 @@ void create_angled_source_effect(
     object = allocate_flagged_object_node(0x212);
     wrapped_angle = angle;
     if (object != NULL) {
-        state = (AngledSourceEffectBody *)((u8 *)object + 0x20);
+        state = NODE_BODY(object);
         state->unk_1A = 0x14;
         state->unk_20.s = 0x14;
         state->unk_1E.s = angle;
@@ -1783,7 +1783,7 @@ void advance_actor_effect_sequence(Rec_func_801732A4_arg0 *state, EntityRec *pos
         state->unk_9B = (u8) (state->unk_9B + 1);
         return;
     case 1:
-        run_cd_image_commands(((s32 *)D_801742CC), ((s32 *)clown_image_load_done), 0);
+        run_cd_image_commands(((s32 *)D_801742CC), (clown_image_load_done), 0);
         state->unk_A6 = 0;
         state->unk_9B = (u8) (state->unk_9B + 1);
         ((Rec_D_80082E80 *)model)->unk_8A = (u16) ((Rec_D_80082E80 *)model)->unk_28.at02_u16.v;
@@ -1799,7 +1799,7 @@ void advance_actor_effect_sequence(Rec_func_801732A4_arg0 *state, EntityRec *pos
             ((Rec_D_80082E80 *)model)->unk_28.at02_u16.v = (u16) (((Rec_D_80082E80 *)model)->unk_28.at02_u16.v + 0x200);
             return;
         }
-        run_cd_image_commands(((s32 *)D_801742CC), ((s32 *)clown_image_load_done), 1);
+        run_cd_image_commands(((s32 *)D_801742CC), (clown_image_load_done), 1);
         sound_set_cd_cue_parameters(0, (*(s32 *)cd_cue_base), 0x04000AD4, 0x05000CC4);
         Control_CD(0x15, read_stream_cue_start_offset(), NULL);
         (*(s8 *)((s32 *)clown_effect_load_done)) = 0;

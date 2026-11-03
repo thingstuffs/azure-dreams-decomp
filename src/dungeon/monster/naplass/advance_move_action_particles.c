@@ -198,7 +198,7 @@ void advance_move_action_particles(ActorRecord *action, ObjectPosition *position
             (sprite->flags & 0x1000)) {
             action->unk_A8.u = 4;
         }
-        if ((u32)(*(u8 *)&sprite->unk_04 - 1) < 2U &&
+        if ((u32)(((u8)(sprite->unk_04)) - 1) < 2U &&
             sprite->frameTable != naplass_frame_set_1) {
             if (resolve_record_orientation_or_fallback(
                     (s32)sprite->source, sprite, &coords[4], 1) == 0) {
@@ -244,7 +244,7 @@ void advance_move_action_particles(ActorRecord *action, ObjectPosition *position
                             position->z.v;
                         source_x = ((u16) position->x.w.i);
                         offset_x = coords[4];
-                        particle_fields = (S_80172840_8 *)((u8 *)particle + 0x20);
+                        particle_fields = NODE_BODY(particle);
                         particle_fields->unk_0C = source_x + offset_x;
                         source_y = ((u16) position->y.w.i);
                         offset_y = coords[5];

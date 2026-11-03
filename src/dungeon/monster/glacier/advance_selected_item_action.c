@@ -245,7 +245,7 @@ void advance_selected_item_action_2(ActorRecord *body, ObjectPosition *position,
                 void *owner_sprite;
                 u8 animation_id;
 
-                effect_state = (AdvanceSelectedItemAction2Body *)(((u8 *)effect_object) + 0x20);
+                effect_state = NODE_BODY(effect_object);
                 effect_state->ticks_remaining = 0xF;
                 effect_object->update_callback = &D_801708D4;
                 effect_state->reference_position = position;

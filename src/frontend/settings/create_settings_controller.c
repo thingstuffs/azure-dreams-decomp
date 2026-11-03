@@ -40,7 +40,7 @@ void create_settings_controller(void) {
     animation_tick_scale = 1;
     object = allocate_flagged_object_node(0x11);
     if (object != NULL) {
-        parent_state = ((void *)object) + 0x20;
+        parent_state = NODE_BODY(object);
         object->update_callback = (void *)update_settings_menu_animation;
         register_node(object, queue_settings_sprite_grid);
         parent_state->counter = 0x708;
@@ -58,7 +58,7 @@ void create_settings_controller(void) {
         child_slot[1] = (void *)object;
         id_offset = (void *)(child_index << 2);
         if (object != NULL) {
-            child_state = ((void *)object) + 0x20;
+            child_state = NODE_BODY(object);
             sprite = object->sprite;
             object->update_callback = (void *)update_settings_effect_object;
             register_node(object, &draw_linked_sprites);
@@ -85,7 +85,7 @@ void create_settings_controller(void) {
     if (object != NULL) {
         object->update_callback = (void *)sync_object_with_sub_object;
         register_node(object, &display_registration_tag);
-        effect_state = ((void *)object) + 0x20;
+        effect_state = NODE_BODY(object);
         effect_state->position_y = 0x60;
         effect_state->position_delta = -0x100;
         effect_state->width = 0x80;
@@ -101,7 +101,7 @@ void create_settings_controller(void) {
         object = allocate_flagged_object_node(0x111);
         parent_state->slotsB[child_index] = (void *)object;
         if (object != NULL) {
-            child_state = ((void *)object) + 0x20;
+            child_state = NODE_BODY(object);
             sprite = object->sprite;
             object->update_callback = (void *)update_settings_phase_motion;
             register_node(object, &draw_linked_sprites);
@@ -127,7 +127,7 @@ void create_settings_controller(void) {
     object = allocate_flagged_object_node(1);
     if (object != NULL) {
         object->update_callback = (void *)update_settings_effect;
-        visual = (SettingsVisualEffectBody *)(object + 1);
+        visual = NODE_BODY(object);
         visual->owner = parent_state;
         visual->angle.s = 0xE00;
     }

@@ -44,7 +44,7 @@ void *allocate_boss_actor(s16 mode, s16 config_24, s16 config_25, s16 config_0a)
     obj = allocate_list_node(0x112, &scene_object_list_anchor.next);
     saved_mode = mode;
     if (obj != 0) {
-        work = (ActorRecord *)(obj + 1);
+        work = NODE_BODY(obj);
         ghosh_boss_node = obj;
         obj->update_callback = update_boss_actor_movement;
         work->species = MONSTER_SELFI;

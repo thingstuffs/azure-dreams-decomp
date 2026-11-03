@@ -216,7 +216,7 @@ void update_actor_approach_descent_return(ActorRecord *action, ObjectPosition *m
 
         case 4:
         {
-            ObjectPosition *scene = ((u8 *)(&view_reference_entity));
+            ObjectPosition *scene = ((&view_reference_entity));
             s32 fall_speed = (s32)0xFFF40000;
 
             motion->velocity_z = fall_speed;
@@ -247,7 +247,7 @@ void update_actor_approach_descent_return(ActorRecord *action, ObjectPosition *m
             return;
 
         case 6:
-            snapshot_inventory_and_familiars(((u8 *)dungeon_actor_ring_anchor));
+            snapshot_inventory_and_familiars((dungeon_actor_ring_anchor));
             snapshot_inventory_familiar_records();
             check_action_boundary_and_set_flag();
             {

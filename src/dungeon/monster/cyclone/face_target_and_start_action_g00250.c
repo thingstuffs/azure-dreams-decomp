@@ -21,7 +21,7 @@ void face_target_and_start_action(ActorRecord *action_state, ObjectPosition *eve
         (u8)(actor->movement_queue_state & 0x7F);
     if (!(g_dungeon_status.flags & 0x2008)) {
         if ((try_claim_dungeon_action_slot(actor) << 0x10) == 0) {
-            actor_base = (s8 *)actor - 0x20;
+            actor_base = NODE_HEADER(actor);
             apply_camera_offset_and_select_target(actor_base, event_context, 8, 0x300);
             if ((try_claim_dungeon_action_slot(actor) << 0x10) == 0) {
                 target = ((S_801722E4_5_pre *)(actor->target))[-1].unk_00;
@@ -142,7 +142,7 @@ s32 search_ahead_and_start_action(ActorRecord *action_state, ObjectPosition *act
         return -1;
     }
 
-    apply_camera_offset_and_select_target((u8 *)actor - 0x20, action_context, 8, 0x300);
+    apply_camera_offset_and_select_target(NODE_HEADER(actor), action_context, 8, 0x300);
     if ((try_claim_dungeon_action_slot(actor) << 16) != 0) {
         return -1;
     }
@@ -167,7 +167,7 @@ void update_action_state_direction_specific(ActorRecord *action_state, ObjectPos
     actor->movement_queue_state = (u8)(actor->movement_queue_state & 0x7F);
     if (!(g_dungeon_status.flags & 0x2000) && ((try_claim_dungeon_action_slot(actor) << 0x10) == 0)) {
         {
-            void *actor_base = (u8 *)actor - 0x20;
+            void *actor_base = NODE_HEADER(actor);
             apply_camera_offset_and_select_target(actor_base, action_param, 8, 0x300);
         }
         if ((try_claim_dungeon_action_slot(actor) << 0x10) == 0) {
@@ -189,7 +189,7 @@ void update_action_state_direction_specific(ActorRecord *action_state, ObjectPos
 void clear_actor_action_flag_and_animate(ActorRecord *action_state, ObjectPosition *action_context, SpriteFrameState *animation, ActorRecord *actor) {
     actor->movement_queue_state = (u8) (actor->movement_queue_state & 0x7F);
     if (!(g_dungeon_status.flags & 0x2000) && ((try_claim_dungeon_action_slot(actor) << 0x10) == 0)) {
-        apply_camera_offset_and_select_target((u8 *)actor - 0x20, action_context, 8, 0x300);
+        apply_camera_offset_and_select_target(NODE_HEADER(actor), action_context, 8, 0x300);
         if ((try_claim_dungeon_action_slot(actor) << 0x10) == 0) {
             action_state->action_id.u = 0x18;
             action_state->unk_8C.handler = 0;
@@ -207,7 +207,7 @@ void clear_actor_action_flag_and_animate(ActorRecord *action_state, ObjectPositi
 void attempt_actor_directional_action(ActorRecord *action_state, ObjectPosition *action_ctx, SpriteFrameState *sprite, ActorRecord *actor) {
     actor->movement_queue_state = (u8) (actor->movement_queue_state & 0x7F);
     if (!(g_dungeon_status.flags & 0x2000) && ((try_claim_dungeon_action_slot(actor) << 0x10) == 0)) {
-        apply_camera_offset_and_select_target((u8 *)actor - 0x20, action_ctx, 8, 0x300);
+        apply_camera_offset_and_select_target(NODE_HEADER(actor), action_ctx, 8, 0x300);
         if ((try_claim_dungeon_action_slot(actor) << 0x10) == 0) {
             action_state->action_id.u = 0x19;
             action_state->unk_8C.handler = 0;

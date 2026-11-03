@@ -47,7 +47,7 @@ void *spawn_animated_monster(s16 spawn_flags, s16 tile_x, s16 tile_y, s16 spawn_
     saved_tile_y = tile_y;
     obj = allocate_list_node(0x112, &scene_object_list_anchor.next);
     if (obj != 0) {
-        work = (void *)(obj + 1);
+        work = NODE_BODY(obj);
         obj->update_callback = create_directional_template_effect;
         work->species = 0xC;
         register_node(obj, project_sprite_chain);
@@ -800,7 +800,7 @@ s32 try_arachne_attack(ActorRecord *action_state, ObjectPosition *motion_param, 
         return -1;
     }
 
-    apply_camera_offset_and_select_target((ObjectNodeHeader *)actor - 1, motion_param, 8, 0x300);
+    apply_camera_offset_and_select_target(NODE_HEADER(actor), motion_param, 8, 0x300);
     if ((try_claim_dungeon_action_slot(actor) << 16) == 0) {
         action_state->action_id.u = 0x11;
         action_state->action_phase.u = 0;
@@ -822,7 +822,7 @@ s32 try_arachne_attack(ActorRecord *action_state, ObjectPosition *motion_param, 
 void select_and_start_target_action(ActorRecord *action_state, ObjectPosition *action_context, void *sprite, ActorRecord *actor) {
     actor->movement_queue_state = (u8) (actor->movement_queue_state & 0x7F);
     if (!(g_dungeon_status.flags & 0x2000) && ((try_claim_dungeon_action_slot(actor) << 0x10) == 0)) {
-        apply_camera_offset_and_select_target((u8 *)actor - 0x20, action_context, 8, 0x300);
+        apply_camera_offset_and_select_target(NODE_HEADER(actor), action_context, 8, 0x300);
         if ((try_claim_dungeon_action_slot(actor) << 0x10) == 0) {
             action_state->action_id.s = 0x11;
             action_state->unk_8C.run = 0;
@@ -1197,7 +1197,7 @@ void advance_actor_motion_and_wait(ActorRecord *action, ObjectPosition *transfor
                 motion = (u8 *)actor + 8;
                 break;
             default:
-                motion = (u8 *)0;
+                motion = 0;
                 break;
             }
         } else {
@@ -1212,7 +1212,7 @@ void advance_actor_motion_and_wait(ActorRecord *action, ObjectPosition *transfor
                 motion = (u8 *)actor + 8;
                 break;
             default:
-                motion = (u8 *)0;
+                motion = 0;
                 break;
             }
         }
@@ -2682,7 +2682,7 @@ void advance_effect_sequence_and_restore_actor(ActorRecord *sequence, ObjectPosi
         Control_CD(0x15, read_stream_cue_start_offset(), 0);
         (*arachne_effect_load_done) = 0;
         Control_CD(0xFF, ((s32 *)resource_completion_callback_address), arachne_effect_load_done);
-        select_nearby_target_and_initialize_slot((u8 *)actor - 0x20, position, 8, 0x300);
+        select_nearby_target_and_initialize_slot(NODE_HEADER(actor), position, 8, 0x300);
         sequence->action_timer.u = 0x10;
         sequence->action_phase.u++;
         create_offset_effect(sequence, position, record);

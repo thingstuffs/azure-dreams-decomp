@@ -234,7 +234,7 @@ void advance_actor_targeted_action(ActorRecord *action, ObjectPosition *transfor
             control = (S_8017472C_6 *)&g_dungeon_status;
             break;
         default:
-            current_anim = (u8 *)&g_dungeon_status;
+            current_anim = &g_dungeon_status;
             control = current_anim;
             break;
         }

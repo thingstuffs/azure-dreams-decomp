@@ -30,11 +30,11 @@ void run_image_load_commands(s32 data_base, void *scratch)
             return;
         case 0:
         decompress_lz((void *)(data_base + command->offset), scratch);
-        LoadImage((void *)&entry->u, scratch);
+        LoadImage(&entry->u, scratch);
         DrawSync(0);
         break;
         case 4:
-        LoadImage((void *)&entry->u, (void *)(data_base + command->offset));
+        LoadImage(&entry->u, (void *)(data_base + command->offset));
         DrawSync(0);
         break;
         case 1:

@@ -27,7 +27,7 @@ void reposition_global_effect_entity(s32 offset_index)
     TileObject *origin;
 
     object = beldo_active_entity;
-    state = (S_8125414C_1 *)(((u8 *)object) + 0x20);
+    state = NODE_BODY(object);
     entity = *(u8 * *)&object->sprite;
     motion = object->position;
 

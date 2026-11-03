@@ -48,7 +48,7 @@ void *create_actor_for_selected_kind(s16 spawn_flags, s16 tile_x, s16 tile_y, s1
     saved_y = tile_y;
     obj = allocate_list_node(0x112, &scene_object_list_anchor.next);
     if (obj != 0) {
-        work = (ActorRecord *)(obj + 1);
+        work = NODE_BODY(obj);
         obj->update_callback = D_8014CA50;
         work->species = MONSTER_GRIFFON;
         register_node(obj, project_sprite_chain);

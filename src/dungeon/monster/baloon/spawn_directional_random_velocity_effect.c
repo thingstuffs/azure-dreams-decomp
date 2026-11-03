@@ -67,7 +67,7 @@ void spawn_directional_random_velocity_effect(S_80D65C5C_1 *source, s32 angle)
         node->position->velocity_y +=
             direction_step[1] * 0x1C0000;
 
-        sprite = (u8 *)node + 0x20;
+        sprite = NODE_BODY(node);
         sprite->unk_0A = angle;
         sprite->unk_0C = 0xC;
         sprite->unk_0E = 0xC;

@@ -12,6 +12,24 @@
   },
   "entries": [
     {
+      "row": "town/func_80874C9C",
+      "home": "town/func_80874C9C",
+      "tu": "src/town/devkit/check_devkit_secondary_condition.c",
+      "foff": "0x7F4C9C",
+      "vma": "0x80700C9C",
+      "size": 136,
+      "evidence": "docs/evidence/r141w_town_dev.md"
+    },
+    {
+      "row": "town/func_80874D24",
+      "home": "town/func_80874D24",
+      "tu": "src/town/devkit/pass_indexed_devkit_value.c",
+      "foff": "0x7F4D24",
+      "vma": "0x80700D24",
+      "size": 48,
+      "evidence": "docs/evidence/r141w_town_dev.md"
+    },
+    {
       "row": "town/func_80874D54",
       "tu": "src/town/scene/pass_indexed_table.c",
       "home": "town/func_80874D54",
@@ -19,6 +37,105 @@
       "vma": "0x80700D54",
       "size": 48,
       "evidence": "TU view gather: moved from town/ll34_7f4d54_80700d54 (same load delta) so the merged file's members share one view"
+    },
+    {
+      "row": "town/func_80874D84",
+      "home": "town/func_80874D84",
+      "tu": "src/town/devkit/find_devkit_callback_value_index.c",
+      "foff": "0x7F4D84",
+      "vma": "0x80700D84",
+      "size": 148,
+      "evidence": "docs/evidence/r141w_town_dev.md"
+    },
+    {
+      "row": "town/func_80874E18",
+      "home": "town/func_80874E18",
+      "tu": "src/town/func_80874E18.c",
+      "foff": "0x7F4E18",
+      "vma": "0x80700E18",
+      "size": 308,
+      "evidence": "docs/evidence/r141w_town_dev.md"
+    },
+    {
+      "row": "town/func_80874F4C",
+      "home": "town/func_80874F4C",
+      "tu": "src/town/devkit/update_input_flag_and_selection.c",
+      "foff": "0x7F4F4C",
+      "vma": "0x80700F4C",
+      "size": 240,
+      "evidence": "docs/evidence/r141w_town_dev.md"
+    },
+    {
+      "row": "town/func_8087503C",
+      "home": "town/func_8087503C",
+      "tu": "src/town/devkit/state/clear_devkit_state_bit.c",
+      "foff": "0x7F503C",
+      "vma": "0x8070103C",
+      "size": 36,
+      "evidence": "docs/evidence/r141w_town_dev.md"
+    },
+    {
+      "row": "town/func_80875060",
+      "home": "town/func_80875060",
+      "tu": "src/town/devkit/dispatch_devkit_callback_by_run_length.c",
+      "foff": "0x7F5060",
+      "vma": "0x80701060",
+      "size": 196,
+      "evidence": "docs/evidence/r141w_town_dev.md"
+    },
+    {
+      "row": "town/func_80875124",
+      "home": "town/func_80875124",
+      "tu": "src/town/devkit/state/run_devkit_page_flag_scan.c",
+      "foff": "0x7F5124",
+      "vma": "0x80701124",
+      "size": 40,
+      "evidence": "docs/evidence/r141w_town_dev.md"
+    },
+    {
+      "row": "town/func_8087514C",
+      "home": "town/func_8087514C",
+      "tu": "src/town/devkit/rounded_bit_index.c",
+      "foff": "0x7F514C",
+      "vma": "0x8070114C",
+      "size": 184,
+      "evidence": "docs/evidence/r141w_town_dev.md"
+    },
+    {
+      "row": "town/func_80875204",
+      "home": "town/func_80875204",
+      "tu": "src/town/devkit/run_devkit_page_redraw_scan.c",
+      "foff": "0x7F5204",
+      "vma": "0x80701204",
+      "size": 52,
+      "evidence": "docs/evidence/r141w_town_dev.md"
+    },
+    {
+      "row": "town/func_80875238",
+      "home": "town/func_80875238",
+      "tu": "src/town/devkit/entry_pass_indexed_table.c",
+      "foff": "0x7F5238",
+      "vma": "0x80701238",
+      "size": 148,
+      "evidence": "docs/evidence/r141w_town_dev.md"
+    },
+    {
+      "row": "town/func_808752CC",
+      "home": "town/func_808752CC",
+      "tu": "src/town/devkit/pass_indexed_table.c",
+      "foff": "0x7F52CC",
+      "vma": "0x807012CC",
+      "size": 152,
+      "evidence": "docs/evidence/r141w_town_dev.md"
+    },
+    {
+      "row": "town/func_80875364",
+      "home": "town/func_80875364",
+      "tu": "src/town/devkit/advance_stage_1_when_ready.c",
+      "foff": "0x7F5364",
+      "vma": "0x80701364",
+      "size": 152,
+      "evidence": "docs/evidence/r141w_town_dev.md"
     },
     {
       "row": "town/func_808753FC",
@@ -30,6 +147,15 @@
       "evidence": "TU view gather: moved from town/ll34_7f53fc_807013fc (same load delta) so the merged file's members share one view"
     },
     {
+      "row": "town/func_80875404",
+      "home": "town/func_80875404",
+      "tu": "src/town/devkit/call_devkit_callback_at_first_failure.c",
+      "foff": "0x7F5404",
+      "vma": "0x80701404",
+      "size": 236,
+      "evidence": "docs/evidence/r141w_town_dev.md"
+    },
+    {
       "row": "town/func_80875510",
       "tu": "src/town/scene/hooks/noop_hook_i.c",
       "home": "town/func_80875510",
@@ -37,6 +163,24 @@
       "vma": "0x80701510",
       "size": 8,
       "evidence": "TU view gather: moved from town/ll34_7f5510_80701510 (same load delta) so the merged file's members share one view"
+    },
+    {
+      "row": "town/func_80875518",
+      "home": "town/func_80875518",
+      "tu": "src/town/scene/advance_stage_2_when_ready.c",
+      "foff": "0x7F5518",
+      "vma": "0x80701518",
+      "size": 148,
+      "evidence": "docs/evidence/r141w_town_dev.md"
+    },
+    {
+      "row": "town/func_808755AC",
+      "home": "town/func_808755AC",
+      "tu": "src/town/devkit/handle_devkit_page_value.c",
+      "foff": "0x7F55AC",
+      "vma": "0x807015AC",
+      "size": 108,
+      "evidence": "docs/evidence/r141w_town_dev.md"
     },
     {
       "row": "town/func_80875684",
@@ -52,6 +196,15 @@
       "evidence": "r121w_ll34: fresh current-home native object, all relocation fields evaluated and exact retail bytes; docs/evidence/r121w_ll34/results.tsv; TU view gather: moved from town/ll34_7f5684_80701684 (same load delta) so the merged file's members share one view"
     },
     {
+      "row": "town/func_8087568C",
+      "home": "town/func_8087568C",
+      "tu": "src/town/scene/call_indexed_callback_failed_test.c",
+      "foff": "0x7F568C",
+      "vma": "0x8070168C",
+      "size": 236,
+      "evidence": "docs/evidence/r141w_town_dev.md"
+    },
+    {
       "row": "town/func_80875798",
       "tu": "src/town/scene/hooks/noop_hook_i.c",
       "home": "town/func_80875510",
@@ -63,6 +216,60 @@
         "0x807013FC": "0x807013FC"
       },
       "evidence": "r121w_ll34: fresh current-home native object, all relocation fields evaluated and exact retail bytes; docs/evidence/r121w_ll34/results.tsv; TU view gather: moved from town/ll34_7f5798_80701798 (same load delta) so the merged file's members share one view"
+    },
+    {
+      "row": "town/func_808757A0",
+      "home": "town/func_808757A0",
+      "tu": "src/town/devkit/set_devkit_value_to_nine.c",
+      "foff": "0x7F57A0",
+      "vma": "0x807017A0",
+      "size": 20,
+      "evidence": "docs/evidence/r141w_town_dev.md"
+    },
+    {
+      "row": "town/func_80875800",
+      "home": "town/func_80875800",
+      "tu": "src/town/scene/hooks/noop_hook_j.c",
+      "foff": "0x7F5800",
+      "vma": "0x80701800",
+      "size": 8,
+      "evidence": "docs/evidence/r141w_town_dev.md"
+    },
+    {
+      "row": "town/func_80875808",
+      "home": "town/func_80875808",
+      "tu": "src/town/scene/flags/set_indexed_flag_bit.c",
+      "foff": "0x7F5808",
+      "vma": "0x80701808",
+      "size": 80,
+      "evidence": "docs/evidence/r141w_town_dev.md"
+    },
+    {
+      "row": "town/func_80875858",
+      "home": "town/func_80875858",
+      "tu": "src/town/scene/flags/clear_indexed_flag_bit.c",
+      "foff": "0x7F5858",
+      "vma": "0x80701858",
+      "size": 84,
+      "evidence": "docs/evidence/r141w_town_dev.md"
+    },
+    {
+      "row": "town/func_808758AC",
+      "home": "town/func_808758AC",
+      "tu": "src/town/scene/flags/test_indexed_flag_bit.c",
+      "foff": "0x7F58AC",
+      "vma": "0x807018AC",
+      "size": 96,
+      "evidence": "docs/evidence/r141w_town_dev.md"
+    },
+    {
+      "row": "town/func_8087590C",
+      "home": "town/func_8087590C",
+      "tu": "src/town/scene/flags/copy_indexed_flag_words.c",
+      "foff": "0x7F590C",
+      "vma": "0x8070190C",
+      "size": 88,
+      "evidence": "docs/evidence/r141w_town_dev.md"
     }
   ]
 }

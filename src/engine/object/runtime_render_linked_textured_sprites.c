@@ -326,7 +326,7 @@ s32 runtime_render_linked_textured_sprites(u8 *node_data, ObjectPosition *positi
         }
         next_node = ((ObjectNodeHeader *)node_data - 1)->chain_next;
         if (next_node != 0) {
-            node_data = (u8 *)(next_node + 1);
+            node_data = NODE_BODY(next_node);
             position = next_node->position;
             render_state = (u8 *)next_node->sprite;
         }

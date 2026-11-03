@@ -15,52 +15,52 @@ extern s32 can_entity_gain_level(void *);
 extern void update_actor_transform_from_parent_callback(void *, s32, void *, void *);
 
 /* Dispatch an target action and update the actor and destination state. */
-void dispatch_target_action(u8 *actor, s32 action_context, u8 *destination, u8 *target)
+void dispatch_target_action(ActorRecord *actor, s32 action_context, SpriteFrameState *destination, ActorRecord *target)
 {
     DungeonGlobalStatus *flags = &g_dungeon_status;
-    u8 *idle_actor = actor;
+    ActorRecord *idle_actor = actor;
 
 
     if (!(flags->flags & 0x1000)) {
-        if (*(target + 0x25) == 0) {
-            *(s8 *)(actor + 0xAD) = 0;
+        if (target->mp_value.parts.whole == 0) {
+            actor->unk_AC.bytes[1] = 0;
             begin_actor_flagged_action(idle_actor, action_context, destination, target);
             return;
         }
 
         if ((get_entity_effect_value(target, STATUS_SLEEP) << 16) == 0) {
             if (!(flags->flags & 0x2000)) {
-                if (*(s32 *)(target + 0x1C) & 0x100) {
+                if (target->flags1C & 0x100) {
                     begin_pushed_actor_move(actor, action_context, destination, target);
                     return;
                 }
 
-                if (*(actor + 0x9A) != 0xE) {
-                    *(actor + 0x9A) = 0xE;
+                if (actor->action_id.u != 0xE) {
+                    actor->action_id.u = 0xE;
                 }
-                *(u16 *)(actor + 0x98) &= 0xFFF3;
+                actor->action_state_flags &= 0xFFF3;
 
-                if ((*(s16 *)(target + 0x64) != 0) &&
+                if ((target->hp_delta != 0) &&
                     (begin_ready_actor_directional_action(actor, action_context, destination, 0) != 0)) {
                     return;
                 }
 
-                if (*(s32 *)(target + 0x1C) & 0x80000) {
+                if (target->flags1C & 0x80000) {
                     begin_actor_move_to_target_facing(actor, action_context, destination, target);
                     update_actor_transform_from_parent_callback(actor, action_context, destination, target);
                     return;
                 }
 
                 if ((can_entity_gain_level(target) << 16) != 0) {
-                    *(s8 *)(actor + 0xAD) = 0;
+                    actor->unk_AC.bytes[1] = 0;
                     begin_actor_flagged_action(actor, action_context, destination, target);
                     return;
                 }
             }
 
-            *(s8 *)(destination + 0x26) = find_active_rect_containing_point(*(destination + 0x24),
-                                                     *(destination + 0x25));
-            if (*(s8 *)(target + 0x6D) <= 0) {
+            destination->room_index = find_active_rect_containing_point(destination->tile_x,
+                                                     destination->tile_y);
+            if (target->pending_turn_updates <= 0) {
                 return;
             }
             if (g_dungeon_status.flags & 0x1000) {
@@ -69,17 +69,17 @@ void dispatch_target_action(u8 *actor, s32 action_context, u8 *destination, u8 *
             if ((has_pending_actor_or_turn_action(0) << 16) != 0) {
                 return;
             }
-            if (find_monster_neighbor_candidate(target, *(destination + 0x24),
-                              *(destination + 0x25)) != 0) {
-                *(s8 *)(actor + 0xAD) = 0;
+            if (find_monster_neighbor_candidate(target, destination->tile_x,
+                              destination->tile_y) != 0) {
+                actor->unk_AC.bytes[1] = 0;
                 begin_actor_flagged_action(actor, action_context, destination, target);
                 return;
             }
         } else {
-            *(s8 *)(actor + 0xAD) = 0;
+            actor->unk_AC.bytes[1] = 0;
             begin_actor_flagged_action(actor, action_context, destination, target);
             return;
         }
-        *(s8 *)(target + 0x6D) = 0;
+        target->pending_turn_updates = 0;
     }
 }

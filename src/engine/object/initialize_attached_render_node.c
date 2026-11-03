@@ -21,7 +21,7 @@ void initialize_attached_message_window_node(void *node_storage, void *attached_
     node->update_callback = dispatch_window_fade_and_update_extents;
     register_node(node, draw_linked_sprite_nodes);
 
-    object = (AttachedMessageWindowBody *)(node + 1);
+    object = NODE_BODY(node);
     aux_state = node->position;
     render_state = node->sprite;
     object->unk_44 = init_data;

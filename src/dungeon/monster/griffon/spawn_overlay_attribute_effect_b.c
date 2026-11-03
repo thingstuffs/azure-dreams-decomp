@@ -46,7 +46,7 @@ void *spawn_overlay_attribute_effect_b(s16 spawn_flags, s16 attr_a, s16 attr_b, 
     held_b = attr_b;
     obj = allocate_list_node(0x112, &scene_object_list_anchor.next);
     if (obj != 0) {
-        work = (ActorRecord *)(obj + 1);
+        work = NODE_BODY(obj);
         obj->update_callback = D_80158A50;
         work->species = MONSTER_GRIFFON;
         register_node(obj, project_sprite_chain);

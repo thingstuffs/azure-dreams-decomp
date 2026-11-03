@@ -81,7 +81,7 @@ void update_actor_render_effect_and_position(u8 *actor_data, u8 *output_data, u8
         region_page = DUNGEON_FROM_PAGE;
         region_packet = region_page->unk_8D0;
         region_page->unk_8D0 = (u8 *)region_packet + 0xC;
-        SetDrawArea(region_packet, (void *)&draw_region);
+        SetDrawArea(region_packet, &draw_region);
         AddPrim(packet_list, region_packet);
         actor->state++;
     } else if (state == 1) {
@@ -156,7 +156,7 @@ void create_parent_position_effect(EntityRec *parent, s32 effect_param, u8 *effe
         display->depth_bias = 8;
 
         parent_position = (*(void * *)&parent->z);
-        state = (u8 *)effect + 0x20;
+        state = NODE_BODY(effect);
         state->unk_0C = effect_param;
         state->unk_10 = effect_data;
         state->unk_1C = parent_position;

@@ -38,7 +38,7 @@ void process_five_context_entries_or_fallback(void *context_arg) {
     owner = (u8 *)context - 0x20;
     *(void (**)(void))((u8 *)context + 0x34) = (void (*)(void))card_boot_resume_menu_after_slot_refresh;
     card_boot_show_copy_failure_notice(owner);
-    *(void **)((u8 *)context - 0x10) = (void *)D_80024F7C;
+    *(void **)((u8 *)context - 0x10) = D_80024F7C;
     card_boot_recheck_selected_channel();
     context->unk_40 = 0;
 }

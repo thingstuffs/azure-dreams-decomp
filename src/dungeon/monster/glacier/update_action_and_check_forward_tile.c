@@ -95,7 +95,7 @@ void update_action_and_check_forward_tile(ActorRecord *actor, ObjectPosition *mo
             particle = allocate_flagged_object_node(0x212);
             if (particle != 0) {
 
-                particle_work = (u8 *)particle;
+                particle_work = particle;
                 particle_work += 0x20;
                 ((ObjectNodeHeader *)particle_work)->flags = 0x28;
                 particle->update_callback = D_80170B48;

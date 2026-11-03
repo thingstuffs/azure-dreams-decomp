@@ -75,7 +75,7 @@ void track_player_and_dispatch_handler(void *context, S_7FFFE25C_1 *owner, Entit
     adjusted_pos->y.v = view_reference_entity.y.v;
     adjusted_pos->z.v = view_reference_entity.z.v + offset[2];
 
-    get_smaller_query_result_capped_hex_80_writes_associated_output(adjusted_pos, ((u8 *)&position_query_scratch));
+    get_smaller_query_result_capped_hex_80_writes_associated_output(adjusted_pos, (&position_query_scratch));
     call_the_same_context_both_processing_routines(owner, adjusted_pos);
     handle_resolve_bounding_box_overlaps_linked_colliders_along_least_penetrating_axis(owner, adjusted_pos);
 

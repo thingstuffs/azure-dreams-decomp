@@ -115,7 +115,7 @@ void update_entity_callbacks_and_floor(ActorRecord *body, ObjectPosition *motion
                 body->unk_A4.halves.low.s = 0;
                 body->unk_A4.halves.high.s = 0;
                 sprite->color.word = 0;
-                register_node((ObjectNodeHeader *)body - 1, project_sprite_chain);
+                register_node(NODE_HEADER(body), project_sprite_chain);
             }
         }
 

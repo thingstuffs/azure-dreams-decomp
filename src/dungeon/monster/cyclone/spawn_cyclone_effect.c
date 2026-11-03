@@ -74,7 +74,7 @@ void *create_source_to_owner_sprite(ActorRecord *owner, ObjectPosition *position
         offset.distance[2] = 0;
         offset.distance[1] = 0;
         offset.distance[0] = 0;
-        part = (u8 *)obj + 0x20;
+        part = NODE_BODY(obj);
         if (resolve_record_orientation_or_fallback(source_obj->source, source_obj, &offset.orientation, 1) != 0) {
             part->unk_04.at02.v += offset.distance[0];
             coords->x.w.i = part->unk_04.at02.v;

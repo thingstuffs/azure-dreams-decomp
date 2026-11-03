@@ -74,15 +74,15 @@ void update_actor_callbacks_and_terrain(ActorRecord *actor_arg, ObjectPosition *
         return;
     }
     state_or_facing = (s8) actor_arg->pending_turn_updates;
-    if (refresh_actor_facing_and_lifecycle(actor_arg, ((void *)(motion_arg)), object_arg, actor_arg) == 0) {
+    if (refresh_actor_facing_and_lifecycle(actor_arg, ((motion_arg)), object_arg, actor_arg) == 0) {
         update_callback = actor_arg->unk_8C.handler;
         if (update_callback != NULL) {
-            update_callback(actor_arg, ((void *)(motion_arg)), object_arg, actor_arg);
+            update_callback(actor_arg, ((motion_arg)), object_arg, actor_arg);
         }
         ((void (*)(void *, void *, void *, void *))D_80175198[actor_arg->action_id.u])(actor_arg,
-            ((void *)(motion_arg)), object_arg, actor_arg);
+            ((motion_arg)), object_arg, actor_arg);
         if ((s16) state_or_facing != (s8) actor_arg->pending_turn_updates) {
-            try_move_actor_to_valid_position(actor_arg, ((void *)(motion_arg)), object_arg, actor_arg);
+            try_move_actor_to_valid_position(actor_arg, ((motion_arg)), object_arg, actor_arg);
         }
         motion_arg->x.v =
             (s32) (motion_arg->x.v

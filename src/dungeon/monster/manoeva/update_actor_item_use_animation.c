@@ -135,7 +135,7 @@ void update_actor_item_use_animation(ActorRecord *action, void *item, SpriteFram
             }
         }
 
-        if (!create_actor_spell_effect(act, item, use_global_source, (u16 *)((u8 *)action + 0x98))) {
+        if (!create_actor_spell_effect(act, item, use_global_source, ((u8 *)action + 0x98))) {
             return;
         }
         create_actor_linked_effect(act);

@@ -155,7 +155,7 @@ void spawn_rotate_and_restore_actor_state(ActorRecord *effect, ObjectPosition *m
         }
         register_node(effect_alloc, draw_layered_wavy_object_strips);
         effect_alloc->update_callback = advance_actor_replacement_sequence;
-        effect_data = (RotateAndRestoreActorStateBody *)(((u8 *)effect_alloc) + 0x20);
+        effect_data = NODE_BODY(effect_alloc);
         effect_data->target_x = (sprite->tile_x << 6) + 0x20;
         effect_data->target_y = (sprite->tile_y << 6) + 0x20;
         {
@@ -180,7 +180,7 @@ void spawn_rotate_and_restore_actor_state(ActorRecord *effect, ObjectPosition *m
             effect_alloc = allocate_list_node(0x312, &scene_object_list_anchor.next);
             if (effect_alloc != 0) {
                 register_node(effect_alloc, project_sprite_chain);
-                effect_data = (RotateAndRestoreActorStateBody *)(((u8 *)effect_alloc) + 0x20);
+                effect_data = NODE_BODY(effect_alloc);
                 tile = effect_alloc->sprite;
                 effect_alloc->update_callback = mandara_object_callback_2;
 
@@ -197,8 +197,8 @@ void spawn_rotate_and_restore_actor_state(ActorRecord *effect, ObjectPosition *m
                         (tile_y << 6) + (random % 64);
                 }
                 particle_pos = effect_alloc->position;
-                height = sample_terrain_surface_height(*(u16 *)&particle_pos->x.w.i,
-                    *(u16 *)&particle_pos->y.w.i, -0x400);
+                height = sample_terrain_surface_height(((u16)(particle_pos->x.w.i)),
+                    ((u16)(particle_pos->y.w.i)), -0x400);
                 {
                     s32 height_random = rand();
                     height -= height_random % 95;

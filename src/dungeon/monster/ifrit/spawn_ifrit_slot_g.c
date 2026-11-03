@@ -47,7 +47,7 @@ void *build_projected_tile_packets(s16 mask, s16 value_24_input, s16 value_25_in
     value_25 = value_25_input;
     object = allocate_list_node(0x112, &scene_object_list_anchor.next);
     if (object != 0) {
-        work = (ActorRecord *)(object + 1);
+        work = NODE_BODY(object);
         object->update_callback = D_80170A58;
         work->species = MONSTER_IFRIT;
         register_node(object, project_sprite_chain);
@@ -82,7 +82,7 @@ void *build_projected_tile_packets(s16 mask, s16 value_24_input, s16 value_25_in
                 }
             }
         }
-        initialize_actor_sprite_and_animation(((void *)(object)), part_a, part_b, mask);
+        initialize_actor_sprite_and_animation(((object)), part_a, part_b, mask);
         actor->action_id.u = 0xFF;
         actor->unk_9C = -1;
         actor->unk_8C.address = &ifrit_action_resume_address;

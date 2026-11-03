@@ -358,7 +358,7 @@ DungeonDescriptor *create_timed_effect_at_tile(s32 tile_x, s32 tile_y, s32 z, s3
     DungeonDescriptor *descriptor;
     ObjectPosition *inner;
 
-    descriptor = create_item_render_object(((u8 *)(&scene_object_list_anchor)), init_data, 0, 0, 0);
+    descriptor = create_item_render_object(((&scene_object_list_anchor)), init_data, 0, 0, 0);
     if (descriptor == 0) {
         return 0;
     }
@@ -486,7 +486,7 @@ void * create_tile_centered_item_effect(s32 tile_x, s32 tile_y, s32 height, s32 
     S_800A794C_2 *fields;
     s32 payload;
 
-    object = create_item_render_object(((s32 *)&scene_object_list_anchor.next), payload_ptr, 0, 0, 0);
+    object = create_item_render_object((&scene_object_list_anchor.next), payload_ptr, 0, 0, 0);
     if (object == 0) {
         return 0;
     }
@@ -496,7 +496,7 @@ void * create_tile_centered_item_effect(s32 tile_x, s32 tile_y, s32 height, s32 
     position->y.w.i = (s16)((tile_y << 6) + 0x20);
     position->z.w.i = height;
 
-    fields = (S_800A794C_2 *)(((u8 *)object) + 0x20);
+    fields = NODE_BODY(object);
     payload = *payload_ptr;
     fields->unk_A0 = 4;
     fields->unk_AA = (s16)field_aa;
@@ -582,7 +582,7 @@ s32 place_item_at_valid_floor_position(s32 x, s32 y, s32 z, s32 unused, s32 *obj
                 record->w2 = (u16)tile_value;
                 record->value = get_item_category_value(object_data);
                 cycle_map_cell_flags(tile_x, tile_y, TILE_HAS_ITEM);
-                select_position_data_and_update_owner(((u8 *)(&reference_tile_object)), ((u8 *)dungeon_actor_ring_anchor));
+                select_position_data_and_update_owner(((u8 *)(&reference_tile_object)), (dungeon_actor_ring_anchor));
             }
             return 1;
         }
@@ -704,9 +704,9 @@ s32 render_floor_items(s32 unused0, ObjectPosition *unused1, SpriteFrameState *r
     scratch->vertices[2].z.u = 0;
     scratch->vertices[1].z.u = 0;
     scratch->vertices[0].z.u = 0;
-    camera_angles.a = *(u16 *)&render_state->view.camera_rotation.parts.camera_rotation_x;
-    camera_angles.b = *(u16 *)&render_state->view.camera_rotation.parts.camera_rotation_y;
-    camera_angles.c = *(u16 *)&render_state->view.camera_rotation.parts.viewAngle;
+    camera_angles.a = ((u16)(render_state->view.camera_rotation.parts.camera_rotation_x));
+    camera_angles.b = ((u16)(render_state->view.camera_rotation.parts.camera_rotation_y));
+    camera_angles.c = ((u16)(render_state->view.camera_rotation.parts.viewAngle));
 
     do {
         if (((Ent4 *)((entity_index * 4) + (s32)((Ent4 *)dungeon_ground_items)))->b1 != 0) {
@@ -730,7 +730,7 @@ s32 render_floor_items(s32 unused0, ObjectPosition *unused1, SpriteFrameState *r
                 scratch->origin_y = scratch->origin_y - 0x78;
                 scratch->angle_x = render_params->angle_x;
                 angle_z = render_params->angle_z - camera_angles.b;
-                scratch->angle_z = *(u16 *)&render_state->view.view_rotation_offset.parts.view_rotation_offset_z + angle_z;
+                scratch->angle_z = ((u16)(render_state->view.view_rotation_offset.parts.view_rotation_offset_z)) + angle_z;
                 angle_y = (camera_angles.c + 0x100) & 0x1FF;
                 angle_y_offset = render_params->angle_y - 0x100;
                 scratch->angle_y = angle_y + angle_y_offset;
@@ -846,7 +846,7 @@ s32 render_floor_items(s32 unused0, ObjectPosition *unused1, SpriteFrameState *r
                             shadow_scale.vx = shadow_scale.vz;
                             shadow_scale.vy = shadow_scale.vz / 2;
                             scratch->angle_x = -camera_angles.a;
-                            scratch->angle_z = *(u16 *)&render_state->view.view_rotation_offset.parts.view_rotation_offset_z - camera_angles.b;
+                            scratch->angle_z = ((u16)(render_state->view.view_rotation_offset.parts.view_rotation_offset_z)) - camera_angles.b;
                             RotMatrix(&scratch->angle_x, rotation_matrix);
                             CompMatrix(matrix_page - 0x32D0, rotation_matrix, transform);
                             ScaleMatrix(transform, &shadow_scale);
@@ -894,7 +894,7 @@ s32 render_floor_items(s32 unused0, ObjectPosition *unused1, SpriteFrameState *r
         }
         entity_index += 1;
     } while (entity_index < 64);
-    ((GpuContext *)render_state->draw_buffer)->packetCursor = (u8 *)prim;
+    ((GpuContext *)render_state->draw_buffer)->packetCursor = prim;
     return 0;
 }
 #include "common.h"
@@ -1424,7 +1424,7 @@ void *create_indexed_floor_object(s32 object_key, DungeonCoords *source_coords, 
 
     object = allocate_list_node(0x110, object_key - 0x20);
     if (object != NULL) {
-        data = (DungeonData *)((u8 *)object + 0x20);
+        data = NODE_BODY(object);
         object->update_callback = D_800A871C;
         coords = object->position;
         state = object->sprite;

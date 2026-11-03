@@ -1,11 +1,10 @@
 #include "common.h"
+#include "town/scene/flags.h"
 #include "town/devkit.h"
-
-s32 func_80700C54(s32, s32, s32, s32); /* Unprototyped: this site's argument count or types differ from the foreign program's import prototype */
 extern s32 D_80700A18[];
 
 /* Run the indexed operation and return its table value. */
 s32 grid_run_indexed_operation_a(s32 table_index, s32 call_input, s32 call_param, s32 call_extra) {
-    func_80700C54(table_index, call_input, call_param, call_extra);
+    dispatch_entry_flags_80700c54(table_index);
     return D_80700A18[table_index];
 }

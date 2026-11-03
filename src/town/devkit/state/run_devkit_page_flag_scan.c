@@ -1,11 +1,11 @@
 #include "common.h"
+#include "town/devkit.h"
 void func_80700C08(s32);                     /* extern */
-void func_80701060(void);                            /* extern */ /* Unprototyped: this site's argument count or types differ from the foreign program's import prototype */
 
 /* Devkit flag-test entry: select page 3, then run the page's flag scan. */
 void run_devkit_page_3_flag_scan(void) {
     func_80700C08(3);
-    func_80701060();
+    dispatch_devkit_callback_by_run_length();
 }
 
 /* MECHANISM: The seed already had retail's 24-byte frame, sole $ra save, and two-call CFG. Zero | (3);

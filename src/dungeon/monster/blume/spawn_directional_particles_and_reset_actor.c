@@ -138,7 +138,7 @@ void spawn_directional_particles_and_reset_actor(ActorRecord *state, ObjectPosit
                         SpriteFrameState *map;
                         u32 direction_offset;
 
-                        motion = (u8 *)particle + 0x20;
+                        motion = NODE_BODY(particle);
                         motion->lifetime = 0x28 - state->action_timer.u;
                         motion->unk_9B = 0;
                         render = particle->sprite;
@@ -230,7 +230,7 @@ void spawn_directional_particles_and_reset_actor(ActorRecord *state, ObjectPosit
                         SpriteFrameState *map;
                         u32 direction_offset;
 
-                        motion = (S_80174BEC_3 *)((u8 *)particle + 0x20);
+                        motion = NODE_BODY(particle);
                         motion->unk_24 = 0x19 - state->action_timer.u;
                         ((S_80174BEC_4 *)particle)->unk_20 = 0;
                         particle->update_callback = update_growing_colliding_effect;

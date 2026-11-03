@@ -55,7 +55,7 @@ void update_actor_action_state_2(ActorRecord *obj_arg, ObjectPosition *context_a
                 >> 9) & 7], 0);
         }
         counter_base = &g_dungeon_status;
-        counter_value = *(u16 *)&counter_base->activity_counts.parts.pending_action_count;
+        counter_value = ((u16)(counter_base->activity_counts.parts.pending_action_count));
         counter_value--;
         counter_base->activity_counts.parts.pending_action_count = counter_value;
         obj_arg->action_phase.u++;
@@ -129,7 +129,7 @@ void update_actor_action_state_2(ActorRecord *obj_arg, ObjectPosition *context_a
             on_actor_status_updated(actor_arg);
             if ((get_entity_effect_value(actor_arg, STATUS_SLEEP) << 0x10) != 0) {
                 room_base = &reference_tile_object;
-                target_room = *(s8 *)&target->room_index;
+                target_room = ((s8)(target->room_index));
                 if (!(((target_room != room_base->room_index) || (target_room < 0))
                       && get_tile_chebyshev_distance(room_base, target) >= 2)) {
                     if ((generate_random_value() & 7) == 0) {
@@ -151,7 +151,7 @@ void update_actor_action_state_2(ActorRecord *obj_arg, ObjectPosition *context_a
             break;
         }
         counter_base = &g_dungeon_status;
-        counter_value = *(u16 *)&counter_base->activity_counts.parts.pending_action_count;
+        counter_value = ((u16)(counter_base->activity_counts.parts.pending_action_count));
         counter_value++;
         counter_base->activity_counts.parts.pending_action_count = counter_value;
         obj_arg->action_phase.u++;
@@ -163,7 +163,7 @@ void update_actor_action_state_2(ActorRecord *obj_arg, ObjectPosition *context_a
             return;
         }
         counter_base = &g_dungeon_status;
-        counter_value = *(u16 *)&counter_base->activity_counts.parts.pending_action_count;
+        counter_value = ((u16)(counter_base->activity_counts.parts.pending_action_count));
         counter_value--;
         counter_base->activity_counts.parts.pending_action_count = counter_value;
         break;

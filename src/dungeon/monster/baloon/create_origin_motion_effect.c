@@ -50,7 +50,7 @@ void create_origin_motion_effect(ActorRecord *unused_0, ObjectPosition *origin_p
     z = offset_z;
     effect = allocate_flagged_object_node(0x212);
     if (effect != 0) {
-        motion = ((void *)effect) + 0x20;
+        motion = NODE_BODY(effect);
         motion->unk_0C = 0x1E;
         motion->unk_0E = 0x1E;
         effect->update_callback = update_effect_collision_and_lifetime;
@@ -76,9 +76,9 @@ void create_origin_motion_effect(ActorRecord *unused_0, ObjectPosition *origin_p
         }
         motion->unk_38 = (s32)(0 - ((s32)motion->unk_2C >> 4));
         motion->unk_3C = (s32)(0 - ((s32)motion->unk_30 >> 4));
-        position->x.w.i = (u16)(*(u16 *)&position->x.w.i + origin->x);
-        position->y.w.i = (u16)(*(u16 *)&position->y.w.i + origin->y);
-        position->z.w.i = (u16)(*(u16 *)&position->z.w.i + origin->z);
+        position->x.w.i = (u16)(((u16)(position->x.w.i)) + origin->x);
+        position->y.w.i = (u16)(((u16)(position->y.w.i)) + origin->y);
+        position->z.w.i = (u16)(((u16)(position->z.w.i)) + origin->z);
         sprite = effect->sprite;
         sprite->scale_x = 0xC00;
         sprite->scale_y = 0xC00;

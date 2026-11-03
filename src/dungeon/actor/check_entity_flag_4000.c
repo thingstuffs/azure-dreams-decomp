@@ -14,7 +14,7 @@ s32 check_entity_flag_4000(ActorRecord *entity) {
 
     if (entity->flags14 & 0x4000) {
         slot_index = 1;
-        slot_cursor = (void *)(((u8 *)dungeon_actor_ring_anchor) + 4);
+        slot_cursor = (((u8 *)dungeon_actor_ring_anchor) + 4);
         do {
             linked_entity = ((ActorRecord *)slot_cursor)->unk_AC.address;
             if ((linked_entity != 0) && ((linked_entity->status_flags & 0x4000) != 0)) {

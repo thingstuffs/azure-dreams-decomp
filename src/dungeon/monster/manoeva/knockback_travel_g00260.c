@@ -124,7 +124,7 @@ void create_knockback_travel_object(ActorRecord *owner_data, ObjectPosition *pos
     work->unk_38.u = property_flags & 0x2007;
     work->unk_3A = source_arg->clut;
     owner_byte = owner_data->unk_AC.byte;
-    work->unk_0C = (ObjectNodeHeader *)context_arg - 1;
+    work->unk_0C = NODE_HEADER(context_arg);
     work->unk_10 = context_arg;
     work->owner_byte = owner_byte;
 

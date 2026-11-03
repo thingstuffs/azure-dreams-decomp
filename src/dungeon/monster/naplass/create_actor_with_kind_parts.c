@@ -33,7 +33,7 @@ void *create_actor_with_kind_parts(s16 kind_flags, s16 grid_x, s16 grid_y, s16 p
     saved_y = grid_y;
     obj = allocate_list_node(0x112, &scene_object_list_anchor.next);
     if (obj != 0) {
-        work = (void *)((Work *)((u8 *)obj + 0x20));
+        work = NODE_BODY(obj);
         obj->update_callback = func_8014CA3C;
         work->unk_13 = MONSTER_NAPLASS;
         register_node(obj, project_sprite_chain);

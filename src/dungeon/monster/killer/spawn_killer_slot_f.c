@@ -48,7 +48,7 @@ void *spawn_killer_slot_f(s16 kind_flags, s32 part_value_24, s32 part_value_25, 
     saved_value_25 = part_value_25;
     obj = allocate_list_node(0x112, &scene_object_list_anchor.next);
     if (obj != 0) {
-        work = (ActorRecord *)(obj + 1);
+        work = NODE_BODY(obj);
         obj->update_callback = D_8016AA7C;
         work->species = MONSTER_KILLER;
         register_node(obj, project_sprite_chain);

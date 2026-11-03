@@ -36,14 +36,14 @@ void begin_player_pickup_animation(ActorRecord *actor, s32 effect_arg, u8 *targe
     direction = ((g_game_work.view.camera_rotation.parts.viewAngle + source->facing + 0x100) >> 9) & 7;
     set_sprite_animation_frame(target, player_carry_frames[direction], 0, 1);
 
-    effect = create_item_render_object(((ObjectNodeHeader *)actor - 1), *(void **)(((u8 *)actor) + 0xBC), 0, 0, 0);
+    effect = create_item_render_object(NODE_HEADER(actor), *(void **)(((u8 *)actor) + 0xBC), 0, 0, 0);
     *(void **)(((u8 *)actor) + 0x124) = effect;
     if (effect != NULL) {
         effect->update_callback = &player_item_render_update_address;
         transform = effect->position;
         transform->x.w.i = (s16)((target[0x24] << 6) + 0x20);
         transform->y.w.i = (s16)((target[0x25] << 6) + 0x20);
-        effect_state = ((u8 *)effect) + 0x20;
+        effect_state = NODE_BODY(effect);
         transform->z.w.i = *(u16 *)(((u8 *)source) + 0x88);
         *(s16 *)(effect_state + 0xAA) = 1;
         *(s16 *)(effect_state + 0xA8) = 0x1E;

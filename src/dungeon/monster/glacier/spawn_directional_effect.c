@@ -35,7 +35,7 @@ void spawn_directional_effect(Rec_func_801744DC_arg0 *source, Rec_func_801744DC_
 
     effect = allocate_flagged_object_node(0x212);
     if (effect != 0) {
-        motion = (u8 *)effect + 0x20;
+        motion = NODE_BODY(effect);
         motion->remaining_ticks.signed_value = 0x4;
         effect->update_callback = advance_item_motion_collision;
         register_node(effect, project_sprite_chain);

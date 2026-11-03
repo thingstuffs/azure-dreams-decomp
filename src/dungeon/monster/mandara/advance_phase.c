@@ -132,7 +132,7 @@ s32 draw_layered_wavy_object_strips(void *object_data, void *unused, void *appea
             index_or_row--;
         } while (index_or_row >= 0);
         projection_ptr = &projection;
-        camera_z = *(u16 *)&render_state->view.camera_rotation.parts.viewAngle;
+        camera_z = ((u16)(render_state->view.camera_rotation.parts.viewAngle));
         projection.pad0A = 0;
         projection.pad08 = 0;
         projection.vertices = vertex_base;

@@ -18,6 +18,6 @@ void start_gauge_ramp(S_80050640 *obj)
 {
     set_color_components_and_scaled_fields(&obj->buf58, obj->counter++, 3);
 
-    obj->vtable = (void (*)(void *, s32, s32, s32))advance_gauge_color_then_decay;
+    obj->vtable = advance_gauge_color_then_decay;
     handle_object_input(obj);
 }

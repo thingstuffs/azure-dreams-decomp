@@ -58,7 +58,7 @@ void advance_motion_output_animation(FuncState *motion, ObjectPosition *position
         object_flag_block.flags |= OBJECT_REMOVE_PENDING;
         return;
     }
-    object = (void *)((s8 *)motion - 0x20);
+    object = ((s8 *)motion - 0x20);
     select_nearby_target_and_initialize_slot(object, position, 8, 0x300);
     advance_sprite_animation_and_textures(output);
     if (output->flags & 0x6000) {

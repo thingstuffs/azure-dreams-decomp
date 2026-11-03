@@ -94,7 +94,7 @@ void advance_actor_entry_active_exit_states(ActorRecord *action, ObjectPosition 
 
         g_dungeon_status.activity_counts.parts.pending_action_count--;
         effect = allocate_list_node(0x10, &scene_object_list_anchor.next);
-        effect_state = (AdvanceActorEntryActiveExitStatesBody *)((u8 *)effect + 0x20);
+        effect_state = NODE_BODY(effect);
         if (effect != 0) {
             effect->update_callback = mandara_object_callback;
             effect_state->image_data_00 = 0;
@@ -183,7 +183,7 @@ void advance_actor_entry_active_exit_states(ActorRecord *action, ObjectPosition 
                 0);
 
             effect = allocate_list_node(0x10, &scene_object_list_anchor.next);
-            effect_state = (AdvanceActorEntryActiveExitStatesBody *)((u8 *)effect + 0x20);
+            effect_state = NODE_BODY(effect);
             if (effect != 0) {
                 effect->update_callback = mandara_object_callback;
                 effect_state->image_data_00 = 0;
@@ -264,12 +264,12 @@ void advance_actor_entry_active_exit_states(ActorRecord *action, ObjectPosition 
         if ((s16)get_entity_effect_value(actor, STATUS_SLEEP) != 0) {
             s8 tile;
 
-            check_actor = ((u8 *)(&reference_tile_object));
-            tile = *(s8 *)&sprite->room_index;
+            check_actor = ((&reference_tile_object));
+            tile = ((s8)(sprite->room_index));
             if ((tile != reference_tile_object.room_index) || (tile < 0)) {
                 s32 distance;
 
-                distance = (s16)get_tile_chebyshev_distance(((u8 *)(&reference_tile_object)), sprite);
+                distance = (s16)get_tile_chebyshev_distance(((&reference_tile_object)), sprite);
                 check_actor = actor;
                 if (distance >= 2) {
                     goto second_call;
@@ -294,7 +294,7 @@ second_call:
             0);
 
         effect = allocate_list_node(0x10, &scene_object_list_anchor.next);
-        effect_state = (AdvanceActorEntryActiveExitStatesBody *)((u8 *)effect + 0x20);
+        effect_state = NODE_BODY(effect);
         if (effect != 0) {
             u16 angle;
             effect->update_callback = mandara_object_callback;

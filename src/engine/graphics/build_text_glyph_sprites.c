@@ -60,7 +60,7 @@ s32 build_text_glyph_sprites(TextGlyphBody *first_text)
         next_node = ((ObjectNodeHeader *)text_record - 1)->chain_next;
         if (next_node == 0)
             break;
-        text_record = (TextGlyphBody *)(next_node + 1);
+        text_record = NODE_BODY(next_node);
     }
     while (1);
     return 0;

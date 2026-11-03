@@ -23,7 +23,7 @@ void update_message_window(Func80038A10State *input_state) {
     handler = update_message_window;
 
     do {
-        if (interpret_script_opcodes_until_action_changes((struct RuntimeContext *)state, (u8 *)context) == 0) {
+        if (interpret_script_opcodes_until_action_changes((struct RuntimeContext *)state, context) == 0) {
             break;
         }
     } while (state->func10 == handler);

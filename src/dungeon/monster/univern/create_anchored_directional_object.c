@@ -58,7 +58,7 @@ void *spawn_univern_actor(s32 kind, s32 tile_x, s32 tile_y, s32 copy_value)
             ObjectNodeHeader *init_root;
             void *setup;
 
-            object = (ActorRecord *)(allocated + 1);
+            object = NODE_BODY(allocated);
             init_root = allocated;
             setup = project_sprite_chain;
             init_root->update_callback = ((u8 *)create_anchored_directional_object);
@@ -935,7 +935,7 @@ s32 try_univern_attack(ActorRecord *action_state, ObjectPosition *motion_param, 
         return -1;
     }
 
-    apply_camera_offset_and_select_target((u8 *)actor - 0x20, motion_param, 8, 0x300);
+    apply_camera_offset_and_select_target(NODE_HEADER(actor), motion_param, 8, 0x300);
     if ((try_claim_dungeon_action_slot(actor) << 16) == 0) {
         action_state->action_id.s = 0x11;
         action_state->action_phase.s = 0;
@@ -957,7 +957,7 @@ s32 try_univern_attack(ActorRecord *action_state, ObjectPosition *motion_param, 
 void begin_univern_attack(ActorRecord *action_state, ObjectPosition *context, SpriteFrameState *animation, ActorRecord *entity) {
     entity->movement_queue_state = (s8) (entity->movement_queue_state & 0x7F);
     if (!(g_dungeon_status.flags & 0x2000) && ((try_claim_dungeon_action_slot(entity) << 0x10) == 0)) {
-        apply_camera_offset_and_select_target((u8 *)entity - 0x20, context, 8, 0x300);
+        apply_camera_offset_and_select_target(NODE_HEADER(entity), context, 8, 0x300);
         if ((try_claim_dungeon_action_slot(entity) << 0x10) == 0) {
             action_state->action_id.u = 0x11;
             action_state->unk_8C.handler = 0;
@@ -1825,7 +1825,7 @@ void update_sleeping_univern(ActorRecord *actor_arg, ObjectPosition *motion_arg,
         on_actor_status_updated(entity);
         if ((get_entity_effect_value(entity, STATUS_SLEEP) << 16) != 0) {
             TileObject *origin = &reference_tile_object;
-            s8 coordinate = *(s8 *)&sprite->room_index;
+            s8 coordinate = ((s8)(sprite->room_index));
 
             if ((((coordinate == origin->room_index) && (coordinate >= 0)) ||
                  (((s16)get_tile_chebyshev_distance(origin, sprite)) < 2)) &&

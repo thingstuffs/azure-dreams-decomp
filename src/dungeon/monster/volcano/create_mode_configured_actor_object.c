@@ -31,7 +31,7 @@ void *create_mode_configured_actor_object(s16 spawn_flags, s16 attr_a, s16 attr_
         root = allocate_list_node(0x112, &scene_object_list_anchor.next);
         held_flags = spawn_flags;
         if (root != NULL) {
-            result = (u8 *)root + 0x20;
+            result = NODE_BODY(root);
             ((ActorRecord *)result)->species = MONSTER_VOLCANO;
             register_node(root, project_sprite_chain);
 

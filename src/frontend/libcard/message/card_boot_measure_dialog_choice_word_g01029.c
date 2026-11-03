@@ -119,7 +119,7 @@ void card_boot_position_dialog_selection_marker(void *context, s32 column, s32 m
     record->block->fields.y =
         (s16)((row * 0x11) - (state->height / 2) + 0x7A);
     saved_row_value = *&row_value;
-    card_boot_build_slot_marker_packet((s32)state, (Struct_8000F300 *)position, mode);
+    card_boot_build_slot_marker_packet((s32)state, position, mode);
     record->payload.word = (s32)(unsigned long)position;
     card_boot_highlight_dialog_text_range(
         state->entries[row]->payload.word,

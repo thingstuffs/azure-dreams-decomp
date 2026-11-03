@@ -63,7 +63,7 @@ void spawn_angled_random_velocity_effect(EntityRec *source, u32 angle, s32 effec
     allocation_head = allocation_head_address;
     effect = allocate_list_node(0x211,allocation_head);
     if (effect != NULL) {
-        base = (EffectBase *)(effect + 1);
+        base = NODE_BODY(effect);
         effect->update_callback = &D_800D707C;
         effect->position->x.w.i = (u16)
         ((MovingPosition *)((*(void * *)&source->z)))->x;

@@ -46,7 +46,7 @@ void *allocate_kind_actor_object(s16 spawn_flags, s16 part_b_value_24, s16 part_
     saved_value_25 = part_b_value_25;
     obj = allocate_list_node(0x112, &scene_object_list_anchor.next);
     if (obj != 0) {
-        work = (ActorRecord *)(obj + 1);
+        work = NODE_BODY(obj);
         obj->update_callback = naplass_object_callback;
         work->species = MONSTER_NAPLASS;
         register_node(obj, project_sprite_chain);

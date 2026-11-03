@@ -492,9 +492,9 @@ void update_effect_launch_travel_impact_cleanup(B22_81893474_EffectState *effect
 
     state = effect_state;
     motion = effect_motion;
-    state->timer++;
-    state_id = state->state;
-    owner = state->owner;
+    state->timer.s++;
+    state_id = state->state.s;
+    owner = state->owner.actor;
     part = color_part;
     switch (state_id) {
     case 0:
@@ -508,9 +508,9 @@ void update_effect_launch_travel_impact_cleanup(B22_81893474_EffectState *effect
                 origin->tile_position.parts.tile_x + U16_AT((u8 *)dir_step_x + offset, 0),
                 origin->tile_position.parts.tile_y + U16_AT((u8 *)dir_step_y + offset, 0), &result);
         }
-        state->timer = 0;
-        state->state++;
-        state->direction = ((u16)owner->facing >> 9) & 7;
+        state->timer.s = 0;
+        state->state.s++;
+        state->direction.s = ((u16)owner->facing >> 9) & 7;
         state->status = 0;
         part->color = 0x00808080;
 
@@ -534,7 +534,7 @@ void update_effect_launch_travel_impact_cleanup(B22_81893474_EffectState *effect
         } else {
             motion->z.w.i = source_z - 0x40;
         }
-        if (!(U16_AT(state->image, 0) & 0x80)) {
+        if (!(U16_AT(state->image.address, 0) & 0x80)) {
             break;
         }
         target_pos = &scratch.work;
@@ -546,45 +546,45 @@ void update_effect_launch_travel_impact_cleanup(B22_81893474_EffectState *effect
             {
                 u8 *x_table = (u8 *)dir_step_x;
                 direction_bits = (u16)direction_node->facing;
-                state->x = position_base->tile_position.parts.tile_x +
+                state->x.s = position_base->tile_position.parts.tile_x +
                     ((s16 *)(x_table + (((u32)direction_bits >> 8) & 0xE)))[0];
             }
             {
                 u8 *y_table = (u8 *)dir_step_y;
                 direction_bits = (u16)direction_node->facing;
-                state->y = position_base->tile_position.parts.tile_y +
+                state->y.s = position_base->tile_position.parts.tile_y +
                     ((s16 *)(y_table + (((u32)direction_bits >> 8) & 0xE)))[0];
             }
         } else {
-            state->x = reference_tile_object.tile_position.parts.tile_x + dir_step_x[state->direction];
-            state->y = reference_tile_object.tile_position.parts.tile_y + dir_step_y[state->direction];
+            state->x.s = reference_tile_object.tile_position.parts.tile_x + dir_step_x[state->direction.s];
+            state->y.s = reference_tile_object.tile_position.parts.tile_y + dir_step_y[state->direction.s];
         }
         {
             ActorRecord *height_node;
             s32 tile_coord;
 
-            tile_coord = state->x;
+            tile_coord = state->x.s;
             target_pos->x.w.i = tile_coord * 64 + 0x20;
-            tile_coord = state->y;
+            tile_coord = state->y.s;
             height_node = primary_actor_record;
             target_pos->y.w.i = tile_coord * 64 + 0x20;
             target_pos->z.w.i = height_node->ground_height - 0x20;
         }
         target_pos->z.w.i = get_surface_height_at_record(target_pos);
-        state->z = target_pos->z.w.i;
-        get_offset_map_cell_value_and_flags(state->x - 1, state->y, 0, &map_flags);
+        state->z.s = target_pos->z.w.i;
+        get_offset_map_cell_value_and_flags(state->x.s - 1, state->y.s, 0, &map_flags);
         if ((map_flags & 0x3300) != 0 ||
             (target_z = target_pos->z.w.i) > 0x200 ||
             (check_left_tile_and_center_height((u16)target_pos->x.w.i, (u16)target_pos->y.w.i, target_z) << 16) != 0 ||
             (increment_bounded_counter() << 16) == 0) {
-            state->state = 7;
+            state->state.s = 7;
         } else {
             if ((owner_data->flags | 0x2000) == 0) {
                 state->status = 2;
             } else {
                 state->status = 1;
             }
-            state->state++;
+            state->state.s++;
         }
         {
             s32 delta_x;
@@ -607,49 +607,49 @@ void update_effect_launch_travel_impact_cleanup(B22_81893474_EffectState *effect
             delta_z = abs(delta_z);
             probe[2] = delta_z;
         }
-        state->duration = 12;
-        motion->velocity_x = (target_pos->x.v - motion->x.v) / state->duration;
-        motion->velocity_y = (target_pos->y.v - motion->y.v) / state->duration;
-        motion->velocity_z = (target_pos->z.v - motion->z.v) / state->duration;
-        create_randomly_rotated_sprite_object(state, motion, state->duration);
-        create_randomly_rotated_sprite_object(state, motion, state->duration);
-        create_randomly_rotated_sprite_object(state, motion, state->duration);
-        state->timer = 0;
+        state->duration.s = 12;
+        motion->velocity_x = (target_pos->x.v - motion->x.v) / state->duration.s;
+        motion->velocity_y = (target_pos->y.v - motion->y.v) / state->duration.s;
+        motion->velocity_z = (target_pos->z.v - motion->z.v) / state->duration.s;
+        create_randomly_rotated_sprite_object(state, motion, state->duration.s);
+        create_randomly_rotated_sprite_object(state, motion, state->duration.s);
+        create_randomly_rotated_sprite_object(state, motion, state->duration.s);
+        state->timer.s = 0;
         break;
 
     case 2:
         motion->x.v += motion->velocity_x;
         motion->y.v += motion->velocity_y;
         motion->z.v += motion->velocity_z;
-        if (state->timer < state->duration) {
+        if (state->timer.s < state->duration.s) {
             break;
         }
         create_vertical_acceleration_sprite(state, motion, 12);
-        state->timer = 0;
-        state->state++;
+        state->timer.s = 0;
+        state->state.s++;
         break;
 
     case 3:
-        if (state->timer < 8) {
+        if (state->timer.s < 8) {
             break;
         }
         play_sound_if_enabled(AUDIO_PLAY_CD_CUE);
-        state->timer = 0;
-        state->state++;
+        state->timer.s = 0;
+        state->state.s++;
         break;
 
     case 4:
-        if (state->timer < 5) {
+        if (state->timer.s < 5) {
             break;
         }
         create_animated_sprite_burst(state, motion, 16);
         initialize_timed_motion_step(8, 36);
-        state->timer = 0;
-        state->state++;
+        state->timer.s = 0;
+        state->state.s++;
         break;
 
     case 5:
-        if (state->timer < 0x11) {
+        if (state->timer.s < 0x11) {
             break;
         }
         if (state->status != 0) {
@@ -658,7 +658,7 @@ void update_effect_launch_travel_impact_cleanup(B22_81893474_EffectState *effect
             u32 effect_id;
             s32 variation;
 
-            spawned_effect = create_actor_at_tile(state->status, state->x, state->y, state->z);
+            spawned_effect = create_actor_at_tile(state->status, state->x.s, state->y.s, state->z.s);
             func_80042640(spawned_effect, 51);
             variation = generate_random_value();
             effect_id = state->id;
@@ -673,12 +673,12 @@ void update_effect_launch_travel_impact_cleanup(B22_81893474_EffectState *effect
             spawned_effect->hp = clamped_strength;
             spawned_effect->max_hp = clamped_strength;
         }
-        state->timer = 0;
-        state->state++;
+        state->timer.s = 0;
+        state->state.s++;
         break;
 
     case 6:
-        if (state->field_14 != 0) {
+        if (state->field_14.s != 0) {
             break;
         }
         g_dungeon_status.active_actor = 0;
@@ -689,11 +689,11 @@ void update_effect_launch_travel_impact_cleanup(B22_81893474_EffectState *effect
     case 7:
         motion->x.v += motion->velocity_x;
         motion->y.v += motion->velocity_y;
-        if (state->timer >= state->duration) {
-            state->state = 6;
-            state->timer = 0;
+        if (state->timer.s >= state->duration.s) {
+            state->state.s = 6;
+            state->timer.s = 0;
         }
     }
 
-    state->field_14 = 0;
+    state->field_14.s = 0;
 }

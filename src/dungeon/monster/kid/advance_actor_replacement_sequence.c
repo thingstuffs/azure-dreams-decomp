@@ -260,7 +260,7 @@ void advance_actor_replacement_sequence(ActorRecord *state, ObjectPosition *posi
         ((S_80174B20_16 *)actor->target)->unk_2A = (u16) ((u16)actor->facing);
         replacement = actor->target;
         sprite = ((S_80174B20_11_pre *)replacement)[-1].unk_00;
-        select_indirect_table_entry((struct S_80047738 *)(sprite), sprite->unk_2C[((s32) (g_game_work.view.camera_rotation.parts.viewAngle
+        select_indirect_table_entry((sprite), sprite->unk_2C[((s32) (g_game_work.view.camera_rotation.parts.viewAngle
             + (s16) ((S_80174B20_11 *)replacement)->unk_2A + 0x100) >> 9) & 7], sprite->unk_04);
         sprite->unk_14 = (u16) (sprite->unk_14 & 0xFFFE);
     case 8:

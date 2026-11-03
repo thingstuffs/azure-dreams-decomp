@@ -1,8 +1,6 @@
 #include "common.h"
+#include "town/scene/flags.h"
 #include "town/devkit.h"
-
-
-extern s32 func_80700D20();
 extern u8 D_80700638[];
 extern u8 D_8070063A[];
 
@@ -13,9 +11,9 @@ void process_table_entry_pair(void) {
 
     byte_offset = 4;
     do {
-        func_80700D20(*(u16 *)(D_80700638 + byte_offset));
+        clear_indexed_flag_bit_unless_index_one_80700d20(*(u16 *)(D_80700638 + byte_offset));
         second_entry = *(u16 *)(D_8070063A + byte_offset);
         byte_offset += 4;
-        func_80700D20(second_entry);
+        clear_indexed_flag_bit_unless_index_one_80700d20(second_entry);
     } while (byte_offset < 8);
 }

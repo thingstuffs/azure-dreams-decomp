@@ -47,7 +47,7 @@ void create_linked_object_position(void)
     object = allocate_list_node(0x12, beldo_actor_nodes);
     if (object != NULL) {
         object->update_callback = update_vertical_motion_and_effect;
-        object_data = (LinkedObjectPositionBody *)((u8 *)object + 0x20);
+        object_data = NODE_BODY(object);
         register_node(object, project_sprite_chain);
         render_flags = object->sprite;
         render_flags->flags =

@@ -42,7 +42,7 @@ void *spawn_effect_object(s16 spawn_flags, s16 attr_a, s16 attr_b, s16 attr_c) {
     variant = 1;
     object = allocate_list_node(0x112, &scene_object_list_anchor.next);
     if (object != NULL) {
-        work = ((void *)object) + 0x20;
+        work = NODE_BODY(object);
         object->update_callback = &D_8014CA8C;
         work->species = MONSTER_STEALTH;
         register_node(object, project_sprite_chain);

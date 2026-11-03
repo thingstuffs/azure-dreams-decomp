@@ -279,7 +279,7 @@ void choose_heading_and_advance_actor(ActorRecord *body, s32 action, S_8017405C_
                     heading = base_heading + y_offset;
                 }
             } else {
-                target = (void *)((u8 *)(((S_8017405C_0 *)movement)->unk_2A.s));
+                target = ((u8 *)(((S_8017405C_0 *)movement)->unk_2A.s));
                 if (body->action_state_flags & 2) {
                     y_offset = actor_turn_angle_offsets[move_index];
                     heading = (s32)(u8 *)target - y_offset;

@@ -41,7 +41,7 @@ void *create_golem_actor(s16 spawn_flags, s32 tile_x, s32 tile_y, s32 spawn_heig
     object = allocate_list_node(0x112, &scene_object_list_anchor.next);
     flags_copy = spawn_flags;
     if (object != 0) {
-        result = (ActorRecord *)(object + 1);
+        result = NODE_BODY(object);
         object->update_callback = golem_particle_update_address;
         result->species = MONSTER_GOLEM;
         register_node(object, project_sprite_chain);

@@ -42,7 +42,7 @@ void *allocate_object_with_child_displays(s32 kind, s32 part_value_24, s32 part_
             ObjectNodeHeader *init_root;
             void *setup;
 
-            object = (ActorRecord *)(allocated + 1);
+            object = NODE_BODY(allocated);
             init_root = allocated;
             setup = project_sprite_chain;
             init_root->update_callback = D_80158BB8;

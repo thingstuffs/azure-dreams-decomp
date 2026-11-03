@@ -52,7 +52,7 @@ void *create_overlay_effect_object(s16 spawn_flags, s16 attr_a, s16 attr_b, s32 
     result = 0;
     object = allocate_list_node(0x112, &scene_object_list_anchor.next);
     if (object != 0) {
-        result = (u8 *)object;
+        result = object;
         result += 0x20;
         ((ProjectileObject *)object)->update_callback = D_801718E0;
         ((ActorRecord *)result)->species = MONSTER_WEADOG;

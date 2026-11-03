@@ -44,7 +44,7 @@ void *create_actor_with_child_sprites(s32 kind, s32 part_x, s32 part_y, s32 copy
             ObjectNodeHeader *init_root;
             void *setup;
 
-            object = (ActorRecord *)(allocated + 1);
+            object = NODE_BODY(allocated);
             init_root = allocated;
             setup = project_sprite_chain;
             init_root->update_callback = D_80170BF8;

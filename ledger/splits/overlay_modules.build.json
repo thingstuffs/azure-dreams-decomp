@@ -1,6 +1,6 @@
 {
   "schema": "overlay-module-native-v4",
-  "logical_rows": 20877,
+  "logical_rows": 20889,
   "edges": [
     {
       "module": "dungeon_cd_control_d79c4",
@@ -186265,6 +186265,26 @@
       ]
     },
     {
+      "source": "src/town/scene/flags/dispatch_entry_test_flag.c",
+      "recipe": {
+        "cfg": "2.6.3-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "town/func_8087FC54"
+      ]
+    },
+    {
+      "source": "src/town/scene/is_next_entry_zero_after_skipping_b.c",
+      "recipe": {
+        "cfg": "2.6.3-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "town/func_8087FCE8"
+      ]
+    },
+    {
       "source": "src/town/devkit/grid_run_bit_set_operation_a.c",
       "recipe": {
         "cfg": "2.6.3-G0",
@@ -186395,6 +186415,16 @@
       ]
     },
     {
+      "source": "src/town/shop/state/shop_test_indexed_flag.c",
+      "recipe": {
+        "cfg": "2.6.3",
+        "row_asflags": ""
+      },
+      "rows": [
+        "town/func_80880134"
+      ]
+    },
+    {
       "source": "src/town/devkit/copy_trace_overlay_work_record.c",
       "recipe": {
         "cfg": "2.6.3-G0",
@@ -186482,6 +186512,26 @@
       },
       "rows": [
         "town/func_80881478"
+      ]
+    },
+    {
+      "source": "src/town/shop/state/shop_set_indexed_flag.c",
+      "recipe": {
+        "cfg": "2.6.3",
+        "row_asflags": ""
+      },
+      "rows": [
+        "town/func_808814D0"
+      ]
+    },
+    {
+      "source": "src/town/scene/flags/clear_indexed_flag_bit_unless_index_one.c",
+      "recipe": {
+        "cfg": "2.6.3",
+        "row_asflags": ""
+      },
+      "rows": [
+        "town/func_80881520"
       ]
     },
     {
@@ -186595,6 +186645,16 @@
       ]
     },
     {
+      "source": "src/town/shop/state/shop_test_indexed_flag.c",
+      "recipe": {
+        "cfg": "2.6.3",
+        "row_asflags": ""
+      },
+      "rows": [
+        "town/func_8088347C"
+      ]
+    },
+    {
       "source": "src/town/devkit/copy_scene_buffer_data.c",
       "recipe": {
         "cfg": "2.6.3-G0",
@@ -186622,6 +186682,26 @@
       },
       "rows": [
         "town/func_80883548"
+      ]
+    },
+    {
+      "source": "src/town/devkit/propagate_devkit_flag_pair.c",
+      "recipe": {
+        "cfg": "2.6.3-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "town/func_808B2988"
+      ]
+    },
+    {
+      "source": "src/town/devkit/check_devkit_secondary_condition.c",
+      "recipe": {
+        "cfg": "2.6.3",
+        "row_asflags": ""
+      },
+      "rows": [
+        "town/func_808B2A1C"
       ]
     },
     {
@@ -186855,6 +186935,16 @@
       ]
     },
     {
+      "source": "src/town/shop/state/shop_set_indexed_flag.c",
+      "recipe": {
+        "cfg": "2.6.3",
+        "row_asflags": ""
+      },
+      "rows": [
+        "town/func_808B351C"
+      ]
+    },
+    {
       "source": "src/town/scene/flags/clear_indexed_flag_bit_unless_index_one.c",
       "recipe": {
         "cfg": "2.6.3",
@@ -186862,6 +186952,16 @@
       },
       "rows": [
         "town/func_808B356C"
+      ]
+    },
+    {
+      "source": "src/town/shop/state/shop_test_indexed_flag.c",
+      "recipe": {
+        "cfg": "2.6.3",
+        "row_asflags": ""
+      },
+      "rows": [
+        "town/func_808B35C0"
       ]
     },
     {
@@ -187155,6 +187255,16 @@
       ]
     },
     {
+      "source": "src/town/scene/flags/dispatch_entry_test_flag.c",
+      "recipe": {
+        "cfg": "2.6.3-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "town/func_808B9244"
+      ]
+    },
+    {
       "source": "src/town/devkit/grid_run_bit_set_operation_b.c",
       "recipe": {
         "cfg": "2.6.3-G0",
@@ -187392,6 +187502,16 @@
       },
       "rows": [
         "town/func_808BB364"
+      ]
+    },
+    {
+      "source": "src/town/shop/state/shop_test_indexed_flag.c",
+      "recipe": {
+        "cfg": "2.6.3",
+        "row_asflags": ""
+      },
+      "rows": [
+        "town/func_808BB46C"
       ]
     },
     {

@@ -44,7 +44,7 @@ void *allocate_object_with_child_entries(s32 kind, s32 part_byte_24, s32 part_by
             ObjectNodeHeader *init_root;
             void *setup;
 
-            object = (ActorRecord *)(allocated + 1);
+            object = NODE_BODY(allocated);
             init_root = allocated;
             setup = project_sprite_chain;
             init_root->update_callback = D_8015EBF8;

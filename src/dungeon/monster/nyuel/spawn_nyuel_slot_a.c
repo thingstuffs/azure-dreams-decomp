@@ -63,10 +63,10 @@ Func80BBB094PartC *spawn_mode_configured_monster_slot_a(s32 spawn_flags, s16 til
                     }
                 } else {
                 }
-                resultAlias->unk8C = (void *)nyuel_slot_a_action_callback;
+                resultAlias->unk8C = nyuel_slot_a_action_callback;
                 partB->frameTable = nyuel_frame_set_5;
             } else {
-                result->unk8C = (void *)nyuel_slot_a_action_callback;
+                result->unk8C = nyuel_slot_a_action_callback;
                 partB->frameTable = nyuel_frame_set_5;
             }
         }

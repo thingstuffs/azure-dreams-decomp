@@ -1,5 +1,6 @@
 /* cfail-repair baseline: preserve the selected draft's recovered shape. */
 #include "common.h"
+#include "town/scene/flags.h"
 #include "town/data.h"
 #include "town/devkit/flag_test_imports.h"
 
@@ -23,7 +24,7 @@ s32 dev_dispatch_flag_test_and_get_result(void) {
     s32 *test_data = D_807013A4;
 
     func_80700BC4(test_data[0]);
-    func_80700C54(0);
+    dispatch_entry_flags_80700c54(0);
     func_80700E98();
     {
         s32 test_result = func_80700E3C();

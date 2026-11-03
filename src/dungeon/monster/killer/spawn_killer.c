@@ -50,7 +50,7 @@ void *spawn_killer(s16 flags, s32 kind_id, s32 variant, s32 spawn_value)
     created = allocate_list_node(0x112, &scene_object_list_anchor.next);
     original_flags = flags;
     if (created != 0) {
-        result = (u8 *)created + 0x20;
+        result = NODE_BODY(created);
         created->update_callback = D_80170A7C;
         ((ActorRecord *)result)->species = MONSTER_KILLER;
         register_node(created, project_sprite_chain);

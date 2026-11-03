@@ -10,7 +10,7 @@ struct SpriteFrameState;
 
 void update_growing_rotating_fade_slot_c(void *effect, void *unused, void *visual);
 void *spawn_block_slot_c(s16 spawn_flags, s16 tile_x, s16 tile_y, s32 spawn_height);
-void update_block_motion_and_facing_slot_c(void *entity, CL_CCB000_80170C24_S_80170C24_2 *motion, void *monster);
+void update_block_motion_and_facing_slot_c(ActorRecord *entity, CL_CCB000_80170C24_S_80170C24_2 *motion, SpriteFrameState *sprite);
 void dispatch_block_turn_actions_slot_c(CL_CCB000_8017102C_S_8017102C_0 *state, void *motion, CL_CCB000_8017102C_S_8017102C_2 *sprite, CL_CCB000_8017102C_S_8017102C_1 *actor);
 void advance_block_path_slot_c(void *motion, ObjectPosition *update_param, void *entity, void *state);
 void choose_block_move_slot_c(Rec_func_800A9E70_arg0 *move_data, ObjectPosition *context, TileObject *position_data, ActorRecord *actor_data);
@@ -29,9 +29,9 @@ void update_block_defeat_slot_c(ActorRecord *state,ObjectPosition *position,Spri
 void update_block_hop_shrink_slot_c(ActorRecord *state,ObjectPosition *position,SpriteFrameState *render_state,ActorRecord *entity);
 void update_block_removal_slot_c(void *state,void *position,void *render_state,void *entity);
 void finish_block_hop_grow_slot_c(S_80173364_0 *state,ObjectPosition *position,SpriteFrameState *render_state,ActorRecord *entity);
-void update_block_status_animation_slot_c(void *action, ObjectPosition *context, void *sprite_in, void *actor_in);
-void wait_block_mp_recovery_slot_c(void *actor_in, ObjectPosition *position, void *target, ActorRecord *entity_in);
-void update_block_parent_motion_slot_c(S_80173A38_0 *state, void *position, CL_CCB000_80173A38_S_80173A38_1 *sprite, CL_CCB000_80173A38_S_80173A38_2 *actor);
+void update_block_status_animation_slot_c(void *action, ObjectPosition *context, SpriteFrameState *sprite_in, void *actor_in);
+void wait_block_mp_recovery_slot_c(void *actor_in, ObjectPosition *position, SpriteFrameState *target, ActorRecord *entity_in);
+void update_block_parent_motion_slot_c(S_80173A38_0 *state, void *position, SpriteFrameState *sprite, CL_CCB000_80173A38_S_80173A38_2 *actor);
 void finish_block_thrown_travel_slot_c(S_80173B00_0 *state,void *position,void *render_state,void *entity);
 void finish_block_terrain_move_slot_c(S_80173B64_0 *state,void *position,void *render_state,void *entity);
 void finish_block_spinning_fall_slot_c(S_80173B9C_0 *state,void *position,void *render_state,void *entity);

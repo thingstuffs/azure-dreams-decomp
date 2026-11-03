@@ -23,7 +23,7 @@ void card_dev_layout_selected_slot_entries(u8 *screen) {
     element = *(SubStruct **)(screen + 0x1EC);
     element->unk4->unk8 = 0x70;
     element->unk4->unkA = 0x10;
-    element->unk0 = (void *) &D_80084158;
+    element->unk0 =  &D_80084158;
 
     element = *(SubStruct **)(screen + 0x1DC);
     element->unk0 = (void *) func_80051B50(screen + 8, (*(s32 *)screen << 7) + (s32) &card_slot_detail_records[0], 1);
@@ -43,7 +43,7 @@ void card_dev_layout_selected_slot_entries(u8 *screen) {
     element->unk4->unkA = 0x91;
 
     element = *(SubStruct **)(screen + 0x1F4);
-    element->unk0 = (void *) (screen + 0xB0);
+    element->unk0 =  (screen + 0xB0);
     element->unk4->unk8 = 0xAE;
     element->unk4->unkA = 0x18;
 }

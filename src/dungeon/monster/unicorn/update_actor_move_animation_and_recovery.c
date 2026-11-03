@@ -118,7 +118,7 @@ void update_actor_move_animation_and_recovery(ActorRecord *body, ObjectPosition 
             position[1] = ((u16) motion->y.w.i);
             position[2] = ((u16) motion->z.w.i);
             if (create_actor_spell_effect(actor, move_id, use_player,
-                              (u16 *)((u8 *)body + 0x98)) == 0) {
+                              ((u8 *)body + 0x98)) == 0) {
                 return;
             }
             sprite->flags &= 0xF7FF;

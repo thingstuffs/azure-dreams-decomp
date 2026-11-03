@@ -248,7 +248,7 @@ void advance_actor_item_use_sequence_2(ActorRecord *body, ObjectPosition *motion
                 offset_x = (s16)((rand() & 0x7F) - 0x40);
                 offset_y = (s16)((rand() & 0x7F) - 0x40);
                 offset_z = (rand() & 0x7F) - 0x40;
-                create_parent_return_effect((u8 *)body - 0x20, 0, 0x00C0C0C0,
+                create_parent_return_effect(NODE_HEADER(body), 0, 0x00C0C0C0,
                               brightness, offset_x, offset_y, offset_z);
             } while ((u16)i < 5);
         }
@@ -270,7 +270,7 @@ void advance_actor_item_use_sequence_2(ActorRecord *body, ObjectPosition *motion
             if (object == 0) {
                 return;
             }
-            object_base = (S_801732C4_5 *)((u8 *)object + 0x20);
+            object_base = NODE_BODY(object);
             object_base->unk_1A = 0x19;
             object_base->unk_1C = 0x19;
             (object->update_callback) = D_80171080;
@@ -310,7 +310,7 @@ void advance_actor_item_use_sequence_2(ActorRecord *body, ObjectPosition *motion
 
                     i++;
                     brightness = (rand() & 0xFF) | 0x80;
-                    spawn_parent_offset_random_motion_effect((u8 *)body - 0x20, 0, 0x00C0C0C0,
+                    spawn_parent_offset_random_motion_effect(NODE_HEADER(body), 0, 0x00C0C0C0,
                                   brightness, 0, 0, 0);
                 }
                 if ((u16)i >= 20) {

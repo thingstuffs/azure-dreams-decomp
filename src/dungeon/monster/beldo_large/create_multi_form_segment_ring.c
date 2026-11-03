@@ -43,7 +43,7 @@ void create_multi_form_segment_ring(EntityRec *origin) {
     do {
         effect = allocate_flagged_object_node(0x12);
         if (effect != 0) {
-            effect_data = ((void *)effect) + 0x20;
+            effect_data = NODE_BODY(effect);
             initial_count = 0x32;
             effect_data->unk_18.s = (s16) initial_count;
             effect_data->unk_1A.s = (s16) initial_count;
@@ -57,7 +57,7 @@ void create_multi_form_segment_ring(EntityRec *origin) {
             position->x.v = (s32) origin->x.v;
             position->y.v = (s32) origin->y.v;
             origin_z = origin->z.v;
-            position->y.w.i = (u16) (*(u16 *)&position->y.w.i - 0x440);
+            position->y.w.i = (u16) (((u16)(position->y.w.i)) - 0x440);
             position->z.v = origin_z;
             effect_data->unk_7E = -0x40;
             effect_data->unk_78 = -0x40;
@@ -83,7 +83,7 @@ void create_multi_form_segment_ring(EntityRec *origin) {
             appearance->scale_x = 0x1000;
             appearance->color.c.g = color_level;
             appearance->color.c.b = color_level;
-            ((S_8016E998_1 *)effect)->unk_20 = *(s8 *)&appearance->color.c.r;
+            ((S_8016E998_1 *)effect)->unk_20 = ((s8)(appearance->color.c.r));
             effect_data->unk_01 = appearance->color.c.g;
             effect_data->unk_02 = appearance->color.c.b;
             *effect_slot = effect;

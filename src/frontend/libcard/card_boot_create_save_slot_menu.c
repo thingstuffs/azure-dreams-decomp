@@ -20,7 +20,7 @@ void *card_boot_create_save_slot_menu(void *init_value, s32 state_value)
 
     object = allocate_flagged_object_node(0);
     if (object != NULL) {
-        state = (void *)((u8 *)object + 0x20);
+        state = NODE_BODY(object);
         state->mode = state_value;
         card_boot_initialize_save_menu_request(state, init_value);
         card_boot_erase_temporary_file();

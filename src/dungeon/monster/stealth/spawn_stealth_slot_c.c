@@ -27,7 +27,7 @@ void *spawn_variant_monster_slot_c(s16 flags, s16 tile_x, s16 tile_y, s16 spawn_
     mode = 1;
     object = allocate_list_node(274, &scene_object_list_anchor.next);
     if (object != 0) {
-        result = (u8 *)object + 0x20;
+        result = NODE_BODY(object);
         object->update_callback = func_80158A8C;
         result->unk_13 = MONSTER_STEALTH;
         register_node(object, project_sprite_chain);

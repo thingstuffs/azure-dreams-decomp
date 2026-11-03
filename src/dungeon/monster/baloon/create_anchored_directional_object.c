@@ -47,7 +47,7 @@ void create_anchored_directional_object(void *unused, S_80D653B8_5 *anchor, Spri
     (void)unused;
     object = allocate_list_node(0x112, &scene_object_list_anchor.next);
     if (object != NULL) {
-        object_work = (u8 *)object + 0x20;
+        object_work = NODE_BODY(object);
         object_work->remaining = initial_value;
         object_work->duration = initial_value;
         object->update_callback = D_800D6FEC;

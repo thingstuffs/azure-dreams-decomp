@@ -64,7 +64,7 @@ extern u8 D_80176370[];
  * relative to the camera.
  */
 static __inline__ void set_map(SpriteFrameState *sprite, void *creature, u8 *direction_map) {
-    (sprite->frameTable) = (void *)direction_map;
+    (sprite->frameTable) = direction_map;
     select_sprite_entry(sprite, direction_map[((s32) (g_game_work.view.camera_rotation.parts.viewAngle + ((S_set_map_0 *)creature)->unk_2A + 0x100)
         >> 9) & 7], 0);
 }

@@ -18,7 +18,7 @@ void teardown_boss_secondary_state(void) {
     u8 *ptr;
     u16 *flags = (&system_update_flags);
 
-    ptr = (u8 *)(ghosh_boss_node + 1);
+    ptr = NODE_BODY(ghosh_boss_node);
     /*
      * BUG: the Ghosh dialogue script releases this companion (clearing ghosh_boss_node) before it calls
      * this teardown, so the node is null and the AND below reaches the halfword at 0x00000066. Harmless

@@ -93,7 +93,7 @@ void *create_and_link_six_offset_objects(u16 x, u16 y, s16 z, void *source)
 
             object->update_callback = callback;
             register_node(object, linked_mesh_processor_address);
-            state = ((void *)object) + 0x20;
+            state = NODE_BODY(object);
             state->unk_1A = (s16) (x + ((u16)position_offset.vx));
             state->unk_1E = (s16) (y + ((u16)position_offset.vy));
             state->unk_22 = (s16) (z + ((u16)position_offset.vz));
@@ -115,9 +115,9 @@ void *create_and_link_six_offset_objects(u16 x, u16 y, s16 z, void *source)
             state->unk_6E = object_index;
             for (point_index = 0; point_index < 8; point_index++) {
                 point_cursor = (S_80026C88_5 *)((u8 *)state + point_index * 8);
-                point_cursor->unk_24 = (u16) *(u16 *)&coords->x.w.i;
-                point_cursor->unk_26 = (u16) *(u16 *)&coords->y.w.i;
-                point_cursor->unk_28 = (u16) *(u16 *)&coords->z.w.i;
+                point_cursor->unk_24 = (u16) ((u16)(coords->x.w.i));
+                point_cursor->unk_26 = (u16) ((u16)(coords->y.w.i));
+                point_cursor->unk_28 = (u16) ((u16)(coords->z.w.i));
             }
             state->unk_08 = list_head;
             list_head = object;

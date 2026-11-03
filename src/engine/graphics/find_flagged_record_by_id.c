@@ -12,5 +12,5 @@ SpriteAttachment *find_flagged_record_by_id(SpriteAttachment *entry, u32 target_
         }
         entry = (SpriteAttachment *)((u8 *)entry + 0xC);
     }
-    return (SpriteAttachment *)0;
+    return 0;
 }

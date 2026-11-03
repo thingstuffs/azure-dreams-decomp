@@ -143,7 +143,7 @@ void emit_multi_form_ring_geometry(MultiFormSegmentRingBody *animation, s32 *ori
     animation->unk_1E++;
     for (;;) {
         object = allocate_flagged_object_node(0x12);
-        part = (u8 *)object + 0x20;
+        part = NODE_BODY(object);
         if (object != NULL) {
             ((S_8016E4E8_2 *)part)->unk_18 = one;
             ((S_8016E4E8_2 *)part)->unk_1A = one;

@@ -108,7 +108,7 @@ void advance_item_action_and_cleanup(ActorRecord *body, ObjectPosition *motion, 
         actor->target_tile_y = abs(actor->target_tile_y);
     }
 
-    if (create_actor_spell_effect(actor, (void *)item_addr, item_or_audio_base, (u8 *)body + 0x98) == 0) {
+    if (create_actor_spell_effect(actor, item_addr, item_or_audio_base, (u8 *)body + 0x98) == 0) {
         return;
     }
     if (item_or_audio_base != 0) {

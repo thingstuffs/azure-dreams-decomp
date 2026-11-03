@@ -10,5 +10,111 @@
     "path": "ledger/instance_load_regions.jsonl",
     "record_sha256": "8e87d3a0b914a36a35aa84656c7cffe3b0d81670cac0befc3f2e0d3166b70502"
   },
-  "entries": []
+  "entries": [
+    {
+      "row": "town/func_8088116C",
+      "home": "town/func_8088116C",
+      "tu": "src/town/devkit/trigger_selected_entry_operation.c",
+      "foff": "0x80116C",
+      "vma": "0x8070096C",
+      "size": 72,
+      "evidence": "docs/evidence/r141w_town_dev.md"
+    },
+    {
+      "row": "town/func_8088124C",
+      "home": "town/func_8088124C",
+      "tu": "src/town/devkit/finish_stage_for_index.c",
+      "foff": "0x80124C",
+      "vma": "0x80700A4C",
+      "size": 256,
+      "evidence": "docs/evidence/r141w_town_dev.md"
+    },
+    {
+      "row": "town/func_8088134C",
+      "home": "town/func_8088134C",
+      "tu": "src/town/devkit/dispatch_first_rejected_entry.c",
+      "foff": "0x80134C",
+      "vma": "0x80700B4C",
+      "size": 128,
+      "evidence": "docs/evidence/r141w_town_dev.md"
+    },
+    {
+      "row": "town/func_808813CC",
+      "home": "town/func_808813CC",
+      "tu": "src/town/devkit/process_table_entry_pair.c",
+      "foff": "0x8013CC",
+      "vma": "0x80700BCC",
+      "size": 88,
+      "evidence": "docs/evidence/r141w_town_dev.md"
+    },
+    {
+      "row": "town/func_80881424",
+      "home": "town/func_80881424",
+      "tu": "src/town/devkit/reset_cursor_and_redraw_list.c",
+      "foff": "0x801424",
+      "vma": "0x80700C24",
+      "size": 84,
+      "evidence": "docs/evidence/r141w_town_dev.md"
+    },
+    {
+      "row": "town/func_80881478",
+      "home": "town/func_80881478",
+      "tu": "src/town/devkit/read_selected_table_value.c",
+      "foff": "0x801478",
+      "vma": "0x80700C78",
+      "size": 88,
+      "evidence": "docs/evidence/r141w_town_dev.md"
+    },
+    {
+      "row": "town/func_808814D0",
+      "home": "town/func_80878670",
+      "tu": "src/town/shop/state/shop_set_indexed_flag.c",
+      "foff": "0x8014D0",
+      "vma": "0x80700CD0",
+      "size": 80,
+      "bindings": {
+        "0x807030a4": "0x80700ff8"
+      },
+      "evidence": "docs/evidence/r141w_town_dev.md"
+    },
+    {
+      "row": "town/func_80881520",
+      "home": "town/func_808B356C",
+      "tu": "src/town/scene/flags/clear_indexed_flag_bit_unless_index_one.c",
+      "foff": "0x801520",
+      "vma": "0x80700D20",
+      "size": 84,
+      "bindings": {
+        "0xa0700f44": "0x80700ff8"
+      },
+      "evidence": "docs/evidence/r141w_town_dev.md"
+    },
+    {
+      "row": "town/func_808816B4",
+      "home": "town/func_808816B4",
+      "tu": "src/town/devkit/scale_stored_value_and_base_alt.c",
+      "foff": "0x8016B4",
+      "vma": "0x80700EB4",
+      "size": 36,
+      "evidence": "docs/evidence/r141w_town_dev.md"
+    },
+    {
+      "row": "town/func_808816D8",
+      "home": "town/func_808816D8",
+      "tu": "src/town/devkit/redraw_busy_entry_list.c",
+      "foff": "0x8016D8",
+      "vma": "0x80700ED8",
+      "size": 236,
+      "evidence": "docs/evidence/r141w_town_dev.md"
+    },
+    {
+      "row": "town/func_808817C4",
+      "home": "town/func_808817C4",
+      "tu": "src/town/devkit/copy_shop_runtime_callback_devkit.c",
+      "foff": "0x8017C4",
+      "vma": "0x80700FC4",
+      "size": 48,
+      "evidence": "docs/evidence/r141w_town_dev.md"
+    }
+  ]
 }

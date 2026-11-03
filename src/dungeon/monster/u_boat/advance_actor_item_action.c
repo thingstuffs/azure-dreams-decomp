@@ -136,7 +136,7 @@ void advance_actor_item_action(ActorRecord *actor_state, ObjectPosition *motion,
             }
 
             if (create_actor_spell_effect(actor, item_id, use_player,
-                              (u16 *)((u8 *)actor_state + 0x98)) == 0) {
+                              ((u8 *)actor_state + 0x98)) == 0) {
                 return;
             }
             actor_state->action_timer.u = 0;
@@ -187,7 +187,7 @@ void advance_actor_item_action(ActorRecord *actor_state, ObjectPosition *motion,
                 s8 *height_offsets;
                 s32 direction_index;
 
-                effect_state = (AdvanceActorItemActionBody *)(((u8 *)effect) + 0x20);
+                effect_state = NODE_BODY(effect);
                 effect_state->ticks_remaining = 0x10;
                 effect->update_callback = D_800D58D8;
                 effect_state->reference_position = motion;

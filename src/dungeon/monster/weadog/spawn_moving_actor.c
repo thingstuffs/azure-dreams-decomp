@@ -74,7 +74,7 @@ void spawn_moving_actor(ActorRecord *action_work, ObjectPosition *position, Spri
             spawned_actor = allocate_flagged_object_node(0x12);
             if (spawned_actor != 0) {
                 spawned_actor->update_callback = weadog_object_callback;
-                spawned_work = (u8 *)spawned_actor + 0x20;
+                spawned_work = NODE_BODY(spawned_actor);
                 register_node(spawned_actor, project_sprite_chain);
                 spawned_sprite = spawned_actor->sprite;
                 spawned_sprite->flags &= 0xFFF3;

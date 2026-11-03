@@ -38,7 +38,7 @@ S_8003DF0C *get_sprite_attachment_vector(S_8003DF0C *table, SpriteFrameState *en
 
     entry = find_last_flagged_record_by_id(table, entry_id, &entry_index);
     if (entry != NULL) {
-        runtime_transform_sprite_attachment_point(entity, (void *)entry, &vector);
+        runtime_transform_sprite_attachment_point(entity, entry, &vector);
         out_vec->x = vector.x;
         out_vec->y = vector.y;
         out_vec->z = vector.z;

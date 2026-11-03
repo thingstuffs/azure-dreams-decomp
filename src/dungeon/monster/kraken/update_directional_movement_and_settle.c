@@ -92,7 +92,7 @@ void update_directional_movement_and_settle(ActorRecord *action, ObjectPosition 
             if (actor->pending_turn_updates == 0) {
                 actor->action_flags &= ACTOR_ACTION_CLEAR_PENDING_MASK;
             } else {
-                actor_update_node_cursor = (u8 *)actor - 0x20;
+                actor_update_node_cursor = NODE_HEADER(actor);
             }
         }
     }

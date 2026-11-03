@@ -21,7 +21,7 @@ void update_linked_facing_sprite(S_801714B0_1 *state, void *unused, SpriteFrameS
     s16 calculated_direction;
     s32 direction;
 
-    entity = (void *)(D_80174CDC + 1);
+    entity = NODE_BODY(D_80174CDC);
     advance_sprite_animation_and_textures(record);
     if (D_80174CDC != 0) {
         calculated_direction =

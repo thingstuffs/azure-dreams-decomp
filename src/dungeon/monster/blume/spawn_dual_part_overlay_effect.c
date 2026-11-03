@@ -37,7 +37,7 @@ void *spawn_dual_part_overlay_effect(s16 spawn_flags, s16 attr_a, s16 attr_b, s3
     result = 0;
     object = allocate_list_node(0x112, &scene_object_list_anchor.next);
     if (object != 0) {
-        result = (u8 *)object;
+        result = object;
         result += 0x20;
         object->update_callback = D_80171A18;
         ((ActorRecord *)result)->species = MONSTER_BLUME;

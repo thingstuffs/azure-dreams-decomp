@@ -202,7 +202,7 @@ void update_item_action_animation_and_effects(ActorRecord *action, ObjectPositio
             y <<= 16;
             y >>= 16;
             z = (rand() & 0x7F) - 0x40;
-            create_parent_return_effect((u8 *)action - 0x20, 0, 0x00C0C0C0,
+            create_parent_return_effect(NODE_HEADER(action), 0, 0x00C0C0C0,
                           (s32)sprite, x, y, z);
         } while ((u16)count < 5);
         return;
@@ -221,7 +221,7 @@ void update_item_action_animation_and_effects(ActorRecord *action, ObjectPositio
 
                 count++;
                 brightness = (rand() & 0xFF) | 0x80;
-                spawn_parent_offset_random_motion_effect((u8 *)action - 0x20, 0, 0x00C0C0C0,
+                spawn_parent_offset_random_motion_effect(NODE_HEADER(action), 0, 0x00C0C0C0,
                               brightness, 0, 0, 0);
             } while ((u16)count < 20);
         }

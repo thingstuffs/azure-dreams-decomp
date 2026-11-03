@@ -35,12 +35,12 @@ void *create_positioned_graphic_object(s16 x, s16 y, s16 z, s16 graphic_index, s
         position->y.w.i = y;
         position->z.w.i = z;
         graphics = object->sprite;
-        graphics->source = (void *) ((graphic_index * 0xC) + &linked_graphic_sprite_entries);
+        graphics->source =  ((graphic_index * 0xC) + &linked_graphic_sprite_entries);
         graphics->scale_y = 0x1000;
         graphics->scale_x = 0x1000;
         graphics->tpage_abr = 0x20;
         graphics->flags = (u16) (graphics->flags | 0xC);
-        state = ((void *)object) + 0x20;
+        state = NODE_BODY(object);
         state->unk_04 = state_value;
         state->unk_66 = 0x1C;
     }

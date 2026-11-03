@@ -1,5 +1,6 @@
 /* cfail-repair: tf7-phase1-cache-v3 */
 #include "common.h"
+#include "town/scene/flags.h"
 #include "town/devkit.h"
 #include "town/devkit/flag_test_imports.h"
 
@@ -22,7 +23,7 @@ s32 dev_dispatch_flag_test_and_get_result_alt(void) {
     s32 *setup_context = (s32 *)(devkit_overlay_page + 0xB40);
 
     func_807001B4(*setup_context);
-    func_80700244(0);
+    dispatch_entry_flags_a0700244(0);
     func_80700488();
     *(s32 *)(devkit_overlay_page + 0x9D4) = func_8070042C();
     ((S_808B94E0_1 *)(*(void **)(devkit_overlay_page + 0xB50)))->unk_64(

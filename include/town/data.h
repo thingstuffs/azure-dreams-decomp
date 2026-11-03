@@ -175,4 +175,8 @@ extern s32 town_service_fixed_position;
 extern s32 town_stored_amount;
 extern u8 town_wrapped_entry_order[ ];
 
+/* Signed flag-ID tables of the 0x832800 diagnostic devkit build. */
+extern s16 D_A0700F1C[];
+extern s16 D_A0700F24[];
+
 #endif

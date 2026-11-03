@@ -7998,3 +7998,4 @@
 {"id":"main/func_8001FF70","path":"src/frontend/card/card_dev_build_load_slot_windows.c"}
 {"id":"main/func_800200C4","path":"src/frontend/card/card_dev_release_load_screen_parts.c"}
 {"id":"main/func_800205D0","path":"src/frontend/card/card_dev_init_slot_entry_tables.c"}
+{"id":"town/func_808B2988","path":"src/town/devkit/propagate_devkit_flag_pair.c"}

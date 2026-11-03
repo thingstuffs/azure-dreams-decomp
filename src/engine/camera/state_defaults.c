@@ -23,5 +23,5 @@ void reset_camera_transition_fields(void)
     state->slot[3].callback = 0;
     state->slot[0].callback = 0;
     state->slot[1].callback = 0;
-    bind_view_triplet_source(((u8 *)(&view_reference_entity)));
+    bind_view_triplet_source(((&view_reference_entity)));
 }

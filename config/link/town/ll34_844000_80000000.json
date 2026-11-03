@@ -57,6 +57,15 @@
       "evidence": "r121w_ll34: fresh current-home native object, all relocation fields evaluated and exact retail bytes; docs/evidence/r121w_ll34/results.tsv; TU view gather: moved from town/ll34_8447f0_800007f0 (same load delta) so the merged file's members share one view"
     },
     {
+      "row": "town/func_808C4884",
+      "home": "town/func_808C4884",
+      "tu": "src/town/scene/is_next_entry_zero_after_skipping_b.c",
+      "foff": "0x844884",
+      "vma": "0x80000884",
+      "size": 112,
+      "evidence": "docs/evidence/r141w_town_dev.md"
+    },
+    {
       "row": "town/func_808C4B40",
       "tu": "src/town/shop/state/shop_set_indexed_flag.c",
       "home": "town/func_80878670",

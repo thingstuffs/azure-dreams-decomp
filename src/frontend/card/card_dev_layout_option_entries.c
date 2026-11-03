@@ -22,7 +22,7 @@ void card_dev_layout_option_entries(u8 *object) {
     entry = *(SubStruct **)(object + 0x1F0);
     entry->unk4->unk8 = 0x100;
     entry->unk4->unkA = 0x10;
-    entry->unk0 = (void *) &D_80084110;
+    entry->unk0 =  &D_80084110;
 
     entry = *(SubStruct **)(object + 0x1E4);
     entry->unk0 = (void *) func_80051B50(object + 0x5C, &D_804005F0, 1);
@@ -30,7 +30,7 @@ void card_dev_layout_option_entries(u8 *object) {
     entry->unk4->unkA = 0x91;
 
     entry = *(SubStruct **)(object + 0x1F8);
-    entry->unk0 = (void *) (object + 0x128);
+    entry->unk0 =  (object + 0x128);
     entry->unk4->unk8 = 0x112;
     entry->unk4->unkA = 0x18;
 }

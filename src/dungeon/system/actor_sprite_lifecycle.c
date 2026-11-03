@@ -8,8 +8,9 @@
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 #include "shared/entity.h"
+#include "shared/object_node.h"
 #include "records/Rec_func_800A9E70_arg0.h"
-static s32 uses_direct_actor_sprite_frames(void *record);
+static s32 uses_direct_actor_sprite_frames(ActorRecord *record);
 #include "dungeon/player/object/action_state.h"
 #include "engine/texture.h"
 #include "slus.h"
@@ -18,13 +19,13 @@ extern void initialize_actor_object_action(void *object_state, s32 unused_contex
 extern s16 pending_marked_actor_count;
 /* arg2 in refresh_actor_facing_and_lifecycle */
 
-static s32 uses_direct_actor_sprite_frames(void *record) {
-    if (*(s32 *)(*(void **)((s8 *)record - 0x14)) == 0) {
+static s32 uses_direct_actor_sprite_frames(ActorRecord *record) {
+    if (*(s32 *)NODE_HEADER(record)->sprite == 0) {
         return 1;
     }
 
     {
-        s32 value_offset = *(u8 *)((s8 *)record + 19) - 46;
+        s32 value_offset = record->species - 46;
 
         return (u32)value_offset < 2;
     }

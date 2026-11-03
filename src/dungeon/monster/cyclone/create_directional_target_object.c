@@ -65,7 +65,7 @@ void *create_directional_target_object(ActorRecord *emitter, Copy24 *position, S
         select_sprite_entry(render, 0x47, 0);
         transform = object->position;
         *((Copy24 *) (((u8 *) object) + 0x24)) = *position_data;
-        position_data = (Copy24 *) (((u8 *) object) + 0x20);
+        position_data = NODE_BODY(object);
         position_offset.z = 0;
         position_offset.y = 0;
         position_offset.x = 0;

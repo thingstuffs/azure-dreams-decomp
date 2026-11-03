@@ -32,7 +32,7 @@ void *create_callback_pair_payload(void *second_value, void *first_value, unsign
             callback_record->field_0x04 = second_value;
             node->update_callback = mark_record_pair_dirty;
         }
-        node = (S_8004B364_Node *)((u8 *)node + 0x20);
+        node = NODE_BODY(node);
     }
     return node;
 }

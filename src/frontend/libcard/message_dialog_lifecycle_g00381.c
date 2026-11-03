@@ -90,7 +90,7 @@ u8 *card_boot_create_or_reset_message_dialog(s32 value_14, s32 entry_index, s32 
     u8 *context;
 
     base = D_800287E8;
-    context = ((u8 *)base) + 0x20;
+    context = NODE_BODY(base);
     if (find_active_list_node(base) == 0) {
         base = initialize_scene_object_in_buffer(0, base, 0x27A);
         register_node(base, menu_backdrop_tag);

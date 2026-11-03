@@ -118,7 +118,7 @@ void advance_actor_action_state_handle_status(ActorRecord *body, ObjectPosition 
                 s8 room_id;
 
                 reference_pos = &reference_tile_object;
-                room_id = *(s8 *)&sprite->room_index;
+                room_id = ((s8)(sprite->room_index));
                 if ((((room_id == reference_pos->room_index) &&
                       (room_id >= 0)) ||
                      (get_tile_chebyshev_distance(reference_pos, sprite) < 2)) &&

@@ -140,7 +140,7 @@ void update_actor_activity_state(ActorRecord *task, ObjectPosition *task_id, Spr
             if ((get_entity_effect_value(actor, STATUS_SLEEP) << 16) != 0) {
                 TileObject *player;
                 player = &reference_tile_object;
-                floor = *(s8 *)&sprite_in->room_index;
+                floor = ((s8)(sprite_in->room_index));
                 if ((floor == player->room_index && floor >= 0) || get_tile_chebyshev_distance(player, sprite_in) < 2) {
                     if (!(generate_random_value() & 7)) {
                         clear_slots_of_type(actor, STATUS_SLEEP);

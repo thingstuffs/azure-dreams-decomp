@@ -55,7 +55,7 @@ void *copy_part_state(s16 spawn_flags, s16 param_a, s16 param_b, s32 param_c)
     held_b = param_b;
     object = allocate_list_node(0x112, &scene_object_list_anchor.next);
     if (object != 0) {
-        result = (u8 *)object + 0x20;
+        result = NODE_BODY(object);
         (object->update_callback) = D_8016AAA4;
         ((S_8016A898_0 *)result)->unk_13 = MONSTER_TYRANT;
         register_node(object, project_sprite_chain);
@@ -89,14 +89,14 @@ void *copy_part_state(s16 spawn_flags, s16 param_a, s16 param_b, s32 param_c)
                 }
             }
         }
-        initialize_actor_sprite_and_animation(object, motion, (void *)part_data, spawn_flags);
+        initialize_actor_sprite_and_animation(object, motion, part_data, spawn_flags);
 
         tail_actor = state_data;
         (*((u8 *)tail_actor + 0x9A)) = 0xFF;
         (*(s8 *)((u8 *)tail_actor + 0x9C)) = -1;
         (*(Callback *)((u8 *)tail_actor + 0x8C)) = tyrant_slot_f_action_callback;
         tail_flags = part_data->flags;
-        tail_entity = (void *)part_data;
+        tail_entity = part_data;
         tail_flags |= 0xC;
         tail_entity->flags = tail_flags;
         (*(s16 *)((u8 *)tail_actor + 0xAA)) = ((S_8016A898_0 *)result)->unk_14.u16 & 7;

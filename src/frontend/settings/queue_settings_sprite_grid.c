@@ -69,7 +69,7 @@ s32 queue_settings_sprite_grid(u8 *entry_data, u8 *scroll_data)
         if (next_entry == 0) {
             return 0;
         }
-        entry_data = (u8 *)(next_entry + 1);
+        entry_data = NODE_BODY(next_entry);
         position = next_entry->position;
     }
 }

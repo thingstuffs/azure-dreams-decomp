@@ -70,7 +70,7 @@ scroll_row:
 
         fill_vram_rect(
             (s16)(anim->x0 + anim->x8),
-            (s16)(*(s16 *)&anim->y2 + *(s16 *)&anim->frame_a + *row_height * (anim->count_25 - 1) + 2),
+            (s16)(((s16)(anim->y2)) + ((s16)(anim->frame_a)) + *row_height * (anim->count_25 - 1) + 2),
             anim->size_c / 4,
             *(s16 *)row_height,
             0, 0, 0);

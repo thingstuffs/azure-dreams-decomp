@@ -170,7 +170,7 @@ void update_ability_action_and_completion(ActorRecord *body, ObjectPosition *mot
         }
         effect_count = 0;
         do {
-            spawn_random_velocity_offset_effect(((ObjectNodeHeader *)body - 1), 0, 0xC0C0, (rand() & 0xFF) | 0x80, 0, 0, 0);
+            spawn_random_velocity_offset_effect(NODE_HEADER(body), 0, 0xC0C0, (rand() & 0xFF) | 0x80, 0, 0, 0);
             next_effect = effect_count + 1;
             effect_count = next_effect;
         } while (next_effect < 0xA);

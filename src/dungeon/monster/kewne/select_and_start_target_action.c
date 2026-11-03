@@ -63,7 +63,7 @@ s32 select_and_start_target_action(ActorRecord *action_state, ObjectPosition *ac
         if ((try_claim_dungeon_action_slot(actor) << 16) != 0) {
             return -1;
         }
-        apply_camera_offset_and_select_target((u8 *)actor - 0x20, action_param, 8, 0x300);
+        apply_camera_offset_and_select_target(NODE_HEADER(actor), action_param, 8, 0x300);
         if ((try_claim_dungeon_action_slot(actor) << 16) != 0) {
             return -1;
         }

@@ -129,7 +129,7 @@ void advance_staged_actor_movement(ActorRecord *action, ObjectPosition *motion, 
 
                 particles_left--;
                 particle_random = rand();
-                spawn_randomized_directional_effect((u8 *)action - 0x20,
+                spawn_randomized_directional_effect(NODE_HEADER(action),
                     actor->facing, 0x8080FF,
                     (particle_random & 0xFF) | 0x80);
             } while (particles_left >= 0);

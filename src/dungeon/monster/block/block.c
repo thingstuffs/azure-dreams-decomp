@@ -114,7 +114,7 @@ void *create_linked_object_position(s16 spawn_flags, s16 attr_a, s16 attr_b, s32
     result = 0;
     object = allocate_list_node(0x112, &scene_object_list_anchor.next);
     if (object != 0) {
-        result = (u8 *)object;
+        result = object;
         result += 0x20;
         ((CB_80170A5C_S_80170A5C_0 *)object)->unk_10 = set_boss_effect_flag;
         ((CB_80170A5C_S_80170A5C_1 *)result)->unk_13 = MONSTER_BLOCK;
@@ -628,7 +628,7 @@ void choose_and_step_actor_path(ActorRecord *move_data, ObjectPosition *context,
             (blocker->flags1C & ACTOR_PLAYER_SIDE) &&
             (s16)get_actor_height_difference(blocker, actor_data) < 0x81) {
             if (check_diagonal_side_height(
-                    ((s16)*(u16 *)&actor_data->facing >> 9) & 0xFFFF,
+                    ((s16)((u16)(actor_data->facing)) >> 9) & 0xFFFF,
                     position_data->tile_position.parts.tile_x, position_data->tile_position.parts.tile_y,
                     (s16)((u16)actor_data->ground_height - 0x20)) != 0) {
                 actor_data->movement_queue_state &= 0x7F;
@@ -646,7 +646,7 @@ void choose_and_step_actor_path(ActorRecord *move_data, ObjectPosition *context,
                     target_position->tile_position.parts.tile_x, target_position->tile_position.parts.tile_y) != 0) {
                 if (get_actor_height_difference(primary_actor_record, actor_data) < 0x81) {
                     if (check_diagonal_side_height(
-                            ((s16)*(u16 *)&actor_data->facing >> 9) & 0xFFFF,
+                            ((s16)((u16)(actor_data->facing)) >> 9) & 0xFFFF,
                             position_data->tile_position.parts.tile_x,
                                 position_data->tile_position.parts.tile_y,
                             (s16)((u16)actor_data->ground_height - 0x20)) != 0) {
@@ -696,7 +696,7 @@ void choose_and_step_actor_path(ActorRecord *move_data, ObjectPosition *context,
                 u8 *x_step;
 
                 x_step = (u8 *)((s8 *)dir_step_x);
-                step_offset = (*(u16 *)&actor_data->facing >> 8) & 0xE;
+                step_offset = (((u16)(actor_data->facing)) >> 8) & 0xE;
                 x_step += step_offset;
                 position_data->tile_position.parts.tile_x += *x_step;
                 position_data->tile_position.parts.tile_y += *((u8 *)((s8 *)dir_step_y) + step_offset);
@@ -800,7 +800,7 @@ s32 try_begin_adjacent_actor_attack(ActorRecord *action_state, ObjectPosition *m
         return -1;
     }
 
-    apply_camera_offset_and_select_target((u8 *)actor - 0x20, motion_param, 8, 0x300);
+    apply_camera_offset_and_select_target(NODE_HEADER(actor), motion_param, 8, 0x300);
     if ((try_claim_dungeon_action_slot(actor) << 16) == 0) {
         action_state->action_id.s = 0x11;
         action_state->action_phase.s = 0;
@@ -821,7 +821,7 @@ s32 try_begin_adjacent_actor_attack(ActorRecord *action_state, ObjectPosition *m
 void begin_unchecked_directional_attack(ActorRecord *state, ObjectPosition *position, SpriteFrameState *render_state, ActorRecord *entity) {
     entity->movement_queue_state = (u8) (entity->movement_queue_state & 0x7F);
     if (!(dungeon_status_flags_alias & 0x2000) && ((try_claim_dungeon_action_slot(entity) << 0x10) == 0)) {
-        apply_camera_offset_and_select_target(((u8 *)entity - 0x20), position, 8, 0x300);
+        apply_camera_offset_and_select_target(NODE_HEADER(entity), position, 8, 0x300);
         if ((try_claim_dungeon_action_slot(entity) << 0x10) == 0) {
             state->action_id.u = 0x11;
             state->unk_8C.handler = 0;
@@ -1743,7 +1743,7 @@ void create_randomized_rotated_effect(void *unused_context, Rec_func_80173CFC_ar
 
     effect = allocate_flagged_object_node(0x212);
     if (effect != 0) {
-        effect_part = (u8 *)effect + 0x20;
+        effect_part = NODE_BODY(effect);
         effect_part->unk_24 = 5;
         (effect->update_callback) = fade_timed_primitive_effect;
         register_node(effect, project_sprite_chain);

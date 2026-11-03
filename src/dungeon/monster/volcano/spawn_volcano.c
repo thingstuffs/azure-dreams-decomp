@@ -32,7 +32,7 @@ void *spawn_variant_monster_slot_c(s16 spawn_flags, s16 tile_x, s16 tile_y, s16 
     obj = allocate_list_node(0x112, &scene_object_list_anchor.next);
     saved_spawn_flags = spawn_flags;
     if (obj != 0) {
-        work = (ActorRecord *)(obj + 1);
+        work = NODE_BODY(obj);
         work->species = MONSTER_VOLCANO;
         register_node(obj, project_sprite_chain);
 

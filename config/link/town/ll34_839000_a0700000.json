@@ -12,6 +12,21 @@
   },
   "entries": [
     {
+      "row": "town/func_808B9244",
+      "home": "town/func_808B7DD4",
+      "tu": "src/town/scene/flags/dispatch_entry_test_flag.c",
+      "foff": "0x839244",
+      "vma": "0xA0700244",
+      "size": 148,
+      "bindings": {
+        "0x3f58": "0xa07009dc",
+        "0x80003c70": "0xa0700750",
+        "0x80003bcc": "0xa07006ac",
+        "0x80003c1c": "0xa07006fc"
+      },
+      "evidence": "docs/evidence/r141w_town_dev.md"
+    },
+    {
       "row": "town/func_808B95EC",
       "tu": "src/town/devkit/call_helper_fixed_id.c",
       "home": "town/func_8087FFD0",

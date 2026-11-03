@@ -119,7 +119,7 @@ void update_jump_motion_2(void *action_state, ObjectPosition *motion, SpriteFram
             position[1] = ((u16)motion->y.w.i);
             position[2] = ((u16)motion->z.w.i);
             if (create_actor_spell_effect(actor, action_data, is_special,
-                              (u16 *)((u8 *)action_state + 0x98)) == 0) {
+                              ((u8 *)action_state + 0x98)) == 0) {
                 return;
             }
             sprite->flags &= 0xF7FF;

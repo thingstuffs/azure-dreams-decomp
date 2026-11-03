@@ -118,7 +118,7 @@ void update_position_history_and_shading(ActorTrailWork *obj, TrailMotion *coord
             break;
         }
     } else {
-        linked_data = (ActorTrailWork *)(linked_obj + 1);
+        linked_data = NODE_BODY(linked_obj);
         obj->position.x.parts.whole.u = linked_data->history[1].x.u;
         obj->position.y.parts.whole.u = linked_data->history[1].y.u;
         z = linked_data->history[1].z.u;

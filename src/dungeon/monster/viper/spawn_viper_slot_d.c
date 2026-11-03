@@ -46,7 +46,7 @@ void *allocate_actor_parts(s16 spawn_flags, s16 tile_x, s16 tile_y, s16 part_val
     saved_y = tile_y;
     obj = allocate_list_node(0x112, &scene_object_list_anchor.next);
     if (obj != 0) {
-        work = (ActorRecord *)(obj + 1);
+        work = NODE_BODY(obj);
         obj->update_callback = D_8015EA68;
         work->species = MONSTER_VIPER;
         register_node(obj, project_sprite_chain);

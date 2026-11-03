@@ -86,7 +86,7 @@ void *initialize_actor_and_companion(s16 mode_flags, s32 config_24, s32 config_2
     object = allocate_list_node(0x112, &scene_object_list_anchor.next);
     saved_config_0a = config_0a;
     if (object != 0) {
-        work = (S_8016AEDC_1 *)(object + 1);
+        work = NODE_BODY(object);
         ghosh_actor_node = object;
         object->update_callback = update_actor_animation_movement_and_terrain;
         work->unk_13 = MONSTER_GHOSH;

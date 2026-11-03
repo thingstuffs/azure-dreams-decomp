@@ -114,7 +114,7 @@ void advance_actor_action_and_refresh_animation(ActorRecord *actor, ObjectPositi
             on_actor_status_updated(actor_state);
             if ((get_entity_effect_value(actor_state, STATUS_SLEEP) << 16) != 0) {
                 TileObject *origin = &reference_tile_object;
-                s8 tile = *(s8 *)&render_record->room_index;
+                s8 tile = ((s8)(render_record->room_index));
 
                 if (((tile == origin->room_index) && (tile >= 0)) ||
                     ((s16)get_tile_chebyshev_distance(origin, render_record) < 2)) {

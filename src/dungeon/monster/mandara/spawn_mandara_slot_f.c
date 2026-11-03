@@ -57,7 +57,7 @@ void *create_mandara_actor_with_parts(s32 spawn_flags, s16 pos_x, s16 pos_y, s16
     obj = allocate_list_node(object_type, list_head);
     saved_flags = (s16)spawn_flags;
     if (obj != 0) {
-        work = (u8 *)obj + 0x20;
+        work = NODE_BODY(obj);
         obj->update_callback = D_8016AB40;
         ((ActorRecord *)work)->species = MONSTER_MANDARA;
         register_node(obj, project_sprite_chain);

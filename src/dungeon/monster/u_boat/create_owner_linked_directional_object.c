@@ -15,11 +15,11 @@ void create_owner_linked_directional_object(ActorRecord *owner_data, ObjectPosit
     u8 *direction_table;
 
     object = allocate_list_node(0x112, &scene_object_list_anchor.next);
-    object_data = ((u8 *)object) + 0x20;
+    object_data = NODE_BODY(object);
     if (object != 0) {
         ((S_80D3B0B8_0 *)object_data)->unk_96 = 0x78;
         object->update_callback = D_800D5594;
-        ((S_80D3B0B8_0 *)object_data)->unk_AC = (ObjectNodeHeader *)owner_data - 1;
+        ((S_80D3B0B8_0 *)object_data)->unk_AC = NODE_HEADER(owner_data);
         ((S_80D3B0B8_0 *)object_data)->unk_94 = ((u16)owner_data->facing);
         ((S_80D3B0B8_0 *)object_data)->unk_2A = ((u16)owner_data->facing);
         sprite = object->sprite;

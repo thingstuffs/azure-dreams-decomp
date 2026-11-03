@@ -118,13 +118,6 @@ typedef struct CL_CC5000_80170C24_S_80170C24_0 {
     u8 * unk_2C;
 } CL_CC5000_80170C24_S_80170C24_0;   /* monster in func_8015EC24 */
 
-typedef struct CL_CC5000_80170C24_S_80170C24_1 {
-    u8 pad_00[0x1C];
-    s32 unk_1C;
-    u8 pad_20[0x68];
-    union { u16 u; s16 s; } unk_88;   /* accessed as both */
-} CL_CC5000_80170C24_S_80170C24_1;   /* actor in func_8015EC24 */
-
 typedef struct CL_CC5000_80170C24_S_80170C24_2 {
     union { struct { s32 v; } at00; struct { u8 pad[0x2]; u16 v; } at02; } unk_00;   /* overlapping accesses */
     union { struct { s32 v; } at00; struct { u8 pad[0x2]; u16 v; } at02; } unk_04;   /* overlapping accesses */
@@ -588,11 +581,6 @@ typedef struct S_80173A38_0 {
     u8 pad_00[0x8C];
     void (*CL_CC5000_80173A38_unk_8C)(void *,void *,void *,void *);
 } S_80173A38_0;   /* arg0 in func_80161A38 */
-
-typedef struct CL_CC5000_80173A38_S_80173A38_1 {
-    u8 pad_00[0x2C];
-    u8 * unk_2C;
-} CL_CC5000_80173A38_S_80173A38_1;   /* arg2 in func_80161A38 */
 
 typedef struct CL_CC5000_80173A38_S_80173A38_2 {
     u8 pad_00[0x1C];
@@ -1161,7 +1149,7 @@ void func_80161344(void *state,void *position,void *render_state,void *entity);
 void func_80161364(S_80173364_0 *state,void *position,void *render_state,void *entity);
 void func_8016139C(void *action, void *context, void *sprite_in, void *actor_in);
 void func_8016172C(void *actor_in, s32 actor_index, void *target, void *entity_in);
-void func_80161A38(S_80173A38_0 *state, void *position, CL_CC5000_80173A38_S_80173A38_1 *sprite, CL_CC5000_80173A38_S_80173A38_2 *actor);
+void func_80161A38(S_80173A38_0 *state, void *position, SpriteFrameState *sprite, CL_CC5000_80173A38_S_80173A38_2 *actor);
 void func_80161B00(S_80173B00_0 *state,void *position,void *render_state,void *entity);
 void func_80161B64(S_80173B64_0 *state,void *position,void *render_state,void *entity);
 void func_80161B9C(S_80173B9C_0 *state,void *position,void *render_state,void *entity);

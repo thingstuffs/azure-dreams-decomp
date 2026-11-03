@@ -60,7 +60,7 @@ void create_default_state_object(s16 new_state) {
         obj->position->y.w.i = 0;
         obj->position->z.w.i = 0x4000;
         mode = *(s32 *)0x80012090;
-        obj_state = ((void *)obj) + 0x20;
+        obj_state = NODE_BODY(obj);
         if (mode == 0) {
             if (current_dungeon_floor == 0x28) {
                 obj_state->unk_02 = 1;
