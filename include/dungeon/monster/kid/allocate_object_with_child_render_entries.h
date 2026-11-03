@@ -11,18 +11,7 @@ extern u8 D_80151168[];
 
 typedef unsigned long uptr;
 
-typedef struct S_8014C8DC_1 {
-    u8 pad_00[0x13];
-    u8 unk_13;
-    s32 unk_14;
-    u8 pad_18[0x4];
-    s32 unk_1C;
-    u8 pad_20[0xA];
-    s16 unk_2A;
-} S_8014C8DC_1;   /* object in func_8014C8DC */
-
-
-
+   /* object in func_8014C8DC */
 
 typedef struct S_8014C8DC_6 {
     u8 pad_00[0x2];
@@ -33,13 +22,7 @@ typedef struct S_8014C8DC_6 {
     void * unk_98;
 } S_8014C8DC_6;   /* entry in func_8014C8DC */
 
-typedef struct S_8014C8DC_7 {
-    u8 pad_00[0xC];
-    s32 unk_0C;
-    s16 unk_10;
-    u8 pad_12[0x16];
-    s32 unk_28;
-} S_8014C8DC_7;   /* item in func_8014C8DC */
+   /* item in func_8014C8DC */
 
 typedef struct S_8014C8DC_8 {
     u8 pad_00[0xA4];

@@ -830,7 +830,7 @@ void choose_snowman_move(ActorRecord *move_data, ObjectPosition *context, Sprite
                     TileObject *target_position = &reference_tile_object;
                     s32 target_facing = ((u16)primary_actor_record->facing);
                     s32 offset_index =
-                        ((((u8 *)&actor_data->unk_44)[1] + ((s16)target_facing >> 9)) & 7) << 1;
+                        ((((u8 *)&actor_data->unk_44.whole)[1] + ((s16)target_facing >> 9)) & 7) << 1;
                     target_x = target_position->tile_position.parts.tile_x +
                         *(u16 *)((u8 *)((s8 *)dir_step_x) + offset_index);
                     target_y = target_position->tile_position.parts.tile_y +
@@ -988,7 +988,7 @@ void choose_snowman_move(ActorRecord *move_data, ObjectPosition *context, Sprite
  * Sets action state 0x10, selects camera-relative snowman step frames, and clears the action tick,
  * counter, substate, and linked action field.
  */
-void begin_snowman_step_animation(void *actor_state_arg, void *action_state, SpriteFrameState *sprite, void *orientation) {
+void begin_snowman_step_animation(void *actor_state_arg, ObjectPosition *action_state, SpriteFrameState *sprite, void *orientation) {
     Rec_func_80171CD4_arg0 *actor_state = actor_state_arg;
 
     actor_state->unk_9A.as_s8 = 0x10;
@@ -997,7 +997,7 @@ void begin_snowman_step_animation(void *actor_state_arg, void *action_state, Spr
     select_sprite_entry(sprite, *((((s32) (g_game_work.view.camera_rotation.parts.viewAngle + ((R10_80172730_S_80172688_1 *)orientation)->unk_2A + 0x100)
         >> 9) & 7) + snowman_frame_set_2), 0);
     actor_state->unk_90 = 0;
-    ((Rec_func_80171CD4_arg1 *)action_state)->unk_14 = 0;
+    action_state->velocity_z = 0;
     actor_state->unk_9D = 0;
 }
 

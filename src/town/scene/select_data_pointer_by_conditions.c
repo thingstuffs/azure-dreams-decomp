@@ -10,7 +10,7 @@ typedef struct {
 
 extern u8 D_80010000[];
 extern s32 D_80017530;
-extern s32 D_8001753C;
+
 extern s32 D_80017598;
 extern s32 D_800175A4;
 extern s32 get_script_flag_mask(s32 flagIndex);
@@ -34,7 +34,7 @@ void select_data_pointer_by_conditions(void **out_data) {
             selected_data = &D_800175A4;
         }
     } else {
-        selected_data = &D_8001753C;
+        selected_data = select_alternate_data_for_conditions;
     }
     *out_data = selected_data;
 }

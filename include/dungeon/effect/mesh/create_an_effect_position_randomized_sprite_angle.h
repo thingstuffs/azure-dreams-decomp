@@ -17,6 +17,7 @@
 #include "shared/dir_step.h"
 #include "dungeon/level.h"
 #include "dungeon/system.h"
+#include "shared/entity.h"
 typedef struct ovl_1930844_81910844_S_81910844_0_pre {
     u16 unk_00;
 } ovl_1930844_81910844_S_81910844_0_pre;
@@ -247,9 +248,6 @@ typedef struct ovl_1930844_81912074_S_80025874_1 {
     s8 unk_41;
     s8 unk_42;
 } ovl_1930844_81912074_S_80025874_1;
-typedef struct {
-    s32 words[6];
-} ovl_1930844_81912074_Copy24;
 typedef struct ovl_1930844_81912154_S_80025954_1 {
     u8 pad_00[0x2A];
     u16 unk_2A;
@@ -356,13 +354,13 @@ void apply_attack_power_and_element_effects();
 s32 check_layer_offset_height();
 static __inline__ s32 radial_coordinate(s32 center, s32 trig, s16 radius);
 void advance_shrinking_arc_effect(AnEffectPositionRandomizedSpriteAngleBody *state, ovl_1930844_81910844_S_81910844_2 *motion, ovl_1930844_81910844_S_81910844_3 *visual);
-void * create_an_effect_position_randomized_sprite_angle(Rec_func_80024170_arg0 *owner, void *source_position);
+void * create_an_effect_position_randomized_sprite_angle(Rec_func_80024170_arg0 *owner, ObjectPosition *source_position);
 void build_and_depth_sorts_five_radial_line_segments_effect(ovl_1930844_81911BF4_Obj81911BF4 *effect_data, void *origin, s16 step_index, s16 scale_factor);
 void build_and_enqueue_five_translucent_quads_between_interpolated_points(u8 *shape, void *position, s16 scale_num, s16 scale_den);
 void build_and_queue_interpolated_vertical_quads_around_five_perimeter_points(void *effect_in, ovl_1930844_819112CC_S_819112CC_1 *origin, s16 step_in, s16 duration_in);
 void draw_a_full_screen_color_overlay_mark_effect_complete_countdown_ends(void *effect, void *unused, void *fade_state);
 void create_object_hex_212_initialize_data_pointer_mode(s32 *initial_value);
 void update_the_five_orbiting_points_advance_effect_animation(ovl_1930844_81911BF4_Obj81911BF4 *effect, s32 *position);
-void *create_and_initializes_copying_n_24_bytes_source_data(s32 state_value, ovl_1930844_81912074_Copy24 *source_data, s16 initial_setting);
-void update_movement_toward_target_along_direction_advances_action_phases(void *state, void *motion, void *appearance);
+void *create_and_initializes_copying_n_24_bytes_source_data(s32 state_value, ObjectPosition *source_data, s16 initial_setting);
+void update_movement_toward_target_along_direction_advances_action_phases(void *state, ObjectPosition *motion, void *appearance);
 #endif

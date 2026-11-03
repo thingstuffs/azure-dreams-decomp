@@ -90,7 +90,7 @@ extern s32 scene_object_payload_alias;
 extern u8 town_interaction_action_address[];
 extern s32 town_position_callback_address[3];
 
-extern void create_eight_linked_scene_sprites(void *);
+extern void create_eight_linked_scene_sprites(TownCollectionSequence *);
 extern void create_paired_vector_color_effect(void *, TownPos *, s32 *, void *);
 extern void create_rotating_layered_line_cage(u8 *effect);
 extern void return_zero_variadic(void *, s32);
@@ -211,7 +211,7 @@ void count_entries_matching_search_path(TownCollectionSequence *scene)
         tw_sd_sq_ld_call(0x24, 0x200);
         scene->state.s = 4;
         create_eight_linked_scene_sprites(scene);
-        initialize_scene_action_record(global, work, ((u8 *)(&reference_tile_object)));
+        initialize_scene_action_record(global, work, &reference_tile_object);
         break;
 
     case 4:

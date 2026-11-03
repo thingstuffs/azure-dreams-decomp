@@ -13,45 +13,6 @@
 #include "shared/entity.h"
 #include "records/Rec_func_800AA258_arg2.h"
 
-typedef struct S_801730B4_0 {
-    u8 pad_00[0x8C];
-    void * unk_8C;
-    u8 pad_90[0xB];
-    u8 unk_9B;
-} S_801730B4_0;
-
-/* arg0 in update_actor_status_callback */
-typedef struct S_801730B4_1 {
-    u8 pad_00[0x14];
-    u16 unk_14;
-    u8 pad_16[0x10];
-    s8 unk_26;
-} S_801730B4_1;
-
-/* arg2 in update_actor_status_callback */
-typedef struct S_801730B4_2 {
-    u8 pad_00[0x1C];
-    union { u32 s; s32 u; } unk_1C;   /* accessed as both */
-    u8 pad_20[0x5];
-    u8 unk_25;
-    u8 pad_26[0x4];
-    s16 unk_2A;
-    u8 pad_2C[0x38];
-    s16 unk_64;
-    u8 pad_66[0x7];
-    s8 unk_6D;
-} S_801730B4_2;
-
-/* arg3 in update_actor_status_callback */
-typedef struct S_801730B4_5 {
-    u8 pad_00[0x92];
-    u16 unk_92;
-    u8 pad_94[0x12];
-    u16 unk_A6;
-    u8 pad_A8[0xA];
-    u16 unk_B2;
-} S_801730B4_5;
-
 typedef struct S_801734E0_0 {
     u8 pad_00[0x8C];
     void * unk_8C;
@@ -64,20 +25,6 @@ typedef struct S_801734E0_0 {
     u8 pad_A8[0xA];
     u16 unk_B2;
 } S_801734E0_0;
-
-/* arg0 in advance_entity_directional_events */
-typedef struct S_801734E0_2 {
-    u8 pad_00[0xA];
-    u16 unk_0A;
-} S_801734E0_2;
-
-/* base in advance_entity_directional_events */
-typedef struct S_801734E0_4 {
-    u8 pad_00[0x2];
-    u16 unk_02;
-    u8 pad_04[0x6];
-    u16 unk_0A;
-} S_801734E0_4;
 
 /* copy_arg0 in update_actor_status_callback */
 extern s32 get_entity_effect_value(ActorRecord *entry, s32 effect_id);
@@ -100,6 +47,5 @@ extern u8 garuda_action_resume_address[];
 
 /* Functions defined in this translation unit. */
 void update_actor_status_callback(ActorRecord *body, ObjectPosition *position, SpriteFrameState *sprite, ActorRecord *actor);
-
 
 #endif

@@ -119,7 +119,7 @@ void advance_actor_path_with_item_search(ActorRecord *move_state, ObjectPosition
                     u32 follow_offset;
 
                     follow_offset =
-                        ((((u8 *)&actor_arg->unk_44)[1] +
+                        ((((u8 *)&actor_arg->unk_44.whole)[1] +
                           ((s32)(((u16)primary_actor_record->facing) << 16) >> 25)) &
                          7) *
                         2;

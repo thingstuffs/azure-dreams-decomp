@@ -60,26 +60,6 @@ typedef struct S_80171498_1 {
 } S_80171498_1;
 
 /* arg0 in create_random_color_offset_effect */
-/* source in create_random_color_offset_effect */
-typedef struct S_80171498_3 {
-    s32 unk_00;
-    u8 pad_04[0x4];
-    s32 unk_08;
-    u8 pad_0C[0x8];
-    s16 unk_14;
-    u8 pad_16[0x1C];
-    s16 unk_32;
-    u8 pad_34[0x2];
-    s16 unk_36;
-    s16 unk_38;
-    s16 unk_3A;
-    u8 pad_3C[0x1E];
-    s16 unk_5A;
-    u8 pad_5C[0x2];
-    s16 unk_5E;
-    u8 pad_60[0x2];
-    s16 unk_62;
-} S_80171498_3;
 
 /* base in create_random_color_offset_effect */
 /* ((S_80171498_0 *)effect)->unk_08 in create_random_color_offset_effect */

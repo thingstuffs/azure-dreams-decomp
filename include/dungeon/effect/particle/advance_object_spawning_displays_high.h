@@ -153,7 +153,7 @@ void handle_spawn_initialize_randomized_offset_parent(Object *source, s32 state_
 void expand_rotating_countdown_sprite(RotatingCountdownSpriteBody *countdown_state, ObjectPosition *unused, SpriteFrameState *animation_state);
 void advance_timed_effect_animation(DungeonObject *object, s32 unused, void *handlerContext);
 void decrement_object_counter(PackedSpriteEffectBody *object);
-void *create_packed_sprite_effect(void *source, void *unused_1, void *unused_2, void *packed_data, s32 render_param, s32 render_x, s32 render_y, s32 render_mode);
+void *create_packed_sprite_effect(void *source, ObjectPosition *unused_1, void *unused_2, void *packed_data, s32 render_param, s32 render_x, s32 render_y, s32 render_mode);
 /* Work at node +0x20 for advance_actor_tint_particle_sequence. Attachment
  * coordinates are returned by get_sprite_attachment_vector; the previous and
  * midpoint copies seed the particles between successive attachment positions. */
@@ -183,6 +183,6 @@ typedef struct TintParticleSequence {
     void *display_b;
 } TintParticleSequence;
 
-void advance_actor_tint_particle_sequence(TintParticleSequence *effect, void *effect_pos, void *effect_data);
+void advance_actor_tint_particle_sequence(TintParticleSequence *effect, ObjectPosition *effect_pos, void *effect_data);
 
 #endif

@@ -4,15 +4,15 @@
 
 typedef void (*TownCallback)(void);
 
-extern u8 D_8001CED4;
-extern u8 D_8001CF1C;
+
+
 
 /* Invoke one of two callbacks using the current state index. */
 void invoke_event_state_callback(void)
 {
     TownCallback callbacks[2] = {
-        (TownCallback)&D_8001CED4,
-        (TownCallback)&D_8001CF1C,
+        (TownCallback)advance_event_state_and_get_resource,
+        (TownCallback)reset_event_entry_and_get_resource,
     };
 
     callbacks[town_event_state->dispatchState]();

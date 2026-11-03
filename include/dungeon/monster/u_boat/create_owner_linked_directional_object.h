@@ -20,16 +20,7 @@ typedef struct S_80D3B0B8_0 {
     ObjectNodeHeader * unk_AC;
 } S_80D3B0B8_0;   /* temp_s3 in func_801708B8 */
 
-
-typedef struct S_80D3B0B8_6 {
-    u8 pad_00[0x2];
-    u16 unk_02;
-    u8 pad_04[0x2];
-    u16 unk_06;
-    u8 pad_08[0x2];
-    u16 unk_0A;
-} S_80D3B0B8_6;   /* saved_arg1 in func_801708B8 */
-
+   /* saved_arg1 in func_801708B8 */
 
 typedef struct Copy16 {
     s32 word[4];

@@ -584,7 +584,7 @@ void choose_and_step_actor_path(ActorRecord *move_data, ObjectPosition *context,
                     TileObject *target_position = &reference_tile_object;
                     s32 target_facing = ((u16)primary_actor_record->facing);
                     s32 offset_index =
-                        ((((u8 *)&actor_data->unk_44)[1] + ((s16)target_facing >> 9)) & 7) << 1;
+                        ((((u8 *)&actor_data->unk_44.whole)[1] + ((s16)target_facing >> 9)) & 7) << 1;
                     target_x = target_position->tile_position.parts.tile_x +
                         *(u16 *)((u8 *)((s8 *)dir_step_x) + offset_index);
                     target_y = target_position->tile_position.parts.tile_y +
@@ -1831,7 +1831,7 @@ void project_visible_effect_quad(ActorRecord *body, void *position_arg, void *re
         render_state->unk_8D0 = packet + 0x24;
     }
 
-    ((CB_80173E40_S_80173E40_0 *)scratch)->unk_B0 = body->unk_44;
+    ((CB_80173E40_S_80173E40_0 *)scratch)->unk_B0 = body->unk_44.whole;
     ((CB_80173E40_S_80173E40_0 *)scratch)->unk_B8 = ((CB_80173E40_S_80173E40_6 *)body)->unk_4A;
     ((CB_80173E40_S_80173E40_0 *)scratch)->unk_C0 = body->unk_50.halves.low;
     ((CB_80173E40_S_80173E40_0 *)scratch)->unk_C8 = ((CB_80173E40_S_80173E40_6 *)body)->unk_56;

@@ -1,5 +1,6 @@
 #include "common.h"
 #include "town/scene/animation.h"
+#include "town/scene/collection.h"
 typedef struct { s16 x; s16 y; s16 z; s16 pad; } Vec3s;
 extern u8 D_80528910[];
 extern u16 D_80132AEA[];
@@ -7,7 +8,7 @@ extern void create_object_pair_word(void *, void *, void *, void *);
 extern s32 func_8006A3A4(s32);
 extern s32 func_8006A470(s32);
 /* Draw three stacked rotating square outlines with complementary grayscale colors. */
-void draw_rotating_collection_frame(u8 *object)
+void draw_rotating_collection_frame(TownCollectionSequence *object)
 {
     Vec3s edge[2];
     Vec3s corner[4];
@@ -25,9 +26,9 @@ void draw_rotating_collection_frame(u8 *object)
             s32 x;
             s32 y;
 
-            x = func_8006A3A4(*(s16 *)(object + 0x28) + angle_offset);
+            x = func_8006A3A4(object->unk_28.s + angle_offset);
             corner[index].x = (x = (x >> 6) + origin[0]);
-            y = func_8006A470(*(s16 *)(object + 0x28) + angle_offset);
+            y = func_8006A470(object->unk_28.s + angle_offset);
             corner[index].y = (y = (y >> 6) + origin[2]);
             corner[index].z = origin[4] - 0xA0;
         }
@@ -38,7 +39,7 @@ void draw_rotating_collection_frame(u8 *object)
         center.y = origin[2];
         center.z = origin[4] - 0x60;
     }
-    index = ((s16)*(u16 *)(object + 0x2E) >> 1) + 0x80;
+    index = ((s16)object->angle_step.u >> 1) + 0x80;
     if (index < 0)
         index = 0;
     else if (index >= 0x100)

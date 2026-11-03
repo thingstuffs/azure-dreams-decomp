@@ -141,7 +141,7 @@ void advance_actor_path(ActorRecord *motion, ObjectPosition *context, SpriteFram
         } else if (motion->unk_B0.bytes[2] != 0) {
             if (!(actor->action_flags & ACTOR_ACTION_PENDING)) {
                 if (actor_flags & 0x20000) {
-                    direction_offset = ((((u8 *)&actor->unk_44)[1] + (primary_actor_record->facing >> 9)) & 7) * 2;
+                    direction_offset = ((((u8 *)&actor->unk_44.whole)[1] + (primary_actor_record->facing >> 9)) & 7) * 2;
                     world_x = reference_tile_object.tile_position.parts.tile_x;
                     world_y = reference_tile_object.tile_position.parts.tile_y;
                     x_offset = (void *)(*(u16 *)((u8 *)(((s32 *)dir_step_x)) + direction_offset));

@@ -32,14 +32,14 @@ typedef struct S_801740F8_2 {
 } S_801740F8_2;   /* arg3 in update_boss_timed_animation */
 
 /* Updates a timed animation offset and restores the actor's directional animation. */
-void update_boss_timed_animation(void *actor, ObjectPosition *transform, SpriteFrameState *animation, void *motion)
+void update_boss_timed_animation(ActorRecord *actor, ObjectPosition *transform, SpriteFrameState *animation, void *motion)
 {
     s32 timer;
     s16 next_timer;
     s32 state;
     u8 *anim_table;
 
-    state = ((S_801740F8_0 *)actor)->unk_9B;
+    state = actor->action_phase.u;
     switch (state) {
     case 0:
         anim_table = ghosh_frame_bank + 0x4A7C;
@@ -51,37 +51,37 @@ void update_boss_timed_animation(void *actor, ObjectPosition *transform, SpriteF
                         + (u32)anim_table),
                 0);
         }
-        ((S_801740F8_0 *)actor)->unk_98 |= 8;
+        actor->action_state_flags |= 8;
         ((S_801740F8_2 *)motion)->unk_1C &= 0xF7FFFFFF;
-        ((S_801740F8_0 *)actor)->unk_9E = 5;
-        ((S_801740F8_0 *)actor)->unk_A4 = 0;
-        ((S_801740F8_0 *)actor)->unk_9B++;
+        actor->unk_9E.s = 5;
+        actor->unk_A4.value = 0;
+        actor->action_phase.u++;
     case 1:
-        timer = ((S_801740F8_0 *)actor)->unk_9E;
-        ((S_801740F8_0 *)actor)->unk_90 -= ((S_801740F8_0 *)actor)->unk_A4;
+        timer = actor->unk_9E.s;
+        actor->unk_90.value -= actor->unk_A4.value;
         if (timer != 0) {
-            ((S_801740F8_0 *)actor)->unk_A4 = -rsin(timer * 0x199) << 10;
+            actor->unk_A4.value = -rsin(timer * 0x199) << 10;
         }
 
-        ((S_801740F8_0 *)actor)->unk_90 += ((S_801740F8_0 *)actor)->unk_A4;
-        next_timer = (u16)((S_801740F8_0 *)actor)->unk_9E - 1;
-        ((S_801740F8_0 *)actor)->unk_9E = next_timer;
+        actor->unk_90.value += actor->unk_A4.value;
+        next_timer = (u16)actor->unk_9E.s - 1;
+        actor->unk_9E.s = next_timer;
         if (next_timer < 0) {
-            ((S_801740F8_0 *)actor)->unk_90 = 0;
-            ((S_801740F8_0 *)actor)->unk_98 &= 0xFFF7;
+            actor->unk_90.value = 0;
+            actor->action_state_flags &= 0xFFF7;
             ((S_801740F8_2 *)motion)->unk_1C |= 0x08000000;
-            ((S_801740F8_0 *)actor)->unk_9B++;
+            actor->action_phase.u++;
         }
     case 2:
         if (!(((S_801740F8_2 *)motion)->unk_1C & 0x08000000)) {
             return;
         }
-        ((S_801740F8_0 *)actor)->unk_98 &= 0xFFF7;
+        actor->action_state_flags &= 0xFFF7;
         transform->velocity_z = 0;
         transform->velocity_y = 0;
         transform->velocity_x = 0;
         set_record_integer_tile_center(transform, animation->tile_x, animation->tile_y);
-        ((S_801740F8_0 *)actor)->unk_9B++;
+        actor->action_phase.u++;
         return;
     case 3:
         if (*(u8 **)&animation->frameTable != ghosh_frame_set_8 - 0x50) {

@@ -17,6 +17,7 @@ struct SpriteFrameState;
 #include "shared/gpu_packets.h"
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
+#include "shared/entity.h"
 struct ObjectNodeHeader;
 typedef struct {
     u8 pad00[0x14];
@@ -151,14 +152,6 @@ typedef union ovl_188298c_818632E4_Fixed32 {
         s16 hi;
     } h;
 } ovl_188298c_818632E4_Fixed32;
-typedef struct ovl_188298c_818632E4_Motion {
-    ovl_188298c_818632E4_Fixed32 x;
-    ovl_188298c_818632E4_Fixed32 y;
-    ovl_188298c_818632E4_Fixed32 z;
-    ovl_188298c_818632E4_Fixed32 dx;
-    ovl_188298c_818632E4_Fixed32 dy;
-    ovl_188298c_818632E4_Fixed32 dz;
-} ovl_188298c_818632E4_Motion;
 typedef struct ovl_188298c_818632E4_Lookup {
     u8 pad00[8];
     void *key;
@@ -170,7 +163,7 @@ typedef struct ovl_188298c_818632E4_Lookup {
 } ovl_188298c_818632E4_Lookup;
 typedef struct ovl_188298c_818632E4_RootPrefix {
     u8 pad00[8];
-    ovl_188298c_818632E4_Motion *motion;
+    ObjectPosition *motion;
     SpriteFrameState *lookup;
 } ovl_188298c_818632E4_RootPrefix;
 typedef struct ovl_188298c_818632E4_Controller {
@@ -186,7 +179,7 @@ typedef struct ovl_188298c_818632E4_Controller {
     s16 active;
     u8 slots[8];
     u8 pad1E[2];
-    ovl_188298c_818632E4_Motion saved;
+    ObjectPosition saved;
     ovl_188298c_818632E4_Fixed32 target[3];
     u8 pad44[12];
     s16 cell_x;
@@ -223,7 +216,7 @@ void apply_status_to_nearby_actors(s32 x, s32 y, void *kind, s32 flags);
 void advance_fading_effect(ovl_188298c_8186298C_Arg0Ent *state, void *unused, ovl_188298c_8186298C_Arg2Ent *effect);
 void spawn_jittered_type_212_effect(s32 owner, void *source);
 void advance_counter_and_propagate_target_flags(RadiusDirectionalEffectsBody *state, M2C_UNK context,struct SpriteFrameState *target);
-void create_radius_directional_effects(s32 effect_param, void *origin_arg, s16 radius_arg, u8 *blocked_dirs);
+void create_radius_directional_effects(s32 effect_param, ObjectPosition *origin_arg, s16 radius_arg, u8 *blocked_dirs);
 s32 project_and_queue_shaded_line(void *line, void *unused_render_context);
-void move_to_linked_object_and_apply_arrival_effects(ovl_188298c_818632E4_Controller *ctrl, ovl_188298c_818632E4_Motion *motion, void *render_data);
+void move_to_linked_object_and_apply_arrival_effects(ovl_188298c_818632E4_Controller *ctrl, ObjectPosition *motion, void *render_data);
 #endif

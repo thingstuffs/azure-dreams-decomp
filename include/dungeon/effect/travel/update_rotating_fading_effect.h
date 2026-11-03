@@ -17,11 +17,6 @@
 #include "dungeon/effect.h"
 #include "dungeon/effect/travel/randomized_target_effect.h"
 #include "shared/entity.h"
-typedef struct ovl_18ca83c_818AABB8_S_800243B8_3 {
-    s32 unk_00;
-    s32 unk_04;
-    s32 unk_08;
-} ovl_18ca83c_818AABB8_S_800243B8_3;
 typedef struct ovl_18ca83c_818AABB8_S_800243B8_4 {
     s32 unk_00;
     s32 unk_04;
@@ -127,6 +122,6 @@ extern int abs(int);
 s32 check_layer_offset_height(s32, s32, s16, s32);
 void apply_large_random_value_gain(ActorRecord *target, s32 amount_input, ActorRecord *owner);
 void update_rotating_fading_effect(RandomizedTargetEffectBody *effect, void *position, SpriteFrameState *sprite);
-void *create_randomized_target_effect(Rec_func_800243B8_arg0 *source, ovl_18ca83c_818AABB8_S_800243B8_3 *start, ObjectPosition *center, s16 index);
-void advance_target_travel_effect(void *effect, void *motion, void *appearance);
+void *create_randomized_target_effect(Rec_func_800243B8_arg0 *source, ObjectPosition *start, ObjectPosition *center, s16 index);
+void advance_target_travel_effect(void *effect, ObjectPosition *motion, void *appearance);
 #endif

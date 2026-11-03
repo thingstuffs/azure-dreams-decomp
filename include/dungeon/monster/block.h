@@ -166,11 +166,6 @@ typedef struct CB_80170C24_S_80170C24_2 {
  /* extern */
  /* extern */
 
-
-
-
-
-
 typedef struct CB_8017102C_S_8017102C_5 {
     u8 pad_00[0xC];
     u16 unk_0C;
@@ -225,9 +220,6 @@ typedef struct CB_80171590_S_80171590_3 {
 
 /* extern */
 
-
-
-
 /* Select the overlay animation for the camera-relative facing and enter action 16. */
 
 typedef struct CB_80171FBC_S_80171DA0_1 {
@@ -257,8 +249,6 @@ typedef struct CB_80172180_S_80172180_0 {
     s8 unk_85;
 } CB_80172180_S_80172180_0;   /* entity in func_80172180 */
 
-
-
 /* Finish the pending action, restore animation, and advance its entity countdown. */
 
 /* extern */
@@ -282,11 +272,7 @@ typedef struct CB_80172298_S_80172628_0 {
             /* extern */
                 /* extern */
 
-typedef struct S_801723DC_0 {
-    u8 pad_00[0x8C];
-    ActorActionHandler CB_801723DC_unk_8C;
-    s32 unk_90;
-} S_801723DC_0;   /* state in func_801723DC */
+   /* state in func_801723DC */
 
 typedef struct CB_80172458_S_80172458_0 {
     u8 pad_00[0x8C];
@@ -443,10 +429,7 @@ typedef struct CB_80172BCC_Copy12 {
     u8 bytes[12];
 } CB_80172BCC_Copy12;
 
-
-
 /* Advance the actor's item action, spawn its effect, and restore its position when finished. */
-
 
 /* Advance the action wait states, then reset motion and switch scripts. */
 
@@ -485,7 +468,6 @@ typedef struct CB_8017339C_S_80173D4C_1 {
     s8 unk_26;
 } CB_8017339C_S_80173D4C_1;   /* arg2 in func_8017339C */
 
-
 /* Advances the actor_in action state and updates its directional animation. */
 
 typedef struct CB_8017372C_S_801740DC_0 {
@@ -505,8 +487,6 @@ typedef struct S_80173A38_0 {
     u8 pad_00[0x8C];
     ActorActionHandler CB_80173A38_unk_8C;
 } S_80173A38_0;   /* arg0 in func_80173A38 */
-
-
 
 /* Restore the main action handler after movement, or select its fallback animation. */
 
@@ -560,8 +540,6 @@ typedef struct CB_80173CFC_S_80173CFC_0 {
     u8 pad_03[0x21];
     s16 unk_24;
 } CB_80173CFC_S_80173CFC_0;   /* part in func_80173CFC */
-
-
 
 /* Creates an effect at an offset from the source position with randomized rotation. */
 
@@ -790,7 +768,6 @@ extern void *memcpy(void *, const void *, u32);
 
 /* extern */
 
-
 typedef struct S_80174B3C_1 {
     u8 pad_00[0x8C];
     void (*CB_80174B3C_handler)();
@@ -902,13 +879,7 @@ s32 Control_CD(); /* extern */
 
 /* Advances the actor transition through turning, color blending, effects, and model replacement. */
 
-
-
-
 /* Resume the action dispatcher after the resident action completes. */
-
-
-
 
 /* Resume the action dispatcher after the resident action completes. */
 extern s32 resource_completion_callback_address[];
@@ -1062,11 +1033,7 @@ void replace_actor_with_faded_effect(void *state, struct ObjectPosition *positio
 void resume_actor_after_floor_trap(ActorRecord *state, ObjectPosition *position, SpriteFrameState *sprite, ActorRecord *entity);
 void resume_actor_after_action_flag(ActorRecord *state, ObjectPosition *position, SpriteFrameState *sprite, ActorRecord *entity);
 
-
-
 void update_tile_movement_and_height(ActorRecord *action, ObjectPosition *motion, SpriteFrameState *map_entry, ActorRecord *actor);
-
-
 
 void complete_timed_actor_animation(ActorRecord *action, ObjectPosition *motion, SpriteFrameState *sprite, ActorRecord *actor);
 

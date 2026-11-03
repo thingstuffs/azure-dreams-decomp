@@ -17,10 +17,7 @@ typedef struct S_8014C870_1 {
     s8 unk_13;
 } S_8014C870_1;   /* work in func_8014C870 */
 
-typedef struct S_8014C870_2 {
-    u8 pad_00[0xA];
-    s16 unk_0A;
-} S_8014C870_2;   /* part_a in func_8014C870 */
+   /* part_a in func_8014C870 */
 
 typedef struct S_8014C870_4 {
     u8 pad_00[0x8C];

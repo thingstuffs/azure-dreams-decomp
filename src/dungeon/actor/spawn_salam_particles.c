@@ -13,7 +13,7 @@
 
    /* ((Rec_D_800E3D7C *)arg0)->unk_08.at00_pv.v in spawn_salam_particles */
 
-extern void advance_particle_motion_with_floor_collision(void *object, void *motion);
+extern void advance_particle_motion_with_floor_collision(void *object, ObjectPosition *motion);
 extern M2C_UNK D_800E03B0;
 
 

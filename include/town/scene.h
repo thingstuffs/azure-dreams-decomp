@@ -240,4 +240,6 @@ s32 *select_fallback_when_below_threshold(void *input);
 /* Address-qualified entries of distinct diagnostic devkit builds; docs/evidence/r141w_town_dev.md. */
 s32 is_next_entry_zero_after_skipping_80700ce8(s32 list_index);
 
+s32 *select_alternate_data_for_conditions(s32 **out_data);
+
 #endif

@@ -357,7 +357,7 @@ void advance_object_motion_and_animation(EffectWithEndpointsBody *object) {
 
 /* Creates an effect with saved endpoints, one-eighth travel steps, a phase setting, and copied
    transform data. */
-void allocate_effect_with_endpoints(s32 object_value, void *start_pos, void *end_pos, s16 setting, Row_8194D1E4_FourWords params_a,
+void allocate_effect_with_endpoints(s32 object_value, ObjectPosition *start_pos, void *end_pos, s16 setting, Row_8194D1E4_FourWords params_a,
     Row_8194D1E4_FourWords params_b, Row_8194D1E4_Packed8 packed_params) {
     s32 start_x;
     s32 start_y;
@@ -376,23 +376,23 @@ void allocate_effect_with_endpoints(s32 object_value, void *start_pos, void *end
         (*(s32 *)NODE_BODY(object)) = object_value;
         state->ticks = 0;
         state->phase = setting;
-        start_x = (*(s32 *)((u8 *)start_pos + 0));
+        start_x = start_pos->x.v;
         (*(s32 *)((u8 *)state + 0x1C)) = start_x;
         state->unk_34 = start_x;
-        start_y = (*(s32 *)((u8 *)start_pos + 4));
+        start_y = start_pos->y.v;
         (*(s32 *)((u8 *)state + 0x20)) = start_y;
         state->unk_38 = start_y;
-        start_z = (*(s32 *)((u8 *)start_pos + 8));
+        start_z = start_pos->z.v;
         (*(s32 *)((u8 *)state + 0x24)) = start_z;
         state->unk_3C = start_z;
         (*(s32 *)((u8 *)state + 4)) = (s32) (*(s32 *)((u8 *)end_pos + 0));
         (*(s32 *)((u8 *)state + 8)) = (s32) (*(s32 *)((u8 *)end_pos + 4));
         (*(s32 *)((u8 *)state + 0xC)) = (s32) (*(s32 *)((u8 *)end_pos + 8));
-        state->unk_40 = (s32) ((s32) ((*(s32 *)((u8 *)end_pos + 0)) - (*(s32 *)((u8 *)start_pos + 0)))
+        state->unk_40 = (s32) ((s32) ((*(s32 *)((u8 *)end_pos + 0)) - start_pos->x.v)
             >> 3);
-        state->unk_44 = (s32) ((s32) ((*(s32 *)((u8 *)end_pos + 4)) - (*(s32 *)((u8 *)start_pos + 4)))
+        state->unk_44 = (s32) ((s32) ((*(s32 *)((u8 *)end_pos + 4)) - start_pos->y.v)
             >> 3);
-        state->unk_48 = (s32) ((s32) ((*(s32 *)((u8 *)end_pos + 8)) - (*(s32 *)((u8 *)start_pos + 8)))
+        state->unk_48 = (s32) ((s32) ((*(s32 *)((u8 *)end_pos + 8)) - start_pos->z.v)
             >> 3);
         word_0 = params_a.words[0];
         word_1 = params_a.words[1];
@@ -423,7 +423,7 @@ void allocate_effect_with_endpoints(s32 object_value, void *start_pos, void *end
  * derived sp base with ASM_KEEP prevents packed tail loads folding from lwl/lwr pairs into lw; the
  * paired tail source reads then also eliminate both downstream branch-displacement drifts.
  */
-void update_three_way_target_effect(void *effect_arg, void *position) {
+void update_three_way_target_effect(void *effect_arg, ObjectPosition *position) {
     s32 fallback_pos[6];
     Row_8194D1E4_Packed8 direction;
     Row_8194D1E4_FourWords transform[2];
@@ -501,14 +501,14 @@ void update_three_way_target_effect(void *effect_arg, void *position) {
         }
         origin = &view_reference_entity;
         origin_x = (s32)view_reference_entity.x.v;
-        (*(s32 *)((u8 *)position + 0)) = origin_x;
+        position->x.v = origin_x;
         phase = phase_random - ((rounded_phase >> 12) << 12);
-        (*(s32 *)((u8 *)position + 4)) = origin->y.v;
+        position->y.v = origin->y.v;
         actor_value = primary_actor_record;
         tile_or_y_steps = &reference_tile_object;
         shifted_height = ((actor_value->ground_height) - 0x50) << 0x10;
         effect_data = offset;
-        (*(s32 *)((u8 *)position + 8)) = shifted_height;
+        position->z.v = shifted_height;
         view_heading = g_game_work.view.camera_rotation.parts.viewAngle;
         state_or_heading = actor_value->facing;
         offset_mode = 0;
@@ -519,9 +519,9 @@ void update_three_way_target_effect(void *effect_arg, void *position) {
         state_or_heading = (*(s32 *)actor_direction_sprites);
         actor_or_frame = (void *)(s32)*(s32 *)(view_heading + state_or_heading);
         if (resolve_record_orientation_or_fallback(actor_or_frame, tile_or_y_steps, effect_data, offset_mode) != 0) {
-            (*(s32 *)((u8 *)position + 0)) = (s32)((*(s32 *)((u8 *)position + 0)) + (offset[0] << 0x10));
-            (*(s32 *)((u8 *)position + 4)) = (s32)((*(s32 *)((u8 *)position + 4)) + (offset[1] << 0x10));
-            (*(s32 *)((u8 *)position + 8)) = (s32)((*(s32 *)((u8 *)position + 8)) + (offset[2] << 0x10));
+            position->x.v = (s32)(position->x.v + (offset[0] << 0x10));
+            position->y.v = (s32)(position->y.v + (offset[1] << 0x10));
+            position->z.v = (s32)(position->z.v + (offset[2] << 0x10));
         }
         actor_or_frame = (Row_8194D354_S_80024B54_5 *)primary_actor_record;
         target = scan_actor_along_heading(primary_actor_record, tile_or_y_steps->tile_position.parts.tile_x,
@@ -570,8 +570,8 @@ void update_three_way_target_effect(void *effect_arg, void *position) {
                 step_count += 1;
             } while (step_count < 8);
         }
-        update_directional_actor_effect(((Row_8194D354_S_80024B54_8 *)position)->unk_02, ((Row_8194D354_S_80024B54_8 *)position)->unk_06,
-            ((Row_8194D354_S_80024B54_8 *)position)->unk_0A, ((Row_8194D354_S_80024B54_7 *)target_pos)->unk_02.s,
+        update_directional_actor_effect(position->x.w.i, position->y.w.i,
+            position->z.w.i, ((Row_8194D354_S_80024B54_7 *)target_pos)->unk_02.s,
             (s32)((Row_8194D354_S_80024B54_7 *)target_pos)->unk_06.s, (s32)((Row_8194D354_S_80024B54_7 *)target_pos)->unk_0A.s, &direction);
         RotMatrix(&direction, transform);
         allocate_effect_with_endpoints((s32)effect_arg, position, target_pos, phase, transform[0], transform[1], direction);

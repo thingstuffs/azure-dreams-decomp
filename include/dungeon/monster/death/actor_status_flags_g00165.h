@@ -29,34 +29,6 @@ typedef struct S_80173CD4_0 {
     u16 unk_B8;
 } S_80173CD4_0;
 
-/* arg0 in advance_actor_action_state_handle_status */
-typedef struct S_80173CD4_1 {
-    u8 pad_00[0x14];
-    u16 unk_14;
-    u8 pad_16[0x10];
-    s8 unk_26;
-} S_80173CD4_1;
-
-/* arg2 in advance_actor_action_state_handle_status */
-typedef struct S_80173CD4_2 {
-    u8 pad_00[0x1C];
-    u32 unk_1C;
-    u8 pad_20[0x5];
-    u8 unk_25;
-    u8 pad_26[0x4];
-    s16 unk_2A;
-    u8 pad_2C[0x38];
-    s16 unk_64;
-    u8 pad_66[0x7];
-    s8 unk_6D;
-} S_80173CD4_2;
-
-/* arg3 in advance_actor_action_state_handle_status */
-typedef struct S_80173CD4_4 {
-    u8 pad_00[0x2];
-    u16 unk_02;
-} S_80173CD4_4;
-
 typedef struct S_8017409C_0 {
     u8 pad_00[0x8C];
     void * unk_8C;
@@ -105,6 +77,5 @@ extern u8 death_frame_set_3[];
 
 /* Functions defined in this translation unit. */
 void advance_actor_action_state_handle_status(ActorRecord *body, ObjectPosition *position, SpriteFrameState *sprite, ActorRecord *actor);
-
 
 #endif

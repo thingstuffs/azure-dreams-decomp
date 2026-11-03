@@ -19,6 +19,9 @@
 #include "engine/scene.h"
 #include "engine/script.h"
 #include "town/player/record.h"
+#include "town/player/input.h"
+#include "town/player/position_handlers.h"
+#include "town/scene/hooks.h"
 
 /* Initialize the town scene and configure its object for the current mode. */
 void initialize_scene_for_mode(void)
@@ -63,7 +66,7 @@ void initialize_scene_for_mode(void)
     if (state->alternate != 0) {
         u16 *coords;
 
-        object->update_callback = familiar_deploy_update_address;
+        object->update_callback = noop_at_8008_ffc_0;
         coords = state->coords;
         scene->x.w.i = state->x_offset + coords[0];
         scene->y.w.i = state->y_offset + coords[1];
@@ -76,7 +79,7 @@ void initialize_scene_for_mode(void)
         u16 *coords;
 
         object->update_callback = rebuild_menu_node_list;
-        register_node(object, player_motion_draw_address);
+        register_node(object, draw_entry_overlays);
         neutral_color = 0x808080;
         render->scale_y = 0x1000;
         render->scale_x = 0x1000;
@@ -124,7 +127,7 @@ void synchronize_mode_and_pending_callback(void) {
     u8 *handler_state = (u8 *)&scene_object_payload_alias;
     void (*callback)();
 
-    if ((s32)NODE_HEADER(handler_state)->update_callback != (s32)familiar_deploy_update_address) {
+    if ((s32)NODE_HEADER(handler_state)->update_callback != (s32)noop_at_8008_ffc_0) {
         if (test_resident_bitmap_bit(F_player_mizugi) == 0) {
             ((func_80092AB0_S_80090210_0 *)(handler_state - 0x10))->unk_26 = 0;
             disabled_flag = test_resident_bitmap_bit(F_player_mizugi);
@@ -153,7 +156,7 @@ void synchronize_mode_and_pending_callback(void) {
         initialize_record_and_select_active_data(handler_state, (work_state), update_state);
         initialize_record_with_handler_table(handler_state, (work_state), update_state);
         callback = (void (*)())town_scene_init_callback;
-        ((func_80092AB0_S_80090210_0 *)(handler_state - 0x10))->unk_14 = &D_80097D54;
+        ((func_80092AB0_S_80090210_0 *)(handler_state - 0x10))->unk_14 = advance_timed_script_controller;
         ((func_80092AB0_S_80090210_0 *)(handler_state - 0x10))->unk_1A = 0x10;
         if (callback != NULL) {
             callback();
@@ -317,8 +320,8 @@ void process_scene_record_update(TownPlayerRecord *context, ObjectPosition *inpu
     }
 
     callback = context->unk_00;
-    if ((callback == (void *)&actor_input_dispatch_address) ||
-        (callback == (void *)&actor_input_interaction_address)) {
+    if ((callback == (void *)dispatch_actor_input_actions) ||
+        (callback == (void *)update_actor_input_and_interaction)) {
         context->unk_18 =
             step_angle_12_toward(context->unk_18,
                           context->unk_10.as_s16, 0x200);

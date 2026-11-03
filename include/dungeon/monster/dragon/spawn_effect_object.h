@@ -12,26 +12,11 @@ struct ObjectNodeHeader;
 
 typedef s32 M2C_UNK;
 
-typedef struct S_8014C854_1 {
-    u8 pad_00[0x13];
-    s8 unk_13;
-    s32 unk_14;
-    u8 pad_18[0x4];
-    s32 unk_1C;
-} S_8014C854_1;   /* work in func_8014C854 */
+   /* work in func_8014C854 */
 
-typedef struct S_8014C854_2 {
-    u8 pad_00[0xA];
-    s16 unk_0A;
-} S_8014C854_2;   /* part_a in func_8014C854 */
+   /* part_a in func_8014C854 */
 
-typedef struct S_8014C854_3 {
-    u8 pad_00[0x24];
-    s8 unk_24;
-    s8 unk_25;
-    u8 pad_26[0x6];
-    void * unk_2C;
-} S_8014C854_3;   /* part_b in func_8014C854 */
+   /* part_b in func_8014C854 */
 
 typedef struct S_8014C854_4 {
     u8 pad_00[0x8C];

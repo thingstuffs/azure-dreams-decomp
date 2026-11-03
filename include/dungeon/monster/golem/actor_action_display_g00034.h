@@ -11,29 +11,7 @@
 #include "shared/entity.h"
 #include "records/Rec_func_800A9E70_arg0.h"
 
-typedef struct S_80172050_0 {
-    u8 pad_00[0x2A];
-    s16 unk_2A;
-    u8 pad_2C[0x1A];
-    u16 unk_46;
-    u8 pad_48[0x29];
-    u8 unk_71;
-    u8 pad_72[0x12];
-    s8 unk_84;
-    s8 unk_85;
-} S_80172050_0;
-
 /* actor in attempt_actor_action_and_display */
-
-
-/* actor_info in attempt_actor_action_and_display */
-typedef struct S_80172050_2 {
-    u8 pad_00[0x8C];
-    s32 unk_8C;
-    u8 pad_90[0xA];
-    s8 unk_9A;
-    s8 unk_9B;
-} S_80172050_2;
 
 /* out in attempt_actor_action_and_display */
 

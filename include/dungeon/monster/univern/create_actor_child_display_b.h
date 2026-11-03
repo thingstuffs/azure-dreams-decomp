@@ -10,22 +10,13 @@
 
 typedef unsigned long uptr;
 
-typedef struct S_8015E89C_1 {
-    u8 pad_00[0x13];
-    u8 unk_13;
-    s32 unk_14;
-    u8 pad_18[0x4];
-    s32 unk_1C;
-    u8 pad_20[0xA];
-    s16 unk_2A;
-} S_8015E89C_1;   /* object in func_8015E89C */
+   /* object in func_8015E89C */
 
 typedef struct S_8015E89C_2 {
     u8 pad_00[0x8];
     union { struct { void * v; } at00; struct { u8 pad[0x2]; s16 v; } at02; } unk_08;   /* overlapping accesses */
     void * unk_0C;
 } S_8015E89C_2;   /* (void *)temp_t0 in func_8015E89C */
-
 
 typedef struct S_8015E89C_5 {
     u8 pad_00[0xA4];
@@ -41,13 +32,7 @@ typedef struct S_8015E89C_6 {
     void * unk_98;
 } S_8015E89C_6;   /* entry in func_8015E89C */
 
-typedef struct S_8015E89C_7 {
-    u8 pad_00[0xC];
-    s32 unk_0C;
-    s16 unk_10;
-    u8 pad_12[0x16];
-    s32 unk_28;
-} S_8015E89C_7;   /* item in func_8015E89C */
+   /* item in func_8015E89C */
 
 typedef struct S_8015E89C_8 {
     u8 pad_00[0xA4];

@@ -15,23 +15,9 @@ struct S_80170A98_2;
 
 typedef s32 M2C_UNK;
 
-typedef struct S_8015E854_0 {
-    u8 pad_00[0x13];
-    s8 unk_13;
-    s32 unk_14;
-    u8 pad_18[0x4];
-    s32 unk_1C;
-    u8 pad_20[0x6C];
-    ActorActionHandler unk_8C;
-} S_8015E854_0;   /* work in func_8015E854 */
+   /* work in func_8015E854 */
 
-typedef struct S_8015E854_3 {
-    u8 pad_00[0x24];
-    s8 unk_24;
-    s8 unk_25;
-    u8 pad_26[0x6];
-    void * unk_2C;
-} S_8015E854_3;   /* part_b in func_8015E854 */
+   /* part_b in func_8015E854 */
 
 typedef struct S_8015E854_4 {
     u8 pad_00[0x8C];

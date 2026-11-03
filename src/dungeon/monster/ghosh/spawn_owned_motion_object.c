@@ -12,14 +12,6 @@ typedef struct S_8016EB14_0 {
 } S_8016EB14_0;   /* root in spawn_owned_motion_object */
 
 
-typedef struct S_8016EB14_5 {
-    u8 pad_00[0x2];
-    union { u16 s; s16 u; } unk_02;   /* accessed as both */
-    u8 pad_04[0x2];
-    union { u16 s; s16 u; } unk_06;   /* accessed as both */
-    u8 pad_08[0x2];
-    u16 unk_0A;
-} S_8016EB14_5;   /* source in spawn_owned_motion_object */
 
 typedef struct S_8016EB14_6 {
     u8 pad_00[0x2A];
@@ -39,7 +31,7 @@ void spawn_owned_motion_object(void)
     s32 direction_y;
     S_8016EB14_0 *owner_object;
     void *owner_data;
-    S_8016EB14_5 *source_pos;
+    ObjectPosition *source_pos;
     S_8016EB14_6 *owner_state;
     ConditionalSourceEffectBody *object_state;
     ConditionalSourceEffectNode *spawned_object;
@@ -61,9 +53,9 @@ void spawn_owned_motion_object(void)
         render_part->flags &= 0xFFF3;
         object_state->unk_24 = owner_state;
         spawn_pos = spawned_object->header.position;
-        spawn_pos->x.w.i = source_pos->unk_02.s;
-        spawn_pos->y.w.i = source_pos->unk_06.s;
-        spawn_pos->z.w.i = source_pos->unk_0A - 0x20;
+        spawn_pos->x.w.i = source_pos->x.unsigned_parts.integer;
+        spawn_pos->y.w.i = source_pos->y.unsigned_parts.integer;
+        spawn_pos->z.w.i = source_pos->z.unsigned_parts.integer - 0x20;
         direction_table = (u8 *)&ghosh_effect_direction_offsets;
         x = *(s16 *)(u8 *)(((owner_state->unk_2A >> 7) & 0x1C) +
                            (u32)direction_table);
@@ -82,9 +74,9 @@ void spawn_owned_motion_object(void)
         render_part->depth_bias = *(s16 *)(direction_entry + 2) * 6;
         owner_state->unk_AA = 0x4D;
 
-        x = source_pos->unk_02.u;
+        x = source_pos->x.w.i;
         object_state->unk_48 = x / 64;
-        source_y = source_pos->unk_06.u;
+        source_y = source_pos->y.w.i;
         object_state->unk_49 = source_y / 64;
         render_part->color.c.b = 0x80;
         render_part->color.c.g = 0x80;

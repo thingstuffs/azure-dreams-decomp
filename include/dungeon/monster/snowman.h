@@ -638,7 +638,7 @@ void update_actor_callbacks_animation_and_ground(u8 *actor, ObjectPosition *moti
 void update_snowman_behavior(ActorRecord *actor_arg, ObjectPosition *context_arg, SpriteFrameState *sprite_arg, ActorRecord *entity_arg);
 void advance_snowman_stored_path(ActorRecord *body, ObjectPosition *motion, SpriteFrameState *sprite, void *path_state);
 void choose_snowman_move(ActorRecord *move_data, ObjectPosition *context, SpriteFrameState *position_data, ActorRecord *actor_data);
-void begin_snowman_step_animation(void *actor_state, void *action_state, SpriteFrameState *sprite, void *orientation);
+void begin_snowman_step_animation(void *actor_state, struct ObjectPosition *action_state, SpriteFrameState *sprite, void *orientation);
 s32 try_snowman_attack(ActorRecord *action_state, ObjectPosition *motion_param, SpriteFrameState *sprite, ActorRecord *actor);
 void begin_snowman_attack(ActorRecord *action_state, ObjectPosition *action_context, SpriteFrameState *sprite, ActorRecord *actor);
 s32 relink_snowman_path(ActorRecord *body, ObjectPosition *motion, SpriteFrameState *sprite, s32 force_state_arg);

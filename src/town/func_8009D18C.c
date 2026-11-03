@@ -4,6 +4,7 @@
 #include "town/player/approach_player_angle_target_g01125.h"
 #include "shared/town_handler_entries.h"
 #include "town.h"
+#include "town/player.h"
 
 typedef struct {
     void *callback0;
@@ -21,7 +22,7 @@ extern void clear_entity_record_fields(ObjectPosition *record); /* Unprototyped:
 extern void call_the_handler_selects_nonzero_entry(void *entries, void *record,void *handler_param);
 
 extern Entity scene_object_payload_alias;
-extern s32 town_position_callback_address[3];
+
 
 /* Initializes the scene entity's handlers, masked ID, position, and 16-tick timer. */
 void initialize_entity_handlers_and_position(s32 entity_id, s32 x, s32 y) {
@@ -31,7 +32,7 @@ void initialize_entity_handlers_and_position(s32 entity_id, s32 x, s32 y) {
 
     clear_entity_record_fields(node->position);
     call_the_handler_selects_nonzero_entry(approach_action_handler_table, entity, sprite);
-    scene_object_payload_alias.callback0 = town_position_callback_address;
+    scene_object_payload_alias.callback0 = invoke_object_state_callback;
     entity->callback4 = &D_8009A81C;
     entity->id = entity_id & 0xFFF;
     entity->x = x;

@@ -1,5 +1,6 @@
 #ifndef TOWN_PERSON_H
 #define TOWN_PERSON_H
+struct EntityRec;
 
 #include "common.h"
 #include "town/system/object_hooks.h"
@@ -149,12 +150,16 @@ s32 check_transform_identifier_and_hook(s32 requested_id);
 
 #include "records/Rec_D_80082D58.h"
 void *create_and_invoke_render_object(s32 initial_value, s32 resource_index);
-void initialize_mother_event_actor(void *actor, void *state, void *init_param);
+void initialize_mother_event_actor(void *actor, struct EntityRec *state, void *init_param);
 void load_indexed_state_value(OwnerCallbackObject *object, ObjectPosition *position, SpriteFrameState *unused_output);
 void move_object_velocity(OwnerCallbackObject *owner, ObjectPosition *position, SpriteFrameState *unused_output);
 void step_falling_object(OwnerCallbackObject *entity, ObjectPosition *motion, SpriteFrameState *output);
 void set_record_data_pointer(TownObjectRecord *record);
 
 void update_person_coordinates(void *state, ObjectPosition *coords);
+
+struct S_800C5D38_1;
+void install_actor_response_tables(struct S_800C5D38_1 *actor, ObjectPosition *context, SpriteFlagsView *input);
+void update_person_effect_fade(void *effect_record, ObjectPosition *motion, SpriteFrameState *primitive);
 
 #endif

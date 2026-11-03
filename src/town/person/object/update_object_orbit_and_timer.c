@@ -12,7 +12,7 @@ extern ColliderView town_actor_control;
 #define S32_AT(p, off) (*(s32 *)((u8 *)(p) + (off)))
 
 /* Update the object's orbit, apply a movement offset, and advance its timed state. */
-void update_object_orbit_and_timer(void *object, void *position, void *update_arg, s32 check_param) {
+void update_object_orbit_and_timer(TownObjectRecord *object, void *position, void *update_arg, s32 check_param) {
     CollisionOverlap *motion_entry;
     s32 axis;
     u16 angle;

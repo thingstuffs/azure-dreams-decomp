@@ -13,7 +13,7 @@ extern ColliderView town_actor_control;
 #define S32_AT(p, off) (*(s32 *)((u8 *)(p) + (off)))
 
 /* Updates turning motion, applies a position adjustment, and checks the timer. */
-void update_turning_motion_and_timer(void *actor, void *position, void *update_param, s32 check_param) {
+void update_turning_motion_and_timer(TownObjectRecord *actor, void *position, void *update_param, s32 check_param) {
     CollisionOverlap *adjustment;
     s32 axis;
     u16 angle;

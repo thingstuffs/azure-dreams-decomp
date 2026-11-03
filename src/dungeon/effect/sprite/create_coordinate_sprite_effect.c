@@ -47,7 +47,7 @@ void animate_randomly_rotated_sprite(Row_818A48C4_Func818A48C4Object **source_re
 }
 
 /* Creates a gray half-scale animated sprite at the supplied coordinates and stores the user data. */
-void *create_coordinate_sprite_effect(s32 user_data, Row_818A4948_S_func_818A4948_2 *source_coords) {
+void *create_coordinate_sprite_effect(s32 user_data, ObjectPosition *source_coords) {
     Row_818A4948_S_func_818A4948_0 *obj;
     SpriteFrameState *render_data;
     ObjectPosition *coords;
@@ -67,9 +67,9 @@ void *create_coordinate_sprite_effect(s32 user_data, Row_818A4948_S_func_818A494
         render_data->flags |= 0x100;
         register_node(obj, project_sprite_chain);
         coords = obj->unk_08;
-        coords->x.w.i = source_coords->unk_02;
-        coords->y.w.i = source_coords->unk_06;
-        coords->z.w.i = source_coords->unk_0A;
+        coords->x.w.i = source_coords->x.unsigned_parts.integer;
+        coords->y.w.i = source_coords->y.unsigned_parts.integer;
+        coords->z.w.i = source_coords->z.unsigned_parts.integer;
         return obj;
     }
     return 0;
@@ -150,7 +150,7 @@ void cycle_sprite_height_and_position(Row_818A4B40_S_818A4B40_0 *motion, Row_818
 }
 
 /* Creates a gray animated sprite around the origin at a random angle, with a randomized vertical step. */
-s32 create_random_radial_effect(Row_818A4CA0_S_818A4CA0_1 *effect_data, Row_818A4CA0_S_818A4CA0_2 *origin, s16 effect_param, s16 frame_index) {
+s32 create_random_radial_effect(Row_818A4CA0_S_818A4CA0_1 *effect_data, ObjectPosition *origin, s16 effect_param, s16 frame_index) {
     s32 result;
     s16 angle;
     u16 height;
@@ -170,9 +170,9 @@ s32 create_random_radial_effect(Row_818A4CA0_S_818A4CA0_1 *effect_data, Row_818A
         effect->update_callback = (void *)random_value;
         effect_data->unk_04 = effect_param;
         effect_data->unk_06 = (s16) (-6 - (rand() % 5));
-        effect_data->unk_08 = (u16) origin->unk_02;
-        effect_data->unk_0A = (u16) origin->unk_06;
-        effect_data->unk_0C = (u16) (origin->unk_0A + 0x20);
+        effect_data->unk_08 = (u16) origin->x.unsigned_parts.integer;
+        effect_data->unk_0A = (u16) origin->y.unsigned_parts.integer;
+        effect_data->unk_0C = (u16) (origin->z.unsigned_parts.integer + 0x20);
         sprite = effect->sprite;
         sprite->color.c.b = 0x60;
         sprite->color.c.g = 0x60;
@@ -214,7 +214,7 @@ void randomize_counted_sprite_angle(void **object_ref, s32 unused, Row_818A4E74_
 }
 
 /* Creates an initially black, zero-scale sprite at the supplied coordinates with a random rotation. */
-s32 create_randomly_rotated_effect(s32 object_param, Row_818A4ED0_S_818A4ED0_3 *spawn_position) {
+s32 create_randomly_rotated_effect(s32 object_param, ObjectPosition *spawn_position) {
     s32 rotation_rng;
     SpriteFrameState *render_state;
     ObjectPosition *position;
@@ -242,10 +242,10 @@ s32 create_randomly_rotated_effect(s32 object_param, Row_818A4ED0_S_818A4ED0_3 *
             s32 unused_rng;
             unused_rng = rand();
         }
-        position->x.w.i = (u16) spawn_position->unk_02;
-        position->y.w.i = (u16) spawn_position->unk_06;
+        position->x.w.i = (u16) spawn_position->x.unsigned_parts.integer;
+        position->y.w.i = (u16) spawn_position->y.unsigned_parts.integer;
         {
-            u16 final_z = spawn_position->unk_0A;
+            u16 final_z = spawn_position->z.unsigned_parts.integer;
             position->z.w.i = final_z;
             return (s32)object;
         }

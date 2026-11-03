@@ -118,14 +118,6 @@ typedef struct B22_818930F8_S_818930F8_1 {
     u16 unk_14;
 } B22_818930F8_S_818930F8_1;
 typedef struct {
-    s32 f0;
-    s32 f4;
-    s32 f8;
-    s32 fC;
-    s32 f10;
-    s32 f14;
-} B22_81893024_M2C_BLOCK;
-typedef struct {
     s8 unk0[8];
     ObjectPosition *data;
     s8 unkC[4];
@@ -276,7 +268,7 @@ void accelerate_and_expire_animated_sprite(VerticalAccelerationSpriteBody *step_
 void *create_vertical_acceleration_sprite(s32 state_value, B22_81892AF0_Copy24 *source_transform, s16 variant);
 void expire_counted_child_effect(TimedTransformCopyEffectBody *counter_state);
 s32 draw_red(TimedTransformCopyEffectBody *effect, B22_81892C5C_S_81892C5C_2 *center);
-void *create_timed_transform_copy_effect(s32 object_arg, void *source_data, s16 initial_value, s16 field_delta);
+void *create_timed_transform_copy_effect(s32 object_arg, ObjectPosition *source_data, s16 initial_value, s16 field_delta);
 void emit_animated_transform_copies(void *state, ObjectPosition *draw_context, SpriteFrameState *update_context);
 void step_sprite_height_and_animation(AnimatedSpriteBurstBody *entry, B22_818931B8_S_818931B8_2 *source, SpriteFrameState *target);
 void create_animated_sprite_burst(s32 source, B22_81893244_Func81893244Data *initial_data, s16 status_param);

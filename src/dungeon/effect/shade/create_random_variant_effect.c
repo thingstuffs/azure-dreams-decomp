@@ -47,7 +47,7 @@ typedef struct S_818C370C_2 {
 } S_818C370C_2;   /* arg0 in create_random_variant_effect */
 
 /* Creates an object with randomized state and initializes its rendering and data. */
-s32 create_random_variant_effect(S_818C370C_2 *owner, void *source_data) {
+s32 create_random_variant_effect(S_818C370C_2 *owner, ObjectPosition *source_data) {
     s32 scale;
     s32 variant_random;
     s32 angle_random;

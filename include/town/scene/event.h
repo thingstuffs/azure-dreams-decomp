@@ -29,4 +29,6 @@ void query_event_626(void);
 
 s32 query_priority_event_state(void);
 
+s32 *advance_event_state_and_get_resource(void);
+u8 *reset_event_entry_and_get_resource(void);
 #endif

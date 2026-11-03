@@ -55,11 +55,6 @@ typedef struct S_800CA444_2 {
     s8 unk_9C;
 } S_800CA444_2;
 
-/* arg0 in update_actor_targeting_for_tile */
-typedef struct S_800CA444_3 {
-    s16 unk_00;
-} S_800CA444_3;
-
 typedef struct S_800CA444_4 {
     u8 pad_00[0x58];
     s32 unk_58;
@@ -72,11 +67,6 @@ typedef struct {
     u16 flags;
     u8 pad_0E[6];
 } DungeonTableEntry;
-
-typedef struct S_800CA788_0 {
-    u8 pad_00[0x2];
-    u16 unk_02;
-} S_800CA788_0;
 
 /* global_base in select_target_tile_for_actor_action */
 typedef struct S_800CA788_1 {

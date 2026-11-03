@@ -10,7 +10,7 @@
 #include "dungeon/item.h"
 #include "dungeon/actor/state.h"
 #include "shared/sprite_frame_state.h"/* Update entity callbacks, facing, movement, and floor contact. */
-void update_actor_movement_and_contact(S_func_800D8728_0 *entity, S_func_800D8728_1 *motion, SpriteFrameState *monster)
+void update_actor_movement_and_contact(S_func_800D8728_0 *entity, ObjectPosition *motion, SpriteFrameState *monster)
 {
     S_func_800D8728_0 *actor;
     s16 previous_direction;
@@ -89,8 +89,8 @@ void update_actor_movement_and_contact(S_func_800D8728_0 *entity, S_func_800D872
         monster->flags = model_flags | 0x7000;
     }
 
-    motion->unk_00.s32 += motion->unk_0C;
-    motion->unk_04.s32 += motion->unk_10;
+    motion->x.v += motion->velocity_x;
+    motion->y.v += motion->velocity_y;
 
     if (entity->unk_9A == ACTOR_STATE_NO_OP) {
         s16 hop_timer;
@@ -104,13 +104,13 @@ void update_actor_movement_and_contact(S_func_800D8728_0 *entity, S_func_800D872
         }
 
         if (entity->unk_A0.s16 == 0) {
-            motion->unk_14 = (s32)0xFFE00000;
+            motion->velocity_z = (s32)0xFFE00000;
         }
 
         if ((u16)(entity->unk_A0.u16 + 7) < 8) {
-            motion->unk_14 += 0x40000;
+            motion->velocity_z += 0x40000;
         } else {
-            motion->unk_14 = 0;
+            motion->velocity_z = 0;
         }
 
         if (entity->unk_A0.s16 < -7) {
@@ -124,26 +124,26 @@ void update_actor_movement_and_contact(S_func_800D8728_0 *entity, S_func_800D872
     if (entity->unk_98 & 8) {
         entity->unk_9D = 0;
     } else {
-        motion->unk_14 +=
+        motion->velocity_z +=
             ((s8)entity->unk_9D * 5) << 14;
         entity->unk_9D++;
     }
-    entity->unk_90.s32 += motion->unk_14;
+    entity->unk_90.s32 += motion->velocity_z;
 
     if (!(entity->unk_98 & 4)) {
-        floor_height = sample_terrain_surface_height(motion->unk_00.half.unk_02,
-                                     motion->unk_04.half.unk_06,
+        floor_height = sample_terrain_surface_height(motion->x.unsigned_parts.integer,
+                                     motion->y.unsigned_parts.integer,
                                      (s16)(actor->unk_88.u16 - 0x20));
         if (floor_height < 0x200) {
             if (entity->unk_90.half.unk_92.s16 + actor->unk_88.s16 < floor_height) {
                 actor->unk_1C &= ACTOR_GROUNDED_CLEAR_MASK;
             } else if (floor_height >= actor->unk_88.s16) {
                 entity->unk_90.s32 = 0;
-                motion->unk_14 = 0;
+                motion->velocity_z = 0;
                 actor->unk_1C |= ACTOR_GROUNDED;
                 entity->unk_9D = 0;
             } else {
-                motion->unk_14 = 0;
+                motion->velocity_z = 0;
                 actor->unk_1C |= ACTOR_GROUNDED;
                 entity->unk_9D = 0;
                 entity->unk_90.half.unk_92.u16 = floor_height - actor->unk_88.u16;
@@ -163,7 +163,7 @@ void update_actor_movement_and_contact(S_func_800D8728_0 *entity, S_func_800D872
     } else {
         actor->unk_1C &= ACTOR_GROUNDED_CLEAR_MASK;
     }
-    motion->unk_0A =
+    motion->z.unsigned_parts.integer =
         actor->unk_88.u16 + entity->unk_90.half.unk_92.u16;
     monster->flags |= 0x40;
 }

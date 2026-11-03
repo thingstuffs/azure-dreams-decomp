@@ -15,12 +15,13 @@
 #include "town/player.h"
 #include "town/player/compute_and_clamps_vector_based_adjustment_updates_town_api.h"
 #include "town/player/call_the_handler_selects_nonzero_entry_api.h"
+#include "shared/sprite_frame_state.h"
 void init_actor_action_state(TownObjectRecord *record, void *ptr, void *ptr2);
 
 
 
 /* Update the entity, handle a large value change, and advance the state countdown. */
-void update_threshold_timed_action(TownObjectRecord *state, ObjectPosition *entity, s32 context) {
+void update_threshold_timed_action(TownObjectRecord *state, ObjectPosition *entity, SpriteFrameState *context) {
     s16 sampled_value;
     s16 ticks_left;
 
@@ -36,7 +37,7 @@ void update_threshold_timed_action(TownObjectRecord *state, ObjectPosition *enti
         compute_and_clamps_vector_based_adjustment_updates_town((entity), sampled_value, (struct TownVec * *)(&position_query_scratch));
     }
     if (state->unk_0A.as_s16 == 0) {
-        call_the_handler_selects_nonzero_entry(D_800D00E0, state, (void *)(context));
+        call_the_handler_selects_nonzero_entry(D_800D00E0, state, context);
     }
     ticks_left = (u16) state->unk_0A.as_s16 - 1;
     state->unk_0A.as_s16 = ticks_left;

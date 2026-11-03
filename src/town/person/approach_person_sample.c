@@ -3,7 +3,7 @@
 #include "town/person.h"
 #include "town/person/motion.h"
 
-extern u8 person_approach_handler_address[];
+
 
 
 
@@ -40,7 +40,7 @@ void approach_person_sample(Rec_func_800AB030_arg0 *state, S_800AB5C0_1 *coords)
         coords->unk_0E = coords->unk_02.u = sampled_coords[1];
         coords->unk_12 = coords->unk_06.u = sampled_coords[3];
         coords->unk_16 = coords->unk_0A.u = sampled_coords[5];
-        state->unk_50 = person_approach_handler_address;
+        state->unk_50 = update_person_coordinates;
         state->unk_6C = 150;
         return;
     }

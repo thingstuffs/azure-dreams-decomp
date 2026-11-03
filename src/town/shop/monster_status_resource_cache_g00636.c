@@ -3,6 +3,7 @@
 #include "town/shop/monster_status_resource_cache_g00636.h"
 #include "town/shop.h"
 #include "town/shop/state.h"
+#include "town/shop/stat_panel_callbacks_api.h"
 
 /* Initialize an entry with a mode-dependent value offset and a fixed data offset. */
 void initialize_mode_offset_entry(s32 mode, s32 value_base, S_800B6CCC_0 *entry, s32 data_base) {
@@ -85,7 +86,7 @@ s32 invalidate_cached_state_and_queue_read(void *state) {
         ((Rec_func_800B683C_arg0 *)state)->unk_DC = 0;
         initialize_coordinate_entry(state);
         ((Rec_func_800B683C_arg0 *)state)->unk_D0 = Control_CD(6, state + 0xD8, NULL);
-        ((Rec_func_800B683C_arg0 *)state)->unk_D4 = Control_CD(0xFF, &D_800B5B20, state);
+        ((Rec_func_800B683C_arg0 *)state)->unk_D4 = Control_CD(0xFF, complete_display_transfer, state);
         return 1;
     }
     return 0;

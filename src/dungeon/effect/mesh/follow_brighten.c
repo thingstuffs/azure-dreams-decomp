@@ -300,7 +300,7 @@ s32 draw_n_16_shaded_line_segments_link_them_ordering_table_depth(void *unused_0
 }
 
 /* Builds a circle lookup table and draws up to eight shaded rings at the saved height offsets. */
-s32 build_a_trigonometric_table_processes_up_eight_height_offset_segments(ovl_18d0850_818B11B4_S_818B11B4_0 *source, ovl_18d0850_818B11B4_S_818B11B4_2 *height_ref, void *context) {
+s32 build_a_trigonometric_table_processes_up_eight_height_offset_segments(ovl_18d0850_818B11B4_S_818B11B4_0 *source, ObjectPosition *height_ref, void *context) {
     s32 trig_table[34];
     s32 *trig_buffer;
     s32 *trig_cursor;
@@ -347,7 +347,7 @@ s32 build_a_trigonometric_table_processes_up_eight_height_offset_segments(ovl_18
             height = ((ovl_18d0850_818B11B4_S_818B11B4_1 *)height_cursor)->unk_1A;
             scaled_segment = segment_index << 0x11;
             draw_n_16_shaded_line_segments_link_them_ordering_table_depth(segment_source, height_ref, context, angle,
-                         (u32)(s16)(height_ref->unk_0A - height),
+                         (u32)(s16)(height_ref->z.unsigned_parts.integer - height),
                          trig_buffer, 0xFF, scaled_segment >> 0x10);
             height_cursor = (u8 *)height_cursor + 2;
             segment_index++;
@@ -358,7 +358,7 @@ s32 build_a_trigonometric_table_processes_up_eight_height_offset_segments(ovl_18
 
 /* Builds a circle lookup table and draws eight shaded rings with phase-dependent radii and saved
    height offsets. */
-s32 build_a_circular_lookup_table_submit_eight_phase_shifted_entries(ovl_18d0850_818B1334_S_818B1334_1 *source, ovl_18d0850_818B1334_S_818B1334_3 *target, void *context) {
+s32 build_a_circular_lookup_table_submit_eight_phase_shifted_entries(ovl_18d0850_818B1334_S_818B1334_1 *source, ObjectPosition *target, void *context) {
     s32 circle_values[34];
     s32 *circle_entry;
     register s32 *circle_table;
@@ -394,7 +394,7 @@ s32 build_a_circular_lookup_table_submit_eight_phase_shifted_entries(ovl_18d0850
         source_arg = source;
         angle_offset = ((ovl_18d0850_818B1334_S_818B1334_2 *)offset_cursor)->unk_1A;
         entry_angle = entry_index << 0x11;
-        draw_n_16_shaded_line_segments_link_them_ordering_table_depth(source_arg, target, context, radius, (s32) (s16) (target->unk_0A - angle_offset), circle_table, 0xFF, entry_angle >> 0x10);
+        draw_n_16_shaded_line_segments_link_them_ordering_table_depth(source_arg, target, context, radius, (s32) (s16) (target->z.unsigned_parts.integer - angle_offset), circle_table, 0xFF, entry_angle >> 0x10);
         offset_cursor += 2;
         entry_index += 1;
     } while (entry_index < 8);
@@ -403,7 +403,7 @@ s32 build_a_circular_lookup_table_submit_eight_phase_shifted_entries(ovl_18d0850
 
 /* Draws the remaining shaded rings after the current segment index using phase-dependent radii and
    height offsets. */
-s32 fade_effect_sprite_to_black(ovl_18d0850_818B1484_S_818B1484_1 *effect, ovl_18d0850_818B1484_S_818B1484_3 *target, void *context) {
+s32 fade_effect_sprite_to_black(ovl_18d0850_818B1484_S_818B1484_1 *effect, ObjectPosition *target, void *context) {
     void *effect_arg;
     s32 wave_table[34];
     s32 *table_ptr;
@@ -441,7 +441,7 @@ s32 fade_effect_sprite_to_black(ovl_18d0850_818B1484_S_818B1484_1 *effect, ovl_1
             entry_offset = ((ovl_18d0850_818B1484_S_818B1484_2 *)entry_ptr)->unk_1A;
             entry_arg = entry_index << 0x11;
             draw_n_16_shaded_line_segments_link_them_ordering_table_depth(effect_arg, target, context, entry_scale,
-                         (s32) (s16) (target->unk_0A - entry_offset),
+                         (s32) (s16) (target->z.unsigned_parts.integer - entry_offset),
                          table_ptr, 0xFF, entry_arg >> 0x10);
             entry_ptr += 2;
             entry_index += 1;
@@ -454,7 +454,7 @@ s32 fade_effect_sprite_to_black(ovl_18d0850_818B1484_S_818B1484_1 *effect, ovl_1
  * Dispatches effect states 4 and 5 to their circular segment builders and state 6 to fading; other
  * states do nothing, and the result is always zero.
  */
-s32 dispatch_effect_state_handler(void *state_ptr, void *second_ptr, SpriteFrameState *third_ptr)
+s32 dispatch_effect_state_handler(void *state_ptr, ObjectPosition *second_ptr, SpriteFrameState *third_ptr)
 {
     switch (((ovl_18d0850_818B15F4_Func818B15F4Arg *)state_ptr)->state) {
     case 0:

@@ -12,11 +12,6 @@ extern u8 shared_sprite_entries[];
 extern u8 D_800F6000[];
 extern void advance_gravity_damped_effect_motion(void *entry, void *motion, void *object);
 
-typedef struct S_80921B2C_3 {
-    s32 unk_00;
-    s32 unk_04;
-    s32 unk_08;
-} S_80921B2C_3;   /* arg0 in func_80921B2C */
 
 typedef struct S_80921B2C_4 {
     u8 pad_00[0x2A];
@@ -29,7 +24,7 @@ typedef struct S_80921B2C_6 {
 } S_80921B2C_6;
 
 /* Creates an effect at an offset position with direction-based motion and sprite settings. */
-void create_damped_directional_projectile(S_80921B2C_3 *position, s16 x_offset, s16 y_offset, s16 z_offset) {
+void create_damped_directional_projectile(ObjectPosition *position, s16 x_offset, s16 y_offset, s16 z_offset) {
     u8 direction_table[32];
     u8 *direction_source;
     s32 effect_type;
@@ -60,9 +55,9 @@ void create_damped_directional_projectile(S_80921B2C_3 *position, s16 x_offset, 
             render_state->flags |= 2;
         }
         motion = effect->position;
-        motion->x.v = (s32) position->unk_00;
-        motion->y.v = (s32) position->unk_04;
-        motion->z.v = (s32) position->unk_08;
+        motion->x.v = (s32) position->x.v;
+        motion->y.v = (s32) position->y.v;
+        motion->z.v = (s32) position->z.v;
         motion->x.w.i = (u16) (((u16)(motion->x.w.i)) + x_offset);
         motion->y.w.i = (u16) (((u16)(motion->y.w.i)) + y_offset);
         motion->z.w.i = (u16) (((u16)(motion->z.w.i)) + z_offset);

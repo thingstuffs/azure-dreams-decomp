@@ -615,6 +615,8 @@ def main(argv=None):
     if a.port_adapt:
         bulk.keep_anchors(port_anchors(a.port_adapt))
     log('jobs: %d TUs with edits; static holds %s' % (len(bulk.jobs), dict(bulk.static.most_common(8))))
+    EW._tsv(a.out / 'static_holds.tsv', ('tu', 'header', 'reason'),
+            ((rel, h, why) for rel, tp in sorted(bulk.plan.tus.items()) for h, why in sorted(tp.holds.items())))
     texts0 = bulk.texts()
     if a.plan_only:
         per = defaultdict(lambda: [0, 0])

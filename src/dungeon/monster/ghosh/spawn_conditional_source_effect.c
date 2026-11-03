@@ -14,14 +14,6 @@ typedef struct S_8016ECE4_0 {
 } S_8016ECE4_0;   /* base in spawn_conditional_source_effect */
 
 
-typedef struct S_8016ECE4_5 {
-    u8 pad_00[0x2];
-    union { u16 s; s16 u; } unk_02;   /* accessed as both */
-    u8 pad_04[0x2];
-    union { u16 s; s16 u; } unk_06;   /* accessed as both */
-    u8 pad_08[0x2];
-    u16 unk_0A;
-} S_8016ECE4_5;
 
 typedef struct S_8016ECE4_6 {
     u8 pad_00[0x2A];
@@ -42,7 +34,7 @@ void spawn_conditional_source_effect(void) {
     u16 count;
     register SpriteFrameState *sprite;
     ConditionalSourceEffectBody *effect_state;
-    S_8016ECE4_5 *source_pos;
+    ObjectPosition *source_pos;
     S_8016ECE4_6 *source_state;
     ConditionalSourceEffectNode *effect;
     ObjectPosition *effect_pos;
@@ -68,9 +60,9 @@ void spawn_conditional_source_effect(void) {
             sprite->flags = (u16) (sprite->flags & 0xFFF3);
             effect_state->unk_24 = source_state;
             effect_pos = effect->header.position;
-            effect_pos->x.w.i = (u16) source_pos->unk_02.s;
-            effect_pos->y.w.i = (u16) source_pos->unk_06.s;
-            effect_pos->z.w.i = (s16) (source_pos->unk_0A - 0x80);
+            effect_pos->x.w.i = (u16) source_pos->x.unsigned_parts.integer;
+            effect_pos->y.w.i = (u16) source_pos->y.unsigned_parts.integer;
+            effect_pos->z.w.i = (s16) (source_pos->z.unsigned_parts.integer - 0x80);
             effect_state->unk_50 = 0;
             effect_state->unk_4C = 0;
             effect_state->unk_54 = 0;
@@ -81,9 +73,9 @@ void spawn_conditional_source_effect(void) {
             sprite->scale_x = 0x1000;
             sprite->depth_bias = (s16) (ghosh_effect_direction_offsets[((u16) source_state->unk_2A >> 9) & 7].y * 6);
             source_state->unk_AA = 0x4D;
-            rounded_x = source_pos->unk_02.u;
+            rounded_x = source_pos->x.w.i;
             effect_state->unk_48 = (s8) (rounded_x / 64);
-            rounded_y = source_pos->unk_06.u;
+            rounded_y = source_pos->y.w.i;
             effect_state->unk_49 = (s8) (rounded_y / 64);
             sprite->color.c.b = 0x80;
             sprite->color.c.g = 0x80;

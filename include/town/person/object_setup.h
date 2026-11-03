@@ -1,5 +1,6 @@
 #ifndef TOWN_PERSON_OBJECT_SETUP_H
 #define TOWN_PERSON_OBJECT_SETUP_H
+struct TownObjectRecord;
 struct SpriteFrameState;
 
 #include "common.h"
@@ -18,7 +19,7 @@ s32 select_object_setup_path(void *object, void *request_data, void *request_par
 
 struct TownObjectRecord;
 void initialize_two_value_adjustment_action(struct TownObjectRecord *actor, s32 unused, void *init_param);
-void initialize_reaction_movement(void *object, void *movement_state, void *initialization_value);
+void initialize_reaction_movement(struct TownObjectRecord *object, void *movement_state, void *initialization_value);
 
 void decrement_countdown_call(struct TownObjectRecord *object, s32 unused, void *callback_context);
 void decrement_reaction_timer_and_reinitialize(struct TownObjectRecord *object, void *context, void *setup);

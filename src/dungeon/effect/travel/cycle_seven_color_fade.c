@@ -5,7 +5,7 @@
 #include "sdk/libc.h"
 #include "dungeon/effect/travel.h"
 #include "dungeon/actor.h"
-void (*const dungeon_18d6800_entry)(B28_818B7F38_S_80025738_0 *, B28_818B7F38_S_80025738_5 *, B28_818B7F38_S_80025738_2 *) = advance_movement_toward_reachable_tile;
+void (*const dungeon_18d6800_entry)(B28_818B7F38_S_80025738_0 *, ObjectPosition *, B28_818B7F38_S_80025738_2 *) = advance_movement_toward_reachable_tile;
 #include "dungeon/effect/travel/cycle_seven_color_fade.h"
 #include "common.h"
 #include "m2c_compat.h"
@@ -62,7 +62,7 @@ void lower_animated_sprite(ColoredOffsetSpriteBody *counter_state, B28_818B68B8_
 extern u8 shared_sprite_entries[];
 
 /* Create an object with randomized rotation and a radial position offset. */
-void * create_colored_offset_sprite(s32 context_value, void *source_state, s32 render_param, B28_818B6AFC_FxEffect *ignored_context) {
+void * create_colored_offset_sprite(s32 context_value, ObjectPosition *source_state, s32 render_param, B28_818B6AFC_FxEffect *ignored_context) {
     s16 offset_angle;
     SpriteFrameState *render_state;
     s32 *object_state;
@@ -726,7 +726,7 @@ void update_spark_effect(B28_818B78E8_S818B78E8_Obj *obj, B28_818B78E8_S818B78E8
    /* dst in spawn_owner_random_variant_effect */
 
 /* Spawn a 0x212 effect object for the owner with a random variant and spin, and copy the transform into it. */
-s32 spawn_owner_random_variant_effect(B28_818B7BD0_S_818B7BD0_2 *owner, B28_818B7BD0_S_818B7BD0_3 *transform) {
+s32 spawn_owner_random_variant_effect(B28_818B7BD0_S_818B7BD0_2 *owner, ObjectPosition *transform) {
     s32 roll;
     s32 random;
     s32 adjusted;
@@ -801,14 +801,14 @@ void advance_spinning_effect_motion(B28_818B7D3C_OwnerState *owner, B28_818B7D3C
 
 
 /* Spawn a 0x212 effect object owned by `owner`, give it a random 12-bit spin and copy the source transform into it. */
-s32 spawn_owned_random_spin_effect(void *owner, B28_818B7E14_DungeonSource *source)
+s32 spawn_owned_random_spin_effect(void *owner, ObjectPosition *source)
 {
     s32 random;
     s32 adjusted;
     B28_818B7E14_DungeonObject *obj;
     SpriteFrameState *render;
     u8 *sub;
-    B28_818B7E14_DungeonSource *dst;
+    ObjectPosition *dst;
     s32 copy0;
     s32 copy0_2;
     s32 copy1;
@@ -836,7 +836,7 @@ s32 spawn_owned_random_spin_effect(void *owner, B28_818B7E14_DungeonSource *sour
         render->scale_y = 0x400;
         render->scale_x = 0x400;
         register_node(obj, draw_linked_sprites_clipped);
-        dst = (B28_818B7E14_DungeonSource *)obj->data;
+        dst = (ObjectPosition *)obj->data;
 
         *dst = *source;
         return obj;
@@ -851,7 +851,7 @@ s32 spawn_owned_random_spin_effect(void *owner, B28_818B7E14_DungeonSource *sour
 #include "m2c_compat.h"
 
    /* Advance movement toward a target or a reachable tile, then finish the timed action. */
-void advance_movement_toward_reachable_tile(void *state, void *motion_in, void *render) {
+void advance_movement_toward_reachable_tile(void *state, ObjectPosition *motion_in, void *render) {
     B28_818B7F38_LocalFrame frame;
     u16 *target_delta_cursor;
     u16 *path_delta_cursor;
@@ -899,32 +899,32 @@ void advance_movement_toward_reachable_tile(void *state, void *motion_in, void *
         source_data = source_header->unk_0C;
         if (resolve_record_orientation_or_fallback(source_data->source, source_data, &frame.offset.orientation, 0) != 0) {
             source_position = source_header->unk_08;
-            ((B28_818B7F38_S_80025738_5 *)motion_in)->unk_00.at02.v = (u16) source_position->unk_02;
-            ((B28_818B7F38_S_80025738_5 *)motion_in)->unk_04.at02.v = (u16) source_position->unk_06;
+            motion_in->x.unsigned_parts.integer = (u16) source_position->unk_02;
+            motion_in->y.unsigned_parts.integer = (u16) source_position->unk_06;
         } else {
             if (!(((B28_818B7F38_S_80025738_13 *)(source_header->unk_0C))->unk_14 & 0x8000)) {
                 break;
             }
             source_position = source_header->unk_08;
-            ((B28_818B7F38_S_80025738_5 *)motion_in)->unk_00.at02.v = (u16) source_position->unk_02;
-            ((B28_818B7F38_S_80025738_5 *)motion_in)->unk_04.at02.v = (u16) source_position->unk_06;
+            motion_in->x.unsigned_parts.integer = (u16) source_position->unk_02;
+            motion_in->y.unsigned_parts.integer = (u16) source_position->unk_06;
         }
         source_z = source_position->unk_0A;
-        ((B28_818B7F38_S_80025738_5 *)motion_in)->unk_08.at02.v = source_z;
+        motion_in->z.unsigned_parts.integer = source_z;
         if (!(((B28_818B7F38_S_80025738_13 *)(source_header->unk_0C))->unk_14 & 0x8000)) {
-            ((B28_818B7F38_S_80025738_5 *)motion_in)->unk_00.at02.v = (u16) (((B28_818B7F38_S_80025738_5 *)motion_in)->unk_00.at02.v
+            motion_in->x.unsigned_parts.integer = (u16) (motion_in->x.unsigned_parts.integer
                 + frame.offset.distance[0]);
-            ((B28_818B7F38_S_80025738_5 *)motion_in)->unk_04.at02.v = (u16) (((B28_818B7F38_S_80025738_5 *)motion_in)->unk_04.at02.v
+            motion_in->y.unsigned_parts.integer = (u16) (motion_in->y.unsigned_parts.integer
                 + frame.offset.distance[1]);
-            base_z = ((B28_818B7F38_S_80025738_5 *)motion_in)->unk_08.at02.v;
-            ((B28_818B7F38_S_80025738_5 *)motion_in)->unk_08.at02.v = base_z + frame.offset.distance[2];
+            base_z = motion_in->z.unsigned_parts.integer;
+            motion_in->z.unsigned_parts.integer = base_z + frame.offset.distance[2];
             if (!(*((B28_818B7F38_S_80025738_0 *)state)->unk_04 & 0x80)) {
                 break;
             }
             target = ((B28_818B7F38_S_80025738_1 *)owner)->unk_60;
             index = 1;
         } else {
-            ((B28_818B7F38_S_80025738_5 *)motion_in)->unk_08.at02.v = source_z - 0x40;
+            motion_in->z.unsigned_parts.integer = source_z - 0x40;
             if (!(*((B28_818B7F38_S_80025738_0 *)state)->unk_04 & 0x80)) {
                 break;
             }
@@ -935,17 +935,17 @@ void advance_movement_toward_reachable_tile(void *state, void *motion_in, void *
             ((B28_818B7F38_S_80025738_0 *)state)->unk_18 = target;
             destination = ((B28_818B7F38_S_80025738_14_pre *)(((B28_818B7F38_S_80025738_1 *)owner)->unk_60))[-1].unk_00;
             target_dx = destination->unk_00.at02.v;
-            target_dx -= ((B28_818B7F38_S_80025738_5 *)motion_in)->unk_00.at02u.v;
+            target_dx -= motion_in->x.w.i;
             if (target_dx < 0) {
                 target_dx = 0 - target_dx;
             }
             frame.offset.distance[0] = (u16) target_dx;
             target_dy = destination->unk_04.at02.v;
-            target_dy -= ((B28_818B7F38_S_80025738_5 *)motion_in)->unk_04.at02u.v;
+            target_dy -= motion_in->y.w.i;
             target_dy = abs(target_dy);
             frame.offset.distance[1] = (u16) target_dy;
             target = ((B28_818B7F38_S_80025738_1 *)owner)->unk_60;
-            current_z = ((B28_818B7F38_S_80025738_5 *)motion_in)->unk_08.at02u.v;
+            current_z = motion_in->z.w.i;
             target_dz = target->unk_88;
             target_dz -= current_z;
             target_delta_cursor = (u16 *)((u8 *)&frame.out_x + 2);
@@ -964,13 +964,13 @@ void advance_movement_toward_reachable_tile(void *state, void *motion_in, void *
             if (target_ticks == 0) {
                 ((B28_818B7F38_S_80025738_0 *)state)->unk_12 = 1;
             }
-            ((B28_818B7F38_S_80025738_5 *)motion_in)->unk_0C = (s32) ((s32) (destination->unk_00.at00.v
-                - ((B28_818B7F38_S_80025738_5 *)motion_in)->unk_00.at00.v) / (s16) ((B28_818B7F38_S_80025738_0 *)state)->unk_12);
-            ((B28_818B7F38_S_80025738_5 *)motion_in)->unk_10 = (s32) ((s32) (destination->unk_04.at00.v
-                - ((B28_818B7F38_S_80025738_5 *)motion_in)->unk_04.at00.v) / (s16) ((B28_818B7F38_S_80025738_0 *)state)->unk_12);
-            ((B28_818B7F38_S_80025738_5 *)motion_in)->unk_14 =
+            motion_in->velocity_x = (s32) ((s32) (destination->unk_00.at00.v
+                - motion_in->x.v) / (s16) ((B28_818B7F38_S_80025738_0 *)state)->unk_12);
+            motion_in->velocity_y = (s32) ((s32) (destination->unk_04.at00.v
+                - motion_in->y.v) / (s16) ((B28_818B7F38_S_80025738_0 *)state)->unk_12);
+            motion_in->velocity_z =
                 (s32) ((s32) ((((B28_818B7F38_S_80025738_14 *)(((B28_818B7F38_S_80025738_1 *)owner)->unk_60))->unk_88 << 0x10)
-                - ((B28_818B7F38_S_80025738_5 *)motion_in)->unk_08.at00.v) / (s16) ((B28_818B7F38_S_80025738_0 *)state)->unk_12);
+                - motion_in->z.v) / (s16) ((B28_818B7F38_S_80025738_0 *)state)->unk_12);
             spawn_owner_random_variant_effect(state, motion_in);
             next_phase = (u16) ((B28_818B7F38_S_80025738_0 *)state)->unk_0A + 1;
         } else {
@@ -1011,10 +1011,10 @@ void advance_movement_toward_reachable_tile(void *state, void *motion_in, void *
             destination->unk_00.at02.v = world_x;
             world_y = ((saved_y << 16) >> 10) + ((dir_step_y[(s16) ((B28_818B7F38_S_80025738_0 *)state)->unk_0E] + 1) << 5);
             destination->unk_04.at02.v = world_y;
-            destination->unk_08.at02.v = ((B28_818B7F38_S_80025738_5 *)motion_in)->unk_08.at02u.v + 0x20;
-            frame.offset.distance[0] = abs(destination->unk_00.at02.v - ((B28_818B7F38_S_80025738_5 *)motion_in)->unk_00.at02u.v);
-            frame.offset.distance[1] = abs(destination->unk_04.at02.v - ((B28_818B7F38_S_80025738_5 *)motion_in)->unk_04.at02u.v);
-            frame.offset.distance[2] = abs(destination->unk_08.at02.v - ((B28_818B7F38_S_80025738_5 *)motion_in)->unk_08.at02u.v);
+            destination->unk_08.at02.v = motion_in->z.w.i + 0x20;
+            frame.offset.distance[0] = abs(destination->unk_00.at02.v - motion_in->x.w.i);
+            frame.offset.distance[1] = abs(destination->unk_04.at02.v - motion_in->y.w.i);
+            frame.offset.distance[2] = abs(destination->unk_08.at02.v - motion_in->z.w.i);
             ((B28_818B7F38_S_80025738_0 *)state)->unk_12 = frame.offset.distance[0];
             do {
                 if (((B28_818B7F38_S_80025738_11 *)path_delta_cursor)->unk_18.s > ((B28_818B7F38_S_80025738_0 *)state)->unk_12) {
@@ -1028,12 +1028,12 @@ void advance_movement_toward_reachable_tile(void *state, void *motion_in, void *
             if (path_ticks == 0) {
                 ((B28_818B7F38_S_80025738_0 *)state)->unk_12 = 1;
             }
-            ((B28_818B7F38_S_80025738_5 *)motion_in)->unk_0C = (s32) ((s32) (destination->unk_00.at00.v
-                - ((B28_818B7F38_S_80025738_5 *)motion_in)->unk_00.at00.v) / (s16) ((B28_818B7F38_S_80025738_0 *)state)->unk_12);
-            ((B28_818B7F38_S_80025738_5 *)motion_in)->unk_10 = (s32) ((s32) (destination->unk_04.at00.v
-                - ((B28_818B7F38_S_80025738_5 *)motion_in)->unk_04.at00.v) / (s16) ((B28_818B7F38_S_80025738_0 *)state)->unk_12);
-            ((B28_818B7F38_S_80025738_5 *)motion_in)->unk_14 = (s32) ((s32) (destination->unk_08.at00.v
-                - ((B28_818B7F38_S_80025738_5 *)motion_in)->unk_08.at00.v) / (s16) ((B28_818B7F38_S_80025738_0 *)state)->unk_12);
+            motion_in->velocity_x = (s32) ((s32) (destination->unk_00.at00.v
+                - motion_in->x.v) / (s16) ((B28_818B7F38_S_80025738_0 *)state)->unk_12);
+            motion_in->velocity_y = (s32) ((s32) (destination->unk_04.at00.v
+                - motion_in->y.v) / (s16) ((B28_818B7F38_S_80025738_0 *)state)->unk_12);
+            motion_in->velocity_z = (s32) ((s32) (destination->unk_08.at00.v
+                - motion_in->z.v) / (s16) ((B28_818B7F38_S_80025738_0 *)state)->unk_12);
             spawn_owned_random_spin_effect(state, motion_in);
             next_phase = 6;
         }
@@ -1041,9 +1041,9 @@ void advance_movement_toward_reachable_tile(void *state, void *motion_in, void *
         ((B28_818B7F38_S_80025738_0 *)state)->unk_10 = 0U;
         break;
     case 2:
-        ((B28_818B7F38_S_80025738_5 *)motion_in)->unk_00.at00.v += ((B28_818B7F38_S_80025738_5 *)motion_in)->unk_0C;
-        ((B28_818B7F38_S_80025738_5 *)motion_in)->unk_04.at00.v += ((B28_818B7F38_S_80025738_5 *)motion_in)->unk_10;
-        ((B28_818B7F38_S_80025738_5 *)motion_in)->unk_08.at00.v += ((B28_818B7F38_S_80025738_5 *)motion_in)->unk_14;
+        motion_in->x.v += motion_in->velocity_x;
+        motion_in->y.v += motion_in->velocity_y;
+        motion_in->z.v += motion_in->velocity_z;
         if ((s16) ((B28_818B7F38_S_80025738_0 *)state)->unk_10 < ((B28_818B7F38_S_80025738_0 *)state)->unk_12) {
             break;
         }
@@ -1073,12 +1073,12 @@ advance_phase:
         (*&object_flag_block.flags) = (s32) (object_flag_block.flags | OBJECT_REMOVE_PENDING);
         break;
     case 6:
-        ((B28_818B7F38_S_80025738_5 *)motion_in)->unk_00.at00.v = (s32) (((B28_818B7F38_S_80025738_5 *)motion_in)->unk_00.at00.v
-            + ((B28_818B7F38_S_80025738_5 *)motion_in)->unk_0C);
-        ((B28_818B7F38_S_80025738_5 *)motion_in)->unk_04.at00.v = (s32) (((B28_818B7F38_S_80025738_5 *)motion_in)->unk_04.at00.v
-            + ((B28_818B7F38_S_80025738_5 *)motion_in)->unk_10);
-        ((B28_818B7F38_S_80025738_5 *)motion_in)->unk_08.at00.v = (s32) (((B28_818B7F38_S_80025738_5 *)motion_in)->unk_08.at00.v
-            + ((B28_818B7F38_S_80025738_5 *)motion_in)->unk_14);
+        motion_in->x.v = (s32) (motion_in->x.v
+            + motion_in->velocity_x);
+        motion_in->y.v = (s32) (motion_in->y.v
+            + motion_in->velocity_y);
+        motion_in->z.v = (s32) (motion_in->z.v
+            + motion_in->velocity_z);
         if ((s16) ((B28_818B7F38_S_80025738_0 *)state)->unk_10 < ((B28_818B7F38_S_80025738_0 *)state)->unk_12) {
             break;
         }

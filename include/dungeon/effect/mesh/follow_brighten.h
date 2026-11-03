@@ -133,10 +133,6 @@ typedef struct ovl_18d0850_818B11B4_S_818B11B4_1 {
     u8 pad_00[0x1A];
     u16 unk_1A;
 } ovl_18d0850_818B11B4_S_818B11B4_1;
-typedef struct ovl_18d0850_818B11B4_S_818B11B4_2 {
-    u8 pad_00[0xA];
-    u16 unk_0A;
-} ovl_18d0850_818B11B4_S_818B11B4_2;
 typedef struct ovl_18d0850_818B1334_S_818B1334_0 {
     s32 unk_00;
     u8 pad_04[0x40];
@@ -150,10 +146,6 @@ typedef struct ovl_18d0850_818B1334_S_818B1334_2 {
     u8 pad_00[0x1A];
     u16 unk_1A;
 } ovl_18d0850_818B1334_S_818B1334_2;
-typedef struct ovl_18d0850_818B1334_S_818B1334_3 {
-    u8 pad_00[0xA];
-    u16 unk_0A;
-} ovl_18d0850_818B1334_S_818B1334_3;
 typedef struct ovl_18d0850_818B1484_S_818B1484_0 {
     s32 unk_00;
     u8 pad_04[0x40];
@@ -169,10 +161,6 @@ typedef struct ovl_18d0850_818B1484_S_818B1484_2 {
     u8 pad_00[0x1A];
     u16 unk_1A;
 } ovl_18d0850_818B1484_S_818B1484_2;
-typedef struct ovl_18d0850_818B1484_S_818B1484_3 {
-    u8 pad_00[0xA];
-    u16 unk_0A;
-} ovl_18d0850_818B1484_S_818B1484_3;
 #define M2C_FIELD(expr, type_ptr, offset)      (*(type_ptr)((s8 *)(expr) + (offset)))
 typedef struct {
     u8 pad00[0xA];
@@ -296,9 +284,9 @@ ovl_18d0850_818B09F8_MainObj *create_an_initialized_render_state_copy_vector(s32
 void advance_height_offset_and_placement(ovl_18d0850_818B0AE0_S_800242E0_0 *state, ovl_18d0850_818B0AE0_S_800242E0_2 *position, SpriteFrameState *object);
 s32 create_radial_height_offset_effect(s32 owner, void *origin, s16 motion, s16 frame);
 s32 draw_n_16_shaded_line_segments_link_them_ordering_table_depth(void *unused_0, void *origin, void *unused_2, s32 point_scale, s32 plane_z, s32 *points_addr, u8 intensity, s32 color_phase);
-s32 build_a_trigonometric_table_processes_up_eight_height_offset_segments(ovl_18d0850_818B11B4_S_818B11B4_0 *source, ovl_18d0850_818B11B4_S_818B11B4_2 *height_ref, void *context);
-s32 build_a_circular_lookup_table_submit_eight_phase_shifted_entries(ovl_18d0850_818B1334_S_818B1334_1 *source, ovl_18d0850_818B1334_S_818B1334_3 *target, void *context);
-s32 fade_effect_sprite_to_black(ovl_18d0850_818B1484_S_818B1484_1 *effect, ovl_18d0850_818B1484_S_818B1484_3 *target, void *context);
-s32 dispatch_effect_state_handler(void *state_ptr, void *second_ptr, SpriteFrameState *third_ptr);
+s32 build_a_trigonometric_table_processes_up_eight_height_offset_segments(ovl_18d0850_818B11B4_S_818B11B4_0 *source, ObjectPosition *height_ref, void *context);
+s32 build_a_circular_lookup_table_submit_eight_phase_shifted_entries(ovl_18d0850_818B1334_S_818B1334_1 *source, ObjectPosition *target, void *context);
+s32 fade_effect_sprite_to_black(ovl_18d0850_818B1484_S_818B1484_1 *effect, ObjectPosition *target, void *context);
+s32 dispatch_effect_state_handler(void *state_ptr, ObjectPosition *second_ptr, SpriteFrameState *third_ptr);
 void update_movement_toward_child_terrain_target_animates_associated_effects(ovl_18d0850_818B1664_State *state_arg, ovl_18d0850_818B1664_Motion *motion_arg, ovl_18d0850_818B1664_DrawInfo *draw_info);
 #endif

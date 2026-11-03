@@ -21,21 +21,10 @@ s16 sample_terrain_surface_height();
    /* the 0x2 bytes before arg3 in advance_entity_motion_fade_and_removal, addressed as arg3[-1] */
 
 
-typedef struct S_801731FC_2 {
-    u8 pad_00[0x2];
-    u16 unk_02;
-    u8 pad_04[0x2];
-    u16 unk_06;
-    u8 pad_08[0x2];
-    s16 unk_0A;
-    s32 unk_0C;
-    s32 unk_10;
-    s32 unk_14;
-} S_801731FC_2;   /* arg1 in advance_entity_motion_fade_and_removal */
 
 
 /* Advance an entity through motion, fading, and removal. */
-void advance_entity_motion_fade_and_removal(ActorRecord *state, S_801731FC_2 *motion, SpriteFrameState *sprite, void *entity) {
+void advance_entity_motion_fade_and_removal(ActorRecord *state, ObjectPosition *motion, SpriteFrameState *sprite, void *entity) {
     s32 sound_flags;
     s32 velocity_x;
     s32 velocity_y;
@@ -67,17 +56,17 @@ void advance_entity_motion_fade_and_removal(ActorRecord *state, S_801731FC_2 *mo
         entity_flags &= clear_bit_27;
         entity_flags &= clear_bit_18;
         ((ActorRecord *)entity)->flags1C = entity_flags;
-        motion->unk_0C = velocity_x << 0x10;
-        motion->unk_10 = velocity_y << 0x10;
-        motion->unk_14 = 0xFFF40000;
+        motion->velocity_x = velocity_x << 0x10;
+        motion->velocity_y = velocity_y << 0x10;
+        motion->velocity_z = 0xFFF40000;
         state->action_phase.u = state->action_phase.u + 1;
     }
     case 1:
-        motion->unk_14 += 0x1C000;
-        if (sample_terrain_surface_height(motion->unk_02, motion->unk_06, motion->unk_0A) >= 0x200) {
-            motion->unk_14 = 0;
-            motion->unk_10 = 0;
-            motion->unk_0C = 0;
+        motion->velocity_z += 0x1C000;
+        if (sample_terrain_surface_height(motion->x.unsigned_parts.integer, motion->y.unsigned_parts.integer, motion->z.w.i) >= 0x200) {
+            motion->velocity_z = 0;
+            motion->velocity_y = 0;
+            motion->velocity_x = 0;
         }
         if (g_dungeon_status.activity_counts.parts.pending_action_count != 0) {
             return;
@@ -96,7 +85,7 @@ void advance_entity_motion_fade_and_removal(ActorRecord *state, S_801731FC_2 *mo
         sprite->clut -= 0x80;
         state->action_phase.u = state->action_phase.u + 1;
     case 3:
-        motion->unk_14 += 0x1C000;
+        motion->velocity_z += 0x1C000;
         if (!(sprite->flags & 0x6000)) {
             return;
         }

@@ -49,20 +49,11 @@ extern u8 glacier_action_resume_address;
 extern Callback glacier_callbacks[];
 
 
-typedef struct S_8017103C_2 {
-    union { struct { s32 v; } at00; struct { u8 pad[0x2]; u16 v; } at02; } unk_00;   /* overlapping accesses */
-    union { struct { s32 v; } at00; struct { u8 pad[0x2]; u16 v; } at02; } unk_04;   /* overlapping accesses */
-    u8 pad_08[0x2];
-    u16 unk_0A;
-    s32 unk_0C;
-    s32 unk_10;
-    s32 unk_14;
-} S_8017103C_2;   /* motion in update_monster_appearance_motion */
 
 /* Runs entity callbacks, updates monster appearance, and advances motion with floor collision. */
 void update_monster_appearance_motion(ActorRecord *body, void *motion_arg, SpriteFrameState *sprite)
 {
-    S_8017103C_2 *motion = motion_arg;
+    ObjectPosition *motion = motion_arg;
     SpriteFrameState *monster= sprite;
     ActorRecord *actor = body;
     s32 direction;
@@ -180,32 +171,32 @@ void update_monster_appearance_motion(ActorRecord *body, void *motion_arg, Sprit
     }
 
 flags_done:
-    motion->unk_00.at00.v += motion->unk_0C;
-    motion->unk_04.at00.v += motion->unk_10;
+    motion->x.v += motion->velocity_x;
+    motion->y.v += motion->velocity_y;
 
     if ((body->action_state_flags) & 8) {
         (body->unk_9D.u) = 0;
     } else {
-        motion->unk_14 += (body->unk_9D.s) * 0x14000;
+        motion->velocity_z += (body->unk_9D.s) * 0x14000;
         (body->unk_9D.u)++;
     }
 
-    (body->unk_90.value) += motion->unk_14;
+    (body->unk_90.value) += motion->velocity_z;
 
-    if (!((body->action_state_flags) & 4) && (floor_height = sample_terrain_surface_height(motion->unk_00.at02.v,
-                              motion->unk_04.at02.v,
+    if (!((body->action_state_flags) & 4) && (floor_height = sample_terrain_surface_height(motion->x.unsigned_parts.integer,
+                              motion->y.unsigned_parts.integer,
                               (s16)(((u16)actor->ground_height) - 0x20))) < 0x200) {
         actor_height = actor->ground_height;
         if ((body->unk_90.parts.high.s) + actor_height < floor_height) {
             actor->flags1C &= ACTOR_GROUNDED_CLEAR_MASK;
         } else if (floor_height >= actor_height) {
             (body->unk_90.value) = 0;
-            motion->unk_14 = 0;
+            motion->velocity_z = 0;
             actor->flags1C |= ACTOR_GROUNDED;
             (body->unk_9D.u) = 0;
         } else {
             (body->unk_90.parts.high.s) = floor_height - ((u16)actor->ground_height);
-            motion->unk_14 = 0;
+            motion->velocity_z = 0;
             actor->flags1C |= ACTOR_GROUNDED;
             (body->unk_9D.u) = 0;
         }
@@ -222,7 +213,7 @@ flags_done:
     } else {
         actor->flags1C &= ACTOR_GROUNDED_CLEAR_MASK;
     }
-    motion->unk_0A =
+    motion->z.unsigned_parts.integer =
         ((u16)actor->ground_height) + (body->unk_90.parts.high.u);
     monster->flags |= 0x40;
 

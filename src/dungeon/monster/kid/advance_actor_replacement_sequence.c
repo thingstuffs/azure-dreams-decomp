@@ -24,17 +24,12 @@
 #include "engine/texture.h"
 #include "dungeon/effect.h"
 
-typedef struct S_80174B20_14 {
-    u8 pad_00[0x60];
-    void * unk_60;
-} S_80174B20_14;   /* arg3 in advance_actor_replacement_sequence */
+   /* arg3 in advance_actor_replacement_sequence */
 
 typedef struct S_80174B20_16 {
     u8 pad_00[0x2A];
     u16 unk_2A;
 } S_80174B20_16;   /* ((S_80174B20_14 *)arg3)->unk_60 in advance_actor_replacement_sequence */
-
-
 
 typedef struct S_80174B20_2 {
     u8 unk_00;
@@ -52,8 +47,6 @@ typedef struct S_80174B20_7 {
     u8 pad_14A4[0x3D74];
     s16 unk_5218;
 } S_80174B20_7;
-
-
 
 typedef struct S_80174B20_9 {
     u8 pad_00[0x4];

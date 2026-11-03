@@ -53,7 +53,7 @@ typedef struct {
 
 extern s32 register_node(); /* Unprototyped: two, three or four arguments; retail reads only the node and draw key. */
 
-extern s32 town_radial_offset_callback;
+
 
 /* Spawns an offset effect with randomized motion opposite the source velocity. */
 void spawn_person_offset_effect(void *source_data, u32 angle)
@@ -75,7 +75,7 @@ void spawn_person_offset_effect(void *source_data, u32 angle)
         motion = effect->unk8;
         sprite = effect->unkC;
         effect_state = &effect->sub20;
-        effect->unk10 = &town_radial_offset_callback;
+        effect->unk10 = update_person_effect_fade;
         register_node(effect, project_sprite_chain);
         x_steps = dir_step_x;
         y_step = &dir_step_y[direction];

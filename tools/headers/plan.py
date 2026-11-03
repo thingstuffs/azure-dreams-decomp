@@ -88,6 +88,7 @@ class TuPlan:
     stale: list = field(default_factory=list)        # generated headers included but no longer needed
     append: dict = field(default_factory=dict)       # existing header -> names it must gain (append-only)
     requested: dict = field(default_factory=dict)    # header -> names requested before call respelling
+    drop_typedefs: list = field(default_factory=list)  # (header, start, end), unused identical local alias
 
 
 @dataclass
@@ -464,6 +465,31 @@ def _mentions(corpus, rel):
     return out
 
 
+def _unused_duplicate_typedef(corpus, tindex, rel, header, name):
+    """A simple, unused local alias can be supplied by a newly included header.
+
+    Require the same spelled type and exactly one identifier occurrence, including
+    preprocessor directives. Active aliases, conditional declarations, complex
+    declarators and merely ABI-compatible types keep the ordinary clash hold.
+    """
+    mine = tindex.typedefs(rel).get(name)
+    theirs = tindex.typedefs(header).get(name)
+    if mine is None or theirs is None:
+        return None
+    key = lambda td: (td.spec, td.ptr, td.suffix, td.fnptr)
+    if key(mine) != key(theirs) or mine.ptr or mine.suffix or mine.fnptr:
+        return None
+    text = corpus.text(rel)
+    if cscan.tokens(cscan.mask(text)).count(name) != 1:
+        return None
+    for item in corpus.scan(rel).items:
+        if (item.kind == 'decl' and item.storage == ['typedef'] and not item.cond_depth
+                and not item.has_body_braces and len(item.decls) == 1
+                and item.decls[0].name == name and not item.decls[0].complex):
+            return item.start, item.end
+    return None
+
+
 def plan_tu(plan, rel, requested=()):
     corpus, tindex = plan.corpus, plan.tindex
     tp = TuPlan(rel)
@@ -548,6 +574,7 @@ def plan_tu(plan, rel, requested=()):
                 closure_header_sites[r.site.name].append(r)
 
     for h in sorted(wanted):
+        drop_typedefs = []
         reason = ''
         fnames = {fr.name for fr in plan.headers.get(h, [])}
         if h in plan.existing:
@@ -577,6 +604,10 @@ def plan_tu(plan, rel, requested=()):
                 for n in tindex.typedefs(f):
                     other = vis_files.get(n)
                     if other is not None and other != f:
+                        span = _unused_duplicate_typedef(corpus, tindex, rel, f, n) if other == rel else None
+                        if span is not None:
+                            drop_typedefs.append((h, *span))
+                            continue
                         reason = f'typedef_clash:{n}'
                         break
                 if reason:
@@ -616,6 +647,7 @@ def plan_tu(plan, rel, requested=()):
                 r.action, r.reason = 'keep', 'tu_hold:' + reason
             continue
         tp.add.append(h)
+        tp.drop_typedefs.extend(drop_typedefs)
         if h in plan.existing and missing:
             tp.append[h] = sorted(missing)
         for r in by_header.get(h, []):

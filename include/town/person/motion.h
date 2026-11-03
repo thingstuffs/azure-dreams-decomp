@@ -1,5 +1,6 @@
 #ifndef TOWN_PERSON_MOTION_H
 #define TOWN_PERSON_MOTION_H
+struct TownObjectRecord;
 struct SpriteFrameState;
 struct TownObjectRecord;
 /* Prototypes of the functions defined in src/town/person/motion/ (one true prototype each; maintained by tools/headers). */
@@ -68,6 +69,6 @@ void update_jump_motion(struct S_800CC070_0 *actor, struct S_800CC070_1 *motion,
 void update_spin_vertical_motion_and_bounces(TownObjectRecord *entity, EntityRec *motion, void *context);
 
 /* update_turning_motion_and_timer.c */
-void update_turning_motion_and_timer(void *actor, void *position, void *update_param, s32 check_param);
+void update_turning_motion_and_timer(struct TownObjectRecord *actor, void *position, void *update_param, s32 check_param);
 
 #endif

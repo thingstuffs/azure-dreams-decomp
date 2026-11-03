@@ -67,7 +67,7 @@ typedef struct Row_81916AEC_Copy6 {
 
 #ifndef NULL
 #define NULL 0
-extern void (*const D_80024000)(Row_81917C08_ActionState *action, Row_81917C08_EffectMotion *motion, Row_81917C08_EffectVisual *visual);
+extern void (*const D_80024000)(Row_81917C08_ActionState *action, ObjectPosition *motion, Row_81917C08_EffectVisual *visual);
 #endif
 
 typedef struct Row_81916AEC_S_800242EC_0 {
@@ -137,7 +137,7 @@ typedef struct Row_81916E00_Copy24 {
 
 #ifndef NULL
 #define NULL 0
-extern void (*const D_80024000)(Row_81917C08_ActionState *action, Row_81917C08_EffectMotion *motion, Row_81917C08_EffectVisual *visual);
+extern void (*const D_80024000)(Row_81917C08_ActionState *action, ObjectPosition *motion, Row_81917C08_EffectVisual *visual);
 #endif
 
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8 *)(expr) + (offset)))
@@ -184,7 +184,7 @@ typedef struct Row_81916F10_S_80024710_2 {
 /* Advance the object counter and offset the position using its two angles. */
 #ifndef NULL
 #define NULL 0
-extern void (*const D_80024000)(Row_81917C08_ActionState *action, Row_81917C08_EffectMotion *motion, Row_81917C08_EffectVisual *visual);
+extern void (*const D_80024000)(Row_81917C08_ActionState *action, ObjectPosition *motion, Row_81917C08_EffectVisual *visual);
 #endif
 
 typedef struct Row_81917004_Copy24 {
@@ -346,10 +346,6 @@ typedef struct Row_81917C08_ActionState {
     s16 completed_b;
 } Row_81917C08_ActionState;
 
-typedef struct Row_81917C08_EffectMotion {
-    Fixed1616 x, y, z;
-    s32 next_x, next_y, next_z;
-} Row_81917C08_EffectMotion;
 
 typedef struct Row_81917C08_EffectVisual {
     u8 reserved_00[0xC];
@@ -394,7 +390,7 @@ extern Row_81917C08_ActionSlot D_8008346C;
 void interpolate_view_parameters(void *tracker);
 s32 begin_view_parameter_transition(s32 unused, s32 request_id, s32 request_value, s16 request_param);
 void advance_motion_counters_position_set_completion_flags_past_lifetime(void *motion, void *position, void *update_context);
-void *create_an_initializes_visual_state_copies_initial_data(s32 object_id, void *initial_data, Row_81916AEC_S_800242EC_2 *source);
+void *create_an_initializes_visual_state_copies_initial_data(s32 object_id, ObjectPosition *initial_data, Row_81916AEC_S_800242EC_2 *source);
 void create_counted_sprite_effect(void *context, s32 unused, Row_81916C1C_Arg81916C1C *countdown);
 void create_a_type_hex_212_initializes_handler_mode(s32 initial_value);
 void update_the_target_records_counts_flags_status(AnDefaultRenderingSettingsCopiesInitialDataBody *object_slot, void *unused, struct SpriteFrameState *target);
@@ -406,7 +402,7 @@ void advance_radial_effect_state(void *motion, void *position,struct SpriteFrame
 void *create_an_oriented_effect_between_position_owner(AnAttachedEffectCopiedTransformDataRandomizedAngleBody *owner, Rec_func_80024E80_arg1 *start_pos);
 void advance_the_effect_phase_brightness_scale_position_until_lifetime_ends(AnAttachedEffectCopiedTransformDataRandomizedAngleBody *effect, void *transform,struct SpriteFrameState *visual);
 void * create_an_attached_effect_copied_transform_data_randomized_angle(void *object, Row_81917A70_Copy24 *src_transform, s16 effect_index);
-void build_inverted(Row_81917C08_ActionState *action, Row_81917C08_EffectMotion *motion, Row_81917C08_EffectVisual *visual);
+void build_inverted(Row_81917C08_ActionState *action, ObjectPosition *motion, Row_81917C08_EffectVisual *visual);
 extern u8 camera_transition_timer[];
-extern void (*const D_80024000)(Row_81917C08_ActionState *action, Row_81917C08_EffectMotion *motion, Row_81917C08_EffectVisual *visual);
+extern void (*const D_80024000)(Row_81917C08_ActionState *action, ObjectPosition *motion, Row_81917C08_EffectVisual *visual);
 #endif

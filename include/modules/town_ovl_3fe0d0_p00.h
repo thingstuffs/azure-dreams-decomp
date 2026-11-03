@@ -34,10 +34,6 @@ typedef struct S_8047E178_2 {
     EntryWords * unk_00;
 } S_8047E178_2;
 typedef void (*TownCall)(s32, s32);
-typedef struct S_func_8047E1C0_3 {
-    u8 pad_00[0x2EC];
-    TownCall unk_2EC;
-} S_func_8047E1C0_3;
 typedef struct { unsigned char pad_000[0x2a4]; int (*service)(int); } SceneService2A4;
 typedef union { PointerRecord record; s32 *pointers[3]; s32 *pointer; } ScenePointerStorage;
 extern u8 D_80016178[3];

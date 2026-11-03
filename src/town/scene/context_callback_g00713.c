@@ -2,6 +2,7 @@
 /* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - CL:town/func_8047E130. */
 #include "town/scene/context_callback_g00713.h"
 #include "town/scene.h"
+#include "modules/town_ovl_3fe0d0_p00.h"
 
 void dispatch_town_callback_or_default(s32 value0, s32 value1)
 {
@@ -21,6 +22,6 @@ void initialize_context_entry_tables_variant_1(s32 unused_a, s32 unused_b) {
         Rec_D_80016000 *context = town_scene_root;
         context->position->unk_40 = &D_80017B88[0];
         ((S_8047E130_2 *)(context->entry_index * 8 +
-                  (s8 *)context->event_data))->unk_00 = (EntryWords *)&D_80016178[0];
+                  (s8 *)context->event_data))->unk_00 = (EntryWords *)initialize_context_entry_tables_variant_2;
     }
 }

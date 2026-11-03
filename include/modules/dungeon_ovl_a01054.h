@@ -10,8 +10,6 @@
 #include "dungeon/actor/animation.h"
 struct ObjectNodeHeader;
 
-
-
    /* obj in func_80158854 */
 
 typedef struct S_80158854_1 {
@@ -24,13 +22,7 @@ typedef struct S_80158854_1 {
 
    /* part_a in func_80158854 */
 
-typedef struct S_80158854_3 {
-    u8 pad_00[0x24];
-    s8 unk_24;
-    s8 unk_25;
-    u8 pad_26[0x6];
-    void * unk_2C;
-} S_80158854_3;   /* part_b in func_80158854 */
+   /* part_b in func_80158854 */
 
 typedef struct S_80158854_4 {
     u8 pad_00[0x8C];
@@ -40,7 +32,6 @@ typedef struct S_80158854_4 {
     u8 pad_9B[0x1];
     s8 unk_9C;
 } S_80158854_4;   /* actor in func_80158854 */
-
 
 extern void *allocate_list_node(s32 flags, ObjectNodeHeader **list_head);
 extern void *func_8003FD64(s32 flags, ObjectNodeHeader **list_head);

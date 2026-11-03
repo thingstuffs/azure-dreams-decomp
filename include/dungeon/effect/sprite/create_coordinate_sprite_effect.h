@@ -174,10 +174,10 @@ extern u8 D_80025214[];
 void apply_small_random_value_gain(ActorRecord *target, s32 effect_param, ActorRecord *record);
 void animate_randomly_rotated_sprite(Row_818A48C4_Func818A48C4Object **source_ref, struct ObjectPosition *unused,
                    SpriteFrameState *target);
-void *create_coordinate_sprite_effect(s32 user_data, Row_818A4948_S_func_818A4948_2 *source_coords);
+void *create_coordinate_sprite_effect(s32 user_data, ObjectPosition *source_coords);
 void advance_counted_sprite_animation(void **object_ref, long long value);
 void *create_randomized_grayscale_effect(s32 context_value, Row_818A4A64_S_818A4A64_2 *initial_position);
 void cycle_sprite_height_and_position(Row_818A4B40_S_818A4B40_0 *motion, Row_818A4B40_S_818A4B40_2 *position, SpriteFrameState *object);
-s32 create_random_radial_effect(Row_818A4CA0_S_818A4CA0_1 *effect_data, Row_818A4CA0_S_818A4CA0_2 *origin, s16 effect_param, s16 frame_index);
-s32 create_randomly_rotated_effect(s32 object_param, Row_818A4ED0_S_818A4ED0_3 *spawn_position);
+s32 create_random_radial_effect(Row_818A4CA0_S_818A4CA0_1 *effect_data, ObjectPosition *origin, s16 effect_param, s16 frame_index);
+s32 create_randomly_rotated_effect(s32 object_param, ObjectPosition *spawn_position);
 #endif

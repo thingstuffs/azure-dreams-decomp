@@ -19,19 +19,7 @@
 #include "engine/entity.h"
 #include "engine/texture.h"
 
-
-typedef struct S_80095A10_2 {
-    u8 pad_00[0x2A];
-    s16 unk_2A;
-    u8 pad_2C[0x30];
-    s32 unk_5C;
-    void * unk_60;
-    u8 pad_64[0xE];
-    s8 unk_72;
-    s8 unk_73;
-    u8 pad_74[0x14];
-    u16 unk_88;
-} S_80095A10_2;   /* arg3 in update_familiar_summoning */
+   /* arg3 in update_familiar_summoning */
 
 typedef struct S_80095A10_3 {
     u8 unk_00;
@@ -49,21 +37,12 @@ typedef struct S_80095A10_5_pre {
     u8 pad_08[0x10];
 } S_80095A10_5_pre;   /* 0x18-byte header immediately before the payload. */
 
-
 typedef struct S_80095A10_6 {
     u8 pad_00[0x1C];
     s16 unk_1C;
     s16 unk_1E;
 } S_80095A10_6;
 
-typedef struct S_80095A10_7 {
-    u8 pad_00[0x2];
-    u16 unk_02;
-    u8 pad_04[0x2];
-    u16 unk_06;
-    u8 pad_08[0x2];
-    s16 unk_0A;
-} S_80095A10_7;
 
    /* ((S_80095A10_2 *)arg3)->unk_60 in update_familiar_summoning */
 
@@ -91,7 +70,7 @@ void update_familiar_summoning(ActorRecord *actor, ObjectPosition *position, Spr
     u32 previous_state;
     void *object;
     S_80095A10_6 *object_scale;
-    S_80095A10_7 *object_position;
+    ObjectPosition *object_position;
 
     state = actor->action_phase.u;
     resource_info = ((S_80095A10_3 *)reference_tile_object.selected_item);
@@ -147,9 +126,9 @@ void update_familiar_summoning(ActorRecord *actor, ObjectPosition *position, Spr
             object_scale->unk_1E = 0x800;
             object_scale->unk_1C = 0x800;
             object_position = ((S_80095A10_5_pre *)object)[-1].unk_00;
-            object_position->unk_02 = (u16) position->x.w.i;
-            object_position->unk_06 = (u16) position->y.w.i;
-            object_position->unk_0A = (s16) (position->z.w.i - 0x10);
+            object_position->x.unsigned_parts.integer = (u16) position->x.w.i;
+            object_position->y.unsigned_parts.integer = (u16) position->y.w.i;
+            object_position->z.w.i = (s16) (position->z.w.i - 0x10);
             func_80042640(object, ((ActorRecord *)object)->species);
             apply_actor_template_and_class(object, ((ActorRecord *)object)->species, resource_info);
             object_flags = ((ActorRecord *)object)->flags1C;

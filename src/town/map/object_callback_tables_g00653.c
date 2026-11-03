@@ -4,6 +4,7 @@
 #include "town/map/object_callback_tables_g00653.h"
 #include "shared/object_node.h"
 #include "town/map.h"
+#include "town/map/trigger_callbacks.h"
 
 /* Initializes an object and replaces the callbacks in the active table entries. */
 void initialize_object_and_replace_callbacks(void) {
@@ -14,7 +15,7 @@ void initialize_object_and_replace_callbacks(void) {
         object->update_callback = D_800C1E50;
         if (town_map_callback_entries[0].handler != 0) {
             do {
-                *callback_slot = (Callback)town_map_trigger_handler;
+                *callback_slot = (Callback)trigger_entity_action_when_allowed;
                 callback_slot += 6;
             } while (*callback_slot != 0);
         }

@@ -152,4 +152,8 @@ void draw_scrolling_column(s16 column, s16 tile_index, s16 scroll_y);
 
 s32 draw_translucent_gradient_line_list(void *first_entry);
 
+struct ObjectStatePositionObject;
+struct S1;
+void update_object_state_position(struct ObjectStatePositionObject *self, s32 *position, struct S1 *target);
+
 #endif

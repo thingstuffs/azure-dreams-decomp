@@ -3,6 +3,7 @@
 #include "town/person/mother_event_motion_g00670.h"
 #include "town/scene/collision.h"
 #include "engine/window.h"
+#include "town/person/motion.h"
 
 /* Applies a motion offset or interpolates the position toward the object coordinates. */
 void apply_mother_event_motion_offset(void *object, void *position, s32 update_arg) {
@@ -51,9 +52,9 @@ void reset_mother_event_callback_on_expiry(void *object, void *motion, void *ini
 }
 
 /* Clear two state values, initialize the actor, and set its handler and randomized counter. */
-void initialize_mother_event_actor(void *actor, void *state, void *init_param) {
-    *(s32 *)((u8 *)state + 0x10) = 0;
-    *(s32 *)((u8 *)state + 0xC) = 0;
+void initialize_mother_event_actor(void *actor, EntityRec *state, void *init_param) {
+    state->unk_10 = 0;
+    state->unk_0C = 0;
     initialize_object_entries((TownObjectRecord *)actor, init_param, (s32 *)D_800D5FC4);
     *(void **)((u8 *)actor + 0x50) = D_800C7604;
     *(s16 *)((u8 *)actor + 0x6C) = (s16) (scale_random_to_unsigned_halfword_limit(0x3F) + 0x15);
@@ -132,7 +133,7 @@ void choose_mother_event_direction(TownObjectRecord *entity, void *bounds_arg, v
     } while (attempts < 0x10);
 
     initialize_object_entries(entity, context, &mother_event_object_entries);
-    entity->unk_50.as_pv = &D_800C7674;
+    entity->unk_50.as_pv = advance_mother_event_bounded_motion;
 }
 
 /* Initialize the object callback and set the shared timer to 16. */

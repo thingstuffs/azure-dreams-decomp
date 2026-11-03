@@ -102,7 +102,7 @@ void initialize_town_map_object_state(s32 type_id, s32 *init_value_ptr, ObjectNo
     s32 *value_table_base;
     s32 *value_table;
     s32 *type_entry;
-    object->update_callback = &D_8008B9D8;
+    object->update_callback = run_map_object_callback;
     register_node(object, &town_map_tag);
     init_value = 0;
     transform = object->position;
@@ -147,7 +147,7 @@ void initialize_town_map_object_state(s32 type_id, s32 *init_value_ptr, ObjectNo
         state->selection = 0;
         town_map_selection = (s32) (*state->entries);
     }
-    state->update = &D_8008BA00;
+    state->update = advance_town_map_countdown_callback;
     value_table_base = D_800CFC44;
     value_table = value_table_base;
     state->timer.as_s16 = (s16) ((s8) D_800CFC38[type_id]);

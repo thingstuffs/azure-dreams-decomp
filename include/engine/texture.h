@@ -3,6 +3,7 @@
 /* Prototypes of the functions defined in src/engine/texture/ (one true prototype each; maintained by tools/headers). */
 
 #include "common.h"
+#include "shared/sprite_frame_state.h"
 
 struct ItemMenuPart;
 struct DisplayPositionWords;

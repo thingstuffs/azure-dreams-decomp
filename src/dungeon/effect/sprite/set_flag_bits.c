@@ -8,11 +8,6 @@
 #include "dungeon/effect/sprite.h"
 #include "slus.h"
 
-typedef struct S_8092192C_2 {
-    s32 unk_00;
-    s32 unk_04;
-    s32 unk_08;
-} S_8092192C_2;   /* arg0 in func_8092192C */
 
 typedef struct S_8092192C_4 {
     u8 pad_00[0xC];
@@ -34,7 +29,7 @@ static __inline__ u32 set_flag_bits(u32 flags, u32 mask)
 }
 
 /* Creates and initializes an object at the supplied position plus coordinate offsets. */
-void create_offset_half_scale_sprite(S_8092192C_2 *base_pos, s32 offset_x, s32 offset_y, s32 offset_z) {
+void create_offset_half_scale_sprite(ObjectPosition *base_pos, s32 offset_x, s32 offset_y, s32 offset_z) {
     u16 flags;
     s32 render_value;
     SpriteFrameState *render_state;
@@ -61,13 +56,13 @@ void create_offset_half_scale_sprite(S_8092192C_2 *base_pos, s32 offset_x, s32 o
         flags = set_flag_bits(flags, 2);
         render_state->flags = flags;
         position = object->position;
-        base_x = (s32) base_pos->unk_00;
+        base_x = (s32) base_pos->x.v;
         sprite_data_addr = 0x800E0000;
         position->x.v = base_x;
-        base_y = (s32) base_pos->unk_04;
+        base_y = (s32) base_pos->y.v;
         sprite_data_addr = (u32)shared_sprite_entries;
         position->y.v = base_y;
-        base_z = (s32) base_pos->unk_08;
+        base_z = (s32) base_pos->z.v;
         position->x.w.i = (u16) (((u16)(position->x.w.i)) + offset_x);
         position->z.v = base_z;
         position->y.w.i = (u16) (((u16)(position->y.w.i)) + offset_y);

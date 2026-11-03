@@ -4,6 +4,8 @@
 #include "town/event/item_query_checks_g01145.h"
 #include "shared/object_node.h"
 #include "town/event.h"
+#include "town/person/object.h"
+#include "town/person/person_object_lifecycle_g00659.h"
 
 /* Returns the matching index in the sentinel-terminated table, or -1. */
 s32 find_sentinel_table_value_index(s32 target_value) {
@@ -229,9 +231,9 @@ void *select_response_for_source_and_target(void *source, void *target) {
         if (((*((u8 *)target + 0x14) == 4) ||
              (*((u8 *)target + 0x4D) != 0)) &&
             ((data_base = *(void **)((u8 *)source - 0x10),
-              (data_base == message_motion_type_a)) ||
-             (data_base == message_motion_type_b) ||
-             ((data_base == D_800C25C0) &&
+              (data_base == update_object_position_or_cleanup)) ||
+             (data_base == update_object_motion_and_flags) ||
+             ((data_base == finalize_transform_object_or_callback) &&
               (*(s32 *)((u8 *)source + 0x60) != 0)))) {
             response_kind = *(s32 *)((u8 *)source + 0x60);
             if (response_kind == 4) {

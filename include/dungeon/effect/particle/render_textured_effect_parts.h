@@ -183,7 +183,7 @@ typedef struct S_80045C34 { u8 pad0[6]; s16 unk6; u8 pad1[12]; u16 unk14; } S_80
 s32 draw_linked_sprites_clipped(u8 *first_data, s32 link_value, SpriteFrameState *value_record);
 s32 func_80045C34(u8 *, s32, S_80045C34 *);
 void render_textured_effect_parts(OffsetPalettedSpriteBody *record_data, void *unused, void *update_data);
-void create_offset_paletted_sprite(void *unused_context, void *origin, SpriteFrameState *unused_id, s16 offset_x, s16 offset_y, s16 offset_z);
+void create_offset_paletted_sprite(void *unused_context, ObjectPosition *origin, SpriteFrameState *unused_id, s16 offset_x, s16 offset_y, s16 offset_z);
 s32 draw_shaded_point_chain(PointRecord *first_point, ObjectPosition *first_position);
 void create_radial_height_offset_effect(MotionState *state, s32 *sum, SpriteFrameState *flags);
 void advance_scattered_directional_particle(void *object_data, s16 *position);

@@ -4,6 +4,7 @@
 
 #include "common.h"
 #include "shared/entity.h"
+#include "shared/sprite_frame_state.h"
 #include "records/Rec_D_80081FDC.h"
 #include "records/Rec_D_80082A38.h"
 

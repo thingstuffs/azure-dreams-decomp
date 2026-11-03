@@ -15,13 +15,7 @@ typedef struct S_80158894_0 {
     void * unk_8C;
 } S_80158894_0;   /* result in func_80158894 */
 
-typedef struct S_80158894_3 {
-    u8 pad_00[0x24];
-    s8 unk_24;
-    s8 unk_25;
-    u8 pad_26[0x6];
-    void * unk_2C;
-} S_80158894_3;   /* (void *)part_ptr in func_80158894 */
+   /* (void *)part_ptr in func_80158894 */
 
 typedef struct S_80158894_4 {
     u8 pad_00[0x8C];

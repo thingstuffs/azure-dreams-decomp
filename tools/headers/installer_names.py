@@ -158,6 +158,19 @@ def check_entry(contexts, entries, callback_file, callback, address, before,
     return '', ' | '.join(sorted(set(evidence))), sorted(copy_rows)
 
 
+def choose_owner_header(owner, available):
+    """Prefer an owner API among headers already proved canonically exact."""
+    preferred = owner.removesuffix('.h') + '_callbacks_api.h'
+    apis = {h for h in available if h.endswith('_api.h')}
+    if preferred in apis:
+        return preferred
+    if len(apis) == 1:
+        return next(iter(apis))
+    if owner in available:
+        return owner
+    return next(iter(available)) if len(available) == 1 else ''
+
+
 def plan(root, db_path, edge_path, scope):
     import bind
     import linklist as L
@@ -244,7 +257,7 @@ def plan(root, db_path, edge_path, scope):
             available = {h for h in exact if h.startswith('include/' + r['callback_file'].split('/')[1] + '/')}
             if not available:
                 available = exact
-            header = owner if owner in available else next(iter(available)) if len(available) == 1 else ''
+            header = choose_owner_header(owner, available)
             row['header'] = header
             if not reason and not header and owner in headers[new]:
                 reason = 'owner_prototype_conflict'
@@ -377,10 +390,12 @@ def module_imports(root, rows):
             if old not in imports:
                 continue
             address = imports[old]['vma']
-            if old not in used:
+            if old not in used or (old == new and new in owned):
                 del imports[old]
             if new not in owned and new in used:
                 imports.setdefault(new, dict(symbol=new, kind='function', vma=address))
+                if old == new:
+                    imports[new] = dict(imports[new], kind='function')
         if imports != before:
             module['imports'] = sorted(imports.values(), key=lambda r: r['symbol'])
             changed = True

@@ -487,6 +487,6 @@ void choose_random_sign(AdvanceEntityEffectSequenceBody *effect, s32 unused, voi
 void rotate_and_fade_timed_sprite(Row_819A13D0_Work *work, ObjectPosition *unused, Row_819A13D0_Obj *obj);
 void create_rotating_directional_sprite(Row_819A1450_S_819A1450_4 *source, ObjectPosition *unused_1, SpriteFrameState *unused_2, s16 offset_x, s16 offset_y,
                    s16 offset_z);
-void advance_entity_effect_sequence(Row_819A1654_Entity *entity, void *saved_context, void *saved_data);
+void advance_entity_effect_sequence(Row_819A1654_Entity *entity, ObjectPosition *saved_context, void *saved_data);
 extern u8 linked_effect_update_flag[];
 #endif

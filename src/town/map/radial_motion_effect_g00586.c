@@ -28,7 +28,7 @@ void *create_reverse_motion_effect(S_800A878C_2 *source_motion, u32 flags) {
     if (effect != NULL) {
         motion = effect->position;
         sprite = effect->sprite;
-        effect->update_callback = &D_800A86BC;
+        effect->update_callback = update_fading_effect_motion;
         register_node(effect, project_sprite_chain);
         direction_index = direction;
         motion->x.w.i = (s16) (source_motion->unk_02 - (dir_step_x[direction_index] * 0x10));

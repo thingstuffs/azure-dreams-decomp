@@ -326,8 +326,8 @@ s32 draw_red(TimedTransformCopyEffectBody *effect, B22_81892C5C_S_81892C5C_2 *ce
 #include "m2c_compat.h"
 
 /* Creates an object with copied data, an adjusted field, and initialized arguments. */
-void *create_timed_transform_copy_effect(s32 object_arg, void *source_data, s16 initial_value, s16 field_delta) {
-    B22_81893024_M2C_BLOCK *src;
+void *create_timed_transform_copy_effect(s32 object_arg, ObjectPosition *source_data, s16 initial_value, s16 field_delta) {
+    ObjectPosition *src;
     B22_81893024_M2C_OBJECT *object;
     TimedTransformCopyEffectBody *body;
     ObjectPosition *data;
@@ -342,7 +342,7 @@ void *create_timed_transform_copy_effect(s32 object_arg, void *source_data, s16 
         body->frame.frame_count = 0;
         body->frame_limit = initial_value;
         data = object->data;
-        *(B22_81893024_M2C_BLOCK *)data = *src;
+        *data = *src;
         data->z.w.i = (s16) (((u16)(data->z.w.i)) + field_delta);
         register_node(object, draw_red);
     } else {

@@ -214,7 +214,7 @@ void select_and_advance_actor_move(ActorRecord *move_input, ObjectPosition *acti
                 TileObject *target;
 
                 target = &reference_tile_object;
-                direction = (((u8 *)&actor->unk_44)[1] +
+                direction = (((u8 *)&actor->unk_44.whole)[1] +
                              (primary_actor_record->facing >> 9)) & 7;
                 target_x = target->tile_position.parts.tile_x +
                            ((u16 *)((s8 *)dir_step_x))[direction];

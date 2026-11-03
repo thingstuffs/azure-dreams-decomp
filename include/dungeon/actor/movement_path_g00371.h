@@ -60,52 +60,8 @@ typedef struct S_func_800D8728_0 {
     } unk_A0;
 } S_func_800D8728_0;
 
-typedef struct S_func_800D8728_1 {
-    union {
-        s32 s32;
-        struct {
-            u8 pad_00[2];
-            u16 unk_02;
-        } half;
-    } unk_00;
-    union {
-        s32 s32;
-        struct {
-            u8 pad_04[2];
-            u16 unk_06;
-        } half;
-    } unk_04;
-    u8 pad_08[2];
-    u16 unk_0A;
-    s32 unk_0C;
-    s32 unk_10;
-    s32 unk_14;
-} S_func_800D8728_1;
-
-typedef struct S_func_800D8728_2 {
-    u8 pad_00[4];
-    s8 unk_04;
-    u8 pad_05[0xD];
-    u16 unk_12;
-    u16 unk_14;
-    u8 pad_16[0xE];
-    u8 unk_24;
-    u8 unk_25;
-    u8 pad_26[6];
-    u8 *unk_2C;
-} S_func_800D8728_2;
-
 
 /* state in advance_actor_queued_path */
-/* entry in advance_actor_queued_path */
-typedef struct S_800D904C_3 {
-    u8 pad_00[0x8C];
-    s32 unk_8C;
-    u8 pad_90[0x6];
-    s16 unk_96;
-    u8 pad_98[0x2];
-    u8 unk_9A;
-} S_800D904C_3;
 
 typedef struct S_800D92C0_0 {
     u8 pad_00[0x14];
@@ -182,9 +138,8 @@ extern void update_map_cell_flags_with_item_limit(s32, s32, u16);
 extern s32 check_movement_clearance_and_height(u32, void *, void *, s16);
 
 /* Functions defined in this translation unit. */
-void update_actor_movement_and_contact(S_func_800D8728_0 *entity, S_func_800D8728_1 *motion, SpriteFrameState *monster);
+void update_actor_movement_and_contact(S_func_800D8728_0 *entity, ObjectPosition *motion, SpriteFrameState *monster);
 void advance_actor_queued_path(ActorRecord *body, ObjectPosition *position, SpriteFrameState *sprite, ActorRecord *actor);
 void advance_actor_traversable_heading(ActorRecord *body, ObjectPosition *context, S_800D92C0_2 *position, void *actor);
-
 
 #endif

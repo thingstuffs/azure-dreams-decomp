@@ -50,10 +50,6 @@ typedef struct S_800AACA4_10 {
     u8 unk_02;
 } S_800AACA4_10;   /* ((S_800AACA4_3 *)object)->unk_2C in begin_actor_throw_from_attachment */
 
-typedef struct S_800AACA4_11 {
-    u8 pad_00[0xA];
-    u16 unk_0A;
-} S_800AACA4_11;   /* ((S_800AACA4_2_pre *)root)[-1].unk_00 in begin_actor_throw_from_attachment */
 
 /* Initialize movement from the source object, set vertical speed, and advance the tile. */
 void begin_actor_throw_from_attachment(Rec_func_800A9E70_arg0 *state, ObjectPosition *motion, SpriteFrameState *tile, ActorRecord *entity) {
@@ -86,7 +82,7 @@ void begin_actor_throw_from_attachment(Rec_func_800A9E70_arg0 *state, ObjectPosi
     }
 
     entity_data = entity->target;
-    motion->z.w.i = ((S_800AACA4_11 *)(entity_data[-1].unk_00))->unk_0A + height_adjustment.value;
+    motion->z.w.i = ((ObjectPosition *)(entity_data[-1].unk_00))->z.unsigned_parts.integer + height_adjustment.value;
     tile->tile_x = source_object->unk_24;
     tile->tile_y = source_object->unk_25;
     set_record_integer_tile_center(motion, tile->tile_x, tile->tile_y);

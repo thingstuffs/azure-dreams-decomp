@@ -29,29 +29,13 @@ typedef struct S_8017474C_0 {
 } S_8017474C_0;   /* arg0 in update_terrain_scaled_actor_effect */
 
 
-typedef struct S_8017474C_2 {
-    u8 pad_00[0x1E];
-    u16 unk_1E;
-} S_8017474C_2;   /* base in update_terrain_scaled_actor_effect */
 
    /* sample in update_terrain_scaled_actor_effect */
 
-typedef struct S_8017474C_4 {
-    u8 pad_00[0x2];
-    u16 unk_02;
-    u8 pad_04[0x6];
-    u16 unk_0A;
-} S_8017474C_4;   /* position in update_terrain_scaled_actor_effect */
 
    /* arg1 in update_terrain_scaled_actor_effect */
 
 
-typedef struct S_8017474C_7 {
-    u8 pad_00[0x6];
-    u16 unk_06;
-    u8 pad_08[0x2];
-    u16 unk_0A;
-} S_8017474C_7;   /* ((S_8017474C_0 *)arg0)->unk_18 in update_terrain_scaled_actor_effect */
 
 typedef struct S_8017474C_8 {
     u8 pad_00[0xC];
@@ -63,9 +47,9 @@ typedef struct S_8017474C_8 {
 /* Updates effect position and animated scales, flagging invalid or fully expanded effects. */
 void update_terrain_scaled_actor_effect(void *effect, MovingPosition *out_position, SpriteFrameState *out_render)
 {
-    S_8017474C_2 *owner_base;
+    ObjectNodeHeader *owner_base;
     void *owner;
-    S_8017474C_4 *source_position;
+    ObjectPosition *source_position;
     s16 target_scale;
     s32 sampled_height;
     s32 scale_cap;
@@ -84,7 +68,7 @@ void update_terrain_scaled_actor_effect(void *effect, MovingPosition *out_positi
         owner_base = ((S_8017474C_0 *)effect)->unk_0C;
         owner = (u8 *)owner_base + 0x20;
         if ((((u32)((ActorRecord *)owner)->flags1C) & 0x00800000) ||
-            (owner_base->unk_1E & 0x8000) ||
+            (owner_base->flags & 0x8000) ||
             (((ActorRecord *)owner)->unk_8C.address == (void *)transfer_linked_object_state) ||
             ((get_entity_effect_value(owner, STATUS_FROG) << 16) != 0)) {
             (*(u16 *)((u8 *)effect + -2)) |= NODE_REMOVE;
@@ -99,11 +83,11 @@ void update_terrain_scaled_actor_effect(void *effect, MovingPosition *out_positi
                                 sample_position->y,
                                 (s16)(sample_position->z - 4));
         } else {
-            sampled_height = ((S_8017474C_7 *)(((S_8017474C_0 *)effect)->unk_18))->unk_0A;
+            sampled_height = ((ObjectPosition *)(((S_8017474C_0 *)effect)->unk_18))->z.unsigned_parts.integer;
         }
 
         source_position = ((S_8017474C_0 *)effect)->unk_18;
-        height_scale = height_scale - ((sampled_height - source_position->unk_0A) << 6);
+        height_scale = height_scale - ((sampled_height - source_position->z.unsigned_parts.integer) << 6);
         if (height_scale < 0) {
             height_scale = 0;
         }
@@ -112,8 +96,8 @@ void update_terrain_scaled_actor_effect(void *effect, MovingPosition *out_positi
         }
 
         if (height_scale >= 0xF81) {
-            out_position->x = source_position->unk_02;
-            out_position->y = ((S_8017474C_7 *)(((S_8017474C_0 *)effect)->unk_18))->unk_06;
+            out_position->x = source_position->x.unsigned_parts.integer;
+            out_position->y = ((ObjectPosition *)(((S_8017474C_0 *)effect)->unk_18))->y.unsigned_parts.integer;
             out_position->z = sampled_height;
 
             scale_cap = target_scale;

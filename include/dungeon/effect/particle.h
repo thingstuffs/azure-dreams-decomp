@@ -217,7 +217,7 @@ void create_forward_layered_sprite_pulse(void);
 void create_layered_sprite_pulse(EntityRec *origin);
 void create_random_velocity_child_effect(struct ObjectNodeHeader *parent, s32 state_value, s16 pair_value, s16 offset_x, s16 offset_y, s16 offset_z);
 void create_short_lived_child_particle(struct ObjectNodeHeader *source, s16 effect_param, s32 state_value, s16 offset_x, s16 offset_y, s16 offset_z, s32 motion_z);
-void update_effect_particles_and_cleanup(struct ParticleCleanupWork *effect, void *motion, void *sprite);
+void update_effect_particles_and_cleanup(struct ParticleCleanupWork *effect, ObjectPosition *motion, void *sprite);
 
 /* Lifetime and original position for a short-lived red spark. */
 typedef struct ShortLivedRedSparkBody {

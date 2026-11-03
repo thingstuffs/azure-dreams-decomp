@@ -12,7 +12,7 @@ struct FreeSlotDisplayEffectBody;
 struct AdvanceObjectSpawningDisplaysHighBody;
 void fade_linked_display_sprite(struct FreeSlotDisplayEffectBody *, void *, void *);
 void spawn_free_slot_display_effect(struct AdvanceObjectSpawningDisplaysHighBody *);
-void create_an_linked_parent_initialize_position_part_data(void *, void *, void *);
+void create_an_linked_parent_initialize_position_part_data(void *, ObjectPosition *, void *);
 void fade_the_primitive_flag_effect_countdown_expires(void *, void *, u8 *);
 void update_palette_particle_transition(struct TransitionState *, void *, void *);
 extern const RectTable linked_particle_texture_rects;

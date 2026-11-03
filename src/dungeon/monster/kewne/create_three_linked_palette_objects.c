@@ -9,11 +9,7 @@
 #include "dungeon/monster/kewne.h"
 #include "engine/node.h"
 
-typedef struct S_80174910_6 {
-    u8 pad_00[0x8];
-    void * unk_08;
-    void * unk_0C;
-} S_80174910_6;   /* arg0 in create_three_linked_palette_objects */
+   /* arg0 in create_three_linked_palette_objects */
 
    /* ((S_80174910_6 *)arg0)->unk_08 in create_three_linked_palette_objects */
 

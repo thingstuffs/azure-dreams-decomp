@@ -58,9 +58,6 @@ typedef struct S_81087818_5 {
     union { s16 s; u16 u; } unk_18;
 } S_81087818_5;
 
-typedef struct S_81087818_7 {
-    s32 *unk_00;
-} S_81087818_7;
 
 extern void advance_sprite_animation_and_textures(void *);
 extern void draw_randomized_shaded_polylines(Vec3Work *, Vec3Work *);
@@ -161,7 +158,7 @@ void update_staged_target_motion(RandomizedOffsetObjectBody *motion, Vec3Work *t
             s32 position_z;
 
             node = ((S_81087818_2 *)motion->unk_4C)->unk_60;
-            x_distance = (s32)(((S_81087818_7 *)((u8 *)node - 0x18))->unk_00);
+            x_distance = (s32)(((ObjectNodeHeader *)((u8 *)node - 0x18))->next);
             motion->unk_28.word = ((s32 *)x_distance)[0];
             motion->unk_2C.word = ((s32 *)x_distance)[1];
             height = entity_height_offsets[((S_81087818_3 *)((S_81087818_2 *)motion->unk_4C)->unk_60)->unk_13];

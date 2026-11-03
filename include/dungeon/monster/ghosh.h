@@ -1,5 +1,6 @@
 #ifndef DUNGEON_MONSTER_GHOSH_H
 #define DUNGEON_MONSTER_GHOSH_H
+struct ActorRecord;
 
 #include "common.h"
 #include "shared/object_node.h"
@@ -123,7 +124,7 @@ void update_rising_trail_emitter(void *record_data, struct S_801720D0_0 *state);
 
 void advance_actor_path(ActorRecord *motion, ObjectPosition *context, SpriteFrameState *position, ActorRecord *actor);
 void clear_actor_flag_and_advance_action(ActorRecord *action_state, ObjectPosition *action_context, SpriteFrameState *effect_context, ActorRecord *actor);
-void update_boss_timed_animation(void *actor, ObjectPosition *transform, SpriteFrameState *animation, void *motion);
+void update_boss_timed_animation(struct ActorRecord *actor, ObjectPosition *transform, SpriteFrameState *animation, void *motion);
 
 void allocate_and_initialize_object(void);
 void *allocate_boss_actor(s16 mode, s16 config_24, s16 config_25, s16 config_0a);

@@ -7,7 +7,7 @@
 #include "dungeon/effect/particle.h"
 #include "dungeon/item.h"
 /* Normal selector 9: ordinary typed entry pointer; gcc emits the state table. */
-void (*const dungeon_1864800_entry)(void *, void *, void *) = run_fading_target_projectile;
+void (*const dungeon_1864800_entry)(void *, ObjectPosition *, void *) = run_fading_target_projectile;
 #include "dungeon/effect/particle/update_effect_base_state.h"
 
 /*
@@ -22,7 +22,7 @@ static __inline__ s16 delta_axis(s8 target, u16 start) {
 }
 
 /* Updates a staged effect, moves it toward its target, and emits particles. */
-void run_fading_target_projectile(void *effect, void *motion, void *source_render) {
+void run_fading_target_projectile(void *effect, ObjectPosition *motion, void *source_render) {
     void *owner;
     Vec3 delta;
     s32 target_timer;
@@ -53,11 +53,11 @@ void run_fading_target_projectile(void *effect, void *motion, void *source_rende
                     sprite = spawned->sprite;
                     spawned->update_callback = fade_effect_sprite_to_black;
                     ((S_81844800_14 *)(spawned->position))->unk_00.s =
-                        ((S_81844800_3 *)motion)->unk_00.at00.v + (((rand() & 0x1FF) - 255) << 13);
+                        motion->x.v + (((rand() & 0x1FF) - 255) << 13);
                     ((S_81844800_14 *)(spawned->position))->unk_04.s =
-                        ((S_81844800_3 *)motion)->unk_04.at00.v + (((rand() & 0x1FF) - 255) << 13);
+                        motion->y.v + (((rand() & 0x1FF) - 255) << 13);
                     ((S_81844800_14 *)(spawned->position))->unk_08.at00.v =
-                        ((S_81844800_3 *)motion)->unk_08.at00.v + (((rand() & 0x1FF) - 255) << 10);
+                        motion->z.v + (((rand() & 0x1FF) - 255) << 10);
 
                     {
                         u16 flags = sprite->flags;
@@ -129,36 +129,36 @@ void run_fading_target_projectile(void *effect, void *motion, void *source_rende
             }
             {
                 s32 target_x;
-                ((S_81844800_3 *)motion)->unk_00.at02.v =
+                motion->x.unsigned_parts.integer =
                     ((S_81844800_17 *)(((ObjectNodeHeader *)owner_start)->position))->unk_02 + delta.x;
-                ((S_81844800_3 *)motion)->unk_04.at02.v =
+                motion->y.unsigned_parts.integer =
                     ((S_81844800_17 *)(((ObjectNodeHeader *)owner_start)->position))->unk_06 + delta.y;
-                ((S_81844800_3 *)motion)->unk_08.at02.v =
+                motion->z.unsigned_parts.integer =
                     ((S_81844800_17 *)(((ObjectNodeHeader *)owner_start)->position))->unk_0A + delta.z;
                 ((S_81844800_0 *)effect)->unk_50.s = 8;
                 {
                     target_x = ((ActorRecord *)owner)->target_tile_x;
                     {
                         ((S_81844800_3 *)motion)->unk_0C.at02.v =
-                            delta_axis(target_x, ((S_81844800_3 *)motion)->unk_00.at02.v);
+                            delta_axis(target_x, motion->x.unsigned_parts.integer);
                     }
                 }
-                ((S_81844800_3 *)motion)->unk_0C.at00.v /= ((S_81844800_0 *)effect)->unk_50.u;
+                motion->velocity_x /= ((S_81844800_0 *)effect)->unk_50.u;
                 {
                     target_x = ((ActorRecord *)owner)->target_tile_y;
                     {
                         ((S_81844800_3 *)motion)->unk_10.at02.v =
-                            delta_axis(target_x, ((S_81844800_3 *)motion)->unk_04.at02.v);
+                            delta_axis(target_x, motion->y.unsigned_parts.integer);
                     }
                 }
-                ((S_81844800_3 *)motion)->unk_10.at00.v /= ((S_81844800_0 *)effect)->unk_50.u;
+                motion->velocity_y /= ((S_81844800_0 *)effect)->unk_50.u;
                 ((S_81844800_3 *)motion)->unk_14.at02.v = (s16)sample_terrain_surface_height(
-                    ((S_81844800_3 *)motion)->unk_00.at02.v,
-                    ((S_81844800_3 *)motion)->unk_04.at02.v,
+                    motion->x.unsigned_parts.integer,
+                    motion->y.unsigned_parts.integer,
                     (s16)(((S_81844800_17 *)(((ObjectNodeHeader *)owner_start)->position))->unk_0A - 48)) -
-                    (((S_81844800_3 *)motion)->unk_08.at02.v + 176);
+                    (motion->z.unsigned_parts.integer + 176);
             }
-            ((S_81844800_3 *)motion)->unk_14.at00.v /= ((S_81844800_0 *)effect)->unk_50.u;
+            motion->velocity_z /= ((S_81844800_0 *)effect)->unk_50.u;
             play_sound_if_enabled(AUDIO_PLAY_CD_CUE);
             ((S_81844800_0 *)effect)->unk_0A.u++;
             return;
@@ -166,9 +166,9 @@ void run_fading_target_projectile(void *effect, void *motion, void *source_rende
     }
 
     case 1:
-        ((S_81844800_3 *)motion)->unk_00.at00.v += ((S_81844800_3 *)motion)->unk_0C.at00.v;
-        ((S_81844800_3 *)motion)->unk_04.at00.v += ((S_81844800_3 *)motion)->unk_10.at00.v;
-        ((S_81844800_3 *)motion)->unk_08.at00.v += ((S_81844800_3 *)motion)->unk_14.at00.v;
+        motion->x.v += motion->velocity_x;
+        motion->y.v += motion->velocity_y;
+        motion->z.v += motion->velocity_z;
         state = ((S_81844800_0 *)effect)->unk_50.s - 1;
         ((S_81844800_0 *)effect)->unk_50.s = state;
         if ((state << 16) > 0) {
@@ -210,9 +210,9 @@ void run_fading_target_projectile(void *effect, void *motion, void *source_rende
                 register_node(spawned, draw_layered_vertical_sprite_chain);
                 burst_data->unk_2A = 8;
                 ((S_81844800_2 *)spawned)->unk_20 = effect;
-                burst_data->unk_04 = ((S_81844800_3 *)motion)->unk_00.at02.v;
-                burst_data->unk_06 = ((S_81844800_3 *)motion)->unk_04.at02.v;
-                burst_data->unk_08 = ((S_81844800_3 *)motion)->unk_08.at02.v;
+                burst_data->unk_04 = motion->x.unsigned_parts.integer;
+                burst_data->unk_06 = motion->y.unsigned_parts.integer;
+                burst_data->unk_08 = motion->z.unsigned_parts.integer;
                 ((S_81844800_0 *)effect)->unk_52.s++;
                 burst_data->unk_2C = 0;
             }
@@ -236,12 +236,12 @@ void run_fading_target_projectile(void *effect, void *motion, void *source_rende
                 sprite = spawned->sprite;
                 spawned->update_callback = fade_effect_sprite_to_black;
                 spawned->position->x.v =
-                    ((S_81844800_3 *)motion)->unk_00.at00.v;
+                    motion->x.v;
                 spawned->position->y.v =
-                    ((S_81844800_3 *)motion)->unk_04.at00.v;
+                    motion->y.v;
                 state = (rand() & 0x3F) - 176;
                 spawned->position->z.w.i =
-                    ((S_81844800_3 *)motion)->unk_08.at02.v - state;
+                    motion->z.unsigned_parts.integer - state;
                 ((S_81844800_14 *)(spawned->position))->unk_0E = (rand() & 0xF) - 8;
                 ((S_81844800_14 *)(spawned->position))->unk_12 = (rand() & 0xF) - 8;
                 ((S_81844800_14 *)(spawned->position))->unk_16 = -(rand() & 7);

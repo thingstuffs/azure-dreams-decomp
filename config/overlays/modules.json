@@ -24229,18 +24229,6 @@
           "evidence": "docs/evidence/town_door_22f08.imports.json"
         },
         {
-          "symbol": "D_80091260",
-          "kind": "function",
-          "vma": 2148078176,
-          "basis": "Address-only code-label view of town/func_80093B00"
-        },
-        {
-          "symbol": "D_80091528",
-          "kind": "function",
-          "vma": 2148078888,
-          "basis": "Address-only code-label view of town/func_80093DC8"
-        },
-        {
           "symbol": "D_800CFCB4",
           "kind": "data",
           "vma": 2148334772,
@@ -24315,6 +24303,16 @@
           "symbol": "func_8008FAC0",
           "kind": "function",
           "vma": 2148072128
+        },
+        {
+          "symbol": "func_80091260",
+          "kind": "function",
+          "vma": 2148078176
+        },
+        {
+          "symbol": "func_80091528",
+          "kind": "function",
+          "vma": 2148078888
         },
         {
           "symbol": "func_8009A674",
@@ -24605,40 +24603,10 @@
           "evidence": "docs/evidence/town_player_init_12868.imports.json"
         },
         {
-          "symbol": "D_8008FFC0",
-          "kind": "function",
-          "vma": 2148073408,
-          "basis": "Address-only code-label view of town/func_80092860"
-        },
-        {
-          "symbol": "D_80091260",
-          "kind": "function",
-          "vma": 2148078176,
-          "basis": "Address-only code-label view of town/func_80093B00"
-        },
-        {
-          "symbol": "D_80091528",
-          "kind": "function",
-          "vma": 2148078888,
-          "basis": "Address-only code-label view of town/func_80093DC8"
-        },
-        {
-          "symbol": "D_800970FC",
-          "kind": "function",
-          "vma": 2148102396,
-          "basis": "Address-only code-label view of town/func_8009999C"
-        },
-        {
           "symbol": "D_80097D2C",
           "kind": "function",
           "vma": 2148105516,
           "basis": "Address-only code-label view of town/func_8009A5CC"
-        },
-        {
-          "symbol": "D_80097D54",
-          "kind": "function",
-          "vma": 2148105556,
-          "basis": "Address-only code-label view of town/func_8009A5F4"
         },
         {
           "symbol": "D_800A5638",
@@ -24846,6 +24814,21 @@
           "vma": 2148073308
         },
         {
+          "symbol": "func_8008FFC0",
+          "kind": "function",
+          "vma": 2148073408
+        },
+        {
+          "symbol": "func_80091260",
+          "kind": "function",
+          "vma": 2148078176
+        },
+        {
+          "symbol": "func_80091528",
+          "kind": "function",
+          "vma": 2148078888
+        },
+        {
           "symbol": "func_80094984",
           "kind": "function",
           "vma": 2148092292
@@ -24914,6 +24897,16 @@
           "symbol": "func_80096FF4",
           "kind": "function",
           "vma": 2148102132
+        },
+        {
+          "symbol": "func_800970FC",
+          "kind": "function",
+          "vma": 2148102396
+        },
+        {
+          "symbol": "func_80097D54",
+          "kind": "function",
+          "vma": 2148105556
         },
         {
           "symbol": "func_80098868",
@@ -76888,6 +76881,11 @@
       "owned_data": [],
       "imports": [
         {
+          "symbol": "AddPrim",
+          "kind": "function",
+          "vma": 2147902860
+        },
+        {
           "symbol": "D_80083160",
           "kind": "runtime_data",
           "vma": 2148020576,
@@ -76895,14 +76893,6 @@
           "owner": "resident_runtime:slus",
           "evidence": "docs/evidence/town_textured_resource_strips_g00571.imports.json",
           "declaration": "include/town/map/textured_resource_strips_g00571.h"
-        },
-        {
-          "symbol": "D_800A3918",
-          "kind": "data",
-          "vma": 2148153624,
-          "foff": 156088,
-          "view_bytes": 4,
-          "owner": "retail_asset:town:xfer_town_B000"
         },
         {
           "symbol": "D_800A3B1C",
@@ -76937,6 +76927,21 @@
           "owner": "retail_asset:town:xfer_town_B000"
         },
         {
+          "symbol": "GetTPage",
+          "kind": "function",
+          "vma": 2147902560
+        },
+        {
+          "symbol": "SetDrawMode",
+          "kind": "function",
+          "vma": 2147909408
+        },
+        {
+          "symbol": "SetPolyFT4",
+          "kind": "function",
+          "vma": 2147903220
+        },
+        {
           "symbol": "func_8003FC64",
           "kind": "function",
           "vma": 2147744868
@@ -76947,9 +76952,14 @@
           "vma": 2147764508
         },
         {
-          "symbol": "rsin",
+          "symbol": "func_80065610",
           "kind": "function",
-          "vma": 2147894456
+          "vma": 2147898896
+        },
+        {
+          "symbol": "func_800A3918",
+          "kind": "function",
+          "vma": 2148153624
         },
         {
           "symbol": "rcos",
@@ -76957,29 +76967,9 @@
           "vma": 2147894660
         },
         {
-          "symbol": "func_80065610",
+          "symbol": "rsin",
           "kind": "function",
-          "vma": 2147898896
-        },
-        {
-          "symbol": "GetTPage",
-          "kind": "function",
-          "vma": 2147902560
-        },
-        {
-          "symbol": "AddPrim",
-          "kind": "function",
-          "vma": 2147902860
-        },
-        {
-          "symbol": "SetPolyFT4",
-          "kind": "function",
-          "vma": 2147903220
-        },
-        {
-          "symbol": "SetDrawMode",
-          "kind": "function",
-          "vma": 2147909408
+          "vma": 2147894456
         }
       ],
       "review": {
@@ -77248,14 +77238,6 @@
       "owned_data": [],
       "imports": [
         {
-          "symbol": "D_800C0C28",
-          "kind": "data",
-          "vma": 2148273192,
-          "foff": 275656,
-          "view_bytes": 4,
-          "owner": "retail_asset:town:xfer_town_B000"
-        },
-        {
           "symbol": "D_800D253C",
           "kind": "data",
           "vma": 2148345148,
@@ -77285,6 +77267,11 @@
           "symbol": "func_8003FC64",
           "kind": "function",
           "vma": 2147744868
+        },
+        {
+          "symbol": "func_800C0C28",
+          "kind": "function",
+          "vma": 2148273192
         }
       ],
       "review": {
@@ -77359,14 +77346,6 @@
           "declaration": "include/town/map/radial_motion_effect_g00586.h"
         },
         {
-          "symbol": "D_800A86BC",
-          "kind": "data",
-          "vma": 2148173500,
-          "foff": 175964,
-          "view_bytes": 4,
-          "owner": "retail_asset:town:xfer_town_B000"
-        },
-        {
           "symbol": "D_800F15AC",
           "kind": "data",
           "vma": 2148472236,
@@ -77400,9 +77379,14 @@
           "vma": 2147767104
         },
         {
-          "symbol": "rsin",
+          "symbol": "func_800A86BC",
           "kind": "function",
-          "vma": 2147894456
+          "vma": 2148173500
+        },
+        {
+          "symbol": "rand",
+          "kind": "function",
+          "vma": 2147917560
         },
         {
           "symbol": "rcos",
@@ -77410,9 +77394,9 @@
           "vma": 2147894660
         },
         {
-          "symbol": "rand",
+          "symbol": "rsin",
           "kind": "function",
-          "vma": 2147917560
+          "vma": 2147894456
         }
       ],
       "review": {
@@ -84401,14 +84385,6 @@
           "owner": "retail_asset:town:xfer_town_B000"
         },
         {
-          "symbol": "D_800C7674",
-          "kind": "data",
-          "vma": 2148300404,
-          "foff": 302868,
-          "view_bytes": 4,
-          "owner": "retail_asset:town:xfer_town_B000"
-        },
-        {
           "symbol": "D_800C78A8",
           "kind": "data",
           "vma": 2148300968,
@@ -84472,6 +84448,11 @@
           "symbol": "func_800C3780",
           "kind": "function",
           "vma": 2148284288
+        },
+        {
+          "symbol": "func_800C7674",
+          "kind": "function",
+          "vma": 2148300404
         },
         {
           "symbol": "func_800C7C3C",
@@ -85637,14 +85618,6 @@
           "owner": "retail_asset:town:xfer_town_B000"
         },
         {
-          "symbol": "D_8009BDC0",
-          "kind": "data",
-          "vma": 2148122048,
-          "foff": 124512,
-          "view_bytes": 6,
-          "owner": "retail_asset:town:xfer_town_B000"
-        },
-        {
           "symbol": "D_800CFCB4",
           "kind": "data",
           "vma": 2148334772,
@@ -85695,6 +85668,11 @@
           "symbol": "func_8008F664",
           "kind": "function",
           "vma": 2148071012
+        },
+        {
+          "symbol": "func_8009BDC0",
+          "kind": "function",
+          "vma": 2148122048
         },
         {
           "symbol": "func_8009BFC0",
@@ -86206,14 +86184,6 @@
           "owner": "retail_asset:town:xfer_town_B000"
         },
         {
-          "symbol": "D_800C1EA4",
-          "kind": "data",
-          "vma": 2148277924,
-          "foff": 280388,
-          "view_bytes": 6,
-          "owner": "retail_asset:town:xfer_town_B000"
-        },
-        {
           "symbol": "D_800D4668",
           "kind": "data",
           "vma": 2148353640,
@@ -86225,6 +86195,11 @@
           "symbol": "func_8003FC64",
           "kind": "function",
           "vma": 2147744868
+        },
+        {
+          "symbol": "func_800C1EA4",
+          "kind": "function",
+          "vma": 2148277924
         }
       ],
       "review": {
@@ -86585,14 +86560,6 @@
           "owner": "retail_asset:town:xfer_town_B000"
         },
         {
-          "symbol": "D_800B6578",
-          "kind": "data",
-          "vma": 2148230520,
-          "foff": 232984,
-          "view_bytes": 2,
-          "owner": "retail_asset:town:xfer_town_B000"
-        },
-        {
           "symbol": "func_80048DA0",
           "kind": "function",
           "vma": 2147782048
@@ -86611,6 +86578,11 @@
           "symbol": "func_800B6508",
           "kind": "function",
           "vma": 2148230408
+        },
+        {
+          "symbol": "func_800B6578",
+          "kind": "function",
+          "vma": 2148230520
         },
         {
           "symbol": "func_800B6580",
@@ -86680,20 +86652,17 @@
       "owned_data": [],
       "imports": [
         {
-          "symbol": "D_800B66E8",
-          "kind": "data",
-          "vma": 2148230888,
-          "foff": 233352,
-          "view_bytes": 4,
-          "owner": "retail_asset:town:xfer_town_B000"
-        },
-        {
           "symbol": "D_800D17C8",
           "kind": "data",
           "vma": 2148341704,
           "foff": 344168,
           "view_bytes": 4,
           "owner": "retail_asset:town:xfer_town_B000"
+        },
+        {
+          "symbol": "func_800B66E8",
+          "kind": "function",
+          "vma": 2148230888
         },
         {
           "symbol": "func_800B67A4",
@@ -86900,12 +86869,14 @@
           "declaration": "include/town/shop/monster_status_resource_cache_g00636.h"
         },
         {
-          "symbol": "D_800B5B20",
-          "kind": "data",
-          "vma": 2148227872,
-          "foff": 230336,
-          "view_bytes": 16,
-          "owner": "retail_asset:town:xfer_town_B000"
+          "symbol": "DrawSync",
+          "kind": "function",
+          "vma": 2147905556
+        },
+        {
+          "symbol": "LoadImage",
+          "kind": "function",
+          "vma": 2147906264
         },
         {
           "symbol": "bzero",
@@ -86938,14 +86909,9 @@
           "vma": 2147786376
         },
         {
-          "symbol": "DrawSync",
+          "symbol": "func_800B5B20",
           "kind": "function",
-          "vma": 2147905556
-        },
-        {
-          "symbol": "LoadImage",
-          "kind": "function",
-          "vma": 2147906264
+          "vma": 2148227872
         },
         {
           "symbol": "func_800B5E10",
@@ -87751,14 +87717,6 @@
           "declaration": "include/town/player/effect_handlers_g00576.h"
         },
         {
-          "symbol": "D_800A5638",
-          "kind": "data",
-          "vma": 2148161080,
-          "foff": 163544,
-          "view_bytes": 6,
-          "owner": "retail_asset:town:xfer_town_B000"
-        },
-        {
           "symbol": "D_800D0460",
           "kind": "data",
           "vma": 2148336736,
@@ -87783,6 +87741,11 @@
           "symbol": "func_80094A38",
           "kind": "function",
           "vma": 2148092472
+        },
+        {
+          "symbol": "func_800A5638",
+          "kind": "function",
+          "vma": 2148161080
         },
         {
           "symbol": "func_800A5FDC",
@@ -87984,22 +87947,6 @@
           "owner": "retail_asset:town:xfer_town_B000"
         },
         {
-          "symbol": "D_800A62E8",
-          "kind": "data",
-          "vma": 2148164328,
-          "foff": 166792,
-          "view_bytes": 30,
-          "owner": "retail_asset:town:xfer_town_B000"
-        },
-        {
-          "symbol": "D_800A630C",
-          "kind": "data",
-          "vma": 2148164364,
-          "foff": 166828,
-          "view_bytes": 22,
-          "owner": "retail_asset:town:xfer_town_B000"
-        },
-        {
           "symbol": "D_800A6684",
           "kind": "data",
           "vma": 2148165252,
@@ -88160,6 +88107,16 @@
           "symbol": "func_800A5598",
           "kind": "function",
           "vma": 2148160920
+        },
+        {
+          "symbol": "func_800A62E8",
+          "kind": "function",
+          "vma": 2148164328
+        },
+        {
+          "symbol": "func_800A630C",
+          "kind": "function",
+          "vma": 2148164364
         },
         {
           "symbol": "func_800A6328",
@@ -88789,14 +88746,6 @@
           "owner": "retail_asset:town:w4t2_bank_3fe0d0"
         },
         {
-          "symbol": "D_80016178",
-          "kind": "data",
-          "vma": 2147574136,
-          "foff": 4186488,
-          "view_bytes": 3,
-          "owner": "retail_asset:town:w4t2_bank_3fe0d0"
-        },
-        {
           "symbol": "D_80017720",
           "kind": "data",
           "vma": 2147579680,
@@ -88819,6 +88768,11 @@
           "foff": 4193160,
           "view_bytes": 12,
           "owner": "retail_asset:town:w4t2_bank_3fe0d0"
+        },
+        {
+          "symbol": "func_80016178",
+          "kind": "function",
+          "vma": 2147574136
         }
       ],
       "review": {
@@ -92634,22 +92588,6 @@
           "declaration": "include/town/map/town_map_set_g01113.h"
         },
         {
-          "symbol": "D_8008B9D8",
-          "kind": "data",
-          "vma": 2148055512,
-          "foff": 57976,
-          "view_bytes": 4,
-          "owner": "retail_asset:town:xfer_town_B000"
-        },
-        {
-          "symbol": "D_8008BA00",
-          "kind": "data",
-          "vma": 2148055552,
-          "foff": 58016,
-          "view_bytes": 4,
-          "owner": "retail_asset:town:xfer_town_B000"
-        },
-        {
           "symbol": "D_800CFB74",
           "kind": "data",
           "vma": 2148334452,
@@ -92738,6 +92676,16 @@
           "symbol": "func_8004491C",
           "kind": "function",
           "vma": 2147764508
+        },
+        {
+          "symbol": "func_8008B9D8",
+          "kind": "function",
+          "vma": 2148055512
+        },
+        {
+          "symbol": "func_8008BA00",
+          "kind": "function",
+          "vma": 2148055552
         }
       ],
       "review": {
@@ -97129,30 +97077,6 @@
           "declaration": "include/town/event/item_query_checks_g01145.h"
         },
         {
-          "symbol": "D_800C25C0",
-          "kind": "data",
-          "vma": 2148279744,
-          "foff": 282208,
-          "view_bytes": 6,
-          "owner": "retail_asset:town:xfer_town_B000"
-        },
-        {
-          "symbol": "D_800C3174",
-          "kind": "data",
-          "vma": 2148282740,
-          "foff": 285204,
-          "view_bytes": 6,
-          "owner": "retail_asset:town:xfer_town_B000"
-        },
-        {
-          "symbol": "D_800C321C",
-          "kind": "data",
-          "vma": 2148282908,
-          "foff": 285372,
-          "view_bytes": 6,
-          "owner": "retail_asset:town:xfer_town_B000"
-        },
-        {
           "symbol": "D_800D1038",
           "kind": "data",
           "vma": 2148339768,
@@ -97224,6 +97148,21 @@
           "symbol": "func_800C172C",
           "kind": "function",
           "vma": 2148276012
+        },
+        {
+          "symbol": "func_800C25C0",
+          "kind": "function",
+          "vma": 2148279744
+        },
+        {
+          "symbol": "func_800C3174",
+          "kind": "function",
+          "vma": 2148282740
+        },
+        {
+          "symbol": "func_800C321C",
+          "kind": "function",
+          "vma": 2148282908
         }
       ],
       "review": {

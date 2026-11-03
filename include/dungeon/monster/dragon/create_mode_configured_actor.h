@@ -12,28 +12,15 @@
 #include "engine/node.h"
 struct ObjectNodeHeader;
 
-
 typedef s32 M2C_UNK;
 
    /* obj in func_8016A854 */
 
-typedef struct S_8016A854_1 {
-    u8 pad_00[0x13];
-    s8 unk_13;
-    s32 unk_14;
-    u8 pad_18[0x4];
-    s32 unk_1C;
-} S_8016A854_1;   /* work in func_8016A854 */
+   /* work in func_8016A854 */
 
    /* part_a in func_8016A854 */
 
-typedef struct S_8016A854_3 {
-    u8 pad_00[0x24];
-    s8 unk_24;
-    s8 unk_25;
-    u8 pad_26[0x6];
-    void * unk_2C;
-} S_8016A854_3;   /* part_b in func_8016A854 */
+   /* part_b in func_8016A854 */
 
 typedef struct S_8016A854_4 {
     u8 pad_00[0x8C];
@@ -43,7 +30,6 @@ typedef struct S_8016A854_4 {
     u8 pad_9B[0x1];
     s8 unk_9C;
 } S_8016A854_4;   /* actor in func_8016A854 */
-
 
 extern void *func_8003FD64(s32 flags, ObjectNodeHeader **list_head);
 extern s32 func_8004491C(struct ObjectNodeHeader *entry, void *registration_id);

@@ -31,10 +31,6 @@ typedef struct S_80170A84_2 {
     u16 unk_1A;
 } S_80170A84_2;   /* arg2 in update_shrinking_sprite_effect */
 
-typedef struct S_80170A84_3 {
-    u8 pad_00[0x6];
-    u16 unk_06;
-} S_80170A84_3;   /* ((S_80170A84_1_pre *)base)[-1].unk_00 in update_shrinking_sprite_effect */
 
 
 /* Updates effect rotation and fading, then copies three source words to the output. */
@@ -51,7 +47,7 @@ void update_shrinking_sprite_effect(UBoatAuraEffectBody *effect, void *output, v
 
     owner_data = effect->owner;
     source_words = effect->source.words;
-    header_value = ((S_80170A84_3 *)(((S_80170A84_1_pre *)owner_data)[-1].unk_00))->unk_06;
+    header_value = ((ObjectPosition *)(((S_80170A84_1_pre *)owner_data)[-1].unk_00))->y.unsigned_parts.integer;
 
     angle = render_data->unk_1A + 400;
     render_data->unk_1A = angle;

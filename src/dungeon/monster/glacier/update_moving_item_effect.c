@@ -21,20 +21,6 @@ typedef struct S_func_810332A4_1 {
     union { s8 s; u8 u; } unk_4D;
 } S_func_810332A4_1;
 
-typedef struct S_func_810332A4_2 {
-    union {
-        s32 word;
-        struct { u8 pad_00[2]; s16 unk_02; } half;
-    } unk_00;
-    union {
-        s32 word;
-        struct { u8 pad_04[2]; s16 unk_06; } half;
-    } unk_04;
-    u8 pad_08[2];
-    union { s16 s; u16 u; } unk_0A;
-    s32 unk_0C;
-    s32 unk_10;
-} S_func_810332A4_2;
 
 
 
@@ -94,7 +80,7 @@ void update_moving_item_effect(S_func_810332A4_1 *effect, ObjectPosition *motion
     S_func_810332A4_5 *object;
     S_func_810332A4_5 *new_object;
     S_func_810332A4_6 *display;
-    S_func_810332A4_2 *transform;
+    ObjectPosition *transform;
     s32 blocked;
     s32 stop_mask;
     s32 step_x;
@@ -251,9 +237,9 @@ void update_moving_item_effect(S_func_810332A4_1 *effect, ObjectPosition *motion
             transform = object->unk_08;
             object_data = (S_func_810332A4_7 *)((u8 *)object + 0x20);
             if ((((volatile S_func_810332A4_6 *)display)->unk_24 << 6) + 0x20 ==
-                transform->unk_00.half.unk_02) {
+                transform->x.w.i) {
                 if ((((volatile S_func_810332A4_6 *)display)->unk_25 << 6) + 0x20 ==
-                    transform->unk_04.half.unk_06) {
+                    transform->y.w.i) {
                     get_offset_map_cell_value_and_flags(display->unk_24, display->unk_25,
                                   effect->unk_1C, &collision_flags);
                     blocked = (collision_flags & 0x8400) != 0;
@@ -264,7 +250,7 @@ void update_moving_item_effect(S_func_810332A4_1 *effect, ObjectPosition *motion
 
                     if (!blocked) {
                         if ((check_left_tile_and_center_height((u16)coord_base, (u16)object_y,
-                                           transform->unk_0A.s) << 16) != 0) {
+                                           transform->z.w.i) << 16) != 0) {
                             blocked = 1;
                         }
                     }
@@ -328,19 +314,19 @@ void update_moving_item_effect(S_func_810332A4_1 *effect, ObjectPosition *motion
             }
             object_tile_x = display->unk_24;
             if ((object_tile_x - glacier_direction_offsets[effect->unk_1C].x) * 64 + 0x20 !=
-                transform->unk_00.half.unk_02 ||
+                transform->x.w.i ||
                 (display->unk_25 - glacier_direction_offsets[effect->unk_1C].y) * 64 + 0x20 !=
-                transform->unk_04.half.unk_06) {
+                transform->y.w.i) {
                 floor_height = sample_terrain_surface_height((object_tile_x << 6) | 0x20,
                                       (display->unk_25 << 6) | 0x20,
                                       object_data->unk_88);
-                if (transform->unk_0A.s < floor_height) {
-                    transform->unk_0A.u += 0x10;
+                if (transform->z.w.i < floor_height) {
+                    transform->z.unsigned_parts.integer += 0x10;
                     object_data->unk_88 = floor_height;
                 }
             }
-            transform->unk_00.word += motion->velocity_x;
-            transform->unk_04.word += motion->velocity_y;
+            transform->x.v += motion->velocity_x;
+            transform->y.v += motion->velocity_y;
 
         }
 
@@ -351,8 +337,8 @@ secondary_object:
             display = object->unk_0C;
             transform = object->unk_08;
             object_data = (S_func_810332A4_7 *)((u8 *)object + 0x20);
-            if ((display->unk_24 << 6) + 0x20 == transform->unk_00.half.unk_02 &&
-                (display->unk_25 << 6) + 0x20 == transform->unk_04.half.unk_06) {
+            if ((display->unk_24 << 6) + 0x20 == transform->x.w.i &&
+                (display->unk_25 << 6) + 0x20 == transform->y.w.i) {
                 display->unk_24 +=
                     (u8)glacier_direction_offsets[effect->unk_1C].x;
                 display->unk_25 +=
@@ -361,13 +347,13 @@ secondary_object:
                 floor_height = sample_terrain_surface_height((display->unk_24 << 6) | 0x20,
                                       (display->unk_25 << 6) | 0x20,
                                       object_data->unk_88);
-                if (transform->unk_0A.s < floor_height) {
-                    transform->unk_0A.u += 0x10;
+                if (transform->z.w.i < floor_height) {
+                    transform->z.unsigned_parts.integer += 0x10;
                     object_data->unk_88 = floor_height;
                 }
             }
-            transform->unk_00.word += motion->velocity_x;
-            transform->unk_04.word += motion->velocity_y;
+            transform->x.v += motion->velocity_x;
+            transform->y.v += motion->velocity_y;
         }
 
         tile_x = effect->unk_4C.s;

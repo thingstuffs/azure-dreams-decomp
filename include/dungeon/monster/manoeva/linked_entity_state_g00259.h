@@ -14,17 +14,6 @@ struct ObjectNodeHeader;
 #include "shared/entity.h"
 #include "shared/game_work.h"
 
-typedef struct S_80173C40_2 {
-    u8 pad_00[0x8C];
-    s32 unk_8C;
-    u8 pad_90[0x6];
-    s16 unk_96;
-    u8 pad_98[0x2];
-    s8 unk_9A;
-    s8 unk_9B;
-} S_80173C40_2;
-
-
 /* arg0 in reset_linked_entity_state */
 
 extern void copy_entity_record(void *, void *);

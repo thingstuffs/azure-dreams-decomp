@@ -2,10 +2,7 @@
 #include "frontend/card/menu_default_words.h"
 #include "frontend/card.h"
 
-typedef struct S_8001CDA0_3 {
-    u8 pad_00[0x4];
-    void * unk_04;
-} S_8001CDA0_3;   /* arg0 in card_dev_init_row_view */
+   /* arg0 in card_dev_init_row_view */
 
 typedef struct S_8001CDA0_4 {
     u8 pad_00[0x8];
@@ -14,10 +11,7 @@ typedef struct S_8001CDA0_4 {
     s16 unk_0C;
     u8 pad_0E[0x1];
     s8 unk_0F;
-} S_8001CDA0_4;   /* ((S_8001CDA0_3 *)arg0)->unk_04 in card_dev_init_row_view */
-
-
-
+} S_8001CDA0_4;   /* entry->unk_04 in card_dev_init_row_view */
 
 extern s32 D_8002D694[];
 extern s32 D_8002D698[];

@@ -102,14 +102,6 @@ typedef struct S_8009345C_11 {
     s16 unk_1E;
 } S_8009345C_11;
 
-typedef struct S_8009345C_12 {
-    u8 pad_00[0x2];
-    u16 unk_02;
-    u8 pad_04[0x2];
-    u16 unk_06;
-    u8 pad_08[0x2];
-    s16 unk_0A;
-} S_8009345C_12;
 
    /* map in update_familiar_deployment_change */
 
@@ -144,7 +136,7 @@ void update_familiar_deployment_change(void *actor, ObjectPosition *map, SpriteF
     void *old_object;
     ObjectStatusPrefix16 *removed_object;
     S_8009345C_11 *object_scale;
-    S_8009345C_12 *object_position;
+    ObjectPosition *object_position;
     ScratchS1 message_or_list;
 
     state = ((S_8009345C_0 *)actor)->phase;
@@ -251,9 +243,9 @@ void update_familiar_deployment_change(void *actor, ObjectPosition *map, SpriteF
                 object_scale->unk_1E = 0x800;
                 object_scale->unk_1C = 0x800;
                 object_position = ((S_8009345C_10_pre *)new_object)[-1].unk_00;
-                object_position->unk_02 = (u16) map->x.w.i;
-                object_position->unk_06 = (u16) map->y.w.i;
-                object_position->unk_0A = (s16) (map->z.w.i - 0x10);
+                object_position->x.unsigned_parts.integer = (u16) map->x.w.i;
+                object_position->y.unsigned_parts.integer = (u16) map->y.w.i;
+                object_position->z.w.i = (s16) (map->z.w.i - 0x10);
                 func_80042640(new_object, ((ActorRecord *)new_object)->species);
                 apply_actor_template_and_class(new_object, ((ActorRecord *)new_object)->species, *message_or_list.base);
                 object_flags = ((ActorRecord *)new_object)->flags1C;

@@ -25,10 +25,6 @@ typedef struct S_80174800_2 {
     u8 unk_25;
 } S_80174800_2;   /* tile in create_randomly_rotated_offset_effect */
 
-typedef struct S_80174800_3 {
-    u8 pad_00[0xA];
-    s16 unk_0A;
-} S_80174800_3;   /* data in create_randomly_rotated_offset_effect */
 
 typedef struct S_80174800_4 {
     u8 pad_00[0x26];
@@ -59,12 +55,12 @@ void create_randomly_rotated_offset_effect(void *node, s32 tile_x, s32 tile_y, s
     node = (u8 *)((S_80174800_0 *)head)->unk_5C + 0x20;
     while (node != head) {
         S_80174800_2 *tile = ((S_80174800_1_pre *)node)[-1].unk_04;
-        S_80174800_3 *height_data = ((S_80174800_1_pre *)node)[-1].unk_00;
+        ObjectPosition *height_data = ((S_80174800_1_pre *)node)[-1].unk_00;
         s16 height;
 
         if ((tile->unk_24 == (match_x & 0xFFFF)) &&
             (tile->unk_25 == (match_y & 0xFFFF)) &&
-            (height = height_data->unk_0A, height <= target_height + 0x38) &&
+            (height = height_data->z.w.i, height <= target_height + 0x38) &&
             (height > target_height - 0x38) &&
             ((u32)(((Rec_func_80174800_arg0 *)node)->unk_13 - 0x33) >= 4U)) {
             actor->unk_84 = 0x7C;

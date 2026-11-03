@@ -99,7 +99,7 @@ void advance_actor_turn_path(ActorRecord *move_data_in, ObjectPosition *context,
                     TileObject *origin = &reference_tile_object;
                     s32 direction = ((u16)primary_actor_record->facing);
                     s32 table_index =
-                        ((((u8 *)&actor_in->unk_44)[1] + ((s16)direction >> 9)) & 7) << 1;
+                        ((((u8 *)&actor_in->unk_44.whole)[1] + ((s16)direction >> 9)) & 7) << 1;
                     target_x = origin->tile_position.parts.tile_x +
                         *(u16 *)((u8 *)((s8 *)dir_step_x) + table_index);
                     target_y = origin->tile_position.parts.tile_y +

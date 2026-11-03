@@ -108,7 +108,7 @@ void step_beldo_old_toward_target(Rec_func_800A9E70_arg0 *move_state_arg, void *
                     u8 *target_position = free_node_list_head;
                     s32 target_facing = (u16)beldo_old_target_actor->facing;
                     s32 direction_offset =
-                        ((((u8 *)&actor_arg->unk_44)[1] + ((s16)target_facing >> 9)) & 7) << 1;
+                        ((((u8 *)&actor_arg->unk_44.whole)[1] + ((s16)target_facing >> 9)) & 7) << 1;
                     target_x = target_position[0x24] +
                         *(u16 *)((u8 *)&D_8006BDA8 + direction_offset);
                     target_y = target_position[0x25] +

@@ -8,10 +8,7 @@
 #include "engine/node/allocation.h"
 #include "engine/node.h"
 
-typedef struct S_800CB4C0_6 {
-    u8 pad_00[0x8];
-    void * unk_08;
-} S_800CB4C0_6;   /* arg0 in create_source_linked_fading_effect */
+   /* arg0 in create_source_linked_fading_effect */
 
    /* ((S_800CB4C0_6 *)arg0)->unk_08 in create_source_linked_fading_effect */
 
@@ -21,7 +18,6 @@ extern void fade_effect_primitive(void *effect, void *unused, SpriteFrameState *
 #include "dungeon/actor/effect.h"
 #include "dungeon/effect.h"
 extern SpriteSourceEntry D_800E02CC[];
-
 
 /* Creates an object with shared or copied source coordinates and initializes its display state. */
 void *create_source_linked_fading_effect(ObjectNodeHeader *source, s16 copy_position) {

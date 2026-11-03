@@ -83,10 +83,6 @@ typedef struct S_818FF710_7_pre {
 
 
 
-typedef struct S_818FF710_12 {
-    u8 pad_00[0x14];
-    s32 unk_14;
-} S_818FF710_12;
 
 
 typedef struct S_818FF710_17 {
@@ -113,10 +109,6 @@ typedef struct S_818FF710_27 {
     u16 unk_14;
 } S_818FF710_27;
 
-typedef struct S_818FF710_28 {
-    u8 pad_00[0x14];
-    s32 unk_14;
-} S_818FF710_28;
 
 
 typedef struct S_818FF710_31_pre {
@@ -168,7 +160,7 @@ typedef struct ParticleCleanupWork {
 } ParticleCleanupWork;
 
 /* Updates an effect's movement, particles, target effects, and cleanup state. */
-void update_effect_particles_and_cleanup(ParticleCleanupWork *effect, void *motion, void *sprite) {
+void update_effect_particles_and_cleanup(ParticleCleanupWork *effect, ObjectPosition *motion, void *sprite) {
     GteShortVector offset;
     Local28 texture_rect;
     Local38 direction_steps;
@@ -205,10 +197,10 @@ void update_effect_particles_and_cleanup(ParticleCleanupWork *effect, void *moti
     u16 sprite_flags;
     s32 source_id;
     MovingTile *origin;
-    S_818FF710_12 *hit_target;
-    S_818FF710_28 *released_target;
+    ObjectPosition *hit_target;
+    ObjectPosition *released_target;
     SpriteFrameState *parent_sprite;
-    void *target_pos_or_step;
+    ObjectPosition *target_pos_or_step;
     void *sprite_resource;
     S_818FF710_0 *parent_object;
     SpriteFrameState *first_sprite;
@@ -250,16 +242,16 @@ void update_effect_particles_and_cleanup(ParticleCleanupWork *effect, void *moti
             && !(((SpriteFrameState *)(parent_object->unk_0C))->flags & 0x8000)) {
             return;
         }
-        ((ObjectPosition *)motion)->x.unsigned_parts.integer = (u16) parent_position->x;
-        ((ObjectPosition *)motion)->y.unsigned_parts.integer = (u16) parent_position->y;
+        motion->x.unsigned_parts.integer = (u16) parent_position->x;
+        motion->y.unsigned_parts.integer = (u16) parent_position->y;
         parent_height = parent_position->z;
-        ((ObjectPosition *)motion)->z.unsigned_parts.integer = parent_height;
+        motion->z.unsigned_parts.integer = parent_height;
         if (!(((SpriteFrameState *)(parent_object->unk_0C))->flags & 0x8000)) {
-            ((ObjectPosition *)motion)->x.unsigned_parts.integer = (u16) (((ObjectPosition *)motion)->x.unsigned_parts.integer + ((u16)offset.vx));
-            ((ObjectPosition *)motion)->y.unsigned_parts.integer = (u16) (((ObjectPosition *)motion)->y.unsigned_parts.integer + ((u16)offset.vy));
-            ((ObjectPosition *)motion)->z.unsigned_parts.integer = (u16) (((ObjectPosition *)motion)->z.unsigned_parts.integer + ((u16)offset.vz));
+            motion->x.unsigned_parts.integer = (u16) (motion->x.unsigned_parts.integer + ((u16)offset.vx));
+            motion->y.unsigned_parts.integer = (u16) (motion->y.unsigned_parts.integer + ((u16)offset.vy));
+            motion->z.unsigned_parts.integer = (u16) (motion->z.unsigned_parts.integer + ((u16)offset.vz));
         } else {
-            ((ObjectPosition *)motion)->z.unsigned_parts.integer = (u16) (parent_height - 0x40);
+            motion->z.unsigned_parts.integer = (u16) (parent_height - 0x40);
         }
         if (!(effect->flags & 4)) {
             register_node((u8 *)effect - 0x20, project_sprite_chain);
@@ -278,7 +270,7 @@ void update_effect_particles_and_cleanup(ParticleCleanupWork *effect, void *moti
         flight_target = ((S_818FF710_2 *)parent)->unk_60;
         if (flight_target != NULL) {
             target_pos_or_step = ((S_818FF710_7_pre *)flight_target)[-1].unk_00;
-            effect->target_height = (s16) (((ObjectPosition *)target_pos_or_step)->z.unsigned_parts.integer
+            effect->target_height = (s16) (target_pos_or_step->z.unsigned_parts.integer
                 - (entity_height_offsets[((ActorRecord *)flight_target)->species] + 0x40));
             origin = ((SpriteLinkPrefixView *)parent)[-1].sprite;
             effect->next_tile_x = (s8) (origin->tile_x + ((u8 *)dir_step_x)[effect->direction * 2]);
@@ -302,11 +294,11 @@ void update_effect_particles_and_cleanup(ParticleCleanupWork *effect, void *moti
             effect->target_height = (s16) (((S_818FF710_2 *)parent)->unk_88 - 0x50);
             effect->flight_ticks = 0x20;
         }
-        ((ObjectPosition *)motion)->velocity_x = (s32) (direction_steps.pair[effect->direction].first << 0x10);
-        ((ObjectPosition *)motion)->velocity_y = (s32) (direction_steps.pair[effect->direction].second
+        motion->velocity_x = (s32) (direction_steps.pair[effect->direction].first << 0x10);
+        motion->velocity_y = (s32) (direction_steps.pair[effect->direction].second
             << 0x10);
-        ((ObjectPosition *)motion)->velocity_z = (s32) ((s32) ((effect->target_height << 0x10)
-            - ((ObjectPosition *)motion)->z.v) / (s8) effect->flight_ticks);
+        motion->velocity_z = (s32) ((s32) ((effect->target_height << 0x10)
+            - motion->z.v) / (s8) effect->flight_ticks);
         flight_ticks = (u8) effect->flight_ticks;
         effect->timer = 0U;
         effect->state = (s16) ((u16) effect->state + 1);
@@ -343,8 +335,8 @@ void update_effect_particles_and_cleanup(ParticleCleanupWork *effect, void *moti
         blue_tick = (effect->initial_ticks - effect->flight_ticks) + 1;
         ((SpriteFrameState *)sprite)->color.c.b =
             (s8) (((s32) (blue_tick * blue_tick * 0x6C) / (s16) effect->ticks_squared) + 0x14);
-        if ((check_adjacent_tile_height_clearance(((ObjectPosition *)motion)->x.unsigned_parts.integer, ((ObjectPosition *)motion)->y.unsigned_parts.integer,
-            (s16) ((ObjectPosition *)motion)->z.unsigned_parts.integer, ((S_818FF710_2 *)parent)->unk_60) << 0x10) != 0) {
+        if ((check_adjacent_tile_height_clearance(motion->x.unsigned_parts.integer, motion->y.unsigned_parts.integer,
+            (s16) motion->z.unsigned_parts.integer, ((S_818FF710_2 *)parent)->unk_60) << 0x10) != 0) {
             effect->state = 8;
             effect->timer = 0U;
             ((SpriteFrameState *)sprite)->color.c.b = 0;
@@ -364,12 +356,12 @@ void update_effect_particles_and_cleanup(ParticleCleanupWork *effect, void *moti
                 if ((u32) (((ActorRecord *)impact_target)->species - 0x33) >= 4U) {
                     target_hit_flags->flags = (u16) (target_hit_flags->flags | 0x800);
                     hit_target = ((S_818FF710_2 *)parent)->unk_60;
-                    hit_target->unk_14 = (s32) (hit_target->unk_14 | 0x100000);
+                    hit_target->velocity_z = (s32) (hit_target->velocity_z | 0x100000);
                 }
                 target_pos_or_step = ((S_818FF710_31_pre *)(((S_818FF710_2 *)parent)->unk_60))[-1].unk_00;
-                ((ObjectPosition *)motion)->x.unsigned_parts.integer = (u16) ((ObjectPosition *)target_pos_or_step)->x.unsigned_parts.integer;
-                ((ObjectPosition *)motion)->y.unsigned_parts.integer = (u16) ((ObjectPosition *)target_pos_or_step)->y.unsigned_parts.integer;
-                ((ObjectPosition *)motion)->z.unsigned_parts.integer = (u16) effect->target_height;
+                motion->x.unsigned_parts.integer = (u16) target_pos_or_step->x.unsigned_parts.integer;
+                motion->y.unsigned_parts.integer = (u16) target_pos_or_step->y.unsigned_parts.integer;
+                motion->z.unsigned_parts.integer = (u16) effect->target_height;
                 create_owner_linked_mirrored_sprite(effect, motion, sprite);
                 return;
             }
@@ -381,9 +373,9 @@ void update_effect_particles_and_cleanup(ParticleCleanupWork *effect, void *moti
             create_owner_linked_mirrored_sprite(effect, motion, sprite);
             return;
         }
-        ((ObjectPosition *)motion)->x.v += ((ObjectPosition *)motion)->velocity_x;
-        ((ObjectPosition *)motion)->y.v += ((ObjectPosition *)motion)->velocity_y;
-        ((ObjectPosition *)motion)->z.v += ((ObjectPosition *)motion)->velocity_z;
+        motion->x.v += motion->velocity_x;
+        motion->y.v += motion->velocity_y;
+        motion->z.v += motion->velocity_z;
         create_owner_linked_mirrored_sprite(effect, motion, sprite);
         return;
     case 3:
@@ -459,9 +451,9 @@ void update_effect_particles_and_cleanup(ParticleCleanupWork *effect, void *moti
             child_effect->unk_0A.s = 0;
             child_effect->unk_0C = 0;
             target_pos_or_step = ((S_818FF710_31_pre *)(((S_818FF710_2 *)parent)->unk_60))[-1].unk_00;
-            first_position->x.v = (s32) ((S_818FF710_17 *)target_pos_or_step)->unk_00;
-            first_position->y.v = (s32) ((S_818FF710_17 *)target_pos_or_step)->unk_04;
-            first_position->z.v = (s32) ((S_818FF710_17 *)target_pos_or_step)->unk_08;
+            first_position->x.v = (s32) target_pos_or_step->x.v;
+            first_position->y.v = (s32) target_pos_or_step->y.v;
+            first_position->z.v = (s32) target_pos_or_step->z.v;
             first_sprite = first_object->sprite;
             first_sprite->scale_x = 0x1004;
             first_sprite->scale_y = 0x1004;
@@ -493,9 +485,9 @@ void update_effect_particles_and_cleanup(ParticleCleanupWork *effect, void *moti
             child_effect->unk_0A.s = 0;
             child_effect->unk_0C = 0;
             target_pos_or_step = ((S_818FF710_31_pre *)(((S_818FF710_2 *)parent)->unk_60))[-1].unk_00;
-            second_position->x.v = (s32) ((S_818FF710_20 *)target_pos_or_step)->unk_00;
-            second_position->y.v = (s32) ((S_818FF710_20 *)target_pos_or_step)->unk_04;
-            second_position->z.v = (s32) ((S_818FF710_20 *)target_pos_or_step)->unk_08;
+            second_position->x.v = (s32) target_pos_or_step->x.v;
+            second_position->y.v = (s32) target_pos_or_step->y.v;
+            second_position->z.v = (s32) target_pos_or_step->z.v;
             second_sprite = second_object->sprite;
             second_sprite->scale_y = 0x1000;
             second_sprite->scale_x = 0x1000;
@@ -525,9 +517,9 @@ void update_effect_particles_and_cleanup(ParticleCleanupWork *effect, void *moti
             child_effect->unk_0A.s = 0;
             child_effect->unk_0C = 0;
             target_pos_or_step = ((S_818FF710_31_pre *)(((S_818FF710_2 *)parent)->unk_60))[-1].unk_00;
-            third_position->x.v = (s32) ((ObjectPosition *)target_pos_or_step)->x.v;
-            third_position->y.v = (s32) ((ObjectPosition *)target_pos_or_step)->y.v;
-            third_position->z.v = (s32) ((ObjectPosition *)target_pos_or_step)->z.v;
+            third_position->x.v = (s32) target_pos_or_step->x.v;
+            third_position->y.v = (s32) target_pos_or_step->y.v;
+            third_position->z.v = (s32) target_pos_or_step->z.v;
             second_sprite = third_object->sprite;
             second_sprite->color.c.b = 0x80;
             second_sprite->color.c.g = 0x80;
@@ -564,9 +556,9 @@ void update_effect_particles_and_cleanup(ParticleCleanupWork *effect, void *moti
             child_effect->unk_0A.s = 0;
             child_effect->unk_0C = 0;
             target_pos_or_step = ((S_818FF710_31_pre *)(((S_818FF710_2 *)parent)->unk_60))[-1].unk_00;
-            fourth_position->x.v = (s32) ((S_818FF710_26 *)target_pos_or_step)->unk_00;
-            fourth_position->y.v = (s32) ((S_818FF710_26 *)target_pos_or_step)->unk_04;
-            fourth_position->z.v = (s32) ((S_818FF710_26 *)target_pos_or_step)->unk_08;
+            fourth_position->x.v = (s32) target_pos_or_step->x.v;
+            fourth_position->y.v = (s32) target_pos_or_step->y.v;
+            fourth_position->z.v = (s32) target_pos_or_step->z.v;
             second_sprite = fourth_object->sprite;
             second_sprite->scale_y = 0x1000;
             second_sprite->scale_x = 0x1000;
@@ -640,7 +632,7 @@ void update_effect_particles_and_cleanup(ParticleCleanupWork *effect, void *moti
         target_release_flags = ((S_818FF710_31_pre *)(((S_818FF710_2 *)parent)->unk_60))[-1].unk_04;
         target_release_flags->unk_14 = (u16) (target_release_flags->unk_14 & 0xF7FF);
         released_target = ((S_818FF710_2 *)parent)->unk_60;
-        released_target->unk_14 = (s32) (released_target->unk_14 & 0xFFEFFFFF);
+        released_target->velocity_z = (s32) (released_target->velocity_z & 0xFFEFFFFF);
         effect->state = 8;
         effect->timer = 0x1EU;
         return;

@@ -5,8 +5,6 @@
 #include "common.h"
 #include "shared/game_work.h"
 
-
-
 typedef struct Scratch {
     u8 pad0[4];
     u16 in0;
@@ -51,11 +49,7 @@ extern void SetDrawMode(void *, s32, s32, u16, s32);
 #include "shared/position_views.h"
 struct ObjectNodeHeader;
 
-typedef struct S_80BC1264_0 {
-    union { struct { s32 v; } at00; struct { u8 pad[0x2]; s16 v; } at02; } unk_00;   /* overlapping accesses */
-    union { struct { s32 v; } at00; struct { u8 pad[0x2]; s16 v; } at02; } unk_04;   /* overlapping accesses */
-    s32 unk_08;
-} S_80BC1264_0;   /* arg1 in func_80170A64 */
+   /* arg1 in func_80170A64 */
 
    /* the 0x2 bytes before arg0 in func_80170A64, addressed as arg0[-1] */
 
@@ -85,10 +79,8 @@ typedef struct S_80BC1264_1 {
     s32 unk_54;
 } S_80BC1264_1;   /* arg0 in func_80170A64 */
 
-
 #define M2C_BREAK() ((void)0)
 #define M2C_SYNC() ((void)0)
-
 
 /* Advance the effect motion, fade its color, and flag it near its target or when faded out. */
 typedef struct { s32 x,y,z,dx,dy,dz; } EffectMotion;
@@ -136,7 +128,6 @@ typedef struct S_80BC1528_2 {
 
    /* ((S_80BC1528_1 *)saved_arg0)->unk_08 in func_80170D28 */
 
-
 extern void *allocate_list_node(s32, void *);
 extern void *func_8003FD64(s32, void *);
 extern s32 register_node(); /* Unprototyped: two, three or four arguments; retail reads only the node and draw key. */
@@ -154,23 +145,9 @@ typedef struct S_80BC172C_3 {
 
    /* ((S_80BC172C_2 *)held_arg0)->unk_08 in func_80170F2C */
 
-typedef struct S_80BC172C_5 {
-    u8 pad_00[0x2];
-    s16 unk_02;
-    u8 pad_04[0x2];
-    s16 unk_06;
-    u8 pad_08[0x2];
-    s16 unk_0A;
-    s32 unk_0C;
-    s32 unk_10;
-    s32 unk_14;
-} S_80BC172C_5;   /* ((S_80BC172C_3 *)temp_v0)->unk_08 in func_80170F2C */
+   /* ((S_80BC172C_3 *)temp_v0)->unk_08 in func_80170F2C */
 
-typedef struct S_80BC172C_6 {
-    u8 pad_00[0x6];
-    s16 unk_06;
-} S_80BC172C_6;   /* ((S_80BC172C_3 *)temp_v0)->unk_0C in func_80170F2C */
-
+   /* ((S_80BC172C_3 *)temp_v0)->unk_0C in func_80170F2C */
 
 extern s32 rand(void);
 
@@ -192,8 +169,6 @@ typedef struct S_80BC172C_1 {
 } S_80BC172C_1;   /* temp_s0 in func_80170F2C */
 
 /* Spawn an effect at an offset from its parent with randomized motion. */
-
-
 
 typedef struct S_80BC1880_0 {
     u8 pad_00[0x6];
@@ -221,8 +196,6 @@ typedef struct S_80BC1880_1 {
 } S_80BC1880_1;   /* arg0 in func_80171080 */
 
    /* arg1 in func_80171080 */
-
-
 
 typedef struct StackWork {
     u16 xyz[3];

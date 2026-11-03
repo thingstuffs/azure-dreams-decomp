@@ -46,7 +46,7 @@ extern u8 map_animation_sprite_entries[];
 extern u16 pool_palette_backup[];
 
 /* Update motion, spawn particles, and flash then restore the palette. */
-void update_motion_spawn_particles(EffectPhaseTimer16 *state, Motion *motion, u8 *sprite_data)
+void update_motion_spawn_particles(EffectPhaseTimer16 *state, Motion *motion, SpriteFrameState *sprite_data)
 {
     u16 colors[16];
     s32 index;
@@ -101,7 +101,7 @@ void update_motion_spawn_particles(EffectPhaseTimer16 *state, Motion *motion, u8
         if (state->timer > 0) {
             break;
         }
-        *(u16 *)(sprite_data + 0x14) |= 0x80;
+        sprite_data->flags |= 0x80;
         state->timer = 0x40;
         state->state++;
         break;

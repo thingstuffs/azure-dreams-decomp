@@ -162,7 +162,7 @@ typedef struct ActorScratchHalves {
  * allocate_list_node owns pooled bodies; init_monster_from_stats seeds monster template bytes. */
 typedef struct ActorRecord {
     /* 0x000 */ unsigned char unk_00[0xC]; /* template bytes: +0/+1 attack/defense, +4/+5 MP/HP; ability groups begin at +8 */
-    /* 0x00C */ union { int value; unsigned char bytes[4]; } unk_0C; /* packed ability bytes within the groups beginning at +0x08 */
+    /* 0x00C */ union { int value; unsigned char bytes[4]; void *address; } unk_0C; /* packed ability bytes within the groups beginning at +0x08 */
     /* 0x010 */ unsigned char unk_10; /* stored level of the third ability group (MonsterInitialStats abilities[2] ends here); no fixed-offset reader */
     /* 0x011 */ unsigned char level; /* experience level; indexes the level experience table */
     /* 0x012 */ unsigned char unk_12; /* template byte; movement handlers skip adjacent attacks when it is 2 or more */
@@ -171,7 +171,11 @@ typedef struct ActorRecord {
     /* 0x018 */ int experience; /* accumulated experience, compared with the next-level requirement */
     /* 0x01C */ int flags1C; /* current side, attachment, movement and active-status bits; see shared/actor_status_flags.h */
     /* 0x020 */ short unk_20; /* prepared attack power; attack preparation seeds it, damage resolution adjusts it before deriving the target HP delta */
-    /* 0x022 */ unsigned short unk_22; /* halfword copied with the actor snapshot (copy_entity_record) */
+    /* 0x022 */ union {
+        unsigned short whole;
+        short signed_whole;
+        struct { unsigned char low; unsigned char high; } bytes;
+    } unk_22; /* halfword copied with the actor snapshot (copy_entity_record) */
     /* 0x024 */ union {
         unsigned short whole; /* current 8.8 MP */
         short signed_whole; /* exact signed halfword view used by action/effect callbacks */
@@ -183,11 +187,16 @@ typedef struct ActorRecord {
     /* 0x029 */ unsigned char max_hp; /* effective maximum HP; doubled template HP is capped at 255 */
     /* 0x02A */ short facing; /* actor angle; 0x1000 units per turn, direction = (facing >> 9) & 7 */
     /* 0x02C */ ActorStatusSlot status[4]; /* status id (ActorStatusId, 0 = empty) and signed duration/value per slot; zero value does not expire; advance_status_timers moves a nonzero value toward zero and clears the id on expiry */
-    /* 0x034 */ unsigned char pad_34[13];
+    /* 0x034 */ unsigned char pad_34[2];
+    /* 0x036 */ union { unsigned short u; short s; } unk_36;
+    /* 0x038 */ unsigned char pad_38[9];
     /* 0x041 */ signed char pending_experience_high; /* high byte of a pending experience award */
     /* 0x042 */ signed char pending_experience_low; /* low byte of a pending experience award */
     /* 0x043 */ unsigned char unk_43; /* snapshot index when below 0x40; removal uses 0x54-byte snapshots, while 0xFD..0xFF select special removal paths */
-    /* 0x044 */ unsigned short unk_44; /* packed bytes: fusion/removal write the low byte; init_monster_from_stats sets the high byte at +0x45 to 6 */
+    /* 0x044 */ union {
+        unsigned short whole;
+        struct { unsigned char low; unsigned char high; } bytes;
+    } unk_44; /* packed bytes: fusion/removal write the low byte; init_monster_from_stats sets the high byte at +0x45 to 6 */
     /* 0x046 */ unsigned short action_flags; /* action selection flags; bit 0x8000 is cleared after pending actor updates */
     /* 0x048 */ unsigned char unk_48; /* item subtype byte of the four-byte drop descriptor at +0x48; defeat passes the complete descriptor to item spawning */
     /* 0x049 */ unsigned char unk_49; /* drop item category; zero means no item, and defeat spawns it only when the +0x4B suppression bit is clear */

@@ -24,8 +24,6 @@ typedef struct S_801722E4_5_pre {
     u8 pad_04[0x10];
 } S_801722E4_5_pre;
 
-
-
 /* arg2 in face_target_and_start_action */
 typedef struct S_801722E4_2 {
     u8 pad_00[0x24];
@@ -33,40 +31,13 @@ typedef struct S_801722E4_2 {
     u8 unk_25;
 } S_801722E4_2;
 
-
-
-
-
-/* arg2 in search_ahead_and_start_action */
-typedef struct S_80172438_2 {
-    u8 pad_00[0x8C];
-    s32 unk_8C;
-    u8 pad_90[0xA];
-    s8 unk_9A;
-    s8 unk_9B;
-    u8 pad_9C[0x16];
-    u16 unk_B2;
-} S_80172438_2;
-
 /* extern */
-
-
-/* extern */
-typedef struct S_8017294C_1 {
-    u8 pad_00[0x8C];
-    s32 unk_8C;
-    u8 pad_90[0x8];
-    u16 unk_98;
-    s8 unk_9A;
-    s8 unk_9B;
-} S_8017294C_1;
 
 extern u8 cyclone_frame_set_2[];
 /* arg0 in search_ahead_and_start_action */
 extern s32 check_layer_offset_height(s32, s32, s16, s32);
 extern s32 find_eligible_entry_at_coordinates(void *, u16, u16);
 extern s32 check_entity_interaction_compatibility(void *, void *);
-
 
 /* Shared import declarations; data casts preserve each measured view. */
 extern void select_sprite_entry(void *, u8, s32);
@@ -77,7 +48,6 @@ void face_target_and_start_action(ActorRecord *action_state, ObjectPosition *eve
 s32 search_ahead_and_start_action(ActorRecord *action_state, ObjectPosition *action_context, SpriteFrameState *sprite, ActorRecord *actor);
 void update_action_state_direction_specific(ActorRecord *action_state, ObjectPosition *action_param, SpriteFrameState *sprite, ActorRecord *actor);
 void clear_actor_action_flag_and_animate(ActorRecord *action_state, ObjectPosition *action_context, SpriteFrameState *animation, ActorRecord *actor);
-
 
 #include "shared/object_node.h"
 

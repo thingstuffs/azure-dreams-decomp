@@ -41,7 +41,7 @@ void render_textured_effect_parts(OffsetPalettedSpriteBody *record_data, void *u
 extern u8 effect_sprite_sources[9];
 
 /* Creates and initializes an object at an offset from the supplied origin. */
-void create_offset_paletted_sprite(void *unused_context, void *origin, SpriteFrameState *unused_id, s16 offset_x, s16 offset_y, s16 offset_z) {
+void create_offset_paletted_sprite(void *unused_context, ObjectPosition *origin, SpriteFrameState *unused_id, s16 offset_x, s16 offset_y, s16 offset_z) {
     SpriteFrameState *asset;
     ObjectNodeHeader *object;
     s32 asset_param;
@@ -66,9 +66,9 @@ void create_offset_paletted_sprite(void *unused_context, void *origin, SpriteFra
         position->x.w.i = offset_x;
         position->y.w.i = (s16) offset_y;
         position->z.w.i = (s16) offset_z;
-        position->x.w.i += *(u16 *)((u8 *)origin + 2);
-        position->y.w.i += *(u16 *)((u8 *)origin + 6);
-        position->z.w.i += *(u16 *)((u8 *)origin + 0xA);
+        position->x.w.i += origin->x.unsigned_parts.integer;
+        position->y.w.i += origin->y.unsigned_parts.integer;
+        position->z.w.i += origin->z.unsigned_parts.integer;
         asset = object->sprite;
         asset->scale_y = 0x400;
         asset->scale_x = 0x400;

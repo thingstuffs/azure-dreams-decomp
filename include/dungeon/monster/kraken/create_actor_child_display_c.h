@@ -19,10 +19,7 @@ typedef struct S_8015E86C_1 {
     s32 unk_1C;
 } S_8015E86C_1;   /* work in func_8015E86C */
 
-typedef struct S_8015E86C_2 {
-    u8 pad_00[0xA];
-    s16 unk_0A;
-} S_8015E86C_2;   /* part_a in func_8015E86C */
+   /* part_a in func_8015E86C */
 
 typedef struct S_8015E86C_4 {
     u8 pad_00[0x8C];
@@ -54,15 +51,7 @@ typedef struct S_8015E86C_6 {
     u32 unk_98;
 } S_8015E86C_6;   /* child in func_8015E86C */
 
-typedef struct S_8015E86C_7 {
-    u8 pad_00[0xC];
-    u32 unk_0C;
-    u16 unk_10;
-    s16 unk_12;
-    u16 unk_14;
-    u8 pad_16[0x12];
-    u32 unk_28;
-} S_8015E86C_7;   /* elem in func_8015E86C */
+   /* elem in func_8015E86C */
 
 typedef struct S_8015E86C_8 {
     u8 pad_00[0xA4];

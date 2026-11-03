@@ -10,28 +10,11 @@
 struct R03_80170A28_S_80170A28_2;
 struct ObjectNodeHeader;
 
+   /* work in func_8014C894 */
 
-typedef struct S_8014C894_1 {
-    u8 pad_00[0x13];
-    s8 unk_13;
-    s32 unk_14;
-    u8 pad_18[0x4];
-    s32 unk_1C;
-} S_8014C894_1;   /* work in func_8014C894 */
+   /* part_a in func_8014C894 */
 
-typedef struct S_8014C894_2 {
-    u8 pad_00[0xA];
-    s16 unk_0A;
-} S_8014C894_2;   /* part_a in func_8014C894 */
-
-typedef struct S_8014C894_4 {
-    u8 pad_00[0x8C];
-    void * unk_8C;
-    u8 pad_90[0xA];
-    u8 unk_9A;
-    u8 pad_9B[0x1];
-    s8 unk_9C;
-} S_8014C894_4;   /* actor in func_8014C894 */
+   /* actor in func_8014C894 */
 
 extern void *allocate_list_node(s32 flags, ObjectNodeHeader **list_head);
 extern void *func_8003FD64(s32 flags, ObjectNodeHeader **list_head);

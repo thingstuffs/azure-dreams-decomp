@@ -122,7 +122,7 @@ extern u8 D_801748F8[];
 
 /* Updates paired actor movement, tile placement, animations, and restored flags. */
 /* Relocates Garuda and its partner to adjacent tiles of equal height, restores occupancy, and spends MP. */
-void update_garuda_paired_move(S_func_81008664_1 *actor, S_func_81008664_5 *motion, SpriteFrameState *sprite, void *entity) {
+void update_garuda_paired_move(S_func_81008664_1 *actor, S_func_81008664_5 *motion, SpriteFrameState *sprite, ActorRecord *entity) {
     u8 **direction_slot;
     S_func_81008664_5 *partner_motion;
     s16 saved_x;
@@ -224,7 +224,7 @@ void update_garuda_paired_move(S_func_81008664_1 *actor, S_func_81008664_5 *moti
         }
         update_map_cell_flags_with_item_limit(partner_x, partner_y, partner_tile_mask);
         sprite_x = sprite->tile_x;
-        entity_flags = ((S_func_81008664_3 *)entity)->unk_1C;
+        entity_flags = entity->flags1C;
         entity_flags &= 0x2000;
         tile_mask = 0x3000;
         sprite_y = sprite->tile_y;
@@ -233,10 +233,10 @@ void update_garuda_paired_move(S_func_81008664_1 *actor, S_func_81008664_5 *moti
         }
         update_map_cell_flags_with_item_limit(sprite_x, sprite_y, tile_mask);
         angle = 0xFFFB0000;
-        cleared_flags = ((S_func_81008664_3 *)entity)->unk_1C;
+        cleared_flags = entity->flags1C;
         angle |= 0xFFFF;
         cleared_flags &= angle;
-        ((S_func_81008664_3 *)entity)->unk_1C = cleared_flags;
+        entity->flags1C = cleared_flags;
         actor_flags = actor->unk_98;
         angle = ((S_func_81008664_3 *)entity)->unk_2A;
         actor_flags |= 0xC;
@@ -284,7 +284,7 @@ void update_garuda_paired_move(S_func_81008664_1 *actor, S_func_81008664_5 *moti
         if (launch_ticks == 8) {
             height_offset = entity_height_offsets[partner->unk_13];
             height_value = ((S_func_81008664_12 *) partner_motion)->unk_0A;
-            entity_height = (((S_func_81008664_3 *)entity)->unk_88);
+            entity_height = (entity->ground_height);
             motion->unk_14 = (s32) ((s32) ((((height_value - entity_height) - height_offset) + 0x10)
                 << 0x10) / launch_ticks);
             partner_actor->unk_90.unk_92.unk_92 = (u16) (partner_actor->unk_90.unk_92.unk_92 + partner->unk_88);
@@ -354,7 +354,7 @@ void update_garuda_paired_move(S_func_81008664_1 *actor, S_func_81008664_5 *moti
             sprite->tile_y = partner_sprite->unk_25 + dir_step_y[direction];
             landing_height = sample_terrain_surface_height((sprite->tile_x << 6) | 0x20, (sprite->tile_y << 6) | 0x20,
                 (s16) (motion->unk_08.unk_0A.unk_0A - 0x80));
-            ((S_func_81008664_3 *)entity)->unk_88 = landing_height;
+            entity->ground_height = landing_height;
             if (landing_height >= 0x201) {
                 continue;
             }
@@ -364,7 +364,7 @@ void update_garuda_paired_move(S_func_81008664_1 *actor, S_func_81008664_5 *moti
             if ((s16) partner_height >= 0x201) {
                 continue;
             }
-            if (((S_func_81008664_3 *)entity)->unk_88 == (s16) partner_height) {
+            if (entity->ground_height == (s16) partner_height) {
                 break;
             }
         }
@@ -380,7 +380,7 @@ place_actors:
         motion->unk_08.unk_08 = (s32) (((s16) partner->unk_88 - 0x100) << 0x10);
         partner_actor->unk_90.unk_90 = (s32) actor->unk_90.unk_90;
         actor->unk_96 = 8;
-        motion->unk_14 = (s32) ((s32) ((((S_func_81008664_3 *)entity)->unk_88 << 0x10)
+        motion->unk_14 = (s32) ((s32) ((entity->ground_height << 0x10)
             - motion->unk_08.unk_08) / (s16) actor->unk_96);
         anim_table2 = D_801748F8;
         angle_or_count = &g_game_work.view.camera_rotation.parts.viewAngle;
@@ -416,7 +416,7 @@ place_actors:
         if (!(actor->unk_98 & 0x2000)) {
             partner_actor->unk_98 = (u16) (partner_actor->unk_98 & 0xFFFB);
         }
-        ((S_func_81008664_3 *)entity)->unk_1C = (s32) (((S_func_81008664_3 *)entity)->unk_1C | 0x40000000);
+        entity->flags1C = (s32) (entity->flags1C | 0x40000000);
         partner->unk_1C = (s32) (partner->unk_1C | 0x40000000);
         {
             s16 angle_or_duration;
@@ -470,10 +470,10 @@ place_actors:
             u32 restore_x;
             u32 restore_y;
 
-            restore_flags = ((S_func_81008664_3 *)entity)->unk_1C;
+            restore_flags = entity->flags1C;
             restore_mask = 0x40000;
             restore_flags |= restore_mask;
-            ((S_func_81008664_3 *)entity)->unk_1C = restore_flags;
+            entity->flags1C = restore_flags;
             restore_flags &= 0x2000;
             restore_x = sprite->tile_x;
             restore_y = sprite->tile_y;
@@ -504,8 +504,8 @@ place_actors:
         idle_anim = ((s32) (*angle_or_count + (s16) ((S_func_81008664_3 *)entity)->unk_2A + 0x100) >> 9) & 7;
         idle_anim = idle_anim + (u32) anim_table3;
         select_sprite_entry(sprite, ((S_func_81008664_9 *) idle_anim)->unk_00, 0);
-        ((S_func_81008664_3 *)entity)->unk_6D = 0;
-        ((S_func_81008664_3 *)entity)->unk_46 = (u16) (((S_func_81008664_3 *)entity)->unk_46 & 0x7FFF);
+        entity->pending_turn_updates = 0;
+        entity->action_flags = (u16) (entity->action_flags & 0x7FFF);
         actor->unk_9B = actor->unk_9B + 1;
     default:
         return;

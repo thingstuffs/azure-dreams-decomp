@@ -7,11 +7,7 @@
 #include "engine/node/allocation.h"
 #include "dungeon/monster/manoeva.h"
 
-
-typedef struct S_80174B90_6 {
-    u8 pad_00[0x8];
-    void * unk_08;
-} S_80174B90_6;   /* arg0 in create_terrain_scaled_actor_effect */
+   /* arg0 in create_terrain_scaled_actor_effect */
 
 typedef struct S_80174B90_7 {
     u8 pad_00[0x12];
@@ -44,7 +40,6 @@ typedef struct S_80174B90_1 {
     void * unk_18;
     s16 unk_1C;
 } S_80174B90_1;
-
 
 /* Create an effect using the source object's rendering and transform data. */
 void create_terrain_scaled_actor_effect(ObjectNodeHeader *source, s16 *facing, u8 *action, u16 *flags) {

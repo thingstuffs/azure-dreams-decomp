@@ -15,21 +15,11 @@ typedef struct ObjA3 ObjA3;
 
    /* arg0 in update_actor_movement_to_tile */
 
-typedef struct S_800AB1C0_2 {
-    u8 pad_00[0x2];
-    s16 unk_02;
-    u8 pad_04[0x2];
-    s16 unk_06;
-    u8 pad_08[0x4];
-    s32 unk_0C;
-    s32 unk_10;
-    s32 unk_14;
-} S_800AB1C0_2;   /* arg1 in update_actor_movement_to_tile */
 
 /* Update motion toward the target tile and finalize movement when the countdown expires. */
 s32 update_actor_movement_to_tile(ActorRecord *move_state_arg, void *motion_arg, void *target_tile_arg, ActorRecord *actor) {
     Rec_D_80082E80 *target_tile = target_tile_arg;
-    S_800AB1C0_2 *motion = motion_arg;
+    ObjectPosition *motion = motion_arg;
     ActorRecord *move_state = move_state_arg;
     s16 frames_left;
     s16 next_frames;
@@ -46,14 +36,14 @@ s32 update_actor_movement_to_tile(ActorRecord *move_state_arg, void *motion_arg,
     if (frames_left != 0) {
         tile_x = target_tile->unk_24;
         scaled_x = tile_x << 6;
-        adjusted_x = motion->unk_02 - 0x20 + scaled_x;
+        adjusted_x = motion->x.w.i - 0x20 + scaled_x;
         adjusted_x -= scaled_x;
-        motion->unk_0C =
+        motion->velocity_x =
             (s32)(((s32)((scaled_x - adjusted_x) << 0x10)) /
                   frames_left);
-        adjusted_y = motion->unk_06;
+        adjusted_y = motion->y.w.i;
         adjusted_y -= 0x20;
-        motion->unk_10 =
+        motion->velocity_y =
             (s32)(((s32)(((target_tile->unk_25 << 6) - adjusted_y)
                          << 0x10)) /
                   (s16)move_state->action_timer.s);
@@ -61,9 +51,9 @@ s32 update_actor_movement_to_tile(ActorRecord *move_state_arg, void *motion_arg,
     next_frames = (u16)move_state->action_timer.s - 1;
     move_state->action_timer.s = next_frames;
     if ((next_frames << 0x10) <= 0) {
-        motion->unk_14 = 0;
-        motion->unk_10 = 0;
-        motion->unk_0C = 0;
+        motion->velocity_z = 0;
+        motion->velocity_y = 0;
+        motion->velocity_x = 0;
         set_record_integer_tile_center(motion_arg, target_tile->unk_24,
                       target_tile->unk_25);
         if (g_dungeon_status.activity_counts.parts.pending_movement_count != 0) {

@@ -214,7 +214,7 @@ typedef struct S_800243E4_1_pre {
 
 
 /* Create an object linked to its parent and initialize its position and part data. */
-void create_an_linked_parent_initialize_position_part_data(void *parent, void *unused_context, void *unused_parameters) {
+void create_an_linked_parent_initialize_position_part_data(void *parent, ObjectPosition *unused_context, void *unused_parameters) {
     ObjectPosition *position;
     SpriteFrameState *part;
     ObjectNodeHeader *object;

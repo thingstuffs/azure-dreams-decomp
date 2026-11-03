@@ -14,10 +14,6 @@
 #include "dungeon/actor/animation.h"
 
 
-typedef struct S_80173140_2 {
-    u8 pad_00[0xA];
-    u16 unk_0A;
-} S_80173140_2;
 
 
 void unlink_entity_node();                      /* extern */
@@ -44,7 +40,7 @@ void create_scripted_encounter_object(void) {
     s32 cell_mask;
     s32 origin_x;
     s32 origin_y;
-    void *object_attrs;
+    ObjectPosition *object_attrs;
     SpriteFrameState *sprite;
     ActorRecord *state;
     ActorRecord *st;
@@ -57,7 +53,7 @@ void create_scripted_encounter_object(void) {
         st->species = MONSTER_KEWNE;
         register_node(object, project_sprite_chain);
         object_attrs = object->position;
-        ((S_80173140_2 *)object_attrs)->unk_0A =
+        object_attrs->z.unsigned_parts.integer =
             (u16) ((ObjectPosition *)((*(void **)&((EntityRec *)(((s32 *)&scene_object_list_anchor.next)))->z)))->z.unsigned_parts.integer;
         sprite = object->sprite;
         origin_x = reference_tile_object.tile_position.parts.tile_x;

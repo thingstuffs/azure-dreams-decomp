@@ -73,12 +73,6 @@ typedef struct S_func_819615E4_0 {
     u8 pad_00[0xC];
     u8 unk_0C;
 } S_func_819615E4_0;
-typedef struct S_func_819615E4_1 {
-    u8 pad_00[2];
-    u16 unk_02;
-    u8 pad_04[2];
-    u16 unk_06;
-} S_func_819615E4_1;
 typedef struct S_func_819615E4_2 {
     u8 pad_00[0x2A];
     union {
@@ -94,13 +88,6 @@ typedef struct S_func_819615E4_2 {
 typedef struct S_func_819615E4_3 {
     void *unk_00;
 } S_func_819615E4_3;
-typedef struct S_func_819615E4_4 {
-    u8 pad_00[8];
-    void *unk_08;
-    u8 pad_0C[0x18];
-    u8 unk_24;
-    u8 unk_25;
-} S_func_819615E4_4;
 typedef struct S_func_819615E4_5 {
     s16 unk_00;
 } S_func_819615E4_5;
@@ -468,19 +455,6 @@ typedef struct S_8196012C_0 {
     u8 pad_14[0xC];
     s32 unk_20;
 } S_8196012C_0;
-typedef struct S_8196012C_2 {
-    u8 pad_00[0x8];
-    void * unk_08;
-    s32 unk_0C;
-    s16 unk_10;
-    u8 pad_12[0x2];
-    s16 unk_14;
-    u8 pad_16[0x6];
-    s16 unk_1C;
-    s16 unk_1E;
-    s16 unk_20;
-    s16 unk_22;
-} S_8196012C_2;
 typedef struct S_8196012C_3 {
     u8 pad_00[0x4];
     s16 unk_04;
@@ -617,15 +591,6 @@ typedef struct S_8195FB34_0 {
     u8 pad_14[0xC];
     s32 unk_20;
 } S_8195FB34_0;
-typedef struct S_8195FB34_2 {
-    u8 pad_00[0x8];
-    void * unk_08;
-    s32 unk_0C;
-    s16 unk_10;
-    u8 pad_12[0xA];
-    s16 unk_1C;
-    s16 unk_1E;
-} S_8195FB34_2;
 typedef struct S_8195FB34_3 {
     u8 pad_00[0x4];
     s16 unk_04;

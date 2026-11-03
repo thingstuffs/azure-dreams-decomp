@@ -7,7 +7,6 @@ struct ObjectPosition;
 #include "shared/sprite_frame_state.h"
 struct EntityLinkNode;
 
-
 struct ObjectPosition;
 struct SpriteFrameState;
 #include "common.h"
@@ -335,11 +334,7 @@ typedef struct CL_CCB000_80172298_S_80172628_0 {
             /* extern */
                 /* extern */
 
-typedef struct S_801723DC_0 {
-    u8 pad_00[0x8C];
-    void (*CL_CCB000_801723DC_unk_8C)(void *,void *,void *,void *);
-    s32 unk_90;
-} S_801723DC_0;   /* state in func_8015A3DC */
+   /* state in func_8015A3DC */
 
 typedef struct CL_CCB000_80172458_S_80172458_0 {
     u8 pad_00[0x8C];

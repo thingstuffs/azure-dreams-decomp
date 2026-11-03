@@ -16,14 +16,6 @@ typedef union Fixed32 {
     } h;
 } Fixed32;
 
-typedef struct Motion {
-    Fixed32 x;
-    Fixed32 y;
-    Fixed32 z;
-    Fixed32 dx;
-    Fixed32 dy;
-    Fixed32 dz;
-} Motion;
 
 typedef struct Owner {
     u8 pad0[0x2A];
@@ -59,7 +51,7 @@ typedef struct Lookup {
 
 typedef struct OwnerPrefix {
     u8 pad0[8];
-    Motion *position;
+    ObjectPosition *position;
     Lookup *lookup;
 } OwnerPrefix;
 
@@ -69,30 +61,30 @@ typedef struct LargeInt {
 } LargeInt;
 
 typedef struct StackLocals {
-    Motion local;
+    ObjectPosition local;
     s16 diffs[3];
 } StackLocals;
 
 
-extern void create_random_variant_effect(State *, Motion *);
+extern void create_random_variant_effect(State *, ObjectPosition *);
 extern s32 check_layer_offset_height(s32, s32, s16, s32);
-extern void create_scaled_rotation_effect(State *, Motion *);
+extern void create_scaled_rotation_effect(State *, ObjectPosition *);
 extern void play_sound_if_enabled(s32);
-extern void create_motion_copy_sprite(State *, Motion *);
+extern void create_motion_copy_sprite(State *, ObjectPosition *);
 extern void interpolate_view_parameters(void *, u8, Owner *);
 
 
 /* Updates an owner-directed movement sequence and its timed action states. */
-void update_directed_movement_sequence(State *action, Motion *motion, Motion *aux_arg)
+void update_directed_movement_sequence(State *action, ObjectPosition *motion, ObjectPosition *aux_arg)
 {
-    Motion *aux_motion = aux_arg;
+    ObjectPosition *aux_motion = aux_arg;
     OwnerPrefix *prefix;
     Owner *owner;
     s32 dispatch_state;
     s32 index;
     s32 next_state;
     StackLocals stack;
-    Motion *position;
+    ObjectPosition *position;
     u16 position_z;
     dispatch_state = action->state;
     owner = action->owner;
@@ -102,7 +94,7 @@ void update_directed_movement_sequence(State *action, Motion *motion, Motion *au
         action->timer = 0;
         action->state++;
         action->angle = (owner->flags >> 9) & 7;
-        aux_motion->dx.val = 0x00808080;
+        aux_motion->velocity_x = 0x00808080;
 
     case 1:
         prefix = (OwnerPrefix *)((u8 *)owner - 0x20);
@@ -112,34 +104,34 @@ void update_directed_movement_sequence(State *action, Motion *motion, Motion *au
         }
 
         position = prefix->position;
-        motion->x.h.hi = position->x.h.hi;
-        motion->y.h.hi = position->y.h.hi;
-        position_z = position->z.h.hi;
-        motion->z.h.hi = position_z;
+        motion->x.w.i = position->x.w.i;
+        motion->y.w.i = position->y.w.i;
+        position_z = position->z.w.i;
+        motion->z.w.i = position_z;
 
         if (!(prefix->lookup->flags & 0x8000)) {
             s16 adjusted_z;
-            motion->x.h.hi += stack.diffs[0];
-            motion->y.h.hi += stack.diffs[1];
-            adjusted_z = (u16)motion->z.h.hi;
+            motion->x.w.i += stack.diffs[0];
+            motion->y.w.i += stack.diffs[1];
+            adjusted_z = (u16)motion->z.w.i;
             adjusted_z += (u16)stack.diffs[2];
-            motion->z.h.hi = adjusted_z;
+            motion->z.w.i = adjusted_z;
         } else {
-            motion->z.h.hi = position_z - 64;
+            motion->z.w.i = position_z - 64;
         }
 
         if (*(u16 *)action->field4 & 0x80) {
-            Motion *target;
+            ObjectPosition *target;
             if (owner->target != 0) {
                 s32 x_delta;
                 u8 *delta_iter;
 
                 index = 1;
 
-                target = *(Motion **)((u8 *)owner->target - 24);
-                stack.diffs[0] = x_delta = abs(target->x.h.hi - motion->x.h.hi);
-                stack.diffs[1] = abs(target->y.h.hi - motion->y.h.hi);
-                stack.diffs[2] = abs(*(s16 *)((u8 *)owner->target + 0x88) - motion->z.h.hi);
+                target = *(ObjectPosition **)((u8 *)owner->target - 24);
+                stack.diffs[0] = x_delta = abs(target->x.w.i - motion->x.w.i);
+                stack.diffs[1] = abs(target->y.w.i - motion->y.w.i);
+                stack.diffs[2] = abs(*(s16 *)((u8 *)owner->target + 0x88) - motion->z.w.i);
 
                 action->duration = x_delta;
                 do {
@@ -159,10 +151,10 @@ void update_directed_movement_sequence(State *action, Motion *motion, Motion *au
                     action->duration = 1;
                 }
 
-                motion->dx.val = (target->x.val - motion->x.val) / action->duration;
-                motion->dy.val = (target->y.val - motion->y.val) / action->duration;
-                motion->dz.val =
-                    ((*(s16 *)((u8 *)owner->target + 0x88) << 16) - motion->z.val) /
+                motion->velocity_x = (target->x.v - motion->x.v) / action->duration;
+                motion->velocity_y = (target->y.v - motion->y.v) / action->duration;
+                motion->velocity_z =
+                    ((*(s16 *)((u8 *)owner->target + 0x88) << 16) - motion->z.v) /
                     action->duration;
                 create_random_variant_effect(action, motion);
                 next_state = (u16)action->state + 1;
@@ -191,7 +183,7 @@ void update_directed_movement_sequence(State *action, Motion *motion, Motion *au
                             (s16)(action->angle << 9)) != 0) {
                         break;
                     }
-                    position = (Motion *)&dir_step_x[action->angle];
+                    position = (ObjectPosition *)&dir_step_x[action->angle];
                     probe_z = (u16)owner->z;
                     probe_z -= 32;
                     probe_z = (u32)probe_z << 16;
@@ -212,13 +204,13 @@ void update_directed_movement_sequence(State *action, Motion *motion, Motion *au
                 target = &stack.local;
                 index = 1;
                 dest_x = ((last_x << 16) >> 10) + ((dir_step_x[action->angle] + 1) << 5);
-                target->x.h.hi = dest_x;
+                target->x.w.i = dest_x;
                 dest_y = ((saved_y << 16) >> 10) + ((dir_step_y[action->angle] + 1) << 5);
-                target->y.h.hi = dest_y;
-                target->z.h.hi = motion->z.h.hi + 32;
-                stack.diffs[0] = abs(target->x.h.hi - motion->x.h.hi);
-                stack.diffs[1] = abs(target->y.h.hi - motion->y.h.hi);
-                stack.diffs[2] = abs(target->z.h.hi - motion->z.h.hi);
+                target->y.w.i = dest_y;
+                target->z.w.i = motion->z.w.i + 32;
+                stack.diffs[0] = abs(target->x.w.i - motion->x.w.i);
+                stack.diffs[1] = abs(target->y.w.i - motion->y.w.i);
+                stack.diffs[2] = abs(target->z.w.i - motion->z.w.i);
 
                 action->duration = stack.diffs[0];
                 do {
@@ -239,9 +231,9 @@ void update_directed_movement_sequence(State *action, Motion *motion, Motion *au
                     action->duration = 1;
                 }
 
-                motion->dx.val = (target->x.val - motion->x.val) / action->duration;
-                motion->dy.val = (target->y.val - motion->y.val) / action->duration;
-                motion->dz.val = (target->z.val - motion->z.val) / action->duration;
+                motion->velocity_x = (target->x.v - motion->x.v) / action->duration;
+                motion->velocity_y = (target->y.v - motion->y.v) / action->duration;
+                motion->velocity_z = (target->z.v - motion->z.v) / action->duration;
                 create_scaled_rotation_effect(action, motion);
                 next_state = 6;
             }
@@ -251,9 +243,9 @@ void update_directed_movement_sequence(State *action, Motion *motion, Motion *au
         break;
 
     case 2:
-        motion->x.val += motion->dx.val;
-        motion->y.val += motion->dy.val;
-        motion->z.val += motion->dz.val;
+        motion->x.v += motion->velocity_x;
+        motion->y.v += motion->velocity_y;
+        motion->z.v += motion->velocity_z;
         if (action->timer >= action->duration) {
             play_sound_if_enabled(AUDIO_PLAY_CD_CUE);
             action->timer = 0;
@@ -286,9 +278,9 @@ void update_directed_movement_sequence(State *action, Motion *motion, Motion *au
         break;
 
     case 6:
-        motion->x.val += motion->dx.val;
-        motion->y.val += motion->dy.val;
-        motion->z.val += motion->dz.val;
+        motion->x.v += motion->velocity_x;
+        motion->y.v += motion->velocity_y;
+        motion->z.v += motion->velocity_z;
         if (action->timer >= action->duration) {
             action->state = 5;
             action->timer = 0;

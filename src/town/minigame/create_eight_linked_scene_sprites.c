@@ -37,7 +37,7 @@ extern D_80026DE0Entry D_80026DE0[3][8];
 extern s32 D_800F29B4[3];
 
 /* Create and initialize eight child objects using the owner's image table selection. */
-void create_eight_linked_scene_sprites(void *owner) {
+void create_eight_linked_scene_sprites(TownCollectionSequence *owner) {
     s32 slot_offset;
     s32 slot_index;
     SpriteFrameState *object_data;
@@ -55,8 +55,8 @@ void create_eight_linked_scene_sprites(void *owner) {
             object->unk_20 = owner;
             image = object->unk_08;
             object_data = object->unk_0C;
-            image->x = D_80026DE0[((S_8002082C_3 *)owner)->unk_34][slot_index].field_0;
-            image->y = D_80026DE0[((S_8002082C_3 *)owner)->unk_34][slot_index].field_2;
+            image->x = D_80026DE0[owner->round_index.s][slot_index].field_0;
+            image->y = D_80026DE0[owner->round_index.s][slot_index].field_2;
             object_data->tpage_abr = 0x60;
             object_data->color.word = 0;
             object_data->scale_y = 0x1000;

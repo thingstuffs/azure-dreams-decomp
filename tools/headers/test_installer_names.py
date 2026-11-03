@@ -190,5 +190,40 @@ class OwnerTest(unittest.TestCase):
             self.assertEqual(imports, [dict(symbol='func_80020000', kind='function', vma=0x80020000)])
 
 
+    def test_function_shaped_data_alias_reclassifies_or_removes_same_symbol(self):
+        import json
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            (root / 'config/overlays').mkdir(parents=True)
+            (root / 'src/town').mkdir(parents=True)
+            (root / 'config/names.tsv').write_text(
+                '0x80010000\tfunc_80010000\ttick\tentry\n'
+                '0x80020000\tfunc_80020000\tdraw\tentry\n')
+            source = 'src/town/tick.c'
+            (root / source).write_text('void tick(void) { slot = tick; draw_slot = draw; }\n')
+            path = root / 'config/overlays/modules.json'
+            path.write_text(json.dumps(dict(modules=[dict(source=source,
+                members=[dict(function='func_80010000')], imports=[
+                    dict(symbol='func_80010000', kind='data', vma=0x80010000),
+                    dict(symbol='func_80020000', kind='data', vma=0x80020000)])])))
+            rows = [dict(file=source, old='func_80010000', new='tick'),
+                    dict(file=source, old='func_80020000', new='draw')]
+            I.module_imports(root, rows)
+            imports = json.loads(path.read_text())['modules'][0]['imports']
+            self.assertEqual(imports, [dict(symbol='func_80020000', kind='function', vma=0x80020000)])
+
+
+    def test_owner_api_is_preferred_only_from_exact_header_candidates(self):
+        owner = 'include/town/motion.h'
+        api = 'include/town/motion_callbacks_api.h'
+        private_api = 'include/town/motion/update_api.h'
+        self.assertEqual(I.choose_owner_header(owner, {owner, api}), api)
+        self.assertEqual(I.choose_owner_header(owner, {owner, private_api}), private_api)
+        self.assertEqual(I.choose_owner_header(owner, {owner}), owner)
+        self.assertEqual(I.choose_owner_header(owner, {private_api}), private_api)
+        self.assertEqual(I.choose_owner_header(owner, {'include/town/a.h', 'include/town/b.h'}), '')
+        self.assertEqual(I.choose_owner_header(owner, set()), '')
+
+
 if __name__ == '__main__':
     unittest.main()

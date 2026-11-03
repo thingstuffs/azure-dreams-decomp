@@ -3,6 +3,7 @@
 #include "town/shop/monster_status_opening_g00633.h"
 #include "town/shop.h"
 #include "town/shop/object.h"
+#include "town/shop/monster_status_idle.h"
 
 /* Updates two display entries for the mode and adjusts their spacing. */
 void update_mode_display_spacing(S_800B65D8_3 *base, s32 display_mode) {
@@ -58,5 +59,5 @@ void advance_monster_status_opening(ShopFirstCallbackObject *object) {
         return;
     }
     process_object_data_by_mode(object);
-    *(void **)object = &D_800B6578[0];
+    *(void **)object = noop_monster_status_idle;
 }

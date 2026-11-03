@@ -1077,9 +1077,6 @@ typedef struct S_800A871C_22 {
     s32 unk_124;
 } S_800A871C_22;
 
-typedef struct S_800A871C_23 {
-    s32 unk_00;
-} S_800A871C_23;   /* ((S_800A871C_1 *)r_arg0)->unk_9C in update_dropped_object_motion */
 
 typedef struct S_800A871C_24 {
     u8 pad_00[0x2];
@@ -1286,7 +1283,7 @@ check_completion:
         if (hit_object != NULL) {
             if ((hit_object->unk_13 == MONSTER_BARONG) && !(hit_object->unk_1C & 0x228) && (D_800DD7DC[0] != 0)) {
                 hit_object->unk_14 = (s32) (hit_object->unk_14 | 0x800000);
-                hit_object->unk_48 = ((S_800A871C_23 *)(((S_800A871C_1 *)object)->unk_9C))->unk_00;
+                hit_object->unk_48 = ((ObjectPosition *)(((S_800A871C_1 *)object)->unk_9C))->x.v;
                 NODE_HEADER(object)->flags = (u16) (NODE_HEADER(object)->flags | 0x8000);
                 object_flag_block.flags = (s32) (object_flag_block.flags | OBJECT_REMOVE_PENDING);
                 unlink_entity_node(object_data);

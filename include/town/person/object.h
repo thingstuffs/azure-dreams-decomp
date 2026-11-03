@@ -96,7 +96,7 @@ void initialize_object_configuration_x(TownObjectRecord *object, ObjectPosition 
 void initialize_object_entries_and_handler(TownObjectRecord *object, ObjectPosition *followupValue, void *setupValue);
 
 /* initialize_object_from_context.c */
-void initialize_object_from_context(void *object, EntityRec *unusedArg, void *initValue);
+void initialize_object_from_context(struct TownObjectRecord *object, EntityRec *unusedArg, void *initValue);
 
 /* initialize_object_from_table_entry.c */
 void initialize_object_from_table_entry(TownObjectRecord *object, ObjectPosition *state, void *init_data);
@@ -203,7 +203,7 @@ void store_object_slot_and_dispatch(TownObjectRecord *object, ObjectPosition *up
 void update_entity_countdown_completion(TownObjectRecord *entity, void *update_context, void *setup_context);
 
 /* update_object_orbit_and_timer.c */
-void update_object_orbit_and_timer(void *object, void *position, void *update_arg, s32 check_param);
+void update_object_orbit_and_timer(struct TownObjectRecord *object, void *position, void *update_arg, s32 check_param);
 
 /* update_person_object.c */
 void update_person_object(void *object, s32 update_ctx, SpriteFrameState *display);

@@ -15,10 +15,6 @@ typedef struct S_80174320_1 {
     s16 unk_B2;
 } S_80174320_1;   /* obj in advance_boss_command_stream */
 
-typedef struct S_80174320_2 {
-    u8 pad_00[0xA];
-    s16 unk_0A;
-} S_80174320_2;   /* ctx in advance_boss_command_stream */
 
 extern void select_sprite_entry(void *, u8, s32);
 void update_map_cell_flags_with_item_limit(s32 x, s32 y, u16 flags);
@@ -140,7 +136,7 @@ s32 advance_boss_command_stream(void *object_arg, void *context_arg, void *entit
                 anim[((g_game_work.view.camera_rotation.parts.viewAngle + obj->unk_2A + 0x100) >> 9) & 7],
                 0);
             create_linked_facing_sprite(entity->tile_x, entity->tile_y,
-                ((S_80174320_2 *)context_arg)->unk_0A);
+                ((ObjectPosition *)context_arg)->z.w.i);
             retain_spawn_resource(0x15, 1);
         }
         break;

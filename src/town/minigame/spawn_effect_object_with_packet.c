@@ -14,7 +14,7 @@
 #endif
 
 
-extern u8 D_800BF4CC[];
+
 extern u8 D_800D2348[];
 extern s32 D_800D2360;
 
@@ -28,7 +28,7 @@ void spawn_effect_object_with_packet(TownObjectRecord *caller_data, ObjectPositi
     obj = allocate_flagged_object_node(0x136);
     if (obj != NULL) {
         register_node(obj, draw_linked_lit_meshes);
-        obj->update_callback = D_800BF4CC;
+        obj->update_callback = update_object_state_position;
         part = obj->sprite;
         part->scale_x = 0x1000;
         part->scale_y = 0x1000;

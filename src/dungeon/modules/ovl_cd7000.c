@@ -576,7 +576,7 @@ void choose_block_move_slot_a(Rec_func_800A9E70_arg0 *move_data, void *context, 
                     TileObject *target_position = &reference_tile_object;
                     s32 target_facing = ((u16)primary_actor_record->facing);
                     s32 offset_index =
-                        ((((u8 *)&actor_data->unk_44)[1] + ((s16)target_facing >> 9)) & 7) << 1;
+                        ((((u8 *)&actor_data->unk_44.whole)[1] + ((s16)target_facing >> 9)) & 7) << 1;
                     target_x = target_position->tile_position.parts.tile_x +
                         *(u16 *)((u8 *)((s8 *)dir_step_x) + offset_index);
                     target_y = target_position->tile_position.parts.tile_y +

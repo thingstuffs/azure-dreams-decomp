@@ -15,8 +15,8 @@ struct ObjectPosition;
 #include "dungeon/item/message.h"
 #include "dungeon/item.h"
 #include "dungeon/actor.h"
-void update_animated_effect_sprite(void *, void *, SpriteFrameState *);
-void (*const dungeon_1894800_entry)(void *, void *, SpriteFrameState *) = update_animated_effect_sprite;
+void update_animated_effect_sprite(void *, ObjectPosition *, SpriteFrameState *);
+void (*const dungeon_1894800_entry)(void *, ObjectPosition *, SpriteFrameState *) = update_animated_effect_sprite;
 const u8 no_effect_target_prefix[48] = { 0x82, 0x73, 0x82, 0x88, 0x82, 0x85, 0x82, 0x92, 0x82, 0x85, 0x81, 0x40, 0x82, 0x97, 0x82, 0x81, 0x82, 0x93, 0x81, 0x40, 0x82, 0x8E, 0x82, 0x8F, 0x81, 0x40, 0x82, 0x85, 0x82, 0x86, 0x82, 0x86, 0x82, 0x85, 0x82, 0x83, 0x82, 0x94, 0x81, 0x40, 0x82, 0x8F, 0x82, 0x8E, 0x81, 0x40, 0x00, 0x00 };
 const u8 D_80024034[4] = { 0x81, 0x44, 0x00, 0x00 };
 #include "modules/dungeon_native_abi.h"
@@ -331,7 +331,7 @@ extern void project_textured_quad_or_callback(void *record,struct ObjectPosition
 /* Retail 81874F04 (project_linked_quad_record).
  * Draw the record and then every record chained through the previous header's unk_18 link (node + 0x20 is the
  * next record); each node supplies the context and data pointers for its record. */
-s32 project_linked_quad_record(void *record, void *context, void *data) {
+s32 project_linked_quad_record(void *record, ObjectPosition *context, void *data) {
     ObjectNodeHeader *node;
 
     for (;;) {
@@ -1015,7 +1015,7 @@ typedef struct S_81876014_6 {
 } S_81876014_6;   /* ((S_81876014_0 *)arg0)->unk_48 in update_effect_quad_and_completion */
 
 /* Update the effect quad, copy its position and color, and flag completion based on owner state. */
-void update_effect_quad_and_completion(void *effect, void *position_out_arg, void *color_out_arg) {
+void update_effect_quad_and_completion(void *effect, ObjectPosition *position_out_arg, void *color_out_arg) {
     SpriteFrameState *color_out = color_out_arg;
     ObjectPosition *position_out = position_out_arg;
     s32 y_factor;
@@ -1256,7 +1256,7 @@ extern Copy12 D_8002664C;
 extern void create_terrain_seeking_point_effect(void *, s32, s32, s16, s16, s16, s16);
 
 /* Moves an effect toward its target, emits particles, changes target colors, and applies a timed status. */
-void update_animated_effect_sprite(void *effect, void *entity, SpriteFrameState *sprite)
+void update_animated_effect_sprite(void *effect, ObjectPosition *entity, SpriteFrameState *sprite)
 {
     Vec3s delta;
     Copy32 copy;
@@ -1311,18 +1311,18 @@ void update_animated_effect_sprite(void *effect, void *entity, SpriteFrameState 
         }
         {
             u16 z_value;
-            ((ObjectPosition *)entity)->x.w.i = entry->unk_00.at02.v;
-            ((ObjectPosition *)entity)->y.w.i = entry->unk_04.at02.v;
+            entity->x.w.i = entry->unk_00.at02.v;
+            entity->y.w.i = entry->unk_04.at02.v;
             z_value = entry->unk_08.at02.v;
-            ((ObjectPosition *)entity)->z.unsigned_parts.integer = z_value;
+            entity->z.unsigned_parts.integer = z_value;
             if (!(((S_800259D8_13 *)(base->unk_0C))->unk_14 & 0x8000U)) {
-                ((ObjectPosition *)entity)->x.w.i += delta.x;
-                ((ObjectPosition *)entity)->y.w.i += delta.y;
-                ((ObjectPosition *)entity)->z.w.i = ((ObjectPosition *)entity)->z.unsigned_parts.integer + delta.z;
+                entity->x.w.i += delta.x;
+                entity->y.w.i += delta.y;
+                entity->z.w.i = entity->z.unsigned_parts.integer + delta.z;
             } else {
 L0_adjust_z:
                                            /* MATCH: retain the alternate z calculation's scheduling boundary. */
-                ((ObjectPosition *)entity)->z.w.i = z_value - 0x40;
+                entity->z.w.i = z_value - 0x40;
             }
         }
         if (!(((ObjectPosition *)(((S_800259D8_0 *)effect)->unk_04))->x.w.frac & 0x80U)) {
@@ -1359,7 +1359,7 @@ L0_adjust_z:
                 if (((S_800259D8_3 *)obj)->unk_72 != resident_work->unk_24) {
                     s32 resident_delta;
                     s32 resident_copy;
-                    resident_delta = ((ObjectPosition *)entity)->x.w.i;
+                    resident_delta = entity->x.w.i;
                     resident_delta = resident_delta - entry->unk_00.at02.v;
                     resident_copy = *(s16 *)((u8 *)&copy + (((S_800259D8_0 *)effect)->unk_80 << 2));
                     resident_delta = abs(resident_delta);
@@ -1370,7 +1370,7 @@ L0_adjust_z:
                     s32 cidx;
                     s32 resident_delta;
                     s32 resident_copy;
-                    resident_delta = ((ObjectPosition *)entity)->y.w.i;
+                    resident_delta = entity->y.w.i;
                     cidx = ((S_800259D8_0 *)effect)->unk_80 << 2;
                     resident_delta = resident_delta - entry->unk_04.at02.v;
                     cp = (Pair *)&copy;
@@ -1384,9 +1384,9 @@ L0_adjust_z:
         } else {
             {
                 ((S_800259D8_0 *)effect)->unk_7C.s = 0x80;
-                ((S_800259D8_0 *)effect)->unk_74.s = ((ObjectPosition *)entity)->x.unsigned_parts.integer +
+                ((S_800259D8_0 *)effect)->unk_74.s = entity->x.unsigned_parts.integer +
                     (((Pair *)((u8 *)&copy + (((S_800259D8_0 *)effect)->unk_80 << 2)))->x.u << 7);
-                ((S_800259D8_0 *)effect)->unk_76.s = ((ObjectPosition *)entity)->y.unsigned_parts.integer +
+                ((S_800259D8_0 *)effect)->unk_76.s = entity->y.unsigned_parts.integer +
                     (((Pair *)((u8 *)&copy + (((S_800259D8_0 *)effect)->unk_80 << 2)))->y.u *
                      ((S_800259D8_0 *)effect)->unk_7C.u);
                 ((S_800259D8_0 *)effect)->unk_78.s = ((S_800259D8_3 *)obj)->unk_88 - 0x50;
@@ -1394,13 +1394,13 @@ L0_adjust_z:
         }
         {
             Pair *cp = (Pair *)&copy;
-            ((ObjectPosition *)entity)->velocity_x =
+            entity->velocity_x =
                 ((Pair *)((u8 *)cp + (((S_800259D8_0 *)effect)->unk_80 << 2)))->x.s << 16;
-            ((ObjectPosition *)entity)->velocity_y =
+            entity->velocity_y =
                 ((Pair *)((u8 *)cp + (((S_800259D8_0 *)effect)->unk_80 << 2)))->y.u << 16;
         }
-        ((ObjectPosition *)entity)->velocity_z =
-            ((((S_800259D8_0 *)effect)->unk_78.s << 16) - ((ObjectPosition *)entity)->z.v) /
+        entity->velocity_z =
+            ((((S_800259D8_0 *)effect)->unk_78.s << 16) - entity->z.v) /
             ((S_800259D8_0 *)effect)->unk_7C.s;
         ((S_800259D8_0 *)effect)->unk_84.u = 0;
         ((S_800259D8_0 *)effect)->unk_9C = 55;
@@ -1434,7 +1434,7 @@ L0_adjust_z:
                 dst->x.v = (entry->unk_08.at02u.v * value) << 4;
                 value = rsin(entry->unk_0C);
                 dst->y.v = (entry->unk_08.at02u.v * value) << 4;
-                dst->z.w.i = ((ObjectPosition *)entity)->z.unsigned_parts.integer;
+                dst->z.w.i = entity->z.unsigned_parts.integer;
                 work = spawn->sprite;
                 {
                     s32 scale1;
@@ -1467,8 +1467,8 @@ L0_adjust_z:
             ((S_800259D8_0 *)effect)->unk_AA -= 0x18;
             ((S_800259D8_0 *)effect)->unk_A0 = 0;
         }
-        result = check_adjacent_tile_height_clearance(((ObjectPosition *)entity)->x.unsigned_parts.integer, ((ObjectPosition *)entity)->y.unsigned_parts.integer,
-                               ((ObjectPosition *)entity)->z.w.i, ((S_800259D8_3 *)obj)->unk_60);
+        result = check_adjacent_tile_height_clearance(entity->x.unsigned_parts.integer, entity->y.unsigned_parts.integer,
+                               entity->z.w.i, ((S_800259D8_3 *)obj)->unk_60);
         if ((result << 16) == 0) {
             node = ((S_800259D8_3 *)obj)->unk_60;
             if (node == 0) {
@@ -1488,9 +1488,9 @@ L0_adjust_z:
                 ((S_800259D8_0 *)effect)->unk_0A.u = 3;
                 ((S_800259D8_0 *)effect)->unk_84.u = 0;
                 entry = ((S_800259D8_15_pre *)(((S_800259D8_3 *)obj)->unk_60))[-1].unk_00;
-                ((ObjectPosition *)entity)->x.unsigned_parts.integer = entry->unk_00.at02u.v;
-                ((ObjectPosition *)entity)->y.unsigned_parts.integer = entry->unk_04.at02u.v;
-                ((ObjectPosition *)entity)->z.unsigned_parts.integer = ((S_800259D8_0 *)effect)->unk_78.u;
+                entity->x.unsigned_parts.integer = entry->unk_00.at02u.v;
+                entity->y.unsigned_parts.integer = entry->unk_04.at02u.v;
+                entity->z.unsigned_parts.integer = ((S_800259D8_0 *)effect)->unk_78.u;
                 play_sound_if_enabled(AUDIO_PLAY_CD_CUE);
                 return;
             }
@@ -1503,17 +1503,17 @@ L0_adjust_z:
         return;
 
 L1_calc:
-        ((ObjectPosition *)entity)->velocity_x =
-            ((((S_800259D8_0 *)effect)->unk_74.s << 16) - ((ObjectPosition *)entity)->x.v) / count;
-        ((ObjectPosition *)entity)->velocity_y =
-            ((((S_800259D8_0 *)effect)->unk_76.s << 16) - ((ObjectPosition *)entity)->y.v) /
+        entity->velocity_x =
+            ((((S_800259D8_0 *)effect)->unk_74.s << 16) - entity->x.v) / count;
+        entity->velocity_y =
+            ((((S_800259D8_0 *)effect)->unk_76.s << 16) - entity->y.v) /
             ((S_800259D8_0 *)effect)->unk_7C.s;
-        ((ObjectPosition *)entity)->velocity_z =
-            ((((S_800259D8_0 *)effect)->unk_78.s << 16) - ((ObjectPosition *)entity)->z.v) /
+        entity->velocity_z =
+            ((((S_800259D8_0 *)effect)->unk_78.s << 16) - entity->z.v) /
             ((S_800259D8_0 *)effect)->unk_7C.s;
-        ((ObjectPosition *)entity)->x.v += ((ObjectPosition *)entity)->velocity_x;
-        ((ObjectPosition *)entity)->y.v += ((ObjectPosition *)entity)->velocity_y;
-        ((ObjectPosition *)entity)->z.v += ((ObjectPosition *)entity)->velocity_z;
+        entity->x.v += entity->velocity_x;
+        entity->y.v += entity->velocity_y;
+        entity->z.v += entity->velocity_z;
         return;
 
     case 3:

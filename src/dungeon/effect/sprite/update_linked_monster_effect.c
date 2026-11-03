@@ -88,7 +88,7 @@ typedef struct S_80025C80_8 {
 } S_80025C80_8;   /* ((S_80025C80_0 *)arg0)->unk_20 in update_linked_monster_effect */
 
 /* Updates effect movement and fading, or copies a linked monster's position and appearance. */
-void update_linked_monster_effect(void *effect_in, void *motion_in, void *sprite_in) {
+void update_linked_monster_effect(void *effect_in, ObjectPosition *motion_in, void *sprite_in) {
     TileObject *sprite;
     s32 x_step;
     s32 end_frame;
@@ -134,8 +134,8 @@ void update_linked_monster_effect(void *effect_in, void *motion_in, void *sprite
         phase = ((S_80025C80_0 *)effect_in)->unk_2C;
         switch (phase) {
         case 0:
-            ((S_80025C80_2 *)(motion_in))->unk_08.at00.v =
-                (s32) (((S_80025C80_2 *)(motion_in))->unk_08.at00.v + 0xFFFF0000);
+            motion_in->z.v =
+                (s32) (motion_in->z.v + 0xFFFF0000);
             brightness = sprite->primitive_color.parts.color_r;
             next_brightness = brightness + ((s32) (0x80 - brightness) / (s16) ((S_80025C80_0 *)effect_in)->unk_30.n);
             sprite->primitive_color.parts.color_r = next_brightness;
@@ -176,18 +176,18 @@ void update_linked_monster_effect(void *effect_in, void *motion_in, void *sprite
             if ((follow_ticks << 0x10) <= 0 || transform_result == 0
                 || (sprite->sprite_flags & 0x8000) != 0) {
                 if (reference_tile_object.sprite_flags & 0x8000) {
-                    ((S_80025C80_2 *)(motion_in))->unk_00.at02.v = ((u16)view_reference_entity.x.w.i);
-                    ((S_80025C80_2 *)(motion_in))->unk_04.at02.v = ((u16)view_reference_entity.y.w.i);
-                    ((S_80025C80_2 *)(motion_in))->unk_08.at02.v = ((u16)view_reference_entity.z.w.i) - 0x10;
+                    motion_in->x.w.i = ((u16)view_reference_entity.x.w.i);
+                    motion_in->y.w.i = ((u16)view_reference_entity.y.w.i);
+                    motion_in->z.w.i = ((u16)view_reference_entity.z.w.i) - 0x10;
                 }
                 ((S_80025C80_0 *)effect_in)->unk_30.n = 0;
                 ((S_80025C80_0 *)effect_in)->unk_2C = (u16) ((S_80025C80_0 *)effect_in)->unk_2C + 1;
             } else {
-                ((S_80025C80_2 *)(motion_in))->unk_00.at02.v =
+                motion_in->x.w.i =
                     (s16) (((u16)view_reference_entity.x.w.i) + ((S_80025C80_0 *)effect_in)->unk_24);
-                ((S_80025C80_2 *)(motion_in))->unk_04.at02.v =
+                motion_in->y.w.i =
                     (s16) (((u16)view_reference_entity.y.w.i) + ((S_80025C80_0 *)effect_in)->unk_26);
-                ((S_80025C80_2 *)(motion_in))->unk_08.at02.v =
+                motion_in->z.w.i =
                     (s16) (((u16)view_reference_entity.z.w.i) + ((S_80025C80_0 *)effect_in)->unk_28);
             }
             break;
@@ -221,21 +221,21 @@ void update_linked_monster_effect(void *effect_in, void *motion_in, void *sprite
                 }
             }
             target_x = ((S_80025C80_0 *)effect_in)->unk_3C << 6;
-            delta_x = ((S_80025C80_2 *)(motion_in))->unk_00.at02.v - 0x20;
-            ((S_80025C80_2 *)(motion_in))->unk_00.at02.v =
-                (u16) ((S_80025C80_2 *)(motion_in))->unk_00.at02.v
+            delta_x = motion_in->x.w.i - 0x20;
+            motion_in->x.w.i =
+                (u16) motion_in->x.w.i
             + ((target_x - delta_x) / ((S_80025C80_0 *)effect_in)->unk_30.n);
             tile_object = ((S_80025C80_0 *)effect_in)->unk_3E.n;
             tile_object <<= 6;
-            delta_y = ((S_80025C80_2 *)motion_in)->unk_04.at02.v - 0x20;
+            delta_y = motion_in->y.w.i - 0x20;
             tile_object -= delta_y;
             tile_object /= ((S_80025C80_0 *)effect_in)->unk_30.n;
-            next_z = (u16) ((S_80025C80_2 *)(motion_in))->unk_08.at02.v + 5;
-            ((S_80025C80_2 *)(motion_in))->unk_08.at02.v = next_z;
-            ((S_80025C80_2 *)(motion_in))->unk_04.at02.v =
-                (u16) ((S_80025C80_2 *)(motion_in))->unk_04.at02.v + tile_object;
+            next_z = (u16) motion_in->z.w.i + 5;
+            motion_in->z.w.i = next_z;
+            motion_in->y.w.i =
+                (u16) motion_in->y.w.i + tile_object;
             if (((s16) ((S_80025C80_0 *)effect_in)->unk_3A - 0x10) < next_z) {
-                ((S_80025C80_2 *)(motion_in))->unk_08.at02.v =
+                motion_in->z.w.i =
                     (s16) (((S_80025C80_0 *)effect_in)->unk_3A - 0x10);
             }
             move_ticks = (u16) ((S_80025C80_0 *)effect_in)->unk_30.n - 1;
@@ -252,16 +252,16 @@ void update_linked_monster_effect(void *effect_in, void *motion_in, void *sprite
             func_8002589C(effect_in - 0x20, (s16) ((S_80025C80_0 *)effect_in)->unk_40.u, 0xF0);
             break;
         case 0x10:
-            ((S_80025C80_2 *)(motion_in))->unk_00.at00.v += ((S_80025C80_2 *)(motion_in))->unk_0C.at00.v;
-            ((S_80025C80_2 *)(motion_in))->unk_04.at00.v += ((S_80025C80_2 *)(motion_in))->unk_10.at00.v;
-            ((S_80025C80_2 *)(motion_in))->unk_08.at00.v += ((S_80025C80_2 *)(motion_in))->unk_14.at00.v;
-            ((S_80025C80_2 *)(motion_in))->unk_0C.at00.v -= ((S_80025C80_2 *)(motion_in))->unk_0C.at00.v
+            motion_in->x.v += motion_in->velocity_x;
+            motion_in->y.v += motion_in->velocity_y;
+            motion_in->z.v += motion_in->velocity_z;
+            motion_in->velocity_x -= motion_in->velocity_x
             >> 2;
-            ((S_80025C80_2 *)(motion_in))->unk_10.at00.v -= ((S_80025C80_2 *)(motion_in))->unk_0C.at00.v
+            motion_in->velocity_y -= motion_in->velocity_x
             >> 2;
             if (((s16) ((S_80025C80_0 *)effect_in)->unk_3A - 0x10)
-                < ((S_80025C80_2 *)(motion_in))->unk_08.at02.v) {
-                ((S_80025C80_2 *)(motion_in))->unk_08.at02.v =
+                < motion_in->z.w.i) {
+                motion_in->z.w.i =
                     (s16) (((S_80025C80_0 *)effect_in)->unk_3A - 0x10);
             }
             sprite->primitive_color.parts.color_r = sprite->primitive_color.parts.color_r
@@ -300,9 +300,9 @@ void update_linked_monster_effect(void *effect_in, void *motion_in, void *sprite
             return;
         }
         source_data = linked_monster->unk_08;
-        ((S_80025C80_2 *)(motion_in))->unk_00.at02.v = (s16) source_data->x.unsigned_parts.integer;
-        ((S_80025C80_2 *)(motion_in))->unk_04.at02.v = (s16) source_data->y.unsigned_parts.integer;
-        ((S_80025C80_2 *)(motion_in))->unk_08.at02.v = (s16) source_data->z.unsigned_parts.integer;
+        motion_in->x.w.i = (s16) source_data->x.unsigned_parts.integer;
+        motion_in->y.w.i = (s16) source_data->y.unsigned_parts.integer;
+        motion_in->z.w.i = (s16) source_data->z.unsigned_parts.integer;
         linked_sprite = ((S_80025C80_8 *)(((S_80025C80_0 *)effect_in)->unk_20))->unk_0C;
         func_800266D0(sprite, linked_sprite->unk_04);
         func_80026548(effect_in, sprite->frame_entry);

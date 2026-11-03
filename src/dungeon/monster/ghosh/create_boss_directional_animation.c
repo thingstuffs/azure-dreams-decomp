@@ -17,10 +17,6 @@ typedef struct S_func_8132B8AC_0 S_func_8132B8AC_0;
 typedef struct S_func_8132B8AC_1 S_func_8132B8AC_1;
 typedef struct S_func_8132B8AC_2 S_func_8132B8AC_2;
 
-typedef struct S_80173F6C_5 {
-    u8 pad_00[0xA];
-    u16 unk_0A;
-} S_80173F6C_5;   /* ((Rec_D_800E3D7C *)D_80083498)->unk_08.at00_pv.v in create_boss_directional_animation */
 
 extern u8 ghosh_frame_set_1[];
 void unlink_entity_node(); /* extern */
@@ -63,7 +59,7 @@ void create_boss_directional_animation(void) {
         object->update_callback = &func_801730AC;
         register_node(object, project_sprite_chain);
         model = object->position;
-        model->z.w.i = (u16) ((S_80173F6C_5 *)((*(void * *)&((EntityRec *)((u8 *)(&scene_object_list_anchor)))->z)))->unk_0A;
+        model->z.w.i = (u16) ((ObjectPosition *)((*(void * *)&((EntityRec *)((u8 *)(&scene_object_list_anchor)))->z)))->z.unsigned_parts.integer;
         sprite = object->sprite;
         sprite->tile_x = (u8) (reference_tile_object.tile_position.parts.tile_x + 9);
         sprite->tile_y = (u8) (reference_tile_object.tile_position.parts.tile_y - 9);

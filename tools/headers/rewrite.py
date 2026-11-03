@@ -114,7 +114,8 @@ def _line_span(text, start, end):
 
 def tu_edit(tp, header_of):
     """Picklable edit description of a TuPlan: {'add': [headers], 'remove': [(header, start, end)]}."""
-    return {'add': sorted(tp.add), 'remove': sorted((header_of(r), r.site.start, r.site.end) for r in tp.remove),
+    return {'add': sorted(tp.add), 'remove': sorted([(header_of(r), r.site.start, r.site.end) for r in tp.remove] +
+                                                list(getattr(tp, 'drop_typedefs', []))),
             'drop': sorted(getattr(tp, 'stale', []))}
 
 

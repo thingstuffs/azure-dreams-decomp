@@ -19,18 +19,9 @@ extern Callback golem_behavior_handlers[];
    /* monster in update_shrinking_sprite_effect */
 
 
-typedef struct S_80170A84_2 {
-    union { struct { s32 v; } at00; struct { u8 pad[0x2]; u16 v; } at02; } unk_00;   /* overlapping accesses */
-    union { struct { s32 v; } at00; struct { u8 pad[0x2]; u16 v; } at02; } unk_04;   /* overlapping accesses */
-    u8 pad_08[0x2];
-    u16 unk_0A;
-    s32 unk_0C;
-    s32 unk_10;
-    s32 unk_14;
-} S_80170A84_2;   /* motion in update_shrinking_sprite_effect */
 
 /* Updates monster facing, callbacks, movement, and floor contact. */
-void update_shrinking_sprite_effect(ActorRecord *body, S_80170A84_2 *motion, SpriteFrameState *sprite)
+void update_shrinking_sprite_effect(ActorRecord *body, ObjectPosition *motion, SpriteFrameState *sprite)
 {
     ActorRecord *actor = body;
     s32 direction;
@@ -110,21 +101,21 @@ void update_shrinking_sprite_effect(ActorRecord *body, S_80170A84_2 *motion, Spr
         try_move_actor_to_valid_position(body, motion, sprite, actor);
     }
 
-    motion->unk_00.at00.v += motion->unk_0C;
-    motion->unk_04.at00.v += motion->unk_10;
+    motion->x.v += motion->velocity_x;
+    motion->y.v += motion->velocity_y;
 
     if (body->action_state_flags & 8) {
         body->unk_9D.u = 0;
     } else {
-        motion->unk_14 += body->unk_9D.s * 0x14000;
+        motion->velocity_z += body->unk_9D.s * 0x14000;
         body->unk_9D.u++;
     }
 
-    body->unk_90.value += motion->unk_14;
+    body->unk_90.value += motion->velocity_z;
 
     if (!(body->action_state_flags & 4)) {
-        floor_height = sample_terrain_surface_height(motion->unk_00.at02.v,
-                              motion->unk_04.at02.v,
+        floor_height = sample_terrain_surface_height(motion->x.unsigned_parts.integer,
+                              motion->y.unsigned_parts.integer,
                               (s16)(((u16)actor->ground_height) - 0x20));
         if (floor_height < 0x200) {
             actor_height = actor->ground_height;
@@ -137,7 +128,7 @@ void update_shrinking_sprite_effect(ActorRecord *body, S_80170A84_2 *motion, Spr
                     body->unk_90.parts.high.s = floor_height - ((u16)actor->ground_height);
                 }
 
-                motion->unk_14 = 0;
+                motion->velocity_z = 0;
                 actor->flags1C |= 0x08000000;
                 body->unk_9D.u = 0;
             }
@@ -157,7 +148,7 @@ void update_shrinking_sprite_effect(ActorRecord *body, S_80170A84_2 *motion, Spr
         actor->flags1C &= 0xF7FFFFFF;
     }
 
-    motion->unk_0A =
+    motion->z.unsigned_parts.integer =
         ((u16)actor->ground_height) + body->unk_90.parts.high.u;
     sprite->flags |= 0x40;
 

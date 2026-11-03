@@ -7,7 +7,7 @@
 #include "shared/object_flags.h"
 #include "shared/sprite_frame_state.h"
 #include "dungeon/effect/mesh.h"
-void (*const dungeon_ovl_1930844_entry)(void *state, void *motion, void *appearance) = update_movement_toward_target_along_direction_advances_action_phases;
+void (*const dungeon_ovl_1930844_entry)(void *state, ObjectPosition *motion, void *appearance) = update_movement_toward_target_along_direction_advances_action_phases;
 
 /* Moves a rotating, shrinking sprite along its velocity with a sinusoidal height offset until its
    duration ends. */
@@ -58,7 +58,7 @@ void advance_shrinking_arc_effect(AnEffectPositionRandomizedSpriteAngleBody *sta
 
 /* Creates a randomly rotated gray sprite with copied motion, the owner's duration, and a saved
    starting height. */
-void * create_an_effect_position_randomized_sprite_angle(Rec_func_80024170_arg0 *owner, void *source_position)
+void * create_an_effect_position_randomized_sprite_angle(Rec_func_80024170_arg0 *owner, ObjectPosition *source_position)
 {
     s32 random_value;
     s32 initial_z;
@@ -801,7 +801,7 @@ void update_the_five_orbiting_points_advance_effect_animation(ovl_1930844_81911B
 
 /* Creates a controller for five orbiting points with copied motion, initial counters, and the supplied
    setting. */
-void *create_and_initializes_copying_n_24_bytes_source_data(s32 state_value, ovl_1930844_81912074_Copy24 *source_data, s16 initial_setting) {
+void *create_and_initializes_copying_n_24_bytes_source_data(s32 state_value, ObjectPosition *source_data, s16 initial_setting) {
     ObjectNodeHeader *obj;
     ovl_1930844_81912074_S_80025874_1 *fields;
     ObjectPosition *object_data;
@@ -824,7 +824,7 @@ void *create_and_initializes_copying_n_24_bytes_source_data(s32 state_value, ovl
         fields->unk_41 = 0;
         fields->unk_14 = initial_setting;
         object_data = obj->position;
-        *(ovl_1930844_81912074_Copy24 *)object_data = *source_data;
+        *object_data = *source_data;
         return obj;
     }
     return 0;
@@ -832,7 +832,7 @@ void *create_and_initializes_copying_n_24_bytes_source_data(s32 state_value, ovl
 
 /* Moves an effect toward an actor or terrain endpoint, starts its impact visuals, and applies a
    delayed attack. */
-void update_movement_toward_target_along_direction_advances_action_phases(void *state, void *motion, void *appearance) {
+void update_movement_toward_target_along_direction_advances_action_phases(void *state, ObjectPosition *motion, void *appearance) {
     ovl_1930844_81912154_LocalStack stack;
     s16 floor_height;
     s32 phase;
@@ -890,19 +890,19 @@ void update_movement_toward_target_along_direction_advances_action_phases(void *
             break;
         }
         origin = owner_links->unk_08;
-        ((ovl_1930844_81912154_S_80025954_5 *)motion)->unk_00.at02.v = (u16) origin->unk_02;
-        ((ovl_1930844_81912154_S_80025954_5 *)motion)->unk_04.at02.v = (u16) origin->unk_06;
+        motion->x.unsigned_parts.integer = (u16) origin->unk_02;
+        motion->y.unsigned_parts.integer = (u16) origin->unk_06;
         origin_z = origin->unk_0A;
-        ((ovl_1930844_81912154_S_80025954_5 *)motion)->unk_08.at02.v = origin_z;
+        motion->z.unsigned_parts.integer = origin_z;
         if (!(((ovl_1930844_81912154_S_80025954_14 *)(owner_links->unk_0C))->unk_14 & 0x8000)) {
-            ((ovl_1930844_81912154_S_80025954_5 *)motion)->unk_00.at02.v = (u16) (((ovl_1930844_81912154_S_80025954_5 *)motion)->unk_00.at02.v
+            motion->x.unsigned_parts.integer = (u16) (motion->x.unsigned_parts.integer
                 + stack.offset.distance[0]);
-            ((ovl_1930844_81912154_S_80025954_5 *)motion)->unk_04.at02.v = (u16) (((ovl_1930844_81912154_S_80025954_5 *)motion)->unk_04.at02.v
+            motion->y.unsigned_parts.integer = (u16) (motion->y.unsigned_parts.integer
                 + stack.offset.distance[1]);
-            ((ovl_1930844_81912154_S_80025954_5 *)motion)->unk_08.at02.v = (u16) (((ovl_1930844_81912154_S_80025954_5 *)motion)->unk_08.at02.v
+            motion->z.unsigned_parts.integer = (u16) (motion->z.unsigned_parts.integer
                 + stack.offset.distance[2]);
         } else {
-            ((ovl_1930844_81912154_S_80025954_5 *)motion)->unk_08.at02.v = origin_z - 0x40;
+            motion->z.unsigned_parts.integer = origin_z - 0x40;
         }
         if (!(*((Rec_func_80024170_arg0 *)state)->unk_04 & 0x80)) {
             break;
@@ -911,16 +911,16 @@ void update_movement_toward_target_along_direction_advances_action_phases(void *
         if (target != NULL) {
             step_count = 1;
             destination = target[-1].unk_00;
-            x_distance = destination->unk_00.at02.v - ((ovl_1930844_81912154_S_80025954_5 *)motion)->unk_00.at02u.v;
+            x_distance = destination->unk_00.at02.v - motion->x.w.i;
             x_distance = abs(x_distance);
             stack.offset.distance[0] = x_distance;
-            y_distance = destination->unk_04.at02.v - ((ovl_1930844_81912154_S_80025954_5 *)motion)->unk_04.at02u.v;
+            y_distance = destination->unk_04.at02.v - motion->y.w.i;
             y_distance = abs(y_distance);
             stack.offset.distance[1] = y_distance;
             entity = ((ovl_1930844_81912154_S_80025954_1 *)owner)->unk_60;
             z_table = entity_height_offsets[entity->unk_13] << 0x10;
             z_distance = destination->unk_08.at02.v - z_table;
-            z_base = ((ovl_1930844_81912154_S_80025954_5 *)motion)->unk_08.at02u.v + 0x300000;
+            z_base = motion->z.w.i + 0x300000;
             z_distance -= z_base;
             stack.offset.distance[2] = abs(z_distance);
             ((Rec_func_80024170_arg0 *)state)->unk_12.as_s16 = x_distance;
@@ -935,16 +935,16 @@ void update_movement_toward_target_along_direction_advances_action_phases(void *
             if (travel_frames == 0) {
                 ((Rec_func_80024170_arg0 *)state)->unk_12.as_s16 = 1;
             }
-            ((ovl_1930844_81912154_S_80025954_5 *)motion)->unk_0C = (destination->unk_00.at00.v
-                - ((ovl_1930844_81912154_S_80025954_5 *)motion)->unk_00.at00.v) / ((Rec_func_80024170_arg0 *)state)->unk_12.as_s16;
-            ((ovl_1930844_81912154_S_80025954_5 *)motion)->unk_10 = (destination->unk_04.at00.v
-                - ((ovl_1930844_81912154_S_80025954_5 *)motion)->unk_04.at00.v) / ((Rec_func_80024170_arg0 *)state)->unk_12.as_s16;
+            motion->velocity_x = (destination->unk_00.at00.v
+                - motion->x.v) / ((Rec_func_80024170_arg0 *)state)->unk_12.as_s16;
+            motion->velocity_y = (destination->unk_04.at00.v
+                - motion->y.v) / ((Rec_func_80024170_arg0 *)state)->unk_12.as_s16;
             entity = ((ovl_1930844_81912154_S_80025954_1 *)owner)->unk_60;
             z_table2 = entity_height_offsets[entity->unk_13] << 0x10;
             z_velocity = destination->unk_08.at00.v - z_table2;
-            z_base2 = ((ovl_1930844_81912154_S_80025954_5 *)motion)->unk_08.at00.v + 0x300000;
+            z_base2 = motion->z.v + 0x300000;
             z_velocity -= z_base2;
-            ((ovl_1930844_81912154_S_80025954_5 *)motion)->unk_14 = z_velocity / ((Rec_func_80024170_arg0 *)state)->unk_12.as_s16;
+            motion->velocity_z = z_velocity / ((Rec_func_80024170_arg0 *)state)->unk_12.as_s16;
             create_an_effect_position_randomized_sprite_angle(state, motion);
             next_state = (u16) ((Rec_func_80024170_arg0 *)state)->unk_0A + 1;
         } else {
@@ -1004,13 +1004,13 @@ void update_movement_toward_target_along_direction_advances_action_phases(void *
             model = ((s16) end_tile_y << 6) + ((dir_step_y[(s16) ((Rec_func_80024170_arg0 *)state)->unk_0E] + 1) << 5);
             destination->unk_04.at02.v = model;
             axis_delta >>= 0x10;
-            destination->unk_08.at02u.v = ((ovl_1930844_81912154_S_80025954_5 *)motion)->unk_08.at02.v;
+            destination->unk_08.at02u.v = motion->z.unsigned_parts.integer;
             model = (u32) model << 0x10;
-            axis_delta -= ((ovl_1930844_81912154_S_80025954_5 *)motion)->unk_00.at02u.v;
+            axis_delta -= motion->x.w.i;
             axis_delta = __builtin_abs(axis_delta);
             stack.offset.distance[0] = axis_delta;
             model >>= 0x10;
-            model -= ((ovl_1930844_81912154_S_80025954_5 *)motion)->unk_04.at02u.v;
+            model -= motion->y.w.i;
             model = __builtin_abs(model);
             stack.offset.distance[1] = model;
             ((Rec_func_80024170_arg0 *)state)->unk_12.as_s16 = axis_delta;
@@ -1022,23 +1022,23 @@ void update_movement_toward_target_along_direction_advances_action_phases(void *
             if (travel_frames == 0) {
                 ((Rec_func_80024170_arg0 *)state)->unk_12.as_s16 = 1;
             }
-            ((ovl_1930844_81912154_S_80025954_5 *)motion)->unk_0C = (((ovl_1930844_81912154_S_80025954_12 *)(stack.motion))->unk_00
-                - ((ovl_1930844_81912154_S_80025954_5 *)motion)->unk_00.at00.v) / ((Rec_func_80024170_arg0 *)state)->unk_12.as_s16;
+            motion->velocity_x = (((ovl_1930844_81912154_S_80025954_12 *)(stack.motion))->unk_00
+                - motion->x.v) / ((Rec_func_80024170_arg0 *)state)->unk_12.as_s16;
             y_velocity = (destination->unk_04.at00.v
-                - ((ovl_1930844_81912154_S_80025954_5 *)motion)->unk_04.at00.v) / ((Rec_func_80024170_arg0 *)state)->unk_12.as_s16;
-            ((ovl_1930844_81912154_S_80025954_11 *)motion)->unk_14 = 0;
-            ((ovl_1930844_81912154_S_80025954_11 *)motion)->unk_10 = y_velocity;
+                - motion->y.v) / ((Rec_func_80024170_arg0 *)state)->unk_12.as_s16;
+            motion->velocity_z = 0;
+            motion->velocity_y = y_velocity;
             create_an_effect_position_randomized_sprite_angle(state, motion);
             next_state = 6;
         }
         goto set_state;
     case 2:
-        ((ovl_1930844_81912154_S_80025954_5 *)motion)->unk_00.at00.v = (s32) (((ovl_1930844_81912154_S_80025954_5 *)motion)->unk_00.at00.v
-            + ((ovl_1930844_81912154_S_80025954_5 *)motion)->unk_0C);
-        ((ovl_1930844_81912154_S_80025954_5 *)motion)->unk_04.at00.v = (s32) (((ovl_1930844_81912154_S_80025954_5 *)motion)->unk_04.at00.v
-            + ((ovl_1930844_81912154_S_80025954_5 *)motion)->unk_10);
-        ((ovl_1930844_81912154_S_80025954_5 *)motion)->unk_08.at00.v = (s32) (((ovl_1930844_81912154_S_80025954_5 *)motion)->unk_08.at00.v
-            + ((ovl_1930844_81912154_S_80025954_5 *)motion)->unk_14);
+        motion->x.v = (s32) (motion->x.v
+            + motion->velocity_x);
+        motion->y.v = (s32) (motion->y.v
+            + motion->velocity_y);
+        motion->z.v = (s32) (motion->z.v
+            + motion->velocity_z);
         if ((s16) ((Rec_func_80024170_arg0 *)state)->unk_10 < ((Rec_func_80024170_arg0 *)state)->unk_12.as_s16) {
             break;
         }
@@ -1072,12 +1072,12 @@ void update_movement_toward_target_along_direction_advances_action_phases(void *
         }
         break;
     case 6:
-        ((ovl_1930844_81912154_S_80025954_5 *)motion)->unk_00.at00.v = (s32) (((ovl_1930844_81912154_S_80025954_5 *)motion)->unk_00.at00.v
-            + ((ovl_1930844_81912154_S_80025954_5 *)motion)->unk_0C);
-        ((ovl_1930844_81912154_S_80025954_5 *)motion)->unk_04.at00.v = (s32) (((ovl_1930844_81912154_S_80025954_5 *)motion)->unk_04.at00.v
-            + ((ovl_1930844_81912154_S_80025954_5 *)motion)->unk_10);
-        ((ovl_1930844_81912154_S_80025954_5 *)motion)->unk_08.at00.v = (s32) (((ovl_1930844_81912154_S_80025954_5 *)motion)->unk_08.at00.v
-            + ((ovl_1930844_81912154_S_80025954_5 *)motion)->unk_14);
+        motion->x.v = (s32) (motion->x.v
+            + motion->velocity_x);
+        motion->y.v = (s32) (motion->y.v
+            + motion->velocity_y);
+        motion->z.v = (s32) (motion->z.v
+            + motion->velocity_z);
         if ((s16) ((Rec_func_80024170_arg0 *)state)->unk_10 < ((Rec_func_80024170_arg0 *)state)->unk_12.as_s16) {
             break;
         }

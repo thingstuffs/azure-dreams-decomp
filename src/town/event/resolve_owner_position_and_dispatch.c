@@ -62,7 +62,7 @@ extern s32 D_800D0420[];
 
 
 
-extern s32 scene_fallback_request_address;
+
 extern s32 town_input_motion_address;
 
 extern void unlink_and_remove_scene_object(void *, void *, void *, s32); /* Unprototyped: retail call passes more arguments than the callee reads */
@@ -104,7 +104,7 @@ void resolve_owner_position_and_dispatch(void *object, S_8009B9BC_1 *owner, Enti
                 /* MATCH: preserve the fourth argument register allocation. */
         ((DispatchFn)((S_8009B9BC_4 *)(((Rec_D_80082D58 *)object)->unk_58))->unk_0C)(object, owner, resolved_pos,
             dispatch_param);
-    } else if (current_state == (s32)&scene_fallback_request_address) {
+    } else if (current_state == (s32)dispatch_fallback_request) {
         unlink_and_remove_scene_object(object, owner, resolved_pos, dispatch_param);
     } else {
         if (!(current_state == (s32)update_actor_with_interaction_state || current_state == (s32)update_actor_movement_and_interaction ||

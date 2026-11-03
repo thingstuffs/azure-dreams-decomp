@@ -71,7 +71,7 @@ s32 select_an_eligible_source_entry_stores_pointer_in_destination(void *destinat
 void store_the_valid_shared_angle_in_offset_hex_10(void *record);
 void tick_countdown_and_initialize_target(UnsignedCountdownView *state, ObjectPosition *value);
 void update_threshold_and_interaction(TownObjectRecord *state, ObjectPosition *entity, struct SpriteFrameState *context);
-void update_threshold_timed_action(TownObjectRecord *state, ObjectPosition *entity, s32 context);
+void update_threshold_timed_action(TownObjectRecord *state, ObjectPosition *entity, struct SpriteFrameState *context);
 
 #include "shared/dungeon_moving_views.h"
 struct S_80097AD0_1;
@@ -135,5 +135,9 @@ void run_action_then_fallback_on_no_change(s32 *value, ObjectPosition *state, st
 struct S_80090F00_0;
 
 void update_countdown_and_fallback(struct S_80090F00_0 *object, ObjectPosition *context, struct SpriteFrameState *sprite);
+
+struct S_80097D2C_0;
+void dispatch_fallback_request(TownObjectRecord *request, void *request_data, void *request_param, s32 check_param);
+void invoke_object_state_callback(struct S_80097D2C_0 *object, void *position, void *sprite);
 
 #endif

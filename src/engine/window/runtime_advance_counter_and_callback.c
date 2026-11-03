@@ -4,15 +4,12 @@
 #include "common.h"
 #include "slus/data.h"
 
-typedef struct S_800357D0_2 {
-    void * unk_00;
-} S_800357D0_2;   /* arg0 in runtime_advance_counter_and_callback */
+   /* arg0 in runtime_advance_counter_and_callback */
 
 typedef struct S_800357D0_3 {
     u8 pad_00[0x8];
     u16 unk_08;
-} S_800357D0_3;   /* ((S_800357D0_2 *)arg0)->unk_00 in runtime_advance_counter_and_callback */
-
+} S_800357D0_3;   /* state->unk_00 in runtime_advance_counter_and_callback */
 
 typedef struct S_800357D0_0 {
     void * unk_00;

@@ -20,13 +20,7 @@ extern void *func_8003FD64(s32 flags, ObjectNodeHeader **list_head);
 extern s32 func_8004491C(struct ObjectNodeHeader *entry, void *registration_id);
 extern s32 generate_random_value(void);
 
-typedef struct S_8016A878_1 {
-    u8 pad_00[0x13];
-    s8 unk_13;
-    s32 unk_14;
-    u8 pad_18[0x4];
-    s32 unk_1C;
-} S_8016A878_1;   /* var_s0 in func_8016A878 */
+   /* var_s0 in func_8016A878 */
 
    /* temp_s4 in func_8016A878 */
 

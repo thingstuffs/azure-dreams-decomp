@@ -142,8 +142,8 @@ void save_and_clear_entity_flag_ten(Obj *obj, State *state, VecState *motion, vo
     motion->x = view_reference_entity.x.v;
     motion->y = view_reference_entity.y.v;
     motion->z = view_reference_entity.z.v;
-    apply_pending_indexed_value(0xE5, (s32)D_800A630C);
-    set_flagged_entry_values((u32 *)D_800D0D54, (s32)D_800A62E8);
+    apply_pending_indexed_value(0xE5, (s32)read_and_clear_stored_value);
+    set_flagged_entry_values((u32 *)D_800D0D54, (s32)store_value_and_get_masked_offset);
     update_actor_position_and_heading(obj, (s32)state, motion, callback_arg);
 }
 

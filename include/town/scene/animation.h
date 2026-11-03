@@ -1,5 +1,6 @@
 #ifndef TOWN_SCENE_ANIMATION_H
 #define TOWN_SCENE_ANIMATION_H
+struct TownCollectionSequence;
 
 #include "common.h"
 
@@ -29,7 +30,7 @@ typedef struct RisingEffectObject {
 } RisingEffectObject;
 
 /* draw_rotating_collection_frame.c */
-void draw_rotating_collection_frame(u8 *object);
+void draw_rotating_collection_frame(struct TownCollectionSequence *object);
 
 /* Callback entry points. */
 void animate_collection_center_sprite(u8 **ctrl, u8 *setup, u8 *view);

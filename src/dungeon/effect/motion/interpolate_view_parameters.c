@@ -9,7 +9,7 @@
 #include "dungeon/effect/motion/interpolate_view_parameters.h"
 #include "dungeon/effect/motion.h"
 /* Selector entry invokes this complete native state machine. */
-void (*const D_80024000)(Row_81917C08_ActionState *action, Row_81917C08_EffectMotion *motion, Row_81917C08_EffectVisual *visual) = build_inverted;
+void (*const D_80024000)(Row_81917C08_ActionState *action, ObjectPosition *motion, Row_81917C08_EffectVisual *visual) = build_inverted;
 
 /* Eases the camera toward its tracked object, blends the vertical view offset, and damps horizontal
    view offsets. */
@@ -116,7 +116,7 @@ void advance_motion_counters_position_set_completion_flags_past_lifetime(void *m
 
 /* Creates a blue-tinted sprite with copied motion, two eight-step counters, and facing copied from the
    source. */
-void *create_an_initializes_visual_state_copies_initial_data(s32 object_id, void *initial_data, Row_81916AEC_S_800242EC_2 *source)
+void *create_an_initializes_visual_state_copies_initial_data(s32 object_id, ObjectPosition *initial_data, Row_81916AEC_S_800242EC_2 *source)
 {
     SpriteFrameState *visual;
     ObjectNodeHeader *object;
@@ -682,16 +682,16 @@ void * create_an_attached_effect_copied_transform_data_randomized_angle(void *ob
 
 /* Stages an effect's launch and particle burst, moves it to the target, and applies damage after child
    completion. */
-void build_inverted(Row_81917C08_ActionState *action, Row_81917C08_EffectMotion *motion, Row_81917C08_EffectVisual *visual)
+void build_inverted(Row_81917C08_ActionState *action, ObjectPosition *motion, Row_81917C08_EffectVisual *visual)
 {
     EntityRec *actor;
     EntityRec *target;
     ObjectNodeHeader *node;
-    Row_81917C08_EffectMotion *target_motion;
+    ObjectPosition *target_motion;
     ObjectPosition *actor_motion;
     SpriteFrameState *actor_visual;
     SpriteFrameState *scan_visual;
-    Row_81917C08_EffectMotion destination;
+    ObjectPosition destination;
     s16 offset[3];
     s16 dest_tile_y;
     u16 tile_x, tile_y;
@@ -735,9 +735,9 @@ void build_inverted(Row_81917C08_ActionState *action, Row_81917C08_EffectMotion 
         target = actor->target;
         if (target) {
             target_motion = NODE_HEADER(target)->position;
-            motion->next_x = target_motion->x.v;
-            motion->next_y = target_motion->y.v;
-            motion->next_z = target_motion->z.v - (entity_height_offsets[((u8 *)actor->target)[0x13]] << 15);
+            motion->velocity_x = target_motion->x.v;
+            motion->velocity_y = target_motion->y.v;
+            motion->velocity_z = target_motion->z.v - (entity_height_offsets[((u8 *)actor->target)[0x13]] << 15);
         } else {
             scan_visual = node->sprite;
             tile_x = scan_visual->tile_x;
@@ -763,9 +763,9 @@ void build_inverted(Row_81917C08_ActionState *action, Row_81917C08_EffectMotion 
             target_motion->x.w.i = (dest_tile_x * 64) + ((dir_step_x[action->direction] + 1) * 32);
             target_motion->y.w.i = (dest_tile_y * 64) + ((dir_step_y[action->direction] + 1) * 32);
             target_motion->z.w.i = motion->z.w.i;
-            motion->next_x = target_motion->x.v;
-            motion->next_y = target_motion->y.v;
-            motion->next_z = motion->z.v - 0x200000;
+            motion->velocity_x = target_motion->x.v;
+            motion->velocity_y = target_motion->y.v;
+            motion->velocity_z = motion->z.v - 0x200000;
         }
         create_an_initializes_visual_state_copies_initial_data(action, motion, actor);
         action->ticks = 0;
@@ -796,22 +796,22 @@ void build_inverted(Row_81917C08_ActionState *action, Row_81917C08_EffectMotion 
         target = actor->target;
         if (target) {
             target_motion = NODE_HEADER(target)->position;
-            motion->next_x = (target_motion->x.v - motion->x.v) / 32;
-            motion->next_y = (target_motion->y.v - motion->y.v) / 32;
-            motion->next_z = (target_motion->z.v -
+            motion->velocity_x = (target_motion->x.v - motion->x.v) / 32;
+            motion->velocity_y = (target_motion->y.v - motion->y.v) / 32;
+            motion->velocity_z = (target_motion->z.v -
                 (entity_height_offsets[((u8 *)actor->target)[0x13]] << 15) - motion->z.v) / 32;
         } else {
-            motion->next_x = (motion->next_x - motion->x.v) / 32;
-            motion->next_y = (motion->next_y - motion->y.v) / 32;
-            motion->next_z = (motion->next_z - motion->z.v) / 32;
+            motion->velocity_x = (motion->velocity_x - motion->x.v) / 32;
+            motion->velocity_y = (motion->velocity_y - motion->y.v) / 32;
+            motion->velocity_z = (motion->velocity_z - motion->z.v) / 32;
         }
         action->ticks = 0;
         action->phase++;
         break;
     case 4:
-        motion->x.v += motion->next_x;
-        motion->y.v += motion->next_y;
-        motion->z.v += motion->next_z;
+        motion->x.v += motion->velocity_x;
+        motion->y.v += motion->velocity_y;
+        motion->z.v += motion->velocity_z;
         if (action->ticks >= 0x20) {
             action->ticks = 0;
             action->phase++;

@@ -3,6 +3,7 @@
  */
 #include "town/scene/paired_value_dispatch_g00647.h"
 #include "town/scene.h"
+#include "town/scene/hooks.h"
 
 /* Run setup, assign the retrieved object handler when present, and return -1. */
 s32 run_setup_and_get_object_handler(s32 context, s32 value, s32 options) {
@@ -11,7 +12,7 @@ s32 run_setup_and_get_object_handler(s32 context, s32 value, s32 options) {
     process_paired_arrays_until_terminator();
     object = allocate_flagged_object_node(0);
     if (object != NULL) {
-        object->unk_10 = &D_800C0C28;
+        object->unk_10 = forward_context_value_options;
     }
     return -1;
 }

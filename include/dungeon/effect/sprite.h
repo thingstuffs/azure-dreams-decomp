@@ -167,7 +167,7 @@ void advance_damped_animated_sprite(void *entry, ObjectPosition *motion, SpriteF
 void update_spiral_effect(UpdateRadialEffectBody *effect, ObjectPosition *motion, SpriteFrameState *sprite);
 
 /* Callback entry points. */
-void update_linked_monster_effect(void *effect_in, void *motion_in, void *sprite_in);
+void update_linked_monster_effect(void *effect_in, ObjectPosition *motion_in, void *sprite_in);
 
 struct S_func_800D7FB8_0;
 void update_effect_controller(struct S_func_800D7FB8_0 *controller);
@@ -202,7 +202,7 @@ void advance_timed_visual_effect(struct UpdateEffectParticlesAndCleanupBody *sta
 void update_tiled_fade_effect(struct UpdateEffectParticlesAndCleanupBody *effect, void *offset_state_arg, void *render_state);
 
 void *create_linked_object_chain(s16 x, s16 y, s16 z, s16 angle);
-void create_random_offset_sprite_effect(s32 effect_param, void *source_pos);
+void create_random_offset_sprite_effect(s32 effect_param, ObjectPosition *source_pos);
 void *spawn_ring_sparks(s16 x, s16 y, s16 z);
 
 #endif

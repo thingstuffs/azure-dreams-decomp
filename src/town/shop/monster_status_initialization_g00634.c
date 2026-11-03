@@ -2,6 +2,7 @@
 /* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - CL:town/func_800B9044, CL:town/func_800B90DC, CL:town/func_800B914C, CL:town/func_800B9168. */
 #include "town/shop/monster_status_initialization_g00634.h"
 #include "town/shop.h"
+#include "town/shop/monster_status_opening_g00633.h"
 
 /* Returns the indexed entry from D_800D17C8. */
 s32 get_monster_status_type_data(s32 index) {
@@ -14,7 +15,7 @@ void initialize_monster_status_state(Rec_func_800B683C_arg0 *record, s32 context
     record->unk_04 = context;
     record->unk_0C = 0;
     record->unk_0E = 0;
-    record->unk_00 = &D_800B66E8;
+    record->unk_00 = advance_monster_status_opening;
     record->unk_14 = get_monster_status_type_data(record->unk_08);
     invalidate_cached_state_and_queue_read(record);
 }

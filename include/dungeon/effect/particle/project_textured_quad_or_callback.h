@@ -12,11 +12,11 @@ typedef struct LinkedRenderNode {
 } LinkedRenderNode;
 void project_textured_quad_or_callback(void *,struct ObjectPosition *, SpriteFrameState *, s16);
 void draw_textured_sphere_mesh(void *, void *, void *, u16);
-s32 project_linked_quad_record(void *, void *, void *);
+s32 project_linked_quad_record(void *, ObjectPosition *, void *);
 s32 draw_chained_object_records(void *, void *, void *);
 s32 project_colored_point(u8 *, u8 *);
 void advance_point_effect_toward_terrain(void *, s16 *);
-void update_effect_quad_and_completion(void *, void *, void *);
+void update_effect_quad_and_completion(void *, ObjectPosition *, void *);
 void spawn_randomized_spark_burst(u8 *, void *, u8 *);
 void apply_random_duration_actor_status(void *, s32, void *);
 /* Signed two-byte view of the first counter; indexed reads use its address. */

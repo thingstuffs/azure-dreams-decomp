@@ -8,7 +8,7 @@
 #include "shared/game_work.h"
 #include "dungeon/effect/sprite.h"
 #include "dungeon/actor/state.h"
-void (*const dungeon_ovl_188298c_entry)(ovl_188298c_818632E4_Controller *ctrl, ovl_188298c_818632E4_Motion *motion, void *render_data) = move_to_linked_object_and_apply_arrival_effects;
+void (*const dungeon_ovl_188298c_entry)(ovl_188298c_818632E4_Controller *ctrl, ObjectPosition *motion, void *render_data) = move_to_linked_object_and_apply_arrival_effects;
 
 /* Attempts a status effect on compatible, eligible actors within two tiles of the supplied center. */
 void apply_status_to_nearby_actors(s32 x, s32 y, void *kind, s32 flags) {
@@ -114,7 +114,7 @@ void advance_counter_and_propagate_target_flags(RadiusDirectionalEffectsBody *st
 
 /* Creates a center sprite or sprites along eight radial tile directions, stopping each direction at
    blocked terrain. */
-void create_radius_directional_effects(s32 effect_param, void *origin_arg, s16 radius_arg, u8 *blocked_dirs) {
+void create_radius_directional_effects(s32 effect_param, ObjectPosition *origin_arg, s16 radius_arg, u8 *blocked_dirs) {
     s16 target_y;
     s16 target_x;
     s32 source_y;
@@ -144,19 +144,19 @@ void create_radius_directional_effects(s32 effect_param, void *origin_arg, s16 r
             effect_data->unk_14 |= 0x10C;
             register_node(effect, project_sprite_chain);
             effect_data = effect->unk_08;
-            effect_data->unk_02.s = ((ovl_188298c_81862C28_S_81862C28_2 *)origin_arg)->unk_02.s;
-            effect_data->unk_06.s = ((ovl_188298c_81862C28_S_81862C28_2 *)origin_arg)->unk_06.s;
-            effect_data->unk_0A = ((ovl_188298c_81862C28_S_81862C28_2 *)origin_arg)->unk_0A.s;
+            effect_data->unk_02.s = origin_arg->x.unsigned_parts.integer;
+            effect_data->unk_06.s = origin_arg->y.unsigned_parts.integer;
+            effect_data->unk_0A = origin_arg->z.unsigned_parts.integer;
         }
     } else {
         for (direction = 0; direction < 8; direction++) {
             effect_data = blocked_dirs + direction;
             if (effect_data->unk_00 == 0) {
-                source_x = ((ovl_188298c_81862C28_S_81862C28_2 *)origin_arg)->unk_02.u;
+                source_x = origin_arg->x.w.i;
                 tile_x = (source_x / 64) + ((u16)dir_step_x[direction] * (u16)radius_arg);
-                source_y = ((ovl_188298c_81862C28_S_81862C28_2 *)origin_arg)->unk_06.u;
+                source_y = origin_arg->y.w.i;
                 tile_dy = (source_y / 64) + (u16)dir_step_y[direction] * (u16)radius_arg;
-                origin_z = ((ovl_188298c_81862C28_S_81862C28_2 *)origin_arg)->unk_0A.u;
+                origin_z = origin_arg->z.w.i;
                 target_x = ((tile_x << 0x10) >> 0xA) + 0x20;
                 target_y = ((tile_dy << 0x10) >> 0xA) + 0x20;
                 if ((check_left_tile_and_center_height(target_x & 0xFFE0, target_y & 0xFFE0, origin_z) << 0x10) != 0) {
@@ -182,7 +182,7 @@ void create_radius_directional_effects(s32 effect_param, void *origin_arg, s16 r
                     effect_data = effect->unk_08;
                     effect_data->unk_02.u = target_x;
                     effect_data->unk_06.u = target_y;
-                    effect_data->unk_0A = ((ovl_188298c_81862C28_S_81862C28_2 *)origin_arg)->unk_0A.s;
+                    effect_data->unk_0A = origin_arg->z.unsigned_parts.integer;
                     effect_data->unk_0A = get_surface_height_at_record(effect_data);
                 }
             }
@@ -419,13 +419,13 @@ s32 project_and_queue_shaded_line(void *line, void *unused_render_context)
  * quantities for local-alloc), while delta and line_or_red stay function-wide; the masked step_x
  * read gives the mask the extra reference that orders it ahead of y0.
  */
-void move_to_linked_object_and_apply_arrival_effects(ovl_188298c_818632E4_Controller *ctrl, ovl_188298c_818632E4_Motion *motion, void *render_data)
+void move_to_linked_object_and_apply_arrival_effects(ovl_188298c_818632E4_Controller *ctrl, ObjectPosition *motion, void *render_data)
 {
     u8 *root;
     ovl_188298c_818632E4_RootPrefix *prefix;
     ovl_188298c_818632E4_Lookup *lookup;
     SpriteFrameState *lookup_2;
-    ovl_188298c_818632E4_Motion *root_motion;
+    ObjectPosition *root_motion;
 
     u8 *linked_root;
     u8 *slot;
@@ -469,16 +469,16 @@ void move_to_linked_object_and_apply_arrival_effects(ovl_188298c_818632E4_Contro
         }
 
         root_motion = prefix->motion;
-        motion->x.h.hi = root_motion->x.h.hi;
-        motion->y.h.hi = root_motion->y.h.hi;
-        start_z = root_motion->z.h.hi;
-        motion->z.h.hi = start_z;
+        motion->x.w.i = root_motion->x.w.i;
+        motion->y.w.i = root_motion->y.w.i;
+        start_z = root_motion->z.w.i;
+        motion->z.w.i = start_z;
         if (!(prefix->lookup->flags & 0x8000)) {
-            motion->x.h.hi += delta.vx;
-            motion->y.h.hi += delta.vy;
-            motion->z.h.hi += delta.vz;
+            motion->x.w.i += delta.vx;
+            motion->y.w.i += delta.vy;
+            motion->z.w.i += delta.vz;
         } else {
-            motion->z.h.hi = start_z - 64;
+            motion->z.w.i = start_z - 64;
         }
         if (!(*ctrl->flags & 0x80)) {
             break;
@@ -487,15 +487,15 @@ void move_to_linked_object_and_apply_arrival_effects(ovl_188298c_818632E4_Contro
         ctrl->saved = *motion;
         linked_root = *(u8 **)(root + 0x60);
         if (linked_root != 0) {
-            prefix = (ovl_188298c_818632E4_RootPrefix *)*(ovl_188298c_818632E4_Motion **)(linked_root - 0x18);
+            prefix = (ovl_188298c_818632E4_RootPrefix *)*(ObjectPosition **)(linked_root - 0x18);
 
-            start_coord = motion->x.h.hi;
-            delta.vx = __builtin_abs(((ovl_188298c_818632E4_Motion *)prefix)->x.h.hi - start_coord);
+            start_coord = motion->x.w.i;
+            delta.vx = __builtin_abs(((ObjectPosition *)prefix)->x.w.i - start_coord);
 
-            delta.vy = __builtin_abs(((ovl_188298c_818632E4_Motion *)prefix)->y.h.hi - motion->y.h.hi);
+            delta.vy = __builtin_abs(((ObjectPosition *)prefix)->y.w.i - motion->y.w.i);
 
             linked_root = *(u8 **)(root + 0x60);
-            start_coord = motion->z.h.hi;
+            start_coord = motion->z.w.i;
             delta.vz = __builtin_abs(*(s16 *)(linked_root + 0x88) - start_coord);
 
             linked_root = *(u8 **)(root + 0x60);
@@ -503,15 +503,15 @@ void move_to_linked_object_and_apply_arrival_effects(ovl_188298c_818632E4_Contro
             ctrl->cell_x = lookup->cell_x;
             ctrl->cell_y = lookup->cell_y;
 
-            ctrl->target[0].val = ((ovl_188298c_818632E4_Motion *)prefix)->x.val;
-            ctrl->target[1].val = ((ovl_188298c_818632E4_Motion *)prefix)->y.val;
+            ctrl->target[0].val = ((ObjectPosition *)prefix)->x.v;
+            ctrl->target[1].val = ((ObjectPosition *)prefix)->y.v;
             diff = *(u16 *)(*(u8 **)(root + 0x60) + 0x88);
             ctrl->target[2].h.lo = 0;
             ctrl->target[2].h.hi = diff;
 
-            motion->dx.val = (ctrl->target[0].val - motion->x.val) / 15;
-            motion->dy.val = (ctrl->target[1].val - motion->y.val) / 15;
-            motion->dz.val = (ctrl->target[2].val - motion->z.val) / 15;
+            motion->velocity_x = (ctrl->target[0].val - motion->x.v) / 15;
+            motion->velocity_y = (ctrl->target[1].val - motion->y.v) / 15;
+            motion->velocity_z = (ctrl->target[2].val - motion->z.v) / 15;
         } else {
             step = 0;
             lookup_2 = prefix->lookup;
@@ -576,13 +576,13 @@ void move_to_linked_object_and_apply_arrival_effects(ovl_188298c_818632E4_Contro
                 ((ovl_188298c_818632E4_Fixed32 *)prefix)[2].h.hi = sample_terrain_surface_height((u16)((ovl_188298c_818632E4_Fixed32 *)prefix)[0].h.hi,
                                                (u16)((ovl_188298c_818632E4_Fixed32 *)prefix)[1].h.hi, -1024);
                 if ((s16)((ovl_188298c_818632E4_Fixed32 *)prefix)[2].h.hi >= 513) {
-                    ((ovl_188298c_818632E4_Fixed32 *)prefix)[2].h.hi = motion->z.h.hi + 32;
+                    ((ovl_188298c_818632E4_Fixed32 *)prefix)[2].h.hi = motion->z.w.i + 32;
                 }
             }
 
-            motion->dx.val = (ctrl->target[0].val - motion->x.val) / 15;
-            motion->dy.val = (ctrl->target[1].val - motion->y.val) / 15;
-            motion->dz.val = (ctrl->target[2].val - motion->z.val) / 15;
+            motion->velocity_x = (ctrl->target[0].val - motion->x.v) / 15;
+            motion->velocity_y = (ctrl->target[1].val - motion->y.v) / 15;
+            motion->velocity_z = (ctrl->target[2].val - motion->z.v) / 15;
             ctrl->cell_x = final_x;
             ctrl->cell_y = final_y;
         }
@@ -592,9 +592,9 @@ void move_to_linked_object_and_apply_arrival_effects(ovl_188298c_818632E4_Contro
         break;
 
     case 2:
-        motion->x.val += motion->dx.val;
-        motion->y.val += motion->dy.val;
-        motion->z.val += motion->dz.val;
+        motion->x.v += motion->velocity_x;
+        motion->y.v += motion->velocity_y;
+        motion->z.v += motion->velocity_z;
         project_and_queue_shaded_line(ctrl, render_data);
         if (ctrl->timer < 15) {
             break;

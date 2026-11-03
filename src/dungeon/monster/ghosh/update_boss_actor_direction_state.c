@@ -72,11 +72,11 @@ extern s8 view_direction_depth_biases[];
 extern u8 ghosh_frame_set_2[];
 
 /* Update actor direction, copy linked output state, and propagate status flags. */
-void update_boss_actor_direction_state(void *actor_data, void *output_data, void *context_data)
+void update_boss_actor_direction_state(void *actor_data, void *output_data, SpriteFrameState *context_data)
 {
     S_80172610_0 *actor;
     MovingPosition *output;
-    u8 *context;
+    SpriteFrameState *context;
     u8 *owner;
     u8 *base;
     register u8 *saved_base;
@@ -105,7 +105,7 @@ void update_boss_actor_direction_state(void *actor_data, void *output_data, void
         return;
     }
 
-    apply_monster_koyaw_data(((S_80172610_2 *)base)->unk_1C.p, context + 0xC);
+    apply_monster_koyaw_data(((S_80172610_2 *)base)->unk_1C.p, ((u8 *)context) + 0xC);
     if ((((S_80172610_2 *)base)->unk_1C.i & 0x20) == 0) {
         advance_sprite_animation_and_textures(context);
     }
@@ -131,17 +131,17 @@ void update_boss_actor_direction_state(void *actor_data, void *output_data, void
         actor->unk_94.u = direction_index;
     }
 
-    ((S_80172610_4 *)context)->unk_14 = linked->unk_14;
+    context->flags = linked->unk_14;
     output->x = source->x;
     output->y = source->y;
     output->z = source->z;
 
     effect_index = ((g_game_work.view.camera_rotation.parts.viewAngle + actor->unk_2A + 0x100) >> 9) & 7;
     effect = view_direction_depth_biases[effect_index];
-    ((S_80172610_4 *)context)->unk_06 = effect << 2;
-    ((S_80172610_4 *)context)->unk_1C = linked->unk_1C;
-    ((S_80172610_4 *)context)->unk_1E = linked->unk_1E;
-    ((S_80172610_4 *)context)->unk_12 = linked->unk_12;
+    context->depth_bias = effect << 2;
+    context->scale_x = linked->unk_1C;
+    context->scale_y = linked->unk_1E;
+    context->clut = linked->unk_12;
 
     if (((S_80172610_1 *)owner)->unk_1E & 0x8000) {
         (*(u16 *)((u8 *)actor + -2)) |= NODE_REMOVE;

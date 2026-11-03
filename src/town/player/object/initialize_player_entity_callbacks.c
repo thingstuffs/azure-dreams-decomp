@@ -2,6 +2,7 @@
 #include "shared/object_node.h"
 #include "shared/town_handler_entries.h"
 #include "town/player/object.h"
+#include "town/player.h"
 
 typedef struct {
     void *callback0;
@@ -18,7 +19,7 @@ typedef struct {
 extern void call_the_handler_selects_nonzero_entry(void *entries, void *record,void *handler_param);
 
 extern Entity scene_object_payload_alias;
-extern s32 town_position_callback_address[3];
+
 extern s32 D_8009A724;
 
 
@@ -30,7 +31,7 @@ void initialize_player_entity_callbacks(s32 entity_id, s32 x, s32 y) {
 
     clear_entity_record_fields(node->position);
     call_the_handler_selects_nonzero_entry(approach_action_handler_table, entity, sprite);
-    scene_object_payload_alias.callback0 = town_position_callback_address;
+    scene_object_payload_alias.callback0 = invoke_object_state_callback;
     entity->callback4 = &D_8009A724;
     entity->id = entity_id & 0xFFF;
     entity->x = x;

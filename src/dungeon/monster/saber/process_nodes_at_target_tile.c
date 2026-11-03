@@ -37,10 +37,6 @@ typedef struct S_801745BC_2 {
     u8 unk_25;
 } S_801745BC_2;   /* data in process_nodes_at_target_tile */
 
-typedef struct S_801745BC_3 {
-    u8 pad_00[0xA];
-    s16 unk_0A;
-} S_801745BC_3;   /* node_position in process_nodes_at_target_tile */
 
 typedef struct S_801745BC_4 {
     u8 pad_00[0x14];
@@ -81,12 +77,12 @@ void process_nodes_at_target_tile(void *node, s32 target_x, s32 target_y, s32 ta
         low_height = center_height - 0x40;
         do {
             S_801745BC_2 *node_data = ((S_801745BC_1_pre *)node)[-1].unk_04;
-            S_801745BC_3 *node_position = ((S_801745BC_1_pre *)node)[-1].unk_00;
+            ObjectPosition *node_position = ((S_801745BC_1_pre *)node)[-1].unk_00;
             s32 height;
 
             if ((node_data->unk_24 == (match_x & 0xFFFF)) &&
                 (node_data->unk_25 == (match_y & 0xFFFF))) {
-                height = node_position->unk_0A;
+                height = node_position->z.w.i;
                 if (((center_height + 0x40) >= height) && (low_height < height)) {
                     if ((u32)(((S_801745BC_1 *)node)->unk_13 - 0x33) < 4U) {
                         u16 angle;

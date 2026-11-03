@@ -10,28 +10,11 @@
 struct R03_80170A28_S_80170A28_2;
 struct ObjectNodeHeader;
 
+   /* work in func_80158894 */
 
+   /* part_a in func_80158894 */
 
-typedef struct S_80158894_1 {
-    u8 pad_00[0x13];
-    s8 unk_13;
-    s32 unk_14;
-    u8 pad_18[0x4];
-    s32 unk_1C;
-} S_80158894_1;   /* work in func_80158894 */
-
-typedef struct S_80158894_2 {
-    u8 pad_00[0xA];
-    s16 unk_0A;
-} S_80158894_2;   /* part_a in func_80158894 */
-
-typedef struct S_80158894_3 {
-    u8 pad_00[0x24];
-    s8 unk_24;
-    s8 unk_25;
-    u8 pad_26[0x6];
-    void * unk_2C;
-} S_80158894_3;   /* part_b in func_80158894 */
+   /* part_b in func_80158894 */
 
 typedef struct S_80158894_4 {
     u8 pad_00[0x8C];

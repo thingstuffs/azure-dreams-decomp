@@ -126,7 +126,7 @@ void advance_actor_movement_step(ActorRecord *movement_in, ObjectPosition *actio
                 TileObject *target;
 
                 target = &reference_tile_object;
-                direction = (((u8 *)&actor->unk_44)[1] +
+                direction = (((u8 *)&actor->unk_44.whole)[1] +
                              ((s32)(((u16)primary_actor_record->facing) << 16) >> 25)) & 7;
                 target_x = target->tile_position.parts.tile_x +
                            ((u16 *)((s8 *)dir_step_x))[direction];

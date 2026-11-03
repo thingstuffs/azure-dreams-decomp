@@ -17,7 +17,7 @@ void func_8002418C(void *object_ref, void *unused, void *state);
 extern SpriteSourceEntry rising_sprite_entries[];
 
 /* Creates and initializes an effect with a randomized offset from the source position. */
-void create_random_offset_sprite_effect(s32 effect_param, void *source_pos)
+void create_random_offset_sprite_effect(s32 effect_param, ObjectPosition *source_pos)
 {
     s32 random_offset;
     SpriteFrameState *sprite;
@@ -46,12 +46,12 @@ void create_random_offset_sprite_effect(s32 effect_param, void *source_pos)
         effect_pos = effect->position;
         rand();
         effect_pos->x.w.i =
-            (u16)(*((u16 *)(((s8 *)source_pos) + 2)));
+            (u16)source_pos->x.unsigned_parts.integer;
         effect_pos->y.w.i =
-            (u16)(*((u16 *)(((s8 *)source_pos) + 6)));
+            (u16)source_pos->y.unsigned_parts.integer;
         random_offset = rand();
         effect_pos->z.w.i =
-            (s16)((*((u16 *)(((s8 *)source_pos) + 0xA)) - 0x20) -
+            (s16)((source_pos->z.unsigned_parts.integer - 0x20) -
                   (random_offset % 16));
     }
 }

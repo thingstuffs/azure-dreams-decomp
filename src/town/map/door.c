@@ -5,6 +5,7 @@
 #include "town/map.h"
 #include "engine/script.h"
 #include "town/person.h"
+#include "town/player/input.h"
 
 /* Test the object status, reversing the result when the linked record has bit 3 set. */
 s32 check_door_status_inverted(void *object) {
@@ -353,7 +354,7 @@ s32 check_door_input_and_angle(Rec_func_800A0668_arg0 *object, void *test_value)
         s32 object_angle = object->unk_72 & 0xFFF;
 
         if ((u32) ((object_angle - global_angle) + 0x3FF) < 0x7FFU) {
-            if ((scene_object_payload_alias == (s32)&actor_input_dispatch_address) || (scene_object_payload_alias == (s32)&actor_input_interaction_address)) {
+            if ((scene_object_payload_alias == (s32)dispatch_actor_input_actions) || (scene_object_payload_alias == (s32)update_actor_input_and_interaction)) {
                 return 1;
             }
             return 0;
