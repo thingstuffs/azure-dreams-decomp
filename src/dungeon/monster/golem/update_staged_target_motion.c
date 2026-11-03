@@ -103,7 +103,7 @@ void update_staged_target_motion(RandomizedOffsetObjectBody *motion, Vec3Work *t
     switch (state) {
     case 0:
     {
-        S_81087818_1 *actor = motion->unk_40;
+        ActorRecord *actor = motion->unk_40;
         S_81087818_2 *source;
                 s32 base_y;
         s32 distance_x;
@@ -113,17 +113,17 @@ void update_staged_target_motion(RandomizedOffsetObjectBody *motion, Vec3Work *t
 
         motion->unk_28.word = motion->unk_2C.word = motion->unk_30.word = 0;
         motion->unk_34 = motion->unk_38 = motion->unk_3C = 0;
-        switch (actor->unk_AE) {
+        switch (actor->unk_AC.bytes[2]) {
         case 1:
             source = motion->unk_4C;
-            tile_x = actor->unk_A8;
+            tile_x = actor->unk_A8.s;
             direction_offset = (source->unk_2A.u >> 8) & 0xE;
             direction_table = dir_step_x;
             motion->unk_28.half.unk_2A =
                 (tile_x * 64) +
                 ((*(s16 *)((u8 *)direction_table + direction_offset) + 1) * 32);
             motion->unk_2C.half.unk_2E =
-                (((S_81087818_1 *)motion->unk_40)->unk_AA * 64) +
+                (motion->unk_40->unk_AA * 64) +
                 ((*(s16 *)((u8 *)dir_step_y + direction_offset) + 1) * 32);
             distance_x = ((S_81087818_4 *)&base)->unk_0A.u;
             motion->unk_30.half.unk_32.u = distance_x;
@@ -230,8 +230,8 @@ void update_staged_target_motion(RandomizedOffsetObjectBody *motion, Vec3Work *t
         trajectory->z = motion->unk_30.word;
         motion->unk_02.u = 0;
         {
-            S_81087818_1 *actor = motion->unk_40;
-            if (actor->unk_AE != 2) {
+            ActorRecord *actor = motion->unk_40;
+            if (actor->unk_AC.bytes[2] != 2) {
                 s32 return_dz;
 
                 trajectory->dx = (base.x - trajectory->x) >> (motion->unk_04.s + 1);
@@ -289,11 +289,11 @@ void update_staged_target_motion(RandomizedOffsetObjectBody *motion, Vec3Work *t
 
         if (motion->unk_02.s >= 8) {
             {
-                S_81087818_1 *actor = motion->unk_40;
-                if (actor->unk_AE == 2) {
+                ActorRecord *actor = motion->unk_40;
+                if (actor->unk_AC.bytes[2] == 2) {
                     S_81087818_2 *source = motion->unk_4C;
                     resolve_attack_damage_and_effects(source, motion->unk_48,
-                                  source->unk_2A.s, actor->unk_AC);
+                                  source->unk_2A.s, actor->unk_AC.halves.low.s);
                 }
             }
             trajectory->dx = (base.x - trajectory->x) >> (motion->unk_04.s + 1);

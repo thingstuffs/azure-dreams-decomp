@@ -36,7 +36,7 @@ typedef struct S_80175D7C_3 {
 } S_80175D7C_3;   /* arg0 in create_linked_child_object */
 
 /* Creates and initializes a child object linked to its parent state. */
-void create_linked_child_object(void *parent_state) {
+void create_linked_child_object(ActorRecord *parent_state) {
     void *allocation_head_address;
     ObjectNodeHeader **allocation_head;
     Pair pair;
@@ -47,7 +47,7 @@ void create_linked_child_object(void *parent_state) {
     SpriteFrameState *visual;
     S_80175D7C_2 *child_state;
 
-    allocation_head_address = (u8 *)parent_state - 0x20;
+    allocation_head_address = NODE_HEADER(parent_state);
     allocation_head = allocation_head_address;
     child = allocate_list_node(514,allocation_head);
     if (child != 0) {
@@ -60,7 +60,7 @@ void create_linked_child_object(void *parent_state) {
         visual->source = D_80175FA8;
         visual->scale_x = 0x1000;
         visual->scale_y = 0x800;
-        child_state = (u8 *)child + 0x20;
+        child_state = NODE_BODY(child);
         ((S_80175D7C_0 *)child)->unk_20 = parent_state;
         child_state->unk_0A = ((S_80175D7C_3 *)parent_state)->unk_2A;
         child_state->unk_0C = 0x30;

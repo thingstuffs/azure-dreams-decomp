@@ -16,22 +16,14 @@ extern s32 create_randomized_offset_object(ActorRecord *, void *, SpriteFrameSta
 extern u8 golem_direction_frames[8];
 extern u8 golem_frame_set_4[8];
 
-typedef struct S_801735BC_1 {
-    u8 pad_00[0x14];
-    u32 unk_14;
-    u8 pad_18[0x12];
-    s16 unk_2A;
-    u8 pad_2C[0x1A];
-    u16 unk_46;
-} S_801735BC_1;   /* actor in advance_multi_stage_actor_effect */
 
-void advance_multi_stage_actor_effect(ActorRecord *body, void *incoming_entity, SpriteFrameState *sprite, void *incoming_actor)
+void advance_multi_stage_actor_effect(ActorRecord *body, void *incoming_entity, SpriteFrameState *sprite, ActorRecord *incoming_actor)
 {
         /* MATCH: the local state join must retain state_work in retail's s2. */
     ActorRecord *state_work = body;
     EntityRec *entity = incoming_entity;
     SpriteFrameState *object = sprite;
-    S_801735BC_1 *actor = incoming_actor;
+    ActorRecord *actor = incoming_actor;
     u8 state;
     u16 flags;
     u16 flags3;
@@ -48,7 +40,7 @@ void advance_multi_stage_actor_effect(ActorRecord *body, void *incoming_entity, 
         }
         object->frameTable = golem_frame_set_4;
         select_sprite_entry(object,
-            golem_frame_set_4[((g_game_work.view.camera_rotation.parts.viewAngle + actor->unk_2A + 0x100) >> 9) & 7],
+            golem_frame_set_4[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
             0);
         entity->flags14 = 0;
         entity->unk_10 = 0;
@@ -64,7 +56,7 @@ void advance_multi_stage_actor_effect(ActorRecord *body, void *incoming_entity, 
             if (state_work->unk_AC.bytes[2] != 2) {
                 return;
             }
-            resolve_attack_damage_and_effects(actor, object, actor->unk_2A, 1);
+            resolve_attack_damage_and_effects(actor, object, actor->facing, 1);
             return;
         }
         if (object->unk_04 != 2) {
@@ -84,7 +76,7 @@ void advance_multi_stage_actor_effect(ActorRecord *body, void *incoming_entity, 
         }
         object->frameTable = golem_frame_set_1;
         select_sprite_entry(object,
-            golem_frame_set_1[((g_game_work.view.camera_rotation.parts.viewAngle + actor->unk_2A + 0x100) >> 9) & 7],
+            golem_frame_set_1[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
             0);
         object->flags |= 0x0800;
         state_work->action_phase.u++;
@@ -95,7 +87,7 @@ void advance_multi_stage_actor_effect(ActorRecord *body, void *incoming_entity, 
         if (flags3 & 0x8000) {
             object->frameTable = golem_frame_set_1;
             select_sprite_entry(object,
-                golem_frame_set_1[((g_game_work.view.camera_rotation.parts.viewAngle + actor->unk_2A + 0x100) >> 9) & 7],
+                golem_frame_set_1[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
                 0);
             object->flags |= 0x0800;
             return;
@@ -105,16 +97,16 @@ void advance_multi_stage_actor_effect(ActorRecord *body, void *incoming_entity, 
         }
         object->frameTable = golem_direction_frames;
         select_sprite_entry(object,
-            golem_direction_frames[((g_game_work.view.camera_rotation.parts.viewAngle + actor->unk_2A + 0x100) >> 9) & 7],
+            golem_direction_frames[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
             0);
         state_work->unk_AC.bytes[2] = 0;
-        actor->unk_14 &= ~0x40000000;
+        actor->flags14 &= ~0x40000000;
         entity->flags14 = 0;
         entity->unk_10 = 0;
         entity->unk_0C = 0;
         set_record_integer_tile_center(entity, object->tile_x, object->tile_y);
         spend_actor_mp(actor, 0x800);
-        actor->unk_46 &= 0x7FFF;
+        actor->action_flags &= 0x7FFF;
         state_work->unk_8C.address = update_dungeon_actor_actions;
         g_dungeon_status.active_actor = 0;
         break;
@@ -125,16 +117,16 @@ void advance_multi_stage_actor_effect(ActorRecord *body, void *incoming_entity, 
         }
         object->frameTable = golem_direction_frames;
         select_sprite_entry(object,
-            golem_direction_frames[((g_game_work.view.camera_rotation.parts.viewAngle + actor->unk_2A + 0x100) >> 9) & 7],
+            golem_direction_frames[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
             0);
         state_work->unk_AC.bytes[2] = 0;
-        actor->unk_14 &= ~0x40000000;
+        actor->flags14 &= ~0x40000000;
         entity->flags14 = 0;
         entity->unk_10 = 0;
         entity->unk_0C = 0;
         set_record_integer_tile_center(entity, object->tile_x, object->tile_y);
         spend_actor_mp(actor, 0x800);
-        actor->unk_46 &= 0x7FFF;
+        actor->action_flags &= 0x7FFF;
         state_work->unk_8C.address = update_dungeon_actor_actions;
         g_dungeon_status.active_actor = 0;
         break;

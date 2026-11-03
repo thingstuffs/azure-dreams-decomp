@@ -41,7 +41,7 @@ typedef struct S_80173ED8_4 {
 void advance_entity_animation_actions(ActorRecord *action, ObjectPosition *context, SpriteFrameState *sprite, ActorRecord *entity) {
     void *saved_context;
     register DungeonGlobalStatus *dungeon_state;
-    void *saved_entity;
+    ActorRecord *saved_entity;
     u8 state;
     s32 direction;
 
@@ -52,7 +52,7 @@ void advance_entity_animation_actions(ActorRecord *action, ObjectPosition *conte
 
     state = action->action_phase.u;
     saved_entity = entity;
-#define entity saved_entity
+
     switch (state) {
     case 0:
     {
@@ -65,20 +65,20 @@ void advance_entity_animation_actions(ActorRecord *action, ObjectPosition *conte
         counter_state = (S_80173ED8_2 *)&g_dungeon_status.turn_scale;
         counter_state->unk_0A--;
         sprite->frameTable = kid_alt_spawn_direction_frames;
-        direction = (g_game_work.view.camera_rotation.parts.viewAngle + ((EntityRec *)entity)->facing + 0x100) >> 9;
+        direction = (g_game_work.view.camera_rotation.parts.viewAngle + saved_entity->facing + 0x100) >> 9;
         select_sprite_entry(sprite, kid_alt_spawn_direction_frames[direction & 7], 0);
         action->action_phase.u++;
         return;
     }
 
     case 1:
-        if (((EntityRec *)entity)->tileY != 0) {
+        if (saved_entity->mp_value.parts.whole != 0) {
             register S_80173ED8_2 *counter_state;
 
             sprite->frameTable = kid_frame_set_3;
-            direction = (g_game_work.view.camera_rotation.parts.viewAngle + ((EntityRec *)entity)->facing + 0x100) >> 9;
+            direction = (g_game_work.view.camera_rotation.parts.viewAngle + saved_entity->facing + 0x100) >> 9;
             select_sprite_entry(sprite, kid_frame_set_3[direction & 7], 0);
-            (*(u32 *)((u8 *)entity + 0x1C)) |= 0x40000;
+            (*(u32 *)((u8 *)saved_entity + 0x1C)) |= 0x40000;
             counter_state = (S_80173ED8_2 *)&g_dungeon_status.turn_scale;
             counter_state->unk_0A++;
             action->action_phase.u++;
@@ -90,32 +90,32 @@ void advance_entity_animation_actions(ActorRecord *action, ObjectPosition *conte
             return;
         }
 
-        if ((((EntityRec *)entity)->unk_64 != 0) &&
+        if ((saved_entity->hp_delta != 0) &&
             begin_ready_actor_directional_action(action, context, sprite, 0)) {
             return;
         }
 
-        if ((has_pending_actor_or_turn_action(entity) << 16) != 0) {
+        if ((has_pending_actor_or_turn_action(saved_entity) << 16) != 0) {
             return;
         }
 
-        if (((u32)((EntityRec *)entity)->flags1C) & ACTOR_PUSH_PENDING) {
-            begin_pushed_actor_move(action, context, sprite, entity);
+        if (((u32)saved_entity->flags1C) & ACTOR_PUSH_PENDING) {
+            begin_pushed_actor_move(action, context, sprite, saved_entity);
             return;
         }
 
-        if (((u32)((EntityRec *)entity)->flags1C) & ACTOR_LIFTED) {
-            begin_actor_move_to_target_facing(action, context, sprite, entity);
+        if (((u32)saved_entity->flags1C) & ACTOR_LIFTED) {
+            begin_actor_move_to_target_facing(action, context, sprite, saved_entity);
             action->unk_A8.s = 0;
-            func_80174218(action, context, sprite, entity);
+            func_80174218(action, context, sprite, saved_entity);
             return;
         }
 
-        if (((EntityRec *)entity)->unk_6D == 0) {
+        if (saved_entity->pending_turn_updates == 0) {
             return;
         }
 
-        if ((has_pending_actor_or_turn_action(entity) << 16) != 0) {
+        if ((has_pending_actor_or_turn_action(saved_entity) << 16) != 0) {
             ActorRecord *owner = primary_actor_record;
 
             {
@@ -124,25 +124,25 @@ void advance_entity_animation_actions(ActorRecord *action, ObjectPosition *conte
                 ActorRecord *previous_actor;
 
                 previous_node = owner->previous_actor_header;
-                previous_body = previous_node + 1;
+                previous_body = NODE_BODY(previous_node);
                 previous_actor = previous_body;
-                if ((check_entity_relation(entity,
+                if ((check_entity_relation(saved_entity,
                         previous_actor) << 16) != 0) {
                     return;
                 }
             }
         }
 
-        update_actor_status_and_mp(entity);
-        on_actor_status_updated(entity);
-        if (((EntityRec *)entity)->tileY == 0) {
+        update_actor_status_and_mp(saved_entity);
+        on_actor_status_updated(saved_entity);
+        if (saved_entity->mp_value.parts.whole == 0) {
             return;
         }
 
         sprite->frameTable = kid_frame_set_3;
-        direction = (g_game_work.view.camera_rotation.parts.viewAngle + ((EntityRec *)entity)->facing + 0x100) >> 9;
+        direction = (g_game_work.view.camera_rotation.parts.viewAngle + saved_entity->facing + 0x100) >> 9;
         select_sprite_entry(sprite, kid_frame_set_3[direction & 7], 0);
-        ((EntityRec *)entity)->flags1C |= 0x40000;
+        saved_entity->flags1C |= 0x40000;
         ((S_80173ED8_4 *)dungeon_state)->unk_0A++;
 
         action->action_phase.u++;
@@ -158,7 +158,7 @@ void advance_entity_animation_actions(ActorRecord *action, ObjectPosition *conte
 
         counter_state = (S_80173ED8_2 *)&g_dungeon_status.turn_scale;
         counter_state->unk_0A--;
-        ((EntityRec *)entity)->flags1C &= ~(ACTOR_MP_EMPTY | ACTOR_ASLEEP);
+        saved_entity->flags1C &= ~(ACTOR_MP_EMPTY | ACTOR_ASLEEP);
         action->unk_8C.address = kid_action_resume_address;
         return;
     }

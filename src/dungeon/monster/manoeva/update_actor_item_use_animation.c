@@ -19,21 +19,6 @@
 typedef __SIZE_TYPE__ uptr;
 
 
-typedef struct S_801728E4_1 {
-    u8 pad_00[0x1C];
-    u32 unk_1C;
-    u8 pad_20[0xA];
-    s16 unk_2A;
-    u8 pad_2C[0x1A];
-    u16 unk_46;
-    u8 pad_48[0x18];
-    void * unk_60;
-    u8 pad_64[0x9];
-    u8 unk_6D;
-    u8 pad_6E[0x4];
-    union { u8 s; s8 u; } unk_72;   /* accessed as both */
-    union { u8 s; s8 u; } unk_73;   /* accessed as both */
-} S_801728E4_1;   /* arg3 in update_actor_item_use_animation */
 
 
 typedef struct S_801728E4_5 {
@@ -58,9 +43,9 @@ extern void play_sound_if_enabled(s32);
 extern void create_actor_linked_effect(void *);
 
 /* Advances an actor's item action through source selection, animation, and cleanup. */
-void update_actor_item_use_animation(ActorRecord *action, void *item, SpriteFrameState *sprite, void *actor)
+void update_actor_item_use_animation(ActorRecord *action, void *item, SpriteFrameState *sprite, ActorRecord *actor)
 {
-    S_801728E4_1 *act = actor;
+    ActorRecord *act = actor;
     u8 state;
     s32 use_global_source;
     u16 action_flags;
@@ -76,8 +61,8 @@ void update_actor_item_use_animation(ActorRecord *action, void *item, SpriteFram
             ObjectNodeHeader *source_entity;
 
             item = 0;
-            if (act->unk_1C & ACTOR_PLAYER_SIDE) {
-                switch (act->unk_46 & 0x3FFF) {
+            if (((u32)act->flags1C) & ACTOR_PLAYER_SIDE) {
+                switch (act->action_flags & 0x3FFF) {
                 case 7:
                     use_global_source = 1;
                     /* fallthrough */
@@ -100,7 +85,7 @@ void update_actor_item_use_animation(ActorRecord *action, void *item, SpriteFram
                     break;
                 }
             } else {
-                item_kind = act->unk_46 & 0x3FFF;
+                item_kind = act->action_flags & 0x3FFF;
                 switch (item_kind) {
                 case 3:
                     item = (u8 *)act + 0xE;
@@ -126,26 +111,26 @@ void update_actor_item_use_animation(ActorRecord *action, void *item, SpriteFram
                 global_source_test = use_global_source;
                 if (global_source_test) {
                     source_entity = (ObjectNodeHeader *)primary_actor_record;
-                    act->unk_60 = source_entity;
+                    act->target = source_entity;
                     target_sprite = (source_entity - 1)->sprite;
-                    act->unk_72.s = target_sprite->tile_x;
-                    act->unk_73.s = target_sprite->tile_y;
+                    act->target_tile_x = target_sprite->tile_x;
+                    act->target_tile_y = target_sprite->tile_y;
                 } else if (item_action_definitions[(*(u8 *)&((EntityRec *)item)->x)].kind == 2) {
-                    source_entity = act->unk_60;
+                    source_entity = act->target;
                     if (source_entity != 0) {
                         target_sprite = (source_entity - 1)->sprite;
-                        act->unk_72.s = target_sprite->tile_x;
-                        act->unk_73.s = target_sprite->tile_y;
+                        act->target_tile_x = target_sprite->tile_x;
+                        act->target_tile_y = target_sprite->tile_y;
                     }
                 } else {
-                    act->unk_60 =
+                    act->target =
                         scan_actor_along_heading(act,
                                       sprite->tile_x,
                                       sprite->tile_y,
-                                      act->unk_2A,
+                                      act->facing,
                                       0x10);
-                    act->unk_72.u = abs(act->unk_72.u);
-                    act->unk_73.u = abs(act->unk_73.u);
+                    act->target_tile_x = abs(act->target_tile_x);
+                    act->target_tile_y = abs(act->target_tile_y);
                 }
             }
         }
@@ -171,7 +156,7 @@ void update_actor_item_use_animation(ActorRecord *action, void *item, SpriteFram
         }
         (sprite->frameTable) = D_80176648;
         select_sprite_entry(sprite,
-            *(u8 *)((uptr)(((g_game_work.view.camera_rotation.parts.viewAngle + act->unk_2A + 0x100) >> 9) & 7) +
+            *(u8 *)((uptr)(((g_game_work.view.camera_rotation.parts.viewAngle + act->facing + 0x100) >> 9) & 7) +
                     (uptr)D_80176648),
             0);
         action->action_phase.u++;
@@ -192,7 +177,7 @@ void update_actor_item_use_animation(ActorRecord *action, void *item, SpriteFram
 
         (sprite->frameTable) = manoeva_frame_set_2;
         select_sprite_entry(sprite,
-            *(u8 *)((uptr)(((g_game_work.view.camera_rotation.parts.viewAngle + act->unk_2A + 0x100) >> 9) & 7) +
+            *(u8 *)((uptr)(((g_game_work.view.camera_rotation.parts.viewAngle + act->facing + 0x100) >> 9) & 7) +
                     (uptr)manoeva_frame_set_2),
             0);
         action->action_phase.u++;
@@ -202,7 +187,7 @@ void update_actor_item_use_animation(ActorRecord *action, void *item, SpriteFram
         if (sprite->flags & 0xE000) {
             (sprite->frameTable) = manoeva_frame_set_1;
             select_sprite_entry(sprite,
-                manoeva_frame_set_1[((g_game_work.view.camera_rotation.parts.viewAngle + act->unk_2A + 0x100) >> 9) & 7],
+                manoeva_frame_set_1[((g_game_work.view.camera_rotation.parts.viewAngle + act->facing + 0x100) >> 9) & 7],
                 0);
         }
         ((EntityRec *)item)->flags14 = 0;
@@ -216,10 +201,10 @@ void update_actor_item_use_animation(ActorRecord *action, void *item, SpriteFram
         ((S_801728E4_5 *)source_sprite)->unk_0A--;
         action->unk_8C.byte_ptr = manoeva_action_resume_address;
         advance_status_timers(act);
-        act->unk_73.s = 0;
-        act->unk_72.s = 0;
-        act->unk_6D--;
-        act->unk_46 &= 0x7FFF;
+        act->target_tile_y = 0;
+        act->target_tile_x = 0;
+        act->pending_turn_updates = (u8)act->pending_turn_updates - 1;
+        act->action_flags &= 0x7FFF;
         play_sound_if_enabled(AUDIO_FADE_CD_FAST);
         return;
     default:

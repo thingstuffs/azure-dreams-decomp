@@ -9,15 +9,15 @@ typedef struct TilePos TilePos;
 #include "dungeon/actor/position.h"
 #include "dungeon/monster/nyuel.h"
 
-extern void spend_actor_mp(s32, s32);
+#include "dungeon/actor/spell_resource_ids_g01008.h"
 
 extern s32 nyuel_action_resume_address;
 
 /* Updates an eligible actor and conditionally resets the entity state. */
-void update_eligible_actor_and_reset_entity(ActorRecord *body, ObjectPosition *position, s32 value_arg, s32 actor_arg) {
+void update_eligible_actor_and_reset_entity(ActorRecord *body, ObjectPosition *position, SpriteFrameState *value_arg, ActorRecord *actor_arg) {
     ActorRecord *entity = body;
-    s32 check_value = value_arg;
-    s32 actor = actor_arg;
+    SpriteFrameState *check_value = value_arg;
+    ActorRecord *actor = actor_arg;
 
     if (update_actor_movement_to_tile(body, position, value_arg, actor_arg) != 0) {
         spend_actor_mp(actor, 3);

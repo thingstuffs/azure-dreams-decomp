@@ -12,10 +12,10 @@ extern void update_actor_status_and_mp(ActorRecord *entity);
 
 /* Updates an entity's state and flags according to its action result. */
 s32 update_boss_action_result(ActorRecord *body, s32 target_x, s32 target_y, s16 force_action) {
-    void *entity_data = body;
+    ActorRecord *entity_data = body;
     s16 action_result;
 
-    if (((ActorRecord *)entity_data)->unk_B0.halves.low.u != 0) {
+    if (entity_data->unk_B0.halves.low.u != 0) {
         action_result = relink_entity_and_clear_high_flag(target_x, target_y, entity_data, 3, 6, (u8 *)entity_data + 0x9C);
         if (action_result < 0) {
             return 0;
@@ -39,18 +39,18 @@ s32 update_boss_action_result(ActorRecord *body, s32 target_x, s32 target_y, s16
         return 0;
 
     case 1:
-        ((ActorRecord *)entity_data)->movement_queue_state &= 0x7F;
+        entity_data->movement_queue_state &= 0x7F;
         if ((s16)has_pending_dungeon_activity(entity_data) != 0) {
-            ((ActorRecord *)entity_data)->action_flags &= 0x7FFF;
+            entity_data->action_flags &= 0x7FFF;
             return 0;
         }
                         /* fallthrough */
     default:
-        ((ActorRecord *)entity_data)->movement_queue_state &= 0x7F;
+        entity_data->movement_queue_state &= 0x7F;
         if (!(g_dungeon_status.flags & 8)) {
             return 1;
         }
-        ((ActorRecord *)entity_data)->action_flags &= 0x7FFF;
+        entity_data->action_flags &= 0x7FFF;
         return 0;
     }
 }

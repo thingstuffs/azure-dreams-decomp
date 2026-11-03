@@ -30,7 +30,7 @@ struct Rec_func_800A9E70_arg0; struct Rec_func_800AA258_arg2; void begin_actor_m
 void advance_multi_form_turn_path(ActorRecord *actor, ObjectPosition *unused, SpriteFrameState *sprite, ActorRecord *movement);
 struct Rec_D_80082E80; struct Rec_func_800A9E70_arg0;
 void start_actor_attack(void *, ObjectPosition *, s32, void *);
-struct Rec_func_800A9E70_arg0; s32 resolve_actor_movement_action(struct Rec_func_800A9E70_arg0 *, ObjectPosition *, s32, s32);
+
 void update_multi_form_actor_movement(ActorRecord *object, ObjectPosition *update_param, SpriteFrameState *state, ActorRecord *input);
 struct Rec_func_800A9E70_arg0;
 struct Rec_func_800A9E70_arg0;
@@ -269,7 +269,7 @@ block_37:
             return;
         }
         if (*(u16 *)&sprite->tile_x == reference_tile_object.tile_position.word) {
-            advance_actor_movement_step(actor, context, sprite, (u8 *)(entity));
+            advance_actor_movement_step(actor, context, sprite, entity);
             return;
         }
         if (!(entity->action_flags & ACTOR_ACTION_PENDING)) {
@@ -285,13 +285,13 @@ block_37:
                 entity->action_flags = (u16) (entity->action_flags & ACTOR_ACTION_CLEAR_PENDING_MASK);
                 return;
             }
-            if ((resolve_actor_movement_action(actor, context, (s32)(sprite), 0) << 0x10) == 0) {
+            if ((resolve_actor_movement_action(actor, context, sprite, 0) << 0x10) == 0) {
                 return;
             }
             action_flags = entity->action_flags | 0x4000;
             entity->action_flags = action_flags;
             if (!(action_flags & 0x8000)) {
-                advance_actor_movement_step(actor, context, sprite, (u8 *)(entity));
+                advance_actor_movement_step(actor, context, sprite, entity);
                 return;
             }
         }
@@ -345,7 +345,7 @@ block_37:
             }
             return;
         default:
-            advance_actor_movement_step(actor, context, sprite, (u8 *)(entity));
+            advance_actor_movement_step(actor, context, sprite, entity);
             return;
         }
     }

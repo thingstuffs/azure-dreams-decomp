@@ -49,7 +49,7 @@ s32 identify_selected_item(ActorRecord *entity, DungeonItemEntry *action_id, s16
 
     if (entity == dungeon_actor_ring_anchor) {
         ((PlayerRecord *)entity)->pending_item_action = action_id;
-        begin_mode_selected_item_action(entity, ((u8 *)(&view_reference_entity)), ((u8 *)(&reference_tile_object)), entity);
+        begin_mode_selected_item_action(entity, ((&view_reference_entity)), ((&reference_tile_object)), entity);
         return 0;
     }
 

@@ -16,7 +16,7 @@ typedef struct Page8008 {
  * Shrinks the sprite in staged steps, moves it vertically in state 2, and marks the effect for
  * removal in state 3.
  */
-void update_timed_effect_size_and_position(ViperTimedEffectBody *effect, EntityRec *position, Rec_func_800AA258_arg2 *visual)
+void update_timed_effect_size_and_position(ViperTimedEffectBody *effect, ObjectPosition *position, Rec_func_800AA258_arg2 *visual)
 {
     s32 state;
     u16 size_or_state;

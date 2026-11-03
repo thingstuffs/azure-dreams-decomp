@@ -39,10 +39,9 @@ typedef struct AttachedSpriteWithOffsetBody {
     u8 pad_104[0xE];
 } AttachedSpriteWithOffsetBody;
 
-void create_attached_sprite_with_offset(void *owner_data, MovingPosition *base_position, SpriteFrameState *sprite_template, s16 offset_id);
+void create_attached_sprite_with_offset(ActorRecord *owner_data, MovingPosition *base_position, SpriteFrameState *sprite_template, s16 offset_id);
 void copy_part_state(AttachedSpriteWithOffsetBody *root, void *out_pos_arg, void *dst_part_arg);
 void create_flagged_actor_object_2(AttachedSpriteWithOffsetBody *root, void *output_pos, void *target_data);
-
 
 void run_actor_callbacks_and_adjust_global_flag(void *entity_ptr, void *motion, void *check_arg, void *actor_arg);
 
@@ -56,6 +55,5 @@ void update_actor_part_brightness(void *root_data, void *position_out, void *par
 void update_beldo_attached_part(void *root_data, void *position_data, void *render_data);
 void update_object_animation(ActorRecord *obj, ObjectPosition *motion, SpriteFrameState *part, ActorRecord *state);
 
-s32 replay_actor_direction_commands(u8 *actor, ObjectPosition *action_context, SpriteFrameState *sprite);
-
+s32 replay_actor_direction_commands(ActorRecord *actor, ObjectPosition *action_context, SpriteFrameState *sprite);
 #endif

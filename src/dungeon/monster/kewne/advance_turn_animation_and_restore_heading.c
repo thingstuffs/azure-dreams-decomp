@@ -14,17 +14,12 @@ extern u8 kewne_frame_set_4[];
 extern u8 D_80175ED0[];
 
 
-typedef struct S_80172480_1 {
-    u8 pad_00[0x1C];
-    s32 unk_1C;
-    u8 pad_20[0xA];
-    u16 unk_2A;
-} S_80172480_1;   /* arg3 in advance_turn_animation_and_restore_heading */
+
 
 
 /* Advances an actor's turn-and-animation sequence and restores its saved heading. */
-void advance_turn_animation_and_restore_heading(ActorRecord *actor, ObjectPosition *unused, SpriteFrameState *animation, S_80172480_1 *transform_in) {
-    S_80172480_1 *transform = transform_in;
+void advance_turn_animation_and_restore_heading(ActorRecord *actor, ObjectPosition *unused, SpriteFrameState *animation, ActorRecord *transform_in) {
+    ActorRecord *transform = transform_in;
     s32 heading;
     u8 phase;
     GameWork *scene_state = &g_game_work;
@@ -32,10 +27,10 @@ void advance_turn_animation_and_restore_heading(ActorRecord *actor, ObjectPositi
     phase = actor->action_phase.u;
     switch (phase) {
     case 0:
-        heading = transform->unk_2A & 0xFFF;
-        transform->unk_2A = heading;
+        heading = (u16)transform->facing & 0xFFF;
+        transform->facing = heading;
         if (((0x400 - ((((u16)scene_state->view.camera_rotation.parts.viewAngle) + 0x100) & 0xE00)) & 0xE00) != heading) {
-            transform->unk_2A = heading + 0x200;
+            transform->facing = heading + 0x200;
             return;
         }
         phase = actor->action_phase.u + 1;
@@ -48,7 +43,7 @@ void advance_turn_animation_and_restore_heading(ActorRecord *actor, ObjectPositi
                 animation->frameTable = animation_table;
                 {
                     unsigned long animation_entry = (unsigned long)(((s32) (g_game_work.view.camera_rotation.parts.viewAngle
-                        + (s16) transform->unk_2A + 0x100) >> 9) & 7);
+                        + (s16) transform->facing + 0x100) >> 9) & 7);
                     animation_entry += (unsigned long)animation_table;
                     select_sprite_entry(animation, *(u8 *)animation_entry, 0);
                 }
@@ -65,7 +60,7 @@ void advance_turn_animation_and_restore_heading(ActorRecord *actor, ObjectPositi
             animation->frameTable = animation_table;
             {
                 unsigned long animation_entry = (unsigned long)(((s32) (g_game_work.view.camera_rotation.parts.viewAngle
-                    + (s16) transform->unk_2A + 0x100) >> 9) & 7);
+                    + (s16) transform->facing + 0x100) >> 9) & 7);
                 animation_entry += (unsigned long)animation_table;
                 select_sprite_entry(animation, *(u8 *)animation_entry, 0);
             }
@@ -81,7 +76,7 @@ void advance_turn_animation_and_restore_heading(ActorRecord *actor, ObjectPositi
                 animation->frameTable = animation_table;
                 {
                     unsigned long animation_entry = (unsigned long)(((s32) (g_game_work.view.camera_rotation.parts.viewAngle
-                        + (s16) transform->unk_2A + 0x100) >> 9) & 7);
+                        + (s16) transform->facing + 0x100) >> 9) & 7);
                     animation_entry += (unsigned long)animation_table;
                     select_sprite_entry(animation, *(u8 *)animation_entry, 0);
                 }
@@ -100,7 +95,7 @@ void advance_turn_animation_and_restore_heading(ActorRecord *actor, ObjectPositi
                 animation->frameTable = animation_table;
                 {
                     unsigned long animation_entry = (unsigned long)(((s32) (g_game_work.view.camera_rotation.parts.viewAngle
-                        + (s16) transform->unk_2A + 0x100) >> 9) & 7);
+                        + (s16) transform->facing + 0x100) >> 9) & 7);
                     animation_entry += (unsigned long)animation_table;
                     select_sprite_entry(animation, *(u8 *)animation_entry, 0);
                 }
@@ -115,7 +110,7 @@ void advance_turn_animation_and_restore_heading(ActorRecord *actor, ObjectPositi
                 animation->frameTable = animation_table;
                 {
                     unsigned long animation_entry = (unsigned long)(((s32) (g_game_work.view.camera_rotation.parts.viewAngle
-                        + (s16) transform->unk_2A + 0x100) >> 9) & 7);
+                        + (s16) transform->facing + 0x100) >> 9) & 7);
                     animation_entry += (unsigned long)animation_table;
                     select_sprite_entry(animation, *(u8 *)animation_entry, 0);
                 }
@@ -131,15 +126,15 @@ void advance_turn_animation_and_restore_heading(ActorRecord *actor, ObjectPositi
         return;
     case 4:
         if (animation->flags & 0xE000) {
-            transform->unk_1C = (s32) (transform->unk_1C | 0x40000);
+            transform->flags1C = (s32) (transform->flags1C | 0x40000);
             {
                 u8 *animation_table = kewne_turn_frames;
                 animation->frameTable = animation_table;
-                select_sprite_entry(animation, animation_table[((s32) (g_game_work.view.camera_rotation.parts.viewAngle + (s16) transform->unk_2A
+                select_sprite_entry(animation, animation_table[((s32) (g_game_work.view.camera_rotation.parts.viewAngle + (s16) transform->facing
                     + 0x100) >> 9) & 7], 0);
             }
             actor->unk_8C.word_ptr = kewne_action_resume_address;
-            transform->unk_2A = (u16) actor->unk_B0.halves.low.u;
+            transform->facing = (u16) actor->unk_B0.halves.low.u;
             actor->unk_B0.halves.high.s = 0;
             g_dungeon_status.activity_counts.parts.pending_action_count = (u16) (((u16)g_dungeon_status.activity_counts.parts.pending_action_count) - 1);
         }

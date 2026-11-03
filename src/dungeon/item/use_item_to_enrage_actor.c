@@ -28,7 +28,7 @@ s32 use_item_to_enrage_actor(ActorRecord *object, DungeonItemEntry *action, s16 
 
     if (object == dungeon_actor_ring_anchor) {
         ((PlayerRecord *)object)->pending_item_action = action;
-        begin_deferred_item_action(object, ((u8 *)(&view_reference_entity)), ((u8 *)(&reference_tile_object)), object);
+        begin_deferred_item_action(object, ((&view_reference_entity)), ((&reference_tile_object)), object);
         return 0;
     }
     if ((u32) object <= 0x9FFFFFFFU) {

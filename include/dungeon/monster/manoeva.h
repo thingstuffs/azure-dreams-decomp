@@ -10,6 +10,9 @@ struct ActorRecord;
 #include "shared/dungeon_moving_views.h"
 #include "records/Rec_func_800A9E70_arg0.h"
 #include "shared/object_node.h"
+
+/* Actor-state dispatch; the final argument is reserved by the caller ABI. */
+s32 dispatch_actor_action_state(ActorRecord *body, ObjectPosition *position, SpriteFrameState *sprite, s32 unused_force_state);
 typedef struct ManoevaParticleBurstBody {
     u8 pad_00[0x20];
     union { s16 s; u16 u; } lifetime;
@@ -27,7 +30,7 @@ typedef struct AdvanceTimedActorVisualEffectBody {
     void *reference_position;
 } AdvanceTimedActorVisualEffectBody;
 void advance_actor_turn_path(ActorRecord *move_data_in, ObjectPosition *context, SpriteFrameState *tile_in, ActorRecord *actor_in);
-void spawn_offset_motion_object(struct ActorRecord *parent_data, MovingPosition *origin, Rec_D_80082E80 *source_data, s16 position_index);
+void spawn_offset_motion_object(ActorRecord *parent_data, ObjectPosition *origin, SpriteFrameState *source_data, s16 position_index);
 void update_effect_visuals_and_lifetime();
 
 
@@ -50,5 +53,14 @@ void create_knockback_travel_object(ActorRecord *owner_data, ObjectPosition *pos
 
 /* Owner declarations appended by tools/headers (append-only; the lines above are hand-kept). */
 void spawn_manoeva_particle_burst(MovingPosition *origin, SpriteFrameState *source_sprite);
+
+s32 draw_linked_record_chain(u8 *record_data, ObjectPosition *position, u8 *linked_data);
+
+void update_actor_item_use_animation(ActorRecord *action, void *item, SpriteFrameState *sprite, ActorRecord *actor);
+
+struct S_80173D78_2;
+void update_actor_target_effect_action(ActorRecord *body, ObjectPosition *context, SpriteFrameState *sprite, struct S_80173D78_2 *actor);
+
+void *spawn_manoeva_from_record(ActorRecord *body, ObjectPosition *unused1, SpriteFrameState *position, Rec_D_80082E80 *spawn_data);
 
 #endif

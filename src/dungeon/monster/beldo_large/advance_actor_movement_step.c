@@ -19,16 +19,7 @@
 #define NULL 0
 #endif
 
-/* Movement-state fields this handler reads from its first argument.  The +0xAF selector byte has no field in
- * Rec_func_800A9E70_arg0 (which covers +0x98/+0x9C), so this one handler keeps a minimal local view. */
-typedef struct BeldoMoveState {
-    u8 pad_00[0x98];
-    u16 unk_98;
-    u8 pad_9A[0x2];
-    union { s8 s; u8 u; } unk_9C;   /* accessed as both */
-    u8 pad_9D[0x12];
-    u8 unk_AF;
-} BeldoMoveState;
+
 
 struct ActorRecord; s16 check_entity_relation(ActorRecord *entry, ActorRecord *anchor);
 void cycle_map_cell_flags(s16, s16, u16);
@@ -49,7 +40,7 @@ extern s16 actor_turn_angle_offsets[];
 /* Select a movement direction, record the previous tile, and update the actor position and height. */
 /* Chooses Beldo's next clear step from actor or player-relative targets, records the path, and updates
  * tile occupancy and height. */
-void advance_actor_movement_step(BeldoMoveState *movement_in, ObjectPosition *action_ctx, SpriteFrameState *position, ActorRecord *actor) {
+void advance_actor_movement_step(ActorRecord *movement_in, ObjectPosition *action_ctx, SpriteFrameState *position, ActorRecord *actor) {
     u16 near_target;
     u8 target_nearby = 0;
     s16 height_result;
@@ -77,7 +68,7 @@ void advance_actor_movement_step(BeldoMoveState *movement_in, ObjectPosition *ac
 
     if ((dungeon_flags & 0x4000) || ((s8)actor->movement_queue_state >= 0)) {
         if ((actor->unk_12 >= 2) ||
-            ((try_actor_attack((struct Rec_func_800A9E70_arg0 *)movement_in, action_ctx, (struct Rec_D_80082E80 *)position, actor) << 16) == 0)) {
+            ((try_actor_attack(movement_in, action_ctx, position, actor) << 16) == 0)) {
             update_actor_status_and_mp(actor);
             return;
         }
@@ -91,7 +82,7 @@ void advance_actor_movement_step(BeldoMoveState *movement_in, ObjectPosition *ac
         return;
     }
 
-    update_actor_proximity_flag(position, actor, 3, 6, &movement_in->unk_9C.s);
+    update_actor_proximity_flag(position, actor, 3, 6, &movement_in->unk_9C);
     actor_flags = actor->flags1C;
     if (actor_flags & 0x410) {
         if (actor_flags & 0x400) {
@@ -101,7 +92,7 @@ void advance_actor_movement_step(BeldoMoveState *movement_in, ObjectPosition *ac
                 object = ((ObjectNodeHeader *)found - 1)->sprite;
                 actor->facing = get_rounded_facing_and_rounding_flag(
                     position->tile_x, position->tile_y,
-                    object->tile_x, object->tile_y, &movement_in->unk_98);
+                    object->tile_x, object->tile_y, &movement_in->action_state_flags);
                 actor->movement_queue_state &= 0x7F;
                 return;
             }
@@ -125,7 +116,7 @@ void advance_actor_movement_step(BeldoMoveState *movement_in, ObjectPosition *ac
                 return;
             }
         }
-    } else if (movement_in->unk_AF) {
+    } else if (movement_in->unk_AC.bytes[3]) {
         if (!(actor->action_flags & ACTOR_ACTION_PENDING)) {
             if (actor_flags & 0x20000) {
                 s32 direction;
@@ -148,7 +139,7 @@ void advance_actor_movement_step(BeldoMoveState *movement_in, ObjectPosition *ac
                 }
                 new_angle = get_rounded_facing_and_rounding_flag(position->tile_x,
                     position->tile_y,
-                                          target_x, (s16)target_y, &movement_in->unk_98);
+                                          target_x, (s16)target_y, &movement_in->action_state_flags);
                 actor->facing = new_angle;
                 if ((check_movement_clearance_and_height(new_angle, position, actor, 0x20) << 16) <= 0) {
                     TileObject *retry_target = &reference_tile_object;
@@ -156,7 +147,7 @@ void advance_actor_movement_step(BeldoMoveState *movement_in, ObjectPosition *ac
                     actor->facing = get_rounded_facing_and_rounding_flag(
                         position->tile_x, position->tile_y,
                         retry_target->tile_position.parts.tile_x, retry_target->tile_position.parts.tile_y,
-                        &movement_in->unk_98);
+                        &movement_in->action_state_flags);
                 }
                 {
                     TileObject *check_target = &reference_tile_object;
@@ -169,7 +160,7 @@ void advance_actor_movement_step(BeldoMoveState *movement_in, ObjectPosition *ac
                     }
                 }
             } else {
-                select_actor_route_target((u8 *)position, movement_in->unk_9C.s, (u8 *)actor, &movement_in->unk_98);
+                select_actor_route_target((u8 *)position, movement_in->unk_9C, (u8 *)actor, &movement_in->action_state_flags);
             }
         }
     } else {
@@ -177,7 +168,7 @@ void advance_actor_movement_step(BeldoMoveState *movement_in, ObjectPosition *ac
 
         kind = (s8)position->room_index;
         if ((kind >= 0) && (dungeon_rooms[kind].flags & ROOM_HOLY_BEAM)) {
-            select_actor_route_target((u8 *)position, movement_in->unk_9C.s, (u8 *)actor, &movement_in->unk_98);
+            select_actor_route_target((u8 *)position, movement_in->unk_9C, (u8 *)actor, &movement_in->action_state_flags);
         } else if (!(actor->action_flags & ACTOR_ACTION_PENDING)) {
             found = probe_directional_neighbor(actor, position->tile_x,
                 position->tile_y,
@@ -194,7 +185,7 @@ void advance_actor_movement_step(BeldoMoveState *movement_in, ObjectPosition *ac
                 TileObject *target = &reference_tile_object;
                 actor->facing = get_rounded_facing_and_rounding_flag(
                     position->tile_x, position->tile_y,
-                    target->tile_position.parts.tile_x, target->tile_position.parts.tile_y, &movement_in->unk_98);
+                    target->tile_position.parts.tile_x, target->tile_position.parts.tile_y, &movement_in->action_state_flags);
                 if ((test_neighbor_position_relation(position->tile_x, position->tile_y,
                                    target->tile_position.parts.tile_x, target->tile_position.parts.tile_y) << 16) != 0) {
                     if (get_actor_height_difference(primary_actor_record, actor) < 0x81) {
@@ -209,7 +200,7 @@ void advance_actor_movement_step(BeldoMoveState *movement_in, ObjectPosition *ac
                     }
                 }
             } else {
-                select_actor_route_target((u8 *)position, movement_in->unk_9C.s, (u8 *)actor, &movement_in->unk_98);
+                select_actor_route_target((u8 *)position, movement_in->unk_9C, (u8 *)actor, &movement_in->action_state_flags);
             }
         }
     }
@@ -218,7 +209,7 @@ void advance_actor_movement_step(BeldoMoveState *movement_in, ObjectPosition *ac
 
     do {
         base_angle = actor->facing;
-        if (movement_in->unk_98 & 2) {
+        if (movement_in->action_state_flags & 2) {
             {
                 s32 angle_delta = (s32)actor_turn_angle_offsets[attempt];
 
@@ -279,7 +270,7 @@ void advance_actor_movement_step(BeldoMoveState *movement_in, ObjectPosition *ac
     }
     turn_state = &g_dungeon_status;
     actor->action_flags &= ACTOR_ACTION_CLEAR_PENDING_MASK;
-    movement_in->unk_9C.u = position->room_index;
+    movement_in->unk_9C = position->room_index;
     actor->pending_turn_updates--;
     turn_state->activity_counts.parts.pending_movement_count++;
     if (actor->pending_turn_updates == 0) {

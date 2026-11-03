@@ -1,3 +1,5 @@
+#include "dungeon/monster/u_boat.h"
+#include "shared/object_node.h"
 #include "common.h"
 #include "shared/dungeon_status.h"
 #include "records/Rec_func_800A9E70_arg0.h"
@@ -7,30 +9,29 @@
 
 
 extern s32 prepare_directional_attack();
-extern void begin_actor_exclusive_action();
 
 
 /* Start the actor action and reset its state when ready, or dispatch the alternate action. */
-void begin_actor_action(Rec_func_800A9E70_arg0 *state, ObjectPosition *world_pos, s32 tile_pos, EntityRec *actor)
+void begin_actor_action(ActorRecord *state, ObjectPosition *world_pos, SpriteFrameState *sprite, ActorRecord *actor)
 {
-    if (state->unk_B5 == 0) {
-        actor->unk_71 &= 0x7F;
+    if (state->unk_B4.bytes[1] == 0) {
+        actor->movement_queue_state &= 0x7F;
         if (!(g_dungeon_status.flags & 0x2000) && ((try_claim_dungeon_action_slot(actor) << 16) == 0)) {
-            apply_camera_offset_and_select_target((u8 *)actor - 0x20, world_pos, 8, 0x300);
+            apply_camera_offset_and_select_target(NODE_HEADER(actor), world_pos, 8, 0x300);
             if ((try_claim_dungeon_action_slot(actor) << 16) == 0) {
-                state->unk_8C = 0;
-                state->unk_9A.as_s8 = 0x11;
-                state->unk_9B.as_s8 = 0;
-                state->unk_96.as_s16 = 0;
-                actor->unk_6D--;
-                state->unk_98 |= 8;
-                prepare_directional_attack(actor, tile_pos, actor->facing, 1, 0);
+                state->unk_8C.word = 0;
+                state->action_id.s = 0x11;
+                state->action_phase.s = 0;
+                state->action_timer.s = 0;
+                actor->pending_turn_updates--;
+                state->action_state_flags |= 8;
+                prepare_directional_attack(actor, sprite, actor->facing, 1, 0);
                 actor->unk_84 = 0x7C;
                 actor->unk_85 = 0;
                 return;
             }
         }
     } else {
-        begin_actor_exclusive_action(state, world_pos, tile_pos, 1, 1);
+        begin_actor_exclusive_action(state, world_pos, sprite, 1, 1);
     }
 }

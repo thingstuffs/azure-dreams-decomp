@@ -39,7 +39,7 @@ s32 apply_familiar_call_item(ActorRecord *target, DungeonItemEntry *action, s16 
     global_page = (u8 *)0x800E0000;
     if (target == *(u8 **)(global_page + 0x3D7C)) {
         ((PlayerRecord *)target)->pending_item_action = action;
-        begin_mode_selected_item_action(target, ((u8 *)(&view_reference_entity)), ((u8 *)(&reference_tile_object)), target);
+        begin_mode_selected_item_action(target, ((&view_reference_entity)), ((&reference_tile_object)), target);
         return 0;
     }
 

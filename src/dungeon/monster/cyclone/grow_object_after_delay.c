@@ -9,7 +9,7 @@
 extern u8 cyclone_move_direction_frames[8];
 
 /* Updates object direction and grows it to full scale after an eight-tick delay. */
-void grow_object_after_delay(DirectionalRenderObjectBody *animation, s32 unused, SpriteFrameState *object) {
+void grow_object_after_delay(DirectionalRenderObjectBody *animation, ObjectPosition *unused_position, SpriteFrameState *object) {
     s32 direction_index;
     s16 phase;
     u16 phase_u;

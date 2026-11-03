@@ -633,7 +633,7 @@ void create_converging_fading_sprite(
     R10_80170CF8_S_80AC55DC_1 *origin, s16 effect_id, s32 effect_value, s16 duration,
     s32 offset_x, s32 offset_y, s32 offset_z);
 void *create_actor_with_optional_status(s16 flags, s16 kind_id, s16 variant, s32 spawn_value);
-void update_actor_callbacks_animation_and_ground(u8 *actor, u8 *motion, u8 *object);
+void update_actor_callbacks_animation_and_ground(u8 *actor, ObjectPosition *motion, SpriteFrameState *sprite);
 void update_snowman_behavior(ActorRecord *actor_arg, ObjectPosition *context_arg, SpriteFrameState *sprite_arg, ActorRecord *entity_arg);
 void advance_snowman_stored_path(ActorRecord *body, ObjectPosition *motion, SpriteFrameState *sprite, void *path_state);
 void choose_snowman_move(ActorRecord *move_data, ObjectPosition *context, SpriteFrameState *position_data, ActorRecord *actor_data);
@@ -662,7 +662,7 @@ void resolve_linked_attack_hits_and_particle_bursts(void *node, s32 target_x, s3
 void prepare_directional_attacks_for_neighbor_entities(void *node, s32 tile_x, s32 tile_y, s16 target_height);
 void select_actor_target_and_advance_status(ActorRecord *action_state, ObjectPosition *effect_arg, SpriteFrameState *anim_state, ActorRecord *actor);
 void advance_directional_attack_sequence(ActorRecord *action, ObjectPosition *position, SpriteFrameState *sprite, ActorRecord *entity);
-s32 project_snowman_sprite_chain(void *initial_payload, s32 entry_data, R10_80174BE4_Entry *entry, s32 unused);
+s32 project_snowman_sprite_chain(void *initial_payload, ObjectPosition *position, R10_80174BE4_Entry *entry, s32 unused);
 void update_effect_motion_and_brightness(RandomizedOscillatingEffectBody *effect, void *motion, void *render);
 void spawn_randomized_oscillating_effect(ActorRecord *body, R10_80174F24_S_func_80AF3724_0 *origin, SpriteFrameState *sprite, ActorRecord *actor);
 void wait_for_snowman_action_slot(ActorRecord *entity_data, ObjectPosition *motion, SpriteFrameState *sprite, void *other_data);

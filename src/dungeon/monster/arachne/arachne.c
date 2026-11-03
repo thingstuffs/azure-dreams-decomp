@@ -842,9 +842,9 @@ void select_and_start_target_action(ActorRecord *action_state, ObjectPosition *a
 s32 relink_arachne_path(ActorRecord *entity_arg, ObjectPosition *primary_context_arg, SpriteFrameState *secondary_context_arg, s32 force_state_arg) {
     s16 state_type;
     s32 result;
-    void *entity = entity_arg;
+    ActorRecord *entity = entity_arg;
 
-    state_type = (s16)relink_entity_and_clear_high_flag(primary_context_arg, secondary_context_arg, entity, 3, 6, entity + 0x9C);
+    state_type = (s16)relink_entity_and_clear_high_flag(primary_context_arg, secondary_context_arg, entity, 3, 6, &entity->unk_9C);
     if (state_type < 0) return 0;
     if ((force_state_arg << 0x10) != 0) {
         choose_arachne_move(entity, primary_context_arg, secondary_context_arg, entity);
@@ -853,7 +853,7 @@ s32 relink_arachne_path(ActorRecord *entity_arg, ObjectPosition *primary_context
     }
     switch (state_type) {
     case 0:
-        ((R12_801720B4_S_80172628_0 *)entity)->unk_9A = 0xE;
+        entity->action_id.s = 0xE;
         update_actor_status_and_mp(entity);
         result = 0;
         return result;
@@ -862,13 +862,13 @@ s32 relink_arachne_path(ActorRecord *entity_arg, ObjectPosition *primary_context
         result = 0;
         return result;
     case 1:
-        ((R12_801720B4_S_80172628_0 *)entity)->unk_71 = (u8) (((R12_801720B4_S_80172628_0 *)entity)->unk_71 & 0x7F);
+        entity->movement_queue_state = (u8) (entity->movement_queue_state & 0x7F);
         if ((has_pending_dungeon_activity(entity) << 0x10) != 0) {
             break;
         }
                                 /* fall through */
     default:
-        ((R12_801720B4_S_80172628_0 *)entity)->unk_71 = (u8) (((R12_801720B4_S_80172628_0 *)entity)->unk_71 & 0x7F);
+        entity->movement_queue_state = (u8) (entity->movement_queue_state & 0x7F);
         if ((g_dungeon_status.flags & 8) == 0) {
             result = 1;
             return result;
@@ -876,7 +876,7 @@ s32 relink_arachne_path(ActorRecord *entity_arg, ObjectPosition *primary_context
         break;
     }
     result = 0;
-    ((R12_801720B4_S_80172628_0 *)entity)->unk_46 = (u16) (((R12_801720B4_S_80172628_0 *)entity)->unk_46 & 0x7FFF);
+    entity->action_flags = (u16) (entity->action_flags & 0x7FFF);
     return result;
 }
 
@@ -1025,7 +1025,7 @@ void check_boss_effect_threshold(ActorRecord *state, ObjectPosition *entity, Spr
 }
 
 /* Animates a backward step and wireframe attack, applies damage, then recenters the actor and spends MP. */
-void advance_action_and_spawn_effect(ActorRecord *body, ObjectPosition *position, SpriteFrameState *sprite, void *actor) {
+void advance_action_and_spawn_effect(ActorRecord *body, ObjectPosition *position, SpriteFrameState *sprite, ActorRecord *actor) {
     s16 effect_offset[3];
     s32 dir_x;
     s32 dir_y;
@@ -1034,12 +1034,12 @@ void advance_action_and_spawn_effect(ActorRecord *body, ObjectPosition *position
     s32 timer;
     u8 next_state;
     s32 shifted_timer;
-    R12_80172654_S_80172654_3 *action_actor;
+    ActorRecord *action_actor;
     void *effect;
     AdvanceActionAndSpawnEffectBody *effect_data;
 
     state = body->action_phase.u;
-    dir_offset = (((R12_80172654_S_80172654_1 *)actor)->unk_2A.s >> 8) & 0xE;
+    dir_offset = ((u16)(actor->facing) >> 8) & 0xE;
     dir_x = *(s16 *)((u8 *)((s8 *)dir_step_x) + dir_offset);
     dir_y = *(s16 *)((u8 *)((s8 *)dir_step_y) + dir_offset);
     timer = body->action_timer.u - 1;
@@ -1051,14 +1051,14 @@ void advance_action_and_spawn_effect(ActorRecord *body, ObjectPosition *position
         if (sprite->flags & 0x8000) {
             body->action_phase.u = 0xFF;
             sprite->flags |= 0x6000;
-            resolve_attack_damage_and_effects(action_actor, sprite,(s16)(action_actor->unk_2A),(s16)(1));
+            resolve_attack_damage_and_effects(action_actor, sprite,(s16)(action_actor->facing),(s16)(1));
             return;
         }
         position->velocity_x = (-dir_x) << 17;
         position->velocity_y = (-dir_y) << 17;
         position->velocity_z = 0;
         sprite->frameTable = arachne_move_direction_frames;
-        select_sprite_entry(sprite,(u8)(arachne_move_direction_frames[((g_game_work.view.camera_rotation.parts.viewAngle + ((R12_80172654_S_80172654_1 *)actor)->unk_2A.u + 0x100) >> 9) & 7]),
+        select_sprite_entry(sprite,(u8)(arachne_move_direction_frames[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7]),
             0);
         next_state = body->action_phase.u;
         timer = 8;
@@ -1073,7 +1073,7 @@ void advance_action_and_spawn_effect(ActorRecord *body, ObjectPosition *position
         position->velocity_y = 0;
         position->velocity_x = 0;
         sprite->frameTable = arachne_frame_set;
-        select_sprite_entry(sprite,(u8)(arachne_frame_set[((g_game_work.view.camera_rotation.parts.viewAngle + ((R12_80172654_S_80172654_1 *)actor)->unk_2A.u + 0x100) >> 9) & 7]),
+        select_sprite_entry(sprite,(u8)(arachne_frame_set[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7]),
             0);
         next_state = body->action_phase.u;
         next_state += 1;
@@ -1104,7 +1104,7 @@ void advance_action_and_spawn_effect(ActorRecord *body, ObjectPosition *position
                     sample_terrain_surface_height(((sprite->tile_x + dir_x) << 6) & 0xFFC0,
                                   ((sprite->tile_y + dir_y) << 6) & 0xFFC0,(s16)((s16)(position->z.w.i - 0x80))) -
                     position->z.w.i;
-                effect_data->unk_10 = ((R12_80172654_S_80172654_1 *)actor)->unk_2A.s;
+                effect_data->unk_10 = (u16)(actor->facing);
             }
             next_state = body->action_phase.u;
             next_state += 1;
@@ -1114,7 +1114,7 @@ void advance_action_and_spawn_effect(ActorRecord *body, ObjectPosition *position
         return;
     case 3:
         if ((s16)timer == 0xA) {
-            resolve_attack_damage_and_effects(actor, sprite,(s16)(((R12_80172654_S_80172654_1 *)actor)->unk_2A.u),(s16)(1));
+            resolve_attack_damage_and_effects(actor, sprite,(s16)(actor->facing),(s16)(1));
             play_sound_if_enabled(0x813);
         }
         if (body->action_timer.s > 0)
@@ -1129,7 +1129,7 @@ void advance_action_and_spawn_effect(ActorRecord *body, ObjectPosition *position
         if ((timer << 16) > 0)
             return;
         sprite->frameTable = arachne_move_direction_frames;
-        select_sprite_entry(sprite,(u8)(arachne_move_direction_frames[((g_game_work.view.camera_rotation.parts.viewAngle + ((R12_80172654_S_80172654_1 *)actor)->unk_2A.u + 0x100) >> 9) & 7]),
+        select_sprite_entry(sprite,(u8)(arachne_move_direction_frames[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7]),
             0);
         body->action_timer.u = state;
         body->action_phase.u = 0xFF;
@@ -1151,8 +1151,8 @@ void advance_action_and_spawn_effect(ActorRecord *body, ObjectPosition *position
             body->unk_8C.address = ((void *)update_actor_state_and_select_target);
             g_dungeon_status.active_actor = 0;
             advance_status_timers(actor);
-            if (((R12_80172654_S_80172654_1 *)actor)->unk_6D == 0) {
-                ((R12_80172654_S_80172654_1 *)actor)->unk_46 &= 0x7FFF;
+            if (actor->pending_turn_updates == 0) {
+                actor->action_flags &= 0x7FFF;
                 return;
             }
             (*(void * *)actor_update_node_cursor) = (u8 *)actor - 0x20;
@@ -1545,26 +1545,26 @@ void finish_actor_hop_and_grow_then_select_target(ActorRecord *state, ObjectPosi
 }
 
 /* Waits for a status effect to clear, updates actor status and activity counts, then restores movement. */
-void advance_arachne_status_action(void *in_controller, ObjectPosition *in_context, void *sprite, ActorRecord *in_actor) {
+void advance_arachne_status_action(ActorRecord *in_controller, ObjectPosition *in_context, SpriteFrameState *sprite, ActorRecord *in_actor) {
     void *context = in_context;
-    void *actor = in_actor;
+    ActorRecord *actor = in_actor;
     s32 state;
 
-    state = ((R12_8017368C_S_80173358_0 *)in_controller)->unk_9B;
+    state = in_controller->action_phase.u;
     switch (state) {
     case 0:
-        if (((R12_8017368C_S_80173358_1 *)sprite)->unk_14 & 0xE000) {
+        if (sprite->flags & 0xE000) {
             u8 *direction_anims;
             DungeonGlobalStatus *system_base;
 
             direction_anims = arachne_alt_direction_frames;
-            (*(void * *)((u8 *)sprite + 0x2C)) = direction_anims;
+            sprite->frameTable = direction_anims;
             select_sprite_entry(sprite,
-                direction_anims[((g_game_work.view.camera_rotation.parts.viewAngle + ((R12_8017368C_S_80173358_2 *)actor)->unk_2A + 0x100) >> 9) & 7],
+                direction_anims[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
                 0);
             system_base = &g_dungeon_status;
             (*(u16 *)&system_base->activity_counts.parts.pending_action_count)--;
-            ((R12_8017368C_S_80173358_0 *)in_controller)->unk_9B++;
+            in_controller->action_phase.u++;
         }
         return;
 
@@ -1578,12 +1578,12 @@ void advance_arachne_status_action(void *in_controller, ObjectPosition *in_conte
                 return;
             }
 
-            if ((((R12_8017368C_S_80173358_2 *)actor)->unk_64 != 0) &&
+            if ((actor->hp_delta != 0) &&
                 (begin_ready_actor_directional_action(in_controller, context, sprite, 0) != 0)) {
                 return;
             }
 
-            if (((R12_8017368C_S_80173358_2 *)actor)->unk_25 == 0) {
+            if (actor->mp_value.parts.whole == 0) {
                 if (system_base->flags & 0x2008) {
                     return;
                 }
@@ -1595,7 +1595,7 @@ void advance_arachne_status_action(void *in_controller, ObjectPosition *in_conte
                 return;
             }
 
-            actor_flags = ((R12_8017368C_S_80173358_2 *)actor)->unk_1C;
+            actor_flags = actor->flags1C;
             if (actor_flags & 0x100) {
                 begin_pushed_actor_move(in_controller, context, sprite, actor);
                 return;
@@ -1607,7 +1607,7 @@ void advance_arachne_status_action(void *in_controller, ObjectPosition *in_conte
                 return;
             }
 
-            if (((R12_8017368C_S_80173358_2 *)actor)->unk_6D == 0) {
+            if (actor->pending_turn_updates == 0) {
                 return;
             }
 
@@ -1644,24 +1644,24 @@ void advance_arachne_status_action(void *in_controller, ObjectPosition *in_conte
             u8 *direction_anims;
 
             direction_anims = D_80175AA4;
-            (*(void * *)((u8 *)sprite + 0x2C)) = direction_anims;
+            sprite->frameTable = direction_anims;
             select_sprite_entry(sprite,
-                direction_anims[((g_game_work.view.camera_rotation.parts.viewAngle + ((R12_8017368C_S_80173358_2 *)actor)->unk_2A + 0x100) >> 9) & 7],
+                direction_anims[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
                 0);
         }
 
-        sprite = (u8 *)sprite + 0x14;
+        sprite = (SpriteFrameState *)((u8 *)sprite + 0x14);
         if (!(*(u16 *)sprite & 0x8000)) {
             DungeonGlobalStatus *system_base = &g_dungeon_status;
 
             (*(u16 *)&system_base->activity_counts.parts.pending_action_count)++;
-            ((R12_8017368C_S_80173358_0 *)in_controller)->unk_9B++;
+            in_controller->action_phase.u++;
             return;
         }
         break;
 
     case 2:
-        if (!(((R12_8017368C_S_80173358_1 *)sprite)->unk_14 & 0xE000)) {
+        if (!(sprite->flags & 0xE000)) {
             return;
         }
         {
@@ -1673,8 +1673,8 @@ void advance_arachne_status_action(void *in_controller, ObjectPosition *in_conte
     default:
         return;
     }
-    ((R12_8017368C_S_80173358_2 *)actor)->unk_1C &= ~ACTOR_ASLEEP;
-    in_controller = (u8 *)in_controller + 0x8C;
+    actor->flags1C &= ~ACTOR_ASLEEP;
+    in_controller = (ActorRecord *)((u8 *)in_controller + 0x8C);
     *(void **)in_controller = ((u8 *)update_actor_state_and_select_target);
 }
 
@@ -1871,9 +1871,11 @@ void dim_effect_after_delay(AdvanceActionAndSpawnEffectBody *effect) {
 }
 
 /* Projects curved grids for linked effects and queues their visible line segments by depth. */
-s32 build_linked_curved_wireframe_grid(u8 *node, s32 next_node, SpriteFrameState *unused_2)
+s32 build_linked_curved_wireframe_grid(u8 *node, ObjectPosition *position, SpriteFrameState *unused_sprite)
 {
     R12_80173FDC_Frame frame;
+    /* The loop state also carries a successor header before reloading its position. */
+    s32 next_node = (s32)position;
     u8 *effect;
     u8 *vertex_depths;
     u8 *transform_work;

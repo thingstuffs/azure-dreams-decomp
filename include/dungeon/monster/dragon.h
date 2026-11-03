@@ -267,7 +267,7 @@ void remove_defeated_dragon(ActorRecord *body, ObjectPosition *position, SpriteF
 void shrink_hopping_dragon(void *state, void *motion, void *position, void *actor);
 void advance_dragon_removal(void *state, void *motion, void *position, void *actor);
 void grow_hopping_dragon(ActorRecord *state, ObjectPosition *motion, SpriteFrameState *position, ActorRecord *actor);
-void update_actor_status_and_restore_handler(void *in_controller, ObjectPosition *in_context, void *sprite, ActorRecord *in_actor);
+void update_actor_status_and_restore_handler(ActorRecord *in_controller, ObjectPosition *in_context, SpriteFrameState *sprite, ActorRecord *in_actor);
 void wait_for_dragon_mp(ActorRecord *controller, ObjectPosition *context, SpriteFrameState *sprite, ActorRecord *entity);
 void update_dragon_parent_motion(ActorRecord *actor, ObjectPosition *action, SpriteFrameState *entity, ActorRecord *map_object);
 void update_thrown_dragon(ActorRecord *state, ObjectPosition *entity, SpriteFrameState *position, ActorRecord *graphic);

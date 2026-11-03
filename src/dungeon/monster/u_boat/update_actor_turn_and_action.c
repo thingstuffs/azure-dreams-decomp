@@ -21,14 +21,11 @@ extern s8 find_active_rect_containing_point(s32, s32);
 extern void update_actor_status_and_mp(ActorRecord *entity);
 extern void reset_action_and_decrement_actor_count(ActorRecord *, ObjectPosition *, SpriteFrameState *, ActorRecord *);
 void create_owner_linked_directional_object(ActorRecord *owner_data, ObjectPosition *source_position, SpriteFrameState *source_sprite);
-extern void prepare_actor_directional_action(u8 *entity, ObjectPosition *action_param, SpriteFrameState *action_sprite, u8 *frame_table, s32 fallback_state);
 void advance_aura_actor_turn_path(ActorRecord *actor, ObjectPosition *actor_slot, SpriteFrameState *entity_arg, ActorRecord *state_arg);
 #include "dungeon/monster/u_boat.h"
-extern void begin_actor_action(void *, ObjectPosition *, void *, void *);
 extern s32 func_80172EA8(void *, void *, void *, s32);
 extern void update_actor_action_transition(ActorRecord *state, ObjectPosition *update_mode, SpriteFrameState *sprite, ActorRecord *entity);
 void complete_actor_action(ActorRecord *actor, ObjectPosition *unused_1, SpriteFrameState *unused_2, ActorRecord *entity);
-extern void begin_actor_exclusive_action(void *, ObjectPosition *, void *, s32, s32);
 
 extern u8 uboat_default_frames[];
 extern u8 uboat_ready_frames[];
@@ -42,20 +39,20 @@ extern u8 uboat_action_frames[];
 #include "dungeon/actor/state.h"
 
 /* Updates dungeon actor animation, status, and action dispatch. */
-void update_actor_turn_and_action(void *entity, ObjectPosition *context, SpriteFrameState *sprite, ActorRecord *actor)
+void update_actor_turn_and_action(ActorRecord *entity, ObjectPosition *context, SpriteFrameState *sprite, ActorRecord *actor)
 {
     u16 distance;
     s8 room_id;
     u16 action_state;
 
     if (g_dungeon_status.flags & 0x1000) {
-        ((ActorRecord *)entity)->action_id.u = 0xE;
+        entity->action_id.u = 0xE;
         advance_aura_actor_turn_path(entity, context, sprite, actor);
         return;
     }
 
     if (actor->mp_value.parts.whole == 0) {
-        if (((ActorRecord *)entity)->unk_B4.bytes[1] == 0) {
+        if (entity->unk_B4.bytes[1] == 0) {
             void *anim_table;
 
             advance_actor_pending_action(entity, context, sprite, actor);
@@ -76,9 +73,9 @@ void update_actor_turn_and_action(void *entity, ObjectPosition *context, SpriteF
 
     if (((u32)actor->flags1C) & ACTOR_ASLEEP) {
         if (sprite->frameTable == uboat_action_frames) {
-            ((ActorRecord *)entity)->action_id.u = 0xD;
-            ((ActorRecord *)entity)->action_phase.u = 1;
-            ((ActorRecord *)entity)->unk_8C.word = 0;
+            entity->action_id.u = 0xD;
+            entity->action_phase.u = 1;
+            entity->unk_8C.word = 0;
             actor->flags1C &= 0xFFFBFFFF;
             return;
         }
@@ -93,10 +90,10 @@ void update_actor_turn_and_action(void *entity, ObjectPosition *context, SpriteF
             return;
         }
 
-        if (((ActorRecord *)entity)->action_id.u != 0xE) {
-            ((ActorRecord *)entity)->action_id.u = 0xE;
+        if (entity->action_id.u != 0xE) {
+            entity->action_id.u = 0xE;
         }
-        if (((ActorRecord *)entity)->unk_B4.bytes[1] == 0) {
+        if (entity->unk_B4.bytes[1] == 0) {
             void *anim_table = uboat_default_frames;
             u8 is_active;
 
@@ -106,18 +103,18 @@ void update_actor_turn_and_action(void *entity, ObjectPosition *context, SpriteF
                     ((u8 *)anim_table)[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
                     0);
                 sprite->frame_ticks = 1;
-                is_active = ((ActorRecord *)entity)->unk_B0.bytes[0];
-                ((ActorRecord *)entity)->unk_9E.s = 0;
-                ((ActorRecord *)entity)->unk_A0.parts.high = 0;
+                is_active = entity->unk_B0.bytes[0];
+                entity->unk_9E.s = 0;
+                entity->unk_A0.parts.high = 0;
             } else {
-                is_active = ((ActorRecord *)entity)->unk_B0.bytes[0];
+                is_active = entity->unk_B0.bytes[0];
             }
             if (is_active == 0) {
                 create_owner_linked_directional_object(entity, context, sprite);
             }
-            if (((ActorRecord *)entity)->unk_B4.bytes[1] == 0) {
+            if (entity->unk_B4.bytes[1] == 0) {
                 actor->flags1C |= 0x40000;
-                ((ActorRecord *)entity)->action_state_flags &= 0xFFF7;
+                entity->action_state_flags &= 0xFFF7;
             }
         }
 
@@ -131,10 +128,10 @@ void update_actor_turn_and_action(void *entity, ObjectPosition *context, SpriteF
             s16 height_delta;
 
             begin_actor_move_to_target_facing(entity, context, sprite, actor);
-            height_delta = ((ActorRecord *)entity)->unk_90.parts.high.u - ((ActorRecord *)entity)->unk_A0.parts.high;
-            ((ActorRecord *)entity)->unk_A0.parts.high = 0;
-            ((ActorRecord *)entity)->unk_9E.s = 0;
-            ((ActorRecord *)entity)->unk_90.parts.high.s = height_delta;
+            height_delta = entity->unk_90.parts.high.u - entity->unk_A0.parts.high;
+            entity->unk_A0.parts.high = 0;
+            entity->unk_9E.s = 0;
+            entity->unk_90.parts.high.s = height_delta;
             update_actor_action_transition(entity, context, sprite, actor);
             return;
         }
@@ -194,7 +191,7 @@ void update_actor_turn_and_action(void *entity, ObjectPosition *context, SpriteF
             return;
 
         case 9:
-            if (((ActorRecord *)entity)->unk_B4.bytes[1] == 0) {
+            if (entity->unk_B4.bytes[1] == 0) {
                 complete_actor_action(entity, context, sprite, actor);
                 return;
             }
@@ -202,7 +199,7 @@ void update_actor_turn_and_action(void *entity, ObjectPosition *context, SpriteF
             return;
 
         case 10:
-            if (((ActorRecord *)entity)->unk_B4.bytes[1] == 0) {
+            if (entity->unk_B4.bytes[1] == 0) {
                 reset_action_and_decrement_actor_count(entity, context, sprite, actor);
                 return;
             }
@@ -216,7 +213,7 @@ void update_actor_turn_and_action(void *entity, ObjectPosition *context, SpriteF
         case 5:
         case 6:
         case 7:
-            if (((ActorRecord *)entity)->unk_B4.bytes[1] == 0) {
+            if (entity->unk_B4.bytes[1] == 0) {
                 ActorRecord *player;
                 s16 facing;
 
@@ -230,7 +227,7 @@ void update_actor_turn_and_action(void *entity, ObjectPosition *context, SpriteF
                     update_actor_status_and_mp(actor);
                     return;
                 }
-                if (((ActorRecord *)entity)->unk_B4.bytes[1] == 0) {
+                if (entity->unk_B4.bytes[1] == 0) {
                     prepare_actor_directional_action(entity, context, sprite, D_800E2418, uboat_behavior_entry);
                     return;
                 }
@@ -250,7 +247,7 @@ void update_actor_turn_and_action(void *entity, ObjectPosition *context, SpriteF
         case 2:
         case 1:
         case 3:
-            if (((ActorRecord *)entity)->unk_B4.bytes[1] == 0) {
+            if (entity->unk_B4.bytes[1] == 0) {
                 begin_actor_spell_action(entity, context, sprite, D_800E2418, uboat_behavior_entry);
                 return;
             } else {

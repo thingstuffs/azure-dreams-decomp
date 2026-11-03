@@ -21,7 +21,7 @@ s32 update_actor_proximity_flag(void *source_arg, void *state, s32 lower_limit, 
         }
         source_index = source->room_index;
         if (source_index < 0 || source_index != reference_tile_object.room_index) {
-            if ((get_tile_chebyshev_distance(((u8 *)(&reference_tile_object)), source) << 16) >= (upper_limit << 16)) {
+            if ((get_tile_chebyshev_distance(((&reference_tile_object)), source) << 16) >= (upper_limit << 16)) {
                 ((EntityRec *)state)->unk_73 = 0;
                 ((EntityRec *)state)->unk_72 = 0;
                 (*(u32 *)&((EntityRec *)state)->flags1C) &= ~ACTOR_PLAYER_AWARE;
@@ -34,7 +34,7 @@ s32 update_actor_proximity_flag(void *source_arg, void *state, s32 lower_limit, 
     if (!(flags & ACTOR_BLIND)) {
         source_index = source->room_index;
         if ((source_index >= 0 && source_index == reference_tile_object.room_index)
-            || (get_tile_chebyshev_distance(((u8 *)(&reference_tile_object)), source) << 16) < (lower_limit << 16))
+            || (get_tile_chebyshev_distance(((&reference_tile_object)), source) << 16) < (lower_limit << 16))
             (*(u32 *)&((EntityRec *)state)->flags1C) |= ACTOR_PLAYER_AWARE;
     }
     return ((*(u32 *)&((EntityRec *)state)->flags1C) >> 17) & 1;

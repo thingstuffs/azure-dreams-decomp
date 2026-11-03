@@ -23,7 +23,7 @@ void create_colored_effect_with_sound(void *source, s32 color, unsigned short so
 s32 use_level_gain_item(ActorRecord *entity, DungeonItemEntry *item, s16 action_id) {
     if (entity == dungeon_actor_ring_anchor) {
         ((PlayerRecord *)entity)->pending_item_action = item;
-        begin_deferred_item_action(entity, ((u8 *)(&view_reference_entity)), ((u8 *)(&reference_tile_object)), entity);
+        begin_deferred_item_action(entity, ((&view_reference_entity)), ((&reference_tile_object)), entity);
         return 0;
     }
     if ((u32) entity <= 0x9FFFFFFFU) {

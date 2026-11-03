@@ -878,9 +878,9 @@ void begin_grineut_attack(ActorRecord *action_state, ObjectPosition *action_cont
 s32 relink_grineut_path(ActorRecord *body, ObjectPosition *position, SpriteFrameState *sprite, s32 force_state_arg) {
     s16 state_type;
     s32 result;
-    void *entity = body;
+    ActorRecord *entity = body;
 
-    state_type = (s16)relink_entity_and_clear_high_flag(position, sprite, entity, 3, 6, entity + 0x9C);
+    state_type = (s16)relink_entity_and_clear_high_flag(position, sprite, entity, 3, 6, &entity->unk_9C);
     if (state_type < 0) return 0;
     if ((force_state_arg << 0x10) != 0) {
         choose_grineut_move(entity, position, sprite, entity);
@@ -889,7 +889,7 @@ s32 relink_grineut_path(ActorRecord *body, ObjectPosition *position, SpriteFrame
     }
     switch (state_type) {
     case 0:
-        ((R07_8017229C_S_80172628_0 *)entity)->unk_9A = 0xE;
+        entity->action_id.s = 0xE;
         update_actor_status_and_mp(entity);
         result = 0;
         return result;
@@ -898,13 +898,13 @@ s32 relink_grineut_path(ActorRecord *body, ObjectPosition *position, SpriteFrame
         result = 0;
         return result;
     case 1:
-        ((R07_8017229C_S_80172628_0 *)entity)->unk_71 = (u8) (((R07_8017229C_S_80172628_0 *)entity)->unk_71 & 0x7F);
+        entity->movement_queue_state = (u8) (entity->movement_queue_state & 0x7F);
         if ((has_pending_dungeon_activity(entity) << 0x10) != 0) {
             break;
         }
                                 /* fall through */
     default:
-        ((R07_8017229C_S_80172628_0 *)entity)->unk_71 = (u8) (((R07_8017229C_S_80172628_0 *)entity)->unk_71 & 0x7F);
+        entity->movement_queue_state = (u8) (entity->movement_queue_state & 0x7F);
         if ((g_dungeon_status.flags & 8) == 0) {
             result = 1;
             return result;
@@ -912,7 +912,7 @@ s32 relink_grineut_path(ActorRecord *body, ObjectPosition *position, SpriteFrame
         break;
     }
     result = 0;
-    ((R07_8017229C_S_80172628_0 *)entity)->unk_46 = (u16) (((R07_8017229C_S_80172628_0 *)entity)->unk_46 & 0x7FFF);
+    entity->action_flags = (u16) (entity->action_flags & 0x7FFF);
     return result;
 }
 

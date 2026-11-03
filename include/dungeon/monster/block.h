@@ -53,7 +53,7 @@ typedef struct {
 typedef struct {
     ObjectNodeHeader header;
     u8 pad20[0x40];
-    s32 field60;
+    ActorRecord *field60;
 } CB_8017087C_Object;
 
 typedef struct CB_80170920_S_80170920_0 {
@@ -1020,7 +1020,7 @@ extern void emit_scattered_effects_unless_blocked(void *);
 extern s16 sample_terrain_surface_height(s32,s32,s16);
 extern s32 rand(void);
 
-void initialize_block_sprite_copy(CB_8017087C_Object *object, s32 field60_value, CB_8017087C_CopyFields *source_coords);
+void initialize_block_sprite_copy(CB_8017087C_Object *object, ActorRecord *field60_value, ObjectPosition *source_coords);
 void expand_then_shrink_effect(void *effect, void *unused, void *visual);
 void *create_linked_object_position(s16 spawn_flags, s16 attr_a, s16 attr_b, s32 attr_c);
 void set_boss_effect_flag(void *entity, CB_80170C24_S_80170C24_2 *motion, void *monster);
@@ -1030,15 +1030,15 @@ void choose_and_step_actor_path(ActorRecord *move_data, ObjectPosition *context,
 void begin_directional_actor_animation(ActorRecord *state, ObjectPosition *unused_position, SpriteFrameState *render_state, ActorRecord *entity);
 s32 try_begin_adjacent_actor_attack(ActorRecord *action_state, ObjectPosition *motion_param, void *sprite_arg, ActorRecord *actor);
 void begin_unchecked_directional_attack(ActorRecord *state, ObjectPosition *position, SpriteFrameState *render_state, ActorRecord *entity);
-s32 resolve_actor_action_readiness(void *entity_arg, ObjectPosition *primary_context_arg, void *secondary_context_arg, s32 force_state_arg);
+s32 resolve_actor_action_readiness(ActorRecord *entity_arg, ObjectPosition *primary_context_arg, void *secondary_context_arg, s32 force_state_arg);
 void finish_actor_step_and_status(ActorRecord *state_arg, ObjectPosition *position, SpriteFrameState *render_state, ActorRecord *entity);
 
 void finish_linked_motion_and_trap(ActorRecord *state, ObjectPosition *position, SpriteFrameState *render_state, ActorRecord *entity);
 
-void advance_actor_item_action_effect(CB_80172BCC_S_func_80C953CC_1 *work, CB_80172BCC_S_func_80C953CC_2 *position, CB_80172BCC_S_func_80C953CC_3 *entity,
+void advance_actor_item_action_effect(ActorRecord *work, ObjectPosition *position, SpriteFrameState *entity,
     CB_80172BCC_S_func_80C953CC_4 *actor);
 void update_block_value_reaction(ActorRecord *state, ObjectPosition *motion, SpriteFrameState *action, ActorRecord *entity);
-void remove_defeated_block(void *state,void *position,void *render_state,void *entity);
+void remove_defeated_block(ActorRecord *state,ObjectPosition *position,SpriteFrameState *render_state,ActorRecord *entity);
 void shrink_hopping_block(void *state,void *position,void *render_state,void *entity);
 void advance_block_removal(void *state,void *position,void *render_state,void *entity);
 void resume_actor_after_growth(ActorRecord *state, ObjectPosition *position, SpriteFrameState *render_state, ActorRecord *entity);
@@ -1049,9 +1049,9 @@ void finish_actor_throw_and_trap(ActorRecord *state, ObjectPosition *position, S
 void finish_block_terrain_move(ActorRecord *state, ObjectPosition *position, SpriteFrameState *render_state, ActorRecord *entity);
 void resume_actor_after_spinning_fall(ActorRecord *state, ObjectPosition *position, SpriteFrameState *render_state, ActorRecord *entity);
 void resume_actor_after_fade(ActorRecord *state, ObjectPosition *position, SpriteFrameState *render_state, ActorRecord *entity);
-void fade_timed_primitive_effect(void *effect, s32 unused, void *primitive);
+void fade_timed_primitive_effect(void *effect, ObjectPosition *unused_position, void *primitive);
 void create_randomized_rotated_effect(void *unused_context, Rec_func_80173CFC_arg1 *source_pos, s32 unused_value, s16 scale);
-void project_visible_effect_quad(void *quad, void *position, void *render_info, s16 depth_bias);
+void project_visible_effect_quad(ActorRecord *body, void *position, void *render_info, s16 depth_bias);
 s32 advance_boss_command_stream(void *point, void *position, void *color);
 void create_angular_offset_effect(u8 *effect, s32 *position, s32 effect_param);
 void create_radial_effect_bands(CB_80174724_S_80C96F24_0 *owner, void *origin, void *entity);

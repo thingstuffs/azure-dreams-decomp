@@ -55,7 +55,7 @@ s32 use_item_to_level_up_eligible_actors(ActorRecord *target, DungeonItemEntry *
 
     if (target == dungeon_actor_ring_anchor) {
         ((PlayerRecord *)target)->pending_item_action = action_id;
-        begin_mode_selected_item_action(target, ((u8 *)(&view_reference_entity)), ((u8 *)(&reference_tile_object)), target);
+        begin_mode_selected_item_action(target, ((&view_reference_entity)), ((&reference_tile_object)), target);
         return 0;
     }
 

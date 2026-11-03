@@ -37,12 +37,12 @@ typedef struct S_8016F2E0_2 {
 
 
 /* Updates actor callbacks, facing, movement, and floor contact. */
-void update_boss_actor_movement(void *entity, ObjectPosition *motion, SpriteFrameState *sprite)
+void update_boss_actor_movement(ActorRecord *entity, ObjectPosition *motion, SpriteFrameState *sprite)
 {
-    void *actor = entity;
+    ActorRecord *actor = entity;
     s16 old_direction;
     s16 direction_copy;
-    Callback paused_callback;
+    ActorActionHandler paused_callback;
     s32 floor_height;
     s16 actor_height;
     s16 direction_value;
@@ -56,12 +56,12 @@ void update_boss_actor_movement(void *entity, ObjectPosition *motion, SpriteFram
     S_8016F2E0_1_pre *actor_node;
     S_8016F2E0_2 *actor_record;
 
-    if ((*(s32 *)((u8 *)entity + (0x14))) & 0x00800000) {
-        (*(s32 *)((u8 *)entity + (0x14))) &= 0xFF7FFFFF;
+    if (entity->flags14 & 0x00800000) {
+        entity->flags14 &= 0xFF7FFFFF;
         enqueue_runtime_pool_script(&D_800F8BBC);
-        (*((u8 *)entity + (0x6D))) = 0;
-        (*((u8 *)entity + (0x9B))) = 0;
-        (*((u8 *)entity + (0x71))) &= 0x7F;
+        entity->pending_turn_updates = 0;
+        entity->action_phase.u = 0;
+        entity->movement_queue_state &= 0x7F;
     }
 
     if (system_update_flags & 8) {
@@ -79,37 +79,37 @@ void update_boss_actor_movement(void *entity, ObjectPosition *motion, SpriteFram
     }
 
     if (g_dungeon_status.flags & 0x2000) {
-        paused_callback = (*(Callback *)((u8 *)entity + (0x8C)));
-        if (paused_callback == (Callback)&ghosh_motion_resume_address) {
+        paused_callback = entity->unk_8C.handler;
+        if (paused_callback == ghosh_motion_resume_address) {
             paused_callback(entity, motion, sprite, actor);
             return;
         }
-        ((ActorRecord *)actor)->movement_queue_state &= 0x7F;
+        actor->movement_queue_state &= 0x7F;
         return;
     }
 
-    old_direction = ((ActorRecord *)actor)->pending_turn_updates;
-    if (refresh_actor_facing_and_lifecycle(entity, (s32)(motion), sprite, actor) != 0) {
+    old_direction = actor->pending_turn_updates;
+    if (refresh_actor_facing_and_lifecycle((struct Rec_func_800A9E70_arg0 *)entity, (s32)(motion), sprite, actor) != 0) {
         return;
     }
 
     {
-        Callback update_callback = (*(Callback *)((u8 *)entity + (0x8C)));
+        ActorActionHandler update_callback = entity->unk_8C.handler;
         if (update_callback != 0) {
             update_callback(entity, motion, sprite, actor);
         }
     }
-    ghosh_action_handlers[(*((u8 *)entity + (0x9A)))](entity, motion, sprite, actor);
+    ghosh_action_handlers[entity->action_id.u](entity, motion, sprite, actor);
 
-    if (old_direction != ((ActorRecord *)actor)->pending_turn_updates) {
+    if (old_direction != actor->pending_turn_updates) {
         try_move_actor_to_valid_position(entity, motion, sprite, actor);
     }
 
     sprite_flags = sprite->flags;
     updated_flags = sprite_flags & 0x8000;
     if (updated_flags == 0) {
-        old_direction = ((g_game_work.view.camera_rotation.parts.viewAngle + ((ActorRecord *)actor)->facing + 0x100) >> 9) & 7;
-        previous_direction = (*(s16 *)((u8 *)entity + (0x94)));
+        old_direction = ((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7;
+        previous_direction = entity->unk_94;
         direction_value = old_direction;
         direction_copy = old_direction;
         if (previous_direction != direction_value) {
@@ -120,7 +120,7 @@ void update_boss_actor_movement(void *entity, ObjectPosition *motion, SpriteFram
                     *tile_slot,
                     sprite->unk_04);
             }
-            (*(s16 *)((u8 *)entity + (0x94))) = old_direction;
+            entity->unk_94 = old_direction;
         }
 
         tile_slot = dir_sprite_flag + direction_copy;
@@ -129,7 +129,7 @@ void update_boss_actor_movement(void *entity, ObjectPosition *motion, SpriteFram
         } else {
             sprite->flags &= 0xFFFE;
         }
-        if (!(((ActorRecord *)actor)->flags1C & 0x20)) {
+        if (!(actor->flags1C & 0x20)) {
             if (!(sprite->flags & 0x40)) {
                 advance_sprite_animation_and_textures(sprite);
             }
@@ -137,7 +137,7 @@ void update_boss_actor_movement(void *entity, ObjectPosition *motion, SpriteFram
             sprite->flags |= 0x7000;
         }
 
-        apply_monster_koyaw_data(((ActorRecord *)actor)->flags1C, (u8 *)sprite + 0xC);
+        apply_monster_koyaw_data(actor->flags1C, (u8 *)sprite + 0xC);
     } else {
         updated_flags = sprite_flags & 0x0800;
         if (updated_flags != 0) {
@@ -151,47 +151,47 @@ void update_boss_actor_movement(void *entity, ObjectPosition *motion, SpriteFram
     motion->x.v += motion->velocity_x;
     motion->y.v += motion->velocity_y;
 
-    if ((*(u16 *)((u8 *)entity + (0x98))) & 8) {
-        (*((u8 *)entity + (0x9D))) = 0;
+    if (entity->action_state_flags & 8) {
+        entity->unk_9D.u = 0;
     } else {
-        motion->velocity_z += (*(s8 *)((u8 *)entity + (0x9D))) * 0x14000;
-        (*((u8 *)entity + (0x9D)))++;
+        motion->velocity_z += entity->unk_9D.s * 0x14000;
+        entity->unk_9D.u++;
     }
-    (*(s32 *)((u8 *)entity + (0x90))) += motion->velocity_z;
+    entity->unk_90.value += motion->velocity_z;
 
-    if (!((*(u16 *)((u8 *)entity + (0x98))) & 4)) {
+    if (!(entity->action_state_flags & 4)) {
         floor_height = sample_terrain_surface_height(((u16) motion->x.w.i),
                               ((u16) motion->y.w.i),
-                              (s16)(((ActorRecord *)actor)->ground_height - 0x20));
+                              (s16)(actor->ground_height - 0x20));
         if ((s16)floor_height < 0x200) {
-            actor_height = ((ActorRecord *)actor)->ground_height;
-            if ((*(s16 *)((u8 *)entity + (0x92))) + actor_height < (s16)floor_height) {
-                ((ActorRecord *)actor)->flags1C &= 0xF7FFFFFF;
+            actor_height = actor->ground_height;
+            if (entity->unk_90.parts.high.s + actor_height < (s16)floor_height) {
+                actor->flags1C &= 0xF7FFFFFF;
             } else {
                 if ((s16)floor_height >= actor_height) {
-                    (*(s32 *)((u8 *)entity + (0x90))) = 0;
+                    entity->unk_90.value = 0;
                 } else {
-                    (*(s16 *)((u8 *)entity + (0x92))) = floor_height - actor_height;
+                    entity->unk_90.parts.high.s = floor_height - actor_height;
                 }
                 motion->velocity_z = 0;
-                ((ActorRecord *)actor)->flags1C |= 0x08000000;
-                (*((u8 *)entity + (0x9D))) = 0;
+                actor->flags1C |= 0x08000000;
+                entity->unk_9D.u = 0;
             }
 
-            if (((ActorRecord *)actor)->flags1C & 0x40000000) {
-                ((ActorRecord *)actor)->flags1C &= 0xBFFFFFFF;
+            if (actor->flags1C & 0x40000000) {
+                actor->flags1C &= 0xBFFFFFFF;
                 floor_height = sample_terrain_surface_height((sprite->tile_x << 6) | 0x20,
                                       (sprite->tile_y << 6) | 0x20,
-                                      (s16)(((ActorRecord *)actor)->ground_height - 0x20));
-                (*(s16 *)((u8 *)entity + (0x92))) += ((ActorRecord *)actor)->ground_height - floor_height;
-                ((ActorRecord *)actor)->ground_height = floor_height;
+                                      (s16)(actor->ground_height - 0x20));
+                entity->unk_90.parts.high.s += actor->ground_height - floor_height;
+                actor->ground_height = floor_height;
             }
         } else {
-            ((ActorRecord *)actor)->flags1C &= 0xF7FFFFFF;
+            actor->flags1C &= 0xF7FFFFFF;
         }
     } else {
-        ((ActorRecord *)actor)->flags1C &= 0xF7FFFFFF;
+        actor->flags1C &= 0xF7FFFFFF;
     }
-    motion->z.w.i = ((ActorRecord *)actor)->ground_height + (*(u16 *)((u8 *)entity + (0x92)));
+    motion->z.w.i = actor->ground_height + entity->unk_90.parts.high.u;
     sprite->flags |= 0x40;
 }

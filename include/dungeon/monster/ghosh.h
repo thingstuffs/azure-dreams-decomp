@@ -82,8 +82,8 @@ void update_boss_actor_action(ActorRecord *actor, ObjectPosition *context, Sprit
 
 
 
-void update_actor_animation_movement_and_terrain(void *entity, ObjectPosition *motion, SpriteFrameState *sprite);
-void update_boss_actor_movement(void *entity, ObjectPosition *motion, SpriteFrameState *sprite);
+void update_actor_animation_movement_and_terrain(ActorRecord *entity, ObjectPosition *motion, SpriteFrameState *sprite);
+void update_boss_actor_movement(ActorRecord *entity, ObjectPosition *motion, SpriteFrameState *sprite);
 
 typedef union GhoshFadeColor {
     s32 word;
@@ -116,7 +116,7 @@ void set_boss_effect_data_pointer(ActorRecord *object, ObjectPosition *unused_1,
 
 /* Owner declarations appended by tools/headers (append-only; the lines above are hand-kept). */
 struct S_801720D0_0;
-void advance_boss_actor_movement_state(void *move_state, void *unused, void *position_in, void *actor_in);
+void advance_boss_actor_movement_state(ActorRecord *move_state, void *unused, void *position_in, void *actor_in);
 void allocate_type_12_object(void);
 void spawn_rising_trail_emitter(void);
 void update_rising_trail_emitter(void *record_data, struct S_801720D0_0 *state);
@@ -130,5 +130,15 @@ void *allocate_boss_actor(s16 mode, s16 config_24, s16 config_25, s16 config_0a)
 void create_boss_offset_effect(void);
 void create_linked_facing_sprite(u16 x, u16 y, s32 z);
 void update_cascading_trail_emitter(void *record_data);
+
+s32 execute_actor_script_command(ActorRecord *actor_arg, ObjectPosition *action_context, SpriteFrameState *sprite_arg);
+
+void advance_entity_along_path(ActorRecord *actor, ObjectPosition *position, SpriteFrameState *sprite, void *path_arg);
+
+s32 dispatch_actor_action_phase(ActorRecord *actor, ObjectPosition *position, SpriteFrameState *sprite, s32 force_action);
+
+void update_main_actor_action_and_facing(ActorRecord *actor, ObjectPosition *context, SpriteFrameState *map_actor, ActorRecord *entity);
+
+void advance_object_script_when_ready(void *object, ObjectPosition *unused_position, SpriteFrameState *unused_sprite, ActorRecord *actor);
 
 #endif

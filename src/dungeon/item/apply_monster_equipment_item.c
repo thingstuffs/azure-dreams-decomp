@@ -72,7 +72,7 @@ s32 apply_monster_equipment_item(u8 *entity, DungeonItemEntry *target, s16 actio
     compare_ptr = ((u8 *)dungeon_actor_ring_anchor);
     if (entity == compare_ptr) {
         ((PlayerRecord *)entity)->pending_item_action = target;
-        begin_mode_selected_item_action(entity, ((u8 *)(&view_reference_entity)), ((u8 *)(&reference_tile_object)), entity);
+        begin_mode_selected_item_action(entity, ((&view_reference_entity)), ((&reference_tile_object)), entity);
         return 0;
     }
     compare_ptr = (u8 *) 0x9FFFFFFF;

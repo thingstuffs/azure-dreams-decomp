@@ -30,7 +30,7 @@ typedef struct S_8016BD14_0 {
 
 
 /* Advance the entity along its path and update its heading and movement state. */
-void advance_entity_along_path(void *actor, ObjectPosition *position, SpriteFrameState *sprite, void *path_arg) {
+void advance_entity_along_path(ActorRecord *actor, ObjectPosition *position, SpriteFrameState *sprite, void *path_arg) {
     ActorRecord *path_actor = actor;
     register S_8016BD14_0 *path;
     s32 step_index;
@@ -52,10 +52,10 @@ void advance_entity_along_path(void *actor, ObjectPosition *position, SpriteFram
     }
 
     move_state = 15;
-    if (((ActorRecord *)actor)->action_id.u != move_state) {
-        ((ActorRecord *)actor)->unk_90.value = 0;
+    if (actor->action_id.u != move_state) {
+        actor->unk_90.value = 0;
         position->velocity_z = 0;
-        ((ActorRecord *)actor)->unk_9D.u = 0;
+        actor->unk_9D.u = 0;
     }
 
     if (path->unk_71.u <= path->unk_8A.s) {
@@ -104,22 +104,22 @@ void advance_entity_along_path(void *actor, ObjectPosition *position, SpriteFram
         if (!(g_dungeon_status.flags & 0x80) && !(sprite->flags & 0x8000)) {
             func_8016C698(actor, position, sprite, path);
         } else {
-            ((ActorRecord *)actor)->action_id.u = 15;
+            actor->action_id.u = 15;
         }
     } else {
-        ((ActorRecord *)actor)->action_id.u = move_state;
+        actor->action_id.u = move_state;
     }
 
-    ((ActorRecord *)actor)->unk_8C.word = 0;
+    actor->unk_8C.word = 0;
     path->unk_1C |= 0x40000000;
     if (g_dungeon_status.flags & 0x80) {
-        ((ActorRecord *)actor)->action_timer.s = 0;
+        actor->action_timer.s = 0;
         return;
     }
 
-    ((ActorRecord *)actor)->action_timer.s = 8;
+    actor->action_timer.s = 8;
     tile_x = path->unk_71.u;
     if (tile_x > 0) {
-        ((ActorRecord *)actor)->action_timer.s = 8 / tile_x;
+        actor->action_timer.s = 8 / tile_x;
     }
 }

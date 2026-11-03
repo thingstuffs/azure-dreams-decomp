@@ -560,7 +560,7 @@ typedef struct E_801742AC_S_80DE6AAC_0 {
     u8 pad_00[0x8];
     void * unk_08;
     void * unk_0C;
-    E_801742AC_M2C_UNK * unk_10;
+    void (*unk_10)(u16 *counter, ObjectPosition *position, SpriteFrameState *sprite);
     u8 pad_14[0xC];
     s16 unk_20;
 } E_801742AC_S_80DE6AAC_0;   /* temp_v0 in func_801742AC */
@@ -697,7 +697,7 @@ void update_actor_hop_to_tile(ActorRecord *anim, ObjectPosition *motion, void *a
 void update_linked_actor_motion_and_trap(ActorRecord *state, ObjectPosition *motion, SpriteFrameState *sprite, ActorRecord *actor);
 void resolve_actor_attack_damage(ActorRecord *body, ObjectPosition *position, SpriteFrameState *sprite, ActorRecord *actor);
 void update_actor_spell_action(void *state, struct E_80172A58_S_80172A58_6 *position, struct E_80172A58_S_80172A58_5 *sprite, void *actor);
-void dampen_actor_movement_to_tile(E_80172ED0_S_80172ED0_0 *action, ObjectPosition *motion, SpriteFrameState *tile_state, ActorRecord *entity);
+void dampen_actor_movement_to_tile(ActorRecord *action, ObjectPosition *motion, SpriteFrameState *tile_state, ActorRecord *entity);
 void remove_defeated_volcano(void *state,void *position,void *render_state,void *entity);
 void shrink_hopping_volcano(void *state,void *motion,void *sprite,void *actor);
 void advance_entity_motion_fade_and_removal(void *state, ObjectPosition *action, SpriteFrameState *source, ActorRecord *target);
@@ -711,13 +711,13 @@ void finish_spinning_actor_fall_then_resume_facing_animation(ActorRecord *state,
 void finish_actor_fade_in_then_resume_facing_animation(ActorRecord *state, ObjectPosition *motion, SpriteFrameState *sprite, ActorRecord *actor);
 void finish_actor_floor_trap_then_resume_facing_animation(ActorRecord *state, ObjectPosition *motion, SpriteFrameState *sprite, ActorRecord *actor);
 void finish_actor_action_flag_propagation_then_resume_facing_animation(ActorRecord *state, ObjectPosition *motion, SpriteFrameState *sprite, ActorRecord *actor);
-void advance_actor_state_with_child(void *actor, ObjectPosition *context, SpriteFrameState *entity, void *creature);
+void advance_actor_state_with_child(ActorRecord *actor, ObjectPosition *context, SpriteFrameState *sprite, ActorRecord *creature);
 void advance_actor_state_when_allowed(ActorRecord *state_ctx, ObjectPosition *entity_id, SpriteFrameState *action, ActorRecord *entity);
 s32 select_actor_relation_state(ActorRecord *body, ObjectPosition *position, SpriteFrameState *sprite, s32 force_state_arg);
 void dampen_actor_motion(void *state_data, s32 *motion, E_80173F8C_Func80DE678C_Obj *object);
 void create_four_directional_effects(void *owner_arg, ObjectPosition *motion_arg, void *origin_arg);
-void advance_effect_record_counters(u16 *counter, s32 unused, SpriteFrameState *record);
-void * create_directional_effect_object(E_801742AC_S_80DE6AAC_2 *source, ObjectPosition *initial_position, SpriteFrameState *tile_origin);
-void display_formatted_actor_message(void *record);
+void advance_effect_record_counters(u16 *counter, ObjectPosition *unused_position, SpriteFrameState *record);
+void * create_directional_effect_object(ActorRecord *source, ObjectPosition *initial_position, SpriteFrameState *tile_origin);
+void display_formatted_actor_message(ActorRecord *record);
 void display_entity_action_message(void *record);
 #endif

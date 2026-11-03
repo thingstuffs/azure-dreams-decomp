@@ -12,7 +12,7 @@ typedef struct DungeonState {
 extern u8 ghosh_action_resume_address[];
 
 /* Advances the object's counter and switches its script when the dungeon is ready. */
-void advance_object_script_when_ready(void *object, s32 unused_1, s32 unused_2, s32 state_base)
+void advance_object_script_when_ready(void *object, ObjectPosition *unused_position, SpriteFrameState *unused_sprite, ActorRecord *actor)
 {
     u8 previous_count;
     u8 count;
@@ -24,7 +24,7 @@ void advance_object_script_when_ready(void *object, s32 unused_1, s32 unused_2, 
     if (count == 1) {
         s32 state_code = ((s32)g_dungeon_status.pending_display_owner);
 
-        if (state_code == state_base - 0x20) {
+        if (state_code == (s32)NODE_HEADER(actor)) {
             g_dungeon_status.pending_display_owner = state_code & 0x7FFFFFFF;
             return;
         }

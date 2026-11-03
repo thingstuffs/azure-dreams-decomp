@@ -36,7 +36,7 @@ void *advance_monster_timed_sequence(void)
         }
         state->unk_0A = 0;
         state->unk_04 &= 0xC;
-        bind_view_triplet_source(((u8 *)(&view_reference_entity)));
+        bind_view_triplet_source(((&view_reference_entity)));
         g_game_work.view.slot[2].callback = 0;
         queue_view_slot(1);
         set_camera_targets(0, dungeon_camera_targets, 8);

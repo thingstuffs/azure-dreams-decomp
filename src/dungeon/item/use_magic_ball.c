@@ -76,7 +76,7 @@ s32 use_magic_ball(ActorRecord *object, DungeonItemEntry *data, s16 action, void
         data->unk_03 |= 0x20;
         active_object = dungeon_actor_ring_anchor;
         ((PlayerRecord *)active_object)->pending_item_action = data;
-        begin_mode_selected_item_action(active_object, callback, ((u8 *)(&reference_tile_object)), active_object);
+        begin_mode_selected_item_action(active_object, callback, ((&reference_tile_object)), active_object);
         return 0;
     }
 

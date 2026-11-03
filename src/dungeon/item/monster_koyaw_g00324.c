@@ -44,19 +44,19 @@ void apply_monster_koyaw_data(s32 flags, s8 *dst) {
     if (!(flags & 0x10000000)) {
         void *koyaw_data;
         if (flags & 8) {
-            koyaw_data = (void *)D_800DD844;
+            koyaw_data = D_800DD844;
         } else if (flags & 0x20) {
-            koyaw_data = (void *)D_800DD850;
+            koyaw_data = D_800DD850;
         } else if (flags & 0x40) {
-            koyaw_data = (void *)D_800DD848;
+            koyaw_data = D_800DD848;
         } else if (flags & 0x400) {
-            koyaw_data = (void *)D_800DD840;
+            koyaw_data = D_800DD840;
         } else if (flags & 0x10) {
-            koyaw_data = (void *)D_800DD84C;
+            koyaw_data = D_800DD84C;
         } else {
             {
 
-                koyaw_data = (void *)D_800DD83C;
+                koyaw_data = D_800DD83C;
             }
         }
         if (koyaw_data != 0) {

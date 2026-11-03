@@ -41,7 +41,7 @@ void advance_timed_entity_hop(ActorRecord *action, ObjectPosition *motion, Sprit
 void finish_saber_tile_hop(ActorRecord *action, ObjectPosition *motion, SpriteFrameState *sprite, ActorRecord *entity);
 void move_actor_briefly_and_realign(ActorRecord *action, ObjectPosition *motion, SpriteFrameState *actor, ActorRecord *entity);
 
-void update_actor_directional_animation(ActorRecord *actor_in, void *actor_index, SpriteFrameState *target, ActorRecord *entity_in);
+void update_actor_directional_animation(ActorRecord *actor_in, ObjectPosition *position, SpriteFrameState *target, ActorRecord *entity_in);
 
 
 
@@ -57,10 +57,10 @@ void move_toward_sprite_tile_and_complete(void *action, void *motion, SpriteFram
 void update_actor_tile_movement(void *action, void *motion, SpriteFrameState *sprite, ActorRecord *actor);
 void update_tile_movement_and_action_completion(ActorRecord *action, ObjectPosition *motion, SpriteFrameState *sprite, ActorRecord *actor);
 
-void reset_eligible_entity_state(void *entity_arg, void *motion, void *check_arg, void *actor_arg);
+void reset_eligible_entity_state(ActorRecord *entity_arg, ObjectPosition *motion, SpriteFrameState *check_arg, ActorRecord *actor_arg);
 
 /* Owner declarations appended by tools/headers (append-only; the lines above are hand-kept). */
-void initialize_actor_facing_sprite(ActorRecord *body, ObjectPosition *position, SpriteFrameState *sprite, void *orientation);
+void initialize_actor_facing_sprite(ActorRecord *body, ObjectPosition *position, SpriteFrameState *sprite, ActorRecord *orientation);
 
 void process_nodes_at_target_tile(void *node, s32 target_x, s32 target_y, s32 target_height);
 

@@ -55,7 +55,7 @@ extern void select_sprite_entry(void *, u8, s32);
 extern s32 generate_random_value(void);
 
 /* Prepares an entity action, updates its directional animation, and advances the counter. */
-void prepare_actor_directional_action(u8 *entity, ObjectPosition *action_param, SpriteFrameState *action_sprite, u8 *frame_table, s32 fallback_state)
+void prepare_actor_directional_action(ActorRecord *entity, ObjectPosition *action_param, SpriteFrameState *action_sprite, u8 *frame_table, s32 fallback_state)
 {
     u8 *self;
     S_801717D0_3 *player;
@@ -71,7 +71,7 @@ void prepare_actor_directional_action(u8 *entity, ObjectPosition *action_param, 
     s32 state_flags;
 
     special_action = 0;
-    self = entity;
+    self = (u8 *)entity;
     ((S_801717D0_0 *)self)->unk_71 &= 0x7F;
 
     if ((((S_801717D0_0 *)self)->unk_1C & ACTOR_PLAYER_SIDE) && ((((S_801717D0_0 *)self)->unk_46 & 0x3FFF) >= 5)) {
@@ -91,7 +91,7 @@ void prepare_actor_directional_action(u8 *entity, ObjectPosition *action_param, 
         } else {
             advance_status_timers(self);
             ((S_801717D0_0 *)self)->unk_6D--;
-            ((Rec_func_800A9E70_arg0 *)entity)->unk_8C = fallback_state;
+            entity->unk_8C.word = fallback_state;
             return;
         }
     } else {
@@ -136,13 +136,13 @@ void prepare_actor_directional_action(u8 *entity, ObjectPosition *action_param, 
                                   action_entry->unk_13);
             }
         }
-        ((Rec_func_800A9E70_arg0 *)entity)->unk_9A.as_u8 = 0x12;
+        entity->action_id.u = 0x12;
     } else {
-        ((Rec_func_800A9E70_arg0 *)entity)->unk_9A.as_u8 = 0x12;
+        entity->action_id.u = 0x12;
     }
 
-    ((Rec_func_800A9E70_arg0 *)entity)->unk_9B.as_u8 = 0;
-    ((Rec_func_800A9E70_arg0 *)entity)->unk_8C = 0;
+    entity->action_phase.u = 0;
+    entity->unk_8C.word = 0;
 
     if (frame_table != 0) {
         (action_sprite->frameTable) = frame_table;

@@ -17,9 +17,9 @@ extern u8 ghosh_frame_set_9[];
 extern u8 ghosh_frame_set_13[];
 
 /* Executes the current actor script command and advances its repeat counter. */
-s32 execute_actor_script_command(u8 *actor_arg, s32 action_context, SpriteFrameState *entity_arg) {
-    u8 *actor = actor_arg;
-    SpriteFrameState *entity= entity_arg;
+s32 execute_actor_script_command(ActorRecord *actor_arg, ObjectPosition *action_context, SpriteFrameState *sprite_arg) {
+    ActorRecord *actor = actor_arg;
+    SpriteFrameState *sprite= sprite_arg;
     u8 *command_stream;
     u16 command;
     s32 command_wide;
@@ -28,7 +28,7 @@ s32 execute_actor_script_command(u8 *actor_arg, s32 action_context, SpriteFrameS
     s32 opcode;
     s32 direction_index;
 
-    if (entity->flags & 0x40) {
+    if (sprite->flags & 0x40) {
         return 0;
     }
 
@@ -36,7 +36,7 @@ s32 execute_actor_script_command(u8 *actor_arg, s32 action_context, SpriteFrameS
     command = command_stream[1];
     command_wide = command;
     if (command_wide == 0) {
-        ((ActorRecord *)actor)->unk_B0.bytes[2] = 0;
+        actor->unk_B0.bytes[2] = 0;
         update_actor_status_and_mp(actor);
         return 0;
     }
@@ -49,8 +49,8 @@ s32 execute_actor_script_command(u8 *actor_arg, s32 action_context, SpriteFrameS
         ghosh_script_repeat_count = 0;
     }
 
-    ((ActorRecord *)actor)->facing = (command & 7) << 9;
-    ((ActorRecord *)actor)->action_flags |= 0x8000;
+    actor->facing = (command & 7) << 9;
+    actor->action_flags |= 0x8000;
     opcode = command_wide & 0xF8;
 
     switch (opcode) {
@@ -59,42 +59,42 @@ s32 execute_actor_script_command(u8 *actor_arg, s32 action_context, SpriteFrameS
         return 0;
 
     case 8:
-        advance_actor_path(actor, action_context, entity, actor);
+        advance_actor_path(actor, action_context, sprite, actor);
         return 0;
 
     case 0x10:
-        if (*(u8 **)&entity->frameTable != ghosh_frame_set_3) {
-            entity->frameTable = ghosh_frame_set_3;
-            direction_index = ((g_game_work.view.camera_rotation.parts.viewAngle + ((ActorRecord *)actor)->facing + 0x100) >> 9) & 7;
-            select_sprite_entry(entity, ghosh_frame_set_3[direction_index], 0);
+        if (*(u8 **)&sprite->frameTable != ghosh_frame_set_3) {
+            sprite->frameTable = ghosh_frame_set_3;
+            direction_index = ((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7;
+            select_sprite_entry(sprite, ghosh_frame_set_3[direction_index], 0);
         }
         break;
 
     case 0xF8:
-        if (*(u8 **)&entity->frameTable != ghosh_frame_set_13) {
-            entity->frameTable = ghosh_frame_set_13;
-            direction_index = ((g_game_work.view.camera_rotation.parts.viewAngle + ((ActorRecord *)actor)->facing + 0x100) >> 9) & 7;
-            select_sprite_entry(entity, ghosh_frame_set_13[direction_index], 0);
+        if (*(u8 **)&sprite->frameTable != ghosh_frame_set_13) {
+            sprite->frameTable = ghosh_frame_set_13;
+            direction_index = ((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7;
+            select_sprite_entry(sprite, ghosh_frame_set_13[direction_index], 0);
         }
         break;
 
     case 0xF0:
-        if (((ActorRecord *)actor)->action_phase.u == 0) {
-            ((ActorRecord *)actor)->facing = get_direction_toward_target_position(action_context) << 9;
-            if (*(u8 **)&entity->frameTable != ghosh_frame_set_9) {
-                entity->frameTable = ghosh_frame_set_9;
-                direction_index = ((g_game_work.view.camera_rotation.parts.viewAngle + ((ActorRecord *)actor)->facing + 0x100) >> 9) & 7;
-                select_sprite_entry(entity, ghosh_frame_set_9[direction_index], 0);
+        if (actor->action_phase.u == 0) {
+            actor->facing = get_direction_toward_target_position(action_context) << 9;
+            if (*(u8 **)&sprite->frameTable != ghosh_frame_set_9) {
+                sprite->frameTable = ghosh_frame_set_9;
+                direction_index = ((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7;
+                select_sprite_entry(sprite, ghosh_frame_set_9[direction_index], 0);
             }
-            if (create_five_point_effect(entity->tile_x,
-                              entity->tile_y,
-                              ((ActorRecord *)actor)->ground_height,
+            if (create_five_point_effect(sprite->tile_x,
+                              sprite->tile_y,
+                              actor->ground_height,
                               D_800DF45C, 0x2800, 0x208020,
                               D_8016EEBC) == 0) {
                 return 0;
             }
-            ((ActorRecord *)actor)->action_timer.s = 0;
-            ((ActorRecord *)actor)->action_phase.u++;
+            actor->action_timer.s = 0;
+            actor->action_phase.u++;
             {
                 g_dungeon_status.activity_counts.parts.pending_action_count += 2;
             }

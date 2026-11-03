@@ -60,7 +60,7 @@ static __inline__ u8 advance_tile(u8 tile, const u8 * table, u16 index)
 }
 
 /* Choose a movement heading, advance the actor_in, and update its movement state. */
-void advance_boss_actor_movement_state(void *move_state, void *unused, void *position_in, void *actor_in) {
+void advance_boss_actor_movement_state(ActorRecord *move_state, void *unused, void *position_in, void *actor_in) {
     ObjectNodeHeader *previous_node;
     void *previous_body;
     ActorRecord *previous_actor;
@@ -89,7 +89,7 @@ void advance_boss_actor_movement_state(void *move_state, void *unused, void *pos
         return;
     }
     if (g_dungeon_status.flags & 0x2000) {
-        update_actor_proximity_flag(position_in, actor_in, 3, 6, move_state + 0x9C);
+        update_actor_proximity_flag(position_in, actor_in, 3, 6, &move_state->unk_9C);
         move_flags = ((S_8016FCE4_0 *)actor_in)->unk_1C;
         if (move_flags & 0x410) {
             if (move_flags & 0x400) {
@@ -99,7 +99,7 @@ void advance_boss_actor_movement_state(void *move_state, void *unused, void *pos
                     target_position = ((SpriteLinkPrefixView *)target)[-1].sprite;
                     ((S_8016FCE4_0 *)actor_in)->unk_2A.u = get_rounded_facing_and_rounding_flag(((ActorRecord *)position_in)->mp_value.parts.fraction,
                         ((ActorRecord *)position_in)->mp_value.parts.whole, target_position->tile_x, target_position->tile_y,
-                        move_state + 0x98);
+                        &move_state->action_state_flags);
                     ((S_8016FCE4_0 *)actor_in)->unk_71.u = ((S_8016FCE4_0 *)actor_in)->unk_71.u & 0x7F;
                     return;
                 }
@@ -134,7 +134,7 @@ void advance_boss_actor_movement_state(void *move_state, void *unused, void *pos
                     target_y = reference_tile_object.tile_position.parts.tile_y + *(u16 *)(((u8 *)dir_step_y) + dir_index);
                     if ((((ActorRecord *)position_in)->mp_value.parts.fraction != (u16)target_x)
                         || (((ActorRecord *)position_in)->mp_value.parts.whole != (u16)target_y)) {
-                        heading_state = move_state + 0x98;
+                        heading_state = &move_state->action_state_flags;
                         target_heading = get_rounded_facing_and_rounding_flag(((ActorRecord *)position_in)->mp_value.parts.fraction,
                             ((ActorRecord *)position_in)->mp_value.parts.whole, (s16) target_x, (s16) target_y,
                             heading_state);
@@ -155,8 +155,8 @@ void advance_boss_actor_movement_state(void *move_state, void *unused, void *pos
                         return;
                     }
                 } else {
-                    select_actor_route_target(position_in, ((Rec_func_800A9E70_arg0 *)move_state)->unk_9C.as_s8, actor_in,
-                        move_state + 0x98);
+                    select_actor_route_target(position_in, move_state->unk_9C, actor_in,
+                        &move_state->action_state_flags);
                 }
             }
         }
@@ -165,7 +165,7 @@ void advance_boss_actor_movement_state(void *move_state, void *unused, void *pos
         turn_offsets = actor_turn_angle_offsets;
         do {
             heading = ((S_8016FCE4_0 *)actor_in)->unk_2A.s;
-            if (((Rec_func_800A9E70_arg0 *)move_state)->unk_98 & 2) {
+            if (move_state->action_state_flags & 2) {
                 move_result = *turn_offsets;
                 trial_heading = heading - move_result;
             } else {
@@ -224,7 +224,7 @@ void advance_boss_actor_movement_state(void *move_state, void *unused, void *pos
             return;
         }
         ((S_8016FCE4_0 *)actor_in)->unk_46 = (u16) (((S_8016FCE4_0 *)actor_in)->unk_46 & 0x7FFF);
-        ((Rec_func_800A9E70_arg0 *)move_state)->unk_9C.as_s8 = (s8) ((ActorRecord *)position_in)->current_attack;
+        move_state->unk_9C = (s8) ((ActorRecord *)position_in)->current_attack;
         ((S_8016FCE4_0 *)actor_in)->unk_6D.u = (u8) (((S_8016FCE4_0 *)actor_in)->unk_6D.u - 1);
         g_dungeon_status.activity_counts.parts.pending_movement_count = (u16) (((u16)g_dungeon_status.activity_counts.parts.pending_movement_count) + 1);
         if (((S_8016FCE4_0 *)actor_in)->unk_6D.s == 0) {

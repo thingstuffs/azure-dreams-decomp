@@ -15,11 +15,6 @@
 #endif
 
 
-typedef struct S_80E3C98C_1 {
-    u8 pad_00[0x24];
-    u8 unk_24;
-    u8 unk_25;
-} S_80E3C98C_1;   /* arg2 in spawn_manoeva_from_record */
 
 typedef struct S_80E3C98C_2_pre {
     void * unk_00;
@@ -55,7 +50,7 @@ extern void *(*load_monster_code_module())(s32, u8, u8, s16);
 extern s8 entity_spawn_variant_code;
 
 /* Create an entity from spawn data and update its tracked reference. */
-void *spawn_manoeva_from_record(ActorRecord *body, ObjectPosition *unused1, S_80E3C98C_1 *position, Rec_D_80082E80 *spawn_data) {
+void *spawn_manoeva_from_record(ActorRecord *body, ObjectPosition *unused1, SpriteFrameState *position, Rec_D_80082E80 *spawn_data) {
     s32 spawn_mode;
     s32 source_ref;
     u8 *table_base;
@@ -71,7 +66,7 @@ void *spawn_manoeva_from_record(ActorRecord *body, ObjectPosition *unused1, S_80
     source_ref = spawn_data->unk_60.as_s32;
     if (source_ref > 0) {
         entity = create_mode_configured_object(((u32)spawn_data->unk_1C.at00_u32.v >> 0xD) & 1,
-                               position->unk_24, position->unk_25,
+                               position->tile_x, position->tile_y,
                                spawn_data->unk_88.as_s16,
                                get_item_category_value(((s32)(((u16)spawn_data->unk_60.as_s32 - 1) << 0x10) >> 0xE)
                                    + ((u8 *)dungeon_ground_items)));
@@ -102,7 +97,7 @@ void *spawn_manoeva_from_record(ActorRecord *body, ObjectPosition *unused1, S_80
         if (spawn_data->unk_1C.at00_u32.v & 0x2000) {
             spawn_mode = 7;
         }
-        entity = create_entity(spawn_mode, position->unk_24, position->unk_25, spawn_data->unk_88.as_s16);
+        entity = create_entity(spawn_mode, position->tile_x, position->tile_y, spawn_data->unk_88.as_s16);
         if (entity != NULL) {
             func_80042640(entity, ((ActorRecord *)entity)->species);
             ((ActorRecord *)entity)->flags14 = 0;

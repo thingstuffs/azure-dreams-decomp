@@ -37,7 +37,7 @@ typedef struct S_800BDEB8_1 {
 
 /* Applies an interaction to an entity and displays the outcome. */
 s32 apply_frog_transformation_item(ActorRecord *entity, DungeonItemEntry *action_id, s16 mode) {
-    void *current_entity = ((u8 *)dungeon_actor_ring_anchor);
+    void *current_entity = (dungeon_actor_ring_anchor);
     void *target = entity;
     s32 special_case = 0;
     register s32 original_id;
@@ -50,7 +50,7 @@ s32 apply_frog_transformation_item(ActorRecord *entity, DungeonItemEntry *action
 
     if (entity == current_entity) {
         ((PlayerRecord *)entity)->pending_item_action = action_id;
-        begin_deferred_item_action(target, ((u8 *)(&view_reference_entity)), ((u8 *)(&reference_tile_object)), target);
+        begin_deferred_item_action(target, ((&view_reference_entity)), ((&reference_tile_object)), target);
     } else {
         if ((u32)entity <= 0x9FFFFFFF) {
             display_item_status_message(entity, action_id, mode);

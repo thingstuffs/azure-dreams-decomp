@@ -31,15 +31,15 @@ extern u8 kid_frame_set_4[];
 
 
 /* Updates an actor's action state and animation before restoring its default callback. */
-void update_actor_action_and_animation(void *controller_in, ObjectPosition *motion, SpriteFrameState *sprite, ActorRecord *actor) {
+void update_actor_action_and_animation(ActorRecord *controller_in, ObjectPosition *motion, SpriteFrameState *sprite, ActorRecord *actor) {
     s32 actor_flags;
     u16 ticks_left;
     s32 state;
 
-    state = ((ActorRecord *)controller_in)->action_phase.u;
+    state = controller_in->action_phase.u;
     switch (state) {
     case 0:
-        ((ActorRecord *)controller_in)->unk_90.value += 0x100000;
+        controller_in->unk_90.value += 0x100000;
         if (!(sprite->flags & 0xE000)) {
             return;
         }
@@ -52,7 +52,7 @@ void update_actor_action_and_animation(void *controller_in, ObjectPosition *moti
 
             g_dungeon_status.activity_counts.parts.pending_action_count--;
         }
-        ((ActorRecord *)controller_in)->action_phase.u++;
+        controller_in->action_phase.u++;
         return;
 
     case 1:
@@ -65,7 +65,7 @@ void update_actor_action_and_animation(void *controller_in, ObjectPosition *moti
             actor->flags1C = actor_flags;
             if (sprite->flags & 0x8000) {
                 actor->flags1C = actor_flags & ~0x200;
-                controller_in = (u8 *)controller_in + 0x8C;
+                controller_in = (ActorRecord *)((u8 *)controller_in + 0x8C);
                 *(void **)controller_in = kid_action_resume_address;
                 return;
             }
@@ -95,7 +95,7 @@ void update_actor_action_and_animation(void *controller_in, ObjectPosition *moti
             }
             if (actor_flags & 0x80000) {
                 begin_actor_move_to_target_facing(controller_in, motion, sprite, actor);
-                ((ActorRecord *)controller_in)->unk_A8.s = 0;
+                controller_in->unk_A8.s = 0;
                 func_80174218(controller_in, motion, sprite, actor);
                 return;
             }
@@ -147,32 +147,32 @@ void update_actor_action_and_animation(void *controller_in, ObjectPosition *moti
             actor->flags1C = actor_flags;
             if (sprite->flags & 0x8000) {
                 actor->flags1C = actor_flags & ~0x200;
-                controller_in = (u8 *)controller_in + 0x8C;
+                controller_in = (ActorRecord *)((u8 *)controller_in + 0x8C);
                 *(void **)controller_in = kid_action_resume_address;
                 return;
             }
         }
-        ((ActorRecord *)controller_in)->action_timer.u = 3;
-        ((ActorRecord *)controller_in)->action_state_flags &= 0xBFFF;
+        controller_in->action_timer.u = 3;
+        controller_in->action_state_flags &= 0xBFFF;
         {
 
             g_dungeon_status.activity_counts.parts.pending_action_count++;
         }
-        ((ActorRecord *)controller_in)->action_phase.u++;
+        controller_in->action_phase.u++;
         return;
 
     case 2:
-        ticks_left = ((ActorRecord *)controller_in)->action_timer.u - 1;
-        ((ActorRecord *)controller_in)->action_timer.u = ticks_left;
+        ticks_left = controller_in->action_timer.u - 1;
+        controller_in->action_timer.u = ticks_left;
         if ((ticks_left << 16) <= 0) {
-            ((ActorRecord *)controller_in)->action_state_flags |= 0x4000;
+            controller_in->action_state_flags |= 0x4000;
             motion->velocity_z = 0xFFEC0000;
         }
         if (!(sprite->flags & 0xE000)) {
             return;
         }
         motion->velocity_z = 0;
-        ((ActorRecord *)controller_in)->unk_A8.s = 0;
+        controller_in->unk_A8.s = 0;
         sprite->frameTable = kid_direction_frames;
         select_sprite_entry(sprite,
             kid_direction_frames[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
@@ -183,7 +183,7 @@ void update_actor_action_and_animation(void *controller_in, ObjectPosition *moti
         }
         actor->flags1C &= ~ACTOR_ASLEEP;
 
-        controller_in = (u8 *)controller_in + 0x8C;
+        controller_in = (ActorRecord *)((u8 *)controller_in + 0x8C);
         *(void **)controller_in = kid_action_resume_address;
 
         return;

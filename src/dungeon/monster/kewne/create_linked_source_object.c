@@ -27,15 +27,15 @@ typedef struct S_80175814_1 {
 extern void func_801756D4(S807AF9A4 *data);
 
 /* Creates an object linked to the source record and copies its initialization fields. */
-void create_linked_source_object(void *sourceRecordData) {
+void create_linked_source_object(ActorRecord *source_actor) {
     S_80175814_0 *createdObject;
 
-    createdObject = allocate_list_node(0x202, sourceRecordData - 0x20);
+    createdObject = allocate_list_node(0x202, NODE_HEADER(source_actor));
     if (createdObject != 0) {
         createdObject->unk_10 = &func_801756D4;
-        createdObject->unk_20 = sourceRecordData;
-        createdObject->unk_08 = (s32) ((S_80175814_1 *)((u8 *)sourceRecordData - 0x18))->unk_00;
-        createdObject->unk_2A = (u16) ((S_80175814_1 *)((u8 *)sourceRecordData - 0x18))->unk_42;
+        createdObject->unk_20 = source_actor;
+        createdObject->unk_08 = (s32) ((S_80175814_1 *)((u8 *)source_actor - 0x18))->unk_00;
+        createdObject->unk_2A = (u16) ((S_80175814_1 *)((u8 *)source_actor - 0x18))->unk_42;
         play_sound_if_enabled(0x703);
     }
 }

@@ -833,12 +833,12 @@ s32 draw_linked_particle_effect_primitives(DungeonObject *object, u16 *origin) {
             ((ParticleQuad *)packet_cursor)->tag.bytes.length = 8;
             ((ParticleQuad *)packet_cursor)->color0.bytes.code = 58;
             {
-                AddPrim((void *)(scratch->base + scratch->length * 4),
+                AddPrim((scratch->base + scratch->length * 4),
                     (void *)packet_cursor);
                 packet_cursor += 36;
             }
             SetDrawMode((void *)packet_cursor, 0, 0, 96, 0);
-            AddPrim((void *)(scratch->base + scratch->length * 4),
+            AddPrim((scratch->base + scratch->length * 4),
                 (void *)packet_cursor);
             {
                 u8 particle_count = object->count;
@@ -2004,7 +2004,7 @@ s32 render_particle_effect_object(void *object, s32 caller_a1, void *caller_a2) 
 
             render_state = ((RenderRootSlot *)global_slot)->root;
             prim = *(u8 **)(render_state + 0x8D0);
-            prim_arg = (void *)prim;
+            prim_arg = prim;
             *(u8 **)(render_state + 0x8D0) = prim + 0x34;
         }
         gray = 0xA0A0A0;
@@ -2214,7 +2214,7 @@ s32 render_particle_effect_object(void *object, s32 caller_a1, void *caller_a2) 
                 s32 zero;
                 void *draw_mode_arg;
 
-                draw_mode_arg = (void *)draw_prim;
+                draw_mode_arg = draw_prim;
                 zero = 0;
                 SetDrawMode(draw_mode_arg, zero, zero, component_5, 0);
             }

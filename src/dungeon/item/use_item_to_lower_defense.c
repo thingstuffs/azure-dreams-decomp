@@ -24,7 +24,7 @@ extern void play_sound_if_enabled(u32);
 s32 use_item_to_lower_defense(ActorRecord *target, DungeonItemEntry *item, s16 use_type) {
     if (target == dungeon_actor_ring_anchor) {
         ((PlayerRecord *)target)->pending_item_action = item;
-        begin_deferred_item_action(target, ((u8 *)(&view_reference_entity)), ((u8 *)(&reference_tile_object)), target);
+        begin_deferred_item_action(target, ((&view_reference_entity)), ((&reference_tile_object)), target);
         return 0;
     }
 

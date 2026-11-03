@@ -39,7 +39,7 @@ s32 apply_return_magic_item(ActorRecord *entity, DungeonItemEntry *event, s16 ta
     }
     if ((void *)entity == ((u8 *)dungeon_actor_ring_anchor)) {
         ((PlayerRecord *)entity)->pending_item_action = event;
-        begin_mode_selected_item_action(entity, ((u8 *)(&view_reference_entity)), ((u8 *)(&reference_tile_object)), 0);
+        begin_mode_selected_item_action(entity, ((&view_reference_entity)), ((&reference_tile_object)), 0);
         return 0;
     }
     if ((u32)entity <= 0x9FFFFFFF) {

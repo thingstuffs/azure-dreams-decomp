@@ -54,7 +54,7 @@ s32 apply_room_holy_beam_item(ActorRecord *target, DungeonItemEntry *item, s16 a
 
     if (target == ((u8 *)dungeon_actor_ring_anchor)) {
         ((PlayerRecord *)target)->pending_item_action = item;
-        begin_mode_selected_item_action(target, ((u8 *)(&view_reference_entity)), ((u8 *)(&reference_tile_object)), target);
+        begin_mode_selected_item_action(target, ((&view_reference_entity)), ((&reference_tile_object)), target);
         return 0;
     }
 

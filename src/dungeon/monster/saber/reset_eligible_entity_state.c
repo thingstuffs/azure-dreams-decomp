@@ -10,8 +10,8 @@
 #include "dungeon/actor/spell_resource_ids_g01008.h"
 
 /* Updates the actor and resets the entity state when the checks succeed. */
-void reset_eligible_entity_state(void *entity_arg, void *motion, void *check_arg, void *actor_arg) {
-    void *entity = entity_arg;
+void reset_eligible_entity_state(ActorRecord *entity_arg, ObjectPosition *motion, SpriteFrameState *check_arg, ActorRecord *actor_arg) {
+    ActorRecord *entity = entity_arg;
     void *check_value = check_arg;
     void *actor = actor_arg;
 
@@ -21,9 +21,9 @@ void reset_eligible_entity_state(void *entity_arg, void *motion, void *check_arg
         if ((check_actor_floor_trap(check_value, actor) << 16) > 0) {
             /* BYTES: local/global alloc priority: the loop note adds loop-weighted refs (REG_N_REFS) to a value; unwrap swaps callee-saved registers (ledger/onetrip_loadbearing.jsonl: dungeon/func_80AC7330). */
             do {
-                *(s32 **)((u8 *)entity + 0x8C) = &saber_behavior_entry;
+                entity->unk_8C.word_ptr = &saber_behavior_entry;
             } while (0);
-            *(s32 *)((u8 *)entity + 0x90) = 0;
+            entity->unk_90.value = 0;
         }
     }
 }

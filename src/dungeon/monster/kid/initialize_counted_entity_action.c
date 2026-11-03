@@ -14,17 +14,17 @@ typedef struct {
 extern s16 actor_action_reset_value;
 
 /* Initializes entity state and conditionally increments the dungeon count. */
-void initialize_counted_entity_action(ActorRecord *entity_data, ObjectPosition *unused_1, s32 unused_2, void *other_data)
+void initialize_counted_entity_action(ActorRecord *entity_data, ObjectPosition *unused_position, SpriteFrameState *unused_sprite, ActorRecord *other_data)
 {
     ActorRecord *entity = entity_data;
-    u8 *other = other_data;
+    ActorRecord *other = other_data;
     s32 kind = 0x17;
 
-    other[0x71] &= 0x7F;
+    other->movement_queue_state &= 0x7F;
     entity->unk_8C.address = initialize_counted_entity_action;
     entity->action_id.u = kind;
     entity->action_phase.u = 0;
-    other[0x6D] = 0;
+    other->pending_turn_updates = 0;
     if (!(g_dungeon_status.flags & 0x2000) && ((has_pending_dungeon_activity(other) << 16) == 0)) {
         entity->unk_8C.address = 0;
         entity->action_id.u = kind;

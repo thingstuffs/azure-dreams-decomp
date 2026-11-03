@@ -51,7 +51,7 @@ extern u8 D_80175160[];
 /* Updates an actor's staged movement, particle effects, and return to its tile. */
 /* Animates a backward leap and forward strike with particle trails, resolves damage, then recenters and
  * spends MP. */
-void update_staged_actor_movement(ActorRecord *action, ObjectPosition *motion, SpriteFrameState *tile, void *actor)
+void update_staged_actor_movement(ActorRecord *action, ObjectPosition *motion, SpriteFrameState *tile, ActorRecord *actor)
 {
     s32 particle_x_offset;
     u8 *move_frames;
@@ -86,7 +86,7 @@ void update_staged_actor_movement(ActorRecord *action, ObjectPosition *motion, S
     u8 *x_step_entry;
     u8 *x_step_base;
 
-    heading_raw = ((u16)((ActorRecord *)actor)->facing);
+    heading_raw = ((u16)actor->facing);
     x_step_entry = (u8 *)dir_step_x;
     heading_byte = (u32)heading_raw >> 8;
     direction_offset = heading_byte & 0xE;
@@ -128,7 +128,7 @@ void update_staged_actor_movement(ActorRecord *action, ObjectPosition *motion, S
                 particle_motion->unk_0E = particle_y;
                 particle_motion->unk_10 = ((u16) motion->z.w.i) + 8;
                 particle_motion->unk_14 = rand();
-                heading_raw = ((u16)((ActorRecord *)actor)->facing);
+                heading_raw = ((u16)actor->facing);
                 color = 0x00C00000;
                 particle_motion->unk_4C = 0;
                 particle_motion->unk_48 = 0;
@@ -158,20 +158,20 @@ void update_staged_actor_movement(ActorRecord *action, ObjectPosition *motion, S
         if (flags & 0x8000) {
             action->action_phase.u = 0xFF;
             tile->flags |= 0x6000;
-            resolve_attack_damage_and_effects(actor, tile, ((ActorRecord *)actor)->facing, 1);
+            resolve_attack_damage_and_effects(actor, tile, actor->facing, 1);
             return;
         }
         if (flags & 0xE000) {
             move_frames = D_80175160;
             (tile->frameTable) = move_frames;
-            move_angle = g_game_work.view.camera_rotation.parts.viewAngle + ((ActorRecord *)actor)->facing;
+            move_angle = g_game_work.view.camera_rotation.parts.viewAngle + actor->facing;
             move_direction = ((move_angle + 0x100) >> 9) & 7;
             select_sprite_entry(tile, move_frames[move_direction], 0);
             motion->velocity_x = (-x_step) << 0x12;
             motion->velocity_y = (-y_step) << 0x12;
             action->action_state_flags |= 8;
-            ((ActorRecord *)actor)->flags1C &= ACTOR_GROUNDED_CLEAR_MASK;
-            ((ActorRecord *)actor)->flags1C &= 0xFFFBFFFF;
+            actor->flags1C &= ACTOR_GROUNDED_CLEAR_MASK;
+            actor->flags1C &= 0xFFFBFFFF;
             action->action_timer.u = 4;
             motion->velocity_z = 0xFFFC0000;
             action->action_phase.u++;
@@ -216,7 +216,7 @@ void update_staged_actor_movement(ActorRecord *action, ObjectPosition *motion, S
             motion->velocity_x = 0;
         }
         if (action->action_timer.s == 1) {
-            resolve_attack_damage_and_effects(actor, tile, ((ActorRecord *)actor)->facing, 1);
+            resolve_attack_damage_and_effects(actor, tile, actor->facing, 1);
             play_sound_if_enabled(0x808);
         }
         if (action->action_timer.s <= 0) {
@@ -249,7 +249,7 @@ void update_staged_actor_movement(ActorRecord *action, ObjectPosition *motion, S
         }
         motion->velocity_y = 0;
         motion->velocity_x = 0;
-        ((ActorRecord *)actor)->flags1C |= 0x40000;
+        actor->flags1C |= 0x40000;
         set_record_integer_tile_center(motion, tile->tile_x, tile->tile_y);
         spend_actor_mp(actor, 0x100);
         action->unk_8C.address = kid_action_resume_address;
@@ -257,17 +257,17 @@ void update_staged_actor_movement(ActorRecord *action, ObjectPosition *motion, S
         advance_status_timers(actor);
         motion->velocity_z = 0;
         action->action_state_flags &= 0xFFF7;
-        ((ActorRecord *)actor)->flags1C |= ACTOR_GROUNDED;
+        actor->flags1C |= ACTOR_GROUNDED;
         action->unk_A8.s = 7;
         idle_frames = kid_alt_direction_frames;
         (tile->frameTable) = idle_frames;
-        idle_angle = g_game_work.view.camera_rotation.parts.viewAngle + ((ActorRecord *)actor)->facing;
+        idle_angle = g_game_work.view.camera_rotation.parts.viewAngle + actor->facing;
         idle_direction = ((idle_angle + 0x100) >> 9) & 7;
         select_sprite_entry(tile, idle_frames[idle_direction], 2);
-        if (((ActorRecord *)actor)->pending_turn_updates == 0) {
-            ((ActorRecord *)actor)->action_flags &= 0x7FFF;
+        if (actor->pending_turn_updates == 0) {
+            actor->action_flags &= 0x7FFF;
         } else {
-            actor_update_node_cursor = (u8 *)actor - 0x20;
+            actor_update_node_cursor = NODE_HEADER(actor);
         }
         return;
 

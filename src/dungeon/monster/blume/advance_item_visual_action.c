@@ -44,51 +44,51 @@ typedef struct S_801737C8_2 {
 /* Process item use, spawn its visual effect, and finish the action when ready. */
 /* Starts a targeted spell, emits randomly colored sprite particles during casting, then restores movement
  * and status. */
-void advance_item_visual_action(ActorRecord *controller, ObjectPosition *motion, SpriteFrameState *actor, void *object)
+void advance_item_visual_action(ActorRecord *controller, ObjectPosition *motion, SpriteFrameState *action_sprite, ActorRecord *actor_body)
 {
     u8 *item_slot;
     s16 use_player;
     u8 state;
-    ObjectNodeHeader *target;
+    ActorRecord *target_actor;
 
     use_player = 0;
     state = controller->action_phase.u;
     switch (state) {
     case 0:
-        if ((*(u32 *)((u8 *)object + 0x1C)) & ACTOR_PLAYER_SIDE) {
-            switch ((*(u16 *)((u8 *)object + 0x46)) & 0x3FFF) {
+        if ((*(u32 *)((u8 *)actor_body + 0x1C)) & ACTOR_PLAYER_SIDE) {
+            switch (actor_body->action_flags & 0x3FFF) {
             case 7:
                 use_player = 1;
                 /* fallthrough */
             case 3:
-                item_slot = (u8 *)object + 0xE;
+                item_slot = (u8 *)actor_body + 0xE;
                 break;
             case 6:
                 use_player = 1;
                 /* fallthrough */
             case 2:
-                item_slot = (u8 *)object + 0xB;
+                item_slot = (u8 *)actor_body + 0xB;
                 break;
             case 5:
                 use_player = 1;
                 /* fallthrough */
             case 1:
-                item_slot = (u8 *)object + 8;
+                item_slot = (u8 *)actor_body + 8;
                 break;
             default:
                 item_slot = 0;
                 break;
             }
         } else {
-            switch ((*(u16 *)((u8 *)object + 0x46)) & 0x3FFF) {
+            switch (actor_body->action_flags & 0x3FFF) {
             case 3:
-                item_slot = (u8 *)object + 0xE;
+                item_slot = (u8 *)actor_body + 0xE;
                 break;
             case 2:
-                item_slot = (u8 *)object + 0xB;
+                item_slot = (u8 *)actor_body + 0xB;
                 break;
             case 1:
-                item_slot = (u8 *)object + 8;
+                item_slot = (u8 *)actor_body + 8;
                 break;
             default:
                 item_slot = 0;
@@ -105,11 +105,11 @@ void advance_item_visual_action(ActorRecord *controller, ObjectPosition *motion,
                 if (target_player != 0) {
                     SpriteFrameState *item_data;
 
-                    target = (ObjectNodeHeader *)primary_actor_record;
-                    (*(void * *)((u8 *)object + 0x60)) = target;
-                    item_data = (target - 1)->sprite;
-                    (*((u8 *)object + 0x72)) = item_data->tile_x;
-                    (*((u8 *)object + 0x73)) = item_data->tile_y;
+                    target_actor = primary_actor_record;
+                    actor_body->target = target_actor;
+                    item_data = NODE_HEADER(target_actor)->sprite;
+                    actor_body->target_tile_x = item_data->tile_x;
+                    actor_body->target_tile_y = item_data->tile_y;
                 } else {
                     u8 *item_table;
                     u8 item_id;
@@ -119,29 +119,29 @@ void advance_item_visual_action(ActorRecord *controller, ObjectPosition *motion,
                     item_id = *item_slot;
                     item_data = (item_id * 20 + item_table)[0x12];
                     if (item_data == 2) {
-                        target = (*(void * *)((u8 *)object + 0x60));
-                        if (target != 0) {
-                            item_data = (u32)(target - 1)->sprite;
-                            (*((u8 *)object + 0x72)) = ((S_801737C8_2 *)item_data)->unk_24;
-                            (*((u8 *)object + 0x73)) = ((S_801737C8_2 *)item_data)->unk_25;
+                        target_actor = actor_body->target;
+                        if (target_actor != 0) {
+                            item_data = (u32)NODE_HEADER(target_actor)->sprite;
+                            actor_body->target_tile_x = ((S_801737C8_2 *)item_data)->unk_24;
+                            actor_body->target_tile_y = ((S_801737C8_2 *)item_data)->unk_25;
                         }
                     } else {
                         s32 dx;
                         s32 dy;
 
                         dx = (s32)scan_actor_along_heading(
-                            object, actor->tile_x, actor->tile_y,
-                            (*(s16 *)((u8 *)object + 0x2A)), 0x10);
-                        (*(void * *)((u8 *)object + 0x60)) = (void *)dx;
-                        dx = abs(*(s8 *)((u8 *)object + 0x72));
-                        dy = abs(*(s8 *)((u8 *)object + 0x73));
-                        (*((u8 *)object + 0x72)) = dx;
-                        (*((u8 *)object + 0x73)) = dy;
+                            actor_body, action_sprite->tile_x, action_sprite->tile_y,
+                            actor_body->facing, 0x10);
+                        actor_body->target = (void *)dx;
+                        dx = abs(actor_body->target_tile_x);
+                        dy = abs(actor_body->target_tile_y);
+                        actor_body->target_tile_x = dx;
+                        actor_body->target_tile_y = dy;
                     }
                 }
             }
 
-            if (create_actor_spell_effect(object, item_slot, use_player, (u8 *)controller + 0x98) == 0) {
+            if (create_actor_spell_effect(actor_body, item_slot, use_player, &controller->action_state_flags) == 0) {
                 return;
             }
             controller->action_phase.u = controller->action_phase.u + 1;
@@ -151,23 +151,23 @@ void advance_item_visual_action(ActorRecord *controller, ObjectPosition *motion,
         motion->velocity_z = 0;
         motion->velocity_y = 0;
         motion->velocity_x = 0;
-        set_record_integer_tile_center(motion, actor->tile_x, actor->tile_y);
+        set_record_integer_tile_center(motion, action_sprite->tile_x, action_sprite->tile_y);
         g_dungeon_status.active_actor = 0;
         primary_actor_record->unk_A4.halves.high.u--;
-        advance_status_timers(object);
-        (*((u8 *)object + 0x6D))--;
+        advance_status_timers(actor_body);
+        (*((u8 *)actor_body + 0x6D))--;
         controller->unk_8C.address = blume_action_resume_address;
-        (*((u8 *)object + 0x73)) = 0;
-        (*((u8 *)object + 0x72)) = 0;
-        (*(u16 *)((u8 *)object + 0x46)) &= 0x7FFF;
+        actor_body->target_tile_y = 0;
+        actor_body->target_tile_x = 0;
+        actor_body->action_flags &= 0x7FFF;
         return;
 
     case 1:
         if (get_cd_command_queue_depth()) {
-            actor->flags |= 0x800;
+            action_sprite->flags |= 0x800;
             return;
         }
-        actor->flags &= 0xF7FF;
+        action_sprite->flags &= 0xF7FF;
         controller->action_phase.u++;
         play_sound_if_enabled(0x703);
 
@@ -179,33 +179,35 @@ void advance_item_visual_action(ActorRecord *controller, ObjectPosition *motion,
             effect_count = 0;
             dim_channel = 0x20;
             for (; effect_count < 1; effect_count++) {
-                object = allocate_flagged_object_node(0x212);
-                if (object != 0) {
+                ObjectNodeHeader *effect_node;
+
+                effect_node = allocate_flagged_object_node(0x212);
+                if (effect_node != 0) {
                     u8 *effect_data;
                     SpriteFrameState *sprite;
-                    MovingPosition *effect_pos;
+                    ObjectPosition *effect_pos;
                     s32 dx;
                     s32 dy;
                     s32 color_bits;
 
-                    effect_data = (u8 *)object + 0x20;
+                    effect_data = NODE_BODY(effect_node);
                     (*(u16 *)(effect_data + 0x24)) = 0x13;
-                    (*(u16 *)((u8 *)object + 0x20)) = 0;
-                    (*(void * *)((u8 *)object + 0x10)) = update_fading_motion_effect;
-                    register_node(object, D_80170FD8);
+                    (*(u16 *)NODE_BODY(effect_node)) = 0;
+                    effect_node->update_callback = update_fading_motion_effect;
+                    register_node(effect_node, D_80170FD8);
 
-                    sprite = (*(void * *)((u8 *)object + 0x0C));
+                    sprite = effect_node->sprite;
                     sprite->tpage_abr = dim_channel;
                     sprite->flags |= 0x0C;
-                    effect_pos = (*(void * *)((u8 *)object + 8));
-                    effect_pos->x = ((u16)motion->x.w.i);
-                    effect_pos->y = ((u16)motion->y.w.i);
-                    effect_pos->z = ((u16)motion->z.w.i);
+                    effect_pos = effect_node->position;
+                    effect_pos->x.unsigned_parts.integer = ((u16)motion->x.w.i);
+                    effect_pos->y.unsigned_parts.integer = ((u16)motion->y.w.i);
+                    effect_pos->z.unsigned_parts.integer = ((u16)motion->z.w.i);
 
                     dx = (rand() & 0x3F) - 0x20;
                     dy = (rand() & 0x3F) - 0x20;
-                    effect_pos->x += dx;
-                    effect_pos->y += dy;
+                    effect_pos->x.unsigned_parts.integer += dx;
+                    effect_pos->y.unsigned_parts.integer += dy;
                     sprite->scale_x = 0x1000;
                     sprite->scale_y = 0x1000;
 
@@ -238,15 +240,15 @@ void advance_item_visual_action(ActorRecord *controller, ObjectPosition *motion,
             }
         }
 
-        if ((actor->unk_04 == 6 &&
-             (actor->flags & 0x1000)) ||
-            (actor->flags & 0xE000)) {
+        if ((action_sprite->unk_04 == 6 &&
+             (action_sprite->flags & 0x1000)) ||
+            (action_sprite->flags & 0xE000)) {
             controller->action_state_flags |= 0x80;
         }
-        if ((actor->unk_04 == 9 &&
-             (actor->flags & 0x1000)) ||
-            (actor->flags & 0xE000)) {
-            actor->flags |= 0x800;
+        if ((action_sprite->unk_04 == 9 &&
+             (action_sprite->flags & 0x1000)) ||
+            (action_sprite->flags & 0xE000)) {
+            action_sprite->flags |= 0x800;
             controller->action_timer.u = 0x14;
             controller->action_phase.u = controller->action_phase.u + 1;
             return;
@@ -264,35 +266,35 @@ void advance_item_visual_action(ActorRecord *controller, ObjectPosition *motion,
             controller->action_timer.u = timer;
             if (timer <= 0) {
                 controller->action_timer.u = 0;
-                actor->flags &= 0xF7FF;
+                action_sprite->flags &= 0xF7FF;
             }
-            if (!(actor->flags & 0xE000)) {
+            if (!(action_sprite->flags & 0xE000)) {
                 return;
             }
             motion->velocity_z = 0;
             motion->velocity_y = 0;
             motion->velocity_x = 0;
-            set_record_integer_tile_center(motion, actor->tile_x, actor->tile_y);
-            if (*(u8 * *)&actor->frameTable != blume_direction_frames) {
+            set_record_integer_tile_center(motion, action_sprite->tile_x, action_sprite->tile_y);
+            if (*(u8 * *)&action_sprite->frameTable != blume_direction_frames) {
                 u8 *facing_frames;
                 s32 facing_index;
 
                 facing_frames = blume_direction_frames;
-                actor->frameTable = facing_frames;
-                facing_index = ((g_game_work.view.camera_rotation.parts.viewAngle + (*(s16 *)((u8 *)object + 0x2A)) + 0x100) >> 9) & 7;
-                select_sprite_entry(actor, facing_frames[facing_index], 0);
-                actor->flags &= 0xF7FF;
+                action_sprite->frameTable = facing_frames;
+                facing_index = ((g_game_work.view.camera_rotation.parts.viewAngle + actor_body->facing + 0x100) >> 9) & 7;
+                select_sprite_entry(action_sprite, facing_frames[facing_index], 0);
+                action_sprite->flags &= 0xF7FF;
             }
             if ((g_dungeon_status.active_actor) != 0) {
                 return;
             }
             g_dungeon_status.activity_counts.parts.pending_action_count--;
             controller->unk_8C.address = blume_action_resume_address;
-            advance_status_timers(object);
-            (*((u8 *)object + 0x73)) = 0;
-            (*((u8 *)object + 0x72)) = 0;
-            (*((u8 *)object + 0x6D))--;
-            (*(u16 *)((u8 *)object + 0x46)) &= 0x7FFF;
+            advance_status_timers(actor_body);
+            actor_body->target_tile_y = 0;
+            actor_body->target_tile_x = 0;
+            (*((u8 *)actor_body + 0x6D))--;
+            actor_body->action_flags &= 0x7FFF;
             play_sound_if_enabled(AUDIO_FADE_CD_FAST);
         }
 

@@ -32,7 +32,7 @@ extern void create_actor_linked_effect(void *sourceData);
 /* Starts Kewne's targeted spell and linked effects, times optional CD audio playback, then restores
  * movement and status. */
 void advance_item_action_and_cleanup(ActorRecord *body, ObjectPosition *motion, SpriteFrameState *sprite, ActorRecord *actor_arg) {
-    void *actor = actor_arg;
+    ActorRecord *actor = actor_arg;
     s32 state;
     s32 action_value;
     u8 has_item;
@@ -56,7 +56,7 @@ void advance_item_action_and_cleanup(ActorRecord *body, ObjectPosition *motion, 
     }
     switch (state) {
     case 0:
-    switch (((ActorRecord *)actor)->action_flags & 0x3FFF) {
+    switch (actor->action_flags & 0x3FFF) {
     case 7:
         item_or_audio_base = 1;
         /* fallthrough */
@@ -89,23 +89,23 @@ void advance_item_action_and_cleanup(ActorRecord *body, ObjectPosition *motion, 
     D_80175F6E = state;
     if (has_item != 0) {
         target = (ObjectNodeHeader *)primary_actor_record;
-        ((ActorRecord *)actor)->target = target;
+        actor->target = target;
         state = (s32)(target - 1)->sprite;
-        ((ActorRecord *)actor)->target_tile_x = ((ActorRecord *)state)->mp_value.parts.fraction;
-        ((ActorRecord *)actor)->target_tile_y = ((ActorRecord *)state)->mp_value.parts.whole;
+        actor->target_tile_x = ((ActorRecord *)state)->mp_value.parts.fraction;
+        actor->target_tile_y = ((ActorRecord *)state)->mp_value.parts.whole;
     } else if (item_action_definitions[*item_addr].kind == 2) {
-        target = ((ActorRecord *)actor)->target;
+        target = actor->target;
         if (target != 0) {
             state = (s32)(target - 1)->sprite;
-            ((ActorRecord *)actor)->target_tile_x = ((ActorRecord *)state)->mp_value.parts.fraction;
-            ((ActorRecord *)actor)->target_tile_y = ((ActorRecord *)state)->mp_value.parts.whole;
+            actor->target_tile_x = ((ActorRecord *)state)->mp_value.parts.fraction;
+            actor->target_tile_y = ((ActorRecord *)state)->mp_value.parts.whole;
         }
     } else {
         resource = scan_actor_along_heading(actor, sprite->tile_x,
-                            sprite->tile_y, ((ActorRecord *)actor)->facing, 0x10);
-        ((ActorRecord *)actor)->target = resource;
-        ((ActorRecord *)actor)->target_tile_x = abs(((ActorRecord *)actor)->target_tile_x);
-        ((ActorRecord *)actor)->target_tile_y = abs(((ActorRecord *)actor)->target_tile_y);
+                            sprite->tile_y, actor->facing, 0x10);
+        actor->target = resource;
+        actor->target_tile_x = abs(actor->target_tile_x);
+        actor->target_tile_y = abs(actor->target_tile_y);
     }
 
     if (create_actor_spell_effect(actor, (void *)item_addr, item_or_audio_base, (u8 *)body + 0x98) == 0) {
@@ -113,17 +113,17 @@ void advance_item_action_and_cleanup(ActorRecord *body, ObjectPosition *motion, 
     }
     if (item_or_audio_base != 0) {
         D_800DCF50 = *item_addr;
-        ((ActorRecord *)actor)->species |= 0x80;
+        actor->species |= 0x80;
     }
-    direction = ((g_game_work.view.camera_rotation.parts.viewAngle + ((ActorRecord *)actor)->facing + 0x100) >> 9) & 7;
+    direction = ((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7;
     select_sprite_entry(sprite, ((u8 *)sprite->frameTable)[direction], 2);
     sprite->flags |= 0x800;
-    if (item_or_audio_base != 0 && !(((ActorRecord *)actor)->species & 0x80)) {
+    if (item_or_audio_base != 0 && !(actor->species & 0x80)) {
         create_linked_source_object(actor);
         create_linked_child_object(actor);
         body->action_phase.u++;
     } else {
-        ((ActorRecord *)actor)->species &= 0x7F;
+        actor->species &= 0x7F;
         D_80175F6E &= 0xFF7F;
         create_actor_linked_effect(actor);
         body->action_phase.u++;
@@ -197,7 +197,7 @@ void advance_item_action_and_cleanup(ActorRecord *body, ObjectPosition *motion, 
     resource = kewne_direction_frames;
     if (sprite->frameTable != resource) {
         (sprite->frameTable) = resource;
-        direction = ((g_game_work.view.camera_rotation.parts.viewAngle + ((ActorRecord *)actor)->facing + 0x100) >> 9) & 7;
+        direction = ((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7;
         select_sprite_entry(sprite, kewne_direction_frames[direction], 0);
     }
     {
@@ -208,11 +208,11 @@ void advance_item_action_and_cleanup(ActorRecord *body, ObjectPosition *motion, 
     }
     body->unk_8C.address = kewne_action_resume_address;
     advance_status_timers(actor);
-    ((ActorRecord *)actor)->pending_turn_updates--;
-    ((ActorRecord *)actor)->action_flags &= 0x7FFF;
+    actor->pending_turn_updates--;
+    actor->action_flags &= 0x7FFF;
     body->action_state_flags &= 0xFFBF;
-    ((ActorRecord *)actor)->target_tile_y = 0;
-    ((ActorRecord *)actor)->target_tile_x = 0;
+    actor->target_tile_y = 0;
+    actor->target_tile_x = 0;
     play_sound_if_enabled(AUDIO_FADE_CD_FAST);
     }
 }

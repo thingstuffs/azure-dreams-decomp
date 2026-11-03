@@ -826,7 +826,7 @@ void advance_actor_action_and_update_status(
     s16 x_offset,
     s16 y_offset,
     s16 z_offset);
-void project_and_queue_textured_quad(void *quad, void *position, void *draw_state, s16 depth_bias);
+void project_and_queue_textured_quad(ActorRecord *quad, void *position, void *draw_state, s16 depth_bias);
 s32 project_textured_quad_chain(void *initial_state, ObjectPosition *context, SpriteFrameState *data);
 void advance_record_countdown(void *record_data);
 void update_fading_four_strip_effect(u8 *effect, R06_80174934_Vec3w *origin, SpriteFrameState *render_data);

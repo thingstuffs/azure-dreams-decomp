@@ -9,28 +9,8 @@
 #include "dungeon/actor.h"
 #include "sdk/libgte.h"
 
-/* Sparse views for fields not covered by the existing record types. */
-typedef struct {
-    u8 pad_00[0x92];
-    union {
-        s16 s16;
-        u16 u16;
-    } field_92;
-    u8 pad_94[0x12];
-    u16 field_A6;
-} InputActorFieldView_80E0D2E8;
-
-typedef struct {
-    u8 pad_00[0x2];
-    u16 field_02;
-    u8 pad_04[0x2];
-    u16 field_06;
-} InputMotionFieldView_80E0D2E8;
-
 typedef struct Actor Actor;
-typedef struct Motion Motion;
-typedef struct Entity Entity;
-typedef void (*ActorCallback)(Actor *, Motion *, Entity *, Actor *);
+typedef void (*ActorCallback)(Actor *, ObjectPosition *, SpriteFrameState *, Actor *);
 
 struct Actor {
     u8 pad00[0x1C];
@@ -45,7 +25,7 @@ struct Actor {
     u16 height88;
     u8 pad8A[2];
     ActorCallback callback;
-    s32 position90;
+    union { s32 value; ActorScratchHalves halves; } position90;
     s16 direction94;
     u8 pad96[2];
     u16 state98;
@@ -53,45 +33,25 @@ struct Actor {
     u8 pad9B[2];
     u8 counter9D;
     u8 pad9E[6];
-    s32 correctionA4;
+    union { s32 value; ActorScratchHalves halves; } correctionA4;
     u8 padA8[4];
     u16 correctionCountAC;
 };
 
-struct Motion {
-    s32 x;
-    s32 y;
-    u8 pad08[2];
-    s16 height0A;
-    s32 dx;
-    s32 dy;
-    s32 dz;
-};
 
-struct Entity {
-    u8 pad00[4];
-    s8 kind;
-    u8 pad05[7];
-    u8 position0C[8];
-    u16 flags14;
-    u8 pad16[0x0E];
-    u8 tileX;
-    u8 tileY;
-    u8 pad26[6];
-    u8 *data;
-};
+
 
 extern u8 cyclone_move_direction_frames[8];
 extern u8 cyclone_fade_direction_frames[8];
 extern ActorCallback cyclone_callbacks[];
 
-extern void advance_sprite_animation_and_textures(Entity *);
-extern s32 refresh_actor_facing_and_lifecycle(Actor *, Motion *, Entity *, Actor *);
+extern void advance_sprite_animation_and_textures(SpriteFrameState *);
+extern s32 refresh_actor_facing_and_lifecycle(Actor *, ObjectPosition *, SpriteFrameState *, Actor *);
 
 /* Updates actor direction, callbacks, motion, and ground height. */
 /* Runs Cyclone's callbacks, updates table-dependent sprite mirroring and idle bobbing, and resolves ground
  * contact. */
-void update_actor_direction_and_ground(Actor *input_actor, Motion *input_motion, Entity *input_entity)
+void update_actor_direction_and_ground(Actor *input_actor, ObjectPosition *input_motion, SpriteFrameState *input_entity)
 {
     Actor *subject = input_actor;
     s16 direction;
@@ -121,14 +81,14 @@ void update_actor_direction_and_ground(Actor *input_actor, Motion *input_motion,
         return;
     }
 
-    entity_flags = input_entity->flags14;
+    entity_flags = input_entity->flags;
     if (!(entity_flags & 0x8000)) {
         direction = ((g_game_work.view.camera_rotation.parts.viewAngle + input_actor->angle + 0x100) >> 9) & 7;
         direction_index = direction;
 
         if (input_actor->direction94 != direction) {
-            if (input_entity->data != 0) {
-                select_indirect_table_entry(input_entity, input_entity->data[direction], input_entity->kind);
+            if (input_entity->frameTable != 0) {
+                select_indirect_table_entry(input_entity, ((u8 *)input_entity->frameTable)[direction], input_entity->unk_04);
             }
             input_actor->direction94 = direction;
         }
@@ -136,27 +96,27 @@ void update_actor_direction_and_ground(Actor *input_actor, Motion *input_motion,
         {
             u16 updated_flags;
 
-            if (input_entity->data == cyclone_fade_direction_frames && dir_sprite_flag[direction_index] != 0) {
-                updated_flags = input_entity->flags14 | 1;
+            if (input_entity->frameTable == cyclone_fade_direction_frames && dir_sprite_flag[direction_index] != 0) {
+                updated_flags = input_entity->flags | 1;
             } else {
-                updated_flags = input_entity->flags14 & 0xFFFE;
+                updated_flags = input_entity->flags & 0xFFFE;
             }
-            input_entity->flags14 = updated_flags;
+            input_entity->flags = updated_flags;
         }
-        apply_monster_koyaw_data(subject->flags, input_entity->position0C);
+        apply_monster_koyaw_data(subject->flags, (u8 *)&input_entity->color);
         if (!(subject->flags & 0x20)) {
-            if (!(input_entity->flags14 & 0x40)) {
+            if (!(input_entity->flags & 0x40)) {
                 advance_sprite_animation_and_textures(input_entity);
             }
         } else {
-            input_entity->flags14 |= 0x7000;
+            input_entity->flags |= 0x7000;
             subject->flags &= 0xFFFBFFFF;
         }
     } else {
         if (entity_flags & 0x0800) {
-            input_entity->flags14 = entity_flags & 0x8FFF;
+            input_entity->flags = entity_flags & 0x8FFF;
         } else {
-            input_entity->flags14 = entity_flags | 0x7000;
+            input_entity->flags = entity_flags | 0x7000;
         }
     }
 
@@ -170,59 +130,59 @@ void update_actor_direction_and_ground(Actor *input_actor, Motion *input_motion,
         try_move_actor_to_valid_position(input_actor, input_motion, input_entity, subject);
     }
 
-    input_motion->x += input_motion->dx;
-    input_motion->y += input_motion->dy;
+    input_motion->x.v += input_motion->velocity_x;
+    input_motion->y.v += input_motion->velocity_y;
 
     if (!(subject->flags & 0x00040000) && !(input_actor->state98 & 8)) {
-        input_motion->dz += (s8)input_actor->counter9D * 0x14000;
+        input_motion->velocity_z += (s8)input_actor->counter9D * 0x14000;
         input_actor->counter9D++;
     } else {
         input_actor->counter9D = 0;
     }
-    input_actor->position90 += input_motion->dz;
+    input_actor->position90.value += input_motion->velocity_z;
 
-    if (!(input_entity->flags14 & 0x8000)) {
+    if (!(input_entity->flags & 0x8000)) {
         actor_flags = subject->flags;
         actor_flags &= 0xF7FFFFFF;
         subject->flags = actor_flags;
         actor_flags &= 0x00040000;
         if (actor_flags) {
-            if (!(input_entity->flags14 & 0x40) && input_entity->data == cyclone_move_direction_frames) {
+            if (!(input_entity->flags & 0x40) && input_entity->frameTable == cyclone_move_direction_frames) {
                 u16 correction_count = input_actor->correctionCountAC;
                 input_actor->correctionCountAC = correction_count + 1;
-                input_actor->correctionA4 += rsin((s16)correction_count * 0xAA) << 5;
+                input_actor->correctionA4.value += rsin((s16)correction_count * 0xAA) << 5;
             }
             if (!(input_actor->state98 & 8)) {
                 height_adjust = -0x18;
-                height_offset = ((InputActorFieldView_80E0D2E8 *)input_actor)->field_92.s16;
-                entity_flags = ((InputActorFieldView_80E0D2E8 *)input_actor)->field_92.u16;
+                height_offset = input_actor->position90.halves.high.s;
+                entity_flags = input_actor->position90.halves.high.u;
                 if (height_adjust < height_offset) {
                     height_adjust = entity_flags - 8;
-                    ((InputActorFieldView_80E0D2E8 *)input_actor)->field_92.s16 = height_adjust;
+                    input_actor->position90.halves.high.s = height_adjust;
                 } else {
                     height_adjust = height_offset < -0x20;
                     if (height_adjust) {
                         height_adjust = entity_flags + 8;
-                        ((InputActorFieldView_80E0D2E8 *)input_actor)->field_92.s16 = height_adjust;
+                        input_actor->position90.halves.high.s = height_adjust;
                     }
                 }
             }
         } else {
             s32 reset_correction;
 
-            reset_correction = input_actor->correctionA4;
+            reset_correction = input_actor->correctionA4.value;
             input_actor->correctionCountAC = 0;
-            input_actor->correctionA4 = 0;
-            input_actor->position90 -= reset_correction;
+            input_actor->correctionA4.value = 0;
+            input_actor->position90.value -= reset_correction;
             if (!(input_actor->state98 & 8)) {
                 ground = (s16)(sample_terrain_surface_height(
-                    *(u16 *)((u8 *)input_motion + 2),
-                    *(u16 *)((u8 *)input_motion + 6),
+                    input_motion->x.unsigned_parts.integer,
+                    input_motion->y.unsigned_parts.integer,
                     (s16)(subject->height88 - 0x20)) - subject->height88);
-                if (ground < *(s16 *)((u8 *)input_actor + 0x92)) {
-                    *(s16 *)((u8 *)input_actor + 0x92) = ground;
+                if (ground < input_actor->position90.halves.high.s) {
+                    input_actor->position90.halves.high.s = ground;
                     input_actor->counter9D = 0;
-                    input_motion->dz = 0;
+                    input_motion->velocity_z = 0;
                     subject->flags |= 0x08000000;
                 }
             }
@@ -233,40 +193,40 @@ void update_actor_direction_and_ground(Actor *input_actor, Motion *input_motion,
         subject->flags = actor_flags;
         actor_flags &= 0x00040000;
         if (!actor_flags) {
-            correction = input_actor->correctionA4;
+            correction = input_actor->correctionA4.value;
             input_actor->correctionCountAC = 0;
-            input_actor->correctionA4 = 0;
-            input_actor->position90 -= correction;
+            input_actor->correctionA4.value = 0;
+            input_actor->position90.value -= correction;
             if (!(input_actor->state98 & 8)) {
                 ground = (s16)(sample_terrain_surface_height(
-                    ((InputMotionFieldView_80E0D2E8 *)input_motion)->field_02,
-                    ((InputMotionFieldView_80E0D2E8 *)input_motion)->field_06,
+                    input_motion->x.unsigned_parts.integer,
+                    input_motion->y.unsigned_parts.integer,
                     (s16)(subject->height88 - 0x20)) - subject->height88);
-                if (ground < ((InputActorFieldView_80E0D2E8 *)input_actor)->field_92.s16) {
-                    ((InputActorFieldView_80E0D2E8 *)input_actor)->field_92.s16 = ground;
+                if (ground < input_actor->position90.halves.high.s) {
+                    input_actor->position90.halves.high.s = ground;
                     input_actor->counter9D = 0;
-                    input_motion->dz = 0;
+                    input_motion->velocity_z = 0;
                     subject->flags |= 0x08000000;
                 }
             }
         } else {
-            if (!(input_entity->flags14 & 0x40) && input_entity->data == cyclone_move_direction_frames) {
+            if (!(input_entity->flags & 0x40) && input_entity->frameTable == cyclone_move_direction_frames) {
                 u16 correction_count = input_actor->correctionCountAC;
                 input_actor->correctionCountAC = correction_count + 1;
-                input_actor->correctionA4 += rsin((s16)correction_count * 0xAA) << 5;
+                input_actor->correctionA4.value += rsin((s16)correction_count * 0xAA) << 5;
             }
             if (!(input_actor->state98 & 8)) {
                 height_adjust = -0x18;
-                height_offset = ((InputActorFieldView_80E0D2E8 *)input_actor)->field_92.s16;
-                entity_flags = ((InputActorFieldView_80E0D2E8 *)input_actor)->field_92.u16;
+                height_offset = input_actor->position90.halves.high.s;
+                entity_flags = input_actor->position90.halves.high.u;
                 if (height_adjust < height_offset) {
                     height_adjust = entity_flags - 8;
-                    ((InputActorFieldView_80E0D2E8 *)input_actor)->field_92.s16 = height_adjust;
+                    input_actor->position90.halves.high.s = height_adjust;
                 } else {
                     height_adjust = height_offset < -0x20;
                     if (height_adjust) {
                         height_adjust = entity_flags + 8;
-                        ((InputActorFieldView_80E0D2E8 *)input_actor)->field_92.s16 = height_adjust;
+                        input_actor->position90.halves.high.s = height_adjust;
                     }
                 }
             }
@@ -276,19 +236,19 @@ void update_actor_direction_and_ground(Actor *input_actor, Motion *input_motion,
     actor_flags = subject->flags;
     if (actor_flags & 0x40000000) {
         subject->flags = actor_flags & 0xBFFFFFFF;
-        ground = sample_terrain_surface_height((input_entity->tileX << 6) | 0x20,
-                               (input_entity->tileY << 6) | 0x20,
+        ground = sample_terrain_surface_height((input_entity->tile_x << 6) | 0x20,
+                               (input_entity->tile_y << 6) | 0x20,
                                (s16)(subject->height88 - 0x20));
         if (ground < 0x200) {
-            ((InputActorFieldView_80E0D2E8 *)input_actor)->field_92.s16 += subject->height88 - ground;
+            input_actor->position90.halves.high.s += subject->height88 - ground;
             subject->height88 = ground;
         }
     }
 
-    input_motion->height0A = subject->height88 +
-                       ((InputActorFieldView_80E0D2E8 *)input_actor)->field_92.u16 -
-                       ((InputActorFieldView_80E0D2E8 *)input_actor)->field_A6;
-    input_entity->flags14 |= 0x40;
+    input_motion->z.w.i = subject->height88 +
+                       input_actor->position90.halves.high.u -
+                       input_actor->correctionA4.halves.high.u;
+    input_entity->flags |= 0x40;
 
     return;
 }

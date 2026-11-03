@@ -13,7 +13,7 @@ void advance_actor_hop_animation(ActorRecord *body, ObjectPosition *position, Sp
 
 
 void advance_actor_animation_and_fall(ActorRecord *action, ObjectPosition *motion, SpriteFrameState *sprite, ActorRecord *actor);
-void update_actor_approach_descent_return(void *action, ObjectPosition *motion, SpriteFrameState *sprite, void *actor);
+void update_actor_approach_descent_return(ActorRecord *action, ObjectPosition *motion, SpriteFrameState *sprite, ActorRecord *actor);
 void update_monster_staged_motion(ActorRecord *body, ObjectPosition *motion, SpriteFrameState *sprite, ActorRecord *actor_ptr);
 
 void update_actor_turn_behavior(ActorRecord *body, ObjectPosition *position, SpriteFrameState *sprite, ActorRecord *actor);
@@ -83,5 +83,7 @@ void update_effect_collision_and_lifetime(OriginMotionEffectBody *effect,
 
 void initialize_angle_indexed_target(ActorRecord *state, ObjectPosition *unused, SpriteFrameState *target, ActorRecord *angleSource);
 s32 random_below_limit(s32 limit);
+
+void relocate_entity_after_animation(ActorRecord *body, ObjectPosition *position, SpriteFrameState *sprite, void *object);
 
 #endif

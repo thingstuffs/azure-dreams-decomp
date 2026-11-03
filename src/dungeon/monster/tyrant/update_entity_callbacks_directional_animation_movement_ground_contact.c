@@ -7,7 +7,7 @@
 /* Updates entity callbacks, directional animation, movement, and ground contact. */
 void update_entity_callbacks_directional_animation_movement_ground_contact(ActorRecord *body, TrailMotion *motion, SpriteFrameState *sprite)
 {
-    T_80170AA4_S_80170AA4_1 *entity = (T_80170AA4_S_80170AA4_1 *)body;
+    ActorRecord *entity = body;
     s16 state_direction;
     s32 direction_index;
     void *call_entity;
@@ -88,7 +88,7 @@ void update_entity_callbacks_directional_animation_movement_ground_contact(Actor
 
     part_flags = sprite->flags;
     if (!(part_flags & 0x8000)) {
-        view_angle = g_game_work.view.camera_rotation.parts.viewAngle + entity->unk_2A + 0x100;
+        view_angle = g_game_work.view.camera_rotation.parts.viewAngle + entity->facing + 0x100;
         state_direction = (view_angle >> 9) & ACTOR_ELEMENT_MASK;
         previous_direction = body->unk_94;
         direction_index = (u16)state_direction;
@@ -107,14 +107,14 @@ void update_entity_callbacks_directional_animation_movement_ground_contact(Actor
         } else {
             sprite->flags &= 0xFFFE;
         }
-        if (!(entity->unk_1C & 0x20)) {
+        if (!(entity->flags1C & 0x20)) {
             if (!(sprite->flags & 0x40)) {
                 advance_sprite_animation_and_textures(sprite);
             }
         } else {
             sprite->flags |= 0x7000;
         }
-        apply_monster_koyaw_data(entity->unk_1C, (u8 *)sprite + 0xC);
+        apply_monster_koyaw_data(entity->flags1C, (u8 *)sprite + 0xC);
     } else {
         if (part_flags & 0x800) {
             new_part_flags = part_flags & 0x8FFF;
@@ -137,44 +137,44 @@ void update_entity_callbacks_directional_animation_movement_ground_contact(Actor
     if (!(body->action_state_flags & 4)) {
         ground_height = sample_terrain_surface_height(motion->x.unk_02.unk_02,
                                motion->y.unk_06.unk_06,
-                               (s16)(entity->unk_88 - 0x20));
+                               (s16)((u16)(entity->ground_height) - 0x20));
         if ((s16)ground_height < 0x200) {
-            base_height = (s16)entity->unk_88;
+            base_height = (s16)(u16)(entity->ground_height);
             if (body->unk_90.parts.high.s + base_height < (s16)ground_height) {
-                entity->unk_1C &= 0xF7FFFFFF;
+                entity->flags1C &= 0xF7FFFFFF;
             } else {
                 if ((s16)ground_height >= base_height) {
                     body->unk_90.value = 0;
                     motion->unk_14 = 0;
-                    entity->unk_1C |= 0x08000000;
+                    entity->flags1C |= 0x08000000;
                     body->unk_9D.s = 0;
                 } else {
                     motion->unk_14 = 0;
-                    entity->unk_1C |= 0x08000000;
+                    entity->flags1C |= 0x08000000;
                     body->unk_9D.s = 0;
-                    body->unk_90.parts.high.s = ground_height - entity->unk_88;
+                    body->unk_90.parts.high.s = ground_height - (u16)(entity->ground_height);
                 }
             }
-            entity_flags = entity->unk_1C;
+            entity_flags = entity->flags1C;
             if (entity_flags & 0x40000000) {
-                entity->unk_1C = entity_flags & 0xBFFFFFFF;
+                entity->flags1C = entity_flags & 0xBFFFFFFF;
                 ground_height = sample_terrain_surface_height(
                     (sprite->tile_x << 6) | 0x20,
                     (sprite->tile_y << 6) | 0x20,
-                    (s16)(entity->unk_88 - 0x20));
+                    (s16)((u16)(entity->ground_height) - 0x20));
                 body->unk_90.parts.high.s +=
-                    entity->unk_88 - ground_height;
-                entity->unk_88 = ground_height;
+                    (u16)(entity->ground_height) - ground_height;
+                entity->ground_height = ground_height;
             }
         } else {
-            entity->unk_1C &= 0xF7FFFFFF;
+            entity->flags1C &= 0xF7FFFFFF;
         }
     } else {
-        entity->unk_1C &= 0xF7FFFFFF;
+        entity->flags1C &= 0xF7FFFFFF;
     }
 
     motion->z =
-        entity->unk_88 + body->unk_90.parts.high.u;
+        (u16)(entity->ground_height) + body->unk_90.parts.high.u;
     sprite->flags |= 0x40;
 
     return;

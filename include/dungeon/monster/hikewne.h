@@ -37,4 +37,6 @@ void clear_entity_flag_and_advance_action(ActorRecord *action_state, ObjectPosit
 s32 update_entity_state_from_query(ActorRecord *body, ObjectPosition *position, SpriteFrameState *sprite, s32 force_state_arg);
 s32 validate_action_and_apply_effect(ActorRecord *action, ObjectPosition *effect, SpriteFrameState *target, ActorRecord *actor_data);
 
+void advance_timed_action_and_cleanup(ActorRecord *action_data, ObjectPosition *position, SpriteFrameState *sprite, ActorRecord *actor_data);
+
 #endif

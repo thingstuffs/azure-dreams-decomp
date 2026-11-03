@@ -832,12 +832,12 @@ void begin_eligible_actor_action(ActorRecord *action_state, ObjectPosition *cont
 }
 
 /* Relinks actor state, updates status or movement as needed, and reports whether a new action may start. */
-s32 relink_clown_path(void *entity_arg, ObjectPosition *primary_context_arg, void *secondary_context_arg, s32 force_state_arg) {
+s32 relink_clown_path(ActorRecord *entity_arg, ObjectPosition *primary_context_arg, void *secondary_context_arg, s32 force_state_arg) {
     s16 state_type;
     s32 result;
-    void *entity = entity_arg;
+    ActorRecord *entity = entity_arg;
 
-    state_type = (s16)relink_entity_and_clear_high_flag(primary_context_arg, secondary_context_arg, entity, 3, 6, entity + 0x9C);
+    state_type = (s16)relink_entity_and_clear_high_flag(primary_context_arg, secondary_context_arg, entity, 3, 6, &entity->unk_9C);
     if (state_type < 0) return 0;
     if ((force_state_arg << 0x10) != 0) {
         choose_clown_move(entity, primary_context_arg, secondary_context_arg, entity);
@@ -846,7 +846,7 @@ s32 relink_clown_path(void *entity_arg, ObjectPosition *primary_context_arg, voi
     }
     switch (state_type) {
     case 0:
-        ((R16_801721B4_S_80172628_0 *)entity)->unk_9A = 0xE;
+        entity->action_id.s = 0xE;
         update_actor_status_and_mp(entity);
         result = 0;
         return result;
@@ -855,13 +855,13 @@ s32 relink_clown_path(void *entity_arg, ObjectPosition *primary_context_arg, voi
         result = 0;
         return result;
     case 1:
-        ((R16_801721B4_S_80172628_0 *)entity)->unk_71 = (u8) (((R16_801721B4_S_80172628_0 *)entity)->unk_71 & 0x7F);
+        entity->movement_queue_state = (u8) (entity->movement_queue_state & 0x7F);
         if ((has_pending_dungeon_activity(entity) << 0x10) != 0) {
             break;
         }
                                 /* fall through */
     default:
-        ((R16_801721B4_S_80172628_0 *)entity)->unk_71 = (u8) (((R16_801721B4_S_80172628_0 *)entity)->unk_71 & 0x7F);
+        entity->movement_queue_state = (u8) (entity->movement_queue_state & 0x7F);
         if ((g_dungeon_status.flags & 8) == 0) {
             result = 1;
             return result;
@@ -869,7 +869,7 @@ s32 relink_clown_path(void *entity_arg, ObjectPosition *primary_context_arg, voi
         break;
     }
     result = 0;
-    ((R16_801721B4_S_80172628_0 *)entity)->unk_46 = (u16) (((R16_801721B4_S_80172628_0 *)entity)->unk_46 & 0x7FFF);
+    entity->action_flags = (u16) (entity->action_flags & 0x7FFF);
     return result;
 }
 
@@ -878,18 +878,18 @@ s32 relink_clown_path(void *entity_arg, ObjectPosition *primary_context_arg, voi
  * after a positive signed floor-trap check. Sets the secondary timer to -0x20 under dungeon flag
  * 0x80 during movement or after an accepted trap check. /
  */
-void finish_actor_tile_move_then_dispatch_transition(void *state, void *motion, void *source, void *target) {
+void finish_actor_tile_move_then_dispatch_transition(ActorRecord *state, void *motion, void *source, void *target) {
     if (update_actor_movement_to_tile(state, motion, source, target) != 0) {
         spend_actor_mp(target, 4);
         advance_status_timers(target);
         if ((check_actor_floor_trap(source, target) << 16) > 0) {
-            *(s32 **)((u8 *)state + 0x8C) = ((s32 *)update_actor_state_and_dispatch_transition);
+            state->unk_8C.word_ptr = ((s32 *)update_actor_state_and_dispatch_transition);
             if (g_dungeon_status.flags & 0x80) {
-                *(s16 *)((u8 *)state + 0x92) = -0x20;
+                state->unk_90.parts.high.s = -0x20;
             }
         }
     } else if (g_dungeon_status.flags & 0x80) {
-        *(s16 *)((u8 *)state + 0x92) = -0x20;
+        state->unk_90.parts.high.s = -0x20;
     }
 }
 
@@ -954,7 +954,7 @@ void finish_actor_action_animation(ActorRecord *action, ObjectPosition *motion, 
  * status. */
 void update_overlay_object_action(ActorRecord *body, ObjectPosition *position, SpriteFrameState *sprite, ActorRecord *actor)
 {
-    void *object = actor;
+    ActorRecord *object = actor;
     register s32 is_special;
     u8 *action_data;
     s16 x;
@@ -972,8 +972,8 @@ void update_overlay_object_action(ActorRecord *body, ObjectPosition *position, S
     is_special = 0;
     switch (state) {
     case 0:
-        if (((R16_801725A4_S_801725A4_1 *)object)->unk_1C & ACTOR_PLAYER_SIDE) {
-            kind_index = (((R16_801725A4_S_801725A4_1 *)object)->unk_46 & 0x3FFF) - 1;
+        if (object->flags1C & ACTOR_PLAYER_SIDE) {
+            kind_index = (object->action_flags & 0x3FFF) - 1;
             switch (kind_index) {
             case 6:
                 is_special = 1;
@@ -995,7 +995,7 @@ void update_overlay_object_action(ActorRecord *body, ObjectPosition *position, S
                 break;
             }
         } else {
-            kind = ((R16_801725A4_S_801725A4_1 *)object)->unk_46 & 0x3FFF;
+            kind = object->action_flags & 0x3FFF;
             switch (kind) {
             case 3:
                 action_data = (u8 *)object + 0xE;
@@ -1017,36 +1017,36 @@ void update_overlay_object_action(ActorRecord *body, ObjectPosition *position, S
             x = is_special;
             if (x) {
                 spawn = primary_actor_record;
-                ((R16_801725A4_S_801725A4_1 *)object)->unk_60 = spawn;
-                record = ((ObjectNodeHeader *)((u8 *)spawn - 0x20))->sprite;
+                object->target = spawn;
+                record = NODE_HEADER(spawn)->sprite;
                 x = record->tile_x;
-                ((R16_801725A4_S_801725A4_1 *)object)->unk_72.s = x;
+                object->target_tile_x = x;
                 x = record->tile_y;
-                ((R16_801725A4_S_801725A4_1 *)object)->unk_73.s = x;
+                object->target_tile_y = x;
             } else {
                 action_table = item_action_definitions;
                 action_id = *action_data;
                 action_entry = action_table + (action_id * 20);
                 if (action_entry[0x12] == 2) {
-                    spawn = ((R16_801725A4_S_801725A4_1 *)object)->unk_60;
+                    spawn = object->target;
                     if (spawn != 0) {
-                        record = ((ObjectNodeHeader *)((u8 *)spawn - 0x20))->sprite;
+                        record = NODE_HEADER(spawn)->sprite;
                         x = record->tile_x;
-                        ((R16_801725A4_S_801725A4_1 *)object)->unk_72.s = x;
+                        object->target_tile_x = x;
                         x = record->tile_y;
-                        ((R16_801725A4_S_801725A4_1 *)object)->unk_73.s = x;
+                        object->target_tile_y = x;
                     }
                 } else {
                     spawn = scan_actor_along_heading(
-                        object,(u8)(sprite->tile_x),(u8)(sprite->tile_y),(s16)(((R16_801725A4_S_801725A4_1 *)object)->unk_2A),
+                        object,(u8)(sprite->tile_x),(u8)(sprite->tile_y),(s16)(object->facing),
                         0x10);
-                    ((R16_801725A4_S_801725A4_1 *)object)->unk_60 = spawn;
+                    object->target = spawn;
 
-                    absolute_x = abs(((R16_801725A4_S_801725A4_1 *)object)->unk_72.u);
-                    y = abs(((R16_801725A4_S_801725A4_1 *)object)->unk_73.u);
+                    absolute_x = abs(object->target_tile_x);
+                    y = abs(object->target_tile_y);
 
-                    ((R16_801725A4_S_801725A4_1 *)object)->unk_72.s = absolute_x;
-                    ((R16_801725A4_S_801725A4_1 *)object)->unk_73.s = y;
+                    object->target_tile_x = absolute_x;
+                    object->target_tile_y = y;
 
                 }
             }
@@ -1069,9 +1069,9 @@ void update_overlay_object_action(ActorRecord *body, ObjectPosition *position, S
         advance_status_timers(object);
         ((R16_801725A4_S_801725A4_1 *)object)->unk_6D--;
         body->unk_8C.address = ((u8 *)update_actor_state_and_dispatch_transition);
-        ((R16_801725A4_S_801725A4_1 *)object)->unk_73.s = 0;
-        ((R16_801725A4_S_801725A4_1 *)object)->unk_72.s = 0;
-        ((R16_801725A4_S_801725A4_1 *)object)->unk_46 &= 0x7FFF;
+        object->target_tile_y = 0;
+        object->target_tile_x = 0;
+        object->action_flags &= 0x7FFF;
         return;
 
     case 1:
@@ -1103,7 +1103,7 @@ void update_overlay_object_action(ActorRecord *body, ObjectPosition *position, S
             if (*(unsigned char **)&sprite->frameTable != direction_table) {
                 (sprite->frameTable) = direction_table;
                 select_sprite_entry(
-                    sprite,(u8)(direction_table[((g_game_work.view.camera_rotation.parts.viewAngle + ((R16_801725A4_S_801725A4_1 *)object)->unk_2A + 0x100) >> 9) & 7]),
+                    sprite,(u8)(direction_table[((g_game_work.view.camera_rotation.parts.viewAngle + object->facing + 0x100) >> 9) & 7]),
                     0);
             }
         }
@@ -1116,10 +1116,10 @@ void update_overlay_object_action(ActorRecord *body, ObjectPosition *position, S
         }
         body->unk_8C.address = ((u8 *)update_actor_state_and_dispatch_transition);
         advance_status_timers(object);
-        ((R16_801725A4_S_801725A4_1 *)object)->unk_73.s = 0;
-        ((R16_801725A4_S_801725A4_1 *)object)->unk_72.s = 0;
+        object->target_tile_y = 0;
+        object->target_tile_x = 0;
         ((R16_801725A4_S_801725A4_1 *)object)->unk_6D--;
-        ((R16_801725A4_S_801725A4_1 *)object)->unk_46 &= 0x7FFF;
+        object->action_flags &= 0x7FFF;
         play_sound_if_enabled(AUDIO_FADE_CD_FAST);
         return;
     default:
@@ -1571,7 +1571,7 @@ void finish_actor_floor_trap_then_dispatch_transition(ActorRecord *state, Object
 }
 
 /* Projects visible sprites in the linked effect chain using the shared depth adjustment. */
-s32 project_clown_sprite_chain(void *initial_payload, s32 entry_data, R16_801736AC_Entry *entry, s32 unused)
+s32 project_clown_sprite_chain(void *initial_payload, ObjectPosition *position, R16_801736AC_Entry *entry, s32 unused)
 {
     void *payload = initial_payload;
     R16_801736AC_Scratchpad *scratch = (R16_801736AC_Scratchpad *)0x1F800000;
@@ -1581,7 +1581,7 @@ s32 project_clown_sprite_chain(void *initial_payload, s32 entry_data, R16_801736
         scratch->value = ((s16 *)clown_fade_count)[0];
 
         if (!(entry->unk14 & 0x80)) {
-            project_sprite_commands(payload, entry_data, entry,(s16)(entry->unk06));
+            project_sprite_commands(payload, position, entry,(s16)(entry->unk06));
         }
 
         next_entry = *(R16_801736AC_Entry **)((u8 *)payload - 8);
@@ -1589,7 +1589,7 @@ s32 project_clown_sprite_chain(void *initial_payload, s32 entry_data, R16_801736
             return 0;
         }
         payload = (u8 *)next_entry + 0x20;
-        entry_data = (s32)next_entry->unk08;
+        position = next_entry->unk08;
         entry = next_entry->unk0C;
     }
 }
@@ -1640,7 +1640,7 @@ void update_expanding_spiral_effect(AngledSourceEffectBody *effect_arg, R16_8017
 
 /* Creates a green sprite at an angular offset from the source and installs its expanding spiral animation. */
 void create_angled_source_effect(
-    s32 unused_0, R16_80173904_S_80173904_3 *origin, s32 unused_2, s32 unused_3, s16 angle, u16 depth_offset)
+    s32 unused_0, R16_80173904_S_80173904_3 *origin, SpriteFrameState *unused_sprite, s32 unused_3, s16 angle, u16 depth_offset)
 {
     ObjectNodeHeader *object;
     AngledSourceEffectBody *state;
@@ -1693,7 +1693,7 @@ void create_angled_source_effect(
 
 /* Stops movement and waits for dungeon activity to finish, then clears the callback and counts the new
  * action. */
-void wait_for_clown_action_slot(ActorRecord *entity_data, ObjectPosition *unused_1, s32 unused_2, void *other_data)
+void wait_for_clown_action_slot(ActorRecord *entity_data, ObjectPosition *unused_position, SpriteFrameState *unused_sprite, void *other_data)
 {
     ActorRecord *entity = entity_data;
     u8 *other = other_data;

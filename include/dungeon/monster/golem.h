@@ -55,7 +55,7 @@ typedef struct RandomizedOffsetObjectBody {
     s32 unk_34;
     s32 unk_38;
     s32 unk_3C;
-    void *unk_40;
+    ActorRecord *unk_40;
     RandomizedOffsetVector *unk_44;
     void *unk_48;
     void *unk_4C;
@@ -63,7 +63,7 @@ typedef struct RandomizedOffsetObjectBody {
 
 s32 attempt_actor_action_and_display(ActorRecord *action_out, ObjectPosition *action_param, SpriteFrameState *actor_info, ActorRecord *acting_actor);
 s32 create_copied_render_object(GolemActionWork *owner, ObjectPosition *source_state, Rec_func_800AA258_arg2 *render_data);
-s32 initialize_directional_animation_action(void *state_ptr, ObjectPosition *action_arg, SpriteFrameState *sprite_ptr, void *entity_ptr);
+s32 initialize_directional_animation_action(void *state_ptr, ObjectPosition *action_arg, SpriteFrameState *sprite_ptr, ActorRecord *entity_ptr);
 s32 scan_forward_tiles_for_target(GolemActionWork *action_state, ObjectPosition *position, SpriteFrameState *sprite, ActorRecord *actor);
 
 
@@ -89,5 +89,7 @@ void *create_primitive_state_object(ActorRecord *unused, ObjectPosition *positio
 void advance_timed_directional_reset(ActorRecord *body, ObjectPosition *position, SpriteFrameState *sprite, ActorRecord *actor);
 void func_80170E94(struct GolemActionWork *actor, ObjectPosition *context, SpriteFrameState *sprite, ActorRecord *stats);
 void update_eligible_actor_action(ActorRecord *action_state, ObjectPosition *action_context, SpriteFrameState *sprite, ActorRecord *actor);
+
+void advance_multi_stage_actor_effect(ActorRecord *body, void *incoming_entity, SpriteFrameState *sprite, ActorRecord *incoming_actor);
 
 #endif

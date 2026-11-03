@@ -16,7 +16,7 @@ extern s32 kewne_action_resume_address[];
 extern u8 D_80175E90[];
 
 /* Decays motion, then aligns the actor with its grid position. */
-void decay_motion_and_align_actor(void *action, ObjectPosition *motion, SpriteFrameState *sprite, ActorRecord *actor) {
+void decay_motion_and_align_actor(ActorRecord *action, ObjectPosition *motion, SpriteFrameState *sprite, ActorRecord *actor) {
     s32 state;
     s32 x_velocity;
     s32 z_velocity;

@@ -39,4 +39,8 @@ void update_motion_and_terrain_collision(void *motion, void *position, void *obj
 /* Owner declarations appended by tools/headers (append-only; the lines above are hand-kept). */
 void start_direction_based_action(ActorRecord *body, ObjectPosition *unused, SpriteFrameState *animation, ActorRecord *actor);
 
+void reset_actor_after_timed_movement(ActorRecord *action_arg, ObjectPosition *motion_arg, SpriteFrameState *sprite_arg, ActorRecord *entity_arg);
+
+void advance_deforming_action_animation(ActorRecord *body, ObjectPosition *position, SpriteFrameState *sprite_in, ActorRecord *actor_in);
+
 #endif

@@ -23,7 +23,6 @@ extern void update_actor_status_and_mp(ActorRecord *entity);
 extern void func_80171460(ActorRecord *action, ObjectPosition *action_id, SpriteFrameState *entity, ActorRecord *move_state);
 extern s32 func_80171E38(ActorRecord *action_state, ObjectPosition *motion_param, SpriteFrameState *sprite_arg, ActorRecord *actor);
 extern void func_80171FFC(ActorRecord *action_state, ObjectPosition *action_context, void *sprite, ActorRecord *actor);
-extern s32 dispatch_actor_action_state(void *, void *, void *, s32);
 extern void func_801737B8(void *, void *, void *, void *);
 void initialize_object_and_clear_state(ActorRecord *action, ObjectPosition *unused, SpriteFrameState *animation, ActorRecord *entity);
 

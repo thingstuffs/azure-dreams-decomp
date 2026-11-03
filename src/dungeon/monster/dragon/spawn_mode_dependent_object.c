@@ -819,9 +819,9 @@ void start_directional_actor_effect(ActorRecord *action_state, ObjectPosition *a
 s32 dispatch_actor_path_state_and_relink_entity(ActorRecord *body, ObjectPosition *position, SpriteFrameState *sprite, s32 force_state_arg) {
     s16 state_type;
     s32 result;
-    void *entity = body;
+    ActorRecord *entity = body;
 
-    state_type = (s16)relink_entity_and_clear_high_flag(position, sprite, entity, 3, 6, entity + 0x9C);
+    state_type = (s16)relink_entity_and_clear_high_flag(position, sprite, entity, 3, 6, &entity->unk_9C);
     if (state_type < 0) return 0;
     if ((force_state_arg << 0x10) != 0) {
         advance_actor_path_with_item_search(entity, position, sprite, entity);
@@ -830,7 +830,7 @@ s32 dispatch_actor_path_state_and_relink_entity(ActorRecord *body, ObjectPositio
     }
     switch (state_type) {
     case 0:
-        ((R03_8017207C_S_80172628_0 *)entity)->unk_9A = 0xE;
+        entity->action_id.s = 0xE;
         update_actor_status_and_mp(entity);
         result = 0;
         return result;
@@ -839,13 +839,13 @@ s32 dispatch_actor_path_state_and_relink_entity(ActorRecord *body, ObjectPositio
         result = 0;
         return result;
     case 1:
-        ((R03_8017207C_S_80172628_0 *)entity)->unk_71 = (u8) (((R03_8017207C_S_80172628_0 *)entity)->unk_71 & 0x7F);
+        entity->movement_queue_state = (u8) (entity->movement_queue_state & 0x7F);
         if ((has_pending_dungeon_activity(entity) << 0x10) != 0) {
             break;
         }
                                 /* fall through */
     default:
-        ((R03_8017207C_S_80172628_0 *)entity)->unk_71 = (u8) (((R03_8017207C_S_80172628_0 *)entity)->unk_71 & 0x7F);
+        entity->movement_queue_state = (u8) (entity->movement_queue_state & 0x7F);
         if ((g_dungeon_status.flags & 8) == 0) {
             result = 1;
             return result;
@@ -853,7 +853,7 @@ s32 dispatch_actor_path_state_and_relink_entity(ActorRecord *body, ObjectPositio
         break;
     }
     result = 0;
-    ((R03_8017207C_S_80172628_0 *)entity)->unk_46 = (u16) (((R03_8017207C_S_80172628_0 *)entity)->unk_46 & 0x7FFF);
+    entity->action_flags = (u16) (entity->action_flags & 0x7FFF);
     return result;
 }
 
@@ -1475,26 +1475,26 @@ void grow_hopping_dragon(ActorRecord *state, ObjectPosition *motion, SpriteFrame
 }
 
 /* Waits for a status effect to clear, updates actor status and activity counts, then restores movement. */
-void update_actor_status_and_restore_handler(void *in_controller, ObjectPosition *in_context, void *sprite, ActorRecord *in_actor) {
+void update_actor_status_and_restore_handler(ActorRecord *in_controller, ObjectPosition *in_context, SpriteFrameState *sprite, ActorRecord *in_actor) {
     void *context = in_context;
     void *actor = in_actor;
     s32 state;
 
-    state = ((R03_80173358_S_80173358_0 *)in_controller)->unk_9B;
+    state = in_controller->action_phase.u;
     switch (state) {
     case 0:
-        if (((R03_80173358_S_80173358_1 *)sprite)->unk_14 & 0xE000) {
+        if (sprite->flags & 0xE000) {
             u8 *direction_anims;
             DungeonGlobalStatus *system_base;
 
             direction_anims = dragon_alt_direction_frames;
-            (*(void **)((u8 *)sprite + 0x2C)) = direction_anims;
+            sprite->frameTable = direction_anims;
             select_sprite_entry(sprite,
                 direction_anims[((g_game_work.view.camera_rotation.parts.viewAngle + ((R03_80173358_S_80173358_2 *)actor)->unk_2A + 0x100) >> 9) & 7],
                 0);
             system_base = &g_dungeon_status;
             (*(u16 *)&system_base->activity_counts.parts.pending_action_count)--;
-            ((R03_80173358_S_80173358_0 *)in_controller)->unk_9B++;
+            in_controller->action_phase.u++;
         }
         return;
 
@@ -1574,24 +1574,24 @@ void update_actor_status_and_restore_handler(void *in_controller, ObjectPosition
             u8 *direction_anims;
 
             direction_anims = D_80173CE4;
-            (*(void **)((u8 *)sprite + 0x2C)) = direction_anims;
+            sprite->frameTable = direction_anims;
             select_sprite_entry(sprite,
                 direction_anims[((g_game_work.view.camera_rotation.parts.viewAngle + ((R03_80173358_S_80173358_2 *)actor)->unk_2A + 0x100) >> 9) & 7],
                 0);
         }
 
-        sprite = (u8 *)sprite + 0x14;
+        sprite = (SpriteFrameState *)((u8 *)sprite + 0x14);
         if (!(*(u16 *)sprite & 0x8000)) {
             DungeonGlobalStatus *system_base = &g_dungeon_status;
 
             (*(u16 *)&system_base->activity_counts.parts.pending_action_count)++;
-            ((R03_80173358_S_80173358_0 *)in_controller)->unk_9B++;
+            in_controller->action_phase.u++;
             return;
         }
         break;
 
     case 2:
-        if (!(((R03_80173358_S_80173358_1 *)sprite)->unk_14 & 0xE000)) {
+        if (!(sprite->flags & 0xE000)) {
             return;
         }
         {
@@ -1604,7 +1604,7 @@ void update_actor_status_and_restore_handler(void *in_controller, ObjectPosition
         return;
     }
     ((R03_80173358_S_80173358_2 *)actor)->unk_1C &= ~ACTOR_ASLEEP;
-    in_controller = (u8 *)in_controller + 0x8C;
+    in_controller = (ActorRecord *)((u8 *)in_controller + 0x8C);
     *(void **)in_controller = ((u8 *)dispatch_monster_move_attack_spell);
 }
 

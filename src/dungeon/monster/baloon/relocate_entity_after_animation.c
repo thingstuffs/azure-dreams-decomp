@@ -32,7 +32,7 @@ extern s32 random_below_limit(s32);
 /* Advances the entity animation sequence and relocates it to a distant tile. */
 /* Animates Baloon's rising effect, tries to relocate at least 33 tile steps from the player, then spends
  * MP and restores idle. */
-void relocate_entity_after_animation(ActorRecord *body, void *position, SpriteFrameState *sprite, void *object)
+void relocate_entity_after_animation(ActorRecord *body, ObjectPosition *position, SpriteFrameState *sprite, void *object)
 {
     s32 particle_index;
     s32 tries_left;
@@ -50,9 +50,9 @@ void relocate_entity_after_animation(ActorRecord *body, void *position, SpriteFr
 
     switch (body->action_phase.u) {
     case 0:
-        ((ObjectPosition *)position)->velocity_z = 0;
-        ((ObjectPosition *)position)->velocity_y = 0;
-        ((ObjectPosition *)position)->velocity_x = 0;
+        position->velocity_z = 0;
+        position->velocity_y = 0;
+        position->velocity_x = 0;
         if (sprite->flags & 0x8000) {
             body->action_phase.u = 7;
             sprite->flags |= 0x6000;
@@ -67,7 +67,7 @@ void relocate_entity_after_animation(ActorRecord *body, void *position, SpriteFr
         body->unk_90.parts.high.u -= 8;
         body->action_phase.u++;
         body->unk_B4.halves.high.u =
-            ((ObjectPosition *)position)->z.unsigned_parts.integer + body->unk_90.parts.high.u;
+            position->z.unsigned_parts.integer + body->unk_90.parts.high.u;
         return;
 
     case 1:
@@ -106,7 +106,7 @@ void relocate_entity_after_animation(ActorRecord *body, void *position, SpriteFr
         particle_index = 0;
         body->action_timer.s = 0;
         body->action_phase.u++;
-        ((ObjectPosition *)position)->velocity_z = 0;
+        position->velocity_z = 0;
         body->unk_AC.value = 0;
         do {
             burst_x = (s16)(random_below_limit(0x2C) - 0x16);
@@ -120,18 +120,18 @@ void relocate_entity_after_animation(ActorRecord *body, void *position, SpriteFr
     case 5:
         switch (body->action_timer.s) {
         case 0:
-            ((ObjectPosition *)position)->velocity_z = -0x140000;
+            position->velocity_z = -0x140000;
             body->unk_AC.value = 0x30000;
             break;
         case 6:
-            ((ObjectPosition *)position)->velocity_z = -0x180000;
+            position->velocity_z = -0x180000;
             body->unk_AC.value = -0x10000;
             break;
         case 12:
             body->unk_AC.value = -0x20000;
             break;
         }
-        ((ObjectPosition *)position)->velocity_z += body->unk_AC.value;
+        position->velocity_z += body->unk_AC.value;
 
         if (body->action_timer.s < 2) {
             particle_index = 0;
@@ -147,7 +147,7 @@ void relocate_entity_after_animation(ActorRecord *body, void *position, SpriteFr
             play_sound_if_enabled(0x80A);
         }
         if (body->action_timer.s == 2) {
-            create_directional_template_effect(body, position, sprite, object);
+            create_directional_template_effect(body, (BaloonTemplateAnchor *)position, sprite, object);
         }
         if (body->action_timer.s == 6) {
             create_anchored_directional_object(body, position, sprite, object, 0x1A);
@@ -161,7 +161,7 @@ void relocate_entity_after_animation(ActorRecord *body, void *position, SpriteFr
         return;
 
     case 6:
-        ((ObjectPosition *)position)->z.unsigned_parts.integer = body->unk_B4.halves.high.u;
+        position->z.unsigned_parts.integer = body->unk_B4.halves.high.u;
 
         body->action_timer.s = 0;
         body->action_phase.u++;
@@ -190,13 +190,13 @@ void relocate_entity_after_animation(ActorRecord *body, void *position, SpriteFr
             }
         }
 
-        ((ObjectPosition *)position)->x.w.i = (sprite->tile_x << 6) + 0x20;
-        ((ObjectPosition *)position)->y.w.i = (sprite->tile_y << 6) + 0x20;
-        ground_z = sample_terrain_surface_height(((ObjectPosition *)position)->x.unsigned_parts.integer, ((ObjectPosition *)position)->y.unsigned_parts.integer,
+        position->x.w.i = (sprite->tile_x << 6) + 0x20;
+        position->y.w.i = (sprite->tile_y << 6) + 0x20;
+        ground_z = sample_terrain_surface_height(position->x.unsigned_parts.integer, position->y.unsigned_parts.integer,
             -0x200);
         ground_z -= 0x11;
         height_offset = -0x20;
-        ((ObjectPosition *)position)->z.w.i = ground_z;
+        position->z.w.i = ground_z;
         body->unk_90.parts.high.s = height_offset;
         body->unk_A0.value = 0;
         ((ActorRecord *)object)->ground_height = -0x200;
@@ -212,9 +212,9 @@ void relocate_entity_after_animation(ActorRecord *body, void *position, SpriteFr
         spend_actor_mp(object, 0x1000);
         body->unk_8C.address = update_actor_turn_behavior;
         g_dungeon_status.active_actor = 0;
-        ((ObjectPosition *)position)->velocity_z = 0;
-        ((ObjectPosition *)position)->velocity_y = 0;
-        ((ObjectPosition *)position)->velocity_x = 0;
+        position->velocity_z = 0;
+        position->velocity_y = 0;
+        position->velocity_x = 0;
         body->unk_90.parts.high.s = height_offset;
         ((ActorRecord *)object)->flags1C |= 0x40000;
         body->action_state_flags |= 8;

@@ -6,14 +6,6 @@
 #include "dungeon/monster/barong.h"
 #include "dungeon/item.h"
 
-typedef struct S_801750F8_1 {
-    u8 pad_00[0x14];
-    u32 unk_14;
-    u8 pad_18[0x12];
-    s16 unk_2A;
-    u8 pad_2C[0x1A];
-    u16 unk_46;
-} S_801750F8_1;   /* arg3 in advance_deforming_action_animation */
 
 extern void select_sprite_entry(void *, s32, s32);
 extern void play_sound_if_enabled(s32);
@@ -27,11 +19,11 @@ extern u8 D_801755C4[];
 extern u8 barong_frame_set_3[];
 
 /* Advances a timed action animation, deforming the sprite and restoring it on completion. */
-void advance_deforming_action_animation(ActorRecord *body, ObjectPosition *position, SpriteFrameState *sprite_in, void *actor_in)
+void advance_deforming_action_animation(ActorRecord *body, ObjectPosition *position, SpriteFrameState *sprite_in, ActorRecord *actor_in)
 {
     void *direction_data = position;
     SpriteFrameState *sprite= sprite_in;
-    S_801750F8_1 *actor = actor_in;
+    ActorRecord *actor = actor_in;
     u8 state;
 
     state = body->action_phase.u;
@@ -44,7 +36,7 @@ void advance_deforming_action_animation(ActorRecord *body, ObjectPosition *posit
 
         facing_angle = get_direction_toward_target_position(direction_data);
         facing_angle = (facing_angle << 16) >> 7;
-        actor->unk_2A = facing_angle;
+        actor->facing = facing_angle;
 
         timer = ++body->action_timer.u;
         if (timer >= 0x78) {
@@ -53,16 +45,16 @@ void advance_deforming_action_animation(ActorRecord *body, ObjectPosition *posit
             return;
         }
 
-        actor_flags = actor->unk_14;
+        actor_flags = (u32)actor->flags14;
         if (!(actor_flags & 0x00800000)) {
             return;
         }
-        actor->unk_14 = actor_flags & 0xFF7FFFFF;
+        actor->flags14 = actor_flags & 0xFF7FFFFF;
         body->action_timer.u = 0;
         body->action_phase.u++;
         (sprite->frameTable) = D_801755BC;
         select_sprite_entry(sprite,
-            D_801755BC[((g_game_work.view.camera_rotation.parts.viewAngle + actor->unk_2A + 0x100) >> 9) & 7],
+            D_801755BC[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
             0);
         play_sound_if_enabled(0x51E);
         return;
@@ -76,7 +68,7 @@ void advance_deforming_action_animation(ActorRecord *body, ObjectPosition *posit
         body->action_phase.u++;
         (sprite->frameTable) = barong_frame_set_3;
         select_sprite_entry(sprite,
-            barong_frame_set_3[((g_game_work.view.camera_rotation.parts.viewAngle + actor->unk_2A + 0x100) >> 9) & 7],
+            barong_frame_set_3[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
             0);
         sprite->flags |= 0x0800;
         return;
@@ -146,7 +138,7 @@ void advance_deforming_action_animation(ActorRecord *body, ObjectPosition *posit
         sprite->scale_x = 0x1000;
         (sprite->frameTable) = D_801755C4;
         select_sprite_entry(sprite,
-            D_801755C4[((g_game_work.view.camera_rotation.parts.viewAngle + actor->unk_2A + 0x100) >> 9) & 7],
+            D_801755C4[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
             0);
         play_sound_if_enabled(0x509);
         create_randomized_item_object(body, direction_data, sprite, actor);
@@ -172,12 +164,12 @@ void advance_deforming_action_animation(ActorRecord *body, ObjectPosition *posit
         g_dungeon_status.activity_counts.parts.pending_action_count--;
         (sprite->frameTable) = barong_frame_set_1;
         select_sprite_entry(sprite,
-            barong_frame_set_1[((g_game_work.view.camera_rotation.parts.viewAngle + actor->unk_2A + 0x100) >> 9) & 7],
+            barong_frame_set_1[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
             0);
         spend_actor_mp(actor, 0x1000);
         body->unk_8C.byte_ptr = barong_action_resume_address;
         g_dungeon_status.active_actor = 0;
-        actor->unk_46 &= 0x7FFF;
+        actor->action_flags &= 0x7FFF;
     }
     }
 

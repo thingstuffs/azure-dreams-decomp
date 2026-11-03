@@ -10,18 +10,18 @@ extern void update_actor_status_and_mp(ActorRecord *entity);
 extern s16 relink_entity_and_clear_high_flag(void *context, void *position, void *entity, s16 near_range, s16 far_range, s32 state_out_addr); /* Unprototyped: uses the value as a pointer where the definition has an integer (or the reverse) */
 
 /* Update the actor's action delay, dispatch movement, and clear completed action flags. */
-s32 resolve_actor_movement_action(Rec_func_800A9E70_arg0 *entity, ObjectPosition *action_ctx, s32 position, s32 force_move)
+s32 resolve_actor_movement_action(ActorRecord *entity, ObjectPosition *action_ctx, SpriteFrameState *position, s32 force_move)
 {
-    void *actor = entity;
+    ActorRecord *actor = entity;
     s16 action_result;
     s32 result;
     u8 delay;
 
-    delay = ((ActorRecord *)actor)->unk_AC.bytes[2];
+    delay = actor->unk_AC.bytes[2];
     action_result = 0;
     if (delay == 0) {
         action_result = relink_entity_and_clear_high_flag(action_ctx, position, actor, 3, 6,
-                                      (u8 *)actor + 0x9C);
+                                      (s32)&actor->unk_9C);
         if ((s16)action_result < 0) {
             return 0;
         }
@@ -30,33 +30,33 @@ s32 resolve_actor_movement_action(Rec_func_800A9E70_arg0 *entity, ObjectPosition
             return 0;
         }
     } else {
-        ((ActorRecord *)actor)->unk_AC.bytes[2] = delay - 1;
+        actor->unk_AC.bytes[2] = delay - 1;
     }
 
     switch (action_result) {
     case 0:
         result = 0xE;
-        entity->unk_9A.as_s8 = result;
+        entity->action_id.s = result;
         update_actor_status_and_mp(actor);
         return 0;
     case 2:
         advance_actor_movement_step(entity, action_ctx, position, actor);
         return 0;
     case 1:
-        ((ActorRecord *)actor)->movement_queue_state &= 0x7F;
+        actor->movement_queue_state &= 0x7F;
         if ((has_pending_dungeon_activity(actor) << 16) != 0) {
             result = 0;
-            ((ActorRecord *)actor)->action_flags &= 0x7FFF;
+            actor->action_flags &= 0x7FFF;
             return result;
         }
         break;
     }
-    ((ActorRecord *)actor)->movement_queue_state &= 0x7F;
+    actor->movement_queue_state &= 0x7F;
     result = 1;
     if (!(g_dungeon_status.flags & 8)) {
         return result;
     }
     result = 0;
-    ((ActorRecord *)actor)->action_flags &= 0x7FFF;
+    actor->action_flags &= 0x7FFF;
     return result;
 }

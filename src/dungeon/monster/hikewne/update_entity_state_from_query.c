@@ -13,9 +13,9 @@ void update_actor_status_and_mp();                      /* extern */
 s32 update_entity_state_from_query(ActorRecord *body, ObjectPosition *position, SpriteFrameState *sprite, s32 force_state_arg) {
     s16 state_type;
     s32 result;
-    void *entity = body;
+    ActorRecord *entity = body;
 
-    state_type = (s16)relink_entity_and_clear_high_flag(position, sprite, entity, 3, 6, entity + 0x9C);
+    state_type = (s16)relink_entity_and_clear_high_flag(position, sprite, entity, 3, 6, &entity->unk_9C);
     if (state_type < 0) return 0;
     if ((force_state_arg << 0x10) != 0) {
         select_movement_direction_and_advance(entity, position, sprite, entity);
@@ -24,7 +24,7 @@ s32 update_entity_state_from_query(ActorRecord *body, ObjectPosition *position, 
     }
     switch (state_type) {
     case 0:
-        ((ActorRecord *)entity)->action_id.s = 0xE;
+        entity->action_id.s = 0xE;
         update_actor_status_and_mp(entity);
         result = 0;
         return result;
@@ -33,13 +33,13 @@ s32 update_entity_state_from_query(ActorRecord *body, ObjectPosition *position, 
         result = 0;
         return result;
     case 1:
-        ((ActorRecord *)entity)->movement_queue_state = (u8) (((ActorRecord *)entity)->movement_queue_state & 0x7F);
+        entity->movement_queue_state = (u8) (entity->movement_queue_state & 0x7F);
         if ((has_pending_dungeon_activity(entity) << 0x10) != 0) {
             break;
         }
                                 /* fall through */
     default:
-        ((ActorRecord *)entity)->movement_queue_state = (u8) (((ActorRecord *)entity)->movement_queue_state & 0x7F);
+        entity->movement_queue_state = (u8) (entity->movement_queue_state & 0x7F);
         if ((g_dungeon_status.flags & 8) == 0) {
             result = 1;
             return result;
@@ -47,6 +47,6 @@ s32 update_entity_state_from_query(ActorRecord *body, ObjectPosition *position, 
         break;
     }
     result = 0;
-    ((ActorRecord *)entity)->action_flags = (u16) (((ActorRecord *)entity)->action_flags & 0x7FFF);
+    entity->action_flags = (u16) (entity->action_flags & 0x7FFF);
     return result;
 }

@@ -16,23 +16,6 @@
 #include "dungeon/actor/effect.h"
 #include "dungeon/effect/screen.h"
 
-typedef struct S_80173D78_1 {
-    u8 pad_00[0xC];
-    union {
-        struct { u8 v; } at00;
-        struct { u32 v; } at00u;
-        struct { u8 pad[0x1]; u8 v; } at01;
-        struct { u8 pad[0x2]; u8 v; } at02;
-        struct { u8 pad[0x3]; u8 v; } at03;
-        struct { u8 pad[0x3]; u8 v; } at03u;
-    } unk_0C;   /* overlapping accesses */
-    u8 pad_10[0x2];
-    u16 unk_12;
-    u16 unk_14;
-    u8 pad_16[0xE];
-    u8 unk_24;
-    u8 unk_25;
-} S_80173D78_1;   /* arg2 in update_actor_target_effect_action */
 
 typedef struct S_80173D78_2 {
     u8 pad_00[0x14];
@@ -68,12 +51,11 @@ void unlink_entity_node();
 void update_map_cell_flags_with_item_limit(s32 x, s32 y, u16 flags);
 void *find_eligible_actor_at_tile_and_height();
 void update_actor_status_and_mp();
-void *spawn_manoeva_from_record();
 
 /* Updates target selection, effect creation, and the sprite fade-out sequence. */
 /* Selects an actor or item on the tile ahead, creates Manoeva's replacement, then fades the old sprite and
  * transfers state. */
-void update_actor_target_effect_action(ActorRecord *body, void *context, S_80173D78_1 *sprite, S_80173D78_2 *actor)
+void update_actor_target_effect_action(ActorRecord *body, ObjectPosition *context, SpriteFrameState *sprite, S_80173D78_2 *actor)
 {
     ActorRecord *target;
     void *effect;
@@ -101,7 +83,7 @@ void update_actor_target_effect_action(ActorRecord *body, void *context, S_80173
     }
     switch (state) {
     case 0:
-        sprite_flags = sprite->unk_14;
+        sprite_flags = sprite->flags;
         if (!(sprite_flags & 0xE000)) {
             return;
         }
@@ -109,7 +91,7 @@ void update_actor_target_effect_action(ActorRecord *body, void *context, S_80173
             play_sound_if_enabled(0x80D);
         }
         body->action_phase.u = body->action_phase.u + 1;
-        if (sprite->unk_14 & 0x8000) {
+        if (sprite->flags & 0x8000) {
             body->action_timer.u = 0;
             return;
         }
@@ -118,7 +100,7 @@ void update_actor_target_effect_action(ActorRecord *body, void *context, S_80173
 
     case 1:
         if (!(body->action_timer.u & 3)) {
-            if (!(sprite->unk_14 & 0x8000)) {
+            if (!(sprite->flags & 0x8000)) {
                 spawn_offset_motion_object(body, context, sprite, 0);
                 spawn_offset_motion_object(body, context, sprite, 1);
             }
@@ -130,8 +112,8 @@ void update_actor_target_effect_action(ActorRecord *body, void *context, S_80173
         }
 
         direction_offset = ((u16)actor->unk_2A >> 8) & 0xE;
-        target_x = sprite->unk_24 + *(u16 *)(((s8 *)dir_step_x) + direction_offset);
-        target_y = sprite->unk_25 + *(u16 *)(((s8 *)dir_step_y) + direction_offset);
+        target_x = sprite->tile_x + *(u16 *)(((s8 *)dir_step_x) + direction_offset);
+        target_y = sprite->tile_y + *(u16 *)(((s8 *)dir_step_y) + direction_offset);
         actor->unk_60.i = 0;
 
         if (body->unk_AC.byte == 0) {
@@ -179,8 +161,8 @@ void update_actor_target_effect_action(ActorRecord *body, void *context, S_80173
         body->action_phase.u = body->action_phase.u + 1;
     case 2:
         map_flags = actor->unk_14;
-        sound_x = sprite->unk_24;
-        sound_y = sprite->unk_25;
+        sound_x = sprite->tile_x;
+        sound_y = sprite->tile_y;
         tile_mask = 0x3000;
         if (map_flags & 0x2000) {
             tile_mask = 0x300;
@@ -188,16 +170,16 @@ void update_actor_target_effect_action(ActorRecord *body, void *context, S_80173
         update_map_cell_flags_with_item_limit(sound_x, sound_y, tile_mask);
 
         actor->unk_1C |= 0x10000;
-        effect = spawn_manoeva_from_record(body, context, sprite, actor);
+        effect = spawn_manoeva_from_record(body, context, sprite, (Rec_D_80082E80 *)actor);
         body->unk_A4.address = effect;
         if (effect != 0) {
-            node_storage = (s8 *)body - 0x20;
+            node_storage = NODE_HEADER(body);
             object = node_storage;
             unlink_node(object);
             register_node(object, process_linked_states_mode_zero);
-            sprite->unk_0C.at03.v = 0;
-            sprite->unk_12 = sprite->unk_12 - 0x80;
-            sprite->unk_14 |= 0xC;
+            sprite->color.c.code = 0;
+            sprite->clut = sprite->clut - 0x80;
+            sprite->flags |= 0xC;
             unlink_entity_node(actor);
             callback_flags = node_storage;
             callback_flags->unk_10 |= 0x80000000;
@@ -206,8 +188,8 @@ void update_actor_target_effect_action(ActorRecord *body, void *context, S_80173
         }
 
         map_flags = actor->unk_14;
-        sound_x = sprite->unk_24;
-        sound_y = sprite->unk_25;
+        sound_x = sprite->tile_x;
+        sound_y = sprite->tile_y;
         tile_mask = 0x3000;
         if (map_flags & 0x2000) {
             tile_mask = 0x300;
@@ -217,33 +199,33 @@ void update_actor_target_effect_action(ActorRecord *body, void *context, S_80173
         return;
 
     case 3:
-        state = sprite->unk_0C.at03.v;
+        state = sprite->color.c.code;
         if (state < 7U) {
-            sprite->unk_0C.at03.v = state + 1;
-            sprite->unk_0C.at00.v =
-                sprite->unk_0C.at00.v +
-                (-(s32)sprite->unk_0C.at00.v /
-                 (8 - sprite->unk_0C.at03u.v));
-            sprite->unk_0C.at01.v =
-                sprite->unk_0C.at01.v +
-                (-(s32)sprite->unk_0C.at01.v /
-                 (8 - sprite->unk_0C.at03.v));
-            sprite->unk_0C.at02.v =
-                sprite->unk_0C.at02.v +
-                (-(s32)sprite->unk_0C.at02.v /
-                 (8 - sprite->unk_0C.at03.v));
+            sprite->color.c.code = state + 1;
+            sprite->color.c.r =
+                sprite->color.c.r +
+                (-(s32)sprite->color.c.r /
+                 (8 - sprite->color.c.code));
+            sprite->color.c.g =
+                sprite->color.c.g +
+                (-(s32)sprite->color.c.g /
+                 (8 - sprite->color.c.code));
+            sprite->color.c.b =
+                sprite->color.c.b +
+                (-(s32)sprite->color.c.b /
+                 (8 - sprite->color.c.code));
             return;
         }
 
-        node_storage = (s8 *)body - 0x20;
+        node_storage = NODE_HEADER(body);
             object = node_storage;
         unlink_node(object);
         retire_tracked_effect_by_id(object);
-        sprite->unk_0C.at03.v = 0;
-        sprite->unk_0C.at00u.v = 0x00808080;
-        sprite->unk_14 |= 0x800;
-        sprite->unk_12 = sprite->unk_12 + 0x80;
-        sprite->unk_14 &= 0xFFF3;
+        sprite->color.c.code = 0;
+        sprite->color.unsigned_word = 0x00808080;
+        sprite->flags |= 0x800;
+        sprite->clut = sprite->clut + 0x80;
+        sprite->flags &= 0xFFF3;
         body->action_phase.u = body->action_phase.u + 1;
         return;
 

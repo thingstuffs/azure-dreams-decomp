@@ -33,7 +33,7 @@ s32 create_return_magic_effect(Entity *); /* Unprototyped: uses the value as a p
 s32 use_return_magic(Entity *entity, DungeonItemEntry *item, s16 action_type) {
     if (entity == ((Entity *)dungeon_actor_ring_anchor)) {
         entity->unk_110 = item;
-        begin_deferred_item_action(entity, ((u8 *)(&view_reference_entity)), ((u8 *)(&reference_tile_object)), entity);
+        begin_deferred_item_action(entity, ((&view_reference_entity)), ((&reference_tile_object)), entity);
         return 0;
     }
     if (entity->flags & 0x4000) {

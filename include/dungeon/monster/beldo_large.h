@@ -118,8 +118,7 @@ void create_timed_offset_motion_effect(u8 *unused, s16 duration, s32 offset_x, s
 void start_actor_directional_action(Rec_func_800A9E70_arg0 *state, ObjectPosition *unused, SpriteFrameState *sprite, ActorRecord *actor);
 
 /* Owner declarations appended by tools/headers (append-only; the lines above are hand-kept). */
-struct BeldoMoveState;
-void advance_actor_movement_step(struct BeldoMoveState *movement_in, ObjectPosition *action_ctx, SpriteFrameState *position, ActorRecord *actor);
+void advance_actor_movement_step(ActorRecord *movement_in, ObjectPosition *action_ctx, SpriteFrameState *position, ActorRecord *actor);
 void emit_multi_form_ring_geometry(MultiFormSegmentRingBody *animation, s32 *origin, SpriteFrameState *color);
 void initialize_action_offset_and_notify(ActionOffsetObjectBody *action, void *position);
 void update_multi_form_actor_control(ActorRecord *actor, ObjectPosition *context, SpriteFrameState *sprite, ActorRecord *entity);
@@ -130,5 +129,9 @@ void create_player_centered_sequence_effect(void);
 s32 try_actor_attack(ActorRecord *action_state, ObjectPosition *action_id, SpriteFrameState *target, ActorRecord *actor);
 
 void update_multi_form_actor_movement(ActorRecord *object, ObjectPosition *update_param, SpriteFrameState *state, ActorRecord *input);
+
+void advance_actor_transition_sequence(ActorRecord *state_arg, ObjectPosition *work_arg, SpriteFrameState *sprite, ActorRecord *ctx_arg);
+
+s32 resolve_actor_movement_action(ActorRecord *entity, ObjectPosition *action_ctx, SpriteFrameState *position, s32 force_move);
 
 #endif

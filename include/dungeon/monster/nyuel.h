@@ -26,4 +26,6 @@ void create_cylindrical_effect(ActorRecord *source, ObjectPosition *origin);
 /* Owner declarations appended by tools/headers (append-only; the lines above are hand-kept). */
 void update_entity_actions_facing_and_animation(ActorRecord *entity, ObjectPosition *context, SpriteFrameState *sprite, ActorRecord *state);
 
+void update_eligible_actor_and_reset_entity(ActorRecord *body, ObjectPosition *position, SpriteFrameState *value_arg, ActorRecord *actor_arg);
+
 #endif

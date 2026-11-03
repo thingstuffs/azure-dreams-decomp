@@ -174,6 +174,7 @@ typedef struct ActorRecord {
     /* 0x022 */ unsigned short unk_22; /* halfword copied with the actor snapshot (copy_entity_record) */
     /* 0x024 */ union {
         unsigned short whole; /* current 8.8 MP */
+        short signed_whole; /* exact signed halfword view used by action/effect callbacks */
         struct { unsigned char fraction; unsigned char whole; } parts;
     } mp_value;
     /* 0x026 */ unsigned char current_attack; /* current attack stat; restored from base_attack after temporary changes */
@@ -240,7 +241,7 @@ typedef struct ActorRecord {
         struct { unsigned short low; union { short s; unsigned short u; } high; } parts;
     } unk_90; /* callback scratch word; signed and unsigned high-half accesses */
     /* 0x094 */ short unk_94;
-    /* 0x096 */ union { unsigned short u; short s; } action_timer;
+    /* 0x096 */ union { unsigned short u; short s; unsigned char bytes[2]; } action_timer;
     /* 0x098 */ unsigned short action_state_flags;
     /* 0x09A */ union { unsigned char u; signed char s; } action_id; /* action-table selector */
     /* 0x09B */ union { unsigned char u; signed char s; } action_phase; /* phase within the selected action */
@@ -250,18 +251,20 @@ typedef struct ActorRecord {
     /* 0x0A0 */ union {
         int value;
         struct { unsigned short low; unsigned short high; } parts;
-    } unk_A0; /* callback scratch word with an unsigned high-half view */
+        ActorScratchHalves halves;
+    } unk_A0; /* callback scratch word with signed and unsigned halfword views */
     /* 0x0A4 */ union {
         int value; /* landing uses it for accumulated 16.16 vertical displacement */
         ActorScratchHalves halves;
         unsigned char bytes[4];
         void *address; /* kraken links its child ObjectNodeHeader through this scratch slot */
+        unsigned char *byte_address; /* byte-addressed callback scratch pointer */
     } unk_A4; /* callback scratch with word/halfword/byte views */
     /* 0x0A8 */ union { unsigned char byte; short s; unsigned short u; } unk_A8; /* saved species or callback scratch */
     /* 0x0AA */ short unk_AA;
     /* 0x0AC */ union { void *address; int value; unsigned char byte; signed char signed_byte; ActorScratchHalves halves; unsigned char bytes[4]; } unk_AC; /* familiar slot 0 or callback scratch */
-    /* 0x0B0 */ union { void *address; int value; unsigned char bytes[4]; ActorScratchHalves halves; } unk_B0; /* familiar slot 1 or callback scratch, including byte +0xB3 */
-    /* 0x0B4 */ union { int value; ActorScratchHalves halves; unsigned char bytes[4]; } unk_B4; /* callback scratch */
+    /* 0x0B0 */ union { void *address; int value; unsigned char bytes[4]; signed char signed_bytes[4]; ActorScratchHalves halves; } unk_B0; /* familiar slot 1 or callback scratch, including byte +0xB3 */
+    /* 0x0B4 */ union { int value; ActorScratchHalves halves; unsigned char bytes[4]; signed char signed_bytes[4]; } unk_B4; /* callback scratch */
     /* 0x0B8 */ unsigned char unk_B8;
     /* 0x0B9 */ unsigned char unk_B9;
     /* 0x0BA */ unsigned char unk_BA;

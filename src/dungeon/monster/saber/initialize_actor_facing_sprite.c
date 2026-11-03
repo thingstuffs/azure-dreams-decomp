@@ -13,11 +13,11 @@ struct SpriteFrameState;
 extern u8 D_80174E04;
 
 /* Initialize actor state and select the sprite frame for its facing angle. */
-void initialize_actor_facing_sprite(ActorRecord *body, ObjectPosition *position, SpriteFrameState *sprite, void *orientation) {
+void initialize_actor_facing_sprite(ActorRecord *body, ObjectPosition *position, SpriteFrameState *sprite, ActorRecord *orientation) {
     body->action_id.s = 0x10;
     body->action_phase.s = 0;
     sprite->frameTable = &D_80174E04;
-    select_sprite_entry(sprite, *((((s32) (g_game_work.view.camera_rotation.parts.viewAngle + ((ActorRecord *)orientation)->facing + 0x100)
+    select_sprite_entry(sprite, *((((s32) (g_game_work.view.camera_rotation.parts.viewAngle + orientation->facing + 0x100)
         >> 9) & 7) + &D_80174E04), 0);
     body->unk_90.value = 0;
     position->velocity_z = 0;

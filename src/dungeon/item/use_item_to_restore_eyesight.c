@@ -30,7 +30,7 @@ s32 use_item_to_restore_eyesight(ActorRecord *entity_arg, DungeonItemEntry *item
 
     if (entity_arg == dungeon_actor_ring_anchor) {
         *(DungeonItemEntry **)((u8 *)entity_arg + 0x110) = item;
-        begin_deferred_item_action(((void *)(entity_arg)), ((u8 *)(&view_reference_entity)), ((u8 *)(&reference_tile_object)), ((void *)(entity_arg)));
+        begin_deferred_item_action(((entity_arg)), ((&view_reference_entity)), ((&reference_tile_object)), ((entity_arg)));
         return 0;
     }
 

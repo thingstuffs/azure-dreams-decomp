@@ -51,7 +51,7 @@ void update_actor_movement_state(ActorRecord *body, ObjectPosition *motion, Spri
 void choose_and_execute_actor_step(ActorRecord *work_data, ObjectPosition *action_context, SpriteFrameState *position, ActorRecord *actor);
 
 void create_owner_linked_directional_object(ActorRecord *owner_data, ObjectPosition *source_position, SpriteFrameState *source_sprite);
-void update_actor_turn_and_action(void *entity, ObjectPosition *context, SpriteFrameState *sprite, ActorRecord *actor);
+void update_actor_turn_and_action(ActorRecord *entity, ObjectPosition *context, SpriteFrameState *sprite, ActorRecord *actor);
 
 /* Owner declarations appended by tools/headers (append-only; the lines above are hand-kept). */
 #include "records/Rec_func_800A9E70_arg0.h"
@@ -59,5 +59,9 @@ s32 try_turn_actor_toward_target(ActorRecord *action_state, ObjectPosition *acti
 
 void update_actor_action_transition(ActorRecord *state, ObjectPosition *update_mode, SpriteFrameState *sprite, ActorRecord *entity);
 void update_actor_movement_history(ActorRecord *motion, ObjectPosition *position, SpriteFrameState *record, ActorRecord *object);
+
+void begin_actor_action(ActorRecord *state, ObjectPosition *world_pos, SpriteFrameState *sprite, ActorRecord *actor);
+void begin_actor_exclusive_action(ActorRecord *entity, ObjectPosition *unused_1, SpriteFrameState *unused_sprite, s32 unused_3, s32 requested_mode);
+void prepare_actor_directional_action(ActorRecord *entity, ObjectPosition *action_param, SpriteFrameState *action_sprite, u8 *frame_table, s32 fallback_state);
 
 #endif

@@ -13,7 +13,7 @@
 extern void select_sprite_entry(void *, u8, s32);
 #include "dungeon/player/object/action_state.h"
 extern void update_actor_status_and_mp(ActorRecord *entity);
-extern void update_timed_effect_size_and_position(void *, s32, void *, void *); /* Unprototyped: retail passes an extra argument; no owner header is available. */
+extern void update_timed_effect_size_and_position(void *, ObjectPosition *, void *, void *); /* Legacy four-argument caller view; callback ignores the last argument. */
 
 #include "dungeon/monster/saber.h"
 #include "dungeon/actor.h"
@@ -22,7 +22,7 @@ extern u8 saber_action_direction_frames[];
 
 
 /* Updates actor state, directional animation, and the shared transition counter. */
-void update_actor_directional_animation(ActorRecord *actor_in, void *actor_index, SpriteFrameState *target, ActorRecord *entity_in) {
+void update_actor_directional_animation(ActorRecord *actor_in, ObjectPosition *position, SpriteFrameState *target, ActorRecord *entity_in) {
     ActorRecord *entity = entity_in;
     s32 state;
     s32 entity_flags;
@@ -63,7 +63,7 @@ void update_actor_directional_animation(ActorRecord *actor_in, void *actor_index
             return;
         }
         if (entity->hp_delta != 0) {
-            if (begin_ready_actor_directional_action(actor_in, actor_index, target, 0) != 0) {
+            if (begin_ready_actor_directional_action(actor_in, position, target, 0) != 0) {
                 return;
             }
         }
@@ -72,12 +72,12 @@ void update_actor_directional_animation(ActorRecord *actor_in, void *actor_index
         }
         entity_flags = entity->flags1C;
         if (entity_flags & 0x100) {
-            begin_pushed_actor_move(actor_in, actor_index, target, entity);
+            begin_pushed_actor_move(actor_in, position, target, entity);
             return;
         }
         if (entity_flags & 0x80000) {
-            begin_actor_move_to_target_facing(actor_in, actor_index, target, entity);
-            update_timed_effect_size_and_position(actor_in, actor_index, target, entity);
+            begin_actor_move_to_target_facing(actor_in, position, target, entity);
+            update_timed_effect_size_and_position(actor_in, position, target, entity);
             return;
         }
         if (entity->pending_turn_updates == 0) {
@@ -90,7 +90,7 @@ void update_actor_directional_animation(ActorRecord *actor_in, void *actor_index
                 ActorRecord *previous_actor;
 
                 previous_node = primary_actor_record->previous_actor_header;
-                previous_body = previous_node + 1;
+                previous_body = NODE_BODY(previous_node);
                 previous_actor = previous_body;
                 if ((check_entity_relation(entity,
                         previous_actor) << 16) != 0) {

@@ -21,7 +21,7 @@ extern u16 entity_action_selectors[];
 s32 apply_paralysis_item(ActorRecord *target, DungeonItemEntry *item, s16 use_type) {
     if (target == dungeon_actor_ring_anchor) {
         ((PlayerRecord *)target)->pending_item_action = item;
-        begin_deferred_item_action(target, ((u8 *)(&view_reference_entity)), ((u8 *)(&reference_tile_object)), target);
+        begin_deferred_item_action(target, ((&view_reference_entity)), ((&reference_tile_object)), target);
         return 0;
     }
     if ((s32)target <= 0x9FFFFFFFU) {

@@ -30,7 +30,7 @@ s32 use_item_to_reset_actor_statuses(ActorRecord *actor, DungeonItemEntry *cause
     s32 slot;
     if (actor == (((u8 *)dungeon_actor_ring_anchor))) {
         ((PlayerRecord *)actor)->pending_item_action = cause;
-        begin_deferred_item_action(actor, ((u8 *)(&view_reference_entity)), ((u8 *)(&reference_tile_object)), actor);
+        begin_deferred_item_action(actor, ((&view_reference_entity)), ((&reference_tile_object)), actor);
         return 0;
     }
     if (((u32) actor) <= 0x9FFFFFFFU) {

@@ -9,18 +9,9 @@
 #include "dungeon/monster/beldo.h"
 
 
-typedef struct S_80170B50_2 {
-    void * unk_00;
-    u8 pad_04[0x3A];
-    u16 unk_3E;
-} S_80170B50_2;   /* arg0 in create_attached_sprite_with_offset; pointer addresses record offset 0x14 */
 
    /* arg1 in create_attached_sprite_with_offset */
 
-typedef struct S_80170B50_6 {
-    u8 pad_00[0x8];
-    s32 unk_08;
-} S_80170B50_6;
 
 typedef struct {
     s32 a;
@@ -37,11 +28,11 @@ extern s32 register_node();
 extern void select_sprite_entry();
 
 /* Creates an attached sprite object with copied appearance and an optional position offset. */
-void create_attached_sprite_with_offset(void *owner_data, MovingPosition *base_position, SpriteFrameState *sprite_template, s16 offset_id) {
+void create_attached_sprite_with_offset(ActorRecord *owner_data, MovingPosition *base_position, SpriteFrameState *sprite_template, s16 offset_id) {
     u32 sprite_flags;
     u16 sprite_height;
     s16 saved_offset_id;
-    S_80170B50_6 *owner_model;
+    SpriteFrameState *owner_model;
     ObjectPosition *position;
     SpriteFrameState *sprite;
     void *object_data;
@@ -52,13 +43,13 @@ void create_attached_sprite_with_offset(void *owner_data, MovingPosition *base_p
     saved_offset_id = offset_id;
     object = allocate_list_node(0x112, &scene_object_list_anchor.next);
     if (object != NULL) {
-        object_data = ((void *)object) + 0x20;
+        object_data = NODE_BODY(object);
         object->update_callback = beldo_object_callback;
         ((AttachedSpriteWithOffsetBody *)object_data)->unk_B6 = offset_id;
-        ((AttachedSpriteWithOffsetBody *)object_data)->unk_AC.integer = (s32) (owner_data - 0x20);
-        ((AttachedSpriteWithOffsetBody *)object_data)->unk_94 = (u16) ((S_80170B50_2 *)((u8 *)owner_data - 0x14))->unk_3E;
+        ((AttachedSpriteWithOffsetBody *)object_data)->unk_AC.integer = (s32)NODE_HEADER(owner_data);
+        ((AttachedSpriteWithOffsetBody *)object_data)->unk_94 = (u16)owner_data->facing;
         copy_src = sprite_template;
-        ((AttachedSpriteWithOffsetBody *)object_data)->unk_2A = (u16) ((S_80170B50_2 *)((u8 *)owner_data - 0x14))->unk_3E;
+        ((AttachedSpriteWithOffsetBody *)object_data)->unk_2A = (u16)owner_data->facing;
         sprite = object->sprite;
         copy_dst = sprite;
         do {
@@ -69,7 +60,7 @@ void create_attached_sprite_with_offset(void *owner_data, MovingPosition *base_p
         register_node(object, project_sprite_chain, copy_dst, copy_src);
         sprite->frameTable = &beldo_frame_set_3;
         select_sprite_entry(sprite, *((u8 *)&beldo_frame_set_3 + ((((s32) (g_game_work.view.camera_rotation.parts.viewAngle
-            + (s16) ((S_80170B50_2 *)((u8 *)owner_data - 0x14))->unk_3E + 0x100) >> 9) & 7))), 0);
+            + (s16) (u16)owner_data->facing + 0x100) >> 9) & 7))), 0);
         sprite_flags = sprite->flags | 0xC;
         sprite->flags = sprite_flags;
         sprite->tpage_abr = 0x20;
@@ -78,8 +69,8 @@ void create_attached_sprite_with_offset(void *owner_data, MovingPosition *base_p
         position->x.w.i = (u16) base_position->x;
         position->y.w.i = (u16) base_position->y;
         position->z.w.i = (u16) base_position->z;
-        owner_model = ((S_80170B50_2 *)((u8 *)owner_data - 0x14))->unk_00;
-        if (resolve_record_orientation_or_fallback(owner_model->unk_08, owner_model, object_data + 0xB0, saved_offset_id) != 0) {
+        owner_model = NODE_HEADER(owner_data)->sprite;
+        if (resolve_record_orientation_or_fallback((s32)owner_model->source, owner_model, object_data + 0xB0, saved_offset_id) != 0) {
             position->x.w.i = (u16) ((u16)position->x.w.i + ((AttachedSpriteWithOffsetBody *)object_data)->unk_B0.u);
             position->y.w.i = (u16) ((u16)position->y.w.i + ((AttachedSpriteWithOffsetBody *)object_data)->unk_B2.u);
             position->z.w.i = (u16) ((u16)position->z.w.i + ((AttachedSpriteWithOffsetBody *)object_data)->unk_B4.u);

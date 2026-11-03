@@ -43,7 +43,7 @@ s32 apply_equipped_item_upgrade(ActorRecord *target_addr, DungeonItemEntry *item
         s32 result;
 
         ((PlayerRecord *)actor)->pending_item_action = item;
-        begin_mode_selected_item_action(actor, ((u8 *)(&view_reference_entity)), ((u8 *)(&reference_tile_object)), actor);
+        begin_mode_selected_item_action(actor, ((&view_reference_entity)), ((&reference_tile_object)), actor);
         item_flags = item->unk_03;
         result = 0;
         item->unk_03 = item_flags & 0xDF;
@@ -68,7 +68,7 @@ s32 apply_equipped_item_upgrade(ActorRecord *target_addr, DungeonItemEntry *item
             register s32 result;
 
             ((PlayerRecord *)actor)->unk_114 = 0x802020;
-            begin_parameterized_actor_action(actor, ((u8 *)(&view_reference_entity)), ((u8 *)(&reference_tile_object)), D_800DD158, 0);
+            begin_parameterized_actor_action(actor, ((&view_reference_entity)), ((&reference_tile_object)), D_800DD158, 0);
             item_flags = item->unk_03;
             result = 0;
             item->unk_03 = item_flags | 0x20;

@@ -21,11 +21,15 @@ void update_actor_animation_and_behavior(ActorRecord *actor, ObjectPosition *con
 extern u8 kewne_direction_frames[];
 
 /* Owner declarations appended by tools/headers (append-only; the lines above are hand-kept). */
-void create_linked_child_object(void *parent_state);
-void create_linked_source_object(void *sourceRecordData);
+void create_linked_child_object(ActorRecord *parent_state);
+void create_linked_source_object(ActorRecord *source_actor);
 void create_parent_position_effect(EntityRec *parent, s32 effect_param, u8 *effect_data);
 void update_actor_callbacks_and_ground(void *actor, ObjectPosition *position, SpriteFrameState *sprite);
 
 void *create_grid_position_entity(s16 spawn_flags, s16 grid_x, s16 grid_y, s16 height);
+
+void decay_motion_and_align_actor(ActorRecord *action, ObjectPosition *motion, SpriteFrameState *sprite, ActorRecord *actor);
+
+void advance_turn_animation_and_restore_heading(ActorRecord *actor, ObjectPosition *unused, SpriteFrameState *animation, ActorRecord *transform_in);
 
 #endif

@@ -1042,9 +1042,9 @@ void update_actor_action_and_direction(ActorRecord *action_state, ObjectPosition
 s32 relink_flame_path(ActorRecord *entity_arg, ObjectPosition *primary_context_arg, SpriteFrameState *secondary_context_arg, s32 force_state_arg) {
     s16 state_type;
     s32 result;
-    void *entity = entity_arg;
+    ActorRecord *entity = entity_arg;
 
-    state_type = (s16)relink_entity_and_clear_high_flag(primary_context_arg, secondary_context_arg, entity, 3, 6, entity + 0x9C);
+    state_type = (s16)relink_entity_and_clear_high_flag(primary_context_arg, secondary_context_arg, entity, 3, 6, &entity->unk_9C);
     if (state_type < 0) return 0;
     if ((force_state_arg << 0x10) != 0) {
         choose_flame_move(entity, primary_context_arg, secondary_context_arg, entity);
@@ -1053,7 +1053,7 @@ s32 relink_flame_path(ActorRecord *entity_arg, ObjectPosition *primary_context_a
     }
     switch (state_type) {
     case 0:
-        ((R06_80172550_S_80172628_0 *)entity)->unk_9A = 0xE;
+        entity->action_id.s = 0xE;
         update_actor_status_and_mp(entity);
         result = 0;
         return result;
@@ -1062,13 +1062,13 @@ s32 relink_flame_path(ActorRecord *entity_arg, ObjectPosition *primary_context_a
         result = 0;
         return result;
     case 1:
-        ((R06_80172550_S_80172628_0 *)entity)->unk_71 = (u8) (((R06_80172550_S_80172628_0 *)entity)->unk_71 & 0x7F);
+        entity->movement_queue_state = (u8) (entity->movement_queue_state & 0x7F);
         if ((has_pending_dungeon_activity(entity) << 0x10) != 0) {
             break;
         }
                                 /* fall through */
     default:
-        ((R06_80172550_S_80172628_0 *)entity)->unk_71 = (u8) (((R06_80172550_S_80172628_0 *)entity)->unk_71 & 0x7F);
+        entity->movement_queue_state = (u8) (entity->movement_queue_state & 0x7F);
         if ((g_dungeon_status.flags & 8) == 0) {
             result = 1;
             return result;
@@ -1076,7 +1076,7 @@ s32 relink_flame_path(ActorRecord *entity_arg, ObjectPosition *primary_context_a
         break;
     }
     result = 0;
-    ((R06_80172550_S_80172628_0 *)entity)->unk_46 = (u16) (((R06_80172550_S_80172628_0 *)entity)->unk_46 & 0x7FFF);
+    entity->action_flags = (u16) (entity->action_flags & 0x7FFF);
     return result;
 }
 
@@ -2164,7 +2164,7 @@ void advance_actor_action_and_update_status(
  * slot). The s16 stack offsets stay in s2-s4 from the prologue, and fields is the 0x20-advanced
  * record.
  */
-void project_and_queue_textured_quad(void *quad, void *position, void *draw_state, s16 depth_bias)
+void project_and_queue_textured_quad(ActorRecord *quad, void *position, void *draw_state, s16 depth_bias)
 {
     R06_80174334_S_80174334_0 *scratch = (R06_80174334_S_80174334_0 *)0x1F800000;
     R06_80174334_S_80174334_5 *packet;
@@ -2208,7 +2208,7 @@ void project_and_queue_textured_quad(void *quad, void *position, void *draw_stat
     ((GpuContext *)(*(u8 **)&g_game_work.draw_buffer))->packetCursor = packet_data + 0x34;
 
     scratch->unk_B0 = ((R06_80174334_S_80174334_4 *)quad)->unk_64;
-    scratch->unk_B8 = ((R06_80174334_S_80174334_4 *)quad)->unk_6A;
+    scratch->unk_B8 = quad->movement_facing;
     scratch->unk_C0 = ((R06_80174334_S_80174334_4 *)quad)->unk_70;
     scratch->unk_C8 = ((R06_80174334_S_80174334_4 *)quad)->unk_76;
     scratch->unk_B2 = ((R06_80174334_S_80174334_4 *)quad)->unk_66;

@@ -58,8 +58,9 @@ void spend_actor_mp(ActorRecord *entity, s32 base_reduction);
 /* Updates the actor's approach, descent, and return sequence. */
 /* Spends MP to descend with the player, then saves party state for a scene change or returns with a
  * message. */
-void update_actor_approach_descent_return(void *action, ObjectPosition *motion, SpriteFrameState *sprite, void *actor)
+void update_actor_approach_descent_return(ActorRecord *action, ObjectPosition *motion, SpriteFrameState *sprite, ActorRecord *actor)
 {
+    /* MATCH: retain the raw action views and argument views for retail scheduling. */
     s32 slot;
     s32 companion_type;
     s32 facing;
@@ -75,7 +76,7 @@ void update_actor_approach_descent_return(void *action, ObjectPosition *motion, 
     u8 *companion;
 
     {
-        u32 state = ((ActorRecord *)action)->action_phase.u;
+        u32 state = action->action_phase.u;
 
         switch (state) {
         case 0:
@@ -99,8 +100,8 @@ void update_actor_approach_descent_return(void *action, ObjectPosition *motion, 
             tile_dx = __builtin_abs(tile_dx);
             tile_dy = target_tile_y - sprite_tile_y;
             tile_dy = __builtin_abs(tile_dy);
-            ((ActorRecord *)action)->action_timer.s = ((tile_dx + tile_dy) * 4) + 9;
-            ((ActorRecord *)action)->action_phase.u++;
+            action->action_timer.s = ((tile_dx + tile_dy) * 4) + 9;
+            action->action_phase.u++;
             spend_actor_mp(effect_actor, effect_flags);
         }
 
@@ -143,43 +144,43 @@ void update_actor_approach_descent_return(void *action, ObjectPosition *motion, 
             target_x = ((reference_tile_object.tile_position.parts.tile_x << 6) + 0x20) << 16;
             target_y = ((reference_tile_object.tile_position.parts.tile_y << 6) + 0x20) << 16;
             target_z = view_reference_entity.z.v - 0x600000;
-            approach_ticks = ((ActorRecord *)action)->action_timer.s;
+            approach_ticks = action->action_timer.s;
             if (approach_ticks >= 0xE) {
                 motion->velocity_x = (target_x
                     - motion->x.v) / (approach_ticks - 9);
                 motion->velocity_y = (target_y - motion->y.v) /
-                    (((ActorRecord *)action)->action_timer.s - 9);
-                motion->velocity_z = (target_z - ((ActorRecord *)action)->unk_90.value) /
-                    (((ActorRecord *)action)->action_timer.s - 9);
+                    (action->action_timer.s - 9);
+                motion->velocity_z = (target_z - action->unk_90.value) /
+                    (action->action_timer.s - 9);
             } else if (approach_ticks >= 0xB) {
                 motion->velocity_x = (target_x
                     - motion->x.v) / (approach_ticks - 7);
                 motion->velocity_y = (target_y - motion->y.v) /
-                    (((ActorRecord *)action)->action_timer.s - 7);
-                motion->velocity_z = (target_z - ((ActorRecord *)action)->unk_90.value) /
-                    (((ActorRecord *)action)->action_timer.s - 7);
+                    (action->action_timer.s - 7);
+                motion->velocity_z = (target_z - action->unk_90.value) /
+                    (action->action_timer.s - 7);
             } else if (approach_ticks >= 5) {
                 motion->velocity_x = (target_x
                     - motion->x.v) / (approach_ticks - 2);
                 motion->velocity_y = (target_y - motion->y.v) /
-                    (((ActorRecord *)action)->action_timer.s - 2);
-                motion->velocity_z = (target_z - ((ActorRecord *)action)->unk_90.value) /
-                    (((ActorRecord *)action)->action_timer.s - 2);
+                    (action->action_timer.s - 2);
+                motion->velocity_z = (target_z - action->unk_90.value) /
+                    (action->action_timer.s - 2);
             } else {
                 motion->velocity_x = (target_x
                     - motion->x.v) / approach_ticks;
                 motion->velocity_y = (target_y - motion->y.v) /
-                    ((ActorRecord *)action)->action_timer.s;
-                motion->velocity_z = (target_z - ((ActorRecord *)action)->unk_90.value) /
-                    ((ActorRecord *)action)->action_timer.s;
+                    action->action_timer.s;
+                motion->velocity_z = (target_z - action->unk_90.value) /
+                    action->action_timer.s;
             }
-            ticks_left = ((ActorRecord *)action)->action_timer.u - 1;
-            ((ActorRecord *)action)->action_timer.s = ticks_left;
+            ticks_left = action->action_timer.u - 1;
+            action->action_timer.s = ticks_left;
             if ((ticks_left << 16) != 0) {
                 return;
             }
-            ((ActorRecord *)action)->action_timer.s = 0;
-            ((ActorRecord *)action)->action_phase.u++;
+            action->action_timer.s = 0;
+            action->action_phase.u++;
             motion->velocity_z = 0;
             motion->velocity_y = 0;
             motion->velocity_x = 0;
@@ -187,27 +188,27 @@ void update_actor_approach_descent_return(void *action, ObjectPosition *motion, 
 
         case 2:
             sprite->frameTable = baloon_hop_frames;
-            facing = (g_game_work.view.camera_rotation.parts.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9;
+            facing = (g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9;
             select_sprite_entry(sprite, baloon_hop_frames[facing & 7], 0);
-            ((ActorRecord *)action)->action_timer.s = 0;
-            ((ActorRecord *)action)->action_phase.u++;
+            action->action_timer.s = 0;
+            action->action_phase.u++;
             clear_player_linked_action_flags();
             return;
 
         case 3:
         {
-            u16 old_timer = ((ActorRecord *)action)->action_timer.u;
+            u16 old_timer = action->action_timer.u;
 
-            ((ActorRecord *)action)->action_timer.s = old_timer + 1;
+            action->action_timer.s = old_timer + 1;
             if ((s16)old_timer < 7) {
                 return;
             }
         }
-            ((ActorRecord *)action)->action_phase.u++;
+            action->action_phase.u++;
             {
                 ActorRecord *player = dungeon_actor_ring_anchor;
 
-                ((ActorRecord *)action)->action_timer.s = 0;
+                action->action_timer.s = 0;
                 player->flags14 |= 0x100000;
             }
             play_sound_if_enabled(0x603);
@@ -222,27 +223,27 @@ void update_actor_approach_descent_return(void *action, ObjectPosition *motion, 
             scene->z.v += fall_speed;
         }
             {
-                u16 old_timer = ((ActorRecord *)action)->action_timer.u;
+                u16 old_timer = action->action_timer.u;
 
-                ((ActorRecord *)action)->action_timer.s = old_timer + 1;
+                action->action_timer.s = old_timer + 1;
                 if ((s16)old_timer < 0x1B) {
                     return;
                 }
             }
-            ((ActorRecord *)action)->action_timer.s = 0;
+            action->action_timer.s = 0;
 
             if ((((WorldStatePage *)0x80010000)->actionMode == 0) && (current_dungeon_floor == 0x28)) {
-                ((ActorRecord *)action)->action_phase.u = 7;
+                action->action_phase.u = 7;
             } else if ((*((u8 *)&((EntityRec *)actor)->unk_10 + 1)) >= current_dungeon_floor) {
-                ((ActorRecord *)action)->action_phase.u++;
+                action->action_phase.u++;
             } else {
-                ((ActorRecord *)action)->action_phase.u = 7;
+                action->action_phase.u = 7;
             }
             return;
 
         case 5:
-            ((ActorRecord *)action)->action_timer.s = 0;
-            ((ActorRecord *)action)->action_phase.u++;
+            action->action_timer.s = 0;
+            action->action_phase.u++;
             return;
 
         case 6:
@@ -276,9 +277,9 @@ void update_actor_approach_descent_return(void *action, ObjectPosition *motion, 
             motion->velocity_z = 0;
             motion->velocity_y = 0;
             motion->velocity_x = 0;
-            ((ActorRecord *)action)->action_timer.s = 0;
-            ((ActorRecord *)action)->action_phase.u = 0x14;
-            ((EntityRec *)actor)->unk_46 &= 0x7FFF;
+            action->action_timer.s = 0;
+            action->action_phase.u = 0x14;
+            actor->action_flags &= 0x7FFF;
             break;
 
         case 7:
@@ -300,7 +301,7 @@ void update_actor_approach_descent_return(void *action, ObjectPosition *motion, 
             ((S_80175CD8_5 *)scene)->unk_1C |= 0x40000000;
         }
             (*(s16 *)((u8 *)action + 0x96)) = 0x28;
-            ((ActorRecord *)action)->action_phase.u++;
+            action->action_phase.u++;
 
             if ((dungeon_mode_state != 0) || (current_dungeon_floor != 0x28)) {
                 text_start = get_unused_text_buffer();
@@ -321,44 +322,44 @@ void update_actor_approach_descent_return(void *action, ObjectPosition *motion, 
         case 8:
             target_x = ((sprite->tile_x << 6) + 0x20) << 16;
             target_y = ((sprite->tile_y << 6) + 0x20) << 16;
-            target_z = (((ActorRecord *)action)->unk_B4.halves.low.s - 0x20) << 16;
-            return_ticks = ((ActorRecord *)action)->action_timer.s;
+            target_z = (action->unk_B4.halves.low.s - 0x20) << 16;
+            return_ticks = action->action_timer.s;
             if (return_ticks >= 0xE) {
                 motion->velocity_x = (target_x - motion->x.v) / (return_ticks
                     - 9);
                 motion->velocity_y = (target_y - motion->y.v) /
-                    (((ActorRecord *)action)->action_timer.s - 9);
-                motion->velocity_z = (target_z - ((ActorRecord *)action)->unk_90.value) /
-                    (((ActorRecord *)action)->action_timer.s - 9);
+                    (action->action_timer.s - 9);
+                motion->velocity_z = (target_z - action->unk_90.value) /
+                    (action->action_timer.s - 9);
             } else if (return_ticks >= 0xB) {
                 motion->velocity_x = (target_x - motion->x.v) / (return_ticks
                     - 7);
                 motion->velocity_y = (target_y - motion->y.v) /
-                    (((ActorRecord *)action)->action_timer.s - 7);
-                motion->velocity_z = (target_z - ((ActorRecord *)action)->unk_90.value) /
-                    (((ActorRecord *)action)->action_timer.s - 7);
+                    (action->action_timer.s - 7);
+                motion->velocity_z = (target_z - action->unk_90.value) /
+                    (action->action_timer.s - 7);
             } else if (return_ticks >= 5) {
                 motion->velocity_x = (target_x - motion->x.v) / (return_ticks
                     - 2);
                 motion->velocity_y = (target_y - motion->y.v) /
-                    (((ActorRecord *)action)->action_timer.s - 2);
-                motion->velocity_z = (target_z - ((ActorRecord *)action)->unk_90.value) /
-                    (((ActorRecord *)action)->action_timer.s - 2);
+                    (action->action_timer.s - 2);
+                motion->velocity_z = (target_z - action->unk_90.value) /
+                    (action->action_timer.s - 2);
             } else {
                 motion->velocity_x = (target_x - motion->x.v) / return_ticks;
                 motion->velocity_y = (target_y - motion->y.v) /
-                    ((ActorRecord *)action)->action_timer.s;
-                motion->velocity_z = (target_z - ((ActorRecord *)action)->unk_90.value) /
-                    ((ActorRecord *)action)->action_timer.s;
+                    action->action_timer.s;
+                motion->velocity_z = (target_z - action->unk_90.value) /
+                    action->action_timer.s;
             }
 
-            ticks_left = ((ActorRecord *)action)->action_timer.u - 1;
-            ((ActorRecord *)action)->action_timer.s = ticks_left;
+            ticks_left = action->action_timer.u - 1;
+            action->action_timer.s = ticks_left;
             if ((ticks_left << 16) != 0) {
                 return;
             }
-            ((ActorRecord *)action)->action_timer.s = 0;
-            ((ActorRecord *)action)->action_phase.u++;
+            action->action_timer.s = 0;
+            action->action_phase.u++;
             motion->velocity_z = 0;
             motion->velocity_y = 0;
             motion->velocity_x = 0;
@@ -368,25 +369,25 @@ void update_actor_approach_descent_return(void *action, ObjectPosition *motion, 
             motion->velocity_z = 0;
             motion->velocity_y = 0;
             motion->velocity_x = 0;
-            ((ActorRecord *)action)->unk_8C.word_ptr = update_actor_turn_behavior;
-            ((ActorRecord *)action)->action_id.u = 0xE;
+            action->unk_8C.word_ptr = update_actor_turn_behavior;
+            action->action_id.u = 0xE;
             g_dungeon_status.active_actor = 0;
-            ((EntityRec *)actor)->flags1C |= 0x40000;
+            actor->flags1C |= 0x40000;
             (*(u16 *)((u8 *)action + 0x98)) &= 0xFFF7;
             sprite->frameTable = baloon_default_frames;
-            facing = (g_game_work.view.camera_rotation.parts.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9;
+            facing = (g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9;
             select_sprite_entry(sprite, baloon_default_frames[facing & 7], 0);
             sprite->frame_ticks = 1;
-            ((ActorRecord *)action)->unk_A0.parts.high = 0;
-            ((ActorRecord *)action)->unk_9E.s = 0;
-            ((ActorRecord *)action)->unk_90.parts.high.s = -0x20;
-            ((EntityRec *)actor)->unk_88 = ((ActorRecord *)action)->unk_B4.halves.low.u;
+            action->unk_A0.parts.high = 0;
+            action->unk_9E.s = 0;
+            action->unk_90.parts.high.s = -0x20;
+            actor->ground_height = action->unk_B4.halves.low.u;
             motion->x.w.i = (sprite->tile_x << 6) + 0x20;
             motion->y.w.i = (sprite->tile_y << 6) + 0x20;
-            motion->z.w.i = ((u16)((EntityRec *)actor)->unk_88) +
-                ((ActorRecord *)action)->unk_90.parts.high.u - ((ActorRecord *)action)->unk_A0.parts.high;
+            motion->z.w.i = ((u16)actor->ground_height) +
+                action->unk_90.parts.high.u - action->unk_A0.parts.high;
 
-            ((EntityRec *)actor)->unk_46 &= 0x7FFF;
+            actor->action_flags &= 0x7FFF;
 
         case 20:
         default:

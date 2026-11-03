@@ -28,7 +28,7 @@ extern s32 generate_random_value(void);
 extern void update_actor_status_and_mp(ActorRecord *entity);
 extern s32 begin_ready_actor_directional_action(ActorRecord *body, ObjectPosition *position, SpriteFrameState *sprite, u8 *direction_frames);
 extern void begin_actor_move_to_target_facing(ActorRecord *body, ObjectPosition *position, SpriteFrameState *sprite, ActorRecord *actor);
-extern void advance_actor_state_with_child(void *actor, ObjectPosition *context, SpriteFrameState *entity, void *creature);
+extern void advance_actor_state_with_child(ActorRecord *actor, ObjectPosition *context, SpriteFrameState *entity, ActorRecord *creature);
 
 extern u8 maximum_action_continuation_address;
 extern u8 maximum_frame_set_2[];

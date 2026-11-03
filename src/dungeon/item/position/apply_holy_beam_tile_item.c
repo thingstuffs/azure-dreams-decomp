@@ -49,7 +49,7 @@ s32 apply_holy_beam_tile_item(ActorRecord *body, DungeonItemEntry *object_data, 
 
     if (body == *(u8 **)((u8 *)(&dungeon_actor_ring_anchor))) {
         ((PlayerRecord *)body)->pending_item_action = object_data;
-        begin_mode_selected_item_action(body, ((u8 *)(&view_reference_entity)), ((u8 *)(&reference_tile_object)), body);
+        begin_mode_selected_item_action(body, ((&view_reference_entity)), ((&reference_tile_object)), body);
         return 0;
     }
 

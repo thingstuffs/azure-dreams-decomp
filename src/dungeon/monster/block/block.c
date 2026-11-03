@@ -22,7 +22,7 @@ void *(*const cb3000_spawn_entry)(s16,s16,s16,s32) = create_linked_object_positi
 void (*const cb3000_update_entry)(void *,CB_80170C24_S_80170C24_2 *,void *) = set_boss_effect_flag;
 
 /* Stores the owner value, copies the source position, and initializes a gray sprite for rendering. */
-void initialize_block_sprite_copy(CB_8017087C_Object *object, s32 field60_value, CB_8017087C_CopyFields *source_coords)
+void initialize_block_sprite_copy(CB_8017087C_Object *object, ActorRecord *field60_value, ObjectPosition *source_coords)
 {
     SpriteFrameState *part;
     ObjectPosition *copy;
@@ -35,9 +35,9 @@ void initialize_block_sprite_copy(CB_8017087C_Object *object, s32 field60_value,
     part->flags |= 0xC;
 
     copy = object->header.position;
-    copy->x.w.i = source_coords->x;
-    copy->y.w.i = source_coords->y;
-    copy->z.w.i = source_coords->z;
+    copy->x.w.i = source_coords->x.unsigned_parts.integer;
+    copy->y.w.i = source_coords->y.unsigned_parts.integer;
+    copy->z.w.i = source_coords->z.unsigned_parts.integer;
 
     part = object->header.sprite;
     part->scale_y = 0x1000;
@@ -837,12 +837,12 @@ void begin_unchecked_directional_attack(ActorRecord *state, ObjectPosition *posi
 }
 
 /* Relinks actor state, updates status or movement as needed, and reports whether a new action may start. */
-s32 resolve_actor_action_readiness(void *entity_arg, ObjectPosition *primary_context_arg, void *secondary_context_arg, s32 force_state_arg) {
+s32 resolve_actor_action_readiness(ActorRecord *entity_arg, ObjectPosition *primary_context_arg, void *secondary_context_arg, s32 force_state_arg) {
     s16 state_type;
     s32 result;
-    void *entity = entity_arg;
+    ActorRecord *entity = entity_arg;
 
-    state_type = (s16)relink_entity_and_clear_high_flag(primary_context_arg, secondary_context_arg, entity, 3, 6, entity + 0x9C);
+    state_type = (s16)relink_entity_and_clear_high_flag(primary_context_arg, secondary_context_arg, entity, 3, 6, &entity->unk_9C);
     if (state_type < 0) return 0;
     if ((force_state_arg << 0x10) != 0) {
         choose_and_step_actor_path(entity, primary_context_arg, secondary_context_arg, entity);
@@ -851,7 +851,7 @@ s32 resolve_actor_action_readiness(void *entity_arg, ObjectPosition *primary_con
     }
     switch (state_type) {
     case 0:
-        ((CB_80172298_S_80172628_0 *)entity)->unk_9A = 0xE;
+        entity->action_id.s = 0xE;
         update_actor_status_and_mp(entity);
         result = 0;
         return result;
@@ -860,13 +860,13 @@ s32 resolve_actor_action_readiness(void *entity_arg, ObjectPosition *primary_con
         result = 0;
         return result;
     case 1:
-        ((CB_80172298_S_80172628_0 *)entity)->unk_71 = (u8) (((CB_80172298_S_80172628_0 *)entity)->unk_71 & 0x7F);
+        entity->movement_queue_state = (u8) (entity->movement_queue_state & 0x7F);
         if ((has_pending_dungeon_activity(entity) << 0x10) != 0) {
             break;
         }
                                 /* fall through */
     default:
-        ((CB_80172298_S_80172628_0 *)entity)->unk_71 = (u8) (((CB_80172298_S_80172628_0 *)entity)->unk_71 & 0x7F);
+        entity->movement_queue_state = (u8) (entity->movement_queue_state & 0x7F);
         if ((g_dungeon_status.flags & 8) == 0) {
             result = 1;
             return result;
@@ -874,7 +874,7 @@ s32 resolve_actor_action_readiness(void *entity_arg, ObjectPosition *primary_con
         break;
     }
     result = 0;
-    ((CB_80172298_S_80172628_0 *)entity)->unk_46 = (u16) (((CB_80172298_S_80172628_0 *)entity)->unk_46 & 0x7FFF);
+    entity->action_flags = (u16) (entity->action_flags & 0x7FFF);
     return result;
 }
 
@@ -1117,13 +1117,13 @@ void complete_timed_actor_animation(ActorRecord *action, ObjectPosition *motion,
 }
 
 /* Starts a targeted spell with an expanding effect, then restores movement and status after the animation. */
-void advance_actor_item_action_effect(CB_80172BCC_S_func_80C953CC_1 *work, CB_80172BCC_S_func_80C953CC_2 *position, CB_80172BCC_S_func_80C953CC_3 *entity,
+void advance_actor_item_action_effect(ActorRecord *work, ObjectPosition *position, SpriteFrameState *entity,
     CB_80172BCC_S_func_80C953CC_4 *actor)
 {
     CB_80172BCC_S_func_80C953CC_9 *part;
     s32 alternate = 0;
 
-    switch (work->unk_9B) {
+    switch (work->action_phase.u) {
     case 0:
         if (actor->unk_1C & ACTOR_PLAYER_SIDE) {
             switch (actor->unk_46 & 0x3FFF) {
@@ -1170,7 +1170,7 @@ void advance_actor_item_action_effect(CB_80172BCC_S_func_80C953CC_1 *work, CB_80
             void *target_actor;
             CB_80172BCC_S_func_80C953CC_3 *target_entity;
 
-            (work->unk_98) &= 0xFF7F;
+            (work->action_state_flags) &= 0xFF7F;
             if ((s8)alternate) {
                 actor->unk_60 = target_actor = primary_actor_record;
                 target_entity = *(CB_80172BCC_S_func_80C953CC_3 **)((u8 *)target_actor - 0x14);
@@ -1187,8 +1187,8 @@ void advance_actor_item_action_effect(CB_80172BCC_S_func_80C953CC_1 *work, CB_80
                 s32 target_y;
 
                 actor->unk_60 =
-                    scan_actor_along_heading(actor, entity->unk_24,
-                                  entity->unk_25,
+                    scan_actor_along_heading(actor, entity->tile_x,
+                                  entity->tile_y,
                                   actor->unk_2A, 0x10);
                 target_x = abs(actor->unk_72.s8);
                 target_y = abs(actor->unk_73.s8);
@@ -1197,22 +1197,22 @@ void advance_actor_item_action_effect(CB_80172BCC_S_func_80C953CC_1 *work, CB_80
             }
 
             if (create_actor_spell_effect(actor, part, alternate, (u8 *)work + 0x98) != 0) {
-                work->unk_9B++;
+                work->action_phase.u++;
             }
         } else {
             CB_80172BCC_S_func_80C953CC_5 *active_actor;
 
-            position->unk_14 = 0;
-            position->unk_10 = 0;
-            position->unk_0C = 0;
-            set_record_integer_tile_center(position, entity->unk_24,
-                          entity->unk_25);
+            position->velocity_z = 0;
+            position->velocity_y = 0;
+            position->velocity_x = 0;
+            set_record_integer_tile_center(position, entity->tile_x,
+                          entity->tile_y);
             active_actor = primary_actor_record;
             g_dungeon_status.active_actor = 0;
             (active_actor->unk_A6)--;
             advance_status_timers(actor);
             actor->unk_6D--;
-            work->unk_8C = dispatch_actor_turn_and_motion;
+            work->unk_8C.address = dispatch_actor_turn_and_motion;
             actor->unk_73.u8 = 0;
             actor->unk_72.u8 = 0;
             actor->unk_46 &= 0x7FFF;
@@ -1221,12 +1221,12 @@ void advance_actor_item_action_effect(CB_80172BCC_S_func_80C953CC_1 *work, CB_80
 
     case 1:
         if (get_cd_command_queue_depth() != 0) {
-            entity->unk_14 |= 0x800;
+            entity->flags |= 0x800;
             break;
         }
 
-        entity->unk_14 &= 0xF7FF;
-        work->unk_9B++;
+        entity->flags &= 0xF7FF;
+        work->action_phase.u++;
         actor = allocate_flagged_object_node(0x212);
         if (actor != 0) {
             CB_80172BCC_S_func_80C953CC_6 *transform;
@@ -1256,32 +1256,32 @@ void advance_actor_item_action_effect(CB_80172BCC_S_func_80C953CC_1 *work, CB_80
 
     case 2:
         if ((entity->unk_04 == 5 &&
-             (entity->unk_14 & 0x1000)) ||
-            (entity->unk_14 & 0xE000)) {
-            work->unk_96 = 0x20;
-            work->unk_98 |= 0x80;
-            work->unk_9B++;
+             (entity->flags & 0x1000)) ||
+            (entity->flags & 0xE000)) {
+            work->action_timer.u = 0x20;
+            work->action_state_flags |= 0x80;
+            work->action_phase.u++;
         }
         break;
 
     case 3:
         part = (CB_80172BCC_S_func_80C953CC_9 *)((u8 *)((s32 *)&g_dungeon_status.active_actor) - 0x0C);
         if (part->unk_0C == 0) {
-            work->unk_96 = 0;
+            work->action_timer.u = 0;
         }
-        if (!(entity->unk_14 & 0xE000)) {
+        if (!(entity->flags & 0xE000)) {
             break;
         }
 
-        position->unk_14 = 0;
-        position->unk_10 = 0;
-        position->unk_0C = 0;
-        set_record_integer_tile_center(position, entity->unk_24,
-                      entity->unk_25);
-        if (entity->unk_2C != block_slot_g_direction_frames) {
+        position->velocity_z = 0;
+        position->velocity_y = 0;
+        position->velocity_x = 0;
+        set_record_integer_tile_center(position, entity->tile_x,
+                      entity->tile_y);
+        if (entity->frameTable != block_slot_g_direction_frames) {
             s32 direction;
 
-            (entity->unk_2C) = block_slot_g_direction_frames;
+            (entity->frameTable) = block_slot_g_direction_frames;
             direction = (g_game_work.view.camera_rotation.parts.viewAngle + actor->unk_2A + 0x100) >> 9;
             select_sprite_entry(entity, block_slot_g_direction_frames[direction & 7], 0);
         }
@@ -1290,7 +1290,7 @@ void advance_actor_item_action_effect(CB_80172BCC_S_func_80C953CC_1 *work, CB_80
         }
 
         part->unk_0A--;
-        work->unk_8C = dispatch_actor_turn_and_motion;
+        work->unk_8C.address = dispatch_actor_turn_and_motion;
         advance_status_timers(actor);
         actor->unk_73.u8 = 0;
         actor->unk_72.u8 = 0;
@@ -1378,7 +1378,7 @@ void update_block_value_reaction(ActorRecord *state, ObjectPosition *motion, Spr
 }
 
 /* Runs the shared actor defeat and removal sequence with the supplied callback arguments. */
-void remove_defeated_block(void *state,void *position,void *render_state,void *entity) {
+void remove_defeated_block(ActorRecord *state,ObjectPosition *position,SpriteFrameState *render_state,ActorRecord *entity) {
     update_actor_defeat_removal(state,position,render_state,entity);
 }
 
@@ -1710,7 +1710,7 @@ void resume_actor_after_fade(ActorRecord *state, ObjectPosition *position, Sprit
 }
 
 /* Rotates the primitive, scales its color by remaining lifetime, and flags it for removal on timeout. */
-void fade_timed_primitive_effect(void *effect, s32 unused, void *primitive)
+void fade_timed_primitive_effect(void *effect, ObjectPosition *unused_position, void *primitive)
 {
     u16 ticks_left;
 
@@ -1777,7 +1777,7 @@ void create_randomized_rotated_effect(void *unused_context, Rec_func_80173CFC_ar
  * effect+0x20 occupy s2/s1/s0, producing retail's 0x28 frame and full save set. One packed 12-byte
  * assignment emits the retail lwl/lwr and swl/swr copy.
  */
-void project_visible_effect_quad(void *quad, void *position_arg, void *render_info_arg, s16 depth_bias)
+void project_visible_effect_quad(ActorRecord *body, void *position_arg, void *render_info_arg, s16 depth_bias)
 {
     CB_80173E40_S_80173E40_2 *render_info = render_info_arg;
     CB_80173E40_S_80173E40_1 *position = position_arg;
@@ -1831,18 +1831,18 @@ void project_visible_effect_quad(void *quad, void *position_arg, void *render_in
         render_state->unk_8D0 = packet + 0x24;
     }
 
-    ((CB_80173E40_S_80173E40_0 *)scratch)->unk_B0 = ((CB_80173E40_S_80173E40_6 *)quad)->unk_44;
-    ((CB_80173E40_S_80173E40_0 *)scratch)->unk_B8 = ((CB_80173E40_S_80173E40_6 *)quad)->unk_4A;
-    ((CB_80173E40_S_80173E40_0 *)scratch)->unk_C0 = ((CB_80173E40_S_80173E40_6 *)quad)->unk_50;
-    ((CB_80173E40_S_80173E40_0 *)scratch)->unk_C8 = ((CB_80173E40_S_80173E40_6 *)quad)->unk_56;
-    ((CB_80173E40_S_80173E40_0 *)scratch)->unk_B2 = ((CB_80173E40_S_80173E40_6 *)quad)->unk_46;
-    ((CB_80173E40_S_80173E40_0 *)scratch)->unk_BA = ((CB_80173E40_S_80173E40_6 *)quad)->unk_4C;
-    ((CB_80173E40_S_80173E40_0 *)scratch)->unk_C2 = ((CB_80173E40_S_80173E40_6 *)quad)->unk_52;
-    ((CB_80173E40_S_80173E40_0 *)scratch)->unk_CA = ((CB_80173E40_S_80173E40_6 *)quad)->unk_58;
-    ((CB_80173E40_S_80173E40_0 *)scratch)->unk_B4 = ((CB_80173E40_S_80173E40_6 *)quad)->unk_48;
-    ((CB_80173E40_S_80173E40_0 *)scratch)->unk_BC = ((CB_80173E40_S_80173E40_6 *)quad)->unk_4E;
-    ((CB_80173E40_S_80173E40_0 *)scratch)->unk_C4 = ((CB_80173E40_S_80173E40_6 *)quad)->unk_54;
-    ((CB_80173E40_S_80173E40_0 *)scratch)->unk_CC = ((CB_80173E40_S_80173E40_6 *)quad)->unk_5A;
+    ((CB_80173E40_S_80173E40_0 *)scratch)->unk_B0 = body->unk_44;
+    ((CB_80173E40_S_80173E40_0 *)scratch)->unk_B8 = ((CB_80173E40_S_80173E40_6 *)body)->unk_4A;
+    ((CB_80173E40_S_80173E40_0 *)scratch)->unk_C0 = body->unk_50.halves.low;
+    ((CB_80173E40_S_80173E40_0 *)scratch)->unk_C8 = ((CB_80173E40_S_80173E40_6 *)body)->unk_56;
+    ((CB_80173E40_S_80173E40_0 *)scratch)->unk_B2 = body->action_flags;
+    ((CB_80173E40_S_80173E40_0 *)scratch)->unk_BA = ((CB_80173E40_S_80173E40_6 *)body)->unk_4C;
+    ((CB_80173E40_S_80173E40_0 *)scratch)->unk_C2 = body->unk_50.halves.high;
+    ((CB_80173E40_S_80173E40_0 *)scratch)->unk_CA = ((CB_80173E40_S_80173E40_6 *)body)->unk_58;
+    ((CB_80173E40_S_80173E40_0 *)scratch)->unk_B4 = ((CB_80173E40_S_80173E40_6 *)body)->unk_48;
+    ((CB_80173E40_S_80173E40_0 *)scratch)->unk_BC = ((CB_80173E40_S_80173E40_6 *)body)->unk_4E;
+    ((CB_80173E40_S_80173E40_0 *)scratch)->unk_C4 = ((CB_80173E40_S_80173E40_6 *)body)->unk_54;
+    ((CB_80173E40_S_80173E40_0 *)scratch)->unk_CC = ((CB_80173E40_S_80173E40_6 *)body)->unk_5A;
 
     ot_index = RotAverage4(scratch + 0xB0, scratch + 0xB8,
                              scratch + 0xC0, scratch + 0xC8,
@@ -1869,10 +1869,10 @@ void project_visible_effect_quad(void *quad, void *position_arg, void *render_in
                     (texture_flags | 2) : (texture_flags & 0xFD);
             }
 
-            ((CB_80173E40_S_80173E40_4 *)packet)->unk_04.at00.v = ((CB_80173E40_S_80173E40_6 *)quad)->unk_04;
-            ((CB_80173E40_S_80173E40_4 *)packet)->unk_0C = ((CB_80173E40_S_80173E40_6 *)quad)->unk_08;
-            ((CB_80173E40_S_80173E40_4 *)packet)->unk_14 = ((CB_80173E40_S_80173E40_6 *)quad)->unk_0C;
-            ((CB_80173E40_S_80173E40_4 *)packet)->unk_1C = ((CB_80173E40_S_80173E40_6 *)quad)->unk_10;
+            ((CB_80173E40_S_80173E40_4 *)packet)->unk_04.at00.v = ((CB_80173E40_S_80173E40_6 *)body)->unk_04;
+            ((CB_80173E40_S_80173E40_4 *)packet)->unk_0C = ((CB_80173E40_S_80173E40_6 *)body)->unk_08;
+            ((CB_80173E40_S_80173E40_4 *)packet)->unk_14 = ((CB_80173E40_S_80173E40_6 *)body)->unk_0C;
+            ((CB_80173E40_S_80173E40_4 *)packet)->unk_1C = ((CB_80173E40_S_80173E40_6 *)body)->unk_10;
             SetPolyG4(packet);
             ((CB_80173E40_S_80173E40_4 *)packet)->unk_04.at03.v |= 2;
 
