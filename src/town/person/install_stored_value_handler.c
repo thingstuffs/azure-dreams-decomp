@@ -3,7 +3,8 @@
 #include "town/person/state_updates.h"
 #include "town/person/object/initialize_object_entries_api.h"
 #include "town/person.h"
-extern s32 D_800C34CC;
+#include "town/person/object.h"
+
 
 /* Updates the object using its stored value and installs its next handler. */
 void install_stored_value_handler(void *object, void *unused, void *update_arg) {
@@ -15,5 +16,5 @@ void install_stored_value_handler(void *object, void *unused, void *update_arg) 
     } *object_fields = object;
 
     initialize_object_entries(object, update_arg, *object_fields->unk7C);
-    object_fields->unk50 = &D_800C34CC;
+    object_fields->unk50 = forward_object_update_values;
 }

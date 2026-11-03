@@ -84,11 +84,6 @@ typedef struct S_func_819B2800_5 {
     s8 unk_102;
 } S_func_819B2800_5;
 
-typedef struct S_func_819B2800_6 {
-    u8 pad_00[8];
-    s32 unk_08;
-} S_func_819B2800_6;
-
 typedef struct S_func_819B2800_8 {
     u16 unk_00;
 } S_func_819B2800_8;
@@ -304,7 +299,6 @@ typedef struct SpriteQuad {
     u8 u3;
     u8 v3;
 } SpriteQuad;
-
 
 /* Retail 819B2C40 (draw_linked_sprite_effect_quads): projects each linked sprite effect and queues a textured quad centred on
  * its screen position into the ordering table.  The chain runs through the previous header's unk_18 link. */
@@ -731,7 +725,6 @@ typedef struct {
     u32 addr : 24;
     u32 len : 8;
 } P_TAG;
-
 
 /* Draw fading radial grids of shaded quads for the linked effects. */
 s32 draw_fading_radial_effect_grid(void *effect_data) {

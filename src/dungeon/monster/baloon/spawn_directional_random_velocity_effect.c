@@ -10,20 +10,12 @@
 
 typedef s32 M2C_UNK;
 
-typedef struct S_80D65C5C_0 {
-    u8 pad_00[0x8];
-    void * unk_08;
-    void * unk_0C;
-    void * unk_10;
-} S_80D65C5C_0;   /* node in spawn_directional_random_velocity_effect */
+   /* node in spawn_directional_random_velocity_effect */
 
 typedef struct S_80D65C5C_1 {
     u8 pad_00[0x8];
     void * unk_08;
 } S_80D65C5C_1;   /* arg0 in spawn_directional_random_velocity_effect */
-
-
-
 
    /* ((S_80D65C5C_1 *)arg0)->unk_08 in spawn_directional_random_velocity_effect */
 

@@ -4,7 +4,7 @@
 #include "town/player/object.h"
 #include "town/player/position.h"
 
-extern s32 D_80098690;
+
 
 typedef struct S_80098764_0 {
     u8 pad_00[0x4];
@@ -40,5 +40,5 @@ void interpolate_position_by_angle_offset(void *motion_arg, ObjectPosition *posi
     }
     clear_entity_record_fields(position);
     motion->unk_0A = 7;
-    motion->unk_04 = &D_80098690;
+    motion->unk_04 = move_position_toward_target_and_finish;
 }

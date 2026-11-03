@@ -9,9 +9,6 @@
 #include "shared/entity.h"
 #include "slus.h"
 
-typedef struct S_81978428_1 {
-    u16 unk_00;
-} S_81978428_1;   /* self->part4 in update_placed_effect_animation */
 
 
 typedef struct S_81978428_3 {
@@ -38,10 +35,6 @@ typedef struct S_81978428_9 {
     u32 unk_1C;
 } S_81978428_9;   /* after_object in update_placed_effect_animation */
 
-typedef struct S_81978428_10 {
-    u8 pad_00[0xC];
-    u32 unk_0C;
-} S_81978428_10;   /* after_aux in update_placed_effect_animation */
 
 typedef struct S_81978428_12_pre {
     u16 unk_00;
@@ -127,7 +120,7 @@ void update_placed_effect_animation(State81978428 *state, s32 *position_out)
             ActorRecord *player_state;
             u8 *facing_player;
 
-            if ((((S_81978428_1 *)(self->part4))->unk_00 & 0x80) == 0) {
+            if ((((ObjectPosition *)(self->part4))->x.w.frac & 0x80) == 0) {
                 break;
             }
             player_page = (u8 *)0x80080000;
@@ -310,7 +303,7 @@ void update_placed_effect_animation(State81978428 *state, s32 *position_out)
                     tint_data = *(u8 **)(reset_object - 0x14);
 
                     ((S_81978428_9 *)reset_object)->unk_1C &= clear_tint_mask;
-                    ((S_81978428_10 *)tint_data)->unk_0C = neutral_color;
+                    ((ActorRecord *)tint_data)->unk_0C.value = neutral_color;
                 }
             }
         }

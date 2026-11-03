@@ -96,11 +96,6 @@ typedef struct S_80167C74_13 {
     s16 unk_1A;
 } S_80167C74_13;
 
-typedef struct S_80167C74_18 {
-    s8 unk_00;
-    s8 unk_01;
-    s8 unk_02;
-} S_80167C74_18;
 
 typedef struct {
     s16 x;
@@ -419,11 +414,11 @@ copy_pairs:
                 object_render->color.c.r = 0x80;
                 do {
                     scaled_red = (u8) color->unk_0C.at00.v * color_weight;
-                    ((S_80167C74_18 *)(object_data + history_index * 4))->unk_00 = (s8) (scaled_red / 8);
+                    ((ActorRecord *)(object_data + history_index * 4))->unk_00[0] = (s8) (scaled_red / 8);
                     scaled_green = color->unk_0C.at01.v * color_weight;
-                    ((S_80167C74_18 *)(object_data + history_index * 4))->unk_01 = (s8) (scaled_green / 8);
+                    ((ActorRecord *)(object_data + history_index * 4))->unk_00[1] = (s8) (scaled_green / 8);
                     scaled_blue = color->unk_0C.at02.v * color_weight;
-                    ((S_80167C74_18 *)(object_data + history_index * 4))->unk_02 = (s8) (scaled_blue / 8);
+                    ((ActorRecord *)(object_data + history_index * 4))->unk_00[2] = (s8) (scaled_blue / 8);
                     history_index += 1;
                 } while (history_index < 4);
                 object_render->depth_bias = 0;

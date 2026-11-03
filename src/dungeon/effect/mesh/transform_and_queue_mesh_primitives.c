@@ -534,7 +534,6 @@ typedef struct S_8187B1F4_3_pre {
     u8 pad_04[0x4];
 } S_8187B1F4_3_pre;   /* the 0x8 bytes before arg0 in project_shaded_points_to_ordering_table, addressed as arg0[-1] */
 
-
 typedef struct S_8187B1F4_4 {
     union { struct { u32 v; } at00; struct { u8 pad[0x3]; s8 v; } at03; } unk_00;   /* overlapping accesses */
     union {
@@ -704,7 +703,6 @@ typedef struct S_8187B540_0 {
     u8 pad_00[0x1A];
     u16 unk_1A;
 } S_8187B540_0;   /* arg2 in func_80024D40 */
-
 
 extern s16 point_cloud_update_flag[5];
 
@@ -935,12 +933,6 @@ void create_terrain_seeking_colored_point(
 #define NULL 0
 #endif
 
-typedef struct S_8187B9E8_0 {
-    u8 pad_00[0x16];
-    s16 unk_16[23];
-    s16 unk_44[23];
-    s16 unk_72[23];
-} S_8187B9E8_0;   /* v in func_800251E8 */
 
    /* r0 in func_800251E8 */
 
@@ -949,7 +941,6 @@ typedef struct S_8187B9E8_3 {
     s16 unk_1C;
     s16 unk_1E;
 } S_8187B9E8_3;   /* r1 in func_800251E8 */
-
 
 s32 rsin(s32);
 s32 rcos(s32);
@@ -979,11 +970,11 @@ void create_random_radial_vector_effect(s32 radius, s32 initial_value, s16 exten
             angle_b = rand() & 0xFFF;
             plane_radius = (radius * rcos(angle_a)) >> 12;
             component = (plane_radius * rsin(angle_b)) >> 12;
-            ((S_8187B9E8_0 *)state)->unk_16[point_count] = component;
+            state->unk_16[point_count] = component;
             component = (plane_radius * rcos(angle_b)) >> 12;
-            ((S_8187B9E8_0 *)state)->unk_44[point_count] = component;
+            state->unk_44[point_count] = component;
             component = (radius * rsin(angle_a)) >> 12;
-            ((S_8187B9E8_0 *)state)->unk_72[point_count] = component;
+            state->unk_72[point_count] = component;
             point_count++;
         } while (point_count < 0x17);
         position = effect->position;
@@ -1036,20 +1027,12 @@ typedef struct S_8187BB80_0 {
     u16 unk_66;
 } S_8187BB80_0;   /* obj in advance_fading_effect_animation */
 
-typedef struct S_8187BB80_1 {
-    u8 pad_00[0xC];
-    u8 unk_0C;
-    u8 unk_0D;
-    u8 unk_0E;
-    u8 pad_0F[0x5];
-    u16 unk_14;
-} S_8187BB80_1;   /* aux in advance_fading_effect_animation */
 
 extern s16 point_cloud_update_flag[5];
 
 /* Advance the effect animation, fade its colors, and mark it for removal when its lifetime ends. */
 void advance_fading_effect_animation(void *effect_data, ObjectPosition *unused_arg, void *color_data) {
-    S_8187BB80_1 *colors = color_data;
+    SpriteFrameState *colors = color_data;
     register s32 tick_limit;
     s32 phase_state;
 
@@ -1141,13 +1124,13 @@ void advance_fading_effect_animation(void *effect_data, ObjectPosition *unused_a
         case 7:
         ((S_8187BB80_0 *)effect_data)->unk_4E = 0;
         ((S_8187BB80_0 *)effect_data)->unk_4F = 0;
-        colors->unk_0D = 0xFF;
-        colors->unk_0C = 0xFF;
-        colors->unk_0E = 0;
+        colors->color.c.g = 0xFF;
+        colors->color.c.r = 0xFF;
+        colors->color.c.b = 0;
         ((S_8187BB80_0 *)effect_data)->unk_37 = 0xFF;
         ((S_8187BB80_0 *)effect_data)->unk_36 = 0xFF;
         ((S_8187BB80_0 *)effect_data)->unk_38 = 0;
-        colors->unk_14 |= 0xC;
+        colors->flags |= 0xC;
         break;
         case 8:
         default:
@@ -1158,11 +1141,11 @@ void advance_fading_effect_animation(void *effect_data, ObjectPosition *unused_a
     }
 
     if (((S_8187BB80_0 *)effect_data)->unk_02.s < 30) {
-        colors->unk_0C =
+        colors->color.c.r =
             (((S_8187BB80_0 *)effect_data)->unk_36 * ((S_8187BB80_0 *)effect_data)->unk_02.s) / 30;
-        colors->unk_0D =
+        colors->color.c.g =
             (((S_8187BB80_0 *)effect_data)->unk_37 * ((S_8187BB80_0 *)effect_data)->unk_02.s) / 30;
-        colors->unk_0E =
+        colors->color.c.b =
             (((S_8187BB80_0 *)effect_data)->unk_38 * ((S_8187BB80_0 *)effect_data)->unk_02.s) / 30;
     }
 
@@ -1304,18 +1287,7 @@ typedef struct S_8187BFE0_2 {
     u16 unk_6E;
 } S_8187BFE0_2;   /* work in initialize_star_effect_sequence */
 
-typedef struct S_8187BFE0_3 {
-    u8 pad_00[0x8];
-    void * unk_08;
-    u8 unk_0C;
-    u8 unk_0D;
-    u8 unk_0E;
-    u8 pad_0F[0x5];
-    u16 unk_14;
-    u8 pad_16[0x6];
-    u16 unk_1C;
-    u16 unk_1E;
-} S_8187BFE0_3;   /* sprite in initialize_star_effect_sequence */
+   /* sprite in initialize_star_effect_sequence */
 
    /* dst in initialize_star_effect_sequence */
 

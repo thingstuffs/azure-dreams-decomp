@@ -23,21 +23,9 @@ typedef struct S_800BE6F0_0_pre {
 } S_800BE6F0_0_pre;   /* the 0x18 bytes before arg0 in apply_monster_egg_reversion_item, addressed as arg0[-1] */
 
 
-typedef struct S_800BE6F0_1 {
-    u8 pad_00[0x2];
-    s16 unk_02;
-    u8 pad_04[0x2];
-    s16 unk_06;
-    u8 pad_08[0x2];
-    s16 unk_0A;
-} S_800BE6F0_1;   /* record1 in apply_monster_egg_reversion_item */
-
    /* record2 in apply_monster_egg_reversion_item */
 
-typedef struct S_800BE6F0_5 {
-    u8 pad_00[0xA];
-    u16 unk_0A;
-} S_800BE6F0_5;   /* state_base2 in apply_monster_egg_reversion_item */
+   /* state_base2 in apply_monster_egg_reversion_item */
 
 #include "dungeon/player/item.h"
 struct EntityLinkNode;
@@ -67,7 +55,7 @@ s32 apply_monster_egg_reversion_item(void *entity, DungeonItemEntry *source, s16
     s32 spawn_type;
     u8 tile_x;
     u8 tile_y;
-    S_800BE6F0_1 *position;
+    ObjectPosition *position;
     MovingTile *map_position;
     s32 *entity_table;
     s32 cleared_selection;
@@ -114,9 +102,9 @@ s32 apply_monster_egg_reversion_item(void *entity, DungeonItemEntry *source, s16
 
         position = ((S_800BE6F0_0_pre *)entity)[-1].unk_00;
         create_effect_or_fallback(
-            position->unk_02,
-            position->unk_06,
-            position->unk_0A,
+            position->x.w.i,
+            position->y.w.i,
+            position->z.w.i,
             spawn_data);
 
         spawn_type = (s32)g_dungeon_status.pending_display_owner;

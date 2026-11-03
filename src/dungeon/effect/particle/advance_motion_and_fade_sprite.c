@@ -86,21 +86,6 @@ typedef struct S_func_81856800_2 {
     } unk_14;
 } S_func_81856800_2;
 
-typedef struct S_func_81856800_3 {
-    u8 pad_00[0x2A];
-    s16 unk_2A;
-    u8 pad_2C[0x34];
-    void * unk_60;
-    u8 pad_64[0xE];
-    union {
-        s8 s8_72;
-        u8 u8_72;
-    } unk_72;
-    union {
-        s8 s8_73;
-        u8 u8_73;
-    } unk_73;
-} S_func_81856800_3;
 
 typedef struct S_func_81856800_4 {
     u8 pad_00[0x8];
@@ -198,7 +183,7 @@ void (*const dungeon_1876800_entry)(S_func_81856800_1 *, S_func_81856800_2 *) = 
 void run_fading_sprite_projectile(S_func_81856800_1 *action, S_func_81856800_2 *motion_arg)
 {
     S_func_81856800_2 *motion;
-    S_func_81856800_3 *object;
+    ActorRecord *object;
     MovingTile *owner;
     S_func_81856800_4 *object_base;
     S_func_81856800_4 *effect;
@@ -317,14 +302,14 @@ void run_fading_sprite_projectile(S_func_81856800_1 *action, S_func_81856800_2 *
             return;
         }
     }
-        if (object->unk_60 == 0) {
-            object->unk_72.u8_72 = owner->tile_x;
-            object->unk_73.u8_73 = owner->tile_y;
+        if (object->target == 0) {
+            object->target_tile_x = owner->tile_x;
+            object->target_tile_y = owner->tile_y;
         } else {
 
-            part = ((S_func_81856800_4 *)((u8 *)object->unk_60 - 32))->unk_0C;
-            object->unk_72.u8_72 = ((MovingTile *)part)->tile_x;
-            object->unk_73.u8_73 = ((MovingTile *)part)->tile_y;
+            part = ((S_func_81856800_4 *)((u8 *)object->target - 32))->unk_0C;
+            object->target_tile_x = ((MovingTile *)part)->tile_x;
+            object->target_tile_y = ((MovingTile *)part)->tile_y;
         }
         model = object_base->unk_0C;
         if (resolve_record_orientation_or_fallback(model->unk_08, model, coord_offset, 0) == 0) {
@@ -343,7 +328,7 @@ void run_fading_sprite_projectile(S_func_81856800_1 *action, S_func_81856800_2 *
             s32 velocity;
             s32 position;
 
-            velocity = object->unk_72.s8_72;
+            velocity = object->target_tile_x;
             velocity <<= 6;
             position = motion_arg->unk_00.u16_02.unk_02;
             position -= 32;
@@ -360,7 +345,7 @@ void run_fading_sprite_projectile(S_func_81856800_1 *action, S_func_81856800_2 *
             s32 velocity;
             s16 position;
 
-            velocity = object->unk_73.s8_73;
+            velocity = object->target_tile_y;
             velocity <<= 6;
             position = motion_arg->unk_04.u16_06.unk_06;
             position -= 32;
@@ -409,7 +394,7 @@ void run_fading_sprite_projectile(S_func_81856800_1 *action, S_func_81856800_2 *
         if ((s16)timer > 0) {
             return;
         }
-        if (object->unk_60 == 0) {
+        if (object->target == 0) {
             action->unk_0A.u16_0A = 5;
             return;
         }
@@ -526,10 +511,10 @@ case2_spawn_loop:
         if ((s16)timer > 0) {
             return;
         }
-        if (object->unk_60 != 0) {
-            apply_attack_power_and_element_effects(object->unk_60, 10,
+        if (object->target != 0) {
+            apply_attack_power_and_element_effects(object->target, 10,
                           action->unk_09, 4,
-                          object->unk_2A, object, 2);
+                          object->facing, object, 2);
         }
         next_state = action->unk_0A.u16_0A;
         next_timer = 10;

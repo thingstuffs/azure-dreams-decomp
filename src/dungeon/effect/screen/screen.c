@@ -6,6 +6,7 @@
 #include "dungeon/effect/screen.h"
 #include "engine/node.h"
 #include "engine/scene.h"
+#include "shared/sprite_frame_state.h"
 
 extern s32 create_linked_effect_segments(void *);
 
@@ -27,12 +28,6 @@ typedef struct S_800243C4_0_pre {
 } S_800243C4_0_pre;   /* the 0x2 bytes before arg0 in func_800243C4, addressed as arg0[-1] */
 
 
-typedef struct S_800243C4_1 {
-    u8 pad_00[0x8];
-    void * unk_08;
-    u8 pad_0C[0x8];
-    u16 unk_14;
-} S_800243C4_1;
 
 
 
@@ -54,7 +49,7 @@ void advance_linked_segment_flash(AdvanceScreenTransitionBody *effect, Rec_func_
     s16 phase;
     u16 phase_value;
     MovingPosition *base_position;
-    S_800243C4_1 *source;
+    SpriteFrameState *source;
 
     sprite_effect_update_count.value = sprite_effect_update_count.value + 1;
     phase = effect->unk_2C.s;
@@ -63,10 +58,10 @@ void advance_linked_segment_flash(AdvanceScreenTransitionBody *effect, Rec_func_
     if (phase == 0) {
         source = ((S_800243C4_5 *)(effect->unk_08))->unk_0C;
         if (effect->unk_2E == 0) {
-            if (resolve_record_orientation_or_fallback(source->unk_08, source,
+            if (resolve_record_orientation_or_fallback(source->source, source,
                               (u8 *)effect + 0x24, 0) != 0) {
                 effect->unk_2E = 1;
-            } else if (source->unk_14 & 0x8000) {
+            } else if (source->flags & 0x8000) {
                 effect->unk_2E = 1;
                 effect->unk_28.s = -0x40;
             }

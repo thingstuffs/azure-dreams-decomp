@@ -32,11 +32,6 @@ typedef struct S_8195281C_1 {
     union { s32 i; void * p; } unk_00;   /* accessed as both */
 } S_8195281C_1;   /* D_800814A8 in func_8195281C */
 
-typedef struct S_8195281C_2 {
-    u8 pad_00[0xA6];
-    u16 unk_A6;
-    u8 unk_A8;
-} S_8195281C_2;
 
 typedef struct S_8195281C_3 {
     u8 pad_00[0x2A];
@@ -45,34 +40,11 @@ typedef struct S_8195281C_3 {
     u8 unk_A9;
 } S_8195281C_3;
 
-typedef struct S_8195281C_4 {
-    u8 pad_00[0x60];
-    void * unk_60;
-} S_8195281C_4;
 
-typedef struct S_8195281C_5 {
-    u8 pad_00[0x1C];
-    s32 unk_1C;
-} S_8195281C_5;
 
-typedef struct S_8195281C_6 {
-    u8 pad_00[0xC];
-    union {
-        struct { u8 v; } at00;
-        struct { s32 v; } at00u;
-        struct { u8 pad[0x1]; u8 v; } at01;
-        struct { u8 pad[0x2]; u8 v; } at02;
-    } unk_0C;   /* overlapping accesses */
-} S_8195281C_6;
+   /* D_800E3D7C[0] in func_8195281C */
 
-typedef struct S_8195281C_7 {
-    u8 pad_00[0x60];
-    void * unk_60;
-} S_8195281C_7;   /* D_800E3D7C[0] in func_8195281C */
-
-typedef struct S_8195281C_9 {
-    s32 unk_00;
-} S_8195281C_9;   /* D_800814A0 in func_8195281C */
+   /* D_800814A0 in func_8195281C */
 
 typedef struct S_8195281C_10 {
     u8 pad_00[0x60];
@@ -96,14 +68,14 @@ void update_directional_actor_effect(void *effect, void *color_data) {
     s16 delay_left;
     s16 fade_left;
     s32 stage;
-    S_8195281C_5 *model;
+    ActorRecord *model;
     SpriteFrameState *model_colors;
     S_8195281C_3 *actor_state;
     u16 ready_stage;
     u16 actor_param;
-    S_8195281C_4 *model_owner;
+    ActorRecord *model_owner;
     u16 fade_stage;
-    S_8195281C_2 *actor_counters;
+    ActorRecord *actor_counters;
     void **actor_slot;
 
     model_colors = color_data;
@@ -126,8 +98,8 @@ void update_directional_actor_effect(void *effect, void *color_data) {
         }
         actor_counters = *actor_slot;
         ((S_8195281C_0 *)effect)->unk_18 = 0x12;
-        actor_counters->unk_A6 = (u16) (actor_counters->unk_A6 - 1);
-        actor_counters->unk_A8 = (u8) ((S_8195281C_0 *)effect)->unk_08;
+        actor_counters->unk_A4.halves.high.u = (u16) (actor_counters->unk_A4.halves.high.u - 1);
+        actor_counters->unk_A8.byte = (u8) ((S_8195281C_0 *)effect)->unk_08;
         actor_state = *actor_slot;
         actor_state->unk_A9 = (u8) ((S_8195281C_0 *)effect)->unk_09;
         actor_state = *actor_slot;
@@ -149,14 +121,14 @@ void update_directional_actor_effect(void *effect, void *color_data) {
         model_owner = ((S_8195281C_1 *)((int *)(&primary_actor_record)))->unk_00.p;
         ((S_8195281C_0 *)effect)->unk_18 = 0x20;
         allocate_and_initialize_effect_object(effect - 0x20, ((S_8195281C_0 *)effect)->unk_14.s, ((S_8195281C_0 *)effect)->unk_09,
-            model_owner->unk_60);
+            model_owner->target);
         ((S_8195281C_0 *)effect)->unk_0A.s = (u16) ((S_8195281C_0 *)effect)->unk_0A.s + 1;
         break;
     case 3:
         model = ((S_8195281C_10 *)(((S_8195281C_1 *)((int *)(&primary_actor_record)))->unk_00.i))->unk_60;
         if (model != 0) {
             model_colors = NODE_HEADER(model)->sprite;
-            model->unk_1C = (s32) (model->unk_1C | 0x10000000);
+            model->flags1C = (s32) (model->flags1C | 0x10000000);
             model_colors->color.c.r = (u8) (model_colors->color.c.r - 4);
             model_colors->color.c.g = (u8) (model_colors->color.c.g - 4);
             model_colors->color.c.b = (u8) (model_colors->color.c.b - 4);
@@ -200,7 +172,6 @@ void update_directional_actor_effect(void *effect, void *color_data) {
     return;
 }
 
-
 typedef struct S_81952B4C_1 {
     union { struct { s32 v; } at00; struct { u8 pad[0x2]; u16 v; } at02; } unk_00;   /* overlapping accesses */
     union { struct { s32 v; } at00; struct { u8 pad[0x2]; u16 v; } at02; } unk_04;   /* overlapping accesses */
@@ -213,18 +184,7 @@ typedef struct S_81952B4C_1 {
     u16 unk_16;
 } S_81952B4C_1;   /* arg1 in update_spiraling_effect_growth_and_fade */
 
-typedef struct S_81952B4C_2 {
-    u8 pad_00[0xC];
-    union {
-        struct { u8 v; } at00;
-        struct { s32 v; } at00u;
-        struct { u8 pad[0x1]; u8 v; } at01;
-        struct { u8 pad[0x2]; u8 v; } at02;
-    } unk_0C;   /* overlapping accesses */
-    u8 pad_10[0xC];
-    u16 unk_1C;
-    u16 unk_1E;
-} S_81952B4C_2;   /* arg2 in update_spiraling_effect_growth_and_fade */
+   /* arg2 in update_spiraling_effect_growth_and_fade */
 
 /* Updates a spiraling effect's growth, motion, and fade-out. */
 void update_spiraling_effect_growth_and_fade(SpiralingBody *effect, ObjectPosition *position, SpriteFrameState *sprite_arg)
@@ -455,7 +415,6 @@ void process_effect_modes_and_completion(void *state)
 }
 
 /* cfail-repair: tf7-phase1-cache-v3 */
-
 
 /* Allocate an object and initialize its handler and state fields. */
 void allocate_and_initialize_effect_object(s32 alloc_arg, s16 value_26, s16 value_30, ActorRecord *value_0c) {

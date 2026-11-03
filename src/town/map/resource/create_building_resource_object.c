@@ -1,8 +1,9 @@
 #include "shared/object_node.h"
 #include "common.h"
 #include "town/map/resource.h"
+#include "town/map.h"
 
-extern s32 building_resource_update_address;
+
 
 typedef struct S_800B8170_0 {
     u8 pad_00[0x10];
@@ -18,7 +19,7 @@ void create_building_resource_object(void) {
 
     object = allocate_flagged_object_node(0);
     if (object != 0) {
-        object->unk_10 = &building_resource_update_address;
+        object->unk_10 = advance_building_texture_and_palette;
         object->unk_20 = 0;
         object->unk_22 = 0;
     }

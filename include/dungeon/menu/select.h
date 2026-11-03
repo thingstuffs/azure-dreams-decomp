@@ -24,10 +24,7 @@ typedef struct S_81809800_1 {
     void * unk_0C;
 } S_81809800_1;   /* ((index * 4) + temp_v1) in func_80025014 */
 
-typedef struct S_81809800_2 {
-    union { struct { s32 v; } at00; struct { u8 pad[0x2]; s16 v; } at02; } unk_00;   /* overlapping accesses */
-    union { struct { s32 v; } at00; struct { u8 pad[0x2]; s16 v; } at02; } unk_04;   /* overlapping accesses */
-} S_81809800_2;   /* arg1 in func_80025014 */
+   /* arg1 in func_80025014 */
 
 typedef struct S_81809800_3 {
     u8 pad_00[0x8];
@@ -39,10 +36,7 @@ typedef struct S_81809800_4 {
     union { struct { s32 v; } at00; struct { u8 pad[0x2]; s16 v; } at02; } unk_04;   /* overlapping accesses */
 } S_81809800_4;   /* temp_a2 in func_80025014 */
 
-typedef struct S_81809800_6 {
-    u8 pad_00[0x14];
-    u16 unk_14;
-} S_81809800_6;   /* arg2 in func_80025014 */
+   /* arg2 in func_80025014 */
 
 /* cfail-repair: tf7-phase1-cache-v3 */
 
@@ -122,10 +116,7 @@ typedef struct S_8002520C_2 {
     u16 unk_1E;
 } S_8002520C_2;   /* arg2_local in func_8002520C */
 
-typedef struct S_8002520C_4 {
-    u8 pad_00[0x10];
-    s32 unk_10;
-} S_8002520C_4;   /* state_base in func_8002520C */
+   /* state_base in func_8002520C */
 
 typedef struct S_8002520C_5_pre {
     void * unk_00;
@@ -171,11 +162,7 @@ typedef struct S_8002520C_11 {
     void * unk_AC;
 } S_8002520C_11;   /* (void *) world_off in func_8002520C */
 
-typedef struct S_8002520C_12 {
-    u8 pad_00[0x24];
-    u8 unk_24;
-    u8 unk_25;
-} S_8002520C_12;   /* world_cell in func_8002520C */
+   /* world_cell in func_8002520C */
 
 typedef struct S_8002520C_13 {
     u8 pad_00[0x2094];
@@ -264,12 +251,7 @@ typedef struct S_80025A14_2 {
     void * unk_2C;
 } S_80025A14_2;   /* obj in func_80025A14 */
 
-typedef struct S_80025A14_3 {
-    u8 pad_00[0x14];
-    u16 unk_14;
-    u8 pad_16[0x12];
-    s32 unk_28;
-} S_80025A14_3;   /* template in func_80025A14 */
+   /* template in func_80025A14 */
 
 typedef struct S_80025A14_4_pre {
     void * unk_00;
@@ -333,10 +315,7 @@ typedef struct S_80025C94_3 {
     s16 unk_16;
 } S_80025C94_3;   /* temp_s2 in func_80025C94 */
 
-typedef struct S_80025C94_4 {
-    u8 pad_00[0xC8];
-    u16 unk_C8;
-} S_80025C94_4;   /* temp_s5 in func_80025C94 */
+   /* temp_s5 in func_80025C94 */
 
 typedef struct S_80025C94_5 {
     u8 pad_00[0xC];
@@ -423,10 +402,7 @@ typedef struct S_80026190_0 {
     u16 unk_26;
 } S_80026190_0;   /* owner in func_80026190 */
 
-typedef struct S_80026190_1 {
-    u8 pad_00[0x8];
-    s32 unk_08;
-} S_80026190_1;   /* status in func_80026190 */
+   /* status in func_80026190 */
 
 typedef struct S_80026190_2 {
     u8 pad_00[0x1C];
@@ -687,7 +663,6 @@ typedef struct {
 /* Sets the scratchpad offset to the negated global coordinates before forwarding the call. */
 
 /* Queues four shaded quadrants and a draw-mode packet for each linked rectangle. */
-
 
 void *allocate_sprite_data_object(s32 user_data);
 void update_selection_menu_animation(void *menu_in, void *motion_in, void *appearance_in);

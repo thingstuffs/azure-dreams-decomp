@@ -29,11 +29,6 @@ typedef struct S_81988800_0 {
     union { s16 s; u16 u; } unk_52;   /* accessed as both */
 } S_81988800_0;   /* state in update_directional_actor_effect */
 
-typedef struct S_81988800_2 {
-    s32 unk_00;
-    s32 unk_04;
-    union { struct { s32 v; } at00; struct { u8 pad[0x2]; u16 v; } at02; } unk_08;   /* overlapping accesses */
-} S_81988800_2;   /* out in update_directional_actor_effect */
 
 typedef DirectionalGridEffectBody S_81988800_3;
 
@@ -58,25 +53,9 @@ typedef struct S_81988800_6 {
     s32 unk_24;
 } S_81988800_6;   /* spawn_fields in update_directional_actor_effect */
 
-typedef struct S_81988800_8 {
-    u8 pad_00[0x2A];
-    s16 unk_2A;
-} S_81988800_8;   /* base in update_directional_actor_effect */
 
-typedef struct S_81988800_10 {
-    s32 unk_00;
-    s32 unk_04;
-    s32 unk_08;
-} S_81988800_10;   /* ((S_81988800_3 *)work)->unk_08.p32 in update_directional_actor_effect */
 
-typedef struct S_81988800_11 {
-    u16 unk_00;
-} S_81988800_11;   /* ((S_81988800_0 *)state)->unk_04 in update_directional_actor_effect */
 
-typedef struct S_81988800_12 {
-    u8 pad_00[0x8];
-    void * unk_08;
-} S_81988800_12;   /* ((S_81988800_3 *)work)->unk_0C in update_directional_actor_effect */
 
 extern M2C_UNK D_80024D58;
 
@@ -95,7 +74,7 @@ void update_directional_actor_effect(void *state_data, void *position_data)
     s16 offset[3];
     ObjectNodeHeader *object;
     u8 *work;
-    S_81988800_8 *source;
+    ActorRecord *source;
     void *list_head;
     S_81988800_4 *actor;
     u8 *unused_fields;
@@ -111,15 +90,15 @@ void update_directional_actor_effect(void *state_data, void *position_data)
     case 0:
         ((PlayerRecord *)primary_actor_record)->unk_102 = 1;
         ((PlayerRecord *)primary_actor_record)->unk_F4 = 0;
-        ((S_81988800_2 *)position_data)->unk_00 = ((S_81988800_10 *)(((S_81988800_3 *)work)->unk_08.p32))->unk_00;
-        ((S_81988800_2 *)position_data)->unk_04 = ((S_81988800_10 *)(((S_81988800_3 *)work)->unk_08.p32))->unk_04;
-        ((S_81988800_2 *)position_data)->unk_08.at00.v =
-            ((S_81988800_10 *)(((S_81988800_3 *)work)->unk_08.p32))->unk_08;
+        ((ObjectPosition *)position_data)->x.v = ((ObjectPosition *)(((S_81988800_3 *)work)->unk_08.p32))->x.v;
+        ((ObjectPosition *)position_data)->y.v = ((ObjectPosition *)(((S_81988800_3 *)work)->unk_08.p32))->y.v;
+        ((ObjectPosition *)position_data)->z.v =
+            ((ObjectPosition *)(((S_81988800_3 *)work)->unk_08.p32))->z.v;
         ((S_81988800_0 *)state_data)->unk_0A.u++;
     case 1:
     {
         S_81988800_6 *spawn_data;
-        if (((S_81988800_11 *)(((S_81988800_0 *)state_data)->unk_04))->unk_00 & 0x80) {
+        if (((ObjectPosition *)(((S_81988800_0 *)state_data)->unk_04))->x.w.frac & 0x80) {
             actor = (S_81988800_4 *)primary_actor_record;
             ((S_81988800_0 *)state_data)->unk_50.u = 10;
             actor->unk_A6--;
@@ -127,7 +106,7 @@ void update_directional_actor_effect(void *state_data, void *position_data)
 
             object = allocate_list_node(0x302, &scene_object_list_anchor.next);
             if (object != 0) {
-                if (resolve_record_orientation_or_fallback(((S_81988800_12 *)(((S_81988800_3 *)work)->unk_0C.p))->unk_08,
+                if (resolve_record_orientation_or_fallback(((SpriteFrameState *)(((S_81988800_3 *)work)->unk_0C.p))->source,
                                   ((S_81988800_3 *)work)->unk_0C.p, offset, 0) == 0) {
                     offset[2] = 0;
                     offset[1] = 0;
@@ -138,18 +117,18 @@ void update_directional_actor_effect(void *state_data, void *position_data)
                 ((S_81988800_5 *)object)->unk_20 = state_data;
                 spawn_data = NODE_BODY(object);
 
-                ((S_81988800_2 *)position_data)->unk_00 =
-                    ((S_81988800_10 *)(((S_81988800_3 *)work)->unk_08.p32))->unk_00 +
+                ((ObjectPosition *)position_data)->x.v =
+                    ((ObjectPosition *)(((S_81988800_3 *)work)->unk_08.p32))->x.v +
                                       ((s32)offset[0] << 16);
-                spawn_data->unk_1C = ((S_81988800_2 *)position_data)->unk_00;
-                ((S_81988800_2 *)position_data)->unk_04 =
-                    ((S_81988800_10 *)(((S_81988800_3 *)work)->unk_08.p32))->unk_04 +
+                spawn_data->unk_1C = ((ObjectPosition *)position_data)->x.v;
+                ((ObjectPosition *)position_data)->y.v =
+                    ((ObjectPosition *)(((S_81988800_3 *)work)->unk_08.p32))->y.v +
                                       ((s32)offset[1] << 16);
-                spawn_data->unk_20 = ((S_81988800_2 *)position_data)->unk_04;
-                ((S_81988800_2 *)position_data)->unk_08.at00.v =
-                    ((S_81988800_10 *)(((S_81988800_3 *)work)->unk_08.p32))->unk_08 +
+                spawn_data->unk_20 = ((ObjectPosition *)position_data)->y.v;
+                ((ObjectPosition *)position_data)->z.v =
+                    ((ObjectPosition *)(((S_81988800_3 *)work)->unk_08.p32))->z.v +
                                       ((s32)offset[2] << 16);
-                spawn_data->unk_24 = ((S_81988800_2 *)position_data)->unk_08.at00.v;
+                spawn_data->unk_24 = ((ObjectPosition *)position_data)->z.v;
             }
             ((S_81988800_0 *)state_data)->unk_0A.u++;
         }
@@ -186,7 +165,7 @@ void update_directional_actor_effect(void *state_data, void *position_data)
                 work = NODE_BODY(object);
                 ((S_81988800_3 *)work)->unk_04 = (((u8 *)actor)[0x24] << 6) + 0x20;
                 ((S_81988800_3 *)work)->unk_06 = (((u8 *)actor)[0x25] << 6) + 0x20;
-                ((S_81988800_3 *)work)->unk_08.u16 = ((S_81988800_2 *)position_data)->unk_08.at02.v;
+                ((S_81988800_3 *)work)->unk_08.u16 = ((ObjectPosition *)position_data)->z.unsigned_parts.integer;
                 for (entry_index = 7; entry_index >= 0; entry_index--) {
                     ((S_81988800_3 *)work)->entries[entry_index].unk_02 = 0;
                     ((S_81988800_3 *)work)->entries[entry_index].unk_00 = 0;
@@ -213,7 +192,7 @@ loop:
                 if (object != 0) {
                     if (!(((ActorRecord *)object)->flags1C & 0x2000)) {
                         apply_attack_power_and_element_effects(object, 0x10, ((S_81988800_0 *)state_data)->unk_09, 10,
-                                      source->unk_2A, source, 2);
+                                      source->facing, source, 2);
                     }
                     goto loop;
                 }
@@ -310,12 +289,6 @@ typedef struct S_81988C1C_7 {
     u8 pad_00[0xB0];
     u32 unk_B0;
 } S_81988C1C_7;   /* (u8 *)(index + ((S_81988C1C_2 *)base)->unk_00.u) in create_counted_sprite_effect */
-
-typedef struct {
-    u8 pad[0x1FC];
-    s32 unk1FC;
-} S_800A1600_D80083160;
-
 
 /* Projects linked items into textured quads and adds them to the ordering table. */
 s32 create_counted_sprite_effect(void *first_item) {
@@ -626,10 +599,6 @@ void mark_referenced_object_and_update_flags(UpdateEffectAndSpawnFragmentsBody *
 #include "dungeon/effect/sprite/update_directional_actor_effect.h"
 #include "slus.h"
 
-typedef struct S_80024B20_0 {
-    u8 pad_00[0x10];
-    u16 unk_10;
-} S_80024B20_0;   /* dst in update_segment */
 
 typedef struct S_80024B20_1 {
     u8 pad_00[0x10];
@@ -640,23 +609,17 @@ typedef struct S_80024B20_2_pre {
     u16 unk_00;
 } S_80024B20_2_pre;   /* the 0x2 bytes before arg0 in update_segment, addressed as arg0[-1] */
 
-
 typedef struct S_80024B20_3 {
     u8 pad_00[0x12];
     union { u16 v; s16 n; } unk_12;   /* accessed as both */
     s16 unk_14;
 } S_80024B20_3;   /* p in update_segment */
 
-typedef struct S_80024B20_4 {
-    u8 pad_00[0x12];
-    s16 unk_12;
-} S_80024B20_4;   /* (u8 *)arg0 + offset in update_segment */
 
 typedef struct S_80024B20_5 {
     u8 pad_00[0x14A0];
     u32 unk_14A0;
 } S_80024B20_5;   /* page in update_segment */
-
 
 /* Updates an eight-segment effect's samples, motion, color, and lifetime. */
 void update_segment(DirectionalGridEffectBody *effect) {
@@ -682,7 +645,7 @@ void update_segment(DirectionalGridEffectBody *effect) {
             dst_segment = effect;
             src_segment += src_offset;
             dst_segment += dst_offset;
-            ((S_80024B20_0 *)dst_segment)->unk_10 = ((S_80024B20_1 *)src_segment)->unk_10;
+            ((DirectionalGridEffectBody *)dst_segment)->entries[0].unk_00 = ((S_80024B20_1 *)src_segment)->unk_10;
         } while (segment_index < 7);
     }
 
@@ -739,7 +702,7 @@ void update_segment(DirectionalGridEffectBody *effect) {
                 base_speed = (segment_index + 1) * 6;
                 segment = (u8 *)effect + segment_index * 6;
                 position = ((S_80024B20_3 *)segment)->unk_12.v;
-                if (gap_limit < (((S_80024B20_4 *)((u8 *)effect + base_speed))->unk_12
+                if (gap_limit < (((DirectionalGridEffectBody *)((u8 *)effect + base_speed))->entries[0].unk_02
                     - ((S_80024B20_3 *)segment)->unk_12.n)) {
                     ((S_80024B20_3 *)segment)->unk_12.n = position + (gap_limit + (gap_limit >> 1));
                 }

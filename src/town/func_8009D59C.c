@@ -9,7 +9,8 @@
 #include "town/player/object/entity_record_fields.h"
 #include "town/player/object.h"
 #include "town.h"
-extern s32 D_8009AD70;
+#include "town/player/motion.h"
+
 extern s32 D_800D0198;
 
 /*
@@ -21,5 +22,5 @@ void initialize_object_handler_and_countdown(TownObjectRecord *object, ObjectPos
     object_index_slots[object->unk_40].unk_00 = 0;
     object->unk_0A.as_s16 = 0x14;
     clear_entity_record_fields((context));
-    object->unk_04.as_pm = &D_8009AD70;
+    object->unk_04.as_pm = move_player_halfway_to_target;
 }

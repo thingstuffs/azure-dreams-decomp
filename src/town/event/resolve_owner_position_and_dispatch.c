@@ -13,6 +13,10 @@
 #include "town/event/object.h"
 #include "town/map.h"
 #include "town/data.h"
+#include "town/player.h"
+#include "town/player/position.h"
+#include "town/player/position_handlers.h"
+#include "town/player/state.h"
 
 
 typedef struct {
@@ -47,17 +51,17 @@ typedef struct S_8009B9BC_4 {
 extern TownState scene_object_payload_alias;
 extern s32 D_800D0420[];
 
-extern s32 scene_idle_callback_address;
-extern s32 D_80092698;
-extern s32 tracked_actor_callback_address;
-extern s32 town_actor_interaction_address;
-extern s32 town_input_object_address;
-extern s32 town_radial_motion_address;
-extern s32 town_busy_countdown_address;
-extern void town_interaction_action_address(void *self_arg, SignedHeightView *target_arg, s32 context_arg);
-extern s32 town_threshold_update_address;
-extern s32 town_timed_state_address;
-extern s32 scene_deferred_dispatch_address;
+
+
+
+
+
+
+
+
+
+
+
 extern s32 scene_fallback_request_address;
 extern s32 town_input_motion_address;
 
@@ -90,24 +94,24 @@ void resolve_owner_position_and_dispatch(void *object, S_8009B9BC_1 *owner, Enti
     current_state = scene_object_payload_alias.current;
     dispatched = 1;
 
-    if (current_state == (s32)&town_interaction_action_address || current_state == (s32)&town_threshold_update_address) {
+    if (current_state == (s32)update_actor_interaction_actions || current_state == (s32)update_threshold_object) {
         ((DispatchFn)((S_8009B9BC_4 *)(((Rec_D_80082D58 *)object)->unk_58))->unk_08)(object, owner, resolved_pos,
             dispatch_param);
     } else if (current_state == (s32)&town_input_motion_address) {
         ((DispatchFn)((S_8009B9BC_4 *)(((Rec_D_80082D58 *)object)->unk_58))->unk_14)(object, owner, resolved_pos,
             dispatch_param);
-    } else if (current_state == (s32)&town_timed_state_address) {
+    } else if (current_state == (s32)update_entity_and_dispatch_timed_state) {
                 /* MATCH: preserve the fourth argument register allocation. */
         ((DispatchFn)((S_8009B9BC_4 *)(((Rec_D_80082D58 *)object)->unk_58))->unk_0C)(object, owner, resolved_pos,
             dispatch_param);
     } else if (current_state == (s32)&scene_fallback_request_address) {
         unlink_and_remove_scene_object(object, owner, resolved_pos, dispatch_param);
     } else {
-        if (!(current_state == (s32)&D_80092698 || current_state == (s32)&tracked_actor_callback_address ||
-              current_state == (s32)&town_actor_interaction_address || current_state == (s32)&town_busy_countdown_address ||
-              current_state == (s32)&town_input_object_address || current_state == (s32)&town_threshold_interaction_address ||
-              current_state == (s32)&town_radial_motion_address || current_state == (s32)&scene_deferred_dispatch_address ||
-              current_state == (s32)&scene_idle_callback_address || service_script_controller() != 0) ||
+        if (!(current_state == (s32)update_actor_with_interaction_state || current_state == (s32)update_actor_movement_and_interaction ||
+              current_state == (s32)update_actor_position_and_interaction || current_state == (s32)update_threshold_countdown_with_busy_check ||
+              current_state == (s32)update_town_object_from_input || current_state == (s32)&town_threshold_interaction_address ||
+              current_state == (s32)update_actor_movement_with_radial_effects || current_state == (s32)dispatch_deferred_callback ||
+              current_state == (s32)no_op_scene_callback_b || service_script_controller() != 0) ||
             previous_owner != (s32)owner) {
             ((DispatchFn)((S_8009B9BC_4 *)(((Rec_D_80082D58 *)object)->unk_58))->unk_10)(object, owner, resolved_pos,
                 dispatch_param);

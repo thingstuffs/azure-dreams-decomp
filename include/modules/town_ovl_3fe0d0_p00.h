@@ -44,10 +44,10 @@ extern u8 D_80016178[3];
 extern s32 D_80017720[3];
 extern ScenePointerStorage D_8001794C;
 extern s32 D_80017B88[3];
-extern u8 D_800161C0[3];
+
 extern s32 scene_mode_event_data[3];
 extern s32 D_80017E66[3];
-extern s32 D_8001624C;
+
 extern s32 D_800177C8;
 extern s32 D_8001802A;
 extern u8 D_80010000[];

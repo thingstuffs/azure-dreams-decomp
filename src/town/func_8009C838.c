@@ -5,13 +5,14 @@
 #include "shared/town_object.h"
 #include "shared/town_handler.h"
 #include "town.h"
+#include "town/player/object.h"
 
 typedef struct S_80099CE0_2 {
     u8 pad_00[0x18];
     s32 unk_08;
 } S_80099CE0_2;   
 
-extern s32 D_80099894;
+
 
 /*
  * Selects the linked handler table, clears the indexed object slot, and installs D_80099894 with
@@ -20,6 +21,6 @@ extern s32 D_80099894;
 void init_object_countdown_action(TownObjectRecord *object, void *unused, void *handler_context) {
     call_the_handler_selects_nonzero_entry((s32 *) ((S_80099CE0_2 *)(object->unk_44))->unk_08, object, handler_context);
     object_index_slots[object->unk_40].unk_00 = 0;
-    object->unk_04.as_pm = &D_80099894;
+    object->unk_04.as_pm = update_object_and_countdown;
     object->unk_0A.as_s16 = 0x20;
 }

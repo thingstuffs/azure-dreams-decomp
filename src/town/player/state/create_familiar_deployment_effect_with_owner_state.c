@@ -2,12 +2,14 @@
 #include "shared/object_node.h"
 #include "town/player/object.h"
 #include "town/player/state.h"
+#include "town/player.h"
+#include "town/scene/hooks.h"
 
 extern void call_the_handler_selects_nonzero_entry(void *entries, void *record,void *handler_param);
 
 extern u8 scene_object_payload_alias[];
-extern u8 familiar_deploy_update_address[];
-extern u8 town_motion_action_address[];
+
+
 extern u8 town_scene_record_handlers[];
 extern void *town_player_action_callback;
 
@@ -22,6 +24,6 @@ void create_familiar_deployment_effect_with_owner_state(void) {
     header_value = *(s32 *)&object_header->sprite;
     clear_entity_record_fields(*(s32 *)&object_header->position);
     call_the_handler_selects_nonzero_entry(town_scene_record_handlers, object, header_value);
-    *(void **)scene_object_payload_alias = familiar_deploy_update_address;
-    town_player_action_callback = town_motion_action_address;
+    *(void **)scene_object_payload_alias = noop_at_8008_ffc_0;
+    town_player_action_callback = initialize_scene_action_record;
 }

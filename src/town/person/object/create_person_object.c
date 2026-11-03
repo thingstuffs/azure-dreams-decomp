@@ -14,9 +14,10 @@ extern void fill_person_records(void);
 #include "town/person.h"
 #include "engine/node.h"
 #include "town/person/object.h"
+#include "town/person/state_updates.h"
 
 extern s32 loaded_town_resource_attributes[];
-extern u8 person_object_update_address[];
+
 extern u8 person_approach_state_address[];
 extern s32 D_800D1200[];
 
@@ -27,7 +28,7 @@ void create_person_object(void) {
     ObjectPosition *position;
     SpriteFrameState *render_data;
 
-    object = (s8 *) create_town_effect_object(0, 0, person_object_update_address, 0);
+    object = (s8 *) create_town_effect_object(0, 0, update_person_view_and_record, 0);
     state = ((s8 *)object) + 0x20;
     if (object != NULL) {
         position = object->position;

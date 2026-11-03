@@ -15,7 +15,6 @@ typedef struct {
     s32 field_20;
 } EffectFieldView_8132ED0C;
 
-
 typedef struct Copy12 {
     s32 word[3];
 } __attribute__((packed)) Copy12;
@@ -24,40 +23,10 @@ s32 func_80167088(s32 limit);                         /* extern */
 extern void D_80165AB8(u8 *, u8 *, u8 *);
 
 
-typedef struct S_80165D0C_0 {
-    u8 pad_00[0x8];
-    void * unk_08;
-} S_80165D0C_0;   /* arg0 in create_ballistic_landing_particle */
-
-
-typedef struct S_80165D0C_2 {
-    u8 pad_00[0x6];
-    s16 unk_06;
-    void * unk_08;
-    s32 unk_0C;
-    u8 pad_10[0x4];
-    u16 unk_14;
-    u8 pad_16[0x6];
-    s16 unk_1C;
-    s16 unk_1E;
-} S_80165D0C_2;
-
-typedef struct S_80165D0C_3 {
-    u8 pad_00[0x2];
-    s16 unk_02;
-    u8 pad_04[0x2];
-    s16 unk_06;
-    u8 pad_08[0x2];
-    s16 unk_0A;
-    s32 unk_0C;
-    s32 unk_10;
-    s32 unk_14;
-} S_80165D0C_3;
-
    /* ((S_80165D0C_0 *)arg0)->unk_08 in create_ballistic_landing_particle */
 
 /* Spawn an effect relative to the source with randomized motion and sprite size. */
-void create_ballistic_landing_particle(S_80165D0C_0 *source, s16 duration, s32 scale, s16 offset_x, s16 offset_y, s16 offset_z,
+void create_ballistic_landing_particle(ObjectNodeHeader *source, s16 duration, s32 scale, s16 offset_x, s16 offset_y, s16 offset_z,
     s32 velocity_z) {
     s32 sprite_scale;
     SpriteFrameState *sprite;
@@ -68,15 +37,15 @@ void create_ballistic_landing_particle(S_80165D0C_0 *source, s16 duration, s32 s
     if (effect != NULL) {
         (effect->update_callback) = &D_80165AB8;
         effect->position->x.w.i =
-            (s16) (((MovingPosition *)(source->unk_08))->x + offset_x);
+            (s16) (((MovingPosition *)(source->position))->x + offset_x);
         effect->position->y.w.i =
-            (s16) (((MovingPosition *)(source->unk_08))->y + offset_y);
+            (s16) (((MovingPosition *)(source->position))->y + offset_y);
         effect->position->z.w.i =
-            (s16) (((MovingPosition *)(source->unk_08))->z + offset_z);
+            (s16) (((MovingPosition *)(source->position))->z + offset_z);
         effect_state = NODE_BODY(effect);
-        effect_state->unk_42 = (u16) ((MovingPosition *)(source->unk_08))->x;
-        effect_state->unk_44 = (u16) ((MovingPosition *)(source->unk_08))->y;
-        effect_state->unk_46 = (u16) ((MovingPosition *)(source->unk_08))->z;
+        effect_state->unk_42 = (u16) ((MovingPosition *)(source->position))->x;
+        effect_state->unk_44 = (u16) ((MovingPosition *)(source->position))->y;
+        effect_state->unk_46 = (u16) ((MovingPosition *)(source->position))->z;
         effect->position->velocity_x = (s32) (((rand() & 0x7FFF) - 0x4000) * 8);
         effect->position->velocity_y = (s32) (((rand() & 0x7FFF) - 0x4000) * 8);
         effect->position->velocity_z = (s32) (velocity_z + 0xFFFC0000);

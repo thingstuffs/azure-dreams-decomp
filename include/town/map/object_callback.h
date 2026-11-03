@@ -9,6 +9,6 @@ void run_map_object_callback(struct S_8008B9D8_0 *object, void *position, void *
 
 void run_callbacks_unless_suppressed(void *object, void *check_data);
 /* Registered code-address alias for run_callbacks_unless_suppressed. */
-void map_active_node_key(void *object, void *check_data);
+
 
 #endif

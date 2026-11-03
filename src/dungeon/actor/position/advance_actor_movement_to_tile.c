@@ -4,22 +4,12 @@
 #include "shared/dungeon_status.h"
 #include "dungeon/actor/status.h"
 
-
-
 #include "dungeon/actor/state.h"
 #include "dungeon/actor.h"
 
 extern u8 actor_motion_resume_address;
 
-
-typedef struct S_800CAAC8_0 {
-    u8 pad_00[0x8C];
-    void * unk_8C;
-    u8 pad_90[0x2];
-    s16 unk_92;
-    u8 pad_94[0x22];
-    u16 unk_B6;
-} S_800CAAC8_0;   /* entity in advance_actor_movement_to_tile */
+   /* entity in advance_actor_movement_to_tile */
 
 typedef struct S_800CAAC8_1 {
     u8 pad_00[0x71];

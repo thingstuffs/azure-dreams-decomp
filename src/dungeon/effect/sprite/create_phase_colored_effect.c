@@ -33,19 +33,8 @@ typedef struct S_818BD52C_2 {
     s16 unk_0C;
 } S_818BD52C_2;   /* base in create_phase_colored_effect */
 
-typedef struct S_818BD52C_4 {
-    s32 unk_00;
-    s32 unk_04;
-    s32 unk_08;
-    s32 unk_0C;
-    s32 unk_10;
-    s32 unk_14;
-} S_818BD52C_4;   /* coords in create_phase_colored_effect */
+   /* coords in create_phase_colored_effect */
 
-typedef struct S_818BD52C_5 {
-    u8 pad_00[0x13];
-    u8 unk_13;
-} S_818BD52C_5;   /* ((S_818BD52C_1 *)arg0)->unk_18 in create_phase_colored_effect */
 
 #define NORETURN
 
@@ -80,7 +69,7 @@ void *create_phase_colored_effect(S_818BD52C_1 *owner, void *source_coords, s32 
         base->unk_04 = 0;
         base->unk_06 = 0x10;
 
-        scaled_color = entity_height_offsets[((S_818BD52C_5 *)(owner->unk_18))->unk_13] * 3;
+        scaled_color = entity_height_offsets[((ActorRecord *)(owner->unk_18))->species] * 3;
         if (scaled_color < 0) {
             scaled_color += 3;
         }

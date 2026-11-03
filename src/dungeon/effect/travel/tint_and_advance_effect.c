@@ -337,10 +337,6 @@ void follow_brighten(TrackingEffect *self, ObjectPosition *motion, SpriteFrameSt
 #include "common.h"
 #include "shared/object_flags.h"
 
-typedef struct S_81880F28_1 {
-    u8 pad_00[0x1C];
-    s32 unk_1C;
-} S_81880F28_1;   /* object in tint_effect_and_advance_motion */
 
 
 typedef struct S_81880F28_3_pre {
@@ -352,7 +348,7 @@ typedef struct S_81880F28_3_pre {
 void tint_effect_and_advance_motion(void *effect_arg, void *motion_data) {
     FollowBrightenBody *effect = effect_arg;
     ObjectPosition *motion = motion_data;
-    S_81880F28_1 *object;
+    ActorRecord *object;
     EffectColor *color;
     s16 state;
     s32 channel_value;
@@ -363,7 +359,7 @@ void tint_effect_and_advance_motion(void *effect_arg, void *motion_data) {
     switch (state) {
     case 0:
         object = effect->target.pointer;
-        object->unk_1C |= 0x10000000;
+        object->flags1C |= 0x10000000;
         effect->state.u++;
 
     case 1:
@@ -413,7 +409,7 @@ void tint_effect_and_advance_motion(void *effect_arg, void *motion_data) {
         }
 
         if (tint_effect_phase_counts[0] == 0) {
-            ((S_81880F28_1 *)effect->target.pointer)->unk_1C &= ~0x10000000;
+            ((ActorRecord *)effect->target.pointer)->flags1C &= ~0x10000000;
             (*(u16 *)((u8 *)effect + -2)) |= NODE_REMOVE;
             object_flag_block.flags |= OBJECT_REMOVE_PENDING;
         }

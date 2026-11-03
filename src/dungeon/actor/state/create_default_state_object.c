@@ -13,11 +13,7 @@ typedef s32 M2C_UNK;
 #define NULL 0
 #endif
 
-typedef struct S_800B0544_4 {
-    u8 pad_00[0x8];
-    void * unk_08;
-    void * unk_0C;
-} S_800B0544_4;   /* obj in create_default_state_object */
+   /* obj in create_default_state_object */
 
 extern s16 current_dungeon_floor;
 extern void advance_object_phase_counters();

@@ -50,12 +50,6 @@ typedef struct S_80168C88_4 {
     s16 unk_1A;
 } S_80168C88_4;
 
-typedef struct S_80168C88_6 {
-    u8 pad_00[0x10];
-    s16 unk_10;
-    u8 pad_12[0x2];
-    u16 unk_14;
-} S_80168C88_6;
 
 typedef struct S_80168C88_8 {
     s32 unk_00;
@@ -63,17 +57,6 @@ typedef struct S_80168C88_8 {
     s32 unk_08;
 } S_80168C88_8;   /* arg1 in update_animated_textured_ribbon */
 
-typedef struct S_80168C88_9 {
-    u8 pad_00[0x6];
-    s16 unk_06;
-    void * unk_08;
-    u8 unk_0C;
-    u8 unk_0D;
-    u8 unk_0E;
-    u8 pad_0F[0xD];
-    s16 unk_1C;
-    s16 unk_1E;
-} S_80168C88_9;
 
 typedef struct S_80168C88_10 {
     u8 unk_00;
@@ -124,7 +107,7 @@ void update_animated_textured_ribbon(EightPartTexturedRibbonBody *effect, void *
     ObjectNodeHeader *task;
     u8 *segment_data;
     ObjectPosition *position;
-    void *render_data;
+    SpriteFrameState *render_data;
     u8 *vertex_base;
     u8 *texture_data;
     S_80168C88_12 *texture;
@@ -192,8 +175,8 @@ void update_animated_textured_ribbon(EightPartTexturedRibbonBody *effect, void *
             register_node((void *)scaled_delta, callback);
 
             render_data = task->sprite;
-            ((S_80168C88_6 *)render_data)->unk_10 = 0x20;
-            ((S_80168C88_6 *)render_data)->unk_14 |= 0xC;
+            render_data->tpage_abr = 0x20;
+            render_data->flags |= 0xC;
 
             position = task->position;
             position->x.v = ((S_80168C88_8 *)origin)->unk_00;
@@ -202,11 +185,11 @@ void update_animated_textured_ribbon(EightPartTexturedRibbonBody *effect, void *
             position->z.v = ((S_80168C88_8 *)origin)->unk_08;
 
             render_data = task->sprite;
-            ((S_80168C88_9 *)render_data)->unk_1E = 0x1000;
-            ((S_80168C88_9 *)render_data)->unk_1C = 0x1000;
-            ((S_80168C88_9 *)render_data)->unk_0E = 0x80;
-            ((S_80168C88_9 *)render_data)->unk_0D = 0x80;
-            ((S_80168C88_9 *)render_data)->unk_0C = 0x80;
+            render_data->scale_y = 0x1000;
+            render_data->scale_x = 0x1000;
+            render_data->color.c.b = 0x80;
+            render_data->color.c.g = 0x80;
+            render_data->color.c.r = 0x80;
 
             do {
                 ((S_80168C88_10 *)(segment_data + step * 4))->unk_00 = ((S_80168C88_1 *)color_in)->unk_0C;
@@ -232,16 +215,16 @@ void update_animated_textured_ribbon(EightPartTexturedRibbonBody *effect, void *
                 ((S_80168C88_4 *)segment_data)->unk_08 = 0;
             }
 
-            ((S_80168C88_9 *)render_data)->unk_06 = 0;
+            render_data->depth_bias = 0;
             __builtin_memcpy(segment_data + 0x28, D_80173B4C, 0xC);
 
             edge = 0;
             sample_offset = segment_offset;
             vertex_base = segment_data;
             texture_data = vertex_base + 0x28;
-            ((S_80168C88_9 *)render_data)->unk_08 = texture_data;
+            render_data->source = texture_data;
             ((S_80168C88_11 *)texture_data)->unk_08 += effect->unk_1C * 4;
-            texture = ((S_80168C88_9 *)render_data)->unk_08;
+            texture = render_data->source;
             texture->unk_09 += (effect->unk_1E & 3) * 8;
 
             do {

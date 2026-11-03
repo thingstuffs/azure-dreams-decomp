@@ -14,6 +14,7 @@
 #include "town/map.h"
 #include "town/map/position.h"
 #include "town/data.h"
+#include "town/event.h"
 
 typedef void (*Callback)(void *, void *, void *, s32);
 
@@ -27,7 +28,7 @@ typedef struct S_8009B6B4_2 {
 
 extern void SD_Call(u32);
 
-extern void actor_surface_callback_address(void *actor, void *subject, void *motion, void *context);
+
 
 /* Update object motion, handle contact, and play the tile height sound. */
 void update_motion_and_handle_terrain_contact(void *object, Rec_D_800CFCB4 *collision, ObjectPosition *motion, s32 callback_arg) {
@@ -51,7 +52,7 @@ void update_motion_and_handle_terrain_contact(void *object, Rec_D_800CFCB4 *coll
         ((Callback *)(*(void **)((u8 *)object + 0x58)))[1](object, collision, motion, callback_arg);
     }
     if ((((ObjectRetirementFlags *)object)[-1].flags & 0x8000) == 0 &&
-        actor_surface_callback_address == ((S_8009B6B4_2 *)object)->unk_50) {
+        update_actor_surface_motion == ((S_8009B6B4_2 *)object)->unk_50) {
         s32 tile_type;
 
         tile_type = check_masked_value_in_current_range((u16)read_map_cell_at_world_position(

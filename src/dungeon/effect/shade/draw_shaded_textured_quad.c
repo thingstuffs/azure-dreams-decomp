@@ -18,17 +18,9 @@ typedef struct {
 } Poly818C29D4;
 typedef struct { s16 x; s16 y; s16 w; s16 h; } Rect818C29D4;
 
-typedef struct S_818C29D4_0 {
-    u8 pad_00[0x18];
-    u32 * unk_18;
-    u8 pad_1C[0x98];
-    u32 unk_B4;
-} S_818C29D4_0;   /* (sc) in draw_shaded_textured_quad */
+   /* (sc) in draw_shaded_textured_quad */
 
-typedef struct S_818C29D4_1 {
-    u8 pad_00[0xC8];
-    s16 unk_C8;
-} S_818C29D4_1;   /* angle_addr in draw_shaded_textured_quad */
+   /* angle_addr in draw_shaded_textured_quad */
 
 typedef struct S_818C29D4_2 {
     u8 pad_00[0x18];
@@ -61,7 +53,6 @@ typedef struct S_818C29D4_2 {
     u16 unk_E4;
     u16 unk_E6;
 } S_818C29D4_2;   /* scratch in draw_shaded_textured_quad */
-
 
    /* arg1 in draw_shaded_textured_quad */
 

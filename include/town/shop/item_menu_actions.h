@@ -15,7 +15,7 @@ typedef struct ItemMenuInput {
 void release_item_menu_object(ItemMenuParameters *parameters);
 void run_item_menu_record_handlers(void *record_payload);
 /* Code-address alias installed by set_item_menu_secondary_handler. */
-void D_800AE494(void *record_payload);
+
 
 ItemMenuObjectNode *create_item_menu_child_object(ItemMenuStateNode *owner);
 ItemMenuObjectNode *func_800B3924(ItemMenuStateNode *owner);

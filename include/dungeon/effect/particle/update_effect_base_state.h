@@ -9,6 +9,7 @@
 #include "shared/object_node.h"
 #include "shared/slus_callbacks.h"
 #include "shared/sprite_source.h"
+#include "shared/entity.h"
 
 typedef struct S_81844800_0_pre {
     u16 unk_00;
@@ -30,15 +31,6 @@ typedef struct S_81844800_1_pre {
     u8 pad_04[0x10];
 } S_81844800_1_pre;   /* the 0x14 bytes before root in func_80024020, addressed as root[-1] */
 
-typedef struct S_81844800_1 {
-    u8 pad_00[0x2A];
-    s16 unk_2A;
-    u8 pad_2C[0x34];
-    void * unk_60;
-    u8 pad_64[0xE];
-    union { u8 s; s8 u; } unk_72;   /* accessed as both */
-    union { u8 s; s8 u; } unk_73;   /* accessed as both */
-} S_81844800_1;   /* root in func_80024020 */
 
 typedef struct S_81844800_2 {
     u8 pad_00[0x8];
@@ -73,31 +65,18 @@ typedef struct RunFadingTargetProjectileBody {
     union { u16 u; s16 s; } state;
 } RunFadingTargetProjectileBody;
 
-typedef struct S_81844800_7 {
-    u8 pad_00[0x24];
-    u8 unk_24;
-    u8 unk_25;
-} S_81844800_7;   /* info in func_80024020 */
 
 typedef struct S_81844800_8_pre {
     void * unk_00;
     u8 pad_04[0x10];
 } S_81844800_8_pre;   /* the 0x14 bytes before created in func_80024020, addressed as created[-1] */
 
-typedef struct S_81844800_9 {
-    u8 pad_00[0x14];
-    u16 unk_14;
-} S_81844800_9;   /* arg2_reg in func_80024020 */
 
 typedef struct S_81844800_10 {
     u8 pad_00[0xC];
     void * unk_0C;
 } S_81844800_10;   /* base_before in func_80024020 */
 
-typedef struct S_81844800_11 {
-    u8 pad_00[0x8];
-    void * unk_08;
-} S_81844800_11;   /* base_after in func_80024020 */
 
 typedef struct S_81844800_12 {
     u8 pad_00[0x4];
@@ -121,9 +100,6 @@ typedef struct S_81844800_14 {
     s16 unk_16;
 } S_81844800_14;   /* ((S_81844800_2 *)object)->unk_08 in func_80024020 */
 
-typedef struct S_81844800_15 {
-    u16 unk_00;
-} S_81844800_15;   /* ((S_81844800_0 *)arg0)->unk_04 in func_80024020 */
 
 typedef struct S_81844800_16 {
     u8 pad_00[0x8];

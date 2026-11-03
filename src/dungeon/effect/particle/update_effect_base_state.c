@@ -27,7 +27,7 @@ void run_fading_target_projectile(void *effect, void *motion, void *source_rende
     Vec3 delta;
     s32 target_timer;
     void *owner_start;
-    S_81844800_7 *owner_sprite;
+    SpriteFrameState *owner_sprite;
     ObjectNodeHeader *spawned;
     RunFadingTargetProjectileBody *particle_data;
     SpriteFrameState *sprite;
@@ -87,37 +87,37 @@ void run_fading_target_projectile(void *effect, void *motion, void *source_rende
     case 0:
     {
         S_81844800_8_pre *target;
-        if ((((S_81844800_15 *)(((S_81844800_0 *)effect)->unk_04))->unk_00 & 0x80) == 0) {
+        if ((((ObjectPosition *)(((S_81844800_0 *)effect)->unk_04))->x.w.frac & 0x80) == 0) {
             return;
         }
         target = scan_actor_along_heading(
             owner,
-            owner_sprite->unk_24,
-            owner_sprite->unk_25,
-            ((S_81844800_1 *)owner)->unk_2A,
+            owner_sprite->tile_x,
+            owner_sprite->tile_y,
+            ((ActorRecord *)owner)->facing,
             (s16)get_definition_entry_byte_13(9));
-        ((S_81844800_1 *)owner)->unk_60 = target;
+        ((ActorRecord *)owner)->target = target;
         if (target == 0) {
-            ((S_81844800_1 *)owner)->unk_72.s = owner_sprite->unk_24;
-            ((S_81844800_1 *)owner)->unk_73.s = owner_sprite->unk_25;
+            ((ActorRecord *)owner)->target_tile_x = owner_sprite->tile_x;
+            ((ActorRecord *)owner)->target_tile_y = owner_sprite->tile_y;
         } else {
             sprite = target[-1].unk_00;
             if ((sprite->flags & 0x8000) != 0) {
-                if ((((S_81844800_9 *)source_render)->unk_14 & 0x8000) != 0) {
+                if ((((SpriteFrameState *)source_render)->flags & 0x8000) != 0) {
                     apply_attack_power_and_element_effects(
-                        ((S_81844800_1 *)owner)->unk_60,
+                        ((ActorRecord *)owner)->target,
                         10,
                         ((S_81844800_0 *)effect)->unk_09,
                         4,
-                        ((S_81844800_1 *)owner)->unk_2A,
+                        ((ActorRecord *)owner)->facing,
                         owner,
                         2);
                     ((S_81844800_0 *)effect)->unk_0A.u = 5;
                     return;
                 }
             }
-            ((S_81844800_1 *)owner)->unk_72.s = sprite->tile_x;
-            ((S_81844800_1 *)owner)->unk_73.s = sprite->tile_y;
+            ((ActorRecord *)owner)->target_tile_x = sprite->tile_x;
+            ((ActorRecord *)owner)->target_tile_y = sprite->tile_y;
         }
         {
             if (resolve_record_orientation_or_fallback(
@@ -130,14 +130,14 @@ void run_fading_target_projectile(void *effect, void *motion, void *source_rende
             {
                 s32 target_x;
                 ((S_81844800_3 *)motion)->unk_00.at02.v =
-                    ((S_81844800_17 *)(((S_81844800_11 *)owner_start)->unk_08))->unk_02 + delta.x;
+                    ((S_81844800_17 *)(((ObjectNodeHeader *)owner_start)->position))->unk_02 + delta.x;
                 ((S_81844800_3 *)motion)->unk_04.at02.v =
-                    ((S_81844800_17 *)(((S_81844800_11 *)owner_start)->unk_08))->unk_06 + delta.y;
+                    ((S_81844800_17 *)(((ObjectNodeHeader *)owner_start)->position))->unk_06 + delta.y;
                 ((S_81844800_3 *)motion)->unk_08.at02.v =
-                    ((S_81844800_17 *)(((S_81844800_11 *)owner_start)->unk_08))->unk_0A + delta.z;
+                    ((S_81844800_17 *)(((ObjectNodeHeader *)owner_start)->position))->unk_0A + delta.z;
                 ((S_81844800_0 *)effect)->unk_50.s = 8;
                 {
-                    target_x = ((S_81844800_1 *)owner)->unk_72.u;
+                    target_x = ((ActorRecord *)owner)->target_tile_x;
                     {
                         ((S_81844800_3 *)motion)->unk_0C.at02.v =
                             delta_axis(target_x, ((S_81844800_3 *)motion)->unk_00.at02.v);
@@ -145,7 +145,7 @@ void run_fading_target_projectile(void *effect, void *motion, void *source_rende
                 }
                 ((S_81844800_3 *)motion)->unk_0C.at00.v /= ((S_81844800_0 *)effect)->unk_50.u;
                 {
-                    target_x = ((S_81844800_1 *)owner)->unk_73.u;
+                    target_x = ((ActorRecord *)owner)->target_tile_y;
                     {
                         ((S_81844800_3 *)motion)->unk_10.at02.v =
                             delta_axis(target_x, ((S_81844800_3 *)motion)->unk_04.at02.v);
@@ -155,7 +155,7 @@ void run_fading_target_projectile(void *effect, void *motion, void *source_rende
                 ((S_81844800_3 *)motion)->unk_14.at02.v = (s16)sample_terrain_surface_height(
                     ((S_81844800_3 *)motion)->unk_00.at02.v,
                     ((S_81844800_3 *)motion)->unk_04.at02.v,
-                    (s16)(((S_81844800_17 *)(((S_81844800_11 *)owner_start)->unk_08))->unk_0A - 48)) -
+                    (s16)(((S_81844800_17 *)(((ObjectNodeHeader *)owner_start)->position))->unk_0A - 48)) -
                     (((S_81844800_3 *)motion)->unk_08.at02.v + 176);
             }
             ((S_81844800_3 *)motion)->unk_14.at00.v /= ((S_81844800_0 *)effect)->unk_50.u;
@@ -189,7 +189,7 @@ void run_fading_target_projectile(void *effect, void *motion, void *source_rende
         if ((state << 16) > 0) {
             return;
         }
-        if (((S_81844800_1 *)owner)->unk_60 == 0) {
+        if (((ActorRecord *)owner)->target == 0) {
             ((S_81844800_0 *)effect)->unk_50.s = 8;
             ((S_81844800_0 *)effect)->unk_0A.u = 5;
             return;
@@ -218,13 +218,13 @@ void run_fading_target_projectile(void *effect, void *motion, void *source_rende
             }
         }
         if (((S_81844800_0 *)effect)->unk_50.u == 7 &&
-            ((S_81844800_1 *)owner)->unk_60 != 0) {
+            ((ActorRecord *)owner)->target != 0) {
             apply_attack_power_and_element_effects(
-                ((S_81844800_1 *)owner)->unk_60,
+                ((ActorRecord *)owner)->target,
                 10,
                 ((S_81844800_0 *)effect)->unk_09,
                 4,
-                ((S_81844800_1 *)owner)->unk_2A,
+                ((ActorRecord *)owner)->facing,
                 owner,
                 2);
         }

@@ -3,17 +3,6 @@
 #include "engine/scene.h"
 #include "sdk/libgte.h"
 
-typedef struct {
-    s16 m[3][3];
-    s32 t[3];
-} S_8003E0C4_MATRIX;
-typedef struct {
-    s16 vx, vy, vz, pad;
-} S_8003E0C4_SVECTOR;
-typedef struct {
-    s32 vx, vy, vz;
-} S_8003E0C4_VECTOR;
-
 /* Builds a transform with a fixed-point offset and passes it to the output helper. */
 void build_offset_transform(s32 source, s32 offset, s32 output) {
     s32 transform[10];

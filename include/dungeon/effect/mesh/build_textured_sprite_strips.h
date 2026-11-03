@@ -513,9 +513,6 @@ typedef struct S_func_81905FD0_11 {
     u8 unk_00;
 } S_func_81905FD0_11;
 
-typedef struct S_func_81905FD0_12 {
-    u16 flags;
-} S_func_81905FD0_12;
 
 typedef struct S_func_81905FD0_13 {
     u8 pad_00[0x4];
@@ -532,6 +529,7 @@ extern void *write_text_byte_and_advance(s8 value, s8 *dest);
 extern u8 *append_entity_display_text(void *record, u8 *out);
 extern void adjust_source_value_and_finalize(void *context, const void *source);
 #include "dungeon/effect/screen.h"
+#include "shared/entity.h"
 extern void display_text_with_fullwidth_adjustment(s8 *text);
 extern s32 generate_random_value(void);
 extern u8 counter_halved_message[];

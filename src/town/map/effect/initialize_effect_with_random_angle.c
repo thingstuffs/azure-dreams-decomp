@@ -11,6 +11,7 @@
 #include "town/map/effect.h"
 #include "town/scene.h"
 #include "town/data.h"
+#include "town/map/state.h"
 
 #ifndef NULL
 #define NULL 0
@@ -60,10 +61,10 @@ typedef struct Object {
 extern void *allocate_list_node();
 extern s32 register_node(); /* Unprototyped: two, three or four arguments; retail reads only the node and draw key. */
 
-extern u8 map_particle_owner_update_address[];
+
 extern u8 town_child_sprite_callback_address[];
 extern u8 map_particle_child_update_address[];
-extern u8 map_random_particle_update_address[];
+
 
 /* Initialize an effect with a random angle and spawn its particle and textured children. */
 void initialize_effect_with_random_angle(Core *effect, ObjectPosition *origin, struct SpriteFrameState *sprite_unused) {
@@ -83,7 +84,7 @@ void initialize_effect_with_random_angle(Core *effect, ObjectPosition *origin, s
     SpriteFrameState *texture_prim;
     IntVector3 *child_pos;
 
-    ((S_800BA930_0_pre *)effect)[-1].unk_00 = map_particle_owner_update_address;
+    ((S_800BA930_0_pre *)effect)[-1].unk_00 = update_object_link_or_angle_state;
     random_angle = rand();
     biased_angle = random_angle;
     if (random_angle < 0) {
@@ -96,7 +97,7 @@ void initialize_effect_with_random_angle(Core *effect, ObjectPosition *origin, s
     do {
         child_obj = allocate_list_node(0x136, (u8 *)effect - 0x20);
         if (child_obj != NULL) {
-            child_obj->update_callback = map_random_particle_update_address;
+            child_obj->update_callback = process_zero_status_record;
             register_node(child_obj, draw_linked_lit_meshes);
             child_value = effect->value;
             child_core = (Core *)((u8 *)child_obj + 0x20);

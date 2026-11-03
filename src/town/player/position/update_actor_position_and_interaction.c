@@ -26,7 +26,7 @@ void handle_adjust_vector_toward_selected_angle_limit_magnitude();
 #include "town/player/position/handle_resolves_movement_collisions_along_one_axis_using_boundary_probes_tile_api.h"
 void init_motion_action_callback(s32 record, s32 setup_value, s32 init_value);
 #include "records/Rec_func_8009B828_arg0.h"
-extern u8 town_owner_dispatch_address[];
+
 extern s32 town_actor_control;
 extern s32 *town_player_action_callback;
 
@@ -88,7 +88,7 @@ void update_actor_position_and_interaction(TownObjectRecord *actor, ObjectPositi
         entity = actor->unk_2C;
         handler = entity->unk_50;
         if ((handler != &update_motion_toward_shared_target) && (handler != &update_motion_toward_town_target)) {
-            if (handler != town_owner_dispatch_address) {
+            if (handler != resolve_owner_position_and_dispatch) {
                 actor->unk_2C = 0;
             }
         }

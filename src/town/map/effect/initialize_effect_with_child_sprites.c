@@ -10,9 +10,11 @@
 #include "town/map/effect.h"
 #include "town/scene.h"
 #include "town/data.h"
+#include "town/map.h"
+#include "town/map/state.h"
 
-extern u8 map_particle_owner_update_address[];
-extern u8 D_800B9D64[];
+
+
 extern u8 town_child_sprite_callback_address[];
 extern u8 map_particle_child_update_address[];
 
@@ -71,7 +73,7 @@ void initialize_effect_with_child_sprites(TownObjectRecord *parent, ObjectPositi
     SpriteFrameState *sprite;
     void *parent_obj;
 
-    ((S_800BA00C_0_pre *)parent)[-1].unk_00 = map_particle_owner_update_address;
+    ((S_800BA00C_0_pre *)parent)[-1].unk_00 = update_object_link_or_angle_state;
     angle_random = rand();
     parent->unk_66.as_s16 = angle_random % 0x1000;
     variation_random = rand();
@@ -87,7 +89,7 @@ void initialize_effect_with_child_sprites(TownObjectRecord *parent, ObjectPositi
     quadrant = angle_sector - sector_multiple;
 
     part_index = 0;
-    part_callback = D_800B9D64;
+    part_callback = update_angle_driven_offset;
     work = &g_game_work;
     part_params = map_particle_part_parameters;
     do {

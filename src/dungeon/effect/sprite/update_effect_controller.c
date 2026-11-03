@@ -46,10 +46,6 @@ typedef struct S_func_800D7FB8_4 {
     s32 unk_04;
 } S_func_800D7FB8_4;
 
-typedef struct S_func_800D7FB8_6 {
-    s32 unk_00;
-} S_func_800D7FB8_6;
-
 typedef struct S_func_800D7FB8_7 {
     u16 unk_00;
 } S_func_800D7FB8_7;

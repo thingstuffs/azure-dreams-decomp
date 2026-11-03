@@ -19,8 +19,6 @@ struct ObjectPosition;
 #include "dungeon/item.h"
 #include "dungeon/item/position.h"
 
-
-
 typedef struct {
     u8 pad0[3];
     u8 type;
@@ -29,8 +27,6 @@ typedef struct {
     s16 y;
     u32 wordC;
 } DungeonPacket;
-
-
 
 extern u8 upper_draw_context[16];
 
@@ -280,7 +276,6 @@ loop_0:
 #define NULL 0
 #endif
 
-
 typedef struct ShortVec {
     s16 x;
     s16 y;
@@ -360,7 +355,6 @@ typedef struct S_800B8830_5 {
     s32 unk_04;
 } S_800B8830_5;   /* target_node in update_arcing_effect */
 
-
 typedef struct S_800B8830_8 {
     void * unk_00;
 } S_800B8830_8;   /* (void *)index in update_arcing_effect */
@@ -376,9 +370,6 @@ typedef struct S_800B8830_10 {
     void * unk_0C;
 } S_800B8830_10;   /* ((S_800B8830_0 *)arg0)->unk_00 in update_arcing_effect */
 
-typedef struct S_800B8830_11 {
-    u16 unk_00;
-} S_800B8830_11;   /* ((S_800B8830_0 *)arg0)->unk_08 in update_arcing_effect */
 
 typedef struct S_800B8830_12 {
     u8 pad_00[0x8];
@@ -435,7 +426,7 @@ void update_arcing_effect(void *motion, S_800B8830_3 *coords, S_800B8830_1 *rend
             }
         }
 
-        if (((S_800B8830_11 *)(((S_800B8830_0 *)motion)->unk_08))->unk_00 & 0x80) {
+        if (((ObjectPosition *)(((S_800B8830_0 *)motion)->unk_08))->x.w.frac & 0x80) {
             ((S_800B8830_0 *)motion)->unk_26.s = 9;
             ((S_800B8830_0 *)motion)->unk_20.u++;
         }
@@ -547,7 +538,6 @@ extern void update_arcing_effect(void *motion, S_800B8830_3 *coords, struct S_80
 extern u8 D_800DF2F8[];
 extern u8 D_800DF334[];
 
-
 /* Create an object with default child and tail data when none are supplied. */
 void create_timed_model_effect(void *owner, s32 value, void *child_data, void *tail_data)
 {
@@ -615,7 +605,6 @@ typedef struct S_800B8CF0_1 {
     } unk_0C;   /* overlapping accesses */
 } S_800B8CF0_1;   /* arg2 in update_blinking_sprite_flash */
 
-
 /* Count down the effect, alternating its shade until marking it finished. */
 void update_blinking_sprite_flash(void *state_arg, ObjectPosition *unused, void *primitive_arg) {
     S_800B8CF0_0 *state = state_arg;
@@ -655,14 +644,6 @@ typedef struct S_800B8D64_0 {
     s16 unk_22;
 } S_800B8D64_0;
 
-typedef struct S_800B8D64_1 {
-    u8 pad_00[0x2];
-    s16 unk_02;
-    u8 pad_04[0x2];
-    s16 unk_06;
-    u8 pad_08[0x2];
-    s16 unk_0A;
-} S_800B8D64_1;
 
 typedef struct S_800B8D64_2 {
     u8 pad_00[0x8];
@@ -677,7 +658,7 @@ typedef struct S_800B8D64_2 {
 /* Create and initialize an effect at the given position. */
 void spawn_blinking_sprite_flash(s16 x, s16 y, s16 z) {
     S_800B8D64_0 *effect;
-    S_800B8D64_1 *position;
+    ObjectPosition *position;
     S_800B8D64_2 *sprite;
 
     effect = allocate_flagged_object_node(0x212);
@@ -685,9 +666,9 @@ void spawn_blinking_sprite_flash(s16 x, s16 y, s16 z) {
         effect->unk_10 = update_blinking_sprite_flash;
         register_node(effect, project_sprite_chain);
         position = effect->unk_08;
-        position->unk_02 = x;
-        position->unk_06 = y;
-        position->unk_0A = z;
+        position->x.w.i = x;
+        position->y.w.i = y;
+        position->z.w.i = z;
         sprite = effect->unk_0C;
         sprite->unk_08 = &visual_object_sprite_data;
         sprite->unk_1E = 0x800;
@@ -714,7 +695,6 @@ typedef struct Effect {
     u16 field1E;
 } Effect;
 
-
 /* Attenuates an effect and sets object and global flags when its byte level reaches zero. */
 void attenuate_effect_scale_and_brightness(Object_800B36B8 *object, ObjectPosition *unused, Effect *effect) {
     u16 magnitude;
@@ -738,7 +718,6 @@ void attenuate_effect_scale_and_brightness(Object_800B36B8 *object, ObjectPositi
 #include "m2c_compat.h"
 
 /* cfail-repair: tf7-phase1-cache-v3 */
-
 
 typedef struct {
     u8 pad0[2];
@@ -908,9 +887,6 @@ void draw_transformed_sprite_with_clip_rect(s32 sprite, Position *clip_rect, Pos
 #include "common.h"
 #include "shared/game_work.h"
 
-
-
-
 /* Scratchpad used by draw_transformed_sprite_parts. The projection helper
  * writes one XY/depth pair per corner; texture arithmetic also reads the low
  * halfwords of its 32-bit working values. */
@@ -945,9 +921,6 @@ typedef struct SpritePartWork {
     u16 sprite_width;
     u16 sprite_height;
 } SpritePartWork;
-
-
-
 
 void PushMatrix(void);
 extern void PopMatrix(void);
@@ -1286,7 +1259,6 @@ void draw_transformed_sprite_parts(void *position, void *context, s32 depth, s16
 #include "shared/object_flags.h"
 #include "shared/dungeon_status.h"
 
-
 extern void *screen_effect_target[];
 
 /* Updates a target marker's position, scale, color, and rotation. */
@@ -1529,12 +1501,10 @@ typedef struct GlobalObj {
     Entity *right;
 } GlobalObj;
 
-
 extern s32 rsin(s32, ...);
 extern s32 rcos(s32, ...);
 extern s16 get_special_table_data_index(s32 dataAddress);
-struct S_800BA33C_0;
-extern s32 is_selectable_menu_target(struct S_800BA33C_0 *object);
+extern s32 is_selectable_menu_target(ActorRecord *object);
 
 /* Updates entity selection, interpolates its position, and animates the rendered output. */
 void update_item_target_marker(Work *work, Out *out, Render *render_arg)
@@ -1805,8 +1775,7 @@ typedef struct D_80083780_t {
 
 extern s32 has_enough_available_runtime_nodes(s32 limit);
 
-struct S_800BA33C_0;
-extern s32 is_selectable_menu_target(struct S_800BA33C_0 *object);
+extern s32 is_selectable_menu_target(ActorRecord *object);
 
 extern u8 menu_effect_sprite_entries[];
 struct Work;
@@ -1815,7 +1784,6 @@ struct Render;
 extern void update_item_target_marker(struct Work *work, struct Out *out, struct Render *render_arg);
 extern s16 camera_depth_target[5];
 extern u8 D_800DF368[];
-
 
 typedef struct S_800BA074_0 {
     u8 pad_00[0x20];
@@ -1827,11 +1795,6 @@ typedef struct S_800BA074_1 {
     u8 * unk_3D7C;
 } S_800BA074_1;   /* page in create_item_target_selector */
 
-typedef struct S_800BA074_2 {
-    u8 pad_00[0xAC];
-    s32 unk_AC;
-    s32 unk_B0;
-} S_800BA074_2;   /* ((S_800BA074_1 *)page)->unk_3D7C in create_item_target_selector */
 
 /* Creates three linked display objects for the selection and initializes their appearance. */
 void *create_item_target_selector(u8 *selection_data) {
@@ -1841,7 +1804,6 @@ void *create_item_target_selector(u8 *selection_data) {
     s32 part_index;
     S_800BA074_1 *global_page;
     s32 last_part;
-
 
     if (has_enough_available_runtime_nodes(3) == 0) {
         return 0;
@@ -1902,13 +1864,13 @@ void *create_item_target_selector(u8 *selection_data) {
                 } else {
                     part_state->f2C = selection_data;
                 }
-                if (is_selectable_menu_target(((S_800BA074_2 *)(global_page->unk_3D7C))->unk_AC) != 0) {
+                if (is_selectable_menu_target(((ActorRecord *)(global_page->unk_3D7C))->unk_AC.value) != 0) {
                     part_state->fE = 8;
                     part_state->f0 = global_page->unk_3D7C + 0xAC;
                     if (part_state->f12 == last_part) {
                         sprite->fC = 0x101080;
                     }
-                } else if (is_selectable_menu_target(((S_800BA074_2 *)(global_page->unk_3D7C))->unk_B0) != 0) {
+                } else if (is_selectable_menu_target(((ActorRecord *)(global_page->unk_3D7C))->unk_B0.value) != 0) {
                     part_state->fE = 8;
                     part_state->f0 = global_page->unk_3D7C + 0xB0;
                     if (part_state->f12 == last_part) {
@@ -1931,28 +1893,18 @@ void *create_item_target_selector(u8 *selection_data) {
 }
 #include "common.h"
 
-
 #ifndef NULL
 #define NULL 0
 #endif
 
 
-typedef struct S_800BA33C_0 {
-    u8 pad_00[0x13];
-    u8 unk_13;
-    u8 pad_14[0x8];
-    s32 unk_1C;
-    u8 pad_20[0x95];
-    u8 unk_B5;
-} S_800BA33C_0;   /* arg0 in is_selectable_menu_target */
-
 /* Test flag 0x20000 for a valid object outside the excluded state. */
-s32 is_selectable_menu_target(S_800BA33C_0 *object) {
+s32 is_selectable_menu_target(ActorRecord *object) {
     s32 code;
-    if ((object == NULL) || ((object->unk_13 == 0x18) && (object->unk_B5 == 1))) {
+    if ((object == NULL) || ((object->species == 0x18) && (object->unk_B4.bytes[1] == 1))) {
         return 0;
     }
-    if ((object->unk_1C & 0x20000)) {
+    if ((object->flags1C & 0x20000)) {
         return 1;
     }
     return 0;
@@ -2044,7 +1996,6 @@ typedef struct S_800BA414_4 {
 } S_800BA414_4;   /* owner in draw_projected_quad_with_depth_bias */
 
    /* *global in draw_projected_quad_with_depth_bias */
-
 
 extern void *CompMatrix(void *, void *, void *);
 void PushMatrix(void);
@@ -2227,7 +2178,6 @@ typedef struct S_800BA6B8_1 {
     s8 unk_0E;
 } S_800BA6B8_1;   /* arg2 in update_pulsing_sprite_color */
 
-
 extern s32 rsin(s32, ...);
 extern u16 D_800DF37C;
 
@@ -2307,23 +2257,7 @@ typedef struct S_800BA810_0 {
     void * unk_00;
 } S_800BA810_0;   /* arg0 in update_selection_tile_markers; pointer addresses record offset 0x18 */
 
-typedef struct S_800BA810_1 {
-    u8 pad_00[0x2];
-    u16 unk_02;
-    u8 pad_04[0x2];
-    u16 unk_06;
-} S_800BA810_1;
 
-typedef struct S_800BA810_2 {
-    void * unk_00;
-} S_800BA810_2;   /* Pointer addresses record offset 0x18. */
-
-typedef struct S_800BA810_3 {
-    u8 pad_00[0x2];
-    u16 unk_02;
-    u8 pad_04[0x2];
-    u16 unk_06;
-} S_800BA810_3;
 
 
 /* cfail-repair: tf7-phase1-cache-v3 */
@@ -2372,8 +2306,8 @@ void update_selection_tile_markers(S_800B50B0_Entity *entity, s32 selection) {
     u8 entry_type;
     u16 angle;
     S_800B50B0_Entity *child;
-    S_800BA810_3 *child_position;
-    S_800BA810_1 *position;
+    ObjectPosition *child_position;
+    ObjectPosition *position;
 
     if (entity == NULL) {
         menu_effect_cached_actor = NULL;
@@ -2391,8 +2325,8 @@ void update_selection_tile_markers(S_800B50B0_Entity *entity, s32 selection) {
         mode = selection & 0x3FFF;
         position = ((S_800BA810_0 *)((u8 *)entity - 0x18))->unk_00;
         height = entity->height88;
-        tile_x = (u16) position->unk_02 >> 6;
-        tile_z = (u16) position->unk_06 >> 6;
+        tile_x = (u16) position->x.unsigned_parts.integer >> 6;
+        tile_z = (u16) position->y.unsigned_parts.integer >> 6;
         mode_index = mode;
         if (mode_index == 8) {
             forward_steps = 1;
@@ -2465,8 +2399,8 @@ void update_selection_tile_markers(S_800B50B0_Entity *entity, s32 selection) {
         } else if (entry_type == 2) {
             child = entity->child60;
             if (child != NULL) {
-                child_position = ((S_800BA810_2 *)((u8 *)child - 0x18))->unk_00;
-                create_pulsing_tile_sprite((u16) child_position->unk_02 >> 6, (u16) child_position->unk_06 >> 6,
+                child_position = ((SpriteFrameState *)((u8 *)child - 0x18))->unk_00;
+                create_pulsing_tile_sprite((u16) child_position->x.unsigned_parts.integer >> 6, (u16) child_position->y.unsigned_parts.integer >> 6,
                     child->height88, 0xFF);
             }
         }
@@ -2475,7 +2409,6 @@ void update_selection_tile_markers(S_800B50B0_Entity *entity, s32 selection) {
 /* Warning: struct S_8006DE24_Entry is not defined (only forward-declared) */
 #include "common.h"
 #include "shared/game_work.h"
-
 
 typedef struct DungeonRoot DungeonRoot;
 struct DungeonRoot {
@@ -2532,7 +2465,6 @@ struct Scratch_800B5448 {
     u8 pad7E[0x42];
     s32 length;
 };
-
 
 extern s32 rsin(s32, ...);
 extern s32 rcos(s32, ...);
@@ -2648,7 +2580,6 @@ s32 rand(void);                                /* extern */
 struct DungeonObject;
 extern s32 draw_particle_effect_primitives(struct DungeonObject *object, u16 *position);
 
-
 typedef struct S_800BAF04_0_pre {
     u16 unk_00;
 } S_800BAF04_0_pre;   /* the 0x2 bytes before arg0 in advance_particle_effect_state, addressed as arg0[-1] */
@@ -2731,7 +2662,6 @@ typedef struct S_800BB044_1 {
     u16 unk_42;
 } S_800BB044_1;   /* arg0 in create_actor_linked_effect; pointer addresses record offset 0x18 */
 
-
 extern void advance_particle_effect_state(void *object);
 
 /* Creates an object linked to the source data and copies its record fields. */
@@ -2798,18 +2728,8 @@ typedef struct
     s16 phase;
 }
 S_800BB14C;
-typedef struct
-{
-    u8 pad00[0x0C];
-    s8 valueC;
-    s8 valueD;
-    s8 valueE;
-    u8 pad0F[0x1E - 0x0F];
-    u16 amount;
-}
-S_800BB14C_TARGET;
 /* Animates the target amount and selected channels, then marks the effect finished after fading. */
-void update_pulsing_color_fade(void *effect_data, register S_800BB14C *effect, S_800BB14C_TARGET *target)
+void update_pulsing_color_fade(void *effect_data, register S_800BB14C *effect, SpriteFrameState *target)
 {
     s16 state;
     effect = effect_data;
@@ -2818,15 +2738,15 @@ void update_pulsing_color_fade(void *effect_data, register S_800BB14C *effect, S
     case 0:
     {
         s16 phase = effect->phase;
-        u16 amount = target->amount + (phase * 0x10);
-        target->amount = amount;
+        u16 amount = target->scale_y + (phase * 0x10);
+        target->scale_y = amount;
         if (amount < 0x4001U) {
-            target->amount = 0x4000;
+            target->scale_y = 0x4000;
             effect->state = ((s16) effect->state) + 1;
         }
     }
     case 1:
-        if ((((S_800BB14C_TARGET *) effect->next)->amount & 0x8000) != 0) {
+        if ((((SpriteFrameState *) effect->next)->scale_y & 0x8000) != 0) {
             effect->count = 4;
             effect->state = 2;
         }
@@ -2835,8 +2755,8 @@ void update_pulsing_color_fade(void *effect_data, register S_800BB14C *effect, S
     {
         s16 fade_ticks = effect->count;
         if (fade_ticks != 0) {
-            u16 amount = target->amount;
-            target->amount = amount - (((s32) amount) / fade_ticks);
+            u16 amount = target->scale_y;
+            target->scale_y = amount - (((s32) amount) / fade_ticks);
         }
     }
         {
@@ -2873,13 +2793,13 @@ void update_pulsing_color_fade(void *effect_data, register S_800BB14C *effect, S
             pulse_value = pulse_step + 0x10;
         }
         if (effect->flags & 1) {
-            target->valueC = pulse_value;
+            target->color.c.r = pulse_value;
         }
         if (effect->flags & 2) {
-            target->valueD = pulse_value;
+            target->color.c.g = pulse_value;
         }
         if (effect->flags & 4) {
-            target->valueE = pulse_value;
+            target->color.c.b = pulse_value;
         }
     }
 
@@ -2915,7 +2835,6 @@ typedef struct S_800BB2E4_2 {
     } unk_0C;   /* overlapping accesses */
 } S_800BB2E4_2;   /* packet in draw_content_or_rect */
 
-
 typedef struct {
     s16 x;
     s16 y;
@@ -2929,7 +2848,6 @@ struct Position;
 extern void draw_transformed_sprite_with_clip_rect(s32 sprite, struct Position *clip_rect, struct Position *screen_pos, s32 clear_bg, s16 draw_flags);
 
 extern u8 upper_draw_context[16];
-
 
 /* Queues a line or filled rectangle with optional content and drawing state commands. */
 void draw_content_or_rect(s32 *line_start, s32 *line_end, u8 *rect, s16 fill, s32 content_id)
@@ -3028,7 +2946,6 @@ typedef struct DungeonWork {
     s16 field_3C[5];
 } DungeonWork;
 
-
 typedef struct S_800BB55C_0_pre {
     s32 unk_00;
     u8 pad_04[0xE];
@@ -3049,14 +2966,7 @@ typedef struct S_800BB55C_0 {
     u16 unk_64;
 } S_800BB55C_0;   /* arg0 in update_five_point_effect */
 
-typedef struct S_800BB55C_2 {
-    u8 pad_00[0x2];
-    s16 unk_02;
-    u8 pad_04[0x2];
-    s16 unk_06;
-    u8 pad_08[0x2];
-    s16 unk_0A;
-} S_800BB55C_2;   /* arg1 in update_five_point_effect */
+   /* arg1 in update_five_point_effect */
 
 typedef struct S_800BB55C_3 {
     u8 unk_00;
@@ -3064,10 +2974,7 @@ typedef struct S_800BB55C_3 {
     u8 unk_02;
 } S_800BB55C_3;
 
-typedef struct S_800BB55C_4 {
-    u8 pad_00[0xA];
-    u16 unk_0A;
-} S_800BB55C_4;   /* global_ptr in update_five_point_effect */
+   /* global_ptr in update_five_point_effect */
 
 /* Draws a growing five-point pattern and updates its rotating fade-out effect. */
 void update_five_point_effect(void *effect, ObjectPosition *position, s32 restore_link) {
@@ -3214,7 +3121,6 @@ s32 process_linked_menu_effect(u8 *buffer, s32 value, SpriteFrameState *data) {
 #include "shared/entity_objects.h"
 #include "m2c_compat.h"
 
-struct S_800BB55C_2;
 extern void update_five_point_effect(void *effect, ObjectPosition *position, s32 restore_link);
 extern s32 process_linked_menu_effect(u8 *buffer, s32 value, SpriteFrameState *data);
 extern M2C_UNK familiar_restore_sprite_data;
@@ -3226,24 +3132,7 @@ typedef struct S_800BBA40_0 {
     void (*unk_10)(void *, ObjectPosition *, s32);
 } S_800BBA40_0;
 
-typedef struct S_800BBA40_1 {
-    u8 pad_00[0x2];
-    s16 unk_02;
-    u8 pad_04[0x2];
-    s16 unk_06;
-    u8 pad_08[0x2];
-    s16 unk_0A;
-} S_800BBA40_1;
 
-typedef struct S_800BBA40_2 {
-    u8 pad_00[0x6];
-    s16 unk_06;
-    s32 * unk_08;
-    s32 unk_0C;
-    u8 pad_10[0xC];
-    s16 unk_1C;
-    s16 unk_1E;
-} S_800BBA40_2;
 
 typedef struct S_800BBA40_3 {
     u8 pad_00[0x18];
@@ -3264,8 +3153,8 @@ void *create_five_point_effect(s16 tile_x, s16 tile_y, s16 pos_z, void *transfor
     s32 call_data[2];
     s16 angle;
     void *effect;
-    S_800BBA40_1 *position;
-    S_800BBA40_2 *render_data;
+    ObjectPosition *position;
+    SpriteFrameState *render_data;
     s16 held_pos_z = pos_z;
     void *held_transform = transform_data;
     void *setup_base;
@@ -3282,15 +3171,15 @@ void *create_five_point_effect(s16 tile_x, s16 tile_y, s16 pos_z, void *transfor
         ((S_800BBA40_0 *)effect)->unk_10 = update_five_point_effect;
         register_node(effect, process_linked_menu_effect);
         position = ((S_800BBA40_0 *)effect)->unk_08;
-        position->unk_02 = (s16) (((s32) (tile_x << 0x10) >> 0xA) + 0x20);
-        position->unk_06 = (s16) (((s32) (tile_y << 0x10) >> 0xA) + 0x20);
-        position->unk_0A = held_pos_z;
+        position->x.w.i = (s16) (((s32) (tile_x << 0x10) >> 0xA) + 0x20);
+        position->y.w.i = (s16) (((s32) (tile_y << 0x10) >> 0xA) + 0x20);
+        position->z.w.i = held_pos_z;
         render_data = ((S_800BBA40_0 *)effect)->unk_0C;
-        render_data->unk_08 = &familiar_restore_sprite_data;
-        render_data->unk_1E = 0x1000;
-        render_data->unk_1C = 0x1000;
-        render_data->unk_0C = 0x808080;
-        render_data->unk_06 = 8;
+        render_data->source = &familiar_restore_sprite_data;
+        render_data->scale_y = 0x1000;
+        render_data->scale_x = 0x1000;
+        render_data->color.word = 0x808080;
+        render_data->depth_bias = 8;
         setup_base = effect + 0x20;
         select_record_entry_and_value(effect + 0x2C, held_transform, 0);
         setup_cursor = setup_base;
@@ -3414,26 +3303,11 @@ typedef struct S_800BBDEC_0 {
     u16 unk_104;
 } S_800BBDEC_0;   /* scratch in draw_shaded_vertical_quad */
 
-typedef struct S_800BBDEC_1 {
-    u8 pad_00[0x2];
-    s16 unk_02;
-    u8 pad_04[0x2];
-    s16 unk_06;
-    u8 pad_08[0x2];
-    s16 unk_0A;
-} S_800BBDEC_1;   /* arg1 in draw_shaded_vertical_quad */
+   /* arg1 in draw_shaded_vertical_quad */
 
    /* *global in draw_shaded_vertical_quad */
 
-typedef struct S_800BBDEC_3 {
-    u8 pad_00[0xC];
-    s32 unk_0C;
-    u8 pad_10[0x4];
-    u16 unk_14;
-    u16 unk_16;
-    u16 unk_18;
-    u16 unk_1A;
-} S_800BBDEC_3;   /* arg2 in draw_shaded_vertical_quad */
+   /* arg2 in draw_shaded_vertical_quad */
 
 typedef struct S_800BBDEC_4 {
     u8 pad_00[0x50];
@@ -3458,7 +3332,6 @@ typedef struct S_800BBDEC_5 {
     u8 pad_18[0x4];
     s32 unk_1C;
 } S_800BBDEC_5;   /* prim in draw_shaded_vertical_quad */
-
 
 extern void *CompMatrix(void *, void *, void *);
 void PushMatrix(void);
@@ -3553,8 +3426,6 @@ void draw_shaded_vertical_quad(S_800BBDEC_4 *object, ObjectPosition *position, S
 #include "common.h"
 
 struct S_800BBDEC_4;
-struct S_800BBDEC_1;
-struct S_800BBDEC_3;
 extern void draw_shaded_vertical_quad(struct S_800BBDEC_4 *object, ObjectPosition *position, SpriteFrameState *appearance, s32 unused_draw_value);
 
 /* Process each linked state using the signed halfword at data offset 6. */
@@ -3591,14 +3462,6 @@ typedef struct S_800BC0A8_0 {
     s32 unk_20;
 } S_800BC0A8_0;
 
-typedef struct S_800BC0A8_1 {
-    u8 pad_00[0x2];
-    s16 unk_02;
-    u8 pad_04[0x2];
-    s16 unk_06;
-    u8 pad_08[0x2];
-    s16 unk_0A;
-} S_800BC0A8_1;
 
 typedef struct S_800BC0A8_2 {
     u8 pad_00[0x4];
@@ -3615,22 +3478,16 @@ typedef struct S_800BC0A8_2 {
     s16 unk_58;
 } S_800BC0A8_2;
 
-typedef struct S_800BC0A8_3 {
-    u8 pad_00[0x14];
-    u16 unk_14;
-    u8 pad_16[0x4];
-    s16 unk_1A;
-} S_800BC0A8_3;
 
 /* Creates an object and initializes its position, angle, and state. */
 void *create_orbiting_color_particle(s16 x, s16 y, s16 z, s16 angle, s16 value_50, s16 value_58, s32 state_word, s16 value_48) {
     s16 saved_value_50 = value_50;
     s16 saved_value_58 = value_58;
     s16 saved_value_48 = value_48;
-    S_800BC0A8_3 *transform;
+    SpriteFrameState *transform;
     S_800BC0A8_2 *state;
     void *object;
-    S_800BC0A8_1 *position;
+    ObjectPosition *position;
 
     object = allocate_list_node(0x202, &scene_object_list_anchor.next);
     if (object != 0) {
@@ -3638,15 +3495,15 @@ void *create_orbiting_color_particle(s16 x, s16 y, s16 z, s16 angle, s16 value_5
         register_node(object, draw_shaded_quad_chain);
         position = ((S_800BC0A8_0 *)object)->unk_08;
         state = object + 0x20;
-        position->unk_02 = x;
+        position->x.w.i = x;
         state->unk_04 = x;
-        position->unk_06 = y;
+        position->y.w.i = y;
         state->unk_06 = y;
-        position->unk_0A = z;
+        position->z.w.i = z;
         state->unk_08 = z;
         transform = ((S_800BC0A8_0 *)object)->unk_0C;
-        transform->unk_1A = (s16) (angle + 0x400);
-        transform->unk_14 = (u16) (transform->unk_14 | 0xC);
+        transform->angle_z = (s16) (angle + 0x400);
+        transform->flags = (u16) (transform->flags | 0xC);
         state->unk_4E = angle;
         state->unk_4C = 4;
         state->unk_50 = (s16) saved_value_50;
@@ -3657,7 +3514,6 @@ void *create_orbiting_color_particle(s16 x, s16 y, s16 z, s16 angle, s16 value_5
     return object;
 }
 #include "common.h"
-
 
 extern void MoveImage();
 
@@ -3731,7 +3587,6 @@ typedef struct S_800BC26C_1 {
     s16 unk_0E;
 } S_800BC26C_1;   /* fields in create_tracked_effect */
 
-
 extern void retire_effect_when_owner_or_value_ends(void *context);
 
 /* Creates an object and initializes its owner, parameter, and mode-dependent fields. */
@@ -3800,7 +3655,6 @@ void retire_tracked_effect_by_id(s32 targetId) {
 #include "common.h"
 #include "shared/object_flags.h"
 #include "engine/node.h"
-
 
 /* Mark completion when the referenced object is flagged or the tracked value is zero. */
 void retire_effect_when_owner_or_value_ends(void *context)

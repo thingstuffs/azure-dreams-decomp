@@ -24,7 +24,7 @@ void initialize_scene_state_twenty_one(struct SceneActionReset *object, void *po
 
 
 /* Registered code-address alias for forward_player_motion_state. */
-void player_slot_state_address(void *state, s32 value, s32 mode);
+
 
 struct TownObjectRecord;
 void initialize_player_linked_record(struct TownObjectRecord *object, void *unused, void *output);

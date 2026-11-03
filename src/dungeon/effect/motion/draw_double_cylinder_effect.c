@@ -2,15 +2,8 @@
 #include "dungeon/effect/sprite.h"
 #include "sdk/libgte.h"
 #include "shared/dungeon_effect_state.h"
-typedef struct S_80024930_1 S_80024930_1;
 
-typedef struct S_80024EF8_0 {
-    u8 pad_00[0x10];
-    union { u8 u8; s16 s16; } unk_10;   /* accessed as both */
-    u8 pad_12[0x2];
-    u16 unk_14;
-} S_80024EF8_0;   /* arg0 in func_80024EF8 */
-
+   /* arg0 in func_80024EF8 */
 
 /* cfail-repair: tf7-phase1-cache-v3 */
 

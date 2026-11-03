@@ -4,6 +4,7 @@
 #include "slus.h"
 #include "town/player/object.h"
 #include "town/data.h"
+#include "town/player/motion.h"
 
 typedef struct TownEntry {
     u8 pad0[2];
@@ -22,7 +23,7 @@ typedef struct TownObject {
     s32 entry_index;
 } TownObject;
 
-extern u8 D_800983BC;
+
 extern u8 D_800D0158;
 
 /* Set the object's handler, state, and entry-specific value, then update the table target. */
@@ -34,7 +35,7 @@ void initialize_entry_object_and_play_sound(TownObject *object, ObjectPosition *
     entries = object_index_slots;
     entries[1].pad0[0] = 0;
     entry_value = town_facing_angles[entries[object->entry_index].table_index];
-    object->handler = &D_800983BC;
+    object->handler = move_entity_in_current_direction;
     object->state = 3;
     object->value = entry_value;
     clear_entity_record_fields(table_target);

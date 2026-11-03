@@ -55,7 +55,7 @@ void style_item_menu_entry_records(ItemMenuTransition *collection);
 void animate_item_menu_cursor_transition(ItemMenuTransition *state);
 void tick_item_menu_selection_delay(ItemMenuTransition *state);
 /* Selection-delay entry address used by the display callback installer. */
-void D_800AE5B8(ItemMenuTransition *state);
+
 void invoke_item_menu_node_callback(ItemMenuTransition *state);
 struct ObjectNodeHeader;
 

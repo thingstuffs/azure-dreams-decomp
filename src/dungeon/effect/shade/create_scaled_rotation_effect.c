@@ -27,14 +27,6 @@ typedef struct S_818C3A3C_2 {
     u16 unk_14;
 } S_818C3A3C_2;   /* arg0 in create_scaled_rotation_effect */
 
-typedef struct S_818C3A3C_4 {
-    s32 unk_00;
-    s32 unk_04;
-    s32 unk_08;
-    s32 unk_0C;
-    s32 unk_10;
-    s32 unk_14;
-} S_818C3A3C_4;   /* arg1 in create_scaled_rotation_effect */
 
 typedef struct S_818C3A3C_5 {
     s32 unk_00;
@@ -46,7 +38,7 @@ typedef struct S_818C3A3C_5 {
 } S_818C3A3C_5;
 
 /* Creates an effect with randomized rotation, owner-dependent scale, and copied instance data. */
-s32 create_scaled_rotation_effect(S_818C3A3C_2 *owner, S_818C3A3C_4 *initial_data) {
+s32 create_scaled_rotation_effect(S_818C3A3C_2 *owner, ObjectPosition *initial_data) {
     s32 call_zero;
     void *handler;
     s32 scale;

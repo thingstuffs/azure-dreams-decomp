@@ -11,12 +11,6 @@
 #include "dungeon/player/object/action_state.h"
 
 
-typedef struct S_func_8009E038_1 {
-    u8 pad_00[2];
-    s16 unk_02;
-    u8 pad_04[2];
-    s16 unk_06;
-} S_func_8009E038_1;
 
 typedef struct S_func_8009E038_2 {
     u8 pad_00[0xC];
@@ -67,7 +61,7 @@ enum ViewportState {
 };
 
 /* Update the viewport transition, blending its bounds, center, scale, and brightness. */
-void update_viewport_transition(InactiveTypeTwelveObjectBody *transition, S_func_8009E038_1 *center, S_func_8009E038_2 *render_params,
+void update_viewport_transition(InactiveTypeTwelveObjectBody *transition, ObjectPosition *center, S_func_8009E038_2 *render_params,
     s32 *context) {
     s32 top_step;
     GameWork *input;
@@ -160,8 +154,8 @@ void update_viewport_transition(InactiveTypeTwelveObjectBody *transition, S_func
             offset_y = render->unk_22.u16;
             render->unk_20.u16 = (u16) (offset_x + ((s32) (0x20 - offset_x) / (s16) transition->unk_1C.halves.low.s));
             render->unk_22.u16 = (u16) (offset_y + ((s32) (0x20 - offset_y) / (s16) transition->unk_1C.halves.low.s));
-            center->unk_02 = (s16) ((u16) center->unk_02 + ((s32) (0xA0 - center->unk_02) / (s16) transition->unk_1C.halves.low.s));
-            center->unk_06 = (s16) ((u16) center->unk_06 + ((s32) (0x78 - center->unk_06) / (s16) transition->unk_1C.halves.low.s));
+            center->x.w.i = (s16) ((u16) center->x.w.i + ((s32) (0xA0 - center->x.w.i) / (s16) transition->unk_1C.halves.low.s));
+            center->y.w.i = (s16) ((u16) center->y.w.i + ((s32) (0x78 - center->y.w.i) / (s16) transition->unk_1C.halves.low.s));
             transition->unk_04.halves.low.s = (s16) ((u16) transition->unk_04.halves.low.s + ((s32) (0
                 - transition->unk_04.halves.low.s) / (s16) transition->unk_1C.halves.low.s));
             transition->unk_04.halves.high.s = (s16) ((u16) transition->unk_04.halves.high.s + ((s32) (0
@@ -174,8 +168,8 @@ void update_viewport_transition(InactiveTypeTwelveObjectBody *transition, S_func
         reset_remaining = (u16) transition->unk_1C.halves.low.s - 1;
         transition->unk_1C.halves.low.s = reset_remaining;
         if ((reset_remaining << 0x10) <= 0) {
-            center->unk_02 = 0xA0;
-            center->unk_06 = 0x78;
+            center->x.w.i = 0xA0;
+            center->y.w.i = 0x78;
             render->unk_1E = 0x3000U;
             render->unk_1C = 0x3000U;
             render->unk_20.u16 = 0x20U;
@@ -219,10 +213,10 @@ void update_viewport_transition(InactiveTypeTwelveObjectBody *transition, S_func
             moving_scale = ((s32) (transition->unk_1C.halves.high.s - render->unk_1E) / move_frames) + render->unk_1E;
             render->unk_1E = moving_scale;
             render->unk_1C = moving_scale;
-            center->unk_02 = (s16) ((u16) center->unk_02 + ((s32) (transition->unk_14.halves.low.s
-                - center->unk_02) / (s16) transition->unk_1C.halves.low.s));
-            center->unk_06 = (s16) ((u16) center->unk_06 + ((s32) (transition->unk_14.halves.high.s
-                - center->unk_06) / (s16) transition->unk_1C.halves.low.s));
+            center->x.w.i = (s16) ((u16) center->x.w.i + ((s32) (transition->unk_14.halves.low.s
+                - center->x.w.i) / (s16) transition->unk_1C.halves.low.s));
+            center->y.w.i = (s16) ((u16) center->y.w.i + ((s32) (transition->unk_14.halves.high.s
+                - center->y.w.i) / (s16) transition->unk_1C.halves.low.s));
             render->unk_20.u16 = (u16) (((s32) (reference_tile_object.tile_position.parts.tile_x - render->unk_20.u16) / (s16) transition->unk_1C.halves.low.s)
                 + render->unk_20.u16);
             render->unk_22.u16 = (u16) (((s32) (reference_tile_object.tile_position.parts.tile_y - render->unk_22.u16) / (s16) transition->unk_1C.halves.low.s)
@@ -238,8 +232,8 @@ void update_viewport_transition(InactiveTypeTwelveObjectBody *transition, S_func
             move_remaining = (u16) transition->unk_1C.halves.low.s - 1;
             transition->unk_1C.halves.low.s = move_remaining;
             if ((move_remaining << 0x10) <= 0) {
-                center->unk_02 = (s16) (u16) transition->unk_14.halves.low.s;
-                center->unk_06 = (s16) (u16) transition->unk_14.halves.high.s;
+                center->x.w.i = (s16) (u16) transition->unk_14.halves.low.s;
+                center->y.w.i = (s16) (u16) transition->unk_14.halves.high.s;
                 target_scale = (u16) transition->unk_1C.halves.high.s;
                 render->unk_1E = target_scale;
                 render->unk_1C = target_scale;

@@ -65,7 +65,7 @@ void *create_mode_configured_object(s16 mode, s32 part_b_byte_24, s32 part_b_byt
         register_node(obj, project_sprite_chain);
 
         part_a = obj->unk_08;
-        ((S_800B23F8_2 *)part_a)->unk_0A = part_a_s16;
+        ((ObjectPosition *)part_a)->z.w.i = part_a_s16;
         value_or_part_b = (long)obj->unk_0C;
         kind_test = 1;
         ((SpriteFrameState *)value_or_part_b)->tile_y = byte_25;
@@ -89,8 +89,8 @@ void *create_mode_configured_object(s16 mode, s32 part_b_byte_24, s32 part_b_byt
 
 post_kind:
         initialize_entity_sprite_effect(obj, part_a, (void *)value_or_part_b, init_mode);
-        ((S_800B23F8_4 *)((void *)byte_or_work))->unk_9A = 0xFF;
-        ((S_800B23F8_4 *)((void *)byte_or_work))->unk_9C = -1;
+        ((ActorRecord *)((void *)byte_or_work))->action_id.u = 0xFF;
+        ((ActorRecord *)((void *)byte_or_work))->unk_9C = -1;
         (*(s32 * *)((u8 *)((void *)byte_or_work) + 0x8C)) = &slow_target_action_callback;
         ((SpriteFrameState *)value_or_part_b)->source = part_b_value;
     }

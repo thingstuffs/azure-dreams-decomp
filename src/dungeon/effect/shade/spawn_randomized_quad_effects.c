@@ -10,18 +10,6 @@
 #define NULL 0
 #endif
 
-typedef struct S_func_80025BA0_1 {
-    u8 pad_00[0x2];
-    s16 unk_02;
-    u8 pad_04[0x2];
-    s16 unk_06;
-    u8 pad_08[0x2];
-    s16 unk_0A;
-    s32 unk_0C;
-    s32 unk_10;
-    s32 unk_14;
-} S_func_80025BA0_1;
-
 typedef struct S_func_80025BA0_3 {
     u8 pad_00[0x1A];
     s16 unk_1A;

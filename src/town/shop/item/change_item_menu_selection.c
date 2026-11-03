@@ -15,7 +15,7 @@ void change_item_menu_selection(ObjectNodeHeader *object, s32 value_arg, s32 res
         state->end_row = new_value;
         state->duration = reset_value;
         state->progress.word = 0;
-        state->callback = D_800AE5B8;
+        state->callback = tick_item_menu_selection_delay;
         state->start_row = state->end_row;
     }
 }

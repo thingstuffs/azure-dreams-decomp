@@ -3,9 +3,10 @@
 #include "shared/object_node.h"
 #include "town/player.h"
 #include "town/player/item.h"
+#include "town/event/state.h"
 
 extern s32 scene_object_payload_alias;
-extern s32 D_8009C340;
+
 
 typedef struct CarryRecord {
     u8 pad_00[0x2C];
@@ -45,7 +46,7 @@ void plt_carry_item_del_ext(void) {
             linked_object = (CarryLinkedObject *)((CarryRecord *)base)->linked_object;
         } while (0);
         if (linked_object != 0 && (linked_object->type == 4 || linked_object->state == 0xD)) {
-            ((CarryLinkedObject *)saved_object)->handler = &D_8009C340;
+            ((CarryLinkedObject *)saved_object)->handler = unlink_and_remove_scene_object;
             ((CarryRecord *)base)->linked_object = 0;
         }
     }

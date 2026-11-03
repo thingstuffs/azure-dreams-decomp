@@ -49,8 +49,9 @@ typedef struct {
 
 #include "engine/node.h"
 #include "sdk/libc.h"
+#include "town/map/motion.h"
 
-extern u8 D_800BBA98[];
+
 extern Resource D_800F162C[];
 
 /* Spawn short-lived objects around the origin and set expiry flags when the timer ends. */
@@ -58,7 +59,7 @@ void spawn_short_lived_objects_around_origin(ShortLivedSpawnerObject *self, Copy
     s32 remaining = self->count;
 
     if (remaining >= 0) {
-        u8 *callback = D_800BBA98;
+        u8 *callback = update_effect_motion_and_fade;
         Resource *resource;
 
         do {

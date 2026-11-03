@@ -212,11 +212,6 @@ typedef struct S_800243E4_1_pre {
     u8 pad_04[0x14];
 } S_800243E4_1_pre;   /* the 0x18 bytes before arg0 in create_an_linked_parent_initialize_position_part_data, addressed as arg0[-1] */
 
-typedef struct S_800243E4_3 {
-    s32 unk_00;
-    s32 unk_04;
-    s32 unk_08;
-} S_800243E4_3;
 
 /* Create an object linked to its parent and initialize its position and part data. */
 void create_an_linked_parent_initialize_position_part_data(void *parent, void *unused_context, void *unused_parameters) {
@@ -224,7 +219,7 @@ void create_an_linked_parent_initialize_position_part_data(void *parent, void *u
     SpriteFrameState *part;
     ObjectNodeHeader *object;
     AdvanceObjectSpawningDisplaysHighBody *state;
-    S_800243E4_3 *parent_position;
+    ObjectPosition *parent_position;
 
     object = allocate_flagged_object_node(0x212);
     if (object != 0) {
@@ -239,9 +234,9 @@ void create_an_linked_parent_initialize_position_part_data(void *parent, void *u
         part->flags = (u16) (part->flags | 0xC);
         parent_position = ((S_800243E4_1_pre *)parent)[-1].unk_00;
         position = object->position;
-        position->x.v = (s32) parent_position->unk_00;
-        position->y.v = (s32) parent_position->unk_04;
-        position->z.v = (s32) parent_position->unk_08;
+        position->x.v = (s32) parent_position->x.v;
+        position->y.v = (s32) parent_position->y.v;
+        position->z.v = (s32) parent_position->z.v;
         part = object->sprite;
         part->scale_y = 0;
         part->scale_x = 0;

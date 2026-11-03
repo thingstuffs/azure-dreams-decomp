@@ -77,14 +77,6 @@ typedef struct Scratch80024124 {
 #include "m2c_compat.h"
 #include "records/Rec_D_80082E80.h"
 #include "shared/slus_callbacks.h"
-typedef struct S_8196B4A4_4 {
-    u8 pad_00[0x2];
-    u16 unk_02;
-    u8 pad_04[0x2];
-    u16 unk_06;
-    u8 pad_08[0x2];
-    u16 unk_0A;
-} S_8196B4A4_4;
 typedef struct S_8196B4A4_5 {
     u8 pad_00[0x26];
     s16 unk_26;
@@ -129,14 +121,6 @@ typedef struct S_8196BFB0_2 {
     union { u16 u; s16 s; } unk_1C;   /* accessed as both */
     union { u16 u; s16 s; } unk_1E;   /* accessed as both */
 } S_8196BFB0_2;
-typedef struct S_8196BFB0_3 {
-    u8 pad_00[0x2];
-    u16 unk_02;
-    u8 pad_04[0x2];
-    u16 unk_06;
-    u8 pad_08[0x2];
-    u16 unk_0A;
-} S_8196BFB0_3;
 typedef struct S_8196BE48_0_pre {
     u16 unk_00;
 } S_8196BE48_0_pre;
@@ -311,35 +295,10 @@ typedef struct S_8196ACE4_4 {
     u8 pad_00[0x14A0];
     s32 unk_14A0;
 } S_8196ACE4_4;
-typedef struct S_8196B780_4 {
-    u8 pad_00[0x2];
-    u16 unk_02;
-    u8 pad_04[0x2];
-    u16 unk_06;
-    u8 pad_08[0x2];
-    u16 unk_0A;
-} S_8196B780_4;
 typedef struct S_8196B780_5 {
     u8 pad_00[0x26];
     s16 unk_26;
 } S_8196B780_5;
-typedef struct S_8196C280_0 {
-    union { struct { s32 v; } at00; struct { u8 pad[0x2]; u16 v; } at02; } unk_00;   /* overlapping accesses */
-    union { struct { s32 v; } at00; struct { u8 pad[0x2]; u16 v; } at02; } unk_04;   /* overlapping accesses */
-    union {
-        struct { s32 v; } at00;
-        struct { u16 v; } at00u;
-        struct { u8 pad[0x2]; s16 v; } at02;
-        struct { u8 pad[0x2]; u16 v; } at02u;
-    } unk_08;   /* overlapping accesses */
-} S_8196C280_0;
-typedef struct S_8196C280_2 {
-    u8 pad_00[0x14];
-    u16 unk_14;
-    u8 pad_16[0x6];
-    u16 unk_1C;
-    u16 unk_1E;
-} S_8196C280_2;
 typedef struct PositionRef {
     u8 pad0[2];
     u16 x;
@@ -366,33 +325,6 @@ typedef struct {
     u32 addr : 24;
     u32 len : 8;
 } P_TAG;
-typedef struct S_80024124_1 {
-    u8 pad_00[0x2];
-    u16 unk_02;
-    u8 pad_04[0x2];
-    u16 unk_06;
-    u8 pad_08[0x2];
-    u16 unk_0A;
-} S_80024124_1;
-typedef struct S_80024124_2 {
-    u8 pad_00[0x3];
-    u8 unk_03;
-    union { struct { u32 v; } at00; struct { u8 pad[0x3]; u8 v; } at03; } unk_04;   /* overlapping accesses */
-} S_80024124_2;
-typedef struct S_80024124_3_pre {
-    void * unk_00;
-    u8 pad_04[0x4];
-} S_80024124_3_pre;
-typedef struct S_80024124_3 {
-    u8 pad_00[0x8];
-    u32 unk_08;
-    u8 pad_0C[0x26];
-    s16 unk_32;
-} S_80024124_3;
-typedef struct S_80024124_4 {
-    u8 pad_00[0x8];
-    void * unk_08;
-} S_80024124_4;
 
 typedef struct EffectState {
     u8 pad_00[0x2C];

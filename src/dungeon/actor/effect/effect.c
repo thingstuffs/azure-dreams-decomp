@@ -352,7 +352,6 @@ typedef struct DungeonDescriptor {
     u32 fieldB8;
 } DungeonDescriptor;
 
-
 /* Create a dungeon descriptor centered on the given tile at the specified z coordinate. */
 DungeonDescriptor *create_timed_effect_at_tile(s32 tile_x, s32 tile_y, s32 z, s32 *init_data) {
     DungeonDescriptor *descriptor;
@@ -378,8 +377,6 @@ DungeonDescriptor *create_timed_effect_at_tile(s32 tile_x, s32 tile_y, s32 z, s3
 #include "shared/record_ptrs.h"
 #include "shared/object_flags.h"
 #include "shared/dungeon_status.h"
-
-
 
 typedef struct {
     u8 x;
@@ -641,7 +638,6 @@ void SetPolyFT4(void *);
 extern u8 sprite_projection_matrix[];
 typedef struct { u8 b0, b1, b2, b3; } Ent4;
 typedef struct { u8 b0, b1; u16 h2, h4; u8 *p8; } Ent12;
-
 
 typedef struct {
     s32 vx, vy, vz, pad;
@@ -972,7 +968,6 @@ typedef struct S_800A871C_0 {
     u8 unk_01;
 } S_800A871C_0;
 
-
 typedef struct S_800A871C_1 {
     u8 pad_00[0x8C];
     void * unk_8C;
@@ -984,10 +979,7 @@ typedef struct S_800A871C_1 {
     s16 unk_A4;
 } S_800A871C_1;   /* r_arg0 in update_dropped_object_motion */
 
-typedef struct S_800A871C_2 {
-    s16 unk_00;
-} S_800A871C_2;   /* &sp18[2] in update_dropped_object_motion */
-
+   /* &sp18[2] in update_dropped_object_motion */
 
 typedef struct S_800A871C_4 {
     u8 pad_00[0x8];
@@ -1013,7 +1005,6 @@ typedef struct S_800A871C_7 {
 typedef struct S_800A871C_8 {
     u8 unk_00;
 } S_800A871C_8;
-
 
 typedef struct S_800A871C_11_pre {
     void * unk_00;

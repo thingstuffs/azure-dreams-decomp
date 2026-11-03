@@ -9,10 +9,6 @@
 #include "shared/dungeon_moving_views.h"
 #include "sdk/libc.h"
 
-typedef struct S_800D5294_5 {
-    u8 pad_00[0x8];
-    void * unk_08;
-} S_800D5294_5;
 
 typedef struct S_800D5294_0_pre {
     u16 unk_00;
@@ -35,18 +31,18 @@ void emit_randomized_relative_particles(void *emitter, Rec_func_800D4BD4_arg2 *p
     u16 life_left;
     s16 coord;
     s16 particle_size;
-    S_800D5294_5 *parent;
+    ObjectNodeHeader *parent;
     ObjectPosition *particle_motion;
     M2C_UNK *particle_data;
     ObjectNodeHeader *particle;
     S_800D5294_2 *particle_state;
 
     parent = ((Rec_func_800D4BD4_arg1 *)emitter)->unk_24;
-    position->unk_02.as_s16 = (s16) (((MovingPosition *)(parent->unk_08))->x
+    position->unk_02.as_s16 = (s16) (((MovingPosition *)(parent->position))->x
         + ((Rec_func_800D4BD4_arg1 *)emitter)->unk_3C);
-    position->unk_06.as_s16 = (s16) (((MovingPosition *)(parent->unk_08))->y
+    position->unk_06.as_s16 = (s16) (((MovingPosition *)(parent->position))->y
         + ((Rec_func_800D4BD4_arg1 *)emitter)->unk_3E);
-    position->unk_0A.as_s16 = (s16) (((MovingPosition *)(parent->unk_08))->z
+    position->unk_0A.as_s16 = (s16) (((MovingPosition *)(parent->position))->z
         + ((Rec_func_800D4BD4_arg1 *)emitter)->unk_40);
     tick_or_offset = ((Rec_func_800D4BD4_arg1 *)emitter)->unk_16 + 1;
     ((Rec_func_800D4BD4_arg1 *)emitter)->unk_16 = tick_or_offset;

@@ -10,7 +10,7 @@ extern M2C_UNK map_active_callbacks;
 
 /* Call town_sd_sq_callagain when either global object check returns zero. */
 void retry_sound_sequence_when_ready(void) {
-    if ((find_unflagged_node_by_key(&map_active_node_key) == 0) || (apply_nearby_object_effects(&map_active_callbacks) == 0)) {
+    if ((find_unflagged_node_by_key(run_callbacks_unless_suppressed) == 0) || (apply_nearby_object_effects(&map_active_callbacks) == 0)) {
         town_sd_sq_callagain();
     }
 }

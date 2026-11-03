@@ -1,4 +1,5 @@
 #include "common.h"
+#include "town/map.h"
 
 typedef struct {
     u8 pad0[0xA];
@@ -14,7 +15,7 @@ typedef struct {
     void* unk6C;
 } Func8008E36CArg;
 
-extern u8 D_8008BC58[];
+
 extern u8 town_map_state_ids[];
 extern void* town_map_state_values[];
 
@@ -23,7 +24,7 @@ void decrease_inner_value_and_load_indexed_state(Func8008E36CArg* state) {
     state->inner->unkA -= 0x200;
     if (state->inner->unkA < 0) {
         state->inner->unkA = 0;
-        state->unk68 = D_8008BC58;
+        state->unk68 = handle_town_map_input;
         state->unk64 = (s8)town_map_state_ids[state->index];
         state->unk6C = town_map_state_values[state->index];
     }

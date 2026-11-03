@@ -14,7 +14,6 @@ typedef struct Copy12 {
     s32 word[3];
 } __attribute__((packed)) Copy12;
 
-
 extern s32 func_80167088(s32 limit);
 
 typedef struct S_80165F00_0 {
@@ -27,42 +26,12 @@ typedef struct S_80165F00_1 {
     u16 unk_06;
 } S_80165F00_1;
 
-typedef struct S_80165F00_2 {
-    u8 pad_00[0xC];
-    s32 unk_0C;
-    s32 unk_10;
-} S_80165F00_2;
-
-typedef struct S_80165F00_3 {
-    u8 pad_00[0x8];
-    void * unk_08;
-    u8 unk_0C;
-    s8 unk_0D;
-    s8 unk_0E;
-    u8 pad_0F[0x5];
-    u16 unk_14;
-    u8 pad_16[0x6];
-    s16 unk_1C;
-    s16 unk_1E;
-} S_80165F00_3;
-
 typedef struct S_80165F00_4 {
     u8 pad_00[0x2];
     u16 unk_02;
     u8 pad_04[0x6];
     u16 unk_0A;
 } S_80165F00_4;   /* ((S_80165F00_0 *)arg0)->unk_08 in create_jittered_landing_spark */
-
-typedef struct S_80165F00_5 {
-    u8 pad_00[0x2];
-    s16 unk_02;
-    u8 pad_04[0x2];
-    s16 unk_06;
-    u8 pad_08[0x2];
-    s16 unk_0A;
-    u8 pad_0C[0x8];
-    s32 unk_14;
-} S_80165F00_5;
 
 /* Spawns an effect near the source with randomized position and sprite scale. */
 void create_jittered_landing_spark(S_80165F00_0 *source)

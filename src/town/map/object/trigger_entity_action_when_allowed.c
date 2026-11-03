@@ -8,7 +8,7 @@
 
 typedef map_trigger_record Entity;
 
-extern s32 D_800C1F8C;
+
 
 /* Triggers the entity action and updates its handler when its predicate and distance checks pass. */
 void trigger_entity_action_when_allowed(Entity *entity)
@@ -37,5 +37,5 @@ void trigger_entity_action_when_allowed(Entity *entity)
     }
 
     SD_Call(entity->argument);
-    entity->handler = (map_trigger_callback_fn)&D_800C1F8C;
+    entity->handler = (map_trigger_callback_fn)trigger_action_when_position_limit_exceeded;
 }

@@ -155,4 +155,6 @@ void move_object_velocity(OwnerCallbackObject *owner, ObjectPosition *position, 
 void step_falling_object(OwnerCallbackObject *entity, ObjectPosition *motion, SpriteFrameState *output);
 void set_record_data_pointer(TownObjectRecord *record);
 
+void update_person_coordinates(void *state, ObjectPosition *coords);
+
 #endif

@@ -8,14 +8,14 @@
 #define NULL 0
 #endif
 
-extern s32 D_800A6B10;
+
 
 /* Creates an object and initializes its model scale, color, and flags. */
 void create_colored_scaled_effect(s32 object_id) {
     SpriteFrameState *model;
     ObjectNodeHeader *object;
 
-    object = (s8 *) create_town_effect_object(0, object_id, &D_800A6B10, 0);
+    object = (s8 *) create_town_effect_object(0, object_id, fade_and_grow_effect, 0);
     if (object != NULL) {
         model = object->sprite;
         initialize_object_transform_and_state(((s8 *)object) + 0x20, model, 0x3A1);

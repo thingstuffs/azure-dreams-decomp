@@ -7,7 +7,8 @@
 #include "town/player/object/entity_record_fields.h"
 #include "town/player/object.h"
 #include "town.h"
-extern s32 D_80098244;
+#include "town/player.h"
+
 
 /*
  * Clears entity motion fields, selects approach_action_handler_table, installs D_80098244 at
@@ -16,6 +17,6 @@ extern s32 D_80098244;
 void init_record_target_approach(TownObjectRecord *record, ObjectPosition *position, SpriteFrameState *init_context) {
     clear_entity_record_fields((position));
     call_the_handler_selects_nonzero_entry(approach_action_handler_table, record, init_context);
-    record->unk_04.as_pm = &D_80098244;
+    record->unk_04.as_pm = raise_record_value_to_target;
     record->unk_10.as_s16 = 0x400;
 }

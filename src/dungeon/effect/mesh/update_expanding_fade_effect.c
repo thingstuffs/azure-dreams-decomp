@@ -13,15 +13,11 @@ typedef struct S_81977E0C_0_pre {
 
 
 
-typedef struct S_81977E0C_3 {
-    u8 pad_00[0xA];
-    u16 unk_0A;
-} S_81977E0C_3;   /* D_80026208 in update_expanding_fade_effect */
 
 extern s32 *effect_position_source;
 
 /* Expand and fade a spiraling effect while updating its position. */
-void update_expanding_fade_effect(AnRandomAngleHeightOffsetAroundReferencePositionBody *effect, ObjectPosition *position, SpriteFrameState *sprite) {
+void update_expanding_fade_effect(ExpandingFadeEffectBody *effect, ObjectPosition *position, SpriteFrameState *sprite) {
     u16 height_offset;
     u16 age;
     u16 scale;
@@ -55,6 +51,6 @@ void update_expanding_fade_effect(AnRandomAngleHeightOffsetAroundReferencePositi
     position->y.v = (s32) (effect_position_source[1]
         + (((rcos((s16) effect->unk_08.u) >> 4) * (s16) effect->unk_06.u)
            << 8));
-    position->z.w.i = (s16) (((S_81977E0C_3 *)effect_position_source)->unk_0A
+    position->z.w.i = (s16) (((ExpandingFadeEffectBody *)effect_position_source)->unk_0A
         + effect->unk_0A);
 }

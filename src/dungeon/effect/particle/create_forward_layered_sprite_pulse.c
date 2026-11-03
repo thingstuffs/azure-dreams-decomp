@@ -30,17 +30,8 @@ extern u8 ribbon_sprite_entries[];
 extern LocalTable D_8016482C;
 extern s32 beldo_actor_nodes;
 
-typedef struct S_801677FC_0 {
-    u8 pad_00[0x8];
-    void * unk_08;
-} S_801677FC_0;   /* (void *)D_80175D50 in create_forward_layered_sprite_pulse */
 
 
-typedef struct S_801677FC_5 {
-    s32 unk_00;
-    s32 unk_04;
-    s32 unk_08;
-} S_801677FC_5;
 
 typedef struct S_801677FC_6 {
     u8 pad_00[0x2A];
@@ -57,7 +48,7 @@ void create_forward_layered_sprite_pulse(void)
     SpriteFrameState *render_flags;
     ObjectPosition *effect_pos;
     SpriteFrameState *sprite;
-    S_801677FC_5 *source_pos;
+    ObjectPosition *source_pos;
     S_801677FC_6 *source_state;
     ObjectNodeHeader *effect;
     LayeredSpritePulseBody *effect_state;
@@ -65,7 +56,7 @@ void create_forward_layered_sprite_pulse(void)
     direction_offsets = D_8016482C;
     effect_index = 0;
     source_state = (void *)beldo_actor_nodes + 0x20;
-    source_pos = ((S_801677FC_0 *)((void *)beldo_actor_nodes))->unk_08;
+    source_pos = ((SpriteFrameState *)((void *)beldo_actor_nodes))->source;
     do {
         effect = allocate_flagged_object_node(0x212);
         if (effect != NULL) {
@@ -79,10 +70,10 @@ void create_forward_layered_sprite_pulse(void)
             render_flags->flags =
                 (u16)(render_flags->flags | 0xC);
             effect_pos = effect->position;
-            effect_pos->x.v = source_pos->unk_00;
-            effect_pos->y.v = source_pos->unk_04;
+            effect_pos->x.v = source_pos->x.v;
+            effect_pos->y.v = source_pos->y.v;
             effect_pos->z.v =
-                source_pos->unk_08 + (s32)0xFFCE0000;
+                source_pos->z.v + (s32)0xFFCE0000;
             effect_pos->x.w.i =
                 (u16)(((u16)(effect_pos->x.w.i)) +
                 ((*(s16 *)((u8 *)(&direction_offsets) + ((source_state->unk_2A >> 7) & 0x1C))) * 0x14));

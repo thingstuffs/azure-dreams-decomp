@@ -93136,26 +93136,10 @@
           "owner": "retail_asset:town:xfer_town_B000"
         },
         {
-          "symbol": "D_800970FC",
-          "kind": "data",
-          "vma": 2148102396,
-          "foff": 104860,
-          "view_bytes": 6,
-          "owner": "retail_asset:town:xfer_town_B000"
-        },
-        {
           "symbol": "D_800A58CC",
           "kind": "data",
           "vma": 2148161740,
           "foff": 164204,
-          "view_bytes": 4,
-          "owner": "retail_asset:town:xfer_town_B000"
-        },
-        {
-          "symbol": "D_800A5A98",
-          "kind": "data",
-          "vma": 2148162200,
-          "foff": 164664,
           "view_bytes": 4,
           "owner": "retail_asset:town:xfer_town_B000"
         },
@@ -93389,6 +93373,11 @@
           "symbol": "func_80096FF4",
           "kind": "function",
           "vma": 2148102132
+        },
+        {
+          "symbol": "func_800970FC",
+          "kind": "function",
+          "vma": 2148102396
         },
         {
           "symbol": "func_80097844",

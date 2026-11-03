@@ -54,9 +54,6 @@ typedef struct S_81850800_1 {
     s8 unk_73;
 } S_81850800_1;
 
-typedef struct S_81850800_2 {
-    void * unk_00;
-} S_81850800_2;
 
 typedef struct S_81850800_5 {
     union {
@@ -229,7 +226,7 @@ void decrement_flagged_item_parameters(S_81850800_0 *owner, S_81850800_7 *motion
     step_x_table = (u8 *)((s8 *)dir_step_x);
     magnitude = (u16)caster_data->unk_2A.unk_2A_u16;
     facing_shift = magnitude >> 8;
-    caster_sprite = ((S_81850800_2 *)((u8 *)caster_data - 0x14))->unk_00;
+    caster_sprite = ((SpriteFrameState *)((u8 *)caster_data - 0x14))->unk_00;
     base_y = facing_shift & 0xE;
     step_x_table = (base_y + step_x_table);
     step_x = *(s16 *)step_x_table;
@@ -276,7 +273,7 @@ void decrement_flagged_item_parameters(S_81850800_0 *owner, S_81850800_7 *motion
             dx = step_x * tiles_ahead;
             facing_shift = step_y * tiles_ahead;
         } else {
-            position = ((S_81850800_2 *)((u8 *)target - 0x14))->unk_00;
+            position = ((SpriteFrameState *)((u8 *)target - 0x14))->unk_00;
             copy_value = caster_sprite->tile_x;
             base_y = position->unk_24;
             facing_shift = position->unk_25;

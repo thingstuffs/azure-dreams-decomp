@@ -3,10 +3,11 @@
 #include "shared/town_object.h"
 #include "shared/town_handler.h"
 #include "town/player/item.h"
+#include "town/player/position.h"
 
 
 
-extern u8 D_80093458[];
+
 
 
 typedef struct S_800947CC_1 {
@@ -23,7 +24,7 @@ void initialize_returned_item_action(TownObjectRecord *object, S_800947CC_1 *set
 
     call_the_handler_selects_nonzero_entry(type_three_action_handler_table, object, ptr2);
     object->unk_30 = (u16) settings->unk_02;
-    handler = (s32 *) D_80093458;
+    handler = (s32 *) approach_linked_position_until_timeout;
     secondSetting = settings->unk_06;
     object->unk_00.as_pm = handler;
     object->unk_0A.as_s16 = 0x14;

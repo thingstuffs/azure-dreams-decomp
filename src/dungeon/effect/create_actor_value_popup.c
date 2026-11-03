@@ -33,10 +33,6 @@ typedef struct S_800B4C7C_1 {
     u8 unk_23;
 } S_800B4C7C_1;
 
-typedef struct S_800B4C7C_2 {
-    u8 pad_00[0x2];
-    u16 unk_02;
-} S_800B4C7C_2;
 
 typedef struct S_800B4C7C_4 {
     u8 pad_00[0x6];
@@ -44,12 +40,6 @@ typedef struct S_800B4C7C_4 {
     u8 pad_08[0x2];
     u16 unk_0A;
 } S_800B4C7C_4;
-
-typedef struct S_800B4C7C_5 {
-    u8 pad_00[0x6];
-    s16 unk_06;
-    void * unk_08;
-} S_800B4C7C_5;
 
 typedef struct S_800B4C7C_6 {
     u8 pad_00[0x2];
@@ -83,7 +73,7 @@ void *create_actor_value_popup(s32 flags, void *source_data, s16 value, u16 call
     void *state;
     void *new_object;
     S_800B4C7C_0 *source_object;
-    S_800B4C7C_2 *source_position;
+    ObjectPosition *source_position;
     S_800B4C7C_4 *anchor;
 
     new_object = allocate_list_node(0x212, &scene_object_list_anchor.next);
@@ -98,7 +88,7 @@ void *create_actor_value_popup(s32 flags, void *source_data, s16 value, u16 call
         source_position = source_object->unk_08;
         state = NODE_BODY(object);
         ((S_800B4C7C_1 *)state)->unk_14 = source_position;
-        anchor_x = source_position->unk_02;
+        anchor_x = source_position->x.unsigned_parts.integer;
         position->x.w.i = anchor_x;
         anchor = ((S_800B4C7C_1 *)state)->unk_14;
         ((S_800B4C7C_1 *)state)->unk_18 = anchor_x;

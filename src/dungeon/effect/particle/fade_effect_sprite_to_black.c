@@ -141,11 +141,11 @@ void update_directional_actor_effect(void *effect, void *motion, void *sprite) {
                 }
                 frame.launch.vz = height_offset;
             }
-            ((S_8182C800_5 *)motion)->unk_00.at00.v = (s32) (((ObjectPosition *)owner_object->unk_08)->x.v
+            ((ObjectPosition *)motion)->x.v = (s32) (((ObjectPosition *)owner_object->unk_08)->x.v
                 + (frame.launch.vx << 0x10));
-            ((S_8182C800_5 *)motion)->unk_04.at00.v = (s32) (((ObjectPosition *)owner_object->unk_08)->y.v
+            ((ObjectPosition *)motion)->y.v = (s32) (((ObjectPosition *)owner_object->unk_08)->y.v
                 + (frame.launch.vy << 0x10));
-            ((S_8182C800_5 *)motion)->unk_08 = (s32) (((ObjectPosition *)owner_object->unk_08)->z.v
+            ((ObjectPosition *)motion)->z.v = (s32) (((ObjectPosition *)owner_object->unk_08)->z.v
                 + (frame.launch.vz << 0x10));
             object = effect - 0x20;
             register_node(object, project_sprite_chain);
@@ -216,9 +216,9 @@ void update_directional_actor_effect(void *effect, void *motion, void *sprite) {
                 frame.target_z.half.z = ((u16)((object->position)->z.w.i)) - 0x28;
             }
             target_x = (S_8182C800_3 *)frame.target_x;
-            start_x = ((S_8182C800_5 *)motion)->unk_00.at02.v;
+            start_x = ((ObjectPosition *)motion)->x.w.i;
             target_y = frame.target_y;
-            start_y = ((S_8182C800_5 *)motion)->unk_04.at02.v;
+            start_y = ((ObjectPosition *)motion)->y.w.i;
             distance_x = ((s32)target_x) - start_x;
             motion_extent = target_y - start_y;
             distance_sum = __builtin_abs(distance_x);
@@ -252,12 +252,12 @@ void update_directional_actor_effect(void *effect, void *motion, void *sprite) {
             accel_y = (s32) ((s32) ((motion_extent << 0x10) - (direction_y * base_travel)) / distance_sum);
             (*(s32 *)&((EntityRec *)effect)->unk_48) = accel_y;
             ((EntityRec *)effect)->unk_4C = (s32) ((s32) ((s32) frame.target_z.packed
-                - ((S_8182C800_5 *)motion)->unk_08) / distance_sum);
-            ((S_8182C800_5 *)motion)->unk_0C = (s32) ((direction_x * 0x66666)
+                - ((ObjectPosition *)motion)->z.v) / distance_sum);
+            ((ObjectPosition *)motion)->velocity_x = (s32) ((direction_x * 0x66666)
                 + ((s16) ((EntityRec *)effect)->unk_50 * (*(s32 *)&((EntityRec *)effect)->unk_44)));
-            ((S_8182C800_5 *)motion)->unk_10 = (s32) ((direction_y * 0x66666)
+            ((ObjectPosition *)motion)->velocity_y = (s32) ((direction_y * 0x66666)
                 + ((s16) ((EntityRec *)effect)->unk_50 * (*(s32 *)&((EntityRec *)effect)->unk_48)));
-            ((S_8182C800_5 *)motion)->unk_14 =
+            ((ObjectPosition *)motion)->velocity_z =
                 (s32) ((s16) ((EntityRec *)effect)->unk_50 * ((s32)((EntityRec *)effect)->unk_4C));
             ((EntityRec *)effect)->unk_52 = (u16) ((EntityRec *)effect)->unk_50;
             ((s32 (*)(s32, s32))play_sound_if_enabled)(0x300, accel_x);
@@ -311,11 +311,11 @@ spawn_trail:
             frame.spec.zero = 0;
             transform_rotated_vertices(&frame.spec);
             (object->position)->x.v =
-                (s32) (((S_8182C800_5 *)motion)->unk_00.at00.v + ((((motion_extent = rand()) & 0x1FF) - 0xFF) << 9));
+                (s32) (((ObjectPosition *)motion)->x.v + ((((motion_extent = rand()) & 0x1FF) - 0xFF) << 9));
             (object->position)->y.v =
-                (s32) (((S_8182C800_5 *)motion)->unk_04.at00.v + ((((motion_extent = rand()) & 0x1FF) - 0xFF) << 9));
+                (s32) (((ObjectPosition *)motion)->y.v + ((((motion_extent = rand()) & 0x1FF) - 0xFF) << 9));
             (object->position)->z.v =
-                (s32) (((S_8182C800_5 *)motion)->unk_08 + ((((motion_extent = rand()) & 0x1FF) - 0xFF) << 9));
+                (s32) (((ObjectPosition *)motion)->z.v + ((((motion_extent = rand()) & 0x1FF) - 0xFF) << 9));
             trail_pos_x = object->position;
             trail_pos_x->x.v = (s32) (trail_pos_x->x.v + ((frame.vel_x << 0xC) + (direction_x << 0x15)));
             trail_pos_y = object->position;
@@ -323,11 +323,11 @@ spawn_trail:
             trail_pos_z = object->position;
             trail_pos_z->z.v = (s32) (trail_pos_z->z.v + (frame.vel_z << 0xC));
             (object->position)->velocity_x =
-                (s32) ((s32) ((S_8182C800_5 *)motion)->unk_0C >> 3);
+                (s32) ((s32) ((ObjectPosition *)motion)->velocity_x >> 3);
             (object->position)->velocity_y =
-                (s32) ((s32) ((S_8182C800_5 *)motion)->unk_10 >> 3);
+                (s32) ((s32) ((ObjectPosition *)motion)->velocity_y >> 3);
             (object->position)->velocity_z =
-                (s32) ((s32) ((S_8182C800_5 *)motion)->unk_14 >> 3);
+                (s32) ((s32) ((ObjectPosition *)motion)->velocity_z >> 3);
             ((SpriteFrameState *)sprite_work)->scale_y = 0x800;
             ((SpriteFrameState *)sprite_work)->scale_x = 0x800;
             ((SpriteFrameState *)sprite_work)->tpage_abr = 0x60;
@@ -343,18 +343,18 @@ spawn_trail:
         }
         distance_x -= 1;
         if (distance_x < 0) {
-            ((S_8182C800_5 *)motion)->unk_0C = (s32) (((S_8182C800_5 *)motion)->unk_0C
+            ((ObjectPosition *)motion)->velocity_x = (s32) (((ObjectPosition *)motion)->velocity_x
                 - (*(s32 *)&((EntityRec *)effect)->unk_44));
-            ((S_8182C800_5 *)motion)->unk_10 = (s32) (((S_8182C800_5 *)motion)->unk_10
+            ((ObjectPosition *)motion)->velocity_y = (s32) (((ObjectPosition *)motion)->velocity_y
                 - (*(s32 *)&((EntityRec *)effect)->unk_48));
-            ((S_8182C800_5 *)motion)->unk_14 = (s32) (((S_8182C800_5 *)motion)->unk_14
+            ((ObjectPosition *)motion)->velocity_z = (s32) (((ObjectPosition *)motion)->velocity_z
                 - ((s32)((EntityRec *)effect)->unk_4C));
-            ((S_8182C800_5 *)motion)->unk_00.at00.v = (s32) (((S_8182C800_5 *)motion)->unk_00.at00.v
-                + ((S_8182C800_5 *)motion)->unk_0C);
-            ((S_8182C800_5 *)motion)->unk_04.at00.v = (s32) (((S_8182C800_5 *)motion)->unk_04.at00.v
-                + ((S_8182C800_5 *)motion)->unk_10);
-            ((S_8182C800_5 *)motion)->unk_08 = (s32) (((S_8182C800_5 *)motion)->unk_08
-                + ((S_8182C800_5 *)motion)->unk_14);
+            ((ObjectPosition *)motion)->x.v = (s32) (((ObjectPosition *)motion)->x.v
+                + ((ObjectPosition *)motion)->velocity_x);
+            ((ObjectPosition *)motion)->y.v = (s32) (((ObjectPosition *)motion)->y.v
+                + ((ObjectPosition *)motion)->velocity_y);
+            ((ObjectPosition *)motion)->z.v = (s32) (((ObjectPosition *)motion)->z.v
+                + ((ObjectPosition *)motion)->velocity_z);
             advance_sprite_animation_and_textures((void *) sprite_or_step_x);
             sprite_flags = ((S_8182C800_6 *)sprite_or_step_x)->unk_14;
             if (sprite_flags & 0x6000) {
@@ -368,12 +368,12 @@ spawn_trail:
             }
             steps_left = ((EntityRec *)effect)->unk_50 - 1;
             ((EntityRec *)effect)->unk_50 = steps_left;
-            coord = ((S_8182C800_5 *)motion)->unk_00.at02.v;
+            coord = ((ObjectPosition *)motion)->x.w.i;
             if (coord < 0) {
                 coord += 0x3F;
             }
             if (((coord >> 6) == (s8) ((S_8182C800_1 *)owner)->unk_72.s
-                    && ((S_8182C800_5 *)motion)->unk_04.at02.v / 64 == (s8) ((S_8182C800_1 *)owner)->unk_73.s
+                    && ((ObjectPosition *)motion)->y.w.i / 64 == (s8) ((S_8182C800_1 *)owner)->unk_73.s
                     && (s16) steps_left < 0)
                 || (s16) ((EntityRec *)effect)->unk_50 < -0x20) {
                 if (((S_8182C800_1 *)owner)->unk_60 == 0) {
@@ -390,12 +390,12 @@ spawn_trail:
                 ((S_8182C800_6 *)sprite_or_step_x)->unk_08 = hit_tpage;
                 target_tile = ((S_8182C800_1 *)owner)->unk_72.u;
 
-                ((S_8182C800_5 *)motion)->unk_00.at02.v = (s16) ((target_tile << 6) + 0x20);
+                ((ObjectPosition *)motion)->x.w.i = (s16) ((target_tile << 6) + 0x20);
                 target_tile_y = ((S_8182C800_1 *)owner)->unk_73.u;
-                ((S_8182C800_5 *)motion)->unk_14 = 0;
-                ((S_8182C800_5 *)motion)->unk_10 = 0;
-                ((S_8182C800_5 *)motion)->unk_0C = 0;
-                ((S_8182C800_5 *)motion)->unk_04.at02.v = (s16) ((target_tile_y << 6) + 0x20);
+                ((ObjectPosition *)motion)->velocity_z = 0;
+                ((ObjectPosition *)motion)->velocity_y = 0;
+                ((ObjectPosition *)motion)->velocity_x = 0;
+                ((ObjectPosition *)motion)->y.w.i = (s16) ((target_tile_y << 6) + 0x20);
                 ((EntityRec *)effect)->z.w.i += 1;
                 return;
             }
@@ -416,18 +416,18 @@ spawn_trail:
                         burst_sprite = object->sprite;
                         object->update_callback = (void *)advance_motion_damping_downward_acceleration_count_down_fade_effect;
                         (object->position)->x.v =
-                            (s32) (((S_8182C800_5 *)motion)->unk_00.at00.v
+                            (s32) (((ObjectPosition *)motion)->x.v
                                 + ((((sprite_work = rand()) & 0x3FF) - 0x1FF) << 0xD));
                         (object->position)->y.v =
-                            (s32) (((S_8182C800_5 *)motion)->unk_04.at00.v
+                            (s32) (((ObjectPosition *)motion)->y.v
                                 + ((((sprite_work = rand()) & 0x3FF) - 0x1FF) << 0xD));
                         (object->position)->z.v =
-                            (s32) (((S_8182C800_5 *)motion)->unk_08 + ((((sprite_work = rand()) & 0x3FF) - 0x1FF) << 0xC));
+                            (s32) (((ObjectPosition *)motion)->z.v + ((((sprite_work = rand()) & 0x3FF) - 0x1FF) << 0xC));
                         burst_motion_x = object->position;
-                        burst_motion_x->velocity_x = (s32) ((s32) (((S_8182C800_5 *)motion)->unk_00.at00.v
+                        burst_motion_x->velocity_x = (s32) ((s32) (((ObjectPosition *)motion)->x.v
                             - burst_motion_x->x.v) >> 3);
                         burst_motion_y = object->position;
-                        burst_motion_y->velocity_y = (s32) ((s32) (((S_8182C800_5 *)motion)->unk_04.at00.v
+                        burst_motion_y->velocity_y = (s32) ((s32) (((ObjectPosition *)motion)->y.v
                             - burst_motion_y->y.v) >> 3);
                         (object->position)->velocity_z =
                             (s32) (0 - (((sprite_work = rand()) & 0x3FF) << 9));

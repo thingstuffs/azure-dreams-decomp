@@ -28,14 +28,6 @@ typedef struct S_800C22EC_2 {
     u8 unk_03;
 } S_800C22EC_2;
 
-typedef struct S_800C22EC_3 {
-    u8 pad_00[0x1C];
-    s32 unk_1C;
-    u8 pad_20[0x8];
-    s8 unk_28;
-    u8 unk_29;
-} S_800C22EC_3;
-
 /* Processes an entity action and updates the selected target or reports failure. */
 s32 use_item_to_revive_selected_actor(ActorRecord *entity, DungeonItemEntry *action, s16 action_type, void *context) {
     s32 target_index;

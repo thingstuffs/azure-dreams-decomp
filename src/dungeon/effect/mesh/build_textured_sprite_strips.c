@@ -1035,7 +1035,7 @@ void update_traveling(S_func_81905FD0_1 *effect, S_func_81905FD0_2 *motion, S_fu
                 motion->z.u16_0A.unk_0A = owner_height - 0x40;
             }
         }
-        if ((((S_func_81905FD0_12 *)effect->launch_flags)->flags & 0x80) == 0) {
+        if ((((ObjectPosition *)effect->launch_flags)->x.w.frac & 0x80) == 0) {
             return;
         }
         if ((effect->flags & 4) == 0) {

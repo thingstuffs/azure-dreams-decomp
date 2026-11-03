@@ -4,6 +4,7 @@
 #include "shared/town_object.h"
 #include "shared/object_index_slots.h"
 #include "town/data.h"
+#include "town/person/person_object_lifecycle_g00659.h"
 
 
 typedef struct S_800C4D80_1 {
@@ -23,8 +24,8 @@ typedef struct {
     void *object;
 } TownEntry;
 
-extern u8 message_motion_type_a[];
-extern u8 message_motion_type_b[];
+
+
 
 /* trget_psn_ang_set: set the matching person's angle from the table and refresh its child state. */
 void trget_psn_ang_set(s8 object_slot, s8 angle_index)
@@ -48,7 +49,7 @@ void trget_psn_ang_set(s8 object_slot, s8 angle_index)
         if (object_index == object_data->slot) {
             if (object_index == 1) {
                 object_kind = entry->unk_10;
-                if (object_kind != message_motion_type_a && object_kind != message_motion_type_b) {
+                if (object_kind != update_object_position_or_cleanup && object_kind != update_object_motion_and_flags) {
                     object_data->unk_10.as_u16 = angle;
                     return;
                 }

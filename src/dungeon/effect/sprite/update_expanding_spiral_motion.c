@@ -30,15 +30,9 @@ typedef struct S_8185CB30_1 {
     u16 unk_14;
 } S_8185CB30_1;
 
-typedef struct S_8185CB30_2 {
-    u8 pad_00[0x2];
-    s16 unk_02;
-    u8 pad_04[0x2];
-    s16 unk_06;
-} S_8185CB30_2;   /* arg1 in update_expanding_spiral_motion */
 
 /* Advance expanding spiral motion and update the moving object. */
-void update_expanding_spiral_motion(S_8185CB30_0 *motion, S_8185CB30_2 *position, SpriteFrameState *object)
+void update_expanding_spiral_motion(S_8185CB30_0 *motion, ObjectPosition *position, SpriteFrameState *object)
 {
     s16 next_angle;
     u16 cycle_tick;
@@ -65,11 +59,11 @@ void update_expanding_spiral_motion(S_8185CB30_0 *motion, S_8185CB30_2 *position
     motion->unk_1C = (u16)next_angle;
     motion->unk_1C = (u16)(next_angle % 0x1000);
     motion->unk_20 = (u16)(motion->unk_20 + 4);
-    position->unk_02 =
+    position->x.w.i =
         (s16)(motion->unk_06 +
               ((s32)((rsin((s16)motion->unk_1C) >> 4) *
                      (s16)motion->unk_20) >> 8));
-    position->unk_06 =
+    position->y.w.i =
         (s16)(motion->unk_0A +
               ((s32)((rcos((s16)motion->unk_1C) >> 4) *
                      (s16)motion->unk_20) >> 8));

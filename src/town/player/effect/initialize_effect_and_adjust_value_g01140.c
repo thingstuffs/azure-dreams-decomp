@@ -27,7 +27,7 @@ void initialize_effect_and_adjust_value(void *object, ObjectPosition *record, s3
         init_value = record->z.v;
         record->z.v =
             (init_value + delta) - D_800D0CC0[0];
-        register_node_if_unregistered(object, player_motion_draw_address);
+        register_node_if_unregistered(object, draw_entry_overlays);
     }
 }
 
@@ -71,12 +71,12 @@ void turn_entity_toward_target(TownPlayerRecord *entity, void *transform, Sprite
         void *entity_type;
 
         entity_type = entity->unk_00;
-        if (entity_type == (u8 *)&D_800A5A98 && (input_state->buttons & 0x2000)) {
+        if (entity_type == (u8 *)update_actor_movement_and_actions && (input_state->buttons & 0x2000)) {
             target_angle = entity->unk_10.as_s16;
             current_angle = entity->unk_18;
             target_angle -= 0x200;
             entity->unk_18 = step_angle_12_toward(current_angle, target_angle, 0x200);
-        } else if (entity_type == (u8 *)&D_800A5A98 && (input_state->buttons & 0x8000)) {
+        } else if (entity_type == (u8 *)update_actor_movement_and_actions && (input_state->buttons & 0x8000)) {
             target_angle = entity->unk_10.as_s16;
             current_angle = entity->unk_18;
             target_angle += 0x200;
@@ -185,7 +185,7 @@ void update_object_view_transition(S_800A58CC_2 *state_arg, ObjectPosition *obje
     }
     if ((state_arg->unk_0A.u == 0) && (town->view.camera_rotation.parts.viewAngle == target_yaw)) {
         state_arg->unk_0A.u = 0;
-        state_arg->unk_00 = &D_800A5A98;
+        state_arg->unk_00 = update_actor_movement_and_actions;
     }
 }
 

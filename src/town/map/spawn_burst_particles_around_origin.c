@@ -8,6 +8,7 @@
 #include "engine/runtime.h"
 #include "sdk/libc.h"
 #include "town/map.h"
+#include "town/map/motion.h"
 
 
 typedef struct S_800BBCA0_2 {
@@ -27,7 +28,7 @@ typedef struct S_800BBCA0_3 {
     s16 unk_4C;
 } S_800BBCA0_3;   /* motion in spawn_burst_particles_around_origin */
 
-extern u8 D_800BC00C[];
+
 extern u8 D_800F1654[];
 
 /* Spawns particles around the origin, emits a burst, then marks the effect finished. */
@@ -53,7 +54,7 @@ void spawn_burst_particles_around_origin(BurstParticleSpawnerObject *self, Objec
     {
         u8 *object_type;
         u8 *sprite_type;
-        object_type = D_800BC00C;
+        object_type = update_effect_motion_size_and_brightness;
         sprite_type = D_800F1654;
         do {
             object = allocate_list_node(0x312, &scene_object_list_anchor.next);
@@ -102,7 +103,7 @@ void spawn_burst_particles_around_origin(BurstParticleSpawnerObject *self, Objec
         u8 *object_type;
         u8 *sprite_type;
         spawn_count = 0x64;
-        object_type = D_800BC00C;
+        object_type = update_effect_motion_size_and_brightness;
         sprite_type = D_800F1654;
         do {
             object = allocate_list_node(0x312, &scene_object_list_anchor.next);

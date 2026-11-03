@@ -6,7 +6,8 @@
 
 #include "town/player/call_the_handler_selects_nonzero_entry_api.h"  /* extern */
 #include "town/player/object/entity_record_fields.h"                     /* extern */
-extern void player_handler_table_address();
+#include "town/player.h"
+
 extern s32 D_800D0178;
 
 
@@ -14,7 +15,7 @@ extern s32 D_800D0178;
 void initialize_indexed_object_and_clear_flags(TownObjectRecord *object, ObjectPosition *setupValue, SpriteFrameState *initializationValue) {
     clear_entity_record_fields((setupValue));
     call_the_handler_selects_nonzero_entry(&D_800D0178, object, initializationValue);
-    object->unk_04.as_pm = &player_handler_table_address;
+    object->unk_04.as_pm = dispatch_state_callback_by_mode;
     object_index_slots[1].unk_00 = 0;
     object_index_slots[1].unk_01 = 0;
 }

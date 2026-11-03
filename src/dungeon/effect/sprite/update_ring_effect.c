@@ -8,7 +8,6 @@ typedef struct S_819598B4_0_pre {
     u16 unk_00;
 } S_819598B4_0_pre;   /* the 0x2 bytes before state in update_ring_effect, addressed as state[-1] */
 
-
 typedef struct S_819598B4_1 {
     u8 pad_00[0xC];
     union {
@@ -30,10 +29,7 @@ typedef struct S_819598B4_2 {
     union { s16 n; u16 v; } unk_0A;   /* accessed as both */
 } S_819598B4_2;   /* values in update_ring_effect */
 
-typedef struct S_819598B4_3 {
-    u8 pad_00[0x2A];
-    s16 unk_2A;
-} S_819598B4_3;   /* D_800E3D7C[0] in update_ring_effect */
+   /* D_800E3D7C[0] in update_ring_effect */
 
 extern u16 sprite_effect_update_count[];
 extern u8 ring_effect_work[];

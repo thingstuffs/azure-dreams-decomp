@@ -1,6 +1,7 @@
 #include "common.h"
 #include "shared/position_views.h"
 #include "town/map/object.h"
+#include "town/map.h"
 
 typedef struct S_8008BA44_0 {
     void * unk_00;
@@ -19,7 +20,7 @@ typedef struct S_8008BA44_2 {
 } S_8008BA44_2;   /* test_inner in decrease_town_map_object_field_0a_and_transition */
 
 
-extern u8 D_8008BC58[];
+
 extern u8 town_map_state_ids[];
 extern s32 town_map_state_values[];
 
@@ -35,7 +36,7 @@ void decrease_town_map_object_field_0a_and_transition(S_8008BA44_0 *obj)
     signed_state = obj->unk_00;
     if (signed_state->unk_0A.s < 0) {
         signed_state->unk_0A.u = 0;
-        obj->unk_68 = D_8008BC58;
+        obj->unk_68 = handle_town_map_input;
         obj->unk_64.s = (s8)town_map_state_ids[obj->unk_66];
         reset_data = town_map_state_values[obj->unk_66];
         obj->unk_64.u = 0x16;

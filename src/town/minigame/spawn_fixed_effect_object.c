@@ -9,6 +9,7 @@
 #include "engine/node.h"
 #include "town/minigame.h"
 #include "town/scene.h"
+#include "town/minigame/state.h"
 
 #ifndef NULL
 #define NULL 0
@@ -32,7 +33,7 @@ typedef struct S_800BF3F0_3 {
 
    /* the 0x2 bytes before arg0 in spawn_fixed_effect_object, addressed as arg0[-1] */
 
-extern u8 D_800BF1C8[];
+
 extern u8 D_800D232C[];
 extern s32 D_800D2344[3];
 
@@ -50,7 +51,7 @@ void spawn_fixed_effect_object(TownObjectRecord *caller_data, ObjectPosition *un
         register_node(object, draw_linked_lit_meshes);
         color = 0x00808080U;
 
-        ((ProjectileObject *)object)->update_callback = D_800BF1C8;
+        ((ProjectileObject *)object)->update_callback = advance_interaction_state_animating_cursor;
         render_state = ((ProjectileObject *)object)->sprite;
         render_state->unk_1C = 0x1000;
         render_state->unk_1E = 0x1000;

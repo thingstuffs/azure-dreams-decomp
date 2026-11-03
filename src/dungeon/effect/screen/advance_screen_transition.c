@@ -9,22 +9,14 @@
 #include "engine/graphics.h"
 #include "engine/resource.h"
 #include "slus.h"
-
+#include "dungeon/effect/screen.h"
 
 typedef struct S_80024078_2_pre {
     void * unk_00;
     u8 pad_04[0x14];
 } S_80024078_2_pre;   /* the 0x18 bytes before parent in advance_screen_transition, addressed as parent[-1] */
 
-typedef struct S_80024078_3 {
-    u8 pad_00[0xA];
-    s16 unk_0A;
-} S_80024078_3;   /* arg0 in advance_screen_transition */
-
-typedef struct S_80024078_4 {
-    u8 pad_00[0x2C];
-    s16 unk_2C;
-} S_80024078_4;   /* arg0->child in advance_screen_transition */
+   /* arg0 in advance_screen_transition */
 
 
 typedef struct {
@@ -111,7 +103,7 @@ case 1:
     break;
 
     case 2:
-        if (((S_80024078_4 *)(ctx->child))->unk_2C != 1) {
+        if (((AdvanceScreenTransitionBody *)(ctx->child))->unk_2C.s != 1) {
             break;
         }
         ctx->timer_1C = 0x18;

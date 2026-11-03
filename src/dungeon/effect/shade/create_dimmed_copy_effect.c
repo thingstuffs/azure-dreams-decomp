@@ -21,12 +21,6 @@ typedef struct S_818C32F4_1 {
     s16 unk_06;
 } S_818C32F4_1;
 
-typedef struct S_818C32F4_3 {
-    u8 pad_00[0xC];
-    s32 unk_0C;
-    u8 pad_10[0xA];
-    u16 unk_1A;
-} S_818C32F4_3;   /* template_arg in create_dimmed_copy_effect */
 
 typedef struct S_818C32F4_4 {
     s32 unk_00;
@@ -66,7 +60,7 @@ s32 create_dimmed_copy_effect(s32 *object_id, S_818C32F4_4 *source_data, void *v
         object_state->unk_04 = 0;
         object_state->unk_06 = 0;
         visual = object->sprite;
-        visual->color.word = ((S_818C32F4_3 *)(visual_template))->unk_0C;
+        visual->color.word = ((SpriteFrameState *)(visual_template))->color.word;
         if ((u8)visual->color.word != 0) {
             visual->color.c.r = 0xC0;
         }
@@ -80,7 +74,7 @@ s32 create_dimmed_copy_effect(s32 *object_id, S_818C32F4_4 *source_data, void *v
         visual->tpage_abr = visual->tpage_abr | 0x60;
         select_record_entry_and_value(visual, shaded_quad_frame_set, 0);
         init_data = draw_linked_sprites_clipped;
-        angle = ((S_818C32F4_3 *)(visual_template))->unk_1A;
+        angle = ((SpriteFrameState *)(visual_template))->angle_z;
         visual->scale_y = 0x1400;
         visual->scale_x = 0x1400;
         visual->angle_z = angle;

@@ -31,10 +31,6 @@ typedef struct S_800B45E0_1 {
 } S_800B45E0_1;
 
 
-typedef struct S_800B45E0_3 {
-    u8 pad_00[0x2];
-    u16 unk_02;
-} S_800B45E0_3;
 
 
    /* ((S_800B45E0_0 *)arg0)->unk_14 in update_anchored_fading_effect */
@@ -59,7 +55,7 @@ void update_anchored_fading_effect(void *effect, ObjectPosition *motion, SpriteF
     u8 brightness_2;
     u8 next_brightness;
     S_800B45E0_1 *owner;
-    S_800B45E0_3 *anchor;
+    ObjectPosition *anchor;
 
     owner = ((S_800B45E0_0 *)effect)->unk_00;
     if (owner != NULL) {
@@ -70,7 +66,7 @@ void update_anchored_fading_effect(void *effect, ObjectPosition *motion, SpriteF
     }
     anchor = ((S_800B45E0_0 *)effect)->unk_14;
     if (anchor != NULL) {
-        motion->x.w.i = ((u16)motion->x.w.i - (((S_800B45E0_0 *)effect)->unk_18 - anchor->unk_02));
+        motion->x.w.i = ((u16)motion->x.w.i - (((S_800B45E0_0 *)effect)->unk_18 - anchor->x.unsigned_parts.integer));
         ((S_800B45E0_0 *)effect)->unk_18 = (u16) ((MovingPosition *)(((S_800B45E0_0 *)effect)->unk_14))->x;
         motion->y.w.i = ((u16)motion->y.w.i - (((S_800B45E0_0 *)effect)->unk_1A
             - ((MovingPosition *)(((S_800B45E0_0 *)effect)->unk_14))->y));

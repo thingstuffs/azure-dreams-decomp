@@ -5,10 +5,6 @@
 #include "dungeon/menu/state.h"
 
 
-typedef struct S_800DC5B4_0 {
-    u8 pad_00[0x11];
-    u8 unk_11;
-} S_800DC5B4_0;   /* *state in update_cached_state_byte */
 
 typedef struct S_800DC5B4_1 {
     u8 pad_00[0x30];
@@ -21,9 +17,9 @@ void update_cached_state_byte(S_800DC5B4_1 *cachedState) {
     void **globalStateSlot;
 
     globalStateSlot = (void **)(&primary_actor_record);
-    currentValue = ((S_800DC5B4_0 *)(*globalStateSlot))->unk_11;
+    currentValue = ((ActorRecord *)(*globalStateSlot))->level;
     if (currentValue != cachedState->unk_30) {
         draw_filler_first_number(currentValue, cachedState->unk_30, 2, 0x18A, 0x190, 0);
-        cachedState->unk_30 = ((S_800DC5B4_0 *)(*globalStateSlot))->unk_11;
+        cachedState->unk_30 = ((ActorRecord *)(*globalStateSlot))->level;
     }
 }

@@ -43,10 +43,6 @@ typedef struct S_func_818BD74C_3 {
     s16 unk_1E;
 } S_func_818BD74C_3;
 
-typedef struct S_func_818BD74C_4 {
-    u8 pad_00[0x13];
-    u8 unk_13;
-} S_func_818BD74C_4;
 
 extern void create_offset_color_effect(void *, void *, s16);
 extern void create_channel_tinted_effect(void *, void *, s16, s32);
@@ -134,9 +130,9 @@ void update_color_cycling_shrink_effect(void *effect_arg, S_func_818BD74C_1 *mot
         }
         random_value = (s16)rand();
         magnitude_table = entity_height_offsets;
-        scaled_magnitude = magnitude_table[((S_func_818BD74C_4 *)effect->unk_18)->unk_13] * 3;
+        scaled_magnitude = magnitude_table[((ActorRecord *)effect->unk_18)->species] * 3;
         create_channel_tinted_effect(effect, motion, (s16)random_value, 0 - (scaled_magnitude / 4));
-        create_offset_color_effect(effect, motion, magnitude_table[((S_func_818BD74C_4 *)effect->unk_18)->unk_13]);
+        create_offset_color_effect(effect, motion, magnitude_table[((ActorRecord *)effect->unk_18)->species]);
         effect->unk_10.s = 0;
         effect->unk_0E.u = (u16)(effect->unk_0E.u + 1);
         return;

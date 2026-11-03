@@ -90,21 +90,6 @@ typedef struct S_func_818DA800_5 {
     void *unk_20;
 } S_func_818DA800_5;
 
-typedef struct S_func_818DA800_7 {
-    void *unk_00;
-    u8 unk_04;
-    u8 unk_05;
-    u8 pad_06[2];
-    void *unk_08;
-    s32 unk_0C;
-    s16 unk_10;
-    u8 pad_12[2];
-    u16 unk_14;
-    u8 pad_16[6];
-    s16 unk_1C;
-    s16 unk_1E;
-} S_func_818DA800_7;
-
 typedef struct S_func_818DA800_8 {
     void *unk_00;
     u16 unk_04;

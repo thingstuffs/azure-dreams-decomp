@@ -11,29 +11,9 @@
 #define NULL 0
 #endif
 
-typedef struct S_8195AB84_2 {
-    u8 pad_00[0x2];
-    s16 unk_02;
-    u8 pad_04[0x2];
-    s16 unk_06;
-    u8 pad_08[0x2];
-    s16 unk_0A;
-} S_8195AB84_2;   /* header in create_linked_object_chain */
+   /* header in create_linked_object_chain */
 
-typedef struct S_8195AB84_3 {
-    u8 pad_00[0x8];
-    void * unk_08;
-    u8 pad_0C[0x4];
-    s16 unk_10;
-    u8 pad_12[0x2];
-    u16 unk_14;
-    s16 unk_16;
-    u8 pad_18[0x2];
-    s16 unk_1A;
-    s16 unk_1C;
-    s16 unk_1E;
-    s16 unk_20;
-} S_8195AB84_3;   /* node in create_linked_object_chain */
+   /* node in create_linked_object_chain */
 
 typedef struct S_8195AB84_4 {
     u8 pad_00[0x20];

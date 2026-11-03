@@ -20,12 +20,6 @@ typedef struct S_81976850_0 {
     u16 unk_10;
 } S_81976850_0;   /* arg0 in func_81976850 */
 
-typedef struct S_81976850_1 {
-    u8 pad_00[0x8];
-    void * unk_08;
-    u8 pad_0C[0x8];
-    u16 unk_14;
-} S_81976850_1;   /* source in func_81976850 */
 
 
    /* coords in func_81976850 */
@@ -54,14 +48,7 @@ typedef struct S_81976850_8 {
     void * unk_0C;
 } S_81976850_8;   /* ((S_81976850_0 *)arg0)->unk_00 in func_81976850 */
 
-typedef struct S_81976850_9 {
-    u16 unk_00;
-} S_81976850_9;   /* ((S_81976850_0 *)arg0)->unk_08 in func_81976850 */
 
-typedef struct S_81976850_10 {
-    u8 pad_00[0x8];
-    void * unk_08;
-} S_81976850_10;   /* ((S_81976850_0 *)arg0)->unk_04 in func_81976850 */
 
 
 typedef struct Vec16 {
@@ -99,15 +86,15 @@ void follow_source_then_seek_target(void *effect, ObjectPosition *motion, void *
 
     case 1:
         source = ((S_81976850_8 *)(((S_81976850_0 *)effect)->unk_00))->unk_0C;
-        if ((((S_81976850_1 *)source)->unk_14 & 0x8000) ||
-            resolve_record_orientation_or_fallback(((S_81976850_1 *)source)->unk_08, source, &delta, 0)) {
+        if ((((SpriteFrameState *)source)->flags & 0x8000) ||
+            resolve_record_orientation_or_fallback(((SpriteFrameState *)source)->source, source, &delta, 0)) {
             source_pos = ((S_81976850_8 *)(((S_81976850_0 *)effect)->unk_00))->unk_08;
             motion->x.w.i = source_pos->x;
             motion->y.w.i = source_pos->y;
             source_z = source_pos->z;
             motion->z.w.i = source_z;
 
-            if (!(((S_81976850_1 *)source)->unk_14 & 0x8000)) {
+            if (!(((SpriteFrameState *)source)->flags & 0x8000)) {
                 motion->x.w.i = (u16)((u16)(motion->x.w.i) + (delta.x));
                 motion->y.w.i = (u16)((u16)(motion->y.w.i) + (delta.y));
                 motion->z.w.i = (u16)((u16)(motion->z.w.i) + (delta.z));
@@ -116,7 +103,7 @@ void follow_source_then_seek_target(void *effect, ObjectPosition *motion, void *
             }
         }
 
-        if (((S_81976850_9 *)(((S_81976850_0 *)effect)->unk_08))->unk_00 & 0x80) {
+        if (((ObjectPosition *)(((S_81976850_0 *)effect)->unk_08))->x.w.frac & 0x80) {
             ((S_81976850_0 *)effect)->unk_0E.s = 10;
             ((S_81976850_0 *)effect)->unk_0C.u++;
         }
@@ -128,7 +115,7 @@ void follow_source_then_seek_target(void *effect, ObjectPosition *motion, void *
         visual->unk_0D = brightness;
         visual->unk_0C = brightness;
 
-        target_pos = ((S_81976850_10 *)(((S_81976850_0 *)effect)->unk_04))->unk_08;
+        target_pos = ((SpriteFrameState *)(((S_81976850_0 *)effect)->unk_04))->source;
         motion->velocity_x = target_pos->unk_00;
         (motion->velocity_y) = target_pos->unk_04;
 

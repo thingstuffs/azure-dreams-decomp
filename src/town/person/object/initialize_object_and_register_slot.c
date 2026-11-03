@@ -1,6 +1,7 @@
 #include "town/person.h"
 #include "shared/object_index_slots.h"
 #include "town/person/object.h"
+#include "town/person/person_object_lifecycle_g00659.h"
 
 typedef struct {
     s32 active;
@@ -15,8 +16,8 @@ typedef struct {
     s32 value;
 } WordField;
 
-extern s32 message_motion_type_a;
-extern s32 D_800C3438;
+
+
 
 /*
  * Installs message_motion_type_a and D_800C3438, stores the four supplied data pointers, and
@@ -27,8 +28,8 @@ void initialize_object_and_register_slot(TownObjectRecord *object, s32 slot_inde
 {
     s32 registered_slot;
 
-    ((PointerField *)((u8 *)object - 0x10))->value = &message_motion_type_a;
-    object->unk_50.as_pm = &D_800C3438;
+    ((PointerField *)((u8 *)object - 0x10))->value = update_object_position_or_cleanup;
+    object->unk_50.as_pm = initialize_person_object;
     object->slot = slot_index;
     ((PointerField *)((u8 *)object + 0x58))->value = field_58_value;
     ((PointerField *)((u8 *)object + 0x5C))->value = field_5c_value;

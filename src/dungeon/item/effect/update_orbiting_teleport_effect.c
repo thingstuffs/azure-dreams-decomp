@@ -16,12 +16,6 @@ typedef struct S_800C4F20_10 {
     void * unk_24;
 } S_800C4F20_10;   /* arg0 in update_orbiting_teleport_effect */
 
-typedef struct S_800C4F20_11 {
-    u8 pad_00[0x14];
-    s32 unk_14;
-    u8 pad_18[0x70];
-    s16 unk_88;
-} S_800C4F20_11;   /* ((S_800C4F20_10 *)arg0)->unk_24 in update_orbiting_teleport_effect */
 
    /* ((S_800C4F20_10 *)arg0)->unk_1C in update_orbiting_teleport_effect */
 
@@ -45,26 +39,11 @@ typedef struct S_800C4F20_0 {
 } S_800C4F20_0;   /* arg0 in update_orbiting_teleport_effect */
 
 
-typedef struct S_800C4F20_2 {
-    u8 pad_00[0x1C];
-    u16 unk_1C;
-    u16 unk_1E;
-} S_800C4F20_2;   /* temp_a1_2 in update_orbiting_teleport_effect */
 
-typedef struct S_800C4F20_3 {
-    u8 pad_00[0x1C];
-    u16 unk_1C;
-    u16 unk_1E;
-} S_800C4F20_3;   /* tail_ptr in update_orbiting_teleport_effect */
 
 
    /* (void *) c2_v0 in update_orbiting_teleport_effect */
 
-typedef struct S_800C4F20_7 {
-    u8 pad_00[0x1C];
-    u16 unk_1C;
-    u16 unk_1E;
-} S_800C4F20_7;   /* temp_a1_4 in update_orbiting_teleport_effect */
 
 
 
@@ -99,8 +78,8 @@ void update_orbiting_teleport_effect(void *anim, ObjectPosition *position, Sprit
     u16 end_scale;
     u16 final_scale;
     ActorRecord *owner;
-    S_800C4F20_2 *grow_target;
-    S_800C4F20_7 *shrink_target;
+    SpriteFrameState *grow_target;
+    SpriteFrameState *shrink_target;
     ObjectPosition *orbit_center;
 
     state_or_mode = ((S_800C4F20_0 *)anim)->unk_28.s;
@@ -116,10 +95,10 @@ void update_orbiting_teleport_effect(void *anim, ObjectPosition *position, Sprit
             transform->offset_x = (u16) (grow_height + ((s32) (0x1000
                 - grow_height) / (s16) ((S_800C4F20_0 *)anim)->unk_2A));
             grow_target = ((S_800C4F20_0 *)anim)->unk_20;
-            start_scale = grow_target->unk_1E;
+            start_scale = grow_target->scale_y;
             next_scale = start_scale + ((s32) (0x400 - start_scale) / (s16) ((S_800C4F20_0 *)anim)->unk_2A);
-            grow_target->unk_1E = next_scale;
-            grow_target->unk_1C = next_scale;
+            grow_target->scale_y = next_scale;
+            grow_target->scale_x = next_scale;
             ((S_800C4F20_0 *)anim)->unk_32 = (s16) ((u16) ((S_800C4F20_0 *)anim)->unk_32
                 - ((s16) ((S_800C4F20_0 *)anim)->unk_32 / (s16) ((S_800C4F20_0 *)anim)->unk_2A));
         }
@@ -132,9 +111,9 @@ void update_orbiting_teleport_effect(void *anim, ObjectPosition *position, Sprit
         transform->scale_x = 0x1000U;
         transform->offset_x = 0x1000U;
         {
-            S_800C4F20_3 *target_transform = ((S_800C4F20_0 *)anim)->unk_20;
-            target_transform->unk_1E = 0x800U;
-            target_transform->unk_1C = 0x800U;
+            SpriteFrameState *target_transform = ((S_800C4F20_0 *)anim)->unk_20;
+            target_transform->scale_y = 0x800U;
+            target_transform->scale_x = 0x800U;
         }
         ((S_800C4F20_0 *)anim)->unk_32 = 0;
         ((S_800C4F20_0 *)anim)->unk_2A = 0x20;
@@ -204,7 +183,7 @@ void update_orbiting_teleport_effect(void *anim, ObjectPosition *position, Sprit
                 position->y.w.i = (s16) ((u16) position->y.w.i + y_step);
             }
             position->z.w.i = (s16) ((u16) position->z.w.i
-                + ((s32) (((S_800C4F20_11 *)(((S_800C4F20_10 *)anim)->unk_24))->unk_88
+                + ((s32) (((ActorRecord *)(((S_800C4F20_10 *)anim)->unk_24))->ground_height
                 - position->z.w.i) / (s16) ((S_800C4F20_0 *)anim)->unk_2A));
         }
         move_left = (u16) ((S_800C4F20_0 *)anim)->unk_2A - 1;
@@ -226,10 +205,10 @@ void update_orbiting_teleport_effect(void *anim, ObjectPosition *position, Sprit
             transform->offset_x = (u16) (stretch_height + ((s32) (0x2000
                 - stretch_height) / (s16) ((S_800C4F20_0 *)anim)->unk_2A));
             shrink_target = ((S_800C4F20_0 *)anim)->unk_20;
-            end_scale = shrink_target->unk_1E;
+            end_scale = shrink_target->scale_y;
             final_scale = end_scale + ((s32) (0x1000 - end_scale) / (s16) ((S_800C4F20_0 *)anim)->unk_2A);
-            shrink_target->unk_1E = final_scale;
-            shrink_target->unk_1C = final_scale;
+            shrink_target->scale_y = final_scale;
+            shrink_target->scale_x = final_scale;
             ((S_800C4F20_0 *)anim)->unk_32 = (s16) ((u16) ((S_800C4F20_0 *)anim)->unk_32 + ((s32) (0x400
                 - ((S_800C4F20_0 *)anim)->unk_32) / (s16) ((S_800C4F20_0 *)anim)->unk_2A));
         }
@@ -259,7 +238,7 @@ void update_orbiting_teleport_effect(void *anim, ObjectPosition *position, Sprit
         (*&object_flag_block.flags) = (s32) (object_flag_block.flags | OBJECT_REMOVE_PENDING);
         return;
     }
-    if (((S_800C4F20_11 *)(((S_800C4F20_10 *)anim)->unk_24))->unk_14 & 0x100000) {
+    if (((ActorRecord *)(((S_800C4F20_10 *)anim)->unk_24))->flags14 & 0x100000) {
         ((MovingPosition *)(((S_800C4F20_10 *)anim)->unk_1C))->x = (u16) position->x.w.i;
         ((MovingPosition *)(((S_800C4F20_10 *)anim)->unk_1C))->y = (u16) position->y.w.i;
         ((MovingPosition *)(((S_800C4F20_10 *)anim)->unk_1C))->z = (u16) position->z.w.i;

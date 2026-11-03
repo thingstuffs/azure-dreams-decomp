@@ -65,7 +65,7 @@ extern u8 ribbon_sprite_entries[];
 
 /* Attempts status slot 0x12 with a randomized value and displays the result when the target's message
    flag is set. */
-void apply_random_actor_value_adjustment(S_func_8186E800_0 *entity, s32 effect_param, void *context)
+void apply_random_actor_value_adjustment(ActorRecord *entity, s32 effect_param, void *context)
 {
     void *message_end;
     void *message_start;
@@ -79,11 +79,11 @@ void apply_random_actor_value_adjustment(S_func_8186E800_0 *entity, s32 effect_p
          */
         if ((set_or_clear_actor_status_slot(entity, STATUS_FIRE_PROTECT,
                            (s8)(get_random_scaled_value(effect_param & 0xFF) + 2)) << 16) != 0) {
-            if (entity->unk_14 & ACTOR_PARTY_MEMBER) {
+            if (entity->flags14 & ACTOR_PARTY_MEMBER) {
                 adjust_source_value_and_finalize(entity, &D_800E1C64);
                 return;
             }
-        } else if (entity->unk_14 & ACTOR_PARTY_MEMBER) {
+        } else if (entity->flags14 & ACTOR_PARTY_MEMBER) {
             message_end = get_unused_text_buffer();
             message_start = message_end;
             message_end = expand_text_control_codes(no_effect_target_prefix, message_end);

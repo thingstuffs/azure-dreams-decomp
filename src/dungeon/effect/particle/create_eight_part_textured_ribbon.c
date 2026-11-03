@@ -7,16 +7,7 @@
 #include "engine/node.h"
 #include "dungeon/effect/particle.h"
 #include "slus.h"
-typedef struct S_801690D8_1 {
-    u8 pad_00[0x96];
-    u16 unk_96;
-} S_801690D8_1;   /* arg0_in in create_eight_part_textured_ribbon */
 
-typedef struct S_801690D8_5 {
-    s32 unk_00;
-    s32 unk_04;
-    s32 unk_08;
-} S_801690D8_5;   /* arg1_reg in create_eight_part_textured_ribbon */
 
 typedef struct S_801690D8_6 {
     u8 pad_00[0x2A];
@@ -48,7 +39,7 @@ typedef struct S_801690D8_8 {
 } S_801690D8_8;
 
 /* Creates eight effect segments with positions, colors, and vertex data. */
-void create_eight_part_textured_ribbon(S_801690D8_1 *source, void *origin, SpriteFrameState *unused, s32 effect_value) {
+void create_eight_part_textured_ribbon(ActorRecord *source, void *origin, SpriteFrameState *unused, s32 effect_value) {
     s32 direction_pairs[8];
     s32 segment;
     s32 trunc_bias;
@@ -70,7 +61,7 @@ void create_eight_part_textured_ribbon(S_801690D8_1 *source, void *origin, Sprit
     s32 *directions;
     u16 *side_direction;
     u8 *vertex_table;
-    S_801690D8_5 *origin_pos;
+    ObjectPosition *origin_pos;
 
     origin_pos = origin;
     heading_source = source;
@@ -93,7 +84,7 @@ void create_eight_part_textured_ribbon(S_801690D8_1 *source, void *origin, Sprit
             if ((segment == 2) || (segment == 5)) {
                 effect->unk_18.u = (u16) (effect->unk_18.u - 2);
             }
-            effect->unk_1A = (u16) source->unk_96;
+            effect->unk_1A = (u16) source->action_timer.u;
             effect->unk_1C = segment;
             effect->unk_1E = 0;
             effect->unk_24 = effect_value;
@@ -103,9 +94,9 @@ void create_eight_part_textured_ribbon(S_801690D8_1 *source, void *origin, Sprit
             render_flags->tpage_abr = 0x20;
             render_flags->flags = (u16) (render_flags->flags | 0x8C);
             position = object->position;
-            position->x.v = (s32) origin_pos->unk_00;
-            position->y.v = (s32) origin_pos->unk_04;
-            position->z.v = (s32) (origin_pos->unk_08 + 0xFFC80000);
+            position->x.v = (s32) origin_pos->x.v;
+            position->y.v = (s32) origin_pos->y.v;
+            position->z.v = (s32) (origin_pos->z.v + 0xFFC80000);
             effect->unk_8A = 0U;
             effect->unk_84 = 0U;
             effect->unk_7E = 0U;

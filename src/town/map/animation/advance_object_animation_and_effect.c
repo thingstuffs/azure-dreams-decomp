@@ -5,8 +5,9 @@
 #include "shared/slus_callbacks.h"
 #include "shared/object_flags.h"
 #include "engine/node.h"
+#include "town/map/state.h"
 
-extern u8 D_800BFF7C[9];
+
 extern u8 map_animation_sprite_entries[9];
 
 /* Moves the object through its animation states, spawns an effect, and marks completion. */
@@ -48,7 +49,7 @@ void advance_object_animation_and_effect(TownMapFallingObject *object)
         object->motion.fixed.z.w.i = 0;
         effect = allocate_list_node(0x312, &scene_object_list_anchor.next);
         if (effect != 0) {
-            effect->update_callback = D_800BFF7C;
+            effect->update_callback = update_state_and_set_flags;
             register_node(effect, project_sprite_chain);
             effect_sprite = effect->sprite;
             effect->position->x.v = object->motion.fixed.x.v;

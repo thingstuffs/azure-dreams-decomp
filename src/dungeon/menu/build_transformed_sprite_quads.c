@@ -59,14 +59,7 @@ typedef struct S_8009E798_1 {
     u16 unk_102;
 } S_8009E798_1;   /* scratch in build_transformed_sprite_quads */
 
-typedef struct S_8009E798_2 {
-    u8 pad_00[0x2];
-    u16 unk_02;
-    u8 pad_04[0x2];
-    u16 unk_06;
-    u8 pad_08[0x2];
-    s16 unk_0A;
-} S_8009E798_2;   /* arg1 in build_transformed_sprite_quads */
+   /* arg1 in build_transformed_sprite_quads */
 
 typedef struct S_8009E798_3 {
     u8 pad_00[0x8];
@@ -131,7 +124,6 @@ typedef struct S_8009E798_6 {
     u16 unk_22;
     u16 unk_24;
 } S_8009E798_6;   /* packet in build_transformed_sprite_quads */
-
 
    /* ret_state in build_transformed_sprite_quads */
 

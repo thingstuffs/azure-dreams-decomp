@@ -3,7 +3,7 @@
 #include "shared/object_index_slots.h"
 #include "town/person/state.h"
 
-extern s32 D_800C5FDC[];
+
 extern s32 D_800D5590[];
 
 /* Clear the table flag, update the target move, and install D_800C5FDC. */
@@ -16,5 +16,5 @@ void install_update_after_flag_clear(TownObjectRecord *object, ObjectPosition *p
     updateObject = object;
     stagedUpdateValue = output;
     initialize_object_entries(updateObject, stagedUpdateValue, D_800D5590);
-    object->handler = D_800C5FDC;
+    object->handler = reset_menu_state;
 }

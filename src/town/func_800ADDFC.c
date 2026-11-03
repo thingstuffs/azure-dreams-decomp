@@ -1,5 +1,7 @@
 /* Recovered retail twin; complete-function proof is in the lane receipt. */
 #include "common.h"
+#include "town/person.h"
+#include "town/person/motion.h"
 
 typedef struct {
     u8 pad_00[0x50];
@@ -12,20 +14,20 @@ typedef struct {
     s16 value;
 } State;
 
-extern u8 person_approach_handler_address[];
-extern u8 person_approach_state_address[];
+
+
 
 /* Changes the handler below value 100 and on timer expiry; otherwise turns field +0x72 by -0x400. */
 void update_timed_state_transition(State *state) {
     u16 timer;
 
     if (state->value < 100) {
-        state->state = person_approach_state_address;
+        state->state = move_person_toward_sample;
     }
     timer = state->timer - 1;
     state->timer = timer;
     if ((s16) timer < 0) {
-        state->state = person_approach_handler_address;
+        state->state = update_person_coordinates;
         state->timer = 150;
         return;
     }

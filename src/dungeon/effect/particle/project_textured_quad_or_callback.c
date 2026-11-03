@@ -15,9 +15,8 @@ struct ObjectPosition;
 #include "dungeon/item/message.h"
 #include "dungeon/item.h"
 #include "dungeon/actor.h"
-struct S_800259D8_2;
-void update_animated_effect_sprite(void *, void *, struct S_800259D8_2 *);
-void (*const dungeon_1894800_entry)(void *, void *, struct S_800259D8_2 *) = update_animated_effect_sprite;
+void update_animated_effect_sprite(void *, void *, SpriteFrameState *);
+void (*const dungeon_1894800_entry)(void *, void *, SpriteFrameState *) = update_animated_effect_sprite;
 const u8 no_effect_target_prefix[48] = { 0x82, 0x73, 0x82, 0x88, 0x82, 0x85, 0x82, 0x92, 0x82, 0x85, 0x81, 0x40, 0x82, 0x97, 0x82, 0x81, 0x82, 0x93, 0x81, 0x40, 0x82, 0x8E, 0x82, 0x8F, 0x81, 0x40, 0x82, 0x85, 0x82, 0x86, 0x82, 0x86, 0x82, 0x85, 0x82, 0x83, 0x82, 0x94, 0x81, 0x40, 0x82, 0x8F, 0x82, 0x8E, 0x81, 0x40, 0x00, 0x00 };
 const u8 D_80024034[4] = { 0x81, 0x44, 0x00, 0x00 };
 #include "modules/dungeon_native_abi.h"
@@ -723,11 +722,6 @@ void advance_point_effect_toward_terrain(void *state, s16 *position)
 #define NULL 0
 #endif
 
-typedef struct S_func_81875B38_1 {
-    u8 pad_00[0x8];
-    void *unk_08;
-} S_func_81875B38_1;
-
 typedef struct S_func_81875B38_2 {
     u8 pad_00[0x8];
     void *unk_08;
@@ -746,7 +740,6 @@ typedef struct S_func_81875B38_5 {
     u8 pad_36[0x12];
     s32 unk_48;
 } S_func_81875B38_5;
-
 
 /* Returns the typed effect payload at byte offset 0x20 from the supplied node address. */
 static __inline__ S_func_81875B38_2 *effect_offset_32(void *p) {
@@ -1002,22 +995,11 @@ typedef struct S_81876014_1 {
     s16 unk_9C;
 } S_81876014_1;
 
-typedef struct S_81876014_2 {
-    s32 unk_00;
-    s32 unk_04;
-    s32 unk_08;
-} S_81876014_2;   /* arg1 in update_effect_quad_and_completion */
 
 typedef struct S_81876014_3 {
     s32 unk_00;
 } S_81876014_3;
 
-typedef struct S_81876014_4 {
-    u8 pad_00[0xC];
-    u8 unk_0C;
-    u8 unk_0D;
-    u8 unk_0E;
-} S_81876014_4;   /* arg2 in update_effect_quad_and_completion */
 
 typedef struct S_81876014_5 {
     u8 pad_00[0x4];
@@ -1034,8 +1016,8 @@ typedef struct S_81876014_6 {
 
 /* Update the effect quad, copy its position and color, and flag completion based on owner state. */
 void update_effect_quad_and_completion(void *effect, void *position_out_arg, void *color_out_arg) {
-    S_81876014_4 *color_out = color_out_arg;
-    S_81876014_2 *position_out = position_out_arg;
+    SpriteFrameState *color_out = color_out_arg;
+    ObjectPosition *position_out = position_out_arg;
     s32 y_factor;
     s16 next_angle;
     u16 angle;
@@ -1063,12 +1045,12 @@ void update_effect_quad_and_completion(void *effect, void *position_out_arg, voi
         ((S_81876014_0 *)effect)->unk_62 = ((S_81876014_0 *)effect)->unk_60;
         ((S_81876014_0 *)effect)->unk_64 = ((S_81876014_0 *)effect)->unk_60 + 0x10;
         ((S_81876014_0 *)effect)->unk_66 = ((S_81876014_0 *)effect)->unk_60 + 0x10;
-        position_out->unk_00 = ((S_81876014_3 *)(((S_81876014_0 *)effect)->unk_44))->unk_00;
-        position_out->unk_04 = ((S_81876014_5 *)(((S_81876014_0 *)effect)->unk_44))->unk_04;
-        position_out->unk_08 = ((S_81876014_5 *)(((S_81876014_0 *)effect)->unk_44))->unk_08;
-        color_out->unk_0C = ((S_81876014_6 *)(((S_81876014_0 *)effect)->unk_48))->unk_0C;
-        color_out->unk_0D = ((S_81876014_6 *)(((S_81876014_0 *)effect)->unk_48))->unk_0D;
-        color_out->unk_0E = ((S_81876014_6 *)(((S_81876014_0 *)effect)->unk_48))->unk_0E;
+        position_out->x.v = ((S_81876014_3 *)(((S_81876014_0 *)effect)->unk_44))->unk_00;
+        position_out->y.v = ((S_81876014_5 *)(((S_81876014_0 *)effect)->unk_44))->unk_04;
+        position_out->z.v = ((S_81876014_5 *)(((S_81876014_0 *)effect)->unk_44))->unk_08;
+        color_out->color.c.r = ((S_81876014_6 *)(((S_81876014_0 *)effect)->unk_48))->unk_0C;
+        color_out->color.c.g = ((S_81876014_6 *)(((S_81876014_0 *)effect)->unk_48))->unk_0D;
+        color_out->color.c.b = ((S_81876014_6 *)(((S_81876014_0 *)effect)->unk_48))->unk_0E;
         angle = ((S_81876014_0 *)effect)->unk_0C;
         next_angle = angle - 0x64;
         ((S_81876014_0 *)effect)->unk_0C = next_angle;
@@ -1131,25 +1113,6 @@ typedef struct S_800259D8_1 {
     void * unk_0C;
 } S_800259D8_1;   /* base in update_animated_effect_sprite */
 
-typedef struct S_800259D8_2 {
-    u8 pad_00[0x8];
-    void * unk_08;
-    union {
-        struct { s32 v; } at00;
-        struct { u8 v; } at00u;
-        struct { s8 v; } at00p;
-        struct { u8 pad[0x1]; u8 v; } at01;
-        struct { u8 pad[0x1]; s8 v; } at01u;
-        struct { u8 pad[0x2]; u8 v; } at02;
-        struct { u8 pad[0x2]; s8 v; } at02u;
-    } unk_0C;   /* overlapping accesses */
-    s16 unk_10;
-    u8 pad_12[0x2];
-    u16 unk_14;
-    u8 pad_16[0x6];
-    s16 unk_1C;
-    s16 unk_1E;
-} S_800259D8_2;   /* arg2 in update_animated_effect_sprite */
 
 typedef struct S_800259D8_3_pre {
     void * unk_00;
@@ -1167,26 +1130,6 @@ typedef struct S_800259D8_3 {
     u16 unk_88;
 } S_800259D8_3;   /* obj in update_animated_effect_sprite */
 
-typedef struct S_800259D8_4 {
-    union {
-        struct { s32 v; } at00;
-        struct { u8 pad[0x2]; s16 v; } at02;
-        struct { u8 pad[0x2]; u16 v; } at02u;
-    } unk_00;   /* overlapping accesses */
-    union {
-        struct { s32 v; } at00;
-        struct { u8 pad[0x2]; s16 v; } at02;
-        struct { u8 pad[0x2]; u16 v; } at02u;
-    } unk_04;   /* overlapping accesses */
-    union {
-        struct { s32 v; } at00;
-        struct { u8 pad[0x2]; u16 v; } at02;
-        struct { u8 pad[0x2]; s16 v; } at02u;
-    } unk_08;   /* overlapping accesses */
-    s32 unk_0C;
-    s32 unk_10;
-    s32 unk_14;
-} S_800259D8_4;   /* arg1 in update_animated_effect_sprite */
 
 typedef struct S_800259D8_5 {
     union {
@@ -1226,22 +1169,7 @@ typedef struct S_800259D8_6 {
     u8 unk_25;
 } S_800259D8_6;   /* resident_work in update_animated_effect_sprite */
 
-typedef struct S_800259D8_8 {
-    u8 pad_00[0x8];
-    void * unk_08;
-    u8 unk_0C;
-    u8 unk_0D;
-    u8 unk_0E;
-    u8 pad_0F[0x1];
-    s16 unk_10;
-    u8 pad_12[0x2];
-    u16 unk_14;
-    s16 unk_16;
-    s16 unk_18;
-    s16 unk_1A;
-    s16 unk_1C;
-    s16 unk_1E;
-} S_800259D8_8;   /* work in update_animated_effect_sprite */
+   /* work in update_animated_effect_sprite */
 
 typedef struct S_800259D8_10_pre {
     void * unk_00;
@@ -1277,9 +1205,6 @@ typedef struct S_800259D8_13 {
     u16 unk_14;
 } S_800259D8_13;   /* ((S_800259D8_1 *)base)->unk_0C in update_animated_effect_sprite */
 
-typedef struct S_800259D8_14 {
-    u16 unk_00;
-} S_800259D8_14;   /* ((S_800259D8_0 *)arg0)->unk_04 in update_animated_effect_sprite */
 
 typedef struct S_800259D8_15_pre {
     void * unk_00;
@@ -1331,7 +1256,7 @@ extern Copy12 D_8002664C;
 extern void create_terrain_seeking_point_effect(void *, s32, s32, s16, s16, s16, s16);
 
 /* Moves an effect toward its target, emits particles, changes target colors, and applies a timed status. */
-void update_animated_effect_sprite(void *effect, void *entity, S_800259D8_2 *sprite)
+void update_animated_effect_sprite(void *effect, void *entity, SpriteFrameState *sprite)
 {
     Vec3s delta;
     Copy32 copy;
@@ -1359,16 +1284,16 @@ void update_animated_effect_sprite(void *effect, void *entity, S_800259D8_2 *spr
     {
         s32 setup;
         setup = 0x00808080;
-        sprite->unk_0C.at00.v = setup;
+        sprite->color.word = setup;
         setup = 0x1000;
-        sprite->unk_1E = setup;
-        sprite->unk_1C = setup;
+        sprite->scale_y = setup;
+        sprite->scale_x = setup;
     }
         *(Copy12 *)((u8 *)effect + 0xA2) = D_80026634;
         {
             s32 init_value;
             u16 init_count;
-            sprite->unk_08 = (u8 *)effect + 0xA2;
+            sprite->source = (u8 *)effect + 0xA2;
             init_value = (((S_800259D8_3 *)obj)->unk_2A >> 9) & 7;
             (&sphere_particle_effect_updated)[0] = 1;
             init_count = ((S_800259D8_0 *)effect)->unk_0A.u + 1;
@@ -1386,30 +1311,30 @@ void update_animated_effect_sprite(void *effect, void *entity, S_800259D8_2 *spr
         }
         {
             u16 z_value;
-            ((S_800259D8_4 *)entity)->unk_00.at02.v = entry->unk_00.at02.v;
-            ((S_800259D8_4 *)entity)->unk_04.at02.v = entry->unk_04.at02.v;
+            ((ObjectPosition *)entity)->x.w.i = entry->unk_00.at02.v;
+            ((ObjectPosition *)entity)->y.w.i = entry->unk_04.at02.v;
             z_value = entry->unk_08.at02.v;
-            ((S_800259D8_4 *)entity)->unk_08.at02.v = z_value;
+            ((ObjectPosition *)entity)->z.unsigned_parts.integer = z_value;
             if (!(((S_800259D8_13 *)(base->unk_0C))->unk_14 & 0x8000U)) {
-                ((S_800259D8_4 *)entity)->unk_00.at02.v += delta.x;
-                ((S_800259D8_4 *)entity)->unk_04.at02.v += delta.y;
-                ((S_800259D8_4 *)entity)->unk_08.at02u.v = ((S_800259D8_4 *)entity)->unk_08.at02.v + delta.z;
+                ((ObjectPosition *)entity)->x.w.i += delta.x;
+                ((ObjectPosition *)entity)->y.w.i += delta.y;
+                ((ObjectPosition *)entity)->z.w.i = ((ObjectPosition *)entity)->z.unsigned_parts.integer + delta.z;
             } else {
 L0_adjust_z:
                                            /* MATCH: retain the alternate z calculation's scheduling boundary. */
-                ((S_800259D8_4 *)entity)->unk_08.at02u.v = z_value - 0x40;
+                ((ObjectPosition *)entity)->z.w.i = z_value - 0x40;
             }
         }
-        if (!(((S_800259D8_14 *)(((S_800259D8_0 *)effect)->unk_04))->unk_00 & 0x80U)) {
+        if (!(((ObjectPosition *)(((S_800259D8_0 *)effect)->unk_04))->x.w.frac & 0x80U)) {
             return;
         }
         if (!(((S_800259D8_0 *)effect)->unk_7A & 4U)) {
             register_node((u8 *)effect - 0x20, project_sprite_chain);
-            sprite->unk_10 = 0x20;
-            sprite->unk_0C.at02.v = 0x80;
-            sprite->unk_0C.at01.v = 0x80;
-            sprite->unk_0C.at00u.v = 0x80;
-            sprite->unk_14 |= 0xC;
+            sprite->tpage_abr = 0x20;
+            sprite->color.c.b = 0x80;
+            sprite->color.c.g = 0x80;
+            sprite->color.c.r = 0x80;
+            sprite->flags |= 0xC;
             ((S_800259D8_0 *)effect)->unk_7A |= 4;
         }
         if (((S_800259D8_3 *)obj)->unk_60 != 0) {
@@ -1434,7 +1359,7 @@ L0_adjust_z:
                 if (((S_800259D8_3 *)obj)->unk_72 != resident_work->unk_24) {
                     s32 resident_delta;
                     s32 resident_copy;
-                    resident_delta = ((S_800259D8_4 *)entity)->unk_00.at02.v;
+                    resident_delta = ((ObjectPosition *)entity)->x.w.i;
                     resident_delta = resident_delta - entry->unk_00.at02.v;
                     resident_copy = *(s16 *)((u8 *)&copy + (((S_800259D8_0 *)effect)->unk_80 << 2));
                     resident_delta = abs(resident_delta);
@@ -1445,7 +1370,7 @@ L0_adjust_z:
                     s32 cidx;
                     s32 resident_delta;
                     s32 resident_copy;
-                    resident_delta = ((S_800259D8_4 *)entity)->unk_04.at02.v;
+                    resident_delta = ((ObjectPosition *)entity)->y.w.i;
                     cidx = ((S_800259D8_0 *)effect)->unk_80 << 2;
                     resident_delta = resident_delta - entry->unk_04.at02.v;
                     cp = (Pair *)&copy;
@@ -1459,9 +1384,9 @@ L0_adjust_z:
         } else {
             {
                 ((S_800259D8_0 *)effect)->unk_7C.s = 0x80;
-                ((S_800259D8_0 *)effect)->unk_74.s = ((S_800259D8_4 *)entity)->unk_00.at02u.v +
+                ((S_800259D8_0 *)effect)->unk_74.s = ((ObjectPosition *)entity)->x.unsigned_parts.integer +
                     (((Pair *)((u8 *)&copy + (((S_800259D8_0 *)effect)->unk_80 << 2)))->x.u << 7);
-                ((S_800259D8_0 *)effect)->unk_76.s = ((S_800259D8_4 *)entity)->unk_04.at02u.v +
+                ((S_800259D8_0 *)effect)->unk_76.s = ((ObjectPosition *)entity)->y.unsigned_parts.integer +
                     (((Pair *)((u8 *)&copy + (((S_800259D8_0 *)effect)->unk_80 << 2)))->y.u *
                      ((S_800259D8_0 *)effect)->unk_7C.u);
                 ((S_800259D8_0 *)effect)->unk_78.s = ((S_800259D8_3 *)obj)->unk_88 - 0x50;
@@ -1469,13 +1394,13 @@ L0_adjust_z:
         }
         {
             Pair *cp = (Pair *)&copy;
-            ((S_800259D8_4 *)entity)->unk_0C =
+            ((ObjectPosition *)entity)->velocity_x =
                 ((Pair *)((u8 *)cp + (((S_800259D8_0 *)effect)->unk_80 << 2)))->x.s << 16;
-            ((S_800259D8_4 *)entity)->unk_10 =
+            ((ObjectPosition *)entity)->velocity_y =
                 ((Pair *)((u8 *)cp + (((S_800259D8_0 *)effect)->unk_80 << 2)))->y.u << 16;
         }
-        ((S_800259D8_4 *)entity)->unk_14 =
-            ((((S_800259D8_0 *)effect)->unk_78.s << 16) - ((S_800259D8_4 *)entity)->unk_08.at00.v) /
+        ((ObjectPosition *)entity)->velocity_z =
+            ((((S_800259D8_0 *)effect)->unk_78.s << 16) - ((ObjectPosition *)entity)->z.v) /
             ((S_800259D8_0 *)effect)->unk_7C.s;
         ((S_800259D8_0 *)effect)->unk_84.u = 0;
         ((S_800259D8_0 *)effect)->unk_9C = 55;
@@ -1509,7 +1434,7 @@ L0_adjust_z:
                 dst->x.v = (entry->unk_08.at02u.v * value) << 4;
                 value = rsin(entry->unk_0C);
                 dst->y.v = (entry->unk_08.at02u.v * value) << 4;
-                dst->z.w.i = ((S_800259D8_4 *)entity)->unk_08.at02.v;
+                dst->z.w.i = ((ObjectPosition *)entity)->z.unsigned_parts.integer;
                 work = spawn->sprite;
                 {
                     s32 scale1;
@@ -1542,15 +1467,15 @@ L0_adjust_z:
             ((S_800259D8_0 *)effect)->unk_AA -= 0x18;
             ((S_800259D8_0 *)effect)->unk_A0 = 0;
         }
-        result = check_adjacent_tile_height_clearance(((S_800259D8_4 *)entity)->unk_00.at02u.v, ((S_800259D8_4 *)entity)->unk_04.at02u.v,
-                               ((S_800259D8_4 *)entity)->unk_08.at02u.v, ((S_800259D8_3 *)obj)->unk_60);
+        result = check_adjacent_tile_height_clearance(((ObjectPosition *)entity)->x.unsigned_parts.integer, ((ObjectPosition *)entity)->y.unsigned_parts.integer,
+                               ((ObjectPosition *)entity)->z.w.i, ((S_800259D8_3 *)obj)->unk_60);
         if ((result << 16) == 0) {
             node = ((S_800259D8_3 *)obj)->unk_60;
             if (node == 0) {
-                sprite->unk_0C.at00u.v -= 4;
-                sprite->unk_0C.at01.v -= 4;
-                sprite->unk_0C.at02.v -= 4;
-                if (sprite->unk_0C.at00u.v == 0) {
+                sprite->color.c.r -= 4;
+                sprite->color.c.g -= 4;
+                sprite->color.c.b -= 4;
+                if (sprite->color.c.r == 0) {
                     ((S_800259D8_0 *)effect)->unk_7C.u = 1;
                 }
             }
@@ -1563,32 +1488,32 @@ L0_adjust_z:
                 ((S_800259D8_0 *)effect)->unk_0A.u = 3;
                 ((S_800259D8_0 *)effect)->unk_84.u = 0;
                 entry = ((S_800259D8_15_pre *)(((S_800259D8_3 *)obj)->unk_60))[-1].unk_00;
-                ((S_800259D8_4 *)entity)->unk_00.at02u.v = entry->unk_00.at02u.v;
-                ((S_800259D8_4 *)entity)->unk_04.at02u.v = entry->unk_04.at02u.v;
-                ((S_800259D8_4 *)entity)->unk_08.at02.v = ((S_800259D8_0 *)effect)->unk_78.u;
+                ((ObjectPosition *)entity)->x.unsigned_parts.integer = entry->unk_00.at02u.v;
+                ((ObjectPosition *)entity)->y.unsigned_parts.integer = entry->unk_04.at02u.v;
+                ((ObjectPosition *)entity)->z.unsigned_parts.integer = ((S_800259D8_0 *)effect)->unk_78.u;
                 play_sound_if_enabled(AUDIO_PLAY_CD_CUE);
                 return;
             }
         }
         ((S_800259D8_0 *)effect)->unk_0A.u = 7;
         ((S_800259D8_0 *)effect)->unk_84.u = 0;
-        sprite->unk_0C.at02.v = 0;
-        sprite->unk_0C.at01.v = 0;
-        sprite->unk_0C.at00u.v = 0;
+        sprite->color.c.b = 0;
+        sprite->color.c.g = 0;
+        sprite->color.c.r = 0;
         return;
 
 L1_calc:
-        ((S_800259D8_4 *)entity)->unk_0C =
-            ((((S_800259D8_0 *)effect)->unk_74.s << 16) - ((S_800259D8_4 *)entity)->unk_00.at00.v) / count;
-        ((S_800259D8_4 *)entity)->unk_10 =
-            ((((S_800259D8_0 *)effect)->unk_76.s << 16) - ((S_800259D8_4 *)entity)->unk_04.at00.v) /
+        ((ObjectPosition *)entity)->velocity_x =
+            ((((S_800259D8_0 *)effect)->unk_74.s << 16) - ((ObjectPosition *)entity)->x.v) / count;
+        ((ObjectPosition *)entity)->velocity_y =
+            ((((S_800259D8_0 *)effect)->unk_76.s << 16) - ((ObjectPosition *)entity)->y.v) /
             ((S_800259D8_0 *)effect)->unk_7C.s;
-        ((S_800259D8_4 *)entity)->unk_14 =
-            ((((S_800259D8_0 *)effect)->unk_78.s << 16) - ((S_800259D8_4 *)entity)->unk_08.at00.v) /
+        ((ObjectPosition *)entity)->velocity_z =
+            ((((S_800259D8_0 *)effect)->unk_78.s << 16) - ((ObjectPosition *)entity)->z.v) /
             ((S_800259D8_0 *)effect)->unk_7C.s;
-        ((S_800259D8_4 *)entity)->unk_00.at00.v += ((S_800259D8_4 *)entity)->unk_0C;
-        ((S_800259D8_4 *)entity)->unk_04.at00.v += ((S_800259D8_4 *)entity)->unk_10;
-        ((S_800259D8_4 *)entity)->unk_08.at00.v += ((S_800259D8_4 *)entity)->unk_14;
+        ((ObjectPosition *)entity)->x.v += ((ObjectPosition *)entity)->velocity_x;
+        ((ObjectPosition *)entity)->y.v += ((ObjectPosition *)entity)->velocity_y;
+        ((ObjectPosition *)entity)->z.v += ((ObjectPosition *)entity)->velocity_z;
         return;
 
     case 3:
@@ -1649,9 +1574,9 @@ L1_calc:
         count = ((S_800259D8_0 *)effect)->unk_84.u + 1;
         ((S_800259D8_0 *)effect)->unk_84.u = count;
         if (count < 30) {
-            sprite->unk_0C.at00p.v = ((30 - ((S_800259D8_0 *)effect)->unk_84.s) * 0x80) / 30;
-            sprite->unk_0C.at01u.v = ((30 - ((S_800259D8_0 *)effect)->unk_84.s) * 0x80) / 30;
-            sprite->unk_0C.at02u.v = ((30 - ((S_800259D8_0 *)effect)->unk_84.s) * 0xE0) / 30;
+            sprite->color.c.r = ((30 - ((S_800259D8_0 *)effect)->unk_84.s) * 0x80) / 30;
+            sprite->color.c.g = ((30 - ((S_800259D8_0 *)effect)->unk_84.s) * 0x80) / 30;
+            sprite->color.c.b = ((30 - ((S_800259D8_0 *)effect)->unk_84.s) * 0xE0) / 30;
             if (((S_800259D8_0 *)effect)->unk_A0 == 0) {
                 ((S_800259D8_0 *)effect)->unk_A0 = 1;
                 ((S_800259D8_0 *)effect)->unk_AA += 0x18;
@@ -1672,7 +1597,7 @@ L1_calc:
         }
         ((S_800259D8_0 *)effect)->unk_0A.u++;
         ((S_800259D8_0 *)effect)->unk_84.u = 0;
-        sprite->unk_14 |= 0x80;
+        sprite->flags |= 0x80;
         return;
 
     case 5:

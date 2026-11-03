@@ -2,8 +2,9 @@
 #include "m2c_compat.h"
 #include "shared/position_views.h"
 #include "town/player/state.h"
+#include "town/player.h"
 
-extern void town_interaction_action_address(void *self_arg, SignedHeightView *target_arg, s32 context_arg);
+
 
 typedef struct S_800946FC_0 {
     void (*unk_00)();
@@ -13,6 +14,6 @@ typedef struct S_800946FC_0 {
 
 /* Initializes the object's data pointer and sets its initial value to 0x13. */
 void initialize_actor_interaction_state_19(S_800946FC_0 *object) {
-    object->unk_00 = &town_interaction_action_address;
+    object->unk_00 = update_actor_interaction_actions;
     object->unk_0A = 0x13;
 }

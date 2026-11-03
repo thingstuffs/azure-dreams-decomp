@@ -2,17 +2,19 @@
 #include "shared/entity_objects.h"
 #include "town/person.h"
 #include "town/person/state.h"
+#include "town/person/motion.h"
+#include "town/person/state_updates.h"
 
-extern u8 person_object_update_address[];
-extern u8 person_approach_state_address[];
+
+
 
 
 /* Initialize state and copy default values, adjusting the final output value. */
 void initialize_person_state(void *state, void *output) {
-    *(void **)((s8 *)state - 0x10) = person_object_update_address;
+    *(void **)((s8 *)state - 0x10) = update_person_view_and_record;
     fill_person_records();
     *(s16 *)((s8 *)state + 0x90) = 0;
-    *(void **)((s8 *)state + 0x50) = person_approach_state_address;
+    *(void **)((s8 *)state + 0x50) = move_person_toward_sample;
     *(s16 *)((s8 *)state + 0x6A) = 0;
 
     {

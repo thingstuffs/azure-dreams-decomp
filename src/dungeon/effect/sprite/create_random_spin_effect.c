@@ -33,17 +33,8 @@ typedef struct S_818BDB44_2 {
     s32 unk_18;
 } S_818BDB44_2;   /* arg0 in create_random_spin_effect */
 
-typedef struct S_818BDB44_4 {
-    u8 pad_00[0x10];
-    s32 unk_10;
-    s32 unk_14;
-} S_818BDB44_4;   /* arg1 in create_random_spin_effect */
 
-typedef struct S_818BDB44_5 {
-    u8 pad_00[0x10];
-    s32 unk_10;
-    s32 unk_14;
-} S_818BDB44_5;   /* dst in create_random_spin_effect */
+   /* dst in create_random_spin_effect */
 
 typedef struct {
     s32 words[6];
@@ -53,7 +44,7 @@ extern u8 D_80024F4C[];
 extern u8 tinted_sprite_entries[];
 
 /* Allocate and initialize a randomized object from the source and initial data. */
-s32 create_random_spin_effect(S_818BDB44_2 *source, S_818BDB44_4 *init_data)
+s32 create_random_spin_effect(S_818BDB44_2 *source, ObjectPosition *init_data)
 {
     ObjectNodeHeader *object;
     S_818BDB44_1 *payload;

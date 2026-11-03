@@ -396,7 +396,6 @@ void create_scaling_impact_sprite(s32 state_value, S_800244BC_3 *source_pos)
 /* Selector 72, retail file [0x19DED8C, 0x19DEEB0); complete callable clone. */
 #include "common.h"
 
-
 /* Returns a uniform random sample in [0, limit) by rejection: the rand() bits are masked down to the
  * smallest bit range that covers limit, and the draw repeats while it is out of range.  Zero when limit is zero. */
 s32 update_palette_particle_transition(s32 limit) {
@@ -496,12 +495,7 @@ typedef struct S_800247C0_0 {
     s16 unk_28;
 } S_800247C0_0;   /* effect in shrink_effect_and_spawn_particles */
 
-typedef struct S_800247C0_1 {
-    u8 pad_00[0x8];
-    void * unk_08;
-    void * unk_0C;
-    void * unk_10;
-} S_800247C0_1;   /* object in shrink_effect_and_spawn_particles */
+   /* object in shrink_effect_and_spawn_particles */
 
 typedef struct S_800247C0_2 {
     union { struct { s32 v; } at00; struct { u8 pad[0x2]; u16 v; } at02; } unk_00;   /* overlapping accesses */
@@ -525,7 +519,6 @@ typedef struct S_800247C0_7 {
     s32 unk_60;
     s16 unk_64;
 } S_800247C0_7;   /* effect_state in shrink_effect_and_spawn_particles */
-
 
 /* Shrink the effect, spawn inward-moving particles, and finish when its timer expires. */
 void shrink_effect_and_spawn_particles(void *effect, void *origin)
@@ -765,8 +758,6 @@ typedef struct S_80024BF4_0 {
     u8 pad_CE[0x32];
     s32 unk_100;
 } S_80024BF4_0;   /* scratch in project_visible_textured_quad */
-
-
 
    /* *(u8 **)D_80083160 in project_visible_textured_quad */
 
@@ -1093,7 +1084,6 @@ typedef struct {
     s16 v[12];
 } QuadUV;
 
-
 /* Spawns four textured particles with randomized positions, motion, and rotation. */
 void spawn_randomized_textured_particles(s32 unused, s32 center_x, s16 center_y, s16 center_z)
 {
@@ -1252,7 +1242,6 @@ void spawn_randomized_textured_particles(s32 unused, s32 center_x, s16 center_y,
 
 #include "common.h"
 
-
 /* Applies a coordinate update and triggers effects when the queried value is within bounds. */
 void update_timed(s32 object, s32 raw_x, s32 raw_y, s32 raw_upper, s16 lower_bound) {
     s32 x = raw_x;
@@ -1388,7 +1377,6 @@ typedef struct {
 extern void update_timed(s32 object, s32 raw_x, s32 raw_y, s32 raw_upper, s16 lower_bound);
 
 extern s16 D_8002992C;
-
 
 /* The leading 0x20 bytes receive the expanded sprite-entry transform. */
 typedef struct OwnerFollowingWork {
@@ -1620,8 +1608,6 @@ typedef struct S_80025CE8_0 {
     s16 unk_38;
     s16 unk_3A;
 } S_80025CE8_0;   /* entry in func_80025CE8 */
-
-
 
 typedef struct S_80025CE8_3_pre {
     void * unk_00;

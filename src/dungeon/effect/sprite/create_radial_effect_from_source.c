@@ -235,9 +235,6 @@ typedef struct S_func_81886800_12 {
     u16 unk_00;
 } S_func_81886800_12;
 
-typedef struct S_func_81886800_13 {
-    void *unk_00;
-} S_func_81886800_13;
 
 typedef struct S_func_81886800_14 {
     s16 unk_00;
@@ -253,10 +250,6 @@ typedef struct S_func_81886800_17 {
         u16 u16;
     } unk_00;
 } S_func_81886800_17;
-
-typedef struct S_func_81886800_19 {
-    s32 unk_00;
-} S_func_81886800_19;
 
 #include "dungeon/effect/screen.h"
 extern s32 rsin(s32);
@@ -347,7 +340,7 @@ void run_radial_sprite_sequence(S_func_81886800_1 *effect, S_func_81886800_11 *m
             S_func_81886800_10 *target_data;
 
             target_data =
-                ((S_func_81886800_13 *)((u8 *)(owner->unk_60) - 0x18))->unk_00;
+                ((SpriteFrameState *)((u8 *)(owner->unk_60) - 0x18))->unk_00;
             effect->unk_0C = target_data->unk_02;
             effect->unk_0E = target_data->unk_06;
             {
@@ -363,7 +356,7 @@ void run_radial_sprite_sequence(S_func_81886800_1 *effect, S_func_81886800_11 *m
                 s16 direction;
                 u8 tile_coord;
                 direction = effect->unk_16.s16;
-                target_data = ((S_func_81886800_13 *)((u8 *)(owner) - 0x14))->unk_00;
+                target_data = ((SpriteFrameState *)((u8 *)(owner) - 0x14))->unk_00;
                 tile_coord = target_data->unk_24 +
                         ((u8 *)dir_step_x)[(s32)direction * 2];
                 effect->unk_1C.parts.unk_1E.parts.unk_1E.u8 = tile_coord;
@@ -1308,7 +1301,6 @@ extern s16 D_8002632A;
 extern u8 staged_glow_data[];
 extern u8 D_80026878[];
 
-
    /* arg0 in create_object_offset */
 
 typedef struct S_8002569C_3 {
@@ -1459,7 +1451,6 @@ struct Elem;
 #include "shared/sprite_source.h"
 extern SpriteSourceEntry D_800263F8[];
 
-
 /* Create a sprite effect at the given position with a randomized rotation. */
 void create_a_sprite_effect_position_randomized_rotation(s16 x, s16 y, s16 z) {
     ObjectPosition *transform;
@@ -1491,7 +1482,6 @@ void create_a_sprite_effect_position_randomized_rotation(s16 x, s16 y, s16 z) {
 #include "modules/dungeon_native_abi.h"
 #include "common.h"
 #include "shared/object_flags.h"
-
 
 extern void PushMatrix(s32);
 extern void PopMatrix(void);
@@ -1770,7 +1760,6 @@ typedef struct {
     s16 z;
     s16 pad;
 } Cell;
-
 
 extern s16 D_8002632A;
 extern u8 radial_effect_colors[];

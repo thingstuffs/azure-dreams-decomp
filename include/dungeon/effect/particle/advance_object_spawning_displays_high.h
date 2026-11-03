@@ -85,11 +85,6 @@ typedef struct S_800243D8_1_pre {
     void * unk_00;
     u8 pad_04[0x14];
 } S_800243D8_1_pre;
-typedef struct S_800243D8_3 {
-    s32 unk_00;
-    s32 unk_04;
-    s32 unk_08;
-} S_800243D8_3;
 typedef struct Scratch800244E4 {
     u16 x;
     u16 y;
@@ -137,31 +132,10 @@ typedef struct PackedSpriteEffectBody {
     u8 pad_00[0x2A];
     s16 remaining;
 } PackedSpriteEffectBody;
-typedef struct S_800249F0_1 {
-    u8 pad_00[0x10];
-    s16 unk_10;
-    u8 pad_12[0x2];
-    u16 unk_14;
-} S_800249F0_1;
 typedef struct S_800249F0_2_pre {
     void * unk_00;
     u8 pad_04[0x14];
 } S_800249F0_2_pre;
-typedef struct S_800249F0_4 {
-    s32 unk_00;
-    s32 unk_04;
-    s32 unk_08;
-} S_800249F0_4;
-typedef struct S_800249F0_5 {
-    u8 pad_00[0x8];
-    void * unk_08;
-    s8 unk_0C;
-    u8 unk_0D;
-    u8 unk_0E;
-    u8 pad_0F[0xD];
-    s16 unk_1C;
-    s16 unk_1E;
-} S_800249F0_5;
 typedef struct {
     u8 bytes[12];
 } __attribute__((packed)) EffectPacked12;

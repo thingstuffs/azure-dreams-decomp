@@ -45,18 +45,8 @@ typedef struct S_800B23F8_1 {
 } S_800B23F8_1;
 
 /* work in create_mode_configured_object */
-typedef struct S_800B23F8_2 {
-    u8 pad_00[0xA];
-    s16 unk_0A;
-} S_800B23F8_2;
 
 /* part_a in create_mode_configured_object */
-typedef struct S_800B23F8_4 {
-    u8 pad_00[0x9A];
-    u8 unk_9A;
-    u8 pad_9B[0x1];
-    s8 unk_9C;
-} S_800B23F8_4;
 
 /* state in initialize_entity_sprite_effect */
 extern s8 find_active_rect_containing_point(u8, u8);

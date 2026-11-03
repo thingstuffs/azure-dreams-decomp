@@ -136,3 +136,28 @@ texts are always built from the committed header (append-only block).  `--plan-o
 `tools/headers/extern_classes.py --out <dir> [--plan-sites <census.py sites.tsv>]` classifies every
 local_externs site from build/codemap.db (function vs data, visible/elsewhere/no header, identical vs
 disagreeing, no C definition, `D_` vs named) in seconds and fuses it with the planner census.
+
+## Callback installs hidden by data aliases
+
+`installer_names.py plan --edges <reviewed-hidden-edges.tsv> --scope src/town --out <dir>`
+plans `data_alias_install` rewrites. It checks the callback's exact linked entry in every
+installer image, including compiled placements. Unconfirmed banks and copy bindings hold;
+a placed callback requires the same-image copy-link record. The reviewed table supplies
+candidates, never authority to resolve an address in an unrelated image.
+
+`apply --plan <dir>/plan.tsv --out <receipt>` includes the owner prototype, appending
+unpublished prototypes through the existing header type rules when possible, and replaces
+`&data_alias` or a decaying array alias with the function designator. It removes single-name
+local extern declarations and preserves existing destination casts. No new cast is added;
+native compiler failures must be held or resolved with a separately recorded cast.
+`&array_alias[0]` also becomes the designator; data reads and nonzero indexing hold.
+Native module inventories are synchronized: self addresses cease being imports, and
+external data views become function imports at the same proven entry.
+
+`retire --plan <dir>/plan.tsv --out <receipt>` removes dead extern-only alias declarations
+and unused data-alias name rows. Live users, real storage and excluded dungeon source
+declarations retain the alias. Regenerate the registry, module graph and link graph after
+name/link changes. `measure --plan <dir>/plan.tsv --out <receipt>` counts visible install
+and comparison edges from codemap's compressed type-flow facts. Refresh the codemap first.
+Use `retire --dry-run` to audit remaining users before a name/link batch.
+Every source batch still needs the complete build, native and debt proofs described above.

@@ -77,23 +77,6 @@ typedef struct S_func_81832800_4 {
     s32 unk_10;
 } S_func_81832800_4;
 
-typedef struct S_func_81832800_5 {
-    void *unk_00;
-    s8 unk_04;
-    s8 unk_05;
-    u8 pad_06[2];
-    s32 unk_08;
-    s32 unk_0C;
-    s16 unk_10;
-    u8 pad_12[2];
-    u16 unk_14;
-    u8 pad_16[6];
-    union { s16 as_s16; u16 as_u16; } unk_1C;
-    union { s16 as_s16; u16 as_u16; } unk_1E;
-    u8 pad_20[4];
-    u8 unk_24;
-    u8 unk_25;
-} S_func_81832800_5;
 
 typedef struct S_func_81832800_6 {
     void *unk_00;
@@ -152,7 +135,7 @@ void decrement_flagged_item_parameters(S_func_81832800_1 *effect, S_func_8183280
     ObjectPosition *burst_position;
     ObjectPosition *burst_position_y;
     ObjectPosition *target_position;
-    S_func_81832800_5 *source_sprite;
+    SpriteFrameState *source_sprite;
     SpriteFrameState *sprite;
     S_func_81832800_6 *particle_data;
     ActorRecord *source;
@@ -249,15 +232,15 @@ void decrement_flagged_item_parameters(S_func_81832800_1 *effect, S_func_8183280
     switch (state) {
     case 0:
         if (*effect->unk_04 & 0x80) {
-            found_target = scan_actor_along_heading(source, source_sprite->unk_24, source_sprite->unk_25, source->facing,
+            found_target = scan_actor_along_heading(source, source_sprite->tile_x, source_sprite->tile_y, source->facing,
                 (s32)(s16) get_definition_entry_byte_13(6));
             source->target = found_target;
             if (found_target == NULL) {
-                source->target_tile_x = (u8) source_sprite->unk_24;
-                source->target_tile_y = (u8) source_sprite->unk_25;
+                source->target_tile_x = (u8) source_sprite->tile_x;
+                source->target_tile_y = (u8) source_sprite->tile_y;
             } else {
                 sprite = NODE_HEADER(found_target)->sprite;
-                if (!(sprite->flags & 0x8000) || !(((S_func_81832800_5 *) effect_sprite)->unk_14 & 0x8000)) {
+                if (!(sprite->flags & 0x8000) || !(((SpriteFrameState *) effect_sprite)->flags & 0x8000)) {
                     source->target_tile_x = (u8) sprite->tile_x;
                     source->target_tile_y = (u8) sprite->tile_y;
                 } else {
@@ -268,8 +251,8 @@ void decrement_flagged_item_parameters(S_func_81832800_1 *effect, S_func_8183280
             position->unk_00.as_s32 = (s32) ((S_func_81832800_4 *) source_object->unk_08)->unk_00.as_s32;
             position->unk_04.as_s32 = (s32) ((S_func_81832800_4 *) source_object->unk_08)->unk_04.as_s32;
             position->unk_08.as_s32 = (s32) ((S_func_81832800_4 *) source_object->unk_08)->unk_08.as_s32;
-            count = abs(source->target_tile_x - source_sprite->unk_24);
-            jitter_count = abs(source->target_tile_y - source_sprite->unk_25);
+            count = abs(source->target_tile_x - source_sprite->tile_x);
+            jitter_count = abs(source->target_tile_y - source_sprite->tile_y);
             if (count < jitter_count) {
                 count = jitter_count;
             }

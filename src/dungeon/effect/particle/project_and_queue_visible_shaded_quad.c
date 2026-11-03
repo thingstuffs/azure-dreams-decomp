@@ -469,7 +469,6 @@ typedef struct S_819711E0_0_pre {
     u16 unk_00;
 } S_819711E0_0_pre;   /* the 0x2 bytes before arg0 in func_800249E0, addressed as arg0[-1] */
 
-
 typedef struct S_819711E0_1 {
     u8 pad_00[0xC];
     s8 unk_0C;
@@ -806,23 +805,6 @@ void create_fading_jittered_sprite(u16 *source, ObjectPosition *unused_1, Sprite
 s32 rand();
 extern M2C_UNK D_80025FE8;
 
-
-typedef struct S_81971760_2 {
-    u8 pad_00[0x6];
-    s16 unk_06;
-    void * unk_08;
-    u8 unk_0C;
-    u8 unk_0D;
-    u8 unk_0E;
-    u8 pad_0F[0x1];
-    s16 unk_10;
-    u8 pad_12[0x2];
-    u16 unk_14;
-    u8 pad_16[0x6];
-    s16 unk_1C;
-    s16 unk_1E;
-} S_81971760_2;
-
 typedef struct {
     s32 y;
     s32 z;
@@ -946,21 +928,6 @@ typedef struct S_8197192C_0 {
     union { u16 s; s16 u; } unk_80;   /* accessed as both */
 } S_8197192C_0;   /* arg0 in advance_effect_sequence */
 
-typedef struct S_8197192C_1 {
-    u8 pad_00[0x8];
-    u8 * unk_08;
-    u8 * unk_0C;
-    union { struct { void * v; } at00; struct { u8 pad[0x3]; u8 v; } at03; } unk_10;   /* overlapping accesses */
-    u8 pad_14[0x16];
-    u16 unk_2A;
-    u8 pad_2C[0x6A];
-    s16 unk_96;
-    u8 pad_98[0xE];
-    u16 unk_A6;
-    u8 unk_A8;
-    u8 pad_A9[0x4B];
-    s32 unk_F4;
-} S_8197192C_1;   /* obj in advance_effect_sequence */
 
    /* gbase in advance_effect_sequence */
 
@@ -996,20 +963,7 @@ typedef struct S_8197192C_7 {
     u16 unk_62;
 } S_8197192C_7;   /* work in advance_effect_sequence */
 
-typedef struct S_8197192C_8 {
-    u8 pad_00[0x8];
-    void * unk_08;
-    u8 unk_0C;
-    u8 unk_0D;
-    u8 unk_0E;
-    u8 pad_0F[0x1];
-    u16 unk_10;
-    u8 pad_12[0x2];
-    u16 unk_14;
-    u8 pad_16[0x6];
-    u16 unk_1C;
-    u16 unk_1E;
-} S_8197192C_8;   /* part in advance_effect_sequence */
+   /* part in advance_effect_sequence */
 
 typedef struct S_8197192C_9 {
     u8 pad_00[0x2];
@@ -1036,14 +990,7 @@ typedef struct S_8197192C_12 {
     u16 unk_2E94;
 } S_8197192C_12;   /* status_page in advance_effect_sequence */
 
-typedef struct S_8197192C_14 {
-    u16 unk_00;
-} S_8197192C_14;   /* ((S_8197192C_0 *)arg0)->unk_04 in advance_effect_sequence */
 
-typedef struct S_8197192C_15 {
-    u8 pad_00[0x60];
-    void * unk_60;
-} S_8197192C_15;   /* ((Rec_D_800814A8 *)&D_800814A8)->unk_00.as_pv in advance_effect_sequence */
 
 typedef struct {
     u8 bytes[12];
@@ -1071,7 +1018,7 @@ void advance_effect_sequence(void *effect, void *owner, void *context_arg)
     u32 light_color_2;
     u32 dark_color;
     ActorRecord *player;
-    S_8197192C_1 *player_2;
+    ActorRecord *player_2;
     u16 coord_z;
     u16 heading;
 
@@ -1092,13 +1039,13 @@ void advance_effect_sequence(void *effect, void *owner, void *context_arg)
         ((S_8197192C_4 *)&fading_quad_effect_updated)->unk_00 = 1;
         ((S_8197192C_0 *)effect)->unk_80.s = coord_z;
     case 1:
-        if ((((S_8197192C_14 *)(((S_8197192C_0 *)effect)->unk_04))->unk_00 & 0x80) == 0) {
+        if ((((ObjectPosition *)(((S_8197192C_0 *)effect)->unk_04))->x.w.frac & 0x80) == 0) {
             return;
         }
-        player_2 = (S_8197192C_1 *)primary_actor_record;
+        player_2 = primary_actor_record;
         ((S_8197192C_0 *)effect)->unk_2C.s = 33;
-        player_2->unk_A6 = player_2->unk_A6 - 1;
-        player_2->unk_A8 = ((S_8197192C_0 *)effect)->unk_08;
+        player_2->unk_A4.halves.high.u = player_2->unk_A4.halves.high.u - 1;
+        player_2->unk_A8.byte = ((S_8197192C_0 *)effect)->unk_08;
         player = primary_actor_record;
         heading = ((u16)player->facing);
         ((S_8197192C_0 *)effect)->unk_0A.u = ((S_8197192C_0 *)effect)->unk_0A.u + 1;
@@ -1466,7 +1413,7 @@ void advance_effect_sequence(void *effect, void *owner, void *context_arg)
     case 3:
     {
         s32 angle;
-        S_8197192C_1 *source_obj;
+        ActorRecord *source_obj;
         ObjectPosition *source_owner;
         u8 *angle_base;
         u8 *angle_table;
@@ -1475,10 +1422,10 @@ void advance_effect_sequence(void *effect, void *owner, void *context_arg)
         if (((S_8197192C_0 *)effect)->unk_2C.u != 16) {
             status_page = (S_8197192C_12 *)0x80080000;
         } else {
-        source_obj = ((S_8197192C_15 *)((*(void **)&((EntityRec *)((void **)(&primary_actor_record)))->x)))->unk_60;
+        source_obj = ((ActorRecord *)((*(void **)&((EntityRec *)((void **)(&primary_actor_record)))->x)))->target;
         if (source_obj != 0) {
             angle_table = entity_height_offsets;
-            angle_count = angle_table[source_obj->unk_10.at03.v];
+            angle_count = angle_table[source_obj->species];
             source_owner = NODE_HEADER(source_obj)->position;
             angle = 0;
             if (angle_count != 0) {
@@ -1488,7 +1435,7 @@ void advance_effect_sequence(void *effect, void *owner, void *context_arg)
                         create_origin_following_fade_sprite(effect, source_owner, context, 0, (OffsetYZ){0, (s16)angle});
                         angle -= 15;
                     }
-                } while (-*(u8 *)((u32)source_obj->unk_10.at03.v + (u32)angle_base) < angle);
+                } while (-*(u8 *)((u32)source_obj->species + (u32)angle_base) < angle);
             }
         }
         status_page = (S_8197192C_12 *)0x80080000;

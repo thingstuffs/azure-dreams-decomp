@@ -36,14 +36,6 @@ typedef struct S_8182C800_3 {
     s32 unk_08;
 } S_8182C800_3;   /* temp_a1_2 in func_8002401C */
 
-typedef struct S_8182C800_5 {
-    union { struct { s32 v; } at00; struct { u8 pad[0x2]; s16 v; } at02; } unk_00;   /* overlapping accesses */
-    union { struct { s32 v; } at00; struct { u8 pad[0x2]; s16 v; } at02; } unk_04;   /* overlapping accesses */
-    s32 unk_08;
-    s32 unk_0C;
-    s32 unk_10;
-    s32 unk_14;
-} S_8182C800_5;   /* arg1 in func_8002401C */
 
 typedef struct S_8182C800_6 {
     u8 * unk_00;
@@ -74,25 +66,16 @@ typedef struct S_8182C800_8 {
     void * unk_20;
 } S_8182C800_8;   /* temp_s4 in func_8002401C */
 
-typedef struct S_8182C800_10 {
-    s32 unk_00;
-} S_8182C800_10;   /* temp_a1_3 in func_8002401C */
+   /* temp_a1_3 in func_8002401C */
 
-typedef struct S_8182C800_11 {
-    u8 pad_00[0x4];
-    s32 unk_04;
-} S_8182C800_11;   /* temp_a1_4 in func_8002401C */
+   /* temp_a1_4 in func_8002401C */
 
-typedef struct S_8182C800_12 {
-    u8 pad_00[0x8];
-    s32 unk_08;
-} S_8182C800_12;   /* temp_a0_7 in func_8002401C */
+   /* temp_a0_7 in func_8002401C */
 
 typedef struct S_8182C800_14 {
     u8 pad_00[0x4];
     s32 unk_04;
 } S_8182C800_14;   /* state1_tex in func_8002401C */
-
 
 typedef struct S_8182C800_16 {
     u8 pad_00[0x4];
@@ -104,27 +87,16 @@ typedef struct S_8182C800_17 {
     s32 unk_04;
 } S_8182C800_17;   /* page_b in func_8002401C */
 
-typedef struct S_8182C800_18 {
-    s32 unk_00;
-    u8 pad_04[0x8];
-    s32 unk_0C;
-} S_8182C800_18;   /* temp_a0_11 in func_8002401C */
+   /* temp_a0_11 in func_8002401C */
 
-typedef struct S_8182C800_19 {
-    u8 pad_00[0x4];
-    s32 unk_04;
-    u8 pad_08[0x8];
-    s32 unk_10;
-} S_8182C800_19;   /* temp_a0_12 in func_8002401C */
+   /* temp_a0_12 in func_8002401C */
 
 typedef struct S_8182C800_21 {
     u8 pad_00[0x4];
     s32 unk_04;
 } S_8182C800_21;   /* page_d in func_8002401C */
 
-typedef struct S_8182C800_22 {
-    s32 unk_00;
-} S_8182C800_22;   /* D_800814A0 in func_8002401C */
+   /* D_800814A0 in func_8002401C */
 
 typedef struct Func80024000Frame {
     s16 pad20;
@@ -172,7 +144,6 @@ typedef struct FadeSpriteCountdownBody {
     union { s16 s; u16 u; } unk_4C;
 } FadeSpriteCountdownBody;
 
-
 typedef struct S_8182D544_1 {
     u8 pad_00[0xC];
     s32 unk_0C;
@@ -187,20 +158,7 @@ typedef struct S_8182D544_2 {
     s32 unk_14;
 } S_8182D544_2;   /* arg1 in func_80024D44 */
 
-typedef struct S_8182D544_3 {
-    u8 pad_00[0x4];
-    s8 unk_04;
-    s8 unk_05;
-    u8 pad_06[0x6];
-    union {
-        struct { u8 v; } at00;
-        struct { s32 v; } at00u;
-        struct { u8 pad[0x1]; u8 v; } at01;
-        struct { u8 pad[0x2]; u8 v; } at02;
-    } unk_0C;   /* overlapping accesses */
-    u8 pad_10[0x4];
-    u16 unk_14;
-} S_8182D544_3;   /* arg2 in func_80024D44 */
+   /* arg2 in func_80024D44 */
 
 typedef struct {
     s32 x;

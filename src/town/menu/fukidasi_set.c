@@ -10,6 +10,7 @@
 #include "engine/node.h"
 #include "town/event/state.h"
 #include "town/menu.h"
+#include "town/menu/object.h"
 
 #ifndef NULL
 #define NULL 0
@@ -38,7 +39,7 @@ typedef struct {
     void *value;
 } EntryRecord;
 
-extern u8 D_800A76F0;
+
 extern s32 D_800D0E24[];
 extern s32 D_800D0E3C[];
 
@@ -63,7 +64,7 @@ void fukidasi_set(s32 entry_index, s32 part_index, s32 body_index, s32 body_valu
             entry_data = entry->unk_08;
         }
     }
-    object_template = &D_800A76F0;
+    object_template = decrement_callback_object_timer;
 
     object = create_town_effect_object(entry_or_body, entry_data, object_template, 0);
     if (object != NULL) {

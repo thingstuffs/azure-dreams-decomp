@@ -16,12 +16,7 @@ typedef struct S_80165018_0 {
     s32 unk_20;
 } S_80165018_0;   /* obj in create_jittered_child_effect */
 
-typedef struct S_80165018_3 {
-    u8 pad_00[0xC];
-    s32 unk_0C;
-    s32 unk_10;
-    s32 unk_14;
-} S_80165018_3;   /* pos in create_jittered_child_effect */
+   /* pos in create_jittered_child_effect */
 
 typedef struct S_80165018_4 {
     u8 pad_00[0x8];

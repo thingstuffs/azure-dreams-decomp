@@ -1,8 +1,9 @@
 #include "common.h"
 #include "shared/game_work.h"
 #include "town/map/state.h"
+#include "town/map.h"
 
-extern s32 map_transition_handler_address;
+
 extern s32 map_fallback_handler_address;
 
 /* Initialize paired state values and install the two callbacks. */
@@ -22,5 +23,5 @@ void initialize_paired_state_callbacks(void *state) {
     *(s16 *) ((u8 *) state + 4) = 0x400;
     *(s16 *) ((u8 *) state + 0x14) = 0x400;
     *(void **) ((u8 *) state + 0x1C) = &map_fallback_handler_address;
-    *(void **) ((u8 *) state + 0x20) = &map_transition_handler_address;
+    *(void **) ((u8 *) state + 0x20) = update_current_and_saved_coordinates;
 }

@@ -4,6 +4,7 @@
 #include "shared/vector.h"
 #include "town/player/motion.h"
 #include "town/player/object.h"
+#include "town/player/state_update_g00548.h"
 
 
 typedef struct Position {
@@ -15,7 +16,7 @@ typedef struct Position {
     s32 half_dz;
 } Position;
 
-extern u8 D_8009AE88[];
+
 extern u8 town_scene_record_handlers[];
 
 
@@ -46,7 +47,7 @@ void move_player_halfway_to_target(TownObjectRecord *state, ObjectPosition *posi
         state->unk_32 = ((u16)position->y.w.i);
         call_the_handler_selects_nonzero_entry(town_scene_record_handlers, state, context);
 
-        state->unk_04.as_pv = D_8009AE88;
+        state->unk_04.as_pv = update_player_global_state;
         state->unk_10.as_s16 = 0x400;
     }
 }

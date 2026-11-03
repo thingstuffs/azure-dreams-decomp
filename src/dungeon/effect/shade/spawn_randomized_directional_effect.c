@@ -20,30 +20,10 @@ typedef struct S_800D5DCC_0 {
     s32 unk_20;
 } S_800D5DCC_0;
 
-typedef struct S_800D5DCC_2 {
-    u8 pad_00[0x2];
-    u16 unk_02;
-} S_800D5DCC_2;
-
 typedef struct S_800D5DCC_3 {
     s16 unk_00;
     s16 unk_02;
 } S_800D5DCC_3;
-
-typedef struct S_800D5DCC_4 {
-    u8 pad_00[0x6];
-    u16 unk_06;
-} S_800D5DCC_4;
-
-typedef struct S_800D5DCC_5 {
-    u8 pad_00[0xC];
-    s32 unk_0C;
-} S_800D5DCC_5;
-
-typedef struct S_800D5DCC_6 {
-    u8 pad_00[0x10];
-    s32 unk_10;
-} S_800D5DCC_6;
 
 typedef struct S_800D5DCC_7 {
     u8 pad_00[0x8];

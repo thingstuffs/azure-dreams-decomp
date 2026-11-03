@@ -13,13 +13,7 @@ typedef struct Motion Motion;
 typedef struct TilePos TilePos;
 typedef struct ObjA3 ObjA3;
 
-typedef struct S_800AB1C0_0 {
-    u8 pad_00[0x90];
-    union { struct { s32 v; } at00; struct { u8 pad[0x2]; u16 v; } at02; } unk_90;   /* overlapping accesses */
-    u8 pad_94[0x2];
-    s16 unk_96;
-} S_800AB1C0_0;   /* arg0 in update_actor_movement_to_tile */
-
+   /* arg0 in update_actor_movement_to_tile */
 
 typedef struct S_800AB1C0_2 {
     u8 pad_00[0x2];

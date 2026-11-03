@@ -53,11 +53,7 @@ typedef struct S_800D6DC0_0 {
     s16 unk_5A;
 } S_800D6DC0_0;
 
-
-typedef struct S_800D6DC0_4 {
-    u8 pad_00[0x2A];
-    s16 unk_2A;
-} S_800D6DC0_4;   /* arg3 in create_radial_effect_segments */
+   /* arg3 in create_radial_effect_segments */
 
 /* Creates eight radial effect segments using the source position and render data. */
 void create_radial_effect_segments(ActorRecord *unused, Rec_func_800D6DC0_arg1 *origin, void *render_template, ActorRecord *orientation) {

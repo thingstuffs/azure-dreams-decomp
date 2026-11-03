@@ -50,14 +50,7 @@ typedef struct S_801652FC_2 {
     void * unk_08;
 } S_801652FC_2;   /* saved_arg0 in create_converging_fading_particle */
 
-typedef struct S_801652FC_3 {
-    u8 pad_00[0x2];
-    s16 unk_02;
-    u8 pad_04[0x2];
-    s16 unk_06;
-    u8 pad_08[0x2];
-    s16 unk_0A;
-} S_801652FC_3;   /* ((S_801652FC_1 *)obj)->unk_08 in create_converging_fading_particle */
+   /* ((S_801652FC_1 *)obj)->unk_08 in create_converging_fading_particle */
 
    /* ((S_801652FC_2 *)saved_arg0)->unk_08 in create_converging_fading_particle */
 

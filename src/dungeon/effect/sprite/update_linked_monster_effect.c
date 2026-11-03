@@ -60,18 +60,6 @@ typedef struct S_80025C80_2 {
     union { struct { s32 v; } at00; struct { u8 pad[0x2]; s16 v; } at02; } unk_14;   /* overlapping accesses */
 } S_80025C80_2;   /* arg1 in update_linked_monster_effect */
 
-typedef struct S_80025C80_3 {
-    u8 pad_00[0x2];
-    u16 unk_02;
-    u8 pad_04[0x2];
-    u16 unk_06;
-    u8 pad_08[0x2];
-    u16 unk_0A;
-    u8 pad_0C[0x1E];
-    u16 unk_2A;
-    u8 pad_2C[0x5C];
-    u16 unk_88;
-} S_80025C80_3;
 
 typedef struct S_80025C80_6 {
     u8 pad_00[0x8];
@@ -105,7 +93,7 @@ void update_linked_monster_effect(void *effect_in, void *motion_in, void *sprite
     s32 x_step;
     s32 end_frame;
     TileObject *resident_sprite;
-    S_80025C80_3 *source_data;
+    ObjectPosition *source_data;
     ActorRecord *source_data_2;
     s16 *update_ptr;
     s16 *update_y_base;
@@ -312,9 +300,9 @@ void update_linked_monster_effect(void *effect_in, void *motion_in, void *sprite
             return;
         }
         source_data = linked_monster->unk_08;
-        ((S_80025C80_2 *)(motion_in))->unk_00.at02.v = (s16) source_data->unk_02;
-        ((S_80025C80_2 *)(motion_in))->unk_04.at02.v = (s16) source_data->unk_06;
-        ((S_80025C80_2 *)(motion_in))->unk_08.at02.v = (s16) source_data->unk_0A;
+        ((S_80025C80_2 *)(motion_in))->unk_00.at02.v = (s16) source_data->x.unsigned_parts.integer;
+        ((S_80025C80_2 *)(motion_in))->unk_04.at02.v = (s16) source_data->y.unsigned_parts.integer;
+        ((S_80025C80_2 *)(motion_in))->unk_08.at02.v = (s16) source_data->z.unsigned_parts.integer;
         linked_sprite = ((S_80025C80_8 *)(((S_80025C80_0 *)effect_in)->unk_20))->unk_0C;
         func_800266D0(sprite, linked_sprite->unk_04);
         func_80026548(effect_in, sprite->frame_entry);

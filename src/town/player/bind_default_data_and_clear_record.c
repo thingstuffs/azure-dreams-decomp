@@ -14,6 +14,6 @@ typedef struct S_80098B70_0 {
 
 /* Sets the object's data pointer and forwards the argument to clear_entity_record_fields. */
 void bind_default_data_and_clear_record(S_80098B70_0 *object, ObjectPosition *forwarded_arg) {
-    object->unk_04 = &target_action_update_address;
+    object->unk_04 = tick_countdown_and_initialize_target;
     clear_entity_record_fields((forwarded_arg));
 }

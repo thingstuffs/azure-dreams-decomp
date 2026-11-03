@@ -13,11 +13,6 @@ typedef struct S_800BC3E4_0_pre {
     u8 pad_04[0x4];
 } S_800BC3E4_0_pre;
 
-/* the 0x8 bytes before node in traverse_nodes_and_render_unflagged, addressed as node[-1] */
-typedef struct S_800BC3E4_0 {
-    void * unk_00;
-} S_800BC3E4_0;
-
 /* node in traverse_nodes_and_render_unflagged */
 typedef struct S_800BC3E4_1 {
     u8 pad_00[0x8];
@@ -115,16 +110,6 @@ typedef struct S_800BC4D4_2 {
     u16 unk_1C;
     u16 unk_1E;
 } S_800BC4D4_2;
-
-/* arg1 in render_projected_sprite_with_depth_bias */
-typedef struct S_800BC4D4_3 {
-    u8 pad_00[0x2];
-    u16 unk_02;
-    u8 pad_04[0x2];
-    u16 unk_06;
-    u8 pad_08[0x2];
-    s16 unk_0A;
-} S_800BC4D4_3;
 
 /* arg0 in render_projected_sprite_with_depth_bias */
 typedef struct S_800BC4D4_4 {

@@ -53,14 +53,14 @@ typedef struct ProjectileEffect {
 } ProjectileEffect;
 
 /* State used by the expanding fade callback and its angle/height creator. */
-typedef struct AnRandomAngleHeightOffsetAroundReferencePositionBody {
+typedef struct ExpandingFadeEffectBody {
     u8 pad_00[0x4];
     union { s16 s; u16 u; } unk_04;
     union { s16 s; u16 u; } unk_06;
     union { s16 s; u16 u; } unk_08;
     u16 unk_0A;
     u8 pad_0C[0xF8];
-} AnRandomAngleHeightOffsetAroundReferencePositionBody;
+} ExpandingFadeEffectBody;
 
 /* Three 23-entry coordinate arrays followed by the point-cloud lifetime data. */
 typedef struct RandomRadialVectorEffectBody {
@@ -104,7 +104,7 @@ typedef struct LinkedEffectControllerBody {
 
 
 void follow_source_then_seek_target(void *effect, ObjectPosition *motion, void *visual);
-void update_expanding_fade_effect(AnRandomAngleHeightOffsetAroundReferencePositionBody *effect, ObjectPosition *position, SpriteFrameState *sprite);
+void update_expanding_fade_effect(ExpandingFadeEffectBody *effect, ObjectPosition *position, SpriteFrameState *sprite);
 
 /* Work passed to the target-tint sequence. The elapsed counter advances on
  * entry, phase selects the callback state and timer controls its two waits.

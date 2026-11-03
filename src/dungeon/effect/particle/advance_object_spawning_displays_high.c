@@ -154,7 +154,7 @@ void advance_object_spawning_displays_high(void *source, void *unused_position, 
     SpriteFrameState *part;
     ObjectNodeHeader *object;
     AdvanceObjectSpawningDisplaysHighBody *state;
-    S_800243D8_3 *source_position;
+    ObjectPosition *source_position;
 
     object = allocate_flagged_object_node(0x212);
     if (object != NULL) {
@@ -169,9 +169,9 @@ void advance_object_spawning_displays_high(void *source, void *unused_position, 
         part->flags = (u16) (part->flags | 0xC);
         source_position = ((S_800243D8_1_pre *)source)[-1].unk_00;
         position = object->position;
-        position->x.v = (s32) source_position->unk_00;
-        position->y.v = (s32) source_position->unk_04;
-        position->z.v = (s32) source_position->unk_08;
+        position->x.v = (s32) source_position->x.v;
+        position->y.v = (s32) source_position->y.v;
+        position->z.v = (s32) source_position->z.v;
         part = object->sprite;
         part->scale_y = 0;
         part->scale_x = 0;
@@ -373,7 +373,7 @@ void *create_packed_sprite_effect(void *source, void *unused_1, void *unused_2, 
     SpriteFrameState *render_state;
     PackedSpriteEffectBody *state;
     ObjectNodeHeader *object;
-    S_800249F0_4 *source_position;
+    ObjectPosition *source_position;
 
     object = allocate_flagged_object_node(0x212);
     if (object != NULL) {
@@ -388,9 +388,9 @@ void *create_packed_sprite_effect(void *source, void *unused_1, void *unused_2, 
         render_state->flags |= 0x80;
         source_position = ((S_800249F0_2_pre *)source)[-1].unk_00;
         position = object->position;
-        position->x.v = (s32) source_position->unk_00;
-        position->y.v = (s32) source_position->unk_04;
-        position->z.v = (s32) source_position->unk_08;
+        position->x.v = (s32) source_position->x.v;
+        position->y.v = (s32) source_position->y.v;
+        position->z.v = (s32) source_position->z.v;
         render_state = object->sprite;
         render_state->scale_x = (s16) render_x;
         render_state->scale_y = (s16) render_y;

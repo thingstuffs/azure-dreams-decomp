@@ -416,26 +416,19 @@ void initialize_overlay_effect_state(void) {
 #include "shared/record_ptrs.h"
 #include "m2c_compat.h"
 
-typedef struct S_800F6738_0 {
-    u8 pad_00[0x13];
-    u8 unk_13;
-    s32 unk_14;
-    u8 pad_18[0x44];
-    s32 unk_5C;
-} S_800F6738_0;
 
 /* Set flag 0x800000 on type 0x32 entities in the ring and set the global state to 0x1F. */
 void mark_special_actors_and_set_player_tile(void) {
     void *first_entity;
-    S_800F6738_0 *entity;
+    ActorRecord *entity;
 
     entity = dungeon_actor_ring_anchor;
     first_entity = entity;
     do {
-        if (entity->unk_13 == MONSTER_SELFI) {
-            entity->unk_14 = (s32) (entity->unk_14 | 0x800000);
+        if (entity->species == MONSTER_SELFI) {
+            entity->flags14 = (s32) (entity->flags14 | 0x800000);
         }
-        entity = entity->unk_5C + 0x20;
+        entity = entity->next_actor_header + 0x20;
     } while (entity != first_entity);
     reference_tile_object.tile_position.parts.tile_x = 0x1F;
 }
@@ -569,7 +562,6 @@ void update_dungeon_tile_boundary_state(void *owner) {
 }
 #include "modules/dungeon_ovl_7ce800.h"
 #include "common.h"
-
 
 /* Set the returned object's data pointer to update_dungeon_tile_boundary_state. */
 void create_tile_boundary_updater(void) {
@@ -1648,20 +1640,14 @@ s32 update_special_actor_transition(void) {
 #include "common.h"
 #include "m2c_compat.h"
 
-typedef struct S_807B08D4_0 {
-    u8 pad_00[0x96];
-    s16 unk_96;
-    u8 pad_98[0x3];
-    s8 unk_9B;
-} S_807B08D4_0;
 
 /* Clears the state block's fields at offsets 0x96 and 0x9B. */
 void reset_active_object_action(void) {
-    S_807B08D4_0 *state;
+    ActorRecord *state;
 
     state = active_action_object + 0x20;
-    state->unk_96 = 0;
-    state->unk_9B = 0;
+    state->action_timer.s = 0;
+    state->action_phase.s = 0;
 }
 #include "modules/dungeon_ovl_7ce800.h"
 #include "common.h"
@@ -1698,10 +1684,7 @@ s32 rand(void);
 #include "shared/sprite_source.h"
 extern SpriteSourceEntry D_800DEED0;
 
-typedef struct S_807B09A0_3 {
-    u8 pad_00[0x4];
-    s32 unk_04;
-} S_807B09A0_3;   /* &D_800DEED0 in func_800F81A0 */
+   /* &D_800DEED0 in func_800F81A0 */
 
 /* Spawn a particle near the emitter with randomized motion every other update. */
 void emit_scattered_animated_particles(TerrainParticleEmitterBody *emitter) {
@@ -1749,8 +1732,6 @@ typedef struct S_807B0B3C_0_pre {
     u8 * unk_00;
     u8 pad_04[0x4];
 } S_807B0B3C_0_pre;   /* the 0x8 bytes before initial in render_particle_effect_object, addressed as initial[-1] */
-
-
 
 typedef struct S_807B0B3C_2 {
     u16 unk_00;
@@ -1812,10 +1793,7 @@ typedef struct S_807B0B3C_8 {
     s32 unk_0C;
 } S_807B0B3C_8;   /* verts in render_particle_effect_object */
 
-typedef struct S_807B0B3C_9 {
-    u8 pad_00[0xB0];
-    u32 unk_B0;
-} S_807B0B3C_9;   /* rootp in render_particle_effect_object */
+   /* rootp in render_particle_effect_object */
 
 typedef struct S_807B0B3C_10 {
     u8 pad_00[0xB0];

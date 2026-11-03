@@ -7,10 +7,8 @@
 #include "shared/dungeon_moving_views.h"
 #include "engine/node/allocation.h"
 #include "dungeon/monster/manoeva.h"
-typedef struct S_801745F0_0 S_801745F0_0;
 
 typedef struct S_80047784 S_80047784;
-
 
 typedef struct S_80174690_5 {
     u8 pad_00[0x28];

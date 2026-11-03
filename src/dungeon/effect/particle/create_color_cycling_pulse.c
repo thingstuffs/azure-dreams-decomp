@@ -22,30 +22,11 @@ typedef struct S_8016738C_0 {
     s16 unk_1A;
 } S_8016738C_0;   /* node in create_color_cycling_pulse */
 
-typedef struct S_8016738C_1 {
-    u8 pad_00[0x6];
-    s16 unk_06;
-    void * unk_08;
-    s8 unk_0C;
-    s8 unk_0D;
-    s8 unk_0E;
-    u8 pad_0F[0x1];
-    s16 unk_10;
-    u8 pad_12[0x2];
-    u16 unk_14;
-    u8 pad_16[0x6];
-    s16 unk_1C;
-    s16 unk_1E;
-} S_8016738C_1;   /* ctrl in create_color_cycling_pulse */
+   /* ctrl in create_color_cycling_pulse */
 
-typedef struct S_8016738C_3 {
-    s32 unk_00;
-    s32 unk_04;
-    s32 unk_08;
-} S_8016738C_3;   /* arg0 in create_color_cycling_pulse */
 
 /* Create and initialize an object at the supplied position with a fixed Z offset. */
-void create_color_cycling_pulse(S_8016738C_3 *origin)
+void create_color_cycling_pulse(ObjectPosition *origin)
 {
     ObjectNodeHeader *object;
     ObjectPosition *position;
@@ -66,9 +47,9 @@ void create_color_cycling_pulse(S_8016738C_3 *origin)
         control->flags = control->flags | 0xC;
 
         position = object->position;
-        position->x.v = origin->unk_00;
-        position->y.v = origin->unk_04;
-        position->z.v = origin->unk_08 + 0x180000;
+        position->x.v = origin->x.v;
+        position->y.v = origin->y.v;
+        position->z.v = origin->z.v + 0x180000;
 
         control = object->sprite;
 

@@ -4,9 +4,10 @@
 #include "shared/town_handler.h"
 #include "shared/vector.h"
 #include "town/event.h"
+#include "town/event/motion.h"
 
 
-extern u8 town_input_motion_address[];
+
 extern void *town_saved_motion_pointer;
 
 
@@ -23,7 +24,7 @@ void initialize_object_state_and_position(void **object, IntVector3 *start_posit
         s32 *position;
 
     call_the_handler_selects_nonzero_entry(D_800D0130, (TownObjectRecord *) object, ptr2);
-    *object = town_input_motion_address;
+    *object = update_input_motion_and_action;
     town_orbit_radius = 0;
     town_motion_x_step = 8;
     town_motion_y_step = 8;

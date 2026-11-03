@@ -61,17 +61,6 @@ typedef struct S_800C9088_1 {
     volatile s32 unk_114;
 } S_800C9088_1;   /* scratch in transform_shade_and_queue_model_quads */
 
-typedef struct S_800C9088_2 {
-    u8 unk_00;
-    u8 pad_01[0x1];
-    s16 unk_02;
-    u8 pad_04[0x2];
-    s16 unk_06;
-    u8 pad_08[0x2];
-    s16 unk_0A;
-    u8 pad_0C[0x3154];
-    u8 * unk_3160;
-} S_800C9088_2;   /* ptr_s0 in transform_shade_and_queue_model_quads */
 
    /* state in transform_shade_and_queue_model_quads */
 
@@ -124,7 +113,7 @@ extern void func_80065034(void *, void *, void *);
 void transform_shade_and_queue_model_quads(void *parent_matrix, void *translation_arg, void *model_arg, s16 depth_bias)
 {
     S_800C9088_0 *model = model_arg;
-    S_800C9088_2 *translation = translation_arg;
+    ObjectPosition *translation = translation_arg;
     u8 *scratch;
     u8 *indices;
     u8 *positions;
@@ -163,9 +152,9 @@ void transform_shade_and_queue_model_quads(void *parent_matrix, void *translatio
     ((S_800C9088_1 *)scratch)->unk_30 = scale_x;
     ((S_800C9088_1 *)scratch)->unk_34 = model->unk_1E;
     ((S_800C9088_1 *)scratch)->unk_38 = model->unk_20;
-    ((S_800C9088_1 *)scratch)->unk_40 = translation->unk_02;
-    ((S_800C9088_1 *)scratch)->unk_44 = translation->unk_06;
-    ((S_800C9088_1 *)scratch)->unk_48 = translation->unk_0A;
+    ((S_800C9088_1 *)scratch)->unk_40 = translation->x.w.i;
+    ((S_800C9088_1 *)scratch)->unk_44 = translation->y.w.i;
+    ((S_800C9088_1 *)scratch)->unk_48 = translation->z.w.i;
 
     ReadRotMatrix(&saved_transform);
 

@@ -21,18 +21,6 @@ typedef struct S_800D4DE8_0_pre {
     u16 unk_00;
 } S_800D4DE8_0_pre;   /* the 0x2 bytes before arg0 in emit_particles_until_expired, addressed as arg0[-1] */
 
-typedef struct S_800D4DE8_2 {
-    u8 pad_00[0x8];
-    void * unk_08;
-} S_800D4DE8_2;
-
-typedef struct S_800D4DE8_5 {
-    u8 pad_00[0xA];
-    u16 unk_0A;
-    s32 unk_0C;
-    s32 unk_10;
-    s32 unk_14;
-} S_800D4DE8_5;
 
 typedef struct S_800D4DE8_8 {
     u8 pad_00[0x13];
@@ -46,20 +34,20 @@ void emit_particles_until_expired(void *emitter, Rec_func_800D4BD4_arg2 *positio
     s32 particle_index;
     u16 age;
     u16 life_left;
-    S_800D4DE8_2 *parent;
+    ObjectNodeHeader *parent;
     ObjectPosition *particle_motion;
     ObjectNodeHeader *particle;
     EmitParticlesUntilExpiredBody *particle_state;
 
     parent = ((Rec_func_800D4BD4_arg1 *)emitter)->unk_24;
     position->unk_02.as_s16 =
-        (s16)(((MovingPosition *)(parent->unk_08))->x +
+        (s16)(((MovingPosition *)(parent->position))->x +
               ((Rec_func_800D4BD4_arg1 *)emitter)->unk_3C);
     position->unk_06.as_s16 =
-        (s16)(((MovingPosition *)(parent->unk_08))->y +
+        (s16)(((MovingPosition *)(parent->position))->y +
               ((Rec_func_800D4BD4_arg1 *)emitter)->unk_3E);
     position->unk_0A.as_s16 =
-        (s16)(((MovingPosition *)(parent->unk_08))->z +
+        (s16)(((MovingPosition *)(parent->position))->z +
               ((Rec_func_800D4BD4_arg1 *)emitter)->unk_40);
     age = ((Rec_func_800D4BD4_arg1 *)emitter)->unk_16 + 1;
     ((Rec_func_800D4BD4_arg1 *)emitter)->unk_16 = age;

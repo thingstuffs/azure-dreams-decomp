@@ -117,9 +117,6 @@ typedef struct GlobalState {
     u8 pad6[6];
 } GlobalState;
 
-
-
-
 /* Fades and pulses the effect, restoring the linked primitive when the fade ends. */
 void update_pulsing_effect_brightness(PulsingEffectWork *effect, ObjectPosition *unused, SpriteFrameState *render_state)
 {
@@ -231,7 +228,6 @@ void *create_textured_ellipse_effect(ObjectPosition *object_id, s32 state_value)
 #include "shared/game_work.h"
 #include "shared/object_flags.h"
 
-
 typedef struct S_800A5AF0_0_pre {
     u16 unk_00;
 } S_800A5AF0_0_pre;   /* the 0x2 bytes before arg0 in update_effect_position_and_scale_transition, addressed as arg0[-1] */
@@ -243,22 +239,10 @@ typedef struct S_800A5AF0_0 {
     s16 unk_08;
 } S_800A5AF0_0;   /* arg0 in update_effect_position_and_scale_transition */
 
-typedef struct S_800A5AF0_1 {
-    u8 pad_00[0x2];
-    s16 unk_02;
-} S_800A5AF0_1;   /* arg1 in update_effect_position_and_scale_transition */
 
-typedef struct S_800A5AF0_2 {
-    u8 pad_00[0xC];
-    u8 unk_0C;
-    u8 unk_0D;
-    u8 unk_0E;
-    u8 pad_0F[0xD];
-    u16 unk_1C;
-} S_800A5AF0_2;   /* arg2 in update_effect_position_and_scale_transition */
 
 /* Interpolate effect values, hold briefly, then fade the colors and mark completion. */
-void update_effect_position_and_scale_transition(void *transition_arg, S_800A5AF0_1 *output, S_800A5AF0_2 *appearance) {
+void update_effect_position_and_scale_transition(void *transition_arg, ObjectPosition *output, SpriteFrameState *appearance) {
     S_800A5AF0_0 *transition = transition_arg;
     s16 divisor;
     s16 timer;
@@ -268,21 +252,21 @@ void update_effect_position_and_scale_transition(void *transition_arg, S_800A5AF
 
     state = transition->unk_04.s;
     if (state == 0) {
-        output->unk_02 = (s16)(
-            (u16)output->unk_02 +
-            ((s32)(transition->unk_08 - output->unk_02) /
+        output->x.w.i = (s16)(
+            (u16)output->x.w.i +
+            ((s32)(transition->unk_08 - output->x.w.i) /
              (s16)transition->unk_06));
 
-        level = appearance->unk_1C;
+        level = appearance->scale_x;
         divisor = transition->unk_06;
-        appearance->unk_1C =
+        appearance->scale_x =
             (u16)(level + ((s32)(0x1000 - level) / divisor));
 
         timer = (u16)transition->unk_06 - 1;
         transition->unk_06 = timer;
         if ((timer << 16) <= 0) {
             transition->unk_06 = 0x30;
-            appearance->unk_1C = 0x1000;
+            appearance->scale_x = 0x1000;
             transition->unk_04.u = transition->unk_04.u + 1;
         }
     } else if (state == 1) {
@@ -300,15 +284,15 @@ void update_effect_position_and_scale_transition(void *transition_arg, S_800A5AF
             transition->unk_04.u = next_state;
         }
     } else {
-        appearance->unk_0E = (u8)(
-            appearance->unk_0E -
-            ((s32)appearance->unk_0E / (s16)transition->unk_06));
-        appearance->unk_0D = (u8)(
-            appearance->unk_0D -
-            ((s32)appearance->unk_0D / (s16)transition->unk_06));
-        appearance->unk_0C = (u8)(
-            appearance->unk_0C -
-            ((s32)appearance->unk_0C / (s16)transition->unk_06));
+        appearance->color.c.b = (u8)(
+            appearance->color.c.b -
+            ((s32)appearance->color.c.b / (s16)transition->unk_06));
+        appearance->color.c.g = (u8)(
+            appearance->color.c.g -
+            ((s32)appearance->color.c.g / (s16)transition->unk_06));
+        appearance->color.c.r = (u8)(
+            appearance->color.c.r -
+            ((s32)appearance->color.c.r / (s16)transition->unk_06));
 
         timer = (u16)transition->unk_06 - 1;
         transition->unk_06 = timer;
@@ -336,17 +320,8 @@ typedef struct S_800A5C70_0 {
     void * unk_5C;
 } S_800A5C70_0;   /* cursor in check_action_available_without_nearby_actor */
 
-typedef struct S_800A5C70_1 {
-    u8 pad_00[0x24];
-    u8 unk_24;
-    u8 unk_25;
-} S_800A5C70_1;   /* coords in check_action_available_without_nearby_actor */
+   /* coords in check_action_available_without_nearby_actor */
 
-typedef struct S_800A5C70_2 {
-    u8 pad_00[0x24];
-    u8 unk_24;
-    u8 unk_25;
-} S_800A5C70_2;   /* other in check_action_available_without_nearby_actor */
 
 /* Checks buttons and state, rejecting eligible entries within four tiles on both axes. */
 s32 check_action_available_without_nearby_actor(void) {
@@ -355,7 +330,7 @@ s32 check_action_available_without_nearby_actor(void) {
     void **entry_addr;
     void *entry;
     void *first_entry;
-    S_800A5C70_2 *entry_coords;
+    SpriteFrameState *entry_coords;
 
     entry_addr = &dungeon_actor_ring_anchor;
     buttons = system_update_flags;
@@ -379,9 +354,9 @@ s32 check_action_available_without_nearby_actor(void) {
             s32 abs_axis_distance_2;
 
             entry_coords = ((S_800A5C70_0_pre *)entry)[-1].unk_00;
-            abs_axis_distance = abs((origin_coords->tile_position.parts.tile_x) - (entry_coords->unk_24));
+            abs_axis_distance = abs((origin_coords->tile_position.parts.tile_x) - (entry_coords->tile_x));
             if (abs_axis_distance < 5) {
-                abs_axis_distance_2 = abs((origin_coords->tile_position.parts.tile_y) - (entry_coords->unk_25));
+                abs_axis_distance_2 = abs((origin_coords->tile_position.parts.tile_y) - (entry_coords->tile_y));
                 if (abs_axis_distance_2 < 5) {
                     return 0;
                 }
@@ -410,7 +385,6 @@ typedef struct {
     u16 fieldA;
 } D_80083460_t;
 
-
 /* Advance the counter and mark completion at 16 ticks, decrementing the global count. */
 void advance_timed_object_and_retire(TimedStatusObjectBody *counter) {
     u16 tick_count;
@@ -430,7 +404,6 @@ void advance_timed_object_and_retire(TimedStatusObjectBody *counter) {
 
 extern s32 D_800A5D5C;
 
-
 /* Set the object data pointer and increment the global state counter. */
 void create_timed_status_object(void) {
 
@@ -447,7 +420,6 @@ typedef struct S_800A5DFC_0_pre {
     void * unk_00;
     u8 pad_04[0x10];
 } S_800A5DFC_0_pre;   /* the 0x14 bytes before arg0 in apply_capped_damage_and_hit_effect, addressed as arg0[-1] */
-
 
 typedef struct S_800A5DFC_2 {
     u8 pad_00[0x14];
@@ -519,7 +491,6 @@ typedef struct S_800A5FC0_0 {
     u8 pad_00[0x8D0];
     void * unk_8D0;
 } S_800A5FC0_0;
-
 
 typedef struct S_800A5FC0_2 {
     s32 unk_00;
@@ -649,7 +620,6 @@ void * create_expanding_screen_rectangle(void) {
 #include "shared/dungeon_floor.h"
 #include "shared/object_flags.h"
 
-
 /* Advance the timed ramp to 255 and update completion and shutdown flags. */
 void advance_timed_intensity_ramp(void *ramp) {
     u16 ticks_left;
@@ -676,8 +646,6 @@ void advance_timed_intensity_ramp(void *ramp) {
 #include "shared/gpu_packets.h"
 #include "common.h"
 #include "shared/game_work.h"
-
-
 
 typedef struct {
     u8 pad[0xA];
@@ -860,7 +828,6 @@ s32 select_object_state_value(void *object) {
 #include "shared/record_ptrs.h"
 #include "shared/object_flags.h"
 
-
 typedef struct S_800A6620_1_pre {
     void * unk_00;
     u8 pad_04[0x10];
@@ -881,11 +848,6 @@ typedef struct S_800A6620_2 {
     s32 unk_D0;
 } S_800A6620_2;   /* entry in release_entity_slot_and_update_flags */
 
-typedef struct S_800A6620_3 {
-    u8 pad_00[0x24];
-    u8 unk_24;
-    u8 unk_25;
-} S_800A6620_3;   /* owner in release_entity_slot_and_update_flags */
 
 extern void unlink_entity_node(void *object);
 extern void update_map_cell_flags_with_item_limit(u8 sound_x, u8 sound_y, s32 sound_mode);
@@ -903,7 +865,7 @@ s32 release_entity_slot_and_update_flags(void *handle, s32 extra_cleanup)
     void **object_table;
     void *object;
     S_800A6620_2 *state_entry;
-    S_800A6620_3 *owner;
+    SpriteFrameState *owner;
     u8 sound_x;
     u8 sound_y;
 
@@ -929,8 +891,8 @@ s32 release_entity_slot_and_update_flags(void *handle, s32 extra_cleanup)
 
         if ((get_entity_effect_value(object, STATUS_NO_TILE_OCCUPANCY) << 16) == 0) {
             owner = ((S_800A6620_1_pre *)object)[-1].unk_00;
-            sound_x = owner->unk_24;
-            sound_y = owner->unk_25;
+            sound_x = owner->tile_x;
+            sound_y = owner->tile_y;
             sound_mode = 0x3000;
             if (((S_800A6620_1 *)object)->unk_1C & ACTOR_PLAYER_SIDE) {
                 sound_mode = 0x300;
@@ -1012,8 +974,6 @@ s32 get_random_scaled_value(s16 input_value) {
 #include "shared/record_ptrs.h"
 #include "m2c_compat.h"
 
-
-
 /* Save and clear bit 4 of the current record flags. */
 void save_and_clear_entity_flag_ten(void) {
     D_800DD878 = ((u32) ((u32)dungeon_actor_ring_anchor->flags1C) >> 4) & 1;
@@ -1024,8 +984,6 @@ void save_and_clear_entity_flag_ten(void) {
 #include "shared/entity.h"
 #include "shared/record_ptrs.h"
 #include "m2c_compat.h"
-
-
 
 /* Restore bit 4 of the current record flags when it was saved as set. */
 void restore_entity_flag_ten(void) {
@@ -1125,7 +1083,6 @@ void clear_item_flag_400_for_egg_one(void) {
 }
 #include "common.h"
 
-
 typedef struct {
     u16 flags;
     u8 pad2[18];
@@ -1146,7 +1103,6 @@ typedef struct {
     u8 pad[0x5720];
     u8 data[1];
 } RamPage;
-
 
 typedef struct S_800A6A9C_0 {
     u8 pad_00[0x2];
@@ -1202,7 +1158,6 @@ void restore_item_flag_400_bitmap(void)
    Loop-top ASM_KEEP holds the unrebased group base, yielding v0-high/a2-low
    split addressing with +2/+0xC fields; index-first RAM arithmetic fixes addu. */
 #include "common.h"
-
 
 typedef struct S_800A6B70_0 {
     u8 pad_00[0xC];
@@ -1268,8 +1223,6 @@ void advance_record_values_by_step(Record *record, s16 step)
 #include "shared/object_node.h"
 #include "common.h"
 #include "m2c_compat.h"
-
-
 
 s32 register_node(void *entry, void *registration_id);
 extern u8 D_80089074[];
@@ -1389,7 +1342,6 @@ void restore_dungeon_random_seed(s32 saved_seed) {
 
 extern s32 generate_random_value(void);
 
-
 /* Return a 16-bit random value within the inclusive bounds. */
 s32 random_dungeon_range_16(u32 bound_a, u32 bound_b) {
     u32 result;
@@ -1412,8 +1364,6 @@ s32 random_dungeon_range_16(u32 bound_a, u32 bound_b) {
 }
 #include "shared/dungeon_item_entries.h"
 #include "common.h"
-
-
 
 extern s32 dungeon_ground_item_positions;
 

@@ -35,10 +35,6 @@ typedef struct S_800B490C_1 {
 } S_800B490C_1;
 
 
-typedef struct S_800B490C_3 {
-    u8 pad_00[0x2];
-    u16 unk_02;
-} S_800B490C_3;
 
 
    /* ((S_800B490C_0 *)arg0)->unk_14 in update_attached_fading_effect */
@@ -65,7 +61,7 @@ void update_attached_fading_effect(void *effect, ObjectPosition *motion, SpriteF
     u8 brightness;
     u8 next_brightness;
     S_800B490C_1 *parent;
-    S_800B490C_3 *parent_pos;
+    ObjectPosition *parent_pos;
 
     parent = ((S_800B490C_0 *)effect)->unk_00;
     if (parent != NULL) {
@@ -80,7 +76,7 @@ void update_attached_fading_effect(void *effect, ObjectPosition *motion, SpriteF
     }
     parent_pos = ((S_800B490C_0 *)effect)->unk_14;
     if (parent_pos != NULL) {
-        motion->x.w.i = ((u16)motion->x.w.i - (((S_800B490C_0 *)effect)->unk_18 - parent_pos->unk_02));
+        motion->x.w.i = ((u16)motion->x.w.i - (((S_800B490C_0 *)effect)->unk_18 - parent_pos->x.unsigned_parts.integer));
         ((S_800B490C_0 *)effect)->unk_18 = (u16) ((MovingPosition *)(((S_800B490C_0 *)effect)->unk_14))->x;
         motion->y.w.i = ((u16)motion->y.w.i - (((S_800B490C_0 *)effect)->unk_1A
             - ((MovingPosition *)(((S_800B490C_0 *)effect)->unk_14))->y));

@@ -68,22 +68,11 @@ typedef struct S_818154FC_4 {
     s32 unk_08;
 } S_818154FC_4;
 
-typedef struct S_818154FC_5 {
-    union { struct { s32 v; } at00; struct { u8 pad[0x2]; u16 v; } at02; } unk_00;   /* overlapping accesses */
-    union { struct { s32 v; } at00; struct { u8 pad[0x2]; u16 v; } at02; } unk_04;   /* overlapping accesses */
-    union { struct { s32 v; } at00; struct { u8 pad[0x2]; u16 v; } at02; } unk_08;   /* overlapping accesses */
-    u8 pad_0C[0x8];
-    s32 unk_14;
-} S_818154FC_5;   /* arg1 in func_818154FC */
 
 
    /* map in func_818154FC */
 
 
-typedef struct S_818154FC_14 {
-    u8 pad_00[0x14];
-    u16 unk_14;
-} S_818154FC_14;
 
 typedef struct S_818154FC_15_pre {
     u8 * unk_00;
@@ -112,7 +101,7 @@ extern s16 D_80025338[5];
 extern void func_800246DC(void *effect, void *position);
 
 /* Updates an effect through attachment, spawning, tracking, and cleanup. */
-void emit_attached_directional_particle_chain(void *effect, S_818154FC_5 *position, SpriteFrameState *sprite) {
+void emit_attached_directional_particle_chain(void *effect, ObjectPosition *position, SpriteFrameState *sprite) {
     Offset offset;
     LocalPoints points;
     LocalPoint *point_base;
@@ -155,30 +144,30 @@ void emit_attached_directional_particle_chain(void *effect, S_818154FC_5 *positi
 
             parent_sprite = parent_node->unk_0C;
             if ((get_sprite_attachment_vector(parent_sprite->unk_08, parent_sprite, &offset, 0) != 0)
-                || (((S_818154FC_14 *)(parent_node->unk_0C))->unk_14 & 0x8000)) {
-                position->unk_00.at02.v = (u16) parent_position->x;
-                position->unk_04.at02.v = (u16) parent_position->y;
+                || (((SpriteFrameState *)(parent_node->unk_0C))->flags & 0x8000)) {
+                position->x.unsigned_parts.integer = (u16) parent_position->x;
+                position->y.unsigned_parts.integer = (u16) parent_position->y;
                 position_z = parent_position->z;
-                position->unk_08.at02.v = position_z;
-                if (!(((S_818154FC_14 *)(parent_node->unk_0C))->unk_14 & 0x8000)) {
-                    position->unk_00.at02.v = (u16) (position->unk_00.at02.v + offset.x);
-                    position->unk_04.at02.v = (u16) (position->unk_04.at02.v + offset.y);
-                    final_z = position->unk_08.at02.v;
+                position->z.unsigned_parts.integer = position_z;
+                if (!(((SpriteFrameState *)(parent_node->unk_0C))->flags & 0x8000)) {
+                    position->x.unsigned_parts.integer = (u16) (position->x.unsigned_parts.integer + offset.x);
+                    position->y.unsigned_parts.integer = (u16) (position->y.unsigned_parts.integer + offset.y);
+                    final_z = position->z.unsigned_parts.integer;
                     delta_z = offset.z;
                     final_z += delta_z;
-                    position->unk_08.at02.v = final_z;
+                    position->z.unsigned_parts.integer = final_z;
                 } else {
                     final_z = position_z - 0x40;
-                    position->unk_08.at02.v = final_z;
+                    position->z.unsigned_parts.integer = final_z;
                 }
                 {
                     s32 coord;
                     s32 coord_2;
 
-                    ((S_818154FC_0 *)effect)->unk_B0 = position->unk_00.at00.v;
-                    coord_2 = position->unk_04.at00.v;
+                    ((S_818154FC_0 *)effect)->unk_B0 = position->x.v;
+                    coord_2 = position->y.v;
                     ((S_818154FC_0 *)effect)->unk_B4 = coord_2;
-                    coord = position->unk_08.at00.v;
+                    coord = position->z.v;
                     ((S_818154FC_0 *)effect)->unk_B8 = coord;
                 }
                 if (*((S_818154FC_0 *)effect)->unk_04 & 0x80) {
@@ -263,16 +252,16 @@ void emit_attached_directional_particle_chain(void *effect, S_818154FC_5 *positi
                         duration = work->unk_02.s;
                         if (duration != 0) {
                             z_step = motion->z.v;
-                            other_z = position->unk_08.at00.v;
+                            other_z = position->z.v;
                             z_step -= other_z;
                             z_step -= 0x200000;
                             other_z = duration - 1;
                             z_step /= other_z;
                             work->unk_60 = z_step;
-                            position->unk_14 = z_step;
+                            position->velocity_z = z_step;
                         }
                     } else {
-                        work->unk_60 = position->unk_14;
+                        work->unk_60 = position->velocity_z;
                     }
                 } else {
                     work->unk_02.s = 8;
@@ -314,9 +303,9 @@ void emit_attached_directional_particle_chain(void *effect, S_818154FC_5 *positi
             if (node->flags & 0x8000) {
                 ((S_818154FC_0 *)effect)->unk_88 = 0;
             } else {
-                position->unk_00.at00.v = spawn_position->x.v;
-                position->unk_04.at00.v = spawn_position->y.v;
-                position->unk_08.at00.v = spawn_position->z.v;
+                position->x.v = spawn_position->x.v;
+                position->y.v = spawn_position->y.v;
+                position->z.v = spawn_position->z.v;
             }
         }
         if ((s16) ((S_818154FC_0 *)effect)->unk_84.s >= 0xB) {
@@ -337,9 +326,9 @@ void emit_attached_directional_particle_chain(void *effect, S_818154FC_5 *positi
             if (node->flags & 0x8000) {
                 ((S_818154FC_0 *)effect)->unk_88 = 0;
             } else {
-                position->unk_00.at00.v = spawn_position->x.v;
-                position->unk_04.at00.v = spawn_position->y.v;
-                position->unk_08.at00.v = spawn_position->z.v;
+                position->x.v = spawn_position->x.v;
+                position->y.v = spawn_position->y.v;
+                position->z.v = spawn_position->z.v;
             }
         }
         {

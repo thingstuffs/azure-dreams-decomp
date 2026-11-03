@@ -230,13 +230,6 @@ typedef struct S_8009C12C_0 {
     u8 unk_A8;
 } S_8009C12C_0;   /* arg0 in resolve_attack_damage_and_effects */
 
-typedef struct S_8009C12C_2 {
-    u8 pad_00[0x14];
-    u16 unk_14;
-    u8 pad_16[0xE];
-    u8 unk_24;
-    u8 unk_25;
-} S_8009C12C_2;   /* arg1 in resolve_attack_damage_and_effects */
 
 typedef struct S_8009C12C_3 {
     u8 pad_00[0x14];
@@ -313,7 +306,7 @@ void *resolve_attack_damage_and_effects(void *attacker_in, void *tile_in, s16 di
     if (target == NULL) {
         null_result = NULL;
         if (attacker_in == (void *)dungeon_actor_ring_anchor) {
-            tile_result = find_directional_entry_and_clear_flag(((S_8009C12C_2 *)(tile_in))->unk_24, ((S_8009C12C_2 *)(tile_in))->unk_25,
+            tile_result = find_directional_entry_and_clear_flag(((SpriteFrameState *)(tile_in))->tile_x, ((SpriteFrameState *)(tile_in))->tile_y,
                 direction, ((S_8009C12C_0 *)attacker_in)->unk_88);
             null_result = NULL;
             if (tile_result >= 0) {
@@ -342,7 +335,7 @@ void *resolve_attack_damage_and_effects(void *attacker_in, void *tile_in, s16 di
     if (attacker_kind >= 0) {
         target_data = NODE_HEADER(target)->sprite;
         target_traits = target_data->unk_14;
-        if (!(((S_8009C12C_2 *)(tile_in))->unk_14 & target_traits & 0x8000)
+        if (!(((SpriteFrameState *)(tile_in))->flags & target_traits & 0x8000)
             || ((kind_check == MONSTER_STEALTH) && (((S_8009C12C_0 *)attacker_in)->unk_A6 != 0) && !(target_traits & 0x8000))) {
             message_cursor = append_entity_display_text(attacker_in, message_start);
             message_cursor = expand_text_control_codes(D_800E0D92, message_cursor);
@@ -552,7 +545,7 @@ void *resolve_attack_damage_and_effects(void *attacker_in, void *tile_in, s16 di
         create_type_212_object(effect_flags, (s32)opposite_x_ptr);
     }
     play_sound_if_enabled(0x601);
-    if (!(((S_8009C12C_2 *)(tile_in))->unk_14 & 0x8000)) {
+    if (!(((SpriteFrameState *)(tile_in))->flags & 0x8000)) {
         initialize_timed_motion_step(8, 0x10);
     }
     effect_elements = attack_elements << 0x10;
@@ -564,10 +557,10 @@ void *resolve_attack_damage_and_effects(void *attacker_in, void *tile_in, s16 di
     effect_elements = attack_elements << 0x10;
     effect_elements >>= 0x10;
     d = (u16)direction >> 9 & 7;
-    x = ((S_8009C12C_2 *)tile_in)->unk_24 + dir_step_x[d] * distance;
+    x = ((SpriteFrameState *)tile_in)->tile_x + dir_step_x[d] * distance;
     opp = (d + 4) & 7;
     ox = (dir_step_x[opp] << 5) + 0x20;
-    y = ((S_8009C12C_2 *)tile_in)->unk_25 + dir_step_y[d] * distance;
+    y = ((SpriteFrameState *)tile_in)->tile_y + dir_step_y[d] * distance;
     oy = (dir_step_y[opp] << 5) + 0x20;
     transition_effect_legacy((s16)((x << 6) + ox), (s16)((y << 6) + oy),
         (s16)(((S_8009C12C_7 *)((S_8009C12C_0 *)attacker_in)->unk_60)->unk_88 - 0x30), effect_elements,

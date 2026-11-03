@@ -22,7 +22,7 @@ typedef struct S_800A51CC_0 {
     void * unk_20;
 } S_800A51CC_0;   /* arg0 in update_current_and_saved_coordinates */
 
-extern u8 D_800A526C[16];
+
 
 /* Update current and saved coordinates from the reference, or set state 9 if they differ. */
 void update_current_and_saved_coordinates(S_800A51CC_0 *object)
@@ -38,7 +38,7 @@ void update_current_and_saved_coordinates(S_800A51CC_0 *object)
         if ((position_pair != object->unk_10.at00.v) ||
             (object->unk_04.s != object->unk_14.s)) {
             object->unk_18 = 9;
-            object->unk_20 = D_800A526C;
+            object->unk_20 = interpolate_view_components;
             return;
         }
 

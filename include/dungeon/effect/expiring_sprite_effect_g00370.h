@@ -22,27 +22,6 @@ typedef struct S_800D6AD4_0 {
     s32 unk_20;
 } S_800D6AD4_0;
 
-typedef struct S_800D6AD4_1 {
-    u8 pad_00[0x2];
-    u16 unk_02;
-} S_800D6AD4_1;
-
-typedef struct S_800D6AD4_2 {
-    u8 pad_00[0x6];
-    u16 unk_06;
-} S_800D6AD4_2;
-
-typedef struct S_800D6AD4_3 {
-    u8 pad_00[0xA];
-    u16 unk_0A;
-} S_800D6AD4_3;
-
-typedef struct S_800D6AD4_4 {
-    u8 pad_00[0xC];
-    s32 unk_0C;
-    s32 unk_10;
-} S_800D6AD4_4;
-
 typedef struct S_800D6AD4_5 {
     u8 pad_00[0x8];
     s32 unk_08;

@@ -5,6 +5,7 @@
 #include "shared/entity.h"
 #include "shared/town_object.h"
 #include "shared/object_node.h"
+#include "town/map/object.h"
 
 typedef struct {
     u32 unk0;
@@ -27,13 +28,13 @@ typedef struct {
     s16 unk20;
 } FuncData;
 
-extern u8 D_800B9998[];
+
 
 /* Initializes object data, transform, color, and rendering defaults. */
 void initialize_object_data_transform_color(TownObjectRecord *object, ObjectPosition *render_data, FuncData *state) {
     u8 blue;
 
-    ((ObjectNodeHeader *)object - 1)->update_callback = D_800B9998;
+    ((ObjectNodeHeader *)object - 1)->update_callback = deactivate_object_triggered;
     register_node((ObjectNodeHeader *)object - 1, draw_linked_lit_meshes);
 
     object->unk_66.as_s16 = 0;

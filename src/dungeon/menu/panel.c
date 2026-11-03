@@ -774,12 +774,6 @@ typedef struct S_800B1B10_0 {
     s32 unk_74;
 } S_800B1B10_0;   /* obj in build_owned_floating_number_widget */
 
-typedef struct S_800B1B10_1 {
-    u8 pad_00[0x2];
-    s16 unk_02;
-    u8 pad_04[0x2];
-    s16 unk_06;
-} S_800B1B10_1;   /* header in build_owned_floating_number_widget */
 
 typedef struct S_800B1B10_2 {
     u8 pad_00[0x4];
@@ -859,7 +853,7 @@ void build_owned_floating_number_widget(void *owner, s32 value_a, s32 value_b, s
     s32 tail;
     void *sub;
     s32 *slots;
-    S_800B1B10_1 *header;
+    ObjectPosition *header;
     void *part;
     SpriteFrameState *meta;
 
@@ -872,8 +866,8 @@ void build_owned_floating_number_widget(void *owner, s32 value_a, s32 value_b, s
         meta = ((S_800B1B10_0 *)obj)->unk_0C;
         header = ((S_800B1B10_0 *)obj)->unk_08;
         sub = obj + 0x20;
-        header->unk_02 = a_held;
-        header->unk_06 = b_held;
+        header->x.w.i = a_held;
+        header->y.w.i = b_held;
         ((S_800B1B10_2 *)sub)->unk_08 = 1;
         meta->scale_x = 0x1000;
         meta->color.word = 0;
@@ -1030,10 +1024,6 @@ typedef struct S_800B1F34_0 {
 } S_800B1F34_0;   /* arg0 in advance_timed_panel_motion */
 
 
-typedef struct S_800B1F34_2 {
-    u8 pad_00[0x1C];
-    s32 unk_1C;
-} S_800B1F34_2;   /* global in advance_timed_panel_motion */
 
 enum PanelMotionState {
     PANEL_MOTION_INIT = 0,
@@ -1047,7 +1037,7 @@ void advance_timed_panel_motion(S_800B1F34_0 *animation, ObjectPosition *motion)
 {
     s16 state;
     u16 countdown;
-    S_800B1F34_2 *update_state;
+    ActorRecord *update_state;
 
     state = animation->unk_04.s;
     switch (state) {
@@ -1083,7 +1073,7 @@ void advance_timed_panel_motion(S_800B1F34_0 *animation, ObjectPosition *motion)
     }
     update_state = primary_actor_record;
     motion->z.v -= motion->velocity_z;
-    update_state->unk_1C |= 0x40000000;
+    update_state->flags1C |= 0x40000000;
     *animation->unk_00 = 0x20 - motion->z.unsigned_parts.integer;
 }
 #include "shared/object_node.h"

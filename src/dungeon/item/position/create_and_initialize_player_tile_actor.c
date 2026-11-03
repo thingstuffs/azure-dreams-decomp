@@ -11,10 +11,6 @@ typedef struct S_800C135C_0_pre {
     u8 pad_04[0x10];
 } S_800C135C_0_pre;   /* 0x14-byte header immediately before the payload. */
 
-typedef struct S_800C135C_1 {
-    u8 pad_00[0xC];
-    s32 unk_0C;
-} S_800C135C_1;
 
 
 
@@ -33,7 +29,7 @@ s32 create_and_initialize_player_tile_actor(void) {
         reference_tile_object.tile_position.parts.tile_y,
         dungeon_actor_ring_anchor->ground_height);
     if (entry != 0) {
-        ((S_800C135C_1 *)(((S_800C135C_0_pre *)entry)[-1].unk_00))->unk_0C = 0;
+        ((ActorRecord *)(((S_800C135C_0_pre *)entry)[-1].unk_00))->unk_0C.value = 0;
         init_monster_from_stats(entry, entry->species);
         found = 1;
     } else {

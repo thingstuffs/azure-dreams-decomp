@@ -14,12 +14,6 @@ typedef struct S_818BCFB0_0 {
     s32 unk_20;
 } S_818BCFB0_0;   /* obj in create_offset_color_effect */
 
-
-typedef struct S_818BCFB0_3 {
-    u8 pad_00[0xA];
-    u16 unk_0A;
-} S_818BCFB0_3;
-
 typedef struct {
     s32 word[6];
 } Copy24;

@@ -40,10 +40,7 @@ typedef struct S_800C08A4_1 {
     s16 unk_0A;
 } S_800C08A4_1;
 
-typedef struct S_800C08A4_2 {
-    u8 pad_00[0xA];
-    u16 unk_0A;
-} S_800C08A4_2;   /* counter_base in apply_monster_equipment_item */
+   /* counter_base in apply_monster_equipment_item */
 
  /* Unprototyped: zero, one or three arguments; retail replaces all incoming arguments. */
 s32 display_text_with_fullwidth_adjustment(s8 *text); /* extern */

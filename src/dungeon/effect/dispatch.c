@@ -61,14 +61,6 @@ typedef struct S_800C55F4_1 {
     s32 unk_114;
 } S_800C55F4_1;   /* scratch in transform_mesh_and_append_draw_packets */
 
-typedef struct S_800C55F4_2 {
-    u8 pad_00[0x14];
-    u16 unk_14;
-    u8 pad_16[0x6];
-    u16 unk_1C;
-    u16 unk_1E;
-    u16 unk_20;
-} S_800C55F4_2;   /* arg2_alias in transform_mesh_and_append_draw_packets */
 
 typedef struct S_800C55F4_4 {
     u8 unk_00;
@@ -152,11 +144,11 @@ void transform_mesh_and_append_draw_packets(u8 *params, ObjectPosition *record_a
     {
         u32 translation_y;
 
-        translation_y = ((S_800C55F4_2 *)mesh_data)->unk_1E;
+        translation_y = ((SpriteFrameState *)mesh_data)->scale_y;
         screen_arg = (u8 *)((u32)screen_arg | 0xF0);
         ((S_800C55F4_1 *)scratch)->unk_34 = translation_y;
     }
-    ((S_800C55F4_1 *)scratch)->unk_38 = ((S_800C55F4_2 *)mesh_data)->unk_20;
+    ((S_800C55F4_1 *)scratch)->unk_38 = ((SpriteFrameState *)mesh_data)->offset_x;
 
     {
         s32 translation_coord;
@@ -187,7 +179,7 @@ void transform_mesh_and_append_draw_packets(u8 *params, ObjectPosition *record_a
     ((S_800C55F4_1 *)scratch)->unk_20 = render_state + 0xB0;
     prim = ((GpuContext *)render_state)->packetCursor;
     packet_code = prim + 7;
-    ((S_800C55F4_2 *)mesh_data)->unk_14 |= 0x8000;
+    ((SpriteFrameState *)mesh_data)->flags |= 0x8000;
 
     for (;;) {
         vertex_index = face->v0;
@@ -315,7 +307,7 @@ void transform_mesh_and_append_draw_packets(u8 *params, ObjectPosition *record_a
                               (((S_800C55F4_1 *)scratch)->unk_C0.s << 2), packet);
 
                 packet_code += 0xC;
-                ((S_800C55F4_2 *)mesh_data)->unk_14 &= 0x7FFF;
+                ((SpriteFrameState *)mesh_data)->flags &= 0x7FFF;
                 SetDrawMode(prim, 0, 0, 0, 0);
                 packet = prim;
                 prim += 0xC;
@@ -1018,20 +1010,7 @@ typedef struct ScratchDepth {
     u32 depth;
 } ScratchDepth;
 
-typedef struct S_800C6B40_0 {
-    u8 pad_00[0x8];
-    void * unk_08;
-    union { struct { s32 v; } at00; struct { u8 pad[0x3]; u8 v; } at03; } unk_0C;   /* overlapping accesses */
-    u16 unk_10;
-    u16 unk_12;
-    u16 unk_14;
-    u8 pad_16[0x2];
-    u16 unk_18;
-    u16 unk_1A;
-    u16 unk_1C;
-    u8 pad_1E[0x2];
-    u16 unk_20;
-} S_800C6B40_0;   /* arg2 in draw_sprite_parts_as_quad_grid */
+   /* arg2 in draw_sprite_parts_as_quad_grid */
 
 typedef struct S_800C6B40_1 {
     u8 unk_00;
@@ -1700,14 +1679,6 @@ void setup_object_within_planar_range(void *object, s32 x, s32 y, s32 height, s3
 #include "shared/entity_objects.h"
 #include "shared/entity.h"
 
-typedef struct S_800C7930_1 {
-    u8 pad_00[0x2];
-    union { s16 s; u16 u; } unk_02;   /* accessed as both */
-    u8 pad_04[0x2];
-    union { s16 s; u16 u; } unk_06;   /* accessed as both */
-    u8 pad_08[0x2];
-    u16 unk_0A;
-} S_800C7930_1;   /* source in apply_camera_offset_and_select_target */
 
 typedef struct S_800C7930_2 {
     u8 pad_00[0x2A];
@@ -1741,20 +1712,20 @@ s32 apply_camera_offset_and_select_target(void *object_addr, void *source_pos, s
     register u8 *x_offsets;
     register u8 *y_offsets;
     void *object = object_addr;
-    S_800C7930_1 *source = source_pos;
+    ObjectPosition *source = source_pos;
 
     camera = &view_reference_entity;
 
     delta = camera->x.w.i;
-    source_coord = source->unk_02.s;
-    source_x = source->unk_02.u;
+    source_coord = source->x.w.i;
+    source_x = source->x.unsigned_parts.integer;
     delta -= source_coord;
     if (delta < 0) {
         delta = -delta;
     }
     if (delta < 0xC1) {
         delta = camera->y.w.i;
-        source_coord = source->unk_06.s;
+        source_coord = source->y.w.i;
         delta -= source_coord;
         if (delta < 0) {
             delta = -delta;
@@ -1769,8 +1740,8 @@ s32 apply_camera_offset_and_select_target(void *object_addr, void *source_pos, s
             y_offsets = (u8 *)direction_y_offsets;
             y_offset_index = (work->unk_2A >> 8) & 0xE;
             y_offset = *(u16 *)(y_offsets + y_offset_index);
-            destination->unk_06 = source->unk_06.u + (s16)y_offset / 2;
-            destination->unk_0A = source->unk_0A;
+            destination->unk_06 = source->y.unsigned_parts.integer + (s16)y_offset / 2;
+            destination->unk_0A = source->z.unsigned_parts.integer;
             select_nearby_target_and_initialize_slot(object, destination, (s16)helper_arg, slot_value);
         }
     }

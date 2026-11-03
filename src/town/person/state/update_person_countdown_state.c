@@ -1,4 +1,5 @@
 #include "common.h"
+#include "town/person/motion.h"
 
 typedef struct {
     u8 pad_00[0x50];
@@ -10,14 +11,14 @@ typedef struct {
 } State;
 
 extern u8 D_800AB55C[];
-extern u8 person_approach_state_address[];
+
 
 /* Updates the state from the value and countdown, resetting an expired timer to ten. */
 void update_person_countdown_state(State *record) {
     u16 timer;
 
     if (record->value < 100) {
-        record->state = person_approach_state_address;
+        record->state = move_person_toward_sample;
     }
     timer = record->timer - 1;
     record->timer = timer;

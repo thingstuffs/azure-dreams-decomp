@@ -7,6 +7,7 @@
 #include "town/scene.h"
 #include "town/event/object.h"
 #include "town/scene/motion.h"
+#include "town/event.h"
 
 typedef struct Actor Actor;
 typedef struct Subject Subject;
@@ -61,8 +62,8 @@ extern void call_the_same_context_both_processing_routines(Subject *, Motion *);
 extern void set_actor_drop_state(Actor *, Subject *, Motion *, TownMovementOutput *); /* Unprototyped: retail call passes more arguments than the callee reads */
 
 extern void update_actor_input_actions(void *context, ObjectPosition *entity, s32 update_arg);
-extern void actor_surface_callback_address(void *actor, void *subject, void *motion, void *context);
-extern void actor_output_update_address(void *state_owner, void *update_target, void *update_context, void *output);
+
+
 extern void update_actor_with_controlled_motion(Actor *, Subject *, Motion *, TownMovementOutput *);
 
 extern TownState scene_object_list_anchor;
@@ -108,8 +109,8 @@ void update_actor_with_controlled_motion(Actor *actor, Subject *subject, Motion 
     }
 
     actor_callback = actor->state;
-    if ((actor_callback != actor_surface_callback_address) &&
-        (actor_callback != actor_output_update_address) &&
+    if ((actor_callback != update_actor_surface_motion) &&
+        (actor_callback != update_actor_slots_and_output) &&
         (actor_callback != update_actor_with_controlled_motion)) {
         actor_value = actor->value;
         if (actor_value != 0) {

@@ -6,7 +6,7 @@
 #include "town/player/position.h"
 
 #include "town/player/call_the_handler_selects_nonzero_entry_api.h"  /* extern */
-extern void town_actor_interaction_address();
+
 
 
 /* Set the record field to six, reset and initialize it, and assign its handler. */
@@ -14,5 +14,5 @@ void initialize_actor_position_interaction_action(TownObjectRecord *record, Obje
     record->unk_3E.as_s16 = 6;
     store_the_valid_shared_angle_in_offset_hex_10(record);
     call_the_handler_selects_nonzero_entry(D_800D0130, record, (void *)(setup_value));
-    record->unk_00.as_pm = &town_actor_interaction_address;
+    record->unk_00.as_pm = update_actor_position_and_interaction;
 }

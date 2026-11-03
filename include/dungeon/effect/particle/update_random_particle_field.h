@@ -77,19 +77,8 @@ typedef struct S_81934928_3 {
     s16 unk_26;
 } S_81934928_3;   /* part in func_80024128 */
 
-typedef struct S_81934928_4 {
-    u8 pad_00[0x1C];
-    s32 unk_1C;
-} S_81934928_4;   /* found in func_80024128 */
 
-typedef struct S_81934928_5 {
-    u8 pad_00[0x2A];
-    s16 unk_2A;
-} S_81934928_5;   /* owner in func_80024128 */
 
-typedef struct S_81934928_6 {
-    u16 unk_00;
-} S_81934928_6;   /* ((S_81934928_0 *)self)->unk_04 in func_80024128 */
 
 typedef struct {
     s32 word[6];

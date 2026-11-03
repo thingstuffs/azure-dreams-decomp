@@ -21,21 +21,12 @@ typedef struct S_81977D08_0 {
     AnOwnerLinkedSpriteEffectPositionVerticalOffsetBody body;
 } S_81977D08_0;
 
-typedef struct S_81977D08_3 {
-    s32 unk_00;
-    s32 unk_04;
-    s32 unk_08;
-} S_81977D08_3;   /* arg1 in create_an_owner_linked_sprite_effect_position_vertical_offset */
 
 typedef struct S_81977D08_4 {
     u8 pad_00[0x14];
     void * unk_14;
 } S_81977D08_4;   /* arg0 in create_an_owner_linked_sprite_effect_position_vertical_offset */
 
-typedef struct S_81977D08_5 {
-    u8 pad_00[0x13];
-    u8 unk_13;
-} S_81977D08_5;   /* ((S_81977D08_4 *)arg0)->unk_14 in create_an_owner_linked_sprite_effect_position_vertical_offset */
 
 extern s32 register_node(); /* Unprototyped: two, three or four arguments; retail reads only the node and draw key. */
 
@@ -47,7 +38,7 @@ extern s32 D_800DEB70;
  * Copies the supplied position with half the owner height offset subtracted from Z and registers
  * sprite projection.
  */
-void create_an_owner_linked_sprite_effect_position_vertical_offset(S_81977D08_4 *owner, S_81977D08_3 *position)
+void create_an_owner_linked_sprite_effect_position_vertical_offset(S_81977D08_4 *owner, ObjectPosition *position)
 {
     ObjectPosition *effect_pos;
     SpriteFrameState *sprite;
@@ -77,10 +68,10 @@ void create_an_owner_linked_sprite_effect_position_vertical_offset(S_81977D08_4 
         sprite->flags = sprite->flags | 0xC;
         sprite->tpage_abr = sprite->tpage_abr | 0x20;
         effect_pos = effect->unk_08;
-        effect_pos->x.v = position->unk_00;
-        effect_pos->y.v = position->unk_04;
-        effect_pos->z.v = position->unk_08 -
-            (((u8 *)((s32 *)entity_height_offsets))[((S_81977D08_5 *)(owner->unk_14))->unk_13] >> 1 << 16);
+        effect_pos->x.v = position->x.v;
+        effect_pos->y.v = position->y.v;
+        effect_pos->z.v = position->z.v -
+            (((u8 *)((s32 *)entity_height_offsets))[((ActorRecord *)(owner->unk_14))->species] >> 1 << 16);
         register_node(effect, project_sprite_chain);
     }
 }

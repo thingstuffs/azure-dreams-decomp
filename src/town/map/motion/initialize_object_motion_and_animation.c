@@ -5,6 +5,7 @@
 #include "engine/node.h"
 #include "slus.h"
 #include "town/map/motion.h"
+#include "town/map.h"
 
 typedef struct Func800BF66CObject {
     u8 pad00[0x48];
@@ -15,7 +16,7 @@ typedef struct Func800BF66CObject {
     s16 fieldA6;
 } Func800BF66CObject;
 
-extern u8 D_800BC990[];
+
 extern u8 town_map_motion_defaults[];
 extern s32 D_800D211C[];
 extern s32 D_800D212C;
@@ -23,7 +24,7 @@ extern s32 D_800D212C;
 /* Initialize the object state, motion, and animation. */
 void initialize_object_motion_and_animation(void *object_data, ObjectPosition *motion, struct SpriteFrameState *anim) {
     Func800BF66CObject *object = object_data;
-    *(void **)((u8 *)object - 0x10) = D_800BC990;
+    *(void **)((u8 *)object - 0x10) = update_random_idle_wander;
     object->field50 = 0;
     register_node((u8 *)object - 0x20, project_sprite_chain);
     object->fieldA6 = 2;

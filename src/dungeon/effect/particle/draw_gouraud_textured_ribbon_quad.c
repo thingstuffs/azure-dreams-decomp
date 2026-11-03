@@ -113,11 +113,6 @@ typedef struct S_801663AC_5 {
     } unk_30;   /* overlapping accesses */
 } S_801663AC_5;   /* packet in draw_gouraud_textured_ribbon_quad */
 
-typedef struct S_801663AC_6 {
-    u8 pad_00[0x4];
-    u16 unk_04;
-    u16 unk_06;
-} S_801663AC_6;   /* texture in draw_gouraud_textured_ribbon_quad */
 
 typedef struct {
     s16 m[3][3];
@@ -213,10 +208,10 @@ void draw_gouraud_textured_ribbon_quad(void *quad, ObjectPosition *position, voi
                     ((S_801663AC_5 *)packet)->unk_0E = ((S_801663AC_2 *)render_state)->unk_12;
                 } else {
                     ((S_801663AC_5 *)packet)->unk_0E = ((S_801663AC_2 *)render_state)->unk_12 +
-                                              ((S_801663AC_6 *)texture)->unk_06;
+                                              ((ObjectPosition *)texture)->y.unsigned_parts.integer;
                 }
             } else {
-                ((S_801663AC_5 *)packet)->unk_0E = ((S_801663AC_6 *)texture)->unk_06;
+                ((S_801663AC_5 *)packet)->unk_0E = ((ObjectPosition *)texture)->y.unsigned_parts.integer;
             }
 
             ((S_801663AC_5 *)packet)->unk_0C = ((S_801663AC_0 *)scratch)->unk_10.u16 +
@@ -226,9 +221,9 @@ void draw_gouraud_textured_ribbon_quad(void *quad, ObjectPosition *position, voi
 
             if (((S_801663AC_2 *)render_state)->unk_10) {
                 ((S_801663AC_5 *)packet)->unk_1A = ((S_801663AC_2 *)render_state)->unk_10 +
-                                           (((S_801663AC_6 *)texture)->unk_04 & 0xFF9F);
+                                           (((ObjectPosition *)texture)->y.w.frac & 0xFF9F);
             } else {
-                ((S_801663AC_5 *)packet)->unk_1A = ((S_801663AC_6 *)texture)->unk_04;
+                ((S_801663AC_5 *)packet)->unk_1A = ((ObjectPosition *)texture)->y.w.frac;
             }
 
             ((S_801663AC_5 *)packet)->unk_24.at00.v = ((S_801663AC_0 *)scratch)->unk_18.u16 +

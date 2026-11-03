@@ -25,7 +25,7 @@ typedef struct {
     s16 pad_A;
 } TownPosition;
 
-extern u8 D_800C21F8[];
+
 
 /* Applies an eligible nearby object's effects and updates its callback. */
 s32 apply_nearby_object_effects(TownObject *object) {
@@ -47,7 +47,7 @@ s32 apply_nearby_object_effects(TownObject *object) {
             coord_value_3 = distance_z;
             if (object->range_z >= coord_value_3) {
                 tw_sd_sq_ld_call(object->effect_a, object->effect_b);
-                callback = D_800C21F8;
+                callback = switch_callback_beyond_distance_limit;
                 object->callback = callback;
                 return 1;
             }

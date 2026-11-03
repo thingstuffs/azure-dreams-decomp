@@ -4,6 +4,7 @@
 #include "shared/dungeon_delay_views.h"
 #include "town/player/motion.h"
 #include "town/person.h"
+#include "town/player/effect.h"
 
 typedef struct S_80097D08_0 {
     void (*unk_00)();
@@ -16,13 +17,13 @@ typedef struct S_80097D08_0 {
    /* arg1 in set_motion_handler_and_copy_signed_byte */
 
 
-extern void D_80097C50(void *object, s32 target);
+
 
 /* Set the record pointer and state, and copy its signed byte to the output in 16.16 format. */
 void set_motion_handler_and_copy_signed_byte(TownObjectRecord *record_data, ObjectPosition *placement, struct SpriteFrameState *unused_sprite) {
     ObjectPosition *output = placement;
 
-    ((S_80097D08_0 *)((u8 *)record_data - 0x10))->unk_00 = &D_80097C50;
+    ((S_80097D08_0 *)((u8 *)record_data - 0x10))->unk_00 = tick_random_radial_spawns;
     output->z.v = (s32) (record_data->variant.as_s8 << 0x10);
     record_data->timer.as_s16 = 5;
 }

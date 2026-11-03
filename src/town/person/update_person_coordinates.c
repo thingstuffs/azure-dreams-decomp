@@ -2,20 +2,21 @@
 #include "records/Rec_func_800AB030_arg0.h"
 #include "town/person/lookup_motion.h"
 #include "town/person.h"
+#include "town/person/motion.h"
 
 typedef struct {
     s32 pad[3];
 } StateHandler;
 
 extern StateHandler D_800AB4A8;
-extern StateHandler person_approach_state_address;
+
 
 /* Updates coordinates and selects the state handler based on the threshold and timer. */
 void update_person_coordinates(void *state, ObjectPosition *coords) {
     u16 timer;
 
     if (*(s16 *)((s8 *)state + 0x90) < 100) {
-        *(StateHandler **)((s8 *)state + 0x50) = &person_approach_state_address;
+        *(StateHandler **)((s8 *)state + 0x50) = move_person_toward_sample;
     }
     coords->x.unsigned_parts.integer = *(u16 *)((s8 *)coords + 0xE);
     coords->y.unsigned_parts.integer = *(u16 *)((s8 *)coords + 0x12);

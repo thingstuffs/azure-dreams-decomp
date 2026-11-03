@@ -56,23 +56,9 @@ typedef struct S_81814EDC_7_pre {
     u8 pad_04[0x14];
 } S_81814EDC_7_pre;   /* the 0x18 bytes before source_owner in update_spark_emitter_effect, addressed as source_owner[-1] */
 
-typedef struct S_81814EDC_8 {
-    u8 pad_00[0x1C];
-    s32 unk_1C;
-} S_81814EDC_8;
-
-typedef struct S_81814EDC_9 {
-    u8 pad_00[0xC];
-    union { s8 s; u8 u; } unk_0C;   /* accessed as both */
-    union { s8 s; u8 u; } unk_0D;   /* accessed as both */
-    union { s8 s; u8 u; } unk_0E;   /* accessed as both */
-} S_81814EDC_9;
 
 
-typedef struct S_81814EDC_11 {
-    u8 pad_00[0x1C];
-    s32 unk_1C;
-} S_81814EDC_11;
+
 
 typedef struct S_81814EDC_12_pre {
     void * unk_00;
@@ -100,8 +86,8 @@ void update_spark_emitter_effect(EmitAttachedDirectionalParticleChainBody *effec
     u16 ticks_left;
     u16 fade_ticks;
     void *owner;
-    S_81814EDC_11 *owner_flags;
-    S_81814EDC_9 *owner_sprite;
+    ActorRecord *owner_flags;
+    SpriteFrameState *owner_sprite;
     SpriteFrameState *sprite;
     S_81814EDC_5 *debris;
     MovingPosition *owner_position;
@@ -265,10 +251,10 @@ loop_effects:
                         owner = effect->unk_30.p;
                         effect->unk_00 = 1;
                         owner_sprite = ((SpriteLinkPrefixView *)owner)[-1].sprite;
-                        ((S_81814EDC_8 *)owner)->unk_1C = (s32) (((S_81814EDC_8 *)owner)->unk_1C | 0x10000000);
-                        owner_sprite->unk_0E.s = 0x30;
-                        owner_sprite->unk_0D.s = 0x30;
-                        owner_sprite->unk_0C.s = 0x30;
+                        ((ActorRecord *)owner)->flags1C = (s32) (((ActorRecord *)owner)->flags1C | 0x10000000);
+                        owner_sprite->color.c.b = 0x30;
+                        owner_sprite->color.c.g = 0x30;
+                        owner_sprite->color.c.r = 0x30;
                         effect->unk_02.s = 0;
                     } else {
                         ((S_81814EDC_0_pre *)effect)[-1].unk_00 =
@@ -312,11 +298,11 @@ loop_effects:
         if ((s16) fade_ticks >= 0x15) {
             if (((s16) effect->unk_0A.u == 4) && (effect->unk_08 == state)) {
                 owner_flags = effect->unk_30.p;
-                owner_flags->unk_1C = (s32) (owner_flags->unk_1C & 0xEFFFFFFF);
+                owner_flags->flags1C = (s32) (owner_flags->flags1C & 0xEFFFFFFF);
                 owner_sprite = ((S_81814EDC_12_pre *)(effect->unk_30.p))[-1].unk_04;
-                owner_sprite->unk_0E.u = 0x80;
-                owner_sprite->unk_0D.u = 0x80;
-                owner_sprite->unk_0C.u = 0x80;
+                owner_sprite->color.c.b = 0x80;
+                owner_sprite->color.c.g = 0x80;
+                owner_sprite->color.c.r = 0x80;
             }
             ((S_81814EDC_0_pre *)effect)[-1].unk_00 = (u16) (((S_81814EDC_0_pre *)effect)[-1].unk_00 | 0x8000);
             object_flag_block.flags |= OBJECT_REMOVE_PENDING;

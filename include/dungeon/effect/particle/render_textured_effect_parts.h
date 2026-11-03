@@ -9,6 +9,7 @@ struct DecrementObjectCounterBody;
 #include "m2c_compat.h"
 #include "shared/entity.h"
 #include "shared/dungeon_moving_views.h"
+#include "shared/object_node.h"
 typedef struct {
     u8 pad0[2];
     s16 remaining;
@@ -87,23 +88,7 @@ typedef struct S_8181B078_2 {
     u8 pad_00[0x14];
     u16 unk_14;
 } S_8181B078_2;
-typedef struct S_8181B1A0_4 {
-    u8 pad_00[0x8];
-    void * unk_08;
-} S_8181B1A0_4;
 
-typedef struct S_8181B1A0_2 {
-    u8 pad_00[0x8];
-    void * unk_08;
-    u8 unk_0C;
-    u8 unk_0D;
-    u8 unk_0E;
-    u8 pad_0F[0x5];
-    u16 unk_14;
-    u8 pad_16[0x6];
-    s16 unk_1C;
-    s16 unk_1E;
-} S_8181B1A0_2;
 typedef struct S_80024BE8_0 {
     void * unk_00;
     u16 * unk_04;
@@ -129,21 +114,6 @@ typedef struct S_80024BE8_1 {
     void * unk_08;
     void * unk_0C;
 } S_80024BE8_1;
-typedef struct S_80024BE8_2 {
-    u8 pad_00[0xC];
-    union {
-        struct { s32 v; } at00;
-        struct { s8 v; } at00u;
-        struct { u8 pad[0x1]; s8 v; } at01;
-        struct { u8 pad[0x2]; s8 v; } at02;
-    } unk_0C;   /* overlapping accesses */
-    s16 unk_10;
-    s16 unk_12;
-    u16 unk_14;
-    u8 pad_16[0x6];
-    s16 unk_1C;
-    s16 unk_1E;
-} S_80024BE8_2;
 typedef struct S_80024BE8_3_pre {
     void * unk_00;
     u8 pad_04[0x10];
@@ -163,40 +133,11 @@ typedef struct S_80024BE8_4 {
     u8 pad_00[0x8];
     s32 unk_08;
 } S_80024BE8_4;
-typedef struct S_80024BE8_5 {
-    union { struct { s32 v; } at00; struct { u8 pad[0x2]; u16 v; } at02; } unk_00;   /* overlapping accesses */
-    union { struct { s32 v; } at00; struct { u8 pad[0x2]; u16 v; } at02; } unk_04;   /* overlapping accesses */
-    union {
-        struct { s32 v; } at00;
-        struct { u8 pad[0x2]; u16 v; } at02;
-        struct { u8 pad[0x2]; s16 v; } at02u;
-    } unk_08;   /* overlapping accesses */
-    s32 unk_0C;
-    s32 unk_10;
-    s32 unk_14;
-} S_80024BE8_5;
 
 typedef struct S_80024BE8_7 {
     u8 pad_00[0x88];
     u16 unk_88;
 } S_80024BE8_7;
-typedef struct S_80024BE8_8 {
-    u8 pad_00[0x24];
-    u8 unk_24;
-    u8 unk_25;
-} S_80024BE8_8;
-typedef struct S_80024BE8_9 {
-    u8 pad_00[0x2];
-    u16 unk_02;
-    u8 pad_04[0x2];
-    u16 unk_06;
-} S_80024BE8_9;
-typedef struct S_80024BE8_10 {
-    u8 pad_00[0xC];
-    s8 unk_0C;
-    s8 unk_0D;
-    s8 unk_0E;
-} S_80024BE8_10;
 typedef struct S_80024BE8_13 {
     u8 pad_00[0x2];
     u16 unk_02;
@@ -204,12 +145,6 @@ typedef struct S_80024BE8_13 {
     u16 unk_06;
     union { struct { s32 v; } at00; struct { u8 pad[0x2]; u16 v; } at02; } unk_08;   /* overlapping accesses */
 } S_80024BE8_13;
-typedef struct S_80024BE8_14 {
-    u8 pad_00[0xC];
-    s8 unk_0C;
-    s8 unk_0D;
-    s8 unk_0E;
-} S_80024BE8_14;
 typedef struct S_80024BE8_15 {
     u8 pad_00[0x8];
     void * unk_08;
@@ -218,24 +153,10 @@ typedef struct S_80024BE8_15 {
     u8 pad_14[0xE];
     s16 unk_22;
 } S_80024BE8_15;
-typedef struct S_80024BE8_19 {
-    u8 pad_00[0x1C];
-    s32 unk_1C;
-} S_80024BE8_19;
 typedef struct S_80024BE8_20_pre {
     void * unk_00;
     u8 pad_04[0x10];
 } S_80024BE8_20_pre;
-typedef struct S_80024BE8_21 {
-    u8 pad_00[0xC];
-    u8 unk_0C;
-    u8 unk_0D;
-    u8 unk_0E;
-} S_80024BE8_21;
-typedef struct S_80024BE8_22 {
-    u8 pad_00[0x14];
-    u16 unk_14;
-} S_80024BE8_22;
 typedef struct S_80024BE8_23_pre {
     void * unk_00;
     void * unk_04;

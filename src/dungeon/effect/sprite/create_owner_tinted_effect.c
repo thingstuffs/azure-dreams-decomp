@@ -29,14 +29,6 @@ typedef struct S_818BDD8C_2 {
     u16 unk_12;
 } S_818BDD8C_2;   /* arg0 in create_owner_tinted_effect */
 
-typedef struct S_818BDD8C_4 {
-    s32 unk_00;
-    s32 unk_04;
-    s32 unk_08;
-    s32 unk_0C;
-    s32 unk_10;
-    s32 unk_14;
-} S_818BDD8C_4;   /* arg1 in create_owner_tinted_effect */
 
 typedef struct S_818BDD8C_5 {
     s32 unk_00;
@@ -48,7 +40,7 @@ typedef struct S_818BDD8C_5 {
 } S_818BDD8C_5;
 
 /* Creates an object with its owner, rendering parameters, and supplied data. */
-void *create_owner_tinted_effect(S_818BDD8C_2 *owner, S_818BDD8C_4 *initial_data)
+void *create_owner_tinted_effect(S_818BDD8C_2 *owner, ObjectPosition *initial_data)
 {
     s32 copy_word_2;
     s32 copy_word_3;

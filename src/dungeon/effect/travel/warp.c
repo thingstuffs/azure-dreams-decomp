@@ -507,7 +507,6 @@ void run_warp_cutscene(Motion *motion, Position *position, u8 *color)
 
    /* src in func_819AD1DC */
 
-
 typedef struct S_819AD1DC_3 {
     u8 pad_00[0x1C];
     u16 unk_1C;
@@ -518,7 +517,6 @@ typedef struct S_819AD1DC_3 {
     u8 pad_32[0x6];
     s16 unk_38;
 } S_819AD1DC_3;   /* part in func_819AD1DC */
-
 
 /* Spawn the nine trail sprites at the source position, the last one larger and all fading with distance. */
 void *move_effect_toward_target(MovingPosition *src)
@@ -856,22 +854,7 @@ typedef struct S_819AD81C_3 {
     s16 unk_88;
 } S_819AD81C_3;   /* node in func_819AD81C */
 
-typedef struct S_819AD81C_4 {
-    u8 pad_00[0x4];
-    s8 unk_04;
-    u8 pad_05[0x7];
-    s32 unk_0C;
-    u8 pad_10[0x6];
-    u16 unk_16;
-    u16 unk_18;
-    u16 unk_1A;
-    u16 unk_1C;
-    u16 unk_1E;
-    u16 unk_20;
-    u8 pad_22[0x2];
-    u8 unk_24;
-    u8 unk_25;
-} S_819AD81C_4;   /* info in func_819AD81C */
+   /* info in func_819AD81C */
 
    /* link in func_819AD81C */
 
@@ -1638,7 +1621,6 @@ void initialize_inventory_packet(void *state, void *points, void *appearance) {
 
 #include "modules/dungeon_ovl_19cc800.h"
 #include "common.h"
-
 
 typedef struct S_80025FCC_3 {
     u8 pad_00[0x1C];

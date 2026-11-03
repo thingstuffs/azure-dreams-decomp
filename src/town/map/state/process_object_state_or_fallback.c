@@ -3,6 +3,7 @@
 #include "engine/node.h"
 #include "town/map/state.h"
 #include "town/menu.h"
+#include "town/map.h"
 
 
 typedef struct S_func_800A9624_1 {
@@ -13,7 +14,7 @@ typedef struct S_func_800A9624_1 {
 } S_func_800A9624_1;
 
 struct TownPositionXY; void write_square_position_offsets(s16, s16, s16, s16, struct TownPositionXY *);
-extern s32 map_random_state_draw_address;
+
 
 /* Process object state results or invoke the fallback callback. */
 void process_object_state_or_fallback(S_func_800A9624_1 *object, s32 state_arg, s32 callback_arg) {
@@ -35,7 +36,7 @@ void process_object_state_or_fallback(S_func_800A9624_1 *object, s32 state_arg, 
         unlink_node_if_registered(object);
         return;
     }
-    register_node_if_unregistered(object, (&map_random_state_draw_address));
+    register_node_if_unregistered(object, (process_linked_record_values));
     callback = object->unk_50;
     if (callback != 0) {
         callback(object, state_arg, callback_arg);

@@ -1,5 +1,6 @@
 #include "common.h"
 #include "shared/object_index_slots.h"
+#include "town/person/person_object_lifecycle_g00659.h"
 
 typedef struct {
     s32 unk0;
@@ -7,8 +8,8 @@ typedef struct {
 } Entry;
 
 extern s32 runtime_script_state[];
-extern u8 message_motion_type_a[];
-extern u8 message_motion_type_b[];
+
+
 
 extern s32 map_angle_to_cardinal_direction(s32, void *); /* Unprototyped: retail call passes more arguments than the callee reads */
 
@@ -27,7 +28,7 @@ void anyone_now_ang_get(s32 object_slot) {
             if (object_slot == 1) {
                 void *kind = *(void **)((u8 *)entry + 0x10);
 
-                if (kind != message_motion_type_a && kind != message_motion_type_b) {
+                if (kind != update_object_position_or_cleanup && kind != update_object_motion_and_flags) {
                     angle_raw = *(u16 *)(data + 0x10);
                 } else {
                     angle_raw = *(u16 *)(data + 0x72);

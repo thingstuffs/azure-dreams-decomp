@@ -20,11 +20,6 @@ typedef struct S_800C0E88_2_pre {
     u8 pad_04[0x10];
 } S_800C0E88_2_pre;   /* the 0x14 bytes before object in use_magic_ball, addressed as object[-1] */
 
-typedef struct S_800C0E88_3 {
-    u8 pad_00[0x9];
-    u8 unk_09;
-    u8 unk_0A;
-} S_800C0E88_3;   /* scan in use_magic_ball */
 
 typedef struct S_800C0E88_4 {
     u8 pad_00[0xA];
@@ -107,8 +102,8 @@ scan_next:
 
                     slot_count = data->unk_02;
                     slot_count /= 10;
-                    ((S_800C0E88_3 *)slot_scan)->unk_0A = slot_count;
-                    ((S_800C0E88_3 *)slot_scan)->unk_09 = slot_count;
+                    ((ActorRecord *)slot_scan)->unk_00[10] = slot_count;
+                    ((ActorRecord *)slot_scan)->unk_00[9] = slot_count;
 
                     if (object->flags14 & 0x4000) {
                         message_start = get_unused_text_buffer();

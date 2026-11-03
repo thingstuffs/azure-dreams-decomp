@@ -61,20 +61,13 @@ typedef struct S_800CBB98_2 {
     s16 unk_1E;
 } S_800CBB98_2;
 
-typedef struct S_800CBB98_3 {
-    u8 pad_00[0x14];
-    s32 unk_14;
-} S_800CBB98_3;   /* held_arg3 in create_owned_tile_center_effect */
 
-typedef struct S_800CBB98_4 {
-    u8 pad_00[0xA];
-    u16 unk_0A;
-} S_800CBB98_4;   /* global_base in create_owned_tile_center_effect */
+   /* global_base in create_owned_tile_center_effect */
 
 /* Creates an effect at the tile center, links it to its owner, and increments the effect count. */
 void *create_owned_tile_center_effect(s16 tile_x, u16 tile_y, s16 height, void *owner) {
     s16 saved_height = height;
-    S_800CBB98_3 *saved_owner = owner;
+    ActorRecord *saved_owner = owner;
     u16 saved_tile_x = tile_x;
     u16 saved_tile_y = tile_y;
     S_800CBB98_2 *sprite;
@@ -99,7 +92,7 @@ void *create_owned_tile_center_effect(s16 tile_x, u16 tile_y, s16 height, void *
         sprite->unk_1C = 0x1000;
         select_record_entry_and_value(sprite, D_800DF650, 0);
         effect->body.owner = saved_owner;
-        saved_owner->unk_14 = (s32) (saved_owner->unk_14 | 0x100000);
+        saved_owner->flags14 = (s32) (saved_owner->flags14 | 0x100000);
         play_sound_if_enabled(0x614);
         g_dungeon_status.activity_counts.parts.pending_action_count = (u16) (((u16)g_dungeon_status.activity_counts.parts.pending_action_count) + 1);
     }
@@ -114,7 +107,6 @@ typedef struct S_800CBCA0_0_pre {
     u8 pad_04[0x10];
 } S_800CBCA0_0_pre;   /* the 0x14 bytes before arg0 in check_entity_chance_and_trigger_parent_action, addressed as arg0[-1] */
 
-
 typedef struct S_800CBCA0_1 {
     u8 pad_00[0x24];
     u8 unk_24;
@@ -123,7 +115,6 @@ typedef struct S_800CBCA0_1 {
 
 extern s32 generate_random_value(void);
 extern u8 D_800E1AE6[];
-
 
 /* Checks an entity's flags and random roll before attempting its parent-based action. */
 s32 check_entity_chance_and_trigger_parent_action(void *entity_arg, s32 input_a, s32 input_b, s32 input_c)
@@ -355,13 +346,10 @@ typedef struct S_800CC18C_0 {
     u8 unk_2B;
 } S_800CC18C_0;   /* arg0 in resolve_random_trap_outcome; pointer addresses record offset 0x18 */
 
-
-
 extern u8 D_800E1BDA[];
 extern s32 play_sound_if_enabled(s32 query_value);
 extern s32 generate_random_value(void);
 extern s32 begin_actor_random_warp(void *, s32, s32, void *);
-
 
 /* Resolve a ranged random check, apply its effects, and return the outcome. */
 s32 resolve_random_trap_outcome(ActorRecord *entity, s32 forwarded_1, s32 forwarded_2, s32 forwarded_3) {
@@ -649,8 +637,6 @@ void *create_tile_center_quad_effect(s16 tile_x, s16 tile_y, s16 z, s16 tail_val
 #include "common.h"
 #include "shared/object_flags.h"
 
-
-
 /* Fade the color toward 0xE0, then to black, and flag completion. */
 void fade_trap_color_to_black(TrapFadeWork *fade, void *unused, SpriteFrameState *color) {
     s16 steps;
@@ -715,7 +701,6 @@ typedef struct DescBlock {
     u16 mode;
 } DescBlock;
 
-
 typedef struct ObjectBlock {
     u8 pad0[8];
     CoordBlock *coords;
@@ -723,10 +708,7 @@ typedef struct ObjectBlock {
     void *resource;
 } ObjectBlock;
 
-
 extern u8 D_800CC744[];
-
-
 
 /* Create an object at grid coordinates and initialize its display and tail data. */
 ObjectBlock *create_grid_effect_object(s16 grid_x, s16 grid_y, s16 z, s16 value, s16 size_mode) {
@@ -762,7 +744,6 @@ ObjectBlock *create_grid_effect_object(s16 grid_x, s16 grid_y, s16 z, s16 value,
 #include "shared/object_flags.h"
 #include "shared/dungeon_status.h"
 
-
 /* Decrements the record countdown and marks completion when it reaches zero. */
 void tick_byte_timed_trap_effect(FivePartTargetEffectBody *effect) {
     u8 countdown;
@@ -782,12 +763,7 @@ void tick_byte_timed_trap_effect(FivePartTargetEffectBody *effect) {
 #include "shared/dungeon_status.h"
 #include "m2c_compat.h"
 
-
-typedef struct S_800CCA14_1 {
-    u8 pad_00[0xA];
-    u16 unk_0A;
-} S_800CCA14_1;   /* count_base in create_five_part_target_effect */
-
+   /* count_base in create_five_part_target_effect */
 
 s32 find_object_near_tile_height();                   /* extern */
 void apply_attack_power_and_element_effects(); /* extern */
@@ -857,9 +833,6 @@ typedef struct {
     u8 pad[3];
     u8 flags;
 } Entry4;
-
-
-
 
 extern u8 trap_resource_slot;
 extern s32 D_800DCF78;
@@ -968,10 +941,7 @@ typedef struct S_800CCDA0_1 {
     s32 unk_14;
 } S_800CCDA0_1;   /* arg1 in update_bouncing_trap_effect */
 
-typedef struct S_800CCDA0_2 {
-    u8 pad_00[0xC8];
-    s16 unk_C8;
-} S_800CCDA0_2;   /* base in update_bouncing_trap_effect */
+   /* base in update_bouncing_trap_effect */
 
 typedef struct S_800CCDA0_3 {
     u8 pad_00[0xC];
@@ -984,12 +954,8 @@ typedef struct S_800CCDA0_3 {
     union { u16 s; u16 u; } unk_1A;   /* accessed as both */
 } S_800CCDA0_3;   /* arg2 in update_bouncing_trap_effect */
 
-
 extern void apply_attack_power_and_element_effects(void *, s32, s32, s32, s32, void *, s32);
 extern s32 play_sound_if_enabled(s32 query_value);
-
-
-
 
 /* Updates a bouncing effect's motion, rotation, and fading until its lifetime expires. */
 void update_bouncing_trap_effect(void *effect, void *motion, void *sprite)
@@ -1129,10 +1095,7 @@ typedef struct S_800CD004_5 {
     s16 unk_0A;
 } S_800CD004_5;   /* tail in spawn_source_sprite_effect */
 
-typedef struct S_800CD004_6 {
-    u8 pad_00[0xA];
-    u16 unk_0A;
-} S_800CD004_6;   /* counter in spawn_source_sprite_effect */
+   /* counter in spawn_source_sprite_effect */
 
 extern s32 play_sound_if_enabled(s32 query_value);
 extern s32 generate_random_value(void);
@@ -1140,7 +1103,6 @@ extern s32 generate_random_value(void);
 extern u8 D_800CCDA0;
 extern u8 D_800DFD0C[];
 extern u8 D_800DFD30[];
-
 
 /* Spawn a sprite effect for the source or invoke its fallback action. */
 s32 spawn_source_sprite_effect(void *source_arg, s32 rng_arg_1, s32 rng_arg_2, s32 rng_arg_3)
@@ -1228,13 +1190,10 @@ extern s32 roll_chance_and_run_action(void *record, s16 chance, s8 action);
 extern s32 D_800DCF0C;
 extern u8 D_800E1BF3[];
 
-
-
 typedef struct S_800CD1A4_0_pre {
     void * unk_00;
     u8 pad_04[0x10];
 } S_800CD1A4_0_pre;   /* the 0x14 bytes before actor in roll_trap_hit_and_raise_event_520, addressed as actor[-1] */
-
 
 typedef struct S_800CD1A4_1 {
     u8 pad_00[0x14];
@@ -1293,7 +1252,6 @@ typedef struct S_800CD294_1 {
     u8 unk_25;
 } S_800CD294_1;
 
-
 /* cfail-repair: tf7-phase1-cache-v3 */
 
 extern s32 D_800DCF14;
@@ -1338,26 +1296,16 @@ s32 check_trap_record_and_trigger_effects(void *record_data) {
 extern s32 D_800DCF1C;
 extern u8 D_800E1C14[17];
 
-
-
 typedef struct S_800CD384_0_pre {
     void * unk_00;
     u8 pad_04[0x10];
 } S_800CD384_0_pre;   /* the 0x14 bytes before object in attempt_trap_request_eight_slots, addressed as object[-1] */
 
 
-typedef struct S_800CD384_1 {
-    u8 pad_00[0x14];
-    u16 unk_14;
-    u8 pad_16[0xE];
-    u8 unk_24;
-    u8 unk_25;
-} S_800CD384_1;   /* entry in attempt_trap_request_eight_slots */
-
 /* Run the 8-slot request for the object with the budget the global mode picks; on refusal give the fallback cue, otherwise apply the effect and raise the tile marker unless the owning entry is flagged. */
 s32 attempt_trap_request_eight_slots(void *object) {
     s32 amount;
-    S_800CD384_1 *entry;
+    SpriteFrameState *entry;
 
     amount = 0x40;
     if (trap_request_blocked != 0) {
@@ -1375,9 +1323,9 @@ s32 attempt_trap_request_eight_slots(void *object) {
         wrap_position_and_set_state_value(D_800DCF1C);
     }
     entry = ((S_800CD384_0_pre *)object)[-1].unk_00;
-    if (!(entry->unk_14 & 0x8000)) {
-        spawn_randomized_particle_burst((entry->unk_24 << 6) | 0x20,
-                      (entry->unk_25 << 6) | 0x20,
+    if (!(entry->flags & 0x8000)) {
+        spawn_randomized_particle_burst((entry->tile_x << 6) | 0x20,
+                      (entry->tile_y << 6) | 0x20,
                       ((EntityRec *)object)->unk_88, 0x802080, 0x20, 1);
     }
     return 1;
@@ -1390,7 +1338,6 @@ s32 attempt_trap_request_eight_slots(void *object) {
 typedef struct S_800CD474_0_pre {
     u16 unk_00;
 } S_800CD474_0_pre;   /* the 0x2 bytes before arg0 in advance_falling_trap_effect, addressed as arg0[-1] */
-
 
 typedef struct S_800CD474_1 {
     u8 pad_00[0x8];
@@ -1409,11 +1356,7 @@ typedef struct S_800CD474_2 {
     } unk_0C;   /* overlapping accesses */
 } S_800CD474_2;   /* arg2 in advance_falling_trap_effect */
 
-typedef struct S_800CD474_3 {
-    u8 pad_00[0xA];
-    u16 unk_0A;
-} S_800CD474_3;   /* global_base in advance_falling_trap_effect */
-
+   /* global_base in advance_falling_trap_effect */
 
 extern void initialize_timed_motion_step(u16 countdown, u32 amount);
 extern s32 play_sound_if_enabled(s32 query_value);
@@ -1506,11 +1449,8 @@ void apply_mode_selected_trap_mask(ActorRecord *target, s32 unused_mask)
 extern s32 play_sound_if_enabled(s32 query_value);
 extern s32 generate_random_value(void);
 
-
 extern u8 D_800CD474[];
 extern u8 D_800E03E0[];
-
-
 
 typedef struct S_800CD6E0_0_pre {
     void * unk_00;
@@ -1569,7 +1509,6 @@ typedef struct S_800CD6E0_6 {
     s16 unk_1C;
     s16 unk_1E;
 } S_800CD6E0_6;   /* spr in create_four_owner_sprite_effects */
-
 
 /* Conditionally creates four sprites around the source owner. */
 s32 create_four_owner_sprite_effects(void *source, s16 slot_index, s32 slot_bits) {
@@ -1702,7 +1641,6 @@ void tick_trap_effect_countdown(TrapOwnedTimedEffectBody *object)
 #include "common.h"
 #include "shared/entity.h"
 
-
 extern s32 get_entity_effect_value(ActorRecord *entry, s32 effect_id);
 #include "dungeon/actor/status.h"
 extern u8 D_800E1C25[];
@@ -1734,7 +1672,6 @@ s32 run_action_ten_if_eligible(ActorRecord *entity, s8 action_arg) {
 #include "shared/object_node.h"
 #include "common.h"
 #include "shared/dungeon_status.h"
-
 
 extern s32 get_entity_effect_value(ActorRecord *entry, s32 effect_id);
 extern s32 play_sound_if_enabled(s32 query_value);
@@ -1812,8 +1749,6 @@ s32 trigger_step_trap_effect(ActorRecord *object) {
 extern s32 get_entity_effect_value(ActorRecord *entry, s32 effect_id);
 extern s32 generate_random_value(void);
 
-
-
 /* Rolls an actor effect chance, queues a pending action on success, and displays the failure message
    otherwise. */
 s32 roll_trap_trigger_chance(ActorRecord *ptr, s32 unused1, s32 unused2, s32 unused3)
@@ -1849,9 +1784,6 @@ s32 roll_trap_trigger_chance(ActorRecord *ptr, s32 unused1, s32 unused2, s32 unu
 }
 #include "modules/trap_effects_candidate.h"
 #include "common.h"
-
-
-
 
 extern u8 D_800DF870[];
 
@@ -1904,38 +1836,21 @@ s32 apply_chance_based_trap_effect(void *state, s32 unused_1, s32 unused_2, s32 
 #include "m2c_compat.h"
 
 
-typedef struct S_800CDE0C_0 {
-    u8 pad_00[0x1C];
-    s32 unk_1C;
-    u8 pad_20[0x3C];
-    s32 unk_5C;
-} S_800CDE0C_0;
-
 /* Set flag 0x40000000 on every record in the circular list. */
 void mark_all_actors_with_high_flag(void) {
     void *first_record;
-    S_800CDE0C_0 *record;
+    ActorRecord *record;
 
     record = dungeon_actor_ring_anchor;
     first_record = record;
     do {
-        record->unk_1C = (s32) (record->unk_1C | 0x40000000);
-        record = record->unk_5C + 0x20;
+        record->flags1C = (s32) (record->flags1C | 0x40000000);
+        record = record->next_actor_header + 0x20;
     } while (record != first_record);
 }
 #include "modules/trap_effects_candidate.h"
 #include "shared/dungeon_item_entries.h"
 #include "common.h"
-
-
-
-
-
-
-
-
-
-
 
 /* Add amount to active entries at the given coordinates in both arrays. */
 void add_value_to_active_entries_at_tile(s16 x, s16 y, s32 amount)
@@ -1981,16 +1896,6 @@ void add_value_to_active_entries_at_tile(s16 x, s16 y, s32 amount)
 #include "modules/trap_effects_candidate.h"
 #include "shared/dungeon_item_entries.h"
 #include "common.h"
-
-
-
-
-
-
-
-
-
-
 
 /* Sets the value of all active entries at the given coordinates in both tables. */
 void set_value_of_active_entries_at_tile(s16 x, s16 y, s16 value) {
@@ -2055,7 +1960,6 @@ typedef struct {
     s16 height;
     u16 other;
 } DungeonTile;
-
 
 extern void refresh_packed_grid_nibbles(void);
 extern s32 play_sound_if_enabled(s32 query_value);
@@ -2259,11 +2163,7 @@ typedef struct S_800CE4E8_0 {
     union { u16 s; s16 u; } unk_6E;   /* accessed as both */
 } S_800CE4E8_0;
 
-typedef struct S_800CE4E8_1 {
-    u8 pad_00[0xA];
-    u16 unk_0A;
-} S_800CE4E8_1;   /* global_base in create_dual_grid_trap_effect */
-
+   /* global_base in create_dual_grid_trap_effect */
 
 typedef struct {
     u8 pad_00[0x10];
@@ -2423,8 +2323,6 @@ typedef struct S_800CE748_3 {
     u8 unk_24;
     u8 unk_25;
 } S_800CE748_3;   /* objectData in update_trap_effect_grid */
-
-
 
 void *get_unused_text_buffer(void);
 u8 *expand_text_control_codes(u8 *src, u8 *dst);

@@ -11,6 +11,7 @@
 #include "town/scene/list_setup.h"
 #include "town/minigame.h"
 #include "town/minigame/object.h"
+#include "town/minigame/state.h"
 
 typedef struct S_800BF9E4_0_pre {
     u8 * unk_00;
@@ -25,8 +26,8 @@ struct Elem;
 
 
 
-extern u8 D_800BF72C[];
-extern u8 D_800BF8DC[];
+
+
 extern u8 D_800D2364[];
 extern s32 D_800D237C[];
 extern u8 D_800F9F78[];
@@ -40,7 +41,7 @@ void create_positioned_linked_visual_child(void *object_arg, ObjectPosition *pla
     SpriteFrameState *child_visual;
     ObjectPosition *child_position;
 
-    ((S_800BF9E4_0_pre *)object)[-1].unk_00 = &D_800BF8DC[0];
+    ((S_800BF9E4_0_pre *)object)[-1].unk_00 = advance_actor_state_nearby_activation;
     object->unk_50 = 0;
     register_node(object_arg - 0x20, project_sprite_chain);
     position->x.v = 0x0F200000;
@@ -54,7 +55,7 @@ void create_positioned_linked_visual_child(void *object_arg, ObjectPosition *pla
         child_data = ((void *)child) + 0x20;
         register_node(child, draw_linked_lit_meshes);
         child_visual = child->sprite;
-        child->update_callback = &D_800BF72C[0];
+        child->update_callback = advance_object_bounded_movement_phases;
         child_visual->scale_x = 0x1000;
         child_visual->scale_y = 0x1000;
         child_visual->offset_x = 0x1000;

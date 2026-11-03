@@ -7,6 +7,6 @@ void initialize_context_entry_tables_variant_2(void) {
         Rec_D_80016000 *context = town_scene_root;
         context->position->unk_40 = &D_80017E66[0];
         ((S_8047E178_2 *)(context->entry_index * 8 +
-                  (s8 *)context->event_data))->unk_00 = (EntryWords *)&D_800161C0[0];
+                  (s8 *)context->event_data))->unk_00 = (EntryWords *)advance_floor_event_counter;
     }
 }

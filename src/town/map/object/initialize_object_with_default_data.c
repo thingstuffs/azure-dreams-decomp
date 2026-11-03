@@ -10,6 +10,7 @@
 #include "town/map/object.h"
 #include "town/scene.h"
 #include "town/data.h"
+#include "town/map/state.h"
 
 typedef struct S_800BC8D0_1_pre {
     void * unk_00;
@@ -17,7 +18,7 @@ typedef struct S_800BC8D0_1_pre {
 } S_800BC8D0_1_pre;   /* the 0x10 bytes before arg0 in initialize_object_with_default_data, addressed as arg0[-1] */
 
 extern u8 D_80089634[];
-extern u8 D_800BE0D4[];
+
 extern u8 D_800D20F4[];
 
 /* Initializes the object with default data and updates its associated state. */
@@ -27,7 +28,7 @@ void initialize_object_with_default_data(void *object_arg, ObjectPosition *init_
     s32 *defaults;
 
     state->flags |= 0x1C;
-    ((S_800BC8D0_1_pre *)object)[-1].unk_00 = D_800BE0D4;
+    ((S_800BC8D0_1_pre *)object)[-1].unk_00 = copy_record_state_to_destination;
     object->unk_50 = 0;
     object->unk_48 = D_80089634;
     register_node((u8 *)object - 0x20, project_sprite_chain);

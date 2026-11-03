@@ -16,45 +16,11 @@ s32 func_80167088(s32);
 
 extern void D_80165AB8(u8 *, u8 *, u8 *);
 
-typedef struct S_8016604C_0 {
-    u8 pad_00[0x8];
-    void * unk_08;
-} S_8016604C_0;   /* arg0 in scatter_landing_sparks_on_grid */
-
-typedef struct S_8016604C_1 {
-    u8 pad_00[0xC];
-    s32 unk_0C;
-    s32 unk_10;
-} S_8016604C_1;
-
-typedef struct S_8016604C_2 {
-    u8 pad_00[0x8];
-    void * unk_08;
-    u8 unk_0C;
-    s8 unk_0D;
-    s8 unk_0E;
-    u8 pad_0F[0x5];
-    u16 unk_14;
-    u8 pad_16[0x6];
-    s16 unk_1C;
-    s16 unk_1E;
-} S_8016604C_2;
 
    /* ((S_8016604C_0 *)arg0)->unk_08 in scatter_landing_sparks_on_grid */
 
-typedef struct S_8016604C_4 {
-    u8 pad_00[0x2];
-    s16 unk_02;
-    u8 pad_04[0x2];
-    s16 unk_06;
-    u8 pad_08[0x2];
-    s16 unk_0A;
-    u8 pad_0C[0x8];
-    s32 unk_14;
-} S_8016604C_4;
-
 /* Spawn particles at random positions in a grid around the source. */
-void scatter_landing_sparks_on_grid(S_8016604C_0 *source) {
+void scatter_landing_sparks_on_grid(ObjectNodeHeader *source) {
     s32 x_base;
     s32 y_base;
     s32 y_random;
@@ -76,14 +42,14 @@ void scatter_landing_sparks_on_grid(S_8016604C_0 *source) {
                 if (particle != NULL) {
                     (particle->update_callback) = effect_data;
                     jitter_or_scale = rand();
-                    x_base = ((MovingPosition *)(source->unk_08))->x + (grid_x << 6);
+                    x_base = ((MovingPosition *)(source->position))->x + (grid_x << 6);
                     x_base -= 0x20;
                     particle->position->x.w.i = (s16) (x_base + (jitter_or_scale & 0x3F));
                     y_random = rand();
-                    y_base = ((MovingPosition *)(source->unk_08))->y + (grid_y << 6);
+                    y_base = ((MovingPosition *)(source->position))->y + (grid_y << 6);
                     y_base -= 0x20;
                     particle->position->y.w.i = (s16) (y_base + (y_random & 0x3F));
-                    particle->position->z.w.i = (s16) (((MovingPosition *)(source->unk_08))->z - 0x100);
+                    particle->position->z.w.i = (s16) (((MovingPosition *)(source->position))->z - 0x100);
                     motion = particle->position;
                     motion->velocity_y = 0;
                     motion->velocity_x = 0;

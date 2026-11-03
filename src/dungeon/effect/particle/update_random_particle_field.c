@@ -51,7 +51,7 @@ s32 decrement_flagged_item_parameters(DungeonObject *object) {
 void update_random_particle_field(void *self, void *output)
 {
     Copy24 *copy_src;
-    S_81934928_5 *effect;
+    ActorRecord *effect;
     Copy24 *output_data;
     S_81934928_3 *search_origin;
     void *target;
@@ -71,7 +71,7 @@ void update_random_particle_field(void *self, void *output)
     switch (state) {
     case 0:
     {
-        if ((((S_81934928_6 *)(((S_81934928_0 *)self)->unk_04))->unk_00 & 0x80) == 0) {
+        if ((((ObjectPosition *)(((S_81934928_0 *)self)->unk_04))->x.w.frac & 0x80) == 0) {
             return;
         }
         {
@@ -137,10 +137,10 @@ void update_random_particle_field(void *self, void *output)
         if (target != NULL) {
             void *lookup_origin = target;
             while ((target = find_eligible_nearby_entry(reference_tile_object.tile_position.parts.tile_x, reference_tile_object.tile_position.parts.tile_y, lookup_origin, target)) != NULL) {
-                if ((((S_81934928_4 *)target)->unk_1C & 0x2000) == 0) {
+                if ((((ActorRecord *)target)->flags1C & 0x2000) == 0) {
                     copy_src = (Copy24 *)(u32)((S_81934928_0 *)self)->unk_09;
                     apply_attack_power_and_element_effects(target, 0x20, (s32)copy_src, 0xA,
-                                  effect->unk_2A, effect, 2);
+                                  effect->facing, effect, 2);
                 }
                 decrement_flagged_item_parameters(target);
             }
