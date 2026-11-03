@@ -6,8 +6,6 @@
 #define NULL 0
 #endif
 
-#define FIELD(base, type, offset) (*(type *)((u8 *)(base) + (offset)))
-
 typedef void (*Callback)(s32 *);
 
 

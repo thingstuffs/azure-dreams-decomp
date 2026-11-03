@@ -110,7 +110,7 @@ void update_position_history_and_shading(ActorTrailWork *obj, TrailMotion *coord
                 previous_z = obj->previous.z.parts.whole.s;
                 current_z = obj->position.z.parts.whole.s;
                 if (previous_z == current_z) {
-                    U16_AT(obj, -2) |= NODE_REMOVE;
+                    NODE_HEADER(obj)->flags |= NODE_REMOVE;
                     object_flag_block.flags |= OBJECT_REMOVE_PENDING;
                     return;
                 }
@@ -143,7 +143,7 @@ void update_position_history_and_shading(ActorTrailWork *obj, TrailMotion *coord
             previous_z = obj->previous.z.parts.whole.s;
             current_z = (s16)z;
             if (previous_z == current_z) {
-                U16_AT(obj, -2) |= NODE_REMOVE;
+                NODE_HEADER(obj)->flags |= NODE_REMOVE;
                 object_flag_block.flags |= OBJECT_REMOVE_PENDING;
                 return;
             }

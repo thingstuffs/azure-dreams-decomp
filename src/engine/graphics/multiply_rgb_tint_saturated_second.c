@@ -5,10 +5,8 @@
 
 #define U8_AT(p, o)  (*(u8 *)((u8 *)(p) + (o)))
 #define S8_AT(p, o)  (*(s8 *)((u8 *)(p) + (o)))
-#define U16_AT(p, o) (*(u16 *)((u8 *)(p) + (o)))
 #define S16_AT(p, o) (*(s16 *)((u8 *)(p) + (o)))
 #define U32_AT(p, o) (*(u32 *)((u8 *)(p) + (o)))
-#define S32_AT(p, o) (*(s32 *)((u8 *)(p) + (o)))
 
 /* Builds a tinted flat or shaded triangle fan for an ellipse or quarter ellipse. */
 void *build_elliptical_triangle_fan(void *tint_a, void *tint_b, void *primitives,

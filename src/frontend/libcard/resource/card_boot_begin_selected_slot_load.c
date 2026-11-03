@@ -6,9 +6,6 @@
 #include "frontend/libcard/resource.h"
 
 
-#define FIELD32(base, offset) (*(s32 *)((u8 *)(base) + (offset)))
-#define FIELDP(base, offset) (*(void **)((u8 *)(base) + (offset)))
-
 /* Selects the parent handler and initializes state based on the indexed table value. */
 void card_boot_begin_selected_slot_load(void *state)
 {
@@ -22,10 +19,10 @@ void card_boot_begin_selected_slot_load(void *state)
         menu->countdown = enabled;
         card_boot_show_loading_progress(parent, (u8 *)state + 0x40);
         menu->unk_40 = enabled;
-        FIELDP(state, -0x10) = card_boot_wait_before_loading_slot;
+        NODE_HEADER(state)->update_callback = card_boot_wait_before_loading_slot;
     } else {
         menu->saved_callback = build_install;
         card_boot_show_no_saved_game_notice(parent);
-        FIELDP(state, -0x10) = card_boot_poll_status_and_dismiss_dialog;
+        NODE_HEADER(state)->update_callback = card_boot_poll_status_and_dismiss_dialog;
     }
 }

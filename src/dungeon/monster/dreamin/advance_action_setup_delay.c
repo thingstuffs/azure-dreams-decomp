@@ -11,13 +11,6 @@
 #include "dungeon/effect/screen.h"
 #include "dungeon/monster/dreamin.h"
 
-#define U8(p, o) (*(u8 *)((u8 *)(p) + (o)))
-#define S8(p, o) (*(s8 *)((u8 *)(p) + (o)))
-#define U16(p, o) (*(u16 *)((u8 *)(p) + (o)))
-#define S16(p, o) (*(s16 *)((u8 *)(p) + (o)))
-#define S32(p, o) (*(s32 *)((u8 *)(p) + (o)))
-#define PTR(p, o) (*(void **)((u8 *)(p) + (o)))
-
 extern void *actor_update_node_cursor;
 extern u8 dreamin_action_continuation_address;
 extern u8 D_80173894[];
@@ -29,39 +22,39 @@ void advance_action_setup_delay(ActorRecord *body, ObjectPosition *motion, Sprit
     s32 loaded_phase;
     u16 delay_ticks;
 
-    phase = U8(body, 0x9B);
+    phase = body->action_phase.u;
     switch (phase) {
     case 0:
         if (sprite->flags & 0x8000) {
-            U8(body, 0x9B) = 2;
+            body->action_phase.u = 2;
             sprite->flags |= 0x6000;
-            resolve_attack_damage_and_effects(actor, sprite, S16(actor, 0x2A), 1);
+            resolve_attack_damage_and_effects(actor, sprite, actor->facing, 1);
             return;
         }
 
-        S32(motion, 0x14) = 0;
-        S32(motion, 0x10) = 0;
-        S32(motion, 0x0C) = 0;
+        motion->velocity_z = 0;
+        motion->velocity_y = 0;
+        motion->velocity_x = 0;
         sprite->frameTable = D_80173894;
         select_sprite_entry(sprite,
-            D_80173894[((g_game_work.view.camera_rotation.parts.viewAngle + S16(actor, 0x2A) + 0x100) >> 9) & 7],
+            D_80173894[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
             0);
-        loaded_phase = U8(body, 0x9B);
-        U16(body, 0x96) = 0;
-        U8(body, 0x9B) = loaded_phase + 1;
+        loaded_phase = body->action_phase.u;
+        body->action_timer.u = 0;
+        body->action_phase.u = loaded_phase + 1;
         return;
 
     case 1:
-        delay_ticks = U16(body, 0x96) + 1;
-        U16(body, 0x96) = delay_ticks;
+        delay_ticks = body->action_timer.u + 1;
+        body->action_timer.u = delay_ticks;
         if ((s16)delay_ticks != 10) {
             return;
         }
         play_sound_if_enabled(0x808);
-        resolve_attack_damage_and_effects(actor, sprite, S16(actor, 0x2A), 1);
-        loaded_phase = U8(body, 0x9B);
+        resolve_attack_damage_and_effects(actor, sprite, actor->facing, 1);
+        loaded_phase = body->action_phase.u;
 
-        U8(body, 0x9B) = loaded_phase + 1;
+        body->action_phase.u = loaded_phase + 1;
         return;
 
     case 2:
@@ -70,11 +63,11 @@ void advance_action_setup_delay(ActorRecord *body, ObjectPosition *motion, Sprit
         }
         set_record_integer_tile_center(motion, sprite->tile_x, sprite->tile_y);
         spend_actor_mp(actor, 0x100);
-        PTR(body, 0x8C) = &dreamin_action_continuation_address;
+        body->unk_8C.address = &dreamin_action_continuation_address;
         g_dungeon_status.active_actor = 0;
         advance_status_timers(actor);
-        if (S8(actor, 0x6D) == 0) {
-            U16(actor, 0x46) &= 0x7FFF;
+        if (actor->pending_turn_updates == 0) {
+            actor->action_flags &= 0x7FFF;
         } else {
             actor_update_node_cursor = (u8 *)actor - 0x20;
         }

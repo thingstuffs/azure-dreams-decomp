@@ -1554,7 +1554,6 @@ extern s16 point_cloud_update_flag[5];
 extern u8 D_8007CCD8[];
 
 #define U8(p, o) (*(u8 *)((u8 *)(p) + (o)))
-#define S8(p, o) (*(s8 *)((u8 *)(p) + (o)))
 #define U16(p, o) (*(u16 *)((u8 *)(p) + (o)))
 #define S16(p, o) (*(s16 *)((u8 *)(p) + (o)))
 #define U32(p, o) (*(u32 *)((u8 *)(p) + (o)))
@@ -1664,12 +1663,12 @@ void update_projectile_trail_and_hit_effect(ProjectileEffect *effect, ObjectPosi
             effect->next_tile_y = owner_sprite->tile_y + *(u8 *)&dir_step_y[effect->direction.s];
             {
                 s32 grid;
-                tile_distance = S8(owner, 0x72);
+                tile_distance = owner->target_tile_x;
                 grid = owner_sprite->tile_x;
                 if (tile_distance != grid) {
                     tile_distance -= grid;
                 } else {
-                    tile_distance = S8(owner, 0x73);
+                    tile_distance = owner->target_tile_y;
                     grid = owner_sprite->tile_y;
                     tile_distance -= grid;
                 }

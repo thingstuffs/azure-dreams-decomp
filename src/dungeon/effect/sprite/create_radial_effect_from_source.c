@@ -1778,9 +1778,6 @@ extern u8 D_80026474[];
 extern u8 staged_glow_data[];
 extern Cell D_800264F8[];
 
-#define SET_COUNT_PAGE() (count_page = (u8 *)&D_8002632A)
-#define READ_COUNT_PAGE() (*(s16 *)count_page)
-
 /* Create quad fragments from the vertex grid with randomized motion and rotation. */
 void create_quad_fragments_vertex_grid_randomized_motion_rotation(void) {
     Cell *vertices;

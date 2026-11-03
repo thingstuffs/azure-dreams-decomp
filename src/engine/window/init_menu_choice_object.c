@@ -2,8 +2,6 @@
 
 #include "common.h"
 
-#define FIELD(base, type, offset) (*(type *)((u8 *)(base) + (offset)))
-
 typedef void (*Callback)(void);
 
 typedef struct S_func_800362D0_0 {

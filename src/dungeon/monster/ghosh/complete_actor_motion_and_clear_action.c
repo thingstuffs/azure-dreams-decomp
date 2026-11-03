@@ -2,8 +2,6 @@
 #include "shared/dungeon_status.h"
 #include "dungeon/monster/ghosh.h"
 
-#define FIELD(base, type, offset) (*(type)((u8 *)(base) + (offset)))
-
 typedef struct S_func_813259CC_0 {
     u8 pad_00[0x8C];
     s32 *unk_8C;

@@ -438,15 +438,15 @@ void update_moving_effect_particles_and_cleanup(MovingColorWork *effect_data, Ob
             break;
         }
 
-        U16_AT(effect_pos, 0x02) = U16_AT(source, 0x02);
-        U16_AT(effect_pos, 0x06) = U16_AT(source, 0x06);
+        effect_pos->x.unsigned_parts.integer = U16_AT(source, 0x02);
+        effect_pos->y.unsigned_parts.integer = U16_AT(source, 0x06);
         state = U16_AT(source, 0x0A);
-        U16_AT(effect_pos, 0x0A) = state;
+        effect_pos->z.unsigned_parts.integer = state;
 
         if (!(U16_AT(PTR_AT(entity, 0x0C), 0x14) & 0x8000)) {
-            U16_AT(effect_pos, 0x02) += (u16)origin_offset[0];
-            U16_AT(effect_pos, 0x06) += (u16)origin_offset[1];
-            U16_AT(effect_pos, 0x0A) += (u16)origin_offset[2];
+            effect_pos->x.unsigned_parts.integer += (u16)origin_offset[0];
+            effect_pos->y.unsigned_parts.integer += (u16)origin_offset[1];
+            effect_pos->z.unsigned_parts.integer += (u16)origin_offset[2];
             {
                 u8 *task = (u8 *)effect_data - 0x20;
 
@@ -461,7 +461,7 @@ void update_moving_effect_particles_and_cleanup(MovingColorWork *effect_data, Ob
                 }
             }
         } else {
-            U16_AT(effect_pos, 0x0A) = (u16)(state - 0x40);
+            effect_pos->z.unsigned_parts.integer = (u16)(state - 0x40);
             {
                 u8 *task = (u8 *)effect_data - 0x20;
 
@@ -607,7 +607,7 @@ void update_moving_effect_particles_and_cleanup(MovingColorWork *effect_data, Ob
                 effect_data->ticks_squared + 0x14;
         }
 
-        if ((check_adjacent_tile_height_clearance(U16_AT(effect_pos, 0x02), U16_AT(effect_pos, 0x06),
+        if ((check_adjacent_tile_height_clearance(effect_pos->x.unsigned_parts.integer, effect_pos->y.unsigned_parts.integer,
                 effect_pos->z.w.i, PTR_AT(owner, 0x60)) << 16) != 0) {
             effect_data->state = 8;
             effect_data->timer.s = 0;
@@ -624,9 +624,9 @@ void update_moving_effect_particles_and_cleanup(MovingColorWork *effect_data, Ob
                 effect_data->state = 3;
                 effect_data->timer.s = 0;
                 copy_source = PTR_AT(PTR_AT(owner, 0x60), -0x18);
-                U16_AT(effect_pos, 0x02) = U16_AT(copy_source, 0x02);
-                U16_AT(effect_pos, 0x06) = U16_AT(copy_source, 0x06);
-                U16_AT(effect_pos, 0x0A) = effect_data->target_height.u;
+                effect_pos->x.unsigned_parts.integer = U16_AT(copy_source, 0x02);
+                effect_pos->y.unsigned_parts.integer = U16_AT(copy_source, 0x06);
+                effect_pos->z.unsigned_parts.integer = effect_data->target_height.u;
                 play_sound_if_enabled(AUDIO_PLAY_CD_CUE);
                 break;
             }

@@ -12,12 +12,10 @@
 #include "town/minigame/effect.h"
 #include "town/minigame/object.h"
 
-#define S8(p, o)  (*(s8 *)((u8 *)(p) + (o)))
 #define U8(p, o)  (*(u8 *)((u8 *)(p) + (o)))
 #define S16(p, o) (*(s16 *)((u8 *)(p) + (o)))
 #define U16(p, o) (*(u16 *)((u8 *)(p) + (o)))
 #define S32(p, o) (*(s32 *)((u8 *)(p) + (o)))
-#define U32(p, o) (*(u32 *)((u8 *)(p) + (o)))
 #define PTR(p, o) (*(u8 **)((u8 *)(p) + (o)))
 
 extern u8 D_80026748[];
@@ -208,7 +206,7 @@ common_countdown:
 
     case 0xFF:
         U16(object, 0x58) &= 0xFFFE;
-        U16(state, -2) |= 0x8000;
+        NODE_HEADER(state)->flags |= 0x8000;
         object_flag_block.flags |= OBJECT_REMOVE_PENDING;
         break;
     }

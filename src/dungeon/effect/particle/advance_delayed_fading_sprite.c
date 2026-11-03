@@ -87,14 +87,14 @@ void run_delayed_sprite_projectile(DelayedTargetEffect *self, ObjectPosition *mo
         animation = self->animation;
         if ((F(animation, u16, 0) & 0x80) == 0)
             return;
-        if ((F(owner, u8 *, 96) = scan_actor_along_heading( owner, F(owner_record, u8, 36), F(owner_record, u8, 37),
-            F(owner, s16, 42), (s16)get_definition_entry_byte_13(8))) == 0) {
-            F(owner, u8, 114) = F(owner_record, u8, 36);
-            F(owner, u8, 115) = F(owner_record, u8, 37);
+        if ((F(owner, u8 *, 96) = scan_actor_along_heading( owner, owner_record->tile_x, owner_record->tile_y,
+            owner->facing, (s16)get_definition_entry_byte_13(8))) == 0) {
+            owner->target_tile_x = owner_record->tile_x;
+            owner->target_tile_y = owner_record->tile_y;
         } else {
             child_data = F(F(owner, u8 *, 96), u8 *, -20);
-            F(owner, u8, 114) = child_data->tile_x;
-            F(owner, u8, 115) = child_data->tile_y;
+            owner->target_tile_x = child_data->tile_x;
+            owner->target_tile_y = child_data->tile_y;
         }
         if (resolve_record_orientation_or_fallback(owner_object->sprite->source,
                           owner_object->sprite, &origin_offset, 0) == 0) {
@@ -107,13 +107,13 @@ void run_delayed_sprite_projectile(DelayedTargetEffect *self, ObjectPosition *mo
         motion->z.w.i = F(F(owner_object, u8 *, 8), u16, 10) + origin_offset.vz;
         self->timer.u = 8;
         {
-            s32 target_x = F(owner, s8, 114) * 64;
+            s32 target_x = owner->target_tile_x * 64;
             s32 origin_x = (u16)motion->x.w.i - 32;
             F(motion, u16, 14) = target_x - origin_x;
         }
         motion->velocity_x /= self->timer.s;
         {
-            s32 target_y = F(owner, s8, 115) * 64;
+            s32 target_y = owner->target_tile_y * 64;
             s32 origin_y = (u16)motion->y.w.i - 32;
             F(motion, u16, 18) = target_y - origin_y;
         }

@@ -272,7 +272,7 @@ void advance_an_effect_toward_target_along_facing_direction_handle_timed_states(
         break;
     }
     g_dungeon_status.active_actor = 0;
-    U16_AT(state, -2) |= NODE_REMOVE;
+    NODE_HEADER(state)->flags |= NODE_REMOVE;
     object_flag_block.flags |= OBJECT_REMOVE_PENDING;
     break;
 

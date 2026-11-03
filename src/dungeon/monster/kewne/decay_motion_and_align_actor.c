@@ -6,12 +6,6 @@
 #include "dungeon/actor.h"
 #include "dungeon/monster/kewne.h"
 
-#define FIELD_U8(p, o)  (*(u8 *)((u8 *)(p) + (o)))
-#define FIELD_S16(p, o) (*(s16 *)((u8 *)(p) + (o)))
-#define FIELD_U16(p, o) (*(u16 *)((u8 *)(p) + (o)))
-#define FIELD_S32(p, o) (*(s32 *)((u8 *)(p) + (o)))
-#define FIELD_PTR(p, o) (*(void **)((u8 *)(p) + (o)))
-
 extern s32 kewne_action_resume_address[];
 extern u8 D_80175E90[];
 
@@ -28,91 +22,91 @@ void decay_motion_and_align_actor(ActorRecord *action, ObjectPosition *motion, S
     s32 align_frames;
     s16 next_frames;
 
-    switch (FIELD_U8(action, 0x9B)) {
+    switch (action->action_phase.u) {
     case 0:
         apply_clamped_actor_value_delta(actor);
-        FIELD_U8(action, 0x9B) = FIELD_U8(action, 0x9B) + 1;
-        if (FIELD_U8(actor, 0x28) == 0) {
-            FIELD_S32(motion, 0x14) = 0;
-            FIELD_S32(motion, 0x10) = 0;
-            FIELD_S32(motion, 0xC) = 0;
+        action->action_phase.u = action->action_phase.u + 1;
+        if (actor->hp == 0) {
+            motion->velocity_z = 0;
+            motion->velocity_y = 0;
+            motion->velocity_x = 0;
             begin_actor_display_action(action, motion, sprite, D_80175E90);
             return;
         }
-        if (FIELD_U16(sprite, 0x14) & 0x8000) {
-            FIELD_S16(action, 0x96) = 0;
-            FIELD_U8(action, 0x9B) = 2;
+        if (sprite->flags & 0x8000) {
+            action->action_timer.s = 0;
+            action->action_phase.u = 2;
             return;
         }
-        FIELD_S32(motion, 0xC) =
-            (-*(s16 *)((u8 *)dir_step_x + ((FIELD_U16(actor, 0x6A) >> 8) & 0xE))) << 15;
-        FIELD_S32(motion, 0x10) =
-            (-*(s16 *)((u8 *)dir_step_y + ((FIELD_U16(actor, 0x6A) >> 8) & 0xE))) << 15;
+        motion->velocity_x =
+            (-*(s16 *)((u8 *)dir_step_x + ((actor->movement_facing >> 8) & 0xE))) << 15;
+        motion->velocity_y =
+            (-*(s16 *)((u8 *)dir_step_y + ((actor->movement_facing >> 8) & 0xE))) << 15;
         motion_frames = -1;
-        if (FIELD_S32(actor, 0x1C) & 0x228) {
+        if (actor->flags1C & 0x228) {
             motion_frames = 8;
         }
-        FIELD_S16(action, 0x96) = motion_frames;
+        action->action_timer.s = motion_frames;
 
 
     case 1:
-        x_velocity = FIELD_S32(motion, 0xC);
+        x_velocity = motion->velocity_x;
         x_rounding = x_velocity;
         if (x_velocity < 0) {
             x_rounding = x_velocity + 3;
         }
-        z_velocity = FIELD_S32(motion, 0x10);
-        FIELD_S32(motion, 0xC) = x_velocity - (x_rounding >> 2);
+        z_velocity = motion->velocity_y;
+        motion->velocity_x = x_velocity - (x_rounding >> 2);
         z_rounding = z_velocity;
-        FIELD_S32(motion, 0x10) = z_velocity - (z_rounding / 4);
-        if (FIELD_S16(action, 0x96) > 0) {
-            next_frames = FIELD_U16(action, 0x96) - 1;
-            FIELD_S16(action, 0x96) = next_frames;
-        } else if (FIELD_U16(sprite, 0x14) & 0x6000) {
-            FIELD_S16(action, 0x96) = 0;
+        motion->velocity_y = z_velocity - (z_rounding / 4);
+        if (action->action_timer.s > 0) {
+            next_frames = action->action_timer.u - 1;
+            action->action_timer.s = next_frames;
+        } else if (sprite->flags & 0x6000) {
+            action->action_timer.s = 0;
         }
-        if (FIELD_S16(action, 0x96) != 0) {
+        if (action->action_timer.s != 0) {
             return;
         }
-        if (FIELD_U8(actor, 0x28) == 0) {
-            FIELD_S32(motion, 0x14) = 0;
-            FIELD_S32(motion, 0x10) = 0;
-            FIELD_S32(motion, 0xC) = 0;
+        if (actor->hp == 0) {
+            motion->velocity_z = 0;
+            motion->velocity_y = 0;
+            motion->velocity_x = 0;
             begin_actor_display_action(action, motion, sprite, D_80175E90);
             return;
         }
-        state = FIELD_U8(action, 0x9B);
+        state = action->action_phase.u;
         motion_frames = 8;
-        FIELD_S16(action, 0x96) = motion_frames;
-        FIELD_U8(action, 0x9B) = state + 1;
+        action->action_timer.s = motion_frames;
+        action->action_phase.u = state + 1;
         return;
 
     case 2:
-        align_frames = FIELD_S16(action, 0x96);
+        align_frames = action->action_timer.s;
         if (align_frames != 0) {
-            tile_coord = FIELD_U8(sprite, 0x24);
+            tile_coord = sprite->tile_x;
             tile_coord <<= 6;
-            center_offset = FIELD_S16(motion, 2) - 0x20;
+            center_offset = motion->x.w.i - 0x20;
 
-            FIELD_S32(motion, 0xC) = ((tile_coord - center_offset) << 15) /
+            motion->velocity_x = ((tile_coord - center_offset) << 15) /
                                    align_frames;
-            center_offset = FIELD_S16(motion, 6) - 0x20;
-            FIELD_S32(motion, 0x10) = ((((FIELD_U8(sprite, 0x25)) << 6) - center_offset) << 15) /
-                                    FIELD_S16(action, 0x96);
+            center_offset = motion->y.w.i - 0x20;
+            motion->velocity_y = ((((sprite->tile_y) << 6) - center_offset) << 15) /
+                                    action->action_timer.s;
         }
-        next_frames = (u16)FIELD_S16(action, 0x96) - 1;
-        FIELD_S16(action, 0x96) = next_frames;
+        next_frames = (u16)action->action_timer.s - 1;
+        action->action_timer.s = next_frames;
         if ((next_frames << 16) > 0) {
             return;
         }
-        FIELD_S32(motion, 0x14) = 0;
-        FIELD_S32(motion, 0x10) = 0;
-        FIELD_S32(motion, 0xC) = 0;
-        set_record_integer_tile_center(motion, FIELD_U8(sprite, 0x24), FIELD_U8(sprite, 0x25));
+        motion->velocity_z = 0;
+        motion->velocity_y = 0;
+        motion->velocity_x = 0;
+        set_record_integer_tile_center(motion, sprite->tile_x, sprite->tile_y);
         if ((g_dungeon_status.pending_display_owner) == (u8 *)actor - 0x20) {
             *(s32 *)&g_dungeon_status.pending_display_owner &= 0x7FFFFFFF;
         }
-        FIELD_PTR(action, 0x8C) = kewne_action_resume_address;
+        action->unk_8C.address = kewne_action_resume_address;
         return;
 
     default:

@@ -74,9 +74,6 @@ void try_halve_actor_counter(u8 *entity, s32 chance, void *unused_context) {
 #include "dungeon/effect/mesh/build_textured_sprite_strips.h"
 /* cfail-repair: tf7-phase1-cache-v3 */
 
-#define D_FIELD(type_ptr, offset) (*(type_ptr)(((u8 *)(&g_game_work)) + (offset)))
-#define D_LITERAL(type_ptr, offset) (*(type_ptr)((u8 *)0x80083160 + (offset)))
-
 /* Build textured sprite strips and append their packets to the ordering table. */
 void build_textured_sprite_strips(void *screen_pos, UpdateTravelingBody *sprite, s32 *ordering_table, s32 draw_mode) {
     u16 saved_draw_mode;

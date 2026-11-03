@@ -450,8 +450,6 @@ s16 check_diagonal_side_height(s32 direction, s16 tile_x, s16 tile_y, s16 height
 #include "shared/dungeon_floor.h"
 #include "shared/dir_step.h"
 
-#define FIELD(ptr, type, offset) (*(type *)((u8 *)(ptr) + (offset)))
-
 extern s16 find_active_rect_containing_point(u16, u16);
 
 extern s16 direction_x_offsets[];

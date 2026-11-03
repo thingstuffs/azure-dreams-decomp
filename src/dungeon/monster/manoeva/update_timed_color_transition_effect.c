@@ -8,10 +8,8 @@
 #include "dungeon/effect/screen.h"
 #include "dungeon/monster/manoeva.h"
 
-#define U8_AT(p, off)  (*(u8 *)((u8 *)(p) + (off)))
 #define S16_AT(p, off) (*(s16 *)((u8 *)(p) + (off)))
 #define U16_AT(p, off) (*(u16 *)((u8 *)(p) + (off)))
-#define U32_AT(p, off) (*(u32 *)((u8 *)(p) + (off)))
 
 extern s32 actor_fade_draw_address;
 
@@ -69,7 +67,7 @@ void update_timed_color_transition_effect(u8 *effect_state, s32 unused, SpriteFr
             render_data->color.c.r = render_data->color.c.g =
                 render_data->color.c.b += -render_data->color.c.b / render_data->color.c.code;
         } else {
-            U16_AT(effect_state, -2) |= NODE_REMOVE;
+            NODE_HEADER(effect_state)->flags |= NODE_REMOVE;
             object_flag_block.flags |= OBJECT_REMOVE_PENDING;
             retire_tracked_effect_by_id(effect_state - 0x20);
         }

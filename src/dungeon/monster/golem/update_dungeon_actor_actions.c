@@ -67,15 +67,15 @@ void update_dungeon_actor_actions(GolemActionWork *actor, ObjectPosition *contex
         }
         sprite->frameTable = &golem_frame_set_2;
         select_sprite_entry(sprite,
-            (&golem_frame_set_2)[((g_game_work.view.camera_rotation.parts.viewAngle + F(stats, s16, 0x2A) + 0x100) >> 9) & 7], 0);
+            (&golem_frame_set_2)[((g_game_work.view.camera_rotation.parts.viewAngle + stats->facing + 0x100) >> 9) & 7], 0);
         return;
     }
 
     if (F(stats, u32, 0x1C) & ACTOR_ASLEEP) {
         if (sprite->frameTable == &golem_alt_direction_frames) {
-            F(actor, u8, 0x9A) = 13;
-            F(actor, u8, 0x9B) = 1;
-            F(actor, u32, 0x8C) = 0;
+            actor->state = 13;
+            actor->phase = 1;
+            actor->callback.word = 0;
             F(stats, u32, 0x1C) &= ~0x40000;
             return;
         }
@@ -91,38 +91,38 @@ void update_dungeon_actor_actions(GolemActionWork *actor, ObjectPosition *contex
             return;
         }
 
-        state = F(actor, u8, 0x9A);
+        state = actor->state;
         active_state = 25;
         idle_state = 14;
-        if (state != active_state && F(actor, u8, 0xAE) != 0) {
+        if (state != active_state && actor->mode != 0) {
             u8 *active_table = golem_frame_set_3;
             if (sprite->frameTable != active_table) {
                 create_copied_render_object(actor, context, sprite);
                 sprite->frameTable = active_table;
                 select_sprite_entry(sprite,
-                    active_table[((g_game_work.view.camera_rotation.parts.viewAngle + F(stats, s16, 0x2A) + 0x100) >> 9) & 7],
+                    active_table[((g_game_work.view.camera_rotation.parts.viewAngle + stats->facing + 0x100) >> 9) & 7],
                     0);
             }
-            F(actor, u8, 0x9A) = active_state;
+            actor->state = active_state;
         } else {
-            state = F(actor, u8, 0x9A);
+            state = actor->state;
             idle_state = 14;
             if (state != idle_state) {
-                if (F(actor, u8, 0xAE) == 0) {
+                if (actor->mode == 0) {
                     u8 *idle_table = golem_direction_frames;
                     if (sprite->frameTable != idle_table) {
                         sprite->frameTable = idle_table;
                         select_sprite_entry(sprite,
-                            idle_table[((g_game_work.view.camera_rotation.parts.viewAngle + F(stats, s16, 0x2A) + 0x100) >> 9) & 7],
+                            idle_table[((g_game_work.view.camera_rotation.parts.viewAngle + stats->facing + 0x100) >> 9) & 7],
                             0);
                     }
-                    F(actor, u8, 0x9A) = idle_state;
+                    actor->state = idle_state;
                 }
             }
         }
 
-        F(actor, u16, 0x98) &= 0xFFF3;
-        if (F(stats, s16, 0x64) != 0) {
+        actor->flags &= 0xFFF3;
+        if (stats->hp_delta != 0) {
             if (begin_ready_actor_directional_action(actor, context, sprite, &D_80175F50)) {
                 return;
             }
@@ -142,41 +142,41 @@ void update_dungeon_actor_actions(GolemActionWork *actor, ObjectPosition *contex
     sprite->room_index = tile_index;
     }
 
-    if (F(stats, s8, 0x6D) > 0) {
+    if (stats->pending_turn_updates > 0) {
         if (F(stats, u32, 0x1C) & ACTOR_PARALYZED) {
             update_actor_status_and_mp(stats);
             return;
         }
         if ((*(u16 *)&sprite->tile_x == reference_tile_object.tile_position.word) &&
-            (F(actor, u8, 0xAE) == 0)) {
+            (actor->mode == 0)) {
             consume_pending_flag(actor, stats);
             func_801718F8(actor, context, sprite, stats);
             return;
         }
 
-        if (!(F(stats, u16, 0x46) & 0x8000)) {
+        if (!(stats->action_flags & 0x8000)) {
             if (g_dungeon_status.flags & 0x2000) {
                 if ((s16)check_entity_relation(stats,
-                        (u8 *)F(primary_actor_record, void *, 0x58) + 0x20) != 0) {
+                        (u8 *)primary_actor_record->previous_actor_header + 0x20) != 0) {
                     return;
                 }
             }
-            if (F(actor, u8, 0xAE) == 0) {
+            if (actor->mode == 0) {
                 if ((s16)func_801727D8(actor, context, sprite, 0) == 0) {
                     return;
                 }
             }
-            F(stats, u16, 0x46) |= 0x4000;
-            if (!(F(stats, u16, 0x46) & 0x8000)) {
+            stats->action_flags |= 0x4000;
+            if (!(stats->action_flags & 0x8000)) {
                 func_801718F8(actor, context, sprite, stats);
-                if (F(actor, u8, 0xAE) != 0) {
+                if (actor->mode != 0) {
                     consume_pending_flag(actor, stats);
                 }
                 return;
             }
         }
 
-        action_index = (F(stats, u16, 0x46) & 0x3FFF) - 1;
+        action_index = (stats->action_flags & 0x3FFF) - 1;
         switch (action_index) {
         case 11:
             if (consume_pending_flag(actor, stats) == 0) {
@@ -229,7 +229,7 @@ void update_dungeon_actor_actions(GolemActionWork *actor, ObjectPosition *contex
                 sprite->tile_x, sprite->tile_y,
                 reference_tile_object.tile_position.parts.tile_x, reference_tile_object.tile_position.parts.tile_y, &heading_flags);
             leader = primary_actor_record;
-            F(stats, s16, 0x2A) = heading;
+            stats->facing = heading;
             if (F(leader, u8, 0x9A) != 17) {
                 update_actor_status_and_mp(stats);
                 return;
@@ -245,25 +245,25 @@ void update_dungeon_actor_actions(GolemActionWork *actor, ObjectPosition *contex
 
         default:
             func_801718F8(actor, context, sprite, stats);
-            if (F(actor, u8, 0xAE) != 0) {
+            if (actor->mode != 0) {
                 consume_pending_flag(actor, stats);
             }
             return;
         }
     } else {
-        if (F(actor, u8, 0xAE) == 0) {
+        if (actor->mode == 0) {
             u32 flags = F(stats, u32, 0x1C);
             if (!(flags & 0x2000)) {
                 if (!((s8)tile_index >= 0 && (dungeon_rooms[(s8)tile_index].flags & 2)) && !(flags & 0x430)) {
                     if ((s16)test_neighbor_position_relation(sprite->tile_x, sprite->tile_y,
                             reference_tile_object.tile_position.parts.tile_x, reference_tile_object.tile_position.parts.tile_y) != 0) {
-                        F(stats, s16, 0x2A) = get_rounded_facing_and_rounding_flag(
+                        stats->facing = get_rounded_facing_and_rounding_flag(
                             sprite->tile_x, sprite->tile_y,
                             reference_tile_object.tile_position.parts.tile_x, reference_tile_object.tile_position.parts.tile_y, &heading_flags);
                     }
                 }
             } else if ((s16)get_entity_effect_value(stats, STATUS_PARALYSIS) == 0) {
-                if (F(primary_actor_record, u8, 0x9A) == 23) {
+                if (primary_actor_record->action_id.u == 23) {
                     advance_timed_directional_reset(actor, context, sprite, stats);
                 }
             }
@@ -276,7 +276,7 @@ void update_dungeon_actor_actions(GolemActionWork *actor, ObjectPosition *contex
     if (sprite->flags & 0x40) {
         return;
     }
-    if (F(actor, u8, 0xAE) != 0) {
+    if (actor->mode != 0) {
         active_anims = golem_frame_set_3;
         if (sprite->frameTable == active_anims) {
             return;

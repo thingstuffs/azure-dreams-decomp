@@ -237,10 +237,10 @@ s32 initialize_keima_interface(void) {
                 AT(s32, AT(u8 *, obj, 8), 4) = (index << 22) + 0x04200000;
                 child_data = ((u8 *)obj) + 0x20;
                 AT(s16, AT(u8 *, obj, 8), 0xA) = query_lowered_transform_position(obj->position);
-                AT(s16, sprite, 0x1E) = 0x1000;
-                AT(s16, sprite, 0x1C) = 0x1000;
+                sprite->scale_y = 0x1000;
+                sprite->scale_x = 0x1000;
                 sprite_state = &reference_tile_object;
-                sprite->animation_resource = AT(s32, sprite_state, 0x28);
+                sprite->animation_resource = sprite_state->render_attributes;
                 AT(s16, child_data, 0x2A) = 0x800;
                 select_record_entry_and_value(sprite, town_directional_sprite_entries, 0);
                 sprite->color.word = 0x808080;

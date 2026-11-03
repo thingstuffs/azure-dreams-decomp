@@ -134,22 +134,13 @@ typedef struct ScratchOt {
 
 typedef s32 (*CommandFn)(void *, void *, Entry *, Command *, Packet *);
 
-#define SP8(base, off)  ((base)->b[(off)])
-#define SPS8(base, off) ((base)->sb[(off)])
 typedef struct { u8 pad0[0xC0]; u32 depth; } ScratchDepth;
 
 #define SP16(base, off) ((base)->h[(off) / 2])
 #define SPS16(base, off) ((base)->sh[(off) / 2])
 #define SP32(base, off) ((base)->w[(off) / 4])
-#define E8(base, off) (*(u8 *)((u8 *)(base) + (off)))
-#define E16(base, off) (*(u16 *)((u8 *)(base) + (off)))
-#define E32(base, off) (*(u32 *)((u8 *)(base) + (off)))
-#define C8(base, off) (*(u8 *)((u8 *)(base) + (off)))
 #define CS8(base, off) (*(s8 *)((u8 *)(base) + (off)))
-#define C16(base, off) (*(u16 *)((u8 *)(base) + (off)))
-#define P16(base, off) (*(u16 *)((u8 *)(base) + (off)))
 #define PS16(base, off) (*(s16 *)((u8 *)(base) + (off)))
-#define P32(base, off) (*(u32 *)((u8 *)(base) + (off)))
 
 /* Project sprite commands and link visible textured quads into the ordering table. */
 void project_sprite_commands(void *context, void *position, Entry *entry, s16 depth_bias)
@@ -188,7 +179,7 @@ void project_sprite_commands(void *context, void *position, Entry *entry, s16 de
     packet = *(Packet **)((u8 *)render_state->draw_buffer + 0x8D0);
 
     scratch->w[48] = RotTransPers(scratch, &scratch->sw[0xB8 / 4], &scratch->sw[0x90 / 4], &scratch->sw[0x94 / 4]);
-    E16(entry, 0x14) |= 0x8000;
+    entry->flags |= 0x8000;
     projected_depth = scratch->w[48];
     {
         u32 base_depth;
@@ -210,25 +201,25 @@ void project_sprite_commands(void *context, void *position, Entry *entry, s16 de
             SP32(scratch, 0x34) = render_state->view.camera_rotation.parts.camera_rotation_y;
             SP32(scratch, 0x38) = render_state->view.camera_rotation.parts.viewAngle;
 
-            SP16(scratch, 0x100) = E16(entry, 0x16);
+            SP16(scratch, 0x100) = entry->angle_x;
             rotation_z = (u16)render_state->view.view_rotation_offset.parts.view_rotation_offset_z +
-                (E16(entry, 0x1A) - SP16(scratch, 0x34));
+                (entry->angle_z - SP16(scratch, 0x34));
             SP16(scratch, 0x104) = rotation_z;
-            rotation_y = E16(entry, 0x18) - 0x100;
+            rotation_y = entry->angle_y - 0x100;
             rotation_y += (SP16(scratch, 0x38) + 0x100) & 0x1FF;
             SP16(scratch, 0x102) = rotation_y;
-            sprite_extent = E16(entry, 0x20);
+            sprite_extent = entry->sprite_w;
             SP32(scratch, 0xE4) = sprite_extent;
             SP16(scratch, 0x108) = sprite_extent;
-            sprite_extent = E16(entry, 0x22);
+            sprite_extent = entry->sprite_h;
             SP32(scratch, 0xE8) = sprite_extent;
             SP16(scratch, 0x10A) = sprite_extent;
 
             RotMatrix(&scratch->w[64], &scratch->w[52]);
         }
-        scale_x = E16(entry, 0x1C);
+        scale_x = entry->scale_x;
         SP32(scratch, 0x30) = scale_x;
-        scale_y = E16(entry, 0x1E);
+        scale_y = entry->scale_y;
         SP32(scratch, 0x38) = 0x1000;
         SP32(scratch, 0x34) = scale_y;
         ScaleMatrix(&scratch->w[52], &scratch->h[24]);
@@ -237,35 +228,35 @@ void project_sprite_commands(void *context, void *position, Entry *entry, s16 de
         SetRotMatrix(&scratch->h[40]);
 
         command = entry->commands;
-        SP16(scratch, 0x24) = E16(entry, 0x14);
+        SP16(scratch, 0x24) = entry->flags;
 
         do {
-            if (!(C8(command, 0) & 0x20)) {
-                uv_start = C8(command, 8);
+            if (!(command->flags & 0x20)) {
+                uv_start = command->x0;
                 SP32(scratch, 0x08) = uv_start;
-                uv_extent = C8(command, 0xA);
+                uv_extent = command->x1;
                 SP32(scratch, 0x10) = uv_extent;
-                if ((uv_start + uv_extent >= 0x100) || E16(entry, 0x1A) != 0) {
+                if ((uv_start + uv_extent >= 0x100) || entry->angle_z != 0) {
                     SP32(scratch, 0x10) = uv_extent - 1;
                 }
 
-                uv_start = C8(command, 9);
+                uv_start = command->y0;
                 SP32(scratch, 0x0C) = uv_start;
-                uv_extent = C8(command, 0xB);
+                uv_extent = command->y1;
                 SP32(scratch, 0x14) = uv_extent;
-                if ((uv_start + uv_extent >= 0x100) || E16(entry, 0x1A) != 0) {
+                if ((uv_start + uv_extent >= 0x100) || entry->angle_z != 0) {
                     SP32(scratch, 0x14) = uv_extent - 1;
                 }
 
-                if ((C8(command, 0) ^ SP16(scratch, 0x24)) & 1) {
-                    coord = -CS8(command, 2) - SP16(scratch, 0x108);
+                if ((command->flags ^ SP16(scratch, 0x24)) & 1) {
+                    coord = -command->x - SP16(scratch, 0x108);
                     SP16(scratch, 0x80) = coord;
                     SP16(scratch, 0x70) = coord;
                     coord -= SP16(scratch, 0x10);
                     SP16(scratch, 0x88) = coord;
                     SP16(scratch, 0x78) = coord;
                 } else {
-                    coord = CS8(command, 2) - SP16(scratch, 0x108);
+                    coord = command->x - SP16(scratch, 0x108);
                     SP16(scratch, 0x80) = coord;
                     SP16(scratch, 0x70) = coord;
                     coord += SP16(scratch, 0x10);
@@ -273,15 +264,15 @@ void project_sprite_commands(void *context, void *position, Entry *entry, s16 de
                     SP16(scratch, 0x78) = coord;
                 }
 
-                if ((C8(command, 0) ^ SP16(scratch, 0x24)) & 2) {
-                    coord = SP16(scratch, 0x13C) + (-CS8(command, 3) - SP16(scratch, 0x10A));
+                if ((command->flags ^ SP16(scratch, 0x24)) & 2) {
+                    coord = SP16(scratch, 0x13C) + (-command->y - SP16(scratch, 0x10A));
                     SP16(scratch, 0x7A) = coord;
                     SP16(scratch, 0x72) = coord;
                     coord -= SP16(scratch, 0x14);
                     SP16(scratch, 0x8A) = coord;
                     SP16(scratch, 0x82) = coord;
                 } else {
-                    coord = SP16(scratch, 0x13C) + (CS8(command, 3) - SP16(scratch, 0x10A));
+                    coord = SP16(scratch, 0x13C) + (command->y - SP16(scratch, 0x10A));
                     SP16(scratch, 0x7A) = coord;
                     SP16(scratch, 0x72) = coord;
                     coord += SP16(scratch, 0x14);
@@ -304,28 +295,28 @@ void project_sprite_commands(void *context, void *position, Entry *entry, s16 de
                 vertex_0_visible = 0;
                 packet->x3 = SP16(scratch, 0xFC) + SP16(scratch, 0xB8);
                 coord = SP16(scratch, 0xFE) + SP16(scratch, 0xBA);
-                P16(packet, 0x22) = coord;
+                packet->y3 = coord;
 
-                if ((u16)(P16(packet, 8) + 0x20) < 0x181U) {
-                    vertex_0_visible = (u16)(P16(packet, 0xA) + 0x20) < 0x121U;
+                if ((u16)(packet->x0 + 0x20) < 0x181U) {
+                    vertex_0_visible = (u16)(packet->y0 + 0x20) < 0x121U;
                 }
                 vertex_1_visible = 0;
-                if ((u16)(P16(packet, 0x10) + 0x20) < 0x181U) {
-                    vertex_1_visible = (u16)(P16(packet, 0x12) + 0x20) < 0x121U;
+                if ((u16)(packet->x1 + 0x20) < 0x181U) {
+                    vertex_1_visible = (u16)(packet->y1 + 0x20) < 0x121U;
                 }
                 vertex_2_visible = 0;
                 if ((vertex_0_visible = vertex_1_visible | vertex_0_visible,
-                     (u16)(P16(packet, 0x18) + 0x20) < 0x181U)) {
-                    vertex_2_visible = (u16)(P16(packet, 0x1A) + 0x20) < 0x121U;
+                     (u16)(packet->x2 + 0x20) < 0x181U)) {
+                    vertex_2_visible = (u16)(packet->y2 + 0x20) < 0x121U;
                 }
                 vertex_3_visible = 0;
                 if ((any_visible = vertex_0_visible | vertex_2_visible,
-                     (u16)(P16(packet, 0x20) + 0x20) < 0x181U)) {
+                     (u16)(packet->x3 + 0x20) < 0x181U)) {
                     vertex_3_visible = (u16)(coord + 0x20) < 0x121U;
                 }
                 if (any_visible | vertex_3_visible) {
                     *((u8 *)packet + 3) = 9;
-                    E16(entry, 0x14) &= 0x7FFF;
+                    entry->flags &= 0x7FFF;
 
                     SP32(scratch, 0x10) += SP32(scratch, 0x08);
                     SP32(scratch, 0x14) =
@@ -333,19 +324,19 @@ void project_sprite_commands(void *context, void *position, Entry *entry, s16 de
                     SP32(scratch, 0x0C) <<= 8;
 
                     if (SP16(scratch, 0x24) & 0x100) {
-                        P16(packet, 0xE) = E16(entry, 0x12);
+                        packet->v0 = entry->texture_base;
                     } else {
-                        P16(packet, 0xE) = E16(entry, 0x12) + C16(command, 6);
+                        packet->v0 = entry->texture_base + command->texture_offset;
                     }
-                    P16(packet, 0xC) = SP16(scratch, 0x0C) + SP16(scratch, 0x08);
-                    P16(packet, 0x14) = SP16(scratch, 0x0C) + SP16(scratch, 0x10);
-                    if (E16(entry, 0x10) != 0) {
-                        P16(packet, 0x16) = E16(entry, 0x10) + (C16(command, 4) & 0xFF9F);
+                    packet->u0 = SP16(scratch, 0x0C) + SP16(scratch, 0x08);
+                    packet->u1 = SP16(scratch, 0x0C) + SP16(scratch, 0x10);
+                    if (entry->texture_bias != 0) {
+                        packet->attr = entry->texture_bias + (command->attr & 0xFF9F);
                     } else {
-                        P16(packet, 0x16) = C16(command, 4);
+                        packet->attr = command->attr;
                     }
-                    P16(packet, 0x1C) = SP16(scratch, 0x14) | SP16(scratch, 0x08);
-                    P16(packet, 0x24) = SP16(scratch, 0x14) | SP16(scratch, 0x10);
+                    packet->u2 = SP16(scratch, 0x14) | SP16(scratch, 0x08);
+                    packet->u3 = SP16(scratch, 0x14) | SP16(scratch, 0x10);
 
                     if (SPS16(scratch, 0x50) >= 0x1800) {
                         uv_edge = *((u8 *)packet + 0x24);
@@ -372,8 +363,8 @@ void project_sprite_commands(void *context, void *position, Entry *entry, s16 de
                         u32 command_mode;
                         u32 entry_flags;
                         u32 packet_mode;
-                        command_mode = C8(command, 1);
-                        E8(entry, 0x0F) = command_mode;
+                        command_mode = command->mode;
+                        entry->packet.bytes.mode = command_mode;
                         entry_flags = SP16(scratch, 0x24);
                         if (entry_flags & 8) {
                             if (entry_flags & 4) {
@@ -381,14 +372,14 @@ void project_sprite_commands(void *context, void *position, Entry *entry, s16 de
                             } else {
                                 packet_mode = command_mode & 0xFD;
                             }
-                            E8(entry, 0x0F) = packet_mode;
+                            entry->packet.bytes.mode = packet_mode;
                         }
                     }
 
-                    P32(packet, 4) = E32(entry, 0x0C);
+                    packet->packet_word = entry->packet.word;
                     {
                         s32 depth_delta;
-                        depth_delta = -((u32)(sprite_command_depth_scale * CS8(command, 3)) >> 14);
+                        depth_delta = -((u32)(sprite_command_depth_scale * command->y) >> 14);
                         SP32(scratch, 0xCC) = depth_delta;
                         if (depth_delta > 0) {
                             SP32(scratch, 0xCC) = 0;

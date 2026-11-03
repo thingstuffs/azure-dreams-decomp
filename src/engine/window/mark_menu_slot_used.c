@@ -6,8 +6,6 @@
 
 typedef void (*Callback)(void);
 
-#define FIELD(ptr, type, offset) (*(type *)((u8 *)(ptr) + (offset)))
-
 typedef struct S_func_800368D0_0 {
     u8 pad_00[0x44];
     u8 *unk_44;

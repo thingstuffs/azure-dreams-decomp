@@ -15,9 +15,7 @@
 #endif
 
 #define U8_AT(p, o)  (*(u8 *)((u8 *)(p) + (o)))
-#define S8_AT(p, o)  (*(s8 *)((u8 *)(p) + (o)))
 #define U16_AT(p, o) (*(u16 *)((u8 *)(p) + (o)))
-#define S16_AT(p, o) (*(s16 *)((u8 *)(p) + (o)))
 #define S32_AT(p, o) (*(s32 *)((u8 *)(p) + (o)))
 #define PTR_AT(p, o) (*(void **)((u8 *)(p) + (o)))
 
@@ -63,7 +61,7 @@ void choose_and_execute_actor_step(ActorRecord *work_data, ObjectPosition *actio
     limit_turn = turn_flags & 0;
 
     if ((turn_flags & 0x4000) || ((s8)actor->movement_queue_state >= 0)) {
-        if ((U8_AT(actor, 0x12) >= 2) || U8_AT(work_data, 0xB5) ||
+        if ((actor->unk_12 >= 2) || work_data->unk_B4.bytes[1] ||
             ((try_turn_actor_toward_target(work_data, action_context, position, actor) << 16) == 0)) {
             update_actor_status_and_mp(actor);
             return;
@@ -157,7 +155,7 @@ void choose_and_execute_actor_step(ActorRecord *work_data, ObjectPosition *actio
                 limit_turn = 1;
             }
             } else {
-                select_actor_route_target(position, S8_AT(work_data, 0x9C), actor, (u8 *)work_data + 0x98);
+                select_actor_route_target(position, work_data->unk_9C, actor, (u8 *)work_data + 0x98);
             }
         }
     } else {
@@ -167,7 +165,7 @@ void choose_and_execute_actor_step(ActorRecord *work_data, ObjectPosition *actio
         tile_type = (s8)position->room_index;
         if (tile_type >= 0 && (tile_records = dungeon_rooms, tile_record = tile_records + tile_type * 0x14,
             U16_AT(tile_record, 0xC) & 2)) {
-            select_actor_route_target(position, S8_AT(work_data, 0x9C), actor, (u8 *)work_data + 0x98);
+            select_actor_route_target(position, work_data->unk_9C, actor, (u8 *)work_data + 0x98);
         } else if (!(actor->action_flags & 0x8000)) {
             node = probe_directional_neighbor(actor, position->tile_x, position->tile_y,
                                  actor->facing);
@@ -204,7 +202,7 @@ void choose_and_execute_actor_step(ActorRecord *work_data, ObjectPosition *actio
                     }
                 }
             } else {
-                select_actor_route_target(position, S8_AT(work_data, 0x9C), actor, (u8 *)work_data + 0x98);
+                select_actor_route_target(position, work_data->unk_9C, actor, (u8 *)work_data + 0x98);
             }
         }
     }
@@ -215,7 +213,7 @@ void choose_and_execute_actor_step(ActorRecord *work_data, ObjectPosition *actio
 
     do {
         node = (void *)actor->facing;
-        if (U16_AT(work_data, 0x98) & 2) {
+        if (work_data->action_state_flags & 2) {
             candidate_angle = ((s32)node) - *angle_step;
         } else {
             candidate_angle = ((s32)node) + *angle_step;
@@ -297,7 +295,7 @@ void choose_and_execute_actor_step(ActorRecord *work_data, ObjectPosition *actio
     }
 
     actor->action_flags &= 0x7FFF;
-    S8_AT(work_data, 0x9C) = position->room_index;
+    work_data->unk_9C = position->room_index;
     actor->pending_turn_updates--;
     {
         DungeonGlobalStatus *turn_state_tail = &g_dungeon_status;

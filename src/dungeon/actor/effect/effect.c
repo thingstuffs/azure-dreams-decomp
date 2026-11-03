@@ -902,7 +902,6 @@ s32 render_floor_items(s32 unused0, ObjectPosition *unused1, SpriteFrameState *r
 #ifndef NULL
 #define NULL 0
 #endif
-#define F(e,t,o) (*(t)((s8 *)(e)+(o)))
 extern void * allocate_list_node(s32 flags, void **list_head);
 extern s32 register_node(void *entry, void *registration_id);
 extern void create_tracked_effect(void *, s32, s32, s32);

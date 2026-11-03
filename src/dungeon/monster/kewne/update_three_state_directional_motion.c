@@ -12,8 +12,6 @@
 #include "dungeon/system.h"
 #include "dungeon/actor.h"
 #include "dungeon/effect/screen.h"
-#define S16(p, o) (*(s16 *)((u8 *)(p) + (o)))
-#define U8(p, o)  (*(u8 *)((u8 *)(p) + (o)))
 
 #define U16(p, o) (*(u16 *)((u8 *)(p) + (o)))
 #define PTR(p, o) (*(void **)((u8 *)(p) + (o)))
@@ -120,17 +118,17 @@ void update_three_state_directional_motion(ActorRecord *action, ObjectPosition *
             anim_table += 0x5EB8;
             facing_ptr = resident_globals_page;
             PTR(sprite, 0x2C) = (void *)anim_table;
-            facing_index = (*(s16 *)(facing_ptr + 0x3228) + S16(actor, 0x2A) + 0x100) >> 9;
+            facing_index = (*(s16 *)(facing_ptr + 0x3228) + actor->facing + 0x100) >> 9;
             facing_index &= 7;
             facing_ptr = (u8 *)(facing_index + anim_table);
             select_sprite_entry(sprite, *facing_ptr, 0);
         }
-        S32(motion, 0x14) = 0;
-        S32(motion, 0x10) = 0;
-        S32(motion, 0xC) = 0;
+        motion->velocity_z = 0;
+        motion->velocity_y = 0;
+        motion->velocity_x = 0;
         set_record_integer_tile_center(motion, sprite->tile_x, sprite->tile_y);
 advance_state:
-        U8(action, 0x9B)++;
+        action->action_phase.u++;
         return;
     }
 
@@ -141,7 +139,7 @@ advance_state:
             return;
         }
         spend_actor_mp(actor, 0x100);
-        PTR(action, 0x8C) = update_actor_animation_and_behavior;
+        action->unk_8C.address = update_actor_animation_and_behavior;
         S32(resident_globals_page, 0x346C) = 0;
         U16(actor, 0x46) &= 0x7FFF;
         advance_status_timers(actor);

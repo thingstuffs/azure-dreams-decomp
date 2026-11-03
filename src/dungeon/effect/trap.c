@@ -478,7 +478,7 @@ void advance_trap_effect_and_process_collisions(FivePartTargetEffectBody *effect
     effect->y.u += D_8006CCE8[effect->direction];
     target = find_object_near_tile_height(effect->x.u, effect->y.u, effect->z.s);
     if (target) {
-        apply_attack_power_and_element_effects(target, 6, U8(((u8 *)dungeon_actor_ring_anchor), 0x11), 9,
+        apply_attack_power_and_element_effects(target, 6, dungeon_actor_ring_anchor->level, 9,
                       (s16)(effect->direction << 9), 0, 3);
     }
     entry_index = find_entry_at_tile_coordinates(effect->x.s, effect->y.s, effect->z.s);
@@ -495,7 +495,7 @@ void advance_trap_effect_and_process_collisions(FivePartTargetEffectBody *effect
     }
     effect->ticks_remaining--;
     if (!effect->ticks_remaining) {
-        U16(effect, -2) |= 0x8000;
+        NODE_HEADER(effect)->flags |= 0x8000;
         object_flag_block.flags |= OBJECT_REMOVE_PENDING;
     }
 }
@@ -771,7 +771,7 @@ void tick_byte_timed_trap_effect(FivePartTargetEffectBody *effect) {
     effect->ticks_remaining = countdown;
     if (!(countdown & 0xFF)) {
         g_dungeon_status.activity_counts.parts.pending_action_count = (u16)(((u16)g_dungeon_status.activity_counts.parts.pending_action_count) - 1);
-        U16(effect, -2) = (u16)(U16(effect, -2) | NODE_REMOVE);
+        NODE_HEADER(effect)->flags = (u16)(NODE_HEADER(effect)->flags | NODE_REMOVE);
         object_flag_block.flags = object_flag_block.flags | OBJECT_REMOVE_PENDING;
     }
 }

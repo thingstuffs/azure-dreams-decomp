@@ -25,8 +25,6 @@ typedef struct S_80024740_0 {
 } S_80024740_0;   /* node in draw_gradient_line_chain */
 
 
-#define FIELD(base, type, offset) (*(type *)((u8 *)(base) + (offset)))
-
 typedef struct PacketTag { unsigned addr : 24; unsigned len : 8; u8 r0; u8 g0; u8 b0; u8 code; } PacketTag;
 #define setaddr(packet, address) (((PacketTag *)(packet))->addr = (u32)(address))
 #define getaddr(packet) ((u32)(((PacketTag *)(packet))->addr))

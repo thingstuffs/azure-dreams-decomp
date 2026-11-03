@@ -529,8 +529,6 @@ void move_the_effect_count_down_timer_fade_sprite_black(FadeSpriteCountdownBody 
     }
 }
 
-#define FIELD(p, type, off) (*(type *)((u8 *)(p) + (off)))
-
 /* cfail-repair: tf7-phase1-cache-v3 */
 
 /* Advance motion with damping and downward acceleration, then count down or fade the effect. */

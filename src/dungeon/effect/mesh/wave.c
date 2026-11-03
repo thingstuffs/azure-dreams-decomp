@@ -45,14 +45,6 @@ typedef struct Scratchpad {
     u8 bytes[0x10C];
 } Scratchpad;
 
-#define SCRATCH_BASE ((Scratchpad *)0x1F800000)
-
-#define SCR8(off)  (*(u8  *)((u8 *)scratch + (off)))
-#define SCR16(off) (*(u16 *)((u8 *)scratch + (off)))
-#define SCRS16(off) (*(s16 *)((u8 *)scratch + (off)))
-#define SCR32(off) (*(s32 *)((u8 *)scratch + (off)))
-#define SCRPTR(off) ((void *)((u8 *)scratch + (off)))
-
 /* Draw sprite parts as textured strips displaced by a wave along either axis. */
 void draw_wave_distorted_sprite(void *screen_pos, u8 *wave, void *context, s32 *ordering_table, s32 draw_control)
 {

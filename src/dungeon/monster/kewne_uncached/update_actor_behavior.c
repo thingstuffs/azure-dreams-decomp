@@ -8,10 +8,7 @@
 #include "dungeon/player/object.h"
 #include "dungeon/actor.h"
 #include "dungeon/effect/screen.h"
-#define S16(p, o) (*(s16 *)((u8 *)(p) + (o)))
-#define U8(p, o)  (*(u8 *)((u8 *)(p) + (o)))
 
-#define U16(p, o) (*(u16 *)((u8 *)(p) + (o)))
 #define PTR(p, o) (*(void **)((u8 *)(p) + (o)))
 #define S32(p, o) (*(s32 *)((u8 *)(p) + (o)))
 
@@ -122,16 +119,16 @@ void update_actor_behavior_2(ActorRecord *action, ObjectPosition *motion, Sprite
             anim_table += 0x5CA8;
             facing_ptr = resident_globals_page;
             PTR(object, 0x2C) = (void *)anim_table;
-            facing_idx = (*(s16 *)(facing_ptr + 0x3228) + S16(actor, 0x2A) + 0x100) >> 9;
+            facing_idx = (*(s16 *)(facing_ptr + 0x3228) + actor->facing + 0x100) >> 9;
             facing_idx &= 7;
             facing_ptr = (u8 *)(facing_idx + anim_table);
             select_sprite_entry(object, *facing_ptr, 0);
         }
-        S32(motion, 0x14) = 0;
-        S32(motion, 0x10) = 0;
-        S32(motion, 0xC) = 0;
+        motion->velocity_z = 0;
+        motion->velocity_y = 0;
+        motion->velocity_x = 0;
         set_record_integer_tile_center(motion, object->tile_x, object->tile_y);
-        U8(action, 0x9B)++;
+        action->action_phase.u++;
         return;
     }
 
@@ -144,10 +141,10 @@ void update_actor_behavior_2(ActorRecord *action, ObjectPosition *motion, Sprite
         }
         spend_actor_mp(actor, 0x100);
         actor_arg = actor;
-        PTR(action, 0x8C) = kewne_uncached_action_resume_address;
+        action->unk_8C.address = kewne_uncached_action_resume_address;
         S32(resident_globals_page, 0x346C) = 0;
         advance_status_timers(actor_arg);
-        U16(actor, 0x46) &= 0x7FFF;
+        actor->action_flags &= 0x7FFF;
     }
 
     }

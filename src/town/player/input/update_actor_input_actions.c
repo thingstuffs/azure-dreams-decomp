@@ -11,8 +11,6 @@
 #include "town/player/position.h"
 
 
-#define FIELD(base, type, offset) (*(type *)((u8 *)(base) + (offset)))
-
 extern void init_threshold_countdown_action(void *, void *,void *);
 extern void initialize_actor_action_state(void *, void *, s32);
 extern void initialize_action_object(void *, void *, s32);

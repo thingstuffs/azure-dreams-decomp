@@ -62,8 +62,8 @@ void *create_player_tile_actor_at_coordinates(u16 tile_x, u16 tile_z, u16 height
         sprite = entity->sprite;
         sprite->tile_x = saved_tile_x;
         sprite->tile_y = saved_tile_z;
-        sprite->room_index = find_active_rect_containing_point(FLD(sprite, u8, 0x24), sprite->tile_y);
-        set_record_integer_tile_center(state_tail, FLD(sprite, u8, 0x24), sprite->tile_y);
+        sprite->room_index = find_active_rect_containing_point(sprite->tile_x, sprite->tile_y);
+        set_record_integer_tile_center(state_tail, sprite->tile_x, sprite->tile_y);
         FLD(state, s16, 0x88) =
             sample_terrain_surface_height(FLD(state_tail, u16, 2), FLD(state_tail, u16, 6), (s16)(FLD(state_tail, u16, 0xA) - 0x20));
         sprite->scale_y = 0x1000;

@@ -1550,7 +1550,7 @@ void update_owner_following_effect(OwnerFollowingWork *effect_in, ObjectPosition
         }
     } else {
         if (owner->flags & 0x8000) {
-            U16_AT(effect_in, -2) |= NODE_REMOVE;
+            NODE_HEADER(effect_in)->flags |= NODE_REMOVE;
             object_flag_block.flags |= OBJECT_REMOVE_PENDING;
             return;
         }

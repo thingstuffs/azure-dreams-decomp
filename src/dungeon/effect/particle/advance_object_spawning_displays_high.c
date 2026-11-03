@@ -454,7 +454,7 @@ void advance_actor_tint_particle_sequence(TintParticleSequence *effect, void *ef
         enabled = 1;
         initial_color = 0x00808080;
         F(primary_actor_record, s32, 0xF4) = 0;
-        F(((u8 *)(&reference_tile_object)), u16, 6) = 6;
+        reference_tile_object.depth_bias = 6;
         effect->display_a = create_packed_sprite_effect(effect, position, effect_context, D_80025704,
                                                      enabled, 0x1000, 0x1000, initial_color);
         effect->display_b = create_packed_sprite_effect(effect, position, effect_context, D_80025710,
@@ -727,7 +727,7 @@ void advance_actor_tint_particle_sequence(TintParticleSequence *effect, void *ef
             F(sprite, u16, 0x10) = (u16)bits;
             F(sprite, u16, 6) = 8;
             actor_position = primary_actor_record;
-            F(sprite, u16, 0x14) = (u16)(F(sprite, u16, 0x14) | 0xC);
+            sprite->flags = (u16)(sprite->flags | 0xC);
             position = particle->position;
             actor_position = NODE_HEADER(actor_position)->position;
             position->x.v = F(actor_position, u32, 0);
@@ -820,7 +820,7 @@ void advance_actor_tint_particle_sequence(TintParticleSequence *effect, void *ef
         }
         {
             s32 fade;
-            animation_m = F(primary_actor_record, void *, 0x60);
+            animation_m = primary_actor_record->target;
             if (animation_m != 0) {
                 F(animation_m, u32, 0x1C) |= 0x10000000;
                 {
@@ -836,7 +836,7 @@ void advance_actor_tint_particle_sequence(TintParticleSequence *effect, void *ef
                 }
             }
         }
-        if ((F(((u8 *)(&reference_tile_object)), u16, 0x14) & 0x8000) == 0) {
+        if ((reference_tile_object.sprite_flags & 0x8000) == 0) {
             effect->timer.u = (u16)(effect->timer.u - 1);
             if (effect->timer.s >= 0) {
                 return;
@@ -847,7 +847,7 @@ void advance_actor_tint_particle_sequence(TintParticleSequence *effect, void *ef
 
     case 4:
         if (F(&tint_particle_effect_updated, s16, 0) == 0) {
-            animation_m = F(primary_actor_record, void *, 0x60);
+            animation_m = primary_actor_record->target;
             if (animation_m != 0) {
                 bits = (u32)0xEFFFFFFF;
                 neutral_color = 0x00808080;
@@ -861,10 +861,10 @@ void advance_actor_tint_particle_sequence(TintParticleSequence *effect, void *ef
                 DungeonGlobalStatus *dungeon_state = &g_dungeon_status;
                 bits_2 = ((u16)dungeon_state->activity_counts.parts.pending_action_count);
                 F(dungeon_state, u32, 0xC) = 0;
-                F(((u8 *)(&reference_tile_object)), u16, 6) = 0;
+                reference_tile_object.depth_bias = 0;
                 dungeon_state->activity_counts.parts.pending_action_count = (u16)(bits_2 - 1);
             }
-            F(effect, u16, -2) = (u16)(F(effect, u16, -2) | 0x8000);
+            NODE_HEADER(effect)->flags = (u16)(F(effect, u16, -2) | 0x8000);
             object_flag_block.flags |= OBJECT_REMOVE_PENDING;
             return;
         }

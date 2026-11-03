@@ -12,9 +12,6 @@
 
 
 
-#define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8 *)(expr) + (offset)))
-
-
 #include "dungeon/player/object/action_state.h"
 extern s32 display_text_with_fullwidth_adjustment(s8 *text);
 extern s32 generate_random_value(void);

@@ -10,9 +10,6 @@
 #define NULL 0
 #endif
 
-#define S16_AT(p, o) (*(s16 *)((u8 *)(p) + (o)))
-#define PTR_AT(p, o) (*(void **)((u8 *)(p) + (o)))
-
 typedef struct {
     s16 values[8][3][3];
 } LocalPositionTable;

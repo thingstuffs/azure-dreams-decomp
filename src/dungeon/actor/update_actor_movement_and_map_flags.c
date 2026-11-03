@@ -17,11 +17,9 @@ extern void select_record_entry_and_value(void *state, void *entries, short inde
 extern void update_map_cell_flags_with_item_limit(s32 x, s32 y, u16 flags);
 extern s32 classify_adjacent_tile_height();
 
-#define U8(p, o) (*(u8 *)((u8 *)(p) + (o)))
 #define S16(p, o) (*(s16 *)((u8 *)(p) + (o)))
 #define U16(p, o) (*(u16 *)((u8 *)(p) + (o)))
 #define S32(p, o) (*(s32 *)((u8 *)(p) + (o)))
-#define P32(p, o) (*(void **)((u8 *)(p) + (o)))
 
 /* Moves the actor and updates its animation, movement state, and map flags. */
 void update_actor_movement_and_map_flags(ActorRecord *obj, ObjectPosition *move_mode, SpriteFrameState *actor, void *map)
@@ -39,8 +37,8 @@ void update_actor_movement_and_map_flags(ActorRecord *obj, ObjectPosition *move_
     move_result = classify_adjacent_tile_height(S16(map, 0x2A), move_mode, actor, S16(map, 0x88), 0x20);
     movement_kind = (s16)move_result;
     if (movement_kind > 0) {
-        U8(obj, 0x9B) = 0;
-        update_map_cell_flags_with_item_limit(U8(actor, 0x24), actor->tile_y, 0x300);
+        obj->action_phase.u = 0;
+        update_map_cell_flags_with_item_limit(actor->tile_x, actor->tile_y, 0x300);
         {
             u8 *x_offsets;
             s16 step_index;
@@ -50,11 +48,11 @@ void update_actor_movement_and_map_flags(ActorRecord *obj, ObjectPosition *move_
             actor->tile_x = actor->tile_x + x_offsets[step_index];
             actor->tile_y = actor->tile_y + ((u8 *)dir_step_y)[step_index];
         }
-        cycle_map_cell_flags(U8(actor, 0x24), actor->tile_y, 0x300);
+        cycle_map_cell_flags(actor->tile_x, actor->tile_y, 0x300);
 
         move_state = (u16 *)&g_dungeon_status;
         move_state[1] |= 8;
-        S32(obj, 0x8C) = 0;
+        obj->unk_8C.word = 0;
 
         if (movement_kind != 4) {
             if (system_update_flags & 2) {
@@ -78,7 +76,7 @@ void update_actor_movement_and_map_flags(ActorRecord *obj, ObjectPosition *move_
                 select_record_entry_and_value(actor, *(void **)(alternate_anim + (facing_offset & 0x1C)), 0);
             } else {
                 move_result = 5;
-                U8(obj, 0x9B) = 10;
+                obj->action_phase.u = 10;
             }
         }
 
@@ -94,26 +92,26 @@ void update_actor_movement_and_map_flags(ActorRecord *obj, ObjectPosition *move_
                     actor->frameTable = actor_default_frames;
                     facing_offset = (g_game_work.view.camera_rotation.parts.viewAngle + S16(map, 0x2A) + 0x100) >> 7;
                     select_record_entry_and_value(actor, *(void **)(actor_default_frames + (facing_offset & 0x1C)), 0);
-                    U8(obj, 0x9A) = 0x35;
+                    obj->action_id.u = 0x35;
                 } else {
-                    U8(obj, 0x9A) = 0x35;
+                    obj->action_id.u = 0x35;
                 }
                 updated_state->movement_frames_left = 8;
             } else {
-                U16(obj, 0x98) |= 0xC;
+                obj->action_state_flags |= 0xC;
                 actor->frameTable = actor_default_frames + 0x20;
                 facing_offset = (g_game_work.view.camera_rotation.parts.viewAngle + S16(map, 0x2A) + 0x100) >> 7;
                 select_record_entry_and_value(actor, *(void **)((actor_default_frames + 0x20) + (facing_offset & 0x1C)), 0);
                 if (move_kind < 4) {
-                    U16(obj, 0xA2) |= 1;
+                    obj->unk_A0.parts.high |= 1;
                 } else if (move_kind == 2 || move_kind == 4) {
-                    U8(obj, 0x9B) = 8;
+                    obj->action_phase.u = 8;
                 }
                 check_tile_entry_at_adjusted_height(obj, move_mode, actor, map);
                 {
                     g_dungeon_status.movement_frames_left = 8;
-                    U8(obj, 0x9A) = 0x36;
-                    U16(obj, 0x96) = 2;
+                    obj->action_id.u = 0x36;
+                    obj->action_timer.u = 2;
                     S32(map, 0x1C) |= 0x40000000;
                     append_packed_action_record(map, 8, 0, 0);
                 }
@@ -128,7 +126,7 @@ void update_actor_movement_and_map_flags(ActorRecord *obj, ObjectPosition *move_
         actor->frameTable = idle_anim;
         facing_offset = (globals->view.camera_rotation.parts.viewAngle + S16(map, 0x2A) + 0x100) >> 7;
         select_record_entry_and_value(actor, *(void **)(idle_anim + (facing_offset & 0x1C)), 0);
-        S32(obj, 0x8C) = (s32)destination_motion_resume_address;
+        obj->unk_8C.word = (s32)destination_motion_resume_address;
         return;
     }
 

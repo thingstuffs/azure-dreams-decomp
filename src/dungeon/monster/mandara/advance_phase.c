@@ -6,8 +6,6 @@
 #include "sdk/libgpu.h"
 #include "sdk/libgte.h"
 
-#define FIELD(p, type, off) (*(type *)((u8 *)(p) + (off)))
-
 typedef struct {
     s16 x;
     s16 y;

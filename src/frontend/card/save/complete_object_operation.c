@@ -4,8 +4,6 @@
 #include "frontend/card/service.h"
 #include "frontend/card/save.h"
 
-#define FIELD(expr, type_ptr, offset) (*(type_ptr)((u8 *)(expr) + (offset)))
-
 extern void initialize_card_message_object_with_code_0xb(void *object_base);
 extern void card_dev_no_op_save(s32 value);
 extern void reset_card_selection_state(void);

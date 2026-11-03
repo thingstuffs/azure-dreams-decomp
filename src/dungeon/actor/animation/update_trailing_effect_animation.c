@@ -89,7 +89,7 @@ void update_trailing_effect_animation(ActorTrailWork *effect, TrailMotion *trans
             render_data->color.c.r = fade_out_brightness;
 
             if (effect->brightness.s < 0x11) {
-                U16_AT(effect, -2) |= NODE_REMOVE;
+                NODE_HEADER(effect)->flags |= NODE_REMOVE;
                 object_flag_block.flags |= OBJECT_REMOVE_PENDING;
             }
         }
@@ -112,7 +112,7 @@ void update_trailing_effect_animation(ActorTrailWork *effect, TrailMotion *trans
         frames_left = effect->timer.u - 1;
         effect->timer.s = frames_left;
         if ((frames_left <= 0) && ((s16)brightness == 0)) {
-            U16_AT(effect, -2) |= NODE_REMOVE;
+            NODE_HEADER(effect)->flags |= NODE_REMOVE;
             object_flag_block.flags |= OBJECT_REMOVE_PENDING;
         }
         render_data->color.c.b = brightness;

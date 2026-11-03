@@ -13,8 +13,6 @@ typedef struct S_800BFFF4_0_pre {
 
 
 
-#define FIELD(base, type, offset) (*(type *)((u8 *)(base) + (offset)))
-
 typedef struct PacketTag { unsigned addr : 24; unsigned len : 8; u8 r0; u8 g0; u8 b0; u8 code; } PacketTag;
 #define setaddr(packet, address) (((PacketTag *)(packet))->addr = (u32)(address))
 #define getaddr(packet) ((u32)(((PacketTag *)(packet))->addr))

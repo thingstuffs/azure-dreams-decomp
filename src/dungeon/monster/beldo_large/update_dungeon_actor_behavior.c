@@ -14,8 +14,6 @@ typedef struct {
 
 
 
-#define U8_AT(p, o)  (*(u8 *)((u8 *)(p) + (o)))
-#define S8_AT(p, o)  (*(s8 *)((u8 *)(p) + (o)))
 #define U16_AT(p, o) (*(u16 *)((u8 *)(p) + (o)))
 #define S16_AT(p, o) (*(s16 *)((u8 *)(p) + (o)))
 #define U32_AT(p, o) (*(u32 *)((u8 *)(p) + (o)))
@@ -74,7 +72,7 @@ void update_dungeon_actor_behavior(void *effect) {
         actor->action_timer.u += 0x3C;
         U16_AT(effect, 0x18) = 0;
         U16_AT(effect, 0x12)++;
-        S8_AT(actor, 0xA8) = enabled;
+        actor->unk_A8.byte = enabled;
         beldo_actor_nodes[0x47] = 0;
         return;
     case 1:
@@ -183,7 +181,7 @@ void update_dungeon_actor_behavior(void *effect) {
         return;
     case 3:
         g_dungeon_status.active_actor = 0;
-        U16_AT(effect, -2) |= NODE_REMOVE;
+        NODE_HEADER(effect)->flags |= NODE_REMOVE;
         object_flag_block.flags |= OBJECT_REMOVE_PENDING;
 
         return;

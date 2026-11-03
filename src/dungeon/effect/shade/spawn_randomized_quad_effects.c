@@ -57,9 +57,6 @@ extern s32 row_quad_bottom_color;
 extern Cell particle_quad_vertices[];
 extern Cell D_80026648[];
 
-#define SET_COUNT_PAGE() (count_page = (u8 *)&D_80026476)
-#define READ_COUNT_PAGE() (*(s16 *)count_page)
-
 /* Spawn quad effects at cell centers with randomized motion, then clear the pending count. */
 void spawn_randomized_quad_effects(void) {
     Cell *vertices;

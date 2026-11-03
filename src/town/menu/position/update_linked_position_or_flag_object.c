@@ -8,8 +8,6 @@
 #include "sdk/libgte.h"
 #include "town/menu.h"
 
-#define FIELD(base, type, offset) (*(type)((u8 *)(base) + (offset)))
-
 extern void unlink_node_if_registered(void *object);
 
 typedef struct {

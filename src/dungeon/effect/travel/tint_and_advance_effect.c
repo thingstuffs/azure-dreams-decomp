@@ -326,7 +326,7 @@ void follow_brighten(TrackingEffect *self, ObjectPosition *motion, SpriteFrameSt
     case 17:
         if (*(s16 *)tint_effect_update_count == 0) {
             g_dungeon_status.active_actor = 0;
-            F(self, u16, -2) |= 0x8000;
+            NODE_HEADER(self)->flags |= 0x8000;
             object_flag_block.flags |= OBJECT_REMOVE_PENDING;
         }
     }
