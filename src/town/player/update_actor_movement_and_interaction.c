@@ -1,3 +1,4 @@
+#include "town/player/position_handlers.h"
 #include "shared/position_query.h"
 #include "common.h"
 #include "shared/town_action_flag.h"
@@ -15,7 +16,7 @@
 #include "town/player/object.h"
 
 void submit_object_resource_data();                         /* extern */
-struct TownObjectRecord; void initialize_actor_position_interaction_action(struct TownObjectRecord *, s32, s32);     /* extern */
+struct TownObjectRecord; void initialize_actor_position_interaction_action(struct TownObjectRecord *, ObjectPosition *, s32);     /* extern */
 struct ObjectPosition; void initialize_input_driven_scene_object(s32 * *, struct ObjectPosition *, s32);     /* extern */
 void initialize_action_callback_from_entry(s32 **record, void *ptr, void *ptr2);
 void initialize_busy_checked_countdown_action(TownObjectRecord *record,void *unused,void *setup_value);
@@ -46,7 +47,7 @@ typedef struct S_800927EC_5 {
 } S_800927EC_5;   /* ((TownObjectRecord *)arg0)->unk_2C in update_actor_movement_and_interaction */
 
 /* Update the actor and dispatch town movement and interaction input. */
-void update_actor_movement_and_interaction(void *actor, EntityRec *position, s32 context) {
+void update_actor_movement_and_interaction(void *actor, ObjectPosition *position, s32 context) {
     GameWork *input = &g_game_work;
     S_800927EC_4 *interaction;
     s16 ground_height;
@@ -64,11 +65,11 @@ void update_actor_movement_and_interaction(void *actor, EntityRec *position, s32
         }
     } else {
         if (town_action_state_flag == 0) {
-            compute_and_clamps_vector_based_adjustment_updates_town((struct TownObj *)(position), ground_height, (struct TownVec * *)(&position_query_scratch));
+            compute_and_clamps_vector_based_adjustment_updates_town((position), ground_height, (struct TownVec * *)(&position_query_scratch));
         }
     }
     if ((input->pressed_buttons) & 0x10) {
-        initialize_input_driven_scene_object(actor, (struct ObjectPosition *)(position), context);
+        initialize_input_driven_scene_object(actor, (position), context);
         return;
     }
     if ((input->pressed_buttons) & 0x80) {
@@ -112,7 +113,7 @@ void update_actor_movement_and_interaction(void *actor, EntityRec *position, s32
             return;
         }
         if (input->buttons & 0xF000) {
-            initialize_actor_position_interaction_action(actor, (s32)(position), context);
+            initialize_actor_position_interaction_action(actor, (position), context);
         }
     }
 }

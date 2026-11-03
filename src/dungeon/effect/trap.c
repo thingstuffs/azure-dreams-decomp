@@ -1614,7 +1614,7 @@ s32 create_four_owner_sprite_effects(void *source, s16 slot_index, s32 slot_bits
         }
 
         effect_index = 0;
-        update_callback = (void *)D_800CD474;
+        update_callback = D_800CD474;
         effect_counts = &g_dungeon_status;
         x_offsets = dir_step_x;
         for (; effect_index < 4; x_offsets += 2) {
@@ -2788,7 +2788,7 @@ unsigned int clamp_entry_and_create_effect_node(ActorRecord *object, s16 entry_i
             if (node != 0) {
                 *(u8 **)((u8 *)node + 0x10) = D_800CEA44;
                 *(s16 *)((u8 *)node + 0x2C) = entry_index;
-                (*(u16 *)&state->activity_counts.parts.pending_action_count) += 1;
+                state->activity_counts.parts.pending_action_count = (u16)((u16)(state->activity_counts.parts.pending_action_count) + (1));
                 SD_Call(0xB1);
             }
             result = node != 0;

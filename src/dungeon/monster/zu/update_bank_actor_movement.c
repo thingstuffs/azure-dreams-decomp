@@ -351,7 +351,7 @@ void update_bank_actor_movement(ActorRecord *entity, ObjectPosition *motion_arg,
 extern s8 find_active_rect_containing_point(u8, u8);
 extern s32 can_entity_gain_level(void *);
 extern void update_actor_status_and_mp(ActorRecord *entity);
-extern void begin_pushed_actor_move(void *state_in, void *unused, void *position_in, void *actor_in);
+extern void begin_pushed_actor_move(void *state_in, ObjectPosition *unused, void *position_in, void *actor_in);
 extern void begin_actor_move_to_target_facing(ActorRecord *body, ObjectPosition *position, SpriteFrameState *sprite, ActorRecord *actor);
 extern u8 zu_frame_set[];
 extern u8 zu_frame_set_7[];
@@ -1027,7 +1027,7 @@ s32 complete_actor_jump_to_destination(ActorRecord *actor, ObjectPosition *prima
 #include "shared/entity.h"
 #include "shared/sprite_frame_state.h"
 
-extern s32 update_actor_movement_to_tile(void *, void *, void *, ActorRecord *);
+extern s32 update_actor_movement_to_tile(ActorRecord *, void *, void *, ActorRecord *);
 
 
 /* Select the bank actor callback when the resident checks succeed. */
@@ -1052,7 +1052,7 @@ void select_bank_resident_callback(ActorRecord *state, ObjectPosition *motion, S
 #include "shared/sprite_frame_state.h"
 
 
-extern s32 update_linked_actor_motion(void *state, ObjectPosition *transform, SpriteFrameState *config, void *object);
+extern s32 update_linked_actor_motion(void *state, ObjectPosition *transform, SpriteFrameState *config, ActorRecord *object);
 /* Select the bank actor callback when the resident checks succeed. */
 void select_bank_actor_callback(ActorRecord *state, ObjectPosition *action, SpriteFrameState *source, ActorRecord *target) {
     if ((update_linked_actor_motion(state, action, source, target) != 0) && ((check_actor_floor_trap(source, target) << 0x10) > 0)) {

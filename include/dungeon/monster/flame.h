@@ -1,5 +1,6 @@
 #ifndef DUNGEON_RESOURCE06_SLOT0_H
 #define DUNGEON_RESOURCE06_SLOT0_H
+struct ObjectPosition;
 struct SpriteFrameState;
 #include "common.h"
 #include "shared/vector.h"
@@ -723,7 +724,7 @@ u32 check_entity_interaction_compatibility();
 struct Entry;
 struct ObjectNodeHeader;
 struct ObjectNodeHeader;
-s32 update_actor_movement_to_tile(void *move_state, void *motion, void *target_tile, ActorRecord *actor);
+s32 update_actor_movement_to_tile(ActorRecord *move_state, void *motion, void *target_tile, ActorRecord *actor);
 void spend_actor_mp(ActorRecord *entity, s32 base_reduction);
 
 s32 get_cd_command_queue_depth(void);
@@ -830,7 +831,7 @@ void project_and_queue_textured_quad(ActorRecord *quad, void *position, void *dr
 s32 project_textured_quad_chain(void *initial_state, ObjectPosition *context, SpriteFrameState *data);
 void advance_record_countdown(void *record_data);
 void update_fading_four_strip_effect(u8 *effect, R06_80174934_Vec3w *origin, SpriteFrameState *render_data);
-void create_sixteen_segment_ring(R06_80174E78_Source *source, R06_80174E78_Vec3i *center, struct SpriteFrameState *unused_context);
+void create_sixteen_segment_ring(R06_80174E78_Source *source, struct ObjectPosition *center, struct SpriteFrameState *unused_context);
 void wait_for_flame_action_slot(ActorRecord *entity_data, ObjectPosition *unused_1, SpriteFrameState *unused_2, void *other_data);
 void fade_effect_to_neutral_and_finish(void *entity_data, ObjectPosition *unused, SpriteFrameState *source_data);
 void advance_actor_transition_and_restore_child_angle(ActorRecord *action, ObjectPosition *position, SpriteFrameState *entity, ActorRecord *actor);

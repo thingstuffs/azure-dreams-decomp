@@ -633,10 +633,10 @@ next_face:
                                                     normal_y = scratch->step.h.y;
                                                     if ((s16) normal_y > 0) {
                                                         row_step = row_mask << scratch->width_shift;
-                                                        *(s16 *)&scratch->step.h.y = (s16)row_step;
+                                                        scratch->step.h.y = (s16)row_step;
                                                     } else if ((s16) normal_y < 0) {
                                                         row_step = 0 - (row_mask << scratch->width_shift);
-                                                        *(s16 *)&scratch->step.h.y = (s16)row_step;
+                                                        scratch->step.h.y = (s16)row_step;
                                                     }
                                                     {
                                                         s32 neighbor_offset;

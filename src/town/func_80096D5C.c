@@ -9,7 +9,7 @@
 extern s32 D_80092698;
 
 /* Plays sound 0x511, selects counted_action_handler_table, and installs D_80092698 with count six. */
-void initialize_action_object_with_counter(TownObjectRecord *record, s32 unused, s32 setup_value) {
+void initialize_action_object_with_counter(TownObjectRecord *record, ObjectPosition *unused_position, s32 setup_value) {
     SD_Call(0x511);
     call_the_handler_selects_nonzero_entry(counted_action_handler_table, record, (void *)(setup_value));
     record->unk_00.as_pm = &D_80092698;

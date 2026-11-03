@@ -1022,18 +1022,18 @@ s32 relink_univern_path(ActorRecord *body, ObjectPosition *motion, SpriteFrameSt
  * after a positive signed floor-trap check. Sets the secondary timer to -0x20 under dungeon flag
  * 0x80 during movement or after an accepted trap check. /
  */
-void finish_actor_tile_move_then_resume_ground_movement(void *state, void *motion, void *source, void *target) {
+void finish_actor_tile_move_then_resume_ground_movement(ActorRecord *state, void *motion, void *source, void *target) {
     if (update_actor_movement_to_tile(state, motion, source, target) != 0) {
         spend_actor_mp(target, 4);
         advance_status_timers(target);
         if ((check_actor_floor_trap(source, target) << 16) > 0) {
-            *(s32 **)((u8 *)state + 0x8C) = ((s32 *)update_entity_movement_and_ground_height);
+            state->unk_8C.word_ptr = ((s32 *)update_entity_movement_and_ground_height);
             if (g_dungeon_status.flags & 0x80) {
-                *(s16 *)((u8 *)state + 0x92) = -0x20;
+                state->unk_90.parts.high.s = -0x20;
             }
         }
     } else if (g_dungeon_status.flags & 0x80) {
-        *(s16 *)((u8 *)state + 0x92) = -0x20;
+        state->unk_90.parts.high.s = -0x20;
     }
 }
 #include "dungeon/monster/univern.h"
@@ -1690,7 +1690,7 @@ void finish_actor_hop_and_grow_then_resume_ground_movement(ActorRecord *state, O
 /* Animates status entry and recovery, updates status timers and activity counts, then restores movement. */
 void update_sleeping_univern(ActorRecord *actor_arg, ObjectPosition *motion_arg, SpriteFrameState *sprite_arg, ActorRecord *entity_arg) {
     void *actor = actor_arg;
-    void *motion = motion_arg;
+    ObjectPosition *motion = motion_arg;
     SpriteFrameState *sprite= sprite_arg;
     void *entity = entity_arg;
     DungeonGlobalStatus *global_state;
@@ -1722,7 +1722,7 @@ void update_sleeping_univern(ActorRecord *actor_arg, ObjectPosition *motion_arg,
         {
             s32 initial_speed = 0xFFF80000;
             anim_table = univern_frame_set_2;
-            ((R17_801738E0_S_801738E0_3 *)motion)->unk_14 = initial_speed;
+            motion->velocity_z = initial_speed;
         }
         (sprite->frameTable) = anim_table;
         select_sprite_entry(
@@ -1733,14 +1733,14 @@ void update_sleeping_univern(ActorRecord *actor_arg, ObjectPosition *motion_arg,
         return;
 
     case 1:
-        if (((R17_801738E0_S_801738E0_3 *)motion)->unk_14 <= 0xFFFFF) {
-            ((R17_801738E0_S_801738E0_3 *)motion)->unk_14 += 0x20000;
+        if (motion->velocity_z <= 0xFFFFF) {
+            motion->velocity_z += 0x20000;
         }
         if (((R17_801738E0_S_801738E0_0 *)actor)->unk_90 < 0) {
             return;
         }
         ((R17_801738E0_S_801738E0_0 *)actor)->unk_90 = 0;
-        ((R17_801738E0_S_801738E0_3 *)motion)->unk_14 = 0;
+        motion->velocity_z = 0;
         (sprite->frameTable) = univern_alt_spawn_direction_frames;
         select_sprite_entry(
             sprite,(u8)(univern_alt_spawn_direction_frames[
@@ -1874,7 +1874,7 @@ advance_state:
         if (!(sprite->flags & 0xE000)) {
             return;
         }
-        ((R17_801738E0_S_801738E0_3 *)motion)->unk_14 = 0xFFF80000;
+        motion->velocity_z = 0xFFF80000;
         ((R17_801738E0_S_801738E0_0 *)actor)->unk_A8 = 8;
         ((R17_801738E0_S_801738E0_0 *)actor)->unk_98 &= 0xBFFF;
         (sprite->frameTable) = univern_alt_direction_frames;
@@ -1894,7 +1894,7 @@ advance_state:
         ((R17_801738E0_S_801738E0_0 *)actor)->unk_98 &= 0xFFF7;
         ((R17_801738E0_S_801738E0_2 *)entity)->unk_1C |= ACTOR_GROUNDED;
         ((R17_801738E0_S_801738E0_0 *)actor)->unk_98 |= 0x4000;
-        ((R17_801738E0_S_801738E0_3 *)motion)->unk_14 = 0;
+        motion->velocity_z = 0;
         {
             struct R17_801738E0_GlobalStruct *globals = ((struct R17_801738E0_GlobalStruct *)&g_dungeon_status);
             globals->counter--;

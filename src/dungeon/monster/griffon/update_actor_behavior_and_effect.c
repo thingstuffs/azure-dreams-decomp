@@ -1421,7 +1421,7 @@ void update_item_activation_and_cleanup(ActorRecord *action, ObjectPosition *mot
 }
 
 /* Applies a value change and knockback, then returns the actor to its tile and restores movement. */
-void advance_action_phase_and_process_actor(void *action, void *motion, SpriteFrameState *sprite, void *entity)
+void advance_action_phase_and_process_actor(void *action, ObjectPosition *motion, SpriteFrameState *sprite, void *entity)
 {
     s32 state;
     s16 move_timer;
@@ -1431,16 +1431,16 @@ void advance_action_phase_and_process_actor(void *action, void *motion, SpriteFr
     switch (state) {
     case 0:
         apply_clamped_actor_value_delta(entity);
-        ((R08_80173234_S_80173234_1 *)motion)->unk_0C =
+        motion->velocity_x =
             -((s16 *)((s8 *)dir_step_x))[(((EntityRec *)entity)->unk_6A >> 9) & 7] << 15;
-        ((R08_80173234_S_80173234_1 *)motion)->unk_10 =
+        motion->velocity_y =
             -((s16 *)((s8 *)dir_step_y))[(((EntityRec *)entity)->unk_6A >> 9) & 7] << 15;
         ((R08_80173234_S_80173234_0 *)action)->phase++;
 
         if (((EntityRec *)entity)->unk_28 == 0) {
-            ((R08_80173234_S_80173234_1 *)motion)->unk_14 = 0;
-            ((R08_80173234_S_80173234_1 *)motion)->unk_10 = 0;
-            ((R08_80173234_S_80173234_1 *)motion)->unk_0C = 0;
+            motion->velocity_z = 0;
+            motion->velocity_y = 0;
+            motion->velocity_x = 0;
             begin_actor_display_action(action, motion, sprite, griffon_frame_set_13);
             return;
         }
@@ -1457,14 +1457,14 @@ void advance_action_phase_and_process_actor(void *action, void *motion, SpriteFr
         }
         ((R08_80173234_S_80173234_0 *)action)->timer.s = move_timer;
 
-        ((R08_80173234_S_80173234_1 *)motion)->unk_0C -= ((R08_80173234_S_80173234_1 *)motion)->unk_0C / 4;
-        ((R08_80173234_S_80173234_1 *)motion)->unk_10 -= ((R08_80173234_S_80173234_1 *)motion)->unk_10 / 4;
+        motion->velocity_x -= motion->velocity_x / 4;
+        motion->velocity_y -= motion->velocity_y / 4;
                         /* fall through */
 
     case 1:
-        ((R08_80173234_S_80173234_1 *)motion)->unk_0C +=
+        motion->velocity_x +=
             ((s16 *)((s8 *)dir_step_x))[(((EntityRec *)entity)->unk_6A >> 9) & 7] << 14;
-        ((R08_80173234_S_80173234_1 *)motion)->unk_10 +=
+        motion->velocity_y +=
             ((s16 *)((s8 *)dir_step_y))[(((EntityRec *)entity)->unk_6A >> 9) & 7] << 14;
 
         if (((R08_80173234_S_80173234_0 *)action)->timer.s > 0) {
@@ -1477,9 +1477,9 @@ void advance_action_phase_and_process_actor(void *action, void *motion, SpriteFr
             return;
         }
         if (((EntityRec *)entity)->unk_28 == 0) {
-            ((R08_80173234_S_80173234_1 *)motion)->unk_14 = 0;
-            ((R08_80173234_S_80173234_1 *)motion)->unk_10 = 0;
-            ((R08_80173234_S_80173234_1 *)motion)->unk_0C = 0;
+            motion->velocity_z = 0;
+            motion->velocity_y = 0;
+            motion->velocity_x = 0;
             begin_actor_display_action(action, motion, sprite, griffon_frame_set_13);
             return;
         }
@@ -1492,9 +1492,9 @@ void advance_action_phase_and_process_actor(void *action, void *motion, SpriteFr
         return;
 
     case 2:
-        ((R08_80173234_S_80173234_1 *)motion)->unk_0C +=
+        motion->velocity_x +=
             ((s16 *)((s8 *)dir_step_x))[(((EntityRec *)entity)->unk_6A >> 9) & 7] << 14;
-        ((R08_80173234_S_80173234_1 *)motion)->unk_10 +=
+        motion->velocity_y +=
             ((s16 *)((s8 *)dir_step_y))[(((EntityRec *)entity)->unk_6A >> 9) & 7] << 14;
         if (!(sprite->flags & 0x6000)) {
             return;
@@ -1514,13 +1514,13 @@ void advance_action_phase_and_process_actor(void *action, void *motion, SpriteFr
         if (move_timer != 0) {
             {
                 s32 target_x = sprite->tile_x << 6;
-                s32 current_x = ((R08_80173234_S_80173234_1 *)motion)->unk_00.at02.v - 0x20;
-                ((R08_80173234_S_80173234_1 *)motion)->unk_0C = ((target_x - current_x) << 15) / move_timer;
+                s32 current_x = motion->x.w.i - 0x20;
+                motion->velocity_x = ((target_x - current_x) << 15) / move_timer;
             }
             {
                 s32 target_y = sprite->tile_y << 6;
-                s32 current_y = ((R08_80173234_S_80173234_1 *)motion)->unk_04.at02.v - 0x20;
-                ((R08_80173234_S_80173234_1 *)motion)->unk_10 =
+                s32 current_y = motion->y.w.i - 0x20;
+                motion->velocity_y =
                     ((target_y - current_y) << 15) / ((R08_80173234_S_80173234_0 *)action)->timer.s;
             }
         }
@@ -1531,11 +1531,11 @@ void advance_action_phase_and_process_actor(void *action, void *motion, SpriteFr
             return;
         }
 
-        ((R08_80173234_S_80173234_1 *)motion)->unk_14 = 0;
-        ((R08_80173234_S_80173234_1 *)motion)->unk_10 = 0;
-        ((R08_80173234_S_80173234_1 *)motion)->unk_0C = 0;
-        ((R08_80173234_S_80173234_1 *)motion)->unk_00.at00.v = ((sprite->tile_x << 6) + 0x20) << 16;
-        ((R08_80173234_S_80173234_1 *)motion)->unk_04.at00.v = ((sprite->tile_y << 6) + 0x20) << 16;
+        motion->velocity_z = 0;
+        motion->velocity_y = 0;
+        motion->velocity_x = 0;
+        motion->x.v = ((sprite->tile_x << 6) + 0x20) << 16;
+        motion->y.v = ((sprite->tile_y << 6) + 0x20) << 16;
         set_record_integer_tile_center(motion, sprite->tile_x, sprite->tile_y);
 
         tracked_entity = ((s32)g_dungeon_status.pending_display_owner);

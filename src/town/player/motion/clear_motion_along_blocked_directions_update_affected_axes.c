@@ -8,7 +8,7 @@
 extern u8 town_blocked_directions[9];
 
 /* Clear motion along blocked directions and update the affected axes. */
-void clear_motion_along_blocked_directions_update_affected_axes(MotionDeltaView *state)
+void clear_motion_along_blocked_directions_update_affected_axes(ObjectPosition *state)
 {
     if (town_blocked_directions[2] != 0 && state->velocity_x < 0) {
         state->velocity_x = 0;

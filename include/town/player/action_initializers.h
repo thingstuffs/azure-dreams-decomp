@@ -1,5 +1,7 @@
 #ifndef INCLUDE_TOWN_PLAYER_ACTION_INITIALIZERS_H
 #define INCLUDE_TOWN_PLAYER_ACTION_INITIALIZERS_H
+struct ObjectPosition;
+struct SpriteFrameState;
 
 #include "common.h"
 #include "shared/town_object.h"
@@ -7,18 +9,16 @@
 void initialize_scene_action_record(TownObjectRecord *record, void *unused, void *handler_context);
 
 void init_threshold_countdown_action(TownObjectRecord *record, void *unused, void *handler_context);
-void init_sound_threshold_action(s32 **record, s32 unused, s32 setup_value);
+void init_sound_threshold_action(s32 **record, struct ObjectPosition *unused, s32 setup_value);
 void set_item_selection_data_pointer(void *object, void *unused_position, void *unused_context);
 void select_next_item_state(void *object, void *position, void *context);
 void init_timed_dispatch_action(TownObjectRecord *record, void *unused, void *handler_context);
 void init_actor_action_state(TownObjectRecord *record, void *unused, void *handler_context);
-struct SpriteFrameState;
-void init_record_target_approach(TownObjectRecord *record, s32 setup_value, struct SpriteFrameState *init_context);
+void init_record_target_approach(TownObjectRecord *record, struct ObjectPosition *setup_value, struct SpriteFrameState *init_context);
 void init_linked_position_action(TownObjectRecord *record, s32 unused, struct SpriteFrameState *setup_value);
 void init_ground_input_fallback(s32 **record, void *unused, void *handler_context);
 void init_button_transition_action(s32 **record, void *unused, void *handler_context);
 void init_unchanged_action_fallback(s32 **record, void *unused, void *handler_context);
-void init_periodic_effect_action(TownObjectRecord *object, s32 motion, s32 table_arg);
 void init_flagged_entity_action(TownObjectRecord *record, void *unused, void *handler_context);
 void init_height_interpolation_action(TownObjectRecord *record, void *unused, void *handler_context);
 void init_target_tile_action(TownObjectRecord *record, void *unused, void *handler_context);
@@ -31,25 +31,27 @@ void init_countdown_handler_action(TownObjectRecord *record, void *unused, void 
 void init_four_tick_record_action(TownObjectRecord *object, s32 motion_context, void *handler_context);
 void init_quarter_turn_motion_action(TownObjectRecord *object, void *unused, void *handler_context);
 void init_object_countdown_action(TownObjectRecord *object, void *unused, void *handler_context);
-void init_four_tick_target_action(TownObjectRecord *object, s32 motion_context, void *handler_context);
+void init_four_tick_target_action(TownObjectRecord *object, struct ObjectPosition *motion_context, void *handler_context);
 void init_positive_x_step_action(TownObjectRecord *object, void *unused, void *handler_context);
 void init_twenty_one_tick_record_action(TownObjectRecord *object, void *unused, void *handler_context);
-void init_seven_tick_record_action(TownObjectRecord *object, s32 motion_context, void *handler_context);
+void init_seven_tick_record_action(TownObjectRecord *object, struct ObjectPosition *motion_context, void *handler_context);
 void init_twenty_one_tick_target_action(TownObjectRecord *record, void *unused, void *handler_context);
 void init_half_turn_motion_action(TownObjectRecord *object, void *unused, void *handler_context);
-void init_sixty_tick_target_action(TownObjectRecord *object, s32 motion_context, void *handler_context);
+void init_sixty_tick_target_action(TownObjectRecord *object, struct ObjectPosition *motion_context, void *handler_context);
 void init_three_quarter_turn_motion_action(TownObjectRecord *object, void *unused, void *handler_context);
 void init_positive_y_step_action(TownObjectRecord *object, void *unused, void *handler_context);
-void init_sixteen_tick_record_action(TownObjectRecord *object, s32 motion_context, void *handler_context);
+void init_sixteen_tick_record_action(TownObjectRecord *object, struct ObjectPosition *motion_context, void *handler_context);
 void init_twenty_one_tick_record_action_b(TownObjectRecord *record, void *unused, void *handler_context);
 void init_twenty_one_tick_record_action_c(TownObjectRecord *object, void *unused, void *handler_context);
 void init_motion_action_callback(s32 record, s32 setup_value, s32 init_value);
 
 struct EntityRec;
-void initialize_object_transform_and_handler(TownObjectRecord *object, struct EntityRec *transform, void *handler_context);
+void initialize_object_transform_and_handler(TownObjectRecord *object, struct ObjectPosition *transform, void *handler_context);
 void clear_shared_flag_and_initialize_object(void *state, void *context, void *mode);
 
-void initialize_record_with_handler_and_count(TownObjectRecord *record, struct EntityRec *setup_value, void *handler_context);
-void initialize_record_and_clear_shared_flag(TownObjectRecord *record, struct EntityRec *setup_value, void *handler_context);
+void initialize_record_with_handler_and_count(TownObjectRecord *record, struct ObjectPosition *setup_value, void *handler_context);
+void initialize_record_and_clear_shared_flag(TownObjectRecord *record, struct ObjectPosition *setup_value, void *handler_context);
+
+void init_periodic_effect_action(TownObjectRecord *object, struct ObjectPosition *motion, struct SpriteFrameState *sprite);
 
 #endif

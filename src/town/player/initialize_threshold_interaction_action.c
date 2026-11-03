@@ -5,7 +5,7 @@
 #include "shared/sprite_frame_state.h"
 
 typedef struct S_8009431C_0 {
-    void (*unk_00)(TownObjectRecord *state, EntityRec *entity, SpriteFrameState *context);
+    void (*unk_00)(TownObjectRecord *state, ObjectPosition *entity, SpriteFrameState *context);
     u8 pad_04[0x6];
     s16 unk_0A;
 } S_8009431C_0;   /* arg0 in initialize_threshold_interaction_action */

@@ -24,7 +24,7 @@ s32 ground_items_lack_special_pair(void) {
                 continue;
             }
         } else {
-            table_or_result = (u8 *)0;
+            table_or_result = 0;
         }
         break;
     }

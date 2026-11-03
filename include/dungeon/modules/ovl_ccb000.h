@@ -41,10 +41,10 @@ void create_gray_fading_sprite_slot_c(void *unused_context, Rec_func_80173CFC_ar
 void draw_shaded_effect_quad_slot_c(void *quad, void *position, void *render_info, s16 depth_bias);
 s32 draw_linked_effect_quads_slot_c(void *point, void *position, void *color);
 void update_flashing_effect_segment_slot_c(u8 *effect, s32 *position, struct SpriteFrameState *effect_param);
-void create_segmented_effect_rings_slot_c(CL_CCB000_80174724_S_80C96F24_0 *owner, void *origin, SpriteFrameState *entity);
+void create_segmented_effect_rings_slot_c(CL_CCB000_80174724_S_80C96F24_0 *owner, struct ObjectPosition *origin, SpriteFrameState *entity);
 void begin_block_action_23_slot_c(S_80174B3C_1 *state, ObjectPosition *unused_position, void *unused_render_state, CL_CCB000_80174B3C_S_80174B3C_0 *entity);
 void restore_scene_tint_slot_c(u8 *task, void *context, u8 *input);
-void update_block_replacement_slot_c(void *state, EntityRec *position, SpriteFrameState *entity, void *actor);
+void update_block_replacement_slot_c(void *state, struct ObjectPosition *position, SpriteFrameState *entity, void *actor);
 void finish_block_floor_trap_slot_c(CL_CCB000_8017523C_CallbackState *state,void *position,void *sprite,void *entity);
 void finish_block_action_flag_slot_c(CL_CCB000_80175274_CallbackState *state,void *position,void *sprite,void *entity);
 

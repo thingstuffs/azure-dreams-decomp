@@ -882,7 +882,7 @@ void create_origin_following_fade_sprite(void *unused_0, void *origin_data, Spri
         render_data->color.c.b = 0x80;
         render_data->color.c.g = 0x80;
         render_data->color.c.r = 0x80;
-        memcpy((u8 *) effect + 0xA2, (u8 *) &D_80025FE8, 12);
+        memcpy((u8 *) effect + 0xA2,  &D_80025FE8, 12);
         render_data->source = (((void *)effect) + 0xA2);
     }
 }

@@ -24,26 +24,26 @@ extern IntVector3 D_800D0624;
 extern void call_the_handler_selects_nonzero_entry();
 
 /* Compute half the offset to the target, then snap to it and advance state when the timer expires. */
-void move_player_halfway_to_target(TownObjectRecord *state, Position *position, SpriteFrameState *context)
+void move_player_halfway_to_target(TownObjectRecord *state, ObjectPosition *position, SpriteFrameState *context)
 {
     u16 timer;
     IntVector3 *target;
 
     target = &D_800D0624;
-    position->half_dx = (target->x - position->x) / 2;
-    position->half_dy = (target->y - position->y) / 2;
-    position->half_dz = (target->z - position->z) / 2;
+    position->velocity_x = (target->x - position->x.v) / 2;
+    position->velocity_y = (target->y - position->y.v) / 2;
+    position->velocity_z = (target->z - position->z.v) / 2;
 
     timer = state->unk_0A.as_u16 - 1;
     state->unk_0A.as_u16 = timer;
     if ((s16)timer < 0) {
-        position->x = target->x;
-        position->y = target->y;
-        position->z = target->z;
+        position->x.v = target->x;
+        position->y.v = target->y;
+        position->z.v = target->z;
         clear_entity_record_fields(position);
 
-        state->unk_30 = ((u16)((EntityRec *)position)->x.w.i);
-        state->unk_32 = ((u16)((EntityRec *)position)->y.w.i);
+        state->unk_30 = ((u16)position->x.w.i);
+        state->unk_32 = ((u16)position->y.w.i);
         call_the_handler_selects_nonzero_entry(town_scene_record_handlers, state, context);
 
         state->unk_04.as_pv = D_8009AE88;

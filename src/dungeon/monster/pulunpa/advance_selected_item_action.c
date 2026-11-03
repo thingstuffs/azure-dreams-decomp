@@ -1,3 +1,4 @@
+#include "dungeon/effect/screen.h"
 #include "shared/audio_commands.h"
 #include "shared/actor_status_flags.h"
 #include "common.h"
@@ -19,7 +20,6 @@
 
 extern void select_sprite_entry(void *, s32, s32);
 extern void play_sound_if_enabled(s32);
-extern void create_actor_linked_effect(void *);
 
 extern u8 pulunpa_action_resume_address[];
 extern u8 pulunpa_frame_set_1[];

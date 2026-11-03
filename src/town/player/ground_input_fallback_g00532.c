@@ -4,7 +4,7 @@
 #include "town/player.h"
 
 /* Update the actor against ground height, then dispatch input actions. */
-void update_actor_ground_and_input(s32 controller, EntityRec *actor, s32 context) {
+void update_actor_ground_and_input(s32 controller, ObjectPosition *actor, s32 context) {
     s16 ground_height;
     GameWork *input_state = &g_game_work;
 
@@ -31,13 +31,13 @@ void update_actor_ground_and_input(s32 controller, EntityRec *actor, s32 context
 }
 
 /* Updates the value and dispatches follow-up handling if it remains unchanged. */
-void update_and_fallback_on_input(s32 *value, S_80091114_1 *context, s32 update_arg) {
+void update_and_fallback_on_input(s32 *value, ObjectPosition *context, s32 update_arg) {
     s32 saved_update_arg ;   /* Required for the retail saved-register set and frame layout. */
     s32 previous_value;
     GameWork *state = &g_game_work;
 
     previous_value = *value;
-    update_actor_ground_and_input((s32)value, (EntityRec *)context, update_arg);
+    update_actor_ground_and_input((s32)value, (context), update_arg);
 
     if (previous_value == *value) {
         saved_update_arg = update_arg;
@@ -46,22 +46,22 @@ void update_and_fallback_on_input(s32 *value, S_80091114_1 *context, s32 update_
             return;
         }
 
-        if ((context->unk_0C == 0) &&
-            (context->unk_10 == 0)) {
+        if ((context->velocity_x == 0) &&
+            (context->velocity_y == 0)) {
             init_input_action_fallback(value, context, saved_update_arg);
         }
     }
 }
 
 /* Calls initialize_scene_action_record if update_actor_ground_and_input leaves the value unchanged and flag 0x20 is clear. */
-void update_input_and_fallback_action(s32 *value, s32 input_a, s32 input_b) {
+void update_input_and_fallback_action(s32 *value, ObjectPosition *position, s32 input_b) {
     GameWork *state;
     s32 old_value;
 
     state = &g_game_work;
     old_value = *value;
-    update_actor_ground_and_input((s32)value, (EntityRec *)input_a, input_b);
+    update_actor_ground_and_input((s32)value, (position), input_b);
     if ((old_value == *value) && !(state->buttons & 0x20)) {
-        initialize_scene_action_record((TownObjectRecord *)value, (void *)input_a, (void *)input_b);
+        initialize_scene_action_record((TownObjectRecord *)value, position, (void *)input_b);
     }
 }

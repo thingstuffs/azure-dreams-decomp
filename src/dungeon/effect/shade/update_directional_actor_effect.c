@@ -106,7 +106,7 @@ void update_homing_arc_and_brighten_effect(EffectAndInitializeSpriteBody *effect
             s32 angle_index;
             angle_index = (g_game_work.view.camera_rotation.parts.viewAngle + primary_actor_record->facing + 0x100) >> 7;
             if (resolve_record_orientation_or_fallback(*(void **)((angle_index & 0x1C) + (long)(*(s32 * *)actor_direction_sprites)),
-                              ((u8 *)(&reference_tile_object)), offset, 0) != 0) {
+                              ((&reference_tile_object)), offset, 0) != 0) {
                 ((Row_8194C8F0_S_800240F0_2 *)motion)->unk_0C += ((s16 *)offset)[0] << 16;
                 ((Row_8194C8F0_S_800240F0_2 *)motion)->unk_10 += ((s16 *)offset)[1] << 16;
                 ((Row_8194C8F0_S_800240F0_2 *)motion)->unk_14 += ((s16 *)offset)[2] << 16;
@@ -322,9 +322,9 @@ void create_textured_offset_object(EffectWithEndpointsBody *source_object)
         ApplyMatrixSV(&data->transform, local_offset, world_offset);
         PopMatrix();
 
-        *(u16 *)&primitive_2->x.w.i += world_offset[0];
-        *(u16 *)&primitive_2->y.w.i += world_offset[1];
-        *(u16 *)&primitive_2->z.w.i += world_offset[2];
+        primitive_2->x.w.i = (u16)((u16)(primitive_2->x.w.i) + (world_offset[0]));
+        primitive_2->y.w.i = (u16)((u16)(primitive_2->y.w.i) + (world_offset[1]));
+        primitive_2->z.w.i = (u16)((u16)(primitive_2->z.w.i) + (world_offset[2]));
     }
 }
 

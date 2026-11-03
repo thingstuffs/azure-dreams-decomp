@@ -11,8 +11,8 @@ extern s32 D_800D0178;
 
 
 /* Initializes the object, assigns its handler table, and clears two global flags. */
-void initialize_indexed_object_and_clear_flags(TownObjectRecord *object, s32 setupValue, SpriteFrameState *initializationValue) {
-    clear_entity_record_fields((struct EntityRec *)(setupValue));
+void initialize_indexed_object_and_clear_flags(TownObjectRecord *object, ObjectPosition *setupValue, SpriteFrameState *initializationValue) {
+    clear_entity_record_fields((setupValue));
     call_the_handler_selects_nonzero_entry(&D_800D0178, object, initializationValue);
     object->unk_04.as_pm = &player_handler_table_address;
     object_index_slots[1].unk_00 = 0;

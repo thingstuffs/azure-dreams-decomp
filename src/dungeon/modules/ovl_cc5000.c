@@ -2001,7 +2001,7 @@ void update_flashing_effect_segment_slot_d(u8 *effect, s32 *position, SpriteFram
 }
 
 /* Creates three rings of eight shaded effect segments with staggered brightness timing. */
-void create_segmented_effect_rings_slot_d(CL_CC5000_80174724_S_80C96F24_0 *owner, void *origin, SpriteFrameState *entity) {
+void create_segmented_effect_rings_slot_d(CL_CC5000_80174724_S_80C96F24_0 *owner, ObjectPosition *origin, SpriteFrameState *entity) {
     u16 band;
     register s32 shade_offset;
 
@@ -2069,11 +2069,11 @@ void create_segmented_effect_rings_slot_d(CL_CC5000_80174724_S_80C96F24_0 *owner
 
                     position = effect->position;
                     position->x.v =
-                        ((CL_CC5000_80174724_S_80C96F24_6 *)origin)->unk_00;
+                        origin->x.v;
                     position->y.v =
-                        ((CL_CC5000_80174724_S_80C96F24_6 *)origin)->unk_04;
+                        origin->y.v;
                     position->z.v =
-                        ((CL_CC5000_80174724_S_80C96F24_6 *)origin)->unk_08 + 0x200000;
+                        origin->z.v + 0x200000;
                 }
 
                 render_state = effect->sprite;
@@ -2262,7 +2262,7 @@ void restore_scene_tint_slot_d(u8 *task, void *context, u8 *input)
 }
 
 /* Coordinates actor replacement with CD loads, scene tint, segmented visuals, and actor-list updates. */
-void update_block_replacement_slot_d(void *state, EntityRec *position, SpriteFrameState *entity, void *actor) {
+void update_block_replacement_slot_d(void *state, ObjectPosition *position, SpriteFrameState *entity, void *actor) {
     s16 direction;
     u16 fade_ticks;
     u16 finish_ticks;

@@ -43,7 +43,7 @@ void *allocate_object_with_failure_flag(void) {
     if (object != 0) {
         dungeon_menu_object[0] = object;
         allocation = create_callback_pair_default(0x100);
-        header = (ObjectHeader *)(((u8 *)object) + 0x20);
+        header = NODE_BODY(object);
         if (allocation != 0) {
             data = ((u8 *)object) + 0x5C;
             initialize_object_tables_2(data, allocation);

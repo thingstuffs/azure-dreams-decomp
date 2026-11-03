@@ -136,7 +136,7 @@ void update_tiled_fade_effect(UpdateEffectParticlesAndCleanupBody *effect, void 
                 tile_rect.y = tile_y;
                 tile_rect.w = 0x18;
                 tile_rect.h = 0x15;
-                StoreImage(&tile_rect, (u16 *)(buffer_base + 0x5EE8));
+                StoreImage(&tile_rect, (buffer_base + 0x5EE8));
                 do {
                 } while (DrawSync(1) != 0);
 
@@ -152,7 +152,7 @@ void update_tiled_fade_effect(UpdateEffectParticlesAndCleanupBody *effect, void 
                     pixel++;
                 } while (pixel_index < 0x1F8);
 
-                LoadImage(&tile_rect, (u16 *)(buffer_base + 0x5EE8));
+                LoadImage(&tile_rect, (buffer_base + 0x5EE8));
                 tile_row++;
                 tile_y += 0x15;
             } while (tile_row < 4);

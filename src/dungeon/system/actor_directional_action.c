@@ -15,7 +15,7 @@ s32 begin_ready_actor_directional_action(ActorRecord *body, ObjectPosition *posi
         apply_actor_delta_and_cap_value(body, position, sprite, body);
         return 0;
     }
-    g_dungeon_status.pending_display_owner = (ObjectNodeHeader *)body - 1;
+    g_dungeon_status.pending_display_owner = NODE_HEADER(body);
     body->action_id.u = 7;
     body->action_phase.u = 0;
     body->unk_8C.handler = NULL;

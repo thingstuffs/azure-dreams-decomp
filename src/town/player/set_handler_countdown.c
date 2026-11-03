@@ -3,7 +3,7 @@
 #include "town/player.h"
 
 /* cfail-repair: tf7-phase1-cache-v3 */
-extern void forward_state_value_to_handler_a(void *state, s32 value);
+extern void forward_state_value_to_handler_a(void *state, ObjectPosition *value);
 
 typedef struct S_80098CC0_0 {
     u8 pad_00[0x4];

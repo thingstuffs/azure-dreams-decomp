@@ -2059,7 +2059,7 @@ void advance_particle_fade_and_cleanup(S_func_80026418_0 *effect)
     state = effect->unk_0A.s;
     switch (state) {
     case 0:
-        select_nearby_target_and_initialize_slot((u8 *)((GlobalObj *)primary_actor_record) - 0x20, ((Position *)&view_reference_entity), 8, 0x400);
+        select_nearby_target_and_initialize_slot(NODE_HEADER(primary_actor_record), (&view_reference_entity), 8, 0x400);
         rect_xy = 0x010003A0;
         rect_size = 0x00400020;
         ((PlayerRecord *)primary_actor_record)->unk_102 = 1;

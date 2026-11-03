@@ -369,7 +369,7 @@ void update_effect_particles_and_cleanup(ParticleCleanupWork *effect, void *moti
     case 0:
         ((S_818FF710_1 *)sprite)->unk_0C.at00.v = 0x808080;
         effect->sprite_data = D_80025E70;
-        ((S_818FF710_1 *)sprite)->unk_08 = (void *)&effect->sprite_data;
+        ((S_818FF710_1 *)sprite)->unk_08 = &effect->sprite_data;
         parent_flags = ((S_818FF710_2 *)parent)->unk_2A;
         particle_update_flag = 1;
         effect->direction = (s16) ((parent_flags >> 9) & 7);
@@ -674,7 +674,7 @@ void update_effect_particles_and_cleanup(ParticleCleanupWork *effect, void *moti
             sprite_resource = (void *) project_sprite_chain;
             child_effect->unk_2C = parent;
             fourth_position = ((S_818FF710_2 *)parent)->unk_60;
-            child_effect->unk_30 = (void *) fourth_position;
+            child_effect->unk_30 =  fourth_position;
             child_effect->unk_34 = effect;
             child_effect->unk_38 = NODE_BODY(first_object);
             child_effect->unk_3C = NODE_BODY(third_object);

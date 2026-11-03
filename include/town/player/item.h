@@ -7,9 +7,6 @@
 
 struct S_800947CC_1;
 
-/* get_linked_carry_item_data.c */
-void *get_linked_carry_item_data(void *record, s32 unused_first, s32 unused_second);
-
 /* initialize_returned_item_action.c */
 void initialize_returned_item_action(TownObjectRecord *object, struct S_800947CC_1 *settings, void *ptr2);
 

@@ -4,6 +4,6 @@
 #include "town/person/object.h"
 
 /* Forward the object and callback arguments to apply_object_setup_and_update. */
-void apply_object_setup_update(void *object, void *callback_arg_1, void *callback_arg_2) {
+void apply_object_setup_update(void *object, void *callback_arg_1, SpriteFrameState *callback_arg_2) {
     apply_object_setup_and_update(object, callback_arg_1, callback_arg_2);
 }

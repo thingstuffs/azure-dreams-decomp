@@ -49,7 +49,7 @@ s32 use_item_to_increase_magic_drain(ActorRecord *target, DungeonItemEntry *item
         if (target->flags14 & ACTOR_PARTY_MEMBER) {
             adjust_source_value_and_finalize(target, D_800E10C0);
         }
-        create_colored_effect_with_event((u8 *)target - 0x20, 0x804040, 0x612);
+        create_colored_effect_with_event(NODE_HEADER(target), 0x804040, 0x612);
     } else {
         display_formatted_context_message(D_800E10F2);
     }

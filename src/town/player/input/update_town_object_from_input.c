@@ -1,3 +1,4 @@
+#include "town/player/position_handlers.h"
 #include "common.h"
 #include "shared/game_work.h"
 #include "town.h"
@@ -11,11 +12,11 @@ typedef struct {
 
 extern u8 town_blocked_directions[];
 
-extern void handle_adjust_vector_toward_selected_angle_limit_magnitude(TownObject *);
+extern void handle_adjust_vector_toward_selected_angle_limit_magnitude(ObjectPosition *);
 extern void initialize_threshold_interaction_object(void *, TownObject *, void *);
 
 /* Updates the town object and dispatches its action based on input and state. */
-void update_town_object_from_input(void *context, TownObject *object, void *action_data)
+void update_town_object_from_input(void *context, ObjectPosition *object, void *action_data)
 {
     GameWork *input = &g_game_work;
 
@@ -24,7 +25,7 @@ void update_town_object_from_input(void *context, TownObject *object, void *acti
     handle_adjust_vector_toward_selected_angle_limit_magnitude(object);
 
     if (town_blocked_directions[0] != 0) {
-        object->field14 = 0;
+        object->velocity_z = 0;
         clear_global_slot_n_5_copy_source_slot_n_2_global_slot_n_2(object);
     } else {
         add_hex_20000_s_signed_offset_hex_14(object);
@@ -35,7 +36,7 @@ void update_town_object_from_input(void *context, TownObject *object, void *acti
         return;
     }
 
-    if (object->field14 >= 0) {
+    if (object->velocity_z >= 0) {
         initialize_threshold_interaction_object(context, object, action_data);
     }
 }

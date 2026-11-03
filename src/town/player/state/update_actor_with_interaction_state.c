@@ -26,7 +26,7 @@ typedef struct S_80092698_2 {
 } S_80092698_2;   /* D_800CFCC4[0] in update_actor_with_interaction_state */
 
 /* Update the entity and dispatch its next action from the sampled value, countdown, and global state. */
-void update_actor_with_interaction_state(TownObjectRecord *controller, EntityRec *entity, SpriteFrameState *context) {
+void update_actor_with_interaction_state(TownObjectRecord *controller, ObjectPosition *entity, SpriteFrameState *context) {
     s16 sampled_value;
     u16 countdown;
     GameWork *state = &g_game_work;

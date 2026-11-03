@@ -991,7 +991,7 @@ void move_actor_to_tile_and_check_trap(ActorRecord *state, ObjectPosition *motio
 #include "shared/sprite_frame_state.h"
 
 /* Hops to the destination tile, updates landing animation, spends MP, and checks for a floor trap. */
-void update_actor_hop_to_tile(ActorRecord *anim, ObjectPosition *motion, void *actor, ActorRecord *actor_state)
+void update_actor_hop_to_tile(ActorRecord *anim, ObjectPosition *motion, SpriteFrameState *actor, ActorRecord *actor_state)
 {
     u16 facing_aux;
     s32 hop_frames;
@@ -1004,9 +1004,9 @@ void update_actor_hop_to_tile(ActorRecord *anim, ObjectPosition *motion, void *a
     phase = anim->action_phase.u;
     switch (phase) {
     case 0:
-        if (!((((SpriteFrameState *)actor)->unk_04 == 2 &&
-               (((SpriteFrameState *)actor)->flags & 0x1000)) ||
-              (((SpriteFrameState *)actor)->flags & 0xE000))) {
+        if (!((actor->unk_04 == 2 &&
+               (actor->flags & 0x1000)) ||
+              (actor->flags & 0xE000))) {
             break;
         }
         anim->action_state_flags |= 8;
@@ -1020,9 +1020,9 @@ void update_actor_hop_to_tile(ActorRecord *anim, ObjectPosition *motion, void *a
         anim->unk_90.value -= anim->unk_A0.value;
         if (hop_frames != 0) {
             motion->velocity_x =
-                (((((SpriteFrameState *)actor)->tile_x << 6) - ({ motion->x.w.i - 0x20; })) << 16) / hop_frames;
+                (((actor->tile_x << 6) - ({ motion->x.w.i - 0x20; })) << 16) / hop_frames;
             motion->velocity_y =
-                (((((SpriteFrameState *)actor)->tile_y << 6) - (tile_origin_y = motion->y.w.i - 0x20)) << 16) /
+                (((actor->tile_y << 6) - (tile_origin_y = motion->y.w.i - 0x20)) << 16) /
                 anim->unk_9E.s;
             anim->unk_A0.value =
                 (-rsin(anim->unk_9E.s * 0x199)) << 9;
@@ -1044,8 +1044,8 @@ void update_actor_hop_to_tile(ActorRecord *anim, ObjectPosition *motion, void *a
             motion->velocity_z = 0;
             motion->velocity_y = 0;
             motion->velocity_x = 0;
-            set_record_integer_tile_center(motion, ((SpriteFrameState *)actor)->tile_x, ((SpriteFrameState *)actor)->tile_y);
-            ((SpriteFrameState *)actor)->frameTable = volcano_frame_set_1;
+            set_record_integer_tile_center(motion, actor->tile_x, actor->tile_y);
+            actor->frameTable = volcano_frame_set_1;
             select_sprite_entry(
                 actor,
                 volcano_frame_set_1[((g_game_work.view.camera_rotation.parts.viewAngle + actor_state->facing + 0x100) >> 9) & 7],
@@ -1063,7 +1063,7 @@ void update_actor_hop_to_tile(ActorRecord *anim, ObjectPosition *motion, void *a
         motion->velocity_z = 0;
         motion->velocity_y = 0;
         motion->velocity_x = 0;
-        set_record_integer_tile_center(motion, ((SpriteFrameState *)actor)->tile_x, ((SpriteFrameState *)actor)->tile_y);
+        set_record_integer_tile_center(motion, actor->tile_x, actor->tile_y);
         spend_actor_mp(actor_state, 4);
         advance_status_timers(actor_state);
 
@@ -1080,7 +1080,7 @@ void update_actor_hop_to_tile(ActorRecord *anim, ObjectPosition *motion, void *a
             if (!(actor_flags & 0x410)) {
                 if (actor_flags & 0x20000) {
                     actor_state->facing = get_rounded_facing_and_rounding_flag(
-                        ((SpriteFrameState *)actor)->tile_x, ((SpriteFrameState *)actor)->tile_y,
+                        actor->tile_x, actor->tile_y,
                         reference_tile_object.tile_position.parts.tile_x, reference_tile_object.tile_position.parts.tile_y, &facing_aux);
                 }
             }
@@ -1161,7 +1161,7 @@ void resolve_actor_attack_damage(ActorRecord *body, ObjectPosition *position, Sp
 
 /* Starts a targeted spell and linked effect, then restores movement and status after loading and
  * animation. */
-void update_actor_spell_action(void *state, E_80172A58_S_80172A58_6 *position, E_80172A58_S_80172A58_5 *sprite, void *actor) {
+void update_actor_spell_action(void *state, E_80172A58_S_80172A58_6 *position, E_80172A58_S_80172A58_5 *sprite, ActorRecord *actor) {
     s32 result;
     s32 next_ticks;
     s16 use_player_target;
@@ -1177,8 +1177,8 @@ void update_actor_spell_action(void *state, E_80172A58_S_80172A58_6 *position, E
     use_player_target = 0;
     switch (phase) {                              /* switch 1; irregular */
     case 0:                                         /* switch 1 */
-        if (((E_80172A58_S_80172A58_1 *)actor)->unk_1C & ACTOR_PLAYER_SIDE) {
-            switch (((E_80172A58_S_80172A58_1 *)actor)->unk_46 & 0x3FFF) {
+        if (actor->flags1C & ACTOR_PLAYER_SIDE) {
+            switch (actor->action_flags & 0x3FFF) {
             case 7: use_player_target=1;
             case 3: action_entry=(u8 *)actor+0xE; break;
             case 6: use_player_target=1;
@@ -1188,7 +1188,7 @@ void update_actor_spell_action(void *state, E_80172A58_S_80172A58_6 *position, E
             default: action_entry=0; break;
             }
         } else {
-            switch (((E_80172A58_S_80172A58_1 *)actor)->unk_46 & 0x3FFF) {
+            switch (actor->action_flags & 0x3FFF) {
             case 3: action_entry=(u8 *)actor+0xE; break;
             case 2: action_entry=(u8 *)actor+0xB; break;
             case 1: action_entry=(u8 *)actor+8; break;
@@ -1199,21 +1199,21 @@ void update_actor_spell_action(void *state, E_80172A58_S_80172A58_6 *position, E
             ((E_80172A58_S_80172A58_0 *)state)->unk_98 = (u16) (((E_80172A58_S_80172A58_0 *)state)->unk_98 & 0xFF7F);
             if (use_player_target != 0) {
                 target_link = (E_80172A58_S_80172A58_3_pre *)primary_actor_record;
-                ((E_80172A58_S_80172A58_1 *)actor)->unk_60 = target_link;
+                actor->target = target_link;
                     target_position = target_link[-1].unk_00;
-                    ((E_80172A58_S_80172A58_1 *)actor)->unk_72 = (s8) target_position->unk_24;
-                    ((E_80172A58_S_80172A58_1 *)actor)->unk_73 = (s8) target_position->unk_25;
+                    actor->target_tile_x = (s8) target_position->unk_24;
+                    actor->target_tile_y = (s8) target_position->unk_25;
             } else if (((E_80172A58_S_80172A58_2 *)(((*action_entry * 0x14) + item_action_definitions)))->unk_12 == 2) {
-                target_link = ((E_80172A58_S_80172A58_1 *)actor)->unk_60;
+                target_link = actor->target;
                 if (target_link != NULL) {
                     target_position = target_link[-1].unk_00;
-                    ((E_80172A58_S_80172A58_1 *)actor)->unk_72 = (s8) target_position->unk_24;
-                    ((E_80172A58_S_80172A58_1 *)actor)->unk_73 = (s8) target_position->unk_25;
+                    actor->target_tile_x = (s8) target_position->unk_24;
+                    actor->target_tile_y = (s8) target_position->unk_25;
                 }
             } else {
-                ((E_80172A58_S_80172A58_1 *)actor)->unk_60 = scan_actor_along_heading(actor, sprite->unk_24, sprite->unk_25, ((E_80172A58_S_80172A58_1 *)actor)->unk_2A, 0x10);
-                ((E_80172A58_S_80172A58_1 *)actor)->unk_72 = abs(((E_80172A58_S_80172A58_1 *)actor)->unk_72);
-                ((E_80172A58_S_80172A58_1 *)actor)->unk_73 = abs(((E_80172A58_S_80172A58_1 *)actor)->unk_73);
+                actor->target = scan_actor_along_heading(actor, sprite->unk_24, sprite->unk_25, actor->facing, 0x10);
+                actor->target_tile_x = abs(actor->target_tile_x);
+                actor->target_tile_y = abs(actor->target_tile_y);
             }
             if (create_actor_spell_effect(actor, action_entry, use_player_target, state + 0x98) != 0) {
                 create_actor_linked_effect(actor);
@@ -1229,11 +1229,11 @@ void update_actor_spell_action(void *state, E_80172A58_S_80172A58_6 *position, E
         g_dungeon_status.active_actor = 0;
         primary_actor_record->unk_A4.halves.high.u = (u16) (primary_actor_record->unk_A4.halves.high.u - 1);
         advance_status_timers(actor);
-        ((E_80172A58_S_80172A58_1 *)actor)->unk_6D = (u8) (((E_80172A58_S_80172A58_1 *)actor)->unk_6D - 1);
+        actor->pending_turn_updates = (u8) (((E_80172A58_S_80172A58_1 *)actor)->unk_6D - 1);
         ((E_80172A58_S_80172A58_0 *)state)->unk_8C = update_actor_behavior_facing_and_animation_2;
-        ((E_80172A58_S_80172A58_1 *)actor)->unk_73 = 0;
-        ((E_80172A58_S_80172A58_1 *)actor)->unk_72 = 0;
-        ((E_80172A58_S_80172A58_1 *)actor)->unk_46 = (u16) (((E_80172A58_S_80172A58_1 *)actor)->unk_46 & 0x7FFF);
+        actor->target_tile_y = 0;
+        actor->target_tile_x = 0;
+        actor->action_flags = (u16) (actor->action_flags & 0x7FFF);
         return;
     case 1:                                         /* switch 1 */
         if (get_cd_command_queue_depth() != 0) {
@@ -1261,16 +1261,16 @@ void update_actor_spell_action(void *state, E_80172A58_S_80172A58_6 *position, E
             set_record_integer_tile_center(position, sprite->unk_24, sprite->unk_25);
             if (sprite->unk_2C != volcano_frame_set_1) {
                 sprite->unk_2C = volcano_frame_set_1;
-                select_sprite_entry(sprite, *((((s32) (g_game_work.view.camera_rotation.parts.viewAngle + ((E_80172A58_S_80172A58_1 *)actor)->unk_2A + 0x100) >> 9) & 7) + volcano_frame_set_1), 0);
+                select_sprite_entry(sprite, *((((s32) (g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7) + volcano_frame_set_1), 0);
             }
             if (g_dungeon_status.active_actor == 0) {
                 g_dungeon_status.activity_counts.parts.pending_action_count = (u16) (g_dungeon_status.activity_counts.parts.pending_action_count - 1);
                 ((E_80172A58_S_80172A58_0 *)state)->unk_8C = update_actor_behavior_facing_and_animation_2;
                 advance_status_timers(actor);
-                ((E_80172A58_S_80172A58_1 *)actor)->unk_73 = 0;
-                ((E_80172A58_S_80172A58_1 *)actor)->unk_72 = 0;
-                ((E_80172A58_S_80172A58_1 *)actor)->unk_6D = (u8) (((E_80172A58_S_80172A58_1 *)actor)->unk_6D - 1);
-                ((E_80172A58_S_80172A58_1 *)actor)->unk_46 = (u16) (((E_80172A58_S_80172A58_1 *)actor)->unk_46 & 0x7FFF);
+                actor->target_tile_y = 0;
+                actor->target_tile_x = 0;
+                actor->pending_turn_updates = (u8) (((E_80172A58_S_80172A58_1 *)actor)->unk_6D - 1);
+                actor->action_flags = (u16) (actor->action_flags & 0x7FFF);
                 play_sound_if_enabled(AUDIO_FADE_CD_FAST);
             }
         }

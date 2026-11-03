@@ -20,16 +20,16 @@ void advance_animation_phase_and_frame(MenuAnimationPhaseObject *anim, ObjectPos
     case 0:
         if (anim->state == 0) {
             phase = (s16)(anim->offset.s + 0x1BC0);
-            anim->phase += 2;
+            anim->phase.word += 2;
             phase %= 0x1C00;
             anim->offset.u = phase;
         } else {
             phase = (s16)(anim->offset.s + 0x1B71);
-            anim->phase += 1;
+            anim->phase.word += 1;
             phase %= 0x1C00;
             anim->offset.u = phase;
         }
-        anim->frame++;
+        anim->frame.u++;
         if (((TownObjectRecord *)D_8008274C)->unk_74.as_pv == &D_800C5100) {
             anim->transition = 1;
         }
@@ -52,19 +52,19 @@ void advance_animation_phase_and_frame(MenuAnimationPhaseObject *anim, ObjectPos
         }
         if (anim->state == 0) {
             phase = (s16)(anim->offset.s + 0x1C00 - anim->target.u);
-            anim->phase += 2;
+            anim->phase.word += 2;
             phase %= 0x1C00;
             anim->offset.u = phase;
         } else {
             phase = (s16)(anim->offset.s + 0x1C00 - anim->target.s * 2);
-            anim->phase += 1;
+            anim->phase.word += 1;
             phase %= 0x1C00;
             anim->offset.u = phase;
         }
-        anim->frame++;
+        anim->frame.u++;
         break;
     }
 
 finish:
-    anim->value = anim->offset.u / 0x200 + 0x10;
+    anim->value.s = anim->offset.u / 0x200 + 0x10;
 }

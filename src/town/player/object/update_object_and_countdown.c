@@ -8,14 +8,14 @@
 
 
 /* Update the object and its countdown, dispatching expiry handling when it runs out. */
-void update_object_and_countdown(TownObjectRecord *state, EntityRec *object, s32 context) {
+void update_object_and_countdown(TownObjectRecord *state, ObjectPosition *object, SpriteFrameState *sprite) {
     u16 ticks_left;
 
     object->z.w.i = query_lowered_transform_position(object);
     ticks_left = state->unk_0A.as_u16 - 1;
     state->unk_0A.as_u16 = ticks_left;
     if ((s16) ticks_left < 0) {
-        initialize_record_with_handler_table((Struct8009B1C8 *)(state), (s32)(object), context);
+        initialize_record_with_handler_table(state, (object), sprite);
         return;
     }
     object->y.v = (s32) (object->y.v + 0xFFFE0000);

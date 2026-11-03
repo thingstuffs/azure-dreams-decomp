@@ -247,7 +247,7 @@ void create_slot_positioned_effect(s16 x, s16 y, s32 slot) {
         position->x.w.i = x;
         position->y.w.i = y;
         height = sample_terrain_surface_height(x & 0xFFFF, y & 0xFFFF, -0x400) - 0xC0;
-        object_data = ((void *)object) + 0x20;
+        object_data = NODE_BODY(object);
         position->z.w.i = height;
         ((S_807AE960_1 *)object_data)->unk_0E.s = height;
         /* BYTES: local/global alloc priority: the loop note adds loop-weighted refs (REG_N_REFS) to a value; unwrap swaps callee-saved registers (ledger/onetrip_loadbearing.jsonl: dungeon/func_807AEC3C). */
@@ -1085,7 +1085,7 @@ void create_converging_color_particle(s32 spawn_arg, MovingPosition *origin, S_8
         sprite->scale_y = 0x1000;
         sprite->scale_x = 0x1000;
         sprite->depth_bias = 8;
-        effect_state = ((void *)effect) + 0x20;
+        effect_state = NODE_BODY(effect);
         sprite->flags = (u16) (sprite->flags | 0xC);
         effect_state->unk_0C = 0x10;
         ((S_807AFC9C_0 *)effect)->unk_20 = source;
@@ -1266,7 +1266,7 @@ void create_owner_attached_color_effect(void *parent_data) {
         render_state->source = D_800FBE30;
         render_state->scale_x = 0x1000;
         render_state->scale_y = 0x800;
-        child_data = (u8 *)child + 0x20;
+        child_data = NODE_BODY(child);
         ((S_807B004C_0 *)child)->unk_20 = parent_data;
         child_data->unk_0A = ((S_807B004C_3 *)parent_data)->unk_2A;
         child_data->unk_0C = 0x30;
@@ -1335,7 +1335,7 @@ void create_reverse_direction_particle(EntityRec *source, s16 state_value, s32 r
         (effect->position)->z.w.i =
             (s16) ((((MovingPosition *)((*(void **)&source->z)))->z + (rand() & 0x3F)) - 0x20);
         render_data = effect->sprite;
-        effect_state = ((void *)effect) + 0x20;
+        effect_state = NODE_BODY(effect);
         render_data->source = &view_marker_sprite_data;
         render_data->scale_y = 0x1000;
         render_data->scale_x = 0x1000;
@@ -1440,7 +1440,7 @@ s32 update_special_actor_transition(void) {
     DirectionOffsets offsets = dungeon_7ce800_directions;
     u16 collision_flags;
     ObjectNodeHeader *root = (u8 *)active_action_object;
-    u8 *entity = ((u8 *)root) + 0x20;
+    u8 *entity = NODE_BODY(root);
     s32 *motion = *(s32 * *)&root->position;
     s32 entity_flags;
     s32 state = ((S_807B040C_1 *)entity)->unk_9B;
@@ -1675,7 +1675,7 @@ void create_terrain_particle_emitter(s16 tile_x, s16 tile_y, s16 initial_value) 
     if (object != NULL) {
         object->update_callback = (void *)emit_scattered_animated_particles;
         register_node(object, (void *)render_particle_effect_object);
-        state = (TerrainParticleEmitterBody *)(object + 1);
+        state = NODE_BODY(object);
         state->origin_x.u = (u16) (tile_x * 0x40 + 0x20);
         state->origin_y.u = (u16) (tile_y * 0x40 + 0x20);
         state->height.s = (s16)sample_terrain_surface_height(state->origin_x.u, state->origin_y.u, -0x400);

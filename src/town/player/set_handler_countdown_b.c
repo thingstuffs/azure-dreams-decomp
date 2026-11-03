@@ -4,7 +4,7 @@
 
 typedef struct S_80098CD8_0 {
     u8 pad_00[0x4];
-    void (*unk_04)(void *, s32);
+    void (*unk_04)(void *, ObjectPosition *);
     u8 pad_08[0x8];
     s16 unk_10;
 } S_80098CD8_0;   /* arg0 in set_handler_and_countdown_400 */

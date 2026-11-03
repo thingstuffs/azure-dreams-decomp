@@ -1,3 +1,4 @@
+#include "shared/dungeon_effect_state.h"
 #include "shared/audio_commands.h"
 /* Rotating sprites, vertical motion, ring rendering, and staged particle bursts and impacts. */
 #include "dungeon/effect/particle/create_randomly_rotated_sprite_object.h"
@@ -342,7 +343,7 @@ void *create_timed_transform_copy_effect(s32 object_arg, void *source_data, s16 
         body->frame_limit = initial_value;
         data = object->data;
         *(B22_81893024_M2C_BLOCK *)data = *src;
-        data->z.w.i = (s16) (*(u16 *)&data->z.w.i + field_delta);
+        data->z.w.i = (s16) (((u16)(data->z.w.i)) + field_delta);
         register_node(object, draw_red);
     } else {
         return NULL;
@@ -450,8 +451,8 @@ void create_animated_sprite_burst(s32 source, B22_81893244_Func81893244Data *ini
             register_node(effect, project_sprite_chain);
             payload = effect->field8;
             *(B22_81893244_Func81893244Data *)payload = *initial_data;
-            payload->x.w.i = (u16) (*(u16 *)&payload->x.w.i + ((s32) (rsin(rand()) * 2) >> 8));
-            payload->y.w.i = (u16) (*(u16 *)&payload->y.w.i + ((s32) (rcos(rand()) * 2) >> 8));
+            payload->x.w.i = (u16) (((u16)(payload->x.w.i)) + ((s32) (rsin(rand()) * 2) >> 8));
+            payload->y.w.i = (u16) (((u16)(payload->y.w.i)) + ((s32) (rcos(rand()) * 2) >> 8));
         }
         particle_index += 1;
     } while (particle_index < 8);

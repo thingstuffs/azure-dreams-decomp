@@ -1,3 +1,4 @@
+#include "town/player/position_handlers.h"
 #include "common.h"
 #include "m2c_compat.h"
 #include "town/player.h"
@@ -15,9 +16,9 @@ typedef struct S_80096728_0 {
 } S_80096728_0;   /* arg0 in set_global_800_cfced_initialize_call_callee_800954_dc */
 
 /* Set D_800CFCED, initialize the record, and call clear_the_global_state_s_fifth_word_copy_source_s_second. */
-void set_global_800_cfced_initialize_call_callee_800954_dc(S_80096728_0 *record, s32 initial_value) {
+void set_global_800_cfced_initialize_call_callee_800954_dc(ObjectPosition *record, s32 initial_value) {
     D_800CFCED = 1;
-    record->unk_04 = initial_value;
-    record->unk_10 = 0;
+    record->y.v = initial_value;
+    record->velocity_y = 0;
     clear_the_global_state_s_fifth_word_copy_source_s_second(record);
 }

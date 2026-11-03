@@ -62,7 +62,7 @@ void begin_player_menu_action(void *actor, ObjectPosition *unused_1, SpriteFrame
 void begin_player_trap_trigger(void *object, void *unused_1, void *unused_2, void *shared_value);
 
 void create_familiar_deployment_overlay(void *owner_body, ObjectPosition *source_pos, SpriteFrameState *owner);
-void update_familiar_deployment_change(void *actor, ObjectPosition *map, void *entity, ActorRecord *context);
+void update_familiar_deployment_change(void *actor, ObjectPosition *map, SpriteFrameState *entity, ActorRecord *context);
 void update_familiar_deployment_overlay(void *object_data, ObjectPosition *unused, SpriteFrameState *sprite_data);
 
 void begin_player_jump(struct Rec_func_8008ACDC_arg0 *state, void *unused, SpriteFrameState *sprite, ActorRecord *actor);
@@ -90,6 +90,6 @@ void advance_actor_death_transition(ActorRecord *context, ObjectPosition *unused
 
 void advance_banked_category_action(ActorRecord *object, ObjectPosition *unused_1, SpriteFrameState *unused_2, ActorRecord *context);
 
-void finish_player_action_animation(ActorRecord *target, ObjectPosition *unused, void *flag_data, ActorRecord *source);
+void finish_player_action_animation(ActorRecord *target, ObjectPosition *unused, SpriteFrameState *flag_data, ActorRecord *source);
 
 #endif

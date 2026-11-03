@@ -59,7 +59,7 @@ void interpolate_view_parameters(void *tracker) {
 s32 begin_view_parameter_transition(s32 unused, s32 request_id, s32 request_value, s16 request_param) {
     GameView *state = &g_game_work.view;
     Row_8191696C_S_8191696C_state *dispatch = (Row_8191696C_S_8191696C_state *)&state->slot[0].unk_04;
-    void *payload_start = (void *)((u8 *)&state->slot[0].unk_04 + 4);
+    void *payload_start = ((u8 *)&state->slot[0].unk_04 + 4);
     s16 saved_value;
     s32 prev_request_id;
     s32 change_flags;

@@ -5,7 +5,6 @@
 
 extern void layout_catalog_entry_grid(void);
 extern void initialize_catalog_slot_records(void);
-extern void select_paired_value_tables(void *);
 extern void initialize_catalog_view_records(void *, void *, void *);
 
 /* Initialize state defaults and run the associated setup routines. */
@@ -13,10 +12,10 @@ void initialize_catalog_state(CatalogDisplay *state) {
     s32 one = 1;
 
     state->unk_04.as_s16 = 0;
-    state->unk_06 = 0;
-    state->unk_08 = 0;
+    state->unk_06.as_s16 = 0;
+    state->unk_08.as_s16 = 0;
     state->unk_0A.as_u8 = 0;
-    state->unk_0B = 0;
+    state->unk_0B.as_u8 = 0;
     state->unk_0C = one;
     state->unk_0D = 0;
     state->unk_0E = 0;
@@ -24,11 +23,11 @@ void initialize_catalog_state(CatalogDisplay *state) {
     state->unk_10 = 0;
     state->unk_11 = 0;
     state->unk_12 = 0;
-    state->unk_13 = 0;
+    state->unk_13.as_u8 = 0;
     state->unk_14 = 0;
     state->unk_16 = 0;
-    state->unk_17 = 0xFF;
-    state->unk_18 = 0xFF;
+    state->choices[0] = 0xFF;
+    state->choices[1] = 0xFF;
 
     if ((is_catalog_entry_available(0x31) & 0xFF) ||
         (is_catalog_entry_available(0x30) & 0xFF)) {

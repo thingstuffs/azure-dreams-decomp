@@ -1640,7 +1640,7 @@ void update_expanding_spiral_effect(AngledSourceEffectBody *effect_arg, R16_8017
 
 /* Creates a green sprite at an angular offset from the source and installs its expanding spiral animation. */
 void create_angled_source_effect(
-    s32 unused_0, R16_80173904_S_80173904_3 *origin, SpriteFrameState *unused_sprite, s32 unused_3, s16 angle, u16 depth_offset)
+    s32 unused_0, ObjectPosition *origin, SpriteFrameState *unused_sprite, s32 unused_3, s16 angle, u16 depth_offset)
 {
     ObjectNodeHeader *object;
     AngledSourceEffectBody *state;
@@ -1666,15 +1666,15 @@ void create_angled_source_effect(
         }
 
         transform = object->position;
-        state->unk_40 = origin->unk_00;
-        state->unk_44 = origin->unk_04;
+        state->unk_40 = origin->x.v;
+        state->unk_44 = origin->y.v;
         while (wrapped_angle >= 0x1001) {
             wrapped_angle -= 0x1000;
         }
 
         transform->x.v = state->unk_40 + ((state->unk_20.s * rcos(wrapped_angle)) << 4);
         transform->y.v = state->unk_44 + ((state->unk_20.s * rsin(wrapped_angle)) << 4);
-        transform->z.w.i = origin->unk_0A + depth_offset;
+        transform->z.w.i = origin->z.unsigned_parts.integer + depth_offset;
 
         display = object->sprite;
         display->scale_y = 0x1000;
@@ -1754,7 +1754,7 @@ void fade_entity_colors_to_neutral(void *entity_data, void *unused, void *source
 
 /* Loads transition effects, fades the view tint, emits particles, and starts loading the replacement
  * actor. */
-void advance_actor_effect_sequence(Rec_func_801732A4_arg0 *state, EntityRec *position, SpriteFrameState *actor, void *model) {
+void advance_actor_effect_sequence(Rec_func_801732A4_arg0 *state, ObjectPosition *position, SpriteFrameState *actor, void *model) {
     s16 next_spawn;
     s16 next_trail;
     s16 spawn_count;

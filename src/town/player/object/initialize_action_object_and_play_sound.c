@@ -8,7 +8,7 @@
 #include "shared/entity.h"
 
 /* Reset and initialize the record, then assign its handler. */
-void initialize_action_object_and_play_sound(s32 **record, s32 unused, s32 setup_value) {
+void initialize_action_object_and_play_sound(s32 **record, ObjectPosition *unused_position, s32 setup_value) {
     SD_Call(0x50B);
     store_the_valid_shared_angle_in_offset_hex_10(record);
     call_the_handler_selects_nonzero_entry(D_800D0110, (struct TownObjectRecord *)(record), (void *)(setup_value));

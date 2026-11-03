@@ -169,7 +169,7 @@ void update_actor_movement_and_contact(S_func_800D8728_0 *entity, S_func_800D872
 }
 
 /* Updates actor state, facing, and directional animation. */
-void update_actor_facing_animation(void *actor, EntityRec *motion, void *sprite, ActorRecord *status)
+void update_actor_facing_animation(void *actor, ObjectPosition *motion, void *sprite, ActorRecord *status)
 {
     void **anim_table;
     s32 cell_record;
@@ -235,7 +235,7 @@ void update_actor_facing_animation(void *actor, EntityRec *motion, void *sprite,
             if (((u32)status->flags1C) & ACTOR_LIFTED) {
                 ((Rec_func_800A9E70_arg0 *)actor)->unk_90.at00_s32.v = 0;
                 ((Rec_func_800A9E70_arg0 *)actor)->unk_98 &= 0xFFFE;
-                motion->flags14 = 0;
+                motion->velocity_z = 0;
                 /*
                  * BUG: Tumna leaves an already lifted familiar on Koh's tile. Restarting lift setup here
                  * clears Koh's occupancy; resume the attachment without clearing the tile.
@@ -306,7 +306,7 @@ void update_actor_facing_animation(void *actor, EntityRec *motion, void *sprite,
 }
 
 /* Advance the actor along its queued path and update movement timing. */
-void advance_actor_queued_path(ActorRecord *body, s32 action_id, SpriteFrameState *sprite, ActorRecord *actor)
+void advance_actor_queued_path(ActorRecord *body, ObjectPosition *position, SpriteFrameState *sprite, ActorRecord *actor)
 {
     void *state = actor;
     void *anim_table;
@@ -372,7 +372,7 @@ void advance_actor_queued_path(ActorRecord *body, s32 action_id, SpriteFrameStat
             ((g_dungeon_status.flags & 0x80) || (sprite->flags & 0x8000))) {
             body->action_id.u = 0xF;
         } else {
-            initialize_actor_direction_table(body, action_id, sprite, state);
+            initialize_actor_direction_table(body, position, sprite, state);
         }
         body->unk_8C.word = 0;
         (*(s32 *)((u8 *)state + (0x1C))) |= 0x40000000;
@@ -390,7 +390,7 @@ void advance_actor_queued_path(ActorRecord *body, s32 action_id, SpriteFrameStat
 }
 
 /* Advances an actor along a traversable heading and updates its movement state. */
-void advance_actor_traversable_heading(ActorRecord *body, void *context, S_800D92C0_2 *position, void *actor) {
+void advance_actor_traversable_heading(ActorRecord *body, ObjectPosition *context, S_800D92C0_2 *position, void *actor) {
     s32 tile_mask;
     s32 target_y;
     s32 target_x;

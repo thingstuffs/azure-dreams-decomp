@@ -176,7 +176,7 @@ void update_return_magic_ascent(DungeonObject *obj, MotionState *motion, EffectS
             parent_motion->field8 = motion->field8;
             motion->field14 = motion->field14 + 0xFFFC0000;
             if (obj->handle[0x13] == 0 &&
-                (*(u16 *)(*(u8 * *)&((ObjectNodeHeader *)((u8 *)dungeon_actor_ring_anchor - 0x20))->sprite + 0x14) & 0x6000)) {
+                (*(u16 *)(*(u8 * *)&NODE_HEADER(dungeon_actor_ring_anchor)->sprite + 0x14) & 0x6000)) {
                 s16 entry_index = reserve_runtime_slot(6, 0x20);
                 u8 *entry_table = (u8 *)runtime_transition_slots;
                 s16 *entry_flag;

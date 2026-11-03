@@ -3,7 +3,6 @@
 #include "town/menu/catalog_parts.h"
 #include "town/menu/object.h"
 
-extern void select_paired_value_tables(void *selection);
 
 /* Swaps paired entry values and node halfwords, toggles the state flag, and updates. */
 void swap_paired_entry_values_and_node_halfwords(CatalogDisplay *state)

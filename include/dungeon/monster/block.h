@@ -1,6 +1,7 @@
 #ifndef MODULE_DUNGEON_OVL_CB3000_H
 #define MODULE_DUNGEON_OVL_CB3000_H
 struct ObjectPosition;
+struct ObjectPosition;
 #include "common.h"
 #include "dungeon/actor.h"
 #include "shared/sprite_frame_state.h"
@@ -999,11 +1000,11 @@ extern void func_800A9A04(void *);
 extern void update_actor_status_and_mp(ActorRecord *entity);
 extern void initialize_actor_sprite_and_animation(void *entity, void *position, SpriteFrameState *sprite, s32 init_flags);
 extern s32 refresh_actor_facing_and_lifecycle();
-extern void begin_pushed_actor_move(void *state_in, void *unused, void *position_in, void *actor_in);
+extern void begin_pushed_actor_move(void *state_in, struct ObjectPosition *unused, void *position_in, void *actor_in);
 extern s32 begin_ready_actor_directional_action(ActorRecord *body, ObjectPosition *position, SpriteFrameState *sprite, u8 *direction_frames);
 extern void begin_actor_move_to_target_facing(ActorRecord *body, ObjectPosition *position, SpriteFrameState *sprite, ActorRecord *actor);
-extern s32 update_actor_movement_to_tile(void *move_state, void *motion, void *target_tile, ActorRecord *actor);
-extern s32 update_linked_actor_motion(void *state, ObjectPosition *transform, SpriteFrameState *config, void *object);
+extern s32 update_actor_movement_to_tile(ActorRecord *move_state, void *motion, void *target_tile, ActorRecord *actor);
+extern s32 update_linked_actor_motion(void *state, ObjectPosition *transform, SpriteFrameState *config, ActorRecord *object);
 extern s32 update_actor_hop_and_shrink(void *,struct ObjectPosition *,struct SpriteFrameState *,void *);
 
 extern s32 interpolate_actor_to_terrain_tile(void *,void *,void *,void *);
@@ -1013,7 +1014,7 @@ extern s32 update_actor_transform_from_parent(void *, void *, void *, void *);
 extern s32 update_actor_fade_in(void *,void *,void *);
 void spend_actor_mp(ActorRecord *entity, s32 base_reduction);
 
-extern void * create_status_linked_render_effect(EntityRec *source_pos, s32 render_param, s16 initial_state, s8 *status);
+extern void * create_status_linked_render_effect(struct ObjectPosition *source_pos, s32 render_param, s16 initial_state, s8 *status);
 extern void emit_scattered_effects_unless_blocked(void *);
 /* Retail banks use the signed-halfword height-query return view; this
  * is the existing certified fa7000 contract, not a per-function flag. */
@@ -1054,10 +1055,10 @@ void create_randomized_rotated_effect(void *unused_context, Rec_func_80173CFC_ar
 void project_visible_effect_quad(ActorRecord *body, void *position, void *render_info, s16 depth_bias);
 s32 advance_boss_command_stream(void *point, void *position, void *color);
 void create_angular_offset_effect(u8 *effect, s32 *position, s32 effect_param);
-void create_radial_effect_bands(CB_80174724_S_80C96F24_0 *owner, void *origin, void *entity);
+void create_radial_effect_bands(CB_80174724_S_80C96F24_0 *owner, struct ObjectPosition *origin, void *entity);
 void wait_actor_activity_then_complete(ActorRecord *state, ObjectPosition *unused_position, SpriteFrameState *unused_render_state, ActorRecord *entity);
 void finish_sprite_and_restore_tint(u8 *task, void *context, u8 *input);
-void replace_actor_with_faded_effect(void *state, EntityRec *position, SpriteFrameState *entity, void *actor);
+void replace_actor_with_faded_effect(void *state, struct ObjectPosition *position, SpriteFrameState *entity, void *actor);
 void resume_actor_after_floor_trap(ActorRecord *state, ObjectPosition *position, SpriteFrameState *sprite, ActorRecord *entity);
 void resume_actor_after_action_flag(ActorRecord *state, ObjectPosition *position, SpriteFrameState *sprite, ActorRecord *entity);
 

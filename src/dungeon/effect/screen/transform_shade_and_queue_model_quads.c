@@ -348,7 +348,7 @@ s32 queue_linked_visible_rectangle_copies(void *initial_state, void *input_value
         *(u16 *)(scratch + 2) = (*(u16 *)((u8 *)input_values + 6));
         *(u16 *)(scratch + 4) = (*(u16 *)((u8 *)input_values + 0xA));
         *(s32 *)(scratch + 0xC0) =
-            RotTransPers((void *)scratch, (void *)(scratch + 0xB8),
+            RotTransPers(scratch, (void *)(scratch + 0xB8),
                           (void *)(scratch + 0x90), (void *)(scratch + 0x94)) -
             *(s16 *)((u8 *)delta + 6);
         queue_visible_rectangle_copy(state, scratch);

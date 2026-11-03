@@ -20,7 +20,7 @@ typedef struct S_80098764_0 {
 
 
 /* Interpolate the position toward an angle-based offset until the countdown expires. */
-void interpolate_position_by_angle_offset(void *motion_arg, EntityRec *position) {
+void interpolate_position_by_angle_offset(void *motion_arg, ObjectPosition *position) {
     S_80098764_0 *motion = motion_arg;
     u16 ticks_left;
     s32 old_y;

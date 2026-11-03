@@ -26,7 +26,7 @@ extern u8 D_800983BC;
 extern u8 D_800D0158;
 
 /* Set the object's handler, state, and entry-specific value, then update the table target. */
-void initialize_entry_object_and_play_sound(TownObject *object, s32 table_target, void *ptr2) {
+void initialize_entry_object_and_play_sound(TownObject *object, ObjectPosition *table_target, void *ptr2) {
     TownEntry *entries;
     u16 entry_value;
 

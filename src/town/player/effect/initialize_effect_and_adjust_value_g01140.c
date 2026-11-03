@@ -1,3 +1,4 @@
+#include "town/player/initialize_scene_for_mode_api.h"
 #include "shared/sprite_frame_state.h"
 /* Initialize effect and adjust value.
  * Original-file evidence: inferred (adjacency/recipe/locality), inferred-weak - group G01140 - CL:town/func_800A7E6C, CL:town/func_800A8134.
@@ -16,7 +17,7 @@
 #include "town/player/record.h"
 
 /* Initialize the object and adjust its record value before final setup. */
-void initialize_effect_and_adjust_value(void *object, EntityRec *record, s32 init_value) {
+void initialize_effect_and_adjust_value(void *object, ObjectPosition *record, s32 init_value) {
     s32 delta;
 
     ((S_800A55CC_0_pre *)object)[-1].unk_00 = ((M2C_UNK *)D_800903FC);
@@ -31,14 +32,14 @@ void initialize_effect_and_adjust_value(void *object, EntityRec *record, s32 ini
 }
 
 /* Updates the record, invokes its handler, clamps values, and dispatches follow-up processing. */
-void update_effect_record_and_dispatch(TownPlayerRecord *handler, ObjectPosition *record, s32 context) {
+void update_effect_record_and_dispatch(TownPlayerRecord *handler, ObjectPosition *record, SpriteFrameState *sprite) {
     apply_the_enabled_movement_offsets_adding_z_offset_only_positive((struct IntVector3 *)(record));
     update_the_s_field_10_using_callee_8008_fe_90(&town_motion_list);
     add_motion_deltas_to_position(record);
     update_object_and_clear_status_fields(record);
     store_position_and_compute_delta((s32 *)(record));
     handle_resolve_bounding_box_overlaps_linked_colliders_along_least_penetrating_axis(&town_actor_control, record);
-    ((Rec_func_8009431C_arg0 *)handler)->unk_00.as_x78b360(handler, record, context);
+    ((Rec_func_8009431C_arg0 *)handler)->unk_00.as_x78b360(handler, record, (s32)sprite);
     if (!(((S_800A5638_0_pre *)handler)[-1].unk_0E & 0x8000)) {
         if (record->y.v <= 0x06500000) {
             record->y.v = 0x06500000;
@@ -48,15 +49,15 @@ void update_effect_record_and_dispatch(TownPlayerRecord *handler, ObjectPosition
             }
         }
         if (((S_800A5638_0_pre *)handler)[-1].unk_00 == ((s32 *)D_800903FC)) {
-            process_scene_record_update(handler, record, (void *)(context));
+            process_scene_record_update(handler, record, sprite);
             return;
         }
-        turn_entity_toward_target(handler, record, (void *)(context));
+        turn_entity_toward_target(handler, record, sprite);
     }
 }
 
 /* Turn the entity toward its target angle and update its directional sprite. */
-void turn_entity_toward_target(TownPlayerRecord *entity, void *transform, void *sprite) {
+void turn_entity_toward_target(TownPlayerRecord *entity, void *transform, SpriteFrameState *sprite) {
     GameWork *input_state;
     void *transform_arg;
     s32 direction;
@@ -88,9 +89,9 @@ void turn_entity_toward_target(TownPlayerRecord *entity, void *transform, void *
     }
     direction = view_relative_angle_sector(entity->unk_18);
     if (entity->unk_12 != direction) {
-        texture_handle_installs_selected_animation_frame_secondary_pointer_updates_animation_flags(sprite,
+        texture_handle_installs_selected_animation_frame_secondary_pointer_updates_animation_flags((void *)sprite,
                       *(*(u8 **)((u8 *)entity + 0x1C) + direction),
-                      *(s8 *)((u8 *)sprite + 4), 0);
+                      sprite->unk_04, 0);
         entity->unk_12 = direction;
     }
     {
@@ -98,9 +99,9 @@ void turn_entity_toward_target(TownPlayerRecord *entity, void *transform, void *
         u16 sprite_flags;
 
         if (flip_table[direction] != 0) {
-            *(u16 *)((u8 *)sprite + 0x14) |= 1;
+            sprite->flags |= 1;
         } else {
-            *(u16 *)((u8 *)sprite + 0x14) &= 0xFFFE;
+            sprite->flags &= 0xFFFE;
         }
     }
     step_actor_animation(sprite, 0);
@@ -116,7 +117,7 @@ void turn_entity_toward_target(TownPlayerRecord *entity, void *transform, void *
  * Returns the integer Z coordinate times 0xC00 plus 0x30000 when fixed-point Z exceeds -0x400000;
  * returns zero otherwise.
  */
-s32 compute_height_based_offset(EntityRec *state) {
+s32 compute_height_based_offset(ObjectPosition *state) {
     if (state->z.v > -0x400000) {
         return (state->z.w.i * 0xC00) + 0x30000;
     }
@@ -124,11 +125,11 @@ s32 compute_height_based_offset(EntityRec *state) {
 }
 
 /* Updates the object and interpolates town angles before advancing the state. */
-void update_object_view_transition(S_800A58CC_2 *state_arg, void *object) {
+void update_object_view_transition(S_800A58CC_2 *state_arg, ObjectPosition *object) {
     s16 threshold;
     s32 pitch_step;
     s16 yaw;
-    u8 * object_ref;
+    ObjectPosition *object_ref;
     s32 target_yaw;
     s32 yaw_delta;
     s32 pitch;
@@ -139,25 +140,25 @@ void update_object_view_transition(S_800A58CC_2 *state_arg, void *object) {
          /* MATCH: Order the s2 parameter copy before the s0 copy. */
     object_ref = object;
     town = &g_game_work;
-    handle_resolves_movement_collisions_along_one_axis_using_boundary_probes_tile((void *) object_ref);
-    threshold = select_the_smaller_position_query_result_capped_n_64_writes_associated((void *) object_ref, &position_query_scratch);
+    handle_resolves_movement_collisions_along_one_axis_using_boundary_probes_tile((object_ref));
+    threshold = select_the_smaller_position_query_result_capped_n_64_writes_associated(object_ref, &position_query_scratch);
     if (((S_800A58CC_0 *)((void *) object_ref))->unk_0A >= threshold) {
-        compute_and_clamps_vector_based_adjustment_updates_town((void *) object_ref, threshold, (struct TownVec **)(&position_query_scratch));
+        compute_and_clamps_vector_based_adjustment_updates_town((object_ref), threshold, (struct TownVec **)(&position_query_scratch));
     } else {
         if (D_800D0000[-0x311] != 0) {
             ((S_800A58CC_0 *)((void *) object_ref))->unk_14 = 0;
-            clear_global_slot_n_5_copy_source_slot_n_2_global_slot_n_2((void *) object_ref);
+            clear_global_slot_n_5_copy_source_slot_n_2_global_slot_n_2((object_ref));
         } else {
-            add_hex_20000_s_signed_offset_hex_14((void *) object_ref);
+            add_hex_20000_s_signed_offset_hex_14(object_ref);
         }
     }
     coords = &view_reference_entity;
     if (check_masked_value_in_current_range(read_map_cell_at_world_position(coords->x.w.i, coords->y.w.i) & 0xFFFF) != 0) {
-        pitch_step = ((S_800A58CC_0 *)((void *) object_ref))->unk_14 - compute_height_based_offset((void *) object_ref);
+        pitch_step = ((S_800A58CC_0 *)((void *) object_ref))->unk_14 - compute_height_based_offset((object_ref));
         ((S_800A58CC_0 *)((void *) object_ref))->unk_14 = pitch_step;
     }
-    move_both_components_toward_zero_direction_dependent_steps_clamping_zero((void *) object_ref);
-    move_both_components_toward_zero_direction_dependent_steps_clamping_zero((void *) object_ref);
+    move_both_components_toward_zero_direction_dependent_steps_clamping_zero((object_ref));
+    move_both_components_toward_zero_direction_dependent_steps_clamping_zero((object_ref));
     target_yaw = (state_arg->unk_10 - 0x800) & 0xFFF;
     yaw = step_angle_12_toward(town->view.camera_rotation.parts.viewAngle, target_yaw, 0x80);
     town->view.camera_rotation.parts.viewAngle = yaw;
@@ -189,7 +190,7 @@ void update_object_view_transition(S_800A58CC_2 *state_arg, void *object) {
 }
 
 /* Update actor movement, height, turning, and action state from input. */
-void update_actor_movement_and_actions(State *state, Actor *actor) {
+void update_actor_movement_and_actions(State *state, ObjectPosition *actor) {
     GameWork *input;
     s32 speed;
     s16 height_limit;
@@ -198,7 +199,7 @@ void update_actor_movement_and_actions(State *state, Actor *actor) {
     s32 sound_period;
 
     input = &g_game_work;
-    handle_resolves_movement_collisions_along_one_axis_using_boundary_probes_tile((struct EntityRec *)(actor));
+    handle_resolves_movement_collisions_along_one_axis_using_boundary_probes_tile((actor));
 
     state->timer--;
     if ((s16)state->timer <= 0) {
@@ -215,28 +216,28 @@ void update_actor_movement_and_actions(State *state, Actor *actor) {
     }
 
     if (((u32)input->buttons) & 0x10) {
-        move_both_components_toward_zero_direction_dependent_steps_clamping_zero((struct EntityRec *)(actor));
+        move_both_components_toward_zero_direction_dependent_steps_clamping_zero((actor));
         if ((((u32)input->buttons) & 0x30) == 0x20) {
-            move_both_components_toward_zero_direction_dependent_steps_clamping_zero((struct EntityRec *)(actor));
+            move_both_components_toward_zero_direction_dependent_steps_clamping_zero((actor));
         }
     } else {
-        move_both_components_toward_zero_direction_dependent_steps_clamping_zero((struct EntityRec *)(actor));
+        move_both_components_toward_zero_direction_dependent_steps_clamping_zero((actor));
     }
     height_limit = select_the_smaller_position_query_result_capped_n_64_writes_associated(actor, &position_query_scratch);
-    if (actor->height >= height_limit) {
-        compute_and_clamps_vector_based_adjustment_updates_town((struct TownObj *)(actor), height_limit, (struct TownVec **)(&position_query_scratch));
+    if (actor->z.w.i >= height_limit) {
+        compute_and_clamps_vector_based_adjustment_updates_town((actor), height_limit, (struct TownVec **)(&position_query_scratch));
     } else if ((&(*town_blocked_directions))[1] != 0) {
-        actor->value = 0;
-        clear_global_slot_n_5_copy_source_slot_n_2_global_slot_n_2((s32 *)(actor));
+        actor->velocity_z = 0;
+        clear_global_slot_n_5_copy_source_slot_n_2_global_slot_n_2((actor));
     } else {
         add_hex_20000_s_signed_offset_hex_14(actor);
     }
     world_value = read_map_cell_at_world_position(view_reference_entity.x.w.i, view_reference_entity.y.w.i);
     if (check_masked_value_in_current_range((u16)world_value) != 0) {
-        actor->value -= compute_height_based_offset((struct EntityRec *)(actor));
+        actor->velocity_z -= compute_height_based_offset((actor));
     }
 
-    speed = runtime_estimate_vector_length(actor->x, actor->y);
+    speed = runtime_estimate_vector_length(actor->velocity_x, actor->velocity_y);
     if (town_movement_speed != 0) {
         {
             s32 speed_delta;
@@ -307,7 +308,7 @@ void update_actor_movement_and_actions(State *state, Actor *actor) {
 }
 
 /* Updates the actor effect and eases scene values before advancing the state. */
-void update_actor_effect_transition(S_800A5DF8_4 *state, S_800A5DF8_0 *actor, s32 context) {
+void update_actor_effect_transition(S_800A5DF8_4 *state, ObjectPosition *actor, s32 context) {
     s16 threshold;
     s32 offset_step;
     s16 angle;
@@ -317,24 +318,24 @@ void update_actor_effect_transition(S_800A5DF8_4 *state, S_800A5DF8_0 *actor, s3
     register s32 *effect_data;
 
     scene_state = &g_game_work;
-    handle_resolves_movement_collisions_along_one_axis_using_boundary_probes_tile((struct EntityRec *)(actor));
+    handle_resolves_movement_collisions_along_one_axis_using_boundary_probes_tile((actor));
     effect_data = &position_query_scratch;
     threshold = select_the_smaller_position_query_result_capped_n_64_writes_associated(actor, effect_data);
-    if (actor->unk_0A >= threshold) {
-        compute_and_clamps_vector_based_adjustment_updates_town((struct TownObj *)(actor), threshold, (struct TownVec **)(effect_data));
+    if (actor->z.w.i >= threshold) {
+        compute_and_clamps_vector_based_adjustment_updates_town((actor), threshold, (struct TownVec **)(effect_data));
     } else if (((S_800A5DF8_1 *)(&town_action_state_flag))->unk_00 != 0) {
-        actor->unk_14 = 0;
-        clear_global_slot_n_5_copy_source_slot_n_2_global_slot_n_2((s32 *)(actor));
+        actor->velocity_z = 0;
+        clear_global_slot_n_5_copy_source_slot_n_2_global_slot_n_2((actor));
     } else {
         add_hex_20000_s_signed_offset_hex_14(actor);
     }
 
     if (check_masked_value_in_current_range(read_map_cell_at_world_position(view_reference_entity.x.w.i, view_reference_entity.y.w.i) & 0xFFFF) != 0) {
-        offset_step = actor->unk_14 - compute_height_based_offset((struct EntityRec *)(actor));
-        actor->unk_14 = offset_step;
+        offset_step = actor->velocity_z - compute_height_based_offset((actor));
+        actor->velocity_z = offset_step;
     }
-    move_both_components_toward_zero_direction_dependent_steps_clamping_zero((struct EntityRec *)(actor));
-    move_both_components_toward_zero_direction_dependent_steps_clamping_zero((struct EntityRec *)(actor));
+    move_both_components_toward_zero_direction_dependent_steps_clamping_zero((actor));
+    move_both_components_toward_zero_direction_dependent_steps_clamping_zero((actor));
     angle = step_angle_12_toward(scene_state->view.camera_rotation.parts.viewAngle, 0, 0x80);
     scene_state->view.camera_rotation.parts.viewAngle = angle;
     if ((angle & 0xFFF) < 0x80) {
@@ -360,7 +361,7 @@ void update_actor_effect_transition(S_800A5DF8_4 *state, S_800A5DF8_0 *actor, s3
     if ((state->unk_0A.u == 0) &&
         (scene_state->view.camera_rotation.parts.viewAngle == 0)) {
         if (state->unk_08 != 0) {
-            initialize_effect_and_adjust_value(state, (struct EntityRec *)(actor), context);
+            initialize_effect_and_adjust_value(state, (actor), context);
         } else {
             state->unk_0A.u = 0;
             state->unk_00 = D_800A5FDC;
@@ -371,7 +372,7 @@ void update_actor_effect_transition(S_800A5DF8_4 *state, S_800A5DF8_0 *actor, s3
 }
 
 /* Updates town movement, terrain response, facing, and action state from input. */
-void update_town_movement_and_actions(TownPlayerRecord *state, EntityRec *table, void *action_context)
+void update_town_movement_and_actions(TownPlayerRecord *state, ObjectPosition *table, void *action_context)
 {
     u8 *context;
     GameWork *globals;
@@ -415,21 +416,21 @@ void update_town_movement_and_actions(TownPlayerRecord *state, EntityRec *table,
 
     ground_height = select_the_smaller_position_query_result_capped_n_64_writes_associated(table, &position_query_scratch);
     if (table->z.w.i >= ground_height) {
-        compute_and_clamps_vector_based_adjustment_updates_town((struct TownObj *)(table), ground_height, (struct TownVec **)(&position_query_scratch));
+        compute_and_clamps_vector_based_adjustment_updates_town((table), ground_height, (struct TownVec **)(&position_query_scratch));
     } else if (town_blocked_directions[1] != 0) {
-        table->flags14 = 0;
-        clear_global_slot_n_5_copy_source_slot_n_2_global_slot_n_2((s32 *)(table));
+        table->velocity_z = 0;
+        clear_global_slot_n_5_copy_source_slot_n_2_global_slot_n_2((table));
     } else {
         add_hex_20000_s_signed_offset_hex_14(table);
     }
     tile_id = read_map_cell_at_world_position(view_reference_entity.x.w.i,
                             view_reference_entity.y.w.i);
     if (check_masked_value_in_current_range((u16)tile_id) != 0) {
-        table->flags14 -= compute_height_based_offset(table);
+        table->velocity_z -= compute_height_based_offset(table);
     }
 
-    speed = runtime_estimate_vector_length(table->unk_0C,
-                          table->unk_10);
+    speed = runtime_estimate_vector_length(table->velocity_x,
+                          table->velocity_y);
     if (town_movement_speed != 0) {
         speed_delta = abs(town_movement_speed - speed);
         sound_interval = (s32)((u32)speed_delta * 7U) / town_movement_speed;

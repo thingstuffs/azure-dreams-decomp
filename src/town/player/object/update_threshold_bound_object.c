@@ -17,11 +17,11 @@ typedef struct TownObject {
     s32 state;
 } TownObject;
 
-extern void handle_adjust_vector_toward_selected_angle_limit_magnitude(TownObject *arg);
+extern void handle_adjust_vector_toward_selected_angle_limit_magnitude(ObjectPosition *arg);
 #include "town/player/action_initializers.h"
 
 /* Updates a town object based on its table value, limit, and a global flag. */
-void update_threshold_bound_object(void *context, TownObject *object, void *update_arg)
+void update_threshold_bound_object(void *context, ObjectPosition *object, void *update_arg)
 {
     s16 table_value;
 
@@ -30,14 +30,14 @@ void update_threshold_bound_object(void *context, TownObject *object, void *upda
     handle_adjust_vector_toward_selected_angle_limit_magnitude(object);
     table_value = select_the_smaller_position_query_result_capped_n_64_writes_associated(object, (&position_query_scratch));
 
-    if (object->limit >= table_value) {
+    if (object->z.w.i >= table_value) {
         select_sound_command_from_mode();
         compute_and_clamps_vector_based_adjustment_updates_town(object, table_value, (&position_query_scratch));
         spawn_person_radial_effects(object);
         initialize_scene_action_record(context, object, update_arg);
     } else if (town_action_state_flag != 0) {
         select_sound_command_from_mode();
-        object->state = 0;
+        object->velocity_z = 0;
         clear_global_slot_n_5_copy_source_slot_n_2_global_slot_n_2(object);
         initialize_scene_action_record(context, object, update_arg);
     } else {

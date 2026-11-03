@@ -310,7 +310,7 @@ s16 try_claim_dungeon_action_slot(ActorRecord *actor);
 u32 check_entity_interaction_compatibility();
 #include "dungeon/player/object/action_state.h"
 struct ObjectNodeHeader;
-s32 update_actor_movement_to_tile(void *move_state, void *motion, void *target_tile, ActorRecord *actor);
+s32 update_actor_movement_to_tile(ActorRecord *move_state, void *motion, void *target_tile, ActorRecord *actor);
 void spend_actor_mp(ActorRecord *entity, s32 base_reduction);
 
 s32 get_cd_command_queue_depth(void);
@@ -358,7 +358,7 @@ void choose_univern_move(ActorRecord *move_data, ObjectPosition *context, Sprite
 s32 try_univern_attack(ActorRecord *action_state, ObjectPosition *motion_param, SpriteFrameState *sprite_arg, ActorRecord *actor);
 void begin_univern_attack(ActorRecord *action_state, ObjectPosition *context, SpriteFrameState *animation, ActorRecord *entity);
 s32 relink_univern_path(ActorRecord *body, ObjectPosition *motion, SpriteFrameState *sprite, s32 force_state_arg);
-void finish_actor_tile_move_then_resume_ground_movement(void *state, void *motion, void *source, void *target);
+void finish_actor_tile_move_then_resume_ground_movement(ActorRecord *state, void *motion, void *source, void *target);
 void finish_linked_actor_motion_and_floor_trap_then_resume_ground_movement(ActorRecord *state, ObjectPosition *entity, SpriteFrameState *position, ActorRecord *graphic);
 void update_staged_movement_and_direction(void *action, void *motion, struct SpriteFrameState *sprite, void *actor);
 void update_entity_item_action_and_idle_return(R17_80172C18_State *state, ObjectPosition *pos, struct SpriteFrameState *actor, R17_80172C18_Entity *ent);

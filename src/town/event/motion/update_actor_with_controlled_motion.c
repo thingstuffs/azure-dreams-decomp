@@ -60,7 +60,7 @@ typedef struct MotionDelta {
 extern void call_the_same_context_both_processing_routines(Subject *, Motion *);
 extern void set_actor_drop_state(Actor *, Subject *, Motion *, TownMovementOutput *); /* Unprototyped: retail call passes more arguments than the callee reads */
 
-extern void update_actor_input_actions(void *context, EntityRec *entity, s32 update_arg);
+extern void update_actor_input_actions(void *context, ObjectPosition *entity, s32 update_arg);
 extern void actor_surface_callback_address(void *actor, void *subject, void *motion, void *context);
 extern void actor_output_update_address(void *state_owner, void *update_target, void *update_context, void *output);
 extern void update_actor_with_controlled_motion(Actor *, Subject *, Motion *, TownMovementOutput *);

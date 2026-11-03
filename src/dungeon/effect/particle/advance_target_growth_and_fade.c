@@ -166,7 +166,7 @@ void run_growing_target_effect(S_func_818DA800_1 *effect_state, S_func_818DA800_
     timer = (u16)effect_state->unk_50.as_u16;
     timer -= 1;
     phase = effect_state->unk_0A.as_s16;
-    actor_data = ((S_func_818DA800_5 *)((u8 *)actor - 0x20))->unk_0C;
+    actor_data = ((S_func_818DA800_5 *)NODE_HEADER(actor))->unk_0C;
     effect_state->unk_50.as_u16 = timer;
 
     actor_header = ((u8 *)actor - 0x20);
@@ -427,12 +427,12 @@ void advance_target_growth_and_fade(Unk818DAD38Owner *owner, ObjectPosition *unu
         }
         break;
     case 1:
-        if ((u8)*(u32 *)&target->color.word < 9) {
+        if ((u8)((u32)(target->color.word)) < 9) {
             target->color.word = 0;
             ((u16 *)owner)[-1] |= NODE_REMOVE;
             object_flag_block.flags |= OBJECT_REMOVE_PENDING;
         } else {
-            *(u32 *)&target->color.word += 0xFFEFEFF0;
+            target->color.word = (u32)((u32)(target->color.word) + (0xFFEFEFF0));
         }
         break;
     }

@@ -148,7 +148,7 @@ void project_depth_sliced_quads(void *geometry, ObjectPosition *position, Sprite
                     (((u16)(((S_800D6170_4 *)packet)->unk_14 + 0x20) < 0x181) &&
                      ((u16)(((S_800D6170_4 *)packet)->unk_16 + 0x20) < 0x121))) {
                     render_state->flags &= 0x7FFF;
-                    ((S_800D6170_4 *)packet)->unk_04 = *(u32 *)&render_state->color.word;
+                    ((S_800D6170_4 *)packet)->unk_04 = ((u32)(render_state->color.word));
                     SetPolyF4(packet);
 
                     ((S_800D6170_4 *)packet)->unk_00 = (((S_800D6170_4 *)packet)->unk_00 & length_mask) |
@@ -197,7 +197,7 @@ void project_depth_sliced_quads(void *geometry, ObjectPosition *position, Sprite
                 (((u16)(((S_800D6170_4 *)packet)->unk_14 + 0x20) < 0x181) &&
                  ((u16)(((S_800D6170_4 *)packet)->unk_16 + 0x20) < 0x121))) {
                 render_state->flags &= 0x7FFF;
-                ((S_800D6170_4 *)packet)->unk_04 = *(u32 *)&render_state->color.word;
+                ((S_800D6170_4 *)packet)->unk_04 = ((u32)(render_state->color.word));
                 SetPolyF4(packet);
 
                 ((S_800D6170_4 *)packet)->unk_00 = (((S_800D6170_4 *)packet)->unk_00 & 0xFF000000) |

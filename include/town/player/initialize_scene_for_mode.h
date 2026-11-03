@@ -1,5 +1,6 @@
 #ifndef MODULES_TOWN_PLAYER_INIT_H
 #define MODULES_TOWN_PLAYER_INIT_H
+struct SpriteFrameState;
 
 #include "town/player/record.h"
 #include "town/shop/item_lookup.h"
@@ -121,8 +122,6 @@ void initialize_global_scene_record(void);
 void plt_init_sleep_set(void);
 void initialize_scene_render_state(void);
 void initialize_scene_render_object(void);
-void rebuild_menu_node_list(TownPlayerRecord *owner, ObjectPosition *node_in, s32 mode);
-void process_scene_record_update(TownPlayerRecord *context,struct ObjectPosition *input, void *record);
 s32 to_camera_zero_00(void);
 void clear_record_state_or_update(struct ObjectPosition *record);
 void noop_player_scene_action(void);
@@ -137,15 +136,13 @@ extern void initialize_circular_list_head(void);
 extern void initialize_pointer_table_self_links(void);
 extern void initialize_the_store_two_values_set_state_flags(void *record, func_80092868_ScenePos *scene, void *value_0c); /* Unprototyped: uses the value as a pointer where the definition has an integer (or the reverse) */
 extern void initialize_six_global_pointers_corresponding_storage_blocks(void);
-extern void run_the_three_update_routines_context(void *context);
+extern void run_the_three_update_routines_context(ObjectPosition *context);
 extern void create_person_object(void);
 extern void initialize_object_at_current_position(void);
 void set_resident_bitmap_bit(s32 bit_id);
 s32 load_town_sprite_bundle(void);
 s32 load_alternate_town_sprite_bundle(void);
 void call_the_handler_selects_nonzero_entry();
-extern void initialize_record_and_select_active_data(void *owner, void *node_in, s32 mode); /* Unprototyped: uses the value as a pointer where the definition has an integer (or the reverse) */
-void initialize_record_with_handler_table();
 void initialize_player_object(void *object);
 extern s32 func_800352FC(void);
 extern void submit_object_resource_data(void *owner);
@@ -155,9 +152,8 @@ extern void apply_the_enabled_movement_offsets_adding_z_offset_only_positive(Int
 extern void store_position_and_compute_delta(void *owner);
 extern void update_the_s_field_10_using_callee_8008_fe_90(void *owner);
 extern s32 get_whether_has_attached_state_type_n_1_n_3(void *owner);
-extern void compute_and_clamps_vector_based_adjustment_updates_town(struct TownObj *obj, s32 base_value, struct TownVec **vec_ptr);
+extern void compute_and_clamps_vector_based_adjustment_updates_town(ObjectPosition *obj, s32 base_value, struct TownVec **vec_ptr);
 extern void update_object_and_clear_status_fields(void *owner);
-extern void turn_entity_toward_target(TownPlayerRecord *owner, void *node_in, s32 mode); /* Unprototyped: uses the value as a pointer where the definition has an integer (or the reverse) */
 extern s32 check_masked_value_in_current_range(u16 owner);
 extern s32 runtime_estimate_vector_length(s32, s32);
 #include "engine/texture.h"
@@ -188,5 +184,8 @@ extern u8 D_800A5638[];
 extern s32 actor_input_dispatch_address;
 extern s32 actor_input_interaction_address;
 extern s16 town_scene_effect_flips[];
+
+void rebuild_menu_node_list(TownPlayerRecord *owner, ObjectPosition *node_in, struct SpriteFrameState *sprite);
+
 
 #endif

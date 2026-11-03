@@ -3,6 +3,7 @@
 #include "shared/object_flags.h"
 #include "engine/scene.h"
 #include "town/menu.h"
+#include "town/menu/catalog.h"
 #include "engine/item.h"
 
 typedef struct {
@@ -30,7 +31,6 @@ extern s8 animation_tick_scale;
 extern s8 catalog_display_node_slots;
 
 extern void SD_Call(s32);
-extern void select_paired_value_tables(Object *);
 extern void remove_scene_runtime_callback(void);
 
 /* Handles input to update object selections, action states, and exit behavior. */
@@ -55,7 +55,7 @@ void handle_catalog_grid_input(Object *object)
         SD_Call(0x702);
         slot_index = object->field_16;
         target_value = object->field_13;
-        active_value = *((u8 *)object + slot_index + 0x17);
+        active_value = object->field_17[slot_index];
         if (active_value == target_value) {
             object->field_A = 6;
             object->field_4 = 1;
@@ -63,10 +63,10 @@ void handle_catalog_grid_input(Object *object)
             return;
         }
         slot_index ^= 1;
-        alternate_value = *((u8 *)object + slot_index + 0x17);
+        alternate_value = object->field_17[slot_index];
         if (alternate_value == target_value) {
             object->field_16 = slot_index;
-            select_paired_value_tables(object);
+            select_paired_value_tables((CatalogDisplay *)object);
             object->field_A = 6;
             object->field_4 = 1;
             object->field_6 = 0x19;
@@ -74,7 +74,7 @@ void handle_catalog_grid_input(Object *object)
         }
         if (active_value != 0xFF && alternate_value == 0xFF) {
             object->field_16 = slot_index;
-            select_paired_value_tables(object);
+            select_paired_value_tables((CatalogDisplay *)object);
             object->field_A = 5;
             object->field_B = 0;
             return;
@@ -94,7 +94,7 @@ void handle_catalog_grid_input(Object *object)
             }
             *(u16 *)((u8 *)object->field_0 + 0x1E) |= 0x2000;
             release_null_terminated_entries((u8 *)object + 0x5C);
-            ((ObjectNodeHeader *)object - 1)->flags |= NODE_REMOVE;
+            NODE_HEADER(object)->flags |= NODE_REMOVE;
             object_flag_block.flags |= OBJECT_REMOVE_PENDING;
             remove_scene_runtime_callback();
             animation_tick_scale = 2;

@@ -1,6 +1,7 @@
 #ifndef DUNGEON_RESOURCE08_SLOT0_H
 #define DUNGEON_RESOURCE08_SLOT0_H
 struct ObjectPosition;
+struct ObjectPosition;
 #include "common.h"
 #include "dungeon/actor.h"
 #include "shared/object_node.h"
@@ -368,7 +369,7 @@ u32 check_entity_interaction_compatibility();
 struct Entry;
 struct ObjectNodeHeader;
 struct ObjectNodeHeader;
-s32 update_actor_movement_to_tile(void *move_state, void *motion, void *target_tile, ActorRecord *actor);
+s32 update_actor_movement_to_tile(ActorRecord *move_state, void *motion, void *target_tile, ActorRecord *actor);
 void spend_actor_mp(ActorRecord *entity, s32 base_reduction);
 
 void func_800A9A04(void *actor);
@@ -445,7 +446,7 @@ void hop_griffon_to_tile(ActorRecord *action, void *motion,SpriteFrameState *spr
 void advance_a_timed_actor_animation_applies_completion_effects(ActorRecord *state, ObjectPosition *entity, SpriteFrameState *position, ActorRecord *graphic);
 void update_staged_movement_and_return_to_tile(ActorRecord *action, ObjectPosition *motion, SpriteFrameState *sprite, ActorRecord *actor);
 void update_item_activation_and_cleanup(ActorRecord *action, ObjectPosition *motion, void *actor, ActorRecord *object);
-void advance_action_phase_and_process_actor(void *action, void *motion,struct SpriteFrameState *sprite, void *entity);
+void advance_action_phase_and_process_actor(void *action, struct ObjectPosition *motion,struct SpriteFrameState *sprite, void *entity);
 void remove_defeated_griffon(void *state, void *motion, void *position, void *actor);
 void shrink_hopping_griffon(void *state, void *motion, void *position, void *actor);
 void advance_griffon_removal(void *state, void *motion, void *position, void *actor);

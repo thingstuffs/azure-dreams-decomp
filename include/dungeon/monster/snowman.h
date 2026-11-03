@@ -1,5 +1,6 @@
 #ifndef DUNGEON_RESOURCE10_SLOT0_H
 #define DUNGEON_RESOURCE10_SLOT0_H
+struct ObjectPosition;
 #include "shared/gpu_packets.h"
 #include "dungeon/actor.h"
 #include "common.h"
@@ -566,7 +567,7 @@ u32 check_entity_interaction_compatibility();
 struct Entry;
 struct ObjectNodeHeader;
 struct ObjectNodeHeader;
-s32 update_actor_movement_to_tile(void *move_state, void *motion, void *target_tile, ActorRecord *actor);
+s32 update_actor_movement_to_tile(ActorRecord *move_state, void *motion, void *target_tile, ActorRecord *actor);
 void spend_actor_mp(ActorRecord *entity, s32 base_reduction);
 
 s32 rsin(s32);
@@ -664,10 +665,10 @@ void select_actor_target_and_advance_status(ActorRecord *action_state, ObjectPos
 void advance_directional_attack_sequence(ActorRecord *action, ObjectPosition *position, SpriteFrameState *sprite, ActorRecord *entity);
 s32 project_snowman_sprite_chain(void *initial_payload, ObjectPosition *position, R10_80174BE4_Entry *entry, s32 unused);
 void update_effect_motion_and_brightness(RandomizedOscillatingEffectBody *effect, void *motion, void *render);
-void spawn_randomized_oscillating_effect(ActorRecord *body, R10_80174F24_S_func_80AF3724_0 *origin, SpriteFrameState *sprite, ActorRecord *actor);
+void spawn_randomized_oscillating_effect(ActorRecord *body, struct ObjectPosition *origin, SpriteFrameState *sprite, ActorRecord *actor);
 void wait_for_snowman_action_slot(ActorRecord *entity_data, ObjectPosition *motion, SpriteFrameState *sprite, void *other_data);
 void restore_snowman_scene_tint(u8 *task, void *context, struct SpriteFrameState *input);
-void advance_actor_transition_and_restore_facing(void *transition, void *position, struct SpriteFrameState *record, void *actor);
+void advance_actor_transition_and_restore_facing(void *transition, struct ObjectPosition *position, struct SpriteFrameState *record, void *actor);
 void resolve_snowman_floor_trap(ActorRecord *state, ObjectPosition *motion, SpriteFrameState *position, ActorRecord *actor);
 void propagate_snowman_action_flag(ActorRecord *state, ObjectPosition *motion, SpriteFrameState *position, ActorRecord *actor);
 void finish_snowman_tile_hop(ActorRecord *body, ObjectPosition *motion, SpriteFrameState *sprite, ActorRecord *actor);

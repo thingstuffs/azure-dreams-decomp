@@ -16,15 +16,15 @@ void set_player_block_value(s32 value)
     void *block;
     ObjectNodeHeader *header;
     s32 header_param_0c;
-    s32 header_param_08;
+    ObjectPosition *header_param_08;
 
     block = scene_object_payload_alias;
-    header = (s8 *)block - 0x20;
-    header_param_08 = *(s32 *)&header->position;
+    header = NODE_HEADER(block);
+    header_param_08 = header->position;
     header_param_0c = *(s32 *)&header->sprite;
     clear_entity_record_fields(header_param_08);
     *(s16 *)((s8 *)block + 0x10) = value & 0xFFF;
     call_the_handler_selects_nonzero_entry(town_scene_record_handlers, block, header_param_0c);
-    init_motion_action_callback(block, header_param_08, header_param_0c);
+    init_motion_action_callback(block, (s32)header_param_08, header_param_0c);
     call_script(D_8006CADE);
 }

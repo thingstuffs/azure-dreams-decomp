@@ -1,5 +1,6 @@
 #ifndef TOWN_PLAYER_OBJECT_INITIALIZATION_G00546_H
 #define TOWN_PLAYER_OBJECT_INITIALIZATION_G00546_H
+struct ObjectPosition;
 /* Initialize player object counters and fields (G00546). */
 /* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - PD:town/engine:800D01E0. */
 
@@ -13,12 +14,12 @@
 
 
 extern s8 town_action_reset_byte;
-void tick_countdown_and_initialize_target(UnsignedCountdownView *state, s32 value);
+void tick_countdown_and_initialize_target(UnsignedCountdownView *state, struct ObjectPosition *value);
 /* Registered code-address alias for tick_countdown_and_initialize_target. */
 void target_action_update_address(UnsignedCountdownView *state, s32 value);
 
 /* Functions defined in this translation unit. */
-void initialize_object_with_count_four(TownObjectRecord *object, s32 setupValue, void *ptr2);
-void initialize_object_with_value_800(TownObjectRecord *object, s32 setupContext, void *ptr2);
+void initialize_object_with_count_four(TownObjectRecord *object, struct ObjectPosition *setupValue, void *ptr2);
+void initialize_object_with_value_800(TownObjectRecord *object, struct ObjectPosition *setupContext, void *ptr2);
 
 #endif

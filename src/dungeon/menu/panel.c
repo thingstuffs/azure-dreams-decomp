@@ -68,9 +68,9 @@ void *create_panel_effect_object(ActorRecord *owner)
             - (entity_height_offsets[entity->species] + 0x50));
         panel->update_callback = update_attached_effect_position;
         register_node(panel, transform_linked_quad_batches);
-        panel_data = ((void *)panel) + 0x20;
+        panel_data = NODE_BODY(panel);
         *((void **) (((s8 *) panel_data) + 0x14)) = entity;
-        *((void **) (((s8 *) panel) + 0x20)) = (((void *)panel) + 0x70);
+        *((void **)NODE_BODY(panel)) = (((void *)panel) + 0x70);
         *((void **) (((s8 *) panel_data) + 4)) = (((void *)panel) + 0x58);
         *((s32 **) (((s8 *) panel) + 0x70)) = &D_80077FEC;
         *((s32 *) (((s8 *) panel) + 0x58)) = color_or_addr;
@@ -643,7 +643,7 @@ void build_floating_number_widget(s16 icon, s32 value_a, s32 value_b, s32 style,
         style_byte = style_hold & 0xFF;
         cursor = base;
         sub->field24 = (s16)((style_hold << 0x10) >> 0x18);
-        sub->field00 = (u8 *)&sub->slots[0];
+        sub->field00 = &sub->slots[0];
         sub->field04 = cursor;
         buf = allocate_panel_offset_or_zero();
         sub->field28 = buf;
@@ -1152,7 +1152,7 @@ s32 create_map_position_object(s32 world_x, s32 world_z) {
         transform->z.w.i = (s16) (0 - *((S_800B2074_5 *)(object + 1))->unk_00);
         ((S_800B2074_4 *)tile_addr)->unk_02 = (u16) (((S_800B2074_4 *)tile_addr)->unk_02 + 0x20);
         ((S_800B2074_4 *)tile_addr)->unk_04 = (u16) (((S_800B2074_4 *)tile_addr)->unk_04 | 1);
-        state_fields = (S_800B2074_5 *)(object + 1);
+        state_fields = NODE_BODY(object);
         play_sound_if_enabled(0x603);
         inherited_value = ((u16)primary_actor_record->facing);
         state_fields->unk_0E = inherited_value;

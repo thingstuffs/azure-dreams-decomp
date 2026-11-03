@@ -60,7 +60,7 @@ s32 build_and_projects_textured_vertex_colored_quad_links_ordering_table(s32 col
     void *vertex2;
     void *vertex3;
 
-    vertex0 = (void *)0;
+    vertex0 = 0;
     vertex1 = (void *)3;
     u_right = g_game_work.draw_buffer;
     vertex2 = (void *)0x300;

@@ -5,7 +5,7 @@
 #include "engine/window.h"
 
 /* Updates actor height, emits periodic effects, and handles the active state. */
-void update_actor_with_periodic_effect(TownObjectRecord *actor, EntityRec *position, s32 context) {
+void update_actor_with_periodic_effect(TownObjectRecord *actor, ObjectPosition *position, s32 context) {
     GameWork *state = &g_game_work;
     s16 surface_height;
     s16 action_timer;
@@ -49,7 +49,7 @@ void update_actor_with_periodic_effect(TownObjectRecord *actor, EntityRec *posit
 }
 
 /* Resets the handler when state flags are set, then invokes the base handler. */
-void reset_action_handler_on_flag(s32 **handler_slot, s32 context, SpriteFlagsView *state) {
+void reset_action_handler_on_flag(s32 **handler_slot, ObjectPosition *context, SpriteFlagsView *state) {
     if (state->flags & 0x6000) {
         call_the_handler_selects_nonzero_entry((s32 *) &D_800D0158, (TownObjectRecord *) handler_slot, state);
         *handler_slot = &update_actor_with_periodic_effect;

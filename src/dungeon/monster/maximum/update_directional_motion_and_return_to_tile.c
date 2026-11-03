@@ -45,7 +45,7 @@ extern u8 maximum_frame_set_3[];
 extern u8 maximum_action_continuation_address[];
 
 /* Updates directional movement, then returns the actor to its tile position. */
-void update_directional_motion_and_return_to_tile(S810AF65C_0 *animation, S810AF65C_1 *motion,
+void update_directional_motion_and_return_to_tile(S810AF65C_0 *animation, ObjectPosition *motion,
                    S810AF65C_2 *tile, S810AF65C_3 *actor) {
     s32 timer;
     s32 direction;
@@ -67,9 +67,9 @@ void update_directional_motion_and_return_to_tile(S810AF65C_0 *animation, S810AF
         animation->field_96 = 2;
         animation->field_9b = animation->field_9b + 1;
         if (actor->field_28 == 0) {
-            motion->field_14 = 0;
-            motion->field_10 = 0;
-            motion->field_0c = 0;
+            motion->velocity_z = 0;
+            motion->velocity_y = 0;
+            motion->velocity_x = 0;
             animation->field_96 = 0;
             begin_actor_display_action(animation, motion, tile, maximum_frame_set_3);
             return;
@@ -83,34 +83,34 @@ void update_directional_motion_and_return_to_tile(S810AF65C_0 *animation, S810AF
         if ((s16)animation->field_96 > 0) {
             return;
         }
-        motion->field_0c = (s16)dir_step_x[direction] << 18;
-        motion->field_10 = (s16)dir_step_y[direction] << 18;
+        motion->velocity_x = (s16)dir_step_x[direction] << 18;
+        motion->velocity_y = (s16)dir_step_y[direction] << 18;
         move_ticks = 5;
         if ((actor->field_1c & 0x228) != 0) {
             move_ticks = 8;
         }
         animation->field_96 = move_ticks;
-        velocity_x = motion->field_0c;
+        velocity_x = motion->velocity_x;
         biased_x = velocity_x;
         if (velocity_x < 0) {
             biased_x = velocity_x + 3;
         }
-        velocity_y = motion->field_10;
-        motion->field_0c = velocity_x - (biased_x >> 2);
+        velocity_y = motion->velocity_y;
+        motion->velocity_x = velocity_x - (biased_x >> 2);
         biased_y = velocity_y;
-        motion->field_10 = velocity_y - (biased_y / 4);
+        motion->velocity_y = velocity_y - (biased_y / 4);
         animation->field_9b = animation->field_9b + 1;
         break;
     case 2:
-        motion->field_0c = motion->field_0c - ((s16)dir_step_x[direction] << 15);
-        motion->field_10 = motion->field_10 - ((s16)dir_step_y[direction] << 15);
+        motion->velocity_x = motion->velocity_x - ((s16)dir_step_x[direction] << 15);
+        motion->velocity_y = motion->velocity_y - ((s16)dir_step_y[direction] << 15);
         if ((s16)animation->field_96 != 0) {
             return;
         }
         if (actor->field_28 == 0) {
-            motion->field_14 = 0;
-            motion->field_10 = 0;
-            motion->field_0c = 0;
+            motion->velocity_z = 0;
+            motion->velocity_y = 0;
+            motion->velocity_x = 0;
             begin_actor_display_action(animation, motion, tile, maximum_frame_set_3);
             return;
         }
@@ -125,18 +125,18 @@ void update_directional_motion_and_return_to_tile(S810AF65C_0 *animation, S810AF
             s32 origin_y;
 
             tile_x = tile->field_24 << 6;
-            origin_x = motion->field_02 - 0x20;
-            motion->field_0c = (tile_x - origin_x) << 15;
+            origin_x = motion->x.w.i - 0x20;
+            motion->velocity_x = (tile_x - origin_x) << 15;
             tile_y = tile->field_25 << 6;
-            origin_y = motion->field_06 - 0x20;
-            motion->field_10 = (tile_y - origin_y) << 15;
+            origin_y = motion->y.w.i - 0x20;
+            motion->velocity_y = (tile_y - origin_y) << 15;
             if ((s16)animation->field_96 > 0) {
                 return;
             }
         }
-        motion->field_14 = 0;
-        motion->field_10 = 0;
-        motion->field_0c = 0;
+        motion->velocity_z = 0;
+        motion->velocity_y = 0;
+        motion->velocity_x = 0;
         set_record_integer_tile_center(motion, tile->field_24, tile->field_25);
         if ((g_dungeon_status.pending_display_owner) == (u8 *)actor - 0x20) {
             g_dungeon_status.pending_display_owner = ((s32)g_dungeon_status.pending_display_owner) & 0x7fffffff;

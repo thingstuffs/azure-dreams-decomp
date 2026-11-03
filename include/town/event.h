@@ -69,7 +69,7 @@ void noop_hook(void);
 void resolve_owner_position_and_dispatch(void *object, struct S_8009B9BC_1 *owner, EntityRec *resolved_pos, s32 dispatch_param);
 
 /* target_record_angles_g00590.c */
-void apply_two_records_to_target(s32 target, s32 setup_data);
-void update_positions_from_origin(IntVector3 *origin);
+void apply_two_records_to_target(void *target, ObjectPosition *setup_data);
+void update_positions_from_origin(ObjectPosition *origin);
 
 #endif

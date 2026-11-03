@@ -18,7 +18,6 @@ struct S_800C5B48_1;
 struct S_800C7674_0;
 struct S_800CC070_0;
 struct S_800CC070_1;
-struct SpriteFrameState;
 
 /* advance_bounded_motion.c */
 void advance_bounded_motion(struct S_800C355C_1 *entity, void *motion, struct SpriteFrameState *context, s32 check_param);
@@ -36,7 +35,7 @@ void advance_motion_and_switch_handler(TownObjectRecord *object, EntityRec *moti
 void advance_reaction_motion_to_limit(Rec_func_800C9B44_arg0 *state, EntityRec *motion, struct SpriteFrameState *context);
 
 /* advance_vertical_motion_and_bounce.c */
-void advance_vertical_motion_and_bounce(TownObjectRecord *actor, EntityRec *motion, void *context);
+void advance_vertical_motion_and_bounce(TownObjectRecord *actor, EntityRec *motion, struct SpriteFrameState *context);
 
 /* expire_motion_timer.c */
 void expire_motion_timer(struct S_800C3FC8_0 *object, ObjectPosition *motion);

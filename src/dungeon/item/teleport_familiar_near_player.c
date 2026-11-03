@@ -59,7 +59,7 @@ void *teleport_familiar_near_player(void *object, s16 action_arg) {
         tile_mask = 0x3000;
         g_dungeon_status.activity_counts.parts.pending_action_count = (u16)(((u16)g_dungeon_status.activity_counts.parts.pending_action_count) + 1);
         position = *(u8 **)((u8 *)object - 0x14);
-        task_data = (u8 *)task + 0x20;
+        task_data = NODE_BODY(task);
         old_x = position[0x24];
         old_y = position[0x25];
         if (((Rec_D_80082E80 *)object)->unk_1C.at00_u32.v & 0x2000) {

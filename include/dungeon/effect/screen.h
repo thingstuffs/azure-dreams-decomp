@@ -97,4 +97,6 @@ void create_attenuating_moving_effect(ObjectNodeHeader **alloc_arg, s32 child_x,
 
 void refresh_packed_grid_nibbles(void);
 
+void create_actor_linked_effect(ActorRecord *source_data);
+
 #endif

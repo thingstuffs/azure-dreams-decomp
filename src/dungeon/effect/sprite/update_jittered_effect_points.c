@@ -638,11 +638,11 @@ s32 update_segment(void *node)
         dy = (s16) sxy[0].half.y;
         dy = dy - ((s16) sxy[5].half.y);
         scratch.y = (u16) abs((s32) dy);
-        prim.f0C = *(u16 *)&base->view.camera_rotation.parts.viewAngle;
+        prim.f0C = ((u16)(base->view.camera_rotation.parts.viewAngle));
         transform_rotated_vertices(&prim, (s16) sxy[5].half.y);
         for (i = 0; i < 4; i++) {
             poly = *((void **) (((s8 *) (base->draw_buffer)) + 0x8D0));
-            *((void **) (((s8 *) (base->draw_buffer)) + 0x8D0)) = (void *) (((u8 *) poly) + 0x28);
+            *((void **) (((s8 *) (base->draw_buffer)) + 0x8D0)) =  (((u8 *) poly) + 0x28);
             *((s32 *) (((s8 *) poly) + 4)) = *((s32 *) (((s8 *) obj) + 0x38));
             SetPolyFT4(poly);
             SetSemiTrans(poly, 1);
@@ -687,7 +687,7 @@ s32 update_segment(void *node)
         if (parent == 0) {
             break;
         }
-        node = (void *) (((u8 *) parent) + 0x20);
+        node =  (((u8 *) parent) + 0x20);
     }
     while (1);
     return 0;

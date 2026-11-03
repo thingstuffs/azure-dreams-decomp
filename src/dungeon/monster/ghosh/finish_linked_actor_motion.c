@@ -16,7 +16,7 @@ typedef struct S_8016CED4_0 {
 } S_8016CED4_0;   /* arg0 in finish_linked_actor_motion */
 
 /* Runs the follow-up handler and assigns the shared record data when the check succeeds. */
-void finish_linked_actor_motion(S_8016CED4_0 *record, ObjectPosition *check_context, SpriteFrameState *source, s32 target) {
+void finish_linked_actor_motion(S_8016CED4_0 *record, ObjectPosition *check_context, SpriteFrameState *source, ActorRecord *target) {
     if (update_linked_actor_motion(record, check_context, source, target) != 0) {
         check_actor_floor_trap(source, target);
         record->unk_8C = &ghosh_action_resume_address;

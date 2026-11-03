@@ -12,7 +12,7 @@ extern s32 D_800D00F8;
 extern s16 D_800D0454[];
 
 /* Updates countdown-driven motion and invokes callbacks at selected ticks. */
-void update_actor_action_state(TownObjectRecord *state, EntityRec *motion, s32 callback_arg) {
+void update_actor_action_state(TownObjectRecord *state, ObjectPosition *motion, s32 callback_arg) {
     s16 ticks_left;
     s32 target_position;
 
@@ -34,11 +34,11 @@ void update_actor_action_state(TownObjectRecord *state, EntityRec *motion, s32 c
     ticks_left = (u16)state->unk_0A.as_s16 - 1;
     state->unk_0A.as_s16 = ticks_left;
     if ((s32)((u32)(u16)ticks_left << 16) <= 0) {
-        motion->unk_0C = 0;
-        motion->unk_10 = 0;
-        motion->flags14 = 0;
+        motion->velocity_x = 0;
+        motion->velocity_y = 0;
+        motion->velocity_z = 0;
         init_height_interpolation_action(state, motion, callback_arg);
         return;
     }
-    motion->flags14 = target_position - motion->z.v;
+    motion->velocity_z = target_position - motion->z.v;
 }

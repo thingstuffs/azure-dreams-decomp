@@ -96,7 +96,7 @@ void create_inactive_type_twelve_object(void) {
                 render_data->scale_y = 0;
                 render_data->scale_x = 0;
                 field_value_2 = config_value->unk_363C;
-                object_state = (Obj12State *)((u8 *)object + 0x20);
+                object_state = NODE_BODY(object);
                 object_state->unk_1E = field_value_2;
                 field_value = config_value->unk_3638;
                 child->x.w.i = field_value;

@@ -1,5 +1,6 @@
 #ifndef TOWN_EVENT_TARGET_RECORD_ANGLES_G00590_H
 #define TOWN_EVENT_TARGET_RECORD_ANGLES_G00590_H
+struct ObjectPosition;
 /* inferred-strong G00590: target_record_angles_g00590; shared declarations. */
 /* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - CL:town/func_800AC708, CL:town/func_800AC9AC, PD:town/engine:80100D18, PD:town/engine:80100D40, PD:town/engine:80100D42. */
 
@@ -28,9 +29,9 @@ extern IntVector3 town_motion_offset_position, D_80100D68;
 extern PositionRotationPair town_event_motion_pair;
 
 extern u16 town_motion_x_phase, town_motion_y_phase, town_motion_x_step, town_motion_y_step;
-extern void draw_random_colored_line(s32, s32);
+extern void draw_random_colored_line(s32, void *);
 
 /* Functions defined in this translation unit. */
-void apply_two_records_to_target(s32 target, s32 setup_data);
+void apply_two_records_to_target(void *target, struct ObjectPosition *setup_data);
 
 #endif

@@ -6,10 +6,11 @@
 #include "town/player.h"
 
 #include "town/player/initialize_record_with_handler_table_api.h"        /* extern */
+#include "shared/sprite_frame_state.h"
 
 
 /* Move the record value toward 0x4C2 by four and invoke completion handlers on arrival. */
-void raise_record_value_to_target(s32 context_id, ObjectPosition *record, s32 context) {
+void raise_record_value_to_target(TownObjectRecord *context, ObjectPosition *record, SpriteFrameState *sprite) {
     s16 raised_value;
     s16 lowered_value;
     u16 current_value;
@@ -24,6 +25,6 @@ void raise_record_value_to_target(s32 context_id, ObjectPosition *record, s32 co
                lowered_value < 0x4C3)) {
         record->x.w.i = 0x4C2;
         set_resident_bitmap_bit(sn_open_sekkyo_ready);
-        initialize_record_with_handler_table((Struct8009B1C8 *)(context_id), (s32)(record), context);
+        initialize_record_with_handler_table(context, (record), sprite);
     }
 }

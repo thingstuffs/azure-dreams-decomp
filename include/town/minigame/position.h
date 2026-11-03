@@ -20,7 +20,7 @@ typedef struct SceneTileObject {
     /* 0x04 */ void *linked; /* object whose status bits end the current phase */
     /* 0x08 */ s32 color; /* packed 0xBBGGRR tile colour (TILE code word) */
     /* 0x0C */ u16 x;
-    /* 0x0E */ u16 y;
+    /* 0x0E */ union { u16 u; s16 s; } y;
     /* 0x10 */ u16 width;
     /* 0x12 */ u16 height;
     /* 0x14 */ s16 tpage_mode; /* GetTPage semi-transparency mode */
@@ -34,7 +34,7 @@ void fade_delayed_scene_tile_on_completion(SceneTileObject *effect);
 void fade_scene_tile_across_terminal_phase(SceneTileObject *effect);
 
 /* fade_scene_tile_after_completion_flag.c */
-void fade_scene_tile_after_completion_flag(void *state);
+void fade_scene_tile_after_completion_flag(SceneTileObject *state);
 
 /* fade_scene_tile_after_linked_flag.c */
 void fade_scene_tile_after_linked_flag(SceneTileObject *effect);

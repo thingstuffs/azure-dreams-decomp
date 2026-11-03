@@ -280,7 +280,7 @@ void *allocate_initialized_child_object(ObjectNodeHeader *parent_object, s32 typ
     u8 *state;
 
     object = allocate_flagged_object_node(0);
-    state = ((u8 *)object )+ 0x20;
+    state = NODE_BODY(object);
     if (object != 0) {
         if (get_and_position_object_handle(state) != 0) {
             object->sprite =((u8*)object )  + 0x80;

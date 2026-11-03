@@ -175,7 +175,7 @@ void update_gym_minigame(GymState *state_obj) {
                     register_node(obj, build_menu_line_tile_packets);
                     secondary = (u8 *)obj + 0x20;
                     ((SceneTileObject *)secondary)->x = 0xC8;
-                    ((SceneTileObject *)secondary)->y = 0xA0;
+                    ((SceneTileObject *)secondary)->y.u = 0xA0;
                     ((SceneTileObject *)secondary)->width = 0x60;
                     ((SceneTileObject *)secondary)->height = 0x1C;
                     ((SceneTileObject *)secondary)->tpage_mode = 2;
@@ -371,7 +371,7 @@ loop_0:
                 register_node(obj, build_menu_line_tile_packets);
                 secondary = (u8 *)obj + 0x20;
                 ((SceneTileObject *)secondary)->x = 0x78;
-                ((SceneTileObject *)secondary)->y = 0x72;
+                ((SceneTileObject *)secondary)->y.u = 0x72;
                 ((SceneTileObject *)secondary)->width = 0x50;
                 ((SceneTileObject *)secondary)->height = 0x10;
                 ((SceneTileObject *)secondary)->tpage_mode = 2;
@@ -393,7 +393,7 @@ loop_0:
                 register_node(obj, text_sprite_builder_address);
                 first = ((SceneTileObject *)secondary)->x + 4;
                 sprite->field_14 = first;
-                second = ((SceneTileObject *)secondary)->y + 4;
+                second = ((SceneTileObject *)secondary)->y.u + 4;
                 sprite->field_18 = 3;
                 base = D_80026F34;
                 sprite->field_1A = 0x7C80;

@@ -61,7 +61,7 @@ void *allocate_item_object(s32 value_00, s32 value_10, s32 value_18, void *descr
     object = allocate_flagged_object_node(0);
     if (object != NULL) {
         descriptor_data = descriptor;
-        state = (S_80025198_1 *)(object + 1);
+        state = NODE_BODY(object);
         state->unk_00 = value_00;
         state->unk_10 = value_10;
         state->unk_14 = (s32) descriptor_data->unk_01;

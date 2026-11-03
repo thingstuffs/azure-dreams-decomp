@@ -3,6 +3,7 @@
 #include "sdk/libgpu.h"
 #include "slus.h"
 #include "town/data.h"
+#include "town/menu/catalog.h"
 
 typedef struct S_801254D8_0 {
     u8 pad_00[0x4];
@@ -36,26 +37,26 @@ typedef struct {
 extern s32 resource_completion_callback_address[];
 
 /* Loads an image and palette into VRAM, then updates the loading state. */
-void load_catalog_adjacent_detail_texture(void *context_arg) {
-    S_801254D8_0 *context = context_arg;
+void load_catalog_adjacent_detail_texture(CatalogDisplay *context_arg) {
+    CatalogDisplay *context = context_arg;
     Rect image_rect;
     Rect palette_rect;
     void *compressed;
     void *pixels;
     u8 load_phase;
 
-    load_phase = context->unk_0B;
+    load_phase = context->unk_0B.as_u8;
     if (load_phase != 0) {
         if (load_phase != 1) {
             return;
         }
     } else {
         pack_tagged_resource_descriptor(8, catalog_texture_buffer, catalog_texture_request,
-                      catalog_texture_resources[context->unk_13][1]);
+                      catalog_texture_resources[context->unk_13.as_u8][1]);
         Control_CD(6, catalog_texture_request, 0);
         context->unk_0D = 0;
         Control_CD(0xFF, resource_completion_callback_address, (u8 *)context + 0xD);
-        context->unk_0B++;
+        context->unk_0B.as_u8++;
     }
     if (context->unk_0D == 0) {
         return;
@@ -78,20 +79,20 @@ void load_catalog_adjacent_detail_texture(void *context_arg) {
     LoadImage(&image_rect, catalog_texture_pixels);
 
     ((S_801254D8_1 *)((u8 *)context + context->unk_16))->unk_17 =
-        context->unk_13;
+        context->unk_13.as_u8;
 
     {
-        u32 state_value = context->unk_13;
+        u32 state_value = context->unk_13.as_u8;
         u32 index_limit = context->unk_14;
 
         state_value = state_value < index_limit;
         if (state_value == 0) {
-            context->unk_0A = 0xB;
+            context->unk_0A.as_s8 = 0xB;
         } else {
-            context->unk_0A = 0xA;
+            context->unk_0A.as_s8 = 0xA;
         }
-        context->unk_04 = 1;
+        context->unk_04.as_s16 = 1;
     }
-    context->unk_0B = 0;
-    context->unk_06 = 0x19;
+    context->unk_0B.as_u8 = 0;
+    context->unk_06.as_s16 = 0x19;
 }

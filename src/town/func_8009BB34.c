@@ -11,10 +11,10 @@
 #include "town/data.h"
 extern s8 town_action_reset_byte;
 
-void init_four_tick_target_action(TownObjectRecord *object, s32 motion_context, void *handler_context) {
+void init_four_tick_target_action(TownObjectRecord *object, ObjectPosition *motion_context, void *handler_context) {
     call_the_handler_selects_nonzero_entry(&player_event_handler_entries, object, handler_context);
     town_action_reset_byte = 0;
     object->unk_04.as_pm = &target_action_update_address;
     object->unk_0A.as_s16 = 4;
-    clear_entity_record_fields((struct EntityRec *)(motion_context));
+    clear_entity_record_fields((motion_context));
 }

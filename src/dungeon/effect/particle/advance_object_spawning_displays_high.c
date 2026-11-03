@@ -555,22 +555,22 @@ void advance_actor_tint_particle_sequence(TintParticleSequence *effect, void *ef
                         position->x.w.i = effect->attachment_x.u;
                         position->y.w.i = effect->attachment_y.u;
                         position->z.w.i = effect->attachment_z.u;
-                        position->x.w.i = (u16)(*(u16 *)&position->x.w.i + *(u16 *)&world_offset->x.w.i);
-                        position->y.w.i = (u16)(*(u16 *)&position->y.w.i + *(u16 *)&world_offset->y.w.i);
-                        position->z.w.i = (u16)(*(u16 *)&position->z.w.i + *(u16 *)&world_offset->z.w.i);
+                        position->x.w.i = (u16)(((u16)(position->x.w.i)) + ((u16)(world_offset->x.w.i)));
+                        position->y.w.i = (u16)(((u16)(position->y.w.i)) + ((u16)(world_offset->y.w.i)));
+                        position->z.w.i = (u16)(((u16)(position->z.w.i)) + ((u16)(world_offset->z.w.i)));
                         if (particle_index != 0) {
                             bits = (u32)rand() & 0x1F;
-                            component = *(u16 *)&position->x.w.i;
+                            component = ((u16)(position->x.w.i));
                             component -= 0x10;
                             component += bits;
                             position->x.w.i = (u16)component;
                             bits = (u32)rand() & 0x1F;
-                            component = *(u16 *)&position->y.w.i;
+                            component = ((u16)(position->y.w.i));
                             component -= 0x10;
                             component += bits;
                             position->y.w.i = (u16)component;
                             bits = (u32)rand() & 0x1F;
-                            component = *(u16 *)&position->z.w.i;
+                            component = ((u16)(position->z.w.i));
                             component -= 0x10;
                             component += bits;
                             position->z.w.i = (u16)component;
@@ -643,22 +643,22 @@ void advance_actor_tint_particle_sequence(TintParticleSequence *effect, void *ef
                             position->x.w.i = effect->midpoint_x.u;
                             position->y.w.i = effect->midpoint_y.u;
                             position->z.w.i = effect->midpoint_z.u;
-                            position->x.w.i = (u16)(*(u16 *)&position->x.w.i + *(u16 *)&world_offset->x.w.i);
-                            position->y.w.i = (u16)(*(u16 *)&position->y.w.i + *(u16 *)&world_offset->y.w.i);
-                            position->z.w.i = (u16)(*(u16 *)&position->z.w.i + *(u16 *)&world_offset->z.w.i);
+                            position->x.w.i = (u16)(((u16)(position->x.w.i)) + ((u16)(world_offset->x.w.i)));
+                            position->y.w.i = (u16)(((u16)(position->y.w.i)) + ((u16)(world_offset->y.w.i)));
+                            position->z.w.i = (u16)(((u16)(position->z.w.i)) + ((u16)(world_offset->z.w.i)));
                             if (particle_index != 0) {
                                 bits = (u32)rand() & 0xF;
-                                component = *(u16 *)&position->x.w.i;
+                                component = ((u16)(position->x.w.i));
                                 component -= 8;
                                 component += bits;
                                 position->x.w.i = (u16)component;
                                 bits = (u32)rand() & 0xF;
-                                component = *(u16 *)&position->y.w.i;
+                                component = ((u16)(position->y.w.i));
                                 component -= 8;
                                 component += bits;
                                 position->y.w.i = (u16)component;
                                 bits = (u32)rand() & 0x1F;
-                                component = *(u16 *)&position->z.w.i;
+                                component = ((u16)(position->z.w.i));
                                 component -= 0x10;
                                 component += bits;
                                 position->z.w.i = (u16)component;
@@ -738,9 +738,9 @@ void advance_actor_tint_particle_sequence(TintParticleSequence *effect, void *ef
             u8 *dungeon = ((u8 *)(&reference_tile_object));
             if (get_sprite_attachment_vector(F(dungeon, void *, 8), dungeon,
                               (u8 *)effect + 0xC, 0) != 0) {
-                *(u32 *)&position->x.v += (u32)(effect->attachment_x.s << 16);
-                *(u32 *)&position->y.v += (u32)(effect->attachment_y.s << 16);
-                *(u32 *)&position->z.v += (u32)(effect->attachment_z.s << 16);
+                position->x.v = (u32)((u32)(position->x.v) + ((u32)(effect->attachment_x.s << 16)));
+                position->y.v = (u32)((u32)(position->y.v) + ((u32)(effect->attachment_y.s << 16)));
+                position->z.v = (u32)((u32)(position->z.v) + ((u32)(effect->attachment_z.s << 16)));
             }
         }
         sprite = particle->sprite;
@@ -774,9 +774,9 @@ void advance_actor_tint_particle_sequence(TintParticleSequence *effect, void *ef
                     }
                     position = particle->position;
                     if (get_sprite_attachment_vector(F(spawn_data, void *, 8), spawn_data, (u8 *)effect + 0xC, 0) != 0) {
-                        effect->attachment_x.u = (u16)(effect->attachment_x.u + *(u16 *)&world_offset->x.w.i);
-                        effect->attachment_y.u = (u16)(effect->attachment_y.u + *(u16 *)&world_offset->y.w.i);
-                        effect->attachment_z.u = (u16)(effect->attachment_z.u + *(u16 *)&world_offset->z.w.i);
+                        effect->attachment_x.u = (u16)(effect->attachment_x.u + ((u16)(world_offset->x.w.i)));
+                        effect->attachment_y.u = (u16)(effect->attachment_y.u + ((u16)(world_offset->y.w.i)));
+                        effect->attachment_z.u = (u16)(effect->attachment_z.u + ((u16)(world_offset->z.w.i)));
                         if (particle_index != 0) {
                             F(burst_tail, s16, 0x2A) = 8;
                             sprite->tpage_abr = 0x20;

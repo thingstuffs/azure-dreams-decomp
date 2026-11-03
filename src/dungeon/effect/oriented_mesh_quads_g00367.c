@@ -105,7 +105,7 @@ void draw_mesh_quads_with_orientation_mode(void *unused, void *endpoints_arg, vo
     scratch->unk_002 = second_coord;
     second_coord = endpoints->unk_16;
     scratch->unk_004 = second_coord;
-    otz2 = RotTransPers((void *)scratch, (void *)0x1F8000F0, (void *)0x1F800090, (void *)0x1F800094);
+    otz2 = RotTransPers(scratch, (void *)0x1F8000F0, (void *)0x1F800090, (void *)0x1F800094);
     end_y = scratch->unk_0F2;
     packet_code = scratch->unk_0BA;
     end_x = scratch->unk_0F0;
@@ -164,7 +164,7 @@ void draw_mesh_quads_with_orientation_mode(void *unused, void *endpoints_arg, vo
             scratch->unk_034 = scale_y;
             ScaleMatrix((void *)0x1F8000D0, (void *)0x1F800030);
         }
-        CompMatrix((s32 *)end_depth, (void *)0x1F8000D0, (void *)0x1F800050);
+        CompMatrix(end_depth, (void *)0x1F8000D0, (void *)0x1F800050);
         SetTransMatrix((void *)0x1F800050);
         SetRotMatrix((void *)0x1F800050);
         part = ((S_800CEFB8_1 *)sprite)->unk_08;

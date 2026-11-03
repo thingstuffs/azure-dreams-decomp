@@ -20,13 +20,13 @@ s32 draw_linked_sprites(void *first_payload, ObjectPosition *first_coords, Sprit
 
     while (1) {
         if (!(record->flags & 0x80)) {
-            scratch[0] = *(u16 *)&coords->x.w.i;
+            scratch[0] = (coords->x).unsigned_parts.integer;
             scratch[1] = *(u16 *)&coords->y.w.i;
-            draw_sprite_parts(payload, record, (s16)(*(u16 *)&coords->z.w.i + *(u16 *)&record->depth_bias));
+            draw_sprite_parts(payload, record, (s16)((coords->z).unsigned_parts.integer + ((u16)(record->depth_bias))));
         }
 
         next_node = ((ObjectNodeHeader *)payload)[-1].chain_next;
-        payload = (s8 *)next_node + 0x20;
+        payload = NODE_BODY(next_node);
         if (next_node == 0) {
             break;
         }

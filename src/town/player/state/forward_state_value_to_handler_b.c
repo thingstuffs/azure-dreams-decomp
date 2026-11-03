@@ -3,9 +3,9 @@
 #include "town/player/state.h"
 
 /* cfail-repair: tf7-phase1-cache-v3 */
-void initialize_target_and_handler_table(void *, s32);                            /* extern */
+void initialize_target_and_handler_table(void *, ObjectPosition *);                            /* extern */
 
 /* Forward the state and value to initialize_target_and_handler_table. */
-void forward_state_value_to_handler_b(void *state, s32 value) {
-    initialize_target_and_handler_table(state, value);
+void forward_state_value_to_handler_b(void *state, ObjectPosition *position) {
+    initialize_target_and_handler_table(state, position);
 }

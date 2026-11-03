@@ -11,9 +11,9 @@ typedef struct S_8009A58C_0 {
 } S_8009A58C_0;   /* arg0 in clear_player_motion_entry */
 
 
-void initialize_target_and_handler_table(S_8009A58C_0 *, s32);
+void initialize_target_and_handler_table(S_8009A58C_0 *, ObjectPosition *);
 /* Clear the indexed table entry and call initialize_target_and_handler_table. */
-void clear_player_motion_entry(S_8009A58C_0 *object, s32 value) {
+void clear_player_motion_entry(S_8009A58C_0 *object, ObjectPosition *position) {
     object_index_slots[object->unk_40].unk_00 = 0;
-    initialize_target_and_handler_table(object, value);
+    initialize_target_and_handler_table(object, position);
 }

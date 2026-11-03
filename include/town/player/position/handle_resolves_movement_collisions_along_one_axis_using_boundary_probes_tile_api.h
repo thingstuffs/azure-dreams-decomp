@@ -1,10 +1,11 @@
 #ifndef TOWN_PLAYER_POSITION_HANDLE_RESOLVES_MOVEMENT_COLLISIONS_ALONG_ONE_AXIS_USING_BOUNDARY_PROBES_TILE_API_H
 #define TOWN_PLAYER_POSITION_HANDLE_RESOLVES_MOVEMENT_COLLISIONS_ALONG_ONE_AXIS_USING_BOUNDARY_PROBES_TILE_API_H
+struct ObjectPosition;
 
 #include "common.h"
 
 struct EntityRec;
 
-void handle_resolves_movement_collisions_along_one_axis_using_boundary_probes_tile(struct EntityRec *);
+void handle_resolves_movement_collisions_along_one_axis_using_boundary_probes_tile(struct ObjectPosition *);
 
 #endif

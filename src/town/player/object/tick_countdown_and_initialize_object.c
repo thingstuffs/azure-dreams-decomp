@@ -8,7 +8,7 @@
    /* arg0 in tick_countdown_and_initialize_object */
 
 /* Decrement the countdown and call initialize_object_transform_and_handler when it reaches zero. */
-void tick_countdown_and_initialize_object(UnsignedCountdownView *state, void *context, s32 mode) {
+void tick_countdown_and_initialize_object(UnsignedCountdownView *state, ObjectPosition *context, s32 mode) {
     u16 remaining_ticks;
 
     remaining_ticks = state->unk_0A - 1;

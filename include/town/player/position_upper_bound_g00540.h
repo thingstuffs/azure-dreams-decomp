@@ -32,8 +32,8 @@ extern s8 D_800CFCE8;
 extern s32 D_800FE5D4;
 
 /* Functions defined in this translation unit. */
-s32 handle_query_position_after_subtracting_global_z_offset(Vec3i *position);
-void set_the_clear_secondary_refresh_global_flag_set(EntityRec *record, s32 value);
-void update_the_computed_upper_bound_global_state_permits(EntityRec *record);
+s32 handle_query_position_after_subtracting_global_z_offset(ObjectPosition *position);
+void set_the_clear_secondary_refresh_global_flag_set(ObjectPosition *record, s32 value);
+void update_the_computed_upper_bound_global_state_permits(ObjectPosition *record);
 
 #endif

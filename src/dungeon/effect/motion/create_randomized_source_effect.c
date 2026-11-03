@@ -259,7 +259,7 @@ void update_actor_effect_sequence(Row_8191CD78_S_func_80024578_1 *effect, Row_81
     case 1:
         work_base = (Row_8191CD78_S_func_80024578_5 *)((u8 *)actor - 0x20);
         motion_data = work_base->unk_0C;
-        if (resolve_record_orientation_or_fallback(motion_data->source, motion_data, (s16 *)(scratch + 0x18), 0) == 0) {
+        if (resolve_record_orientation_or_fallback(motion_data->source, motion_data, (scratch + 0x18), 0) == 0) {
             if ((((Row_8191CD78_S_func_80024578_6 *)(work_base->unk_0C))->flags & 0x8000) == 0) {
                 break;
             }

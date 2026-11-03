@@ -1,3 +1,4 @@
+#include "dungeon/effect/screen.h"
 #include "shared/audio_commands.h"
 #include "shared/actor_status_flags.h"
 #include "common.h"
@@ -24,7 +25,6 @@ typedef s32 M2C_UNK;
 
 extern void set_record_integer_tile_center(ObjectPosition *record, s32 tile_x, s32 tile_y);
 
-extern void create_actor_linked_effect(void *);
 extern void * create_offset_actor_object(ActorRecord *, ObjectPosition *, SpriteFrameState *);
 
 extern void golem_action_continuation_address(void *, void *, void *, void *);

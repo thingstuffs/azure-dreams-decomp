@@ -122,7 +122,7 @@ void clear_entry_flag_and_link_owner(ObjectNodeHeader *entry)
     owner = primary_actor_record;
     entry->update_callback = *(s32 *)&entry->update_callback & 0x7FFFFFFF;
     neighbor_links = (u8 *)owner->previous_actor_header + 0x20;
-    entry_links = (u8 *)entry + 0x20;
+    entry_links = NODE_BODY(entry);
     entry_links->unk_5C = neighbor_links->unk_5C;
     entry_links->unk_58 = owner->previous_actor_header;
     owner->previous_actor_header = entry;
@@ -170,7 +170,7 @@ void process_unflagged_entries_and_set_update(void)
     entry = dungeon_actor_ring_anchor;
     do {
         node = *(void **)((u8 *)entry + 0x5C);
-        next_entry = (u8 *)node + 0x20;
+        next_entry = NODE_BODY(node);
         if (!(*(s32 *)((u8 *)entry + 0x14) & 0x4000)) {
             node = (u8 *)entry - 0x20;
             node->flags = (u16)(node->flags | 0x1000);
@@ -252,9 +252,9 @@ s16 check_entity_relation(ActorRecord *entry, ActorRecord *anchor) {
     entry->next_actor_header = prev_link;
     prev_node = (void *)(prev_link + 0x20);
     link_bits = prev_node->previous_actor_header;
-    entry->previous_actor_header = (void *)link_bits;
+    entry->previous_actor_header = link_bits;
     link_bits = ((u8 *)entry - 0x20);
-    prev_node->previous_actor_header = (void *)link_bits;
+    prev_node->previous_actor_header = link_bits;
     anchor->next_actor_header = (void *)link_bits;
     return 1;
 }
@@ -1238,7 +1238,7 @@ void *spawn_object_at_target_position(ActorRecord *source, s16 target_x, s16 tar
     probe_result <<= 0x10;
     active_source = &primary_actor_record;
     if (probe_result == 0) {
-        return (void *)0;
+        return 0;
     }
 
     spawned = tile_finder_words(source, spawn_x, spawn_y,
@@ -1266,8 +1266,8 @@ void *spawn_object_at_target_position(ActorRecord *source, s16 target_x, s16 tar
     if (flags3c >= 0) {
         entry = &((u8 *)dungeon_ground_items)[flags3c * 4];
         spawned = create_indexed_floor_object(source,
-                                ((Context *)((u8 *)source - 0x20))->x,
-                                ((Context *)((u8 *)source - 0x20))->y,
+                                ((Context *)NODE_HEADER(source))->x,
+                                ((Context *)NODE_HEADER(source))->y,
                                 source, entry, flags3c);
         if (spawned == (void *)0) {
             return (void *)1;
@@ -1290,7 +1290,7 @@ void *spawn_object_at_target_position(ActorRecord *source, s16 target_x, s16 tar
         spawned->value3c = flags3c;
         return result_bytes;
     }
-    return (void *)0;
+    return 0;
 }
 #include "modules/dungeon_engine_tile_map_fragment_b5d50.h"
 #include "common.h"

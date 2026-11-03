@@ -103,7 +103,7 @@ void advance_actor_attack_sequence(ActorRecord *action_state, ObjectPosition *mo
         action_state->action_phase.u = (u8) (action_state->action_phase.u + 1);
     case 2:
         if (action_state->unk_A4.halves.high.u == 0) {
-            select_nearby_target_and_initialize_slot((u8 *)actor - 0x20, motion, 8, 0x300);
+            select_nearby_target_and_initialize_slot(NODE_HEADER(actor), motion, 8, 0x300);
             (*(u8 **)((u8 *)animation + 0x2C)) = D_800DD068;
             set_sprite_animation_frame(animation, D_800DD068[((s32) (g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7], 0,
                 1);

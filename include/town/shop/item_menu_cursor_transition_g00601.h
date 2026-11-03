@@ -31,18 +31,24 @@ typedef struct ItemMenuRows {
 typedef struct ItemMenuTransition {
     void (*callback)(struct ItemMenuTransition *state);
     s32 duration;
-    s32 progress;
-    u8 pad_0C[0x10];
+    union { s32 word; s16 half; } progress;
+    s16 unk_0C;
+    s16 unk_0E;
+    union { s32 word; struct { s16 low, high; } half; } unk_10;
+    union { s32 word; struct { s16 low, high; } half; } unk_14;
+    union { s32 word; s16 half; } unk_18;
     s32 end_row;
     s32 start_row;
     u8 pad_24[4];
     s32 entry_count;
-    u8 pad_2C[0xC];
+    u8 pad_2C[8];
+    s32 unk_34;
     s32 entry_data_address; /* +0x38: byte table indexed by dispatch_item_menu_entry_callback */
-    u8 pad_3C[4];
+    s32 unk_3C;
     u8 row_data; /* +0x40: address stored in each row display; complete data extent is unestablished */
-    u8 pad_41[0x97];
-    ItemMenuRows *rows;
+    u8 pad_41[0x93];
+    void *unk_D4;
+    union { ItemMenuRows *as_rows; void *as_ptr; } rows;
 } ItemMenuTransition;
 
 void style_item_menu_entry_records(ItemMenuTransition *collection);

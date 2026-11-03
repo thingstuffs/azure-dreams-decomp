@@ -1,3 +1,4 @@
+#include "town/player/initialize_record_and_select_active_data.h"
 #include "town/player/carry_item.h"
 #include "shared/object_node.h"
 #include "town/player.h"
@@ -22,24 +23,24 @@ typedef struct CarryLinkedObject {
 
 /* plt_carry_item_del_ext: Updates the carried object and detaches it when its type or state matches. */
 void plt_carry_item_del_ext(void) {
-    u8 *base;
+    void *base;
     ObjectNodeHeader *input_values;
-    s32 first_value;
-    s32 second_value;
+    struct ObjectPosition *position;
+    struct SpriteFrameState *sprite;
     u8 *saved_object;
     void *context;
 
-    base = (u8 *)&scene_object_payload_alias;
+    base = &scene_object_payload_alias;
     context = base;
-    input_values = base - 0x20;
-    first_value = (s32)input_values->position;
-    second_value = (s32)input_values->sprite;
+    input_values = NODE_HEADER(base);
+    position = input_values->position;
+    sprite = input_values->sprite;
     saved_object = ((CarryRecord *)base)->linked_object;
 
-    if (get_linked_carry_item_data(context, first_value, second_value) != 0) {
+    if (get_linked_carry_item_data(context, position, sprite) != 0) {
         CarryLinkedObject *linked_object;
 
-        initialize_record_and_select_active_data(base, first_value, second_value);
+        initialize_record_and_select_active_data(base, position, sprite);
         do {
             linked_object = (CarryLinkedObject *)((CarryRecord *)base)->linked_object;
         } while (0);

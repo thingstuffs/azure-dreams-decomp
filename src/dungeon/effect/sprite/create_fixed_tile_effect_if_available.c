@@ -34,7 +34,7 @@ void create_fixed_tile_effect_if_available(void) {
             graphics = object->position;
             graphics->x.w.i = 0x820;
             graphics->y.w.i = 0x820;
-            graphics->z.w.i = get_surface_height_at_coordinates(*(u16 *)&graphics->x.w.i, 0x820);
+            graphics->z.w.i = get_surface_height_at_coordinates(((u16)(graphics->x.w.i)), 0x820);
             animation = object->sprite;
             animation->scale_y = 0x1000;
             animation->scale_x = 0x1000;

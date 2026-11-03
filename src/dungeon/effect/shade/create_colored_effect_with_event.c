@@ -64,6 +64,6 @@ void create_colored_effect_with_event(ObjectNodeHeader *source, s32 color, unsig
             play_sound_if_enabled(event_code);
         }
         effect_state = &g_dungeon_status;
-        effect_state->activity_counts.parts.pending_action_count = (u16) ((*(u16 *)&effect_state->activity_counts.parts.pending_action_count) + 1);
+        effect_state->activity_counts.parts.pending_action_count = (u16) ((((u16)(effect_state->activity_counts.parts.pending_action_count))) + 1);
     }
 }

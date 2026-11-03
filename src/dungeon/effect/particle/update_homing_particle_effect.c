@@ -166,7 +166,7 @@ void decrement_flagged_item_parameters(S_func_81832800_1 *effect, S_func_8183280
     S_func_81832800_7 *particle_texture;
 
     source = effect->unk_00;
-    source_sprite = ((S_func_81832800_3 *) ((u8 *) source - 0x20))->unk_0C;
+    source_sprite = ((S_func_81832800_3 *)NODE_HEADER(source))->unk_0C;
     count = (source->facing >> 9) & 7;
     step_x = dir_step_x[count];
     step_y = dir_step_y[count];
@@ -198,7 +198,7 @@ void decrement_flagged_item_parameters(S_func_81832800_1 *effect, S_func_8183280
                     spawn_value = rand();
                     jitter_position_x = object->unk_08;
                     jitter_x = spawn_value;
-                    jitter_base = *(u16 *)&jitter_position_x->x.w.i - 0x10;
+                    jitter_base = ((u16)(jitter_position_x->x.w.i)) - 0x10;
                     if (spawn_value < 0) {
                         jitter_x = spawn_value + 0x1F;
                     }
@@ -206,7 +206,7 @@ void decrement_flagged_item_parameters(S_func_81832800_1 *effect, S_func_8183280
                     spawn_value = rand(spawn_value, jitter_position_x, jitter_base);
                     jitter_position_y = object->unk_08;
                     jitter_y = spawn_value;
-                    jitter_base = *(u16 *)&jitter_position_y->y.w.i - 0x10;
+                    jitter_base = ((u16)(jitter_position_y->y.w.i)) - 0x10;
                     if (spawn_value < 0) {
                         jitter_y = spawn_value + 0x1F;
                     }
@@ -215,8 +215,8 @@ void decrement_flagged_item_parameters(S_func_81832800_1 *effect, S_func_8183280
                 } while (jitter_count >= 0);
                 particle_position = object->unk_08;
                 (((ObjectPosition *)object->unk_08))->z.w.i =
-                    sample_terrain_surface_height(*(u16 *)&particle_position->x.w.i,
-                    *(u16 *)&particle_position->y.w.i, (s16) (position->unk_08.parts.unk_0A.as_u16 - 0x30));
+                    sample_terrain_surface_height(((u16)(particle_position->x.w.i)),
+                    ((u16)(particle_position->y.w.i)), (s16) (position->unk_08.parts.unk_0A.as_u16 - 0x30));
                 height_position = object->unk_08;
                 if (height_position->z.w.i >= 0x200) {
                     height_position->z.w.i = (s16) position->unk_08.parts.unk_0A.as_u16;

@@ -521,7 +521,7 @@ void update_palette_particle_transition(TransitionState *state, void *context, v
                     render_part->color.c.g = 0xFF;
                     render_part->color.c.r = 0xFF;
                     particle->payload.resource.packed = linked_particle_resource_template;
-                    render_part->source = (void *)&particle->payload.resource;
+                    render_part->source = &particle->payload.resource;
                     particle_scratch->resource.extent.width = 0x40;
                     particle_scratch->resource.extent.height = 0x40;
                 }
@@ -548,7 +548,7 @@ void update_palette_particle_transition(TransitionState *state, void *context, v
                         render_part->color.c.g = 0x80;
                         render_part->color.c.r = 0x80;
                         particle->payload.resource.packed = linked_particle_alt_resource_template;
-                        render_part->source = (void *)&particle->payload.resource;
+                        render_part->source = &particle->payload.resource;
                     }
                 }
             } else {
@@ -574,7 +574,7 @@ void update_palette_particle_transition(TransitionState *state, void *context, v
                     render_part->color.c.g = 0xFF;
                     render_part->color.c.r = 0xFF;
                     particle->payload.resource.packed = linked_particle_resource_template;
-                    render_part->source = (void *)&particle->payload.resource;
+                    render_part->source = &particle->payload.resource;
                     particle_scratch->resource.extent.width = 0;
                     particle_scratch->resource.extent.height = 0;
                 }
@@ -600,7 +600,7 @@ void update_palette_particle_transition(TransitionState *state, void *context, v
                     render_part->color.c.g = 0x80;
                     render_part->color.c.r = 0x80;
                     particle->payload.resource.packed = linked_particle_alt_resource_template;
-                    render_part->source = (void *)&particle->payload.resource;
+                    render_part->source = &particle->payload.resource;
                 }
             }
             if (state->countdown < 4) {
@@ -631,7 +631,7 @@ void update_palette_particle_transition(TransitionState *state, void *context, v
                     render_part->color.c.g = 0xFF;
                     render_part->color.c.r = 0xFF;
                     particle->payload.resource.packed = linked_particle_resource_template;
-                    render_part->source = (void *)&particle->payload.resource;
+                    render_part->source = &particle->payload.resource;
                     particle_scratch->resource.extent.width = 0;
                     particle_scratch->resource.extent.height = 0;
                 }
@@ -688,7 +688,7 @@ void update_palette_particle_transition(TransitionState *state, void *context, v
                 render_part->scale_y = particle_scale;
                 render_part->scale_x = particle_scale;
                 particle->payload.resource.packed = linked_particle_resource_template;
-                render_part->source = (void *)&particle->payload.resource;
+                render_part->source = &particle->payload.resource;
                 particle_scratch->resource.extent.width = 0x40;
                 particle_scratch->resource.extent.height = 0x40;
             }
@@ -715,7 +715,7 @@ void update_palette_particle_transition(TransitionState *state, void *context, v
                     render_part->color.c.g = 0x80;
                     render_part->color.c.r = 0x80;
                     particle->payload.resource.packed = linked_particle_alt_resource_template;
-                    render_part->source = (void *)&particle->payload.resource;
+                    render_part->source = &particle->payload.resource;
                 }
             }
         }

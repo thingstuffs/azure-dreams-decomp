@@ -1,3 +1,4 @@
+#include "town/player/position_handlers.h"
 #include "common.h"
 #include "m2c_compat.h"
 #include "records/Rec_func_80097D54_arg0.h"
@@ -10,7 +11,7 @@ void initialize_target_and_handler_table();    /* extern */
 extern M2C_UNK D_800CFFF0;
 
 /* Check the record, tick its countdown, and dispatch the appropriate handler. */
-void advance_timed_script_controller(Rec_func_80097D54_arg0 *record, s32 call_arg_1, SpriteFrameState *call_arg_2, s32 check_arg) {
+void advance_timed_script_controller(Rec_func_80097D54_arg0 *record, ObjectPosition *call_arg_1, SpriteFrameState *call_arg_2, s32 check_arg) {
     u16 countdown;
 
     if (service_script_controller() == 0) {

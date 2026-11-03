@@ -5,6 +5,7 @@
 #include "shared/game_work.h"
 #include "sdk/libc.h"
 #include "sdk/libgpu.h"
+#include "shared/entity.h"
 
 
 
@@ -12,10 +13,10 @@ struct MovingPosition; struct S_800A130C_0; void copy_odd_halfwords_3(struct S_8
 
 
 /* Queues a randomly colored line between two projected points with draw mode commands. */
-void draw_random_colored_line(s32 end_point, s32 start_point)
+void draw_random_colored_line(s32 end_point, void *start_point)
 {
     s32 end_pos = end_point;
-    s32 start_pos = start_point;
+    s32 start_pos = (s32)start_point;
     MenuLineScratch *scratch = (MenuLineScratch *)0x1F800000;
     GpuContext *draw_ctx;
     MenuLineG2 *line;

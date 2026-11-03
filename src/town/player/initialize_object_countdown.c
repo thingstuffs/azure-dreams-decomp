@@ -1,3 +1,4 @@
+#include "town/player/position_handlers.h"
 #include "common.h"
 #include "shared/town_object.h"
 #include "town/player.h"
@@ -11,9 +12,9 @@ extern s32 D_800D0178;
 
 
 /* Initializes the object with default data and resets its state. */
-void initialize_object_with_countdown_24(TownObjectRecord *object, s32 preparationValue, SpriteFrameState *initializationValue) {
-    clear_entity_record_fields((struct EntityRec *)(preparationValue));
-    call_the_handler_selects_nonzero_entry(&D_800D0178, object, (void *)(initializationValue));
+void initialize_object_with_countdown_24(TownObjectRecord *object, ObjectPosition *position, SpriteFrameState *initializationValue) {
+    clear_entity_record_fields((position));
+    call_the_handler_selects_nonzero_entry(&D_800D0178, object, initializationValue);
     object->unk_04.as_pm = &tick_countdown_and_initialize_object;
     town_action_reset_byte = 0;
     object->unk_0A.as_s16 = 0x18;

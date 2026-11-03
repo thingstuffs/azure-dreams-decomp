@@ -41,7 +41,7 @@ void create_an_initialize_fields_randomized_child_state(ObjectNodeHeader *object
         fields->unk_0E = 0;
         fields->unk_10 = 0;
         ((S_81976BC0_0 *)object)->unk_20 = object_value;
-        fields->unk_04 = ((u8 *)(&scene_object_list_anchor));
+        fields->unk_04 = ((&scene_object_list_anchor));
         fields->unk_08 = field_value;
         child = object->sprite;
         child->source = D_800261E4[0];

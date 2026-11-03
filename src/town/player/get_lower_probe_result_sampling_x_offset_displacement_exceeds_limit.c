@@ -1,3 +1,4 @@
+#include "town/player/position_handlers.h"
 #include "common.h"
 #include "sdk/libc.h"
 #include "town/map.h"
@@ -13,21 +14,21 @@ extern void *town_primary_probe_samples[3];
 extern s32 town_primary_probe_offset[3];
 
 /* Return the lower probe result, sampling an X offset when the displacement exceeds the limit. */
-s32 get_lower_probe_result_sampling_x_offset_displacement_exceeds_limit(Vec3s32 *input_pos) {
+s32 get_lower_probe_result_sampling_x_offset_displacement_exceeds_limit(ObjectPosition *input_pos) {
     Vec3s32 probe_pos;
     s16 initial_result;
     s32 result;
     s32 x_delta;
 
-    probe_pos.x = input_pos->x;
-    probe_pos.y = input_pos->y;
-    probe_pos.z = input_pos->z;
+    probe_pos.x = input_pos->x.v;
+    probe_pos.y = input_pos->y.v;
+    probe_pos.z = input_pos->z.v;
     initial_result = min_indexed_query((s32)(&probe_pos), town_primary_probe_samples[0], 6);
     x_delta = town_primary_probe_offset[0];
     if (abs(x_delta) <= 0x140000) {
         return initial_result;
     }
-    probe_pos.x = input_pos->x - (x_delta / 2);
+    probe_pos.x = input_pos->x.v - (x_delta / 2);
     result = min_indexed_query((s32)(&probe_pos), town_primary_probe_samples[0], 6);
     if (result < initial_result) {
         return result;

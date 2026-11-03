@@ -2,7 +2,7 @@
 #include "town/player/item.h"
 
 /* Return the linked record data when its type or data tag qualifies, or zero. */
-void *get_linked_carry_item_data(void *record, s32 unused_first, s32 unused_second) {
+void *get_linked_carry_item_data(void *record, struct ObjectPosition *unused_position, struct SpriteFrameState *unused_sprite) {
     u8 *linked_record = *(u8 **)((u8 *)record + 0x2C);
 
     if (linked_record != 0) {

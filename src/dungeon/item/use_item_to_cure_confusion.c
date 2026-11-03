@@ -54,7 +54,7 @@ s32 use_item_to_cure_confusion(ActorRecord *entity, DungeonItemEntry *update_val
             return 1;
         }
     }
-    create_timed_paired_particle_emitter(((ObjectNodeHeader *)entity - 1)->position, 0xC02020, entity);
+    create_timed_paired_particle_emitter(NODE_HEADER(entity)->position, 0xC02020, entity);
     if ((entity->flags14 & ACTOR_PARTY_MEMBER) && !(entity->flags1C & ACTOR_CONFUSED)) {
         effect_result = get_unused_text_buffer();
         call_arg = &confusion_cure_text;

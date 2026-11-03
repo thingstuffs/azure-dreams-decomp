@@ -7,6 +7,7 @@
 #include "shared/town_object.h"
 #include "shared/entity.h"
 
+struct Obj800AD0E4;
 struct S_8009B120_0;
 struct S_8009C0D8_1;
 struct SpriteFrameState;
@@ -34,5 +35,9 @@ void select_object_value_by_height_band(TownObjectRecord *object, void *context,
 
 /* Owner declarations appended by tools/headers (append-only; the lines above are hand-kept). */
 #include "shared/sprite_frame_state.h"
+
+/* The timer and position access view remains private to the implementation. */
+
+void update_object_and_dispatch_actions(struct Obj800AD0E4 *timer_obj, ObjectPosition *object, SpriteFrameState *sprite);
 
 #endif

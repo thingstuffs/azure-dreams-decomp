@@ -880,7 +880,7 @@ s32 draw_fading_linked_quads(Item *item)
                     + ((wave_value * current_item->angle) >> 12);
                 transform.one = 1;
                 transform.zero = 0;
-                transform_rotated_vertices((Transform *) (&transform.p0));
+                transform_rotated_vertices( (&transform.p0));
                 vertex_bytes = (u8 *) quad_vertices;
                 vertex_0 = vertex_bytes;
                 vertex_2 = vertex_bytes + 16;

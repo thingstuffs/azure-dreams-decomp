@@ -41,7 +41,7 @@ void spawn_radial_particle_burst(s16 x, s16 y, s16 z, s16 flags)
 
     particle = allocate_flagged_object_node(0x212);
     if (particle != NULL) {
-        effect_state = (s8 *)particle + 0x20;
+        effect_state = NODE_BODY(particle);
         motion = particle->position;
         particle->update_callback = D_80099B18;
         motion->x.w.i = x;
@@ -79,7 +79,7 @@ void spawn_radial_particle_burst(s16 x, s16 y, s16 z, s16 flags)
     for (spokes_left = 0x10; spokes_left > 0; spokes_left--) {
         particle = allocate_flagged_object_node(0x212);
         if (particle != NULL) {
-            effect_state = (s8 *)particle + 0x20;
+            effect_state = NODE_BODY(particle);
             angle = spokes_left << 8;
             motion = particle->position;
             particle->update_callback = D_80099B18;

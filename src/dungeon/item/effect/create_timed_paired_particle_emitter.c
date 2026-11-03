@@ -60,7 +60,7 @@ void create_timed_paired_particle_emitter(ObjectPosition *source, s32 effect_par
     effect -= 0x10;
     draw_textured_ellipse(effect, &effect_init.rect, 1, 0);
 
-    state = (S_800C4AFC_0 *)((u8 *)object + 0x20);
+    state = NODE_BODY(object);
     state->unk_02 = 0x40;
     object->update_callback = (void *)tick_paired_particle_emitter;
     components = object->position;

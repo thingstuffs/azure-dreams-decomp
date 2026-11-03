@@ -190,7 +190,7 @@ void *create_familiar_restoration_effect(s32 tile_x, s32 tile_y, s32 z) {
         render_state->source = &familiar_restore_sprite_data[0];
         render_state->color.word = 0x808080;
         render_state->depth_bias = 8;
-        object_state = ((void *)object) + 0x20;
+        object_state = NODE_BODY(object);
         object_state->unk_4C = 8;
         object_state->unk_48 = 7;
     }

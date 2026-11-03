@@ -13,7 +13,7 @@
 
 typedef struct S_800D991C_0 {
     u8 pad_00[0x8C];
-    void (*unk_8C)(void *, EntityRec *, void *, ActorRecord *);
+    void (*unk_8C)(void *, ObjectPosition *, void *, ActorRecord *);
     s32 unk_90;
     u8 pad_94[0x2];
     s16 unk_96;

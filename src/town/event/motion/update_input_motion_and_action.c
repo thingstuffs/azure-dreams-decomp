@@ -23,7 +23,7 @@ extern s16 town_motion_x_step;
 extern s16 town_motion_y_step;
 
 /* Updates input-driven motion and handles object action transitions. */
-void update_input_motion_and_action(void *controller, void *object, s32 update_arg) {
+void update_input_motion_and_action(void *controller, ObjectPosition *object, s32 update_arg) {
     s32 saved_arg;
     GameWork *buttons;
     u8 *position;
@@ -36,7 +36,7 @@ void update_input_motion_and_action(void *controller, void *object, s32 update_a
     handle_resolves_movement_collisions_along_one_axis_using_boundary_probes_tile(object);
     move_both_components_toward_zero_direction_dependent_steps_clamping_zero(object);
     angle = select_the_smaller_position_query_result_capped_n_64_writes_associated(object, &position_query_scratch);
-    if (angle - *(s16 *)((u8 *)object + 0xA) >= 4) {
+    if (angle - object->z.w.i >= 4) {
         if (town_action_state_flag == 0) {
             initialize_action_object(controller, object, saved_arg);
             town_saved_motion_pointer = 0;

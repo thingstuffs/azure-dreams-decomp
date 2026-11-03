@@ -397,7 +397,7 @@ void spawn_spiraling(void *anchor, s16 angle, s16 unused, void *target, s32 mirr
     s32 offset;
 
     if (D_800249A4 != 0) return;
-    node = allocate_list_node(0x212, (ObjectNodeHeader **)anchor);
+    node = allocate_list_node(0x212, anchor);
     if (node == 0) return;
     node->header.callback = (void (*)(void *, void *, void *))update_spiraling_effect_growth_and_fade;
     register_node(node, linked_mesh_processor_address);

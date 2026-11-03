@@ -78,7 +78,7 @@ extern void *familiar_record_slots[];
 extern s8 entity_resource_read_complete;
 
 /* Advances the resource loading, object creation, and animation sequence. */
-void update_familiar_summoning(ActorRecord *actor, ObjectPosition *position, void *animation, ActorRecord *context) {
+void update_familiar_summoning(ActorRecord *actor, ObjectPosition *position, SpriteFrameState *animation, ActorRecord *context) {
 
     u8 *animation_table;
     void *load_resource;
@@ -97,13 +97,13 @@ void update_familiar_summoning(ActorRecord *actor, ObjectPosition *position, voi
     resource_info = ((S_80095A10_3 *)reference_tile_object.selected_item);
     switch (state) {
     case 0:
-        if (!(((SpriteFrameState *)animation)->flags & 0xE000)) {
+        if (!(animation->flags & 0xE000)) {
             return;
         }
-        (*(s32 **)((u8 *)animation + 0x2C)) = familiar_save_restore_frames;
+        animation->frameTable = familiar_save_restore_frames;
         set_sprite_animation_frame(animation, *((((s32) (g_game_work.view.camera_rotation.parts.viewAngle + context->facing + 0x100)
             >> 9) & 7) + familiar_save_restore_frames), 0, 1);
-        ((SpriteFrameState *)animation)->flags = (u16) (((SpriteFrameState *)animation)->flags | 0x200);
+        animation->flags = (u16) (animation->flags | 0x200);
         create_familiar_deployment_effect_with_owner_state(actor, position, animation);
         create_familiar_deployment_overlay(actor, position, animation);
         previous_state = actor->action_phase.u;
@@ -177,21 +177,21 @@ void update_familiar_summoning(ActorRecord *actor, ObjectPosition *position, voi
         if ((ticks_left << 0x10) > 0) {
             return;
         }
-        (*(s32 **)((u8 *)animation + 0x2C)) = familiar_save_frames;
+        animation->frameTable = familiar_save_frames;
         set_sprite_animation_frame(animation, *((((s32) (g_game_work.view.camera_rotation.parts.viewAngle + context->facing + 0x100)
             >> 9) & 7) + familiar_save_frames), 0, 1);
         previous_state = actor->action_phase.u;
         actor->action_phase.u = (u8) (previous_state + 1);
         return;
     case 5:
-        animation_flags = ((SpriteFrameState *)animation)->flags;
+        animation_flags = animation->flags;
         if (!(animation_flags & 0x6000)) {
             return;
         }
         animation_table = player_wait_frames;
-        ((SpriteFrameState *)animation)->flags = (u16) (animation_flags & 0xFDFF);
+        animation->flags = (u16) (animation_flags & 0xFDFF);
 set_animation:
-        (*(s32 **)((u8 *)animation + 0x2C)) = animation_table;
+        animation->frameTable = animation_table;
         set_sprite_animation_frame(animation, *((((s32) (g_game_work.view.camera_rotation.parts.viewAngle + context->facing + 0x100)
             >> 9) & 7) + animation_table), 0, 1);
 advance_state:

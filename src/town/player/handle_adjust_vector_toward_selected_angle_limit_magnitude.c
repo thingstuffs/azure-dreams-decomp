@@ -1,3 +1,4 @@
+#include "town/player/position_handlers.h"
 #include "common.h"
 #include "shared/game_work.h"
 #include "m2c_compat.h"
@@ -15,7 +16,7 @@ typedef struct {
  * Adds sine/cosine input acceleration scaled by 64 and limits the resulting vector to its previous
  * magnitude or 0x80000, whichever is larger.
  */
-void handle_adjust_vector_toward_selected_angle_limit_magnitude(Func97514Object *object) {
+void handle_adjust_vector_toward_selected_angle_limit_magnitude(ObjectPosition *object) {
     s16 angle;
     s32 delta_x;
     s32 delta_y;
@@ -26,16 +27,16 @@ void handle_adjust_vector_toward_selected_angle_limit_magnitude(Func97514Object 
     if (angle != -1) {
         delta_x = rsin(angle) << 6;
         delta_y = rcos(angle) << 6;
-        old_magnitude = runtime_estimate_vector_length(object->x, object->y);
+        old_magnitude = runtime_estimate_vector_length(object->velocity_x, object->velocity_y);
         if (old_magnitude <= 0x7FFFF) {
             old_magnitude = 0x80000;
         }
-        object->x += delta_x;
-        object->y += delta_y;
-        new_magnitude = runtime_estimate_vector_length(object->x, object->y);
+        object->velocity_x += delta_x;
+        object->velocity_y += delta_y;
+        new_magnitude = runtime_estimate_vector_length(object->velocity_x, object->velocity_y);
         if (old_magnitude < new_magnitude) {
-            object->x = object->x / ((new_magnitude + 0xFFF) / 0x1000) * (old_magnitude / 0x1000);
-            object->y = object->y / ((new_magnitude + 0xFFF) / 0x1000) * (old_magnitude / 0x1000);
+            object->velocity_x = object->velocity_x / ((new_magnitude + 0xFFF) / 0x1000) * (old_magnitude / 0x1000);
+            object->velocity_y = object->velocity_y / ((new_magnitude + 0xFFF) / 0x1000) * (old_magnitude / 0x1000);
         }
     }
 }

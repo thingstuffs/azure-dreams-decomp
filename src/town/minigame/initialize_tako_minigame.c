@@ -220,7 +220,7 @@ next_right_row:
         final_state = (u8 *)object + 0x20;
         final_extent = 0x1C;
         final_state->x = final_extent;
-        final_state->y = final_extent;
+        final_state->y.u = final_extent;
         final_state->width = 0x48;
         final_state->height = final_extent;
         final_state->tpage_mode = 2;

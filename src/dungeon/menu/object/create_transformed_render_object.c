@@ -79,9 +79,9 @@ void *create_transformed_render_object(s32 x, s32 y, s32 initial_value, s32 upda
         render_data->source = &D_800DD824;
         render_data->scale_y = 0x2000;
         render_data->scale_x = 0x2000;
-        state = (u8 *)object + 0x20;
+        state = NODE_BODY(object);
         *(s16 *)((u8 *)state + 0x1C) = 8;
-        *(s32 *)((u8 *)object + 0x20) = initial_value;
+        *((s32 *)NODE_BODY(object)) = initial_value;
         *(s32 *)((u8 *)state + 0x28) = update_param;
         *(s16 *)((u8 *)state + 0x2E) = (s16)mode;
         if (mode == 0) {

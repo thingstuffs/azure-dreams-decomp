@@ -1407,7 +1407,7 @@ s32 queue_four_shaded_quadrants(MenuFadeRect *rect_arg, ObjectPosition *owner_ar
         do {
             render_state = *render_state_ptr;
             packet = render_state->packetCursor;
-            render_state->packetCursor = (u8 *)(packet + 1);
+            render_state->packetCursor = (packet + 1);
 
             center_coord = rect_data->x.u;
             packet->x2 = center_coord;
@@ -1453,7 +1453,7 @@ s32 queue_four_shaded_quadrants(MenuFadeRect *rect_arg, ObjectPosition *owner_ar
         AddPrim(&(*render_state_ptr)->orderTag + owner->z.w.i, packet);
 
         next_node = ((ObjectNodeHeader *)rect_data)[-1].chain_next;
-        rect_data = (MenuFadeRect *)(next_node + 1);
+        rect_data = NODE_BODY(next_node);
         if (next_node == 0) {
             break;
         }

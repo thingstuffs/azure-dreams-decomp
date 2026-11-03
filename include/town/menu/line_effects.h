@@ -1,5 +1,6 @@
 #ifndef TOWN_MENU_LINE_EFFECTS_H
 #define TOWN_MENU_LINE_EFFECTS_H
+struct ObjectPosition;
 
 #include "common.h"
 #include "shared/sprite_frame_state.h"
@@ -39,6 +40,6 @@ typedef struct MenuLineScratch {
 } MenuLineScratch;
 
 void draw_random_tinted_quad_pair(u8 *effect);
-void draw_random_colored_line(s32 end_point, s32 start_point);
+void draw_random_colored_line(s32 end_point, void *start_point);
 
 #endif

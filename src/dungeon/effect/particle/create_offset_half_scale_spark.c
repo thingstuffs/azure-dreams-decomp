@@ -55,12 +55,12 @@ void create_offset_half_scale_spark(void *source_position, s32 x_offset, s32 y_o
             position = obj->position;
             position->x.v = *(s32 *)((u8 *)source_position + 0);
             position->y.v = *(s32 *)((u8 *)source_position + 4);
-            x = *(u16 *)&position->x.w.i;
+            x = ((u16)(position->x.w.i));
             z_fixed = *(s32 *)((u8 *)source_position + 8);
             position->x.w.i = (u16)(x + x_offset);
-            y = *(u16 *)&position->y.w.i;
+            y = ((u16)(position->y.w.i));
             position->z.v = z_fixed;
-            z_fixed = *(u16 *)&position->z.w.i + z_offset;
+            z_fixed = ((u16)(position->z.w.i)) + z_offset;
             position->y.w.i = (u16)(y + y_offset);
             position->z.w.i = (u16)z_fixed;
         }

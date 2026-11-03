@@ -1,3 +1,4 @@
+#include "dungeon/effect/screen.h"
 #include "shared/audio_commands.h"
 #include "shared/actor_status_flags.h"
 #include "common.h"
@@ -40,7 +41,6 @@ extern u8 manoeva_frame_set_2[8];
 
 extern void select_sprite_entry(void *, s32, s32);
 extern void play_sound_if_enabled(s32);
-extern void create_actor_linked_effect(void *);
 
 /* Advances an actor's item action through source selection, animation, and cleanup. */
 void update_actor_item_use_animation(ActorRecord *action, void *item, SpriteFrameState *sprite, ActorRecord *actor)

@@ -42,7 +42,7 @@ void initialize_object_at_current_position(void) {
     ProjectileObject *object;
 
     town_scene_init_callback = 0;
-    object = initialize_scene_object_in_buffer(0, ((void *)&scene_object_list_anchor.next), 0x22);
+    object = initialize_scene_object_in_buffer(0, &scene_object_list_anchor.next, 0x22);
     object->update_callback = &initialize_object_rendering_resources;
     object->sprite = &reference_tile_object.frame_entry;
     object->position = &view_reference_entity.x.v;
@@ -60,5 +60,5 @@ void initialize_object_at_current_position(void) {
         view_reference_entity.y.w.i = (s16) (position_data->unk_16 + position_entry[1]);
         view_reference_entity.z.w.i = query_lowered_transform_position(&view_reference_entity.x.v);
     }
-    run_the_three_update_routines_context(&view_reference_entity.x.v);
+    run_the_three_update_routines_context((void *)&view_reference_entity.x.v);
 }

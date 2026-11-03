@@ -585,7 +585,7 @@ void create_timed_model_effect(void *owner, s32 value, void *child_data, void *t
             fallback = D_800DF334 - 0x3C;
             ((Tail *)object)->valueC = fallback;
         }
-        descriptor = (void *)&scene_object_list_anchor;
+        descriptor = &scene_object_list_anchor;
         header = primary_actor_record;
         ((Tail *)object)->owner = owner;
         ((Tail *)object)->descriptor = descriptor;
@@ -1278,7 +1278,7 @@ void draw_transformed_sprite_parts(void *position, void *context, s32 depth, s16
         }
     }
     PopMatrix();
-    (*global_slot)->packetCursor = (u8 *)packet;
+    (*global_slot)->packetCursor = packet;
     return;
 }
 #include "common.h"
@@ -1455,7 +1455,7 @@ void *create_familiar_selection_marker(EntityHdr **entity_ref) {
         }
     }
 
-    return (void *)object;
+    return object;
 }
 #include "shared/entity_height_offsets.h"
 #include "common.h"
@@ -2620,7 +2620,7 @@ s32 draw_particle_effect_primitives(DungeonObject *object, u16 *position) {
             scratch->length >>= 1;
             ((S_800BABA8_0_pre *)((void *)(packet_cursor + 7)))[-1].unk_00 = 8;
             ((S_800BABA8_0 *)((void *)(packet_cursor + 7)))->unk_00 = 58;
-            packet = (void *)((s8 *)((void *)((s8 *)((void *)(packet_cursor + 7)) + 36)) + 12);
+            packet = ((s8 *)((void *)((s8 *)((void *)(packet_cursor + 7)) + 36)) + 12);
             AddPrim((void *)(scratch->base + scratch->length * 4),
                 (void *)packet_cursor);
             packet_cursor += 36;
@@ -2735,15 +2735,15 @@ typedef struct S_800BB044_1 {
 extern void advance_particle_effect_state(void *object);
 
 /* Creates an object linked to the source data and copies its record fields. */
-void create_actor_linked_effect(void *sourceData) {
-    S_800BB044_0 *createdObject;
+void create_actor_linked_effect(ActorRecord *source_data) {
+    S_800BB044_0 *created_object;
 
-    createdObject = allocate_list_node(0x202, sourceData - 0x20);
-    if (createdObject != 0) {
-        createdObject->unk_10 = advance_particle_effect_state;
-        createdObject->unk_20 = sourceData;
-        createdObject->unk_08 = (s32) ((S_800BB044_1 *)((u8 *)sourceData - 0x18))->unk_00;
-        createdObject->unk_2C = (u16) ((S_800BB044_1 *)((u8 *)sourceData - 0x18))->unk_42;
+    created_object = allocate_list_node(0x202, &NODE_HEADER(source_data)->next);
+    if (created_object != 0) {
+        created_object->unk_10 = advance_particle_effect_state;
+        created_object->unk_20 = source_data;
+        created_object->unk_08 = (s32) ((S_800BB044_1 *)((u8 *)source_data - 0x18))->unk_00;
+        created_object->unk_2C = (u16) ((S_800BB044_1 *)((u8 *)source_data - 0x18))->unk_42;
         play_sound_if_enabled(0x703);
     }
 }
@@ -3306,7 +3306,7 @@ void *create_five_point_effect(s16 tile_x, s16 tile_y, s16 pos_z, void *transfor
             angle += 0x999;
             angle_index += 1;
         } while (angle_index < 5);
-        select_nearby_target_and_initialize_slot(((s32 *)&scene_object_list_anchor.next), &view_reference_entity.x.v, 8, 0x300);
+        select_nearby_target_and_initialize_slot((&scene_object_list_anchor.next), &view_reference_entity.x.v, 8, 0x300);
     }
     return effect;
 }
@@ -3568,7 +3568,7 @@ s32 draw_shaded_quad_chain(void *initial_state, ObjectPosition *context, SpriteF
         if (next_node == 0) {
             return 0;
         }
-        state = (void *)((s8 *)next_node + 32);
+        state = ((s8 *)next_node + 32);
         context = (void *)((s32 *)next_node)[2];
         data = (void *)((s32 *)next_node)[3];
     }

@@ -1,6 +1,7 @@
 #ifndef DUNGEON_ACTOR_MOTION_H
 #define DUNGEON_ACTOR_MOTION_H
 struct ObjectPosition;
+struct ObjectPosition;
 
 #include "common.h"
 #include "shared/entity.h"
@@ -17,7 +18,7 @@ typedef struct RisingLandingEffectBody {
 } RisingLandingEffectBody;
 
 
-void begin_pushed_actor_move(void *state_in, void *unused, void *position_in, void *actor_in);
+void begin_pushed_actor_move(void *state_in, struct ObjectPosition *unused, void *position_in, void *actor_in);
 s32 begin_ready_actor_directional_action(ActorRecord *body, ObjectPosition *position, SpriteFrameState *sprite, u8 *direction_frames);
 void begin_actor_move_to_target_facing(ActorRecord *body, ObjectPosition *position, SpriteFrameState *sprite, ActorRecord *actor);
 void dispatch_actor_action_2(ActorRecord *actor, ObjectPosition *position, SpriteFrameState *sprite, ActorRecord *state);
@@ -46,10 +47,10 @@ void install_actor_action_handler_after_thrown_travel(struct CallbackOwner *owne
 
 s32 update_actor_hop_and_shrink(void *animation, struct ObjectPosition *motion, SpriteFrameState *scale, void *render);
 
-s32 update_actor_movement_to_tile(void *move_state, void *motion, void *target_tile, ActorRecord *actor);
+s32 update_actor_movement_to_tile(ActorRecord *move_state, void *motion, void *target_tile, ActorRecord *actor);
 struct S_800D9884_0;
 void update_actor_target_after_check(ActorRecord *state, ObjectPosition *motion, SpriteFrameState *sprite, ActorRecord *target);
-void advance_actor_movement_to_tile(void *entity_ptr, void *input_arg_1, void *input_arg_2, void *actor_ptr);
+void advance_actor_movement_to_tile(ActorRecord *entity_ptr, void *input_arg_1, void *input_arg_2, void *actor_ptr);
 
 
 /* The trail callbacks keep seven 8-byte samples at work +0x24. Their motion
@@ -83,6 +84,6 @@ void update_position_history_and_shading(ActorTrailWork *obj, TrailMotion *coord
 void handle_actor_commands_and_facing(ActorRecord *actor, ObjectPosition *motion, SpriteFrameState *sprite, ActorRecord *actor_data);
 
 /* Owner declarations appended by tools/headers (append-only; the lines above are hand-kept). */
-s32 update_linked_actor_motion(void *state, ObjectPosition *transform, SpriteFrameState *config, void *object);
+s32 update_linked_actor_motion(void *state, ObjectPosition *transform, SpriteFrameState *config, ActorRecord *object);
 
 #endif

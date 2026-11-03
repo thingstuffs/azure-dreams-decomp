@@ -49,7 +49,6 @@ void initialize_menu_overlay_objects(u8 *owner, s32 value);
 void initialize_randomized_scale_timer(TownObjectRecord *object);
 u8 is_catalog_entry_available(s32 index);
 void no_op_callback_a(void);
-void reset_catalog_scroll_indicators(void *controller);
 s32 store_record_value_and_table_lookup(void);
 
 void accumulate_effect_step(void *updateState, s32 unused1, s32 unused2, void *accumulatorState);

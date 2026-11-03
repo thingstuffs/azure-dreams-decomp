@@ -396,7 +396,7 @@ void transform_and_queue_mesh_primitives(S_func_800241A8_4 *mesh, ObjectPosition
                         (texture_flags | 2) : (texture_flags & 0xFD);
                 }
 
-                packet->unk_04.as_u32_04 = *(u32 *)&object->color.word;
+                packet->unk_04.as_u32_04 = ((u32)(object->color.word));
                 setaddr(packet, getaddr((u32 *)scratch->unk_24 + scratch->unk_100));
                 setaddr((u32 *)scratch->unk_24 + scratch->unk_100, packet);
             }
@@ -467,7 +467,7 @@ void transform_and_queue_mesh_primitives(S_func_800241A8_4 *mesh, ObjectPosition
                 }
             }
 
-            render_flags = *(u32 *)&object->color.word;
+            render_flags = ((u32)(object->color.word));
             line->unk_00.as_u8_03.unk_03 = 3;
             line->unk_04.as_u32_04 = render_flags;
             line->unk_04.as_u8_07.unk_07 = 0x42;
@@ -619,7 +619,7 @@ s32 project_shaded_points_to_ordering_table(u8 *points, u8 *position, u8 *orient
         VFIELD(scratch, u16, 0xA8) = ((S_8187B1F4_2 *)orientation)->unk_1A;
         component = ((S_8187B1F4_2 *)orientation)->unk_18;
         ((S_8187B1F4_1 *)scratch)->unk_A6 = component;
-        RotMatrix(scratch + 0xA4, ((u8 *)model_matrix));
+        RotMatrix(scratch + 0xA4, (model_matrix));
         ReadRotMatrix(&view_matrix);
         CompMatrix(&view_matrix, model_matrix, transform_matrix);
         ScaleMatrix(transform_matrix, scratch + 0x34);
@@ -1595,7 +1595,7 @@ void update_projectile_trail_and_hit_effect(ProjectileEffect *effect, ObjectPosi
     owner = effect->owner;
     direction_steps = D_80024074;
     state_index = effect->state.s;
-    object = (u8 *)owner - 0x20;
+    object = NODE_HEADER(owner);
     object_data = object->position;
 
     switch (state_index) {

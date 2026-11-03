@@ -13,14 +13,14 @@
 typedef struct S_800A553C_0 {
     s32 * unk_00;
     u8 pad_04[0xC];
-    s32 * unk_10;
+    void (*unk_10)(TownPlayerRecord *, ObjectPosition *, void *);
 } S_800A553C_0;
 
 /* arg0 in initialize_effect_record_handlers; pointer addresses record offset 0x10 */
 void unlink_node_if_registered(void *block_data);
 /* extern */
 extern u8 D_800A5638[];
-void update_town_movement_and_actions(TownPlayerRecord *state, EntityRec *table, void *action_context);
+void update_town_movement_and_actions(TownPlayerRecord *state, ObjectPosition *table, void *action_context);
 extern s32 overlay_height_in_range;
 extern M2C_UNK D_800D0C50;
 extern s32 scene_object_payload_alias;

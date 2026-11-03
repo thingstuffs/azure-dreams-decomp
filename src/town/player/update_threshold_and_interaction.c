@@ -18,7 +18,7 @@ void handle_adjust_vector_toward_selected_angle_limit_magnitude();              
 #include "town/player/position/handle_resolves_movement_collisions_along_one_axis_using_boundary_probes_tile_api.h"                      /* extern */
 
 /* Advance the state counter and update the entity, handling threshold and flag transitions. */
-void update_threshold_and_interaction(TownObjectRecord *state, EntityRec *entity, SpriteFrameState *context) {
+void update_threshold_and_interaction(TownObjectRecord *state, ObjectPosition *entity, SpriteFrameState *context) {
     s16 threshold;
     u16 counter;
 
@@ -33,15 +33,15 @@ void update_threshold_and_interaction(TownObjectRecord *state, EntityRec *entity
     threshold = select_the_smaller_position_query_result_capped_n_64_writes_associated(entity, &position_query_scratch);
     if (entity->z.w.i >= threshold) {
         select_sound_command_from_mode();
-        compute_and_clamps_vector_based_adjustment_updates_town((struct TownObj *)(entity), threshold, (struct TownVec * *)(&position_query_scratch));
+        compute_and_clamps_vector_based_adjustment_updates_town((entity), threshold, (struct TownVec * *)(&position_query_scratch));
         spawn_person_radial_effects(entity);
         initialize_action_object_type_six(state, entity, context);
         return;
     }
     if (town_action_state_flag != 0) {
         select_sound_command_from_mode();
-        entity->flags14 = 0;
-        clear_global_slot_n_5_copy_source_slot_n_2_global_slot_n_2((s32 *)(entity));
+        entity->velocity_z = 0;
+        clear_global_slot_n_5_copy_source_slot_n_2_global_slot_n_2((entity));
         initialize_action_object_type_six(state, entity, context);
         return;
     }

@@ -1,5 +1,7 @@
 #ifndef MODULE_DUNGEON_OVL_E0365C_H
 #define MODULE_DUNGEON_OVL_E0365C_H
+struct SpriteFrameState;
+struct ObjectPosition;
 struct ObjectPosition;
 #include "sdk/libc.h"
 #include "dungeon/system.h"
@@ -664,11 +666,11 @@ extern void func_800A9A04(void *);
 extern void update_actor_status_and_mp(ActorRecord *entity);
 extern void initialize_actor_sprite_and_animation(void *entity, void *position, SpriteFrameState *sprite, s32 init_flags);
 extern s32 refresh_actor_facing_and_lifecycle();
-extern void begin_pushed_actor_move(void *state_in, void *unused, void *position_in, void *actor_in);
+extern void begin_pushed_actor_move(void *state_in, struct ObjectPosition *unused, void *position_in, void *actor_in);
 extern s32 begin_ready_actor_directional_action(ActorRecord *body, ObjectPosition *position, SpriteFrameState *sprite, u8 *direction_frames);
 extern void begin_actor_move_to_target_facing(ActorRecord *body, ObjectPosition *position, SpriteFrameState *sprite, ActorRecord *actor);
-extern s32 update_actor_movement_to_tile(void *move_state, void *motion, void *target_tile, ActorRecord *actor);
-extern s32 update_linked_actor_motion(void *state, ObjectPosition *transform, SpriteFrameState *config, void *object);
+extern s32 update_actor_movement_to_tile(ActorRecord *move_state, void *motion, void *target_tile, ActorRecord *actor);
+extern s32 update_linked_actor_motion(void *state, ObjectPosition *transform, SpriteFrameState *config, ActorRecord *object);
 extern s32 update_actor_hop_and_shrink(void *,struct ObjectPosition *,struct SpriteFrameState *,void *);
 
 extern s32 interpolate_actor_to_terrain_tile(void *,void *,void *,void *);
@@ -678,7 +680,6 @@ extern s32 update_actor_transform_from_parent(void *, void *, void *, void *);
 extern s32 update_actor_fade_in(void *,void *,void *,void *);
 void spend_actor_mp(ActorRecord *entity, s32 base_reduction);
 
-extern void create_actor_linked_effect(void *);
 extern s16 sample_terrain_surface_height(s32,s32,s16);
 extern void *create_actor_with_tile_flags(s32, s16, s16, s16); /* Unprototyped: retail call narrows its arguments to this declaration; no shared prototype keeps it */
 
@@ -693,10 +694,10 @@ void begin_actor_attack_after_status_check(ActorRecord *action_state, ObjectPosi
 s32 check_actor_ahead_height(ActorRecord *action_state, ObjectPosition *source_pos, SpriteFrameState *sprite, ActorRecord *actor);
 void start_actor_directional_animation(ActorRecord *actor_state, ObjectPosition *action_param, SpriteFrameState *sprite, ActorRecord *actor);
 void move_actor_to_tile_and_check_trap(ActorRecord *state, ObjectPosition *motion, SpriteFrameState *sprite, ActorRecord *actor);
-void update_actor_hop_to_tile(ActorRecord *anim, ObjectPosition *motion, void *actor, ActorRecord *actor_state);
+void update_actor_hop_to_tile(ActorRecord *anim, ObjectPosition *motion, struct SpriteFrameState *actor, ActorRecord *actor_state);
 void update_linked_actor_motion_and_trap(ActorRecord *state, ObjectPosition *motion, SpriteFrameState *sprite, ActorRecord *actor);
 void resolve_actor_attack_damage(ActorRecord *body, ObjectPosition *position, SpriteFrameState *sprite, ActorRecord *actor);
-void update_actor_spell_action(void *state, struct E_80172A58_S_80172A58_6 *position, struct E_80172A58_S_80172A58_5 *sprite, void *actor);
+void update_actor_spell_action(void *state, struct E_80172A58_S_80172A58_6 *position, struct E_80172A58_S_80172A58_5 *sprite, ActorRecord *actor);
 void dampen_actor_movement_to_tile(ActorRecord *action, ObjectPosition *motion, SpriteFrameState *tile_state, ActorRecord *entity);
 void remove_defeated_volcano(void *state,void *position,void *render_state,void *entity);
 void shrink_hopping_volcano(void *state,void *motion,void *sprite,void *actor);

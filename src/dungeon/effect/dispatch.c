@@ -951,7 +951,7 @@ L_zero:
         request_scene_dispatch_state(3);
         return;
     }
-    snapshot_inventory_and_familiars(((u8 *)dungeon_actor_ring_anchor));
+    snapshot_inventory_and_familiars((dungeon_actor_ring_anchor));
     snapshot_inventory_familiar_records();
     check_action_boundary_and_set_flag();
     {
@@ -1532,7 +1532,7 @@ DungeonObject *create_central_and_child_effects(s16 tile_x, s16 tile_y, u16 z, s
                 child_coord = child->coord;
                 child_coord->x.w.i = (s16) (center->x.w.i + (rcos(angle) >> 7));
                 child_coord->y.w.i = (s16) (center->y.w.i + (rsin(angle) >> 7));
-                child_coord->z.w.i = *(u16 *)&center->z.w.i;
+                child_coord->z.w.i = ((u16)(center->z.w.i));
                 render = child->render;
                 render->blend2 = 0xFC00;
                 render->shade = shade;
@@ -1541,7 +1541,7 @@ DungeonObject *create_central_and_child_effects(s16 tile_x, s16 tile_y, u16 z, s
                     render->width = 0x40;
                 }
                 state = &child->state;
-                image_data = (void *) ((u8 *) child + 0x24);
+                image_data =  ((u8 *) child + 0x24);
                 state->height = height;
                 render->image = image_data;
                 copy_words_forward(image_data, D_800DF3B4, 3);
@@ -1893,7 +1893,7 @@ void blend_entity_toward_target_state(void *entity_data) {
         entity->unk18 += 1;
         return;
     case 1:
-        select_nearby_target_and_initialize_slot((u8 *)dungeon_actor_ring_anchor - 0x20, ((u8 *)(&view_reference_entity)), 8, camera_depth_target[0]);
+        select_nearby_target_and_initialize_slot(NODE_HEADER(dungeon_actor_ring_anchor), ((&view_reference_entity)), 8, camera_depth_target[0]);
         g_dungeon_status.activity_counts.parts.pending_action_count = g_dungeon_status.activity_counts.parts.pending_action_count - 1;
     }
 }

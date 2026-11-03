@@ -77,7 +77,7 @@ void update_facing_and_spawn_expired_effect(AdvanceActorItemActionBody *state, M
             effect_render->color.c.b = 0x80;
             effect_render->color.c.g = 0x80;
             effect_render->color.c.r = 0x80;
-            effect_render->depth_bias = (u16) *(u16 *)&sprite->depth_bias;
+            effect_render->depth_bias = (u16) ((u16)(sprite->depth_bias));
             effect->update_callback = &D_800D586C;
             owner = ((S_800D58D8_0_pre *)state)[-1].unk_00;
             if (resolve_record_orientation_or_fallback(owner->unk_08, owner, &delta, 0) != 0) {

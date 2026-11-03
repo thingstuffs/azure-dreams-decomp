@@ -217,7 +217,7 @@ void *create_textured_ellipse_effect(ObjectPosition *object_id, s32 state_value)
         render_data->source = &D_800DD854;
         render_data->scale_y = 0x1000;
         render_data->scale_x = 0x1000;
-        state_data = (PulsingEffectWork *)((u8 *)object + 0x20);
+        state_data = NODE_BODY(object);
         state_data->target = (void *)state_value;
         state_data->timer.s = 4;
         resource_params.words[0] = 0x01800340;

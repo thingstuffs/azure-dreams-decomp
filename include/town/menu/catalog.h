@@ -17,10 +17,10 @@ struct CatalogNodeSlots;
 typedef struct CatalogDisplay {
     u8 pad_00[4];
     union { s16 as_s16; u16 as_u16; } unk_04;
-    s16 unk_06;
-    s16 unk_08;
+    union { s16 as_s16; u16 as_u16; } unk_06;
+    union { s16 as_s16; u16 as_u16; } unk_08;
     union { s8 as_s8; u8 as_u8; } unk_0A; /* catalog dispatch phase, stored through both byte views */
-    u8 unk_0B;
+    union { s8 as_s8; u8 as_u8; } unk_0B;
     u8 unk_0C;
     u8 unk_0D;
     u8 unk_0E;
@@ -28,12 +28,12 @@ typedef struct CatalogDisplay {
     u8 unk_10;
     u8 unk_11;
     u8 unk_12;
-    u8 unk_13;
+    union { s8 as_s8; u8 as_u8; } unk_13;
     u8 unk_14;
     u8 unk_15;
     u8 unk_16;
-    u8 unk_17;
-    u8 unk_18;
+    /* Detail input indexes either of the adjacent selection bytes. */
+    u8 choices[2];
     u8 pad_19[0x3B];
     struct ItemMenuPart *last_node;
     /* Both views describe the same 98-pointer table. Slot 97 is the cursor. */
@@ -43,6 +43,7 @@ typedef struct CatalogDisplay {
     } parts;
 } CatalogDisplay;
 
+void select_paired_value_tables(CatalogDisplay *selection);
 void draw_catalog_entry_page(CatalogDisplay *display);
 void enter_catalog_grid(CatalogDisplay *display);
 void animate_catalog_grid_to_detail(CatalogDisplay *display);
@@ -63,5 +64,23 @@ s16 *build_filtered_catalog_glyph(s32 char_code, s16 *destination);
 s16 *get_cached_catalog_glyph(s16 char_code);
 void draw_cached_catalog_text(u8 *text, s16 x, s16 y);
 void draw_vram_glyph_text(u8 *text, s16 x, s16 y);
+
+void load_catalog_adjacent_detail_texture(CatalogDisplay *display);
+void load_catalog_detail_texture(CatalogDisplay *display);
+void finish_catalog_return_to_grid(CatalogDisplay *display);
+void reset_catalog_grid_input(CatalogDisplay *display);
+void scroll_catalog_text_up(CatalogDisplay *display);
+void update_catalog(CatalogDisplay *display);
+void update_catalog_scroll_indicators(CatalogDisplay *display);
+void refresh_catalog_scroll_indicators(CatalogDisplay *display);
+void enter_catalog_detail_input(CatalogDisplay *display);
+void finish_catalog_detail_opening(CatalogDisplay *display);
+void finish_catalog_detail_transition(CatalogDisplay *display);
+void handle_catalog_detail_input(CatalogDisplay *display);
+void reset_catalog_scroll_indicators(CatalogDisplay *display);
+void update_catalog_scroll_availability(CatalogDisplay *display);
+
+extern void (*D_80126B34[])(CatalogDisplay *);
+extern void (*catalog_callbacks[])(CatalogDisplay *);
 
 #endif

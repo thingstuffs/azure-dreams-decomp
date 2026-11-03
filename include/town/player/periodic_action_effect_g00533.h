@@ -23,14 +23,14 @@ void init_flagged_action_fallback(s32 **record, void *ptr, void *ptr2);
 void initialize_action_object(s32 **record, void *ptr, void *ptr2);
 void play_periodic_sound(s32 count, s32 interval);
 void store_the_valid_shared_angle_in_offset_hex_10(void *record);
-void handle_resolves_movement_collisions_along_one_axis_using_boundary_probes_tile(EntityRec *position);
+void handle_resolves_movement_collisions_along_one_axis_using_boundary_probes_tile(ObjectPosition *position);
 void spawn_radial_effect_objects();
 extern u8 D_800D043C[];
 extern s32 D_800FE4E0;
 extern u8 D_800D0158;
 
 /* Functions defined in this translation unit. */
-void update_actor_with_periodic_effect(TownObjectRecord *actor, EntityRec *position, s32 context);
-void reset_action_handler_on_flag(s32 **handler_slot, s32 context, SpriteFlagsView *state);
+void update_actor_with_periodic_effect(TownObjectRecord *actor, ObjectPosition *position, s32 context);
+void reset_action_handler_on_flag(s32 **handler_slot, ObjectPosition *context, SpriteFlagsView *state);
 
 #endif

@@ -192,8 +192,8 @@ void draw_wave_distorted_sprite(void *screen_pos, u8 *wave, void *context, s32 *
                 *((u16 *) (((u8 *) scratch) + 0x8A)) = end_y;
                 *((u16 *) (((u8 *) scratch) + 0x82)) = end_y;
             }
-            RotTransPers4((void *) (((u8 *) scratch) + 0x70), (void *) (((u8 *) scratch) + 0x78),
-                (void *) (((u8 *) scratch) + 0x80), (void *) (((u8 *) scratch) + 0x88),
+            RotTransPers4( (((u8 *) scratch) + 0x70),  (((u8 *) scratch) + 0x78),
+                 (((u8 *) scratch) + 0x80),  (((u8 *) scratch) + 0x88),
                 (void *) (((u8 *) scratch) + 0xF0), (void *) (((u8 *) scratch) + 0xF4),
                 (void *) (((u8 *) scratch) + 0xF8), (void *) (((u8 *) scratch) + 0xFC),
                 (void *) (((u8 *) scratch) + 0x90), (void *) (((u8 *) scratch) + 0x94));
@@ -399,7 +399,7 @@ void draw_wave_distorted_sprite(void *screen_pos, u8 *wave, void *context, s32 *
         if (((s8) (*((u8 *) (((s8 *) part) + 0)))) < 0) {
             break;
         }
-        part = (void *) (((u8 *) part) + 0xC);
+        part =  (((u8 *) part) + 0xC);
     }
     end_packet = packet;
     if ((saved_draw_control << 0x10) != 0) {

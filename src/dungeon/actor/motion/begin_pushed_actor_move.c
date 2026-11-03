@@ -19,7 +19,7 @@ typedef struct S_800AA258_2 {
 void update_map_cell_flags_with_item_limit();                 /* extern */
 
 /* Move the position one step in the actor's direction and update movement state. */
-void begin_pushed_actor_move(void *state_in, void *unused, void *position_in, void *actor_in) {
+void begin_pushed_actor_move(void *state_in, ObjectPosition *unused, void *position_in, void *actor_in) {
     Rec_func_800A9E70_arg0 *state = state_in;
     S_800AA258_2 *position = position_in;
     ActorRecord *actor = actor_in;

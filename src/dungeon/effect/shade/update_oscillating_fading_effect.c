@@ -25,7 +25,7 @@ void update_oscillating_fading_effect(void *effect, Row_818F34E4_S_80024CE4_2 *p
     Row_818F34E4_S_80024CE4_0 *view_state;
 
     D_800259AC = 1;
-    global_state = ((void *)&g_game_work.view);
+    global_state = (&g_game_work.view);
     view_state = (u8 *) global_state + 0xB8;
     initialized = (*(s16 *)((u8 *)effect + 0));
     init_or_snapshot = (void *) (u32) (*(u16 *)((u8 *)effect + 0));

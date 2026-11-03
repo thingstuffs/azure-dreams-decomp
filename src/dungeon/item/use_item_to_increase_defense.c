@@ -58,7 +58,7 @@ s32 use_item_to_increase_defense(ActorRecord *entity, DungeonItemEntry *update_v
     if (entity->flags14 & ACTOR_PARTY_MEMBER) {
         adjust_source_value_and_finalize(entity, D_800E2056);
     }
-    create_colored_effect_with_sound((u8 *)entity - 0x20, 0x20F020, 0x616);
+    create_colored_effect_with_sound(NODE_HEADER(entity), 0x20F020, 0x616);
     clear_slot_and_update_linked_state(update_value);
     g_dungeon_status.activity_counts.parts.pending_action_count--;
     return 1;

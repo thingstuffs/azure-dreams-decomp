@@ -33,10 +33,10 @@ typedef struct S_800AB1C0_2 {
 } S_800AB1C0_2;   /* arg1 in update_actor_movement_to_tile */
 
 /* Update motion toward the target tile and finalize movement when the countdown expires. */
-s32 update_actor_movement_to_tile(void *move_state_arg, void *motion_arg, void *target_tile_arg, ActorRecord *actor) {
+s32 update_actor_movement_to_tile(ActorRecord *move_state_arg, void *motion_arg, void *target_tile_arg, ActorRecord *actor) {
     Rec_D_80082E80 *target_tile = target_tile_arg;
     S_800AB1C0_2 *motion = motion_arg;
-    S_800AB1C0_0 *move_state = move_state_arg;
+    ActorRecord *move_state = move_state_arg;
     s16 frames_left;
     s16 next_frames;
     u16 new_height;
@@ -46,9 +46,9 @@ s32 update_actor_movement_to_tile(void *move_state_arg, void *motion_arg, void *
     s32 adjusted_y;
 
     if (g_dungeon_status.flags & 0x80) {
-        move_state->unk_96 = 0;
+        move_state->action_timer.s = 0;
     }
-    frames_left = move_state->unk_96;
+    frames_left = move_state->action_timer.s;
     if (frames_left != 0) {
         tile_x = target_tile->unk_24;
         scaled_x = tile_x << 6;
@@ -62,10 +62,10 @@ s32 update_actor_movement_to_tile(void *move_state_arg, void *motion_arg, void *
         motion->unk_10 =
             (s32)(((s32)(((target_tile->unk_25 << 6) - adjusted_y)
                          << 0x10)) /
-                  (s16)move_state->unk_96);
+                  (s16)move_state->action_timer.s);
     }
-    next_frames = (u16)move_state->unk_96 - 1;
-    move_state->unk_96 = next_frames;
+    next_frames = (u16)move_state->action_timer.s - 1;
+    move_state->action_timer.s = next_frames;
     if ((next_frames << 0x10) <= 0) {
         motion->unk_14 = 0;
         motion->unk_10 = 0;
@@ -86,12 +86,12 @@ s32 update_actor_movement_to_tile(void *move_state_arg, void *motion_arg, void *
                 (target_tile->unk_24 << 6) | 0x20,
                 (target_tile->unk_25 << 6) | 0x20,
                 (s16)(((u16)actor->ground_height) - 0x20));
-            move_state->unk_90.at02.v =
-                (u16)(move_state->unk_90.at02.v +
+            move_state->unk_90.parts.high.u =
+                (u16)(move_state->unk_90.parts.high.u +
                       (((u16)actor->ground_height) - new_height));
             actor->ground_height = new_height;
             if (!(actor->flags1C & 0x40000)) {
-                move_state->unk_90.at00.v = 0;
+                move_state->unk_90.value = 0;
             }
         }
         return 1;

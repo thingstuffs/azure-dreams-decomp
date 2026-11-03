@@ -22,7 +22,7 @@ extern Motion town_collision_motion;
  * town_collision_motion and probes at the previous axis positions. For diagonal movement, uses the
  * combined previous-position probe or the offsets within the 64-unit tile to choose the order.
  */
-void handle_resolves_movement_collisions_along_one_axis_using_boundary_probes_tile(EntityRec *position) {
+void handle_resolves_movement_collisions_along_one_axis_using_boundary_probes_tile(ObjectPosition *position) {
     s32 probe_coord;
     struct {
         s32 x;

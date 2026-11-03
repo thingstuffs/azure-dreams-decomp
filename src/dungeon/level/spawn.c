@@ -590,7 +590,7 @@ void generate_random_dungeon_item_drops(void)
             cell->height = get_surface_height_at_coordinates((x << 6) | 32, (y << 6) | 32);
             cell->flag7 = 0;
             cycle_map_cell_flags(x, y, TILE_HAS_ITEM);
-            cell->object = get_item_category_value((void *)entry);
+            cell->object = get_item_category_value(entry);
         }
 
         budget -= decrement;
@@ -784,7 +784,7 @@ void create_tinted_dungeon_object(s16 x, s16 y, s16 tinted, s32 render_param)
         }
         flags = render_state->flags;
         render_state->tpage_abr = 0x20;
-        object_data = (((void *)object) + 0x20);
+        object_data = NODE_BODY(object);
         render_state->flags = flags | 0xC;
         object_data[3] = 0x18;
         object_data[4] = x;

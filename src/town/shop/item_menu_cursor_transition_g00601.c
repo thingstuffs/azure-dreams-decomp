@@ -10,13 +10,13 @@ void style_item_menu_entry_records(ItemMenuTransition *collection) {
     entry_index = 0;
     if (collection->entry_count > 0) {
         do {
-            collection->rows->text[entry_index]->data->x = 0x20;
-            collection->rows->text[entry_index]->data->red = 0x68;
-            collection->rows->text[entry_index]->data->green = 0x68;
-            collection->rows->text[entry_index]->data->blue = 0x60;
-            collection->rows->left[entry_index]->data->x = 9;
-            collection->rows->middle[entry_index]->data->x = 0x39;
-            collection->rows->right[entry_index]->data->x = 0x8F;
+            collection->rows.as_rows->text[entry_index]->data->x = 0x20;
+            collection->rows.as_rows->text[entry_index]->data->red = 0x68;
+            collection->rows.as_rows->text[entry_index]->data->green = 0x68;
+            collection->rows.as_rows->text[entry_index]->data->blue = 0x60;
+            collection->rows.as_rows->left[entry_index]->data->x = 9;
+            collection->rows.as_rows->middle[entry_index]->data->x = 0x39;
+            collection->rows.as_rows->right[entry_index]->data->x = 0x8F;
             entry_index += 1;
         } while (entry_index < collection->entry_count);
     }
@@ -40,42 +40,42 @@ void animate_item_menu_cursor_transition(ItemMenuTransition *state) {
     style_item_menu_entry_records(state);
     start_row = state->start_row;
     row_delta = state->end_row - start_row;
-    scaled_progress = state->progress * 0x10;
+    scaled_progress = state->progress.word * 0x10;
     cursor_offset = row_delta * scaled_progress / state->duration + 0xA;
-    cursor_prim = state->rows->cursor->data;
+    cursor_prim = state->rows.as_rows->cursor->data;
     cursor_prim->y = (s16)(start_row * 0x10 + cursor_offset);
-    slide_offset = (state->progress * 8) / state->duration;
-    state->rows->text[state->start_row]->data->x =
+    slide_offset = (state->progress.word * 8) / state->duration;
+    state->rows.as_rows->text[state->start_row]->data->x =
         (s16)(0x28 - slide_offset);
-    state->rows->text[state->end_row]->data->x =
+    state->rows.as_rows->text[state->end_row]->data->x =
         (s16)(slide_offset + 0x20);
-    state->rows->right[state->start_row]->data->x =
+    state->rows.as_rows->right[state->start_row]->data->x =
         (s16)(0x97 - slide_offset);
-    state->rows->right[state->end_row]->data->x =
+    state->rows.as_rows->right[state->end_row]->data->x =
         (s16)(slide_offset + 0x8F);
-    state->rows->left[state->start_row]->data->x =
+    state->rows.as_rows->left[state->start_row]->data->x =
         (s16)(0x11 - slide_offset);
-    state->rows->left[state->end_row]->data->x = (s16)(slide_offset + 9);
-    state->rows->middle[state->start_row]->data->x =
+    state->rows.as_rows->left[state->end_row]->data->x = (s16)(slide_offset + 9);
+    state->rows.as_rows->middle[state->start_row]->data->x =
         (s16)(0x41 - slide_offset);
-    state->rows->middle[state->end_row]->data->x =
+    state->rows.as_rows->middle[state->end_row]->data->x =
         (s16)(slide_offset + 0x39);
     start_r_duration = state->duration;
-    state->rows->text[state->start_row]->data->red =
-        (s8)(((start_r_duration - state->progress) * 0x18) / start_r_duration + 0x68);
+    state->rows.as_rows->text[state->start_row]->data->red =
+        (s8)(((start_r_duration - state->progress.word) * 0x18) / start_r_duration + 0x68);
     start_g_duration = state->duration;
-    state->rows->text[state->start_row]->data->green =
-        (s8)(((start_g_duration - state->progress) * 0x18) / start_g_duration + 0x68);
+    state->rows.as_rows->text[state->start_row]->data->green =
+        (s8)(((start_g_duration - state->progress.word) * 0x18) / start_g_duration + 0x68);
     start_b_duration = state->duration;
-    state->rows->text[state->start_row]->data->blue =
-        (s8)(((start_b_duration - state->progress) << 5) / start_b_duration + 0x60);
+    state->rows.as_rows->text[state->start_row]->data->blue =
+        (s8)(((start_b_duration - state->progress.word) << 5) / start_b_duration + 0x60);
     end_r_duration = state->duration;
-    state->rows->text[state->end_row]->data->red =
-        (s8)(-0x80 - ((end_r_duration - state->progress) * 0x18) / end_r_duration);
+    state->rows.as_rows->text[state->end_row]->data->red =
+        (s8)(-0x80 - ((end_r_duration - state->progress.word) * 0x18) / end_r_duration);
     end_g_duration = state->duration;
-    state->rows->text[state->end_row]->data->green =
-        (s8)(-0x80 - ((end_g_duration - state->progress) * 0x18) / end_g_duration);
+    state->rows.as_rows->text[state->end_row]->data->green =
+        (s8)(-0x80 - ((end_g_duration - state->progress.word) * 0x18) / end_g_duration);
     end_b_duration = state->duration;
-    state->rows->text[state->end_row]->data->blue =
-        (s8)(-0x80 - ((end_b_duration - state->progress) << 5) / end_b_duration);
+    state->rows.as_rows->text[state->end_row]->data->blue =
+        (s8)(-0x80 - ((end_b_duration - state->progress.word) << 5) / end_b_duration);
 }

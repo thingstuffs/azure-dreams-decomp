@@ -133,7 +133,7 @@ s32 draw_adjacent_row_quads(void)
                         SetDrawMode(draw_mode, 0, 0,
                                       (u16)GetTPage(0, 1, 0, 0), 0);
                         AddPrim(scratch->table + scratch->index,
-                                      (Entry *)draw_mode);
+                                      draw_mode);
                     }
                 }
 

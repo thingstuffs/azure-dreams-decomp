@@ -72,7 +72,7 @@ void *create_orbiting_teleport_effect(void *owner, s16 effect_value, s16 directi
         target = object->position;
         target->x.w.i = source->x;
         target->y.w.i = source->y;
-        record = (u8 *)object + 0x20;
+        record = NODE_BODY(object);
         target->z.w.i = source->z;
 
         record->unk_30 = effect_value;

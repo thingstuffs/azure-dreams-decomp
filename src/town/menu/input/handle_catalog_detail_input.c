@@ -1,6 +1,7 @@
 #include "common.h"
 #include "shared/game_work.h"
 #include "town/menu.h"
+#include "town/menu/catalog.h"
 #include "town/data.h"
 
 typedef struct {
@@ -9,34 +10,14 @@ typedef struct {
     u8 pad[3];
 } ImageList;
 
-typedef struct {
-    u8 pad0[4];
-    u16 field4;
-    u16 field6;
-    u16 field8;
-    u8 state;
-    u8 fieldB;
-    u8 toggleC;
-    u8 padD[2];
-    u8 digit0;
-    u8 digit1;
-    u8 digit2;
-    u8 pad12;
-    u8 index;
-    u8 old_index;
-    u8 pad15;
-    u8 side;
-    u8 choices[2];
-} TownState;
 
 extern void SD_Call(s32);
-extern void select_paired_value_tables(TownState *);
-extern void update_catalog_scroll_availability(TownState *);
+extern void update_catalog_scroll_availability(CatalogDisplay *);
 
 extern ImageList catalog_detail_images[];
 
 /* Handles selection navigation, scrolling, transitions, and the idle toggle timer. */
-void handle_catalog_detail_input(TownState *state)
+void handle_catalog_detail_input(CatalogDisplay *state)
 {
     u32 buttons;
     s32 max_scroll;
@@ -49,9 +30,9 @@ void handle_catalog_detail_input(TownState *state)
     if (((u32)g_game_work.pressed_buttons) & 0x20) {
         SD_Call(0x702);
         reset_catalog_scroll_indicators(state);
-        state->state = 9;
-        state->field4 = 1;
-        state->field6 = 0x19;
+        state->unk_0A.as_u8 = 9;
+        state->unk_04.as_u16 = 1;
+        state->unk_06.as_u16 = 0x19;
         return;
     }
 
@@ -60,7 +41,7 @@ void handle_catalog_detail_input(TownState *state)
         u8 *selection = catalog_selection_state;
 
         if (selection[9] >= 4) {
-            state->state = 0xD;
+            state->unk_0A.as_u8 = 0xD;
             selection[9] -= 4;
         } else {
             selection[9] = 0;
@@ -73,10 +54,10 @@ void handle_catalog_detail_input(TownState *state)
     if (buttons & 0x4000) {
         u8 *selection;
 
-        max_scroll = (catalog_detail_images[state->index].count - 3) << 4;
+        max_scroll = (catalog_detail_images[state->unk_13.as_u8].count - 3) << 4;
         selection = catalog_selection_state;
         if (((max_scroll & 0xF0) - 4) >= selection[9]) {
-            state->state = 0xE;
+            state->unk_0A.as_u8 = 0xE;
             selection[9] += 4;
         } else {
             selection[9] = max_scroll;
@@ -88,131 +69,131 @@ void handle_catalog_detail_input(TownState *state)
 
     if (buttons & 0x8000) {
         u8 index_count = 0x32;
-        state->old_index = state->index;
+        state->unk_14 = state->unk_13.as_u8;
         do {
-            if (state->index == 0) {
-                state->index = index_count;
+            if (state->unk_13.as_u8 == 0) {
+                state->unk_13.as_u8 = index_count;
             }
-            state->index--;
-        } while (!(is_catalog_entry_available(state->index) & 0xFF) &&
-            state->index != state->old_index);
+            state->unk_13.as_u8--;
+        } while (!(is_catalog_entry_available(state->unk_13.as_u8) & 0xFF) &&
+            state->unk_13.as_u8 != state->unk_14);
 
-        if (state->index == 0x31) {
-            state->digit1 = 1;
-            state->digit2 = 0;
-            state->digit0 = state->index >> 4;
+        if (state->unk_13.as_u8 == 0x31) {
+            state->unk_10 = 1;
+            state->unk_11 = 0;
+            state->unk_0F = state->unk_13.as_u8 >> 4;
         } else {
             u32 packed_index;
             u32 index_bits;
 
-            packed_index = state->index;
+            packed_index = state->unk_13.as_u8;
             index_bits = packed_index;
             packed_index >>= 4;
             index_bits >>= 3;
-            state->digit0 = packed_index;
-            state->digit1 = index_bits & 1;
-            state->digit2 = state->index & 7;
+            state->unk_0F = packed_index;
+            state->unk_10 = index_bits & 1;
+            state->unk_11 = state->unk_13.as_u8 & 7;
         }
 
-        current_index = state->index;
-        previous_index = state->old_index;
+        current_index = state->unk_13.as_u8;
+        previous_index = state->unk_14;
         if (current_index < previous_index) {
             SD_Call(0x702);
             reset_catalog_scroll_indicators(state);
-            state->side ^= 1;
+            state->unk_16 ^= 1;
             select_paired_value_tables(state);
-            side_choice = state->choices[state->side];
-            if (side_choice != state->index) {
-                state->state = 0xC;
+            side_choice = state->choices[state->unk_16];
+            if (side_choice != state->unk_13.as_u8) {
+                state->unk_0A.as_u8 = 0xC;
                 return;
             }
-            state->state = 0xA;
-            state->field4 = 1;
-            state->field6 = 0x19;
+            state->unk_0A.as_u8 = 0xA;
+            state->unk_04.as_u16 = 1;
+            state->unk_06.as_u16 = 0x19;
             return;
         }
         if (previous_index < current_index) {
             SD_Call(0x702);
             reset_catalog_scroll_indicators(state);
-            state->side ^= 1;
+            state->unk_16 ^= 1;
             select_paired_value_tables(state);
-            if (state->choices[state->side] == state->index) {
-                state->state = 0xB;
-                state->field4 = 1;
-                state->field6 = 0x19;
+            if (state->choices[state->unk_16] == state->unk_13.as_u8) {
+                state->unk_0A.as_u8 = 0xB;
+                state->unk_04.as_u16 = 1;
+                state->unk_06.as_u16 = 0x19;
                 return;
             }
-            state->state = 0xC;
+            state->unk_0A.as_u8 = 0xC;
         }
         return;
     }
 
     if (buttons & 0x2000) {
         s32 wrap_limit = 0x32;
-        state->old_index = state->index;
+        state->unk_14 = state->unk_13.as_u8;
         do {
-            next_index = state->index + 1;
-            state->index = next_index;
+            next_index = state->unk_13.as_u8 + 1;
+            state->unk_13.as_u8 = next_index;
             if ((next_index & 0xFF) == wrap_limit) {
-                state->index = 0;
+                state->unk_13.as_u8 = 0;
             }
-        } while (!(is_catalog_entry_available(state->index) & 0xFF) &&
-            state->index != state->old_index);
+        } while (!(is_catalog_entry_available(state->unk_13.as_u8) & 0xFF) &&
+            state->unk_13.as_u8 != state->unk_14);
 
-        if (state->index == 0x31) {
-            state->digit1 = 1;
-            state->digit2 = 0;
-            state->digit0 = state->index >> 4;
+        if (state->unk_13.as_u8 == 0x31) {
+            state->unk_10 = 1;
+            state->unk_11 = 0;
+            state->unk_0F = state->unk_13.as_u8 >> 4;
         } else {
             u32 packed_index;
             u32 index_bits;
 
-            packed_index = state->index;
+            packed_index = state->unk_13.as_u8;
             index_bits = packed_index;
             packed_index >>= 4;
             index_bits >>= 3;
-            state->digit0 = packed_index;
-            state->digit1 = index_bits & 1;
-            state->digit2 = state->index & 7;
+            state->unk_0F = packed_index;
+            state->unk_10 = index_bits & 1;
+            state->unk_11 = state->unk_13.as_u8 & 7;
         }
 
-        current_index = state->index;
-        previous_index = state->old_index;
+        current_index = state->unk_13.as_u8;
+        previous_index = state->unk_14;
         if (current_index < previous_index) {
             SD_Call(0x702);
             reset_catalog_scroll_indicators(state);
-            state->side ^= 1;
+            state->unk_16 ^= 1;
             select_paired_value_tables(state);
-            if (state->choices[state->side] != state->index) {
-                state->state = 0xC;
+            if (state->choices[state->unk_16] != state->unk_13.as_u8) {
+                state->unk_0A.as_u8 = 0xC;
                 return;
             }
-            state->state = 0xA;
-            state->field4 = 1;
-            state->field6 = 0x19;
+            state->unk_0A.as_u8 = 0xA;
+            state->unk_04.as_u16 = 1;
+            state->unk_06.as_u16 = 0x19;
             return;
         }
         if (previous_index < current_index) {
             SD_Call(0x702);
             reset_catalog_scroll_indicators(state);
-            state->side ^= 1;
+            state->unk_16 ^= 1;
             select_paired_value_tables(state);
-            if (state->choices[state->side] == state->index) {
-                state->state = 0xB;
-                state->field4 = 1;
-                state->field6 = 0x19;
+            if (state->choices[state->unk_16] == state->unk_13.as_u8) {
+                state->unk_0A.as_u8 = 0xB;
+                state->unk_04.as_u16 = 1;
+                state->unk_06.as_u16 = 0x19;
                 return;
             }
-            state->state = 0xC;
+            state->unk_0A.as_u8 = 0xC;
         }
         return;
     }
 
-    toggle_timer = state->field8 + 1;
-    state->field8 = toggle_timer;
+    toggle_timer = state->unk_08.as_u16 + 1;
+    state->unk_08.as_u16 = toggle_timer;
     if ((s16)toggle_timer >= 8) {
-        state->field8 = 0;
-        state->toggleC ^= 1;
+        state->unk_08.as_u16 = 0;
+        state->unk_0C ^= 1;
     }
 
     update_catalog_scroll_availability(state);

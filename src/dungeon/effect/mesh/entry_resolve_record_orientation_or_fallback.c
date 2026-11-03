@@ -108,9 +108,9 @@ void follow_source_then_seek_target(void *effect, ObjectPosition *motion, void *
             motion->z.w.i = source_z;
 
             if (!(((S_81976850_1 *)source)->unk_14 & 0x8000)) {
-                *(u16 *)&motion->x.w.i += delta.x;
-                *(u16 *)&motion->y.w.i += delta.y;
-                *(u16 *)&motion->z.w.i += delta.z;
+                motion->x.w.i = (u16)((u16)(motion->x.w.i) + (delta.x));
+                motion->y.w.i = (u16)((u16)(motion->y.w.i) + (delta.y));
+                motion->z.w.i = (u16)((u16)(motion->z.w.i) + (delta.z));
             } else {
                 motion->z.w.i = source_z - 0x20;
             }

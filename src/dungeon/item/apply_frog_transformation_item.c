@@ -91,7 +91,7 @@ s32 apply_frog_transformation_item(ActorRecord *entity, DungeonItemEntry *action
             flag_mask = 0x80000;
             original_id = entity->species;
             if (entity->flags1C & flag_mask) {
-                ((S_800BDEB8_1 *)(((ObjectNodeHeader *)entity - 1)->sprite))->unk_06 = 0;
+                ((S_800BDEB8_1 *)(NODE_HEADER(entity)->sprite))->unk_06 = 0;
             }
             {
                 u8 *message; /* MATCH: Keep the merged message address in retail's argument register. */
@@ -112,7 +112,7 @@ s32 apply_frog_transformation_item(ActorRecord *entity, DungeonItemEntry *action
             }
             clear_byte_and_advance(text_cursor);
             display_text_with_fullwidth_adjustment(message_handle);
-            create_colored_effect_with_event((u8 *)entity - 0x20, 0x20A0A0, 0x613);
+            create_colored_effect_with_event(NODE_HEADER(entity), 0x20A0A0, 0x613);
         } else {
             special_case = 1;
         }

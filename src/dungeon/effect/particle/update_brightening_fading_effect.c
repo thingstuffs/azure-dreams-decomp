@@ -86,7 +86,7 @@ void update_directional_actor_effect(void *object)
         } while (1);
 
         brightening_effect_fade_tick = 0;
-        map_data = (u8 *)dungeon_actor_ring_anchor;
+        map_data = dungeon_actor_ring_anchor;
         direction_offset = (((u16)map_data->facing) >> 8) & 0xE;
         flag_nearby_seven_by_seven_tiles(
             (s16)(reference_tile_object.tile_position.parts.tile_x +
@@ -1121,7 +1121,7 @@ void flag_nearby_seven_by_seven_tiles(s32 input_x, s32 center_y) {
         sample_ptr = (u16 *)sample_row;
         do {
             tile_sample = get_surface_height_at_coordinates((tile_x << 6) & 0xFFC0, world_y);
-            map = ((u8 *)dungeon_actor_ring_anchor);
+            map = (dungeon_actor_ring_anchor);
             *sample_ptr = 0 - tile_sample;
             tile = find_eligible_entry_at_coordinates(map, (u16)tile_x, (u16)tile_y);
             if ((tile != NULL) && (tile != (s32)bright_effect_source_actor)) {
@@ -1891,7 +1891,7 @@ void interpolate_target_and_finish_transition(State *state, Target *target, S_fu
         position.y = ((u16)view_reference_entity.y.w.i);
         position.z = ((S_func_819615E4_2 *)((u8 *)dungeon_actor_ring_anchor))->unk_88.u16_value - 0x50;
         transform_offset = ((g_game_work.view.camera_rotation.parts.viewAngle + dungeon_actor_ring_anchor->facing + 0x100) >> 7) & 0x1C;
-        resolve_record_orientation_or_fallback(((S_func_819615E4_3 *)((s32)transform_offset + (long)actor_direction_sprites))->unk_00, ((u8 *)(&reference_tile_object)),
+        resolve_record_orientation_or_fallback(((S_func_819615E4_3 *)((s32)transform_offset + (long)actor_direction_sprites))->unk_00, ((&reference_tile_object)),
                       &position_offset, 0);
         position.x += position_offset.x;
         state->x = position.x;

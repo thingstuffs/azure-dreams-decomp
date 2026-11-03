@@ -1,5 +1,7 @@
 #ifndef TOWN_PLAYER_INITIALIZE_RECORD_WITH_HANDLER_TABLE_API_H
 #define TOWN_PLAYER_INITIALIZE_RECORD_WITH_HANDLER_TABLE_API_H
+struct ObjectPosition;
+struct SpriteFrameState;
 
 #include "common.h"
 
@@ -10,6 +12,7 @@ typedef struct {
     void **unk4; /* handler table pointer installed from D_80097DE8 */
 } Struct8009B1C8;
 
-void initialize_record_with_handler_table(Struct8009B1C8 *, s32, s32);
+
+void initialize_record_with_handler_table(void *record_arg, struct ObjectPosition *setup_value, struct SpriteFrameState *sprite);
 
 #endif

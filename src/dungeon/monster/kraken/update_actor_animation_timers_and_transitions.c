@@ -47,7 +47,7 @@ extern s32 get_tile_chebyshev_distance(void *, void *);
 #include "dungeon/actor.h"
 extern s32 generate_random_value(void);
 extern void update_actor_status_and_mp(ActorRecord *entity);
-extern void begin_pushed_actor_move(void *state_in, void *unused, void *position_in, void *actor_in);
+extern void begin_pushed_actor_move(void *state_in, ObjectPosition *unused, void *position_in, void *actor_in);
 extern void begin_actor_move_to_target_facing(ActorRecord *body, ObjectPosition *position, SpriteFrameState *sprite, ActorRecord *actor);
 extern void func_80173D10(void *, void *, void *, void *);
 

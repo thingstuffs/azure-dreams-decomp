@@ -2,6 +2,7 @@
  * Original-file evidence: inferred (adjacency/recipe/locality), inferred-weak - group G01145 - CL:town/func_800AC118, CL:town/func_800AC164, CL:town/func_800AC198, CL:town/func_800AC210, CL:town/func_800AC278, CL:town/func_800AC2D8, CL:town/func_800AC37C, CL:town/func_800AC3CC (+1 more).
  */
 #include "town/event/item_query_checks_g01145.h"
+#include "shared/object_node.h"
 #include "town/event.h"
 
 /* Returns the matching index in the sentinel-terminated table, or -1. */
@@ -205,15 +206,15 @@ void *find_unflagged_node_by_key(s32 target_key)
 
 /* Invokes retry_sound_sequence_when_ready for an eligible linked object with code 0xD04, then calls plt_carry_item_del_ext. */
 void retry_sound_for_linked_item_and_remove_carry_item(void) {
-    s8 *stateBase;
-    S_800A9D00_0 *precedingState;
+    s8 *state_base;
+    ObjectNodeHeader *node;
 
-    stateBase = scene_object_payload_alias;
-    precedingState = stateBase - 0x20;
-    if ((get_linked_carry_item_data(stateBase, precedingState->unk_08,
-                       precedingState->unk_0C) != 0) &&
-        (((S_800A9D00_1 *)stateBase)->unk_2C != NULL) &&
-        (((S_800A9D00_2 *)(((S_800A9D00_1 *)stateBase)->unk_2C))->unk_4C == 0xD04)) {
+    state_base = scene_object_payload_alias;
+    node = NODE_HEADER(state_base);
+    if ((get_linked_carry_item_data(state_base, node->position,
+                       node->sprite) != 0) &&
+        (((S_800A9D00_1 *)state_base)->unk_2C != NULL) &&
+        (((S_800A9D00_2 *)(((S_800A9D00_1 *)state_base)->unk_2C))->unk_4C == 0xD04)) {
         retry_sound_sequence_when_ready();
     }
     plt_carry_item_del_ext();

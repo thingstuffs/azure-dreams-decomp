@@ -5,21 +5,21 @@
 #include "town/player/object.h"
 
 /* Initialize the object and pass the setup value to the next initialization step. */
-void initialize_object_with_count_four(TownObjectRecord *object, s32 setupValue, void *ptr2) {
+void initialize_object_with_count_four(TownObjectRecord *object, ObjectPosition *setupValue, void *ptr2) {
     call_the_handler_selects_nonzero_entry(D_800D01E0, object, ptr2);
     town_action_reset_byte = 0;
     object->unk_04.as_pm = &tick_countdown_and_initialize_target;
     object->unk_10.as_s16 = 0;
     object->unk_0A.as_s16 = 4;
-    clear_entity_record_fields((struct EntityRec *)(setupValue));
+    clear_entity_record_fields((setupValue));
 }
 
 /* Initialize the object's state and run the follow-up setup. */
-void initialize_object_with_value_800(TownObjectRecord *object, s32 setupContext, void *ptr2) {
+void initialize_object_with_value_800(TownObjectRecord *object, ObjectPosition *setupContext, void *ptr2) {
     call_the_handler_selects_nonzero_entry(D_800D01E0, object, ptr2);
     town_action_reset_byte = 0;
     object->unk_10.as_s16 = 0x800;
     object->unk_04.as_pm = &target_action_update_address;
     object->unk_0A.as_s16 = 4;
-    clear_entity_record_fields((struct EntityRec *)(setupContext));
+    clear_entity_record_fields((setupContext));
 }

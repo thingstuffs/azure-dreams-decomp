@@ -146,7 +146,7 @@ void update_directional_actor_effect(EntityRec *effect_arg, void *motion_arg, Ro
         ((Row_818E0800_S_818E0800_2 *)motion_arg)->unk_14.at02.v = ground_z - ((Row_818E0800_S_818E0800_2 *)motion_arg)->unk_08.at02.v;
         ((Row_818E0800_S_818E0800_2 *)motion_arg)->unk_14.at00.v /= ((s16)effect_arg->unk_50);
         play_sound_if_enabled(AUDIO_PLAY_CD_CUE);
-        (*(u16 *)&effect_arg->z.w.i) += 1;
+        effect_arg->z.w.i = (u16)((u16)(effect_arg->z.w.i) + (1));
         return;
     case 1:
     {
@@ -163,7 +163,7 @@ void update_directional_actor_effect(EntityRec *effect_arg, void *motion_arg, Ro
             next_timer = 10;
         }
         effect_arg->unk_50 = next_timer;
-        (*(u16 *)&effect_arg->z.w.i) += 1;
+        effect_arg->z.w.i = (u16)((u16)(effect_arg->z.w.i) + (1));
         return;
     }
     case 2:

@@ -30,9 +30,12 @@ typedef struct StorageWork {
 } StorageWork;
 typedef struct StorageOwner {
     void *owner;
-    u8 pad_04[0x10];
+    u8 pad_04[8];
+    s32 edge_flags; /* +0x0C: low two bits mark the control range bounds */
+    u8 pad_10[4];
     u8 cursor[0x3C];
-    u8 pad_50[0xC];
+    u8 pad_50[8];
+    ItemMenuPart *chain; /* +0x58: part chain installed by create_storage_owner_menu */
     StorageWork *work;
 } StorageOwner;
 typedef struct StorageSource {

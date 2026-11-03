@@ -44,7 +44,7 @@ void update_object_state_and_size(SceneTileObject *object) {
         if (coord < 0) {
             coord += 0x1F;
         }
-        obj->y = (u16) ((coord >> 5) + 0x75);
+        obj->y.u = (u16) ((coord >> 5) + 0x75);
         coord = (*coords_ref)->z.w.i;
         coord = 0 - coord;
         offset = coord >> 6;
@@ -59,8 +59,8 @@ void update_object_state_and_size(SceneTileObject *object) {
         obj->width = size;
         obj->x =
             (u16) (obj->x - offset);
-        obj->y =
-            (u16) (obj->y - offset);
+        obj->y.u =
+            (u16) (obj->y.u - offset);
         break;
     }
     case 2:

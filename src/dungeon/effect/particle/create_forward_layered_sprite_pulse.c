@@ -84,12 +84,12 @@ void create_forward_layered_sprite_pulse(void)
             effect_pos->z.v =
                 source_pos->unk_08 + (s32)0xFFCE0000;
             effect_pos->x.w.i =
-                (u16)(*(u16 *)&effect_pos->x.w.i +
+                (u16)(((u16)(effect_pos->x.w.i)) +
                 ((*(s16 *)((u8 *)(&direction_offsets) + ((source_state->unk_2A >> 7) & 0x1C))) * 0x14));
             size_step = effect_index << 9;
             direction_entry = (u8 *)&direction_offsets + ((source_state->unk_2A >> 7) & 0x1C);
             effect_pos->y.w.i =
-                (u16)(*(u16 *)&effect_pos->y.w.i +
+                (u16)(((u16)(effect_pos->y.w.i)) +
                 ((s16)((DirectionEntryFieldView_813307FC *)direction_entry)->field_02 * 0x14));
             sprite = effect->sprite;
             sprite->scale_x = (s16)(size_step + 0x1C00);

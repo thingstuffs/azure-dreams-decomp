@@ -35,11 +35,6 @@ typedef struct S_80081498 {
     u16 field_1E;             /* 0x1E */
 } S_80081498;
 
-typedef struct S_800A9D00_0 {
-    u8 pad_00[0x8];
-    s32 unk_08;
-    s32 unk_0C;
-} S_800A9D00_0;
 
 typedef struct S_800A9D00_1 {
     u8 pad_00[0x2C];

@@ -15,23 +15,7 @@ struct B22_81893474_EffectState;
 #include "shared/tile_object.h"
 #include "m2c_compat.h"
 #include "modules/dungeon_native_abi.h"
-typedef struct B22_81893474_EffectState {
-    union { ActorRecord *actor; void *address; } owner; /* +0x00: borrowed owner, also passed through generic effect callbacks */
-    union { void *address; u16 *flags; } image; /* +0x04: image address and its leading flag halfword */
-    u8 unk8;
-    u8 id;
-    union { s16 s; u16 u; } state;
-    union { s16 s; u16 u; } unkC;
-    union { s16 s; u16 u; } direction;
-    union { s16 s; u16 u; } timer;
-    union { s16 s; u16 u; } duration;
-    union { s16 s; u16 u; } field_14;
-    union { s16 s; u16 u; } x;
-    union { s16 s; u16 u; } y;
-    union { s16 s; u16 u; } z;
-    u8 status;
-    u8 pad1D[0x7B];
-} B22_81893474_EffectState;
+
 typedef struct B22_81893474_ColorPart {
     u8 pad[0xC];
     u32 color;
@@ -296,7 +280,7 @@ void *create_timed_transform_copy_effect(s32 object_arg, void *source_data, s16 
 void emit_animated_transform_copies(void *state, ObjectPosition *draw_context, SpriteFrameState *update_context);
 void step_sprite_height_and_animation(AnimatedSpriteBurstBody *entry, B22_818931B8_S_818931B8_2 *source, SpriteFrameState *target);
 void create_animated_sprite_burst(s32 source, B22_81893244_Func81893244Data *initial_data, s16 status_param);
-void update_effect_launch_travel_impact_cleanup(B22_81893474_EffectState *effect_state, ObjectPosition *effect_motion, B22_81893474_ColorPart *color_part);
+void update_effect_launch_travel_impact_cleanup(struct B22_81893474_EffectState *effect_state, ObjectPosition *effect_motion, B22_81893474_ColorPart *color_part);
 void select_record_entry_and_value(void *state, void *entries, short index);
 extern void SetDrawMode(void *, s32, s32, s32, s32);
 extern s32 GetTPage(s32, s32, s32, s32);

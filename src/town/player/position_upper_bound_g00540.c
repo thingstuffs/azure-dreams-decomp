@@ -7,29 +7,29 @@
  * Subtracts D_800FE5D4 from a copy of Z and returns max_adjusted_z_query over four entries from
  * D_800D040C.
  */
-s32 handle_query_position_after_subtracting_global_z_offset(Vec3i *position) {
+s32 handle_query_position_after_subtracting_global_z_offset(ObjectPosition *position) {
     LocalVec pos;
 
-    pos.x = position->x;
-    pos.y = position->y;
-    pos.z = position->z - D_800FE5D4;
+    pos.x = (u32)position->x.v;
+    pos.y = position->y.v;
+    pos.z = position->z.v - D_800FE5D4;
     return max_adjusted_z_query(&pos, D_800D040C[0], 4);
 }
 
 /* Set the record value, clear its secondary value, and refresh it with the global flag set. */
-void set_the_clear_secondary_refresh_global_flag_set(EntityRec *record, s32 value) {
+void set_the_clear_secondary_refresh_global_flag_set(ObjectPosition *record, s32 value) {
     D_800CFCE8 = 1;
     record->z.v = value;
-    record->flags14 = 0;
+    record->velocity_z = 0;
     clear_global_slot_n_5_copy_source_slot_n_2_global_slot_n_2(record);
 }
 
 /* Update the record to the computed upper bound when the global state permits. */
-void update_the_computed_upper_bound_global_state_permits(EntityRec *record) {
+void update_the_computed_upper_bound_global_state_permits(ObjectPosition *record) {
     s32 upper_bound;
 
     if (D_800FE5D4 < 0) {
-        upper_bound = (handle_query_position_after_subtracting_global_z_offset((Vec3i *)record) << 0x10) - 1;
+        upper_bound = (handle_query_position_after_subtracting_global_z_offset((record)) << 0x10) - 1;
         if (upper_bound >= record->z.v) {
             set_the_clear_secondary_refresh_global_flag_set(record, upper_bound);
         }

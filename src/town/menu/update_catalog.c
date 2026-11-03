@@ -2,24 +2,13 @@
 #include "common.h"
 #include "m2c_compat.h"
 #include "town/menu.h"
-
-typedef struct S_80126704_0 {
-    u8 pad_00[0xA];
-    u8 unk_0A;
-    u8 pad_0B[0x4];
-    u8 unk_0F;
-    u8 unk_10;
-    u8 unk_11;
-    u8 pad_12[0x1];
-    union { s8 s; s8 u; } unk_13;   /* accessed as both */
-} S_80126704_0;   /* arg0 in update_catalog */
+#include "town/menu/catalog.h"
 
 
-extern void (*D_80126B34[])(void *);
-extern void (*catalog_callbacks[])(void *);
+
 
 /* Runs the initial handler, packs and bounds the state code, then runs the final handler. */
-void update_catalog(S_80126704_0 *state) {
+void update_catalog(CatalogDisplay *state) {
     s8 middle_bits;
     u8 packed_code;
     u8 code_bits;
@@ -27,9 +16,9 @@ void update_catalog(S_80126704_0 *state) {
 
     {
         u32 handler_index;
-        void (*initial_handler)(void *);
+        void (*initial_handler)(CatalogDisplay *);
 
-        handler_index = state->unk_0A;
+        handler_index = state->unk_0A.as_u8;
         initial_handler = D_80126B34[handler_index];
         initial_handler(state);
     }
@@ -41,17 +30,17 @@ void update_catalog(S_80126704_0 *state) {
     code_bits += middle_bits;
     packed_code += code_bits;
     code_bits = packed_code & 0xFF;
-    state->unk_13.s = packed_code;
+    state->unk_13.as_s8 = packed_code;
     below_limit = code_bits < 0x38U;
     if (below_limit == 0) {
-        state->unk_13.u = 0x31;
+        state->unk_13.as_s8 = 0x31;
     } else {
         below_limit = code_bits < 0x31U;
         if (below_limit == 0) {
-            state->unk_13.u = 0x30;
+            state->unk_13.as_s8 = 0x30;
         }
     }
-    catalog_callbacks[state->unk_0A](state);
+    catalog_callbacks[state->unk_0A.as_u8](state);
 }
 
 /* MECHANISM: The true-space body uses a 24-byte frame and a local join at 0x8012677C, not a phantom

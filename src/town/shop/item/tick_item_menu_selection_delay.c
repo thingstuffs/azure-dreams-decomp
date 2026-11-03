@@ -9,10 +9,10 @@ void tick_item_menu_selection_delay(ItemMenuTransition *state) {
     s32 previous_counter;
 
     animate_item_menu_cursor_transition(state);
-    counter = state->progress;
+    counter = state->progress.word;
     previous_counter = counter;
     counter = counter + 1;
-    state->progress = counter;
+    state->progress.word = counter;
     if (previous_counter >= state->duration) {
         state->callback = 0;
     }

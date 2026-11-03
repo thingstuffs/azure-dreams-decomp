@@ -284,7 +284,7 @@ s32 _spu_t(s32 command, ...)
             _spu_FsetDelayW();
         }
         transfer_arg = VA_ARG(args, s32);
-        *(s32 *)&spu_dma_ram_address = transfer_arg;
+        *&spu_dma_ram_address = transfer_arg;
         transfer_arg = VA_ARG(args, s32);
         block_count = (u32)transfer_arg >> 6;
         partial_block = ((u32)transfer_arg & 0x3F) != 0;

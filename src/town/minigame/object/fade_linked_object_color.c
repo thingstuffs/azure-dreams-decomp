@@ -1,16 +1,10 @@
+#include "shared/object_node.h"
 #include "common.h"
 #include "shared/object_flags.h"
 #include "shared/object_links.h"
 #include "town/minigame/object.h"
+#include "town/minigame/position.h"
 
-   /* the 0x2 bytes before arg0 in fade_linked_object_color, addressed as arg0[-1] */
-
-typedef struct S_800203D8_0 {
-    union { s16 s; u16 u; } unk_00;   /* accessed as both */
-    u8 pad_02[0x2];
-    void * unk_04;
-    s32 unk_08;
-} S_800203D8_0;   /* arg0 in fade_linked_object_color */
 
 typedef struct S_800203D8_1 {
     u8 pad_00[0x4];
@@ -19,27 +13,26 @@ typedef struct S_800203D8_1 {
 
 
 /* Waits for the linked object flag, then dims the color and sets completion flags. */
-void fade_linked_object_color(void *fade_arg) {
-    S_800203D8_0 *fade = fade_arg;
+void fade_linked_object_color(SceneTileObject *fade) {
     S_800203D8_1 *linked_obj;
     s16 state;
     s32 color;
 
-    linked_obj = fade->unk_04;
-    state = fade->unk_00.s;
+    linked_obj = fade->linked;
+    state = fade->state.s;
 
     switch (state) {
     case 0:
         if (linked_obj->unk_04 & -32768) {
-            fade->unk_00.u++;
+            fade->state.u++;
         }
         break;
 
     case 1:
-        color = fade->unk_08 + 0xFFF7F7F8U;
-        fade->unk_08 = color;
+        color = fade->color + 0xFFF7F7F8U;
+        fade->color = color;
         if (color <= 0x80808) {
-            ((ObjectStatusPrefix16 *)fade)[-1].flags |= 0x8000;
+            NODE_HEADER(fade)->flags |= 0x8000;
             object_flag_block.flags |= OBJECT_REMOVE_PENDING;
         }
         break;

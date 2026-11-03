@@ -32,7 +32,7 @@ void set_actor_motion_state(TownObjectRecord *object, Rec_D_800CFCB4 *state);
 void update_actor_with_controlled_motion(struct Actor *actor, struct Subject *subject, struct Motion *motion, TownMovementOutput *context);
 
 /* update_input_motion_and_action.c */
-void update_input_motion_and_action(void *controller, void *object, s32 update_arg);
+void update_input_motion_and_action(void *controller, ObjectPosition *object, s32 update_arg);
 
 /* update_motion_and_handle_terrain_contact.c */
 void update_motion_and_handle_terrain_contact(void *object, Rec_D_800CFCB4 *collision, ObjectPosition *motion, s32 callback_arg);

@@ -181,18 +181,18 @@ void spawn_jittered_point_child(ObjectNodeHeader *parent, s32 state_14_value, s3
         /* Retail uses unsigned high-half arithmetic; the u16 store also
          * preserves CDK combine/scheduling before the next rand call. */
         jitter = rand();
-        *(u16 *)&spawned->position->x.w.i =
-            *(u16 *)&parent->position->x.w.i +
+        (spawned->position->x).unsigned_parts.integer =
+            (parent->position->x).unsigned_parts.integer +
             (jitter & 0xF) + (x_offset - 8);
         jitter = rand();
-        *(u16 *)&spawned->position->y.w.i =
-            *(u16 *)&parent->position->y.w.i +
+        (spawned->position->y).unsigned_parts.integer =
+            (parent->position->y).unsigned_parts.integer +
             (jitter & 0xF) + (y_offset - 8);
         state = NODE_BODY(spawned);
         jitter = rand();
         position = spawned->position;
-        *(u16 *)&position->z.w.i =
-            *(u16 *)&parent->position->z.w.i +
+        (position->z).unsigned_parts.integer =
+            (parent->position->z).unsigned_parts.integer +
             (jitter & 0x1F) + (z_offset - 0x10);
         state->unk_14 = state_14_value;
         state->brightness = state_32_value;
@@ -404,18 +404,18 @@ void create_randomized_paletted_sprite(void *unused_0, void *unused_1, void *unu
         position->x.w.i = x;
         position->y.w.i = y;
         position->z.w.i = z;
-        *(u16 *)&position->x.w.i += ((u16)view_reference_entity.x.w.i);
-        *(u16 *)&position->y.w.i += ((u16)view_reference_entity.y.w.i);
-        *(u16 *)&position->z.w.i += ((u16)view_reference_entity.z.w.i);
+        (position->x).unsigned_parts.integer += (((u16)view_reference_entity.x.w.i));
+        (position->y).unsigned_parts.integer += (((u16)view_reference_entity.y.w.i));
+        (position->z).unsigned_parts.integer += (((u16)view_reference_entity.z.w.i));
         jitter = rand() & 0x1F;
-        *(u16 *)&position->x.w.i -= 0x10;
-        *(u16 *)&position->x.w.i += jitter;
+        (position->x).unsigned_parts.integer -= (0x10);
+        (position->x).unsigned_parts.integer += (jitter);
         jitter = rand() & 0x1F;
-        *(u16 *)&position->y.w.i -= 0x10;
-        *(u16 *)&position->y.w.i += jitter;
+        (position->y).unsigned_parts.integer -= (0x10);
+        (position->y).unsigned_parts.integer += (jitter);
         jitter = rand() & 0x1F;
-        *(u16 *)&position->z.w.i -= 0x10;
-        *(u16 *)&position->z.w.i += jitter;
+        (position->z).unsigned_parts.integer -= (0x10);
+        (position->z).unsigned_parts.integer += (jitter);
         state->seed = rand();
         state->scale = 0x1000;
         render = effect->visual.render;
@@ -1052,9 +1052,9 @@ void update_staged_particle_effect(Work *work, s32 position_arg, s32 sprite_arg)
                         local_y = work->y;
                         pos->y.w.i = local_y;
                         pos->z.w.i = work->z;
-                        *(u16 *)&pos->x.w.i += view_reference_entity.x.unsigned_parts.integer;
-                        *(u16 *)&pos->y.w.i += view_reference_entity.y.unsigned_parts.integer;
-                        *(u16 *)&pos->z.w.i += view_reference_entity.z.unsigned_parts.integer;
+                        (pos->x).unsigned_parts.integer += (view_reference_entity.x.unsigned_parts.integer);
+                        (pos->y).unsigned_parts.integer += (view_reference_entity.y.unsigned_parts.integer);
+                        (pos->z).unsigned_parts.integer += (view_reference_entity.z.unsigned_parts.integer);
                         sprite->scale_x = 0x900;
                         sprite->scale_y = 0x604;
                         sprite->b = 0x80;
@@ -1080,9 +1080,9 @@ void update_staged_particle_effect(Work *work, s32 position_arg, s32 sprite_arg)
                         local_y = work->y;
                         pos->y.w.i = local_y;
                         pos->z.w.i = work->z;
-                        *(u16 *)&pos->x.w.i += view_reference_entity.x.unsigned_parts.integer;
-                        *(u16 *)&pos->y.w.i += view_reference_entity.y.unsigned_parts.integer;
-                        *(u16 *)&pos->z.w.i += view_reference_entity.z.unsigned_parts.integer;
+                        (pos->x).unsigned_parts.integer += (view_reference_entity.x.unsigned_parts.integer);
+                        (pos->y).unsigned_parts.integer += (view_reference_entity.y.unsigned_parts.integer);
+                        (pos->z).unsigned_parts.integer += (view_reference_entity.z.unsigned_parts.integer);
                         sprite->scale_x = 0x1800;
                         sprite->scale_y = 0x1000;
                         sprite->b = 0x80;
@@ -1159,9 +1159,9 @@ void update_staged_particle_effect(Work *work, s32 position_arg, s32 sprite_arg)
                             local_y = work->y;
                             pos->y.w.i = local_y;
                             pos->z.w.i = work->z - 16;
-                            *(u16 *)&pos->x.w.i += view_reference_entity.x.unsigned_parts.integer;
-                            *(u16 *)&pos->y.w.i += view_reference_entity.y.unsigned_parts.integer;
-                            *(u16 *)&pos->z.w.i += view_reference_entity.z.unsigned_parts.integer;
+                            (pos->x).unsigned_parts.integer += (view_reference_entity.x.unsigned_parts.integer);
+                            (pos->y).unsigned_parts.integer += (view_reference_entity.y.unsigned_parts.integer);
+                            (pos->z).unsigned_parts.integer += (view_reference_entity.z.unsigned_parts.integer);
                             sprite->scale_y = 0x1000;
                             sprite->scale_x = 0x1000;
                             sprite->b = 0x80;
@@ -1196,9 +1196,9 @@ void update_staged_particle_effect(Work *work, s32 position_arg, s32 sprite_arg)
                                 local_y = work->y;
                                 pos->y.w.i = local_y;
                                 pos->z.w.i = work->z - 16;
-                                *(u16 *)&pos->x.w.i += view_reference_entity.x.unsigned_parts.integer;
-                                *(u16 *)&pos->y.w.i += view_reference_entity.y.unsigned_parts.integer;
-                                *(u16 *)&pos->z.w.i += view_reference_entity.z.unsigned_parts.integer;
+                                (pos->x).unsigned_parts.integer += (view_reference_entity.x.unsigned_parts.integer);
+                                (pos->y).unsigned_parts.integer += (view_reference_entity.y.unsigned_parts.integer);
+                                (pos->z).unsigned_parts.integer += (view_reference_entity.z.unsigned_parts.integer);
                                 sprite->scale_y = 0x1000;
                                 sprite->scale_x = 0x1000;
                                 sprite->b = 0x80;
@@ -1228,9 +1228,9 @@ void update_staged_particle_effect(Work *work, s32 position_arg, s32 sprite_arg)
                     local_y = work->y;
                     pos->y.w.i = local_y;
                     pos->z.w.i = work->z;
-                    *(u16 *)&pos->x.w.i += view_reference_entity.x.unsigned_parts.integer;
-                    *(u16 *)&pos->y.w.i += view_reference_entity.y.unsigned_parts.integer;
-                    *(u16 *)&pos->z.w.i += view_reference_entity.z.unsigned_parts.integer;
+                    (pos->x).unsigned_parts.integer += (view_reference_entity.x.unsigned_parts.integer);
+                    (pos->y).unsigned_parts.integer += (view_reference_entity.y.unsigned_parts.integer);
+                    (pos->z).unsigned_parts.integer += (view_reference_entity.z.unsigned_parts.integer);
                     sprite->scale_x = 0x1800;
                     sprite->scale_y = 0x1000;
                     sprite->b = 0x80;

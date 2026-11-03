@@ -49,7 +49,7 @@ s32 use_item_to_cure_poison(ActorRecord *entity, DungeonItemEntry *item, s16 act
             return 1;
         }
     }
-    create_timed_paired_particle_emitter(((ObjectNodeHeader *)entity - 1)->position, 0x802080, entity);
+    create_timed_paired_particle_emitter(NODE_HEADER(entity)->position, 0x802080, entity);
     if ((entity->flags14 & ACTOR_PARTY_MEMBER) && !(entity->flags1C & ACTOR_POISONED)) {
         void *message_text;
         void *message_pos;

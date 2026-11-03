@@ -174,7 +174,7 @@ s32 build_transformed_sprite_quads(InactiveTypeTwelveObjectBody *draw_area, Obje
 
     ((S_8009E798_1 *)scratch)->unk_98 = 0;
     ((S_8009E798_1 *)scratch)->unk_9A = 0;
-    ((S_8009E798_1 *)scratch)->unk_9C = *(u16 *)&g_game_work.view.camera_rotation.parts.viewAngle;
+    ((S_8009E798_1 *)scratch)->unk_9C = ((u16)(g_game_work.view.camera_rotation.parts.viewAngle));
     RotMatrix(scratch + 0x98, scratch + 0xD0);
     ScaleMatrix(scratch + 0xD0, scratch + 0x30);
 

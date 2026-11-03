@@ -209,11 +209,11 @@ void append_generation_region_entry(s16 row_index, s16 first_byte, s16 second_by
     floor_generate_isolated_802847D8_S_800177D8_0 *row;
     floor_generate_isolated_802847D8_S_800177D8_1 *entry;
 
-    rows_base = (void *)dungeon_rooms;
+    rows_base = dungeon_rooms;
     row = (row_index * 0x14) + rows_base;
     if (row->unk_0A != 0) {
         row_offset = row_index << 6;
-        entries_base = (void *)generation_region_cell_entries;
+        entries_base = generation_region_cell_entries;
         entry_count = row->unk_0E;
         row->unk_10 = row_offset + entries_base;
         entry = ((s32)(entry_count << 0x10) >> 0xE) + row_offset + entries_base;
@@ -829,14 +829,14 @@ void setup_run_and_load_track(void) {
             (*(floor_generate_isolated_80285A70_SaveHead *)floor_generation_state).level = ((floor_generate_isolated_80285A70_LevelPage *)0x80010000)->level;
             fl &= 0xFFFC;
             state->flags = fl;
-            bind_view_triplet_source(((u8 *)(&view_reference_entity)));
+            bind_view_triplet_source(((&view_reference_entity)));
             bzero((void *)0x80013720, 0x2000);
         } else if (entry_flags & 1) {
             state->field8 = 0;
             state->fieldA = 0;
             (*(floor_generate_isolated_80285A70_SaveHead *)floor_generation_state).seed = state->seed;
             (*(floor_generate_isolated_80285A70_SaveHead *)floor_generation_state).level = ((floor_generate_isolated_80285A70_LevelPage *)0x80010000)->level;
-            bind_view_triplet_source(((u8 *)(&view_reference_entity)));
+            bind_view_triplet_source(((&view_reference_entity)));
         } else {
             u32 hi;
 
@@ -848,7 +848,7 @@ void setup_run_and_load_track(void) {
             state->field11 = 0;
             state->field10 = 0;
             state->seed = (*(floor_generate_isolated_80285A70_SaveHead *)floor_generation_state).seed = (value | (hi << 16)) ^ xor_base->unk_004;
-            bind_view_triplet_source(((u8 *)(&view_reference_entity)));
+            bind_view_triplet_source(((&view_reference_entity)));
             bzero((void *)0x80013720, 0x2000);
         }
     }

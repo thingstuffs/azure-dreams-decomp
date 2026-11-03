@@ -133,7 +133,7 @@ void update_random_particle_field(void *self, void *output)
     }
 
     if (((S_81934928_0 *)self)->unk_0C.u == 0x1E) {
-        target = (void *)primary_actor_record;
+        target = primary_actor_record;
         if (target != NULL) {
             void *lookup_origin = target;
             while ((target = find_eligible_nearby_entry(reference_tile_object.tile_position.parts.tile_x, reference_tile_object.tile_position.parts.tile_y, lookup_origin, target)) != NULL) {

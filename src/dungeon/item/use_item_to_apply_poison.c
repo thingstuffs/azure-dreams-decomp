@@ -44,7 +44,7 @@ s32 use_item_to_apply_poison(ActorRecord *entity, DungeonItemEntry *item, s16 ac
             return 1;
         }
     }
-    node = (ObjectNodeHeader *)entity - 1;
+    node = NODE_HEADER(entity);
     tile = node->sprite;
     spawn_randomized_particle_burst((tile->tile_x << 6) | 0x20, (tile->tile_y << 6) | 0x20,
         entity->ground_height, 0x802080, 0x20, 1);

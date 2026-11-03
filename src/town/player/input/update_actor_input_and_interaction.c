@@ -1,3 +1,5 @@
+#include "town/player/init_movement_action.h"
+#include "town/player/initialize_record_and_select_active_data.h"
 #include "script_symbols.h"
 #include "shared/town_action_flag.h"
 #include "shared/position_query.h"
@@ -11,6 +13,7 @@
 #include "town/player/input.h"
 #include "town/player/position.h"
 #include "town/player/motion.h"
+#include "shared/sprite_frame_state.h"
 
 extern void submit_object_resource_data(s32 value);
 extern void initialize_scene_action_record(void *action_state, void *actor, s32 context);
@@ -18,20 +21,18 @@ extern void init_unchanged_action_fallback(void *action_state, void *actor, s32 
 extern void init_threshold_countdown_action(void *action_state, void *actor,void *context);
 extern void initialize_actor_action_state(void *action_state, void *actor, s32 context);
 extern void initialize_action_object(void *action_state, void *actor, s32 context);
-extern void init_movement_action(TownObjectRecord *record, void *unused, s32 setup_value);
-extern void initialize_action_object_with_counter(void *action_state, void *actor, s32 context);
+extern void initialize_action_object_with_counter(void *action_state, ObjectPosition *actor, s32 context);
 extern void initialize_actor_movement_interaction_action(void *action_state, void *actor,void *context);
 extern void play_periodic_sound(s32 count, s32 interval);
 extern void store_the_valid_shared_angle_in_offset_hex_10(void *action_state);
-extern void call_the_valid_shared_angle_fixed_hex_120000_context_callee_80094_f_58(void *actor); /* Unprototyped: uses the value as a pointer where the definition has an integer (or the reverse) */
+extern void call_the_valid_shared_angle_fixed_hex_120000_context_callee_80094_f_58(ObjectPosition *actor); /* Unprototyped: uses the value as a pointer where the definition has an integer (or the reverse) */
 extern s32 select_an_available_entry_matching_direction_returns_status(void *menu_state);
 extern s32 select_an_eligible_source_entry_stores_pointer_in_destination(void *action_state, void *menu_state);
-extern void compute_and_clamps_vector_based_adjustment_updates_town(struct TownObj *obj, s32 base_value, struct TownVec **vec_ptr);
-extern void spawn_directional_effects(void *actor, s32 value);
-extern void initialize_record_and_select_active_data(void *action_state, void *actor, s32 context); /* Unprototyped: uses the value as a pointer where the definition has an integer (or the reverse) */
+extern void compute_and_clamps_vector_based_adjustment_updates_town(ObjectPosition *obj, s32 base_value, struct TownVec **vec_ptr);
+extern void spawn_directional_effects(ObjectPosition *actor, s32 value);
 extern s32 town_actor_control;
 /* Updates the actor and dispatches town actions from input and interaction state. */
-void update_actor_input_and_interaction(void *action_state, void *actor, s32 context)
+void update_actor_input_and_interaction(void *action_state, ObjectPosition *actor, SpriteFrameState *sprite)
 {
     GameWork *input_state = &g_game_work;
     register s32 saved_context;
@@ -45,9 +46,9 @@ void update_actor_input_and_interaction(void *action_state, void *actor, s32 con
     move_the_actor_perpendicular_selected_direction_unless_step_changes_sides(actor);
     map_work = &position_query_scratch;
     sampled_height = select_the_smaller_position_query_result_capped_n_64_writes_associated(actor, map_work);
-    if ((sampled_height - (*((s16 *) (((u8 *) actor) + 0xA)))) >= 4) {
+    if ((sampled_height - actor->z.w.i) >= 4) {
         if (town_action_state_flag == 0) {
-            initialize_action_object(action_state, actor, context);
+            initialize_action_object(action_state, actor, (s32)sprite);
             return;
         }
     }
@@ -64,21 +65,21 @@ void update_actor_input_and_interaction(void *action_state, void *actor, s32 con
     }
     buttons = input_state->pressed_buttons;
     if (buttons & 0x10) {
-        initialize_actor_action_state(action_state, actor, context);
+        initialize_actor_action_state(action_state, actor, (s32)sprite);
         return;
     }
     if (buttons & 0x40) {
         action_result = select_an_eligible_source_entry_stores_pointer_in_destination(action_state, &town_actor_control);
         if (action_result != 0) {
             if (action_result == 2) {
-                initialize_actor_movement_interaction_action(action_state, actor, context);
+                initialize_actor_movement_interaction_action(action_state, actor, sprite);
                 return;
             }
-            initialize_action_object_with_counter(action_state, actor, context);
+            initialize_action_object_with_counter(action_state, actor, (s32)sprite);
             return;
         }
         if (test_resident_bitmap_bit(F_t_attack_enable) != 0) {
-            init_threshold_countdown_action(action_state, actor, context);
+            init_threshold_countdown_action(action_state, actor, sprite);
             return;
         }
         return;
@@ -88,17 +89,17 @@ void update_actor_input_and_interaction(void *action_state, void *actor, s32 con
     if (action_result != 0) {
         if (action_result == (-1)) {
             store_the_valid_shared_angle_in_offset_hex_10(action_state);
-            initialize_record_and_select_active_data(action_state, actor, context);
+            initialize_record_and_select_active_data(action_state, (actor), sprite);
             *((s32 *) (((u8 *) action_state) + 0x2C)) = 0;
             submit_object_resource_data(*((s32 *) (menu_state + 0x10)));
             return;
         }
-        init_movement_action(action_state, actor, context);
+        init_movement_action(action_state, actor, sprite);
         return;
     }
     buttons = input_state->buttons;
     if (!(buttons & 0x20)) {
-        initialize_motion_action(action_state, actor, context);
+        initialize_motion_action(action_state, actor, sprite);
         store_the_valid_shared_angle_in_offset_hex_10(action_state);
         call_the_valid_shared_angle_fixed_hex_120000_context_callee_80094_f_58(actor);
         return;
@@ -111,10 +112,10 @@ void update_actor_input_and_interaction(void *action_state, void *actor, s32 con
         call_the_valid_shared_angle_fixed_hex_120000_context_callee_80094_f_58(actor);
         return;
     }
-    action_result = runtime_estimate_vector_length(*((s32 *) (((u8 *) actor) + 0xC)), *((s32 *) (((u8 *) actor) + 0x10)));
+    action_result = runtime_estimate_vector_length(actor->velocity_x, actor->velocity_y);
     if (action_result > 0xFFFFF) {
-        init_unchanged_action_fallback(action_state, actor, context);
+        init_unchanged_action_fallback(action_state, actor, (s32)sprite);
         return;
     }
-    initialize_scene_action_record(action_state, actor, context);
+    initialize_scene_action_record(action_state, actor, (s32)sprite);
 }

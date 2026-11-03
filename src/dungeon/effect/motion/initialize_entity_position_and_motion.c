@@ -1491,7 +1491,7 @@ void clear_object_buffer_and_state(void *tracker) {
 s32 inventory_reset_shared_state_mode_13(s32 unused, s32 state_key, s32 value, s16 secondary_value) {
     GameView *state = &g_game_work.view;
     ovl_19a332c_81984E94_S_8191696C_state *substate = (ovl_19a332c_81984E94_S_8191696C_state *)&state->slot[0].unk_04;
-    void *next_field = (void *)((u8 *)&state->slot[0].unk_04 + 4);
+    void *next_field = ((u8 *)&state->slot[0].unk_04 + 4);
     s16 saved_value;
     s32 previous_key;
     s32 change_flags;

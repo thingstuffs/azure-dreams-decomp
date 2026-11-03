@@ -90,17 +90,17 @@ void decrement_flagged_item_parameters(void *action, void *saved_position)
                 u16 coord_integer;
                 owner_position = owner->position;
                 effect_position = effect->position;
-                coord_integer = *(u16 *)&owner_position->x.w.i;
+                coord_integer = ((u16)(owner_position->x.w.i));
                 *((u16 *) (effect_work + 0xC)) = coord_integer;
                 effect_position->x.w.i = coord_integer;
                 owner_position = owner->position;
                 effect_position = effect->position;
-                coord_integer = *(u16 *)&owner_position->y.w.i;
+                coord_integer = ((u16)(owner_position->y.w.i));
                 *((u16 *) (effect_work + 0xE)) = coord_integer;
                 effect_position->y.w.i = coord_integer;
                 owner_position = owner->position;
                 effect_position = effect->position;
-                coord_integer = *(u16 *)&owner_position->z.w.i;
+                coord_integer = ((u16)(owner_position->z.w.i));
                 *((u16 *) (effect_work + 0x10)) = coord_integer;
                 effect_position->z.w.i = coord_integer;
             }

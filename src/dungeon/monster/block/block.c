@@ -2036,7 +2036,7 @@ void create_angular_offset_effect(u8 *effect, s32 *position, s32 effect_param)
 }
 
 /* Creates three bands of eight colored radial segments around the supplied position. */
-void create_radial_effect_bands(CB_80174724_S_80C96F24_0 *owner, void *origin, void *entity) {
+void create_radial_effect_bands(CB_80174724_S_80C96F24_0 *owner, ObjectPosition *origin, void *entity) {
     u16 band;
     register s32 shade_offset;
 
@@ -2104,11 +2104,11 @@ void create_radial_effect_bands(CB_80174724_S_80C96F24_0 *owner, void *origin, v
 
                     position = ((CB_80174724_S_80C96F24_3 *)effect)->unk_08;
                     position->unk_00 =
-                        ((CB_80174724_S_80C96F24_6 *)origin)->unk_00;
+                        origin->x.v;
                     position->unk_04 =
-                        ((CB_80174724_S_80C96F24_6 *)origin)->unk_04;
+                        origin->y.v;
                     position->unk_08 =
-                        ((CB_80174724_S_80C96F24_6 *)origin)->unk_08 + 0x200000;
+                        origin->z.v + 0x200000;
                 }
 
                 render_state = (CB_80174724_S_80C96F24_4 *)((CB_80174724_S_80C96F24_3 *)effect)->unk_0C;
@@ -2297,7 +2297,7 @@ void finish_sprite_and_restore_tint(u8 *task, void *context, u8 *input)
 }
 
 /* Loads transition effects, fades the view tint, replaces the actor, and restores the new actor's facing. */
-void replace_actor_with_faded_effect(void *state, EntityRec *position, SpriteFrameState *entity, void *actor) {
+void replace_actor_with_faded_effect(void *state, ObjectPosition *position, SpriteFrameState *entity, void *actor) {
     s16 direction;
     u16 fade_ticks;
     u16 finish_ticks;

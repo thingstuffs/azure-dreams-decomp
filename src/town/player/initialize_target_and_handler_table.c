@@ -1,3 +1,4 @@
+#include "town/player/position_handlers.h"
 #include "common.h"
 #include "town/player.h"
 #include "town/player/object.h"
@@ -10,7 +11,7 @@ typedef struct {
 } Struct8009B228;
 
 /* Initialize the target, assign the state table, and clear the global flag. */
-void initialize_target_and_handler_table(Struct8009B228 *state, s32 target) {
+void initialize_target_and_handler_table(Struct8009B228 *state, ObjectPosition *target) {
     clear_entity_record_fields(target);
     state->unk4 = dispatch_state_callback_by_mode;
     player_handler_reset_byte = 0;

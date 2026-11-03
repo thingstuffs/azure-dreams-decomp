@@ -1,5 +1,6 @@
 /* Recovered retail twin; complete-function proof is in the lane receipt. */
 #include "common.h"
+#include "shared/object_node.h"
 #include "town/player/approach_player_angle_target_g01125.h"
 #include "shared/town_handler_entries.h"
 #include "town.h"
@@ -16,7 +17,7 @@ typedef struct {
     s16 y;
 } Entity;
 
-extern void clear_entity_record_fields(s32 record); /* Unprototyped: uses the value as a pointer where the definition has an integer (or the reverse) */
+extern void clear_entity_record_fields(ObjectPosition *record); /* Unprototyped: uses the value as a pointer where the definition has an integer (or the reverse) */
 extern void call_the_handler_selects_nonzero_entry(void *entries, void *record,void *handler_param);
 
 extern Entity scene_object_payload_alias;
@@ -25,11 +26,11 @@ extern s32 town_position_callback_address[3];
 /* Initializes the scene entity's handlers, masked ID, position, and 16-tick timer. */
 void initialize_entity_handlers_and_position(s32 entity_id, s32 x, s32 y) {
     Entity *entity = &scene_object_payload_alias;
-    s32 *context = (s32 *)((u8 *)entity - 0x20);
-    s32 context_value = context[3];
+    ObjectNodeHeader *node = NODE_HEADER(entity);
+    struct SpriteFrameState *sprite = node->sprite;
 
-    clear_entity_record_fields(context[2]);
-    call_the_handler_selects_nonzero_entry(approach_action_handler_table, entity, context_value);
+    clear_entity_record_fields(node->position);
+    call_the_handler_selects_nonzero_entry(approach_action_handler_table, entity, sprite);
     scene_object_payload_alias.callback0 = town_position_callback_address;
     entity->callback4 = &D_8009A81C;
     entity->id = entity_id & 0xFFF;

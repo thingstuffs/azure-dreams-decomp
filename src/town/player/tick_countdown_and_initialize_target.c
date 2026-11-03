@@ -10,14 +10,14 @@
    /* arg0 in tick_countdown_and_initialize_target */
 
 
-void initialize_target_and_handler_table(UnsignedCountdownView *, s32);
+void initialize_target_and_handler_table(UnsignedCountdownView *, ObjectPosition *);
 /* Decrement the countdown and call initialize_target_and_handler_table when it reaches zero. */
-void tick_countdown_and_initialize_target(UnsignedCountdownView *state, s32 value) {
+void tick_countdown_and_initialize_target(UnsignedCountdownView *state, ObjectPosition *position) {
     u16 remaining_ticks;
 
     remaining_ticks = state->unk_0A - 1;
     state->unk_0A = remaining_ticks;
     if ((remaining_ticks << 0x10) <= 0) {
-        initialize_target_and_handler_table(state, value);
+        initialize_target_and_handler_table(state, position);
     }
 }

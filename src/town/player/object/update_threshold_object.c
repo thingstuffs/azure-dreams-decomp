@@ -1,3 +1,4 @@
+#include "town/player/position_handlers.h"
 #include "shared/position_query.h"
 #include "common.h"
 #include "shared/town_action_flag.h"
@@ -14,10 +15,10 @@ typedef struct {
     s32 field_14;
 } TownObject;
 
-extern void handle_adjust_vector_toward_selected_angle_limit_magnitude(TownObject *);
+extern void handle_adjust_vector_toward_selected_angle_limit_magnitude(ObjectPosition *);
 
 /* Updates a town object based on its computed threshold and the global flag. */
-void update_threshold_object(void *context, TownObject *object, void *update_data)
+void update_threshold_object(void *context, ObjectPosition *object, void *update_data)
 {
     s16 threshold;
     s32 *threshold_data;
@@ -28,14 +29,14 @@ void update_threshold_object(void *context, TownObject *object, void *update_dat
     threshold_data = &position_query_scratch;
     threshold = select_the_smaller_position_query_result_capped_n_64_writes_associated(object, threshold_data);
 
-    if (object->field_A >= threshold) {
+    if (object->z.w.i >= threshold) {
         compute_and_clamps_vector_based_adjustment_updates_town(object, threshold, threshold_data);
         initialize_scene_action_record(context, object, update_data);
         return;
     }
 
     if (town_action_state_flag != 0) {
-        object->field_14 = 0;
+        object->velocity_z = 0;
         clear_global_slot_n_5_copy_source_slot_n_2_global_slot_n_2(object);
         initialize_scene_action_record(context, object, update_data);
     } else {

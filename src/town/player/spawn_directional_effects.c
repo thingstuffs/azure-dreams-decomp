@@ -18,7 +18,7 @@ typedef struct {
 } UnkStack;
 
 /* Spawns effects near the source with randomized positions and evenly spaced directions. */
-void spawn_directional_effects(void *source, s32 effect_count)
+void spawn_directional_effects(ObjectPosition *source, s32 effect_count)
 {
     UnkStack effect;
     s32 angle;
@@ -29,14 +29,14 @@ void spawn_directional_effects(void *source, s32 effect_count)
         angle_step = 0x1000 / effect_count;
         spawned = 0;
         angle = rand();
-        effect.field_A = *(u16 *)((u8 *)source + 0xA);
+        effect.field_A = source->z.unsigned_parts.integer;
         effect.field_16 = -4;
         if (effect_count > 0) {
             do {
                 spawned++;
-                effect.x = (*(u16 *)((u8 *)source + 2) +
+                effect.x = (source->x.unsigned_parts.integer +
                             (rand() & 0x1F)) - 0x10;
-                effect.y = (*(u16 *)((u8 *)source + 6) +
+                effect.y = (source->y.unsigned_parts.integer +
                             (rand() & 0x1F)) - 0x10;
                 effect.field_C = rcos(angle) << 5;
                 effect.field_10 = rsin(angle) << 5;

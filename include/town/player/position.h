@@ -1,5 +1,6 @@
 #ifndef TOWN_PLAYER_POSITION_H
 #define TOWN_PLAYER_POSITION_H
+struct SpriteFrameState;
 /* Prototypes of the functions defined in src/town/player/position/ (one true prototype each; maintained by tools/headers). */
 
 #include "common.h"
@@ -10,16 +11,13 @@
 
 struct S_800935BC_0;
 struct TownObject;
-struct SpriteFrameState;
 
 /* add_motion_deltas_to_position.c */
 void add_motion_deltas_to_position(ObjectPosition *motion);
 
 /* advance_player_position.c */
-void advance_player_position(s32 context, EntityRec *object, s32 update_data);
 
 /* advance_player_position_and_angle.c */
-void advance_player_position_and_angle(void *work_data, void *position_data, s32 context);
 
 /* approach_linked_position_until_timeout.c */
 void approach_linked_position_until_timeout(struct TownObject *object, IntVector3 *position, void *context);
@@ -37,22 +35,20 @@ void expand_bounds_to_inset_rectangle(s32 *bounds, s16 *rect);
 void follow_linked_position_until_timeout(UnsignedCountdownView *state, IntVector3 *out, struct SpriteFrameState *handler_arg);
 
 /* handle_resolves_movement_collisions_along_one_axis_using_boundary_probes_tile.c */
-void handle_resolves_movement_collisions_along_one_axis_using_boundary_probes_tile(EntityRec *position);
+void handle_resolves_movement_collisions_along_one_axis_using_boundary_probes_tile(ObjectPosition *position);
 
 /* initialize_actor_position_interaction_action.c */
-void initialize_actor_position_interaction_action(TownObjectRecord *record, s32 unused, s32 setup_value);
+void initialize_actor_position_interaction_action(TownObjectRecord *record, ObjectPosition *unused, s32 setup_value);
 
 /* interpolate_position_by_angle_offset.c */
-void interpolate_position_by_angle_offset(void *motion, EntityRec *position);
+void interpolate_position_by_angle_offset(void *motion, ObjectPosition *position);
 
 /* move_position_toward_target_and_finish.c */
-void move_position_toward_target_and_finish(u8 *motion, u8 *position, s32 callback_arg);
 
 /* query_larger_position_result.c */
-s16 query_larger_position_result(s32 *input);
+s16 query_larger_position_result(ObjectPosition *input);
 
 /* refresh_object_position_and_initialize.c */
-void refresh_object_position_and_initialize(void *context, void *object, s32 mode);
 
 /* select_the_smaller_position_query_result_capped_writes_associated.c */
 s16 select_the_smaller_position_query_result_capped_n_64_writes_associated(void *position_data, s32 *out_value);
@@ -64,6 +60,14 @@ void set_player_handler_and_position_value(void *object, s32 value_arg, struct S
 void store_position_and_compute_delta(s32 *newValue);
 
 /* update_actor_position_and_interaction.c */
-void update_actor_position_and_interaction(TownObjectRecord *actor, EntityRec *body, s32 context);
+void update_actor_position_and_interaction(TownObjectRecord *actor, ObjectPosition *body, s32 context);
+
+void advance_player_position_and_angle(void *work_data, ObjectPosition *position_data, struct SpriteFrameState *sprite);
+
+void advance_player_position(s32 context, ObjectPosition *object, struct SpriteFrameState *sprite);
+
+void move_position_toward_target_and_finish(u8 *motion, ObjectPosition *position, struct SpriteFrameState *sprite);
+
+void refresh_object_position_and_initialize(void *context, ObjectPosition *object, struct SpriteFrameState *sprite);
 
 #endif

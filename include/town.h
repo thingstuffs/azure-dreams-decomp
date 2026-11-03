@@ -1,5 +1,6 @@
 #ifndef TOWN_H
 #define TOWN_H
+struct ObjectPosition;
 
 #include "common.h"
 
@@ -19,10 +20,10 @@ void init_threshold_countdown_action(TownObjectRecord *record, void *unused, voi
 void init_timed_dispatch_action(TownObjectRecord *record, void *unused, void *handler_context);
 void initialize_action_object(s32 **record, void *ptr, void *ptr2);
 void initialize_action_object_type_six(TownObjectRecord *record, void *ptr, void *ptr2);
-void initialize_action_object_with_counter(TownObjectRecord *record, s32 unused, s32 setup_value);
+void initialize_action_object_with_counter(TownObjectRecord *record, struct ObjectPosition *unused, s32 setup_value);
 s32 input_angle_with_offset(s32 unused, s32 angle_offset);
 
-void init_sound_threshold_action(s32 **record, s32 unused, s32 setup_value);
+void init_sound_threshold_action(s32 **record, struct ObjectPosition *unused, s32 setup_value);
 
 
 void init_height_interpolation_action(TownObjectRecord *record, void *unused, void *handler_context);

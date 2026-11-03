@@ -42,7 +42,7 @@ typedef struct S_80092A84_4 {
 } S_80092A84_4;   /* base in update_actor_position_and_interaction */
 
 /* Updates the actor's position and dispatches town actions from input and interaction state. */
-void update_actor_position_and_interaction(TownObjectRecord *actor, EntityRec *body, s32 context) {
+void update_actor_position_and_interaction(TownObjectRecord *actor, ObjectPosition *body, s32 context) {
     GameWork *input_state;
     s32 *position_data;
     s32 *interaction_ctrl;
@@ -65,12 +65,12 @@ void update_actor_position_and_interaction(TownObjectRecord *actor, EntityRec *b
             return;
         }
     } else if (town_action_state_flag == 0) {
-        compute_and_clamps_vector_based_adjustment_updates_town((struct TownObj *)(body), position, (struct TownVec * *)(position_data));
+        compute_and_clamps_vector_based_adjustment_updates_town((body), position, (struct TownVec * *)(position_data));
     }
 
     input_flags = (input_state->pressed_buttons);
     if (input_flags & 0x10) {
-        initialize_input_driven_scene_object((s32 * *)(actor), (struct ObjectPosition *)(body), context);
+        initialize_input_driven_scene_object((s32 * *)(actor), (body), context);
         return;
     }
     if (input_flags & 0x40) {

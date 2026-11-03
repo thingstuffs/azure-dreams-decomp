@@ -53,7 +53,7 @@ void advance_monster_status_opening(ShopFirstCallbackObject *object) {
 
     step = object->opening_step.as_s16;
     if (step < 5) {
-        update_mode_display_spacing((S_800B65D8_3 *)object->resource_id, step);
+        update_mode_display_spacing((S_800B65D8_3 *)object->resource_id.as_s32, step);
         object->opening_step.as_u16 = object->opening_step.as_u16 + 1;
         return;
     }

@@ -209,7 +209,7 @@ void update_player_minigame_motion(TownCourseActor *actor, ObjectPosition *motio
     }
     if (town_blocked_directions != 0) {
         motion->velocity_z = 0;
-        clear_global_slot_n_5_copy_source_slot_n_2_global_slot_n_2((s32 *)(motion));
+        clear_global_slot_n_5_copy_source_slot_n_2_global_slot_n_2((motion));
     }
     if (motion->z.w.i > ground_height) {
         motion->z.w.i = ground_height;

@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_node.h"
 #include "shared/town_handler_entries.h"
 #include "town/player/object.h"
 
@@ -24,11 +25,11 @@ extern s32 D_8009A724;
 /* Initialize the entity's callbacks, ID, position, and timer. */
 void initialize_player_entity_callbacks(s32 entity_id, s32 x, s32 y) {
     Entity *entity = &scene_object_payload_alias;
-    s32 *context = (s32 *)((u8 *)entity - 0x20);
-    s32 context_value = context[3];
+    ObjectNodeHeader *node = NODE_HEADER(entity);
+    struct SpriteFrameState *sprite = node->sprite;
 
-    clear_entity_record_fields(context[2]);
-    call_the_handler_selects_nonzero_entry(approach_action_handler_table, entity, context_value);
+    clear_entity_record_fields(node->position);
+    call_the_handler_selects_nonzero_entry(approach_action_handler_table, entity, sprite);
     scene_object_payload_alias.callback0 = town_position_callback_address;
     entity->callback4 = &D_8009A724;
     entity->id = entity_id & 0xFFF;

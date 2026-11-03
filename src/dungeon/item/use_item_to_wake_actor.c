@@ -42,7 +42,7 @@ s32 use_item_to_wake_actor(ActorRecord *entity, DungeonItemEntry *event, s16 eve
         }
     }
 
-    create_timed_paired_particle_emitter(((ObjectNodeHeader *)entity - 1)->position, 0xC0C0C0, entity);
+    create_timed_paired_particle_emitter(NODE_HEADER(entity)->position, 0xC0C0C0, entity);
     if ((entity->flags14 & ACTOR_PARTY_MEMBER) &&
         !(entity->flags1C & ACTOR_ASLEEP)) {
         display_formatted_context_message(D_800E0E9B);

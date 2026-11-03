@@ -207,9 +207,9 @@ s32 render_active_sprite_parts_and_shadows(void *unused_0, void *unused_1, void 
     scr->unk_084 = 0;
     scr->unk_07C = 0;
     scr->unk_074 = 0;
-    camera.pitch = *(u16 *)&game_base->view.camera_rotation.parts.camera_rotation_x;
-    camera.yaw = *(u16 *)&game_base->view.camera_rotation.parts.camera_rotation_y;
-    camera.roll = *(u16 *)&game_base->view.camera_rotation.parts.viewAngle;
+    camera.pitch = ((u16)(game_base->view.camera_rotation.parts.camera_rotation_x));
+    camera.yaw = ((u16)(game_base->view.camera_rotation.parts.camera_rotation_y));
+    camera.roll = ((u16)(game_base->view.camera_rotation.parts.viewAngle));
     scr->unk_018 = primitive_buffer;
     ReadRotMatrix(saved_matrix);
     entry_index = 0;
@@ -221,7 +221,7 @@ s32 render_active_sprite_parts_and_shadows(void *unused_0, void *unused_1, void 
     do {
     entry_table = (u8 *) (&floor_objects);
 
-    entry_flags = (void *) ((entry_index * 4) + entry_table);
+    entry_flags =  ((entry_index * 4) + entry_table);
     if ((((!((*((u8 *) (((s8 *) entry_flags) + 3))) & 0x80)) || (dungeon_floor_flags[0] & FLOOR_TRAPS_VISIBLE))
          && ((*((u8 *) (((s8 *) entry_flags) + 1))) != 0)) && ((*((u8 *) (((s8 *) entry_flags) + 0))) != 0)) {
         u8 *frame_table;
@@ -252,9 +252,9 @@ s32 render_active_sprite_parts_and_shadows(void *unused_0, void *unused_1, void 
                 scr->unk_0EC = (s32) ((s16) world_z);
                 RotMatrix((u8 *)&scr->unk_100, rotation_matrix, world_x);
                 CompMatrix(&saved_matrix, rotation_matrix, view_matrix);
-                ScaleMatrix(view_matrix, (u8 *)&scr->unk_030);
-                SetTransMatrix((s32 *) view_matrix);
-                SetRotMatrix((s32 *) view_matrix);
+                ScaleMatrix(view_matrix, &scr->unk_030);
+                SetTransMatrix( view_matrix);
+                SetRotMatrix( view_matrix);
                 for (;;) {
                 if (!(part_header->unk_00 & 0x20)) {
                     texture_u_byte = part_header->unk_08;
@@ -282,8 +282,8 @@ s32 render_active_sprite_parts_and_shadows(void *unused_0, void *unused_1, void 
                         scr->unk_078 = world_corner_x;
                         world_y_byte = part_header->unk_03;
                         scr->unk_018 = quad + 0x28;
-                        quad_depth = RotAverage4((u8 *)&scr->unk_070, (void *)((u8 *)&scr->unk_078), (u8 *)&scr->unk_080,
-                            (u8 *)&scr->unk_088, quad + 8, quad + 0x10, quad + 0x18, quad + 0x20,
+                        quad_depth = RotAverage4(&scr->unk_070, ((u8 *)&scr->unk_078), &scr->unk_080,
+                            &scr->unk_088, quad + 8, quad + 0x10, quad + 0x18, quad + 0x20,
                             depth_cue, transform_flags,
                             (world_corner_y = (s8) world_y_byte, scr->unk_07A = world_corner_y,
                              scr->unk_072 = world_corner_y,
@@ -371,14 +371,14 @@ s32 render_active_sprite_parts_and_shadows(void *unused_0, void *unused_1, void 
                     + (((s32) (pitch_bits << 0x10)) >> 0x11));
                 sprite_yaw = *((u16 *) (((s8 *) render_params) + 0x1A));
                 view_yaw = camera.yaw;
-                scr->unk_104 = (s16) ((*(u16 *)&game_base->view.view_rotation_offset.parts.view_rotation_offset_z) + (sprite_yaw
+                scr->unk_104 = (s16) ((((u16)(game_base->view.view_rotation_offset.parts.view_rotation_offset_z))) + (sprite_yaw
                     - view_yaw));
 
                 scr->unk_102 = (u16) (*((u16 *) (((s8 *) render_params) + 0x18)));
                 RotMatrix((u8 *)&scr->unk_100, rotation_matrix, view_yaw);
                 CompMatrix(&sprite_projection_matrix, rotation_matrix, view_matrix);
-                SetTransMatrix((s32 *) view_matrix);
-                SetRotMatrix((s32 *) view_matrix);
+                SetTransMatrix( view_matrix);
+                SetRotMatrix( view_matrix);
                 for (;;) {
                 if (!(part_header->unk_00 & 0x20)) {
                     scr->unk_008.s32 = (s32) part_header->unk_08;
@@ -393,8 +393,8 @@ s32 render_active_sprite_parts_and_shadows(void *unused_0, void *unused_1, void 
                     scr->unk_088 = sprite_corner_x;
                     scr->unk_078 = sprite_corner_x;
                     sprite_y_byte = part_header->unk_03;
-                    RotTransPers4((u8 *)&scr->unk_070, (u8 *)&scr->unk_078, (u8 *)&scr->unk_080, (u8 *)&scr->unk_088, (u8 *)&scr->unk_0F0,
-                        (u8 *)&scr->unk_0F4, (u8 *)&scr->unk_0F8, (u8 *)&scr->unk_0FC, depth_cue, transform_flags,
+                    RotTransPers4(&scr->unk_070, &scr->unk_078, &scr->unk_080, &scr->unk_088, &scr->unk_0F0,
+                        &scr->unk_0F4, &scr->unk_0F8, &scr->unk_0FC, depth_cue, transform_flags,
                         (sprite_corner_y = (s8) sprite_y_byte, scr->unk_07A = sprite_corner_y,
                          scr->unk_072 = sprite_corner_y,
                          sprite_corner_y += (u16) (scr->unk_014.u16), scr->unk_08A =
@@ -511,21 +511,21 @@ s32 render_active_sprite_parts_and_shadows(void *unused_0, void *unused_1, void 
                             shadow_scale[1] = scale_component;
                             {
                                 u16 shadow_pitch = (u16) (0 - camera.pitch);
-                                u16 shadow_roll = (u16) ((*(u16 *)&game_base->view.view_rotation_offset.parts.view_rotation_offset_z) - camera.yaw);
+                                u16 shadow_roll = (u16) ((((u16)(game_base->view.view_rotation_offset.parts.view_rotation_offset_z))) - camera.yaw);
                                 scr->unk_100 = (s16) shadow_pitch;
                                 scr->unk_104 = (s16) shadow_roll;
                             }
                             RotMatrix((u8 *)&scr->unk_100, rotation_matrix);
                             CompMatrix(&sprite_projection_matrix, rotation_matrix, view_matrix);
                             ScaleMatrix(view_matrix, shadow_scale);
-                            SetTransMatrix((s32 *) view_matrix);
-                            SetRotMatrix((s32 *) view_matrix);
+                            SetTransMatrix( view_matrix);
+                            SetRotMatrix( view_matrix);
                             {
                                 u16 right_x;
                                 u16 left_x;
                                 quad = scr->unk_018;
-                                RotTransPers4((u8 *)&scr->unk_070, (void *)((u8 *)&scr->unk_078), (u8 *)&scr->unk_080,
-                                    (u8 *)&scr->unk_088, (u8 *)&scr->unk_0F0, (u8 *)&scr->unk_0F4, (u8 *)&scr->unk_0F8, (u8 *)&scr->unk_0FC,
+                                RotTransPers4(&scr->unk_070, ((u8 *)&scr->unk_078), &scr->unk_080,
+                                    &scr->unk_088, &scr->unk_0F0, &scr->unk_0F4, &scr->unk_0F8, &scr->unk_0FC,
                                     depth_cue, transform_flags,
                                     (left_x = scr->unk_070,
                                      scr->unk_018 = ((u8 *) quad) + 0x28, right_x =
@@ -555,7 +555,7 @@ s32 render_active_sprite_parts_and_shadows(void *unused_0, void *unused_1, void 
                             shadow_yaw = (s32) (scr->unk_00C.s32);
                             shadow_yaw += ((s32) (scr->unk_010.s32));
                             *((s32 *) (((s8 *) quad) + 0x14)) =
-                                shadow_yaw + ((*(s16 *)&part_header->unk_04) << 0x10);
+                                shadow_yaw + ((((s16)(part_header->unk_04))) << 0x10);
                             *((s16 *) (((s8 *) quad) + 0x1C)) =
                                 (s16) (((u16) (scr->unk_014.u16)) + ((u16) (scr->unk_008.u16)));
                             *((s16 *) (((s8 *) quad) + 0x24)) =
@@ -597,6 +597,6 @@ s32 render_active_sprite_parts_and_shadows(void *unused_0, void *unused_1, void 
     }
     } while (++entry_index < 0x20);
     *((void **) (((s8 *) (game_base->draw_buffer)) + 0x8D0)) =
-        (void *) (scr->unk_018);
+         (scr->unk_018);
     return 0;
 }

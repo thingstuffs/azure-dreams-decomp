@@ -1,6 +1,7 @@
 #ifndef MODULE_DUNGEON_OVL_CB9000_H
 #define MODULE_DUNGEON_OVL_CB9000_H
 struct ObjectPosition;
+struct ObjectPosition;
 #include "dungeon/system.h"
 #include "engine/texture.h"
 #include "shared/sprite_frame_state.h"
@@ -1103,12 +1104,12 @@ extern void func_800A9A04(void *);
 extern void update_actor_status_and_mp(void *);
 extern void initialize_actor_sprite_and_animation(void *, void *, void *, s16);
 extern s32 refresh_actor_facing_and_lifecycle();
-extern void begin_pushed_actor_move(void *state_in, void *unused, void *position_in, void *actor_in);
+extern void begin_pushed_actor_move(void *state_in, struct ObjectPosition *unused, void *position_in, void *actor_in);
 extern s32 begin_ready_actor_directional_action(void *, void *, void *, u8 *);
 extern void begin_actor_move_to_target_facing(void *, void *, void *, void *);
-extern s32 reset_actor_action_state(void *actor, void *unused, SpriteFrameState *sprite, u8 *direction_frames);
-extern s32 update_actor_movement_to_tile(void *,void *,void *,void *);
-extern s32 update_linked_actor_motion(void *state, ObjectPosition *transform, SpriteFrameState *config, void *object);
+extern s32 reset_actor_action_state(void *actor, struct ObjectPosition *unused, SpriteFrameState *sprite, u8 *direction_frames);
+extern s32 update_actor_movement_to_tile(ActorRecord *,void *,void *,void *);
+extern s32 update_linked_actor_motion(void *state, ObjectPosition *transform, SpriteFrameState *config, ActorRecord *object);
 extern s32 update_actor_hop_and_shrink(void *,struct ObjectPosition *,struct SpriteFrameState *,void *);
 
 extern s32 interpolate_actor_to_terrain_tile(void *,void *,void *,void *);
@@ -1118,7 +1119,7 @@ extern s32 update_actor_transform_from_parent(void *, void *, void *, void *);
 extern s32 update_actor_fade_in(void *,void *,void *);
 extern void spend_actor_mp(void *, s32);
 
-extern void * create_status_linked_render_effect(EntityRec *source_pos, s32 render_param, s16 initial_state, s8 *status);
+extern void * create_status_linked_render_effect(struct ObjectPosition *source_pos, s32 render_param, s16 initial_state, s8 *status);
 extern s16 relink_entity_and_clear_high_flag(void *context, void *position, void *entity, s16 near_range, s16 far_range, s8 *state_out_addr);
 /* Retail banks use the signed-halfword height-query return view; this
  * is the existing certified fa7000 contract, not a per-function flag. */

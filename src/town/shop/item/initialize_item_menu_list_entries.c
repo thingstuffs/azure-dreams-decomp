@@ -149,6 +149,6 @@ void initialize_item_menu_list_entries(ItemMenuTransition *list) {
         } while (row_index < list->entry_count);
     }
     list->duration = 1;
-    list->progress = 1;
+    list->progress.word = 1;
     animate_item_menu_cursor_transition(list);
 }

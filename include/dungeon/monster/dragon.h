@@ -211,7 +211,7 @@ u32 check_entity_interaction_compatibility();
 #include "dungeon/player/object/action_state.h"
 struct ObjectNodeHeader;
 struct S_80047738;
-s32 update_actor_movement_to_tile(void *move_state, void *motion, void *target_tile, ActorRecord *actor);
+s32 update_actor_movement_to_tile(ActorRecord *move_state, void *motion, void *target_tile, ActorRecord *actor);
 void spend_actor_mp(ActorRecord *entity, s32 base_reduction);
 
 void func_800A9A04(void *actor);

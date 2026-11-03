@@ -1,5 +1,6 @@
 #ifndef TOWN_PERSON_OBJECT_SETUP_H
 #define TOWN_PERSON_OBJECT_SETUP_H
+struct SpriteFrameState;
 
 #include "common.h"
 #include "shared/town_object.h"
@@ -8,7 +9,7 @@
 s16 clamp_transform_coordinate_deltas(s32 x, s32 y, void *origin);
 s16 get_cached_or_coordinate_transform_value(void *object, void *lookup_mode);
 void initialize_object_and_update(TownObjectRecord *object, void *update_context, void *setup_context);
-void apply_object_setup_update(void *object, void *callback_arg_1, void *callback_arg_2);
+void apply_object_setup_update(void *object, void *callback_arg_1, struct SpriteFrameState *callback_arg_2);
 struct EntityRec;
 void advance_object_position(TownObjectRecord *context, struct EntityRec *object, struct SpriteFrameState *finish_arg);
 void move_position_toward_target(void *work_data, void *position_data, void *completion_arg);
@@ -22,7 +23,6 @@ void initialize_reaction_movement(void *object, void *movement_state, void *init
 void decrement_countdown_call(struct TownObjectRecord *object, s32 unused, void *callback_context);
 void decrement_reaction_timer_and_reinitialize(struct TownObjectRecord *object, void *context, void *setup);
 
-struct SpriteFrameState;
 struct Rec_D_800CFCB4;
 
 void initialize_reaction_context(TownObjectRecord *object, ObjectPosition *position, struct SpriteFrameState *state);

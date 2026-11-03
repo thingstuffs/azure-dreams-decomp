@@ -14,7 +14,7 @@ struct S_800AC480_0;
 struct S_800AC480_3;
 
 /* advance_actor_movement_to_tile.c */
-void advance_actor_movement_to_tile(void *entity_ptr, void *input_arg_1, void *input_arg_2, void *actor_ptr);
+void advance_actor_movement_to_tile(ActorRecord *entity_ptr, void *input_arg_1, void *input_arg_2, void *actor_ptr);
 
 /* create_actor_at_tile.c */
 void *create_actor_at_tile(s16 spawn_kind, u16 tile_x, u16 tile_y, s16 height);
@@ -38,7 +38,7 @@ s32 interpolate_actor_to_terrain_tile(struct S_800AC480_0 *move_state, ObjectPos
 void move_actor_to_destination_tile(Rec_func_8008ACDC_arg0 *actor, ObjectPosition *motion, SpriteFrameState *destination, void *context);
 
 /* update_actor_movement_to_tile.c */
-s32 update_actor_movement_to_tile(void *move_state, void *motion, void *target_tile, ActorRecord *actor);
+s32 update_actor_movement_to_tile(ActorRecord *move_state, void *motion, void *target_tile, ActorRecord *actor);
 
 /* update_attached_effect_position.c */
 void update_attached_effect_position(void *object, MovingPosition *position, void *anim_state);

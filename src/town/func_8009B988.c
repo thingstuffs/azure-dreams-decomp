@@ -15,10 +15,10 @@ extern s32 D_800D01A8;
  * Selects D_800D01A8, clears town_action_reset_byte and entity motion fields, and installs
  * target_action_update_address with count 60.
  */
-void init_sixty_tick_target_action(TownObjectRecord *object, s32 motion_context, void *handler_context) {
+void init_sixty_tick_target_action(TownObjectRecord *object, ObjectPosition *motion_context, void *handler_context) {
     call_the_handler_selects_nonzero_entry(&D_800D01A8, object, handler_context);
     town_action_reset_byte = 0;
     object->unk_04.as_pm = &target_action_update_address;
     object->unk_0A.as_s16 = 0x3C;
-    clear_entity_record_fields((struct EntityRec *)(motion_context));
+    clear_entity_record_fields((motion_context));
 }

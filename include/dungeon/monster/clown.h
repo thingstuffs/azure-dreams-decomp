@@ -1,5 +1,6 @@
 #ifndef DUNGEON_RESOURCE16_SLOT0_H
 #define DUNGEON_RESOURCE16_SLOT0_H
+struct ObjectPosition;
 #include "common.h"
 #include "dungeon/actor.h"
 #include "shared/object_node.h"
@@ -299,11 +300,10 @@ u32 check_entity_interaction_compatibility();
 struct Entry;
 struct ObjectNodeHeader;
 struct ObjectNodeHeader;
-s32 update_actor_movement_to_tile(void *move_state, void *motion, void *target_tile, ActorRecord *actor);
+s32 update_actor_movement_to_tile(ActorRecord *move_state, void *motion, void *target_tile, ActorRecord *actor);
 void spend_actor_mp(ActorRecord *entity, s32 base_reduction);
 
 s32 get_cd_command_queue_depth(void);
-void create_actor_linked_effect(void *sourceData);
 
 s32 get_entity_effect_value(ActorRecord *entry, s32 effect_id);
 s32 func_80042900(ActorRecord *entry, s32 effect_id);
@@ -328,7 +328,7 @@ int read_stream_cue_start_offset(void);
 s32 lookup_masked_byte_table();
 void unlink_entity_node(struct EntityLinkNode *node);
 void decrement_monster_entry_count(s16 requested_id, s16 requested_type);
-void * create_status_linked_render_effect(EntityRec *source_pos, s32 render_param, s16 initial_state, s8 *status);
+void * create_status_linked_render_effect(struct ObjectPosition *source_pos, s32 render_param, s16 initial_state, s8 *status);
 extern u8 clown_direction_frames[];
 extern u8 clown_alt_direction_frames[];
 extern u8 D_8017426C[];
@@ -382,10 +382,10 @@ void finish_actor_floor_trap_then_dispatch_transition(ActorRecord *state, Object
 s32 project_clown_sprite_chain(void *initial_payload, ObjectPosition *position, R16_801736AC_Entry *entry, s32 unused);
 void update_expanding_spiral_effect(AngledSourceEffectBody *effect, R16_80173738_FuncArg1 *position, struct SpriteFrameState *primitive);
 void create_angled_source_effect(
-    s32 unused_0, R16_80173904_S_80173904_3 *origin, SpriteFrameState *unused_sprite, s32 unused_3, s16 angle, u16 depth_offset);
+    s32 unused_0, struct ObjectPosition *origin, SpriteFrameState *unused_sprite, s32 unused_3, s16 angle, u16 depth_offset);
 void wait_for_clown_action_slot(ActorRecord *entity_data, ObjectPosition *unused_position, SpriteFrameState *unused_sprite, void *other_data);
 void fade_entity_colors_to_neutral(void *entity_data, void *unused, void *source_data);
-void advance_actor_effect_sequence(Rec_func_801732A4_arg0 *state, EntityRec *position, struct SpriteFrameState *actor, void *model);
+void advance_actor_effect_sequence(Rec_func_801732A4_arg0 *state, struct ObjectPosition *position, struct SpriteFrameState *actor, void *model);
 
 
 void finish_actor_action_animation(ActorRecord *action, ObjectPosition *motion, SpriteFrameState *anim, ActorRecord *actor);

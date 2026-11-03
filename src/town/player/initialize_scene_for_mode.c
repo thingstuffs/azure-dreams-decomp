@@ -1,3 +1,8 @@
+#include "town/player/initialize_record_and_select_active_data.h"
+#include "town/player/initialize_scene_for_mode_api.h"
+#include "town/player/initialize_record_with_handler_table_api.h"
+#include "town/player/effect.h"
+#include "town/player.h"
 /* Initializes the town player scene and updates movement, camera rotation, and facing animations. */
 #include "shared/sprite_frame_state.h"
 #include "script_symbols.h"
@@ -51,7 +56,7 @@ void initialize_scene_for_mode(void)
         return;
     }
 
-    object = initialize_scene_object_in_buffer(0, ((u8 *)(&scene_object_list_anchor)), 0x22);
+    object = initialize_scene_object_in_buffer(0, &scene_object_list_anchor, 0x22);
     object->position = scene;
     object->sprite = render;
 
@@ -114,19 +119,19 @@ void synchronize_mode_and_pending_callback(void) {
     s32 disabled_flag;
     s32 enabled_flag;
     s32 mode_result; /* MATCH: Keep the merged call result in v0 for the shared stores. */
-    u8 *work_state = (u8 *)&view_reference_entity.x.v;
-    TileObject *update_state = &reference_tile_object;
+    ObjectPosition *work_state = (void *)&view_reference_entity.x.v;
+    SpriteFrameState *update_state = (void *)&reference_tile_object;
     u8 *handler_state = (u8 *)&scene_object_payload_alias;
     void (*callback)();
 
-    if (*(s32 *)&((ObjectNodeHeader *)(handler_state - 0x20))->update_callback != familiar_deploy_update_address) {
+    if ((s32)NODE_HEADER(handler_state)->update_callback != (s32)familiar_deploy_update_address) {
         if (test_resident_bitmap_bit(F_player_mizugi) == 0) {
             ((func_80092AB0_S_80090210_0 *)(handler_state - 0x10))->unk_26 = 0;
             disabled_flag = test_resident_bitmap_bit(F_player_mizugi);
             if (disabled_flag != test_resident_bitmap_bit(F_player_mizugi_old)) {
                 mode_result = load_town_sprite_bundle();
                 loaded_sprite_bundle_attributes = mode_result;
-                update_state->render_attributes = mode_result;
+                update_state->animation_resource = mode_result;
             }
         } else {
             ((func_80092AB0_S_80090210_0 *)(handler_state - 0x10))->unk_26 = 1;
@@ -135,7 +140,7 @@ void synchronize_mode_and_pending_callback(void) {
                 s32 selected_mode;
                 selected_mode = load_alternate_town_sprite_bundle();
                 loaded_sprite_bundle_attributes = selected_mode;
-                update_state->render_attributes = selected_mode;
+                update_state->animation_resource = selected_mode;
             }
         }
         if (test_resident_bitmap_bit(F_player_mizugi) != 0) {
@@ -145,8 +150,8 @@ void synchronize_mode_and_pending_callback(void) {
         }
         call_the_handler_selects_nonzero_entry(town_scene_record_handlers, handler_state, update_state);
         initialize_player_object(handler_state);
-        initialize_record_and_select_active_data(handler_state, work_state, update_state);
-        initialize_record_with_handler_table(handler_state, work_state, update_state);
+        initialize_record_and_select_active_data(handler_state, (work_state), update_state);
+        initialize_record_with_handler_table(handler_state, (work_state), update_state);
         callback = (void (*)())town_scene_init_callback;
         ((func_80092AB0_S_80090210_0 *)(handler_state - 0x10))->unk_14 = &D_80097D54;
         ((func_80092AB0_S_80090210_0 *)(handler_state - 0x10))->unk_1A = 0x10;
@@ -179,7 +184,7 @@ void initialize_scene_render_object(void) {
 }
 
 /* Rebuild the town menu's node list for the current mode and hand it to the drawing pass. */
-void rebuild_menu_node_list(TownPlayerRecord *owner, ObjectPosition *node_in, s32 mode) {
+void rebuild_menu_node_list(TownPlayerRecord *owner, ObjectPosition *node_in, SpriteFrameState *sprite) {
     func_80092C9C_S_800903FC_3 *node;
     void *handler;
     func_80092C9C_S_800903FC_2 *base;
@@ -232,19 +237,19 @@ void rebuild_menu_node_list(TownPlayerRecord *owner, ObjectPosition *node_in, s3
             }
             run_the_three_update_routines_context(node_in);
             if (owner->unk_00 != town_position_callback_address) {
-                initialize_record_and_select_active_data(owner, node_in, mode);
+                initialize_record_and_select_active_data(owner, (node_in), sprite);
             }
         }
     }
 
     handle_resolve_bounding_box_overlaps_linked_colliders_along_least_penetrating_axis(&town_actor_control, node_in);
-    (*(func_80092C9C_ActorCallback *)((u8 *)owner + (0)))(owner, node_in, mode);
+    (*(func_80092C9C_ActorCallback *)((u8 *)owner + (0)))(owner, node_in, (s32)sprite);
 
     if ((*(void **)((u8 *)owner + (-0x10))) == D_800A5638) {
-        turn_entity_toward_target(owner, node_in, mode);
+        turn_entity_toward_target(owner, node_in, sprite);
         return;
     }
-    process_scene_record_update(owner, node_in, mode);
+    process_scene_record_update(owner, node_in, sprite);
 }
 
 /* MECHANISM: The 0x28 frame and s2/s1/s3 argument holds preserve the retail prologue.
@@ -252,7 +257,7 @@ void rebuild_menu_node_list(TownPlayerRecord *owner, ObjectPosition *node_in, s3
    GCC coalesces both to s0 and emits the two-edge lui/addiu held base. */
 
 /* Updates camera rotation and facing after collision adjustment, then saves the reference position. */
-void process_scene_record_update(TownPlayerRecord *context, ObjectPosition *input, void *record) {
+void process_scene_record_update(TownPlayerRecord *context, ObjectPosition *input, SpriteFrameState *sprite) {
     GameWork *work = &g_game_work;
     void *callback;
     s32 initial_flags;
@@ -322,22 +327,22 @@ void process_scene_record_update(TownPlayerRecord *context, ObjectPosition *inpu
     }
     index = view_relative_angle_sector(context->unk_18);
     if (context->unk_12 != index) {
-        texture_handle_installs_selected_animation_frame_secondary_pointer_updates_animation_flags(record,
+        texture_handle_installs_selected_animation_frame_secondary_pointer_updates_animation_flags((void *)sprite,
                       *(*(u8 **)((u8 *)context + 0x1C) + index),
-                      *(s8 *)((u8 *)record + 4), 0);
+                      sprite->unk_04, 0);
         context->unk_12 = index;
     }
 
     {
 
         if (town_scene_effect_flips[index] != 0) {
-            *(u16 *)((u8 *)record + 0x14) |= 1;
+            sprite->flags |= 1;
         } else {
-            *(u16 *)((u8 *)record + 0x14) &= 0xFFFE;
+            sprite->flags &= 0xFFFE;
         }
     }
-    dispatch_to_matching_fallback_handler_using_sentinel_terminated_key_lists(context, input, record);
-    step_actor_animation(record, 0);
+    dispatch_to_matching_fallback_handler_using_sentinel_terminated_key_lists(context, input, sprite);
+    step_actor_animation(sprite, 0);
 
     {
         u8 *state = town_position_reference_state;

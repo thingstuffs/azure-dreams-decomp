@@ -1,3 +1,4 @@
+#include "dungeon/effect/screen.h"
 #include "shared/audio_commands.h"
 #include "dungeon/monster/cyclone.h"
 #include "shared/actor_status_flags.h"
@@ -54,7 +55,6 @@ typedef struct S_80172FC0_6 {
     s32 unk_04;
 } S_80172FC0_6;   /* selected_model in update_shrinking_fading_effect */
 
-extern void create_actor_linked_effect(void *);
 extern void *create_directional_render_object(void *, void *, void *);
 
 extern s32 D_800814A0;

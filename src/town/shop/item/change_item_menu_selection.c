@@ -14,7 +14,7 @@ void change_item_menu_selection(ObjectNodeHeader *object, s32 value_arg, s32 res
     if (new_value != state->end_row) {
         state->end_row = new_value;
         state->duration = reset_value;
-        state->progress = 0;
+        state->progress.word = 0;
         state->callback = D_800AE5B8;
         state->start_row = state->end_row;
     }

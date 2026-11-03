@@ -1020,7 +1020,7 @@ s32 build_shaded_quads_adjacent_vertex_rows_adds_them_ordering_table(void)
                         SetDrawMode(draw_mode, 0, 0,
                                       (u16)GetTPage(0, 1, 0, 0), 0);
                         AddPrim(scratch->table + scratch->index,
-                                      (Entry *)draw_mode);
+                                      draw_mode);
                     }
                 }
 

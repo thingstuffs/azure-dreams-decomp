@@ -392,7 +392,7 @@ void run_warp_cutscene(Motion *motion, Position *position, u8 *color)
     u16 final_state;
     s32 index;
 
-    *(u16 *)warp_effect_counters = *(u16 *)warp_effect_counters + 1;
+    *warp_effect_counters = *warp_effect_counters + 1;
 
     switch (motion->state) {
     case 0:
@@ -405,7 +405,7 @@ void run_warp_cutscene(Motion *motion, Position *position, u8 *color)
 
         resolve_record_orientation_or_fallback(
             *(void **)(index + (long)actor_direction_sprites),
-            ((u8 *)(&reference_tile_object)), &delta, 0);
+            ((&reference_tile_object)), &delta, 0);
 
         base.x += delta.x;
         motion->target_x = base.x;
@@ -1185,7 +1185,7 @@ void *create_linked_sprite_pieces(s16 x, s16 y, s16 z, s16 heading) {
             if (piece_index != 0) {
                 template = objects[0];
             } else {
-                template = ((u8 *)(&scene_object_list_anchor));
+                template = ((&scene_object_list_anchor));
             }
             objects[piece_index] = allocate_list_node(2, template);
         }
@@ -1415,7 +1415,7 @@ void fade_color_to_black(void *owner, ObjectPosition *unused, void *color_data) 
     u8 green;
     u8 blue;
 
-    *(u16 *)warp_effect_counters = *(u16 *)warp_effect_counters + 1;
+    *warp_effect_counters = *warp_effect_counters + 1;
     red = *((u8 *)color_data + 0xC);
     green = *((u8 *)color_data + 0xD);
     *((u8 *)color_data + 0xC) = red - (red >> 1);
@@ -1586,7 +1586,7 @@ void initialize_inventory_packet(void *state, void *points, void *appearance) {
 
     phase_step = ((Rec_func_80025D28_arg0 *)state)->unk_38;
     phase_angle = (s16)(phase_step << 6);
-    *(u16 *)warp_effect_counters = *(u16 *)warp_effect_counters + 1;
+    *warp_effect_counters = *warp_effect_counters + 1;
     start_wave_x = rsin(phase_angle);
     ((S_80025D28_1 *)points)->unk_00 = (((Rec_func_80025D28_arg0 *)state)->unk_1C << 0x10) +
         ((s32)(start_wave_x * rcos(((Rec_func_80025D28_arg0 *)state)->unk_36

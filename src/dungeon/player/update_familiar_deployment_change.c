@@ -121,7 +121,7 @@ typedef struct S_8009345C_14 {
 
 
 /* Advances the object replacement sequence, including animation, messages, and cleanup. */
-void update_familiar_deployment_change(void *actor, ObjectPosition *map, void *entity, ActorRecord *context) {
+void update_familiar_deployment_change(void *actor, ObjectPosition *map, SpriteFrameState *entity, ActorRecord *context) {
 
     u8 *remove_text;
     u8 *create_text;
@@ -150,17 +150,17 @@ void update_familiar_deployment_change(void *actor, ObjectPosition *map, void *e
     state = ((S_8009345C_0 *)actor)->phase;
     switch (state) {
     case 0:
-        if (!(((SpriteFrameState *)entity)->flags & 0x6000)) {
+        if (!(entity->flags & 0x6000)) {
             return;
         }
-        (*(void **)((u8 *)entity + (0x2C))) = familiar_save_restore_frames;
+        entity->frameTable = familiar_save_restore_frames;
         set_sprite_animation_frame(entity, familiar_save_restore_frames[((s32) (g_game_work.view.camera_rotation.parts.viewAngle + context->facing + 0x100)
             >> 9) & 7], 0, 1);
         create_familiar_deployment_effect_with_owner_state(actor, map, entity);
         create_familiar_deployment_overlay(actor, map, entity);
-        entity_flags = ((SpriteFrameState *)entity)->flags;
+        entity_flags = entity->flags;
         familiar_removed_during_change = 0;
-        ((SpriteFrameState *)entity)->flags = (u16) (entity_flags | 0x200);
+        entity->flags = (u16) (entity_flags | 0x200);
         ((S_8009345C_0 *)actor)->wait_ticks = 0x10U;
         selected_slot = context->unk_8A;
         slot_bits = context->unk_8A;
@@ -292,20 +292,20 @@ void update_familiar_deployment_change(void *actor, ObjectPosition *map, void *e
         if ((end_ticks << 0x10) > 0) {
             return;
         }
-        (*(void **)((u8 *)entity + (0x2C))) = familiar_save_frames;
+        entity->frameTable = familiar_save_frames;
         set_sprite_animation_frame(entity, familiar_save_frames[((s32) (g_game_work.view.camera_rotation.parts.viewAngle + context->facing + 0x100)
             >> 9) & 7], 0, 1);
         ((S_8009345C_0 *)actor)->phase++;
         return;
     case 8:
-        if (!(((SpriteFrameState *)entity)->flags & 0x6000)) {
+        if (!(entity->flags & 0x6000)) {
             return;
         }
         ((S_8009345C_0 *)actor)->action_callback = handle_player_input;
         process_unflagged_linked_entries_alt(context->next_actor_header);
         process_unflagged_linked_entries(context->next_actor_header);
         g_dungeon_status.flags = (u16) (g_dungeon_status.flags | 0x812);
-        ((SpriteFrameState *)entity)->flags = (u16) (((SpriteFrameState *)entity)->flags & 0xFDFF);
+        entity->flags = (u16) (entity->flags & 0xFDFF);
     case 6:
         ((S_8009345C_0 *)actor)->phase++;
         return;

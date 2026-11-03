@@ -6,10 +6,10 @@
 #include "dungeon/player/object.h"
 
 /* Selects the target's table from flags and clears global state when the update returns zero. */
-void finish_player_action_animation(ActorRecord *target, ObjectPosition *unused, void *flag_data, ActorRecord *source) {
+void finish_player_action_animation(ActorRecord *target, ObjectPosition *unused, SpriteFrameState *flag_data, ActorRecord *source) {
     void *table;
     if (!(source->flags1C & 0x100000)) {
-        if (*(u16 *)((u8 *)flag_data + 0x14) & 0xE000) {
+        if (flag_data->flags & 0xE000) {
             table =handle_player_input;
         } else {
             return;

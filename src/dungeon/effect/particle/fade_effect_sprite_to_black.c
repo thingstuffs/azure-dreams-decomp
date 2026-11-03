@@ -213,7 +213,7 @@ void update_directional_actor_effect(void *effect, void *motion, void *sprite) {
                 }
                 frame.target_z.half.z -= 0x30;
             } else {
-                frame.target_z.half.z = *(u16 *)&(object->position)->z.w.i - 0x28;
+                frame.target_z.half.z = ((u16)((object->position)->z.w.i)) - 0x28;
             }
             target_x = (S_8182C800_3 *)frame.target_x;
             start_x = ((S_8182C800_5 *)motion)->unk_00.at02.v;

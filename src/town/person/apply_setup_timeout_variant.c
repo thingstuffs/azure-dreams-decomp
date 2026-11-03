@@ -9,12 +9,12 @@
 #include "town/person.h"
 #include "town/person/object.h"
 /* Decrement the countdown and call apply_object_setup_and_update when it reaches zero or becomes negative. */
-void apply_setup_on_timeout_variant_1(TownObjectRecord *object, void *callback_arg_1, void *callback_arg_2) {
+void apply_setup_on_timeout_variant_1(TownObjectRecord *object, ObjectPosition *position, void *callback_arg_2) {
     u16 countdown;
 
     countdown = object->timer.as_u16 - 1;
     object->timer.as_u16 = countdown;
     if ((countdown << 0x10) <= 0) {
-        apply_object_setup_and_update(object, callback_arg_1, callback_arg_2);
+        apply_object_setup_and_update(object, position, callback_arg_2);
     }
 }

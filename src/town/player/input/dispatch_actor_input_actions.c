@@ -1,3 +1,7 @@
+#include "town/player/init_movement_action.h"
+#include "town/player/initialize_record_and_select_active_data.h"
+#include "town/player/object.h"
+#include "town/player/action_initializers.h"
 #include "script_symbols.h"
 #include "shared/position_query.h"
 #include "common.h"
@@ -14,13 +18,13 @@
 extern void submit_object_resource_data();
 extern void initialize_scene_action_record();
 void init_ground_input_fallback(s32 * *, void *, void *);
-struct TownObjectRecord; void initialize_randomized_object_action(struct TownObjectRecord *, s32, s32);
-struct TownObjectRecord; void init_periodic_effect_action(struct TownObjectRecord *, s32, s32);
+struct TownObjectRecord; void initialize_randomized_object_action(struct TownObjectRecord *, ObjectPosition *, SpriteFrameState *);
+struct TownObjectRecord; void init_periodic_effect_action(struct TownObjectRecord *, ObjectPosition *, SpriteFrameState *);
 struct TownObjectRecord; void init_threshold_countdown_action(struct TownObjectRecord *, void *, void *);
 struct TownObjectRecord; struct ObjectPosition; void initialize_actor_action_state(struct TownObjectRecord *, struct ObjectPosition *, s32);
 void initialize_action_object(s32 * *, void *, void *);
 struct TownObjectRecord;
-struct TownObjectRecord; void initialize_action_object_with_counter(struct TownObjectRecord *, s32, s32);
+struct TownObjectRecord; void initialize_action_object_with_counter(struct TownObjectRecord *, ObjectPosition *, s32);
 void initialize_actor_movement_interaction_action(s32 * *, void *, void *);
 void play_periodic_sound(s32, s32);
 #include "town/player/store_the_valid_shared_angle_in_offset_hex_10_api.h"
@@ -45,7 +49,7 @@ typedef struct S_80091260_2 {
 } S_80091260_2;   /* arg0 in dispatch_actor_input_actions */
 
 /* Dispatch actor actions from input flags and position checks. */
-void dispatch_actor_input_actions(S_80091260_2 *actor, EntityRec *position, s32 context) {
+void dispatch_actor_input_actions(S_80091260_2 *actor, ObjectPosition *position, SpriteFrameState *sprite) {
     GameWork *input_state = &g_game_work;
     s32 input_flags;
     s32 action_result;
@@ -60,16 +64,16 @@ void dispatch_actor_input_actions(S_80091260_2 *actor, EntityRec *position, s32 
     height = select_the_smaller_position_query_result_capped_n_64_writes_associated(position, &position_query_scratch);
     if ((height - position->z.w.i) >= 4) {
         if (town_action_state_flag == 0) {
-            initialize_action_object((s32 * *)(actor), position, (void *)(context));
+            initialize_action_object((s32 * *)(actor), position, sprite);
             return;
         }
     } else if (town_action_state_flag == 0) {
-        compute_and_clamps_vector_based_adjustment_updates_town((struct TownObj *)(position), height, (struct TownVec * *)(&position_query_scratch));
+        compute_and_clamps_vector_based_adjustment_updates_town((position), height, (struct TownVec * *)(&position_query_scratch));
     }
 
     input_flags = (input_state->pressed_buttons);
     if (input_flags & 0x10) {
-        initialize_actor_action_state((struct TownObjectRecord *)(actor), (struct ObjectPosition *)(position), context);
+        initialize_actor_action_state((struct TownObjectRecord *)(actor), (position), (s32)sprite);
         return;
     }
 
@@ -77,14 +81,14 @@ void dispatch_actor_input_actions(S_80091260_2 *actor, EntityRec *position, s32 
         action_result = select_an_eligible_source_entry_stores_pointer_in_destination(actor, town_actor_control);
         if (action_result != 0) {
             if (action_result == 2) {
-                initialize_actor_movement_interaction_action((s32 * *)(actor), position, (void *)(context));
+                initialize_actor_movement_interaction_action((s32 * *)(actor), position, sprite);
                 return;
             } else {
-                initialize_action_object_with_counter((struct TownObjectRecord *)(actor), (s32)(position), context);
+                initialize_action_object_with_counter((struct TownObjectRecord *)(actor), (position), (s32)sprite);
                 return;
             }
         } else if (test_resident_bitmap_bit(F_t_attack_enable) != 0) {
-            init_threshold_countdown_action((struct TownObjectRecord *)(actor), position, (void *)(context));
+            init_threshold_countdown_action((struct TownObjectRecord *)(actor), position, sprite);
             return;
         }
         return;
@@ -95,12 +99,12 @@ void dispatch_actor_input_actions(S_80091260_2 *actor, EntityRec *position, s32 
     if (action_result != 0) {
         if (action_result == -1) {
             store_the_valid_shared_angle_in_offset_hex_10(actor);
-            initialize_record_and_select_active_data((s32)(actor), (s32)(position), context);
+            initialize_record_and_select_active_data(actor, (position), sprite);
             actor->unk_2C = 0;
             submit_object_resource_data(action_data[4]);
             return;
         } else {
-            init_movement_action((struct TownObjectRecord *)(actor), position, context);
+            init_movement_action((struct TownObjectRecord *)(actor), position, sprite);
             return;
         }
         return;
@@ -111,16 +115,16 @@ void dispatch_actor_input_actions(S_80091260_2 *actor, EntityRec *position, s32 
         if (actor->unk_16 == 1) {
             tile_id = read_map_cell_at_world_position(position->x.w.i, position->y.w.i);
             if (check_masked_value_in_current_range((u16)tile_id) != 0 &&position->z.v > 0) {
-                init_periodic_effect_action((struct TownObjectRecord *)(actor), (s32)(position), context);
+                init_periodic_effect_action((struct TownObjectRecord *)(actor), (position), sprite);
                 return;
             } else {
-                init_ground_input_fallback((s32 * *)(actor), position, (void *)(context));
+                init_ground_input_fallback((s32 * *)(actor), position, sprite);
                 return;
             }
         } else {
-            initialize_randomized_object_action((struct TownObjectRecord *)(actor), (s32)(position), context);
+            initialize_randomized_object_action((struct TownObjectRecord *)(actor), (position), sprite);
             store_the_valid_shared_angle_in_offset_hex_10(actor);
-            call_the_valid_shared_angle_fixed_hex_120000_context_callee_80094_f_58((s32)(position));
+            call_the_valid_shared_angle_fixed_hex_120000_context_callee_80094_f_58((position));
             return;
         }
         return;
@@ -135,6 +139,6 @@ void dispatch_actor_input_actions(S_80091260_2 *actor, EntityRec *position, s32 
         reduce_object_coordinates_toward_direction_dependent_limits_without_overshooting(position);
         return;
     } else {
-        initialize_scene_action_record(actor, position, context);
+        initialize_scene_action_record(actor, position, sprite);
     }
 }

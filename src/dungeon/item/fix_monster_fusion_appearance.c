@@ -84,7 +84,7 @@ s32 fix_monster_fusion_appearance(ActorRecord *entity, DungeonItemEntry *data, s
                     entity->unk_4A = data->unk_02;
                     entity->unk_4B = data->unk_03;
                     entity->status_flags |= 0x800000;
-                    create_colored_effect_with_event((s8 *)entity - 0x20, 0x20A0A0, 0x702);
+                    create_colored_effect_with_event(NODE_HEADER(entity), 0x20A0A0, 0x702);
                     stored = 1;
                     if (entity->flags14 & 0x4000) {
                         adjust_source_value_and_finalize(entity, D_800E0FF4);

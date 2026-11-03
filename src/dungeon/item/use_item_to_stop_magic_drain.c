@@ -52,7 +52,7 @@ s32 use_item_to_stop_magic_drain(ActorRecord *target, DungeonItemEntry *item, s1
                 adjust_source_value_and_finalize(target, D_800E104E);
             }
         }
-        create_colored_effect_with_event((u8 *)target - 0x20, 0xE0E0E0, 0x702);
+        create_colored_effect_with_event(NODE_HEADER(target), 0xE0E0E0, 0x702);
     } else {
         display_formatted_context_message(D_800E107C);
     }

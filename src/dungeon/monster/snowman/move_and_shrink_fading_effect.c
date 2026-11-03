@@ -2365,7 +2365,7 @@ void update_effect_motion_and_brightness(RandomizedOscillatingEffectBody *effect
 }
 
 /* Spawns a small gray oscillating sprite near the source, oriented relative to the camera. */
-void spawn_randomized_oscillating_effect(ActorRecord *body, R10_80174F24_S_func_80AF3724_0 *origin, SpriteFrameState *sprite, ActorRecord *actor)
+void spawn_randomized_oscillating_effect(ActorRecord *body, ObjectPosition *origin, SpriteFrameState *sprite, ActorRecord *actor)
 {
     R10_80174F24_LocalVector direction;
     R10_80174F24_LocalTable directions;
@@ -2401,15 +2401,15 @@ void spawn_randomized_oscillating_effect(ActorRecord *body, R10_80174F24_S_func_
 
         transform = object->position;
         jitter = rand() & 0x1F;
-        coordinate = origin->unk_02 - 0x10;
+        coordinate = origin->x.unsigned_parts.integer - 0x10;
         coordinate += jitter;
         transform->x.w.i = coordinate;
         jitter = rand() & 0x1F;
-        coordinate = origin->unk_06 - 0x10;
+        coordinate = origin->y.unsigned_parts.integer - 0x10;
         coordinate += jitter;
         transform->y.w.i = coordinate;
         jitter = (rand() & 0x1F) - 0x70;
-        coordinate = origin->unk_0A;
+        coordinate = origin->z.unsigned_parts.integer;
         coordinate += jitter;
         transform->z.w.i = coordinate;
 
@@ -2493,7 +2493,7 @@ void restore_snowman_scene_tint(u8 *task, void *context, SpriteFrameState *input
 }
 
 /* Loads transition effects, fades the view tint, replaces the actor, and restores the new actor's facing. */
-void advance_actor_transition_and_restore_facing(void *transition, void *position, SpriteFrameState *record, void *actor) {
+void advance_actor_transition_and_restore_facing(void *transition, ObjectPosition *position, SpriteFrameState *record, void *actor) {
     void *object_data = ((&g_game_work));
     u8 state;
     u32 next_state;
@@ -2578,10 +2578,10 @@ void advance_actor_transition_and_restore_facing(void *transition, void *positio
             effect->update_callback = ((u8 *)restore_snowman_scene_tint);
             register_node(effect, ((u8 *)project_snowman_sprite_chain));
             ((R10_80175398_S_80175398_0 *)transition)->unk_A8.p = effect;
-            effect->position->x.v = ((R10_80175398_DungeonCopy3 *)position)->x;
-            effect->position->y.v = ((R10_80175398_DungeonCopy3 *)position)->y;
+            effect->position->x.v = position->x.v;
+            effect->position->y.v = position->y.v;
             (*(s16 *)D_80175A18) = -2;
-            effect->position->z.v = ((R10_80175398_DungeonCopy3 *)position)->z;
+            effect->position->z.v = position->z.v;
             object_data = effect->sprite;
             ((R10_80175398_DungeonTail *)object_data)->value1e = 0x1000;
             ((R10_80175398_DungeonTail *)object_data)->value1c = 0x1000;

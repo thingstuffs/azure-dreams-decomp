@@ -25,7 +25,7 @@ void *find_eligible_nearby_entry(s32 x, s32 y, void *end, void *owner);
 void rotate_actor_movement_queue(MovingTile *position, ActorRecord *state);
 void run_saved_actor_action(void *object, void *unused, void *animation, void *actor);
 void spawn_salam_particles(ObjectNodeHeader *source, s16 effect_param, s32 render_param);
-void update_actor_facing_animation(void *actor, EntityRec *motion, void *sprite, ActorRecord *status);
+void update_actor_facing_animation(void *actor, ObjectPosition *motion, void *sprite, ActorRecord *status);
 extern void update_actor_movement_and_map_flags(ActorRecord *obj, ObjectPosition *move_mode,struct SpriteFrameState *actor, void *map);
 
 struct S_800AB778_1;
@@ -72,10 +72,10 @@ s32 lookup_definition_pair_value(s16 firstKey, s16 secondKey);
 
 struct DungeonSlot;
 struct CallbackOwner;
-s32 advance_actor_pending_action(void *actor_state, void *action, void *status, void *actor);
+s32 advance_actor_pending_action(void *actor_state, ObjectPosition *action, void *status, void *actor);
 s32 advance_staged_entity_load(s32 unused, ActorRecord *entity);
 void advance_status_timers(void *record);
-void begin_actor_display_action(void *actor, void *unused, SpriteFrameState *display, u8 *facing_variants);
+void begin_actor_display_action(void *actor, ObjectPosition *unused, SpriteFrameState *display, u8 *facing_variants);
 void begin_actor_spell_action(void *actor, void *effect_param, SpriteFrameState *target, u8 *direction_table, void *next_state);
 s32 cap_pending_actor_value_delta(void *entry);
 s16 check_adjacent_tile_height_clearance(u16 x, u16 y, s32 z, void *skip_check);

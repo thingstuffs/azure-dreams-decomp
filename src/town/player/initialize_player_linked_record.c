@@ -1,3 +1,4 @@
+#include "town/player/position.h"
 #include "common.h"
 #include "town/player/scene_action_setup.h"
 #include "m2c_compat.h"
@@ -12,7 +13,6 @@ typedef struct S_8009A1A4_2 {
 } S_8009A1A4_2;   /* ((TownObjectRecord *)arg0)->unk_44 in initialize_player_linked_record */
 
 
-extern void advance_player_position();
 
 
 /* Set up the object using its linked record and assign its next handler. */

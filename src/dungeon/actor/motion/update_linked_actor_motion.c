@@ -6,7 +6,7 @@
 #include "dungeon/player/object.h"
 
 /* Follows the linked position until the countdown expires, then resets and marks completion. */
-s32 update_linked_actor_motion(void *state_data, ObjectPosition *transform, SpriteFrameState *config, void *object) {
+s32 update_linked_actor_motion(void *state_data, ObjectPosition *transform, SpriteFrameState *config, ActorRecord *object) {
     ActorRecord *state = state_data;
 
     s16 ticks_left;
@@ -16,7 +16,7 @@ s32 update_linked_actor_motion(void *state_data, ObjectPosition *transform, Spri
         state->action_timer.s = 0;
     }
     if (state->action_timer.s != 0) {
-        linked_transform = *(void **)((u8 *)*(void **)((u8 *)object + 0x60) - 0x18);
+        linked_transform = *(void **)((u8 *)object->target - 0x18);
         transform->velocity_x = *(s32 *)((u8 *)linked_transform + 0xC);
         transform->velocity_y = *(s32 *)((u8 *)linked_transform + 0x10);
     }
@@ -30,7 +30,7 @@ s32 update_linked_actor_motion(void *state_data, ObjectPosition *transform, Spri
     transform->velocity_x = 0;
     set_record_integer_tile_center(transform, config->tile_x, config->tile_y);
     state->action_state_flags &= 0xFFF7;
-    *(s32 *)((u8 *)object + 0x1C) |= 0x40000000;
+    object->flags1C |= 0x40000000;
     g_dungeon_status.activity_counts.parts.pending_action_count -= 1;
     return 1;
 }

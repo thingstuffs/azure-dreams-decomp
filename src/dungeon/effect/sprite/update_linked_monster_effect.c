@@ -293,7 +293,7 @@ void update_linked_monster_effect(void *effect_in, void *motion_in, void *sprite
                 linked_global->flags |= 0x8000;
                 return;
             }
-            frame = *(u8 *)&sprite->frame_index;
+            frame = ((u8)(sprite->frame_index));
             if ((s8) frame == ((S_80025C80_0 *)effect_in)->unk_36) {
                 ((S_80025C80_0 *)effect_in)->unk_32 = -1;
             } else if ((s8) frame == ((S_80025C80_0 *)effect_in)->unk_38) {

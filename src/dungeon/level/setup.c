@@ -107,7 +107,7 @@ void reset_dungeon_runtime_state(void) {
     s16 *progress_stats;
     s32 *reset_values;
 
-    bzero(((s32 *)dungeon_ground_items), 0x100);
+    bzero((dungeon_ground_items), 0x100);
     bzero(&dungeon_ground_item_positions, 0x300);
     g_dungeon_status.activity_counts.parts.pending_movement_count = 0;
     g_dungeon_status.activity_counts.parts.pending_action_count = 0;
@@ -263,7 +263,7 @@ void initialize_dungeon_actor(void) {
 
     table_base = &g_game_work;
     random_pickup_enabled = 1;
-    allocation = initialize_scene_object_in_buffer(0, ((u8 *)(&scene_object_list_anchor)), 0x53);
+    allocation = initialize_scene_object_in_buffer(0, ((&scene_object_list_anchor)), 0x53);
     allocation->update_callback = D_80089AA0;
     register_node(allocation, project_sprite_chain);
     actor_storage = ((u8 *)(&view_reference_entity.x.v));
@@ -273,7 +273,7 @@ void initialize_dungeon_actor(void) {
     state = ((u8 *)(&reference_tile_object));
     allocation->sprite = state;
     zero_words(state, 0xC);
-    primary_actor_record = obj = (u8 *)allocation + 0x20;
+    primary_actor_record = obj = NODE_BODY(allocation);
     dungeon_actor_ring_anchor = obj;
     ((dungeon_setup_802835B8_S_800165B8_1 *)obj)->unk_13 = 0;
     entity = obj;
@@ -346,7 +346,7 @@ retry_position:
         set_record_integer_tile_center(call_target, setup_x, setup_y);
     }
     cycle_map_cell_flags(pos_x, pos_y, 0x300);
-    height = sample_terrain_surface_height(*(u16 *)&actor->x.w.i, *(u16 *)&actor->y.w.i, -0x400);
+    height = sample_terrain_surface_height(((u16)(actor->x.w.i)), ((u16)(actor->y.w.i)), -0x400);
     actor_x = pos_x;
     actor_y = pos_y;
     actor->z.w.i = height;
@@ -391,7 +391,7 @@ retry_position:
     (*(s16 *)(obj + 0x94)) = -1;
     (*(s16 *)(obj + 0x118)) = 0;
     ((dungeon_setup_802835B8_S_800165B8_5 *)entity)->unk_2A = 0x400 - (((u16)g_game_work.view.camera_rotation.parts.viewAngle + 0x100) & 0xE00);
-    create_tracked_effect((u8 *)&scene_object_list_anchor, bind_count, state + 0x2C, bind_angle);
+    create_tracked_effect(&scene_object_list_anchor, bind_count, state + 0x2C, bind_angle);
     {
         s32 clear_flag_mask;
 
@@ -506,7 +506,7 @@ void apply_tile_flags_to_rectangle(s16 start_x, s16 start_y, s16 width, s16 heig
                     tile_y = start_y + row;
                     row_width = width;
                     do {
-                        tile = (void *)(tiles_base + (((tile_y << map->unk_14) + start_x + col) * 6));
+                        tile = (tiles_base + (((tile_y << map->unk_14) + start_x + col) * 6));
                         tile_id = ((dungeon_setup_80283BF0_S_80016BF0_2 *)tile)->unk_00;
                         flags = tile_flags + tile_id;
                         if (*flags & 1) {
@@ -561,7 +561,7 @@ void apply_tile_flags_to_rectangle(s16 start_x, s16 start_y, s16 width, s16 heig
  */
 void apply_state_index_tile_masks(void)
 {
-    void *state = ((u8 *)(&g_game_work));
+    void *state = ((&g_game_work));
 
     state = (u8 *)state + 0x1DC;
 
@@ -807,21 +807,21 @@ void initialize_random_effect_position(ObjectPosition *source, s16 base_offset) 
     effect = &state->slot[0].unk_04;
     random_angle = (rand() & 0x1FFF) - 0x1000;
     if (!((u16) *((s16 *)&system_update_flags) & 2)) {
-        position_x = *(u16 *)&source->x.w.i + (rcos(random_angle) * 2);
+        position_x = ((u16)(source->x.w.i)) + (rcos(random_angle) * 2);
         state->camera_position.parts.camera_position_x = position_x;
         if (position_x < 0) {
             state->camera_position.parts.camera_position_x = 0;
         } else if (position_x >= bounds->unk_1C) {
             state->camera_position.parts.camera_position_x = (s16) ((u16) bounds->unk_1C - 1);
         }
-        position_y = *(u16 *)&source->y.w.i + (rsin(random_angle) * 2);
+        position_y = ((u16)(source->y.w.i)) + (rsin(random_angle) * 2);
         state->camera_position.parts.camera_position_y = position_y;
         if (position_y < 0) {
             state->camera_position.parts.camera_position_y = 0;
         } else if (position_y >= bounds->unk_1E) {
             state->camera_position.parts.camera_position_y = (s16) ((u16) bounds->unk_1E - 1);
         }
-        state_offset = (s16) (*(u16 *)&source->z.w.i - 0x400);
+        state_offset = (s16) (((u16)(source->z.w.i)) - 0x400);
         state->camera_rotation.parts.camera_rotation_x = 0;
         state->camera_position.parts.camera_position_z = state_offset;
         random_bits = rand();

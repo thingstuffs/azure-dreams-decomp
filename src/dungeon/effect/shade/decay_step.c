@@ -41,7 +41,7 @@ void advance_decaying_effect_state(void *effect_arg, void *state_data)
     S_800D6804_1 *effect = effect_arg;
     s16 frames_left;
 
-    decay_step((S_800D6804_0 *)state_data);
+    decay_step(state_data);
 
     effect->unk_04.at00.v =
         (effect->unk_00 * effect->unk_32.s) /

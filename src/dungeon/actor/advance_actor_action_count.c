@@ -24,7 +24,7 @@ extern void *actor_action_frames[];
 #define PTR_AT(p, n) (*(void **)((u8 *)(p) + (n)))
 
 /* Advance the actor action state, updating its animation and the dungeon action count. */
-void advance_actor_action_count(void *controller, s32 context, void *sprite, void *actor) {
+void advance_actor_action_count(void *controller, ObjectPosition *context, void *sprite, void *actor) {
     s32 actor_flags;
     s32 state;
 

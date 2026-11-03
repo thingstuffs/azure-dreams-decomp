@@ -37,9 +37,10 @@ typedef struct ShopWindow {
     /* 0x08 */ s32 selected_entry;
     /* 0x0C */ s32 entry_count;
     /* 0x10 */ s32 page;
-    /* 0x14 */ u8 pad_14[4];
+    /* 0x14 */ s32 page_limit; /* upper page bound used by update_shop_state_flags */
     /* 0x18 */ s32 price_mode;
-    /* 0x1C */ u8 pad_1C[8];
+    /* 0x1C */ s32 page_edge_flags; /* low two bits mark the page bounds */
+    /* 0x20 */ u8 pad_20[4];
     /* 0x24 */ s32 item_address;
     /* 0x28 */ u8 cursor_record[0xC];
     /* 0x34 */ u8 header_record[0x98];

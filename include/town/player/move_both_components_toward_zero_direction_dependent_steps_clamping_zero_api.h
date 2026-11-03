@@ -1,10 +1,11 @@
 #ifndef TOWN_PLAYER_MOVE_BOTH_COMPONENTS_TOWARD_ZERO_DIRECTION_DEPENDENT_STEPS_CLAMPING_ZERO_API_H
 #define TOWN_PLAYER_MOVE_BOTH_COMPONENTS_TOWARD_ZERO_DIRECTION_DEPENDENT_STEPS_CLAMPING_ZERO_API_H
+struct ObjectPosition;
 
 #include "common.h"
 
 struct EntityRec;
 
-void move_both_components_toward_zero_direction_dependent_steps_clamping_zero(struct EntityRec *);
+void move_both_components_toward_zero_direction_dependent_steps_clamping_zero(struct ObjectPosition *);
 
 #endif

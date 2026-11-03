@@ -470,7 +470,7 @@ void build_textured_sprite_strips(void *screen_pos, UpdateTravelingBody *sprite,
         u8 *state_slot = (u8 *)state_page;
         u64 state_bits = *(u64 *)state_slot;
         GpuContext *final_state = (GpuContext *)(u32)state_bits;
-        final_state->packetCursor = (u8 *)packet;
+        final_state->packetCursor = packet;
     }
 }
 #include "dungeon/effect/mesh/build_textured_sprite_strips.h"

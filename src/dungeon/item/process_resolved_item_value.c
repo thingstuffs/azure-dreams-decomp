@@ -161,9 +161,9 @@ void process_resolved_item_value(ObjectNodeHeader *effect_state, void *motion, v
         (((ResolvedEffect *)effect_state)->phase) = (s16) ((u16) (((ResolvedEffect *)effect_state)->phase) + 1);
         /* fallthrough */
     case RESOLVED_EFFECT_FOLLOW_OWNER:
-        (((ResolvedMotion *)motion)->axes[0].half.whole) = (u16) (*(u16 *)&owner_motion->x.w.i);
-        (((ResolvedMotion *)motion)->axes[1].half.whole) = (u16) (*(u16 *)&owner_motion->y.w.i);
-        (((ResolvedMotion *)motion)->axes[2].half.whole) = (u16) (*(u16 *)&owner_motion->z.w.i);
+        (((ResolvedMotion *)motion)->axes[0].half.whole) = (u16) (((u16)(owner_motion->x.w.i)));
+        (((ResolvedMotion *)motion)->axes[1].half.whole) = (u16) (((u16)(owner_motion->y.w.i)));
+        (((ResolvedMotion *)motion)->axes[2].half.whole) = (u16) (((u16)(owner_motion->z.w.i)));
         if (*(*(u16 * *)&effect_state->pprev) & 0x80) {
             (((ResolvedEffect *)effect_state)->frame) = 0U;
             (((ResolvedEffect *)effect_state)->phase) = (u16) (((ResolvedEffect *)effect_state)->phase) + 1;
@@ -174,7 +174,7 @@ void process_resolved_item_value(ObjectNodeHeader *effect_state, void *motion, v
     case RESOLVED_EFFECT_SPAWN_COPY:
         spawned = allocate_list_node(0x112, &scene_object_list_anchor.next);
         if (spawned != 0) {
-            spawn_state = ((void *)spawned) + 0x20;
+            spawn_state = NODE_BODY(spawned);
             (spawn_state->velocity_x) = (s32) (directions.v[(((ResolvedEffect *)effect_state)->direction)].x << 0x10);
             (spawn_state->velocity_y) = (s32) (directions.v[(((ResolvedEffect *)effect_state)->direction)].y << 0x10);
             (spawn_state->phase) = 0;

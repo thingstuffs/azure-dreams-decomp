@@ -68,10 +68,10 @@ void create_offset_half_scale_sprite(S_8092192C_2 *base_pos, s32 offset_x, s32 o
         sprite_data_addr = (u32)shared_sprite_entries;
         position->y.v = base_y;
         base_z = (s32) base_pos->unk_08;
-        position->x.w.i = (u16) (*(u16 *)&position->x.w.i + offset_x);
+        position->x.w.i = (u16) (((u16)(position->x.w.i)) + offset_x);
         position->z.v = base_z;
-        position->y.w.i = (u16) (*(u16 *)&position->y.w.i + offset_y);
-        position->z.w.i = (u16) (*(u16 *)&position->z.w.i + offset_z);
+        position->y.w.i = (u16) (((u16)(position->y.w.i)) + offset_y);
+        position->z.w.i = (u16) (((u16)(position->z.w.i)) + offset_z);
         render_state = object->sprite;
         render_state->scale_y = 0x800;
         render_state->scale_x = 0x800;

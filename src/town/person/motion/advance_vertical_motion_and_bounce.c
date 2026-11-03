@@ -12,7 +12,7 @@ extern M2C_UNK person_bounce_handler_address;
 
 
 /* Advance vertical motion, clamp at the landing height, and bounce or finish. */
-void advance_vertical_motion_and_bounce(TownObjectRecord *actor, EntityRec *motion, void *context) {
+void advance_vertical_motion_and_bounce(TownObjectRecord *actor, EntityRec *motion, SpriteFrameState *context) {
     u16 bounces_left;
 
     motion->z.v = (s32) (motion->z.v + motion->flags14);

@@ -1,5 +1,6 @@
 #ifndef TOWN_SCENE_HOOKS_H
 #define TOWN_SCENE_HOOKS_H
+struct CatalogDisplay;
 /* Prototypes of the functions defined in src/town/scene/hooks/ (one true prototype each; maintained by tools/headers). */
 
 #include "common.h"
@@ -85,7 +86,7 @@ void *get_shared_entry_buffer_y(void);
 s32 get_shared_threshold_value(void);
 
 /* increase_shared_byte_four_enter_state_eight.c */
-void increase_shared_byte_by_four_and_enter_state_eight(void *controller);
+void increase_shared_byte_by_four_and_enter_state_eight(struct CatalogDisplay *controller);
 
 /* is_pair_result_valid.c */
 s32 is_pair_result_valid(s32 first_input, s32 second_input);

@@ -1,4 +1,5 @@
 #include "common.h"
+#include "town/player/initialize_shared_scene_data.h"
 #include "shared/town_object.h"
 #include "town/player/action_initializers.h"
 #include "town/player/state.h"
@@ -6,10 +7,9 @@
 
 
 
-void initialize_shared_scene_data(); /* Unprototyped: retail call passes more arguments than the callee reads */       /* extern */
 #include "town/player/call_the_handler_selects_nonzero_entry_api.h"       /* extern */
 #include "town/player/move_both_components_toward_zero_direction_dependent_steps_clamping_zero_api.h"       /* extern */
-void run_the_three_update_routines_context(void *context);       /* extern */
+void run_the_three_update_routines_context(ObjectPosition *context);       /* extern */
 #include "town/player/position/handle_resolves_movement_collisions_along_one_axis_using_boundary_probes_tile_api.h"       /* extern */
 #include "town/player/object/entity_record_fields.h"       /* extern */
 extern u8 town_scene_record_handlers[];
@@ -30,7 +30,7 @@ void update_entity_and_dispatch_timed_state(void *state_arg, void *entity, void 
         run_the_three_update_routines_context(entity);
         if (town_interaction_pending != 0 && run_the_action_sequence_context_unless_flag_hex_a_5_set((s32)(state_arg - 0x20)) != 0) {
             call_the_handler_selects_nonzero_entry((s32 *)(&town_scene_record_handlers), state_arg, transition_arg);
-            initialize_shared_scene_data(state, entity, transition_arg);
+            initialize_shared_scene_data(state_arg, entity, transition_arg);
             return;
         }
         initialize_scene_action_record(state_arg, entity, transition_arg);

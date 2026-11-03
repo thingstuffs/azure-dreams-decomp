@@ -81,7 +81,7 @@ void update_effect_controller(S_func_800D7FB8_0 *controller) {
             entry = allocate_list_node(0x312, &scene_object_list_anchor.next);
             if (entry != NULL) {
                 entry_data = NODE_BODY(entry);
-                entry->update_callback = (u8 *)&D_800D81D4;
+                entry->update_callback = &D_800D81D4;
                 register_node(entry, project_sprite_chain);
                 sub_data = entry->sprite;
                 ((MovingPosition *)entry->position)->x = controller->unk_04;

@@ -458,7 +458,7 @@ void update_chasing_star_effect(void *entity, ObjectPosition *pos, B32_818CF0E8_
             w1 = ((u8 *)entity - 0x20);
             src = (u8 *)(0xC0C0C0);
             a3v = (rv & 0xFF) | 0x80;
-            create_jittered_terrain_seeking_point((void *)w1, ((B32_818CF0E8_S_818CF0E8_0 *)entity)->unk_16, (s32)src, a3v, 0, 0, 0);
+            create_jittered_terrain_seeking_point(w1, ((B32_818CF0E8_S_818CF0E8_0 *)entity)->unk_16, (s32)src, a3v, 0, 0, 0);
             p = (B32_818CF0E8_S_818CF0E8_6 *)((u8 *)p + 1);
         } if ((s32)p < 4) goto loop_0;
         if ((check_adjacent_tile_height_clearance(pos->x.unsigned_parts.integer, pos->y.unsigned_parts.integer,
@@ -864,7 +864,7 @@ void follow_entity_effect_and_cleanup(B32_818CFB74_State *state, B32_818CFB74_Ve
         select_record_entry_and_value(graphic, directional_sprite_entries, 0);
         flags = entity->flags2A;
         linked_point_effect_updated[0] = 1;
-        next_state = *(u16 *)&state->stateA;
+        next_state = ((u16)(state->stateA));
         variant_bits = (flags >> 9) & 7;
         next_state++;
         state->variant7E = variant_bits;
@@ -909,7 +909,7 @@ void follow_entity_effect_and_cleanup(B32_818CFB74_State *state, B32_818CFB74_Ve
         s32 *path_position;
         s32 path_z;
 
-        spawn = (B32_818CFB74_Spawned *)allocate_flagged_object_node(0x12);
+        spawn = allocate_flagged_object_node(0x12);
         if (spawn != 0) {
             offset_x = offsets.entry[(s16)state->variant7E].x;
             offset_x <<= 16;
@@ -1019,7 +1019,7 @@ void follow_entity_effect_and_cleanup(B32_818CFB74_State *state, B32_818CFB74_Ve
         s32 pending;
         s32 ticks;
 
-        ticks = *(u16 *)&state->counter84;
+        ticks = ((u16)(state->counter84));
         state->counter84 = ticks + 1;
         if ((s16)(ticks + 1) >= 11) {
             pending = linked_point_effect_updated[0];

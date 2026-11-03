@@ -94,7 +94,7 @@ s32 draw_ball_effect_points(PointRecord *first_point, ObjectPosition *first_posi
             break;
         }
         final_render_ctx = render_state->draw_buffer;
-        final_render_ctx->packetCursor = (void *)scratch->cursor;
+        final_render_ctx->packetCursor = scratch->cursor;
         return 0;
     }
 }

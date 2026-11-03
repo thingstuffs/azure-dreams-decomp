@@ -87,7 +87,7 @@ void spawn_scattered_emitter_particles(void *emitter_arg, ObjectPosition *positi
                 + particle_coords->unk_04);
             particle_render = (*(void **)((u8 *)particle + 0xC));
             (*(Copy12 *)((u8 *)particle + 0x62)) = D_8010BF30;
-            particle_render->unk_08 = (void *)((u8 *)particle + 0x62);
+            particle_render->unk_08 = ((u8 *)particle + 0x62);
             particle_render->unk_1C = 0x400;
         }
     }

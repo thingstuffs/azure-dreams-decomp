@@ -58,7 +58,7 @@ s32 apply_familiar_magic_drain_item(ActorRecord *entity, DungeonItemEntry *actio
                 counter_page = (void *)0x80080000;
             }
             counter_page = &g_dungeon_status.turn_scale;
-            counter_page->activity_counts.parts.pending_action_count = (u16) (*(u16 *)&counter_page->activity_counts.parts.pending_action_count + 1);
+            counter_page->activity_counts.parts.pending_action_count = (u16) (((u16)(counter_page->activity_counts.parts.pending_action_count)) + 1);
         }
         play_sound_if_enabled(0x51E);
         if (entity->flags14 & ACTOR_PARTY_MEMBER) {

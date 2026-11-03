@@ -1,3 +1,4 @@
+#include "dungeon/effect/screen.h"
 #include "sdk/libc.h"
 #include "shared/audio_commands.h"
 #include "common.h"
@@ -26,7 +27,6 @@ extern u8 kewne_action_resume_address[];
 extern u8 D_80175F40[];
 extern u16 D_80175F6E;
 
-extern void create_actor_linked_effect(void *sourceData);
 
 /* Advance an item action through targeting, audio playback, and animation cleanup. */
 /* Starts Kewne's targeted spell and linked effects, times optional CD audio playback, then restores

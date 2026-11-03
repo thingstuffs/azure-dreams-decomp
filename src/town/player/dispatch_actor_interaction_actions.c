@@ -1,3 +1,5 @@
+#include "town/player/init_movement_action.h"
+#include "town/player/initialize_record_and_select_active_data.h"
 #include "script_symbols.h"
 #include "shared/position_query.h"
 #include "common.h"
@@ -11,6 +13,7 @@
 
 #include "engine/object/test_resident_bitmap_bit_api.h"                         /* extern */
 #include "town/player/coordinates.h"
+#include "shared/sprite_frame_state.h"
 void submit_object_resource_data();                         /* extern */
 struct TownObjectRecord;      /* extern */
 #include "shared/town_object.h"
@@ -37,7 +40,7 @@ typedef struct S_80090A74_4 {
 } S_80090A74_4;
 
 /* Update the actor and dispatch town actions from input and interaction state. */
-void dispatch_actor_interaction_actions(Rec_func_8009431C_arg0 *actor, EntityRec *record, s32 context) {
+void dispatch_actor_interaction_actions(Rec_func_8009431C_arg0 *actor, ObjectPosition *record, SpriteFrameState *sprite) {
     s16 height;
     s32 action_result;
     s32 interaction_result;
@@ -56,28 +59,28 @@ void dispatch_actor_interaction_actions(Rec_func_8009431C_arg0 *actor, EntityRec
     }
     if ((height - record->z.w.i) >= 4) {
         if (((S_80090A74_1 *)(&town_action_state_flag))->unk_00 == 0) {
-            initialize_action_object(actor, record, context);
+            initialize_action_object(actor, record, sprite);
             return;
         }
     } else if (((S_80090A74_1 *)(&town_action_state_flag))->unk_00 == 0) {
-        compute_and_clamps_vector_based_adjustment_updates_town((struct TownObj *)(record), height, (struct TownVec * *)(height_data));
+        compute_and_clamps_vector_based_adjustment_updates_town((record), height, (struct TownVec * *)(height_data));
     }
     if ((input_state->pressed_buttons) & 0x10) {
-        initialize_actor_action_state((struct TownObjectRecord *)(actor), (struct ObjectPosition *)(record), context);
+        initialize_actor_action_state((struct TownObjectRecord *)(actor), (record), (s32)sprite);
         return;
     }
     if ((input_state->pressed_buttons) & 0x40) {
         action_result = select_an_eligible_source_entry_stores_pointer_in_destination(actor, &town_actor_control);
         if (action_result != 0) {
             if (action_result == 2) {
-                initialize_actor_movement_interaction_action(actor, record, context);
+                initialize_actor_movement_interaction_action(actor, record, sprite);
                 return;
             }
-            initialize_action_object_with_counter(actor, record, context);
+            initialize_action_object_with_counter(actor, record, (s32)sprite);
             return;
         }
         if (test_resident_bitmap_bit(F_t_attack_enable) != 0) {
-            init_threshold_countdown_action(actor, record, context);
+            init_threshold_countdown_action(actor, record, sprite);
             return;
         }
     } else {
@@ -86,17 +89,17 @@ void dispatch_actor_interaction_actions(Rec_func_8009431C_arg0 *actor, EntityRec
         if (interaction_result != 0) {
             if (interaction_result == -1) {
                 store_the_valid_shared_angle_in_offset_hex_10(actor);
-                initialize_record_and_select_active_data((s32)(actor), (s32)(record), context);
+                initialize_record_and_select_active_data(actor, (record), sprite);
                 actor->unk_2C = 0;
                 submit_object_resource_data(shared_data->unk_10);
                 return;
             }
-            init_movement_action((struct TownObjectRecord *)(actor), record, context);
+            init_movement_action((struct TownObjectRecord *)(actor), record, sprite);
             return;
         }
         page_base = (u8 *)(u32)(input_state->buttons & 0xF000);
         if (page_base != 0) {
-            initialize_motion_action((struct TownObjectRecord *)(actor), record, context);
+            initialize_motion_action((struct TownObjectRecord *)(actor), record, sprite);
         }
     }
 }

@@ -10,7 +10,7 @@ extern s32 get_entity_effect_value(void *entry, s32 effect_id);
 extern void clear_slots_of_type(void *owner, s32 match_type);
 
 /* Initializes actor state and selects a display variant for its facing direction. */
-void begin_actor_display_action(void *actor, void *unused, SpriteFrameState *display, u8 *facing_variants) {
+void begin_actor_display_action(void *actor, ObjectPosition *unused, SpriteFrameState *display, u8 *facing_variants) {
     *((u8 *) actor + 0x9A) = 8;
     *((u8 *) actor + 0x9B) = 0;
     *(s32 *) ((u8 *) actor + 0x8C) = 0;

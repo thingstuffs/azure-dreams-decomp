@@ -13,7 +13,7 @@ void *create_timed_region_flag_expiry(s32 unused0, s32 unused1, s32 unused2, s16
     object = allocate_list_node(0, &scene_object_list_anchor.next);
     if (object != 0) {
         object->update_callback = &D_800C4E00[0];
-        payload = (RegionFlagExpiryBody *)(object + 1);
+        payload = NODE_BODY(object);
         payload->ticks_remaining = 0x40;
         payload->item_id = payloadValueA;
         payload->room_index = payloadValueC;

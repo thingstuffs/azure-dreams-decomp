@@ -136,9 +136,9 @@ void follow_brighten(u8 *self, u8 *motion, u8 *part)
             }
         }
         ((MovingMotion *)motion)->unk_0C.at02.v =
-            (*(s16 *)((u8 *)((u8 *)dir_step_x) + ((MovingEffectState *)self)->unk_16.s * 2)) * 8;
+            (*(s16 *)(((u8 *)dir_step_x) + ((MovingEffectState *)self)->unk_16.s * 2)) * 8;
         ((MovingMotion *)motion)->unk_10.at02.v =
-            (*(s16 *)((u8 *)((u8 *)dir_step_y) + ((MovingEffectState *)self)->unk_16.s * 2)) * 8;
+            (*(s16 *)(((u8 *)dir_step_y) + ((MovingEffectState *)self)->unk_16.s * 2)) * 8;
         ((MovingEffectState *)self)->unk_0A.u++;
         break;
 
@@ -147,9 +147,9 @@ void follow_brighten(u8 *self, u8 *motion, u8 *part)
         s32 position;
         s32 adjusted;
         velocity = ((MovingMotion *)motion)->unk_0C.at00.v;
-        position = (*(s32 *)((u8 *)motion + 0));
+        position = (*(s32 *)(motion + 0));
         position += velocity;
-        (*(s32 *)((u8 *)motion + 0)) = position;
+        (*(s32 *)(motion + 0)) = position;
         adjusted = ((MovingMotion *)motion)->unk_0C.at00.v;
         position = adjusted >> 4;
         adjusted += position;
@@ -167,9 +167,9 @@ void follow_brighten(u8 *self, u8 *motion, u8 *part)
             s32 position;
             s32 adjusted;
             velocity = ((MovingMotion *)motion)->unk_10.at00.v;
-            position = (*(s32 *)((u8 *)motion + 4));
+            position = (*(s32 *)(motion + 4));
             position += velocity;
-            (*(s32 *)((u8 *)motion + 4)) = position;
+            (*(s32 *)(motion + 4)) = position;
             adjusted = ((MovingMotion *)motion)->unk_10.at00.v;
             position = adjusted >> 4;
             adjusted += position;

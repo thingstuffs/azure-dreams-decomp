@@ -17,13 +17,13 @@ extern void init_threshold_countdown_action(void *, void *,void *);
 extern void initialize_actor_action_state(void *, void *, s32);
 extern void initialize_action_object(void *, void *, s32);
 extern void initialize_action_handler_with_count_six(void *, void *,void *);
-extern void initialize_action_object_with_counter(void *, void *, s32);
+extern void initialize_action_object_with_counter(void *, ObjectPosition *, s32);
 extern void initialize_actor_movement_interaction_action(void *, void *,void *);
 
 extern s32 town_actor_control;
 
 /* Update the entity and dispatch its handler according to state flags and checks. */
-void update_actor_input_actions(void *context, EntityRec *entity, s32 update_arg)
+void update_actor_input_actions(void *context, ObjectPosition *entity, s32 update_arg)
 {
     GameWork *state = &g_game_work;
     s16 reference_value;

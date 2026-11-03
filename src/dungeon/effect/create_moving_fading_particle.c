@@ -66,16 +66,16 @@ void *create_moving_fading_particle(ObjectPosition *origin, s16 angle, s16 radiu
         object->update_callback = (void *)move_linked_effect_along_path;
         register_node(object, func_80024ED0);
         positions = object->position;
-        positions->x.w.i = (s16) (*(u16 *)&origin->x.w.i + ((s32) (rcos(angle) * radius) >> 0xF));
-        positions->y.w.i = (s16) (*(u16 *)&origin->y.w.i + ((s32) (rsin(angle) * radius) >> 0xF));
-        height = *(u16 *)&origin->z.w.i + ((s32) (height_offset << 0x10) >> 0x13);
+        positions->x.w.i = (s16) (((u16)(origin->x.w.i)) + ((s32) (rcos(angle) * radius) >> 0xF));
+        positions->y.w.i = (s16) (((u16)(origin->y.w.i)) + ((s32) (rsin(angle) * radius) >> 0xF));
+        height = ((u16)(origin->z.w.i)) + ((s32) (height_offset << 0x10) >> 0x13);
         positions->z.w.i = height;
         if ((*(s16 *)particle_target_height) < height) {
             positions->z.w.i = (*(s16 *)particle_target_height);
         }
-        *((u16 *)&positions->velocity_x + 1) = (u16) *(u16 *)&origin->x.w.i;
-        *((u16 *)&positions->velocity_y + 1) = (u16) *(u16 *)&origin->y.w.i;
-        *((u16 *)&positions->velocity_z + 1) = (u16) *(u16 *)&origin->z.w.i;
+        *((u16 *)&positions->velocity_x + 1) = (u16) ((u16)(origin->x.w.i));
+        *((u16 *)&positions->velocity_y + 1) = (u16) ((u16)(origin->y.w.i));
+        *((u16 *)&positions->velocity_z + 1) = (u16) ((u16)(origin->z.w.i));
         object_data = (void *) 0x40E020;
         (*(void **)((u8 *)(object->sprite) + 0xC)) = object_data;
         slot_index = (u16)D_80026476;

@@ -18,6 +18,9 @@ typedef struct EffectScaleState {
 } EffectScaleState;
 
 
+/* Root person countdown callback. */
+void apply_setup_on_timeout_variant_1(TownObjectRecord *object, ObjectPosition *position, void *callback_arg_2);
+
 /* choose_reaction_action_and_heading.c */
 void choose_reaction_action_and_heading(Rec_func_800C9B44_arg0 *actor, EntityRec *motion, SpriteFrameState *context);
 

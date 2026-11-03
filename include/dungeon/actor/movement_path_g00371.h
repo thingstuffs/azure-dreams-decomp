@@ -183,8 +183,8 @@ extern s32 check_movement_clearance_and_height(u32, void *, void *, s16);
 
 /* Functions defined in this translation unit. */
 void update_actor_movement_and_contact(S_func_800D8728_0 *entity, S_func_800D8728_1 *motion, SpriteFrameState *monster);
-void advance_actor_queued_path(ActorRecord *body, s32 action_id, SpriteFrameState *sprite, ActorRecord *actor);
-void advance_actor_traversable_heading(ActorRecord *body, void *context, S_800D92C0_2 *position, void *actor);
+void advance_actor_queued_path(ActorRecord *body, ObjectPosition *position, SpriteFrameState *sprite, ActorRecord *actor);
+void advance_actor_traversable_heading(ActorRecord *body, ObjectPosition *context, S_800D92C0_2 *position, void *actor);
 
 
 #endif

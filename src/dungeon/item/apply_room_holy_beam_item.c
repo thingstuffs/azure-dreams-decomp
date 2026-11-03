@@ -67,7 +67,7 @@ s32 apply_room_holy_beam_item(ActorRecord *target, DungeonItemEntry *item, s16 a
             return 1;
         }
     } else {
-        record_obj = (S_800BF7FC_1 *)((ObjectNodeHeader *)target - 1)->sprite;
+        record_obj = (S_800BF7FC_1 *)NODE_HEADER(target)->sprite;
         record_index = record_obj->unk_26;
         if (record_index >= 0 && !(dungeon_rooms[record_index].flags & ROOM_HOLY_BEAM)) {
             if (create_timed_region_flag_expiry(record_obj->unk_24,

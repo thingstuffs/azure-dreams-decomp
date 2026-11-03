@@ -304,7 +304,7 @@ void project_textured_quad_or_callback(void *quad_arg, ObjectPosition *position,
                         (tex_flags | 2) : (tex_flags & 0xFD);
                 }
 
-                ((S_81874988_5 *)packet)->unk_04.at00.v = *(u32 *)&material->color.word;
+                ((S_81874988_5 *)packet)->unk_04.at00.v = ((u32)(material->color.word));
                 ((S_81874988_5 *)packet)->unk_00.at00.v = (((S_81874988_5 *)packet)->unk_00.at00.v & 0xFF000000) |
                     ((*(u32 *)((u8 *)(((S_81874988_0 *)scratch)->unk_24.p2)
                         + ((S_81874988_0 *)scratch)->unk_100 * 4)) & 0x00FFFFFF);

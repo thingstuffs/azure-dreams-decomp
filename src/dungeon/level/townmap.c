@@ -79,7 +79,7 @@ s32 town_map_set(s32 value_7c, s32 value_78) {
             do {
                 --object_cursor;
                 unlink_active_node(*object_cursor);
-                push_node_onto_free_list((struct ObjectNodeHeader *)*object_cursor);
+                push_node_onto_free_list(*object_cursor);
             } while (object_cursor != objects);
             ++object_cursor;
         }

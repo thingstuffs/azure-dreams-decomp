@@ -611,7 +611,7 @@ loop_0:
 
         index = 0;
         if (entity->child != 0) {
-            cleanup_base = (void *)(*(ovl_18d0850_818B1664_Motion **)((u8 *)entity->child - 0x18));
+            cleanup_base = (*(ovl_18d0850_818B1664_Motion **)((u8 *)entity->child - 0x18));
 
             color = motion_arg->x.half.hi;
             work.distance[0] = abs(cleanup_base->x.half.hi - color);
@@ -749,7 +749,7 @@ loop_0:
         state_arg->timer = 0;
         state_arg->timer2 = 0;
         state_arg->state++;
-        cleanup_base = (void *)(*(ovl_18d0850_818B1664_Motion **)((u8 *)entity->child - 0x18));
+        cleanup_base = (*(ovl_18d0850_818B1664_Motion **)((u8 *)entity->child - 0x18));
         motion_arg->x.half.hi = cleanup_base->x.half.hi;
         motion_arg->y.half.hi = cleanup_base->y.half.hi;
         if (entity->child->flags & 0x40000) {

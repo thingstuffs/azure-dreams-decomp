@@ -376,11 +376,11 @@ void *resolve_attack_damage_and_effects(void *attacker_in, void *tile_in, s16 di
             if (modifier >= 0) {
                 clear_byte_and_advance(message_cursor);
                 display_text_with_fullwidth_adjustment(message_start);
-                return (void *)0;
+                return 0;
             }
             return null_result;
         }
-        return (void *)0;
+        return 0;
     }
     attack_script = ((S_8009C12C_0 *)attacker_in)->unk_4C;
     if ((attack_script != NULL) && (*attack_script == 0xF0D)) {
@@ -667,7 +667,7 @@ Ent *prepare_directional_attack(Ent *a, Pos *b, u32 coordArg, s32 mult, Ent *ent
          * (adrando.com/guide/bugs.html).
          */
         if ((check_diagonal_side_height((a->unk2a >> 9) & 7, b->unk24, b->unk25,
-                           (s16)(*(u16 *)&a->unk88 - 0x20)) << 16) != 0) {
+                           (s16)(((u16)(a->unk88)) - 0x20)) << 16) != 0) {
             ent2 = find_eligible_actor_at_tile_and_height(a,
                                  (u16)(b->unk24 + *(u16 *)((u8 *)dir_step_x + off) * savedMult),
                                  (u16)(b->unk25 + *(u16 *)((u8 *)dir_step_y + off) * savedMult),

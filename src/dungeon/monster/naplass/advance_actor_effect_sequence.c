@@ -38,7 +38,7 @@ void update_actor_status_and_mp(ActorRecord *entity);
 s32 begin_ready_actor_directional_action(ActorRecord *body, ObjectPosition *position, SpriteFrameState *sprite, u8 *direction_frames);
 void begin_actor_move_to_target_facing(ActorRecord *body, ObjectPosition *position, SpriteFrameState *sprite, ActorRecord *actor);
 extern void func_80171F94(ActorRecord *action_state, ObjectPosition *action_context, void *sprite, ActorRecord *actor);
-void advance_actor_effect_sequence(Rec_func_801732A4_arg0 *state, EntityRec *position,struct SpriteFrameState *actor, void *model);
+void advance_actor_effect_sequence(Rec_func_801732A4_arg0 *state, ObjectPosition *position,struct SpriteFrameState *actor, void *model);
 extern u8 effect_update_tag[];
 extern u8 naplass_action_continuation_address[];
 extern u8 naplass_frame_set[];

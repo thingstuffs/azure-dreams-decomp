@@ -14,7 +14,7 @@ struct S_800946FC_0;
 struct S_80098C04_0;
 
 /* advance_player_state.c */
-void advance_player_state(struct TownObjectRecord *context, EntityRec *state, void *updateData);
+void advance_player_state(struct TownObjectRecord *context, EntityRec *state, SpriteFrameState *updateData);
 
 /* clear_script_flag_bit.c */
 void clear_script_flag_bit(s32 bit_index);
@@ -23,7 +23,7 @@ void clear_script_flag_bit(s32 bit_index);
 void clear_shared_flag_and_initialize_object(void *state, void *context, void *mode);
 
 /* clear_the_global_state_s_fifth_word_copy_source_s_second.c */
-void clear_the_global_state_s_fifth_word_copy_source_s_second(s32 *source);
+void clear_the_global_state_s_fifth_word_copy_source_s_second(ObjectPosition *source);
 
 /* create_familiar_deployment_effect_with_owner_state.c */
 void create_familiar_deployment_effect_with_owner_state(void);
@@ -32,13 +32,13 @@ void create_familiar_deployment_effect_with_owner_state(void);
 void dispatch_sound_by_global_flag(void);
 
 /* ease_object_value_and_advance_state.c */
-void ease_object_value_and_advance_state(UnsignedCountdownView *state, void *object);
+void ease_object_value_and_advance_state(UnsignedCountdownView *state, ObjectPosition *object);
 
 /* forward_state_value_to_handler_a.c */
-void forward_state_value_to_handler_a(void *state, s32 value);
+void forward_state_value_to_handler_a(void *state, ObjectPosition *value);
 
 /* forward_state_value_to_handler_b.c */
-void forward_state_value_to_handler_b(void *state, s32 value);
+void forward_state_value_to_handler_b(void *state, ObjectPosition *value);
 
 /* get_script_flag_mask.c */
 s32 get_script_flag_mask(s32 flagIndex);
@@ -56,7 +56,7 @@ void initialize_mode_state_tables(void);
 void initialize_player_slot_state(TownObjectRecord *record, void *ptr, void *ptr2);
 
 /* initialize_record_and_clear_shared_flag.c */
-void initialize_record_and_clear_shared_flag(TownObjectRecord *primary_value, struct EntityRec *secondary_value, void *context_value);
+void initialize_record_and_clear_shared_flag(TownObjectRecord *primary_value, ObjectPosition *secondary_value, void *context_value);
 
 /* initialize_state_from_terminated_entries.c */
 void initialize_state_from_terminated_entries(s32 *entries);
@@ -68,7 +68,6 @@ s32 read_script_flag_range(s32 start_index, s32 count);
 void reset_player_slot_state(TownObjectRecord *object, void *ptr, void *ptr2);
 
 /* run_action_then_fallback_on_flag.c */
-void run_action_then_fallback_on_flag(s32 *value, s32 context, SpriteFlagsView *record);
 
 /* run_the_action_sequence_context_unless_flag_a_set.c */
 s32 run_the_action_sequence_context_unless_flag_hex_a_5_set(s32 context);
@@ -77,7 +76,7 @@ s32 run_the_action_sequence_context_unless_flag_hex_a_5_set(s32 context);
 void select_next_item_state(void *object, void *position, void *context);
 
 /* set_handler_counter_and_clear_flag.c */
-void set_handler_counter_and_clear_flag(struct S_80098C04_0 *state, s32 target);
+void set_handler_counter_and_clear_flag(struct S_80098C04_0 *state, ObjectPosition *target);
 
 /* set_script_flag_bit.c */
 void set_script_flag_bit(s32 bit_index);
@@ -86,18 +85,21 @@ void set_script_flag_bit(s32 bit_index);
 void set_state_bytes_from_flags(s32 flags, u8 *state);
 
 /* update_actor_action_state.c */
-void update_actor_action_state(TownObjectRecord *state, EntityRec *motion, s32 callback_arg);
+void update_actor_action_state(TownObjectRecord *state, ObjectPosition *motion, s32 callback_arg);
 
 /* update_actor_and_dispatch_state.c */
-void update_actor_and_dispatch_state(void *actor, EntityRec *record, s32 context);
+void update_actor_and_dispatch_state(void *actor, ObjectPosition *record, s32 context);
 
 /* update_actor_with_interaction_state.c */
-void update_actor_with_interaction_state(TownObjectRecord *controller, EntityRec *entity, SpriteFrameState *context);
+void update_actor_with_interaction_state(TownObjectRecord *controller, ObjectPosition *entity, SpriteFrameState *context);
 
 /* update_entity_and_dispatch_timed_state.c */
 void update_entity_and_dispatch_timed_state(void *state, void *entity, void *transition_arg);
 
 /* write_script_flag_range.c */
 void write_script_flag_range(s32 base, s32 bits, s32 count);
+
+void run_action_then_fallback_on_flag(s32 *value, ObjectPosition *context, SpriteFrameState *sprite);
+
 
 #endif

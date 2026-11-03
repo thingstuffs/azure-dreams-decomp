@@ -475,9 +475,9 @@ void advance_projectile_burst_and_impact(void *effect, ObjectPosition *motion, S
             motion->z.w.i = origin_height;
 
             if (!(((S_80024BE8_22 *)(task->unk_0C))->unk_14 & 0x8000)) {
-                *(u16 *)&motion->x.w.i += offset[0];
-                *(u16 *)&motion->y.w.i += offset[1];
-                *(u16 *)&motion->z.w.i += offset[2];
+                motion->x.w.i = (u16)((u16)(motion->x.w.i) + (offset[0]));
+                motion->y.w.i = (u16)((u16)(motion->y.w.i) + (offset[1]));
+                motion->z.w.i = (u16)((u16)(motion->z.w.i) + (offset[2]));
             } else {
                 motion->z.w.i = origin_height - 0x40;
             }

@@ -5,12 +5,12 @@
 #include "town/event.h"
 
 /* Initialize and apply the two town records to the target. */
-void apply_two_records_to_target(s32 target, s32 setup_data)
+void apply_two_records_to_target(void *target, ObjectPosition *setup_data)
 {
     s32 record_value;
     s32 record_value2;
 
-    draw_random_colored_line(setup_data, target);
+    draw_random_colored_line((s32)setup_data, target);
 
     record_value = (s16)town_mesh_scale / 2;
     D_800D1178.field10 = record_value;
@@ -36,32 +36,30 @@ static inline s32 add_x_and_get_angle(IntVector3 *position, s32 x_offset, Positi
 }
 
 /* Update global positions using angle-based and fixed offsets from the origin. */
-void update_positions_from_origin(IntVector3 *origin)
+void update_positions_from_origin(ObjectPosition *origin)
 {
     s32 angle;
     s32 scale;
     IntVector3 *position = &D_80100D68;
     s16 initial_angle;
 
-    ++origin;
-    --origin;
     town_motion_x_phase += town_motion_x_step;
     {
         PositionRotationPair *rotation = &town_event_motion_pair;
 
         initial_angle = rotation->angle;
         angle = initial_angle;
-        position->x = origin->x;
-        position->y = origin->y;
-        position->z = origin->z;
+        position->x = origin->x.v;
+        position->y = origin->y.v;
+        position->z = origin->z.v;
         town_motion_y_phase += town_motion_y_step;
         position->y += rcos(add_x_and_get_angle(
             position, rsin(angle) * town_orbit_radius, rotation)) * town_orbit_radius;
-        draw_random_colored_line((s32)position, (s32)origin);
+        draw_random_colored_line((s32)position, (origin));
         scale = town_orbit_radius;
-        town_motion_offset_position.x = origin->x + scale * 0x1800;
-        town_motion_offset_position.y = origin->y;
-        town_motion_offset_position.z = origin->z;
-        apply_two_records_to_target((s32)&town_motion_offset_position, (s32)origin);
+        town_motion_offset_position.x = origin->x.v + scale * 0x1800;
+        town_motion_offset_position.y = origin->y.v;
+        town_motion_offset_position.z = origin->z.v;
+        apply_two_records_to_target(&town_motion_offset_position, (origin));
     }
 }

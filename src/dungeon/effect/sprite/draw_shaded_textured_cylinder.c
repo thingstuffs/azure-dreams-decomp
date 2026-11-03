@@ -5,6 +5,7 @@
 #include "dungeon/effect/sprite.h"
 #include "sdk/libgpu.h"
 #include "sdk/libgte.h"
+#include "shared/dungeon_effect_state.h"
 
 typedef struct S_80024930_0 {
     u8 pad_00[0x18];
@@ -89,7 +90,7 @@ typedef struct S_80024930_4 {
 typedef struct TagWord { u32 addr:24; u32 len:8; } TagWord;
 
 /* Draws a shaded, textured cylindrical wall using 16 quads. */
-s32 draw_shaded_textured_cylinder(void *unused_data, MovingPosition *center, s32 unused_value, s16 rotation,
+s32 draw_shaded_textured_cylinder(B22_81893474_EffectState *unused_data, MovingPosition *center, s32 unused_value, s16 rotation,
                   s32 height, s16 radius, u8 blend_mode, u8 brightness)
 {
     u8 *scratch = (u8 *)0x1F800000;

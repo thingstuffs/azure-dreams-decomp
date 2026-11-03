@@ -7,6 +7,7 @@
 #include "shared/entity.h"
 #include "shared/sprite_frame_state.h"
 
+struct SceneTileObject;
 struct GymScoreObject;
 struct GymState;
 struct IndicatorChild;
@@ -118,7 +119,7 @@ void create_scene_object_with_record_payload(void *object_value, void *record);
 void decrement_object_counter(void *entry);
 
 /* fade_linked_object_color.c */
-void fade_linked_object_color(void *fade);
+void fade_linked_object_color(struct SceneTileObject *fade);
 
 /* retire_scene_node_when_linked_value_clears.c */
 void retire_scene_node_when_linked_value_clears(GymSpriteObject *record);

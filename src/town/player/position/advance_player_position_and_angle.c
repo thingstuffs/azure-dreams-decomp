@@ -1,6 +1,8 @@
+#include "town/player/initialize_record_with_handler_table_api.h"
 #include "common.h"
 #include "town/person/position.h"
 #include "town/player/position.h"
+#include "shared/sprite_frame_state.h"
 
 typedef struct {
     u8 pad_00[0xA];
@@ -17,11 +19,10 @@ typedef struct {
     u16 angle;
 } Position;
 
-extern void initialize_record_with_handler_table(void *record, void *setup_value, s32 init_value);
 
 /* Advance the position toward its target and update its angle. */
-void advance_player_position_and_angle(void *work_data, void *position_data, s32 context) {
-    Position *pos;
+void advance_player_position_and_angle(void *work_data, ObjectPosition *position_data, SpriteFrameState *sprite) {
+    ObjectPosition *pos;
     Work *work;
     u16 steps_left;
     s32 remaining;
@@ -32,19 +33,19 @@ void advance_player_position_and_angle(void *work_data, void *position_data, s32
     work->count = steps_left;
     remaining = (s16)steps_left;
     if (remaining <= 0) {
-        pos->x = work->target_x << 16;
-        pos->y = work->target_y << 16;
-        initialize_record_with_handler_table(work, pos, context);
+        pos->x.v = work->target_x << 16;
+        pos->y.v = work->target_y << 16;
+        initialize_record_with_handler_table(work, (pos), sprite);
     } else {
         s32 x;
         s32 y;
 
-        x = pos->x;
-        pos->x = x +
+        x = pos->x.v;
+        pos->x.v = x +
             ((work->target_x << 16) - x) / remaining;
-        y = pos->y;
-        pos->y = y +
+        y = pos->y.v;
+        pos->y.v = y +
             ((work->target_y << 16) - y) / (s16)work->count;
     }
-    pos->angle = query_lowered_transform_position(pos);
+    pos->z.unsigned_parts.integer = query_lowered_transform_position(pos);
 }

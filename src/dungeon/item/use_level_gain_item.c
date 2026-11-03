@@ -39,7 +39,7 @@ s32 use_level_gain_item(ActorRecord *entity, DungeonItemEntry *item, s16 action_
         entity->pending_experience_high = 0;
         dungeon_floor_flags |= 0x100000;
     }
-    create_colored_effect_with_sound(((ObjectNodeHeader *)entity - 1), 0x20F0F0, 0x616);
+    create_colored_effect_with_sound(NODE_HEADER(entity), 0x20F0F0, 0x616);
     clear_slot_and_update_linked_state(item);
     g_dungeon_status.activity_counts.parts.pending_action_count--;
     return 1;

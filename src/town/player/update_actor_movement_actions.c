@@ -1,3 +1,4 @@
+#include "town/player/position_handlers.h"
 #include "script_symbols.h"
 #include "shared/position_query.h"
 #include "common.h"
@@ -28,7 +29,7 @@ typedef struct S_80092320_1 {
 
 
 /* Update the actor and select an action from the reference value, state flags, and timer. */
-void update_actor_movement_actions(TownObjectRecord *action, EntityRec *actor, s32 context) {
+void update_actor_movement_actions(TownObjectRecord *action, ObjectPosition *actor, s32 context) {
     GameWork *state = &g_game_work;
     s16 reference_value;
     s32 action_result;
@@ -44,16 +45,16 @@ void update_actor_movement_actions(TownObjectRecord *action, EntityRec *actor, s
             return;
         }
     } else if (((S_80092320_1 *)(&town_action_state_flag))->unk_00 == 0) {
-        compute_and_clamps_vector_based_adjustment_updates_town((struct TownObj *)(actor), reference_value, (struct TownVec * *)(&position_query_scratch));
+        compute_and_clamps_vector_based_adjustment_updates_town((actor), reference_value, (struct TownVec * *)(&position_query_scratch));
     }
     if ((state->pressed_buttons) & 0x10) {
-        initialize_actor_action_state(action, (struct ObjectPosition *)(actor), context);
+        initialize_actor_action_state(action, (actor), context);
         return;
     }
     ticks_left = action->unk_0A.as_u16 - 1;
     action->unk_0A.as_u16 = ticks_left;
     if ((s16) ticks_left < 0) {
-        initialize_action_object_and_play_sound((s32 * *)(action), (s32)(actor), context);
+        initialize_action_object_and_play_sound((s32 * *)(action), (actor), context);
         return;
     }
     if ((state->pressed_buttons) & 0x40) {
