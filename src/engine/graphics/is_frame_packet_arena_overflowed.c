@@ -9,7 +9,7 @@
 #include "shared/scratchpad.h"
 
 /* Projects coordinates and processes linked entries whose 0x80 flag is clear. */
-s32 project_and_draw_sprite_node_chain(u8 *first_data, void *first_coords, SpriteFrameState *first_entry)
+s32 project_and_draw_sprite_node_chain(u8 *first_data, ObjectPosition *first_coords, SpriteFrameState *first_entry)
 {
     u8 *node_data = first_data;
     void *coords = first_coords;

@@ -17,8 +17,8 @@
 extern void select_sprite_entry(void *, s32, s32);
 extern s32 find_active_rect_containing_point(s32, s32);
 extern void update_actor_status_and_mp(ActorRecord *entity);
-extern void func_80171438(ActorRecord *action, ObjectPosition *action_id, SpriteFrameState *entity, ActorRecord *move_state);
-extern s32 func_80172230(void *, void *, void *, s32);
+extern void advance_stored_path_motion(ActorRecord *action, ObjectPosition *action_id, SpriteFrameState *entity, ActorRecord *move_state);
+extern s32 update_entity_state_from_query(void *, void *, void *, s32);
 extern void func_80173A84(void *, void *, void *, void *);
 
 extern u8 killer_action_resume_address;
@@ -45,7 +45,7 @@ void update_entity_action_facing(ActorRecord *actor, ObjectPosition *context, Sp
 
     if (dungeon_flags & 0x1000) {
         actor->action_id.u = 0xE;
-        func_80171438(actor, context, sprite, entity);
+        advance_stored_path_motion(actor, context, sprite, entity);
         return;
     }
 
@@ -138,7 +138,7 @@ void update_entity_action_facing(ActorRecord *actor, ObjectPosition *context, Sp
                     }
                 }
             }
-            if ((s16)func_80172230(actor, context, sprite, 0) == 0) {
+            if ((s16)update_entity_state_from_query(actor, context, sprite, 0) == 0) {
                 return;
             }
             entity->action_flags |= 0x4000;

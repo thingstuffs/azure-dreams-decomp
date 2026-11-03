@@ -18,6 +18,7 @@
 #include "dungeon/monster/manoeva.h"
 #include "dungeon/actor.h"
 #include "engine/util.h"
+#include "dungeon/data.h"
 
 
 
@@ -31,7 +32,6 @@ extern void resolve_familiar_deployment_request(void *, void *, void *, s32); /*
 extern s32 find_entity_slot_by_field_ac(void *);
 
 extern u8 manoeva_action_resume_address[];
-extern u8 manoeva_frame_set[];
 
 /* Advances an actor's fade-in sequence and applies its completion updates. */
 void update_actor_fade_in_transition(ActorRecord *actor_state, ObjectPosition *context, SpriteFrameState *sprite, ActorRecord *actor_data) {

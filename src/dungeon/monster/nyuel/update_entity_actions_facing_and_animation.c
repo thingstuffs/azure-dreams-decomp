@@ -36,8 +36,8 @@ s32 can_entity_gain_level(void *entity);
 void update_actor_status_and_mp(ActorRecord *entity);
 void begin_actor_move_to_target_facing(ActorRecord *body, ObjectPosition *position, SpriteFrameState *sprite, ActorRecord *actor);
 extern void func_801737C4(Actor *actor, s32 action, Entity *entity, MapObject *map_object);
-s32 complete_timed_tile_movement(ActorRecord *entity_arg, void *primary_context_arg, void *secondary_context_arg, s32 force_state_arg); /* Unprototyped: this consumer uses the return value, but the owner definition is void. */
-extern void func_801747D0(void *entity_data, ObjectPosition *unused_1, s32 unused_2, void *other_data);
+s32 update_entity_state_from_query(ActorRecord *entity_arg, void *primary_context_arg, void *secondary_context_arg, s32 force_state_arg); /* Unprototyped: this consumer uses the return value, but the owner definition is void. */
+extern void initialize_counted_entity_action(void *entity_data, ObjectPosition *unused_1, s32 unused_2, void *other_data);
 extern u8 nyuel_frame_set_2[];
 extern u8 nyuel_frame_set_3[];
 extern u8 nyuel_frame_set_1[];
@@ -121,7 +121,7 @@ void update_entity_actions_facing_and_animation(ActorRecord *entity, ObjectPosit
         }
         if ((can_entity_gain_level(state) << 0x10) != 0) {
             if ((process_selected_actor_record(entity, context, sprite, state) << 0x10) != 0) {
-                func_801747D0(entity, context, sprite, state);
+                initialize_counted_entity_action(entity, context, sprite, state);
             }
         }
     }
@@ -142,7 +142,7 @@ void update_entity_actions_facing_and_animation(ActorRecord *entity, ObjectPosit
                     return;
                 }
             }
-            if ((complete_timed_tile_movement(entity, context, sprite, 0) << 0x10) == 0) {
+            if ((update_entity_state_from_query(entity, context, sprite, 0) << 0x10) == 0) {
                 return;
             }
             action_flags = state->action_flags | 0x4000;

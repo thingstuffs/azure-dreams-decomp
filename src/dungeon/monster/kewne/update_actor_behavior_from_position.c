@@ -19,16 +19,15 @@
 #include "dungeon/level.h"
 #include "dungeon/monster/kewne.h"
 #include "dungeon/player/object.h"
+#include "dungeon/monster/hikewne.h"
 
 
 extern void select_sprite_entry(void *, s32, s32);
 extern s8 find_active_rect_containing_point(s32, s32);
 extern void update_actor_status_and_mp(ActorRecord *entity);
-extern void func_80159854(ActorRecord *move_data, ObjectPosition *context, SpriteFrameState *position_data, ActorRecord *actor_data);
-extern s32 func_80159F9C(ActorRecord *action_state, ObjectPosition *action_param, SpriteFrameState *visual_data, ActorRecord *actor);
-extern void func_8015A234(ActorRecord *controller, ObjectPosition *action_context, SpriteFrameState *sprite, ActorRecord *actor);
-extern void func_8015A358(void *, void *, void *, void *);
-extern s32 func_8015A66C(void *, void *, void *, s32);
+extern s32 select_and_start_target_action(ActorRecord *action_state, ObjectPosition *action_param, SpriteFrameState *visual_data, ActorRecord *actor);
+extern void start_kewne_attack_action(ActorRecord *controller, ObjectPosition *action_context, SpriteFrameState *sprite, ActorRecord *actor);
+extern void update_kewne_charge_counter(void *, void *, void *, void *);
 extern void func_8015C574(void *, void *, void *, void *);
 
 extern u8 D_8015DE40[];
@@ -155,7 +154,7 @@ void update_actor_behavior_from_position(ActorRecord *actor, ObjectPosition *con
             return;
         }
         if (*(u16 *)&sprite->tile_x == reference_tile_object.tile_position.word) {
-            func_80159854(actor, context, sprite, entity);
+            select_movement_direction_and_advance(actor, context, sprite, entity);
             return;
         }
         if (!(entity->action_flags & ACTOR_ACTION_PENDING)) {
@@ -174,13 +173,13 @@ void update_actor_behavior_from_position(ActorRecord *actor, ObjectPosition *con
                     }
                 }
             }
-            if ((func_8015A66C(actor, context, sprite, 0) << 16) == 0) {
+            if ((update_entity_state_from_query(actor, context, sprite, 0) << 16) == 0) {
                 return;
             }
             behavior_flags = entity->action_flags | 0x4000;
             entity->action_flags = behavior_flags;
             if (!(behavior_flags & 0x8000)) {
-                func_80159854(actor, context, sprite, entity);
+                select_movement_direction_and_advance(actor, context, sprite, entity);
                 return;
             }
         }
@@ -189,10 +188,10 @@ void update_actor_behavior_from_position(ActorRecord *actor, ObjectPosition *con
         case 7:
         case 8:
 sw_case89:
-            if ((func_80159F9C(actor, context, sprite, entity) << 16) != 0) {
+            if ((select_and_start_target_action(actor, context, sprite, entity) << 16) != 0) {
                 return;
             }
-            func_8015A234(actor, context, sprite, entity);
+            start_kewne_attack_action(actor, context, sprite, entity);
             return;
 
         case 4:
@@ -227,7 +226,7 @@ sw_case567:
             return;
 
         default:
-            func_80159854(actor, context, sprite, entity);
+            select_movement_direction_and_advance(actor, context, sprite, entity);
             return;
         }
     }
@@ -252,7 +251,7 @@ sw_case567:
         }
     } else if ((get_entity_effect_value(entity, STATUS_PARALYSIS) << 16) == 0) {
         if (primary_actor_record->action_id.u == 0x17) {
-            func_8015A358(actor, context, sprite, entity);
+            update_kewne_charge_counter(actor, context, sprite, entity);
         }
     }
 }

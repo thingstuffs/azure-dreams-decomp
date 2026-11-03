@@ -6,13 +6,6 @@
 #include "engine/effect.h"
 #include "slus/data.h"
 
-typedef struct S_80051F58_a2 {
-    u8 pad00[0xC];
-    u8 unk0C;
-    u8 unk0D;
-    u8 unk0E;
-} S_80051F58_a2;
-
 /* Fade the color in, hold it, then fade it out and mark the effect complete. */
 void update_color_fade_effect(CdCueEffectBody *effect, ObjectPosition *unused_1, SpriteFrameState *color, void *unused_3)
 {

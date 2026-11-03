@@ -14,7 +14,6 @@
 
    /* the 0x2 bytes before arg0 in update_settings_effect, addressed as arg0[-1] */
 
-
 typedef struct S_80089608_1 {
     u8 pad_00[0x20];
     s16 unk_20;
@@ -22,19 +21,10 @@ typedef struct S_80089608_1 {
     u16 unk_26;
 } S_80089608_1;
 
-
-
 typedef struct S_80089608_6 {
     u8 pad_00[0xC];
     s16 unk_0C;
 } S_80089608_6;
-
-typedef struct S_80089608_7 {
-    u8 pad_00[0x2];
-    s16 unk_02;
-    u8 pad_04[0x2];
-    s16 unk_06;
-} S_80089608_7;
 
 typedef struct {
     s32 w0;

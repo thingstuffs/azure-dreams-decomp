@@ -34,6 +34,11 @@ recipes (build/codemap.db image_unit: container + container offset) lies inside 
           a file that does not is retried with the names that are neutral one at a time, else held whole.
           Idempotent: a file that already includes its header and declares nothing it declares is untouched.
 
+--shield-floors  Opt-in include repair for retained build-specific declarations. The program header's
+          canonical declaration is guarded once; only a recorded floor caller suppresses it around that
+          include. The local declaration, floor record, original arity and identity comments remain.
+          Other callers see the canonical prototype. All edited callers retain the normal compiler proofs.
+
 Outputs: DIR/sites.tsv (every local declaration site with its program), DIR/decisions.json, DIR/floors.jsonl,
 DIR/apply.tsv (file, header, removed, held, reason), DIR/foreign_imports.patch.  Prove the result with
 tools/lanes/prove_batch.sh (byte-exact over the build graph) before committing.
@@ -253,6 +258,37 @@ def append_block(text, lines):
     return text[:j].rstrip('\n') + '\n' + block + text[j:]
 
 
+def floor_macro(name):
+    if not re.fullmatch(r'[A-Za-z_]\w*', name):
+        raise ValueError('invalid foreign floor name')
+    return 'AZ_FOREIGN_LOCAL_' + name.upper()
+
+
+def shield_header(text, names):
+    """Keep canonical declarations conditional only at recorded local floors.
+
+    Original declarations and identity comments are retained verbatim. Callers
+    define guards around this header's include, then undefine them immediately.
+    """
+    found, _scan = local_sites(text, names)
+    edits = []
+    for name in sorted(names):
+        macro = floor_macro(name)
+        if '#ifndef ' + macro in text:
+            continue
+        sites = found.get(name, [])
+        if len(sites) != 1 or sites[0][2] != 1:
+            raise ValueError('foreign floor needs one header declaration: '+name)
+        start, end = line_span(text, sites[0][0], sites[0][1])
+        original = text[start:end]
+        if not original.endswith('\n'):
+            original += '\n'
+        edits.append((start, end, '#ifndef '+macro+'\n'+original+'#endif\n'))
+    for start, end, replacement in sorted(edits, reverse=True):
+        text = text[:start]+replacement+text[end:]
+    return text
+
+
 TYPE_WORDS = {'void', 'char', 'short', 'int', 'long', 'unsigned', 'signed', 'float', 'double', 'const', 'volatile',
               's8', 'u8', 's16', 'u16', 's32', 'u32', 'struct', 'union', 'enum'}
 SPELL = {'int': 's32', 'unsigned int': 'u32', 'unsigned': 'u32', 'short': 's16', 'unsigned short': 'u16',
@@ -314,7 +350,7 @@ COMMON_TYPES = {'u8': 'unsigned char', 's8': 'signed char', 'u16': 'unsigned sho
                 'u32': 'unsigned int', 's32': 'int'}
 
 
-def edit_text(text, header_inc, spans, sc):
+def edit_text(text, header_inc, spans, sc, disabled=()):
     """Text with the declaration spans removed and `#include "header_inc"` added (when not yet included).
 
     A file that spells its own base typedefs instead of including common.h (which the import header includes)
@@ -323,6 +359,9 @@ def edit_text(text, header_inc, spans, sc):
     first = min(s for s, _e in spans)
     includes = [d for d in sc.directives if d.kind == 'include']
     have = any(header_inc in text[d.start:d.end] for d in includes)
+    macros = [floor_macro(name) for name in sorted(set(disabled))]
+    block = (''.join('#define '+macro+'\n' for macro in macros) + '#include "%s"\n' % header_inc +
+             ''.join('#undef '+macro+'\n' for macro in reversed(macros)))
     edits = [(s, e, '') for s, e in sorted({line_span(text, s, e) for s, e in spans})]
     if not have and not any('"common.h"' in text[d.start:d.end] for d in includes):
         tds = [m for m in COMMON_TYPEDEF.finditer(text) if COMMON_TYPES[m[2]] == m[1]]
@@ -333,9 +372,15 @@ def edit_text(text, header_inc, spans, sc):
         before = [d for d in includes if d.start < first and d.depth == 0]
         at = before[-1].end if before else 0
         if at and text[at - 1] != '\n':
-            edits.append((at, at, '\n#include "%s"\n' % header_inc))
+            edits.append((at, at, '\n'+block))
         else:
-            edits.append((at, at, '#include "%s"\n' % header_inc))
+            edits.append((at, at, block))
+    elif macros and block not in text:
+        matching = [d for d in includes if header_inc in text[d.start:d.end]]
+        if len(matching) != 1 or matching[0].depth:
+            raise ValueError('conditional/repeated import include requires shield review')
+        directive = matching[0]
+        edits.append((directive.start, directive.end, block))
     out = text
     for s, e, rep in sorted(edits, key=lambda x: (x[0], x[1]), reverse=True):
         out = out[:s] + rep + out[e:]
@@ -356,6 +401,9 @@ def main(argv=None):
     ap.add_argument('--prototype-knr', action='store_true',
                     help='replace unprototyped `T f()` imports by a prototype from the calls when every caller is neutral')
     ap.add_argument('--apply', action='store_true')
+    ap.add_argument('--shield-floors', action='store_true',
+                    help='omit canonical header declarations only around includes at recorded local floors; '
+                         'retain local declarations and build-specific arities')
     ap.add_argument('--identities', type=Path, nargs='*', default=[],
                     help='TSV address-or-name<TAB>comment for the declarations the tool appends (foreign_twins.py)')
     ap.add_argument('--floors', type=Path, help='floors.jsonl of an earlier --decide (default: DIR/floors.jsonl)')
@@ -364,6 +412,8 @@ def main(argv=None):
     ap.add_argument('--workers', type=int, default=4)
     ap.add_argument('--dry-run', action='store_true')
     a = ap.parse_args(argv)
+    if a.shield_floors and (not a.apply or a.dry_run):
+        ap.error('--shield-floors requires --apply without --dry-run')
     root = a.root.resolve()
     a.out.mkdir(parents=True, exist_ok=True)
     db = sqlite3.connect('file:%s?mode=ro' % (root / 'build/codemap.db'), uri=True)
@@ -631,6 +681,22 @@ def floor_record(name, header, ss, results, cands, best):
 def apply(a, root, progs, by_file, floors, workers, probed_names=frozenset()):
     import sig_probe
     scope = [str(Path(s)) for s in a.scope]
+    shields = collections.defaultdict(set)
+    if a.shield_floors:
+        for file, sites in by_file.items():
+            if not any(file == item or file.startswith(item.rstrip('/') + '/') for item in scope):
+                continue
+            prog = progs[sites[0]['prog']]
+            have = header_decls((root/prog['header']).read_text(errors='surrogateescape'))
+            present, _scan = local_sites((root/file).read_text(errors='surrogateescape'), floors.get(file, {}))
+            shields[prog['header']].update(set(present) & set(have))
+        for header, names in shields.items():
+            path = root/header
+            before = path.read_text(errors='surrogateescape')
+            after = shield_header(before, names)
+            if after != before:
+                path.write_text(after, errors='surrogateescape')
+        (a.out/'floor_shields.json').write_text(json.dumps({header: sorted(names) for header, names in shields.items()}, indent=1)+'\n')
     rows, diffs, edits = [], [], {}
     plans, why = [], {}
     for f, ss in sorted(by_file.items()):
@@ -667,15 +733,17 @@ def apply(a, root, progs, by_file, floors, workers, probed_names=frozenset()):
         elif held:
             rows.append((f, prog['header'], '', ','.join('%s:%s' % kv for kv in sorted(held.items())), 'nothing_to_do'))
 
-    def variant(text, sc, prog, spans, keep):
+    def variant(f, text, sc, prog, spans, keep):
         sel = [sp for n in keep for sp in spans[n]]
-        return edit_text(text, prog['include'], sel, sc)
+        disabled = set(floors.get(f, {})) & shields.get(prog['header'], set())
+        present, _scan = local_sites(text, disabled)
+        return edit_text(text, prog['include'], sel, sc, disabled & set(present))
 
     tasks = []
     for f, prog, text, sc, spans, held, recipes in plans:
         for rid in recipes:
             tasks.append(dict(key='%s|%s|prod' % (f, rid), recipe=rid, text=None))
-            tasks.append(dict(key='%s|%s|all' % (f, rid), recipe=rid, text=variant(text, sc, prog, spans, spans)))
+            tasks.append(dict(key='%s|%s|all' % (f, rid), recipe=rid, text=variant(f, text, sc, prog, spans, spans)))
     res = dict(zip([t['key'] for t in tasks], workers().map(tasks))) if tasks else {}
     retry = []
     for f, prog, text, sc, spans, held, recipes in plans:
@@ -684,7 +752,7 @@ def apply(a, root, progs, by_file, floors, workers, probed_names=frozenset()):
         if bad:
             why[f] = str(bad[0][1])[:300]
         if not bad:
-            edits[f] = (variant(text, sc, prog, spans, spans), sorted(spans), held, prog)
+            edits[f] = (variant(f, text, sc, prog, spans, spans), sorted(spans), held, prog)
         else:
             retry.append((f, prog, text, sc, spans, held, recipes))
     # one name at a time for the failing files, then the union of the neutral ones
@@ -692,7 +760,7 @@ def apply(a, root, progs, by_file, floors, workers, probed_names=frozenset()):
     for f, prog, text, sc, spans, held, recipes in retry:
         for n in spans:
             for rid in recipes:
-                tasks.append(dict(key='%s|%s|%s' % (f, rid, n), recipe=rid, text=variant(text, sc, prog, spans, [n])))
+                tasks.append(dict(key='%s|%s|%s' % (f, rid, n), recipe=rid, text=variant(f, text, sc, prog, spans, [n])))
     res2 = dict(zip([t['key'] for t in tasks], workers().map(tasks))) if tasks else {}
     tasks, keep = [], {}
     for f, prog, text, sc, spans, held, recipes in retry:
@@ -701,7 +769,7 @@ def apply(a, root, progs, by_file, floors, workers, probed_names=frozenset()):
         keep[f] = ok
         if ok and len(ok) < len(spans):
             for rid in recipes:
-                tasks.append(dict(key='%s|%s|some' % (f, rid), recipe=rid, text=variant(text, sc, prog, spans, ok)))
+                tasks.append(dict(key='%s|%s|some' % (f, rid), recipe=rid, text=variant(f, text, sc, prog, spans, ok)))
     res3 = dict(zip([t['key'] for t in tasks], workers().map(tasks))) if tasks else {}
     for f, prog, text, sc, spans, held, recipes in retry:
         ok = keep[f]
@@ -709,7 +777,7 @@ def apply(a, root, progs, by_file, floors, workers, probed_names=frozenset()):
                 not sig_probe.compare(res['%s|%s|prod' % (f, rid)], res3['%s|%s|some' % (f, rid)]) for rid in recipes):
             h = dict(held)
             h.update({n: 'not_neutral' for n in spans if n not in ok})
-            edits[f] = (variant(text, sc, prog, spans, ok), sorted(ok), h, prog)
+            edits[f] = (variant(f, text, sc, prog, spans, ok), sorted(ok), h, prog)
         else:
             h = dict(held)
             h.update({n: 'file_not_neutral' for n in spans})

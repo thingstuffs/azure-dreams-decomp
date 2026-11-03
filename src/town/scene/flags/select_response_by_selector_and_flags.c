@@ -2,6 +2,7 @@
 #include "modules/town_ovl_3ef1c8.h"
 #include "town/scene/response_checks.h"
 #include "town/scene/flags.h"
+#include "town/player/state.h"
 
 /* Chooses response data using the selector, checked status, and progress flags, with an alternate handler. */
 s32 *select_response_by_selector_and_flags(s32 context, s32 check_value, s32 selector) {
@@ -9,10 +10,10 @@ s32 *select_response_by_selector_and_flags(s32 context, s32 check_value, s32 sel
 
     if (selector == 9) {
         if (check_table_result_below_minus_47() != 0) {
-            if (func_8001A510(F_sbs22_pad28) != 0) {
+            if (get_script_flag_mask(F_sbs22_pad28) != 0) {
                 return &D_8001B6D0;
             }
-            if (func_8001A510(F_sbs04_pad07) == 0) {
+            if (get_script_flag_mask(F_sbs04_pad07) == 0) {
                 return &scene_result_fallback;
             }
         }

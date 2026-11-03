@@ -13,12 +13,6 @@ typedef struct {
 
 #define TBL_800102F0 ((S_8004A534_Entry *)0x800102F0)
 
-/* caller struct: only byte offset 3 (a bitfield/index, masked to 0x1F) accessed here */
-typedef struct {
-    u8 pad0[3];
-    u8 field_3;
-} S_8004A534_arg1;
-
 /*
  * Adds the unsigned base shifted right two bits times the field_11 multiplier selected by the low
  * five bits of field_3.

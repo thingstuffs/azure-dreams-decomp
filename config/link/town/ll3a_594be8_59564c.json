@@ -127,7 +127,8 @@
       "bindings": {
         "0x80018BD0": "0x80018BD0",
         "0x80016000": "0x80016000",
-        "0x80016930": "0x80016CB4"
+        "0x80016930": "0x80016CB4",
+        "0x8001AD60": "0x80018BD0"
       },
       "evidence": "LL3a attestation sha256:0f710e5de787a1bf2bbddd9c38408e4865009d9d66c4b94ecd17d9e965661d06; current-TU paired HI16/LO16 relocation screen; scoped window gate"
     }

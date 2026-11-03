@@ -5,8 +5,7 @@
 #include "town/scene/event.h"
 #include "shared/town_root.h"
 #include "town/player/state.h"
-
-extern s32 town_table_contains_first_byte_b(s32 value);
+#include "town.h"
 
 /* Update event flags when prerequisites are met, otherwise invoke the fallback callback. */
 s32 update_event_flags_prerequisites_are(void) {

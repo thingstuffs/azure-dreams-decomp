@@ -1,6 +1,7 @@
 #include "script_symbols.h"
 #include "town/scene/hooks/invoke_callback_and_set_shared_pointer_second.h"
 #include "town/scene/hooks/invoke_callback_and_set_shared_pointer_second.h"
+#include "town/player/state.h"
 
 /* Installs shared buffers, clamps field +0x35C0 to at least 30, resets a counter, and updates three flags. */
 void invoke_callback_and_set_shared_pointer(void) {
@@ -13,8 +14,8 @@ void invoke_callback_and_set_shared_pointer(void) {
     if (valueBeforeClamp < 0x1E) {
         activeState->unk_35C0 = 0x1E;
     }
-    func_80017398(F_sbs12_pad11);
-    func_80017398(F_sbs12_pad12);
+    clear_script_flag_bit(F_sbs12_pad11);
+    clear_script_flag_bit(F_sbs12_pad12);
     scene_threshold_counter = 0;
-    func_80017398(F_sbs12_pad13);
+    clear_script_flag_bit(F_sbs12_pad13);
 }

@@ -69,7 +69,7 @@ def in_scope(path, scope):
     return any(path == s or path.startswith(s.rstrip('/') + '/') for s in scope)
 
 
-def plan(root, codemap, scope, exclude=()):
+def plan(root, codemap, scope, exclude=(), *, copy_holds=None):
     import extra
     import linklist as L
     images, by_place, by_row, local = L.load(str(root))
@@ -271,6 +271,11 @@ def plan(root, codemap, scope, exclude=()):
                     break
             if not ok:
                 report['held_copy:' + verdict] += 1
+                if copy_holds is not None:
+                    copy_holds.append(dict(file=f, old=n, new=r, kind='placed_copy', symbol=sym,
+                                           calls=len(binds), images=len({b[0] for b in binds}),
+                                           new_header=one_header(r), evidence=verdict,
+                                           link='%s>%s' % (lower(r), sym)))
                 continue
             kind = 'placement_binding'
         else:
@@ -328,8 +333,10 @@ def apply_one(root, rel, pairs, log, corpus_root=None):
         if not re.search(TOKEN.format(re.escape(old)), masked):
             continue
         seen = visible_declares(corpus_root or root, rel, new, text)
-        if not seen and re.search(r'^[^#\n]*' + TOKEN.format(re.escape(new)) + r'\s*\([^;{}]*\)\s*;', masked, re.M):
-            seen = rel     # the TU declares the new name itself
+        if not seen and any(item.kind == 'decl' and 'typedef' not in item.storage
+                            and any(d.name == new and d.is_function for d in item.decls)
+                            for item in cscan.scan(text).items):
+            seen = rel     # a file-scope declaration, never an ordinary call
         # the TU's file-scope declarations of `old` (one declarator each)
         decls = [m for m in re.finditer(r'^[ \t]*(?:extern[ \t]+)?[^;{}()#=\n]*?' + TOKEN.format(re.escape(old)) +
                                         r'\s*\([^;{}=]*\)\s*;[^\n]*\n', masked, re.M)
@@ -442,7 +449,11 @@ def screen(root, codemap, plan_path, out_dir, workers=3):
         dst = shadow / rel
         dst.parent.mkdir(parents=True, exist_ok=True)
         dst.write_text(base)
-        apply_one(shadow, rel, pairs, [], corpus_root=root)
+        edit_log = []
+        apply_one(shadow, rel, pairs, edit_log, corpus_root=root)
+        blocked = [row[4] for row in edit_log if row[4].startswith('hold:')]
+        if blocked:
+            return False, ';'.join(sorted(set(blocked)))
         after = dst.read_text()
         if after == base:
             return True, 'unchanged'
@@ -593,13 +604,19 @@ def main():
     a = ap.parse_args()
     root = Path(a.root).resolve()
     if a.cmd == 'plan':
-        out, report = plan(root, Path(a.codemap or root / 'build/codemap.db').resolve(), a.scope, a.exclude)
+        copy_holds = []
+        out, report = plan(root, Path(a.codemap or root / 'build/codemap.db').resolve(), a.scope, a.exclude,
+                           copy_holds=copy_holds)
         d = Path(a.out)
         d.mkdir(parents=True, exist_ok=True)
         with open(d / 'plan.tsv', 'w') as fh:
             w = csv.DictWriter(fh, fieldnames=FIELDS, delimiter='\t', lineterminator='\n')
             w.writeheader()
             w.writerows(sorted(out, key=lambda r: (r['file'], r['old'])))
+        with open(d / 'copy_holds.tsv', 'w') as fh:
+            w = csv.DictWriter(fh, fieldnames=FIELDS, delimiter='\t', lineterminator='\n')
+            w.writeheader()
+            w.writerows(sorted(copy_holds, key=lambda r: (r['file'], r['old'])))
         (d / 'report.json').write_text(json.dumps(dict(report), indent=1, sort_keys=True) + '\n')
         print(dict(report))
         return

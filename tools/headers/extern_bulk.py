@@ -41,6 +41,7 @@ DIR/holds.tsv, DIR/files.tsv, DIR/bulk.patch, DIR/bulk.log.
 from __future__ import annotations
 
 import argparse
+import csv
 from collections import Counter, defaultdict
 import difflib
 import hashlib
@@ -88,7 +89,7 @@ def sha(text):
 
 class Bulk:
     def __init__(self, root, files, data, writable, log=print, new_headers=False, data_named_only=False,
-                 names=None):
+                 names=None, requests=None):
         self.root = Path(root).resolve()
         self.new_headers = new_headers
         self._base = {}
@@ -99,7 +100,7 @@ class Bulk:
         corpus = M.Corpus(self.root)
         # probe variants (.sigprobe_<pid>_*.c of a concurrent solver) and other dot files are never the tree
         corpus.c_files = [f for f in corpus.c_files if not Path(f).name.startswith('.')]
-        self.plan = P.build(self.root, corpus=corpus, scope_files=files, include_data=data)
+        self.plan = P.build(self.root, corpus=corpus, scope_files=files, include_data=data, requests=requests)
         self.log('plan: %d TUs in %.0f s' % (len(self.plan.tus), time.monotonic() - t0))
         self.writable = writable
         hof = lambda r: self.plan.fn_for_def(r.definition).header      # noqa: E731
@@ -112,6 +113,7 @@ class Bulk:
                 tp.append = {h: [n for n in ns if n in names] for h, ns in tp.append.items()}
                 tp.append = {h: ns for h, ns in tp.append.items() if ns}
                 need = {hof(r) for r in tp.remove} | set(tp.append)
+                need |= {h for h, ns in tp.requested.items() if set(ns) & names}
                 tp.add = [h for h in tp.add if h in need]
                 tp.stale = []
         self.jobs = {}
@@ -124,7 +126,7 @@ class Bulk:
                 continue
             orig = self.plan.corpus.text(rel)
             edit = R.tu_edit(tp, hof)
-            if R.edit_tu(orig, edit) == orig:
+            if R.edit_tu(orig, edit) == orig and not (tp.requested and tp.append):
                 continue
             self.jobs[rel] = (orig, edit)
         # held (tu, header) pairs; a TU in `restored` keeps its baseline text
@@ -148,6 +150,9 @@ class Bulk:
                     self.hold(rel, hof(r), 'prototype_floor:' + r.site.name)
                 elif data_named_only and getattr(r.site, 'kind', '') == 'data' and RAW_DATA.match(r.site.name):
                     self.hold(rel, hof(r), 'data_raw_address:' + r.site.name)
+            for h, requested_names in tp.requested.items():
+                for n in sorted(set(requested_names) & floors):
+                    self.hold(rel, h, 'prototype_floor:' + n)
             for h, names in tp.append.items():
                 for n in sorted(set(names) & floors):
                     self.hold(rel, h, 'prototype_floor:' + n)
@@ -217,7 +222,9 @@ class Bulk:
                 new = R.edit_tu(orig, dict(edit, add=[]), [])
             if new != orig:
                 texts[rel] = new
-        kept = {rel: hs for rel, hs in acc.items() if rel in texts}
+        # A caller may already include the owner header but still need a prototype appended there.
+        kept = {rel: hs for rel, hs in acc.items()
+                if rel in texts or getattr(self.plan.tus[rel], 'requested', {})}
         for h, t in self.header_texts(kept).items():
             if t != self.base_text(h):
                 texts[h] = t
@@ -542,6 +549,8 @@ def main(argv=None):
     ap.add_argument('--names', nargs='*', help='only these names move (others keep their declarations)')
     ap.add_argument('--names-from', choices=['sdk'], help="'sdk': the Psy-Q library names of tools/headers/extra.py")
     ap.add_argument('--names-file', type=Path, help='file with one name per line (or a TSV whose column `new` lists them)')
+    ap.add_argument('--publish-callers', action='store_true',
+                    help='request owner prototypes/includes for file,new pairs in --names-file; keep old call spellings')
     ap.add_argument('--port-adapt', type=Path,
                     help="the native port's tools/adapt.py: TUs whose edit would remove an adaptation anchor keep "
                          "their text (natcheck ADAPTATION otherwise)")
@@ -590,8 +599,19 @@ def main(argv=None):
         return a.append_shared and exists and h.startswith('include/shared/')
 
     log('scope: %d files, write %s, data=%s' % (len(files), a.write, a.data))
+    requests = defaultdict(set)
+    if a.publish_callers:
+        if not a.names_file:
+            ap.error('--publish-callers requires --names-file with file and new columns')
+        with a.names_file.open() as fh:
+            reader = csv.DictReader(fh, delimiter='\t')
+            if not {'file', 'new'} <= set(reader.fieldnames or ()):
+                ap.error('--publish-callers requires file and new columns')
+            for row in reader:
+                if row['file'] in files and re.fullmatch(r'[A-Za-z_]\w*', row['new']):
+                    requests[row['file']].add(row['new'])
     bulk = Bulk(root, files, a.data or a.data_named_only, writable, log, new_headers=a.new_headers,
-                data_named_only=a.data_named_only, names=load_names(a))
+                data_named_only=a.data_named_only, names=load_names(a), requests=requests)
     if a.port_adapt:
         bulk.keep_anchors(port_anchors(a.port_adapt))
     log('jobs: %d TUs with edits; static holds %s' % (len(bulk.jobs), dict(bulk.static.most_common(8))))

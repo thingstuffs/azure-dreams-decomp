@@ -8,27 +8,25 @@
 #include "town/scene/object.h"
 #include "town/scene.h"
 #include "town/data.h"
+#define AZ_FOREIGN_LOCAL_FUNC_80058F88
+#define AZ_FOREIGN_LOCAL_FUNC_802441A4
+#include "town/devkit/old_minigame_imports.h"
+#undef AZ_FOREIGN_LOCAL_FUNC_802441A4
+#undef AZ_FOREIGN_LOCAL_FUNC_80058F88
 
-s32 func_80052374();                             /* extern */
 void func_80058F88();        /* extern */ /* Unprototyped: JP identity SD_Call(int); the surplus source arguments preserve the retail instruction stream. */
 s32 func_8006A3A4(s32);                             /* extern */
 s32 func_8006A470();                             /* extern */
 void func_802441A4();                       /* extern */ /* Unprototyped: this site's argument count or types differ from the foreign program's import prototype */
-void func_80244588();                  /* extern */
-void func_802445FC();                     /* extern */
-void func_80244660();                     /* extern */
 short func_8025E01C(void *position);                     /* extern */
 extern u8 D_80095AA0[8];
 extern u8 collection_round_work[0x14];
 extern u8 town_motion_state[0x18];
 extern u16 D_80530658[];
 extern u16 D_805306C8[];
-s32 func_802483B8();
 void advance_accumulator_reset_lowering_stored(s32 unused, void *position);                      /* extern */
-s32 func_80290318();
 void set_record_global_flags_object(void *record);                      /* extern */
 void set_bit_preceding_flags_global(void *value_ptr);                      /* extern */
-s32 func_80243A38();
    /* the 0x2 bytes before arg0 in run_collection_round_sequence, addressed as arg0[-1] */
 
 

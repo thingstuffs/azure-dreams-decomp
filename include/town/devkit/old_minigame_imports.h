@@ -14,9 +14,13 @@
 #include "common.h"
 
 /* --- imports (tools/headers/foreign_imports.py): one declaration per address --- */
+#ifndef AZ_FOREIGN_LOCAL_FUNC_80034A1C
 void func_80034A1C(void *, void *, s32);
+#endif
 void func_800351A8(s32, s32);
+#ifndef AZ_FOREIGN_LOCAL_FUNC_800373DC
 void *func_800373DC(s32);
+#endif
 void *func_800374FC(s32, void *);   /* current allocate_list_node (0x8003FD64; JP twin chain, town_prototypes_run7 owner audit) */
 void func_8003B0B8(void *, void *);
 void func_8003BC18(void *, void *);
@@ -24,12 +28,16 @@ void func_8003EA54(void *);
 void func_8003F75C(s32);
 void func_8003F8A8(s32);
 void func_80050BD8(s32);
+#ifndef AZ_FOREIGN_LOCAL_FUNC_80050BFC
 void func_80050BFC(s32);
+#endif
 void func_80050D68(void *);
 s32 func_80052374(s32);
 void func_80058588(s32, s32, char *);
 void func_8005888C(void);
+#ifndef AZ_FOREIGN_LOCAL_FUNC_80058F88
 void func_80058F88(s32);   /* current SD_Call (0x80053DA8; JP twin chain, town_prototypes_run7 owner audit) */
+#endif
 s32 func_8006AB90(s32);
 s32 func_8006BC50(void *, void *, s32 *, s32 *);
 void func_8006BFA0(void *, void *, void *, void *, void *, s32);
@@ -43,15 +51,21 @@ void func_8006E8B8(void *, void *);
 void func_8006E91C(void *, s32, s32);
 void func_8006F49C(void *, s32, s32, s32, s32);
 s32 func_80071424(char *);   /* current strlen (0x80069E98; JP twin chain, town_prototypes_run7 owner audit) */
+#ifndef AZ_FOREIGN_LOCAL_FUNC_80071494
 s32 func_80071494(void);   /* current rand (0x80069EF8; JP twin chain, town_prototypes_run7 owner audit) */
+#endif
 s32 func_80232868(s32, s32, s32);
 void func_80232A08(s32);
+#ifndef AZ_FOREIGN_LOCAL_FUNC_8023FA58
 void func_8023FA58(void *, void *, void *);
+#endif
 void func_8023FAE8(void *, void *, void *);
 void func_8023FB18(void *);
 s32 func_80240810(void *, void *, void *, void *);
 s32 func_80243A38();
+#ifndef AZ_FOREIGN_LOCAL_FUNC_802441A4
 void func_802441A4(void *);
+#endif
 void func_80244588(void);
 void func_802445FC(s32);
 void func_80244660();

@@ -62,4 +62,6 @@ void update_the_data_set_local_global_flags(void *object, void *update_data);
 
 void *initialize_packed_record_defaults(void *record);
 
+s32 town_table_contains_first_byte_b(s32 target_value);
+
 #endif

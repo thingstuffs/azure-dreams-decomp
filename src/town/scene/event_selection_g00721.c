@@ -4,6 +4,7 @@
  */
 #include "town/scene/event_selection_g00721.h"
 #include "town/scene.h"
+#include "town/player/state.h"
 
 /* Return the candidate if check_event_value_in_list succeeds, otherwise use find_first_enabled_entry_id. */
 s32 choose_valid_entry_or_fallback(s32 candidate) {
@@ -33,8 +34,8 @@ s32 handle_event_or_fallback(s32 fallback_first, s32 fallback_second) {
 
     second_or_base = fallback_second;
     indexed_values = D_80019164;
-    if (func_8001E670(F_end_ending_step0) != 0) {
-        if (func_8001E670(F_sbs01_pad19) == 0) {
+    if (get_script_flag_mask(F_end_ending_step0) != 0) {
+        if (get_script_flag_mask(F_sbs01_pad19) == 0) {
             town_event_state->dispatchState = 1;
         } else {
             town_event_state->dispatchState = 2;

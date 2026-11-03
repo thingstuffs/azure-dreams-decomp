@@ -23,10 +23,10 @@
 extern void select_sprite_entry(void *, s32, s32);
 extern s32 find_active_rect_containing_point(s32, s32);
 extern void update_actor_status_and_mp(ActorRecord *entity);
-extern void func_80171CD8(ActorRecord *action, ObjectPosition *action_id, SpriteFrameState *entity, ActorRecord *move_state);
-extern s32 func_801726D0(ActorRecord *action_state, ObjectPosition *motion_param, SpriteFrameState *sprite_arg, ActorRecord *actor);
-extern void func_80172894(ActorRecord *action_state, ObjectPosition *action_context, void *sprite, ActorRecord *actor);
-extern s32 func_801729AC(void *, void *, void *, s32);
+extern void advance_stored_path_motion(ActorRecord *action, ObjectPosition *action_id, SpriteFrameState *entity, ActorRecord *move_state);
+extern s32 check_actor_transition_and_start_effect(ActorRecord *action_state, ObjectPosition *motion_param, SpriteFrameState *sprite_arg, ActorRecord *actor);
+extern void start_directional_actor_effect(ActorRecord *action_state, ObjectPosition *action_context, void *sprite, ActorRecord *actor);
+extern s32 update_entity_state_from_query(void *, void *, void *, s32);
 extern void func_80174598(void *, void *, void *, void *);
 void start_directional_action_and_record_tile(ActorRecord *action_state, ObjectPosition *action_context, SpriteFrameState *sprite, ActorRecord *actor);
 
@@ -46,7 +46,7 @@ void update_actor_behavior_and_direction(ActorRecord *motion, ObjectPosition *re
 
     if (initial_flags & 0x1000) {
         motion->action_id.u = 0xE;
-        func_80171CD8(motion, render_ctx, map_entity, actor);
+        advance_stored_path_motion(motion, render_ctx, map_entity, actor);
         return;
     }
 
@@ -146,7 +146,7 @@ void update_actor_behavior_and_direction(ActorRecord *motion, ObjectPosition *re
                         }
                     }
                 }
-                if ((func_801729AC(motion, render_ctx, map_entity, 0) << 16) == 0) {
+                if ((update_entity_state_from_query(motion, render_ctx, map_entity, 0) << 16) == 0) {
                     return;
                 }
                 action_state = actor->action_flags | 0x4000;
@@ -157,10 +157,10 @@ void update_actor_behavior_and_direction(ActorRecord *motion, ObjectPosition *re
                 action_state = actor->action_flags & ACTOR_ACTION_CODE_MASK;
                 switch (action_state) {
                 case 8:
-                    if ((func_801726D0(motion, render_ctx, map_entity, actor) << 16) != 0) {
+                    if ((check_actor_transition_and_start_effect(motion, render_ctx, map_entity, actor) << 16) != 0) {
                         return;
                     }
-                    func_80172894(motion, render_ctx, map_entity, actor);
+                    start_directional_actor_effect(motion, render_ctx, map_entity, actor);
                     return;
 
                 case 9:

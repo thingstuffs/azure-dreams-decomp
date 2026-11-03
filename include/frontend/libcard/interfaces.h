@@ -1,5 +1,6 @@
 #ifndef FRONTEND_LIBCARD_INTERFACES_H
 #define FRONTEND_LIBCARD_INTERFACES_H
+#include "shared/object_node.h"
 struct CardMessageDialogBody;
 
 #include "common.h"
@@ -13,7 +14,7 @@ void card_boot_bind_command_panel_resources(CardCommandPanelBody *panel);
 void card_boot_bind_save_heading_display_data(void *record);
 s32 card_boot_build_eight_entry_presence_mask(void);
 void card_boot_close_events_and_resume_timer(void);
-void *card_boot_create_save_slot_menu(void *init_value, s32 state_value);
+void *card_boot_create_save_slot_menu(ObjectNodeHeader *init_value, s32 state_value);
 void card_boot_handle_overwrite_answer(struct Object_800128C8 *object_data);
 void card_boot_initialize_paired_choice_layout(void *record_addr);
 void card_boot_initialize_three_row_command_panel(void *record, void *init_value);

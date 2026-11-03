@@ -33,8 +33,8 @@ extern s32 get_entity_effect_value(ActorRecord *entry, s32 effect_id);
 extern s32 find_active_rect_containing_point(s32 point_x, s32 point_y);
 extern s32 generate_random_value(void);
 extern void update_actor_status_and_mp(ActorRecord *entity);
-extern s32 func_801716B4();
-extern s32 func_801718F8();
+extern s32 advance_stored_path_motion();
+extern s32 update_actor_movement_and_tile_position();
 extern s32 func_801727D8(); /* Slot contract: loading images do not establish one callee contract. */
 extern s32 func_80174698();
 
@@ -55,7 +55,7 @@ void update_dungeon_actor_actions(GolemActionWork *actor, ObjectPosition *contex
 
     if ((actor->mode == 0) && (g_dungeon_status.flags & 0x1000)) {
         actor->state = 14;
-        func_801716B4(actor, context, sprite, stats);
+        advance_stored_path_motion(actor, context, sprite, stats);
         return;
     }
 
@@ -150,7 +150,7 @@ void update_dungeon_actor_actions(GolemActionWork *actor, ObjectPosition *contex
         if ((*(u16 *)&sprite->tile_x == reference_tile_object.tile_position.word) &&
             (actor->mode == 0)) {
             consume_pending_flag(actor, stats);
-            func_801718F8(actor, context, sprite, stats);
+            update_actor_movement_and_tile_position(actor, context, sprite, stats);
             return;
         }
 
@@ -168,7 +168,7 @@ void update_dungeon_actor_actions(GolemActionWork *actor, ObjectPosition *contex
             }
             stats->action_flags |= 0x4000;
             if (!(stats->action_flags & 0x8000)) {
-                func_801718F8(actor, context, sprite, stats);
+                update_actor_movement_and_tile_position(actor, context, sprite, stats);
                 if (actor->mode != 0) {
                     consume_pending_flag(actor, stats);
                 }
@@ -190,7 +190,7 @@ void update_dungeon_actor_actions(GolemActionWork *actor, ObjectPosition *contex
             return;
 
         case 10:
-            func_801718F8(actor, context, sprite, stats);
+            update_actor_movement_and_tile_position(actor, context, sprite, stats);
             consume_pending_flag(actor, stats);
             return;
 
@@ -244,7 +244,7 @@ void update_dungeon_actor_actions(GolemActionWork *actor, ObjectPosition *contex
             return;
 
         default:
-            func_801718F8(actor, context, sprite, stats);
+            update_actor_movement_and_tile_position(actor, context, sprite, stats);
             if (actor->mode != 0) {
                 consume_pending_flag(actor, stats);
             }

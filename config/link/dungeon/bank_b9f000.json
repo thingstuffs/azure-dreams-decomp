@@ -22,7 +22,13 @@
       "home": "dungeon/func_80B6D65C",
       "foff": "0xB9F65C",
       "vma": "0x8015EE5C",
-      "size": 1400
+      "size": 1400,
+      "bindings": {
+        "0x8017139C": "0x8015F3D4",
+        "0x80171DA0": "0x8015FDD8",
+        "0x80171F64": "0x8015FF9C",
+        "0x80172628": "0x801600B4"
+      }
     },
     {
       "row": "dungeon/func_80B7FBD4",

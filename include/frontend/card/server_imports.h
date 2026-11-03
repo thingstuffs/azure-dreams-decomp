@@ -41,7 +41,9 @@ void func_8003830C(s32, void *);
 void *func_8003C480(s32);
 void *func_8003C714(s32, void *, s32);
 void func_8003D548(s32);
+#ifndef AZ_FOREIGN_LOCAL_FUNC_8003FA78
 void func_8003FA78(void *, s32);
+#endif
 void func_8003FD58(s32, s32, s32, s32);
 void func_80040560(void *, void *);
 s32 func_80047358(s32, void *, s32);

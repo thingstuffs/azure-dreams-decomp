@@ -98,7 +98,10 @@
       "vma": "0x80159E20",
       "size": 1380,
       "bindings": {
-        "0x800D36D0": "0x800D36D0"
+        "0x800D36D0": "0x800D36D0",
+        "0x80171DA0": "0x8015AD74",
+        "0x80171F64": "0x8015AF38",
+        "0x80172628": "0x8015B050"
       },
       "evidence": "; LL3a preserves prior rule-3 binding"
     },

@@ -9,7 +9,7 @@ extern char D_8001D7A5[];
 extern char D_800227FB[];
 
 
-extern s32 func_8001A64C(u32);
+extern s32 get_script_flag_mask(u32);
 
 /*
  * Selects dialogue for IDs 18/19 and milestone awards for IDs 52 through 54; ID 12 chooses between
@@ -25,7 +25,7 @@ char *select_string_state_dependent_choice(s32 unused_0, s32 unused_1, s32 text_
     case 6:
         return D_800227FB;
     case 0:
-        if (func_8001A64C(F_sbs32_pad32) != 0) {
+        if (get_script_flag_mask(F_sbs32_pad32) != 0) {
             return D_8001D6B5;
         }
         return D_8001D7A5;

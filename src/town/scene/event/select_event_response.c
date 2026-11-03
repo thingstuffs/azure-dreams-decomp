@@ -6,7 +6,7 @@
 #include "town/scene/motion.h"
 
 extern s32 resolve_entry_flag(void *, s32, s32);
-extern s32 query_referenced_flag_for_table_entry(void *, s32, s32);
+extern s32 query_referenced_flag_for_table_entry(void *, s32, s32); /* Unprototyped: uses the value as a pointer where the definition has an integer (or the reverse) */
 
 extern u8 D_80018A0C[16];
 extern u8 scene_event_lookup_context[16];

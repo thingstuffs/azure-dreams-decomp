@@ -23,10 +23,10 @@
 extern void select_sprite_entry(void *, s32, s32);
 extern s8 find_active_rect_containing_point(s32, s32);
 extern void update_actor_status_and_mp(ActorRecord *entity);
-extern void func_80171684(void *controller, ObjectPosition *context, void *entity, void *path_state);
-extern s32 func_80172088(ActorRecord *action_state, ObjectPosition *motion_param, SpriteFrameState *sprite_arg, ActorRecord *actor);
-extern void func_8017224C(ActorRecord *action_state, ObjectPosition *action_context, void *sprite, ActorRecord *actor);
-extern s32 advance_actor_states(void *, void *, void *, s32);
+extern void advance_stored_entity_path(void *controller, ObjectPosition *context, void *entity, void *path_state);
+extern s32 check_actor_transition_and_start_effect(ActorRecord *action_state, ObjectPosition *motion_param, SpriteFrameState *sprite_arg, ActorRecord *actor);
+extern void start_directional_actor_effect(ActorRecord *action_state, ObjectPosition *action_context, void *sprite, ActorRecord *actor);
+extern s32 update_entity_state_from_query(void *, void *, void *, s32);
 extern void func_80174060(void *, void *, void *, void *);
 extern void start_the_actor_s_attack_step_clear_hex_71_busy_bit_latch(ActorRecord *, ObjectPosition *, void *, void *);
 extern void clear_the_state_flag_allowed_resets_entity_selects_directional(ActorRecord *, ObjectPosition *, void *, ActorRecord *);
@@ -50,7 +50,7 @@ void update_dungeon_actor_behavior_facing_animation_state(ActorRecord *actor, Ob
 
     if (initial_flags & 0x1000) {
         actor->action_id.u = 0xE;
-        func_80171684(actor, context, sprite, entity);
+        advance_stored_entity_path(actor, context, sprite, entity);
         return;
     }
 
@@ -146,7 +146,7 @@ void update_dungeon_actor_behavior_facing_animation_state(ActorRecord *actor, Ob
                     }
                 }
             }
-            if ((advance_actor_states(actor, context, sprite, 0) << 16) == 0) {
+            if ((update_entity_state_from_query(actor, context, sprite, 0) << 16) == 0) {
                 return;
             }
             action_state = entity->action_flags | 0x4000;
@@ -160,8 +160,8 @@ void update_dungeon_actor_behavior_facing_animation_state(ActorRecord *actor, Ob
         action_state = entity->action_flags & ACTOR_ACTION_CODE_MASK;
         switch (action_state) {
         case 8:
-            if ((func_80172088(actor, context, sprite, entity) << 16) == 0) {
-                func_8017224C(actor, context, sprite, entity);
+            if ((check_actor_transition_and_start_effect(actor, context, sprite, entity) << 16) == 0) {
+                start_directional_actor_effect(actor, context, sprite, entity);
             }
             return;
 

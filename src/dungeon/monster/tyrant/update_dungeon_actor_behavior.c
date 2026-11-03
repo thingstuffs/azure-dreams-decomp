@@ -21,11 +21,11 @@
 extern void select_sprite_entry(void *, s32, s32);
 extern s32 find_active_rect_containing_point(s32, s32);
 extern void update_actor_status_and_mp(ActorRecord *entity);
-extern void func_80171510(void *controller, ObjectPosition *context, void *entity, void *path_state);
+extern void advance_stored_entity_path(void *controller, ObjectPosition *context, void *entity, void *path_state);
 void update_actor_movement_choosing_direction_recording_path(ActorRecord *move_work, ObjectPosition *entry_context, SpriteFrameState *position, ActorRecord *actor);
 s32 check_action_eligibility_updates_actor_state_directional_animation_success(ActorRecord *action_state, ObjectPosition *action_id, SpriteFrameState *sprite, ActorRecord *actor);
-extern void func_80172110(ActorRecord *action_state, ObjectPosition *action_context, void *sprite, ActorRecord *actor);
-extern s32 func_80172228(void *, void *, void *, s32);
+extern void start_directional_actor_effect(ActorRecord *action_state, ObjectPosition *action_context, void *sprite, ActorRecord *actor);
+extern s32 update_entity_state_from_query(void *, void *, void *, s32);
 extern void func_80173900(void *, void *, void *, void *);
 extern void handle_kill_actor_clear_flags_fire_burst_tile_post_death_message(void *, ObjectPosition *, SpriteFrameState *, ActorRecord *);
 
@@ -46,7 +46,7 @@ void update_dungeon_actor_behavior(ActorRecord *actor_arg, ObjectPosition *conte
 
     if (initial_flags & 0x1000) {
         actor_arg->action_id.u = 0xE;
-        func_80171510(actor_arg, context_arg, map_object_arg, actor_state_arg);
+        advance_stored_entity_path(actor_arg, context_arg, map_object_arg, actor_state_arg);
         return;
     }
 
@@ -147,7 +147,7 @@ void update_dungeon_actor_behavior(ActorRecord *actor_arg, ObjectPosition *conte
                     }
                 }
             }
-            if ((s16)func_80172228(actor_arg, context_arg, map_object_arg, 0) == 0) {
+            if ((s16)update_entity_state_from_query(actor_arg, context_arg, map_object_arg, 0) == 0) {
                 return;
             }
             actor_state_arg->action_flags |= 0x4000;
@@ -160,7 +160,7 @@ void update_dungeon_actor_behavior(ActorRecord *actor_arg, ObjectPosition *conte
         switch (actor_state_arg->action_flags & 0x3FFF) {
         case 8:
             if ((s16)check_action_eligibility_updates_actor_state_directional_animation_success(actor_arg, context_arg, map_object_arg, actor_state_arg) == 0) {
-                func_80172110(actor_arg, context_arg, map_object_arg, actor_state_arg);
+                start_directional_actor_effect(actor_arg, context_arg, map_object_arg, actor_state_arg);
                 return;
             }
             return;

@@ -19,11 +19,11 @@ extern void update_actor_status_and_mp(ActorRecord *entity);
 extern s32 begin_ready_actor_directional_action(ActorRecord *body, ObjectPosition *position, SpriteFrameState *sprite, u8 *direction_frames);
 extern void begin_actor_move_to_target_facing(ActorRecord *body, ObjectPosition *position, SpriteFrameState *sprite, ActorRecord *actor);
 
-extern void func_80171388(void *, void *, void *, void *);
-extern void func_801715CC(void *, void *, void *, void *);
+extern void advance_stored_path_motion(void *, void *, void *, void *);
+extern void choose_block_move_slot_a(void *, void *, void *, void *);
 
 void update_action_and_directional_frame(ActorRecord *action_state, ObjectPosition *update_arg, SpriteFrameState *sprite, ActorRecord *actor);
-extern s32 func_801720E0(void *, void *, void *, s32);
+extern s32 update_entity_state_from_query(void *, void *, void *, s32);
 extern void func_80173478(void *, void *, void *, void *);
 
 extern u8 dreamin_action_continuation_address[];
@@ -57,7 +57,7 @@ void dispatch_actor_behavior_and_facing(ActorRecord *actor, ObjectPosition *cont
     dungeon_status = (u16 *)&g_dungeon_status.turn_scale;
     if (dungeon_status[1] & 0x1000) {
         actor->action_id.u = 14;
-        func_80171388(actor, context, sprite, state);
+        advance_stored_path_motion(actor, context, sprite, state);
         return;
     }
 
@@ -115,7 +115,7 @@ void dispatch_actor_behavior_and_facing(ActorRecord *actor, ObjectPosition *cont
             }
 
             if (*(u16 *)&sprite->tile_x == reference_tile_object.tile_position.word) {
-                func_801715CC(actor, context, sprite, state);
+                choose_block_move_slot_a(actor, context, sprite, state);
                 return;
             }
 
@@ -135,12 +135,12 @@ void dispatch_actor_behavior_and_facing(ActorRecord *actor, ObjectPosition *cont
                     }
                 }
 
-                if ((s16)func_801720E0(actor, context, sprite, 0) == 0) {
+                if ((s16)update_entity_state_from_query(actor, context, sprite, 0) == 0) {
                     return;
                 }
                 state->action_flags |= 0x4000;
                 if ((state->action_flags & ACTOR_ACTION_PENDING) == 0) {
-                    func_801715CC(actor, context, sprite, state);
+                    choose_block_move_slot_a(actor, context, sprite, state);
                     return;
                 }
             }
@@ -188,7 +188,7 @@ void dispatch_actor_behavior_and_facing(ActorRecord *actor, ObjectPosition *cont
             case 10:
             case 11:
             default:
-                func_801715CC(actor, context, sprite, state);
+                choose_block_move_slot_a(actor, context, sprite, state);
                 return;
             }
         }

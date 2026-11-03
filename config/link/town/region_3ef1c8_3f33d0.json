@@ -29,7 +29,9 @@
         "0x8001B1F8": "0x8001B1F8",
         "0x80019ABC": "0x80019ABC",
         "0x80019A04": "0x80019A04",
-        "0x8001628C": "0x8001628C"
+        "0x8001628C": "0x8001628C",
+        "0x80019D44": "0x80019A04",
+        "0x80019DFC": "0x80019ABC"
       },
       "evidence": "r124w_dupes1: current complete objects and dependent placements re-paired by tools/tu/copy_place.py; scoped retail proof required"
     },
@@ -47,7 +49,9 @@
         "0x8001B1F8": "0x8001B1F8",
         "0x80019ABC": "0x80019ABC",
         "0x80019A04": "0x80019A04",
-        "0x8001628C": "0x8001628C"
+        "0x8001628C": "0x8001628C",
+        "0x80019D44": "0x80019A04",
+        "0x80019DFC": "0x80019ABC"
       },
       "evidence": "r124w_dupes1: current complete objects and dependent placements re-paired by tools/tu/copy_place.py; scoped retail proof required"
     },
@@ -65,7 +69,9 @@
         "0x8001B1F8": "0x8001B1FC",
         "0x80019ABC": "0x80019ABC",
         "0x80019A04": "0x80019A04",
-        "0x8001628C": "0x8001628C"
+        "0x8001628C": "0x8001628C",
+        "0x80019D44": "0x80019A04",
+        "0x80019DFC": "0x80019ABC"
       },
       "evidence": "r124w_dupes1: current complete objects and dependent placements re-paired by tools/tu/copy_place.py; scoped retail proof required"
     },
@@ -83,7 +89,9 @@
         "0x8001B1F8": "0x8001B1FC",
         "0x80019ABC": "0x80019ABC",
         "0x80019A04": "0x80019A04",
-        "0x8001628C": "0x8001628C"
+        "0x8001628C": "0x8001628C",
+        "0x80019D44": "0x80019A04",
+        "0x80019DFC": "0x80019ABC"
       },
       "evidence": "r124w_dupes1: current complete objects and dependent placements re-paired by tools/tu/copy_place.py; scoped retail proof required"
     },
@@ -125,7 +133,9 @@
         "0x8001B1FC": "0x8001B1FC",
         "0x80019ABC": "0x80019ABC",
         "0x80019A04": "0x80019A04",
-        "0x8001F560": "0x8001EDD0"
+        "0x8001F560": "0x8001EDD0",
+        "0x80019D44": "0x80019A04",
+        "0x80019DFC": "0x80019ABC"
       },
       "evidence": "r124w_dupes1: current complete objects and dependent placements re-paired by tools/tu/copy_place.py; scoped retail proof required"
     },
@@ -143,7 +153,9 @@
         "0x8001B1F8": "0x8001B1FC",
         "0x80019ABC": "0x80019ABC",
         "0x80019A04": "0x80019A04",
-        "0x8001628C": "0x8001628C"
+        "0x8001628C": "0x8001628C",
+        "0x80019D44": "0x80019A04",
+        "0x80019DFC": "0x80019ABC"
       },
       "evidence": "r124w_dupes1: current complete objects and dependent placements re-paired by tools/tu/copy_place.py; scoped retail proof required"
     },
@@ -161,7 +173,9 @@
         "0x8001B1F8": "0x8001B1FC",
         "0x80019ABC": "0x80019ABC",
         "0x80019A04": "0x80019A04",
-        "0x8001628C": "0x8001628C"
+        "0x8001628C": "0x8001628C",
+        "0x80019D44": "0x80019A04",
+        "0x80019DFC": "0x80019ABC"
       },
       "evidence": "r124w_dupes1: current complete objects and dependent placements re-paired by tools/tu/copy_place.py; scoped retail proof required"
     },
@@ -174,7 +188,9 @@
       "size": 52,
       "bindings": {
         "0x80019928": "0x80019928",
-        "0x800187AC": "0x800187AC"
+        "0x800187AC": "0x800187AC",
+        "0x80018AEC": "0x800187AC",
+        "0x80019C68": "0x80019928"
       },
       "evidence": "r124w_dupes1: current complete objects and dependent placements re-paired by tools/tu/copy_place.py; scoped retail proof required"
     },
@@ -192,7 +208,9 @@
         "0x8001B1F8": "0x8001B1FC",
         "0x80019ABC": "0x80019ABC",
         "0x80019A04": "0x80019A04",
-        "0x8001628C": "0x8001628C"
+        "0x8001628C": "0x8001628C",
+        "0x80019D44": "0x80019A04",
+        "0x80019DFC": "0x80019ABC"
       },
       "evidence": "r124w_dupes1: current complete objects and dependent placements re-paired by tools/tu/copy_place.py; scoped retail proof required"
     },
@@ -211,7 +229,9 @@
         "0x80019ABC": "0x80019ABC",
         "0x80019880": "0x80019880",
         "0x80019A04": "0x80019A04",
-        "0x8001628C": "0x8001628C"
+        "0x8001628C": "0x8001628C",
+        "0x80019D44": "0x80019A04",
+        "0x80019DFC": "0x80019ABC"
       },
       "evidence": "r124w_dupes1: current complete objects and dependent placements re-paired by tools/tu/copy_place.py; scoped retail proof required"
     },
@@ -229,7 +249,9 @@
         "0x8001B1F8": "0x8001B1FC",
         "0x80019ABC": "0x80019ABC",
         "0x80019A04": "0x80019A04",
-        "0x8001628C": "0x8001628C"
+        "0x8001628C": "0x8001628C",
+        "0x80019D44": "0x80019A04",
+        "0x80019DFC": "0x80019ABC"
       },
       "evidence": "r124w_dupes1: current complete objects and dependent placements re-paired by tools/tu/copy_place.py; scoped retail proof required"
     },
@@ -247,7 +269,9 @@
         "0x8001B1F8": "0x8001B1FC",
         "0x80019ABC": "0x80019ABC",
         "0x80019A04": "0x80019A04",
-        "0x8001628C": "0x8001628C"
+        "0x8001628C": "0x8001628C",
+        "0x80019D44": "0x80019A04",
+        "0x80019DFC": "0x80019ABC"
       },
       "evidence": "r124w_dupes1: current complete objects and dependent placements re-paired by tools/tu/copy_place.py; scoped retail proof required"
     },
@@ -391,7 +415,8 @@
       "vma": "0x80019618",
       "size": 48,
       "bindings": {
-        "0x8001E578": "0x8001A418"
+        "0x8001E578": "0x8001A418",
+        "0x8001ACE8": "0x8001A418"
       },
       "evidence": "r124w_dupes1: current complete objects and dependent placements re-paired by tools/tu/copy_place.py; scoped retail proof required"
     },
@@ -552,7 +577,8 @@
       "bindings": {
         "0x80017C8C": "0x80019B68",
         "0x80019550": "0x8001B328",
-        "0x80018668": "0x8001A510"
+        "0x80018668": "0x8001A510",
+        "0x8001ADE0": "0x8001A510"
       },
       "evidence": "opus_place1: re-homed from relinked copy town/func_804D1484 onto town/func_80481D78; tools/tu/copy_place.py derive (dependent object == home object modulo relocation targets)"
     }

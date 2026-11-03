@@ -3,8 +3,9 @@
 #include "m2c_compat.h"
 #include "town/scene.h"
 #include "town/player/state.h"
+#include "town.h"
+
 extern s32 record_value_table_contains(s32 target_value); /* placed copy of record_value_table_contains */
-s32 town_table_contains_first_byte_b(s32 target_value);                         /* extern */
 extern M2C_UNK scene_first_component_values;
 extern s32 *D_80017B6C;
 

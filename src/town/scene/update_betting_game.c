@@ -3,6 +3,9 @@
 #include "shared/vector.h"
 #include "town/scene.h"
 #include "town/data.h"
+#define AZ_FOREIGN_LOCAL_FUNC_802441A4
+#include "town/devkit/old_minigame_imports.h"
+#undef AZ_FOREIGN_LOCAL_FUNC_802441A4
 
 typedef struct S_func_8080F4A4_1 {
     s32 unk_00;
@@ -102,20 +105,9 @@ typedef struct S_func_8080F4A4_8 {
  * not copy into work/overlay_wave/candidates/ (that directory is
  * globbed by tools/gen_noreturn_syms.py).
  */
-void *func_800374FC(s32, void *);            /* extern */
-void func_8003BC18(void *, void *);           /* extern */
-s32 func_80052374(s32);                             /* extern */
-void func_80058F88(s32);                     /* extern */
 s32 func_8006A3A4(s32);                             /* extern */
 s32 func_8006A470(s32);                             /* extern */
-s32 func_80071494(void);                                /* extern */
-s32 func_80232868(s32, s32, s32);       /* extern */
-void func_80232A08(s32);                         /* extern */
 void func_802441A4();                   /* extern */ /* Unprototyped: this site's argument count or types differ from the foreign program's import prototype */
-void func_80244588();                            /* extern */
-void func_802445FC(s32, ...);    /* extern */
-void func_80244660(void *, ...); /* extern */
-void func_80529438(void *, ...);           /* extern */
 extern u32 scene_value_total[3];
 extern u32 D_80012BC8[4];
 extern u8 score_sprite_draw_callback_address[16];

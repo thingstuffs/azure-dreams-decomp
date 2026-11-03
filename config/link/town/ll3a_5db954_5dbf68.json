@@ -130,7 +130,9 @@
       "bindings": {
         "0x80017FEC": "0x80017FEC",
         "0x800173CC": "0x800173CC",
-        "0x80016250": "0x80016580"
+        "0x80016250": "0x80016580",
+        "0x80019B54": "0x800173CC",
+        "0x8001AF7C": "0x80017FEC"
       },
       "evidence": "LL3a attestation sha256:347abdcbcc059d218e56f7d18c0d995cbb0f96c3ecd34cfa7ab28fd0fabd55fa; current-TU paired HI16/LO16 relocation screen; scoped window gate"
     },
@@ -161,7 +163,9 @@
       "bindings": {
         "0x80017FEC": "0x80017FEC",
         "0x800173CC": "0x800173CC",
-        "0x80016334": "0x80016664"
+        "0x80016334": "0x80016664",
+        "0x80019B54": "0x800173CC",
+        "0x8001AF7C": "0x80017FEC"
       },
       "evidence": "LL3a attestation sha256:1031ac29ef1d41fcda13a5b0b67af4e7d5b99a1ffc14f9dec342fe4dec3c1975; current-TU paired HI16/LO16 relocation screen; scoped window gate"
     },

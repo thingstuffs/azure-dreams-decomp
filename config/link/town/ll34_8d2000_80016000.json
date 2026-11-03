@@ -111,7 +111,8 @@
       "size": 88,
       "bindings": {
         "0x80016036": "0x8001607E",
-        "0x80016C38": "0x80016CF8"
+        "0x80016C38": "0x80016CF8",
+        "0x80016D78": "0x80016CF8"
       },
       "evidence": "r124w_dupes1: current complete objects and dependent placements re-paired by tools/tu/copy_place.py; scoped retail proof required"
     },
@@ -181,7 +182,8 @@
       "size": 108,
       "bindings": {
         "0x800166A4": "0x80016764",
-        "0x8094D708": "0x800167C8"
+        "0x8094D708": "0x800167C8",
+        "0x800167B4": "0x80016764"
       },
       "evidence": "r121w_ll34: fresh current-home native object, all relocation fields evaluated and exact retail bytes; docs/evidence/r121w_ll34/results.tsv"
     },

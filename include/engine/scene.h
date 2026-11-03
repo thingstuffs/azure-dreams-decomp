@@ -18,7 +18,6 @@ struct S_80041E28_Src;
 struct S_800422DC_Other;
 struct S_800422DC_Self;
 struct SpriteAttachment;
-struct S_800510A0;
 struct Task;
 
 /* Callback body for a deferred resource transition task. */

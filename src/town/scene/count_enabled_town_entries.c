@@ -2,7 +2,7 @@
 #include "town/scene.h"
 
 extern u8 town_selection_records[96];
-s32 func_8001E670(s32 flagIndex);
+s32 get_script_flag_mask(s32 flagIndex);
 
 /* Counts entries 1 through 7 whose associated town selection flag is set. */
 s32 count_enabled_town_entries(void) {
@@ -16,7 +16,7 @@ s32 count_enabled_town_entries(void) {
     entryTable = town_selection_records;
     entry = entryTable + 0xC;
     do {
-        if (func_8001E670(*(s16 *)(entry + 4)) != 0) {
+        if (get_script_flag_mask(*(s16 *)(entry + 4)) != 0) {
             matchingEntryCount += 1;
         }
         entryIndex += 1;

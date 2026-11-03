@@ -24,6 +24,17 @@ from contextvars import ContextVar
 CONTAINERS={'dungeon':'DUNGEON_DUNGEON.BIN','town':'TOWN_TOWN.BIN','main':'MAIN_MAIN.BIN','ovmovie':'OVMOVIE.BIN'}
 META={'.reginfo','.MIPS.abiflags'}
 def sha(p): return digest(p)
+def module_object_views(m,obj,genuine,root=ROOT):
+ # A reviewed import can bind a HOME spelling to a different placed address.
+ # Preserve the symbol until resolve_tokens consults the explicit inventory.
+ sys.path.insert(0,str(Path(root)/'tools/fidelity'));import aspsx_diff as A
+ relocated=any((hit:=A.NAME_ADDR.match(d['symbol'])) and int(hit[1],16)!=d['vma'] for d in m['imports'])
+ if relocated:
+  import overlay_module_placements as P
+  return P.placed_views(root,obj,genuine)
+ ma=A.View(A.read_elf(obj));ge=A.View(A.read_lnk(genuine),ref=ma)
+ return A,ma,ge
+
 def hashed(v): return hashlib.sha256(json.dumps(v,sort_keys=True,separators=(',',':')).encode()).hexdigest()
 def local(root,name):
  p=Path(name)
@@ -618,7 +629,7 @@ def build(m,out,root=ROOT,substitutions=None,*,artifact_only=False):
   td=Path(td);shutil.copy2(out/'IN.S',td/'IN.S')
   command([root/'toolchain/genuine/bin/wibo',root/'toolchain/genuine/psyq/psyq4.4/ASPSX.EXE','-q','-G0',*genuine_flags(m,root),'-o','OUT.OBJ','IN.S'],td,dict(env,TMPDIR=str(td),TMP=str(td),TEMP=str(td)),out/'genuine.log')
   shutil.copy2(td/'OUT.OBJ',out/'OUT.OBJ')
- ma=A.View(A.read_elf(obj.read_bytes()));ge=A.View(A.read_lnk((out/'OUT.OBJ').read_bytes()),ref=ma)
+ A,ma,ge=module_object_views(m,obj.read_bytes(),(out/'OUT.OBJ').read_bytes(),root)
  if ma.obj.unknown or ge.obj.unknown:raise ValueError('unknown object record/relocation')
  if set(ma.funcs)!={a['function'] for a in m['members']} or set(ge.funcs)!=set(ma.funcs):raise ValueError('complete function set differs')
  if any(v for k,v in ge.obj.sections.items() if k not in ('.text','.rdata','.rodata')):raise ValueError('unowned genuine allocated section')

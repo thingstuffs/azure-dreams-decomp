@@ -225,7 +225,7 @@ def build(m,out,root,G,substitutions=None,*,artifact_only=False):
   td=Path(td);shutil.copy2(out/'IN.S',td/'IN.S')
   G.command([root/'toolchain/genuine/bin/wibo',root/'toolchain/genuine/psyq/psyq4.4/ASPSX.EXE','-q','-G0',*G.genuine_flags(m,root),'-o','OUT.OBJ','IN.S'],td,dict(env,TMPDIR=str(td),TMP=str(td),TEMP=str(td)),out/'genuine.log')
   shutil.copy2(td/'OUT.OBJ',out/'OUT.OBJ')
- ma=A.View(A.read_elf(cooked));ge=A.View(A.read_lnk((out/'OUT.OBJ').read_bytes()),ref=ma);check_views(m,ma,ge,addresses)
+ A,ma,ge=G.module_object_views(m,cooked,(out/'OUT.OBJ').read_bytes(),root);check_views(m,ma,ge,addresses)
  genuine=bytearray()
  for allocation in sorted(m['allocations'],key=lambda a:a['foff']):
   if allocation['section']!='.text.*':genuine.extend(resolve_storage(m,ge,allocation,addresses,A) if switches(m) or symbolic(m) else ge.obj.sections['.rdata' if allocation['section']=='.rodata' else allocation['section']]);continue
@@ -285,7 +285,7 @@ def receipt_reason(m,r,root,out,G):
   cooked,padding=prepare(m,(out/'module.untrimmed.o').read_bytes(),root)
   if cooked!=(out/'module.o').read_bytes():raise ValueError('padding replay differs')
   sys.path.insert(0,str(root/'tools/fidelity'));import aspsx_diff as A
-  ma=A.View(A.read_elf(cooked));ge=A.View(A.read_lnk((out/'OUT.OBJ').read_bytes()),ref=ma)
+  A,ma,ge=G.module_object_views(m,cooked,(out/'OUT.OBJ').read_bytes(),root)
   addresses={d['symbol']:d['vma'] for d in m['imports']};addresses.update({a['function']:a['vma'] for a in m['members']});check_views(m,ma,ge,addresses)
   if not A.compare_units(ma,ge)['exact']:raise ValueError('genuine object differs')
   if json.loads((out/'rodata_proof.json').read_text())!=proof_record(m,padding,(out/'module.untrimmed.o').read_bytes(),cooked,ma,ge,(out/'IN.S').read_text(),root,out):raise ValueError('storage proof replay differs')

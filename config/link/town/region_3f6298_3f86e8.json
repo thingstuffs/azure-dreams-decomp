@@ -45,7 +45,8 @@
       "bindings": {
         "0x8001791c": "0x80016470",
         "0x8001e670": "0x800198d0",
-        "0x8001D188": "0x800183E8"
+        "0x8001D188": "0x800183E8",
+        "0x8001ADE0": "0x800198D0"
       },
       "evidence": "docs/evidence/r121w_s1_wave2.receipt.json: town/func_804765B0"
     },
@@ -60,7 +61,9 @@
         "0x8001791c": "0x80016470",
         "0x8001e578": "0x800197d8",
         "0x8001e670": "0x800198d0",
-        "0x8001D188": "0x800183E8"
+        "0x8001D188": "0x800183E8",
+        "0x8001ACE8": "0x800197D8",
+        "0x8001ADE0": "0x800198D0"
       },
       "evidence": "docs/evidence/r121w_s1_wave2.receipt.json: town/func_8047664C"
     },
@@ -99,7 +102,8 @@
         "0x8001791c": "0x80016470",
         "0x80017bc0": "0x80016568",
         "0x8001e670": "0x800198d0",
-        "0x8001D188": "0x800183E8"
+        "0x8001D188": "0x800183E8",
+        "0x8001ADE0": "0x800198D0"
       },
       "evidence": "docs/evidence/r121w_s1_wave2.receipt.json: town/func_8047696C"
     },
@@ -285,7 +289,8 @@
         "0x8001902C": "0x80016FA8",
         "0x8001D280": "0x800184E0",
         "0x8001D048": "0x800182A8",
-        "0x8001D188": "0x800183E8"
+        "0x8001D188": "0x800183E8",
+        "0x8001A7B0": "0x80019A44"
       },
       "evidence": "LL3a attestation sha256:649110b10af1a04af36ee934849cf2d1a4f633c9ef4cff95f283066773413269; current-TU paired HI16/LO16 relocation screen; scoped window gate"
     },
@@ -326,7 +331,8 @@
       "vma": "0x80018b24",
       "size": 48,
       "bindings": {
-        "0x8001E578": "0x800197D8"
+        "0x8001E578": "0x800197D8",
+        "0x8001ACE8": "0x800197D8"
       },
       "evidence": "r124w_dupes1: current complete objects and dependent placements re-paired by tools/tu/copy_place.py; scoped retail proof required"
     },
@@ -500,7 +506,8 @@
       "bindings": {
         "0x80017C8C": "0x80019074",
         "0x80019550": "0x80019BC4",
-        "0x80018668": "0x800198D0"
+        "0x80018668": "0x800198D0",
+        "0x8001ADE0": "0x800198D0"
       },
       "evidence": "opus_place1: re-homed from relinked copy town/func_804D1484 onto town/func_80481D78; tools/tu/copy_place.py derive (dependent object == home object modulo relocation targets)"
     }

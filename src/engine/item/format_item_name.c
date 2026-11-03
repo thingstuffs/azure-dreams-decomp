@@ -7,15 +7,6 @@
 
 typedef struct
 {
-    u8 unk0;
-    u8 unk1;
-    s8 unk2;
-    u8 unk3;
-}
-S_8004951C_Item;
-
-typedef struct
-{
     u8 pad[0x28];
     u8 unk28;
 }
@@ -32,7 +23,7 @@ extern S_80082E6A runtime_dispatch_mode_alias;
 extern s32 get_scaled_byte_value(void *);
 
 /* Formats and displays item modifiers and status markers. */
-s32 format_item_name(s32 text_target, S_8004951C_Item *item)
+s32 format_item_name(s32 text_target, DungeonItemEntry *item)
 {
     u8 text[0x20];
     s32 category;
@@ -45,14 +36,14 @@ s32 format_item_name(s32 text_target, S_8004951C_Item *item)
         return 0;
     }
 
-    category = item->unk1;
+    category = item->kind;
     kind = itemCategoryTable[category].name_format;
     if (kind >= 4) {
         return 0;
     }
 
     if (kind == 3) {
-        s32 subtype = item->unk3 & 0x1F;
+        s32 subtype = item->unk_03 & 0x1F;
         if ((subtype < 0x14) && (runtime_dispatch_mode_alias.unk0 != 1)) {
             S_800492B0_Ret *entry = resolve_indexed_value(subtype);
             if (entry->unk28 == 0) {
@@ -61,9 +52,9 @@ s32 format_item_name(s32 text_target, S_8004951C_Item *item)
         }
     }
     else {
-        if (item->unk1 == ITEM_KIND_EGG) {
+        if (item->kind == ITEM_KIND_EGG) {
             if (runtime_dispatch_mode_alias.unk0 != 1) {
-                func_8004E5A0(0x64 - item->unk2, 3, &text[9]);
+                func_8004E5A0(0x64 - item->unk_02, 3, &text[9]);
                 remap_flagged_string_bytes(&text[9]);
                 text[0xC] = 0xA;
                 text[0xD] = 9;
@@ -71,11 +62,11 @@ s32 format_item_name(s32 text_target, S_8004951C_Item *item)
                 text[0x12] = 0x25;
             }
         }
-        else if (item->unk1 == ITEM_KIND_BALL) {
-            func_8004E5A0(item->unk2, 2, &text[0xB]);
+        else if (item->kind == ITEM_KIND_BALL) {
+            func_8004E5A0(item->unk_02, 2, &text[0xB]);
             remap_flagged_string_bytes(&text[0xB]);
         }
-        else if (item->unk1 == ITEM_KIND_COIN) {
+        else if (item->kind == ITEM_KIND_COIN) {
             func_8004E5A0(get_scaled_byte_value(item), 5, &text[6]);
             remap_flagged_string_bytes(&text[6]);
             text[0xB] = 0xA;
@@ -84,20 +75,20 @@ s32 format_item_name(s32 text_target, S_8004951C_Item *item)
             text[0x10] = 0x47;
         }
         else if (kind == 1) {
-            s8 modifier = item->unk2;
+            s8 modifier = item->unk_02;
             if (modifier != 0) {
                 text[0xA] = (modifier > 0) ? (0x6B) : (0x6C);
-                func_8004E5A0((item->unk2 >= 0) ? (item->unk2) : (-item->unk2), 2, &text[0xB]);
+                func_8004E5A0((item->unk_02 >= 0) ? (item->unk_02) : (-item->unk_02), 2, &text[0xB]);
                 remap_flagged_string_bytes(&text[0xB]);
             }
         }
 
         if (kind == 1) {
-            if (item->unk3 & 0x40) {
+            if (item->unk_03 & 0x40) {
                 text[0xD] = 0xA;
                 text[0xE] = 0x7A;
             }
-            if (item->unk3 & 0x20) {
+            if (item->unk_03 & 0x20) {
                 text[0] = 0x79;
             }
         }

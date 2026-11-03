@@ -161,7 +161,8 @@
       "size": 36,
       "bindings": {
         "0x80017200": "0x80016B28",
-        "0x80017244": "0x80016B6C"
+        "0x80017244": "0x80016B6C",
+        "0x8001932C": "0x80016B28"
       },
       "evidence": "r121w_ll34: fresh current-home native object, all relocation fields evaluated and exact retail bytes; docs/evidence/r121w_ll34/results.tsv"
     },

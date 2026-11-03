@@ -1,6 +1,7 @@
 /* Installs shared scene state, updates scene flags, and reads the scene's clamped state value. */
 #include "script_symbols.h"
 #include "town/scene/hooks/invoke_callback_and_set_shared_pointer.h"
+#include "town/player/state.h"
 
 
 /* Installs shared buffers, clamps field +0x35BC to at least 20, and updates two scene flags. */
@@ -16,8 +17,8 @@ void invoke_callback_and_set_shared_pointer(void) {
     if (field_value < 20) {
         *(s16 *)((u8 *)field_base + 0x35BC) = 20;
     }
-    func_80017350(F_sbs09_pad05);
-    func_80017350(F_sbs09_pad06);
+    clear_script_flag_bit(F_sbs09_pad05);
+    clear_script_flag_bit(F_sbs09_pad06);
 }
 
 /* MECHANISM: The retail frame is 24 bytes with only ra saved.

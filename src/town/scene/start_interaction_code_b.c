@@ -12,9 +12,9 @@ typedef struct TownContext {
     TownEntry *entries;
 } TownContext;
 
-s32 func_800175B0(void);
+s32 count_enabled_town_entries(void);
 s32 copy_indexed_entry_value(s32);
-s32 record_value_table_contains_first_byte_d(void);
+s32 find_first_enabled_paired_entry(void);
 s32 select_next_eligible_wrapped_entry(void);
 extern s32 scene_update_state;
 extern s32 scene_choice_index;
@@ -25,11 +25,11 @@ s32 start_interaction_on_code_0x479(TownContext *context, s32 entry_index) {
     s32 entry_value;
 
     scene_update_state = 2;
-    if (func_800175B0() == 0) {
+    if (count_enabled_town_entries() == 0) {
         return 1;
     }
 
-    selected_value = record_value_table_contains_first_byte_d();
+    selected_value = find_first_enabled_paired_entry();
     if (selected_value == 0) {
         selected_value = select_next_eligible_wrapped_entry();
     }

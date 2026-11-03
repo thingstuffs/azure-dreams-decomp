@@ -13,7 +13,7 @@ extern s32 D_80017530;
 extern s32 D_8001753C;
 extern s32 D_80017598;
 extern s32 D_800175A4;
-extern s32 func_800198D0(s32 flagIndex);
+extern s32 get_script_flag_mask(s32 flagIndex);
 
 /* Selects a data pointer based on queried conditions and the current state index. */
 void select_data_pointer_by_conditions(void **out_data) {
@@ -24,11 +24,11 @@ void select_data_pointer_by_conditions(void **out_data) {
 
     condition_table = (TownValues *)(D_80010000 + 0x7134);
     condition_ids = *condition_table;
-    if (func_800198D0(F_veld_kill) != 0) {
+    if (get_script_flag_mask(F_veld_kill) != 0) {
         selected_data = &D_80017530;
-    } else if (func_800198D0(sn_open_sekkyo_end) != 0) {
+    } else if (get_script_flag_mask(sn_open_sekkyo_end) != 0) {
         state_index = town_scene_root->entry_index;
-        if (func_800198D0(condition_ids.values[state_index]) == 0) {
+        if (get_script_flag_mask(condition_ids.values[state_index]) == 0) {
             selected_data = &D_80017598;
         } else {
             selected_data = &D_800175A4;

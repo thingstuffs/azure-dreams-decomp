@@ -17,14 +17,20 @@
 void func_80000858(s32, s32);
 void func_80000BC8(s32);
 void func_80000C18(s32);
+#ifndef AZ_FOREIGN_LOCAL_FUNC_80000C6C
 s32 func_80000C6C(u16);
+#endif
 void func_80000DC8(void);
 void func_807001B4(s32);
+#ifndef AZ_FOREIGN_LOCAL_FUNC_80700244
 void func_80700244(s32);
+#endif
 s32 func_80700304(s32, s32, s32, s32);
 s32 func_8070042C(void);
 void func_80700488(void);
+#ifndef AZ_FOREIGN_LOCAL_FUNC_80700590
 s32 func_80700590(s32, u8 *);
+#endif
 void func_80700674(void);
 s32 func_807006AC(s32);
 void func_807006FC(u16);
@@ -40,18 +46,24 @@ s32 func_80700A78(void);
 void func_80700BC4(s32);
 void func_80700BCC(void);
 void func_80700C08(s32);
+#ifndef AZ_FOREIGN_LOCAL_FUNC_80700C54
 void func_80700C54(s32);
+#endif
 s32 func_80700C9C(s32);
 void func_80700D58(s32, s32);
 s32 func_80700D74(s32);
+#ifndef AZ_FOREIGN_LOCAL_FUNC_80700D84
 s32 func_80700D84(s32, s32, s32, s32);
+#endif
 s32 func_80700DC0(s16);
 s32 func_80700E3C(void);
 void func_80700E98(void);
 void func_80700EB4(void);
 void func_80700ED8(s32, s32);
 s32 func_80700F98(s32);
+#ifndef AZ_FOREIGN_LOCAL_FUNC_80701060
 s32 func_80701060(s32 *, s32);
+#endif
 s32 func_8070114C(void);
 void func_80701298(s32, s32);
 s32 func_80701404(void);

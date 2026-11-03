@@ -22,7 +22,7 @@ extern Node8002BB08 D_8002BB08;
 
 
 /* Create or reset the shared node and initialize its request and mode. */
-Node8002BB08 *init_card_boot_request_object(void *request, s32 mode) {
+Node8002BB08 *init_card_boot_request_object(ObjectNodeHeader *request, s32 mode) {
     Node8002BB08 *node = &D_8002BB08;
     void *node_data = (u8 *)node + 0x20;
 

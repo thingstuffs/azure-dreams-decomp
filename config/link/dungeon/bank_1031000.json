@@ -55,7 +55,13 @@
       "foff": "0x1031858",
       "vma": "0x80165058",
       "size": 1432,
-      "evidence": "opus_place1: re-homed from relinked copy dungeon/func_81017858 onto dungeon/func_81005858; tools/tu/copy_place.py derive (dependent object == home object modulo relocation targets)"
+      "evidence": "opus_place1: re-homed from relinked copy dungeon/func_81017858 onto dungeon/func_81005858; tools/tu/copy_place.py derive (dependent object == home object modulo relocation targets)",
+      "bindings": {
+        "0x8017139C": "0x801655F0",
+        "0x80171DA0": "0x80165FF4",
+        "0x80172428": "0x801661B8",
+        "0x80172628": "0x80166414"
+      }
     },
     {
       "row": "dungeon/func_81011DF0",

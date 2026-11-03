@@ -139,7 +139,12 @@
         "0x800DEA68": "0x800DEA68",
         "0x8003DB94": "0x8003DB94",
         "0x8016D2C0": "0x8016D2C0",
-        "0x8014D810": "0x8014D810"
+        "0x8014D810": "0x80159E80",
+        "0x80171570": "0x80159C3C",
+        "0x80171DA0": "0x8015A63C",
+        "0x80171F64": "0x8015A800",
+        "0x80172628": "0x8015A918",
+        "0x80174928": "0x8015D6E0"
       },
       "evidence": "LL3a attestation sha256:20cc9c53cd4dbe85c7576cf16cee9ef9c4befa2f480c80bc5c35bf7923091409; current-TU paired HI16/LO16 relocation screen; scoped window gate"
     },

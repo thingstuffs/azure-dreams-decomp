@@ -2,13 +2,6 @@
 #include "engine/menu.h"
 #include "shared/dungeon_item_entries.h"
 
-typedef struct S_8004A4E4 {
-    u8 pad0;
-    u8 pad1;
-    s8 field_2;
-    u8 field_3;
-} S_8004A4E4;
-
 /* Applies a signed correction and optional fivefold multiplier to the base value, with a minimum of one. */
 s32 apply_scaled_byte_modifier_clamp_one(s32 base_value, DungeonItemEntry *modifier) {
     s32 result = base_value + ((u32)base_value / 10) * modifier->unk_02;

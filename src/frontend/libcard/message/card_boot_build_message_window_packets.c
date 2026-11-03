@@ -2,25 +2,16 @@
 #include "frontend/libcard.h"
 #include "frontend/libcard/message.h"
 #include "main/data.h"
-
+#include "frontend/libcard/message_dialog.h"
 
 typedef struct Bytes4 { u8 bytes[4]; } Bytes4;
 typedef struct Bytes24 { u8 bytes[24]; } Bytes24;
 extern u8 D_800200A0[];
 
-
-typedef struct S_80022774_0 {
-    u8 pad_00[0x8];
-    s32 unk_08;
-    u8 pad_0C[0xC];
-    s32 unk_18;
-    s32 unk_1C;
-} S_80022774_0;   /* arg1 in card_boot_build_message_window_packets */
-
 /* Builds four groups of display records and stores the padded layout dimensions. */
 void *card_boot_build_message_window_packets(void *buffer, void *layout_arg)
 {
-    S_80022774_0 *layout = layout_arg;
+    CardMessageDialogBody *layout = layout_arg;
     Bytes4 record_flags;
     s32 group_index;
     u32 row_count;
@@ -44,14 +35,14 @@ void *card_boot_build_message_window_packets(void *buffer, void *layout_arg)
     record_tag = 0x48;
     texture_data = 0x104058;
     table_base = card_menu_entry_values;
-    entry_index = layout->unk_08;
+    entry_index = layout->entry_index;
     entry = table_base + entry_index;
     row_count = entry->line_count;
     width = entry->max_chars * 4;
     height = row_count * 0x11 + row_count - row_count;
     outer_width = width + 10;
-    layout->unk_18 = width + 8;
-    layout->unk_1C = height + 8;
+    layout->width = width + 8;
+    layout->height = height + 8;
     dimensions = record;
     dimensions += height;
     dimensions -= height;

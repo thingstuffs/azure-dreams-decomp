@@ -20,7 +20,7 @@ typedef struct S_8001670C_1 {
    /* pair in process_flag_test_record */
 
 
-extern s32 attach_global_data_and_invoke_callback(u32, s32);
+extern s32 find_entry_8_index_or_assert_rev_b(u32, s32);
 
 /* Processes the selected record's pair and optional context action, then returns the record's value. */
 s32 process_flag_test_record(u32 records, s32 condition_arg, u32 context, s32 record_selector)
@@ -28,7 +28,7 @@ s32 process_flag_test_record(u32 records, s32 condition_arg, u32 context, s32 re
     s32 record_index;
     u32 pair;
 
-    record_index = attach_global_data_and_invoke_callback(records, record_selector);
+    record_index = find_entry_8_index_or_assert_rev_b(records, record_selector);
     pair = (((S_8001670C_0 *)(record_index * 8 + records))->unk_02 * 4)
     + ((S_8001670C_1 *)context)->unk_14;
     update_flag_test_target(((FlagTestTargetPair16 *)pair)->unk_00, ((FlagTestTargetPair16 *)pair)->unk_02);

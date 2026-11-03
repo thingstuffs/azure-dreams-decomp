@@ -7,7 +7,7 @@ typedef struct {
     u8 pad[6];
 } Entry;
 
-extern s32 func_800198D0(u32);
+extern s32 get_script_flag_mask(u32);
 extern u8 *D_80019BBC[];
 extern Entry town_indexed_values[];
 
@@ -31,7 +31,7 @@ s32 select_next_eligible_wrapped_entry(void)
                 order_cursor = order;
                 order_index = 0;
             }
-            if (func_800198D0(entries[*order_cursor].value) != 0) {
+            if (get_script_flag_mask(entries[*order_cursor].value) != 0) {
                 break;
             }
             order_index++;

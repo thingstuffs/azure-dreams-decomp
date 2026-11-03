@@ -68,7 +68,9 @@
         "0x80016A38": "0x80016A34",
         "0x80016000": "0x80016000",
         "0x80019540": "0x80018BE8",
-        "0x800163D8": "0x8001667C"
+        "0x800163D8": "0x8001667C",
+        "0x80018B64": "0x80016A34",
+        "0x800193F4": "0x80016944"
       },
       "evidence": "r121w_ll34: fresh current-home native object, all relocation fields evaluated and exact retail bytes; docs/evidence/r121w_ll34/results.tsv"
     },
@@ -83,7 +85,8 @@
         "0x80019440": "0x80018AE8",
         "0x80016B20": "0x80016B1C",
         "0x80019438": "0x80018AE0",
-        "0x80016468": "0x80016738"
+        "0x80016468": "0x80016738",
+        "0x80018C4C": "0x80016B1C"
       },
       "evidence": "r121w_ll34: fresh current-home native object, all relocation fields evaluated and exact retail bytes; docs/evidence/r121w_ll34/results.tsv"
     },
@@ -335,7 +338,8 @@
       "size": 36,
       "bindings": {
         "0x80017200": "0x800171FC",
-        "0x80017244": "0x80017240"
+        "0x80017244": "0x80017240",
+        "0x8001932C": "0x800171FC"
       },
       "evidence": "r121w_ll34: fresh current-home native object, all relocation fields evaluated and exact retail bytes; docs/evidence/r121w_ll34/results.tsv"
     },

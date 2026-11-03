@@ -14,7 +14,9 @@
       "foff": "0x3f7170",
       "vma": "0x80018170",
       "size": 64,
-      "bindings": {},
+      "bindings": {
+        "0x8001ADE0": "0x800198D0"
+      },
       "evidence": "Complete retail donor comparison; exact ELF replay and full production windows in work/native_lane/r121_heur/evidence/placements.json"
     }
   ]

@@ -20,9 +20,9 @@ extern void select_sprite_entry(void *, u8, s32);
 extern s8 find_active_rect_containing_point(u8, u8);
 extern void update_actor_status_and_mp(ActorRecord *entity);
 
-extern void func_80171460(ActorRecord *action, ObjectPosition *action_id, SpriteFrameState *entity, ActorRecord *move_state);
-extern s32 func_80171E38(ActorRecord *action_state, ObjectPosition *motion_param, SpriteFrameState *sprite_arg, ActorRecord *actor);
-extern void func_80171FFC(ActorRecord *action_state, ObjectPosition *action_context, void *sprite, ActorRecord *actor);
+extern void advance_stored_path_motion(ActorRecord *action, ObjectPosition *action_id, SpriteFrameState *entity, ActorRecord *move_state);
+extern s32 check_actor_transition_and_start_effect(ActorRecord *action_state, ObjectPosition *motion_param, SpriteFrameState *sprite_arg, ActorRecord *actor);
+extern void start_directional_actor_effect(ActorRecord *action_state, ObjectPosition *action_context, void *sprite, ActorRecord *actor);
 extern void func_801737B8(void *, void *, void *, void *);
 void initialize_object_and_clear_state(ActorRecord *action, ObjectPosition *unused, SpriteFrameState *animation, ActorRecord *entity);
 
@@ -48,7 +48,7 @@ void update_actor_controller(ActorRecord *actor_state_in, ObjectPosition *update
 
     if (dungeon_flags & 0x1000) {
         actor_state_in->action_id.u = 14;
-        func_80171460(actor_state_in, update_context_in, map_object, actor_data);
+        advance_stored_path_motion(actor_state_in, update_context_in, map_object, actor_data);
         return;
     }
 
@@ -160,10 +160,10 @@ void update_actor_controller(ActorRecord *actor_state_in, ObjectPosition *update
 
         switch (actor_data->action_flags & 0x3FFF) {
         case 8:
-            if ((s16)func_80171E38(actor_state_in, update_context_in, map_object, actor_data) != 0) {
+            if ((s16)check_actor_transition_and_start_effect(actor_state_in, update_context_in, map_object, actor_data) != 0) {
                 return;
             }
-            func_80171FFC(actor_state_in, update_context_in, map_object, actor_data);
+            start_directional_actor_effect(actor_state_in, update_context_in, map_object, actor_data);
             return;
 
         case 9:
@@ -171,7 +171,7 @@ void update_actor_controller(ActorRecord *actor_state_in, ObjectPosition *update
                 initialize_object_and_clear_state(actor_state_in, update_context_in, map_object, actor_data);
                 return;
             }
-            func_80171FFC(actor_state_in, update_context_in, map_object, actor_data);
+            start_directional_actor_effect(actor_state_in, update_context_in, map_object, actor_data);
             return;
 
         case 5:

@@ -114,7 +114,8 @@
       "bindings": {
         "0x80016036": "0x80016036",
         "0x80016C38": "0x80016C38",
-        "0x800164D8": "0x800164D8"
+        "0x800164D8": "0x800164D8",
+        "0x80016D78": "0x80016C38"
       },
       "evidence": "r121w_ll34: fresh current-home native object, all relocation fields evaluated and exact retail bytes; docs/evidence/r121w_ll34/results.tsv"
     },
@@ -184,7 +185,8 @@
       "size": 108,
       "bindings": {
         "0x800166A4": "0x800166A4",
-        "0x8094D708": "0x80016708"
+        "0x8094D708": "0x80016708",
+        "0x800167B4": "0x800166A4"
       },
       "evidence": "r121w_ll34: fresh current-home native object, all relocation fields evaluated and exact retail bytes; docs/evidence/r121w_ll34/results.tsv"
     },

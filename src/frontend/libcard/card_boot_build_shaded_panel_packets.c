@@ -15,10 +15,6 @@ typedef struct S_800242D8_1_pre {
     s8 unk_00;
 } S_800242D8_1_pre;
 
-typedef struct S_800242D8_1 {
-    s8 unk_00;
-} S_800242D8_1;
-
 /* Initialize four graphics packets with shared colors and halved coordinates. */
 void *card_boot_build_shaded_panel_packets(u8 *packet, u32 x, u32 y) {
     s32 packet_index;

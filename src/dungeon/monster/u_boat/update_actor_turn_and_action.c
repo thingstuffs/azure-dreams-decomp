@@ -23,7 +23,7 @@ extern void reset_action_and_decrement_actor_count(ActorRecord *, ObjectPosition
 void create_owner_linked_directional_object(ActorRecord *owner_data, ObjectPosition *source_position, SpriteFrameState *source_sprite);
 void advance_aura_actor_turn_path(ActorRecord *actor, ObjectPosition *actor_slot, SpriteFrameState *entity_arg, ActorRecord *state_arg);
 #include "dungeon/monster/u_boat.h"
-extern s32 func_80172EA8(void *, void *, void *, s32);
+extern s32 update_entity_state_from_query(void *, void *, void *, s32);
 extern void update_actor_action_transition(ActorRecord *state, ObjectPosition *update_mode, SpriteFrameState *sprite, ActorRecord *entity);
 void complete_actor_action(ActorRecord *actor, ObjectPosition *unused_1, SpriteFrameState *unused_2, ActorRecord *entity);
 
@@ -170,7 +170,7 @@ void update_actor_turn_and_action(ActorRecord *entity, ObjectPosition *context, 
                     }
                 }
             }
-            if ((func_80172EA8(entity, context, sprite, 0) << 16) == 0) {
+            if ((update_entity_state_from_query(entity, context, sprite, 0) << 16) == 0) {
                 return;
             }
             action_state = actor->action_flags | 0x4000;

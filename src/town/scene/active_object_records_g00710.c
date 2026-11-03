@@ -2,6 +2,9 @@
 /* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - CL:town/func_80470EB8, CL:town/func_80470F3C, PD:town/image_3ef000:8001B318. */
 #include "town/scene/active_object_records_g00710.h"
 #include "town/scene.h"
+#include "town/player/state.h"
+#include "town/scene/event.h"
+#include "town/shop.h"
 
 /* Checks whether the selected entry is 8 or 9 and get_record_value_tier returns zero. */
 s32 check_selected_entry_8(S_80017EB8_0 *position) {
@@ -13,7 +16,7 @@ s32 check_selected_entry_8(S_80017EB8_0 *position) {
     column = position->unk_00;
     entry_value = ((S_80017EB8_4 *)((column * 0x14) + ((S_80017EB8_3 *)(((row * 0x14)
         + town_scene_root->unk_24->gridRows)))->unk_0C))->unk_00;
-    if (get_record_value_tier() == 0) {
+    if (query_priority_event_state() == 0) {
         if ((u32)(entry_value - 8) < 2U) {
             return 1;
         }
@@ -45,7 +48,7 @@ u8 *record_check_returned(void *unused)
     seed_record = D_8001B1C0;
     *(Copy4 *)records = *(Copy4 *)seed_record;
     record_count = 1;
-    if (func_8001A510(F_sbs22_pad36) != 0) {
+    if (get_script_flag_mask(F_sbs22_pad36) != 0) {
         record_count = 2;
         optional_record = records + 4;
         optional_record[1] = 0xD;
@@ -102,14 +105,14 @@ u8 *record_check_returned(void *unused)
 
 /* Prepares D_8001B218, passes it to the active object's callback, and saves the result. */
 S_80018174_0 *prepare_passes_active_object_callback(void) {
-    func_80018824((s8 *)town_event_records, 0x100);
+    clear_bytes((s8 *)town_event_records, 0x100);
     record_check_returned(town_event_records);
     return scene_registered_event_handle = (S_80018174_0 *)town_scene_root->services->callback_068(0, 0, 1, town_event_records);
 }
 
 /* Prepares D_8001B218 for the active object's callback and stores its result. */
 S_80018174_0 *prepare_active_object_callback(void) {
-    func_80018824((s8 *)town_event_records, 0x100);
+    clear_bytes((s8 *)town_event_records, 0x100);
     func_80018914(town_event_records);
     return scene_registered_event_handle = (S_80018174_0 *)town_scene_root->services->callback_068(0, 1, 1, town_event_records);
 }

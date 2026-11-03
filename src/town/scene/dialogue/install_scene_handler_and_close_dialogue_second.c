@@ -1,11 +1,12 @@
 #include "common.h"
 #include "town/scene/motion.h"
+#include "town/scene/flags.h"
+#include "town/scene/dialogue.h"
 
 extern u8 D_80017A18[9];
 extern u8 D_80017B5C[9];
 extern u8 D_80018AE5[9];
 
-extern s32 query_referenced_flag_for_table_entry(void *, void *, s32);
 extern s32 get_script_flag_mask(s32 flag_index); /* placed copy of get_script_flag_mask */
 
 /* Selects a result for the context, applying an override when both checks pass. */

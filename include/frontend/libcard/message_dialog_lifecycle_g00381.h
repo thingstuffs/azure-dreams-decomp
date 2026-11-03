@@ -27,14 +27,6 @@ typedef struct S_set_handler_0 {
 
 /* out in set_handler */
 
-/* context in card_boot_create_or_reset_message_dialog */
-typedef struct S_80022D60_1 {
-    u8 pad_00[0xC];
-    void * unk_0C;
-    u8 pad_10[0xE];
-    u16 unk_1E;
-} S_80022D60_1;
-
 /* base in card_boot_create_or_reset_message_dialog */
 
 extern void card_boot_initialize_message_render_templates(s32 entity, s32 primary_data, s32 secondary_data);

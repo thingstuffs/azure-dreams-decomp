@@ -6,13 +6,13 @@
 #include "town/data.h"
 
 
-s32 func_80016A38(void *);
-s8 *advance_town_events_and_dispatch_entry(s8 *buffer, s32 length); /* Unprototyped: retail call passes more arguments than the callee reads */
+s32 copy_and_terminate_coordinate_entries(void *);
+s8 *clear_bytes(s8 *buffer, s32 length); /* Unprototyped: retail call passes more arguments than the callee reads */
 extern s8 D_80019440[];
 
 /* Prepare D_80019440 for the callback and store its result in D_80019540. */
 s32 prepare_and_register_entry_buffer(void) {
-    advance_town_events_and_dispatch_entry(D_80019440, 0x100);
-    func_80016A38(&D_80019440);
+    clear_bytes(D_80019440, 0x100);
+    copy_and_terminate_coordinate_entries(&D_80019440);
     return scene_registered_entry_handle = town_scene_root->services->callback_068(0, 1, 2, &D_80019440);
 }

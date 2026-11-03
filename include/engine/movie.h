@@ -6,7 +6,6 @@
 #include "shared/movie_list.h"
 
 struct S_8003AF58_1;
-struct S_8003AF8C_0;
 
 /* append_town_movie_list_node.c */
 void append_list_tail(void *list_head, struct S_8003AF58_1 *new_node);

@@ -6,14 +6,14 @@ extern s32 D_80016754[];
 extern s32 D_800170CC[];
 extern s32 scene_choice_index[3];
 
-extern s32 func_80018FC8(s32 *, s32 *, s32, s32);
+extern s32 apply_entry_position(s32 *, s32 *, s32, s32);
 
 /* Returns the selected table value for mode 1, or delegates the lookup for other modes. */
 s32 lookup_selected_value_by_mode(s32 lookupInput, s32 unused, s32 mode) {
     s32 result;
 
     if (mode != 1) {
-        result = func_80018FC8(D_8001673C, D_800170CC, lookupInput, mode);
+        result = apply_entry_position(D_8001673C, D_800170CC, lookupInput, mode);
     } else {
         result = D_80016754[scene_choice_index[0]];
     }

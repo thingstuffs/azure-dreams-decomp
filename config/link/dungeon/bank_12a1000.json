@@ -218,7 +218,8 @@
         "0x80172330": "0x8016B330",
         "0x801736B8": "0x8016C6B8",
         "0x80173EC4": "0x8016CEC4",
-        "0x80173EE4": "0x8016CEE4"
+        "0x80173EE4": "0x8016CEE4",
+        "0x80172628": "0x8016B330"
       },
       "evidence": "opus_place1: re-homed from relinked copy dungeon/func_81257D14 onto dungeon/func_81251D14; tools/tu/copy_place.py derive (dependent object == home object modulo relocation targets)"
     },

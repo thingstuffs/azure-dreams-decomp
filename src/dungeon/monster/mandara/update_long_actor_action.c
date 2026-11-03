@@ -45,11 +45,11 @@ extern void update_actor_status_and_mp(ActorRecord *entity);
 extern s32 begin_ready_actor_directional_action(ActorRecord *body, ObjectPosition *position, SpriteFrameState *sprite, u8 *direction_frames);
 extern void begin_actor_move_to_target_facing(ActorRecord *body, ObjectPosition *position, SpriteFrameState *sprite, ActorRecord *actor);
 
-extern void func_80171910(void *controller, ObjectPosition *context, void *entity, void *path_state);
-extern void advance_actor_path_step(ActorRecord *action, ObjectPosition *action_id, SpriteFrameState *entity, ActorRecord *move_state);
+extern void advance_stored_entity_path(void *controller, ObjectPosition *context, void *entity, void *path_state);
+extern void choose_block_move_slot_a(ActorRecord *action, ObjectPosition *action_id, SpriteFrameState *entity, ActorRecord *move_state);
 s32 validate_transition_and_update_action(ActorRecord *state, ObjectPosition *transition_id, SpriteFrameState *sprite, ActorRecord *actor);
 void reset_action_and_select_facing_animation(ActorRecord *action_state, ObjectPosition *action_context, SpriteFrameState *sprite, ActorRecord *actor);
-extern s32 func_80172658(void *, void *, void *, s32);
+extern s32 update_entity_state_from_query(void *, void *, void *, s32);
 extern void func_80174250(void *, void *, void *, void *);
 
 #include "shared/record_ptrs.h"
@@ -80,7 +80,7 @@ void update_long_actor_action(ActorRecord *self_object, ObjectPosition *aux_enti
 
     if (initial_flags & 0x1000) {
         self_object->action_id.u = 0xE;
-        func_80171910(self_object, aux_entity, sprite, entity);
+        advance_stored_entity_path(self_object, aux_entity, sprite, entity);
         return;
     }
 
@@ -330,7 +330,7 @@ void update_long_actor_action(ActorRecord *self_object, ObjectPosition *aux_enti
             return;
         }
         if (*(u16 *)&sprite->tile_x == reference_tile_object.tile_position.word) {
-            advance_actor_path_step(self_object, aux_entity, sprite, entity);
+            choose_block_move_slot_a(self_object, aux_entity, sprite, entity);
             return;
         }
         if (!(entity->action_flags & 0x8000)) {
@@ -340,12 +340,12 @@ void update_long_actor_action(ActorRecord *self_object, ObjectPosition *aux_enti
                     previous_body = previous_node + 1, previous_actor = previous_body)) << 16) != 0)) {
                 return;
             }
-            if ((func_80172658(self_object, aux_entity, sprite, 0) << 16) == 0) {
+            if ((update_entity_state_from_query(self_object, aux_entity, sprite, 0) << 16) == 0) {
                 return;
             }
             entity->action_flags |= 0x4000;
             if (!(entity->action_flags & 0x8000)) {
-                advance_actor_path_step(self_object, aux_entity, sprite, entity);
+                choose_block_move_slot_a(self_object, aux_entity, sprite, entity);
                 return;
             }
         }
@@ -400,7 +400,7 @@ void update_long_actor_action(ActorRecord *self_object, ObjectPosition *aux_enti
         case 10:
         case 11:
         default:
-            advance_actor_path_step(self_object, aux_entity, sprite, entity);
+            choose_block_move_slot_a(self_object, aux_entity, sprite, entity);
             return;
         }
     }

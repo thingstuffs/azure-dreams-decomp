@@ -18,12 +18,12 @@
 extern void select_sprite_entry(void *, s32, s32);
 extern s32 find_active_rect_containing_point(s32, s32);
 extern void update_actor_status_and_mp(ActorRecord *entity);
-extern void func_80171CA8(ActorRecord *action, ObjectPosition *action_id, SpriteFrameState *entity, ActorRecord *move_state);
-extern void func_80171EEC(void *, void *, void *, void *);
-extern s32 func_801726B0(ActorRecord *action_state, ObjectPosition *motion_param, SpriteFrameState *sprite_arg, ActorRecord *actor);
+extern void advance_stored_path_motion(ActorRecord *action, ObjectPosition *action_id, SpriteFrameState *entity, ActorRecord *move_state);
+extern void choose_block_move_slot_a(void *, void *, void *, void *);
+extern s32 check_actor_transition_and_start_effect(ActorRecord *action_state, ObjectPosition *motion_param, SpriteFrameState *sprite_arg, ActorRecord *actor);
 /* Bank copy of start_directional_actor_effect. */
-void func_80172874(ActorRecord *action_state, ObjectPosition *action_context, void *sprite, ActorRecord *actor);
-extern s32 func_8017298C(void *, void *, void *, s32);
+void start_directional_actor_effect(ActorRecord *action_state, ObjectPosition *action_context, void *sprite, ActorRecord *actor);
+extern s32 update_entity_state_from_query(void *, void *, void *, s32);
 extern void func_8017430C(void *, void *, void *, void *);
 
 extern u8 barong_action_resume_address[];
@@ -48,7 +48,7 @@ void update_actor_direction_and_animation(ActorRecord *body, ObjectPosition *pos
 
     if (initial_flags & 0x1000) {
         body->action_id.u = 0xE;
-        func_80171CA8(body, position, sprite, actor);
+        advance_stored_path_motion(body, position, sprite, actor);
         return;
     }
 
@@ -143,7 +143,7 @@ void update_actor_direction_and_animation(ActorRecord *body, ObjectPosition *pos
             return;
         }
         if (*(u16 *)&sprite->tile_x == reference_tile_object.tile_position.word) {
-            func_80171EEC(body, position, sprite, actor);
+            choose_block_move_slot_a(body, position, sprite, actor);
             return;
         }
         if (!(actor->action_flags & ACTOR_ACTION_PENDING)) {
@@ -162,13 +162,13 @@ void update_actor_direction_and_animation(ActorRecord *body, ObjectPosition *pos
                     }
                 }
             }
-            if ((func_8017298C(body, position, sprite, 0) << 16) == 0) {
+            if ((update_entity_state_from_query(body, position, sprite, 0) << 16) == 0) {
                 return;
             }
             action_flags = actor->action_flags | 0x4000;
             actor->action_flags = action_flags;
             if (!(action_flags & 0x8000)) {
-                func_80171EEC(body, position, sprite, actor);
+                choose_block_move_slot_a(body, position, sprite, actor);
                 return;
             }
         }
@@ -176,10 +176,10 @@ void update_actor_direction_and_animation(ActorRecord *body, ObjectPosition *pos
         action_flags = actor->action_flags & ACTOR_ACTION_CODE_MASK;
         switch (action_flags) {
         case 8:
-            if ((func_801726B0(body, position, sprite, actor) << 16) != 0) {
+            if ((check_actor_transition_and_start_effect(body, position, sprite, actor) << 16) != 0) {
                 return;
             }
-            func_80172874(body, position, sprite, actor);
+            start_directional_actor_effect(body, position, sprite, actor);
             return;
 
         case 9:
@@ -216,7 +216,7 @@ void update_actor_direction_and_animation(ActorRecord *body, ObjectPosition *pos
             return;
 
         default:
-            func_80171EEC(body, position, sprite, actor);
+            choose_block_move_slot_a(body, position, sprite, actor);
             return;
         }
     } else if (!(((u32)actor->flags1C) & ACTOR_PLAYER_SIDE)) {

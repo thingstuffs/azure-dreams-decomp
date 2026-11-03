@@ -17,11 +17,11 @@ extern s32 can_entity_gain_level(void *);
 extern void update_actor_status_and_mp(ActorRecord *entity);
 extern s32 begin_ready_actor_directional_action(ActorRecord *body, ObjectPosition *position, SpriteFrameState *sprite, u8 *direction_frames);
 extern void begin_actor_move_to_target_facing(ActorRecord *body, ObjectPosition *position, SpriteFrameState *sprite, ActorRecord *actor);
-extern void advance_actor_path_script_step(ActorRecord *controller, ObjectPosition *context, SpriteFrameState *entity, void *path_state);
+extern void advance_stored_entity_path(ActorRecord *controller, ObjectPosition *context, SpriteFrameState *entity, void *path_state);
 extern void choose_arachne_move(ActorRecord *move_data, ObjectPosition *context, SpriteFrameState *position_data, ActorRecord *actor_data);
-extern s32 func_80171DD8(ActorRecord *action_state, ObjectPosition *motion_param, SpriteFrameState *sprite_arg, ActorRecord *actor);
-extern void select_and_start_target_action(ActorRecord *action_state, ObjectPosition *action_context, void *sprite, ActorRecord *actor);
-extern s32 func_801720B4(void *, void *, void *, s32);
+extern s32 check_actor_transition_and_start_effect(ActorRecord *action_state, ObjectPosition *motion_param, SpriteFrameState *sprite_arg, ActorRecord *actor);
+extern void start_directional_actor_effect(ActorRecord *action_state, ObjectPosition *action_context, void *sprite, ActorRecord *actor);
+extern s32 update_entity_state_from_query(void *, void *, void *, s32);
 extern void func_80173AC0(void *, void *, void *, void *);
 
 #include "dungeon/monster/battnel.h"
@@ -48,7 +48,7 @@ void update_actor_behavior_facing_and_animation_2(void *actor, ObjectPosition *c
 
     if (initial_flags & 0x1000) {
         ((ActorRecord *)actor)->action_id.u = 0xE;
-        advance_actor_path_script_step(actor, context, sprite, status);
+        advance_stored_entity_path(actor, context, sprite, status);
         return;
     }
 
@@ -144,7 +144,7 @@ void update_actor_behavior_facing_and_animation_2(void *actor, ObjectPosition *c
                     }
                 }
             }
-            if ((s16)func_801720B4(actor, context, sprite, 0) == 0) {
+            if ((s16)update_entity_state_from_query(actor, context, sprite, 0) == 0) {
                 return;
             }
             ((ActorRecord *)status)->action_flags |= 0x4000;
@@ -157,8 +157,8 @@ void update_actor_behavior_facing_and_animation_2(void *actor, ObjectPosition *c
         switch ((((ActorRecord *)status)->action_flags & 0x3FFF) - 1) {
         case 7:
         case 8:
-            if ((s16)func_80171DD8(actor, context, sprite, status) == 0) {
-                select_and_start_target_action(actor, context, sprite, status);
+            if ((s16)check_actor_transition_and_start_effect(actor, context, sprite, status) == 0) {
+                start_directional_actor_effect(actor, context, sprite, status);
             }
             return;
 

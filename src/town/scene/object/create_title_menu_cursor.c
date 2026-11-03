@@ -1,6 +1,9 @@
 #include "common.h"
 #include "town/scene/collection.h"
 #include "town/scene/object.h"
+#define AZ_FOREIGN_LOCAL_FUNC_80050BFC
+#include "town/devkit/old_minigame_imports.h"
+#undef AZ_FOREIGN_LOCAL_FUNC_80050BFC
 
 typedef struct S_808106E0_0 {
     u8 pad_00[0x10];
@@ -48,12 +51,7 @@ extern u8 D_8052BAAC[];
 extern u8 D_8052BB00[];
 extern u8 D_8052BB98[];
 
-extern s32 func_800351A8(s32, s32);
-extern void *func_800374FC(s32, void *);
-extern void func_8003BC18(void *, void *);
-extern void func_8003F8A8(s32);
 extern void func_80050BFC(s32, void *); /* Unprototyped: this site's argument count or types differ from the foreign program's import prototype */
-extern u32 func_80071494(void);
 
 /* Build the title-screen menu: the cursor object plus the two rows of three entries, linked to the shared anchor. */
 s32 create_title_menu_cursor(void)

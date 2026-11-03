@@ -24,7 +24,7 @@ arbiter: derive proves nothing by itself.
 """
 from __future__ import annotations
 
-import argparse, hashlib, json, os, re, subprocess, sys, tempfile
+import argparse, csv, hashlib, json, os, re, sqlite3, subprocess, sys, tempfile
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[2]
@@ -537,6 +537,107 @@ def _fmt_hex(v):
     return "0x%X" % v
 
 
+def rekey_calls(pairs, codemap, root=ROOT, apply=False):
+    """Add the real callee key to caller placements, preserving every old reference.
+
+    Each override witnesses the old reference's target at that placement. Require a single callee
+    copy in every caller image, including placement images: an explicit override must never select
+    one member of an ambiguous family. Existing imports of the new key must keep their binding.
+    Old keys remain valid until the caller respell and its full image proof have succeeded.
+    """
+    root = Path(root)
+    tables = L.load(root)
+    images, _, by_row, _ = tables
+    db = sqlite3.connect(f"file:{Path(codemap).resolve()}?mode=ro", uri=True)
+    units = {}
+    for src, rec, output, kind, img, rows, reb in db.execute(
+            "SELECT r.source,r.id,r.output,r.kind,u.image,u.rows,u.rebind "
+            "FROM recipe r JOIN image_unit u ON u.recipe=r.id"):
+        units.setdefault(src, []).append((rec, output, kind, img, json.loads(rows or '[]'), reb))
+    imports = {}
+    pending, report = {}, []
+    for pair in pairs:
+        if pair.get('evidence') != 'caller_placement_binds_elsewhere':
+            continue
+        result = dict(pair, changes=[])
+        proposed = []
+        try:
+            a, b = pair['link'].split('>')
+            if not re.fullmatch(r'func_[0-9A-Fa-f]{8}', a) or not re.fullmatch(r'func_[0-9A-Fa-f]{8}', b):
+                raise ValueError('callee symbols are not function addresses')
+            h, x = int(a[5:], 16), int(b[5:], 16)
+            if h == x:
+                raise ValueError('callee key is unchanged')
+            callers = units.get(pair['file'], [])
+            if not callers:
+                raise ValueError('caller has no image units')
+            for rec, output, kind, img, rows, reb in callers:
+                if kind == 'module':
+                    raise ValueError('module_caller')
+                if not reb:
+                    target = L.copy_link_target(tables, img, h)
+                    if target != x:
+                        raise ValueError('home caller reaches another copy')
+                    continue
+                es = [by_row[r] for r in rows if r in by_row and by_row[r]['row'] != by_row[r]['home']]
+                if len(es) != 1:
+                    raise ValueError('caller_placement_unknown')
+                e = es[0]
+                # A link-list entry can live in a narrow region list, and a recipe can be compiled
+                # through a diagnostic view. Check all production load images containing the entry.
+                load_images = L.caller_images(tables, e['container'], e['foff'])
+                if not load_images:
+                    raise ValueError('caller placement has no production load image')
+                targets = {L.copy_link_target(tables, image, h) for image in load_images}
+                if len(targets) != 1:
+                    raise ValueError('caller placement reaches different callee copies across load images')
+                target = targets.pop()
+                old_target = L._binding(tables, e, x)
+                if old_target != target:
+                    raise ValueError('old binding does not reach the unique callee copy')
+                current = L._binding(tables, e, h)
+                if current == target:
+                    continue
+                if output not in imports:
+                    out = subprocess.run(['mipsel-linux-gnu-nm', '-u', str(root / output)],
+                                         check=True, capture_output=True, text=True).stdout
+                    imports[output] = {line.split()[-1] for line in out.splitlines() if line.split()}
+                if a in imports[output]:
+                    raise ValueError('new key already imported with another binding')
+                home = by_row[e['home']]
+                if h == home['vma'] + home.get('body_offset', 0):
+                    raise ValueError('new key is the caller entry point')
+                key = (e['image'], e['row'], h)
+                if key in pending and pending[key] != target:
+                    raise ValueError('conflicting re-key requests')
+                proposed.append((key, target, current))
+            if not proposed:
+                result['status'] = 'already'
+                report.append(result)
+                continue
+            for key, target, current in proposed:
+                pending[key] = target
+                result['changes'].append(dict(image=key[0], row=key[1], key='0x%08X' % key[2],
+                                              before='0x%08X' % current, after='0x%08X' % target))
+            result['status'] = 'ready'
+        except (ValueError, subprocess.CalledProcessError, OSError) as exc:
+            result.update(status='hold', reason=str(exc))
+        report.append(result)
+    db.close()
+    if apply:
+        docs = {}
+        for (image, row, h), target in sorted(pending.items()):
+            p = _image_path(root, image)
+            if p not in docs:
+                docs[p] = _load_doc(p)
+            doc = docs[p]
+            entry = next(e for e in doc['entries'] if e.get('row') == row)
+            entry.setdefault('bindings', {})['0x%08X' % h] = '0x%08X' % target
+        for path, doc in docs.items():
+            _dump_doc(path, doc)
+    return report
+
+
 def apply_plan(plan, root=ROOT, check=False):
     """Name-keyed and idempotent: for every record (copy row, home row, image) ensure
     (1) the home owns a home entry, (2) the copy's placement entry with the planned bindings,
@@ -869,6 +970,9 @@ def main():
     a = sub.add_parser("apply"); a.add_argument("plan"); a.add_argument("--check", action="store_true")
     a = sub.add_parser("windows"); a.add_argument("plan")
     a = sub.add_parser("revert"); a.add_argument("rows", nargs="+"); a.add_argument("--base", required=True)
+    a = sub.add_parser('rekey-calls', help='re-key unambiguous caller bindings from address_names copy_holds.tsv')
+    a.add_argument('--pairs', required=True); a.add_argument('--codemap', default='build/codemap.db')
+    a.add_argument('--out', required=True); a.add_argument('--apply', action='store_true')
     args = ap.parse_args()
     if args.cmd == "census":
         rows = classify()
@@ -898,6 +1002,13 @@ def main():
     elif args.cmd == "windows":
         for w in affected_windows(json.loads(Path(args.plan).read_text())):
             print(w)
+    elif args.cmd == 'rekey-calls':
+        with open(args.pairs) as fh:
+            report = rekey_calls(list(csv.DictReader(fh, delimiter='\t')), args.codemap, apply=args.apply)
+        Path(args.out).write_text(json.dumps(report, indent=1) + '\n')
+        from collections import Counter
+        print(dict(Counter(r['status'] for r in report)))
+        print(dict(Counter(r.get('reason') for r in report if r['status'] == 'hold')))
 
 
 if __name__ == "__main__":

@@ -19,10 +19,10 @@ extern void update_actor_status_and_mp(ActorRecord *entity);
 extern s32 begin_ready_actor_directional_action(ActorRecord *body, ObjectPosition *position, SpriteFrameState *sprite, u8 *direction_frames);
 extern void begin_actor_move_to_target_facing(ActorRecord *body, ObjectPosition *position, SpriteFrameState *sprite, ActorRecord *actor);
 extern void advance_entity_along_stored_path(ActorRecord *body, ObjectPosition *motion, SpriteFrameState *sprite, ActorRecord *actor);
-extern void func_80171F40(void *, void *, void *, void *);
-extern s32 func_80172710(ActorRecord *action_state, ObjectPosition *motion_param, SpriteFrameState *sprite_arg, ActorRecord *actor);
-extern void func_801728D4(ActorRecord *action_state, ObjectPosition *action_context, void *sprite, ActorRecord *actor);
-extern s32 func_801729EC(void *, void *, void *, s32);
+extern void choose_griffon_move(void *, void *, void *, void *);
+extern s32 check_actor_transition_and_start_effect(ActorRecord *action_state, ObjectPosition *motion_param, SpriteFrameState *sprite_arg, ActorRecord *actor);
+extern void start_directional_actor_effect(ActorRecord *action_state, ObjectPosition *action_context, void *sprite, ActorRecord *actor);
+extern s32 update_entity_state_from_query(void *, void *, void *, s32);
 /* Bank copy of update_actor_state_after_map_check. */
 extern void func_801743E8(void *, ObjectPosition *, SpriteFrameState *, ActorRecord *);
 void clear_actor_flag_and_apply_effect(ActorRecord *action_state, ObjectPosition *effect_arg, SpriteFrameState *anim_state, ActorRecord *actor);
@@ -134,7 +134,7 @@ void update_creature_behavior_and_animation_2(ActorRecord *actor_in, ObjectPosit
             return;
         }
         if (*(u16 *)&sprite->tile_x == reference_tile_object.tile_position.word) {
-            func_80171F40(actor_in, context_in, sprite, creature_in);
+            choose_griffon_move(actor_in, context_in, sprite, creature_in);
             return;
         }
         if (!(creature_in->action_flags & ACTOR_ACTION_PENDING)) {
@@ -153,13 +153,13 @@ void update_creature_behavior_and_animation_2(ActorRecord *actor_in, ObjectPosit
                     }
                 }
             }
-            if ((func_801729EC(actor_in, context_in, sprite, 0) << 16) == 0) {
+            if ((update_entity_state_from_query(actor_in, context_in, sprite, 0) << 16) == 0) {
                 return;
             }
             action_flags = creature_in->action_flags | 0x4000;
             creature_in->action_flags = action_flags;
             if (!(action_flags & 0x8000)) {
-                func_80171F40(actor_in, context_in, sprite, creature_in);
+                choose_griffon_move(actor_in, context_in, sprite, creature_in);
                 return;
             }
         }
@@ -167,10 +167,10 @@ void update_creature_behavior_and_animation_2(ActorRecord *actor_in, ObjectPosit
         action_flags = creature_in->action_flags & ACTOR_ACTION_CODE_MASK;
         switch (action_flags) {
         case 8:
-            if ((func_80172710(actor_in, context_in, sprite, creature_in) << 16) != 0) {
+            if ((check_actor_transition_and_start_effect(actor_in, context_in, sprite, creature_in) << 16) != 0) {
                 return;
             }
-            func_801728D4(actor_in, context_in, sprite, creature_in);
+            start_directional_actor_effect(actor_in, context_in, sprite, creature_in);
             return;
 
         case 9:
@@ -208,7 +208,7 @@ void update_creature_behavior_and_animation_2(ActorRecord *actor_in, ObjectPosit
 
         case 10:
         default:
-            func_80171F40(actor_in, context_in, sprite, creature_in);
+            choose_griffon_move(actor_in, context_in, sprite, creature_in);
             return;
         }
     }

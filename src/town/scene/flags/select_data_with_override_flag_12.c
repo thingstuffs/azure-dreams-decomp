@@ -1,8 +1,7 @@
 #include "common.h"
 #include "town/scene/flags.h"
 #include "town/scene/motion.h"
-
-extern s32 town_table_contains_first_byte_b(u32);
+#include "town.h"
 
 extern u8 D_800176AC[9];
 extern u8 D_80017778[9];

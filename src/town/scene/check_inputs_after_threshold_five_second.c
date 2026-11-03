@@ -3,6 +3,7 @@
 #include "shared/record_ptrs.h"
 #include "shared/town_root.h"
 #include "town/player/state.h"
+#include "town.h"
 
 typedef struct CallbackTable {
     u8 pad_00[0x2C8];
@@ -11,8 +12,6 @@ typedef struct CallbackTable {
 
 extern s32 D_80017908;
 extern s32 *D_800179D8;
-
-extern s32 town_table_contains_first_byte_b(s32);
 
 /* Initialize callback data, invoke the owner callback, and dispatch conditional updates. */
 void check_inputs_after_threshold_five(void)

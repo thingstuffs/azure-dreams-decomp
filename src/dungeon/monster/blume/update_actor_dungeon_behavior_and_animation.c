@@ -18,9 +18,9 @@ extern s8 find_active_rect_containing_point(u8, u8);
 extern void update_actor_status_and_mp(ActorRecord *entity);
 
 extern void func_80172384(void *, void *, void *, void *);
-extern s32 advance_item_action_sequence(ActorRecord *action_state, ObjectPosition *motion_param, SpriteFrameState *sprite_arg, ActorRecord *actor); /* Unprototyped: this consumer uses the return value, but the owner definition is void. */
-extern void func_80172F38(ActorRecord *action_state, ObjectPosition *action_context, void *sprite, ActorRecord *actor);
-extern s32 func_80173050(void *, void *, void *, s32);
+extern s32 check_actor_transition_and_start_effect(ActorRecord *action_state, ObjectPosition *motion_param, SpriteFrameState *sprite_arg, ActorRecord *actor); /* Unprototyped: this consumer uses the return value, but the owner definition is void. */
+extern void start_directional_actor_effect(ActorRecord *action_state, ObjectPosition *action_context, void *sprite, ActorRecord *actor);
+extern s32 update_entity_state_from_query(void *, void *, void *, s32);
 extern void func_80174890(void *, void *, void *, void *);
 
 #include "dungeon/monster/blume.h"
@@ -154,7 +154,7 @@ void update_actor_dungeon_behavior_and_animation(ActorRecord *actor_in, ObjectPo
                     }
                 }
             }
-            if ((s16)func_80173050(actor_in, actor_data_in, sprite_in, 0) == 0) {
+            if ((s16)update_entity_state_from_query(actor_in, actor_data_in, sprite_in, 0) == 0) {
                 return;
             }
             action_flags = status_in->action_flags | 0x4000;
@@ -167,10 +167,10 @@ void update_actor_dungeon_behavior_and_animation(ActorRecord *actor_in, ObjectPo
 
         switch (status_in->action_flags & 0x3FFF) {
         case 8:
-            if ((s16)advance_item_action_sequence(actor_in, actor_data_in, sprite_in, status_in) != 0) {
+            if ((s16)check_actor_transition_and_start_effect(actor_in, actor_data_in, sprite_in, status_in) != 0) {
                 return;
             }
-            func_80172F38(actor_in, actor_data_in, sprite_in, status_in);
+            start_directional_actor_effect(actor_in, actor_data_in, sprite_in, status_in);
             return;
         case 9:
             begin_actor_directional_target_action(actor_in, actor_data_in, sprite_in, status_in);

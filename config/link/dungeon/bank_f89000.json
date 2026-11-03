@@ -51,7 +51,10 @@
         "0x801753C4": "0x8016819C",
         "0x801753F4": "0x801681CC",
         "0x801753FC": "0x801681D4",
-        "0x80175404": "0x801681DC"
+        "0x80175404": "0x801681DC",
+        "0x80171DA0": "0x80165DD0",
+        "0x80171F64": "0x80165F94",
+        "0x80172628": "0x801660AC"
       },
       "evidence": "opus_place1: re-homed from relinked copy dungeon/func_80EF24E8 onto dungeon/func_80DBA620; tools/tu/copy_place.py derive (dependent object == home object modulo relocation targets)"
     },
@@ -286,7 +289,8 @@
       "size": 1804,
       "bindings": {
         "0x8016D2C0": "0x8016D2C0",
-        "0x8014D810": "0x8014D810"
+        "0x8014D810": "0x8014D810",
+        "0x80171F64": "0x80165F94"
       }
     },
     {

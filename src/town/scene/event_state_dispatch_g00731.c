@@ -4,14 +4,15 @@
  */
 #include "town/scene/event_state_dispatch_g00731.h"
 #include "town/scene.h"
+#include "town/player/state.h"
 
 /* Return whether both checks for 0x1200 and 0x1201 return zero. */
 s32 check_town_event_flags_clear(void) {
     s32 result;
     s32 return_value;
 
-    if (func_80018964(Fp_bibian_pool_event) == 0) {
-        result = func_80018964(Fp_mia_pool_event);
+    if (get_script_flag_mask(Fp_bibian_pool_event) == 0) {
+        result = get_script_flag_mask(Fp_mia_pool_event);
         return_value = 1;
         if (result == 0) {
             return return_value;
@@ -33,12 +34,12 @@ void reset_town_event_state(void) {
 
         tableEntry += 4;
         entryCount += 1;
-        func_800188E4(entryValue);
+        clear_script_flag_bit(entryValue);
     } while (entryCount < 7);
 
-    func_800188E4(F_sbs13_pad21);
-    func_800188E4(F_sbs13_pad13);
-    func_800188E4(F_sbs13_pad24);
+    clear_script_flag_bit(F_sbs13_pad21);
+    clear_script_flag_bit(F_sbs13_pad13);
+    clear_script_flag_bit(F_sbs13_pad24);
 }
 
 /* Advance through town events and dispatch the next eligible entry. */
@@ -56,10 +57,10 @@ void advance_town_events_and_dispatch_entry(void)
     if (check_town_event_flags_clear() != 0) {
         checked_count = 0;
         do {
-            if ((func_80018964(D_80019088[event_state->eventIndex].check) == 0) !=
+            if ((get_script_flag_mask(D_80019088[event_state->eventIndex].check) == 0) !=
                 (D_80019088[event_state->eventIndex].enabled != 0)) {
                 event_entry = &D_80019088[event_state->eventIndex];
-                func_8001886C(event_entry->event);
+                set_script_flag_bit(event_entry->event);
                 break;
             }
 
@@ -69,8 +70,8 @@ void advance_town_events_and_dispatch_entry(void)
         } while (checked_count < 7);
 
         if (event_state->eventIndex != 5) {
-            func_8001886C(F_sbs13_pad21);
+            set_script_flag_bit(F_sbs13_pad21);
         }
-        func_8001886C(F_sbs13_pad13);
+        set_script_flag_bit(F_sbs13_pad13);
     }
 }

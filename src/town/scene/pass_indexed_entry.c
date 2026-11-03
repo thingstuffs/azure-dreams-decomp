@@ -5,7 +5,7 @@
 struct S_8046C8C4_1;
 
 /* cfail-repair: tf7-phase1-cache-v3 */
-s32 func_8001E578(s32, ...);
+s32 set_script_flag_bit(s32, ...);
 
 typedef struct S_8046C8C4_0 {
     u8 pad_00[0x10];
@@ -23,5 +23,5 @@ void pass_indexed_entry(S_8046C8C4_0 *table, s32 entry_index) {
     S_8046C8C4_1 *entry;
 
     entry = (S_8046C8C4_1 *)(entry_index * 0x10 + (unsigned long)table->unk_10);
-    func_8001E578(entry->unk_0C, entry);
+    set_script_flag_bit(entry->unk_0C, entry);
 }

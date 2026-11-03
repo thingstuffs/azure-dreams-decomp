@@ -5,8 +5,7 @@
 #include "town/scene/event.h"
 #include "shared/town_root.h"
 #include "town/player/state.h"
-
-extern s32 town_table_contains_first_byte_b(s32);
+#include "town.h"
 
 typedef void (*TownCallback)(s32, s32);
 

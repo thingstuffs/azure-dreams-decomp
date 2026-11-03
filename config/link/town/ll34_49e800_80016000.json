@@ -49,7 +49,8 @@
       "bindings": {
         "0x80018D78": "0x80018D90",
         "0x80017710": "0x80017710",
-        "0x8051ECA4": "0x800164E4"
+        "0x8051ECA4": "0x800164E4",
+        "0x800194E4": "0x80017710"
       },
       "evidence": "r121w_ll34: fresh current-home native object, all relocation fields evaluated and exact retail bytes; docs/evidence/r121w_ll34/results.tsv"
     },
@@ -63,7 +64,8 @@
       "bindings": {
         "0x80018D78": "0x80018D98",
         "0x80017710": "0x80017710",
-        "0x8051ECA4": "0x80016524"
+        "0x8051ECA4": "0x80016524",
+        "0x800194E4": "0x80017710"
       },
       "evidence": "r121w_ll34: fresh current-home native object, all relocation fields evaluated and exact retail bytes; docs/evidence/r121w_ll34/results.tsv"
     },
@@ -77,7 +79,8 @@
       "bindings": {
         "0x80018D78": "0x80018DB0",
         "0x80017710": "0x80017710",
-        "0x8051ECA4": "0x80016564"
+        "0x8051ECA4": "0x80016564",
+        "0x800194E4": "0x80017710"
       },
       "evidence": "r121w_ll34: fresh current-home native object, all relocation fields evaluated and exact retail bytes; docs/evidence/r121w_ll34/results.tsv"
     },

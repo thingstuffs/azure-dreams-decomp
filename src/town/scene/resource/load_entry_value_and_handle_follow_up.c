@@ -5,6 +5,7 @@
 #include "town/scene/resource.h"
 #include "shared/town_root.h"
 #include "town/player/state.h"
+#include "town/scene/hooks.h"
 
 typedef void (*TownCallback)(s32, s32, s32, s32);
 
@@ -15,8 +16,6 @@ extern char D_80020E44[];
 extern char event_string_fallback[];
 
 extern char *select_address_based_input(long long); /* Unprototyped: retail call passes more arguments than the callee reads */
-
-extern s32 is_pair_result_valid_b(s32, s32);
 
 /* Selects town text and runs the selected handler's fallback actions. */
 char *load_entry_value_and_handle_follow_up(long long lookup, s32 text_selector)

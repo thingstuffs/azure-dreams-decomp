@@ -24,10 +24,10 @@ extern s16 test_neighbor_position_relation(s32 src_x, s32 src_y, s32 dst_x, s32 
 extern s32 get_rounded_facing_and_rounding_flag(s16 start_x, s16 start_y, s16 end_x, s16 end_y, u16 *flags);
 extern void *probe_directional_neighbor(void *entity, s32 x, s32 y, u32 direction);
 extern void update_actor_status_and_mp(ActorRecord *entity);
-extern void func_801715F0(void *controller, ObjectPosition *context, void *entity, void *path_state);
-extern s32 func_80171FF4(ActorRecord *action_state, ObjectPosition *motion_param, SpriteFrameState *sprite_arg, ActorRecord *actor);
-extern void func_801721B8(ActorRecord *action_state, ObjectPosition *context, SpriteFrameState *sprite, ActorRecord *actor);
-extern s32 func_80172414(void *, void *, void *, s32);
+extern void advance_stored_entity_path(void *controller, ObjectPosition *context, void *entity, void *path_state);
+extern s32 check_actor_transition_and_start_effect(ActorRecord *action_state, ObjectPosition *motion_param, SpriteFrameState *sprite_arg, ActorRecord *actor);
+extern void update_actor_action_and_direction(ActorRecord *action_state, ObjectPosition *context, SpriteFrameState *sprite, ActorRecord *actor);
+extern s32 update_entity_state_from_query(void *, void *, void *, s32);
 extern void func_80173834(void *, void *, void *, void *);
 extern u8 garuda_walk_direction_frames[];
 extern u8 D_80174890[];
@@ -44,7 +44,7 @@ void update_creature_animation_action(ActorRecord *actor, ObjectPosition *contex
     u32 dungeon_flags = g_dungeon_status.flags;
     if (dungeon_flags & 0x1000) {
         actor->action_id.u = 0xE;
-        func_801715F0(actor, context, sprite_arg, creature);
+        advance_stored_entity_path(actor, context, sprite_arg, creature);
         return;
     }
     if (creature->mp_value.parts.whole == 0) {
@@ -146,7 +146,7 @@ void update_creature_animation_action(ActorRecord *actor, ObjectPosition *contex
                     }
                 }
             }
-            if ((func_80172414(actor, context, sprite, 0) << 16) == 0) {
+            if ((update_entity_state_from_query(actor, context, sprite, 0) << 16) == 0) {
                 return;
             }
             action = creature->action_flags | 0x4000;
@@ -182,10 +182,10 @@ void update_creature_animation_action(ActorRecord *actor, ObjectPosition *contex
             return;
         }
         case 7:
-            if ((func_80171FF4(actor, context, sprite, creature) << 16) != 0) {
+            if ((check_actor_transition_and_start_effect(actor, context, sprite, creature) << 16) != 0) {
                 return;
             }
-            func_801721B8(actor, context, sprite, creature);
+            update_actor_action_and_direction(actor, context, sprite, creature);
             return;
         case 4:
         case 5:

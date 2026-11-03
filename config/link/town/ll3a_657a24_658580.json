@@ -60,7 +60,9 @@
         "0x80019AB6": "0x80019E93",
         "0x8001ABCC": "0x8001ABCC",
         "0x80019397": "0x80019397",
-        "0x80016334": "0x80016470"
+        "0x80016334": "0x80016470",
+        "0x80019D44": "0x80017A54",
+        "0x80019DFC": "0x80017B0C"
       },
       "evidence": "LL3a attestation sha256:0e78fc4b1c3197b0a243c4777da35f3f63bfae04e64a1416a4228186788e8ebd; current-TU paired HI16/LO16 relocation screen; scoped window gate"
     },
@@ -109,7 +111,9 @@
         "0x80019AB6": "0x8001A212",
         "0x8001ABCC": "0x8001ABCC",
         "0x80019397": "0x80019397",
-        "0x80016334": "0x800166F4"
+        "0x80016334": "0x800166F4",
+        "0x80019D44": "0x80017A54",
+        "0x80019DFC": "0x80017B0C"
       },
       "evidence": "LL3a attestation sha256:eca293cbf1515d3d0d6008aaf157f06c62d4755f48f6417a4ac54930ebefe088; current-TU paired HI16/LO16 relocation screen; scoped window gate"
     }

@@ -1,8 +1,8 @@
 #include "common.h"
 #include "town/scene.h"
 
-extern s32 func_800178A8(void *entry_table, s32 entry_id, s32 entry_type);
-extern void *func_80017960(void *entry_table, void *aux_table, s32 entry_id, s32 entry_type);
+extern s32 resolve_entry_flag(void *entry_table, s32 entry_id, s32 entry_type);
+extern void *apply_entry_position(void *entry_table, void *aux_table, s32 entry_id, s32 entry_type);
 
 extern u8 D_800189FC[16];
 extern u8 D_80018B98[16];
@@ -20,8 +20,8 @@ void *process_request_checking_threshold_25(s32 entry_id, s32 unused, s32 entry_
     }
 
     entry_table = D_800189FC;
-    result = func_80017960(entry_table, D_80018B98, entry_id, entry_type);
-    if ((entry_type == 0xB) && (func_800178A8(entry_table, entry_id, 0xB) != 0)) {
+    result = apply_entry_position(entry_table, D_80018B98, entry_id, entry_type);
+    if ((entry_type == 0xB) && (resolve_entry_flag(entry_table, entry_id, 0xB) != 0)) {
         return D_8001ABA0;
     }
     return result;

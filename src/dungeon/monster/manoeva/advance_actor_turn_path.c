@@ -16,7 +16,7 @@
 #include "dungeon/item.h"
 #include "dungeon/item/state.h"
 
-extern s32 func_80171E38(ActorRecord *action_state, ObjectPosition *motion_param, SpriteFrameState *sprite_arg, ActorRecord *actor);
+extern s32 check_actor_transition_and_start_effect(ActorRecord *action_state, ObjectPosition *motion_param, SpriteFrameState *sprite_arg, ActorRecord *actor);
 extern void update_actor_status_and_mp(ActorRecord *entity);
 extern s32 generate_random_value(void);
 extern s16 get_actor_height_difference(ActorRecord *left_record, ActorRecord *right_record);
@@ -45,7 +45,7 @@ void advance_actor_turn_path(ActorRecord *move_data_in, ObjectPosition *context,
 
     if ((dungeon_flags & 0x4000) || (s8)actor_in->movement_queue_state >= 0) {
         if (actor_in->unk_12 >= 2 ||
-            (s16)func_80171E38(move_data_in, context, tile_in, actor_in) == 0) {
+            (s16)check_actor_transition_and_start_effect(move_data_in, context, tile_in, actor_in) == 0) {
             update_actor_status_and_mp(actor_in);
             return;
         }

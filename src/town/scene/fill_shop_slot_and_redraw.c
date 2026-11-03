@@ -5,7 +5,7 @@ struct S_8046C8C4_0;
 
 extern s32 copy_indexed_entry_value();
 extern void pass_indexed_entry(struct S_8046C8C4_0 *table, s32 entry_index);
-extern s32 func_800198D0(s32 flagIndex);
+extern s32 get_script_flag_mask(s32 flagIndex);
 
 extern s32 D_800170B4;
 extern s32 scene_update_state;
@@ -18,7 +18,7 @@ s32 fill_shop_slot_and_redraw(void *owner, s32 slot_index)
     s32 value;
 
     scene_update_state = 3;
-    if (func_800198D0(F_veldil_dungeon_deatta) == 0) {
+    if (get_script_flag_mask(F_veldil_dungeon_deatta) == 0) {
         return 1;
     }
 

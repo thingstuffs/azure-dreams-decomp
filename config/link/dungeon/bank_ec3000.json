@@ -48,7 +48,11 @@
         "0x80174F08": "0x8015CF08",
         "0x80174F38": "0x8015CF38",
         "0x80174F40": "0x8015CF40",
-        "0x80174F48": "0x8015CF48"
+        "0x80174F48": "0x8015CF48",
+        "0x8017139C": "0x80159684",
+        "0x80171DA0": "0x8015A088",
+        "0x80171F64": "0x8015A24C",
+        "0x80172628": "0x8015A364"
       },
       "evidence": "opus_place1: relinked copy -> placement; home object == copy object outside relocation fields, relocation map derived by tools/tu/copy_place.py derive; window gate MATCH"
     },

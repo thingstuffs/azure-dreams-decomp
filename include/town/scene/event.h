@@ -27,4 +27,6 @@ u8 *get_event_data_pointer(void);
 void forward_stored_pair(void);
 void query_event_626(void);
 
+s32 query_priority_event_state(void);
+
 #endif

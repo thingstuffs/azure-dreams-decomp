@@ -4,7 +4,7 @@
 #include "town/scene/position_entries.h"
 
 void decrement_current_entry_counter_condition(void);                            /* extern */
-extern s32 func_80017F8C(void *entry_table, void *context, s32 entry_key); /* placed copy of resolve_entry_flag */
+extern s32 resolve_entry_flag(void *entry_table, void *context, s32 entry_key); /* placed copy of resolve_entry_flag */
 extern s16 scene_request_flag_id;
 extern ScenePositionEntry D_80018B28;
 extern s32 D_80018E38;
@@ -13,8 +13,8 @@ extern s32 D_80018E38;
 s32 run_operation(void *input, s32 unused, s32 aux_input) {
     s32 result;
 
-    result = func_80018044(&D_80018B28, &D_80018E38, input, aux_input);
-    if ((func_8001894C(scene_request_flag_id) == 0) && (func_80017F8C(&D_80018B28, input, aux_input) == 0)) {
+    result = apply_entry_position(&D_80018B28, &D_80018E38, input, aux_input);
+    if ((get_script_flag_mask(scene_request_flag_id) == 0) && (resolve_entry_flag(&D_80018B28, input, aux_input) == 0)) {
         decrement_current_entry_counter_condition();
     }
     return result;

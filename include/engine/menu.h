@@ -9,7 +9,6 @@ struct DungeonItemEntry;
 
 struct ObjA464;
 struct AnimatedMenuPanelBody;
-struct S_8004A4E4;
 struct S_8004F684;
 struct S_8004F780;
 struct S_8004F95C;
@@ -17,7 +16,6 @@ struct S_8004F9AC_Obj;
 struct S_8004FA2C;
 struct S_8004FAA4_1;
 struct S_8004FC2C;
-struct S_8004FF20;
 struct S_800506BC_Ctx;
 struct S_800506BC_Obj;
 struct S_80053A88_Node;
@@ -91,7 +89,6 @@ void animate_selection_menu_entry_spacing(struct S_8004F9AC_Obj *obj);
 /* animate_selection_menu_index_transition.c */
 void animate_selection_menu_index_transition(struct S_8004F95C *state);
 
-
 /* apply_scaled_byte_modifier_clamp_one.c */
 s32 apply_scaled_byte_modifier_clamp_one(s32 base_value, struct DungeonItemEntry *modifier);
 
@@ -102,7 +99,7 @@ void begin_selection_menu_index_change(struct S_8004FA2C *object, int target);
 s32 build_menu_line_tile_packets(struct S_80053A88_Node *first_node);
 
 /* call_state_callback.c */
-s32 call_state_callback(struct S_8004FF20 *obj);
+s32 call_state_callback(MenuSelectionBody *obj);
 
 /* create_animated_selection_menu.c */
 void *create_animated_selection_menu(void *init_data);

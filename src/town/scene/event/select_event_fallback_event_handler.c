@@ -1,5 +1,6 @@
 #include "modules/town_ovl_3ef1c8.h"
 #include "town/scene/response_checks.h"
+#include "town/player/state.h"
 
 /* Selects event response data, using progress-based dialogue overrides when the object's flag is set. */
 s32 select_event_fallback_event_handler(s32 object, s32 request, s32 context) {
@@ -12,7 +13,7 @@ s32 select_event_fallback_event_handler(s32 object, s32 request, s32 context) {
     default_result = apply_entry_position(&D_8001A9AC, &scene_override_context, object, context);
     result = default_result;
     if (resolve_entry_flag(&D_8001A9AC, object, context) != 0) {
-        if (func_8001A510(((S_8001747C_0 *)object)->unk_18) != 0) {
+        if (get_script_flag_mask(((S_8001747C_0 *)object)->unk_18) != 0) {
             result = select_state_result_with_lookup_overrides(object, request, context);
         } else {
             result = (s32)((u8 *)&D_8001CFB4);

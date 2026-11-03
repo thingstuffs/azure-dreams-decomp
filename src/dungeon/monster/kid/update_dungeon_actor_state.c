@@ -21,9 +21,9 @@
 extern void select_sprite_entry(void *, s32, s32);
 extern s8 find_active_rect_containing_point(s32, s32);
 extern void update_actor_status_and_mp(ActorRecord *entity);
-extern void func_80171B28(void *, void *, void *, void *);
-extern s32 func_80172270(ActorRecord *action_state, ObjectPosition *motion_param, SpriteFrameState *sprite_arg, ActorRecord *actor);
-extern s16 func_80172554(void *, void *, void *, s32);
+extern void select_bank_actor_movement(void *, void *, void *, void *);
+extern s32 check_actor_transition_and_start_effect(ActorRecord *action_state, ObjectPosition *motion_param, SpriteFrameState *sprite_arg, ActorRecord *actor);
+extern s16 update_entity_state_from_query(void *, void *, void *, s32);
 extern void func_80174218(void *, void *, void *, void *);
 
 extern u8 kid_direction_frames[];
@@ -129,7 +129,7 @@ void update_dungeon_actor_state(ActorRecord *actor, ObjectPosition *context, Spr
             return;
         }
         if (*(u16 *)&sprite_in->tile_x == reference_tile_object.tile_position.word) {
-            func_80171B28(actor, context, sprite_in, entity);
+            select_bank_actor_movement(actor, context, sprite_in, entity);
             return;
         }
         if (!(entity->action_flags & 0x8000)) {
@@ -148,13 +148,13 @@ void update_dungeon_actor_state(ActorRecord *actor, ObjectPosition *context, Spr
                     }
                 }
             }
-            if ((func_80172554(actor, context, sprite_in, 0) << 16) == 0) {
+            if ((update_entity_state_from_query(actor, context, sprite_in, 0) << 16) == 0) {
                 return;
             }
             action_state = entity->action_flags | 0x4000;
             entity->action_flags = action_state;
             if (!(action_state & 0x8000)) {
-                func_80171B28(actor, context, sprite_in, entity);
+                select_bank_actor_movement(actor, context, sprite_in, entity);
                 return;
             }
         }
@@ -162,7 +162,7 @@ void update_dungeon_actor_state(ActorRecord *actor, ObjectPosition *context, Spr
         switch ((entity->action_flags & 0x3FFF) - 1) {
         case 7:
         case 8:
-            if ((func_80172270(actor, context, sprite_in, entity) << 16) != 0) {
+            if ((check_actor_transition_and_start_effect(actor, context, sprite_in, entity) << 16) != 0) {
                 return;
             }
             initialize_status_gated_action(actor, context, sprite_in, entity);
@@ -206,7 +206,7 @@ void update_dungeon_actor_state(ActorRecord *actor, ObjectPosition *context, Spr
         }
 
         default:
-            func_80171B28(actor, context, sprite_in, entity);
+            select_bank_actor_movement(actor, context, sprite_in, entity);
             return;
         }
     }

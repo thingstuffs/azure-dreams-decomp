@@ -1,8 +1,8 @@
 #include "common.h"
 #include "town/scene/entry_requests.h"
 #include "town/scene/flags.h"
+#include "town.h"
 
-extern s32 town_table_contains_first_byte_b(s32);
 extern void func_80016CD8(void);
 
 /* If flag 7 is set, call func_80016CD8 first; then get_helper_result(target, value). */

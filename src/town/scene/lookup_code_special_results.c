@@ -1,5 +1,7 @@
 #include "modules/town_ovl_64f118.h"
 #include "modules/town_ovl_64f118.h"
+#include "town/player.h"
+#include "town/scene/motion.h"
 
 /*
  * Selects one of four eight-byte flag records using the signed remainder of func_80017434 divided
@@ -9,8 +11,8 @@ void lookup_code_with_special_results(s32 forwardedValue, s32 unused, s32 forwar
     s32 biasedSelectionValue;
     s32 selectionValue;
 
-    selectionValue = func_80017434();
+    selectionValue = get_linked_record_field_2_d_60();
     biasedSelectionValue = selectionValue;
-    call_set_script_flag_bit(((selectionValue - ((biasedSelectionValue / 4) * 4)) * 8) + D_80017570, D_80017658,
+    apply_entry_position(((selectionValue - ((biasedSelectionValue / 4) * 4)) * 8) + D_80017570, D_80017658,
         forwardedValue, forwardedData);
 }

@@ -3,6 +3,7 @@
  */
 #include "town/scene/service/cache_scaled_service_result_g00738.h"
 #include "town/scene/service.h"
+#include "town/shop/object.h"
 
 /* Call the callback with fixed arguments and cache three quarters of its result. */
 u32 invoke_state_callback(void) {
@@ -26,5 +27,5 @@ void pass_four_byte_request_1(void) {
     request.bytes[0] = 1;
     request.bytes[2] = 0;
     request.bytes[3] = 0;
-    func_800168BC(&request);
+    append_town_item(&request);
 }

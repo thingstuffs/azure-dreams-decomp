@@ -9,7 +9,6 @@ struct ObjectPosition;
 
 struct S_8003FF2C;
 struct S_8003FFF0;
-struct S_80040060;
 struct S_800511B4_entity;
 
 /* create_linked_zukan_task.c */
@@ -54,7 +53,6 @@ void update_active_nodes(void);
 
 /* update_node_registration.c */
 void update_node_registration(void *state, void *context);
-
 
 #include "shared/object_node_flags.h"
 

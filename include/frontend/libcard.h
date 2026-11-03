@@ -127,10 +127,10 @@ void card_boot_confirm_selected_slot_deletion(void *state);
 void card_boot_create_menu_child_panels(CardChooserBody *chooser);
 
 /* card_boot_create_save_slot_menu.c */
-void *card_boot_create_save_slot_menu(void *init_value, s32 state_value);
+void *card_boot_create_save_slot_menu(ObjectNodeHeader *init_value, s32 state_value);
 
 /* card_boot_create_slot_selection_menu.c */
-void *card_boot_create_slot_selection_menu(void *init_value, s32 unused);
+void *card_boot_create_slot_selection_menu(ObjectNodeHeader *init_value, s32 unused);
 
 /* card_boot_create_three_row_command_panel.c */
 void *card_boot_create_three_row_command_panel(void *init_value);
@@ -367,7 +367,7 @@ void draw_cylindrical(void *object);
 void card_boot_init_channel_record(CardChooserBody *record, ObjectNodeHeader *request, s32 value_00);
 
 /* init_card_boot_request_object.c */
-struct Node8002BB08 *init_card_boot_request_object(void *request, s32 mode);
+struct Node8002BB08 *init_card_boot_request_object(ObjectNodeHeader *request, s32 mode);
 
 /* libcard_init.c */
 void libcard_init(s32 slot);

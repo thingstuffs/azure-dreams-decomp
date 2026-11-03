@@ -1,8 +1,9 @@
 #include "common.h"
 #include "town/devkit.h"
+#define AZ_FOREIGN_LOCAL_FUNC_80701060
+#include "town/devkit/flag_test_imports.h"
+#undef AZ_FOREIGN_LOCAL_FUNC_80701060
 
-s32 func_80700C08(s32);
-s32 func_8070114C(void);
 
 /* Devkit flag-test entry: select page 0, redraw the grid, then run the flag scan. */
 s32 run_devkit_page_0_redraw_scan(void) {

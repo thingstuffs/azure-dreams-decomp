@@ -20,19 +20,19 @@ struct ScriptContext {
     s16 unk_1A;
 };
 
-extern void func_80017C8C(s32 records, s32 count);
-extern s32 func_80018668(s32 flag);
+extern void process_town_records(s32 records, s32 count);
+extern s32 get_script_flag_mask(s32 flag);
 extern s32 D_80019550;
 
 /* Return the first entry whose flag is clear and whose callback returns zero, rescanning while D_80019550 is set. */
 s32 get_first_entry_whose_flag(ScriptContext *context) {
     s32 entry_index;
 
-    func_80017C8C(context->unk_14, context->unk_1A);
+    process_town_records(context->unk_14, context->unk_1A);
     do {
         D_80019550 = 0;
         entry_index = 0;
-        while (func_80018668(context->entries[entry_index].flag) != 0 ||
+        while (get_script_flag_mask(context->entries[entry_index].flag) != 0 ||
                context->entries[entry_index].callback(context, entry_index) != 0) {
             entry_index++;
         }

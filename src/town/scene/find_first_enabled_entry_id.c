@@ -9,7 +9,7 @@ typedef struct {
 
 extern Entry town_selection_records[8];
 extern u8 D_80017BC0[];
-extern s32 func_8001E670(s32 value);
+extern s32 get_script_flag_mask(s32 value);
 
 /* Return the first listed entry ID whose value passes the check, or zero. */
 s32 find_first_enabled_entry_id(void) {
@@ -18,7 +18,7 @@ s32 find_first_enabled_entry_id(void) {
     if (D_80017BC0[list_index] != 0) {
         Entry *entries = town_selection_records;
         do {
-            if (func_8001E670(entries[D_80017BC0[list_index]].value) != 0) {
+            if (get_script_flag_mask(entries[D_80017BC0[list_index]].value) != 0) {
                 break;
             }
             list_index++;

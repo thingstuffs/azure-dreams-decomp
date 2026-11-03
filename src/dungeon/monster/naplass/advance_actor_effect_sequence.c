@@ -37,8 +37,8 @@ s32 generate_random_value(void);
 void update_actor_status_and_mp(ActorRecord *entity);
 s32 begin_ready_actor_directional_action(ActorRecord *body, ObjectPosition *position, SpriteFrameState *sprite, u8 *direction_frames);
 void begin_actor_move_to_target_facing(ActorRecord *body, ObjectPosition *position, SpriteFrameState *sprite, ActorRecord *actor);
-extern void func_80171F94(ActorRecord *action_state, ObjectPosition *action_context, void *sprite, ActorRecord *actor);
 void advance_actor_effect_sequence(Rec_func_801732A4_arg0 *state, ObjectPosition *position,struct SpriteFrameState *actor, void *model);
+extern void start_directional_actor_effect(ActorRecord *action_state, ObjectPosition *action_context, void *sprite, ActorRecord *actor);
 extern u8 effect_update_tag[];
 extern u8 naplass_action_continuation_address[];
 extern u8 naplass_frame_set[];
@@ -253,7 +253,7 @@ void advance_actor_effect_sequence_2(ActorRecord *body, void *transform, SpriteF
         body->unk_8C.address = naplass_action_continuation_address;
         return;
     case 5:
-        func_80171F94(body, transform, sprite, actor_state);
+        start_directional_actor_effect(body, transform, sprite, actor_state);
         return;
     }
 }

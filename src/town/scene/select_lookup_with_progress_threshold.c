@@ -1,6 +1,7 @@
 #include "modules/town_ovl_3ef1c8.h"
 #include "town/scene/response_checks.h"
 #include "town/scene.h"
+#include "town/player.h"
 
 /* Looks up a response, applies the helper-result >= 5 override, then checks for a state fallback. */
 void *select_lookup_with_progress_threshold(s32 selector, s32 check_value, s32 lookup_value) {
@@ -10,7 +11,7 @@ void *select_lookup_with_progress_threshold(s32 selector, s32 check_value, s32 l
         return &scene_result_fallback;
     }
     result = apply_entry_position(&D_8001A94C, &scene_override_context, selector, lookup_value);
-    if (func_8001A7F8() >= 5) {
+    if (get_linked_record_field_2_d_60() >= 5) {
         func_80019880();
         result = &D_80020E5C;
     }

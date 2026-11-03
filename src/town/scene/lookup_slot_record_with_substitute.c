@@ -4,8 +4,8 @@
 #include "town/player/state.h"
 #include "town/scene/flags.h"
 #include "town/scene/motion.h"
+#include "town.h"
 
-s32 town_table_contains_first_byte_b(s32 target_value);
 extern s32 D_80018974;
 extern s32 D_80018AD0;
 extern s32 D_80019F15;

@@ -3,6 +3,11 @@
 #include "shared/entity.h"
 #include "town/scene/object.h"
 #include "town/data.h"
+#define AZ_FOREIGN_LOCAL_FUNC_800373DC
+#define AZ_FOREIGN_LOCAL_FUNC_8023FA58
+#include "town/devkit/old_minigame_imports.h"
+#undef AZ_FOREIGN_LOCAL_FUNC_8023FA58
+#undef AZ_FOREIGN_LOCAL_FUNC_800373DC
 
 typedef struct S_8080E59C_0 {
     u8 pad_00[0x8];
@@ -60,9 +65,6 @@ typedef struct {
 } Copy24;
 
 extern void *func_800373DC(); /* Unprototyped: this site's argument count or types differ from the foreign program's import prototype */
-extern void func_8003BC18();
-extern void func_8006E590();
-extern void func_8006E8B8();
 extern void func_8023FA58(); /* Unprototyped: this site's argument count or types differ from the foreign program's import prototype */
 
 extern u8 D_8052643C[];

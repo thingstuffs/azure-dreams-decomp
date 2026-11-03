@@ -17,7 +17,9 @@
       "bindings": {
         "0x80017C8C": "0x80016B98",
         "0x80019550": "0x80017594",
-        "0x80018668": "0x800173F4"
+        "0x80018668": "0x800173F4",
+        "0x80019EA8": "0x80016B98",
+        "0x8001ADE0": "0x800173F4"
       },
       "evidence": "r124w_dupes1: current complete objects and dependent placements re-paired by tools/tu/copy_place.py; scoped retail proof required"
     }

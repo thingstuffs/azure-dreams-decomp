@@ -1,5 +1,6 @@
 #include "script_symbols.h"
 #include "modules/town_ovl_3fe0d0_p00.h"
+#include "town/player/state.h"
 
 /* Installs scene state and a cell handler, invokes town callback 0x3B0/0x100, and updates F_gy_mon_sw. */
 void advance_floor_event_counter(void) {
@@ -13,7 +14,7 @@ void advance_floor_event_counter(void) {
     dispatch_table = *(void **)((u8 *)town_scene_root + 0x20);
     *&D_8001794C.pointers[0] = &D_800177C8;
     ((TownCall)dispatch_table->callback_2EC)(call_code, 0x100);
-    func_800175E0(F_gy_mon_sw);
+    clear_script_flag_bit(F_gy_mon_sw);
     *(void **)((s8 *)town_scene_root->event_data
         + town_scene_root->entry_index * 8) = &D_8001624C;
 }

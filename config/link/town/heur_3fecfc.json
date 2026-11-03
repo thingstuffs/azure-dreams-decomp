@@ -16,7 +16,9 @@
       "size": 92,
       "bindings": {
         "0x800172c8": "0x80016440",
-        "0x80018668": "0x80017660"
+        "0x80018668": "0x80017660",
+        "0x800194E4": "0x80016440",
+        "0x8001ADE0": "0x80017660"
       },
       "evidence": "Complete retail donor comparison; exact ELF replay and full production windows in work/native_lane/r121_heur/evidence/placements.json"
     }

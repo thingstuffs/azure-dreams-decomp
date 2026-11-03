@@ -7,12 +7,9 @@
 #include "engine/node.h"
 #include "slus/data.h"
 
-
-
 /* Sub-object embedded at offset 0x20 of the entity (same family as
  * init_color_fade_effect / init_fade_in_out_effect): owner backpointer, four zeroed shorts,
  * a table pointer, then a walked slot array of s32 (16 entries, +4/step). */
-struct S_8005313C;
 
 extern void init_shaded_line_effect(void *a0, s16 a1);
 

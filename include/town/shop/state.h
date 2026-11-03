@@ -33,4 +33,5 @@ s32 test_linked_flag_80700dc0(s32 flag_index);
 /* Additional diagnostic copies recovered while resolving import floors. */
 s32 test_linked_flag_80000c6c(s32 index);
 
+void process_lshop_entries(void *entries, s32 entry_mode);
 #endif

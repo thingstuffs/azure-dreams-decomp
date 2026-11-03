@@ -15,7 +15,8 @@
       "vma": "0x80017460",
       "size": 208,
       "bindings": {
-        "0x8001D188": "0x800183E8"
+        "0x8001D188": "0x800183E8",
+        "0x8001ADE0": "0x800198D0"
       },
       "evidence": "docs/evidence/r121w_s1_wave2.receipt.json: town/func_8047AC60"
     },
@@ -27,7 +28,8 @@
       "vma": "0x8001753c",
       "size": 92,
       "bindings": {
-        "0x8001D188": "0x800183E8"
+        "0x8001D188": "0x800183E8",
+        "0x8001ADE0": "0x800198D0"
       },
       "evidence": "docs/evidence/r121w_s1_wave2.receipt.json: town/func_8047AD3C"
     },
@@ -41,7 +43,8 @@
       "bindings": {
         "0x8001791c": "0x80016470",
         "0x8001e670": "0x800198d0",
-        "0x8001D188": "0x800183E8"
+        "0x8001D188": "0x800183E8",
+        "0x8001ADE0": "0x800198D0"
       },
       "evidence": "docs/evidence/r121w_s1_wave2.receipt.json: town/func_8047ADB0"
     },
@@ -56,7 +59,9 @@
         "0x8001791c": "0x80016470",
         "0x8001e578": "0x800197d8",
         "0x8001e670": "0x800198d0",
-        "0x8001D188": "0x800183E8"
+        "0x8001D188": "0x800183E8",
+        "0x8001ACE8": "0x800197D8",
+        "0x8001ADE0": "0x800198D0"
       },
       "evidence": "docs/evidence/r121w_s1_wave2.receipt.json: town/func_8047AE4C"
     },
@@ -68,7 +73,8 @@
       "vma": "0x800176d4",
       "size": 220,
       "bindings": {
-        "0x8001D188": "0x800183E8"
+        "0x8001D188": "0x800183E8",
+        "0x8001ADE0": "0x800198D0"
       },
       "evidence": "docs/evidence/r121w_s1_wave2.receipt.json: town/func_8047AED4"
     },
@@ -80,7 +86,9 @@
       "vma": "0x800177d4",
       "size": 104,
       "bindings": {
-        "0x8001D188": "0x800183E8"
+        "0x8001D188": "0x800183E8",
+        "0x8001ADE0": "0x800198D0",
+        "0x8001B0C8": "0x80019A8C"
       },
       "evidence": "docs/evidence/r121w_s1_wave2.receipt.json: town/func_8047AFD4"
     },
@@ -92,7 +100,8 @@
       "vma": "0x80017848",
       "size": 72,
       "bindings": {
-        "0x8001D188": "0x800183E8"
+        "0x8001D188": "0x800183E8",
+        "0x8001B0C8": "0x80019A8C"
       },
       "evidence": "docs/evidence/r121w_s1_wave2.receipt.json: town/func_8047B048"
     },
@@ -107,7 +116,8 @@
         "0x8001791c": "0x80016470",
         "0x80017bc0": "0x80016568",
         "0x8001e670": "0x800198d0",
-        "0x8001D188": "0x800183E8"
+        "0x8001D188": "0x800183E8",
+        "0x8001ADE0": "0x800198D0"
       },
       "evidence": "docs/evidence/r121w_s1_wave2.receipt.json: town/func_8047B16C"
     },
@@ -119,7 +129,8 @@
       "vma": "0x80017a08",
       "size": 188,
       "bindings": {
-        "0x8001D188": "0x800183E8"
+        "0x8001D188": "0x800183E8",
+        "0x8001ADE0": "0x800198D0"
       },
       "evidence": "docs/evidence/r121w_s1_wave2.receipt.json: town/func_8047B208"
     },
@@ -131,7 +142,8 @@
       "vma": "0x80017ac4",
       "size": 76,
       "bindings": {
-        "0x8001D188": "0x800183E8"
+        "0x8001D188": "0x800183E8",
+        "0x8001ADE0": "0x800198D0"
       },
       "evidence": "docs/evidence/r121w_s1_wave2.receipt.json: town/func_8047B2C4"
     },
@@ -143,7 +155,10 @@
       "vma": "0x80017b28",
       "size": 72,
       "bindings": {
-        "0x8001D188": "0x800183E8"
+        "0x8001D188": "0x800183E8",
+        "0x8001ACE8": "0x800197D8",
+        "0x8001AD60": "0x80019850",
+        "0x8001ADE0": "0x800198D0"
       },
       "evidence": "docs/evidence/r121w_s1_wave2.receipt.json: town/func_8047B328"
     },
@@ -189,7 +204,8 @@
         "0x800198D0": "0x800198D0",
         "0x80019BB4": "0x80019BB4",
         "0x80017DBC": "0x80017DBC",
-        "0x8001D188": "0x800183E8"
+        "0x8001D188": "0x800183E8",
+        "0x8001ADE0": "0x800198D0"
       },
       "evidence": "LL3a attestation sha256:79ef2bf877adb5333304f7d833167cd2773cf317329ec0081eb4988ba20a2b34; current-TU paired HI16/LO16 relocation screen; scoped window gate"
     },
@@ -292,7 +308,8 @@
         "0x80016480": "0x80016480",
         "0x800198D0": "0x800198D0",
         "0x80018130": "0x80018130",
-        "0x8001D188": "0x800183E8"
+        "0x8001D188": "0x800183E8",
+        "0x8001ADE0": "0x800198D0"
       },
       "evidence": "LL3a attestation sha256:6b70d99776c309caf52b9ff6a6a06ed71bc155c9d1c3fe070c7d54113e021368; current-TU paired HI16/LO16 relocation screen; scoped window gate"
     },
@@ -335,7 +352,8 @@
         "0x8001902C": "0x80016FA8",
         "0x8001D280": "0x800184E0",
         "0x8001D048": "0x800182A8",
-        "0x8001D188": "0x800183E8"
+        "0x8001D188": "0x800183E8",
+        "0x8001A7B0": "0x80019A44"
       },
       "evidence": "LL3a attestation sha256:b8fd3d4f4fd4bba75726d973b4e46872ebdb4748ba7d89f6fa5b5f7299e95bdb; current-TU paired HI16/LO16 relocation screen; scoped window gate"
     },
@@ -376,7 +394,8 @@
       "vma": "0x80018b24",
       "size": 48,
       "bindings": {
-        "0x8001E578": "0x800197D8"
+        "0x8001E578": "0x800197D8",
+        "0x8001ACE8": "0x800197D8"
       },
       "evidence": "r124w_dupes1: current complete objects and dependent placements re-paired by tools/tu/copy_place.py; scoped retail proof required"
     },
@@ -550,7 +569,8 @@
       "bindings": {
         "0x80017C8C": "0x80019074",
         "0x80019550": "0x80019BC4",
-        "0x80018668": "0x800198D0"
+        "0x80018668": "0x800198D0",
+        "0x8001ADE0": "0x800198D0"
       },
       "evidence": "opus_place1: re-homed from relinked copy town/func_804D1484 onto town/func_80481D78; tools/tu/copy_place.py derive (dependent object == home object modulo relocation targets)"
     }

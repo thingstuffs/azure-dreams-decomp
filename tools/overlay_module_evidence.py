@@ -3,7 +3,7 @@ import hashlib,json,sys,subprocess,yaml
 from pathlib import Path
 ROOT=Path(__file__).resolve().parents[1]
 sys.path.insert(0,str(ROOT/'tools/gate'))
-from overlay_module_gate import SCHEMA,CONTAINERS,affected_windows,fingerprint,graph,load_modules,local,sha,closure,payload_spec,genuine_flags,all_members,module_first,module_size
+from overlay_module_gate import SCHEMA,CONTAINERS,affected_windows,fingerprint,graph,load_modules,local,sha,closure,payload_spec,genuine_flags,all_members,module_first,module_size,module_object_views
 import overlay_native_rodata as N
 import overlay_native_allocations as Z
 
@@ -31,7 +31,7 @@ def receipt_reason(m,r,root,proof_dir):
   sys.path.insert(0,str(root/'tools/fidelity'));import aspsx_diff as A
   out=proof_path(root,proof_dir)
   artifacts={name:(out/name).read_bytes() for name in ['module.s','sectioned.s','module.untrimmed.o','module.o','IN.S','OUT.OBJ']}
-  ma_view=A.View(A.read_elf(artifacts['module.o']));ge_view=A.View(A.read_lnk(artifacts['OUT.OBJ']),ref=ma_view)
+  A,ma_view,ge_view=module_object_views(m,artifacts['module.o'],artifacts['OUT.OBJ'],root)
   N.verify_proof(m,json.loads((out/'rodata_proof.json').read_text()),artifacts['module.untrimmed.o'],artifacts['module.o'],ma_view,ge_view,artifacts['IN.S'].decode(),root/'tools/build/slus_rodata_trim.py',artifacts)
  except (OSError,ValueError,KeyError,TypeError) as e:return 'invalid native rodata/trim proof: '+str(e)
  with (root/'work/disc/containers'/CONTAINERS[m['container']]).open('rb') as f:f.seek(first['foff']);ret=f.read(n)

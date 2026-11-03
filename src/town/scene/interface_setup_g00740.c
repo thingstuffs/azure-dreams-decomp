@@ -4,6 +4,7 @@
  */
 #include "town/scene/interface_setup_g00740.h"
 #include "town/scene.h"
+#include "town/player/state.h"
 
 /* Calls func_800181C8 with the selected 24-byte entry and two forwarded values. */
 void call_24_byte_entry_two(void *firstValue, s32 unusedValue, s32 secondValue) {
@@ -15,7 +16,7 @@ void call_24_byte_entry_two(void *firstValue, s32 unusedValue, s32 secondValue) 
     twiceEntryIndex = entryIndex << 1;
     thriceEntryIndex = entryIndex + twiceEntryIndex;
 
-    func_800181C8(
+    apply_entry_position(
         D_80018FB8 + thriceEntryIndex,
         &scene_request_context,
         firstValue,
@@ -27,8 +28,8 @@ s32 run_global_interface_setup_sequence(void) {
     D_80018FB4 = ((S_func_80016D74_2 *)
         ((S_func_80016D74_1 *)
          ((S_func_80016D74_0 *)((s8 *)(&town_scene_root)))->unk_00)->unk_20)->unk_54(3);
-    func_80018BD0(F_hos_first_cheriru);
-    func_80018BD0(F_hos_first_hush);
+    clear_script_flag_bit(F_hos_first_cheriru);
+    clear_script_flag_bit(F_hos_first_hush);
     ((S_func_80016D74_2 *)
         ((S_func_80016D74_1 *)
          ((S_func_80016D74_0 *)((s8 *)(&town_scene_root)))->unk_00)->unk_20)->unk_2F8(0x10, 0x200);

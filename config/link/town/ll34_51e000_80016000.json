@@ -574,7 +574,8 @@
       "size": 36,
       "bindings": {
         "0x80017200": "0x8001740C",
-        "0x80017244": "0x80017450"
+        "0x80017244": "0x80017450",
+        "0x8001932C": "0x8001740C"
       },
       "evidence": "r121w_ll34: fresh current-home native object, all relocation fields evaluated and exact retail bytes; docs/evidence/r121w_ll34/results.tsv"
     },

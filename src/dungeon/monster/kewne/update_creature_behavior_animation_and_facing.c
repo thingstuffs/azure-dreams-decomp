@@ -25,7 +25,6 @@
 extern void select_sprite_entry(void *, s32, s32);
 extern s8 find_active_rect_containing_point(s32, s32);
 extern void update_actor_status_and_mp(ActorRecord *entity);
-extern void func_8016B69C(void *, void *, void *, void *);
 extern s32 select_and_start_target_action(ActorRecord *action_state, ObjectPosition *action_param, SpriteFrameState *visual_data, ActorRecord *actor);
 extern void start_kewne_attack_action(ActorRecord *controller, ObjectPosition *action_context, SpriteFrameState *sprite, ActorRecord *actor);
 extern void update_kewne_charge_counter(void *, void *, void *, void *);
@@ -46,7 +45,7 @@ void update_creature_behavior_animation_and_facing(ActorRecord *actor, ObjectPos
 
     if (g_dungeon_status.flags & 0x1000) {
         actor->action_id.u = 0xE;
-        func_8016B69C(actor, context, sprite, creature);
+        advance_actor_path_and_facing(actor, context, sprite, creature);
         return;
     }
 

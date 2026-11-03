@@ -30,7 +30,10 @@
       "size": 1380,
       "bindings": {
         "0x800B2C68": "0x800B2C68",
-        "0x800D491C": "0x800D491C"
+        "0x800D491C": "0x800D491C",
+        "0x80171DA0": "0x8016BDFC",
+        "0x80171F64": "0x8016BFC0",
+        "0x80172628": "0x8016C1F8"
       },
       "evidence": "; LL3a preserves prior rule-3 binding; LL3a preserves prior rule-3 binding"
     },
@@ -56,7 +59,8 @@
       "size": 1884,
       "bindings": {
         "0x800B2C68": "0x800B2C68",
-        "0x800D491C": "0x800D491C"
+        "0x800D491C": "0x800D491C",
+        "0x80171DA0": "0x8016BDFC"
       },
       "evidence": "; LL3a preserves prior rule-3 binding; LL3a preserves prior rule-3 binding"
     },

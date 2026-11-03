@@ -51,11 +51,11 @@ typedef struct S_801711A4_2 {
 
 s32 find_active_rect_containing_point(s32 point_x, s32 point_y);
 void update_actor_status_and_mp(ActorRecord *entity);
-extern void func_801716CC(void *motion, ObjectPosition *unused, SpriteFrameState *actor, void *path_state);
+extern void advance_actor_path_and_facing(void *motion, ObjectPosition *unused, SpriteFrameState *actor, void *path_state);
 extern void func_80171884(Rec_func_800A9E70_arg0 *move_data, void *context, TileObject *position_data, ActorRecord *actor_data);
-s32 func_80171FCC(ActorRecord *action_state, ObjectPosition *motion_param, SpriteFrameState *sprite_arg, ActorRecord *actor);
-extern void func_80172190(ActorRecord *action_state, ObjectPosition *context, SpriteFrameState *sprite, ActorRecord *actor);
-s32 func_801722B8(void *entity_arg, void *primary_context_arg, void *secondary_context_arg, s32 force_state_arg);
+s32 check_actor_transition_and_start_effect(ActorRecord *action_state, ObjectPosition *motion_param, SpriteFrameState *sprite_arg, ActorRecord *actor);
+extern void update_actor_action_and_direction(ActorRecord *action_state, ObjectPosition *context, SpriteFrameState *sprite, ActorRecord *actor);
+s32 update_entity_state_from_query(void *entity_arg, void *primary_context_arg, void *secondary_context_arg, s32 force_state_arg);
 extern void func_80173D10(Actor *actor, s32 action, Entity *entity, MapObject *map_object);
 extern u8 kraken_frame_set_1[];
 extern u8 kraken_frame_set[];
@@ -79,7 +79,7 @@ void update_actor_animation_and_dispatch(ActorRecord *actor, ObjectPosition *con
 
     if (g_dungeon_status.flags & 0x1000) {
         actor->action_id.u = 0xEU;
-        func_801716CC(actor, context, sprite, status);
+        advance_actor_path_and_facing(actor, context, sprite, status);
         return;
     }
     if (status->mp_value.parts.whole == 0) {
@@ -163,7 +163,7 @@ void update_actor_animation_and_dispatch(ActorRecord *actor, ObjectPosition *con
                         return;
                     }
                 }
-                if ((func_801722B8(actor, context, sprite, 0) << 0x10) == 0) {
+                if ((update_entity_state_from_query(actor, context, sprite, 0) << 0x10) == 0) {
                     return;
                 }
                 action_flags = status->action_flags | 0x4000;
@@ -174,10 +174,10 @@ void update_actor_animation_and_dispatch(ActorRecord *actor, ObjectPosition *con
                 switch (action_id) {
                 case 8:
                 case 9:
-                    if ((func_80171FCC(actor, context, sprite, status) << 0x10) != 0) {
+                    if ((check_actor_transition_and_start_effect(actor, context, sprite, status) << 0x10) != 0) {
                         return;
                     }
-                    func_80172190(actor, context, sprite, status);
+                    update_actor_action_and_direction(actor, context, sprite, status);
                     return;
                 case 5:
                 case 6:

@@ -19,8 +19,8 @@
 extern void select_sprite_entry(void *, s32, s32);
 extern s8 find_active_rect_containing_point(s32, s32);
 extern void update_actor_status_and_mp(ActorRecord *entity);
-extern void func_801721D8(ActorRecord *move_data, ObjectPosition *context, SpriteFrameState *position_data, ActorRecord *actor_data);
-extern s32 func_80172B8C(void *, void *, void *, void *);
+extern void select_movement_direction_and_advance(ActorRecord *move_data, ObjectPosition *context, SpriteFrameState *position_data, ActorRecord *actor_data);
+extern s32 update_entity_state_from_query(void *, void *, void *, void *);
 extern void func_801743F0(void *, void *, void *, void *);
 
 extern s32 death_action_resume_address;
@@ -173,7 +173,7 @@ void dispatch_actor_animation_and_action(ActorRecord *motion_in, ObjectPosition 
             return;
         }
         if (*(u16 *)&entity_in->tile_x == reference_tile_object.tile_position.word) {
-            func_801721D8(motion_in, context_in, entity_in, actor_in);
+            select_movement_direction_and_advance(motion_in, context_in, entity_in, actor_in);
             return;
         }
         if (!(actor_in->action_flags & 0x8000)) {
@@ -192,13 +192,13 @@ void dispatch_actor_animation_and_action(ActorRecord *motion_in, ObjectPosition 
                     }
                 }
             }
-            if ((func_80172B8C(motion_in, context_in, entity_in, 0) << 16) == 0) {
+            if ((update_entity_state_from_query(motion_in, context_in, entity_in, 0) << 16) == 0) {
                 return;
             }
             action_state = actor_in->action_flags | 0x4000;
             actor_in->action_flags = action_state;
             if (!(action_state & 0x8000)) {
-                func_801721D8(motion_in, context_in, entity_in, actor_in);
+                select_movement_direction_and_advance(motion_in, context_in, entity_in, actor_in);
                 return;
             }
         }
@@ -247,7 +247,7 @@ void dispatch_actor_animation_and_action(ActorRecord *motion_in, ObjectPosition 
         case 9:
         case 10:
         default:
-            func_801721D8(motion_in, context_in, entity_in, actor_in);
+            select_movement_direction_and_advance(motion_in, context_in, entity_in, actor_in);
             return;
         }
     }

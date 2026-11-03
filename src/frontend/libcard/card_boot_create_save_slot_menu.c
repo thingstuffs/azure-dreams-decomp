@@ -13,7 +13,7 @@
 #include "main/data.h"
 
 /* Allocate an object and initialize its state and dispatch table. */
-void *card_boot_create_save_slot_menu(void *init_value, s32 state_value)
+void *card_boot_create_save_slot_menu(ObjectNodeHeader *init_value, s32 state_value)
 {
     ObjectNodeHeader *object;
     CardSaveMenuBody *state;

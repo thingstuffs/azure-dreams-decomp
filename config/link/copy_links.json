@@ -5,6 +5,7 @@
    "func_80171C34": "func_80171854"
   },
   "dungeon/func_809A58EC": {
+   "func_8017169C": "func_8016B69C",
    "func_80171C34": "func_8016B854",
    "func_80171F9C": "func_8016BF9C",
    "func_80172234": "func_8016C234",
@@ -15,7 +16,37 @@
    "func_8017169C": "func_8015F69C"
   },
   "dungeon/func_809B78EC": {
-   "func_8017169C": "func_8015969C"
+   "func_8017169C": "func_8015969C",
+   "func_80171C34": "func_80159854",
+   "func_80171F9C": "func_80159F9C",
+   "func_80172234": "func_8015A234",
+   "func_80172358": "func_8015A358",
+   "func_80172628": "func_8015A66C"
+  },
+  "dungeon/func_809F3C00": {
+   "func_8017182C": "func_80171B28",
+   "func_80171DA0": "func_80172270",
+   "func_80172628": "func_80172554"
+  },
+  "dungeon/func_80AC5F28": {
+   "func_801717F8": "func_80171F40",
+   "func_80171DA0": "func_80172710",
+   "func_80171F64": "func_801728D4",
+   "func_80172628": "func_801729EC"
+  },
+  "dungeon/func_80B6D65C": {
+   "func_8017139C": "func_801713D4",
+   "func_80171DA0": "func_80171DD8",
+   "func_80171F64": "func_80171F9C",
+   "func_80172628": "func_801720B4"
+  },
+  "dungeon/func_80B9769C": {
+   "func_80172628": "func_80173A08",
+   "func_80174948": "func_801747D0"
+  },
+  "dungeon/func_80BC21DC": {
+   "func_80171C34": "func_801721D8",
+   "func_80172628": "func_80172B8C"
   },
   "dungeon/func_80CF0BC4": {
    "func_8017121C": "func_8016B21C",
@@ -25,14 +56,80 @@
    "func_8017121C": "func_8015F21C",
    "func_801714FC": "func_8015F4FC"
   },
+  "dungeon/func_80D11F60": {
+   "func_80171570": "func_80171CD8",
+   "func_80171DA0": "func_801726D0",
+   "func_80171F64": "func_80172894",
+   "func_80172628": "func_801729AC"
+  },
+  "dungeon/func_80D3C280": {
+   "func_80172628": "func_80172EA8"
+  },
+  "dungeon/func_80D6671C": {
+   "func_80172628": "func_801731DC",
+   "func_80172F58": "func_801726EC"
+  },
+  "dungeon/func_80D8F668": {
+   "func_8014D810": "func_801715CC",
+   "func_80171570": "func_80171388",
+   "func_80172628": "func_801720E0"
+  },
+  "dungeon/func_80DBA620": {
+   "func_80171DA0": "func_80172D74",
+   "func_80171F64": "func_80172F38",
+   "func_80172628": "func_80173050"
+  },
+  "dungeon/func_80E0D894": {
+   "func_80171410": "func_801718B4",
+   "func_80171E00": "func_80171FFC",
+   "func_80172628": "func_80172A5C"
+  },
+  "dungeon/func_80E376E4": {
+   "func_80171570": "func_80171460",
+   "func_80171DA0": "func_80171E38",
+   "func_80171F64": "func_80171FFC"
+  },
+  "dungeon/func_80E37EA4": {
+   "func_80171DA0": "func_80171E38"
+  },
+  "dungeon/func_80E61EF4": {
+   "func_8014D810": "func_80171EEC",
+   "func_80171570": "func_80171CA8",
+   "func_80171DA0": "func_801726B0",
+   "func_80171F64": "func_80172874",
+   "func_80172628": "func_8017298C"
+  },
   "dungeon/func_80E658F8": {
    "func_800F6D28": "func_801744E0"
   },
   "dungeon/func_80E8B8F4": {
-   "func_8014D810": "func_801718DC"
+   "func_8014D810": "func_801718DC",
+   "func_8017139C": "func_80171684",
+   "func_80171DA0": "func_80172088",
+   "func_80171F64": "func_8017224C",
+   "func_80172628": "func_80172364"
+  },
+  "dungeon/func_80EB59A4": {
+   "func_8017169C": "func_801716CC",
+   "func_80171DA0": "func_80171FCC",
+   "func_80172428": "func_80172190",
+   "func_80172628": "func_801722B8"
+  },
+  "dungeon/func_80F33E3C": {
+   "func_80171DA0": "func_80171DFC"
+  },
+  "dungeon/func_80F5FAA4": {
+   "func_80171F64": "func_80171F94"
+  },
+  "dungeon/func_80FB176C": {
+   "func_8014D810": "func_80171B68",
+   "func_8017139C": "func_80171910",
+   "func_80172628": "func_80172658"
   },
   "dungeon/func_80FDB6A8": {
-   "func_8014D810": "func_8017167C"
+   "func_8014D810": "func_8017167C",
+   "func_80171570": "func_80171438",
+   "func_80172628": "func_80172230"
   },
   "dungeon/func_80FE16A8": {
    "func_8014D810": "func_8016B67C",
@@ -42,7 +139,34 @@
    "func_80172628": "func_8016C230"
   },
   "dungeon/func_81005858": {
-   "func_8014D810": "func_80171848"
+   "func_8014D810": "func_80171848",
+   "func_8017139C": "func_801715F0",
+   "func_80171DA0": "func_80171FF4",
+   "func_80172428": "func_801721B8",
+   "func_80172628": "func_80172414"
+  },
+  "dungeon/func_8102FCB8": {
+   "func_8014D810": "func_80171E80",
+   "func_80171570": "func_80171C3C",
+   "func_80171DA0": "func_8017263C",
+   "func_80171F64": "func_80172800",
+   "func_80172628": "func_80172918",
+   "func_80174928": "func_801756E0"
+  },
+  "dungeon/func_81059768": {
+   "func_8017139C": "func_80171510",
+   "func_80171F64": "func_80172110",
+   "func_80172628": "func_80172228"
+  },
+  "dungeon/func_81083694": {
+   "func_80171410": "func_801718F8",
+   "func_80171570": "func_801716B4"
+  },
+  "dungeon/func_810ADDF4": {
+   "func_80171DA0": "func_80171EBC"
+  },
+  "dungeon/func_81251D14": {
+   "func_80172628": "func_80172330"
   },
   "dungeon/func_8127C3E0": {
    "func_8001A514": "func_80171328"
@@ -107,7 +231,17 @@
   "town/func_80468358": {
    "func_8001ACE8": "func_8001E578"
   },
+  "town/func_804692F0": {
+   "func_8001ADE0": "func_8001E670"
+  },
+  "town/func_80469360": {
+   "func_8001ACE8": "func_8001E578",
+   "func_8001ADE0": "func_8001E670"
+  },
   "town/func_80469414": {
+   "func_8001ADE0": "func_8001E670"
+  },
+  "town/func_804694F0": {
    "func_8001ADE0": "func_8001E670"
   },
   "town/func_804695D0": {
@@ -156,6 +290,9 @@
   "town/func_8046B37C": {
    "func_8001ADE0": "func_8001E670"
   },
+  "town/func_8046B48C": {
+   "func_8001ADE0": "func_8001E670"
+  },
   "town/func_8046B7A0": {
    "func_8001ADE0": "func_8001E670"
   },
@@ -170,8 +307,22 @@
   "town/func_8046BEFC": {
    "func_8001ACE8": "func_8001E578"
   },
+  "town/func_8046C048": {
+   "func_8001A7B0": "func_8001E7E4"
+  },
+  "town/func_8046C8C4": {
+   "func_8001ACE8": "func_8001E578"
+  },
   "town/func_8046CA24": {
    "func_80019ADC": "func_8001DA48"
+  },
+  "town/func_8046F164": {
+   "func_8001ACE8": "func_8001A418",
+   "func_8001ADE0": "func_8001A510"
+  },
+  "town/func_8046F3D0": {
+   "func_80019D44": "func_80019A04",
+   "func_80019DFC": "func_80019ABC"
   },
   "town/func_8046F480": {
    "func_80019C68": "func_80019928"
@@ -184,79 +335,123 @@
   },
   "town/func_8046F640": {
    "func_80019D44": "func_80019A04",
-   "func_80019DFC": "func_80019ABC"
+   "func_80019DFC": "func_80019ABC",
+   "func_8001B0C8": "func_8001A7F8"
   },
   "town/func_8046F710": {
    "func_80019C68": "func_80019928"
   },
   "town/func_8046F730": {
    "func_80019D44": "func_80019A04",
-   "func_80019DFC": "func_80019ABC"
+   "func_80019DFC": "func_80019ABC",
+   "func_8001B0C8": "func_8001A7F8"
   },
   "town/func_8046F800": {
    "func_80019C68": "func_80019928"
   },
   "town/func_8046F980": {
-   "func_80019C68": "func_80019928"
+   "func_80019C68": "func_80019928",
+   "func_8001ACE8": "func_8001A418",
+   "func_8001AD60": "func_8001A490"
+  },
+  "town/func_8046F9CC": {
+   "func_8001AD60": "func_8001A490"
   },
   "town/func_8046F9EC": {
    "func_80019A34": "func_800196F4"
+  },
+  "town/func_8046FA3C": {
+   "func_80019D44": "func_80019A04",
+   "func_80019DFC": "func_80019ABC"
   },
   "town/func_8046FAF0": {
    "func_80019A34": "func_800196F4",
    "func_80019ADC": "func_8001979C"
   },
+  "town/func_8046FB68": {
+   "func_8001ACE8": "func_8001A418"
+  },
+  "town/func_8046FB88": {
+   "func_8001AD60": "func_8001A490"
+  },
+  "town/func_8046FBE0": {
+   "func_8001ACE8": "func_8001A418"
+  },
   "town/func_8046FC00": {
    "func_80019D44": "func_80019A04",
-   "func_80019DFC": "func_80019ABC"
+   "func_80019DFC": "func_80019ABC",
+   "func_8001ADE0": "func_8001A510"
+  },
+  "town/func_8046FCF4": {
+   "func_80018AEC": "func_800187AC",
+   "func_80019C68": "func_80019928"
   },
   "town/func_8046FD28": {
    "func_80019D44": "func_80019A04",
-   "func_80019DFC": "func_80019ABC"
+   "func_80019DFC": "func_80019ABC",
+   "func_8001ADE0": "func_8001A510"
   },
   "town/func_8046FDF4": {
    "func_80019C68": "func_80019928",
+   "func_8001ADE0": "func_8001A510",
    "func_8001D8C4": "func_80019618"
+  },
+  "town/func_8046FE50": {
+   "func_80019D44": "func_80019A04",
+   "func_80019DFC": "func_80019ABC"
   },
   "town/func_8046FEE8": {
    "func_80019B54": "func_80019814",
    "func_80019C68": "func_80019928",
+   "func_8001ADE0": "func_8001A510",
+   "func_8001B0C8": "func_8001A7F8",
    "func_8001D8C4": "func_80019618"
   },
   "town/func_8046FF64": {
    "func_80019D44": "func_80019A04",
-   "func_80019DFC": "func_80019ABC"
+   "func_80019DFC": "func_80019ABC",
+   "func_8001ADE0": "func_8001A510"
   },
   "town/func_80470030": {
    "func_80019C68": "func_80019928",
+   "func_8001ADE0": "func_8001A510",
    "func_8001D8C4": "func_80019618"
   },
   "town/func_80470098": {
+   "func_8001ADE0": "func_8001A510",
    "func_8001D8C4": "func_80019618"
   },
   "town/func_80470198": {
    "func_80019B54": "func_80019814",
    "func_80019C68": "func_80019928",
+   "func_8001ADE0": "func_8001A510",
+   "func_8001B0C8": "func_8001A7F8",
    "func_8001D8C4": "func_80019618"
   },
   "town/func_80470214": {
    "func_80019D44": "func_80019A04",
-   "func_80019DFC": "func_80019ABC"
+   "func_80019DFC": "func_80019ABC",
+   "func_8001ADE0": "func_8001A510"
   },
   "town/func_804702F0": {
    "func_80019C68": "func_80019928",
+   "func_8001ADE0": "func_8001A510",
    "func_8001D8C4": "func_80019618"
   },
   "town/func_80470408": {
    "func_80019C68": "func_80019928",
+   "func_8001AD60": "func_8001A490",
+   "func_8001ADE0": "func_8001A510",
    "func_8001D8C4": "func_80019618"
   },
   "town/func_8047047C": {
    "func_80019D44": "func_80019A04",
-   "func_80019DFC": "func_80019ABC"
+   "func_80019DFC": "func_80019ABC",
+   "func_8001ADE0": "func_8001A510"
   },
   "town/func_8047054C": {
    "func_80019C68": "func_80019928",
+   "func_8001ADE0": "func_8001A510",
    "func_8001D8C4": "func_80019618"
   },
   "town/func_80470664": {
@@ -270,10 +465,47 @@
    "func_80019C68": "func_80019928"
   },
   "town/func_80470BF0": {
-   "func_80019B54": "func_80019814"
+   "func_80019B54": "func_80019814",
+   "func_8001ACE8": "func_8001A418"
+  },
+  "town/func_80470C44": {
+   "func_8001ACE8": "func_8001A418"
+  },
+  "town/func_80470C64": {
+   "func_8001AD60": "func_8001A490"
+  },
+  "town/func_80470C84": {
+   "func_8001ADE0": "func_8001A510"
+  },
+  "town/func_80470CA4": {
+   "func_8001ADE0": "func_8001A510"
+  },
+  "town/func_80470CC4": {
+   "func_8001ACE8": "func_8001A418"
+  },
+  "town/func_80470CE4": {
+   "func_8001AD60": "func_8001A490"
+  },
+  "town/func_80470DB4": {
+   "func_8001ACE8": "func_8001A418"
+  },
+  "town/func_80470DD4": {
+   "func_8001ACE8": "func_8001A418"
+  },
+  "town/func_80470DF4": {
+   "func_8001ACE8": "func_8001A418"
+  },
+  "town/func_80470E14": {
+   "func_8001AD60": "func_8001A490"
   },
   "town/func_80470E98": {
    "func_8001AAF0": "func_8001A220"
+  },
+  "town/func_804712B4": {
+   "func_80018C4C": "func_800189FC"
+  },
+  "town/func_804712E0": {
+   "func_80018C4C": "func_800189FC"
   },
   "town/func_80471380": {
    "func_800193F4": "func_80018824"
@@ -294,24 +526,67 @@
   "town/func_80476298": {
    "func_8001ADE0": "func_800198D0"
   },
+  "town/func_804762B8": {
+   "func_80019DFC": "func_80018FC8"
+  },
   "town/func_80476338": {
    "func_8001ADE0": "func_800198D0"
+  },
+  "town/func_80476358": {
+   "func_80019DFC": "func_80018FC8"
   },
   "town/func_804763C0": {
    "func_8001ACE8": "func_800197D8"
   },
+  "town/func_8047641C": {
+   "func_8001D048": "func_800182A8"
+  },
+  "town/func_80476460": {
+   "func_8001ADE0": "func_800198D0"
+  },
+  "town/func_8047653C": {
+   "func_8001ADE0": "func_800198D0"
+  },
+  "town/func_804766D4": {
+   "func_8001ADE0": "func_800198D0"
+  },
   "town/func_804767D4": {
-   "func_8001A2F0": "func_800175B0"
+   "func_8001A2F0": "func_800175B0",
+   "func_8001ADE0": "func_800198D0",
+   "func_8001B0C8": "func_80019A8C"
   },
   "town/func_80476848": {
-   "func_8001A2F0": "func_800175B0"
+   "func_8001A2F0": "func_800175B0",
+   "func_8001B0C8": "func_80019A8C"
+  },
+  "town/func_804768B4": {
+   "func_8001A2F0": "func_800175B0",
+   "func_8001A360": "func_8001764C"
   },
   "town/func_80476A08": {
    "func_8001A4F0": "func_8001796C",
+   "func_8001ADE0": "func_800198D0",
    "func_8001D8C4": "func_80018B24"
+  },
+  "town/func_80476AC4": {
+   "func_8001ADE0": "func_800198D0"
+  },
+  "town/func_80476B28": {
+   "func_8001ACE8": "func_800197D8",
+   "func_8001AD60": "func_80019850",
+   "func_8001ADE0": "func_800198D0"
+  },
+  "town/func_80476CC0": {
+   "func_80019DFC": "func_80018FC8"
+  },
+  "town/func_80476DBC": {
+   "func_8001ADE0": "func_800198D0"
   },
   "town/func_80477018": {
    "func_8001ACE8": "func_800197D8"
+  },
+  "town/func_80477130": {
+   "func_8001ADE0": "func_800198D0"
   },
   "town/func_80477C84": {
    "func_80019ADC": "func_80018CA8"
@@ -328,8 +603,20 @@
   "town/func_8047B818": {
    "func_8001ACE8": "func_800197D8"
   },
+  "town/func_8047B970": {
+   "func_8001ADE0": "func_800198D0"
+  },
+  "town/func_8047B9B0": {
+   "func_8001ADE0": "func_800198D0"
+  },
+  "town/func_8047B9F0": {
+   "func_8001ADE0": "func_800198D0"
+  },
   "town/func_8047C484": {
    "func_80019ADC": "func_80018CA8"
+  },
+  "town/func_8047E1C0": {
+   "func_8001AD60": "func_800175E0"
   },
   "town/func_8047EA14": {
    "func_80019ADC": "func_80016A38"
@@ -347,6 +634,27 @@
   },
   "town/func_80480318": {
    "func_8001ACE8": "func_80018570",
+   "func_8001ADE0": "func_80018668"
+  },
+  "town/func_804803D8": {
+   "func_80018B64": "func_80016A38",
+   "func_800193F4": "func_80016948"
+  },
+  "town/func_80480468": {
+   "func_80018C4C": "func_80016B20"
+  },
+  "town/func_80481244": {
+   "func_8001932C": "func_80017200"
+  },
+  "town/func_8048189C": {
+   "func_80019ADC": "func_800178C0"
+  },
+  "town/func_80481B84": {
+   "func_800194E4": "func_800172C8",
+   "func_8001ADE0": "func_80018668"
+  },
+  "town/func_80481D78": {
+   "func_80019EA8": "func_80017C8C",
    "func_8001ADE0": "func_80018668"
   },
   "town/func_804B78EC": {
@@ -389,6 +697,12 @@
   "town/func_804B7BD0": {
    "func_80019C68": "func_80017EB0",
    "func_8001AD60": "func_800188CC",
+   "func_8001ADE0": "func_8001894C"
+  },
+  "town/func_804B7C44": {
+   "func_800198F4": "func_80017B3C",
+   "func_80019D44": "func_80017F8C",
+   "func_8001ACE8": "func_80018854",
    "func_8001ADE0": "func_8001894C"
   },
   "town/func_804B7CE8": {
@@ -436,6 +750,11 @@
    "func_8001ADE0": "func_8001894C"
   },
   "town/func_804B81F8": {
+   "func_8001ADE0": "func_8001894C"
+  },
+  "town/func_804B824C": {
+   "func_80019D44": "func_80017F8C",
+   "func_80019DFC": "func_80018044",
    "func_8001ADE0": "func_8001894C"
   },
   "town/func_804B8384": {
@@ -516,7 +835,8 @@
    "func_8001ADE0": "func_80018B5C"
   },
   "town/func_8051EBC4": {
-   "func_80019958": "func_80017B84"
+   "func_80019958": "func_80017B84",
+   "func_8001ADE0": "func_80018B5C"
   },
   "town/func_8051EC18": {
    "func_8001ACE8": "func_80018A64"
@@ -530,6 +850,9 @@
   "town/func_8051EC7C": {
    "func_8001ADE0": "func_80018B5C"
   },
+  "town/func_8051ECA4": {
+   "func_800194E4": "func_80017710"
+  },
   "town/func_8051EDA4": {
    "func_80019958": "func_80017B84",
    "func_8001AD60": "func_80018ADC",
@@ -539,6 +862,11 @@
    "func_80019B54": "func_80017D80",
    "func_8001ACE8": "func_80018A64",
    "func_8001AD60": "func_80018ADC"
+  },
+  "town/func_8051EE50": {
+   "func_8001ACE8": "func_80018A64",
+   "func_8001AD60": "func_80018ADC",
+   "func_8001ADE0": "func_80018B5C"
   },
   "town/func_8051EF40": {
    "func_8001ACE8": "func_80018A64",
@@ -602,11 +930,17 @@
    "func_80019D44": "func_80016C58",
    "func_80019DFC": "func_80016D10"
   },
+  "town/func_8054FA14": {
+   "func_8001AD60": "func_800177C4"
+  },
   "town/func_8054FB90": {
    "func_8001AD60": "func_800177C4"
   },
   "town/func_8054FBD0": {
    "func_8001AD60": "func_800177C4"
+  },
+  "town/func_80559718": {
+   "func_80019ADC": "func_8001673C"
   },
   "town/func_80579188": {
    "func_8001ACE8": "func_80017320",
@@ -654,6 +988,9 @@
   },
   "town/func_805D228C": {
    "func_8001ACE8": "func_800193E0"
+  },
+  "town/func_805D240C": {
+   "func_80019C68": "func_80018618"
   },
   "town/func_805D27E4": {
    "func_80018AEC": "func_80017E1C",
@@ -750,6 +1087,10 @@
    "func_8001AD60": "func_80018BD0",
    "func_8001ADE0": "func_80018C50"
   },
+  "town/func_80614C34": {
+   "func_80019DFC": "func_800181C8",
+   "func_8001ADE0": "func_80018C50"
+  },
   "town/func_80614DF8": {
    "func_8001AD60": "func_80018BD0",
    "func_8001ADE0": "func_80018C50"
@@ -781,6 +1122,9 @@
    "func_8001ACE8": "func_80018B58",
    "func_8001AD60": "func_80018BD0",
    "func_8001ADE0": "func_80018C50"
+  },
+  "town/func_80615130": {
+   "func_8001AD60": "func_80018BD0"
   },
   "town/func_806151B4": {
    "func_8001ACE8": "func_80018B58",
@@ -835,6 +1179,14 @@
    "func_80019B54": "func_800173CC",
    "func_8001AF7C": "func_80017FEC"
   },
+  "town/func_8065BA50": {
+   "func_80019B54": "func_800173CC",
+   "func_8001AF7C": "func_80017FEC"
+  },
+  "town/func_8065BB34": {
+   "func_80019B54": "func_800173CC",
+   "func_8001AF7C": "func_80017FEC"
+  },
   "town/func_8065BCA4": {
    "func_80019B54": "func_800173CC",
    "func_8001AF7C": "func_80017FEC"
@@ -850,11 +1202,21 @@
   "town/func_8065CB30": {
    "func_80019ADC": "func_80017354"
   },
+  "town/func_8067F1D0": {
+   "func_80019C68": "func_80017978",
+   "func_8001B0C8": "func_80018604"
+  },
+  "town/func_8067F230": {
+   "func_80019D44": "func_80017A54",
+   "func_80019DFC": "func_80017B0C"
+  },
   "town/func_8067F2C0": {
-   "func_80019C68": "func_80017978"
+   "func_80019C68": "func_80017978",
+   "func_8001B0C8": "func_80018604"
   },
   "town/func_8067F3B0": {
-   "func_80019C68": "func_80017978"
+   "func_80019C68": "func_80017978",
+   "func_8001B0C8": "func_80018604"
   },
   "town/func_8067F4E0": {
    "func_8001ADE0": "func_80018594"
@@ -935,6 +1297,9 @@
   "town/func_806C58DC": {
    "func_80019DFC": "func_800182E4",
    "func_8001ADE0": "func_80018D6C"
+  },
+  "town/func_806C5940": {
+   "func_8001AD60": "func_80018CEC"
   },
   "town/func_806C5A28": {
    "func_800190C0": "func_800175A8"
@@ -1107,6 +1472,13 @@
   "town/func_806D4978": {
    "func_80019DFC": "func_80017960"
   },
+  "town/func_806D49D0": {
+   "func_80019B54": "func_800176B8"
+  },
+  "town/func_806D49F0": {
+   "func_80019D44": "func_800178A8",
+   "func_80019DFC": "func_80017960"
+  },
   "town/func_806D4B50": {
    "func_8001ACE8": "func_80018594",
    "func_8001B168": "func_800188E8"
@@ -1140,6 +1512,10 @@
    "func_80019DFC": "func_80017B0C"
   },
   "town/func_806D7A24": {
+   "func_80019D44": "func_80017A54",
+   "func_80019DFC": "func_80017B0C"
+  },
+  "town/func_806D7B34": {
    "func_80019D44": "func_80017A54",
    "func_80019DFC": "func_80017B0C"
   },
@@ -1182,6 +1558,9 @@
    "func_8001ACE8": "func_80017744",
    "func_8001AD60": "func_800177BC"
   },
+  "town/func_8070DCC4": {
+   "func_8001ACE8": "func_8001A554"
+  },
   "town/func_8070DCE4": {
    "func_8001ADE0": "func_8001A64C"
   },
@@ -1214,6 +1593,11 @@
   },
   "town/func_8070E180": {
    "func_8001ACE8": "func_8001A554"
+  },
+  "town/func_8070E240": {
+   "func_80019B54": "func_8001991C",
+   "func_8001AD60": "func_8001A5CC",
+   "func_8001ADE0": "func_8001A64C"
   },
   "town/func_8070E2DC": {
    "func_8001789C": "func_80019880",
@@ -1283,6 +1667,9 @@
    "func_8001ADE0": "func_8001A64C"
   },
   "town/func_8070F14C": {
+   "func_8001ADE0": "func_8001A64C"
+  },
+  "town/func_8070F25C": {
    "func_8001ADE0": "func_8001A64C"
   },
   "town/func_8070F2FC": {
@@ -1373,6 +1760,12 @@
   },
   "town/func_8079A84C": {
    "func_80019ADC": "func_80016870"
+  },
+  "town/func_8094D4D8": {
+   "func_80016D78": "func_80016C38"
+  },
+  "town/func_8094D708": {
+   "func_800167B4": "func_800166A4"
   }
  }
 }

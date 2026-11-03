@@ -2,14 +2,17 @@
 /* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - CL:town/func_80471198. */
 #include "town/scene/flagged_entry_actions_g00711.h"
 #include "town/scene.h"
+#include "town/player/state.h"
+#include "town/scene/history.h"
+#include "town/shop.h"
 
 /* Pass the two context regions to func_80018824 with their sizes. */
 void clear_state_history_and_head_indices(void) {
     TownStateRecord *context_base;
 
     context_base = town_scene_root->town_state;
-    func_80018824((s8 *)context_base->history, 0xC0);
-    func_80018824((s8 *)context_base->headIndices, 0x10);
+    clear_bytes((s8 *)context_base->history, 0xC0);
+    clear_bytes((s8 *)context_base->headIndices, 0x10);
 }
 
 /* Process flagged type 0x18 entries, displaying messages and invoking their handlers. */
@@ -32,12 +35,12 @@ void process_flagged_type_0x18_entries(void) {
                 clear_state_history_and_head_indices();
             } else {
                 if (entry_code == 0x1C) {
-                    func_8001A418(F_get_bike);
+                    set_script_flag_bit(F_get_bike);
                 } else if (entry_code == 0x1D) {
-                    func_8001A418(F_get_bike_b);
+                    set_script_flag_bit(F_get_bike_b);
                 }
-                func_8001A418(entry[0] + GOODS_SAVE_FLG_00);
-                func_8001A418(F_sb22_goods_first);
+                set_script_flag_bit(entry[0] + GOODS_SAVE_FLG_00);
+                set_script_flag_bit(F_sb22_goods_first);
                 func_8001844C(entry[0]);
             }
         }

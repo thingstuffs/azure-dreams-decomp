@@ -6,6 +6,7 @@
 #include "town/shop.h"
 #include "engine/audio/sequence.h"
 #include "engine/resource.h"
+#include "frontend/libcard.h"
 
 /*
  * Binds the panel heading, supplied value, and decoded fullwidth text to their display records,
@@ -99,7 +100,7 @@ void *create_dual_buffer_object(s32 setup_value, s32 x, s32 y)
         if (part->unk_08 != 0 && second_buffer != 0) {
             object->sprite = (u8 *)object + 0x58;
             initialize_four_anchored_nodes(part);
-            part->unk_44 = process_context_with_selector_4((u8 *)object + 0x68);
+            part->unk_44 = link_save_heading_draw_nodes((u8 *)object + 0x68);
             build_owned_floating_number_widget((s32)part, setup_value, x, y);
             register_node(object, dungeon_menu_tag);
             object->update_callback = lower_value_toward_target;

@@ -1,6 +1,6 @@
 #include "common.h"
 
-extern s32 func_800198D0(s32 flagIndex);
+extern s32 get_script_flag_mask(s32 flagIndex);
 extern s16 D_80016498;
 extern s32 scene_choice_index;
 
@@ -10,7 +10,7 @@ s32 test_unless_3(void) {
 
     check_passed = 0;
     if (scene_choice_index != 3) {
-        check_passed = func_800198D0(D_80016498) != 0;
+        check_passed = get_script_flag_mask(D_80016498) != 0;
     }
     return check_passed;
 }

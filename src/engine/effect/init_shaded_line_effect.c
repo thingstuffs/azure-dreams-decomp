@@ -23,23 +23,6 @@ struct ObjectPosition;
 struct SpriteFrameState;
 
 typedef struct {
-    u8 pad0[8];
-    S_80084478 *unk8;
-    u32 unkC;
-    u8 pad10[4];
-    u16 unk14;
-    u8 pad16[6];
-    u16 unk1C;
-    u16 unk1E;
-} S_80052FE8_C;
-
-typedef struct {
-    u32 unk0;
-    u32 unk4;
-    u32 unk8;
-} S_80052FE8_B;
-
-typedef struct {
     ObjectNodeHeader header;
     u16 unk20;
     u16 unk22;

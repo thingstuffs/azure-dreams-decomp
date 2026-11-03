@@ -60,7 +60,11 @@
         "0x80174F08": "0x80168F08",
         "0x80174F38": "0x80168F38",
         "0x80174F40": "0x80168F40",
-        "0x80174F48": "0x80168F48"
+        "0x80174F48": "0x80168F48",
+        "0x8017139C": "0x80165684",
+        "0x80171DA0": "0x80166088",
+        "0x80171F64": "0x8016624C",
+        "0x80172628": "0x80166364"
       },
       "evidence": "opus_place1: re-homed from relinked copy dungeon/func_80E9D8F4 onto dungeon/func_80E8B8F4; tools/tu/copy_place.py derive (dependent object == home object modulo relocation targets)"
     },

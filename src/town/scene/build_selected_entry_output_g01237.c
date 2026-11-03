@@ -3,6 +3,7 @@
  */
 #include "town/scene/build_selected_entry_output_g01237.h"
 #include "town/scene.h"
+#include "town/player/state.h"
 
 /* Sets entry flags from record state and selection, then prepares the output buffer. */
 u8 *build_selected_entry_output(s32 selected_index) {
@@ -18,7 +19,7 @@ u8 *build_selected_entry_output(s32 selected_index) {
         for (entry_index = 1; entry_index < 8; entry_index++) {
             record = &((Record12 *)town_selection_records)[entry_index];
             entry = (S_8001A86C_0 *)(output_base + entry_index * 0x14);
-            if (func_8001E670(record->field4) != 0) {
+            if (get_script_flag_mask(record->field4) != 0) {
                 if (record->field8 != 0) {
                     entry->unk_02 = 0x400;
                     if (entry_index == 1) {

@@ -97,7 +97,8 @@
         "0x80018618": "0x80018618",
         "0x80019AFC": "0x80019AFC",
         "0x8001640C": "0x800165F8",
-        "0x800169B4": "0x800169B4"
+        "0x800169B4": "0x800169B4",
+        "0x80019C68": "0x80018618"
       },
       "evidence": "LL3a attestation sha256:daaeda9d5df1adb0a96c428be6102ef3a30ef85b9913a85e74364ffb99e41fbf; current-TU paired HI16/LO16 relocation screen; scoped window gate"
     },

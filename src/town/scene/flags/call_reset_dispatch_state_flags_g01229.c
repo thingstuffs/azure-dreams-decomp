@@ -3,6 +3,8 @@
  */
 #include "town/scene/flags/call_reset_dispatch_state_flags_g01229.h"
 #include "town/scene/flags.h"
+#include "town/player.h"
+#include "town/player/state.h"
 
 /* Resets dispatch state and flags, increments the first town event byte, and returns zero. */
 void *call_reset_dispatch_state_flags(void) {
@@ -13,10 +15,10 @@ void *call_reset_dispatch_state_flags(void) {
 
 /* Shop tick: on an idle counter, run the 0x1E82C check and bump the pending count. */
 void *tick_shop_event_state(void) {
-    if (func_8001E670(sn_open_sekkyo_end) == 0) {
+    if (get_script_flag_mask(sn_open_sekkyo_end) == 0) {
         return D_80018A30;
     }
-    if (func_8001E82C() != 0) {
+    if (get_linked_record_field_2_d_60() != 0) {
         reset_dispatch_state_and_flags();
     }
     town_event_state->unk_00 += 1;
@@ -28,8 +30,8 @@ void *query_event_state_or_reset(void)
 {
     s32 index;
 
-    if ((func_8001E670(F_veld_kill) == 0) ||
-        (func_8001E670(F_end_ending) != 0)) {
+    if ((get_script_flag_mask(F_veld_kill) == 0) ||
+        (get_script_flag_mask(F_end_ending) != 0)) {
         index = town_scene_root->services->callback_2D4(0);
         return D_80018448[index];
     }
@@ -52,29 +54,29 @@ void run_event_opcode_script(s32 setup_arg0, s32 setup_arg1, s32 setup_arg2, s32
     EventOpcodeHandler *opcode_handlers;
 
     process_history_entries_by_mode();
-    if (func_8001E670(F_end_ending_step0) != 0) {
-        if (func_8001E670(F_guy_sword_pickup) == 0) {
-            func_8001E578(F_sbs01_pad20);
+    if (get_script_flag_mask(F_end_ending_step0) != 0) {
+        if (get_script_flag_mask(F_guy_sword_pickup) == 0) {
+            set_script_flag_bit(F_sbs01_pad20);
         } else {
-            func_8001E5F0(F_sbs01_pad20);
+            clear_script_flag_bit(F_sbs01_pad20);
         }
-        if (func_8001E670(F_ultima_egg_pickup) == 0) {
+        if (get_script_flag_mask(F_ultima_egg_pickup) == 0) {
             if (((TownPairCallback *)((u8 *)((S_80019560_0 *)(*(void **)((s8 *)(&town_scene_root))))->unk_20 + 0x350))[0](1,
                 0x12) != 0) {
-                func_8001E578(F_ultima_egg_pickup);
-                func_8001E5F0(F_sbs01_pad21);
+                set_script_flag_bit(F_ultima_egg_pickup);
+                clear_script_flag_bit(F_sbs01_pad21);
                 state_page_addr = (u8 *)0x80020000;
             } else {
-                func_8001E578(F_sbs01_pad21);
+                set_script_flag_bit(F_sbs01_pad21);
                 state_page_addr = (u8 *)0x80020000;
             }
         } else {
-            func_8001E5F0(F_sbs01_pad21);
+            clear_script_flag_bit(F_sbs01_pad21);
             state_page_addr = (u8 *)0x80020000;
         }
     } else {
-        func_8001E5F0(F_sbs01_pad20);
-        func_8001E5F0(F_sbs01_pad21);
+        clear_script_flag_bit(F_sbs01_pad20);
+        clear_script_flag_bit(F_sbs01_pad21);
         state_page_addr = (u8 *)0x80020000;
     }
     state_page = state_page_addr;
@@ -85,7 +87,7 @@ void run_event_opcode_script(s32 setup_arg0, s32 setup_arg1, s32 setup_arg2, s32
         opcode_result = state_page_addr;
     } while (opcode_result == 0);
     D_8001E95C[0] = opcode_result;
-    if (func_8001E670(D_800178BA[0]) == 0) {
+    if (get_script_flag_mask(D_800178BA[0]) == 0) {
         reset_dispatch_state_and_flags();
     }
 }
@@ -94,9 +96,9 @@ void run_event_opcode_script(s32 setup_arg0, s32 setup_arg1, s32 setup_arg2, s32
 void reset_dispatch_state_and_flags(void) {
     town_event_state->dispatchState = 0;
     town_event_state->response_latch = 0;
-    func_8001E5F0(F_sbs01_pad11);
-    func_8001E5F0(F_sbs01_pad12);
-    func_8001E5F0(F_sbs01_pad13);
-    func_8001E5F0(Ft_home01_rees_once);
-    func_8001E5F0(F_tw_rain_del);
+    clear_script_flag_bit(F_sbs01_pad11);
+    clear_script_flag_bit(F_sbs01_pad12);
+    clear_script_flag_bit(F_sbs01_pad13);
+    clear_script_flag_bit(Ft_home01_rees_once);
+    clear_script_flag_bit(F_tw_rain_del);
 }

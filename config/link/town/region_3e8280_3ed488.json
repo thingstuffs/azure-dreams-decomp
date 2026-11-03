@@ -185,7 +185,8 @@
       "size": 40,
       "bindings": {
         "0x8001792C": "0x80017938",
-        "0x8001E670": "0x8001E670"
+        "0x8001E670": "0x8001E670",
+        "0x8001ADE0": "0x8001E670"
       },
       "evidence": "r124w_dupes1: current complete objects and dependent placements re-paired by tools/tu/copy_place.py; scoped retail proof required"
     },
@@ -198,7 +199,8 @@
       "size": 40,
       "bindings": {
         "0x8001792C": "0x80017944",
-        "0x8001E670": "0x8001E670"
+        "0x8001E670": "0x8001E670",
+        "0x8001ADE0": "0x8001E670"
       },
       "evidence": "r124w_dupes1: current complete objects and dependent placements re-paired by tools/tu/copy_place.py; scoped retail proof required"
     },
@@ -211,7 +213,8 @@
       "size": 40,
       "bindings": {
         "0x8001792C": "0x80017968",
-        "0x8001E670": "0x8001E670"
+        "0x8001E670": "0x8001E670",
+        "0x8001ADE0": "0x8001E670"
       },
       "evidence": "r124w_dupes1: current complete objects and dependent placements re-paired by tools/tu/copy_place.py; scoped retail proof required"
     },
@@ -224,7 +227,8 @@
       "size": 40,
       "bindings": {
         "0x8001792C": "0x80017950",
-        "0x8001E670": "0x8001E670"
+        "0x8001E670": "0x8001E670",
+        "0x8001ADE0": "0x8001E670"
       },
       "evidence": "r124w_dupes1: current complete objects and dependent placements re-paired by tools/tu/copy_place.py; scoped retail proof required"
     },
@@ -237,7 +241,8 @@
       "size": 40,
       "bindings": {
         "0x8001792C": "0x8001795C",
-        "0x8001E670": "0x8001E670"
+        "0x8001E670": "0x8001E670",
+        "0x8001ADE0": "0x8001E670"
       },
       "evidence": "r124w_dupes1: current complete objects and dependent placements re-paired by tools/tu/copy_place.py; scoped retail proof required"
     },
@@ -250,7 +255,8 @@
       "size": 40,
       "bindings": {
         "0x8001792C": "0x80017974",
-        "0x8001E670": "0x8001E670"
+        "0x8001E670": "0x8001E670",
+        "0x8001ADE0": "0x8001E670"
       },
       "evidence": "r124w_dupes1: current complete objects and dependent placements re-paired by tools/tu/copy_place.py; scoped retail proof required"
     },
@@ -263,7 +269,8 @@
       "size": 40,
       "bindings": {
         "0x8001792C": "0x8001797C",
-        "0x8001E670": "0x8001E670"
+        "0x8001E670": "0x8001E670",
+        "0x8001ADE0": "0x8001E670"
       },
       "evidence": "r124w_dupes1: current complete objects and dependent placements re-paired by tools/tu/copy_place.py; scoped retail proof required"
     },
@@ -497,7 +504,8 @@
       "bindings": {
         "0x80017C8C": "0x8001DE14",
         "0x80019550": "0x8001E964",
-        "0x80018668": "0x8001E670"
+        "0x80018668": "0x8001E670",
+        "0x8001ADE0": "0x8001E670"
       },
       "evidence": "opus_place1: re-homed from relinked copy town/func_804D1484 onto town/func_80481D78; tools/tu/copy_place.py derive (dependent object == home object modulo relocation targets)"
     }

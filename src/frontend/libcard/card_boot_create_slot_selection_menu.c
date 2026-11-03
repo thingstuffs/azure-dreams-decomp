@@ -11,7 +11,7 @@
 struct S_8003FE78;    /* extern */
 
 /* Creates an object and initializes its state. */
-void *card_boot_create_slot_selection_menu(void *init_value, s32 unused) {
+void *card_boot_create_slot_selection_menu(ObjectNodeHeader *init_value, s32 unused) {
     CardSlotMenuState *state;
     ObjectNodeHeader *object;
 

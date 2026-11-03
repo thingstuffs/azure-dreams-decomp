@@ -14,6 +14,7 @@
 #include "sdk/libgte.h"
 #include "dungeon/system.h"
 #include "engine/texture.h"
+#include "dungeon/data.h"
 
 typedef struct S_80171D74_0 {
     s32 unk_00;
@@ -129,9 +130,7 @@ void apply_script_direction_record(void *, ObjectPosition *, SpriteFrameState *)
 void create_action_offset_object(void);                            /* extern */
 extern Table32 D_8016482C;
 extern Table32 D_80164AC0;
-extern u8 beldo_large_frame_set_8[16];
 extern u8 D_80173DAC[16];
-extern u8 beldo_large_frame_set_14[16];
 extern void *beldo_actor_nodes[3];
 extern void *beldo_script_node[3];
 

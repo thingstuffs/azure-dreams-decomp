@@ -21,7 +21,8 @@
         "0x8001D280": "0x80016778",
         "0x8001D048": "0x80016540",
         "0x8001D188": "0x80016680",
-        "0x80018C4C": "0x80016B20"
+        "0x80018C4C": "0x80016B20",
+        "0x8001A7B0": "0x800187DC"
       },
       "evidence": "LL3a attestation sha256:b34da372009202750c2358963c3556dd34eb38ef70e7cc84b2c9a2c07bea23af; current-TU paired HI16/LO16 relocation screen; scoped window gate"
     },

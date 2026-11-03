@@ -18,10 +18,10 @@ extern s8 find_active_rect_containing_point(u8, u8);
 extern s32 generate_random_value(void);
 extern void update_actor_status_and_mp(ActorRecord *entity);
 
-extern void func_801718B4(void *, void *, void *, void *);
-extern s32 func_80171FFC(ActorRecord *action_state, ObjectPosition *action_ctx, SpriteFrameState *sprite, ActorRecord *actor);
+extern void update_actor_movement_and_tile_position(void *, void *, void *, void *);
+extern s32 check_movement_and_initialize_action(ActorRecord *action_state, ObjectPosition *action_ctx, SpriteFrameState *sprite, ActorRecord *actor);
 
-extern s32 func_80172A5C(void *, void *, void *, s32);
+extern s32 update_entity_state_from_query(void *, void *, void *, s32);
 extern void func_80174520(void *, void *, void *, void *);
 
 extern u8 cyclone_move_direction_frames[];
@@ -141,7 +141,7 @@ void update_actor_animation(ActorRecord *actor_arg, ObjectPosition *context_arg,
             return;
         }
         if (*(u16 *)&sprite_arg->tile_x == reference_tile_object.tile_position.word) {
-            func_801718B4(actor_arg, context_arg, sprite_arg, stats);
+            update_actor_movement_and_tile_position(actor_arg, context_arg, sprite_arg, stats);
             return;
         }
         action_flags = stats->action_flags;
@@ -161,20 +161,20 @@ void update_actor_animation(ActorRecord *actor_arg, ObjectPosition *context_arg,
                     }
                 }
             }
-            if ((s16)func_80172A5C(actor_arg, context_arg, sprite_arg, 0) == 0) {
+            if ((s16)update_entity_state_from_query(actor_arg, context_arg, sprite_arg, 0) == 0) {
                 return;
             }
             action_flags = stats->action_flags | 0x4000;
             stats->action_flags = action_flags;
             if ((action_flags & 0x8000) == 0) {
-                func_801718B4(actor_arg, context_arg, sprite_arg, stats);
+                update_actor_movement_and_tile_position(actor_arg, context_arg, sprite_arg, stats);
             return;
             }
         }
 
         switch (stats->action_flags & 0x3FFF) {
         case 8:
-            if ((s16)func_80171FFC(actor_arg, context_arg, sprite_arg, stats) != 0) {
+            if ((s16)check_movement_and_initialize_action(actor_arg, context_arg, sprite_arg, stats) != 0) {
                 return;
             }
             finish_actor_tile_move_and_check_trap(actor_arg, context_arg, sprite_arg, stats);
@@ -228,7 +228,7 @@ void update_actor_animation(ActorRecord *actor_arg, ObjectPosition *context_arg,
             begin_actor_spell_action(actor_arg, context_arg, sprite_arg, cyclone_move_direction_frames, update_actor_animation);
             return;
         default:
-            func_801718B4(actor_arg, context_arg, sprite_arg, stats);
+            update_actor_movement_and_tile_position(actor_arg, context_arg, sprite_arg, stats);
             return;
         }
     }

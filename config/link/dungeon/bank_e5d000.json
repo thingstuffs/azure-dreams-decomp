@@ -37,7 +37,12 @@
       "home": "dungeon/func_80E376E4",
       "foff": "0xE5D6E4",
       "vma": "0x8016AEE4",
-      "size": 1404
+      "size": 1404,
+      "bindings": {
+        "0x80171570": "0x8016B460",
+        "0x80171DA0": "0x8016BE38",
+        "0x80171F64": "0x8016BFFC"
+      }
     },
     {
       "row": "dungeon/func_80E3DC60",
@@ -53,7 +58,10 @@
       "home": "dungeon/func_80E37EA4",
       "foff": "0xE5DEA4",
       "vma": "0x8016B6A4",
-      "size": 1832
+      "size": 1832,
+      "bindings": {
+        "0x80171DA0": "0x8016BE38"
+      }
     },
     {
       "row": "dungeon/func_80E3E5CC",

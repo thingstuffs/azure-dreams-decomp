@@ -10,7 +10,7 @@ s32 run_operation(s32 unused_context, s32 unused_arg, s32 event_kind) {
     s32 result = 0;
 
     if (event_kind == 8) {
-        result = check_inputs_after_threshold_two(D_8001970C[scene_dispatch_mode_index]);
+        result = select_fallback_when_below_threshold(D_8001970C[scene_dispatch_mode_index]);
     }
     func_80018570();
     return result;

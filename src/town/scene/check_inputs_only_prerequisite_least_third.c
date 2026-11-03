@@ -1,7 +1,7 @@
 #include "common.h"
 
-extern s32 func_80017B0C(void *, void *, s32, s32);
-extern s32 func_80017A54(void *, s32, s32);
+extern s32 apply_entry_position(void *, void *, s32, s32);
+extern s32 resolve_entry_flag(void *, s32, s32);
 
 extern u8 D_80018998[];
 extern u8 D_80019104[];
@@ -14,15 +14,15 @@ s32 check_inputs_only_prerequisite_least(s32 lookup_key, s32 unused, s32 entry_i
 {
     s32 result;
 
-    result = func_80017B0C(D_80018998, D_80019104, lookup_key, entry_id);
+    result = apply_entry_position(D_80018998, D_80019104, lookup_key, entry_id);
 
-    if (entry_id == 45 && func_80017A54(D_80018998, lookup_key, 45)) {
+    if (entry_id == 45 && resolve_entry_flag(D_80018998, lookup_key, 45)) {
         return (s32)D_80019AB6;
     }
-    if (entry_id == 46 && func_80017A54(D_80018998, lookup_key, 46)) {
+    if (entry_id == 46 && resolve_entry_flag(D_80018998, lookup_key, 46)) {
         return (s32)D_8001ABCC;
     }
-    if (entry_id == 47 && func_80017A54(D_80018998, lookup_key, 47)) {
+    if (entry_id == 47 && resolve_entry_flag(D_80018998, lookup_key, 47)) {
         return (s32)D_80019397;
     }
     return result;

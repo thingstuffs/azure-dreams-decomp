@@ -3,14 +3,13 @@
 #include "shared/town_root.h"
 #include "town/scene/history.h"
 #include "town/scene.h"
+#include "town.h"
 
 typedef struct GroupLimit_8001D048 {
     s16 limit;
     u8 pad_02[0x6];
 } GroupLimit_8001D048;
 
-
-extern s32 record_value_table_contains_first_byte(s32);
 extern GroupLimit_8001D048 D_8001902C[][3];
 
 /* Invoke the callback for nonzero row entries using the selected mode and bounds. */
@@ -22,9 +21,9 @@ void process_history_entries_by_mode(void) {
     u8 entry;
 
     state = town_scene_root->town_state;
-    if (record_value_table_contains_first_byte(1) != 0) {
+    if (town_table_contains_first_byte_b(1) != 0) {
         mode = 0;
-    } else if (record_value_table_contains_first_byte(2) != 0) {
+    } else if (town_table_contains_first_byte_b(2) != 0) {
         mode = 1;
     } else {
         mode = 2;

@@ -97,7 +97,8 @@
         "0x800AAF00": "0x800AAF00",
         "0x801723F8": "0x801603F8",
         "0x800E2970": "0x800E2970",
-        "0x8009FD7C": "0x8009FD7C"
+        "0x8009FD7C": "0x8009FD7C",
+        "0x80172628": "0x80160EA8"
       },
       "evidence": "LL3a attestation sha256:368aa269df076f1deed3b287871a4837bdf2e86f99953a2d13b9e0a74cd0dcc6; current-TU paired HI16/LO16 relocation screen; scoped window gate"
     },

@@ -3,6 +3,7 @@
  */
 #include "town/scene/event/start_dispatch_event_g01230.h"
 #include "town/scene/event.h"
+#include "town/player/state.h"
 
 /* Initializes the town event once, invokes its callback, and reports whether it ran. */
 s32 start_dispatch_event(void *init_arg) {
@@ -53,23 +54,23 @@ void select_next_event_state(void) {
     s32 result;
     void *state;
 
-    if ((func_8001E670(F_sero_end) != 0) && (func_8001E670(F_niko_selro_asa) == 0)) {
-        func_8001E578(F_niko_selro_asa);
-        func_8001E5F0(Fp_niko_kenkatyu);
+    if ((get_script_flag_mask(F_sero_end) != 0) && (get_script_flag_mask(F_niko_selro_asa) == 0)) {
+        set_script_flag_bit(F_niko_selro_asa);
+        clear_script_flag_bit(Fp_niko_kenkatyu);
         town_event_state->selection_mode = 9;
         return;
     }
-    if ((func_8001E670(F_s04_niko_step) != 0) && (func_8001E670(F_sbs01_pad18) == 0)) {
-        func_8001E578(F_sbs01_pad18);
+    if ((get_script_flag_mask(F_s04_niko_step) != 0) && (get_script_flag_mask(F_sbs01_pad18) == 0)) {
+        set_script_flag_bit(F_sbs01_pad18);
         town_event_state->selection_mode = 10;
         return;
     }
-    if (func_8001E670(F_end_ending) == 0) {
-        if ((func_8001E670(F_veldil_dungeon_deatta) != 0) && (func_8001E670(F_sbs01_pad16) == 0)) {
-            func_8001E578(F_sbs01_pad16);
+    if (get_script_flag_mask(F_end_ending) == 0) {
+        if ((get_script_flag_mask(F_veldil_dungeon_deatta) != 0) && (get_script_flag_mask(F_sbs01_pad16) == 0)) {
+            set_script_flag_bit(F_sbs01_pad16);
             town_event_state->saved_entry = find_first_enabled_entry_id();
         }
-        if ((func_8001E670(F_sbs01_pad09) != 0) && (func_8001E670(sn_return_successful) == 0)) {
+        if ((get_script_flag_mask(F_sbs01_pad09) != 0) && (get_script_flag_mask(sn_return_successful) == 0)) {
             state = town_event_state;
             value = *((u8 *)state + 3);
             if (value != 0) {
@@ -80,7 +81,7 @@ void select_next_event_state(void) {
             }
             return;
         }
-        if (func_8001E670(F_sbs01_pad09) != 0) {
+        if (get_script_flag_mask(F_sbs01_pad09) != 0) {
             state = town_event_state;
             value = *((u8 *)state + 3);
             if (value != 0) {
@@ -91,8 +92,8 @@ void select_next_event_state(void) {
             }
             return;
         }
-        if ((func_8001E670(F_veldil_dungeon_deatta) != 0) && (func_8001E670(F_sbs01_pad09) == 0)) {
-            func_8001E578(F_sbs01_pad09);
+        if ((get_script_flag_mask(F_veldil_dungeon_deatta) != 0) && (get_script_flag_mask(F_sbs01_pad09) == 0)) {
+            set_script_flag_bit(F_sbs01_pad09);
             state = town_event_state;
             value = *((u8 *)state + 3);
             if (value != 0) {
@@ -113,7 +114,7 @@ void select_next_event_state(void) {
         town_event_state->selection_mode = 2;
         return;
     }
-    if ((func_8001E670(F_selfy_get_tamago) == 0) || (func_8001E670(Ft_niko_love) != 0)) {
+    if ((get_script_flag_mask(F_selfy_get_tamago) == 0) || (get_script_flag_mask(Ft_niko_love) != 0)) {
         town_event_state->selection_mode = 0;
         return;
     }

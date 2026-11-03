@@ -24,13 +24,13 @@ extern s32 find_active_rect_containing_point(s32, s32);
 
 extern void update_actor_status_and_mp(ActorRecord *entity);
 extern void initialize_object_rendering_and_params(void *, void *, void *);
-extern void func_80171C3C(ActorRecord *action, ObjectPosition *action_id, SpriteFrameState *entity, ActorRecord *move_state);
-extern void func_80171E80(void *, void *, void *, void *);
-extern s32 func_8017263C(ActorRecord *action_state, ObjectPosition *motion_param, SpriteFrameState *sprite_arg, ActorRecord *actor);
-extern void func_80172800(ActorRecord *action_state, ObjectPosition *action_context, void *sprite, ActorRecord *actor);
-extern s32 func_80172918(void *, void *, void *, s32);
+extern void advance_stored_path_motion(ActorRecord *action, ObjectPosition *action_id, SpriteFrameState *entity, ActorRecord *move_state);
+extern void choose_block_move_slot_a(void *, void *, void *, void *);
+extern s32 check_actor_transition_and_start_effect(ActorRecord *action_state, ObjectPosition *motion_param, SpriteFrameState *sprite_arg, ActorRecord *actor);
+extern void start_directional_actor_effect(ActorRecord *action_state, ObjectPosition *action_context, void *sprite, ActorRecord *actor);
+extern s32 update_entity_state_from_query(void *, void *, void *, s32);
 extern void func_8017412C(void *, void *, void *, void *);
-extern void func_801756E0(ActorRecord *action_state, ObjectPosition *effect_arg, SpriteFrameState *anim_state, ActorRecord *actor);
+extern void clear_actor_flag_and_apply_effect(ActorRecord *action_state, ObjectPosition *effect_arg, SpriteFrameState *anim_state, ActorRecord *actor);
 
 extern u8 secondary_sprite[];
 extern u8 D_80170A0C[];
@@ -79,7 +79,7 @@ void update_actor_timed_effects(ActorRecord *actor_arg, ObjectPosition *context_
 
     if (initial_flags & 0x1000) {
         ((ActorRecord *)actor)->action_id.u = 0xE;
-        func_80171C3C(actor, context, sprite, stats);
+        advance_stored_path_motion(actor, context, sprite, stats);
         return;
     }
 
@@ -155,7 +155,7 @@ void update_actor_timed_effects(ActorRecord *actor_arg, ObjectPosition *context_
     if (((ActorRecord *)stats)->pending_turn_updates > 0) {
         if (!(((u32)((ActorRecord *)stats)->flags1C) & 0x20)) {
             if (*(u16 *)&sprite->tile_x == reference_tile_object.tile_position.word) {
-                func_80171E80(actor, context, sprite, stats);
+                choose_block_move_slot_a(actor, context, sprite, stats);
                 return;
             }
             if (!(((ActorRecord *)stats)->action_flags & 0x8000)) {
@@ -174,26 +174,26 @@ void update_actor_timed_effects(ActorRecord *actor_arg, ObjectPosition *context_
                         }
                     }
                 }
-                if ((s16)func_80172918(actor, context, sprite, 0) == 0) {
+                if ((s16)update_entity_state_from_query(actor, context, sprite, 0) == 0) {
                     return;
                 }
                 ((ActorRecord *)stats)->action_flags |= 0x4000;
                 if (!(((ActorRecord *)stats)->action_flags & 0x8000)) {
-                    func_80171E80(actor, context, sprite, stats);
+                    choose_block_move_slot_a(actor, context, sprite, stats);
                     return;
                 }
             }
 
             switch (((ActorRecord *)stats)->action_flags & 0x3FFF) {
             case 8:
-                if ((s16)func_8017263C(actor, context, sprite, stats) == 0) {
-                    func_80172800(actor, context, sprite, stats);
+                if ((s16)check_actor_transition_and_start_effect(actor, context, sprite, stats) == 0) {
+                    start_directional_actor_effect(actor, context, sprite, stats);
                     return;
                 }
                 return;
 
             case 9:
-                func_801756E0(actor, context, sprite, stats);
+                clear_actor_flag_and_apply_effect(actor, context, sprite, stats);
                 return;
 
             case 5:
@@ -234,7 +234,7 @@ aaf_cleanup:
         return;
 
 ordinary_cleanup:
-        func_80171E80(actor, context, sprite, stats);
+        choose_block_move_slot_a(actor, context, sprite, stats);
         return;
     } else if (!(((u32)((ActorRecord *)stats)->flags1C) & 0x2000)) {
         s32 room_index = (s8)room_id;

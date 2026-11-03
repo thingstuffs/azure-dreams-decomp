@@ -2,6 +2,9 @@
 #include "town/devkit.h"
 #include "town/scene/flags.h"
 #include "town.h"
+#define AZ_FOREIGN_LOCAL_FUNC_80700D84
+#include "town/devkit/flag_test_imports.h"
+#undef AZ_FOREIGN_LOCAL_FUNC_80700D84
 
 typedef struct {
     u8 pad[0xBBC];
@@ -24,7 +27,6 @@ extern State *devkit_state_slots[3];
 extern CallbackOwner *devkit_callback_owner[4];
 
 #define STATE_ROOT devkit_state_slots[0]
-extern s32 func_80701060(s32 *word, s32 old_value);
 
 /* Record the pressed input, or toggle the 0x40000000 state flag from the callback's answer and advance the slot. */
 s32 record_devkit_input_and_advance_slot(s32 slot) {

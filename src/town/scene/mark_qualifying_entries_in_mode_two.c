@@ -21,7 +21,7 @@ typedef struct S_80017DBC_2 {
 } S_80017DBC_2;
 
 
-extern s32 func_800198D0(s32 flagIndex);
+extern s32 get_script_flag_mask(s32 flagIndex);
 extern s32 town_indexed_values;
 extern s32 D_80016608;
 extern s32 scene_update_state;
@@ -40,7 +40,7 @@ s32 mark_qualifying_entries_in_mode_two(void)
         for (entry_index = 1; entry_index < 8; entry_index++) {
             source_entry = (S_80017DBC_0 *)((u8 *)&town_indexed_values + entry_index * 0xC);
             dest_entry = (S_80017DBC_1 *)((u8 *)dest_state + entry_index * 0x14);
-            if (func_800198D0(source_entry->unk_04) != 0) {
+            if (get_script_flag_mask(source_entry->unk_04) != 0) {
                 if (source_entry->unk_08 != 0) {
                     dest_entry->unk_02 = 0x400;
                     if (entry_index == 1) {

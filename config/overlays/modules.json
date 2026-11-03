@@ -68644,8 +68644,9 @@
       "imports": [
         {
           "kind": "function",
-          "symbol": "func_80016CB0",
-          "vma": 2147577008
+          "symbol": "func_80019DFC",
+          "vma": 2147577008,
+          "basis": "same-image copy of apply_entry_position: home func_80019DFC, original import func_80016CB0 at 0x80016CB0; whole-module recertification preserves this address"
         },
         {
           "evidence": "docs/evidence/town_ovl_64b0c0.imports.json",
@@ -68714,8 +68715,9 @@
       "imports": [
         {
           "kind": "function",
-          "symbol": "func_80016ABC",
-          "vma": 2147576508
+          "symbol": "func_80019DFC",
+          "vma": 2147576508,
+          "basis": "same-image copy of apply_entry_position: home func_80019DFC, original import func_80016ABC at 0x80016ABC; whole-module recertification preserves this address"
         },
         {
           "evidence": "docs/evidence/town_ovl_64f0c0.imports.json",
@@ -68785,13 +68787,15 @@
       "imports": [
         {
           "kind": "function",
-          "symbol": "func_80017434",
-          "vma": 2147578932
+          "symbol": "func_8001B0C8",
+          "vma": 2147578932,
+          "basis": "same-image copy of get_linked_record_field_2_d_60: home func_8001B0C8, original import func_80017434 at 0x80017434; whole-module recertification preserves this address"
         },
         {
           "kind": "function",
-          "symbol": "func_80016ABC",
-          "vma": 2147576508
+          "symbol": "func_80019DFC",
+          "vma": 2147576508,
+          "basis": "same-image copy of apply_entry_position: home func_80019DFC, original import func_80016ABC at 0x80016ABC; whole-module recertification preserves this address"
         },
         {
           "evidence": "docs/evidence/town_ovl_64f118.imports.json",
@@ -68860,8 +68864,9 @@
       "imports": [
         {
           "kind": "function",
-          "symbol": "func_80016A2C",
-          "vma": 2147576364
+          "symbol": "func_80019DFC",
+          "vma": 2147576364,
+          "basis": "same-image copy of apply_entry_position: home func_80019DFC, original import func_80016A2C at 0x80016A2C; whole-module recertification preserves this address"
         },
         {
           "evidence": "docs/evidence/town_ovl_6510c0.imports.json",
@@ -68957,8 +68962,9 @@
         },
         {
           "kind": "function",
-          "symbol": "func_80017350",
-          "vma": 2147578704
+          "symbol": "func_8001AD60",
+          "vma": 2147578704,
+          "basis": "same-image copy of clear_script_flag_bit: home func_8001AD60, original import func_80017350 at 0x80017350; whole-module recertification preserves this address"
         }
       ],
       "key": "town_ovl_480100",
@@ -69053,8 +69059,9 @@
         },
         {
           "kind": "function",
-          "symbol": "func_80017398",
-          "vma": 2147578776
+          "symbol": "func_8001AD60",
+          "vma": 2147578776,
+          "basis": "same-image copy of clear_script_flag_bit: home func_8001AD60, original import func_80017398 at 0x80017398; whole-module recertification preserves this address"
         }
       ],
       "key": "town_ovl_4f9100",
@@ -69206,8 +69213,9 @@
         },
         {
           "kind": "function",
-          "symbol": "func_8001746C",
-          "vma": 2147578988
+          "symbol": "func_8001AD60",
+          "vma": 2147578988,
+          "basis": "same-image copy of clear_script_flag_bit: home func_8001AD60, original import func_8001746C at 0x8001746C; whole-module recertification preserves this address"
         }
       ],
       "key": "town_ovl_47027c",
@@ -69395,8 +69403,9 @@
       "imports": [
         {
           "kind": "function",
-          "symbol": "func_800175D0",
-          "vma": 2147579344
+          "symbol": "func_8001B0C8",
+          "vma": 2147579344,
+          "basis": "same-image copy of get_linked_record_field_2_d_60: home func_8001B0C8, original import func_800175D0 at 0x800175D0; whole-module recertification preserves this address"
         },
         {
           "kind": "function",
@@ -72034,9 +72043,10 @@
       "owned_data": [],
       "imports": [
         {
-          "symbol": "func_800161EC",
+          "symbol": "func_8095013C",
           "kind": "function",
-          "vma": 2147574252
+          "vma": 2147574252,
+          "basis": "same-image copy of find_entry_8_index_or_assert_rev_b: home func_8095013C, original import func_800161EC at 0x800161EC; whole-module recertification preserves this address"
         },
         {
           "symbol": "func_80016510",
@@ -81980,9 +81990,10 @@
           "vma": 2148210936
         },
         {
-          "symbol": "func_800B1938",
+          "symbol": "func_80027254",
           "kind": "function",
-          "vma": 2148211000
+          "vma": 2148211000,
+          "basis": "same-image copy of link_save_heading_draw_nodes: home func_80027254, original import func_800B1938 at 0x800B1938; whole-module recertification preserves this address"
         },
         {
           "symbol": "func_800B1960",
@@ -88293,19 +88304,22 @@
           "vma": 2147580736
         },
         {
-          "symbol": "func_80019814",
+          "symbol": "func_80019B54",
           "kind": "function",
-          "vma": 2147588116
+          "vma": 2147588116,
+          "basis": "same-image copy of apply_selected_entry_values: home func_80019B54, original import func_80019814 at 0x80019814; whole-module recertification preserves this address"
         },
         {
-          "symbol": "func_8001A418",
+          "symbol": "func_8001ACE8",
           "kind": "function",
-          "vma": 2147591192
+          "vma": 2147591192,
+          "basis": "same-image copy of set_script_flag_bit: home func_8001ACE8, original import func_8001A418 at 0x8001A418; whole-module recertification preserves this address"
         },
         {
-          "symbol": "func_8001A510",
+          "symbol": "func_8001ADE0",
           "kind": "function",
-          "vma": 2147591440
+          "vma": 2147591440,
+          "basis": "same-image copy of get_script_flag_mask: home func_8001ADE0, original import func_8001A510 at 0x8001A510; whole-module recertification preserves this address"
         }
       ],
       "review": {
@@ -88407,19 +88421,22 @@
           "vma": 2147581028
         },
         {
-          "symbol": "func_8001A418",
+          "symbol": "func_8001ACE8",
           "kind": "function",
-          "vma": 2147591192
+          "vma": 2147591192,
+          "basis": "same-image copy of set_script_flag_bit: home func_8001ACE8, original import func_8001A418 at 0x8001A418; whole-module recertification preserves this address"
         },
         {
-          "symbol": "func_8001A490",
+          "symbol": "func_8001AD60",
           "kind": "function",
-          "vma": 2147591312
+          "vma": 2147591312,
+          "basis": "same-image copy of clear_script_flag_bit: home func_8001AD60, original import func_8001A490 at 0x8001A490; whole-module recertification preserves this address"
         },
         {
-          "symbol": "func_8001A510",
+          "symbol": "func_8001ADE0",
           "kind": "function",
-          "vma": 2147591440
+          "vma": 2147591440,
+          "basis": "same-image copy of get_script_flag_mask: home func_8001ADE0, original import func_8001A510 at 0x8001A510; whole-module recertification preserves this address"
         }
       ],
       "review": {
@@ -88540,14 +88557,16 @@
           "owner": "retail_asset:town:link_image_3ef000"
         },
         {
-          "symbol": "func_800186D8",
+          "symbol": "func_8001D414",
           "kind": "function",
-          "vma": 2147583704
+          "vma": 2147583704,
+          "basis": "same-image copy of query_priority_event_state: home func_8001D414, original import func_800186D8 at 0x800186D8; whole-module recertification preserves this address"
         },
         {
-          "symbol": "func_80018824",
+          "symbol": "func_800193F4",
           "kind": "function",
-          "vma": 2147584036
+          "vma": 2147584036,
+          "basis": "same-image copy of clear_bytes: home func_800193F4, original import func_80018824 at 0x80018824; whole-module recertification preserves this address"
         },
         {
           "symbol": "func_80018914",
@@ -88555,9 +88574,10 @@
           "vma": 2147584276
         },
         {
-          "symbol": "func_8001A510",
+          "symbol": "func_8001ADE0",
           "kind": "function",
-          "vma": 2147591440
+          "vma": 2147591440,
+          "basis": "same-image copy of get_script_flag_mask: home func_8001ADE0, original import func_8001A510 at 0x8001A510; whole-module recertification preserves this address"
         }
       ],
       "review": {
@@ -88635,14 +88655,16 @@
           "vma": 2147583052
         },
         {
-          "symbol": "func_80018824",
+          "symbol": "func_800193F4",
           "kind": "function",
-          "vma": 2147584036
+          "vma": 2147584036,
+          "basis": "same-image copy of clear_bytes: home func_800193F4, original import func_80018824 at 0x80018824; whole-module recertification preserves this address"
         },
         {
-          "symbol": "func_8001A418",
+          "symbol": "func_8001ACE8",
           "kind": "function",
-          "vma": 2147591192
+          "vma": 2147591192,
+          "basis": "same-image copy of set_script_flag_bit: home func_8001ACE8, original import func_8001A418 at 0x8001A418; whole-module recertification preserves this address"
         }
       ],
       "review": {
@@ -88699,9 +88721,10 @@
       "owned_data": [],
       "imports": [
         {
-          "symbol": "func_80018FDC",
+          "symbol": "func_8001922C",
           "kind": "function",
-          "vma": 2147586012
+          "vma": 2147586012,
+          "basis": "same-image copy of process_lshop_entries: home func_8001922C, original import func_80018FDC at 0x80018FDC; whole-module recertification preserves this address"
         }
       ],
       "review": {
@@ -88912,9 +88935,10 @@
           "vma": 2147591564
         },
         {
-          "symbol": "func_8001E670",
+          "symbol": "func_8001ADE0",
           "kind": "function",
-          "vma": 2147608176
+          "vma": 2147608176,
+          "basis": "same-image copy of get_script_flag_mask: home func_8001ADE0, original import func_8001E670 at 0x8001E670; whole-module recertification preserves this address"
         }
       ],
       "review": {
@@ -89054,19 +89078,22 @@
           "owner": "retail_asset:town:link_ll34_51e000_80016000"
         },
         {
-          "symbol": "func_8001886C",
+          "symbol": "func_8001ACE8",
           "kind": "function",
-          "vma": 2147584108
+          "vma": 2147584108,
+          "basis": "same-image copy of set_script_flag_bit: home func_8001ACE8, original import func_8001886C at 0x8001886C; whole-module recertification preserves this address"
         },
         {
-          "symbol": "func_800188E4",
+          "symbol": "func_8001AD60",
           "kind": "function",
-          "vma": 2147584228
+          "vma": 2147584228,
+          "basis": "same-image copy of clear_script_flag_bit: home func_8001AD60, original import func_800188E4 at 0x800188E4; whole-module recertification preserves this address"
         },
         {
-          "symbol": "func_80018964",
+          "symbol": "func_8001ADE0",
           "kind": "function",
-          "vma": 2147584356
+          "vma": 2147584356,
+          "basis": "same-image copy of get_script_flag_mask: home func_8001ADE0, original import func_80018964 at 0x80018964; whole-module recertification preserves this address"
         }
       ],
       "review": {
@@ -89253,14 +89280,16 @@
           "owner": "retail_asset:town:link_ll34_594800_80016000"
         },
         {
-          "symbol": "func_800181C8",
+          "symbol": "func_80019DFC",
           "kind": "function",
-          "vma": 2147582408
+          "vma": 2147582408,
+          "basis": "same-image copy of apply_entry_position: home func_80019DFC, original import func_800181C8 at 0x800181C8; whole-module recertification preserves this address"
         },
         {
-          "symbol": "func_80018BD0",
+          "symbol": "func_8001AD60",
           "kind": "function",
-          "vma": 2147584976
+          "vma": 2147584976,
+          "basis": "same-image copy of clear_script_flag_bit: home func_8001AD60, original import func_80018BD0 at 0x80018BD0; whole-module recertification preserves this address"
         }
       ],
       "review": {
@@ -89349,19 +89378,22 @@
           "owner": "retail_asset:town:link_ll34_657800_80016000"
         },
         {
-          "symbol": "func_80018548",
+          "symbol": "func_8001ACE8",
           "kind": "function",
-          "vma": 2147583304
+          "vma": 2147583304,
+          "basis": "same-image copy of set_script_flag_bit: home func_8001ACE8, original import func_80018548 at 0x80018548; whole-module recertification preserves this address"
         },
         {
-          "symbol": "func_800185C0",
+          "symbol": "func_8001AD60",
           "kind": "function",
-          "vma": 2147583424
+          "vma": 2147583424,
+          "basis": "same-image copy of clear_script_flag_bit: home func_8001AD60, original import func_800185C0 at 0x800185C0; whole-module recertification preserves this address"
         },
         {
-          "symbol": "func_80018640",
+          "symbol": "func_8001ADE0",
           "kind": "function",
-          "vma": 2147583552
+          "vma": 2147583552,
+          "basis": "same-image copy of get_script_flag_mask: home func_8001ADE0, original import func_80018640 at 0x80018640; whole-module recertification preserves this address"
         }
       ],
       "review": {
@@ -91314,24 +91346,28 @@
           "vma": 2147602504
         },
         {
-          "symbol": "func_8001E578",
+          "symbol": "func_8001ACE8",
           "kind": "function",
-          "vma": 2147607928
+          "vma": 2147607928,
+          "basis": "same-image copy of set_script_flag_bit: home func_8001ACE8, original import func_8001E578 at 0x8001E578; whole-module recertification preserves this address"
         },
         {
-          "symbol": "func_8001E5F0",
+          "symbol": "func_8001AD60",
           "kind": "function",
-          "vma": 2147608048
+          "vma": 2147608048,
+          "basis": "same-image copy of clear_script_flag_bit: home func_8001AD60, original import func_8001E5F0 at 0x8001E5F0; whole-module recertification preserves this address"
         },
         {
-          "symbol": "func_8001E670",
+          "symbol": "func_8001ADE0",
           "kind": "function",
-          "vma": 2147608176
+          "vma": 2147608176,
+          "basis": "same-image copy of get_script_flag_mask: home func_8001ADE0, original import func_8001E670 at 0x8001E670; whole-module recertification preserves this address"
         },
         {
-          "symbol": "func_8001E82C",
+          "symbol": "func_8001B0C8",
           "kind": "function",
-          "vma": 2147608620
+          "vma": 2147608620,
+          "basis": "same-image copy of get_linked_record_field_2_d_60: home func_8001B0C8, original import func_8001E82C at 0x8001E82C; whole-module recertification preserves this address"
         }
       ],
       "review": {
@@ -91445,19 +91481,22 @@
           "vma": 2147591408
         },
         {
-          "symbol": "func_8001E578",
+          "symbol": "func_8001ACE8",
           "kind": "function",
-          "vma": 2147607928
+          "vma": 2147607928,
+          "basis": "same-image copy of set_script_flag_bit: home func_8001ACE8, original import func_8001E578 at 0x8001E578; whole-module recertification preserves this address"
         },
         {
-          "symbol": "func_8001E5F0",
+          "symbol": "func_8001AD60",
           "kind": "function",
-          "vma": 2147608048
+          "vma": 2147608048,
+          "basis": "same-image copy of clear_script_flag_bit: home func_8001AD60, original import func_8001E5F0 at 0x8001E5F0; whole-module recertification preserves this address"
         },
         {
-          "symbol": "func_8001E670",
+          "symbol": "func_8001ADE0",
           "kind": "function",
-          "vma": 2147608176
+          "vma": 2147608176,
+          "basis": "same-image copy of get_script_flag_mask: home func_8001ADE0, original import func_8001E670 at 0x8001E670; whole-module recertification preserves this address"
         }
       ],
       "review": {
@@ -94343,9 +94382,10 @@
           "vma": 2147590656
         },
         {
-          "symbol": "func_8001E670",
+          "symbol": "func_8001ADE0",
           "kind": "function",
-          "vma": 2147608176
+          "vma": 2147608176,
+          "basis": "same-image copy of get_script_flag_mask: home func_8001ADE0, original import func_8001E670 at 0x8001E670; whole-module recertification preserves this address"
         }
       ],
       "review": {
@@ -95514,9 +95554,10 @@
           "owner": "retail_asset:town:link_ll34_581000_80016000"
         },
         {
-          "symbol": "func_800168BC",
+          "symbol": "func_800190C0",
           "kind": "function",
-          "vma": 2147575996
+          "vma": 2147575996,
+          "basis": "same-image copy of append_town_item: home func_800190C0, original import func_800168BC at 0x800168BC; whole-module recertification preserves this address"
         }
       ],
       "review": {
@@ -99086,19 +99127,22 @@
           "vma": 2147574116
         },
         {
-          "symbol": "func_8001A418",
+          "symbol": "func_8001ACE8",
           "kind": "function",
-          "vma": 2147591192
+          "vma": 2147591192,
+          "basis": "same-image copy of set_script_flag_bit: home func_8001ACE8, original import func_8001A418 at 0x8001A418; whole-module recertification preserves this address"
         },
         {
-          "symbol": "func_8001A490",
+          "symbol": "func_8001AD60",
           "kind": "function",
-          "vma": 2147591312
+          "vma": 2147591312,
+          "basis": "same-image copy of clear_script_flag_bit: home func_8001AD60, original import func_8001A490 at 0x8001A490; whole-module recertification preserves this address"
         },
         {
-          "symbol": "func_8001A510",
+          "symbol": "func_8001ADE0",
           "kind": "function",
-          "vma": 2147591440
+          "vma": 2147591440,
+          "basis": "same-image copy of get_script_flag_mask: home func_8001ADE0, original import func_8001A510 at 0x8001A510; whole-module recertification preserves this address"
         },
         {
           "symbol": "func_8001A7B0",
@@ -99106,9 +99150,10 @@
           "vma": 2147592112
         },
         {
-          "symbol": "func_8001A7F8",
+          "symbol": "func_8001B0C8",
           "kind": "function",
-          "vma": 2147592184
+          "vma": 2147592184,
+          "basis": "same-image copy of get_linked_record_field_2_d_60: home func_8001B0C8, original import func_8001A7F8 at 0x8001A7F8; whole-module recertification preserves this address"
         }
       ],
       "review": {
@@ -99174,14 +99219,16 @@
           "owner": "retail_asset:town:link_image_49e800"
         },
         {
-          "symbol": "func_80018A64",
+          "symbol": "func_8001ACE8",
           "kind": "function",
-          "vma": 2147584612
+          "vma": 2147584612,
+          "basis": "same-image copy of set_script_flag_bit: home func_8001ACE8, original import func_80018A64 at 0x80018A64; whole-module recertification preserves this address"
         },
         {
-          "symbol": "func_80018ADC",
+          "symbol": "func_8001AD60",
           "kind": "function",
-          "vma": 2147584732
+          "vma": 2147584732,
+          "basis": "same-image copy of clear_script_flag_bit: home func_8001AD60, original import func_80018ADC at 0x80018ADC; whole-module recertification preserves this address"
         }
       ],
       "review": {
@@ -100498,9 +100545,10 @@
           "vma": 2147591444
         },
         {
-          "symbol": "func_8001B080",
+          "symbol": "func_8001A7B0",
           "kind": "function",
-          "vma": 2147594368
+          "vma": 2147594368,
+          "basis": "same-image copy of town_table_contains_first_byte_b: home func_8001A7B0, original import func_8001B080 at 0x8001B080; whole-module recertification preserves this address"
         }
       ]
     },

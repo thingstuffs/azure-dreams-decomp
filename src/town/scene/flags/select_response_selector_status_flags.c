@@ -3,6 +3,7 @@
 #include "town/scene/milestone_rewards.h"
 #include "town/scene/flags.h"
 #include "town/player/state.h"
+#include "town.h"
 
 extern char scene_string_fallback[];
 extern char scene_choice_text[];
@@ -10,8 +11,6 @@ extern char event_string_fallback[];
 extern char D_8001D000[];
 extern char D_8001D3CC[];
 extern char D_80022694[];
-
-extern s32 town_table_contains_first_byte_b(s32);
 
 /* Selects a response from the selector and status flags, updating flags for special cases. */
 char *select_response_selector_status_flags(long long unused, s32 selection)

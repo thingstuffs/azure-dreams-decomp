@@ -1,5 +1,8 @@
 """Unit coverage for address_names.py (the TU rewrite) and extern_bulk.py's --names filter."""
 import argparse
+import csv
+import sqlite3
+from unittest.mock import patch
 import sys
 import tempfile
 import unittest
@@ -66,6 +69,27 @@ class ApplyTest(unittest.TestCase):
         out, log = self.run_apply(text, [('func_80042640', 'init_monster_from_stats', 'include/engine/entity.h')])
         self.assertEqual(out, text)
         self.assertEqual(log[0][4], 'hold:no_visible_prototype')
+
+    def test_existing_call_does_not_supply_a_prototype(self):
+        text='void g(void) {\n    old();\n    real();\n}\n'
+        out,log=self.run_apply(text,[('old','real','')])
+        self.assertEqual(out,text)
+        self.assertEqual(log[0][4],'hold:no_visible_prototype')
+
+    def test_screen_reports_rewrite_hold_before_compiling(self):
+        with tempfile.TemporaryDirectory() as folder:
+            root=Path(folder);(root/'src').mkdir();(root/'include').mkdir()
+            (root/'src/a.c').write_text('void f(void) { old(); }\n')
+            db=sqlite3.connect(root/'map.db');db.execute('create table recipe(source text,args text)');db.commit();db.close()
+            plan=root/'plan.tsv';plan.write_text('file\told\tnew\tnew_header\nsrc/a.c\told\treal\t\n')
+            A._CORPUS.clear()
+            with patch.object(A,'lib_symbol_names',return_value={}):
+                with patch('subprocess.run') as compiler:
+                    A.screen(root,root/'map.db',plan,root/'out',workers=1)
+                    compiler.assert_not_called()
+            rows=list(csv.DictReader((root/'out/screen.tsv').open(),delimiter='\t'))
+            self.assertEqual(rows[0]['verdict'],'hold')
+            self.assertEqual(rows[0]['why'],'hold:no_visible_prototype')
 
     def test_idempotent(self):
         once, _ = self.run_apply(TU, [('func_80069EF8', 'rand', '')])

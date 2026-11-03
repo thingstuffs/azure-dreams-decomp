@@ -26,7 +26,7 @@ extern s32 generate_random_value(void);
 extern s16 find_nearest_floor_item_in_room(void *, s32, s16 *, s16 *);
 extern void update_actor_status_and_mp(ActorRecord *entity);
 extern s16 sample_terrain_surface_height(s32, s32, s16);
-extern s32 func_80171EBC(ActorRecord *action_state, ObjectPosition *motion_param, SpriteFrameState *sprite_arg, ActorRecord *actor);
+extern s32 check_actor_transition_and_start_effect(ActorRecord *action_state, ObjectPosition *motion_param, SpriteFrameState *sprite_arg, ActorRecord *actor);
 
 extern s8 actor_turn_angle_offsets;
 
@@ -57,7 +57,7 @@ void advance_actor_path_with_item_search(ActorRecord *move_state, ObjectPosition
     flags = dungeon_state->flags;
     if ((flags & 0x4000) || ((s8)actor_arg->movement_queue_state >= 0)) {
         if ((actor_arg->unk_12 >= 2) ||
-            ((s16)func_80171EBC(move_state, caller_context, position_arg, actor_arg) == 0)) {
+            ((s16)check_actor_transition_and_start_effect(move_state, caller_context, position_arg, actor_arg) == 0)) {
             update_actor_status_and_mp(actor_arg);
             return;
         }

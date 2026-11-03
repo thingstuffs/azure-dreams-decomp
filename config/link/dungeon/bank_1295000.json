@@ -138,7 +138,10 @@
       "foff": "0x1295D14",
       "vma": "0x8014d514",
       "size": 1196,
-      "evidence": "opus_place1: relinked copy -> placement; home object == copy object outside relocation fields, relocation map derived by tools/tu/copy_place.py derive; window gate MATCH"
+      "evidence": "opus_place1: relinked copy -> placement; home object == copy object outside relocation fields, relocation map derived by tools/tu/copy_place.py derive; window gate MATCH",
+      "bindings": {
+        "0x80172628": "0x8014E330"
+      }
     },
     {
       "row": "dungeon/func_812761C0",

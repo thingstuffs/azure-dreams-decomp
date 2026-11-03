@@ -87,6 +87,7 @@ class TuPlan:
     implicit: list = field(default_factory=list)     # (fn, header) implicit callers that gain a prototype
     stale: list = field(default_factory=list)        # generated headers included but no longer needed
     append: dict = field(default_factory=dict)       # existing header -> names it must gain (append-only)
+    requested: dict = field(default_factory=dict)    # header -> names requested before call respelling
 
 
 @dataclass
@@ -234,7 +235,7 @@ def substituted_proto(fd, subst):
     return rep(head) + sep + rep(rest)
 
 
-def build(root, scope=(), corpus=None, scope_files=None, include_data=False):
+def build(root, scope=(), corpus=None, scope_files=None, include_data=False, requests=None):
     corpus = corpus or M.Corpus(root)
     gen = generated_headers(corpus)
     corpus.h_files = [h for h in corpus.h_files if h not in gen]
@@ -417,7 +418,7 @@ def build(root, scope=(), corpus=None, scope_files=None, include_data=False):
         files = scope_files or [f for f in corpus.c_files if any(f == p or f.startswith(p.rstrip('/') + '/')
                                                                for p in scope)]
         for f in sorted(files):
-            plan.tus[f] = plan_tu(plan, f)
+            plan.tus[f] = plan_tu(plan, f, (requests or {}).get(f, ()))
     return plan
 
 
@@ -463,7 +464,7 @@ def _mentions(corpus, rel):
     return out
 
 
-def plan_tu(plan, rel):
+def plan_tu(plan, rel, requested=()):
     corpus, tindex = plan.corpus, plan.tindex
     tp = TuPlan(rel)
     sc = corpus.scan(rel)
@@ -478,6 +479,17 @@ def plan_tu(plan, rel):
             r.action, r.reason = 'keep', 'function_held:' + (fr.reason if fr else 'unbound')
             continue
         by_header[fr.header].append(r)
+    # A reviewed rename plan can request the real function's prototype before respelling its call.
+    # These requests add includes/appends, but create no local declaration or removal span.
+    from types import SimpleNamespace
+    requested_rows = defaultdict(list)
+    for name in requested:
+        fr = plan.functions.get(name) or plan.functions.get(f'{name}@{M.container_of(rel)}')
+        if fr is None or fr.status != 'header':
+            tp.holds['request:' + name] = 'requested_function_held:' + (fr.reason if fr else 'unbound')
+            continue
+        requested_rows[fr.header].append(SimpleNamespace(site=SimpleNamespace(name=name), definition=fr.definition))
+    tp.requested = {h: [r.site.name for r in rs] for h, rs in requested_rows.items()}
     # headers the TU defines functions for
     defined_here = set()
     for it in sc.items:
@@ -511,7 +523,7 @@ def plan_tu(plan, rel):
         for h in gen_included:
             if h in plan.headers and not (plan.generated_names.get(h, set()) & mentions):
                 from_generated.add(h)
-    wanted = set(by_header) | defined_here | from_generated
+    wanted = set(by_header) | defined_here | from_generated | set(requested_rows)
     tp.stale = sorted(set(gen_included) - wanted)
     if not wanted:
         return tp
@@ -539,8 +551,8 @@ def plan_tu(plan, rel):
         reason = ''
         fnames = {fr.name for fr in plan.headers.get(h, [])}
         if h in plan.existing:
-            reason, missing = _existing_gap(plan, rel, h, by_header.get(h, []))
-            fnames = {r.site.name for r in by_header.get(h, [])} | _declared_names(plan, h)
+            reason, missing = _existing_gap(plan, rel, h, by_header.get(h, []) + requested_rows.get(h, []))
+            fnames = {r.site.name for r in by_header.get(h, []) + requested_rows.get(h, [])} | _declared_names(plan, h)
         for r in by_header.get(h, []) if not reason else []:
             s = r.site
             if r.risk == 'never':

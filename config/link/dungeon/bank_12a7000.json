@@ -219,7 +219,8 @@
         "0x80173E8C": "0x80166E8C",
         "0x80173E94": "0x80166E94",
         "0x80173EC4": "0x80166EC4",
-        "0x80173EE4": "0x80166EE4"
+        "0x80173EE4": "0x80166EE4",
+        "0x80172628": "0x80165330"
       },
       "evidence": "LL4: current home/copy object shape and complete rebound byte equality; canonical address bindings; destination window proof required"
     },

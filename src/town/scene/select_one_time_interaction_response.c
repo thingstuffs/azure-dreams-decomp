@@ -1,6 +1,7 @@
 #include "modules/town_ovl_3ef1c8.h"
 #include "town/scene/response_checks.h"
 #include "town/scene.h"
+#include "town/player/state.h"
 
 /* Selects an interaction response from a table, a progress flag, and a one-time response latch. */
 s32 select_one_time_interaction_response(void *object, s32 check_value, s32 selection)
@@ -18,7 +19,7 @@ s32 select_one_time_interaction_response(void *object, s32 check_value, s32 sele
     default_response = apply_entry_position(response_table, &scene_override_context, object, selection);
     response = default_response;
     if (resolve_entry_flag(response_table, object, selection) != 0) {
-        if (func_8001A510(*(s16 *)((s8 *)object + 0x18)) != 0) {
+        if (get_script_flag_mask(*(s16 *)((s8 *)object + 0x18)) != 0) {
 
             response = &D_8001F543;
         } else {

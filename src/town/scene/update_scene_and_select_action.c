@@ -16,16 +16,16 @@ s32 update_scene_and_select_action(UnkStruct *object, s32 value) {
     s32 status;
 
     store_scene_value_pair(object, value);
-    if (func_80018B5C(object->unk_18) != 0) {
-        status = func_80018B5C(D_80018CFA[0]);
+    if (get_script_flag_mask(object->unk_18) != 0) {
+        status = get_script_flag_mask(D_80018CFA[0]);
     } else {
         status = 0;
     }
 
     if (status != 0) {
-        func_80018ADC(F_sbs11_pad25);
+        clear_script_flag_bit(F_sbs11_pad25);
     } else {
-        func_80018A64(F_sbs11_pad25);
+        set_script_flag_bit(F_sbs11_pad25);
     }
     return status;
 }

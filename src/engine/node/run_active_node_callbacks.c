@@ -5,31 +5,22 @@
 /* Linked-list node with a next pointer at offset 0x0, two callback-argument
  * fields at 0x8/0xC, a raw (possibly-null) function-pointer value at 0x10,
  * and a 16-bit flags field at 0x1E. */
-typedef struct S_80081498_Node {
-    struct S_80081498_Node *next;   /* 0x00 */
-    u8 pad_04[0x08 - 0x04];
-    void *field_08;                 /* 0x08 */
-    void *field_0C;                 /* 0x0C */
-    s32 field_10;                   /* 0x10 - raw function pointer value, checked via signed bgez */
-    u8 pad_14[0x1E - 0x14];
-    u16 field_1E;                   /* 0x1E */
-} S_80081498_Node;
 
 /* head of the active node list (8 bytes to D_800814A0; only the head word is read) */
-extern S_80081498_Node *active_node_list_head;
+extern ObjectNodeHeader *active_node_list_head;
 
 /* Invokes negative-address callbacks on nodes in D_80081498 whose flags omit bit 0x400. */
 void run_active_node_callbacks(void)
 {
     ObjectNodeHeader *node;
-    S_80081498_Node *next_node;
+    ObjectNodeHeader *next_node;
     s32 callback_address;
 
     node = active_node_list_head;
     if (node != 0) {
         do {
             callback_address = *(s32 *)&node->update_callback;
-            next_node = *(struct S_80081498_Node * *)&node->next;
+            next_node = *(ObjectNodeHeader * *)&node->next;
             if (callback_address >= 0 || (node->flags & NODE_SKIP_CALLBACK)) {
                 ;
             } else {
