@@ -78,13 +78,13 @@ void advance_item_use_and_recovery(ActorRecord *body, ObjectPosition *motion, Sp
     s16 special_or_effect;
     GteOffset effect_offset;
     u8 *item_slot;
-    u8 *action_object;
+    ObjectNodeHeader *action_object;
     s32 next_state;
     u8 state;
     ObjectNodeHeader *item_target;
 
     special_or_effect = 0;
-    action_object = (u8 *)body - 0x20;
+    action_object = NODE_HEADER(body);
     state = body->action_phase.u;
     if ((u32)state >= 5) {
         return;
@@ -228,7 +228,7 @@ void advance_item_use_and_recovery(ActorRecord *body, ObjectPosition *motion, Sp
                     ((S_80173230_7 *)item_slot)->unk_12 = 0xFF80;
                     ((S_80173230_7 *)item_slot)->unk_14 |= 0x0C;
 
-                    actor_model = ((ActorRecord *)action_object)->unk_0C.address;
+                    actor_model = action_object->sprite;
                     item_slot = ((S_80173230_6 *)((void *)effect_handle))->unk_08;
                     if (resolve_record_orientation_or_fallback(
                             actor_model->source, actor_model, &effect_offset.orientation, 1) != 0) {

@@ -283,45 +283,41 @@ s32 create_active_entity_effect_or_message(ActorRecord *entity)
 #include "modules/trap_effects_candidate.h"
 #include "common.h"
 #define U8(p,o) (*(u8 *)((u8 *)(p)+(o)))
-#define S16(p,o) (*(s16 *)((u8 *)(p)+(o)))
-#define U16(p,o) (*(u16 *)((u8 *)(p)+(o)))
-#define U32(p,o) (*(u32 *)((u8 *)(p)+(o)))
-#define P32(p,o) (*(void **)((u8 *)(p)+(o)))
 extern s32 generate_random_value(void);
 #include "dungeon/actor/status.h"
 
 extern u8 D_800E1BBC[];
 /* Attempts a random status effect and plays its visual and sound effects on success. */
-s32 attempt_random_status_effect(void *entity, s32 rng_input_a, s32 rng_input_b, s32 rng_input_c)
+s32 attempt_random_status_effect(ActorRecord *entity, s32 rng_input_a, s32 rng_input_b, s32 rng_input_c)
 {
     u8 notify_failure = 0;
     s32 random_value;
     s16 roll_or_failure;
-    void *parent;
+    SpriteFrameState *parent;
 
     if (!trap_request_blocked &&
         (random_value = generate_random_value() & 0xffff,
          U8(entity, 3))) {
         s32 remainder;
 
-        remainder = random_value % U8(entity, 3);
+        remainder = random_value % entity->unk_00[3];
         roll_or_failure = remainder;
     } else {
         roll_or_failure = 0;
     }
     if (roll_or_failure < 0x30 && (set_or_clear_actor_status_slot(entity, STATUS_SPEED, -0x10) << 16) >= 0) {
-        parent = P32(entity, -0x14);
-        if (!(U16(parent, 0x14) & 0x8000)) {
-            spawn_randomized_particle_burst((U8(parent, 0x24) << 6) | 0x20,
-                          (U8(parent, 0x25) << 6) | 0x20,
-                          S16(entity, 0x88), 0x202020, 0x40, 0);
+        parent = NODE_HEADER(entity)->sprite;
+        if (!(parent->flags & 0x8000)) {
+            spawn_randomized_particle_burst((parent->tile_x << 6) | 0x20,
+                          (parent->tile_y << 6) | 0x20,
+                          entity->ground_height, 0x202020, 0x40, 0);
             play_sound_if_enabled(0x615);
         }
-        if (U32(entity, 0x14) & ACTOR_PARTY_MEMBER) {
+        if ((u32)entity->flags14 & ACTOR_PARTY_MEMBER) {
             adjust_source_value_and_finalize(entity, D_800E1BBC);
         }
     } else {
-        roll_or_failure = U8(entity, 0x13) == 0;
+        roll_or_failure = entity->species == 0;
         notify_failure = roll_or_failure;
     }
     roll_or_failure = notify_failure;

@@ -65,9 +65,9 @@ void advance_queued_movement_step(ActorRecord *motion, ObjectPosition *unused, S
         update_map_cell_flags_with_item_limit(old_x, old_y, tile_mask);
 
         sprite->tile_x =
-            ((ActorRecord *)((u8 *)path + path->unk_8A))->path_x[0];
+            path->path_x[path->unk_8A];
         sprite->tile_y =
-            ((ActorRecord *)((u8 *)path + path->unk_8A))->path_y[0];
+            path->path_y[path->unk_8A];
         path->unk_8A++;
 
         cycle_map_cell_flags(sprite->tile_x, sprite->tile_y,

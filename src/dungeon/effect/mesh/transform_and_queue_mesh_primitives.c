@@ -2,6 +2,8 @@
 #include "shared/slus_callbacks.h"
 #include "sdk/libc.h"
 #include "dungeon/effect/mesh.h"
+#include "dungeon/effect/mesh/projectile_trail_flash.h"
+#include "dungeon/effect/mesh/star_edge_effect.h"
 #include "shared/actor_property_flags.h"
 #include "shared/actor_status_ids.h"
 /* Mesh and point rendering, star effects, and projectile trails with target hit animation. */
@@ -996,36 +998,7 @@ void create_random_radial_vector_effect(s32 radius, s32 initial_value, s16 exten
 #include "modules/dungeon_native_abi.h"
 #include "shared/object_flags.h"
 
-typedef struct S_8187BB80_0 {
-    u8 pad_00[0x2];
-    union { u16 u; s16 s; } unk_02;   /* accessed as both */
-    u8 pad_04[0x1A];
-    union { s16 s; u16 u; } unk_1E;   /* accessed as both */
-    union { s16 s; u16 u; } unk_20;   /* accessed as both */
-    u8 pad_22[0x8];
-    union { s16 s; u16 u; } unk_2A;   /* accessed as both */
-    union { s16 s; u16 u; } unk_2C;   /* accessed as both */
-    u8 pad_2E[0x8];
-    u8 unk_36;
-    u8 unk_37;
-    u8 unk_38;
-    u8 pad_39[0x7];
-    union { struct { s32 v; } at00; struct { s16 v; } at00u; struct { u16 v; } at00p; struct { u8 pad[0x2]; s16 v; } at02; } unk_40;   /* overlapping accesses */
-    u8 pad_44[0x8];
-    u8 unk_4C;
-    u8 unk_4D;
-    u8 unk_4E;
-    u8 unk_4F;
-    u8 pad_50[0x8];
-    s16 unk_58;
-    u16 unk_5A;
-    u8 pad_5C[0x2];
-    u16 unk_5E;
-    s16 unk_60;
-    u16 unk_62;
-    u8 pad_64[0x2];
-    u16 unk_66;
-} S_8187BB80_0;   /* obj in advance_fading_effect_animation */
+#define STAR_EDGE ((StarEdgeEffectBody *)effect_data)
 
 
 extern s16 point_cloud_update_flag[5];
@@ -1037,99 +1010,99 @@ void advance_fading_effect_animation(void *effect_data, ObjectPosition *unused_a
     s32 phase_state;
 
     point_cloud_update_flag[0] = 1;
-    ((S_8187BB80_0 *)effect_data)->unk_02.u--;
+    STAR_EDGE->unk_02.u--;
 
-    if (((S_8187BB80_0 *)effect_data)->unk_40.at00.v == 0) {
+    if (STAR_EDGE->unk_40.at00.v == 0) {
         s32 mid_y;
         u16 mid_x;
 
-        ((S_8187BB80_0 *)effect_data)->unk_20.s =
-            (((S_8187BB80_0 *)effect_data)->unk_1E.s + ((S_8187BB80_0 *)effect_data)->unk_58) / 2;
-        mid_y = (((S_8187BB80_0 *)effect_data)->unk_2A.s + ((S_8187BB80_0 *)effect_data)->unk_60) / 2;
-        ((S_8187BB80_0 *)effect_data)->unk_2C.s = mid_y;
+        STAR_EDGE->unk_20.s =
+            (STAR_EDGE->unk_1E.s + STAR_EDGE->unk_58.s) / 2;
+        mid_y = (STAR_EDGE->unk_2A.s + STAR_EDGE->unk_60.s) / 2;
+        STAR_EDGE->unk_2C.s = mid_y;
         mid_x = *(u16 *)(effect_data + 0x20);
-        ((S_8187BB80_0 *)effect_data)->unk_66 = mid_y;
-        ((S_8187BB80_0 *)effect_data)->unk_62 = mid_y;
-        ((S_8187BB80_0 *)effect_data)->unk_5E = mid_x;
-        ((S_8187BB80_0 *)effect_data)->unk_5A = mid_x;
+        STAR_EDGE->unk_66 = mid_y;
+        STAR_EDGE->unk_62 = mid_y;
+        STAR_EDGE->unk_5E = mid_x;
+        STAR_EDGE->unk_5A = mid_x;
     }
 
-    phase_state = ((S_8187BB80_0 *)effect_data)->unk_40.at00.v;
+    phase_state = STAR_EDGE->unk_40.at00.v;
     tick_limit = 1;
     if (phase_state == tick_limit) {
-        ((S_8187BB80_0 *)effect_data)->unk_20.s =
-            (((S_8187BB80_0 *)effect_data)->unk_1E.s + ((S_8187BB80_0 *)effect_data)->unk_58) / 2;
-        ((S_8187BB80_0 *)effect_data)->unk_20.s =
-            (((S_8187BB80_0 *)effect_data)->unk_1E.s + ((S_8187BB80_0 *)effect_data)->unk_20.s) / 2;
-        ((S_8187BB80_0 *)effect_data)->unk_2C.s =
-            (((S_8187BB80_0 *)effect_data)->unk_2A.s + ((S_8187BB80_0 *)effect_data)->unk_60) / 2;
-        ((S_8187BB80_0 *)effect_data)->unk_2C.s =
-            (((S_8187BB80_0 *)effect_data)->unk_2A.s + ((S_8187BB80_0 *)effect_data)->unk_2C.s) / 2;
-        ((S_8187BB80_0 *)effect_data)->unk_5A = ((S_8187BB80_0 *)effect_data)->unk_5E =
-            ((S_8187BB80_0 *)effect_data)->unk_20.u;
-        ((S_8187BB80_0 *)effect_data)->unk_62 = ((S_8187BB80_0 *)effect_data)->unk_66 =
-            ((S_8187BB80_0 *)effect_data)->unk_2C.u;
+        STAR_EDGE->unk_20.s =
+            (STAR_EDGE->unk_1E.s + STAR_EDGE->unk_58.s) / 2;
+        STAR_EDGE->unk_20.s =
+            (STAR_EDGE->unk_1E.s + STAR_EDGE->unk_20.s) / 2;
+        STAR_EDGE->unk_2C.s =
+            (STAR_EDGE->unk_2A.s + STAR_EDGE->unk_60.s) / 2;
+        STAR_EDGE->unk_2C.s =
+            (STAR_EDGE->unk_2A.s + STAR_EDGE->unk_2C.s) / 2;
+        STAR_EDGE->unk_5A = STAR_EDGE->unk_5E =
+            STAR_EDGE->unk_20.u;
+        STAR_EDGE->unk_62 = STAR_EDGE->unk_66 =
+            STAR_EDGE->unk_2C.u;
     }
 
     if (*(s32 *)(effect_data + 0x40) == 0x10000) {
-        u32 start_x = ((S_8187BB80_0 *)effect_data)->unk_1E.u;
-        u32 start_y = ((S_8187BB80_0 *)effect_data)->unk_2A.u;
+        u32 start_x = STAR_EDGE->unk_1E.u;
+        u32 start_y = STAR_EDGE->unk_2A.u;
 
-        ((S_8187BB80_0 *)effect_data)->unk_5E = start_x;
-        ((S_8187BB80_0 *)effect_data)->unk_5A = start_x;
-        ((S_8187BB80_0 *)effect_data)->unk_66 = start_y;
-        ((S_8187BB80_0 *)effect_data)->unk_62 = start_y;
+        STAR_EDGE->unk_5E = start_x;
+        STAR_EDGE->unk_5A = start_x;
+        STAR_EDGE->unk_66 = start_y;
+        STAR_EDGE->unk_62 = start_y;
     }
 
-    if (((S_8187BB80_0 *)effect_data)->unk_40.at00u.v == tick_limit) {
+    if (STAR_EDGE->unk_40.at00u.v == tick_limit) {
         s32 phase;
-        ((S_8187BB80_0 *)effect_data)->unk_40.at00u.v = 0;
-        phase = ((S_8187BB80_0 *)effect_data)->unk_40.at02.v;
+        STAR_EDGE->unk_40.at00u.v = 0;
+        phase = STAR_EDGE->unk_40.at02.v;
         switch (phase) {
         case 0:
-        ((S_8187BB80_0 *)effect_data)->unk_40.at02.v = 1;
+        STAR_EDGE->unk_40.at02.v = 1;
         break;
 
         case 1:
-        ((S_8187BB80_0 *)effect_data)->unk_40.at02.v = 2;
-        ((S_8187BB80_0 *)effect_data)->unk_4C += 0x20;
+        STAR_EDGE->unk_40.at02.v = 2;
+        STAR_EDGE->unk_4C += 0x20;
         break;
 
         case 2:
-        ((S_8187BB80_0 *)effect_data)->unk_40.at02.v = 3;
-        ((S_8187BB80_0 *)effect_data)->unk_4C += 0x20;
+        STAR_EDGE->unk_40.at02.v = 3;
+        STAR_EDGE->unk_4C += 0x20;
         break;
 
         case 3:
-        ((S_8187BB80_0 *)effect_data)->unk_40.at02.v = 4;
-        ((S_8187BB80_0 *)effect_data)->unk_4C += 0x20;
+        STAR_EDGE->unk_40.at02.v = 4;
+        STAR_EDGE->unk_4C += 0x20;
         break;
 
         case 4:
-        ((S_8187BB80_0 *)effect_data)->unk_40.at02.v = 5;
-        ((S_8187BB80_0 *)effect_data)->unk_4C = 0x80;
-        ((S_8187BB80_0 *)effect_data)->unk_4D += 0x20;
+        STAR_EDGE->unk_40.at02.v = 5;
+        STAR_EDGE->unk_4C = 0x80;
+        STAR_EDGE->unk_4D += 0x20;
         break;
 
         case 5:
-        ((S_8187BB80_0 *)effect_data)->unk_40.at02.v = 6;
-        ((S_8187BB80_0 *)effect_data)->unk_4C += 0x20;
+        STAR_EDGE->unk_40.at02.v = 6;
+        STAR_EDGE->unk_4C += 0x20;
         break;
 
         case 6:
-        ((S_8187BB80_0 *)effect_data)->unk_40.at02.v = 7;
-        ((S_8187BB80_0 *)effect_data)->unk_4C += 0x20;
+        STAR_EDGE->unk_40.at02.v = 7;
+        STAR_EDGE->unk_4C += 0x20;
         break;
 
         case 7:
-        ((S_8187BB80_0 *)effect_data)->unk_4E = 0;
-        ((S_8187BB80_0 *)effect_data)->unk_4F = 0;
+        STAR_EDGE->unk_4E = 0;
+        STAR_EDGE->unk_4F = 0;
         colors->color.c.g = 0xFF;
         colors->color.c.r = 0xFF;
         colors->color.c.b = 0;
-        ((S_8187BB80_0 *)effect_data)->unk_37 = 0xFF;
-        ((S_8187BB80_0 *)effect_data)->unk_36 = 0xFF;
-        ((S_8187BB80_0 *)effect_data)->unk_38 = 0;
+        STAR_EDGE->unk_37 = 0xFF;
+        STAR_EDGE->unk_36 = 0xFF;
+        STAR_EDGE->unk_38 = 0;
         colors->flags |= 0xC;
         break;
         case 8:
@@ -1137,39 +1110,29 @@ void advance_fading_effect_animation(void *effect_data, ObjectPosition *unused_a
             break;
         }
     } else {
-        ((S_8187BB80_0 *)effect_data)->unk_40.at00p.v++;
+        STAR_EDGE->unk_40.at00p.v++;
     }
 
-    if (((S_8187BB80_0 *)effect_data)->unk_02.s < 30) {
+    if (STAR_EDGE->unk_02.s < 30) {
         colors->color.c.r =
-            (((S_8187BB80_0 *)effect_data)->unk_36 * ((S_8187BB80_0 *)effect_data)->unk_02.s) / 30;
+            (STAR_EDGE->unk_36 * STAR_EDGE->unk_02.s) / 30;
         colors->color.c.g =
-            (((S_8187BB80_0 *)effect_data)->unk_37 * ((S_8187BB80_0 *)effect_data)->unk_02.s) / 30;
+            (STAR_EDGE->unk_37 * STAR_EDGE->unk_02.s) / 30;
         colors->color.c.b =
-            (((S_8187BB80_0 *)effect_data)->unk_38 * ((S_8187BB80_0 *)effect_data)->unk_02.s) / 30;
+            (STAR_EDGE->unk_38 * STAR_EDGE->unk_02.s) / 30;
     }
 
-    if (((S_8187BB80_0 *)effect_data)->unk_02.s <= 0) {
+    if (STAR_EDGE->unk_02.s <= 0) {
         (*(u16 *)((u8 *)effect_data + -2)) |= NODE_REMOVE;
         object_flag_block.flags |= OBJECT_REMOVE_PENDING;
     }
 }
+#undef STAR_EDGE
+
 #include "modules/dungeon_native_abi.h"
 #include "shared/object_flags.h"
 
-typedef struct S_8187BE9C_0 {
-    u8 pad_00[0x2];
-    union { u16 s; s16 u; } unk_02;   /* accessed as both */
-    s16 unk_04;
-    u8 pad_06[0x30];
-    u8 unk_36;
-    u8 unk_37;
-    u8 unk_38;
-    u8 pad_39[0x9];
-    s16 unk_42;
-    u8 pad_44[0x8];
-    u8 unk_4C;
-} S_8187BE9C_0;   /* arg0 in create_object_offset */
+
 
 typedef struct S_8187BE9C_1 {
     u8 pad_00[0xC];
@@ -1182,37 +1145,39 @@ typedef struct S_8187BE9C_1 {
 
 extern s16 point_cloud_update_flag[5];
 
+#define TRAIL_FLASH ((ProjectileTrailFlashBody *)effect)
+
 /* Advance the effect fade, scale primitive colors, and flag completion. */
 void create_object_offset(void *effect, s32 unused, S_8187BE9C_1 *primitive)
 {
     s16 phase;
 
     point_cloud_update_flag[0] = 1;
-    ((S_8187BE9C_0 *)effect)->unk_02.s--;
+    TRAIL_FLASH->unk_02.s--;
 
-    phase = ((S_8187BE9C_0 *)effect)->unk_42;
+    phase = TRAIL_FLASH->unk_42;
     switch (phase) {
     case 0:
-        ((S_8187BE9C_0 *)effect)->unk_42 = 1;
-        ((S_8187BE9C_0 *)effect)->unk_4C += 24;
+        TRAIL_FLASH->unk_42 = 1;
+        TRAIL_FLASH->unk_4C += 24;
         break;
     case 1:
-        ((S_8187BE9C_0 *)effect)->unk_42 = 0;
-        ((S_8187BE9C_0 *)effect)->unk_4C -= 24;
+        TRAIL_FLASH->unk_42 = 0;
+        TRAIL_FLASH->unk_4C -= 24;
         break;
     }
 
     primitive->unk_0C =
-        ((S_8187BE9C_0 *)effect)->unk_36 * ((S_8187BE9C_0 *)effect)->unk_02.u /
-        ((S_8187BE9C_0 *)effect)->unk_04;
+        TRAIL_FLASH->unk_36 * TRAIL_FLASH->unk_02.u /
+        TRAIL_FLASH->unk_04;
     primitive->unk_0D =
-        ((S_8187BE9C_0 *)effect)->unk_37 * ((S_8187BE9C_0 *)effect)->unk_02.u /
-        ((S_8187BE9C_0 *)effect)->unk_04;
+        TRAIL_FLASH->unk_37 * TRAIL_FLASH->unk_02.u /
+        TRAIL_FLASH->unk_04;
     primitive->unk_0E =
-        ((S_8187BE9C_0 *)effect)->unk_38 * ((S_8187BE9C_0 *)effect)->unk_02.u /
-        ((S_8187BE9C_0 *)effect)->unk_04;
+        TRAIL_FLASH->unk_38 * TRAIL_FLASH->unk_02.u /
+        TRAIL_FLASH->unk_04;
 
-    if (((S_8187BE9C_0 *)effect)->unk_02.u <= 0) {
+    if (TRAIL_FLASH->unk_02.u <= 0) {
         ((u16 *)effect)[-1] |= NODE_REMOVE;
         object_flag_block.flags |= OBJECT_REMOVE_PENDING;
     }
@@ -1222,6 +1187,8 @@ void create_object_offset(void *effect, s32 unused, S_8187BE9C_1 *primitive)
         object_flag_block.flags |= OBJECT_REMOVE_PENDING;
     }
 }
+#undef TRAIL_FLASH
+
 #include "modules/dungeon_ovl_189a800.h"
 #include "modules/dungeon_native_abi.h"
 #include "shared/object_flags.h"
@@ -1259,33 +1226,7 @@ typedef struct S_8187BFE0_1 {
     s16 unk_2A;
 } S_8187BFE0_1;   /* node in initialize_star_effect_sequence */
 
-typedef struct S_8187BFE0_2 {
-    u8 pad_00[0x2];
-    s16 unk_02;
-    u8 pad_04[0x1A];
-    union { u16 s; s16 u; } unk_1E;   /* accessed as both */
-    union { s16 s; u16 u; } unk_20;   /* accessed as both */
-    u8 pad_22[0x8];
-    union { u16 s; s16 u; } unk_2A;   /* accessed as both */
-    union { s16 s; u16 u; } unk_2C;   /* accessed as both */
-    u8 pad_2E[0x8];
-    u8 unk_36;
-    u8 unk_37;
-    u8 unk_38;
-    u8 pad_39[0x1F];
-    union { u16 s; s16 u; } unk_58;   /* accessed as both */
-    u16 unk_5A;
-    u16 unk_5C;
-    u16 unk_5E;
-    union { u16 s; s16 u; } unk_60;   /* accessed as both */
-    u16 unk_62;
-    u16 unk_64;
-    u16 unk_66;
-    u16 unk_68;
-    u16 unk_6A;
-    u16 unk_6C;
-    u16 unk_6E;
-} S_8187BFE0_2;   /* work in initialize_star_effect_sequence */
+
 
    /* sprite in initialize_star_effect_sequence */
 
@@ -1304,6 +1245,7 @@ extern u8 mesh_edge_payload_template[12];
 extern s16 point_cloud_update_flag[5];
 
 /* Initializes a five-point star and spawns its edge effects over successive updates. */
+#define STAR_EDGE_WORK ((StarEdgeEffectBody *)edge_data)
 void initialize_star_effect_sequence(void *state_data, void *source_data) {
     MovingPosition *source_position;
     ObjectNodeHeader *node;
@@ -1349,7 +1291,7 @@ void initialize_star_effect_sequence(void *state_data, void *source_data) {
             }
 
             edge_data = NODE_BODY(node);
-            ((S_8187BFE0_2 *)edge_data)->unk_02 = 0x37 - (((S_8187BFE0_0 *)state_data)->unk_1C.s * 4);
+            STAR_EDGE_WORK->unk_02.s = 0x37 - (((S_8187BFE0_0 *)state_data)->unk_1C.s * 4);
             node->update_callback = advance_fading_effect_animation;
             register_node(node, decrement_object_counter);
 
@@ -1363,107 +1305,107 @@ void initialize_star_effect_sequence(void *state_data, void *source_data) {
 
             switch (((S_8187BFE0_0 *)state_data)->unk_1C.s) {
             case 0:
-                ((S_8187BFE0_2 *)edge_data)->unk_58.s = ((S_8187BFE0_2 *)edge_data)->unk_5C =
+                STAR_EDGE_WORK->unk_58.u = STAR_EDGE_WORK->unk_5C =
                     ((S_8187BFE0_0 *)state_data)->unk_1E;
-                ((S_8187BFE0_2 *)edge_data)->unk_5A = ((S_8187BFE0_2 *)edge_data)->unk_5E =
+                STAR_EDGE_WORK->unk_5A = STAR_EDGE_WORK->unk_5E =
                     ((S_8187BFE0_0 *)state_data)->unk_22;
-                ((S_8187BFE0_2 *)edge_data)->unk_60.s = ((S_8187BFE0_2 *)edge_data)->unk_64 =
+                STAR_EDGE_WORK->unk_60.u = STAR_EDGE_WORK->unk_64 =
                     ((S_8187BFE0_0 *)state_data)->unk_2A;
                 {
                     u16 next_coord = ((S_8187BFE0_0 *)state_data)->unk_2E;
 
-                    ((S_8187BFE0_2 *)edge_data)->unk_68 = ((S_8187BFE0_2 *)edge_data)->unk_6A = 0;
-                    ((S_8187BFE0_2 *)edge_data)->unk_6C = ((S_8187BFE0_2 *)edge_data)->unk_6E = 0x18;
-                    ((S_8187BFE0_2 *)edge_data)->unk_62 = ((S_8187BFE0_2 *)edge_data)->unk_66 = next_coord;
+                    STAR_EDGE_WORK->unk_68 = STAR_EDGE_WORK->unk_6A = 0;
+                    STAR_EDGE_WORK->unk_6C = STAR_EDGE_WORK->unk_6E = 0x18;
+                    STAR_EDGE_WORK->unk_62 = STAR_EDGE_WORK->unk_66 = next_coord;
                 }
                 break;
             case 1:
-                ((S_8187BFE0_2 *)edge_data)->unk_58.s = ((S_8187BFE0_2 *)edge_data)->unk_5C =
+                STAR_EDGE_WORK->unk_58.u = STAR_EDGE_WORK->unk_5C =
                     ((S_8187BFE0_0 *)state_data)->unk_22;
-                ((S_8187BFE0_2 *)edge_data)->unk_5A = ((S_8187BFE0_2 *)edge_data)->unk_5E =
+                STAR_EDGE_WORK->unk_5A = STAR_EDGE_WORK->unk_5E =
                     ((S_8187BFE0_0 *)state_data)->unk_26;
-                ((S_8187BFE0_2 *)edge_data)->unk_60.s = ((S_8187BFE0_2 *)edge_data)->unk_64 =
+                STAR_EDGE_WORK->unk_60.u = STAR_EDGE_WORK->unk_64 =
                     ((S_8187BFE0_0 *)state_data)->unk_2E;
                 {
                     u16 next_coord = ((S_8187BFE0_0 *)state_data)->unk_32;
 
-                    ((S_8187BFE0_2 *)edge_data)->unk_68 = ((S_8187BFE0_2 *)edge_data)->unk_6A = 0;
-                    ((S_8187BFE0_2 *)edge_data)->unk_6C = ((S_8187BFE0_2 *)edge_data)->unk_6E = 0x18;
-                    ((S_8187BFE0_2 *)edge_data)->unk_62 = ((S_8187BFE0_2 *)edge_data)->unk_66 = next_coord;
+                    STAR_EDGE_WORK->unk_68 = STAR_EDGE_WORK->unk_6A = 0;
+                    STAR_EDGE_WORK->unk_6C = STAR_EDGE_WORK->unk_6E = 0x18;
+                    STAR_EDGE_WORK->unk_62 = STAR_EDGE_WORK->unk_66 = next_coord;
                 }
                 break;
             case 2:
-                ((S_8187BFE0_2 *)edge_data)->unk_58.s = ((S_8187BFE0_2 *)edge_data)->unk_5C =
+                STAR_EDGE_WORK->unk_58.u = STAR_EDGE_WORK->unk_5C =
                     ((S_8187BFE0_0 *)state_data)->unk_26;
-                ((S_8187BFE0_2 *)edge_data)->unk_5A = ((S_8187BFE0_2 *)edge_data)->unk_5E =
+                STAR_EDGE_WORK->unk_5A = STAR_EDGE_WORK->unk_5E =
                     ((S_8187BFE0_0 *)state_data)->unk_20;
-                ((S_8187BFE0_2 *)edge_data)->unk_60.s = ((S_8187BFE0_2 *)edge_data)->unk_64 =
+                STAR_EDGE_WORK->unk_60.u = STAR_EDGE_WORK->unk_64 =
                     ((S_8187BFE0_0 *)state_data)->unk_32;
                 {
                     u16 next_coord = ((S_8187BFE0_0 *)state_data)->unk_2C;
 
-                    ((S_8187BFE0_2 *)edge_data)->unk_68 = ((S_8187BFE0_2 *)edge_data)->unk_6A = 0;
-                    ((S_8187BFE0_2 *)edge_data)->unk_6C = ((S_8187BFE0_2 *)edge_data)->unk_6E = 0x18;
-                    ((S_8187BFE0_2 *)edge_data)->unk_62 = ((S_8187BFE0_2 *)edge_data)->unk_66 = next_coord;
+                    STAR_EDGE_WORK->unk_68 = STAR_EDGE_WORK->unk_6A = 0;
+                    STAR_EDGE_WORK->unk_6C = STAR_EDGE_WORK->unk_6E = 0x18;
+                    STAR_EDGE_WORK->unk_62 = STAR_EDGE_WORK->unk_66 = next_coord;
                 }
                 break;
             case 3:
-                ((S_8187BFE0_2 *)edge_data)->unk_58.s = ((S_8187BFE0_2 *)edge_data)->unk_5C =
+                STAR_EDGE_WORK->unk_58.u = STAR_EDGE_WORK->unk_5C =
                     ((S_8187BFE0_0 *)state_data)->unk_20;
-                ((S_8187BFE0_2 *)edge_data)->unk_5A = ((S_8187BFE0_2 *)edge_data)->unk_5E =
+                STAR_EDGE_WORK->unk_5A = STAR_EDGE_WORK->unk_5E =
                     ((S_8187BFE0_0 *)state_data)->unk_24;
-                ((S_8187BFE0_2 *)edge_data)->unk_60.s = ((S_8187BFE0_2 *)edge_data)->unk_64 =
+                STAR_EDGE_WORK->unk_60.u = STAR_EDGE_WORK->unk_64 =
                     ((S_8187BFE0_0 *)state_data)->unk_2C;
                 {
                     u16 next_coord = ((S_8187BFE0_0 *)state_data)->unk_30;
 
-                    ((S_8187BFE0_2 *)edge_data)->unk_68 = ((S_8187BFE0_2 *)edge_data)->unk_6A = 0;
-                    ((S_8187BFE0_2 *)edge_data)->unk_6C = ((S_8187BFE0_2 *)edge_data)->unk_6E = 0x18;
-                    ((S_8187BFE0_2 *)edge_data)->unk_62 = ((S_8187BFE0_2 *)edge_data)->unk_66 = next_coord;
+                    STAR_EDGE_WORK->unk_68 = STAR_EDGE_WORK->unk_6A = 0;
+                    STAR_EDGE_WORK->unk_6C = STAR_EDGE_WORK->unk_6E = 0x18;
+                    STAR_EDGE_WORK->unk_62 = STAR_EDGE_WORK->unk_66 = next_coord;
                 }
                 break;
             case 4:
-                ((S_8187BFE0_2 *)edge_data)->unk_58.s = ((S_8187BFE0_2 *)edge_data)->unk_5C =
+                STAR_EDGE_WORK->unk_58.u = STAR_EDGE_WORK->unk_5C =
                     ((S_8187BFE0_0 *)state_data)->unk_24;
-                ((S_8187BFE0_2 *)edge_data)->unk_5A = ((S_8187BFE0_2 *)edge_data)->unk_5E =
+                STAR_EDGE_WORK->unk_5A = STAR_EDGE_WORK->unk_5E =
                     ((S_8187BFE0_0 *)state_data)->unk_1E;
-                ((S_8187BFE0_2 *)edge_data)->unk_60.s = ((S_8187BFE0_2 *)edge_data)->unk_64 =
+                STAR_EDGE_WORK->unk_60.u = STAR_EDGE_WORK->unk_64 =
                     ((S_8187BFE0_0 *)state_data)->unk_30;
                 {
                     u16 next_coord = ((S_8187BFE0_0 *)state_data)->unk_2A;
 
-                    ((S_8187BFE0_2 *)edge_data)->unk_68 = ((S_8187BFE0_2 *)edge_data)->unk_6A = 0;
-                    ((S_8187BFE0_2 *)edge_data)->unk_6C = ((S_8187BFE0_2 *)edge_data)->unk_6E = 0x18;
-                    ((S_8187BFE0_2 *)edge_data)->unk_62 = ((S_8187BFE0_2 *)edge_data)->unk_66 = next_coord;
+                    STAR_EDGE_WORK->unk_68 = STAR_EDGE_WORK->unk_6A = 0;
+                    STAR_EDGE_WORK->unk_6C = STAR_EDGE_WORK->unk_6E = 0x18;
+                    STAR_EDGE_WORK->unk_62 = STAR_EDGE_WORK->unk_66 = next_coord;
                 }
                 break;
             default:
                 break;
             }
 
-            ((S_8187BFE0_2 *)edge_data)->unk_1E.s = ((S_8187BFE0_2 *)edge_data)->unk_5A;
-            ((S_8187BFE0_2 *)edge_data)->unk_2A.s = ((S_8187BFE0_2 *)edge_data)->unk_62;
+            STAR_EDGE_WORK->unk_1E.u = STAR_EDGE_WORK->unk_5A;
+            STAR_EDGE_WORK->unk_2A.u = STAR_EDGE_WORK->unk_62;
 
-            blended_coord = (((S_8187BFE0_2 *)edge_data)->unk_1E.u + ((S_8187BFE0_2 *)edge_data)->unk_58.u) / 2;
-            ((S_8187BFE0_2 *)edge_data)->unk_20.s = blended_coord;
-            blended_coord = (blended_coord + ((S_8187BFE0_2 *)edge_data)->unk_58.u) / 2;
-            ((S_8187BFE0_2 *)edge_data)->unk_20.s = blended_coord;
+            blended_coord = (STAR_EDGE_WORK->unk_1E.s + STAR_EDGE_WORK->unk_58.s) / 2;
+            STAR_EDGE_WORK->unk_20.s = blended_coord;
+            blended_coord = (blended_coord + STAR_EDGE_WORK->unk_58.s) / 2;
+            STAR_EDGE_WORK->unk_20.s = blended_coord;
 
-            blended_coord = (((S_8187BFE0_2 *)edge_data)->unk_2A.u + ((S_8187BFE0_2 *)edge_data)->unk_60.u) / 2;
-            ((S_8187BFE0_2 *)edge_data)->unk_2C.s = blended_coord;
-            blended_coord = (blended_coord + ((S_8187BFE0_2 *)edge_data)->unk_60.u) / 2;
-            ((S_8187BFE0_2 *)edge_data)->unk_2C.s = blended_coord;
+            blended_coord = (STAR_EDGE_WORK->unk_2A.s + STAR_EDGE_WORK->unk_60.s) / 2;
+            STAR_EDGE_WORK->unk_2C.s = blended_coord;
+            blended_coord = (blended_coord + STAR_EDGE_WORK->unk_60.s) / 2;
+            STAR_EDGE_WORK->unk_2C.s = blended_coord;
 
-            ((S_8187BFE0_2 *)edge_data)->unk_5A = ((S_8187BFE0_2 *)edge_data)->unk_5E =
-                ((S_8187BFE0_2 *)edge_data)->unk_20.u;
-            ((S_8187BFE0_2 *)edge_data)->unk_62 = ((S_8187BFE0_2 *)edge_data)->unk_66 =
-                ((S_8187BFE0_2 *)edge_data)->unk_2C.u;
+            STAR_EDGE_WORK->unk_5A = STAR_EDGE_WORK->unk_5E =
+                STAR_EDGE_WORK->unk_20.u;
+            STAR_EDGE_WORK->unk_62 = STAR_EDGE_WORK->unk_66 =
+                STAR_EDGE_WORK->unk_2C.u;
 
             sprite = node->sprite;
             sprite->color.c.r = sprite->color.c.g = 0xE0;
             sprite->color.c.b = 0x20;
-            ((S_8187BFE0_2 *)edge_data)->unk_36 = ((S_8187BFE0_2 *)edge_data)->unk_37 = 0xE0;
-            ((S_8187BFE0_2 *)edge_data)->unk_38 = 0x20;
+            STAR_EDGE_WORK->unk_36 = STAR_EDGE_WORK->unk_37 = 0xE0;
+            STAR_EDGE_WORK->unk_38 = 0x20;
             sprite->scale_x = sprite->scale_y = 0x1000;
 
             *(Data12 *)(edge_data + 0x44) = *(Data12 *)mesh_edge_payload_template;
@@ -1483,6 +1425,8 @@ void initialize_star_effect_sequence(void *state_data, void *source_data) {
         }
     }
 }
+
+#undef STAR_EDGE_WORK
 
 /* MECHANISM: A held 0x80020000 page and s32 mode local fix the prologue/store slot.
    Scoped $v1 edge/$v0 span tails plus scheduling fences preserve coordinate load delays.

@@ -3,6 +3,7 @@
     python3 -m unittest tools/lint/test_debt_check.py
 """
 from pathlib import Path
+import json
 import sys
 import tempfile
 import unittest
@@ -81,6 +82,47 @@ class MacroCastReport(unittest.TestCase):
             self.assertEqual(rows[1].split('\t')[:6], ['src/test/example.c', 'use#1', '8', '1', '9', '5'])
             D.write_outputs(root / 'plain', plain)
             self.assertFalse((root / 'plain/debt_macro_casts.tsv').exists())
+
+    def test_reachable_header_macros_and_local_shadow(self):
+        with tempfile.TemporaryDirectory() as td:
+            root = Path(td)
+            (root / 'include/shared').mkdir(parents=True)
+            (root / 'src/test').mkdir(parents=True)
+            (root / 'include/shared/object_node.h').write_text('''
+#define NODE_HEADER(body) ((ObjectNodeHeader *)(body) - 1)
+#define NODE_BODY(node) ((void *)((ObjectNodeHeader *)(node) + 1))
+#define H_FWD(body) NODE_HEADER(body)
+#define HEADER_BASE ((u8 *)0)
+''')
+            (root / 'include/nested.h').write_text('#include "shared/object_node.h"\n')
+            (root / 'src/test/example.c').write_text('''
+#include "nested.h"
+#define WRAP(body) H_FWD(body)
+void use(void *body, void *node) {
+    NODE_HEADER(body);
+    NODE_BODY(node);
+    WRAP(body);
+    HEADER_BASE;
+    NODE_HEADER((u8 *)body);
+}
+#undef NODE_HEADER
+#define NODE_HEADER(body) (body)
+void shadow(void *body) { NODE_HEADER(body); }
+''')
+            report = D.census(root, macro_casts=True)
+            self.assertEqual(report['header_macro_casts_report']['casts'], 6)
+            self.assertEqual(report['header_macro_casts_report']['uses'], 5)
+            self.assertEqual(report['macro_casts_report']['casts'], 0)
+            self.assertEqual(report['by_class']['pointer_casts'], 1)
+            self.assertEqual(report['by_function']['src/test/example.c']['shadow#1']['header_macro_casts'], {})
+            baseline = D.baseline_record(report)
+            self.assertEqual(baseline['report_counts'],
+                             {'file_local_macro_casts': 0, 'header_macro_casts': 6})
+            D.validate_baseline(json.loads(D.baseline_text(baseline)))
+            D.write_outputs(root / 'out', report)
+            rows = (root / 'out/debt_header_macro_casts.tsv').read_text().splitlines()
+            self.assertEqual(len(rows), 2)
+            self.assertIn('NODE_HEADER=2', rows[1])
 
 
 if __name__ == '__main__':

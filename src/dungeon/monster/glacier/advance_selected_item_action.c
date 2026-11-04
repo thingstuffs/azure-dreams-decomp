@@ -101,11 +101,11 @@ void advance_selected_item_action_2(ActorRecord *body, ObjectPosition *position,
     u8 linked_x;
     u8 linked_y;
     u8 *selection;
-    u8 *owner_object;
+    ObjectNodeHeader *owner_object;
     u8 state;
 
     is_special = 0;
-    owner_object = (u8 *)body - 0x20;
+    owner_object = NODE_HEADER(body);
     state = body->action_phase.u;
     switch (state) {
     case 0:
@@ -253,7 +253,7 @@ void advance_selected_item_action_2(ActorRecord *body, ObjectPosition *position,
                 ((S_801730E4_7 *)effect_data)->unk_12 = 0xFF80;
                 ((S_801730E4_7 *)effect_data)->unk_14 |= 0xC;
 
-                owner_sprite = ((ActorRecord *)owner_object)->unk_0C.address;
+                owner_sprite = owner_object->sprite;
                 effect_data = *(u8 * *)&effect_object->position;
                 if (resolve_record_orientation_or_fallback(((SpriteFrameState *)owner_sprite)->source, owner_sprite, position_delta, 0) != 0) {
                     ((S_801730E4_7 *)effect_data)->unk_02 = ((u16)position->x.w.i);

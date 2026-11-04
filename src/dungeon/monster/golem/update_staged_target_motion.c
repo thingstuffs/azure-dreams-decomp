@@ -154,7 +154,7 @@ void update_staged_target_motion(RandomizedOffsetObjectBody *motion, Vec3Work *t
             s32 position_z;
 
             node = ((S_81087818_2 *)motion->unk_4C)->unk_60;
-            x_distance = (s32)(((ObjectNodeHeader *)((u8 *)node - 0x18))->next);
+            x_distance = (s32)NODE_HEADER(node)->position;
             motion->unk_28.word = ((s32 *)x_distance)[0];
             motion->unk_2C.word = ((s32 *)x_distance)[1];
             height = entity_height_offsets[((ActorRecord *)((S_81087818_2 *)motion->unk_4C)->unk_60)->species];

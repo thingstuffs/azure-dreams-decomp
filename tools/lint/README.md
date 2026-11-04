@@ -101,6 +101,17 @@ pointer casts to nonexempt C tokens. The TSV prints casts per 1,000 tokens for
 inspection; density never fails a check. Removing declarations or other tokens
 may increase density while the absolute cast count stays constant or decreases.
 
+`--summary` also reports pointer casts contributed by file-local macro bodies
+and by macros from reachable `include/` headers, beside the lexical
+`pointer_casts` class. `--macro-casts` requests the same two reports without
+printing all class totals. `debt_macro_casts.tsv` and
+`debt_header_macro_casts.tsv` give the use sites. Header includes are followed
+transitively; conditional `#if` branches are not evaluated, so these are
+lexical exposure counts. A local redefinition or `#undef` masks a header
+macro at later sites. Both macro totals are recorded in `report_counts` in
+the baseline, but remain report-only: `--check` does not ratchet them. Do not
+add the three counts into a single debt number.
+
 `--baseline FILE` defaults to `tools/lint/debt_baseline.json`. `--check` fails
 on any increased class total, file class count, or function class count.
 Improvements in another class, file or

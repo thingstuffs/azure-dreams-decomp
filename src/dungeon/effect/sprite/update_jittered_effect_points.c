@@ -5,6 +5,7 @@
 #include "shared/sprite_frame_state.h"
 #include "dungeon/effect/sprite.h"
 #include "shared/dungeon_projectile_views.h"
+#include "dungeon/effect/sprite/intermediate_point_effect.h"
 #include "dungeon/effect/sprite/jittered_trail_segment.h"
 #include "shared/object_node.h"
 #include "shared/tile_object.h"
@@ -335,27 +336,9 @@ typedef struct S_800244BC_2 {
     union { struct { s32 v; } at00; struct { u8 pad[0x2]; s16 v; } at02; } unk_08;   /* overlapping accesses */
 } S_800244BC_2;   /* arg1 in func_800244BC */
 
-typedef struct S_800244BC_3 {
-    u8 pad_00[0x10];
-    s32 * unk_10;
-    u8 pad_14[0xC];
-    void * unk_20;
-} S_800244BC_3;
 
-typedef struct S_800244BC_4 {
-    u8 pad_00[0x24];
-    u16 unk_24;
-    u16 unk_26;
-    u16 unk_28;
-    u8 pad_2A[0x6];
-    s16 unk_30;
-    s16 unk_32;
-    u8 pad_34[0x4];
-    s32 unk_38;
-    s16 unk_3C;
-    s16 unk_3E;
-    s16 unk_40;
-} S_800244BC_4;
+
+
 
 typedef struct {
     u8 pad[0xC];
@@ -377,7 +360,7 @@ void advance_target_chasing_emitter(void *object, S_800244BC_2 *position, Sprite
     s16 target_pos[3];
     s16 phase;
     s32 effects_left;
-    S_800244BC_4 *effect_data;
+    IntermediatePointEffectBody *effect_data;
     ObjectNodeHeader *effect;
     S_800244BC_1 *owner;
 
@@ -407,17 +390,17 @@ void advance_target_chasing_emitter(void *object, S_800244BC_2 *position, Sprite
                 effect_data = NODE_BODY(effect);
                 if (effect != 0) {
                     effect->update_callback = update_randomized_intermediate_points;
-                    effect_data->unk_3C = 0;
-                    effect_data->unk_3E = (s16) ((rand() & 3) + 2);
+                    effect_data->unk_3C.s = 0;
+                    effect_data->unk_3E.s = (s16) ((rand() & 3) + 2);
                     effect_data->unk_32 = 0x1F;
                     effect_data->unk_30 = 0x1F;
                     effect_data->unk_40 = GetTPage(0, 1, 0x2C0, 0x100);
                     effect_data->unk_38 = 0x404040;
                     memcpy((u8 *) effect + 0x24, (u8 *) object + 0xC, 8);
-                    effect_data->unk_24 = (u16) position->unk_00.at02.v;
-                    effect_data->unk_26 = (u16) position->unk_04.at02.v;
-                    effect_data->unk_28 = (u16) position->unk_08.at02.v;
-                    ((S_800244BC_3 *)effect)->unk_20 = ((JitteredPointSequenceBody *)object)->unk_00;
+                    effect_data->unk_24.u = (u16) position->unk_00.at02.v;
+                    effect_data->unk_26.u = (u16) position->unk_04.at02.v;
+                    effect_data->unk_28.u = (u16) position->unk_08.at02.v;
+                    effect_data->unk_00 = ((JitteredPointSequenceBody *)object)->unk_00;
                 }
                 effects_left -= 1;
             } while (effects_left >= 0);
@@ -675,39 +658,19 @@ s32 update_segment(void *node)
 #include "shared/object_flags.h"
 
 
-typedef struct S_819A764C_0 {
-    void * unk_00;
-    union { s16 s; u16 u; } unk_04;   /* accessed as both */
-    union { s16 s; u16 u; } unk_06;   /* accessed as both */
-    union { s16 s; u16 u; } unk_08;   /* accessed as both */
-    u8 pad_0A[0x1A];
-    s16 unk_24;
-    s16 unk_26;
-    s16 unk_28;
-    u8 pad_2A[0x2];
-    s16 unk_2C;
-    s16 unk_2E;
-    u8 pad_30[0x8];
-    s32 unk_38;
-    union { s16 s; u16 u; } unk_3C;   /* accessed as both */
-    u16 unk_3E;
-    u8 pad_40[0x2];
-    s16 unk_42;
-} S_819A764C_0;   /* self in func_819A764C */
+
 
 typedef struct S_819A764C_1 {
     u8 pad_00[0x52];
     u16 unk_52;
 } S_819A764C_1;   /* inner in func_819A764C */
 
-typedef struct S_819A764C_2 {
-    u8 pad_00[0x4];
-    s16 unk_04;
-    s16 unk_06;
-    s16 unk_08;
-} S_819A764C_2;   /* dst in func_819A764C */
+
 
 s32 update_segment(void *);
+
+#define POINT_EFFECT ((IntermediatePointEffectBody *)self)
+#define POINT_SLOT(index) ((IntermediatePointEffectBody *)((u8 *)self + (index) * 8))
 
 /* Update randomized intermediate points and advance the effect state. */
 void update_randomized_intermediate_points(void *self)
@@ -719,27 +682,27 @@ void update_randomized_intermediate_points(void *self)
     S_819A764C_1 *linked_object;
     void *message;
 
-    linked_object = ((S_819A764C_0 *)self)->unk_00;
+    linked_object = POINT_EFFECT->unk_00;
     linked_object->unk_52 |= 0x8000;
 
-    point_step[0] = (((S_819A764C_0 *)self)->unk_24 - ((S_819A764C_0 *)self)->unk_04.s) >> 2;
-    point_step[1] = (((S_819A764C_0 *)self)->unk_26 - ((S_819A764C_0 *)self)->unk_06.s) >> 2;
-    point_step[2] = (((S_819A764C_0 *)self)->unk_28 - ((S_819A764C_0 *)self)->unk_08.s) >> 2;
+    point_step[0] = (POINT_EFFECT->unk_24.s - POINT_EFFECT->unk_04.s) >> 2;
+    point_step[1] = (POINT_EFFECT->unk_26.s - POINT_EFFECT->unk_06.s) >> 2;
+    point_step[2] = (POINT_EFFECT->unk_28.s - POINT_EFFECT->unk_08.s) >> 2;
     point_index = 1;
 
     do {
-        ((S_819A764C_2 *)((u8 *)self + point_index * 8))->unk_04 = ((S_819A764C_0 *)self)->unk_04.u + point_step[0] * point_index
+        POINT_SLOT(point_index)->unk_04.s = POINT_EFFECT->unk_04.u + point_step[0] * point_index
         + (rand() & 0x3F) - 0x20;
-        ((S_819A764C_2 *)((u8 *)self + point_index * 8))->unk_06 = ((S_819A764C_0 *)self)->unk_06.u + point_step[1] * point_index
+        POINT_SLOT(point_index)->unk_06.s = POINT_EFFECT->unk_06.u + point_step[1] * point_index
         + (rand() & 0x3F) - 0x20;
-        ((S_819A764C_2 *)((u8 *)self + point_index * 8))->unk_08 = ((S_819A764C_0 *)self)->unk_08.u + point_step[2] * point_index
+        POINT_SLOT(point_index)->unk_08.s = POINT_EFFECT->unk_08.u + point_step[2] * point_index
         - (rand() & 0x3F);
         point_index++;
     } while (point_index < 4);
 
-    ((S_819A764C_0 *)self)->unk_2C = ((((S_819A764C_0 *)self)->unk_3E & 3) << 5) + 0x80;
-    state = ((S_819A764C_0 *)self)->unk_3C.s;
-    ((S_819A764C_0 *)self)->unk_2E = ((s16)((S_819A764C_0 *)self)->unk_3E >> 2) << 5;
+    POINT_EFFECT->unk_2C = ((POINT_EFFECT->unk_3E.u & 3) << 5) + 0x80;
+    state = POINT_EFFECT->unk_3C.s;
+    POINT_EFFECT->unk_2E = ((s16)POINT_EFFECT->unk_3E.u >> 2) << 5;
 
     switch (state) {
     case 0:
@@ -748,10 +711,10 @@ void update_randomized_intermediate_points(void *self)
 
         register_node(object_base, message);
     case 1:
-        ((S_819A764C_0 *)self)->unk_3E = (rand() & 3) + 2;
-        ((S_819A764C_0 *)self)->unk_38 += 0xFFF7F7F8;
-        ((S_819A764C_0 *)self)->unk_42 = GetClut((rand() & 0xF) << 4, 0x1F8);
-        ((S_819A764C_0 *)self)->unk_3C.u++;
+        POINT_EFFECT->unk_3E.u = (rand() & 3) + 2;
+        POINT_EFFECT->unk_38 += 0xFFF7F7F8;
+        POINT_EFFECT->unk_42 = GetClut((rand() & 0xF) << 4, 0x1F8);
+        POINT_EFFECT->unk_3C.u++;
         return;
     case 2:
         NODE_HEADER(self)->flags |= 0x8000;
@@ -759,3 +722,6 @@ void update_randomized_intermediate_points(void *self)
         break;
     }
 }
+
+#undef POINT_EFFECT
+#undef POINT_SLOT

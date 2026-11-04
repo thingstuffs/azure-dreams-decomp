@@ -1256,7 +1256,7 @@ L0_adjust_z:
                 entity->z.w.i = z_value - 0x40;
             }
         }
-        if (!(((ObjectPosition *)(effect->spell.context))->x.w.frac & 0x80U)) {
+        if (!(*((u16 *)effect->spell.context) & 0x80U)) {
             return;
         }
         if (!(effect->unk_7A & 4U)) {

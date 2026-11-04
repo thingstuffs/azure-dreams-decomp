@@ -1,0 +1,42 @@
+#ifndef DUNGEON_EFFECT_MESH_STAR_EDGE_EFFECT_H
+#define DUNGEON_EFFECT_MESH_STAR_EDGE_EFFECT_H
+
+#include "common.h"
+
+/* Body of an edge node allocated by initialize_star_effect_sequence. */
+typedef struct StarEdgeEffectBody {
+    u8 pad_00[0x2];
+    union { u16 u; s16 s; } unk_02;   /* accessed as both */
+    u8 pad_04[0x1A];
+    union { s16 s; u16 u; } unk_1E;   /* accessed as both */
+    union { s16 s; u16 u; } unk_20;   /* accessed as both */
+    u8 pad_22[0x8];
+    union { s16 s; u16 u; } unk_2A;   /* accessed as both */
+    union { s16 s; u16 u; } unk_2C;   /* accessed as both */
+    u8 pad_2E[0x8];
+    u8 unk_36;
+    u8 unk_37;
+    u8 unk_38;
+    u8 pad_39[0x7];
+    union { struct { s32 v; } at00; struct { s16 v; } at00u; struct { u16 v; } at00p; struct { u8 pad[0x2]; s16 v; } at02; } unk_40;   /* overlapping accesses */
+    u8 pad_44[0x8];
+    u8 unk_4C;
+    u8 unk_4D;
+    u8 unk_4E;
+    u8 unk_4F;
+    u8 pad_50[0x8];
+    union { s16 s; u16 u; } unk_58;
+    u16 unk_5A;
+    u16 unk_5C;
+    u16 unk_5E;
+    union { s16 s; u16 u; } unk_60;
+    u16 unk_62;
+    u16 unk_64;
+    u16 unk_66;
+    u16 unk_68;
+    u16 unk_6A;
+    u16 unk_6C;
+    u16 unk_6E;
+} StarEdgeEffectBody;
+
+#endif

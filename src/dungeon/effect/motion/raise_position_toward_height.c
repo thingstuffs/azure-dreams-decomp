@@ -20,6 +20,7 @@
 #include "dungeon/item.h"
 #include "dungeon/actor.h"
 #include "dungeon/effect/motion.h"
+#include "dungeon/effect/motion/shuffled_sprite_clear.h"
 #include "engine/graphics.h"
 #include "sdk/libc.h"
 #include "sdk/libgpu.h"
@@ -303,13 +304,7 @@ s32 get_a_random_in_n_0_limit_zero_limit_zero_rejection_sampling(s32 limit) {
     return sample;
 }
 
-typedef struct S_8190AEB4_0 {
-    union { s16 s; u16 u; u16 p; } unk_00;   /* accessed as both */
-    union { u16 s; s16 u; } unk_02;   /* accessed as both */
-    u8 pad_04[0x2C];
-    union { void * s; u8 * u; } unk_30;   /* accessed as both */
-    void * unk_34;
-} S_8190AEB4_0;   /* arg0 in advance_the_animation_draws_rectangles_in_randomized_order */
+
 
 typedef struct S_8190AEB4_1 {
     u8 pad_00[0x1C];
@@ -321,6 +316,8 @@ typedef struct S_8190AEB4_2 {
     u8 pad_00[0x90];
     s16 unk_90;
 } S_8190AEB4_2;   /* ((S_8190AEB4_0 *)arg0)->unk_34 in advance_the_animation_draws_rectangles_in_randomized_order */
+
+#define CLEAR_EFFECT ((ShuffledSpriteClearBody *)effect)
 
 /*
  * Moves and rescales the captured sprite through staged motion, then shuffles 48 column indices
@@ -349,16 +346,16 @@ void advance_the_animation_draws_rectangles_in_randomized_order(void *effect, s3
 
     rect = D_80024038;
     draw_rect = rising_effect_texture_rect;
-    state = ((S_8190AEB4_0 *)effect)->unk_00.s;
+    state = CLEAR_EFFECT->unk_00.s;
     D_80025630 = 1;
 
     switch (state) {
     case 0:
         center.x = rect.x + ((s16)rect.w >> 1);
         center.y = rect.y + 0x48;
-        draw_transformed_sprite_with_clip_rect(((S_8190AEB4_0 *)effect)->unk_30.s, &rect, &center, 1, 1);
+        draw_transformed_sprite_with_clip_rect(CLEAR_EFFECT->unk_30.s, &rect, &center, 1, 1);
 
-        model = ((S_8190AEB4_0 *)effect)->unk_30.u;
+        model = CLEAR_EFFECT->unk_30.u;
         source_position = *(s32 **)(model - 0x18);
         position[0] = source_position[0];
         position[1] = source_position[1];
@@ -366,30 +363,30 @@ void advance_the_animation_draws_rectangles_in_randomized_order(void *effect, s3
 
         transform->unk_1C -= 0x20;
         transform->unk_1E += 0x80;
-        timer = ((S_8190AEB4_0 *)effect)->unk_02.s + 1;
-        ((S_8190AEB4_0 *)effect)->unk_02.s = timer;
+        timer = CLEAR_EFFECT->unk_02.s + 1;
+        CLEAR_EFFECT->unk_02.s = timer;
         if (timer < 0x28) {
             return;
         }
-        next_state = ((S_8190AEB4_0 *)effect)->unk_00.u;
-        ((S_8190AEB4_0 *)effect)->unk_02.s = 0;
+        next_state = CLEAR_EFFECT->unk_00.u;
+        CLEAR_EFFECT->unk_02.s = 0;
         next_state++;
-        ((S_8190AEB4_0 *)effect)->unk_00.p = next_state;
+        CLEAR_EFFECT->unk_00.p = next_state;
         return;
 
     case 1:
         transform->unk_1C += 0x140;
         position[2] -= 0x140000;
         transform->unk_1E -= 0x500;
-        timer = ((S_8190AEB4_0 *)effect)->unk_02.s + 1;
-        ((S_8190AEB4_0 *)effect)->unk_02.s = timer;
+        timer = CLEAR_EFFECT->unk_02.s + 1;
+        CLEAR_EFFECT->unk_02.s = timer;
         if (timer < 4) {
             return;
         }
-        next_state = ((S_8190AEB4_0 *)effect)->unk_00.u;
-        ((S_8190AEB4_0 *)effect)->unk_02.s = 0;
+        next_state = CLEAR_EFFECT->unk_00.u;
+        CLEAR_EFFECT->unk_02.s = 0;
         next_state++;
-        ((S_8190AEB4_0 *)effect)->unk_00.p = next_state;
+        CLEAR_EFFECT->unk_00.p = next_state;
         return;
 
     case 2:
@@ -398,9 +395,9 @@ void advance_the_animation_draws_rectangles_in_randomized_order(void *effect, s3
         next_x = transform->unk_1C + 0x200;
         transform->unk_1E = next_y;
         transform->unk_1C = next_x;
-        next_state = ((S_8190AEB4_0 *)effect)->unk_00.u;
+        next_state = CLEAR_EFFECT->unk_00.u;
         next_state++;
-        ((S_8190AEB4_0 *)effect)->unk_00.p = next_state;
+        CLEAR_EFFECT->unk_00.p = next_state;
         return;
 
     case 3:
@@ -409,9 +406,9 @@ void advance_the_animation_draws_rectangles_in_randomized_order(void *effect, s3
         next_x = transform->unk_1C - 0x300;
         transform->unk_1E = next_y;
         transform->unk_1C = next_x;
-        next_state = ((S_8190AEB4_0 *)effect)->unk_00.u;
+        next_state = CLEAR_EFFECT->unk_00.u;
         next_state++;
-        ((S_8190AEB4_0 *)effect)->unk_00.p = next_state;
+        CLEAR_EFFECT->unk_00.p = next_state;
         return;
 
     case 4:
@@ -420,9 +417,9 @@ void advance_the_animation_draws_rectangles_in_randomized_order(void *effect, s3
         next_x = transform->unk_1C + 0x100;
         transform->unk_1E = next_y;
         transform->unk_1C = next_x;
-        next_state = ((S_8190AEB4_0 *)effect)->unk_00.u;
+        next_state = CLEAR_EFFECT->unk_00.u;
         next_state++;
-        ((S_8190AEB4_0 *)effect)->unk_00.p = next_state;
+        CLEAR_EFFECT->unk_00.p = next_state;
         return;
 
     case 5:
@@ -472,8 +469,8 @@ void advance_the_animation_draws_rectangles_in_randomized_order(void *effect, s3
         D_80025638[1] = 0;
         D_80025638[2] = 0;
         D_80025638[3] = 0;
-        ((S_8190AEB4_0 *)effect)->unk_02.s = 0;
-        ((S_8190AEB4_0 *)effect)->unk_00.p++;
+        CLEAR_EFFECT->unk_02.s = 0;
+        CLEAR_EFFECT->unk_00.p++;
                         /* fallthrough */
 
     case 6:
@@ -483,7 +480,7 @@ void advance_the_animation_draws_rectangles_in_randomized_order(void *effect, s3
         entry = 0;
         do {
             draw_rect.x = D_80025648[entry] * 2 + 0x340;
-            order_index = entry + ((S_8190AEB4_0 *)effect)->unk_02.u;
+            order_index = entry + CLEAR_EFFECT->unk_02.u;
             if (order_index >= 0x2C) {
                 order_index -= 0x2C;
             }
@@ -493,12 +490,12 @@ void advance_the_animation_draws_rectangles_in_randomized_order(void *effect, s3
             entry++;
         } while (entry < 0x30);
 
-        timer = ((S_8190AEB4_0 *)effect)->unk_02.s + 1;
-        ((S_8190AEB4_0 *)effect)->unk_02.s = timer;
+        timer = CLEAR_EFFECT->unk_02.s + 1;
+        CLEAR_EFFECT->unk_02.s = timer;
         if (timer < 0x2C) {
             return;
         }
-        ((S_8190AEB4_2 *)(((S_8190AEB4_0 *)effect)->unk_34))->unk_90 = 1;
+        ((S_8190AEB4_2 *)(CLEAR_EFFECT->unk_34))->unk_90 = 1;
         (*(u16 *)((u8 *)effect + -2)) |= NODE_REMOVE;
         object_flag_block.flags |= OBJECT_REMOVE_PENDING;
         break;
@@ -507,6 +504,8 @@ void advance_the_animation_draws_rectangles_in_randomized_order(void *effect, s3
 }
 
 const CoordTable rising_effect_octant_offsets = {{{32,0},{32,32},{0,32},{-32,32},{-32,0},{-32,65504},{0,65504},{32,65504}}};
+
+#undef CLEAR_EFFECT
 
 typedef struct S_func_8190B2D0_0 {
     void * unk_0;
@@ -671,15 +670,7 @@ typedef struct S_func_8190B2D0_6 {
     u32 unk_1C;
 } S_func_8190B2D0_6;
 
-typedef struct S_func_8190B2D0_7 {
-    u8 pad_0[0xA];
-    u16 unk_A;
-    u16 unk_C;
-    u8 pad_E[0x1E];
-    void * unk_2C;
-    void * unk_30;
-    void * unk_34;
-} S_func_8190B2D0_7;
+
 
 typedef struct S_func_8190B2D0_9 {
     u8 pad_0[0x4];
@@ -897,7 +888,7 @@ void update_a_moving_effect_target_animation_cleanup_state(S_func_8190B2D0_0 *ef
     case 3:
     {
         ObjectPosition *child_pos;
-        S_func_8190B2D0_7 *child_data;
+        ShuffledSpriteClearBody *child_data;
         s32 frame;
         void *child_object;
         S_func_8190B2D0_6 *target;
@@ -927,9 +918,9 @@ void update_a_moving_effect_target_animation_cleanup_state(S_func_8190B2D0_0 *ef
             motion_or_child = allocate_flagged_object_node(0x212);
             if (motion_or_child != 0) {
                 child_object = motion_or_child;
-                child_data = ((S_func_8190B2D0_7 *)((u8 *)motion_or_child + 32));
+                child_data = ((ShuffledSpriteClearBody *)((u8 *)motion_or_child + 32));
                 child_data->unk_2C = owner;
-                child_data->unk_30 = owner->unk_60;
+                child_data->unk_30.s = owner->unk_60;
                 child_data->unk_34 = effect;
                 motion_or_child->unk_10.ptr = advance_the_animation_draws_rectangles_in_randomized_order;
                 register_node(child_object, project_sprite_chain);
@@ -938,8 +929,8 @@ void update_a_moving_effect_target_animation_cleanup_state(S_func_8190B2D0_0 *ef
                 sprite->depth_bias = 6;
                 sprite->flags |= 0xC;
                 child_pos = motion_or_child->unk_8.ptr;
-                child_data->unk_A = 0;
-                child_data->unk_C = 0;
+                child_data->unk_0A = 0;
+                child_data->unk_0C = 0;
                 target = owner->unk_60;
                 target_pos = ((S_func_8190B2D0_2 *)((u8 *)target - 32))->unk_8;
                 child_pos->x.v = target_pos->unk_0.u32;

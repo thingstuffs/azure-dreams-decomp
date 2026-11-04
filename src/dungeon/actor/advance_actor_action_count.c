@@ -1,4 +1,5 @@
 #include "shared/entity.h"
+#include "shared/sprite_frame_state.h"
 #include "common.h"
 #include "shared/record_ptrs.h"
 #include "shared/game_work.h"
@@ -16,37 +17,30 @@ extern void update_actor_status_and_mp(ActorRecord *entity);
 extern u8 actor_action_resume_address[];
 extern void *actor_action_frames[];
 
-#define U8_AT(p, n)  (*(u8 *)((u8 *)(p) + (n)))
-#define S8_AT(p, n)  (*(s8 *)((u8 *)(p) + (n)))
-#define U16_AT(p, n) (*(u16 *)((u8 *)(p) + (n)))
-#define S16_AT(p, n) (*(s16 *)((u8 *)(p) + (n)))
-#define S32_AT(p, n) (*(s32 *)((u8 *)(p) + (n)))
-#define PTR_AT(p, n) (*(void **)((u8 *)(p) + (n)))
-
 /* Advance the actor action state, updating its animation and the dungeon action count. */
-void advance_actor_action_count(void *controller, ObjectPosition *context, void *sprite, void *actor) {
+void advance_actor_action_count(ActorRecord *controller, ObjectPosition *context, SpriteFrameState *sprite, ActorRecord *actor) {
     s32 actor_flags;
     s32 state;
 
-    state = U8_AT(controller, 0x9B);
+    state = controller->action_phase.u;
     switch (state) {
     case 0:
-        if (!(U16_AT(sprite, 0x14) & 0xE000)) {
+        if (!(sprite->flags & 0xE000)) {
             return;
         }
         g_dungeon_status.activity_counts.parts.pending_action_count--;
-        PTR_AT(sprite, 0x2C) = actor_action_frames;
+        sprite->frameTable = actor_action_frames;
         select_record_entry_and_value(sprite,
             *(void **)((u8 *)actor_action_frames +
-                (((g_game_work.view.camera_rotation.parts.viewAngle + S16_AT(actor, 0x2A) + 0x100) >> 7) & 0x1C)),
+                (((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 7) & 0x1C)),
             0);
-        U8_AT(controller, 0x9B)++;
+        controller->action_phase.u++;
         return;
     case 1:
         if (g_dungeon_status.flags & 0x1000) {
             return;
         }
-        if (S16_AT(actor, 0x64) != 0) {
+        if (actor->hp_delta != 0) {
             if (begin_ready_actor_directional_action(controller, context, sprite, 0) != 0) {
                 return;
             }
@@ -54,7 +48,7 @@ void advance_actor_action_count(void *controller, ObjectPosition *context, void 
         if ((has_pending_actor_or_turn_action(actor) << 0x10) != 0) {
             return;
         }
-        actor_flags = S32_AT(actor, 0x1C);
+        actor_flags = actor->flags1C;
         if (actor_flags & 0x100) {
             begin_pushed_actor_move(controller, context, sprite, actor);
             return;
@@ -64,7 +58,7 @@ void advance_actor_action_count(void *controller, ObjectPosition *context, void 
             install_actor_action_handler_after_floor_trap_check(controller, context, sprite, actor);
             return;
         }
-        if (S8_AT(actor, 0x6D) == 0) {
+        if (actor->pending_turn_updates == 0) {
             return;
         }
         if ((has_pending_actor_or_turn_action(actor) << 0x10) != 0) {
@@ -75,25 +69,25 @@ void advance_actor_action_count(void *controller, ObjectPosition *context, void 
         }
         update_actor_status_and_mp(actor);
         on_actor_status_updated(actor);
-        if (U8_AT(actor, 0x25) == 0) {
+        if (actor->mp_value.parts.whole == 0) {
             return;
         }
-        PTR_AT(sprite, 0x2C) = actor_action_frames;
+        sprite->frameTable = actor_action_frames;
         select_record_entry_and_value(sprite,
             *(void **)((u8 *)actor_action_frames +
-                (((g_game_work.view.camera_rotation.parts.viewAngle + S16_AT(actor, 0x2A) + 0x100) >> 7) & 0x1C)),
+                (((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 7) & 0x1C)),
             0);
-        S32_AT(actor, 0x1C) |= 0x40000;
+        actor->flags1C |= 0x40000;
         g_dungeon_status.activity_counts.parts.pending_action_count++;
-        U8_AT(controller, 0x9B)++;
+        controller->action_phase.u++;
         return;
     case 2:
-        if (!(U16_AT(sprite, 0x14) & 0xE000)) {
+        if (!(sprite->flags & 0xE000)) {
             return;
         }
         g_dungeon_status.activity_counts.parts.pending_action_count--;
-        S32_AT(actor, 0x1C) &= ~0x208;
-        PTR_AT(controller, 0x8C) = actor_action_resume_address;
+        actor->flags1C &= ~0x208;
+        controller->unk_8C.address = actor_action_resume_address;
         return;
     default:
         return;

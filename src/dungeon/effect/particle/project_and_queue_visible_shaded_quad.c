@@ -995,7 +995,7 @@ void advance_effect_sequence(FadingSpriteSequenceBody *effect, void *owner, void
         ((S_8197192C_4 *)&fading_quad_effect_updated)->unk_00 = 1;
         effect->unk_80.s = coord_z;
     case 1:
-        if ((((ObjectPosition *)(effect->spell.context))->x.w.frac & 0x80) == 0) {
+        if ((*((u16 *)effect->spell.context) & 0x80) == 0) {
             return;
         }
         player_2 = primary_actor_record;

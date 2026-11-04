@@ -152,6 +152,7 @@ def declaration_sites(tokens, pairs, definitions):
 # arguments are not counted again (the argument text is already counted at the use site).
 DEFINE = re.compile(r'^[ \t]*#[ \t]*define[ \t]+([A-Za-z_]\w*)(\(([^)]*)\))?(.*)$', re.S)
 UNDEF = re.compile(r'^[ \t]*#[ \t]*undef[ \t]+([A-Za-z_]\w*)')
+INCLUDE = re.compile(r'^[ \t]*#[ \t]*include[ \t]+[<"]([^>"]+)[>"]')
 MACRO_DEPTH = 8
 
 
@@ -169,6 +170,69 @@ def macro_events(text):
             u = UNDEF.match(m[0])
             if u:
                 events.append((m.start(), u.group(1), None, None))
+    return events
+
+
+def directive_events(text):
+    """Macro and include directives in lexical order (without evaluating #if)."""
+    for m in c.LEX.finditer(text):
+        if m.lastgroup != 'directive':
+            continue
+        directive = m[0]
+        match = DEFINE.match(directive)
+        if match:
+            params = None if match.group(2) is None else [p.strip() for p in match.group(3).split(',') if p.strip()]
+            yield m.start(), 'define', match.group(1), params, match.group(4).replace('\\\n', ' ').strip()
+            continue
+        match = UNDEF.match(directive)
+        if match:
+            yield m.start(), 'undef', match.group(1), None, None
+            continue
+        match = INCLUDE.match(directive)
+        if match:
+            yield m.start(), 'include', match.group(1), None, None
+
+
+def include_macro_events(root, source, text, cache):
+    """Header and local macro events at source positions, following reachable include/ headers.
+
+    Conditional compilation is not evaluated: this is a lexical exposure report. Include
+    guards and repeated includes are handled by visiting each header once per translation unit.
+    Headers outside include/ and headers over 4 MiB are never read.
+    """
+    include_root = (root / 'include').resolve()
+    seen, events = set(), []
+
+    def resolve_header(current, name):
+        for candidate in (current.parent / name, include_root / name):
+            path = candidate.resolve()
+            if path.is_relative_to(include_root) and path.is_file():
+                return path
+        return None
+
+    def visit(path, source_pos):
+        if path in seen:
+            return
+        seen.add(path)
+        if path.stat().st_size > 4 * 1024 * 1024:
+            raise ValueError('header over 4 MiB: ' + str(path))
+        if path not in cache:
+            cache[path] = list(directive_events(path.read_text()))
+        for _, kind, name, params, body in cache[path]:
+            if kind == 'include':
+                nested = resolve_header(path, name)
+                if nested is not None:
+                    visit(nested, source_pos)
+            else:
+                events.append((source_pos, name, params, body, True))
+
+    for pos, kind, name, params, body in directive_events(text):
+        if kind == 'include':
+            header = resolve_header(source, name)
+            if header is not None:
+                visit(header, pos)
+        else:
+            events.append((pos, name, params, body, False))
     return events
 
 
@@ -236,6 +300,49 @@ def macro_use_casts(name, args, table, depth=0, active=()):
     return count
 
 
+def macro_use_casts_by_origin(name, args, table, header_origin, depth=0, active=()):
+    """(file-local, header) casts contributed by one expansion and nested macros."""
+    params, body = table[name]
+    tokens = c.lex(body)
+    pairs, _ = c.pairs_of(tokens)
+    params = params or []
+    expanded, from_args = [], 0
+    for token in tokens:
+        if token.kind == 'id' and token.value in params:
+            index = params.index(token.value)
+            argument = args[index] if index < len(args) else ''
+            expanded.append(argument)
+            from_args += lexical_casts(argument)
+        else:
+            expanded.append(token.value)
+    direct = max(0, lexical_casts(' '.join(expanded)) - from_args)
+    counts = [0, 0]
+    counts[int(header_origin[name])] += direct
+    if depth >= MACRO_DEPTH:
+        return counts
+    for i, token in enumerate(tokens):
+        if (token.kind != 'id' or token.value not in table or token.value == name
+                or token.value in active or (i and tokens[i - 1].value in ('.', '->'))):
+            continue
+        inner_params = table[token.value][0]
+        if inner_params is None:
+            inner_args = []
+        elif i + 1 < len(tokens) and tokens[i + 1].value == '(' and i + 1 in pairs:
+            inner_args = []
+            for argument in call_args(tokens, pairs, i + 1, body):
+                substituted = c.lex(argument)
+                inner_args.append(' '.join(
+                    args[params.index(t.value)] if t.kind == 'id' and t.value in params
+                    and params.index(t.value) < len(args) else t.value for t in substituted))
+        else:
+            continue
+        nested = macro_use_casts_by_origin(token.value, inner_args, table, header_origin,
+                                           depth + 1, active + (name,))
+        counts[0] += nested[0]
+        counts[1] += nested[1]
+    return counts
+
+
 def macro_cast_sites(text, tokens, pairs):
     """[(token index, macro name, casts)] for every use of a file-local macro whose body adds pointer casts."""
     events = macro_events(text)
@@ -267,7 +374,36 @@ def macro_cast_sites(text, tokens, pairs):
     return out
 
 
-def analyze(path, text, macro_casts=False):
+def header_macro_cast_sites(text, tokens, pairs, events):
+    """[(token index, macro name, casts)] for header-origin casts at expanded use sites."""
+    table, origin, out, ev = {}, {}, [], 0
+    for i, token in enumerate(tokens):
+        while ev < len(events) and events[ev][0] <= token.pos:
+            _, name, params, body, is_header = events[ev]
+            if body is None:
+                table.pop(name, None)
+                origin.pop(name, None)
+            else:
+                table[name] = (params, body)
+                origin[name] = is_header
+            ev += 1
+        if (token.kind != 'id' or token.value not in table
+                or (i and tokens[i - 1].value in ('.', '->'))):
+            continue
+        params = table[token.value][0]
+        if params is None:
+            args = []
+        elif i + 1 < len(tokens) and tokens[i + 1].value == '(' and i + 1 in pairs:
+            args = call_args(tokens, pairs, i + 1, text)
+        else:
+            continue
+        n = macro_use_casts_by_origin(token.value, args, table, origin)[1]
+        if n:
+            out.append((i, token.value, n))
+    return out
+
+
+def analyze(path, text, macro_casts=False, header_events=()):
     tokens = c.lex(text)
     pairs, warnings = c.pairs_of(tokens)
     definitions = list(c.definitions(tokens, pairs))
@@ -321,12 +457,18 @@ def analyze(path, text, macro_casts=False):
         if not any(i in excluded for i in range(a, b + 1)):
             counts[owners[a]]['pointer_casts'] += 1
     hidden = {key: Counter() for key in scopes} if macro_casts else None
+    header_hidden = {key: Counter() for key in scopes} if macro_casts else None
     if macro_casts:
         for i, name, n in macro_cast_sites(text, tokens, pairs):
             if i not in excluded:
                 hidden[owners[i]]['macro_casts'] += n
                 hidden[owners[i]]['macro_uses'] += 1
                 hidden[owners[i]]['macro:' + name] += n
+        for i, name, n in header_macro_cast_sites(text, tokens, pairs, header_events):
+            if i not in excluded:
+                header_hidden[owners[i]]['casts'] += n
+                header_hidden[owners[i]]['uses'] += 1
+                header_hidden[owners[i]]['macro:' + name] += n
     # Directives are excluded by the C lexer; count only actual M2C definitions.
     for m in c.LEX.finditer(text):
         if m.lastgroup == 'directive' and re.match(r'\s*#\s*define\s+M2C_\w+\b', m[0]):
@@ -337,6 +479,7 @@ def analyze(path, text, macro_casts=False):
         rows[key] = dict(counts={k: counts[key][k] for k in CLASSES}, tokens=sizes[key], **scope)
         if hidden is not None:
             rows[key]['macro_casts'] = dict(hidden[key])
+            rows[key]['header_macro_casts'] = dict(header_hidden[key])
     return dict(file=path, scopes=rows, markers=len(spans), errors=errors)
 
 
@@ -352,12 +495,15 @@ def census(root, only=None, macro_casts=False):
     if set(selected) - set(available):
         raise ValueError('--only must name existing src/**/*.c files')
     files, functions, errors, markers = {}, {}, [], 0
+    header_cache = {}
     for rel in selected:
         path = root / rel
         # Refuse silently skipped inputs and keep reads bounded in size.
         if path.is_symlink() or path.stat().st_size > 4 * 1024 * 1024:
             raise ValueError('unsupported symlink or source over 4 MiB: ' + rel)
-        source = analyze(rel, path.read_text(), macro_casts)
+        text = path.read_text()
+        header_events = include_macro_events(root, path, text, header_cache) if macro_casts else ()
+        source = analyze(rel, text, macro_casts, header_events)
         scopes = source['scopes']
         functions[rel] = scopes
         files[rel] = dict(counts=totals(scopes.values()),
@@ -366,12 +512,16 @@ def census(root, only=None, macro_casts=False):
         markers += source['markers']
     extra = {}
     if macro_casts:
-        hidden = Counter()
+        hidden, header_hidden = Counter(), Counter()
         for scopes in functions.values():
             for row in scopes.values():
                 hidden.update({k: v for k, v in row.get('macro_casts', {}).items() if not k.startswith('macro:')})
+                header_hidden.update({k: v for k, v in row.get('header_macro_casts', {}).items()
+                                      if not k.startswith('macro:')})
         extra['macro_casts_report'] = dict(casts=hidden['macro_casts'], uses=hidden['macro_uses'],
-                                           note='report only; not a debt class, not in the baseline')
+                                           note='report only; baseline records total, no ratchet')
+        extra['header_macro_casts_report'] = dict(casts=header_hidden['casts'], uses=header_hidden['uses'],
+                                                  note='report only; reachable include/ macros, lexical #if scope')
     return dict(**extra, schema_version=SCHEMA, classes=list(CLASSES), limited=bool(only),
                 source_files=len(selected), function_count=sum(len(s) - 1 for s in functions.values()),
                 by_class=totals(files.values()), by_file=files, by_function=functions,
@@ -381,6 +531,9 @@ def census(root, only=None, macro_casts=False):
 def baseline_record(summary):
     """Keep only debt-bearing files/scopes; preserve full file denominators."""
     record = {key: summary[key] for key in ('schema_version', 'classes', 'by_class')}
+    if 'macro_casts_report' in summary:
+        record['report_counts'] = dict(file_local_macro_casts=summary['macro_casts_report']['casts'],
+                                       header_macro_casts=summary['header_macro_casts_report']['casts'])
     record['by_file'] = {}
     for rel, row in sorted(summary['by_file'].items()):
         if not any(row['counts'].values()):
@@ -403,8 +556,9 @@ def baseline_text(record):
     files = ',\n'.join(dump(directory) + ':{\n' + ',\n'.join(
         dump(name) + ':' + dump(row) for name, row in sorted(rows.items())) + '\n}'
         for directory, rows in sorted(record['by_file'].items()))
+    reports = ',"report_counts":' + dump(record['report_counts']) if 'report_counts' in record else ''
     return ('{"by_class":' + dump(record['by_class']) + ',"by_file":{\n' + files
-            + '\n},"classes":' + dump(record['classes'])
+            + '\n},"classes":' + dump(record['classes']) + reports
             + ',"schema_version":' + dump(record['schema_version']) + '}\n')
 
 
@@ -421,7 +575,12 @@ def validate_baseline(baseline):
     if not validate_counts(baseline.get('by_class')):
         raise ValueError('baseline must record nonnegative integer counts for every class')
     directories = baseline.get('by_file')
-    if (set(baseline) != {'schema_version', 'classes', 'by_class', 'by_file'}
+    fields = {'schema_version', 'classes', 'by_class', 'by_file'}
+    if ('report_counts' in baseline and (not isinstance(baseline['report_counts'], dict)
+            or set(baseline['report_counts']) != {'file_local_macro_casts', 'header_macro_casts'}
+            or any(type(n) is not int or n < 0 for n in baseline['report_counts'].values()))):
+        raise ValueError('invalid report-only baseline counts')
+    if (set(baseline) not in (fields, fields | {'report_counts'})
             or not isinstance(directories, dict)):
         raise ValueError('baseline requires sparse by_file records')
     files, functions = {}, {}
@@ -513,6 +672,18 @@ def write_outputs(out, summary, baseline=None):
                         macros = ','.join('%s=%d' % (k[6:], v) for k, v in sorted(hidden.items()) if k.startswith('macro:'))
                         writer.writerow([rel, key, row['line'], row['counts']['pointer_casts'],
                                          hidden['macro_casts'], hidden['macro_uses'], macros])
+        with (out / 'debt_header_macro_casts.tsv').open('w', newline='') as stream:
+            writer = csv.writer(stream, delimiter='\t', lineterminator='\n')
+            writer.writerow(['file', 'function', 'line', 'pointer_casts', 'header_macro_casts',
+                             'header_macro_uses', 'macros'])
+            for rel, scopes in summary['by_function'].items():
+                for key, row in scopes.items():
+                    hidden = row.get('header_macro_casts') or {}
+                    if hidden.get('casts'):
+                        macros = ','.join('%s=%d' % (k[6:], v) for k, v in sorted(hidden.items())
+                                          if k.startswith('macro:'))
+                        writer.writerow([rel, key, row['line'], row['counts']['pointer_casts'],
+                                         hidden['casts'], hidden['uses'], macros])
     compact = {k: v for k, v in summary.items() if k not in ('by_function', 'by_file')}
     (out / 'debt_summary.json').write_text(json.dumps(compact, indent=2) + '\n')
     with (out / 'debt_files.tsv').open('w', newline='') as stream:
@@ -530,9 +701,8 @@ def main(argv=None):
     parser.add_argument('--only', nargs='+')
     parser.add_argument('--summary', action='store_true')
     parser.add_argument('--macro-casts', action='store_true',
-                        help='report (only) the pointer casts file-local macro bodies add at each use site: '
-                             'debt_macro_casts.tsv and macro_casts_report in debt_summary.json; the counted '
-                             'classes, the check and the baseline are unchanged')
+                        help='report pointer casts added by file-local and reachable include/ macro bodies '
+                             'at each use site; these report counts do not affect the ratchet')
     actions = parser.add_mutually_exclusive_group()
     actions.add_argument('--check', action='store_true')
     actions.add_argument('--write-baseline', action='store_true')
@@ -543,7 +713,8 @@ def main(argv=None):
         baseline = json.loads(args.baseline.read_text()) if args.check else None
         if baseline is not None:
             validate_baseline(baseline)
-        summary = census(args.root.resolve(), args.only, args.macro_casts)
+        report_macros = args.macro_casts or args.summary or args.write_baseline
+        summary = census(args.root.resolve(), args.only, report_macros)
         problems = check_baseline(summary, baseline) if args.check else []
         problems += summary['errors']
         write_outputs(args.out, summary, baseline)
@@ -557,9 +728,11 @@ def main(argv=None):
     if args.summary:
         for key, count in summary['by_class'].items():
             print(f'{key}\t{count}')
-    if args.macro_casts:
+    if report_macros:
         report = summary['macro_casts_report']
         print(f'macro_casts (report only)\t{report["casts"]}\t{report["uses"]} uses')
+        report = summary['header_macro_casts_report']
+        print(f'header_macro_casts (report only)\t{report["casts"]}\t{report["uses"]} uses')
     for problem in problems:
         print(problem, file=sys.stderr)
     if args.check and not problems:
