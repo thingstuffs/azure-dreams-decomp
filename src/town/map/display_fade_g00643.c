@@ -50,7 +50,7 @@ void advance_color_fade_and_set_completion(TimedColorFadeObject *fade_state, s32
 }
 
 /* Advance a timed state sequence, decrease its value, and set completion flags. */
-void advance_timed_state_and_set_completion(BuildTwoDisplayEntriesBody *object)
+void advance_timed_state_and_set_completion(TimedDisplayDecayBody *object)
 {
     s32 state;
     s32 timer;

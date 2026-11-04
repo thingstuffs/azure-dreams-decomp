@@ -18,14 +18,14 @@ typedef struct TimedColorFadeObject {
 } TimedColorFadeObject;
 
 /* Body advanced by advance_timed_state_and_set_completion. */
-typedef struct BuildTwoDisplayEntriesBody {
+typedef struct TimedDisplayDecayBody {
     /* 0x00 */ union { s16 s; u16 u; } state;
     /* 0x02 */ union { u16 u; s16 s; } timer;
     /* 0x04 */ u8 pad_04[4];
     /* 0x08 */ s32 decay_value;
     /* 0x0C */ u8 pad_0C[8];
     /* 0x14 */ s16 completion_state;
-} BuildTwoDisplayEntriesBody;
+} TimedDisplayDecayBody;
 
 /* arg0 in advance_color_fade_and_set_completion */
 
@@ -50,7 +50,7 @@ extern u8 D_800BC390[8];
 
 /* Functions defined in this translation unit. */
 void advance_color_fade_and_set_completion(TimedColorFadeObject *fade_state, s32 unused, SpriteFrameState *visual);
-void advance_timed_state_and_set_completion(BuildTwoDisplayEntriesBody *object);
+void advance_timed_state_and_set_completion(TimedDisplayDecayBody *object);
 void build_two_display_entries(void *data_id, s32 position_offset);
 
 #endif

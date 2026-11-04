@@ -34,7 +34,7 @@ void emit_particles_until_expired(void *emitter, Rec_func_800D4BD4_arg2 *positio
     ObjectNodeHeader *parent;
     ObjectPosition *particle_motion;
     ObjectNodeHeader *particle;
-    EmitParticlesUntilExpiredBody *particle_state;
+    ExpiringParticleEmitterBody *particle_state;
 
     parent = ((Rec_func_800D4BD4_arg1 *)emitter)->unk_24;
     position->unk_02.as_s16 =

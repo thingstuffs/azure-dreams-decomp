@@ -23,7 +23,7 @@ typedef struct S_8016BE20_6 {
     u32 unk_10;
 } S_8016BE20_6;   /* header in advance_actor_transition_sequence */
 
-typedef struct ResetFlagWord { u16 flags; } ResetFlagWord;
+typedef struct SystemFlagWord { u16 flags; } SystemFlagWord;
 
 extern void select_sprite_entry(void *, u8, s32);
 extern void func_80164BA4(void *);
@@ -143,8 +143,8 @@ void advance_actor_transition_sequence(ActorRecord *state_arg, ObjectPosition *w
                 control_count++;
                 g_dungeon_status.activity_counts.parts.pending_action_count = control_count;
                 ctx->action_flags &= 0x7FFF;
-                global_flags = ((ResetFlagWord *)&system_update_flags)->flags;
-                ((ResetFlagWord *)&system_update_flags)->flags = global_flags | 8;
+                global_flags = ((SystemFlagWord *)&system_update_flags)->flags;
+                ((SystemFlagWord *)&system_update_flags)->flags = global_flags | 8;
                 enqueue_runtime_pool_script(setup_data);
                 ctx->pending_turn_updates = 0;
                 state->action_phase.u = 0;

@@ -20,24 +20,24 @@ void choose_random_movement_direction(TownObjectRecord *entity, ObjectPosition *
 
         if (direction == 0) {
             if (movement->x.w.i <
-                entity->unk_84.as_s16 + entity->unk_8C) {
+                entity->unk_84.as_s16 + entity->unk_8C.as_s16) {
                 entity->heading.as_s16 = 0x400;
                 break;
             }
         } else if (direction == 1) {
             if (movement->y.w.i <
-                entity->unk_86.as_s16 + entity->unk_8E) {
+                entity->unk_86.as_s16 + entity->unk_8E.as_s16) {
                 entity->heading.as_s16 = 0;
                 break;
             }
         } else if (direction == 2) {
-            if (entity->unk_84.as_s16 - entity->unk_8C <
+            if (entity->unk_84.as_s16 - entity->unk_8C.as_s16 <
                 movement->x.w.i) {
                 entity->heading.as_s16 = 0xC00;
                 break;
             }
         } else {
-            if (entity->unk_86.as_s16 - entity->unk_8E <
+            if (entity->unk_86.as_s16 - entity->unk_8E.as_s16 <
                 movement->y.w.i) {
                 entity->heading.as_s16 = 0x800;
                 break;

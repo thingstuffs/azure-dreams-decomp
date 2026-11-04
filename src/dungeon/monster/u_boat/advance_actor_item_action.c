@@ -179,7 +179,7 @@ void advance_actor_item_action(ActorRecord *actor_state, ObjectPosition *motion,
 
             effect = allocate_list_node(0x112, &scene_object_list_anchor.next);
             if (effect != 0) {
-                AdvanceActorItemActionBody *effect_state;
+                ActorItemActionEffectBody *effect_state;
                 SpriteFrameState *effect_sprite;
                 ObjectPosition *effect_pos;
                 u8 *anim_table;

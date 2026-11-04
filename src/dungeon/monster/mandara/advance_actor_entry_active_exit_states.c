@@ -50,7 +50,7 @@ extern u8 mandara_frame_set_1[];
 void advance_actor_entry_active_exit_states(ActorRecord *action, ObjectPosition *context, SpriteFrameState *sprite, ActorRecord *actor) {
     s32 state;
     s32 record_index;
-    AdvanceActorEntryActiveExitStatesBody *effect_state;
+    MandaraEntryEffectBody *effect_state;
 
     state = action->action_phase.u;
     switch (state) {

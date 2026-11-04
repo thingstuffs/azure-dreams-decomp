@@ -25,7 +25,7 @@ void mark_owner_on_target_completion(MovingPosition *origin)
     s32 adjusted_random;
     SpriteFrameState *render_data;
     ObjectPosition *position;
-    MarkOwnerOnTargetCompletionBody *effect_state;
+    RadialOffsetSpriteEffectBody *effect_state;
     ObjectNodeHeader *effect;
 
     scene_state = &g_game_work;

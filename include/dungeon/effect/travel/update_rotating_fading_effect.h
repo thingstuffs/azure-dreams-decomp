@@ -17,6 +17,18 @@
 #include "dungeon/effect.h"
 #include "dungeon/effect/travel/randomized_target_effect.h"
 #include "shared/entity.h"
+#include "dungeon/effect/spell_effect.h"
+
+/* Spell state for the target travel callback and its emitted child effects. */
+typedef struct TargetTravelStatusBody {
+    SpellEffectHeader spell;
+    u8 pad_0C[0x2];
+    u16 unk_0E;
+    u16 unk_10;
+    union { s16 as_s16; u16 as_u16; } unk_12;
+    s16 unk_14;
+} TargetTravelStatusBody;
+
 typedef struct ovl_18ca83c_818AABB8_S_800243B8_4 {
     s32 unk_00;
     s32 unk_04;
@@ -122,6 +134,6 @@ extern int abs(int);
 s32 check_layer_offset_height(s32, s32, s16, s32);
 void apply_large_random_value_gain(ActorRecord *target, s32 amount_input, ActorRecord *owner);
 void update_rotating_fading_effect(RandomizedTargetEffectBody *effect, void *position, SpriteFrameState *sprite);
-void *create_randomized_target_effect(Rec_func_800243B8_arg0 *source, ObjectPosition *start, ObjectPosition *center, s16 index);
-void advance_target_travel_effect(void *effect, ObjectPosition *motion, SpriteFrameState *appearance);
+void *create_randomized_target_effect(TargetTravelStatusBody *source, ObjectPosition *start, ObjectPosition *center, s16 index);
+void advance_target_travel_effect(TargetTravelStatusBody *effect, ObjectPosition *motion, SpriteFrameState *appearance);
 #endif

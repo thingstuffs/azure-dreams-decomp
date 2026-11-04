@@ -20,7 +20,7 @@ typedef struct S_800CB374_3 {
 } S_800CB374_3;   /* ((S_800CB374_0 *)arg0)->unk_A8 in fade_effect_primitive */
 
 /* Fades primitive colors or copies source attributes and propagates completion flags. */
-void fade_effect_primitive(AndInitializePlayerTileActorBody *effect, void *unused, SpriteFrameState *primitive) {
+void fade_effect_primitive(SourceLinkedFadeEffectBody *effect, void *unused, SpriteFrameState *primitive) {
     s16 fade_steps;
     u8 blue;
     SpriteFrameState *source_primitive;

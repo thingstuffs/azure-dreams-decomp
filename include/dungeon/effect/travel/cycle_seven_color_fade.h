@@ -17,20 +17,19 @@ struct B28_818B6AFC_FxEffect;
 #include "m2c_compat.h"
 #include "modules/dungeon_native_abi.h"
 #include "dungeon/effect.h"
-typedef struct B28_818B7F38_S_80025738_0 {
-    void * unk_00;
-    u16 * unk_04;
-    u8 pad_08[0x1];
-    u8 unk_09;
-    s16 unk_0A;
+#include "dungeon/effect/spell_effect.h"
+
+/* Spell state for reachable tile travel and its spawned owner variants. */
+typedef struct ReachableTileTravelBody {
+    SpellEffectHeader spell;
     u8 pad_0C[0x2];
     u16 unk_0E;
     u16 unk_10;
-    s16 unk_12;
+    union { s16 s; u16 u; } unk_12;
     s16 unk_14;
     u8 pad_16[0x2];
     void * unk_18;
-} B28_818B7F38_S_80025738_0;
+} ReachableTileTravelBody;
 typedef struct B28_818B7F38_S_80025738_1 {
     u8 pad_00[0x2A];
     u16 unk_2A;
@@ -190,12 +189,6 @@ typedef struct B28_818B7BD0_S_818B7BD0_1 {
     s16 unk_1C;
     s16 unk_1E;
 } B28_818B7BD0_S_818B7BD0_1;
-typedef struct B28_818B7BD0_S_818B7BD0_2 {
-    u8 pad_00[0x12];
-    u16 unk_12;
-    u8 pad_14[0x4];
-    s32 unk_18;
-} B28_818B7BD0_S_818B7BD0_2;
 typedef struct B28_818B7BD0_S_818B7BD0_4 {
     s32 unk_00;
     s32 unk_04;
@@ -445,10 +438,10 @@ s32 draw_indexed_shaded_quad(s32 texture_index, SpriteFrameState *color_source);
 s32 draw_two_radial_effect_bands(B28_818B7264_S_80024A64_0 *effect, B28_818B7264_S_80024A64_1 *center, SpriteFrameState *draw_arg);
 void draw_chained_object_records(B28_818B77D4_Arg0818B77D4 *source, B28_818B77D4_Arg1818B77D4 *payload);
 void update_spark_effect(B28_818B78E8_S818B78E8_Obj *obj, B28_818B78E8_S818B78E8_Vec *motion, SpriteFrameState *gfx);
-s32 spawn_owner_random_variant_effect(B28_818B7BD0_S_818B7BD0_2 *owner, ObjectPosition *transform);
+s32 spawn_owner_random_variant_effect(ReachableTileTravelBody *owner, ObjectPosition *transform);
 void advance_spinning_effect_motion(B28_818B7D3C_OwnerState *owner, B28_818B7D3C_VecState *vec, SpriteFrameState *entity);
 s32 spawn_owned_random_spin_effect(void *owner, ObjectPosition *source);
-void advance_movement_toward_reachable_tile(void *state, ObjectPosition *motion_in, SpriteFrameState *render);
+void advance_movement_toward_reachable_tile(ReachableTileTravelBody *state, ObjectPosition *motion_in, SpriteFrameState *render);
 void select_record_entry_and_value(void *state, void *entries, short index);
 extern u8 seven_color_sprite_data[];
 s32 draw_linked_sprites_clipped(u8 *first_data, s32 link_value, SpriteFrameState *value_record);

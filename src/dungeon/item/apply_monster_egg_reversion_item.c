@@ -28,10 +28,10 @@ typedef struct S_800BE6F0_0_pre {
    /* state_base2 in apply_monster_egg_reversion_item */
 
 #include "dungeon/player/item.h"
+#include "dungeon/player/object.h"
 struct EntityLinkNode;
 void unlink_entity_node(struct EntityLinkNode *node);
 void update_map_cell_flags_with_item_limit(s32 x, s32 y, u16 flags);
-void * detach_record_and_update_slot_state(void *record);
 s32 display_text_with_fullwidth_adjustment(s8 *text);
 s32 generate_random_value(void);
 #include "dungeon/actor/effect.h"

@@ -3,8 +3,7 @@
 #include "dungeon/item.h"
 #define F(p,t,o) (*(t *)((u8 *)(p) + (o)))
 #include "dungeon/item/message.h"
-extern u8 *item_type_text_prefixes[];
-extern u8 *item_type_text_suffixes[];
+#include "dungeon/data.h"
 /* Applies eligible type-based adjustments before and after processing an entry. */
 u8 *apply_type_based_entry_adjustments(void *entry, u8 *value) {
     u8 pre_type;

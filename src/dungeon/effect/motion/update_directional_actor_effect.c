@@ -395,7 +395,7 @@ void spawn_spiraling(void *anchor, s16 angle, s16 unused, void *target, s32 mirr
 /* Processes both modes and sets completion flags on countdown expiry or an override. */
 void process_effect_modes_and_completion(void *state)
 {
-    AndInitializeEffectObjectBody *effect_state = state;
+    SpiralingEffectObjectBody *effect_state = state;
     u8 * object_addr;
     u16 countdown;
     u16 *counter_base = D_800249A6;
@@ -417,7 +417,7 @@ void process_effect_modes_and_completion(void *state)
 /* Allocate an object and initialize its handler and state fields. */
 void allocate_and_initialize_effect_object(s32 alloc_arg, s16 value_26, s16 value_30, ActorRecord *value_0c) {
     ObjectNodeHeader *object;
-    AndInitializeEffectObjectBody *state;
+    SpiralingEffectObjectBody *state;
 
     object = allocate_list_node(0x200, (ObjectNodeHeader **)alloc_arg);
     if (object != 0) {

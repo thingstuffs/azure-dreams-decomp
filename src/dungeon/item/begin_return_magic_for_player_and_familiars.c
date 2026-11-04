@@ -3,9 +3,8 @@
 #include "shared/record_ptrs.h"
 #include "dungeon/item.h"
 #include "dungeon/item/effect.h"
+#include "dungeon/data.h"
 struct EntityFields;
-
-extern s16 actor_event_values[];
 
 extern s32 get_entity_class(void *);
 

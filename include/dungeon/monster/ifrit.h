@@ -1,18 +1,18 @@
 #ifndef DUNGEON_MONSTER_IFRIT_H
 #define DUNGEON_MONSTER_IFRIT_H
-struct UpdateActorActionsAndImpactEffectsBody;
+struct ActorImpactEffectBody;
 
 #include "common.h"
 #include "shared/entity.h"
 #include "shared/sprite_frame_state.h"
 
 /* Timer and color delta stored in an Ifrit impact particle body. */
-typedef struct UpdateActorActionsAndImpactEffectsBody {
+typedef struct ActorImpactEffectBody {
     u8 pad_00[0x96];
     u16 unk_96;
     u8 pad_98[0xC];
     union { s32 s; u32 u; } unk_A4;
-} UpdateActorActionsAndImpactEffectsBody;
+} ActorImpactEffectBody;
 
 /* Monster-owned imports; preserve their registered declaration contracts. */
 extern u8 ifrit_direction_frames[];
@@ -23,7 +23,7 @@ void advance_actor_animation_and_restore(ActorRecord *action, ObjectPosition *ac
 
 /* Callback entry points. */
 s32 render_linked_items_as_textured_strips(u8 *item_data);
-void tick_object_motion_and_expire(struct UpdateActorActionsAndImpactEffectsBody *object_data, void *motion_data, SpriteFrameState *work_data);
+void tick_object_motion_and_expire(struct ActorImpactEffectBody *object_data, void *motion_data, SpriteFrameState *work_data);
 
 void advance_actor_action_and_status(ActorRecord *in_action, ObjectPosition *in_context, SpriteFrameState *in_sprite, ActorRecord *in_actor);
 

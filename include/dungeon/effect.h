@@ -9,14 +9,14 @@
 #include "dungeon/effect/motion/variant_effect_with_random_motion.h"
 
 /* Body created for the player tile actor's fading primitive callback. */
-typedef struct AndInitializePlayerTileActorBody {
+typedef struct SourceLinkedFadeEffectBody {
     u8 pad_00[0x96];
     s16 unk_96;
     u8 pad_98[0x10];
     void *unk_A8;
     u8 pad_AC[0x8];
     s16 unk_B4;
-} AndInitializePlayerTileActorBody;
+} SourceLinkedFadeEffectBody;
 void apply_effect_bonuses(s16 effect_id, ActorRecord *unused_arg, ActorRecord *record);
 void *create_mode_configured_object(s16 mode, s32 part_b_byte_24, s32 part_b_byte_25, s32 part_a_value, s32 part_b_value);
 void create_record_with_effect_callback(void);

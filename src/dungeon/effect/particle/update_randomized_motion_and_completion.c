@@ -39,12 +39,12 @@ void update_randomized_motion_and_completion(PointRecord *state, void *position_
     D_80025338 = 1;
     if ((s16)position->unk_08.at02.v <
         sample_terrain_surface_height(x, y, (s16)(z + 2))) {
-        x_step = ((*(s16 *)(((s8 *)dir_step_x) + (state->unk_14 * 2)) *
+        x_step = ((dir_step_x[state->unk_14] *
                    state->brightness) << 9) +
                   (rand() & 0xFFFF);
         coord_value = position->unk_00.at00.v + x_step;
         position->unk_00.at00.v = coord_value;
-        z_step = ((*(s16 *)(((s8 *)dir_step_y) + (state->unk_14 * 2)) *
+        z_step = ((dir_step_y[state->unk_14] *
                    state->brightness) << 9) +
                     (rand(x_step) & 0xFFFF);
         coord_value = position->unk_04.at00.v + z_step;

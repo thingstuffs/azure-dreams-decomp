@@ -40,7 +40,7 @@ typedef struct {
 
 
 /* Update sprite facing and animation, then spawn an effect when the countdown expires. */
-void update_facing_and_spawn_expired_effect(AdvanceActorItemActionBody *state, MovingPosition *position, SpriteFrameState *sprite) {
+void update_facing_and_spawn_expired_effect(ActorItemActionEffectBody *state, MovingPosition *position, SpriteFrameState *sprite) {
     Vec3u16 delta;
     s16 facing;
     void *direction_frames;

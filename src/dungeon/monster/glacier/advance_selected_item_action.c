@@ -228,7 +228,7 @@ void advance_selected_item_action_2(ActorRecord *body, ObjectPosition *position,
 
             effect_object = allocate_list_node(0x112, &scene_object_list_anchor.next);
             if (effect_object != 0) {
-                AdvanceSelectedItemAction2Body *effect_state;
+                SelectedItemActionEffectBody *effect_state;
                 u8 *effect_data;
                 void *owner_sprite;
                 u8 animation_id;

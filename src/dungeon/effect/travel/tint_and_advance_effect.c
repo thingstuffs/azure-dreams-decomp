@@ -347,7 +347,7 @@ typedef struct S_81880F28_3_pre {
 
 /* Tint the object red, restore its color, and advance its motion. */
 void tint_effect_and_advance_motion(void *effect_arg, void *motion_data) {
-    FollowBrightenBody *effect = effect_arg;
+    BrighteningFollowerEffectBody *effect = effect_arg;
     ObjectPosition *motion = motion_data;
     ActorRecord *object;
     EffectColor *color;
@@ -432,7 +432,7 @@ void tint_effect_and_advance_motion(void *effect_arg, void *motion_data) {
 void *create_initialized_effect_object(s32 resource_id, MovingPosition *source_values, s16 setup_value, s32 object_value) {
     MovingPosition *target_values;
     ObjectNodeHeader *object;
-    FollowBrightenBody *body;
+    BrighteningFollowerEffectBody *body;
     void *object_storage;
     void *target_position;
 

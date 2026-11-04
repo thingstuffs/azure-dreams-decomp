@@ -6,6 +6,7 @@
 #include "dungeon/level.h"
 #include "dungeon/item.h"
 #include "dungeon/item/effect.h"
+#include "dungeon/data.h"
 
 #ifndef NULL
 #define NULL 0
@@ -29,8 +30,6 @@ typedef struct {
     u8 pad[8];
     u16 value;
 } Entry;
-
-extern s16 actor_event_values[];
 
 
 extern s32 get_entity_class(void *);

@@ -73,10 +73,10 @@ typedef struct MotionState {
     s32 dy;
     s32 dz;
 } MotionState;
-typedef struct UpdateFlags {
+typedef struct EffectFlagView {
     unsigned char pad_00[0x14];
     u16 flags;
-} UpdateFlags;
+} EffectFlagView;
 typedef struct S_8181B078_0_pre {
     u16 unk_00;
 } S_8181B078_0_pre;

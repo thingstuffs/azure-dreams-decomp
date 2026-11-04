@@ -18,7 +18,7 @@ typedef struct S_800D4CB0_1 {
 void advance_damped_effect_motion(void *effect, ObjectPosition *motion, void *color_arg) {
     S_800D4CB0_1 *color = color_arg;
     s16 ticks_left;
-    EmitParticlesUntilExpiredBody *effect_state;
+    ExpiringParticleEmitterBody *effect_state;
 
     effect_state = effect;
     motion->x.v += motion->velocity_x;

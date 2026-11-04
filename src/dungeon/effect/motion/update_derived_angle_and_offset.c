@@ -7,7 +7,7 @@
 #include "slus.h"
 
 /* Update the derived angle and offset, then propagate status flags. */
-void update_derived_angle_and_offset(MarkOwnerOnTargetCompletionBody *angle_source, void *offset_state, SpriteFrameState *angle_state)
+void update_derived_angle_and_offset(RadialOffsetSpriteEffectBody *angle_source, void *offset_state, SpriteFrameState *angle_state)
 {
     angle_state->angle_z =
         (s16)((s32)(-((rcos(angle_source->unk_08 - g_game_work.view.camera_rotation.parts.viewAngle) >> 4) << 8)) >> 8);

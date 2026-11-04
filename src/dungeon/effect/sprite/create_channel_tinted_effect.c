@@ -40,7 +40,7 @@ s32 create_channel_tinted_effect(s32 *owner_id, void *transform, s16 color_index
     s32 phase_value;
     s32 phase_rounded;
     void *data_ptr;
-    void *transform_ptr;
+    ObjectPosition *transform_ptr;
     s32 object_result;
     void *unused_ptr;
     SpriteFrameState *visual;
@@ -93,10 +93,10 @@ s32 create_channel_tinted_effect(s32 *owner_id, void *transform, s16 color_index
         transform_ptr = object->position;
         (*(ObjectPosition *)((u8 *)transform_ptr + 0)) =
             (*(ObjectPosition *)((u8 *)transform + 0));
-        pos_y = (*(u16 *)((u8 *)transform_ptr + 0xA));
+        pos_y = transform_ptr->z.unsigned_parts.integer;
         object_result = (s32) object;
         pos_y -= saved_y_offset;
-        (*(u16 *)((u8 *)transform_ptr + 0xA)) = pos_y;
+        transform_ptr->z.unsigned_parts.integer = pos_y;
         return object_result;
     }
     return 0;

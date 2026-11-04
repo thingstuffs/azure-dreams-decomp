@@ -137,9 +137,9 @@ void follow_brighten(u8 *self, u8 *motion, u8 *part)
             }
         }
         ((MovingMotion *)motion)->unk_0C.at02.v =
-            (*(s16 *)(((u8 *)dir_step_x) + ((MovingEffectState *)self)->unk_16.s * 2)) * 8;
+            (dir_step_x[((MovingEffectState *)self)->unk_16.s]) * 8;
         ((MovingMotion *)motion)->unk_10.at02.v =
-            (*(s16 *)(((u8 *)dir_step_y) + ((MovingEffectState *)self)->unk_16.s * 2)) * 8;
+            (dir_step_y[((MovingEffectState *)self)->unk_16.s]) * 8;
         ((MovingEffectState *)self)->unk_0A.u++;
         break;
 

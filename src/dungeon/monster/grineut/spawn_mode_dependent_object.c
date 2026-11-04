@@ -1103,8 +1103,8 @@ void complete_staged_destination_movement(ActorRecord *action, ObjectPosition *m
         }
         direction -= wrap_base & 0x18;
         motion->velocity_x =
-            (*(s16 *)((u8 *)(((s8 *)dir_step_x)) + (direction * 2))) * 0x60000;
-        direction_y = (*(s16 *)((u8 *)(((s8 *)dir_step_y)) + (direction * 2)));
+            dir_step_x[direction] * 0x60000;
+        direction_y = dir_step_y[direction];
         motion->velocity_z = 0;
         motion->velocity_y = direction_y * 0x60000;
         sprite->frameTable = grineut_frame_set_3;
@@ -1146,9 +1146,9 @@ void complete_staged_destination_movement(ActorRecord *action, ObjectPosition *m
         if ((s16)action->action_timer.u == 0x11) {
             play_sound_if_enabled(0x808);
             direction = ((u16)actor->facing >> 9) & 7;
-            speed_component = (*(s16 *)((u8 *)(((s8 *)dir_step_x)) + (direction * 2))) * 0x30000;
+            speed_component = dir_step_x[direction] * 0x30000;
             motion->velocity_x = speed_component + (speed_component >> 2);
-            speed_component = (*(s16 *)((u8 *)(((s8 *)dir_step_y)) + (direction * 2))) * 0x30000;
+            speed_component = dir_step_y[direction] * 0x30000;
             motion->velocity_y = speed_component + (speed_component >> 2);
         }
 

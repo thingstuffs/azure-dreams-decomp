@@ -135,9 +135,9 @@ void initialize_record_resources(TownObjectRecord *record, ObjectPosition *init_
 
 /* display_fade_g00643.c */
 struct TimedColorFadeObject;
-struct BuildTwoDisplayEntriesBody;
+struct TimedDisplayDecayBody;
 void advance_color_fade_and_set_completion(struct TimedColorFadeObject *fade_state, s32 unused, SpriteFrameState *visual);
-void advance_timed_state_and_set_completion(struct BuildTwoDisplayEntriesBody *object);
+void advance_timed_state_and_set_completion(struct TimedDisplayDecayBody *object);
 void build_two_display_entries(void *data_id, s32 position_offset);
 
 /* door.c */

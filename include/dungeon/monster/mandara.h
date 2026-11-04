@@ -35,7 +35,7 @@ s32 draw_layered_wavy_object_strips(void *object_data, void *unused, void *appea
 void advance_actor_replacement_sequence(RotateAndRestoreActorStateBody *effect, s32 unused, void *primitive);
 
 /* Animation counters and the image buffer consumed by StoreImage. */
-typedef struct AdvanceActorEntryActiveExitStatesBody {
+typedef struct MandaraEntryEffectBody {
     u8 pad_00[0x96];
     u16 frame;
     u8 pad_98[0x6];
@@ -45,9 +45,9 @@ typedef struct AdvanceActorEntryActiveExitStatesBody {
     s16 image_data_04;
     s16 image_data_06;
     union { s16 s; u16 u; } duration;
-} AdvanceActorEntryActiveExitStatesBody;
+} MandaraEntryEffectBody;
 
-void blend_animation_palette_and_complete(AdvanceActorEntryActiveExitStatesBody *effect);
+void blend_animation_palette_and_complete(MandaraEntryEffectBody *effect);
 
 /* Owner declarations appended by tools/headers (append-only; the lines above are hand-kept). */
 void advance_action_through_recovery(ActorRecord *action_state, ObjectPosition *transform, SpriteFrameState *sprite, ActorRecord *actor);

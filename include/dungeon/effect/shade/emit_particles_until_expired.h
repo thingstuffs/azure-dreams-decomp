@@ -4,7 +4,7 @@
 #include "common.h"
 
 /* Color and lifetime state for particles emitted by the timed emitter. */
-typedef struct EmitParticlesUntilExpiredBody {
+typedef struct ExpiringParticleEmitterBody {
     u8 pad_00[0xC];
     u8 red;
     u8 green;
@@ -12,6 +12,6 @@ typedef struct EmitParticlesUntilExpiredBody {
     u8 pad_0F[0xF];
     s16 remaining_ticks;
     s16 initial_ticks;
-} EmitParticlesUntilExpiredBody;
+} ExpiringParticleEmitterBody;
 
 #endif

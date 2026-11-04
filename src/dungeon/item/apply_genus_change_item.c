@@ -18,15 +18,14 @@
 #include "dungeon/actor.h"
 #include "dungeon/item/message.h"
 #include "dungeon/item.h"
-
-extern void create_colored_effect_with_sound(void *source, s32 color, unsigned short sound_id);
+#include "dungeon/data.h"
+#include "dungeon/effect/shade.h"
 
 extern u8 D_800E13FB[];
 extern u8 D_800E1402[];
 extern u8 D_800E1411[];
 extern u8 D_800E1426[];
 extern u8 D_80089380[];
-extern u8 genus_change_text[];
 
 /* Changes the target's element, updates its slots, and displays the result. */
 s32 apply_genus_change_item(ActorRecord *target, DungeonItemEntry *event, s32 value)

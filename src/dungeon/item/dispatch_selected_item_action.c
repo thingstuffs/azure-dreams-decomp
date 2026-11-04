@@ -19,9 +19,6 @@
 #include "dungeon/actor.h"
 #include "dungeon/system.h"
 
-extern s32 display_text_with_fullwidth_adjustment(s8 *text);
-extern void place_actor_item(void *object_context, struct DungeonItemEntry *target);
-
 extern u8 D_80089364[];
 extern u8 D_80089368[];
 extern u8 D_800DD148[];

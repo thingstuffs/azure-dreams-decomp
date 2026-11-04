@@ -152,12 +152,12 @@ typedef struct Row_81916E00_S_80024600_0 {
     s16 unk_24;
 } Row_81916E00_S_80024600_0;   /* temp_v0 in func_80024600 */
 
-typedef struct AnDefaultRenderingSettingsCopiesInitialDataBody {
+typedef struct TargetCompletionEffectBody {
     void *owner;
     u16 completion_count;
-} AnDefaultRenderingSettingsCopiesInitialDataBody;
+} TargetCompletionEffectBody;
 
-void update_the_target_records_counts_flags_status(AnDefaultRenderingSettingsCopiesInitialDataBody *object_slot, void *unused, SpriteFrameState *target);
+void update_the_target_records_counts_flags_status(TargetCompletionEffectBody *object_slot, void *unused, SpriteFrameState *target);
 
 /* Creates an object with default rendering settings and copies its initial data. */
 /* extern */
@@ -315,7 +315,7 @@ typedef struct Row_81917A70_S_80025270_0 {
 
 
 /* State shared by the orbiting sprite and the directed effect it creates on expiry. */
-typedef struct AnAttachedEffectCopiedTransformDataRandomizedAngleBody {
+typedef struct AttachedRandomAngleEffectBody {
     void *unk_00;
     union { s16 s; u16 u; } unk_04;
     union { u16 u; s16 s; } unk_06;
@@ -327,7 +327,7 @@ typedef struct AnAttachedEffectCopiedTransformDataRandomizedAngleBody {
     s32 unk_24;
     s32 unk_28;
     u8 pad_2C[0xCA];
-} AnAttachedEffectCopiedTransformDataRandomizedAngleBody;
+} AttachedRandomAngleEffectBody;
 
 /* Creates an attached effect with copied transform data and a randomized angle. */
 /* Payload of the action object. The entity and motion data are separate objects. */
@@ -392,14 +392,14 @@ void advance_motion_counters_position_set_completion_flags_past_lifetime(void *m
 void *create_an_initializes_visual_state_copies_initial_data(s32 object_id, ObjectPosition *initial_data, Row_81916AEC_S_800242EC_2 *source);
 void create_counted_sprite_effect(void *context, s32 unused, Row_81916C1C_Arg81916C1C *countdown);
 void create_a_type_hex_212_initializes_handler_mode(s32 initial_value);
-void update_the_target_records_counts_flags_status(AnDefaultRenderingSettingsCopiesInitialDataBody *object_slot, void *unused, struct SpriteFrameState *target);
+void update_the_target_records_counts_flags_status(TargetCompletionEffectBody *object_slot, void *unused, struct SpriteFrameState *target);
 void *create_an_default_rendering_settings_copies_initial_data(s32 *owner_data, Row_81916E00_Copy24 *initial_data);
 void advance_the_counter_offset_position_using_two_angles(Row_81916F10_S_80024710_0 *object, Row_81916F10_S_80024710_2 *position);
 void *create_radial_effect_from_source(void *source, Row_81917004_Copy24 *origin, s16 size_step);
 void initialize_the_s_visual_state_apply_random_spherical_position_offset(void *object, Rec_func_80024600_arg1 *position, struct SpriteFrameState *visual);
 void advance_radial_effect_state(void *motion, void *position,struct SpriteFrameState *effect);
-void *create_an_oriented_effect_between_position_owner(AnAttachedEffectCopiedTransformDataRandomizedAngleBody *owner, Rec_func_80024E80_arg1 *start_pos);
-void advance_the_effect_phase_brightness_scale_position_until_lifetime_ends(AnAttachedEffectCopiedTransformDataRandomizedAngleBody *effect, void *transform,struct SpriteFrameState *visual);
+void *create_an_oriented_effect_between_position_owner(AttachedRandomAngleEffectBody *owner, Rec_func_80024E80_arg1 *start_pos);
+void advance_the_effect_phase_brightness_scale_position_until_lifetime_ends(AttachedRandomAngleEffectBody *effect, void *transform,struct SpriteFrameState *visual);
 void * create_an_attached_effect_copied_transform_data_randomized_angle(void *object, Row_81917A70_Copy24 *src_transform, s16 effect_index);
 void build_inverted(Row_81917C08_ActionState *action, ObjectPosition *motion, Row_81917C08_EffectVisual *visual);
 extern u8 camera_transition_timer[];

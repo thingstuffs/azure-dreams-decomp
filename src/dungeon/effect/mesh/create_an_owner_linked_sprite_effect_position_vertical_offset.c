@@ -18,7 +18,7 @@ typedef struct S_81977D08_0 {
     void *unk_0C;
     s32 *unk_10;
     u8 pad_14[0xC];
-    AnOwnerLinkedSpriteEffectPositionVerticalOffsetBody body;
+    OwnerLinkedSpriteEffectBody body;
 } S_81977D08_0;
 
 

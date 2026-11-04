@@ -75,7 +75,7 @@ void try_halve_actor_counter(u8 *entity, s32 chance, void *unused_context) {
 /* cfail-repair: tf7-phase1-cache-v3 */
 
 /* Build textured sprite strips and append their packets to the ordering table. */
-void build_textured_sprite_strips(void *screen_pos, UpdateTravelingBody *sprite, s32 *ordering_table, s32 draw_mode) {
+void build_textured_sprite_strips(void *screen_pos, TravelingSpriteEffectBody *sprite, s32 *ordering_table, s32 draw_mode) {
     u16 saved_draw_mode;
     s32 callback_arg;
     s32 matrix_arg;
@@ -747,7 +747,7 @@ void get_half_byte_length(ObjectNodeHeader *parent, s16 field_34, s32 field_28, 
 #include "dungeon/effect/mesh/build_textured_sprite_strips.h"
 
    /* Update eight animation slots and mark completion when the countdown expires. */
-void update_effect_animation_slots(UpdateTravelingBody *anim_state)
+void update_effect_animation_slots(TravelingSpriteEffectBody *anim_state)
 {
     s16 next_phase;
     s32 slot_index;
@@ -814,7 +814,7 @@ void tick_effect_record(CountdownRecord *record)
 #include "dungeon/effect/mesh/build_textured_sprite_strips.h"
 
 /* Updates a timed brightness pulse and clears the linked object flag on completion. */
-void update_effect_brightness_pulse(UpdateTravelingBody *effect, void *unused, u8 *target)
+void update_effect_brightness_pulse(TravelingSpriteEffectBody *effect, void *unused, u8 *target)
 {
     u8 *object;
     u8 *linked_object;
@@ -862,7 +862,7 @@ void update_effect_brightness_pulse(UpdateTravelingBody *effect, void *unused, u
 #include "dungeon/effect/mesh/build_textured_sprite_strips.h"
 
 /* Builds an inverted pixel mask and updates a timed fade effect. */
-void build_inverted(UpdateTravelingBody *context, void *unused, void *effect_data) {
+void build_inverted(TravelingSpriteEffectBody *context, void *unused, void *effect_data) {
     Box image_rect;
     Box mask_rect;
     Point center;
@@ -1275,7 +1275,7 @@ update_coords:
             ObjectNodeHeader *lower_effect;
             ObjectNodeHeader *ring_effect;
             ObjectNodeHeader *control_effect;
-            UpdateTravelingBody *child_data;
+            TravelingSpriteEffectBody *child_data;
             SpriteFrameState *child_render;
             ObjectPosition *child_motion;
 

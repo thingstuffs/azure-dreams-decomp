@@ -19,7 +19,7 @@ s32 check_door_status_inverted(void *object) {
 void initialize_door_variant(TownObjectRecord *record_data, ObjectPosition *position, struct SpriteFrameState *unused_sprite) {
     u32 variant;
 
-    variant = ((u8)(record_data->unk_94));
+    variant = ((u8)(record_data->unk_94.as_s8));
     ((S_800A06A4_0 *)((u8 *)record_data - 0x10))->unk_00 = &handle_door_check_result;
     {
         union { s32 *pointer; s32 value; } handler;
@@ -75,7 +75,7 @@ void handle_door_check_result(S_func_800A0708_0 *object, void *callback_arg, s32
 /* Install the next object handler when the update call succeeds. */
 void install_next_door_handler(TownObjectRecord *object, TownObjectRecord *unused_context, void *update_context, SpriteFrameState *unused_data) {
     s32 linked_record = *(s32 *)((u8 *)object + 0x98);
-    u8 status_byte = ((u8)(object->unk_94));
+    u8 status_byte = ((u8)(object->unk_94.as_s8));
 
     if (create_object_with_shared_data(object, linked_record, update_context, status_byte) != 0) {
         object->unk_50.as_s32 = (s32) &emit_door_position_effect;

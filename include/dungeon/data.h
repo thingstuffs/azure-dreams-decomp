@@ -23,4 +23,10 @@ extern u8 manoeva_frame_set[ ];
 extern u8 beldo_large_frame_set_14[ 16 ];
 extern u8 beldo_large_frame_set_8[ 16 ];
 
+extern s16 actor_event_values[ ];
+extern u8 familiar_call_text[ ];
+extern u8 genus_change_text[ ];
+extern u8 *item_type_text_prefixes[ ];
+extern u8 *item_type_text_suffixes[ ];
+
 #endif

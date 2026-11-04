@@ -29,7 +29,7 @@ typedef struct CylindricalEffectWork {
 } CylindricalEffectWork;
 
 /* Effect parameters and countdown used by process_effect_modes_and_completion. */
-typedef struct AndInitializeEffectObjectBody {
+typedef struct SpiralingEffectObjectBody {
     u8 pad_00[0xC];
     ActorRecord *unk_0C;
     u8 pad_10[0x16];
@@ -38,7 +38,7 @@ typedef struct AndInitializeEffectObjectBody {
     s16 unk_2C;
     u8 pad_2E[0x2];
     s16 unk_30;
-} AndInitializeEffectObjectBody;
+} SpiralingEffectObjectBody;
 
 /* Set to 1 by running particle/point effects every frame; the effect
  * controller in entry_play_sound_if_enabled clears it and finishes the effect
@@ -63,10 +63,10 @@ typedef struct IndexedColorSpriteBody {
 } IndexedColorSpriteBody;
 
 /* Target ownership marker written when the homing effect completes. */
-typedef struct MarkOwnerOnTargetCompletionBody {
+typedef struct RadialOffsetSpriteEffectBody {
     u8 pad_00[0x8];
     s16 unk_08;
-} MarkOwnerOnTargetCompletionBody;
+} RadialOffsetSpriteEffectBody;
 
 /* Radius, rotation, and countdown for a spiraling effect. */
 typedef struct SpiralingBody {

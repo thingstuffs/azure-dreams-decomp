@@ -14,7 +14,7 @@
 void (*const dungeon_ovl_18b8824_entry)(ovl_18b8824_81898EBC_EffectState *state, ovl_18b8824_81898EBC_Motion *motion, ovl_18b8824_81898EBC_ColorPart *part) = advance_launched_effect;
 
 /* Advances and spins a particle, increments its owner's counter, and removes it after its lifetime. */
-void interpolate_view_parameters(ASpriteRandomRotationCopiesInitialDataBody *state, void *motion, void *transform)
+void interpolate_view_parameters(RandomRotationSpriteEffectBody *state, void *motion, void *transform)
 {
     u16 tick_count;
     B22_81893474_EffectState *linked_state;
@@ -44,7 +44,7 @@ void interpolate_view_parameters(ASpriteRandomRotationCopiesInitialDataBody *sta
 void *create_a_sprite_random_rotation_copies_initial_data(void *context, ovl_18b8824_818988CC_Copy24 *copy_src, s16 initial_value)
 {
     ObjectNodeHeader *obj;
-    ASpriteRandomRotationCopiesInitialDataBody *fields;
+    RandomRotationSpriteEffectBody *fields;
     SpriteFrameState *sprite;
     ovl_18b8824_818988CC_Copy24 *dst;
     s32 random_value;

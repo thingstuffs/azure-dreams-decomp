@@ -31,9 +31,9 @@ void settle_actor_directional_movement(S_800D9C7C_1 *controller, ObjectPosition 
     case 0:
         apply_clamped_actor_value_delta(source);
         motion->velocity_x =
-            *(s16 *)((u8 *)((s8 *)dir_step_x) + (direction * 2)) << 18;
+            dir_step_x[direction] << 18;
         motion->velocity_y =
-            *(s16 *)((u8 *)((s8 *)dir_step_y) + (direction * 2)) << 18;
+            dir_step_y[direction] << 18;
         controller->unk_9B++;
 
         if (source->unk_28 == 0) {
@@ -60,9 +60,9 @@ void settle_actor_directional_movement(S_800D9C7C_1 *controller, ObjectPosition 
 
     case 1:
         motion->velocity_x -=
-            *(s16 *)((u8 *)((s8 *)dir_step_x) + (direction * 2)) << 14;
+            dir_step_x[direction] << 14;
         motion->velocity_y -=
-            *(s16 *)((u8 *)((s8 *)dir_step_y) + (direction * 2)) << 14;
+            dir_step_y[direction] << 14;
         if (controller->unk_96.s > 0) {
             controller->unk_96.s = controller->unk_96.u - 1;
         } else if (entity->flags & 0x6000) {

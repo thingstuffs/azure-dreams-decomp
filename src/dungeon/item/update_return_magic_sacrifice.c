@@ -14,6 +14,7 @@
 #include "dungeon/system.h"
 #include "engine/entity.h"
 #include "dungeon/effect/oriented_mesh_quads_g00367.h"
+#include "dungeon/player/object.h"
 struct EntityLinkNode;
 
 typedef struct S_800C2824_0 {
@@ -94,13 +95,10 @@ typedef struct S_800C2824_16 {
 
 void unlink_entity_node(struct EntityLinkNode *node);
 void update_map_cell_flags_with_item_limit(s32 x, s32 y, u16 flags);
-void *detach_record_and_update_slot_state(void *record);
 void draw_transformed_sprite_with_clip_rect();
 void * create_five_point_effect(u8, u8, s16, void *, s32, s32, void *); /* Unprototyped: uses the value as a pointer where the definition has an integer (or the reverse) */
 void retire_tracked_effect_by_id(s32 targetId);
 extern s32 return_magic_begin_address(void);
-extern s32 create_and_store_pending_actor_fade(void);
-
 extern M2C_UNK D_800DF45C;
 extern M2C_UNK return_magic_sprite_data;
 extern void *return_magic_effect_object;

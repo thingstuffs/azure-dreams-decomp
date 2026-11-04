@@ -62,5 +62,5 @@ typedef struct OriginFollowingFadeSpriteBody {
 
 /* Bank flag: scalar declaration matches retail scheduling; following tail views remain external. */
 extern s16 fading_quad_effect_updated;
-void advance_effect_sequence(void *, void *, void *);
+void advance_effect_sequence(FadingSpriteSequenceBody *, void *, void *);
 #endif

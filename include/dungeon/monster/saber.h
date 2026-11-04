@@ -15,13 +15,13 @@ typedef struct SaberTileOffsets {
 } SaberTileOffsets;
 
 /* Lifetime, facing, and reference position for selected-item effects. */
-typedef struct AdvanceSelectedItemAction2Body {
+typedef struct SelectedItemActionEffectBody {
     u8 pad_00[0x94];
     union { s16 s; u16 u; } facing;
     u16 ticks_remaining;
     u8 pad_98[0x10];
     void *reference_position;
-} AdvanceSelectedItemAction2Body;
+} SelectedItemActionEffectBody;
 
 extern SaberTileOffsets saber_direction_tile_offsets;
 

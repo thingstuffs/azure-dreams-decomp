@@ -7,10 +7,9 @@
 #include "dungeon/item.h"
 #include "engine/town.h"
 #include "dungeon/item/message.h"
+#include "dungeon/data.h"
 
 extern u8 *D_800DD720;
-extern u8 *item_type_text_prefixes[];
-extern u8 *item_type_text_suffixes[];
 
 /* Appends formatted data with type-specific affixes and a numeric value to the buffer. */
 u8 *append_typed_formatted_value(DungeonItemEntry *data, u8 *buffer) {

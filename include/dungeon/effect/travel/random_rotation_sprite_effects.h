@@ -12,12 +12,12 @@
 #include "shared/dungeon_status.h"
 #include "shared/dir_step.h"
 #include "dungeon/system.h"
-typedef struct ASpriteRandomRotationCopiesInitialDataBody {
+typedef struct RandomRotationSpriteEffectBody {
     u8 pad_00[0xC];
     void * owner;
     union { s16 s; u16 u; } ticks;
     union { s16 s; u16 u; } lifetime;
-} ASpriteRandomRotationCopiesInitialDataBody;
+} RandomRotationSpriteEffectBody;
 /* Owner link and child counter for the randomized grayscale emitter. */
 typedef struct RandomizedGrayscaleEffectBody {
     void *owner;
@@ -168,7 +168,7 @@ extern s32 check_left_tile_and_center_height(s32, s32, s32);
 extern void *create_actor_sprite_at_tile(u8, s16, s16, s16); /* Unprototyped: retail call narrows its arguments to this declaration; no shared prototype keeps it */
 extern void func_80042640(void *, s32);
 extern s32 generate_random_value(void);
-void interpolate_view_parameters(ASpriteRandomRotationCopiesInitialDataBody *state, void *motion, void *transform);
+void interpolate_view_parameters(RandomRotationSpriteEffectBody *state, void *motion, void *transform);
 void *create_a_sprite_random_rotation_copies_initial_data(void *context, ovl_18b8824_818988CC_Copy24 *copy_src, s16 initial_value);
 void handle_increment_entry_counters_process_target_propagate_status_flags(RandomizedGrayscaleEffectBody *entry, void *unused, SpriteFrameState *target);
 void *create_randomized_grayscale_effect(s32 object_tag, Rec_func_80024264_arg1 *initial_state);

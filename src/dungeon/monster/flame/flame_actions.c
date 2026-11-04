@@ -1354,9 +1354,9 @@ void update_directional_motion_and_tile(ActorRecord *action, ObjectPosition *mot
     case 0:
         apply_clamped_actor_value_delta(entity);
         motion->velocity_x =
-            *(s16 *)((u8 *)((s8 *)dir_step_x) + (direction * 2)) << 18;
+            dir_step_x[direction] << 18;
         motion->velocity_y =
-            *(s16 *)((u8 *)((s8 *)dir_step_y) + (direction * 2)) << 18;
+            dir_step_y[direction] << 18;
         action->action_phase.u++;
 
         if (entity->hp == 0) {
@@ -1383,9 +1383,9 @@ void update_directional_motion_and_tile(ActorRecord *action, ObjectPosition *mot
 
     case 1:
         motion->velocity_x -=
-            *(s16 *)((u8 *)((s8 *)dir_step_x) + (direction * 2)) << 14;
+            dir_step_x[direction] << 14;
         motion->velocity_y -=
-            *(s16 *)((u8 *)((s8 *)dir_step_y) + (direction * 2)) << 14;
+            dir_step_y[direction] << 14;
         if (action->action_timer.s > 0) {
             action->action_timer.s = action->action_timer.u - 1;
         } else if (tile_state->flags & 0x6000) {

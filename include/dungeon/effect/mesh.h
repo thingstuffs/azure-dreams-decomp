@@ -11,9 +11,9 @@ typedef struct MeshEffectObjectBody {
     u16 height;
 } MeshEffectObjectBody;
 /* Owner link stored by the vertically-offset sprite effect's updater. */
-typedef struct AnOwnerLinkedSpriteEffectPositionVerticalOffsetBody {
+typedef struct OwnerLinkedSpriteEffectBody {
     void *owner;
-} AnOwnerLinkedSpriteEffectPositionVerticalOffsetBody;
+} OwnerLinkedSpriteEffectBody;
 typedef struct TerrainSeekingColoredPointBody {
     u32 color;
     s16 unk_04;
@@ -132,7 +132,7 @@ extern u8 shared_decode_staging_buffer[16400];
 /* Callback entry points. */
 s32 queue_projected_mesh_points_and_texture_packets(u8 *node_data, u16 *position);
 void build_visible_tile_quads(MeshEffectObjectBody *tiles);
-void handle_increment_s_counter_update_state_propagate_status_flags(AnOwnerLinkedSpriteEffectPositionVerticalOffsetBody *object, ObjectPosition *unused, SpriteFrameState *state);
+void handle_increment_s_counter_update_state_propagate_status_flags(OwnerLinkedSpriteEffectBody *object, ObjectPosition *unused, SpriteFrameState *state);
 
 /* Owner declarations appended by tools/headers (append-only; the lines above are hand-kept). */
 void transform_sprite_parts_to_quads(s32 context, ObjectPosition *position, SpriteFrameState *sprite, s16 depth_bias);

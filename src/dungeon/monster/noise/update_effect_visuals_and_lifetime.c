@@ -5,7 +5,7 @@
 /* Update effect brightness, size and position, then decrement its lifetime. */
 void update_effect_visuals_and_lifetime(void *state_arg, void *position, void *effect_arg)
 {
-    AdvanceTimedActorVisualEffectBody *state = state_arg;
+    TimedActorVisualEffectBody *state = state_arg;
     struct {
         u16 xyz[3];
         u16 pad;

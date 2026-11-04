@@ -37,18 +37,18 @@ typedef struct TrackingEffect {
 } TrackingEffect;
 
 /* Target and phase counter carried by the red tint effect emitted during travel. */
-typedef union FollowBrightenTarget {
+typedef union BrighteningFollowerTarget {
     void *pointer;
     s32 address;
-} FollowBrightenTarget;
+} BrighteningFollowerTarget;
 
-typedef struct FollowBrightenBody {
-    FollowBrightenTarget target;
+typedef struct BrighteningFollowerEffectBody {
+    BrighteningFollowerTarget target;
     u8 pad_04[0x6];
     union { s16 s; u16 u; } state;
     u8 pad_0C[0x10];
     u16 particle_count;
-} FollowBrightenBody;
+} BrighteningFollowerEffectBody;
 
 /* State for each ring particle emitted while follow_brighten is active. */
 typedef struct RisingFadingEmitterBody {

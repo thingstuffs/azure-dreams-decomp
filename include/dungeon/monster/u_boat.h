@@ -9,7 +9,7 @@
 extern u8 uboat_behavior_entry[];
 
 /* Facing, countdown, and reference position for the spawned item-action effect. */
-typedef struct AdvanceActorItemActionBody {
+typedef struct ActorItemActionEffectBody {
     u8 pad_00[0x2A];
     s16 facing_angle;
     u8 pad_2C[0x68];
@@ -17,7 +17,7 @@ typedef struct AdvanceActorItemActionBody {
     u16 ticks_remaining;
     u8 pad_98[0x14];
     void *reference_position;
-} AdvanceActorItemActionBody;
+} ActorItemActionEffectBody;
 
 /* Phase, fade timer, and source link for U-Boat's two rotating aura effects. */
 typedef struct UBoatAuraEffectBody {

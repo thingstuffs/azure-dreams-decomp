@@ -23,15 +23,15 @@ void create_boss_directional_effect(void *source, s16 angle, s32 initial_value, 
     u16 saved_angle = angle;
     void *effect_obj;
     DungeonTable direction_table = ghosh_effect_direction_vectors;
-    void *y_position;
-    void *x_position;
+    ObjectPosition *y_position;
+    ObjectPosition *x_position;
     void *motion;
     void *direction_entry;
     void *y_motion;
     ObjectNodeHeader *effect;
     s32 motion_value;
     s32 y_velocity;
-    void *velocity_base;
+    ObjectPosition *velocity_base;
     u8 *entry;
 
     effect = allocate_list_node(0x211, source);
@@ -45,10 +45,10 @@ void create_boss_directional_effect(void *source, s16 angle, s32 initial_value, 
         effect->position->z.w.i =
             (s16) ((*((u16 *) (((s8 *) (*((void **) (((s8 *) source) + 8)))) + 0xA))) - 0x14);
         x_position = effect->position;
-        *((u16 *) (((s8 *) x_position) + 2)) = (u16) ((*((u16 *) (((s8 *) x_position) + 2)))
+        x_position->x.unsigned_parts.integer = (u16) (x_position->x.unsigned_parts.integer
             + ((*((s16 *) (entry + 0))) * 0x10));
         y_position = effect->position;
-        *((u16 *) (((s8 *) y_position) + 6)) = (u16) ((*((u16 *) (((s8 *) y_position) + 6)))
+        y_position->y.unsigned_parts.integer = (u16) (y_position->y.unsigned_parts.integer
             + (((s32) ((*((u16 *) (entry + 2))) << 0x10)) >> 0xC));
         effect->sprite->depth_bias = 6;
         source = NODE_BODY(effect);
@@ -57,14 +57,14 @@ void create_boss_directional_effect(void *source, s16 angle, s32 initial_value, 
                 (s32) (((rand() & 0x7FFF) - 0x4000) << 7);
             y_velocity = (s32) (((rand() & 0x7FFF) - 0x4000) << 7);
             velocity_base = effect->position;
-            *((s32 *) (((s8 *) velocity_base) + 0x10)) = y_velocity;
+            velocity_base->velocity_y = y_velocity;
         }
         else {
             effect->position->velocity_x =
                 (s32) (((rand() & 0x7FFF) - 0x4000) << 6);
             y_velocity = (s32) (((rand() & 0x7FFF) - 0x4000) << 6);
             velocity_base = effect->position;
-            *((s32 *) (((s8 *) velocity_base) + 0x10)) = y_velocity;
+            velocity_base->velocity_y = y_velocity;
         }
         motion_value = (s32) (((rand() & 0x7FFF) - 0x4000) << 5);
         direction_entry = (u8 *)&direction_table + ((saved_angle >> 7) & 0x1C);

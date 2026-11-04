@@ -26,7 +26,7 @@ typedef struct PersonDescriptor {
 
 typedef struct TownObjectRecord {
     /* 0x00 */ union { void * as_pm; void * as_pv; } unk_00;   /* opaque handler address and alternate pointer/word views; callable views retain their contracts */
-    /* 0x04 */ union { void * as_pm; void ** as_ppv; void * as_pv; } unk_04;   /* opaque handler address and alternate pointer/word views; callable views retain their contracts */
+    /* 0x04 */ union { void * as_pm; void ** as_ppv; void * as_pv; s32 * as_ps32; } unk_04;   /* opaque handler address and alternate pointer/word views; callable views retain their contracts */
     /* 0x08 */ u8 pad_08[0x2];
     /* 0x0A */ union { s16 as_s16; u16 as_u16; } unk_0A;
     /* 0x0C */ u8 pad_0C[0x2];
@@ -72,12 +72,12 @@ typedef struct TownObjectRecord {
     /* 0x86 */ union { s16 as_s16; u16 as_u16; } unk_86; /* integer Y of the creation position; anyone_org_pos_get reports it to scripts */
     /* 0x88 */ s16 target_x;
     /* 0x8A */ s16 target_y;
-    /* 0x8C */ s16 unk_8C;
-    /* 0x8E */ s16 unk_8E;
+    /* 0x8C */ union { s16 as_s16; u16 as_u16; } unk_8C;
+    /* 0x8E */ union { s16 as_s16; u16 as_u16; } unk_8E;
     /* 0x90 */ union { s16 as_s16; u16 as_u16; } unk_90;
     /* 0x92 */ u8 unk_92;
     /* 0x93 */ s8 unk_93;
-    /* 0x94 */ s8 unk_94;
+    /* 0x94 */ union { s8 as_s8; u8 as_u8; } unk_94;
     /* 0x95 */ u8 unk_95;
     /* 0x96 */ union { s8 as_s8; u8 as_u8; } variant;
     /* 0x97 */ union { s8 as_s8; u8 as_u8; } unk_97;

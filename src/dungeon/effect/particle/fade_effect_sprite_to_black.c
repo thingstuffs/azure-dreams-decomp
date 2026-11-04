@@ -112,7 +112,7 @@ void update_directional_actor_effect(void *effect, void *motion, void *sprite) {
     SpriteFrameState *owner_sprite;
     s32 sprite_work;
     SpriteFrameState *burst_sprite;
-    FadeSpriteCountdownBody *particle;
+    SpriteFadeCountdownBody *particle;
     ObjectNodeHeader *object;
     void *owner;
     s16 *direction_x_table;
@@ -477,9 +477,9 @@ spawn_trail:
 }
 
 /* Move the effect, count down its timer, then fade its sprite to black. */
-void move_the_effect_count_down_timer_fade_sprite_black(FadeSpriteCountdownBody *effect_arg, S_8182D544_2 *motion, SpriteFrameState *sprite)
+void move_the_effect_count_down_timer_fade_sprite_black(SpriteFadeCountdownBody *effect_arg, S_8182D544_2 *motion, SpriteFrameState *sprite)
 {
-    FadeSpriteCountdownBody *effect = effect_arg;
+    SpriteFadeCountdownBody *effect = effect_arg;
     s16 state;
     s32 delta_y;
     s32 delta_z;

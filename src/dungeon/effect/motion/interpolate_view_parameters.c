@@ -205,7 +205,7 @@ void create_a_type_hex_212_initializes_handler_mode(s32 initial_value) {
 
 /* Advances sprite animation and, when it finishes, removes the child and increments the owner's
    completion counter. */
-void update_the_target_records_counts_flags_status(AnDefaultRenderingSettingsCopiesInitialDataBody *object_slot, void *unused, SpriteFrameState *target)
+void update_the_target_records_counts_flags_status(TargetCompletionEffectBody *object_slot, void *unused, SpriteFrameState *target)
 {
     B22_81893474_EffectState *post_object;
     B22_81893474_EffectState *pre_object;
@@ -495,7 +495,7 @@ void advance_radial_effect_state(void *motion, void *position_arg, SpriteFrameSt
 
 /* Creates a sprite aimed from the supplied position toward the owner's saved coordinates and adds
    three trail sprites. */
-void *create_an_oriented_effect_between_position_owner(AnAttachedEffectCopiedTransformDataRandomizedAngleBody *owner, Rec_func_80024E80_arg1 *start_pos) {
+void *create_an_oriented_effect_between_position_owner(AttachedRandomAngleEffectBody *owner, Rec_func_80024E80_arg1 *start_pos) {
     ObjectNodeHeader *owner_node;
     ObjectNodeHeader *effect;
     Row_81917680_S_80024E80_2 *state;
@@ -566,7 +566,7 @@ void *create_an_oriented_effect_between_position_owner(AnAttachedEffectCopiedTra
 
 /* Grows and brightens an orbiting sprite, waits for its indexed delay, then replaces it with a
    directed effect. */
-void advance_the_effect_phase_brightness_scale_position_until_lifetime_ends(AnAttachedEffectCopiedTransformDataRandomizedAngleBody *effect, void *transform, SpriteFrameState *visual) {
+void advance_the_effect_phase_brightness_scale_position_until_lifetime_ends(AttachedRandomAngleEffectBody *effect, void *transform, SpriteFrameState *visual) {
     s32 scale;
     s16 phase;
     u8 brightness;
@@ -635,7 +635,7 @@ void * create_an_attached_effect_copied_transform_data_randomized_angle(void *ob
     s32 second_word;
     s32 random_value;
     s32 adjusted_random;
-    AnAttachedEffectCopiedTransformDataRandomizedAngleBody *state;
+    AttachedRandomAngleEffectBody *state;
     ObjectPosition *transform;
     ObjectNodeHeader *effect;
     s16 saved_index;

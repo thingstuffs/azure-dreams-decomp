@@ -16,9 +16,6 @@
 #include "dungeon/player/state.h"
 #include "dungeon/system.h"
 
-extern void place_actor_item(void *object_context, struct DungeonItemEntry *target);
-extern void display_item_status_message(void *entity, struct DungeonItemEntry *item, s32 message_kind);
-
 extern u8 D_800E1827[];
 
 /* Applies the item's status effect to the target and consumes the handled item. */

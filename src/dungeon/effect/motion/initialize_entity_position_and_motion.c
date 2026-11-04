@@ -212,7 +212,7 @@ void *allocate_two_part_object(ovl_19a332c_81982CEC_S_800244EC_2 *source_part, s
 
 /* Advances an accelerating particle, fades its color, and eases its scale toward 0x400 until its
    countdown ends. */
-void move_fade_and_expand_effect(UpdateHomingEffectAndAttachedCopiesBody *effect, void *motion_data, void *sprite_data)
+void move_fade_and_expand_effect(HomingEffectBody *effect, void *motion_data, void *sprite_data)
 {
     SpriteFrameState *sprite= (ovl_19a332c_81982DF8_Arg2 *) sprite_data;
     ovl_19a332c_81982DF8_Arg1 *motion = motion_data;
@@ -263,7 +263,7 @@ void *spawn_random_motion_particles(s16 x, s16 y, s16 z, s16 heading, s16 count)
             s32 move_angle;
             ObjectPosition *motion;
             SpriteFrameState *sprite;
-            UpdateHomingEffectAndAttachedCopiesBody *extra;
+            HomingEffectBody *extra;
 
             particle->update_callback = move_fade_and_expand_effect;
             register_node(particle, project_sprite_chain);
@@ -297,7 +297,7 @@ void *spawn_random_motion_particles(s16 x, s16 y, s16 z, s16 heading, s16 count)
 
 /* Moves a particle with vertical acceleration, fades its grayscale color, and removes it when its
    lifetime expires. */
-void advance_effect_motion_and_color_fade(UpdateHomingEffectAndAttachedCopiesBody *effect, ovl_19a332c_81983088_S_80024888_0 *motion, ovl_19a332c_81983088_S_80024888_1 *color) {
+void advance_effect_motion_and_color_fade(HomingEffectBody *effect, ovl_19a332c_81983088_S_80024888_0 *motion, ovl_19a332c_81983088_S_80024888_1 *color) {
     s32 velocity_x;
     s32 velocity_y;
     u16 update_count;
@@ -337,7 +337,7 @@ void *spawn_thirty_two_angled_particles(s16 x, s16 y, s16 z, s16 angle, s32 unus
     SpriteFrameState *sprite;
     ObjectPosition *motion;
     ObjectNodeHeader *particle;
-    union { UpdateHomingEffectAndAttachedCopiesBody * pointer; s32 value; } effect_state;
+    union { HomingEffectBody * pointer; s32 value; } effect_state;
     union { s32 value; s32 *pointer; } size_texture;
 
     particle_index = 0;

@@ -24,7 +24,7 @@ typedef struct S_80174424_1 {
 } S_80174424_1;   /* out in blend_animation_palette_and_complete */
 
 /* Blend palette colors for the current animation frame and flag completion. */
-void blend_animation_palette_and_complete(AdvanceActorEntryActiveExitStatesBody *effect)
+void blend_animation_palette_and_complete(MandaraEntryEffectBody *effect)
 {
     s16 buffer[270];
     s16 *buffer_base;

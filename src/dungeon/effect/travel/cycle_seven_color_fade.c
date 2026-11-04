@@ -7,7 +7,7 @@
 #include "dungeon/actor.h"
 #include "dungeon/system.h"
 
-void (*const dungeon_18d6800_entry)(B28_818B7F38_S_80025738_0 *, ObjectPosition *, SpriteFrameState *) = advance_movement_toward_reachable_tile;
+void (*const dungeon_18d6800_entry)(ReachableTileTravelBody *, ObjectPosition *, SpriteFrameState *) = advance_movement_toward_reachable_tile;
 #include "dungeon/effect/travel/cycle_seven_color_fade.h"
 #include "common.h"
 #include "m2c_compat.h"
@@ -728,7 +728,7 @@ void update_spark_effect(B28_818B78E8_S818B78E8_Obj *obj, B28_818B78E8_S818B78E8
    /* dst in spawn_owner_random_variant_effect */
 
 /* Spawn a 0x212 effect object for the owner with a random variant and spin, and copy the transform into it. */
-s32 spawn_owner_random_variant_effect(B28_818B7BD0_S_818B7BD0_2 *owner, ObjectPosition *transform) {
+s32 spawn_owner_random_variant_effect(ReachableTileTravelBody *owner, ObjectPosition *transform) {
     s32 roll;
     s32 random;
     s32 adjusted;
@@ -751,7 +751,7 @@ s32 spawn_owner_random_variant_effect(B28_818B7BD0_S_818B7BD0_2 *owner, ObjectPo
         roll = rand();
         model = &seven_color_sprite_data;
         part->unk_12 = (s16)(roll % 7);
-        part->unk_14 = (u16) owner->unk_12;
+        part->unk_14 = (u16) owner->unk_12.u;
         part->unk_18.at00.v = (s32) owner->unk_18;
         render = obj->sprite;
         render->color.c.b = 0x80;
@@ -853,7 +853,7 @@ s32 spawn_owned_random_spin_effect(void *owner, ObjectPosition *source)
 #include "m2c_compat.h"
 
    /* Advance movement toward a target or a reachable tile, then finish the timed action. */
-void advance_movement_toward_reachable_tile(void *state, ObjectPosition *motion_in, SpriteFrameState *render) {
+void advance_movement_toward_reachable_tile(ReachableTileTravelBody *state, ObjectPosition *motion_in, SpriteFrameState *render) {
     B28_818B7F38_LocalFrame frame;
     u16 *target_delta_cursor;
     u16 *path_delta_cursor;
@@ -887,14 +887,14 @@ void advance_movement_toward_reachable_tile(void *state, ObjectPosition *motion_
     B28_818B7F38_S_80025738_6 *source_position;
     SpriteFrameState *tile_data;
 
-    phase = (s32) ((B28_818B7F38_S_80025738_0 *)state)->unk_0A;
-    owner = ((B28_818B7F38_S_80025738_0 *)state)->unk_00;
-    ((B28_818B7F38_S_80025738_0 *)state)->unk_10 = (u16) (((B28_818B7F38_S_80025738_0 *)state)->unk_10 + 1);
+    phase = (s32) state->spell.phase.s;
+    owner = state->spell.caster;
+    state->unk_10 = (u16) (state->unk_10 + 1);
     switch (phase) {
     case 0:
-        ((B28_818B7F38_S_80025738_0 *)state)->unk_10 = 0U;
-        ((B28_818B7F38_S_80025738_0 *)state)->unk_0A = (s16) ((u16) ((B28_818B7F38_S_80025738_0 *)state)->unk_0A + 1);
-        ((B28_818B7F38_S_80025738_0 *)state)->unk_0E = (u16) (((u16) ((B28_818B7F38_S_80025738_1 *)owner)->unk_2A >> 9) & 7);
+        state->unk_10 = 0U;
+        state->spell.phase.s = (s16) ((u16) state->spell.phase.s + 1);
+        state->unk_0E = (u16) (((u16) ((B28_818B7F38_S_80025738_1 *)owner)->unk_2A >> 9) & 7);
         render->color.word = 0x808080;
     case 1:
         source_header = owner - 0x20;
@@ -920,21 +920,21 @@ void advance_movement_toward_reachable_tile(void *state, ObjectPosition *motion_
                 + frame.offset.distance[1]);
             base_z = motion_in->z.unsigned_parts.integer;
             motion_in->z.unsigned_parts.integer = base_z + frame.offset.distance[2];
-            if (!(*((B28_818B7F38_S_80025738_0 *)state)->unk_04 & 0x80)) {
+            if (!(*((u16 *)state->spell.context) & 0x80)) {
                 break;
             }
             target = ((B28_818B7F38_S_80025738_1 *)owner)->unk_60;
             index = 1;
         } else {
             motion_in->z.unsigned_parts.integer = source_z - 0x40;
-            if (!(*((B28_818B7F38_S_80025738_0 *)state)->unk_04 & 0x80)) {
+            if (!(*((u16 *)state->spell.context) & 0x80)) {
                 break;
             }
             target = ((B28_818B7F38_S_80025738_1 *)owner)->unk_60;
             index = 1;
         }
         if (target != NULL) {
-            ((B28_818B7F38_S_80025738_0 *)state)->unk_18 = target;
+            state->unk_18 = target;
             destination = ((B28_818B7F38_S_80025738_14_pre *)(((B28_818B7F38_S_80025738_1 *)owner)->unk_60))[-1].unk_00;
             target_dx = destination->unk_00.at02.v;
             target_dx -= motion_in->x.w.i;
@@ -953,28 +953,28 @@ void advance_movement_toward_reachable_tile(void *state, ObjectPosition *motion_
             target_delta_cursor = (u16 *)((u8 *)&frame.out_x + 2);
             target_dz = abs(target_dz);
             frame.offset.distance[2] = (u16) target_dz;
-            ((B28_818B7F38_S_80025738_0 *)state)->unk_12 = target_dx;
+            state->unk_12.s = target_dx;
             do {
-                if (((B28_818B7F38_S_80025738_9 *)target_delta_cursor)->unk_18.s > ((B28_818B7F38_S_80025738_0 *)state)->unk_12) {
-                    ((B28_818B7F38_S_80025738_0 *)state)->unk_12 = ((B28_818B7F38_S_80025738_9 *)target_delta_cursor)->unk_18.u;
+                if (((B28_818B7F38_S_80025738_9 *)target_delta_cursor)->unk_18.s > state->unk_12.s) {
+                    state->unk_12.s = ((B28_818B7F38_S_80025738_9 *)target_delta_cursor)->unk_18.u;
                 }
                 index += 1;
                 target_delta_cursor += 1;
             } while (index < 3);
-            target_ticks = (s32) ((u16) ((B28_818B7F38_S_80025738_0 *)state)->unk_12 << 0x10) >> 0x14;
-            ((B28_818B7F38_S_80025738_0 *)state)->unk_12 = (s16) target_ticks;
+            target_ticks = (s32) ((u16) state->unk_12.s << 0x10) >> 0x14;
+            state->unk_12.s = (s16) target_ticks;
             if (target_ticks == 0) {
-                ((B28_818B7F38_S_80025738_0 *)state)->unk_12 = 1;
+                state->unk_12.s = 1;
             }
             motion_in->velocity_x = (s32) ((s32) (destination->unk_00.at00.v
-                - motion_in->x.v) / (s16) ((B28_818B7F38_S_80025738_0 *)state)->unk_12);
+                - motion_in->x.v) / (s16) state->unk_12.s);
             motion_in->velocity_y = (s32) ((s32) (destination->unk_04.at00.v
-                - motion_in->y.v) / (s16) ((B28_818B7F38_S_80025738_0 *)state)->unk_12);
+                - motion_in->y.v) / (s16) state->unk_12.s);
             motion_in->velocity_z =
                 (s32) ((s32) ((((B28_818B7F38_S_80025738_14 *)(((B28_818B7F38_S_80025738_1 *)owner)->unk_60))->unk_88 << 0x10)
-                - motion_in->z.v) / (s16) ((B28_818B7F38_S_80025738_0 *)state)->unk_12);
+                - motion_in->z.v) / (s16) state->unk_12.s);
             spawn_owner_random_variant_effect(state, motion_in);
-            next_phase = (u16) ((B28_818B7F38_S_80025738_0 *)state)->unk_0A + 1;
+            next_phase = (u16) state->spell.phase.s + 1;
         } else {
             index = 0;
             tile_data = source_header->unk_0C;
@@ -986,88 +986,88 @@ void advance_movement_toward_reachable_tile(void *state, ObjectPosition *motion_
                 grid_x = (s16)tile_x;
                 grid_y = (s16)tile_y;
                 if ((s16)check_layer_offset_height((grid_x << 6) & 0xFFC0, (grid_y << 6) & 0xFFC0, ((B28_818B7F38_S_80025738_1 *)owner)->unk_88,
-                    (s16) (((B28_818B7F38_S_80025738_0 *)state)->unk_0E << 9)) != 0) {
+                    (s16) (state->unk_0E << 9)) != 0) {
                     break;
                 }
-                source_position = (B28_818B7F38_S_80025738_6 *)&dir_step_x[(s16) ((B28_818B7F38_S_80025738_0 *)state)->unk_0E];
+                source_position = (B28_818B7F38_S_80025738_6 *)&dir_step_x[(s16) state->unk_0E];
                 probe_z = (u16) ((B28_818B7F38_S_80025738_1 *)owner)->unk_88;
                 probe_z -= 0x20;
                 probe_z = (u32)probe_z << 16;
                 probe_z >>= 16;
-                step_y = &dir_step_y[(s16) ((B28_818B7F38_S_80025738_0 *)state)->unk_0E];
+                step_y = &dir_step_y[(s16) state->unk_0E];
                 floor_z = sample_terrain_surface_height(((grid_x + *(s16 *)source_position) << 6) + 0x20 & 0xFFE0,
                     ((grid_y + *step_y) << 6) + 0x20 & 0xFFE0, probe_z);
                 if (floor_z >= 0x201 || (s16) (floor_z - (u16) ((B28_818B7F38_S_80025738_1 *)owner)->unk_88) < -0x3F) {
                     break;
                 }
                 index += 1;
-                tile_x += dir_step_x[(s16) ((B28_818B7F38_S_80025738_0 *)state)->unk_0E];
-                tile_y += dir_step_y[(s16) ((B28_818B7F38_S_80025738_0 *)state)->unk_0E];
+                tile_x += dir_step_x[(s16) state->unk_0E];
+                tile_y += dir_step_y[(s16) state->unk_0E];
                 saved_y = tile_y;
                 last_tile_x = tile_x;
             }
             destination = (B28_818B7F38_S_80025738_7 *)&frame.out_x;
             index = 1;
             path_delta_cursor = (u16 *)((u8 *)&frame.out_x + 2);
-            world_x = ((last_tile_x << 16) >> 10) + ((dir_step_x[(s16) ((B28_818B7F38_S_80025738_0 *)state)->unk_0E] + 1) << 5);
+            world_x = ((last_tile_x << 16) >> 10) + ((dir_step_x[(s16) state->unk_0E] + 1) << 5);
             destination->unk_00.at02.v = world_x;
-            world_y = ((saved_y << 16) >> 10) + ((dir_step_y[(s16) ((B28_818B7F38_S_80025738_0 *)state)->unk_0E] + 1) << 5);
+            world_y = ((saved_y << 16) >> 10) + ((dir_step_y[(s16) state->unk_0E] + 1) << 5);
             destination->unk_04.at02.v = world_y;
             destination->unk_08.at02.v = motion_in->z.w.i + 0x20;
             frame.offset.distance[0] = abs(destination->unk_00.at02.v - motion_in->x.w.i);
             frame.offset.distance[1] = abs(destination->unk_04.at02.v - motion_in->y.w.i);
             frame.offset.distance[2] = abs(destination->unk_08.at02.v - motion_in->z.w.i);
-            ((B28_818B7F38_S_80025738_0 *)state)->unk_12 = frame.offset.distance[0];
+            state->unk_12.s = frame.offset.distance[0];
             do {
-                if (((B28_818B7F38_S_80025738_11 *)path_delta_cursor)->unk_18.s > ((B28_818B7F38_S_80025738_0 *)state)->unk_12) {
-                    ((B28_818B7F38_S_80025738_0 *)state)->unk_12 = ((B28_818B7F38_S_80025738_11 *)path_delta_cursor)->unk_18.u;
+                if (((B28_818B7F38_S_80025738_11 *)path_delta_cursor)->unk_18.s > state->unk_12.s) {
+                    state->unk_12.s = ((B28_818B7F38_S_80025738_11 *)path_delta_cursor)->unk_18.u;
                 }
                 index += 1;
                 path_delta_cursor += 1;
             } while (index < 3);
-            path_ticks = (s32) ((u16) ((B28_818B7F38_S_80025738_0 *)state)->unk_12 << 0x10) >> 0x14;
-            ((B28_818B7F38_S_80025738_0 *)state)->unk_12 = (s16) path_ticks;
+            path_ticks = (s32) ((u16) state->unk_12.s << 0x10) >> 0x14;
+            state->unk_12.s = (s16) path_ticks;
             if (path_ticks == 0) {
-                ((B28_818B7F38_S_80025738_0 *)state)->unk_12 = 1;
+                state->unk_12.s = 1;
             }
             motion_in->velocity_x = (s32) ((s32) (destination->unk_00.at00.v
-                - motion_in->x.v) / (s16) ((B28_818B7F38_S_80025738_0 *)state)->unk_12);
+                - motion_in->x.v) / (s16) state->unk_12.s);
             motion_in->velocity_y = (s32) ((s32) (destination->unk_04.at00.v
-                - motion_in->y.v) / (s16) ((B28_818B7F38_S_80025738_0 *)state)->unk_12);
+                - motion_in->y.v) / (s16) state->unk_12.s);
             motion_in->velocity_z = (s32) ((s32) (destination->unk_08.at00.v
-                - motion_in->z.v) / (s16) ((B28_818B7F38_S_80025738_0 *)state)->unk_12);
+                - motion_in->z.v) / (s16) state->unk_12.s);
             spawn_owned_random_spin_effect(state, motion_in);
             next_phase = 6;
         }
-        ((B28_818B7F38_S_80025738_0 *)state)->unk_0A = next_phase;
-        ((B28_818B7F38_S_80025738_0 *)state)->unk_10 = 0U;
+        state->spell.phase.s = next_phase;
+        state->unk_10 = 0U;
         break;
     case 2:
         motion_in->x.v += motion_in->velocity_x;
         motion_in->y.v += motion_in->velocity_y;
         motion_in->z.v += motion_in->velocity_z;
-        if ((s16) ((B28_818B7F38_S_80025738_0 *)state)->unk_10 < ((B28_818B7F38_S_80025738_0 *)state)->unk_12) {
+        if ((s16) state->unk_10 < state->unk_12.s) {
             break;
         }
         play_sound_if_enabled(AUDIO_PLAY_CD_CUE);
         goto advance_phase;
     case 3:
-        if ((s16) ((B28_818B7F38_S_80025738_0 *)state)->unk_10 >= 0x10) {
-            ((B28_818B7F38_S_80025738_0 *)state)->unk_10 = 0U;
-            ((B28_818B7F38_S_80025738_0 *)state)->unk_0A = (s16) ((u16) ((B28_818B7F38_S_80025738_0 *)state)->unk_0A + 1);
+        if ((s16) state->unk_10 >= 0x10) {
+            state->unk_10 = 0U;
+            state->spell.phase.s = (s16) ((u16) state->spell.phase.s + 1);
         }
         break;
     case 4:
-        if ((s16) ((B28_818B7F38_S_80025738_0 *)state)->unk_10 < 0x30) {
+        if ((s16) state->unk_10 < 0x30) {
             break;
         }
-        interpolate_view_parameters(((B28_818B7F38_S_80025738_1 *)owner)->unk_60, ((B28_818B7F38_S_80025738_0 *)state)->unk_09, owner);
+        interpolate_view_parameters(((B28_818B7F38_S_80025738_1 *)owner)->unk_60, state->spell.variant, owner);
 advance_phase:
-        ((B28_818B7F38_S_80025738_0 *)state)->unk_10 = 0U;
-        ((B28_818B7F38_S_80025738_0 *)state)->unk_0A = (s16) ((u16) ((B28_818B7F38_S_80025738_0 *)state)->unk_0A + 1);
+        state->unk_10 = 0U;
+        state->spell.phase.s = (s16) ((u16) state->spell.phase.s + 1);
         break;
     case 5:
-        if (((B28_818B7F38_S_80025738_0 *)state)->unk_14 != 0) {
+        if (state->unk_14 != 0) {
             break;
         }
         g_dungeon_status.active_actor = 0;
@@ -1081,13 +1081,13 @@ advance_phase:
             + motion_in->velocity_y);
         motion_in->z.v = (s32) (motion_in->z.v
             + motion_in->velocity_z);
-        if ((s16) ((B28_818B7F38_S_80025738_0 *)state)->unk_10 < ((B28_818B7F38_S_80025738_0 *)state)->unk_12) {
+        if ((s16) state->unk_10 < state->unk_12.s) {
             break;
         }
         next_phase = 5;
-        ((B28_818B7F38_S_80025738_0 *)state)->unk_0A = next_phase;
-        ((B28_818B7F38_S_80025738_0 *)state)->unk_10 = 0U;
+        state->spell.phase.s = next_phase;
+        state->unk_10 = 0U;
     }
-    ((B28_818B7F38_S_80025738_0 *)state)->unk_14 = 0;
+    state->unk_14 = 0;
     return;
 }

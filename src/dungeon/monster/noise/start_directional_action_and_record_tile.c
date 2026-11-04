@@ -42,7 +42,7 @@ void start_directional_action_and_record_tile(ActorRecord *action_state, ObjectP
  * spends MP. */
 void advance_timed_actor_visual_effect(ActorRecord *effect_state, ObjectPosition *position, SpriteFrameState *source_mesh, ActorRecord *actor) {
     T_801748D0_LocalFrame frame;
-    AdvanceTimedActorVisualEffectBody *effect_body;
+    TimedActorVisualEffectBody *effect_body;
     SpriteFrameState *effect_mesh;
     ObjectPosition *anchor_pos;
     T_801748D0_S_801748D0_11 *owner_link;
@@ -85,7 +85,7 @@ void advance_timed_actor_visual_effect(ActorRecord *effect_state, ObjectPosition
         count = 0;
         do {
             object_or_height = allocate_list_node(0x112, &scene_object_list_anchor.next);
-            effect_body = (AdvanceTimedActorVisualEffectBody *)(object_or_height + 0x20);
+            effect_body = (TimedActorVisualEffectBody *)(object_or_height + 0x20);
             if (((void *)object_or_height) == 0) {
                 continue;
             }

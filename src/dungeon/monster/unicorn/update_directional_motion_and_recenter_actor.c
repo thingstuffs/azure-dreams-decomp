@@ -20,9 +20,9 @@ void update_directional_motion_and_recenter_actor(ActorRecord *body, ObjectPosit
     case 0:
         apply_clamped_actor_value_delta(actor);
         motion->velocity_x =
-            *(s16 *)((u8 *)((s8 *)dir_step_x) + (direction * 2)) << 19;
+            dir_step_x[direction] << 19;
         motion->velocity_y =
-            *(s16 *)((u8 *)((s8 *)dir_step_y) + (direction * 2)) << 19;
+            dir_step_y[direction] << 19;
         body->action_phase.u++;
 
         if (actor->hp == 0) {
@@ -49,9 +49,9 @@ void update_directional_motion_and_recenter_actor(ActorRecord *body, ObjectPosit
 
     case 1:
         motion->velocity_x -=
-            *(s16 *)((u8 *)((s8 *)dir_step_x) + (direction * 2)) << 14;
+            dir_step_x[direction] << 14;
         motion->velocity_y -=
-            *(s16 *)((u8 *)((s8 *)dir_step_y) + (direction * 2)) << 14;
+            dir_step_y[direction] << 14;
         if (body->action_timer.s > 0) {
             body->action_timer.s = body->action_timer.u - 1;
         } else if (sprite->flags & 0x6000) {

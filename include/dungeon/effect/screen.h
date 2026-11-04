@@ -28,7 +28,7 @@ typedef struct EffectObjectGroupsBody {
     union { s16 s; u16 u; } unk_66;
 } EffectObjectGroupsBody;
 
-typedef struct AdvanceScreenTransitionBody {
+typedef struct ScreenTransitionEffectBody {
     u8 pad_00[0x8];
     void * unk_08;
     u8 pad_0C[0x18];
@@ -58,7 +58,7 @@ typedef struct AdvanceScreenTransitionBody {
     u16 unk_FE;
     u16 unk_100;
     u16 unk_102;
-} AdvanceScreenTransitionBody;
+} ScreenTransitionEffectBody;
 
 void add_random_quarter_value(ActorRecord *body, ActorRecord *target);
 void create_wrapped_texture_scroll(s16 value);

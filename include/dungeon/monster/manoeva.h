@@ -41,7 +41,7 @@ typedef struct ManoevaParticleBurstBody {
     union { s16 s; u16 u; } lifetime;
 } ManoevaParticleBurstBody;
 /* Lifetime, direction, and anchor fields for the timed Noise visual node. */
-typedef struct AdvanceTimedActorVisualEffectBody {
+typedef struct TimedActorVisualEffectBody {
     u8 pad_00[0x94];
     s16 direction;
     union { s16 s; u16 u; } ticks_remaining;
@@ -51,7 +51,7 @@ typedef struct AdvanceTimedActorVisualEffectBody {
     s16 use_linked_position;
     u8 pad_A4[0x4];
     void *reference_position;
-} AdvanceTimedActorVisualEffectBody;
+} TimedActorVisualEffectBody;
 void advance_actor_turn_path(ActorRecord *move_data_in, ObjectPosition *context, SpriteFrameState *tile_in, ActorRecord *actor_in);
 void spawn_offset_motion_object(ActorRecord *parent_data, ObjectPosition *origin, SpriteFrameState *source_data, s16 position_index);
 void update_effect_visuals_and_lifetime();

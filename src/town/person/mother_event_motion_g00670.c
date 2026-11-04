@@ -77,7 +77,7 @@ void choose_mother_event_direction(TownObjectRecord *entity, void *bounds_arg, v
             s32 extent;
 
             upper_edge = entity->unk_84.as_s16;
-            extent = entity->unk_8C;
+            extent = entity->unk_8C.as_s16;
             bound_test = ((S_800C7AC4_1 *)bounds_arg)->unk_02;
             upper_edge += extent;
             bound_test = bound_test < upper_edge;
@@ -91,7 +91,7 @@ void choose_mother_event_direction(TownObjectRecord *entity, void *bounds_arg, v
             s32 extent;
 
             upper_edge = entity->unk_86.as_s16;
-            extent = entity->unk_8E;
+            extent = entity->unk_8E.as_s16;
             bound_test = ((S_800C7AC4_1 *)bounds_arg)->unk_06;
             upper_edge += extent;
             bound_test = bound_test < upper_edge;
@@ -105,7 +105,7 @@ void choose_mother_event_direction(TownObjectRecord *entity, void *bounds_arg, v
             s32 bound_coord;
 
             lower_edge = entity->unk_84.as_s16;
-            extent = entity->unk_8C;
+            extent = entity->unk_8C.as_s16;
             bound_coord = ((S_800C7AC4_1 *)bounds_arg)->unk_02;
             lower_edge -= extent;
             lower_edge = lower_edge < bound_coord;
@@ -119,7 +119,7 @@ void choose_mother_event_direction(TownObjectRecord *entity, void *bounds_arg, v
             s32 bound_coord;
 
             lower_edge = entity->unk_86.as_s16;
-            extent = entity->unk_8E;
+            extent = entity->unk_8E.as_s16;
             bound_coord = ((S_800C7AC4_1 *)bounds_arg)->unk_06;
             lower_edge -= extent;
             lower_edge = lower_edge < bound_coord;

@@ -7,10 +7,10 @@
 extern void advance_sprite_animation_and_textures(void *work);
 
 /* Advances object motion, decrements its timer, and flags expiration. */
-void tick_object_motion_and_expire(UpdateActorActionsAndImpactEffectsBody *object_data, void *motion_data, SpriteFrameState *work_data)
+void tick_object_motion_and_expire(ActorImpactEffectBody *object_data, void *motion_data, SpriteFrameState *work_data)
 {
     s32 *motion = motion_data;
-    UpdateActorActionsAndImpactEffectsBody *object = object_data;
+    ActorImpactEffectBody *object = object_data;
     SpriteFrameState *work= work_data;
     s16 timer;
 

@@ -1,6 +1,6 @@
 #ifndef DUNGEON_OVL_1924800_H
 #define DUNGEON_OVL_1924800_H
-struct UpdateTravelingBody;
+struct TravelingSpriteEffectBody;
 #include "shared/dungeon_effect_views.h"
 #include "common.h"
 #include "m2c_compat.h"
@@ -464,7 +464,7 @@ typedef struct S_func_81905FD0_6 {
     u32 state_flags;
 } S_func_81905FD0_6;
 
-typedef struct UpdateTravelingBody {
+typedef struct TravelingSpriteEffectBody {
     s16 state;
     u16 unk_02;
     u8 pad_04[0x6];
@@ -481,7 +481,7 @@ typedef struct UpdateTravelingBody {
     s16 slot_phase[8];
     u8 pad_62[0x2];
     u16 slot_offset[8];
-} UpdateTravelingBody;
+} TravelingSpriteEffectBody;
 
 
 typedef struct S_func_81905FD0_8 {
@@ -567,14 +567,14 @@ extern s32 get_sprite_attachment_vector(void *, void *, Vec3 *, s32);
 extern s32 func_8003DF74(void *, void *, Vec3 *, s32);
 extern s32 rand(void);
 void try_halve_actor_counter(u8 *entity, s32 chance, void *unused_context);
-void build_textured_sprite_strips(void *screen_pos, struct UpdateTravelingBody *sprite, s32 *ordering_table, s32 draw_mode);
+void build_textured_sprite_strips(void *screen_pos, struct TravelingSpriteEffectBody *sprite, s32 *ordering_table, s32 draw_mode);
 void decrement_effect_counter_by_twelve(s32 draw_data, ScreenRect *clip_rect, void *screen_pos, u16 clear_rect, s16 draw_param);
 s32 draw_brightness_scaled_linked_tiles(PointRecord *first_point, ObjectPosition *first_position);
 void raise_effect_to_height_limit(EffectRecord *object, ObjectPosition *source);
 void get_half_byte_length(ObjectNodeHeader *parent, s16 field_34, s32 field_28, s16 field_52, s16 offset_x, s16 offset_y, s16 offset_z);
-void update_effect_animation_slots(UpdateTravelingBody *anim_state);
+void update_effect_animation_slots(TravelingSpriteEffectBody *anim_state);
 void tick_effect_record(CountdownRecord *record);
-void update_effect_brightness_pulse(UpdateTravelingBody *effect, void *unused, u8 *target);
-void build_inverted(UpdateTravelingBody *context, void *unused, void *effect_data);
+void update_effect_brightness_pulse(TravelingSpriteEffectBody *effect, void *unused, u8 *target);
+void build_inverted(TravelingSpriteEffectBody *context, void *unused, void *effect_data);
 void update_traveling(S_func_81905FD0_1 *effect, S_func_81905FD0_2 *motion, S_func_81905FD0_3 *render);
 #endif

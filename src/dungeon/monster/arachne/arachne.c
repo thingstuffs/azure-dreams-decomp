@@ -1036,7 +1036,7 @@ void advance_action_and_spawn_effect(ActorRecord *body, ObjectPosition *position
     s32 shifted_timer;
     ActorRecord *action_actor;
     void *effect;
-    AdvanceActionAndSpawnEffectBody *effect_data;
+    ArachneActionEffectBody *effect_data;
 
     state = body->action_phase.u;
     dir_offset = ((u16)(actor->facing) >> 8) & 0xE;
@@ -1095,7 +1095,7 @@ void advance_action_and_spawn_effect(ActorRecord *body, ObjectPosition *position
                 register_node(effect, ((u8 *)build_linked_curved_wireframe_grid));
                 ((R12_80172654_S_80172654_5 *)effect)->unk_10 = ((u8 *)dim_effect_after_delay);
                 ((R12_80172654_S_80172654_5 *)effect)->unk_20 = position->x.w.i + effect_offset[0];
-                effect_data = (AdvanceActionAndSpawnEffectBody *)((u8 *)effect + 0x20);
+                effect_data = (ArachneActionEffectBody *)((u8 *)effect + 0x20);
                 effect_data->unk_00.values.unk_02 = position->y.w.i + effect_offset[1];
                 effect_data->unk_00.values.unk_04 = position->z.w.i + effect_offset[2];
                 effect_data->unk_08.s32 = 0xC0C0C0;
@@ -1338,9 +1338,9 @@ void apply_knockback_then_restore_target_selection(R12_80172FE8_S_801730B8_1 *ac
     case 0:
         apply_clamped_actor_value_delta(source);
         motion->velocity_x =
-            *(s16 *)((u8 *)((s8 *)dir_step_x) + (direction * 2)) << 18;
+            dir_step_x[direction] << 18;
         motion->velocity_y =
-            *(s16 *)((u8 *)((s8 *)dir_step_y) + (direction * 2)) << 18;
+            dir_step_y[direction] << 18;
         action->phase++;
 
         if (source->hp == 0) {
@@ -1367,9 +1367,9 @@ void apply_knockback_then_restore_target_selection(R12_80172FE8_S_801730B8_1 *ac
 
     case 1:
         motion->velocity_x -=
-            *(s16 *)((u8 *)((s8 *)dir_step_x) + (direction * 2)) << 14;
+            dir_step_x[direction] << 14;
         motion->velocity_y -=
-            *(s16 *)((u8 *)((s8 *)dir_step_y) + (direction * 2)) << 14;
+            dir_step_y[direction] << 14;
         if (action->timer.s > 0) {
             action->timer.s = action->timer.u - 1;
         } else if (entity->flags & 0x6000) {
@@ -1841,7 +1841,7 @@ void finish_actor_fade_in_then_select_target(ActorRecord *state, ObjectPosition 
 }
 
 /* Waits for the effect delay, then dims its color until it can be removed. */
-void dim_effect_after_delay(AdvanceActionAndSpawnEffectBody *effect) {
+void dim_effect_after_delay(ArachneActionEffectBody *effect) {
     s16 state;
     u16 timer;
 
@@ -1908,7 +1908,7 @@ s32 build_linked_curved_wireframe_grid(u8 *node, ObjectPosition *position, Sprit
         (frame.desc).points0 = &(frame.points)[0][0];
         (frame.desc).points1 = &(frame.points)[0][0];
         (frame.desc).zero = 0;
-        (frame.desc).angle = ((AdvanceActionAndSpawnEffectBody *)node)->unk_10 - 0x400;
+        (frame.desc).angle = ((ArachneActionEffectBody *)node)->unk_10 - 0x400;
         effect = node;
         /* BYTES: The bytes fix the test's shape (a scratchpad word, then next_node), not its meaning; the arm reconstructs a conditional update of a local nothing reads (decision 45). */
         if (*(s32 *)screen_xy && next_node) {
@@ -1922,7 +1922,7 @@ s32 build_linked_curved_wireframe_grid(u8 *node, ObjectPosition *position, Sprit
                loop-carried successor field the tail reloads. */
             row = 0;
         }
-        (frame.desc).value = ((s16)ratan2(((AdvanceActionAndSpawnEffectBody *)node)->unk_12, 0x40));
+        (frame.desc).value = ((s16)ratan2(((ArachneActionEffectBody *)node)->unk_12, 0x40));
         row = 0;
 grid_row:
         col = 7;
@@ -1932,7 +1932,7 @@ grid_loop:
             s32 angle;
             s32 point_offset;
 
-            next_node = row * ((8 - ((AdvanceActionAndSpawnEffectBody *)effect)->unk_0E.s) << 4);
+            next_node = row * ((8 - ((ArachneActionEffectBody *)effect)->unk_0E.s) << 4);
             point_base = &(frame.points)[0][0];
             point_offset = col << 3;
             point_offset += row << 6;
@@ -1990,8 +1990,8 @@ grid_loop:
 
                         SetDrawMode(tpage, 0, 0,(u16)(((u16)GetTPage(0, 1, 0, 0))), 0);
 
-                        line->color0 = ((AdvanceActionAndSpawnEffectBody *)effect)->unk_08.u32;
-                        line->color1 = ((AdvanceActionAndSpawnEffectBody *)effect)->unk_08.u32;
+                        line->color0 = ((ArachneActionEffectBody *)effect)->unk_08.u32;
+                        line->color1 = ((ArachneActionEffectBody *)effect)->unk_08.u32;
                         SetLineG2(line);
                         SetSemiTrans(line, 1);
 
@@ -2047,8 +2047,8 @@ grid_loop:
 
                         SetDrawMode(tpage, 0, 0,(u16)(((u16)GetTPage(0, 1, 0, 0))), 0);
 
-                        line->color0 = ((AdvanceActionAndSpawnEffectBody *)effect)->unk_08.u32;
-                        line->color1 = ((AdvanceActionAndSpawnEffectBody *)effect)->unk_08.u32;
+                        line->color0 = ((ArachneActionEffectBody *)effect)->unk_08.u32;
+                        line->color1 = ((ArachneActionEffectBody *)effect)->unk_08.u32;
                         SetLineG2(line);
                         SetSemiTrans(line, 1);
 

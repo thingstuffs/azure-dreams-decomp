@@ -11,7 +11,7 @@ void (*const dungeon_ovl_1930844_entry)(void *state, ObjectPosition *motion, Spr
 
 /* Moves a rotating, shrinking sprite along its velocity with a sinusoidal height offset until its
    duration ends. */
-void advance_shrinking_arc_effect(AnEffectPositionRandomizedSpriteAngleBody *state, ovl_1930844_81910844_S_81910844_2 *motion, ovl_1930844_81910844_S_81910844_3 *visual) {
+void advance_shrinking_arc_effect(RandomAngleSpriteEffectBody *state, ovl_1930844_81910844_S_81910844_2 *motion, ovl_1930844_81910844_S_81910844_3 *visual) {
     s32 pos_x;
     s32 pos_y;
     s32 velocity_x;
@@ -64,8 +64,8 @@ void * create_an_effect_position_randomized_sprite_angle(Rec_func_80024170_arg0 
     s32 initial_z;
     s32 rounded_random;
     SpriteFrameState *sprite;
-    AnEffectPositionRandomizedSpriteAngleNode *effect;
-    AnEffectPositionRandomizedSpriteAngleBody *effect_state;
+    RandomAngleSpriteEffectNode *effect;
+    RandomAngleSpriteEffectBody *effect_state;
     ObjectPosition *position;
 
     effect = allocate_flagged_object_node(0x212);

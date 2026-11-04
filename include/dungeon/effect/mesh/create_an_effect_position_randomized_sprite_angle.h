@@ -21,19 +21,19 @@
 typedef struct ovl_1930844_81910844_S_81910844_0_pre {
     u16 unk_00;
 } ovl_1930844_81910844_S_81910844_0_pre;
-typedef struct AnEffectPositionRandomizedSpriteAngleBody {
+typedef struct RandomAngleSpriteEffectBody {
     void *owner;
     u8 pad_04[0x2];
     union { u16 s; s16 u; } elapsed;
     union { s16 s; u16 u; } duration;
     u8 pad_0A[0x2];
     s32 initial_z;
-} AnEffectPositionRandomizedSpriteAngleBody;
+} RandomAngleSpriteEffectBody;
 
-typedef struct AnEffectPositionRandomizedSpriteAngleNode {
+typedef struct RandomAngleSpriteEffectNode {
     ObjectNodeHeader header;
-    AnEffectPositionRandomizedSpriteAngleBody body;
-} AnEffectPositionRandomizedSpriteAngleNode;
+    RandomAngleSpriteEffectBody body;
+} RandomAngleSpriteEffectNode;
 typedef struct ovl_1930844_81910844_S_81910844_1 {
     u8 pad_00[0x14];
     u16 unk_14;
@@ -353,7 +353,7 @@ extern int abs(int);
 void apply_attack_power_and_element_effects();
 s32 check_layer_offset_height();
 static __inline__ s32 radial_coordinate(s32 center, s32 trig, s16 radius);
-void advance_shrinking_arc_effect(AnEffectPositionRandomizedSpriteAngleBody *state, ovl_1930844_81910844_S_81910844_2 *motion, ovl_1930844_81910844_S_81910844_3 *visual);
+void advance_shrinking_arc_effect(RandomAngleSpriteEffectBody *state, ovl_1930844_81910844_S_81910844_2 *motion, ovl_1930844_81910844_S_81910844_3 *visual);
 void * create_an_effect_position_randomized_sprite_angle(Rec_func_80024170_arg0 *owner, ObjectPosition *source_position);
 void build_and_depth_sorts_five_radial_line_segments_effect(ovl_1930844_81911BF4_Obj81911BF4 *effect_data, void *origin, s16 step_index, s16 scale_factor);
 void build_and_enqueue_five_translucent_quads_between_interpolated_points(u8 *shape, void *position, s16 scale_num, s16 scale_den);

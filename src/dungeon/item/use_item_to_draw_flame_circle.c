@@ -15,6 +15,7 @@
 #include "dungeon/item/message.h"
 #include "dungeon/player/item.h"
 #include "dungeon/item.h"
+#include "dungeon/item/position.h"
 
 typedef struct S_800C13C8_0 {
     void * unk_00;
@@ -32,7 +33,6 @@ typedef struct S_800C13C8_0 {
 #include "dungeon/player/item.h" /* extern */
 s32 process_record_and_update_linked_state(struct DungeonItemEntry *, s32); /* Unprototyped: uses the value as a pointer where the definition has an integer (or the reverse) */           /* extern */
 void clear_slot_and_update_linked_state(DungeonItemEntry *slot);                         /* extern */
-extern s32 create_and_initialize_player_tile_actor(void);
 extern u8 ribbon_sprite_entries[];
 extern u8 D_800E1482[];
 

@@ -24,7 +24,7 @@ void *create_source_linked_fading_effect(ObjectNodeHeader *source, s16 copy_posi
     s32 display_value;
     SpriteFrameState *display;
     ObjectNodeHeader *object;
-    AndInitializePlayerTileActorBody *state;
+    SourceLinkedFadeEffectBody *state;
     SpriteFrameState *source_display;
     ObjectPosition *position;
 

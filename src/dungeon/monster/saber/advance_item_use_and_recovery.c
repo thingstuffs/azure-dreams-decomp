@@ -209,10 +209,10 @@ void advance_item_use_and_recovery(ActorRecord *body, ObjectPosition *motion, Sp
                     u8 animation_id;
 
                     effect_state = effect_handle + 0x20;
-                    ((AdvanceSelectedItemAction2Body *)effect_state)->ticks_remaining = 9;
+                    ((SelectedItemActionEffectBody *)effect_state)->ticks_remaining = 9;
                     ((S_80173230_6 *)((void *)effect_handle))->unk_10 = D_80171020;
-                    ((AdvanceSelectedItemAction2Body *)effect_state)->reference_position = motion;
-                    ((AdvanceSelectedItemAction2Body *)effect_state)->facing.u = (*(u16 *)((u8 *)actor + 0x2A));
+                    ((SelectedItemActionEffectBody *)effect_state)->reference_position = motion;
+                    ((SelectedItemActionEffectBody *)effect_state)->facing.u = (*(u16 *)((u8 *)actor + 0x2A));
                     item_slot = ((S_80173230_6 *)((void *)effect_handle))->unk_0C;
                     *(Copy48 *)item_slot = *(Copy48 *)sprite;
                     ((S_80173230_7 *)item_slot)->unk_1E = 0x1000;

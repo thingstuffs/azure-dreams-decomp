@@ -103,7 +103,7 @@ case 1:
     break;
 
     case 2:
-        if (((AdvanceScreenTransitionBody *)(ctx->child))->unk_2C.s != 1) {
+        if (((ScreenTransitionEffectBody *)(ctx->child))->unk_2C.s != 1) {
             break;
         }
         ctx->timer_1C = 0x18;

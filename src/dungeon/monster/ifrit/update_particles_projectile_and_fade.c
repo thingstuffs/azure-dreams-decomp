@@ -72,7 +72,7 @@ void update_particles_projectile_and_fade(ActorRecord *body, MovingPosition *pos
     s32 particles_left;
     ObjectNodeHeader *spawned_object;
     void *particle_callback;
-    UpdateActorActionsAndImpactEffectsBody *particle_state;
+    ActorImpactEffectBody *particle_state;
     SpriteFrameState *particle_render;
     S_801733BC_8 *projectile_state;
 

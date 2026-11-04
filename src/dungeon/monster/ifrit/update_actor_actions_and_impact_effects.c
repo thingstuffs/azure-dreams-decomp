@@ -87,7 +87,7 @@ void update_actor_actions_and_impact_effects(ActorRecord *body, ObjectPosition *
     u8 *anim;
     u16 timer;
     ObjectNodeHeader *effect;
-    UpdateActorActionsAndImpactEffectsBody *effect_state;
+    ActorImpactEffectBody *effect_state;
     void *target_sprite;
     void (*callback)(void);
     ActorRecord *player_state;

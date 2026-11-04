@@ -106,4 +106,6 @@ void *append_value_seven_suffix(u8 *dst);
 void spawn_floor_monster_from_table(s32 spawn_mode);
 void tick_view_color_flash(void *fade);
 
+s32 create_and_store_pending_actor_fade(void);
+
 #endif

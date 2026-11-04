@@ -42,7 +42,7 @@ typedef struct S_800243C4_5 {
 } S_800243C4_5;   /* ((S_800243C4_0 *)arg0)->unk_08 in func_800243C4 */
 
 /* Updates the effect's position, then brightens and fades its color. */
-void advance_linked_segment_flash(AdvanceScreenTransitionBody *effect, Rec_func_800243C4_arg1 *position, S_800243C4_4 *color)
+void advance_linked_segment_flash(ScreenTransitionEffectBody *effect, Rec_func_800243C4_arg1 *position, S_800243C4_4 *color)
 {
     s16 phase;
     u16 phase_value;
