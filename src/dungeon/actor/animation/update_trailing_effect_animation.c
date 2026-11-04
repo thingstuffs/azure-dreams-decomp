@@ -4,10 +4,6 @@
 #include "sdk/libc.h"
 #include "sdk/libgte.h"
 
-#define U8_AT(p, o) (*(u8 *)((u8 *)(p) + (o)))
-#define U16_AT(p, o) (*(u16 *)((u8 *)(p) + (o)))
-#define PTR_AT(p, o) (*(void **)((u8 *)(p) + (o)))
-
 extern u8 trailing_effect_frame_limit[];
 
 /* Update a trailing effect's position, brightness, and animation frame. */
@@ -27,7 +23,9 @@ void update_trailing_effect_animation(ActorTrailWork *effect, TrailMotion *trans
     void *history_src;
     void *history_dst;
     void *related;
-    void *parent;
+    ObjectNodeHeader *parent;
+    SpriteFrameState *related_sprite;
+    ActorTrailWork *linked_data;
 
     for (history_index = 6; history_index > 0; history_index--) {
         effect->history[history_index].x.u = effect->history[history_index - 1].x.u;
@@ -72,12 +70,13 @@ void update_trailing_effect_animation(ActorTrailWork *effect, TrailMotion *trans
             }
             break;
         case 1:
-            related = PTR_AT(effect, 4);
+            related = effect->owner;
             if (related != 0) {
-                related = PTR_AT(related, -0x14);
-                U8_AT(related, 0xC) = ((effect->ticks & 3) * 0x10) + 0x40;
-                U8_AT(related, 0xD) = ((effect->ticks & 3) * 0x10) + 0x40;
-                U8_AT(related, 0xE) = ((effect->ticks & 3) * 0x10) + 0x40;
+                related = NODE_HEADER(related)->sprite;
+                related_sprite = related;
+                related_sprite->color.c.r = ((effect->ticks & 3) * 0x10) + 0x40;
+                related_sprite->color.c.g = ((effect->ticks & 3) * 0x10) + 0x40;
+                related_sprite->color.c.b = ((effect->ticks & 3) * 0x10) + 0x40;
             }
 
             fade_brightness = effect->brightness.u;
@@ -95,13 +94,15 @@ void update_trailing_effect_animation(ActorTrailWork *effect, TrailMotion *trans
         }
     } else {
         related = (u8 *)related + 0x20;
-        transform->position.x.parts.whole.u = U16_AT(related, 0x34);
-        transform->position.y.parts.whole.u = U16_AT(related, 0x36);
-        transform->position.z.parts.whole.u = U16_AT(related, 0x38);
+        linked_data = related;
+        transform->position.x.parts.whole.u = linked_data->history[2].x.u;
+        transform->position.y.parts.whole.u = linked_data->history[2].y.u;
+        transform->position.z.parts.whole.u = linked_data->history[2].z.u;
 
         parent = effect->follow;
-        related = PTR_AT(parent, 0xC);
-        source_brightness = U8_AT(related, 0xC);
+        related = parent->sprite;
+        related_sprite = related;
+        source_brightness = related_sprite->color.c.r;
         brightness_offset = effect->shade_offset.u;
         brightness_delta = source_brightness - brightness_offset;
         brightness = brightness_delta;

@@ -5,6 +5,7 @@
 /* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - CL:dungeon/func_800D1374. */
 
 #include "common.h"
+#include "dungeon/effect/radial_effect_segment.h"
 #include "shared/entity.h"
 #include "shared/dungeon_moving_views.h"
 #include "shared/object_flags.h"
@@ -35,19 +36,6 @@ typedef struct S_800D6C18_0_pre {
 } S_800D6C18_0_pre;
 
 /* the 0x2 bytes before arg0 in update_expiring_sprite_effect, addressed as arg0[-1] */
-typedef struct S_800D6C18_0 {
-    u8 pad_00[0xC];
-    s16 unk_0C;
-    u8 pad_0E[0x2];
-    s16 unk_10;
-    u8 pad_12[0x2];
-    void * unk_14;
-    u8 pad_18[0x3C];
-    s16 unk_54;
-    s16 unk_56;
-} S_800D6C18_0;
-
-/* arg0 in update_expiring_sprite_effect */
 typedef struct S_800D6C18_1 {
     u8 pad_00[0x14];
     u32 unk_14;
@@ -59,19 +47,12 @@ typedef struct S_800D6C18_2 {
 } S_800D6C18_2;
 
 /* arg1 in update_expiring_sprite_effect */
-typedef struct S_800D6C18_3 {
-    u8 pad_00[0x44];
-    s16 unk_44;
-    u8 pad_46[0x6];
-    s16 unk_4C;
-} S_800D6C18_3;
-
 /* ((Rec_D_800E3D7C *)arg0)->unk_08.at00_pv.v in create_offset_sprite_effect */
 
 
 
 /* Functions defined in this translation unit. */
 void create_offset_sprite_effect(ObjectNodeHeader *parent, s32 state_value, s16 x_offset, s16 y_offset, s32 z_offset, s32 motion_scale);
-void update_expiring_sprite_effect(void *effect, S_800D6C18_2 *size_state);
+void update_expiring_sprite_effect(RadialEffectSegmentBody *effect, S_800D6C18_2 *size_state);
 
 #endif

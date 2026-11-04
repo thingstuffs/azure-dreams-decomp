@@ -423,7 +423,7 @@ void allocate_effect_with_endpoints(s32 object_value, ObjectPosition *start_pos,
  * derived sp base with ASM_KEEP prevents packed tail loads folding from lwl/lwr pairs into lw; the
  * paired tail source reads then also eliminate both downstream branch-displacement drifts.
  */
-void update_three_way_target_effect(void *effect_arg, ObjectPosition *position) {
+void update_three_way_target_effect(ThreeWayTargetSpellBody *effect_arg, ObjectPosition *position) {
     s32 fallback_pos[6];
     Row_8194D1E4_Packed8 direction;
     Row_8194D1E4_FourWords transform[2];
@@ -462,35 +462,35 @@ void update_three_way_target_effect(void *effect_arg, ObjectPosition *position) 
     ActorRecord *actor_value;
     Row_8194D354_S_80024B54_1 *actor_value_2;
 
-    state_or_heading = ((Row_8194D354_S_80024B54_0 *)effect_arg)->unk_0A.s;
-    ((Row_8194D354_S_80024B54_0 *)effect_arg)->unk_10 = (u16)(((Row_8194D354_S_80024B54_0 *)effect_arg)->unk_10 + 1);
+    state_or_heading = effect_arg->spell.phase.s;
+    effect_arg->unk_10 = (u16)(effect_arg->unk_10 + 1);
     switch ((u32)state_or_heading) {
     case 0:
-        ((Row_8194D354_S_80024B54_0 *)effect_arg)->unk_10 = 0U;
-        ((Row_8194D354_S_80024B54_0 *)effect_arg)->unk_0A.s++;
+        effect_arg->unk_10 = 0U;
+        effect_arg->spell.phase.s++;
         ((PlayerRecord *)primary_actor_record)->unk_F4 = 0;
-        allocate_effect_and_initialize_sprite(((Row_8194D354_S_80024B54_0 *)effect_arg)->unk_00 - 0x20, ((Row_8194D354_S_80024B54_0 *)effect_arg)->unk_04, &D_800DE5DC);
+        allocate_effect_and_initialize_sprite((s32)effect_arg->spell.caster - 0x20, (s32)effect_arg->spell.context, &D_800DE5DC);
     case 1:
-        if (*((Row_8194D354_S_80024B54_0 *)effect_arg)->unk_04 & 0x80) {
-            ((Row_8194D354_S_80024B54_0 *)effect_arg)->unk_18 = 0xAU;
+        if (*(u16 *)effect_arg->spell.context & 0x80) {
+            effect_arg->unk_18 = 0xAU;
             primary_actor_record->unk_A4.halves.high.u--;
-            primary_actor_record->unk_A8.byte = ((Row_8194D354_S_80024B54_0 *)effect_arg)->unk_08;
+            primary_actor_record->unk_A8.byte = effect_arg->spell.spell_id;
             next_state_c1 = ((u16)primary_actor_record->facing);
-            ((Row_8194D354_S_80024B54_0 *)effect_arg)->unk_0A.s++;
-            ((Row_8194D354_S_80024B54_0 *)effect_arg)->unk_0E = next_state_c1;
+            effect_arg->spell.phase.s++;
+            effect_arg->unk_0E = next_state_c1;
             if (read_sound_mode_blocking_status(4) != 2) {
                 play_sound_if_enabled(AUDIO_PLAY_CD_CUE);
-                ((Row_8194D354_S_80024B54_0 *)effect_arg)->unk_1A = 0;
+                effect_arg->unk_1A = 0;
                 return;
             }
             play_sound_if_enabled(AUDIO_RESUME_CD);
-            ((Row_8194D354_S_80024B54_0 *)effect_arg)->unk_1A = 0;
+            effect_arg->unk_1A = 0;
             return;
         }
         break;
     case 2:
-        start_delay = ((Row_8194D354_S_80024B54_0 *)effect_arg)->unk_18 - 1;
-        ((Row_8194D354_S_80024B54_0 *)effect_arg)->unk_18 = start_delay;
+        start_delay = effect_arg->unk_18 - 1;
+        effect_arg->unk_18 = start_delay;
         if ((start_delay << 0x10) > 0) {
             break;
         }
@@ -526,7 +526,7 @@ void update_three_way_target_effect(void *effect_arg, ObjectPosition *position) 
         actor_or_frame = (Row_8194D354_S_80024B54_5 *)primary_actor_record;
         target = scan_actor_along_heading(primary_actor_record, tile_or_y_steps->tile_position.parts.tile_x,
             tile_or_y_steps->tile_position.parts.tile_y, (s16)actor_or_frame->unk_2A, 8);
-        ((Row_8194D354_S_80024B54_0 *)effect_arg)->unk_14 = target;
+        effect_arg->unk_14 = target;
         if (target != NULL) {
             target_pos = *(M2C_UNK * *)&NODE_HEADER(target)->position;
         } else {
@@ -577,16 +577,16 @@ void update_three_way_target_effect(void *effect_arg, ObjectPosition *position) 
         allocate_effect_with_endpoints((s32)effect_arg, position, target_pos, phase, transform[0], transform[1], direction);
         allocate_effect_with_endpoints((s32)effect_arg, position, target_pos, (s16)(phase + 0x555), transform[0], transform[1], direction);
         allocate_effect_with_endpoints((s32)effect_arg, position, target_pos, (s16)(phase + 0xAAA), transform[0], transform[1], direction);
-        next_state_c2 = ((Row_8194D354_S_80024B54_0 *)effect_arg)->unk_0A.u;
-        ((Row_8194D354_S_80024B54_0 *)effect_arg)->unk_18 = 0x18U;
-        ((Row_8194D354_S_80024B54_0 *)effect_arg)->unk_0A.s = (s16)(next_state_c2 + 1);
+        next_state_c2 = effect_arg->spell.phase.u;
+        effect_arg->unk_18 = 0x18U;
+        effect_arg->spell.phase.s = (s16)(next_state_c2 + 1);
         break;
     case 3:
-        actor_or_frame = ((Row_8194D354_S_80024B54_0 *)effect_arg)->unk_14;
+        actor_or_frame = effect_arg->unk_14;
         if (actor_or_frame != NULL) {
             (*(s32 *)((u8 *)actor_or_frame + 0x1C)) = (s32)((*(s32 *)((u8 *)actor_or_frame + 0x1C)) | 0x10000000);
-            effect_data = NODE_HEADER(((Row_8194D354_S_80024B54_0 *)effect_arg)->unk_14)->sprite;
-            if ((s16)((Row_8194D354_S_80024B54_0 *)effect_arg)->unk_18 >= 0xC) {
+            effect_data = NODE_HEADER(effect_arg->unk_14)->sprite;
+            if ((s16)effect_arg->unk_18 >= 0xC) {
                 ((Row_8194D354_S_80024B54_9 *)effect_data)->unk_0C = (u8)(((Row_8194D354_S_80024B54_9 *)effect_data)->unk_0C + 8);
                 ((Row_8194D354_S_80024B54_9 *)effect_data)->unk_0D = (u8)(((Row_8194D354_S_80024B54_9 *)effect_data)->unk_0D - 8);
                 ((Row_8194D354_S_80024B54_9 *)effect_data)->unk_0E = (u8)(((Row_8194D354_S_80024B54_9 *)effect_data)->unk_0E - 8);
@@ -620,31 +620,31 @@ void update_three_way_target_effect(void *effect_arg, ObjectPosition *position) 
             input_page = (u16 *)0x80080000;
         }
         if (!(((Row_8194D354_S_80024B54_10 *)input_page)->unk_2E94 & 0x8000)) {
-            tint_delay = ((Row_8194D354_S_80024B54_0 *)effect_arg)->unk_18 - 1;
-            ((Row_8194D354_S_80024B54_0 *)effect_arg)->unk_18 = tint_delay;
+            tint_delay = effect_arg->unk_18 - 1;
+            effect_arg->unk_18 = tint_delay;
             if ((s16)tint_delay >= 0) {
                 break;
             }
         }
-        if (((Row_8194D354_S_80024B54_0 *)effect_arg)->unk_14 != NULL) {
-            apply_attack_power_and_element_effects(((Row_8194D354_S_80024B54_0 *)effect_arg)->unk_14, 0xA, ((Row_8194D354_S_80024B54_0 *)effect_arg)->unk_09, 9,
-                (s32)(s16)((((Row_8194D354_S_80024B54_0 *)effect_arg)->unk_0E << 9) + 0x800), ((Row_8194D354_S_80024B54_0 *)effect_arg)->unk_00, 1);
+        if (effect_arg->unk_14 != NULL) {
+            apply_attack_power_and_element_effects(effect_arg->unk_14, 0xA, effect_arg->spell.variant, 9,
+                (s32)(s16)((effect_arg->unk_0E << 9) + 0x800), (s32)effect_arg->spell.caster, 1);
             clear_tint_mask = 0xEFFFFFFF;
             neutral_color = 0x00808080;
-            actor_value_2 = ((Row_8194D354_S_80024B54_0 *)effect_arg)->unk_14;
+            actor_value_2 = effect_arg->unk_14;
             actor_value_2->unk_1C = (s32)(actor_value_2->unk_1C & clear_tint_mask);
             effect_data = NODE_HEADER(actor_value_2)->sprite;
             (effect_data->sprite) = neutral_color;
         }
         effect_pool = (s32 *)0x80080000;
-        if (((Row_8194D354_S_80024B54_0 *)effect_arg)->unk_1A != 0) {
-            next_state_c3 = ((Row_8194D354_S_80024B54_0 *)effect_arg)->unk_0A.u;
-            ((Row_8194D354_S_80024B54_0 *)effect_arg)->unk_0A.s = (s16)(next_state_c3 + 1);
+        if (effect_arg->unk_1A != 0) {
+            next_state_c3 = effect_arg->spell.phase.u;
+            effect_arg->spell.phase.s = (s16)(next_state_c3 + 1);
             break;
         }
     case 4:
         effect_pool = (s32 *)0x80080000;
-        if (((Row_8194D354_S_80024B54_0 *)effect_arg)->unk_1A != 0) {
+        if (effect_arg->unk_1A != 0) {
             break;
         }
         effect_pool = (s32 *)((u8 *)effect_pool + 0x3460);
@@ -656,6 +656,6 @@ void update_three_way_target_effect(void *effect_arg, ObjectPosition *position) 
     default:
         break;
     }
-    ((Row_8194D354_S_80024B54_0 *)effect_arg)->unk_1A = 0;
+    effect_arg->unk_1A = 0;
     return;
 }

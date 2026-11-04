@@ -13,8 +13,7 @@
 #include "dungeon/actor.h"
 #include "dungeon/actor/effect.h"
 #include "dungeon/item.h"
-
-extern u16 entity_action_selectors[];
+#include "dungeon/data.h"
 
 /* Handle item use on a target, deferring the player action or consuming the item. */
 s32 apply_paralysis_item(ActorRecord *target, DungeonItemEntry *item, s16 use_type) {

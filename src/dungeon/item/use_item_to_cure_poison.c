@@ -21,11 +21,7 @@
 #include "dungeon/player/item.h"
 #include "dungeon/actor.h"
 #include "shared/object_node.h"
-
-extern u8 poison_cure_text[25];
-
-
-
+#include "dungeon/data.h"
 
 /* Applies an item's effect to an entity and consumes the processed item. */
 s32 use_item_to_cure_poison(ActorRecord *entity, DungeonItemEntry *item, s16 action) {

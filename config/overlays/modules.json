@@ -1666,9 +1666,10 @@
           "evidence": "docs/evidence/dungeon_ovl_18ac800.imports.json"
         },
         {
-          "symbol": "func_8002495C",
+          "symbol": "func_80025654",
           "kind": "function",
-          "vma": 2147633500
+          "vma": 2147633500,
+          "basis": "same-image copy of create_effect_from_endpoints: home func_80025654, original import func_8002495C at 0x8002495C; whole-module recertification preserves this address"
         },
         {
           "symbol": "func_800262AC",
@@ -88463,9 +88464,10 @@
           "basis": "same-image copy of clear_bytes: home func_800193F4, original import func_80018824 at 0x80018824; whole-module recertification preserves this address"
         },
         {
-          "symbol": "func_80018914",
+          "symbol": "func_80018B64",
           "kind": "function",
-          "vma": 2147584276
+          "vma": 2147584276,
+          "basis": "same-image copy of copy_and_terminate_coordinate_entries: home func_80018B64, original import func_80018914 at 0x80018914; whole-module recertification preserves this address"
         },
         {
           "symbol": "func_8001ADE0",

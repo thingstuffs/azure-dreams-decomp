@@ -37,7 +37,8 @@ void update_entity_from_owner_effect(void *owner_data, void *position_data, u8 *
     GameWork *angle_table;
 
     s32 facing_check;
-    u8 *saved_effect;
+    void *saved_effect;
+    ActorRecord *saved_actor;
     void *appearance_type;
     s32 direction_index;
     s32 angle_sector;
@@ -52,6 +53,7 @@ void update_entity_from_owner_effect(void *owner_data, void *position_data, u8 *
     apply_monster_koyaw_data(effect_data, entity + 0xC);
 
     saved_effect = effect;
+    saved_actor = saved_effect;
     if ((*(u32 *)(effect + 0x1C) & 0x20) == 0) {
         advance_sprite_animation_and_textures(entity);
     }
@@ -111,7 +113,7 @@ void update_entity_from_owner_effect(void *owner_data, void *position_data, u8 *
             appearance_type == uboat_aura_start_frames) {
             NODE_HEADER(owner_data)->flags |= 0x8000;
             object_flag_block.flags |= OBJECT_REMOVE_PENDING;
-            U8(saved_effect, 0xB0)--;
+            saved_actor->unk_B0.bytes[0]--;
             return;
         }
         if ((get_entity_effect_value(effect, STATUS_FROG) << 16) == 0) {

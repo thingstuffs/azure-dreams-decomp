@@ -20,18 +20,6 @@
 
 typedef s32 M2C_UNK;
 
-typedef struct S_81988800_0 {
-    void * unk_00;
-    void * unk_04;
-    u8 unk_08;
-    u8 unk_09;
-    union { s16 s; u16 u; } unk_0A;   /* accessed as both */
-    u8 pad_0C[0x44];
-    union { u16 u; s16 s; } unk_50;   /* accessed as both */
-    union { s16 s; u16 u; } unk_52;   /* accessed as both */
-} S_81988800_0;   /* state in update_directional_actor_effect */
-
-
 typedef DirectionalGridEffectBody S_81988800_3;
 
 typedef struct S_81988800_4 {
@@ -63,15 +51,15 @@ extern M2C_UNK D_80024D58;
 
 extern void apply_attack_power_and_element_effects();
 
-void update_directional_actor_effect(void *state_data, void *position_data);
+void update_directional_actor_effect(TargetAttackSequenceBody *state_data, void *position_data);
 
 /* The module's entry pointer: the first word of its read-only data, at the row's own address
  * (retail 0x80024000, the row symbol add_flag_adjusted_target_value).  The phase table of the switch below follows
  * it at 0x80024008 (gcc's .align 3 for jump tables), and the code starts after the table. */
-void (*const dungeon_19a8800_entry)(void *, void *) = update_directional_actor_effect;
+void (*const dungeon_19a8800_entry)(TargetAttackSequenceBody *, void *) = update_directional_actor_effect;
 
 /* Advance a timed effect sequence, spawning objects and applying the effect to targets. */
-void update_directional_actor_effect(void *state_data, void *position_data)
+void update_directional_actor_effect(TargetAttackSequenceBody *state_data, void *position_data)
 {
     s16 offset[3];
     ObjectNodeHeader *object;
@@ -82,13 +70,13 @@ void update_directional_actor_effect(void *state_data, void *position_data)
     u8 *unused_fields;
     s32 timer;
 
-    timer = ((S_81988800_0 *)state_data)->unk_50.u;
-    source = ((S_81988800_0 *)state_data)->unk_00;
+    timer = state_data->unk_50.u;
+    source = state_data->spell.caster;
     timer--;
-    ((S_81988800_0 *)state_data)->unk_50.u = timer;
+    state_data->unk_50.u = timer;
     work = (u8 *)source - 0x20;
 
-    switch (((S_81988800_0 *)state_data)->unk_0A.s) {
+    switch (state_data->spell.phase.s) {
     case 0:
         ((PlayerRecord *)primary_actor_record)->unk_102 = 1;
         ((PlayerRecord *)primary_actor_record)->unk_F4 = 0;
@@ -96,15 +84,15 @@ void update_directional_actor_effect(void *state_data, void *position_data)
         ((ObjectPosition *)position_data)->y.v = ((ObjectPosition *)(((S_81988800_3 *)work)->unk_08.p32))->y.v;
         ((ObjectPosition *)position_data)->z.v =
             ((ObjectPosition *)(((S_81988800_3 *)work)->unk_08.p32))->z.v;
-        ((S_81988800_0 *)state_data)->unk_0A.u++;
+        state_data->spell.phase.u++;
     case 1:
     {
         S_81988800_6 *spawn_data;
-        if (((ObjectPosition *)(((S_81988800_0 *)state_data)->unk_04))->x.w.frac & 0x80) {
+        if (((ObjectPosition *)(state_data->spell.context))->x.w.frac & 0x80) {
             actor = (S_81988800_4 *)primary_actor_record;
-            ((S_81988800_0 *)state_data)->unk_50.u = 10;
+            state_data->unk_50.u = 10;
             actor->unk_A6--;
-            actor->unk_A8 = ((S_81988800_0 *)state_data)->unk_08;
+            actor->unk_A8 = state_data->spell.spell_id;
 
             object = allocate_list_node(0x302, &scene_object_list_anchor.next);
             if (object != 0) {
@@ -132,7 +120,7 @@ void update_directional_actor_effect(void *state_data, void *position_data)
                                       ((s32)offset[2] << 16);
                 spawn_data->unk_24 = ((ObjectPosition *)position_data)->z.v;
             }
-            ((S_81988800_0 *)state_data)->unk_0A.u++;
+            state_data->spell.phase.u++;
         }
         break;
     }
@@ -141,15 +129,15 @@ void update_directional_actor_effect(void *state_data, void *position_data)
     {
         s32 effect_id;
         s32 variant;
-        if (((S_81988800_0 *)state_data)->unk_50.s <= 0) {
+        if (state_data->unk_50.s <= 0) {
             variant = read_sound_mode_blocking_status(4);
             effect_id = 0x4300;
             if (variant != 2) {
                 effect_id = 0x300;
             }
             play_sound_if_enabled(effect_id);
-            ((S_81988800_0 *)state_data)->unk_50.u = 13;
-            ((S_81988800_0 *)state_data)->unk_0A.u++;
+            state_data->unk_50.u = 13;
+            state_data->spell.phase.u++;
         }
         break;
     }
@@ -157,7 +145,7 @@ void update_directional_actor_effect(void *state_data, void *position_data)
     case 3:
     {
         s32 entry_index;
-        if (((S_81988800_0 *)state_data)->unk_50.s <= 0) {
+        if (state_data->unk_50.s <= 0) {
             object = allocate_list_node(0x302, &scene_object_list_anchor.next);
             if (object != 0) {
                 object->update_callback = update_segment;
@@ -175,15 +163,15 @@ void update_directional_actor_effect(void *state_data, void *position_data)
                 ((S_81988800_3 *)work)->unk_00 = state_data;
                 ((S_81988800_3 *)work)->unk_40.s = 0;
             }
-            ((S_81988800_0 *)state_data)->unk_50.u = 0x3D;
-            ((S_81988800_0 *)state_data)->unk_0A.u++;
+            state_data->unk_50.u = 0x3D;
+            state_data->spell.phase.u++;
         }
         break;
     }
 
     case 4:
     {
-        if (((S_81988800_0 *)state_data)->unk_50.s == 8) {
+        if (state_data->unk_50.s == 8) {
             object = primary_actor_record;
             if (object != 0) {
 
@@ -193,7 +181,7 @@ loop:
                 object = find_eligible_nearby_entry(work[0x24], work[0x25], list_head, object);
                 if (object != 0) {
                     if (!(((ActorRecord *)object)->flags1C & 0x2000)) {
-                        apply_attack_power_and_element_effects(object, 0x10, ((S_81988800_0 *)state_data)->unk_09, 10,
+                        apply_attack_power_and_element_effects(object, 0x10, state_data->spell.variant, 10,
                                       source->facing, source, 2);
                     }
                     goto loop;
@@ -201,9 +189,9 @@ loop:
             }
         }
 
-        if ((reference_tile_object.sprite_flags & 0x8000) || ((S_81988800_0 *)state_data)->unk_50.s < 0) {
-            if (((S_81988800_0 *)state_data)->unk_52.s & 0x8000) {
-                ((S_81988800_0 *)state_data)->unk_52.u &= 0x7FFF;
+        if ((reference_tile_object.sprite_flags & 0x8000) || state_data->unk_50.s < 0) {
+            if (state_data->unk_52.s & 0x8000) {
+                state_data->unk_52.u &= 0x7FFF;
             } else {
                 g_dungeon_status.active_actor = 0;
                 g_dungeon_status.activity_counts.parts.pending_action_count--;

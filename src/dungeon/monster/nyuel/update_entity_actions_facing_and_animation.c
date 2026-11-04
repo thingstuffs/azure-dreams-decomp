@@ -1,3 +1,4 @@
+#include "dungeon/monster/grineut/path_motion.h"
 #include "common.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/dungeon_floor.h"
@@ -60,7 +61,7 @@ void update_entity_actions_facing_and_animation(ActorRecord *entity, ObjectPosit
 
     if (g_dungeon_status.flags & 0x1000) {
         entity->action_id.u = 0xEU;
-        func_80171B58(entity, context, sprite, state);
+        advance_stored_path_motion(entity, context, sprite, state);
         return;
     }
     if (state->mp_value.parts.whole == 0) {

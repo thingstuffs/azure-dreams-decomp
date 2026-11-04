@@ -3,6 +3,7 @@
 
 struct ObjectPosition;
 #include "common.h"
+#include "dungeon/effect/particle/rotating_effect_quad.h"
 #include "shared/sprite_frame_state.h"
 #include "dungeon/effect/spell_effect.h"
 #include "modules/dungeon_native_abi.h"
@@ -44,7 +45,7 @@ s32 project_linked_quad_record(void *, ObjectPosition *, SpriteFrameState *);
 s32 draw_chained_object_records(void *, void *, void *);
 s32 project_colored_point(u8 *, u8 *);
 void advance_point_effect_toward_terrain(void *, s16 *);
-void update_effect_quad_and_completion(void *, ObjectPosition *, SpriteFrameState *);
+void update_effect_quad_and_completion(RotatingEffectQuadBody *, ObjectPosition *, SpriteFrameState *);
 void spawn_randomized_spark_burst(u8 *, void *, u8 *);
 void apply_random_duration_actor_status(void *, s32, void *);
 /* Signed two-byte view of the first counter; indexed reads use its address. */

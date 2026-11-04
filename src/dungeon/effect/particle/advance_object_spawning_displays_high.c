@@ -470,10 +470,10 @@ void advance_actor_tint_particle_sequence(TintParticleSequence *effect, ObjectPo
         }
         init_object = effect;
         {
-            void *actor = primary_actor_record;
+            ActorRecord *actor = primary_actor_record;
             effect->timer.u = (u16)((u32)(0x14));
-            F(actor, u16, 0xA6) = (u16)(F(actor, u16, 0xA6) - 1);
-            F(actor, u8, 0xA8) = effect->variant;
+            actor->unk_A4.halves.high.u = (u16)(actor->unk_A4.halves.high.u - 1);
+            actor->unk_A8.byte = effect->variant;
         }
         component = F(primary_actor_record, u16, 0x2A);
         effect->state.u = (u16)(effect->state.u + 1);

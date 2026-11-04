@@ -56,8 +56,8 @@ void create_offset_sprite_effect(ObjectNodeHeader *parent, s32 state_value, s16 
 }
 
 /* Updates effect size and offsets, emits a sequence, and flags expiration. */
-void update_expiring_sprite_effect(void *effect_arg, S_800D6C18_2 *size_state) {
-    S_800D6C18_0 *effect = effect_arg;
+#define RADIAL_SEGMENT_AT(index) ((RadialEffectSegmentBody *)((u8 *)effect + (index) * 2))
+void update_expiring_sprite_effect(RadialEffectSegmentBody *effect, S_800D6C18_2 *size_state) {
     s16 display_size;
     s16 ticks_left;
     s32 index;
@@ -77,17 +77,17 @@ void update_expiring_sprite_effect(void *effect_arg, S_800D6C18_2 *size_state) {
     if ((effect->unk_0C < 0x13) && !((u16) effect->unk_0C & 1)) {
         index = 0;
         do {
-            if (((S_800D6C18_3 *)((u8 *)effect + index * 2))->unk_44 < 0) {
-                ((S_800D6C18_3 *)((u8 *)effect + index * 2))->unk_44 = (s16) ((u16) ((S_800D6C18_3 *)((u8 *)effect + index * 2))->unk_44 + 1);
+            if (RADIAL_SEGMENT_AT(index)->unk_44 < 0) {
+                RADIAL_SEGMENT_AT(index)->unk_44 = (s16) ((u16) RADIAL_SEGMENT_AT(index)->unk_44 + 1);
             }
-            if (((S_800D6C18_3 *)((u8 *)effect + index * 2))->unk_44 > 0) {
-                ((S_800D6C18_3 *)((u8 *)effect + index * 2))->unk_44 = (s16) ((u16) ((S_800D6C18_3 *)((u8 *)effect + index * 2))->unk_44 - 1);
+            if (RADIAL_SEGMENT_AT(index)->unk_44 > 0) {
+                RADIAL_SEGMENT_AT(index)->unk_44 = (s16) ((u16) RADIAL_SEGMENT_AT(index)->unk_44 - 1);
             }
-            if (((S_800D6C18_3 *)((u8 *)effect + index * 2))->unk_4C < 0) {
-                ((S_800D6C18_3 *)((u8 *)effect + index * 2))->unk_4C = (s16) ((u16) ((S_800D6C18_3 *)((u8 *)effect + index * 2))->unk_4C + 1);
+            if (RADIAL_SEGMENT_AT(index)->unk_4C < 0) {
+                RADIAL_SEGMENT_AT(index)->unk_4C = (s16) ((u16) RADIAL_SEGMENT_AT(index)->unk_4C + 1);
             }
-            if (((S_800D6C18_3 *)((u8 *)effect + index * 2))->unk_4C > 0) {
-                ((S_800D6C18_3 *)((u8 *)effect + index * 2))->unk_4C = (s16) ((u16) ((S_800D6C18_3 *)((u8 *)effect + index * 2))->unk_4C - 1);
+            if (RADIAL_SEGMENT_AT(index)->unk_4C > 0) {
+                RADIAL_SEGMENT_AT(index)->unk_4C = (s16) ((u16) RADIAL_SEGMENT_AT(index)->unk_4C - 1);
             }
             index += 1;
         } while (index < 4);
@@ -114,3 +114,5 @@ void update_expiring_sprite_effect(void *effect_arg, S_800D6C18_2 *size_state) {
         global_base[0x14A0 / 4] |= 0x8000;
     }
 }
+
+#undef RADIAL_SEGMENT_AT

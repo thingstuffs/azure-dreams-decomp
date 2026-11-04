@@ -16,9 +16,9 @@
 #include "dungeon/player/state.h"
 #include "dungeon/item.h"
 #include "dungeon/actor.h"
+#include "dungeon/effect/shade.h"
 
 struct Owner_800A48F0;
-void create_colored_effect_with_sound(void *source, s32 color, unsigned short sound_id);    /* extern */
 extern u8 D_800E206A[24];
 
 

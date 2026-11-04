@@ -61,12 +61,12 @@ void update_directional_actor_effect(TargetTintWork *state_data)
             break;
         }
         {
-            void *manager =
+            ActorRecord *manager =
                 *(void **)(resident_globals_page + 0x14A8);
 
             state->timer.u = 0x12;
-            result = U16_AT(manager, 0xA6) - 1;
-            U16_AT(manager, 0xA6) = result;
+            result = manager->unk_A4.halves.high.u - 1;
+            manager->unk_A4.halves.high.u = result;
         }
         result = read_sound_mode_blocking_status(4);
         if (result != 2) {

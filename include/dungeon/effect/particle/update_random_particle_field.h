@@ -9,6 +9,7 @@
 #include "shared/object_flags.h"
 #include "shared/dungeon_status.h"
 #include "shared/entity.h"
+#include "dungeon/effect/spell_effect.h"
 #include "shared/slus_callbacks.h"
 #include "sdk/libc.h"
 
@@ -44,18 +45,15 @@ extern DungeonGroup item_category_groups[];
 #define NULL 0
 #endif
 
-typedef struct S_81934928_0 {
-    void * unk_00;
-    void * unk_04;
-    u8 pad_08[0x1];
-    u8 unk_09;
-    union { s16 s; u16 u; } unk_0A;   /* accessed as both */
+/* Spell state for the falling particle field and its timed attack. */
+typedef struct FallingParticleFieldSpellBody {
+    SpellEffectHeader spell;
     union { u16 s; s16 u; } unk_0C;   /* accessed as both */
     union { s16 s; u16 u; } unk_0E;   /* accessed as both */
     union { u16 s; s16 u; } unk_10;   /* accessed as both */
     union { u16 s; s16 u; } unk_12;   /* accessed as both */
     u16 unk_14;
-} S_81934928_0;   /* self in func_80024128 */
+} FallingParticleFieldSpellBody;
 
 typedef struct S_81934928_2 {
     u8 pad_00[0x10];
@@ -145,7 +143,7 @@ extern SpriteSourceEntry moving_sprite_entries[];
 
 /* Updates effect motion and spawns an impact effect on reaching the surface. */
 
-extern void (*const D_80024000)(void *, void *);
+extern void (*const D_80024000)(FallingParticleFieldSpellBody *, void *);
 
 
 void *allocate_list_node(s32, void *);
@@ -155,6 +153,6 @@ void func_8004491C(void *, void *);
 void apply_attack_power_and_element_effects(void *, s32, s32, s32, s32, void *, s32);
 s16 sample_terrain_surface_height();
 s32 decrement_flagged_item_parameters(DungeonObject *object);
-void update_random_particle_field(void *self, void *output);
+void update_random_particle_field(FallingParticleFieldSpellBody *self, void *output);
 void draw_red(void *effect);
 #endif

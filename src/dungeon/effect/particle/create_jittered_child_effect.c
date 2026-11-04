@@ -6,6 +6,7 @@
 #include "dungeon/effect/particle.h"
 #include "engine/node.h"
 #include "sdk/libc.h"
+#include "dungeon/data.h"
 
 typedef struct S_80165018_0 {
     u8 pad_00[0x8];
@@ -28,7 +29,6 @@ typedef struct S_80165018_4 {
 
    /* ((Rec_D_800E3D7C *)arg0)->unk_08.at00_pv.v in create_jittered_child_effect */
 
-extern u8 child_particle_draw_address[];
 extern u8 D_80164DA4[];
 
 /* Create an effect at a randomized offset from its parent and initialize its state. */

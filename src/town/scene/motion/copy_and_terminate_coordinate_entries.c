@@ -1,11 +1,8 @@
+#include "town/scene/motion/coordinate_entries.h"
 #include "shared/town_pointees.h"
 #include "shared/town_root.h"
 #include "common.h"
 #include "shared/record_ptrs.h"
-
-typedef struct {
-    u32 value;
-} __attribute__((packed)) UA32;
 
 extern UA32 D_8001C31C;
 

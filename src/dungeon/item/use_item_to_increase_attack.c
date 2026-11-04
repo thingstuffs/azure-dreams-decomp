@@ -14,8 +14,7 @@
 #include "dungeon/system.h"
 #include "dungeon/player/state.h"
 #include "engine/entity.h"
-
-extern void create_colored_effect_with_sound(void *source, s32 color, unsigned short sound_id);
+#include "dungeon/effect/shade.h"
 
 extern u8 D_800E1350[];
 

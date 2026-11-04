@@ -1,3 +1,4 @@
+#include "dungeon/monster/dragon/display_orientation.h"
 #include "shared/entity.h"
 #include "shared/actor_status_ids.h"
 #include "shared/actor_status_flags.h"
@@ -94,7 +95,7 @@ void advance_aura_actor_turn_path(ActorRecord *actor, ObjectPosition *actor_slot
         ((ActorRecord *)state)->facing = direction;
         if (move_result == 3 && (actor->unk_B4.bytes[1] == 0) && !(g_dungeon_status.flags & 0x80) &&
             !(entity->flags & 0x8000)) {
-            advance_arcing_actor_move(actor, actor_slot, entity, state);
+            copy_display_orientation_state(actor, actor_slot, entity, state);
             actor->unk_8C.word = 0;
             ((ActorRecord *)state)->flags1C |= ACTOR_REFRESH_GROUND;
         } else {

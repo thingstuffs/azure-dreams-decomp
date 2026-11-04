@@ -1,5 +1,6 @@
 #ifndef R108_BANK19_H
 #define R108_BANK19_H
+#include "modules/dungeon_ovl_18a0800/endpoint_creation.h"
 struct ObjectPosition;
 struct ActorRecord;
 #include "common.h"
@@ -31,7 +32,6 @@ void update_spark_effect(void *,struct S_800250E8_0 *,void *);
 s32 queue_projected_point_primitives(void *,void *,void *);
 void allocate_jittered_effect_node(void *,s16,s16,s16);
 void fade_effect_color_below_eight(u16 *,struct ObjectPosition *,EffectColor *);
-void *create_effect_from_endpoints(struct S_80025654_2 *,struct S_80025654_4 *);
 void apply_indexed_effect_condition(struct ActorRecord *,u8,struct ActorRecord *);
 s32 select_record_entry_and_value(void *,void *,s32);
 s32 get_sprite_attachment_vector(void *,void *,s16 *,s32);

@@ -3,9 +3,7 @@
 #include "dungeon/effect/particle.h"
 #include "m2c_compat.h"
 #include "dungeon/effect/head_bank_imports.h"
-
-extern s32 particle_object_flags;
-
+#include "dungeon/data.h"
 
 typedef struct S_7FFE7804_0_pre {
     u16 unk_00;

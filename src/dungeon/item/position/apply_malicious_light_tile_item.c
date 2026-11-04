@@ -1,46 +1,56 @@
 #include "dungeon/item.h"
 #include "shared/entity.h"
+#include "shared/object_node.h"
 #include "shared/dungeon_item_entries.h"
 #include "common.h"
 #include "shared/record_ptrs.h"
 #include "shared/dungeon_status.h"
 #include "dungeon/level.h"
+#include "dungeon/level/floor_object_positions.h"
 #include "dungeon/actor/state.h"
 #include "dungeon/item/position.h"
 #include "dungeon/item/state.h"
 #include "dungeon/player/state.h"
 #include "dungeon/system.h"
-#define F(p,t,o) (*(t *)((u8 *)(p)+(o)))
-extern u8 reference_tile_object[],view_reference_entity[],D_800893D8[],D_800E16E3[],D_800E1713[],dungeon_floor_object_positions[];
+extern u8 reference_tile_object[],view_reference_entity[],D_800893D8[],D_800E16E3[],D_800E1713[];
 #include "dungeon/player/item.h"
 #include "dungeon/item/message.h"
+
+typedef struct PlacedItemEffectBody {
+    u8 pad_00[0x20];
+    s16 item_position_index;
+} PlacedItemEffectBody;
+
 /* Processes an actor's item and updates its object entry, effects, and item count. */
 s32 apply_malicious_light_tile_item(void *actor, DungeonItemEntry *item, s16 action) {
+    PlayerRecord *player = actor;
     s16 entry_index;
     void *message_handle;
     s32 saved_handle, object_addr;
     DungeonGlobalStatus *counter_base;
-    void *entity;
-    u8 *object_fields;
-    u8 *entries;
+    SpriteFrameState *sprite;
+    void *object_fields;
+    PlacedItemEffectBody *placed_effect;
+    D_800E39C8_entry *entries;
 
     if (actor == ((u8 *)dungeon_actor_ring_anchor)) {
-        F(actor, DungeonItemEntry *, 0x110) = item;
+        player->pending_item_action = item;
         begin_mode_selected_item_action(actor, view_reference_entity, reference_tile_object, actor);
         return 0;
     }
 
-    entity = F(actor, void **, -0x14);
-    object_addr = create_central_and_child_effects(F(entity, u8, 0x24), F(entity, u8, 0x25),
-                                F(actor, s16, 0x88), -1, item->unk_00);
+    sprite = NODE_HEADER(actor)->sprite;
+    object_addr = create_central_and_child_effects(sprite->tile_x, sprite->tile_y,
+                                player->actor.ground_height, -1, item->unk_00);
     if (object_addr != 0) {
         play_sound_if_enabled(0x60D);
         object_fields = (u8 *)object_addr + 0x20;
-        entry_index = select_and_initialize_entry_at_position(F(entity, u8, 0x24), F(entity, u8, 0x25),
-                                    F(actor, s16, 0x88), 5, object_addr);
+        placed_effect = object_fields;
+        entry_index = select_and_initialize_entry_at_position(sprite->tile_x, sprite->tile_y,
+                                    player->actor.ground_height, 5, object_addr);
         entries = dungeon_floor_object_positions;
-        F(object_fields, s16, 0x20) = entry_index;
-        F(entries + entry_index * 0x18, s32, 8) = 0;
+        placed_effect->item_position_index = entry_index;
+        entries[entry_index].field8.s = 0;
         message_handle = get_unused_text_buffer();
         saved_handle = message_handle;
 
@@ -56,7 +66,7 @@ s32 apply_malicious_light_tile_item(void *actor, DungeonItemEntry *item, s16 act
 
         display_formatted_context_message(D_800E16E3);
         try_apply_confusion_status(actor, 0x100, 0x10);
-        cycle_map_cell_flags(F(entity, u8, 0x24), F(entity, u8, 0x25), 0x10);
+        cycle_map_cell_flags(sprite->tile_x, sprite->tile_y, 0x10);
         clear_slot_and_update_linked_state(item);
         counter_base = &g_dungeon_status;
         (*(u16 *)&counter_base->activity_counts.parts.pending_action_count)--;

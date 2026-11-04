@@ -5,4 +5,7 @@
 
 void *get_unused_text_buffer(void);
 
+/* Owner declarations appended by tools/headers (append-only; the lines above are hand-kept). */
+void display_formatted_context_message(void *context);
+
 #endif

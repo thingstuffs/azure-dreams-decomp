@@ -14,10 +14,10 @@
 #include "dungeon/player.h"
 #include "dungeon/player/object.h"
 #include "shared/object_node.h"
+#include "dungeon/item/message.h"
 
 extern s32 get_entity_effect_value(ActorRecord *entry, s32 effect_id);
 extern void clear_slots_of_type(ActorRecord *owner, s8 match_type);
-extern void display_formatted_context_message(void *context);
 
 extern Rec_D_80083460 D_80083460;
 extern u8 D_800DCFF8[];

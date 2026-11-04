@@ -14,6 +14,7 @@ struct ObjectPosition;
 #include "engine/resource.h"
 #include "sdk/libgpu.h"
 #include "dungeon/system.h"
+#include "dungeon/data.h"
 
 void (*const dungeon_19de800_entry)(struct S_func_80026418_0 *effect) = advance_particle_fade_and_cleanup;
 typedef struct { s16 x, y; } BankDirections;
@@ -2025,7 +2026,6 @@ typedef struct S_func_80026418_0 {
 } S_func_80026418_0;
 
 extern u8 D_8006E8A0[];
-extern u8 particle_fade_pixels[];
 
 extern void upload_vram_row_and_cache(void *, s32, s32, s32); /* Unprototyped: uses the value as a pointer where the definition has an integer (or the reverse) */
 

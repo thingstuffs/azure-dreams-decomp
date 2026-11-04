@@ -21,14 +21,12 @@
 #include "dungeon/player/item.h"
 #include "dungeon/actor.h"
 #include "shared/object_node.h"
+#include "dungeon/data.h"
 
 typedef struct {
     u8 pad[0xA];
     u16 fieldA;
 } D_80083460_t;
-extern u8 confusion_cure_text[];
-
-
 
 /* Applies an entity update and handles its follow-up effects and state count. */
 s32 use_item_to_cure_confusion(ActorRecord *entity, DungeonItemEntry *update_value, s16 mode) {

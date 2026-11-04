@@ -54,7 +54,7 @@ void choose_and_execute_actor_step(ActorRecord *work_data, ObjectPosition *actio
     s32 tile_type;
     s32 work_value;
     void *node;
-    void *parent;
+    SpriteFrameState *parent;
 
     turn_state = &g_dungeon_status;
     turn_flags = turn_state->flags;
@@ -90,7 +90,7 @@ void choose_and_execute_actor_step(ActorRecord *work_data, ObjectPosition *actio
                 node_work = (u8 *)work_data + 0x98;
                 actor->facing = get_rounded_facing_and_rounding_flag(
                     position->tile_x, position->tile_y,
-                    U8_AT(parent, 0x24), U8_AT(parent, 0x25),
+                    parent->tile_x, parent->tile_y,
                     node_work);
                 history_index = actor->movement_queue_state;
                 history_index &= 0x7F;
@@ -121,7 +121,7 @@ void choose_and_execute_actor_step(ActorRecord *work_data, ObjectPosition *actio
             u8 *path_work;
 
             path_center = &reference_tile_object;
-            direction = (U8_AT(actor, 0x45) + (primary_actor_record->facing >> 9)) & 7;
+            direction = (actor->unk_44.bytes.high + (primary_actor_record->facing >> 9)) & 7;
             target_x = path_center->tile_position.parts.tile_x +
                        *(u16 *)(dir_step_x + (direction * 2));
             target_y = path_center->tile_position.parts.tile_y +

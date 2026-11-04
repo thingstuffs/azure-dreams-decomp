@@ -7,7 +7,7 @@
 #include "shared/object_flags.h"
 #include "shared/sprite_frame_state.h"
 #include "dungeon/effect/mesh.h"
-void (*const dungeon_ovl_1930844_entry)(void *state, ObjectPosition *motion, SpriteFrameState *appearance) = update_movement_toward_target_along_direction_advances_action_phases;
+void (*const dungeon_ovl_1930844_entry)(TargetApproachAttackBody *state, ObjectPosition *motion, SpriteFrameState *appearance) = update_movement_toward_target_along_direction_advances_action_phases;
 
 /* Moves a rotating, shrinking sprite along its velocity with a sinusoidal height offset until its
    duration ends. */
@@ -58,7 +58,7 @@ void advance_shrinking_arc_effect(RandomAngleSpriteEffectBody *state, ovl_193084
 
 /* Creates a randomly rotated gray sprite with copied motion, the owner's duration, and a saved
    starting height. */
-void * create_an_effect_position_randomized_sprite_angle(Rec_func_80024170_arg0 *owner, ObjectPosition *source_position)
+void * create_an_effect_position_randomized_sprite_angle(TargetApproachAttackBody *owner, ObjectPosition *source_position)
 {
     s32 random_value;
     s32 initial_z;
@@ -832,7 +832,7 @@ void *create_and_initializes_copying_n_24_bytes_source_data(s32 state_value, Obj
 
 /* Moves an effect toward an actor or terrain endpoint, starts its impact visuals, and applies a
    delayed attack. */
-void update_movement_toward_target_along_direction_advances_action_phases(void *state, ObjectPosition *motion, SpriteFrameState *appearance) {
+void update_movement_toward_target_along_direction_advances_action_phases(TargetApproachAttackBody *state, ObjectPosition *motion, SpriteFrameState *appearance) {
     ovl_1930844_81912154_LocalStack stack;
     s16 floor_height;
     s32 phase;
@@ -873,14 +873,14 @@ void update_movement_toward_target_along_direction_advances_action_phases(void *
     s32 height;
     u16 end_tile_y;
 
-    phase = ((Rec_func_80024170_arg0 *)state)->unk_0A;
-    owner = ((Rec_func_80024170_arg0 *)state)->unk_00;
-    ((Rec_func_80024170_arg0 *)state)->unk_10 = (u16) (((Rec_func_80024170_arg0 *)state)->unk_10 + 1);
+    phase = state->spell.phase.s;
+    owner = state->spell.caster;
+    state->unk_10 = (u16) (state->unk_10 + 1);
     switch ((u32)phase) {
     case 0:
-        ((Rec_func_80024170_arg0 *)state)->unk_10 = 0U;
-        ((Rec_func_80024170_arg0 *)state)->unk_0A = (s16) ((u16) ((Rec_func_80024170_arg0 *)state)->unk_0A + 1);
-        ((Rec_func_80024170_arg0 *)state)->unk_0E = (u16) (((u16) ((ovl_1930844_81912154_S_80025954_1 *)owner)->unk_2A >> 9) & 7);
+        state->unk_10 = 0U;
+        state->spell.phase.s = (s16) ((u16) state->spell.phase.s + 1);
+        state->unk_0E = (u16) (((u16) ((ovl_1930844_81912154_S_80025954_1 *)owner)->unk_2A >> 9) & 7);
         appearance->color.word = 0x808080;
     case 1:
         owner_links = owner - 0x20;
@@ -904,7 +904,7 @@ void update_movement_toward_target_along_direction_advances_action_phases(void *
         } else {
             motion->z.unsigned_parts.integer = origin_z - 0x40;
         }
-        if (!(*((Rec_func_80024170_arg0 *)state)->unk_04 & 0x80)) {
+        if (!(*((u16 *)state->spell.context) & 0x80)) {
             break;
         }
         target = ((ovl_1930844_81912154_S_80025954_1 *)owner)->unk_60;
@@ -923,30 +923,30 @@ void update_movement_toward_target_along_direction_advances_action_phases(void *
             z_base = motion->z.w.i + 0x300000;
             z_distance -= z_base;
             stack.offset.distance[2] = abs(z_distance);
-            ((Rec_func_80024170_arg0 *)state)->unk_12.as_s16 = x_distance;
+            state->unk_12.as_s16 = x_distance;
             do {
-                if ((s16) stack.offset.distance[step_count] > ((Rec_func_80024170_arg0 *)state)->unk_12.as_s16) {
-                    ((Rec_func_80024170_arg0 *)state)->unk_12.as_s16 = (s16) stack.offset.distance[step_count];
+                if ((s16) stack.offset.distance[step_count] > state->unk_12.as_s16) {
+                    state->unk_12.as_s16 = (s16) stack.offset.distance[step_count];
                 }
                 step_count += 1;
             } while (step_count < 3);
-            travel_frames = (s32) ((u16) ((Rec_func_80024170_arg0 *)state)->unk_12.as_s16 << 0x10) >> 0x14;
-            ((Rec_func_80024170_arg0 *)state)->unk_12.as_s16 = (s16) travel_frames;
+            travel_frames = (s32) ((u16) state->unk_12.as_s16 << 0x10) >> 0x14;
+            state->unk_12.as_s16 = (s16) travel_frames;
             if (travel_frames == 0) {
-                ((Rec_func_80024170_arg0 *)state)->unk_12.as_s16 = 1;
+                state->unk_12.as_s16 = 1;
             }
             motion->velocity_x = (destination->unk_00.at00.v
-                - motion->x.v) / ((Rec_func_80024170_arg0 *)state)->unk_12.as_s16;
+                - motion->x.v) / state->unk_12.as_s16;
             motion->velocity_y = (destination->unk_04.at00.v
-                - motion->y.v) / ((Rec_func_80024170_arg0 *)state)->unk_12.as_s16;
+                - motion->y.v) / state->unk_12.as_s16;
             entity = ((ovl_1930844_81912154_S_80025954_1 *)owner)->unk_60;
             z_table2 = entity_height_offsets[entity->unk_13] << 0x10;
             z_velocity = destination->unk_08.at00.v - z_table2;
             z_base2 = motion->z.v + 0x300000;
             z_velocity -= z_base2;
-            motion->velocity_z = z_velocity / ((Rec_func_80024170_arg0 *)state)->unk_12.as_s16;
+            motion->velocity_z = z_velocity / state->unk_12.as_s16;
             create_an_effect_position_randomized_sprite_angle(state, motion);
-            next_state = (u16) ((Rec_func_80024170_arg0 *)state)->unk_0A + 1;
+            next_state = (u16) state->spell.phase.s + 1;
         } else {
             table_origin = dir_step_x;
             step_count = 0;
@@ -957,12 +957,12 @@ void update_movement_toward_target_along_direction_advances_action_phases(void *
             end_tile_y = tile_y;
             do {
                 if ((check_layer_offset_height(((s16) tile_x << 6) & 0xFFC0, ((s16) tile_y << 6) & 0xFFC0,
-                    ((ovl_1930844_81912154_S_80025954_1 *)owner)->unk_88, (s16) (((Rec_func_80024170_arg0 *)state)->unk_0E << 9)) << 0x10)
+                    ((ovl_1930844_81912154_S_80025954_1 *)owner)->unk_88, (s16) (state->unk_0E << 9)) << 0x10)
                     != 0) {
                     goto grid_hit;
                 }
                 {
-                    direction = (s16) ((Rec_func_80024170_arg0 *)state)->unk_0E;
+                    direction = (s16) state->unk_0E;
                     height = (u16) ((ovl_1930844_81912154_S_80025954_1 *)owner)->unk_88;
                     entity = (void *)&dir_step_x[direction];
                 }
@@ -976,7 +976,7 @@ void update_movement_toward_target_along_direction_advances_action_phases(void *
                 if ((s16) (floor_height - (u16) ((ovl_1930844_81912154_S_80025954_1 *)owner)->unk_88) < -0x3F) {
                     break;
                 }
-                step_direction = (s16) ((Rec_func_80024170_arg0 *)state)->unk_0E;
+                step_direction = (s16) state->unk_0E;
                 step_count += 1;
                 source_coord = tile_x + (u16) dir_step_x[step_direction];
                 tile_x = source_coord;
@@ -997,11 +997,11 @@ void update_movement_toward_target_along_direction_advances_action_phases(void *
             x_scaled >>= 0xA;
         grid_coords:
             axis_delta = x_scaled;
-            direction = (step_table[(s16) ((Rec_func_80024170_arg0 *)state)->unk_0E] + 1) << 5;
+            direction = (step_table[(s16) state->unk_0E] + 1) << 5;
             axis_delta += direction;
             destination->unk_00.at02.v = axis_delta;
             axis_delta = (u32) axis_delta << 0x10;
-            model = ((s16) end_tile_y << 6) + ((dir_step_y[(s16) ((Rec_func_80024170_arg0 *)state)->unk_0E] + 1) << 5);
+            model = ((s16) end_tile_y << 6) + ((dir_step_y[(s16) state->unk_0E] + 1) << 5);
             destination->unk_04.at02.v = model;
             axis_delta >>= 0x10;
             destination->unk_08.at02u.v = motion->z.unsigned_parts.integer;
@@ -1013,19 +1013,19 @@ void update_movement_toward_target_along_direction_advances_action_phases(void *
             model -= motion->y.w.i;
             model = __builtin_abs(model);
             stack.offset.distance[1] = model;
-            ((Rec_func_80024170_arg0 *)state)->unk_12.as_s16 = axis_delta;
+            state->unk_12.as_s16 = axis_delta;
             if ((s16) stack.offset.distance[1] > (s16) axis_delta) {
-                ((Rec_func_80024170_arg0 *)state)->unk_12.as_s16 = (s16) (u16) stack.offset.distance[1];
+                state->unk_12.as_s16 = (s16) (u16) stack.offset.distance[1];
             }
-            travel_frames = (s32) ((u16) ((Rec_func_80024170_arg0 *)state)->unk_12.as_s16 << 0x10) >> 0x14;
-            ((Rec_func_80024170_arg0 *)state)->unk_12.as_s16 = (s16) travel_frames;
+            travel_frames = (s32) ((u16) state->unk_12.as_s16 << 0x10) >> 0x14;
+            state->unk_12.as_s16 = (s16) travel_frames;
             if (travel_frames == 0) {
-                ((Rec_func_80024170_arg0 *)state)->unk_12.as_s16 = 1;
+                state->unk_12.as_s16 = 1;
             }
             motion->velocity_x = (((ovl_1930844_81912154_S_80025954_12 *)(stack.motion))->unk_00
-                - motion->x.v) / ((Rec_func_80024170_arg0 *)state)->unk_12.as_s16;
+                - motion->x.v) / state->unk_12.as_s16;
             y_velocity = (destination->unk_04.at00.v
-                - motion->y.v) / ((Rec_func_80024170_arg0 *)state)->unk_12.as_s16;
+                - motion->y.v) / state->unk_12.as_s16;
             motion->velocity_z = 0;
             motion->velocity_y = y_velocity;
             create_an_effect_position_randomized_sprite_angle(state, motion);
@@ -1039,33 +1039,33 @@ void update_movement_toward_target_along_direction_advances_action_phases(void *
             + motion->velocity_y);
         motion->z.v = (s32) (motion->z.v
             + motion->velocity_z);
-        if ((s16) ((Rec_func_80024170_arg0 *)state)->unk_10 < ((Rec_func_80024170_arg0 *)state)->unk_12.as_s16) {
+        if ((s16) state->unk_10 < state->unk_12.as_s16) {
             break;
         }
         create_and_initializes_copying_n_24_bytes_source_data(state, motion, ((ovl_1930844_81912154_S_80025954_15 *)(((ovl_1930844_81912154_S_80025954_1 *)owner)->unk_60))->unk_88);
         play_sound_if_enabled(AUDIO_PLAY_CD_CUE);
-        ((Rec_func_80024170_arg0 *)state)->unk_10 = 0U;
-        ((Rec_func_80024170_arg0 *)state)->unk_0A = (s16) ((u16) ((Rec_func_80024170_arg0 *)state)->unk_0A + 1);
+        state->unk_10 = 0U;
+        state->spell.phase.s = (s16) ((u16) state->spell.phase.s + 1);
         break;
     case 3:
-        if ((s16) ((Rec_func_80024170_arg0 *)state)->unk_10 >= 8) {
-            ((Rec_func_80024170_arg0 *)state)->unk_10 = 0U;
-            ((Rec_func_80024170_arg0 *)state)->unk_0A = (s16) ((u16) ((Rec_func_80024170_arg0 *)state)->unk_0A + 1);
+        if ((s16) state->unk_10 >= 8) {
+            state->unk_10 = 0U;
+            state->spell.phase.s = (s16) ((u16) state->spell.phase.s + 1);
             break;
         }
-        ((Rec_func_80024170_arg0 *)state)->unk_14 = 0;
+        state->unk_14 = 0;
         return;
     case 4:
-        if ((s16) ((Rec_func_80024170_arg0 *)state)->unk_10 < 0x44) {
+        if ((s16) state->unk_10 < 0x44) {
             break;
         }
-        apply_attack_power_and_element_effects(((ovl_1930844_81912154_S_80025954_1 *)owner)->unk_60, 0x18, ((Rec_func_80024170_arg0 *)state)->unk_09, 1,
-            (s32) (s16) (((Rec_func_80024170_arg0 *)state)->unk_0E << 9), owner, 1);
-        ((Rec_func_80024170_arg0 *)state)->unk_10 = 0U;
-        ((Rec_func_80024170_arg0 *)state)->unk_0A = (s16) ((u16) ((Rec_func_80024170_arg0 *)state)->unk_0A + 1);
+        apply_attack_power_and_element_effects(((ovl_1930844_81912154_S_80025954_1 *)owner)->unk_60, 0x18, state->spell.variant, 1,
+            (s32) (s16) (state->unk_0E << 9), owner, 1);
+        state->unk_10 = 0U;
+        state->spell.phase.s = (s16) ((u16) state->spell.phase.s + 1);
         break;
     case 5:
-        if (((Rec_func_80024170_arg0 *)state)->unk_14 == 0) {
+        if (state->unk_14 == 0) {
             g_dungeon_status.active_actor = 0;
             (*(u16 *)((u8 *)state + -2)) = (u16) ((*(u16 *)((u8 *)state + -2)) | NODE_REMOVE);
             (*&object_flag_block.flags) = (s32) (object_flag_block.flags | OBJECT_REMOVE_PENDING);
@@ -1078,14 +1078,14 @@ void update_movement_toward_target_along_direction_advances_action_phases(void *
             + motion->velocity_y);
         motion->z.v = (s32) (motion->z.v
             + motion->velocity_z);
-        if ((s16) ((Rec_func_80024170_arg0 *)state)->unk_10 < ((Rec_func_80024170_arg0 *)state)->unk_12.as_s16) {
+        if ((s16) state->unk_10 < state->unk_12.as_s16) {
             break;
         }
         next_state = 5;
     set_state:
-        ((Rec_func_80024170_arg0 *)state)->unk_0A = next_state;
-        ((Rec_func_80024170_arg0 *)state)->unk_10 = 0U;
+        state->spell.phase.s = next_state;
+        state->unk_10 = 0U;
     }
-    ((Rec_func_80024170_arg0 *)state)->unk_14 = 0;
+    state->unk_14 = 0;
     return;
 }

@@ -28,6 +28,7 @@
 #include "dungeon/actor/state.h"
 #include "sdk/libc.h"
 #include "engine/entity.h"
+#include "dungeon/item/message.h"
 
 struct Dst;
 struct Elem;
@@ -175,7 +176,6 @@ value_ready:
 extern u8 D_800E1B08[];
 extern u8 D_800E1B2E[];
 
-extern void display_formatted_context_message(void *context);
 extern s32 get_entity_effect_value(ActorRecord *entry, s32 effect_id);
 extern void initialize_timed_motion_step(u16 countdown, u32 amount);
 
@@ -248,7 +248,6 @@ extern u8 D_800E1B5D;
 extern s32 get_entity_effect_value(ActorRecord *entry, s32 effect_id);
 #include "dungeon/actor/status.h"
 extern void initialize_timed_motion_step(u16 countdown, u32 amount);
-extern void display_formatted_context_message(void *context);
 
 /* Creates an effect for the active entity or displays its status message. */
 s32 create_active_entity_effect_or_message(ActorRecord *entity)
@@ -440,9 +439,6 @@ s32 attempt_trap_request_ten_slots(void *object) {
 #include "shared/record_ptrs.h"
 #include "shared/object_flags.h"
 
-#define U8(p, o)  (*(u8 *)((u8 *)(p) + (o)))
-#define S16(p, o) (*(s16 *)((u8 *)(p) + (o)))
-#define U16(p, o) (*(u16 *)((u8 *)(p) + (o)))
 #define U32(p, o) (*(u32 *)((u8 *)(p) + (o)))
 
 extern s16 D_8006CCD8[], D_8006CCE8[];
@@ -2306,8 +2302,8 @@ typedef struct S_800CE748_3 {
 } S_800CE748_3;   /* objectData in update_trap_effect_grid */
 
 void *get_unused_text_buffer(void);
-u8 *expand_text_control_codes(u8 *src, u8 *dst);
-void * write_text_byte_and_advance(s8 value, s8 *dest);
+u8 *expand_text_control_codes(const u8 *src, u8 *dst);
+u8 *write_text_byte_and_advance(s8 value, u8 *dest);
 s32 display_text_with_fullwidth_adjustment(s8 *text);
 s32 generate_random_value(void);
 
@@ -2478,7 +2474,6 @@ extern s8 entity_spawn_variant_code;
 
 extern void initialize_timed_motion_step(u16 countdown, u32 amount);
 extern void SD_Call(s32);
-extern void display_formatted_context_message(void *context);
 extern s32 generate_random_value(void);
 extern s32 random_dungeon_range_16(u32 bound_a, u32 bound_b);
 

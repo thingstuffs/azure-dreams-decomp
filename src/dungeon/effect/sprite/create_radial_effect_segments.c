@@ -6,6 +6,7 @@
 #include "m2c_compat.h"
 #include "records/Rec_func_800D6DC0_arg1.h"
 #include "dungeon/effect/sprite.h"
+#include "dungeon/effect/radial_effect_segment.h"
 #include "engine/graphics.h"
 #include "engine/node.h"
 #include "sdk/libgte.h"
@@ -14,7 +15,7 @@ typedef struct S_800D6C18_2 S_800D6C18_2;
 
 /* cfail-repair: tf7-phase1-cache-v3 */
 extern s32 draw_linked_depth_sliced_quads(void *payload, ObjectPosition *position, SpriteFrameState *render_state);
-extern void update_expiring_sprite_effect(void *effect, S_800D6C18_2 *size_state);
+extern void update_expiring_sprite_effect(RadialEffectSegmentBody *effect, S_800D6C18_2 *size_state);
 extern M2C_UNK radial_effect_frames;
 
 typedef struct {
@@ -31,28 +32,6 @@ typedef struct {
     void *field10;
 } AllocBlock;
 
-typedef struct S_800D6DC0_0 {
-    u8 pad_00[0xC];
-    s16 unk_0C;
-    s16 unk_0E;
-    s16 unk_10;
-    u8 pad_12[0x2];
-    void * unk_14;
-    u8 pad_18[0x2C];
-    s16 unk_44;
-    s16 unk_46;
-    s16 unk_48;
-    s16 unk_4A;
-    s16 unk_4C;
-    s16 unk_4E;
-    s16 unk_50;
-    s16 unk_52;
-    s16 unk_54;
-    s16 unk_56;
-    s16 unk_58;
-    s16 unk_5A;
-} S_800D6DC0_0;
-
    /* arg3 in create_radial_effect_segments */
 
 /* Creates eight radial effect segments using the source position and render data. */
@@ -67,7 +46,7 @@ void create_radial_effect_segments(ActorRecord *unused, Rec_func_800D6DC0_arg1 *
     s32 end_angle;
     s32 segment;
     ObjectPosition *position;
-    S_800D6DC0_0 *effect_state;
+    RadialEffectSegmentBody *effect_state;
     SpriteFrameState *render_data;
     ObjectNodeHeader *effect;
     void *copy_dst;

@@ -1,8 +1,8 @@
 #include "dungeon/item/message.h"
+#include "dungeon/data.h"
 
 extern s32 runtime_script_state[];
 extern s32 D_800DD718[];
-extern u8 battle_message_buffers[];
 
 /* Selects the next buffer not referenced by the five checked table entries. */
 void *get_unused_text_buffer(void) {

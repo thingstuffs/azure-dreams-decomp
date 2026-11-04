@@ -5,6 +5,7 @@
 #include "shared/sprite_frame_state.h"
 #include "dungeon/effect/sprite.h"
 #include "shared/dungeon_projectile_views.h"
+#include "dungeon/effect/sprite/jittered_trail_segment.h"
 #include "shared/object_node.h"
 #include "shared/tile_object.h"
 #include "shared/slus_callbacks.h"
@@ -454,25 +455,6 @@ void advance_target_chasing_emitter(void *object, S_800244BC_2 *position, Sprite
 
 
 
-typedef struct S_80024810_0 {
-    void * unk_00;
-    u16 unk_04;
-    u16 unk_06;
-    u16 unk_08;
-    u8 pad_0A[0x1A];
-    u16 unk_24;
-    u16 unk_26;
-    s16 unk_28;
-    u8 pad_2A[0x2];
-    s16 unk_2C;
-    s16 unk_2E;
-    u8 pad_30[0x4];
-    s32 unk_34;
-    u8 pad_38[0x4];
-    s16 unk_3C;
-    u16 unk_3E;
-} S_80024810_0;   /* arg0 in update_jittered_effect_points */
-
 typedef struct S_80024810_1 {
     u8 pad_00[0x52];
     u16 unk_52;
@@ -481,6 +463,7 @@ typedef struct S_80024810_1 {
 /* micro-lane E 2026-08-14: true base 0x80024810 (delta 0x7E65D800) */
 
 /* Update the effect's jittered points between endpoints and advance its animation. */
+#define TRAIL_BODY ((JitteredTrailSegmentBody *)effect)
 void update_jittered_effect_points(void *effect) {
     u16 coord_delta[3];
     s32 phase;
@@ -489,63 +472,65 @@ void update_jittered_effect_points(void *effect) {
     S_80024810_1 *owner;
     ObjectNodeHeader *target;
 
-    owner = ((S_80024810_0 *)effect)->unk_00;
-    target = (void *) (((S_80024810_0 *)effect)->unk_34 - 0x20);
+    owner = TRAIL_BODY->owner;
+    target = (void *) (TRAIL_BODY->unk_34 - 0x20);
     owner->unk_52 = (u16) (owner->unk_52 | 0x8000);
-    ((S_80024810_0 *)effect)->unk_24 = (u16) target->position->x.unsigned_parts.integer;
-    ((S_80024810_0 *)effect)->unk_26 = (u16) target->position->y.unsigned_parts.integer;
-    ((S_80024810_0 *)effect)->unk_28 = (s16) (target->position->z.unsigned_parts.integer - 0x20);
-    ((S_80024810_0 *)effect)->unk_04 = (u16) view_reference_entity.x.w.i;
-    ((S_80024810_0 *)effect)->unk_06 = (u16) view_reference_entity.y.w.i;
-    ((S_80024810_0 *)effect)->unk_08 = (u16) view_reference_entity.z.w.i;
+    TRAIL_BODY->unk_24 = (u16) target->position->x.unsigned_parts.integer;
+    TRAIL_BODY->unk_26 = (u16) target->position->y.unsigned_parts.integer;
+    TRAIL_BODY->unk_28 = (s16) (target->position->z.unsigned_parts.integer - 0x20);
+    TRAIL_BODY->unk_04 = (u16) view_reference_entity.x.w.i;
+    TRAIL_BODY->unk_06 = (u16) view_reference_entity.y.w.i;
+    TRAIL_BODY->unk_08 = (u16) view_reference_entity.z.w.i;
     if (resolve_record_orientation_or_fallback(reference_tile_object.sprite_source, ((s32 *)(&reference_tile_object)), coord_delta, 0) != 0) {
-        ((S_80024810_0 *)effect)->unk_04 = (u16) (((S_80024810_0 *)effect)->unk_04 + coord_delta[0]);
-        ((S_80024810_0 *)effect)->unk_06 = (u16) (((S_80024810_0 *)effect)->unk_06 + coord_delta[1]);
-        ((S_80024810_0 *)effect)->unk_08 = (u16) (((S_80024810_0 *)effect)->unk_08 + coord_delta[2]);
+        TRAIL_BODY->unk_04 = (u16) (TRAIL_BODY->unk_04 + coord_delta[0]);
+        TRAIL_BODY->unk_06 = (u16) (TRAIL_BODY->unk_06 + coord_delta[1]);
+        TRAIL_BODY->unk_08 = (u16) (TRAIL_BODY->unk_08 + coord_delta[2]);
     }
-    coord_delta[0] = (u16) ((s32) ((s16) ((S_80024810_0 *)effect)->unk_24 - (s16) ((S_80024810_0 *)effect)->unk_04)
+    coord_delta[0] = (u16) ((s32) ((s16) TRAIL_BODY->unk_24 - (s16) TRAIL_BODY->unk_04)
         >> 2);
     point_index = 1;
-    coord_delta[1] = (u16) ((s32) ((s16) ((S_80024810_0 *)effect)->unk_26 - (s16) ((S_80024810_0 *)effect)->unk_06)
+    coord_delta[1] = (u16) ((s32) ((s16) TRAIL_BODY->unk_26 - (s16) TRAIL_BODY->unk_06)
         >> 2);
-    coord_delta[2] = (u16) ((s32) (((S_80024810_0 *)effect)->unk_28 - (s16) ((S_80024810_0 *)effect)->unk_08) >> 2);
+    coord_delta[2] = (u16) ((s32) (TRAIL_BODY->unk_28 - (s16) TRAIL_BODY->unk_08) >> 2);
     do {
-        (*(s16 *)((u8 *)effect + (point_index * 8) + 4)) = (s16) ((((S_80024810_0 *)effect)->unk_04
+        (*(s16 *)((u8 *)effect + (point_index * 8) + 4)) = (s16) ((TRAIL_BODY->unk_04
             + ((s16) coord_delta[0] * point_index) + (rand() & 0x3F)) - 0x20);
-        (*(s16 *)((u8 *)effect + (point_index * 8) + 6)) = (s16) ((((S_80024810_0 *)effect)->unk_06
+        (*(s16 *)((u8 *)effect + (point_index * 8) + 6)) = (s16) ((TRAIL_BODY->unk_06
             + ((s16) coord_delta[1] * point_index) + (rand() & 0x3F)) - 0x20);
-        (*(s16 *)((u8 *)effect + (point_index * 8) + 8)) = (s16) ((((S_80024810_0 *)effect)->unk_08
+        (*(s16 *)((u8 *)effect + (point_index * 8) + 8)) = (s16) ((TRAIL_BODY->unk_08
             + ((s16) coord_delta[2] * point_index)) - (rand() & 0x3F));
         point_index += 1;
     } while (point_index < 4);
-    ((S_80024810_0 *)effect)->unk_2C = (s16) (((((S_80024810_0 *)effect)->unk_3E & 3) << 5) + 0x80);
-    ((S_80024810_0 *)effect)->unk_2E = (s16) (((s32) (((S_80024810_0 *)effect)->unk_3E << 0x10) >> 0x12) << 5);
-    phase = ((S_80024810_0 *)effect)->unk_3C;
+    TRAIL_BODY->unk_2C = (s16) (((TRAIL_BODY->unk_3E & 3) << 5) + 0x80);
+    TRAIL_BODY->unk_2E = (s16) (((s32) (TRAIL_BODY->unk_3E << 0x10) >> 0x12) << 5);
+    phase = TRAIL_BODY->unk_3C;
     switch (phase) {
     case 0:
-        ((S_80024810_0 *)effect)->unk_24 = (u16) (((S_80024810_0 *)effect)->unk_04
-            + ((s32) ((s16) ((S_80024810_0 *)effect)->unk_24 - (s16) ((S_80024810_0 *)effect)->unk_04) >> 1));
-        ((S_80024810_0 *)effect)->unk_26 = (u16) (((S_80024810_0 *)effect)->unk_06
-            + ((s32) ((s16) ((S_80024810_0 *)effect)->unk_26 - (s16) ((S_80024810_0 *)effect)->unk_06) >> 1));
-        ((S_80024810_0 *)effect)->unk_28 = (s16) (((S_80024810_0 *)effect)->unk_08
-            + ((s32) (((S_80024810_0 *)effect)->unk_28 - (s16) ((S_80024810_0 *)effect)->unk_08) >> 1));
-        ((S_80024810_0 *)effect)->unk_3C = (s16) ((u16) ((S_80024810_0 *)effect)->unk_3C + 1);
+        TRAIL_BODY->unk_24 = (u16) (TRAIL_BODY->unk_04
+            + ((s32) ((s16) TRAIL_BODY->unk_24 - (s16) TRAIL_BODY->unk_04) >> 1));
+        TRAIL_BODY->unk_26 = (u16) (TRAIL_BODY->unk_06
+            + ((s32) ((s16) TRAIL_BODY->unk_26 - (s16) TRAIL_BODY->unk_06) >> 1));
+        TRAIL_BODY->unk_28 = (s16) (TRAIL_BODY->unk_08
+            + ((s32) (TRAIL_BODY->unk_28 - (s16) TRAIL_BODY->unk_08) >> 1));
+        TRAIL_BODY->unk_3C = (s16) ((u16) TRAIL_BODY->unk_3C + 1);
                         /* fallthrough */
     case 1:
-        if ((s16) ((S_80024810_0 *)effect)->unk_3E >= 6) {
-            ((S_80024810_0 *)effect)->unk_3E = 2U;
-            ((S_80024810_0 *)effect)->unk_3C = (s16) ((u16) ((S_80024810_0 *)effect)->unk_3C + 1);
+        if ((s16) TRAIL_BODY->unk_3E >= 6) {
+            TRAIL_BODY->unk_3E = 2U;
+            TRAIL_BODY->unk_3C = (s16) ((u16) TRAIL_BODY->unk_3C + 1);
         }
         break;
     case 2:
-        if ((s16) ((S_80024810_0 *)effect)->unk_3E >= 8) {
+        if ((s16) TRAIL_BODY->unk_3E >= 8) {
             NODE_HEADER(effect)->flags = (u16) (NODE_HEADER(effect)->flags | 0x8000);
             object_flag_block.flags = (s32) (object_flag_block.flags | OBJECT_REMOVE_PENDING);
         }
         break;
     }
-    ((S_80024810_0 *)effect)->unk_3E = (u16) (((S_80024810_0 *)effect)->unk_3E + 1);
+    TRAIL_BODY->unk_3E = (u16) (TRAIL_BODY->unk_3E + 1);
 }
+
+#undef TRAIL_BODY
 
 #include "modules/dungeon_ovl_19c6800.h"
 #include "common.h"

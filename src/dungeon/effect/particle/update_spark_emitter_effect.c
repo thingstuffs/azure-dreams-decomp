@@ -12,6 +12,7 @@
 #include "sdk/libc.h"
 #include "engine/node.h"
 #include "dungeon/actor.h"
+#include "dungeon/data.h"
 
 
 
@@ -63,7 +64,6 @@ typedef struct S_81814EDC_12_pre {
     u8 pad_08[0x10];
 } S_81814EDC_12_pre;   /* the 0x18 bytes before ((S_81814EDC_0 *)arg0)->unk_30 in update_spark_emitter_effect, addressed as ((S_81814EDC_0 *)arg0)->unk_30[-1] */
 
-extern u8 spark_sprite_entries[];
 M2C_UNK func_800245BC();
 void apply_attack_power_and_element_effects();
 extern M2C_UNK spark_particle_update_address;

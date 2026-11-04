@@ -5,8 +5,8 @@
 #include "shared/object_flags.h"
 #include "dungeon/item/message.h"
 #include "dungeon/item/state.h"
+#include "dungeon/data.h"
 typedef struct { u16 unk00; } Pre;
-extern u16 dungeon_status_flags_alias;
 extern s32 D_800E18C8;
 /* Counts active dungeon ticks, optionally reports expiry and clears room flag 2, then removes the timer. */
 void tick_region_flag_expiry(RegionFlagExpiryBody *state)

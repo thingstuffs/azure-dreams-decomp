@@ -1,6 +1,7 @@
 #ifndef DUNGEON_RESOURCE03_SLOT0_H
 #define DUNGEON_RESOURCE03_SLOT0_H
 struct ActorRecord;
+#include "dungeon/monster/dragon/display_orientation.h"
 #include "common.h"
 #include "dungeon/actor.h"
 #include "shared/object_node.h"
@@ -254,7 +255,6 @@ void update_entity_facing_motion_and_ground(void *entity, R03_80170A28_S_80170A2
 void dispatch_monster_move_attack_spell(ActorRecord *controller, ObjectPosition *context, SpriteFrameState *entity, ActorRecord *actor_state);
 void advance_stored_entity_path(ActorRecord *body, ObjectPosition *position, SpriteFrameState *sprite, ActorRecord *actor);
 void advance_actor_path_with_item_search(ActorRecord *move_data, ObjectPosition *context, SpriteFrameState *position_data, ActorRecord *actor_data);
-void copy_display_orientation_state(ActorRecord *body, ObjectPosition *position, SpriteFrameState *sprite, void *orientation);
 s32 check_actor_transition_and_start_effect(ActorRecord *action_state, ObjectPosition *motion_param, SpriteFrameState *sprite_arg, ActorRecord *actor);
 void start_directional_actor_effect(ActorRecord *action_state, ObjectPosition *action_context, void *sprite, ActorRecord *actor);
 s32 dispatch_actor_path_state_and_relink_entity(ActorRecord *body, ObjectPosition *position, SpriteFrameState *sprite, s32 force_state_arg);

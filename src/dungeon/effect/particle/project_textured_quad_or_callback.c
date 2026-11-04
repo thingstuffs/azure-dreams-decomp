@@ -15,7 +15,8 @@ struct ObjectPosition;
 #include "dungeon/item/message.h"
 #include "dungeon/item.h"
 #include "dungeon/actor.h"
-void update_animated_effect_sprite(TargetTravelEffectBody *, ObjectPosition *, SpriteFrameState *);
+#include "dungeon/effect/particle.h"
+#include "dungeon/system.h"
 void (*const dungeon_1894800_entry)(TargetTravelEffectBody *, ObjectPosition *, SpriteFrameState *) = update_animated_effect_sprite;
 const u8 no_effect_target_prefix[48] = { 0x82, 0x73, 0x82, 0x88, 0x82, 0x85, 0x82, 0x92, 0x82, 0x85, 0x81, 0x40, 0x82, 0x97, 0x82, 0x81, 0x82, 0x93, 0x81, 0x40, 0x82, 0x8E, 0x82, 0x8F, 0x81, 0x40, 0x82, 0x85, 0x82, 0x86, 0x82, 0x86, 0x82, 0x85, 0x82, 0x83, 0x82, 0x94, 0x81, 0x40, 0x82, 0x8F, 0x82, 0x8E, 0x81, 0x40, 0x00, 0x00 };
 const u8 D_80024034[4] = { 0x81, 0x44, 0x00, 0x00 };
@@ -23,15 +24,11 @@ const u8 D_80024034[4] = { 0x81, 0x44, 0x00, 0x00 };
 #include "dungeon/effect/particle/project_textured_quad_or_callback.h"
 #include "common.h"
 
-typedef s32 M2C_UNK;
-
 extern const u8 no_effect_target_prefix[48];
 extern const u8 D_80024034[4];
 extern u8 D_800E1C8A[38];
 
 #include "dungeon/effect/screen.h"
-extern void display_text_with_fullwidth_adjustment(s8 *text);
-extern s32 get_random_scaled_value(s16 input_value);
 
 /* Applies a directional effect and reports the result for flagged entities. */
 void apply_random_duration_actor_status(void *entity, s32 direction, void *unused)
@@ -326,8 +323,6 @@ void project_textured_quad_or_callback(void *quad_arg, ObjectPosition *position,
 #include "common.h"
 #include "shared/object_node.h"
 
-extern void project_textured_quad_or_callback(void *record,struct ObjectPosition *context, SpriteFrameState *data, s16 depth_bias);
-
 /* Retail 81874F04 (project_linked_quad_record).
  * Draw the record and then every record chained through the previous header's unk_18 link (node + 0x20 is the
  * next record); each node supplies the context and data pointers for its record. */
@@ -582,8 +577,6 @@ void draw_textured_sphere_mesh(void *mesh, void *position, void *material, u16 d
 #include "common.h"
 #include "shared/object_node.h"
 
-extern void draw_textured_sphere_mesh(void *record, void *context, void *data, u16 depth_bias);
-
 /* Retail 818757D4 (draw_chained_object_records).
  * Draw the record and then every record chained through the previous header's unk_18 link (node + 0x20 is the
  * next record); each node supplies the context and data pointers for its record. */
@@ -794,8 +787,6 @@ void create_terrain_seeking_point_effect(
 #include "common.h"
 #include "shared/object_flags.h"
 
-extern void create_terrain_seeking_point_effect(void *, s32, s32, s16, s16, s16, s16);
-
 typedef struct {
     u8 bytes[12];
 } UnkCopy12;
@@ -966,28 +957,6 @@ void spawn_randomized_spark_burst(u8 *data, void *unused, u8 *context)
 #include "common.h"
 #include "shared/object_flags.h"
 
-typedef struct S_81876014_0 {
-    u8 pad_00[0xA];
-    s16 unk_0A;
-    s16 unk_0C;
-    u8 pad_0E[0x36];
-    void * unk_44;
-    void * unk_48;
-    void * unk_4C;
-    u16 unk_50;
-    s16 unk_52;
-    u16 unk_54;
-    s16 unk_56;
-    s16 unk_58;
-    s16 unk_5A;
-    s16 unk_5C;
-    s16 unk_5E;
-    u16 unk_60;
-    u16 unk_62;
-    s16 unk_64;
-    s16 unk_66;
-} S_81876014_0;   /* arg0 in update_effect_quad_and_completion */
-
 typedef struct S_81876014_1 {
     u8 pad_00[0xA];
     s16 unk_0A;
@@ -1015,7 +984,7 @@ typedef struct S_81876014_6 {
 } S_81876014_6;   /* ((S_81876014_0 *)arg0)->unk_48 in update_effect_quad_and_completion */
 
 /* Update the effect quad, copy its position and color, and flag completion based on owner state. */
-void update_effect_quad_and_completion(void *effect, ObjectPosition *position_out_arg, SpriteFrameState *color_out_arg) {
+void update_effect_quad_and_completion(RotatingEffectQuadBody *effect, ObjectPosition *position_out_arg, SpriteFrameState *color_out_arg) {
     SpriteFrameState *color_out = color_out_arg;
     ObjectPosition *position_out = position_out_arg;
     s32 y_factor;
@@ -1023,39 +992,39 @@ void update_effect_quad_and_completion(void *effect, ObjectPosition *position_ou
     u16 angle;
     S_81876014_1 *owner;
 
-    owner = ((S_81876014_0 *)effect)->unk_4C;
+    owner = effect->unk_4C;
     sphere_particle_effect_updated = 1;
     if (owner->unk_9C == 0x37) {
         /* vertex 0 of the quad */
-        ((S_81876014_0 *)effect)->unk_50 =
-            (u16)((((S_81876014_0 *)effect)->unk_0A *
-                   rcos(((S_81876014_0 *)effect)->unk_0C)) >> 12);
-        y_factor = rsin(((S_81876014_0 *)effect)->unk_0C);
-        ((S_81876014_0 *)effect)->unk_58 = (((S_81876014_0 *)effect)->unk_0A * y_factor) >> 12;
-        ((S_81876014_0 *)effect)->unk_60 = 0;
+        effect->unk_50 =
+            (u16)((effect->unk_0A *
+                   rcos(effect->unk_0C)) >> 12);
+        y_factor = rsin(effect->unk_0C);
+        effect->unk_58 = (effect->unk_0A * y_factor) >> 12;
+        effect->unk_60 = 0;
         /* x of vertices 1..3 */
-        ((S_81876014_0 *)effect)->unk_52 = ((S_81876014_0 *)effect)->unk_50 + 0x10;
-        ((S_81876014_0 *)effect)->unk_54 = ((S_81876014_0 *)effect)->unk_50;
-        ((S_81876014_0 *)effect)->unk_56 = ((S_81876014_0 *)effect)->unk_50 + 0x10;
+        effect->unk_52 = effect->unk_50 + 0x10;
+        effect->unk_54 = effect->unk_50;
+        effect->unk_56 = effect->unk_50 + 0x10;
         /* y of vertices 1..3 */
-        ((S_81876014_0 *)effect)->unk_5A = ((S_81876014_0 *)effect)->unk_58;
-        ((S_81876014_0 *)effect)->unk_5C = ((S_81876014_0 *)effect)->unk_58;
-        ((S_81876014_0 *)effect)->unk_5E = ((S_81876014_0 *)effect)->unk_58;
+        effect->unk_5A = effect->unk_58;
+        effect->unk_5C = effect->unk_58;
+        effect->unk_5E = effect->unk_58;
         /* z of vertices 1..3 */
-        ((S_81876014_0 *)effect)->unk_62 = ((S_81876014_0 *)effect)->unk_60;
-        ((S_81876014_0 *)effect)->unk_64 = ((S_81876014_0 *)effect)->unk_60 + 0x10;
-        ((S_81876014_0 *)effect)->unk_66 = ((S_81876014_0 *)effect)->unk_60 + 0x10;
-        position_out->x.v = ((S_81876014_3 *)(((S_81876014_0 *)effect)->unk_44))->unk_00;
-        position_out->y.v = ((S_81876014_5 *)(((S_81876014_0 *)effect)->unk_44))->unk_04;
-        position_out->z.v = ((S_81876014_5 *)(((S_81876014_0 *)effect)->unk_44))->unk_08;
-        color_out->color.c.r = ((S_81876014_6 *)(((S_81876014_0 *)effect)->unk_48))->unk_0C;
-        color_out->color.c.g = ((S_81876014_6 *)(((S_81876014_0 *)effect)->unk_48))->unk_0D;
-        color_out->color.c.b = ((S_81876014_6 *)(((S_81876014_0 *)effect)->unk_48))->unk_0E;
-        angle = ((S_81876014_0 *)effect)->unk_0C;
+        effect->unk_62 = effect->unk_60;
+        effect->unk_64 = effect->unk_60 + 0x10;
+        effect->unk_66 = effect->unk_60 + 0x10;
+        position_out->x.v = ((S_81876014_3 *)(effect->unk_44))->unk_00;
+        position_out->y.v = ((S_81876014_5 *)(effect->unk_44))->unk_04;
+        position_out->z.v = ((S_81876014_5 *)(effect->unk_44))->unk_08;
+        color_out->color.c.r = ((S_81876014_6 *)(effect->unk_48))->unk_0C;
+        color_out->color.c.g = ((S_81876014_6 *)(effect->unk_48))->unk_0D;
+        color_out->color.c.b = ((S_81876014_6 *)(effect->unk_48))->unk_0E;
+        angle = effect->unk_0C;
         next_angle = angle - 0x64;
-        ((S_81876014_0 *)effect)->unk_0C = next_angle;
+        effect->unk_0C = next_angle;
         if (next_angle < 0) {
-            ((S_81876014_0 *)effect)->unk_0C = angle + 0xF9C;
+            effect->unk_0C = angle + 0xF9C;
         }
         if (owner->unk_0A < 5) {
             return;
@@ -1216,8 +1185,6 @@ const Copy32 textured_quad_octant_offsets = {{ {8, 0}, {8, 8}, {0, 8}, {-8, 8}, 
 extern Copy12 D_80026634;
 extern Copy12 D_80026640;
 extern Copy12 D_8002664C;
-
-extern void create_terrain_seeking_point_effect(void *, s32, s32, s16, s16, s16, s16);
 
 /* Moves an effect toward its target, emits particles, changes target colors, and applies a timed status. */
 void update_animated_effect_sprite(TargetTravelEffectBody *effect, ObjectPosition *entity, SpriteFrameState *sprite)

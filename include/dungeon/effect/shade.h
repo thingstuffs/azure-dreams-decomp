@@ -33,4 +33,6 @@ void create_colored_effect_with_sound(void *source, s32 color, unsigned short so
 #include "records/Rec_func_800D4BD4_arg1.h"
 #include "records/Rec_func_800D4BD4_arg2.h"
 void initialize_effect_object_state(ObjectNodeHeader *object, Rec_func_800D4BD4_arg1 *source, Rec_func_800D4BD4_arg2 *position, s32 unused_spawn_context);
+void create_colored_effect_with_event(ObjectNodeHeader *source, s32 color, unsigned short event_id);
+
 #endif

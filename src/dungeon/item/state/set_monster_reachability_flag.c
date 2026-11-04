@@ -1,8 +1,7 @@
 #include "common.h"
 #include "shared/record_ptrs.h"
 #include "dungeon/item/state.h"
-
-extern u16 monster_special_entry_index;
+#include "dungeon/data.h"
 
 /* Sets flag 0x400000 once when the blocking flag is clear and either threshold is met. */
 s32 set_monster_reachability_flag(void) {

@@ -7,7 +7,6 @@
 
 extern ColliderView town_actor_control;
 
-#define S16_AT(p, off) (*(s16 *)((u8 *)(p) + (off)))
 #define U16_AT(p, off) (*(u16 *)((u8 *)(p) + (off)))
 #define S32_AT(p, off) (*(s32 *)((u8 *)(p) + (off)))
 
@@ -22,15 +21,15 @@ void update_object_orbit_and_timer(TownObjectRecord *object, void *position, voi
         return;
     }
 
-    angle = U16_AT(object, 0x86);
-    U16_AT(object, 0x86) = angle + 0x40;
-    S16_AT(object, 0x72) = angle + 0x440;
+    angle = object->unk_86.as_u16;
+    object->unk_86.as_u16 = angle + 0x40;
+    object->heading.as_s16 = angle + 0x440;
 
-    U16_AT(position, 2) = U16_AT(object, 0x84) +
-        rsin(S16_AT(object, 0x86)) / (0x1000 / S16_AT(object, 0x84));
-    U16_AT(position, 6) = U16_AT(object, 0x86) +
-        rcos(S16_AT(object, 0x86)) / (0x1000 / S16_AT(object, 0x84)) -
-        U16_AT(object, 0x84);
+    U16_AT(position, 2) = object->unk_84.as_u16 +
+        rsin(object->unk_86.as_s16) / (0x1000 / object->unk_84.as_s16);
+    U16_AT(position, 6) = object->unk_86.as_u16 +
+        rcos(object->unk_86.as_s16) / (0x1000 / object->unk_84.as_s16) -
+        object->unk_84.as_u16;
 
     motion_entry = get_smallest_signed_overlap_axis_amount_two_intersecting_boxes(object, &town_actor_control);
     if (motion_entry != 0 && (axis = motion_entry->axis) != 2) {
@@ -40,8 +39,8 @@ void update_object_orbit_and_timer(TownObjectRecord *object, void *position, voi
             S32_AT(position, 4) -= motion_entry->amount;
         }
     } else {
-        timer = U16_AT(object, 0x6C) - 1;
-        U16_AT(object, 0x6C) = timer;
+        timer = object->timer.as_u16 - 1;
+        object->timer.as_u16 = timer;
         if ((s32)(timer << 16) > 0) {
             return;
         }

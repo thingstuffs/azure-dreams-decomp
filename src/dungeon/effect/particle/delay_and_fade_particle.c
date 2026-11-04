@@ -14,12 +14,10 @@
 #include "engine/graphics.h"
 #include "sdk/libc.h"
 #include "dungeon/system.h"
+#include "dungeon/data.h"
 
 extern void *allocate_list_node(s32, void *);
 extern void apply_attack_power_and_element_effects();
-
-extern u8 countdown_sprite_entries[];
-extern u8 directional_effect_entries[];
 
 typedef struct S_81850800_0 {
     void * unk_00;

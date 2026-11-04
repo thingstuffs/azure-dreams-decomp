@@ -20,9 +20,9 @@ struct ObjectNodeHeader;
 #include "dungeon/player/item.h"
 #include "dungeon/actor.h"
 #include "dungeon/item.h"
+#include "dungeon/effect/shade.h"
 
 struct Owner_800A48F0;
-void create_colored_effect_with_event(struct ObjectNodeHeader *source, s32 color, unsigned short event_id);
 
 extern u8 D_80089358[];
 extern u8 D_800E0FA4[];

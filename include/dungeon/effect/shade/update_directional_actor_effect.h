@@ -10,6 +10,7 @@ struct SpriteFrameState;
 #include "m2c_compat.h"
 #include "shared/tile_object.h"
 #include "shared/entity.h"
+#include "dungeon/effect/spell_effect.h"
 #include "shared/record_ptrs.h"
 #include "shared/slus_callbacks.h"
 #include "shared/game_work.h"
@@ -200,12 +201,9 @@ typedef struct Row_8194D354_S_80024B54_0_pre {
     u16 unk_00;
 } Row_8194D354_S_80024B54_0_pre;   /* the 0x2 bytes before arg0 in func_80024B54, addressed as arg0[-1] */
 
-typedef struct Row_8194D354_S_80024B54_0 {
-    s32 unk_00;
-    u16 * unk_04;
-    u8 unk_08;
-    u8 unk_09;
-    union { s16 s; u16 u; } unk_0A;   /* accessed as both */
+/* Spell state for three directed effects, target tint, and the delayed attack. */
+typedef struct ThreeWayTargetSpellBody {
+    SpellEffectHeader spell;
     u8 pad_0C[0x2];
     u16 unk_0E;
     u16 unk_10;
@@ -213,7 +211,7 @@ typedef struct Row_8194D354_S_80024B54_0 {
     void * unk_14;
     u16 unk_18;
     s16 unk_1A;
-} Row_8194D354_S_80024B54_0;   /* arg0 in func_80024B54 */
+} ThreeWayTargetSpellBody;
 
 typedef struct Row_8194D354_S_80024B54_1 {
     u8 pad_00[0x1C];
@@ -302,6 +300,6 @@ void create_textured_offset_object(EffectWithEndpointsBody *source_object);
 void advance_object_motion_and_animation(EffectWithEndpointsBody *object);
 void allocate_effect_with_endpoints(s32 object_value, ObjectPosition *start_pos, void *end_pos, s16 setting, Row_8194D1E4_FourWords params_a,
     Row_8194D1E4_FourWords params_b, Row_8194D1E4_Packed8 packed_params);
-void update_three_way_target_effect(void *effect_arg, ObjectPosition *position);
+void update_three_way_target_effect(ThreeWayTargetSpellBody *effect_arg, ObjectPosition *position);
 extern u8 actor_direction_sprites[];
 #endif

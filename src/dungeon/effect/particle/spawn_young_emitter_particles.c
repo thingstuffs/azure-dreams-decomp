@@ -3,6 +3,7 @@
 #include "shared/dungeon_moving_views.h"
 #include "dungeon/effect/particle.h"
 #include "dungeon/effect/head_bank_imports.h"
+#include "dungeon/data.h"
 
 typedef struct S_7FFEA9D4_4 {
     u8 pad_00[0xC];
@@ -42,8 +43,6 @@ typedef struct S_7FFEA9D4_3 {
     u8 unk_13;
 } S_7FFEA9D4_3;
 
-
-extern s32 particle_object_flags;
 extern u8 emitter_height_offsets[0x100];
 extern u16 emitted_effect_counter;
 extern M2C_UNK D_8010C994;

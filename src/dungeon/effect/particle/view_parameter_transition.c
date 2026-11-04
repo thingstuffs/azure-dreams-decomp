@@ -399,7 +399,8 @@ void update_moving_effect_particles_and_cleanup(MovingColorWork *effect_data, Ob
     SpriteFrameState *display = effect_display;
     u8 *owner;
     u8 *entity;
-    u8 *source;
+    ObjectNodeHeader *source;
+    ObjectPosition *source_position;
     u8 *copy_page;
     u8 *copy_source;
     void **jump_table;
@@ -410,7 +411,7 @@ void update_moving_effect_particles_and_cleanup(MovingColorWork *effect_data, Ob
     *(AggU32 *)direction_offsets = *(AggU32 *)&D_80024038;
     state = effect_data->state;
     entity = owner - 0x20;
-    source = PTR_AT(entity, 0x08);
+    source_position = PTR_AT(entity, 0x08);
     switch (state) {
     case 0:
         display->color.word = 0x00808080;
@@ -438,9 +439,9 @@ void update_moving_effect_particles_and_cleanup(MovingColorWork *effect_data, Ob
             break;
         }
 
-        effect_pos->x.unsigned_parts.integer = U16_AT(source, 0x02);
-        effect_pos->y.unsigned_parts.integer = U16_AT(source, 0x06);
-        state = U16_AT(source, 0x0A);
+        effect_pos->x.unsigned_parts.integer = source_position->x.unsigned_parts.integer;
+        effect_pos->y.unsigned_parts.integer = source_position->y.unsigned_parts.integer;
+        state = source_position->z.unsigned_parts.integer;
         effect_pos->z.unsigned_parts.integer = state;
 
         if (!(U16_AT(PTR_AT(entity, 0x0C), 0x14) & 0x8000)) {
@@ -484,7 +485,7 @@ void update_moving_effect_particles_and_cleanup(MovingColorWork *effect_data, Ob
         {
             u32 target = (u32)PTR_AT(owner, 0x60);
             if (target != 0) {
-                u8 *sprite;
+                SpriteFrameState *sprite;
                 s32 delta;
 
                 {
@@ -503,10 +504,10 @@ void update_moving_effect_particles_and_cleanup(MovingColorWork *effect_data, Ob
                     table = (u32)((u8 *)dir_step_x);
                     effect_data->target_height.s = target;
                     target = effect_data->direction;
-                    sprite = PTR_AT(owner, -0x14);
+                    sprite = NODE_HEADER(owner)->sprite;
                     target <<= 1;
                     target += table;
-                    table = U8_AT(sprite, 0x24);
+                    table = sprite->tile_x;
                     target = U8_AT((u8 *)target, 0x00);
                     table += target;
                     effect_data->next_tile_x = table;
@@ -515,7 +516,7 @@ void update_moving_effect_particles_and_cleanup(MovingColorWork *effect_data, Ob
                     target = effect_data->direction;
                     target <<= 1;
                     target += table;
-                    table = U8_AT(sprite, 0x25);
+                    table = sprite->tile_y;
                     target = U8_AT((u8 *)target, 0x00);
                     table += target;
                     effect_data->next_tile_y = table;
@@ -523,12 +524,12 @@ void update_moving_effect_particles_and_cleanup(MovingColorWork *effect_data, Ob
 
                 {
                     s32 owner_axis = S8_AT(owner, 0x72);
-                    u32 sprite_axis = U8_AT(sprite, 0x24);
+                    u32 sprite_axis = sprite->tile_x;
 
                     if (owner_axis != sprite_axis) {
                     } else {
                         owner_axis = S8_AT(owner, 0x73);
-                        sprite_axis = U8_AT(sprite, 0x25);
+                        sprite_axis = sprite->tile_y;
                     }
                     delta = owner_axis - sprite_axis;
                 }
@@ -659,7 +660,7 @@ void update_moving_effect_particles_and_cleanup(MovingColorWork *effect_data, Ob
         if (source != 0) {
             s32 trig;
 
-            entity = source + 0x20;
+            entity = NODE_BODY(source);
             {
                 u16 spawn_count = effect_data->timer.u;
                 S16_AT(entity, 0x0A) = 0x80;
@@ -676,7 +677,7 @@ void update_moving_effect_particles_and_cleanup(MovingColorWork *effect_data, Ob
             register_node(source, project_sprite_chain);
 
             {
-                SpriteFrameState *spawn_display = PTR_AT(source, 0x0C);
+                SpriteFrameState *spawn_display = source->sprite;
                 spawn_display->tpage_abr = 0x20;
                 spawn_display->flags |= 0x0C;
             }
@@ -692,7 +693,7 @@ void update_moving_effect_particles_and_cleanup(MovingColorWork *effect_data, Ob
                 (entity_height_offsets[U8_AT(PTR_AT(owner, 0x60), 0x13)] << 16);
 
             {
-                SpriteFrameState *spawn_display = PTR_AT(source, 0x0C);
+                SpriteFrameState *spawn_display = source->sprite;
                 spawn_display->scale_y = 0x1000;
                 spawn_display->scale_x = 0x1000;
                 spawn_display->color.c.b = 0x14;

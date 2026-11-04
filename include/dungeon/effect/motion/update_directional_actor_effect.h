@@ -4,10 +4,20 @@ struct SpriteFrameState;
 #include "modules/dungeon_native_abi.h"
 #include "shared/tile_object.h"
 #include "shared/entity.h"
+#include "dungeon/effect/spell_effect.h"
 #include "shared/record_ptrs.h"
 #include "shared/dir_step.h"
 #include "dungeon/effect/motion.h"
-void update_directional_actor_effect(void *, void *);
+/* Spell state for model launch, target color, and completion timing. */
+typedef struct TimedModelTintSpellBody {
+    SpellEffectHeader spell;
+    u8 pad_0C[0x8];
+    union { u16 u; s16 s; } unk_14;
+    u16 unk_16;
+    s16 unk_18;
+} TimedModelTintSpellBody;
+
+void update_directional_actor_effect(TimedModelTintSpellBody *, void *);
 void update_spiraling_effect_growth_and_fade(SpiralingBody *, ObjectPosition *, struct SpriteFrameState *);
 void spawn_spiraling(void *, s16, s16, void *, s32);
 void process_effect_modes_and_completion(void *);

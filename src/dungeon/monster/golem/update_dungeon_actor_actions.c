@@ -223,14 +223,14 @@ void update_dungeon_actor_actions(GolemActionWork *actor, ObjectPosition *contex
         case 6:
         {
             s16 heading;
-            void *leader;
+            ActorRecord *leader;
 
             heading = get_rounded_facing_and_rounding_flag(
                 sprite->tile_x, sprite->tile_y,
                 reference_tile_object.tile_position.parts.tile_x, reference_tile_object.tile_position.parts.tile_y, &heading_flags);
             leader = primary_actor_record;
             stats->facing = heading;
-            if (F(leader, u8, 0x9A) != 17) {
+            if (leader->action_id.u != 17) {
                 update_actor_status_and_mp(stats);
                 return;
             }

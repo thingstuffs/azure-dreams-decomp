@@ -11,8 +11,6 @@
 
 #include "engine/text.h"
 #include "engine/util.h"
-extern void update_anchored_fading_effect(void *effect, ObjectPosition *motion, SpriteFrameState *sprite);
-extern void update_attached_fading_effect(void *effect, ObjectPosition *motion, SpriteFrameState *sprite);
 extern u8 *D_800DF24C[];
 
 typedef struct S_800B4C7C_0 {

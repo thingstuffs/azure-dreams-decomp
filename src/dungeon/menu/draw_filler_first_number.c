@@ -2,6 +2,7 @@
 #include "dungeon/menu.h"
 #include "sdk/libgpu.h"
 #include "slus.h"
+#include "dungeon/data.h"
 
 typedef struct {
     s16 first;
@@ -9,8 +10,6 @@ typedef struct {
     s16 third;
     s16 fourth;
 } DrawRecord;
-
-extern u8 numeric_character_flags[];
 
 /* Draw the first formatted number with mode-dependent filler glyphs. */
 void draw_filler_first_number(s32 first_number, s32 second_number, u16 width, s16 y, u16 x, s16 mode)

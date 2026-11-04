@@ -85,7 +85,6 @@ s32 get_entity_effect_value(ActorRecord *entry, s32 effect_id);                 
 struct S_80094270_2;
 struct S_800B50B0_Entity;
 s32 request_familiar_deployment_change(void *actor, s32 param_a, void *param_b, struct S_80094270_2 *item, s32 slot); /* extern */
-void display_formatted_context_message(void *context);                   /* extern */
 s32 is_selectable_menu_target();                             /* extern */
 void update_selection_tile_markers(struct S_800B50B0_Entity *entity, s32 selection);            /* extern */
 extern M2C_UNK familiar_menu_action_data;

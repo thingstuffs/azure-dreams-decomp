@@ -24,8 +24,10 @@ void *get_unused_text_buffer(); /* Unprototyped: this retail caller sets three i
 #include "sdk/libc.h"
 #include "sdk/libgpu.h"
 #include "slus.h"
-
-extern s16 bounded_runtime_counter;
+#include "dungeon/item/message.h"
+#include "dungeon/actor.h"
+#include "dungeon/data.h"
+#include "dungeon/player/object.h"
 
 /* Increment the counter up to 32 and report whether it advanced. */
 s32 increment_bounded_counter(void) {
@@ -36,8 +38,6 @@ s32 increment_bounded_counter(void) {
     return 0;
 }
 #include "common.h"
-
-extern s16 bounded_runtime_counter;
 
 /* Decrement the counter if it is nonzero. */
 void decrement_bounded_counter(void) {
@@ -727,7 +727,6 @@ void *create_fullscreen_quad_updater(s16 initialValue) {
 #include "common.h"
 #include "m2c_compat.h"
 
-extern u8 fullwidth_period[];
 extern u8 D_800E0A03[];
 extern u8 D_800E0A12[];
 
@@ -737,7 +736,7 @@ void display_item_status_message(void *entity, struct DungeonItemEntry *item, s3
 
     void *text_end;
 
-    message = get_unused_text_buffer(entity, item, message_kind);
+    message = ((void *(*)(void *, struct DungeonItemEntry *, s32))get_unused_text_buffer)(entity, item, message_kind);
     if ((s16)message_kind == 0x15) {
         text_end = expand_text_control_codes(D_800E0A03, append_typed_formatted_value(item, message));
     } else {
@@ -749,7 +748,6 @@ void display_item_status_message(void *entity, struct DungeonItemEntry *item, s3
 
 #include "common.h"
 
-extern u8 fullwidth_period[];
 extern u8 D_800E0A1B[];
 
 void display_actor_item_status_message(void *actor, struct DungeonItemEntry *item) {
@@ -849,7 +847,6 @@ typedef struct S_800A6620_2 {
 extern void unlink_entity_node(void *object);
 extern void update_map_cell_flags_with_item_limit(u8 sound_x, u8 sound_y, s32 sound_mode);
 extern s16 find_entity_slot_by_field_ac(void *object);
-extern void * detach_record_and_update_slot_state(void *object);
 
 extern void *familiar_record_slots[];
 
@@ -1224,7 +1221,6 @@ void advance_record_values_by_step(Record *record, s16 step)
 s32 register_node(void *entry, void *registration_id);
 extern u8 D_80089074[];
 extern M2C_UNK D_800A6B70;
-extern s32 transform_linked_quad_batches(u8 *initial_batch, s32 initial_dispatch_arg, u8 *initial_params);
 
 typedef struct S_800A6C00_0 {
     u8 pad_00[0x8];
@@ -1313,8 +1309,6 @@ s32 generate_random_value(void) {
 }
 #include "common.h"
 #include "shared/game_work.h"
-
-extern s32 saved_random_seed[];
 
 /* Saves or restores the random seed according to the low 16 bits of save_seed. */
 void save_or_restore_random_seed(s32 save_seed) {

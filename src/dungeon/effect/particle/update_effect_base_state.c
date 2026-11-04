@@ -10,7 +10,7 @@
 
 #include "shared/dungeon_effect_state.h"
 /* Normal selector 9: ordinary typed entry pointer; gcc emits the state table. */
-void (*const dungeon_1864800_entry)(void *, ObjectPosition *, SpriteFrameState *) = run_fading_target_projectile;
+void (*const dungeon_1864800_entry)(FadingProjectileSpellBody *, ObjectPosition *, SpriteFrameState *) = run_fading_target_projectile;
 #include "dungeon/effect/particle/update_effect_base_state.h"
 
 /*
@@ -25,7 +25,7 @@ static __inline__ s16 delta_axis(s8 target, u16 start) {
 }
 
 /* Updates a staged effect, moves it toward its target, and emits particles. */
-void run_fading_target_projectile(void *effect, ObjectPosition *motion, SpriteFrameState *source_render) {
+void run_fading_target_projectile(FadingProjectileSpellBody *effect, ObjectPosition *motion, SpriteFrameState *source_render) {
     void *owner;
     Vec3 delta;
     s32 target_timer;
@@ -39,11 +39,11 @@ void run_fading_target_projectile(void *effect, ObjectPosition *motion, SpriteFr
     s16 state;
     s16 state_2;
 
-    owner = ((S_81844800_0 *)effect)->unk_00;
+    owner = effect->spell.caster;
     {
         owner_start = (u8 *)owner - 0x20;
     }
-    state = ((S_81844800_0 *)effect)->unk_0A.s;
+    state = effect->spell.phase.s;
     owner_sprite = ((S_81844800_1_pre *)owner)[-1].unk_00;
     if (state != 0) {
         if (state < 5) {
@@ -86,11 +86,11 @@ void run_fading_target_projectile(void *effect, ObjectPosition *motion, SpriteFr
             } while (particles_left >= 0);
         }
     }
-    switch (((S_81844800_0 *)effect)->unk_0A.s) {
+    switch (effect->spell.phase.s) {
     case 0:
     {
         S_81844800_8_pre *target;
-        if ((((ObjectPosition *)(((S_81844800_0 *)effect)->unk_04))->x.w.frac & 0x80) == 0) {
+        if ((((ObjectPosition *)(effect->spell.context))->x.w.frac & 0x80) == 0) {
             return;
         }
         target = scan_actor_along_heading(
@@ -110,12 +110,12 @@ void run_fading_target_projectile(void *effect, ObjectPosition *motion, SpriteFr
                     apply_attack_power_and_element_effects(
                         ((ActorRecord *)owner)->target,
                         10,
-                        ((S_81844800_0 *)effect)->unk_09,
+                        effect->spell.variant,
                         4,
                         ((ActorRecord *)owner)->facing,
                         owner,
                         2);
-                    ((S_81844800_0 *)effect)->unk_0A.u = 5;
+                    effect->spell.phase.u = 5;
                     return;
                 }
             }
@@ -138,7 +138,7 @@ void run_fading_target_projectile(void *effect, ObjectPosition *motion, SpriteFr
                     ((S_81844800_17 *)(((ObjectNodeHeader *)owner_start)->position))->unk_06 + delta.y;
                 motion->z.unsigned_parts.integer =
                     ((S_81844800_17 *)(((ObjectNodeHeader *)owner_start)->position))->unk_0A + delta.z;
-                ((S_81844800_0 *)effect)->unk_50.s = 8;
+                effect->unk_50.s = 8;
                 {
                     target_x = ((ActorRecord *)owner)->target_tile_x;
                     {
@@ -146,7 +146,7 @@ void run_fading_target_projectile(void *effect, ObjectPosition *motion, SpriteFr
                             delta_axis(target_x, motion->x.unsigned_parts.integer);
                     }
                 }
-                motion->velocity_x /= ((S_81844800_0 *)effect)->unk_50.u;
+                motion->velocity_x /= effect->unk_50.u;
                 {
                     target_x = ((ActorRecord *)owner)->target_tile_y;
                     {
@@ -154,16 +154,16 @@ void run_fading_target_projectile(void *effect, ObjectPosition *motion, SpriteFr
                             delta_axis(target_x, motion->y.unsigned_parts.integer);
                     }
                 }
-                motion->velocity_y /= ((S_81844800_0 *)effect)->unk_50.u;
+                motion->velocity_y /= effect->unk_50.u;
                 ((S_81844800_3 *)motion)->unk_14.at02.v = (s16)sample_terrain_surface_height(
                     motion->x.unsigned_parts.integer,
                     motion->y.unsigned_parts.integer,
                     (s16)(((S_81844800_17 *)(((ObjectNodeHeader *)owner_start)->position))->unk_0A - 48)) -
                     (motion->z.unsigned_parts.integer + 176);
             }
-            motion->velocity_z /= ((S_81844800_0 *)effect)->unk_50.u;
+            motion->velocity_z /= effect->unk_50.u;
             play_sound_if_enabled(AUDIO_PLAY_CD_CUE);
-            ((S_81844800_0 *)effect)->unk_0A.u++;
+            effect->spell.phase.u++;
             return;
         }
     }
@@ -172,40 +172,40 @@ void run_fading_target_projectile(void *effect, ObjectPosition *motion, SpriteFr
         motion->x.v += motion->velocity_x;
         motion->y.v += motion->velocity_y;
         motion->z.v += motion->velocity_z;
-        state = ((S_81844800_0 *)effect)->unk_50.s - 1;
-        ((S_81844800_0 *)effect)->unk_50.s = state;
+        state = effect->unk_50.s - 1;
+        effect->unk_50.s = state;
         if ((state << 16) > 0) {
             return;
         }
         {
             target_timer = 12;
-            state = ((S_81844800_0 *)effect)->unk_0A.u;
-            ((S_81844800_0 *)effect)->unk_50.s = target_timer;
-            ((S_81844800_0 *)effect)->unk_0A.u = state + 1;
+            state = effect->spell.phase.u;
+            effect->unk_50.s = target_timer;
+            effect->spell.phase.u = state + 1;
             return;
         }
 
     case 2:
     {
-        state = ((S_81844800_0 *)effect)->unk_50.s - 1;
-        ((S_81844800_0 *)effect)->unk_50.s = state;
+        state = effect->unk_50.s - 1;
+        effect->unk_50.s = state;
         if ((state << 16) > 0) {
             return;
         }
         if (((ActorRecord *)owner)->target == 0) {
-            ((S_81844800_0 *)effect)->unk_50.s = 8;
-            ((S_81844800_0 *)effect)->unk_0A.u = 5;
+            effect->unk_50.s = 8;
+            effect->spell.phase.u = 5;
             return;
         }
         target_timer = 10;
-        state = ((S_81844800_0 *)effect)->unk_0A.u;
-        ((S_81844800_0 *)effect)->unk_50.s = target_timer;
-        ((S_81844800_0 *)effect)->unk_0A.u = state + 1;
+        state = effect->spell.phase.u;
+        effect->unk_50.s = target_timer;
+        effect->spell.phase.u = state + 1;
         return;
     }
 
     case 3:
-        if ((((S_81844800_0 *)effect)->unk_52.s & 0x7FFF) == 0) {
+        if ((effect->unk_52.s & 0x7FFF) == 0) {
             spawned = allocate_list_node(0x201, &scene_object_list_anchor.next);
             if (spawned != 0) {
                 S_81844800_12 *burst_data = NODE_BODY(spawned);
@@ -216,16 +216,16 @@ void run_fading_target_projectile(void *effect, ObjectPosition *motion, SpriteFr
                 burst_data->unk_04 = motion->x.unsigned_parts.integer;
                 burst_data->unk_06 = motion->y.unsigned_parts.integer;
                 burst_data->unk_08 = motion->z.unsigned_parts.integer;
-                ((S_81844800_0 *)effect)->unk_52.s++;
+                effect->unk_52.s++;
                 burst_data->unk_2C = 0;
             }
         }
-        if (((S_81844800_0 *)effect)->unk_50.u == 7 &&
+        if (effect->unk_50.u == 7 &&
             ((ActorRecord *)owner)->target != 0) {
             apply_attack_power_and_element_effects(
                 ((ActorRecord *)owner)->target,
                 10,
-                ((S_81844800_0 *)effect)->unk_09,
+                effect->spell.variant,
                 4,
                 ((ActorRecord *)owner)->facing,
                 owner,
@@ -270,34 +270,34 @@ void run_fading_target_projectile(void *effect, ObjectPosition *motion, SpriteFr
             }
             particles_left--;
         } while (particles_left >= 0);
-        state = ((S_81844800_0 *)effect)->unk_50.s - 1;
-        ((S_81844800_0 *)effect)->unk_50.s = state;
+        state = effect->unk_50.s - 1;
+        effect->unk_50.s = state;
         if ((state << 16) > 0) {
             return;
         }
         {
             u16 timer_reset = 8;
-            state_2 = ((S_81844800_0 *)effect)->unk_0A.u;
-            ((S_81844800_0 *)effect)->unk_50.s = timer_reset;
-            ((S_81844800_0 *)effect)->unk_0A.u = state_2 + 1;
+            state_2 = effect->spell.phase.u;
+            effect->unk_50.s = timer_reset;
+            effect->spell.phase.u = state_2 + 1;
             return;
         }
 
     case 4:
-        state = ((S_81844800_0 *)effect)->unk_50.s - 1;
-        ((S_81844800_0 *)effect)->unk_50.s = state;
+        state = effect->unk_50.s - 1;
+        effect->unk_50.s = state;
         if ((state << 16) > 0) {
             return;
         }
-        ((S_81844800_0 *)effect)->unk_0A.u++;
+        effect->spell.phase.u++;
         return;
 
     case 5:
     {
         u16 effect_count;
-        if ((((S_81844800_0 *)effect)->unk_52.u & 0x8000) != 0) {
-            effect_count = ((S_81844800_0 *)effect)->unk_52.s & 0x7FFF;
-            ((S_81844800_0 *)effect)->unk_52.s = effect_count;
+        if ((effect->unk_52.u & 0x8000) != 0) {
+            effect_count = effect->unk_52.s & 0x7FFF;
+            effect->unk_52.s = effect_count;
             return;
         }
         g_dungeon_status.active_actor = 0;

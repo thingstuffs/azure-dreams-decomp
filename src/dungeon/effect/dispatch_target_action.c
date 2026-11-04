@@ -6,10 +6,10 @@
 #include "dungeon.h"
 #include "dungeon/actor/motion.h"
 #include "engine/entity.h"
+#include "dungeon/player/object.h"
 
 extern s8 find_active_rect_containing_point(u8, u8);
 extern void * find_monster_neighbor_candidate(void *entity, u16 x, u16 y);
-extern s32 can_entity_gain_level(void *);
 #include "dungeon/player/object/action_state.h"
 
 extern void update_actor_transform_from_parent_callback(void *, s32, void *, void *);

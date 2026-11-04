@@ -1,3 +1,4 @@
+#include "town/scene/motion/coordinate_entries.h"
 /* Build and submit active object records (G00710). */
 /* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - CL:town/func_80470EB8, CL:town/func_80470F3C, PD:town/image_3ef000:8001B318. */
 #include "town/scene/active_object_records_g00710.h"
@@ -113,7 +114,7 @@ S_80018174_0 *prepare_passes_active_object_callback(void) {
 /* Prepares D_8001B218 for the active object's callback and stores its result. */
 S_80018174_0 *prepare_active_object_callback(void) {
     clear_bytes((s8 *)town_event_records, 0x100);
-    func_80018914(town_event_records);
+    copy_and_terminate_coordinate_entries(town_event_records);
     return scene_registered_event_handle = (S_80018174_0 *)town_scene_root->services->callback_068(0, 1, 1, town_event_records);
 }
 

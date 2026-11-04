@@ -24,6 +24,7 @@
 #include "sdk/libgpu.h"
 #include "sdk/libgte.h"
 #include "dungeon/system.h"
+#include "dungeon/data.h"
 
 void (*const dungeon_198a800_entry)(Work *, s32, s32) = update_staged_particle_effect;
 const NativeOffsets58 target_effect_direction_steps = {{{1,0},{1,1},{0,1},{-1,1},{-1,0},{-1,-1},{0,-1},{1,-1}}};
@@ -34,7 +35,6 @@ extern void advance_counter_and_propagate_target_flags(void *);
 extern u8 shared_sprite_entries[];
 extern u8 fading_sprite_entries[];
 extern void draw_transformed_sprite_with_clip_rect(void *, Rect16 *, void *, s32, s32);
-extern s16 linked_effect_chain_count[6];
 extern Template12 D_80026990;
 extern Template12 D_8002699C;
 extern Template12 D_800269A8;

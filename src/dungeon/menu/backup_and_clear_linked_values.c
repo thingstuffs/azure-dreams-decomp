@@ -1,9 +1,9 @@
 #include "common.h"
 #include "dungeon/menu.h"
+#include "dungeon/data.h"
 
 /* cfail-repair: tf7-phase1-cache-v3 */
 extern u8 catalog_display_node_slots[];
-extern s32 menu_value_backup;
 
 /* Save 12 referenced values to the backup array and clear the originals. */
 void backup_and_clear_linked_values(void) {

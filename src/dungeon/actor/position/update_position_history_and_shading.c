@@ -6,8 +6,6 @@
 #include "shared/object_flags.h"
 #include "shared/dir_step.h"
 
-#define U16_AT(p, o) (*(u16 *)((u8 *)(p) + (o)))
-
 typedef struct {
     u8 pad[8];
     s32 height;
@@ -21,8 +19,10 @@ void update_position_history_and_shading(ActorTrailWork *obj, TrailMotion *coord
     ObjectNodeHeader *linked_obj;
     ActorTrailWork *linked_data;
     TileObject *room;
-    u8 *history_src;
-    u8 *history_dst;
+    void *history_src;
+    void *history_dst;
+    ActorTrailWork *history_src_work;
+    ActorTrailWork *history_dst_work;
     s16 *x_adjust;
     s16 *y_adjust;
     s32 history_index;
@@ -45,9 +45,11 @@ void update_position_history_and_shading(ActorTrailWork *obj, TrailMotion *coord
     for (history_index = 1; history_index > 0; history_index--) {
         history_dst = (u8 *)obj + history_index * 8;
         history_src = (u8 *)obj + (history_index - 1) * 8;
-        U16_AT(history_dst, 0x24) = U16_AT(history_src, 0x24);
-        U16_AT(history_dst, 0x26) = U16_AT(history_src, 0x26);
-        U16_AT(history_dst, 0x28) = U16_AT(history_src, 0x28);
+        history_dst_work = history_dst;
+        history_src_work = history_src;
+        history_dst_work->history[0].x.u = history_src_work->history[0].x.u;
+        history_dst_work->history[0].y.u = history_src_work->history[0].y.u;
+        history_dst_work->history[0].z.u = history_src_work->history[0].z.u;
     }
 
     final_z = obj->position.y.parts.whole.u;

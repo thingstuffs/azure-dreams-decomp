@@ -22,11 +22,11 @@
 #include "dungeon/actor/position.h"
 #include "engine/util.h"
 #include "dungeon/system.h"
+#include "dungeon/actor.h"
+#include "dungeon/data.h"
 
 extern s32 allocate_panel_offset_or_zero(void);
 extern M2C_UNK D_80077FEC;
-extern u8 *dungeon_menu_text_entries[];
-extern s32 transform_linked_quad_batches(u8 *, s32, u8 *);
 /* Creates an entity panel with numeric labels, centered text, and a shaded background. */
 void *create_panel_effect_object(ActorRecord *owner)
 {
@@ -585,7 +585,6 @@ typedef struct AcObject {
 } AcObject;
 
 extern void *D_80073618[];
-extern s32 transform_linked_quad_batches(u8 *, s32, u8 *);
 extern void update_fading_effect_scale(void *effect, ObjectPosition *unused, void *render_arg);
 extern s32 D_800DF03C[];
 
@@ -827,7 +826,6 @@ typedef struct S_800B1B10_6 {
 
 extern s32 allocate_panel_offset_or_zero(void);
 extern void update_fading_effect_scale(void *effect, ObjectPosition *unused, void *render_arg);
-extern s32 transform_linked_quad_batches(u8 *, s32, u8 *);
 
 /* Build the floating number/icon widget for the owner: allocate it and lay out its digit sprites. */
 void build_owned_floating_number_widget(void *owner, s32 value_a, s32 value_b, s32 style, s16 compact, u16 flags) {
@@ -977,8 +975,6 @@ void build_owned_floating_number_widget(void *owner, s32 value_a, s32 value_b, s
 }
 #include "common.h"
 #include "m2c_compat.h"
-
-extern u8 dungeon_palette_row_sources[];
 
 /* Advance the cyclic table index every four ticks and apply the selected entry. */
 void advance_cyclic_panel_entry(EntityPanelObjectBody *state) {

@@ -5,6 +5,7 @@
 #include "sdk/libgte.h"
 #include "dungeon/effect.h"
 #include "dungeon/effect/sprite.h"
+#include "dungeon/data.h"
 
 typedef struct ParticleRenderOwner {
     u8 pad_00[0xC];
@@ -15,7 +16,6 @@ extern s16 D_80026476;
 extern void move_linked_effect_along_path(void *, s32, void *);
 
 extern u8 particle_quad_vertices[];
-extern u8 particle_target_height[];
 
 typedef struct ParticleNode {
     u8 pad_00[0x8];

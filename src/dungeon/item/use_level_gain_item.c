@@ -16,8 +16,7 @@ s32 lookup_level_experience_threshold();                 /* extern */
 #include "dungeon/player/item.h"
 #include "dungeon/actor.h"
 #include "dungeon/item.h"
-
-void create_colored_effect_with_sound(void *source, s32 color, unsigned short sound_id);    /* extern */
+#include "dungeon/effect/shade.h"
 
 /* Handles item use for an entity, updating its state and consuming the item. */
 s32 use_level_gain_item(ActorRecord *entity, DungeonItemEntry *item, s16 action_id) {

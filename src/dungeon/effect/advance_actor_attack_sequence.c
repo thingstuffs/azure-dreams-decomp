@@ -16,16 +16,14 @@ struct ObjectPosition;
 #include "shared/object_node.h"
 #include "dungeon/player/object.h"
 #include "dungeon/system.h"
+#include "dungeon/data.h"
 
 s32 resolve_attack_damage_and_effects(); /* Unprototyped: uses the value as a pointer where the definition has an integer (or the reverse) */    /* extern */
-extern u8 actor_attack_frames[];
 extern u8 D_800DD068[];
 extern u8 D_800DD070[];
 extern u8 player_attack_frame_groups[];
 extern u8 D_800DD080[];
-extern u8 player_attack_start_frames[];
 extern u8 player_attack_followup_frames[];
-extern u8 player_attack_frames[];
 extern u8 D_800DD0A0[];
 extern u8 player_attack_frame_groups_alt[];
 extern u8 D_800DD0B0[];

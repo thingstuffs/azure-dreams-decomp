@@ -1,8 +1,7 @@
 #include "common.h"
 #include "shared/game_work.h"
 #include "dungeon/menu.h"
-
-extern u8 packed_tile_heights[];
+#include "dungeon/data.h"
 
 /* Returns the masked nibble at the given grid coordinates. */
 s32 get_masked_grid_nibble(s16 x, s16 y) {

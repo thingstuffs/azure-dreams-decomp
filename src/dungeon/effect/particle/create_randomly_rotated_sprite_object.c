@@ -7,6 +7,7 @@
 #include "dungeon/item.h"
 #include "dungeon/effect/particle.h"
 #include "sdk/libc.h"
+#include "dungeon/data.h"
 void (*const dungeon_18b2800_entry)(B22_81893474_EffectState *, ObjectPosition *, B22_81893474_ColorPart *) = update_effect_launch_travel_impact_cleanup;
 #include "dungeon/effect/particle/create_randomly_rotated_sprite_object.h"
 #include "common.h"
@@ -118,8 +119,6 @@ void accelerate_and_expire_animated_sprite(VerticalAccelerationSpriteBody *step_
 #ifndef NULL
 #define NULL 0
 #endif
-
-extern s32 tile_actor_sprite_entries;
 
 /* Creates a sprite object with initialized state and a copied, adjusted transform. */
 void *create_vertical_acceleration_sprite(s32 state_value, B22_81892AF0_Copy24 *source_transform, s16 variant) {
@@ -400,7 +399,6 @@ void step_sprite_height_and_animation(AnimatedSpriteBurstBody *entry, B22_818931
 #include "shared/slus_callbacks.h"
 #include "m2c_compat.h"
 
-extern s32 tile_actor_sprite_entries;
 extern s32 D_800253BC;
 /* Spawns a primary effect and eight randomly offset particles from the supplied data. */
 void create_animated_sprite_burst(s32 source, B22_81893244_Func81893244Data *initial_data, s16 status_param) {

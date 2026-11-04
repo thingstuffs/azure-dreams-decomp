@@ -30,10 +30,10 @@ typedef struct S_800C0E88_4 {
 #include "dungeon/item/actor_target.h"
 #include "dungeon/item.h"
 #include "dungeon/actor.h"
+#include "dungeon/data.h"
 struct DungeonItemEntry;
 
 extern u8 *item_category_tables[];
-extern u16 magic_ball_delay[];
 extern u8 D_800E1440[];
 extern u8 D_800E144C[];
 extern u8 D_800E1456[];

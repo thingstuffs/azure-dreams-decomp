@@ -1,13 +1,11 @@
 #include "common.h"
 #include "dungeon/item.h"
+#include "dungeon/data.h"
 
 typedef struct S_8009F9E8_0 {
     u8 unk_00;
     u8 unk_01;
 } S_8009F9E8_0;   /* p in find_monster_special_entry */
-
-
-extern u16 monster_special_entry_index;
 
 typedef struct {
     u8 flags;

@@ -10,6 +10,7 @@ struct DecrementObjectCounterBody;
 #include "shared/entity.h"
 #include "shared/dungeon_moving_views.h"
 #include "shared/object_node.h"
+#include "dungeon/effect/spell_effect.h"
 typedef struct {
     u8 pad0[2];
     s16 remaining;
@@ -89,12 +90,9 @@ typedef struct S_8181B078_2 {
     u16 unk_14;
 } S_8181B078_2;
 
-typedef struct S_80024BE8_0 {
-    void * unk_00;
-    u16 * unk_04;
-    u8 pad_08[0x1];
-    u8 unk_09;
-    union { s16 s; u16 u; } unk_0A;   /* accessed as both */
+/* Spell state for projectile travel, impact particles, and the delayed attack. */
+typedef struct ProjectileBurstImpactBody {
+    SpellEffectHeader spell;
     u8 pad_0C[0x6C];
     union { u16 u; s16 s; } unk_78;   /* accessed as both */
     u8 unk_7A;
@@ -108,7 +106,7 @@ typedef struct S_80024BE8_0 {
     u8 pad_88[0x1A];
     s8 unk_A2;
     s8 unk_A3;
-} S_80024BE8_0;
+} ProjectileBurstImpactBody;
 typedef struct S_80024BE8_1 {
     u8 pad_00[0x8];
     void * unk_08;

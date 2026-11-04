@@ -22,12 +22,8 @@ extern u8 D_800E0F85[];
 #include "dungeon/item/message.h"
 #include "dungeon/item/state.h"
 #include "dungeon/item.h"
-
-extern s32 play_sound_if_enabled(s32 query_value);
-extern void display_text_with_fullwidth_adjustment(s8 *text);
-extern void place_actor_item(void *object_context, struct DungeonItemEntry *target);
-void display_item_status_message(void *entity, struct DungeonItemEntry *item, s32 message_kind);
-extern void create_colored_effect_with_event(struct ObjectNodeHeader *source, s32 color, unsigned short event_id);
+#include "dungeon/effect/shade.h"
+#include "dungeon/system.h"
 
 /* Applies an entity action, updates its state, and displays the result. */
 s32 apply_item_and_update_matching_actor_state(void *entity, DungeonItemEntry *action_id, s16 action_arg) {

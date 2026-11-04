@@ -2,6 +2,7 @@
 #define DUNGEON_EFFECT_PARTICLE_H
 struct ScatterLandingSparksOnGridBody;
 struct LayeredSpritePulseBody;
+struct ProjectileBurstImpactBody;
 #include "common.h"
 #include "shared/entity.h"
 #include "shared/sprite_frame_state.h"
@@ -11,7 +12,7 @@ void try_apply_attached_actor_status(struct S_81832FE8_0 *owner);
 
 
 void advance_centered_fading_effect(void *effect, ObjectPosition *position, void *color);
-void advance_projectile_burst_and_impact(void *effect, ObjectPosition *motion, SpriteFrameState *sprite);
+void advance_projectile_burst_and_impact(struct ProjectileBurstImpactBody *effect, ObjectPosition *motion, SpriteFrameState *sprite);
 struct RibbonLineGeometry;
 void draw_ribbon_center_lines(struct RibbonLineGeometry *geometry, ObjectPosition *position, SpriteFrameState *render_data, s32 depth_bias);
 void draw_gouraud_textured_ribbon_quad(void *quad, ObjectPosition *position, SpriteFrameState *render_state, s16 depth_bias);
@@ -269,4 +270,9 @@ void process_entries_at_coordinates(void *list_head, s32 x, s32 y, s16 upper_bou
 #include "records/Rec_func_80167A98_arg1.h"
 void create_ribbon_head_sprite(Rec_func_80167A98_arg0 *source, Rec_func_80167A98_arg1 *origin, void *unused_color);
 
+void create_terrain_seeking_point_effect(void *source, s32 property_34, s32 property_28, s16 property_52, s16 x_offset, s16 y_offset, s16 z_offset);
+void draw_textured_sphere_mesh(void *mesh, void *position, void *material, u16 depth_bias);
+void project_textured_quad_or_callback(void *quad_arg, ObjectPosition *position, SpriteFrameState *material, s16 depth_bias);
+struct TargetTravelEffectBody;
+void update_animated_effect_sprite(struct TargetTravelEffectBody *effect, ObjectPosition *entity, SpriteFrameState *sprite);
 #endif

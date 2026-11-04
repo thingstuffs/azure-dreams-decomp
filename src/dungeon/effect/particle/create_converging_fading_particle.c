@@ -15,6 +15,7 @@
 #include "dungeon/effect/particle.h"
 #include "shared/object_node.h"
 #include "shared/dungeon_moving_views.h"
+#include "dungeon/data.h"
 
 typedef struct S_801652FC_0 {
     u8 pad_00[0x8];
@@ -56,7 +57,6 @@ typedef struct S_801652FC_2 {
 
 extern void *allocate_list_node(s32, void *);
 extern s32 register_node(); /* Unprototyped: two, three or four arguments; retail reads only the node and draw key. */
-extern u8 child_particle_draw_address[];
 
 /* Creates an offset object and initializes its source position and motion parameters. */
 void create_converging_fading_particle(

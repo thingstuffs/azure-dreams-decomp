@@ -10,21 +10,19 @@
 #include "shared/slus_callbacks.h"
 #include "shared/sprite_source.h"
 #include "shared/entity.h"
+#include "dungeon/effect/spell_effect.h"
 
 typedef struct S_81844800_0_pre {
     u16 unk_00;
 } S_81844800_0_pre;   /* the 0x2 bytes before arg0 in func_80024020, addressed as arg0[-1] */
 
-typedef struct S_81844800_0 {
-    void * unk_00;
-    void * unk_04;
-    u8 pad_08[0x1];
-    u8 unk_09;
-    union { s16 s; u16 u; } unk_0A;   /* accessed as both */
+/* Spell state for a fading projectile and its target particles. */
+typedef struct FadingProjectileSpellBody {
+    SpellEffectHeader spell;
     u8 pad_0C[0x44];
     union { u16 s; s16 u; } unk_50;   /* accessed as both */
     union { u16 s; s16 u; } unk_52;   /* accessed as both */
-} S_81844800_0;   /* arg0 in func_80024020 */
+} FadingProjectileSpellBody;
 
 typedef struct S_81844800_1_pre {
     void * unk_00;
@@ -185,7 +183,7 @@ extern s32 GetTPage(s32, s32, s32, s32);
 extern s32 GetClut(s32, s32);
 extern void SetSemiTrans(void *, s32);
 extern void SetPolyFT4(void *);
-void run_fading_target_projectile(void *effect, ObjectPosition *motion, SpriteFrameState *source_render);
+void run_fading_target_projectile(FadingProjectileSpellBody *effect, ObjectPosition *motion, SpriteFrameState *source_render);
 void update_effect_base_state(s32 effect_or_count);
 s32 draw_layered_vertical_sprite_chain(u8 *first_node);
 void fade_effect_sprite_to_black(FadingProjectileEffectBody *effect, VecState *motion, SpriteFrameState *sprite);

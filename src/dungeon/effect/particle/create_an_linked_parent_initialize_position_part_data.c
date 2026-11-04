@@ -8,6 +8,7 @@
 #include "dungeon/effect/particle.h"
 #include "slus.h"
 #include "dungeon/system.h"
+#include "dungeon/data.h"
 
 void (*const dungeon_19b4800_entry)(struct TransitionState *, void *, void *) = update_palette_particle_transition;
 const RectTable linked_particle_texture_rects = {{
@@ -37,7 +38,6 @@ typedef struct S_81994800_2 {
     s16 unk_46;
 } S_81994800_2;   /* ((((Rec_D_800E3D7C *)arg0)->unk_32 * 2) + ((Rec_D_800E3D7C *)arg0)->unk_60.as_s32) in func_8002405C */
 
-extern s16 parent_effect_update_flag;
 /* Advance the effect countdown, update its parameters, and flag completion. */
 void fade_linked_display_sprite(FreeSlotDisplayEffectBody *effect, void *unused_context, void *effect_params_arg) {
     S_81994800_1 *effect_params = effect_params_arg;
@@ -90,7 +90,6 @@ typedef struct {
 } Display;
 
 extern PackedVec3 D_8002533C;
-extern s16 parent_effect_update_flag;
 
 /* Creates an object in the first free rectangle slot and decrements the owner timer. */
 void spawn_free_slot_display_effect(DisplaySpawnerEffectBody *owner) {
@@ -251,8 +250,6 @@ void create_an_linked_parent_initialize_position_part_data(void *parent, ObjectP
 #include "common.h"
 #include "shared/object_flags.h"
 
-extern s16 parent_effect_update_flag;
-
 /*
  * Clamps nonzero primitive brightness above 64, reduces it by five, and decrements the lifetime.
  * Sets parent_effect_update_flag each update and flags removal when the signed lifetime expires.
@@ -369,7 +366,6 @@ enum TransitionPhase {
 extern u8 D_80025330[];
 extern PackedResource linked_particle_resource_template, linked_particle_alt_resource_template;
 extern PaletteControl ellipse_palette_channel_limits;
-extern s16 parent_effect_update_flag;
 extern u16 D_80082E94;
 extern AnimationState reference_tile_object;
 

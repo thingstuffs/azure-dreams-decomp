@@ -2,12 +2,21 @@
 #define DUNGEON_OVL_19A8800_H
 #include "modules/dungeon_native_abi.h"
 #include "shared/sprite_frame_state.h"
+#include "dungeon/effect/spell_effect.h"
+
+/* Spell state for spawned target effects and their delayed attack. */
+typedef struct TargetAttackSequenceBody {
+    SpellEffectHeader spell;
+    u8 pad_0C[0x44];
+    union { u16 u; s16 s; } unk_50;
+    union { s16 s; u16 u; } unk_52;
+} TargetAttackSequenceBody;
 typedef struct FragmentSpawningEffectBody {
     void *owner;
 } FragmentSpawningEffectBody;
 struct MainObject;
 struct DirectionalGridEffectBody;
-void update_directional_actor_effect(void *state, void *position);
+void update_directional_actor_effect(TargetAttackSequenceBody *state, void *position);
 s32 create_counted_sprite_effect(void *first_item);
 void update_effect_and_spawn_fragments(struct MainObject *object);
 void mark_referenced_object_and_update_flags(FragmentSpawningEffectBody *entry, void *unused, SpriteFrameState *target);

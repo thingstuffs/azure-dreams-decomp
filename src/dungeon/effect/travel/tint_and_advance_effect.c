@@ -112,32 +112,35 @@ void follow_brighten(TrackingEffect *self, ObjectPosition *motion, SpriteFrameSt
         }
 
         if (owner->target != 0) {
-            void *source_data;
+            ObjectPosition *target_position;
+            SpriteFrameState *owner_sprite;
+            ActorRecord *target_actor;
             u8 target_type;
             u8 *height_table;
             u8 tile_coord;
-            source_data = F(owner->target, void *, -0x18);
-            self->target_x = F(source_data, u16, 2);
-            self->target_y = F(source_data, u16, 6);
+            target_position = NODE_HEADER(owner->target)->position;
+            self->target_x = target_position->x.unsigned_parts.integer;
+            self->target_y = target_position->y.unsigned_parts.integer;
             height_table = entity_height_offsets;
-            target_type = F(owner->target, u8, 0x13);
+            target_actor = owner->target;
+            target_type = target_actor->species;
             height_offset = height_table[target_type];
             height_offset += 0x20;
-            target_height = F(source_data, u16, 0xA);
+            target_height = target_position->z.unsigned_parts.integer;
             self->target_z.u = target_height - height_offset;
 
             {
                 s16 direction;
                 direction = self->direction.s;
-                source_data = F(owner, void *, -0x14);
-                tile_coord = F(source_data, u8, 0x24) + dir_step_x[direction];
+                owner_sprite = NODE_HEADER(owner)->sprite;
+                tile_coord = owner_sprite->tile_x + dir_step_x[direction];
                 self->current_tile.tile.x.u = tile_coord;
                 self->previous_tile.tile.x.u = tile_coord;
             }
             {
                 s16 direction;
                 direction = self->direction.s;
-                tile_coord = F(source_data, u8, 0x25) + dir_step_y[direction];
+                tile_coord = owner_sprite->tile_y + dir_step_y[direction];
                 self->current_tile.tile.y.u = tile_coord;
                 self->previous_tile.tile.y.u = tile_coord;
             }
@@ -145,10 +148,10 @@ void follow_brighten(TrackingEffect *self, ObjectPosition *motion, SpriteFrameSt
                 s32 owner_coord;
                 s32 tile_distance;
                 owner_coord = owner->target_tile_x;
-                z_pos = F(source_data, u8, 0x24);
+                z_pos = owner_sprite->tile_x;
                 if (owner_coord == z_pos) {
                     owner_coord = owner->target_tile_y;
-                    z_pos = F(source_data, u8, 0x25);
+                    z_pos = owner_sprite->tile_y;
                     tile_distance = owner_coord - z_pos;
                 } else {
                     tile_distance = owner_coord - z_pos;

@@ -5,13 +5,12 @@ struct ObjectPosition;
 #include "dungeon/player.h"
 #include "dungeon/item.h"
 #include "dungeon/effect.h"
+#include "dungeon/item/message.h"
 
 extern u8 D_80081471;
 extern u8 held_item_kind_alias;
 extern u8 D_800E04BA[];
 extern u8 D_800E04E6[];
-
-extern void display_formatted_context_message(void *data_ptr);
 
 /* Start the actor action and apply its target effect unless a blocking flag is set. */
 s32 begin_target_flagged_action(void *actor, s32 action_arg, SpriteFrameState *unused, ActorRecord *target) {

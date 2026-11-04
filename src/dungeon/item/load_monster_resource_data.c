@@ -3,8 +3,8 @@
 #include "dungeon/item/monster_resource_slots_g00325.h"
 #include "sdk/libc.h"
 #include "slus.h"
+#include "dungeon/data.h"
 
-extern u8 monster_module_read_descriptor[];
 extern u8 D_80164800[];
 extern u8 D_8016A800[];
 extern u8 D_80170800[];

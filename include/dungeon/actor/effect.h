@@ -79,4 +79,6 @@ void compact_item_entry_table(s32 entry_index);
 
 s32 render_floor_items(s32 unused_value, ObjectPosition *unused_position, SpriteFrameState *render_params);
 
+void remove_floor_items_at_tile(s16 target_x, s16 target_y);
+
 #endif

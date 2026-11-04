@@ -39,11 +39,9 @@ typedef struct EffectState {
     s16 duration;
     s16 done;
     s16 unk16;
-    void *target;
+    ActorRecord *target;
 } EffectState;
 
-#define U8_AT(p, n) (*(u8 *)((u8 *)(p) + (n)))
-#define S16_AT(p, n) (*(s16 *)((u8 *)(p) + (n)))
 #define U16_AT(p, n) (*(u16 *)((u8 *)(p) + (n)))
 
 extern s32 check_layer_offset_height(s32, s32, s32, s32);
@@ -55,7 +53,6 @@ extern void interpolate_view_parameters(void *, u8, void *);
 /* Advance an effect toward its target or along its facing direction, then handle its timed states. */
 void advance_an_effect_toward_target_along_facing_direction_handle_timed_states(EffectState *state, ObjectPosition *motion, register SpriteFrameState *part) {
     ActorRecord *owner;
-    u8 *color_part;
     ObjectNodeHeader *owner_meta;
     SpriteFrameState *owner_node;
     void *source_motion;
@@ -136,21 +133,20 @@ void advance_an_effect_toward_target_along_facing_direction_handle_timed_states(
         {
             s32 y_delta = target_pos->y.w.i;
             s32 motion_y = motion->y.w.i;
-            color_part = (u8 *)&work.destination + 2;
             y_delta -= motion_y;
             y_delta = abs(y_delta);
             work.probe_delta[1] = y_delta;
         }
 
         z_distance = target_pos->z.w.i -
-                entity_height_offsets[U8_AT(state->target, 0x13)] - motion->z.w.i;
+                entity_height_offsets[state->target->species] - motion->z.w.i;
         z_distance = abs(z_distance);
         work.probe_delta[2] = z_distance;
 
         state->duration = x_distance;
-        for (; index < 3; index++, color_part += 2) {
-            if (S16_AT(color_part, 0x18) > state->duration) {
-                state->duration = (u16)S16_AT(color_part, 0x18);
+        for (; index < 3; index++) {
+            if (work.probe_delta[index] > state->duration) {
+                state->duration = (u16)work.probe_delta[index];
             }
         }
         state->duration = (s16)state->duration >> 4;
@@ -161,7 +157,7 @@ void advance_an_effect_toward_target_along_facing_direction_handle_timed_states(
         motion->velocity_x = (target_pos->x.v - motion->x.v) / state->duration;
         motion->velocity_y = (target_pos->y.v - motion->y.v) / state->duration;
         motion->velocity_z = (target_pos->z.v -
-                      (((entity_height_offsets[U8_AT(state->target, 0x13)] >> 1) * 3) << 16) -
+                      (((entity_height_offsets[state->target->species] >> 1) * 3) << 16) -
                       motion->z.v) / state->duration;
         create_random_spin_effect(state, motion);
         next_state = (u16)state->state + 1;
@@ -207,7 +203,6 @@ void advance_an_effect_toward_target_along_facing_direction_handle_timed_states(
 
         target_pos = &work.destination;
         index = 1;
-        color_part = (u8 *)&work.destination + 2;
         dest_x = ((end_tile_x << 16) >> 10) + ((dir_step_x[state->direction] + 1) << 5);
         target_pos->x.w.i = dest_x;
         dest_y = ((end_tile_y << 16) >> 10) + ((dir_step_y[state->direction] + 1) << 5);
@@ -218,9 +213,9 @@ void advance_an_effect_toward_target_along_facing_direction_handle_timed_states(
         work.probe_delta[2] = abs(target_pos->z.w.i - motion->z.w.i);
 
         state->duration = work.probe_delta[0];
-        for (; index < 3; index++, color_part += 2) {
-            if (S16_AT(color_part, 0x18) > state->duration) {
-                state->duration = (u16)S16_AT(color_part, 0x18);
+        for (; index < 3; index++) {
+            if (work.probe_delta[index] > state->duration) {
+                state->duration = (u16)work.probe_delta[index];
             }
         }
         state->duration = (s16)state->duration >> 4;

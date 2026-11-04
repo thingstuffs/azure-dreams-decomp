@@ -1,3 +1,4 @@
+#include "modules/dungeon_ovl_18a0800/endpoint_creation.h"
 #include "shared/audio_commands.h"
 /* Staged effect travel and impact with timed fading and owner completion tracking. */
 #include "modules/dungeon_ovl_18ac800.h"
@@ -196,7 +197,7 @@ void follow_brighten(u8 *self, u8 *motion, u8 *part)
         }
         ((MovingMotion *)motion)->unk_08.at00.v += rsin((s32)((MovingEffectState *)self)->unk_18.s
             << 7) << 6;
-        func_8002495C(motion, part);
+        create_effect_from_endpoints(motion, part);
         {
             s32 x = ((MovingMotion *)motion)->unk_00.at02u.v;
             if (x < 0) {
@@ -227,7 +228,7 @@ void follow_brighten(u8 *self, u8 *motion, u8 *part)
                 snap_y += 32;
                 ((MovingMotion *)motion)->unk_04.at02.v = snap_y;
                 ((MovingMotion *)motion)->unk_08.at02.v = ((MovingEffectState *)self)->unk_10.u;
-                func_8002495C(motion, part);
+                create_effect_from_endpoints(motion, part);
                 {
                     u8 *target = ((MovingActor *)owner)->unk_60.p;
                     u16 next_state = ((MovingEffectState *)self)->unk_0A.u + 1;
@@ -301,7 +302,7 @@ void follow_brighten(u8 *self, u8 *motion, u8 *part)
         ((MovingSprite *)part)->color.at00u.v -= ((MovingSprite *)part)->color.at00u.v >> 1;
         ((MovingSprite *)part)->color.at01.v -= ((MovingSprite *)part)->color.at01.v >> 1;
         ((MovingSprite *)part)->color.at02.v -= ((MovingSprite *)part)->color.at02.v >> 1;
-        func_8002495C(motion, part);
+        create_effect_from_endpoints(motion, part);
         if (((MovingSprite *)part)->color.at00u.v < 2) {
             ((MovingEffectState *)self)->unk_0A.u++;
         }

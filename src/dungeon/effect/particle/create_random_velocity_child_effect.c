@@ -14,7 +14,7 @@
 #include "engine/node/allocation.h"
 #include "engine/node.h"
 #include "dungeon/effect/particle.h"
-extern u8 child_particle_draw_address[];
+#include "dungeon/data.h"
 extern u8 D_80164DA4[];
 
 typedef struct S_80164ED0_0 {

@@ -1,3 +1,4 @@
+#include "town/scene/word_spans.h"
 #include "common.h"
 #include "town/scene.h"
 

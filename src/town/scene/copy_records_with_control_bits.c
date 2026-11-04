@@ -1,12 +1,7 @@
+#include "common.h"
+#include "town/scene/word_spans.h"
 #include "shared/game_work.h"
 
-typedef unsigned char u8;
-typedef signed char s8;
-typedef unsigned short u16;
-typedef short s16;
-typedef unsigned int u32;
-typedef int s32;
-extern void copy_forward_word_span(void *, void *, s32);
 /* Copies records through the end marker, patches control fields, and returns the destination end. */
 u8 *copy_records_with_control_bits(u8 *dst, u8 *src, s32 control_bits, u8 byte_value)
 {

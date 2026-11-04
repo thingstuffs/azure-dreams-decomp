@@ -16,10 +16,10 @@ extern u8 D_800E1279[];
 #include "dungeon/actor.h"
 #include "dungeon/system.h"
 #include "dungeon/item.h"
+#include "dungeon/item/message.h"
 
 extern s32 process_record_and_update_linked_state(struct DungeonItemEntry *, s32); /* Unprototyped: uses the value as a pointer where the definition has an integer (or the reverse) */
 extern void clear_slot_and_update_linked_state(DungeonItemEntry *slot);
-extern void display_formatted_context_message(void *);
 
 /* Apply an item to its target and handle action completion. */
 s32 apply_monster_location_reveal_item(ActorRecord *target, DungeonItemEntry *item, s16 action_type, s32 source)

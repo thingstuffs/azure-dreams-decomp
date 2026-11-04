@@ -14,18 +14,6 @@
 #include "dungeon/system.h"
 
 
-typedef struct S_8195281C_0 {
-    s32 unk_00;
-    u16 * unk_04;
-    u8 unk_08;
-    u8 unk_09;
-    union { s16 s; u16 u; } unk_0A;   /* accessed as both */
-    u8 pad_0C[0x8];
-    union { u16 u; s16 s; } unk_14;   /* accessed as both */
-    u16 unk_16;
-    s16 unk_18;
-} S_8195281C_0;   /* arg0 in func_8195281C */
-
 typedef struct S_8195281C_1 {
     union { s32 i; void * p; } unk_00;   /* accessed as both */
 } S_8195281C_1;   /* D_800814A8 in func_8195281C */
@@ -55,13 +43,13 @@ typedef struct S_8195281C_10 {
  * (retail 0x80024000, the row symbol add_flag_adjusted_target_value).  The switch table follows it at 0x80024008
  * (gcc's .align 3 for jump tables), and the code starts after the table. */
 
-void (*const dungeon_1972800_entry)(void *, void *) = update_directional_actor_effect;
+void (*const dungeon_1972800_entry)(TimedModelTintSpellBody *, void *) = update_directional_actor_effect;
 
 /* Advances a timed effect sequence, fading model colors and marking completion. */
 
 /* Loads effect textures, launches a model effect, darkens and restores its target, and waits for
    completion. */
-void update_directional_actor_effect(void *effect, void *color_data) {
+void update_directional_actor_effect(TimedModelTintSpellBody *effect, void *color_data) {
     GpuRectBuffer upload_rect;
     s16 delay_left;
     s16 fade_left;
@@ -77,8 +65,8 @@ void update_directional_actor_effect(void *effect, void *color_data) {
     void **actor_slot;
 
     model_colors = color_data;
-    stage = ((S_8195281C_0 *)effect)->unk_0A.s;
-    ((S_8195281C_0 *)effect)->unk_16 = (u16) (((S_8195281C_0 *)effect)->unk_16 + 1);
+    stage = effect->spell.phase.s;
+    effect->unk_16 = (u16) (effect->unk_16 + 1);
     switch (stage) {
     case 0:
         upload_rect.words[0] = 0x01000340;
@@ -87,40 +75,40 @@ void update_directional_actor_effect(void *effect, void *color_data) {
         upload_rect.words[0] = 0x01000360;
         draw_textured_ellipse(D_80024980, &upload_rect.rect, 1, 0);
         ((S_8195281C_10 *)(((S_8195281C_1 *)((int *)(&primary_actor_record)))->unk_00.i))->unk_F4 = directional_effect_sprite_data;
-        create_timed_model_effect(((S_8195281C_0 *)effect)->unk_00 - 0x20, ((S_8195281C_0 *)effect)->unk_04, 0, 0);
-        ((S_8195281C_0 *)effect)->unk_0A.s = (s16) ((u16) ((S_8195281C_0 *)effect)->unk_0A.s + 1);
+        create_timed_model_effect((s32)effect->spell.caster - 0x20, effect->spell.context, 0, 0);
+        effect->spell.phase.s = (s16) ((u16) effect->spell.phase.s + 1);
     case 1:
         actor_slot = (void **) ((int *)(&primary_actor_record));
-        if (!(*((S_8195281C_0 *)effect)->unk_04 & 0x80)) {
+        if (!(*(u16 *)effect->spell.context & 0x80)) {
             break;
         }
         actor_counters = *actor_slot;
-        ((S_8195281C_0 *)effect)->unk_18 = 0x12;
+        effect->unk_18 = 0x12;
         actor_counters->unk_A4.halves.high.u = (u16) (actor_counters->unk_A4.halves.high.u - 1);
-        actor_counters->unk_A8.byte = (u8) ((S_8195281C_0 *)effect)->unk_08;
+        actor_counters->unk_A8.byte = (u8) effect->spell.spell_id;
         actor_state = *actor_slot;
-        actor_state->unk_A9 = (u8) ((S_8195281C_0 *)effect)->unk_09;
+        actor_state->unk_A9 = (u8) effect->spell.variant;
         actor_state = *actor_slot;
         D_800249A4 = 0;
-        ready_stage = ((S_8195281C_0 *)effect)->unk_0A.u;
+        ready_stage = effect->spell.phase.u;
         actor_param = actor_state->unk_2A;
-        ((S_8195281C_0 *)effect)->unk_0A.u = ready_stage + 1;
-        ((S_8195281C_0 *)effect)->unk_14.u = actor_param;
+        effect->spell.phase.u = ready_stage + 1;
+        effect->unk_14.u = actor_param;
         break;
     case 2:
-        if (((S_8195281C_0 *)effect)->unk_18 == 8) {
+        if (effect->unk_18 == 8) {
             play_sound_if_enabled(AUDIO_PLAY_CD_CUE);
         }
-        delay_left = (u16) ((S_8195281C_0 *)effect)->unk_18 - 1;
-        ((S_8195281C_0 *)effect)->unk_18 = delay_left;
+        delay_left = (u16) effect->unk_18 - 1;
+        effect->unk_18 = delay_left;
         if ((delay_left << 0x10) > 0) {
             break;
         }
         model_owner = ((S_8195281C_1 *)((int *)(&primary_actor_record)))->unk_00.p;
-        ((S_8195281C_0 *)effect)->unk_18 = 0x20;
-        allocate_and_initialize_effect_object(effect - 0x20, ((S_8195281C_0 *)effect)->unk_14.s, ((S_8195281C_0 *)effect)->unk_09,
+        effect->unk_18 = 0x20;
+        allocate_and_initialize_effect_object((s32)effect - 0x20, effect->unk_14.s, effect->spell.variant,
             model_owner->target);
-        ((S_8195281C_0 *)effect)->unk_0A.s = (u16) ((S_8195281C_0 *)effect)->unk_0A.s + 1;
+        effect->spell.phase.s = (u16) effect->spell.phase.s + 1;
         break;
     case 3:
         model = ((S_8195281C_10 *)(((S_8195281C_1 *)((int *)(&primary_actor_record)))->unk_00.i))->unk_60;
@@ -141,8 +129,8 @@ void update_directional_actor_effect(void *effect, void *color_data) {
             }
         }
         if (!(reference_tile_object.sprite_flags & 0x8000)) {
-            fade_left = (u16) ((S_8195281C_0 *)effect)->unk_18 - 1;
-            ((S_8195281C_0 *)effect)->unk_18 = fade_left;
+            fade_left = (u16) effect->unk_18 - 1;
+            effect->unk_18 = fade_left;
             if ((fade_left << 0x10) >= 0) {
                 break;
             }
@@ -152,9 +140,9 @@ void update_directional_actor_effect(void *effect, void *color_data) {
             model_colors = NODE_HEADER(model)->sprite;
             model_colors->color.word = 0x808080;
         }
-        fade_stage = ((S_8195281C_0 *)effect)->unk_0A.u;
+        fade_stage = effect->spell.phase.u;
         D_800249A4 = 1;
-        ((S_8195281C_0 *)effect)->unk_0A.u = fade_stage + 1;
+        effect->spell.phase.u = fade_stage + 1;
         break;
     case 4:
         if ((s16)D_800249A6[0] != 0) {

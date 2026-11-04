@@ -12,7 +12,7 @@
 #include "dungeon/system.h"
 
 /* Selector bank entry calls the complete native initialization member. */
-void (*const D_80024000)(void *, void *) = update_random_particle_field;
+void (*const D_80024000)(FallingParticleFieldSpellBody *, void *) = update_random_particle_field;
 /* Decrements the amounts of flagged entries in the object's two item slots and returns how many changed. */
 s32 decrement_flagged_item_parameters(DungeonObject *object) {
     s32 changed_count;
@@ -49,7 +49,7 @@ s32 decrement_flagged_item_parameters(DungeonObject *object) {
 }
 /* Emits a field of falling particles, attacks nearby eligible actors, and reduces their flagged item
    amounts. */
-void update_random_particle_field(void *self, void *output)
+void update_random_particle_field(FallingParticleFieldSpellBody *self, void *output)
 {
     Copy24 *copy_src;
     ActorRecord *effect;
@@ -66,31 +66,31 @@ void update_random_particle_field(void *self, void *output)
     s16 countdown;
     s32 page_value;
 
-    state = ((S_81934928_0 *)self)->unk_0A.s;
-    effect = ((S_81934928_0 *)self)->unk_00;
+    state = self->spell.phase.s;
+    effect = self->spell.caster;
     output_data = output;
     switch (state) {
     case 0:
     {
-        if ((((ObjectPosition *)(((S_81934928_0 *)self)->unk_04))->x.w.frac & 0x80) == 0) {
+        if ((((ObjectPosition *)(self->spell.context))->x.w.frac & 0x80) == 0) {
             return;
         }
         {
             ObjectPosition *copy_page;
             *output_data = *(Copy24 *)&view_reference_entity;
             copy_page = &view_reference_entity;
-            ((S_81934928_0 *)self)->unk_10.s = ((u16)copy_page->x.w.i);
-            ((S_81934928_0 *)self)->unk_12.s = ((u16)copy_page->y.w.i);
+            self->unk_10.s = ((u16)copy_page->x.w.i);
+            self->unk_12.s = ((u16)copy_page->y.w.i);
             page_value = ((u16)copy_page->z.w.i);
         }
-        ((S_81934928_0 *)self)->unk_0C.s = 0x3C;
-        ((S_81934928_0 *)self)->unk_0A.u++;
-        ((S_81934928_0 *)self)->unk_14 = page_value;
+        self->unk_0C.s = 0x3C;
+        self->spell.phase.u++;
+        self->unk_14 = page_value;
         play_sound_if_enabled(AUDIO_PLAY_CD_CUE);
     }
         /* fallthrough */
     case 1:
-    spawn_index = 0x3C - ((S_81934928_0 *)self)->unk_0C.u;
+    spawn_index = 0x3C - self->unk_0C.u;
     if (spawn_index >= 8) {
         spawn_index = 8;
     }
@@ -104,7 +104,7 @@ void update_random_particle_field(void *self, void *output)
 
                 rand_quotient = rand();
                 random_value = rand_quotient;
-                origin_component = ((S_81934928_0 *)self)->unk_10.u;
+                origin_component = self->unk_10.u;
                 rand_quotient = random_value / 512;
                 value = origin_component + ((random_value % 512)) - 0x100;
                 if (value < 0) {
@@ -115,7 +115,7 @@ void update_random_particle_field(void *self, void *output)
 
                 rand_quotient = rand();
                 random_value = rand_quotient;
-                origin_component = ((S_81934928_0 *)self)->unk_12.u;
+                origin_component = self->unk_12.u;
                 rand_quotient = random_value / 512;
                 value = origin_component + ((random_value % 512)) - 0x100;
                 if (value < 0) {
@@ -124,7 +124,7 @@ void update_random_particle_field(void *self, void *output)
                 search_origin->unk_0E = value;
                 search_origin->unk_22 = value;
 
-                value = ((S_81934928_0 *)self)->unk_14 - 0x100;
+                value = self->unk_14 - 0x100;
                 search_origin->unk_10 = value;
                 search_origin->unk_26 = value;
                 ((S_81934928_2 *)particle)->unk_20 = self;
@@ -133,13 +133,13 @@ void update_random_particle_field(void *self, void *output)
         } while (spawn_index >= 0);
     }
 
-    if (((S_81934928_0 *)self)->unk_0C.u == 0x1E) {
+    if (self->unk_0C.u == 0x1E) {
         target = primary_actor_record;
         if (target != NULL) {
             void *lookup_origin = target;
             while ((target = find_eligible_nearby_entry(reference_tile_object.tile_position.parts.tile_x, reference_tile_object.tile_position.parts.tile_y, lookup_origin, target)) != NULL) {
                 if ((((ActorRecord *)target)->flags1C & 0x2000) == 0) {
-                    copy_src = (Copy24 *)(u32)((S_81934928_0 *)self)->unk_09;
+                    copy_src = (Copy24 *)(u32)self->spell.variant;
                     apply_attack_power_and_element_effects(target, 0x20, (s32)copy_src, 0xA,
                                   effect->facing, effect, 2);
                 }
@@ -148,28 +148,28 @@ void update_random_particle_field(void *self, void *output)
         }
     }
 
-    countdown = ((S_81934928_0 *)self)->unk_0C.s - 1;
-    ((S_81934928_0 *)self)->unk_0C.s = countdown;
+    countdown = self->unk_0C.s - 1;
+    self->unk_0C.s = countdown;
     if (countdown > 0) {
         return;
     }
-    ((S_81934928_0 *)self)->unk_0C.s = 8;
-    ((S_81934928_0 *)self)->unk_0A.u = 0xFF;
+    self->unk_0C.s = 8;
+    self->spell.phase.u = 0xFF;
     return;
 
     case 0xFF:
-    countdown = ((S_81934928_0 *)self)->unk_0C.s - 1;
-    ((S_81934928_0 *)self)->unk_0C.s = countdown;
+    countdown = self->unk_0C.s - 1;
+    self->unk_0C.s = countdown;
     if (countdown > 0) {
         return;
     }
     {
         u16 effect_flags;
-        value = ((S_81934928_0 *)self)->unk_0E.s;
-        effect_flags = ((S_81934928_0 *)self)->unk_0E.u;
+        value = self->unk_0E.s;
+        effect_flags = self->unk_0E.u;
         if ((value & 0x8000) != 0) {
             value = effect_flags & 0x7FFF;
-            ((S_81934928_0 *)self)->unk_0E.u = value;
+            self->unk_0E.u = value;
             return;
         }
     }
