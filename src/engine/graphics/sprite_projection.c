@@ -139,8 +139,6 @@ typedef struct { u8 pad0[0xC0]; u32 depth; } ScratchDepth;
 #define SP16(base, off) ((base)->h[(off) / 2])
 #define SPS16(base, off) ((base)->sh[(off) / 2])
 #define SP32(base, off) ((base)->w[(off) / 4])
-#define CS8(base, off) (*(s8 *)((u8 *)(base) + (off)))
-#define PS16(base, off) (*(s16 *)((u8 *)(base) + (off)))
 
 /* Project sprite commands and link visible textured quads into the ordering table. */
 void project_sprite_commands(void *context, void *position, Entry *entry, s16 depth_bias)
@@ -348,12 +346,12 @@ void project_sprite_commands(void *context, void *position, Entry *entry, s16 de
                         *((u8 *)packet + 0x25) = uv_edge + 0xFF;
                         *((u8 *)packet + 0x1D) = uv_edge;
                     }
-                    if (PS16(packet, 8) > PS16(packet, 0x20)) {
+                    if ((s16)packet->x0 > (s16)packet->x3) {
                         uv_edge = *((u8 *)packet + 0x24);
                         *((u8 *)packet + 0x24) = uv_edge + 0xFF;
                         *((u8 *)packet + 0x14) = uv_edge;
                     }
-                    if (PS16(packet, 0xA) > PS16(packet, 0x22)) {
+                    if ((s16)packet->y0 > (s16)packet->y3) {
                         uv_edge = *((u8 *)packet + 0x25);
                         *((u8 *)packet + 0x25) = uv_edge + 0xFF;
                         *((u8 *)packet + 0x1D) = uv_edge;
@@ -409,7 +407,7 @@ void project_sprite_commands(void *context, void *position, Entry *entry, s16 de
                     SP32(scratch, 0xC0) = SP32(scratch, 0xCC);
                 }
             }
-        } while (CS8(command++, 0) >= 0);
+        } while ((s8)(command++)->flags >= 0);
 
         PopMatrix();
     }

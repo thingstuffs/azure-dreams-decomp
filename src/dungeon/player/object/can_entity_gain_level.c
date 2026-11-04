@@ -26,8 +26,9 @@ s32 can_entity_gain_level(void *entity) {
     u8 *exp_entry;
     u8 level;
     u16 table_offset;
+    ActorRecord *actor = entity;
 
-    if (F(entity, s8, 0x13) < 0) {
+    if ((s8)actor->species < 0) {
         return 0;
     }
     /*
@@ -36,31 +37,31 @@ s32 can_entity_gain_level(void *entity) {
      * Found and documented by the Azure Dreams community
      * (adrando.com/guide/bugs.html).
      */
-    if (F(entity, u8, 0x11) >= 0x63) {
+    if (actor->level >= 0x63) {
         return 0;
     }
     if ((get_entity_effect_value(entity,  STATUS_FROG) << 16) != 0) {
         return 0;
     }
-    if (F(entity, u32, 0x1C) & ACTOR_LIFTED) {
+    if ((u32)actor->flags1C & ACTOR_LIFTED) {
         return can_level_up;
     }
-    if (F(entity, u8, 0x13) == 0) {
+    if (actor->species == 0) {
                  /* Required for byte-exact code generation. */
         if (F(F(D_800E0000, u8 *, 0x3D7C), u8, 0x9A) == 0x22) {
             return can_level_up;
         }
     }
-    if (F(entity, u32, 0x1C) & (ACTOR_MP_EMPTY | ACTOR_PARALYZED | ACTOR_ASLEEP)) {
+    if ((u32)actor->flags1C & (ACTOR_MP_EMPTY | ACTOR_PARALYZED | ACTOR_ASLEEP)) {
         return can_level_up;
     }
          /* Required for byte-exact code generation. */
-    level = F(entity, u8, 0x11);
+    level = actor->level;
     table_offset = level << 2;
     exp_table = entity_level_thresholds;
     exp_entry = (u8 *)exp_table + table_offset;
          /* Required for byte-exact code generation. */
-    if (*(u32 *)exp_entry <= F(entity, u32, 0x18)) {
+    if (*(u32 *)exp_entry <= (u32)actor->experience) {
         can_level_up++;
     }
     return can_level_up;

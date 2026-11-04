@@ -43,7 +43,7 @@ void run_delayed_sprite_projectile(DelayedTargetEffect *self, ObjectPosition *mo
     owner = self->owner;
     owner_object = NODE_HEADER(owner);
     state = self->state.s;
-    owner_record = F(owner, u8 *, -20);
+    owner_record = NODE_HEADER(owner)->sprite;
     if (state != 0 && state < 5) {
         particles_left = 16;
         particle_texture = secondary_sprite;
@@ -54,12 +54,12 @@ void run_delayed_sprite_projectile(DelayedTargetEffect *self, ObjectPosition *mo
                 child_data = particle->sprite;
                 particle->update_callback = advance_delayed_fading_sprite;
 
-                F(F(particle, u8 *, 8), u32, 0) = (u32)motion->x.v +
+                particle->position->x.v = (u32)motion->x.v +
                     (((rand() & 0x1ff) - 255) << 13);
-                F(F(particle, u8 *, 8), u32, 4) = (u32)motion->y.v +
+                particle->position->y.v = (u32)motion->y.v +
                     (((rand() & 0x1ff) - 255) << 13);
                 color = 0xf00000;
-                F(F(particle, u8 *, 8), u32, 8) = (u32)motion->z.v +
+                particle->position->z.v = (u32)motion->z.v +
                     (((rand() & 0x1ff) - 255) << 11);
 
                 F(child_data, u16, 20) |= 0xc;
@@ -88,12 +88,12 @@ void run_delayed_sprite_projectile(DelayedTargetEffect *self, ObjectPosition *mo
         animation = self->animation;
         if ((F(animation, u16, 0) & 0x80) == 0)
             return;
-        if ((F(owner, u8 *, 96) = scan_actor_along_heading( owner, owner_record->tile_x, owner_record->tile_y,
+        if ((owner->target = scan_actor_along_heading( owner, owner_record->tile_x, owner_record->tile_y,
             owner->facing, (s16)get_definition_entry_byte_13(8))) == 0) {
             owner->target_tile_x = owner_record->tile_x;
             owner->target_tile_y = owner_record->tile_y;
         } else {
-            child_data = F(F(owner, u8 *, 96), u8 *, -20);
+            child_data = NODE_HEADER(owner->target)->sprite;
             owner->target_tile_x = child_data->tile_x;
             owner->target_tile_y = child_data->tile_y;
         }
@@ -103,9 +103,9 @@ void run_delayed_sprite_projectile(DelayedTargetEffect *self, ObjectPosition *mo
             origin_offset.vy = 0;
             origin_offset.vx = 0;
         }
-        motion->x.w.i = F(F(owner_object, u8 *, 8), u16, 2) + origin_offset.vx;
-        motion->y.w.i = F(F(owner_object, u8 *, 8), u16, 6) + origin_offset.vy;
-        motion->z.w.i = F(F(owner_object, u8 *, 8), u16, 10) + origin_offset.vz;
+        motion->x.w.i = owner_object->position->x.unsigned_parts.integer + origin_offset.vx;
+        motion->y.w.i = owner_object->position->y.unsigned_parts.integer + origin_offset.vy;
+        motion->z.w.i = owner_object->position->z.unsigned_parts.integer + origin_offset.vz;
         self->timer.u = 8;
         {
             s32 target_x = owner->target_tile_x * 64;
@@ -121,7 +121,7 @@ void run_delayed_sprite_projectile(DelayedTargetEffect *self, ObjectPosition *mo
         motion->velocity_y /= self->timer.s;
         F(motion, s16, 22) = sample_terrain_surface_height(
             (u16)motion->x.w.i, (u16)motion->y.w.i,
-            (s16)(F(F(owner_object, u8 *, 8), u16, 10) - 48)) -
+            (s16)(owner_object->position->z.unsigned_parts.integer - 48)) -
             ((u16)motion->z.w.i + 176);
         motion->velocity_z /= self->timer.s;
         play_sound_if_enabled(AUDIO_PLAY_CD_CUE);
@@ -184,10 +184,10 @@ void run_delayed_sprite_projectile(DelayedTargetEffect *self, ObjectPosition *mo
                 spawn_coord <<= 13;
                 spawn_coord >>= 1;
                 spawn_coord += (u32)motion->y.v;
-                F(F(particle, u8 *, 8), u32, 4) = spawn_coord;
+                particle->position->y.v = spawn_coord;
 
-                F(F(particle, u8 *, 8), u32, 8) = (u32)motion->z.v + 0x100000;
-                F(F(particle, u8 *, 8), u32, 20) = 0x40000;
+                particle->position->z.v = (u32)motion->z.v + 0x100000;
+                particle->position->velocity_z = 0x40000;
 
                 F(child_data, u16, 30) = 0xa00;
                 F(child_data, u16, 28) = 0xa00;

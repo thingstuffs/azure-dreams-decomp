@@ -293,6 +293,20 @@ class SlusAssemblyDependencyTests(unittest.TestCase):
 
 
 class ContentReuseTests(unittest.TestCase):
+    def test_generate_cli_shares_bootstrap_snapshot(self):
+        with tempfile.TemporaryDirectory() as td:
+            root = Path(td); state = root/'build/.state'
+            previous_tempdir = tempfile.tempdir
+            try:
+                with patch.object(B, 'ROOT', root), patch.object(B, 'STATE', state), \
+                     patch.object(B, 'bootstrap') as bootstrap, patch.object(B, 'generate') as generate, \
+                     patch('tools.build.export_gate_tools.verify'), patch('sys.argv', ['mkbuild.py', 'generate']):
+                    B.main()
+                self.assertIs(bootstrap.call_args.args[0], generate.call_args.kwargs['snapshot'])
+                self.assertIsInstance(bootstrap.call_args.args[0], B.content_cache.Snapshot)
+            finally:
+                tempfile.tempdir = previous_tempdir
+
     def test_bootstrap_cache_binds_outputs_sources_and_environment(self):
         with tempfile.TemporaryDirectory() as td:
             root=Path(td);state=root/'build/.state';state.mkdir(parents=True)

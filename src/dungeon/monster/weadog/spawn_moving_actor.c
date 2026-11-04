@@ -43,7 +43,7 @@ void spawn_moving_actor(ActorRecord *action_work, ObjectPosition *position, Spri
     ObjectNodeHeader * spawned_actor;
     SpriteFrameState *spawned_sprite;
     void *spawned_work;
-    void *spawned_pos;
+    ObjectPosition *spawned_pos;
     void *direction_ptr;
     s16 direction_y;
     s32 tile_coord;
@@ -79,9 +79,9 @@ void spawn_moving_actor(ActorRecord *action_work, ObjectPosition *position, Spri
                 spawned_sprite->flags &= 0xFFF3;
                 PTR_AT(spawned_work, 0x40) = action_work;
                 spawned_pos = spawned_actor->position;
-                S16_AT(spawned_pos, 2) = position->x.unsigned_parts.integer;
-                S16_AT(spawned_pos, 6) = position->y.unsigned_parts.integer;
-                S16_AT(spawned_pos, 0x0A) = position->z.unsigned_parts.integer - 0x20;
+                spawned_pos->x.w.i = position->x.unsigned_parts.integer;
+                spawned_pos->y.w.i = position->y.unsigned_parts.integer;
+                spawned_pos->z.w.i = position->z.unsigned_parts.integer - 0x20;
                 direction_ptr = &direction_vectors;
                 direction_index = ((u16)actor->facing >> 7) & 0x1C;
                 S32_AT(spawned_work, 0x6C) = S16_AT(direction_ptr, direction_index) << 0x13;
@@ -148,7 +148,7 @@ void spawn_moving_actor(ActorRecord *action_work, ObjectPosition *position, Spri
         sprite->frameTable = weadog_frame_set_3;
         sprite->flags &= 0xF7FF;
         direction_index = ((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7;
-        select_sprite_entry(sprite, U8_AT(PTR_AT(sprite, 0x2C), direction_index), 0);
+        select_sprite_entry(sprite, U8_AT(sprite->frameTable, direction_index), 0);
         action_work->action_phase.u = action_work->action_phase.u + 1;
         return;
     case 3:

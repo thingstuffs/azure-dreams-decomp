@@ -184,8 +184,12 @@ def export_layout():
     return dict(files=sorted(map(str, files)), directories=sorted(map(str, directories)))
 
 
-def bootstrap():
-    snapshot = content_cache.Snapshot(ROOT)
+def bootstrap(snapshot=None):
+    # The generate CLI calls bootstrap immediately before generation. Reuse
+    # hashes whose inode, size, mtime and ctime are still identical; Snapshot
+    # re-reads any path changed by bootstrap or another process.
+    if snapshot is None:
+        snapshot = content_cache.Snapshot(ROOT)
     marker = STATE/'bootstrap.json'
     before = snapshot.hashes(bootstrap_inputs())
     tool_layout = export_layout()
@@ -755,12 +759,13 @@ def cached_selection(gate):
         M.load_modules, P.load = module_load, placement_load
 
 
-def generate(full=False):
+def generate(full=False, snapshot=None):
     global GENERATION_WRITES, RECIPE_CACHE
     # Lazy producer imports must not create bytecode directories inside the
     # observed read set. Source/configuration bytes remain the authority.
     sys.dont_write_bytecode = True
-    snapshot = content_cache.Snapshot(ROOT)
+    if snapshot is None:
+        snapshot = content_cache.Snapshot(ROOT)
     marker = STATE/'configure.json'
     previous = content_cache.load(marker)
     before_inventory = set()
@@ -1703,10 +1708,11 @@ def main():
         if args.action == 'generate':
             if args.spec not in (None, 'full'):
                 parser.error('generate accepts only the optional full selector')
-            bootstrap()
+            snapshot = content_cache.Snapshot(ROOT)
+            bootstrap(snapshot)
             from tools.build.export_gate_tools import verify
             verify(ROOT, ROOT/'build_ovl')
-            generate(full=args.spec == 'full')
+            generate(full=args.spec == 'full', snapshot=snapshot)
         else:
             if args.action == 'check':
                 from tools.build.export_gate_tools import verify

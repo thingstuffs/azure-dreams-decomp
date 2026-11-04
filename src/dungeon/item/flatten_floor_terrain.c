@@ -29,15 +29,14 @@ extern u8 D_800E1863;
 #define U8(p, o)  (*(u8  *)((u8 *)(p) + (o)))
 #define U16(p, o) (*(u16 *)((u8 *)(p) + (o)))
 #define S16(p, o) (*(s16 *)((u8 *)(p) + (o)))
-#define S32(p, o) (*(s32 *)((u8 *)(p) + (o)))
 
 /* Apply a target effect and clear dungeon entities and tiles when requested. */
 s32 flatten_floor_terrain(ActorRecord *target, DungeonItemEntry *effect_arg, s16 effect_id, void *context) {
     s32 *dungeon_state = ((s32 *)(&g_game_work));
     u8 *grid_info;
     s32 grid_base;
-    void *entity;
-    void *first_entity;
+    ActorRecord *entity;
+    ActorRecord *first_entity;
     u8 *entry_data;
     u8 *entry_flags;
     s32 x;
@@ -62,7 +61,7 @@ s32 flatten_floor_terrain(ActorRecord *target, DungeonItemEntry *effect_arg, s16
     }
     if ((u32) target <= 0x9FFFFFFFU) {
         display_actor_item_status_message(target, effect_arg);
-        if (feed_actor_restore_mp(target, U16(((u8 *)entity_action_selectors), U8(target, 0x13) * 2) & 3, effect_arg) == 0) {
+        if (feed_actor_restore_mp(target, U16(((u8 *)entity_action_selectors), target->species * 2) & 3, effect_arg) == 0) {
             place_actor_item(target, effect_arg);
             return 1;
         }
@@ -72,9 +71,9 @@ s32 flatten_floor_terrain(ActorRecord *target, DungeonItemEntry *effect_arg, s16
         entity = dungeon_actor_ring_anchor;
         first_entity = entity;
         do {
-            S16(entity, 0x88) = 0;
-            S32(entity, 0x1C) = S32(entity, 0x1C) | 0x40000000;
-            entity = (void *) (S32(entity, 0x5C) + 0x20);
+            entity->ground_height = 0;
+            entity->flags1C = entity->flags1C | 0x40000000;
+            entity = (void *) (entity->next_actor_header + 0x20);
         } while (entity != first_entity);
         entry_data = dungeon_ground_item_positions;
         entry_flags = ((u8 *)dungeon_ground_items);

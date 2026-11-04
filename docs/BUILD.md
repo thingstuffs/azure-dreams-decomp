@@ -252,6 +252,35 @@ commits every 50 TUs, so a refresh stopped by the landing's time limit resumes o
 `file::function::param` by `query param`. A lane root seeded without link maps keeps the copied
 `call_bind` rows instead of clearing them.
 
+### Configure hash reuse
+
+`mkbuild.py generate` runs bootstrap and recipe generation in one process. They
+share one content snapshot, so files verified by bootstrap are not read again
+when generation asks for the same SHA-256. A hash is reused only while the
+file's device, inode, size, nanosecond mtime and ctime still match; a changed
+identity is rehashed, and a change during a read aborts generation. The
+snapshot lasts for this command only. Generated recipes and build rules remain
+content-bound, including the normal tool-input hash in `build/build.mk`.
+
+### Post-build accounting reuse
+
+`levels.py` and `status.py` cache row facts by their semantic input keys in
+ignored `ledger/cache/row_facts/`. A missing cache is safe but makes the first
+run expensive. On a current 1,530-image proof, a cold run computed 21,385
+levels rows and 8,131 status rows; the next run hit all of those cache entries
+and reproduced `ledger/levels.jsonl` byte for byte. `STATUS.md` changed only
+its generated UTC timestamp. Set `AZURE_ROW_CACHE_STATS` to a path to record
+hits, misses and phase times for a particular run.
+
+Every run still validates the current image receipt and rebuilds dependency
+keys, source context and source indexes. These checks account for much of a
+warm run, especially when the shared disk is busy. The advisory codemap
+refresh also runs after the final proof and writes only ignored
+`build/codemap.db`; no later landing stage reads it. In a warm refresh with
+zero Clang reparses and zero typing extractions, binding 93,371 call sites
+still took 174.5 seconds. It can be scheduled outside the landing's critical
+path by a caller that does not need a current map immediately.
+
 | Symptom | Next step |
 | --- | --- |
 | Setup reports a wrong disc SHA-1 | Check the region, dump format and locked hash; supply an unmodified supported image |

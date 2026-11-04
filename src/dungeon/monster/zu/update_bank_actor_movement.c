@@ -2441,7 +2441,7 @@ void update_bank_timed_effect(ActorRecord *state_input, ObjectPosition *motion_i
     case 0:
         animation_flags = animation_input->flags;
         if (animation_flags & 0x8000) {
-            effect_data = S32_AT(actor_input, 0x60);
+            effect_data = (s32)actor_input->target;
             if (effect_data != 0) {
                 advance_eligible_actor_or_perform_action((ActorRecord *)effect_data, 0x10, 0x10);
                 state_input->action_phase.u = 2;
@@ -2455,7 +2455,7 @@ void update_bank_timed_effect(ActorRecord *state_input, ObjectPosition *motion_i
             return;
         }
 
-        if (resolve_record_orientation_or_fallback(S32_AT(animation_input, 8), animation_input, spawn_offset, 0) == 0) {
+        if (resolve_record_orientation_or_fallback((s32)animation_input->source, animation_input, spawn_offset, 0) == 0) {
             spawn_offset[2] = 0;
             spawn_offset[1] = 0;
             spawn_offset[0] = 0;
@@ -2482,7 +2482,7 @@ void update_bank_timed_effect(ActorRecord *state_input, ObjectPosition *motion_i
         state_input->action_phase.u = next_state + 1;
         return;
     case 1:
-        effect_data = S32_AT(actor_input, 0x60);
+        effect_data = (s32)actor_input->target;
         if (effect_data != 0) {
             timer = state_input->action_timer.s;
             if (timer >= 0x12) {
@@ -2496,7 +2496,7 @@ void update_bank_timed_effect(ActorRecord *state_input, ObjectPosition *motion_i
         }
 
         if (state_input->action_timer.s == 0x14) {
-            effect_data = S32_AT(actor_input, 0x60);
+            effect_data = (s32)actor_input->target;
             if (effect_data != 0) {
                 advance_eligible_actor_or_perform_action((ActorRecord *)effect_data, 0x10, 0x10);
             }

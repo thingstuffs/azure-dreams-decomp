@@ -17,7 +17,6 @@
 #include "dungeon.h"
 #include "dungeon/level.h"
 #include "dungeon/player/object.h"
-#define F(p, t, o) (*(t *)((u8 *)(p) + (o)))
 
 
 
@@ -71,12 +70,12 @@ void update_dungeon_actor_actions(GolemActionWork *actor, ObjectPosition *contex
         return;
     }
 
-    if (F(stats, u32, 0x1C) & ACTOR_ASLEEP) {
+    if ((u32)stats->flags1C & ACTOR_ASLEEP) {
         if (sprite->frameTable == &golem_alt_direction_frames) {
             actor->state = 13;
             actor->phase = 1;
             actor->callback.word = 0;
-            F(stats, u32, 0x1C) &= ~0x40000;
+            stats->flags1C &= ~0x40000;
             return;
         }
         consume_pending_flag(actor, stats);
@@ -86,7 +85,7 @@ void update_dungeon_actor_actions(GolemActionWork *actor, ObjectPosition *contex
     }
 
     if (!(g_dungeon_status.flags & 0x2000)) {
-        if (F(stats, u32, 0x1C) & ACTOR_PUSH_PENDING) {
+        if ((u32)stats->flags1C & ACTOR_PUSH_PENDING) {
             begin_pushed_actor_move(actor, context, sprite, stats);
             return;
         }
@@ -127,7 +126,7 @@ void update_dungeon_actor_actions(GolemActionWork *actor, ObjectPosition *contex
                 return;
             }
         }
-        if (F(stats, u32, 0x1C) & ACTOR_LIFTED) {
+        if ((u32)stats->flags1C & ACTOR_LIFTED) {
             begin_actor_move_to_target_facing(actor, context, sprite, stats);
             func_80174698(actor, context, sprite, stats);
             return;
@@ -143,7 +142,7 @@ void update_dungeon_actor_actions(GolemActionWork *actor, ObjectPosition *contex
     }
 
     if (stats->pending_turn_updates > 0) {
-        if (F(stats, u32, 0x1C) & ACTOR_PARALYZED) {
+        if ((u32)stats->flags1C & ACTOR_PARALYZED) {
             update_actor_status_and_mp(stats);
             return;
         }
@@ -252,7 +251,7 @@ void update_dungeon_actor_actions(GolemActionWork *actor, ObjectPosition *contex
         }
     } else {
         if (actor->mode == 0) {
-            u32 flags = F(stats, u32, 0x1C);
+            u32 flags = (u32)stats->flags1C;
             if (!(flags & 0x2000)) {
                 if (!((s8)tile_index >= 0 && (dungeon_rooms[(s8)tile_index].flags & 2)) && !(flags & 0x430)) {
                     if ((s16)test_neighbor_position_relation(sprite->tile_x, sprite->tile_y,
