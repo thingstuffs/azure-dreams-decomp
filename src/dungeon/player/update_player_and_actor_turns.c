@@ -44,6 +44,7 @@ s32 find_active_rect_containing_point(s32 point_x, s32 point_y);                
 #include "dungeon/item.h"
 #include "slus.h"
 #include "engine/graphics.h"
+#include "dungeon/data.h"
 
 struct Node;
 s32 generate_random_value(void);                                /* extern */
@@ -51,13 +52,11 @@ extern s8 scene_music_hold;
 extern s16 floor_generation_state[3];
 extern s16 dungeon_camera_targets[];
 extern s8 dungeon_event_pending_flag;
-extern u32 player_idle_turn_count;
 extern Callback4 player_action_handlers[];
 extern u16 D_800DD258;
 extern u16 D_800DD25A;
 extern u8 dungeon_button_latch;
 extern s8 camera_transition_timer;
-extern s32 player_turn_fraction;
 extern s32 familiar_turn_counters_alias;
 extern void *actor_update_node_cursor;
 

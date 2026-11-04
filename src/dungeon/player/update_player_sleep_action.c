@@ -10,6 +10,7 @@
 #include "dungeon/level.h"
 #include "engine/graphics.h"
 #include "dungeon/player.h"
+#include "dungeon/data.h"
 #ifndef NULL
 #define NULL 0
 #endif
@@ -25,9 +26,7 @@ typedef struct {
     u16 flagsa2;
 } Arg0Struct;
 
-extern u8 return_magic_frames[];
 extern void *D_8008B870;
-extern u8 player_sleep_frames;
 
 extern s32 get_entity_effect_value(void *entry, s32 effect_id);
 

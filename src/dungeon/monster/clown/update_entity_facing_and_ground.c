@@ -471,7 +471,6 @@ void advance_actor_path_step_and_update_counters(ActorRecord *motion_state, Obje
     u16 hp;
     u16 energy;
     u16 step_index;
-    R16_80171574_S_80171FC8_2 *path_entry;
 
     if (((R16_80171574_S_80171FC8_0 *)path_state)->unk_71.s <= 0) {
         return;
@@ -487,9 +486,8 @@ void advance_actor_path_step_and_update_counters(ActorRecord *motion_state, Obje
                       0);
     }
 
-    path_entry = (R16_80171574_S_80171FC8_2 *)((u8 *)path_state + path_state->unk_8A);
-    if (entity->tile_x == path_entry->unk_74 &&
-        entity->tile_y == path_entry->unk_7C) {
+    if (entity->tile_x == path_state->path_x[path_state->unk_8A] &&
+        entity->tile_y == path_state->path_y[path_state->unk_8A]) {
         hp = motion_state->unk_90.parts.high.u;
         energy = ((R16_80171574_S_80171FC8_0 *)path_state)->unk_88;
         motion_state->unk_90.parts.high.u = hp + 0x20;
@@ -507,10 +505,8 @@ void advance_actor_path_step_and_update_counters(ActorRecord *motion_state, Obje
 
         update_map_cell_flags_with_item_limit(old_x, old_y, distance);
 
-        entity->tile_x = ((R16_80171574_S_80171FC8_4 *)((u8 *)path_state
-            + path_state->unk_8A))->unk_74;
-        entity->tile_y = ((R16_80171574_S_80171FC8_4 *)((u8 *)path_state
-            + path_state->unk_8A))->unk_7C;
+        entity->tile_x = path_state->path_x[path_state->unk_8A];
+        entity->tile_y = path_state->path_y[path_state->unk_8A];
         ((R16_80171574_S_80171FC8_0 *)path_state)->unk_8A.u += 1;
 
         cycle_map_cell_flags(entity->tile_x, entity->tile_y,
@@ -693,9 +689,9 @@ void choose_clown_move(ActorRecord *move_data, ObjectPosition *context, SpriteFr
             }
 
             actor_data->facing = trial_angle;
-            ((ActorStatusBytesView *)((u8 *)actor_data + (actor_data->movement_queue_state & 0x7F)))->path_x =
+            actor_data->path_x[actor_data->movement_queue_state & 0x7F] =
                 position_data->tile_x;
-            ((ActorStatusBytesView *)((u8 *)actor_data + (actor_data->movement_queue_state & 0x7F)))->path_y =
+            actor_data->path_y[actor_data->movement_queue_state & 0x7F] =
                 position_data->tile_y;
             actor_data->movement_queue_state++;
 

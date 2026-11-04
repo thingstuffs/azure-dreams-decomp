@@ -32,7 +32,8 @@ typedef struct ViewColorFlashState {
 } ViewColorFlashState;
 
 void *append_signed_value_bytes(s32 value, u8 *buffer);
-u8 *apply_type_based_entry_adjustments(void *entry, u8 *value);
+struct DungeonItemEntry;
+u8 *apply_type_based_entry_adjustments(struct DungeonItemEntry *entry, u8 *value);
 void create_view_color_flash(s32 payload, s16 trigger_event);
 void *find_linked_entity_of_type_21(void *entity);
 s32 find_padded_rectangle(s32 pos_x, s32 pos_y);
@@ -49,7 +50,6 @@ void tick_monster_spawn_timer(void);
 
 
 
-struct DungeonItemEntry;
 s32 use_item_to_apply_poison(ActorRecord *entity, struct DungeonItemEntry *item, s16 action_type);
 
 void play_b4_sound(void);
@@ -107,5 +107,7 @@ void spawn_floor_monster_from_table(s32 spawn_mode);
 void tick_view_color_flash(void *fade);
 
 s32 create_and_store_pending_actor_fade(void);
+
+void decrement_monster_entry_count(s16 requested_id, s16 requested_type);
 
 #endif

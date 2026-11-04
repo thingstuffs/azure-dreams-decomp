@@ -268,9 +268,9 @@ loop_setup:
             }
 
             actor_arg->facing = next_angle;
-            ((ActorStatusBytesView *)((u8 *)actor_arg + (actor_arg->movement_queue_state & 0x7F)))->path_x =
+            actor_arg->path_x[actor_arg->movement_queue_state & 0x7F] =
                 position_arg->tile_x;
-            ((ActorStatusBytesView *)((u8 *)actor_arg + (actor_arg->movement_queue_state & 0x7F)))->path_y =
+            actor_arg->path_y[actor_arg->movement_queue_state & 0x7F] =
                 position_arg->tile_y;
             actor_arg->movement_queue_state++;
 

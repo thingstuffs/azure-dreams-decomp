@@ -19,6 +19,7 @@
 #include "dungeon/effect/screen.h"
 #include "dungeon/item.h"
 #include "dungeon/actor.h"
+#include "dungeon/data.h"
 
 void (*const dungeon_189a800_entry)(ProjectileEffect *, ObjectPosition *, SpriteFrameState *) = update_projectile_trail_and_hit_effect;
 const u8 no_effect_target_prefix[48] = {0x82,0x73,0x82,0x88,0x82,0x85,0x82,0x92,0x82,0x85,0x81,0x40,0x82,0x97,0x82,0x81,0x82,0x93,0x81,0x40,0x82,0x8e,0x82,0x8f,0x81,0x40,0x82,0x85,0x82,0x86,0x82,0x86,0x82,0x85,0x82,0x83,0x82,0x94,0x81,0x40,0x82,0x8f,0x82,0x8e,0x81,0x40,0x0,0x0};
@@ -706,8 +707,6 @@ typedef struct S_8187B540_0 {
     u16 unk_1A;
 } S_8187B540_0;   /* arg2 in func_80024D40 */
 
-extern s16 point_cloud_update_flag[5];
-
 /* Add the object increment to the target and flag completion when its countdown expires. */
 void rotate_point_cloud_until_expired(RandomRadialVectorEffectBody *object, ObjectPosition *unused, void *target) {
     RandomRadialVectorEffectBody *object_data = object;
@@ -814,8 +813,6 @@ s32 project_colored_point_to_ordering_table(u8 *render_data, u8 *source_vertex)
 }
 #include "modules/dungeon_native_abi.h"
 #include "shared/object_flags.h"
-
-extern s16 point_cloud_update_flag[5];
 
 /* Conditionally advances the position and decrements a counter, setting flags when it expires. */
 void advance_colored_point_toward_terrain(TerrainSeekingColoredPointBody *object, s16 *position)
@@ -999,9 +996,6 @@ void create_random_radial_vector_effect(s32 radius, s32 initial_value, s16 exten
 #include "shared/object_flags.h"
 
 
-
-extern s16 point_cloud_update_flag[5];
-
 /* Advance the effect animation, fade its colors, and mark it for removal when its lifetime ends. */
 void advance_fading_effect_animation(StarEdgeEffectBody *effect_data, ObjectPosition *unused_arg, void *color_data) {
     SpriteFrameState *colors = color_data;
@@ -1141,9 +1135,6 @@ typedef struct S_8187BE9C_1 {
     u16 unk_14;
 } S_8187BE9C_1;   /* arg2 in create_object_offset */
 
-extern s16 point_cloud_update_flag[5];
-
-
 /* Advance the effect fade, scale primitive colors, and flag completion. */
 void create_object_offset(ProjectileTrailFlashBody *effect, s32 unused, S_8187BE9C_1 *primitive)
 {
@@ -1236,9 +1227,6 @@ typedef struct {
 
 extern s32 rsin(s32);
 extern s32 rcos(s32);
-
-extern u8 mesh_edge_payload_template[12];
-extern s16 point_cloud_update_flag[5];
 
 /* Initializes a five-point star and spawns its edge effects over successive updates. */
 void initialize_star_effect_sequence(void *state_data, void *source_data) {
@@ -1459,8 +1447,6 @@ typedef struct {
 
 const PointTable D_80024074 = {{{32,0},{32,32},{0,32},{-32,32},{-32,0},{-32,65504},{0,65504},{32,65504}}};
 extern Copy12 D_80026934;
-extern u8 mesh_edge_payload_template[12];
-extern s16 point_cloud_update_flag[5];
 extern u8 D_8007CCD8[];
 
 #define U8(p, o) (*(u8 *)((u8 *)(p) + (o)))
@@ -1612,11 +1598,12 @@ void update_projectile_trail_and_hit_effect(ProjectileEffect *effect, ObjectPosi
     case 2:
         trail_color = 0x60;
         do {
+            ProjectileTrailFlashBody *flash;
             object = allocate_flagged_object_node(0x12);
-            object_data = NODE_BODY(object);
+            flash = NODE_BODY(object);
             if (object != 0) {
-                U16(object_data, 2) = 8;
-                U16(object_data, 4) = 8;
+                flash->unk_02.s = 8;
+                flash->unk_04 = 8;
                 object->update_callback = create_object_offset;
                 register_node(object, project_sprite_chain);
 
@@ -1636,9 +1623,9 @@ void update_projectile_trail_and_hit_effect(ProjectileEffect *effect, ObjectPosi
                 spawn_sprite->color.c.g = trail_color;
                 spawn_sprite->color.c.r = trail_color;
                 spawn_sprite->color.c.b = 0x10;
-                U8(object_data, 0x38) = 0x10;
-                U8(object_data, 0x37) = trail_color;
-                U8(object_data, 0x36) = trail_color;
+                flash->unk_38 = 0x10;
+                flash->unk_37 = trail_color;
+                flash->unk_36 = trail_color;
                 *(AggU12 *)((u8 *)object + 0x64) = *(AggU12 *)&D_80026934;
                 spawn_sprite->source = (u8 *)object + 0x64;
             }

@@ -142,7 +142,7 @@ void emit_attached_directional_particle_chain(AttachedParticleChainSpellBody *ef
                     coord = position->z.v;
                     effect->unk_B8 = coord;
                 }
-                if (*((u16 *)effect->spell.context) & 0x80) {
+                if (*effect->spell.context & 0x80) {
                     effect->unk_84.u = 0U;
                     effect->spell.phase.s = (s16) ((u16) effect->spell.phase.s + 1);
                     play_sound_if_enabled(AUDIO_PLAY_CD_CUE);

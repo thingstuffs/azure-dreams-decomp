@@ -6,8 +6,8 @@ struct ObjectNodeHeader;
 #include "dungeon/item.h"
 #include "engine/script.h"
 #include "dungeon/monster/beldo_large.h"
+#include "dungeon/level.h"
 
-extern void clear_entry_flag_and_link_owner(struct ObjectNodeHeader *entry);
 extern u8 restore_actor_script[];
 extern u8 *beldo_actor_nodes[3];
 

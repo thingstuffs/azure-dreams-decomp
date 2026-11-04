@@ -4,29 +4,39 @@
 
 
 #define S16_FIELD(ptr, offset) (*(s16 *)((u8 *)(ptr) + (offset)))
-#define U16_FIELD(ptr, offset) (*(u16 *)((u8 *)(ptr) + (offset)))
-#define S32_FIELD(ptr, offset) (*(s32 *)((u8 *)(ptr) + (offset)))
+
+/* The caller passes an audio_channel_controls entry; start_channel_note
+ * declares the same channel words at +0x50 and +0x58. */
+typedef struct SoundChannelRamp {
+    u8 pad_00[0x50];
+    s16 enabled;
+    u16 value;
+    s16 step;
+    u16 limit;
+    s32 direction;
+} SoundChannelRamp;
 
 /* Steps an enabled value toward its positive or negative limit. */
 void sound_step_clamped_signed_ramp(void *state) {
+    SoundChannelRamp *ramp = state;
     s32 next_value;
     s32 lower_limit;
     u16 upper_limit;
 
-    if (S16_FIELD(state, 0x50) != 0) {
-        if (S32_FIELD(state, 0x58) != 0) {
-            upper_limit = U16_FIELD(state, 0x56);
-            if ((S16_FIELD(state, 0x52) + S16_FIELD(state, 0x54)) < (s32) upper_limit) {
-                S16_FIELD(state, 0x52) = U16_FIELD(state, 0x52) + U16_FIELD(state, 0x54);
+    if (ramp->enabled != 0) {
+        if (ramp->direction != 0) {
+            upper_limit = ramp->limit;
+            if (((s16)ramp->value + ramp->step) < (s32) upper_limit) {
+                ramp->value = ramp->value + (u16)ramp->step;
                 return;
             }
-            S16_FIELD(state, 0x52) = upper_limit;
+            ramp->value = upper_limit;
             return;
         }
-        next_value = S16_FIELD(state, 0x52) - S16_FIELD(state, 0x54);
-        lower_limit = -U16_FIELD(state, 0x56);
+        next_value = (s16)ramp->value - ramp->step;
+        lower_limit = -ramp->limit;
         if (lower_limit < next_value) {
-            S16_FIELD(state, 0x52) = U16_FIELD(state, 0x52) - U16_FIELD(state, 0x54);
+            ramp->value = ramp->value - (u16)ramp->step;
             return;
         }
         S16_FIELD(state, 0x52) = lower_limit;

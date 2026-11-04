@@ -483,7 +483,7 @@ void advance_projectile_burst_and_impact(ProjectileBurstImpactBody *effect, Obje
                 motion->z.w.i = origin_height - 0x40;
             }
 
-            if (*((u16 *)effect->spell.context) & 0x80) {
+            if (*effect->spell.context & 0x80) {
                 if (!(effect->unk_7A & 4)) {
                     register_node((u8 *)effect - 0x20, project_sprite_chain);
                     sprite->tpage_abr = 0x60;

@@ -196,9 +196,9 @@ void select_movement_direction_and_advance(ActorRecord *move_data, ObjectPositio
 
             actor_data->facing = trial_angle;
             /* remember the cell in the actor's trail of visited cells */
-            ((ActorStatusBytesView *)((u8 *)actor_data + (actor_data->movement_queue_state & 0x7F)))->path_x =
+            actor_data->path_x[actor_data->movement_queue_state & 0x7F] =
                 position_data->tile_x;
-            ((ActorStatusBytesView *)((u8 *)actor_data + (actor_data->movement_queue_state & 0x7F)))->path_y =
+            actor_data->path_y[actor_data->movement_queue_state & 0x7F] =
                 position_data->tile_y;
             actor_data->movement_queue_state++;
 

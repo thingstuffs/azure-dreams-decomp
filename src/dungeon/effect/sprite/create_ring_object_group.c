@@ -7,8 +7,8 @@
 #include "sdk/libgte.h"
 #include "dungeon/effect/sprite.h"
 #include "engine/node.h"
+#include "dungeon/data.h"
 extern u8 D_800250B4[];
-extern u8 ring_effect_work[];
 
 typedef struct S_81959B44_2 {
     u8 pad_00[0x14];

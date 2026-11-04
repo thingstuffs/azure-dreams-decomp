@@ -3,6 +3,7 @@
 #include "shared/game_work.h"
 #include "dungeon/effect/mesh.h"
 #include "sdk/libgpu.h"
+#include "sdk/libgte.h"
 
 typedef struct S_800D1824_0 {
     u8 pad_00[0x20];
@@ -51,9 +52,6 @@ typedef struct S_800D1824_5 {
 } S_800D1824_5;   /* ((S_800D1824_1 *)globals)->unk_1E0 in build_visible_tile_quads */
 
    /* ((S_800D1824_1 *)globals)->unk_00 in build_visible_tile_quads */
-
-
-extern void func_80065034(void *ptr, void *ptr2, void *ptr3);
 
 /* Transform grid tiles into quads and add visible ones to the ordering table. */
 void build_visible_tile_quads(MeshEffectObjectBody *tiles)

@@ -11,6 +11,7 @@
 #include "dungeon/effect/screen.h"
 #include "dungeon/monster/beldo_large.h"
 #include "dungeon/system.h"
+#include "dungeon/data.h"
 
 
 
@@ -30,8 +31,6 @@ extern void func_80164BA4(void *);
 
 extern void beldo_large_action_resume_address(ActorRecord *actor, ObjectPosition *context, SpriteFrameState *sprite, ActorRecord *entity);
 extern u8 beldo_large_frame_set_3[];
-extern u8 beldo_large_frame_set_11[];
-extern u8 encounter_transition_pool_script[];
 extern u8 D_80175DC0;
 extern u8 encounter_recovery_flag;
 

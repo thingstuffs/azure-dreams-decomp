@@ -5,18 +5,18 @@
 #include "dungeon/effect/spell_effect.h"
 
 /* Spell state for spawned target effects and their delayed attack. */
-typedef struct TargetAttackSequenceBody {
+typedef struct TimedTargetHitEffectBody {
     SpellEffectHeader spell;
     u8 pad_0C[0x44];
     union { u16 u; s16 s; } unk_50;
     union { s16 s; u16 u; } unk_52;
-} TargetAttackSequenceBody;
+} TimedTargetHitEffectBody;
 typedef struct FragmentSpawningEffectBody {
     void *owner;
 } FragmentSpawningEffectBody;
 struct MainObject;
 struct DirectionalGridEffectBody;
-void update_directional_actor_effect(TargetAttackSequenceBody *state, void *position);
+void update_directional_actor_effect(TimedTargetHitEffectBody *state, void *position);
 s32 create_counted_sprite_effect(void *first_item);
 void update_effect_and_spawn_fragments(struct MainObject *object);
 void mark_referenced_object_and_update_flags(FragmentSpawningEffectBody *entry, void *unused, SpriteFrameState *target);

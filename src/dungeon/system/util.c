@@ -24,7 +24,6 @@ void *get_unused_text_buffer(); /* Unprototyped: this retail caller sets three i
 #include "sdk/libc.h"
 #include "sdk/libgpu.h"
 #include "slus.h"
-#include "dungeon/item/message.h"
 #include "dungeon/actor.h"
 #include "dungeon/data.h"
 #include "dungeon/player/object.h"
@@ -160,11 +159,11 @@ void update_pulsing_effect_brightness(PulsingEffectWork *effect, ObjectPosition 
 
         effect->timer.u--;
         if (effect->timer.s <= 0) {
-            linked_prim = ((ObjectNodeHeader *)((u8 *)effect->target - 0x20))->sprite;
+            linked_prim = NODE_HEADER(effect->target)->sprite;
             linked_prim->color.c.r = 0x80;
             linked_prim->color.c.g = 0x80;
             linked_prim->color.c.b = 0x80;
-            ((ObjectNodeHeader *)((u8 *)effect - 0x20))->flags |= NODE_REMOVE;
+            NODE_HEADER(effect)->flags |= NODE_REMOVE;
             object_flag_block.flags |= OBJECT_REMOVE_PENDING;
             return;
         }
@@ -182,7 +181,7 @@ void update_pulsing_effect_brightness(PulsingEffectWork *effect, ObjectPosition 
     render_state->angle_z = tilt;
 
     brightness = ((effect->tick.u & 3) << 4) + 64;
-    linked_prim = ((ObjectNodeHeader *)((u8 *)effect->target - 0x20))->sprite;
+    linked_prim = NODE_HEADER(effect->target)->sprite;
     linked_prim->color.c.r = brightness;
     linked_prim->color.c.g = brightness;
     linked_prim->color.c.b = brightness;
@@ -736,7 +735,7 @@ void display_item_status_message(void *entity, struct DungeonItemEntry *item, s3
 
     void *text_end;
 
-    message = ((void *(*)(void *, struct DungeonItemEntry *, s32))get_unused_text_buffer)(entity, item, message_kind);
+    message = get_unused_text_buffer(entity, item, message_kind);
     if ((s16)message_kind == 0x15) {
         text_end = expand_text_control_codes(D_800E0A03, append_typed_formatted_value(item, message));
     } else {
@@ -746,6 +745,7 @@ void display_item_status_message(void *entity, struct DungeonItemEntry *item, s3
     display_text_with_fullwidth_adjustment(message);
 }
 
+#include "dungeon/item/message.h"
 #include "common.h"
 
 extern u8 D_800E0A1B[];

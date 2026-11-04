@@ -6,8 +6,7 @@
 #include "records/Rec_D_80082E80.h"
 #include "engine/graphics.h"
 #include "dungeon/system.h"
-
-extern u8 actor_attack_frames[];
+#include "dungeon/data.h"
 
 /* Initialize the action state and select the actor's directional sprite. */
 void begin_player_jump(Rec_func_8008ACDC_arg0 *state, void *unused, SpriteFrameState *sprite, ActorRecord *actor) {

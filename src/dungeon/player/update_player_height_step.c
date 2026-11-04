@@ -12,9 +12,7 @@
 #include "engine/graphics.h"
 #include "dungeon/player/object.h"
 #include "dungeon/system.h"
-
-extern u8 player_height_step_frames[];
-extern u8 player_landing_frame_set[];
+#include "dungeon/data.h"
 
 /* Updates movement toward a target tile and advances the actor's animation state. */
 void update_player_height_step(void *actor, ObjectPosition *motion, SpriteFrameState *sprite, EntityRec *model) {

@@ -19,7 +19,7 @@ void update_all_actor_proximity_flags(s16 near_limit, s16 far_limit) {
     actor = (void *) (dungeon_actor_ring_anchor->next_actor_header + 0x20);
     if (actor != ((EntityRec *)dungeon_actor_ring_anchor)) {
         do {
-            update_actor_proximity_flag(((ObjectNodeHeader *)((u8 *)actor - 0x20))->sprite, actor, near_limit, far_limit,
+            update_actor_proximity_flag(NODE_HEADER(actor)->sprite, actor, near_limit, far_limit,
                 (void *) ((u8 *) actor + 0x9C));
             actor = (void *) (((S_800A1B44_1 *)((u8 *)actor - 0x14))->unk_70 + 0x20);
         } while (actor != ((EntityRec *)dungeon_actor_ring_anchor));

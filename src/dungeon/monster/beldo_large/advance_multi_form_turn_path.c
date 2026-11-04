@@ -10,22 +10,10 @@
 #include "dungeon/level.h"
 #include "dungeon/item.h"
 #include "dungeon/monster/beldo_large.h"
-
-typedef struct S_8016AFC4_3 {
-    u8 pad_00[0x74];
-    u8 unk_74;
-    u8 pad_75[0x7];
-    u8 unk_7C;
-} S_8016AFC4_3;   /* entry in advance_multi_form_turn_path */
-
+#include "dungeon/data.h"
 
 extern void update_map_cell_flags_with_item_limit(s32 x, s32 y, u16 flags);
 extern s32 check_movement_clearance_and_height();
-
-extern u8 beldo_large_frame_set_10[8];
-extern u8 beldo_large_frame_set[8];
-extern u8 beldo_large_frame_set_15[8];
-extern u8 beldo_large_frame_set_16[8];
 
 /* Advance the actor along its path and update its animation, facing, and movement timing. */
 void advance_multi_form_turn_path(ActorRecord *actor, ObjectPosition *unused, SpriteFrameState *sprite, ActorRecord *movement) {
@@ -35,7 +23,6 @@ void advance_multi_form_turn_path(ActorRecord *actor, ObjectPosition *unused, Sp
     s32 old_x;
     s32 old_y;
     s16 direction;
-    S_8016AFC4_3 *path_step;
 
     if (((s8)movement->movement_queue_state) <= 0) {
         return;
@@ -91,15 +78,15 @@ void advance_multi_form_turn_path(ActorRecord *actor, ObjectPosition *unused, Sp
     }
     update_map_cell_flags_with_item_limit(old_x, old_y, move_mode);
 
-    path_step = (S_8016AFC4_3 *)((u8 *)movement + movement->unk_8A);
-    direction = get_rounded_facing_and_rounding_flag(old_x, old_y, path_step->unk_74,
-                              path_step->unk_7C, &actor->action_state_flags);
+    direction = get_rounded_facing_and_rounding_flag(old_x, old_y,
+                              movement->path_x[movement->unk_8A],
+                              movement->path_y[movement->unk_8A], &actor->action_state_flags);
     check_movement_clearance_and_height(direction, sprite, movement, 0x20);
 
     sprite->tile_x =
-        ((ActorRecord *)((u8 *)movement + movement->unk_8A))->path_x[0];
+        movement->path_x[movement->unk_8A];
     sprite->tile_y =
-        ((ActorRecord *)((u8 *)movement + movement->unk_8A))->path_y[0];
+        movement->path_y[movement->unk_8A];
     (*(u16 *)&movement->unk_8A)++;
 
     cycle_map_cell_flags(sprite->tile_x, sprite->tile_y,

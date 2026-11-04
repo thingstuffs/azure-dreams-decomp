@@ -35,4 +35,10 @@ void create_colored_effect_with_sound(void *source, s32 color, unsigned short so
 void initialize_effect_object_state(ObjectNodeHeader *object, Rec_func_800D4BD4_arg1 *source, Rec_func_800D4BD4_arg2 *position, s32 unused_spawn_context);
 void create_colored_effect_with_event(ObjectNodeHeader *source, s32 color, unsigned short event_id);
 
+s32 draw_linked_depth_sliced_quads(void *payload, struct ObjectPosition *position, struct SpriteFrameState *render_state);
+
+void *create_effect_object_groups(s16 x, s16 y, s16 z);
+s32 draw_adjacent_row_quads(void);
+void project_depth_sliced_quads(void *geometry, ObjectPosition *position, SpriteFrameState *render_state, s16 depth_bias);
+
 #endif

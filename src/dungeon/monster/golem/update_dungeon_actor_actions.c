@@ -32,8 +32,8 @@ extern s32 get_entity_effect_value(ActorRecord *entry, s32 effect_id);
 extern s32 find_active_rect_containing_point(s32 point_x, s32 point_y);
 extern s32 generate_random_value(void);
 extern void update_actor_status_and_mp(ActorRecord *entity);
-extern s32 advance_stored_path_motion();
-extern s32 update_actor_movement_and_tile_position();
+extern void advance_stored_path_motion();
+extern void update_actor_movement_and_tile_position();
 extern s32 func_801727D8(); /* Slot contract: loading images do not establish one callee contract. */
 extern s32 func_80174698();
 

@@ -715,16 +715,16 @@ void advance_snowman_stored_path(ActorRecord *body, ObjectPosition *motion, Spri
     heading = ((s16)get_rounded_facing_and_rounding_flag(
         x,
         y,
-        ((R10_80171D7C_S_80171CD4_4 *)((u8 *)state + state->unk_8A.s))->unk_74,
-        ((R10_80171D7C_S_80171CD4_4 *)((u8 *)state + state->unk_8A.s))->unk_7C,
+        ((ActorRecord *)state)->path_x[state->unk_8A.s],
+        ((ActorRecord *)state)->path_y[state->unk_8A.s],
         &path_actor->action_state_flags));
     move_result = ((s16)check_movement_clearance_and_height(heading, sprite, state, 0x20));
 
     sprite->tile_x =
-        ((R10_80171D7C_S_80171CD4_4 *)((u8 *)state + state->unk_8A.s))->unk_74;
+        ((ActorRecord *)state)->path_x[state->unk_8A.s];
     move_flags = 0x3000;
     sprite->tile_y =
-        ((R10_80171D7C_S_80171CD4_4 *)((u8 *)state + state->unk_8A.s))->unk_7C;
+        ((ActorRecord *)state)->path_y[state->unk_8A.s];
     state->unk_8A.u++;
 
     {
@@ -919,9 +919,9 @@ void choose_snowman_move(ActorRecord *move_data, ObjectPosition *context, Sprite
             }
 
             actor_data->facing = trial_angle;
-            ((ActorStatusBytesView *)((u8 *)actor_data + (actor_data->movement_queue_state & 0x7F)))->path_x =
+            actor_data->path_x[actor_data->movement_queue_state & 0x7F] =
                 position_data->tile_x;
-            ((ActorStatusBytesView *)((u8 *)actor_data + (actor_data->movement_queue_state & 0x7F)))->path_y =
+            actor_data->path_y[actor_data->movement_queue_state & 0x7F] =
                 position_data->tile_y;
             actor_data->movement_queue_state++;
 
@@ -1405,7 +1405,7 @@ use_kind:
         if (effect_flags) {
             target_obj = primary_actor_record;
             action->target = target_obj;
-            state = (s32)*(u8 * *)&((ObjectNodeHeader *)((u8 *)target_obj - 0x20))->sprite;
+            state = (s32)*(u8 * *)&NODE_HEADER(target_obj)->sprite;
             action->target_tile_x = ((u8 *)state)[0x24];
             action->target_tile_y = ((u8 *)state)[0x25];
         } else {
@@ -1420,7 +1420,7 @@ use_kind:
             if (kind_entry[0x12] == 2) {
                 target_obj = action->target;
                 if (target_obj != 0) {
-                    state = (s32)*(u8 * *)&((ObjectNodeHeader *)((u8 *)target_obj - 0x20))->sprite;
+                    state = (s32)*(u8 * *)&NODE_HEADER(target_obj)->sprite;
                     action->target_tile_x = ((u8 *)state)[0x24];
                     action->target_tile_y = ((u8 *)state)[0x25];
                 }

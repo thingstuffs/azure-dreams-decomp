@@ -145,4 +145,7 @@ void try_apply_wind_protection(ActorRecord *target, s32 effect_arg, SpriteFrameS
 
 void create_interpolated_line_effect(s32 object_arg, s32 *start_pos, s32 *end_pos);
 
+void append_coordinate_record(s32 x, s32 y, s32 value, s32 store_value);
+s16 round_sampled_height_to_cell_boundary(s32 grid_x, s32 grid_y);
+
 #endif

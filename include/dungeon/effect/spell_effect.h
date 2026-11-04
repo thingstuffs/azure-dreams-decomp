@@ -8,7 +8,7 @@
  * Callback sets use separate bodies after this prefix, as in TrackingEffect. */
 typedef struct SpellEffectHeader {
     ActorRecord *caster;
-    void *context;
+    u16 *context;
     u8 spell_id;
     u8 variant;
     union { s16 s; u16 u; } phase;

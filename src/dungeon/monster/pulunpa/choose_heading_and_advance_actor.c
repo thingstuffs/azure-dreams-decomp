@@ -292,9 +292,9 @@ void choose_heading_and_advance_actor(ActorRecord *body, s32 action, S_8017405C_
                     }
                 }
                 ((S_8017405C_0 *)movement)->unk_2A.u = heading;
-                ((ActorRecord *)((u8 *)movement + (((S_8017405C_0 *)movement)->unk_71.u & 0x7F)))->path_x[0] =
+                ((ActorRecord *)movement)->path_x[((S_8017405C_0 *)movement)->unk_71.u & 0x7F] =
                     actor->unk_24.at00.v;
-                ((ActorRecord *)((u8 *)movement + (((S_8017405C_0 *)movement)->unk_71.u & 0x7F)))->path_y[0] =
+                ((ActorRecord *)movement)->path_y[((S_8017405C_0 *)movement)->unk_71.u & 0x7F] =
                     actor->unk_24.at01.v;
                 ((S_8017405C_0 *)movement)->unk_71.u = ((S_8017405C_0 *)movement)->unk_71.u + 1;
                 update_map_cell_flags_with_item_limit(actor->unk_24.at00.v, actor->unk_24.at01.v,

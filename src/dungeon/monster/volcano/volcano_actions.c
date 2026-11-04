@@ -709,16 +709,16 @@ void advance_actor_path_step(ActorRecord *action, ObjectPosition *action_id, Spr
     direction = get_rounded_facing_and_rounding_flag(
         x,
         y,
-        ((E_80171B68_S_80171570_3 *)((u8 *)state + state->unk_8A))->unk_74,
-        ((E_80171B68_S_80171570_3 *)((u8 *)state + state->unk_8A))->unk_7C,
+        ((ActorRecord *)state)->path_x[state->unk_8A],
+        ((ActorRecord *)state)->path_y[state->unk_8A],
         &rounding_owner->action_state_flags);
     move_result = check_movement_clearance_and_height(direction, entity, state, 0x20);
 
     entity->tile_x =
-        ((E_80171B68_S_80171570_3 *)((u8 *)state + state->unk_8A))->unk_74;
+        ((ActorRecord *)state)->path_x[state->unk_8A];
     tile_mask = 0x3000;
     entity->tile_y =
-        ((E_80171B68_S_80171570_3 *)((u8 *)state + state->unk_8A))->unk_7C;
+        ((ActorRecord *)state)->path_y[state->unk_8A];
     state->unk_8A = (u16)state->unk_8A + 1;
 
     new_x = entity->tile_x;

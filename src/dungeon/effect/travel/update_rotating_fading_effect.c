@@ -272,7 +272,7 @@ void advance_target_travel_effect(TargetTravelStatusBody *effect, ObjectPosition
         } else {
             motion->z.unsigned_parts.integer = source_z - 0x40;
         }
-        if (!(*((u16 *)effect->spell.context) & 0x80)) {
+        if (!(*effect->spell.context & 0x80)) {
             effect->unk_14 = 0;
             return;
         }

@@ -10,6 +10,7 @@
 #include "dungeon/player/position.h"
 #include "engine/graphics.h"
 #include "dungeon/system.h"
+#include "dungeon/data.h"
 
 
 
@@ -25,9 +26,6 @@ typedef struct S_8008CD4C_2 {
 void update_map_cell_flags_with_item_limit(s32 x, s32 y, u16 flags);
 s32 can_push_adjacent_actor();
 void * find_eligible_actor_at_tile_and_height();
-
-extern u8 player_push_start_frames[];
-extern u8 player_push_frames[];
 
 /* Checks the next tile and updates the actor's movement state and directional animation. */
 void begin_player_push(Rec_func_8008ACDC_arg0 *action, s32 context, SpriteFrameState *sprite, S_8008CD4C_2 *actor,

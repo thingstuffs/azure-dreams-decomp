@@ -28,12 +28,9 @@ struct S_80083178__jr {
 extern M2C_UNK D_8006E24C;
 extern M2C_UNK D_8006E258;
 #include "shared/sprite_source.h"
-extern SpriteSourceEntry random_motion_sprite_data_a[];
+#include "dungeon/data.h"
 #include "shared/sprite_source.h"
-extern SpriteSourceEntry random_motion_sprite_data_b[];
 #include "shared/sprite_source.h"
-extern SpriteSourceEntry random_motion_sprite_data_c[];
-
 
 /* Spawns an effect at the given position with variant-specific graphics and randomized motion. */
 void spawn_variant_effect_with_random_motion(s32 pos_x, s32 pos_y, s32 pos_z, u32 variant) {

@@ -233,9 +233,9 @@ void advance_actor_movement_step(ActorRecord *movement_in, ObjectPosition *actio
                 }
             }
             actor->facing = move_angle;
-            ((ActorStatusBytesView *)((u8 *)actor + (actor->movement_queue_state & 0x7F)))->path_x =
+            actor->path_x[actor->movement_queue_state & 0x7F] =
                 position->tile_x;
-            ((ActorStatusBytesView *)((u8 *)actor + (actor->movement_queue_state & 0x7F)))->path_y =
+            actor->path_y[actor->movement_queue_state & 0x7F] =
                 position->tile_y;
             actor->movement_queue_state++;
             update_map_cell_flags_with_item_limit(position->tile_x, position->tile_y,

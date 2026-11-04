@@ -125,7 +125,7 @@ void * open_twin_souko(s32 option) {
             came_bright_set(5);
             obj_disp23_cancel_sw_set(1);
             state->option = option;
-            ((ObjectNodeHeader *)((u8 *)state - 0x20))->update_callback = &handle_item_menu_input_2;
+            NODE_HEADER(state)->update_callback = &handle_item_menu_input_2;
         }
         return task;
     }

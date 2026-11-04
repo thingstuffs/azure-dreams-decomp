@@ -2,11 +2,12 @@
 #define DUNGEON_EFFECT_SPRITE_LINKED_MONSTER_EFFECT_H
 
 #include "common.h"
+#include "shared/object_node.h"
 
 /* Body of a node allocated by create_linked_object_chain. */
-typedef struct LinkedMonsterEffectBody {
+typedef struct LinkedObjectChainBody {
     u8 pad_00[0x20];
-    void * unk_20;
+    ObjectNodeHeader *head;
     u16 unk_24;
     u16 unk_26;
     u16 unk_28;
@@ -23,6 +24,6 @@ typedef struct LinkedMonsterEffectBody {
     s16 unk_3E;
     union { u16 u; s16 s; } unk_40;   /* accessed as both */
     u16 unk_42;
-} LinkedMonsterEffectBody;
+} LinkedObjectChainBody;
 
 #endif

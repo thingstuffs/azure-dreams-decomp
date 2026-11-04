@@ -24,6 +24,23 @@ typedef struct VerticalParticleBurstBody {
     s16 remaining_ticks;
 } VerticalParticleBurstBody;
 
+/* The central effect creator places this state at object +0x20. The item
+ * caller stores its floor-position index in the same body at state +0x20. */
+typedef struct CentralChildEffectState {
+    void *parent;
+    u8 pad4[9];
+    s8 angle;
+    u8 pad14[2];
+    s16 mode;
+    s16 value;
+    u8 pad20[4];
+    s16 height;
+    s16 frame;
+    s16 speed;
+    s16 limit;
+    s16 item_position_index;
+} CentralChildEffectState;
+
 struct S_800C5D80_0;
 void advance_effect_motion_and_fade(VerticalParticleBurstBody *effect_data,
                                     struct S_800C5D80_0 *motion,

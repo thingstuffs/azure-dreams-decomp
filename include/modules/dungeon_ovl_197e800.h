@@ -254,28 +254,6 @@ typedef struct S_81960CD4_0 {
 typedef struct S_81960CD4_1_pre {
     u16 unk_00;
 } S_81960CD4_1_pre;
-typedef struct S_81960CD4_1 {
-    u8 pad_00[0x10];
-    u16 unk_10;
-    u16 unk_12;
-    u16 unk_14;
-    u8 pad_16[0x2];
-    u16 unk_18;
-    u16 unk_1A;
-    u16 unk_1C;
-    u8 pad_1E[0x2];
-    u16 unk_20;
-    u16 unk_22;
-    u16 unk_24;
-    u8 pad_26[0x2];
-    u16 unk_28;
-    u16 unk_2A;
-    u16 unk_2C;
-    u8 pad_2E[0x1A];
-    union { s16 s; u16 u; } unk_48;   /* accessed as both */
-    u8 pad_4A[0x2];
-    s16 unk_4C;
-} S_81960CD4_1;
 typedef struct S_81960CD4_2 {
     union { struct { s32 v; } at00; struct { u8 pad[0x2]; u16 v; } at02; } unk_00;   /* overlapping accesses */
     union { struct { s32 v; } at00; struct { u8 pad[0x2]; u16 v; } at02; } unk_04;   /* overlapping accesses */

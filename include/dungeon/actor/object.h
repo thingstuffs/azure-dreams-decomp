@@ -24,4 +24,6 @@ s32 initialize_object_configuration_x(EntityRec *entity);
 void initialize_object_with_seven_tick_counter(TownObjectRecord *object, ObjectPosition *unused_position, void *context);
 void initialize_object_with_six_tick_counter(void *object_arg, ObjectPosition *unused_position, void *context);
 
+void *create_positioned_graphic_object(s16 x, s16 y, s16 z, s16 graphic_index, s32 state_value);
+
 #endif

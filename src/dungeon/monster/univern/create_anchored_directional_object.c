@@ -645,9 +645,9 @@ void advance_entity_along_path_2(ActorRecord *motion, ObjectPosition *unused, Sp
     update_map_cell_flags_with_item_limit(old_x, old_y, occupancy_mask);
 
     entity->tile_x =
-        ((ActorStatusBytesView *)((u8 *)path_state + path_state->unk_8A))->path_x;
+        path_state->path_x[path_state->unk_8A];
     entity->tile_y =
-        ((ActorStatusBytesView *)((u8 *)path_state + path_state->unk_8A))->path_y;
+        path_state->path_y[path_state->unk_8A];
     path_state->unk_8A = (u16)((u16)path_state->unk_8A + 1);
 
     new_x = entity->tile_x;
@@ -834,9 +834,9 @@ void choose_univern_move(ActorRecord *move_data, ObjectPosition *context, Sprite
             }
 
             actor_data->facing = trial_angle;
-            ((ActorStatusBytesView *)((u8 *)actor_data + (actor_data->movement_queue_state & 0x7F)))->path_x =
+            actor_data->path_x[actor_data->movement_queue_state & 0x7F] =
                 position_data->tile_x;
-            ((ActorStatusBytesView *)((u8 *)actor_data + (actor_data->movement_queue_state & 0x7F)))->path_y =
+            actor_data->path_y[actor_data->movement_queue_state & 0x7F] =
                 position_data->tile_y;
             actor_data->movement_queue_state++;
 

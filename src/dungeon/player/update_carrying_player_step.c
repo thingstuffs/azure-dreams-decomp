@@ -8,10 +8,9 @@
 #include "dungeon/level.h"
 #include "dungeon/player/item.h"
 #include "dungeon/player.h"
+#include "dungeon/data.h"
 
 extern s32 player_action_tag;
-extern u8 player_height_step_frames[];
-extern u8 player_landing_frame_set[];
 extern u8 player_throw_frame_set[];
 
 /* Updates timed movement and directional animation, then selects the next handler. */

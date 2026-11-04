@@ -238,9 +238,9 @@ void advance_actor_path(ActorRecord *motion, ObjectPosition *context, SpriteFram
                     }
                 }
                 actor->facing = candidate_angle;
-                ((ActorStatusBytesView *)((u8 *)actor + (actor->movement_queue_state & 0x7F)))->path_x =
+                actor->path_x[actor->movement_queue_state & 0x7F] =
                     (u8) position->tile_x;
-                ((ActorStatusBytesView *)((u8 *)actor + (actor->movement_queue_state & 0x7F)))->path_y =
+                actor->path_y[actor->movement_queue_state & 0x7F] =
                     (u8) position->tile_y;
                 next_path_index = actor->movement_queue_state + 1;
                 x_offset_ptr = (u8 *)(actor->flags1C & ACTOR_PLAYER_SIDE);

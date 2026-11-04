@@ -43,16 +43,16 @@ void advance_baloon_along_path(ActorRecord *body, ObjectPosition *position, Spri
         heading = get_rounded_facing_and_rounding_flag(
             x,
             y,
-            ((ActorRecord *)((u8 *)actor + actor->unk_8A))->path_x[0],
-            ((ActorRecord *)((u8 *)actor + actor->unk_8A))->path_y[0],
+            actor->path_x[actor->unk_8A],
+            actor->path_y[actor->unk_8A],
             &body->action_state_flags);
         x = (s16)check_movement_clearance_and_height(heading, sprite, actor, 0x20);
 
         sprite->tile_x =
-            ((ActorRecord *)((u8 *)actor + actor->unk_8A))->path_x[0];
+            actor->path_x[actor->unk_8A];
         tile_mask = 0x3000;
         sprite->tile_y =
-            ((ActorRecord *)((u8 *)actor + actor->unk_8A))->path_y[0];
+            actor->path_y[actor->unk_8A];
         (*(u16 *)&actor->unk_8A)++;
 
         {

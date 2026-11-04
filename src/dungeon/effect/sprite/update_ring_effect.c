@@ -4,6 +4,7 @@
 #include "shared/entity.h"
 #include "shared/object_flags.h"
 #include "dungeon/effect/sprite.h"
+#include "dungeon/data.h"
 
 
 typedef struct S_819598B4_1 {
@@ -30,7 +31,6 @@ typedef struct S_819598B4_2 {
    /* D_800E3D7C[0] in update_ring_effect */
 
 extern u16 sprite_effect_update_count[];
-extern u8 ring_effect_work[];
 
 /* Eases a sprite into position and brightness, optionally spawns a ring, then fades and removes the
    sprite. */

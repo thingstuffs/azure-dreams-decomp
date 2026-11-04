@@ -22,8 +22,8 @@ typedef struct Pair {
 #include "shared/entity.h"
 #include "dungeon/effect/sprite.h"
 #include "dungeon/effect/screen.h"
+#include "dungeon/data.h"
 extern u8 D_80025AC4[12];
-extern u8 screen_effect_sprite_entries[12];
 extern u8 D_80028238[12];
 extern u8 D_80028250[12];
 

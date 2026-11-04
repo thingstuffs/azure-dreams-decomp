@@ -21,7 +21,6 @@ extern u8 hikewne_direction_frames[];
 
 /* Advances the actor along its queued path and updates movement timing. */
 void advance_actor_along_queued_path(ActorRecord *motion, ObjectPosition *unused, SpriteFrameState *actor, ActorRecord *move_state) {
-    ActorStatusBytesView *next_cell;
     u8 *anim_table;
     s32 old_x;
     s32 old_y;
@@ -47,9 +46,8 @@ void advance_actor_along_queued_path(ActorRecord *motion, ObjectPosition *unused
             0);
     }
 
-    next_cell = (ActorStatusBytesView *)((u8 *)move_state + move_state->unk_8A);
-    if (actor->tile_x == next_cell->path_x
-        && actor->tile_y == next_cell->path_y) {
+    if (actor->tile_x == move_state->path_x[move_state->unk_8A]
+        && actor->tile_y == move_state->path_y[move_state->unk_8A]) {
         move_offset = motion->unk_90.parts.high.u;
         remaining_offset = ((u16)move_state->ground_height);
         motion->unk_90.parts.high.u = move_offset + 0x20;
@@ -64,10 +62,8 @@ void advance_actor_along_queued_path(ActorRecord *motion, ObjectPosition *unused
         }
         update_map_cell_flags_with_item_limit(old_x, old_y, occupancy_mask);
 
-        actor->tile_x = ((ActorStatusBytesView *)((u8 *)move_state
-            + move_state->unk_8A))->path_x;
-        actor->tile_y = ((ActorStatusBytesView *)((u8 *)move_state
-            + move_state->unk_8A))->path_y;
+        actor->tile_x = move_state->path_x[move_state->unk_8A];
+        actor->tile_y = move_state->path_y[move_state->unk_8A];
         move_state->unk_8A++;
 
         new_x = actor->tile_x;

@@ -79,7 +79,7 @@ s32 use_item_to_level_up_eligible_actors(ActorRecord *target, DungeonItemEntry *
                     (*(&target->unk_10 + 1)) < 99) {
                     ((S_800BF9EC_2 *)node)->unk_18 = entity_level_thresholds[((S_800BF9EC_2 *)node)->unk_11];
                     raise_entity_level(node, 0);
-                    if ((((SpriteFrameState *)(((ObjectNodeHeader *)((u8 *)node - 0x20))->sprite))->flags & 0x8000) == 0) {
+                    if ((((SpriteFrameState *)(NODE_HEADER(node)->sprite))->flags & 0x8000) == 0) {
                         s32 effect_id = 0x8003;
                         if (((S_800BF9EC_2 *)node)->unk_14 & ACTOR_CLASS_ENABLED) {
                             effect_id = 0x8002;

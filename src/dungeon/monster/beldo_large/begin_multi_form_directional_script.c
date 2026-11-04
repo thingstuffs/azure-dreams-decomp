@@ -6,6 +6,7 @@
 #include "shared/dungeon_status.h"
 #include "dungeon/item.h"
 #include "dungeon/monster/beldo_large.h"
+#include "dungeon/data.h"
 
 typedef struct {
     u8 pad[0x3714];
@@ -24,12 +25,10 @@ typedef struct {
 extern void unlink_entity_node(void *);
 extern void func_80164BA4(void *);
 
-extern u16 actor_direction_dispatch_key;
 extern u8 D_80173C8C[];
 extern u8 D_80173D74[];
 extern u8 *beldo_actor_nodes;
 extern s32 encounter_script_cursor;
-extern s16 beldo_script_timer;
 
 /* Set up the active object's handler and direction, then update its two linked entries. */
 void begin_multi_form_directional_script(void)

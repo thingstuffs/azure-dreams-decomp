@@ -11,12 +11,9 @@ typedef struct {
 } Counter;
 
 #include "dungeon/effect/screen.h"
+#include "dungeon/data.h"
 
 extern Counter staged_fade_count;
-extern u8 staged_glow_data[];
-
-
-
 
 typedef struct S_80025E48_1 {
     u8 pad_00[0x2];

@@ -8,7 +8,7 @@
 #include "dungeon/item.h"
 
 
-extern s32 update_actor_status_and_mp();
+extern void update_actor_status_and_mp();
 
 extern u8 D_800DF45C[];
 extern u8 D_8016EEBC[];

@@ -294,7 +294,7 @@ extern M2C_UNK D_800DE5DC;
 void update_directional_actor_effect(s16 start_x, s16 start_y, s16 start_z, s16 end_x, s16 end_y,
                    s16 end_z, s16 *angles);
 void update_homing_arc_and_brighten_effect(EffectAndInitializeSpriteBody *effect, void *motion, void *sprite);
-void allocate_effect_and_initialize_sprite(s32 effect_data, s32 effect_param, s32 render_param);
+void allocate_effect_and_initialize_sprite(ObjectNodeHeader *effect_data, s32 effect_param, s32 render_param);
 void update_rotating_effect_and_fade(TexturedOffsetObjectBody *effect, void *position,struct SpriteFrameState *sprite);
 void create_textured_offset_object(EffectWithEndpointsBody *source_object);
 void advance_object_motion_and_animation(EffectWithEndpointsBody *object);

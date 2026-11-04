@@ -861,8 +861,8 @@ void initialize_children_or_shutdown(void *owner)
     child->unk_08 = child_object;
     if (child_object == NULL) {
         alloc_container = ((S_80026190_0 *)owner)->unk_00;
-        alloc_bits = ((ObjectNodeHeader *)((u8 *)alloc_container - 0x20))->flags;
-        (((ObjectNodeHeader *)((u8 *)alloc_container - 0x20))->flags) = alloc_bits | 0x8000;
+        alloc_bits = NODE_HEADER(alloc_container)->flags;
+        (NODE_HEADER(alloc_container)->flags) = alloc_bits | 0x8000;
         alloc_flags = object_flag_block.flags;
         ((S_80026190_0 *)owner)->unk_00 = NULL;
         alloc_flags |= 0x8000;
@@ -875,9 +875,9 @@ void initialize_children_or_shutdown(void *owner)
     ((S_80026190_4 *)((void *)object_or_kind))->unk_78 = ((S_80026190_0 *)owner)->unk_00;
     if ((child->unk_14 = allocate_sprite_data_object((s32)child)) == NULL) {
         setup_container = ((S_80026190_0 *)owner)->unk_00;
-        owner_bits = ((ObjectNodeHeader *)((u8 *)setup_container - 0x20))->flags;
+        owner_bits = NODE_HEADER(setup_container)->flags;
         cleanup_page = (S_80026190_8 *)0x80080000;
-        ((ObjectNodeHeader *)((u8 *)setup_container - 0x20))->flags = owner_bits | 0x8000;
+        NODE_HEADER(setup_container)->flags = owner_bits | 0x8000;
         ((S_80026190_0 *)owner)->unk_00 = NULL;
         mask_work = (s32)(child->unk_08);
         cleanup_flags = cleanup_page->unk_14A0;
@@ -926,7 +926,7 @@ void initialize_children_or_shutdown(void *owner)
 
         if (entity == NULL) {
             spawn_container = ((S_80026190_0 *)owner)->unk_00;
-            ((ObjectNodeHeader *)((u8 *)spawn_container - 0x20))->flags |= NODE_REMOVE;
+            NODE_HEADER(spawn_container)->flags |= NODE_REMOVE;
             ((S_80026190_0 *)owner)->unk_00 = NULL;
 
             spawn_child = child->unk_08;
@@ -972,7 +972,7 @@ void initialize_children_or_shutdown(void *owner)
         unlink_entity_node(entity_arg);
 
         flags_mask = ((S_80026190_10 *)source)->unk_14;
-        parent = ((ObjectNodeHeader *)((u8 *)entity - 0x20))->sprite;
+        parent = NODE_HEADER(entity)->sprite;
         flags_mask &= 0x20000000;
         if (flags_mask) {
             parent_value = get_entity_class(source) << 2;

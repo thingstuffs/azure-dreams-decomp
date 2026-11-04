@@ -96,8 +96,8 @@ void update_actor_targeting_for_tile(void *motion, s32 unused, S_800CA444_0 *til
         }
         if ((get_adjacent_tile_for_action(next_heading, tile, actor, 0x20) << 0x10) > 0) {
             ((S_800CA444_1 *)actor)->unk_2A = next_heading;
-            ((ActorStatusBytesView *)((actor + (((S_800CA444_1 *)actor)->unk_71 & 0x7F))))->path_x = tile->unk_24.at00.v;
-            ((ActorStatusBytesView *)((actor + (((S_800CA444_1 *)actor)->unk_71 & 0x7F))))->path_y = tile->unk_24.at01.v;
+            ((ActorRecord *)actor)->path_x[((S_800CA444_1 *)actor)->unk_71 & 0x7F] = tile->unk_24.at00.v;
+            ((ActorRecord *)actor)->path_y[((S_800CA444_1 *)actor)->unk_71 & 0x7F] = tile->unk_24.at01.v;
             ((S_800CA444_1 *)actor)->unk_71++;
             direction_index = (((u16) ((S_800CA444_1 *)actor)->unk_2A) >> 9) & 7;
             tile->unk_24.at00.v += dir_step_x[direction_index];

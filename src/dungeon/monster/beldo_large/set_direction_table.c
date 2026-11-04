@@ -7,6 +7,7 @@
 #include "dungeon/player/object.h"
 #include "dungeon/effect/particle.h"
 #include "dungeon/system.h"
+#include "dungeon/data.h"
 
 typedef union {
     u16 unsigned_value;
@@ -51,9 +52,6 @@ typedef struct {
     u8 unk_73;
 } DungeonInput;
 
-extern u8 beldo_large_frame_set_6[];
-extern u8 beldo_large_frame_set_17[];
-extern u8 beldo_large_frame_set_18[];
 extern u8 beldo_large_frame_set_2[];
 extern u8 beldo_large_frame_set_5[];
 extern u8 beldo_large_frame_set_1[];

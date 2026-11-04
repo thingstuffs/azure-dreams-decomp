@@ -16,6 +16,8 @@
 #include "slus.h"
 #include "dungeon/item/effect.h"
 #include "dungeon/player.h"
+#include "dungeon/data.h"
+#include "dungeon/menu.h"
 
 extern u8 resident_globals_page[];
 
@@ -59,7 +61,6 @@ typedef struct S_800930F0_9 {
 } S_800930F0_9;   /* store_base in update_floor_exit_transition */
 
 s32 get_entity_class();
-s32 create_map_position_object(s32 world_x, s32 world_z);
 typedef struct {
     s32 unk0;
     s32 unk4;
@@ -68,7 +69,6 @@ typedef struct {
 extern M2C_UNK D_80021268;
 extern u16 current_dungeon_floor;
 extern u8 scene_mode_code;
-extern s16 actor_event_values[];
 extern s32 D_800DCF64;
 extern void *dungeon_menu_action_state[];
 

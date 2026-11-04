@@ -4,6 +4,7 @@ struct SpriteFrameState;
 #include "modules/dungeon_native_abi.h"
 #include "shared/tile_object.h"
 #include "shared/entity.h"
+#include "shared/object_node.h"
 #include "dungeon/effect/spell_effect.h"
 #include "shared/record_ptrs.h"
 #include "shared/dir_step.h"
@@ -21,9 +22,9 @@ void update_directional_actor_effect(TimedModelTintSpellBody *, void *);
 void update_spiraling_effect_growth_and_fade(SpiralingBody *, ObjectPosition *, struct SpriteFrameState *);
 void spawn_spiraling(void *, s16, s16, void *, s32);
 void process_effect_modes_and_completion(void *);
-void allocate_and_initialize_effect_object(s32, s16, s16, ActorRecord *);
+void allocate_and_initialize_effect_object(ObjectNodeHeader *, s16, s16, ActorRecord *);
 #include "dungeon/effect/screen.h"
-void create_timed_model_effect(s32, void *, s32, s32);
+void create_timed_model_effect(ObjectNodeHeader *, void *, s32, s32);
 s32 rsin(s32);
 s32 rcos(s32);
 extern u8 D_800DF334[];

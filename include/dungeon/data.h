@@ -76,4 +76,63 @@ extern u8 pending_player_damage_kind;
 extern u8 player_attack_frames[ ];
 extern u8 player_attack_start_frames[ ];
 
+extern s16 linked_monster_effect_updated[ 6 ];
+extern u8 screen_effect_sprite_entries[ 12 ];
+extern u8 screen_transition_pixels[ ];
+
+extern u8 paired_random_effect_callback[ 12 ];
+extern u8 radial_effect_colors[ ];
+extern M2C_UNK radial_effect_frames;
+extern u8 ring_effect_work[ ];
+extern u8 staged_glow_data[ ];
+
+extern u8 mesh_edge_payload_template[ 12 ];
+extern s16 point_cloud_update_flag[ 5 ];
+
+extern u8 shaded_quad_frame_set[ 9 ];
+extern u8 uboat_action_frames[ ];
+extern u8 uboat_aura_later_frames[ ];
+extern u8 uboat_aura_start_frames[ ];
+extern u8 uboat_ready_frames[ ];
+extern u8 uboat_timed_motion_frames[ ];
+extern u8 uboat_timed_motion_frames_alt[ ];
+
+extern SpriteSourceEntry random_motion_sprite_data_a[ ];
+extern SpriteSourceEntry random_motion_sprite_data_b[ ];
+extern SpriteSourceEntry random_motion_sprite_data_c[ ];
+
+extern u16 camera_depth_index[ 5 ];
+extern M2C_UNK familiar_menu_action_data;
+extern u8 familiar_removed_during_change;
+extern u8 player_alternate_motion_frames[ ];
+extern u8 player_damage_frames[ ];
+extern u8 player_height_step_frames[ ];
+extern u8 player_hop_frames[ ];
+extern u32 player_idle_turn_count;
+extern u8 player_jump_frame_set[ 8 ];
+extern u8 player_landing_frame_set[ ];
+extern u8 player_push_frames[ ];
+extern u8 player_push_loop_frames[ ];
+extern u8 player_push_start_frames[ ];
+extern u8 player_sleep_frames;
+extern u8 player_throw_followup_frames[ 8 ];
+extern u8 player_tile_motion_frames[ ];
+extern s32 player_turn_fraction;
+extern u8 return_magic_frames[ ];
+extern s32 selected_item_action_alias;
+
+extern u16 actor_direction_dispatch_key;
+extern s16 beldo_camera_position[ 4 ];
+extern s16 beldo_camera_rotation[ 4 ];
+extern u8 beldo_large_frame_set[ 8 ];
+extern u8 beldo_large_frame_set_10[ 8 ];
+extern u8 beldo_large_frame_set_11[ ];
+extern u8 beldo_large_frame_set_15[ 8 ];
+extern u8 beldo_large_frame_set_16[ 8 ];
+extern u8 beldo_large_frame_set_17[ ];
+extern u8 beldo_large_frame_set_18[ ];
+extern u8 beldo_large_frame_set_6[ ];
+extern s16 beldo_script_timer;
+extern u8 encounter_transition_pool_script[ ];
+
 #endif

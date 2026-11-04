@@ -253,6 +253,7 @@ typedef struct S_func_81886800_17 {
 
 #include "dungeon/effect/screen.h"
 #include "dungeon/system.h"
+#include "dungeon/data.h"
 
 extern s32 rsin(s32);
 extern s32 check_left_tile_and_center_height(s32, s32, s32);
@@ -1297,7 +1298,6 @@ s32 build_and_enqueue_interpolated_depth_sorted_shaded_lines_linked_list(void *f
 s32 rsin(s32);                             /* extern */
 s32 rcos(s32);                             /* extern */
 extern s16 D_8002632A;
-extern u8 staged_glow_data[];
 extern u8 D_80026878[];
 
    /* arg0 in create_object_offset */
@@ -1761,9 +1761,7 @@ typedef struct {
 } Cell;
 
 extern s16 D_8002632A;
-extern u8 radial_effect_colors[];
 extern u8 D_80026474[];
-extern u8 staged_glow_data[];
 extern Cell D_800264F8[];
 
 /* Create quad fragments from the vertex grid with randomized motion and rotation. */

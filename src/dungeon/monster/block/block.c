@@ -459,15 +459,15 @@ void advance_actor_stored_path(ActorRecord *motion, ObjectPosition *update_param
     heading = get_rounded_facing_and_rounding_flag(
         old_x,
         old_y,
-        ((CB_80171590_S_80171590_3 *)((u8 *)state + state->unk_8A))->unk_74,
-        ((CB_80171590_S_80171590_3 *)((u8 *)state + state->unk_8A))->unk_7C,
+        ((ActorRecord *)state)->path_x[state->unk_8A],
+        ((ActorRecord *)state)->path_y[state->unk_8A],
         &rounding_owner->action_state_flags);
     move_result = check_movement_clearance_and_height(heading, entity, state, 0x20);
 
     entity->tile_x =
-        ((CB_80171590_S_80171590_3 *)((u8 *)state + state->unk_8A))->unk_74;
+        ((ActorRecord *)state)->path_x[state->unk_8A];
     entity->tile_y =
-        ((CB_80171590_S_80171590_3 *)((u8 *)state + state->unk_8A))->unk_7C;
+        ((ActorRecord *)state)->path_y[state->unk_8A];
     ((CB_80171590_S_80171590_0 *)state)->unk_8A.u++;
 
     new_x = entity->tile_x;

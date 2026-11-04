@@ -158,7 +158,7 @@ void advance_selected_item_action_2(ActorRecord *body, ObjectPosition *position,
                 if (use_special != 0) {
                     active = primary_actor_record;
                     (actor->target) = active;
-                    linked = (u32)*(u8 * *)&((ObjectNodeHeader *)((u8 *)active - 0x20))->sprite;
+                    linked = (u32)*(u8 * *)&NODE_HEADER(active)->sprite;
                     (actor->target_tile_x) = ((SpriteFrameState *)linked)->tile_x;
                     (actor->target_tile_y) = ((SpriteFrameState *)linked)->tile_y;
                 } else {
@@ -166,7 +166,7 @@ void advance_selected_item_action_2(ActorRecord *body, ObjectPosition *position,
                     if (linked == 2) {
                         active = (actor->target);
                         if (active != 0) {
-                            linked = (u32)*(u8 * *)&((ObjectNodeHeader *)((u8 *)active - 0x20))->sprite;
+                            linked = (u32)*(u8 * *)&NODE_HEADER(active)->sprite;
                             (actor->target_tile_x) = ((SpriteFrameState *)linked)->tile_x;
                             (actor->target_tile_y) = ((SpriteFrameState *)linked)->tile_y;
                         }

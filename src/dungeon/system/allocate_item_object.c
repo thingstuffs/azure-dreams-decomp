@@ -87,7 +87,7 @@ void *allocate_item_object(s32 value_00, s32 value_10, s32 value_18, void *descr
         for (resource_index = 0, resource_cursor = state; resource_index < 3; resource_index++, resource_cursor += 4) {
             if (((S_80025198_1 *)resource_cursor)->unk_20 == 0) {
                 advance_paired_object_sequence(state);
-                ((ObjectNodeHeader *)((u8 *)state - 0x20))->flags = (u16) (((ObjectNodeHeader *)((u8 *)state - 0x20))->flags | NODE_REMOVE);
+                NODE_HEADER(state)->flags = (u16) (NODE_HEADER(state)->flags | NODE_REMOVE);
                 object = NULL;
                 ((S_80025198_5 *)globals_base)->unk_14A0 |= 0x8000;
                 break;

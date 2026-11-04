@@ -17,14 +17,13 @@
 #include "dungeon/player/object.h"
 #include "engine/entity.h"
 #include "engine/texture.h"
+#include "dungeon/data.h"
 
 /* cfail-repair: tf7-phase1-cache-v3 */
 void runtime_map_type_16_entry_code();                      /* extern */
 s32 begin_sprite_resource_load_with_completion_flag(); /* Unprototyped: uses the value as a pointer where the definition has an integer (or the reverse) */                   /* extern */
 void set_sprite_animation_frame(SpriteFrameState *obj, s16 frame_group, s16 frame_index, s32 slot_index); /* extern */
 void unlink_entity_node(struct EntityLinkNode *node);                      /* extern */
-u8 * find_or_retain_sprite_resource_slot(s32 requested_id, s32 requested_type);                     /* extern */
-void decrement_monster_entry_count(s16 requested_id, s16 requested_type);                 /* extern */
 #include "dungeon/player/object/action_state.h"
 #include "dungeon/item.h"
 #include "dungeon/level.h"
@@ -33,13 +32,9 @@ void decrement_monster_entry_count(s16 requested_id, s16 requested_type);       
 
 struct Entity;
 struct EntityLinkNode;
-s32 display_text_with_fullwidth_adjustment(s8 *text);                         /* extern */
 extern s32 loaded_entity_sprite_resource;
 extern s32 sprite_resource_completion_flag;
 extern void *selected_item_record_alias[];
-extern u8 familiar_save_restore_frames[];
-extern u8 familiar_save_frames[];
-extern u8 familiar_removed_during_change;
 extern struct S_8009345C_4 familiar_deployment_slots;
 extern u8 D_800E05E1[15];
 extern u8 D_800E05F0[16];

@@ -6,20 +6,15 @@
 #include "engine/entity.h"
 #include "engine/graphics.h"
 #include "slus.h"
+#include "dungeon/data.h"
 
 extern void apply_monster_koyaw_data(void *, void *); /* Unprototyped: uses the value as a pointer where the definition has an integer (or the reverse) */
 
 extern s8 view_direction_depth_biases[];
-extern u8 uboat_ready_frames[];
 extern u8 D_800E2400[];
 extern u8 D_800E2408[];
 extern u8 D_800E2420[];
-extern u8 uboat_action_frames[];
-extern u8 uboat_aura_start_frames[];
-extern u8 uboat_aura_later_frames[];
 extern u8 D_800E2450[];
-extern u8 uboat_timed_motion_frames[];
-extern u8 uboat_timed_motion_frames_alt[];
 
 #define PTR(base, off) (*(u8 **)((u8 *)(base) + (off)))
 #define S16(base, off) (*(s16 *)((u8 *)(base) + (off)))

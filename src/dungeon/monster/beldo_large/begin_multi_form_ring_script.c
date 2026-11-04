@@ -6,6 +6,7 @@
 #include "shared/record_ptrs.h"
 #include "shared/dungeon_status.h"
 #include "dungeon/monster/beldo_large.h"
+#include "dungeon/data.h"
 
 /* Sparse views for fields not covered by the existing record types. */
 typedef struct {
@@ -48,7 +49,6 @@ extern s32 D_80173C94;
 extern s32 D_80173D5C;
 extern u8 *beldo_actor_nodes[3];
 extern s32 encounter_script_cursor;
-extern s16 beldo_script_timer;
 
 /* Reset shared state and update the two occupied object slots. */
 void begin_multi_form_ring_script(void) {

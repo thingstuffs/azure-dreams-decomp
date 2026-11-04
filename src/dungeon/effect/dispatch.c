@@ -1420,26 +1420,12 @@ typedef struct {
 } DungeonRender;
 
 typedef struct {
-    void *parent;
-    u8 pad4[9];
-    s8 angle;
-    u8 pad14[2];
-    s16 mode;
-    s16 value;
-    u8 pad20[4];
-    s16 height;
-    s16 frame;
-    s16 speed;
-    s16 limit;
-} DungeonState;
-
-typedef struct {
     u8 pad0[8];
     ObjectPosition *coord;
     DungeonRender *render;
     void *callback;
     u8 pad20[12];
-    DungeonState state;
+    CentralChildEffectState state;
 } DungeonObject;
 
 extern void *allocate_list_node(s32, void *);
@@ -1455,7 +1441,7 @@ DungeonObject *create_central_and_child_effects(s16 tile_x, s16 tile_y, u16 z, s
     s32 color;
     DungeonObject *parent;
     DungeonObject *child;
-    DungeonState *state;
+    CentralChildEffectState *state;
     ObjectPosition * center;
     ObjectPosition *child_coord;
     DungeonRender *render;

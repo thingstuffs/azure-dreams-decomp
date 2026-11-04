@@ -19,6 +19,7 @@
 #include "engine/entity.h"
 #include "engine/texture.h"
 #include "dungeon/system.h"
+#include "dungeon/data.h"
 
    /* arg3 in update_familiar_summoning */
 
@@ -46,8 +47,6 @@ void runtime_map_type_16_entry_code();
 s32 queue_cd_resource(); /* Unprototyped: uses the value as a pointer where the definition has an integer (or the reverse) */
 extern s32 loaded_entity_sprite_resource;
 extern u8 player_wait_frames[];
-extern u8 familiar_save_restore_frames[];
-extern u8 familiar_save_frames[];
 extern void *familiar_record_slots[];
 extern s8 entity_resource_read_complete;
 

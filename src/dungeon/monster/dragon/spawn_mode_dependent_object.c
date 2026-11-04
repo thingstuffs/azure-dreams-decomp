@@ -457,16 +457,16 @@ void advance_stored_entity_path(ActorRecord *body, ObjectPosition *position, Spr
     direction = ((s16)get_rounded_facing_and_rounding_flag(
         x,
         y,
-        ((ActorStatusBytesView *)((u8 *)state + state->unk_8A.s))->path_x,
-        ((ActorStatusBytesView *)((u8 *)state + state->unk_8A.s))->path_y,
+        ((ActorRecord *)state)->path_x[state->unk_8A.s],
+        ((ActorRecord *)state)->path_y[state->unk_8A.s],
         &path_actor->action_state_flags));
     move_result = ((s16)check_movement_clearance_and_height(direction, sprite, state, 0x20));
 
     sprite->tile_x =
-        ((ActorStatusBytesView *)((u8 *)state + state->unk_8A.s))->path_x;
+        ((ActorRecord *)state)->path_x[state->unk_8A.s];
     move_flags = 0x3000;
     sprite->tile_y =
-        ((ActorStatusBytesView *)((u8 *)state + state->unk_8A.s))->path_y;
+        ((ActorRecord *)state)->path_y[state->unk_8A.s];
     state->unk_8A.u++;
 
     {
@@ -662,9 +662,9 @@ void advance_actor_path_with_item_search(ActorRecord *move_data, ObjectPosition 
             }
 
             actor_data->facing = trial_angle;
-            ((ActorStatusBytesView *)((u8 *)actor_data + (actor_data->movement_queue_state & 0x7F)))->path_x =
+            actor_data->path_x[actor_data->movement_queue_state & 0x7F] =
                 position_data->tile_x;
-            ((ActorStatusBytesView *)((u8 *)actor_data + (actor_data->movement_queue_state & 0x7F)))->path_y =
+            actor_data->path_y[actor_data->movement_queue_state & 0x7F] =
                 position_data->tile_y;
             actor_data->movement_queue_state++;
 

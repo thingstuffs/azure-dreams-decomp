@@ -42,4 +42,7 @@ s16 check_entity_relation(ActorRecord *entry, ActorRecord *anchor);
 void clear_slot_and_detach_entity(s32 slot_index);
 s32 render_active_sprite_parts_and_shadows(void *unused_0, void *unused_1, void *render_params);
 
+#include "shared/object_node.h"
+void clear_entry_flag_and_link_owner(ObjectNodeHeader *entry);
+
 #endif

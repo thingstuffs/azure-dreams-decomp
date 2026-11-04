@@ -26,11 +26,11 @@ extern int D_800814A0;
 /* Create 18 linked objects at the given position and angle, marking them for cleanup on failure. */
 void *create_linked_object_chain(s16 x, s16 y, s16 z, s16 angle)
 {
-    void *objects[18];
+    ObjectNodeHeader *objects[18];
     s32 i;
     ObjectPosition *position;
     SpriteFrameState *node;
-    LinkedMonsterEffectBody *object_state;
+    LinkedObjectChainBody *object_state;
     ObjectNodeHeader *obj;
 
     if (has_enough_available_runtime_nodes(18) == 0) {
@@ -55,7 +55,7 @@ void *create_linked_object_chain(s16 x, s16 y, s16 z, s16 angle)
             node->flags |= 0xC;
             object_state = NODE_BODY(objects[i]);
             if (i != 0) {
-                object_state->unk_20 = objects[0];
+                object_state->head = objects[0];
             }
             object_state->unk_30.n = 0x10;
             object_state->unk_34 = angle;

@@ -61,16 +61,16 @@ void advance_entity_along_stored_path(ActorRecord *body, ObjectPosition *motion,
     heading = get_rounded_facing_and_rounding_flag(
         x,
         y,
-        ((ActorRecord *)((u8 *)state + state->unk_8A))->path_x[0],
-        ((ActorRecord *)((u8 *)state + state->unk_8A))->path_y[0],
+        state->path_x[state->unk_8A],
+        state->path_y[state->unk_8A],
         &path_actor->action_state_flags);
     move_result = check_movement_clearance_and_height(heading, sprite, state, 0x20);
 
     sprite->tile_x =
-        ((ActorRecord *)((u8 *)state + state->unk_8A))->path_x[0];
+        state->path_x[state->unk_8A];
     move_flags = 0x3000;
     sprite->tile_y =
-        ((ActorRecord *)((u8 *)state + state->unk_8A))->path_y[0];
+        state->path_y[state->unk_8A];
     state->unk_8A++;
 
     {

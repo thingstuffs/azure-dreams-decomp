@@ -82,14 +82,13 @@ s32 get_entity_effect_value(ActorRecord *entry, s32 effect_id);                 
 #include "dungeon/actor/state.h"
 #include "dungeon/item.h"
 #include "dungeon/system.h"
+#include "dungeon/data.h"
 struct S_80094270_2;
 struct S_800B50B0_Entity;
 s32 request_familiar_deployment_change(void *actor, s32 param_a, void *param_b, struct S_80094270_2 *item, s32 slot); /* extern */
 s32 is_selectable_menu_target();                             /* extern */
 void update_selection_tile_markers(struct S_800B50B0_Entity *entity, s32 selection);            /* extern */
-extern M2C_UNK familiar_menu_action_data;
 extern Rec_D_80082EB0 selected_item_record_alias;
-extern s32 selected_item_action_alias;
 extern s8 spell_effect_selector_cache;
 extern u8 player_wait_frames[];
 extern u8 player_carry_frames[];

@@ -5,6 +5,7 @@ struct ObjectNodeHeader;
 #include "shared/dungeon_status.h"
 #include "dungeon/item.h"
 #include "dungeon/monster/beldo_large.h"
+#include "dungeon/level.h"
 
 
 typedef struct S_8016ED98_1 {
@@ -19,7 +20,6 @@ typedef struct S_8016ED98_2 {
 
 
 extern void func_8016ECFC(void);
-extern void clear_entry_flag_and_link_owner(struct ObjectNodeHeader *);
 
 extern u16 system_update_flags[];
 extern u8 *beldo_actor_nodes[3];

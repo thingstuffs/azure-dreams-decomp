@@ -537,7 +537,7 @@ extern u8 D_800DF2F8[];
 extern u8 D_800DF334[];
 
 /* Create an object with default child and tail data when none are supplied. */
-void create_timed_model_effect(void *owner, s32 value, void *child_data, void *tail_data)
+void create_timed_model_effect(ObjectNodeHeader *owner, s32 value, void *child_data, void *tail_data)
 {
     Object_800B34C0 *object;
     Child *child;
@@ -2397,7 +2397,7 @@ void update_selection_tile_markers(S_800B50B0_Entity *entity, s32 selection) {
         } else if (entry_type == 2) {
             child = entity->child60;
             if (child != NULL) {
-                child_position = ((SpriteFrameState *)((u8 *)child - 0x18))->unk_00;
+                child_position = NODE_HEADER(child)->position;
                 create_pulsing_tile_sprite((u16) child_position->x.unsigned_parts.integer >> 6, (u16) child_position->y.unsigned_parts.integer >> 6,
                     child->height88, 0xFF);
             }

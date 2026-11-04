@@ -6,8 +6,7 @@
 #include "shared/dungeon_status.h"
 #include "dungeon/monster/beldo_large.h"
 #include "engine/object.h"
-
-extern u8 encounter_transition_pool_script[];
+#include "dungeon/data.h"
 
 extern void func_80164BA4(void *);
 

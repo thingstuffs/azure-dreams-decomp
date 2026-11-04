@@ -1114,7 +1114,7 @@ void *find_object_near_tile_height(s16 tile_x, s16 tile_y, s16 target_height)
     object = dungeon_actor_ring_anchor;
     first_object = object;
     do {
-        tile = ((ObjectNodeHeader *)((u8 *)object - 0x20))->sprite;
+        tile = NODE_HEADER(object)->sprite;
         if (*((u8 *)tile + 0x24) == (u16)tile_x &&
             *((u8 *)tile + 0x25) == (u16)tile_y) {
             height_delta = *(s16 *)((u8 *)object + 0x88) - target_height;

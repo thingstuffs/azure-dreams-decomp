@@ -11,6 +11,7 @@
 #include "dungeon/item/message.h"
 #include "dungeon/item/state.h"
 #include "slus.h"
+#include "dungeon/system.h"
 
 typedef struct S_800253C0_0 {
     u8 pad_00[0x8C];
@@ -141,7 +142,6 @@ extern u8 D_80025028[];
 extern u8 D_80025068[];
 extern u8 D_800287F0[];
 
-extern s32 play_sound_if_enabled(s32 query_value);
 extern void *create_and_link_six_offset_objects(s16, s16, s16, void *);
 extern void *create_six_offset_effects(void *, void *, void *, void *);
 #include "dungeon/effect/screen.h"
@@ -150,9 +150,7 @@ extern void *create_six_offset_effects(void *, void *, void *, void *);
 #include "dungeon/item.h"
 
 extern void process_adjacent_objects_with_gray_nodes(void *, void *);
-extern void display_text_with_fullwidth_adjustment(s8 *text);
 extern void *create_linked_objects(void *, void *, s32, s16);
-extern void *create_positioned_graphic_object(s16 x, s16 y, s16 z, s16 graphic_index, s32 state_value);
 extern void *merge_creature_abilities_and_state(void *, void *, s32); /* Unprototyped: uses the value as a pointer where the definition has an integer (or the reverse) */
 extern void * build_status_effect_name_list(void *, void *);
 

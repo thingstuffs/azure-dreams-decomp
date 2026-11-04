@@ -25,6 +25,8 @@
 #include "engine/entity.h"
 #include "engine/util.h"
 #include "dungeon/system.h"
+#include "dungeon/actor.h"
+#include "dungeon/data.h"
 
 struct S_8009BE2C_2;
 
@@ -193,7 +195,6 @@ void add_random_quarter_value(ActorRecord *body, ActorRecord *target) {
 typedef struct ActiveEntry { u8 pad0; u8 active; u8 pad2[2]; } ActiveEntry;
 extern u8 D_800E0000[];
 
-s32 clamp_adjusted_value_0_to_99();
  /* Unprototyped: zero, one or three arguments; retail replaces all incoming arguments. */
 extern s32 display_text_with_fullwidth_adjustment(s8 *text);
 s32 find_directional_entry_and_clear_flag(s32 origin_x, s32 origin_y, u32 direction, s16 search_param);
@@ -315,7 +316,7 @@ void *resolve_attack_damage_and_effects(void *attacker_in, void *tile_in, s16 di
                 tile_text = tile_result << 2;
                 tile_text_base = (s32)&floor_objects;
                 tile_text += tile_text_base;
-                message_cursor = apply_type_based_entry_adjustments(tile_text, message_cursor);
+                message_cursor = apply_type_based_entry_adjustments((struct DungeonItemEntry *)tile_text, message_cursor);
                 message_cursor = expand_text_control_codes(D_800E0D7B, message_cursor);
                 clear_byte_and_advance(message_cursor);
                 display_text_with_fullwidth_adjustment(message_start);
@@ -864,9 +865,6 @@ typedef struct S_8009CE1C_1 {
     u8 pad_80[0x1C];
     u16 unk_9C;
 } S_8009CE1C_1;   /* arg0 in apply_attack_power_and_element_effects; pointer addresses record offset 0x14 */
-
-extern u8 pending_player_damage_kind;
-s32 clamp_adjusted_value_0_to_99();
 
 /* Compute elemental damage for a target and trigger its hit response. */
 void apply_attack_power_and_element_effects(void *target, s16 base_power, s16 power_bonus, s16 elements,

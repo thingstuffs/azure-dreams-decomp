@@ -7,7 +7,7 @@
 #include "shared/object_flags.h"
 #include "shared/sprite_frame_state.h"
 #include "dungeon/effect/mesh.h"
-void (*const dungeon_ovl_1930844_entry)(TargetApproachAttackBody *state, ObjectPosition *motion, SpriteFrameState *appearance) = update_movement_toward_target_along_direction_advances_action_phases;
+void (*const dungeon_ovl_1930844_entry)(ApproachingImpactSpellBody *state, ObjectPosition *motion, SpriteFrameState *appearance) = update_movement_toward_target_along_direction_advances_action_phases;
 
 /* Moves a rotating, shrinking sprite along its velocity with a sinusoidal height offset until its
    duration ends. */
@@ -58,7 +58,7 @@ void advance_shrinking_arc_effect(RandomAngleSpriteEffectBody *state, ovl_193084
 
 /* Creates a randomly rotated gray sprite with copied motion, the owner's duration, and a saved
    starting height. */
-void * create_an_effect_position_randomized_sprite_angle(TargetApproachAttackBody *owner, ObjectPosition *source_position)
+void * create_an_effect_position_randomized_sprite_angle(ApproachingImpactSpellBody *owner, ObjectPosition *source_position)
 {
     s32 random_value;
     s32 initial_z;
@@ -832,7 +832,7 @@ void *create_and_initializes_copying_n_24_bytes_source_data(s32 state_value, Obj
 
 /* Moves an effect toward an actor or terrain endpoint, starts its impact visuals, and applies a
    delayed attack. */
-void update_movement_toward_target_along_direction_advances_action_phases(TargetApproachAttackBody *state, ObjectPosition *motion, SpriteFrameState *appearance) {
+void update_movement_toward_target_along_direction_advances_action_phases(ApproachingImpactSpellBody *state, ObjectPosition *motion, SpriteFrameState *appearance) {
     ovl_1930844_81912154_LocalStack stack;
     s16 floor_height;
     s32 phase;
@@ -904,7 +904,7 @@ void update_movement_toward_target_along_direction_advances_action_phases(Target
         } else {
             motion->z.unsigned_parts.integer = origin_z - 0x40;
         }
-        if (!(*((u16 *)state->spell.context) & 0x80)) {
+        if (!(*state->spell.context & 0x80)) {
             break;
         }
         target = ((ovl_1930844_81912154_S_80025954_1 *)owner)->unk_60;

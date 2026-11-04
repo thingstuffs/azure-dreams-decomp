@@ -5,11 +5,11 @@
 #include "dungeon/menu.h"
 #include "dungeon/player/input.h"
 #include "engine/runtime.h"
+#include "dungeon/data.h"
 
 extern u16 dungeon_camera_targets[];
 extern u16 camera_pitch_index[5];
 extern s16 camera_pitch_presets[];
-extern s16 camera_depth_target[5];
 extern u8 animation_tick_scale[16];
 
 
@@ -17,7 +17,6 @@ extern u8 animation_tick_scale[16];
 #include "dungeon/player/object/action_state.h"
 #include "dungeon/player.h"
 #include "engine/camera.h"
-extern u16 camera_depth_index[5];
 extern s16 camera_depth_presets[];
 /* Config-screen input step: apply the pad's sound-setting changes and report whether input is still accepted. */
 s32 update_sound_settings_from_pad(ActorRecord *actor, ObjectPosition *unused_motion,

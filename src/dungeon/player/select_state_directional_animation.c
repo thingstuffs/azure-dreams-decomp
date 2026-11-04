@@ -5,9 +5,7 @@
 #include "shared/entity.h"
 #include "dungeon/player.h"
 #include "engine/graphics.h"
-
-extern u8 player_tile_motion_frames[];
-extern u8 player_alternate_motion_frames[];
+#include "dungeon/data.h"
 
 /* Reset entity state and select its animation page and directional entry. */
 void select_state_16_directional_animation(void *entity_data, ObjectPosition *unused, void *animation, ActorRecord *state) {

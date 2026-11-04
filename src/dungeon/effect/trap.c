@@ -297,7 +297,7 @@ s32 attempt_random_status_effect(ActorRecord *entity, s32 rng_input_a, s32 rng_i
 
     if (!trap_request_blocked &&
         (random_value = generate_random_value() & 0xffff,
-         U8(entity, 3))) {
+         *(entity->unk_00 + 3))) {
         s32 remainder;
 
         remainder = random_value % entity->unk_00[3];

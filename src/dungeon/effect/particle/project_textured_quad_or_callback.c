@@ -17,7 +17,7 @@ struct ObjectPosition;
 #include "dungeon/actor.h"
 #include "dungeon/effect/particle.h"
 #include "dungeon/system.h"
-void (*const dungeon_1894800_entry)(TargetTravelEffectBody *, ObjectPosition *, SpriteFrameState *) = update_animated_effect_sprite;
+void (*const dungeon_1894800_entry)(TargetParticleStatusSpellBody *, ObjectPosition *, SpriteFrameState *) = update_animated_effect_sprite;
 const u8 no_effect_target_prefix[48] = { 0x82, 0x73, 0x82, 0x88, 0x82, 0x85, 0x82, 0x92, 0x82, 0x85, 0x81, 0x40, 0x82, 0x97, 0x82, 0x81, 0x82, 0x93, 0x81, 0x40, 0x82, 0x8E, 0x82, 0x8F, 0x81, 0x40, 0x82, 0x85, 0x82, 0x86, 0x82, 0x86, 0x82, 0x85, 0x82, 0x83, 0x82, 0x94, 0x81, 0x40, 0x82, 0x8F, 0x82, 0x8E, 0x81, 0x40, 0x00, 0x00 };
 const u8 D_80024034[4] = { 0x81, 0x44, 0x00, 0x00 };
 #include "modules/dungeon_native_abi.h"
@@ -1187,7 +1187,7 @@ extern Copy12 D_80026640;
 extern Copy12 D_8002664C;
 
 /* Moves an effect toward its target, emits particles, changes target colors, and applies a timed status. */
-void update_animated_effect_sprite(TargetTravelEffectBody *effect, ObjectPosition *entity, SpriteFrameState *sprite)
+void update_animated_effect_sprite(TargetParticleStatusSpellBody *effect, ObjectPosition *entity, SpriteFrameState *sprite)
 {
     Vec3s delta;
     Copy32 copy;
@@ -1256,7 +1256,7 @@ L0_adjust_z:
                 entity->z.w.i = z_value - 0x40;
             }
         }
-        if (!(*((u16 *)effect->spell.context) & 0x80U)) {
+        if (!(*effect->spell.context & 0x80U)) {
             return;
         }
         if (!(effect->unk_7A & 4U)) {

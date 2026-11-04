@@ -131,6 +131,45 @@ files used by exactly one function in that file. `debt_view_inventory.tsv`
 shows each source typedef and its function users. These report-only counts
 do not judge whether a named local view is appropriate.
 
+### Bridge-cast ledger (decision 75)
+
+`ledger/bridge_casts.jsonl` preserves 264 rows from the four legacy TSV
+layouts. Each row has a stable `site_id`, physical `file`, `function`,
+`cast_text`, same-text `ordinal` in that function, `reason`, `evidence`,
+`status` (`open` or `retired`), and `retired_by`. Run
+`python3 tools/lint/debt_check.py --bridges` to verify that every open literal
+still occurs in the named function at least as many times as its ordinal.
+This check is independent of the full debt census.
+
+Decision 75 retires a *cast site* when the spelling is absent from its current
+function; the row stays in the ledger with a reason. A missing spelling does
+not prove its underlying type or callback contract was repaired. The import
+marks these rows `retirement_kind: literal_absence` and
+`semantic_status: unresolved`. Legacy rows that explicitly described an
+initializer mismatch with no cast are retained as
+`retirement_kind: conceptual_no_cast`; they also leave the semantic question
+unresolved. A later owner may change `semantic_status` only with source and
+byte evidence. The original line and status remain as historical fields, not
+as current-line assertions. A new bridge is `open` until its exact text is
+removed; retirement keeps its row and records what removed it.
+
+### Prototype consistency
+
+`python3 tools/lint/debt_check.py --prototypes --check --out OUT_DIR` reports each
+uniquely defined function with a declaration that disagrees in canonical
+return type or explicit arity. The scan uses the header planner's typedef
+visibility and container binding, so `s16`/`short`, `s32`/`int`, and
+`struct X *`/`X *` aliases compare equally. Unprototyped `()` declarations
+do not assert an arity. `include/modules/`, `include/sdk/`, and names already
+recorded in `ledger/prototype_floors.jsonl` are excluded. The separate
+`proto_baseline.json` records known site IDs; `--check` rejects a new one.
+`--prototypes --write-baseline` updates the known set after a reviewed change. The report
+also inventories names with multiple definitions. Equal canonical signatures
+and equal masked bodies are marked `same_body_copies`; different signatures
+are `different_contracts`; equal signatures with different bodies remain
+`identity_review` until creator/caller evidence can classify them. Counts are
+triage leads, not permission to change a call ABI without byte proof.
+
 `--baseline FILE` defaults to `tools/lint/debt_baseline.json`. `--check` fails
 on any increased class total, file class count, or function class count.
 Improvements in another class, file or

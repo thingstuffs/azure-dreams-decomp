@@ -920,14 +920,14 @@ void advance_movement_toward_reachable_tile(ReachableTileTravelBody *state, Obje
                 + frame.offset.distance[1]);
             base_z = motion_in->z.unsigned_parts.integer;
             motion_in->z.unsigned_parts.integer = base_z + frame.offset.distance[2];
-            if (!(*((u16 *)state->spell.context) & 0x80)) {
+            if (!(*state->spell.context & 0x80)) {
                 break;
             }
             target = ((B28_818B7F38_S_80025738_1 *)owner)->unk_60;
             index = 1;
         } else {
             motion_in->z.unsigned_parts.integer = source_z - 0x40;
-            if (!(*((u16 *)state->spell.context) & 0x80)) {
+            if (!(*state->spell.context & 0x80)) {
                 break;
             }
             target = ((B28_818B7F38_S_80025738_1 *)owner)->unk_60;

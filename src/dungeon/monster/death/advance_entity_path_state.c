@@ -9,14 +9,6 @@
 #include "dungeon/monster/death.h"
 
 
-typedef struct S_80171FC8_2 {
-    u8 pad_00[0x74];
-    u8 unk_74;
-    u8 pad_75[0x7];
-    u8 unk_7C;
-} S_80171FC8_2;   /* tile in advance_entity_path_state */
-
-
 
 extern void update_map_cell_flags_with_item_limit(s32 x, s32 y, u16 flags);
 
@@ -32,7 +24,6 @@ void advance_entity_path_state(ActorRecord *motion_state, ObjectPosition *unused
     u16 hp;
     u16 energy;
     u16 step_index;
-    S_80171FC8_2 *path_entry;
 
     if (((s8)path_state->movement_queue_state) <= 0) {
         return;
@@ -48,9 +39,8 @@ void advance_entity_path_state(ActorRecord *motion_state, ObjectPosition *unused
                       0);
     }
 
-    path_entry = (S_80171FC8_2 *)((u8 *)path_state + path_state->unk_8A);
-    if (entity->tile_x == path_entry->unk_74 &&
-        entity->tile_y == path_entry->unk_7C) {
+    if (entity->tile_x == path_state->path_x[path_state->unk_8A] &&
+        entity->tile_y == path_state->path_y[path_state->unk_8A]) {
         hp = motion_state->unk_90.parts.high.u;
         energy = ((u16)path_state->ground_height);
         motion_state->unk_90.parts.high.u = hp + 0x20;
@@ -68,10 +58,8 @@ void advance_entity_path_state(ActorRecord *motion_state, ObjectPosition *unused
 
         update_map_cell_flags_with_item_limit(old_x, old_y, distance);
 
-        entity->tile_x = ((ActorRecord *)((u8 *)path_state
-            + path_state->unk_8A))->path_x[0];
-        entity->tile_y = ((ActorRecord *)((u8 *)path_state
-            + path_state->unk_8A))->path_y[0];
+        entity->tile_x = path_state->path_x[path_state->unk_8A];
+        entity->tile_y = path_state->path_y[path_state->unk_8A];
         path_state->unk_8A += 1;
 
         cycle_map_cell_flags(entity->tile_x, entity->tile_y,

@@ -80,6 +80,7 @@ typedef struct StorageMenuNode {
 void arrange_storage_item_columns(StorageEntry **objects);
 void refresh_storage_page(StoragePageOwner *object);
 void *process_target_with_code_33(void *target);
+void *process_target_with_code_41(void *parts);
 StorageMenuNode *create_storage_item_menu(ItemMenuStateNode *owner);
 StorageMenuNode *create_storage_owner_menu(ItemMenuStateNode *owner);
 s32 load_storage_display_resource(StorageWork *work, s32 resource);

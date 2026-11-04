@@ -532,15 +532,15 @@ void advance_griffon_stored_path(ActorRecord *action, ObjectPosition *action_id,
     }
     update_map_cell_flags_with_item_limit(x, y, tile_mask);
 
-    direction = ((s16)get_rounded_facing_and_rounding_flag((s16)(x),(s16)(y),(s16)(((R08_801715B4_S_80171570_3 *)((u8 *)state + state->unk_8A))->unk_74),(s16)(((R08_801715B4_S_80171570_3 *)((u8 *)state + state->unk_8A))->unk_7C),
+    direction = ((s16)get_rounded_facing_and_rounding_flag((s16)(x),(s16)(y),(s16)(((ActorRecord *)state)->path_x[state->unk_8A]),(s16)(((ActorRecord *)state)->path_y[state->unk_8A]),
         &action->action_state_flags));
     move_result = ((s16)check_movement_clearance_and_height((s16)(direction), entity, state, 0x20));
 
     entity->tile_x =
-        ((R08_801715B4_S_80171570_3 *)((u8 *)state + state->unk_8A))->unk_74;
+        ((ActorRecord *)state)->path_x[state->unk_8A];
     tile_mask = 0x3000;
     entity->tile_y =
-        ((R08_801715B4_S_80171570_3 *)((u8 *)state + state->unk_8A))->unk_7C;
+        ((ActorRecord *)state)->path_y[state->unk_8A];
     state->unk_8A = (u16)state->unk_8A + 1;
 
     new_x = entity->tile_x;
@@ -726,9 +726,9 @@ void choose_griffon_move(ActorRecord *move_data, ObjectPosition *context, Sprite
             }
 
             actor_data->facing = trial_angle;
-            ((ActorStatusBytesView *)((u8 *)actor_data + (actor_data->movement_queue_state & 0x7F)))->path_x =
+            actor_data->path_x[actor_data->movement_queue_state & 0x7F] =
                 position_data->tile_x;
-            ((ActorStatusBytesView *)((u8 *)actor_data + (actor_data->movement_queue_state & 0x7F)))->path_y =
+            actor_data->path_y[actor_data->movement_queue_state & 0x7F] =
                 position_data->tile_y;
             actor_data->movement_queue_state++;
 

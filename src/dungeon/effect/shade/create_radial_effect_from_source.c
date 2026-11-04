@@ -11,7 +11,6 @@ typedef struct ParticleOrigin ParticleOrigin;
 #include "dungeon/effect/travel_callbacks_api.h"
 
 
-s32 draw_adjacent_row_quads(void);
 
 /* Creates an object, copies three source fields to its child, and applies sixteen setup steps. */
 void *create_radial_effect_from_source(void *owner_body, void *source, s32 unused, s32 object_value)

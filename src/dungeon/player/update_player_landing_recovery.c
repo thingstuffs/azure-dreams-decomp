@@ -6,6 +6,7 @@
 #include "dungeon/player.h"
 #include "engine/graphics.h"
 #include "slus.h"
+#include "dungeon/data.h"
 
 typedef struct S_8008E504_0 {
     u8 pad_00[0x8C];
@@ -22,8 +23,6 @@ typedef struct S_8008E504_0 {
 
 extern s32 held_item_record;
 extern s32 saved_held_item_word;
-
-extern u8 player_landing_frame_set[];
 
 #include "dungeon/player/input.h"
 

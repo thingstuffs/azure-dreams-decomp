@@ -4,7 +4,7 @@
 #include "common.h"
 
 /* Body of a trail segment created by the jittered point sequence. */
-typedef struct JitteredTrailSegmentBody {
+typedef struct JitteredBoltSegmentBody {
     void *owner;
     u16 unk_04;
     u16 unk_06;
@@ -21,6 +21,6 @@ typedef struct JitteredTrailSegmentBody {
     u8 pad_38[0x4];
     s16 unk_3C;
     u16 unk_3E;
-} JitteredTrailSegmentBody;
+} JitteredBoltSegmentBody;
 
 #endif

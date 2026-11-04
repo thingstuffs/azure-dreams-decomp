@@ -50,9 +50,9 @@ void advance_actor_path_and_facing(ActorRecord *body, ObjectPosition *unused, Sp
     update_map_cell_flags_with_item_limit(old_x, old_y, tile_mask);
 
     sprite->tile_x =
-        ((ActorStatusBytesView *)((u8 *)actor + actor->unk_8A))->path_x;
+        actor->path_x[actor->unk_8A];
     sprite->tile_y =
-        ((ActorStatusBytesView *)((u8 *)actor + actor->unk_8A))->path_y;
+        actor->path_y[actor->unk_8A];
     actor->unk_8A++;
 
     new_x = sprite->tile_x;

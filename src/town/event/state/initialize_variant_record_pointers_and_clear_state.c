@@ -1,5 +1,6 @@
 #include "common.h"
 #include "shared/town_object.h"
+#include "shared/object_node.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/dungeon_effect_views.h"
 #include "town.h"
@@ -13,7 +14,7 @@
 void initialize_variant_record_pointers_and_clear_state(TownObjectRecord *record_data, ObjectPosition *placement, struct SpriteFrameState *unused_sprite) {
     ObjectPosition *state = placement;
 
-    ((TownObjectRecord *)((u8 *)record_data - 0x10))->unk_00.as_pm = &retire_object_on_check_or_callback;
+    NODE_HEADER(record_data)->update_callback = &retire_object_on_check_or_callback;
     record_data->unk_50.as_pm = &set_resident_flag_when_item_present;
     state->z.v = 0;
 }

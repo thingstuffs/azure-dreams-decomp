@@ -7,6 +7,7 @@
 #include "shared/dungeon_status.h"
 #include "engine/graphics.h"
 #include "dungeon/player.h"
+#include "dungeon/effect/sprite.h"
 
 typedef struct {
     u8 pad00[8];
@@ -38,8 +39,6 @@ extern u8 D_800DD148[];
 extern u8 D_800DD150[];
 
 extern s32 resolve_record_orientation_or_fallback(s32, void *, void *, s32);
-
-extern void create_radial_effect_controller(s32);
 
 /* Advance the actor's directional animation state and delayed transition. */
 void advance_direction_gated_actor_action(S_8003E2D8 *controller, void *context, S_arg2 *actor, ActorRecord *facing) {

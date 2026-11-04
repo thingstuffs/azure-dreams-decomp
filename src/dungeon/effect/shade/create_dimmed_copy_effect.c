@@ -5,6 +5,7 @@
 #include "slus.h"
 #include "engine/node.h"
 #include "dungeon/effect/shade.h"
+#include "dungeon/data.h"
 
 typedef struct S_818C32F4_0 {
     u8 pad_00[0x8];
@@ -41,7 +42,6 @@ typedef struct S_818C32F4_5 {
 } S_818C32F4_5;
 
 extern u8 D_80024A08[9];
-extern u8 shaded_quad_frame_set[9];
 
 /* Creates an object with the supplied identifier, data, and visual template. */
 s32 create_dimmed_copy_effect(s32 *object_id, S_818C32F4_4 *source_data, SpriteFrameState *visual_template) {

@@ -22,7 +22,6 @@ typedef struct S_80094270_4 {
 /* cfail-repair: tf7-phase1-cache-v3 */
 extern void *familiar_record_slots[];
 s16 check_familiar_deployment_placement(); /* extern */
-s32 display_text_with_fullwidth_adjustment(s8 *text);                         /* extern */
 extern u8 D_800E05E1[15];
 extern u8 D_800E05F0[16];
 extern u8 D_800E0633[];

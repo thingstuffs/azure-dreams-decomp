@@ -168,7 +168,7 @@ void synchronize_mode_and_pending_callback(void) {
 /* Initialize the global record using its preceding value and D_800D0178. */
 void initialize_global_scene_record(void) {
     s32 *record = &scene_object_payload_alias;
-    call_the_handler_selects_nonzero_entry(&D_800D0178, record, *(s32 *)&((ObjectNodeHeader *)((u8 *)record - 0x20))->sprite);
+    call_the_handler_selects_nonzero_entry(&D_800D0178, record, *(s32 *)&NODE_HEADER(record)->sprite);
 }
 
 /* plt_init_sleep_set: set the sleep initialization pointer. */

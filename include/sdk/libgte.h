@@ -42,4 +42,6 @@ s32 ratan2(s32, s32);
 void NormalColorCol(void *, void *, void *);
 s32 ReadGeomScreen(void);
 
+void func_80065034(void *, void *, void *);
+
 #endif

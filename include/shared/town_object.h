@@ -68,8 +68,8 @@ typedef struct TownObjectRecord {
     /* 0x78 */ s32 * unk_78;
     /* 0x7C */ union { s32 ** as_pps32; s32 * as_ps32; void * as_pv; } unk_7C;
     /* 0x80 */ PersonDescriptor *descriptor; /* descriptor table of the object script (TownObjectRecord spelling) */
-    /* 0x84 */ union { s16 as_s16; u16 as_u16; } unk_84; /* integer X of the creation position; anyone_org_pos_get reports it to scripts */
-    /* 0x86 */ union { s16 as_s16; u16 as_u16; } unk_86; /* integer Y of the creation position; anyone_org_pos_get reports it to scripts */
+    /* 0x84 */ union { s16 as_s16; u16 as_u16; } unk_84; /* per-kind work: original X for position queries; orbit radius for the orbiting object kind */
+    /* 0x86 */ union { s16 as_s16; u16 as_u16; } unk_86; /* per-kind work: original Y for position queries; orbit angle for the orbiting object kind */
     /* 0x88 */ s16 target_x;
     /* 0x8A */ s16 target_y;
     /* 0x8C */ union { s16 as_s16; u16 as_u16; } unk_8C;

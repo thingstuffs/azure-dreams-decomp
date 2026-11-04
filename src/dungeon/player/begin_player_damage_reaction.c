@@ -7,11 +7,10 @@
 #include "dungeon/player.h"
 #include "engine/graphics.h"
 #include "engine/entity.h"
+#include "dungeon/data.h"
 
 s32 generate_random_value(void);                                /* extern */
 extern u8 player_damage_frames_2[];
-extern u8 player_damage_frames[];
-extern u8 pending_player_damage_kind;
 
 /* Initialize directional animation and reset the actor action state. */
 void begin_player_damage_reaction(void *action, ObjectPosition *unused, void *sprite, ActorRecord *actor) {

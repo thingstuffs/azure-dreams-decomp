@@ -28,9 +28,7 @@ typedef struct S_80091C64_0 {
 
 #include "dungeon/player/object.h"
 #include "dungeon/system.h"
-
-extern u8 player_hop_frames[];
-extern u8 player_landing_frame_set[];
+#include "dungeon/data.h"
 
 /* Animate a hop and return to the entity's tile, then restore its facing and behavior. */
 void update_actor_hop_and_return(ActorRecord *body, ObjectPosition *position, SpriteFrameState *sprite, ActorRecord *actor) {

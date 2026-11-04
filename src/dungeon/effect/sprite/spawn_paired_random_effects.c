@@ -7,8 +7,8 @@
 #include "engine/node.h"
 #include "dungeon/effect/sprite.h"
 #include "sdk/libc.h"
+#include "dungeon/data.h"
 
-extern u8 paired_random_effect_callback[12];
 extern u8 D_8002822C[12];
 
 /* Spawn two pairs of effects at random offsets around the source. */

@@ -108,8 +108,6 @@ typedef struct {
     s32 t[3];
 } MATRIX;
 
-extern void func_80065034(void *, void *, void *);
-
 /* Transform, shade, and enqueue visible textured quads for the model. */
 void transform_shade_and_queue_model_quads(void *parent_matrix, void *translation_arg, void *model_arg, s16 depth_bias)
 {

@@ -4,9 +4,9 @@
 #include "m2c_compat.h"
 #include "dungeon/player.h"
 #include "engine/graphics.h"
+#include "dungeon/data.h"
 
 /* cfail-repair: tf7-phase1-cache-v3 */
-extern u8 familiar_save_frames[];
 
 enum DeploymentOverlayState {
     DEPLOY_OVERLAY_GROW = 0,

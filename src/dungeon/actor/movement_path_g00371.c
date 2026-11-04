@@ -308,7 +308,7 @@ void update_actor_facing_animation(void *actor, ObjectPosition *motion, void *sp
 /* Advance the actor along its queued path and update movement timing. */
 void advance_actor_queued_path(ActorRecord *body, ObjectPosition *position, SpriteFrameState *sprite, ActorRecord *actor)
 {
-    void *state = actor;
+    ActorRecord *state = actor;
     void *anim_table;
     s32 tile_mask;
     s16 direction;
@@ -316,7 +316,6 @@ void advance_actor_queued_path(ActorRecord *body, ObjectPosition *position, Spri
     s16 old_x;
     s32 old_y;
     s32 step_count;
-    ActorStatusBytesView *step;
 
     if ((((s8)((ActorRecord *)state)->movement_queue_state) > 0) &&
         ((s32)((ActorRecord *)state)->movement_queue_state > ((ActorRecord *)state)->unk_8A)) {
@@ -344,18 +343,15 @@ void advance_actor_queued_path(ActorRecord *body, ObjectPosition *position, Spri
         }
         update_map_cell_flags_with_item_limit(old_x, old_y, tile_mask);
 
-        step = (ActorStatusBytesView *)((u8 *)state + ((ActorRecord *)state)->unk_8A);
         direction = (s16)get_rounded_facing_and_rounding_flag(old_x, old_y,
-                                  step->path_x,
-                                  step->path_y,
+                                  state->path_x[state->unk_8A],
+                                  state->path_y[state->unk_8A],
                                   (u8 *)body + 0x98);
         move_result = (s16)check_movement_clearance_and_height(direction, sprite, state, 0x20);
 
-        sprite->tile_x =
-            ((ActorStatusBytesView *)((u8 *)state + ((ActorRecord *)state)->unk_8A))->path_x;
+        sprite->tile_x = state->path_x[state->unk_8A];
         tile_mask = 0x3000;
-        sprite->tile_y =
-            ((ActorStatusBytesView *)((u8 *)state + ((ActorRecord *)state)->unk_8A))->path_y;
+        sprite->tile_y = state->path_y[state->unk_8A];
         ((ActorRecord *)state)->unk_8A = (u16)((ActorRecord *)state)->unk_8A + 1;
 
         {
@@ -500,9 +496,9 @@ try_heading:
                 }
                 {
                     ((S_800D92C0_0 *)actor)->unk_2A.u = (u16) candidate_heading;
-                    ((ActorStatusBytesView *)((actor + ((u8) ((S_800D92C0_0 *)actor)->unk_71 & 0x7F))))->path_x =
+                    ((ActorRecord *)actor)->path_x[((u8) ((S_800D92C0_0 *)actor)->unk_71 & 0x7F)] =
                         (u8) position->unk_24.at00.v;
-                    ((ActorStatusBytesView *)((actor + ((u8) ((S_800D92C0_0 *)actor)->unk_71 & 0x7F))))->path_y =
+                    ((ActorRecord *)actor)->path_y[((u8) ((S_800D92C0_0 *)actor)->unk_71 & 0x7F)] =
                         (u8) position->unk_24.at01.v;
                     ((S_800D92C0_0 *)actor)->unk_71 = (s8) ((u8) ((S_800D92C0_0 *)actor)->unk_71 + 1);
                     update_map_cell_flags_with_item_limit(position->unk_24.at00.v, position->unk_24.at01.v,

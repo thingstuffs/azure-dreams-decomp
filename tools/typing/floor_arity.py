@@ -13,20 +13,19 @@ Per argument position the decoded reaching definition decides what the caller's 
   stale     left over from an earlier call or computed in an earlier block: not set up for this call
   entry     the caller's own incoming argument at that position, unchanged
 
-Each call then admits an interval of arities [lo, hi] that keep its bytes: lo = one past its last `set`
-position, hi = its argument count extended over contiguous `entry` positions.  The definition admits
-[callee_reads, inf) (abi `arity`: registers read before written; trailing parameters beyond it are unused).
-The feasible arities are the intersection.  Routes (column `route`):
+Each call admits an interval of byte-compatible arities, but an interval alone does not establish
+source intent.  The output classifies each position as explicit setup, entry forwarding, stale,
+none, or unknown.  Entry forwarding without a callback contract is held.  Aggregate
+`abi.args_set_up` counts from the floor ledger are reported as leads, never substituted for a
+call-site proof.  Routes (column `route`):
 
-  extend_definition   every call passes the same count M > the definition's: the definition gains unused
-                      trailing parameters; no call changes (byte-neutral by construction: pilot 10/10)
-  drop_phantom_args   calls disagree and the definition's arity is feasible: callers drop their artefact
-                      arguments (needs a proof per call; pilot 31 of 40 dropped calls byte-identical; a
-                      failing call means the original passed the argument)
-  extend_and_drop     calls disagree; the definition extends to the smallest feasible call arity and the
-                      larger calls drop artefact arguments (needs proof per edited call)
-  add_passthrough_args  the definition's arity is feasible; short callers add the caller's own incoming
-                      parameter at each omitted position (no instruction changes)
+  extend_definition   added positions are explicitly set at every call, with consistent callers or a
+                      callback contract; still requires a byte proof
+  drop_phantom_args   every dropped position is stale or none at every decoded site; requires byte proof
+  extend_and_drop     both conditions hold for the added and dropped positions
+  add_passthrough_args  entry forwarding has a documented callback contract; requires byte proof
+  hold_entry_forwarding  entry provenance lacks a callback contract
+  hold_unproven_arity   missing, mixed, or otherwise insufficient position evidence
   trim_definition     only a smaller arity is feasible: unread trailing parameters leave the definition
   declarations_only   every call already agrees; only declaration spellings disagree in arity
   no_direct_calls     no direct C call (address-taken / dispatcher family): one callback typedef route
@@ -57,10 +56,11 @@ for p in (str(HERE.parent), str(TOOLS), str(TOOLS / 'headers'), str(TOOLS / 'rea
 ARG_REGS = ('a0', 'a1', 'a2', 'a3')
 NOT_SET = ('stale', 'none')
 DECL_PREV = ('extern', 'void', 's32', 'u32', 's16', 'u16', 's8', 'u8', 'int', 'char', 'short', 'long')
-NAME_FIELDS = ['name', 'route', 'def_path', 'def_arity', 'callee_reads', 'body_uses', 'feasible', 'target_arity',
+NAME_FIELDS = ['name', 'route', 'def_path', 'def_arity', 'callee_reads', 'body_uses', 'ledger_args_set_up', 'feasible', 'target_arity',
                'calls', 'call_arities', 'drop_calls', 'add_calls', 'extend_by', 'mixed_reason', 'unmatched_calls',
                'decl_arities', 'def_proto']
-CALL_FIELDS = ['name', 'file', 'line', 'caller', 'nargs', 'sites', 'positions', 'lo', 'hi', 'passthrough', 'args']
+CALL_FIELDS = ['name', 'file', 'line', 'caller', 'nargs', 'sites', 'positions', 'evidence_classes',
+               'callback_contract', 'lo', 'hi', 'passthrough', 'args']
 
 
 def lexical_calls(root, files, name, cache):
@@ -155,13 +155,11 @@ def position_kind(site, k):
         kind = site.get('args', {}).get(reg, 'none')
         if kind in NOT_SET:
             return kind
-        # only a register written in the call's own block is set up for this call; a value reaching from
-        # an earlier block (`entry|wide`: the caller's argument or an older computation) is not
-        # (pilot: such a call dropped its argument byte-identically).  A register written in the block
-        # for another purpose still reads as 'set': conservative.
+        # A value computed in an earlier block has unknown provenance here; absence of a write in
+        # this block alone does not prove that the source argument was phantom.
         if reg in (site.get('set_in_block') or ()):
             return 'set'
-        return 'entry' if 'entry' in kind else 'stale'
+        return 'entry' if kind == 'entry' else 'unknown'
     return 'set' if (k - 4) in (site.get('stack_args') or ()) else 'none'
 
 
@@ -181,6 +179,43 @@ def call_interval(nargs, sites):
     while hi < 4 and kinds[hi] == ['entry']:
         hi += 1
     return lo, hi, ['/'.join(ks) for ks in kinds[:max(nargs, lo, hi)]]
+
+
+def position_evidence(call, k):
+    """Classify one position without turning byte compatibility into source intent."""
+    raw = call.get('positions', '')
+    parts = raw.split(',') if isinstance(raw, str) else raw
+    if k >= len(parts) or not parts[k]:
+        return 'unknown'
+    kinds = set(parts[k].split('/'))
+    if kinds == {'set'}:
+        return 'explicit_setup'
+    if kinds == {'entry'}:
+        return 'callback_contract' if call.get('callback_contract') else 'entry_forwarding'
+    if kinds == {'stale'}:
+        return 'stale'
+    if kinds == {'none'}:
+        return 'none'
+    return 'unknown'
+
+
+def drop_supported(calls, target):
+    return all(position_evidence(c, k) in {'stale', 'none'}
+               for c in calls for k in range(target, c['nargs']))
+
+
+def extension_supported(calls, old, target):
+    if not all(c['nargs'] >= target and all(position_evidence(c, k) == 'explicit_setup'
+                                             for k in range(old, target)) for c in calls):
+        return False
+    return len({c['nargs'] for c in calls}) == 1 or all(c.get('callback_contract') for c in calls)
+
+
+def evidence_hold(calls, target):
+    if any(position_evidence(c, k) == 'entry_forwarding'
+           for c in calls for k in range(min(c['nargs'], target), max(c['nargs'], target))):
+        return 'hold_entry_forwarding', 'entry-forwarded argument has no callback contract'
+    return 'hold_unproven_arity', 'position evidence does not support the proposed arity'
 
 
 def route(name, darity, reads, calls, decl_arities, used=0):
@@ -203,9 +238,10 @@ def route(name, darity, reads, calls, decl_arities, used=0):
         if m == darity:
             return 'declarations_only', '%d..%d' % (m, m), darity, ''
         if m > darity:
-            # every caller already passes m arguments: unused trailing parameters on the definition leave
-            # every caller and the callee byte-identical (no call edit at all)
-            return 'extend_definition', '%d..%d' % (m, m), m, ''
+            if extension_supported(calls, darity, m):
+                return 'extend_definition', '%d..%d' % (m, m), m, ''
+            hold, why = evidence_hold(calls, darity)
+            return hold, '%d..%d' % (m, m), '', why
         if reads <= m:
             return 'trim_definition', '%d..%d' % (m, m), m, ''
         return 'mixed_real_arity', '', '', 'callee reads %d args, every call passes %d' % (reads, m)
@@ -220,18 +256,21 @@ def route(name, darity, reads, calls, decl_arities, used=0):
         if reads > hi:
             why = 'callee reads %d args, a call keeps <= %d' % (reads, hi)
         return 'mixed_real_arity', '', '', why
-    # several arities: some calls must change.  Extending the definition to the smallest call arity (when
-    # feasible) minimises the call edits; every edited call still needs its proof (pilot: a dropped
-    # pass-through is neutral only when no code before the call had to keep the register)
-    low = min(nargs)
-    target = darity if lo <= darity <= hi else (max(lo, min(low, hi)) if lo <= min(low, hi) else lo)
-    if target == darity:
-        if all(c['nargs'] <= darity for c in calls):
-            return 'add_passthrough_args', '%d..%d' % (lo, hi), darity, ''
-        return 'drop_phantom_args', '%d..%d' % (lo, hi), darity, ''
-    if target > darity:
-        return 'extend_and_drop', '%d..%d' % (lo, hi), target, ''
-    return 'trim_definition', '%d..%d' % (lo, hi), target, ''
+    feasible = '%d..%d' % (lo, hi)
+    if lo <= darity <= hi:
+        if all(c['nargs'] >= darity for c in calls) and drop_supported(calls, darity):
+            return 'drop_phantom_args', feasible, darity, ''
+        if (all(c['nargs'] <= darity and c.get('callback_contract') for c in calls)
+                and all(position_evidence(c, k) == 'callback_contract'
+                        for c in calls for k in range(c['nargs'], darity))):
+            return 'add_passthrough_args', feasible, darity, ''
+        hold, why = evidence_hold(calls, darity)
+        return hold, feasible, '', why
+    for target in range(max(lo, darity + 1), hi + 1):
+        if extension_supported(calls, darity, target) and drop_supported(calls, target):
+            return 'extend_and_drop', feasible, target, ''
+    hold, why = evidence_hold(calls, min(hi, darity))
+    return hold, feasible, '', why
 
 
 def main(argv=None):
@@ -239,6 +278,8 @@ def main(argv=None):
     ap.add_argument('--root', type=Path, default=TOOLS.parent)
     ap.add_argument('--floors', type=Path, required=True, help='floor_triage.py floors.tsv')
     ap.add_argument('--abi-cache', type=Path, help='abi_facts cache (default build/abi_facts.json.gz)')
+    ap.add_argument('--ledger', type=Path, default=Path('ledger/prototype_floors.jsonl'),
+                    help='floor rows supplying aggregate abi.args_set_up leads')
     ap.add_argument('--workers', type=int, default=4)
     ap.add_argument('--out', type=Path, required=True)
     args = ap.parse_args(argv)
@@ -246,6 +287,7 @@ def main(argv=None):
     import abi_facts as AF
     import sig_census as SC
     rows = [r for r in csv.DictReader(args.floors.open(), delimiter='\t') if r['blocker'] == 'arity']
+    ledger = {row['name']: row for row in (json.loads(line) for line in (root / args.ledger).read_text().splitlines())}
     facts = AF.Facts(root, AF.scan(root, args.abi_cache or root / 'build/abi_facts.json.gz',
                                    min(args.workers, 6), log=lambda m: print(m, file=sys.stderr)))
     census = SC.Census(root, log=lambda m: print(m, file=sys.stderr))
@@ -273,7 +315,9 @@ def main(argv=None):
                 cnames = definition_use(root, rel, caller, cache)[0]   # the caller is defined in this file
                 hi = max(nargs, min(hi, len(cnames)))
             c = dict(name=name, file=rel, line=line, caller=caller, nargs=nargs, sites=len(use),
-                     positions=','.join(pos), lo=lo, hi=hi, args=' | '.join(argtext)[:200])
+                     positions=','.join(pos), callback_contract=0, lo=lo, hi=hi,
+                     passthrough='', args=' | '.join(argtext)[:200])
+            c['evidence_classes'] = ','.join(position_evidence(c, k) for k in range(max(nargs, hi)))
             calls.append(c)
         pnames, used = definition_use(root, r['def_path'], name, cache) if r['def_path'] else ([], 0)
         rt, feasible, target, why = route(name, darity, reads, calls, decl_arities, used)
@@ -286,7 +330,9 @@ def main(argv=None):
                 c['passthrough'] = ','.join(cnames[k] if k < len(cnames) else '?'
                                             for k in range(c['nargs'], int(target)))
         out_rows.append(dict(name=name, route=rt, def_path=r['def_path'], def_arity=r['def_arity'],
-                             callee_reads=reads, body_uses=used, feasible=feasible, target_arity=target, calls=len(calls),
+                             callee_reads=reads, body_uses=used,
+                             ledger_args_set_up=json.dumps(ledger.get(name, {}).get('abi', {}).get('args_set_up', {}), sort_keys=True),
+                             feasible=feasible, target_arity=target, calls=len(calls),
                              call_arities=','.join('%d:%d' % kv for kv in sorted(
                                  collections.Counter(c['nargs'] for c in calls).items())),
                              drop_calls=drop, add_calls=add,

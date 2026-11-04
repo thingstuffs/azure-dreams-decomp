@@ -4,10 +4,10 @@ struct SpriteFrameState;
 struct ObjectPosition;
 #include "common.h"
 #include "shared/object_node.h"
+#include "dungeon/effect/shade.h"
 
 /* The registered three-word callback traverses the registry's +0x18 link.
  * register_node writes that link; dispatch_registered_draw_callbacks supplies payload and +8/+C. */
-extern void project_depth_sliced_quads(void *,struct ObjectPosition *,struct SpriteFrameState *, s16);
 
 /* Projects depth-sliced quads for each linked node using its position and rendering state. */
 s32 draw_linked_depth_sliced_quads(void *payload, struct ObjectPosition *position, struct SpriteFrameState *render_state)

@@ -17,17 +17,16 @@ struct ObjectPosition;
 #include "dungeon/menu.h"
 #include "dungeon/system.h"
 #include "dungeon/item/message.h"
+#include "dungeon/data.h"
 
 /* cfail-repair: tf7-phase1-cache-v3 */
 extern void *player_action_tag[];
 extern s32 selected_item_record_alias[];
-extern s16 camera_depth_target[5];
 extern s32 menu_action_argument[];
 s32 check_familiar_deployment_placement(); /* extern */
 void * create_familiar_selection_marker(struct EntityHdr **entity_ref);                          /* extern */
 void update_selection_tile_markers();                 /* extern */
 extern u8 D_80012D6D;
-extern M2C_UNK familiar_menu_action_data;
 extern M2C_UNK D_80023C58;
 extern M2C_UNK D_80088904;
 extern M2C_UNK D_80088934;

@@ -15,6 +15,7 @@
 #include "engine/node.h"
 #include "dungeon/effect/sprite.h"
 #include "dungeon/effect/sprite/linked_monster_effect.h"
+#include "dungeon/data.h"
 
 s32 func_8002589C(void *, s32, s32);        /* extern */
 s32 func_80026548(void *, s32);                 /* extern */
@@ -24,7 +25,6 @@ s32 find_eligible_entry_at_coordinates();                /* extern */
 void apply_attack_power_and_element_effects(); /* extern */
 s32 check_layer_offset_height();              /* extern */
 extern u16 sprite_effect_update_count;
-extern s16 linked_monster_effect_updated[6];
 extern u8 linked_monster_attack_option;
 extern s32 D_800C9034();
 
@@ -41,13 +41,6 @@ typedef struct S_80025C80_2 {
 } S_80025C80_2;   /* arg1 in update_linked_monster_effect */
 
 
-typedef struct S_80025C80_6 {
-    u8 pad_00[0x8];
-    void * unk_08;
-    u8 pad_0C[0x12];
-    u16 unk_1E;
-} S_80025C80_6;
-
 typedef struct S_80025C80_7 {
     u8 pad_00[0x4];
     s8 unk_04;
@@ -62,14 +55,9 @@ typedef struct S_80025C80_7 {
     u16 unk_20;
 } S_80025C80_7;
 
-typedef struct S_80025C80_8 {
-    u8 pad_00[0xC];
-    void * unk_0C;
-} S_80025C80_8;   /* ((S_80025C80_0 *)arg0)->unk_20 in update_linked_monster_effect */
 
-
-/* Updates effect movement and fading, or copies a linked monster's position and appearance. */
-void update_linked_monster_effect(LinkedMonsterEffectBody *effect_in, ObjectPosition *motion_in, void *sprite_in) {
+/* Updates effect movement and fading, or copies the chain head's position and appearance. */
+void update_linked_monster_effect(LinkedObjectChainBody *effect_in, ObjectPosition *motion_in, void *sprite_in) {
     TileObject *sprite;
     s32 x_step;
     s32 end_frame;
@@ -102,13 +90,13 @@ void update_linked_monster_effect(LinkedMonsterEffectBody *effect_in, ObjectPosi
     u8 brightness;
     u8 next_brightness;
     u8 start_tile_y;
-    S_80025C80_6 *linked_monster;
+    ObjectNodeHeader *head;
     S_80025C80_7 *linked_sprite;
 
-    linked_monster = effect_in->unk_20;
+    head = effect_in->head;
     sprite = sprite_in;
     sprite_effect_update_count = sprite_effect_update_count + 1;
-    if (linked_monster == NULL) {
+    if (head == NULL) {
         step_entry_index_within_bounds(sprite, (u8 *)effect_in + 0x32, effect_in->unk_38,
             effect_in->unk_36);
         func_80026548(effect_in, sprite->frame_entry);
@@ -272,7 +260,7 @@ void update_linked_monster_effect(LinkedMonsterEffectBody *effect_in, ObjectPosi
             break;
         }
     } else {
-        if ((linked_monster->unk_1E) & 0x8000) {
+        if (head->flags & 0x8000) {
             linked_flags = NODE_HEADER(effect_in)->flags;
             linked_global = &object_flag_block;
             linked_flags |= 0x8000;
@@ -280,11 +268,11 @@ void update_linked_monster_effect(LinkedMonsterEffectBody *effect_in, ObjectPosi
             linked_global->flags |= 0x8000;
             return;
         }
-        source_data = linked_monster->unk_08;
+        source_data = head->position;
         motion_in->x.w.i = (s16) source_data->x.unsigned_parts.integer;
         motion_in->y.w.i = (s16) source_data->y.unsigned_parts.integer;
         motion_in->z.w.i = (s16) source_data->z.unsigned_parts.integer;
-        linked_sprite = ((S_80025C80_8 *)(effect_in->unk_20))->unk_0C;
+        linked_sprite = (S_80025C80_7 *)effect_in->head->sprite;
         func_800266D0(sprite, linked_sprite->unk_04);
         func_80026548(effect_in, sprite->frame_entry);
         sprite->scale_x = (u16) linked_sprite->unk_1C;

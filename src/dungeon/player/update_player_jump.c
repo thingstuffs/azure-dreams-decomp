@@ -10,6 +10,7 @@
 #include "engine/graphics.h"
 #include "dungeon/player.h"
 #include "dungeon/system.h"
+#include "dungeon/data.h"
 
    /* entity in update_player_jump */
 
@@ -17,9 +18,7 @@ extern s16 measure_directional_stopping_distance(s16 a0, ObjectPosition *a1, voi
 
 extern s32 held_item_record;
 
-extern u8 player_jump_frame_set[8];
 extern u8 D_800DD048[8];
-extern u8 player_throw_followup_frames[8];
 extern u8 player_throw_frame_set[8];
 extern s32 saved_held_item_word[3];
 

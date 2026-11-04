@@ -12,7 +12,6 @@
 #include "town/shop/object.h"
 #include "town/shop/state.h"
 extern int dungeon_menu_tag(void *forwarded_ptr, int unused_arg, void *second_ptr);
-extern void *process_target_with_code_41(void *parts);
 
 StorageMenuNode *create_storage_owner_menu(ItemMenuStateNode *owner) {
     StorageMenuNode *object;

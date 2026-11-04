@@ -10,8 +10,8 @@ struct ObjectPosition;
 #include "dungeon/player/object.h"
 #include "dungeon/effect.h"
 #include "dungeon/system.h"
+#include "dungeon/data.h"
 
-extern u8  return_magic_frames[];
 extern s8  D_80080AA0;
 extern s8  scene_music_hold;
 

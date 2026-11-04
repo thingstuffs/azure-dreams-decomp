@@ -10,6 +10,7 @@
 #include "engine/resource.h"
 #include "slus.h"
 #include "dungeon/effect/screen.h"
+#include "dungeon/data.h"
 
 typedef struct S_80024078_2_pre {
     void * unk_00;
@@ -44,11 +45,8 @@ typedef struct {
 extern void *update_actor_effect_sequence(void *, s32);
 
 extern u8 D_80028F68[];
-extern u8 screen_transition_pixels[];
-extern s16 linked_monster_effect_updated[6];
 extern u8 linked_monster_attack_option[12];
 extern u16 sprite_effect_update_count[];
-extern u8 screen_effect_sprite_entries[12];
 
 /* Advances the screen transition, updates fade timers, and releases completed state. */
 void advance_screen_transition(State *ctx)

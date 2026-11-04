@@ -12,6 +12,7 @@
 #include "sdk/libgte.h"
 #include "dungeon/effect.h"
 #include "dungeon/system.h"
+#include "dungeon/data.h"
 
 void (*const dungeon_18a0800_entry)(TrackingEffect *, ObjectPosition *, SpriteFrameState *) = follow_brighten;
 #include "modules/dungeon_ovl_18a0800.h"
@@ -489,8 +490,6 @@ void advance_sprite_on_alternate_ticks_until_complete(void *record, ObjectPositi
    /* coords in create_radial_effect_node */
 
    /* arg0 in create_radial_effect_node */
-
-extern u8 spark_sprite_entries[];
 
 /* Creates a visual node at the supplied coordinates with 16 evenly spaced radial effects. */
 void *create_radial_effect_node(MovingPosition *source_coords)

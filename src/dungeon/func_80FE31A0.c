@@ -205,7 +205,7 @@ void update_item_use_effect_and_idle_return(ActionState *actor, VecData *motion,
                     {
                         SpriteFrameState *target_sprite;
 
-                        target_sprite = ((ObjectNodeHeader *)((u8 *)target - 0x20))->sprite;
+                        target_sprite = NODE_HEADER(target)->sprite;
                         actor_data->targetX.u = target_sprite->tile_x;
                         actor_data->targetY.u = target_sprite->tile_y;
                     }
@@ -217,7 +217,7 @@ void update_item_use_effect_and_idle_return(ActionState *actor, VecData *motion,
                     if (item_action_definitions[((u8)selected_item_or_sprite)].kind == 2) {
                         target = actor_data->target;
                         if (target != 0) {
-                            selected_item_or_sprite = ((ObjectNodeHeader *)((u8 *)target - 0x20))->sprite;
+                            selected_item_or_sprite = NODE_HEADER(target)->sprite;
                             actor_data->targetX.u = ((ActorSprite *)selected_item_or_sprite)->tileX;
                             actor_data->targetY.u = ((ActorSprite *)selected_item_or_sprite)->tileY;
                         }

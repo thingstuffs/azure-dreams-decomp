@@ -900,10 +900,37 @@ def main(argv=None):
     parser.add_argument('--macro-casts', action='store_true',
                         help='report pointer casts added by file-local and reachable include/ macro bodies '
                              'at each use site; these report counts do not affect the ratchet')
+    parser.add_argument('--bridges', action='store_true',
+                        help='check open ledger/bridge_casts.jsonl cast sites; no debt census')
+    parser.add_argument('--prototypes', action='store_true',
+                        help='definition-inclusive prototype consistency census and ratchet')
     actions = parser.add_mutually_exclusive_group()
     actions.add_argument('--check', action='store_true')
     actions.add_argument('--write-baseline', action='store_true')
     args = parser.parse_args(argv)
+    if args.prototypes:
+        if args.bridges or args.only:
+            parser.error('--prototypes cannot be combined with --bridges or --only')
+        from proto_check import main as proto_main
+        command = ['--root', str(args.root), '--out', str(args.out / 'proto_consistency.json')]
+        if args.check:
+            command.append('--check')
+        if args.write_baseline:
+            command.append('--write-baseline')
+        return proto_main(command)
+    if args.bridges:
+        if args.only or args.check or args.write_baseline:
+            parser.error('--bridges cannot be combined with --only, --check or --write-baseline')
+        from bridge_check import check_bridges
+        try:
+            counts, problems = check_bridges(args.root.resolve(),
+                                             args.root.resolve() / 'ledger/bridge_casts.jsonl')
+        except (OSError, ValueError, TypeError, KeyError) as exc:
+            parser.error(str(exc))
+        print(f'bridge rows: {sum(counts.values())}; open: {counts["open"]}; retired: {counts["retired"]}')
+        for problem in problems:
+            print(problem, file=sys.stderr)
+        return 1 if problems else 0
     if args.only and (args.check or args.write_baseline):
         parser.error('--only cannot check or write a baseline')
     try:

@@ -594,9 +594,9 @@ void advance_bank_actor_path(ActorRecord *body, ObjectPosition *position, Sprite
     update_map_cell_flags_with_item_limit(old_x, old_y, cell_mask);
 
     entity_view->tile_x =
-        ((ActorStatusBytesView *)((u8 *)actor + actor->unk_8A))->path_x;
+        actor->path_x[actor->unk_8A];
     entity_view->tile_y =
-        ((ActorStatusBytesView *)((u8 *)actor + actor->unk_8A))->path_y;
+        actor->path_y[actor->unk_8A];
     actor->unk_8A++;
 
     new_x = entity_view->tile_x;
@@ -2421,7 +2421,6 @@ extern u8 D_80174B14[];
 
 /* Updates a timed effect sequence and restores the actor animation when it finishes. */
 void update_bank_timed_effect(ActorRecord *state_input, ObjectPosition *motion_input, SpriteFrameState *animation_input, ActorRecord *actor_input) {
-    void *motion = motion_input;
     u16 spawn_offset[3];
     Record10 effect_values_1c = D_80170868.values;
     Record10 effect_values_1e = D_80170874.values;
@@ -2430,7 +2429,7 @@ void update_bank_timed_effect(ActorRecord *state_input, ObjectPosition *motion_i
     u16 animation_flags;
     s16 timer;
     void *effect_object;
-    void *spawned_data;
+    CylindricalEffectWork *spawned_data;
     s32 effect_data;
     s32 next_state;
 
@@ -2465,12 +2464,13 @@ void update_bank_timed_effect(ActorRecord *state_input, ObjectPosition *motion_i
         if (effect_object != NULL) {
             register_node(effect_object, zu_object_callback);
             PTR_AT(effect_object, 0x10) = create_cylindrical_effect;
+            /* This callback consumes the work body allocated by the same node. */
             spawned_data = (u8 *)effect_object + 0x20;
-            S16_AT(spawned_data, 0x0C) = U16_AT(motion, 2) + spawn_offset[0];
-            S16_AT(spawned_data, 0x0E) = U16_AT(motion, 6) + spawn_offset[1];
-            S16_AT(spawned_data, 0x10) = U16_AT(motion, 0xA) + spawn_offset[2];
-            S32_AT(spawned_data, 0x58) = 0x80;
-            S16_AT(spawned_data, 0x48) = active_state;
+            spawned_data->origin_x = motion_input->x.unsigned_parts.integer + spawn_offset[0];
+            spawned_data->origin_y = motion_input->y.unsigned_parts.integer + spawn_offset[1];
+            spawned_data->origin_z = motion_input->z.unsigned_parts.integer + spawn_offset[2];
+            spawned_data->shade = 0x80;
+            spawned_data->timer.s = active_state;
         }
         play_sound_if_enabled(0x815);
         {
@@ -2518,8 +2518,8 @@ void update_bank_timed_effect(ActorRecord *state_input, ObjectPosition *motion_i
     case 2:
         if (animation_input->flags & 0xE000) {
 
-            S32_AT(motion, 0x10) = 0;
-            S32_AT(motion, 0x0C) = 0;
+            motion_input->velocity_y = 0;
+            motion_input->velocity_x = 0;
             spend_actor_mp(actor_input, 0x800);
             animation_input->frameTable = D_80174ACC;
             select_sprite_entry(animation_input,

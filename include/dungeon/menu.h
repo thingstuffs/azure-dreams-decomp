@@ -89,4 +89,6 @@ void redraw_type_three_floor_markers(void);
 void set_scaled_value_and_complement(void *record, s32 input_value);
 void submit_activation_command(void);
 
+s32 create_map_position_object(s32 world_x, s32 world_z);
+
 #endif

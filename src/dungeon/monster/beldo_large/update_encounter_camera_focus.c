@@ -3,6 +3,7 @@
 #include "shared/entity_objects.h"
 #include "shared/game_work.h"
 #include "engine/camera.h"
+#include "dungeon/data.h"
 
 typedef struct {
     u8 pad_00[0x12];
@@ -29,8 +30,6 @@ typedef struct {
 extern PhaseHeights D_80164A54;
 extern u8 *beldo_actor_nodes;
 extern u16 dungeon_camera_targets[4];
-extern s16 beldo_camera_rotation[4];
-extern s16 beldo_camera_position[4];
 
 extern s16 get_player_relative_point_octant(void *);
 

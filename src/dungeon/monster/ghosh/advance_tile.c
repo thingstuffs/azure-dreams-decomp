@@ -181,9 +181,9 @@ void advance_boss_actor_movement_state(ActorRecord *move_state, void *unused, vo
                 }
                 {
                     ((S_8016FCE4_0 *)actor_in)->unk_2A.u = (u16) trial_heading;
-                    ((ActorStatusBytesView *)((actor_in + ((u8) ((S_8016FCE4_0 *)actor_in)->unk_71.s & 0x7F))))->path_x =
+                    ((ActorRecord *)actor_in)->path_x[((u8) ((S_8016FCE4_0 *)actor_in)->unk_71.s & 0x7F)] =
                         (u8) ((ActorRecord *)position_in)->mp_value.parts.fraction;
-                    ((ActorStatusBytesView *)((actor_in + ((u8) ((S_8016FCE4_0 *)actor_in)->unk_71.s & 0x7F))))->path_y =
+                    ((ActorRecord *)actor_in)->path_y[((u8) ((S_8016FCE4_0 *)actor_in)->unk_71.s & 0x7F)] =
                         (u8) ((ActorRecord *)position_in)->mp_value.parts.whole;
                     ((S_8016FCE4_0 *)actor_in)->unk_71.s = (s8) ((u8) ((S_8016FCE4_0 *)actor_in)->unk_71.s + 1);
                     update_map_cell_flags_with_item_limit(((ActorRecord *)position_in)->mp_value.parts.fraction,

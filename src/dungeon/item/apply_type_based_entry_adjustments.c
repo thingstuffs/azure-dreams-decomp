@@ -5,8 +5,7 @@
 #include "dungeon/item/message.h"
 #include "dungeon/data.h"
 /* Applies eligible type-based adjustments before and after processing an entry. */
-u8 *apply_type_based_entry_adjustments(void *entry_data, u8 *value) {
-    DungeonItemEntry *entry = entry_data;
+u8 *apply_type_based_entry_adjustments(DungeonItemEntry *entry, u8 *value) {
     u8 pre_type;
     s32 post_type;
     u8 *pre_adjustment, *post_adjustment, *result;

@@ -9,45 +9,39 @@
 #include "dungeon/level/floor_object_positions.h"
 #include "dungeon/actor/state.h"
 #include "dungeon/item/position.h"
+#include "dungeon/effect/dispatch.h"
 #include "dungeon/item/state.h"
 #include "dungeon/player/state.h"
 #include "dungeon/system.h"
-extern u8 reference_tile_object[],view_reference_entity[],D_800893D8[],D_800E16E3[],D_800E1713[];
+extern u8 reference_tile_object[],D_800893D8[],D_800E16E3[],D_800E1713[];
 #include "dungeon/player/item.h"
 #include "dungeon/item/message.h"
 
-typedef struct PlacedItemEffectBody {
-    u8 pad_00[0x20];
-    s16 item_position_index;
-} PlacedItemEffectBody;
-
 /* Processes an actor's item and updates its object entry, effects, and item count. */
 s32 apply_malicious_light_tile_item(void *actor, DungeonItemEntry *item, s16 action) {
-    PlayerRecord *player = actor;
+    ActorRecord *user = actor;
     s16 entry_index;
     void *message_handle;
     s32 saved_handle, object_addr;
     DungeonGlobalStatus *counter_base;
     SpriteFrameState *sprite;
-    void *object_fields;
-    PlacedItemEffectBody *placed_effect;
+    CentralChildEffectState *placed_effect;
     D_800E39C8_entry *entries;
 
     if (actor == ((u8 *)dungeon_actor_ring_anchor)) {
-        player->pending_item_action = item;
-        begin_mode_selected_item_action(actor, view_reference_entity, reference_tile_object, actor);
+        ((PlayerRecord *)user)->pending_item_action = item;
+        begin_mode_selected_item_action(actor, &view_reference_entity, reference_tile_object, actor);
         return 0;
     }
 
     sprite = NODE_HEADER(actor)->sprite;
     object_addr = create_central_and_child_effects(sprite->tile_x, sprite->tile_y,
-                                player->actor.ground_height, -1, item->unk_00);
+                                user->ground_height, -1, item->unk_00);
     if (object_addr != 0) {
         play_sound_if_enabled(0x60D);
-        object_fields = (u8 *)object_addr + 0x20;
-        placed_effect = object_fields;
+        placed_effect = (CentralChildEffectState *)((u8 *)object_addr + 0x20);
         entry_index = select_and_initialize_entry_at_position(sprite->tile_x, sprite->tile_y,
-                                    player->actor.ground_height, 5, object_addr);
+                                    user->ground_height, 5, object_addr);
         entries = dungeon_floor_object_positions;
         placed_effect->item_position_index = entry_index;
         entries[entry_index].field8.s = 0;

@@ -129,4 +129,6 @@ void *create_four_groups_of_angular_effects(s16 pos_x, s16 pos_y, s16 pos_z, s32
 
 s32 transform_linked_quad_batches(u8 *initial_batch, s32 initial_dispatch_arg, u8 *initial_params);
 
+s16 clamp_adjusted_value_0_to_99(ActorRecord *entity);
+
 #endif

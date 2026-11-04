@@ -19,14 +19,6 @@ extern u8 uboat_default_frames[];
 
 
 
-typedef struct S_80172144_3 {
-    u8 pad_00[0x74];
-    u8 unk_74;
-    u8 pad_75[0x7];
-    u8 unk_7C;
-} S_80172144_3;   /* temp_v0_2 in advance_aura_actor_turn_path */
-
-
 /* Advance the entity along its path and update its movement state. */
 void advance_aura_actor_turn_path(ActorRecord *actor, ObjectPosition *actor_slot, SpriteFrameState *entity_arg, ActorRecord *state_arg) {
     register void *state = state_arg;
@@ -39,7 +31,6 @@ void advance_aura_actor_turn_path(ActorRecord *actor, ObjectPosition *actor_slot
     s16 old_x;
     s16 old_y;
     s32 step_count;
-    S_80172144_3 *path_step;
 
     if ((((s8)((ActorRecord *)state)->movement_queue_state) > 0) &&
         ((s32)((ActorRecord *)state)->movement_queue_state > ((ActorRecord *)state)->unk_8A)) {
@@ -72,13 +63,13 @@ void advance_aura_actor_turn_path(ActorRecord *actor, ObjectPosition *actor_slot
             }
             update_map_cell_flags_with_item_limit(tile_x, tile_y, mode);
         }
-        path_step = (u8 *)state + ((ActorRecord *)state)->unk_8A;
         direction = get_rounded_facing_and_rounding_flag(old_x, old_y,
-            path_step->unk_74, path_step->unk_7C,
+            ((ActorRecord *)state)->path_x[((ActorRecord *)state)->unk_8A],
+            ((ActorRecord *)state)->path_y[((ActorRecord *)state)->unk_8A],
             (u8 *)actor + 0x98);
         move_result = check_movement_clearance_and_height(direction, entity, state, 0x20);
-        entity->tile_x = ((ActorRecord *)((u8 *)state + ((ActorRecord *)state)->unk_8A))->path_x[0];
-        entity->tile_y = ((ActorRecord *)((u8 *)state + ((ActorRecord *)state)->unk_8A))->path_y[0];
+        entity->tile_x = ((ActorRecord *)state)->path_x[((ActorRecord *)state)->unk_8A];
+        entity->tile_y = ((ActorRecord *)state)->path_y[((ActorRecord *)state)->unk_8A];
         ((ActorRecord *)state)->unk_8A = (u16)((ActorRecord *)state)->unk_8A + 1;
         if ((effect_status << 0x10) == 0) {
             s32 new_x;

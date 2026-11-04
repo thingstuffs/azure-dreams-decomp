@@ -7,19 +7,11 @@
 #include "dungeon/monster/beldo.h"
 
 extern s32 select_sprite_entry();
-extern s32 cycle_map_cell_flags();
+extern void cycle_map_cell_flags();
 void update_map_cell_flags_with_item_limit(s32 x, s32 y, u16 flags);
 
 extern u8 beldo_frame_set_1[8];
 
-
-
-typedef struct S_801719C0_3 {
-    u8 pad_00[0x74];
-    u8 unk_74;
-    u8 pad_75[0x7];
-    u8 unk_7C;
-} S_801719C0_3;   /* entry in advance_queued_movement_step */
 
 
 /* Advances a queued movement step and updates position, direction, and timing. */
@@ -28,7 +20,6 @@ void advance_queued_movement_step(ActorRecord *motion, ObjectPosition *unused, S
     s32 step_count;
     s32 old_x;
     s32 old_y;
-    S_801719C0_3 *step;
 
     if (((s8)path->movement_queue_state) <= 0) {
         return;
@@ -48,9 +39,8 @@ void advance_queued_movement_step(ActorRecord *motion, ObjectPosition *unused, S
         motion->unk_9E.s = 0;
     }
 
-    step = (S_801719C0_3 *)((u8 *)path + path->unk_8A);
-    if (sprite->tile_x == step->unk_74 &&
-        sprite->tile_y == step->unk_7C) {
+    if (sprite->tile_x == path->path_x[path->unk_8A] &&
+        sprite->tile_y == path->path_y[path->unk_8A]) {
         u16 remaining_offset = ((u16)path->ground_height);
         motion->unk_90.parts.high.u += 0x20;
         path->ground_height = remaining_offset - 0x20;

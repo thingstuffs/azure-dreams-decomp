@@ -198,9 +198,9 @@ void advance_actor_turn_path(ActorRecord *move_data_in, ObjectPosition *context,
             }
 
             actor_in->facing = trial_angle;
-            ((ActorStatusBytesView *)((u8 *)actor_in + (actor_in->movement_queue_state & 0x7F)))->path_x =
+            actor_in->path_x[actor_in->movement_queue_state & 0x7F] =
                 tile_in->tile_x;
-            ((ActorStatusBytesView *)((u8 *)actor_in + (actor_in->movement_queue_state & 0x7F)))->path_y =
+            actor_in->path_y[actor_in->movement_queue_state & 0x7F] =
                 tile_in->tile_y;
             actor_in->movement_queue_state++;
 

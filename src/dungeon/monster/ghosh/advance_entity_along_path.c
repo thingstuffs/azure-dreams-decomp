@@ -77,12 +77,12 @@ void advance_entity_along_path(ActorRecord *actor, ObjectPosition *position, Spr
     update_map_cell_flags_with_item_limit(tile_x, tile_y, old_tile_flags ? 0x300 : 0x3000);
 
     heading = get_rounded_facing_and_rounding_flag(tile_x, tile_y,
-                            ((ActorRecord *)((u8 *)path + path->unk_8A.s))->path_x[0],
-                            ((ActorRecord *)((u8 *)path + path->unk_8A.s))->path_y[0],
+                            ((ActorRecord *)path)->path_x[path->unk_8A.s],
+                            ((ActorRecord *)path)->path_y[path->unk_8A.s],
                             &path_actor->action_state_flags);
     raw_result = check_movement_clearance_and_height(heading, sprite, path, 0x20);
 
-    next_x = ((ActorRecord *)((u8 *)path + path->unk_8A.s))->path_x[0];
+    next_x = ((ActorRecord *)path)->path_x[path->unk_8A.s];
     raw_result = raw_result << 16;
     sprite->tile_x = next_x;
     step = (u8 *)path + path->unk_8A.s;

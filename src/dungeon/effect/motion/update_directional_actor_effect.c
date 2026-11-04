@@ -75,11 +75,11 @@ void update_directional_actor_effect(TimedModelTintSpellBody *effect, void *colo
         upload_rect.words[0] = 0x01000360;
         draw_textured_ellipse(D_80024980, &upload_rect.rect, 1, 0);
         ((S_8195281C_10 *)(((S_8195281C_1 *)((int *)(&primary_actor_record)))->unk_00.i))->unk_F4 = directional_effect_sprite_data;
-        create_timed_model_effect((s32)effect->spell.caster - 0x20, effect->spell.context, 0, 0);
+        create_timed_model_effect(NODE_HEADER(effect->spell.caster), effect->spell.context, 0, 0);
         effect->spell.phase.s = (s16) ((u16) effect->spell.phase.s + 1);
     case 1:
         actor_slot = (void **) ((int *)(&primary_actor_record));
-        if (!(*(u16 *)effect->spell.context & 0x80)) {
+        if (!(*effect->spell.context & 0x80)) {
             break;
         }
         actor_counters = *actor_slot;
@@ -106,7 +106,7 @@ void update_directional_actor_effect(TimedModelTintSpellBody *effect, void *colo
         }
         model_owner = ((S_8195281C_1 *)((int *)(&primary_actor_record)))->unk_00.p;
         effect->unk_18 = 0x20;
-        allocate_and_initialize_effect_object((s32)effect - 0x20, effect->unk_14.s, effect->spell.variant,
+        allocate_and_initialize_effect_object(NODE_HEADER(effect), effect->unk_14.s, effect->spell.variant,
             model_owner->target);
         effect->spell.phase.s = (u16) effect->spell.phase.s + 1;
         break;
@@ -403,11 +403,11 @@ void process_effect_modes_and_completion(void *state)
 /* cfail-repair: tf7-phase1-cache-v3 */
 
 /* Allocate an object and initialize its handler and state fields. */
-void allocate_and_initialize_effect_object(s32 alloc_arg, s16 value_26, s16 value_30, ActorRecord *value_0c) {
+void allocate_and_initialize_effect_object(ObjectNodeHeader *alloc_arg, s16 value_26, s16 value_30, ActorRecord *value_0c) {
     ObjectNodeHeader *object;
     SpiralingEffectObjectBody *state;
 
-    object = allocate_list_node(0x200, (ObjectNodeHeader **)alloc_arg);
+    object = allocate_list_node(0x200, &alloc_arg->next);
     if (object != 0) {
         object->update_callback = process_effect_modes_and_completion;
         state = NODE_BODY(object);

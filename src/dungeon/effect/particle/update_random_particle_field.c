@@ -72,7 +72,7 @@ void update_random_particle_field(FallingParticleFieldSpellBody *self, void *out
     switch (state) {
     case 0:
     {
-        if ((((ObjectPosition *)(self->spell.context))->x.w.frac & 0x80) == 0) {
+        if ((*self->spell.context & 0x80) == 0) {
             return;
         }
         {

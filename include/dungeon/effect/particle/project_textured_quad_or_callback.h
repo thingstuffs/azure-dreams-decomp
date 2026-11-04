@@ -14,7 +14,7 @@ typedef struct LinkedRenderNode {
 } LinkedRenderNode;
 
 /* Target travel, particle emission, and timed color state for the spell callback. */
-typedef struct TargetTravelEffectBody {
+typedef struct TargetParticleStatusSpellBody {
     SpellEffectHeader spell;
     u8 pad_0C[0x68];
     union { u16 u; s16 s; } unk_74;
@@ -38,7 +38,7 @@ typedef struct TargetTravelEffectBody {
     u8 pad_AB[0x3];
     u8 unk_AE;
     u8 unk_AF;
-} TargetTravelEffectBody;
+} TargetParticleStatusSpellBody;
 void project_textured_quad_or_callback(void *,struct ObjectPosition *, SpriteFrameState *, s16);
 void draw_textured_sphere_mesh(void *, void *, void *, u16);
 s32 project_linked_quad_record(void *, ObjectPosition *, SpriteFrameState *);

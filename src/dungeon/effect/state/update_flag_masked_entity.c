@@ -3,6 +3,7 @@
 #include "shared/object_flags.h"
 #include "shared/dungeon_status.h"
 #include "shared/dungeon_moving_views.h"
+#include "dungeon/player/object.h"
 
 typedef struct {
     u8 pad_0[0x10];
@@ -14,9 +15,6 @@ typedef struct {
     s32 flags_1C;
 } Entity;
 
-
-
-extern void * detach_record_and_update_slot_state(Entity *);
 extern void update_map_cell_flags_with_item_limit(u8, u8, s32);
 extern void unlink_entity_node(Entity *);
 

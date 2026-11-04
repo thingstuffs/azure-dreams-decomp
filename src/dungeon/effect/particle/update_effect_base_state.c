@@ -90,7 +90,7 @@ void run_fading_target_projectile(FadingProjectileSpellBody *effect, ObjectPosit
     case 0:
     {
         S_81844800_8_pre *target;
-        if ((((ObjectPosition *)(effect->spell.context))->x.w.frac & 0x80) == 0) {
+        if ((*effect->spell.context & 0x80) == 0) {
             return;
         }
         target = scan_actor_along_heading(

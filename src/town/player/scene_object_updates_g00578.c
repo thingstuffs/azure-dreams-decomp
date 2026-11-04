@@ -62,7 +62,7 @@ void initialize_enabled_scene_object(void) {
             handle_insert_initialize_two_values_status_flags(state, position, D_800D0CAC);
             initialize_optional_object_state(state, position, object_resource, D_800D0C90);
             initialize_object_entries((TownObjectRecord *)state, object_resource, (s32 *)D_80100E24_R);
-            ((ObjectNodeHeader *)((u8 *)state - 0x20))->update_callback = D_800A6684;
+            NODE_HEADER(state)->update_callback = D_800A6684;
             set_flagged_entry_values((u32 *)D_800D0D54, 0);
         }
     }
