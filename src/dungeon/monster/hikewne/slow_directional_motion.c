@@ -26,11 +26,9 @@ void slow_directional_motion(ActorRecord *motion_state, ObjectPosition *motion, 
     case 0:
         apply_clamped_actor_value_delta(entity);
         motion->velocity_x =
-            -*(s16 *)((u8 *)((s8 *)dir_step_x) +
-                ((((EntityRec *)entity)->unk_6A >> 8) & 0xE)) << 15;
+            -dir_step_x[(((EntityRec *)entity)->unk_6A >> 9) & 7] << 15;
         motion->velocity_y =
-            -*(s16 *)((u8 *)((s8 *)dir_step_y) +
-                ((((EntityRec *)entity)->unk_6A >> 8) & 0xE)) << 15;
+            -dir_step_y[(((EntityRec *)entity)->unk_6A >> 9) & 7] << 15;
         motion_state->action_phase.u++;
 
         if (((EntityRec *)entity)->unk_28 == 0) {

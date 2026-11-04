@@ -1,6 +1,7 @@
 #include "shared/object_node.h"
 #ifndef DUNGEON_OVL_FA7000_H
 #define DUNGEON_OVL_FA7000_H
+struct ActorRecord;
 #include "common.h"
 #include "shared/entity.h"
 #include "shared/tile_object.h"
@@ -35,7 +36,7 @@ void advance_bank_actor_path(ActorRecord *body, ObjectPosition *position, Sprite
 void select_bank_actor_movement(ActorRecord *move_data, ObjectPosition *context, TileObject *position_data, ActorRecord *actor_data);
 s32 begin_bank_directional_effect(ActorRecord *action_state, ObjectPosition *motion_param, struct SpriteFrameState *sprite, ActorRecord *actor);
 void initialize_bank_actor_action(ActorRecord *action_state, ObjectPosition *motion_param, SpriteFrameState *sprite, ActorRecord *entity);
-s32 complete_actor_jump_to_destination(ActorRecord *actor, ObjectPosition *primary_context, void *secondary_context, s32 force_move);
+s32 complete_actor_jump_to_destination(struct ActorRecord *actor, ObjectPosition *primary_context, void *secondary_context, s32 force_move);
 void select_bank_resident_callback(ActorRecord *state, ObjectPosition *motion, struct SpriteFrameState *source, ActorRecord *target);
 void select_bank_actor_callback(ActorRecord *state, ObjectPosition *action, struct SpriteFrameState *source, ActorRecord *target);
 void update_bank_staged_movement(ActorRecord *body, ObjectPosition *motion,struct SpriteFrameState *sprite, ActorRecord *actor);

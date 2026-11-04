@@ -12,6 +12,7 @@
 #include "dungeon/monster/viper/effect.h"
 #include "sdk/libc.h"
 #include "dungeon/system.h"
+#include "dungeon/monster/viper.h"
 
 typedef struct {
     Fixed1616 x;

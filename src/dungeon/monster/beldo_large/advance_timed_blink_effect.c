@@ -3,6 +3,7 @@
 #include "dungeon/monster/beldo_large.h"
 #include "shared/object_flags.h"
 #include "dungeon/system.h"
+#include "shared/object_node.h"
 
 
 
@@ -10,9 +11,7 @@ extern void initialize_timed_motion_step(s32, s32);
 extern s16 encounter_blink_update_flag[5];
 
 
-typedef struct S_80170534_0_pre {
-    u16 unk_00;
-} S_80170534_0_pre;   /* the 0x2 bytes before state in advance_timed_blink_effect, addressed as state[-1] */
+   /* the 0x2 bytes before state in advance_timed_blink_effect, addressed as state[-1] */
 
 
 typedef struct S_80170534_1 {
@@ -96,7 +95,7 @@ void advance_timed_blink_effect(SecondaryEncounterObjectBody *state_data_arg, vo
         }
         break;
     case 4:
-        ((S_80170534_0_pre *)state_data)[-1].unk_00 |= 0x8000;
+        NODE_HEADER(state_data)->flags |= 0x8000;
         object_flag_block.flags |= OBJECT_REMOVE_PENDING;
     case 0:
     case 3:

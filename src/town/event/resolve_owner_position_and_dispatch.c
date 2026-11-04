@@ -17,6 +17,7 @@
 #include "town/player/position.h"
 #include "town/player/position_handlers.h"
 #include "town/player/state.h"
+#include "town/event/state.h"
 
 
 typedef struct {
@@ -64,8 +65,6 @@ extern s32 D_800D0420[];
 
 
 extern s32 town_input_motion_address;
-
-extern void unlink_and_remove_scene_object(void *, void *, void *, s32); /* Unprototyped: retail call passes more arguments than the callee reads */
 
 /* Resolve the owner position and dispatch its handler for the current town state. */
 void resolve_owner_position_and_dispatch(void *object, S_8009B9BC_1 *owner, EntityRec *resolved_pos, s32 dispatch_param)

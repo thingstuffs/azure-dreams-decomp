@@ -7,6 +7,7 @@
 #include "town/scene.h"
 #include "town/scene/motion.h"
 #include "dungeon/actor.h"
+#include "town/event/state.h"
 
 
 typedef struct {
@@ -58,7 +59,6 @@ extern s32 town_input_motion_address;
 
 extern void call_the_same_context_both_processing_routines(void *, void *);
 extern s32 check_object_type_and_data_tag(void *);
-extern void unlink_and_remove_scene_object(void *, void *, void *, s32); /* Unprototyped: retail call passes more arguments than the callee reads */
 extern void retry_sound_sequence_when_ready(void);
 
 /* Adjusts the position and dispatches the current state handler for the owner. */

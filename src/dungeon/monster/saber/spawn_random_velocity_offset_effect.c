@@ -5,13 +5,12 @@
 #include "slus.h"
 #include "sdk/libgte.h"
 #include "dungeon/monster/saber.h"
+#include "shared/object_node.h"
 extern u8 resident_globals_page[];
 
    /* arg1 in spawn_random_velocity_offset_effect */
 
-typedef struct S_80AC5820_1_pre {
-    u16 unk_00;
-} S_80AC5820_1_pre;   /* the 0x2 bytes before arg0 in spawn_random_velocity_offset_effect, addressed as arg0[-1] */
+   /* the 0x2 bytes before arg0 in spawn_random_velocity_offset_effect, addressed as arg0[-1] */
 
 
    /* other in spawn_random_velocity_offset_effect */
@@ -63,7 +62,7 @@ void spawn_random_velocity_offset_effect(SelectedItemActionEffectBody *state, Mo
     if ((ticks_left << 16) <= 0) {
 
         angle_page = 0x80080000;
-        ((S_80AC5820_1_pre *)state)[-1].unk_00 |= 0x8000;
+        NODE_HEADER(state)->flags |= 0x8000;
         *(s32 *)(angle_page + 0x14A0) |= 0x8000;
     }
 }

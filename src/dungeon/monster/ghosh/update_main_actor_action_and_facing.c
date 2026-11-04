@@ -18,6 +18,7 @@
 #include "dungeon/actor/state.h"
 #include "dungeon.h"
 #include "dungeon/player/object.h"
+#include "dungeon/actor/motion.h"
 
 typedef struct {
     u8 before_callback[0x8C];
@@ -41,8 +42,6 @@ extern u8 ghosh_frame_set_3[];
 extern u8 ghosh_action_resume_address[];
 s32 find_active_rect_containing_point(s32 point_x, s32 point_y);
 struct ActorRecord; void update_actor_status_and_mp(struct ActorRecord *);
-extern void begin_pushed_actor_move(void *state_in, ObjectPosition *unused, void *position_in, void *actor_in);
-void begin_actor_move_to_target_facing(ActorRecord *, ObjectPosition *, SpriteFrameState *, ActorRecord *);
 extern u8 D_8017469C[];
 extern u8 D_801746BC[];
 

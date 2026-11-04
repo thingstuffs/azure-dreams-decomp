@@ -16,21 +16,16 @@
 #include "dungeon/actor/motion.h"
 #include "dungeon/actor/state.h"
 #include "dungeon/level.h"
+#include "dungeon.h"
+#include "dungeon/monster/hikewne.h"
+#include "dungeon/monster/troll.h"
+#include "dungeon/player/object.h"
 
 extern s32 find_active_rect_containing_point(s32 point_x, s32 point_y);
 
-extern s32 can_entity_gain_level(void *);
 extern void update_actor_status_and_mp(ActorRecord *entity);
-extern s32 begin_ready_actor_directional_action(ActorRecord *body, ObjectPosition *position, SpriteFrameState *sprite, u8 *direction_frames);
-extern void begin_actor_move_to_target_facing(ActorRecord *body, ObjectPosition *position, SpriteFrameState *sprite, ActorRecord *actor);
-void advance_baloon_along_path(ActorRecord *motion, ObjectPosition *actor_index, SpriteFrameState *actor, ActorRecord *move_data);
-extern void select_and_advance_actor_move(void *, void *, void *, void *);
-s32 initialize_directional_object(ActorRecord *action_state, ObjectPosition *action_param, SpriteFrameState *sprite, ActorRecord *actor);
 void update_actor_status_and_motion(ActorRecord *action_state, ObjectPosition *action_context, SpriteFrameState *sprite, ActorRecord *entity);
-extern s32 update_entity_state_from_query(void *, void *, void *, s32);
 extern void func_8017531C(void *, void *, void *, void *);
-extern void clear_high_flag_and_update_counter(ActorRecord *, ObjectPosition *, SpriteFrameState *, void *);
-extern void update_actor_counter_and_status(ActorRecord *, ObjectPosition *, SpriteFrameState *, void *);
 
 extern u8 baloon_default_frames[];
 extern u8 D_800E2358[];

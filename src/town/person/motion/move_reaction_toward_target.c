@@ -1,6 +1,7 @@
 #include "common.h"
 #include "shared/game_work.h"
 #include "slus.h"
+#include "town/person.h"
 
 typedef struct {
     u8 pad[0x6C];
@@ -27,8 +28,6 @@ typedef struct {
 } GameState;
 
 extern TownState scene_object_list_anchor;
-
-extern void initialize_reaction_data_and_timer_10_b(Object *, Position *, void *, GameState *);
 
 /* Move halfway toward the target each tick and finish the transition when the timer expires. */
 void move_reaction_toward_target(Object *object, Position *position, void *context)

@@ -43,7 +43,7 @@ void decelerate_and_center_actor_on_tile(ActorRecord *action, ObjectPosition *mo
         motion->velocity_x =
             *(s16 *)((u8 *)x_steps + initial_step_offset) << 0x12;
         motion->velocity_y =
-            *(s16 *)((u8 *)((s8 *)dir_step_y) + initial_step_offset) << 0x12;
+            dir_step_y[direction] << 0x12;
         action->action_phase.u++;
 
         if (actor->hp == 0) {

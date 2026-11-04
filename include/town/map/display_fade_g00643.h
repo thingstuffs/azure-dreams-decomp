@@ -37,7 +37,7 @@ typedef struct {
 } __attribute__((packed)) Copy8;
 
 /* arg2 in advance_color_fade_and_set_completion */
-extern void noop_release_notification(void *);
+extern void noop_release_notification(void *); /* Unprototyped: uses the value as a pointer where the definition has an integer (or the reverse) */
 extern u8 D_80111FB0[8];
 extern void register_node(void *entry, void *registration_id);
 extern void noop_display_setup_hook(void);

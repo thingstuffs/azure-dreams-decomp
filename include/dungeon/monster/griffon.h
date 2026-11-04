@@ -442,11 +442,11 @@ s32 update_actor_animation_behavior_and_facing(ActorRecord *action_state, Object
 void begin_griffon_attack(ActorRecord *action_state, ObjectPosition *action_context, SpriteFrameState *sprite, ActorRecord *actor);
 s32 relink_griffon_path(ActorRecord *body, ObjectPosition *position, SpriteFrameState *sprite, s32 force_state_arg);
 void finish_actor_tile_move_then_resume_effect_behavior(ActorRecord *state, ObjectPosition *context, SpriteFrameState *source, ActorRecord *target);
-void hop_griffon_to_tile(ActorRecord *action, void *motion,SpriteFrameState *sprite, ActorRecord *actor);
+void hop_griffon_to_tile(ActorRecord *action, ObjectPosition *motion,SpriteFrameState *sprite, ActorRecord *actor);
 void advance_a_timed_actor_animation_applies_completion_effects(ActorRecord *state, ObjectPosition *entity, SpriteFrameState *position, ActorRecord *graphic);
 void update_staged_movement_and_return_to_tile(ActorRecord *action, ObjectPosition *motion, SpriteFrameState *sprite, ActorRecord *actor);
 void update_item_activation_and_cleanup(ActorRecord *action, ObjectPosition *motion, void *actor, ActorRecord *object);
-void advance_action_phase_and_process_actor(void *action, struct ObjectPosition *motion,struct SpriteFrameState *sprite, void *entity);
+void advance_action_phase_and_process_actor(ActorRecord *action, struct ObjectPosition *motion,struct SpriteFrameState *sprite, ActorRecord *entity);
 void remove_defeated_griffon(void *state, void *motion, void *position, void *actor);
 void shrink_hopping_griffon(void *state, void *motion, void *position, void *actor);
 void advance_griffon_removal(void *state, void *motion, void *position, void *actor);

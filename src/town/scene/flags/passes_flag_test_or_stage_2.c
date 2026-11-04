@@ -6,7 +6,7 @@
 s32 passes_flag_test_or_stage_2(void *query_input_a, s32 query_input_b, s32 query_input_c, s32 query_input_d) {
     s32 below_two;
 
-    if (get_flag_test_table_address() != 0) {
+    if (get_flag_test_table_address(query_input_a, query_input_b, query_input_c, query_input_d) != 0) {
         below_two = get_state_record_byte() < 2;
         if (below_two != 0) {
             return 0;

@@ -86,4 +86,9 @@ s32 random_below_limit(s32 limit);
 
 void relocate_entity_after_animation(ActorRecord *body, ObjectPosition *position, SpriteFrameState *sprite, void *object);
 
+void advance_baloon_along_path(ActorRecord *body, ObjectPosition *position, SpriteFrameState *sprite, ActorRecord *actor);
+void clear_high_flag_and_update_counter(ActorRecord *body, ObjectPosition *unused_1, SpriteFrameState *unused_2, ActorRecord *actor);
+s32 initialize_directional_object(ActorRecord *action_state, ObjectPosition *action_param, SpriteFrameState *sprite, ActorRecord *actor);
+void update_actor_counter_and_status(ActorRecord *body, ObjectPosition *motion, SpriteFrameState *unused, ActorRecord *actor);
+
 #endif

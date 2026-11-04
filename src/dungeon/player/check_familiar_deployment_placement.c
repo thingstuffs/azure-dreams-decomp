@@ -55,8 +55,8 @@ s32 check_familiar_deployment_placement(void *actor_arg, void *unused, void *pos
             return blocked_result;
         }
         direction_offset = ((u16) actor->unk_2A >> 8) & 0xE;
-        next_x = position->tile_x + *(u16 *)(((s8 *)dir_step_x) + direction_offset);
-        next_y = position->tile_y + *(u16 *)(((s8 *)dir_step_y) + direction_offset);
+        next_x = position->tile_x + (u16)dir_step_x[direction_offset >> 1];
+        next_y = position->tile_y + (u16)dir_step_y[direction_offset >> 1];
         if (((shifted_result = find_valid_nearby_position(0, next_x, next_y, x_coord, out_y) << 0x10) == 0) ||
             ((actor->unk_1C & 0x100000) &&
              (status = actor->unk_124, (status != NULL)) &&

@@ -6,12 +6,12 @@
 #include "shared/sprite_frame_state.h"
 #include "shared/object_node.h"
 #include "shared/slus_callbacks.h"
+#include "dungeon/actor/animation.h"
 
 void *allocate_list_node(s32 flags, ObjectNodeHeader **list_head);
 s32 register_node(ObjectNodeHeader *entry, void *registration_id);
 extern s32 generate_random_value(void);
 s16 set_or_clear_actor_status_slot(ActorRecord *owner, s8 id, s8 value);
-void initialize_actor_sprite_and_animation(void *entity, void *position, SpriteFrameState *sprite, s32 init_flags);
 s32 try_move_actor_to_valid_position(void *action, void *context, void *position, void *entity);
 
 extern u8 D_80171320[];

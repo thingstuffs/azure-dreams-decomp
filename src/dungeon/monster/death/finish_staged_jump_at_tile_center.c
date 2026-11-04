@@ -70,9 +70,9 @@ void finish_staged_jump_at_tile_center(ActorRecord *action, ObjectPosition *moti
         action->unk_B0.value = (s32)0xFFFE0000;
         action->action_phase.u++;
         motion->velocity_x =
-            -*(s16 *)(((s8 *)dir_step_x) + (((u16)actor->facing >> 8) & 0xE)) << 18;
+            -dir_step_x[((u16)actor->facing >> 9) & 7] << 18;
         motion->velocity_y =
-            -*(s16 *)(((s8 *)dir_step_y) + (((u16)actor->facing >> 8) & 0xE)) << 18;
+            -dir_step_y[((u16)actor->facing >> 9) & 7] << 18;
         return;
 
     case 2:
@@ -80,9 +80,9 @@ void finish_staged_jump_at_tile_center(ActorRecord *action, ObjectPosition *moti
         action->unk_AC.value += action->unk_B0.value;
         if (action->action_timer.s < 2) {
             motion->velocity_x =
-                *(s16 *)(((s8 *)dir_step_x) + (((u16)actor->facing >> 8) & 0xE)) << 19;
+                dir_step_x[((u16)actor->facing >> 9) & 7] << 19;
             motion->velocity_y =
-                *(s16 *)(((s8 *)dir_step_y) + (((u16)actor->facing >> 8) & 0xE)) << 19;
+                dir_step_y[((u16)actor->facing >> 9) & 7] << 19;
         }
         {
             u16 timer = action->action_timer.u;

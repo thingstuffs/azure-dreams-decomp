@@ -144,8 +144,8 @@ void advance_actor_path(ActorRecord *motion, ObjectPosition *context, SpriteFram
                     direction_offset = ((((u8 *)&actor->unk_44.whole)[1] + (primary_actor_record->facing >> 9)) & 7) * 2;
                     world_x = reference_tile_object.tile_position.parts.tile_x;
                     world_y = reference_tile_object.tile_position.parts.tile_y;
-                    x_offset = (void *)(*(u16 *)((u8 *)(((s32 *)dir_step_x)) + direction_offset));
-                    y_offset = (*(u16 *)((u8 *)(((s32 *)dir_step_y)) + direction_offset));
+                    x_offset = (void *)((u16)dir_step_x[direction_offset >> 1]);
+                    y_offset = ((u16)dir_step_y[direction_offset >> 1]);
                     current_x = position->tile_x;
                     target_x = world_x + ((s32)x_offset);
                     target_y = world_y + y_offset;

@@ -55,22 +55,18 @@ void reset_actor_after_timed_movement(ActorRecord *action_arg, ObjectPosition *m
         action->action_timer.s = timer;
         if (timer > 0) {
             motion->velocity_x =
-                *(s16 *)((u8 *)((s8 *)dir_step_x) +
-                    ((entity->movement_facing >> 8) & 0xE)) << 19;
+                dir_step_x[(entity->movement_facing >> 9) & 7] << 19;
             motion->velocity_y =
-                *(s16 *)((u8 *)((s8 *)dir_step_y) +
-                    ((entity->movement_facing >> 8) & 0xE)) << 19;
+                dir_step_y[(entity->movement_facing >> 9) & 7] << 19;
             return;
         }
         if (timer != 0) {
             return;
         }
         motion->velocity_x =
-            *(s16 *)((u8 *)((s8 *)dir_step_x) +
-                ((entity->movement_facing >> 8) & 0xE)) << 18;
+            dir_step_x[(entity->movement_facing >> 9) & 7] << 18;
         motion->velocity_y =
-            *(s16 *)((u8 *)((s8 *)dir_step_y) +
-                ((entity->movement_facing >> 8) & 0xE)) << 18;
+            dir_step_y[(entity->movement_facing >> 9) & 7] << 18;
         action->action_timer.s = 6;
         action->action_phase.u++;
         return;

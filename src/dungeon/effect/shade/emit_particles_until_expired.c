@@ -24,8 +24,6 @@ typedef struct S_800D4DE8_8 {
     u8 unk_13;
 } S_800D4DE8_8;   /* ((Rec_func_800D4BD4_arg1 *)arg0)->unk_00 in emit_particles_until_expired */
 
-extern void initialize_effect_object_state(struct ObjectNodeHeader *, void *, void *, s32);
-
 /* Emit particles around the parent position and retire the emitter when its lifetime expires. */
 void emit_particles_until_expired(void *emitter, Rec_func_800D4BD4_arg2 *position, s32 init_param) {
     s32 particle_index;

@@ -13,10 +13,10 @@
 extern void select_sprite_entry(void *, u8, s32);
 #include "dungeon/player/object/action_state.h"
 extern void update_actor_status_and_mp(ActorRecord *entity);
-extern void update_timed_effect_size_and_position(void *, ObjectPosition *, void *, void *); /* Legacy four-argument caller view; callback ignores the last argument. */
 
 #include "dungeon/monster/saber.h"
 #include "dungeon/actor.h"
+#include "dungeon/monster/viper.h"
 
 extern u8 saber_action_direction_frames[];
 

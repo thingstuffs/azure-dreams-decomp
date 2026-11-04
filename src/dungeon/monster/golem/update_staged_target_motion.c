@@ -117,7 +117,7 @@ void update_staged_target_motion(RandomizedOffsetObjectBody *motion, Vec3Work *t
                 ((*(s16 *)((u8 *)direction_table + direction_offset) + 1) * 32);
             motion->unk_2C.half.unk_2E =
                 (motion->unk_40->unk_AA * 64) +
-                ((*(s16 *)((u8 *)dir_step_y + direction_offset) + 1) * 32);
+                ((dir_step_y[direction_offset >> 1] + 1) * 32);
             distance_x = ((S_81087818_4 *)&base)->unk_0A.u;
             motion->unk_30.half.unk_32.u = distance_x;
 

@@ -30,4 +30,7 @@ void create_attached_effect(Rec_func_800247B8_arg0 *owner, void *unused_motion, 
 
 void create_colored_effect_with_sound(void *source, s32 color, unsigned short sound_id);
 
+#include "records/Rec_func_800D4BD4_arg1.h"
+#include "records/Rec_func_800D4BD4_arg2.h"
+void initialize_effect_object_state(ObjectNodeHeader *object, Rec_func_800D4BD4_arg1 *source, Rec_func_800D4BD4_arg2 *position, s32 unused_spawn_context);
 #endif

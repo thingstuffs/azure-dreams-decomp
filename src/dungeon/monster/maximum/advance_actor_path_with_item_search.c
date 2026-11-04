@@ -124,8 +124,8 @@ void advance_actor_path_with_item_search(ActorRecord *move_state, ObjectPosition
                          7) *
                         2;
 
-                    follow_x = reference_tile_object.tile_position.parts.tile_x + *(u16 *)((u8 *)((s8 *)dir_step_x) + follow_offset);
-                    follow_y = reference_tile_object.tile_position.parts.tile_y + *(u16 *)((u8 *)((s8 *)dir_step_y) + follow_offset);
+                    follow_x = reference_tile_object.tile_position.parts.tile_x + (u16)dir_step_x[follow_offset >> 1];
+                    follow_y = reference_tile_object.tile_position.parts.tile_y + (u16)dir_step_y[follow_offset >> 1];
                 }
                 target_x = follow_x;
                 target_y = follow_y;

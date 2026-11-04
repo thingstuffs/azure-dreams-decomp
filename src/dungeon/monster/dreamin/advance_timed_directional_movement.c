@@ -73,7 +73,7 @@ void advance_timed_directional_movement(ActorRecord *body, ObjectPosition *motio
         motion->velocity_x =
             *(s16 *)((u8 *)direction_x_table + launch_offset) << 19;
         motion->velocity_y =
-            *(s16 *)((u8 *)((s8 *)dir_step_y) + launch_offset) << 19;
+            dir_step_y[direction] << 19;
 
         duration = -1;
         if (entity->flags1C & (ACTOR_MP_EMPTY | ACTOR_PARALYZED | ACTOR_ASLEEP)) {

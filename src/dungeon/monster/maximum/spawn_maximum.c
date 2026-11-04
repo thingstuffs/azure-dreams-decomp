@@ -15,7 +15,7 @@
  * prototypes would drop the pointer results; declare what this file uses. */
 extern s32 generate_random_value(void);
 extern void try_move_actor_to_valid_position(void *,void *,void *,void *);
-extern void update_entity_facing_motion_and_ground(void *entity, void *motion, void *part);
+extern void update_entity_facing_motion_and_ground(void *entity, void *motion, SpriteFrameState *part);
 void dispatch_monster_move_attack_spell(ActorRecord *, ObjectPosition *, SpriteFrameState *, ActorRecord *);
 
 /* Allocate Maximum, set its spawn state and frames, and try a valid tile. */

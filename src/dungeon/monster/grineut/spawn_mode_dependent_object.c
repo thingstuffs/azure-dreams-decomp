@@ -19,7 +19,7 @@
 #include "dungeon/effect/screen.h"
 
 void * (*const resource07_slot0_entry0)(s16 kind_flags, s16 byte_24, s16 byte_25, s16 value_0a) = spawn_mode_dependent_112_object;
-void (*const resource07_slot0_entry1)(void *entity, R07_80170A28_S_80170A28_2 *motion, void *part) = update_entity_facing_motion_and_ground;
+void (*const resource07_slot0_entry1)(void *entity, R07_80170A28_S_80170A28_2 *motion, SpriteFrameState *part) = update_entity_facing_motion_and_ground;
 
 /* Creates a Grineut actor at the supplied tile and height, then initializes mode flags, status, and
  * callbacks. */
@@ -87,7 +87,7 @@ void *spawn_mode_dependent_112_object(s16 kind_flags, s16 byte_24, s16 byte_25, 
 }
 
 /* Runs actor callbacks and updates facing, animation, movement, and ground contact. */
-void update_entity_facing_motion_and_ground(void *entity, R07_80170A28_S_80170A28_2 *motion, void *part)
+void update_entity_facing_motion_and_ground(void *entity, R07_80170A28_S_80170A28_2 *motion, SpriteFrameState *part)
 {
     R07_80170A28_S_80170A28_1 *entity_base = entity;
     s16 old_state;
@@ -143,7 +143,7 @@ void update_entity_facing_motion_and_ground(void *entity, R07_80170A28_S_80170A2
         try_move_actor_to_valid_position(entity, motion, part, entity);
     }
 
-    part_flags = ((R07_80170A28_S_80170A28_0 *)part)->unk_14;
+    part_flags = part->flags;
     if (!(part_flags & 0x8000)) {
         rounded_angle = g_game_work.view.camera_rotation.parts.viewAngle + (*(s16 *)((u8 *)entity + 0x2A)) + 0x100;
         state_or_direction = (rounded_angle >> 9) & 7;
@@ -153,23 +153,23 @@ void update_entity_facing_motion_and_ground(void *entity, R07_80170A28_S_80170A2
             if (((R07_80170A28_S_80170A28_0 *)part)->unk_2C != 0) {
                 select_indirect_table_entry(part,
                               ((R07_80170A28_S_80170A28_0 *)part)->unk_2C[direction_copy],
-                              ((R07_80170A28_S_80170A28_0 *)part)->unk_04);
+                              part->unk_04);
             }
             (*(s16 *)((u8 *)entity + 0x94)) = state_or_direction;
         }
 
         direction_flag = dir_sprite_flag[direction_index];
         if (direction_flag != 0) {
-            ((R07_80170A28_S_80170A28_0 *)part)->unk_14 |= 1;
+            part->flags |= 1;
         } else {
-            ((R07_80170A28_S_80170A28_0 *)part)->unk_14 &= 0xFFFE;
+            part->flags &= 0xFFFE;
         }
         if (!(entity_base->unk_1C & 0x20)) {
-            if (!(((R07_80170A28_S_80170A28_0 *)part)->unk_14 & 0x40)) {
+            if (!(part->flags & 0x40)) {
                 advance_sprite_animation_and_textures(part);
             }
         } else {
-            ((R07_80170A28_S_80170A28_0 *)part)->unk_14 |= 0x7000;
+            part->flags |= 0x7000;
         }
         apply_monster_koyaw_data(entity_base->unk_1C, (u8 *)part + 0xC);
     } else {
@@ -178,7 +178,7 @@ void update_entity_facing_motion_and_ground(void *entity, R07_80170A28_S_80170A2
         } else {
             new_part_flags = part_flags | 0x7000;
         }
-        ((R07_80170A28_S_80170A28_0 *)part)->unk_14 = new_part_flags;
+        part->flags = new_part_flags;
     }
 
     motion->unk_00.at00.v += motion->unk_0C;
@@ -216,8 +216,8 @@ void update_entity_facing_motion_and_ground(void *entity, R07_80170A28_S_80170A2
             if (entity_flags & 0x40000000) {
                 entity_base->unk_1C = entity_flags & 0xBFFFFFFF;
                 ground_height = ((s16)sample_terrain_surface_height(
-                    (((R07_80170A28_S_80170A28_0 *)part)->unk_24 << 6) | 0x20,
-                    (((R07_80170A28_S_80170A28_0 *)part)->unk_25 << 6) | 0x20,
+                    (part->tile_x << 6) | 0x20,
+                    (part->tile_y << 6) | 0x20,
                     (s16)(entity_base->unk_88 - 0x20)));
                 (*(s16 *)((u8 *)entity + 0x92)) +=
                     entity_base->unk_88 - ground_height;
@@ -233,7 +233,7 @@ void update_entity_facing_motion_and_ground(void *entity, R07_80170A28_S_80170A2
     entity_base = (R07_80170A28_S_80170A28_1 *)((u8 *)entity_base + 0x88);
     motion->unk_0A =
         *(u16 *)entity_base + (*(u16 *)((u8 *)entity + 0x92));
-    ((R07_80170A28_S_80170A28_0 *)part)->unk_14 |= 0x40;
+    part->flags |= 0x40;
 
     return;
 }
@@ -634,9 +634,9 @@ void choose_grineut_move(ActorRecord *move_data, ObjectPosition *context, Sprite
                     s32 offset_index =
                         ((((u8 *)&actor_data->unk_44.whole)[1] + ((s16)target_facing >> 9)) & 7) << 1;
                     target_x = target_position->tile_position.parts.tile_x +
-                        *(u16 *)((u8 *)((s8 *)dir_step_x) + offset_index);
+                        (u16)dir_step_x[offset_index >> 1];
                     target_y = target_position->tile_position.parts.tile_y +
-                        *(u16 *)((u8 *)((s8 *)dir_step_y) + offset_index);
+                        (u16)dir_step_y[offset_index >> 1];
                 }
 
                 if (position_data->tile_x == (u16)target_x &&
@@ -1431,8 +1431,8 @@ void settle_directional_motion_at_tile(ActorRecord *body, ObjectPosition *motion
     switch (body->action_phase.u) {
     case 0:
         apply_clamped_actor_value_delta(entity);
-        motion->velocity_x = ((s16 *)((s8 *)dir_step_x))[direction] << 18;
-        motion->velocity_y = ((s16 *)((s8 *)dir_step_y))[direction] << 18;
+        motion->velocity_x = dir_step_x[direction] << 18;
+        motion->velocity_y = dir_step_y[direction] << 18;
         body->action_phase.u++;
 
         if (entity->hp == 0) {
@@ -1459,8 +1459,8 @@ void settle_directional_motion_at_tile(ActorRecord *body, ObjectPosition *motion
         motion->velocity_y -= motion->velocity_y / 4;
 
     case 1:
-        motion->velocity_x -= ((s16 *)((s8 *)dir_step_x))[direction] << 14;
-        motion->velocity_y -= ((s16 *)((s8 *)dir_step_y))[direction] << 14;
+        motion->velocity_x -= dir_step_x[direction] << 14;
+        motion->velocity_y -= dir_step_y[direction] << 14;
 
         if (body->action_timer.s > 0) {
             body->action_timer.s = body->action_timer.u - 1;
@@ -1487,8 +1487,8 @@ void settle_directional_motion_at_tile(ActorRecord *body, ObjectPosition *motion
         return;
 
     case 2:
-        motion->velocity_x -= ((s16 *)((s8 *)dir_step_x))[direction] << 14;
-        motion->velocity_y -= ((s16 *)((s8 *)dir_step_y))[direction] << 14;
+        motion->velocity_x -= dir_step_x[direction] << 14;
+        motion->velocity_y -= dir_step_y[direction] << 14;
         if (!(sprite->flags & 0x6000)) {
             return;
         }

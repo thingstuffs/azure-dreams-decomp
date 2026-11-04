@@ -86,4 +86,7 @@ void update_actor_target_effect_action(ActorRecord *body, ObjectPosition *contex
 
 void *spawn_manoeva_from_record(ActorRecord *body, ObjectPosition *unused1, SpriteFrameState *position, Rec_D_80082E80 *spawn_data);
 
+void func_80170EE4(ActorRecord *actor_state_in, ObjectPosition *update_context_in, SpriteFrameState *map_object, ActorRecord *actor_data);
+void update_terrain_scaled_actor_effect(struct ManoevaTerrainEffectBody *effect, MovingPosition *out_position, SpriteFrameState *out_render);
+
 #endif

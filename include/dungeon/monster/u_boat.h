@@ -64,4 +64,7 @@ void begin_actor_action(ActorRecord *state, ObjectPosition *world_pos, SpriteFra
 void begin_actor_exclusive_action(ActorRecord *entity, ObjectPosition *unused_1, SpriteFrameState *unused_sprite, s32 unused_3, s32 requested_mode);
 void prepare_actor_directional_action(ActorRecord *entity, ObjectPosition *action_param, SpriteFrameState *action_sprite, u8 *frame_table, s32 fallback_state);
 
+void advance_aura_actor_turn_path(ActorRecord *actor, ObjectPosition *actor_slot, SpriteFrameState *entity_arg, ActorRecord *state_arg);
+void complete_actor_action(ActorRecord *actor, ObjectPosition *unused_1, SpriteFrameState *unused_2, ActorRecord *entity);
+
 #endif

@@ -43,8 +43,6 @@ typedef struct S_80173D78_5 {
 
 extern u8 D_8017086C[];
 extern u8 D_80170898[];
-void func_80170EE4(ActorRecord *actor_state_in, ObjectPosition *update_context_in, SpriteFrameState *map_object, ActorRecord *actor_data);
-void transfer_linked_object_state(ActorRecord *owner, ObjectPosition *object_id, SpriteFrameState *dest_object, ActorRecord *dest_state);
 
 s32 register_node(ObjectNodeHeader *entry, void *registration_id);
 void unlink_entity_node();
@@ -112,8 +110,8 @@ void update_actor_target_effect_action(ActorRecord *body, ObjectPosition *contex
         }
 
         direction_offset = ((u16)actor->unk_2A >> 8) & 0xE;
-        target_x = sprite->tile_x + *(u16 *)(((s8 *)dir_step_x) + direction_offset);
-        target_y = sprite->tile_y + *(u16 *)(((s8 *)dir_step_y) + direction_offset);
+        target_x = sprite->tile_x + (u16)dir_step_x[direction_offset >> 1];
+        target_y = sprite->tile_y + (u16)dir_step_y[direction_offset >> 1];
         actor->unk_60.i = 0;
 
         if (body->unk_AC.byte == 0) {

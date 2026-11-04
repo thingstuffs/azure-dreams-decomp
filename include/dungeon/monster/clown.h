@@ -354,7 +354,7 @@ extern u8 D_801742D4[];
 extern u8 clown_image_load_done[];
 extern u8 clown_effect_load_done[];
 void *spawn_clown_actor(s16 spawn_flags, s32 attr_a, s32 attr_b, s32 attr_c);
-void update_entity_facing_and_ground(void *entity, struct ObjectPosition *motion, struct SpriteFrameState *sprite);
+void update_entity_facing_and_ground(void *entity, struct ObjectPosition *motion, SpriteFrameState *sprite);
 void update_actor_state_and_dispatch_transition(ActorRecord *actor, ObjectPosition *actor_context, SpriteFrameState *map_object, ActorRecord *creature);
 void advance_actor_path_step_and_update_counters(ActorRecord *motion_state, ObjectPosition *unused, SpriteFrameState *entity, ActorRecord *path_state);
 void choose_clown_move(ActorRecord *move_data, ObjectPosition *context, SpriteFrameState *position_data, ActorRecord *actor_data);

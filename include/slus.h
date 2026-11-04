@@ -90,7 +90,7 @@ void clear_resident_bitmap_bit_two(void);
 void set_glyph_style_index(void *record, int index);
 unsigned char *read_decimal_digit_value(unsigned char *text, int *digit);
 void format_reversed_decimal_space_padded(int value, unsigned short width, char *buf);
-void noop_release_notification(void);
+void noop_release_notification(s32 unused_value);
 void flag_optional_object_for_removal(void *object);
 void flag_optional_object_for_removal_b(void *object);
 void noop_display_setup_hook(void);

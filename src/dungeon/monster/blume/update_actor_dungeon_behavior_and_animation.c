@@ -10,6 +10,7 @@
 #include "dungeon.h"
 #include "dungeon/level.h"
 #include "dungeon/player/object.h"
+#include "dungeon/monster/hikewne.h"
 
 
 
@@ -20,7 +21,6 @@ extern void update_actor_status_and_mp(ActorRecord *entity);
 extern void func_80172384(void *, void *, void *, void *);
 extern s32 check_actor_transition_and_start_effect(ActorRecord *action_state, ObjectPosition *motion_param, SpriteFrameState *sprite_arg, ActorRecord *actor); /* Unprototyped: this consumer uses the return value, but the owner definition is void. */
 extern void start_directional_actor_effect(ActorRecord *action_state, ObjectPosition *action_context, void *sprite, ActorRecord *actor);
-extern s32 update_entity_state_from_query(void *, void *, void *, s32);
 extern void func_80174890(void *, void *, void *, void *);
 
 #include "dungeon/monster/blume.h"

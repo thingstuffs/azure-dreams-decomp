@@ -19,7 +19,7 @@ typedef struct Obj_800B45A0 {
     void **field54;
 } Obj_800B45A0;
 
-extern void noop_release_notification(void *ptr_a, void *ptr_b);
+extern void noop_release_notification(void *ptr_a); /* Unprototyped: uses the value as a pointer where the definition has an integer (or the reverse) */
 
 /* Advance the inner value and mark completion when it exceeds the object's threshold. */
 void advance_inner_value_and_complete(Obj_800B45A0 *obj)
@@ -40,7 +40,7 @@ void advance_inner_value_and_complete(Obj_800B45A0 *obj)
     inner->field8 = next_value;
 
     if (obj->field4 + 0x80 < obj->field3C->field8) {
-        noop_release_notification(*obj->field54, inner);
+        noop_release_notification(*obj->field54);
         flag_object_for_removal(obj->field8);
         flag_object_for_removal(obj->fieldC);
         *(u16 *)((u8 *)obj - 2) |= NODE_REMOVE;

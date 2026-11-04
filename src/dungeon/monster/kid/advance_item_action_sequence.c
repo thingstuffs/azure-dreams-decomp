@@ -54,8 +54,8 @@ void advance_item_action_sequence(ActorRecord *action, ObjectPosition *motion, S
 
         owner = action->unk_A4.address;
         owner_flags = (S_80172D74_5 *)((u8 *)owner + 0x20);
-        step_x = *(s16 *)(((s8 *)dir_step_x) + direction_index);
-        step_z = *(s16 *)(((s8 *)dir_step_y) + direction_index);
+        step_x = dir_step_x[direction_index >> 1];
+        step_z = dir_step_y[direction_index >> 1];
         owner_sprite = (u8 *)owner + 0x28;
     }
     action->action_timer.u--;

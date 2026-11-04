@@ -75,10 +75,8 @@ void update_player_push(ActorRecord *actor, void *motion, SpriteFrameState *spri
         actor->unk_8C.run = handle_player_input;
         return;
     case 16:
-        ((S_80092018_3 *)motion)->unk_0C.at02.v = (s16) (*((s16 *)(((u8 *)dir_step_x)
-            + (((u16) model->facing >> 8) & 0xE))) * 8);
-        ((S_80092018_3 *)motion)->unk_10.at02.v = (s16) (*((s16 *)(((u8 *)dir_step_y)
-            + (((u16) model->facing >> 8) & 0xE))) * 8);
+        ((S_80092018_3 *)motion)->unk_0C.at02.v = (s16) (dir_step_x[((u16) model->facing >> 9) & 7] * 8);
+        ((S_80092018_3 *)motion)->unk_10.at02.v = (s16) (dir_step_y[((u16) model->facing >> 9) & 7] * 8);
         start_frames_left = actor->action_timer.u - 1;
         actor->action_timer.u = start_frames_left;
         if ((start_frames_left << 0x10) > 0) {
@@ -108,8 +106,7 @@ void update_player_push(ActorRecord *actor, void *motion, SpriteFrameState *spri
                 s32 delta;
                 s32 direction_offset;
                 delta = sprite->tile_x << 6;
-                direction_offset = *((s16 *)(((u8 *)dir_step_x) + (((u16) model->facing
-                    >> 8) & 0xE))) * 0x10;
+                direction_offset = dir_step_x[((u16) model->facing >> 9) & 7] * 0x10;
                 direction_offset += 0x20;
                 delta += direction_offset;
                 delta -= heading_or_coord;
@@ -121,8 +118,7 @@ void update_player_push(ActorRecord *actor, void *motion, SpriteFrameState *spri
                 s32 delta;
                 s32 direction_offset;
                 delta = sprite->tile_y << 6;
-                direction_offset = *((s16 *)(((u8 *)dir_step_y) + (((u16) model->facing
-                    >> 8) & 0xE))) * 0x10;
+                direction_offset = dir_step_y[((u16) model->facing >> 9) & 7] * 0x10;
                 direction_offset += 0x20;
                 delta += direction_offset;
                 delta -= heading_or_coord;

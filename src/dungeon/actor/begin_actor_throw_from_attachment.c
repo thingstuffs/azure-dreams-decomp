@@ -93,8 +93,8 @@ void begin_actor_throw_from_attachment(Rec_func_800A9E70_arg0 *state, ObjectPosi
         target_offset >>= 8;
         target_offset &= 0xE;
         target_height = sample_terrain_surface_height(
-            ((tile->tile_x + (*(s16 *)((u8 *)(((s8 *)dir_step_x)) + target_offset)) * travel_steps) << 6) + 0x20 & 0xFFE0,
-            ((tile->tile_y + (*(s16 *)((u8 *)(((s8 *)dir_step_y)) + target_offset)) * travel_steps) << 6) + 0x20 & 0xFFE0,
+            ((tile->tile_x + dir_step_x[target_offset >> 1] * travel_steps) << 6) + 0x20 & 0xFFE0,
+            ((tile->tile_y + dir_step_y[target_offset >> 1] * travel_steps) << 6) + 0x20 & 0xFFE0,
             motion->z.w.i);
         travel_duration = entity->unk_8A + 2;
         entity->unk_8A = travel_duration;

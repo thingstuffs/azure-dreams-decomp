@@ -33,7 +33,7 @@ void update_dependent_entry_ids(s16 checked_id, s16 first_id, s16 second_id);
 void set_current_entry_script_flag(void);
 
 void clear_indexed_flag_unless_identifier(s32 flag_id);
-s32 *get_flag_test_table_address(void);
+s32 *get_flag_test_table_address(void *unused_table_a, void *unused_table_b, s32 unused_value, s32 unused_line);
 void set_flag_test_indexed_bit(s32 bit_index);
 
 struct S_80016818_0;

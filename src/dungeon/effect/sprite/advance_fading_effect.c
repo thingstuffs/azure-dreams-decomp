@@ -63,7 +63,7 @@ void advance_fading_effect(ovl_188298c_8186298C_Arg0Ent *state, void *unused, ov
 void spawn_jittered_type_212_effect(s32 owner, void *source)
 {
     s32 roll;
-    void *render;
+    SpriteFrameState *render;
     int white;
     ObjectNodeHeader *obj;
     obj = allocate_flagged_object_node(0x212);
@@ -73,22 +73,22 @@ void spawn_jittered_type_212_effect(s32 owner, void *source)
         render = obj->sprite;
         *((((s8 *) obj) + 0x24)) = 0;
         white = 0x80;
-        *((((s8 *) render) + 0xE)) = white;
-        *((((s8 *) render) + 0xD)) = white;
-        *((((s8 *) render) + 0xC)) = white;
+        render->color.c.b = white;
+        render->color.c.g = white;
+        render->color.c.r = white;
         select_record_entry_and_value(render, rising_sprite_entries, 0);
-        *((s16 *) (((s8 *) render) + 0x1E)) = 0x1000;
-        *((s16 *) (((s8 *) render) + 0x1C)) = 0x1000;
-        *((s16 *) (((s8 *) render) + 0x12)) = 0x7E0B;
-        *((u16 *) (((s8 *) render) + 0x10)) = (u16) ((*((u16 *) (((s8 *) render) + 0x10))) | 0x60);
-        *((u16 *) (((s8 *) render) + 0x14)) = (u16) ((*((u16 *) (((s8 *) render) + 0x14))) | 0x10C);
+        render->scale_y = 0x1000;
+        render->scale_x = 0x1000;
+        render->clut = 0x7E0B;
+        render->tpage_abr = (u16) (render->tpage_abr | 0x60);
+        render->flags = (u16) (render->flags | 0x10C);
         register_node(obj, project_sprite_chain);
-        render = obj->position;
+        render = (SpriteFrameState *)obj->position;
         rand();
-        *((u16 *) (((s8 *) render) + 2)) = (u16) (*((u16 *) (((s8 *) source) + 2)));
-        *((u16 *) (((s8 *) render) + 6)) = (u16) (*((u16 *) (((s8 *) source) + 6)));
+        ((ObjectPosition *)render)->x.unsigned_parts.integer = ((ObjectPosition *)source)->x.unsigned_parts.integer;
+        ((ObjectPosition *)render)->y.unsigned_parts.integer = ((ObjectPosition *)source)->y.unsigned_parts.integer;
         roll = rand();
-        *((s16 *) (((s8 *) render) + 0xA)) = (s16) (((*((u16 *) (((s8 *) source) + 0xA))) - 0x40) - (roll % 16));
+        ((ObjectPosition *)render)->z.w.i = (s16) ((((ObjectPosition *)source)->z.unsigned_parts.integer - 0x40) - (roll % 16));
     }
 }
 

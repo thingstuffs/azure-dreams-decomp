@@ -37,16 +37,7 @@ extern Pair16 glacier_direction_offsets[];
 
 
 
-typedef struct S_801757E0_3 {
-    u8 pad_00[0x1E];
-    s16 unk_1E;
-    u8 pad_20[0x30];
-    union { s32 n; s32 v; } unk_50;   /* accessed as both */
-    union { s32 n; s32 v; } unk_54;   /* accessed as both */
-    s32 unk_58;
-    u8 pad_5C[0x8];
-    s32 unk_64;
-} S_801757E0_3;   /* work in update_action_and_check_forward_tile */
+   /* work in update_action_and_check_forward_tile */
 
    /* transform in update_action_and_check_forward_tile */
 
@@ -64,7 +55,7 @@ void update_action_and_check_forward_tile(ActorRecord *actor, ObjectPosition *mo
     s32 target_x;
     s32 target_y;
     ObjectNodeHeader *particle;
-    void *particle_work;
+    CollidingSpriteParticleBody *particle_work;
     SpriteFrameState *sprite;
     ObjectPosition *particle_transform;
     SpriteFrameState *owner;
@@ -95,9 +86,8 @@ void update_action_and_check_forward_tile(ActorRecord *actor, ObjectPosition *mo
             particle = allocate_flagged_object_node(0x212);
             if (particle != 0) {
 
-                particle_work = particle;
-                particle_work += 0x20;
-                ((ObjectNodeHeader *)particle_work)->flags = 0x28;
+                particle_work = NODE_BODY(particle);
+                particle_work->remaining.u = 0x28;
                 particle->update_callback = D_80170B48;
                 register_node(particle, project_sprite_chain);
 
@@ -121,12 +111,12 @@ void update_action_and_check_forward_tile(ActorRecord *actor, ObjectPosition *mo
                 y = (rand() & 0x1F) - 0x10;
                 particle_transform->x.w.i = (u16)particle_transform->x.w.i + (x);
                 particle_transform->y.w.i = (u16)particle_transform->y.w.i + (y);
-                ((S_801757E0_3 *)particle_work)->unk_50.n = x << 12;
-                ((S_801757E0_3 *)particle_work)->unk_54.n = y << 12;
-                ((S_801757E0_3 *)particle_work)->unk_50.n += glacier_direction_offsets[(((u16)entity->facing) >> 9) & 7].x << 16;
-                ((S_801757E0_3 *)particle_work)->unk_54.n += glacier_direction_offsets[(((u16)entity->facing) >> 9) & 7].y << 16;
-                ((S_801757E0_3 *)particle_work)->unk_58 = -(rand() + 0x50000);
-                ((S_801757E0_3 *)particle_work)->unk_64 = 0x6000;
+                particle_work->velocity_x = x << 12;
+                particle_work->velocity_y = y << 12;
+                particle_work->velocity_x += glacier_direction_offsets[(((u16)entity->facing) >> 9) & 7].x << 16;
+                particle_work->velocity_y += glacier_direction_offsets[(((u16)entity->facing) >> 9) & 7].y << 16;
+                particle_work->velocity_z = -(rand() + 0x50000);
+                particle_work->acceleration_z = 0x6000;
 
                 sprite = particle->sprite;
                 sprite->scale_x = 0x800;

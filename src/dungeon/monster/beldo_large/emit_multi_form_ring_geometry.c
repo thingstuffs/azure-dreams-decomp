@@ -4,6 +4,7 @@
 #include "engine/node.h"
 #include "dungeon/monster/beldo_large.h"
 #include "dungeon/system.h"
+#include "sdk/memory.h"
 
 /* Sparse views for fields not covered by the existing record types. */
 typedef struct { u16 flags; } AnimationFieldView_813374E8Prefix;
@@ -55,8 +56,6 @@ typedef struct S_8016E4E8_6 {
 typedef struct {
     u8 bytes[12];
 } Data12;
-
-extern void *memcpy(void *, const void *, u32);
 
 extern u8 D_8016E450[];
 extern u8 D_8016E4A4[];

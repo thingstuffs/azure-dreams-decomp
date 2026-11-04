@@ -27,7 +27,7 @@ extern void select_sprite_entry(void *, s32, s32);
 extern u8 garuda_frame_set_3[];
 
 /* Starts the selected actor action, waits for completion, and resets its state. */
-void update_jump_motion_2(void *action_state, ObjectPosition *motion, SpriteFrameState *sprite, ActorRecord *actor)
+void update_jump_motion_2(ActorRecord *action_state, ObjectPosition *motion, SpriteFrameState *sprite, ActorRecord *actor)
 {
     u8 *action_data;
     s32 phase;
@@ -37,7 +37,7 @@ void update_jump_motion_2(void *action_state, ObjectPosition *motion, SpriteFram
     s32 y;
     u16 position[3];
 
-    phase = ((ActorRecord *)action_state)->action_phase.u;
+    phase = action_state->action_phase.u;
     is_special = 0;
     switch (phase) {
     case 0:
@@ -79,9 +79,9 @@ void update_jump_motion_2(void *action_state, ObjectPosition *motion, SpriteFram
             }
         }
         if (*action_data != 0) {
-            x = ((ActorRecord *)action_state)->action_state_flags;
+            x = action_state->action_state_flags;
             x &= 0xFF7F;
-            ((ActorRecord *)action_state)->action_state_flags = x;
+            action_state->action_state_flags = x;
             x = is_special;
             if (x != 0) {
                 target = primary_actor_record;
@@ -120,7 +120,7 @@ void update_jump_motion_2(void *action_state, ObjectPosition *motion, SpriteFram
             sprite->flags &= 0xF7FF;
             create_two_row_object_group(position, (s16)(((s32)*action_data - 1) % 3));
             play_sound_if_enabled(0x703);
-            ((ActorRecord *)action_state)->action_phase.u++;
+            action_state->action_phase.u++;
             return;
         }
 
@@ -132,7 +132,7 @@ void update_jump_motion_2(void *action_state, ObjectPosition *motion, SpriteFram
         primary_actor_record->unk_A4.halves.high.u--;
         advance_status_timers(actor);
         (*(u8 *)&actor->pending_turn_updates)--;
-        ((ActorRecord *)action_state)->unk_8C.address = update_creature_animation_action;
+        action_state->unk_8C.address = update_creature_animation_action;
         actor->target_tile_y = 0;
         actor->target_tile_x = 0;
         actor->action_flags &= ACTOR_ACTION_CLEAR_PENDING_MASK;
@@ -144,7 +144,7 @@ void update_jump_motion_2(void *action_state, ObjectPosition *motion, SpriteFram
             return;
         }
         sprite->flags &= 0xF7FF;
-        ((ActorRecord *)action_state)->action_phase.u++;
+        action_state->action_phase.u++;
 
     case 2:
         if (!((sprite->unk_04 == 3) &&
@@ -152,7 +152,7 @@ void update_jump_motion_2(void *action_state, ObjectPosition *motion, SpriteFram
             !(sprite->flags & 0xE000)) {
             return;
         }
-        ((ActorRecord *)action_state)->action_state_flags |= 0x80;
+        action_state->action_state_flags |= 0x80;
         if (!(sprite->flags & 0xE000)) {
             return;
         }
@@ -175,7 +175,7 @@ void update_jump_motion_2(void *action_state, ObjectPosition *motion, SpriteFram
             g_dungeon_status.activity_counts.parts.pending_action_count--;
         }
         sprite->flags &= 0xF7FF;
-        ((ActorRecord *)action_state)->unk_8C.address = update_creature_animation_action;
+        action_state->unk_8C.address = update_creature_animation_action;
         advance_status_timers(actor);
         if (actor->pending_turn_updates > 0) {
             (*(u8 *)&actor->pending_turn_updates)--;

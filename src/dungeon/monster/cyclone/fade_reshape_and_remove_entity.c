@@ -11,7 +11,6 @@
 #include "dungeon/player/object.h"
 #include "dungeon/system.h"
 
-extern void * detach_record_and_update_slot_state(void *);
 void update_map_cell_flags_with_item_limit(s32 x, s32 y, u16 flags);
 extern void unlink_entity_node(void *);
 

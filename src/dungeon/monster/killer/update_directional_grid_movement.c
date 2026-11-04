@@ -24,11 +24,9 @@ void update_directional_grid_movement(ActorRecord *action, ObjectPosition *motio
     case 0:
         apply_clamped_actor_value_delta(source);
         motion->velocity_x =
-            -*(s16 *)((u8 *)((s8 *)dir_step_x) +
-                      ((source->movement_facing >> 8) & 0xE)) << 15;
+            -dir_step_x[(source->movement_facing >> 9) & 7] << 15;
         motion->velocity_y =
-            -*(s16 *)((u8 *)((s8 *)dir_step_y) +
-                      ((source->movement_facing >> 8) & 0xE)) << 15;
+            -dir_step_y[(source->movement_facing >> 9) & 7] << 15;
         action->action_phase.u++;
 
         if (source->hp == 0) {
@@ -55,8 +53,7 @@ void update_directional_grid_movement(ActorRecord *action, ObjectPosition *motio
 
     case 1:
         motion->velocity_x +=
-            *(s16 *)((u8 *)((s8 *)dir_step_x) +
-                     ((source->movement_facing >> 8) & 0xE)) << 14;
+            dir_step_x[(source->movement_facing >> 9) & 7] << 14;
         {
             s16 table_offset;
             u8 *y_table;

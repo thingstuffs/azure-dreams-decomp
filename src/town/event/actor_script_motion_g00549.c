@@ -8,6 +8,7 @@
 #include "town/event.h"
 #include "town/event/motion_callbacks_api.h"
 #include "town/event/state.h"
+#include "town/event/motion.h"
 
 /* Dispatches town object actions for the active script and owner state. */
 s32 dispatch_active_town_object_script(TownObject *object, void *owner_arg, void *context, void *extra_ptr) {

@@ -15,45 +15,23 @@ typedef struct {
     u16 z;
 } SourcePosition;
 
-typedef struct {
-    u8 index;
-    u8 group;
-    u8 param;
-    u8 flags;
-} DungeonArg;
 
 typedef struct {
     u8 pad0[0x2A];
     u16 mode;
     u8 pad2C[0x1C];
-    DungeonArg arg;
+    BarongItemDescriptor arg;
 } DungeonObjectArg;
 
 
 
 
 
-typedef struct {
-    u8 pad0[0x24];
-    u16 mode;
-    u8 pad26[6];
-    DungeonArg arg;
-    u8 pad30[4];
-    void *owner;
-    u8 pad38[0x18];
-    s8 x_cell;
-    s8 y_cell;
-    u8 pad52[2];
-    s32 x;
-    s32 y;
-    s32 z;
-    u8 pad60[8];
-    s32 scale;
-} EntityWork;
+
 
 typedef struct {
     ObjectNodeHeader header;
-    EntityWork work;
+    TossedItemMotionBody work;
 } Entity;
 
 typedef struct {
@@ -73,7 +51,7 @@ typedef struct {
     s16 y;
 } DirectionVector;
 
-extern s32 select_random_replacement_item(DungeonArg *selection, u8 *context);
+extern s32 select_random_replacement_item(BarongItemDescriptor *selection, u8 *context);
 
 extern DungeonGroup item_category_groups[];
 extern s32 item_display_icon_words[256];
@@ -85,7 +63,7 @@ void create_randomized_item_object(ActorRecord *owner, ObjectPosition *source_po
                    DungeonObjectArg *object)
 {
     Entity *entity;
-    EntityWork *work;
+    TossedItemMotionBody *work;
     SpriteFrameState *render;
     ObjectPosition *position;
     DungeonGroup *item_category_table;
@@ -115,11 +93,11 @@ void create_randomized_item_object(ActorRecord *owner, ObjectPosition *source_po
     position->y.w.i = source_pos->y.w.i;
     position->z.w.i = source_pos->z.w.i - 0x20;
 
-    work->x = barong_direction_vectors[(object->mode >> 9) & 7].x << 18;
-    work->y = barong_direction_vectors[(object->mode >> 9) & 7].y << 18;
-    work->z = 0xFFF80000;
-    work->scale = 0x14900;
-    work->mode = (object->mode >> 9) & 7;
+    work->velocity_x = barong_direction_vectors[(object->mode >> 9) & 7].x << 18;
+    work->velocity_y = barong_direction_vectors[(object->mode >> 9) & 7].y << 18;
+    work->velocity_z = 0xFFF80000;
+    work->acceleration_z = 0x14900;
+    work->direction.u = (object->mode >> 9) & 7;
 
     render = entity->header.sprite;
     render->scale_y = 0x1000;
@@ -127,8 +105,8 @@ void create_randomized_item_object(ActorRecord *owner, ObjectPosition *source_po
     render->depth_bias = barong_direction_vectors[(object->mode >> 9) & 7].y * 6;
 
     owner->unk_A0.parts.high = 0x4D;
-    work->x_cell = (s16)source_pos->x.w.i / 0x40;
-    work->y_cell = (s16)source_pos->y.w.i / 0x40;
+    work->cell_x.s = (s16)source_pos->x.w.i / 0x40;
+    work->cell_y.s = (s16)source_pos->y.w.i / 0x40;
 
     results = item_display_icon_words;
     item_category_table = item_category_groups;

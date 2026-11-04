@@ -37,8 +37,8 @@ void begin_player_push(Rec_func_8008ACDC_arg0 *action, s32 context, SpriteFrameS
     s32 next_x;
     s32 next_y;
     void *target;
-    u16 *x_step;
-    u16 *y_step;
+    s16 *x_step;
+    s16 *y_step;
 
     sprite->frameTable = player_push_frames;
     state = move_state;
@@ -48,10 +48,10 @@ void begin_player_push(Rec_func_8008ACDC_arg0 *action, s32 context, SpriteFrameS
 
     if ((s16)state != -2) {
         direction_offset = ((actor->unk_2A.s >> 8) & 0xE);
-        x_step = (u16 *)((u8 *)dir_step_x + direction_offset);
-        next_x = sprite->tile_x + *x_step;
-        y_step = (u16 *)((u8 *)dir_step_y + direction_offset);
-        next_y = sprite->tile_y + *y_step;
+        x_step = &dir_step_x[direction_offset >> 1];
+        next_x = sprite->tile_x + (u16)*x_step;
+        y_step = &dir_step_y[direction_offset >> 1];
+        next_y = sprite->tile_y + (u16)*y_step;
         target = find_eligible_actor_at_tile_and_height(actor, next_x & 0xFFFF, next_y & 0xFFFF,
                                actor->unk_88);
         if (target != 0) {

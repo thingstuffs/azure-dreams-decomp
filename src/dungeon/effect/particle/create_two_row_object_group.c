@@ -28,13 +28,13 @@ void create_two_row_object_group(void *payload, s16 value_scale) {
         for (column = 7; column >= 0; column--) {
             ObjectNodeHeader *object = allocate_flagged_object_node(2);
             if (object != 0) {
-                u8 *data = NODE_BODY(object);
+                TwoRowObjectGroupBody *data = NODE_BODY(object);
                 *(s16 *)(NODE_BODY(object)) = 0;
-                *(s16 *)(data + 2) = 0x20;
-                *(s16 *)(data + 8) = row;
-                *(s16 *)(data + 0xA) = (column << 9) + (row == 0 ? 0x100 : 0);
+                data->unk_02.s = 0x20;
+                data->unk_08 = row;
+                data->unk_0A.u = (column << 9) + (row == 0 ? 0x100 : 0);
                 *(Copy8 *)(((u8 *)object) + 0x40) = *(Copy8 *)payload;
-                *(s16 *)(data + 6) = GetClut(value_scale << 4, 0x1F8);
+                data->unk_06 = GetClut(value_scale << 4, 0x1F8);
                 object->update_callback = update_rotating_effect_vertices;
                 register_node(object, draw_linked_textured_quads);
             }

@@ -61,7 +61,7 @@ void render_rotated_effect_quads(void *screen_pos, void *effect, s32 *ordering_t
     void *frame;
     void *row_effect;
     u8 *frame_data;
-    void *sprite;
+    SpriteFrameState *sprite;
     void *setup_arg;
     u8 *context_addr;
     s32 packet_low;
@@ -70,7 +70,7 @@ void render_rotated_effect_quads(void *screen_pos, void *effect, s32 *ordering_t
     callback_arg = *((s32 *) (((s8 *) effect) + (-0x18)));
     render_context = g_game_work.draw_buffer;
     render_state = (u8 *)&g_game_work;
-    frame = *((void **) (((s8 *) sprite) + 8));
+    frame = sprite->source;
     scratch = (ScratchPad *)0x1F800000;
     scratch->sw[59] = 0;
     scratch->h[70] = 0;
@@ -106,26 +106,26 @@ void render_rotated_effect_quads(void *screen_pos, void *effect, s32 *ordering_t
     scratch->sw[12] = view_axis_x;
     scratch->sw[13] = view_axis_y;
     scratch->sw[14] = view_axis_z;
-    scratch->h[128] = (u16) (*((u16 *) (((s8 *) sprite) + 0x16)));
-    scratch->h[130] = (s16) ((*((u16 *) (((s8 *) sprite) + 0x1A))) - (scratch->h[26]));
-    base_rotation = *((u16 *) (((s8 *) sprite) + 0x18));
+    scratch->h[128] = (u16) (sprite->angle_x);
+    scratch->h[130] = (s16) ((sprite->angle_z) - (scratch->h[26]));
+    base_rotation = sprite->angle_y;
     scratch->h[129] = (s16) (((((scratch->h[28]) + 0x100) & 0x1FF) - 0x100)
         + base_rotation);
-    pivot_x = *((u16 *) (((s8 *) sprite) + 0x20));
+    pivot_x = sprite->offset_x;
     scratch->sw[57] = pivot_x;
     scratch->h[132] = pivot_x;
-    pivot_y = *((u16 *) (((s8 *) sprite) + 0x22));
+    pivot_y = sprite->offset_y;
     scratch->sw[58] = pivot_y;
     scratch->h[133] = pivot_y;
     RotMatrix(&scratch->b[0x100], &scratch->b[0xD0]);
-    scratch->sw[12] = (s32) (*((u16 *) (((s8 *) sprite) + 0x1C)));
-    scratch->sw[13] = (s32) (*((u16 *) (((s8 *) sprite) + 0x1E)));
+    scratch->sw[12] = (s32) (sprite->scale_x);
+    scratch->sw[13] = (s32) (sprite->scale_y);
     scratch->sw[14] = 0x1000;
     ScaleMatrix(&scratch->b[0xD0], &scratch->b[0x30]);
     CompMatrix(view_matrix, &scratch->b[0xD0], &scratch->b[0x50]);
     SetTransMatrix(&scratch->b[0x50]);
     SetRotMatrix(&scratch->b[0x50]);
-    scratch->h[18] = (u16) (*((u16 *) (((s8 *) sprite) + 0x14)));
+    scratch->h[18] = (u16) (sprite->flags);
     do {
     frame_data = frame + 8;
     if (!((*((u8 *) (((s8 *) frame) + 0))) & 0x20)) {
@@ -202,7 +202,7 @@ void render_rotated_effect_quads(void *screen_pos, void *effect, s32 *ordering_t
         }
         scratch->sw[5] <<= 8;
         scratch->sw[3] <<= 8;
-        clut_offset = *((u16 *) (((s8 *) sprite) + 0x12));
+        clut_offset = sprite->clut;
         if (clut_offset != 0) {
             if ((scratch->h[18]) & 0x100) {
                 *((u16 *) (((s8 *) packet) + 0xE)) = (u16) clut_offset;
@@ -220,7 +220,7 @@ void render_rotated_effect_quads(void *screen_pos, void *effect, s32 *ordering_t
             + ((u16) (scratch->h[8])));
         ;
         ;
-        tpage_offset = *((u16 *) (((s8 *) sprite) + 0x10));
+        tpage_offset = sprite->tpage_abr;
         if (tpage_offset != 0) {
             *((u16 *) (((s8 *) packet) + 0x16)) = (u16) (tpage_offset + ((*((u16 *) (((s8 *) frame_data)
                 + (-4)))) & 0xFF9F));
@@ -245,17 +245,17 @@ void render_rotated_effect_quads(void *screen_pos, void *effect, s32 *ordering_t
             *((u8 *) (((s8 *) packet) + 0x1D)) = draw_flags;
         }
         prim_code = *((u8 *) (((s8 *) frame_data) + (-7)));
-        *((u8 *) (((s8 *) sprite) + 0xF)) = prim_code;
+        sprite->color.c.code = prim_code;
         draw_flags = scratch->h[18];
         if (draw_flags & 8) {
             if (draw_flags & 4) {
-                *((u8 *) (((s8 *) sprite) + 0xF)) = prim_code | 2;
+                sprite->color.c.code = prim_code | 2;
             }
             else {
-                *((u8 *) (((s8 *) sprite) + 0xF)) = prim_code & 0xFD;
+                sprite->color.c.code = prim_code & 0xFD;
             }
         }
-        *((s32 *) (((s8 *) packet) + 4)) = (s32) (*((s32 *) (((s8 *) sprite) + 0xC)));
+        *((s32 *) (((s8 *) packet) + 4)) = (s32) (sprite->color.word);
         *((Blk40 *) quad_copies) = *((Blk40 *) packet);
         {
             Blk16 *copy_dst = (Blk16 *) (&quad_copies[10]);

@@ -25,11 +25,9 @@ void slow_and_align_motion(ActorRecord *motion_state, ObjectPosition *motion, Sp
     case 0:
         apply_clamped_actor_value_delta(entity);
         motion->velocity_x =
-            *(s16 *)((u8 *)((s8 *)dir_step_x) +
-                ((entity->movement_facing >> 8) & 0xE)) << 19;
+            dir_step_x[(entity->movement_facing >> 9) & 7] << 19;
         motion->velocity_y =
-            *(s16 *)((u8 *)((s8 *)dir_step_y) +
-                ((entity->movement_facing >> 8) & 0xE)) << 19;
+            dir_step_y[(entity->movement_facing >> 9) & 7] << 19;
         motion_state->action_phase.u++;
 
         if (entity->hp == 0) {

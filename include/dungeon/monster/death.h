@@ -5,6 +5,34 @@
 #include "common.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/entity.h"
+/* Body of the 0x211 node created by create_parent_return_effect. */
+typedef struct ParentReturnEffectBody {
+    union {
+        s32 packed;
+        struct { u8 red, green, blue, unk_03; } channels;
+    } base_color;
+    union {
+        s32 packed;
+        struct { s8 red, green, blue; u8 unk_07; } channels;
+    } color;
+    s32 output_color;
+    u8 unk_0C[0x8];
+    s16 unk_14;
+    u8 unk_16[0x1C];
+    s16 fade_level;
+    u8 unk_34[0x2];
+    union { s16 s; u16 u; } target_x;
+    union { s16 s; u16 u; } target_y;
+    u16 target_z;
+    u8 unk_3C[0x4];
+    s32 velocity_x;
+    s32 velocity_y;
+    s32 velocity_z;
+    s32 acceleration_x;
+    s32 acceleration_y;
+    s32 acceleration_z;
+} ParentReturnEffectBody;
+
 void update_entity_movement_animation_and_ground(ActorRecord *body, ObjectPosition *motion, SpriteFrameState *sprite);
 
 
@@ -14,7 +42,7 @@ void update_entity_movement_animation_and_ground(ActorRecord *body, ObjectPositi
 
 
 
-void advance_effect_toward_target(void *effect, ObjectPosition *position);
+void advance_effect_toward_target(ParentReturnEffectBody *effect, ObjectPosition *position);
 void finish_staged_jump_at_tile_center(ActorRecord *action, ObjectPosition *motion, SpriteFrameState *sprite, ActorRecord *actor);
 
 

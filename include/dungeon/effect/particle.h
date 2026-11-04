@@ -265,4 +265,8 @@ typedef struct LayeredSpritePulseBody {
 void clear_circular_list_flags(void);
 void process_entries_at_coordinates(void *list_head, s32 x, s32 y, s16 upper_bound, s16 lower_bound);
 
+#include "records/Rec_func_80167A98_arg0.h"
+#include "records/Rec_func_80167A98_arg1.h"
+void create_ribbon_head_sprite(Rec_func_80167A98_arg0 *source, Rec_func_80167A98_arg1 *origin, void *unused_color);
+
 #endif

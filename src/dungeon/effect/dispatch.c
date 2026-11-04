@@ -590,7 +590,6 @@ extern u8 D_800E0BA1[];
 
 void initialize_timed_motion_step(u16 countdown, u32 amount);
 s32 get_entity_class();
-void snapshot_inventory_and_familiars(void *input_state);
 struct EntityLinkNode;
 void unlink_entity_node(struct EntityLinkNode *node);
 void update_map_cell_flags_with_item_limit(s32 x, s32 y, u16 flags);

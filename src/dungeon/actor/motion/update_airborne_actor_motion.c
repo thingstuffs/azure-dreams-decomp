@@ -57,8 +57,8 @@ void update_airborne_actor_motion(ActorRecord *body, ObjectPosition *motion, Spr
         select_record_entry_and_value(sprite, *(void **)(actor_alternate_frames + (((s32) (g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100)
             >> 7) & 0x1C)), 0);
         dir_offset = ((u16) actor->facing >> 8) & 0xE;
-        motion->velocity_x = (s32) (*(s16 *)((u8 *)dir_step_x + dir_offset) << 0x11);
-        dir_y = *(s16 *)((u8 *)dir_step_y + dir_offset);
+        motion->velocity_x = (s32) (dir_step_x[dir_offset >> 1] << 0x11);
+        dir_y = dir_step_y[dir_offset >> 1];
         motion->velocity_z = 0xFFEBC000;
         motion->velocity_y = (s32) (dir_y << 0x11);
         body->action_timer.u = 3U;

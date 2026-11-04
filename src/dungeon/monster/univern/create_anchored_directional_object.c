@@ -748,9 +748,9 @@ void choose_univern_move(ActorRecord *move_data, ObjectPosition *context, Sprite
                     s32 offset_index =
                         ((((u8 *)&actor_data->unk_44.whole)[1] + ((s16)target_facing >> 9)) & 7) << 1;
                     target_x = target_position->tile_position.parts.tile_x +
-                        *(u16 *)((u8 *)((s8 *)dir_step_x) + offset_index);
+                        (u16)dir_step_x[offset_index >> 1];
                     target_y = target_position->tile_position.parts.tile_y +
-                        *(u16 *)((u8 *)((s8 *)dir_step_y) + offset_index);
+                        (u16)dir_step_y[offset_index >> 1];
                 }
 
                 if (position_data->tile_x == (u16)target_x &&
@@ -1450,8 +1450,8 @@ void advance_univern_flight(ActorRecord *body, ObjectPosition *motion, SpriteFra
             return;
         }
 
-        motion->velocity_x = ((s16 *)((s8 *)dir_step_x))[direction] << 18;
-        motion->velocity_y = ((s16 *)((s8 *)dir_step_y))[direction] << 18;
+        motion->velocity_x = dir_step_x[direction] << 18;
+        motion->velocity_y = dir_step_y[direction] << 18;
         motion->velocity_z = 0x40000;
         body->action_state_flags |= 8;
         actor->flags1C &= ACTOR_GROUNDED_CLEAR_MASK;
@@ -1476,8 +1476,8 @@ void advance_univern_flight(ActorRecord *body, ObjectPosition *motion, SpriteFra
         return;
 
     case 1:
-        motion->velocity_x -= ((s16 *)((s8 *)dir_step_x))[direction] << 14;
-        motion->velocity_y -= ((s16 *)((s8 *)dir_step_y))[direction] << 14;
+        motion->velocity_x -= dir_step_x[direction] << 14;
+        motion->velocity_y -= dir_step_y[direction] << 14;
 
         if (body->action_timer.s > 0) {
             body->action_timer.u--;

@@ -21,7 +21,7 @@ void update_opposing_scale_effect(TownObjectRecord *state, s32 unused_1, SpriteF
     if ((s16) ticks_left <= 0) {
         scale->scale_y = 0x1000;
         scale->scale_x = 0x1000;
-        initialize_randomized_scale_timer(state);
+        initialize_randomized_scale_timer(state, unused_1, scale);
         return;
     }
     scale_wave = rsin((s16) ticks_left * 0xBA);

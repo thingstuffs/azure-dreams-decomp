@@ -7,6 +7,7 @@
 #include "shared/dir_step.h"
 #include "dungeon/system.h"
 #include "dungeon/level.h"
+#include "dungeon/effect/sprite.h"
 
 typedef union Fixed32 {
     s32 val;
@@ -82,7 +83,6 @@ typedef union WideProduct {
 } WideProduct;
 
 extern s32 check_layer_offset_height();
-extern void draw_animated_shaded_lines(); /* Unprototyped: retail call passes more arguments than the callee reads */
 extern Child *create_expanding_spiral_effect();
 extern void func_80024060();
 extern void advance_expanding_spiral(void);

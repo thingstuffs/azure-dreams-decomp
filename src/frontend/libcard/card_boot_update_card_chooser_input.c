@@ -10,7 +10,6 @@
 
 extern u8 scene_mode_code;
 
-extern void card_boot_select_channel_mode(s32 mode_enabled); /* Unprototyped: retail call passes a different argument count */
 extern s32 *card_boot_debounce_card_presence(void);
 #include "modules/main_server_ship_interfaces.h"
 #include "frontend/libcard/interfaces.h"
@@ -19,6 +18,8 @@ extern s32 *card_boot_debounce_card_presence(void);
 #include "frontend/card.h"
 #include "frontend/libcard.h"
 #include "slus.h"
+#include "main.h"
+
 extern void restore_entity_flag_ten(void);
 
 

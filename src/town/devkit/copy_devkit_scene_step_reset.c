@@ -1,13 +1,13 @@
 #include "common.h"
 #include "town/scene/flags.h"
 #include "town/devkit/flag_test_imports.h"
+#include "town/devkit.h"
 
 /* Copy of the devkit scene step reset_cursor_and_redraw_list (src/town/func_80881424.c) in the image linked at
  * file 0x802800; here the latched length (0x8070070C) and the redraw argument (0x80700710) are separate words. */
 
 extern s32 devkit_scene_list_length;
 extern s32 D_80700710;
-extern void redraw_devkit_list_and_rekey_rows(s32, s32); /* Unprototyped: retail call passes more arguments than the callee reads */
 
 /* Devkit scene step: reset the cursor, rebuild the list, latch its length and redraw. */
 s32 copy_devkit_scene_step_reset(void) {

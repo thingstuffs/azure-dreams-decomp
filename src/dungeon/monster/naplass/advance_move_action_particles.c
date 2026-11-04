@@ -85,7 +85,7 @@ void advance_move_action_particles(ActorRecord *action, ObjectPosition *position
     direction_x_ptr += direction_offset;
     direction_x = *(s16 *)direction_x_ptr;
     phase = action->action_phase.u;
-    direction_y = *(s16 *)((u8 *)dir_step_y + direction_offset);
+    direction_y = dir_step_y[direction_offset >> 1];
 
     switch (phase) {
     case 0:

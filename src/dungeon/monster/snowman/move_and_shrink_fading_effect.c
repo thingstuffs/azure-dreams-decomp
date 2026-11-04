@@ -833,9 +833,9 @@ void choose_snowman_move(ActorRecord *move_data, ObjectPosition *context, Sprite
                     s32 offset_index =
                         ((((u8 *)&actor_data->unk_44.whole)[1] + ((s16)target_facing >> 9)) & 7) << 1;
                     target_x = target_position->tile_position.parts.tile_x +
-                        *(u16 *)((u8 *)((s8 *)dir_step_x) + offset_index);
+                        (u16)dir_step_x[offset_index >> 1];
                     target_y = target_position->tile_position.parts.tile_y +
-                        *(u16 *)((u8 *)((s8 *)dir_step_y) + offset_index);
+                        (u16)dir_step_y[offset_index >> 1];
                 }
 
                 if (position_data->tile_x == (u16)target_x &&
@@ -1598,22 +1598,18 @@ void displace_actor_then_recenter(ActorRecord *action, ObjectPosition *motion, S
         action->action_timer.s = frames_left;
         if (frames_left > 0) {
             motion->velocity_x =
-                *(s16 *)((u8 *)((s8 *)dir_step_x) +
-                    ((actor->movement_facing >> 8) & 0xE)) << 19;
+                dir_step_x[(actor->movement_facing >> 9) & 7] << 19;
             motion->velocity_y =
-                *(s16 *)((u8 *)((s8 *)dir_step_y) +
-                    ((actor->movement_facing >> 8) & 0xE)) << 19;
+                dir_step_y[(actor->movement_facing >> 9) & 7] << 19;
             return;
         }
         if (frames_left != 0) {
             return;
         }
         motion->velocity_x =
-            *(s16 *)((u8 *)((s8 *)dir_step_x) +
-                ((actor->movement_facing >> 8) & 0xE)) << 18;
+            dir_step_x[(actor->movement_facing >> 9) & 7] << 18;
         motion->velocity_y =
-            *(s16 *)((u8 *)((s8 *)dir_step_y) +
-                ((actor->movement_facing >> 8) & 0xE)) << 18;
+            dir_step_y[(actor->movement_facing >> 9) & 7] << 18;
         action->action_timer.s = 6;
         action->action_phase.u++;
         return;

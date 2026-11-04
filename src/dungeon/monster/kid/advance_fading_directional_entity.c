@@ -6,6 +6,7 @@
 #include "dungeon/actor.h"
 #include "dungeon/system.h"
 #include "dungeon/player/object.h"
+#include "shared/object_node.h"
 
 struct EntityLinkNode;
 
@@ -13,12 +14,8 @@ struct EntityLinkNode;
 
 void unlink_entity_node(struct EntityLinkNode *node);
 void update_map_cell_flags_with_item_limit(s32 x, s32 y, u16 flags);
-void * detach_record_and_update_slot_state(void *record);
 
-
-typedef struct S_80173724_1_pre {
-    u16 unk_00;
-} S_80173724_1_pre;   /* the 0x2 bytes before arg3 in advance_fading_directional_entity, addressed as arg3[-1] */
+   /* the 0x2 bytes before arg3 in advance_fading_directional_entity, addressed as arg3[-1] */
 
 
 
@@ -39,8 +36,8 @@ void advance_fading_directional_entity(ActorRecord *body, ObjectPosition *motion
 
     phase = body->action_phase.u;
     direction_offset = ((u16) ((ActorRecord *)entity)->movement_facing >> 8) & 0xE;
-    direction_x = *(s16 *)((u8 *)((s8 *)dir_step_x) + direction_offset);
-    direction_y = *(s16 *)((u8 *)((s8 *)dir_step_y) + direction_offset);
+    direction_x = dir_step_x[direction_offset >> 1];
+    direction_y = dir_step_y[direction_offset >> 1];
     switch (phase) {
     case 0:
     {
@@ -112,7 +109,7 @@ void advance_fading_directional_entity(ActorRecord *body, ObjectPosition *motion
         }
         update_map_cell_flags_with_item_limit(sound_x, sound_y, sound_flags);
         unlink_entity_node(entity);
-        ((S_80173724_1_pre *)entity)[-1].unk_00 |= 0x8000;
+        NODE_HEADER(entity)->flags |= 0x8000;
         object_flag_block.flags |= OBJECT_REMOVE_PENDING;
         return;
     default:

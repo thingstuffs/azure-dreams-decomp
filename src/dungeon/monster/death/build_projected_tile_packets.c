@@ -82,7 +82,7 @@ s32 build_projected_tile_packets(u8 *point_data, u16 *position)
 }
 
 /* Accelerates the effect toward its target, fades its color, and expires it near the target or on timeout. */
-void advance_effect_toward_target(void *effect, ObjectPosition *position) {
+void advance_effect_toward_target(ParentReturnEffectBody *effect, ObjectPosition *position) {
     s16 fade_level;
     s32 scaled_red;
     s32 scaled_green;
@@ -91,30 +91,30 @@ void advance_effect_toward_target(void *effect, ObjectPosition *position) {
     s32 scaled_blue;
 
     position->x.v = (s32) (position->x.v
-        + ((S_80BC1264_1 *)effect)->unk_40);
+        + effect->velocity_x);
     position->y.v = (s32) (position->y.v
-        + ((S_80BC1264_1 *)effect)->unk_44);
-    position->z.v = (s32) (position->z.v + ((S_80BC1264_1 *)effect)->unk_48);
-    ((S_80BC1264_1 *)effect)->unk_40 = (s32) (((S_80BC1264_1 *)effect)->unk_40 + ((S_80BC1264_1 *)effect)->unk_4C);
-    ((S_80BC1264_1 *)effect)->unk_44 = (s32) (((S_80BC1264_1 *)effect)->unk_44 + ((S_80BC1264_1 *)effect)->unk_50);
-    ((S_80BC1264_1 *)effect)->unk_48 = (s32) (((S_80BC1264_1 *)effect)->unk_48 + ((S_80BC1264_1 *)effect)->unk_54);
-    x_distance = abs(((S_80BC1264_1 *)effect)->unk_36 - position->x.w.i);
+        + effect->velocity_y);
+    position->z.v = (s32) (position->z.v + effect->velocity_z);
+    effect->velocity_x = (s32) (effect->velocity_x + effect->acceleration_x);
+    effect->velocity_y = (s32) (effect->velocity_y + effect->acceleration_y);
+    effect->velocity_z = (s32) (effect->velocity_z + effect->acceleration_z);
+    x_distance = abs(effect->target_x.s - position->x.w.i);
     if (x_distance < 0x10) {
-        y_distance = abs(((S_80BC1264_1 *)effect)->unk_38 - position->y.w.i);
+        y_distance = abs(effect->target_y.s - position->y.w.i);
         if (y_distance < 0x10) {
             (*(u16 *)((u8 *)effect + -2)) = (u16) (((ObjectRetirementFlags *)effect)[-1].flags | NODE_REMOVE);
             object_flag_block.flags = (s32) (object_flag_block.flags | OBJECT_REMOVE_PENDING);
         }
     }
-    scaled_red = ((S_80BC1264_1 *)effect)->unk_00 * ((S_80BC1264_1 *)effect)->unk_32;
-    ((S_80BC1264_1 *)effect)->unk_04.at00.v = (s8) (scaled_red / 256);
-    scaled_green = ((S_80BC1264_1 *)effect)->unk_01 * ((S_80BC1264_1 *)effect)->unk_32;
-    ((S_80BC1264_1 *)effect)->unk_04.at01.v = (s8) (scaled_green / 256);
-    scaled_blue = ((S_80BC1264_1 *)effect)->unk_02 * ((S_80BC1264_1 *)effect)->unk_32;
-    ((S_80BC1264_1 *)effect)->unk_04.at02.v = (s8) (scaled_blue / 256);
-    fade_level = (u16) ((S_80BC1264_1 *)effect)->unk_32 - 8;
-    ((S_80BC1264_1 *)effect)->unk_32 = fade_level;
-    ((S_80BC1264_1 *)effect)->unk_08 = (s32) ((S_80BC1264_1 *)effect)->unk_04.at00u.v;
+    scaled_red = effect->base_color.channels.red * effect->fade_level;
+    effect->color.channels.red = (s8) (scaled_red / 256);
+    scaled_green = effect->base_color.channels.green * effect->fade_level;
+    effect->color.channels.green = (s8) (scaled_green / 256);
+    scaled_blue = effect->base_color.channels.blue * effect->fade_level;
+    effect->color.channels.blue = (s8) (scaled_blue / 256);
+    fade_level = (u16) effect->fade_level - 8;
+    effect->fade_level = fade_level;
+    effect->output_color = (s32) effect->color.packed;
     if ((fade_level << 0x10) <= 0) {
         (*(u16 *)((u8 *)effect + -2)) = (u16) (((ObjectRetirementFlags *)effect)[-1].flags | NODE_REMOVE);
         object_flag_block.flags = (s32) (object_flag_block.flags | OBJECT_REMOVE_PENDING);
@@ -155,7 +155,7 @@ void create_parent_return_effect(
 {
     ObjectPayloadView *parent = parent_obj;
     ObjectNodeHeader *effect;
-    S_80BC1528_2 *effect_data;
+    ParentReturnEffectBody *effect_data;
     s32 step_x;
     s32 step_y;
     s32 step_z;
@@ -174,38 +174,38 @@ void create_parent_return_effect(
             ((MovingPosition *)(parent->unk_08))->z + offset_z - 100;
 
         effect_data = NODE_BODY(effect);
-        effect_data->unk_36 = ((MovingPosition *)(parent->unk_08))->x;
-        effect_data->unk_38 = ((MovingPosition *)(parent->unk_08))->y;
-        effect_data->unk_3A = ((MovingPosition *)(parent->unk_08))->z;
+        effect_data->target_x.u = ((MovingPosition *)(parent->unk_08))->x;
+        effect_data->target_y.u = ((MovingPosition *)(parent->unk_08))->y;
+        effect_data->target_z = ((MovingPosition *)(parent->unk_08))->z;
 
         step_x = -(offset_x << 16) / (duration / 8);
-        effect_data->unk_40 = step_x / 2;
+        effect_data->velocity_x = step_x / 2;
         step_y = -(offset_y << 16) / (duration / 8);
-        effect_data->unk_44 = step_y / 2;
+        effect_data->velocity_y = step_y / 2;
         step_z = -(offset_z << 16) / (duration / 8);
-        effect_data->unk_48 = step_z / 2;
+        effect_data->velocity_z = step_z / 2;
 
         rounded_step_x = -(offset_x << 16) / (duration / 8);
         if (rounded_step_x < 0) {
             rounded_step_x += 3;
         }
-        effect_data->unk_4C = rounded_step_x >> 2;
+        effect_data->acceleration_x = rounded_step_x >> 2;
 
         rounded_step_z = step_y;
         if (rounded_step_z < 0) {
             rounded_step_z += 3;
         }
-        effect_data->unk_50 = rounded_step_z >> 2;
+        effect_data->acceleration_y = rounded_step_z >> 2;
 
         rounded_step_z = step_z;
-        effect_data->unk_54 = (rounded_step_z / 4);
+        effect_data->acceleration_z = (rounded_step_z / 4);
 
         effect_data->unk_14 = effect_param;
-        effect_data->unk_32 = duration;
+        effect_data->fade_level = duration;
         register_node(effect, build_projected_tile_packets);
         rounded_step_x = initial_value;
-        ((S_80BC1528_0 *)effect)->unk_20 = rounded_step_x;
-        effect_data->unk_08 = initial_value;
+        effect_data->base_color.packed = rounded_step_x;
+        effect_data->output_color = initial_value;
     }
 
 }

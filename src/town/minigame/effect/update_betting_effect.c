@@ -39,7 +39,7 @@ extern u8 town_position_callback_address[];
 extern void initialize_town_context_action(void);
 extern void create_familiar_deployment_effect_with_owner_state(void);
 extern void apply_global_scene_value(void *);
-extern void initialize_scene_action_record(void *, void *, void *, ...);
+extern void initialize_scene_action_record(TownObjectRecord *record, void *ptr, void *ptr2);
 #include "town/shop/display_objects.h"
 #include "town/shop/object.h"
 #include "town/minigame/effect.h"
@@ -328,7 +328,7 @@ void update_betting_effect(TownEffect *input)
         }
         motion->z.v = (s32)0xFF000000;
         effect->state = 4;
-        initialize_scene_action_record(primitive, motion, ((u8 *)(&reference_tile_object)), (s32)0xFF000000);
+        initialize_scene_action_record(primitive, motion, ((u8 *)(&reference_tile_object)));
         create_familiar_deployment_effect_with_owner_state();
         break;
     }

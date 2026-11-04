@@ -11,10 +11,10 @@ typedef struct S_800A782C_0_pre {
 
    /* arg1 in initialize_timed_scale_object */
 
-void initialize_randomized_scale_timer(); /* Unprototyped: retail call passes more arguments than the callee reads */
 #include "town/system/clear_object_status_and_dispatch_target_api.h"
 #include "town/menu/object.h"
 #include "engine/node.h"
+#include "town/menu.h"
 
 extern void run_record_handler_if_active(void *record, s32 context, s32 update_data);
 extern M2C_UNK D_800F842C;

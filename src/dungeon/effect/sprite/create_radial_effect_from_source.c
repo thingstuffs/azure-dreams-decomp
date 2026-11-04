@@ -754,7 +754,7 @@ void *create_an_copies_three_source_fields_child_runs_n_16_child_setup(s32 value
     register u32 saved_context;
     s32 adjusted_value;
     s32 step;
-    void *child;
+    ObjectPosition *child;
     ObjectNodeHeader *object;
     u16 counter;
 
@@ -768,10 +768,10 @@ void *create_an_copies_three_source_fields_child_runs_n_16_child_setup(s32 value
         register_node(object, build_shaded_quads_adjacent_vertex_rows_adds_them_ordering_table);
 
         child = object->position;
-        *(u16 *)((u8 *)child + 2) = *(u16 *)((u8 *)source + 2);
+        child->x.unsigned_parts.integer = *(u16 *)((u8 *)source + 2);
         step = 0;
-        *(u16 *)((u8 *)child + 6) = *(u16 *)((u8 *)source + 6);
-        *(u16 *)((u8 *)child + 0xA) = *(u16 *)((u8 *)source + 0xA);
+        child->y.unsigned_parts.integer = *(u16 *)((u8 *)source + 6);
+        child->z.unsigned_parts.integer = *(u16 *)((u8 *)source + 0xA);
         source = (void *)adjusted_value;
         *(s32 *)NODE_BODY(object) = saved_context;
 

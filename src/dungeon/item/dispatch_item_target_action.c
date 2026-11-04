@@ -14,7 +14,7 @@
 
 extern s32 process_record_and_update_linked_state(struct DungeonItemEntry *request, s32 record_data); /* Unprototyped: uses the value as a pointer where the definition has an integer (or the reverse) */
 extern void clear_slot_and_update_linked_state(DungeonItemEntry *slot);
-extern s32 display_formatted_context_message(void *context, s32 first_input, s32 second_input);
+extern s32 display_formatted_context_message(void *context);
 
 typedef struct {
     s16 flags;
@@ -67,7 +67,7 @@ s32 dispatch_item_target_action(ActorRecord *target, DungeonItemEntry *item, s16
         }
         clear_slot_and_update_linked_state(item);
     } else {
-        display_formatted_context_message(&D_800E101C, action_value, action_type);
+        display_formatted_context_message(&D_800E101C);
     }
     g_dungeon_status.activity_counts.parts.pending_action_count = ((u16)g_dungeon_status.activity_counts.parts.pending_action_count) - 1;
     return 1;

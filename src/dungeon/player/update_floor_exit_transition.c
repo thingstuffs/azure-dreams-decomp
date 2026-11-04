@@ -59,7 +59,6 @@ typedef struct S_800930F0_9 {
 } S_800930F0_9;   /* store_base in update_floor_exit_transition */
 
 s32 get_entity_class();
-void snapshot_inventory_and_familiars(void *input_state); /* extern */
 s32 create_map_position_object(s32 world_x, s32 world_z);
 typedef struct {
     s32 unk0;

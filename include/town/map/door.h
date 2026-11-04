@@ -203,7 +203,7 @@ s32 count_consecutive_nonzero_entries_up_twenty(void);
 void set_player_block_value(s32 value);
 s32 func_800352FC(void);
 s16 initialize_object_items_in_reverse(void *ptr, s32 stateId, s16 currentState);
-void no_op_callback_a(void *ptr, s32 stateId, s32 stateArg); /* Unprototyped: retail call passes more arguments than the callee reads */
+void no_op_callback_a(void *unused_ptr, s32 unused_state_id, s32 unused_state_arg); /* Unprototyped: retail call passes more arguments than the callee reads */
 void sound_set_cd_cue_parameters(s32 value0, s32 value1, s32 value2, s32 value3);
 void SD_Call(s32 value);
 extern void clear_resident_bit_patterns(void);

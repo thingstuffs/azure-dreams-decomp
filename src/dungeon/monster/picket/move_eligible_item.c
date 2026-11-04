@@ -27,8 +27,8 @@ typedef struct { s32 value; } ItemWord;
 
     direction_offset = ((u16) actor_bytes->facing >> 8) & 0xE;
     tile_slot = find_floor_item_at_world_position(
-        (s16)(*(origin_bytes + 0x24) + *(u16 *)(((u8 *)dir_step_x) + direction_offset)),
-        (s16)(*(origin_bytes + 0x25) + *(u16 *)(((u8 *)dir_step_y) + direction_offset)),
+        (s16)(*(origin_bytes + 0x24) + (u16)dir_step_x[direction_offset >> 1]),
+        (s16)(*(origin_bytes + 0x25) + (u16)dir_step_y[direction_offset >> 1]),
         actor_bytes->ground_height);
     if (tile_slot >= 0) {
         s32 *shared_base;

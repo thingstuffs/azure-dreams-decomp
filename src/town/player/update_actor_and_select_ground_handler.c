@@ -5,12 +5,11 @@
 #include "shared/entity.h"
 #include "town/player/coordinates.h"
 #include "town/player.h"
+#include "town/player/object.h"
 
 #include "town/player/compute_and_clamps_vector_based_adjustment_updates_town_api.h"      /* extern */
 #include "town/player/position/handle_resolves_movement_collisions_along_one_axis_using_boundary_probes_tile_api.h"                      /* extern */
 #include "shared/sprite_frame_state.h"
-void bind_handler_and_initialize_entity(); /* Slot contract: loading images do not establish one callee contract. */        /* extern */
-
 
 /* Updates the record and selects a handler based on its computed threshold. */
 void update_actor_and_select_ground_handler(s32 context, ObjectPosition *record, SpriteFrameState *action_data) {

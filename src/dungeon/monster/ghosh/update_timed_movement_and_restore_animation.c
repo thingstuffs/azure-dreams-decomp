@@ -71,9 +71,9 @@ void update_timed_movement_and_restore_animation(ActorRecord *body, ObjectPositi
         timer = (s16)timer_bits;
         if (timer >= 11) {
             motion->velocity_x =
-            *(s16 *)((u8 *)dir_step_x + ((actor->movement_facing >> 8) & 0xE)) << 20;
+            dir_step_x[(actor->movement_facing >> 9) & 7] << 20;
             motion->velocity_y =
-            *(s16 *)((u8 *)dir_step_y + ((actor->movement_facing >> 8) & 0xE)) << 20;
+            dir_step_y[(actor->movement_facing >> 9) & 7] << 20;
             sprite->flags |= 0x800;
             return;
         }

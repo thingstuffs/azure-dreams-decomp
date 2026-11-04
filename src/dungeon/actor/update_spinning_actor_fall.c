@@ -5,6 +5,7 @@
 #include "shared/entity.h"
 #include "shared/dungeon_moving_views.h"
 #include "dungeon/level.h"
+#include "shared/object_node.h"
 struct EntityLinkNode;
 
 
@@ -21,9 +22,7 @@ extern void * detach_record_and_update_slot_state(void *record);
 
 
 
-typedef struct S_800AC5C8_1_pre {
-    u16 unk_00;
-} S_800AC5C8_1_pre;   /* the 0x2 bytes before arg3 in update_spinning_actor_fall, addressed as arg3[-1] */
+   /* the 0x2 bytes before arg3 in update_spinning_actor_fall, addressed as arg3[-1] */
 
 
    /* arg2 in update_spinning_actor_fall */
@@ -60,7 +59,7 @@ s32 update_spinning_actor_fall(ActorRecord *animation, ObjectPosition *position,
             g_dungeon_status.activity_counts.parts.pending_action_count--;
             detach_record_and_update_slot_state(object);
             unlink_entity_node(object);
-            ((S_800AC5C8_1_pre *)object)[-1].unk_00 |= 0x8000;
+            NODE_HEADER(object)->flags |= 0x8000;
             object_flag_block.flags |= OBJECT_REMOVE_PENDING;
         } else {
             ((Rec_D_80082E80 *)object)->unk_88.as_u16 = sample_terrain_surface_height(

@@ -13,7 +13,6 @@ struct EntityLinkNode;
 
 void unlink_entity_node(struct EntityLinkNode *node);
 void update_map_cell_flags_with_item_limit(s32 x, s32 y, u16 flags);
-void * detach_record_and_update_slot_state(void *record);
 s16 sample_terrain_surface_height();
 
 
@@ -38,8 +37,8 @@ void advance_entity_motion_fade_and_removal(ActorRecord *state, ObjectPosition *
 
     phase = state->action_phase.u;
     direction_offset = ((u16) ((ActorRecord *)entity)->movement_facing >> 8) & 0xE;
-    velocity_x = *(s16 *)((u8 *)((s8 *)dir_step_x) + direction_offset);
-    velocity_y = *(s16 *)((u8 *)((s8 *)dir_step_y) + direction_offset);
+    velocity_x = dir_step_x[direction_offset >> 1];
+    velocity_y = dir_step_y[direction_offset >> 1];
     switch (phase) {
     case 0:
     {

@@ -26,9 +26,6 @@ typedef struct S_8017472C_6 {
     s32 unk_0C;
 } S_8017472C_6;   /* control in advance_actor_targeted_action */
 
-extern void spawn_random_color_burst_particle();
-
-
 extern s32 D_8008346C;
 extern u8 troll_action_dispatch_address[];
 extern u8 troll_frame_set_1[];

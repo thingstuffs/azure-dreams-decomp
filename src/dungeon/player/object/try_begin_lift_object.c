@@ -50,8 +50,8 @@ s32 try_begin_lift_object(S_8008C5C4_2 *action, void *unused, SpriteAnimationTab
     direction_offset = ((u16)((u16)actor->facing) >> 8) & 0xE;
     target_result = spawn_object_at_target_position(
         actor,
-        (s16)(position->tile_x + *(u16 *)(((u8 *)dir_step_x) + direction_offset)),
-        (s16)(position->tile_y + *(u16 *)(((u8 *)dir_step_y) + direction_offset)));
+        (s16)(position->tile_x + (u16)dir_step_x[direction_offset >> 1]),
+        (s16)(position->tile_y + (u16)dir_step_y[direction_offset >> 1]));
     action->unk_124 = (ActorRecord *)target_result;
     if (target_result != 0) {
         result = -1;

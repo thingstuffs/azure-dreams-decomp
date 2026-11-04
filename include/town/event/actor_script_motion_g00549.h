@@ -1,4 +1,5 @@
 #include "records/Rec_func_8009B828_arg0.h"
+#include "shared/town_object.h"
 
 #ifndef TOWN_EVENT_ACTOR_SCRIPT_MOTION_G00549_H
 #define TOWN_EVENT_ACTOR_SCRIPT_MOTION_G00549_H
@@ -52,7 +53,6 @@ typedef struct S_8009B2C4_1 {
     u8 pad_3B[5];
 } S_8009B2C4_1;
 
-extern void initialize_target_motion_state(TownObject *object, void *owner, void *context, void *extra_ptr);
 extern void initialize_target_motion(Rec_func_8009B828_arg0 *owner, Rec_D_800CFCB4 *target, EntityRec *parameters, void *unused); /* Unprototyped: retail call passes more arguments than the callee reads */
 extern s32 scene_object_payload_alias;
 extern u8 D_80091F64[];
@@ -66,7 +66,7 @@ extern void call_the_same_context_both_processing_routines(void *, void *);
 extern void actor_surface_callback_address(void *actor, void *subject, void *motion, void *context);
 extern void actor_output_update_address(void *state_owner, void *update_target, void *update_context, void *output);
 
-extern void set_actor_motion_state(void *, void *, void *, void *); /* Unprototyped: retail call passes more arguments than the callee reads */
+extern void set_actor_motion_state(TownObjectRecord *object, Rec_D_800CFCB4 *state, void *unused_update_context, void *unused_output); /* Unprototyped: retail call passes more arguments than the callee reads */
 
 extern TownControl town_actor_control;
 

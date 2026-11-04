@@ -1,6 +1,7 @@
 #include "common.h"
 #include "sdk/libgpu.h"
 #include "dungeon/monster/mandara.h"
+#include "shared/object_node.h"
 
 /* Sparse views for fields not covered by the existing record types. */
 typedef struct {
@@ -9,9 +10,7 @@ typedef struct {
 } ColorPtrFieldView_80FB4C24;
 
 
-typedef struct S_80174424_0_pre {
-    u16 unk_00;
-} S_80174424_0_pre;   /* the 0x2 bytes before arg0 in blend_animation_palette_and_complete, addressed as arg0[-1] */
+   /* the 0x2 bytes before arg0 in blend_animation_palette_and_complete, addressed as arg0[-1] */
 
 
 typedef struct S_80174424_1 {
@@ -48,7 +47,7 @@ void blend_animation_palette_and_complete(MandaraEntryEffectBody *effect)
     effect->frame = next_frame;
     if (effect->duration.s < (s16)next_frame) {
         flags_page = (s32 *)(u32)0x80080000;
-        ((S_80174424_0_pre *)effect)[-1].unk_00 = ((S_80174424_0_pre *)effect)[-1].unk_00 | 0x8000;
+        NODE_HEADER(effect)->flags = NODE_HEADER(effect)->flags | 0x8000;
         flags_page[0x14A0 / 4] |= 0x8000;
         return;
     }

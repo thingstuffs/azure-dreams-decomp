@@ -98,9 +98,9 @@ void select_movement_direction_and_advance(ActorRecord *move_data, ObjectPositio
                     s32 offset_index =
                         ((((u8 *)&actor_data->unk_44.whole)[1] + ((s16)target_facing >> 9)) & 7) << 1;
                     target_x = target_position->tile_position.parts.tile_x +
-                        *(u16 *)((u8 *)((s8 *)dir_step_x) + offset_index);
+                        (u16)dir_step_x[offset_index >> 1];
                     target_y = target_position->tile_position.parts.tile_y +
-                        *(u16 *)((u8 *)((s8 *)dir_step_y) + offset_index);
+                        (u16)dir_step_y[offset_index >> 1];
                 }
 
                 if (position_data->tile_x == (u16)target_x &&

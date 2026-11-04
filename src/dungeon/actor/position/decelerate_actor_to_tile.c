@@ -52,8 +52,8 @@ void decelerate_actor_to_tile(ActorRecord *state, ObjectPosition *motion, Sprite
     switch (phase) {
     case 0:
         apply_clamped_actor_value_delta(anim);
-        motion->velocity_x = (s32)(*(s16 *)((u8 *)dir_step_x + ((anim->movement_facing >> 8) & 0xE)) << 15);
-        motion->velocity_y = (s32)(*(s16 *)((u8 *)dir_step_y + ((anim->movement_facing >> 8) & 0xE)) << 15);
+        motion->velocity_x = (s32)(dir_step_x[((anim->movement_facing >> 8) & 0xE) >> 1] << 15);
+        motion->velocity_y = (s32)(dir_step_y[((anim->movement_facing >> 8) & 0xE) >> 1] << 15);
         state->action_phase.u = state->action_phase.u + 1;
         if (anim->hp != 0) {
             if (info->flags & 0x8000) {

@@ -164,4 +164,6 @@ void update_person_effect_fade(void *effect_record, ObjectPosition *motion, Spri
 
 void clear_mother_event_record_field(TownObjectRecord *record, void *unused_position, s32 unused_update_arg);
 
+void initialize_reaction_data_and_timer_10_b(TownObjectRecord *object, void *unused_position, void *unused_context, void *unused_game);
+
 #endif

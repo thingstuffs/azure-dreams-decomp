@@ -37,4 +37,6 @@ void spawn_growing_rotating_flash(ActorRecord *unused, ObjectPosition *position,
 void create_actor_action_effect(ActorRecord *source_object, ObjectPosition *source_pos, SpriteFrameState *sprite_template, ActorRecord *actor);
 void create_targeted_motion_effect(ActorRecord *body, ObjectPosition *position, SpriteFrameState *unused, ActorRecord *target);
 
+void spawn_random_color_burst_particle(void *source, ObjectPosition *position, void *unused_sprite, void *unused_actor);
+
 #endif

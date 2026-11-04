@@ -16,7 +16,7 @@ void select_object_value_by_height_band(TownObjectRecord *object, void *context,
     s32 table_index;
     s16 table_delta;
 
-    set_actor_motion_state(object, context);
+    set_actor_motion_state(object, context, position, output);
     if (object->unk_7C.as_pv == 0) {
         return;
     }

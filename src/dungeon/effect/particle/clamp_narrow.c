@@ -102,7 +102,6 @@ typedef struct {
 } PositionTableEntry;
 
 struct EntityRec; void create_jittered_child_effect(struct EntityRec *, s32, s16, s16, s16, s16);
-void create_ribbon_head_sprite();
 extern u8 ribbon_sprite_entries[];
 extern s32 D_80166D14(void *initial_state, void *context, void *data);
 

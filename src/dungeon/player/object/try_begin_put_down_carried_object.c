@@ -31,8 +31,8 @@ void try_begin_put_down_carried_object(ActorRecord *state, EntityRec *target, Sp
         actor_or_can = animate_result > 0;
     } else if ((check_layer_offset_height(((u16)target->x.w.i), ((u16)target->y.w.i), actor->unk_88, actor->facing) << 0x10) == 0) {
         direction_offset = ((u16) actor->facing >> 8) & 0xE;
-        if ((find_valid_floor_item_position((s16) (sprite->tile_x + *(u16 *)(((u8 *)dir_step_x) + direction_offset)),
-            (s16) (sprite->tile_y + *(u16 *)(((u8 *)dir_step_y) + direction_offset)), actor->unk_88,
+        if ((find_valid_floor_item_position((s16) (sprite->tile_x + (u16)dir_step_x[direction_offset >> 1]),
+            (s16) (sprite->tile_y + (u16)dir_step_y[direction_offset >> 1]), actor->unk_88,
             &probe_a, &probe_b, &probe_c) << 0x10) != 0) {
             actor_or_can = 1;
         }

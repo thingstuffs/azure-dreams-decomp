@@ -1,7 +1,6 @@
 #include "common.h"
 #include "frontend/libcard.h"
-
-extern void noop_release_notification(s32 value);
+#include "slus.h"
 
 // Process and clear three referenced values, then clear a fourth referenced value.
 void write_fixed_palette_pixels(void *owner) {

@@ -12,12 +12,12 @@ struct ObjectPosition;
 #include "records/Rec_D_80082E80.h"
 #include "dungeon/actor.h"
 #include "dungeon/monster/manoeva.h"
+#include "dungeon/data.h"
 
 
 extern s32 generate_random_value(void);
 
 extern u8 manoeva_action_resume_address[];
-extern u8 manoeva_frame_set[];
 
 /* Three-stage knockback script driven by the 0x9B step byte: stage 0 seeds the velocity from the facing table and picks the timer, stage 1 decays that velocity a quarter per frame, stage 2 steers back to the tile centre and ends by clearing the motion record. */
 void update_actor_knockback(ActorRecord *script, ObjectPosition *motion, SpriteFrameState *tile, ActorRecord *actor) {
@@ -36,11 +36,9 @@ void update_actor_knockback(ActorRecord *script, ObjectPosition *motion, SpriteF
         spawn_manoeva_particle_burst(motion, tile);
         apply_clamped_actor_value_delta(actor);
         motion->velocity_x =
-            -*(s16 *)((u8 *)((s8 *)dir_step_x) +
-                ((actor->movement_facing >> 8) & 0xE)) << 15;
+            -dir_step_x[(actor->movement_facing >> 9) & 7] << 15;
         motion->velocity_y =
-            -*(s16 *)((u8 *)((s8 *)dir_step_y) +
-                ((actor->movement_facing >> 8) & 0xE)) << 15;
+            -dir_step_y[(actor->movement_facing >> 9) & 7] << 15;
         script->action_phase.u++;
 
         if (actor->hp == 0) {

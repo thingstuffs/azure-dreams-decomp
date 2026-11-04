@@ -312,7 +312,7 @@ void *merge_creature_abilities_and_state(void *first, void *second, void *destin
             }
         } while ((s16) next_clear >= 0);
         ability_count = 0;
-        result_primary = find_matching_initial_stat_slot(result, clear_donor_seen, clear_result_seen, clear_abilities);
+        result_primary = find_matching_initial_stat_slot(result);
         if (result_primary >= 0) {
             {
                 u8 *primary_seen_base =

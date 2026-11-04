@@ -29,4 +29,6 @@ s16 dispatch_selected_item_use(Rec_func_8008ACDC_arg0 *actor, s16 item_id, s16 o
 
 void update_item_target_selection(PlayerRecord *state, ObjectPosition *unused_position, struct SpriteFrameState *unused_sprite, ActorRecord *context);
 
+void snapshot_inventory_and_familiars(void *input_state);
+
 #endif

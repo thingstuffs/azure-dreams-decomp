@@ -607,9 +607,9 @@ void choose_clown_move(ActorRecord *move_data, ObjectPosition *context, SpriteFr
                     s32 offset_index =
                         ((((u8 *)&actor_data->unk_44.whole)[1] + ((s16)target_facing >> 9)) & 7) << 1;
                     target_x = target_position->tile_position.parts.tile_x +
-                        *(u16 *)((u8 *)((s8 *)dir_step_x) + offset_index);
+                        (u16)dir_step_x[offset_index >> 1];
                     target_y = target_position->tile_position.parts.tile_y +
-                        *(u16 *)((u8 *)((s8 *)dir_step_y) + offset_index);
+                        (u16)dir_step_y[offset_index >> 1];
                 }
 
                 if (position_data->tile_x == (u16)target_x &&
@@ -1141,11 +1141,9 @@ void damp_actor_motion_then_recenter(R16_801729D8_S_80173294_0 *motion_state, Ob
     case 0:
         apply_clamped_actor_value_delta(entity);
         motion->velocity_x =
-            -*(s16 *)((u8 *)((s8 *)dir_step_x) +
-                ((entity->movement_facing >> 8) & 0xE)) << 15;
+            -dir_step_x[(entity->movement_facing >> 9) & 7] << 15;
         motion->velocity_y =
-            -*(s16 *)((u8 *)((s8 *)dir_step_y) +
-                ((entity->movement_facing >> 8) & 0xE)) << 15;
+            -dir_step_y[(entity->movement_facing >> 9) & 7] << 15;
         motion_state->phase++;
 
         if (entity->hp == 0) {

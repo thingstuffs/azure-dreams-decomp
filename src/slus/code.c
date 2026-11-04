@@ -750,7 +750,7 @@ void format_reversed_decimal_space_padded(int value, unsigned short width, char 
 }
 
 /* Return without performing any work. */
-void noop_release_notification(void) {
+void noop_release_notification(s32 unused_value) {
 }
 
 /* Update the object when its pointer is non-NULL. */

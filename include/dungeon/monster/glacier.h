@@ -5,6 +5,22 @@
 #include "shared/entity.h"
 #include "shared/sprite_frame_state.h"
 
+/* Body of the 0x212 particles created during Glacier's forward-tile action. */
+typedef struct CollidingSpriteParticleBody {
+    u8 unk_00[0x14];
+    s16 contacted_ground;
+    u8 unk_16[0x8];
+    union { s16 s; u16 u; } remaining;
+    u16 animation_tick;
+    u8 unk_22[0x2E];
+    s32 velocity_x;
+    s32 velocity_y;
+    s32 velocity_z;
+    s32 acceleration_x;
+    s32 acceleration_y;
+    s32 acceleration_z;
+} CollidingSpriteParticleBody;
+
 /* Monster-owned imports; preserve their registered declaration contracts. */
 extern u8 glacier_direction_frames[];
 
@@ -38,5 +54,7 @@ void spawn_directional_effect(Rec_func_801744DC_arg0 *source, Rec_func_801744DC_
 void spawn_directional_particle(Rec_func_801744DC_arg0 *source, Rec_func_801744DC_arg1 *origin, void *unused_sprite);
 
 void *find_nearby_eligible_entry(u8 *current, s32 wanted_24, s32 wanted_25, s32 height_center);
+
+void grow_terrain_colliding_sprite(CollidingSpriteParticleBody *effect, ObjectPosition *position, SpriteFrameState *sprite);
 
 #endif

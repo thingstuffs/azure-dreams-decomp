@@ -26,11 +26,11 @@ void spawn_paired_random_effects(void *source, s16 effect_param, s32 render_para
             register_node(effect, project_sprite_chain);
             effect_data = NODE_BODY(effect);
             effect->position->x.w.i =
-                ((*((u16 *) (((u8 *) (*((void **) (((u8 *) source) + 8)))) + 2))) + (rand() & 0x3F)) - 0x20;
+                (((ObjectNodeHeader *)source)->position->x.unsigned_parts.integer + (rand() & 0x3F)) - 0x20;
             effect->position->y.w.i =
-                ((*((u16 *) (((u8 *) (*((void **) (((u8 *) source) + 8)))) + 6))) + (rand() & 0x3F)) - 0x20;
+                (((ObjectNodeHeader *)source)->position->y.unsigned_parts.integer + (rand() & 0x3F)) - 0x20;
             effect->position->z.w.i =
-                ((*((u16 *) (((u8 *) (*((void **) (((u8 *) source) + 8)))) + 0xA))) + (rand() & 0x3F)) - 0x20;
+                (((ObjectNodeHeader *)source)->position->z.unsigned_parts.integer + (rand() & 0x3F)) - 0x20;
             render_data = effect->sprite;
             render_data->source = D_8002822C;
             render_data->scale_y = 0x1000;
@@ -51,11 +51,11 @@ void spawn_paired_random_effects(void *source, s16 effect_param, s32 render_para
             register_node(effect, queue_linked_visible_rectangle_copies);
             effect_data = NODE_BODY(effect);
             effect->position->x.w.i =
-                ((*((u16 *) (((u8 *) (*((void **) (((u8 *) source) + 8)))) + 2))) + (rand() & 0x3F)) - 0x20;
+                (((ObjectNodeHeader *)source)->position->x.unsigned_parts.integer + (rand() & 0x3F)) - 0x20;
             effect->position->y.w.i =
-                ((*((u16 *) (((u8 *) (*((void **) (((u8 *) source) + 8)))) + 6))) + (rand() & 0x3F)) - 0x20;
+                (((ObjectNodeHeader *)source)->position->y.unsigned_parts.integer + (rand() & 0x3F)) - 0x20;
             effect->position->z.w.i =
-                ((*((u16 *) (((u8 *) (*((void **) (((u8 *) source) + 8)))) + 0xA))) + (rand() & 0x3F)) - 0x20;
+                (((ObjectNodeHeader *)source)->position->z.unsigned_parts.integer + (rand() & 0x3F)) - 0x20;
             *((s16 *) (NODE_BODY(effect))) = 0x20;
             *((s16 *) (((u8 *) effect_data) + 2)) = 0x20;
             *((s16 *) (((u8 *) effect_data) + 4)) = 1;

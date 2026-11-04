@@ -5,10 +5,9 @@
 #include "engine/scene.h"
 #include "dungeon/system.h"
 #include "dungeon/monster/beldo.h"
+#include "shared/object_node.h"
 
-typedef struct S_81263000_0_pre {
-    u16 unk_00;
-} S_81263000_0_pre;   /* the 0x2 bytes before root in create_flagged_actor_object_2, addressed as root[-1] */
+   /* the 0x2 bytes before root in create_flagged_actor_object_2, addressed as root[-1] */
 
 
 typedef struct S_81263000_1 {
@@ -133,7 +132,7 @@ void create_flagged_actor_object_2(AttachedSpriteWithOffsetBody *root, void *out
 
     advance_sprite_animation_and_textures(target_part);
     if (owner->unk_1E & 0x8000) {
-        ((S_81263000_0_pre *)root)[-1].unk_00 |= 0x8000;
+        NODE_HEADER(root)->flags |= 0x8000;
         object_flag_block.flags |= OBJECT_REMOVE_PENDING;
     }
 }

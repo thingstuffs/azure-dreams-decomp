@@ -4,13 +4,10 @@
 #include "shared/slus_callbacks.h"
 #include "shared/dir_step.h"
 #include "shared/entity.h"
+#include "engine/node.h"
+#include "engine/scene.h"
+#include "engine/graphics.h"
 
-typedef unsigned char u8;
-typedef signed char s8;
-typedef unsigned short u16;
-typedef short s16;
-typedef unsigned int u32;
-typedef int s32;
 typedef struct
 {
     u32 words[6];
@@ -23,9 +20,6 @@ typedef struct
     u16 z;
 }
 Vec3u16;
-extern s32 register_node(ObjectNodeHeader *entry, void *registration_id);
-extern void select_sprite_entry(void *object, s32 kind, s32 value);
-extern void *resolve_record_orientation_or_fallback(void *ptr, void *ptr1, Vec3u16 *out, s16 value3);
 extern u8 cyclone_spawn_update_address;
 /* Create a render object and initialize its position and motion toward a directional target. */
 void *create_directional_target_object(ActorRecord *emitter, Copy24 *position, SpriteFrameState *sprite)
@@ -37,18 +31,18 @@ void *create_directional_target_object(ActorRecord *emitter, Copy24 *position, S
     s32 direction_offset;
     Copy24 *position_data;
     ObjectNodeHeader * object;
-    void *transform;
-    void *source_copy;
+    ObjectPosition *transform;
+    SpriteFrameState *source_copy;
     SpriteFrameState *render;
     void *result;
     position_data = position;
     source_copy = sprite;
-    direction_flags = *((u16 *) (((u8 *) emitter) + 0x2A));
+    direction_flags = (u16)emitter->facing;
     emitter_copy = emitter;
     target_position = *position_data;
     direction_offset = (direction_flags >> 8) & 0xE;
-    *((u16 *) (((u8 *) (&target_position)) + 2)) += ((*((s16 *) (((((u8 *)dir_step_x)))
-        + direction_offset))) * emitter->unk_B0.halves.high.s) * 0x40;
+    *((u16 *) (((u8 *) (&target_position)) + 2)) += (dir_step_x[direction_offset >> 1]
+        * emitter->unk_B0.halves.high.s) * 0x40;
     *((u16 *) (((u8 *) (&target_position)) + 6)) += ((*((s16 *) (((((u8 *)dir_step_y)))
         + direction_offset))) * emitter_copy->unk_B0.halves.high.s) * 0x40;
     object = allocate_flagged_object_node(0x312);
@@ -56,7 +50,7 @@ void *create_directional_target_object(ActorRecord *emitter, Copy24 *position, S
         object->update_callback = &cyclone_spawn_update_address;
         register_node(object, project_sprite_chain);
         render = object->sprite;
-        render->animation_resource = *((s32 *) (((u8 *) source_copy) + 0x28));
+        render->animation_resource = source_copy->animation_resource;
         render->scale_y = 0x800;
         render->scale_x = 0x800;
         render->color.word = 0x00808080;
@@ -69,13 +63,13 @@ void *create_directional_target_object(ActorRecord *emitter, Copy24 *position, S
         position_offset.z = 0;
         position_offset.y = 0;
         position_offset.x = 0;
-        if (resolve_record_orientation_or_fallback(*((void **) (((u8 *) source_copy) + 8)), source_copy, &position_offset, 1) != 0) {
+        if (resolve_record_orientation_or_fallback(source_copy->source, source_copy, &position_offset, 1) != 0) {
             *((u16 *) (((u8 *) position_data) + 6)) += position_offset.x;
-            *((u16 *) (((u8 *) transform) + 2)) = *((u16 *) (((u8 *) position_data) + 6));
+            transform->x.unsigned_parts.integer = *((u16 *) (((u8 *) position_data) + 6));
             *((u16 *) (((u8 *) position_data) + 0xA)) += position_offset.y;
-            *((u16 *) (((u8 *) transform) + 6)) = *((u16 *) (((u8 *) position_data) + 0xA));
+            transform->y.unsigned_parts.integer = *((u16 *) (((u8 *) position_data) + 0xA));
             *((u16 *) (((u8 *) position_data) + 0xE)) += position_offset.z;
-            *((u16 *) (((u8 *) transform) + 0xA)) = *((u16 *) (((u8 *) position_data) + 0xE));
+            transform->z.unsigned_parts.integer = *((u16 *) (((u8 *) position_data) + 0xE));
         }
         position_data->words[4] = (((s32) target_position.words[0])
             - (*((s32 *) (((u8 *) position_data) + 4)))) / 0x20;

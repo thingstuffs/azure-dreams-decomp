@@ -2,8 +2,7 @@
 #include "town/scene/script_hooks.h"
 #include "m2c_compat.h"
 #include "town/scene.h"
-
-s32 store_record_value_and_table_lookup(); /* Unprototyped: retail call passes more arguments than the callee reads */ /* Slot contract: loading images do not establish one callee contract. */ /* extern */
+#include "town/menu.h"
 
 /* func_koya_tamago_pal_ld: load the hut egg palette. */
 s32 scr_func_koya_tamago_pal_ld(void) {

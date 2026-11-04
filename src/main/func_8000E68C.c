@@ -30,7 +30,7 @@ s32 card_boot_debounce_card_status_events(void) {
         case 1:
         case 2:
             (*(s32 (*)[])(&card_filtered_status))[slot] = state;
-            card_boot_select_channel_mode(slot, (s32 *)slot_offset);
+            card_boot_select_channel_mode(slot);
             return state;
         case 3:
             repeat_counts = (*(s32 (*)[])(&card_status_repeats));
@@ -43,7 +43,7 @@ s32 card_boot_debounce_card_status_events(void) {
             repeat_counts = (*(s32 (*)[])(&card_status_repeats));
             break;
         default:
-            card_boot_select_channel_mode(slot, (s32 *)slot_offset);
+            card_boot_select_channel_mode(slot);
             return state;
         }
         if (*(s32 *)(count_offset + (long)repeat_counts) >= 0xB) {
@@ -51,7 +51,7 @@ s32 card_boot_debounce_card_status_events(void) {
             *(s32 *)(count_offset + (long)repeat_counts) = 0;
             *(s32 *)((s8 *)&(*(s32 (*)[])(&card_last_status)) + count_offset) = 0;
         }
-        card_boot_select_channel_mode(slot, (s32 *)(count_offset + (long)repeat_counts));
+        card_boot_select_channel_mode(slot);
     }
     return state;
 }

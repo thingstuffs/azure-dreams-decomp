@@ -130,7 +130,7 @@ void advance_boss_actor_movement_state(ActorRecord *move_state, void *unused, vo
                     dir_index = ((((S_8016FCE4_0 *)actor_in)->unk_45 + ((s32) (((S_8016FCE4_4 *)heading_base)->unk_2A
                         << 0x10) >> 0x19)) & 7) * 2;
                     target_x = position_base->tile_position.parts.tile_x + *(u16 *)(x_table_base + dir_index);
-                    target_y = reference_tile_object.tile_position.parts.tile_y + *(u16 *)(((u8 *)dir_step_y) + dir_index);
+                    target_y = reference_tile_object.tile_position.parts.tile_y + (u16)dir_step_y[dir_index >> 1];
                     if ((((ActorRecord *)position_in)->mp_value.parts.fraction != (u16)target_x)
                         || (((ActorRecord *)position_in)->mp_value.parts.whole != (u16)target_y)) {
                         heading_state = &move_state->action_state_flags;

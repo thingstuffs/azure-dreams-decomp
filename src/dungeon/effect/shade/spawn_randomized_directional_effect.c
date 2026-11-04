@@ -44,7 +44,7 @@ extern u8 D_800D5AC0[];
 extern s16 actor_direction_step_pairs[];
 
 /* Spawn an effect offset from the source with randomized directional velocity. */
-void spawn_randomized_directional_effect(ObjectNodeHeader *source, s16 angle, s32 effect_value, s32 unused_particle_value)
+void spawn_randomized_directional_effect(ObjectNodeHeader *source, short angle, int effect_value, int unused_particle_value)
 {
     ObjectPosition *pos_x;
     ObjectPosition *pos_y;

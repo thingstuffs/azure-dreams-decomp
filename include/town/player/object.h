@@ -8,12 +8,17 @@ struct SpriteFrameState;
 #include "shared/entity.h"
 #include "shared/position_views.h"
 
-struct S_80098B30_0;
 struct S_func_800A6C4C_0;
 struct TownObject;
 
+/* The callback slot at +0x04 of the state initialized by the binder. */
+typedef struct BoundEntityHandlerState {
+    u8 pad_00[4];
+    void (*handler)(s32, ObjectPosition *, s32);
+} BoundEntityHandlerState;
+
 /* bind_handler_and_initialize_entity.c */
-void bind_handler_and_initialize_entity(struct S_80098B30_0 *state, ObjectPosition *record, void *unused_action_data);
+void bind_handler_and_initialize_entity(struct BoundEntityHandlerState *state, ObjectPosition *record, void *unused_action_data);
 
 /* clear_entity_record_fields.c */
 void clear_entity_record_fields(ObjectPosition *record);

@@ -65,8 +65,8 @@ void initialize_slow_target_motion(StateObj *motion_state, Motion *motion, Param
     switch (state) {
     case 0:
         apply_clamped_actor_value_delta(entity);
-        motion->dx = (-*(s16 *)(((u8 *)dir_step_x) + ((entity->key6a >> 8) & 0xe))) << 0xf;
-        motion->dy = (-*(s16 *)(((u8 *)dir_step_y) + ((entity->key6a >> 8) & 0xe))) << 0xf;
+        motion->dx = (-dir_step_x[(entity->key6a >> 9) & 7]) << 0xf;
+        motion->dy = (-dir_step_y[(entity->key6a >> 9) & 7]) << 0xf;
         motion_state->state++;
         if (params->flags & 0x8000) {
             if (entity->byte28 != 0) {

@@ -8,7 +8,7 @@ extern void update_scale_effect_and_advance();
 
 
 /* Set the object state and initialize both fields with the generated value. */
-void initialize_randomized_scale_timer(TownObjectRecord *object) {
+void initialize_randomized_scale_timer(TownObjectRecord *object, void *unused_state, void *unused_context) {
     s16 initial_value;
 
     object->unk_50.as_pm = &update_scale_effect_and_advance;

@@ -3,10 +3,9 @@
 #include "shared/sprite_frame_state.h"
 #include "shared/object_flags.h"
 #include "records/Rec_D_80082E80.h"
+#include "shared/object_node.h"
 
-typedef struct S_80D65534_1_pre {
-    u16 unk_00;
-} S_80D65534_1_pre;   /* the 0x2 bytes before arg0 in update_effect_collision_and_lifetime, addressed as arg0[-1] */
+   /* the 0x2 bytes before arg0 in update_effect_collision_and_lifetime, addressed as arg0[-1] */
 
 extern void advance_sprite_animation_and_textures(void *entity);
 s32 check_left_tile_and_center_height(s32 x, s32 y, s32 z);
@@ -99,7 +98,7 @@ void update_effect_collision_and_lifetime(OriginMotionEffectBody *effect, Origin
     life_left = effect->lifetime.u - 1;
     effect->lifetime.u = life_left;
     if ((life_left << 16) <= 0) {
-        ((S_80D65534_1_pre *)effect)[-1].unk_00 |= 0x8000;
+        NODE_HEADER(effect)->flags |= 0x8000;
         object_flag_block.flags |= OBJECT_REMOVE_PENDING;
     }
 }

@@ -38,7 +38,6 @@ typedef struct S_80172B00_7 {
 } S_80172B00_7;   /* arg2 in create_boss_child_effect */
 
 extern s8 view_direction_depth_biases[];
-void update_boss_actor_direction_state(void *actor_data, void *output_data, SpriteFrameState *context_data);
 extern u8 ghosh_frame_set_10[];
 
 typedef struct {

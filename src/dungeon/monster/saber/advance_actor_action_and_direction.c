@@ -19,11 +19,11 @@ extern s16 get_tile_chebyshev_distance(void *, void *);
 #include "dungeon/player/object/action_state.h"
 extern s32 generate_random_value(void);
 extern void update_actor_status_and_mp(ActorRecord *entity);
-extern void update_timed_effect_size_and_position(void *, ObjectPosition *, void *, void *); /* Legacy four-argument caller view; callback ignores the last argument. */
 
 #include "dungeon/monster/saber.h"
 #include "dungeon/actor.h"
 #include "dungeon/actor/motion.h"
+#include "dungeon/monster/viper.h"
 
 extern u8 saber_action_direction_frames[];
 

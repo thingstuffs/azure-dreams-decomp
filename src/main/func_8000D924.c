@@ -5,7 +5,7 @@
 
 
 /* Wait for both card operations, set the mode flag, and apply the current card state. */
-void card_boot_select_channel_mode(s32 mode_enabled, s32 *unused_repeat_counts)
+void card_boot_select_channel_mode(s32 mode_enabled)
 {
     s32 *state_base;
 

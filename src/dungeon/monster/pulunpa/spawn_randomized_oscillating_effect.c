@@ -19,7 +19,7 @@ extern u8 D_80176338[];
 extern u8 D_80176340[];
 
 /* Updates the actor's movement animation and finishes the timed action. */
-void spawn_randomized_oscillating_effect(ActorRecord *body, void *motion_arg, SpriteFrameState *sprite, ActorRecord *actor)
+void spawn_randomized_oscillating_effect(ActorRecord *body, ObjectPosition *motion_arg, SpriteFrameState *sprite, ActorRecord *actor)
 {
     u16 direction_aux;
     u8 move_state;
@@ -55,16 +55,16 @@ void spawn_randomized_oscillating_effect(ActorRecord *body, void *motion_arg, Sp
         move_ticks = body->unk_9E.s;
         if (move_ticks != 0) {
             target_delta = sprite->tile_x << 6;
-            axis_pos = ((ObjectPosition *)motion_arg)->x.w.i - 0x20;
+            axis_pos = motion_arg->x.w.i - 0x20;
             target_delta -= axis_pos;
             x_velocity = (target_delta << 16) / move_ticks;
 
-            axis_pos = ((ObjectPosition *)motion_arg)->y.w.i;
-            ((ObjectPosition *)motion_arg)->velocity_x = x_velocity;
+            axis_pos = motion_arg->y.w.i;
+            motion_arg->velocity_x = x_velocity;
             axis_pos -= 0x20;
             target_delta = sprite->tile_y << 6;
             target_delta -= axis_pos;
-            ((ObjectPosition *)motion_arg)->velocity_y =
+            motion_arg->velocity_y =
                 (target_delta << 16) / body->unk_9E.s;
 
             body->unk_A0.value =
@@ -88,9 +88,9 @@ void spawn_randomized_oscillating_effect(ActorRecord *body, void *motion_arg, Sp
             u8 *direction_table;
 
             body->action_state_flags &= 0xFFF7;
-            ((ObjectPosition *)motion_arg)->velocity_z = 0;
-            ((ObjectPosition *)motion_arg)->velocity_y = 0;
-            ((ObjectPosition *)motion_arg)->velocity_x = 0;
+            motion_arg->velocity_z = 0;
+            motion_arg->velocity_y = 0;
+            motion_arg->velocity_x = 0;
             set_record_integer_tile_center(motion_arg,
                 sprite->tile_x, sprite->tile_y);
             direction_table = D_80176340;
@@ -116,9 +116,9 @@ void spawn_randomized_oscillating_effect(ActorRecord *body, void *motion_arg, Sp
             return;
         }
 
-        ((ObjectPosition *)motion_arg)->velocity_z = 0;
-        ((ObjectPosition *)motion_arg)->velocity_y = 0;
-        ((ObjectPosition *)motion_arg)->velocity_x = 0;
+        motion_arg->velocity_z = 0;
+        motion_arg->velocity_y = 0;
+        motion_arg->velocity_x = 0;
         set_record_integer_tile_center(motion_arg,
             sprite->tile_x, sprite->tile_y);
         spend_actor_mp(actor, 4);

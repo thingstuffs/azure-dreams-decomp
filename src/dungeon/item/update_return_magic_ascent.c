@@ -67,7 +67,6 @@ extern s16 transition_runtime_slot_index;
 void AddPrim(void *, void *);
 void SetLineF2(void *);
 extern void SetDrawArea();
-extern void snapshot_inventory_and_familiars(void *input_state);
 extern void draw_transformed_sprite_with_clip_rect();
 
 /* Draws randomized vertical streaks and advances the object's motion and fade sequence. */

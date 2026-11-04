@@ -14,8 +14,9 @@
 #include "dungeon/actor/state.h"
 #include "dungeon.h"
 #include "dungeon/level.h"
+#include "dungeon/monster/kid.h"
+#include "dungeon/player/object.h"
 
-typedef s32 M2C_UNK;
 typedef struct {
     s8 pad_00[0x8C];
     void *unk_8C;
@@ -32,12 +33,9 @@ typedef struct {
 } MapObject;
 
 s32 find_active_rect_containing_point(s32 point_x, s32 point_y);
-s32 can_entity_gain_level(void *entity);
 void update_actor_status_and_mp(ActorRecord *entity);
-void begin_actor_move_to_target_facing(ActorRecord *body, ObjectPosition *position, SpriteFrameState *sprite, ActorRecord *actor);
 extern void func_801737C4(Actor *actor, s32 action, Entity *entity, MapObject *map_object);
 s32 update_entity_state_from_query(ActorRecord *entity_arg, void *primary_context_arg, void *secondary_context_arg, s32 force_state_arg); /* Unprototyped: this consumer uses the return value, but the owner definition is void. */
-extern void initialize_counted_entity_action(void *entity_data, ObjectPosition *unused_1, s32 unused_2, void *other_data);
 extern u8 nyuel_frame_set_2[];
 extern u8 nyuel_frame_set_3[];
 extern u8 nyuel_frame_set_1[];

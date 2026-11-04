@@ -1,7 +1,6 @@
 #include "common.h"
 #include "frontend/libcard.h"
-
-extern void noop_release_notification(); /* Unprototyped: shared empty hook receives one libcard and two town arguments. */
+#include "slus.h"
 
 /*
  * Clears the words referenced by the three-, four-, and ten-entry pointer tables, calling

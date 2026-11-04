@@ -8,6 +8,7 @@
 #include "shared/dungeon_projectile_views.h"
 #include "shared/position_views.h"
 #include "dungeon/actor/status.h"
+#include "dungeon/actor/animation.h"
 #include "engine/node.h"
 #include "engine/node/allocation.h"
 #include "dungeon/actor.h"
@@ -21,8 +22,6 @@
 
 
 extern s32 generate_random_value(void);
-extern void initialize_actor_sprite_and_animation(void *, void *, void *, s16);
-
 extern u8 D_801718E0[];
 extern s32 weadog_action_resume_address;
 extern u8 weadog_frame_set_3[];

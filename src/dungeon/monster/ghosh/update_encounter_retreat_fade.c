@@ -53,7 +53,6 @@ typedef struct {
 extern u8 D_80174B30[9];
 
 extern void initialize_timed_motion_step(s32, s32);
-extern void create_offset_animation_sprite(void *,struct ObjectPosition *, Sub *);
 struct SpriteFrameState;
 extern void select_sprite_entry(void *, s16, s16);
 extern void func_80170CE0(void);

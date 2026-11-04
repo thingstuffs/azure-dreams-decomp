@@ -10,6 +10,8 @@
 #include "dungeon.h"
 #include "dungeon/level.h"
 #include "dungeon/player/object.h"
+#include "dungeon/monster/hikewne.h"
+#include "dungeon/monster/nyuel.h"
 
 
 
@@ -18,10 +20,6 @@ extern s8 find_active_rect_containing_point(u8, u8);
 extern s32 generate_random_value(void);
 extern void update_actor_status_and_mp(ActorRecord *entity);
 
-extern void update_actor_movement_and_tile_position(void *, void *, void *, void *);
-extern s32 check_movement_and_initialize_action(ActorRecord *action_state, ObjectPosition *action_ctx, SpriteFrameState *sprite, ActorRecord *actor);
-
-extern s32 update_entity_state_from_query(void *, void *, void *, s32);
 extern void func_80174520(void *, void *, void *, void *);
 
 extern u8 cyclone_move_direction_frames[];

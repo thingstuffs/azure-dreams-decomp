@@ -2,6 +2,7 @@
 #include "town/scene/run_threshold_handler_at_thirty.h"
 #include "town/scene.h"
 #include "town/player.h"
+#include "town/scene/service.h"
 
 /* Runs the threshold handler when the queried value reaches 30, then forwards the arguments. */
 void run_threshold_handler_at_thirty(s32 value, s32 context) {

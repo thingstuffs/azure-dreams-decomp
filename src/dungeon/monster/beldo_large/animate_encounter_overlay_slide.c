@@ -1,10 +1,9 @@
 #include "common.h"
 #include "shared/object_flags.h"
 #include "dungeon/monster/beldo_large.h"
+#include "shared/object_node.h"
 
-typedef struct S_8016F99C_0_pre {
-    u16 unk_00;
-} S_8016F99C_0_pre;   /* the 0x2 bytes before arg0 in animate_encounter_overlay_slide, addressed as arg0[-1] */
+   /* the 0x2 bytes before arg0 in animate_encounter_overlay_slide, addressed as arg0[-1] */
 
 
 
@@ -62,7 +61,7 @@ void animate_encounter_overlay_slide(EncounterOverlayBody *transition_arg, Objec
         } else {
             *encounter_overlay_object = 0;
         }
-        ((S_8016F99C_0_pre *)transition)[-1].unk_00 |= 0x8000;
+        NODE_HEADER(transition)->flags |= 0x8000;
         next_timer = 0x80080000;
         *(s32 *)(next_timer + 0x14A0) |= 0x8000;
         return;
@@ -86,7 +85,7 @@ void animate_encounter_overlay_slide(EncounterOverlayBody *transition_arg, Objec
         } else {
             *encounter_overlay_object = 0;
         }
-        ((S_8016F99C_0_pre *)transition)[-1].unk_00 |= 0x8000;
+        NODE_HEADER(transition)->flags |= 0x8000;
         next_timer = 0x80080000;
         *(s32 *)(next_timer + 0x14A0) |= 0x8000;
         return;

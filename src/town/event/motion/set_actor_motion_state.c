@@ -10,7 +10,7 @@
  * Sets the state byte at offset 0x15 and assigns actor_surface_callback_address to the object data
  * pointer.
  */
-void set_actor_motion_state(TownObjectRecord *object, Rec_D_800CFCB4 *state) {
+void set_actor_motion_state(TownObjectRecord *object, Rec_D_800CFCB4 *state, void *unused_update_context, void *unused_output) {
     state->unk_15 = 1;
     object->unk_50.as_pm = update_actor_surface_motion;
 }

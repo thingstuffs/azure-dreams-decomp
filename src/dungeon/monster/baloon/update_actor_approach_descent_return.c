@@ -16,6 +16,7 @@
 #include "dungeon/item/effect.h"
 #include "dungeon/item.h"
 #include "dungeon/item/message.h"
+#include "dungeon/system.h"
 
 
 
@@ -49,10 +50,6 @@ extern u8 D_801709B8[];
 
 extern s32 get_entity_class(void *);
 extern void select_sprite_entry(void *, u8, s32);
-extern void snapshot_inventory_and_familiars(void *);
-extern s32 play_sound_if_enabled(s32 query_value);
-extern void display_text_with_fullwidth_adjustment(s8 *text);
-extern s32 check_action_boundary_and_set_flag(void);
 void spend_actor_mp(ActorRecord *entity, s32 base_reduction);
 
 /* Updates the actor's approach, descent, and return sequence. */

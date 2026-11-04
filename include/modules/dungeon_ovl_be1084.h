@@ -53,31 +53,7 @@ struct ObjectNodeHeader;
 
    /* the 0x2 bytes before arg0 in func_80170A64, addressed as arg0[-1] */
 
-typedef struct S_80BC1264_1 {
-    u8 unk_00;
-    u8 unk_01;
-    u8 unk_02;
-    u8 pad_03[0x1];
-    union {
-        struct { s8 v; } at00;
-        struct { s32 v; } at00u;
-        struct { u8 pad[0x1]; s8 v; } at01;
-        struct { u8 pad[0x2]; s8 v; } at02;
-    } unk_04;   /* overlapping accesses */
-    s32 unk_08;
-    u8 pad_0C[0x26];
-    s16 unk_32;
-    u8 pad_34[0x2];
-    s16 unk_36;
-    s16 unk_38;
-    u8 pad_3A[0x6];
-    s32 unk_40;
-    s32 unk_44;
-    s32 unk_48;
-    s32 unk_4C;
-    s32 unk_50;
-    s32 unk_54;
-} S_80BC1264_1;   /* arg0 in func_80170A64 */
+   /* arg0 in func_80170A64 */
 
 #define M2C_BREAK() ((void)0)
 #define M2C_SYNC() ((void)0)
@@ -93,36 +69,11 @@ typedef struct FadeEffect {
 } FadeEffect;
 /* Advance and damp motion; scale the current color by the remaining lifetime. */
 
-typedef struct S_80BC1528_0 {
-    u8 pad_00[0x8];
-    void * unk_08;
-    u8 pad_0C[0x4];
-    void * unk_10;
-    u8 pad_14[0xC];
-    s32 unk_20;
-} S_80BC1528_0;   /* obj in func_80170D28 */
+   /* obj in func_80170D28 */
 
    /* saved_arg0 in func_80170D28 */
 
-typedef struct S_80BC1528_2 {
-    u8 pad_00[0x8];
-    s32 unk_08;
-    u8 pad_0C[0x8];
-    s16 unk_14;
-    u8 pad_16[0x1C];
-    s16 unk_32;
-    u8 pad_34[0x2];
-    u16 unk_36;
-    u16 unk_38;
-    u16 unk_3A;
-    u8 pad_3C[0x4];
-    s32 unk_40;
-    s32 unk_44;
-    s32 unk_48;
-    s32 unk_4C;
-    s32 unk_50;
-    s32 unk_54;
-} S_80BC1528_2;   /* tail in func_80170D28 */
+   /* tail in func_80170D28 */
 
    /* ((S_80BC1528_0 *)obj)->unk_08 in func_80170D28 */
 

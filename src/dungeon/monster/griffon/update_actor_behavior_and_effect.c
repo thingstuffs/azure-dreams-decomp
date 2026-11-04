@@ -640,9 +640,9 @@ void choose_griffon_move(ActorRecord *move_data, ObjectPosition *context, Sprite
                     s32 offset_index =
                         ((actor_data->unk_44.bytes.high + ((s16)target_facing >> 9)) & 7) << 1;
                     target_x = target_position->tile_position.parts.tile_x +
-                        *(u16 *)((u8 *)((s8 *)dir_step_x) + offset_index);
+                        (u16)dir_step_x[offset_index >> 1];
                     target_y = target_position->tile_position.parts.tile_y +
-                        *(u16 *)((u8 *)((s8 *)dir_step_y) + offset_index);
+                        (u16)dir_step_y[offset_index >> 1];
                 }
 
                 if (position_data->tile_x == (u16)target_x &&
@@ -942,7 +942,7 @@ void finish_actor_tile_move_then_resume_effect_behavior(ActorRecord *state, Obje
 }
 
 /* Hops to the destination tile, updates landing animation, spends MP, and checks for a floor trap. */
-void hop_griffon_to_tile(ActorRecord *action, void *motion, SpriteFrameState *sprite, ActorRecord *actor)
+void hop_griffon_to_tile(ActorRecord *action, ObjectPosition *motion, SpriteFrameState *sprite, ActorRecord *actor)
 {
     s32 state;
     s32 move_ticks;
@@ -979,15 +979,15 @@ void hop_griffon_to_tile(ActorRecord *action, void *motion, SpriteFrameState *sp
         action->unk_90.value -= action->unk_A4.value;
         if (move_ticks != 0) {
             target_x = sprite->tile_x;
-            pos_x = ((EntityRec *)motion)->x.w.i;
+            pos_x = motion->x.w.i;
             target_x <<= 6;
             pos_x -= 0x20;
 
-            ((EntityRec *)motion)->unk_0C = ((target_x - pos_x) << 16) / move_ticks;
+            motion->velocity_x = ((target_x - pos_x) << 16) / move_ticks;
 
-            pos_y = ((EntityRec *)motion)->y.w.i;
+            pos_y = motion->y.w.i;
             pos_y -= 0x20;
-            ((EntityRec *)motion)->unk_10 =
+            motion->velocity_y =
                 (((sprite->tile_y << 6) - pos_y) << 16) /
                 action->unk_A8.s;
 
@@ -1014,9 +1014,9 @@ void hop_griffon_to_tile(ActorRecord *action, void *motion, SpriteFrameState *sp
     case 2:
         if ((u32)(actor->flags1C) & 0x08000000) {
             action->action_state_flags &= 0xFFF7;
-            ((EntityRec *)motion)->flags14 = 0;
-            ((EntityRec *)motion)->unk_10 = 0;
-            ((EntityRec *)motion)->unk_0C = 0;
+            motion->velocity_z = 0;
+            motion->velocity_y = 0;
+            motion->velocity_x = 0;
             set_record_integer_tile_center(motion, sprite->tile_x, sprite->tile_y);
             sprite->frameTable = griffon_frame_set;
             select_sprite_entry(
@@ -1034,9 +1034,9 @@ void hop_griffon_to_tile(ActorRecord *action, void *motion, SpriteFrameState *sp
         return;
     }
 
-    ((EntityRec *)motion)->flags14 = 0;
-    ((EntityRec *)motion)->unk_10 = 0;
-    ((EntityRec *)motion)->unk_0C = 0;
+    motion->velocity_z = 0;
+    motion->velocity_y = 0;
+    motion->velocity_x = 0;
     set_record_integer_tile_center(motion, sprite->tile_x, sprite->tile_y);
     spend_actor_mp(actor, 4);
     advance_status_timers(actor);
@@ -1421,23 +1421,23 @@ void update_item_activation_and_cleanup(ActorRecord *action, ObjectPosition *mot
 }
 
 /* Applies a value change and knockback, then returns the actor to its tile and restores movement. */
-void advance_action_phase_and_process_actor(void *action, ObjectPosition *motion, SpriteFrameState *sprite, void *entity)
+void advance_action_phase_and_process_actor(ActorRecord *action, ObjectPosition *motion, SpriteFrameState *sprite, ActorRecord *entity)
 {
     s32 state;
     s16 move_timer;
     s32 tracked_entity;
 
-    state = ((R08_80173234_S_80173234_0 *)action)->phase;
+    state = action->action_phase.u;
     switch (state) {
     case 0:
         apply_clamped_actor_value_delta(entity);
         motion->velocity_x =
-            -((s16 *)((s8 *)dir_step_x))[(((EntityRec *)entity)->unk_6A >> 9) & 7] << 15;
+            -dir_step_x[(entity->movement_facing >> 9) & 7] << 15;
         motion->velocity_y =
-            -((s16 *)((s8 *)dir_step_y))[(((EntityRec *)entity)->unk_6A >> 9) & 7] << 15;
-        ((R08_80173234_S_80173234_0 *)action)->phase++;
+            -dir_step_y[(entity->movement_facing >> 9) & 7] << 15;
+        action->action_phase.u++;
 
-        if (((EntityRec *)entity)->unk_28 == 0) {
+        if (entity->hp == 0) {
             motion->velocity_z = 0;
             motion->velocity_y = 0;
             motion->velocity_x = 0;
@@ -1445,17 +1445,17 @@ void advance_action_phase_and_process_actor(void *action, ObjectPosition *motion
             return;
         }
         if (sprite->flags & 0x8000) {
-            ((R08_80173234_S_80173234_0 *)action)->timer.s = 0;
-            ((R08_80173234_S_80173234_0 *)action)->phase = 3;
+            action->action_timer.s = 0;
+            action->action_phase.u = 3;
             return;
         }
 
-        if (((u32)((EntityRec *)entity)->flags1C) & (ACTOR_MP_EMPTY | ACTOR_PARALYZED | ACTOR_ASLEEP)) {
+        if (((u32)entity->flags1C) & (ACTOR_MP_EMPTY | ACTOR_PARALYZED | ACTOR_ASLEEP)) {
             move_timer = 8;
         } else {
             move_timer = -1;
         }
-        ((R08_80173234_S_80173234_0 *)action)->timer.s = move_timer;
+        action->action_timer.s = move_timer;
 
         motion->velocity_x -= motion->velocity_x / 4;
         motion->velocity_y -= motion->velocity_y / 4;
@@ -1463,20 +1463,20 @@ void advance_action_phase_and_process_actor(void *action, ObjectPosition *motion
 
     case 1:
         motion->velocity_x +=
-            ((s16 *)((s8 *)dir_step_x))[(((EntityRec *)entity)->unk_6A >> 9) & 7] << 14;
+            dir_step_x[(entity->movement_facing >> 9) & 7] << 14;
         motion->velocity_y +=
-            ((s16 *)((s8 *)dir_step_y))[(((EntityRec *)entity)->unk_6A >> 9) & 7] << 14;
+            dir_step_y[(entity->movement_facing >> 9) & 7] << 14;
 
-        if (((R08_80173234_S_80173234_0 *)action)->timer.s > 0) {
-            ((R08_80173234_S_80173234_0 *)action)->timer.s = ((R08_80173234_S_80173234_0 *)action)->timer.u - 1;
+        if (action->action_timer.s > 0) {
+            action->action_timer.s = action->action_timer.u - 1;
         } else if (sprite->flags & 0x6000) {
-            ((R08_80173234_S_80173234_0 *)action)->timer.s = 0;
+            action->action_timer.s = 0;
         }
 
-        if (((R08_80173234_S_80173234_0 *)action)->timer.s != 0) {
+        if (action->action_timer.s != 0) {
             return;
         }
-        if (((EntityRec *)entity)->unk_28 == 0) {
+        if (entity->hp == 0) {
             motion->velocity_z = 0;
             motion->velocity_y = 0;
             motion->velocity_x = 0;
@@ -1486,16 +1486,16 @@ void advance_action_phase_and_process_actor(void *action, ObjectPosition *motion
         sprite->frameTable = griffon_frame_set_6;
         select_sprite_entry(
             sprite,
-            griffon_frame_set_6[((g_game_work.view.camera_rotation.parts.viewAngle + ((EntityRec *)entity)->facing + 0x100) >> 9) & 7],
+            griffon_frame_set_6[((g_game_work.view.camera_rotation.parts.viewAngle + entity->facing + 0x100) >> 9) & 7],
             0);
-        ((R08_80173234_S_80173234_0 *)action)->phase++;
+        action->action_phase.u++;
         return;
 
     case 2:
         motion->velocity_x +=
-            ((s16 *)((s8 *)dir_step_x))[(((EntityRec *)entity)->unk_6A >> 9) & 7] << 14;
+            dir_step_x[(entity->movement_facing >> 9) & 7] << 14;
         motion->velocity_y +=
-            ((s16 *)((s8 *)dir_step_y))[(((EntityRec *)entity)->unk_6A >> 9) & 7] << 14;
+            dir_step_y[(entity->movement_facing >> 9) & 7] << 14;
         if (!(sprite->flags & 0x6000)) {
             return;
         }
@@ -1503,14 +1503,14 @@ void advance_action_phase_and_process_actor(void *action, ObjectPosition *motion
         sprite->frameTable = griffon_frame_set_6;
         select_sprite_entry(
             sprite,
-            griffon_frame_set_6[((g_game_work.view.camera_rotation.parts.viewAngle + ((EntityRec *)entity)->facing + 0x100) >> 9) & 7],
+            griffon_frame_set_6[((g_game_work.view.camera_rotation.parts.viewAngle + entity->facing + 0x100) >> 9) & 7],
             0);
-        ((R08_80173234_S_80173234_0 *)action)->timer.s = 8;
-        ((R08_80173234_S_80173234_0 *)action)->phase++;
+        action->action_timer.s = 8;
+        action->action_phase.u++;
         return;
 
     case 3:
-        move_timer = ((R08_80173234_S_80173234_0 *)action)->timer.s;
+        move_timer = action->action_timer.s;
         if (move_timer != 0) {
             {
                 s32 target_x = sprite->tile_x << 6;
@@ -1521,12 +1521,12 @@ void advance_action_phase_and_process_actor(void *action, ObjectPosition *motion
                 s32 target_y = sprite->tile_y << 6;
                 s32 current_y = motion->y.w.i - 0x20;
                 motion->velocity_y =
-                    ((target_y - current_y) << 15) / ((R08_80173234_S_80173234_0 *)action)->timer.s;
+                    ((target_y - current_y) << 15) / action->action_timer.s;
             }
         }
 
-        move_timer = ((R08_80173234_S_80173234_0 *)action)->timer.u - 1;
-        ((R08_80173234_S_80173234_0 *)action)->timer.s = move_timer;
+        move_timer = action->action_timer.u - 1;
+        action->action_timer.s = move_timer;
         if ((s32)(move_timer << 16) > 0) {
             return;
         }
@@ -1542,7 +1542,7 @@ void advance_action_phase_and_process_actor(void *action, ObjectPosition *motion
         if (tracked_entity == (s32)((u8 *)entity - 0x20)) {
             g_dungeon_status.pending_display_owner = tracked_entity & 0x7FFFFFFF;
         }
-        ((R08_80173234_S_80173234_0 *)action)->unk_8C = ((void *)update_actor_behavior_and_effect);
+        action->unk_8C.byte_ptr = ((void *)update_actor_behavior_and_effect);
     }
 }
 

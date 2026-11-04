@@ -3,10 +3,9 @@
 #include "shared/object_flags.h"
 #include "dungeon/effect.h"
 #include "dungeon/actor/effect.h"
+#include "shared/object_node.h"
 void advance_sprite_animation_and_textures(void *entity);                      /* extern */
-typedef struct S_800CB374_0_pre {
-    u16 unk_00;
-} S_800CB374_0_pre;   /* the 0x2 bytes before arg0 in fade_effect_primitive, addressed as arg0[-1] */
+   /* the 0x2 bytes before arg0 in fade_effect_primitive, addressed as arg0[-1] */
 
 
 
@@ -48,6 +47,6 @@ void fade_effect_primitive(SourceLinkedFadeEffectBody *effect, void *unused, Spr
             return;
         }
     }
-    ((S_800CB374_0_pre *)effect)[-1].unk_00 = (u16) (((S_800CB374_0_pre *)effect)[-1].unk_00 | 0x8000);
+    NODE_HEADER(effect)->flags = (u16) (NODE_HEADER(effect)->flags | 0x8000);
     object_flag_block.flags |= OBJECT_REMOVE_PENDING;
 }

@@ -101,9 +101,9 @@ void advance_actor_turn_path(ActorRecord *move_data_in, ObjectPosition *context,
                     s32 table_index =
                         ((((u8 *)&actor_in->unk_44.whole)[1] + ((s16)direction >> 9)) & 7) << 1;
                     target_x = origin->tile_position.parts.tile_x +
-                        *(u16 *)((u8 *)((s8 *)dir_step_x) + table_index);
+                        (u16)dir_step_x[table_index >> 1];
                     target_y = origin->tile_position.parts.tile_y +
-                        *(u16 *)((u8 *)((s8 *)dir_step_y) + table_index);
+                        (u16)dir_step_y[table_index >> 1];
                 }
 
                 if (tile_in->tile_x == (u16)target_x &&

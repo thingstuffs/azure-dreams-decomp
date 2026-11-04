@@ -1,8 +1,7 @@
 #include "frontend/libcard/save_heading.h"
 #include "common.h"
 #include "frontend/libcard/message.h"
-void noop_release_notification(s32);                         /* extern */
-
+#include "slus.h"
 
 /* Passes the referenced panel entry to noop_release_notification. */
 void release_three_row_panel_text(CardSaveHeadingDisplayPrefix *object) {

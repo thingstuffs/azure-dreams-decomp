@@ -49,9 +49,7 @@ extern void *advance_staged_entity_load(); /* Unprototyped: uses the value as a 
 extern s32 create_status_linked_render_effect();
 extern void create_angular_offset_effect();
 
-typedef struct S_80174704_0_pre {
-    u16 unk_00;
-} S_80174704_0_pre;   /* the 0x2 bytes before arg0 in advance_actor_transition_replacement, addressed as arg0[-1] */
+   /* the 0x2 bytes before arg0 in advance_actor_transition_replacement, addressed as arg0[-1] */
 
 typedef struct S_80174704_0 {
     u8 pad_00[0x96];
@@ -318,7 +316,7 @@ void advance_actor_transition_replacement(ActorRecord *action, ObjectPosition *p
         {
 
             ((S_80174704_11 *)(((S_80174704_1 *)actor)->unk_60))->unk_2A = ((S_80174704_1 *)actor)->unk_8A;
-            ((S_80174704_0_pre *)action)[-1].unk_00 |= 0x8000;
+            NODE_HEADER(action)->flags |= 0x8000;
             object_flag_block.flags |= OBJECT_REMOVE_PENDING;
             g_dungeon_status.activity_counts.parts.pending_action_count--;
             actor->pending_turn_updates = 0;

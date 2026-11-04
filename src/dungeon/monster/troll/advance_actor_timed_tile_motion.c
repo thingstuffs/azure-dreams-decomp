@@ -46,18 +46,14 @@ void advance_actor_timed_tile_motion(ActorRecord *controller, ObjectPosition *tr
         controller->action_timer.s = timer;
         if (timer > 0) {
             transform->velocity_x =
-                *(s16 *)((u8 *)((s8 *)dir_step_x) +
-                    ((actor->movement_facing >> 8) & 0xE)) << 18;
+                dir_step_x[(actor->movement_facing >> 9) & 7] << 18;
             transform->velocity_y =
-                *(s16 *)((u8 *)((s8 *)dir_step_y) +
-                    ((actor->movement_facing >> 8) & 0xE)) << 18;
+                dir_step_y[(actor->movement_facing >> 9) & 7] << 18;
         } else if (timer == 0) {
             transform->velocity_x =
-                *(s16 *)((u8 *)((s8 *)dir_step_x) +
-                    ((actor->movement_facing >> 8) & 0xE)) << 18;
+                dir_step_x[(actor->movement_facing >> 9) & 7] << 18;
             transform->velocity_y =
-                *(s16 *)((u8 *)((s8 *)dir_step_y) +
-                    ((actor->movement_facing >> 8) & 0xE)) << 18;
+                dir_step_y[(actor->movement_facing >> 9) & 7] << 18;
             controller->action_timer.s = 12;
             controller->action_phase.u = controller->action_phase.u + 1;
         }

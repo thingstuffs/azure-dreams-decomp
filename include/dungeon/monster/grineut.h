@@ -257,7 +257,7 @@ extern u8 D_80174170[];
 extern u8 D_80174180[];
 extern u8 D_80174178[];
 void *spawn_mode_dependent_112_object(s16 kind_flags, s16 byte_24, s16 byte_25, s16 value_0a);
-void update_entity_facing_motion_and_ground(void *entity, R07_80170A28_S_80170A28_2 *motion, void *part);
+void update_entity_facing_motion_and_ground(void *entity, R07_80170A28_S_80170A28_2 *motion, SpriteFrameState *part);
 void dispatch_monster_move_attack_spell(ActorRecord *record, ObjectPosition *entity, SpriteFrameState *object, ActorRecord *other_entity);
 void advance_stored_path_motion(ActorRecord *action, ObjectPosition *action_id, SpriteFrameState *entity, ActorRecord *move_state);
 void choose_grineut_move(ActorRecord *move_data, ObjectPosition *context, SpriteFrameState *position_data, ActorRecord *actor_data);

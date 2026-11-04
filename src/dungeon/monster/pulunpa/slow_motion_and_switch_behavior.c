@@ -26,11 +26,9 @@ void slow_motion_and_switch_behavior(ActorRecord *body, ObjectPosition *motion, 
     case 0:
         apply_clamped_actor_value_delta(entity);
         motion->velocity_x =
-            *(s16 *)((u8 *)((s8 *)dir_step_x) +
-                     ((entity->movement_facing >> 8) & 0xE)) << 19;
+            dir_step_x[(entity->movement_facing >> 9) & 7] << 19;
         motion->velocity_y =
-            *(s16 *)((u8 *)((s8 *)dir_step_y) +
-                     ((entity->movement_facing >> 8) & 0xE)) << 19;
+            dir_step_y[(entity->movement_facing >> 9) & 7] << 19;
         body->action_phase.u++;
 
         if (entity->hp == 0) {

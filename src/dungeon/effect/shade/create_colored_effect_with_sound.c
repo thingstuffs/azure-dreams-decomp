@@ -40,9 +40,9 @@ void create_colored_effect_with_sound(void *source, s32 color, unsigned short so
         render_flags->tpage_abr = 0x20;
         render_flags->flags = (u16) (render_flags->flags | 0xC);
         position = effect->position;
-        position->x.w.i = (u16) (*((u16 *) (((u8 *) (*((void **) (((u8 *) source) + 8)))) + 2)));
-        position->y.w.i = (u16) (*((u16 *) (((u8 *) (*((void **) (((u8 *) source) + 8)))) + 6)));
-        position->z.w.i = (u16) (*((u16 *) (((u8 *) (*((void **) (((u8 *) source) + 8)))) + 0xA)));
+        position->x.w.i = (u16) ((ObjectNodeHeader *)source)->position->x.unsigned_parts.integer;
+        position->y.w.i = (u16) ((ObjectNodeHeader *)source)->position->y.unsigned_parts.integer;
+        position->z.w.i = (u16) ((ObjectNodeHeader *)source)->position->z.unsigned_parts.integer;
         render_data = effect->sprite;
         render_data->color.c.b = 0x80;
         render_data->color.c.g = 0x80;

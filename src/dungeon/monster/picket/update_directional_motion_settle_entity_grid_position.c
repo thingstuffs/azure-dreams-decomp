@@ -47,7 +47,7 @@ void update_directional_motion_settle_entity_grid_position(ActorRecord *action, 
         motion->velocity_x =
             *(s16 *)((u8 *)directions_x + launch_offset) << 0x12;
         motion->velocity_y =
-            *(s16 *)((u8 *)((s8 *)dir_step_y) + launch_offset) << 0x12;
+            dir_step_y[direction] << 0x12;
         action->action_phase.u++;
 
         if (entity->hp == 0) {

@@ -8,6 +8,7 @@
 #include "dungeon/player/object.h"
 #include "dungeon/effect/particle.h"
 #include "dungeon/system.h"
+#include "dungeon/monster/beldo_large.h"
 
 /* Sparse views for fields not covered by the existing record types. */
 
@@ -31,7 +32,6 @@ extern u8 beldo_large_frame_set_2[];
 extern void initialize_timed_motion_step(s32, s32, void *);
 extern void select_sprite_entry(void *, u8, s32);
 extern void create_eight_part_textured_ribbon(void *, void *, SpriteFrameState *, void *);
-extern void create_player_centered_sequence_effect(void *, void *, void *); /* Unprototyped: retail call passes more arguments than the callee reads */
 
 /* Advances a timed actor sequence, updating effects and directional animation before clearing completion flags. */
 void advance_timed_actor_effect_sequence(ActorRecord *sequence, ObjectPosition *transform, SpriteFrameState *sprite_arg, ActorRecord *actor_arg) {

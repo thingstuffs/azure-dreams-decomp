@@ -26,7 +26,7 @@ extern void * append_value_seven_suffix(u8 *dst);
 extern u8 *append_typed_formatted_value(DungeonItemEntry *data, u8 *buffer);
 extern void *copy_fullwidth_vowel_bytes(void *dst, void *character);
 extern void clear_byte_and_advance(s8 *byte_ptr);
-extern void reveal_triggered_trap(Actor *, s32, s32, s32); /* Unprototyped: retail call passes more arguments than the callee reads */
+extern s32 reveal_triggered_trap(void *actor, s32 unused_context_a, s32 unused_context_b, s32 unused_target); /* Unprototyped: retail call passes more arguments than the callee reads */
 
 /* Advance the actor's entry action and clear pending state when it finishes. */
 void update_player_trap_trigger(Actor *actor, s32 context_a, s32 context_b, s32 target_arg) {

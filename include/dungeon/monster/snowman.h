@@ -664,7 +664,7 @@ void select_actor_target_and_advance_status(ActorRecord *action_state, ObjectPos
 void advance_directional_attack_sequence(ActorRecord *action, ObjectPosition *position, SpriteFrameState *sprite, ActorRecord *entity);
 s32 project_snowman_sprite_chain(void *initial_payload, ObjectPosition *position, R10_80174BE4_Entry *entry, s32 unused);
 void update_effect_motion_and_brightness(RandomizedOscillatingEffectBody *effect, void *motion, void *render);
-void spawn_randomized_oscillating_effect(ActorRecord *body, struct ObjectPosition *origin, SpriteFrameState *sprite, ActorRecord *actor);
+void spawn_randomized_oscillating_effect(ActorRecord *body, ObjectPosition *origin, SpriteFrameState *sprite, ActorRecord *actor);
 void wait_for_snowman_action_slot(ActorRecord *entity_data, ObjectPosition *motion, SpriteFrameState *sprite, void *other_data);
 void restore_snowman_scene_tint(u8 *task, void *context, struct SpriteFrameState *input);
 void advance_actor_transition_and_restore_facing(void *transition, struct ObjectPosition *position, struct SpriteFrameState *record, void *actor);

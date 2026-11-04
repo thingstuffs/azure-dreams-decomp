@@ -130,9 +130,9 @@ void advance_actor_movement_step(ActorRecord *movement_in, ObjectPosition *actio
                 direction = (((u8 *)&actor->unk_44.whole)[1] +
                              ((s32)(((u16)primary_actor_record->facing) << 16) >> 25)) & 7;
                 target_x = target->tile_position.parts.tile_x +
-                           ((u16 *)((s8 *)dir_step_x))[direction];
+                           (u16)dir_step_x[direction];
                 target_y = target->tile_position.parts.tile_y +
-                           ((u16 *)((s8 *)dir_step_y))[direction];
+                           (u16)dir_step_y[direction];
                 if ((position->tile_x == (u16)target_x) &&
                     (position->tile_y == (u16)target_y)) {
                     actor->movement_queue_state &= 0x7F;

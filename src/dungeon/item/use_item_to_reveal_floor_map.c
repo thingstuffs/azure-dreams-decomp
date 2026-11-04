@@ -20,7 +20,7 @@ extern u8 D_800E11FD[];
 
 extern s32 process_record_and_update_linked_state(struct DungeonItemEntry *, s32); /* Unprototyped: uses the value as a pointer where the definition has an integer (or the reverse) */
 extern void clear_slot_and_update_linked_state(DungeonItemEntry *slot);
-extern void display_formatted_context_message(void *, s32, s16);
+extern void display_formatted_context_message(void *);
 
 /* Applies an item to the target and removes it when consumed. */
 s32 use_item_to_reveal_floor_map(ActorRecord *target, DungeonItemEntry *item, s16 target_kind, s32 target_data)
@@ -44,7 +44,7 @@ s32 use_item_to_reveal_floor_map(ActorRecord *target, DungeonItemEntry *item, s1
             return 1;
         }
     } else {
-        display_formatted_context_message(D_800E11FD, target_data, target_kind);
+        display_formatted_context_message(D_800E11FD);
         pack_and_submit_cell_height_levels();
         dungeon_floor_flags |= FLOOR_MAP_VIEW_HOLD;
         play_sound_if_enabled(0x80F);

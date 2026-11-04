@@ -1,10 +1,9 @@
 #include "common.h"
 #include "shared/object_flags.h"
 #include "dungeon/monster/u_boat.h"
+#include "shared/object_node.h"
 
-typedef struct S_80170A84_0_pre {
-    u16 unk_00;
-} S_80170A84_0_pre;   /* the 0x2 bytes before arg0 in update_shrinking_sprite_effect, addressed as arg0[-1] */
+   /* the 0x2 bytes before arg0 in update_shrinking_sprite_effect, addressed as arg0[-1] */
 
 typedef struct S_80170A84_1_pre {
     void * unk_00;
@@ -124,7 +123,7 @@ void update_shrinking_sprite_effect(UBoatAuraEffectBody *effect, void *output, v
         if (effect->ticks.u > 0) {
             break;
         }
-        ((S_80170A84_0_pre *)effect)[-1].unk_00 |= 0x8000;
+        NODE_HEADER(effect)->flags |= 0x8000;
         object_flag_block.flags |= OBJECT_REMOVE_PENDING;
         break;
 

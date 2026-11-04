@@ -34,12 +34,12 @@ void advance_staged_motion_and_snap_tile(S_A *motion_state, S_B *motion, S_C *ta
             motion_state->state9b = 2;
             return;
         }
-        motion->dxC = (-(*(s16 *)(((u8 *)dir_step_x) + (((u16)actor->index6A >> 8) & 0xE)))) << 0xF;
-        motion->dy10 = (-(*(s16 *)(((u8 *)dir_step_y) + (((u16)actor->index6A >> 8) & 0xE)))) << 0xF;
+        motion->dxC = (-(dir_step_x[((u16)actor->index6A >> 9) & 7])) << 0xF;
+        motion->dy10 = (-(dir_step_y[((u16)actor->index6A >> 9) & 7])) << 0xF;
         motion_state->count96 = 8;
     case 1:
-        motion->dxC += (*(s16 *)(((u8 *)dir_step_x) + (((u16)actor->index6A >> 8) & 0xE))) << 0xA;
-        motion->dy10 += (*(s16 *)(((u8 *)dir_step_y) + (((u16)actor->index6A >> 8) & 0xE))) << 0xA;
+        motion->dxC += (dir_step_x[((u16)actor->index6A >> 9) & 7]) << 0xA;
+        motion->dy10 += (dir_step_y[((u16)actor->index6A >> 9) & 7]) << 0xA;
         next_count = (u16)motion_state->count96 - 1;
         motion_state->count96 = (s16)next_count;
         if ((next_count << 0x10) <= 0) {

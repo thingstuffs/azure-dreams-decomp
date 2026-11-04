@@ -4,10 +4,9 @@
 #include "shared/dungeon_moving_views.h"
 #include "dungeon/monster/beldo.h"
 #include "dungeon/system.h"
+#include "shared/object_node.h"
 
-typedef struct S_81257000_0_pre {
-    u16 unk_00;
-} S_81257000_0_pre;   /* the 0x2 bytes before root in copy_part_state, addressed as root[-1] */
+   /* the 0x2 bytes before root in copy_part_state, addressed as root[-1] */
 
 
 typedef struct S_81257000_1 {
@@ -135,7 +134,7 @@ void copy_part_state(AttachedSpriteWithOffsetBody *root, void *out_pos_arg, void
 
     advance_sprite_animation_and_textures(dst_part);
     if (owner->unk_1E & 0x8000) {
-        ((S_81257000_0_pre *)root)[-1].unk_00 |= 0x8000;
+        NODE_HEADER(root)->flags |= 0x8000;
         object_flag_block.flags |= OBJECT_REMOVE_PENDING;
     }
 }

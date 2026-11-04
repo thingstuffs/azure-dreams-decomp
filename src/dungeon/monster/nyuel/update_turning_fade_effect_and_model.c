@@ -27,9 +27,7 @@ typedef struct S_801749A8_11 {
     u16 unk_2A;
 } S_801749A8_11;   /* ((Rec_D_80082E80 *)arg3)->unk_60.as_pv in update_turning_fade_effect_and_model */
 
-typedef struct S_801749A8_0_pre {
-    u16 unk_00;
-} S_801749A8_0_pre;   /* the 0x2 bytes before arg0 in update_turning_fade_effect_and_model, addressed as arg0[-1] */
+   /* the 0x2 bytes before arg0 in update_turning_fade_effect_and_model, addressed as arg0[-1] */
 
 
 typedef struct S_801749A8_2 {
@@ -232,7 +230,7 @@ void update_turning_fade_effect_and_model(ActorRecord *sequence, ObjectPosition 
         }
         ((S_801749A8_11 *)target->target)->unk_2A =
             (u16) ((Rec_D_80082E80 *)target)->unk_8A;
-        ((S_801749A8_0_pre *)sequence)[-1].unk_00 = (u16) (((S_801749A8_0_pre *)sequence)[-1].unk_00 | 0x8000);
+        NODE_HEADER(sequence)->flags = (u16) (NODE_HEADER(sequence)->flags | 0x8000);
         object_flag_block.flags = object_flag_block.flags | OBJECT_REMOVE_PENDING;
         g_dungeon_status.activity_counts.parts.pending_action_count = (u16)(((u16)g_dungeon_status.activity_counts.parts.pending_action_count) - 1);
         target->pending_turn_updates = 0;

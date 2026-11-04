@@ -77,11 +77,9 @@ void update_jump_movement_and_landing(void *jump, ObjectPosition *motion, Sprite
         }
 
         motion->velocity_x -=
-            *(s16 *)((u8 *)((s8 *)dir_step_x) +
-                     (((u16)((S_80173408_4 *)actor)->unk_2A.u >> 8) & 0xE)) << 14;
+            dir_step_x[((u16)((S_80173408_4 *)actor)->unk_2A.u >> 9) & 7] << 14;
         motion->velocity_y -=
-            *(s16 *)((u8 *)((s8 *)dir_step_y) +
-                     (((u16)((S_80173408_4 *)actor)->unk_2A.u >> 8) & 0xE)) << 14;
+            dir_step_y[((u16)((S_80173408_4 *)actor)->unk_2A.u >> 9) & 7] << 14;
         ((S_80173408_0 *)jump)->unk_A0.at00.v += 0x60000;
         if (((S_80173408_0 *)jump)->unk_A0.at02.v >= 0x31) {
             ((S_80173408_0 *)jump)->unk_A0.at02.v = 0x30;

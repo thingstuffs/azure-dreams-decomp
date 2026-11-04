@@ -99,8 +99,8 @@ void update_actor_movement_and_tile_position(ActorRecord *object, ObjectPosition
                     s32 target_y;
                     direction += player_angle >> 9;
                     direction_offset = (direction & 7) * 2;
-                    target_x = (reference_tile_object.tile_position.parts.tile_x) + (*((u16 *) (((u8 *) (((s8 *)dir_step_x))) + direction_offset)));
-                    target_y = (reference_tile_object.tile_position.parts.tile_y) + (*((u16 *) (((u8 *) (((s8 *)dir_step_y))) + direction_offset)));
+                    target_x = (reference_tile_object.tile_position.parts.tile_x) + (u16)dir_step_x[direction_offset >> 1];
+                    target_y = (reference_tile_object.tile_position.parts.tile_y) + (u16)dir_step_y[direction_offset >> 1];
                     if ((tile->tile_x == ((u16) target_x)) && (tile->tile_y == ((u16) target_y))) {
                         actor->movement_queue_state &= 0x7F;
                         return;

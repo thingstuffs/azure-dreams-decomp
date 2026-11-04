@@ -15,12 +15,11 @@
 #include "dungeon/level.h"
 #include "dungeon/monster/death.h"
 #include "dungeon/player/object.h"
+#include "dungeon/monster/hikewne.h"
 
 extern void select_sprite_entry(void *, s32, s32);
 extern s8 find_active_rect_containing_point(s32, s32);
 extern void update_actor_status_and_mp(ActorRecord *entity);
-extern void select_movement_direction_and_advance(ActorRecord *move_data, ObjectPosition *context, SpriteFrameState *position_data, ActorRecord *actor_data);
-extern s32 update_entity_state_from_query(void *, void *, void *, void *);
 extern void func_801743F0(void *, void *, void *, void *);
 
 extern s32 death_action_resume_address;

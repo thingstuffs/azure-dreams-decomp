@@ -6,6 +6,7 @@
 #include "town/player/position.h"
 #include "engine/node.h"
 #include "shared/sprite_frame_state.h"
+#include "town/scene.h"
 
 /* Update position and displacement, then dispatch the active entity handler. */
 void update_position_displacement_dispatch_active_entity_handler(Rec_func_8009EE9C_arg0 *entity, s32 entity_id, S_8009EE9C_0 *motion, SpriteFrameState *context) {
@@ -69,7 +70,7 @@ void update_motion_toward_target_resolves_entity_countdown_expires(void *entity_
                     *clear_flag = 0;
                 }
             }
-            dispatch_paired_table_values(clear_flag);
+            dispatch_paired_table_values();
             return;
         }
         motion->x.v = 0;

@@ -3,14 +3,13 @@
 #include "shared/object_flags.h"
 #include "m2c_compat.h"
 #include "dungeon/actor/effect.h"
+#include "shared/object_node.h"
 
 s32 check_left_tile_and_center_height(s32 x, s32 y, s32 z);
 s16 sample_terrain_surface_height();
 
 
-typedef struct S_8016E528_0_pre {
-    u16 unk_00;
-} S_8016E528_0_pre;   /* the 0x2 bytes before arg0 in update_object_motion_and_landing, addressed as arg0[-1] */
+   /* the 0x2 bytes before arg0 in update_object_motion_and_landing, addressed as arg0[-1] */
 
 
 typedef struct S_8016E528_1 {
@@ -179,7 +178,7 @@ check_falling:
             - 0x20));
         ((S_8016E528_2 *)position)->unk_08.at00u.v = 0;
 mark_removed:
-        ((S_8016E528_0_pre *)motion)[-1].unk_00 = (u16) (((S_8016E528_0_pre *)motion)[-1].unk_00 | 0x8000);
+        NODE_HEADER(motion)->flags = (u16) (NODE_HEADER(motion)->flags | 0x8000);
         object_flag_block.flags |= OBJECT_REMOVE_PENDING;
         return;
     } while (object->unk_14 & 0x8000);

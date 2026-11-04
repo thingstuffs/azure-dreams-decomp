@@ -76,7 +76,7 @@ void *spawn_mode_dependent_112_object(s16 flags,s16 attr_x,s16 attr_y,s16 attr_h
 #include "dungeon/monster/volcano.h"
 
 /* Runs actor callbacks and updates facing, animation, movement, and ground contact. */
-void update_entity_facing_and_ground(void *entity, E_80170A58_S_80170A58_2 *motion, void *monster)
+void update_entity_facing_and_ground(void *entity, E_80170A58_S_80170A58_2 *motion, SpriteFrameState *monster)
 {
     E_80170A58_S_80170A58_1 *actor = entity;
     s32 direction;
@@ -107,7 +107,7 @@ void update_entity_facing_and_ground(void *entity, E_80170A58_S_80170A58_2 *moti
         return;
     }
 
-    monster_flags = ((E_80170A58_S_80170A58_0 *)monster)->unk_14;
+    monster_flags = monster->flags;
     if (!(monster_flags & 0x8000)) {
         facing_angle = g_game_work.view.camera_rotation.parts.viewAngle + (*(s16 *)((u8 *)entity + 0x2A)) + 0x100;
         direction = (facing_angle >> 9) & 7;
@@ -117,31 +117,31 @@ void update_entity_facing_and_ground(void *entity, E_80170A58_S_80170A58_2 *moti
         if ((*(s16 *)((u8 *)entity + 0x94)) != direction_index) {
             u8 *tile_map = ((E_80170A58_S_80170A58_0 *)monster)->unk_2C;
             if (tile_map != 0) {
-                select_indirect_table_entry(monster, tile_map[direction_index], ((E_80170A58_S_80170A58_0 *)monster)->unk_04);
+                select_indirect_table_entry(monster, tile_map[direction_index], monster->unk_04);
             }
             (*(s16 *)((u8 *)entity + 0x94)) = direction;
         }
 
         if (dir_sprite_flag[direction_copy] != 0) {
-            ((E_80170A58_S_80170A58_0 *)monster)->unk_14 |= 1;
+            monster->flags |= 1;
         } else {
-            ((E_80170A58_S_80170A58_0 *)monster)->unk_14 &= 0xFFFE;
+            monster->flags &= 0xFFFE;
         }
 
         if (!(actor->unk_1C & 0x20)) {
-            if (!(((E_80170A58_S_80170A58_0 *)monster)->unk_14 & 0x40)) {
+            if (!(monster->flags & 0x40)) {
                 advance_sprite_animation_and_textures(monster);
             }
             apply_monster_koyaw_data(actor->unk_1C, (u8 *)monster + 0xC);
         } else {
-            ((E_80170A58_S_80170A58_0 *)monster)->unk_14 |= 0x7000;
+            monster->flags |= 0x7000;
             apply_monster_koyaw_data(actor->unk_1C, (u8 *)monster + 0xC);
         }
     } else {
         if (monster_flags & 0x0800) {
-            ((E_80170A58_S_80170A58_0 *)monster)->unk_14 = monster_flags & 0x8FFF;
+            monster->flags = monster_flags & 0x8FFF;
         } else {
-            ((E_80170A58_S_80170A58_0 *)monster)->unk_14 = monster_flags | 0x7000;
+            monster->flags = monster_flags | 0x7000;
         }
     }
 
@@ -189,8 +189,8 @@ void update_entity_facing_and_ground(void *entity, E_80170A58_S_80170A58_2 *moti
             }
             if (actor->unk_1C & 0x40000000) {
                 actor->unk_1C &= 0xBFFFFFFF;
-                floor_height = sample_terrain_surface_height((((E_80170A58_S_80170A58_0 *)monster)->unk_24 << 6) | 0x20,
-                                      (((E_80170A58_S_80170A58_0 *)monster)->unk_25 << 6) | 0x20,
+                floor_height = sample_terrain_surface_height((monster->tile_x << 6) | 0x20,
+                                      (monster->tile_y << 6) | 0x20,
                                       (s16)(actor->unk_88.u - 0x20));
                 (*(s16 *)((u8 *)entity + 0x92)) += actor->unk_88.u - floor_height;
                 actor->unk_88.u = floor_height;
@@ -204,7 +204,7 @@ void update_entity_facing_and_ground(void *entity, E_80170A58_S_80170A58_2 *moti
 
     motion->unk_0A =
         actor->unk_88.u + (*(u16 *)((u8 *)entity + 0x92));
-    ((E_80170A58_S_80170A58_0 *)monster)->unk_14 |= 0x40;
+    monster->flags |= 0x40;
 
 }
 #include "dungeon/monster/volcano.h"
@@ -1290,11 +1290,9 @@ void dampen_actor_movement_to_tile(ActorRecord *action, ObjectPosition *motion, 
     case 0:
         apply_clamped_actor_value_delta(entity);
         motion->velocity_x =
-            *(s16 *)((u8 *)((s8 *)dir_step_x) +
-                     ((entity->movement_facing >> 8) & 0xE)) << 19;
+            dir_step_x[(entity->movement_facing >> 9) & 7] << 19;
         motion->velocity_y =
-            *(s16 *)((u8 *)((s8 *)dir_step_y) +
-                     ((entity->movement_facing >> 8) & 0xE)) << 19;
+            dir_step_y[(entity->movement_facing >> 9) & 7] << 19;
         action->action_phase.u++;
 
         if (entity->hp == 0) {

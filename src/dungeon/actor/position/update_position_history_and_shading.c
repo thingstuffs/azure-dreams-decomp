@@ -62,7 +62,7 @@ void update_position_history_and_shading(ActorTrailWork *obj, TrailMotion *coord
         case 0:
             direction_offset = ((-g_game_work.view.camera_rotation.parts.viewAngle + 0x500) >> 8) & 0xE;
             room = &reference_tile_object;
-            x_adjust = (s16 *)(((u8 *)dir_step_x) + direction_offset);
+            x_adjust = &dir_step_x[direction_offset >> 1];
             {
                 s32 x_target;
                 s32 x_current;

@@ -2,7 +2,7 @@
 #include "shared/object_node.h"
 #include "town/player/object.h"
 
-extern void initialize_scene_action_record(void *buffer, s32 header_value08, s32 header_value0C);
+extern void initialize_scene_action_record(void *buffer, s32 header_value08, s32 header_value0C); /* Unprototyped: uses the value as a pointer where the definition has an integer (or the reverse) */
 extern void call_the_handler_selects_nonzero_entry(void *entries, void *record,void *handler_param);
 
 extern u8 scene_object_payload_alias[];

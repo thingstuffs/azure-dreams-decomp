@@ -174,18 +174,18 @@ void allocate_effect_and_initialize_sprite(s32 effect_data, s32 effect_param, s3
 {
     int color;
     ObjectNodeHeader *effect;
-    void *state;
+    EffectAndInitializeSpriteBody *state;
     SpriteFrameState *sprite;
     effect = allocate_list_node(0x12, &scene_object_list_anchor.next);
     if (effect != 0) {
         effect->update_callback = &D_800240F0;
         color = 0x80;
         state = NODE_BODY(effect);
-        *((s16 *) (((s8 *) state) + 0xC)) = 0;
+        state->unk_0C.n = 0;
         *((s16 *) (((s8 *) state) + 0xE)) = 0;
-        *(s32 *)NODE_BODY(effect) = effect_data;
-        *((s32 **) (((s8 *) state) + 4)) = ((s32 *)&scene_object_list_anchor.next);
-        *((s32 *) (((s8 *) state) + 8)) = effect_param;
+        state->unk_00 = (void *)effect_data;
+        state->unk_04 = (void *)&scene_object_list_anchor.next;
+        state->unk_08 = (void *)effect_param;
         sprite = effect->sprite;
         sprite->color.c.b = color;
         sprite->color.c.g = color;
@@ -373,7 +373,7 @@ void allocate_effect_with_endpoints(s32 object_value, ObjectPosition *start_pos,
     if (object != 0) {
         state = NODE_BODY(object);
         (object->update_callback) = &D_80024918;
-        (*(s32 *)NODE_BODY(object)) = object_value;
+        state->unk_00.object_value = object_value;
         state->ticks = 0;
         state->phase = setting;
         start_x = start_pos->x.v;
@@ -385,14 +385,14 @@ void allocate_effect_with_endpoints(s32 object_value, ObjectPosition *start_pos,
         start_z = start_pos->z.v;
         (*(s32 *)((u8 *)state + 0x24)) = start_z;
         state->unk_3C = start_z;
-        (*(s32 *)((u8 *)state + 4)) = (s32) (*(s32 *)((u8 *)end_pos + 0));
-        (*(s32 *)((u8 *)state + 8)) = (s32) (*(s32 *)((u8 *)end_pos + 4));
-        (*(s32 *)((u8 *)state + 0xC)) = (s32) (*(s32 *)((u8 *)end_pos + 8));
-        state->unk_40 = (s32) ((s32) ((*(s32 *)((u8 *)end_pos + 0)) - start_pos->x.v)
+        (*(s32 *)((u8 *)state + 4)) = ((ObjectPosition *)end_pos)->x.v;
+        (*(s32 *)((u8 *)state + 8)) = ((ObjectPosition *)end_pos)->y.v;
+        (*(s32 *)((u8 *)state + 0xC)) = ((ObjectPosition *)end_pos)->z.v;
+        state->unk_40 = (s32) ((s32) (((ObjectPosition *)end_pos)->x.v - start_pos->x.v)
             >> 3);
-        state->unk_44 = (s32) ((s32) ((*(s32 *)((u8 *)end_pos + 4)) - start_pos->y.v)
+        state->unk_44 = (s32) ((s32) (((ObjectPosition *)end_pos)->y.v - start_pos->y.v)
             >> 3);
-        state->unk_48 = (s32) ((s32) ((*(s32 *)((u8 *)end_pos + 8)) - start_pos->z.v)
+        state->unk_48 = (s32) ((s32) (((ObjectPosition *)end_pos)->z.v - start_pos->z.v)
             >> 3);
         word_0 = params_a.words[0];
         word_1 = params_a.words[1];

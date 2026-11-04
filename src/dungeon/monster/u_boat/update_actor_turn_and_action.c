@@ -13,6 +13,7 @@
 #include "dungeon.h"
 #include "dungeon/level.h"
 #include "dungeon/player/object.h"
+#include "dungeon/monster/hikewne.h"
 
 
 
@@ -20,12 +21,7 @@ extern void select_sprite_entry(void *, s32, s32);
 extern s8 find_active_rect_containing_point(s32, s32);
 extern void update_actor_status_and_mp(ActorRecord *entity);
 extern void reset_action_and_decrement_actor_count(ActorRecord *, ObjectPosition *, SpriteFrameState *, ActorRecord *);
-void create_owner_linked_directional_object(ActorRecord *owner_data, ObjectPosition *source_position, SpriteFrameState *source_sprite);
-void advance_aura_actor_turn_path(ActorRecord *actor, ObjectPosition *actor_slot, SpriteFrameState *entity_arg, ActorRecord *state_arg);
 #include "dungeon/monster/u_boat.h"
-extern s32 update_entity_state_from_query(void *, void *, void *, s32);
-extern void update_actor_action_transition(ActorRecord *state, ObjectPosition *update_mode, SpriteFrameState *sprite, ActorRecord *entity);
-void complete_actor_action(ActorRecord *actor, ObjectPosition *unused_1, SpriteFrameState *unused_2, ActorRecord *entity);
 
 extern u8 uboat_default_frames[];
 extern u8 uboat_ready_frames[];

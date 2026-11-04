@@ -711,9 +711,7 @@ typedef struct S_8197D3B8_0 {
     s32 unk_14;
 } S_8197D3B8_0;   /* arg1 in func_80024BB8 */
 
-typedef struct S_8197D3B8_1_pre {
-    u16 unk_00;
-} S_8197D3B8_1_pre;   /* the 0x2 bytes before arg0 in func_80024BB8, addressed as arg0[-1] */
+   /* the 0x2 bytes before arg0 in func_80024BB8, addressed as arg0[-1] */
 
 typedef struct S_8197D3B8_1 {
     void * unk_00;
@@ -744,7 +742,7 @@ void move_sprite_until_animation_ends(void *render_entry, void *motion_data, voi
 
     advance_sprite_animation_and_textures(status);
     if (status->flags & 0x6000) {
-        ((S_8197D3B8_1_pre *)render_entry)[-1].unk_00 |= 0x8000;
+        NODE_HEADER(render_entry)->flags |= 0x8000;
         object_flag_block.flags |= OBJECT_REMOVE_PENDING;
     }
 }

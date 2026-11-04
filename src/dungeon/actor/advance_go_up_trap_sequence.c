@@ -11,12 +11,11 @@
 #include "dungeon/effect/trap.h"
 #include "dungeon/actor.h"
 #include "engine/resource.h"
+#include "shared/object_node.h"
 struct EntityLinkNode;
 extern u8 resident_globals_page[];
 
-typedef struct S_800CB9DC_0_pre {
-    u16 unk_00;
-} S_800CB9DC_0_pre;   /* the 0x2 bytes before arg0 in advance_go_up_trap_sequence, addressed as arg0[-1] */
+   /* the 0x2 bytes before arg0 in advance_go_up_trap_sequence, addressed as arg0[-1] */
 
 typedef struct S_800CB9DC_1_pre {
     void * unk_00;
@@ -60,7 +59,6 @@ typedef struct S_800CB9DC_9 {
 } S_800CB9DC_9;   /* page14_again in advance_go_up_trap_sequence */
 
 extern void advance_sprite_animation_and_textures(void *entity);                      /* extern */
-void snapshot_inventory_and_familiars(void *input_state);           /* extern */
 void unlink_entity_node(struct EntityLinkNode *node);                      /* extern */
 void update_map_cell_flags_with_item_limit(s32 x, s32 y, u16 flags);             /* extern */
 void * detach_record_and_update_slot_state(void *record);                      /* extern */
@@ -153,9 +151,9 @@ void advance_go_up_trap_sequence(TrapOwnedTimedEffectBody *trap_state, void *mot
             S_800CB9DC_9 *status_page_again;
             u16 removal_flags;
 
-            removal_flags = ((S_800CB9DC_0_pre *)trap_state)[-1].unk_00;
+            removal_flags = NODE_HEADER(trap_state)->flags;
             status_page_again = (S_800CB9DC_9 *)0x80080000;
-            ((S_800CB9DC_0_pre *)trap_state)[-1].unk_00 = removal_flags | 0x8000;
+            NODE_HEADER(trap_state)->flags = removal_flags | 0x8000;
             global_flags = status_page_again->unk_14A0.s;
             global_flags |= 0x8000;
             status_page_again->unk_14A0.u = global_flags;

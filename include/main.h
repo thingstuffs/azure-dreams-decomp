@@ -7,7 +7,7 @@
 struct S_80025B38_0;
 
 /* func_8000D924.c */
-void card_boot_select_channel_mode(s32 mode_enabled, s32 *unused_repeat_counts);
+void card_boot_select_channel_mode(s32 mode_enabled);
 
 /* func_8000D984.c */
 void card_boot_recheck_selected_channel(void);

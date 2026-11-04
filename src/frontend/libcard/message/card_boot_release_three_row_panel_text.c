@@ -1,7 +1,6 @@
 #include "common.h"
 #include "frontend/libcard/message.h"
-
-void noop_release_notification(s32 value);
+#include "slus.h"
 
 typedef struct S_800239B0_0 {
     u8 pad_00[0x1D8];

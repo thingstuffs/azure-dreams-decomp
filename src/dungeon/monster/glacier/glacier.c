@@ -3,70 +3,56 @@
 #include "shared/sprite_frame_state.h"
 #include "records/Rec_D_80082E80.h"
 #include "dungeon/monster/glacier.h"
+#include "shared/object_node.h"
 
 
-typedef struct S_8102F348_1_pre {
-    u16 unk_00;
-} S_8102F348_1_pre;   /* the 0x2 bytes before arg0 in func_8102F348, addressed as arg0[-1] */
+   /* the 0x2 bytes before arg0 in func_8102F348, addressed as arg0[-1] */
 
-typedef struct S_8102F348_1 {
-    u8 pad_00[0x14];
-    s16 unk_14;
-    u8 pad_16[0x8];
-    union { s16 s; u16 u; } unk_1E;   /* accessed as both */
-    u16 unk_20;
-    u8 pad_22[0x2E];
-    s32 unk_50;
-    s32 unk_54;
-    s32 unk_58;
-    s32 unk_5C;
-    s32 unk_60;
-    s32 unk_64;
-} S_8102F348_1;   /* arg0 in func_8102F348 */
+   /* arg0 in func_8102F348 */
 
 s32 check_left_tile_and_center_height(s32 x, s32 y, s32 z);
 extern s16 sample_terrain_surface_height(u16, u16, s16);
 extern void advance_sprite_animation_and_textures(void *);
 /* Updates effect motion and collision, grows its sprite, and flags expired effects. */
-void grow_terrain_colliding_sprite(void *effect, ObjectPosition *position, SpriteFrameState *sprite) {
+void grow_terrain_colliding_sprite(CollidingSpriteParticleBody *effect, ObjectPosition *position, SpriteFrameState *sprite) {
     s32 height;
 
-    position->x.v += ((S_8102F348_1 *)effect)->unk_50;
-    ((S_8102F348_1 *)effect)->unk_50 += ((S_8102F348_1 *)effect)->unk_5C;
+    position->x.v += effect->velocity_x;
+    effect->velocity_x += effect->acceleration_x;
     if ((check_left_tile_and_center_height(position->x.unsigned_parts.integer, position->y.unsigned_parts.integer,
                        position->z.w.i) << 16) != 0) {
-        position->x.v -= ((S_8102F348_1 *)effect)->unk_50;
-        ((S_8102F348_1 *)effect)->unk_50 = 0;
-        ((S_8102F348_1 *)effect)->unk_5C = 0;
+        position->x.v -= effect->velocity_x;
+        effect->velocity_x = 0;
+        effect->acceleration_x = 0;
     }
 
-    position->y.v += ((S_8102F348_1 *)effect)->unk_54;
-    ((S_8102F348_1 *)effect)->unk_54 += ((S_8102F348_1 *)effect)->unk_60;
+    position->y.v += effect->velocity_y;
+    effect->velocity_y += effect->acceleration_y;
     if ((check_left_tile_and_center_height(position->x.unsigned_parts.integer, position->y.unsigned_parts.integer,
                        position->z.w.i) << 16) != 0) {
-        position->y.v -= ((S_8102F348_1 *)effect)->unk_54;
-        ((S_8102F348_1 *)effect)->unk_54 = 0;
-        ((S_8102F348_1 *)effect)->unk_60 = 0;
+        position->y.v -= effect->velocity_y;
+        effect->velocity_y = 0;
+        effect->acceleration_y = 0;
     }
 
-    position->z.v += ((S_8102F348_1 *)effect)->unk_58;
-    ((S_8102F348_1 *)effect)->unk_58 += ((S_8102F348_1 *)effect)->unk_64;
+    position->z.v += effect->velocity_z;
+    effect->velocity_z += effect->acceleration_z;
     height = position->z.w.i;
     if ((sample_terrain_surface_height(position->x.unsigned_parts.integer, position->y.unsigned_parts.integer,
                        (s16)((u16)position->z.w.i - 4)) - 0x10) < height) {
-        ((S_8102F348_1 *)effect)->unk_58 = 0;
+        effect->velocity_z = 0;
         position->z.w.i = sample_terrain_surface_height(
             position->x.unsigned_parts.integer, position->y.unsigned_parts.integer,
             (s16)((u16)position->z.w.i - 4)) - 0x11;
         position->z.w.frac = 0;
-        if (((S_8102F348_1 *)effect)->unk_14 == 0) {
-            ((S_8102F348_1 *)effect)->unk_14 = 1;
-            ((S_8102F348_1 *)effect)->unk_1E.s = 0;
+        if (effect->contacted_ground == 0) {
+            effect->contacted_ground = 1;
+            effect->remaining.s = 0;
         }
     }
 
-    ((S_8102F348_1 *)effect)->unk_20++;
-    if ((((S_8102F348_1 *)effect)->unk_20 & 3) == 0) {
+    effect->animation_tick++;
+    if ((effect->animation_tick & 3) == 0) {
         advance_sprite_animation_and_textures(sprite);
     }
 
@@ -80,16 +66,16 @@ void grow_terrain_colliding_sprite(void *effect, ObjectPosition *position, Sprit
         sprite->scale_y = 0x1000;
     }
 
-    ((S_8102F348_1 *)effect)->unk_1E.u = ((S_8102F348_1 *)effect)->unk_1E.u - 1;
-    if ((s16)((S_8102F348_1 *)effect)->unk_1E.u <= 0) {
+    effect->remaining.u = effect->remaining.u - 1;
+    if ((s16)effect->remaining.u <= 0) {
         s32 *status_page = (s32 *)0x80080000;
-        ((S_8102F348_1_pre *)effect)[-1].unk_00 |= 0x8000;
+        NODE_HEADER(effect)->flags |= 0x8000;
         status_page[0x14A0 / 4] |= 0x8000;
     }
 
     if (sprite->flags & 0x8000) {
         s32 *status_page = (s32 *)0x80080000;
-        ((S_8102F348_1_pre *)effect)[-1].unk_00 |= 0x8000;
+        NODE_HEADER(effect)->flags |= 0x8000;
         status_page[0x14A0 / 4] |= 0x8000;
     }
 }

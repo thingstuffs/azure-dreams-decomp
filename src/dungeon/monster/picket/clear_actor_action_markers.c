@@ -67,8 +67,8 @@ s32 clear_actor_action_markers(void *origin, void *actor)
 
     direction_offset = (actor_bytes->field_2A.u16 >> 8) & 0xE;
     ground_index = find_floor_item_at_world_position(
-        (s16)(origin_bytes->field_24 + *(u16 *)(((u8 *)dir_step_x) + direction_offset)),
-        (s16)(origin_bytes->field_25 + *(u16 *)(((u8 *)dir_step_y) + direction_offset)),
+        (s16)(origin_bytes->field_24 + (u16)dir_step_x[direction_offset >> 1]),
+        (s16)(origin_bytes->field_25 + (u16)dir_step_y[direction_offset >> 1]),
         actor_bytes->field_88);
     if (ground_index >= 0) {
         picket_slot_f_item_result[0] = ((s32 *)dungeon_ground_items)[ground_index];

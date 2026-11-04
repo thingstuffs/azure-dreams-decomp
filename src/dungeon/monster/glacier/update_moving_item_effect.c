@@ -5,6 +5,7 @@
 #include "dungeon/actor/state.h"
 #include "dungeon/player/object.h"
 #include "dungeon/system.h"
+#include "dungeon/monster/glacier.h"
 
 typedef struct S_func_810332A4_1 {
     u8 pad_00[0x16];
@@ -63,7 +64,6 @@ void update_map_cell_flags_with_item_limit(s32 x, s32 y, u16 flags);
 extern void apply_attack_power_and_element_effects();
 s32 check_left_tile_and_center_height(s32 x, s32 y, s32 z);
 extern s16 sample_terrain_surface_height(u16, u16, s16);
-extern void spawn_directional_particle(); /* Unprototyped: retail call passes more arguments than the callee reads */
 extern void spawn_directional_effect(); /* Unprototyped: retail call passes more arguments than the callee reads */
 extern void *find_nearby_eligible_entry(u8 *current, s32 wanted_24, s32 wanted_25, s32 height_center);
 extern void * find_first_entry_matching_keys(ActorRecord *node, u16 key_a, u16 key_b, s16 range_center);

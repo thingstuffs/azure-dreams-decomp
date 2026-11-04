@@ -28,11 +28,8 @@ struct ActorRecord;
 s32 find_active_rect_containing_point(s32 point_x, s32 point_y);
 void update_actor_status_and_mp(struct ActorRecord *);
 struct Rec_func_800A9E70_arg0; struct Rec_func_800AA258_arg2; void begin_actor_move_to_target_facing(ActorRecord *body, ObjectPosition *position, SpriteFrameState *sprite, ActorRecord *actor);
-void advance_multi_form_turn_path(ActorRecord *actor, ObjectPosition *unused, SpriteFrameState *sprite, ActorRecord *movement);
 struct Rec_D_80082E80; struct Rec_func_800A9E70_arg0;
-void start_actor_attack(ActorRecord *, ObjectPosition *, s32, void *);
 
-void update_multi_form_actor_movement(ActorRecord *object, ObjectPosition *update_param, SpriteFrameState *state, ActorRecord *input);
 struct Rec_func_800A9E70_arg0;
 struct Rec_func_800A9E70_arg0;
 s32 advance_actor_effect_sequence_2();

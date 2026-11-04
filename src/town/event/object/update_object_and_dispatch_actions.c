@@ -15,7 +15,7 @@ typedef struct Obj800AD0E4 {
     u16 field_A;
 } Obj800AD0E4;
 
-extern void initialize_scene_action_record(Obj800AD0E4 *, void *, s32);
+extern void initialize_scene_action_record(Obj800AD0E4 *, void *, s32); /* Unprototyped: uses the value as a pointer where the definition has an integer (or the reverse) */
 extern void initialize_actor_action_state(Obj800AD0E4 *, ObjectPosition *, s32);
 extern void initialize_action_object(Obj800AD0E4 *, void *, s32);
 extern void move_both_components_toward_zero_direction_dependent_steps_clamping_zero(ObjectPosition *);

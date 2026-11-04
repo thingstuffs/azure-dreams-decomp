@@ -41,22 +41,18 @@ void update_staged_item_movement(ActorRecord *action, ObjectPosition *motion, Sp
         action->action_timer.u = timer;
         if (timer > 0) {
             motion->velocity_x =
-                *(s16 *)(((s8 *)dir_step_x) +
-                    ((actor->movement_facing >> 8) & 0xE)) << 19;
+                dir_step_x[(actor->movement_facing >> 9) & 7] << 19;
             motion->velocity_y =
-                *(s16 *)(((s8 *)dir_step_y) +
-                    ((actor->movement_facing >> 8) & 0xE)) << 19;
+                dir_step_y[(actor->movement_facing >> 9) & 7] << 19;
             return;
         }
         if (timer != 0) {
             return;
         }
         motion->velocity_x =
-            *(s16 *)(((s8 *)dir_step_x) +
-                ((actor->movement_facing >> 8) & 0xE)) << 18;
+            dir_step_x[(actor->movement_facing >> 9) & 7] << 18;
         motion->velocity_y =
-            *(s16 *)(((s8 *)dir_step_y) +
-                ((actor->movement_facing >> 8) & 0xE)) << 18;
+            dir_step_y[(actor->movement_facing >> 9) & 7] << 18;
         action->action_timer.u = 12;
         action->action_phase.u++;
         return;

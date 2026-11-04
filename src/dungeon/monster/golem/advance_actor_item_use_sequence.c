@@ -17,15 +17,8 @@
 #include "dungeon/item/actor_target.h"
 #include "dungeon/item.h"
 #include "dungeon/actor.h"
-
-
-typedef s32 M2C_UNK;
-
-
-
-extern void set_record_integer_tile_center(ObjectPosition *record, s32 tile_x, s32 tile_y);
-
-extern void * create_offset_actor_object(ActorRecord *, ObjectPosition *, SpriteFrameState *);
+#include "dungeon/monster/golem.h"
+#include "dungeon/player/object.h"
 
 extern void golem_action_continuation_address(void *, void *, void *, void *);
 extern u8 golem_direction_frames[8];

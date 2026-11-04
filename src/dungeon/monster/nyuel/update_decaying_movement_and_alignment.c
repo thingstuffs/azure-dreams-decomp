@@ -21,11 +21,9 @@ void update_decaying_movement_and_alignment(ActorRecord *action, ObjectPosition 
     case 0:
         apply_clamped_actor_value_delta(actor_data);
         motion->velocity_x =
-            *(s16 *)((u8 *)((s8 *)dir_step_x) +
-                     ((actor_data->movement_facing >> 8) & 0xE)) << 19;
+            dir_step_x[(actor_data->movement_facing >> 9) & 7] << 19;
         motion->velocity_y =
-            *(s16 *)((u8 *)((s8 *)dir_step_y) +
-                     ((actor_data->movement_facing >> 8) & 0xE)) << 19;
+            dir_step_y[(actor_data->movement_facing >> 9) & 7] << 19;
         action->action_phase.u++;
 
         if (actor_data->hp == 0) {

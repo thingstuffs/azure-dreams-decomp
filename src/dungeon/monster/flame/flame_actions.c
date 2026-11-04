@@ -814,9 +814,9 @@ void choose_flame_move(ActorRecord *move_data, ObjectPosition *context, SpriteFr
                     s32 offset_index =
                         ((((u8 *)&actor_data->unk_44.whole)[1] + ((s16)target_facing >> 9)) & 7) << 1;
                     target_x = target_position->tile_position.parts.tile_x +
-                        *(u16 *)((u8 *)((s8 *)dir_step_x) + offset_index);
+                        (u16)dir_step_x[offset_index >> 1];
                     target_y = target_position->tile_position.parts.tile_y +
-                        *(u16 *)((u8 *)((s8 *)dir_step_y) + offset_index);
+                        (u16)dir_step_y[offset_index >> 1];
                 }
 
                 if (position_data->tile_x == (u16)target_x &&
@@ -2164,7 +2164,7 @@ void advance_actor_action_and_update_status(
  * slot). The s16 stack offsets stay in s2-s4 from the prologue, and fields is the 0x20-advanced
  * record.
  */
-void project_and_queue_textured_quad(ActorRecord *quad, void *position, void *draw_state, s16 depth_bias)
+void project_and_queue_textured_quad(ActorRecord *quad, ObjectPosition *position, SpriteFrameState *draw_state, s16 depth_bias)
 {
     R06_80174334_S_80174334_0 *scratch = (R06_80174334_S_80174334_0 *)0x1F800000;
     R06_80174334_S_80174334_5 *packet;
@@ -2176,19 +2176,19 @@ void project_and_queue_textured_quad(ActorRecord *quad, void *position, void *dr
     R06_80174334_MATRIX matrix;
 
     scratch->unk_24.p = *(u8 **)&g_game_work.draw_buffer + 0xB0;
-    scratch->matrices.position.x = ((R06_80174334_S_80174334_1 *)position)->unk_02;
-    scratch->matrices.position.y = ((R06_80174334_S_80174334_1 *)position)->unk_06;
-    scratch->matrices.position.z = ((R06_80174334_S_80174334_1 *)position)->unk_0A;
-    ((R06_80174334_S_80174334_2 *)draw_state)->unk_14 |= 0x8000;
+    scratch->matrices.position.x = position->x.w.i;
+    scratch->matrices.position.y = position->y.w.i;
+    scratch->matrices.position.z = position->z.w.i;
+    draw_state->flags |= 0x8000;
 
     PushMatrix();
 
     scratch->unk_3C = 0x2000;
     scratch->unk_38 = 0x2000;
     scratch->unk_34 = 0x2000;
-    scratch->unk_A4 = ((R06_80174334_S_80174334_2 *)draw_state)->unk_16;
-    scratch->unk_A8 = ((R06_80174334_S_80174334_2 *)draw_state)->unk_1A;
-    scratch->unk_A6 = ((R06_80174334_S_80174334_2 *)draw_state)->unk_18;
+    scratch->unk_A4 = draw_state->angle_x;
+    scratch->unk_A8 = draw_state->angle_z;
+    scratch->unk_A6 = draw_state->angle_y;
     RotMatrix(&scratch->unk_A4, &scratch->matrices.transform[1]);
     ReadRotMatrix(&matrix);
     CompMatrix(&matrix, &scratch->matrices.transform[1], &scratch->matrices.transform[0]);
@@ -2197,7 +2197,7 @@ void project_and_queue_textured_quad(ActorRecord *quad, void *position, void *dr
     SetRotMatrix(&scratch->matrices.transform[0]);
 
     texture = ((R06_80174334_S_80174334_2 *)draw_state)->unk_08;
-    scratch->unk_28 = ((R06_80174334_S_80174334_2 *)draw_state)->unk_14;
+    scratch->unk_28 = draw_state->flags;
     scratch->unk_0C.s32 = texture[8];
     scratch->unk_10.s32 = texture[9];
     /* BYTES: this raw word store keeps the following draw-buffer load in order. */
@@ -2236,7 +2236,7 @@ void project_and_queue_textured_quad(ActorRecord *quad, void *position, void *dr
              ((u16)(packet->xy2.parts.y + 0x20) < 0x121)) |
             (((u16)(packet->xy3.parts.x.u + 0x20) < 0x181) &&
              ((u16)(packet->xy3.parts.y.u + 0x20) < 0x121))) {
-            ((R06_80174334_S_80174334_2 *)draw_state)->unk_14 &= 0x7FFF;
+            draw_state->flags &= 0x7FFF;
 
             scratch->unk_14.s32 += scratch->unk_0C.s32;
             if (scratch->unk_14.s32 & 0x100) {
@@ -2249,11 +2249,11 @@ void project_and_queue_textured_quad(ActorRecord *quad, void *position, void *dr
             scratch->unk_10.s32 <<= 8;
             scratch->unk_18.s32 <<= 8;
 
-            if (((R06_80174334_S_80174334_2 *)draw_state)->unk_12) {
+            if (draw_state->clut) {
                 if (scratch->unk_28 & 0x100) {
-                    packet->unk_0E = ((R06_80174334_S_80174334_2 *)draw_state)->unk_12;
+                    packet->unk_0E = draw_state->clut;
                 } else {
-                    packet->unk_0E = ((R06_80174334_S_80174334_2 *)draw_state)->unk_12 +
+                    packet->unk_0E = draw_state->clut +
                                               ((R06_80174334_S_80174334_6 *)texture)->unk_06;
                 }
             } else {
@@ -2265,8 +2265,8 @@ void project_and_queue_textured_quad(ActorRecord *quad, void *position, void *dr
             packet->unk_18.u16 = scratch->unk_10.u16 +
                                        scratch->unk_14.u16;
 
-            if (((R06_80174334_S_80174334_2 *)draw_state)->unk_10) {
-                packet->unk_1A = ((R06_80174334_S_80174334_2 *)draw_state)->unk_10 +
+            if (draw_state->tpage_abr) {
+                packet->unk_1A = draw_state->tpage_abr +
                                            (((R06_80174334_S_80174334_6 *)texture)->unk_04 & 0xFF9F);
             } else {
                 packet->unk_1A = ((R06_80174334_S_80174334_6 *)texture)->unk_04;
@@ -2294,14 +2294,14 @@ void project_and_queue_textured_quad(ActorRecord *quad, void *position, void *dr
             SetPolyGT4(packet);
 
             tex_flags = texture[1];
-            ((R06_80174334_S_80174334_2 *)draw_state)->unk_0F = tex_flags;
+            draw_state->color.c.code = tex_flags;
             draw_flags = scratch->unk_28;
             if (draw_flags & 8) {
-                ((R06_80174334_S_80174334_2 *)draw_state)->unk_0F = (draw_flags & 4) ?
+                draw_state->color.c.code = (draw_flags & 4) ?
                     (tex_flags | 2) : (tex_flags & 0xFD);
             }
 
-            packet->unk_04.at03.v |= ((R06_80174334_S_80174334_2 *)draw_state)->unk_0F;
+            packet->unk_04.at03.v |= draw_state->color.c.code;
             packet->unk_00 = (packet->unk_00 & 0xFF000000) |
                 ((*(u32 *)((u8 *)(scratch->unk_24.p2)
                     + scratch->unk_100 * 4)) & 0x00FFFFFF);

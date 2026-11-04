@@ -16,7 +16,7 @@
 #include "shared/sprite_frame_state.h"
 
 extern void submit_object_resource_data(s32 value);
-extern void initialize_scene_action_record(void *action_state, void *actor, s32 context);
+extern void initialize_scene_action_record(void *action_state, void *actor, s32 context); /* Unprototyped: uses the value as a pointer where the definition has an integer (or the reverse) */
 extern void init_unchanged_action_fallback(void *action_state, void *actor, s32 context);
 extern void init_threshold_countdown_action(void *action_state, void *actor,void *context);
 extern void initialize_actor_action_state(void *action_state, void *actor, s32 context);

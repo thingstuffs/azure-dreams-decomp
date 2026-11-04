@@ -9,10 +9,7 @@
 #include "dungeon/actor/animation.h"
 #include "engine/node.h"
 #include "engine/node/allocation.h"
-
-typedef s32 M2C_UNK;
-
-extern void try_move_actor_to_valid_position(void *, void *, void *, void *);
+#include "dungeon/actor.h"
 
 void ghosh_motion_resume_address(ActorRecord *actor, ObjectPosition *context, SpriteFrameState *sprite, ActorRecord *entity);
 #include "dungeon/monster/ghosh.h"

@@ -100,9 +100,9 @@ void update_path_with_alternate_directions(ActorRecord *move_ctx_in, ObjectPosit
                     s32 table_index =
                         ((((u8 *)&actor_in->unk_44.whole)[1] + ((s16)target_heading >> 9)) & 7) << 1;
                     target_x = target_position->tile_position.parts.tile_x +
-                        *(u16 *)((u8 *)((s8 *)dir_step_x) + table_index);
+                        (u16)dir_step_x[table_index >> 1];
                     target_y = target_position->tile_position.parts.tile_y +
-                        *(u16 *)((u8 *)((s8 *)dir_step_y) + table_index);
+                        (u16)dir_step_y[table_index >> 1];
                 }
 
                 if (position_in->tile_x == (u16)target_x &&

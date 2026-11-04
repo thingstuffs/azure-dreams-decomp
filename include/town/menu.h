@@ -47,7 +47,7 @@ s32 classify_record_by_state_and_position(Rec_D_80082D58 *record, void *position
 void *create_configured_object(void *object_data, void *source_position, s32 alternate_callback);
 s16 *get_cached_catalog_glyph(s16 char_code);
 void initialize_menu_overlay_objects(u8 *owner, s32 value);
-void initialize_randomized_scale_timer(TownObjectRecord *object);
+void initialize_randomized_scale_timer(TownObjectRecord *object, void *unused_state, void *unused_context);
 u8 is_catalog_entry_available(s32 index);
 void no_op_callback_a(void *unused_ptr, s32 unused_state_id, s32 unused_state_arg);
 s32 store_record_value_and_table_lookup(void *unused_arg0, void *unused_arg1, void *unused_arg2, void *unused_arg3);

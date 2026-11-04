@@ -4,26 +4,12 @@
 #include "shared/position_views.h"
 #include "town/event/motion.h"
 
-typedef struct S_8009C120_0 {
-    u8 pad_00[0x15];
-    s8 unk_15;
-} S_8009C120_0;   /* arg1 in initialize_target_motion_state */
-
-   /* arg2 in initialize_target_motion_state */
-
-typedef struct S_8009C120_2 {
-    u8 pad_00[0x50];
-    void (*unk_50)(Rec_func_8009B828_arg0 *, s32,  ObjectPosition *, s32);
-    u8 pad_54[0x18];
-    s16 unk_6C;
-} S_8009C120_2;   /* arg0 in initialize_target_motion_state */
-
 /* Clear status and values, then initialize the state's data pointer and mode. */
-void initialize_target_motion_state(S_8009C120_2 *state, S_8009C120_0 *status, MotionDeltaView *values, void *unused_extra_ptr) {
+void initialize_target_motion_state(TownObjectRecord *state, Rec_D_800CFCB4 *status, MotionDeltaView *values, void *unused_extra_ptr) {
     status->unk_15 = 0;
     values->velocity_x = 0;
     values->velocity_y = 0;
     values->velocity_z = 0;
-    state->unk_50 = &update_motion_toward_shared_target;
-    state->unk_6C = 7;
+    state->unk_50.as_pm = &update_motion_toward_shared_target;
+    state->timer.as_s16 = 7;
 }

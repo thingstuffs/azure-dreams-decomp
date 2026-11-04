@@ -23,8 +23,8 @@ typedef struct { s32 value; } ItemWord;
 
     direction_offset = (*(u16 *)(((u8 *)actor_bytes) + 0x2A) >> 8) & 0xE;
     ground_slot = find_floor_item_at_world_position(
-        (s16)(*(origin_bytes + 0x24) + *(u16 *)(((u8 *)dir_step_x) + direction_offset)),
-        (s16)(*(origin_bytes + 0x25) + *(u16 *)(((u8 *)dir_step_y) + direction_offset)),
+        (s16)(*(origin_bytes + 0x24) + (u16)dir_step_x[direction_offset >> 1]),
+        (s16)(*(origin_bytes + 0x25) + (u16)dir_step_y[direction_offset >> 1]),
         actor_bytes->ground_height);
     if (ground_slot >= 0) {
         s32 *item_dest;

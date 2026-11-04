@@ -15,6 +15,7 @@
 #include "dungeon/system.h"
 #include "engine/texture.h"
 #include "dungeon/data.h"
+#include "dungeon/effect/particle.h"
 
 typedef struct S_80171D74_0 {
     s32 unk_00;
@@ -115,12 +116,10 @@ typedef struct { s16 x; u16 y; } ScriptDirection;
 #include "engine/texture/select_indirect_table_entry_api.h"              /* extern */
 #include "engine/graphics/select_sprite_entry_api.h"         /* extern */
 #include "slus.h"
-void snapshot_inventory_and_familiars();                 /* extern */
 s32 ground_items_lack_special_pair();                      /* extern */
 void create_rotating_clipped_sprite(u32 *, s16);             /* extern */
 struct S_8016738C_3; void create_color_cycling_pulse(struct S_8016738C_3 *);                      /* extern */
 struct EntityRec; void create_layered_sprite_pulse(EntityRec *origin);                      /* extern */
-void create_forward_layered_sprite_pulse(); /* Unprototyped: retail call passes more arguments than the callee reads */                  /* extern */
 struct S_8016F5D8_0; struct S_8016F5D8_2; void update_phase_driven_motion_offset(ActorRecord *, ObjectPosition *, struct S_8016F5D8_0 *);      /* extern */
 void apply_script_direction_record(void *, ObjectPosition *, SpriteFrameState *);      /* extern */
 void create_action_offset_object(void);                            /* extern */
@@ -747,14 +746,14 @@ shared_tail:
         break;
 
     case 42:
-        snapshot_inventory_and_familiars(((s32)dungeon_actor_ring_anchor), target_state);
+        snapshot_inventory_and_familiars(((s32)dungeon_actor_ring_anchor));
         snapshot_inventory_familiar_records();
         runtime_dispatch_state.flags16 = 0x8000;
         request_scene_state_with_parameters(6, 0, 0, 0, 0x8000);
         state_in->action_id.u++;
         break;
     case 47:
-        snapshot_inventory_and_familiars(((s32)dungeon_actor_ring_anchor), target_state);
+        snapshot_inventory_and_familiars(((s32)dungeon_actor_ring_anchor));
         snapshot_inventory_familiar_records();
         runtime_dispatch_state.flags16 = 0x8000;
         request_scene_state_with_parameters(6, 0, 0, 0, 0x8000);

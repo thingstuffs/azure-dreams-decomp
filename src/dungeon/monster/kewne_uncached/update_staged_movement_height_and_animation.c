@@ -66,9 +66,9 @@ void update_staged_movement_height_and_animation(void *motion, ObjectPosition *v
         {
             u32 direction_offset = ((u16)actor->facing >> 8) & 0xE;
             velocity->velocity_x -=
-                (s32)*(s16 *)((u8 *)((s8 *)dir_step_x) + direction_offset) << 16;
+                (s32)dir_step_x[direction_offset >> 1] << 16;
             velocity->velocity_y -=
-                (s32)*(s16 *)((u8 *)((s8 *)dir_step_y) + direction_offset) << 16;
+                (s32)dir_step_y[direction_offset >> 1] << 16;
         }
         if (sprite->flags & 0x6000) {
             sprite->frameTable = D_80175C68;

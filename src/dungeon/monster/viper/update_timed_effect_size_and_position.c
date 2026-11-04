@@ -2,10 +2,10 @@
 #include "records/Rec_func_800AA258_arg2.h"
 #include "shared/entity.h"
 #include "dungeon/monster/viper/effect.h"
+#include "shared/object_node.h"
+#include "dungeon/monster/viper.h"
 
-typedef struct S_801743E8_0_pre {
-    u16 unk_00;
-} S_801743E8_0_pre;   /* the 0x2 bytes before arg0 in update_timed_effect_size_and_position, addressed as arg0[-1] */
+   /* the 0x2 bytes before arg0 in update_timed_effect_size_and_position, addressed as arg0[-1] */
 
 typedef struct Page8008 {
     u8 pad[0x14A0];
@@ -59,7 +59,7 @@ void update_timed_effect_size_and_position(ViperTimedEffectBody *effect, ObjectP
         return;
     case 3:
         flag_page = (Page8008 *)0x80080000;
-        ((S_801743E8_0_pre *)effect)[-1].unk_00 |= 0x8000;
+        NODE_HEADER(effect)->flags |= 0x8000;
         flag_page->flags |= 0x8000;
         return;
     default:

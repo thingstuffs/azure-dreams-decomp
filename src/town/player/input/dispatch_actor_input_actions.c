@@ -16,7 +16,6 @@
 #include "town/map/position.h"
 #include "town/player/input.h"
 extern void submit_object_resource_data();
-extern void initialize_scene_action_record();
 void init_ground_input_fallback(s32 * *, void *, void *);
 struct TownObjectRecord; void initialize_randomized_object_action(struct TownObjectRecord *, ObjectPosition *, SpriteFrameState *);
 struct TownObjectRecord; void init_periodic_effect_action(struct TownObjectRecord *, ObjectPosition *, SpriteFrameState *);

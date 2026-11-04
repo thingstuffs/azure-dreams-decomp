@@ -12,13 +12,12 @@
 #include "dungeon/system.h"
 #include "sdk/libc.h"
 
-extern void spawn_randomized_directional_effect(void *, s16, s32, s32); /* Unprototyped: retail call passes more arguments than the callee reads */
-
 extern u8 uboat_default_frames[];
 extern u8 u_boat_frame_set_1[];
 #include "dungeon/monster/u_boat.h"
 #include "dungeon/actor.h"
 #include "dungeon/effect/screen.h"
+#include "dungeon/effect/shade.h"
 
 
 

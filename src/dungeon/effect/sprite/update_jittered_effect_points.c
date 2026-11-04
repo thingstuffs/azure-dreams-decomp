@@ -4,6 +4,7 @@
 #include "shared/entity.h"
 #include "shared/sprite_frame_state.h"
 #include "dungeon/effect/sprite.h"
+#include "shared/dungeon_projectile_views.h"
 #include "shared/object_node.h"
 #include "shared/tile_object.h"
 #include "shared/slus_callbacks.h"
@@ -594,7 +595,7 @@ s32 update_segment(void *node)
     s32 mid_otz;
     s32 slot_offset;
     GameWork *base;
-    void *poly;
+    POLY_FT4 *poly;
     void *parent;
     void *obj;
     int dy;
@@ -637,35 +638,35 @@ s32 update_segment(void *node)
             *((s32 *) (((s8 *) poly) + 4)) = *((s32 *) (((s8 *) obj) + 0x38));
             SetPolyFT4(poly);
             SetSemiTrans(poly, 1);
-            *((u16 *) (((s8 *) poly) + 0x16)) = (u16) (*((u16 *) (((s8 *) obj) + 0x40)));
-            *((u16 *) (((s8 *) poly) + 0xE)) = (u16) (*((u16 *) (((s8 *) obj) + 0x42)));
-            *((s16 *) (((s8 *) poly) + 8)) = (s16) (sxy[i].half.x - scratch.x);
-            *((s16 *) (((s8 *) poly) + 0x10)) = (s16) (sxy[i + 1].half.x - scratch.x);
-            *((s16 *) (((s8 *) poly) + 0x18)) = (s16) (sxy[i].half.x + scratch.x);
-            *((s16 *) (((s8 *) poly) + 0x20)) = (s16) (sxy[i + 1].half.x + scratch.x);
-            *((s16 *) (((s8 *) poly) + 0xA)) = (s16) (sxy[i].half.y - scratch.y);
-            *((s16 *) (((s8 *) poly) + 0x1A)) = (s16) (sxy[i].half.y + scratch.y);
-            *((s16 *) (((s8 *) poly) + 0x12)) = (s16) (sxy[i + 1].half.y - scratch.y);
-            *((s16 *) (((s8 *) poly) + 0x22)) = (s16) (sxy[i + 1].half.y + scratch.y);
+            poly->tpage = (u16) (*((u16 *) (((s8 *) obj) + 0x40)));
+            poly->clut = (u16) (*((u16 *) (((s8 *) obj) + 0x42)));
+            poly->x0 = (s16) (sxy[i].half.x - scratch.x);
+            poly->x1 = (s16) (sxy[i + 1].half.x - scratch.x);
+            poly->x2 = (s16) (sxy[i].half.x + scratch.x);
+            poly->x3 = (s16) (sxy[i + 1].half.x + scratch.x);
+            poly->y0 = (s16) (sxy[i].half.y - scratch.y);
+            poly->y2 = (s16) (sxy[i].half.y + scratch.y);
+            poly->y1 = (s16) (sxy[i + 1].half.y - scratch.y);
+            poly->y3 = (s16) (sxy[i + 1].half.y + scratch.y);
             colour_a = *((u8 *) (((s8 *) obj) + 0x2C));
-            *((u8 *) (((s8 *) poly) + 0x1C)) = colour_a;
-            *((u8 *) (((s8 *) poly) + 0xC)) = colour_a;
+            poly->u2 = colour_a;
+            poly->u0 = colour_a;
             colour_b = (u8) (colour_a + (*((u8 *) (((s8 *) obj) + 0x30))));
-            *((u8 *) (((s8 *) poly) + 0x24)) = colour_b;
-            *((u8 *) (((s8 *) poly) + 0x14)) = colour_b;
+            poly->u3 = colour_b;
+            poly->u1 = colour_b;
             colour_c = *((u8 *) (((s8 *) obj) + 0x2E));
-            *((u8 *) (((s8 *) poly) + 0x25)) = colour_c;
-            *((u8 *) (((s8 *) poly) + 0x1D)) = colour_c;
+            poly->v3 = colour_c;
+            poly->v2 = colour_c;
             colour_d = (u8) (colour_c + (*((u8 *) (((s8 *) obj) + 0x32))));
-            *((u8 *) (((s8 *) poly) + 0x15)) = colour_d;
-            *((u8 *) (((s8 *) poly) + 0xD)) = colour_d;
+            poly->v1 = colour_d;
+            poly->v0 = colour_d;
             mid_otz = (s32) ((otz[i] + otz[i + 1]) >> 1);
             p = mid_otz;
             if (((u32) mid_otz) < 0x1E0U) {
                 u32 low_mask = 0xFFFFFF;
                 u32 high_mask = 0xFF000000;
                 slot_offset = mid_otz * 4;
-                *((s32 *) (((s8 *) poly) + 0)) = (s32) (((*((s32 *) (((s8 *) poly) + 0))) & high_mask)
+                poly->tag = (s32) ((poly->tag & high_mask)
                     | ((*((s32 *) (((s8 *) (((u8 *) slot_offset) + ((u32) (base->draw_buffer))))
                     + 0xB0))) & low_mask));
                 *((s32 *) (((s8 *) (((u8 *) slot_offset) + ((u32) (base->draw_buffer)))) + 0xB0)) =

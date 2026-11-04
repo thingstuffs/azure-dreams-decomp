@@ -39,9 +39,9 @@ void decay_motion_and_align_actor(ActorRecord *action, ObjectPosition *motion, S
             return;
         }
         motion->velocity_x =
-            (-*(s16 *)((u8 *)dir_step_x + ((actor->movement_facing >> 8) & 0xE))) << 15;
+            (-dir_step_x[(actor->movement_facing >> 9) & 7]) << 15;
         motion->velocity_y =
-            (-*(s16 *)((u8 *)dir_step_y + ((actor->movement_facing >> 8) & 0xE))) << 15;
+            (-dir_step_y[(actor->movement_facing >> 9) & 7]) << 15;
         motion_frames = -1;
         if (actor->flags1C & 0x228) {
             motion_frames = 8;

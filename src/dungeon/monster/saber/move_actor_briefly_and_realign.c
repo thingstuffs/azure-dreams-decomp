@@ -53,11 +53,9 @@ void move_actor_briefly_and_realign(ActorRecord *action, ObjectPosition *motion,
         timer = timer_bits;
         if (timer >= 11) {
             motion->velocity_x =
-                *(s16 *)((u8 *)((s8 *)dir_step_x) +
-                         ((entity->movement_facing >> 8) & 0xE)) << 20;
+                dir_step_x[(entity->movement_facing >> 9) & 7] << 20;
             motion->velocity_y =
-                *(s16 *)((u8 *)((s8 *)dir_step_y) +
-                         ((entity->movement_facing >> 8) & 0xE)) << 20;
+                dir_step_y[(entity->movement_facing >> 9) & 7] << 20;
             actor->flags |= 0x800;
             return;
         }
