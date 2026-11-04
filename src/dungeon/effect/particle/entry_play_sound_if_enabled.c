@@ -143,7 +143,7 @@ void emit_attached_directional_particle_chain(AttachedParticleChainSpellBody *ef
                     effect->unk_B8 = coord;
                 }
                 if (*((u16 *)effect->spell.context) & 0x80) {
-                    effect->unk_84.s = 0U;
+                    effect->unk_84.u = 0U;
                     effect->spell.phase.s = (s16) ((u16) effect->spell.phase.s + 1);
                     play_sound_if_enabled(AUDIO_PLAY_CD_CUE);
                 }
@@ -152,8 +152,8 @@ void emit_attached_directional_particle_chain(AttachedParticleChainSpellBody *ef
         }
 
     case 2:
-        spawn_tick = effect->unk_84.s + 1;
-        effect->unk_84.s = spawn_tick;
+        spawn_tick = effect->unk_84.u + 1;
+        effect->unk_84.u = spawn_tick;
         if (spawn_tick & 1) {
 
             node = allocate_flagged_object_node(0x12);
@@ -180,7 +180,7 @@ void emit_attached_directional_particle_chain(AttachedParticleChainSpellBody *ef
                 work->unk_2C.p = parent;
                 work->unk_30.s = ((S_818154FC_3 *)parent)->unk_60.s;
                 work->unk_0A.s =
-                    (effect->unk_84.u - 1) / 2;
+                    (effect->unk_84.s - 1) / 2;
                 work->unk_15 = effect->spell.variant;
                 work->unk_16 = effect->unk_7E.u;
 
@@ -218,7 +218,7 @@ void emit_attached_directional_particle_chain(AttachedParticleChainSpellBody *ef
 
                     compare_one = 1;
                     motion = ((S_818154FC_15_pre *)(((S_818154FC_3 *)parent)->unk_60.p))[-1].unk_00;
-                    if (effect->unk_84.u == compare_one) {
+                    if (effect->unk_84.s == compare_one) {
                         s32 duration;
 
                         duration = work->unk_02.s;
@@ -239,7 +239,7 @@ void emit_attached_directional_particle_chain(AttachedParticleChainSpellBody *ef
                     work->unk_02.s = 8;
                     work->unk_08 = 0;
                 }
-                if (effect->unk_84.u == 9) {
+                if (effect->unk_84.s == 9) {
                     if (((S_818154FC_3 *)parent)->unk_60.u != NULL) {
                         u16 end_time;
 
@@ -261,7 +261,7 @@ void emit_attached_directional_particle_chain(AttachedParticleChainSpellBody *ef
                 spawn_sprite->color.c.r = 0x80;
                 spawn_sprite->scale_y = 0x1000;
                 spawn_sprite->scale_x = 0x1000;
-                if ((s16) effect->unk_84.s == 1) {
+                if ((s16) effect->unk_84.u == 1) {
                     effect->unk_90 = node;
                     effect->unk_94.s = spawn_position;
                     effect->unk_88 = 0x63;
@@ -280,11 +280,11 @@ void emit_attached_directional_particle_chain(AttachedParticleChainSpellBody *ef
                 position->z.v = spawn_position->z.v;
             }
         }
-        if ((s16) effect->unk_84.s >= 0xB) {
+        if ((s16) effect->unk_84.u >= 0xB) {
             u16 old_state;
 
             old_state = effect->spell.phase.u;
-            effect->unk_84.s = 0;
+            effect->unk_84.u = 0;
             old_state++;
             effect->spell.phase.u = old_state;
         }
@@ -304,14 +304,14 @@ void emit_attached_directional_particle_chain(AttachedParticleChainSpellBody *ef
             }
         }
         {
-            u16 old_counter = effect->unk_84.s;
+            u16 old_counter = effect->unk_84.u;
             s16 new_counter = old_counter + 1;
 
-            effect->unk_84.s = new_counter;
+            effect->unk_84.u = new_counter;
             if (effect->unk_86 < new_counter) {
                 s32 global_state = D_80025338[0];
 
-                effect->unk_84.s = old_counter;
+                effect->unk_84.u = old_counter;
                 if (global_state == 0) {
                     g_dungeon_status.active_actor = 0;
                     NODE_HEADER(effect)->flags |= 0x8000;

@@ -1,5 +1,6 @@
 #ifndef TOWN_SHOP_H
 #define TOWN_SHOP_H
+#include "shared/dungeon_item_entries.h"
 #include "town/shop/item_menu_cursor_transition_g00601.h"
 struct ActorRecord;
 
@@ -58,7 +59,6 @@ s32 count_free_item_slots(void);
 #include "shared/entity.h"
 struct S_800AE30C_0;
 struct S_800B2D00_0;
-struct S_800B61C0_1;
 struct TownObject;
 void advance_five_step_fixed_point_ramp(void *sub_object);
 void *build_encoded_display_sequence(s32 source, u8 *outputBuffer);
@@ -75,7 +75,7 @@ s32 get_mode_selected_value(void);
 void handle_grid_menu_input(GridMenuObject *menu);
 void handle_twin_shop_input(s32 *menu);
 void pass_indexed_entry_address(GridMenuObject *entry_table);
-void populate_display_row(struct S_800B61C0_1 *entry, s32 widgets_base, s32 row);
+void populate_display_row(DungeonItemEntry *entry, s32 widgets_base, s32 row);
 void populate_display_row_with_icon(void *entry_data, s32 display_base, s32 row_index);
 void process_shop_embedded_data(ShopEmbeddedDataObject *record);
 s32 select_choice_from_input_flags(s32 *choice_values);

@@ -102,37 +102,37 @@ void initialize_item_menu_list_entries(ItemMenuTransition *list) {
             u8 *row_slots_m;
             row_slot = row_index * 4;
             {
-                MenuSelectionWidgets *row_slots = (MenuSelectionWidgets *)(row_slot + (s32)((S_800AECA4_0 *)list)->unk_D8);
+                MenuSelectionWidgets *row_slots = (MenuSelectionWidgets *)(row_slot + (s32)list->rows.as_ptr);
                 ((SignedWidgetYView *)(((S_800AECA4_6 *)(row_slots->secondary_entries[4]))->unk_04))->unk_0A = row_y;
             }
             {
-                row_slots_m = (u8 *)(row_slot + (s32)((S_800AECA4_0 *)list)->unk_D8);
+                row_slots_m = (u8 *)(row_slot + (s32)list->rows.as_ptr);
                 *((S_800AECA4_1 *)row_slots_m)->unk_38 = &list->row_data;
             }
             {
-                row_slots_m = (u8 *)(row_slot + (s32)((S_800AECA4_0 *)list)->unk_D8);
+                row_slots_m = (u8 *)(row_slot + (s32)list->rows.as_ptr);
                 ((SignedWidgetYView *)(((S_800AECA4_7 *)(((MenuSelectionWidgets *)row_slots_m)->entries[1]))->unk_04))->unk_0A = row_y;
             }
             {
-                row_slots_m = (u8 *)(row_slot + (s32)((S_800AECA4_0 *)list)->unk_D8);
+                row_slots_m = (u8 *)(row_slot + (s32)list->rows.as_ptr);
                 *((S_800AECA4_1 *)row_slots_m)->unk_08 = row_data_a;
             }
             {
-                row_slots_m = (u8 *)(row_slot + (s32)((S_800AECA4_0 *)list)->unk_D8);
+                row_slots_m = (u8 *)(row_slot + (s32)list->rows.as_ptr);
                 ((SignedWidgetYView *)(((S_800AECA4_8 *)(((MenuSelectionWidgets *)row_slots_m)->cursor))->unk_04))->unk_0A = row_y;
             }
             {
-                row_slots_m = (u8 *)(row_slot + (s32)((S_800AECA4_0 *)list)->unk_D8);
+                row_slots_m = (u8 *)(row_slot + (s32)list->rows.as_ptr);
                 *((S_800AECA4_1 *)row_slots_m)->unk_20 = row_data_b;
             }
             row_y += 0x10;
             {
                 s32 entry_handle = create_label_glyph_entries(get_item_menu_table_entry(*(((S_800AECA4_0 *)list)->unk_38 + row_index)), 1);
-                S_800AECA4_1 *row_slots = (S_800AECA4_1 *)(row_slot + (s32)((S_800AECA4_0 *)list)->unk_D8);
+                S_800AECA4_1 *row_slots = (S_800AECA4_1 *)(row_slot + (s32)list->rows.as_ptr);
                 *row_slots->unk_50 = entry_handle;
             }
             row_index += 1;
-            row_slot = row_slot + ((S_800AECA4_0 *)list)->unk_D8;
+            row_slot = row_slot + list->rows.as_ptr;
             ((SignedWidgetYView *)(((S_800AECA4_9 *)(((S_800AECA4_4 *)row_slot)->unk_50))->unk_04))->unk_0A = entry_y;
             entry_y += 0x10;
         } while (row_index < list->entry_count);

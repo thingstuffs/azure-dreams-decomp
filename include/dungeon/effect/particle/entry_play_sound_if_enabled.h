@@ -10,7 +10,7 @@ typedef struct AttachedParticleChainSpellBody {
     union { s16 s; u16 u; } unk_7E;
     u8 pad_80[0x2];
     u16 unk_82;
-    union { u16 s; s16 u; } unk_84;
+    union { u16 u; s16 s; } unk_84;
     s16 unk_86;
     s16 unk_88;
     u8 pad_8A[0x6];

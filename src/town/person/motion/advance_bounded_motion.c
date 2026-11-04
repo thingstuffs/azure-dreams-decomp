@@ -9,19 +9,9 @@
 extern s16 get_clamped_transform_coordinate(void *object, s32 step_x, s32 step_y);
 
 
-typedef struct S_800C355C_1 {
-    u8 pad_00[0x72];
-    s16 unk_72;
-    u8 pad_74[0x10];
-    union { s16 s; u16 u; } unk_84;   /* accessed as both */
-    union { s16 s; u16 u; } unk_86;   /* accessed as both */
-    u8 pad_88[0x4];
-    union { s16 s; u16 u; } unk_8C;   /* accessed as both */
-    union { s16 s; u16 u; } unk_8E;   /* accessed as both */
-} S_800C355C_1;   /* arg0 in advance_bounded_motion */
 
 /* Advance motion, clamp at the facing boundary, and update directional speed. */
-void advance_bounded_motion(S_800C355C_1 *entity, void *motion_arg, SpriteFrameState *context, s32 check_param)
+void advance_bounded_motion(TownObjectRecord *entity, void *motion_arg, SpriteFrameState *context, s32 check_param)
 {
     ObjectPosition *motion = motion_arg;
     s32 pos_x;
@@ -47,41 +37,41 @@ void advance_bounded_motion(S_800C355C_1 *entity, void *motion_arg, SpriteFrameS
     motion->y.v = speed;
     motion->z.w.i = get_clamped_transform_coordinate(motion, max_speed, step_y);
 
-    angle = 0x400 - entity->unk_72;
+    angle = 0x400 - entity->heading.as_s16;
     quadrant = (angle / 0x400) & 3;
 
     switch (quadrant) {
     case 0:
-        if (entity->unk_84.s + entity->unk_8C.s < motion->x.w.i) {
-            motion->x.unsigned_parts.integer = entity->unk_84.u + entity->unk_8C.u;
+        if (entity->unk_84.as_s16 + entity->unk_8C.as_s16 < motion->x.w.i) {
+            motion->x.unsigned_parts.integer = entity->unk_84.as_u16 + entity->unk_8C.as_u16;
             initialize_object_assigns_state_data(entity, motion, context);
             return;
         }
         break;
     case 1:
-        if (entity->unk_86.s + entity->unk_8E.s < motion->y.w.i) {
-            motion->y.unsigned_parts.integer = entity->unk_86.u + entity->unk_8E.u;
+        if (entity->unk_86.as_s16 + entity->unk_8E.as_s16 < motion->y.w.i) {
+            motion->y.unsigned_parts.integer = entity->unk_86.as_u16 + entity->unk_8E.as_u16;
             initialize_object_assigns_state_data(entity, motion, context);
             return;
         }
         break;
     case 2:
-        if (motion->x.w.i < entity->unk_84.s - entity->unk_8C.s) {
+        if (motion->x.w.i < entity->unk_84.as_s16 - entity->unk_8C.as_s16) {
             u16 center;
             u16 extent;
-            center = entity->unk_84.u;
-            extent = entity->unk_8C.u;
+            center = entity->unk_84.as_u16;
+            extent = entity->unk_8C.as_u16;
             motion->x.unsigned_parts.integer = center - extent;
             initialize_object_assigns_state_data(entity, motion, context);
             return;
         }
         break;
     default:
-        if (motion->y.w.i < entity->unk_86.s - entity->unk_8E.s) {
+        if (motion->y.w.i < entity->unk_86.as_s16 - entity->unk_8E.as_s16) {
             u16 center;
             u16 extent;
-            center = entity->unk_86.u;
-            extent = entity->unk_8E.u;
+            center = entity->unk_86.as_u16;
+            extent = entity->unk_8E.as_u16;
             motion->y.unsigned_parts.integer = center - extent;
             initialize_object_assigns_state_data(entity, motion, context);
             return;

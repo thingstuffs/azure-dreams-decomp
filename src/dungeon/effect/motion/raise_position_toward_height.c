@@ -317,14 +317,13 @@ typedef struct S_8190AEB4_2 {
     s16 unk_90;
 } S_8190AEB4_2;   /* ((S_8190AEB4_0 *)arg0)->unk_34 in advance_the_animation_draws_rectangles_in_randomized_order */
 
-#define CLEAR_EFFECT ((ShuffledSpriteClearBody *)effect)
 
 /*
  * Moves and rescales the captured sprite through staged motion, then shuffles 48 column indices
  * and 44 row indices to clear its VRAM area over 44 updates. Signals the linked state and flags
  * removal when the clearing sequence finishes.
  */
-void advance_the_animation_draws_rectangles_in_randomized_order(void *effect, s32 *position, void *transform_arg)
+void advance_the_animation_draws_rectangles_in_randomized_order(ShuffledSpriteClearBody *effect, s32 *position, void *transform_arg)
 {
     S_8190AEB4_1 *transform = transform_arg;
     Rect rect;
@@ -346,16 +345,16 @@ void advance_the_animation_draws_rectangles_in_randomized_order(void *effect, s3
 
     rect = D_80024038;
     draw_rect = rising_effect_texture_rect;
-    state = CLEAR_EFFECT->unk_00.s;
+    state = effect->unk_00.s;
     D_80025630 = 1;
 
     switch (state) {
     case 0:
         center.x = rect.x + ((s16)rect.w >> 1);
         center.y = rect.y + 0x48;
-        draw_transformed_sprite_with_clip_rect(CLEAR_EFFECT->unk_30.s, &rect, &center, 1, 1);
+        draw_transformed_sprite_with_clip_rect(effect->unk_30.s, &rect, &center, 1, 1);
 
-        model = CLEAR_EFFECT->unk_30.u;
+        model = effect->unk_30.u;
         source_position = *(s32 **)(model - 0x18);
         position[0] = source_position[0];
         position[1] = source_position[1];
@@ -363,30 +362,30 @@ void advance_the_animation_draws_rectangles_in_randomized_order(void *effect, s3
 
         transform->unk_1C -= 0x20;
         transform->unk_1E += 0x80;
-        timer = CLEAR_EFFECT->unk_02.s + 1;
-        CLEAR_EFFECT->unk_02.s = timer;
+        timer = effect->unk_02.u + 1;
+        effect->unk_02.u = timer;
         if (timer < 0x28) {
             return;
         }
-        next_state = CLEAR_EFFECT->unk_00.u;
-        CLEAR_EFFECT->unk_02.s = 0;
+        next_state = effect->unk_00.u;
+        effect->unk_02.u = 0;
         next_state++;
-        CLEAR_EFFECT->unk_00.p = next_state;
+        effect->unk_00.u = next_state;
         return;
 
     case 1:
         transform->unk_1C += 0x140;
         position[2] -= 0x140000;
         transform->unk_1E -= 0x500;
-        timer = CLEAR_EFFECT->unk_02.s + 1;
-        CLEAR_EFFECT->unk_02.s = timer;
+        timer = effect->unk_02.u + 1;
+        effect->unk_02.u = timer;
         if (timer < 4) {
             return;
         }
-        next_state = CLEAR_EFFECT->unk_00.u;
-        CLEAR_EFFECT->unk_02.s = 0;
+        next_state = effect->unk_00.u;
+        effect->unk_02.u = 0;
         next_state++;
-        CLEAR_EFFECT->unk_00.p = next_state;
+        effect->unk_00.u = next_state;
         return;
 
     case 2:
@@ -395,9 +394,9 @@ void advance_the_animation_draws_rectangles_in_randomized_order(void *effect, s3
         next_x = transform->unk_1C + 0x200;
         transform->unk_1E = next_y;
         transform->unk_1C = next_x;
-        next_state = CLEAR_EFFECT->unk_00.u;
+        next_state = effect->unk_00.u;
         next_state++;
-        CLEAR_EFFECT->unk_00.p = next_state;
+        effect->unk_00.u = next_state;
         return;
 
     case 3:
@@ -406,9 +405,9 @@ void advance_the_animation_draws_rectangles_in_randomized_order(void *effect, s3
         next_x = transform->unk_1C - 0x300;
         transform->unk_1E = next_y;
         transform->unk_1C = next_x;
-        next_state = CLEAR_EFFECT->unk_00.u;
+        next_state = effect->unk_00.u;
         next_state++;
-        CLEAR_EFFECT->unk_00.p = next_state;
+        effect->unk_00.u = next_state;
         return;
 
     case 4:
@@ -417,9 +416,9 @@ void advance_the_animation_draws_rectangles_in_randomized_order(void *effect, s3
         next_x = transform->unk_1C + 0x100;
         transform->unk_1E = next_y;
         transform->unk_1C = next_x;
-        next_state = CLEAR_EFFECT->unk_00.u;
+        next_state = effect->unk_00.u;
         next_state++;
-        CLEAR_EFFECT->unk_00.p = next_state;
+        effect->unk_00.u = next_state;
         return;
 
     case 5:
@@ -469,8 +468,8 @@ void advance_the_animation_draws_rectangles_in_randomized_order(void *effect, s3
         D_80025638[1] = 0;
         D_80025638[2] = 0;
         D_80025638[3] = 0;
-        CLEAR_EFFECT->unk_02.s = 0;
-        CLEAR_EFFECT->unk_00.p++;
+        effect->unk_02.u = 0;
+        effect->unk_00.u++;
                         /* fallthrough */
 
     case 6:
@@ -480,7 +479,7 @@ void advance_the_animation_draws_rectangles_in_randomized_order(void *effect, s3
         entry = 0;
         do {
             draw_rect.x = D_80025648[entry] * 2 + 0x340;
-            order_index = entry + CLEAR_EFFECT->unk_02.u;
+            order_index = entry + effect->unk_02.s;
             if (order_index >= 0x2C) {
                 order_index -= 0x2C;
             }
@@ -490,12 +489,12 @@ void advance_the_animation_draws_rectangles_in_randomized_order(void *effect, s3
             entry++;
         } while (entry < 0x30);
 
-        timer = CLEAR_EFFECT->unk_02.s + 1;
-        CLEAR_EFFECT->unk_02.s = timer;
+        timer = effect->unk_02.u + 1;
+        effect->unk_02.u = timer;
         if (timer < 0x2C) {
             return;
         }
-        ((S_8190AEB4_2 *)(CLEAR_EFFECT->unk_34))->unk_90 = 1;
+        ((S_8190AEB4_2 *)(effect->unk_34))->unk_90 = 1;
         (*(u16 *)((u8 *)effect + -2)) |= NODE_REMOVE;
         object_flag_block.flags |= OBJECT_REMOVE_PENDING;
         break;
@@ -505,7 +504,6 @@ void advance_the_animation_draws_rectangles_in_randomized_order(void *effect, s3
 
 const CoordTable rising_effect_octant_offsets = {{{32,0},{32,32},{0,32},{-32,32},{-32,0},{-32,65504},{0,65504},{32,65504}}};
 
-#undef CLEAR_EFFECT
 
 typedef struct S_func_8190B2D0_0 {
     void * unk_0;

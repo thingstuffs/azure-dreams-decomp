@@ -4,8 +4,8 @@
 #include "town/player/position.h"
 
 s32 query_lower_bound_with_x_offset(ObjectPosition *);                           /* extern */
-struct S_80096728_0; void set_global_800_cfced_initialize_call_callee_800954_dc(ObjectPosition *, s32);                  /* extern */
-struct S_80096758_0; void set_global_800_cfcec_initialize_call_callee_800954_dc(struct S_80096758_0 *, s32);                  /* extern */
+void set_global_800_cfced_initialize_call_callee_800954_dc(ObjectPosition *, s32);                  /* extern */
+void set_global_800_cfcec_initialize_call_callee_800954_dc(void *, s32);                  /* extern */
 extern s32 town_secondary_probe_offset;
 
 /* Applies fixed-point boundary corrections according to D_800FE5D0. */
@@ -29,7 +29,7 @@ void correct_fixed_point_value_at_boundaries(ObjectPosition *position) {
         }
         lower_bound = (query_larger_position_result(position) << 0x10) - 1;
         if (lower_bound >= position->y.v) {
-            set_global_800_cfcec_initialize_call_callee_800954_dc((struct S_80096758_0 *)(position), lower_bound);
+            set_global_800_cfcec_initialize_call_callee_800954_dc((void *)(position), lower_bound);
         }
     }
 }

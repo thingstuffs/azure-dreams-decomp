@@ -9,17 +9,6 @@
 #include "town/scene.h"
 #include "town/data.h"
 
-typedef struct S_80022C8C_0 {
-    u8 pad_00[0x8];
-    void * unk_08;
-    void * unk_0C;
-    void * unk_10;
-    u8 pad_14[0xC];
-    void * unk_20;
-} S_80022C8C_0;   /* (void *)state in initialize_gym_minigame */
-
-   /* ((S_80022C8C_0 *)((void *)state))->unk_08 in initialize_gym_minigame */
-
 #define NULL ((void *)0)
 
 extern s32 D_80020054;
@@ -51,7 +40,7 @@ s32 initialize_gym_minigame(void)
     object_or_slot = (s32)allocate_flagged_object_node(2);
     if (object_or_slot != 0) {
         parent_link = (u8 *)object_or_slot + 0x20;
-        ((S_80022C8C_0 *)((void *)object_or_slot))->unk_10 = &D_80022F60;
+        ((ObjectNodeHeader *)((void *)object_or_slot))->update_callback = &D_80022F60;
     }
 
     position[0] = 0x03800000;
@@ -76,11 +65,11 @@ s32 initialize_gym_minigame(void)
 
     object_or_slot = (s32)allocate_flagged_object_node(0x136);
     if (object_or_slot != 0) {
-        ((S_80022C8C_0 *)((void *)object_or_slot))->unk_10 = &D_800240B0;
+        ((ObjectNodeHeader *)((void *)object_or_slot))->update_callback = &D_800240B0;
         object_data = (u8 *)object_or_slot + 0x20;
         register_node((void *)object_or_slot, project_sprite_chain);
 
-        render_record = ((S_80022C8C_0 *)((void *)object_or_slot))->unk_0C;
+        render_record = ((ObjectNodeHeader *)((void *)object_or_slot))->sprite;
         render_record->scale_y = 0x1000;
         render_record->scale_x = 0x1000;
         render_record->source = &gym_sprite_source;
@@ -90,13 +79,13 @@ s32 initialize_gym_minigame(void)
         *(void **)((u8 *)object_data + 0x4C) = shared_data;
 
         configure_the_set_mode_n_3((u8 *)object_or_slot + 0x24,
-                      ((S_80022C8C_0 *)((void *)object_or_slot))->unk_08,
+                      ((ObjectNodeHeader *)((void *)object_or_slot))->position,
                       &D_80026F0C);
 
-        ((IntVector3 *)(((S_80022C8C_0 *)((void *)object_or_slot))->unk_08))->x = 0x03800000;
-        ((IntVector3 *)(((S_80022C8C_0 *)((void *)object_or_slot))->unk_08))->y = 0x03C00000;
-        ((IntVector3 *)(((S_80022C8C_0 *)((void *)object_or_slot))->unk_08))->z = 0;
-        ((S_80022C8C_0 *)((void *)object_or_slot))->unk_20 = parent_link;
+        ((IntVector3 *)(((ObjectNodeHeader *)((void *)object_or_slot))->position))->x = 0x03800000;
+        ((IntVector3 *)(((ObjectNodeHeader *)((void *)object_or_slot))->position))->y = 0x03C00000;
+        ((IntVector3 *)(((ObjectNodeHeader *)((void *)object_or_slot))->position))->z = 0;
+        *(void **)((u8 *)object_or_slot + 0x20) = parent_link;
     }
 
     return 0;

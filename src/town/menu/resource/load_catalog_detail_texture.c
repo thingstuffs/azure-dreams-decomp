@@ -5,21 +5,6 @@
 #include "town/data.h"
 #include "town/menu/catalog.h"
 
-typedef struct S_80124DB0_0 {
-    u8 pad_00[0x4];
-    s16 unk_04;
-    s16 unk_06;
-    u8 pad_08[0x2];
-    u8 unk_0A;
-    u8 unk_0B;
-    u8 pad_0C[0x1];
-    u8 unk_0D;
-    u8 pad_0E[0x5];
-    u8 unk_13;
-    u8 pad_14[0x2];
-    u8 unk_16;
-} S_80124DB0_0;   /* arg0 in load_catalog_detail_texture */
-
 
 
 typedef struct {

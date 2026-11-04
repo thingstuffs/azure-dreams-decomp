@@ -5,8 +5,8 @@
 
 /* Body of a child effect that clears captured sprite columns in shuffled order. */
 typedef struct ShuffledSpriteClearBody {
-    union { s16 s; u16 u; u16 p; } unk_00;   /* accessed as both */
-    union { u16 s; s16 u; } unk_02;   /* accessed as both */
+    union { s16 s; u16 u; } unk_00;   /* accessed as both */
+    union { u16 u; s16 s; } unk_02;   /* accessed as both */
     u8 pad_04[0x6];
     u16 unk_0A;
     u16 unk_0C;

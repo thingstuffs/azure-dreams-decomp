@@ -7,7 +7,7 @@
 #include "town/menu.h"
 
 /* Initializes the object record and a randomized motion vector. */
-void initialize_randomized_motion_vector(u8 *obj, s32 *vec, SpriteFrameState *record)
+void initialize_randomized_motion_vector(RandomizedEffectMotionBody *obj, s32 *vec, SpriteFrameState *record)
 {
     s32 tilt_angle;
     s32 scale;
@@ -24,22 +24,22 @@ void initialize_randomized_motion_vector(u8 *obj, s32 *vec, SpriteFrameState *re
     record->scale_y = unit_scale;
     record->color.word = 0x808080;
     record->scale_x = unit_scale;
-    record->source = D_800D0B50[((S_800A3508_1 *)obj)->unk_22];
+    record->source = D_800D0B50[obj->variant];
     record->unk_00 = 0;
     record->unk_04 = 0;
     record->frame_ticks = 0;
 
-    init_entry = D_800D0B20[((S_800A3508_1 *)obj)->unk_22];
+    init_entry = D_800D0B20[obj->variant];
     if (init_entry != 0) {
         select_record_entry_and_value(record, init_entry, 0);
     }
 
-    register_node(obj - 0x20, project_sprite_chain);
+    register_node((u8 *)obj - 0x20, project_sprite_chain);
 
-    if (((S_800A3508_1 *)obj)->unk_22 < 4) {
+    if (obj->variant < 4) {
         init_value = scale_random_to_unsigned_halfword_limit(0x1000);
         tilt_angle = 0x400;
-        direction_angle = D_800D0B18[((S_800A3508_1 *)obj)->unk_22] + (init_value & 0xFFFF);
+        direction_angle = D_800D0B18[obj->variant] + (init_value & 0xFFFF);
     } else {
         direction_angle = scale_random_to_unsigned_halfword_limit(0x1000) & 0xFFFF;
         tilt_angle = scale_random_to_unsigned_halfword_limit(0x1000) & 0xFFFF;
@@ -65,22 +65,22 @@ void initialize_randomized_motion_vector(u8 *obj, s32 *vec, SpriteFrameState *re
     vec[4] *= scale;
     vec[5] *= scale;
 
-    (*(s32 *)(obj + 0x2C)) = vec[3] / 23;
-    ((S_800A3508_1 *)obj)->unk_30 = vec[4] / 23;
-    ((S_800A3508_1 *)obj)->unk_34 = vec[5] / 23;
-    ((S_800A3508_1 *)obj)->unk_24 = 0x18;
-    ((S_800A3508_1 *)obj)->unk_00 = D_800A378C;
+    obj->velocity_x = vec[3] / 23;
+    obj->velocity_y = vec[4] / 23;
+    obj->velocity_z = vec[5] / 23;
+    obj->ticks_left = 0x18;
+    obj->callback.raw = D_800A378C;
 
     add_motion_deltas_to_position((ObjectPosition *)vec);
     add_motion_deltas_to_position((ObjectPosition *)vec);
 }
 
 /* Updates the transform until the countdown expires, then resets appearance and advances state. */
-void advance_motion_and_reset_appearance(S_800A378C_0 *state, ObjectPosition *transform, SpriteFrameState *appearance) {
+void advance_motion_and_reset_appearance(RandomizedEffectMotionBody *state, ObjectPosition *transform, SpriteFrameState *appearance) {
     s32 ticks_left;
 
-    ticks_left = state->unk_24 - 1;
-    state->unk_24 = ticks_left;
+    ticks_left = state->ticks_left - 1;
+    state->ticks_left = ticks_left;
     if (ticks_left < 0) {
         transform->velocity_x = 0;
         transform->velocity_y = 0;
@@ -90,18 +90,18 @@ void advance_motion_and_reset_appearance(S_800A378C_0 *state, ObjectPosition *tr
         appearance->color.c.r = 0x40;
         appearance->tpage_abr = 0x20;
         appearance->flags = (u16) (appearance->flags | 0x1C);
-        state->unk_00 = &D_800A38A8;
+        state->callback.handler = &D_800A38A8;
         transform->velocity_x = 0;
         transform->velocity_y = 0;
         transform->velocity_z =
             ((((u16) scale_random_to_unsigned_halfword_limit(0x1000)) << 1) + 0x2000) << 4;
         return;
     }
-    transform->velocity_x = (s32) (transform->velocity_x - state->unk_2C);
-    transform->velocity_y = (s32) (transform->velocity_y - state->unk_30);
-    transform->velocity_z = (s32) (transform->velocity_z - state->unk_34);
+    transform->velocity_x = (s32) (transform->velocity_x - state->velocity_x);
+    transform->velocity_y = (s32) (transform->velocity_y - state->velocity_y);
+    transform->velocity_z = (s32) (transform->velocity_z - state->velocity_z);
     add_motion_deltas_to_position(transform);
-    if (D_800D0B20[state->unk_22] != 0) {
+    if (D_800D0B20[state->variant] != 0) {
         advance_sprite_animation_and_textures(appearance);
     }
 }

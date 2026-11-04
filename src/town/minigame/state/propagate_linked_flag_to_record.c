@@ -4,11 +4,6 @@
 #include "shared/object_links.h"
 #include "town/minigame/state.h"
 
-typedef struct S_80020468_1 {
-    u8 pad_00[0x4];
-    void * unk_04;
-} S_80020468_1;   /* arg0 in propagate_linked_flag_to_record */
-
 typedef struct S_80020468_2 {
     u8 pad_00[0x4];
     u16 unk_04;

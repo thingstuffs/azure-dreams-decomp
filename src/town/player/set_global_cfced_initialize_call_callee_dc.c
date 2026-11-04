@@ -8,13 +8,6 @@
 /* extern */
 extern s8 D_800CFCED;
 
-typedef struct S_80096728_0 {
-    u8 pad_00[0x4];
-    s32 unk_04;
-    u8 pad_08[0x8];
-    s32 unk_10;
-} S_80096728_0;   /* arg0 in set_global_800_cfced_initialize_call_callee_800954_dc */
-
 /* Set D_800CFCED, initialize the record, and call clear_the_global_state_s_fifth_word_copy_source_s_second. */
 void set_global_800_cfced_initialize_call_callee_800954_dc(ObjectPosition *record, s32 initial_value) {
     D_800CFCED = 1;

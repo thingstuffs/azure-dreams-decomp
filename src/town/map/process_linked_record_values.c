@@ -18,12 +18,12 @@ s32 process_linked_record_values(void *object, s32 x, s32 initial_value) {
 
 
     current_value = initial_value;
-    object = (Struct800ABDC8 *)object;
+    object = object;
     for (;;) {
 
         draw_shaded_quad_ring(current_value, x);
         current_value = *(s32 *)((u8 *)object - 8);
-        object = (Struct800ABDC8 *)((u8 *)current_value + 0x20);
+        object = ((u8 *)current_value + 0x20);
         if (current_value == 0) {
             break;
         }

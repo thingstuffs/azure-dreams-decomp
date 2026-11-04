@@ -95,6 +95,7 @@ code uses `<global>`. The classes are:
 | `goto` | `goto` tokens. |
 | `volatile` | `volatile` tokens. |
 | `pointer_casts` | Spelled pointer casts recognized by the existing readability lexer. |
+| `sign_views` | Lexical source member accesses named `s`, `u`, `as_s8/u8/s16/u16/s32/u32`, `whole`, `signed_whole`, `signed_byte`, `halves`, or `signed_bytes`. These are candidates; a member name alone does not prove a signedness pun. |
 
 Comments and quoted contents do not count. Cast density is the ratio of
 pointer casts to nonexempt C tokens. The TSV prints casts per 1,000 tokens for
@@ -112,6 +113,24 @@ macro at later sites. Both macro totals are recorded in `report_counts` in
 the baseline, but remain report-only: `--check` does not ratchet them. Do not
 add the three counts into a single debt number.
 
+The summary splits `sign_views` into `s_u`, `as_signedness`, and
+`other_width_views`. It also reports unions in `src/` and `include/` with
+immediate signed and unsigned integer members of the same width. The union
+count is report-only. `debt_signedness_unions.tsv` lists its physical sites.
+`debt_bad_label_unions.tsv` lists simple union members with an unsigned `s`,
+a signed `u`, or duplicate declared types. The baseline records those site
+identities; `--check` rejects a new bad-label site while allowing a known one
+to be repaired. A site is keyed by file, trailing union field name, and its
+ordinal among that file's same-named unions. Inspect the finding before
+relabeling: lexical types and labels do not establish the original data model.
+
+The summary inventories braced struct/union typedef aliases as well. It counts
+unique non-`S_` aliases containing an eight-digit hexadecimal address across
+`src/` and `include/`, and named non-address typedef declarations in `.c`
+files used by exactly one function in that file. `debt_view_inventory.tsv`
+shows each source typedef and its function users. These report-only counts
+do not judge whether a named local view is appropriate.
+
 `--baseline FILE` defaults to `tools/lint/debt_baseline.json`. `--check` fails
 on any increased class total, file class count, or function class count.
 Improvements in another class, file or
@@ -122,14 +141,16 @@ nonzero debt. An absent file, function or class count means zero. The TSV census
 still includes every file and function. Invalid baseline records, unmatched
 delimiters and malformed markers fail closed.
 
-Baseline schema 2 groups `by_file` by directory, then filename. A file record is
+Baseline schema 3 groups `by_file` by directory, then filename. A file record is
 `[total_tokens, scopes]`; each scope is `[tokens, counts...]` in the order listed
 in `classes`, with trailing zero counts omitted. File class counts are the sum
-of its retained scopes; `by_class` retains the totals for all six classes.
+of its retained scopes; `by_class` retains the totals for all seven classes.
 Zero-debt scopes (including `<global>`) need no record, but their tokens remain
 in `total_tokens` to preserve the census denominators. Keys are sorted,
-with one physical file per line and no source line numbers. This avoids storing
-paths and file/scope totals twice while keeping the baseline below 600 KB.
+with one physical file per line and no source line numbers. `bad_label_sites`
+stores the existing union findings, and `report_counts` stores macro casts,
+signedness-union totals and view inventory totals without ratcheting them.
+The packed scopes avoid storing paths and file/scope totals twice.
 
 A comment of the exact form `/* BYTES: <one-line reason> */` exempts its adjacent
 code site. A leading marker covers the following statement, declaration or

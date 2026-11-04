@@ -3,7 +3,7 @@
 #include "shared/object_node.h"
 
 /* Set the record's base and offset values and its data pointer. */
-void set_record_base_and_data_pointer(void *record_field, s32 base_value) {
+void set_record_base_and_data_pointer(ShopRecordResetObject *record_field, s32 base_value) {
     ShopRecordResetObject *object = record_field;
 
     object->owner_node = (ObjectNodeHeader *)base_value;

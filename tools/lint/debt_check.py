@@ -14,13 +14,113 @@ TOOLS = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(TOOLS / 'readability'))
 import score as c
 
-SCHEMA = 2
+SCHEMA = 3
 CLASSES = ('local_externs', 'generated_layouts', 'm2c_macros', 'goto',
-           'volatile', 'pointer_casts')
+           'volatile', 'pointer_casts', 'sign_views')
 GENERATED = re.compile(r'^S_(?:func_)?[0-9A-Fa-f]{8}(?:_\w+)?$')
 # A marker annotates one adjacent statement, declaration or braced control arm.
 # It never exempts the enclosing function just because it contains a marker.
 MARKER = re.compile(r'^/\* BYTES: [^\n]+ \*/$')
+OTHER_VIEW = {'whole', 'halves', 'signed_bytes'}
+ADDRESS_NAME = re.compile(r'[0-9A-Fa-f]{8}')
+INTEGER_TYPES = {
+    's8': ('signed', 8), 'u8': ('unsigned', 8),
+    's16': ('signed', 16), 'u16': ('unsigned', 16),
+    's32': ('signed', 32), 'u32': ('unsigned', 32),
+    's64': ('signed', 64), 'u64': ('unsigned', 64),
+    'int8_t': ('signed', 8), 'uint8_t': ('unsigned', 8),
+    'int16_t': ('signed', 16), 'uint16_t': ('unsigned', 16),
+    'int32_t': ('signed', 32), 'uint32_t': ('unsigned', 32),
+    'int64_t': ('signed', 64), 'uint64_t': ('unsigned', 64),
+    'short': ('signed', 16), 'int': ('signed', 32),
+    'unsigned short': ('unsigned', 16), 'unsigned int': ('unsigned', 32),
+    'signed short': ('signed', 16), 'signed int': ('signed', 32),
+}
+
+
+def union_fields(tokens, pairs, opening):
+    """Simple immediate members of one union; nested records are separate sites."""
+    close = pairs[opening]
+    fields, start, i = [], opening + 1, opening + 1
+    while i < close:
+        if tokens[i].value in {'{', '(', '['} and i in pairs:
+            i = pairs[i] + 1
+            continue
+        if tokens[i].value == ';':
+            part = tokens[start:i]
+            declarator_end = next((j for j, t in enumerate(part) if t.value == '['), len(part))
+            ids = [j for j, token in enumerate(part[:declarator_end]) if token.kind == 'id']
+            if len(ids) >= 2 and not any(t.value in {'{', '}', '(', ')', ','} for t in part):
+                name_index = ids[-1]
+                name = part[name_index].value
+                type_words = [t.value for t in part[:name_index] if t.kind == 'id'
+                              and t.value not in {'const', 'volatile', 'restrict'}]
+                if type_words:
+                    fields.append((name, ' '.join(type_words),
+                                   tuple(t.value for t in part[:name_index] + part[name_index + 1:])))
+            start = i + 1
+        i += 1
+    return fields
+
+
+def union_sites(rel, text, tokens=None, pairs=None):
+    """Signedness unions and bad-label sites in one physical C/header file."""
+    tokens = c.lex(text) if tokens is None else tokens
+    pairs = c.pairs_of(tokens)[0] if pairs is None else pairs
+    signedness, bad = [], []
+    identities = Counter()
+    for i, token in enumerate(tokens):
+        if token.value != 'union':
+            continue
+        opening = i + 1
+        if opening < len(tokens) and tokens[opening].kind == 'id':
+            opening += 1
+        if opening >= len(tokens) or tokens[opening].value != '{' or opening not in pairs:
+            continue
+        fields = union_fields(tokens, pairs, opening)
+        if not fields:
+            continue
+        typed = [(name, INTEGER_TYPES.get(type_name), type_tokens)
+                 for name, type_name, type_tokens in fields]
+        widths = {(kind, width) for _, pair, _ in typed if pair for kind, width in [pair]}
+        if any(('signed', width) in widths and ('unsigned', width) in widths
+               for _, width in widths):
+            signedness.append(text.count('\n', 0, token.pos) + 1)
+        reasons = []
+        for name, pair, _ in typed:
+            if name == 's' and pair and pair[0] == 'unsigned':
+                reasons.append('unsigned_s')
+            if name == 'u' and pair and pair[0] == 'signed':
+                reasons.append('signed_u')
+        types = [type_tokens for _, _, type_tokens in typed]
+        if len(types) != len(set(types)):
+            reasons.append('duplicate_type')
+        close = pairs[opening]
+        field_name = tokens[close + 1].value if close + 1 < len(tokens) and tokens[close + 1].kind == 'id' else '<anonymous>'
+        # The trailing field name survives member relabelling and line shifts.
+        identities[field_name] += 1
+        if reasons:
+            site = f'{rel}::{field_name}#{identities[field_name]}'
+            bad.append(dict(site=site, file=rel, line=text.count('\n', 0, token.pos) + 1,
+                            reasons=sorted(set(reasons))))
+    return signedness, bad
+
+
+def typedef_view_sites(tokens, pairs):
+    """Simple braced struct/union typedefs; return alias and declaration span."""
+    out = []
+    for i, token in enumerate(tokens):
+        if token.value != 'typedef' or i + 1 >= len(tokens) or tokens[i + 1].value not in {'struct', 'union'}:
+            continue
+        opening = i + 2
+        if opening < len(tokens) and tokens[opening].kind == 'id':
+            opening += 1
+        if opening >= len(tokens) or tokens[opening].value != '{' or opening not in pairs:
+            continue
+        after = c.suffix_end(tokens, pairs, pairs[opening] + 1)
+        if after + 1 < len(tokens) and tokens[after].kind == 'id' and tokens[after + 1].value == ';':
+            out.append((tokens[after].value, tokens[i + 1].value, i, after + 2))
+    return out
 
 
 def end_of_site(tokens, pairs, start):
@@ -430,9 +530,27 @@ def analyze(path, text, macro_casts=False, header_events=()):
         scopes[key] = dict(symbol=symbol, line=text.count('\n', 0, tokens[name].pos) + 1)
         owners[start:end + 1] = [key] * (end + 1 - start)
     scopes['<global>'] = dict(symbol='<global>', line=1)
+    typedefs = [dict(name=name, kind=kind, file=path,
+                     line=text.count('\n', 0, tokens[start].pos) + 1,
+                     users=set(), start=start, end=end)
+                for name, kind, start, end in typedef_view_sites(tokens, pairs)]
+    typedef_by_name = {}
+    declaration_tokens = set()
+    for row in typedefs:
+        typedef_by_name.setdefault(row['name'], []).append(row)
+        declaration_tokens.update(range(row['start'], row['end']))
+    for i, token in enumerate(tokens):
+        if (i not in declaration_tokens and token.kind == 'id' and owners[i] != '<global>'
+                and token.value in typedef_by_name):
+            for row in typedef_by_name[token.value]:
+                row['users'].add(owners[i])
+    for row in typedefs:
+        row['users'] = sorted(row['users'])
+        del row['start'], row['end']
     counts = {key: Counter() for key in scopes}
     sizes = Counter()
     layouts = {key: set() for key in scopes}
+    views = Counter()
     for i, token in enumerate(tokens):
         owner = owners[i]
         if i in excluded:
@@ -442,6 +560,16 @@ def analyze(path, text, macro_casts=False, header_events=()):
         if token.kind != 'id':
             continue
         value = token.value
+        if i and tokens[i - 1].value in {'.', '->'}:
+            if value in {'s', 'u'}:
+                views['s_u'] += 1
+                counts[owner]['sign_views'] += 1
+            elif value.startswith('as_') and re.fullmatch(r'as_[su](?:8|16|32)', value):
+                views['as_signedness'] += 1
+                counts[owner]['sign_views'] += 1
+            elif value in {'signed_whole', 'signed_byte'} | OTHER_VIEW:
+                views['other_width_views'] += 1
+                counts[owner]['sign_views'] += 1
         if value == 'goto':
             counts[owner]['goto'] += 1
         if value == 'volatile':
@@ -480,7 +608,10 @@ def analyze(path, text, macro_casts=False, header_events=()):
         if hidden is not None:
             rows[key]['macro_casts'] = dict(hidden[key])
             rows[key]['header_macro_casts'] = dict(header_hidden[key])
-    return dict(file=path, scopes=rows, markers=len(spans), errors=errors)
+    signedness_unions, bad_label_unions = union_sites(path, text, tokens, pairs)
+    return dict(file=path, scopes=rows, markers=len(spans), errors=errors,
+                view_counts=dict(views), signedness_unions=signedness_unions,
+                bad_label_unions=bad_label_unions, typedef_views=typedefs)
 
 
 def totals(rows):
@@ -495,6 +626,8 @@ def census(root, only=None, macro_casts=False):
     if set(selected) - set(available):
         raise ValueError('--only must name existing src/**/*.c files')
     files, functions, errors, markers = {}, {}, [], 0
+    view_counts, signedness_unions, bad_label_unions = Counter(), [], []
+    typedef_views, address_names = [], set()
     header_cache = {}
     for rel in selected:
         path = root / rel
@@ -510,6 +643,26 @@ def census(root, only=None, macro_casts=False):
                           tokens=sum(r['tokens'] for r in scopes.values()))
         errors += [rel + ': ' + message for message in source['errors']]
         markers += source['markers']
+        view_counts.update(source['view_counts'])
+        signedness_unions.extend((rel, line) for line in source['signedness_unions'])
+        bad_label_unions.extend(source['bad_label_unions'])
+        typedef_views.extend(source['typedef_views'])
+        address_names.update(row['name'] for row in source['typedef_views']
+                             if ADDRESS_NAME.search(row['name']) and not row['name'].startswith('S_'))
+    if not only:
+        for base in ('include', 'src'):
+            for path in sorted((root / base).rglob('*.h')):
+                rel = path.relative_to(root).as_posix()
+                if path.is_symlink() or path.stat().st_size > 4 * 1024 * 1024:
+                    raise ValueError('unsupported symlink or header over 4 MiB: ' + rel)
+                header_text = path.read_text()
+                header_tokens = c.lex(header_text)
+                header_pairs = c.pairs_of(header_tokens)[0]
+                sign, bad = union_sites(rel, header_text, header_tokens, header_pairs)
+                address_names.update(name for name, _, _, _ in typedef_view_sites(header_tokens, header_pairs)
+                                     if ADDRESS_NAME.search(name) and not name.startswith('S_'))
+                signedness_unions.extend((rel, line) for line in sign)
+                bad_label_unions.extend(bad)
     extra = {}
     if macro_casts:
         hidden, header_hidden = Counter(), Counter()
@@ -525,7 +678,19 @@ def census(root, only=None, macro_casts=False):
     return dict(**extra, schema_version=SCHEMA, classes=list(CLASSES), limited=bool(only),
                 source_files=len(selected), function_count=sum(len(s) - 1 for s in functions.values()),
                 by_class=totals(files.values()), by_file=files, by_function=functions,
-                exempt_sites=markers, errors=errors)
+                exempt_sites=markers, errors=errors,
+                sign_views_report=dict(view_counts, total=sum(view_counts.values()),
+                                       note='lexical source member accesses; includes width-view candidates'),
+                signedness_unions_report=dict(count=len(signedness_unions),
+                                              note='same-width signed and unsigned immediate union members in src/ and include/'),
+                signedness_union_sites=signedness_unions,
+                bad_label_unions=bad_label_unions,
+                view_inventory_report=dict(address_named_types=len(address_names),
+                                           source_local_single_function_types=sum(
+                                               len(row['users']) == 1 and not row['name'].startswith('S_')
+                                               and not ADDRESS_NAME.search(row['name']) for row in typedef_views),
+                                           note='unique address-named aliases in src/include; named .c typedef declarations with one function user'),
+                typedef_view_sites=typedef_views)
 
 
 def baseline_record(summary):
@@ -533,7 +698,11 @@ def baseline_record(summary):
     record = {key: summary[key] for key in ('schema_version', 'classes', 'by_class')}
     if 'macro_casts_report' in summary:
         record['report_counts'] = dict(file_local_macro_casts=summary['macro_casts_report']['casts'],
-                                       header_macro_casts=summary['header_macro_casts_report']['casts'])
+                                       header_macro_casts=summary['header_macro_casts_report']['casts'],
+                                       signedness_unions=summary['signedness_unions_report']['count'],
+                                       address_named_types=summary['view_inventory_report']['address_named_types'],
+                                       source_local_single_function_types=summary['view_inventory_report']['source_local_single_function_types'])
+    record['bad_label_sites'] = sorted(row['site'] for row in summary['bad_label_unions'])
     record['by_file'] = {}
     for rel, row in sorted(summary['by_file'].items()):
         if not any(row['counts'].values()):
@@ -557,8 +726,9 @@ def baseline_text(record):
         dump(name) + ':' + dump(row) for name, row in sorted(rows.items())) + '\n}'
         for directory, rows in sorted(record['by_file'].items()))
     reports = ',"report_counts":' + dump(record['report_counts']) if 'report_counts' in record else ''
+    bad_labels = ',"bad_label_sites":' + dump(record['bad_label_sites'])
     return ('{"by_class":' + dump(record['by_class']) + ',"by_file":{\n' + files
-            + '\n},"classes":' + dump(record['classes']) + reports
+            + '\n},"classes":' + dump(record['classes']) + reports + bad_labels
             + ',"schema_version":' + dump(record['schema_version']) + '}\n')
 
 
@@ -575,11 +745,17 @@ def validate_baseline(baseline):
     if not validate_counts(baseline.get('by_class')):
         raise ValueError('baseline must record nonnegative integer counts for every class')
     directories = baseline.get('by_file')
-    fields = {'schema_version', 'classes', 'by_class', 'by_file'}
+    fields = {'schema_version', 'classes', 'by_class', 'by_file', 'bad_label_sites'}
     if ('report_counts' in baseline and (not isinstance(baseline['report_counts'], dict)
-            or set(baseline['report_counts']) != {'file_local_macro_casts', 'header_macro_casts'}
+            or set(baseline['report_counts']) != {'file_local_macro_casts', 'header_macro_casts',
+                                                  'signedness_unions', 'address_named_types',
+                                                  'source_local_single_function_types'}
             or any(type(n) is not int or n < 0 for n in baseline['report_counts'].values()))):
         raise ValueError('invalid report-only baseline counts')
+    sites = baseline.get('bad_label_sites')
+    if (not isinstance(sites, list) or any(not isinstance(s, str) or not s.startswith(('src/', 'include/')) for s in sites)
+            or len(sites) != len(set(sites))):
+        raise ValueError('invalid bad-label union baseline sites')
     if (set(baseline) not in (fields, fields | {'report_counts'})
             or not isinstance(directories, dict)):
         raise ValueError('baseline requires sparse by_file records')
@@ -642,6 +818,10 @@ def check_baseline(summary, baseline):
         old_scopes = baseline['by_function'].get(rel, {})
         for key, scope in summary['by_function'][rel].items():
             problems += compare_row(rel + '::' + key, scope, old_scopes.get(key))
+    known = set(baseline['bad_label_sites'])
+    for row in summary['bad_label_unions']:
+        if row['site'] not in known:
+            problems.append(f'{row["site"]}: new bad-label union ({",".join(row["reasons"])})')
     return problems
 
 
@@ -686,6 +866,23 @@ def write_outputs(out, summary, baseline=None):
                                          hidden['casts'], hidden['uses'], macros])
     compact = {k: v for k, v in summary.items() if k not in ('by_function', 'by_file')}
     (out / 'debt_summary.json').write_text(json.dumps(compact, indent=2) + '\n')
+    with (out / 'debt_bad_label_unions.tsv').open('w', newline='') as stream:
+        writer = csv.writer(stream, delimiter='\t', lineterminator='\n')
+        writer.writerow(['site', 'file', 'line', 'reasons', 'status'])
+        known = set(baseline['bad_label_sites']) if baseline else set()
+        for row in summary['bad_label_unions']:
+            writer.writerow([row['site'], row['file'], row['line'], ','.join(row['reasons']),
+                             'KNOWN' if row['site'] in known else 'FAIL' if baseline else 'CENSUS'])
+    with (out / 'debt_signedness_unions.tsv').open('w', newline='') as stream:
+        writer = csv.writer(stream, delimiter='\t', lineterminator='\n')
+        writer.writerow(['file', 'line'])
+        writer.writerows(summary['signedness_union_sites'])
+    with (out / 'debt_view_inventory.tsv').open('w', newline='') as stream:
+        writer = csv.writer(stream, delimiter='\t', lineterminator='\n')
+        writer.writerow(['file', 'line', 'kind', 'typedef', 'function_users', 'users'])
+        for row in summary['typedef_view_sites']:
+            writer.writerow([row['file'], row['line'], row['kind'], row['name'],
+                             len(row['users']), ','.join(row['users'])])
     with (out / 'debt_files.tsv').open('w', newline='') as stream:
         writer = csv.writer(stream, delimiter='\t', lineterminator='\n')
         writer.writerow(['file', *CLASSES, 'tokens'])
@@ -728,6 +925,12 @@ def main(argv=None):
     if args.summary:
         for key, count in summary['by_class'].items():
             print(f'{key}\t{count}')
+        print('sign_views by form\t' + json.dumps(summary['sign_views_report'], sort_keys=True))
+        print(f'signedness_unions (report only)\t{summary["signedness_unions_report"]["count"]}')
+        print(f'bad_label_unions (known sites only)\t{len(summary["bad_label_unions"])}')
+        for key, value in summary['view_inventory_report'].items():
+            if key != 'note':
+                print(f'{key} (report only)\t{value}')
     if report_macros:
         report = summary['macro_casts_report']
         print(f'macro_casts (report only)\t{report["casts"]}\t{report["uses"]} uses')

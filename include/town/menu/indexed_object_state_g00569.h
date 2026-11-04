@@ -16,15 +16,6 @@ typedef struct {
     s32 unk10;
 } Unk800A5C88;
 
-typedef struct S_800A3450_3 {
-    u8 pad_00[0x10];
-    void * unk_10;
-    u8 pad_14[0xC];
-    void * unk_20;
-    u8 pad_24[0x1E];
-    s16 unk_42;
-} S_800A3450_3;
-
 extern void *allocate_list_node(s32, void *);
 extern u8 D_800A34E0[];
 extern u8 D_800A3508[];

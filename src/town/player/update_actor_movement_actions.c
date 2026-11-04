@@ -22,11 +22,7 @@ void initialize_actor_movement_interaction_action(s32 **record, void *ptr, void 
 #include "town/player/position/handle_resolves_movement_collisions_along_one_axis_using_boundary_probes_tile_api.h"                      /* extern */
 struct Rec_D_800CFCB4; extern struct Rec_D_800CFCB4 town_actor_control;
 
-
-typedef struct S_80092320_1 {
-    u8 unk_00;
-} S_80092320_1;   /* &D_800CFCEF in update_actor_movement_actions */
-
+   /* &D_800CFCEF in update_actor_movement_actions */
 
 /* Update the actor and select an action from the reference value, state flags, and timer. */
 void update_actor_movement_actions(TownObjectRecord *action, ObjectPosition *actor, s32 context) {
@@ -40,11 +36,11 @@ void update_actor_movement_actions(TownObjectRecord *action, ObjectPosition *act
     move_both_components_toward_zero_direction_dependent_steps_clamping_zero(actor);
     reference_value = select_the_smaller_position_query_result_capped_n_64_writes_associated(actor, &position_query_scratch);
     if ((reference_value - actor->z.w.i) >= 4) {
-        if (((S_80092320_1 *)(&town_action_state_flag))->unk_00 == 0) {
+        if (town_action_state_flag == 0) {
             initialize_action_object(action, actor, context);
             return;
         }
-    } else if (((S_80092320_1 *)(&town_action_state_flag))->unk_00 == 0) {
+    } else if (town_action_state_flag == 0) {
         compute_and_clamps_vector_based_adjustment_updates_town((actor), reference_value, (struct TownVec * *)(&position_query_scratch));
     }
     if ((state->pressed_buttons) & 0x10) {

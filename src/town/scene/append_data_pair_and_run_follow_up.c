@@ -1,3 +1,4 @@
+#include "shared/movie_list.h"
 #include "common.h"
 #include "engine/movie.h"
 #include "m2c_compat.h"
@@ -5,7 +6,7 @@
 #include "slus.h"
 #include "town/scene.h"
 
-struct S_8003AF58_1; void append_list_tail(void *, struct S_8003AF58_1 *);        /* extern */
+void append_list_tail(void *, MovieListNode *);        /* extern */
 extern MovieListNode town_transition_callback_list;
 extern s8 scene_music_hold;
 extern MovieListNode D_800D42B4;

@@ -9,7 +9,7 @@
 #include "engine/script.h"
 #include "shared/object_node.h"/* Updates randomized movement, animation, and landing states for a town actor. */
 #include "town/person/position.h"
-void update_randomized_actor_movement(void *actor, ObjectPosition *motion, SpriteFrameState *sprite, s32 update_mode)
+void update_randomized_actor_movement(TownObjectRecord *actor, ObjectPosition *motion, SpriteFrameState *sprite, s32 update_mode)
 {
     register s32 *sequence;
     register s32 state;
@@ -18,12 +18,12 @@ void update_randomized_actor_movement(void *actor, ObjectPosition *motion, Sprit
 
     sequence = 0;
     if ((service_script_controller() != 0) && (check_transform_identifier_and_hook((s32)actor) != 0)) {
-        if (!(((Rec_D_80082D58 *)actor)->unk_AC & 1)) {
+        if (!(actor->unk_AC & 1)) {
             SD_Call(0x60B);
-            ((Rec_D_80082D58 *)actor)->unk_AC |= 1;
+            actor->unk_AC |= 1;
         }
     } else {
-        ((Rec_D_80082D58 *)actor)->unk_AC &= ~1;
+        actor->unk_AC &= ~1;
     }
 
     state = ((Rec_D_80082D58 *)actor)->unk_68;
@@ -48,8 +48,8 @@ case 0:
         switch (action_choice) {
         case 0:
             sequence = (s32 *)paired_actor_sprite_entries;
-            ((Rec_D_80082D58 *)actor)->unk_68 = 0x10;
-            ((Rec_D_80082D58 *)actor)->unk_6C.as_u16 = (rand() % 2) + 2;
+            actor->unk_68 = 0x10;
+            actor->timer.as_u16 = (rand() % 2) + 2;
             break;
 
         case 1:
@@ -57,13 +57,13 @@ case 0:
             s32 limit;
             s32 hop_vx;
 
-            ((Rec_D_80082D58 *)actor)->unk_68 = 0x20;
+            actor->unk_68 = 0x20;
             sprite->flags |= 0x800;
-            ((Rec_D_80082D58 *)actor)->unk_6C.as_u16 = (rand() & 1) + 2;
+            actor->timer.as_u16 = (rand() & 1) + 2;
             limit = 0x1FFFFF;
             motion->velocity_z = -0x30000;
             home_dx = motion->x.v;
-            home_dx -= ((Rec_D_80082D58 *)actor)->unk_A0;
+            home_dx -= actor->unk_A0;
             home_distance = __builtin_abs(home_dx);
             limit = limit < home_distance;
             if (!limit) {
@@ -95,13 +95,13 @@ case 0:
 
             launch_sequence = D_800E9ECC;
             sequence = launch_sequence;
-            ((Rec_D_80082D58 *)actor)->unk_68 = 0x30;
+            actor->unk_68 = 0x30;
             random_speed = rand();
             limit = 0xFFFFF;
             vx = (random_speed & 0x1FF) << 8;
             motion->velocity_x = vx;
             home_dx = motion->x.v;
-            home_dx -= ((Rec_D_80082D58 *)actor)->unk_A0;
+            home_dx -= actor->unk_A0;
             home_distance = __builtin_abs(home_dx);
             limit = limit < home_distance;
             if (!limit) {
@@ -125,8 +125,8 @@ case 0:
         }
 
         case 4:
-            ((Rec_D_80082D58 *)actor)->unk_68 = 0x40;
-            ((Rec_D_80082D58 *)actor)->unk_6C.as_u16 = 0x14;
+            actor->unk_68 = 0x40;
+            actor->timer.as_u16 = 0x14;
             sprite->flags |= 0x800;
         }
         break;
@@ -137,10 +137,10 @@ case 0x10:
         register u16 timer;
 
         if (sprite->flags & 0x6000) {
-            timer = ((Rec_D_80082D58 *)actor)->unk_6C.as_u16 - 1;
-            ((Rec_D_80082D58 *)actor)->unk_6C.as_u16 = timer;
+            timer = actor->timer.as_u16 - 1;
+            actor->timer.as_u16 = timer;
             if ((s16)timer <= 0) {
-                ((Rec_D_80082D58 *)actor)->unk_68 = 0;
+                actor->unk_68 = 0;
             }
             sequence = (s32 *)paired_actor_sprite_entries;
         }
@@ -166,13 +166,13 @@ case 0x20:
         state = home_dx < motion->z.w.i;
         if (state) {
             motion->z.w.i = home_dx;
-            timer = ((Rec_D_80082D58 *)actor)->unk_6C.as_u16 - 1;
-            ((Rec_D_80082D58 *)actor)->unk_6C.as_u16 = timer;
+            timer = actor->timer.as_u16 - 1;
+            actor->timer.as_u16 = timer;
             if ((s16)timer <= 0) {
                 motion->velocity_z = 0;
                 motion->velocity_x = 0;
                 sprite->flags &= 0xF7FF;
-                ((Rec_D_80082D58 *)actor)->unk_68 = 0;
+                actor->unk_68 = 0;
             } else {
                 motion->velocity_z = -0x30000;
             }
@@ -196,8 +196,8 @@ case 0x30:
         motion->velocity_z -= 0x4000;
         if (sprite->flags & 0x6000) {
             sequence = D_800E9E34;
-            ((Rec_D_80082D58 *)actor)->unk_68 = glide_state;
-            ((Rec_D_80082D58 *)actor)->unk_6C.as_u16 = 3;
+            actor->unk_68 = glide_state;
+            actor->timer.as_u16 = 3;
         }
         break;
     }
@@ -217,14 +217,14 @@ case 0x31:
         motion->x.v = x + vx;
         motion->z.v = y + vy;
         if (sprite->flags & 0x6000) {
-            timer = ((Rec_D_80082D58 *)actor)->unk_6C.as_u16 - 1;
-            ((Rec_D_80082D58 *)actor)->unk_6C.as_u16 = timer;
+            timer = actor->timer.as_u16 - 1;
+            actor->timer.as_u16 = timer;
             if ((s16)timer <= 0) {
                 sequence = D_800E9E34;
                 motion->velocity_z = -0x10000;
                 motion->velocity_x >>= 1;
-                ((Rec_D_80082D58 *)actor)->unk_68 = 0x32;
-                ((Rec_D_80082D58 *)actor)->unk_6C.as_u16 = (rand() & 3) + 3;
+                actor->unk_68 = 0x32;
+                actor->timer.as_u16 = (rand() & 3) + 3;
             }
         }
         break;
@@ -249,10 +249,10 @@ case 0x32:
         motion->x.v = x + vx;
         motion->z.v = y + vy;
         if (sprite->flags & 0x6000) {
-            timer = ((Rec_D_80082D58 *)actor)->unk_6C.as_u16 - 1;
-            ((Rec_D_80082D58 *)actor)->unk_6C.as_u16 = timer;
+            timer = actor->timer.as_u16 - 1;
+            actor->timer.as_u16 = timer;
             if ((s16)timer <= 0) {
-                ((Rec_D_80082D58 *)actor)->unk_6C.as_u16 = 8;
+                actor->timer.as_u16 = 8;
                 new_vx = -motion->velocity_x;
                 motion->velocity_x = new_vx;
                 if (new_vx > 0) {
@@ -265,9 +265,9 @@ case 0x32:
                 height = motion->z.v + 0x100000;
                 motion->velocity_z =
                     (floor_fixed - height) /
-                    (s16)((Rec_D_80082D58 *)actor)->unk_6C.as_u16;
+                    (s16)actor->timer.as_u16;
                 sequence = D_800E9E14;
-                ((Rec_D_80082D58 *)actor)->unk_68 = 0x33;
+                actor->unk_68 = 0x33;
             }
         }
         break;
@@ -290,13 +290,13 @@ case 0x33:
         if (sprite->flags & 0x6000) {
             sequence = D_800E9E14;
         }
-        timer = ((Rec_D_80082D58 *)actor)->unk_6C.as_u16 - 1;
-        ((Rec_D_80082D58 *)actor)->unk_6C.as_u16 = timer;
+        timer = actor->timer.as_u16 - 1;
+        actor->timer.as_u16 = timer;
         if ((s16)timer <= 0) {
             sequence = D_800E9E54;
             motion->velocity_z = 0;
             motion->velocity_x = 0;
-            ((Rec_D_80082D58 *)actor)->unk_68 = 0x34;
+            actor->unk_68 = 0x34;
         }
         break;
     }
@@ -311,7 +311,7 @@ case 0x34:
             (u16)motion->z.w.i + ((floor - motion->z.w.i) >> 1);
         if (sprite->flags & 0x6000) {
             sequence = (s32 *)paired_actor_sprite_entries;
-            ((Rec_D_80082D58 *)actor)->unk_68 = 0;
+            actor->unk_68 = 0;
         }
         break;
     }
@@ -320,10 +320,10 @@ case 0x40:
     {
         register u16 timer;
 
-        timer = ((Rec_D_80082D58 *)actor)->unk_6C.as_u16 - 1;
-        ((Rec_D_80082D58 *)actor)->unk_6C.as_u16 = timer;
+        timer = actor->timer.as_u16 - 1;
+        actor->timer.as_u16 = timer;
         if ((s16)timer <= 0) {
-            ((Rec_D_80082D58 *)actor)->unk_68 = 0;
+            actor->unk_68 = 0;
             sprite->flags &= 0xF7FF;
         }
         break;

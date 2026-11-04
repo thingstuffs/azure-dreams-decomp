@@ -283,7 +283,7 @@ void p_came_rotset(s32 rotation);
 void p_came_set(s32 position);
 
 /* paired_actor_motion_g00645.c */
-void update_randomized_actor_movement(void *actor, ObjectPosition *motion, SpriteFrameState *sprite, s32 update_mode);
+void update_randomized_actor_movement(TownObjectRecord *actor, ObjectPosition *motion, SpriteFrameState *sprite, s32 update_mode);
 void initialize_object_and_dispatch_by_state(TownObjectRecord *object, ObjectPosition *params, SpriteFrameState *dispatch_context);
 void randomize_paired_object_motion(void *pair);
 s32 event_tori_in(void *source);

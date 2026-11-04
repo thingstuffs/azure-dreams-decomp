@@ -14,7 +14,7 @@ void initialize_timed_resource_object(TownObjectRecord *object, ObjectPosition *
     ((ObjectNodeHeader *)object - 1)->update_callback = &finalize_object_or_select_town_record;
     dish_counter = 0x14;
     resource_base = &D_800F8A70;
-    context->source = (void *) ((s8 *) resource_base + 0xF0);
+    context->source =  ((s8 *) resource_base + 0xF0);
     register_node_if_unregistered(object, (project_sprite_chain));
 }
 

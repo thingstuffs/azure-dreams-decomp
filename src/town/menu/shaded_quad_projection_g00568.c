@@ -22,25 +22,27 @@ void project_and_enqueue_shaded_quad(vertex_0, vertex_1, vertex_2, vertex_3, sha
     s32 depth_or_page;
     GpuContext *draw_ctx;
     u8 *packet;
+    ShadedQuadPacket *quad_packet;
 
     {
         GpuContext *quad_ctx;
 
         quad_ctx = (GpuContext *)(*(u8 **)&g_game_work.draw_buffer);
         packet = quad_ctx->packetCursor;
+        quad_packet = (ShadedQuadPacket *)packet;
         quad_ctx->packetCursor = packet + 0x24;
-        ((S_800A2E30_1 *)packet)->unk_16 = shade;
-        ((S_800A2E30_1 *)packet)->unk_15 = shade;
-        ((S_800A2E30_1 *)packet)->unk_14 = shade;
-        ((S_800A2E30_1 *)packet)->unk_06 = shade;
-        ((S_800A2E30_1 *)packet)->unk_05 = shade;
-        ((S_800A2E30_1 *)packet)->unk_04 = shade;
-        ((S_800A2E30_1 *)packet)->unk_1E = 0;
-        ((S_800A2E30_1 *)packet)->unk_1D = 0;
-        ((S_800A2E30_1 *)packet)->unk_1C = 0;
-        ((S_800A2E30_1 *)packet)->unk_0E = 0;
-        ((S_800A2E30_1 *)packet)->unk_0D = 0;
-        ((S_800A2E30_1 *)packet)->unk_0C = 0;
+        quad_packet->blue2 = shade;
+        quad_packet->green2 = shade;
+        quad_packet->red2 = shade;
+        quad_packet->blue0 = shade;
+        quad_packet->green0 = shade;
+        quad_packet->red0 = shade;
+        quad_packet->blue3 = 0;
+        quad_packet->green3 = 0;
+        quad_packet->red3 = 0;
+        quad_packet->blue1 = 0;
+        quad_packet->green1 = 0;
+        quad_packet->red1 = 0;
         SetPolyG4(packet);
     }
     SetSemiTrans(packet, 1);
@@ -48,14 +50,14 @@ void project_and_enqueue_shaded_quad(vertex_0, vertex_1, vertex_2, vertex_3, sha
     depth_or_page = RotTransPers4((InputPair *)&vertex_0, (InputPair *)&vertex_1, (InputPair *)&vertex_2, (InputPair *)&vertex_3,
                           &screen_0, &screen_1, &screen_2, &screen_3, &depth_cue, &transform_flags);
 
-    ((S_800A2E30_1 *)packet)->unk_08 = screen_0.first;
-    ((S_800A2E30_1 *)packet)->unk_0A = screen_0.second;
-    ((S_800A2E30_1 *)packet)->unk_10 = screen_1.first;
-    ((S_800A2E30_1 *)packet)->unk_12 = screen_1.second;
-    ((S_800A2E30_1 *)packet)->unk_18 = screen_2.first;
-    ((S_800A2E30_1 *)packet)->unk_1A = screen_2.second;
-    ((S_800A2E30_1 *)packet)->unk_20 = screen_3.first;
-    ((S_800A2E30_1 *)packet)->unk_22 = screen_3.second;
+    quad_packet->x0 = screen_0.first;
+    quad_packet->y0 = screen_0.second;
+    quad_packet->x1 = screen_1.first;
+    quad_packet->y1 = screen_1.second;
+    quad_packet->x2 = screen_2.first;
+    quad_packet->y2 = screen_2.second;
+    quad_packet->x3 = screen_3.first;
+    quad_packet->y3 = screen_3.second;
 
     if (depth_or_page >= 0x1E0) {
         depth_or_page = 0x1DF;

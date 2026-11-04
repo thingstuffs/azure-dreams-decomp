@@ -4,19 +4,16 @@
 #include "town/minigame/object.h"
 #include "town/minigame/effect.h"
 
-
-
 typedef struct S_80021E88_2 {
     u8 pad_00[0x8];
     s32 unk_08;
     s32 unk_0C;
 } S_80021E88_2;   /* arg2 in update_minigame_transition */
 
-
 typedef struct S_80021E88_4 {
     u8 pad_00[0x22];
     s16 unk_22;
-} S_80021E88_4;   /* ((S_80021E88_0 *)arg0)->unk_04 in update_minigame_transition */
+} S_80021E88_4;   /* ((MinigameTransitionObject *)arg0)->unk_04 in update_minigame_transition */
 
 extern u32 town_money;
 extern u8 D_800243F0[];

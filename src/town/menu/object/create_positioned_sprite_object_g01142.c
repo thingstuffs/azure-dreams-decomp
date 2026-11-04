@@ -20,7 +20,7 @@ ObjectNodeHeader *create_positioned_sprite_object(IntVector3 *position, s32 stat
     if (object == 0) {
         return 0;
     }
-    object_state = ((void *)object) + 0x20;
+    object_state = NODE_BODY(object);
     transform = object->position;
     sprite = object->sprite;
     transform->x.v = (s32) position->x;

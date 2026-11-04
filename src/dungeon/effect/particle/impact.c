@@ -1522,7 +1522,7 @@ void update_owner_following_effect(OwnerFollowingWork *effect_in, ObjectPosition
                     update_timed((u8 *)effect_in - 0x20,
                                   (s16)((u16)position_in->x.w.i + (offset_x << 6)),
                                   (s16)((u16)position_in->y.w.i + ((s32)(point->y << 16) >> 10)),
-                                  position_in->z.w.i, S16_AT(position_in, 0x16));
+                                  position_in->z.w.i, (s16)(position_in->velocity_z >> 16));
                     row++;
                 } while (row < 3);
             } while (++column < 3);

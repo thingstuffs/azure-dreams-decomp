@@ -52,7 +52,7 @@ void fill_display_slots(EntityRec *source, s32 output) {
                 slot_count += 1;
             }
             index += 1;
-            source_cursor = (void *)((s8 *)source_cursor + 4);
+            source_cursor = ((s8 *)source_cursor + 4);
         } while ((index + scan_base) < 3);
     }
     if ((slot_count < 3) && (source->unk_49 != 0)) {

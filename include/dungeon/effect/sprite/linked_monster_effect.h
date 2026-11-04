@@ -20,7 +20,7 @@ typedef struct LinkedMonsterEffectBody {
     s16 unk_38;
     u16 unk_3A;
     s16 unk_3C;
-    union { s16 n; s16 v; } unk_3E;   /* accessed as both */
+    s16 unk_3E;
     union { u16 u; s16 s; } unk_40;   /* accessed as both */
     u16 unk_42;
 } LinkedMonsterEffectBody;

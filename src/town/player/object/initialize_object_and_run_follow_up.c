@@ -6,9 +6,7 @@
 
 #include "town/player/object/entity_record_fields.h"                     /* extern */
 extern s8 town_action_reset_byte;
-typedef struct S_8009803C_0 S_8009803C_0;
-void tick_countdown_and_initialize_record(S_8009803C_0 *state, s32 value, s32 mode);
-
+void tick_countdown_and_initialize_record(void *state, s32 value, s32 mode);
 
 /* Initialize the object, clear the global flag, and invoke the follow-up routine. */
 void initialize_object_and_run_follow_up(TownObjectRecord *object, ObjectPosition *followUpArg, void *ptr2) {

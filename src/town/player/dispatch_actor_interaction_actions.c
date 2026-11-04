@@ -28,11 +28,7 @@ s32 select_an_eligible_source_entry_stores_pointer_in_destination(void *, void *
 #include "town/player/position/handle_resolves_movement_collisions_along_one_axis_using_boundary_probes_tile_api.h"                      /* extern */
 extern s32 town_actor_control;
 
-
-typedef struct S_80090A74_1 {
-    u8 unk_00;
-} S_80090A74_1;   /* &D_800CFCEF in dispatch_actor_interaction_actions */
-
+   /* &D_800CFCEF in dispatch_actor_interaction_actions */
 
 typedef struct S_80090A74_4 {
     u8 pad_00[0x10];
@@ -58,11 +54,11 @@ void dispatch_actor_interaction_actions(Rec_func_8009431C_arg0 *actor, ObjectPos
         height = select_the_smaller_position_query_result_capped_n_64_writes_associated(height_record, height_data);
     }
     if ((height - record->z.w.i) >= 4) {
-        if (((S_80090A74_1 *)(&town_action_state_flag))->unk_00 == 0) {
+        if (town_action_state_flag == 0) {
             initialize_action_object(actor, record, sprite);
             return;
         }
-    } else if (((S_80090A74_1 *)(&town_action_state_flag))->unk_00 == 0) {
+    } else if (town_action_state_flag == 0) {
         compute_and_clamps_vector_based_adjustment_updates_town((record), height, (struct TownVec * *)(height_data));
     }
     if ((input_state->pressed_buttons) & 0x10) {

@@ -112,7 +112,7 @@ extern s32 register_node(struct ObjectNodeHeader *, void *);
 extern void *allocate_list_node(s32, void *);
 extern s32 D_800E9E14[];
 /* Functions defined in this translation unit. */
-void update_randomized_actor_movement(void *actor, ObjectPosition *motion,struct SpriteFrameState *sprite, s32 update_mode);
+void update_randomized_actor_movement(TownObjectRecord *actor, ObjectPosition *motion,struct SpriteFrameState *sprite, s32 update_mode);
 void initialize_object_and_dispatch_by_state(TownObjectRecord *object, ObjectPosition *params, SpriteFrameState *dispatch_context);
 void randomize_paired_object_motion(void *pair_in);
 void advance_motion_and_flag_zero_velocity(Actor *actor, Motion *motion, struct SpriteFrameState *actor_id);

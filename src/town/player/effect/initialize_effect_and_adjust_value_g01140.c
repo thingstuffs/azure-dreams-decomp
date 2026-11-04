@@ -142,11 +142,11 @@ void update_object_view_transition(S_800A58CC_2 *state_arg, ObjectPosition *obje
     town = &g_game_work;
     handle_resolves_movement_collisions_along_one_axis_using_boundary_probes_tile((object_ref));
     threshold = select_the_smaller_position_query_result_capped_n_64_writes_associated(object_ref, &position_query_scratch);
-    if (((S_800A58CC_0 *)((void *) object_ref))->unk_0A >= threshold) {
+    if (object_ref->z.w.i >= threshold) {
         compute_and_clamps_vector_based_adjustment_updates_town((object_ref), threshold, (struct TownVec **)(&position_query_scratch));
     } else {
         if (D_800D0000[-0x311] != 0) {
-            ((S_800A58CC_0 *)((void *) object_ref))->unk_14 = 0;
+            object_ref->velocity_z = 0;
             clear_global_slot_n_5_copy_source_slot_n_2_global_slot_n_2((object_ref));
         } else {
             add_hex_20000_s_signed_offset_hex_14(object_ref);
@@ -154,8 +154,8 @@ void update_object_view_transition(S_800A58CC_2 *state_arg, ObjectPosition *obje
     }
     coords = &view_reference_entity;
     if (check_masked_value_in_current_range(read_map_cell_at_world_position(coords->x.w.i, coords->y.w.i) & 0xFFFF) != 0) {
-        pitch_step = ((S_800A58CC_0 *)((void *) object_ref))->unk_14 - compute_height_based_offset((object_ref));
-        ((S_800A58CC_0 *)((void *) object_ref))->unk_14 = pitch_step;
+        pitch_step = object_ref->velocity_z - compute_height_based_offset((object_ref));
+        object_ref->velocity_z = pitch_step;
     }
     move_both_components_toward_zero_direction_dependent_steps_clamping_zero((object_ref));
     move_both_components_toward_zero_direction_dependent_steps_clamping_zero((object_ref));
@@ -323,7 +323,7 @@ void update_actor_effect_transition(S_800A5DF8_4 *state, ObjectPosition *actor, 
     threshold = select_the_smaller_position_query_result_capped_n_64_writes_associated(actor, effect_data);
     if (actor->z.w.i >= threshold) {
         compute_and_clamps_vector_based_adjustment_updates_town((actor), threshold, (struct TownVec **)(effect_data));
-    } else if (((S_800A5DF8_1 *)(&town_action_state_flag))->unk_00 != 0) {
+    } else if (town_action_state_flag != 0) {
         actor->velocity_z = 0;
         clear_global_slot_n_5_copy_source_slot_n_2_global_slot_n_2((actor));
     } else {

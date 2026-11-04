@@ -12,7 +12,6 @@ struct TownObjectRecord;
 #include "shared/vector.h"
 
 struct TownObjectRecord;
-struct S_800C2664_0;
 struct S_800C2864_0;
 struct S_800C3960_0;
 struct S_800C51DC_0;
@@ -145,7 +144,7 @@ void initialize_reaction_object_type_4_f(TownObjectRecord *object, ObjectPositio
 void initialize_transform_object(TownObjectRecord *object, ObjectPosition *unused_position, struct SpriteFrameState *unused_sprite);
 
 /* initialize_transform_object_values.c */
-void initialize_transform_object_values(struct S_800C2664_0 *object, ObjectPosition *setup_context, SpriteFrameState *unused);
+void initialize_transform_object_values(TownObjectRecord *object, ObjectPosition *setup_context, SpriteFrameState *unused);
 
 /* initialize_variant_object.c */
 void initialize_variant_object(TownObjectRecord *body, ObjectPosition *unused_position, struct SpriteFrameState *unused_sprite);

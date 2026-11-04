@@ -6,10 +6,15 @@
 /* Body of a point effect allocated by advance_target_chasing_emitter. */
 typedef struct IntermediatePointEffectBody {
     void * unk_00;
-    union { s16 s; u16 u; } unk_04;   /* accessed as both */
-    union { s16 s; u16 u; } unk_06;   /* accessed as both */
-    union { s16 s; u16 u; } unk_08;   /* accessed as both */
-    u8 pad_0A[0x1A];
+    /* UNION: update_randomized_intermediate_points reads slot 0 coordinates as
+     * signed deltas and unsigned origins; advance_target_chasing_emitter allocates
+     * this body, copies the origins at +4, and installs that updater. */
+    struct {
+        union { s16 s; u16 u; } x;
+        union { s16 s; u16 u; } y;
+        union { s16 s; u16 u; } z;
+        u16 pad;
+    } point_slots[4];
     union { s16 s; u16 u; } unk_24;
     union { s16 s; u16 u; } unk_26;
     union { s16 s; u16 u; } unk_28;

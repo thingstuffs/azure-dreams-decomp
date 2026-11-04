@@ -13,14 +13,13 @@ struct TownObjectRecord;
 #include "shared/dungeon_delay_views.h"
 #include "shared/entity.h"
 
-struct S_800C355C_1;
 struct S_800C3FC8_0;
 struct S_800C5B48_1;
 struct S_800C7674_0;
 struct S_800CC070_1;
 
 /* advance_bounded_motion.c */
-void advance_bounded_motion(struct S_800C355C_1 *entity, void *motion, struct SpriteFrameState *context, s32 check_param);
+void advance_bounded_motion(TownObjectRecord *entity, void *motion, struct SpriteFrameState *context, s32 check_param);
 
 /* advance_mother_event_bounded_motion.c */
 void advance_mother_event_bounded_motion(struct S_800C7674_0 *entity, EntityRec *motion_state, void *context);

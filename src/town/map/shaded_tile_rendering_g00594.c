@@ -104,7 +104,7 @@ void render_shaded_map_tiles(void) {
     build_screen_outline((u8 *)render_state + 0x18, view_bounds, 0);
     work_ptr = view_bounds;
     coord_offset = (void *) (scratch.address | 0x1C);
-    base_color = *(s32 *)&render_state->view.tint.word;
+    base_color = ((s32)(render_state->view.tint.word));
     edge_count = (void *) (scratch.address | 0x174);
     scratch.ptr->unk_00 = base_color;
     ordering_table = render_state->draw_buffer;
@@ -135,7 +135,7 @@ void render_shaded_map_tiles(void) {
     scratch.ptr->unk_14C = 0xFFFF;
     scratch.ptr->unk_174 = 4;
     scratch.ptr->unk_164 = (u8 *) packet + 0xCCCC;
-    scratch.ptr->unk_0C = (s16) runtime_initialize_polygon_edges(work_ptr, (s32 *) coord_offset, (u16 *) edge_count);
+    scratch.ptr->unk_0C = (s16) runtime_initialize_polygon_edges(work_ptr,  coord_offset,  edge_count);
     if (scratch.ptr->unk_174 != 0) {
         one = 1;
         vertex_input = &scratch.ptr->unk_E0;
@@ -668,7 +668,7 @@ void draw_empty_map_cell_quads(u32 packet_limit)
     s32 packet_tag;
     s32 chain_tag;
 
-    edge_buffer = (u8 *)0;
+    edge_buffer = 0;
     edge_count_addr = (s32)edge_buffer;
     scratch = (MapQuadScratch *)0x1F800000;
 

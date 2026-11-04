@@ -32,6 +32,7 @@ void *allocate_object_with_initial_state(EffectInitialState *source_data, s32 in
     ObjectNodeHeader *object;
     ObjectPosition *object_data;
     ObjectNodeHeader *result;
+    RandomizedEffectMotionBody *body;
 
     object = allocate_list_node(0x136, &scene_object_list_anchor.next);
     if (object == 0) {
@@ -43,7 +44,8 @@ void *allocate_object_with_initial_state(EffectInitialState *source_data, s32 in
     result = object;
     object_data->z.v = source_data->unk_08;
     result->update_callback = dispatch_menu_state_callback;
-    ((S_800A3450_3 *)result)->unk_20 = initialize_randomized_motion_vector;
-    ((S_800A3450_3 *)result)->unk_42 = initial_value;
+    body = NODE_BODY(result);
+    body->callback.raw = initialize_randomized_motion_vector;
+    body->variant = initial_value;
     return result;
 }

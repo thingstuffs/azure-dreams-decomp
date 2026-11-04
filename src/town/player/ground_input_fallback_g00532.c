@@ -12,12 +12,12 @@ void update_actor_ground_and_input(s32 controller, ObjectPosition *actor, s32 co
     move_both_components_toward_zero_direction_dependent_steps_clamping_zero(actor);
     ground_height = select_the_smaller_position_query_result_capped_n_64_writes_associated(actor, &position_query_scratch);
     if ((ground_height - actor->z.w.i) >= 4) {
-        if (((S_80091000_1 *)(&town_action_state_flag))->unk_00 == 0) {
+        if (town_action_state_flag == 0) {
             initialize_action_object(controller, actor, context);
             return;
         }
     } else {
-        if (((S_80091000_1 *)(&town_action_state_flag))->unk_00 == 0) {
+        if (town_action_state_flag == 0) {
             compute_and_clamps_vector_based_adjustment_updates_town(actor, ground_height, &position_query_scratch);
         }
     }

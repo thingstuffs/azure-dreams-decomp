@@ -19,6 +19,13 @@ struct S_800C830C_0;
 struct S_8065C17C_0;
 struct TownRecord;
 
+typedef void (*MapSecondaryCallback)(s32 *);
+typedef struct MapSecondaryCallbackState {
+    u8 pad_00[0x1C];
+    MapSecondaryCallback select_title;
+    MapSecondaryCallback update_coordinates;
+} MapSecondaryCallbackState;
+
 
 /* Data declarations. */
 extern ObjectNodeHeader *betting_display_object;
@@ -117,7 +124,7 @@ extern s32 *town_position_entry_samples;
 extern s32 *town_probe_adjustment_samples;
 extern s32 town_record_capacities[ ];
 extern s32 town_scene_init_callback;
-extern s32 town_secondary_callback_state[ ];
+extern MapSecondaryCallbackState town_secondary_callback_state;
 extern s32 town_threshold_interaction_address;
 extern s32 town_x_acceleration[ 4 ];
 extern s32 town_x_speed_limits[ 4 ];

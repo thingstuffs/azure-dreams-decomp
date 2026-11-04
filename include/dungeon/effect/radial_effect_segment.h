@@ -12,14 +12,8 @@ typedef struct RadialEffectSegmentBody {
     u8 pad_12[0x2];
     void *unk_14;
     u8 pad_18[0x2C];
-    s16 unk_44;
-    s16 unk_46;
-    s16 unk_48;
-    s16 unk_4A;
-    s16 unk_4C;
-    s16 unk_4E;
-    s16 unk_50;
-    s16 unk_52;
+    s16 x[4];
+    s16 y[4];
     s16 unk_54;
     s16 unk_56;
     s16 unk_58;

@@ -6,15 +6,6 @@
 #define NULL 0
 #endif
 
-typedef void (*Callback)(s32 *);
-
-
-typedef struct S_func_800A496C_1 {
-    u8 pad_00[0x1C];
-    Callback unk_1C;
-    Callback unk_20;
-} S_func_800A496C_1;
-
 typedef struct S_func_800A496C_2 {
     u8 pad_00[0x6];
     s16 unk_06;
@@ -27,24 +18,24 @@ extern s8 map_wide_culling;
 void run_dual_context_callbacks(void)
 {
     TownCameraState *primary_context;
-    S_func_800A496C_1 *secondary_context;
+    MapSecondaryCallbackState *secondary_context;
     TownCameraCallback callback;
 
     primary_context = &town_camera_chase_state;
-    secondary_context = (S_func_800A496C_1 *)town_secondary_callback_state;
+    secondary_context = &town_secondary_callback_state;
 
     callback = primary_context->select_target;
     if (callback != NULL) {
         callback(primary_context);
     }
-    if (secondary_context->unk_1C != NULL) {
-        secondary_context->unk_1C((s32 *)secondary_context);
+    if (secondary_context->select_title != NULL) {
+        secondary_context->select_title((s32 *)secondary_context);
     }
     if (primary_context->track_target != NULL) {
         primary_context->track_target(primary_context);
     }
-    if (secondary_context->unk_20 != NULL) {
-        secondary_context->unk_20((s32 *)secondary_context);
+    if (secondary_context->update_coordinates != NULL) {
+        secondary_context->update_coordinates((s32 *)secondary_context);
     }
 
     update_view_gray_level();

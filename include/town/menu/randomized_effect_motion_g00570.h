@@ -11,26 +11,17 @@
 #include "m2c_compat.h"
 #include "shared/entity.h"
 
-typedef struct S_800A3508_1 {
-    void * unk_00;
-    u8 pad_04[0x1E];
-    s16 unk_22;
-    s32 unk_24;
-    u8 pad_28[0x8];
-    s32 unk_30;
-    s32 unk_34;
-} S_800A3508_1;
-
-typedef struct S_800A378C_0 {
-    void (*unk_00)();
-    u8 pad_04[0x1E];
-    s16 unk_22;
-    s32 unk_24;
-    u8 pad_28[0x4];
-    s32 unk_2C;
-    s32 unk_30;
-    s32 unk_34;
-} S_800A378C_0;
+/* Body installed by allocate_object_with_initial_state and called through dispatch_menu_state_callback. */
+typedef struct RandomizedEffectMotionBody {
+    /* 0x00 */ union { void *raw; void (*handler)(); } callback;
+    /* 0x04 */ u8 pad_04[0x1E];
+    /* 0x22 */ s16 variant;
+    /* 0x24 */ s32 ticks_left;
+    /* 0x28 */ u8 pad_28[4];
+    /* 0x2C */ s32 velocity_x;
+    /* 0x30 */ s32 velocity_y;
+    /* 0x34 */ s32 velocity_z;
+} RandomizedEffectMotionBody;
 
 extern void select_record_entry_and_value(void *,void *, s32);
 extern void register_node(void *, void *);
@@ -47,7 +38,7 @@ extern void D_800A38A8(void *object, void *unused_context, u8 *primitive);
 extern SpriteSourceEntry *D_800D0B20[];
 
 /* Functions defined in this translation unit. */
-void initialize_randomized_motion_vector(u8 *obj, s32 *vec, SpriteFrameState *record);
-void advance_motion_and_reset_appearance(S_800A378C_0 *state, ObjectPosition *transform, SpriteFrameState *appearance);
+void initialize_randomized_motion_vector(RandomizedEffectMotionBody *obj, s32 *vec, SpriteFrameState *record);
+void advance_motion_and_reset_appearance(RandomizedEffectMotionBody *state, ObjectPosition *transform, SpriteFrameState *appearance);
 
 #endif

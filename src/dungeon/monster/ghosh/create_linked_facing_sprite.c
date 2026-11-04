@@ -16,7 +16,8 @@ struct ObjectNodeHeader; void * allocate_list_node(s32, struct ObjectNodeHeader 
 void create_linked_facing_sprite(u16 x, u16 y, s32 z) {
     u8 saved_x = x;
     u8 saved_y = y;
-    void *object, *state, *position, *sprite;
+    ObjectNodeHeader *object;
+    void *state, *position, *sprite;
     s32 tile_mask;
     u8 tile_x, tile_y;
     void *call_object;
@@ -26,15 +27,15 @@ void create_linked_facing_sprite(u16 x, u16 y, s32 z) {
     if (object != 0) {
         s32 z_offset;
 
-        state = object + 0x20;
+        state = NODE_BODY(object);
         F(state, s8*, 0x13) = 0x15;
-        F(object, s32**, 0x10) = &D_801714B0;
+        object->update_callback = &D_801714B0;
         register_node(call_object, project_sprite_chain);
         call_object = object;
         z_offset = z - 0x18;
-        position = F(object, void**, 8);
+        position = object->position;
         ((ObjectPosition *)position)->z.w.i = z_offset;
-        sprite = F(object, void**, 0xC);
+        sprite = object->sprite;
         ((SpriteFrameState *)sprite)->frameTable = &ghosh_frame_set;
         ((SpriteFrameState *)sprite)->tile_x = saved_x;
         ((SpriteFrameState *)sprite)->tile_y = saved_y;
@@ -54,6 +55,6 @@ void create_linked_facing_sprite(u16 x, u16 y, s32 z) {
         update_map_cell_flags_with_item_limit(tile_x, tile_y, tile_mask);
         unlink_entity_node(state);
         D_80174CDC = object;
-        F(object, s32**, 0x10) = (s32 *)((s32)F(object, s32**, 0x10) | 0x80000000);
+        object->update_callback = (s32 *)((s32)object->update_callback | 0x80000000);
     }
 }

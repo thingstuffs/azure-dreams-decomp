@@ -2,6 +2,7 @@
 #include "slus.h"
 #include "engine/graphics.h"
 #include "shared/entity.h"
+#include "shared/object_node.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/game_work.h"
 #include "engine/node.h"
@@ -19,10 +20,6 @@
 
 extern u8 map_particle_child_update_address[];
 
-typedef struct S_800BA00C_0_pre {
-    void * unk_00;
-    u8 pad_04[0xC];
-} S_800BA00C_0_pre;   /* the 0x10 bytes before arg0 in initialize_effect_with_child_sprites, addressed as arg0[-1] */
 
 typedef struct S_800BA00C_0 {
     u8 pad_00[0x66];
@@ -32,13 +29,6 @@ typedef struct S_800BA00C_0 {
     s32 unk_98;
 } S_800BA00C_0;   /* arg0 in initialize_effect_with_child_sprites */
 
-typedef struct S_800BA00C_1 {
-    s32 unk_00;
-    s32 unk_04;
-    union { u8 * p; s32 i; } unk_08;   /* accessed as both */
-    SpriteFrameState *unk_0C;
-    void * unk_10;
-} S_800BA00C_1;   /* obj in initialize_effect_with_child_sprites */
 
 
 /* Initializes a randomly oriented effect and its child sprites at the supplied position. */
@@ -46,7 +36,8 @@ void initialize_effect_with_child_sprites(TownObjectRecord *parent, ObjectPositi
 {
     void *part_callback;
     GameWork *work;
-    u8 *obj;
+    ObjectNodeHeader *node;
+    ObjectPosition *obj;
     u8 *entity;
     void *sprite_callback;
     void *sprite_texture;
@@ -74,7 +65,7 @@ void initialize_effect_with_child_sprites(TownObjectRecord *parent, ObjectPositi
     SpriteFrameState *sprite;
     void *parent_obj;
 
-    ((S_800BA00C_0_pre *)parent)[-1].unk_00 = update_object_link_or_angle_state;
+    NODE_HEADER(parent)->update_callback = update_object_link_or_angle_state;
     angle_random = rand();
     parent->unk_66.as_s16 = angle_random % 0x1000;
     variation_random = rand();
@@ -94,17 +85,17 @@ void initialize_effect_with_child_sprites(TownObjectRecord *parent, ObjectPositi
     work = &g_game_work;
     part_params = map_particle_part_parameters;
     do {
-        obj = allocate_list_node(0x136, (u8 *)parent - 0x20);
-        if (obj != 0) {
-            ((S_800BA00C_1 *)obj)->unk_10 = part_callback;
-            register_node(obj, draw_linked_lit_meshes);
+        node = allocate_list_node(0x136, NODE_HEADER(parent));
+        if (node != 0) {
+            node->update_callback = part_callback;
+            register_node(node, draw_linked_lit_meshes);
             parent_value = ((S_800BA00C_0 *)parent)->unk_98;
-            entity = obj + 0x20;
+            entity = NODE_BODY(node);
             (*(void * *)(entity + 0x9C)) = parent;
             (*(s16 *)(entity + 0x66)) = 0;
             (*(s8 *)(entity + 0x97)) = part_index;
             (*(s32 *)(entity + 0x98)) = parent_value;
-            sprite = ((S_800BA00C_1 *)obj)->unk_0C;
+            sprite = node->sprite;
             sprite->scale_x = 0x1000;
             sprite->scale_y = 0x1000;
             sprite->offset_x = 0xAAA;
@@ -113,16 +104,16 @@ void initialize_effect_with_child_sprites(TownObjectRecord *parent, ObjectPositi
             blue = work->view.tint.parts.tint_b;
             sprite->source = part_index + 0x1A;
             sprite->color.c.b = blue;
-            obj = ((S_800BA00C_1 *)obj)->unk_08.p;
-            ((S_800BA00C_1 *)obj)->unk_00 = position->x.v;
-            ((S_800BA00C_1 *)obj)->unk_04 = position->y.v;
+            obj = node->position;
+            obj->x.v = position->x.v;
+            obj->y.v = position->y.v;
             angle = (s8)quadrant;
             if ((*(s8 *)(entity + 0x97)) == angle) {
                 angle = ((TownObjectRecord *)((*(void * *)(entity + 0x9C))))->unk_66.as_s16;
-                ((S_800BA00C_1 *)obj)->unk_08.i = -((rsin(((angle % 0x200) << 16) >> 15) >> 4) * 0x1E00);
+                obj->z.v = -((rsin(((angle % 0x200) << 16) >> 15) >> 4) * 0x1E00);
                 (*(s16 *)(entity + 0x66)) = 0x1E;
             } else {
-                ((S_800BA00C_1 *)obj)->unk_08.i = 0;
+                obj->z.v = 0;
             }
             configure_the_set_mode_n_3(entity, obj, *part_params);
         }
@@ -135,16 +126,16 @@ void initialize_effect_with_child_sprites(TownObjectRecord *parent, ObjectPositi
     sprite_texture = map_particle_first_sprite_entries;
     brightness = 0x80;
     do {
-        obj = allocate_list_node(0x36, (u8 *)parent - 0x20);
-        if (obj != 0) {
-            ((S_800BA00C_1 *)obj)->unk_10 = sprite_callback;
-            register_node(obj, draw_linked_sprites_clipped);
+        node = allocate_list_node(0x36, NODE_HEADER(parent));
+        if (node != 0) {
+            node->update_callback = sprite_callback;
+            register_node(node, draw_linked_sprites_clipped);
             parent_value = ((S_800BA00C_0 *)parent)->unk_98;
-            entity = obj + 0x20;
+            entity = NODE_BODY(node);
             (*(void * *)(entity + 0x9C)) = parent;
             (*(s8 *)(entity + 0x97)) = part_index;
             (*(s32 *)(entity + 0x98)) = parent_value;
-            sprite = ((S_800BA00C_1 *)obj)->unk_0C;
+            sprite = node->sprite;
             sprite->source = sprite_texture;
             sprite->color.c.b = brightness;
             sprite->color.c.g = brightness;
@@ -158,29 +149,29 @@ void initialize_effect_with_child_sprites(TownObjectRecord *parent, ObjectPositi
             angle_offset = part_index << 10;
             sprite_angle += angle_offset;
             sprite->angle_z = sprite_angle;
-            obj = ((S_800BA00C_1 *)obj)->unk_08.p;
+            obj = node->position;
             depth = position->x.v;
-            ((S_800BA00C_1 *)obj)->unk_00 = depth;
+            obj->x.v = depth;
             offset_y = position->y.v;
             depth = 0xFF2C0000;
-            ((S_800BA00C_1 *)obj)->unk_08.i = depth;
+            obj->z.v = depth;
             depth = 0x200000;
             offset_y += depth;
-            ((S_800BA00C_1 *)obj)->unk_04 = offset_y;
+            obj->y.v = offset_y;
         }
         part_index++;
     } while (part_index < 4);
 
-    parent_obj = (u8 *)parent - 0x20;
-    obj = allocate_list_node(0x36, parent_obj);
-    if (obj != 0) {
-        ((S_800BA00C_1 *)obj)->unk_10 = update_inactive_object_state;
-        register_node(obj, draw_linked_sprites_clipped);
+    parent_obj = NODE_HEADER(parent);
+    node = allocate_list_node(0x36, parent_obj);
+    if (node != 0) {
+        node->update_callback = update_inactive_object_state;
+        register_node(node, draw_linked_sprites_clipped);
         parent_value = ((S_800BA00C_0 *)parent)->unk_98;
-        entity = obj + 0x20;
+        entity = NODE_BODY(node);
         (*(void * *)(entity + 0x9C)) = parent;
         (*(s32 *)(entity + 0x98)) = parent_value;
-        sprite = ((S_800BA00C_1 *)obj)->unk_0C;
+        sprite = node->sprite;
         sprite->source = map_particle_second_sprite_entries;
         sprite->color.c.b = 0x80;
         sprite->color.c.g = 0x80;
@@ -192,26 +183,26 @@ void initialize_effect_with_child_sprites(TownObjectRecord *parent, ObjectPositi
         sprite->scale_y = scale;
         sprite->scale_x = scale;
         sprite->angle_z = sprite_angle;
-        obj = ((S_800BA00C_1 *)obj)->unk_08.p;
+        obj = node->position;
         depth = position->x.v;
-        ((S_800BA00C_1 *)obj)->unk_00 = depth;
+        obj->x.v = depth;
         offset_y = position->y.v;
         depth = 0xFF2C0000;
-        ((S_800BA00C_1 *)obj)->unk_08.i = depth;
+        obj->z.v = depth;
         depth = 0x200000;
         offset_y += depth;
-        ((S_800BA00C_1 *)obj)->unk_04 = offset_y;
+        obj->y.v = offset_y;
     }
 
-    obj = allocate_list_node(0x136, parent_obj);
-    if (obj != 0) {
-        ((S_800BA00C_1 *)obj)->unk_10 = map_particle_child_update_address;
-        register_node(obj, draw_linked_lit_meshes);
+    node = allocate_list_node(0x136, parent_obj);
+    if (node != 0) {
+        node->update_callback = map_particle_child_update_address;
+        register_node(node, draw_linked_lit_meshes);
         parent_value = ((S_800BA00C_0 *)parent)->unk_98;
-        entity = obj + 0x20;
+        entity = NODE_BODY(node);
         (*(void * *)(entity + 0x9C)) = parent;
         (*(s32 *)(entity + 0x98)) = parent_value;
-        sprite = ((S_800BA00C_1 *)obj)->unk_0C;
+        sprite = node->sprite;
         sprite->scale_x = 0x1000;
         sprite->scale_y = 0x1000;
         sprite->offset_x = 0x1000;
@@ -222,11 +213,11 @@ void initialize_effect_with_child_sprites(TownObjectRecord *parent, ObjectPositi
         sprite->color.c.g = palette_green;
         palette_blue = g_game_work.view.tint.parts.tint_b;
         sprite->color.c.b = palette_blue;
-        obj = ((S_800BA00C_1 *)obj)->unk_08.p;
+        obj = node->position;
         sprite->source = 0x19;
-        ((S_800BA00C_1 *)obj)->unk_00 = position->x.v;
+        obj->x.v = position->x.v;
         position_y = position->y.v;
-        ((S_800BA00C_1 *)obj)->unk_08.i = 0;
-        ((S_800BA00C_1 *)obj)->unk_04 = position_y;
+        obj->z.v = 0;
+        obj->y.v = position_y;
     }
 }

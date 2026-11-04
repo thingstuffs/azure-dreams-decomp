@@ -9,7 +9,7 @@ typedef struct S_800251E8_0_pre {
 typedef struct S_800251E8_0 {
     void * unk_00;
     union { s16 s; u16 u; } unk_04;   /* accessed as both */
-    union { u16 s; s16 u; } unk_06;   /* accessed as both */
+    union { u16 u; s16 s; } unk_06;   /* accessed as both */
     u16 unk_08;
 } S_800251E8_0;   /* object in func_800251E8 */
 
@@ -35,36 +35,36 @@ void update_timed_particle_arrays(void *object_data)
     object = object_data;
     linked = ((S_800251E8_0 *)object)->unk_00;
     linked->unk_1A++;
-    ((S_800251E8_0 *)object)->unk_06.s++;
+    ((S_800251E8_0 *)object)->unk_06.u++;
     state = ((S_800251E8_0 *)object)->unk_04.s;
     switch (state) {
     case 0:
         ((S_800251E8_0 *)object)->unk_08 -= 0xC0;
-        if (((S_800251E8_0 *)object)->unk_06.u < 8) {
+        if (((S_800251E8_0 *)object)->unk_06.s < 8) {
             break;
         }
-        ((S_800251E8_0 *)object)->unk_06.s = 0;
+        ((S_800251E8_0 *)object)->unk_06.u = 0;
         ((S_800251E8_0 *)object)->unk_04.u++;
         break;
     case 1:
-        if (((S_800251E8_0 *)object)->unk_06.u < 12) {
+        if (((S_800251E8_0 *)object)->unk_06.s < 12) {
             break;
         }
-        ((S_800251E8_0 *)object)->unk_06.s = 0;
+        ((S_800251E8_0 *)object)->unk_06.u = 0;
         ((S_800251E8_0 *)object)->unk_04.u++;
         break;
     case 2:
-        if (((S_800251E8_0 *)object)->unk_06.u < 4) {
+        if (((S_800251E8_0 *)object)->unk_06.s < 4) {
             break;
         }
-        ((S_800251E8_0 *)object)->unk_06.s = 0;
+        ((S_800251E8_0 *)object)->unk_06.u = 0;
         ((S_800251E8_0 *)object)->unk_04.u++;
         break;
     case 3:
-        if (((S_800251E8_0 *)object)->unk_06.u < 8) {
+        if (((S_800251E8_0 *)object)->unk_06.s < 8) {
             break;
         }
-        ((S_800251E8_0 *)object)->unk_06.s = 0;
+        ((S_800251E8_0 *)object)->unk_06.u = 0;
         ((S_800251E8_0 *)object)->unk_04.u++;
         break;
     case 4:

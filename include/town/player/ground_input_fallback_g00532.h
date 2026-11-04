@@ -11,11 +11,6 @@
 #include "shared/entity.h"
 #include "town/player/coordinates.h"
 
-/* extern */
-typedef struct S_80091000_1 {
-    u8 unk_00;
-} S_80091000_1;
-
 void initialize_actor_action_state();
 /* extern */
 void initialize_action_object();

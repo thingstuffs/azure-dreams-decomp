@@ -17,7 +17,7 @@
 #include "slus.h"
 #include "dungeon/system.h"
 
-typedef struct S_func_819A6800_1 {
+typedef struct JitteredPointSequenceState {
     void *unk_00;
     void *unk_04;
     u8 unk_08;
@@ -26,7 +26,7 @@ typedef struct S_func_819A6800_1 {
     u8 pad_0C[0x44];
     union { s16 s; u16 u; } unk_50;
     union { s16 s; u16 u; } unk_52;
-} S_func_819A6800_1;
+} JitteredPointSequenceState;
 
 typedef struct S_func_819A6800_2 {
     u8 pad_00[8];
@@ -120,13 +120,12 @@ extern void apply_attack_power_and_element_effects(void *, s32, s32, s32, s32, v
 
 void (*const dungeon_19c6800_entry)(void *, void *) = run_jittered_point_sequence;
 
-#define SELF ((S_func_819A6800_1 *)sequence)
 
 /* Runs a timed object creation sequence with visual effects and final cleanup. */
-void run_jittered_point_sequence(void *sequence, void *out_position_arg)
+void run_jittered_point_sequence(JitteredPointSequenceState *sequence, void *out_position_arg)
 {
     S_func_819A6800_5 *out_position = out_position_arg;
-    S_func_819A6800_3 *owner = SELF->unk_00;
+    S_func_819A6800_3 *owner = sequence->unk_00;
     S_func_819A6800_2 *record = ((S_func_819A6800_2 *)((u8 *)owner - 0x20))->unk_0C;
     S_func_819A6800_2 *owner_object = (S_func_819A6800_2 *)((u8 *)owner - 0x20);
     u16 timer;
@@ -140,9 +139,9 @@ void run_jittered_point_sequence(void *sequence, void *out_position_arg)
     S_func_819A6800_4 *global_object;
     PlayerRecord *reloaded_object;
 
-    timer = SELF->unk_50.u - 1;
-    state = SELF->unk_0A.s;
-    SELF->unk_50.u = timer;
+    timer = sequence->unk_50.u - 1;
+    state = sequence->unk_0A.s;
+    sequence->unk_50.u = timer;
     switch (state) {
     case 0:
         global_slot = (u8 *)&D_800814A0[2];
@@ -170,16 +169,16 @@ void run_jittered_point_sequence(void *sequence, void *out_position_arg)
             owner->unk_73 = sprite->tile_y;
         }
 
-        SELF->unk_0A.u++;
+        sequence->unk_0A.u++;
     case 1:
-        if ((((S_func_819A6800_6 *)(SELF->unk_04))->unk_00 & 0x80) == 0) {
+        if ((((S_func_819A6800_6 *)(sequence->unk_04))->unk_00 & 0x80) == 0) {
             return;
         }
 
         counter_object = GLOBAL_OBJECT;
-        SELF->unk_50.u = 10;
+        sequence->unk_50.u = 10;
         counter_object->unk_A6--;
-        counter_object->unk_A8 = SELF->unk_08;
+        counter_object->unk_A8 = sequence->unk_08;
         new_object = allocate_list_node(0x312, &scene_object_list_anchor.next);
         record = new_object;
         if (record != 0) {
@@ -214,14 +213,14 @@ void run_jittered_point_sequence(void *sequence, void *out_position_arg)
             sprite->unk_04 = 0;
             sprite->frame_ticks = 0;
             sprite->color.word = 0x00606060;
-            record->unk_20 = SELF;
+            record->unk_20 = sequence;
             effect_data->unk_4C = 0;
         }
-        SELF->unk_0A.u++;
+        sequence->unk_0A.u++;
         return;
 
     case 2:
-        if ((s16)SELF->unk_50.u > 0) {
+        if ((s16)sequence->unk_50.u > 0) {
             return;
         }
         {
@@ -234,17 +233,17 @@ void run_jittered_point_sequence(void *sequence, void *out_position_arg)
             play_sound_if_enabled(mode);
         }
         {
-            u16 next_state = SELF->unk_0A.u;
+            u16 next_state = sequence->unk_0A.u;
             u16 ticks;
             ticks = 10;
-            SELF->unk_50.u = ticks;
-            SELF->unk_0A.u = next_state + 1;
+            sequence->unk_50.u = ticks;
+            sequence->unk_0A.u = next_state + 1;
         }
         return;
 
     case 3:
     {
-        s16 timer_left = SELF->unk_50.s;
+        s16 timer_left = sequence->unk_50.s;
         if (timer_left == 7) {
             if (owner->unk_60.p != 0) {
                 record = allocate_list_node(0x302, &scene_object_list_anchor.next);
@@ -262,46 +261,46 @@ void run_jittered_point_sequence(void *sequence, void *out_position_arg)
                     child_data->unk_40 = GetTPage(0, 1, 0x2C0, 0x100);
                     child_data->unk_42 = GetClut(0x60, 0x1F8);
                     child_data->unk_38 = 0x00404040;
-                    record->unk_20 = SELF;
+                    record->unk_20 = sequence;
                 }
             }
         }
     }
-        if (SELF->unk_50.s == 4) {
+        if (sequence->unk_50.s == 4) {
             apply_attack_power_and_element_effects(owner->unk_60.p,
                           10,
-                          SELF->unk_09,
+                          sequence->unk_09,
                           12,
                           ((S_func_819A6800_4 *)(GLOBAL_OBJECT))->unk_2A,
                           owner,
                           2);
         }
         if ((reference_tile_object.sprite_flags & 0x8000) == 0 &&
-            SELF->unk_50.s >= 0) {
+            sequence->unk_50.s >= 0) {
             return;
         }
         {
-            u16 next_state5 = SELF->unk_0A.u;
+            u16 next_state5 = sequence->unk_0A.u;
             u16 cleanup_delay;
             cleanup_delay = 20;
-            SELF->unk_50.u = cleanup_delay;
-            SELF->unk_0A.u = next_state5 + 1;
+            sequence->unk_50.u = cleanup_delay;
+            sequence->unk_0A.u = next_state5 + 1;
         }
         return;
 
     case 4:
-        if ((s16)SELF->unk_50.u > 0) {
+        if ((s16)sequence->unk_50.u > 0) {
             return;
         }
-        SELF->unk_0A.u++;
+        sequence->unk_0A.u++;
         return;
 
     case 5:
     {
-        s16 signed_flags = SELF->unk_52.s;
-        u16 flags = SELF->unk_52.u;
+        s16 signed_flags = sequence->unk_52.s;
+        u16 flags = sequence->unk_52.u;
         if ((signed_flags & 0x8000) != 0) {
-            SELF->unk_52.u = flags & 0x7FFF;
+            sequence->unk_52.u = flags & 0x7FFF;
             return;
         }
     }
@@ -309,7 +308,7 @@ void run_jittered_point_sequence(void *sequence, void *out_position_arg)
             g_dungeon_status.active_actor = 0;
             g_dungeon_status.activity_counts.parts.pending_action_count--;
         }
-        ((S_func_819A6800_6 *)((u8 *)SELF - 2))->unk_00 |= 0x8000;
+        ((S_func_819A6800_6 *)((u8 *)sequence - 2))->unk_00 |= 0x8000;
         D_800814A0[0] |= 0x8000;
 
         return;
@@ -446,8 +445,7 @@ typedef struct S_80024810_1 {
 /* micro-lane E 2026-08-14: true base 0x80024810 (delta 0x7E65D800) */
 
 /* Update the effect's jittered points between endpoints and advance its animation. */
-#define TRAIL_BODY ((JitteredTrailSegmentBody *)effect)
-void update_jittered_effect_points(void *effect) {
+void update_jittered_effect_points(JitteredTrailSegmentBody *effect) {
     u16 coord_delta[3];
     s32 phase;
     s32 point_index;
@@ -455,65 +453,64 @@ void update_jittered_effect_points(void *effect) {
     S_80024810_1 *owner;
     ObjectNodeHeader *target;
 
-    owner = TRAIL_BODY->owner;
-    target = (void *) (TRAIL_BODY->unk_34 - 0x20);
+    owner = effect->owner;
+    target = (void *) (effect->unk_34 - 0x20);
     owner->unk_52 = (u16) (owner->unk_52 | 0x8000);
-    TRAIL_BODY->unk_24 = (u16) target->position->x.unsigned_parts.integer;
-    TRAIL_BODY->unk_26 = (u16) target->position->y.unsigned_parts.integer;
-    TRAIL_BODY->unk_28 = (s16) (target->position->z.unsigned_parts.integer - 0x20);
-    TRAIL_BODY->unk_04 = (u16) view_reference_entity.x.w.i;
-    TRAIL_BODY->unk_06 = (u16) view_reference_entity.y.w.i;
-    TRAIL_BODY->unk_08 = (u16) view_reference_entity.z.w.i;
+    effect->unk_24 = (u16) target->position->x.unsigned_parts.integer;
+    effect->unk_26 = (u16) target->position->y.unsigned_parts.integer;
+    effect->unk_28 = (s16) (target->position->z.unsigned_parts.integer - 0x20);
+    effect->unk_04 = (u16) view_reference_entity.x.w.i;
+    effect->unk_06 = (u16) view_reference_entity.y.w.i;
+    effect->unk_08 = (u16) view_reference_entity.z.w.i;
     if (resolve_record_orientation_or_fallback(reference_tile_object.sprite_source, ((s32 *)(&reference_tile_object)), coord_delta, 0) != 0) {
-        TRAIL_BODY->unk_04 = (u16) (TRAIL_BODY->unk_04 + coord_delta[0]);
-        TRAIL_BODY->unk_06 = (u16) (TRAIL_BODY->unk_06 + coord_delta[1]);
-        TRAIL_BODY->unk_08 = (u16) (TRAIL_BODY->unk_08 + coord_delta[2]);
+        effect->unk_04 = (u16) (effect->unk_04 + coord_delta[0]);
+        effect->unk_06 = (u16) (effect->unk_06 + coord_delta[1]);
+        effect->unk_08 = (u16) (effect->unk_08 + coord_delta[2]);
     }
-    coord_delta[0] = (u16) ((s32) ((s16) TRAIL_BODY->unk_24 - (s16) TRAIL_BODY->unk_04)
+    coord_delta[0] = (u16) ((s32) ((s16) effect->unk_24 - (s16) effect->unk_04)
         >> 2);
     point_index = 1;
-    coord_delta[1] = (u16) ((s32) ((s16) TRAIL_BODY->unk_26 - (s16) TRAIL_BODY->unk_06)
+    coord_delta[1] = (u16) ((s32) ((s16) effect->unk_26 - (s16) effect->unk_06)
         >> 2);
-    coord_delta[2] = (u16) ((s32) (TRAIL_BODY->unk_28 - (s16) TRAIL_BODY->unk_08) >> 2);
+    coord_delta[2] = (u16) ((s32) (effect->unk_28 - (s16) effect->unk_08) >> 2);
     do {
-        (*(s16 *)((u8 *)effect + (point_index * 8) + 4)) = (s16) ((TRAIL_BODY->unk_04
+        (*(s16 *)((u8 *)effect + (point_index * 8) + 4)) = (s16) ((effect->unk_04
             + ((s16) coord_delta[0] * point_index) + (rand() & 0x3F)) - 0x20);
-        (*(s16 *)((u8 *)effect + (point_index * 8) + 6)) = (s16) ((TRAIL_BODY->unk_06
+        (*(s16 *)((u8 *)effect + (point_index * 8) + 6)) = (s16) ((effect->unk_06
             + ((s16) coord_delta[1] * point_index) + (rand() & 0x3F)) - 0x20);
-        (*(s16 *)((u8 *)effect + (point_index * 8) + 8)) = (s16) ((TRAIL_BODY->unk_08
+        (*(s16 *)((u8 *)effect + (point_index * 8) + 8)) = (s16) ((effect->unk_08
             + ((s16) coord_delta[2] * point_index)) - (rand() & 0x3F));
         point_index += 1;
     } while (point_index < 4);
-    TRAIL_BODY->unk_2C = (s16) (((TRAIL_BODY->unk_3E & 3) << 5) + 0x80);
-    TRAIL_BODY->unk_2E = (s16) (((s32) (TRAIL_BODY->unk_3E << 0x10) >> 0x12) << 5);
-    phase = TRAIL_BODY->unk_3C;
+    effect->unk_2C = (s16) (((effect->unk_3E & 3) << 5) + 0x80);
+    effect->unk_2E = (s16) (((s32) (effect->unk_3E << 0x10) >> 0x12) << 5);
+    phase = effect->unk_3C;
     switch (phase) {
     case 0:
-        TRAIL_BODY->unk_24 = (u16) (TRAIL_BODY->unk_04
-            + ((s32) ((s16) TRAIL_BODY->unk_24 - (s16) TRAIL_BODY->unk_04) >> 1));
-        TRAIL_BODY->unk_26 = (u16) (TRAIL_BODY->unk_06
-            + ((s32) ((s16) TRAIL_BODY->unk_26 - (s16) TRAIL_BODY->unk_06) >> 1));
-        TRAIL_BODY->unk_28 = (s16) (TRAIL_BODY->unk_08
-            + ((s32) (TRAIL_BODY->unk_28 - (s16) TRAIL_BODY->unk_08) >> 1));
-        TRAIL_BODY->unk_3C = (s16) ((u16) TRAIL_BODY->unk_3C + 1);
+        effect->unk_24 = (u16) (effect->unk_04
+            + ((s32) ((s16) effect->unk_24 - (s16) effect->unk_04) >> 1));
+        effect->unk_26 = (u16) (effect->unk_06
+            + ((s32) ((s16) effect->unk_26 - (s16) effect->unk_06) >> 1));
+        effect->unk_28 = (s16) (effect->unk_08
+            + ((s32) (effect->unk_28 - (s16) effect->unk_08) >> 1));
+        effect->unk_3C = (s16) ((u16) effect->unk_3C + 1);
                         /* fallthrough */
     case 1:
-        if ((s16) TRAIL_BODY->unk_3E >= 6) {
-            TRAIL_BODY->unk_3E = 2U;
-            TRAIL_BODY->unk_3C = (s16) ((u16) TRAIL_BODY->unk_3C + 1);
+        if ((s16) effect->unk_3E >= 6) {
+            effect->unk_3E = 2U;
+            effect->unk_3C = (s16) ((u16) effect->unk_3C + 1);
         }
         break;
     case 2:
-        if ((s16) TRAIL_BODY->unk_3E >= 8) {
+        if ((s16) effect->unk_3E >= 8) {
             NODE_HEADER(effect)->flags = (u16) (NODE_HEADER(effect)->flags | 0x8000);
             object_flag_block.flags = (s32) (object_flag_block.flags | OBJECT_REMOVE_PENDING);
         }
         break;
     }
-    TRAIL_BODY->unk_3E = (u16) (TRAIL_BODY->unk_3E + 1);
+    effect->unk_3E = (u16) (effect->unk_3E + 1);
 }
 
-#undef TRAIL_BODY
 
 #include "modules/dungeon_ovl_19c6800.h"
 #include "common.h"
@@ -669,11 +666,9 @@ typedef struct S_819A764C_1 {
 
 s32 update_segment(void *);
 
-#define POINT_EFFECT ((IntermediatePointEffectBody *)self)
-#define POINT_SLOT(index) ((IntermediatePointEffectBody *)((u8 *)self + (index) * 8))
 
 /* Update randomized intermediate points and advance the effect state. */
-void update_randomized_intermediate_points(void *self)
+void update_randomized_intermediate_points(IntermediatePointEffectBody *self)
 {
     s16 point_step[3];
     s32 state;
@@ -682,39 +677,39 @@ void update_randomized_intermediate_points(void *self)
     S_819A764C_1 *linked_object;
     void *message;
 
-    linked_object = POINT_EFFECT->unk_00;
+    linked_object = self->unk_00;
     linked_object->unk_52 |= 0x8000;
 
-    point_step[0] = (POINT_EFFECT->unk_24.s - POINT_EFFECT->unk_04.s) >> 2;
-    point_step[1] = (POINT_EFFECT->unk_26.s - POINT_EFFECT->unk_06.s) >> 2;
-    point_step[2] = (POINT_EFFECT->unk_28.s - POINT_EFFECT->unk_08.s) >> 2;
+    point_step[0] = (self->unk_24.s - self->point_slots[0].x.s) >> 2;
+    point_step[1] = (self->unk_26.s - self->point_slots[0].y.s) >> 2;
+    point_step[2] = (self->unk_28.s - self->point_slots[0].z.s) >> 2;
     point_index = 1;
 
     do {
-        POINT_SLOT(point_index)->unk_04.s = POINT_EFFECT->unk_04.u + point_step[0] * point_index
+        self->point_slots[point_index].x.s = self->point_slots[0].x.u + point_step[0] * point_index
         + (rand() & 0x3F) - 0x20;
-        POINT_SLOT(point_index)->unk_06.s = POINT_EFFECT->unk_06.u + point_step[1] * point_index
+        self->point_slots[point_index].y.s = self->point_slots[0].y.u + point_step[1] * point_index
         + (rand() & 0x3F) - 0x20;
-        POINT_SLOT(point_index)->unk_08.s = POINT_EFFECT->unk_08.u + point_step[2] * point_index
+        self->point_slots[point_index].z.s = self->point_slots[0].z.u + point_step[2] * point_index
         - (rand() & 0x3F);
         point_index++;
     } while (point_index < 4);
 
-    POINT_EFFECT->unk_2C = ((POINT_EFFECT->unk_3E.u & 3) << 5) + 0x80;
-    state = POINT_EFFECT->unk_3C.s;
-    POINT_EFFECT->unk_2E = ((s16)POINT_EFFECT->unk_3E.u >> 2) << 5;
+    self->unk_2C = ((self->unk_3E.u & 3) << 5) + 0x80;
+    state = self->unk_3C.s;
+    self->unk_2E = ((s16)self->unk_3E.u >> 2) << 5;
 
     switch (state) {
     case 0:
-        object_base = self - 0x20;
+        object_base = NODE_HEADER(self);
         message = update_segment;
 
         register_node(object_base, message);
     case 1:
-        POINT_EFFECT->unk_3E.u = (rand() & 3) + 2;
-        POINT_EFFECT->unk_38 += 0xFFF7F7F8;
-        POINT_EFFECT->unk_42 = GetClut((rand() & 0xF) << 4, 0x1F8);
-        POINT_EFFECT->unk_3C.u++;
+        self->unk_3E.u = (rand() & 3) + 2;
+        self->unk_38 += 0xFFF7F7F8;
+        self->unk_42 = GetClut((rand() & 0xF) << 4, 0x1F8);
+        self->unk_3C.u++;
         return;
     case 2:
         NODE_HEADER(self)->flags |= 0x8000;
@@ -722,6 +717,3 @@ void update_randomized_intermediate_points(void *self)
         break;
     }
 }
-
-#undef POINT_EFFECT
-#undef POINT_SLOT

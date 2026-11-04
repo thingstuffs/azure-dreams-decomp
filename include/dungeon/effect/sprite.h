@@ -167,7 +167,8 @@ void advance_damped_animated_sprite(void *entry, ObjectPosition *motion, SpriteF
 void update_spiral_effect(RadialEffectBody *effect, ObjectPosition *motion, SpriteFrameState *sprite);
 
 /* Callback entry points. */
-void update_linked_monster_effect(void *effect_in, ObjectPosition *motion_in, void *sprite_in);
+struct LinkedMonsterEffectBody;
+void update_linked_monster_effect(struct LinkedMonsterEffectBody *effect_in, ObjectPosition *motion_in, void *sprite_in);
 
 struct S_func_800D7FB8_0;
 void update_effect_controller(struct S_func_800D7FB8_0 *controller);
@@ -184,11 +185,14 @@ void check_the_target_using_scaled_low_byte_conditionally_applies_global_800_e_1
 void create_a_sprite_effect_position_randomized_rotation(s16 x, s16 y, s16 z);
 void create_quad_fragments_vertex_grid_randomized_motion_rotation(void);
 void handle_retail_n_81887570_callee_80024_d_70_fade_colour_n_1_n_8_per_call_mark(void *effect, ObjectPosition *unused, struct EffectColor *color);
-void run_jittered_point_sequence(void *sequence, void *out_position);
+struct JitteredPointSequenceState;
+void run_jittered_point_sequence(struct JitteredPointSequenceState *sequence, void *out_position);
 void run_radial_sprite_sequence(struct S_func_81886800_1 *effect, struct S_func_81886800_11 *motion, struct S_func_81886800_3 *sprite);
-void update_jittered_effect_points(void *effect);
+struct JitteredTrailSegmentBody;
+void update_jittered_effect_points(struct JitteredTrailSegmentBody *effect);
 void update_pulsing_actor_color(FixedTileEffectIfAvailableBody *state_data, ObjectPosition *unused, SpriteFrameState *actor_data);
-void update_randomized_intermediate_points(void *self);
+struct IntermediatePointEffectBody;
+void update_randomized_intermediate_points(struct IntermediatePointEffectBody *self);
 
 s32 build_and_enqueue_interpolated_depth_sorted_shaded_lines_linked_list(void *first_owner, void *first_vertices, void *first_line);
 

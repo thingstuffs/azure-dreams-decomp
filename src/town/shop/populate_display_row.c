@@ -13,10 +13,6 @@ typedef struct S_800B61C0_0 {
     void * unk_38;
 } S_800B61C0_0;
 
-typedef struct S_800B61C0_1 {
-    u8 unk_00;
-    u8 unk_01;
-} S_800B61C0_1;   /* arg0 in populate_display_row */
 
 typedef struct S_800B61C0_2 {
     s32 unk_00;
@@ -33,7 +29,7 @@ extern u8 * format_optional_signed_value();
 
 
 /* Populate and position a display row from an entry. */
-void populate_display_row(S_800B61C0_1 *entry, s32 widgets_base, s32 row)
+void populate_display_row(DungeonItemEntry *entry, s32 widgets_base, s32 row)
 {
     s32 detail_info[4];
     s32 entry_info[2];
@@ -52,7 +48,7 @@ void populate_display_row(S_800B61C0_1 *entry, s32 widgets_base, s32 row)
     set_storage_entry_text(widgets->unk_2C,
                   format_optional_signed_value(entry, detail_info), 0, 0xA0, text_y);
     ((S_800B61C0_2 *)(widgets->unk_38))->unk_00 = lookup_item_category_mapped_value(
-        entry->unk_01, entry->unk_00);
+        entry->kind, entry->unk_00);
     ((S_800B61C0_3 *)(((S_800B61C0_2 *)(widgets->unk_38))->unk_04))->unk_08 = -0x30;
     ((S_800B61C0_3 *)(((S_800B61C0_2 *)(widgets->unk_38))->unk_04))->unk_0A =
         (s16)(row_offset + 0x66);

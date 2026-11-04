@@ -78,7 +78,7 @@ void dispatch_object_state(void *object, void *context, void *dispatch_data) {
     if (runtime_is_record_field_set(object) != 0) {
         object_bytes->unk_15 = 1;
     }
-    state = ((u8 *)object_bytes)[0x94];
+    state = object_bytes->unk_94.as_u8;
     if (state == 0) {
         object_bytes->heading.as_u16 = object_bytes->unk_6E;
         install_stored_value_handler(object, context, dispatch_data);
@@ -88,7 +88,7 @@ void dispatch_object_state(void *object, void *context, void *dispatch_data) {
         initialize_object_assigns_state_data(object, context, dispatch_data);
         return;
     }
-    (*(FuncPtr *)((((u8 *)object_bytes)[0x94] * 4) + object_bytes->unk_58 - 8))(object, context,
+    (*(FuncPtr *)((object_bytes->unk_94.as_u8 * 4) + object_bytes->unk_58 - 8))(object, context,
         dispatch_data);
 }
 

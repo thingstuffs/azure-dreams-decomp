@@ -6,18 +6,9 @@
 #include "sdk/libgpu.h"
 #include "sdk/libgte.h"
 #include "town/menu.h"
+#include "town/menu/fading_triangle_effect.h"
+#include "town/menu/flickering_triangle_packet.h"
 
-typedef struct S_800A2690_0 {
-    u8 pad_00[0x4];
-    u16 unk_04;
-    s16 unk_06;
-    u16 unk_08;
-    u16 unk_0A;
-    u16 unk_0C;
-    u8 pad_0E[0x2];
-    s32 unk_10;
-    u8 * unk_14;
-} S_800A2690_0;   /* arg0 in draw_fading_flickering_triangle */
 
 typedef struct S_800A2690_1 {
     u16 unk_00;
@@ -28,31 +19,8 @@ typedef struct S_800A2690_1 {
 
    /* state in draw_fading_flickering_triangle */
 
-typedef struct S_800A2690_3 {
-    u8 pad_00[0x4];
-    s8 unk_04;
-    s8 unk_05;
-    s8 unk_06;
-    u8 pad_07[0x1];
-    s16 unk_08;
-    s16 unk_0A;
-    s8 unk_0C;
-    s8 unk_0D;
-    s8 unk_0E;
-    u8 pad_0F[0x1];
-    s16 unk_10;
-    s16 unk_12;
-    s8 unk_14;
-    s8 unk_15;
-    s8 unk_16;
-    u8 pad_17[0x1];
-    s16 unk_18;
-} S_800A2690_3;   /* prim in draw_fading_flickering_triangle */
-
-   /* ((S_800A2690_0 *)arg0)->unk_14 in draw_fading_flickering_triangle */
-
 /* Advance the effect lifetime and draw a fading, flickering triangle. */
-void draw_fading_flickering_triangle(void *effect)
+void draw_fading_flickering_triangle(FadingTriangleEffectBody *effect)
 {
     u16 angle;
     s32 base_x;
@@ -75,30 +43,30 @@ void draw_fading_flickering_triangle(void *effect)
     s32 draw_page;
     S_800A2690_1 *params;
     GpuContext *render_state;
-    u8 *triangle;
+    FlickeringTrianglePacket *triangle;
     u8 *draw_packet;
 
-    params = (S_800A2690_1 *)((S_800A2690_0 *)effect)->unk_14;
+    params = (S_800A2690_1 *)effect->parameters;
     angle = params->unk_02;
     base_x = params->unk_00;
     base_phase_x = params->unk_04;
-    ticks_left = ((S_800A2690_0 *)effect)->unk_04 - 1;
+    ticks_left = effect->ticks_left - 1;
     base_phase_y = params->unk_06;
-    center_x = base_x + ((S_800A2690_0 *)effect)->unk_08 + 0xA0;
-    ((S_800A2690_0 *)effect)->unk_04 = ticks_left;
-    phase_x = base_phase_x + ((S_800A2690_0 *)effect)->unk_0A;
-    phase_y = base_phase_y + ((S_800A2690_0 *)effect)->unk_0C;
+    center_x = base_x + effect->center_offset + 0xA0;
+    effect->ticks_left = ticks_left;
+    phase_x = base_phase_x + effect->phase_x_offset;
+    phase_y = base_phase_y + effect->phase_y_offset;
 
     if ((ticks_left << 16) <= 0) {
         (*(u16 *)((u8 *)effect + -2)) |= NODE_REMOVE;
         object_flag_block.flags |= OBJECT_REMOVE_PENDING;
     } else {
         render_state = (GpuContext *)(*(u8 **)&g_game_work.draw_buffer);
-        triangle = render_state->packetCursor;
-        render_state->packetCursor = triangle + 0x24;
+        triangle = (FlickeringTrianglePacket *)render_state->packetCursor;
+        render_state->packetCursor = (u8 *)triangle + 0x24;
 
-        fade_wave = rsin(((s16)((S_800A2690_0 *)effect)->unk_04 << 11) /
-                             ((S_800A2690_0 *)effect)->unk_06);
+        fade_wave = rsin(((s16)effect->ticks_left << 11) /
+                             effect->fade_period);
         intensity = fade_wave / 16;
 
         wave_x2 = rsin(phase_x * 2);
@@ -116,29 +84,29 @@ void draw_fading_flickering_triangle(void *effect)
 
         intensity = (intensity * wave_sum) / 36864;
         intensity =
-            (intensity * ((EffectStateWordView *)(((S_800A2690_0 *)effect)->unk_14))->unk_08) / 4096;
+            (intensity * ((EffectStateWordView *)(effect->parameters))->unk_08) / 4096;
         intensity /= 4;
 
-        ((S_800A2690_3 *)triangle)->unk_0E = intensity;
-        ((S_800A2690_3 *)triangle)->unk_0D = intensity;
-        ((S_800A2690_3 *)triangle)->unk_0C = intensity;
-        ((S_800A2690_3 *)triangle)->unk_06 = intensity;
-        ((S_800A2690_3 *)triangle)->unk_05 = intensity;
-        ((S_800A2690_3 *)triangle)->unk_04 = intensity;
-        ((S_800A2690_3 *)triangle)->unk_16 = 0;
-        ((S_800A2690_3 *)triangle)->unk_15 = 0;
-        ((S_800A2690_3 *)triangle)->unk_14 = 0;
+        triangle->blue1 = intensity;
+        triangle->green1 = intensity;
+        triangle->red1 = intensity;
+        triangle->blue0 = intensity;
+        triangle->green0 = intensity;
+        triangle->red0 = intensity;
+        triangle->blue2 = 0;
+        triangle->green2 = 0;
+        triangle->red2 = 0;
         SetPolyG3(triangle);
         SetSemiTrans(triangle, 1);
 
-        ((S_800A2690_3 *)triangle)->unk_08 = center_x - ((S_800A2690_0 *)effect)->unk_10 / 32;
-        ((S_800A2690_3 *)triangle)->unk_0A = 0;
-        ((S_800A2690_3 *)triangle)->unk_10 = center_x + ((S_800A2690_0 *)effect)->unk_10 / 32;
-        ((S_800A2690_3 *)triangle)->unk_12 = 0;
-        ((S_800A2690_3 *)triangle)->unk_18 =
-            center_x - (((S_800A2690_0 *)effect)->unk_10 * rsin((s16)angle)) / 4096;
-        (*(s16 *)(triangle + 0x1A)) =
-            (((S_800A2690_0 *)effect)->unk_10 * rcos((s16)angle)) / 4096;
+        triangle->x0 = center_x - effect->triangle_width / 32;
+        triangle->y0 = 0;
+        triangle->x1 = center_x + effect->triangle_width / 32;
+        triangle->y1 = 0;
+        triangle->x2 =
+            center_x - (effect->triangle_width * rsin((s16)angle)) / 4096;
+        (*(s16 *)((u8 *)triangle + 0x1A)) =
+            (effect->triangle_width * rcos((s16)angle)) / 4096;
 
         render_state = (GpuContext *)(*(u8 **)&g_game_work.draw_buffer);
         draw_packet = render_state->packetCursor;

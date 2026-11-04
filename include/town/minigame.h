@@ -1,5 +1,6 @@
 #ifndef TOWN_MINIGAME_H
 #define TOWN_MINIGAME_H
+#include "town/minigame/object.h"
 
 #include "common.h"
 #include "town/scene/collection.h"
@@ -11,7 +12,6 @@
 #include "town/minigame/pickup_data.h"
 #include "town/minigame/effect.h"
 #include "town/minigame/state.h"
-struct S_80021E88_0;
 struct S_80021E88_2;
 struct SpinPhaseWork;
 
@@ -96,7 +96,6 @@ typedef struct ApproachMotionObject {
     /* 0x04 */ void *owner; /* betting effect that spawned the column */
 } ApproachMotionObject;
 
-
 /* initialize_minigame_display.c */
 void initialize_minigame_display(void *context);
 
@@ -107,7 +106,6 @@ void update_snowball_minigame_actor(TownCollectionActor *object, ObjectPosition 
 void update_minigame_approach_motion(ApproachMotionObject *motion_state, ObjectPosition *motion);
 
 void count_entries_matching_search_path(TownCollectionSequence *scene);
-
 
 void create_minigame_display_objects(void);
 
@@ -130,7 +128,7 @@ s32 initialize_casino_minigame(void);
 /* Update callbacks it installs; their definitions take file-local views. */
 void update_betting_effect(TownEffect *effect);
 void update_effect_position_spin_phases(struct SpinPhaseWork *state_arg, ObjectPosition *target_arg, SpriteFrameState *effect_arg);
-void update_minigame_transition(struct S_80021E88_0 *controller, Rec_func_80021E88_arg1 *position, struct S_80021E88_2 *display);
+void update_minigame_transition(MinigameTransitionObject *controller, Rec_func_80021E88_arg1 *position, struct S_80021E88_2 *display);
 /* Mode-three record setup (town/scene/configure_set_mode_n_d.c) as the minigame constructors call it. */
 #include "town/scene/list_setup.h"
 extern s32 pickup_reward_total[];

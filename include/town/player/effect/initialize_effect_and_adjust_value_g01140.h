@@ -50,13 +50,6 @@ typedef struct S_800A5638_0_pre {
     u16 unk_0E;
 } S_800A5638_0_pre;
 
-typedef struct S_800A58CC_0 {
-    u8 pad_00[0xA];
-    s16 unk_0A;
-    u8 pad_0C[0x8];
-    s32 unk_14;
-} S_800A58CC_0;
-
 /* (void *) shared_s0 in update_object_view_transition */
 typedef struct S_800A58CC_2 {
     void * unk_00;
@@ -84,10 +77,6 @@ typedef struct {
     s32 y;
     s32 value;
 } Actor;
-
-typedef struct S_800A5DF8_1 {
-    u8 unk_00;
-} S_800A5DF8_1;
 
 /* &D_800CFCEF in update_actor_effect_transition */
 typedef struct S_800A5DF8_4 {

@@ -117,12 +117,84 @@ void shadow(void *body) { NODE_HEADER(body); }
             self.assertEqual(report['by_function']['src/test/example.c']['shadow#1']['header_macro_casts'], {})
             baseline = D.baseline_record(report)
             self.assertEqual(baseline['report_counts'],
-                             {'file_local_macro_casts': 0, 'header_macro_casts': 6})
+                             {'file_local_macro_casts': 0, 'header_macro_casts': 6,
+                              'signedness_unions': 0, 'address_named_types': 0,
+                              'source_local_single_function_types': 0})
             D.validate_baseline(json.loads(D.baseline_text(baseline)))
             D.write_outputs(root / 'out', report)
             rows = (root / 'out/debt_header_macro_casts.tsv').read_text().splitlines()
             self.assertEqual(len(rows), 2)
             self.assertIn('NODE_HEADER=2', rows[1])
+
+
+class SignViewRatchet(unittest.TestCase):
+    def test_views_union_labels_and_new_site(self):
+        with tempfile.TemporaryDirectory() as td:
+            root = Path(td)
+            (root / 'src/test').mkdir(parents=True)
+            (root / 'include').mkdir()
+            (root / 'src/test/views.c').write_text('''
+void use(View *v) {
+    v->a.s = v->a.u;
+    v->as_s16 = v->whole;
+    v->halves = v->signed_bytes;
+    // v->not_code.s
+}
+''')
+            header = root / 'include/views.h'
+            header.write_text('''
+typedef struct V {
+    union { u16 s; s16 u; } inverted;
+    union { s16 s; s16 u; } repeated;
+    union { s16 s; u16 u; } correct;
+} V;
+''')
+            report = D.census(root)
+            self.assertEqual(report['by_class']['sign_views'], 6)
+            self.assertEqual(report['sign_views_report']['s_u'], 2)
+            self.assertEqual(report['sign_views_report']['as_signedness'], 1)
+            self.assertEqual(report['sign_views_report']['other_width_views'], 3)
+            self.assertEqual(report['signedness_unions_report']['count'], 2)
+            self.assertEqual({r['site'] for r in report['bad_label_unions']},
+                             {'include/views.h::inverted#1', 'include/views.h::repeated#1'})
+            baseline = D.baseline_record(report)
+            self.assertEqual(D.check_baseline(report, baseline), [])
+            header.write_text(header.read_text().replace('} V;',
+                              '    union { u16 s; s16 u; } newly_bad;\n} V;'))
+            changed = D.census(root)
+            self.assertTrue(any('newly_bad' in p for p in D.check_baseline(changed, baseline)))
+
+    def test_relabelling_retires_a_known_bad_site(self):
+        text = 'typedef struct V { union { u16 s; s16 u; } field; } V;'
+        _, bad = D.union_sites('include/test.h', text)
+        self.assertEqual(len(bad), 1)
+        _, fixed = D.union_sites('include/test.h', text.replace('u16 s; s16 u', 'u16 u; s16 s'))
+        self.assertEqual(fixed, [])
+
+    def test_different_array_types_are_not_duplicates(self):
+        text = 'union { u8 small[2]; u8 large[4]; } bytes;'
+        _, bad = D.union_sites('include/test.h', text)
+        self.assertEqual(bad, [])
+
+    def test_view_inventory_counts_aliases_and_function_users(self):
+        with tempfile.TemporaryDirectory() as td:
+            root = Path(td)
+            (root / 'src/test').mkdir(parents=True)
+            (root / 'include').mkdir()
+            (root / 'include/types.h').write_text('typedef struct { int x; } Rec_D_80001234;\n')
+            (root / 'src/test/views.c').write_text('''
+typedef struct { int x; } LocalView;
+typedef union { int x; float f; } SharedView;
+typedef struct { int x; } B22_8000ABCD;
+void first(void) { LocalView a; SharedView b; B22_8000ABCD c; }
+void second(void) { SharedView b; }
+''')
+            report = D.census(root)
+            self.assertEqual(report['view_inventory_report']['address_named_types'], 2)
+            self.assertEqual(report['view_inventory_report']['source_local_single_function_types'], 1)
+            by_name = {row['name']: row for row in report['typedef_view_sites']}
+            self.assertEqual(by_name['LocalView']['users'], ['first#1'])
+            self.assertEqual(by_name['SharedView']['users'], ['first#1', 'second#1'])
 
 
 if __name__ == '__main__':

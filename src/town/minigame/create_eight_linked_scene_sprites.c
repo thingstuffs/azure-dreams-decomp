@@ -20,11 +20,6 @@ typedef struct S_8002082C_1 {
 } S_8002082C_1;   /* object in create_eight_linked_scene_sprites */
 
 
-typedef struct S_8002082C_3 {
-    u8 pad_00[0x34];
-    s16 unk_34;
-} S_8002082C_3;   /* arg0 in create_eight_linked_scene_sprites */
-
 extern s32 register_node(); /* Unprototyped: two, three or four arguments; retail reads only the node and draw key. */
 
 typedef struct {
