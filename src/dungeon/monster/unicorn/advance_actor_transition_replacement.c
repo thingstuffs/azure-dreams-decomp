@@ -171,7 +171,7 @@ void advance_actor_transition_replacement(ActorRecord *action, ObjectPosition *p
         Control_CD(0x15, read_stream_cue_start_offset(), 0);
         unicorn_effect_load_done[0] = 0;
         Control_CD(0xFF, set_byte_one, unicorn_effect_load_done);
-        select_nearby_target_and_initialize_slot((u8 *)actor - 0x20, position, 8, 0x300);
+        select_nearby_target_and_initialize_slot(NODE_HEADER(actor), position, 8, 0x300);
         action->action_timer.u = 0x10;
         action->action_phase.u++;
     }

@@ -25,7 +25,7 @@ extern u8 shared_sprite_entries[];
 extern Pair16 glacier_direction_offsets[];
 
 /* Spawn a particle with randomized position, rotation, and direction-based velocity. */
-void spawn_directional_particle(Rec_func_801744DC_arg0 *source, Rec_func_801744DC_arg1 *origin)
+void spawn_directional_particle(Rec_func_801744DC_arg0 *source, Rec_func_801744DC_arg1 *origin, void *unused_sprite)
 {
     ObjectNodeHeader *effect;
     DirectionalEffectBody *motion;

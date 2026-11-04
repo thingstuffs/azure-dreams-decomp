@@ -23,7 +23,7 @@ void initialize_heading_motion(void *owner, void *object, void *motion);
 void initialize_target_motion(Rec_func_8009B828_arg0 *owner, Rec_D_800CFCB4 *target, EntityRec *parameters, void *unused);
 
 /* initialize_target_motion_state.c */
-void initialize_target_motion_state(struct S_8009C120_2 *state, struct S_8009C120_0 *status, MotionDeltaView *values);
+void initialize_target_motion_state(struct S_8009C120_2 *state, struct S_8009C120_0 *status, MotionDeltaView *values, void *unused_extra_ptr);
 
 /* set_actor_motion_state.c */
 void set_actor_motion_state(TownObjectRecord *object, Rec_D_800CFCB4 *state);

@@ -17,6 +17,6 @@ void card_boot_wait_before_formatting_card(void *record_data) {
     countdown = ((S_8002765C_0 *)((u8 *)record_data - 0x10))->unk_50 - 1;
     ((S_8002765C_0 *)((u8 *)record_data - 0x10))->unk_50 = countdown;
     if (countdown < 0) {
-        ((S_8002765C_0 *)((u8 *)record_data - 0x10))->unk_00 = &D_80027584;
+        ((S_8002765C_0 *)((u8 *)record_data - 0x10))->unk_00 = card_boot_format_card_with_retry;
     }
 }

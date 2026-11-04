@@ -3,12 +3,12 @@
 #include "town/scene/flags.h"
 #include "town/scene/event.h"
 #include "town/scene/hooks.h"
+#include "town.h"
 
 extern u8 D_8001C33C[];
 extern u8 D_8001E4E8[];
 extern s32 func_8001822C(SquareSceneEntry *, s32);
 extern void *forward_values_to_fixed_data_handler(SquareSceneEntry *, s32, s32);
-extern s32 town_table_contains_first_byte_b(s32);
 s32 flag_entry_if_record_eleven(SquareSceneEntry *entry, s32 entry_index) {
     s32 result;
     if (town_table_contains_first_byte_b(11) == 0) {

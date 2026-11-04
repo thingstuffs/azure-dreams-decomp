@@ -48,7 +48,7 @@ void advance_actor_sprite_action(ActorRecord *action, ObjectPosition *motion, Sp
             select_sprite_entry(sprite,
                 D_80176600[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
                 0);
-            create_action_sprite_effect((u8 *)action - 0x20);
+            create_action_sprite_effect(NODE_HEADER(action));
             action->action_timer.u = 0;
             action->action_phase.u++;
             play_sound_if_enabled(0x804);

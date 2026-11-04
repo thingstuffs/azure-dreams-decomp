@@ -38,12 +38,13 @@ void apply_random_actor_value_adjustment(struct Row_818FE800_Target *target, s32
 #include "dungeon/effect/particle.h"
 #include "dungeon/actor.h"
 #include "dungeon/effect/sprite.h"
+#include "dungeon/effect/sprite_callbacks_api.h"
 s32 register_node(); /* Unprototyped: two, three or four arguments; retail reads only the node and draw key. */           /* extern */
 void draw_transformed_sprite_with_clip_rect(); /* extern */
 extern Packed8 D_80024028;
 extern Packed32 D_80024038;
 extern M2C_UNK D_800245EC;
-extern M2C_UNK D_800246F8;
+
 extern Packed12 D_80025E28;
 extern Packed12 D_80025E34;
 extern Packed12 D_80025E40;
@@ -205,7 +206,7 @@ void update_effect_particles_and_cleanup(ParticleCleanupWork *effect, ObjectPosi
     S_818FF710_0 *parent_object;
     SpriteFrameState *first_sprite;
     SpriteFrameState *second_sprite;
-    UpdateEffectParticlesAndCleanupBody *child_effect;
+    ParticleCleanupEffectBody *child_effect;
     MovingPosition *parent_position;
     void *parent;
     ObjectNodeHeader *third_object;
@@ -436,7 +437,7 @@ void update_effect_particles_and_cleanup(ParticleCleanupWork *effect, ObjectPosi
         child_effect = NODE_BODY(first_object);
         if (first_object != NULL) {
             child_effect->unk_02.s = 0x78;
-            (first_object->update_callback) = &D_800246F8;
+            (first_object->update_callback) = expire_effect_at_unit_scale;
             register_node(first_object, project_sprite_chain);
             first_sprite = first_object->sprite;
             first_sprite->depth_bias = 0;

@@ -124,6 +124,6 @@ void advance_sprite_animation_and_textures(void *visual);
 void func_80065770();
 extern u8 target_sprite_scale_pairs[24];
 void move_effect_toward_target(Rec_func_800249DC_arg0 *motion, Row_818E71DC_S_800249DC_2 *position, SpriteFrameState *visual);
-void advance_effect_state_and_frame(UpdateDirectionalActorEffectBody *effect);
-s32 render_linked_jittered_effect_strips(UpdateDirectionalActorEffectBody *node_data);
+void advance_effect_state_and_frame(DirectionalActorEffectBody *effect);
+s32 render_linked_jittered_effect_strips(DirectionalActorEffectBody *node_data);
 #endif

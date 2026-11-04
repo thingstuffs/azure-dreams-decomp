@@ -1,3 +1,4 @@
+#include "dungeon/effect_callbacks_api.h"
 #include "shared/gpu_packets.h"
 #include "dungeon/actor.h"
 #include "shared/actor_property_flags.h"
@@ -532,7 +533,7 @@ void update_directional_trap_effect(void *effect_data, S_800CC4F0_0 *position) {
 #include "shared/object_node.h"
 #include "shared/game_work.h"
 
-extern s32 linked_mesh_processor_address[3];
+
 typedef struct DungeonObject
 {
     s8 pad0[8];
@@ -589,7 +590,7 @@ void *create_tile_center_quad_effect(s16 tile_x, s16 tile_y, s16 z, s16 tail_val
     saved_render_mode = (s16) render_mode;
     if (obj != 0) {
         obj->field10 = &D_800CC4F0;
-        register_node(obj, linked_mesh_processor_address);
+        register_node(obj, process_linked_mesh_states_mode_0);
         packet_color = 0x00800000;
         world_x = ((tile_x << 0x10) >> 0xA) + 0x20;
         vertex = obj->field8;
@@ -1925,7 +1926,7 @@ void set_value_of_active_entries_at_tile(s16 x, s16 y, s16 value) {
 #include "shared/object_flags.h"
 #include "shared/dungeon_status.h"
 
-typedef struct {
+typedef struct dungeon_long_lived_trap_effect {
     s16 x;
     s16 y;
     s16 initial[25];

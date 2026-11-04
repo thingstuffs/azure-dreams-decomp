@@ -3,7 +3,6 @@
 #include "shared/record_ptrs.h"
 #include "town/scene.h"
 #include "shared/town_root.h"
-extern void init_sequential_command_records(u8 *);
 extern u8 D_80019B08;
 extern s32 D_80019B88;
 /* Register D_80019B08 with the scene and keep the handle it returns. */

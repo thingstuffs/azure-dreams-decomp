@@ -91,7 +91,7 @@ void update_gym_minigame(GymState *state_obj) {
             state_obj->timer.u = 4;
             state_obj->flags = 0;
             (*(u16 *)((u8 *)state_obj + 0))++;
-            motion = (u8 *)(&view_reference_entity);
+            motion = (&view_reference_entity);
             motion->velocity_y = 0;
             motion->velocity_x = 0;
             motion->velocity_z = 0xFFE00000;
@@ -105,7 +105,7 @@ void update_gym_minigame(GymState *state_obj) {
         ((S_80022F60_1 *)main_state)->unk_10.u =
             (((S_80022F60_1 *)main_state)->unk_10.u + 0x200) & 0xFFF;
         if (state_obj->timer.s <= 0) {
-            ObjectPosition *motion = (u8 *)(&view_reference_entity);
+            ObjectPosition *motion = (&view_reference_entity);
             s32 value;
 
             state_obj->timer.u = 8;
@@ -128,7 +128,7 @@ void update_gym_minigame(GymState *state_obj) {
         masked_angle = raw & 0xFFF;
         ((S_80022F60_1 *)main_state)->unk_10.u = masked_angle;
         if (state_obj->timer.s <= 0) {
-            ObjectPosition *motion = (u8 *)(&view_reference_entity);
+            ObjectPosition *motion = (&view_reference_entity);
 
             motion->velocity_y = 0;
             motion->velocity_x = 0;
@@ -141,7 +141,7 @@ void update_gym_minigame(GymState *state_obj) {
 
     case 3:
     {
-        ObjectPosition *motion = (u8 *)(&view_reference_entity);
+        ObjectPosition *motion = (&view_reference_entity);
         u8 *loop_asset;
         s32 *table_base;
         s32 *table_cursor;
@@ -173,7 +173,7 @@ void update_gym_minigame(GymState *state_obj) {
                 if (obj != NULL) {
                     obj->update_callback = gym_object_callback;
                     register_node(obj, build_menu_line_tile_packets);
-                    secondary = (u8 *)obj + 0x20;
+                    secondary = NODE_BODY(obj);
                     ((SceneTileObject *)secondary)->x = 0xC8;
                     ((SceneTileObject *)secondary)->y.u = 0xA0;
                     ((SceneTileObject *)secondary)->width = 0x60;
@@ -194,7 +194,7 @@ loop_0:
                     obj = allocate_list_node(1, &scene_object_list_anchor.next);
                     if (obj != NULL) {
 
-                        sprite = (GymSpriteObject *)((u8 *)obj + 0x20);
+                        sprite = NODE_BODY(obj);
 
                         obj->update_callback = loop_asset;
                         register_node(obj, text_sprite_builder_address);
@@ -219,7 +219,7 @@ loop_0:
                 obj = allocate_flagged_object_node(0x136);
                 if (obj != NULL) {
 
-                    sprite = (GymSpriteObject *)((u8 *)obj + 0x20);
+                    sprite = NODE_BODY(obj);
 
                     obj->update_callback = gym_score_update_address;
                     register_node(obj, project_sprite_chain);
@@ -287,7 +287,7 @@ loop_0:
                 s32 random;
                 GymSpriteObject *child_sprite;
 
-                child_sprite = (GymSpriteObject *)((u8 *)obj + 0x20);
+                child_sprite = NODE_BODY(obj);
                 obj->update_callback = gym_score_update_address;
                 register_node(obj, project_sprite_chain);
                 image = obj->sprite;
@@ -339,7 +339,7 @@ loop_0:
             if (obj != NULL) {
                 s32 *child_position;
 
-                sprite = (GymSpriteObject *)((u8 *)obj + 0x20);
+                sprite = NODE_BODY(obj);
                 obj->update_callback = gym_score_update_address;
                 register_node(obj, project_sprite_chain);
                 image = obj->sprite;
@@ -369,7 +369,7 @@ loop_0:
             if (obj != NULL) {
                 obj->update_callback = gym_object_callback;
                 register_node(obj, build_menu_line_tile_packets);
-                secondary = (u8 *)obj + 0x20;
+                secondary = NODE_BODY(obj);
                 ((SceneTileObject *)secondary)->x = 0x78;
                 ((SceneTileObject *)secondary)->y.u = 0x72;
                 ((SceneTileObject *)secondary)->width = 0x50;
@@ -387,7 +387,7 @@ loop_0:
                 s32 color;
                 s32 base;
 
-                sprite = (GymSpriteObject *)((u8 *)obj + 0x20);
+                sprite = NODE_BODY(obj);
 
                 obj->update_callback = D_80024070;
                 register_node(obj, text_sprite_builder_address);
@@ -430,7 +430,7 @@ loop_0:
     case 0xFF:
         if ((s16)timer <= 0) {
             SD_Call(0x200);
-            initialize_scene_action_record(main_state, ((MotionState *)&view_reference_entity), ((u8 *)(&reference_tile_object)));
+            initialize_scene_action_record(main_state, (&view_reference_entity), ((&reference_tile_object)));
             state_obj->state.s = 0;
         }
         break;

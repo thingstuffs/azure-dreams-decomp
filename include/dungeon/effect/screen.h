@@ -1,5 +1,6 @@
 #ifndef DUNGEON_EFFECT_SCREEN_H
 #define DUNGEON_EFFECT_SCREEN_H
+struct SpriteFrameState;
 
 /* Function contracts owned by src/dungeon/effect/screen/ (decision 74; maintained by tools/headers). */
 #include "common.h"
@@ -68,7 +69,7 @@ void update_packed_map_levels(void);
 s32 try_trigger_target_record_effect(void *entity_in, s32 flags, void *record_in);
 
 /* Callback entry points. */
-s32 queue_linked_visible_rectangle_copies(void *initial_state, void *input_values, s16 *initial_delta);
+s32 queue_linked_visible_rectangle_copies(void *initial_state, void *input_values, struct SpriteFrameState *initial_delta);
 
 void apply_attack_power_and_element_effects(void *target, s16 base_power, s16 power_bonus, s16 elements, u16 hit_angle, void *source, u16 hit_kind);
 

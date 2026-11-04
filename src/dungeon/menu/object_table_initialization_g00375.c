@@ -3,6 +3,7 @@
 #include "dungeon/menu/object_table_initialization_g00375.h"
 #include "shared/object_node.h"
 #include "dungeon/menu.h"
+#include "dungeon/menu_callbacks_api.h"
 
 /* Initialize nine records and vectors from templates, setting each record's last byte to 4. */
 void initialize_nine_records_and_vectors(u8 *object) {
@@ -51,7 +52,7 @@ void *allocate_object_with_failure_flag(void) {
             header->field_38 = source_table;
             object->sprite = run_object_setup_and_finalize(data, source_table[0]);
             initialize_complemented_state(object);
-            object->update_callback = D_800DC8F8;
+            object->update_callback = process_callback_slots_and_object;
             register_node(object, dungeon_menu_tag);
             return object;
         }

@@ -13,10 +13,10 @@ typedef struct {
 
 extern u8 D_8002241C[];
 
-extern void create_paired_vector_color_effect(void *, void *, void *, void *);
+extern void create_paired_vector_color_effect(void *, void *, void *, TownCollectionSequence *);
 
 /* Draws three depth layers of a rotating four-corner effect with complementary grayscale colors. */
-void create_rotating_layered_line_cage(u8 *effect)
+void create_rotating_layered_line_cage(TownCollectionSequence *effect)
 {
     Vec3s edge[2];
     Vec3s corner[4];
@@ -34,8 +34,8 @@ void create_rotating_layered_line_cage(u8 *effect)
         for (index = 3, origin = &view_reference_entity; index >= 0; index--) {
             s32 angle_offset = index << 10;
 
-            corner[index].x = ((u16)origin->x.w.i) + (rsin(*(s16 *)(effect + 0x28) + angle_offset) >> 6);
-            corner[index].y = ((u16)origin->y.w.i) + (rcos(*(s16 *)(effect + 0x28) + angle_offset) >> 6);
+            corner[index].x = ((u16)origin->x.w.i) + (rsin(effect->unk_28.s + angle_offset) >> 6);
+            corner[index].y = ((u16)origin->y.w.i) + (rcos(effect->unk_28.s + angle_offset) >> 6);
             corner[index].z = ((u16)origin->z.w.i) - 0xA0;
         }
     }
@@ -48,7 +48,7 @@ void create_rotating_layered_line_cage(u8 *effect)
         center.z = ((u16)origin->z.w.i) - 0x60;
     }
 
-    index = ((s16)*(u16 *)(effect + 0x2E) >> 1) + 0x80;
+    index = ((s16)effect->angle_step.u >> 1) + 0x80;
     if (index < 0) {
         index = 0;
     } else if (index >= 0x100) {

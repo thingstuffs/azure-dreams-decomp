@@ -6,8 +6,9 @@
 #include "town/person.h"
 
 #include "town/person/object/initialize_object_entries_api.h"
+#include "town/person_callbacks_api.h"
 
-extern M2C_UNK D_800CC4B0[3];
+
 extern s32 D_800D6CF0[];
 
 
@@ -17,6 +18,6 @@ void initialize_fade_action(TownObjectRecord *entity, s32 unused, void *context)
     SD_Call(0x300);
     initialize_object_entries((entity), context, (s32 *)(&D_800D6CF0));
     object_index_slots[entity->slot].unk_00 = 0;
-    entity->handler = &D_800CC4B0;
+    entity->handler = advance_fade_and_set_gray_color;
     entity->timer.as_s16 = 0x19;
 }

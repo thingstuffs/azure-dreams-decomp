@@ -10,7 +10,7 @@ struct ObjectNodeHeader;
 #include "slus.h"
 #include "frontend/libcard.h"
 
-extern u8 menu_backdrop_tag[];
+
 
 /* Creates or resets the shared object and initializes its data and callbacks. */
 void *create_visual_object(s32 init_value, s32 stored_value)
@@ -22,7 +22,7 @@ void *create_visual_object(s32 init_value, s32 stored_value)
     data = NODE_BODY(object);
     if (find_active_list_node(object) == 0) {
         object = initialize_scene_object_in_buffer(0, object, 0x45);
-        register_node(object, menu_backdrop_tag);
+        register_node(object, card_boot_render_panel_hierarchy);
     } else {
         card_boot_mark_object_complete(object);
         object->flags &= 0x7FFF;
@@ -33,6 +33,6 @@ void *create_visual_object(s32 init_value, s32 stored_value)
     *(void **)((u8 *)data + 0x5C) = card_boot_link_paired_choice_display_entries((u8 *)data + 0x60);
     *(s32 *)((u8 *)data + 0x24) = stored_value;
     card_boot_initialize_paired_choice_panel(data, init_value);
-    object->update_callback = D_80026AE4;
+    object->update_callback = advance_card_boot_stream_pair;
     return object;
 }

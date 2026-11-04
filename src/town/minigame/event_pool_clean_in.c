@@ -32,7 +32,7 @@ s32 event_pool_clean_in(void)
         SD_Call(0x512);
         motion = object->position;
         object->update_callback = &update_motion_spawn_particles;
-        body = (u8 *)object + 0x20;
+        body = NODE_BODY(object);
         register_node(object, project_sprite_chain);
         ((EntityRec *)body)->x.w.i = 0x10;
         color = 0x00800000;

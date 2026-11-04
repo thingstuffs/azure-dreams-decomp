@@ -21,7 +21,7 @@ void card_boot_load_selected_slot(CardSlotMenuState *state) {
         next_state = card_boot_restore_saved_selection_callback;
     } else {
         no_op_card_hook(0x80010000);
-        next_state = &D_800251A4;
+        next_state = card_boot_finish_slot_load_and_change_scene;
     }
     *(s32 **)(((s8 *)state) - 0x10) = next_state;
     card_boot_recheck_selected_channel();

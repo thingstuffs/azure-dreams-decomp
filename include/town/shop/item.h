@@ -1,5 +1,6 @@
 #ifndef TOWN_SHOP_ITEM_H
 #define TOWN_SHOP_ITEM_H
+#include "town/shop/item_menu_cursor_transition_g00601.h"
 struct ItemMenuTransition;
 /* Prototypes of the functions defined in src/town/shop/item/ (one true prototype each; maintained by tools/headers). */
 
@@ -11,9 +12,7 @@ struct ItemMenuTransition;
 struct ItemMenuObject;
 struct ItemMenuPart;
 struct ItemMenuTransition;
-struct S_800AE56C_0;
 struct S_800AEBC4_4;
-struct S_800AEBC4_6;
 struct S_800AFF00_0;
 struct S_800AFF00_4;
 struct S_800B0418_0;
@@ -33,7 +32,7 @@ void clear_item_menu_entry_groups(ItemMenuPart **parts);
 void dispatch_item_menu_data_update(void *data);
 
 /* dispatch_item_menu_entry_callback.c */
-s32 dispatch_item_menu_entry_callback(struct S_800AE56C_0 *state, s32 callback_arg);
+s32 dispatch_item_menu_entry_callback(ItemMenuTransition *state, s32 callback_arg);
 
 /* find_item_by_key_pair.c */
 u8 *find_item_by_key_pair(s32 first_key, s32 second_key);
@@ -49,7 +48,7 @@ s32 get_item_menu_table_entry(s32 index);
 void initialize_item_menu_linked_blocks(struct S_800AFF00_4 *state, struct S_800AFF00_0 *primary, DisplayPositionWords *secondary);
 
 /* initialize_item_menu_linked_record_vectors.c */
-void initialize_item_menu_linked_record_vectors(struct S_800AEBC4_6 *vectors, struct S_800AEBC4_4 *config, s32 *position_data, s32 *secondary_data, s32 x, s32 y);
+void initialize_item_menu_linked_record_vectors(ItemMenuTransition *vectors, struct S_800AEBC4_4 *config, s32 *position_data, s32 *secondary_data, s32 x, s32 y);
 
 /* initialize_item_menu_list_display.c */
 void initialize_item_menu_list_display(s32 objectData, s32 owner, s32 listConfig, s32 entryCount, s32 x, s32 y, s32 entryIds);

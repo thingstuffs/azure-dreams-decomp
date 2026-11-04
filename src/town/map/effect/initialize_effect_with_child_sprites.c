@@ -12,10 +12,11 @@
 #include "town/data.h"
 #include "town/map.h"
 #include "town/map/state.h"
+#include "town/map/state_callbacks_api.h"
 
 
 
-extern u8 town_child_sprite_callback_address[];
+
 extern u8 map_particle_child_update_address[];
 
 typedef struct S_800BA00C_0_pre {
@@ -130,7 +131,7 @@ void initialize_effect_with_child_sprites(TownObjectRecord *parent, ObjectPositi
     } while (part_index < 4);
 
     part_index = 0;
-    sprite_callback = town_child_sprite_callback_address;
+    sprite_callback = update_inactive_object_state;
     sprite_texture = map_particle_first_sprite_entries;
     brightness = 0x80;
     do {
@@ -173,7 +174,7 @@ void initialize_effect_with_child_sprites(TownObjectRecord *parent, ObjectPositi
     parent_obj = (u8 *)parent - 0x20;
     obj = allocate_list_node(0x36, parent_obj);
     if (obj != 0) {
-        ((S_800BA00C_1 *)obj)->unk_10 = town_child_sprite_callback_address;
+        ((S_800BA00C_1 *)obj)->unk_10 = update_inactive_object_state;
         register_node(obj, draw_linked_sprites_clipped);
         parent_value = ((S_800BA00C_0 *)parent)->unk_98;
         entity = obj + 0x20;

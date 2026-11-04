@@ -1,11 +1,10 @@
 #include "script_symbols.h"
 #include "common.h"
 #include "town/scene.h"
+#include "town/player.h"
+#include "town/player/state.h"
 
 extern s32 scene_update_state[3];
-
-extern s32 get_script_flag_mask(s32 condition_id);
-extern s32 get_linked_record_field_2_d_60(void);
 
 /*
  * Clears scene_update_state and accepts the egg flag without the Niko love flag, or the secondary

@@ -21,10 +21,6 @@ typedef struct S_801254D8_0 {
     u8 unk_16;
 } S_801254D8_0;   /* arg0 in load_catalog_adjacent_detail_texture */
 
-typedef struct S_801254D8_1 {
-    u8 pad_00[0x17];
-    u8 unk_17;
-} S_801254D8_1;   /* (u8 *)arg0 + ((S_801254D8_0 *)arg0)->unk_16 in load_catalog_adjacent_detail_texture */
 
 
 typedef struct {
@@ -78,7 +74,7 @@ void load_catalog_adjacent_detail_texture(CatalogDisplay *context_arg) {
     image_rect.h = 0x80;
     LoadImage(&image_rect, catalog_texture_pixels);
 
-    ((S_801254D8_1 *)((u8 *)context + context->unk_16))->unk_17 =
+    ((CatalogDisplay *)((u8 *)context + context->unk_16))->choices[0] =
         context->unk_13.as_u8;
 
     {

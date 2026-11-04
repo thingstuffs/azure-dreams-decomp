@@ -1,5 +1,6 @@
 #ifndef TOWN_PERSON_STATE_H
 #define TOWN_PERSON_STATE_H
+struct SpriteFrameState;
 /* Prototypes of the functions defined in src/town/person/state/ (one true prototype each; maintained by tools/headers). */
 
 #include "common.h"
@@ -39,7 +40,7 @@ void clear_record_indexed_flag(TownObjectRecord *state, s32 unused_context, void
 void dispatch_status_triggered_handler(s32 object, s32 unused, SpriteFlagsView *status);
 
 /* dispatch_status_triggered_update.c */
-void dispatch_status_triggered_update(void *handler_arg, void *context, SpriteFlagsView *status);
+void dispatch_status_triggered_update(TownObjectRecord *handler_arg, void *context, SpriteFlagsView *status);
 
 /* forward_flag_state_update.c */
 void forward_flag_state_update(TownObjectRecord *object, ObjectPosition *context, void *update_data);
@@ -94,7 +95,7 @@ void invoke_state_indexed_callback(void *object, void *context, void *motion);
 void process_object_0x6000_flag_bits(TownObjectRecord *contextId, s32 contextData, SpriteFrameState *object);
 
 /* reset_indexed_flag_install_handlers.c */
-void reset_indexed_flag_install_handlers(void *object, void *context, void *input);
+void reset_indexed_flag_install_handlers(void *object, void *context, struct SpriteFrameState *input);
 
 /* reset_menu_state.c */
 void reset_menu_state(TownObjectRecord *menu, ObjectPosition *update_arg, SpriteFrameState *input);

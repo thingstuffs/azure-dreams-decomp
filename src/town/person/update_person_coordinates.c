@@ -3,12 +3,13 @@
 #include "town/person/lookup_motion.h"
 #include "town/person.h"
 #include "town/person/motion.h"
+#include "town/person/state_callbacks_api.h"
 
 typedef struct {
     s32 pad[3];
 } StateHandler;
 
-extern StateHandler D_800AB4A8;
+
 
 
 /* Updates coordinates and selects the state handler based on the threshold and timer. */
@@ -24,7 +25,7 @@ void update_person_coordinates(void *state, ObjectPosition *coords) {
     timer = *(u16 *)((s8 *)state + 0x6C) - 1;
     *(u16 *)((s8 *)state + 0x6C) = timer;
     if ((s16)timer < 0) {
-        *(StateHandler **)((s8 *)state + 0x50) = &D_800AB4A8;
+        *(StateHandler **)((s8 *)state + 0x50) = advance_person_state_value;
         *(u16 *)((s8 *)state + 0x6C) = 10;
     }
 }

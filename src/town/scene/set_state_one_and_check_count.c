@@ -1,7 +1,7 @@
 #include "common.h"
 #include "town/scene.h"
+#include "town/player.h"
 
-extern s32 get_linked_record_field_2_d_60(void);
 extern s32 scene_update_state;
 
 /* Set state 1 and return whether the initial check passes and the count is at least 20. */

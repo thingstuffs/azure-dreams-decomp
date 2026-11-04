@@ -1,5 +1,7 @@
 #ifndef TOWN_SHOP_H
 #define TOWN_SHOP_H
+#include "town/shop/item_menu_cursor_transition_g00601.h"
+struct ActorRecord;
 
 #include "common.h"
 
@@ -9,8 +11,7 @@
 /* get_player_homerank.c */
 s32 get_player_homerank(void);
 
-struct S_800AE56C_0;
-s32 dispatch_item_menu_entry_callback(struct S_800AE56C_0 *state, s32 callback_arg);
+s32 dispatch_item_menu_entry_callback(ItemMenuTransition *state, s32 callback_arg);
 s32 invoke_item_menu_offset_handler(u8 *object, s32 callback_arg);
 
 void initialize_item_menu_request_state(void *state, s32 base_value);
@@ -106,7 +107,7 @@ void run_both_updates_decrement_countdown_check_completion(struct S_8009ECF0_0 *
 void advance_item_menu_object_animation(struct ItemMenuTransition *object);
 s8 *clear_bytes(s8 *buffer, s32 length);
 void copy_a_pointer_table_initializes_extra_data_tag_hex_13(s32 entry_index, void *source);
-void format_and_display_entity_stats(void *stats, void *panels);
+void format_and_display_entity_stats(struct ActorRecord *stats, void *panels);
 void initialize_storage_cursor(struct StorageOwner *object);
 void initialize_storage_display_links(struct StorageDisplayLinks *state, union StorageDisplayBlock *primary, union StorageVector *secondary);
 void *link_shop_nodes_in_configured_order(void *node_table);

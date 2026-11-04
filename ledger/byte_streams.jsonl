@@ -1,0 +1,3 @@
+{"file":"src/engine/graphics/run_cd_image_commands.c","function":"run_cd_image_commands","casts":10,"reason":"Command records advance by the self-relative next field; their byte length varies by command."}
+{"file":"src/town/map/forward_surface_query_with_argument_g01117.c","function":"find_min_qualifying_plane_height","casts":10,"reason":"Face records advance by 24 bytes plus a kind-dependent extension encoded in the high nibble."}
+{"file":"src/dungeon/level/terrain_surface_height_g00351.c","function":"sample_terrain_surface_height","casts":4,"reason":"Primitive records advance by 24 bytes plus a kind-dependent extension encoded in the high nibble."}

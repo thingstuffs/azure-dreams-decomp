@@ -175,7 +175,7 @@ void select_and_advance_actor_move(ActorRecord *move_input, ObjectPosition *acti
             found_target = find_adjacent_actor(actor, position->tile_x,
                 position->tile_y);
             if (found_target != NULL) {
-                object = ((ObjectNodeHeader *)found_target - 1)->sprite;
+                object = NODE_HEADER(found_target)->sprite;
                 actor->facing = (u16)get_rounded_facing_and_rounding_flag(
                     position->tile_x, position->tile_y,
                     object->tile_x, object->tile_y, &move_input->action_state_flags);

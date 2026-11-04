@@ -43,7 +43,7 @@ typedef struct {
 void func_80170D60(void *destination, s32 unused, SpriteFrameState *source);
 
 /* Creates and configures a node at a fixed offset from the given position. */
-void create_offset_animation_sprite(void *unused, ObjectPosition *origin) {
+void create_offset_animation_sprite(void *unused, ObjectPosition *origin, void *unused_sprite) {
     ObjectNodeHeader *node;
     SpriteFrameState *node_sub;
     ObjectPosition *position;

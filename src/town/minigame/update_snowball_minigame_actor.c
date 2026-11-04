@@ -281,7 +281,7 @@ void update_snowball_minigame_actor(TownCollectionActor *object, ObjectPosition 
 
                         part = particle->sprite;
                         register_node(particle, project_sprite_chain);
-                        link = (SceneEffectCopyObject *)((u8 *)particle + 0x20);
+                        link = NODE_BODY(particle);
                         part->color.word = 0x00808080;
                         part->scale_y = scale;
                         part->scale_x = scale;
@@ -454,7 +454,7 @@ void update_snowball_minigame_actor(TownCollectionActor *object, ObjectPosition 
 
     case 0x108:
         sprite->color.word += -0x80808;
-        if ((u8)*(u32 *)&sprite->color.word < 0x11) {
+        if ((u8)(sprite->color).unsigned_word < 0x11) {
             object->state.u++;
         }
         break;

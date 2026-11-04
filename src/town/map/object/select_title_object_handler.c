@@ -1,3 +1,4 @@
+#include "town/map/object_callbacks_api.h"
 #include "common.h"
 #include "engine/resource.h"
 #include "engine/script.h"
@@ -17,7 +18,7 @@ typedef struct {
     s32 field_10;
 } TownState;
 
-typedef struct {
+typedef struct town_title_handler_object {
     s16 field_0;
     s16 field_2;
     s16 field_4;

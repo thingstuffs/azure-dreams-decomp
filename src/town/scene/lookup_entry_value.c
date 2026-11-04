@@ -1,7 +1,6 @@
 #include "common.h"
 #include "town/scene.h"
 
-extern s32 find_entry_8_index_or_assert(s32 *table_base, s32 lookup_key);
 extern s32 D_80018D78[];
 
 /* Look up a key in D_80018D78 and return the entry value. */

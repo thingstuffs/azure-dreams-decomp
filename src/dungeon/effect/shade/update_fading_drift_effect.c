@@ -2,6 +2,7 @@
 #include "shared/sprite_frame_state.h"
 #include "shared/object_flags.h"
 #include "slus.h"
+#include "shared/dungeon_effect_state.h"
 
 typedef struct {
     void *unk0;
@@ -10,11 +11,11 @@ typedef struct {
 
 /* Updates effect motion and fading, marking completion when the timer expires. */
 void update_fading_drift_effect(State *state, void *position, SpriteFrameState *visual) {
-    void *owner;
+    B22_81893474_EffectState *owner;
     u8 color;
 
     owner = state->unk0;
-    *(u16 *)((u8 *)owner + 0xC) += 1;
+    owner->unkC.u += 1;
     state->unk4 += 1;
     visual->angle_z += 0x480;
     *(s32 *)((u8 *)position + 8) += 0xFFF60000;

@@ -5,7 +5,6 @@
 
 /* cfail-repair: tf7-phase1-cache-v3 */
 extern s32 D_80019438;
-s32 sum_flagged_terminated_entries(void *entry, s32 callback_mode);              /* extern */
 extern M2C_UNK D_80019440;
 
 /* Update D_80019438 with the result of func_80016B20(&D_80019440, 1). */

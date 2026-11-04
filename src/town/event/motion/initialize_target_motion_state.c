@@ -19,7 +19,7 @@ typedef struct S_8009C120_2 {
 } S_8009C120_2;   /* arg0 in initialize_target_motion_state */
 
 /* Clear status and values, then initialize the state's data pointer and mode. */
-void initialize_target_motion_state(S_8009C120_2 *state, S_8009C120_0 *status, MotionDeltaView *values) {
+void initialize_target_motion_state(S_8009C120_2 *state, S_8009C120_0 *status, MotionDeltaView *values, void *unused_extra_ptr) {
     status->unk_15 = 0;
     values->velocity_x = 0;
     values->velocity_y = 0;

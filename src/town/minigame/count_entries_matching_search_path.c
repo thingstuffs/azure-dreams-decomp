@@ -75,8 +75,8 @@ extern u8 town_interaction_action_address[];
 extern s32 town_position_callback_address[3];
 
 extern void create_eight_linked_scene_sprites(TownCollectionSequence *);
-extern void create_paired_vector_color_effect(void *, TownPos *, s32 *, void *);
-extern void create_rotating_layered_line_cage(u8 *effect);
+extern void create_paired_vector_color_effect(void *, TownPos *, s32 *, TownCollectionSequence *);
+extern void create_rotating_layered_line_cage(TownCollectionSequence *effect);
 extern void return_zero_variadic(void *, s32);
 extern void create_familiar_deployment_effect_with_owner_state(void);
 
@@ -105,7 +105,7 @@ void count_entries_matching_search_path(TownCollectionSequence *scene)
 
         SD_Call(0xB1);
         motion = ((&view_reference_entity));
-        scene->saved_x.u = *(u16 *)&motion->x.w.i;
+        scene->saved_x.u = (motion->x).unsigned_parts.integer;
         t6 = motion->y.unsigned_parts.integer;
         scene->unk_28.u = 4;
         scene->state.s = 1;
@@ -224,7 +224,7 @@ void count_entries_matching_search_path(TownCollectionSequence *scene)
         create_familiar_deployment_effect_with_owner_state();
         apply_global_scene_value(movement_action_handler_table);
         motion = ((&view_reference_entity));
-        scene->saved_x.u = *(u16 *)&motion->x.w.i;
+        scene->saved_x.u = (motion->x).unsigned_parts.integer;
         scene->saved_y.u = motion->y.unsigned_parts.integer;
         scene->angle.u = 0;
         scene->flags.u &= 0x7FFF;

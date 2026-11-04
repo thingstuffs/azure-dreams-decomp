@@ -483,7 +483,7 @@ void update_actor_targeting_and_movement(ActorRecord *object, ObjectPosition *en
                     actor->flags14 = actor_state;
 
                     random_turn = generate_random_value();
-                    (*(u16 *)&actor->facing) += (random_turn & 7) << 9;
+                    actor->facing = (u16)((u16)(actor->facing) + ((random_turn & 7) << 9));
                 }
             }
         }
@@ -501,7 +501,7 @@ void update_actor_targeting_and_movement(ActorRecord *object, ObjectPosition *en
             }
             else {
                 {
-                    s32 direction = *(((u8 *)actor + 0x45));
+                    s32 direction = actor->unk_44.bytes.high;
                     s32 player_angle = primary_actor_record->facing;
                     s32 direction_offset;
                     s32 target_x;
@@ -1034,7 +1034,7 @@ void update_actor_hop_to_tile(ActorRecord *anim, ObjectPosition *motion, SpriteF
         if (next_hop_frames < 0) {
             anim->unk_90.value = 0;
             anim->action_state_flags &= 0xFFF7;
-            (*(u32 *)&actor_state->flags1C) |= ACTOR_GROUNDED;
+            actor_state->flags1C = (u32)((u32)(actor_state->flags1C) | (ACTOR_GROUNDED));
             anim->action_phase.u++;
         }
                         /* fall through */

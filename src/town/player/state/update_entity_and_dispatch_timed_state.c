@@ -4,6 +4,7 @@
 #include "town/player/action_initializers.h"
 #include "town/player/state.h"
 #include "town/player/object.h"
+#include "town/player.h"
 
 
 

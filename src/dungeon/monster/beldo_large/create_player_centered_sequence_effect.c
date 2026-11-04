@@ -56,7 +56,7 @@ extern u8 encounter_object_position_template[12];
 
 
 /* Create and initialize an object at the global position. */
-void create_player_centered_sequence_effect(void)
+void create_player_centered_sequence_effect(void *unused_sequence, void *unused_transform, void *unused_sprite)
 {
     ObjectNodeHeader * object;
     SpriteFrameState *sub_object;

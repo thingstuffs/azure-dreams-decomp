@@ -68,7 +68,7 @@ void update_actor_behavior_2(ActorRecord *body, ObjectPosition *position, Sprite
         select_sprite_entry(sprite,
             cyclone_frame_set_1[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
             0);
-        (*(u32 *)&actor->flags1C) |= 0x40000;
+        actor->flags1C = (u32)((u32)(actor->flags1C) | (0x40000));
         if (sprite->flags & 0x8000) {
             body->unk_8C.address = update_actor_animation;
             break;
@@ -156,7 +156,7 @@ void update_actor_behavior_2(ActorRecord *body, ObjectPosition *position, Sprite
         select_sprite_entry(sprite,
             cyclone_frame_set_1[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
             0);
-        (*(u32 *)&actor->flags1C) |= 0x40000;
+        actor->flags1C = (u32)((u32)(actor->flags1C) | (0x40000));
         if (sprite->flags & 0x8000) {
             body->unk_8C.address = update_actor_animation;
             break;

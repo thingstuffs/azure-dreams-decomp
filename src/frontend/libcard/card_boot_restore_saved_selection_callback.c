@@ -1,3 +1,4 @@
+#include "frontend/libcard_callbacks_api.h"
 #include "common.h"
 #include "frontend/libcard/save_menu.h"
 #include "m2c_compat.h"

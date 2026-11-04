@@ -96,23 +96,23 @@ void *format_compared_stat_pairs(void *text, ActorRecord *stats) {
 }
 
 /* Format and display numeric stats and descriptive text. */
-void format_and_display_entity_stats(void *stats, void *panels) {
+void format_and_display_entity_stats(ActorRecord *stats, void *panels) {
     u8 digits[64];
     u8 text[64];
 
     memcpy(text, D_80089308, 5);
 
-    func_8004E5A0(((u8 *)stats)[0x11], 2, digits);
+    func_8004E5A0(stats->level, 2, digits);
     remap_flagged_string_bytes(digits);
     strcat(text, digits);
     strcat(text, D_80089310);
     strcat(text, D_80089318);
 
-    func_8004E5A0(((u8 *)stats)[0x28], 3, digits);
+    func_8004E5A0(stats->hp, 3, digits);
     strcat(text, digits);
     strcat(text, D_8008931C);
 
-    func_8004E5A0(((u8 *)stats)[0x29], 3, digits);
+    func_8004E5A0(stats->max_hp, 3, digits);
     strcat(text, digits);
 
     set_storage_entry_text(*(s32 *)((u8 *)panels + 0x10), text, 0, 0x6C, 0x98);

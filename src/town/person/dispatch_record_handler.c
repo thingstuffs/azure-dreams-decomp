@@ -1,3 +1,4 @@
+#include "town/person_callbacks_api.h"
 #include "common.h"
 #include "shared/town_object.h"
 #include "town/person/state_updates.h"
@@ -15,7 +16,7 @@ typedef struct S_800C3988_1_pre {
 } S_800C3988_1_pre;
 
 /* Dispatches the record handler or clears its pending state. */
-void dispatch_record_handler(TownObjectRecord *record, void *dispatch_arg, void *dispatch_data, M2C_UNK check_arg) {
+void dispatch_record_handler(TownObjectRecord *record, void *dispatch_arg, void *dispatch_data, int check_arg) {
     s32 slot_offset;
     s32 handler_addr;
     s32 handler_id;

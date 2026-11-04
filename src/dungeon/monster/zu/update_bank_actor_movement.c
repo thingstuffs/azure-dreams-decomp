@@ -687,7 +687,7 @@ void select_bank_actor_movement(ActorRecord *move_data, ObjectPosition *context,
             current_angle = (s32)find_adjacent_actor(actor_data, position_data->tile_position.parts.tile_x, position_data->tile_position.parts.tile_y);
             blocker = (ActorRecord *)current_angle;
             if (blocker != 0) {
-                EntityRec *blocker_owner = (EntityRec *)((ObjectNodeHeader *)blocker - 1)->sprite;
+                EntityRec *blocker_owner = (EntityRec *)NODE_HEADER(blocker)->sprite;
                 s16 target_angle = (s16)get_rounded_facing_and_rounding_flag(
                     position_data->tile_position.parts.tile_x, position_data->tile_position.parts.tile_y,
                     blocker_owner->tileX, blocker_owner->tileY,
@@ -1457,7 +1457,7 @@ void update_bank_actor_targeted_action(ActorRecord *owner_input, ObjectPosition 
             owner_input->action_phase.u++;
             owner_input->action_state_flags |= 8;
             (*(u32 *)&object->flags1C) &= ACTOR_GROUNDED_CLEAR_MASK;
-            (*(u32 *)&object->flags1C) &= 0xFFFBFFFF;
+            object->flags1C = (u32)((u32)(object->flags1C) & (0xFFFBFFFF));
             return;
         }
 
@@ -1503,8 +1503,8 @@ void update_bank_actor_targeted_action(ActorRecord *owner_input, ObjectPosition 
         motion_input->velocity_x = 0;
         set_record_integer_tile_center(motion_input, actor_input->tile_x, actor_input->tile_y);
         owner_input->action_state_flags &= 0xFFF7;
-        (*(u32 *)&object->flags1C) |= ACTOR_GROUNDED;
-        (*(u32 *)&object->flags1C) |= 0x00040000;
+        object->flags1C = (u32)((u32)(object->flags1C) | (ACTOR_GROUNDED));
+        object->flags1C = (u32)((u32)(object->flags1C) | (0x00040000));
 
         if (*(u8 **)&actor_input->frameTable != zu_default_frames) {
             (actor_input->frameTable) = zu_default_frames;

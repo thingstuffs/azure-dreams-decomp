@@ -18,12 +18,13 @@
 #include "engine/scene.h"
 #include "dungeon/effect/screen.h"
 #include "dungeon/item.h"
+#include "dungeon/effect_callbacks_api.h"
 
 extern u8 dungeon_ground_item_positions[];
 extern u8 floor_objects[];
 extern u8 dungeon_floor_object_positions[];
 extern u8 D_800E1863;
-extern u8 floor_trap_update_address[];
+
 
 #define U8(p, o)  (*(u8  *)((u8 *)(p) + (o)))
 #define U16(p, o) (*(u16 *)((u8 *)(p) + (o)))
@@ -109,7 +110,7 @@ s32 flatten_floor_terrain(ActorRecord *target, DungeonItemEntry *effect_arg, s16
         refresh_packed_grid_nibbles();
         clear_mask = 0x3FF7FFFF;
         dungeon_floor_flags = dungeon_floor_flags & clear_mask;
-        mark_active_nodes_by_callback(floor_trap_update_address);
+        mark_active_nodes_by_callback(update_long_lived_trap_effect);
     } else {
         display_formatted_context_message(&D_800E1863);
     }

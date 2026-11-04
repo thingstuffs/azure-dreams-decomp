@@ -1,0 +1,9 @@
+#ifndef FRONTEND_LIBCARD_MESSAGE_CALLBACKS_API_H
+#define FRONTEND_LIBCARD_MESSAGE_CALLBACKS_API_H
+
+struct CardMessageDialogBody;
+void card_boot_close_dialog_when_response_clears(struct CardMessageDialogBody *record);
+void card_boot_handle_message_dialog_input(struct CardMessageDialogBody *menu);
+void card_boot_stop_slot_window_updates(void *record_data);
+
+#endif

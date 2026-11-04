@@ -1515,7 +1515,7 @@ typedef struct {
 } RamPage;
 
 /* Packs item flag 0x400 into a RAM bitset for each item category. */
-void pack_item_flag_400_bitmap(void)
+void pack_item_flag_400_bitmap(u16 unused_saved_setting)
 {
     DungeonGroup *item_category;
     DungeonGroup *cell_group;

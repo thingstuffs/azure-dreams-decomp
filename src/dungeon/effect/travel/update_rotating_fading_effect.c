@@ -7,6 +7,7 @@
 #include "shared/sprite_frame_state.h"
 #include "dungeon/effect/travel.h"
 #include "dungeon/actor.h"
+#include "shared/dungeon_effect_state.h"
 void (*const dungeon_ovl_18ca83c_entry)(void *effect, ObjectPosition *motion, SpriteFrameState *appearance) = advance_target_travel_effect;
 
 /* Adds a random actor value delta with an optional eighth bonus, clamps it, displays a popup, and
@@ -40,9 +41,9 @@ void apply_large_random_value_gain(ActorRecord *target, s32 amount_input, ActorR
     s32 scale;
     s32 brightness;
     u16 state;
-    void *owner;
+    B22_81893474_EffectState *owner;
     owner = effect->owner;
-    *(u16 *)((u8 *) owner + 0x14) = (*(u16 *)((u8 *) owner + 0x14)) + 1;
+    owner->field_14.u = owner->field_14.u + 1;
     effect->elapsed_ticks.u = effect->elapsed_ticks.u + 1;
     sprite->angle_z = (sprite->angle_z) + 0x10;
     rot = sprite->angle_z;

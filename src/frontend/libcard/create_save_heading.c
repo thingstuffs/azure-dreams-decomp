@@ -6,7 +6,7 @@
 #include "sdk/libc.h"
 #include "slus.h"
 
-extern u8 menu_backdrop_tag[];
+
 
 /* Creates or resets the shared object and initializes its work state. */
 void *create_save_heading(s32 init_value)
@@ -18,7 +18,7 @@ void *create_save_heading(s32 init_value)
     work_state = card_save_heading_object + 0x20;
     if (find_active_list_node(object) == 0) {
         object = initialize_scene_object_in_buffer(0, object, 0x68);
-        register_node(object, menu_backdrop_tag);
+        register_node(object, card_boot_render_panel_hierarchy);
     } else {
         process_nonzero(object);
         object->flags &= 0x7FFF;

@@ -9,6 +9,7 @@
 #include "shared/game_work.h"
 #include "dungeon/actor/state.h"
 #include "dungeon/effect/shade.h"
+#include "shared/dungeon_effect_state.h"
 void (*const dungeon_ovl_188898c_entry)(ovl_188898c_818694D4_Controller *input_ctrl, ovl_188898c_818694D4_Motion *input_motion, void *input_render_data) = move_linked_effect_along_path;
 
 /* Attempts a status effect on compatible, eligible actors within two tiles of the supplied center. */
@@ -257,10 +258,10 @@ void create_coordinate_sprite_object(void *owner, ovl_188898c_81868E84_S_81868E8
 void shrink_and_brighten_effect(DelayAndFadeParticleBody *state_ref, void *unused, SpriteFrameState *effect) {
     u16 scale;
     u8 brightness;
-    void *state;
+    B22_81893474_EffectState *state;
 
     state = state_ref->owner;
-    *(u16 *)((u8 *)state + 0x14) = *(u16 *)((u8 *)state + 0x14) + 1;
+    state->field_14.u = state->field_14.u + 1;
     scale = effect->scale_y - 0x400;
     brightness = effect->color.c.b + 4;
     effect->scale_y = scale;

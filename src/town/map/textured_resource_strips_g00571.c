@@ -293,7 +293,7 @@ reverse_segment:
 
 /* Projects and draws visible textured strips, returning the next free primitive. */
 void *project_visible_textured_strips(void *origin_arg, void *render_flags, TownStripScratch *draw_state, void *prim_buffer, u16 texture_index) {
-    S_800A41D8_0 *origin = origin_arg;
+    MenuAnimationPhaseObject *origin = origin_arg;
     s32 buckets[2];
     u16 texture_id;
     u16 base_shade;
@@ -342,10 +342,10 @@ void *project_visible_textured_strips(void *origin_arg, void *render_flags, Town
     strip_index = 0;
     texture_id = texture_index;
     bucket_list = buckets;
-    origin_x = origin->unk_08;
+    origin_x = origin->offset.s;
     left_x = origin_x - 0x6200;
     right_x = origin_x - 0x5400;
-    base_shade = origin->unk_16;
+    base_shade = origin->value.u;
     draw_state->unk_7C = left_x;
     draw_state->unk_74 = left_x;
     draw_state->unk_8C = right_x;

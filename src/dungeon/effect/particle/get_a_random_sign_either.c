@@ -3,6 +3,7 @@
 #include "dungeon/effect/particle/get_a_random_sign_either.h"
 #include "shared/object_flags.h"
 #include "dungeon/effect/particle.h"
+#include "dungeon/effect/mesh_callbacks_api.h"
 
 
 /* Maps a random low bit to either -1 or 1. */
@@ -40,7 +41,7 @@ void spawn_linked_effect_particle(Row_818ED7A0_ParticleNode *owner, s32 age, s32
         work = NODE_BODY(node);
         work->age = age;
         work->lifetime = lifetime;
-        register_node(node, func_80024C54);
+        register_node(node, draw_linked_brightness_points);
         work->color = color;
     }
 }

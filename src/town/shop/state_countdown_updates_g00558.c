@@ -6,9 +6,9 @@
 #include "town/shop_callbacks_api.h"
 
 /* Resets object state and passes the selected result to select_a_town_entry_writes_root_relative_coordinates_output. */
-void reset_object_state_passes_selected_result_callee_800_a_00_e_8(void *object, void *status, ObjectPosition *position, s32 unused_finish_ctx) {
+void reset_object_state_passes_selected_result_callee_800_a_00_e_8(void *object, TownObjectRecord *status, ObjectPosition *position, s32 unused_finish_ctx) {
     s32 result;
-    *((s8 *)status + 0x15) = 0;
+    status->unk_15 = 0;
     position->velocity_x = 0;
     position->velocity_y = 0;
     position->velocity_z = 0;

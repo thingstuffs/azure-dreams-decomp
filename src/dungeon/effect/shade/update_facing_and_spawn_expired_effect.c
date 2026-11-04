@@ -15,6 +15,7 @@
 #include "dungeon/monster/u_boat.h"
 #include "dungeon/effect/shade.h"
 #include "engine/scene.h"
+#include "dungeon/effect/shade_callbacks_api.h"
 
 typedef struct S_800D58D8_0_pre {
     void * unk_00;
@@ -36,7 +37,7 @@ typedef struct {
     u16 z;
 } Vec3u16;
 
-extern s32 D_800D586C[];
+
 
 /* Update sprite facing and animation, then spawn an effect when the countdown expires. */
 void update_facing_and_spawn_expired_effect(AdvanceActorItemActionBody *state, MovingPosition *position, SpriteFrameState *sprite) {
@@ -78,7 +79,7 @@ void update_facing_and_spawn_expired_effect(AdvanceActorItemActionBody *state, M
             effect_render->color.c.g = 0x80;
             effect_render->color.c.r = 0x80;
             effect_render->depth_bias = (u16) ((u16)(sprite->depth_bias));
-            effect->update_callback = &D_800D586C;
+            effect->update_callback = update_effect_and_retain_flags;
             owner = ((S_800D58D8_0_pre *)state)[-1].unk_00;
             if (resolve_record_orientation_or_fallback(owner->unk_08, owner, &delta, 0) != 0) {
                 effect_pos->x.w.i = (u16) ((u16)effect_pos->x.w.i + delta.x);

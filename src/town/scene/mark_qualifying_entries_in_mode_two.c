@@ -1,5 +1,6 @@
 #include "common.h"
 #include "town/scene.h"
+#include "town/player/state.h"
 
 typedef struct S_80017DBC_0 {
     u8 pad_00[0x4];
@@ -20,8 +21,6 @@ typedef struct S_80017DBC_2 {
     s16 unk_B6;
 } S_80017DBC_2;
 
-
-extern s32 get_script_flag_mask(s32 flagIndex);
 extern s32 town_indexed_values;
 extern s32 D_80016608;
 extern s32 scene_update_state;

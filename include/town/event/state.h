@@ -33,10 +33,10 @@ void set_actor_drop_state(TownObjectRecord *object, Rec_D_800CFCB4 *state, void 
 
 /* spawn_and_flag_object_parts_g01128.c */
 void spawn_and_flag_object_parts(unsigned short *object, s32 unused, s32 action_id);
-void unlink_and_remove_scene_object(void *object);
+void unlink_and_remove_scene_object(void *object, void *unused_owner, void *unused_position, s32 unused_dispatch_param);
 void *create_town_effect_object(s32 parent, IntVector3 *position, s32 object_value, s32 state_value);
-void run_object_secondary_callback(struct S_8009C46C_0 *object, void *motion, void *context);
-void update_timed_object_to_height_limit(void *object, ObjectPosition *motion, struct S_8009C4E8_2 *appearance);
+void run_object_secondary_callback(struct S_8009C46C_0 *object, ObjectPosition *motion, SpriteFrameState *context);
+void update_timed_object_to_height_limit(void *object, ObjectPosition *motion, SpriteFrameState *appearance);
 void fade_object_primitive(void *object, ObjectPosition *unusedContext, u8 *primitive);
 void spawn_randomized_effect_parts(u8 *source_data, s32 spawn_arg);
 

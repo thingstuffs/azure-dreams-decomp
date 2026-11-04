@@ -125,7 +125,7 @@ void update_multi_form_actor_control(ActorRecord *actor, ObjectPosition *context
 void upload_encounter_texture(void);
 
 void complete_actor_facing_action(Rec_func_800A9E70_arg0 *entity, ObjectPosition *unused_1, s32 unused_2, ActorRecord *target);
-void create_player_centered_sequence_effect(void);
+void create_player_centered_sequence_effect(void *unused_sequence, void *unused_transform, void *unused_sprite);
 s32 try_actor_attack(ActorRecord *action_state, ObjectPosition *action_id, SpriteFrameState *target, ActorRecord *actor);
 
 void update_multi_form_actor_movement(ActorRecord *object, ObjectPosition *update_param, SpriteFrameState *state, ActorRecord *input);

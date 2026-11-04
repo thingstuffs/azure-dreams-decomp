@@ -12,7 +12,7 @@
 
 
 /* Deactivate the object when triggered; otherwise update its spin from nearby motion and advance rotation. */
-void deactivate_object_triggered(void *object_arg, void *position, void *rotation) {
+void deactivate_object_triggered(void *object_arg, void *position, SpriteFrameState *rotation) {
     TownObjectRecord *object = object_arg;
     SignedPositionView *position_data = position;
     SpriteFrameState *rotation_data = rotation;

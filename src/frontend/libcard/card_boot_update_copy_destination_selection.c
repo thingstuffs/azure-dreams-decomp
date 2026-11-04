@@ -1,3 +1,4 @@
+#include "frontend/libcard_callbacks_api.h"
 #include "frontend/libcard/slot_menu.h"
 #include "shared/object_node.h"
 #include "shared/audio_commands.h"

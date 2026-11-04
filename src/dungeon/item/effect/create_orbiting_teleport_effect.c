@@ -8,6 +8,7 @@
 #include "dungeon/system.h"
 #include "engine/node.h"
 #include "sdk/libc.h"
+#include "dungeon/effect/mesh_callbacks_api.h"
 
 #ifndef NULL
 #define NULL 0
@@ -38,8 +39,8 @@ typedef struct S_800C542C_5 {
     s16 unk_36;
 } S_800C542C_5;   /* record in create_orbiting_teleport_effect */
 
-extern u8 D_800C4F20[];
-extern u8 D_800C55A0[];
+
+
 extern u8 D_800DF630[];
 
 /* Creates and initializes a display object linked to its owner. */
@@ -59,9 +60,9 @@ void *create_orbiting_teleport_effect(void *owner, s16 effect_value, s16 directi
     object = allocate_flagged_object_node(0x12);
     saved_mode = effect_mode;
     if (object != NULL) {
-        callback = D_800C4F20;
+        callback = update_orbiting_teleport_effect;
         object->update_callback = callback;
-        register_node(object, D_800C55A0);
+        register_node(object, draw_linked_mesh_chain);
 
         display = object->sprite;
         display->color.word = 0x808080;

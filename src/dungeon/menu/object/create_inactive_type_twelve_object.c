@@ -5,6 +5,7 @@
 #include "common.h"
 #include "shared/dungeon_floor.h"
 #include "engine/node.h"
+#include "dungeon/menu_callbacks_api.h"
 
 #ifndef NULL
 #define NULL 0
@@ -61,7 +62,7 @@ typedef struct Obj12State {
 } Obj12State;
 
 struct ConfigWord { s32 value; };
-extern u8 D_8009E038[];
+
 
 extern u8 D_800DD7E0[];
 
@@ -72,7 +73,7 @@ void create_inactive_type_twelve_object(void) {
     if (!(dungeon_floor_flags & 0x80)) {
         object = allocate_flagged_object_node(0x12);
         if (object != NULL) {
-            object->update_callback = D_8009E038;
+            object->update_callback = update_viewport_transition;
             register_node(object, build_transformed_sprite_quads);
             {
                 u16 field_value;

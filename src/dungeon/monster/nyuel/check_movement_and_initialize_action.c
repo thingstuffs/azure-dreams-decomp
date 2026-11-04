@@ -52,7 +52,7 @@ s32 check_movement_and_initialize_action(ActorRecord *action_state, ObjectPositi
     if ((try_claim_dungeon_action_slot(actor) << 0x10) != 0) {
         return -1;
     }
-    apply_camera_offset_and_select_target((u8 *)actor - 0x20, action_ctx, 8, 0x300);
+    apply_camera_offset_and_select_target(NODE_HEADER(actor), action_ctx, 8, 0x300);
     if ((try_claim_dungeon_action_slot(actor) << 0x10) == 0) {
         action_state->action_id.s = 0x11;
         action_state->action_phase.s = 0;

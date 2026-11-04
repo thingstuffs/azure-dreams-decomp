@@ -1,5 +1,6 @@
 #ifndef TOWN_PERSON_OBJECT_INITIALIZE_OBJECT_RESOURCES_G01178_H
 #define TOWN_PERSON_OBJECT_INITIALIZE_OBJECT_RESOURCES_G01178_H
+struct TownObjectRecord;
 /* Initialize object resources. Shared declarations. */
 /* Original-file evidence: inferred (adjacency/recipe/locality), inferred-weak - group G01178 - CL:town/func_800C7AB4. */
 
@@ -62,7 +63,7 @@ extern u8 D_800F148C[];
 /* Functions defined in this translation unit. */
 void initialize_object_resources_2(TownObjectRecord *object, ObjectPosition *position, SpriteFrameState *display_state);
 void set_camera_chase_data(TownObjectRecord *object, ObjectPosition *chase_data, SpriteFrameState *request_param, s32 check_param);
-void clear_object_slot_table_run(void *obj, void *param_a, void *param_b);
+void clear_object_slot_table_run(struct TownObjectRecord *obj, void *param_a, void *param_b);
 void accelerate_object_coordinates_to_lower_limits(TownObjectRecord *context, ObjectPosition *record, SpriteFrameState *callback_arg);
 void init_actor_handler_state(S_800C51DC_0 *actor, ObjectPosition *state);
 void *create_user_data_object_b(s32 user_data);

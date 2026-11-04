@@ -28,7 +28,7 @@ extern u8 D_00000758[];
 extern u8 D_00000E0C[];
 
 /* Sets up town data and resolves record indices through the lookup table. */
-void set_up_town_resolves_record(void) {
+void set_up_town_resolves_record(s32 unused_list_length, s32 unused_record_value) {
     u8 *data;
 
     if (D_00000E48 != 0) {

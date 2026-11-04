@@ -1,6 +1,6 @@
 #include "common.h"
+#include "town/scene.h"
 
-extern void select_response_and_set_d_80(s32, s32, s32); /* Unprototyped: retail call passes more arguments than the callee reads */
 extern void *select_data_pointer_based_result(void);
 
 /* Forward values for code 0x1E, otherwise call the fallback handler. */

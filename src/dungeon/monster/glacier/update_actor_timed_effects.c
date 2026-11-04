@@ -312,9 +312,9 @@ ordinary_cleanup:
                                 owner->source, owner, &spawn_offset.orientation, 0xF)) {
                             ObjectPosition *part = object->position;
 
-                            *(u16 *)&part->x.w.i += spawn_offset.distance[0];
-                            *(u16 *)&part->y.w.i += spawn_offset.distance[1];
-                            *(u16 *)&part->z.w.i += spawn_offset.distance[2];
+                            (part->x).unsigned_parts.integer += (spawn_offset.distance[0]);
+                            (part->y).unsigned_parts.integer += (spawn_offset.distance[1]);
+                            (part->z).unsigned_parts.integer += (spawn_offset.distance[2]);
                         }
                     }
                     {

@@ -20,7 +20,7 @@ typedef struct S_800D4BD4_0 {
 extern s32 fading_sprite_entries;
 
 /* Initialize object state and rendering data from the source and position. */
-void initialize_effect_object_state(ObjectNodeHeader *object, Rec_func_800D4BD4_arg1 *source, Rec_func_800D4BD4_arg2 *position)
+void initialize_effect_object_state(ObjectNodeHeader *object, Rec_func_800D4BD4_arg1 *source, Rec_func_800D4BD4_arg2 *position, s32 unused_spawn_context)
 {
     SpriteFrameState *render_config;
     SpriteFrameState *render_data;

@@ -265,7 +265,7 @@ void create_jittered_terrain_seeking_point(
 #include "shared/object_flags.h"
 
 /* Advance position and object state, then flag completion on timeout or object status. */
-void move_and_grow_timed_sprite(MoveAndGrowTimedSpriteBody *state, void *position, SpriteFrameState *object)
+void move_and_grow_timed_sprite(GrowingTimedSpriteBody *state, void *position, SpriteFrameState *object)
 {
     s32 position_z;
     s32 step_z;
@@ -299,7 +299,7 @@ void move_and_grow_timed_sprite(MoveAndGrowTimedSpriteBody *state, void *positio
 #include "shared/object_flags.h"
 
 /* Decrement the record counter and set completion flags when it reaches zero. */
-void update_actor_effect_sequence(UpdateChasingStarEffectBody *record)
+void update_actor_effect_sequence(ChasingStarEffectBody *record)
 {
     u16 counter;
 
@@ -697,7 +697,7 @@ void update_chasing_star_effect(void *entity, ObjectPosition *pos, B32_818CF0E8_
             {
             w1 = (NODE_BODY(obj));
             if (obj != 0) {
-                ((MoveAndGrowTimedSpriteBody *)w1)->remaining = 0x14;
+                ((GrowingTimedSpriteBody *)w1)->remaining = 0x14;
                 obj->update_callback = move_and_grow_timed_sprite;
                 register_node(obj, project_sprite_chain);
                 p = (B32_818CF0E8_S_818CF0E8_6 *)obj->sprite;
@@ -733,7 +733,7 @@ void update_chasing_star_effect(void *entity, ObjectPosition *pos, B32_818CF0E8_
                 p = (B32_818CF0E8_S_818CF0E8_6 *)obj->sprite;
                 p->unk_1C = 0x800;
                 p->unk_1E = 0x800;
-                ((MoveAndGrowTimedSpriteBody *)w1)->velocity_z = rand() + (s32)0xFFFE0000;
+                ((GrowingTimedSpriteBody *)w1)->velocity_z = rand() + (s32)0xFFFE0000;
                 p->unk_0E = 0x80;
                 p->unk_0D = 0x80;
                 p->unk_0C = 0x80;

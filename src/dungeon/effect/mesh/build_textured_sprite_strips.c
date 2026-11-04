@@ -977,7 +977,7 @@ void build_inverted(UpdateTravelingBody *context, void *unused, void *effect_dat
 /* Updates a traveling effect, its target animation, and its cleanup state. */
 void update_traveling(S_func_81905FD0_1 *effect, S_func_81905FD0_2 *motion, S_func_81905FD0_3 *render)
 {
-    S_func_81905FD0_3 *target_render;
+    SpriteFrameState *target_render;
     u8 scratch[56];
     s32 index;
     s32 result;
@@ -1012,11 +1012,11 @@ void update_traveling(S_func_81905FD0_1 *effect, S_func_81905FD0_2 *motion, S_fu
         effect->phase.u16++;
 
     case 1:
-        result = get_sprite_attachment_vector(((S_func_81905FD0_3 *)owner_object->sprite)->source,
+        result = get_sprite_attachment_vector(owner_object->sprite->source,
                                owner_object->sprite,
                                (Vec3 *)scratch, 0);
         if (result == 0) {
-            if ((((S_func_81905FD0_3 *)owner_object->sprite)->flags & 0x8000) == 0) {
+            if ((owner_object->sprite->flags & 0x8000) == 0) {
                 return;
             }
         }
@@ -1027,7 +1027,7 @@ void update_traveling(S_func_81905FD0_1 *effect, S_func_81905FD0_2 *motion, S_fu
             motion->y.u16_06.unk_06 = owner_motion->y.u16_06.unk_06;
             owner_height = owner_motion->z.u16_0A.unk_0A;
             motion->z.u16_0A.unk_0A = owner_height;
-            if ((((S_func_81905FD0_3 *)owner_object->sprite)->flags & 0x8000) == 0) {
+            if ((owner_object->sprite->flags & 0x8000) == 0) {
                 motion->x.u16_02.unk_02 += ((S_func_81905FD0_8 *)scratch)->unk_00;
                 motion->y.u16_06.unk_06 += ((S_func_81905FD0_8 *)scratch)->unk_02;
                 motion->z.u16_0A.unk_0A = motion->z.u16_0A.unk_0A + ((S_func_81905FD0_8 *)scratch)->unk_04;
@@ -1052,7 +1052,7 @@ void update_traveling(S_func_81905FD0_1 *effect, S_func_81905FD0_2 *motion, S_fu
         {
             S_func_81905FD0_6 *target = owner->target;
             if (target != 0) {
-                S_func_81905FD0_3 *owner_info;
+                SpriteFrameState *owner_info;
                 s32 tile_distance;
 
                 s32 target_height;
@@ -1542,9 +1542,9 @@ update_coords:
         target_render->flags &= 0xF7FF;
         ((S_func_81905FD0_6 *)owner->target)->property_flags &= 0xFFEFFFFF;
         ((S_func_81905FD0_6 *)owner->target)->state_flags &= 0xEFFFFFFF;
-        target_render->color.u8_0E.unk_0E = 128;
-        target_render->color.u8_0D.unk_0D = 128;
-        target_render->color.u8 = 128;
+        target_render->color.c.b = 128;
+        target_render->color.c.g = 128;
+        target_render->color.c.r = 128;
         effect->phase.u16 = 8;
         effect->timer.u16 = 30;
         return;

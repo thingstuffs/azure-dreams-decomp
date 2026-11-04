@@ -69,7 +69,7 @@ void advance_action_setup_delay(ActorRecord *body, ObjectPosition *motion, Sprit
         if (actor->pending_turn_updates == 0) {
             actor->action_flags &= 0x7FFF;
         } else {
-            actor_update_node_cursor = (u8 *)actor - 0x20;
+            actor_update_node_cursor = NODE_HEADER(actor);
         }
 
         return;

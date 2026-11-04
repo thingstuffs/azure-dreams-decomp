@@ -1,3 +1,4 @@
+#include "shared/sprite_frame_state.h"
 #ifndef TOWN_MENU_H
 #define TOWN_MENU_H
 struct SpriteFrameState;
@@ -21,7 +22,7 @@ s32 load_menu_display_resource(struct MenuResourceOwner *, s32);
 struct func_8009F880_S_8009CFE0_0;
 s32 classify_object_against_bounds(struct func_8009F880_S_8009CFE0_0 *object, void *position_data);
 
-void initialize_object_transform_and_state(s32 slot_id, void *object, s32 object_id);
+void initialize_object_transform_and_state(s32 slot_id, SpriteFrameState *object, s32 object_id);
 
 void create_indexed_effect_object(s32 index, s32 kind);
 
@@ -48,8 +49,8 @@ s16 *get_cached_catalog_glyph(s16 char_code);
 void initialize_menu_overlay_objects(u8 *owner, s32 value);
 void initialize_randomized_scale_timer(TownObjectRecord *object);
 u8 is_catalog_entry_available(s32 index);
-void no_op_callback_a(void);
-s32 store_record_value_and_table_lookup(void);
+void no_op_callback_a(void *unused_ptr, s32 unused_state_id, s32 unused_state_arg);
+s32 store_record_value_and_table_lookup(void *unused_arg0, void *unused_arg1, void *unused_arg2, void *unused_arg3);
 
 void accumulate_effect_step(void *updateState, s32 unused1, s32 unused2, void *accumulatorState);
 void draw_random_tinted_quad_pair(u8 *effect);

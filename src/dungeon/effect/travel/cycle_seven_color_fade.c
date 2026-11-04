@@ -885,7 +885,7 @@ void advance_movement_toward_reachable_tile(void *state, ObjectPosition *motion_
     void *owner;
     B28_818B7F38_S_80025738_8 *target;
     B28_818B7F38_S_80025738_6 *source_position;
-    B28_818B7F38_S_80025738_10 *tile_data;
+    SpriteFrameState *tile_data;
 
     phase = (s32) ((B28_818B7F38_S_80025738_0 *)state)->unk_0A;
     owner = ((B28_818B7F38_S_80025738_0 *)state)->unk_00;
@@ -904,7 +904,7 @@ void advance_movement_toward_reachable_tile(void *state, ObjectPosition *motion_
             motion_in->x.unsigned_parts.integer = (u16) source_position->unk_02;
             motion_in->y.unsigned_parts.integer = (u16) source_position->unk_06;
         } else {
-            if (!(((B28_818B7F38_S_80025738_13 *)(source_header->unk_0C))->unk_14 & 0x8000)) {
+            if (!(source_header->unk_0C->flags & 0x8000)) {
                 break;
             }
             source_position = source_header->unk_08;
@@ -913,7 +913,7 @@ void advance_movement_toward_reachable_tile(void *state, ObjectPosition *motion_
         }
         source_z = source_position->unk_0A;
         motion_in->z.unsigned_parts.integer = source_z;
-        if (!(((B28_818B7F38_S_80025738_13 *)(source_header->unk_0C))->unk_14 & 0x8000)) {
+        if (!(source_header->unk_0C->flags & 0x8000)) {
             motion_in->x.unsigned_parts.integer = (u16) (motion_in->x.unsigned_parts.integer
                 + frame.offset.distance[0]);
             motion_in->y.unsigned_parts.integer = (u16) (motion_in->y.unsigned_parts.integer
@@ -978,8 +978,8 @@ void advance_movement_toward_reachable_tile(void *state, ObjectPosition *motion_
         } else {
             index = 0;
             tile_data = source_header->unk_0C;
-            tile_x = tile_data->unk_24;
-            tile_y = tile_data->unk_25;
+            tile_x = tile_data->tile_x;
+            tile_y = tile_data->tile_y;
             last_tile_x = tile_x;
             saved_y = tile_y;
             while (index < 8) {

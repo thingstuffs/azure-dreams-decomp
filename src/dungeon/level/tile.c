@@ -930,7 +930,7 @@ typedef struct S_8009AF18_4 {
 } S_8009AF18_4;   /* ((S_8009AF18_3 *)(*(void **)(page + 0x3D7C)))->unk_124 in measure_directional_stopping_distance */
 
 /* Checks successive tiles in a direction and returns the stopping distance. */
-s32 measure_directional_stopping_distance(u32 direction_flags, PositionHeightView *origin, S_8009AF18_0 *start_tile, u16 max_steps) {
+s32 measure_directional_stopping_distance(u32 direction_flags, ObjectPosition *origin, S_8009AF18_0 *start_tile, u16 max_steps) {
     u16 tile_flags;
     s32 direction_index;
     s32 direction;
@@ -981,7 +981,7 @@ s32 measure_directional_stopping_distance(u32 direction_flags, PositionHeightVie
                 }
                 world_x += ((u16 *)direction_x_offsets)[direction];
                 world_y += ((u16 *)direction_y_offsets)[direction];
-                height_result = map_height_short(world_x & 0xFFFF, world_y & 0xFFFF, origin->height);
+                height_result = map_height_short(world_x & 0xFFFF, world_y & 0xFFFF, origin->z.w.i);
                 if (height_result >= 0x200) {
                     return (s16) (step - 1);
                 }

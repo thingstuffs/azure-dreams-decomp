@@ -16,7 +16,6 @@ void initialize_resource_selector_six(void) {
 #include "common.h"
 #include "m2c_compat.h"
 
-s32 initialize_mogura_minigame(); /* extern */
 void initialize_resource_selector_six(void);                            /* extern */
 
 /* start_mogura_func: initialize the mogura activity and reset its four control values. */

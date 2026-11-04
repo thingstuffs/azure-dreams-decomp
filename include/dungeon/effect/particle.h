@@ -59,7 +59,7 @@ typedef struct TwoRowObjectGroupBody {
 void create_two_row_object_group(void *payload, s16 value_scale);
 void update_rotating_effect_vertices(TwoRowObjectGroupBody *effect_data);
 s32 draw_linked_textured_quads(TwoRowObjectGroupBody *first_quad);
-typedef struct EmitAttachedDirectionalParticleChainBody {
+typedef struct DirectionalParticleChainBody {
     s16 unk_00;
     union { s16 s; u16 u; } unk_02;
     u8 pad_04[0x4];
@@ -75,8 +75,8 @@ typedef struct EmitAttachedDirectionalParticleChainBody {
     s32 unk_58;
     s32 unk_5C;
     s32 unk_60;
-} EmitAttachedDirectionalParticleChainBody;
-void update_spark_emitter_effect(EmitAttachedDirectionalParticleChainBody *effect, ObjectPosition *position);
+} DirectionalParticleChainBody;
+void update_spark_emitter_effect(DirectionalParticleChainBody *effect, ObjectPosition *position);
 void update_timed_effect_animation(void *effect, ObjectPosition *motion, SpriteFrameState *visual);
 
 struct DirectionalEffectWork;
@@ -98,7 +98,7 @@ void update_reverse_rotating_clipped_sprite(RotatingClippedSpriteBody *effect, O
 void update_staged_particle_emitter(void *effect_data);
 
 struct DirectionalEffectWork;
-typedef struct UpdateDirectionalActorEffectBody {
+typedef struct DirectionalActorEffectBody {
     struct DirectionalEffectWork *owner;
     u8 pad_04[0x8];
     union { s16 s; u16 u; } x;
@@ -113,7 +113,7 @@ typedef struct UpdateDirectionalActorEffectBody {
     union { s16 s; u16 u; } z_offset;
     union { s16 s; u16 u; } state;
     u16 timer;
-} UpdateDirectionalActorEffectBody;
+} DirectionalActorEffectBody;
 
 /* Countdown, owning slot, and source record for a linked display sprite. */
 typedef struct FreeSlotDisplayEffectBody {
@@ -130,7 +130,7 @@ typedef struct FreeSlotDisplayEffectBody {
 } FreeSlotDisplayEffectBody;
 
 /* Timer, slot flags, source owner, and copied sprite data for the high display updater. */
-typedef struct AdvanceObjectSpawningDisplaysHighBody {
+typedef struct DisplaySpawnerEffectBody {
     u8 pad_00[0x2A];
     s16 timer;
     u8 pad_2C[0x1A];
@@ -139,10 +139,10 @@ typedef struct AdvanceObjectSpawningDisplaysHighBody {
     void *source_owner;
     u8 pad_64[0xE];
     u8 initial_sprite_data[0xC];
-} AdvanceObjectSpawningDisplaysHighBody;
+} DisplaySpawnerEffectBody;
 
 /* Shared countdown, phase, position toggle, and linked child records for staged effects. */
-typedef struct UpdateEffectParticlesAndCleanupBody {
+typedef struct ParticleCleanupEffectBody {
     union { s16 s; u16 u; } unk_00;
     union { u16 s; s16 u; } unk_02;
     u8 pad_04[0x6];
@@ -155,7 +155,7 @@ typedef struct UpdateEffectParticlesAndCleanupBody {
     void *unk_38;
     void *unk_3C;
     void *unk_40;
-} UpdateEffectParticlesAndCleanupBody;
+} ParticleCleanupEffectBody;
 
 /* Indexed parent state and segment shape used by the animated ribbon updater. */
 typedef struct EightPartTexturedRibbonBody {
@@ -213,7 +213,7 @@ void transform_rotated_vertices(void *transform_data);
 
 struct ObjectNodeHeader;
 struct ParticleCleanupWork;
-void create_forward_layered_sprite_pulse(void);
+void create_forward_layered_sprite_pulse(s32 unused_phase, void *unused_target_state);
 void create_layered_sprite_pulse(EntityRec *origin);
 void create_random_velocity_child_effect(struct ObjectNodeHeader *parent, s32 state_value, s16 pair_value, s16 offset_x, s16 offset_y, s16 offset_z);
 void create_short_lived_child_particle(struct ObjectNodeHeader *source, s16 effect_param, s32 state_value, s16 offset_x, s16 offset_y, s16 offset_z, s32 motion_z);

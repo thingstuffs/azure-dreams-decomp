@@ -6,12 +6,6 @@
 
    /* the 0x2 bytes before arg0 in update_derived_value_and_flag, addressed as arg0[-1] */
 
-typedef struct S_80021028_0 {
-    u8 pad_00[0x4];
-    void * unk_04;
-    u8 pad_08[0x6];
-    s16 unk_0E;
-} S_80021028_0;   /* arg0 in update_derived_value_and_flag */
 
 typedef struct S_80021028_1 {
     u8 pad_00[0x4];
@@ -22,12 +16,12 @@ typedef struct S_80021028_1 {
 
 /* Updates the object's derived value and propagates the linked data's 0x8000 flag. */
 void update_derived_value_and_flag(void *object_arg) {
-    S_80021028_0 *object = object_arg;
+    SceneTileObject *object = object_arg;
     ObjectStatusPrefix16 *object_view = object_arg;
     S_80021028_1 *objectData;
 
-    objectData = object->unk_04;
-    object->unk_0E = (s16) ((objectData->unk_06 * 0xC) + 0x1E);
+    objectData = object->linked;
+    object->y.s = (s16) ((objectData->unk_06 * 0xC) + 0x1E);
     if (objectData->unk_04 & 0x8000) {
         object_view[-1].flags = (u16) (object_view[-1].flags | 0x8000);
         object_flag_block.flags = (s32) (object_flag_block.flags | OBJECT_REMOVE_PENDING);

@@ -85,7 +85,7 @@ void create_knockback_travel_object(ActorRecord *owner_data, ObjectPosition *pos
         target_y = source_arg->tile_y + ((u16 *)dir_step_y)[direction];
     }
 
-    object = allocate_list_node(0x100, &(((ObjectNodeHeader *)owner_data) - 1)->next);
+    object = allocate_list_node(0x100, &NODE_HEADER(owner_data)->next);
     if (object == 0) {
         return;
     }

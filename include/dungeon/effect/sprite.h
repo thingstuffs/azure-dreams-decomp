@@ -33,7 +33,7 @@ typedef struct AnchoredDirectionalObjectBody {
 } AnchoredDirectionalObjectBody;
 
 /* Orbit and anchor fields shared by the jittered point sequence callbacks. */
-typedef struct RunJitteredPointSequenceBody {
+typedef struct JitteredPointSequenceBody {
     void *unk_00;
     u8 pad_04[0x8];
     u16 unk_0C;
@@ -43,7 +43,7 @@ typedef struct RunJitteredPointSequenceBody {
     u16 unk_48;
     u8 pad_4A[0x2];
     union { s16 s; u16 u; } unk_4C;
-} RunJitteredPointSequenceBody;
+} JitteredPointSequenceBody;
 
 /* Body shared by the ramping-color updater and its four-quad draw callback. */
 typedef struct OffsetColorEffectBody {
@@ -97,7 +97,7 @@ typedef struct DirectionalGridEffectBody {
 } DirectionalGridEffectBody;
 
 /* Position, angle, velocity, and fade phase for radial spiral particles. */
-typedef struct UpdateRadialEffectBody {
+typedef struct RadialEffectBody {
     u8 pad_00[0xC];
     u16 unk_0C;
     u16 unk_0E;
@@ -112,7 +112,7 @@ typedef struct UpdateRadialEffectBody {
     s32 unk_34;
     u8 pad_38[0x14];
     union { s16 s; u16 u; } unk_4C;
-} UpdateRadialEffectBody;
+} RadialEffectBody;
 
 /* Rotating sprite state initialized by create_scaled_rotation_effect. */
 typedef struct ScaledRotationEffectBody {
@@ -126,7 +126,7 @@ typedef struct ScaledRotationEffectBody {
 
 /* Body used by the ring-effect update callback. Runtime observations place
  * this object through +0x102; the callback's named fields occupy its prefix. */
-typedef struct UpdateFollowingColorBlendEffectBody {
+typedef struct FollowingColorBlendEffectBody {
     u8 pad_00[0x14];
     s16 unk_14;
     s16 unk_16;
@@ -144,7 +144,7 @@ typedef struct UpdateFollowingColorBlendEffectBody {
     u8 pad_3A[0x2];
     s16 unk_3C;
     u8 pad_3E[0xC6];
-} UpdateFollowingColorBlendEffectBody;
+} FollowingColorBlendEffectBody;
 
 struct S_800244BC_2;
 s32 ground_items_lack_special_pair(void);
@@ -164,7 +164,7 @@ void add_hex_200_s_field_64_runs_callbacks_mode_n_2_check_returns_zero(ActorReco
 
 
 void advance_damped_animated_sprite(void *entry, ObjectPosition *motion, SpriteFrameState *object);
-void update_spiral_effect(UpdateRadialEffectBody *effect, ObjectPosition *motion, SpriteFrameState *sprite);
+void update_spiral_effect(RadialEffectBody *effect, ObjectPosition *motion, SpriteFrameState *sprite);
 
 /* Callback entry points. */
 void update_linked_monster_effect(void *effect_in, ObjectPosition *motion_in, void *sprite_in);
@@ -193,13 +193,13 @@ void update_randomized_intermediate_points(void *self);
 s32 build_and_enqueue_interpolated_depth_sorted_shaded_lines_linked_list(void *first_owner, void *first_vertices, void *first_line);
 
 struct Row_818A4E74_S_func_818A4E74_1;
-s32 draw_animated_shaded_lines(void *effect_data);
+s32 draw_animated_shaded_lines(void *effect_data, void *unused_render_data);
 s32 draw_linked_shaded_tiles(RandomOffsetEffectObjectBody *first_point, void *first_position);
 void randomize_counted_sprite_angle(void **object_ref, s32 unused, struct Row_818A4E74_S_func_818A4E74_1 *target);
 
-struct UpdateEffectParticlesAndCleanupBody;
-void advance_timed_visual_effect(struct UpdateEffectParticlesAndCleanupBody *state, void *position_arg, void *visual_arg);
-void update_tiled_fade_effect(struct UpdateEffectParticlesAndCleanupBody *effect, void *offset_state_arg, void *render_state);
+struct ParticleCleanupEffectBody;
+void advance_timed_visual_effect(struct ParticleCleanupEffectBody *state, void *position_arg, void *visual_arg);
+void update_tiled_fade_effect(struct ParticleCleanupEffectBody *effect, void *offset_state_arg, void *render_state);
 
 void *create_linked_object_chain(s16 x, s16 y, s16 z, s16 angle);
 void create_random_offset_sprite_effect(s32 effect_param, ObjectPosition *source_pos);

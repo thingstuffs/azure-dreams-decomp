@@ -58,7 +58,7 @@ s32 update_scene_flag_5_c_4(void);
 #include "records/Rec_func_8008F2D4_arg1.h"
 struct ScriptContext;
 struct ScriptEntry8;
-s32 get_2_flag_flag(void);
+s32 get_2_flag_flag(s32 unused_captured_value);
 s32 query_referenced_flag_for_table_entry(struct ScriptEntry8 *entry_table, struct ScriptContext *context, s32 entry_key);
 void set_the_control_flag_initializes_cleared_trailing_field(Rec_func_8008F2D4_arg0 *control, Rec_func_8008F2D4_arg1 *record, s32 initial_value);
 void set_the_flag_initializes_state(Rec_func_8008F2D4_arg0 *record, Rec_func_8008F2D4_arg1 *state, s32 value);

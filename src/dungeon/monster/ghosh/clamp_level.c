@@ -230,7 +230,7 @@ void update_actor_animation_movement_and_terrain(ActorRecord *entity, ObjectPosi
         do {
             linked_entry = ((ActorRecord *)slot_cursor)->unk_AC.address;
             if (linked_entry != 0) {
-                linked_sprite = (SpriteFrameState *)(linked_entry - 1)->sprite;
+                linked_sprite = (linked_entry - 1)->sprite;
                 linked_sprite->flags = (u16) (linked_sprite->flags & 0xFFBF);
             }
             actor_index -= 1;

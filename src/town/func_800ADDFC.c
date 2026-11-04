@@ -1,9 +1,10 @@
+#include "town_callbacks_api.h"
 /* Recovered retail twin; complete-function proof is in the lane receipt. */
 #include "common.h"
 #include "town/person.h"
 #include "town/person/motion.h"
 
-typedef struct {
+typedef struct town_timed_transition_state {
     u8 pad_00[0x50];
     void *state;
     u8 pad_54[0x18];

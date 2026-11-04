@@ -263,7 +263,7 @@ typedef struct ovl_1930844_81912154_S_80025954_2 {
 typedef struct ovl_1930844_81912154_S_80025954_3 {
     u8 pad_00[0x8];
     void * unk_08;
-    void * unk_0C;
+    SpriteFrameState *unk_0C;
 } ovl_1930844_81912154_S_80025954_3;
 typedef struct ovl_1930844_81912154_S_80025954_4 {
     u8 pad_00[0x8];

@@ -9,7 +9,7 @@
 #include "town/person/state.h"
 #include "town/person/object.h"
 /* Calls the handler when either monitored status flag is set. */
-void dispatch_status_triggered_update(void *handler_arg, void *context, SpriteFlagsView *status) {
+void dispatch_status_triggered_update(TownObjectRecord *handler_arg, void *context, SpriteFlagsView *status) {
     if (status->flags & 0x6000) {
         apply_object_setup_and_update(handler_arg, context, status);
     }

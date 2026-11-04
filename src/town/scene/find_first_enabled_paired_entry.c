@@ -1,9 +1,7 @@
 #include "common.h"
 #include "town/scene.h"
+#include "town/player/state.h"
 
-
-extern void set_script_flag_bit(s32 bit_index);
-extern s32 get_script_flag_mask(s32 flagIndex);
 extern u8 town_selection_records[96];
 
 typedef struct S_8001A360_0 {

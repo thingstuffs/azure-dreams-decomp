@@ -347,13 +347,14 @@ def name_dependency(output, names):
 
 
 @contextmanager
-def name_trace(path, config_tables=()):
+def name_trace(path, config_tables=(), merge=False):
     trace = Path(path).with_name(Path(path).name + '.trace')
     trace.unlink(missing_ok=True)
-    keys = ('CCPROC_NAMES_TRACE', 'CCPROC_CONFIG_ROOT', 'CCPROC_CONFIG_TABLES')
+    keys = ('CCPROC_NAMES_TRACE', 'CCPROC_CONFIG_ROOT', 'CCPROC_CONFIG_TABLES', 'CCPROC_NAMES_MERGE')
     previous = {k: os.environ.pop(k, None) for k in keys}
     os.environ.update(CCPROC_NAMES_TRACE=str(trace), CCPROC_CONFIG_ROOT=str(ROOT),
-                      CCPROC_CONFIG_TABLES=json.dumps(list(config_tables)))
+                      CCPROC_CONFIG_TABLES=json.dumps(list(config_tables)),
+                      CCPROC_NAMES_MERGE='1' if merge else '0')
     try:
         yield str(trace)
         value = name_inputs.verify(trace, name_inputs.table(ROOT/'config/names.tsv'), ROOT)
@@ -379,7 +380,7 @@ def slus_compile_uncached(path):
     env.update({k: str(ROOT/v) for k, v in spec.get('config_tables', {}).items()})
     if spec.get('name_input'):
         with name_trace(ROOT/spec['name_input'], spec['config_tables'].values()) as trace:
-            env.update({key: os.environ[key] for key in ('CCPROC_CONFIG_ROOT', 'CCPROC_CONFIG_TABLES')})
+            env.update({key: os.environ[key] for key in ('CCPROC_CONFIG_ROOT', 'CCPROC_CONFIG_TABLES', 'CCPROC_NAMES_MERGE')})
             env['CCPROC_NAMES_TRACE'] = trace
             run(['bash', '-c', spec['command']], cwd=ROOT/'build_slus', env=env)
     else:
@@ -1219,7 +1220,7 @@ def compile_uncached(path):
     env = dict(os.environ, TMPDIR=str(STATE/'tmp'))
     (STATE/'tmp').mkdir(exist_ok=True)
     for key in ('AZURE_MASPSX', 'AZURE_MASPSX_COMPANION', 'MASPSX_NORETURN_FILE', 'MASPSX_SIBCALL_FILE',
-                'CCPROC_CONFIG_ROOT', 'CCPROC_CONFIG_TABLES'):
+                'CCPROC_CONFIG_ROOT', 'CCPROC_CONFIG_TABLES', 'CCPROC_NAMES_MERGE'):
         env.pop(key, None)
     env.update({k: str(ROOT/v) for k, v in spec['env'].items()})
     temporary = target.with_suffix('.tmp.o')
@@ -1238,8 +1239,9 @@ def compile_uncached(path):
             write(live_path, '\n'.join(sorted(names)) + '\n')
             env['MASPSX_NORETURN_FILE'] = str(live_path)
     if spec.get('name_input'):
-        with name_trace(ROOT/spec['name_input']) as trace:
+        with name_trace(ROOT/spec['name_input'], merge='module' in spec) as trace:
             env['CCPROC_NAMES_TRACE'] = trace
+            env['CCPROC_NAMES_MERGE'] = os.environ['CCPROC_NAMES_MERGE']
             if spec.get('assembler') == 'genuine_aspsx_verified':
                 build_native(spec, temporary)
             else:
@@ -1259,6 +1261,11 @@ def compile_uncached(path):
         actual = [(s['name'], s['size']) for s in M.sections(temporary) if s['flags'] & 2 and s['size'] and s['name'] not in M.META]
         if actual != expected:
             raise ValueError('native payload differs: ' + m['key'])
+    if spec.get('name_input') and 'module' in spec:
+        witness_path = ROOT/spec['name_input']
+        value = name_inputs.read(witness_path)
+        value['reverse'] = name_inputs.project_reverse(name_inputs.reverse_symbols(spec['module']), ROOT)
+        name_inputs.write(witness_path, value)
     # The successful compile publishes its witness after the assembler exits.
     # Its product must acknowledge that dependency's publication time.
     temporary.touch()

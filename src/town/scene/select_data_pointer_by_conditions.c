@@ -3,6 +3,7 @@
 #include "common.h"
 #include "shared/record_ptrs.h"
 #include "town/scene.h"
+#include "town/player/state.h"
 
 typedef struct {
     u16 values[4];
@@ -13,7 +14,6 @@ extern s32 D_80017530;
 
 extern s32 D_80017598;
 extern s32 D_800175A4;
-extern s32 get_script_flag_mask(s32 flagIndex);
 
 /* Selects a data pointer based on queried conditions and the current state index. */
 void select_data_pointer_by_conditions(void **out_data) {

@@ -87,18 +87,18 @@ void update_motion_toward_target_resolves_entity_countdown_expires(void *entity_
 void initialize_entity_flags_transform_type_dependent_variant(void *entity, void *state, void *transform, s32 unused)
 {
     s32 variant_id;
-    u8 *entity_bytes = entity;
+    TownObjectRecord *entity_bytes = entity;
     *(((s8 *) state) + 0x14) = 1;
     *(((s8 *) state) + 0x15) = 1;
     *((s32 *) (((u8 *) transform) + 0xC)) = 0;
     *((s32 *) (((u8 *) transform) + 0x10)) = 0;
     *((s32 *) (((u8 *) transform) + 0x14)) = 0;
-    *((s32 *) (entity_bytes + 0xA0)) = 0xFFE00000;
+    entity_bytes->unk_A0 = 0xFFE00000;
     *((s32 *) (((u8 *) transform) + 8)) = 0xFFE00000;
-    *((u8 **) (entity_bytes + 0x50)) = D_8009EE9C;
-    *((s16 *) (entity_bytes + 0x6C)) = scale_random_to_unsigned_halfword_limit(0x1000);
+    entity_bytes->unk_50.as_pm = D_8009EE9C;
+    entity_bytes->timer.as_s16 = scale_random_to_unsigned_halfword_limit(0x1000);
     variant_id = 0x12;
-    if ((*((entity_bytes + 0x4D))) != variant_id) {
+    if (entity_bytes->unk_4D != variant_id) {
         *((s32 *) (entity + 0x60)) = 0x59;
     }
     else {

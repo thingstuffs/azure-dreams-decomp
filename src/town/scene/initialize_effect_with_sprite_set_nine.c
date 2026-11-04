@@ -10,6 +10,7 @@
 #include "town/data.h"
 #include "town/map.h"
 #include "town/map/state.h"
+#include "town/map/state_callbacks_api.h"
 
 static __inline__ EffectNode *effect_node(EffectState *state) {
     EffectPointer view;
@@ -21,7 +22,7 @@ extern u8 clipped_sprite_renderer_address[];
 extern u8 lit_mesh_renderer_address[];
 
 
-extern u8 town_child_sprite_callback_address[];
+
 extern u8 map_particle_child_update_address[];
 
 void initialize_effect_with_sprite_set_nine(EffectState *parent, ObjectPosition *position, SpriteFrameState *unused_sprite)
@@ -115,7 +116,7 @@ void initialize_effect_with_sprite_set_nine(EffectState *parent, ObjectPosition 
     } while (part_index < 4);
 
     part_index = 0;
-    sprite_callback = town_child_sprite_callback_address;
+    sprite_callback = update_inactive_object_state;
     sprite_texture = map_particle_first_sprite_entries;
     brightness = 0x80;
     do {
@@ -158,7 +159,7 @@ void initialize_effect_with_sprite_set_nine(EffectState *parent, ObjectPosition 
     parent_obj = effect_node(parent);
     obj.node = allocate_list_node(0x36, parent_obj);
     if (obj.node != 0) {
-        obj.node->callback = town_child_sprite_callback_address;
+        obj.node->callback = update_inactive_object_state;
         register_node(obj.node, clipped_sprite_renderer_address);
         parent_value = parent->context;
         entity.node = obj.node + 1;

@@ -4,6 +4,8 @@
 #include "shared/entity.h"
 #include "shared/object_node.h"
 #include "dungeon/effect.h"
+#include "dungeon/effect/mesh.h"
+#include "dungeon/effect/shade_callbacks_api.h"
 
 /* Creates an object at an offset from its parent and initializes its motion and state. */
 void create_offset_sprite_effect(ObjectNodeHeader *parent, s32 state_value, s16 x_offset, s16 y_offset, s32 z_offset,
@@ -22,7 +24,7 @@ void create_offset_sprite_effect(ObjectNodeHeader *parent, s32 state_value, s16 
 
     object = allocate_list_node(0x211, &parent->next);
     if (object != 0) {
-        object->update_callback = D_800D6804;
+        object->update_callback = advance_decaying_effect_state;
         (object->position)->x.w.i =
             (u16)parent->position->x.w.i;
         (object->position)->y.w.i =
@@ -47,7 +49,7 @@ void create_offset_sprite_effect(ObjectNodeHeader *parent, s32 state_value, s16 
             (s32)(0xFFFA0000 - scaled_motion);
         object_state->unk_32 = 0x14;
         object_state->unk_34 = 0x14;
-        register_node(object, D_800D68F4);
+        register_node(object, queue_projected_mesh_points_and_texture_packets);
         ((S_800D6AD4_0 *)object)->unk_20 = state_value;
         object_state->unk_08 = state_value;
     }

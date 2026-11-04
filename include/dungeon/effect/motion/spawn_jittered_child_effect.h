@@ -52,6 +52,6 @@ void *func_8003FD64(s32, void *);
 s32 rand(void);
 void register_node(void *, void *);
 void func_8004491C(void *, void *);
-extern u8 D_800241B0[];
-extern u8 D_80024400[];
+
+
 #endif

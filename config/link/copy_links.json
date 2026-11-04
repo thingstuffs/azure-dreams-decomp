@@ -226,6 +226,22 @@
   "dungeon/func_81327710": {
    "func_800F6D28": "func_8016A928"
   },
+  "dungeon/func_818ADA2C": {
+   "func_80025340": "func_80024ED0"
+  },
+  "dungeon/func_818ED6A4": {
+   "func_80024EDC": "func_80024C54"
+  },
+  "dungeon/func_818ED6D4": {
+   "func_80024EDC": "func_80024C54"
+  },
+  "dungeon/func_818ED7A0": {
+   "func_80024EDC": "func_80024C54"
+  },
+  "dungeon/func_818FECCC": {
+   "func_80024EDC": "func_800241B0",
+   "func_8002515C": "func_80024400"
+  },
   "town/func_8009EAAC": {
    "func_7FFFE4E4": "func_8009BC44"
   },

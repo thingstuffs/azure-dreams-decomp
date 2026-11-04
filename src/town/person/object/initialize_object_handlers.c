@@ -2,9 +2,10 @@
 #include "town/person/object_setup.h"
 #include "shared/object_index_slots.h"
 #include "town/person/object.h"
+#include "town/person_callbacks_api.h"
 
 
-extern u32 person_slot_flag_handler_address[4];
+
 typedef struct {
     u8 pad0;
     s8 val;
@@ -16,7 +17,7 @@ typedef struct {
 void initialize_object_handlers(TownObjectRecord *object, void *unused_context, void *unused_setup) {
     object->unk_50.as_pm = call_object_callback;
     object->unk_92 = 1;
-    object->handler = &person_slot_flag_handler_address[0];
+    object->handler = dispatch_record_handler;
     object->unk_15 = 0;
     object_index_slots[object->slot].unk_01 = 0;
 }

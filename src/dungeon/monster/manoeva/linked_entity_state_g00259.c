@@ -63,12 +63,12 @@ void transfer_linked_object_state(ActorRecord *owner, ObjectPosition *object_id,
         dest_state->flags14 = 0;
         dest_state->flags1C = 0;
         copy_entity_record(dest_state, linked_state);
-        (*(u32 *)&dest_state->flags14) &= 0xDFFFFFFF;
+        dest_state->flags14 = (u32)((u32)(dest_state->flags14) & (0xDFFFFFFF));
         call_result = get_entity_effect_value(dest_state, STATUS_SLEEP);
         if ((call_result << 16) != 0) {
-            (*(u32 *)&dest_state->flags1C) |= 0x200;
+            dest_state->flags1C = (u32)((u32)(dest_state->flags1C) | (0x200));
         } else {
-            (*(u32 *)&dest_state->flags1C) &= ~0x200;
+            dest_state->flags1C = (u32)((u32)(dest_state->flags1C) & (~0x200));
         }
 
         dest_state->species = 0x1E;

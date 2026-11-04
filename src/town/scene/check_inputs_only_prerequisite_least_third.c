@@ -1,7 +1,6 @@
 #include "common.h"
-
-extern s32 apply_entry_position(void *, void *, s32, s32);
-extern s32 resolve_entry_flag(void *, s32, s32);
+#include "town/scene/flags.h"
+#include "town/scene/motion.h"
 
 extern u8 D_80018998[];
 extern u8 D_80019104[];

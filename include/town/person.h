@@ -162,4 +162,6 @@ struct S_800C5D38_1;
 void install_actor_response_tables(struct S_800C5D38_1 *actor, ObjectPosition *context, SpriteFlagsView *input);
 void update_person_effect_fade(void *effect_record, ObjectPosition *motion, SpriteFrameState *primitive);
 
+void clear_mother_event_record_field(TownObjectRecord *record, void *unused_position, s32 unused_update_arg);
+
 #endif

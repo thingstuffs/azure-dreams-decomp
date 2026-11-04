@@ -1,17 +1,18 @@
+#include "town/person_callbacks_api.h"
 #include "script_symbols.h"
 #include "common.h"
 #include "engine/object.h"
 
 extern u8 D_800CC524;
 
-typedef struct {
+typedef struct town_gray_fade_state {
     u8 unk0[0x54];
     void *unk54;
     u8 unk58[0x6C - 0x58];
     u16 unk6C;
 } Struct800CED50Arg0;
 
-typedef struct {
+typedef struct town_gray_fade_color {
     u8 unk0[0xC];
     u8 unkC;
     u8 unkD;

@@ -19,6 +19,6 @@ typedef struct ViperTimedEffectNode {
     ViperTimedEffectBody body;
 } ViperTimedEffectNode;
 
-void update_timed_effect_size_and_position(ViperTimedEffectBody *effect, ObjectPosition *position, Rec_func_800AA258_arg2 *visual);
+void update_timed_effect_size_and_position(ViperTimedEffectBody *effect, ObjectPosition *position, Rec_func_800AA258_arg2 *visual, void *unused_actor);
 
 #endif

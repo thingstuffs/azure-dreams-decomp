@@ -54,7 +54,7 @@ s32 try_actor_attack(ActorRecord *action_state, ObjectPosition *action_id, Sprit
         return -1;
     }
 
-    apply_camera_offset_and_select_target((u8 *)actor - 0x20, action_id, 8, 0x300);
+    apply_camera_offset_and_select_target(NODE_HEADER(actor), action_id, 8, 0x300);
 
     if ((try_claim_dungeon_action_slot(actor) << 16) == 0) {
         action_state->action_id.u = 0x11;

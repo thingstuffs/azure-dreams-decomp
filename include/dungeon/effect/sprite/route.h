@@ -18,18 +18,18 @@ struct B32_818CF0E8_S_818CF0E8_3;
 #include "shared/slus_callbacks.h"
 #include "m2c_compat.h"
 #include "shared/object_node.h"
-typedef struct UpdateChasingStarEffectBody {
+typedef struct ChasingStarEffectBody {
     u8 pad_00[2];
     u16 remaining;
-} UpdateChasingStarEffectBody;
-typedef struct MoveAndGrowTimedSpriteBody {
+} ChasingStarEffectBody;
+typedef struct GrowingTimedSpriteBody {
     u8 pad_00[2];
     u16 remaining;
     u8 pad_04[0x48];
     s32 velocity_x;
     s32 velocity_y;
     s32 velocity_z;
-} MoveAndGrowTimedSpriteBody;
+} GrowingTimedSpriteBody;
 typedef struct {
     u16 unk0;
     u16 x;
@@ -334,8 +334,8 @@ typedef struct { u32 addr:24; u32 length:8; } B32_818CE83C_PacketTag;
 s32 project_linked_shaded_points(JitteredTerrainSeekingPointBody *start_node, void *start_coords);
 void advance_jittered_effect_toward_terrain(JitteredTerrainSeekingPointBody *object_data, void *source_data);
 void create_jittered_terrain_seeking_point( void *source, s16 field_34, s32 field_28, s16 field_52, s16 offset_x, s16 offset_y, s16 offset_z);
-void move_and_grow_timed_sprite(MoveAndGrowTimedSpriteBody *state, void *position, SpriteFrameState *object);
-void update_actor_effect_sequence(UpdateChasingStarEffectBody *record);
+void move_and_grow_timed_sprite(GrowingTimedSpriteBody *state, void *position, SpriteFrameState *object);
+void update_actor_effect_sequence(ChasingStarEffectBody *record);
 void advance_damped_ground_sliding_sprite(void *state, B32_818CEDC8_S_818CEDC8_0 *position, SpriteFrameState *sprite);
 void update_chasing_star_effect(void *entity, ObjectPosition *pos, B32_818CF0E8_S_818CF0E8_3 *gfx);
 void follow_entity_effect_and_cleanup(B32_818CFB74_State *state, B32_818CFB74_Vec12 *position, B32_818CFB74_Graphic *graphic);

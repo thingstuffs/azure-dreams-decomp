@@ -42,7 +42,7 @@ typedef struct B31_818C8FD0_S_func_818C8FD0_2 {
 typedef struct B31_818C8FD0_S_func_818C8FD0_3 {
     u8 pad_00[8];
     void *unk_08;
-    void *unk_0C;
+    SpriteFrameState *unk_0C;
     void *unk_10;
     u8 pad_14[0xA];
     u16 unk_1E;

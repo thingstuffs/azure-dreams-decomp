@@ -2,9 +2,10 @@
 #include "shared/game_work.h"
 #include "town/map/state.h"
 #include "town/map.h"
+#include "town/map/object_callbacks_api.h"
 
 
-extern s32 map_fallback_handler_address;
+
 
 /* Initialize paired state values and install the two callbacks. */
 void initialize_paired_state_callbacks(void *state) {
@@ -22,6 +23,6 @@ void initialize_paired_state_callbacks(void *state) {
     g_game_work.view.view_offset.parts.view_offset_z = 0x400;
     *(s16 *) ((u8 *) state + 4) = 0x400;
     *(s16 *) ((u8 *) state + 0x14) = 0x400;
-    *(void **) ((u8 *) state + 0x1C) = &map_fallback_handler_address;
+    *(void **) ((u8 *) state + 0x1C) = select_title_object_handler;
     *(void **) ((u8 *) state + 0x20) = update_current_and_saved_coordinates;
 }

@@ -53,9 +53,9 @@ void set_camera_chase_data(TownObjectRecord *object, ObjectPosition *chase_data,
  * Clears the object-index slot selected by the word at offset 0x60, then runs
  * apply_object_setup_and_update.
  */
-void clear_object_slot_table_run(void *obj, void *param_a, void *param_b)
+void clear_object_slot_table_run(TownObjectRecord *obj, void *param_a, void *param_b)
 {
-    object_index_slots[*(s32 *)((u8 *)obj + 0x60)].unk_00 = 0;
+    object_index_slots[obj->slot].unk_00 = 0;
     apply_object_setup_and_update(obj, param_a, param_b);
 }
 

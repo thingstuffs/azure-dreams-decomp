@@ -1,5 +1,6 @@
 #ifndef TOWN_PERSON_CALLBACK_OBJECT_RESET_G00688_H
 #define TOWN_PERSON_CALLBACK_OBJECT_RESET_G00688_H
+struct TownObjectRecord;
 /* G00688: shared declarations for callback object reset. */
 /* Original-file evidence (G00688): inferred (adjacency/recipe/locality), inferred-strong - CL:town/func_800CEC24. */
 
@@ -14,7 +15,7 @@ s32 create_object_from_three_values(s32 *);
 extern u8 D_800D6CA8[];
 
 /* Functions defined in this translation unit. */
-void prepare_and_forward_callback(void *object, void *context, SpriteFrameState *callback_arg);
-void reset_object_entry_and_brighten(void *object, void *draw_arg, SpriteFrameState *packet);
+void prepare_and_forward_callback(struct TownObjectRecord *object, void *context, SpriteFrameState *callback_arg);
+void reset_object_entry_and_brighten(struct TownObjectRecord *object, void *draw_arg, SpriteFrameState *packet);
 
 #endif

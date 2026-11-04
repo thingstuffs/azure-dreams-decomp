@@ -9,5 +9,5 @@
 void card_dev_update_load_slot_highlight(void *record_data) {
     card_devkit_highlight_selected_load_slot(record_data);
     reset_card_selection_state();
-    ((CardCallbackState *)((u8 *)record_data - 0x10))->callback = &D_80406DA0;
+    ((CardCallbackState *)((u8 *)record_data - 0x10))->callback = handle_menu_selection_input;
 }

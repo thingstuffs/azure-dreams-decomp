@@ -28,7 +28,7 @@ extern s32 card_boot_load_save_and_clear_marker(s32, s32, s32);
 extern void card_boot_show_copy_failure_notice(void *); /* Unprototyped: uses the value as a pointer where the definition has an integer (or the reverse) */
 extern void card_boot_refresh_slot_window(void *);
 extern void no_op_card_hook(s32);
-extern u8 D_80024F7C[];
+
 
 /* Functions defined in this translation unit. */
 void initialize_save_description(void *owner, s32 value);

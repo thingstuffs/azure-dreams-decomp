@@ -68,7 +68,7 @@ struct ObjectNodeHeader;
 struct State;
 void *create_source_linked_fading_effect(struct ObjectNodeHeader *source, s16 copy_position);
 s32 get_item_category_value(void *item_data);
-void pack_item_flag_400_bitmap(void);
+void pack_item_flag_400_bitmap(u16 unused_saved_setting);
 s32 roll_chance_and_apply_effect_four(struct State *state, s16 value, s16 flag);
 s32 roll_threshold_effect_variant_a(struct State *state_ptr, s16 limit_input, s16 byte_input);
 s32 roll_threshold_effect_variant_b(struct State *state_ptr, s16 limit_input, s16 byte_input);

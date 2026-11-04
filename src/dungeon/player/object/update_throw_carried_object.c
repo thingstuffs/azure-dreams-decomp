@@ -16,7 +16,7 @@ typedef struct {
     s16 fieldA;
 } D_80083460_t;
 
-extern s16 measure_directional_stopping_distance(s16, void *, void *, s32);
+extern s16 measure_directional_stopping_distance(s16, ObjectPosition *, void *, s32);
 
 
 extern u8 player_wait_frames[8];

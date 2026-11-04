@@ -100,7 +100,7 @@ s32 initialize_keima_interface(void) {
 
     obj = allocate_list_node(1, &scene_object_list_anchor.next);
     if (obj != 0) {
-        owner = ((u8 *)obj) + 0x20;
+        owner = NODE_BODY(obj);
         AT(s16, owner, 0x2E) = 0x2D;
         obj->update_callback = D_800218E4;
     }
@@ -235,7 +235,7 @@ s32 initialize_keima_interface(void) {
                 sprite = obj->sprite;
                 AT(s32, AT(u8 *, obj, 8), 0) = 0x10000000;
                 AT(s32, AT(u8 *, obj, 8), 4) = (index << 22) + 0x04200000;
-                child_data = ((u8 *)obj) + 0x20;
+                child_data = NODE_BODY(obj);
                 AT(s16, AT(u8 *, obj, 8), 0xA) = query_lowered_transform_position(obj->position);
                 sprite->scale_y = 0x1000;
                 sprite->scale_x = 0x1000;
@@ -259,7 +259,7 @@ s32 initialize_keima_interface(void) {
         sprite = obj->sprite;
         AT(s32, AT(u8 *, obj, 8), 0) = 0x10000000;
         AT(s32, AT(u8 *, obj, 8), 4) = 0x03E00000;
-        child_data = ((u8 *)obj) + 0x20;
+        child_data = NODE_BODY(obj);
         template_page = query_lowered_transform_position(obj->position);
         AT(s16, AT(u8 *, obj, 8), 0xA) = template_page;
         sprite->scale_y = 0x1000;

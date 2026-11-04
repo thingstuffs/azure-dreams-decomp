@@ -140,4 +140,7 @@ struct S_80097D2C_0;
 void dispatch_fallback_request(TownObjectRecord *request, void *request_data, void *request_param, s32 check_param);
 void invoke_object_state_callback(struct S_80097D2C_0 *object, void *position, void *sprite);
 
+#include "shared/sprite_frame_state.h"
+void initialize_record_and_select_active_data(void *record, ObjectPosition *position, SpriteFrameState *sprite);
+void initialize_shared_scene_data(s32 **out_ptr, void *unused_position, struct SpriteFrameState *unused_sprite);
 #endif

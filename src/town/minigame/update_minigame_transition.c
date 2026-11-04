@@ -2,15 +2,9 @@
 #include "records/Rec_func_80021E88_arg1.h"
 #include "town/menu.h"
 #include "town/minigame/object.h"
+#include "town/minigame/effect.h"
 
 
-typedef struct S_80021E88_1 {
-    u8 pad_00[0x18];
-    s16 unk_18;
-    u8 pad_1A[0x6];
-    u16 unk_20;
-    s16 unk_22;
-} S_80021E88_1;   /* object in update_minigame_transition */
 
 typedef struct S_80021E88_2 {
     u8 pad_00[0x8];
@@ -35,11 +29,11 @@ void update_minigame_transition(MinigameTransitionObject *controller, Rec_func_8
     s16 transition_pending;
     s32 transition;
     u16 flags;
-    S_80021E88_1 *object;
+    TownEffect *object;
 
     object = controller->object;
     transition = 0;
-    if (object->unk_18 == 0) {
+    if (object->state == 0) {
         controller->state = 0;
     }
     if (town_money >= 100U) {
@@ -66,12 +60,12 @@ void update_minigame_transition(MinigameTransitionObject *controller, Rec_func_8
         transition_pending = transition;
         if (transition_pending) {
             if (((S_80021E88_4 *)(controller->object))->unk_22 == 3) {
-                object->unk_20 |= 1;
+                object->flags |= 1;
                 display->unk_08 = D_80024444[controller->mode.s];
-                object->unk_22 = controller->mode.u;
+                object->phase = controller->mode.u;
             }
         }
-        if (object->unk_22 == 3) {
+        if (object->phase == 3) {
             return;
         }
         if (((S_80021E88_4 *)(controller->object))->unk_22 == controller->mode.s) {
@@ -90,9 +84,9 @@ void update_minigame_transition(MinigameTransitionObject *controller, Rec_func_8
         return;
 
     case 3:
-        flags = object->unk_20;
+        flags = object->flags;
         if (flags & 1) {
-            object->unk_20 = flags | 1;
+            object->flags = flags | 1;
             display->unk_08 = D_80024444[controller->mode.s];
         }
         return;

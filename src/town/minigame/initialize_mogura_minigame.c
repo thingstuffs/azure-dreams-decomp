@@ -51,7 +51,7 @@ extern s32 D_80024A30;
 extern s32 text_sprite_builder_address[4];
 
 /* Initializes shared state and three columns of linked display objects. */
-s32 initialize_mogura_minigame(void)
+s32 initialize_mogura_minigame(void *unused_arg0, void *unused_arg1, void *unused_arg2, void *unused_arg3)
 {
     TownRewardValues primary_values;
     TownRewardValues secondary_values;
@@ -81,7 +81,7 @@ s32 initialize_mogura_minigame(void)
 
     object = allocate_list_node(0x136, &scene_object_list_anchor.next);
     if (object != NULL) {
-        parent_state = (S_80024100_1 *)((u8 *)object + 0x20);
+        parent_state = NODE_BODY(object);
         object->update_callback = &D_800243D8;
         parent_state->unk_0A = 0x1E;
         random_value = rand();
@@ -94,7 +94,7 @@ s32 initialize_mogura_minigame(void)
     x_first = 0xD0;
     do {
         object = allocate_list_node(1, &scene_object_list_anchor.next);
-        element = (u8 *)object + 0x20;
+        element = NODE_BODY(object);
         if (object != NULL) {
             object->update_callback = update_callback;
             register_node(object, text_sprite_builder_address);
@@ -115,7 +115,7 @@ s32 initialize_mogura_minigame(void)
     x_second = 0xD8;
     do {
         object = allocate_list_node(1, &scene_object_list_anchor.next);
-        element = (u8 *)object + 0x20;
+        element = NODE_BODY(object);
         if (object != NULL) {
             object->update_callback = update_callback;
             register_node(object, text_sprite_builder_address);
@@ -150,7 +150,7 @@ s32 initialize_mogura_minigame(void)
         if (object != NULL) {
             S_80024100_2 *third_element;
             render_data = build_menu_line_tile_packets;
-            third_element = (u8 *)object + 0x20;
+            third_element = NODE_BODY(object);
             object->update_callback = update_callback;
             register_node(object, render_data);
             element_flags = third_element->unk_16.u;

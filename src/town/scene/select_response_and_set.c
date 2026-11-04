@@ -14,7 +14,7 @@ extern s32 D_8001EACC;
 extern s32 D_8001EBCA;
 
 /* Select the response and set flag 0xD80 when its prerequisite passes. */
-s32 *select_response_and_set_d_80(void) {
+s32 *select_response_and_set_d_80(s32 unused_first_value, s32 unused_second_value, s32 unused_code) {
     if (get_script_flag_mask(Ftt_pad79) == 0) {
         if (count_free_item_slots() != 0) {
             set_script_flag_bit(Ftt_pad79);

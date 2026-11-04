@@ -69,7 +69,7 @@ void apply_attack_power_and_element_effects();
 extern M2C_UNK spark_particle_update_address;
 
 /* Spawns particles, moves the effect, and restores its owner after the fade. */
-void update_spark_emitter_effect(EmitAttachedDirectionalParticleChainBody *effect, ObjectPosition *position) {
+void update_spark_emitter_effect(DirectionalParticleChainBody *effect, ObjectPosition *position) {
     s16 state;
     s16 effect_type;
     s32 spark_speed;

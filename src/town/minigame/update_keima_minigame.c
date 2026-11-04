@@ -142,7 +142,7 @@ void update_keima_minigame(KeimaState *game) {
             init_object = game->node[object_index];
             game->rec[object_index + 1] = init_object->position;
             init_object_base = game->node[object_index];
-            object_motion = (MinigameBody *)(init_object_base + 1);
+            object_motion = NODE_BODY(init_object_base);
             object_motion->unk_18 = motion_mode;
             object_motion->unk_04 = 0;
             object_motion->unk_16 = 0;
@@ -246,7 +246,7 @@ loop_3:
             shuffle_value = 0x100;
             shuffle_object = (ObjectNodeHeader *)0xC0000;
             do {
-                object_motion = (MinigameBody *)(game->node[object_index] + 1);
+                object_motion = NODE_BODY(game->node[object_index]);
                 object_motion->unk_22 = object_index;
                 object_index -= 1;
                 object_motion->unk_18 = shuffle_value;
@@ -523,7 +523,7 @@ object_pairs:
                         }
                         collision_value = 0x30000;
                         if (object_index != 0) {
-                            object_motion = (MinigameBody *)(motion_slot->node + 1);
+                            object_motion = NODE_BODY(motion_slot->node);
                             object_motion->unk_0C = (s32) (object_motion->unk_0C + bounce_x);
                             object_motion->unk_10 = (s32) (object_motion->unk_10 + x_or_distance);
                             collision_value |= 0xFFFF;
@@ -594,7 +594,7 @@ object_collision:
             object_index = 1;
             do {
                 moving_object = game->node[object_index - 1];
-                object_motion = (MinigameBody *)(moving_object + 1);
+                object_motion = NODE_BODY(moving_object);
                 x_step = resolve_actor_zone_collisions(game->rec[object_index], &game->slot[object_index],
                     &object_motion->unk_0C, &object_motion->unk_10);
                 if (x_step != 0) {

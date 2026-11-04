@@ -13,7 +13,7 @@
 
    /* entity in update_player_jump */
 
-extern s16 measure_directional_stopping_distance(s16 a0, void *a1, void *a2, s32 a3);
+extern s16 measure_directional_stopping_distance(s16 a0, ObjectPosition *a1, void *a2, s32 a3);
 
 extern s32 held_item_record;
 
@@ -24,7 +24,7 @@ extern u8 player_throw_frame_set[8];
 extern s32 saved_held_item_word[3];
 
 /* Advance the entity action through its motion, animation, and linked-child effects. */
-void update_player_jump(u8 *action, u8 *motion, u8 *sprite, u8 *entity) {
+void update_player_jump(u8 *action, ObjectPosition *motion, u8 *sprite, u8 *entity) {
     s16 effect_id;
     s32 entity_flags;
     s32 direction;
@@ -37,7 +37,7 @@ void update_player_jump(u8 *action, u8 *motion, u8 *sprite, u8 *entity) {
     switch (phase) {
     case 0:
         if (*(u16 *)(sprite + 0x14) & 0x6000) {
-            *(s32 *)(motion + 0x14) = 0xFFEA0000;
+            motion->velocity_z = 0xFFEA0000;
             if (*(s32 *)(entity + 0x1C) & 0x100000) {
                 *(u8 **)(sprite + 0x2C) = player_throw_frame_set;
             } else {
@@ -57,7 +57,7 @@ void update_player_jump(u8 *action, u8 *motion, u8 *sprite, u8 *entity) {
             s32 heading;
             s32 update_direction;
 
-            *(s32 *)(motion + 0x14) = 0;
+            motion->velocity_z = 0;
             if (*(s32 *)(entity + 0x1C) & 0x100000) {
                 *(u8 **)(action + 0x8C) = handle_carrying_player_input;
             } else {

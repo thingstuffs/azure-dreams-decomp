@@ -1,8 +1,8 @@
 #include "common.h"
 #include "shared/town_dispatch_object.h"
 #include "town/scene/motion.h"
+#include "town/scene.h"
 
-extern void select_data_for_condition_d_83(s32, s32, s32); /* Unprototyped: retail call passes more arguments than the callee reads */
 extern s32 scene_dispatch_started[];
 extern s32 D_8001B964[];
 extern s32 D_8001B994[];

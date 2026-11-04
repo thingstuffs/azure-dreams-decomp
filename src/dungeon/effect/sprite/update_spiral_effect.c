@@ -10,7 +10,7 @@
 
 
 /* Update a spiraling effect's motion and color, then retire it below its height limit. */
-void update_spiral_effect(UpdateRadialEffectBody *effect, ObjectPosition *motion, SpriteFrameState *sprite) {
+void update_spiral_effect(RadialEffectBody *effect, ObjectPosition *motion, SpriteFrameState *sprite) {
     s32 radius_step;
     s32 velocity_y;
     s32 velocity_z;

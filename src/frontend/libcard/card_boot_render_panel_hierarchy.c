@@ -1,3 +1,4 @@
+#include "frontend/libcard_callbacks_api.h"
 #include "common.h"
 #include "engine/graphics.h"
 #include "frontend/libcard.h"

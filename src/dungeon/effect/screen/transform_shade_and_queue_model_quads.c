@@ -6,6 +6,7 @@
 #include "dungeon/effect/screen.h"
 #include "sdk/libgpu.h"
 #include "sdk/libgte.h"
+#include "shared/sprite_frame_state.h"
 
 typedef struct S_800C9088_0 {
     u8 pad_00[0x8];
@@ -326,9 +327,9 @@ struct S_Rect;
 struct S_Arg1;
 
 /* Updates each linked state from its input values and delta using scratchpad memory. */
-s32 queue_linked_visible_rectangle_copies(void *initial_state, void *input_values, s16 *initial_delta) {
+s32 queue_linked_visible_rectangle_copies(void *initial_state, void *input_values, SpriteFrameState *initial_delta) {
     void *state = initial_state;
-    s16 *delta = initial_delta;
+    SpriteFrameState *delta = initial_delta;
     u8 *scratch = (u8 *)0x1F800000;
     u8 *next_node;
 
@@ -339,7 +340,7 @@ s32 queue_linked_visible_rectangle_copies(void *initial_state, void *input_value
         *(s32 *)(scratch + 0xC0) =
             RotTransPers(scratch, (void *)(scratch + 0xB8),
                           (void *)(scratch + 0x90), (void *)(scratch + 0x94)) -
-            *(s16 *)((u8 *)delta + 6);
+            delta->depth_bias;
         queue_visible_rectangle_copy(state, scratch);
         next_node = ((S_800C95C0_1_pre *)state)[-1].unk_00;
         if (next_node == NULL)

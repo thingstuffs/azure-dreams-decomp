@@ -58,8 +58,8 @@ void create_boss_randomized_effect(S_80172F44_4 *position, s32 x_offset, s32 y_o
         z_fixed = position->unk_08;
         transform->x.w.i = x_integer + x_offset;
         transform->z.v = z_fixed;
-        *(u16 *)&transform->y.w.i += y_offset;
-        *(u16 *)&transform->z.w.i += z_offset;
+        (transform->y).unsigned_parts.integer += (y_offset);
+        (transform->z).unsigned_parts.integer += (z_offset);
 
         random_value = rand();
         state->unk_58 = random_value - 0x8000;

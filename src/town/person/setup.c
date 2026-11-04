@@ -24,7 +24,7 @@ void * create_owner_following_sprite(TownObjectRecord *linked_object) {
     if (object == 0) {
         return 0;
     }
-    state = ((void *)object) + 0x20;
+    state = NODE_BODY(object);
     callback_arg = *(s32 *)&object->position;
     render_data = object->sprite;
     state->linked_object = linked_object;

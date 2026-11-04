@@ -105,7 +105,7 @@ typedef struct S_800A5FDC_0 {
 
 /* the 0x10 bytes before arg0 in initialize_effect_and_adjust_value, addressed as arg0[-1] */
 void initialize_actor_action_state(void *object, ObjectPosition *state, s32 initData);
-extern u8 player_motion_draw_address[];
+
 extern s32 D_800D0CC0[];
 /* extern */
 /* extern */

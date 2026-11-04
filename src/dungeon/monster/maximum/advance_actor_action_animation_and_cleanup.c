@@ -60,7 +60,7 @@ void advance_actor_action_animation_and_cleanup(ActorRecord *action, ObjectPosit
                 actor->action_flags &= ACTOR_ACTION_CLEAR_PENDING_MASK;
                 return;
             }
-            actor_update_node_cursor = (u8 *)actor - 0x20;
+            actor_update_node_cursor = NODE_HEADER(actor);
         }
         return;
     }

@@ -1,8 +1,8 @@
 #include "script_symbols.h"
 #include "town/scene.h"
 #include "common.h"
+#include "town/player/state.h"
 
-extern s32 get_script_flag_mask(s32);
 extern s32 D_8001638C;
 
 /* Select alternate output data when condition 0x3F5 is clear and condition 0x14 is set. */

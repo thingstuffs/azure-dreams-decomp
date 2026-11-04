@@ -84,12 +84,12 @@ void *create_randomly_rotated_sprite_object(B22_81893474_EffectState *context, B
 /* Advance the accumulation step, update the target, and flag completion past the final step. */
 void accelerate_and_expire_animated_sprite(VerticalAccelerationSpriteBody *step_state, void *accumulator, SpriteFrameState *target)
 {
-    void *owner;
+    B22_81893474_EffectState *owner;
     s32 total;
     s32 increment;
 
     owner = step_state->target.owner;
-    *(u16 *)((u8 *)owner + 0x14) += 1;
+    owner->field_14.u += 1;
     step_state->update_count.u += 1;
 
     total = *(s32 *)((u8 *)accumulator + 8);

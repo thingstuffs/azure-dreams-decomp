@@ -8,7 +8,7 @@
 
 
 /* Keeps both sprite scales at normal size and removes the effect when its countdown ends. */
-void expire_effect_at_unit_scale(UpdateEffectParticlesAndCleanupBody *state, ObjectPosition *unused, void *scale_data)
+void expire_effect_at_unit_scale(ParticleCleanupEffectBody *state, ObjectPosition *unused, void *scale_data)
 {
     s32 remaining_ticks;
     u8 *scale = scale_data;
@@ -38,7 +38,7 @@ void finish_timed_visual_effect(void *object) {
 
 /* Bobs and pulses a substitute sprite while hiding the linked sprite, restoring the linked sprite when
    time expires. */
-void advance_timed_visual_effect(UpdateEffectParticlesAndCleanupBody *state, void *position_arg, void *visual_arg) {
+void advance_timed_visual_effect(ParticleCleanupEffectBody *state, void *position_arg, void *visual_arg) {
     Row_818FEF80_S_818FEF80_3 *visual = visual_arg;
     Row_818FEF80_S_818FEF80_2 *position = position_arg;
     void *object;
@@ -88,7 +88,7 @@ void advance_timed_visual_effect(UpdateEffectParticlesAndCleanupBody *state, voi
 }
 
 /* Inverts a tiled texture mask, draws clipped moving sprites, and fades them in and out before completion. */
-void update_tiled_fade_effect(UpdateEffectParticlesAndCleanupBody *effect, void *offset_state_arg, void *render_state) {
+void update_tiled_fade_effect(ParticleCleanupEffectBody *effect, void *offset_state_arg, void *render_state) {
     Row_818FF19C_S_818FF19C_1 *offset_state = offset_state_arg;
     Row_818FF19C_Rect8 moving_rect;
     Row_818FF19C_Rect8 tile_rect;

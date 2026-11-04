@@ -1,6 +1,7 @@
 #include "common.h"
 #include "main/data.h"
 #include "frontend/card/server_imports.h"
+#include "frontend/card.h"
 
 extern u8 D_8040086C[], D_80400894[];
 typedef struct { u8 pad[0x10]; void *callback; } Effect;
@@ -19,6 +20,6 @@ Effect *allocate_or_reuse_effect_and_install_callback(void *first, void *second)
         func_8007BFE0(work, 0x44);
     }
     set_record_values(work, first, second);
-    effect->callback = D_804083A0;
+    effect->callback = card_dev_create_slot_screen_objects;
     return effect;
 }

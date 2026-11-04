@@ -9,12 +9,6 @@
 #include "town/minigame.h"
 #include "town/data.h"
 
-typedef struct S_80023A00_0 {
-    u8 pad_00[0x18];
-    union { s16 s; u16 u; } unk_18;   /* accessed as both */
-    u8 pad_1A[0x10];
-    u16 unk_2A;
-} S_80023A00_0;   /* arg0 in process_nonzero */
 
    /* caller_obj in process_nonzero */
 
@@ -39,13 +33,13 @@ void process_nonzero(void *object, void *output, void *entity_data)
 
     advance_sprite_animation_and_textures(entity_data);
     *output_bytes = *(Copy24 *)((u8 *)(&view_reference_entity));
-    ((S_80023A00_0 *)object)->unk_2A =
+    ((KeimaPathActor *)object)->facing.u =
         (0x1400 - (*(u16 *)&state_base->unk_10)) & 0xFFF;
 
-    state = ((S_80023A00_0 *)object)->unk_18.s;
+    state = ((KeimaPathActor *)object)->state.s;
     switch (state) {
     case 0:
-        ((S_80023A00_0 *)object)->unk_18.u++;
+        ((KeimaPathActor *)object)->state.u++;
         return;
 
     case 1:
@@ -56,7 +50,7 @@ void process_nonzero(void *object, void *output, void *entity_data)
             town_minigame_directional_frames[((view_facing_angle_alias +
                 caller_obj->facing.s + 0x100) >> 9) & 7],
             0);
-        ((S_80023A00_0 *)object)->unk_18.u++;
+        ((KeimaPathActor *)object)->state.u++;
         /* fallthrough */
     case 2:
         if (state_base->unk_08 == 2) {
@@ -65,7 +59,7 @@ void process_nonzero(void *object, void *output, void *entity_data)
                 minigame_motion_frames[((*(s16 *)(D_80083220 + 8) +
                     caller_obj->facing.s + 0x100) >> 9) & 7],
                 0);
-            ((S_80023A00_0 *)object)->unk_18.u++;
+            ((KeimaPathActor *)object)->state.u++;
         }
         break;
 
@@ -77,7 +71,7 @@ void process_nonzero(void *object, void *output, void *entity_data)
             select_sprite_entry(entity_data,
                 town_minigame_directional_frames[((view_facing_angle_alias + caller_obj->facing.s + 0x100) >> 9) & 7],
                 0);
-            ((S_80023A00_0 *)object)->unk_18.u++;
+            ((KeimaPathActor *)object)->state.u++;
         }
         break;
 
@@ -90,12 +84,12 @@ void process_nonzero(void *object, void *output, void *entity_data)
             select_sprite_entry(entity_data,
                 direction_table[((view_facing_angle_alias + caller_obj->facing.s + 0x100) >> 9) & 7],
                 0);
-            ((S_80023A00_0 *)object)->unk_18.u--;
+            ((KeimaPathActor *)object)->state.u--;
         }
         break;
     }
 
-    if (((S_80023A00_0 *)object)->unk_18.s != 0) {
+    if (((KeimaPathActor *)object)->state.s != 0) {
         update_directional_record(caller_obj, object, entity_data);
     }
 

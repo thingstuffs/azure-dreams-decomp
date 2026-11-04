@@ -1,5 +1,6 @@
 #include "common.h"
 #include "town/shop/item.h"
+#include "town/shop/item_menu_cursor_transition_g00601.h"
 
 typedef struct S_800AEBC4_2 {
     u8 pad_00[0x2];
@@ -18,22 +19,12 @@ typedef struct S_800AEBC4_4 {
     S_800AEBC4_2 *unk_08;
 } S_800AEBC4_4;   /* config */
 
-typedef struct S_800AEBC4_6 {
-    u8 pad_00[0xC];
-    s16 unk_0C;
-    s16 unk_0E;
-    s16 unk_10;
-    u8 pad_12[0x2];
-    s16 unk_14;
-    s16 unk_16;
-    s16 unk_18;
-} S_800AEBC4_6;   /* vectors */
 
 extern s32 display_block_defaults[4];
 extern s32 display_vector_defaults[3];
 
 /* Copies two templates into linked records and initializes position and offset vectors. */
-void initialize_item_menu_linked_record_vectors(S_800AEBC4_6 *vectors, S_800AEBC4_4 *config, s32 *position_data,
+void initialize_item_menu_linked_record_vectors(ItemMenuTransition *vectors, S_800AEBC4_4 *config, s32 *position_data,
                    s32 *secondary_data, s32 x, s32 y) {
     const s32 *src0 = display_block_defaults;
     const s32 *src1 = display_vector_defaults;
@@ -54,12 +45,12 @@ void initialize_item_menu_linked_record_vectors(S_800AEBC4_6 *vectors, S_800AEBC
     config->unk_04->unk_0F = 4;
     vectors->unk_0C = x;
     vectors->unk_0E = y;
-    vectors->unk_10 = 0x400;
+    vectors->unk_10.half.low = 0x400;
     if (x < 0) {
-        vectors->unk_14 = 0x30 - x;
+        vectors->unk_14.half.low = 0x30 - x;
     } else {
-        vectors->unk_14 = -0x60 - x;
+        vectors->unk_14.half.low = -0x60 - x;
     }
-    vectors->unk_16 = -0x40 - y;
-    vectors->unk_18 = -0x200;
+    vectors->unk_14.half.high = -0x40 - y;
+    vectors->unk_18.half = -0x200;
 }

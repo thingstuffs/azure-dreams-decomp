@@ -13,11 +13,6 @@
 #include "town/data.h"
 
 
-typedef struct S_800206D0_1 {
-    u8 pad_00[0x1E];
-    s16 unk_1E;
-    u16 unk_20;
-} S_800206D0_1;   /* object in update_bouncing_pickup */
 
 extern s32 town_money[];
 extern TownRewardValues D_80020020;
@@ -28,13 +23,13 @@ extern Box D_800D0420;
 /* Updates a bouncing pickup, awards its value on collection, and expires it. */
 void update_bouncing_pickup(minigame_pickup_source *pickup, ObjectPosition *motion, SpriteFrameState *sprite)
 {
-    S_800206D0_1 *source_object = pickup->owner;
+    TownEffect *source_object = pickup->owner;
     TownRewardValues reward_units = D_80020020;
     s32 timer;
     s32 reward = 1;
     u32 state;
 
-    if (source_object->unk_20 & 8) {
+    if (source_object->flags & 8) {
         pickup->kind = 6;
     }
 
@@ -57,7 +52,7 @@ void update_bouncing_pickup(minigame_pickup_source *pickup, ObjectPosition *moti
         default:
             break;
         }
-        scaled_count = source_object->unk_1E / reward;
+        scaled_count = source_object->ticks / reward;
         reward = scaled_count % 10;
         if (pickup->y < reward) {
             sprite->flags &= 0xFF7F;

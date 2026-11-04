@@ -83,7 +83,7 @@ void update_directional_movement_and_settle(ActorRecord *action, ObjectPosition 
         if (sprite->flags & 0xE000) {
             motion->velocity_y = 0;
             motion->velocity_x = 0;
-            (*(u32 *)&actor->flags1C) |= 0x40000;
+            actor->flags1C = (u32)((u32)(actor->flags1C) | (0x40000));
             set_record_integer_tile_center(motion, sprite->tile_x, sprite->tile_y);
             spend_actor_mp(actor, 0x100);
             action->unk_8C.address = &kraken_action_resume_address;

@@ -1,3 +1,4 @@
+#include "frontend/libcard_callbacks_api.h"
 #include "shared/audio_commands.h"
 #include "common.h"
 #include "shared/game_work.h"

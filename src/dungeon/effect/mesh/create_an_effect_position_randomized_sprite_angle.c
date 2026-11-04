@@ -865,7 +865,7 @@ void update_movement_toward_target_along_direction_advances_action_phases(void *
     ovl_1930844_81912154_S_80025954_7_pre *target;
     ovl_1930844_81912154_S_80025954_6 *origin;
     ovl_1930844_81912154_S_80025954_9 *entity;
-    ovl_1930844_81912154_S_80025954_9 *grid_source;
+    SpriteFrameState *grid_source;
     s16 *y_lookup_first;
     s16 source_coord;
     s16 *step_table;
@@ -886,7 +886,7 @@ void update_movement_toward_target_along_direction_advances_action_phases(void *
         owner_links = owner - 0x20;
         source_sprite = owner_links->unk_0C;
         if (resolve_record_orientation_or_fallback(source_sprite->source, source_sprite, &stack.offset.orientation, 0) == 0
-            && !(((ovl_1930844_81912154_S_80025954_14 *)(owner_links->unk_0C))->unk_14 & 0x8000)) {
+            && !(owner_links->unk_0C->flags & 0x8000)) {
             break;
         }
         origin = owner_links->unk_08;
@@ -894,7 +894,7 @@ void update_movement_toward_target_along_direction_advances_action_phases(void *
         motion->y.unsigned_parts.integer = (u16) origin->unk_06;
         origin_z = origin->unk_0A;
         motion->z.unsigned_parts.integer = origin_z;
-        if (!(((ovl_1930844_81912154_S_80025954_14 *)(owner_links->unk_0C))->unk_14 & 0x8000)) {
+        if (!(owner_links->unk_0C->flags & 0x8000)) {
             motion->x.unsigned_parts.integer = (u16) (motion->x.unsigned_parts.integer
                 + stack.offset.distance[0]);
             motion->y.unsigned_parts.integer = (u16) (motion->y.unsigned_parts.integer
@@ -951,8 +951,8 @@ void update_movement_toward_target_along_direction_advances_action_phases(void *
             table_origin = dir_step_x;
             step_count = 0;
             grid_source = owner_links->unk_0C;
-            tile_x = grid_source->unk_24;
-            tile_y = grid_source->unk_25;
+            tile_x = grid_source->tile_x;
+            tile_y = grid_source->tile_y;
             end_tile_x = tile_x;
             end_tile_y = tile_y;
             do {

@@ -35,25 +35,25 @@
 
 
 /* Initializes an object with default transform and global state values. */
-void initialize_object_transform_and_state(s32 slot_id, void *object, s32 object_id)
+void initialize_object_transform_and_state(s32 slot_id, SpriteFrameState *object, s32 object_id)
 {
 
-    *(s16 *)((u8 *)object + 0x20) = 0x1000;
-    *(s16 *)((u8 *)object + 0x1E) = 0x1000;
-    *(s16 *)((u8 *)object + 0x1C) = 0x1000;
-    *(s16 *)((u8 *)object + 0x12) = 0;
-    *(s16 *)((u8 *)object + 0x14) = 0;
-    *(s16 *)((u8 *)object + 0x10) = 0;
-    *((u8 *)object + 0xC) = g_game_work.view.tint.parts.tint_r;
-    *((u8 *)object + 0xD) = g_game_work.view.tint.parts.tint_g;
-    *((u8 *)object + 0xE) = g_game_work.view.tint.parts.tint_b;
-    *(s16 *)((u8 *)object + 0x14) = 0;
-    *(s16 *)((u8 *)object + 0x1A) = 0;
-    *(s16 *)((u8 *)object + 0x18) = 0;
-    *(s16 *)((u8 *)object + 0x16) = 0;
+    object->offset_x = 0x1000;
+    object->scale_y = 0x1000;
+    object->scale_x = 0x1000;
+    object->clut = 0;
+    object->flags = 0;
+    object->tpage_abr = 0;
+    object->color.c.r = g_game_work.view.tint.parts.tint_r;
+    object->color.c.g = g_game_work.view.tint.parts.tint_g;
+    object->color.c.b = g_game_work.view.tint.parts.tint_b;
+    object->flags = 0;
+    object->angle_z = 0;
+    object->angle_y = 0;
+    object->angle_x = 0;
     *(s32 *)((u8 *)object + 0) = 0;
-    *(s8 *)((u8 *)object + 4) = 0;
-    *(s8 *)((u8 *)object + 5) = 0;
+    object->unk_04 = 0;
+    object->frame_ticks = 0;
     register_node(slot_id - 0x20, lit_mesh_renderer_address);
     *(s32 *)((u8 *)object + 8) = object_id;
 }
@@ -789,7 +789,7 @@ void *create_configured_object(void *object_data, void *source_position, s32 alt
 }
 
 /* Store the current record's signed value and table lookup in the script globals. */
-s32 store_record_value_and_table_lookup(void) {
+s32 store_record_value_and_table_lookup(void *unused_arg0, void *unused_arg1, void *unused_arg2, void *unused_arg3) {
     runtime_script_state[0x12] = (s8)town_target_record->value;
     runtime_script_state[0x13] = item_kind_script_words[town_target_record->kind];
     return 0;

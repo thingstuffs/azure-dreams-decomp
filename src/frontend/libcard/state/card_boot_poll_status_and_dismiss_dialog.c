@@ -1,3 +1,4 @@
+#include "frontend/libcard/state_callbacks_api.h"
 #include "shared/object_node.h"
 #include "common.h"
 #include "shared/widget_views.h"

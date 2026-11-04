@@ -60,7 +60,7 @@ void move_effect_toward_target(Rec_func_800249DC_arg0 *motion, Row_818E71DC_S_80
 
 /* Grows a timed effect for four updates, cycles texture coordinates, and marks it for removal after 15
    ticks. */
-void advance_effect_state_and_frame(UpdateDirectionalActorEffectBody *effect)
+void advance_effect_state_and_frame(DirectionalActorEffectBody *effect)
 {
     s32 state;
     u16 timer;
@@ -104,7 +104,7 @@ void advance_effect_state_and_frame(UpdateDirectionalActorEffectBody *effect)
 }
 
 /* Projects linked effects as four jittered strips of textured quads and queues them by depth. */
-s32 render_linked_jittered_effect_strips(UpdateDirectionalActorEffectBody *node_data) {
+s32 render_linked_jittered_effect_strips(DirectionalActorEffectBody *node_data) {
     for (;;) {
         Row_818E747C_Point3 world_points[5];
         s16 depths[8];
@@ -118,7 +118,7 @@ s32 render_linked_jittered_effect_strips(UpdateDirectionalActorEffectBody *node_
         Row_818E747C_Point2 *jitter_corner;
         Row_818E747C_Point2 *jitter_point;
         Row_818E747C_Point2 *segment_start;
-        UpdateDirectionalActorEffectBody *node;
+        DirectionalActorEffectBody *node;
         GameWork *global_base;
         s32 corner_index;
         s32 segment_index;

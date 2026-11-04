@@ -155,7 +155,7 @@ void advance_actor_effect_sequence_2(ActorRecord *body, void *transform, SpriteF
         on_actor_status_updated(actor_state);
         if ((get_entity_effect_value(actor_state, STATUS_SLEEP) << 0x10) != 0) {
             player_sprite = &reference_tile_object;
-            region_id = *(s8 *)&sprite->room_index;
+            region_id = ((s8)(sprite->room_index));
             if (region_id == player_sprite->room_index && region_id >= 0) {
                 if (!(generate_random_value() & 7)) {
                     clear_slots_of_type(actor_state, STATUS_SLEEP);

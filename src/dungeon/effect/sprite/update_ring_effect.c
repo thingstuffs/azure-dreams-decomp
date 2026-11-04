@@ -34,7 +34,7 @@ extern u8 ring_effect_work[];
 
 /* Eases a sprite into position and brightness, optionally spawns a ring, then fades and removes the
    sprite. */
-void update_ring_effect(UpdateFollowingColorBlendEffectBody *state, S_819598B4_2 *values, S_819598B4_1 *parameters) {
+void update_ring_effect(FollowingColorBlendEffectBody *state, S_819598B4_2 *values, S_819598B4_1 *parameters) {
     s16 value0A;
     s16 value3C;
     s32 byteDistance;

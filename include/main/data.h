@@ -15,10 +15,10 @@ extern u8 D_80013181;
 extern u8 D_80013182;
 extern u8 D_80013184;
 extern u8 D_80013186;
-extern u8 D_80023EC4[ ];
-extern s32 D_800251A4;
+
+
 extern M2C_UNK D_80025398;
-extern u8 D_80025584[ ];
+
 extern s32 D_80025788;
 extern M2C_UNK D_800261C0[ ];
 extern M2C_UNK D_800261F0;
@@ -26,11 +26,11 @@ extern M2C_UNK D_800262BC;
 extern s32 D_800263C0[ ];
 extern s32 D_8002644C[ ];
 extern s32 D_800267C0[ ];
-extern u8 D_80026AE4[ ];
+
 extern u8 D_800274D8[ ];
-extern M2C_UNK D_80027584;
-extern u8 D_8002765C[ ];
-extern u8 D_8002789C[ ];
+
+
+
 extern u8 D_80027A9C[ ];
 extern u8 D_80027F48[ ];
 extern u8 D_80027FD0[ ];
@@ -72,8 +72,8 @@ extern s32 D_80088760[3];
 extern SettingsEffectTable D_80088790;
 extern s32 D_800887B8[5];
 extern SettingsEffectTable D_800887CC;
-extern M2C_UNK D_8008AC70;
-extern M2C_UNK D_8008B030;
+
+
 extern M2C_UNK D_8008B230;
 extern M2C_UNK D_8008B270;
 extern s32 D_8008B2B0;
@@ -139,15 +139,15 @@ extern u8 D_80402F04[ ];
 extern u8 D_80405AB4[ ];
 extern M2C_UNK D_80405CB8;
 extern M2C_UNK D_80405DE0;
-extern M2C_UNK D_80406368;
-extern M2C_UNK D_80406AA8;
-extern s32 D_80406DA0;
+
+
+
 extern u8 D_80407298[ ];
 extern u8 D_80407D90[ ];
 extern u8 D_80407DB8[ ];
-extern M2C_UNK D_80407E64;
+
 extern void *D_80407F40;
-extern u8 D_804083A0[ ];
+
 extern u8 card_status_query_address[ ];
 extern u8 D_80408A30[ ];
 extern s32 D_80408AA8[ ];

@@ -279,7 +279,7 @@ void advance_actor_height_arc(ActorRecord *action, ObjectPosition *motion, Sprit
             g_dungeon_status.active_actor = 0;
             (actor->action_flags) &= 0x7FFF;
             action->action_state_flags &= 0xFFF3;
-            (*(u32 *)&actor->flags1C) |= ACTOR_GROUNDED;
+            actor->flags1C = (u32)((u32)(actor->flags1C) | (ACTOR_GROUNDED));
             advance_status_timers(actor);
         }
     }

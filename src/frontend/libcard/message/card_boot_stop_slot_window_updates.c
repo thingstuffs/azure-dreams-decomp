@@ -1,3 +1,4 @@
+#include "frontend/libcard/message_callbacks_api.h"
 #include "shared/object_node.h"
 #include "common.h"
 #include "m2c_compat.h"

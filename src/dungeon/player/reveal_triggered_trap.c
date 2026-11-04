@@ -4,7 +4,7 @@
 extern u8 floor_objects[];
 
 /* Clears a triggered trap's hidden bit unless bit 0x40 protects it, returning 0 when it was hidden. */
-s32 reveal_triggered_trap(void *actor) {
+s32 reveal_triggered_trap(void *actor, s32 unused_context_a, s32 unused_context_b, s32 unused_target) {
     s32 cursor;
     s32 result;
     u8 *base;

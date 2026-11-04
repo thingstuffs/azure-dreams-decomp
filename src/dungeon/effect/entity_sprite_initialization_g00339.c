@@ -5,6 +5,7 @@
 #include "dungeon/effect/entity_sprite_initialization_g00339.h"
 #include "dungeon/effect.h"
 #include "shared/sprite_frame_state.h"
+#include "dungeon/effect_callbacks_api.h"
 
 /* Initialize the entity sprite position, scale, color, and active state. */
 void initialize_entity_sprite_effect(void *entity, EntityRec *position, SpriteFrameState *sprite, s16 unused)
@@ -60,7 +61,7 @@ void *create_mode_configured_object(s16 mode, s32 part_b_byte_24, s32 part_b_byt
     init_mode = mode;
     if (obj != 0) {
         work = (S_800B23F8_1 *)((u8 *)obj + 0x20);
-        obj->unk_10 = &D_800B274C;
+        obj->unk_10 = update_actor_motion_and_rendering;
         work->unk_13 = 0x1E;
         register_node(obj, project_sprite_chain);
 
@@ -91,7 +92,7 @@ post_kind:
         initialize_entity_sprite_effect(obj, part_a, (void *)value_or_part_b, init_mode);
         ((ActorRecord *)((void *)byte_or_work))->action_id.u = 0xFF;
         ((ActorRecord *)((void *)byte_or_work))->unk_9C = -1;
-        (*(s32 * *)((u8 *)((void *)byte_or_work) + 0x8C)) = &slow_target_action_callback;
+        (*(s32 * *)((u8 *)((void *)byte_or_work) + 0x8C)) = dispatch_target_action;
         ((SpriteFrameState *)value_or_part_b)->source = part_b_value;
     }
     return work;

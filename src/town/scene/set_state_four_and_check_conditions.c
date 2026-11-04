@@ -1,8 +1,7 @@
 #include "script_symbols.h"
 #include "common.h"
 #include "town/scene.h"
-
-extern s32 get_script_flag_mask(s32 flagIndex);
+#include "town/player/state.h"
 
 typedef struct {
     s32 value;

@@ -1,5 +1,6 @@
 #include "common.h"
 #include "town/data.h"
+#include "town/player/state.h"
 
 typedef struct {
     s32 unk0;
@@ -7,7 +8,6 @@ typedef struct {
     u8 pad[6];
 } Entry;
 
-extern s32 get_script_flag_mask(u32);
 extern u8 *D_80019BBC[];
 extern Entry town_indexed_values[];
 

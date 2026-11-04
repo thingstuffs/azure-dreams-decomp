@@ -69,7 +69,7 @@ void spawn_randomized_radial_burst(MovingPosition *origin)
             if (particle != NULL) {
                 motion = particle->position;
                 sprite = particle->sprite;
-                particle->update_callback = &radial_burst_callback;
+                particle->update_callback = advance_effect_fade_and_flag;
                 register_node(particle, project_sprite_chain);
                 motion->x.w.i =
                     origin->x + (rcos(angle) >> 11);

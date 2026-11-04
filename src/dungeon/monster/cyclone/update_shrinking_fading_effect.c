@@ -167,7 +167,7 @@ void update_shrinking_fading_effect(ActorRecord *anim, ObjectPosition *transform
         set_record_integer_tile_center(transform_arg, sprite->tile_x, sprite->tile_y);
         main_actor = primary_actor_record;
         g_dungeon_status.active_actor = 0;
-        (*(u16 *)((u8 *)main_actor + 0xA6))--;
+        main_actor->unk_A4.halves.high.u--;
         advance_status_timers(actor);
         actor->pending_turn_updates--;
         anim->unk_8C.address = update_actor_animation;

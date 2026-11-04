@@ -623,7 +623,7 @@ void advance_effect_motion_and_speed(MotionRecord *motion, ObjectPosition *posit
 #include "shared/slus_callbacks.h"
 
 extern u8 D_80027484[12];
-extern s32 queue_linked_visible_rectangle_copies(void *, void *, s16 *);
+extern s32 queue_linked_visible_rectangle_copies(void *, void *, SpriteFrameState *);
 
 /* Position block (three 4-byte slots, only the second halfword of each is used). */
 

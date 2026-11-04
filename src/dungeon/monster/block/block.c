@@ -502,7 +502,7 @@ void advance_actor_stored_path(ActorRecord *motion, ObjectPosition *update_param
     }
 
     motion->unk_8C.word = 0;
-    (*(u32 *)&state->flags1C) |= 0x40000000;
+    state->flags1C = (u32)((u32)(state->flags1C) | (0x40000000));
     if (g_dungeon_status.flags & 0x80) {
         motion->action_timer.s = 0;
         return;
@@ -1760,7 +1760,7 @@ void create_randomized_rotated_effect(void *unused_context, Rec_func_80173CFC_ar
         effect_data->scale_x = scale;
         effect_part->unk_01 = 0x30;
         effect_part->unk_02 = 0x30;
-        (*(s8 *)((u8 *)effect + 0x20)) = 0x30;
+        (*((s8 *)NODE_BODY(effect))) = 0x30;
         effect_data->color.c.b = 0x30;
         effect_data->color.c.g = 0x30;
         effect_data->color.c.r = 0x30;

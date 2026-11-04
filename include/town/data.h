@@ -179,4 +179,6 @@ extern u8 town_wrapped_entry_order[ ];
 extern s16 D_A0700F1C[];
 extern s16 D_A0700F24[];
 
+extern s32 scene_request_context;
+
 #endif

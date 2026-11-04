@@ -55,7 +55,7 @@ void reset_mother_event_callback_on_expiry(void *object, void *motion, void *ini
 void initialize_mother_event_actor(void *actor, EntityRec *state, void *init_param) {
     state->unk_10 = 0;
     state->unk_0C = 0;
-    initialize_object_entries((TownObjectRecord *)actor, init_param, (s32 *)D_800D5FC4);
+    initialize_object_entries(actor, init_param, (s32 *)D_800D5FC4);
     *(void **)((u8 *)actor + 0x50) = D_800C7604;
     *(s16 *)((u8 *)actor + 0x6C) = (s16) (scale_random_to_unsigned_halfword_limit(0x3F) + 0x15);
 }

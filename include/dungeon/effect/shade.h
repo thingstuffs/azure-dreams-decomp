@@ -23,7 +23,7 @@ void advance_damped_effect_and_expire(struct FadeEffect *effect, int *motion);
 short check_forward_collision_and_height(EntityRec *position, ActorRecord *orientation);
 
 #include "shared/object_node.h"
-void spawn_randomized_directional_effect(ObjectNodeHeader *source, short angle, int effect_value);
+void spawn_randomized_directional_effect(ObjectNodeHeader *source, short angle, int effect_value, int unused_particle_value);
 
 #include "records/Rec_func_800247B8_arg0.h"
 void create_attached_effect(Rec_func_800247B8_arg0 *owner, void *unused_motion, void *unused_sprite);

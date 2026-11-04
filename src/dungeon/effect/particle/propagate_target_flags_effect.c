@@ -716,7 +716,7 @@ void create_staged_rectangle_sprite(void *source, s32 unused_position, s32 unuse
     ObjectNodeHeader *object;
     StagedRectangleSpriteBody *object_state;
     SpriteFrameState *display;
-    void *source_pos;
+    ObjectPosition *source_pos;
     ObjectPosition *object_pos;
 
     object = allocate_flagged_object_node(0x212);
@@ -734,9 +734,9 @@ void create_staged_rectangle_sprite(void *source, s32 unused_position, s32 unuse
 
         source_pos = ((S_8196BD3C_2_pre *)source)[-1].unk_00;
         object_pos = object->position;
-        object_pos->x.v = ((s32 *)source_pos)[0];
-        object_pos->y.v = ((s32 *)source_pos)[1];
-        object_pos->z.v = ((s32 *)source_pos)[2];
+        object_pos->x.v = source_pos->x.v;
+        object_pos->y.v = source_pos->y.v;
+        object_pos->z.v = source_pos->z.v;
 
         display = object->sprite;
         display->scale_y = 0;
@@ -804,7 +804,7 @@ void shrink_effect_and_step_texture(void *effect_arg, s32 unused, S_8196BF24_1 *
 }
 
    /* Updates and renders a shrinking object with collision and lifetime checks. */
-void advance_particle_emitting_projectile(UpdateStagedParticleEffectBody *object, void *position, void *render_state_arg)
+void advance_particle_emitting_projectile(StagedParticleEffectBody *object, void *position, void *render_state_arg)
 {
     S_8196BFB0_2 *render_state = render_state_arg;
     s32 height;
@@ -886,7 +886,7 @@ void advance_particle_emitting_projectile(UpdateStagedParticleEffectBody *object
 }
 
    /* Move the effect with collision checks, shrink its sprite, and expire it when finished. */
-void shrink_particle_emitting_projectile(UpdateStagedParticleEffectBody *effect, ObjectPosition *position, SpriteFrameState *sprite) {
+void shrink_particle_emitting_projectile(StagedParticleEffectBody *effect, ObjectPosition *position, SpriteFrameState *sprite) {
     u16 age;
     u16 reduced_scale_x;
     u16 reduced_scale_y;

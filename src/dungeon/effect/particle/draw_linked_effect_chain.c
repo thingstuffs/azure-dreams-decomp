@@ -345,9 +345,9 @@ void advance_object_motion_and_animation(void *effect_arg) {
 
 /* Fades and rotates a sprite while decrementing an extra byte field, then removes it when its
    countdown ends. */
-void choose_random_sign(AdvanceEntityEffectSequenceBody *effect, s32 unused, void *primitive)
+void choose_random_sign(EntityEffectSequenceBody *effect, s32 unused, void *primitive)
 {
-    AdvanceEntityEffectSequenceBody *state = effect;
+    EntityEffectSequenceBody *state = effect;
     s32 intensity;
     u16 ticks_left;
 
@@ -444,7 +444,7 @@ void create_rotating_directional_sprite(Row_819A1450_S_819A1450_4 *source, Objec
 void advance_entity_effect_sequence(Row_819A1654_Entity *entity, ObjectPosition *saved_context, SpriteFrameState *saved_data) {
     Row_819A1654_PointTable points;
     Row_819A1654_Task *task;
-    AdvanceEntityEffectSequencePrefix *effect;
+    EntityEffectSequencePrefix *effect;
     Row_819A1654_Sprite *sprite;
     ObjectPosition *coord;
     ObjectPosition *start_origin;

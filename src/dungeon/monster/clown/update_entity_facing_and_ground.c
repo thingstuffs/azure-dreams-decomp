@@ -1360,7 +1360,7 @@ void advance_clown_status_action(ActorRecord *actor, ObjectPosition *context, Sp
         render_record->frameTable = clown_frame_set_1;
         select_sprite_entry(render_record,(u8)(clown_frame_set_1[((g_game_work.view.camera_rotation.parts.viewAngle + actor_state->facing + 0x100) >> 9) & 7]),
             0);
-        (*(u32 *)&actor_state->flags1C) |= 0x40000;
+        actor_state->flags1C = (u32)((u32)(actor_state->flags1C) | (0x40000));
         if (render_record->flags & 0x8000) {
             actor->unk_8C.address = ((u8 *)update_actor_state_and_dispatch_transition);
             return;

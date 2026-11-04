@@ -304,7 +304,7 @@ void advance_actor_states_and_entity_flags(ActorRecord *actor, ObjectPosition *c
         select_sprite_entry(animation,
             death_frame_set_3[((g_game_work.view.camera_rotation.parts.viewAngle + entity->facing + 0x100) >> 9) & 7],
             0);
-        (*(u32 *)&entity->flags1C) |= 0x40000;
+        entity->flags1C = (u32)((u32)(entity->flags1C) | (0x40000));
         dungeon_state->unk_0A++;
     }
         actor->action_phase.u++;

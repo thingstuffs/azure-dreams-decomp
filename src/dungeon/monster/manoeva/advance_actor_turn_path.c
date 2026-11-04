@@ -67,7 +67,7 @@ void advance_actor_turn_path(ActorRecord *move_data_in, ObjectPosition *context,
                                   tile_in->tile_y);
             blocker = (ActorRecord *)current_angle;
             if (blocker != 0) {
-                SpriteFrameState *blocker_sprite = ((ObjectNodeHeader *)blocker - 1)->sprite;
+                SpriteFrameState *blocker_sprite = NODE_HEADER(blocker)->sprite;
                 s16 target_angle = get_rounded_facing_and_rounding_flag(
                     tile_in->tile_x, tile_in->tile_y,
                     blocker_sprite->tile_x,

@@ -48,12 +48,6 @@ typedef struct TownGlobals {
     u16 angle;
 } TownGlobals;
 
-typedef struct S_800A41D8_0 {
-    u8 pad_00[0x8];
-    u16 unk_08;
-    u8 pad_0A[0xC];
-    u16 unk_16;
-} S_800A41D8_0;
 
 /* Scratchpad shared by the angular-segment emitter and strip projector.
  * The emitter supplies four 8-byte vertices at +70..+8F and the texture
@@ -206,7 +200,7 @@ extern void AddPrim();
 extern void SetPolyFT4();
 extern void SetDrawMode();
 
-extern s32 D_800A3918[];
+
 extern s32 D_800A3B1C[];
 extern s32 D_800D0C40[];
 

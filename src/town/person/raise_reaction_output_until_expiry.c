@@ -1,7 +1,8 @@
+#include "town/person_callbacks_api.h"
 #include "common.h"
 #include "town/person.h"
 
-typedef struct {
+typedef struct town_rising_reaction_object {
     u8 pad0[0x6C];
     u16 timer;
     u16 value;

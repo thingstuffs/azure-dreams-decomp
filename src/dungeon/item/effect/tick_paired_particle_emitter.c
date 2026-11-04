@@ -8,6 +8,7 @@
 #include "shared/dungeon_status.h"
 #include "engine/node.h"
 #include "sdk/libc.h"
+#include "dungeon/item_callbacks_api.h"
 
 typedef struct {
     u8 pad0[2];
@@ -63,7 +64,7 @@ typedef struct {
     void *field10;
 } FuncItem;
 
-extern u8 D_800C4640[];
+
 extern u8 D_800DF564[];
 
 /* Spawn two effects at the source position and decrement its remaining count. */
@@ -86,7 +87,7 @@ void tick_paired_particle_emitter(FuncArg *source) {
     random_values[1] = rand();
     random_values[2] = rand();
     effect_index = 1;
-    effect_def = D_800C4640;
+    effect_def = animate_orbiting_effect_particle;
     height_offsets = entity_height_offsets;
     tile_data = D_800DF564;
     do {

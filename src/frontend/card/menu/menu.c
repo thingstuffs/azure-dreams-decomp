@@ -16,6 +16,6 @@ void decrement_card_menu_countdown(void *record_data) {
     counter = ((S_80020F40_0 *)((u8 *)record_data - 0x10))->unk_50 - 1;
     ((S_80020F40_0 *)((u8 *)record_data - 0x10))->unk_50 = counter;
     if (counter < 0) {
-        ((S_80020F40_0 *)((u8 *)record_data - 0x10))->unk_00 = &D_80407E64;
+        ((S_80020F40_0 *)((u8 *)record_data - 0x10))->unk_00 = card_boot_poll_status_and_select_context;
     }
 }

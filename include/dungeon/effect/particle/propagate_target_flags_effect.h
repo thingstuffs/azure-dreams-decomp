@@ -38,7 +38,7 @@ typedef struct StagedRectangleSpriteBody {
 } StagedRectangleSpriteBody;
 
 /* Shared motion, lifetime, and packed sprite data for the staged projectiles. */
-typedef struct UpdateStagedParticleEffectBody {
+typedef struct StagedParticleEffectBody {
     u8 pad_00[0x2C];
     union { s16 s; u16 u; } unk_2C;
     u16 unk_2E;
@@ -53,7 +53,7 @@ typedef struct UpdateStagedParticleEffectBody {
     s32 unk_98;
     s32 unk_9C;
     s32 unk_A0;
-} UpdateStagedParticleEffectBody;
+} StagedParticleEffectBody;
 
 /* Promoted Layer-2 record names and layouts are shared without changing the bodies. */
 
@@ -376,7 +376,7 @@ void select_record_entry_and_value(void *state, void *entries, short index);
 s32 check_left_tile_and_center_height(s32 x, s32 y, s32 z);
 void create_lingering_ballistic_sprite(S_8196B4A4_5 *source, s32 unused_1, s32 unused_2, s16 offset_x, s16 offset_y, s16 offset_z);
 void shrink_effect_and_step_texture(void *effect, s32 unused, S_8196BF24_1 *transform);
-void advance_particle_emitting_projectile(UpdateStagedParticleEffectBody *object, void *position, void *render_state);
+void advance_particle_emitting_projectile(StagedParticleEffectBody *object, void *position, void *render_state);
 void update_timed(void *effect_data, s32 unused, void *sprite);
 void advance_counter_and_propagate_target_flags(void *object);
 void advance_terrain_colliding_sprite(LingeringBallisticSpriteBody *motion, void *position, SpriteFrameState *update_id);
@@ -385,7 +385,7 @@ void create_timed_rectangle_effect(StagedRectangleSpriteBody *owner);
 void update_staged_particle_effect(Work *work, s32 position_arg, s32 sprite_arg);
 void advance_colliding_particle_sprite(void *effect, S_8196ACE4_0 *position, SpriteFrameState *sprite);
 void create_brief_ballistic_sprite(S_8196B780_5 *source, s32 unused_1, s32 unused_2, s16 x, s16 y, s16 z);
-void shrink_particle_emitting_projectile(UpdateStagedParticleEffectBody *effect, struct ObjectPosition *position, SpriteFrameState *sprite);
+void shrink_particle_emitting_projectile(StagedParticleEffectBody *effect, struct ObjectPosition *position, SpriteFrameState *sprite);
 void draw_effect_and_restore_clip(StagedRectangleSpriteBody *effect, s32 unused, u8 *primitive);
 void apply_random_actor_value_adjustment(void *state, void *unused, void *visual);
 void spawn_jittered_point_child(ObjectNodeHeader *source, s32 state_14_value, s32 state_08_value, s32 state_32_value, s16 x_offset, s16 y_offset, s16 z_offset);

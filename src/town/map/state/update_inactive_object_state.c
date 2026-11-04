@@ -1,14 +1,15 @@
+#include "town/map/state_callbacks_api.h"
 #include "common.h"
 #include "shared/object_flags.h"
 #include "engine/node.h"
 
-typedef struct {
+typedef struct town_inactive_object {
     s8 pad00[0x98];
     u8 *field_98;
     u8 *field_9C;
 } Obj;
 
-typedef struct {
+typedef struct town_inactive_state {
     u8 pad00[0x1A];
     u16 field_1A;
 } State;

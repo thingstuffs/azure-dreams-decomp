@@ -450,7 +450,7 @@ typedef struct S_func_81905FD0_4 {
 typedef struct S_func_81905FD0_5 {
     u8 pad_00[0x8];
     void * position;
-    void * sprite;
+    SpriteFrameState *sprite;
     void * unk_10;
     u8 pad_14[0xA];
     u16 unk_1E;

@@ -1,8 +1,10 @@
+#include "dungeon/effect/mesh_callbacks_api.h"
 #include "common.h"
 #include "shared/entity.h"
+#include "dungeon/effect.h"
 
 typedef struct ChainNode ChainNode;
-typedef struct {
+typedef struct dungeon_mesh_chain_payload {
     u8 before_kind[6];
     s16 kind;
 } ChainPayload;
@@ -16,7 +18,6 @@ typedef struct {
     ObjectPosition *value;
     ChainPayload *payload;
 } ChainHeader;
-extern void transform_mesh_and_append_draw_packets(void *, ObjectPosition *, ChainPayload *, s16); /* Unprototyped: uses the value as a pointer where the definition has an integer (or the reverse) */
 
 /*
  * Transforms and queues each linked mesh using its payload kind, follows the chain headers, and

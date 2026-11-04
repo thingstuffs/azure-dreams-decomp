@@ -21494,12 +21494,6 @@
           "declaration": "src/dungeon/effect/trap.c"
         },
         {
-          "symbol": "func_800CB9DC",
-          "kind": "function",
-          "vma": 2148317660,
-          "basis": "respelled callback address: advance_go_up_trap_sequence, the C function linked at this address (config/names.tsv); formerly the address-only data view D_800CB9DC"
-        },
-        {
           "symbol": "D_800CBDB4",
           "kind": "function",
           "vma": 2148318644
@@ -21548,11 +21542,6 @@
           "symbol": "D_800CEA44",
           "kind": "function",
           "vma": 2148330052
-        },
-        {
-          "symbol": "D_800CEEFC",
-          "kind": "function",
-          "vma": 2148331260
         },
         {
           "symbol": "D_800DCF0C",
@@ -22013,21 +22002,6 @@
           "vma": 2147827112
         },
         {
-          "symbol": "rsin",
-          "kind": "function",
-          "vma": 2147894456
-        },
-        {
-          "symbol": "rcos",
-          "kind": "function",
-          "vma": 2147894660
-        },
-        {
-          "symbol": "rand",
-          "kind": "function",
-          "vma": 2147917560
-        },
-        {
           "symbol": "func_80094E34",
           "kind": "function",
           "vma": 2148093492
@@ -22208,9 +22182,35 @@
           "vma": 2148306352
         },
         {
+          "symbol": "func_800CB9DC",
+          "kind": "function",
+          "vma": 2148317660,
+          "basis": "respelled callback address: advance_go_up_trap_sequence, the C function linked at this address (config/names.tsv); formerly the address-only data view D_800CB9DC"
+        },
+        {
+          "symbol": "func_800CEEFC",
+          "kind": "function",
+          "vma": 2148331260
+        },
+        {
           "symbol": "func_800DC1B8",
           "kind": "function",
           "vma": 2148385208
+        },
+        {
+          "symbol": "rand",
+          "kind": "function",
+          "vma": 2147917560
+        },
+        {
+          "symbol": "rcos",
+          "kind": "function",
+          "vma": 2147894660
+        },
+        {
+          "symbol": "rsin",
+          "kind": "function",
+          "vma": 2147894456
         }
       ],
       "owned_data": [],
@@ -44554,26 +44554,14 @@
       "owned_data": [],
       "imports": [
         {
-          "symbol": "D_800241B0",
-          "kind": "data",
-          "vma": 2147631536,
-          "foff": 26339760,
-          "view_bytes": 1,
-          "owner": "retail_asset:work/disc/containers/DUNGEON_DUNGEON.BIN",
-          "asset": "work/disc/containers/DUNGEON_DUNGEON.BIN",
-          "map": "native_bank_native_ovl_7e705800_map",
-          "evidence": "docs/evidence/dungeon_ovl_7e705800.imports.json"
+          "symbol": "func_80024EDC",
+          "kind": "function",
+          "vma": 2147631536
         },
         {
-          "symbol": "D_80024400",
-          "kind": "data",
-          "vma": 2147632128,
-          "foff": 26340352,
-          "view_bytes": 1,
-          "owner": "retail_asset:work/disc/containers/DUNGEON_DUNGEON.BIN",
-          "asset": "work/disc/containers/DUNGEON_DUNGEON.BIN",
-          "map": "native_bank_native_ovl_7e705800_map",
-          "evidence": "docs/evidence/dungeon_ovl_7e705800.imports.json"
+          "symbol": "func_8002515C",
+          "kind": "function",
+          "vma": 2147632128
         },
         {
           "symbol": "func_8003FD64",
@@ -47676,7 +47664,7 @@
           "declaration": "include/shared/object_flags.h"
         },
         {
-          "symbol": "func_80024C54",
+          "symbol": "func_80024EDC",
           "kind": "function",
           "vma": 2147634260
         },
@@ -80325,22 +80313,6 @@
           "declaration": "include/dungeon/effect/entity_sprite_initialization_g00339.h"
         },
         {
-          "symbol": "D_800B274C",
-          "kind": "data",
-          "vma": 2148214604,
-          "foff": 839660,
-          "view_bytes": 4,
-          "owner": "retail_asset:dungeon:xfer_dungeon_A3000"
-        },
-        {
-          "symbol": "D_800B2A60",
-          "kind": "data",
-          "vma": 2148215392,
-          "foff": 840448,
-          "view_bytes": 4,
-          "owner": "retail_asset:dungeon:xfer_dungeon_A3000"
-        },
-        {
           "symbol": "func_8003FD64",
           "kind": "function",
           "vma": 2147745124
@@ -80374,6 +80346,16 @@
           "symbol": "func_800A2B04",
           "kind": "function",
           "vma": 2148150020
+        },
+        {
+          "symbol": "func_800B274C",
+          "kind": "function",
+          "vma": 2148214604
+        },
+        {
+          "symbol": "func_800B2A60",
+          "kind": "function",
+          "vma": 2148215392
         },
         {
           "symbol": "func_800BC26C",
@@ -80551,14 +80533,6 @@
       "owned_data": [],
       "imports": [
         {
-          "symbol": "D_800B63A8",
-          "kind": "data",
-          "vma": 2148230056,
-          "foff": 855112,
-          "view_bytes": 4,
-          "owner": "retail_asset:dungeon:xfer_dungeon_A3000"
-        },
-        {
           "symbol": "D_800DEC00",
           "kind": "data",
           "vma": 2148396032,
@@ -80587,19 +80561,14 @@
           "vma": 2147767104
         },
         {
-          "symbol": "rsin",
-          "kind": "function",
-          "vma": 2147894456
-        },
-        {
-          "symbol": "rcos",
-          "kind": "function",
-          "vma": 2147894660
-        },
-        {
           "symbol": "func_8009A350",
           "kind": "function",
           "vma": 2148115280
+        },
+        {
+          "symbol": "func_800B63A8",
+          "kind": "function",
+          "vma": 2148230056
         },
         {
           "symbol": "func_800B653C",
@@ -80610,6 +80579,16 @@
           "symbol": "rand",
           "kind": "function",
           "vma": 2147917560
+        },
+        {
+          "symbol": "rcos",
+          "kind": "function",
+          "vma": 2147894660
+        },
+        {
+          "symbol": "rsin",
+          "kind": "function",
+          "vma": 2147894456
         }
       ],
       "review": {
@@ -81242,22 +81221,6 @@
       "owned_data": [],
       "imports": [
         {
-          "symbol": "D_800D6804",
-          "kind": "data",
-          "vma": 2148362244,
-          "foff": 987300,
-          "view_bytes": 12,
-          "owner": "retail_asset:dungeon:xfer_dungeon_A3000"
-        },
-        {
-          "symbol": "D_800D68F4",
-          "kind": "data",
-          "vma": 2148362484,
-          "foff": 987540,
-          "view_bytes": 12,
-          "owner": "retail_asset:dungeon:xfer_dungeon_A3000"
-        },
-        {
           "symbol": "func_8003FD64",
           "kind": "function",
           "vma": 2147745124
@@ -81266,6 +81229,16 @@
           "symbol": "func_8004491C",
           "kind": "function",
           "vma": 2147764508
+        },
+        {
+          "symbol": "func_800D6804",
+          "kind": "function",
+          "vma": 2148362244
+        },
+        {
+          "symbol": "func_800D68F4",
+          "kind": "function",
+          "vma": 2148362484
         }
       ],
       "review": {
@@ -81678,14 +81651,6 @@
           "declaration": "include/dungeon/menu/object_table_initialization_g00375.h"
         },
         {
-          "symbol": "D_800DC8F8",
-          "kind": "data",
-          "vma": 2148387064,
-          "foff": 1012120,
-          "view_bytes": 6,
-          "owner": "retail_asset:dungeon:xfer_dungeon_A3000"
-        },
-        {
           "symbol": "D_800E2804",
           "kind": "data",
           "vma": 2148411396,
@@ -81731,6 +81696,11 @@
           "symbol": "func_8004B404",
           "kind": "function",
           "vma": 2147791876
+        },
+        {
+          "symbol": "func_800DC8F8",
+          "kind": "function",
+          "vma": 2148387064
         },
         {
           "symbol": "func_800DC988",
@@ -90606,34 +90576,10 @@
       "owned_data": [],
       "imports": [
         {
-          "symbol": "D_80022524",
-          "kind": "data",
-          "vma": 2147624228,
-          "foff": 2487588,
-          "view_bytes": 6,
-          "owner": "retail_asset:main:xfer_main_25CA6C"
-        },
-        {
-          "symbol": "D_800226A8",
-          "kind": "data",
-          "vma": 2147624616,
-          "foff": 2487976,
-          "view_bytes": 6,
-          "owner": "retail_asset:main:xfer_main_25CA6C"
-        },
-        {
           "symbol": "D_80022CD8",
           "kind": "data",
           "vma": 2147626200,
           "foff": 2489560,
-          "view_bytes": 6,
-          "owner": "retail_asset:main:xfer_main_25CA6C"
-        },
-        {
-          "symbol": "D_80027DD0",
-          "kind": "data",
-          "vma": 2147646928,
-          "foff": 2510288,
           "view_bytes": 6,
           "owner": "retail_asset:main:xfer_main_25CA6C"
         },
@@ -90662,6 +90608,16 @@
           "symbol": "func_80022488",
           "kind": "function",
           "vma": 2147624072
+        },
+        {
+          "symbol": "func_80022524",
+          "kind": "function",
+          "vma": 2147624228
+        },
+        {
+          "symbol": "func_800226A8",
+          "kind": "function",
+          "vma": 2147624616
         },
         {
           "symbol": "func_800226E0",
@@ -90697,6 +90653,11 @@
           "symbol": "func_800231E4",
           "kind": "function",
           "vma": 2147627492
+        },
+        {
+          "symbol": "func_80027DD0",
+          "kind": "function",
+          "vma": 2147646928
         },
         {
           "symbol": "func_8003FE78",
@@ -91051,14 +91012,6 @@
       "owned_data": [],
       "imports": [
         {
-          "symbol": "D_80024F7C",
-          "kind": "data",
-          "vma": 2147635068,
-          "foff": 2498428,
-          "view_bytes": 6,
-          "owner": "retail_asset:main:xfer_main_25CA6C"
-        },
-        {
           "symbol": "func_80020984",
           "kind": "function",
           "vma": 2147617156
@@ -91087,6 +91040,11 @@
           "symbol": "func_80024298",
           "kind": "function",
           "vma": 2147631768
+        },
+        {
+          "symbol": "func_80024F7C",
+          "kind": "function",
+          "vma": 2147635068
         },
         {
           "symbol": "func_80024FFC",

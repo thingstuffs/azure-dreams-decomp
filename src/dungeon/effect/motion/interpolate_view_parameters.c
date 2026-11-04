@@ -208,10 +208,10 @@ void create_a_type_hex_212_initializes_handler_mode(s32 initial_value) {
 void update_the_target_records_counts_flags_status(AnDefaultRenderingSettingsCopiesInitialDataBody *object_slot, void *unused, SpriteFrameState *target)
 {
     B22_81893474_EffectState *post_object;
-    void *pre_object;
+    B22_81893474_EffectState *pre_object;
 
     pre_object = object_slot->owner;
-    *(u16 *)((u8 *)pre_object + 0x14) += 1;
+    pre_object->field_14.u += 1;
     advance_sprite_animation_and_textures(target);
     if (target->flags & 0x6000) {
         u16 object_count;

@@ -24,7 +24,7 @@ typedef struct S_func_800A1C94_2 {
 
 
 /* Creates a display object with callbacks and the supplied payload values. */
-void *create_display_object_with_callbacks(s32 payload_word, s32 payload_halfword)
+void *create_display_object_with_callbacks(s32 payload_word, s32 payload_halfword, void *unused_item_data)
 {
     S_func_800A1C94_0 *object;
     SpriteFrameState *display;

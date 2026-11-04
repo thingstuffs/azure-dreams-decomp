@@ -117,7 +117,7 @@ void initialize_settings_screen(void) {
     panel_y_fixed = 0xA00000;
     frame.fields.x.v = panel_x_fixed;
     frame.fields.y.v = panel_y_fixed;
-    create_type(frame.bytes, &D_8008AC70, &D_80078AF0, settings);
+    create_type(frame.bytes, remove_record_with_marked_owner, &D_80078AF0, settings);
     heading_x = 0x94;
     heading_y = 0x44;
     frame.fields.x.w.i = heading_x;
@@ -142,14 +142,14 @@ void initialize_settings_screen(void) {
     frame.fields.label.x = 0x74;
     frame.fields.label.y = 0xC;
     frame.fields.label.text = D_8008B2B0;
-    initialize_and_submit_record(&D_8008B030, &frame.fields.label.flags);
+    initialize_and_submit_record(remove_effect_with_marked_owner, &frame.fields.label.flags);
     index = 0;
     frame.fields.label.x = 0x20;
     do {
         frame.fields.label.y = index * 0xC + 0x20;
         top_text = (&D_8008B2B4)[index];
         frame.fields.label.text = top_text;
-        initialize_and_submit_record(&D_8008B030, &frame.fields.label.flags);
+        initialize_and_submit_record(remove_effect_with_marked_owner, &frame.fields.label.flags);
         index += 1;
     } while (index < 2);
     item_index = 0;
@@ -169,7 +169,7 @@ void initialize_settings_screen(void) {
         frame.fields.label.y = item_index * 0xC + 0x40;
         middle_text = D_8008B2C4[item_index];
         frame.fields.label.text = middle_text;
-        initialize_and_submit_record(&D_8008B030, &frame.fields.label.flags);
+        initialize_and_submit_record(remove_effect_with_marked_owner, &frame.fields.label.flags);
         item_index -= 1;
     } while (item_index >= 0);
     item_index = 1;
@@ -177,7 +177,7 @@ void initialize_settings_screen(void) {
         frame.fields.label.x = item_index * 0x40 + 0xBE;
         choice_heading = D_8008B2D4[item_index];
         frame.fields.label.text = choice_heading;
-        initialize_and_submit_record(&D_8008B030, &frame.fields.label.flags);
+        initialize_and_submit_record(remove_effect_with_marked_owner, &frame.fields.label.flags);
         item_index -= 1;
     } while (item_index >= 0);
     frame.fields.label.x = 0x20;
@@ -186,7 +186,7 @@ void initialize_settings_screen(void) {
         frame.fields.label.y = item_index * 0xC + 0x78;
         bottom_text = (&D_8008B2DC)[item_index];
         frame.fields.label.text = bottom_text;
-        initialize_and_submit_record(&D_8008B030, &frame.fields.label.flags);
+        initialize_and_submit_record(remove_effect_with_marked_owner, &frame.fields.label.flags);
         item_index += 1;
     } while (item_index < 2);
     frame.fields.label.x = 0xB2;
@@ -195,7 +195,7 @@ void initialize_settings_screen(void) {
         frame.fields.label.y = item_index * 0xC + 0x7E;
         channel_text = D_8008B2E4[item_index];
         frame.fields.label.text = channel_text;
-        initialize_and_submit_record(&D_8008B030, &frame.fields.label.flags);
+        initialize_and_submit_record(remove_effect_with_marked_owner, &frame.fields.label.flags);
         item_index -= 1;
     } while (item_index >= 0);
     frame.fields.panel.x = 0x1C;

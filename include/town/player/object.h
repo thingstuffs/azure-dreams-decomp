@@ -13,7 +13,7 @@ struct S_func_800A6C4C_0;
 struct TownObject;
 
 /* bind_handler_and_initialize_entity.c */
-void bind_handler_and_initialize_entity(struct S_80098B30_0 *state, ObjectPosition *record);
+void bind_handler_and_initialize_entity(struct S_80098B30_0 *state, ObjectPosition *record, void *unused_action_data);
 
 /* clear_entity_record_fields.c */
 void clear_entity_record_fields(ObjectPosition *record);

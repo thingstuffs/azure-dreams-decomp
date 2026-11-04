@@ -29,7 +29,7 @@ typedef struct S_800B7B60_1_pre {
 extern void advance_egg_bomb_sequence();
 
 /* Allocates an object, copies the source coordinates, and increments the object counter. */
-void *allocate_object_at_coordinates(void *source, s32 *init_value) {
+void *allocate_object_at_coordinates(void *source, s32 *init_value, s16 unused_dispatch_mode) {
     u16 coord_z;
     MovingPosition *src_coords;
     S_800B7B60_0 *object;

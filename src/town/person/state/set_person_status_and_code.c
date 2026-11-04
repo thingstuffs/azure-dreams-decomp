@@ -2,7 +2,7 @@
 #include "m2c_compat.h"
 #include "town/person/state.h"
 
-extern void randomize_person_color(TownObjectRecord *object, s32 context, s32 update_param, void *color_data);
+extern void randomize_person_color(TownObjectRecord *object, TownObjectRecord *context, s32 update_param, void *color_data);
 
 typedef struct S_800AAE00_0 {
     u8 pad_00[0x15];

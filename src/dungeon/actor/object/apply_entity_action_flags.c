@@ -69,7 +69,7 @@ void apply_entity_action_flags(ActorRecord *object, s32 action) {
         object->flags1C = (s32) (object->flags1C | ACTOR_ANGRY);
         break;
     case STATUS_NO_TILE_OCCUPANCY - 1:
-        target_sprite = ((ObjectNodeHeader *)object - 1)->sprite;
+        target_sprite = NODE_HEADER(object)->sprite;
         tile_x = target_sprite->tile_x;
         tile_y = target_sprite->tile_y;
         clear_mask = 0x3000;
@@ -79,7 +79,7 @@ void apply_entity_action_flags(ActorRecord *object, s32 action) {
         update_map_cell_flags_with_item_limit(tile_x, tile_y, clear_mask);
         break;
     case STATUS_PLAYER_SIDE - 1:
-        target_sprite = ((ObjectNodeHeader *)object - 1)->sprite;
+        target_sprite = NODE_HEADER(object)->sprite;
         tile_x = target_sprite->tile_x;
         tile_y = target_sprite->tile_y;
         enable_clear_mask = 0x3000;
@@ -98,7 +98,7 @@ void apply_entity_action_flags(ActorRecord *object, s32 action) {
         cycle_map_cell_flags(tile_x, tile_y, set_mask);
         break;
     case STATUS_BRAINWASH - 1:
-        target_sprite = ((ObjectNodeHeader *)object - 1)->sprite;
+        target_sprite = NODE_HEADER(object)->sprite;
         tile_x = target_sprite->tile_x;
         tile_y = target_sprite->tile_y;
         disable_clear_mask = 0x3000;
@@ -115,7 +115,7 @@ void apply_entity_action_flags(ActorRecord *object, s32 action) {
     case STATUS_FROG - 1:
         func_8003E188(0x2E, 0);
         if (object->flags14 & 0x20000000) {
-            begin_actor_flagged_action((Rec_func_800A9E70_arg0 *)object, ((ObjectNodeHeader *)object - 1)->position, ((ObjectNodeHeader *)object - 1)->sprite,
+            begin_actor_flagged_action((Rec_func_800A9E70_arg0 *)object, NODE_HEADER(object)->position, NODE_HEADER(object)->sprite,
                 (EntityRec *)object);
             return;
         }

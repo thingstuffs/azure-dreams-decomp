@@ -151,8 +151,8 @@ void animate_and_display_item_use(ActorRecord *body, s32 actor_id, SpriteFrameSt
                 if (sprite->flags & 0x8000) {
                     effect_prim->z.w.i = ((u16)actor->ground_height) - 0x50;
                 } else {
-                    *(u16 *)&effect_prim->x.w.i += ((u16)offset.vx);
-                    *(u16 *)&effect_prim->y.w.i += ((u16)offset.vy);
+                    (effect_prim->x).unsigned_parts.integer += (((u16)offset.vx));
+                    (effect_prim->y).unsigned_parts.integer += (((u16)offset.vy));
                     tail_value = ((u16)offset.vz);
                     tail_value += ((u16)actor->ground_height);
                     effect_prim->z.w.i = tail_value;

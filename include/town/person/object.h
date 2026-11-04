@@ -109,7 +109,7 @@ void initialize_object_referenced_data_pointers(struct TownObjectRecord *object,
 /* initialize_object_resources_g01178.c */
 void initialize_object_resources_2(TownObjectRecord *object, ObjectPosition *position, SpriteFrameState *display_state);
 void set_camera_chase_data(TownObjectRecord *object, ObjectPosition *chase_data, SpriteFrameState *request_param, s32 check_param);
-void clear_object_slot_table_run(void *obj, void *param_a, void *param_b);
+void clear_object_slot_table_run(struct TownObjectRecord *obj, void *param_a, void *param_b);
 void accelerate_object_coordinates_to_lower_limits(TownObjectRecord *context, ObjectPosition *record, SpriteFrameState *callback_arg);
 void init_actor_handler_state(struct S_800C51DC_0 *actor, ObjectPosition *state);
 void *create_user_data_object_b(s32 user_data);

@@ -1,5 +1,6 @@
 #ifndef DUNGEON_ACTOR_POSITION_H
 #define DUNGEON_ACTOR_POSITION_H
+struct ActorRecord;
 /* Prototypes of the functions defined in src/dungeon/actor/position/ (one true prototype each; maintained by tools/headers). */
 
 #include "common.h"
@@ -14,7 +15,7 @@ struct S_800AC480_0;
 struct S_800AC480_3;
 
 /* advance_actor_movement_to_tile.c */
-void advance_actor_movement_to_tile(ActorRecord *entity_ptr, void *input_arg_1, void *input_arg_2, void *actor_ptr);
+void advance_actor_movement_to_tile(ActorRecord *entity_ptr, void *input_arg_1, void *input_arg_2, struct ActorRecord *actor_ptr);
 
 /* create_actor_at_tile.c */
 void *create_actor_at_tile(s16 spawn_kind, u16 tile_x, u16 tile_y, s16 height);

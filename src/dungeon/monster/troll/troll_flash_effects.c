@@ -418,7 +418,7 @@ void create_actor_action_effect(ActorRecord *source_object, ObjectPosition *sour
 }
 
 /* Creates an effect at an offset position with randomized attributes and motion. */
-void spawn_random_color_burst_particle(void *source, ObjectPosition *position) {
+void spawn_random_color_burst_particle(void *source, ObjectPosition *position, void *unused_sprite, void *unused_actor) {
     T_80171790_S_80171790_5 *source_obj;
     ObjectPosition *source_pos;
     s32 obj_or_angle;
@@ -602,9 +602,9 @@ void create_tracked_attachment_sprite(ActorRecord *body, T_80171BEC_S_80171BEC_3
 
         owner = ((T_80171BEC_S_80171BEC_4_pre *)body)[-1].unk_00;
         if (resolve_record_orientation_or_fallback(owner->unk_08, owner, &offset, 0) != 0) {
-            *(u16 *)&position->x.w.i += offset.x;
-            *(u16 *)&position->y.w.i += offset.y;
-            *(u16 *)&position->z.w.i += offset.z;
+            (position->x).unsigned_parts.integer += (offset.x);
+            (position->y).unsigned_parts.integer += (offset.y);
+            (position->z).unsigned_parts.integer += (offset.z);
         }
 
         render = object->sprite;

@@ -1,6 +1,7 @@
 /* Save copy completion; G00392; inferred-strong; CL/PD joins as listed below, no proven or weak cut crossed */
 /* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - CL:main/func_80012358. */
 #include "frontend/card/save_copy_completion_g00392.h"
+#include "frontend/libcard_callbacks_api.h"
 
 /*
  * Builds the card save description and initializes the text editor context with the same owner and
@@ -38,7 +39,7 @@ void process_five_context_entries_or_fallback(void *context_arg) {
     owner = (u8 *)context - 0x20;
     *(void (**)(void))((u8 *)context + 0x34) = (void (*)(void))card_boot_resume_menu_after_slot_refresh;
     card_boot_show_copy_failure_notice(owner);
-    *(void **)((u8 *)context - 0x10) = D_80024F7C;
+    *(void **)((u8 *)context - 0x10) = card_boot_restore_saved_selection_callback;
     card_boot_recheck_selected_channel();
     context->unk_40 = 0;
 }

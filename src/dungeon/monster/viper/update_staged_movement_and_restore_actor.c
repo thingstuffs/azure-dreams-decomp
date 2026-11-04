@@ -258,7 +258,7 @@ void update_staged_movement_and_restore_actor(ActorRecord *body, ObjectPosition 
         if (actor->pending_turn_updates == 0) {
             actor->action_flags = (u16) (actor->action_flags & ACTOR_ACTION_CLEAR_PENDING_MASK);
         } else {
-            *actor_update_node_cursor = (u8 *)actor - 0x20;
+            *actor_update_node_cursor = NODE_HEADER(actor);
         }
         actor_handle = actor->target;
         if (actor_handle == 0) {

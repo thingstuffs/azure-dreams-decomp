@@ -106,7 +106,7 @@ void advance_actor_action_and_direction(ActorRecord *action, ObjectPosition *con
             update_actor_status_and_mp(actor_in);
             on_actor_status_updated(actor_in);
             if ((get_entity_effect_value(actor_in, STATUS_SLEEP) << 16) != 0) {
-                s8 coordinate = *(s8 *)&sprite_in->room_index;
+                s8 coordinate = ((s8)(sprite_in->room_index));
                 TileObject *origin = &reference_tile_object;
                 s32 probe_result;
 

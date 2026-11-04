@@ -29,11 +29,11 @@ s32 check_actor_floor_trap(SpriteFrameState *actor, ActorRecord *target)
     s32 cost;
     s8 adjustment;
 
-    if (((ObjectNodeHeader *)target - 1)->flags & 0x8000) {
+    if (NODE_HEADER(target)->flags & 0x8000) {
         return 1;
     }
     player = &reference_tile_object;
-    if (player->room_index != *(s8 *)&actor->room_index && get_tile_chebyshev_distance(player, actor) >= 7) {
+    if (player->room_index != ((s8)(actor->room_index)) && get_tile_chebyshev_distance(player, actor) >= 7) {
         return 1;
     }
     if (target->mp_value.parts.whole == 0) {

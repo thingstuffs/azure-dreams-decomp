@@ -7,6 +7,7 @@
 #include "shared/dungeon_moving_views.h"
 #include "engine/node.h"
 #include "dungeon/effect/shade.h"
+#include "dungeon/effect/shade_callbacks_api.h"
 
 #define UNALIGNED32(expr) (expr)
 
@@ -14,7 +15,7 @@ typedef struct {
     u8 bytes[12];
 } Block12;
 
-extern s32 D_800D4954;
+
 extern Block12 D_800E233C;
 
 typedef struct S_800D4AB0_0 {
@@ -44,7 +45,7 @@ void create_attached_effect(Rec_func_800247B8_arg0 *owner, void *unused_motion, 
         effect_state->unk_5A = 0x78;
         effect_state->unk_5C = 0x78;
         effect_state->unk_88 = owner->unk_88;
-        effect->update_callback = &D_800D4954;
+        effect->update_callback = update_attached_effect;
         register_node(effect, project_sprite_chain);
         render_data = effect->sprite;
         render_data->tpage_abr = 0x60;

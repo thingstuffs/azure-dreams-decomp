@@ -66,7 +66,7 @@ void update_path_with_alternate_directions(ActorRecord *move_ctx_in, ObjectPosit
                                   position_in->tile_y);
             blocker = (ActorRecord *)current_angle;
             if (blocker != 0) {
-                SpriteFrameState *blocker_sprite = ((ObjectNodeHeader *)blocker - 1)->sprite;
+                SpriteFrameState *blocker_sprite = NODE_HEADER(blocker)->sprite;
                 s16 target_angle = get_rounded_facing_and_rounding_flag(
                     position_in->tile_x, position_in->tile_y,
                     blocker_sprite->tile_x,

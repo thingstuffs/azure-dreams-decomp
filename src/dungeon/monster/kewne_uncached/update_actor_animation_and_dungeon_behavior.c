@@ -115,7 +115,7 @@ void update_actor_animation_and_dungeon_behavior(void *actor, ObjectPosition *co
             }
         }
 
-        (*(u32 *)&entity->flags1C) |= 0x40000;
+        entity->flags1C = (u32)((u32)(entity->flags1C) | (0x40000));
         ((ActorRecord *)actor)->action_state_flags &= 0xFFF7;
 
         if (entity->hp_delta != 0) {

@@ -73,7 +73,7 @@ void handle_door_check_result(S_func_800A0708_0 *object, void *callback_arg, s32
 }
 
 /* Install the next object handler when the update call succeeds. */
-void install_next_door_handler(TownObjectRecord *object, void *unused_context, void *update_context, SpriteFrameState *unused_data) {
+void install_next_door_handler(TownObjectRecord *object, TownObjectRecord *unused_context, void *update_context, SpriteFrameState *unused_data) {
     s32 linked_record = *(s32 *)((u8 *)object + 0x98);
     u8 status_byte = ((u8)(object->unk_94));
 
@@ -264,7 +264,7 @@ void change_door_map(void *map_source, s32 *map_table) {
 }
 
 /* Update the entity step state and switch handlers when the result is zero. */
-void advance_door_step(void *entity, void *unused_context, void *update_context, SpriteFrameState *unused_data) {
+void advance_door_step(void *entity, TownObjectRecord *unused_context, void *update_context, SpriteFrameState *unused_data) {
     s16 step_result;
 
     step_result = create_objects_descending_by_count(entity, *(s32 *)((u8 *)entity + 0x98), update_context, *(s16 *)((u8 *)entity

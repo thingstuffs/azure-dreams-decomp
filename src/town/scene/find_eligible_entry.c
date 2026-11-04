@@ -21,7 +21,7 @@ typedef struct S_80019F94_0 {
 } S_80019F94_0;   /* held_arg0 in find_eligible_entry */
 
 /* Returns the first eligible entry with a zero callback result, restarting when requested. */
-s32 find_eligible_entry(void *context) {
+s32 find_eligible_entry(void *context, s32 unused_group_bits) {
     S_80019F94_0 *scan;
     s32 *flag_page;
     s32 entry_index;

@@ -41,7 +41,7 @@ s32 initialize_gym_minigame(void)
     u16 *count_page;
 
     parent_link = NULL;
-    shared_data = (void *)&D_80020054;
+    shared_data = &D_80020054;
     count_page = (u16 *)0x80010000;
     count = (s16)*(count_page + (0x35C2 / 2));
     if (count < 20) {

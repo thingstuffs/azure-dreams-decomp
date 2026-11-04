@@ -15,7 +15,7 @@ void card_boot_poll_card_chooser_status(Object_800128C8 *state) {
     if ((g_game_work.buttons != 0) && ((g_game_work.pressed_buttons) & 0x20)) {
         card_boot_toggle_channel();
         state->wait_notice_state = 0;
-        ((ObjectNodeHeader *)state - 1)->update_callback = D_8002789C;
+        ((ObjectNodeHeader *)state - 1)->update_callback = card_boot_update_card_chooser_input;
         return;
     }
 

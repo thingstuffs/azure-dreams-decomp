@@ -66,7 +66,7 @@ void select_movement_direction_and_advance(ActorRecord *move_data, ObjectPositio
             current_angle = (s32)find_adjacent_actor(actor_data, position_data->tile_x, position_data->tile_y);
             blocker = (ActorRecord *)current_angle;
             if (blocker != 0) {
-                SpriteFrameState *blocker_sprite = ((ObjectNodeHeader *)blocker - 1)->sprite;
+                SpriteFrameState *blocker_sprite = NODE_HEADER(blocker)->sprite;
                 s16 target_angle = get_rounded_facing_and_rounding_flag(
                     position_data->tile_x, position_data->tile_y,
                     blocker_sprite->tile_x, blocker_sprite->tile_y,

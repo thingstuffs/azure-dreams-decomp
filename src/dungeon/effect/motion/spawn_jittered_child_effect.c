@@ -2,6 +2,7 @@
 #include "dungeon/effect/motion/spawn_jittered_child_effect.h"
 #include "dungeon/effect/motion.h"
 #include "shared/object_node.h"
+#include "dungeon/effect/mesh_callbacks_api.h"
 
 
 /* Creates a child effect at a random offset from its source and stores the supplied control values. */
@@ -35,7 +36,7 @@ void spawn_jittered_child_effect(
 
     object_cursor = allocate_list_node(0x211, source_obj);
     if (object_cursor != NULL) {
-        object_cursor->update_callback = D_80024400;
+        object_cursor->update_callback = raise_entity_to_ground;
         jitter_x = rand() & 0x1F;
         position_x = ((Row_818FECCC_S_818FECCC_6 *)(source_obj->unk_08))->unk_02;
         dest_x = object_cursor->position;
@@ -53,7 +54,7 @@ void spawn_jittered_child_effect(
         dest_y->y.w.i = (s16)position_y;
 
         jitter_z = rand();
-        init_data = &D_800241B0;
+        init_data = draw_linked_brightness_points;
         jitter_z &= 0x1F;
         position_z = ((Row_818FECCC_S_818FECCC_6 *)(source_obj->unk_08))->unk_0A;
         fields = NODE_BODY(object_cursor);

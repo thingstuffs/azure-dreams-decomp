@@ -53,7 +53,7 @@ typedef struct {
 void select_record_entry_and_value(void *state,void *entries, short index);
 
 /* extern */
-extern void D_800A86BC();
+
 #include "shared/sprite_source.h"
 #include "town/map/motion.h"
 extern SpriteSourceEntry map_animation_sprite_entries[];

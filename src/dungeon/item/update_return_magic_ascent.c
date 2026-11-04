@@ -1,3 +1,4 @@
+#include "dungeon/item_callbacks_api.h"
 #include "shared/runtime_dispatch.h"
 #include "shared/object_node.h"
 #include "common.h"
@@ -27,7 +28,7 @@ typedef struct {
     s16 fieldE;
 } Primitive;
 
-typedef struct {
+typedef struct dungeon_return_magic_object {
     u8 pad0[0x4A];
     s16 phase;
     u16 counter;
@@ -37,14 +38,14 @@ typedef struct {
     u8 *handle;
 } DungeonObject;
 
-typedef struct {
+typedef struct dungeon_return_magic_motion {
     u8 pad0[8];
     s32 field8;
     u8 padC[8];
     s32 field14;
 } MotionState;
 
-typedef struct {
+typedef struct dungeon_return_magic_effect {
     u8 pad0[0xC];
     u8 fieldC;
     u8 fieldD;

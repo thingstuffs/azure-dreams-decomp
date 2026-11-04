@@ -27,7 +27,7 @@ extern M2C_UNK D_80167A2C;
 extern PositionTableEntry ribbon_vertices[];
 
 /* Creates a visual object with a source-indexed position offset and appearance. */
-void create_ribbon_head_sprite(Rec_func_80167A98_arg0 *source, Rec_func_80167A98_arg1 *origin) {
+void create_ribbon_head_sprite(Rec_func_80167A98_arg0 *source, Rec_func_80167A98_arg1 *origin, void *unused_color) {
     ObjectPosition *position;
     SpriteFrameState *render_state;
     ObjectNodeHeader *object;

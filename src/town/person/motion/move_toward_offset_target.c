@@ -1,9 +1,10 @@
+#include "town/person/motion_callbacks_api.h"
 #include "common.h"
 
 typedef struct { s16 pad0; s16 x; s16 pad4; s16 y; } TownTarget;
 typedef struct { u8 pad0[8]; TownTarget *target; } TownContext;
-typedef struct { u32 x; u32 y; } TownPosition;
-typedef struct { u8 pad0[0x6C]; u16 timer; } TownObject;
+typedef struct town_offset_target_position { u32 x; u32 y; } TownPosition;
+typedef struct town_offset_target_object { u8 pad0[0x6C]; u16 timer; } TownObject;
 
 extern TownContext *person_offset_target_owner;
 #include "town/person/object_setup.h"

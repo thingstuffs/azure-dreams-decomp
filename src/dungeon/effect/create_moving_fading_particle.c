@@ -4,6 +4,7 @@
 #include "common.h"
 #include "sdk/libgte.h"
 #include "dungeon/effect.h"
+#include "dungeon/effect/sprite.h"
 
 typedef struct ParticleRenderOwner {
     u8 pad_00[0xC];
@@ -12,7 +13,7 @@ typedef struct ParticleRenderOwner {
 
 extern s16 D_80026476;
 extern void move_linked_effect_along_path(void *, s32, void *);
-extern s32 func_80024ED0(void *, void *, void *);
+
 extern u8 particle_quad_vertices[];
 extern u8 particle_target_height[];
 
@@ -64,7 +65,7 @@ void *create_moving_fading_particle(ObjectPosition *origin, s16 angle, s16 radiu
     object = allocate_list_node(0x202, allocation_head);
     if (object != 0) {
         object->update_callback = (void *)move_linked_effect_along_path;
-        register_node(object, func_80024ED0);
+        register_node(object, build_and_enqueue_interpolated_depth_sorted_shaded_lines_linked_list);
         positions = object->position;
         positions->x.w.i = (s16) (((u16)(origin->x.w.i)) + ((s32) (rcos(angle) * radius) >> 0xF));
         positions->y.w.i = (s16) (((u16)(origin->y.w.i)) + ((s32) (rsin(angle) * radius) >> 0xF));

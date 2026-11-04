@@ -8,6 +8,7 @@
 #include "records/Rec_func_800D4BD4_arg2.h"
 #include "shared/dungeon_moving_views.h"
 #include "sdk/libc.h"
+#include "dungeon/effect/shade_callbacks_api.h"
 
 
 
@@ -19,7 +20,7 @@ typedef struct S_800D5294_2 {
 
 /* cfail-repair: tf7-phase1-cache-v3 */
 void initialize_effect_object_state(); /* extern */
-extern M2C_UNK D_800D50FC[3];
+
 
 /* Emit randomized particles at the parent-relative position and expire the emitter when its lifetime ends. */
 void emit_randomized_relative_particles(void *emitter, Rec_func_800D4BD4_arg2 *position, M2C_UNK spawn_context) {
@@ -46,7 +47,7 @@ void emit_randomized_relative_particles(void *emitter, Rec_func_800D4BD4_arg2 *p
     if ((s16) tick_or_offset < 0x14) {
         particle_index = 0;
         particle_size = 0x20;
-        particle_data = D_800D50FC;
+        particle_data = update_effect_motion_and_color;
         do {
             particle = allocate_flagged_object_node(0x212);
             if (particle != NULL) {

@@ -30,7 +30,7 @@ extern void shift_index_and_add_offset(void);
 
 
 /* Devkit list redraw: raise the busy flag, rebuild the list and re-key every row. */
-void redraw_devkit_list_and_rekey_rows(void) {
+void redraw_devkit_list_and_rekey_rows(s32 unused_list_length, s32 unused_row_value) {
     u8 *row_cursor;
     u8 *row_base;
 

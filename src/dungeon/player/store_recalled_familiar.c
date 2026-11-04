@@ -45,7 +45,7 @@ void store_recalled_familiar(s32 slot_table, void *unused_arg1, void *unused_arg
     ActorRecord *source_record;
     void *unused_ptr;
     void *record_storage;
-    void *owner_record;
+    ActorRecord *owner_record;
     MovingTile *position;
     void *unused_ptr2;
     void *unused_ptr3;
@@ -86,7 +86,7 @@ void store_recalled_familiar(s32 slot_table, void *unused_arg1, void *unused_arg
     effect_x = position->tile_x;
     effect_y = position->tile_y;
     effect_mask = 0x3000;
-    if (((S_80093E74_5 *)((u8 *)owner_record - 0x14))->unk_30 & 0x2000) {
+    if (owner_record->flags1C & 0x2000) {
         effect_mask = 0x300;
     }
     /*

@@ -217,17 +217,17 @@ s32 blit_default_rectangle(void);
 s32 call_helper_with_fixed_id_0x118a(void);
 void configure_the_set_mode_n_4(void *record, void *position, void *bounds);
 void dispatch_mode_two_by_state(s32 state_input);
-s32 find_eligible_entry(void *context);
+s32 find_eligible_entry(void *context, s32 unused_group_bits);
 s32 get_helper_result(void);
 s32 get_smaller_query_result_capped_hex_80_writes_associated_output(EntityRec *source, s32 *out_detail);
 s32 low_12_values_within_511(s32 value_a, s32 value_b);
 void pass_2(s32 dispatch_context, s32 unused, s32 dispatch_arg);
 s32 process_request_and_notify(void *context, s32 request);
 char *select_address_based_input(void);
-void *select_data_for_condition_d_83(void);
+void *select_data_for_condition_d_83(s32 unused_value, s32 unused_special_value, s32 unused_code);
 void *select_data_pointer_based_result(void);
-s32 *select_response_and_set_d_80(void);
-void set_up_town_resolves_record(void);
+s32 *select_response_and_set_d_80(s32 unused_first_value, s32 unused_second_value, s32 unused_code);
+void set_up_town_resolves_record(s32 unused_list_length, s32 unused_record_value);
 void write_value_through_pointer(s32 *destination, s32 value);
 
 void fall_to_ground_height(s32 unused, ObjectPosition *position);
@@ -247,4 +247,12 @@ struct TownInput;
 void initialize_falling_object_sprite(struct FallingObjectState *object, ObjectPosition *context, SpriteFrameState *sprite);
 s32 match_input_low_bits_to_state(struct TownInput *input);
 s32 is_player_in_target_region(void);
+s32 find_first_enabled_paired_entry(void);
+s32 are_all_checks_set(void);
+s32 find_entry_8_index_or_assert(void *entries, s32 entry_id);
+void *init_sequential_command_records(void *records);
+
+s32 sum_flagged_terminated_entries(void *entry, s32 callback_mode);
+void update_dependent_entry_ids(s16 checked_id, s16 first_id, s16 second_id);
+
 #endif

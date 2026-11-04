@@ -5,10 +5,10 @@
 #include "shared/town_root.h"
 #include "town/player/state.h"
 #include "town/scene/motion.h"
+#include "town/data.h"
 
 extern s32 D_80018EAC;
 extern s32 D_80018EC4;
-extern s32 scene_request_context;
 
 /* Update flag 0x681 when triggered and dispatch the corresponding record. */
 void pass_2(s32 dispatch_context, s32 unused, s32 dispatch_arg)

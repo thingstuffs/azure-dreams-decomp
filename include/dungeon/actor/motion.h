@@ -1,5 +1,6 @@
 #ifndef DUNGEON_ACTOR_MOTION_H
 #define DUNGEON_ACTOR_MOTION_H
+struct ActorRecord;
 struct ObjectPosition;
 struct ObjectPosition;
 
@@ -50,7 +51,7 @@ s32 update_actor_hop_and_shrink(void *animation, struct ObjectPosition *motion, 
 s32 update_actor_movement_to_tile(ActorRecord *move_state, void *motion, void *target_tile, ActorRecord *actor);
 struct S_800D9884_0;
 void update_actor_target_after_check(ActorRecord *state, ObjectPosition *motion, SpriteFrameState *sprite, ActorRecord *target);
-void advance_actor_movement_to_tile(ActorRecord *entity_ptr, void *input_arg_1, void *input_arg_2, void *actor_ptr);
+void advance_actor_movement_to_tile(ActorRecord *entity_ptr, void *input_arg_1, void *input_arg_2, struct ActorRecord *actor_ptr);
 
 
 /* The trail callbacks keep seven 8-byte samples at work +0x24. Their motion

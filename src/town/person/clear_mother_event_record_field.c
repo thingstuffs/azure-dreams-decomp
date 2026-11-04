@@ -4,6 +4,6 @@
 #include "town/person.h"
 
 /* Clears the record's unk_94 field. */
-void clear_mother_event_record_field(TownObjectRecord *record) {
+void clear_mother_event_record_field(TownObjectRecord *record, void *unused_position, s32 unused_update_arg) {
     record->unk_94 = 0;
 }

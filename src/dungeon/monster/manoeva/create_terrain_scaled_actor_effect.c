@@ -38,8 +38,8 @@ void create_terrain_scaled_actor_effect(ObjectNodeHeader *source, s16 *facing, u
         render_data->scale_y = 0x1000;
         render_data->scale_x = 0x1000;
         render_data->color.word = 0x808080;
-        render_data->animation_resource = (s32) ((SpriteFrameState *)effect_state->unk_14)->animation_resource;
-        render_data->clut = (u16) ((SpriteFrameState *)effect_state->unk_14)->clut;
+        render_data->animation_resource = (s32) effect_state->unk_14->animation_resource;
+        render_data->clut = (u16) effect_state->unk_14->clut;
         effect->position->x.unsigned_parts.integer =
             (u16) source->position->x.unsigned_parts.integer;
         effect->position->y.unsigned_parts.integer =

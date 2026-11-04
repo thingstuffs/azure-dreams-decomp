@@ -60,7 +60,7 @@ void advance_actor_attack_and_resolve_damage(ActorRecord *action, ObjectPosition
                 actor->action_flags &= ACTOR_ACTION_CLEAR_PENDING_MASK;
                 return;
             }
-            actor_update_node_cursor = (u8 *)actor - 0x20;
+            actor_update_node_cursor = NODE_HEADER(actor);
         }
         return;
     }

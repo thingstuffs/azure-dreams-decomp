@@ -40,17 +40,17 @@ void card_boot_format_card_with_retry(void *state_arg) {
     card_boot_recheck_selected_channel();
     if (status == 1) {
         context = (u8 *)state - 0x20;
-        state->unk_2C = D_8002789C;
+        state->unk_2C = card_boot_update_card_chooser_input;
         card_boot_show_format_success_notice(context);
         ((S_80027584_0_pre *)state)[-1].unk_00 = D_800274D8;
     } else if (status == 4) {
         context = (u8 *)state - 0x20;
-        state->unk_2C = D_8002789C;
+        state->unk_2C = card_boot_update_card_chooser_input;
         card_boot_show_no_memory_card_notice(context);
         ((S_80027584_0_pre *)state)[-1].unk_00 = reset_menu_object_state_2;
     } else {
         context = (u8 *)state - 0x20;
-        state->unk_2C = D_8002789C;
+        state->unk_2C = card_boot_update_card_chooser_input;
         card_boot_show_format_failure_notice(context);
         ((S_80027584_0_pre *)state)[-1].unk_00 = D_800274D8;
     }

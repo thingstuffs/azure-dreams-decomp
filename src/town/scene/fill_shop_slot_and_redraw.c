@@ -1,11 +1,11 @@
 #include "script_symbols.h"
 #include "common.h"
 #include "town/scene.h"
+#include "town/player/state.h"
 struct S_8046C8C4_0;
 
 extern s32 copy_indexed_entry_value();
 extern void pass_indexed_entry(struct S_8046C8C4_0 *table, s32 entry_index);
-extern s32 get_script_flag_mask(s32 flagIndex);
 
 extern s32 D_800170B4;
 extern s32 scene_update_state;

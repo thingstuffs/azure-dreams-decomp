@@ -620,7 +620,7 @@ void choose_block_move_slot_f(Rec_func_800A9E70_arg0 *move_data, ObjectPosition 
             (blocker->flags1C & ACTOR_PLAYER_SIDE) &&
             (s16)get_actor_height_difference(blocker, actor_data) < 0x81) {
             if (check_diagonal_side_height(
-                    ((s16)*(u16 *)&actor_data->facing >> 9) & 0xFFFF,
+                    ((s16)((u16)(actor_data->facing)) >> 9) & 0xFFFF,
                     position_data->tile_position.parts.tile_x, position_data->tile_position.parts.tile_y,
                     (s16)((u16)actor_data->ground_height - 0x20)) != 0) {
                 actor_data->movement_queue_state &= 0x7F;
@@ -638,7 +638,7 @@ void choose_block_move_slot_f(Rec_func_800A9E70_arg0 *move_data, ObjectPosition 
                     target_position->tile_position.parts.tile_x, target_position->tile_position.parts.tile_y) != 0) {
                 if (get_actor_height_difference(primary_actor_record, actor_data) < 0x81) {
                     if (check_diagonal_side_height(
-                            ((s16)*(u16 *)&actor_data->facing >> 9) & 0xFFFF,
+                            ((s16)((u16)(actor_data->facing)) >> 9) & 0xFFFF,
                             position_data->tile_position.parts.tile_x,
                                 position_data->tile_position.parts.tile_y,
                             (s16)((u16)actor_data->ground_height - 0x20)) != 0) {
@@ -688,7 +688,7 @@ void choose_block_move_slot_f(Rec_func_800A9E70_arg0 *move_data, ObjectPosition 
                 u8 *x_step;
 
                 x_step = (u8 *)((s8 *)dir_step_x);
-                step_offset = (*(u16 *)&actor_data->facing >> 8) & 0xE;
+                step_offset = (((u16)(actor_data->facing)) >> 8) & 0xE;
                 x_step += step_offset;
                 position_data->tile_position.parts.tile_x += *x_step;
                 position_data->tile_position.parts.tile_y += *((u8 *)((s8 *)dir_step_y) + step_offset);
@@ -783,7 +783,7 @@ s32 try_begin_block_attack_slot_f(Rec_func_800A9E70_arg0 *action_state, ObjectPo
         return -1;
     }
 
-    apply_camera_offset_and_select_target((u8 *)actor - 0x20, motion_param, 8, 0x300);
+    apply_camera_offset_and_select_target(NODE_HEADER(actor), motion_param, 8, 0x300);
     if ((try_claim_dungeon_action_slot(actor) << 16) == 0) {
         action_state->unk_9A.as_u8 = 0x11;
         action_state->unk_9B.as_u8 = 0;

@@ -1155,7 +1155,7 @@ void advance_action_and_spawn_effect(ActorRecord *body, ObjectPosition *position
                 actor->action_flags &= 0x7FFF;
                 return;
             }
-            (*(void * *)actor_update_node_cursor) = (u8 *)actor - 0x20;
+            (*(void * *)actor_update_node_cursor) = NODE_HEADER(actor);
         }
         return;
     default:

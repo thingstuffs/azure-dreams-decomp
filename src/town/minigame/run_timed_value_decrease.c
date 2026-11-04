@@ -3,11 +3,8 @@
 #include "town/person/effects.h"
 #include "sdk/libc.h"
 #include "town/minigame.h"
+#include "town/minigame/keima.h"
 
-typedef struct S_80023158_1 {
-    u8 pad_00[0x2C];
-    s16 unk_2C;
-} S_80023158_1;   /* obj in run_timed_value_decrease */
 
 /* Runs a 24-tick value decrease with random callbacks, then waits to reset. */
 void run_timed_value_decrease(TimedValueDecreaseObject *sequence, ObjectPosition *target)
@@ -15,7 +12,7 @@ void run_timed_value_decrease(TimedValueDecreaseObject *sequence, ObjectPosition
     s16 state;
     s32 ticks_left;
     u16 next_state;
-    S_80023158_1 *owner;
+    KeimaState *owner;
 
     state = sequence->state.s;
     owner = sequence->owner;
@@ -24,7 +21,7 @@ void run_timed_value_decrease(TimedValueDecreaseObject *sequence, ObjectPosition
     case 0:
     {
 
-        if (owner->unk_2C != 3) {
+        if (owner->stage.s != 3) {
             break;
         }
         state = 0x18;
@@ -50,7 +47,7 @@ void run_timed_value_decrease(TimedValueDecreaseObject *sequence, ObjectPosition
         break;
 
     case 2:
-        if (owner->unk_2C < 3) {
+        if (owner->stage.s < 3) {
             sequence->state.s = 0;
             target->y.v += 0x01400000;
         }

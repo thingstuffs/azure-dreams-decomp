@@ -57,7 +57,7 @@ void fade_tinted_display_sprite(FreeSlotDisplayEffectBody *effect, void *unused,
 }
 
 /* Creates a display effect in a free slot and expires the owner when its timer ends. */
-void spawn_free_slot_display_effect(AdvanceObjectSpawningDisplaysHighBody *owner) {
+void spawn_free_slot_display_effect(DisplaySpawnerEffectBody *owner) {
     s16 center[2];
     RectTable rect_table;
     u8 *copy_src;
@@ -154,7 +154,7 @@ void advance_object_spawning_displays_high(void *source, void *unused_position, 
     ObjectPosition *position;
     SpriteFrameState *part;
     ObjectNodeHeader *object;
-    AdvanceObjectSpawningDisplaysHighBody *state;
+    DisplaySpawnerEffectBody *state;
     ObjectPosition *source_position;
 
     object = allocate_flagged_object_node(0x212);

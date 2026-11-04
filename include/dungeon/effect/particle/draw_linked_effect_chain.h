@@ -329,7 +329,7 @@ typedef struct Row_819A1654_Sprite {
     s16 field1E;
 } Row_819A1654_Sprite;
 
-typedef struct AdvanceEntityEffectSequencePrefix {
+typedef struct EntityEffectSequencePrefix {
     u8 pad0[0xC];
     s32 value0C;
     s32 value10;
@@ -346,13 +346,13 @@ typedef struct AdvanceEntityEffectSequencePrefix {
     union { s16 s; u16 u; } random40;
     u8 pad42[0x12];
     s16 path[18];
-} AdvanceEntityEffectSequencePrefix;
+} EntityEffectSequencePrefix;
 
-typedef struct AdvanceEntityEffectSequenceBody {
-    AdvanceEntityEffectSequencePrefix prefix;
+typedef struct EntityEffectSequenceBody {
+    EntityEffectSequencePrefix prefix;
     u8 pad78[0x14];
     u8 unk_8C;
-} AdvanceEntityEffectSequenceBody;
+} EntityEffectSequenceBody;
 
 typedef struct Row_819A1654_Task {
     u8 pad0[8];
@@ -360,7 +360,7 @@ typedef struct Row_819A1654_Task {
     Row_819A1654_Sprite *sprite;
     void (*callback)(void);
     u8 pad14[0xC];
-    AdvanceEntityEffectSequencePrefix effect;
+    EntityEffectSequencePrefix effect;
     u8 pad98[0x12];
     u8 data[24];
 } Row_819A1654_Task;
@@ -482,7 +482,7 @@ void fade_moving_effect(RotatingDirectionalSpriteBody *effect, Row_819A0EF0_S_80
 void shrink_effect_and_spawn_particles(Row_819A0FC0_S_func_819A0FC0_0 *fadeState, void *unused, Row_819A0FC0_S_func_819A0FC0_1 *primitive);
 void fade_quad_vertex_colors(void *fade_data);
 void advance_object_motion_and_animation(void *effect);
-void choose_random_sign(AdvanceEntityEffectSequenceBody *effect, s32 unused, void *primitive);
+void choose_random_sign(EntityEffectSequenceBody *effect, s32 unused, void *primitive);
 void rotate_and_fade_timed_sprite(Row_819A13D0_Work *work, ObjectPosition *unused, Row_819A13D0_Obj *obj);
 void create_rotating_directional_sprite(Row_819A1450_S_819A1450_4 *source, ObjectPosition *unused_1, SpriteFrameState *unused_2, s16 offset_x, s16 offset_y,
                    s16 offset_z);

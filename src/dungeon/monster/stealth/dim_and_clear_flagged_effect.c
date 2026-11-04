@@ -21,7 +21,7 @@ void dim_and_clear_flagged_effect(ActorRecord *effect, ObjectPosition *unused, S
         primitive->color.c.g = intensity;
         primitive->color.c.r = intensity;
         if (primitive->flags & 0xE000) {
-            effect_object = (u8 *)effect - 0x20;
+            effect_object = NODE_HEADER(effect);
             unlink_node(effect_object);
             retire_tracked_effect_by_id(effect_object);
             spend_actor_mp(owner, 0x800);

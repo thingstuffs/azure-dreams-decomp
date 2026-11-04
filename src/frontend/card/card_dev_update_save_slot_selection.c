@@ -10,5 +10,5 @@
 void card_dev_update_save_slot_selection(void *record_data) {
     card_devkit_refresh_save_slot_selection(record_data);
     reset_card_selection_state();
-    ((CardCallbackState *)((u8 *)record_data - 0x10))->callback = &D_80406368;
+    ((CardCallbackState *)((u8 *)record_data - 0x10))->callback = handle_object_menu_input;
 }

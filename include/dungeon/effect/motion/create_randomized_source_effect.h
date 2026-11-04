@@ -158,7 +158,7 @@ typedef struct Row_8191CD78_S_func_80024578_1 {
     } added_property_flag;
     void *target;
     void *target_position;
-    void *target_sprite;
+    SpriteFrameState *target_sprite;
     union {
         s32 s32;
         void *ptr;
@@ -253,7 +253,7 @@ typedef struct Row_8191CD78_S_func_80024578_5 {
             s16 unk_0A;
         } parts_0A;
     } unk_08;
-    void *unk_0C;
+    SpriteFrameState *unk_0C;
 } Row_8191CD78_S_func_80024578_5;
 
 typedef struct Row_8191CD78_S_func_80024578_6 {

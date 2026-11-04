@@ -56,8 +56,8 @@ extern void create_tracked_effect(void *, s32, void *, void *); /* Unprototyped:
 /* (void *)reg_s3 in create_mode_configured_object */
 extern void *allocate_list_node(s32, void *);
 extern void register_node(void *, void *);
-extern void D_800B274C(u8 *actor, u8 *motion, u8 *render);
-extern void slow_target_action_callback();
+
+
 
 /* Functions defined in this translation unit. */
 void initialize_entity_sprite_effect(void *entity, EntityRec *position,struct SpriteFrameState *sprite, s16 unused);

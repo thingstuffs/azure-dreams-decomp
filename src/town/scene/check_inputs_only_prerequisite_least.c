@@ -1,7 +1,6 @@
 #include "common.h"
 #include "town/scene/record_actions.h"
-
-s32 sum_enabled_record_weights(void);                                /* extern */
+#include "town/player.h"
 
 /* Check the supplied inputs only when the prerequisite value is at least 3. */
 s32 check_inputs_only_prerequisite_least(Rec_func_800165F4_arg0 *check_value, s32 check_data) {

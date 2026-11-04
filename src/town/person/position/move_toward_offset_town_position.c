@@ -1,3 +1,4 @@
+#include "town/person/position_callbacks_api.h"
 #include "common.h"
 
 typedef struct {
@@ -12,12 +13,12 @@ typedef struct {
     TownCoordPair *coords;
 } TownCoordOwner;
 
-typedef struct {
+typedef struct town_offset_actor_position {
     u32 x;
     u32 y;
 } TownVec2;
 
-typedef struct {
+typedef struct town_offset_actor {
     u8 pad0[0x6C];
     u16 countdown;
 } TownActor;

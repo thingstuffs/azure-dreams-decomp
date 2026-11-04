@@ -222,8 +222,8 @@ void update_actor_effect_sequence(Row_8191CD78_S_func_80024578_1 *effect, Row_81
     register Row_8191CD78_S_func_80024578_3 *actor;
     register Row_8191CD78_S_func_80024578_4 *render = render_data;
     register Row_8191CD78_S_func_80024578_5 *work_base;
-    Row_8191CD78_S_func_80024578_6 *motion_data;
-    Row_8191CD78_S_func_80024578_6 *map_data;
+    SpriteFrameState *motion_data;
+    SpriteFrameState *map_data;
     Row_8191CD78_S_func_80024578_7 *origin_pos;
     void *target;
     s32 state;
@@ -245,7 +245,7 @@ void update_actor_effect_sequence(Row_8191CD78_S_func_80024578_1 *effect, Row_81
     u32 page_base;
     s16 final_floor;
     s32 expanded_floor;
-    Row_8191CD78_S_func_80024578_4 *finished_render;
+    SpriteFrameState *finished_render;
 
     frame = effect->timer.u16;
     state = effect->phase.s16;
@@ -261,7 +261,7 @@ void update_actor_effect_sequence(Row_8191CD78_S_func_80024578_1 *effect, Row_81
         work_base = (Row_8191CD78_S_func_80024578_5 *)((u8 *)actor - 0x20);
         motion_data = work_base->unk_0C;
         if (resolve_record_orientation_or_fallback(motion_data->source, motion_data, (scratch + 0x18), 0) == 0) {
-            if ((((Row_8191CD78_S_func_80024578_6 *)(work_base->unk_0C))->flags & 0x8000) == 0) {
+            if ((work_base->unk_0C->flags & 0x8000) == 0) {
                 break;
             }
         }
@@ -273,7 +273,7 @@ void update_actor_effect_sequence(Row_8191CD78_S_func_80024578_1 *effect, Row_81
         {
             u16 next_z;
 
-            if ((((Row_8191CD78_S_func_80024578_6 *)(work_base->unk_0C))->flags & 0x8000) == 0) {
+            if ((work_base->unk_0C->flags & 0x8000) == 0) {
                 position->x.parts_02.unk_02.u16 = (u16)(position->x.parts_02.unk_02.u16 + DELTA(0));
                 position->y.parts_06.unk_06.u16 = (u16)(position->y.parts_06.unk_06.u16 + DELTA(1));
                 {
@@ -579,7 +579,7 @@ void update_actor_effect_sequence(Row_8191CD78_S_func_80024578_1 *effect, Row_81
         if (effect->added_property_flag.s16 != 0) {
             ((Row_8191CD78_S_func_80024578_3 *)(effect->target))->property_flags &= 0xFFEFFFFF;
         }
-        ((Row_8191CD78_S_func_80024578_4 *)(effect->target_sprite))->angle_z -= 0x800;
+        effect->target_sprite->angle_z -= 0x800;
         apply_attack_power_and_element_effects(actor->target, 24, effect->variant, 4,
                       (s16)(effect->direction << 9), actor, 1);
         effect->phase.u16 = (u16)(effect->phase.u16 + 1);

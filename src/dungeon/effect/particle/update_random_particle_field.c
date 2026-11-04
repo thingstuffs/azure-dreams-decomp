@@ -245,7 +245,7 @@ void draw_red(void *effect) {
             impact_sprite->scale_x = 0x500;
             impact_sprite->flags = (u16) (impact_sprite->flags | 0xC);
             {
-                s32 *animation;
+                SpriteSourceEntry *animation;
 
                 if (rand() & 1) {
                     animation = &rising_sprite_entries;
@@ -253,7 +253,7 @@ void draw_red(void *effect) {
                     animation = &moving_sprite_entries;
                 }
                 impact_sprite->unk_00 = animation;
-                impact_sprite->source = (s32) ((S_81934C5C_4 *)animation)->unk_04;
+                impact_sprite->source = (s32) animation->source;
                 impact_sprite->unk_04 = 0;
                 impact_sprite->frame_ticks = 0;
             }

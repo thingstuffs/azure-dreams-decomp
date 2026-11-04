@@ -2,12 +2,8 @@
 #include "shared/entity.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/slus_callbacks.h"
-typedef signed char s8;
-typedef unsigned char u8;
-typedef short s16;
-typedef unsigned short u16;
-typedef int s32;
-typedef unsigned int u32;
+#include "common.h"
+#include "town/minigame.h"
 
 typedef struct Copy20 {
     s32 word[5];
@@ -27,7 +23,7 @@ extern u8 D_8002614C[];
 extern u8 tako_particle_sprite_data[];
 
 /* Creates object 0x136 with the supplied initial state and Y position. */
-void create_tako_projectile(Copy20 *init_data, s32 pos_y)
+void create_tako_projectile(Copy20 *init_data, s32 pos_y, s32 unused_effect_arg)
 {
     Object136 *obj;
     ObjectPosition *data;

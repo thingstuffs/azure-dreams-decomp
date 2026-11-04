@@ -150,7 +150,7 @@ s32 read_selected_table_value(void);
 void redraw_busy_entry_list(void);
 
 /* redraw_devkit_list_and_rekey_rows.c */
-void redraw_devkit_list_and_rekey_rows(void);
+void redraw_devkit_list_and_rekey_rows(s32 unused_list_length, s32 unused_row_value);
 
 /* refresh_status_when_alt_gate_passes.c */
 s32 refresh_status_when_alt_gate_passes(s32 entry);

@@ -5,17 +5,17 @@
 #include "town/person/object.h"
 
 /* Prepare the context and forward the arguments to the next handler. */
-void prepare_and_forward_callback(void *object, void *context, SpriteFrameState *callback_arg) {
+void prepare_and_forward_callback(TownObjectRecord *object, void *context, SpriteFrameState *callback_arg) {
     create_object_from_three_values(context);
     reset_object_entry_and_brighten(object, context, callback_arg);
 }
 
 /* Reset the object's table entry and brighten the packet to a clamped grayscale intensity. */
-void reset_object_entry_and_brighten(void *object, void *draw_arg, SpriteFrameState *packet) {
+void reset_object_entry_and_brighten(TownObjectRecord *object, void *draw_arg, SpriteFrameState *packet) {
     u32 intensity;
 
-    initialize_object_entries((TownObjectRecord *)object, packet, (s32 *)D_800D6CA8);
-    object_index_slots[*(s32 *)((u8 *)object + 0x60)].unk_00 = 0;
+    initialize_object_entries(object, packet, (s32 *)D_800D6CA8);
+    object_index_slots[object->slot].unk_00 = 0;
 
     intensity = packet->color.c.r;
     intensity += 0x20;

@@ -3,8 +3,9 @@
 #include "shared/sprite_frame_state.h"
 #include "shared/object_index_slots.h"
 #include "town/scene.h"
+#include "town/person/motion_callbacks_api.h"
 
-extern void func_800CC644(void *, void *, s32);
+
 extern s32 D_800D6DA8[];
 
 /*
@@ -15,6 +16,6 @@ void initialize_scene_entry_group_120(void *object, s32 unused, void *output)
 {
     initialize_object_entries(object, output, D_800D6DA8);
     object_index_slots[*(s32 *)((u8 *)object + 0x60)].unk_00 = 0;
-    *(void **)((u8 *)object + 0x54) = func_800CC644;
+    *(void **)((u8 *)object + 0x54) = move_toward_offset_target;
     *(s16 *)((u8 *)object + 0x6C) = 120;
 }

@@ -8,8 +8,9 @@
 typedef struct ParticleOrigin ParticleOrigin;
 #include "engine/node/allocation.h"
 #include "dungeon/effect.h"
+#include "dungeon/effect/travel_callbacks_api.h"
 
-extern M2C_UNK D_800247AC[3];
+
 s32 draw_adjacent_row_quads(void);
 
 /* Creates an object, copies three source fields to its child, and applies sixteen setup steps. */
@@ -25,7 +26,7 @@ void *create_radial_effect_from_source(void *owner_body, void *source, s32 unuse
     owner = owner_body - 0x20;
     object = allocate_list_node(2, &owner->next);
     if (object != 0) {
-        object->update_callback = D_800247AC;
+        object->update_callback = advance_object_and_global_counters;
         register_node(object, draw_adjacent_row_quads);
 
         child = object->position;

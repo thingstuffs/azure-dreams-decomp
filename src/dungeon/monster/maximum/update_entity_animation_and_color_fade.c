@@ -139,7 +139,7 @@ void update_entity_animation_and_color_fade(ActorRecord *controller, ObjectPosit
         on_actor_status_updated(entity);
         if ((get_entity_effect_value(entity, STATUS_SLEEP) << 16) != 0) {
             floor_base = &reference_tile_object;
-            floor = *(s8 *)&sprite->room_index;
+            floor = ((s8)(sprite->room_index));
             if (((floor == floor_base->room_index) && (floor >= 0)) ||
                 get_tile_chebyshev_distance(floor_base, sprite) < 2) {
                 if ((generate_random_value() & 7) == 0) {

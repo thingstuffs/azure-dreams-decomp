@@ -108,7 +108,7 @@ void update_actor_callbacks_and_ground(void *actor, ObjectPosition *position, Sp
                     *((u16 *) (((u8 *) actor) + 0x9E)) = 0;
                     *((s32 *) (((u8 *) actor) + 0xA0)) = 0;
                 }
-                if (((u32) ((*(u8 *)&sprite->unk_04) - 1)) < 4) {
+                if (((u32) ((((u8)(sprite->unk_04))) - 1)) < 4) {
                     s16 bob_tick = *((u16 *) (((u8 *) actor) + 0x9E));
                     (*((u16 *) (((u8 *) actor) + 0x9E)))++;
                     *((s32 *) (((u8 *) actor) + 0xA0)) += rsin(bob_tick * 0xAA) << 5;
@@ -165,7 +165,7 @@ void update_actor_callbacks_and_ground(void *actor, ObjectPosition *position, Sp
                     *((u16 *) (((u8 *) actor) + 0x9E)) = 0;
                     *((s32 *) (((u8 *) actor) + 0xA0)) = 0;
                 }
-                if (((u32) ((*(u8 *)&sprite->unk_04) - 1)) < 4) {
+                if (((u32) ((((u8)(sprite->unk_04))) - 1)) < 4) {
                     s16 bob_tick = *((u16 *) (((u8 *) actor) + 0x9E));
                     (*((u16 *) (((u8 *) actor) + 0x9E)))++;
                     *((s32 *) (((u8 *) actor) + 0xA0)) += rsin(bob_tick * 0xAA) << 5;

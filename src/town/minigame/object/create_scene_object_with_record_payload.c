@@ -17,7 +17,7 @@ void create_scene_object_with_record_payload(void *object_value, void *record) {
 
     object = allocate_list_node(1, &scene_object_list_anchor.next);
     if (object != 0) {
-        *(Record *)(((void *)object) + 0x20) = *(Record *)record;
+        *((Record *)NODE_BODY(object)) = *(Record *)record;
         object->update_callback = object_value;
         register_node(object, build_menu_line_tile_packets);
     }

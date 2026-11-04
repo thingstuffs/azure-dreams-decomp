@@ -7,6 +7,7 @@
 #include "main/data.h"
 #include "sdk/libc.h"
 #include "slus.h"
+#include "frontend/libcard/message_callbacks_api.h"
 
 extern void func_80024184(void *object);
 extern void init_card_slot_list_nodes(void *runtime, s32 value);
@@ -33,6 +34,6 @@ void *card_boot_create_slot_window(s32 parent_object, s32 object_index)
     object->sprite = runtime->display_data;
     runtime->chain_word = card_boot_link_slot_window_entries(runtime->pointers);
     card_boot_initialize_slot_window(runtime, parent_object, object_index);
-    object->update_callback = D_80023EC4;
+    object->update_callback = card_boot_stop_slot_window_updates;
     return object;
 }

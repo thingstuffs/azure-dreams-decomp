@@ -5,6 +5,7 @@
 #include "frontend/libcard.h"
 #include "engine/scene.h"
 #include "frontend/libcard/message_dialog.h"
+#include "frontend/libcard/message_callbacks_api.h"
 
 /* Record the maximum string length and last nonempty slot across five strings. */
 void card_boot_measure_five_line_message(CardMenuEntry *entry)
@@ -73,9 +74,9 @@ void card_boot_activate_message_dialog(CardMessageDialogBody *object_arg)
     object->selected_choice = card_menu_entry_values[entry_index].default_choice;
     card_boot_update_message_choice_highlight(object);
     if (object->mode == 2) {
-        callback = D_800226A8;
+        callback = card_boot_close_dialog_when_response_clears;
     } else {
-        callback = D_80022524;
+        callback = card_boot_handle_message_dialog_input;
     }
     ((S_80022CD8_0_pre *)object)[-1].unk_00 = callback;
 }
@@ -93,7 +94,7 @@ u8 *card_boot_create_or_reset_message_dialog(s32 value_14, s32 entry_index, s32 
     context = NODE_BODY(base);
     if (find_active_list_node(base) == 0) {
         base = initialize_scene_object_in_buffer(0, base, 0x27A);
-        register_node(base, menu_backdrop_tag);
+        register_node(base, card_boot_render_panel_hierarchy);
     } else {
         card_boot_close_message_dialog(((CardMessageDialogBody *)context)->mode != 2);
         base->flags &= 0x7FFF;

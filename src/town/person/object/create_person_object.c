@@ -29,7 +29,7 @@ void create_person_object(void) {
     SpriteFrameState *render_data;
 
     object = (s8 *) create_town_effect_object(0, 0, update_person_view_and_record, 0);
-    state = ((s8 *)object) + 0x20;
+    state = NODE_BODY(object);
     if (object != NULL) {
         position = object->position;
         render_data = object->sprite;

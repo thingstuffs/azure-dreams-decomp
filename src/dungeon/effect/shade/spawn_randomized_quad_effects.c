@@ -5,6 +5,7 @@
 #include "common.h"
 #include "engine/node.h"
 #include "sdk/libc.h"
+#include "dungeon/effect/shade_callbacks_api.h"
 
 #ifndef NULL
 #define NULL 0
@@ -37,7 +38,7 @@ typedef struct {
     s16 pad;
 } Cell;
 
-extern u8 D_800255E8[];
+
 
 extern s16 D_80026476;
 extern s32 row_quad_top_color;
@@ -75,7 +76,7 @@ void spawn_randomized_quad_effects(void) {
         effect = allocate_flagged_object_node(0x202);
         if (effect != NULL) {
             effect_or_x = (s32)effect;
-            effect->update_callback = D_800255E8;
+            effect->update_callback = update_rotating_effect_fade;
             register_node((void *)effect_or_x, build_sorted_effect_quads);
 
             row_start = quad_index & ~0xF;

@@ -50,9 +50,9 @@ void create_timed_offset_motion_effect(u8 *unused, s16 duration, s32 offset_x, s
         prim->x.v = view_reference_entity.x.v;
         prim->y.v = view_reference_entity.y.v;
         prim->z.v = view_reference_entity.z.v;
-        *(u16 *)&prim->x.w.i += offset_x;
-        *(u16 *)&prim->y.w.i += offset_y;
-        *(u16 *)&prim->z.w.i += offset_z;
+        (prim->x).unsigned_parts.integer += (offset_x);
+        (prim->y).unsigned_parts.integer += (offset_y);
+        (prim->z).unsigned_parts.integer += (offset_z);
         work->unk_1C = view_reference_entity.x.unsigned_parts.integer;
         fixed_value = view_reference_entity.y.unsigned_parts.integer;
         work->unk_1E = fixed_value;

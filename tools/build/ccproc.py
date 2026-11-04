@@ -19,7 +19,7 @@ so the final binary is unaffected. When names.tsv is absent or a function is not
 listed, behaviour is byte-identical to the original per-`.ent` sectioning."""
 import argparse, sys, re, os
 import json
-from name_inputs import table, witness, evidence_at, write as write_witness
+from name_inputs import table, witness, evidence_at, write as write_witness, merge as merge_witness
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 if os.path.basename(ROOT) == "tools" and os.path.basename(os.path.dirname(__file__)) == "build":
@@ -57,7 +57,11 @@ _lines = [line.replace(_metadata_prefix, '') if re.match(r'\s*(?:\.file(?:\s|$)|
 if os.environ.get('CCPROC_NAMES_TRACE'):
     paths = json.loads(os.environ.get('CCPROC_CONFIG_TABLES', '[]'))
     evidence = evidence_at(os.environ.get('CCPROC_CONFIG_ROOT'), paths)
-    write_witness(os.environ['CCPROC_NAMES_TRACE'], witness(_lines, _rename, evidence, sections=not args.names_only))
+    value = witness(_lines, _rename, evidence, sections=not args.names_only)
+    if os.environ.get('CCPROC_NAMES_MERGE') == '1':
+        merge_witness(os.environ['CCPROC_NAMES_TRACE'], value, _rename, evidence)
+    else:
+        write_witness(os.environ['CCPROC_NAMES_TRACE'], value)
 if _rename:
     _text = "".join(_lines)
     _present = [n for n in _rename if n in _text]

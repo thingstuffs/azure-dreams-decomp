@@ -18,7 +18,7 @@ extern s32 func_80167088(s32 limit);
 
 typedef struct S_80165F00_0 {
     u8 pad_00[0x8];
-    void * unk_08;
+    ObjectPosition *unk_08;
 } S_80165F00_0;   /* arg0 in create_jittered_landing_spark */
 
 typedef struct S_80165F00_1 {
@@ -41,7 +41,7 @@ void create_jittered_landing_spark(S_80165F00_0 *source)
     s32 y_jitter;
     s32 x_jitter;
     s32 scale;
-    S_80165F00_1 *source_pos;
+    ObjectPosition *source_pos;
     SpriteFrameState *sprite;
     ObjectNodeHeader *effect;
     ObjectPosition *effect_transform;
@@ -51,16 +51,16 @@ void create_jittered_landing_spark(S_80165F00_0 *source)
         (effect->update_callback) = &update_landing_particle_fade;
         x_jitter = rand() & 0x3F;
         base_x =
-            ((S_80165F00_4 *)(source->unk_08))->unk_02 - 0x20;
+            source->unk_08->x.unsigned_parts.integer - 0x20;
         effect->position->x.w.i =
             base_x + x_jitter;
         y_jitter = rand() & 0x3F;
         source_pos = source->unk_08;
-        base_y = source_pos->unk_06 - 0x1A0;
+        base_y = source_pos->y.unsigned_parts.integer - 0x1A0;
         effect->position->y.w.i =
             base_y + y_jitter;
         effect->position->z.w.i =
-            (s16)(((S_80165F00_4 *)(source->unk_08))->unk_0A -
+            (s16)(source->unk_08->z.unsigned_parts.integer -
                   0x100);
         effect_transform = effect->position;
         effect_transform->velocity_y = 0;

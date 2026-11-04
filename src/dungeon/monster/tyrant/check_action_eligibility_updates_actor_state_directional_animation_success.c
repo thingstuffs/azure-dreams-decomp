@@ -42,7 +42,7 @@ s32 check_action_eligibility_updates_actor_state_directional_animation_success(A
         return -1;
     }
 
-    apply_camera_offset_and_select_target((u8 *)actor - 0x20, action_id, 8, 0x300);
+    apply_camera_offset_and_select_target(NODE_HEADER(actor), action_id, 8, 0x300);
     if ((try_claim_dungeon_action_slot(actor) << 0x10) != 0) {
         return -1;
     }

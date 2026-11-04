@@ -8,10 +8,6 @@
 #include "town/shop/item_menu_cursor_transition_g00601.h"
 #include "engine/menu/selection_menu.h"
 
-typedef struct S_800AECA4_2 {
-    u8 pad_00[0xD8];
-    void * unk_D8;
-} S_800AECA4_2;   /* arg0 in initialize_item_menu_list_entries */
 
 
 typedef struct S_800AECA4_4 {
@@ -92,10 +88,10 @@ void initialize_item_menu_list_entries(ItemMenuTransition *list) {
     s32 row_slot;
     s32 row_index;
 
-    *((S_800AECA4_5 *)(((S_800AECA4_2 *)list)->unk_D8))->unk_04 = &menu_leaf_template_6;
+    *((S_800AECA4_5 *)(list->rows.as_ptr))->unk_04 = &menu_leaf_template_6;
     row_index = 0;
-    *((S_800AECA4_5 *)(((S_800AECA4_2 *)list)->unk_D8))->unk_00 = get_menu_count_template(list->entry_count);
-    ((SignedWidgetYView *)(((S_800AECA4_10 *)(((S_800AECA4_5 *)(((S_800AECA4_2 *)list)->unk_D8))->unk_00))->unk_04))->unk_0A =
+    *((S_800AECA4_5 *)(list->rows.as_ptr))->unk_00 = get_menu_count_template(list->entry_count);
+    ((SignedWidgetYView *)(((S_800AECA4_10 *)(((S_800AECA4_5 *)(list->rows.as_ptr))->unk_00))->unk_04))->unk_0A =
         (s16) ((list->entry_count * 8) + 2);
     if (list->entry_count > 0) {
         u8 *row_data_a = D_80077EF0;

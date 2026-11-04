@@ -36,9 +36,6 @@ typedef struct S_800167E4_4 {
     s8 unk_04;
 } S_800167E4_4;   /* index * 8 + ((S_800167E4_2 *)town2)->unk_40 in clear_flagged_status_and_dispatch_action */
 
-
-extern s32 are_all_checks_set(void);
-
 extern s16 D_80019676;
 extern s32 scene_cell_dispatch_code;
 

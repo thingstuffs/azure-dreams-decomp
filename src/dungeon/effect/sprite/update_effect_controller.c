@@ -9,6 +9,7 @@
 #include "dungeon/effect/sprite.h"
 #include "engine/node.h"
 #include "dungeon/system.h"
+#include "dungeon/effect/sprite_callbacks_api.h"
 
 #ifndef NULL
 #define NULL 0
@@ -52,7 +53,7 @@ typedef struct S_func_800D7FB8_7 {
 } S_func_800D7FB8_7;
 
 extern u8 directional_sprite_entries[];
-extern s32 D_800D81D4;
+
 
 /* Spawns effect entries and marks the controller finished after two delays. */
 void update_effect_controller(S_func_800D7FB8_0 *controller) {
@@ -76,7 +77,7 @@ void update_effect_controller(S_func_800D7FB8_0 *controller) {
             entry = allocate_list_node(0x312, &scene_object_list_anchor.next);
             if (entry != NULL) {
                 entry_data = NODE_BODY(entry);
-                entry->update_callback = &D_800D81D4;
+                entry->update_callback = update_orbiting_effect_particle;
                 register_node(entry, project_sprite_chain);
                 sub_data = entry->sprite;
                 ((MovingPosition *)entry->position)->x = controller->unk_04;

@@ -7,7 +7,7 @@
 struct EntityRec; struct Rec_D_80082E80; struct TownObjectRecord;
 
 /* Randomize color during an update, then reset it when the timer expires or state changes. */
-void randomize_person_color(TownObjectRecord *object, s32 context, s32 update_param, void *color_data) {
+void randomize_person_color(TownObjectRecord *object, TownObjectRecord *context, s32 update_param, void *color_data) {
     s32 previous_state;
     s16 ticks_left;
 
@@ -15,11 +15,11 @@ void randomize_person_color(TownObjectRecord *object, s32 context, s32 update_pa
     *((s8 *)color_data + 0xD) = scale_random_to_unsigned_halfword_limit(0x100);
     *((s8 *)color_data + 0xE) = scale_random_to_unsigned_halfword_limit(0x100);
     previous_state = object->unk_50.as_s32;
-    update_actor_surface_motion(object, (void *)(context), (void *)(update_param), color_data);
+    update_actor_surface_motion(object, context, (void *)(update_param), color_data);
     ticks_left = object->timer.as_u16 - 1;
     object->timer.as_u16 = ticks_left;
     if ((ticks_left < 0) || (object->unk_50.as_s32 != previous_state)) {
-        select_object_value_by_height_band(object, (void *)(context), (struct EntityRec *)(update_param), color_data);
+        select_object_value_by_height_band(object, context, (struct EntityRec *)(update_param), color_data);
         *((u8 *)color_data + 0xC) = 0x80;
         *((u8 *)color_data + 0xD) = 0x80;
         *((u8 *)color_data + 0xE) = 0x80;

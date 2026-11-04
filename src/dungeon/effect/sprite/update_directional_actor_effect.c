@@ -16,6 +16,7 @@
 #include "engine/scene.h"
 #include "sdk/libc.h"
 #include "dungeon/system.h"
+#include "shared/dungeon_effect_state.h"
 
 typedef s32 M2C_UNK;
 
@@ -584,12 +585,12 @@ void update_effect_and_spawn_fragments(MainObject *obj)
 #include "shared/object_flags.h"
 
 /* Marks the referenced object and updates entry and global flags based on target status. */
-void mark_referenced_object_and_update_flags(UpdateEffectAndSpawnFragmentsBody *entry, void *unused, SpriteFrameState *target) {
-    void *object;
+void mark_referenced_object_and_update_flags(FragmentSpawningEffectBody *entry, void *unused, SpriteFrameState *target) {
+    B22_81893474_EffectState *object;
 
     object = entry->owner;
-    *(u16 *)((u8 *)object + 0x52) =
-        (u16)(*(u16 *)((u8 *)object + 0x52) | 0x8000);
+    object->unk_52.u =
+        (u16)(object->unk_52.u | 0x8000);
     advance_sprite_animation_and_textures(target);
     if (target->flags & 0x6000) {
         *(u16 *)((u8 *)entry - 2) =

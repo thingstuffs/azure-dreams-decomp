@@ -4,12 +4,13 @@
 
 #include "common.h"
 #include "slus/data.h"
+#include "engine/window/model_prefix.h"
 
    /* arg0 in runtime_advance_counter_and_callback */
 
 
 typedef struct S_800357D0_0 {
-    WindowModelPrefix * unk_00;
+    WindowModelPrefix *unk_00;
     u8 pad_04[0x48];
     u8 unk_4C;
     u8 unk_4D;

@@ -4,9 +4,10 @@
 #include "shared/town_object.h"
 #include "town/person.h"
 #include "town/person/object.h"
+#include "town/person_callbacks_api.h"
 
 extern s32 D_800D64DC[];
-extern u8 D_800C9FBC[];
+
 extern s8 D_800826B8;
 
 
@@ -14,6 +15,6 @@ extern s8 D_800826B8;
 void initialize_actor_slot_eleven_countdown_variant_4ce5c(TownObjectRecord *actor, s32 unused, SpriteFrameState *output) {
     initialize_object_entries(actor, output, D_800D64DC);
     D_800826B8 = 0;
-    actor->handler = D_800C9FBC;
+    actor->handler = raise_reaction_output_until_expiry;
     actor->timer.as_s16 = 0x8;
 }

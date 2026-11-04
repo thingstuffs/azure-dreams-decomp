@@ -125,7 +125,7 @@ void advance_actor_action(ActorRecord *action, ObjectPosition *context, SpriteFr
         select_sprite_entry(sprite,
             u_boat_motion_frames[((g_game_work.view.camera_rotation.parts.viewAngle + entity->facing + 0x100) >> 9) & 7],
             0);
-        (*(u32 *)&entity->flags1C) |= 0x40000;
+        entity->flags1C = (u32)((u32)(entity->flags1C) | (0x40000));
         if (sprite->flags & 0x8000) {
             action->unk_8C.address = uboat_behavior_entry;
             return;

@@ -609,7 +609,7 @@ void choose_griffon_move(ActorRecord *move_data, ObjectPosition *context, Sprite
             current_angle = (s32)find_adjacent_actor(actor_data,position_data->tile_x,position_data->tile_y);
             blocker = (ActorRecord *)current_angle;
             if (blocker != 0) {
-                SpriteFrameState *blocker_sprite = ((ObjectNodeHeader *)blocker - 1)->sprite;
+                SpriteFrameState *blocker_sprite = NODE_HEADER(blocker)->sprite;
                 s16 target_angle = ((s16)get_rounded_facing_and_rounding_flag((s16)position_data->tile_x,(s16)position_data->tile_y,(s16)(blocker_sprite->tile_x),(s16)(blocker_sprite->tile_y),
                     &move_data->action_state_flags));
                 actor_data->facing = target_angle;

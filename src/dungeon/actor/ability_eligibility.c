@@ -127,7 +127,7 @@ s32 check_tile_path_clear(ActorRecord *source, void *target) {
     s32 height;
     s16 check_height;
 
-    source_pos = ((ObjectNodeHeader *)source - 1)->sprite;
+    source_pos = NODE_HEADER(source)->sprite;
     target_pos = ((ObjectNodeHeader *)target - 1)->sprite;
     step_x = source_pos->tile_x - target_pos->tile_x;
     check_param = (u16)source->facing;

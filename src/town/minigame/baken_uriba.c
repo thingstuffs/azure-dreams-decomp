@@ -85,7 +85,7 @@ void baken_uriba(void)
     screen.number_words = D_80020050;
     allocation = allocate_list_node(1, &scene_object_list_anchor.next);
     if (allocation != 0) {
-        buffer = (u8 *)allocation + 0x20;
+        buffer = NODE_BODY(allocation);
         allocation->update_callback = D_80020900;
     }
 

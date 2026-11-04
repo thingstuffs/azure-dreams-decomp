@@ -52,7 +52,7 @@ void create_positioned_linked_visual_child(void *object_arg, ObjectPosition *pla
     object->unk_48 = D_800D237C[0];
     child = allocate_flagged_object_node(0x136);
     if (child != 0) {
-        child_data = ((void *)child) + 0x20;
+        child_data = NODE_BODY(child);
         register_node(child, draw_linked_lit_meshes);
         child_visual = child->sprite;
         child->update_callback = advance_object_bounded_movement_phases;

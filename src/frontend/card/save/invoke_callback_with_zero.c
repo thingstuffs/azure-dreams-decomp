@@ -7,5 +7,5 @@
 /* Process the record data and set its preceding header pointer. */
 void invoke_callback_with_zero(void *record_data) {
     card_devkit_refresh_save_slot_selection(record_data);
-    ((CardCallbackState *)((u8 *)record_data - 0x10))->callback = &D_80406368;
+    ((CardCallbackState *)((u8 *)record_data - 0x10))->callback = handle_object_menu_input;
 }

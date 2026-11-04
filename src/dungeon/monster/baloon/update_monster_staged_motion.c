@@ -231,8 +231,8 @@ void update_monster_staged_motion(ActorRecord *body, ObjectPosition *motion, Spr
 
             random_x = 0xB;
             attempt = random_x;
-            *(u16 *)&motion->x.w.i += x_offset;
-            *(u16 *)&motion->y.w.i += y_offset;
+            (motion->x).unsigned_parts.integer += (x_offset);
+            (motion->y).unsigned_parts.integer += (y_offset);
         }
 
         if (random_x == 0xB) {

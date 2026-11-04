@@ -66,7 +66,7 @@ s32 scan_forward_tiles_for_target(GolemActionWork *action_state, ObjectPosition 
     if ((try_claim_dungeon_action_slot(actor) << 16) != 0) {
         return -1;
     }
-    apply_camera_offset_and_select_target((u8 *)actor - 0x20, position, 8, 0x300);
+    apply_camera_offset_and_select_target(NODE_HEADER(actor), position, 8, 0x300);
     check_result = try_claim_dungeon_action_slot(actor);
     step_count = 0;
     if ((check_result << 16) != 0) {
@@ -144,7 +144,7 @@ s32 scan_forward_tiles_for_target(GolemActionWork *action_state, ObjectPosition 
     actor->unk_85 = 8;
     advance_status_timers(actor);
     actor->pending_turn_updates--;
-    copy_dest = (u8 *)actor - 0x20;
+    copy_dest = NODE_HEADER(actor);
     if (action_state->mode == 2) {
         prepare_directional_attack(actor, sprite, actor->facing,
                       (s16)(step_count + 1), ((S_80172504_0 *)actor)->unk_60);

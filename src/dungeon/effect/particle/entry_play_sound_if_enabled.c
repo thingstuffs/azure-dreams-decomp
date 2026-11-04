@@ -183,7 +183,7 @@ void emit_attached_directional_particle_chain(void *effect, ObjectPosition *posi
 
             node = allocate_flagged_object_node(0x12);
             if (node != NULL) {
-                EmitAttachedDirectionalParticleChainBody *work;
+                DirectionalParticleChainBody *work;
                 MovingTile *map;
                 s32 index;
 

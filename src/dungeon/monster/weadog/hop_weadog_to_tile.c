@@ -81,7 +81,7 @@ void advance_weadog_hop(ActorRecord *action, ObjectPosition *motion, SpriteFrame
         if (phase_timer < 0) {
             action->unk_90.value = 0;
             action->action_state_flags &= 0xFFF7;
-            (*(u32 *)&actor->flags1C) |= ACTOR_GROUNDED;
+            actor->flags1C = (u32)((u32)(actor->flags1C) | (ACTOR_GROUNDED));
             action->action_phase.u++;
         }
 

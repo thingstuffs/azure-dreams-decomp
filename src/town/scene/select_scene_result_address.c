@@ -3,8 +3,6 @@
 #include "town/player/script_flags.h"
 #include "town/scene.h"
 
-extern void update_dependent_entry_ids(s16, s16, s16);
-
 extern u8 D_80019DBC[];
 extern u8 D_8001CA40[];
 extern u8 D_8001CD7B[];

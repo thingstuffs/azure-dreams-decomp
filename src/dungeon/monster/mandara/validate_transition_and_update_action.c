@@ -46,7 +46,7 @@ s32 validate_transition_and_update_action(ActorRecord *state, ObjectPosition *tr
     if ((try_claim_dungeon_action_slot(actor) << 16) != 0) {
         return -1;
     }
-    apply_camera_offset_and_select_target((u8 *)actor - 0x20, transition_id, 8, 0x300);
+    apply_camera_offset_and_select_target(NODE_HEADER(actor), transition_id, 8, 0x300);
     if ((try_claim_dungeon_action_slot(actor) << 16) != 0) {
         return -1;
     }

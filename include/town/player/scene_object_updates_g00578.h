@@ -72,8 +72,8 @@ extern void create_colored_scaled_effect(StackRecord *); /* Unprototyped: uses t
 extern void update_sine_pulse_color(StackRecord *);
 extern void update_target_from_previous_state(void);
 extern void apply_pending_indexed_value(s32, s32);
-extern char D_800A630C[];
-extern char D_800A62E8[];
+
+
 extern u8 D_800A5638[];
 
 extern void set_flagged_entry_values(u32 *record_lists, s32 value);

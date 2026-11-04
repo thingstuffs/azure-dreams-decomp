@@ -471,7 +471,7 @@ void process_slot_machine_state(State8081FF68 *state, void *position)
                 (primitive)->velocity_y = 0;
                 (primitive)->velocity_x = 0;
                 ((SlotBody *)(*(u8 * *)&coin->position))->unk_14 = 0x40000;
-                payout_state = (u8 *)coin + 0x20;
+                payout_state = NODE_BODY(coin);
                 register_node(payout_obj, project_sprite_chain);
                 sprite = coin->sprite;
                 sprite->scale_y = 0x1000;

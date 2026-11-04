@@ -1,6 +1,7 @@
 #include "common.h"
 #include "shared/object_node.h"
 #include "engine/node.h"
+#include "town/scene/collection.h"
 
 #ifndef NULL
 #define NULL 0
@@ -22,7 +23,7 @@ typedef struct {
 
 typedef struct {
     u8 pad20[4];
-    s32 field24;
+    TownCollectionSequence *field24;
     Vec3s vectors[2];
     Color colors[2];
 } EffectSub;
@@ -37,7 +38,7 @@ typedef struct {
 extern void D_8002222C(void);
 
 /* Creates an effect with two vectors, two colors, and the supplied parameters. */
-void create_paired_vector_color_effect(s32 effect_param, Vec3s *vectors, Color *colors, s32 sub_param)
+void create_paired_vector_color_effect(s32 effect_param, Vec3s *vectors, Color *colors, TownCollectionSequence *sub_param)
 {
     Effect *effect;
     EffectSub *sub;

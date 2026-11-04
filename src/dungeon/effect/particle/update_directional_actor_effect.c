@@ -39,7 +39,7 @@ typedef union DirectionalChildWork {
         Rec_func_800249DC_arg0 motion;
         s16 state;
     } trail;
-    UpdateDirectionalActorEffectBody impact;
+    DirectionalActorEffectBody impact;
 } DirectionalChildWork;
 
 typedef struct DirectionalChildNode {

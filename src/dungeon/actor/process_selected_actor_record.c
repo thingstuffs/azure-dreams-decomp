@@ -36,7 +36,7 @@ s32 process_selected_actor_record(ActorRecord *body, ObjectPosition *position, S
             if (g_dungeon_status.active_actor == record) {
                 if (g_dungeon_status.activity_counts.parts.pending_action_count == 0) {
                     if (!(g_dungeon_status.flags & 8)) {
-                        select_nearby_target_and_initialize_slot((ObjectNodeHeader *)body - 1, position, 8, 0x300);
+                        select_nearby_target_and_initialize_slot(NODE_HEADER(body), position, 8, 0x300);
                         raise_entity_level(record, 1);
                         play_sound_if_enabled(0x201);
                         if (!(system_update_flags & 2)) {

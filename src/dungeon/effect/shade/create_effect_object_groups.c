@@ -6,8 +6,9 @@
 #include "engine/scene.h"
 #include "dungeon/effect/shade.h"
 #include "engine/node.h"
+#include "dungeon/effect/shade_callbacks_api.h"
 
-extern s32 D_80025E48;
+
 extern s32 D_80026490;
 extern s32 linked_mesh_processor_address[3];
 
@@ -31,7 +32,7 @@ void *create_effect_object_groups(s16 x, s16 y, s16 z)
     }
     group_index = 2;
 
-    callback = &D_80025E48;
+    callback = update_staged_effect_fade;
     texture = &D_80026490;
 
     do {

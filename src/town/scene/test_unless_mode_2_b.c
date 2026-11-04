@@ -1,6 +1,6 @@
 #include "common.h"
+#include "town/player/state.h"
 
-extern s32 get_script_flag_mask(s32 flagIndex);
 extern s16 D_80016498;
 extern s32 scene_choice_index;
 

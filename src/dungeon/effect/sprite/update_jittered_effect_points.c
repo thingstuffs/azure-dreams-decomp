@@ -379,14 +379,14 @@ void advance_target_chasing_emitter(void *object, S_800244BC_2 *position, Sprite
     ObjectNodeHeader *effect;
     S_800244BC_1 *owner;
 
-    owner = ((RunJitteredPointSequenceBody *)object)->unk_00;
-    ((RunJitteredPointSequenceBody *)object)->unk_48 = (u16) (((RunJitteredPointSequenceBody *)object)->unk_48 - 1);
+    owner = ((JitteredPointSequenceBody *)object)->unk_00;
+    ((JitteredPointSequenceBody *)object)->unk_48 = (u16) (((JitteredPointSequenceBody *)object)->unk_48 - 1);
     owner->unk_52 = (u16) (owner->unk_52 | 0x8000);
-    phase = ((RunJitteredPointSequenceBody *)object)->unk_4C.s;
+    phase = ((JitteredPointSequenceBody *)object)->unk_4C.s;
     switch (phase) {
     case 0:
-        ((RunJitteredPointSequenceBody *)object)->unk_48 = 0xAU;
-        ((RunJitteredPointSequenceBody *)object)->unk_4C.s = (s16) ((u16) ((RunJitteredPointSequenceBody *)object)->unk_4C.s + 1);
+        ((JitteredPointSequenceBody *)object)->unk_48 = 0xAU;
+        ((JitteredPointSequenceBody *)object)->unk_4C.s = (s16) ((u16) ((JitteredPointSequenceBody *)object)->unk_4C.s + 1);
                         /* fall through */
     case 1:
         if (resolve_record_orientation_or_fallback(reference_tile_object.sprite_source, ((s32 *)(&reference_tile_object)), target_pos, 0) != 0) {
@@ -399,7 +399,7 @@ void advance_target_chasing_emitter(void *object, S_800244BC_2 *position, Sprite
                 - position->unk_08.at02.v) << 0xE));
             effects_left = 0;
             position->unk_08.at00.v = (s32) (position->unk_08.at00.v
-                - (rsin(((s16) ((RunJitteredPointSequenceBody *)object)->unk_48 << 0xB) / 10, ((s16 *)(&view_reference_entity))) << 9));
+                - (rsin(((s16) ((JitteredPointSequenceBody *)object)->unk_48 << 0xB) / 10, ((s16 *)(&view_reference_entity))) << 9));
             do {
                 effect = allocate_list_node(0x302, &scene_object_list_anchor.next);
                 effect_data = NODE_BODY(effect);
@@ -415,14 +415,14 @@ void advance_target_chasing_emitter(void *object, S_800244BC_2 *position, Sprite
                     effect_data->unk_24 = (u16) position->unk_00.at02.v;
                     effect_data->unk_26 = (u16) position->unk_04.at02.v;
                     effect_data->unk_28 = (u16) position->unk_08.at02.v;
-                    ((S_800244BC_3 *)effect)->unk_20 = ((RunJitteredPointSequenceBody *)object)->unk_00;
+                    ((S_800244BC_3 *)effect)->unk_20 = ((JitteredPointSequenceBody *)object)->unk_00;
                 }
                 effects_left -= 1;
             } while (effects_left >= 0);
         }
-        if ((s16) ((RunJitteredPointSequenceBody *)object)->unk_48 <= 0) {
-            ((RunJitteredPointSequenceBody *)object)->unk_48 = 8U;
-            ((RunJitteredPointSequenceBody *)object)->unk_4C.s = (s16) ((u16) ((RunJitteredPointSequenceBody *)object)->unk_4C.s + 1);
+        if ((s16) ((JitteredPointSequenceBody *)object)->unk_48 <= 0) {
+            ((JitteredPointSequenceBody *)object)->unk_48 = 8U;
+            ((JitteredPointSequenceBody *)object)->unk_4C.s = (s16) ((u16) ((JitteredPointSequenceBody *)object)->unk_4C.s + 1);
         }
         break;
     case 2:
@@ -435,7 +435,7 @@ void advance_target_chasing_emitter(void *object, S_800244BC_2 *position, Sprite
             position->unk_08.at00.v = (s32) (position->unk_08.at00.v + (((target_pos[2] + view_reference_entity.z.w.i)
                 - position->unk_08.at02.v) << 0xF));
         }
-        if ((s16) ((RunJitteredPointSequenceBody *)object)->unk_48 <= 0) {
+        if ((s16) ((JitteredPointSequenceBody *)object)->unk_48 <= 0) {
             NODE_HEADER(object)->flags = (u16) (NODE_HEADER(object)->flags | 0x8000);
             object_flag_block.flags = (s32) (object_flag_block.flags | OBJECT_REMOVE_PENDING);
         }

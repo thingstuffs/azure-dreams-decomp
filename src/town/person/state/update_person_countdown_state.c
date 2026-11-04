@@ -1,7 +1,9 @@
+#include "town/person/state_callbacks_api.h"
 #include "common.h"
 #include "town/person/motion.h"
+#include "town_callbacks_api.h"
 
-typedef struct {
+typedef struct town_person_countdown_state {
     u8 pad_00[0x50];
     void *state;
     u8 pad_54[0x18];
@@ -10,7 +12,7 @@ typedef struct {
     s16 value;
 } State;
 
-extern u8 D_800AB55C[];
+
 
 
 /* Updates the state from the value and countdown, resetting an expired timer to ten. */
@@ -23,7 +25,7 @@ void update_person_countdown_state(State *record) {
     timer = record->timer - 1;
     record->timer = timer;
     if ((s16) timer < 0) {
-        record->state = D_800AB55C;
+        record->state = update_timed_state_transition;
         record->timer = 10;
     }
 }

@@ -36,8 +36,8 @@ class CadenceTests(unittest.TestCase):
         self.root = self.tree.root
         self.blobs = {'ra': b'A' * 64, 'rb': b'B' * 64, 'rown': b'O' * 64, 'rcopy': b'C' * 64}
         put(self.root / 'ledger/layout_inline.jsonl', ''.join(json.dumps(r) + '\n' for r in [
-            dict(member_id='dungeon/home', tu_new='src/owner.c', offset=0, inlined_bytes=10),
-            dict(member_id='dungeon/bee', tu_new='src/b.c', offset=0, inlined_bytes=10)]))
+            dict(member_id='dungeon/home', tu_new='src/owner.c', offset=0, inlined_bytes=10, bytes=10),
+            dict(member_id='dungeon/bee', tu_new='src/b.c', offset=0, inlined_bytes=10, bytes=10)]))
         put(self.root / 'ledger/prototype_floors.jsonl', '{}\n')
         put(self.root / 'ledger/rows.jsonl', '{}\n')
         put(self.root / 'tools/typing/param_retype.py', '# tool\n')

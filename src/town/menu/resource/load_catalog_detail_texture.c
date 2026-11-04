@@ -20,10 +20,6 @@ typedef struct S_80124DB0_0 {
     u8 unk_16;
 } S_80124DB0_0;   /* arg0 in load_catalog_detail_texture */
 
-typedef struct S_80124DB0_1 {
-    u8 pad_00[0x17];
-    u8 unk_17;
-} S_80124DB0_1;   /* (u8 *)arg0 + ((S_80124DB0_0 *)arg0)->unk_16 in load_catalog_detail_texture */
 
 
 typedef struct {
@@ -86,7 +82,7 @@ void load_catalog_detail_texture(CatalogDisplay *loader_arg)
     texture_rect.h = texture_height;
     LoadImage(upload_rect, texture_pixels);
 
-    ((S_80124DB0_1 *)((u8 *)loader + loader->unk_16))->unk_17 =
+    ((CatalogDisplay *)((u8 *)loader + loader->unk_16))->choices[0] =
         loader->unk_13.as_u8;
     loader->unk_0A.as_u8 = 6;
     loader->unk_0B.as_u8 = 0;

@@ -17,9 +17,9 @@ import tempfile
 import time
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[2]))
-from tools.build import content_cache, compile_slots
+from tools.build import content_cache, compile_slots, name_inputs
 
-SCHEMA = 1
+SCHEMA = 2
 # Audited stock macros only form symbol visibility directives and symbol names.
 LABEL_MACROS_SHA256 = '9011fb521abe02bf51d16d3ae8ec1667ccd899a26affb6a5fe00b842ab421dc5'
 
@@ -38,7 +38,9 @@ def cache_directory(root):
     root = Path(root)
     parent = root.parent.parent if (root/'SCRATCH_HEAD').exists() else root.parent/'azure-lanes'
     default = parent / '.azure-object-cache'
-    return Path(os.environ.get('AZURE_OBJECT_CACHE_DIR', str(default)))
+    # Old lane prune processes only understand flat schema 1 entries. Isolate
+    # locks and accounting so they cannot reset the nested store's byte count.
+    return Path(os.environ.get('AZURE_OBJECT_CACHE_DIR', str(default))) / ('v'+str(SCHEMA))
 
 
 def safe_path(root, name):
@@ -51,6 +53,49 @@ def safe_path(root, name):
 
 def key_for(inputs):
     return digest(encode(inputs))
+
+
+def projected_tables(spec):
+    """Only tables covered by the compile's lookup witness may leave the key.
+
+    Native name witnesses include merged section lookups and reverse aliases.
+    Their config defaults remain whole-file inputs until those reads are traced.
+    Legacy/assembler recipes have no name trace.
+    """
+    if not spec.get('name_input'):
+        return set()
+    return {'config/names.tsv'} | {path for env, path in spec.get('config_tables', {}).items()
+                                  if env in {'MASPSX_NORETURN_FILE', 'MASPSX_SIBCALL_FILE'}}
+
+
+def table_snapshot(root, spec):
+    # This guards edits during a compile/restore, without putting unrelated rows
+    # in the persistent key. Missing optional tables also have an identity.
+    names = {'config/names.tsv'} if spec.get('name_input') else set()
+    return content_cache.hashes(root, projected_tables(spec) | names)
+
+
+def read_witness(path, spec):
+    value = name_inputs.read(path)
+    if (any(k not in value['tokens'] or not isinstance(v, str) for k, v in value['rows'].items())
+            or not (projected_tables(spec) - {'config/names.tsv'}) <= set(value.get('sets', {}))
+            or not set(name_inputs.reverse_symbols(spec.get('module', {}))) <= set(value.get('reverse', {}))):
+        raise ValueError('invalid object cache name witness')
+    return value
+
+
+def projection_matches(root, value):
+    names = name_inputs.table(root/'config/names.tsv')
+    return (value['rows'] == name_inputs.project(value['tokens'], names)
+            and value.get('sets', {}) == name_inputs.project_sets(
+                value['tokens'], names, name_inputs.evidence_at(root, value.get('sets', {})))
+            and value.get('reverse', {}) == name_inputs.project_reverse(value.get('reverse', {}), root))
+
+
+def variant_key(key, witness):
+    # The directory name binds the witness too, detecting a corrupted token
+    # list even if its rows happen to match today's table.
+    return key_for(dict(outer_key=key, name_witness=witness))
 
 
 def assembly_inputs(root, text, view, cwd=None):
@@ -167,7 +212,7 @@ def key_inputs(root, recipe_path, spec):
     import overlay_module_gate as modules
     names = set(spec['dependencies']) - {str(recipe_path.relative_to(root)), spec.get('name_input')}
     optional = {'config/names.tsv'}
-    names.add('config/names.tsv')  # cold name vocabularies have not been discovered yet
+    names.add('config/names.tsv')
     names.update(spec.get('config_tables', {}).values())
     if spec.get('assembler') == 'genuine_aspsx_verified':
         family = spec['module']['container']
@@ -199,6 +244,8 @@ def key_inputs(root, recipe_path, spec):
                     return None
                 discovered['files'] = sorted(set(discovered['files']) | assembly)
     names.update(discovered['files'])
+    # A table read as raw C/assembly data must still bind its complete bytes.
+    names.difference_update(projected_tables(spec) - set(discovered['files']))
     inputs = content_cache.hashes(root, names)
     if any(value is None and name not in optional for name, value in inputs.items()):
         raise ValueError('missing object cache input')
@@ -260,33 +307,62 @@ def atomic_copy(source, target):
 
 def restore(directory, key, inputs, root, outputs):
     with locked(directory):
-        entry = directory/key
-        if not entry.exists():
-            return False
-        manifest = json.loads((entry/'manifest.json').read_text())
-        if manifest['key_inputs'] != inputs or set(manifest['outputs']) != set(outputs):
-            raise ValueError('object cache manifest does not match key: ' + key)
-        for index, name in enumerate(outputs):
-            blob = entry/str(index)
-            if digest(blob.read_bytes()) != manifest['outputs'][name]:
-                raise ValueError('corrupt object cache artifact: ' + key)
-        for index, name in enumerate(outputs):
-            atomic_copy(entry/str(index), safe_path(root, name))
-        (entry/'manifest.json').touch()  # LRU access, never inputs' mtimes
-        return True
+        outer = directory/key
+        if not outer.exists():
+            return None
+        if outer.is_symlink():
+            raise ValueError('unsafe object cache entry: ' + key)
+        for entry in sorted(outer.iterdir()):
+            if not re.fullmatch('[0-9a-f]{64}', entry.name) or not entry.is_dir() or entry.is_symlink():
+                raise ValueError('invalid object cache variant: ' + key)
+            manifest = json.loads((entry/'manifest.json').read_text())
+            if (not isinstance(manifest, dict) or manifest.get('key_inputs') != inputs
+                    or not isinstance(manifest.get('outputs'), dict)
+                    or set(manifest['outputs']) != set(outputs) or 'name_witness' not in manifest
+                    or variant_key(key, manifest['name_witness']) != entry.name):
+                raise ValueError('object cache manifest does not match key: ' + key)
+            witness = manifest['name_witness']
+            spec = inputs.get('recipe', {})
+            if bool(spec.get('name_input')) != (witness is not None):
+                raise ValueError('missing object cache name witness: ' + key)
+            if witness is not None:
+                index = outputs.index(spec['name_input'])
+                blob = entry/str(index)
+                if (digest(blob.read_bytes()) != manifest['outputs'][spec['name_input']]
+                        or read_witness(blob, spec) != witness):
+                    raise ValueError('corrupt object cache name witness: ' + key)
+                if not projection_matches(root, witness):
+                    continue
+            for index, name in enumerate(outputs):
+                blob = entry/str(index)
+                if digest(blob.read_bytes()) != manifest['outputs'][name]:
+                    raise ValueError('corrupt object cache artifact: ' + key)
+            for index, name in enumerate(outputs):
+                atomic_copy(entry/str(index), safe_path(root, name))
+            (entry/'manifest.json').touch()  # LRU access, never inputs' mtimes
+            return entry
+        return None
 
 
 def entry_sizes(directory):
     result = []
-    for entry in directory.iterdir():
-        if not re.fullmatch('[0-9a-f]{64}', entry.name) or not entry.is_dir() or entry.is_symlink():
+    for outer in directory.iterdir():
+        if not re.fullmatch('[0-9a-f]{64}', outer.name) or not outer.is_dir() or outer.is_symlink():
             continue
-        try:  # unlocked callers race with prune and restore
-            mtime = (entry/'manifest.json').stat().st_mtime_ns
-            size = sum(p.stat().st_size for p in entry.iterdir() if p.is_file())
+        try:
+            # Old schema entries can coexist in a shared cache until pruned.
+            entries = [outer] if (outer/'manifest.json').exists() else list(outer.iterdir())
         except FileNotFoundError:
             continue
-        result.append((mtime, entry, size))
+        for entry in entries:
+            if not re.fullmatch('[0-9a-f]{64}', entry.name) or not entry.is_dir() or entry.is_symlink():
+                continue
+            try:  # unlocked callers race with prune and restore
+                mtime = (entry/'manifest.json').stat().st_mtime_ns
+                size = sum(p.stat().st_size for p in entry.iterdir() if p.is_file())
+            except FileNotFoundError:
+                continue
+            result.append((mtime, entry, size))
     return result
 
 
@@ -301,9 +377,18 @@ def publish(directory, key, inputs, root, outputs):
                 raise ValueError('refusing symlink cache input: ' + name)
             shutil.copyfile(source, temporary/str(index))
             values[name] = digest((temporary/str(index)).read_bytes())
-        (temporary/'manifest.json').write_bytes(encode(dict(key_inputs=inputs, outputs=values)))
+        spec = inputs.get('recipe', {})
+        witness = read_witness(temporary/str(outputs.index(spec['name_input'])), spec) if spec.get('name_input') else None
+        if witness is not None and not projection_matches(root, witness):
+            raise ValueError('stale object cache name witness')
+        manifest = dict(key_inputs=inputs, outputs=values, name_witness=witness)
+        (temporary/'manifest.json').write_bytes(encode(manifest))
         with locked(directory):
-            target = directory/key
+            outer = directory/key
+            if outer.is_symlink():
+                raise ValueError('unsafe object cache entry: ' + key)
+            outer.mkdir(exist_ok=True)
+            target = outer/variant_key(key, witness)
             if not target.exists():
                 counter = directory/'bytes'
                 added = sum(p.stat().st_size for p in temporary.iterdir())
@@ -314,8 +399,11 @@ def publish(directory, key, inputs, root, outputs):
                     content_cache.save(counter, int(counter.read_text())+added)
             else:
                 current = json.loads((target/'manifest.json').read_text())
+                if current.get('key_inputs') != inputs or current.get('name_witness') != witness:
+                    raise ValueError('object cache manifest does not match key: ' + key)
                 if any(current['outputs'].get(n) != d for n, d in values.items() if not n.endswith('.proof.json')):
                     raise ValueError('different artifacts published for the same cache key: ' + key)
+            return target
     finally:
         if temporary.exists():
             shutil.rmtree(temporary)
@@ -353,7 +441,7 @@ def prune_locked(directory, max_bytes):
             except FileNotFoundError:
                 total -= size  # already removed by someone else
                 continue
-            shutil.rmtree(entry)
+            remove_entry(directory, entry)
         total -= size
         removed += 1
     with locked(directory):
@@ -361,6 +449,15 @@ def prune_locked(directory, max_bytes):
         grown = max(0, int(counter.read_text()) - before) if before is not None and counter.exists() else 0
         content_cache.save(counter, total + grown)
     return dict(bytes=total + grown, removed=removed, max_bytes=max_bytes)
+
+
+def remove_entry(directory, entry):
+    shutil.rmtree(entry)
+    if entry.parent != directory:
+        try:
+            entry.parent.rmdir()
+        except OSError:  # another variant still lives under this outer key
+            pass
 
 
 def enforce_cap(directory, cap):
@@ -408,12 +505,14 @@ def compile_recipe(root, recipe_path, build):
     enabled = os.environ.get('AZURE_OBJECT_CACHE', '0') != '0'
     # Library tests/legacy hand-written recipes do not have fastland3 witnesses.
     enabled = enabled and (root/'build/.state/compiletools.list').is_file()
+    tables = table_snapshot(root, spec) if enabled else None
     with compile_slots.acquire():
         inputs = key_inputs(root, recipe_path, spec) if enabled else None
     key = key_for(inputs) if inputs else None
     directory, outputs = cache_directory(root), artifacts(spec)
     started = time.monotonic()
-    hit = bool(key and restore(directory, key, inputs, root, outputs))
+    entry = restore(directory, key, inputs, root, outputs) if key else None
+    hit = entry is not None
     sample = int(os.environ.get('AZURE_OBJECT_VERIFY', '0'))
     if not 0 <= sample <= 100:
         raise ValueError('AZURE_OBJECT_VERIFY must be a percentage (0..100)')
@@ -425,16 +524,20 @@ def compile_recipe(root, recipe_path, build):
         # jobserver pipe tokens, and never run recursive make while holding a slot.
         with compile_slots.acquire():
             build()
-            if inputs is not None and key_inputs(root, recipe_path, spec) != inputs:
+            if inputs is not None and (key_inputs(root, recipe_path, spec) != inputs
+                                       or table_snapshot(root, spec) != tables):
                 raise ValueError('object cache inputs changed during compile')
         if verify and any(digest((root/name).read_bytes()) != value for name, value in expected.items()):
             with locked(directory):
-                shutil.rmtree(directory/key)
+                if entry.exists():
+                    remove_entry(directory, entry)
             raise ValueError('object cache verification differs: ' + key)
         if key and not hit:
             publish(directory, key, inputs, root, outputs)
             enforce_cap(directory, int(os.environ.get('AZURE_OBJECT_CACHE_BYTES', str(48 * 1024**3))))
     if hit:
+        if table_snapshot(root, spec) != tables:
+            raise ValueError('object cache tables changed during restore')
         refresh_proof(root, recipe_path, spec)
         print('CACHE_VERIFY' if verify else 'CACHE_HIT', spec['output'], flush=True)
     log_event(root, 'verify' if verify else 'hit' if hit else 'miss' if key else 'bypass',

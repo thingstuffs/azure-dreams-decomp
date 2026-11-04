@@ -97,9 +97,9 @@ extern u8 D_800814A0[];
 
 /* Functions defined in this translation unit. */
 void spawn_and_flag_object_parts(unsigned short *object, s32 unused, s32 action_id);
-void run_object_secondary_callback(S_8009C46C_0 *object, void *motion, void *context);
+void run_object_secondary_callback(S_8009C46C_0 *object, ObjectPosition *motion, SpriteFrameState *context);
 void initialize_timed_fade_object(Struct8009ED34Arg0 *context, ObjectPosition *unused, Struct8009ED34Arg2 *state);
-void update_timed_object_to_height_limit(void *object, ObjectPosition *motion, S_8009C4E8_2 *appearance);
+void update_timed_object_to_height_limit(void *object, ObjectPosition *motion, SpriteFrameState *appearance);
 void fade_object_primitive(void *object, ObjectPosition *unusedContext, u8 *primitive);
 void spawn_randomized_effect_parts(u8 *source_data, s32 spawn_arg);
 

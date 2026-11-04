@@ -19,7 +19,7 @@ void * create_and_invoke_render_object(s32 initial_value, s32 resource_index) {
     if (object == 0) {
         return 0;
     }
-    state = ((void *)object) + 0x20;
+    state = NODE_BODY(object);
     callback_arg = *(s32 *)&object->position;
     render_data = object->sprite;
     state->unk_9C = initial_value;
@@ -83,7 +83,7 @@ void allocate_variant_object(s32 variant, s32 x, s32 y) {
     if (object != NULL) {
         position = object->position;
         setup_arg = object->sprite;
-        state = (s8 *)object + 0x20;
+        state = NODE_BODY(object);
         position->x.v = (s32)(x << 0x10);
         position->y.v = (s32)(y << 0x10);
         position->z.v = 0xFF000000;

@@ -72,15 +72,15 @@ void update_object_motion_and_flags(TargetObj *obj, void *callback_arg, void *mo
 
 /* Update the object's flag and dispatch its current state handler. */
 void dispatch_object_state(void *object, void *context, void *dispatch_data) {
-    u8 *object_bytes = object;
+    TownObjectRecord *object_bytes = object;
     u8 state;
 
     if (runtime_is_record_field_set(object) != 0) {
-        object_bytes[0x15] = 1;
+        object_bytes->unk_15 = 1;
     }
-    state = object_bytes[0x94];
+    state = ((u8 *)object_bytes)[0x94];
     if (state == 0) {
-        *(u16 *)(object_bytes + 0x72) = *(u16 *)(object_bytes + 0x6E);
+        object_bytes->heading.as_u16 = object_bytes->unk_6E;
         install_stored_value_handler(object, context, dispatch_data);
         return;
     }
@@ -88,7 +88,7 @@ void dispatch_object_state(void *object, void *context, void *dispatch_data) {
         initialize_object_assigns_state_data(object, context, dispatch_data);
         return;
     }
-    (*(FuncPtr *)((object_bytes[0x94] * 4) + *(s32 *)(object_bytes + 0x58) - 8))(object, context,
+    (*(FuncPtr *)((((u8 *)object_bytes)[0x94] * 4) + object_bytes->unk_58 - 8))(object, context,
         dispatch_data);
 }
 

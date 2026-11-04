@@ -34,7 +34,7 @@ void fade_delayed_scene_tile_on_completion(SceneTileObject *effect);
 void fade_scene_tile_across_terminal_phase(SceneTileObject *effect);
 
 /* fade_scene_tile_after_completion_flag.c */
-void fade_scene_tile_after_completion_flag(SceneTileObject *state);
+void fade_scene_tile_after_completion_flag(struct SceneTileObject *state, s32 unused_lower_color, s32 unused_saved_upper_color, s32 unused_upper_color);
 
 /* fade_scene_tile_after_linked_flag.c */
 void fade_scene_tile_after_linked_flag(SceneTileObject *effect);

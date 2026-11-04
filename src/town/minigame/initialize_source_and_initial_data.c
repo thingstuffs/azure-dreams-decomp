@@ -16,7 +16,7 @@ void initialize_source_and_initial_data(minigame_pickup_source *source_data, min
     allocated = allocate_flagged_object_node(0x136);
     object = allocated;
     if (object != 0) {
-        payload = (Payload88 *)((u8 *)object + 0x20);
+        payload = NODE_BODY(object);
         *payload = *(Payload88 *)source_data;
         object->update_callback = update_bouncing_pickup;
         **(Initial24 * *)&object->position = *(Initial24 *)initial_data;

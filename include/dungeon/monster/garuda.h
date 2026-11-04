@@ -19,4 +19,6 @@ void advance_actor_walk_animation(ActorRecord *owner, ObjectPosition *unused, Sp
 void *spawn_garuda_slot_a(s16 spawn_flags, s16 attr_a, s16 attr_b, s16 attr_c);
 void *spawn_garuda_slot_f(s16 flags, s16 kind_id, s16 variant, s16 spawn_value);
 
+void complete_timed_tile_movement(ActorRecord *action, ObjectPosition *motion, SpriteFrameState *sprite, ActorRecord *entity);
+
 #endif

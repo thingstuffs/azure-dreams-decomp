@@ -74,7 +74,7 @@ void update_actor_movement_and_tile_position(ActorRecord *object, ObjectPosition
                     actor->flags14 = actor_state;
 
                     random_turn = generate_random_value();
-                    (*(u16 *)&actor->facing) += (random_turn & 7) << 9;
+                    actor->facing = (u16)((u16)(actor->facing) + ((random_turn & 7) << 9));
                 }
             }
         }
@@ -92,7 +92,7 @@ void update_actor_movement_and_tile_position(ActorRecord *object, ObjectPosition
             }
             else {
                 {
-                    s32 direction = *(((u8 *)actor + 0x45));
+                    s32 direction = actor->unk_44.bytes.high;
                     s32 player_angle = primary_actor_record->facing;
                     s32 direction_offset;
                     s32 target_x;

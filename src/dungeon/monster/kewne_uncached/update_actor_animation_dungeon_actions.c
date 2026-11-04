@@ -115,7 +115,7 @@ void update_actor_animation_dungeon_actions(ActorRecord *body, ObjectPosition *c
             }
         }
 
-        (*(u32 *)&actor->flags1C) |= 0x40000;
+        actor->flags1C = (u32)((u32)(actor->flags1C) | (0x40000));
         body->action_state_flags &= 0xFFF7;
 
         if (actor->hp_delta != 0) {

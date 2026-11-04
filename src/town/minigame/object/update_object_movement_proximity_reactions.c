@@ -102,7 +102,7 @@ loop_0:
             S16(state, 0xE) = 6;
             color_state = &reference_tile_object;
             if (color_state->primitive_color.parts.color_r >= 9) {
-                *(s32 *)&color_state->primitive_color.word -= 0x80808;
+                color_state->primitive_color.word = (s32)((s32)(color_state->primitive_color.word) - (0x80808));
             }
             U16(sprite, 0x14) |= 0x80;
             SD_Call(0x506);
@@ -138,7 +138,7 @@ loop_0:
         do {
             effect = allocate_flagged_object_node(0x136);
             if (effect != 0) {
-                effect_state = ((u8 *)effect) + 0x20;
+                effect_state = NODE_BODY(effect);
                 effect->update_callback = D_80026748;
                 register_node(effect, project_sprite_chain);
                 effect_position = effect->position;

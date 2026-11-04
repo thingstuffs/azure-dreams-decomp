@@ -8,6 +8,7 @@
 #include "dungeon/item.h"
 #include "dungeon/system.h"
 
+#include "shared/dungeon_effect_state.h"
 /* Normal selector 9: ordinary typed entry pointer; gcc emits the state table. */
 void (*const dungeon_1864800_entry)(void *, ObjectPosition *, SpriteFrameState *) = run_fading_target_projectile;
 #include "dungeon/effect/particle/update_effect_base_state.h"
@@ -31,7 +32,7 @@ void run_fading_target_projectile(void *effect, ObjectPosition *motion, SpriteFr
     void *owner_start;
     SpriteFrameState *owner_sprite;
     ObjectNodeHeader *spawned;
-    RunFadingTargetProjectileBody *particle_data;
+    FadingProjectileEffectBody *particle_data;
     SpriteFrameState *sprite;
     s32 particles_left;
     S_81844800_5 *sprite_page;
@@ -552,13 +553,13 @@ s32 draw_layered_vertical_sprite_chain(u8 *first_node)
 #include "shared/game_work.h"
 
 /* Updates effect motion, waits for its timer, then fades its sprite to black. */
-void fade_effect_sprite_to_black(RunFadingTargetProjectileBody *effect, VecState *motion, SpriteFrameState *sprite) {
-    void *owner = effect->owner;
+void fade_effect_sprite_to_black(FadingProjectileEffectBody *effect, VecState *motion, SpriteFrameState *sprite) {
+    B22_81893474_EffectState *owner = effect->owner;
     s32 z_velocity;
     s16 state;
     u16 timer;
 
-    *(u16 *)((s8 *)owner + 0x52) |= 0x8000;
+    owner->unk_52.u |= 0x8000;
 
     z_velocity = motion->vz;
     if (z_velocity != 0) {

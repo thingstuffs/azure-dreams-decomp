@@ -331,21 +331,21 @@ void update_an_effect_through_attachment_motion_timed_cleanup(B31_818C8FD0_S_fun
         state->unk_0A.u16++;
     case 1:
         {
-            B31_818C8FD0_S_func_818C8FD0_6 *owner_part;
+            SpriteFrameState *owner_part;
             u16 position_z;
             u16 final_z;
             u16 delta_z;
 
             owner_part = owner_node->unk_0C;
 
-            if ((get_sprite_attachment_vector(owner_part->unk_08, owner_part, delta, 0) != 0) ||
-                (((B31_818C8FD0_S_func_818C8FD0_6 *)owner_node->unk_0C)->unk_14 & 0x8000)) {
+            if ((get_sprite_attachment_vector(owner_part->source, owner_part, delta, 0) != 0) ||
+                (owner_node->unk_0C->flags & 0x8000)) {
                 output_pos->unk_00.u16.unk_02 = owner_pos->unk_00.u16.unk_02;
                 output_pos->unk_04.u16.unk_06 = owner_pos->unk_04.u16.unk_06;
                 position_z = owner_pos->unk_08.u16.unk_0A;
                 output_pos->unk_08.u16.unk_0A = position_z;
 
-                if (!(((B31_818C8FD0_S_func_818C8FD0_6 *)owner_node->unk_0C)->unk_14 & 0x8000)) {
+                if (!(owner_node->unk_0C->flags & 0x8000)) {
                     output_pos->unk_00.u16.unk_02 += (u16)delta[0];
                     output_pos->unk_04.u16.unk_06 += (u16)delta[1];
                     final_z = output_pos->unk_08.u16.unk_0A;
@@ -373,7 +373,7 @@ void update_an_effect_through_attachment_motion_timed_cleanup(B31_818C8FD0_S_fun
             if (effect_node != 0) {
                 B31_818C8FD0_S_func_818C8FD0_7 *effect;
                 s32 direction_index;
-                B31_818C8FD0_S_func_818C8FD0_8 *tile;
+                SpriteFrameState *tile;
 
                 effect = NODE_BODY(effect_node);
 
@@ -403,14 +403,14 @@ void update_an_effect_through_attachment_motion_timed_cleanup(B31_818C8FD0_S_fun
                     direction_index = state->unk_7E.s16 * 2;
                     tile = ((B31_818C8FD0_S_func_818C8FD0_3 *)((u8 *)object - 0x20))->unk_0C;
                     state->unk_A0 =
-                        tile->unk_24 + table_base[direction_index];
+                        tile->tile_x + table_base[direction_index];
                 }
                 {
                     u8 *table_base = (u8 *)((s8 *)dir_step_y);
 
                     direction_index = state->unk_7E.s16 * 2;
                     state->unk_A1 =
-                        tile->unk_25 + table_base[direction_index];
+                        tile->tile_y + table_base[direction_index];
                 }
 
                 if (object->unk_60.ptr != 0) {
@@ -422,12 +422,12 @@ void update_an_effect_through_attachment_motion_timed_cleanup(B31_818C8FD0_S_fun
 
                     effect->unk_08 = one;
                     tile_distance = object->unk_72;
-                    tile_coord = tile->unk_24;
+                    tile_coord = tile->tile_x;
                     if (tile_distance != tile_coord) {
                         tile_distance -= tile_coord;
                     } else {
                         tile_distance = object->unk_73;
-                        tile_coord = tile->unk_25;
+                        tile_coord = tile->tile_y;
                         tile_distance -= tile_coord;
                     }
                     if (tile_distance < 0) {

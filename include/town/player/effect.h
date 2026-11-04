@@ -28,7 +28,8 @@ void update_object_view_transition(struct S_800A58CC_2 *state_arg, ObjectPositio
 void update_actor_effect_transition(struct S_800A5DF8_4 *state, ObjectPosition *actor, s32 context);
 void update_town_movement_and_actions(TownPlayerRecord *state, ObjectPosition *table, void *action_context);
 
-void turn_entity_toward_target(TownPlayerRecord *entity, void *transform, struct SpriteFrameState *sprite);
+#include "shared/sprite_frame_state.h"
+void turn_entity_toward_target(struct TownPlayerRecord *entity, void *transform, SpriteFrameState *sprite);
 
 void update_effect_record_and_dispatch(TownPlayerRecord *handler, ObjectPosition *record, struct SpriteFrameState *sprite);
 

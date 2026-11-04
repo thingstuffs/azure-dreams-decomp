@@ -1,5 +1,6 @@
 #ifndef TOWN_PLAYER_POSITION_HANDLERS_H
 #define TOWN_PLAYER_POSITION_HANDLERS_H
+struct SpriteFrameState;
 
 /* Position handlers and coordinate queries; private body access views stay opaque. */
 struct Func8009AA20Arg0;
@@ -17,7 +18,7 @@ void update_actor_movement_actions(struct TownObjectRecord *action, struct Objec
 void update_actor_movement_and_interaction(void *actor, struct ObjectPosition *position, int context);
 void update_threshold_countdown_action(void *state, struct ObjectPosition *object, struct SpriteFrameState *context);
 void update_threshold_countdown_with_busy_check(void *state, struct ObjectPosition *object, int context);
-void invoke_handler_when_countdown_expires(struct TownObjectRecord *state, struct ObjectPosition *update_ctx, int handler_ctx);
+void invoke_handler_when_countdown_expires(struct TownObjectRecord *state, struct ObjectPosition *update_ctx, struct SpriteFrameState *handler_ctx);
 void handle_adjust_vector_toward_selected_angle_limit_magnitude(struct ObjectPosition *object);
 void reduce_object_coordinates_toward_direction_dependent_limits_without_overshooting(struct ObjectPosition *object);
 void set_global_800_cfced_initialize_call_callee_800954_dc(struct ObjectPosition *record, int initial_value);

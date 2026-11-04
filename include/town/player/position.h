@@ -1,5 +1,6 @@
 #ifndef TOWN_PLAYER_POSITION_H
 #define TOWN_PLAYER_POSITION_H
+struct TownObjectRecord;
 struct SpriteFrameState;
 /* Prototypes of the functions defined in src/town/player/position/ (one true prototype each; maintained by tools/headers). */
 
@@ -64,7 +65,7 @@ void update_actor_position_and_interaction(TownObjectRecord *actor, ObjectPositi
 
 void advance_player_position_and_angle(void *work_data, ObjectPosition *position_data, struct SpriteFrameState *sprite);
 
-void advance_player_position(s32 context, ObjectPosition *object, struct SpriteFrameState *sprite);
+void advance_player_position(struct TownObjectRecord *context, ObjectPosition *object, struct SpriteFrameState *sprite);
 
 void move_position_toward_target_and_finish(u8 *motion, ObjectPosition *position, struct SpriteFrameState *sprite);
 

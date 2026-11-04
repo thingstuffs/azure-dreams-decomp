@@ -12,6 +12,7 @@
 #include "town/scene.h"
 #include "town/data.h"
 #include "town/map/state.h"
+#include "town/map/state_callbacks_api.h"
 
 #ifndef NULL
 #define NULL 0
@@ -62,7 +63,7 @@ extern void *allocate_list_node();
 extern s32 register_node(); /* Unprototyped: two, three or four arguments; retail reads only the node and draw key. */
 
 
-extern u8 town_child_sprite_callback_address[];
+
 extern u8 map_particle_child_update_address[];
 
 
@@ -135,7 +136,7 @@ void initialize_random_particle_effect(Core *parent_core, ObjectPosition *origin
     do {
         child_obj = allocate_list_node(0x36, (u8 *)parent_core - 0x20);
         if (child_obj != NULL) {
-            child_obj->update_callback = town_child_sprite_callback_address;
+            child_obj->update_callback = update_inactive_object_state;
             register_node(child_obj, draw_linked_sprites_clipped);
             parent_value = parent_core->value;
             child_core = (Core *)((u8 *)child_obj + 0x20);
@@ -165,7 +166,7 @@ void initialize_random_particle_effect(Core *parent_core, ObjectPosition *origin
     parent_obj = (u8 *)parent_core - 0x20;
     child_obj = allocate_list_node(0x36, parent_obj);
     if (child_obj != NULL) {
-        child_obj->update_callback = town_child_sprite_callback_address;
+        child_obj->update_callback = update_inactive_object_state;
         register_node(child_obj, draw_linked_sprites_clipped);
         parent_value = parent_core->value;
         child_core = (Core *)((u8 *)child_obj + 0x20);

@@ -36,4 +36,6 @@ void complete_directional_hop_to_tile(ActorRecord *body, ObjectPosition *motion,
 void blend_effect_channels_to_gray(u8 *task, ObjectPosition *context, SpriteFrameState *input);
 void initialize_status_gated_action(ActorRecord *action_state, ObjectPosition *context, SpriteFrameState *animation, ActorRecord *entity);
 
+void advance_item_action_sequence(ActorRecord *action, ObjectPosition *motion, SpriteFrameState *sprite, ActorRecord *actor);
+
 #endif

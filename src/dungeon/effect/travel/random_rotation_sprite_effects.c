@@ -81,10 +81,10 @@ void *create_a_sprite_random_rotation_copies_initial_data(void *context, ovl_18b
  */
 void handle_increment_entry_counters_process_target_propagate_status_flags(RandomizedGrayscaleEffectBody *entry, void *unused, SpriteFrameState *target)
 {
-    void *object;
+    B22_81893474_EffectState *object;
 
     object = entry->owner;
-    *(u16 *)((u8 *)object + 0x14) += 1;
+    object->field_14.u += 1;
     entry->ticks_remaining += 1;
     advance_sprite_animation_and_textures(target);
     if (target ->flags & 0x6000) {
@@ -202,10 +202,10 @@ void *create_counted_sprite_effect(s32 object_id, ovl_18b8824_81898C1C_S_8002441
  * removal flags when animation flags 0x6000 are set.
  */
 void mark_owner_on_target_completion(SpriteEffectWithDataBody *object_ref, s32 unused, SpriteFrameState *target) {
-    u8 *object;
+    B22_81893474_EffectState *object;
 
     object = object_ref->owner;
-    *(u16 *)(object + 0x14) += 1;
+    object->field_14.u += 1;
     advance_sprite_animation_and_textures(target);
     if (target ->flags & 0x6000) {
         *(u16 *)((u8 *)object_ref - 2) |= NODE_REMOVE;

@@ -12,7 +12,7 @@ void run_unhandled_update_and_choose_direction(TownObjectRecord *entity, void *m
 void update_person_view_and_record(void *ptr, void *value, SpriteFrameState *record);
 
 
-void dispatch_status_triggered_update(void *handler_arg, void *context, SpriteFlagsView *status);
+void dispatch_status_triggered_update(TownObjectRecord *handler_arg, void *context, SpriteFlagsView *status);
 /* Registered code-address alias for dispatch_status_triggered_update. */
 void person_table_handler_address(void *handler_arg, void *context, SpriteFlagsView *status);
 

@@ -6,11 +6,11 @@
 #include "town/minigame/effect.h"
 #include "town/scene/object.h"
 #include "town/data.h"
+#include "town/minigame.h"
 
 extern u8 tako_minigame_sprites[16];
 extern u8 D_800F79E8[16];
 
-extern void create_tako_projectile(void *, s32, s32);
 extern void create_timed_sound(s16 value);
 
 typedef struct B {

@@ -13,11 +13,11 @@ extern u8 actor_motion_resume_address;
 
 
 /* Updates the actor and entity counter, then advances the entity or sets its callback. */
-void advance_actor_movement_to_tile(ActorRecord *entity_ptr, void *input_arg_1, void *input_arg_2, void *actor_ptr)
+void advance_actor_movement_to_tile(ActorRecord *entity_ptr, void *input_arg_1, void *input_arg_2, ActorRecord *actor_ptr)
 {
     void *update_arg_1 = input_arg_1;
     void *update_arg_2 = input_arg_2;
-    void *actor = actor_ptr;
+    ActorRecord *actor = actor_ptr;
     u16 remaining_count;
 
     if (update_actor_movement_to_tile(entity_ptr, update_arg_1, update_arg_2, actor) != 0) {
@@ -26,7 +26,7 @@ void advance_actor_movement_to_tile(ActorRecord *entity_ptr, void *input_arg_1, 
         entity_ptr->unk_B4.halves.high.u = remaining_count;
 
         if (((remaining_count << 16) <= 0 || ((*(u16 *)0x80013714) & 8)) &&
-            ((ActorRecord *)actor)->movement_queue_state == ((ActorRecord *)actor)->unk_8A) {
+            actor->movement_queue_state == actor->unk_8A) {
             set_actor_action_state_eight(entity_ptr, update_arg_1, update_arg_2);
             return;
         }

@@ -52,18 +52,18 @@ void invoke_emote_object_callback(EmoteCallbackObject *object, ObjectPosition *m
 }
 
 /* Accumulate motion offsets and switch the object handler when the final offset is nonnegative. */
-void advance_emote_motion(S_800A7360_1 *object, EntityRec *motion) {
-    motion->x.v = (s32) (motion->x.v + motion->unk_0C);
-    motion->y.v = (s32) (motion->y.v + motion->unk_10);
-    motion->z.v = (s32) (motion->z.v + (motion->flags14));
+void advance_emote_motion(S_800A7360_1 *object, ObjectPosition *motion) {
+    motion->x.v = (s32) (motion->x.v + motion->velocity_x);
+    motion->y.v = (s32) (motion->y.v + motion->velocity_y);
+    motion->z.v = (s32) (motion->z.v + (motion->velocity_z));
     add_hex_20000_s_signed_offset_hex_14(motion);
-    if (motion->flags14 >= 0) {
+    if (motion->velocity_z >= 0) {
         object->unk_50 = &advance_position_and_handle_ground_contact;
     }
 }
 
 /* Advances position and handles ground contact or continued motion. */
-void advance_position_and_handle_ground_contact(void *entity, void *motion, s32 context) {
+void advance_position_and_handle_ground_contact(void *entity, ObjectPosition *motion, s32 context) {
     s32 x;
     s32 velocity_x;
     s32 velocity_y;
@@ -71,16 +71,16 @@ void advance_position_and_handle_ground_contact(void *entity, void *motion, s32 
     u16 counter;
     S_800A9C80_Callback callback;
 
-    x = *(s32 *)((u8 *)motion + 0x0);
-    velocity_x = *(s32 *)((u8 *)motion + 0xC);
-    velocity_y = *(s32 *)((u8 *)motion + 0x10);
-    velocity_z = *(s32 *)((u8 *)motion + 0x14);
+    x = motion->x.v;
+    velocity_x = motion->velocity_x;
+    velocity_y = motion->velocity_y;
+    velocity_z = motion->velocity_z;
     x += velocity_x;
-    *(s32 *)((u8 *)motion + 0x0) = x;
-    *(s32 *)((u8 *)motion + 0x4) += velocity_y;
-    *(s32 *)((u8 *)motion + 0x8) += velocity_z;
-    if (query_lowered_transform_position(motion) < *(s16 *)((u8 *)motion + 0xA)) {
-        *(s16 *)((u8 *)motion + 0xA) = query_lowered_transform_position(motion);
+    motion->x.v = x;
+    motion->y.v += velocity_y;
+    motion->z.v += velocity_z;
+    if (query_lowered_transform_position(motion) < motion->z.w.i) {
+        motion->z.w.i = query_lowered_transform_position(motion);
         counter = *(u16 *)((u8 *)entity + 0x90) - 1;
         *(u16 *)((u8 *)entity + 0x90) = counter;
         if ((s16)counter < 0) {
@@ -89,7 +89,7 @@ void advance_position_and_handle_ground_contact(void *entity, void *motion, s32 
             callback(entity, motion, context);
             return;
         }
-        copy_indexed_motion_value_and_advance(entity, motion, context);
+        copy_indexed_motion_value_and_advance(entity, (EntityRec *)motion, context);
         return;
     }
     add_hex_20000_s_signed_offset_hex_14(motion);

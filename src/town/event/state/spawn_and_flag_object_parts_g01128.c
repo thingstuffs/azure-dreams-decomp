@@ -25,7 +25,7 @@ void spawn_and_flag_object_parts(unsigned short *object, s32 unused, s32 action_
 }
 
 /* Update the object and set the high bit in its header and the global flags. */
-void unlink_and_remove_scene_object(void *object) {
+void unlink_and_remove_scene_object(void *object, void *unused_owner, void *unused_position, s32 unused_dispatch_param) {
     unlink_scene_list_node(object);
     unlink_node_if_registered(object);
     *((u16 *)object - 1) |= 0x8000;
@@ -71,7 +71,7 @@ void *create_town_effect_object(s32 parent, IntVector3 *position, s32 object_val
 }
 
 /* Invoke the object's callback. */
-void run_object_secondary_callback(S_8009C46C_0 *object, void *motion, void *context) {
+void run_object_secondary_callback(S_8009C46C_0 *object, ObjectPosition *motion, SpriteFrameState *context) {
     object->unk_50(object, motion, context);
 }
 
@@ -86,7 +86,7 @@ void initialize_timed_fade_object(Struct8009ED34Arg0 *context, ObjectPosition *u
 }
 
 /* Updates a timed object, expiring it or stopping its motion at the height limit. */
-void update_timed_object_to_height_limit(void *object_arg, ObjectPosition *motion, S_8009C4E8_2 *appearance) {
+void update_timed_object_to_height_limit(void *object_arg, ObjectPosition *motion, SpriteFrameState *appearance) {
     TownObjectRecord *object = object_arg;
     s16 height_limit;
     u16 timer;
@@ -108,11 +108,11 @@ void update_timed_object_to_height_limit(void *object_arg, ObjectPosition *motio
         motion->velocity_x = 0;
         motion->velocity_y = 0;
         motion->velocity_z = 0;
-        appearance->unk_0E = 0x40;
-        appearance->unk_0D = 0x40;
-        appearance->unk_0C = 0x40;
-        appearance->unk_10 = 0x20;
-        appearance->unk_14 |= 0x1C;
+        appearance->color.c.b = 0x40;
+        appearance->color.c.g = 0x40;
+        appearance->color.c.r = 0x40;
+        appearance->tpage_abr = 0x20;
+        appearance->flags |= 0x1C;
         object->unk_50.as_pm = D_8009C5D8;
     }
 }

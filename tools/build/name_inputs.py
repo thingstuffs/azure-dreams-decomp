@@ -30,6 +30,33 @@ def project(tokens, names):
     return {n: names[n] for n in tokens if n in names}
 
 
+def reverse_symbols(module):
+    """Native storage validation queries all aliases of each allocation symbol."""
+    return sorted({slot['symbol'] for allocation in module.get('allocations', ())
+                   for slot in allocation.get('slots', ()) if 'symbol' in slot})
+
+
+def project_reverse(tokens, root):
+    # Match native source_symbol_pattern's raw row semantics, including aliases
+    # shadowed by later rows with the same new spelling. Empty queries bind misses.
+    result = {n: set() for n in tokens}
+    if not result:
+        return {}
+    if root is None:
+        raise ValueError('reverse name witness requires its build root')
+    try:
+        lines = (Path(root)/'config/names.tsv').read_text().splitlines()
+    except FileNotFoundError:
+        lines = []
+    for raw in lines:
+        cols = raw.split('#', 1)[0].rstrip().split('\t')
+        if len(cols) >= 3:
+            old, new = cols[1].strip(), cols[2].strip()
+            if old in result and new and old != new:
+                result[old].add(new)
+    return {n: sorted(values) for n, values in result.items()}
+
+
 def symbols(path):
     try:
         lines = Path(path).read_text().splitlines()
@@ -87,16 +114,35 @@ def write(path, value):
         temporary.replace(path)
 
 
+def merge(path, value, names, evidence=None):
+    """Union sequential passes within ONE compile, retaining section lookups."""
+    try:
+        previous = read(path)
+    except FileNotFoundError:
+        write(path, value)
+        return
+    if (previous['rows'] != project(previous['tokens'], names)
+            or previous.get('sets', {}) != project_sets(previous['tokens'], names, evidence or {})):
+        raise ValueError('name/config inputs changed between traces')
+    value['tokens'] = sorted(set(previous['tokens']) | set(value['tokens']))
+    value['rows'] = project(value['tokens'], names)
+    value['sets'] = project_sets(value['tokens'], names, evidence or {})
+    if 'reverse' in previous:
+        value['reverse'] = previous['reverse']
+    write(path, value)
+
+
 def read(path):
     value = json.loads(Path(path).read_text())
-    if (value.get('schema') != 1 or not isinstance(value.get('tokens'), list)
+    if (not isinstance(value, dict) or value.get('schema') != 1 or not isinstance(value.get('tokens'), list)
             or any(not isinstance(n, str) for n in value['tokens'])
             or value['tokens'] != sorted(set(value['tokens']))
             or not isinstance(value.get('rows'), dict)
-            or not isinstance(value.get('sets', {}), dict)
-            or any(not isinstance(p, str) or not isinstance(v, list)
-                   or any(not isinstance(s, str) for s in v) or v != sorted(set(v))
-                   for p, v in value.get('sets', {}).items())):
+            or any(not isinstance(value.get(field, {}), dict)
+                   or any(not isinstance(p, str) or not isinstance(v, list)
+                          or any(not isinstance(s, str) for s in v) or v != sorted(set(v))
+                          for p, v in value.get(field, {}).items())
+                   for field in ('sets', 'reverse'))):
         raise ValueError('invalid name-input witness: ' + str(path))
     return value
 
@@ -108,6 +154,8 @@ def refresh(path, names, root=None):
         value = dict(schema=1, tokens=[], rows={}, sets={})
     value['rows'] = project(value['tokens'], names)
     value['sets'] = project_sets(value['tokens'], names, evidence_at(root, value.get('sets', {})))
+    if 'reverse' in value:
+        value['reverse'] = project_reverse(value['reverse'], root)
     write(path, value)
 
 
@@ -118,4 +166,6 @@ def verify(path, names, root=None):
     if value.get('sets', {}) != project_sets(value['tokens'], names,
                                            evidence_at(root, value.get('sets', {}))):
         raise ValueError('stale config-input witness: ' + str(path))
+    if 'reverse' in value and value['reverse'] != project_reverse(value['reverse'], root):
+        raise ValueError('stale reverse-name witness: ' + str(path))
     return value

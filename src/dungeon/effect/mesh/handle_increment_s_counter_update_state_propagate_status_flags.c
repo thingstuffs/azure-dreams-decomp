@@ -3,16 +3,17 @@
 #include "shared/object_flags.h"
 #include "dungeon/effect/mesh.h"
 #include "slus.h"
+#include "shared/dungeon_effect_state.h"
 
 /*
  * Increments the linked object's counter and advances sprite animation; flags removal when the
  * sprite reports 0x6000.
  */
 void handle_increment_s_counter_update_state_propagate_status_flags(AnOwnerLinkedSpriteEffectPositionVerticalOffsetBody *object_slot, ObjectPosition *unused, SpriteFrameState *state) {
-    u8 *object;
+    B22_81893474_EffectState *object;
 
     object = object_slot->owner;
-    *(u16 *)(object + 0x1A) += 1;
+    object->z.u += 1;
     advance_sprite_animation_and_textures(state);
     if (state->flags & 0x6000) {
         *(u16 *)((u8 *)object_slot - 2) |= NODE_REMOVE;

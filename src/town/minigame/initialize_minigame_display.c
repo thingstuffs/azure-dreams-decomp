@@ -55,7 +55,7 @@ void initialize_minigame_display(void *context)
 
     rect_obj = allocate_flagged_object_node(1);
     if (rect_obj != NULL) {
-        rect_data = ((void *)rect_obj) + 0x20;
+        rect_data = NODE_BODY(rect_obj);
         rect_obj->update_callback = D_800223E0;
         register_node(rect_obj, build_menu_line_tile_packets);
         rect_data->unk_0C = 0xB8;
@@ -68,7 +68,7 @@ void initialize_minigame_display(void *context)
 
     image_obj = allocate_flagged_object_node(1);
     if (image_obj != NULL) {
-        image_data = ((void *)image_obj) + 0x20;
+        image_data = NODE_BODY(image_obj);
         image_obj->update_callback = D_800223E8;
         register_node(image_obj, text_sprite_builder_address);
         image_data->x = 0xF0;

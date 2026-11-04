@@ -1,5 +1,6 @@
 #ifndef TOWN_SHOP_STAT_DISPLAY_H
 #define TOWN_SHOP_STAT_DISPLAY_H
+struct ActorRecord;
 /* Format compared object statistics and populate display rows. */
 
 #include "common.h"
@@ -83,7 +84,7 @@ extern u8 D_80089304[];
 void *format_object_value_marker(void *output, void *object);
 s32 compare_values_to_display_code(s32 left, s32 right);
 void *format_compared_stat_pairs(void *text, ActorRecord *stats);
-void format_and_display_entity_stats(void *stats, void *panels);
+void format_and_display_entity_stats(struct ActorRecord *stats, void *panels);
 void collect_selected_record_values(s32 *output, EntityRec *record);
 u8 *format_optional_signed_value(Input *input, u8 *text);
 void populate_display_rows(s32 source_id, void *display);

@@ -39,7 +39,7 @@ typedef struct S_801677FC_6 {
 } S_801677FC_6;
 
 /* Spawn sixteen effects offset in the current object's facing direction with increasing sizes. */
-void create_forward_layered_sprite_pulse(void)
+void create_forward_layered_sprite_pulse(s32 unused_phase, void *unused_target_state)
 {
     LocalTable direction_offsets;
     s32 size_step;

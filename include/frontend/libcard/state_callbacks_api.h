@@ -1,0 +1,7 @@
+#ifndef FRONTEND_LIBCARD_STATE_CALLBACKS_API_H
+#define FRONTEND_LIBCARD_STATE_CALLBACKS_API_H
+
+struct Object_800128C8;
+void card_boot_poll_status_and_dismiss_dialog(struct Object_800128C8 *record_data);
+
+#endif

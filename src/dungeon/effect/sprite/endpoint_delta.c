@@ -74,7 +74,7 @@ static __inline__ s32 endpoint_delta(u16 end, u16 start)
 }
 
 /* Draw eight shaded lines with animated endpoints and insert them into the ordering table. */
-s32 draw_animated_shaded_lines(void *effect_data)
+s32 draw_animated_shaded_lines(void *effect_data, void *unused_render_data)
 {
     S_800247D4_3 *effect = effect_data;
     u8 *initial_render_ctx = g_game_work.draw_buffer;

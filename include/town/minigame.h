@@ -156,4 +156,8 @@ struct ObjectStatePositionObject;
 struct S1;
 void update_object_state_position(struct ObjectStatePositionObject *self, s32 *position, struct S1 *target);
 
+struct Copy20;
+void create_tako_projectile(struct Copy20 *init_data, s32 pos_y, s32 unused_effect_arg);
+s32 initialize_mogura_minigame(void *unused_arg0, void *unused_arg1, void *unused_arg2, void *unused_arg3);
+
 #endif

@@ -40,7 +40,7 @@ void update_terrain_scaled_actor_effect(ManoevaTerrainEffectBody *effect, Moving
         }
 
         owner_base = effect->unk_0C;
-        owner = (u8 *)owner_base + 0x20;
+        owner = NODE_BODY(owner_base);
         if ((((u32)((ActorRecord *)owner)->flags1C) & 0x00800000) ||
             (owner_base->flags & 0x8000) ||
             (((ActorRecord *)owner)->unk_8C.address == (void *)transfer_linked_object_state) ||
@@ -57,7 +57,7 @@ void update_terrain_scaled_actor_effect(ManoevaTerrainEffectBody *effect, Moving
                                 sample_position->y,
                                 (s16)(sample_position->z - 4));
         } else {
-            sampled_height = ((ObjectPosition *)(effect->unk_18))->z.unsigned_parts.integer;
+            sampled_height = effect->unk_18->z.unsigned_parts.integer;
         }
 
         source_position = effect->unk_18;
@@ -71,7 +71,7 @@ void update_terrain_scaled_actor_effect(ManoevaTerrainEffectBody *effect, Moving
 
         if (height_scale >= 0xF81) {
             out_position->x = source_position->x.unsigned_parts.integer;
-            out_position->y = ((ObjectPosition *)(effect->unk_18))->y.unsigned_parts.integer;
+            out_position->y = effect->unk_18->y.unsigned_parts.integer;
             out_position->z = sampled_height;
 
             scale_cap = target_scale;
@@ -105,8 +105,8 @@ void update_terrain_scaled_actor_effect(ManoevaTerrainEffectBody *effect, Moving
             }
         }
 
-        out_render->clut = ((SpriteFrameState *)(effect->unk_14))->clut;
-        out_render->color.word = ((SpriteFrameState *)(effect->unk_14))->color.word;
+        out_render->clut = effect->unk_14->clut;
+        out_render->color.word = effect->unk_14->color.word;
         out_render->scale_x = effect->unk_1C.u +
             (rcos(effect->unk_20.s << 8) >> 4);
         out_render->scale_y = effect->unk_1C.u +

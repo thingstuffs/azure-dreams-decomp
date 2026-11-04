@@ -93,7 +93,7 @@ extern PackedVec3 D_8002533C;
 extern s16 parent_effect_update_flag;
 
 /* Creates an object in the first free rectangle slot and decrements the owner timer. */
-void spawn_free_slot_display_effect(AdvanceObjectSpawningDisplaysHighBody *owner) {
+void spawn_free_slot_display_effect(DisplaySpawnerEffectBody *owner) {
     s16 center[2];
     RectTable rect_table;
     u8 *copy_src;
@@ -218,7 +218,7 @@ void create_an_linked_parent_initialize_position_part_data(void *parent, ObjectP
     ObjectPosition *position;
     SpriteFrameState *part;
     ObjectNodeHeader *object;
-    AdvanceObjectSpawningDisplaysHighBody *state;
+    DisplaySpawnerEffectBody *state;
     ObjectPosition *parent_position;
 
     object = allocate_flagged_object_node(0x212);

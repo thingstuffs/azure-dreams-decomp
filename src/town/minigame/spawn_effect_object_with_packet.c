@@ -34,7 +34,7 @@ void spawn_effect_object_with_packet(TownObjectRecord *caller_data, ObjectPositi
         part->scale_y = 0x1000;
         part->offset_x = 0x1000;
         part->color.word = 0x808080;
-        setup = (u8 *)obj + 0x20;
+        setup = NODE_BODY(obj);
         part->angle_z = 0;
         part->source = 0x60;
         packet = *(s32 * *)&obj->position;

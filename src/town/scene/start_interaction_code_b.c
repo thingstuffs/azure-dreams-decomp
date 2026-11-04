@@ -1,4 +1,5 @@
 #include "common.h"
+#include "town/scene.h"
 
 typedef struct TownEntry {
     s32 unk0;
@@ -12,9 +13,7 @@ typedef struct TownContext {
     TownEntry *entries;
 } TownContext;
 
-s32 count_enabled_town_entries(void);
 s32 copy_indexed_entry_value(s32);
-s32 find_first_enabled_paired_entry(void);
 s32 select_next_eligible_wrapped_entry(void);
 extern s32 scene_update_state;
 extern s32 scene_choice_index;

@@ -31,7 +31,7 @@ typedef struct {
 } Entry;
 
 extern s16 actor_event_values[];
-extern u8 D_800C1EC4;
+
 
 extern s32 get_entity_class(void *);
 extern void update_map_cell_flags_with_item_limit(u8, u8, s32);
@@ -86,7 +86,7 @@ void *teleport_familiar_near_player(void *object, s16 action_arg) {
         position[0x24] = (u8)tile_x;
         position[0x25] = (u8)tile_y;
         ((Rec_D_80082E80 *)object)->unk_88.as_u16 = *(u16 *)(task_data + 8);
-        task->update_callback = &D_800C1EC4;
+        task->update_callback = tick_height_restore_effect;
         *(void **)(task_data + 0xC) = object;
         *(s16 *)(task_data + 2) = 0x20;
         *(s16 *)(task_data + 4) = position[0x24];

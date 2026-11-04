@@ -68,7 +68,7 @@ void update_actor_actions_and_impact_effects(ActorRecord *action, ObjectPosition
             actor->action_flags &= 0x7FFF;
             return;
         }
-        actor_update_node_cursor = (u8 *)actor - 0x20;
+        actor_update_node_cursor = NODE_HEADER(actor);
         return;
     default:
         return;

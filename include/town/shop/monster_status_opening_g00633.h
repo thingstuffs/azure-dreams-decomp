@@ -33,7 +33,7 @@ void set_monster_status_panel_height();
 /* extern */
 extern u8 D_80089344[];
 extern void process_object_data_by_mode(void *object);
-extern s32 D_800B6578[];
+
 
 /* Functions defined in this translation unit. */
 void update_mode_display_spacing(S_800B65D8_3 *base, s32 display_mode);

@@ -13,7 +13,7 @@ typedef struct S_800CA774_0 {
 } S_800CA774_0;   /* arg0 in initialize_reaction_data_and_timer_10_b */
 
 /* Initializes the object's data pointer and sets its initial value to 10. */
-void initialize_reaction_data_and_timer_10_b(S_800CA774_0 *object) {
+void initialize_reaction_data_and_timer_10_b(S_800CA774_0 *object, void *unused_position, void *unused_context, void *unused_game) {
     object->unk_54 = &ease_reaction_position_to_target;
     object->unk_6C = 0xA;
 }

@@ -29,7 +29,7 @@ extern u8 town_map_tag;
 extern u8 D_80037714;
 extern u8 D_800794AC;
 extern s32 town_map_selection;
-extern M2C_UNK D_8008B9D8;
+
 extern M2C_UNK D_8008BA00;
 extern s32 D_800CFB74[];
 extern u8 D_800CFC38[];

@@ -13,6 +13,7 @@
 #include "dungeon/item.h"
 #include "dungeon/system.h"
 #include "engine/entity.h"
+#include "dungeon/effect/oriented_mesh_quads_g00367.h"
 struct EntityLinkNode;
 
 typedef struct S_800C2824_0 {
@@ -99,7 +100,7 @@ void * create_five_point_effect(u8, u8, s16, void *, s32, s32, void *); /* Unpro
 void retire_tracked_effect_by_id(s32 targetId);
 extern s32 return_magic_begin_address(void);
 extern s32 create_and_store_pending_actor_fade(void);
-extern s32 linked_object_draw_address(void *initial_state, s32 value, void *data);
+
 extern M2C_UNK D_800DF45C;
 extern M2C_UNK return_magic_sprite_data;
 extern void *return_magic_effect_object;
@@ -185,7 +186,7 @@ void update_return_magic_sacrifice(void *effect, void *vertices, void *sprite) {
         vertex_z = (u16)object_vertices->z.w.i;
         ((S_800C2824_3 *)vertices)->unk_0A = vertex_z;
         ((S_800C2824_3 *)vertices)->unk_16 = vertex_z;
-        register_node(effect - 0x20, &linked_object_draw_address);
+        register_node(effect - 0x20, process_linked_mesh_states_mode_1);
         ((S_800C2824_4 *)sprite)->unk_10 = 0x20;
         ((S_800C2824_4 *)sprite)->unk_08 = &return_magic_sprite_data;
         ((S_800C2824_4 *)sprite)->unk_0C.at00.v = 0x808080;
