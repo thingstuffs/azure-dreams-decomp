@@ -208,7 +208,7 @@ extern void strcpy();
 extern s32 check_object_byte_pairs_content(s32);
 extern u8 inventory_default_entry_data[];
 extern void SD_Call(s32 value);
-extern s32 set_object_data_pointer(s32 unk14);
+extern void set_object_data_pointer(s32 unk14);
 extern s32 advance_index_with_single_wrap(s32 selection_step, s32 unk8, s32 value);
 extern u8 D_800789B8[9];
 extern s32 inventory_shared_entry_value;

@@ -1,5 +1,5 @@
 {
- "count": 1991,
+ "count": 1984,
  "ids": [
   "include/dungeon/actor/ability_eligibility.h::S_800A4300_2.unk_F0",
   "include/dungeon/actor/action_target_selection_g00359.h::S_800CA444_0.unk_24",
@@ -1845,7 +1845,6 @@
   "src/dungeon/monster/ifrit/divide_tex.c::S_func_80174228_0.screen",
   "src/dungeon/monster/ifrit/update_actor_actions_and_impact_effects.c::S_801728C4_3.unk_0C",
   "src/dungeon/monster/kewne/update_actor_render_effect_and_position.c::segment_limit.segment_limit",
-  "src/dungeon/monster/kewne/update_effect_fade_and_history.c::S_801747B8_0.unk_0C",
   "src/dungeon/monster/kewne/update_movement_height_and_animation.c::S_801728A8_0.unk_A0",
   "src/dungeon/monster/kewne/update_staged_movement_and_idle.c::S_80172DDC_0.unk_96",
   "src/dungeon/monster/kewne/update_staged_movement_and_idle.c::S_80172DDC_0.unk_A0",
@@ -1936,7 +1935,6 @@
   "src/engine/resource/advance_timed_entity_motion.c::S_80041900_D80083CA8.u",
   "src/engine/window/draw_window_rects.c::XY.XY",
   "src/town/devkit/dev_copy_overlay_work_and_trace_48.c::S_808B3620_4.unk_64",
-  "src/town/func_800B4EAC.c::S_800B260C_1.unk_10",
   "src/town/map/check_scratch_quad_half_turn_gaps.c::Quad.Quad",
   "src/town/map/door.c::handler.handler",
   "src/town/map/init_line_colors.c::PackedColor.PackedColor",
@@ -1960,7 +1958,6 @@
   "src/town/minigame/remove_completed_keima_object.c::KeimaExitNode.KeimaExitNode",
   "src/town/minigame/state/process_slot_machine_state.c::SlotObject.unk_08",
   "src/town/minigame/update_bouncing_pickup_after_hit.c::reward_values.reward_values",
-  "src/town/minigame/update_gym_minigame.c::S_80022F60_1.unk_10",
   "src/town/person/motion/update_jump_motion.c::S_800CC070_1.unk_08",
   "src/town/person/motion/update_jump_motion.c::S_800CC070_1.unk_14",
   "src/town/player/select_an_eligible_source_entry_stores_pointer_in_destination.c::S_80095840_0.unk_2C",
@@ -1972,7 +1969,6 @@
   "src/town/scene/effect/build_shop_display.c::S_80813AB0_0.unk_28",
   "src/town/scene/effect/build_shop_display.c::S_80813AB0_0.unk_2C",
   "src/town/scene/effect/build_shop_display.c::S_80813AB0_0.unk_30",
-  "src/town/scene/effect/build_shop_display.c::S_80813AB0_0.unk_36",
   "src/town/scene/get_or_init_masked_entry.c::S_806D2BB8_0.unk_08",
   "src/town/scene/get_or_init_masked_entry.c::S_806D2BB8_1.unk_04",
   "src/town/scene/motion/apply_position_offset_pair.c::S_80019E7C_1.unk_1C",
@@ -1981,18 +1977,15 @@
   "src/town/scene/object/create_title_menu_cursor.c::S_808106E0_0.unk_28",
   "src/town/scene/object/create_title_menu_cursor.c::S_808106E0_0.unk_2C",
   "src/town/scene/object/create_title_menu_cursor.c::S_808106E0_0.unk_30",
-  "src/town/scene/object/create_title_menu_cursor.c::S_808106E0_0.unk_34",
   "src/town/scene/object/create_town_hud.c::rgb.rgb",
   "src/town/scene/object/create_town_hud.c::state.state",
   "src/town/scene/object/create_town_object_group.c::S_8080E59C_0.unk_74",
   "src/town/scene/object/create_town_object_group.c::StackData.StackData",
   "src/town/scene/populate_and_dispatch_entry_records.c::PackedWord.PackedWord",
-  "src/town/scene/process_current_town_cell.c::S_805D2FC4_2.unk_04",
-  "src/town/scene/run_collection_round_sequence.c::S_80527D5C_3.unk_10",
   "src/town/scene/update_slot_machine.c::S_func_80811C54_7.unk_00",
   "src/town/shop/event_fountain_chk.c::StackArg.StackArg",
   "src/town/shop/position/initialize_templated_state_and_position.c::S_800B4200_arg4.S_800B4200_arg4"
  ],
- "reason": "ACCURACY 121 rebaseline",
+ "reason": "AC122 rebaseline",
  "schema": 1
 }

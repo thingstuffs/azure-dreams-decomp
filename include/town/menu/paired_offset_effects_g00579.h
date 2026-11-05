@@ -9,15 +9,7 @@
 #include "shared/vector.h"
 #include "town/person/effects.h"
 
-typedef struct S_800A6F48_14 {
-    u8 pad_00[0xC];
-    s32 unk_0C;
-} S_800A6F48_14;
 
-typedef struct S_800A6F48_15 {
-    u8 pad_00[0xC];
-    s32 unk_0C;
-} S_800A6F48_15;
 
 typedef struct S_800A6F48_0 {
     u8 pad_00[0xC];
@@ -86,6 +78,7 @@ typedef struct S_800A6F48_11 {
 } S_800A6F48_11;
 
 #include "town/menu/object/create_positioned_sprite_object_g01142.h"
+#include "shared/entity.h"
 /* extern */
 /* extern */
 extern void D_800A70EC();

@@ -3,6 +3,7 @@
 #include "shared/sprite_frame_state.h"
 #include "common.h"
 #include "dungeon/monster/ghosh.h"
+#include "dungeon/monster/ghosh/trail_emitter.h"
 #include "shared/dungeon_sprite_data.h"
 #include "shared/slus_callbacks.h"
 #include "records/Rec_D_80174CD8.h"
@@ -12,12 +13,6 @@
 struct Dst;
 struct Elem;
 
-typedef struct S_801722F0_1 {
-    u8 pad_00[0x16];
-    s16 unk_16;
-    s16 unk_18;
-} S_801722F0_1;
-
 extern void select_record_entry_and_value(void *state, void *entries, short index);
 
 /* Create an effect at the source position and play its sound. */
@@ -26,7 +21,7 @@ void spawn_cascading_trail_emitter(void) {
     void *setup_data;
     ObjectPosition *source_pos;
     ObjectNodeHeader *effect;
-    S_801722F0_1 *effect_params;
+    GhoshTrailEmitterBody *effect_params;
     ObjectPosition *effect_pos;
 
     source_pos = ghosh_boss_node->position;
@@ -34,7 +29,7 @@ void spawn_cascading_trail_emitter(void) {
     if (effect != 0) {
         setup_data = project_sprite_chain;
         effect_params = NODE_BODY(effect);
-        effect_params->unk_16 = 0x1E;
+        effect_params->remaining_ticks = 0x1E;
         effect_params->unk_18 = 0x1E;
         effect->update_callback = &update_cascading_trail_emitter;
         register_node(effect, setup_data);

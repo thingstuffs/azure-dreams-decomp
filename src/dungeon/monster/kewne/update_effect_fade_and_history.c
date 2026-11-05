@@ -1,18 +1,10 @@
 #include "common.h"
+#include "shared/sprite_frame_state.h"
+#include "shared/object_node.h"
 #include "shared/object_flags.h"
 #include "shared/dungeon_moving_views.h"
 #include "dungeon/monster/kewne.h"
 
-
-typedef struct S_801747B8_0 {
-    u8 pad_00[0x8];
-    s32 unk_08;
-    union { u8 u8; s32 s32; } unk_0C;   /* accessed as both */
-    u8 pad_10[0x4];
-    u16 unk_14;
-} S_801747B8_0;   /* arg2 in update_effect_fade_and_history */
-
-   /* arg1 in update_effect_fade_and_history */
 
 typedef struct S_801747B8_2 {
     u8 pad_00[0x20];
@@ -23,37 +15,28 @@ typedef struct S_801747B8_2 {
     u16 unk_2C;
 } S_801747B8_2;   /* dst in update_effect_fade_and_history */
 
-typedef struct S_801747B8_3 {
-    u8 pad_00[0x8];
-    s32 unk_08;
-    u8 pad_0C[0x8];
-    u16 unk_14;
-} S_801747B8_3;   /* (*(void * *)((u8 *)arg0 + 0x18)) in update_effect_fade_and_history */
-
-   /* (*(void * *)((u8 *)arg0 + 0x1C)) in update_effect_fade_and_history */
-
 /* Updates an effect's color fade and delayed position history. */
-void update_effect_fade_and_history(void *effect, MovingPosition *position, S_801747B8_0 *primitive)
+void update_effect_fade_and_history(void *effect, MovingPosition *position, SpriteFrameState *primitive)
 {
     s16 trail_length;
     s32 sample_index;
     S_801747B8_2 *trail_tail;
 
-    primitive->unk_08 = ((S_801747B8_3 *)((*(void * *)((u8 *)effect + 0x18))))->unk_08;
-    primitive->unk_14 =
-        ((S_801747B8_3 *)((*(void * *)((u8 *)effect + 0x18))))->unk_14 | 0xC;
+    primitive->source = ((SpriteFrameState *)((*(void * *)((u8 *)effect + 0x18))))->source;
+    primitive->flags =
+        ((SpriteFrameState *)((*(void * *)((u8 *)effect + 0x18))))->flags | 0xC;
 
     if ((*((u8 *)effect + 0x17)) == 0) {
         trail_length = (*(s16 *)((u8 *)effect + 0x34));
-        if (primitive->unk_0C.u8 < (0x80 >> trail_length)) {
-            primitive->unk_0C.s32 += 0x101010;
+        if (primitive->color.c.r < (0x80 >> trail_length)) {
+            primitive->color.word += 0x101010;
         } else {
             (*((u8 *)effect + 0x17))++;
         }
-    } else if (primitive->unk_0C.u8 != 0) {
-        primitive->unk_0C.s32 += -0x80808;
+    } else if (primitive->color.c.r != 0) {
+        primitive->color.word += -0x80808;
     } else {
-        (*(u16 *)((u8 *)effect + -2)) |= NODE_REMOVE;
+        NODE_HEADER(effect)->flags |= NODE_REMOVE;
         object_flag_block.flags |= OBJECT_REMOVE_PENDING;
     }
 

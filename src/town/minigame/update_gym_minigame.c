@@ -28,7 +28,7 @@ typedef struct S_80022F60_1 {
     u8 pad_00[0x4];
     void * unk_04;
     u8 pad_08[0x8];
-    union { s16 s; u16 u; } unk_10;   /* accessed as both */
+    u16 unk_10;
 } S_80022F60_1;   /* main_state in update_gym_minigame */
 
 typedef struct S_80022F60_3 {
@@ -83,9 +83,9 @@ void update_gym_minigame(GymState *state_obj) {
             ObjectPosition *motion;
             s32 angle;
 
-            angle = ((S_80022F60_1 *)main_state)->unk_10.s;
+            angle = ((s16)((S_80022F60_1 *)main_state)->unk_10);
             angle = (angle + 0x1000) & 0xFE00;
-            ((S_80022F60_1 *)main_state)->unk_10.u = angle;
+            ((S_80022F60_1 *)main_state)->unk_10 = angle;
             SD_Call(0xB1);
             clear_resident_bit(0x524);
             state_obj->timer.u = 4;
@@ -102,8 +102,8 @@ void update_gym_minigame(GymState *state_obj) {
         break;
 
     case 1:
-        ((S_80022F60_1 *)main_state)->unk_10.u =
-            (((S_80022F60_1 *)main_state)->unk_10.u + 0x200) & 0xFFF;
+        ((S_80022F60_1 *)main_state)->unk_10 =
+            (((S_80022F60_1 *)main_state)->unk_10 + 0x200) & 0xFFF;
         if (state_obj->timer.s <= 0) {
             ObjectPosition *motion = (&view_reference_entity);
             s32 value;
@@ -124,9 +124,9 @@ void update_gym_minigame(GymState *state_obj) {
         s32 raw;
         s32 masked_angle;
 
-        raw = ((S_80022F60_1 *)main_state)->unk_10.u + 0x200;
+        raw = ((S_80022F60_1 *)main_state)->unk_10 + 0x200;
         masked_angle = raw & 0xFFF;
-        ((S_80022F60_1 *)main_state)->unk_10.u = masked_angle;
+        ((S_80022F60_1 *)main_state)->unk_10 = masked_angle;
         if (state_obj->timer.s <= 0) {
             ObjectPosition *motion = (&view_reference_entity);
 
@@ -149,10 +149,10 @@ void update_gym_minigame(GymState *state_obj) {
         s16 flag_one;
         u8 *alloc_page;
 
-        ((S_80022F60_1 *)main_state)->unk_10.u =
-            (((S_80022F60_1 *)main_state)->unk_10.u + 0x200) & 0xFFF;
+        ((S_80022F60_1 *)main_state)->unk_10 =
+            (((S_80022F60_1 *)main_state)->unk_10 + 0x200) & 0xFFF;
         if (motion->z.w.i >= query_lowered_transform_position(motion)) {
-            s32 cur_angle = ((S_80022F60_1 *)main_state)->unk_10.s;
+            s32 cur_angle = ((s16)((S_80022F60_1 *)main_state)->unk_10);
 
             motion->velocity_y = 0;
             motion->velocity_x = 0;
@@ -256,8 +256,8 @@ loop_0:
     {
         u16 angle;
 
-        angle = (((S_80022F60_1 *)main_state)->unk_10.u + 0xE00) & 0xFFF;
-        ((S_80022F60_1 *)main_state)->unk_10.u = angle;
+        angle = (((S_80022F60_1 *)main_state)->unk_10 + 0xE00) & 0xFFF;
+        ((S_80022F60_1 *)main_state)->unk_10 = angle;
         if (angle == 0xC00) {
             apply_global_scene_value(countdown_action_handler_table);
             state_obj->state.u++;
@@ -409,9 +409,9 @@ loop_0:
         break;
 
     case 0x22:
-        if (((S_80022F60_1 *)main_state)->unk_10.s != 0) {
-            ((S_80022F60_1 *)main_state)->unk_10.u =
-                (((S_80022F60_1 *)main_state)->unk_10.u + 0x200) & 0xFFF;
+        if (((s16)((S_80022F60_1 *)main_state)->unk_10) != 0) {
+            ((S_80022F60_1 *)main_state)->unk_10 =
+                (((S_80022F60_1 *)main_state)->unk_10 + 0x200) & 0xFFF;
         }
         if (state_obj->flags & 2) {
             state_obj->timer.u = 6;

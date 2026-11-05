@@ -23,7 +23,7 @@ extern u8 D_80126E3C[12];
 extern u8 D_80127024[12];
 extern u8 D_80127FA8[12];
 
-void scale_coordinates_and_append_pointers(s32, s32, s32, s32, void *);
+void ** scale_coordinates_and_append_pointers(s32, s32, s32, s32, void *);
 
 /* Draws the active town entry and its state-dependent overlays. */
 void initialize_building_scene_objects(s32 draw_param) {

@@ -53,14 +53,6 @@ typedef struct S_80174668_7 {
     u8 pad_00[0x2A];
     u16 unk_2A;
 } S_80174668_7;   /* state_object in spawn_rotate_and_restore_actor_state */
-typedef struct S_80174668_12 {
-    u8 pad_00[0x2];
-    s16 unk_02;
-    u8 pad_04[0x2];
-    s16 unk_06;
-    u8 pad_08[0x2];
-    s16 unk_0A;
-} S_80174668_12;   /* ((S_80174668_5 *)alloc)->unk_08 in spawn_rotate_and_restore_actor_state */
 
 typedef struct {
     s16 x;
@@ -187,13 +179,13 @@ void spawn_rotate_and_restore_actor_state(ActorRecord *effect, ObjectPosition *m
                 random = rand();
                 {
                     s32 tile_x = actor->target_tile_x;
-                    ((S_80174668_12 *)(*(u8 * *)&effect_alloc->position))->unk_02 =
+                    ((ObjectPosition *)(*(u8 * *)&effect_alloc->position))->x.w.i =
                         (tile_x << 6) + (random % 64);
                 }
                 random = rand();
                 {
                     s32 tile_y = actor->target_tile_y;
-                    ((S_80174668_12 *)(*(u8 * *)&effect_alloc->position))->unk_06 =
+                    ((ObjectPosition *)(*(u8 * *)&effect_alloc->position))->y.w.i =
                         (tile_y << 6) + (random % 64);
                 }
                 particle_pos = effect_alloc->position;
@@ -204,7 +196,7 @@ void spawn_rotate_and_restore_actor_state(ActorRecord *effect, ObjectPosition *m
                     height -= height_random % 95;
                     height -= 0x20;
                 }
-                ((S_80174668_12 *)(*(u8 * *)&effect_alloc->position))->unk_0A = height;
+                ((ObjectPosition *)(*(u8 * *)&effect_alloc->position))->z.w.i = height;
 
                 tile->scale_y = 0xC04;
                 tile->scale_x = 0xC04;

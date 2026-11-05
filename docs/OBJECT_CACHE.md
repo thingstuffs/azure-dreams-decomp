@@ -1,9 +1,15 @@
 # Object cache projections
 
-The object cache avoids recompiling an object when its compiler inputs have
-the same meaning for that object. A cache hit restores the object and refreshes
-its proof for the current tree. The landing's image check remains the final
-byte-exact guard. Schema 3 adds declaration-use projection for cacheable C compiles. The selected
+The object cache reuses a previously compiled object when its bound inputs
+match. For C headers, declaration-use projection can keep the key unchanged
+after an unused declaration changes. The first hit with a new complete
+preprocessed expansion still recompiles the object and checks its bytes against
+the cached object. Later hits for that expansion restore it without a compile,
+apart from verification sampling. This means a one-off prototype edit does not
+save its first round of compiles; repeated builds with the same edit can. A
+cache hit refreshes its proof for the current tree. The landing's image check
+remains the final byte-exact guard for linked outputs. Schema 3 adds
+declaration-use projection for cacheable C compiles. The selected
 compiler still supplies the live include walk and preprocessed text. Clang
 partitions that text into complete top-level declarations; all function and
 object definitions, static declarations and side-effecting or unclassified text
@@ -31,8 +37,14 @@ recorded expansion can hit without rebuilding. Sampling a new expansion would
 let an unproven projection restore an object before the image check, so the
 first use remains a mandatory comparison. In the run 2 header probes, all
 836 unused-prototype hits and 1,432 prototype-move hits were byte-identical
-under `AZURE_OBJECT_VERIFY=100`; those two probes do not establish that every
-future declaration projection is safe. `AZURE_OBJECT_VERIFY` samples previously
+under `AZURE_OBJECT_VERIFY=100`. Those comparisons cost 1,255.2 and 2,368.8
+cumulative object seconds, respectively. Sampling only one percent of new
+expansions would save about 99 percent of those compile seconds on a repeat of
+the same probes, but any single incorrect projection would have only a one
+percent chance of being caught at this gate on its first use. The image check
+does not cover objects that are not linked. These probes do not establish that
+every future declaration projection is safe, so new expansions continue to
+require a comparison. `AZURE_OBJECT_VERIFY` samples previously
 verified expansions using
 fresh random salt on each lookup. The default one percent floor applies even
 when `AZURE_OBJECT_VERIFY=0`, so a key cannot remain permanently outside the

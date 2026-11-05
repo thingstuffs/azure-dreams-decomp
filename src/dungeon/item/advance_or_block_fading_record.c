@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/entity.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/object_flags.h"
 #include "records/Rec_D_80082E80.h"
@@ -10,17 +11,8 @@ typedef struct S_80099B18_1_pre {
 } S_80099B18_1_pre;   /* the 0x2 bytes before arg0 in advance_or_block_fading_record, addressed as arg0[-1] */
 
 
-typedef struct S_80099B18_2 {
-    s32 unk_00;
-    s32 unk_04;
-    s32 unk_08;
-    s32 unk_0C;
-    s32 unk_10;
-    s32 unk_14;
-} S_80099B18_2;   /* arg1 in advance_or_block_fading_record */
-
 /* Flag blocked records or advance their state, damping motion and fading color when enabled. */
-void advance_or_block_fading_record(RadialParticleBurstBody *state, S_80099B18_2 *motion, SpriteFrameState *record)
+void advance_or_block_fading_record(RadialParticleBurstBody *state, ObjectPosition *motion, SpriteFrameState *record)
 {
     u16 update_count;
     u8 red;
@@ -41,18 +33,18 @@ void advance_or_block_fading_record(RadialParticleBurstBody *state, S_80099B18_2
         advance_sprite_animation_and_textures(record);
     }
     if (state->radial_mode != 0) {
-        motion->unk_00 =
-            (s32)(motion->unk_00 + motion->unk_0C);
-        motion->unk_04 =
-            (s32)(motion->unk_04 + motion->unk_10);
-        motion->unk_08 =
-            (s32)(motion->unk_08 + motion->unk_14);
-        motion->unk_0C =
-            (s32)(motion->unk_0C - (motion->unk_0C >> 2));
-        motion->unk_10 =
-            (s32)(motion->unk_10 - (motion->unk_10 >> 2));
-        motion->unk_14 =
-            (s32)(motion->unk_14 - (motion->unk_14 >> 2));
+        motion->x.v =
+            (s32)(motion->x.v + motion->velocity_x);
+        motion->y.v =
+            (s32)(motion->y.v + motion->velocity_y);
+        motion->z.v =
+            (s32)(motion->z.v + motion->velocity_z);
+        motion->velocity_x =
+            (s32)(motion->velocity_x - (motion->velocity_x >> 2));
+        motion->velocity_y =
+            (s32)(motion->velocity_y - (motion->velocity_y >> 2));
+        motion->velocity_z =
+            (s32)(motion->velocity_z - (motion->velocity_z >> 2));
         red = record->color.c.r;
         green = record->color.c.g;
         record->color.c.r =

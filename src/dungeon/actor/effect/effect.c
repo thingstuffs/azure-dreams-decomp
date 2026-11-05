@@ -539,7 +539,7 @@ extern u8 *expand_text_control_codes(u8 *src, u8 *dst);
 extern void * clear_byte_and_advance(s8 *byte_ptr);
 extern u8 *append_typed_formatted_value(DungeonItemEntry *data, u8 *buffer);
 
-extern void display_text_with_fullwidth_adjustment(s8 *text);
+extern s32 display_text_with_fullwidth_adjustment(s8 *text);
 extern s32 find_first_empty_floor_item_slot(void);
 struct DungeonDescriptor;
 extern struct DungeonDescriptor * create_timed_effect_at_tile(s32 tile_x, s32 tile_y, s32 z, s32 *init_data);

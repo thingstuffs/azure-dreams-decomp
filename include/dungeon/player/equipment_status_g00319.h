@@ -27,7 +27,7 @@ extern void clear_byte_and_advance(s8 *byte_ptr);
 extern void *write_text_byte_and_advance(s8 value, s8 *dest);
 extern u8 *append_entity_display_text(void *record, u8 *out);
 extern s32 play_sound_if_enabled(s32 query_value);
-extern void display_text_with_fullwidth_adjustment(s8 *text);
+extern s32 display_text_with_fullwidth_adjustment(s8 *text);
 void clear_alternate_texture_regions(s16 use_alt_rect);
 void load_default_object_palette(short index);
 int load_equipment_palette_for_category_sixteen(short index);

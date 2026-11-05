@@ -26,7 +26,7 @@ typedef struct S_808106E0_0 {
         struct { u16 v; } at00u;
         struct { u8 pad[0x2]; u16 v; } at02;
     } unk_30;   /* overlapping accesses */
-    union { s16 s; u16 u; } unk_34;   /* accessed as both */
+    s16 unk_34;
     u16 unk_36;
     u16 unk_38;
     u16 unk_3A;
@@ -87,7 +87,7 @@ s32 create_title_menu_cursor(void)
             ((S_808106E0_0 *)object)->unk_36 = 0xB4;
             ((S_808106E0_0 *)object)->unk_38 = 3;
             ((S_808106E0_0 *)object)->unk_3A = 0x7C80;
-            ((S_808106E0_0 *)object)->unk_34.s = shared_part_y;
+            ((S_808106E0_0 *)object)->unk_34 = shared_part_y;
             ((S_808106E0_0 *)object)->unk_30.at00.v = 0x00808080;
             ((S_808106E0_0 *)object)->unk_24.u32 = positions0.e[i];
             ((S_808106E0_0 *)object)->unk_2C.at00u.v = anchor;
@@ -106,7 +106,7 @@ s32 create_title_menu_cursor(void)
             ((S_808106E0_0 *)object)->unk_36 = 0xC4;
             ((S_808106E0_0 *)object)->unk_38 = 3;
             ((S_808106E0_0 *)object)->unk_3A = 0x7C80;
-            ((S_808106E0_0 *)object)->unk_34.s = y_second;
+            ((S_808106E0_0 *)object)->unk_34 = y_second;
             ((S_808106E0_0 *)object)->unk_30.at00.v = 0x00808080;
             ((S_808106E0_0 *)object)->unk_24.u32 = positions1.e[i];
 
@@ -140,7 +140,7 @@ s32 create_title_menu_cursor(void)
             ((S_808106E0_0 *)object)->unk_30.at00u.v = 0x50;
             ((S_808106E0_0 *)object)->unk_30.at02.v = 0x20;
             ((S_808106E0_0 *)object)->unk_2C.at00p.v = shared_part_y;
-            ((S_808106E0_0 *)object)->unk_34.u = 2;
+            (*(u16 *)&((S_808106E0_0 *)object)->unk_34) = 2;
             ((S_808106E0_0 *)object)->unk_28.at00u.v = 0x00404040;
             ((S_808106E0_0 *)object)->unk_24.p32 = anchor;
             ((S_808106E0_0 *)object)->unk_36 |= 1;

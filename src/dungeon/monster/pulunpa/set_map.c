@@ -23,10 +23,6 @@ typedef s32 M2C_UNK;
 
 typedef struct S_8017405C_1 S_8017405C_1;
 
-typedef struct S_set_map_0 {
-    u8 pad_00[0x2A];
-    s16 unk_2A;
-} S_set_map_0;   /* arg3 in set_map */
 
 typedef struct S_80173B98_2 {
     u8 pad_00[0x14];

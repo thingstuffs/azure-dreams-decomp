@@ -28,7 +28,8 @@ void *create_radial_effect_node(MovingPosition *);
 
 void *spawn_ring_effects(void *,s16);
 void move_and_fade_effect(void *,void *,void *);
-void update_spark_effect(void *,struct S_800250E8_0 *,void *);
+struct JitteredSparkEffectBody;
+void update_spark_effect(struct JitteredSparkEffectBody *,struct S_800250E8_0 *,void *);
 s32 queue_projected_point_primitives(void *,void *,void *);
 void allocate_jittered_effect_node(void *,s16,s16,s16);
 void fade_effect_color_below_eight(u16 *,struct ObjectPosition *,EffectColor *);

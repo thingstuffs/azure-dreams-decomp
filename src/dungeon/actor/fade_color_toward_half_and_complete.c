@@ -1,12 +1,7 @@
 #include "common.h"
 #include "shared/object_flags.h"
 #include "dungeon/actor.h"
-
-typedef struct S_80026FB0_0 {
-    u8 pad_00[0x64];
-    u16 unk_64;
-    s16 unk_66;
-} S_80026FB0_0;   /* arg0 in fade_color_toward_half_and_complete */
+#include "dungeon/actor/positioned_graphic_effect.h"
 
 typedef struct S_80026FB0_1 {
     u8 pad_00[0xC];
@@ -20,35 +15,35 @@ typedef struct S_80026FB0_1 {
 void fade_color_toward_half_and_complete(void *effect_arg, s32 unused, void *color_arg)
 {
     S_80026FB0_1 *color = color_arg;
-    S_80026FB0_0 *effect = effect_arg;
+    PositionedGraphicEffectBody *effect = effect_arg;
     s16 phase;
     s32 frames_left;
     s32 intensity;
 
-    phase = ((s16)effect->unk_64);
+    phase = effect->phase;
     switch (phase) {
     default:
         return;
 
     case 0:
-        frames_left = (u16)effect->unk_66 - 1;
-        effect->unk_66 = frames_left;
+        frames_left = (u16)effect->frames_left - 1;
+        effect->frames_left = frames_left;
         if ((frames_left << 16) <= 0) {
-            effect->unk_66 = 0x10;
-            effect->unk_64 += 1;
+            effect->frames_left = 0x10;
+            effect->phase = (u16)effect->phase + 1;
         }
         break;
 
     case 1:
         intensity = color->unk_0C;
-        intensity = intensity + ((0x80 - intensity) / effect->unk_66);
+        intensity = intensity + ((0x80 - intensity) / effect->frames_left);
         color->unk_0C = intensity;
         color->unk_0E = intensity;
         color->unk_0D = intensity;
-        frames_left = (u16)effect->unk_66 - 1;
-        effect->unk_66 = frames_left;
+        frames_left = (u16)effect->frames_left - 1;
+        effect->frames_left = frames_left;
         if ((frames_left << 16) <= 0) {
-            (*(u16 *)((u8 *)effect + -2)) |= NODE_REMOVE;
+            NODE_HEADER(effect)->flags |= NODE_REMOVE;
             object_flag_block.flags |= OBJECT_REMOVE_PENDING;
         }
         break;

@@ -771,7 +771,7 @@ typedef struct S_800250E8_2 {
 } S_800250E8_2;   /* tail_arg in update_spark_effect */
 
 /* Updates effect motion and marks it inactive when its lifetime or owner expires. */
-void update_spark_effect(void *effect, S_800250E8_0 *motion, void *owner)
+void update_spark_effect(JitteredSparkEffectBody *effect, S_800250E8_0 *motion, void *owner)
 {
     S_800250E8_2 *owner_state;
     s32 life_left;
@@ -799,14 +799,14 @@ void update_spark_effect(void *effect, S_800250E8_0 *motion, void *owner)
     counter_ptr[0] = counter;
     if (motion->unk_08.at02u.v <
         (s16)sample_terrain_surface_height(x, y, probe_z)) {
-        if (((JitteredSparkEffectBody *)effect)->spawn_mode == 0) {
-            x_direction = rcos(((JitteredSparkEffectBody *)effect)->heading);
+        if (effect->spawn_mode == 0) {
+            x_direction = rcos(effect->heading);
             motion->unk_00.at00.v = (s32)(motion->unk_00.at00.v +
-                (((s32)(x_direction * ((JitteredSparkEffectBody *)effect)->remaining_steps) >> 4) +
+                (((s32)(x_direction * effect->remaining_steps) >> 4) +
                  (rand() & 0xFFFF)));
 
-            y_direction = rsin(((JitteredSparkEffectBody *)effect)->heading);
-            y_step = ((y_direction * ((JitteredSparkEffectBody *)effect)->remaining_steps) >> 4) +
+            y_direction = rsin(effect->heading);
+            y_step = ((y_direction * effect->remaining_steps) >> 4) +
                        (rand() & 0xFFFF);
             motion->unk_04.at00.v = (s32)(motion->unk_04.at00.v + y_step);
 
@@ -815,10 +815,10 @@ void update_spark_effect(void *effect, S_800250E8_0 *motion, void *owner)
                 (0xFFFE0000 - (z_velocity_copy & 0xFFF)));
         } else {
             motion->unk_00.at00.v = (s32)(motion->unk_00.at00.v +
-                rcos(((JitteredSparkEffectBody *)effect)->heading) *
-                ((JitteredSparkEffectBody *)effect)->remaining_steps * 8);
-            y_motion = rsin(((JitteredSparkEffectBody *)effect)->heading) *
-                      ((JitteredSparkEffectBody *)effect)->remaining_steps;
+                rcos(effect->heading) *
+                effect->remaining_steps * 8);
+            y_motion = rsin(effect->heading) *
+                      effect->remaining_steps;
             z_velocity = motion->unk_14;
             z_position = motion->unk_08.at00.v;
             motion->unk_08.at00.v = z_position + z_velocity;
@@ -827,8 +827,8 @@ void update_spark_effect(void *effect, S_800250E8_0 *motion, void *owner)
         }
     }
 
-    life_left = (u16)((JitteredSparkEffectBody *)effect)->remaining_steps - 1;
-    ((JitteredSparkEffectBody *)effect)->remaining_steps = life_left;
+    life_left = (u16)effect->remaining_steps - 1;
+    effect->remaining_steps = life_left;
     if ((life_left << 16) <= 0 ||
         (owner_state->unk_14 & 0x8000)) {
         NODE_HEADER(effect)->flags = (u16)(NODE_HEADER(effect)->flags | 0x8000);

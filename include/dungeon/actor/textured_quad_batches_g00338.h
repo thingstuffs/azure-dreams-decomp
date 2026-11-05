@@ -179,7 +179,7 @@ typedef struct S_800B0BE0_5 {
     s8 unk_00;
 } S_800B0BE0_5;
 
-extern s32 swap_int_values();
+extern void swap_int_values();
 extern void * multiply_rgb_tint_saturated();
 extern s32 PushMatrix();
 void PopMatrix(void);

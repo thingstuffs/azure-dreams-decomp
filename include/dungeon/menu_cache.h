@@ -82,7 +82,7 @@ typedef struct MenuPanelUpdateRecord {
     MenuPanelState state;
 } MenuPanelUpdateRecord;
 
-void advance_timed_tagged_stream(void *stream);
+s32 advance_timed_tagged_stream(void *stream);
 void fade_color_to_gray(void *object, s32 unused);
 void handle_menu_panel_input(MenuPanelState *state);
 void update_menu_panel_colors(MenuPanelState *state);

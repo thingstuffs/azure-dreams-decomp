@@ -11,18 +11,6 @@ extern void select_sprite_entry(void *, s32, s32);
 extern u8 ghosh_frame_set_8[];
 extern u8 ghosh_frame_bank[];
 
-typedef struct S_801740F8_0 {
-    u8 pad_00[0x90];
-    s32 unk_90;
-    u8 pad_94[0x4];
-    u16 unk_98;
-    u8 pad_9A[0x1];
-    u8 unk_9B;
-    u8 pad_9C[0x2];
-    s16 unk_9E;
-    u8 pad_A0[0x4];
-    s32 unk_A4;
-} S_801740F8_0;   /* arg0 in update_boss_timed_animation */
 
 typedef struct S_801740F8_2 {
     u8 pad_00[0x1C];

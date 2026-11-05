@@ -27,7 +27,7 @@ typedef struct S_80813AB0_0 {
         struct { u8 pad[0x2]; s16 v; } at02;
     } unk_30;   /* overlapping accesses */
     s16 unk_34;
-    union { s16 n; u16 v; } unk_36;   /* accessed as both */
+    s16 unk_36;
     s16 unk_38;
     s16 unk_3A;
     u8 pad_3C[0x30];
@@ -138,7 +138,7 @@ s32 create_linked_value_display(void)
             ((S_80813AB0_0 *)obj)->unk_34 = 0x20;
             ((S_80813AB0_0 *)obj)->unk_38 = 3;
             ((S_80813AB0_0 *)obj)->unk_3A = 0x7C80;
-            ((S_80813AB0_0 *)obj)->unk_36.n = y;
+            ((S_80813AB0_0 *)obj)->unk_36 = y;
             ((S_80813AB0_0 *)obj)->unk_30.at00.v = 0x00808080;
             ((S_80813AB0_0 *)obj)->unk_24 = ((void **)roots)[i];
             ((S_80813AB0_0 *)obj)->unk_2C.at00.v = base;
@@ -178,7 +178,7 @@ s32 create_linked_value_display(void)
             ((S_80813AB0_0 *)obj)->unk_34 = 0x50;
             ((S_80813AB0_0 *)obj)->unk_38 = 3;
             ((S_80813AB0_0 *)obj)->unk_3A = 0x7C80;
-            ((S_80813AB0_0 *)obj)->unk_36.n = (s32)slot;
+            ((S_80813AB0_0 *)obj)->unk_36 = (s32)slot;
             ((S_80813AB0_0 *)obj)->unk_30.at00.v = 0x00808080;
             ((S_80813AB0_0 *)obj)->unk_24 = ((void **)roots)[i + 2];
             y = (s32)(obj + 0x20);
@@ -212,7 +212,7 @@ s32 create_linked_value_display(void)
         ((S_80813AB0_0 *)obj)->unk_34 = 2;
         ((S_80813AB0_0 *)obj)->unk_28.i = final_color;
         ((S_80813AB0_0 *)obj)->unk_24 = base;
-        ((S_80813AB0_0 *)obj)->unk_36.v |= 1;
+        (*(u16 *)&((S_80813AB0_0 *)obj)->unk_36) |= 1;
     }
     return 0;
 }

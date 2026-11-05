@@ -153,7 +153,7 @@ extern void store_position_and_compute_delta(void *owner);
 extern void update_the_s_field_10_using_callee_8008_fe_90(void *owner);
 extern s32 get_whether_has_attached_state_type_n_1_n_3(void *owner);
 extern void compute_and_clamps_vector_based_adjustment_updates_town(ObjectPosition *obj, s32 base_value, struct TownVec **vec_ptr);
-extern void update_object_and_clear_status_fields(void *owner);
+extern s32 update_object_and_clear_status_fields(void *owner);
 extern s32 check_masked_value_in_current_range(u16 owner);
 extern s32 runtime_estimate_vector_length(s32, s32);
 #include "engine/texture.h"

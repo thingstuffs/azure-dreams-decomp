@@ -62,26 +62,7 @@ typedef struct S_FUNC_8197C800_BODY_6 {
     s32 unk_08;
 } S_FUNC_8197C800_BODY_6;   /* src_position in update_directional_actor_effect */
 
-typedef struct S_FUNC_8197C800_BODY_7 {
-    s32 unk_00;
-    s32 unk_04;
-    s32 unk_08;
-} S_FUNC_8197C800_BODY_7;   /* dst_position in update_directional_actor_effect */
 
-typedef struct S_FUNC_8197C800_BODY_8 {
-    void * unk_00;
-    u8 unk_04;
-    u8 unk_05;
-    u8 pad_06[0x2];
-    void * unk_08;
-    void * unk_0C;
-    s16 unk_10;
-    u8 pad_12[0x2];
-    u16 unk_14;
-    u8 pad_16[0x6];
-    s16 unk_1C;
-    s16 unk_1E;
-} S_FUNC_8197C800_BODY_8;   /* node in update_directional_actor_effect */
 
 typedef struct S_FUNC_8197C800_BODY_9 {
     u8 pad_00[0x4];
@@ -93,37 +74,14 @@ typedef struct S_FUNC_8197C800_BODY_10 {
     u16 unk_4C;
 } S_FUNC_8197C800_BODY_10;   /* tail in update_directional_actor_effect */
 
-typedef struct S_FUNC_8197C800_BODY_13 {
-    u8 pad_00[0x24];
-    u8 unk_24;
-    u8 unk_25;
-} S_FUNC_8197C800_BODY_13;   /* image0 in update_directional_actor_effect */
 
-typedef struct S_FUNC_8197C800_BODY_14 {
-    u8 pad_00[0x2];
-    s16 unk_02;
-    u8 pad_04[0x2];
-    s16 unk_06;
-    u8 pad_08[0x2];
-    s16 unk_0A;
-} S_FUNC_8197C800_BODY_14;   /* position in update_directional_actor_effect */
 
 typedef struct S_FUNC_8197C800_BODY_15 {
     u8 pad_00[0x4];
     void * unk_04;
 } S_FUNC_8197C800_BODY_15;   /* template in update_directional_actor_effect */
 
-typedef struct S_FUNC_8197C800_BODY_17 {
-    u8 pad_00[0x24];
-    u8 unk_24;
-    u8 unk_25;
-} S_FUNC_8197C800_BODY_17;   /* image in update_directional_actor_effect */
 
-typedef struct S_FUNC_8197C800_BODY_19 {
-    u8 pad_00[0xA];
-    u16 unk_0A;
-    u32 unk_0C;
-} S_FUNC_8197C800_BODY_19;   /* status in update_directional_actor_effect */
 
 typedef struct S_FUNC_8197C800_BODY_20 {
     s32 unk_00;
@@ -140,12 +98,6 @@ typedef struct S_FUNC_8197C800_BODY_22 {
     void * unk_08;
 } S_FUNC_8197C800_BODY_22;   /* ((S_FUNC_8197C800_BODY_3 *)root)->unk_0C in update_directional_actor_effect */
 
-typedef struct S_FUNC_8197C800_BODY_25 {
-    u8 pad_00[0xA];
-    s16 unk_0A;
-    u8 pad_0C[0x8];
-    s32 unk_14;
-} S_FUNC_8197C800_BODY_25;   /* ((S_FUNC_8197C800_BODY_5 *)obj)->unk_08 in update_directional_actor_effect */
 
 extern u8 rising_sprite_entries[];
 extern u8 countdown_sprite_entries[];

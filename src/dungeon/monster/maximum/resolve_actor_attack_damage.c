@@ -65,11 +65,6 @@ typedef struct S_801728B4_9 {
     u8 unk_BB;
 } S_801728B4_9;
 
-typedef struct S_801728B4_11 {
-    s32 unk_00;
-    s32 unk_04;
-    s32 unk_08;
-} S_801728B4_11;
 
 extern void effect_update_tag();
 void dispatch_monster_move_attack_spell(ActorRecord *, ObjectPosition *, SpriteFrameState *, ActorRecord *);
@@ -172,9 +167,9 @@ void resolve_actor_attack_damage(ActorRecord *actor, ObjectPosition *motion, Spr
             }
             register_node(new_effect, project_sprite_chain);
             ((S_801728B4_6 *)new_effect)->unk_10 = &effect_update_tag;
-            ((S_801728B4_11 *)(((S_801728B4_6 *)new_effect)->unk_08))->unk_00 = (s32) motion->x.v;
-            ((S_801728B4_11 *)(((S_801728B4_6 *)new_effect)->unk_08))->unk_04 = (s32) motion->y.v;
-            ((S_801728B4_11 *)(((S_801728B4_6 *)new_effect)->unk_08))->unk_08 = (s32) (motion->z.v + 0xFF800000);
+            ((ObjectPosition *)(((S_801728B4_6 *)new_effect)->unk_08))->x.v = (s32) motion->x.v;
+            ((ObjectPosition *)(((S_801728B4_6 *)new_effect)->unk_08))->y.v = (s32) motion->y.v;
+            ((ObjectPosition *)(((S_801728B4_6 *)new_effect)->unk_08))->z.v = (s32) (motion->z.v + 0xFF800000);
             ((S_801728B4_6 *)new_effect)->unk_BB = 0;
             effect_sprite = ((S_801728B4_6 *)new_effect)->unk_0C;
             ((S_801728B4_6 *)new_effect)->unk_4A = (u16) action->facing;

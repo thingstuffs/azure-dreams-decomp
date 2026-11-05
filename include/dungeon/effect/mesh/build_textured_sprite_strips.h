@@ -530,7 +530,7 @@ extern u8 *append_entity_display_text(void *record, u8 *out);
 extern void adjust_source_value_and_finalize(void *context, const void *source);
 #include "dungeon/effect/screen.h"
 #include "shared/entity.h"
-extern void display_text_with_fullwidth_adjustment(s8 *text);
+extern s32 display_text_with_fullwidth_adjustment(s8 *text);
 extern s32 generate_random_value(void);
 extern u8 counter_halved_message[];
 extern u8 counter_halve_failed_message[];

@@ -43,7 +43,7 @@ typedef struct S_80527D5C_3 {
     u8 pad_00[0x4];
     s32 unk_04;
     u8 pad_08[0x8];
-    union { s16 s; u16 u; } unk_10;   /* accessed as both */
+    u16 unk_10;
 } S_80527D5C_3;   /* &D_801328E8 in run_collection_round_sequence */
 
 typedef struct S_80527D5C_4 {
@@ -171,7 +171,7 @@ void run_collection_round_sequence(TownCollectionSequence *sequence) {
 
     case 2:
         position_x = (u16 *)((s8 *)&town_motion_state + 2);
-        ((S_80527D5C_3 *)(&collection_round_work))->unk_10.s = ((u16) ((S_80527D5C_3 *)(&collection_round_work))->unk_10.s + 0x200) & 0xFFF;
+        (*(s16 *)&((S_80527D5C_3 *)(&collection_round_work))->unk_10) = ((u16) ((s16)((S_80527D5C_3 *)(&collection_round_work))->unk_10) + 0x200) & 0xFFF;
         if ((s16) *position_x < 0x420) {
             *position_x = 0x420;
         }
@@ -219,13 +219,13 @@ void run_collection_round_sequence(TownCollectionSequence *sequence) {
         break;
 
     case 5:
-        angle = ((S_80527D5C_3 *)(&collection_round_work))->unk_10.s;
+        angle = ((s16)((S_80527D5C_3 *)(&collection_round_work))->unk_10);
         if (angle >= 0x801) {
-            ((S_80527D5C_3 *)(&collection_round_work))->unk_10.u =
-                ((S_80527D5C_3 *)(&collection_round_work))->unk_10.u - 0x200;
+            ((S_80527D5C_3 *)(&collection_round_work))->unk_10 =
+                ((S_80527D5C_3 *)(&collection_round_work))->unk_10 - 0x200;
         } else if (angle < 0x800) {
-            ((S_80527D5C_3 *)(&collection_round_work))->unk_10.u =
-                ((S_80527D5C_3 *)(&collection_round_work))->unk_10.u + 0x200;
+            ((S_80527D5C_3 *)(&collection_round_work))->unk_10 =
+                ((S_80527D5C_3 *)(&collection_round_work))->unk_10 + 0x200;
         }
         if ((func_80052374(angle) == 0) && (phase_data->unk_68 == 8)) {
             (*(u16 *)((u8 *)render_or_counts + (0x10))) = 0x800U;

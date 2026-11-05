@@ -93,7 +93,7 @@ s32 read_sound_mode_blocking_status(s32 mode);
 extern s32 cd_cue_base;
 
 /* Dispatch the CD-audio fade state machine, then step the actor's shake counter and raise the finished flag. */
-void advance_dungeon_tile_action_state(u8 *state, u8 *actor_arg, u8 *target_arg) {
+void advance_dungeon_tile_action_state(SlotViewMarkerBody *state, u8 *actor_arg, u8 *target_arg) {
     S_807AE960_4 *actor = actor_arg;
     S_807AE960_2 *target = target_arg;
     s16 steps;
@@ -112,76 +112,76 @@ void advance_dungeon_tile_action_state(u8 *state, u8 *actor_arg, u8 *target_arg)
     dungeon_data = &g_game_work;
     global_end = (u8 *)dungeon_data + 0x1DC;
     table_base = ((s32)dungeon_data->map.cells);
-    dispatch_index = (s16)(((SlotViewMarkerBody *)state)->unk_00 - 1);
+    dispatch_index = (s16)(state->unk_00 - 1);
     switch (dispatch_index + 1) {
     case 1:
     case 2:
         if (get_cd_command_queue_depth() != 0) {
             return;
         }
-        if (((SlotViewMarkerBody *)state)->unk_10 == 0) {
+        if (state->unk_10 == 0) {
             play_sound_if_enabled(AUDIO_PLAY_CD_CUE);
         }
-        ((SlotViewMarkerBody *)state)->unk_00 = 3;
+        state->unk_00 = 3;
         break;
     case 17:
-        ((SlotViewMarkerBody *)state)->unk_0A = 0x400;
-        target->unk_1A = (s16) (u16) ((SlotViewMarkerBody *)state)->unk_0A;
-        ((SlotViewMarkerBody *)state)->unk_00 = 0;
+        state->unk_0A = 0x400;
+        target->unk_1A = (s16) (u16) state->unk_0A;
+        state->unk_00 = 0;
         break;
     case 3:
-        steps = ((SlotViewMarkerBody *)state)->unk_04;
+        steps = state->unk_04;
         if (steps > 0) {
             target->unk_1A = (s16) ((u16) target->unk_1A
-                + ((s32) (((SlotViewMarkerBody *)state)->unk_0A - target->unk_1A) / steps));
+                + ((s32) (state->unk_0A - target->unk_1A) / steps));
         }
-        remaining = (u16) ((SlotViewMarkerBody *)state)->unk_04 - 1;
-        ((SlotViewMarkerBody *)state)->unk_04 = remaining;
+        remaining = (u16) state->unk_04 - 1;
+        state->unk_04 = remaining;
         global = (S_807AE960_3 *)0x80010000;
         if (global->unk_371A < 4U) {
             if (remaining < 0) {
-                ((SlotViewMarkerBody *)state)->unk_04 = 0;
+                state->unk_04 = 0;
             }
             break;
         }
         if (global->unk_2090 == 1) {
             g_dungeon_status.activity_counts.parts.pending_action_count = 1;
         }
-        if (((SlotViewMarkerBody *)state)->unk_04 > 0) {
+        if (state->unk_04 > 0) {
             break;
         }
         cd_mode = global->unk_2090;
         if (cd_mode == 1) {
             if (read_sound_mode_blocking_status(4) != 0) {
-                ((SlotViewMarkerBody *)state)->unk_04 = 0;
+                state->unk_04 = 0;
                 break;
             }
             if (global->unk_2090 == cd_mode) {
                 g_dungeon_status.activity_counts.parts.pending_action_count = 0;
             }
         }
-        target->unk_1A = (s16) (u16) ((SlotViewMarkerBody *)state)->unk_0A;
-        ((SlotViewMarkerBody *)state)->unk_00 = 0;
+        target->unk_1A = (s16) (u16) state->unk_0A;
+        state->unk_00 = 0;
         break;
     case 4:
-        if (((SlotViewMarkerBody *)state)->unk_10 == 0) {
+        if (state->unk_10 == 0) {
             sound_set_cd_cue_parameters(0, cd_cue_base, 0x0600065E, 0x030008B6);
             Control_CD(0x15, read_stream_cue_start_offset(), 0);
         }
-        ((SlotViewMarkerBody *)state)->unk_04 = 0x60;
-        ((SlotViewMarkerBody *)state)->unk_0C = 0x60;
+        state->unk_04 = 0x60;
+        state->unk_0C = 0x60;
     case 20:
-        ((SlotViewMarkerBody *)state)->unk_00 = 2U;
-        ((SlotViewMarkerBody *)state)->unk_0A = (s16) ((SlotViewMarkerBody *)state)->unk_02;
+        state->unk_00 = 2U;
+        state->unk_0A = (s16) state->unk_02;
         break;
     default:
         break;
     }
-    countdown = ((SlotViewMarkerBody *)state)->unk_0C;
-    countdown_u = (u16)((SlotViewMarkerBody *)state)->unk_0C;
+    countdown = state->unk_0C;
+    countdown_u = (u16)state->unk_0C;
     if (countdown != 0) {
         countdown = countdown_u - 1;
-        ((SlotViewMarkerBody *)state)->unk_0C = countdown;
+        state->unk_0C = countdown;
         actor_pos = actor->unk_0A;
         if (countdown & 1) {
             countdown = actor_pos + 1;
@@ -189,20 +189,20 @@ void advance_dungeon_tile_action_state(u8 *state, u8 *actor_arg, u8 *target_arg)
             countdown = actor_pos - 1;
         }
         actor->unk_0A = countdown;
-        if (((SlotViewMarkerBody *)state)->unk_0C == 0) {
-            actor->unk_0A = (s16) ((SlotViewMarkerBody *)state)->unk_0E;
+        if (state->unk_0C == 0) {
+            actor->unk_0A = (s16) state->unk_0E;
         }
     }
-    if ((s16)((SlotViewMarkerBody *)state)->unk_00 != 0) {
+    if ((s16)state->unk_00 != 0) {
         return;
     }
     if ((u8) reference_tile_object.tile_position.parts.tile_y >= 0x3DU) {
         return;
     }
-    if (((SlotViewMarkerBody *)state)->unk_0A == (s16) ((SlotViewMarkerBody *)state)->unk_02) {
+    if (state->unk_0A == (s16) state->unk_02) {
         return;
     }
-    ((SlotViewMarkerBody *)state)->unk_00 = 4U;
+    state->unk_00 = 4U;
     entry = ((0x3E << ((S_807AE960_5 *)global_end)->unk_14) * 6) + table_base + 0xBA;
     entry->unk_04 = (u16) (entry->unk_04 | 0x8000);
     return;

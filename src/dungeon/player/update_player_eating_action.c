@@ -20,7 +20,7 @@ u8 * append_typed_formatted_value(s32,u8 *); /* Unprototyped: uses the value as 
 u8 * process_eligible_object_value(s32, u8 *); /* Unprototyped: uses the value as a pointer where the definition has an integer (or the reverse) */
 u8 *append_entity_display_text(void *record, u8 *out);
 s32 play_sound_if_enabled(s32 query_value);
-void display_text_with_fullwidth_adjustment(s8 *text);
+s32 display_text_with_fullwidth_adjustment(s8 *text);
 extern s32 held_item_record;
 extern s32 player_item_render_update_address;
 extern u8 D_800DD100[];

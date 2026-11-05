@@ -21,7 +21,7 @@ typedef struct {
 } TableEntry;
 
 extern s32 create_visual_object();
-extern s32 create_offset_sprite_object_with_z();
+extern void * create_offset_sprite_object_with_z();
 
 extern TableEntry linked_effect_direction_entries[];
 extern s32 linked_mesh_processor_address[3];

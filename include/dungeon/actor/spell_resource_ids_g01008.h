@@ -89,7 +89,7 @@ extern u8 spell_mp_costs[];
 extern u8 alternate_spell_mp_costs[];
 extern u8 D_800E1C58[12];
 extern u8 current_spell_effect_variant;
-extern void Control_CD(s32, void *, void *);
+extern s32 Control_CD(s32, void *, void *);
 extern void sound_set_cd_cue_parameters(s32, s32, s32, s32);
 extern void pack_tagged_resource_descriptor(s32, void *, void *, s32);
 extern s32 read_stream_cue_start_offset(void);

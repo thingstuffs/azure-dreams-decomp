@@ -1,60 +1,40 @@
 #include "common.h"
+#include "shared/entity.h"
+#include "dungeon/monster/ghosh/growing_particle.h"
+#include "shared/object_node.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/object_flags.h"
 #include "records/Rec_D_80082E80.h"
 #include "dungeon/monster/ghosh.h"
 #include "slus.h"
 
-typedef struct S_80172DFC_0_pre {
-    u16 unk_00;
-} S_80172DFC_0_pre;   /* the 0x2 bytes before arg0 in update_accelerating_growing_particle, addressed as arg0[-1] */
-
-typedef struct S_80172DFC_0 {
-    u8 pad_00[0x16];
-    u16 unk_16;
-    u16 unk_18;
-    u8 pad_1A[0x3E];
-    s32 unk_58;
-    s32 unk_5C;
-    s32 unk_60;
-    s32 unk_64;
-    s32 unk_68;
-    s32 unk_6C;
-} S_80172DFC_0;   /* arg0 in update_accelerating_growing_particle */
-
-typedef struct S_80172DFC_1 {
-    s32 unk_00;
-    s32 unk_04;
-    s32 unk_08;
-} S_80172DFC_1;   /* arg1 in update_accelerating_growing_particle */
-
 /* Advance effect motion and animation, and flag completion when its lifetime ends. */
-void update_accelerating_growing_particle(void *effect_arg, S_80172DFC_1 *position, SpriteFrameState *animation) {
-    S_80172DFC_0 *effect = effect_arg;
+void update_accelerating_growing_particle(void *effect_arg, ObjectPosition *position, SpriteFrameState *animation) {
+    GhoshGrowingParticleBody *effect = effect_arg;
     u16 frame_count;
     u16 remaining_ticks;
 
-    effect->unk_58 = effect->unk_58 + effect->unk_64;
-    effect->unk_5C = effect->unk_5C + effect->unk_68;
-    effect->unk_60 = effect->unk_60 + effect->unk_6C;
-    position->unk_00 = position->unk_00 + effect->unk_58;
-    position->unk_04 = position->unk_04 + effect->unk_5C;
-    position->unk_08 = position->unk_08 + effect->unk_60;
-    frame_count = effect->unk_18 + 1;
-    effect->unk_18 = frame_count;
+    effect->velocity_x = effect->velocity_x + effect->acceleration_x;
+    effect->velocity_y = effect->velocity_y + effect->acceleration_y;
+    effect->velocity_z = effect->velocity_z + effect->acceleration_z;
+    position->x.v = position->x.v + effect->velocity_x;
+    position->y.v = position->y.v + effect->velocity_y;
+    position->z.v = position->z.v + effect->velocity_z;
+    frame_count = effect->animation_ticks + 1;
+    effect->animation_ticks = frame_count;
     if (!(frame_count & 1)) {
         advance_sprite_animation_and_textures(animation);
     }
     animation->scale_x = animation->scale_x + 0x28;
     animation->scale_y = animation->scale_y + 0x28;
-    remaining_ticks = effect->unk_16 - 1;
-    effect->unk_16 = remaining_ticks;
+    remaining_ticks = effect->remaining_ticks - 1;
+    effect->remaining_ticks = remaining_ticks;
     if ((remaining_ticks << 0x10) <= 0) {
-        ((S_80172DFC_0_pre *)effect)[-1].unk_00 = ((S_80172DFC_0_pre *)effect)[-1].unk_00 | 0x8000;
+        NODE_HEADER(effect)->flags = NODE_HEADER(effect)->flags | 0x8000;
         object_flag_block.flags = object_flag_block.flags | OBJECT_REMOVE_PENDING;
     }
     if (animation->flags & 0x8000) {
-        ((S_80172DFC_0_pre *)effect)[-1].unk_00 = ((S_80172DFC_0_pre *)effect)[-1].unk_00 | 0x8000;
+        NODE_HEADER(effect)->flags = NODE_HEADER(effect)->flags | 0x8000;
         object_flag_block.flags = object_flag_block.flags | OBJECT_REMOVE_PENDING;
     }
 }

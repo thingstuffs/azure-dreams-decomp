@@ -7,7 +7,7 @@
 
 typedef struct S_800B260C_1 {
     u8 pad_00[0x10];
-    union { s32 s; s32 u; } unk_10;   /* accessed as both */
+    s32 unk_10;
 } S_800B260C_1;   /* arg0 in handle_item_menu_input_2 */
 
 
@@ -51,7 +51,7 @@ void handle_item_menu_input_2(u8 *menu) {
             store_table_index_and_entry_bytes(menu, 1);
         } else if ((held_buttons & 0xF000) != 0) {
             if (pressed_buttons & 0xF000) {
-                ((S_800B260C_1 *)menu)->unk_10.s = 0;
+                ((S_800B260C_1 *)menu)->unk_10 = 0;
                 pressed_buttons = pad_state->pressed_buttons;
                 if (pressed_buttons & 0x8000) {
                     cursor_step = -5;
@@ -63,7 +63,7 @@ void handle_item_menu_input_2(u8 *menu) {
                     cursor_step = 1;
                 }
             } else {
-                repeat_ticks = ((S_800B260C_1 *)menu)->unk_10.s;
+                repeat_ticks = ((S_800B260C_1 *)menu)->unk_10;
                 if (repeat_ticks >= 5) {
                     if (held_buttons & 0x8000) {
                         cursor_step = -5;
@@ -77,9 +77,9 @@ void handle_item_menu_input_2(u8 *menu) {
                             cursor_step = 1;
                         }
                     }
-                    ((S_800B260C_1 *)menu)->unk_10.u--;
+                    ((S_800B260C_1 *)menu)->unk_10--;
                 } else {
-                    ((S_800B260C_1 *)menu)->unk_10.s = repeat_ticks + 1;
+                    ((S_800B260C_1 *)menu)->unk_10 = repeat_ticks + 1;
                 }
             }
             if (cursor_step != 0) {

@@ -10,7 +10,7 @@
 
 typedef struct S_805D2FC4_2 {
     u8 pad_00[0x4];
-    union { u8 s; s8 u; } unk_04;   /* accessed as both */
+    s8 unk_04;
 } S_805D2FC4_2;   /* ((D_80016000->unk_08.at00_s32.v * 8) + D_80016000->unk_40.as_s32) in func_805D2FC4 */
 
 extern s32 scene_cell_dispatch_code;
@@ -20,19 +20,19 @@ s32 process_current_town_cell(Rec_func_800165F4_arg0 *input_value, s32 input) {
     s32 result;
     u8 field_value;
 
-    field_value = ((S_805D2FC4_2 *)(((town_scene_root->entry_index * 8) + ((s32)town_scene_root->event_data))))->unk_04.s;
+    field_value = ((u8)((S_805D2FC4_2 *)(((town_scene_root->entry_index * 8) + ((s32)town_scene_root->event_data))))->unk_04);
     scene_cell_dispatch_code = (s32) field_value;
     result = 0;
     if ((field_value != 2) && (get_script_flag_mask(F_sbs14_pad21) != 0)) {
         result = apply_selected_entry_values(input_value, input);
     }
     if (result != 0) {
-        ((S_805D2FC4_2 *)(((town_scene_root->entry_index * 8) + ((s32)town_scene_root->event_data))))->unk_04.u = 0;
+        ((S_805D2FC4_2 *)(((town_scene_root->entry_index * 8) + ((s32)town_scene_root->event_data))))->unk_04 = 0;
         scene_cell_dispatch_code = 0;
     } else {
         invoke_callback_event_11();
         if (scene_cell_dispatch_code == 1) {
-            ((S_805D2FC4_2 *)(((town_scene_root->entry_index * 8) + ((s32)town_scene_root->event_data))))->unk_04.u = 0;
+            ((S_805D2FC4_2 *)(((town_scene_root->entry_index * 8) + ((s32)town_scene_root->event_data))))->unk_04 = 0;
             scene_cell_dispatch_code = 0;
         }
     }

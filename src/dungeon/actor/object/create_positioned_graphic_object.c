@@ -8,23 +8,17 @@
 #include "engine/node/allocation.h"
 #include "engine/node.h"
 #include "dungeon/actor/object.h"
+#include "dungeon/actor/positioned_graphic_effect.h"
 
 
 extern u8 linked_graphic_sprite_entries;
-
-typedef struct S_80027070_3 {
-    u8 pad_00[0x4];
-    s32 unk_04;
-    u8 pad_08[0x5E];
-    s16 unk_66;
-} S_80027070_3;
 
 /* Creates an object with the given position, graphic index, and state value. */
 void *create_positioned_graphic_object(s16 x, s16 y, s16 z, s16 graphic_index, s32 state_value) {
     SpriteFrameState *graphics;
     ObjectNodeHeader *object;
     ObjectPosition *position;
-    S_80027070_3 *state;
+    PositionedGraphicEffectBody *state;
 
     object = allocate_list_node(0x12, &scene_object_list_anchor.next);
     if (object != NULL) {
@@ -42,7 +36,7 @@ void *create_positioned_graphic_object(s16 x, s16 y, s16 z, s16 graphic_index, s
         graphics->flags = (u16) (graphics->flags | 0xC);
         state = NODE_BODY(object);
         state->unk_04 = state_value;
-        state->unk_66 = 0x1C;
+        state->frames_left = 0x1C;
     }
     return object;
 }

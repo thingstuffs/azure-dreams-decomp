@@ -40,8 +40,8 @@ extern void SetPolyG4(void *);
 extern void SetDrawMode(void *, s32, s32, u16, s32);
 extern s32 rsin();
 extern s32 rcos();
-extern s32 copy_odd_halfwords_3();
-extern s32 copy_menu_vector_halfwords();
+extern void copy_odd_halfwords_3();
+extern void copy_menu_vector_halfwords();
 
 /* Functions defined in this translation unit. */
 void project_and_enqueue_shaded_quad(Coord8 vertex_0, Coord8 vertex_1, Packed8 vertex_2, Packed8 vertex_3, s32 shade);

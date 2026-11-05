@@ -1,6 +1,7 @@
 #include "common.h"
 #include "shared/object_flags.h"
 #include "shared/entity.h"
+#include "shared/sprite_frame_state.h"
 #include "dungeon/monster/ghosh.h"
 
 typedef struct S_80172874_0_pre {
@@ -22,17 +23,6 @@ typedef struct S_80172874_1_pre {
     void * unk_00;
     u8 pad_04[0x10];
 } S_80172874_1_pre;   /* the 0x14 bytes before parent in update_boss_effect_growth, addressed as parent[-1] */
-
-typedef struct S_80172874_2 {
-    u8 pad_00[0x6];
-    u16 unk_06;
-    u8 pad_08[0x4];
-    s8 unk_0C;
-    s8 unk_0D;
-    s8 unk_0E;
-    u8 pad_0F[0xB];
-    u16 unk_1A;
-} S_80172874_2;   /* arg2 in update_boss_effect_growth */
 
 typedef struct S_80172874_3 {
     u8 pad_00[0x6];
@@ -62,7 +52,7 @@ typedef struct S_80172874_7 {
 extern u8 ghosh_frame_set_5[];
 
 /* Advances the effect through growth, position tracking, and shrinkage. */
-void update_boss_effect_growth(void *effect, EntityRec *position, S_80172874_2 *transform)
+void update_boss_effect_growth(void *effect, EntityRec *position, SpriteFrameState *transform)
 {
     void *base = effect;
     S_80172874_6 *source;
@@ -82,13 +72,13 @@ void update_boss_effect_growth(void *effect, EntityRec *position, S_80172874_2 *
     parent = ((S_80172874_0 *)base)->unk_20;
     source = ((S_80172874_0 *)base)->unk_24;
     owner = parent[-1].unk_00;
-    angle = transform->unk_1A;
+    angle = transform->angle_z;
     owner_value = owner->unk_06;
     next_angle = angle + 0x190;
-    transform->unk_1A = next_angle;
-    transform->unk_06 = owner_value;
+    transform->angle_z = next_angle;
+    transform->depth_bias = owner_value;
     if ((u16)next_angle >= 0x1001U) {
-        transform->unk_1A = angle - 0xE70;
+        transform->angle_z = angle - 0xE70;
     }
 
     mode = ((S_80172874_0 *)base)->unk_12.s;
@@ -99,9 +89,9 @@ void update_boss_effect_growth(void *effect, EntityRec *position, S_80172874_2 *
         duration = ((S_80172874_0 *)base)->unk_18;
         grow_scale = ((s32)(grow_step << 16) >> 9) / duration;
         ((S_80172874_0 *)base)->unk_16 = grow_step;
-        transform->unk_0C = grow_scale;
-        transform->unk_0D = grow_scale;
-        transform->unk_0E = grow_scale;
+        transform->color.c.r = grow_scale;
+        transform->color.c.g = grow_scale;
+        transform->color.c.b = grow_scale;
         if (((s16)((S_80172874_0 *)base)->unk_16) >= 5) {
             ((S_80172874_0 *)base)->unk_12.p = ((S_80172874_0 *)base)->unk_12.p + 1;
             return;
@@ -130,9 +120,9 @@ void update_boss_effect_growth(void *effect, EntityRec *position, S_80172874_2 *
         shrink_step = ((S_80172874_0 *)base)->unk_16 - 1;
         shrink_scale = ((s32)(shrink_step << 16) >> 9) / ((S_80172874_0 *)base)->unk_18;
         ((S_80172874_0 *)base)->unk_16 = shrink_step;
-        transform->unk_0C = shrink_scale;
-        transform->unk_0D = shrink_scale;
-        transform->unk_0E = shrink_scale;
+        transform->color.c.r = shrink_scale;
+        transform->color.c.g = shrink_scale;
+        transform->color.c.b = shrink_scale;
         if (((s16)((S_80172874_0 *)base)->unk_16) <= 0) {
             s32 *global_base;
             global_base = (s32 *)0x80080000;

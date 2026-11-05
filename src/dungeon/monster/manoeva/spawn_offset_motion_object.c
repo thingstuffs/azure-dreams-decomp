@@ -8,19 +8,13 @@
 #include "records/Rec_func_80173D78_arg0.h"
 #include "shared/dungeon_moving_views.h"
 #include "dungeon/monster/manoeva.h"
+#include "dungeon/monster/manoeva/offset_motion_object.h"
 #include "engine/graphics.h"
 #include "engine/node/allocation.h"
 
 #ifndef NULL
 #define NULL 0
 #endif
-
-typedef struct S_80175DD0_body {
-    s16 *unk_00;
-    u8 pad_04[0x1C];
-    s16 unk_20;
-} S_80175DD0_body;
-
 
    /* arg1 in spawn_offset_motion_object */
 
@@ -40,7 +34,7 @@ void spawn_offset_motion_object(ActorRecord *parent_data, ObjectPosition *origin
     ObjectPosition *coords;
     SpriteFrameState *object_data;
     ObjectNodeHeader *object;
-    S_80175DD0_body *motion;
+    OffsetMotionObjectBody *motion;
     void *body_storage;
 
     if (resolve_record_orientation_or_fallback((s32)source_data->source, source_data, position_offset, position_index) != 0) {
@@ -63,11 +57,11 @@ void spawn_offset_motion_object(ActorRecord *parent_data, ObjectPosition *origin
               direction_offset = ((u16)parent_data->facing >> 8) & 0xE,
               *((u16 *)&coords->velocity_x + 1) = (u16)dir_step_x[direction_offset >> 1],
               *((u16 *)&coords->velocity_y + 1) = (u16)dir_step_y[direction_offset >> 1],
-              motion->unk_20 = 0x10,
-              motion->unk_00 = &parent_data->facing,
+              motion->remaining_ticks = 0x10,
+              motion->facing_source = &parent_data->facing,
               select_sprite_entry(object_data, 0x45, 0),
               register_node(object, &D_80175D74),
-              angle = ((((g_game_work.view.camera_rotation.parts.viewAngle + *motion->unk_00 + 0x100) >> 9) & 7) + 2) << 9,
+              angle = ((((g_game_work.view.camera_rotation.parts.viewAngle + *motion->facing_source + 0x100) >> 9) & 7) + 2) << 9,
               object_data->angle_y = angle,
               angle == 0x400) ||
              (angle == 0xC00))) {

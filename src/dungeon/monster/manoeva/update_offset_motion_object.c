@@ -3,13 +3,8 @@
 #include "shared/game_work.h"
 #include "shared/object_flags.h"
 #include "dungeon/monster/manoeva.h"
+#include "dungeon/monster/manoeva/offset_motion_object.h"
 
-
-typedef struct S_80175C60_1 {
-    s16 * unk_00;
-    u8 pad_04[0x1C];
-    u16 unk_20;
-} S_80175C60_1;   /* arg0 in update_offset_motion_object */
 
 typedef struct S_80175C60_2 {
     u8 pad_00[0x18];
@@ -23,7 +18,7 @@ typedef struct S_80175C60_2 {
 /* Advance motion and rotation, update facing, and flag the object when its timer expires. */
 void update_offset_motion_object(void *object_arg, ObjectPosition *motion_data, void *rotation_arg)
 {
-    S_80175C60_1 *object = object_arg;
+    OffsetMotionObjectBody *object = object_arg;
     ObjectPosition *motion = motion_data;
     s32 facing;
     s32 accel_x;
@@ -43,10 +38,10 @@ void update_offset_motion_object(void *object_arg, ObjectPosition *motion_data, 
     motion->velocity_x = velocity_x + accel_x;
     next_velocity_y += next_velocity_y >> 5;
     motion->velocity_y = next_velocity_y;
-    ticks_left = object->unk_20 - 1;
-    object->unk_20 = ticks_left;
+    ticks_left = object->remaining_ticks - 1;
+    object->remaining_ticks = ticks_left;
     if ((ticks_left << 0x10) <= 0) {
-        (*(u16 *)((u8 *)object + -2)) |= NODE_REMOVE;
+        NODE_HEADER(object)->flags |= NODE_REMOVE;
         object_flag_block.flags |= OBJECT_REMOVE_PENDING;
         return;
     }
@@ -56,7 +51,7 @@ void update_offset_motion_object(void *object_arg, ObjectPosition *motion_data, 
     {
         u16 facing_test;
 
-        facing = ((((s32)(g_game_work.view.camera_rotation.parts.viewAngle + *object->unk_00 + 0x100) >> 9) & 7) + 2) << 9;
+        facing = ((((s32)(g_game_work.view.camera_rotation.parts.viewAngle + *object->facing_source + 0x100) >> 9) & 7) + 2) << 9;
         facing_test = facing;
         rotation->unk_18 = facing;
         if ((facing_test == 0x400) || (facing_test == 0xC00)) {

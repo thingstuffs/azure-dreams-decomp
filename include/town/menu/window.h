@@ -413,7 +413,7 @@ void register_node_if_unregistered(void *block_data, void *registration_id);
 void func_80033CD8(void *block_data, void *registration_id);
 extern void initialize_object_and_maybe_play_sound(void *object, void *object_again, void *part_a, void *part_b);
 extern void del_t_item_w_ptr(void *object_data);
-s32 restore_actor_stats_from_snapshot();
+void restore_actor_stats_from_snapshot();
 void *load_and_open_monster_status_display(s32 first_arg, s32 second_arg, s32 third_arg, s32 fourth_arg, s32 fifth_arg);
 void process_object_pointer_array();
 extern void *create_item_view_for_entry(s32 first, void *data, s32 value);

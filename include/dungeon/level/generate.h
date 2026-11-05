@@ -399,7 +399,7 @@ typedef struct {
 extern u8 generation_region_cell_entries[];
 extern s32 generate_random_value(void);
 extern s32 check_diagonal_side_height(u16, s16, s16, s16);
-extern void Control_CD(s32,void *, s32);
+extern s32 Control_CD(s32,void *, s32);
 extern void drain_cd_command_queue(void);
 extern u8 *decompress_lz(u8 *src, u8 *dst);
 extern void func_8004068C(u8 *, u8 *);

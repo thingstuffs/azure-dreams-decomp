@@ -3,19 +3,11 @@
 #include "shared/entity.h"
 #include "shared/sprite_frame_state.h"
 #include "common.h"
+#include "dungeon/monster/ghosh/growing_particle.h"
 #include "shared/dungeon_sprite_data.h"
 #include "engine/node.h"
 #include "sdk/libc.h"
 #include "slus.h"
-
-typedef struct S_80172F44_0 {
-    u8 pad_00[0x16];
-    s16 unk_16;
-    u8 pad_18[0x40];
-    s32 unk_58;
-    s32 unk_5C;
-    s32 unk_60;
-} S_80172F44_0;   /* state in create_boss_randomized_effect */
 
 typedef struct S_80172F44_4 {
     s32 unk_00;
@@ -33,7 +25,7 @@ void create_boss_randomized_effect(S_80172F44_4 *position, s32 x_offset, s32 y_o
     ObjectNodeHeader *object;
     ObjectPosition *transform;
     SpriteFrameState *display;
-    S_80172F44_0 *state;
+    GhoshGrowingParticleBody *state;
     s32 random_value;
     s32 z_fixed;
     u16 x_integer;
@@ -41,7 +33,7 @@ void create_boss_randomized_effect(S_80172F44_4 *position, s32 x_offset, s32 y_o
     object = allocate_flagged_object_node(0x212);
     if (object != 0) {
         state = NODE_BODY(object);
-        state->unk_16 = 0x1A;
+        state->remaining_ticks = 0x1A;
         object->update_callback = update_accelerating_growing_particle;
         register_node(object, project_sprite_chain);
 
@@ -62,11 +54,11 @@ void create_boss_randomized_effect(S_80172F44_4 *position, s32 x_offset, s32 y_o
         (transform->z).unsigned_parts.integer += (z_offset);
 
         random_value = rand();
-        state->unk_58 = random_value - 0x8000;
+        state->velocity_x = random_value - 0x8000;
         random_value = rand();
-        state->unk_5C = random_value - 0x8000;
+        state->velocity_y = random_value - 0x8000;
         random_value = rand();
-        state->unk_60 = random_value - 0x40000;
+        state->velocity_z = random_value - 0x40000;
 
         display = object->sprite;
         display->scale_y = 0x400;
