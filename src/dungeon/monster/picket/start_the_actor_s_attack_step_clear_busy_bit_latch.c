@@ -50,13 +50,13 @@ void *get_unused_text_buffer(void);                                /* extern */
 u8 *append_typed_formatted_value(DungeonItemEntry *data, u8 *buffer);                 /* extern */
 #include "dungeon/player/object/action_state.h"
 #include "shared/sprite_frame_state.h"
+#include "dungeon/data.h"
 s32 generate_random_value(void);                                /* extern */
 void *func_80170908(); /* Slot contract: loading images do not establish one callee contract. */                /* extern */
 extern u8 D_8017089C[];
 extern u8 D_801708AC[];
 extern u8 D_801708B8[];
 extern u8 D_801708BC[];
-extern u8 picket_frame_set_8[];
 
 /* Start the actor's attack step: clear its 0x71 busy bit, latch the 0x400 link flag with a random facing nudge, run the animation chain for the sprite record it owns, then arm owner state 0x17 and point the part at the direction table. */
 void start_the_actor_s_attack_step_clear_hex_71_busy_bit_latch(ActorRecord *owner, ObjectPosition *unused, SpriteFrameState *part, S_80174234_2 *actor) {

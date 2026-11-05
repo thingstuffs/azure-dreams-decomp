@@ -162,7 +162,7 @@ s32 initialize_mogura_minigame(void *unused_arg0, void *unused_arg1, void *unuse
             third_element->unk_08.i = 0x404040;
             third_element->unk_04.p = parent_state;
             element_flags |= 1;
-            (*(u16 *)&third_element->unk_16) = element_flags;
+            third_element->unk_16 = element_flags;
         }
         column--;
         x_third -= 0x58;

@@ -413,22 +413,13 @@ typedef struct S_func_81905FD0_3 {
             u8 unk_0E;
         } u8_0E;
     } color;
-    union {
-        s16 s16;
-        u16 u16;
-    } tpage_abr;
+    u16 tpage_abr;
     u8 pad_12[0x2];
     u16 flags;
     u8 pad_16[0x4];
     u16 angle_z;
-    union {
-        s16 s16;
-        u16 u16;
-    } scale_x;
-    union {
-        s16 s16;
-        u16 u16;
-    } scale_y;
+    u16 scale_x;
+    u16 scale_y;
     u8 pad_20[0x2];
     s16 offset_y;
     u8 tile_x;

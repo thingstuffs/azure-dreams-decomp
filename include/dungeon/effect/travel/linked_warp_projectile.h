@@ -24,9 +24,9 @@ typedef struct LinkedWarpProjectileBody {
         s32 packed;
         struct { s16 x; s16 y; } tile;
     } current_tile;
-    /* Unproven view (tracked): warp.c:update_warp_camera_and_effects compares previous_tile.packed
+    /* UNION: warp.c:update_warp_camera_and_effects compares previous_tile.packed
      * and writes previous_tile.tile.x/y on the same body; warp.c:create_linked_sprite_pieces
-     * initializes both halves and installs that updater. */
+     * initializes both halves and installs that updater on the node. */
     union {
         s32 packed;
         struct { u16 x; u16 y; } tile;

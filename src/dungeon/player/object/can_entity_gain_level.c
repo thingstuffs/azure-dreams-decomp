@@ -16,6 +16,7 @@
 #include "dungeon/effect.h"
 #include "dungeon/system.h"
 #include "dungeon/item.h"
+#include "dungeon/data.h"
 #define F(p,t,o) (*(t *)((u8 *)(p) + (o)))
 extern s32 get_entity_effect_value(void *entry, s32 effect_id);
 extern s32 entity_level_thresholds[];
@@ -75,7 +76,6 @@ s32 can_entity_gain_level(void *entity) {
 
 extern void apply_entity_effects(void *entity); /* Slot contract: loading images do not establish one callee contract. */
 
-extern u8 species_base_stats[];
 extern u8 species_growth_table[];
 extern u8 D_800E0953[];
 extern u8 D_800E095F[];
@@ -431,7 +431,6 @@ loop_0:
 
 #include "m2c_compat.h"
 
-extern u8 species_base_stats[];
 extern s32 entity_level_thresholds[];
 extern u8 species_growth_table[];
 extern u8 D_800E098B[15];

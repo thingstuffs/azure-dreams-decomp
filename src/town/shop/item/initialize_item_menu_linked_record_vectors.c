@@ -45,12 +45,12 @@ void initialize_item_menu_linked_record_vectors(ItemMenuTransition *vectors, S_8
     config->unk_04->unk_0F = 4;
     vectors->unk_0C = x;
     vectors->unk_0E = y;
-    vectors->unk_10.half.low = 0x400;
+    vectors->unk_10.low = 0x400;
     if (x < 0) {
-        vectors->unk_14.half.low = 0x30 - x;
+        vectors->unk_14.low = 0x30 - x;
     } else {
-        vectors->unk_14.half.low = -0x60 - x;
+        vectors->unk_14.low = -0x60 - x;
     }
-    vectors->unk_14.half.high = -0x40 - y;
+    vectors->unk_14.high = -0x40 - y;
     vectors->unk_18.half = -0x200;
 }

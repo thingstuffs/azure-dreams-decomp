@@ -23,6 +23,7 @@
 #include "engine/graphics.h"
 #include "engine/texture.h"
 #include "dungeon/effect.h"
+#include "dungeon/data.h"
 
    /* arg3 in advance_actor_replacement_sequence */
 
@@ -89,11 +90,8 @@ extern s32 cd_cue_base;
 extern void *actor_effect_color_targets[];
 extern u8 dungeon_resource_buffer[];
 s32 update_actor_state_after_map_check(void *initial_payload, s32 entry_data, Entry *entry, s32 unused);
-extern u32 kid_image_commands;
 extern s32 D_80175200[];
 extern s16 D_80175218;
-extern M2C_UNK kid_image_load_done;
-extern u8 kid_effect_load_done;
 extern s32 D_80175220;
 
 /* Advances the actor replacement sequence, including its visual effects and cleanup. */

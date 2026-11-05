@@ -20,6 +20,7 @@ struct ObjectPosition;
 #include "dungeon/effect.h"
 #include "dungeon/monster/unicorn.h"
 #include "dungeon/item.h"
+#include "dungeon/data.h"
 
 #ifndef NULL
 #define NULL 0
@@ -33,8 +34,6 @@ extern u8 D_801745D8[];
 extern u8 D_80174E24[];
 extern s32 D_80174E2C[];
 extern s16 D_80174E38[];
-extern s32 unicorn_image_load_done[];
-extern u8 unicorn_effect_load_done[];
 extern void *D_80174E40[];
 
 extern void select_record_entry_and_value(void *state, void *entries, short index);

@@ -8,6 +8,7 @@
 #include "town/scene/motion.h"
 #include "dungeon/actor.h"
 #include "town/event/state.h"
+#include "dungeon/data.h"
 
 
 typedef struct {
@@ -42,18 +43,12 @@ typedef struct S_7FFFE25C_4 {
 extern TownState scene_object_payload_alias;
 extern s32 D_800D0420[];
 
-extern s32 scene_idle_callback_address;
 extern s32 D_80092698;
 extern s32 tracked_actor_callback_address;
 extern s32 town_actor_interaction_address;
-extern s32 town_input_object_address;
 extern s32 town_threshold_interaction_address;
-extern s32 town_radial_motion_address;
-extern s32 town_busy_countdown_address;
 extern s32 town_interaction_action_address;
-extern s32 town_threshold_update_address;
 extern s32 town_timed_state_address;
-extern s32 scene_deferred_dispatch_address;
 extern s32 scene_fallback_request_address;
 extern s32 town_input_motion_address;
 

@@ -206,7 +206,7 @@ void animate_rising_effect_object(RisingEffectObject *obj, void *state_in, void 
             obj_held->mode.s = 3;
             obj_held->field_10 |= 4;
             data1 = root->unk_00;
-            (*(u16 *)&root->unk_54)++;
+            root->unk_54++;
             data1->unk_14 += 2;
             if (root->unk_54 == 10) {
                 data1 = root->unk_00;

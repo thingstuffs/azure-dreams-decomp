@@ -18,9 +18,10 @@ def verify(rows):
             # Legacy byte differences are holds, never proof of a union.
             row['status'] = 'unproven'
             row['hold_reason'] = 'bytes'
-        if (row.get('count_basis') == 'retired_historical' or
+        if (row.get('status') == 'retired' or
+                row.get('count_basis') == 'retired_historical' or
                 row.get('hold_reason') == 'bytes' or
-                (row.get('status') in {'proven', 'unproven', 'retire'} and
+                (row.get('status') in {'proven', 'unproven', 'retire_candidate', 'retired'} and
                  row.get('evidence', '').startswith('UNION:')) or
                 row.get('retired_to_cast') or
                 row.get('evidence', '').startswith('Retired to')):
@@ -33,7 +34,7 @@ def verify(rows):
             unused = [m['name'] for m in row['members']
                       if sum(row['uses'][m['name']].values()) == 0]
             if unused:
-                row['status'] = 'retire'
+                row['status'] = 'retire_candidate'
                 row['evidence'] = ('No spelled member access found for ' + ', '.join(unused)
                                    + '; inspect aliases/macros before editing.')
                 verdict = 'retire_candidate'
@@ -61,7 +62,7 @@ def main():
         writer.writerow(['id', 'kind', 'members_used', 'verdict', 'evidence'])
         for row, used, verdict in reviewed:
             writer.writerow([row['id'], row['kind'], used, verdict, row['evidence']])
-    print(f'{len(reviewed)} reviewed; {sum(row["status"] == "retire" for row, _, _ in reviewed)} retire candidates')
+    print(f'{len(reviewed)} reviewed; {sum(row["status"] == "retire_candidate" for row, _, _ in reviewed)} retire candidates')
 
 
 if __name__ == '__main__':

@@ -7,10 +7,9 @@
 #include "records/Rec_D_80082E80.h"
 #include "engine/graphics.h"
 #include "dungeon/monster/kewne.h"
+#include "dungeon/data.h"
 
 extern u8 kewne_action_resume_address[];
-extern u8 kewne_turn_frames[];
-extern u8 kewne_frame_set_4[];
 extern u8 D_80175ED0[];
 
 

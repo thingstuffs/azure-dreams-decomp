@@ -19,14 +19,13 @@
 #include "dungeon/monster/picket.h"
 #include "sdk/libc.h"
 #include "dungeon/system.h"
+#include "dungeon/data.h"
 
 
 extern void create_two_effect_groups(void *, void *, void *, s32);
 extern void select_sprite_entry(void *, u8, s32);
 
 extern u8 picket_action_resume_address[];
-extern u8 picket_frame_set_2[];
-extern u8 picket_frame_set_1[];
 
 /* Updates the actor action sequence, including movement, landing, and recovery. */
 /* Starts a targeted spell with two effect groups, animates a backward leap and landing squash, then

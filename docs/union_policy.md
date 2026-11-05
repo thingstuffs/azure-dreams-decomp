@@ -34,11 +34,11 @@ root.  The current inventory identifies their surviving sites by the merged
 file and local name, and preserves their accepted compiler-lever status.  Do
 not retire that class as part of overlay cleanup.
 
-`python3 tools/typing/union_verify.py` marks a row `retire` when at least one
+`python3 tools/typing/union_verify.py` marks a row `retire_candidate` when at least one
 member has no spelled access.  All other overlay rows remain `unproven` until
-manual source and creator/callback review.  A `retire` row is a candidate for
+manual source and creator/callback review.  A `retire_candidate` row is a candidate for
 an edit, not a claim that its bytes will remain unchanged.  The review writes a TSV report to `--report` (default `build/union_verify.tsv`).  Retired definitions
-remain in the ledger with status `retire`, evidence, and any actual cast sites
+remain in the ledger with status `retired`, evidence, and any actual cast sites
 in `retired_to_cast`.  A failed byte proof stays `unproven` with `hold_reason: bytes` and
 a diff location; byte agreement is not same-object proof. Regenerating the verification report preserves reviewed
 same-object proofs, retired rows, and failed byte proofs.
@@ -51,7 +51,8 @@ landing (the batch checks do).  The baseline (`count` and `ids` in
 rewritten downward as definitions are retired.  Adding a union requires a proven ledger row with `UNION:` evidence
 while still keeping the total at or below the baseline.  The check also catches
 stale member lists, missing non-retired ledger rows, baseline ID/count drift,
-and a retired union reintroduced at its old ID. The debt census also reports and
-ratchets indexed scratch members and record `bytes[]` candidates as
+and a retired union reintroduced at its old ID. A `retired` row with a live
+definition is an error. The debt census also reports and
+ratchets indexed scratch members (`->b[]`, `.w[]`, `Ints[]` and related forms) and record `bytes[]` candidates as
 `generic_index_views`. This checker detects physical source
 definitions; it does not parse union-producing macros.

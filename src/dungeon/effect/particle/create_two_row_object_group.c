@@ -30,9 +30,9 @@ void create_two_row_object_group(void *payload, s16 value_scale) {
             if (object != 0) {
                 TwoRowObjectGroupBody *data = NODE_BODY(object);
                 *(s16 *)(NODE_BODY(object)) = 0;
-                data->unk_02.s = 0x20;
+                data->unk_02 = 0x20;
                 data->unk_08 = row;
-                data->unk_0A.u = (column << 9) + (row == 0 ? 0x100 : 0);
+                data->unk_0A = (column << 9) + (row == 0 ? 0x100 : 0);
                 *(Copy8 *)(((u8 *)object) + 0x40) = *(Copy8 *)payload;
                 data->unk_06 = GetClut(value_scale << 4, 0x1F8);
                 object->update_callback = update_rotating_effect_vertices;
@@ -125,15 +125,15 @@ s32 draw_linked_textured_quads(TwoRowObjectGroupBody *first_quad) {
         depth = (depth >> 2) - 8;
 
         if ((u32)depth < 0x1E0U) {
-            scratch = 0xFF - ((TwoRowObjectGroupBody *)quad_data)->unk_02.signed_value;
+            scratch = 0xFF - ((s16)((TwoRowObjectGroupBody *)quad_data)->unk_02);
             packet->colorCode = (*(s32 *)((u8 *)quad_data + 0x10));
             SetPolyFT4(packet);
             SetSemiTrans(packet, 1);
 
-            packet->tpage = ((TwoRowObjectGroupBody *)quad_data)->unk_04.u;
+            packet->tpage = ((u16)((TwoRowObjectGroupBody *)quad_data)->unk_04);
             packet->clut = ((TwoRowObjectGroupBody *)quad_data)->unk_06;
 
-            tile_index = (s16)(((TwoRowObjectGroupBody *)quad_data)->unk_02.signed_value % 8);
+            tile_index = (s16)(((s16)((TwoRowObjectGroupBody *)quad_data)->unk_02) % 8);
             scratch = tile_index;
 
             u_offset = (tile_index % 4) << 5;
@@ -213,17 +213,17 @@ void update_rotating_effect_vertices(TwoRowObjectGroupBody *effect_data) {
     work.unk20 = 0;
     if (effect_data->unk_08 != 0) {
         work.unk22 = 0x30;
-        work.unk2A = effect_data->unk_02.s + 0x30;
+        work.unk2A = effect_data->unk_02 + 0x30;
     } else {
-        phase_value_2 = effect_data->unk_02.s;
+        phase_value_2 = effect_data->unk_02;
         work.unk2A = 0x30;
         work.unk22 = (phase_value_2 * 2) + 0x40;
     }
-    work.unk24 = (s16)(rsin(((s16)effect_data->unk_02.s - 0x20) << 6) >> 6);
+    work.unk24 = (s16)(rsin(((s16)effect_data->unk_02 - 0x20) << 6) >> 6);
     work.unk0 = &work.unk20;
     work.unk2C = 0;
     work.unk18 = 2;
-    phase_value = effect_data->unk_0A.s;
+    phase_value = ((u16)effect_data->unk_0A);
     work.unk8 = 0;
     work.unk14 = 0;
     work.unk10 = 0;
@@ -236,18 +236,18 @@ void update_rotating_effect_vertices(TwoRowObjectGroupBody *effect_data) {
     }
 
     for (index = 3; index >= 0; index--) {
-        effect_data->points[index].unk_00 += effect_data->unk_20.motion.unk_20;
-        effect_data->points[index].unk_02 += effect_data->unk_20.motion.unk_22;
-        effect_data->points[index].unk_04 += effect_data->unk_20.motion.unk_24;
+        effect_data->points[index].unk_00 += effect_data->unk_20.unk_20;
+        effect_data->points[index].unk_02 += effect_data->unk_20.unk_22;
+        effect_data->points[index].unk_04 += effect_data->unk_20.unk_24;
     }
 
-    state = effect_data->unk_00.s;
+    state = effect_data->unk_00;
     switch (state) {
     case 0:
         effect_data->unk_10.at00.v = 0;
-        effect_data->unk_04.s = GetTPage(0, 1, 0x2C0, 0x100);
+        effect_data->unk_04 = GetTPage(0, 1, 0x2C0, 0x100);
         effect_data->unk_0C = 0x242424;
-        effect_data->unk_00.s = (s16)((u16)effect_data->unk_00.s + 1);
+        effect_data->unk_00 = (s16)((u16)effect_data->unk_00 + 1);
     case 1:
         effect_data->unk_10.at00.v = effect_data->unk_10.at00.v
             + effect_data->unk_0C;
@@ -256,13 +256,13 @@ void update_rotating_effect_vertices(TwoRowObjectGroupBody *effect_data) {
             phase_value = GetTPage(0, 3, 0x2C0, 0x100);
             color_value = 0xFFFFFF;
             color_step = 0x101010;
-            state = effect_data->unk_00.u;
-            effect_data->unk_04.s = phase_value;
+            state = ((u16)effect_data->unk_00);
+            effect_data->unk_04 = phase_value;
             effect_data->unk_10.at00.v = color_value;
 
             effect_data->unk_0C = color_step;
             state += 1;
-            effect_data->unk_00.s = state;
+            effect_data->unk_00 = state;
         }
         break;
     case 2:
@@ -273,13 +273,13 @@ void update_rotating_effect_vertices(TwoRowObjectGroupBody *effect_data) {
             phase_value = GetTPage(0, 3, 0x2C0, 0x100);
             color_value = 0xA0A0A0;
             color_step = 0x101010;
-            state = effect_data->unk_00.u;
-            effect_data->unk_04.s = phase_value;
+            state = ((u16)effect_data->unk_00);
+            effect_data->unk_04 = phase_value;
             effect_data->unk_10.at00.v = color_value;
 
             effect_data->unk_0C = color_step;
             state += 1;
-            effect_data->unk_00.s = state;
+            effect_data->unk_00 = state;
         }
         break;
     case 3:
@@ -298,22 +298,22 @@ void update_rotating_effect_vertices(TwoRowObjectGroupBody *effect_data) {
         break;
     }
 
-    phase_value = effect_data->unk_02.u;
+    phase_value = effect_data->unk_02;
     phase_value <<= 0x10;
     updated_value = phase_value >> 0xE;
     phase_value >>= 0x11;
     index = updated_value + phase_value;
     phase_value = effect_data->unk_08;
-    updated_value = effect_data->unk_0A.u;
+    updated_value = effect_data->unk_0A;
     if (phase_value == 0) {
         updated_value -= index;
     } else {
         updated_value += index;
 
     }
-    effect_data->unk_0A.s = updated_value;
-    phase_value = effect_data->unk_02.u;
-    effect_data->unk_02.s = phase_value - 1;
+    effect_data->unk_0A = updated_value;
+    phase_value = effect_data->unk_02;
+    effect_data->unk_02 = phase_value - 1;
 }
 #include "common.h"
 #include "shared/object_node.h"

@@ -12,6 +12,8 @@
 #include "dungeon.h"
 #include "dungeon/level.h"
 #include "sdk/libc.h"
+#include "dungeon/data.h"
+#include "engine/entity.h"
 
 
    /* arg2 in update_actor_animation_timers_and_transitions */
@@ -27,7 +29,6 @@ typedef struct S_8017352C_5 {
 
 
 extern s32 get_entity_effect_value(ActorRecord *entry, s32 effect_id);
-extern void clear_slots_of_type(ActorRecord *owner, s8 match_type);
 extern void select_sprite_entry(void *, u8, s32);
 extern s32 get_tile_chebyshev_distance(void *, void *);
 #include "dungeon/player/object/action_state.h"
@@ -39,8 +40,6 @@ extern void begin_actor_move_to_target_facing(ActorRecord *body, ObjectPosition 
 extern void func_80173D10(void *, void *, void *, void *);
 
 extern u8 kraken_action_resume_address[];
-extern u8 kraken_frame_set_3[];
-extern u8 kraken_frame_set_2[];
 
 /* Updates the actor's animation state, timers, and action transitions. */
 void update_actor_animation_timers_and_transitions(ActorRecord *entity, ObjectPosition *motion, SpriteFrameState *sprite, ActorRecord *actor)

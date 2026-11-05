@@ -13,14 +13,10 @@
 #include "dungeon/system.h"
 #include "dungeon/actor.h"
 #include "dungeon/effect/screen.h"
+#include "dungeon/data.h"
 
 extern s32 death_action_resume_address;
 extern u8 D_8017464C[8];
-extern u8 death_frame_set_4[8];
-extern u8 death_frame_set_5[8];
-extern u8 death_frame_set_6[8];
-
-
 
 /* Updates a staged jump animation and returns the actor to its tile center. */
 void finish_staged_jump_at_tile_center(ActorRecord *action, ObjectPosition *motion, SpriteFrameState *sprite, ActorRecord *actor) {

@@ -212,7 +212,7 @@ s32 create_linked_value_display(void)
         ((S_80813AB0_0 *)obj)->unk_34 = 2;
         ((S_80813AB0_0 *)obj)->unk_28.i = final_color;
         ((S_80813AB0_0 *)obj)->unk_24 = base;
-        (*(u16 *)&((S_80813AB0_0 *)obj)->unk_36) |= 1;
+        ((S_80813AB0_0 *)obj)->unk_36 |= 1;
     }
     return 0;
 }

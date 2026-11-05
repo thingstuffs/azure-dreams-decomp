@@ -785,14 +785,14 @@ typedef struct S_80025398_0 {
 
 typedef struct S_80025398_1 {
     u8 pad_00[0xC];
-    union { s8 s; s8 u; } unk_0C;   /* accessed as both */
-    union { s8 s; s8 u; } unk_0D;   /* accessed as both */
-    union { s8 s; s8 u; } unk_0E;   /* accessed as both */
+    s8 unk_0C;
+    s8 unk_0D;
+    s8 unk_0E;
     u8 pad_0F[0x5];
     u16 unk_14;
     u8 pad_16[0x6];
-    union { u16 s; u16 u; } unk_1C;   /* accessed as both */
-    union { u16 s; u16 u; } unk_1E;   /* accessed as both */
+    u16 unk_1C;
+    u16 unk_1E;
 } S_80025398_1;   /* out in process_five_context_entries_or_fallback */
 
 typedef struct S_80025398_2 {
@@ -834,23 +834,23 @@ void process_five_context_entries_or_fallback(void *effect, void *unused, void *
 
     if (frame < peak_frame) {
         fade_in = (frame << 7) / peak_frame;
-        output->unk_1C.s += 0x50;
-        output->unk_1E.s += 0x50;
-        output->unk_0E.s = fade_in;
-        output->unk_0D.s = fade_in;
-        output->unk_0C.s = fade_in;
+        output->unk_1C += 0x50;
+        output->unk_1E += 0x50;
+        output->unk_0E = fade_in;
+        output->unk_0D = fade_in;
+        output->unk_0C = fade_in;
     } else {
         end_frame = ((S_80025398_0 *)effect)->unk_02;
         fade_out = ((end_frame - frame) << 7) / (end_frame - peak_frame);
-        vertex_x = output->unk_1C.u;
-        vertex_y = output->unk_1E.u;
+        vertex_x = output->unk_1C;
+        vertex_y = output->unk_1E;
         vertex_x += 0x50;
         vertex_y += 0x50;
-        output->unk_1C.s = vertex_x;
-        output->unk_1E.s = vertex_y;
-        output->unk_0E.u = fade_out;
-        output->unk_0D.u = fade_out;
-        output->unk_0C.u = fade_out;
+        output->unk_1C = vertex_x;
+        output->unk_1E = vertex_y;
+        output->unk_0E = fade_out;
+        output->unk_0D = fade_out;
+        output->unk_0C = fade_out;
     }
 
     angle = ((S_80025398_0 *)effect)->unk_98;
@@ -1176,8 +1176,8 @@ typedef struct PacketView {
     u16 unk_14;
     u8 pad_16[0x4];
     u16 unk_1A;
-    union { u16 v; u16 n; } unk_1C;   /* accessed as both */
-    union { u16 v; u16 n; } unk_1E;   /* accessed as both */
+    u16 unk_1C;
+    u16 unk_1E;
 } PacketView;
 
 typedef struct ParentHead {
@@ -1445,8 +1445,8 @@ void set_record_pair_to_one(ProjectileSelf *self, OutView *position, PacketView 
             render_data->unk_0C.at00u.v = 0x20;
             render_data->unk_14 |= 0x0C;
             render_data->unk_0C.at01.v = 0xE0;
-            render_data->unk_1E.v = 2000;
-            render_data->unk_1C.v = 2000;
+            render_data->unk_1E = 2000;
+            render_data->unk_1C = 2000;
             render_data->unk_14 &= 0xFFFC;
             self->flags |= 4;
             target = parent->unk_60.p;
@@ -1544,11 +1544,11 @@ void set_record_pair_to_one(ProjectileSelf *self, OutView *position, PacketView 
             render_data->unk_1A = angle;
             shrinking = self->shrinking.s;
             if (shrinking == 0) {
-                render_data->unk_1C.n += self->pulse_step;
-                render_data->unk_1E.n += self->pulse_step;
+                render_data->unk_1C += self->pulse_step;
+                render_data->unk_1E += self->pulse_step;
             } else {
-                render_data->unk_1C.n -= self->pulse_step;
-                render_data->unk_1E.n -= self->pulse_step;
+                render_data->unk_1C -= self->pulse_step;
+                render_data->unk_1E -= self->pulse_step;
             }
         }
         pulse_ticks = self->pulse_ticks.s + 1;
@@ -1639,8 +1639,8 @@ void set_record_pair_to_one(ProjectileSelf *self, OutView *position, PacketView 
             render_data->unk_0C.at02u.v = 0;
             render_data->unk_0C.at01u.v = 0;
             render_data->unk_0C.at00p.v = 0;
-            render_data->unk_1E.n = 0;
-            render_data->unk_1C.n = 0;
+            render_data->unk_1E = 0;
+            render_data->unk_1C = 0;
             return;
         }
         position->unk_00.at00.v += position->unk_0C;

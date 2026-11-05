@@ -1,5 +1,6 @@
 #include "common.h"
 #include "frontend/card/load.h"
+#include "frontend/card.h"
 
 typedef struct S_func_80406AA8_0 {
     u8 pad_00[4];
@@ -22,9 +23,7 @@ typedef struct S_func_80406AA8_1 {
 
 extern s32 process_entry_with_table_value(s32 entry_id, s32 request_id);
 extern void forward_value_initcardmessageobject(void *value);
-extern void card_info_set_value_and_refresh(s32 object, s32 value);
 extern void func_80404688(s32 object);
-extern void reset_card_selection_state(void);
 extern void func_804069FC(void);
 extern void set_global(void);
 extern s32 D_80010208;

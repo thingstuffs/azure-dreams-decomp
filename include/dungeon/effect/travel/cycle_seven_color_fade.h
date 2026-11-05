@@ -180,7 +180,7 @@ typedef struct B28_818B7BD0_S_818B7BD0_1 {
     u8 pad_00[0xC];
     u8 unk_0C;
     u8 unk_0D;
-    union { s16 s16; u8 u8; } unk_0E;   /* accessed as both */
+    s16 unk_0E;
     s16 unk_10;
     s16 unk_12;
     u16 unk_14;

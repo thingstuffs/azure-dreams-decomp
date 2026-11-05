@@ -140,7 +140,7 @@ s32 create_title_menu_cursor(void)
             ((S_808106E0_0 *)object)->unk_30.at00u.v = 0x50;
             ((S_808106E0_0 *)object)->unk_30.at02.v = 0x20;
             ((S_808106E0_0 *)object)->unk_2C.at00p.v = shared_part_y;
-            (*(u16 *)&((S_808106E0_0 *)object)->unk_34) = 2;
+            ((S_808106E0_0 *)object)->unk_34 = 2;
             ((S_808106E0_0 *)object)->unk_28.at00u.v = 0x00404040;
             ((S_808106E0_0 *)object)->unk_24.p32 = anchor;
             ((S_808106E0_0 *)object)->unk_36 |= 1;

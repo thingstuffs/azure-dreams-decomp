@@ -49,7 +49,7 @@ void update_current_and_saved_coordinates(S_800A51CC_0 *object)
         object->unk_00.at02.v = coord;
         object->unk_10.at02.v = coord;
         coord = *(u16 *)&reference->view.view_offset.parts.view_offset_z;
-        (*(u16 *)&object->unk_04) = coord;
+        object->unk_04 = coord;
         object->unk_14 = coord;
     }
 }

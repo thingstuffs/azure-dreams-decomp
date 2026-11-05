@@ -10,9 +10,8 @@ extern void update_actor_status_and_mp(void *);
 
 #include "dungeon/monster/ghosh.h"
 #include "dungeon/item.h"
+#include "dungeon/data.h"
 extern u8 D_80174A9C[];
-extern u8 ghosh_command_f8_frames[];
-extern u8 ghosh_command_f0_frames[];
 
 /* Advance the command stream and update the object's direction, animation, and effects. */
 s32 advance_boss_command_stream(void *object_arg, void *context_arg, void *entity_arg) {

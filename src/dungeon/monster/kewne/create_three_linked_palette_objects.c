@@ -8,6 +8,7 @@
 #include "engine/node/allocation.h"
 #include "dungeon/monster/kewne.h"
 #include "engine/node.h"
+#include "dungeon/data.h"
 
    /* arg0 in create_three_linked_palette_objects */
 
@@ -19,7 +20,6 @@ typedef struct S_80174910_9 {
 } S_80174910_9;   /* ((S_80174910_6 *)arg0)->unk_0C in create_three_linked_palette_objects */
 
 extern void update_effect_fade_and_history();
-extern u32 kewne_palette_colors[];
 
 typedef struct S_80174910_1 {
     u8 pad_00[0xC];

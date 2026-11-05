@@ -116,11 +116,10 @@ void prepare_directional_attack(ActorRecord *actor, SpriteFrameState *sprite, s1
 void set_boss_effect_data_pointer(ActorRecord *object, ObjectPosition *unused_1, SpriteFrameState *unused_2, ActorRecord *flag_owner);
 
 /* Owner declarations appended by tools/headers (append-only; the lines above are hand-kept). */
-struct S_801720D0_0;
 void advance_boss_actor_movement_state(ActorRecord *move_state, void *unused, SpriteFrameState *sprite, void *actor_in);
 void allocate_type_12_object(void);
 void spawn_rising_trail_emitter(void);
-void update_rising_trail_emitter(void *record_data, struct S_801720D0_0 *state);
+void update_rising_trail_emitter(void *record_data, ObjectPosition *state);
 
 void advance_actor_path(ActorRecord *motion, ObjectPosition *context, SpriteFrameState *position, ActorRecord *actor);
 void clear_actor_flag_and_advance_action(ActorRecord *action_state, ObjectPosition *action_context, SpriteFrameState *effect_context, ActorRecord *actor);

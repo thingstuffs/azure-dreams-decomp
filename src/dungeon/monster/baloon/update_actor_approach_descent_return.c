@@ -41,7 +41,6 @@ extern s16 floor_generation_state[3];
 extern s16 current_dungeon_floor;
 extern u8 scene_mode_code;
 extern u8 baloon_default_frames[];
-extern u8 baloon_hop_frames[];
 extern u8 D_80170940[];
 extern u8 D_80170950[];
 extern u8 D_80170988[];

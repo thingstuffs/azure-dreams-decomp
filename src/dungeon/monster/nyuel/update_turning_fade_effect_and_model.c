@@ -20,6 +20,7 @@ struct ObjectPosition;
 #include "engine/graphics.h"
 #include "dungeon/effect.h"
 #include "dungeon/item.h"
+#include "dungeon/data.h"
 
 
 
@@ -76,10 +77,7 @@ void create_cylindrical_effect(); /* Unprototyped: retail passes an unused sprit
 s32 lookup_masked_byte_table(void *, ...);
 extern u8 *actor_effect_color_targets[];
 extern void func_8017487C(u8 *task, void *context, SpriteFrameState *input);
-extern u32 nyuel_image_commands;
 extern s32 D_80174FB4;
-extern u8 nyuel_image_load_done[];
-extern u8 nyuel_effect_load_done[];
 extern s32 D_80174FD0[];
 
 /* Updates the turning, color fade, effect, and model replacement sequence. */

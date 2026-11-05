@@ -17,7 +17,7 @@ class UnionVerifyTests(unittest.TestCase):
         ]
         reviewed = list(verify(rows))
         self.assertEqual([row['status'] for row, _, _ in reviewed],
-                         ['unproven', 'proven', 'retire'])
+                         ['unproven', 'proven', 'retire_candidate'])
         self.assertEqual(reviewed[0][0]['hold_reason'], 'bytes')
         self.assertEqual(reviewed[0][0]['evidence'], 'Byte diff at +0x12')
 
@@ -27,12 +27,12 @@ class UnionVerifyTests(unittest.TestCase):
             'kind': 'sign_pun', 'count_basis': 'retired_historical',
             'members': [{'name': 's'}, {'name': 'u'}],
             'uses': {'s': {'src': 1, 'include': 0}, 'u': {'src': 1, 'include': 0}},
-            'status': 'retire', 'evidence': 'Entire typedef was unreferenced.'
+            'status': 'retired', 'evidence': 'Entire typedef was unreferenced.'
         }
         (reviewed, _, verdict), = list(verify([row]))
-        self.assertEqual(reviewed['status'], 'retire')
+        self.assertEqual(reviewed['status'], 'retired')
         self.assertEqual(reviewed['evidence'], 'Entire typedef was unreferenced.')
-        self.assertEqual(verdict, 'retire')
+        self.assertEqual(verdict, 'retired')
 
 
     def test_keeps_manual_unproven_initializer_review(self):
@@ -50,11 +50,11 @@ class UnionVerifyTests(unittest.TestCase):
         row = {
             'kind': 'packed', 'members': [{'name': 'word'}, {'name': 'halves'}],
             'uses': {'word': {'src': 0, 'include': 0}, 'halves': {'src': 1, 'include': 0}},
-            'status': 'retire', 'evidence': 'UNION: graph projection needs repair.'
+            'status': 'retire_candidate', 'evidence': 'UNION: graph projection needs repair.'
         }
         (reviewed, _, verdict), = list(verify([row]))
-        self.assertEqual(reviewed['status'], 'retire')
-        self.assertEqual(verdict, 'retire')
+        self.assertEqual(reviewed['status'], 'retire_candidate')
+        self.assertEqual(verdict, 'retire_candidate')
         self.assertEqual(reviewed['evidence'], row['evidence'])
 
 

@@ -202,7 +202,7 @@ void animate_collection_center_sprite(CollectionCenterControlBody *ctrl, ObjectP
             }
             work->unk_24 = (distance & 1) ? 1 : 2;
         }
-        (*(s16 *)&work->unk_1A) = 0;
+        work->unk_1A = 0;
     case 4:
         dx = work->unk_22 == 2 ? 6 : 5;
         value = ctrl->unk_72;

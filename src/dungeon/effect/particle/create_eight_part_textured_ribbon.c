@@ -114,17 +114,17 @@ void create_eight_part_textured_ribbon(ActorRecord *source, void *origin, Sprite
             effect->unk_7C = (u16) ((s16) *(u16 *)(((s8 *) directions + (((u16) heading_source->unk_2A >> 7) & 0x1C))
                 + 2) * 0xF);
             prev_segment = segment - 1;
-            effect->unk_5C.s = (*(s16 *)((u8 *)directions + (((((s32) (heading_source->unk_2A << 0x10) >> 0x19)
+            effect->unk_5C = (*(s16 *)((u8 *)directions + (((((s32) (heading_source->unk_2A << 0x10) >> 0x19)
                 + 6) & 7) << 2))) * 0x3333;
             side_direction = (u16 *)((s8 *)directions + (((((s32) (heading_source->unk_2A << 0x10) >> 0x19) + 6) & 7)
                 << 2));
             effect->unk_60 = (s32) ((s16) side_direction[1] * 0x3333);
-            prev_tip_x = effect->unk_5C.s * prev_segment;
+            prev_tip_x = effect->unk_5C * prev_segment;
             if (prev_tip_x < 0) {
                 prev_tip_x += trunc_bias;
             }
             effect->unk_7A = (u16) (effect->unk_7A + (prev_tip_x >> 0x10));
-            prev_base_x = effect->unk_5C.u * prev_segment;
+            prev_base_x = effect->unk_5C * prev_segment;
             if (prev_base_x < 0) {
                 prev_base_x += trunc_bias;
             }
@@ -138,12 +138,12 @@ void create_eight_part_textured_ribbon(ActorRecord *source, void *origin, Sprite
             if (prev_base_y < 0) {
                 prev_base_y += trunc_bias;
             }
-            tip_x = effect->unk_5C.s * segment;
+            tip_x = effect->unk_5C * segment;
             effect->unk_88 = (u16) (effect->unk_88 + (prev_base_y >> 0x10));
             if (tip_x < 0) {
                 tip_x += trunc_bias;
             }
-            base_x = effect->unk_5C.s * segment;
+            base_x = effect->unk_5C * segment;
             effect->unk_74 = (u16) (effect->unk_74 + (tip_x >> 0x10));
             if (base_x < 0) {
                 base_x += trunc_bias;

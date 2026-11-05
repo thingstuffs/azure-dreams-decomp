@@ -3,6 +3,7 @@
 #include "dungeon/actor.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/game_work.h"
+#include "dungeon/data.h"
 
 typedef struct {
     u8 pad00[0x8c];
@@ -25,7 +26,6 @@ typedef struct {
     u8 kind48;
 } Obj3;
 
-extern u8 troll_slot_c_action_callback[];
 extern s32 D_8015DDC4;
 extern s32 D_8015DDCC;
 extern s32 D_8015DDD4;

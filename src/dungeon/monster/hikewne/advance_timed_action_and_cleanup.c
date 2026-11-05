@@ -8,15 +8,10 @@
 #include "dungeon/actor.h"
 #include "dungeon/effect/screen.h"
 #include "dungeon/system.h"
+#include "dungeon/data.h"
 
 extern void select_sprite_entry(void *, s32, s32);
 extern void spend_actor_mp(void *, s32);
-
-extern u8 hikewne_frame_set_16[];
-
-
-
-
 
 /* Advances a timed action through animation setup, execution, and cleanup. */
 void advance_timed_action_and_cleanup(ActorRecord *action_data, ObjectPosition *position, SpriteFrameState *sprite, ActorRecord *actor_data)

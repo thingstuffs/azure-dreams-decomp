@@ -6,6 +6,7 @@
 #include "town/player.h"
 #include "engine/window.h"
 #include "town/person.h"
+#include "town/person/offset_effect_body.h"
 
 /* Creates an offset effect with randomized motion and initializes its appearance. */
 void *create_randomized_offset_effect(S_8009792C_2 *source, u32 angle) {
@@ -13,13 +14,13 @@ void *create_randomized_offset_effect(S_8009792C_2 *source, u32 angle) {
     SpriteFrameState *appearance;
     ObjectPosition *motion;
     ObjectNodeHeader *effect;
-    s16 *effect_params;
+    PersonOffsetEffectBody *effect_params;
 
     angle >>= 9;
     direction = angle & 7;
     effect = allocate_flagged_object_node(0x212);
     if (effect != NULL) {
-        effect_params = (s16 *)((s8 *)effect + 0x20);
+        effect_params = NODE_BODY(effect);
         motion = effect->position;
         appearance = effect->sprite;
         effect->update_callback = update_person_effect_fade;
@@ -38,7 +39,7 @@ void *create_randomized_offset_effect(S_8009792C_2 *source, u32 angle) {
         appearance->scale_x = 0x1000;
         appearance->tpage_abr = 0x60;
         appearance->flags |= 0xC;
-        effect_params[1] = scale_random_to_unsigned_halfword_limit(7) + scale_random_to_unsigned_halfword_limit(7);
+        effect_params->ticks_left = scale_random_to_unsigned_halfword_limit(7) + scale_random_to_unsigned_halfword_limit(7);
     }
     return effect;
 }

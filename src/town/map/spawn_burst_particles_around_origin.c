@@ -1,4 +1,5 @@
 #include "common.h"
+#include "town/map/burst_particle_body.h"
 #include "shared/sprite_source.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/object_node.h"
@@ -12,17 +13,6 @@
 
    /* origin in spawn_burst_particles_around_origin */
 
-typedef struct S_800BBCA0_3 {
-    u8 pad_00[0xC];
-    u16 unk_0C;
-    u16 unk_0E;
-    u16 unk_10;
-    u8 pad_12[0x36];
-    s16 unk_48;
-    u8 pad_4A[0x2];
-    s16 unk_4C;
-} S_800BBCA0_3;   /* motion in spawn_burst_particles_around_origin */
-
 extern u8 D_800F1654[];
 
 /* Spawns particles around the origin, emits a burst, then marks the effect finished. */
@@ -35,7 +25,7 @@ void spawn_burst_particles_around_origin(BurstParticleSpawnerObject *self, Objec
     s32 rand_value;
     ObjectNodeHeader *object;
     SpriteFrameState *sprite;
-    S_800BBCA0_3 *motion;
+    TownBurstParticleBody *motion;
     s32 *position;
     s32 *velocity;
 
@@ -56,7 +46,7 @@ void spawn_burst_particles_around_origin(BurstParticleSpawnerObject *self, Objec
                 object->update_callback = object_type;
                 register_node(object, project_sprite_chain);
                 sprite = object->sprite;
-                motion = (S_800BBCA0_3 *)(((u8 *)object) + 0x20);
+                motion = NODE_BODY(object);
 
                 rand_value = rand();
                 position = *(s32 * *)&object->position;
@@ -68,14 +58,14 @@ void spawn_burst_particles_around_origin(BurstParticleSpawnerObject *self, Objec
                 position = *(s32 * *)&object->position;
                 position[2] = origin->z.v + (((rand_value & 0x1FF) - 0x100) << 13);
 
-                motion->unk_0C = origin->x.unsigned_parts.integer;
-                motion->unk_0E = origin->y.unsigned_parts.integer;
-                motion->unk_10 = origin->z.unsigned_parts.integer;
+                motion->target_x = origin->x.unsigned_parts.integer;
+                motion->target_y = origin->y.unsigned_parts.integer;
+                motion->target_z = origin->z.unsigned_parts.integer;
                 sprite->scale_y = 0x100;
                 sprite->scale_x = 0x100;
                 sprite->tpage_abr = 0x20;
                 sprite->flags |= 0xC;
-                motion->unk_48 = 6;
+                motion->ticks_left = 6;
                 sprite->unk_00 = sprite_type;
                 sprite->source = ((SpriteSourceEntry *)sprite_type)->source;
                 sprite->unk_04 = 0;
@@ -101,7 +91,7 @@ void spawn_burst_particles_around_origin(BurstParticleSpawnerObject *self, Objec
         sprite_type = D_800F1654;
         do {
             object = allocate_list_node(0x312, &scene_object_list_anchor.next);
-            motion = (S_800BBCA0_3 *)(((u8 *)object) + 0x20);
+            motion = NODE_BODY(object);
             if (object != 0) {
                 object->update_callback = object_type;
                 register_node(object, project_sprite_chain);
@@ -130,8 +120,8 @@ void spawn_burst_particles_around_origin(BurstParticleSpawnerObject *self, Objec
                 sprite->scale_x = 0x200;
                 sprite->tpage_abr = 0x20;
                 sprite->flags |= 0xC;
-                motion->unk_48 = 0xF;
-                motion->unk_4C = 1;
+                motion->ticks_left = 0xF;
+                motion->phase = 1;
                 sprite->unk_00 = sprite_type;
                 sprite->source = ((SpriteSourceEntry *)sprite_type)->source;
                 sprite->unk_04 = 0;

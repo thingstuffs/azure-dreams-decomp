@@ -7,6 +7,7 @@
 #include "dungeon/actor.h"
 #include "dungeon/actor/effect.h"
 #include "dungeon/player/state.h"
+#include "dungeon/data.h"
 
 /* Sparse views for fields not covered by the existing record types. */
 typedef struct {
@@ -37,10 +38,6 @@ typedef struct {
 } TargetFieldView_80E91000;
 
 extern s32 generate_random_value(void);
-
-extern s32 picket_slot_f_item_result[];
-
-
 
  s32 clear_actor_action_markers(void *, void *) ;
 /*

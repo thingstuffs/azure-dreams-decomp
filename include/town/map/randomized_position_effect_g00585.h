@@ -19,12 +19,6 @@ struct Dst;
 
 struct Elem;
 
-/* arg0 in create_randomized_position_effect */
-typedef struct S_800A84D0_4 {
-    u8 pad_00[0x2];
-    s16 unk_02;
-} S_800A84D0_4;
-
 typedef struct {
     s16 unk0;
     s16 x;

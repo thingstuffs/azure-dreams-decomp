@@ -31,11 +31,11 @@ typedef struct ItemMenuRows {
 typedef struct ItemMenuTransition {
     void (*callback)(struct ItemMenuTransition *state);
     s32 duration;
-    union { s32 word; s16 half; } progress;
+    s32 progress;
     s16 unk_0C;
     s16 unk_0E;
-    union { s32 word; struct { s16 low, high; } half; } unk_10;
-    union { s32 word; struct { s16 low, high; } half; } unk_14;
+    struct { s16 low, high; } unk_10;
+    struct { s16 low, high; } unk_14;
     union { s32 word; s16 half; } unk_18;
     s32 end_row;
     s32 start_row;

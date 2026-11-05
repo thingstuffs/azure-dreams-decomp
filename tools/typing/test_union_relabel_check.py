@@ -29,6 +29,20 @@ class RelabelCheckTest(unittest.TestCase):
 '''
         self.assertEqual(swaps_from_diff(patch), set())
 
+    def test_aligns_reordered_accesses_by_field_name(self):
+        patch = '''@@ -1 +1 @@
+-    obj->first.s = other->second.s;
++    other->second.s = obj->first.u;
+'''
+        self.assertEqual(swaps_from_diff(patch), {('->first.', 's', 'u')})
+
+    def test_removed_field_does_not_hide_other_relabel(self):
+        patch = '''@@ -1 +1 @@
+-    obj->first.s = other->second.s;
++    other->second.u = 1;
+'''
+        self.assertEqual(swaps_from_diff(patch), {('->second.', 's', 'u')})
+
     def test_two_way_swap_audits_unchanged_lines(self):
         patch = '''@@ -1,2 +1,2 @@
 -    object->unk_02.s = value;

@@ -153,6 +153,10 @@ void use(ScratchPad *p, Record *r) {
             self.assertTrue(any('generic_index_views 4 > baseline 3' in p
                                 for p in D.check_baseline(changed, baseline)))
 
+    def test_generic_index_covers_dot_members_and_ints(self):
+        source = 'p.b[0] = p.w[1] + p.Ints[2] + Ints[3]; // p.b[4]\n'
+        self.assertEqual(D.generic_index_views(source), 4)
+
     def test_views_union_labels_and_new_site(self):
         with tempfile.TemporaryDirectory() as td:
             root = Path(td)
@@ -254,12 +258,19 @@ class UnionInventory(unittest.TestCase):
     def test_missing_nonretired_and_orphan(self):
         self.assertTrue(any('orphan non-retired' in p
                             for p in D.check_union_inventory([], [self.row], self.base)))
-        retired = dict(self.row, status='retire')
+        retired = dict(self.row, status='retired')
         self.assertEqual(D.check_union_inventory([], [retired], self.base), [])
 
+    def test_live_candidate_and_missing_candidate(self):
+        candidate = dict(self.row, status='retire_candidate')
+        self.assertEqual(D.check_union_inventory([self.row], [candidate], self.base), [])
+        self.assertTrue(any('orphan non-retired' in p for p in
+                            D.check_union_inventory([], [candidate], self.base)))
+
     def test_reintroduction_uses_status_and_baseline_membership(self):
-        retired = dict(self.row, status='retire', evidence='wording unrelated to retirement')
-        self.assertEqual(D.check_union_inventory([self.row], [retired], self.base), [])
+        retired = dict(self.row, status='retired', evidence='wording unrelated to retirement')
+        self.assertTrue(any('retired union definition still present' in p for p in
+                            D.check_union_inventory([self.row], [retired], self.base)))
         bad = {'count': 1, 'ids': ['src/test.c::Other.x']}
         self.assertTrue(any('retired union reintroduced' in p
                             for p in D.check_union_inventory([self.row], [retired], bad)))

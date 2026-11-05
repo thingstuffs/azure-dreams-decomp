@@ -106,53 +106,29 @@ typedef struct S_func_800241A8_1 {
         s16 as_s16_B0;
         u16 as_u16_B0;
     } unk_B0;
-    union {
-        s16 as_s16_B2;
-        u16 as_u16_B2;
-    } unk_B2;
-    union {
-        s16 as_s16_B4;
-        u16 as_u16_B4;
-    } unk_B4;
+    u16 unk_B2;
+    u16 unk_B4;
     u8 pad_B6[0x2];
     union {
         s16 as_s16_B8;
         u16 as_u16_B8;
     } unk_B8;
-    union {
-        s16 as_s16_BA;
-        u16 as_u16_BA;
-    } unk_BA;
-    union {
-        s16 as_s16_BC;
-        u16 as_u16_BC;
-    } unk_BC;
+    u16 unk_BA;
+    u16 unk_BC;
     u8 pad_BE[0x2];
     union {
         s16 as_s16_C0;
         u16 as_u16_C0;
     } unk_C0;
-    union {
-        s16 as_s16_C2;
-        u16 as_u16_C2;
-    } unk_C2;
-    union {
-        s16 as_s16_C4;
-        u16 as_u16_C4;
-    } unk_C4;
+    u16 unk_C2;
+    u16 unk_C4;
     u8 pad_C6[0x2];
     union {
         s16 as_s16_C8;
         u16 as_u16_C8;
     } unk_C8;
-    union {
-        s16 as_s16_CA;
-        u16 as_u16_CA;
-    } unk_CA;
-    union {
-        s16 as_s16_CC;
-        u16 as_u16_CC;
-    } unk_CC;
+    u16 unk_CA;
+    u16 unk_CC;
     u8 pad_CE[0x32];
     s32 unk_100;
 } S_func_800241A8_1;
@@ -178,10 +154,7 @@ typedef struct S_func_800241A8_6 {
         s16 as_s16_08;
         u16 as_u16_08;
     } unk_08;
-    union {
-        s16 as_s16_0A;
-        u16 as_u16_0A;
-    } unk_0A;
+    u16 unk_0A;
     u16 unk_0C;
     u16 unk_0E;
     u16 unk_10;
@@ -205,10 +178,7 @@ typedef struct S_func_800241A8_6 {
         s16 as_s16_20;
         u16 as_u16_20;
     } unk_20;
-    union {
-        s16 as_s16_22;
-        u16 as_u16_22;
-    } unk_22;
+    u16 unk_22;
     union {
         u16 as_u16_24;
         u8 as_u8_24;
@@ -305,14 +275,14 @@ void transform_and_queue_mesh_primitives(S_func_800241A8_4 *mesh, ObjectPosition
             scratch->unk_B8.as_u16_B8 = mesh->unk_5A.as_u16_5A;
             scratch->unk_C0.as_u16_C0 = mesh->unk_5C.as_u16_5C;
             scratch->unk_C8.as_u16_C8 = mesh->unk_5E.as_u16_5E;
-            scratch->unk_B2.as_u16_B2 = mesh->unk_60.as_u16_60;
-            scratch->unk_BA.as_u16_BA = mesh->unk_62.as_u16_62;
-            scratch->unk_C2.as_u16_C2 = mesh->unk_64.as_u16_64;
-            scratch->unk_CA.as_u16_CA = mesh->unk_66.as_u16_66;
-            scratch->unk_B4.as_u16_B4 = mesh->unk_68.as_u16_68;
-            scratch->unk_BC.as_u16_BC = mesh->unk_6A.as_u16_6A;
-            scratch->unk_C4.as_u16_C4 = mesh->unk_6C.as_u16_6C;
-            scratch->unk_CC.as_u16_CC = mesh->unk_6E.as_u16_6E;
+            scratch->unk_B2 = mesh->unk_60.as_u16_60;
+            scratch->unk_BA = mesh->unk_62.as_u16_62;
+            scratch->unk_C2 = mesh->unk_64.as_u16_64;
+            scratch->unk_CA = mesh->unk_66.as_u16_66;
+            scratch->unk_B4 = mesh->unk_68.as_u16_68;
+            scratch->unk_BC = mesh->unk_6A.as_u16_6A;
+            scratch->unk_C4 = mesh->unk_6C.as_u16_6C;
+            scratch->unk_CC = mesh->unk_6E.as_u16_6E;
 
             ot_index = RotAverage4(&scratch->unk_B0.as_s16_B0, &scratch->unk_B8.as_s16_B8,
                                      &scratch->unk_C0.as_s16_C0, &scratch->unk_C8.as_s16_C8,
@@ -324,13 +294,13 @@ void transform_and_queue_mesh_primitives(S_func_800241A8_4 *mesh, ObjectPosition
 
             if ((u32)ot_index < 0x1E0 &&
                 ((((u16)(packet->unk_08.as_u16_08 + 0x20) < 0x181) &&
-                  ((u16)(packet->unk_0A.as_u16_0A + 0x20) < 0x121)) |
+                  ((u16)(packet->unk_0A + 0x20) < 0x121)) |
                  (((u16)(packet->unk_10 + 0x20) < 0x181) &&
                   ((u16)(packet->unk_12 + 0x20) < 0x121)) |
                  (((u16)(packet->unk_18 + 0x20) < 0x181) &&
                   ((u16)(packet->unk_1A + 0x20) < 0x121)) |
                  (((u16)(packet->unk_20.as_u16_20 + 0x20) < 0x181) &&
-                  ((u16)(packet->unk_22.as_u16_22 + 0x20) < 0x121)))) {
+                  ((u16)(packet->unk_22 + 0x20) < 0x121)))) {
                 packet->unk_00.unk_03 = 9;
                 packet->unk_04.as_u8_07.unk_07 = 0x2C;
                 object->flags &= 0x7FFF;
@@ -383,7 +353,7 @@ void transform_and_queue_mesh_primitives(S_func_800241A8_4 *mesh, ObjectPosition
                     packet->unk_14.as_u8_14--;
                     packet->unk_24.as_u8_24--;
                 }
-                if (packet->unk_0A.as_s16_0A > packet->unk_22.as_s16_22) {
+                if ((s16)packet->unk_0A > (s16)packet->unk_22) {
                     packet->unk_1C.as_u8_1D.unk_1D--;
                     packet->unk_24.as_u8_25.unk_25--;
                 }
@@ -432,23 +402,23 @@ void transform_and_queue_mesh_primitives(S_func_800241A8_4 *mesh, ObjectPosition
             coord_a = mesh->unk_60.as_s16_60;
             coord_b = mesh->unk_64.as_s16_64;
             midpoint = (coord_a + coord_b) / 2;
-            scratch->unk_C2.as_s16_C2 = midpoint;
-            scratch->unk_B2.as_s16_B2 = midpoint;
+            scratch->unk_C2 = midpoint;
+            scratch->unk_B2 = midpoint;
             coord_a = mesh->unk_62.as_s16_62;
             coord_b = mesh->unk_66.as_s16_66;
             midpoint = (coord_a + coord_b) / 2;
-            scratch->unk_CA.as_s16_CA = midpoint;
-            scratch->unk_BA.as_s16_BA = midpoint;
+            scratch->unk_CA = midpoint;
+            scratch->unk_BA = midpoint;
             coord_a = mesh->unk_68.as_s16_68;
             coord_b = mesh->unk_6C.as_s16_6C;
             midpoint = (coord_a + coord_b) / 2;
-            scratch->unk_C4.as_s16_C4 = midpoint;
-            scratch->unk_B4.as_s16_B4 = midpoint;
+            scratch->unk_C4 = midpoint;
+            scratch->unk_B4 = midpoint;
             end_z_a = mesh->unk_6A.as_s16_6A;
             end_z_b = mesh->unk_6E.as_s16_6E;
             midpoint_z = (end_z_a + end_z_b) / 2;
-            scratch->unk_CC.as_s16_CC = midpoint_z;
-            scratch->unk_BC.as_s16_BC = midpoint_z;
+            scratch->unk_CC = midpoint_z;
+            scratch->unk_BC = midpoint_z;
 
             ot_index = RotAverage4(&scratch->unk_B0.as_s16_B0, &scratch->unk_B8.as_s16_B8,
                                      &scratch->unk_C0.as_s16_C0, &scratch->unk_C8.as_s16_C8,

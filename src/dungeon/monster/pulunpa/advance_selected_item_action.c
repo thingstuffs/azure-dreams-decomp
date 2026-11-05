@@ -18,15 +18,11 @@
 #include "dungeon/monster/pulunpa.h"
 #include "sdk/libc.h"
 #include "dungeon/system.h"
+#include "dungeon/data.h"
 
 extern void select_sprite_entry(void *, s32, s32);
 
 extern u8 pulunpa_action_resume_address[];
-extern u8 pulunpa_frame_set_1[];
-
-
-
-
 
 typedef struct S_80172798_5 {
     u8 pad_00[0xA];

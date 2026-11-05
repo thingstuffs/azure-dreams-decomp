@@ -22,7 +22,7 @@ GENERATED = re.compile(r'^S_(?:func_)?[0-9A-Fa-f]{8}(?:_\w+)?$')
 # It never exempts the enclosing function just because it contains a marker.
 MARKER = re.compile(r'^/\* BYTES: [^\n]+ \*/$')
 OTHER_VIEW = {'whole', 'halves', 'signed_bytes'}
-GENERIC_INDEX = re.compile(r'(?:->\s*(?:b|sb|h|sh|w|sw)|(?:->|\.)\s*bytes)\s*\[')
+GENERIC_INDEX = re.compile(r'(?:(?:->|\.)\s*(?:b|sb|h|sh|w|sw|bytes|Ints)|\bInts)\s*\[')
 ADDRESS_NAME = re.compile(r'[0-9A-Fa-f]{8}')
 INTEGER_TYPES = {
     's8': ('signed', 8), 'u8': ('unsigned', 8),
@@ -116,8 +116,9 @@ def check_union_inventory(current, tracked, baseline):
         old = tracked_by_id.get(row['id'])
         if old and old.get('members') != row['members']:
             problems.append(f'stale union members: {row["id"]}')
-        if old and old.get('status') == 'retire' and row['id'] not in baseline_set:
-            problems.append(f'retired union reintroduced: {row["id"]}')
+        if old and old.get('status') == 'retired':
+            problems.append(f'retired union definition still present: {row["id"]}' if row['id'] in baseline_set
+                            else f'retired union reintroduced: {row["id"]}')
     if len(current) > baseline['count']:
         problems.append(f'union count {len(current)} > baseline {baseline["count"]}')
     for row in current:
@@ -127,9 +128,9 @@ def check_union_inventory(current, tracked, baseline):
                 problems.append(f'new union lacks same-object proof: {row["id"]}')
     for row in tracked:
         status = row.get('status')
-        if status not in {'proven', 'unproven', 'retire'}:
+        if status not in {'proven', 'unproven', 'retire_candidate', 'retired'}:
             problems.append(f'bad union status: {row["id"]}')
-        if row['id'] not in live and status != 'retire':
+        if row['id'] not in live and status != 'retired':
             problems.append(f'orphan non-retired ledger row: {row["id"]}')
     return problems
 

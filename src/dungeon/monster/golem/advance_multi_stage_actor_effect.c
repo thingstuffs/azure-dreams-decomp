@@ -8,14 +8,13 @@
 #include "dungeon/effect/screen.h"
 #include "dungeon/player/object.h"
 #include "dungeon/system.h"
+#include "dungeon/data.h"
 
 extern void select_sprite_entry(void *, s32, s32);
 extern void spend_actor_mp(void *, s32);
 extern s32 create_randomized_offset_object(ActorRecord *, void *, SpriteFrameState *);
 
 extern u8 golem_direction_frames[8];
-extern u8 golem_frame_set_4[8];
-
 
 void advance_multi_stage_actor_effect(ActorRecord *body, void *incoming_entity, SpriteFrameState *sprite, ActorRecord *incoming_actor)
 {

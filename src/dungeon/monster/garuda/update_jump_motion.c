@@ -19,12 +19,11 @@
 #include "dungeon/item.h"
 #include "dungeon/actor.h"
 #include "dungeon/system.h"
+#include "dungeon/data.h"
 
 
 
 extern void select_sprite_entry(void *, s32, s32);
-
-extern u8 garuda_frame_set_3[];
 
 /* Starts the selected actor action, waits for completion, and resets its state. */
 void update_jump_motion_2(ActorRecord *action_state, ObjectPosition *motion, SpriteFrameState *sprite, ActorRecord *actor)

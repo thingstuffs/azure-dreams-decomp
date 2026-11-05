@@ -30,26 +30,23 @@ typedef struct RotatingClippedSpriteBody {
 } RotatingClippedSpriteBody;
 
 typedef struct TwoRowObjectGroupBody {
-    union { s16 s; u16 u; } unk_00;
-    union { u16 s; u16 u; s16 signed_value; } unk_02;
-    union { s16 s; u16 u; } unk_04;
+    s16 unk_00;
+    u16 unk_02;
+    s16 unk_04;
     u16 unk_06;
     s16 unk_08;
-    union { u16 s; s16 u; } unk_0A;
+    s16 unk_0A;
     s32 unk_0C;
     union {
         struct { s32 v; } at00;
         struct { u8 pad[0x3]; u8 v; } at03;
     } unk_10;
     u8 pad_14[0xC];
-    union {
-        u32 initial_payload[2];
-        struct {
-            u16 unk_20;
-            u16 unk_22;
-            u16 unk_24;
-            u8 pad_26[0x2];
-        } motion;
+    struct {
+        u16 unk_20;
+        u16 unk_22;
+        u16 unk_24;
+        u8 pad_26[0x2];
     } unk_20;
     struct {
         u16 unk_00;
@@ -120,7 +117,7 @@ typedef struct DirectionalActorEffectBody {
 /* Countdown, owning slot, and source record for a linked display sprite. */
 typedef struct FreeSlotDisplayEffectBody {
     u8 pad_00[0x2A];
-    union { s16 s; u16 u; } remaining;
+    u16 remaining;
     s16 fade_step;
     u8 pad_2E[0x4];
     s16 slot_index;
@@ -174,7 +171,7 @@ typedef struct EightPartTexturedRibbonBody {
     u8 pad_20[0x4];
     ObjectPosition *unk_24;
     u8 pad_28[0x34];
-    union { s32 s; s32 u; } unk_5C;
+    s32 unk_5C;
     s32 unk_60;
     u8 pad_64[0x10];
     u16 unk_74;
@@ -277,4 +274,8 @@ void project_textured_quad_or_callback(void *quad_arg, ObjectPosition *position,
 struct TargetParticleStatusSpellBody;
 void update_animated_effect_sprite(struct TargetParticleStatusSpellBody *effect, ObjectPosition *entity, SpriteFrameState *sprite);
 void create_eight_part_textured_ribbon(ActorRecord *source, void *origin, SpriteFrameState *unused, ObjectPosition *effect_position);
+void subtract_limit_or_flag_record(void *record);
+
+void create_source_positioned_object(ObjectPosition *source_pos, s16 initial_value);
+
 #endif

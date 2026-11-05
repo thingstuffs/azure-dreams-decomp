@@ -51,10 +51,10 @@ void advance_item_menu_object_animation(ItemMenuTransition *object) {
     S_800AE630_1 *position;
 
     position = ((S_800AE630_0 *)((u8 *)object - 0x10))->unk_DC;
-    scaled_x = object->unk_14.half.low * object->animation_step;
+    scaled_x = object->unk_14.low * object->animation_step;
     position->unk_08 = (s16) (((S_800AE630_0 *)((u8 *)object - 0x10))->unk_1C + (scaled_x / 4));
     position = ((S_800AE630_0 *)((u8 *)object - 0x10))->unk_DC;
-    scaled_y = object->unk_14.half.high * object->animation_step;
+    scaled_y = object->unk_14.high * object->animation_step;
     position->unk_0A = (s16) (((S_800AE630_0 *)((u8 *)object - 0x10))->unk_1E + (scaled_y / 4));
     position = ((S_800AE630_0 *)((u8 *)object - 0x10))->unk_DC;
     scaled_z = object->unk_18.half * object->animation_step;

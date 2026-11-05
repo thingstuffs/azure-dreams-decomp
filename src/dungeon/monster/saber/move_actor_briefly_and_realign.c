@@ -12,9 +12,7 @@ extern void select_sprite_entry(void *, s32, s32);
 
 #include "dungeon/monster/saber.h"
 #include "dungeon/actor.h"
-
-extern u8 saber_frame_set_10[];
-extern u8 saber_frame_set[];
+#include "dungeon/data.h"
 
 /* Applies a brief directional movement, then returns the actor to its grid position. */
 void move_actor_briefly_and_realign(ActorRecord *action, ObjectPosition *motion, SpriteFrameState *actor, ActorRecord *entity) {

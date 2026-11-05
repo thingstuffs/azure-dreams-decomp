@@ -17,6 +17,8 @@
 #include "dungeon/actor/status.h"
 #include "engine/node/allocation.h"
 #include "dungeon/effect/screen.h"
+#include "dungeon/data.h"
+#include "dungeon/effect/particle.h"
 
 typedef struct {
     s16 x;
@@ -29,12 +31,9 @@ typedef struct {
 
 extern Vec3sTable D_80170838;
 extern Vec3sTable D_8017084C;
-extern u8 viper_frame_set_4[];
-extern u8 viper_frame_set_3[];
 extern u8 viper_action_continuation_address[];
 extern void *actor_update_node_cursor[];
 s32 register_node(ObjectNodeHeader *entry, void *registration_id);
-extern void subtract_limit_or_flag_record();
 extern s32 draw_fading_linked_quads();
 extern u8 D_80174A8C;
 extern u8 D_80174A94;

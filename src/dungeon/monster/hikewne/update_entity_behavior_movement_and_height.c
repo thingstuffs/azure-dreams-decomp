@@ -9,6 +9,7 @@
 #include "engine/texture.h"
 #include "dungeon/actor.h"
 #include "sdk/libgte.h"
+#include "dungeon/data.h"
 
 typedef ActorActionHandler Callback;
 
@@ -17,8 +18,6 @@ extern void advance_sprite_animation_and_textures(void *);
 extern s32 refresh_actor_facing_and_lifecycle(void *, void *, void *, void *);
 
 extern void D_8016B4D4(void);
-extern u8 hikewne_frame_set_14[];
-extern u8 hikewne_frame_set_15[];
 extern Callback D_8016E168[];
 
 

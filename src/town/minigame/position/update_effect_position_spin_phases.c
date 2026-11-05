@@ -164,7 +164,7 @@ void update_effect_position_spin_phases(SpinPhaseWork *state_arg, ObjectPosition
     case 2:
         effect_arg->angle_z += speed_limit;
         if (distance >= 161 && view_reference_entity.y.v > 0x03600000 && spin_data->state == 5) {
-            (*(s16 *)&state_arg->phase_value) = speed_limit;
+            state_arg->phase_value = speed_limit;
             state_arg->phase = 3;
         }
         break;
@@ -189,7 +189,7 @@ void update_effect_position_spin_phases(SpinPhaseWork *state_arg, ObjectPosition
                 spin_data->sector = 2;
             }
         }
-        (*(s16 *)&spin_data->angle) = 0;
+        spin_data->angle = 0;
 
     case 4:
         if (spin_data->kind == 2) {
@@ -223,7 +223,7 @@ void update_effect_position_spin_phases(SpinPhaseWork *state_arg, ObjectPosition
 
     case 6:
         state_arg->phase = 7;
-        (*(s16 *)&state_arg->phase_value) = 0;
+        state_arg->phase_value = 0;
 
     case 7:
         for (dx = 0; dx < 3; dx++) {

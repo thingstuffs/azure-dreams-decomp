@@ -22,9 +22,9 @@ typedef struct S_801722E0_2 {
 
 extern void select_sprite_entry(void *object, s16 table_index, s16 entry_index);
 #include "dungeon/player/object/action_state.h"
+#include "dungeon/data.h"
 
 extern u8 D_80170838[16];
-extern u8 garuda_walk_text[16];
 extern u8 garuda_walk_direction_frames[9];
 
 #line 1 "a"

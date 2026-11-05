@@ -28,9 +28,9 @@ typedef struct {
 
 #include "dungeon/player/object/action_state.h"
 #include "dungeon/monster/picket.h"
+#include "dungeon/data.h"
 struct SpriteFrameState;
 extern void select_sprite_entry(void *, s16, s16);
-extern u8 picket_frame_set_4[];
 
 /* Clears the state flag and, when allowed, resets the entity and selects a directional object value. */
 void clear_the_state_flag_allowed_resets_entity_selects_directional(ActorRecord *entity, ObjectPosition *position, SpriteFrameState *sprite, ActorRecord *actor) {

@@ -6,6 +6,7 @@
 #include "shared/dir_step.h"
 #include "sdk/libc.h"
 #include "town/person/effects.h"
+#include "town/person/offset_effect_body.h"
 #include "slus.h"
 #include "town/person.h"
 #include "town/data.h"
@@ -24,11 +25,6 @@ typedef struct S_800ABC00_1 {
     s32 unk_0C;
     s32 unk_10;
 } S_800ABC00_1;   /* held_arg0 in spawn_person_offset_effect */
-
-typedef struct S_800ABC00_3 {
-    u8 pad_00[0x2];
-    s16 unk_02;
-} S_800ABC00_3;
 
 typedef struct {
     u8 pad0[8];
@@ -64,7 +60,7 @@ void spawn_person_offset_effect(void *source_data, u32 angle)
     u32 direction;
     SpriteFrameState *sprite;
     ObjectPosition *motion;
-    SubObject *effect_state;
+    PersonOffsetEffectBody *effect_state;
     Object *effect;
 
     source = source_data;
@@ -74,7 +70,7 @@ void spawn_person_offset_effect(void *source_data, u32 angle)
     if (effect != NULL) {
         motion = effect->unk8;
         sprite = effect->unkC;
-        effect_state = &effect->sub20;
+        effect_state = NODE_BODY(effect);
         effect->unk10 = update_person_effect_fade;
         register_node(effect, project_sprite_chain);
         x_steps = dir_step_x;
@@ -100,6 +96,6 @@ void spawn_person_offset_effect(void *source_data, u32 angle)
         sprite->scale_x = 0x1000;
         sprite->tpage_abr = 0x60;
         sprite->flags |= 0xC;
-        ((S_800ABC00_3 *)effect_state)->unk_02 = (rand() & 3) | 4;
+        effect_state->ticks_left = (rand() & 3) | 4;
     }
 }

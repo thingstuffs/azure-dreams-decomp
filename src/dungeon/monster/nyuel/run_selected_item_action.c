@@ -18,12 +18,11 @@
 #include "dungeon/actor.h"
 #include "dungeon/monster/nyuel.h"
 #include "dungeon/system.h"
+#include "dungeon/data.h"
 
 extern void select_sprite_entry(void *, s32, s32);
 
 extern u8 nyuel_action_resume_address[];
-extern u8 nyuel_frame_set_2[];
-
 
 typedef struct S_8017293C_5 {
     u8 pad_00[0xA];

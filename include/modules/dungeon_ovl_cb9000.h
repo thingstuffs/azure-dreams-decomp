@@ -212,7 +212,7 @@ typedef struct CL_CB9000_80171590_S_80171590_0 {
     u8 pad_20[0xA];
     s16 unk_2A;
     u8 pad_2C[0x45];
-    union { s8 s; u8 u; } unk_71;   /* accessed as both */
+    u8 unk_71;
     u8 pad_72[0x18];
     union { s16 s; u16 u; } unk_8A;   /* accessed as both */
 } CL_CB9000_80171590_S_80171590_0;   /* state in func_8016B590 */

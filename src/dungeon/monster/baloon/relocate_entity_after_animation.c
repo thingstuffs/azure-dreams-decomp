@@ -14,6 +14,7 @@
 #include "shared/entity.h"
 #include "dungeon/actor/state.h"
 #include "sdk/libc.h"
+#include "dungeon/effect/sprite.h"
 
 
 
@@ -24,7 +25,6 @@ extern u8 D_800E23C0[];
 
 void update_map_cell_flags_with_item_limit(s32 x, s32 y, u16 flags);
 
-extern void create_radial_effect_segments(ActorRecord *, void *, void *, ActorRecord *);
 extern void create_anchored_directional_object(void *, void *, void *, ActorRecord *, s32);
 extern void create_origin_motion_effect(ActorRecord *, ObjectPosition *, SpriteFrameState *, s32, s32, s32);
 

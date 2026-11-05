@@ -21,6 +21,7 @@
 #include "dungeon/actor.h"
 #include "dungeon/monster/kraken.h"
 #include "sdk/libc.h"
+#include "dungeon/data.h"
 
 /* Sparse views for fields not covered by the existing record types. */
 
@@ -40,7 +41,6 @@ typedef struct S_801727C8_5 {
 void create_two_effect_groups();
 extern u8 kraken_frame_set_1;
 extern u8 D_801741B4;
-extern u8 kraken_frame_set_5;
 
 /* Updates an actor's action state, target selection, and animation. */
 /* Starts a targeted Kraken spell with two effect groups, waits for loading and animation, then restores

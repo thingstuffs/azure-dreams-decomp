@@ -19,35 +19,6 @@
 
 
 
-typedef struct S_80174BEC_3 {
-    u8 pad_00[0x24];
-    s16 unk_24;
-    u8 pad_26[0x3A];
-    s32 unk_60;
-    s32 unk_64;
-    s32 unk_68;
-    u8 pad_6C[0x8];
-    s32 unk_74;
-    u8 pad_78[0x1E];
-    s16 unk_96;
-    u8 pad_98[0x3];
-    u8 unk_9B;
-    u8 pad_9C[0x8];
-    s32 unk_A4;
-    s32 unk_A8;
-    s32 unk_AC;
-    s32 unk_B0;
-} S_80174BEC_3;   /* motion in spawn_directional_particles_and_reset_actor */
-
-typedef struct S_80174BEC_4 {
-    u8 pad_00[0x8];
-    u8 * unk_08;
-    u8 * unk_0C;
-    void * unk_10;
-    u8 pad_14[0xC];
-    s16 unk_20;
-} S_80174BEC_4;   /* object in spawn_directional_particles_and_reset_actor */
-
    /* position in spawn_directional_particles_and_reset_actor */
 
 
@@ -225,14 +196,14 @@ void spawn_directional_particles_and_reset_actor(ActorRecord *state, ObjectPosit
                         s32 position_z;
                         s32 position_y;
                         ObjectPosition *position;
-                        S_80174BEC_3 *motion;
+                        GrowingCollidingEffectBody *motion;
                         SpriteFrameState *render;
                         SpriteFrameState *map;
                         u32 direction_offset;
 
                         motion = NODE_BODY(particle);
                         motion->unk_24 = 0x19 - state->action_timer.u;
-                        ((S_80174BEC_4 *)particle)->unk_20 = 0;
+                        motion->unk_00 = 0;
                         particle->update_callback = update_growing_colliding_effect;
                         register_node(particle, project_sprite_chain);
 

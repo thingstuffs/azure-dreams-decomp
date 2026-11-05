@@ -18,13 +18,11 @@
 #include "dungeon/monster/death.h"
 #include "dungeon/monster/metal.h"
 #include "dungeon/system.h"
+#include "dungeon/data.h"
 
 extern void select_sprite_entry(void *, s32, s32);
 
 extern u8 metal_action_resume_address[];
-extern u8 metal_frame_set_1[];
-
-
 
 /* Updates an item action, its animation, particle effects, and completion state. */
 /* Starts a targeted spell with returning particles and a 20-particle burst, then restores idle after a

@@ -71,10 +71,6 @@ typedef struct S_807AE960_3 {
     u16 unk_371A;
 } S_807AE960_3;   /* global in advance_dungeon_tile_action_state */
 
-typedef struct S_807AE960_4 {
-    u8 pad_00[0xA];
-    s16 unk_0A;
-} S_807AE960_4;   /* actor in advance_dungeon_tile_action_state */
 
 typedef struct S_807AE960_5 {
     u8 pad_00[0x14];
@@ -94,7 +90,7 @@ extern s32 cd_cue_base;
 
 /* Dispatch the CD-audio fade state machine, then step the actor's shake counter and raise the finished flag. */
 void advance_dungeon_tile_action_state(SlotViewMarkerBody *state, u8 *actor_arg, u8 *target_arg) {
-    S_807AE960_4 *actor = actor_arg;
+    ObjectPosition *actor = actor_arg;
     S_807AE960_2 *target = target_arg;
     s16 steps;
     s32 dispatch_index;
@@ -182,15 +178,15 @@ void advance_dungeon_tile_action_state(SlotViewMarkerBody *state, u8 *actor_arg,
     if (countdown != 0) {
         countdown = countdown_u - 1;
         state->unk_0C = countdown;
-        actor_pos = actor->unk_0A;
+        actor_pos = actor->z.w.i;
         if (countdown & 1) {
             countdown = actor_pos + 1;
         } else {
             countdown = actor_pos - 1;
         }
-        actor->unk_0A = countdown;
+        actor->z.w.i = countdown;
         if (state->unk_0C == 0) {
-            actor->unk_0A = (s16) state->unk_0E;
+            actor->z.w.i = (s16) state->unk_0E;
         }
     }
     if ((s16)state->unk_00 != 0) {
@@ -948,14 +944,6 @@ typedef struct S_807AFB48_5 {
     s32 unk_14;
 } S_807AFB48_5;   /* ((S_807AFB48_3 *)arg0)->unk_00 in func_800F7348 */
 
-typedef struct S_807AFB48_0 {
-    u8 pad_00[0x2];
-    s16 unk_02;
-    u8 pad_04[0x2];
-    s16 unk_06;
-    u8 pad_08[0x2];
-    s16 unk_0A;
-} S_807AFB48_0;   /* arg1 in func_800F7348 */
 
 typedef struct S_807AFB48_1 {
     u16 unk_00;
@@ -971,21 +959,21 @@ typedef struct S_807AFB48_2 {
 } S_807AFB48_2;   /* arg2 in func_800F7348 */
 
 /* Advances position and selected color channels toward their targets and flags completion. */
-void converge_particle_position_and_color(void *transition_arg, S_807AFB48_0 *position, S_807AFB48_2 *color) {
+void converge_particle_position_and_color(void *transition_arg, ObjectPosition *position, S_807AFB48_2 *color) {
     S_807AFB48_3 *transition = transition_arg;
     s16 steps_left;
     s32 color_bits;
     u8 next_level;
 
-    position->unk_02 = (s16) ((u16) position->unk_02
+    position->x.w.i = (s16) ((u16) position->x.w.i
         + ((s32) (((S_807AFB48_4 *)(transition->unk_04))->unk_02
-        - position->unk_02) / (s16) ((S_807AFB48_1 *)((u8 *)transition - 0x2))->unk_0E));
-    position->unk_06 = (s16) ((u16) position->unk_06
+        - position->x.w.i) / (s16) ((S_807AFB48_1 *)((u8 *)transition - 0x2))->unk_0E));
+    position->y.w.i = (s16) ((u16) position->y.w.i
         + ((s32) (((S_807AFB48_4 *)(transition->unk_04))->unk_06
-        - position->unk_06) / (s16) ((S_807AFB48_1 *)((u8 *)transition - 0x2))->unk_0E));
-    position->unk_0A = (s16) ((u16) position->unk_0A
+        - position->y.w.i) / (s16) ((S_807AFB48_1 *)((u8 *)transition - 0x2))->unk_0E));
+    position->z.w.i = (s16) ((u16) position->z.w.i
         + ((s32) (((S_807AFB48_4 *)(transition->unk_04))->unk_0A
-        - position->unk_0A) / (s16) ((S_807AFB48_1 *)((u8 *)transition - 0x2))->unk_0E));
+        - position->z.w.i) / (s16) ((S_807AFB48_1 *)((u8 *)transition - 0x2))->unk_0E));
     color_bits = color->unk_0E | (color->unk_0C | color->unk_0D);
     next_level = color_bits + ((s32) (0xC0 - color_bits) / (s16) ((S_807AFB48_1 *)((u8 *)transition - 0x2))->unk_0E);
     if (((S_807AFB48_5 *)(transition->unk_00))->unk_14 & 1) {

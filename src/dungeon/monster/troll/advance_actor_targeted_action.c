@@ -18,6 +18,7 @@
 #include "dungeon/item.h"
 #include "dungeon/actor.h"
 #include "sdk/libc.h"
+#include "dungeon/data.h"
 
 
 typedef struct S_8017472C_6 {
@@ -28,9 +29,6 @@ typedef struct S_8017472C_6 {
 
 extern s32 D_8008346C;
 extern u8 troll_action_dispatch_address[];
-extern u8 troll_frame_set_1[];
-extern u8 troll_frame_set_2[];
-extern u8 troll_frame_set_3[];
 
 /* Updates an actor's action state, target coordinates, animation, and completion. */
 /* Starts a targeted Troll spell, emits ten particles per casting tick and a flash, then restores the

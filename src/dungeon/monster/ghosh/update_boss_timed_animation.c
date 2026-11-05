@@ -5,11 +5,9 @@
 #include "dungeon/player/object.h"
 #include "dungeon/monster/ghosh.h"
 #include "sdk/libgte.h"
+#include "dungeon/data.h"
 
 extern void select_sprite_entry(void *, s32, s32);
-
-extern u8 ghosh_frame_set_8[];
-extern u8 ghosh_frame_bank[];
 
 
 typedef struct S_801740F8_2 {

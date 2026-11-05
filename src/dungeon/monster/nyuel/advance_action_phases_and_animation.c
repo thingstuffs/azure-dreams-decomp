@@ -12,12 +12,9 @@
 #include "dungeon/actor/status.h"
 #include "dungeon/actor.h"
 #include "dungeon/effect/screen.h"
+#include "dungeon/data.h"
 
 void spend_actor_mp(ActorRecord *entity, s32 base_reduction);
-extern u8 nyuel_frame_set_9;
-extern u8 nyuel_frame_set_10;
-extern u8 nyuel_frame_set_4;
-
 
 /* Advance the action phases, updating movement and directional animation. */
 void advance_action_phases_and_animation(ActorRecord *action, ObjectPosition *motion, SpriteFrameState *sprite, ActorRecord *actor) {

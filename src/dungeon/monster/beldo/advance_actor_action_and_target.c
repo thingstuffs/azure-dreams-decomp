@@ -16,6 +16,7 @@
 #include "sdk/libc.h"
 #include "dungeon/system.h"
 #include "dungeon/monster/beldo.h"
+#include "dungeon/data.h"
 
 struct S_80170E18_3;
 
@@ -28,7 +29,6 @@ typedef struct {
 extern s32 select_sprite_entry();
 extern void create_effect_from_sprite_and_facing(void *unused, MovingPosition *source_transform, void *sprite_template, struct S_80170E18_3 *facing_source);
 
-extern u8 beldo_frame_set_1[8];
 extern u8 D_80173EDC[8];
 
 typedef struct S_8017256C_0 {

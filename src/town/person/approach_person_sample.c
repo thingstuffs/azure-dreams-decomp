@@ -37,9 +37,9 @@ void approach_person_sample(Rec_func_800AB030_arg0 *state, S_800AB5C0_1 *coords)
     ticks_left = state->unk_6C - 1;
     state->unk_6C = ticks_left;
     if ((s16)ticks_left < 0) {
-        coords->unk_0E = (*(u16 *)&coords->unk_02) = sampled_coords[1];
-        coords->unk_12 = (*(u16 *)&coords->unk_06) = sampled_coords[3];
-        coords->unk_16 = (*(u16 *)&coords->unk_0A) = sampled_coords[5];
+        coords->unk_0E = coords->unk_02 = sampled_coords[1];
+        coords->unk_12 = coords->unk_06 = sampled_coords[3];
+        coords->unk_16 = coords->unk_0A = sampled_coords[5];
         state->unk_50 = update_person_coordinates;
         state->unk_6C = 150;
         return;

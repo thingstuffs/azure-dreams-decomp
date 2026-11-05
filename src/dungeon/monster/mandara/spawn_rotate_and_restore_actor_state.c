@@ -134,7 +134,7 @@ void spawn_rotate_and_restore_actor_state(ActorRecord *effect, ObjectPosition *m
         display_text_with_fullwidth_adjustment(previous_context);
         play_sound_if_enabled(0x60A);
 
-        tile = ((ObjectNodeHeader *)(((S_80174668_2 *)actor)->unk_60 - 0x20))->sprite;
+        tile = NODE_HEADER(((S_80174668_2 *)actor)->unk_60)->sprite;
         actor->target_tile_x = tile->tile_x;
         actor->target_tile_y = tile->tile_y;
         center.x = spawn.x + (spawn.dx >> 1);

@@ -37,7 +37,7 @@ void lower_value_toward_target(ObjectNodeHeader *object) {
         adjustment >>= 2;
         state->unk_08 = current_bits + adjustment;
     } else {
-        (*(u16 *)&state->unk_08) = ((ValueTransition *)object)->target;
+        state->unk_08 = ((ValueTransition *)object)->target;
         (object)[-1].update_callback = refresh_formatted_global_display;
     }
 

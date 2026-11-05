@@ -14,6 +14,7 @@
 #include "town/menu.h"
 #include "town/player.h"
 #include "town/data.h"
+#include "town/scene.h"
 
 #ifndef NULL
 #define NULL 0
@@ -33,7 +34,6 @@ extern s16 SD_Call(s32 value);
 extern void *create_dual_buffer_object(s32 setup_value, s32 x, s32 y);
 extern void *create_familiar_deployment_effect_with_owner_state(void);
 extern void register_node(void *entry, void *registration_id);
-extern void configure_the_set_mode_n_1(void *record, void *setup_value, void *setup_param);
 
 typedef struct ReelSlotCursor {
     u8 pad_00[0x4C];

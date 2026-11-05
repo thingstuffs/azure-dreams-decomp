@@ -9,8 +9,6 @@
 #include "engine/node.h"
 #include "slus.h"
 
-typedef struct S_801720D0_0 S_801720D0_0;
-
 struct Dst;
 struct Elem;
 

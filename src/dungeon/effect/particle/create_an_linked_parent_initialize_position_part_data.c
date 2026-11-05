@@ -44,17 +44,17 @@ void fade_linked_display_sprite(FreeSlotDisplayEffectBody *effect, void *unused_
     s32 scale;
     u16 ticks_left;
 
-    ticks_left = effect->remaining.u - 1;
+    ticks_left = effect->remaining - 1;
     scale = (s32)((s32)(ticks_left << 0x10) >> 9) / (s16)effect->fade_step;
     parent_effect_update_flag = 1;
-    effect->remaining.u = ticks_left;
+    effect->remaining = ticks_left;
     effect_params->unk_0D = (u8)(effect_params->unk_0D - 4);
     effect_params->unk_0E = (s8)scale;
     effect_params->unk_0C = (s8)scale;
     if (effect_params->unk_06 >= -6) {
         effect_params->unk_06 = (s16)((u16)effect_params->unk_06 - 2);
     }
-    if ((s16)((u16)effect->remaining.u) <= 0) {
+    if ((s16)((u16)effect->remaining) <= 0) {
         ((S_81994800_2 *)(((effect->slot_index * 2) + ((u8 *)effect->owner))))->unk_46 = 0;
         (*(u16 *)((u8 *)effect + -2)) = (u16)(NODE_HEADER(effect)->flags | NODE_REMOVE);
         object_flag_block.flags = object_flag_block.flags | OBJECT_REMOVE_PENDING;
@@ -144,7 +144,7 @@ void spawn_free_slot_display_effect(DisplaySpawnerEffectBody *owner) {
         child = allocate_flagged_object_node(0x212);
         if (child != 0) {
             child_work = NODE_BODY(child);
-            child_work->remaining.s = 7;
+            child_work->remaining = 7;
             child_work->fade_step = 7;
             child_work->slot_index = slot;
             child_work->owner = owner;

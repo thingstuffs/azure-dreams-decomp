@@ -9,6 +9,7 @@
 #include "dungeon/item.h"
 #include "dungeon/player/object.h"
 #include "sdk/libgte.h"
+#include "dungeon/data.h"
 
 typedef struct {
     u8 pad00[0x8C];
@@ -55,8 +56,6 @@ typedef struct {
 } Entity;
 
 extern u8 metal_action_resume_address[];
-extern u8 metal_movement_frames[];
-extern u8 metal_frame_set_2[];
 
 struct SpriteFrameState;
 extern void select_sprite_entry(void *, s16, s16);

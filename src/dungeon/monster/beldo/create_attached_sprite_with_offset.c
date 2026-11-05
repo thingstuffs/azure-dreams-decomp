@@ -7,6 +7,7 @@
 #include "m2c_compat.h"
 #include "shared/dungeon_moving_views.h"
 #include "dungeon/monster/beldo.h"
+#include "dungeon/data.h"
 
 
 
@@ -21,7 +22,6 @@ typedef struct {
 } Copy4;
 
 extern void *beldo_object_callback[];
-extern u8 beldo_frame_set_3[8];
 extern s32 resolve_record_orientation_or_fallback();
 extern void *allocate_list_node();
 extern s32 register_node();

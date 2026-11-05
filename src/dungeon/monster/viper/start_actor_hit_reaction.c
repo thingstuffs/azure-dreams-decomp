@@ -8,8 +8,8 @@
 
 extern void select_sprite_entry(void *, u8, s32);
 #include "dungeon/player/object/action_state.h"
+#include "dungeon/data.h"
 extern s32 generate_random_value(void);
-extern u8 viper_frame_set_1[];
 
 /* Start the actor's hit reaction: clear its flags, give it a random spin and arm the matching sprite frame. */
 void start_actor_hit_reaction(ActorRecord *work, ObjectPosition *part_a, SpriteFrameState *part_b, ActorRecord *actor) {

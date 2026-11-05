@@ -4,13 +4,13 @@
 #include "shared/dungeon_status.h"
 #include "shared/entity.h"
 #include "dungeon/monster/golem.h"
+#include "dungeon/data.h"
 
 typedef struct S_80047784 S_80047784;
 
 
 struct SpriteFrameState;
 void select_sprite_entry(void *, s16, s16);         /* extern */
-extern u8 golem_frame_set_2;
 
 /* Advance the timer and reset the state and directional sprite after 60 ticks. */
 void advance_timed_directional_reset(ActorRecord *body, ObjectPosition *position, SpriteFrameState *sprite, ActorRecord *actor) {

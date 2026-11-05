@@ -8,13 +8,12 @@
 #include "shared/entity.h"
 #include "records/Rec_D_80082E80.h"
 #include "dungeon/player/object.h"
+#include "dungeon/data.h"
 
 
 
 extern void select_sprite_entry(void *, s32, s32);
 
-extern u8 griffon_slot_c_action_callback;
-extern u8 griffon_frame_set_9[];
 extern u8 D_8015CC74[];
 
 /* Updates directional motion, then settles the entity at its tile center. */

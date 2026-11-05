@@ -2,6 +2,7 @@
 #include "frontend/card/menu.h"
 #include "frontend/card/service.h"
 #include "main/data.h"
+#include "frontend/card.h"
 
 typedef struct S_80407E64_0_pre {
     void * unk_00;
@@ -17,9 +18,6 @@ typedef struct S_80407E64_0 {
     s32 unk_38;
 } S_80407E64_0;   /* arg0 in card_boot_poll_status_and_select_context */
 
-extern void reset_card_selection_state(void);
-extern void card_dev_show_no_memory_card_notice(void *context);
-extern void card_dev_show_format_failure_notice(void *context);
 extern void initialize_card_message_object_with_code_0xd(void *context);
 
 /* Polls the status and selects the corresponding context update and data. */

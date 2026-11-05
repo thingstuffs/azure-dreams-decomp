@@ -483,11 +483,13 @@ typedef struct {
     u16 field1E;
 } SpawnState;
 
-typedef struct {
-    void *parent;
-    u8 pad4[0x48];
-    u16 field4C;
-} SpawnChild;
+/* Trail-particle body initialized by the two landing creators and consumed by
+ * move_sprite_until_animation_ends through the node update slot. */
+typedef struct AnimationTrailParticleBody {
+    void *owner;
+    u8 pad_04[0x48];
+    u16 unk_4C;
+} AnimationTrailParticleBody;
 
 typedef struct {
     u8 pad0[8];
@@ -495,7 +497,7 @@ typedef struct {
     SpriteFrameState *state;
     void *callback;
     u8 pad14[0xC];
-    SpawnChild child;
+    AnimationTrailParticleBody child;
 } Spawn;
 
 typedef struct Actor {
@@ -604,7 +606,7 @@ void build_and_enqueue_five_translucent_quads_between_interpolated_points(Actor 
                     s32 packed_color;
                     s32 data_word;
                     SpriteFrameState *state;
-                    SpawnChild *child;
+                    AnimationTrailParticleBody *child;
                     s32 target_y;
                     s32 start_y;
                     u16 start_y_bits;
@@ -645,8 +647,8 @@ void build_and_enqueue_five_translucent_quads_between_interpolated_points(Actor 
                     state->color.word = (0xC00000 | 0x6060);
                     state->source = data_word;
                     data_word = (s32)actor->field0;
-                    child->field4C = 0;
-                    child->parent = (void *)data_word;
+                    child->unk_4C = 0;
+                    child->owner = (void *)data_word;
                 }
                 remaining = remaining - 1;
             } while (remaining >= 0);
@@ -654,20 +656,8 @@ void build_and_enqueue_five_translucent_quads_between_interpolated_points(Actor 
     }
 }
 
-typedef struct S_8197D3B8_0 {
-    s32 unk_00;
-    s32 unk_04;
-    s32 unk_08;
-    s32 unk_0C;
-    s32 unk_10;
-    s32 unk_14;
-} S_8197D3B8_0;   /* arg1 in func_80024BB8 */
 
    /* the 0x2 bytes before arg0 in func_80024BB8, addressed as arg0[-1] */
-
-typedef struct S_8197D3B8_1 {
-    void * unk_00;
-} S_8197D3B8_1;   /* arg0 in func_80024BB8 */
 
 typedef struct S_8197D3B8_2 {
     u8 pad_00[0x52];
@@ -677,19 +667,20 @@ typedef struct S_8197D3B8_2 {
 /* Applies motion deltas, marks the primitive, and propagates status flags. */
 void move_sprite_until_animation_ends(void *render_entry, void *motion_data, void *render_status)
 {
-    S_8197D3B8_0 *motion = motion_data;
+    AnimationTrailParticleBody *particle = render_entry;
+    ObjectPosition *motion = motion_data;
     SpriteFrameState *status = render_status;
     s32 delta_y;
     s32 delta_z;
     S_8197D3B8_2 *primitive;
 
-    delta_y = motion->unk_10;
-    delta_z = motion->unk_14;
-    motion->unk_00 += motion->unk_0C;
-    motion->unk_04 += delta_y;
-    motion->unk_08 += delta_z;
+    delta_y = motion->velocity_y;
+    delta_z = motion->velocity_z;
+    motion->x.v += motion->velocity_x;
+    motion->y.v += delta_y;
+    motion->z.v += delta_z;
 
-    primitive = ((S_8197D3B8_1 *)render_entry)->unk_00;
+    primitive = particle->owner;
     primitive->unk_52 |= 0x8000;
 
     advance_sprite_animation_and_textures(status);
@@ -711,25 +702,11 @@ typedef struct S_8197D468_4 {
     void * unk_04;
 } S_8197D468_4;   /* &D_800DE990 in update_rising_landing_effect */
 
-typedef struct S_8197D468_5 {
-    u8 pad_00[0x8];
-    void * unk_08;
-    void * unk_0C;
-    s32 * unk_10;
-    u8 pad_14[0xC];
-    void * unk_20;
-} S_8197D468_5;
-
-typedef struct S_8197D468_8 {
-    u8 pad_00[0x4C];
-    s16 unk_4C;
-} S_8197D468_8;
-
 /* cfail-repair: tf7-phase1-cache-v3 */
 
 /* Update a rising, expanding, and falling effect, spawning particles on landing. */
 void update_rising_landing_effect(RisingLandingEffectBody *effect, ObjectPosition *motion, SpriteFrameState *sprite) {
-    S_8197D468_8 *particle_work;
+    AnimationTrailParticleBody *particle_work;
     s16 state;
     s16 ground_height;
     s32 particle_index;
@@ -847,7 +824,7 @@ void update_rising_landing_effect(RisingLandingEffectBody *effect, ObjectPositio
                     particle_sprite->color.word = particle_color;
                     particle_sprite->source = particle_frames;
                     effect_data = effect->owner;
-                    ((S_8197D468_5 *)particle)->unk_20 = effect_data;
+                    particle_work->owner = effect_data;
                     particle_work->unk_4C = 0;
                 }
                 particle_index -= 1;

@@ -425,10 +425,10 @@ void advance_block_path_slot_f(void *motion, ObjectPosition *update_param, void 
     s16 stored_result;
     s32 result_code;
 
-    if (((CL_CB9000_80171590_S_80171590_0 *)state)->unk_71.s <= 0) {
+    if (((s8)((CL_CB9000_80171590_S_80171590_0 *)state)->unk_71) <= 0) {
         return;
     }
-    if (!((s32)((CL_CB9000_80171590_S_80171590_0 *)state)->unk_71.u > ((CL_CB9000_80171590_S_80171590_0 *)state)->unk_8A.s)) {
+    if (!((s32)((CL_CB9000_80171590_S_80171590_0 *)state)->unk_71 > ((CL_CB9000_80171590_S_80171590_0 *)state)->unk_8A.s)) {
         return;
     }
 
@@ -501,7 +501,7 @@ void advance_block_path_slot_f(void *motion, ObjectPosition *update_param, void 
     }
     ((CL_CB9000_80171590_S_80171590_2 *)motion)->unk_96 = 8;
     {
-        s32 step_count = ((CL_CB9000_80171590_S_80171590_0 *)state)->unk_71.u;
+        s32 step_count = ((CL_CB9000_80171590_S_80171590_0 *)state)->unk_71;
         if (step_count > 0) {
             ((CL_CB9000_80171590_S_80171590_2 *)motion)->unk_96 = 8 / step_count;
         }

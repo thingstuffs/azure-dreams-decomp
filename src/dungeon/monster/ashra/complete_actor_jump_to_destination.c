@@ -12,6 +12,7 @@
 #include "dungeon/player/object.h"
 #include "dungeon/actor/status.h"
 #include "dungeon/item.h"
+#include "dungeon/data.h"
 
 typedef struct S_80172258_0 {
     u8 pad_00[0x8C];
@@ -30,8 +31,6 @@ void spend_actor_mp(ActorRecord *entity, s32 base_reduction);
 
 
 extern u8 ashra_action_continuation_address;
-extern u8 ashra_frame_set_1[];
-extern u8 ashra_frame_set_2[];
 
 /* Updates a jump toward the destination tile and completes movement when its timer expires. */
 void complete_actor_jump_to_destination(ActorRecord *jump, ObjectPosition *motion, void *sprite, void *actor) {

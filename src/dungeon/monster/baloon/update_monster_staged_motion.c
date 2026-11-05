@@ -9,6 +9,7 @@
 #include "dungeon/player/object.h"
 #include "sdk/libgte.h"
 #include "dungeon/system.h"
+#include "dungeon/data.h"
 
 
 typedef struct {
@@ -28,7 +29,6 @@ void update_map_cell_flags_with_item_limit(s32 x, s32 y, u16 flags);
 extern s32 check_left_tile_and_center_height(u16, u16, s16);
 extern s16 sample_terrain_surface_height(u16, u16, s16);
 
-extern u8 baloon_hop_frames[];
 extern LocalTable baloon_motion_direction_vectors;
 
 

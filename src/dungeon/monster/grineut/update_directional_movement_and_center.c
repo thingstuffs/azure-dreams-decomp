@@ -8,12 +8,11 @@
 #include "shared/entity.h"
 #include "records/Rec_D_80082E80.h"
 #include "dungeon/player/object.h"
+#include "dungeon/data.h"
 
 
 extern void select_sprite_entry(void *, s32, s32);
 
-extern u8 grineut_slot_d_action_callback;
-extern u8 grineut_frame_set_10[];
 extern u8 D_80162178[];
 
 /* Updates directional movement and settles the actor at its tile center. */

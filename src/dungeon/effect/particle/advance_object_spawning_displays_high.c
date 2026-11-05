@@ -39,17 +39,17 @@ void fade_tinted_display_sprite(FreeSlotDisplayEffectBody *effect, void *unused,
     s32 shade;
     u16 frames_left;
 
-    frames_left = effect->remaining.u - 1;
+    frames_left = effect->remaining - 1;
     shade = (s32)((s32)(frames_left << 0x10) >> 9) / effect->fade_step;
     tint_particle_effect_updated = 1;
-    effect->remaining.u = frames_left;
+    effect->remaining = frames_left;
     primitive->unk_0E = (s8)shade;
     primitive->unk_0D = (s8)shade;
     primitive->unk_0C = (s8)(shade + 0x10);
     if (primitive->unk_06 >= -6) {
         primitive->unk_06 = (s16)((u16)primitive->unk_06 - 2);
     }
-    if ((s16)((u16)effect->remaining.u) <= 0) {
+    if ((s16)((u16)effect->remaining) <= 0) {
         ((S_81940800_2 *)(((effect->slot_index * 2) + ((u8 *)effect->owner))))->unk_46 = 0;
         (*(u16 *)((u8 *)effect + -2)) = (u16)(((S_81940800_0_pre *)effect)[-1].unk_00 | NODE_REMOVE);
         object_flag_block.flags = object_flag_block.flags | OBJECT_REMOVE_PENDING;
@@ -108,7 +108,7 @@ void spawn_free_slot_display_effect(DisplaySpawnerEffectBody *owner) {
         effect = allocate_flagged_object_node(0x212);
         if (effect != 0) {
             effect_work = NODE_BODY(effect);
-            effect_work->remaining.s = 7;
+            effect_work->remaining = 7;
             effect_work->fade_step = 7;
             effect_work->slot_index = slot;
             effect_work->owner = owner;

@@ -12,6 +12,7 @@
 #include "engine/graphics.h"
 #include "dungeon/system.h"
 #include "dungeon/actor/state.h"
+#include "dungeon/data.h"
 
 
 
@@ -19,9 +20,6 @@
 
 extern s16 floor_generation_state[3];
 extern u8 picket_action_resume_address[];
-extern u8 picket_frame_set_2[];
-extern u8 picket_frame_set_1[];
-extern u8 picket_frame_set_8[];
 extern u16 D_80174FC4[];
 extern u16 D_80174FD4[];
 

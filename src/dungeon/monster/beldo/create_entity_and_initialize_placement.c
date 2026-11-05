@@ -9,11 +9,11 @@
 #include "dungeon/monster/beldo.h"
 #include "dungeon/actor.h"
 #include "engine/node.h"
+#include "dungeon/data.h"
 
 s32 register_node();
 void initialize_actor_sprite_and_animation();
 s32 func_80173C30(void);
-extern u8 beldo_frame_set_1[8];
 extern void *beldo_active_entity;
 
 

@@ -171,7 +171,7 @@ void run_collection_round_sequence(TownCollectionSequence *sequence) {
 
     case 2:
         position_x = (u16 *)((s8 *)&town_motion_state + 2);
-        (*(s16 *)&((S_80527D5C_3 *)(&collection_round_work))->unk_10) = ((u16) ((s16)((S_80527D5C_3 *)(&collection_round_work))->unk_10) + 0x200) & 0xFFF;
+        ((S_80527D5C_3 *)(&collection_round_work))->unk_10 = ((u16) ((s16)((S_80527D5C_3 *)(&collection_round_work))->unk_10) + 0x200) & 0xFFF;
         if ((s16) *position_x < 0x420) {
             *position_x = 0x420;
         }

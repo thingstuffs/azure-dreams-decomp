@@ -11,12 +11,11 @@
 #include "dungeon/item.h"
 #include "dungeon/monster/ghosh.h"
 #include "sdk/libgte.h"
+#include "dungeon/data.h"
 
 extern void select_sprite_entry(void *, s32, s32);
 
 extern u8 ghosh_action_resume_address[];
-extern u8 ghosh_frame_set_3[];
-extern u8 ghosh_frame_set_4[];
 
 typedef struct S_8016CB80_0 {
     u8 pad_00[0x8C];

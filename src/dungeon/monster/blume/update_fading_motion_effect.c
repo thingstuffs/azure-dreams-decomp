@@ -19,10 +19,6 @@ typedef struct S_80171284_0 {
     u16 unk_50;
 } S_80171284_0;   /* arg0 in update_fading_motion_effect */
 
-typedef struct S_80171284_1 {
-    u8 pad_00[0xA];
-    u16 unk_0A;
-} S_80171284_1;   /* arg1 in update_fading_motion_effect */
 
 typedef struct S_80171284_2 {
     u8 pad_00[0xC];
@@ -35,7 +31,7 @@ typedef struct S_80171284_2 {
 /* Update the effect countdown and motion, fade its color, and flag expiration. */
 void update_fading_motion_effect(void *effect_arg, void *transform_arg, void *color_arg) {
     S_80171284_2 *color = color_arg;
-    S_80171284_1 *transform = transform_arg;
+    ObjectPosition *transform = transform_arg;
     S_80171284_0 *effect = effect_arg;
     u16 next_value;
     u16 next_total;
@@ -63,7 +59,7 @@ void update_fading_motion_effect(void *effect_arg, void *transform_arg, void *co
     if ((s16)effect->unk_24 < 11) {
         next_value = effect->unk_2C + 2;
         effect->unk_2C = next_value;
-        transform->unk_0A = transform->unk_0A - next_value;
+        transform->z.unsigned_parts.integer = transform->z.unsigned_parts.integer - next_value;
     }
 
     ticks_left = ((s16)effect->unk_24);

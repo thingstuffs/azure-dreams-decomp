@@ -5,13 +5,13 @@
 #include "dungeon/item.h"
 #include "dungeon/item/message.h"
 #include "dungeon/system.h"
+#include "dungeon/data.h"
 
 extern s32 generate_random_value(void);
 
 extern char D_800E1A88[];
 extern char D_800E1A9D[];
 extern char D_800E1AC2[];
-extern char stack_split_text[];
 
 /* Roll the actor's stack-split chance; on a hit decrement the stack and post the split message. */
 s32 roll_actor_stack_split(ActorRecord *actor, s32 chance)

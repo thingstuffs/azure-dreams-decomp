@@ -7,6 +7,7 @@ This is a lexical guard. A flagged mixed use needs a whole-file review before la
 from __future__ import annotations
 
 import argparse
+from collections import defaultdict
 import difflib
 from pathlib import Path
 import re
@@ -31,14 +32,20 @@ def swaps_from_diff(patch: str) -> set[tuple[str, str, str]]:
         for a, b in pairs:
             before = list(ACCESS.finditer(removed[a]))
             after = list(ACCESS.finditer(added[b]))
-            # A retired field can remove one access from the line while other
-            # unions on that line remain unchanged.  Positional zipping would
-            # misreport the later accesses as member renames.
-            if [m['field'] for m in before] != [m['field'] for m in after]:
-                continue
-            for old, new in zip(before, after):
-                if old['field'] == new['field'] and old['member'] != new['member']:
-                    swaps.add((old['field'], old['member'], new['member']))
+            before_fields, after_fields = defaultdict(list), defaultdict(list)
+            for match in before:
+                before_fields[match['field']].append(match['member'])
+            for match in after:
+                after_fields[match['field']].append(match['member'])
+            for field, old_members in before_fields.items():
+                new_members = after_fields.get(field, ())
+                # A removed access to the same field leaves its occurrence
+                # mapping ambiguous. Other fields can still be checked.
+                if len(old_members) != len(new_members):
+                    continue
+                for old, new in zip(old_members, new_members):
+                    if old != new:
+                        swaps.add((field, old, new))
         removed.clear()
         added.clear()
 

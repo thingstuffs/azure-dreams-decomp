@@ -5,14 +5,11 @@
 #include "shared/dungeon_status.h"
 #include "dungeon/item.h"
 #include "dungeon/monster/beldo.h"
+#include "dungeon/data.h"
 
 extern s32 select_sprite_entry();
 extern void cycle_map_cell_flags();
 void update_map_cell_flags_with_item_limit(s32 x, s32 y, u16 flags);
-
-extern u8 beldo_frame_set_1[8];
-
-
 
 /* Advances a queued movement step and updates position, direction, and timing. */
 void advance_queued_movement_step(ActorRecord *motion, ObjectPosition *unused, SpriteFrameState *sprite, ActorRecord *path) {

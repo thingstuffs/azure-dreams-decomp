@@ -13,6 +13,7 @@
 #include "sdk/libc.h"
 #include "dungeon/system.h"
 #include "dungeon/monster/viper.h"
+#include "dungeon/data.h"
 
 typedef struct {
     Fixed1616 x;
@@ -69,8 +70,6 @@ typedef struct {
 
 extern TileRecord dungeon_ground_item_positions[];
 extern u8 D_80174A74[];
-extern u8 viper_frame_set_1[];
-extern u8 viper_frame_set_5[];
 extern void *actor_update_node_cursor[];
 
 extern s32 find_floor_item_at_world_position(s16, s16, s16); /* Unprototyped: retail call narrows its arguments to this declaration; no shared prototype keeps it */

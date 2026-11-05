@@ -3,6 +3,7 @@
  * Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - CL:town/func_800AAD70.
  */
 #include "town/map/randomized_position_effect_g00585.h"
+#include "town/map/timed_primitive_body.h"
 #include "shared/object_node.h"
 #include "town/map.h"
 #include "engine/window.h"
@@ -14,7 +15,7 @@ void *create_randomized_position_effect(MovingPosition *source_position) {
     SpriteFrameState *sprite;
     ObjectPosition *position;
     ObjectNodeHeader *object;
-    S_800A84D0_4 *effect_state;
+    TimedPrimitiveBody *effect_state;
 
     object = allocate_flagged_object_node(0x212);
     if (object != NULL) {
@@ -34,8 +35,8 @@ void *create_randomized_position_effect(MovingPosition *source_position) {
         sprite->tpage_abr = 0x60;
         sprite->flags = (u16) (sprite->flags | 0xC);
         random_offset = scale_random_to_unsigned_halfword_limit(7);
-        effect_state = ((void *)object) + 0x20;
-        effect_state->unk_02 = (s16) (random_offset + scale_random_to_unsigned_halfword_limit(7));
+        effect_state = NODE_BODY(object);
+        effect_state->ticks_left = (s16) (random_offset + scale_random_to_unsigned_halfword_limit(7));
     }
     return object;
 }

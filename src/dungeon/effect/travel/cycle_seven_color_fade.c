@@ -746,7 +746,7 @@ s32 spawn_owner_random_variant_effect(ReachableTileTravelBody *owner, ObjectPosi
         part = NODE_BODY(obj);
         obj->update_callback = update_handler;
         ((B28_818B7BD0_S_818B7BD0_0 *)obj)->unk_20 = owner;
-        part->unk_0E.s16 = 0;
+        part->unk_0E = 0;
         part->unk_10 = 0;
         roll = rand();
         model = &seven_color_sprite_data;

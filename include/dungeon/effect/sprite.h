@@ -211,4 +211,7 @@ void *spawn_ring_sparks(s16 x, s16 y, s16 z);
 
 void create_radial_effect_controller(s32 objectPayload);
 
+#include "records/Rec_func_800D6DC0_arg1.h"
+void create_radial_effect_segments(ActorRecord *unused, Rec_func_800D6DC0_arg1 *origin, void *render_template, ActorRecord *orientation);
+
 #endif

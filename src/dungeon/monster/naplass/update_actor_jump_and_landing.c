@@ -11,6 +11,7 @@
 #include "dungeon/player/object.h"
 #include "dungeon/actor/status.h"
 #include "dungeon/item.h"
+#include "dungeon/data.h"
 
 typedef struct S_80047784 S_80047784;
 
@@ -21,8 +22,6 @@ void spend_actor_mp(ActorRecord *entity, s32 base_reduction);
 
 
 extern u8 naplass_action_continuation_address;
-extern u8 naplass_frame_set_2[];
-extern u8 naplass_frame_set_3[];
 
 /* Updates an actor's jump toward its target tile and completes the landing. */
 void update_actor_jump_and_landing(ActorRecord *jump, ObjectPosition *motion, SpriteFrameState *map_entity, ActorRecord *actor) {

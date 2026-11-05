@@ -17,7 +17,7 @@ extern void select_sprite_entry(void *, s32, s32);
 extern u8 barong_action_resume_address[];
 #include "dungeon/monster/barong.h"
 #include "dungeon/actor.h"
-extern u8 barong_frame_set_4[];
+#include "dungeon/data.h"
 extern u8 D_8017558C[];
 
 /* Updates timed movement, returns the actor to its tile, and resets its action state. */

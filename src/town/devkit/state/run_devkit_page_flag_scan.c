@@ -1,6 +1,6 @@
 #include "common.h"
 #include "town/devkit.h"
-void func_80700C08(s32);                     /* extern */
+#include "town/devkit/flag_test_imports.h"
 
 /* Devkit flag-test entry: select page 3, then run the page's flag scan. */
 void run_devkit_page_3_flag_scan(void) {

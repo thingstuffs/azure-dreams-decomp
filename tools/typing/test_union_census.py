@@ -103,7 +103,7 @@ void use(Record *r) { r->field.s = 1; r->inner.slot.p = 0; }
             source.write_text(source.read_text() + 'union { int x; short y; } two;\n')
             self.assertNotEqual(subprocess.run(cmd, capture_output=True).returncode, 0)
             source.write_text('typedef union One { int a; short b; } One;\n')
-            rows[0]['status'] = 'retire'
+            rows[0]['status'] = 'retired'
             rows[0]['evidence'] = 'Wording does not determine retirement.'
             (root / 'ledger' / 'unions.jsonl').write_text(json.dumps(rows[0]) + '\n')
             (root / 'tools' / 'lint' / 'union_baseline.json').write_text(

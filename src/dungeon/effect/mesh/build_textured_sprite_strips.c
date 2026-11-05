@@ -1040,12 +1040,12 @@ void update_traveling(S_func_81905FD0_1 *effect, S_func_81905FD0_2 *motion, S_fu
         }
         if ((effect->flags & 4) == 0) {
             register_node((u8 *)effect - 0x20, project_sprite_chain);
-            render->tpage_abr.u16 = 32;
+            render->tpage_abr = 32;
             render->color.u8_0E.unk_0E = 128;
             render->color.u8_0D.unk_0D = 128;
             render->color.u8 = 128;
-            render->scale_y.u16 = 2000;
-            render->scale_x.u16 = 2000;
+            render->scale_y = 2000;
+            render->scale_x = 2000;
             render->flags |= 0xC;
             effect->flags |= 4;
         }
@@ -1137,11 +1137,11 @@ void update_traveling(S_func_81905FD0_1 *effect, S_func_81905FD0_2 *motion, S_fu
                 }
             }
             if (effect->scale_shrinking.s16 == 0) {
-                render->scale_x.u16 += effect->scale_step;
-                render->scale_y.u16 += effect->scale_step;
+                render->scale_x += effect->scale_step;
+                render->scale_y += effect->scale_step;
             } else {
-                render->scale_x.u16 -= effect->scale_step;
-                render->scale_y.u16 -= effect->scale_step;
+                render->scale_x -= effect->scale_step;
+                render->scale_y -= effect->scale_step;
             }
             {
                 u16 timer = effect->scale_timer + 1;
@@ -1202,11 +1202,11 @@ update_coords:
             }
         }
         if (effect->scale_shrinking.s16 == 0) {
-            render->scale_x.u16 += effect->scale_step;
-            render->scale_y.u16 += effect->scale_step;
+            render->scale_x += effect->scale_step;
+            render->scale_y += effect->scale_step;
         } else {
-            render->scale_x.u16 -= effect->scale_step;
-            render->scale_y.u16 -= effect->scale_step;
+            render->scale_x -= effect->scale_step;
+            render->scale_y -= effect->scale_step;
         }
         {
             u16 timer = effect->scale_timer + 1;
@@ -1487,11 +1487,11 @@ update_coords:
             }
         }
         if (effect->scale_shrinking.s16 == 0) {
-            render->scale_x.u16 += effect->scale_step;
-            render->scale_y.u16 += effect->scale_step;
+            render->scale_x += effect->scale_step;
+            render->scale_y += effect->scale_step;
         } else {
-            render->scale_x.u16 -= effect->scale_step;
-            render->scale_y.u16 -= effect->scale_step;
+            render->scale_x -= effect->scale_step;
+            render->scale_y -= effect->scale_step;
         }
         {
             u16 timer = effect->scale_timer + 1;

@@ -6,15 +6,13 @@
 #include "engine/graphics.h"
 #include "dungeon/effect/screen.h"
 #include "dungeon/item.h"
+#include "dungeon/data.h"
 
 
 extern void update_actor_status_and_mp();
 
 extern u8 D_800DF45C[];
 extern u8 D_8016EEBC[];
-extern u8 ghosh_frame_set_3[];
-extern u8 ghosh_frame_set_9[];
-extern u8 ghosh_frame_set_13[];
 
 /* Executes the current actor script command and advances its repeat counter. */
 s32 execute_actor_script_command(ActorRecord *actor_arg, ObjectPosition *action_context, SpriteFrameState *sprite_arg) {

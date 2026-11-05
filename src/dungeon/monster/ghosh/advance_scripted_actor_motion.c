@@ -9,6 +9,7 @@
 #include "dungeon/system.h"
 #include "engine/graphics.h"
 #include "engine/texture.h"
+#include "dungeon/data.h"
 
 /* cfail-repair: tf7-phase1-cache-v3 */
 typedef struct {
@@ -21,12 +22,6 @@ typedef struct {
 void create_boss_display_variant(); /* extern */
 void create_boss_randomized_effect(); /* extern */
 extern InitBlock ghosh_effect_direction_vectors;
-extern u8 ghosh_frame_set_6[];
-extern u8 ghosh_frame_set_2[];
-extern u8 ghosh_frame_set_11[];
-extern u8 ghosh_frame_set_1[];
-extern u8 ghosh_frame_set_5[];
-extern u8 ghosh_motion_path[];
 
 typedef struct S_func_8132B8AC_0 {
     u8 pad_00[0x92];

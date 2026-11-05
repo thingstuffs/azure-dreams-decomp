@@ -56,9 +56,9 @@ typedef struct S_800C55F4_1 {
     u32 unk_80;
     u16 unk_84;
     u8 pad_86[0x3A];
-    union { s32 s; s32 u; } unk_C0;   /* accessed as both */
+    s32 unk_C0;
     s32 unk_C4;
-    union { s32 s; s32 u; } unk_C8;   /* accessed as both */
+    s32 unk_C8;
     s32 unk_CC;
     u8 pad_D0[0x44];
     s32 unk_114;
@@ -207,7 +207,7 @@ void transform_mesh_and_append_draw_packets(u8 *params, ObjectPosition *record_a
                                         perspective_arg, flags_arg);
             perspective_arg = perspective_out;
             flags_arg = flags_out;
-            ((S_800C55F4_1 *)scratch)->unk_C0.s = depth;
+            ((S_800C55F4_1 *)scratch)->unk_C0 = depth;
             depth = RotTransPers(scratch + 0x78, prim + 0x10,
                                         perspective_arg, flags_arg);
             perspective_arg = perspective_out;
@@ -215,7 +215,7 @@ void transform_mesh_and_append_draw_packets(u8 *params, ObjectPosition *record_a
             ((S_800C55F4_1 *)scratch)->unk_C4 = depth;
             depth = RotTransPers(scratch + 0x80, prim + 0x18,
                                         perspective_arg, flags_arg);
-            ((S_800C55F4_1 *)scratch)->unk_C8.s = depth;
+            ((S_800C55F4_1 *)scratch)->unk_C8 = depth;
         }
 
         result = NormalClip((*(s32 *)(packet_code + 1)),
@@ -226,11 +226,11 @@ void transform_mesh_and_append_draw_packets(u8 *params, ObjectPosition *record_a
         if (result > 0) {
             s32 third_depth;
 
-            ((S_800C55F4_1 *)scratch)->unk_C0.u -= depth_bias;
-            third_depth = ((S_800C55F4_1 *)scratch)->unk_C8.u;
+            ((S_800C55F4_1 *)scratch)->unk_C0 -= depth_bias;
+            third_depth = ((S_800C55F4_1 *)scratch)->unk_C8;
             ((S_800C55F4_1 *)scratch)->unk_C4 -= depth_bias;
             vertex_depth = *(u32 *)(scratch + 0xC0);
-            ((S_800C55F4_1 *)scratch)->unk_C8.s = third_depth - depth_bias;
+            ((S_800C55F4_1 *)scratch)->unk_C8 = third_depth - depth_bias;
             if (vertex_depth < 0x1E0) {
                 s32 shade;
                 {
@@ -282,7 +282,7 @@ void transform_mesh_and_append_draw_packets(u8 *params, ObjectPosition *record_a
                     vector_arg = (u8 *)0x100;
                     shade_arg = ((S_800C55F4_8 *)params)->unk_32;
                     third_delta = ((S_800C55F4_1 *)scratch)->unk_CC;
-                    shade = ((S_800C55F4_1 *)scratch)->unk_C8.s;
+                    shade = ((S_800C55F4_1 *)scratch)->unk_C8;
                     vector_arg -= shade_arg;
                     third_delta -= shade;
                     third_delta <<= 5;
@@ -307,7 +307,7 @@ void transform_mesh_and_append_draw_packets(u8 *params, ObjectPosition *record_a
                 ((S_800C55F4_4 *)packet_code)->unk_00 = packet_flags | 2;
                 packet_code += 0x1C;
                 AddPrim(((S_800C55F4_1 *)scratch)->unk_20 +
-                              (((S_800C55F4_1 *)scratch)->unk_C0.s << 2), packet);
+                              (((S_800C55F4_1 *)scratch)->unk_C0 << 2), packet);
 
                 packet_code += 0xC;
                 ((SpriteFrameState *)mesh_data)->flags &= 0x7FFF;
@@ -315,7 +315,7 @@ void transform_mesh_and_append_draw_packets(u8 *params, ObjectPosition *record_a
                 packet = prim;
                 prim += 0xC;
                 AddPrim(((S_800C55F4_1 *)scratch)->unk_20 +
-                              (((S_800C55F4_1 *)scratch)->unk_C0.s << 2), packet);
+                              (((S_800C55F4_1 *)scratch)->unk_C0 << 2), packet);
             }
         }
 

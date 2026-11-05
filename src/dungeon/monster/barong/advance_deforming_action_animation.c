@@ -6,6 +6,7 @@
 #include "dungeon/monster/barong.h"
 #include "dungeon/item.h"
 #include "dungeon/system.h"
+#include "dungeon/data.h"
 
 
 extern void select_sprite_entry(void *, s32, s32);
@@ -13,10 +14,8 @@ extern void spend_actor_mp(void *, s32);
 extern void create_randomized_item_object(ActorRecord *, ObjectPosition *, SpriteFrameState *, void *);
 
 extern u8 barong_action_resume_address[];
-extern u8 barong_frame_set_1[];
 extern u8 D_801755BC[];
 extern u8 D_801755C4[];
-extern u8 barong_frame_set_3[];
 
 /* Advances a timed action animation, deforming the sprite and restoring it on completion. */
 void advance_deforming_action_animation(ActorRecord *body, ObjectPosition *position, SpriteFrameState *sprite_in, ActorRecord *actor_in)

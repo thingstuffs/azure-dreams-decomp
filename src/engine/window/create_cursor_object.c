@@ -1,5 +1,6 @@
 #include "engine/window/cursor_body.h"
 #include "shared/object_node.h"
+#include "shared/sprite_frame_state.h"
 #include "common.h"
 
 #include "common.h"
@@ -10,15 +11,6 @@
 #include "slus/data.h"
 #include "engine/window.h"
 #include "engine/object.h"
-
-
-
-
-typedef struct S_80036B10_3 {
-    u8 pad_00[0xC];
-    s32 unk_0C;
-} S_80036B10_3;   /* temp_s6 in create_cursor_object */
-
 
 
 
@@ -38,7 +30,7 @@ extern u8 window_node_list_storage[];
 /* Initializes and links a task, then sets up its source record, state, and rendering data. */
 void create_cursor_object(void *task_buffer, Rec_D_80081FDC *record, s32 *source, s16 state_value, void *setup_arg) {
     WindowCursorBody *state;
-    S_80036B10_3 *render_data;
+    SpriteFrameState *render_data;
     ObjectNodeHeader *task;
     s16 *variant_table;
 
@@ -46,7 +38,7 @@ void create_cursor_object(void *task_buffer, Rec_D_80081FDC *record, s32 *source
     task->update_callback = update_cursor_callback;
     register_node(task, &draw_linked_sprite_nodes);
     state = NODE_BODY(task);
-    render_data = (void *)task->sprite;
+    render_data = task->sprite;
     state->script = source;
     state->enabled.s = 1;
     state->cursor_offset = state_value;
@@ -60,6 +52,6 @@ void create_cursor_object(void *task_buffer, Rec_D_80081FDC *record, s32 *source
     state->unk_04 = 0;
     state->unk_08 = 0;
     prepend_embedded_object_node(setup_arg, state);
-    render_data->unk_0C = 0x808080;
+    render_data->color.word = 0x808080;
     select_record_entry_and_value(render_data, &cursor_sprite_source, 0);
 }

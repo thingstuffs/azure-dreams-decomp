@@ -5,35 +5,25 @@
 #include "dungeon/menu.h"
 
 void *create_transformed_render_object(s32 x, s32 y, s32 initial_value, s32 update_param, s32 mode); /* extern */
-extern u8 dungeon_ground_item_positions[];
-
-typedef struct S_8009F020_0 {
-    u8 unk_00;
-    u8 unk_01;
-} S_8009F020_0;
-
-typedef struct S_8009F020_1 {
-    u8 unk_00;
-    u8 unk_01;
-} S_8009F020_1;
+extern DungeonItemPosition dungeon_ground_item_positions[64];
 
 /* Create blue markers at the positions of enabled entries. */
 void draw_blue_enabled_entry_markers(void) {
-    u8 *entry_state;
-    u8 *entry_position;
+    DungeonItemEntry *entry_state;
+    DungeonItemPosition *entry_position;
     s32 entry_index;
 
     submit_activation_command();
     entry_index = 0;
     entry_position = dungeon_ground_item_positions;
-    entry_state = ((u8 *)dungeon_ground_items);
+    entry_state = dungeon_ground_items;
     do {
-        if ((((S_8009F020_0 *)entry_state)->unk_01 != 0) && (((S_8009F020_0 *)entry_state)->unk_00 != 0)) {
-            create_transformed_render_object(((S_8009F020_1 *)entry_position)->unk_00, ((S_8009F020_1 *)entry_position)->unk_01, 0x802020,
+        if ((entry_state->kind != 0) && (entry_state->unk_00 != 0)) {
+            create_transformed_render_object(entry_position->x, entry_position->y, 0x802020,
                 FLOOR_ITEMS_VISIBLE, entry_index);
         }
-        entry_position += 0xC;
+        entry_position++;
         entry_index += 1;
-        entry_state += 4;
+        entry_state++;
     } while (entry_index < 0x40);
 }

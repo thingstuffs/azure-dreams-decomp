@@ -5,10 +5,9 @@
 #include "shared/dir_step.h"
 #include "dungeon/actor.h"
 #include "dungeon/player/object.h"
+#include "dungeon/data.h"
 
 extern u8 ghosh_action_resume_address[];
-extern u8 ghosh_frame_set_3[];
-extern u8 ghosh_frame_set_4[];
 #include "dungeon/monster/ghosh.h"
 #include "engine/graphics.h"
 extern u8 D_801746CC[];

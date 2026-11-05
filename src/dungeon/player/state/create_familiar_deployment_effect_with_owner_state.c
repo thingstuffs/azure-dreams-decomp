@@ -1,4 +1,5 @@
 #include "common.h"
+#include "dungeon/player/familiar_deployment_overlay.h"
 #include "shared/object_node.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/tile_object.h"
@@ -11,31 +12,16 @@
 #include "engine/graphics.h"
 #include "engine/node.h"
 
-typedef struct S_80093C70_0 {
-    u8 pad_00[0x8];
-    void * unk_08;
-    void * unk_0C;
-    void (*unk_10)(void *, void *, void *);
-    u8 pad_14[0xC];
-    void * unk_20;
-} S_80093C70_0;
-
-typedef struct S_80093C70_5 {
-    u8 pad_00[0x6];
-    s16 unk_06;
-    s16 unk_08;
-} S_80093C70_5;
-
 #include "engine/node/allocation.h"                  /* extern */
 extern void dungeon_familiar_deploy_update_address(void *object_data, void *unused, void *state_data);
 
 /* Creates a sprite effect at the supplied position and links it to its owner. */
 void create_familiar_deployment_effect_with_owner_state(void *owner_body, ObjectPosition *source_pos, SpriteFrameState *owner) {
-    ObjectNodeHeader *owner_node = owner_body - 0x20;
+    ObjectNodeHeader *owner_node = NODE_HEADER(owner_body);
     SpriteFrameState *sprite;
     ObjectNodeHeader *effect;
     ObjectPosition *position;
-    S_80093C70_5 *effect_state;
+    FamiliarDeploymentOverlayBody *effect_state;
     u16 flags;
 
     effect = allocate_list_node(0x310, &owner_node->next);
@@ -58,10 +44,10 @@ void create_familiar_deployment_effect_with_owner_state(void *owner_body, Object
         set_sprite_animation_frame(sprite, 0xCE, 0, 3);
         register_node(effect, project_sprite_chain);
         effect_state = NODE_BODY(effect);
-        ((S_80093C70_0 *)effect)->unk_20 = owner;
-        effect_state->unk_06 = 0x10;
+        effect_state->owner_sprite = owner;
+        effect_state->ticks_left = 0x10;
         sprite->color.word = 0x2C808080;
-        effect_state->unk_08 = 1;
+        effect_state->animation_index = 1;
     }
 }
 /* MECHANISM: The natural three-pointer lifetimes reproduce retail's 0x20 frame and s0/s2/s1 save

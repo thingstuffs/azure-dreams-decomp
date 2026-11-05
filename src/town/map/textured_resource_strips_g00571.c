@@ -342,10 +342,10 @@ void *project_visible_textured_strips(void *origin_arg, void *render_flags, Town
     strip_index = 0;
     texture_id = texture_index;
     bucket_list = buckets;
-    origin_x = origin->offset.s;
+    origin_x = origin->offset;
     left_x = origin_x - 0x6200;
     right_x = origin_x - 0x5400;
-    base_shade = origin->value.u;
+    base_shade = (u16)origin->value;
     draw_state->unk_7C = left_x;
     draw_state->unk_74 = left_x;
     draw_state->unk_8C = right_x;
@@ -534,6 +534,6 @@ void create_resource_display_object(s16 resource_index) {
         object_state->state = resource_index;
         object_state->transition = 0;
         object_state->step = 0;
-        object_state->target.s = 0x80;
+        object_state->target = 0x80;
     }
 }

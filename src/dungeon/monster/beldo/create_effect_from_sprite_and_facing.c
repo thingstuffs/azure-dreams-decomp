@@ -8,6 +8,7 @@
 #include "shared/dungeon_moving_views.h"
 #include "dungeon/monster/beldo.h"
 #include "engine/node.h"
+#include "dungeon/data.h"
 
 typedef struct {
     s32 word0;
@@ -19,7 +20,6 @@ typedef struct {
 s32 register_node();
 void select_sprite_entry();
 extern M2C_UNK D_80170D44;
-extern u8 beldo_frame_set_3[8];
 
 typedef struct S_80170E18_0 {
     u8 pad_00[0x96];

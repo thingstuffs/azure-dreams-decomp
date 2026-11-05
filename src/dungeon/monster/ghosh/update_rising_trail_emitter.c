@@ -1,11 +1,8 @@
 #include "common.h"
 #include "shared/object_flags.h"
 #include "m2c_compat.h"
+#include "shared/entity.h"
 
-typedef struct S_801720D0_0 {
-    u8 pad_00[0xA];
-    u16 unk_0A;
-} S_801720D0_0;   /* arg1 in update_rising_trail_emitter */
 
 typedef struct S_801720D0_1 {
     u16 unk_00;
@@ -17,10 +14,10 @@ typedef struct S_801720D0_1 {
 struct S_80171F30_1; void spawn_jittered_trail_particle(struct S_80171F30_1 *, s32, s16, s16); /* extern */
 
 /* Advance the countdown, update every other tick, and flag completion when it expires. */
-void update_rising_trail_emitter(void *record_data, S_801720D0_0 *state) {
+void update_rising_trail_emitter(void *record_data, ObjectPosition *state) {
     u16 ticks_left;
 
-    state->unk_0A = (u16) (state->unk_0A - 4);
+    state->z.unsigned_parts.integer = (u16) (state->z.unsigned_parts.integer - 4);
     if (!(((S_801720D0_1 *)((u8 *)record_data - 0x2))->unk_18 & 1)) {
         spawn_jittered_trail_particle(record_data - 0x20, 0x8080, 8, 0);
     }
