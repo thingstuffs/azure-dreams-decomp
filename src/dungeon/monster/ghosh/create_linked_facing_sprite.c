@@ -17,7 +17,8 @@ void create_linked_facing_sprite(u16 x, u16 y, s32 z) {
     u8 saved_x = x;
     u8 saved_y = y;
     ObjectNodeHeader *object;
-    void *state, *position, *sprite;
+    ActorRecord *state;
+    void *position, *sprite;
     s32 tile_mask;
     u8 tile_x, tile_y;
     void *call_object;
@@ -28,7 +29,7 @@ void create_linked_facing_sprite(u16 x, u16 y, s32 z) {
         s32 z_offset;
 
         state = NODE_BODY(object);
-        F(state, s8*, 0x13) = 0x15;
+        state->species = 0x15;
         object->update_callback = &D_801714B0;
         register_node(call_object, project_sprite_chain);
         call_object = object;
@@ -50,7 +51,7 @@ void create_linked_facing_sprite(u16 x, u16 y, s32 z) {
         tile_x = ((SpriteFrameState *)sprite)->tile_x;
         tile_y = ((SpriteFrameState *)sprite)->tile_y;
         tile_mask = 0x3000;
-        if (F(state, s32*, 0x1C) & 0x2000)
+        if (state->flags1C & 0x2000)
             tile_mask = 0x300;
         update_map_cell_flags_with_item_limit(tile_x, tile_y, tile_mask);
         unlink_entity_node(state);

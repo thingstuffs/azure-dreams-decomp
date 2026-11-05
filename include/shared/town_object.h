@@ -44,7 +44,7 @@ typedef struct TownObjectRecord {
     /* 0x36 */ u8 pad_36[0x8];
     /* 0x3E */ union { s16 as_s16; u16 as_u16; } unk_3E;
     /* 0x40 */ s32 unk_40;
-    /* 0x44 */ void * unk_44;
+    /* 0x44 */ s32 **handler_entries; /* D_800D05E0: pointers to indexed handler tables */
     /* 0x48 */ s32 unk_48; /* creation argument word stored by create_object_and_initialize_render_state */
     /* 0x4C */ u8 unk_4C;
     /* 0x4D */ u8 unk_4D;

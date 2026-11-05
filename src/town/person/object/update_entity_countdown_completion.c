@@ -4,7 +4,7 @@
 #include "town/person/object_setup.h"
 #include "town/person.h"
 #include "town/person/object.h"
-void assign_object_data_pointers(void *object);
+void assign_object_data_pointers(TownObjectRecord *object);
 
 /* Decrement the entity countdown and run its completion handlers when it expires. */
 void update_entity_countdown_completion(TownObjectRecord *entity, void *update_context, void *setup_context) {

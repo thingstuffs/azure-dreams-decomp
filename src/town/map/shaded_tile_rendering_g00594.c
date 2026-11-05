@@ -76,7 +76,7 @@ void render_shaded_map_tiles(void) {
     u32 tag_high_mask;
     s32 one;
     ScratchAddress scratch;
-    register void *vertex_input;
+    register s32 *vertex_input;
     GameWork *render_state;
 
     render_state = &g_game_work;

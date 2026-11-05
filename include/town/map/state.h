@@ -11,6 +11,7 @@ struct S_800BDFA0_0;
 struct S_func_800A9624_1;
 struct SpriteFrameState;
 struct TownCameraState;
+struct MapSecondaryCallbackState;
 struct TownPropAnimationActor;
 
 /* apply_item_and_update_matching_actor_state.c */
@@ -29,7 +30,7 @@ void initialize_object_header_and_state(void *body, ObjectPosition *placement, s
 void initialize_paired_state_blocks(void);
 
 /* initialize_paired_state_callbacks.c */
-void initialize_paired_state_callbacks(void *state);
+void initialize_paired_state_callbacks(struct MapSecondaryCallbackState *state);
 
 /* initialize_randomized_object_state.c */
 void initialize_randomized_object_state(TownObjectRecord *object, ObjectPosition *random_state, SpriteFrameState *settings);

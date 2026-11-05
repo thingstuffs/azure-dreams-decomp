@@ -950,23 +950,23 @@ void advance_status_timers(void *record) {
     u8 expired_status;
     slot_index = 3;
     do {
-        status = ((ActorRecord *)(record + slot_index * 2))->status[0].type;
+        status = ((ActorRecord *)record)->status[slot_index].type;
         if (status != 0) {
             if (status == STATUS_POISON) {
                 apply_capped_damage_and_hit_effect(record, (Rec_func_800A5DFC_arg1 *)NODE_HEADER(record)->position);
             }
-            duration = ((ActorRecord *)(record + slot_index * 2))->status[0].value;
+            duration = ((ActorRecord *)record)->status[slot_index].value;
             if (duration != 0) {
                 if (duration > 0) {
-                    ((ActorRecord *)(record + slot_index * 2))->status[0].value =
-                    (s8)((u8)((ActorRecord *)(record + slot_index * 2))->status[0].value - 1);
+                    ((ActorRecord *)record)->status[slot_index].value =
+                    (s8)((u8)((ActorRecord *)record)->status[slot_index].value - 1);
                 } else if (duration < 0) {
-                    ((ActorRecord *)(record + slot_index * 2))->status[0].value =
-                    (s8)((u8)((ActorRecord *)(record + slot_index * 2))->status[0].value + 1);
+                    ((ActorRecord *)record)->status[slot_index].value =
+                    (s8)((u8)((ActorRecord *)record)->status[slot_index].value + 1);
                 }
-                if (((ActorRecord *)(record + slot_index * 2))->status[0].value == 0) {
-                    expired_status = (u8)((ActorRecord *)(record + slot_index * 2))->status[0].type;
-                    ((ActorRecord *)(record + slot_index * 2))->status[0].type = 0;
+                if (((ActorRecord *)record)->status[slot_index].value == 0) {
+                    expired_status = (u8)((ActorRecord *)record)->status[slot_index].type;
+                    ((ActorRecord *)record)->status[slot_index].type = 0;
                     end_status_effect_message(record, (s8)expired_status);
                 }
             }

@@ -51,18 +51,18 @@ void advance_item_menu_object_animation(ItemMenuTransition *object) {
     S_800AE630_1 *position;
 
     position = ((S_800AE630_0 *)((u8 *)object - 0x10))->unk_DC;
-    scaled_x = object->unk_14.half.low * ((S_800AE630_0 *)((u8 *)object - 0x10))->unk_34;
+    scaled_x = object->unk_14.half.low * object->animation_step;
     position->unk_08 = (s16) (((S_800AE630_0 *)((u8 *)object - 0x10))->unk_1C + (scaled_x / 4));
     position = ((S_800AE630_0 *)((u8 *)object - 0x10))->unk_DC;
-    scaled_y = object->unk_14.half.high * ((S_800AE630_0 *)((u8 *)object - 0x10))->unk_34;
+    scaled_y = object->unk_14.half.high * object->animation_step;
     position->unk_0A = (s16) (((S_800AE630_0 *)((u8 *)object - 0x10))->unk_1E + (scaled_y / 4));
     position = ((S_800AE630_0 *)((u8 *)object - 0x10))->unk_DC;
-    scaled_z = object->unk_18.half * ((S_800AE630_0 *)((u8 *)object - 0x10))->unk_34;
+    scaled_z = object->unk_18.half * object->animation_step;
     position->unk_0C = (s16) (((S_800AE630_0 *)((u8 *)object - 0x10))->unk_20 + (scaled_z / 4));
     ((S_800AE630_3 *)(((S_800AE630_2 *)object)->unk_D0))->unk_02 =
-        (s16) ((((S_800AE630_0 *)((u8 *)object - 0x10))->unk_34 * 256) - 0x400);
-    next_step = ((S_800AE630_0 *)((u8 *)object - 0x10))->unk_34 + 1;
-    ((S_800AE630_0 *)((u8 *)object - 0x10))->unk_34 = next_step;
+        (s16) ((object->animation_step * 256) - 0x400);
+    next_step = object->animation_step + 1;
+    object->animation_step = next_step;
     if (next_step >= 5) {
         ((S_800AE630_0 *)((u8 *)object - 0x10))->unk_00 = &invoke_item_menu_node_callback;
     }

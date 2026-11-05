@@ -6,6 +6,7 @@
 #include "engine/window.h"
 #include "town/menu.h"
 #include "town/menu_callbacks_api.h"
+#include "town/menu/fading_triangle_effect.h"
 
 /*
  * Derives effect angle and intensity from the camera heading, copies camera X/Y, and spawns a
@@ -21,16 +22,16 @@ void update_view_driven_state(State *state) {
 
     if (--state->field_C <= 0) {
         state->field_C = 15;
-        allocate_randomized_effect_object((s32)state);
+        allocate_randomized_effect_object(state);
     }
 }
 
 /* Allocates an object and initializes its randomized state. */
-void *allocate_randomized_effect_object(s32 state_value)
+void *allocate_randomized_effect_object(State *state_value)
 {
     s32 offset_sample;
     s16 initial_count;
-    S_800A25CC_1 *state;
+    FadingTriangleEffectBody *state;
     ObjectNodeHeader *object;
 
     object = allocate_flagged_object_node(0x136);
@@ -38,15 +39,15 @@ void *allocate_randomized_effect_object(s32 state_value)
         return 0;
     }
     object->update_callback = draw_fading_flickering_triangle;
-    state = ((void *)object) + 0x20;
+    state = NODE_BODY(object);
     initial_count = scale_random_to_unsigned_halfword_limit(0xB4) + 0x3C;
-    state->unk_04 = initial_count;
-    state->unk_06 = initial_count;
-    state->unk_10 = (scale_random_to_unsigned_halfword_limit(0x28) & 0xFFFF) + 0x80;
-    state->unk_14 = state_value;
+    state->ticks_left = initial_count;
+    state->fade_period = initial_count;
+    state->triangle_width = (scale_random_to_unsigned_halfword_limit(0x28) & 0xFFFF) + 0x80;
+    state->parameters = state_value;
     offset_sample = scale_random_to_unsigned_halfword_limit(0x40);
-    state->unk_08 = offset_sample + scale_random_to_unsigned_halfword_limit(0x40) - 0x40;
-    state->unk_0A = scale_random_to_unsigned_halfword_limit(0x40);
-    state->unk_0C = scale_random_to_unsigned_halfword_limit(0x40);
+    state->center_offset = offset_sample + scale_random_to_unsigned_halfword_limit(0x40) - 0x40;
+    state->phase_x_offset = scale_random_to_unsigned_halfword_limit(0x40);
+    state->phase_y_offset = scale_random_to_unsigned_halfword_limit(0x40);
     return object;
 }

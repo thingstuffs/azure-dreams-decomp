@@ -21,7 +21,7 @@ typedef struct CylindricalEffectWork {
     u8 pad_00[0xC];
     s16 origin_x, origin_y, origin_z;
     u8 pad_12[0x36];
-    union { s16 s; u16 u; } timer;
+    u16 timer;
     u8 pad_4A[2];
     s16 stage;
     u8 pad_4E[0xA];

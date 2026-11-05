@@ -151,7 +151,7 @@ void animate_collection_center_sprite(CollectionCenterControlBody *ctrl, ObjectP
     case 0:
         case_x = view->color.c.b;
         case_delta = 0x80 - case_x;
-        case_x = *(volatile u8 *)((u8 *)view + 0xE) + (case_delta >> 1);
+        case_x = *(volatile u8 *)&view->color.c.b + (case_delta >> 1);
         view->color.c.b = case_x;
         view->color.c.g = case_x;
         view->color.c.r = case_x;
@@ -258,7 +258,7 @@ void animate_collection_center_sprite(CollectionCenterControlBody *ctrl, ObjectP
 
     view->angle_z &= 0xFFF;
     if ((old_angle >> 8) !=
-        (*(u16 *)((u8 *)view + 0x1A) >> 8)) {
+        (view->angle_z >> 8)) {
         func_80058F88(0x701);
     }
 }

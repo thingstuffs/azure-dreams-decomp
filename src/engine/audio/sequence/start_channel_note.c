@@ -4,48 +4,6 @@
 #include "slus/data.h"
 
 /* D_80084960: per-request channel record, stride 0x9C */
-typedef struct Chan {
-    /* 0x00 */ u16 f00;
-    u8 pad02[0x10 - 0x02];
-    /* 0x10 */ s32 f10;
-    u8 pad14[0x18 - 0x14];
-    /* 0x18 */ u8 f18;
-    u8 pad19[0x1C - 0x19];
-    /* 0x1C */ s32 f1C;
-    u8 pad20[0x28 - 0x20];
-    /* 0x28 */ u32 f28;
-    u8 pad2C[0x30 - 0x2C];
-    /* 0x30 */ u8 f30;
-    u8 pad31[0x3A - 0x31];
-    /* 0x3A */ u16 f3A;
-    u8 pad3C[0x50 - 0x3C];
-    /* 0x50 */ s16 f50;
-    /* 0x52 */ u16 f52;
-    /* 0x54 */ s16 f54;
-    /* 0x56 */ u16 f56;
-    /* 0x58 */ s32 f58;
-    /* 0x5C */ u8 f5C;
-    /* 0x5D */ u8 f5D;
-    u8 pad5E[0x68 - 0x5E];
-    /* 0x68 */ s32 f68;
-    /* 0x6C */ u8 f6C;
-    /* 0x6D */ u8 f6D;
-    /* 0x6E */ u8 f6E;
-    u8 pad6F;
-    /* 0x70 */ s32 f70;
-    u8 pad74[0x78 - 0x74];
-    /* 0x78 */ u8 f78;
-    u8 pad79[0x84 - 0x79];
-    /* 0x84 */ s32 f84;
-    /* 0x88 */ u8 f88;
-    /* 0x89 */ u8 f89;
-    /* 0x8A */ u8 f8A;
-    u8 pad8B;
-    /* 0x8C */ s32 f8C;
-    u8 pad90[0x98 - 0x90];
-    /* 0x98 */ u8 f98;
-    u8 pad99[0x9C - 0x99];
-} Chan;
 
 /* D_80085458: voice record, stride 0x78 */
 typedef struct Voice {
@@ -170,7 +128,7 @@ typedef struct Req {
     /* 0x3C */ u16 f3C;
 } Req;
 
-extern Chan audio_channel_controls[16];
+extern AudioChannelControl audio_channel_controls[16];
 extern Voice audio_voice_records[24];
 extern Slot audio_bank_slots[16];
 extern s32 audio_voice_masks[];
@@ -180,7 +138,7 @@ extern Req audio_voice_request;
 
 extern void SpuSetKey(s32 key_on, u32 voices);
 extern void noop_voice_start_notification(s32 a0, s32 a1, s32 a2, s32 a3, s32 a4);
-extern void audio_compute_voice_stereo_volumes(Voice *a0, Chan *a1);
+extern void audio_compute_voice_stereo_volumes(Voice *a0, AudioChannelControl *a1);
 extern s32 audio_compute_pitch_bend_offset(Voice *a0, s32 a1);
 extern s32 update_spu_register_pair_cc_cd(s32 first, s32 second);
 extern s32 read_spu_register_pair_cc_cd(void);
@@ -202,7 +160,7 @@ void start_channel_note(u8 channel_id, s16 note, u8 velocity)
     s32 voice_held;
     u32 note_key;
     u16 channel_key;
-    Chan *channel;
+    AudioChannelControl *channel;
     Ev *tone;
     Voice *voice;
     u8 *program_data;

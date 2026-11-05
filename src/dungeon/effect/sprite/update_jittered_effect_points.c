@@ -17,7 +17,7 @@
 #include "slus.h"
 #include "dungeon/system.h"
 
-typedef struct JitteredPointSequenceState {
+typedef struct AttackSequenceController {
     void *unk_00;
     void *unk_04;
     u8 unk_08;
@@ -26,7 +26,7 @@ typedef struct JitteredPointSequenceState {
     u8 pad_0C[0x44];
     union { s16 s; u16 u; } unk_50;
     union { s16 s; u16 u; } unk_52;
-} JitteredPointSequenceState;
+} AttackSequenceController;
 
 typedef struct S_func_819A6800_2 {
     u8 pad_00[8];
@@ -122,12 +122,13 @@ void (*const dungeon_19c6800_entry)(void *, void *) = run_jittered_point_sequenc
 
 
 /* Runs a timed object creation sequence with visual effects and final cleanup. */
-void run_jittered_point_sequence(JitteredPointSequenceState *sequence, void *out_position_arg)
+void run_jittered_point_sequence(AttackSequenceController *sequence, void *out_position_arg)
 {
     S_func_819A6800_5 *out_position = out_position_arg;
     S_func_819A6800_3 *owner = sequence->unk_00;
-    S_func_819A6800_2 *record = ((S_func_819A6800_2 *)((u8 *)owner - 0x20))->unk_0C;
-    S_func_819A6800_2 *owner_object = (S_func_819A6800_2 *)((u8 *)owner - 0x20);
+    SpriteFrameState *owner_sprite = NODE_HEADER(owner)->sprite;
+    S_func_819A6800_2 *record;
+    ObjectNodeHeader *owner_object = NODE_HEADER(owner);
     u16 timer;
     s32 state;
     S_func_819A6800_2 *new_object;
@@ -150,9 +151,9 @@ void run_jittered_point_sequence(JitteredPointSequenceState *sequence, void *out
         reloaded_object = *(void **)global_slot;
         reloaded_object->unk_F4 = 0;
 
-        out_position->unk_00.u = ((S_func_819A6800_5 *)(owner_object->unk_08))->unk_00.u;
-        out_position->unk_04.u = ((S_func_819A6800_5 *)(owner_object->unk_08))->unk_04.u;
-        out_position->unk_08.u = ((S_func_819A6800_5 *)(owner_object->unk_08))->unk_08.u;
+        out_position->unk_00.u = ((S_func_819A6800_5 *)(owner_object->position))->unk_00.u;
+        out_position->unk_04.u = ((S_func_819A6800_5 *)(owner_object->position))->unk_04.u;
+        out_position->unk_08.u = ((S_func_819A6800_5 *)(owner_object->position))->unk_08.u;
 
         new_object = scan_actor_along_heading(&reloaded_object->actor,
                                    reference_tile_object.tile_position.parts.tile_x,
@@ -161,10 +162,10 @@ void run_jittered_point_sequence(JitteredPointSequenceState *sequence, void *out
                                    7);
         owner->unk_60.p = new_object;
         if (new_object == 0) {
-            owner->unk_72 = record->unk_24;
-            owner->unk_73 = record->unk_25;
+            owner->unk_72 = owner_sprite->tile_x;
+            owner->unk_73 = owner_sprite->tile_y;
         } else {
-            sprite = ((S_func_819A6800_2 *)((u8 *)new_object - 0x20))->unk_0C;
+            sprite = NODE_HEADER(new_object)->sprite;
             owner->unk_72 = sprite->tile_x;
             owner->unk_73 = sprite->tile_y;
         }
@@ -182,8 +183,8 @@ void run_jittered_point_sequence(JitteredPointSequenceState *sequence, void *out
         new_object = allocate_list_node(0x312, &scene_object_list_anchor.next);
         record = new_object;
         if (record != 0) {
-            if (resolve_record_orientation_or_fallback(((ObjectNodeHeader *)owner_object->unk_0C)->position,
-                              owner_object->unk_0C, position_offset, 0) == 0) {
+            if (resolve_record_orientation_or_fallback(owner_object->sprite->source,
+                              owner_object->sprite, position_offset, 0) == 0) {
                 position_offset[2] = 0;
                 position_offset[1] = 0;
                 position_offset[0] = 0;
@@ -193,11 +194,11 @@ void run_jittered_point_sequence(JitteredPointSequenceState *sequence, void *out
             sprite = record->unk_0C;
 
             (((ObjectPosition *)record->unk_08))->x.v =
-                ((S_func_819A6800_5 *)(owner_object->unk_08))->unk_00.s + ((s32)position_offset[0] << 16);
+                ((S_func_819A6800_5 *)(owner_object->position))->unk_00.s + ((s32)position_offset[0] << 16);
             (((ObjectPosition *)record->unk_08))->y.v =
-                ((S_func_819A6800_5 *)(owner_object->unk_08))->unk_04.s + ((s32)position_offset[1] << 16);
+                ((S_func_819A6800_5 *)(owner_object->position))->unk_04.s + ((s32)position_offset[1] << 16);
             (((ObjectPosition *)record->unk_08))->z.v =
-                ((S_func_819A6800_5 *)(owner_object->unk_08))->unk_08.s + ((s32)position_offset[2] << 16);
+                ((S_func_819A6800_5 *)(owner_object->position))->unk_08.s + ((s32)position_offset[2] << 16);
 
             effect_data = (S_func_819A6800_7 *)((u8 *)record + 0x20);
             effect_data->unk_0C = *(u16 *)&(((ObjectPosition *)record->unk_08))->x.w.i;
@@ -248,7 +249,7 @@ void run_jittered_point_sequence(JitteredPointSequenceState *sequence, void *out
             if (owner->unk_60.p != 0) {
                 record = allocate_list_node(0x302, &scene_object_list_anchor.next);
                 if (record != 0) {
-                    S_func_819A6800_7 *child_data = (S_func_819A6800_7 *)((u8 *)record + 0x20);
+                    JitteredBoltSegmentBody *child_data = NODE_BODY((ObjectNodeHeader *)record);
                     void *target_object;
                     record->unk_10 = update_jittered_effect_points;
                     register_node(record, update_segment);

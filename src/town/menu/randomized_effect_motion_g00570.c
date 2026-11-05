@@ -2,6 +2,7 @@
 /* inferred-strong G00570: randomized_effect_motion_g00570; joins PD:town/engine:800D0B20; no crossing cuts. */
 /* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - PD:town/engine:800D0B20. */
 #include "town/menu/randomized_effect_motion_g00570.h"
+#include "shared/object_node.h"
 #include "town/player/position.h"
 #include "engine/window.h"
 #include "town/menu.h"
@@ -34,7 +35,7 @@ void initialize_randomized_motion_vector(RandomizedEffectMotionBody *obj, s32 *v
         select_record_entry_and_value(record, init_entry, 0);
     }
 
-    register_node((u8 *)obj - 0x20, project_sprite_chain);
+    register_node(NODE_HEADER(obj), project_sprite_chain);
 
     if (obj->variant < 4) {
         init_value = scale_random_to_unsigned_halfword_limit(0x1000);

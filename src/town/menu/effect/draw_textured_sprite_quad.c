@@ -61,7 +61,7 @@ void draw_textured_sprite_quad(void *sprite_arg, s32 position) {
     s32 height;
     register s32 top_z;
     u8 *render_state;
-    TexturedSpriteQuadPacket *textured_quad;
+    POLY_FT4 *textured_quad;
     FlatOverlayQuadPacket *overlay_quad;
     u8 *draw_mode;
     EmptyArg unused_arg;
@@ -75,7 +75,7 @@ void draw_textured_sprite_quad(void *sprite_arg, s32 position) {
     void *vertex3;
     s32 window_size;
     s32 color;
-    TexturedSpriteQuadPacket *quad_packet;
+    POLY_FT4 *quad_packet;
     TownQuadWork *scratch;
 
     color = 0x800000;
@@ -93,7 +93,8 @@ void draw_textured_sprite_quad(void *sprite_arg, s32 position) {
         state->packetCursor = (u8 *)textured_quad + 0x28;
     }
     color |= 0x8080;
-    textured_quad->color_code = color;
+    /* Retail fills the four RGB/code bytes with one packed word store. */
+    *(s32 *)&textured_quad->r0 = color;
     SetPolyFT4(quad_packet);
 
     texture_page = GetTPage(1, 0,

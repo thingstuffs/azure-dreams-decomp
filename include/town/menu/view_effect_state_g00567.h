@@ -15,26 +15,7 @@ typedef struct {
     s16 field_C8;
 } GlobalState;
 
-typedef struct {
-    s16 field_0;
-    s16 field_2;
-    u16 field_4;
-    u16 field_6;
-    s32 field_8;
-    s16 field_C;
-} State;
-
-typedef struct S_800A25CC_1 {
-    u8 pad_00[0x4];
-    s16 unk_04;
-    s16 unk_06;
-    s16 unk_08;
-    s16 unk_0A;
-    s16 unk_0C;
-    u8 pad_0E[0x2];
-    s32 unk_10;
-    s32 unk_14;
-} S_800A25CC_1;
+#include "town/menu/view_state.h"
 
 extern s32 rcos(s32);
 extern s16 ratan2(s32, s32);
@@ -42,6 +23,6 @@ extern u8 D_800A2690[9];
 
 /* Functions defined in this translation unit. */
 void update_view_driven_state(State *state);
-void *allocate_randomized_effect_object(s32 state_value);
+void *allocate_randomized_effect_object(State *state_value);
 
 #endif

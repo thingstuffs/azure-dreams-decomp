@@ -7,10 +7,6 @@
 #include "town.h"
 #include "town/player/motion.h"
 
-typedef struct S_80099CE0_2 {
-    u8 pad_00[0x18];
-    s32 unk_08;
-} S_80099CE0_2;   
 
 
 
@@ -19,7 +15,7 @@ typedef struct S_80099CE0_2 {
  * count 0x20.
  */
 void init_positive_y_step_action(TownObjectRecord *object, void *unused, void *handler_context) {
-    call_the_handler_selects_nonzero_entry((s32 *) ((S_80099CE0_2 *)(object->unk_44))->unk_08, object, handler_context);
+    call_the_handler_selects_nonzero_entry(object->handler_entries[6], object, handler_context);
     object_index_slots[object->unk_40].unk_00 = 0;
     object->unk_04.as_pm = step_actor_positive_y_until_timer_expires;
     object->unk_0A.as_s16 = 0x20;

@@ -97,7 +97,7 @@ void update_linked_monster_effect(LinkedObjectChainBody *effect_in, ObjectPositi
     sprite = sprite_in;
     sprite_effect_update_count = sprite_effect_update_count + 1;
     if (head == NULL) {
-        step_entry_index_within_bounds(sprite, (u8 *)effect_in + 0x32, effect_in->unk_38,
+        step_entry_index_within_bounds(sprite, &effect_in->unk_32, effect_in->unk_38,
             effect_in->unk_36);
         func_80026548(effect_in, sprite->frame_entry);
         phase = effect_in->unk_2C;
@@ -136,7 +136,7 @@ void update_linked_monster_effect(LinkedObjectChainBody *effect_in, ObjectPositi
             {
                 void *sprite_data = sprite;
                 SpriteFrameState *orientation_sprite = sprite_data;
-                GteShortVector *offset = (u8 *)effect_in + 0x24;
+                GteShortVector *offset = (GteShortVector *)&effect_in->unk_24;
 
                 transform_result = resolve_record_orientation_or_fallback(orientation_sprite->source, orientation_sprite, offset, 0);
             }

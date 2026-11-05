@@ -39,8 +39,8 @@ s32 initialize_gym_minigame(void)
 
     object_or_slot = (s32)allocate_flagged_object_node(2);
     if (object_or_slot != 0) {
-        parent_link = (u8 *)object_or_slot + 0x20;
-        ((ObjectNodeHeader *)((void *)object_or_slot))->update_callback = &D_80022F60;
+        parent_link = NODE_BODY((ObjectNodeHeader *)object_or_slot);
+        ((ObjectNodeHeader *)object_or_slot)->update_callback = &D_80022F60;
     }
 
     position[0] = 0x03800000;
@@ -65,11 +65,11 @@ s32 initialize_gym_minigame(void)
 
     object_or_slot = (s32)allocate_flagged_object_node(0x136);
     if (object_or_slot != 0) {
-        ((ObjectNodeHeader *)((void *)object_or_slot))->update_callback = &D_800240B0;
-        object_data = (u8 *)object_or_slot + 0x20;
+        ((ObjectNodeHeader *)object_or_slot)->update_callback = &D_800240B0;
+        object_data = NODE_BODY((ObjectNodeHeader *)object_or_slot);
         register_node((void *)object_or_slot, project_sprite_chain);
 
-        render_record = ((ObjectNodeHeader *)((void *)object_or_slot))->sprite;
+        render_record = ((ObjectNodeHeader *)object_or_slot)->sprite;
         render_record->scale_y = 0x1000;
         render_record->scale_x = 0x1000;
         render_record->source = &gym_sprite_source;
@@ -79,13 +79,13 @@ s32 initialize_gym_minigame(void)
         *(void **)((u8 *)object_data + 0x4C) = shared_data;
 
         configure_the_set_mode_n_3((u8 *)object_or_slot + 0x24,
-                      ((ObjectNodeHeader *)((void *)object_or_slot))->position,
+                      ((ObjectNodeHeader *)object_or_slot)->position,
                       &D_80026F0C);
 
-        ((IntVector3 *)(((ObjectNodeHeader *)((void *)object_or_slot))->position))->x = 0x03800000;
-        ((IntVector3 *)(((ObjectNodeHeader *)((void *)object_or_slot))->position))->y = 0x03C00000;
-        ((IntVector3 *)(((ObjectNodeHeader *)((void *)object_or_slot))->position))->z = 0;
-        *(void **)((u8 *)object_or_slot + 0x20) = parent_link;
+        ((IntVector3 *)(((ObjectNodeHeader *)object_or_slot)->position))->x = 0x03800000;
+        ((IntVector3 *)(((ObjectNodeHeader *)object_or_slot)->position))->y = 0x03C00000;
+        ((IntVector3 *)(((ObjectNodeHeader *)object_or_slot)->position))->z = 0;
+        *(void **)NODE_BODY((ObjectNodeHeader *)object_or_slot) = parent_link;
     }
 
     return 0;

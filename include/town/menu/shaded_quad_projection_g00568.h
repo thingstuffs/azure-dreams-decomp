@@ -7,34 +7,8 @@
 #include "shared/gpu_packets.h"
 #include "shared/game_work.h"
 
-/* POLY_G4 packet built in the frame draw context and initialized by SetPolyG4. */
-typedef struct ShadedQuadPacket {
-    /* 0x00 */ u8 pad_00[0x4];
-    /* 0x04 */ u8 red0;
-    /* 0x05 */ u8 green0;
-    /* 0x06 */ u8 blue0;
-    /* 0x07 */ u8 pad_07;
-    /* 0x08 */ u16 x0;
-    /* 0x0A */ u16 y0;
-    /* 0x0C */ u8 red1;
-    /* 0x0D */ u8 green1;
-    /* 0x0E */ u8 blue1;
-    /* 0x0F */ u8 pad_0F;
-    /* 0x10 */ u16 x1;
-    /* 0x12 */ u16 y1;
-    /* 0x14 */ u8 red2;
-    /* 0x15 */ u8 green2;
-    /* 0x16 */ u8 blue2;
-    /* 0x17 */ u8 pad_17;
-    /* 0x18 */ u16 x2;
-    /* 0x1A */ u16 y2;
-    /* 0x1C */ u8 red3;
-    /* 0x1D */ u8 green3;
-    /* 0x1E */ u8 blue3;
-    /* 0x1F */ u8 pad_1F;
-    /* 0x20 */ u16 x3;
-    /* 0x22 */ u16 y3;
-} ShadedQuadPacket;
+#include "sdk/libgpu_packets.h"
+typedef POLY_G4 ShadedQuadPacket;
 
 typedef struct InputPair {
     u32 first;

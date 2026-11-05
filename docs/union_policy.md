@@ -45,9 +45,10 @@ same-object proofs, retired rows, and failed byte proofs.
 
 `python3 tools/lint/debt_check.py --unions --root .` fails for any current
 definition without a ledger row or for a count above
-`tools/lint/union_baseline.json`; `make check` runs it.  The baseline records
-the pre-retirement count of 2,354 and their IDs.  It stays fixed when definitions are
-retired.  Adding a union requires a proven ledger row with `UNION:` evidence
+`tools/lint/union_baseline.json`.  It is not part of `make check`; run it before
+landing (the batch checks do).  The baseline (`count` and `ids` in
+`tools/lint/union_baseline.json`) records the current definitions and is
+rewritten downward as definitions are retired.  Adding a union requires a proven ledger row with `UNION:` evidence
 while still keeping the total at or below the baseline.  The check also catches
 stale member lists and a retired union reintroduced at its old ID.  This checker detects physical source
 definitions; it does not parse union-producing macros.

@@ -117,7 +117,7 @@ void set_boss_effect_data_pointer(ActorRecord *object, ObjectPosition *unused_1,
 
 /* Owner declarations appended by tools/headers (append-only; the lines above are hand-kept). */
 struct S_801720D0_0;
-void advance_boss_actor_movement_state(ActorRecord *move_state, void *unused, void *position_in, void *actor_in);
+void advance_boss_actor_movement_state(ActorRecord *move_state, void *unused, SpriteFrameState *position_in, void *actor_in);
 void allocate_type_12_object(void);
 void spawn_rising_trail_emitter(void);
 void update_rising_trail_emitter(void *record_data, struct S_801720D0_0 *state);

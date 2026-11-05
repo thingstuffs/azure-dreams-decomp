@@ -55,7 +55,7 @@ s16 query_larger_position_result(ObjectPosition *input);
 s16 select_the_smaller_position_query_result_capped_n_64_writes_associated(void *position_data, s32 *out_value);
 
 /* set_player_handler_and_position_value.c */
-void set_player_handler_and_position_value(void *object, s32 value_arg, struct SpriteFrameState *handler_param);
+void set_player_handler_and_position_value(TownObjectRecord *object, s32 value_arg, struct SpriteFrameState *handler_param);
 
 /* store_position_and_compute_delta.c */
 void store_position_and_compute_delta(s32 *newValue);

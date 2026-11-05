@@ -1,5 +1,5 @@
 {
- "count": 2289,
+ "count": 2288,
  "ids": [
   "include/dungeon/actor/ability_eligibility.h::S_800A4300_2.unk_F0",
   "include/dungeon/actor/action_target_selection_g00359.h::S_800CA444_0.unk_24",
@@ -128,7 +128,6 @@
   "include/dungeon/effect/mesh/star_edge_effect.h::StarEdgeEffectBody.unk_40",
   "include/dungeon/effect/mesh/star_edge_effect.h::StarEdgeEffectBody.unk_58",
   "include/dungeon/effect/mesh/star_edge_effect.h::StarEdgeEffectBody.unk_60",
-  "include/dungeon/effect/motion.h::CylindricalEffectWork.timer",
   "include/dungeon/effect/motion.h::SpiralingBody.unk_24",
   "include/dungeon/effect/motion.h::SpiralingBody.unk_28",
   "include/dungeon/effect/motion/create_randomized_source_effect.h::Row_8191CBCC_S_8191CBCC_2.unk_10",
@@ -1757,10 +1756,10 @@
   "src/dungeon/effect/sprite/update_following_color_blend_effect.c::FollowingColorEffect.phase",
   "src/dungeon/effect/sprite/update_following_color_blend_effect.c::FollowingColorEffect.steps",
   "src/dungeon/effect/sprite/update_following_color_blend_effect.c::FollowingColorEffect.target_x",
+  "src/dungeon/effect/sprite/update_jittered_effect_points.c::AttackSequenceController.unk_0A",
+  "src/dungeon/effect/sprite/update_jittered_effect_points.c::AttackSequenceController.unk_50",
+  "src/dungeon/effect/sprite/update_jittered_effect_points.c::AttackSequenceController.unk_52",
   "src/dungeon/effect/sprite/update_jittered_effect_points.c::E_DVEC.E_DVEC",
-  "src/dungeon/effect/sprite/update_jittered_effect_points.c::JitteredPointSequenceState.unk_0A",
-  "src/dungeon/effect/sprite/update_jittered_effect_points.c::JitteredPointSequenceState.unk_50",
-  "src/dungeon/effect/sprite/update_jittered_effect_points.c::JitteredPointSequenceState.unk_52",
   "src/dungeon/effect/sprite/update_jittered_effect_points.c::S_800244BC_2.unk_00",
   "src/dungeon/effect/sprite/update_jittered_effect_points.c::S_800244BC_2.unk_04",
   "src/dungeon/effect/sprite/update_jittered_effect_points.c::S_800244BC_2.unk_08",
@@ -2291,6 +2290,6 @@
   "src/town/shop/lower_value_toward_target.c::S_800B1890_0.unk_08",
   "src/town/shop/position/initialize_templated_state_and_position.c::S_800B4200_arg4.S_800B4200_arg4"
  ],
- "reason": "ACCURACY 116 rebaseline: definitions after the first retirement wave; IDs renamed or moved by ACCURACY 111-115 stay tracked as unproven",
+ "reason": "ACCURACY 117 rebaseline: 2,288 definitions; JitteredPointSequenceState renamed AttackSequenceController",
  "schema": 1
 }

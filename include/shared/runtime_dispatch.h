@@ -47,16 +47,4 @@ typedef struct RuntimeSourceValueView {
     int unk_08;
 } RuntimeSourceValueView;
 
-/* Signed word at +8 carrying a handler-table address; retained as an integer. */
-typedef struct HandlerAddressWordView {
-    unsigned char pad_00[0x8];
-    int unk_08;
-} HandlerAddressWordView;
-
-/* Signed word at +0x1C holding a handler-table address; pointer representation is unchanged. */
-typedef struct HandlerTableWordView {
-    unsigned char pad_00[0x1C];
-    int unk_08;
-} HandlerTableWordView;
-
 #endif

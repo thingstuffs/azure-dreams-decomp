@@ -2395,11 +2395,6 @@ void start_bank_actor_hit_reaction(ActorRecord *work, ObjectPosition *part_a, Sp
 #define NULL ((void *)0)
 #endif
 
-#define U16_AT(p, n) (*(u16 *)((u8 *)(p) + (n)))
-#define S16_AT(p, n) (*(s16 *)((u8 *)(p) + (n)))
-#define S32_AT(p, n) (*(s32 *)((u8 *)(p) + (n)))
-#define PTR_AT(p, n) (*(void **)((u8 *)(p) + (n)))
-
 typedef struct {
     u16 value[5];
 } Record10;
@@ -2428,8 +2423,8 @@ void update_bank_timed_effect(ActorRecord *state_input, ObjectPosition *motion_i
     s32 state;
     u16 animation_flags;
     s16 timer;
-    void *effect_object;
     CylindricalEffectWork *spawned_data;
+    ObjectNodeHeader *effect_object;
     s32 effect_data;
     s32 next_state;
 
@@ -2463,14 +2458,14 @@ void update_bank_timed_effect(ActorRecord *state_input, ObjectPosition *motion_i
         effect_object = allocate_list_node(0x201, &scene_object_list_anchor.next);
         if (effect_object != NULL) {
             register_node(effect_object, zu_object_callback);
-            PTR_AT(effect_object, 0x10) = create_cylindrical_effect;
+            effect_object->update_callback = create_cylindrical_effect;
             /* This callback consumes the work body allocated by the same node. */
-            spawned_data = (u8 *)effect_object + 0x20;
+            spawned_data = NODE_BODY(effect_object);
             spawned_data->origin_x = motion_input->x.unsigned_parts.integer + spawn_offset[0];
             spawned_data->origin_y = motion_input->y.unsigned_parts.integer + spawn_offset[1];
             spawned_data->origin_z = motion_input->z.unsigned_parts.integer + spawn_offset[2];
             spawned_data->shade = 0x80;
-            spawned_data->timer.s = active_state;
+            spawned_data->timer = active_state;
         }
         play_sound_if_enabled(0x815);
         {
@@ -2486,10 +2481,10 @@ void update_bank_timed_effect(ActorRecord *state_input, ObjectPosition *motion_i
         if (effect_data != 0) {
             timer = state_input->action_timer.s;
             if (timer >= 0x12) {
-                effect_object = (u8 *)(long)effect_data - 0x20;
+                effect_object = NODE_HEADER(actor_input->target);
                 if (timer < 0x17) {
-                    U16_AT(PTR_AT(effect_object, 0x0C), 0x1C) = effect_values_1c.value[timer - 0x12];
-                    U16_AT(PTR_AT(effect_object, 0x0C), 0x1E) = effect_values_1e.value[state_input->action_timer.s
+                    effect_object->sprite->scale_x = effect_values_1c.value[timer - 0x12];
+                    effect_object->sprite->scale_y = effect_values_1e.value[state_input->action_timer.s
                         - 0x12];
                 }
             }
@@ -2553,14 +2548,14 @@ void create_cylindrical_effect(CylindricalEffectWork *state) {
     if (state->stage == 8) {
         state->shade = (s32) (state->shade + 8);
     }
-    ticks_left = state->timer.u - 1;
-    state->timer.u = ticks_left;
+    ticks_left = state->timer - 1;
+    state->timer = ticks_left;
     if ((ticks_left << 0x10) <= 0) {
         next_delay = 1;
         if (state->stage == 7) {
             next_delay = 0xA;
         }
-        state->timer.u = next_delay;
+        state->timer = next_delay;
         state->shade = (s32) ((state->shade == 0) << 7);
         state->stage = (s16) ((u16) state->stage + 1);
     }

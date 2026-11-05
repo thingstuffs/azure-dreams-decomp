@@ -185,8 +185,8 @@ void check_the_target_using_scaled_low_byte_conditionally_applies_global_800_e_1
 void create_a_sprite_effect_position_randomized_rotation(s16 x, s16 y, s16 z);
 void create_quad_fragments_vertex_grid_randomized_motion_rotation(void);
 void handle_retail_n_81887570_callee_80024_d_70_fade_colour_n_1_n_8_per_call_mark(void *effect, ObjectPosition *unused, struct EffectColor *color);
-struct JitteredPointSequenceState;
-void run_jittered_point_sequence(struct JitteredPointSequenceState *sequence, void *out_position);
+struct AttackSequenceController;
+void run_jittered_point_sequence(struct AttackSequenceController *sequence, void *out_position);
 void run_radial_sprite_sequence(struct S_func_81886800_1 *effect, struct S_func_81886800_11 *motion, struct S_func_81886800_3 *sprite);
 struct JitteredBoltSegmentBody;
 void update_jittered_effect_points(struct JitteredBoltSegmentBody *effect);

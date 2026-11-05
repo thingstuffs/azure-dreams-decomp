@@ -35,7 +35,7 @@ typedef struct TownPlayerRecord {
     /* 0x3A */ u8 pad_3A[4];
     /* 0x3E */ u16 unk_3E;
     /* 0x40 */ s32 slot;
-    /* 0x44 */ void *unk_44;
+    /* 0x44 */ s32 **handler_entries;
     /* 0x48 */ u8 pad_48[0x20];
 } TownPlayerRecord;
 

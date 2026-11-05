@@ -23,12 +23,13 @@ void fill_display_slots(EntityRec *source, s32 output) {
     void *entry;
     s32 *slot_value;
     void *slot_cursor;
-    void *source_cursor;
+    /* Three-byte source slots and four-byte pointer slots share this byte cursor. */
+    u8 *source_cursor;
 
     slot_count = 0;
     index = slot_count;
     scan_base = 8;
-    source_cursor = source;
+    source_cursor = (u8 *)source;
     do {
         if (((S_800B62A4_0 *)source_cursor)->unk_08 != 0) {
             populate_display_row_with_icon((u8 *)source + scan_base, output, slot_count);
@@ -44,7 +45,7 @@ void fill_display_slots(EntityRec *source, s32 output) {
     has_room = slot_count < 3;
     scan_base = slot_count;
     if (has_room != 0) {
-        source_cursor = entries;
+        source_cursor = (u8 *)entries;
         do {
             entry = *(void **)source_cursor;
             if (entry != 0) {

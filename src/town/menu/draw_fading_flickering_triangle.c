@@ -10,13 +10,6 @@
 #include "town/menu/flickering_triangle_packet.h"
 
 
-typedef struct S_800A2690_1 {
-    u16 unk_00;
-    u16 unk_02;
-    u16 unk_04;
-    u16 unk_06;
-} S_800A2690_1;   /* source in draw_fading_flickering_triangle */
-
    /* state in draw_fading_flickering_triangle */
 
 /* Advance the effect lifetime and draw a fading, flickering triangle. */
@@ -41,17 +34,17 @@ void draw_fading_flickering_triangle(FadingTriangleEffectBody *effect)
     s32 wave_sum;
     s32 intensity;
     s32 draw_page;
-    S_800A2690_1 *params;
+    State *params;
     GpuContext *render_state;
     FlickeringTrianglePacket *triangle;
     u8 *draw_packet;
 
-    params = (S_800A2690_1 *)effect->parameters;
-    angle = params->unk_02;
-    base_x = params->unk_00;
-    base_phase_x = params->unk_04;
+    params = effect->parameters;
+    angle = (u16)params->field_2;
+    base_x = (u16)params->field_0;
+    base_phase_x = params->field_4;
     ticks_left = effect->ticks_left - 1;
-    base_phase_y = params->unk_06;
+    base_phase_y = params->field_6;
     center_x = base_x + effect->center_offset + 0xA0;
     effect->ticks_left = ticks_left;
     phase_x = base_phase_x + effect->phase_x_offset;
@@ -84,7 +77,7 @@ void draw_fading_flickering_triangle(FadingTriangleEffectBody *effect)
 
         intensity = (intensity * wave_sum) / 36864;
         intensity =
-            (intensity * ((EffectStateWordView *)(effect->parameters))->unk_08) / 4096;
+            (intensity * effect->parameters->field_8) / 4096;
         intensity /= 4;
 
         triangle->blue1 = intensity;
@@ -105,7 +98,7 @@ void draw_fading_flickering_triangle(FadingTriangleEffectBody *effect)
         triangle->y1 = 0;
         triangle->x2 =
             center_x - (effect->triangle_width * rsin((s16)angle)) / 4096;
-        (*(s16 *)((u8 *)triangle + 0x1A)) =
+        (*(s16 *)((u8 *)&triangle->y2)) =
             (effect->triangle_width * rcos((s16)angle)) / 4096;
 
         render_state = (GpuContext *)(*(u8 **)&g_game_work.draw_buffer);

@@ -3,30 +3,6 @@
 
 /* Element of D_80084960 stat/entity table, stride 0x9C (156) bytes.
    Layout reconciled with src/w_80056A08.c (same TU family). */
-typedef struct {
-    s32 f00, f04, f08, f0c, f10, f14, f18, f1c, f20, f24, f28, f2c;
-    s8 f30;
-    u8 pad31[9];
-    s16 f3a;
-    u8 pad3c[4];
-    s16 f40;
-    u8 pad42[2];
-    s32 f44, f48;
-    u8 pad4c[4];
-    s16 f50;
-    u8 pad52[0xD];
-    s8 f5f, f60, f61;
-    u8 pad62[2];
-    s32 f64, f68;
-    u8 pad6c[0xE];
-    s8 f7a, f7b, f7c;
-    u8 pad7d[3];
-    s32 f80, f84;
-    u8 pad88[0xC];
-    s32 f94;
-    s8 f98;
-    u8 pad99[3];
-} S_80084960;
 
 /* Element of D_80085458 table, stride 0x78 (120) bytes.
    Layout reconciled with src/w_80056A08.c (same TU family). */
@@ -53,7 +29,7 @@ typedef struct {
 } S_80085458;
 
 extern s32 audio_voice_count[4];
-extern S_80084960 audio_channel_controls[16];
+extern AudioChannelControl audio_channel_controls[16];
 extern S_80085458 audio_voice_records[24];
 
 extern void audio_update_voice_vibrato(S_80085458 *envelope);
@@ -63,7 +39,7 @@ extern void audio_update_voice_vibrato(S_80085458 *envelope);
  * for voices whose channel index is below 16.
  */
 void sound_update_voice_modulation_slots(void) {
-    S_80084960 *entity;
+    AudioChannelControl *entity;
     s32 slot;
 
     for (slot = 0, entity = audio_channel_controls; slot < 0x10; slot++, entity++) {

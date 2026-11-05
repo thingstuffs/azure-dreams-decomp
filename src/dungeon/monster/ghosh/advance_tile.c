@@ -59,7 +59,7 @@ static __inline__ u8 advance_tile(u8 tile, const u8 * table, u16 index)
 }
 
 /* Choose a movement heading, advance the actor_in, and update its movement state. */
-void advance_boss_actor_movement_state(ActorRecord *move_state, void *unused, void *position_in, void *actor_in) {
+void advance_boss_actor_movement_state(ActorRecord *move_state, void *unused, SpriteFrameState *position_in, void *actor_in) {
     ObjectNodeHeader *previous_node;
     void *previous_body;
     ActorRecord *previous_actor;
@@ -92,12 +92,12 @@ void advance_boss_actor_movement_state(ActorRecord *move_state, void *unused, vo
         move_flags = ((S_8016FCE4_0 *)actor_in)->unk_1C;
         if (move_flags & 0x410) {
             if (move_flags & 0x400) {
-                target = find_adjacent_actor(actor_in, ((ActorRecord *)position_in)->mp_value.parts.fraction,
-                    ((ActorRecord *)position_in)->mp_value.parts.whole);
+                target = find_adjacent_actor(actor_in, position_in->tile_x,
+                    position_in->tile_y);
                 if (target != 0) {
                     target_position = ((SpriteLinkPrefixView *)target)[-1].sprite;
-                    ((S_8016FCE4_0 *)actor_in)->unk_2A.u = get_rounded_facing_and_rounding_flag(((ActorRecord *)position_in)->mp_value.parts.fraction,
-                        ((ActorRecord *)position_in)->mp_value.parts.whole, target_position->tile_x, target_position->tile_y,
+                    ((S_8016FCE4_0 *)actor_in)->unk_2A.u = get_rounded_facing_and_rounding_flag(position_in->tile_x,
+                        position_in->tile_y, target_position->tile_x, target_position->tile_y,
                         &move_state->action_state_flags);
                     ((S_8016FCE4_0 *)actor_in)->unk_71.u = ((S_8016FCE4_0 *)actor_in)->unk_71.u & 0x7F;
                     return;
@@ -109,8 +109,8 @@ void advance_boss_actor_movement_state(ActorRecord *move_state, void *unused, vo
                     ((S_8016FCE4_0 *)actor_in)->unk_2A.u += (generate_random_value() & 7) << 9;
                 }
             } else {
-                move_result = probe_directional_neighbor(actor_in, ((ActorRecord *)position_in)->mp_value.parts.fraction,
-                    ((ActorRecord *)position_in)->mp_value.parts.whole, (s16) ((S_8016FCE4_0 *)actor_in)->unk_2A.u);
+                move_result = probe_directional_neighbor(actor_in, position_in->tile_x,
+                    position_in->tile_y, (s16) ((S_8016FCE4_0 *)actor_in)->unk_2A.u);
                 if (move_result != 0) {
                     ((S_8016FCE4_0 *)actor_in)->unk_71.s = (s8) ((u8) ((S_8016FCE4_0 *)actor_in)->unk_71.s & 0x7F);
                     return;
@@ -131,21 +131,21 @@ void advance_boss_actor_movement_state(ActorRecord *move_state, void *unused, vo
                         << 0x10) >> 0x19)) & 7) * 2;
                     target_x = position_base->tile_position.parts.tile_x + *(u16 *)(x_table_base + dir_index);
                     target_y = reference_tile_object.tile_position.parts.tile_y + (u16)dir_step_y[dir_index >> 1];
-                    if ((((ActorRecord *)position_in)->mp_value.parts.fraction != (u16)target_x)
-                        || (((ActorRecord *)position_in)->mp_value.parts.whole != (u16)target_y)) {
+                    if ((position_in->tile_x != (u16)target_x)
+                        || (position_in->tile_y != (u16)target_y)) {
                         heading_state = &move_state->action_state_flags;
-                        target_heading = get_rounded_facing_and_rounding_flag(((ActorRecord *)position_in)->mp_value.parts.fraction,
-                            ((ActorRecord *)position_in)->mp_value.parts.whole, (s16) target_x, (s16) target_y,
+                        target_heading = get_rounded_facing_and_rounding_flag(position_in->tile_x,
+                            position_in->tile_y, (s16) target_x, (s16) target_y,
                             heading_state);
                         ((S_8016FCE4_0 *)actor_in)->unk_2A.u = (u16) target_heading;
                         if ((check_movement_clearance_and_height(target_heading, position_in, actor_in, 0x20) << 0x10) <= 0) {
                             ((S_8016FCE4_0 *)actor_in)->unk_2A.u =
-                                get_rounded_facing_and_rounding_flag(((ActorRecord *)position_in)->mp_value.parts.fraction,
-                                ((ActorRecord *)position_in)->mp_value.parts.whole, D_80082E80_b.tile_position.parts.tile_x, D_80082E80_b.tile_position.parts.tile_y,
+                                get_rounded_facing_and_rounding_flag(position_in->tile_x,
+                                position_in->tile_y, D_80082E80_b.tile_position.parts.tile_x, D_80082E80_b.tile_position.parts.tile_y,
                                 heading_state);
                         }
-                        move_result = test_neighbor_position_relation(((ActorRecord *)position_in)->mp_value.parts.fraction,
-                            ((ActorRecord *)position_in)->mp_value.parts.whole, D_80082E80_b.tile_position.parts.tile_x, D_80082E80_b.tile_position.parts.tile_y);
+                        move_result = test_neighbor_position_relation(position_in->tile_x,
+                            position_in->tile_y, D_80082E80_b.tile_position.parts.tile_x, D_80082E80_b.tile_position.parts.tile_y);
                         if ((move_result << 0x10) != 0) {
                             limit_turns = 1;
                         }
@@ -182,21 +182,21 @@ void advance_boss_actor_movement_state(ActorRecord *move_state, void *unused, vo
                 {
                     ((S_8016FCE4_0 *)actor_in)->unk_2A.u = (u16) trial_heading;
                     ((ActorRecord *)actor_in)->path_x[((u8) ((S_8016FCE4_0 *)actor_in)->unk_71.s & 0x7F)] =
-                        (u8) ((ActorRecord *)position_in)->mp_value.parts.fraction;
+                        (u8) position_in->tile_x;
                     ((ActorRecord *)actor_in)->path_y[((u8) ((S_8016FCE4_0 *)actor_in)->unk_71.s & 0x7F)] =
-                        (u8) ((ActorRecord *)position_in)->mp_value.parts.whole;
+                        (u8) position_in->tile_y;
                     ((S_8016FCE4_0 *)actor_in)->unk_71.s = (s8) ((u8) ((S_8016FCE4_0 *)actor_in)->unk_71.s + 1);
-                    update_map_cell_flags_with_item_limit(((ActorRecord *)position_in)->mp_value.parts.fraction,
-                        ((ActorRecord *)position_in)->mp_value.parts.whole,
+                    update_map_cell_flags_with_item_limit(position_in->tile_x,
+                        position_in->tile_y,
                                   (((S_8016FCE4_0 *)actor_in)->unk_1C & 0x2000) ? 0x300 : 0x3000);
                     step_coord = ((u16) ((S_8016FCE4_0 *)actor_in)->unk_2A.u >> 8) & 0xE;
-                    ((ActorRecord *)position_in)->mp_value.parts.fraction =
-                        advance_tile(((ActorRecord *)position_in)->mp_value.parts.fraction, x_offsets, step_coord);
+                    position_in->tile_x =
+                        advance_tile(position_in->tile_x, x_offsets, step_coord);
                     y_address = step_coord + (s32)((u8 *)dir_step_y);
-                    ((ActorRecord *)position_in)->mp_value.parts.whole =
-                        advance_tile(((ActorRecord *)position_in)->mp_value.parts.whole, (u8 *)y_address, 0);
-                    step_coord = ((ActorRecord *)position_in)->mp_value.parts.fraction;
-                    tile_y = ((ActorRecord *)position_in)->mp_value.parts.whole;
+                    position_in->tile_y =
+                        advance_tile(position_in->tile_y, (u8 *)y_address, 0);
+                    step_coord = position_in->tile_x;
+                    tile_y = position_in->tile_y;
                     if (((S_8016FCE4_0 *)actor_in)->unk_1C & 0x2000) {
                         tile_mask = 0x300;
                     } else {
@@ -206,7 +206,7 @@ void advance_boss_actor_movement_state(ActorRecord *move_state, void *unused, vo
                     break;
                 }
             }
-            if ((turn_index != 0) || (reference_tile_object.tile_position.word == ((ActorRecord *)position_in)->mp_value.whole)
+            if ((turn_index != 0) || (reference_tile_object.tile_position.word == *(u16 *)&position_in->tile_x)
                 || ((check_entity_relation(actor_in, (previous_node = primary_actor_record->previous_actor_header,
                     previous_body = previous_node + 1, previous_actor = previous_body)) << 0x10) == 0)) {
                 turn_index += 1;
@@ -223,15 +223,15 @@ void advance_boss_actor_movement_state(ActorRecord *move_state, void *unused, vo
             return;
         }
         ((S_8016FCE4_0 *)actor_in)->unk_46 = (u16) (((S_8016FCE4_0 *)actor_in)->unk_46 & 0x7FFF);
-        move_state->unk_9C = (s8) ((ActorRecord *)position_in)->current_attack;
+        move_state->unk_9C = (s8) position_in->room_index;
         ((S_8016FCE4_0 *)actor_in)->unk_6D.u = (u8) (((S_8016FCE4_0 *)actor_in)->unk_6D.u - 1);
         g_dungeon_status.activity_counts.parts.pending_movement_count = (u16) (((u16)g_dungeon_status.activity_counts.parts.pending_movement_count) + 1);
         if (((S_8016FCE4_0 *)actor_in)->unk_6D.s == 0) {
             ((S_8016FCE4_0 *)actor_in)->unk_71.s = (s8) ((u8) ((S_8016FCE4_0 *)actor_in)->unk_71.s & 0x7F);
             return;
         }
-        turn_index = (s16) sample_terrain_surface_height((((ActorRecord *)position_in)->mp_value.parts.fraction << 6) | 0x20,
-            (((ActorRecord *)position_in)->mp_value.parts.whole << 6) | 0x20,
+        turn_index = (s16) sample_terrain_surface_height((position_in->tile_x << 6) | 0x20,
+            (position_in->tile_y << 6) | 0x20,
             (s16) (((S_8016FCE4_0 *)actor_in)->unk_88 - 0x20));
         if (turn_index < 0x200) {
             ((S_8016FCE4_0 *)actor_in)->unk_88 = (u16) turn_index;

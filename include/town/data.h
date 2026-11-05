@@ -21,7 +21,14 @@ struct TownRecord;
 
 typedef void (*MapSecondaryCallback)(s32 *);
 typedef struct MapSecondaryCallbackState {
-    u8 pad_00[0x1C];
+    u16 current_x;
+    u16 current_y;
+    s16 current_z;
+    u8 pad_06[0xA];
+    u16 saved_x;
+    u16 saved_y;
+    s16 saved_z;
+    u8 pad_16[6];
     MapSecondaryCallback select_title;
     MapSecondaryCallback update_coordinates;
 } MapSecondaryCallbackState;

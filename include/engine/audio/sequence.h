@@ -4,6 +4,52 @@
 
 #include "common.h"
 
+/* Shared 0x9C-byte entry of audio_channel_controls. The modulation loop passes
+ * each entry to sound_step_clamped_signed_ramp; start_channel_note uses the
+ * same table for note settings. */
+typedef struct AudioChannelControl {
+    /* 0x00 */ u16 f00;
+    u8 pad02[0x10 - 0x02];
+    /* 0x10 */ s32 f10;
+    u8 pad14[0x18 - 0x14];
+    /* 0x18 */ u8 f18;
+    u8 pad19[0x1C - 0x19];
+    /* 0x1C */ s32 f1C;
+    u8 pad20[0x28 - 0x20];
+    /* 0x28 */ u32 f28;
+    u8 pad2C[0x30 - 0x2C];
+    /* 0x30 */ u8 f30;
+    u8 pad31[0x3A - 0x31];
+    /* 0x3A */ u16 f3A;
+    u8 pad3C[0x50 - 0x3C];
+    /* 0x50 */ s16 f50;
+    /* 0x52 */ u16 f52;
+    /* 0x54 */ s16 f54;
+    /* 0x56 */ u16 f56;
+    /* 0x58 */ s32 f58;
+    /* 0x5C */ u8 f5C;
+    /* 0x5D */ u8 f5D;
+    u8 pad5E[0x68 - 0x5E];
+    /* 0x68 */ s32 f68;
+    /* 0x6C */ u8 f6C;
+    /* 0x6D */ u8 f6D;
+    /* 0x6E */ u8 f6E;
+    u8 pad6F;
+    /* 0x70 */ s32 f70;
+    u8 pad74[0x78 - 0x74];
+    /* 0x78 */ u8 f78;
+    u8 pad79[0x84 - 0x79];
+    /* 0x84 */ s32 f84;
+    /* 0x88 */ u8 f88;
+    /* 0x89 */ u8 f89;
+    /* 0x8A */ u8 f8A;
+    u8 pad8B;
+    /* 0x8C */ s32 f8C;
+    u8 pad90[0x98 - 0x90];
+    /* 0x98 */ u8 f98;
+    u8 pad99[0x9C - 0x99];
+} AudioChannelControl;
+
 typedef struct SoundVoiceRecord {
     u8 pad00[4];
     u16 field04;
@@ -188,7 +234,7 @@ void sound_set_seven_bit_channel_value_and_notify(u8 index, s32 unused, s32 valu
 void sound_step_bipolar_oscillation(struct S_80056800_0 *state);
 
 /* sound_step_clamped_signed_ramp.c */
-void sound_step_clamped_signed_ramp(void *state);
+void sound_step_clamped_signed_ramp(AudioChannelControl *state);
 
 /* sound_tick_guarded_periodic_update.c */
 long long sound_tick_guarded_periodic_update(void);

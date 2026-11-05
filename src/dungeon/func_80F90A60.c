@@ -89,7 +89,7 @@ void update_actor_timed_visual_slot_f(ActorRecord *state_input, ObjectPosition *
             spawned_data->origin_y = (u16)motion->y.w.i + spawn_offset.distance[1];
             spawned_data->origin_z = (u16)motion->z.w.i + spawn_offset.distance[2];
             spawned_data->shade = 0x80;
-            spawned_data->timer.s = active_state;
+            spawned_data->timer = active_state;
         }
         play_sound_if_enabled(0x815);
         {

@@ -2,6 +2,7 @@
 #define TOWN_MENU_FADING_TRIANGLE_EFFECT_H
 
 #include "common.h"
+#include "town/menu/view_state.h"
 
 /* Body allocated by allocate_randomized_effect_object for the fading triangle callback. */
 typedef struct FadingTriangleEffectBody {
@@ -13,7 +14,7 @@ typedef struct FadingTriangleEffectBody {
     /* 0x0C */ u16 phase_y_offset;
     /* 0x0E */ u8 pad_0E[2];
     /* 0x10 */ s32 triangle_width;
-    /* 0x14 */ u8 *parameters;
+    /* 0x14 */ State *parameters;
 } FadingTriangleEffectBody;
 
 #endif

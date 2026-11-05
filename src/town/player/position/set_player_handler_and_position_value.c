@@ -8,10 +8,10 @@
 #include "shared/sprite_frame_state.h"
 
 /* Clears the object slot flag, sets its handler, and updates its position-dependent value. */
-void set_player_handler_and_position_value(void *object, s32 value_arg, SpriteFrameState *handler_param) {
+void set_player_handler_and_position_value(TownObjectRecord *object, s32 value_arg, SpriteFrameState *handler_param) {
     s32 saved_value_arg;
 
-    call_the_handler_selects_nonzero_entry(*(s32 **)(*(void **)((u8 *)object + 0x44) + 0x14), object, (void *)(handler_param));
+    call_the_handler_selects_nonzero_entry(object->handler_entries[5], object, (void *)(handler_param));
     saved_value_arg = value_arg;
     *((s8 *)(object_index_slots) + (*(s32 *)((u8 *)object + 0x40) * 8)) = 0;
     *(void **)((u8 *)object + 4) = &forward_player_motion_state;

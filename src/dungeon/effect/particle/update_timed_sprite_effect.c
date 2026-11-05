@@ -11,8 +11,6 @@
 #include "dungeon/item.h"
 #include "dungeon/system.h"
 
-#define HI16(v) (((s16 *)&(v))[1])
-#define HI16U(v) (((u16 *)&(v))[1])
 
 
 
@@ -179,17 +177,17 @@ void run_timed_sprite_projectile(ProjectileState *effect, ProjectileMotion *moti
         }
         caster->unk_73.u = target_tile;
         target_tile = caster->unk_72.s;
-        HI16(target_pos.x.v) = (target_tile << 6) + 32;
+        target_pos.x.w.i = (target_tile << 6) + 32;
         target_tile = caster->unk_73.s;
-        HI16(target_pos.y.v) = (target_tile << 6) + 32;
-        HI16(target_pos.z.v) = (s16)sample_terrain_surface_height(HI16U(target_pos.x.v), HI16U(target_pos.y.v),
+        target_pos.y.w.i = (target_tile << 6) + 32;
+        target_pos.z.w.i = (s16)sample_terrain_surface_height(target_pos.x.unsigned_parts.integer, target_pos.y.unsigned_parts.integer,
                                            (s16)(((ProjectileMotion *)caster_obj->position)->z.h.unk_0A - 48));
-        if (HI16(target_pos.z.v) >= 512) {
-            HI16(target_pos.z.v) = ((ProjectileMotion *)caster_obj->position)->z.h.unk_0A;
+        if (target_pos.z.w.i >= 512) {
+            target_pos.z.w.i = ((ProjectileMotion *)caster_obj->position)->z.h.unk_0A;
         }
-        HI16(target_pos.z.v) -= 48;
-        index_or_x = HI16(target_pos.x.v) - motion->x.h.unk_02;
-        offset_y = HI16(target_pos.y.v) - motion->y.h.unk_06;
+        target_pos.z.w.i -= 48;
+        index_or_x = target_pos.x.w.i - motion->x.h.unk_02;
+        offset_y = target_pos.y.w.i - motion->y.h.unk_06;
         distance = index_or_x;
         distance = abs(distance);
         abs_dy = offset_y;
