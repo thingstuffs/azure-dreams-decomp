@@ -123,7 +123,7 @@ typedef struct
     s32 tex_w;
     s32 tex_h;
     u8 pad18[0x58];
-    union { s32 xy; struct { u16 x; u16 y; } v; } prev;
+    s32 prev;
     u16 prev_z;
     u16 pad76;
     union { s32 xy; struct { u16 x; u16 y; } v; } cur;
@@ -175,7 +175,7 @@ void draw_textured_ellipse_segments(DungeonPosition *position, DungeonParameters
 loop_0:
         {
             state_slot = (GpuContext **)&g_game_work;
-            scratchpad->prev.xy = scratchpad->cur.xy;
+            scratchpad->prev = scratchpad->cur.xy;
             center_u = (u8)scratchpad->tex_u
                 + (scratchpad->tex_w >> 1);
             *((packet_code + 17)) = center_u;
@@ -221,7 +221,7 @@ loop_0:
             *((s32 *) (packet_code + 1)) = center_xy;
             *((s32 *) (packet_code + 25)) =
                 scratchpad->cur.xy;
-            *((s32 *) (packet_code + 37)) = scratchpad->prev.xy;
+            *((s32 *) (packet_code + 37)) = scratchpad->prev;
             trig_value = rcos(angle_step / parameters->count);
             {
                 offset = scratchpad->tex_w;

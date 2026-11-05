@@ -39,12 +39,9 @@ typedef struct S_func_818BC9CC_2 {
 } S_func_818BC9CC_2;
 
 typedef struct S_func_818BC9CC_3 {
-    union {
-        u32 as_u32;
-        struct {
-            u8 pad_00[3];
-            u8 unk_03;
-        } as_bytes;
+    struct {
+        u8 pad_00[3];
+        u8 unk_03;
     } unk_00;
     u8 unk_04;
     u8 unk_05;
@@ -139,7 +136,7 @@ s32 draw_four_shaded_quads(OffsetColorEffectBody *effect, MovingPosition *positi
         packet = render_ctx->unk_8D0;
         render_ctx->unk_8D0 = (u8 *)packet + 0x34;
 
-        packet->unk_00.as_bytes.unk_03 = 0x0C;
+        packet->unk_00.unk_03 = 0x0C;
         packet->unk_07 = 0x3E;
         packet->unk_1A = GetTPage(0, 1, 0x280, 0x100);
         packet->unk_0E = effect->unk_0C;

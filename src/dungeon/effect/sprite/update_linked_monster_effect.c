@@ -17,7 +17,7 @@
 #include "dungeon/effect/sprite/linked_monster_effect.h"
 #include "dungeon/data.h"
 
-s32 func_8002589C(void *, s32, s32);        /* extern */
+s32 func_8002589C(ObjectNodeHeader *, s32, s32);        /* extern */
 s32 func_80026548(void *, s32);                 /* extern */
 void step_entry_index_within_bounds(Entry *entry, s16 *step, s32 lower, s32 upper);    /* extern */
 s32 func_800266D0(void *, void *);                  /* extern */
@@ -218,7 +218,7 @@ void update_linked_monster_effect(LinkedObjectChainBody *effect_in, ObjectPositi
                         (s32) (s16) (effect_in->unk_40.u << 9), linked_monster_attack_event[0], 5);
                 }
             }
-            func_8002589C((u8 *)effect_in - 0x20, (s16) effect_in->unk_40.u, 0xF0);
+            func_8002589C(NODE_HEADER(effect_in), (s16) effect_in->unk_40.u, 0xF0);
             break;
         case 0x10:
             motion_in->x.v += motion_in->velocity_x;
@@ -256,7 +256,7 @@ void update_linked_monster_effect(LinkedObjectChainBody *effect_in, ObjectPositi
             } else if ((s8) frame == effect_in->unk_38) {
                 effect_in->unk_32 = 1;
             }
-            func_8002589C((u8 *)effect_in - 0x20, (s16) effect_in->unk_40.u, 0xF0);
+            func_8002589C(NODE_HEADER(effect_in), (s16) effect_in->unk_40.u, 0xF0);
             break;
         }
     } else {
@@ -284,7 +284,7 @@ void update_linked_monster_effect(LinkedObjectChainBody *effect_in, ObjectPositi
         sprite->angle_z = (u16) linked_sprite->unk_1A;
     }
     if (effect_in->unk_2E == 0) {
-        register_node((u8 *)effect_in - 0x20, &D_800C9034);
+        register_node(NODE_HEADER(effect_in), &D_800C9034);
         effect_in->unk_2E = (s16) ((u16) effect_in->unk_2E + 1);
     }
 }

@@ -31,7 +31,7 @@ extern void *actor_action_frames[];
 
 /* Update airborne movement toward a map tile and finish the landing transition. */
 void update_actor_landing(void *motion_state, ObjectPosition *transform, SpriteFrameState *map_entity, ActorRecord *actor) {
-    union { s32 word; u16 halves[2]; } direction_aux;
+    u16 direction_aux[2];
     void **animation_table;
     s32 frames_left;
     s16 next_timer;
@@ -107,7 +107,7 @@ void update_actor_landing(void *motion_state, ObjectPosition *transform, SpriteF
                 if (!(actor_flags & (ACTOR_BLIND | ACTOR_CONFUSED))) {
                     if (actor_flags & ACTOR_PLAYER_AWARE) {
                         actor->facing = get_rounded_facing_and_rounding_flag(map_entity->tile_x,
-                            map_entity->tile_y, reference_tile_object.tile_position.parts.tile_x, reference_tile_object.tile_position.parts.tile_y, &direction_aux.halves[0]);
+                            map_entity->tile_y, reference_tile_object.tile_position.parts.tile_x, reference_tile_object.tile_position.parts.tile_y, &direction_aux[0]);
                     }
                 }
             }

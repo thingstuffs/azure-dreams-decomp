@@ -25,7 +25,7 @@ void update_transform_spell(TransformSpellState *spell, ObjectPosition *motion, 
     union { struct { ObjectPosition target; TransformHalf distances[3]; } fields; TransformHalf halves[15]; } travel;
     TransformHalf *axis;
     ObjectPosition *target;
-    union { s32 word; u16 halves[2]; } result_flags;
+    u16 result_flags[2];
     ActorRecord *source_actor;
     ObjectNodeHeader *visual;
     SpriteFrameState *attachment_sprite;
@@ -56,7 +56,7 @@ void update_transform_spell(TransformSpellState *spell, ObjectPosition *motion, 
     case 0:
         source_sprite = NODE_HEADER(source_actor)->sprite;
         direction_byte_offset = ((u16)primary_actor_record->facing >> 8) & 0xE;
-        source_actor->facing = get_rounded_facing_and_rounding_flag(source_sprite->tile_x, source_sprite->tile_y, D_80082E80.tile_x + D_8006CCD8[direction_byte_offset / 2], D_80082E80.tile_y + D_8006CCE8[direction_byte_offset / 2], &result_flags.halves[0]);
+        source_actor->facing = get_rounded_facing_and_rounding_flag(source_sprite->tile_x, source_sprite->tile_y, D_80082E80.tile_x + D_8006CCD8[direction_byte_offset / 2], D_80082E80.tile_y + D_8006CCE8[direction_byte_offset / 2], &result_flags[0]);
         spell->ticks.s = 0;
         spell->phase++;
         spell->direction.s = (source_actor->facing >> 9) & 7;
@@ -99,8 +99,8 @@ void update_transform_spell(TransformSpellState *spell, ObjectPosition *motion, 
                 height_result = get_surface_height_at_record(target);
                 target->z.w.i = height_result;
                 spell->height = height_result;
-                get_offset_map_cell_value_and_flags(spell->tile_x - 1, spell->tile_y, 0, &result_flags.halves[1]);
-                if (result_flags.halves[1] & 0x3300) {
+                get_offset_map_cell_value_and_flags(spell->tile_x - 1, spell->tile_y, 0, &result_flags[1]);
+                if (result_flags[1] & 0x3300) {
                     target->z.v = primary_actor_record->ground_height << 0x10;
                     spell->phase = 5;
                 } else {

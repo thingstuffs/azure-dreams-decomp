@@ -39,11 +39,7 @@ typedef struct S_801719DC_0 {
     u8 unk_9A;
     u8 unk_9B;
     u8 pad_9C[0x8];
-    union {
-        struct { s32 v; } at00;
-        struct { u8 pad[0x2]; s16 v; } at02;
-        struct { u8 pad[0x2]; u16 v; } at02u;
-    } unk_A4;   /* overlapping accesses */
+    u32 pad_A4;
     s32 unk_A8;
     s32 unk_AC;
     s32 unk_B0;

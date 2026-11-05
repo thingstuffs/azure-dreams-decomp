@@ -10,7 +10,7 @@
  * scan and motion transition share these slots; +0xAE selects the alternate mode. */
 typedef struct GolemActionWork {
     u8 pad_00[0x8C];
-    union { s32 word; void *address; } callback;
+    s32 callback;
     u8 pad_90[6];
     s16 duration;
     u16 flags;

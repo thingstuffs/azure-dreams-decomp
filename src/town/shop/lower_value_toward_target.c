@@ -13,7 +13,8 @@ typedef struct S_800B1890_0 {
 
 typedef struct ValueTransition {
     s32 unused;
-    union { s32 word; u16 low_half; } target;
+    u16 target;
+    u16 pad_06;
     u8 pad_08[0x34];
     void *state;
 } ValueTransition;
@@ -36,7 +37,7 @@ void lower_value_toward_target(ObjectNodeHeader *object) {
         adjustment >>= 2;
         state->unk_08.s = current_bits + adjustment;
     } else {
-        state->unk_08.u = ((ValueTransition *)object)->target.low_half;
+        state->unk_08.u = ((ValueTransition *)object)->target;
         (object)[-1].update_callback = refresh_formatted_global_display;
     }
 

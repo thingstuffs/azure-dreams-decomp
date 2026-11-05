@@ -22,20 +22,9 @@ typedef struct AttachedSpriteWithOffsetBody {
     union { s16 s; u16 u; } unk_B4;
     s16 unk_B6;
     u8 pad_B8[0x1C];
-    union {
-        u32 word;
-        u16 halfwords[8];
-        u8 bytes[0x10];
-    } unk_D4;
-    union {
-        u16 halfword;
-        u16 halfwords[8];
-    } unk_E4;
-    union {
-        u16 halfword;
-        u16 halfwords[8];
-        u32 words[4];
-    } unk_F4;
+    u32 pad_D4[4];
+    u16 pad_E4[8];
+    u32 pad_F4[4];
     u8 pad_104[0xE];
 } AttachedSpriteWithOffsetBody;
 

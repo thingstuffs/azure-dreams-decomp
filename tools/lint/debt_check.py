@@ -904,6 +904,8 @@ def main(argv=None):
                         help='check open ledger/bridge_casts.jsonl cast sites; no debt census')
     parser.add_argument('--prototypes', action='store_true',
                         help='definition-inclusive prototype consistency census and ratchet')
+    parser.add_argument('--unions', action='store_true',
+                        help='check the tracked union inventory and its no-growth baseline')
     actions = parser.add_mutually_exclusive_group()
     actions.add_argument('--check', action='store_true')
     actions.add_argument('--write-baseline', action='store_true')
@@ -931,6 +933,52 @@ def main(argv=None):
         for problem in problems:
             print(problem, file=sys.stderr)
         return 1 if problems else 0
+    if args.unions:
+        if args.only or args.write_baseline or args.macro_casts:
+            parser.error('--unions does not combine with debt census options')
+        sys.path.insert(0, str(TOOLS / 'typing'))
+        from union_census import census as union_census
+        root = args.root.resolve()
+        current = union_census(root)
+        ledger_path = root / 'ledger/unions.jsonl'
+        union_baseline = root / 'tools/lint/union_baseline.json'
+        try:
+            tracked = [json.loads(line) for line in ledger_path.read_text().splitlines() if line.strip()]
+            baseline = json.loads(union_baseline.read_text())
+        except (OSError, ValueError) as exc:
+            parser.error(str(exc))
+        current_ids = {row['id'] for row in current}
+        tracked_ids = [row['id'] for row in tracked]
+        tracked_by_id = {row['id']: row for row in tracked}
+        problems = []
+        if len(current_ids) != len(current):
+            problems.append('census contains duplicate ids')
+        if len(set(tracked_ids)) != len(tracked_ids):
+            problems.append('ledger contains duplicate ids')
+        for missing in sorted(current_ids - set(tracked_ids)):
+            problems.append(f'untracked union: {missing}')
+        for row in current:
+            old = tracked_by_id.get(row['id'])
+            if old and old.get('members') != row['members']:
+                problems.append(f'stale union members: {row["id"]}')
+            if old and old.get('evidence', '').startswith('Retired to'):
+                problems.append(f'retired union reintroduced: {row["id"]}')
+        if len(current) > baseline['count']:
+            problems.append(f'union count {len(current)} > baseline {baseline["count"]}')
+        for row in current:
+            if row['id'] not in baseline['ids']:
+                tracked_row = tracked_by_id.get(row['id'], {})
+                if tracked_row.get('status') != 'proven' or 'UNION:' not in tracked_row.get('evidence', ''):
+                    problems.append(f'new union lacks same-object proof: {row["id"]}')
+        for row in tracked:
+            if row.get('status') not in {'proven', 'unproven', 'retire', 'proven-by-bytes'}:
+                problems.append(f'bad union status: {row["id"]}')
+        for problem in problems:
+            print(problem, file=sys.stderr)
+        print(f'{len(current)} unions; baseline {baseline["count"]}; {len(tracked)} ledger rows')
+        if not problems:
+            print('Union ledger check passed')
+        return int(bool(problems))
     if args.only and (args.check or args.write_baseline):
         parser.error('--only cannot check or write a baseline')
     try:

@@ -802,7 +802,7 @@ typedef struct S_800B1B10_4 {
 
 typedef struct S_800B1B10_5 {
     u8 unk_00;
-    union { u8 n; u8 v; } unk_01;   /* accessed as both */
+    u8 unk_01;   /* accessed as both */
     s8 unk_02;
     union { u8 u; s8 s; } unk_03;   /* accessed as both */
     union {
@@ -940,7 +940,7 @@ void build_owned_floating_number_widget(void *owner, s32 value_a, s32 value_b, s
             *slots = 0x80808;
             geom = 0x80000;
             ((S_800B1B10_6 *)(((style_held * 4) + sub)))->unk_50 = b_held;
-            ((S_800B1B10_5 *)((void *) b_held))->unk_01.n = 0x38U;
+            ((S_800B1B10_5 *)((void *) b_held))->unk_01 = 0x38U;
             ((S_800B1B10_5 *)((void *) b_held))->unk_02 = -0xA;
             ((S_800B1B10_5 *)((void *) b_held))->unk_03.s = -0x10;
             ((S_800B1B10_5 *)((void *) b_held))->unk_0A = (s8) (obj_2 + 0x18);
@@ -959,11 +959,11 @@ void build_owned_floating_number_widget(void *owner, s32 value_a, s32 value_b, s
             style_held++;
             ((S_800B1B10_5 *)((void *) b_held))->unk_10 = copy_a;
             copy_b = ((S_800B1B10_2 *)sub)->unk_1C.v;
-            ((S_800B1B10_5 *)((void *) b_held))->unk_01.n |= 2;
+            ((S_800B1B10_5 *)((void *) b_held))->unk_01 |= 2;
             ((S_800B1B10_5 *)((void *) b_held))->unk_14 = copy_b;
             b_held += 0x18;
             ((S_800B1B10_6 *)(((style_held * 4) + sub)))->unk_50 = b_held;
-            ((S_800B1B10_5 *)((void *) b_held))->unk_01.n = 0x81;
+            ((S_800B1B10_5 *)((void *) b_held))->unk_01 = 0x81;
             ((S_800B1B10_5 *)((void *) b_held))->unk_04.at00u.v = 0x20;
             ((S_800B1B10_5 *)((void *) b_held))->unk_04.at02.v = 0;
             ((S_800B1B10_5 *)((void *) b_held))->unk_00 = 0xC0;

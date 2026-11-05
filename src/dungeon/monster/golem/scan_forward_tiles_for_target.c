@@ -138,7 +138,7 @@ s32 scan_forward_tiles_for_target(GolemActionWork *action_state, ObjectPosition 
 
     action_state->state = 0x1A;
     action_state->phase = 0;
-    action_state->callback.word = 0;
+    action_state->callback = 0;
     action_state->duration = 8;
     actor->unk_84 = 0x7E;
     actor->unk_85 = 8;

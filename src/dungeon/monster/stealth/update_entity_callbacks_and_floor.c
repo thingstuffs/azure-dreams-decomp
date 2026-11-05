@@ -21,24 +21,6 @@ extern void advance_sprite_animation_and_textures(void *);
 extern s32 refresh_actor_facing_and_lifecycle(void *, void *, void *, void *);
 
 /* Local views retain the signed and packed accesses used by this actor update. */
-typedef union {
-    s32 value;
-    struct { u16 fraction; u16 integer; } halves;
-} MotionCoordinate;
-
-
-typedef struct {
-    MotionCoordinate x;
-    MotionCoordinate y;
-    union {
-        MotionCoordinate coordinate;
-        struct { u16 fraction; s16 integer; } signed_halves;
-    } z;
-    s32 velocity_x;
-    s32 velocity_y;
-    s32 velocity_z;
-} CallbackActorMotion;
-
 typedef struct {
     u8 pad_00[4];
     s8 frame;

@@ -78,7 +78,7 @@ void dispatch_object_state(void *object, void *context, void *dispatch_data) {
     if (runtime_is_record_field_set(object) != 0) {
         object_bytes->unk_15 = 1;
     }
-    state = object_bytes->unk_94.as_u8;
+    state = *(u8 *)&object_bytes->unk_94;
     if (state == 0) {
         object_bytes->heading.as_u16 = object_bytes->unk_6E;
         install_stored_value_handler(object, context, dispatch_data);
@@ -88,15 +88,15 @@ void dispatch_object_state(void *object, void *context, void *dispatch_data) {
         initialize_object_assigns_state_data(object, context, dispatch_data);
         return;
     }
-    (*(FuncPtr *)((object_bytes->unk_94.as_u8 * 4) + object_bytes->unk_58 - 8))(object, context,
+    (*(FuncPtr *)((*(u8 *)&object_bytes->unk_94 * 4) + object_bytes->unk_58 - 8))(object, context,
         dispatch_data);
 }
 
 /* Initialize the object and its animation, then dispatch its current state. */
 void initialize_person_object(TownObjectRecord *object, ObjectPosition *context, SpriteFrameState *animation) {
     register_node_if_unregistered(object, project_sprite_chain);
-    object->unk_8C.as_s16 = 0x40;
-    object->unk_8E.as_s16 = 0x40;
+    object->unk_8C = 0x40;
+    object->unk_8E = 0x40;
     clear_object_status_and_dispatch_target(object, animation, **object->unk_7C.as_pps32, 0);
     configure_the_set_mode_n_1(object, context, &D_800D5028);
     dispatch_object_state(object, context, animation);

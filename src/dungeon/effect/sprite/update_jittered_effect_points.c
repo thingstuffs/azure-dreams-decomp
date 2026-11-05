@@ -89,7 +89,7 @@ typedef struct S_func_819A6800_7 {
     u8 pad_12[0x1E];
     u16 unk_30;
     u16 unk_32;
-    u32 unk_34;
+    void *unk_34;
     u32 unk_38;
     u16 unk_3C;
     u16 unk_3E;
@@ -249,10 +249,10 @@ void run_jittered_point_sequence(JitteredPointSequenceState *sequence, void *out
                 record = allocate_list_node(0x302, &scene_object_list_anchor.next);
                 if (record != 0) {
                     S_func_819A6800_7 *child_data = (S_func_819A6800_7 *)((u8 *)record + 0x20);
-                    u32 target_object;
+                    void *target_object;
                     record->unk_10 = update_jittered_effect_points;
                     register_node(record, update_segment);
-                    target_object = owner->unk_60.u;
+                    target_object = owner->unk_60.p;
                     child_data->unk_3C = 0;
                     child_data->unk_3E = 0;
                     child_data->unk_32 = 0x1F;
@@ -308,7 +308,7 @@ void run_jittered_point_sequence(JitteredPointSequenceState *sequence, void *out
             g_dungeon_status.active_actor = 0;
             g_dungeon_status.activity_counts.parts.pending_action_count--;
         }
-        ((S_func_819A6800_6 *)((u8 *)sequence - 2))->unk_00 |= 0x8000;
+        NODE_HEADER(sequence)->flags |= 0x8000;
         D_800814A0[0] |= 0x8000;
 
         return;
@@ -396,9 +396,9 @@ void advance_target_chasing_emitter(void *object, S_800244BC_2 *position, Sprite
                     effect_data->unk_40 = GetTPage(0, 1, 0x2C0, 0x100);
                     effect_data->unk_38 = 0x404040;
                     memcpy((u8 *) effect + 0x24, (u8 *) object + 0xC, 8);
-                    effect_data->unk_24.u = (u16) position->unk_00.at02.v;
-                    effect_data->unk_26.u = (u16) position->unk_04.at02.v;
-                    effect_data->unk_28.u = (u16) position->unk_08.at02.v;
+                    effect_data->point_slots[4].x.u = (u16) position->unk_00.at02.v;
+                    effect_data->point_slots[4].y.u = (u16) position->unk_04.at02.v;
+                    effect_data->point_slots[4].z.u = (u16) position->unk_08.at02.v;
                     effect_data->unk_00 = ((JitteredPointSequenceBody *)object)->unk_00;
                 }
                 effects_left -= 1;
@@ -454,7 +454,7 @@ void update_jittered_effect_points(JitteredBoltSegmentBody *effect) {
     ObjectNodeHeader *target;
 
     owner = effect->owner;
-    target = (void *) (effect->unk_34 - 0x20);
+    target = NODE_HEADER(effect->unk_34);
     owner->unk_52 = (u16) (owner->unk_52 | 0x8000);
     effect->unk_24 = (u16) target->position->x.unsigned_parts.integer;
     effect->unk_26 = (u16) target->position->y.unsigned_parts.integer;
@@ -680,9 +680,9 @@ void update_randomized_intermediate_points(IntermediatePointEffectBody *self)
     linked_object = self->unk_00;
     linked_object->unk_52 |= 0x8000;
 
-    point_step[0] = (self->unk_24.s - self->point_slots[0].x.s) >> 2;
-    point_step[1] = (self->unk_26.s - self->point_slots[0].y.s) >> 2;
-    point_step[2] = (self->unk_28.s - self->point_slots[0].z.s) >> 2;
+    point_step[0] = (self->point_slots[4].x.s - self->point_slots[0].x.s) >> 2;
+    point_step[1] = (self->point_slots[4].y.s - self->point_slots[0].y.s) >> 2;
+    point_step[2] = (self->point_slots[4].z.s - self->point_slots[0].z.s) >> 2;
     point_index = 1;
 
     do {

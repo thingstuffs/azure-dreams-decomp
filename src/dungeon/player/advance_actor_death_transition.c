@@ -68,7 +68,7 @@ void advance_actor_death_transition(ActorRecord *context, ObjectPosition *unused
         if (input->flags & 0xE000) {
             entity->hp = entity->max_hp;
             entity->facing = 0x400 - ((((u16)work->view.camera_rotation.parts.viewAngle) + 0x100) & 0xE00);
-            context->unk_8C.ptr_ptr =handle_player_input;
+            context->unk_8C.handler = (ActorActionHandler)handle_player_input;
             g_dungeon_status.activity_counts.parts.pending_action_count = ((u16)g_dungeon_status.activity_counts.parts.pending_action_count) - 1;
         }
         break;

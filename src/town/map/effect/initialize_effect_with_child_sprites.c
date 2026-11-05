@@ -70,7 +70,7 @@ void initialize_effect_with_child_sprites(TownObjectRecord *parent, ObjectPositi
     parent->unk_66.as_s16 = angle_random % 0x1000;
     variation_random = rand();
     initial_angle = parent->unk_66.as_s16;
-    parent->unk_97.as_s8 = (variation_random % 9) + 12;
+    parent->unk_97 = (variation_random % 9) + 12;
     if (initial_angle < 0) {
         initial_angle += 511;
     }

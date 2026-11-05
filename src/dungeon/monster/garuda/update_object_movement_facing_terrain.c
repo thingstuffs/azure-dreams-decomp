@@ -10,38 +10,6 @@
 #include "dungeon/actor.h"
 #include "sdk/libgte.h"
 
-/* Sparse views for fields not covered by the existing record types. */
-typedef struct {
-    u8 pad_00[0x1C];
-    s32 field_1C;
-    u8 pad_20[0x4D];
-    s8 field_6D;
-    u8 pad_6E[0x3];
-    u8 field_71;
-    u8 pad_72[0x1E];
-    union {
-        s32 s32;
-        struct { u8 pad[0x2]; s16 value; } s16_at_2;
-        struct { u8 pad[0x2]; u16 value; } u16_at_2;
-    } field_90;
-    s16 field_94;
-    u8 pad_96[0x2];
-    u16 field_98;
-    u8 field_9A;
-    u8 pad_9B[0x2];
-    union {
-        s8 s8;
-        u8 u8;
-    } field_9D;
-    u8 pad_9E[0x6];
-    union {
-        s32 s32;
-        struct { u8 pad[0x2]; u16 value; } u16_at_2;
-    } field_A4;
-    u8 pad_A8[0xA];
-    u16 field_B2;
-} ObjFieldView_81005278;
-
 typedef void (*Callback)(void *, void *, void *, void *);
 
 extern u8 garuda_walk_direction_frames[9];

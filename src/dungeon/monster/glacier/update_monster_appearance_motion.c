@@ -11,34 +11,6 @@
 #include "dungeon/item.h"
 #include "dungeon/monster/glacier.h"
 
-/* Sparse views for fields not covered by the existing record types. */
-typedef struct {
-    u8 pad_00[0x2A];
-    s16 field_2A;
-    u8 pad_2C[0x41];
-    union {
-        s8 s8;
-        u8 u8;
-    } field_6D;
-    u8 pad_6E[0x3];
-    u8 field_71;
-    u8 pad_72[0x1E];
-    union {
-        s32 s32;
-        struct { u8 pad[0x2]; s16 value; } s16_at_2;
-        struct { u8 pad[0x2]; u16 value; } u16_at_2;
-    } field_90;
-    s16 field_94;
-    u8 pad_96[0x2];
-    u16 field_98;
-    u8 field_9A;
-    u8 pad_9B[0x2];
-    union {
-        s8 s8;
-        u8 u8;
-    } field_9D;
-} EntityArgFieldView_8102F83C;
-
 typedef ActorActionHandler Callback;
 
 extern s32 get_entity_effect_value();

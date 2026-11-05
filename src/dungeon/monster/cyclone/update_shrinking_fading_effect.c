@@ -25,7 +25,7 @@
 typedef struct S_80172FC0_0 {
     u8 pad_00[0x8C];
     void * unk_8C;
-    union { struct { s32 v; } at00; struct { u8 pad[0x2]; u16 v; } at02; } unk_90;   /* overlapping accesses */
+    u32 pad_90;
     u8 pad_94[0x4];
     u16 unk_98;
     u8 pad_9A[0x1];
@@ -35,7 +35,7 @@ typedef struct S_80172FC0_0 {
     s32 unk_A4;
     u8 pad_A8[0x4];
     s16 unk_AC;
-    union { u16 u; s16 s; } unk_AE;   /* accessed as both */
+    u16 pad_AE;
     u8 pad_B0[0x2];
     u16 unk_B2;
     s32 unk_B4;

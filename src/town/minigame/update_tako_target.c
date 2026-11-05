@@ -39,14 +39,6 @@ typedef struct C {
     s32 w20;
 } C;
 
-typedef struct D {
-    void *unk0;
-    u8 pad4[0x0c - 0x04];
-    union { u8 b; s32 w; } f0c;
-    u8 pad10[0x14 - 0x10];
-    u16 h14;
-} D;
-
 typedef struct Local {
     void *p;
     s32 a;

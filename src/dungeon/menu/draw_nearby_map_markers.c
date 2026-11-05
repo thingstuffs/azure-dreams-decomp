@@ -41,7 +41,7 @@ typedef struct {
 
 /* Services pending redraw flags, then draws map markers for nearby monsters, dropped items, and large map entries. */
 void draw_nearby_map_markers(void *ordering_table, InactiveTypeTwelveObjectBody *unused_object) {
-    union { u32 word; u8 bytes[4]; } colour;
+    u8 colour[4];
     ActorRecord *head;
     u8 *entry;
     long playerAndIndex;
@@ -81,20 +81,20 @@ void draw_nearby_map_markers(void *ordering_table, InactiveTypeTwelveObjectBody 
     }
 
     brightness = (rsin(system->unk_004 << 8) >> 6) + 0x80;
-    firstColour = colour.bytes;
+    firstColour = colour;
     if (brightness >= 0x100) {
         brightness = 0xff;
     }
     firstContext = ordering_table;
     player = (u8 *)&reference_tile_object;
-    colour.bytes[3] = 0x68;
-    colour.bytes[2] = 0;
-    colour.bytes[1] = brightness;
-    colour.bytes[0] = brightness;
+    colour[3] = 0x68;
+    colour[2] = 0;
+    colour[1] = brightness;
+    colour[0] = brightness;
     append_map_dot_tile(player[0x24], player[0x25], firstColour, firstContext);
 
     entry = ((u8 *)head->next_actor_header) + 0x20;
-    colour.bytes[1] = 0;
+    colour[1] = 0;
     if (entry != head) {
         for (; entry != head; entry = *(u8 **)(entry + 0x5c) + 0x20) {
             union { s32 value; } entryFlag = {0};
@@ -131,13 +131,13 @@ void draw_nearby_map_markers(void *ordering_table, InactiveTypeTwelveObjectBody 
                 markerKind.value = kind.value;
                 if (markerKind.value != 0) {
                     if (markerKind.value == 2) {
-                        colour.bytes[2] = brightness;
-                        colour.bytes[0] = 0;
+                        colour[2] = brightness;
+                        colour[0] = 0;
                     }
-                    append_map_dot_tile(object.value[0x24], object.value[0x25], colour.bytes, ordering_table);
+                    append_map_dot_tile(object.value[0x24], object.value[0x25], colour, ordering_table);
                     if (markerKind.value == 2) {
-                        colour.bytes[2] = 0;
-                        colour.bytes[0] = brightness;
+                        colour[2] = 0;
+                        colour[0] = brightness;
                     }
                 }
             }
@@ -146,15 +146,15 @@ void draw_nearby_map_markers(void *ordering_table, InactiveTypeTwelveObjectBody 
     playerAndIndex = 0;
     mapEntry = (MapEntry *)dungeon_ground_item_positions;
     info = (EntryInfo *)((u8 *)dungeon_ground_items);
-    colour.bytes[2] = brightness;
-    colour.bytes[0] = 0;
+    colour[2] = brightness;
+    colour[0] = 0;
     do {
         if (info[playerAndIndex].active != 0) {
             if ((dungeon_floor_flags & FLOOR_ITEMS_VISIBLE) ||
                 get_masked_grid_nibble(mapEntry[playerAndIndex].x,
                               mapEntry[playerAndIndex].y)) {
                 append_map_dot_tile(mapEntry[playerAndIndex].x,
-                              mapEntry[playerAndIndex].y, colour.bytes, ordering_table);
+                              mapEntry[playerAndIndex].y, colour, ordering_table);
             }
         }
         playerAndIndex++;
@@ -162,23 +162,23 @@ void draw_nearby_map_markers(void *ordering_table, InactiveTypeTwelveObjectBody 
 
     playerAndIndex = 0;
     objectEntry = dungeon_floor_marker_entries;
-    colour.bytes[2] = 0;
-    colour.bytes[1] = brightness;
+    colour[2] = 0;
+    colour[1] = brightness;
     for (; playerAndIndex < 4 && objectEntry[playerAndIndex].kind == 2; playerAndIndex++) {
         if ((dungeon_floor_flags & FLOOR_ELEVATOR_VISIBLE) ||
             get_masked_grid_nibble(objectEntry[playerAndIndex].x,
                           objectEntry[playerAndIndex].y)) {
             append_map_dot_tile((u16)objectEntry[playerAndIndex].x,
-                          (u16)objectEntry[playerAndIndex].y, colour.bytes, ordering_table);
+                          (u16)objectEntry[playerAndIndex].y, colour, ordering_table);
         }
     }
 
     playerAndIndex = 0;
     largeMapEntry = (LargeMapEntry *)dungeon_floor_object_positions;
     info = (EntryInfo *)floor_objects;
-    colour.bytes[1] = 0x20;
-    colour.bytes[2] = brightness;
-    colour.bytes[0] = brightness;
+    colour[1] = 0x20;
+    colour[2] = brightness;
+    colour[0] = brightness;
     do {
         if (info[playerAndIndex].active != 0 &&
             info[playerAndIndex].exists != 0 &&
@@ -188,7 +188,7 @@ void draw_nearby_map_markers(void *ordering_table, InactiveTypeTwelveObjectBody 
                  get_masked_grid_nibble(largeMapEntry[playerAndIndex].x,
                                largeMapEntry[playerAndIndex].y))) {
                 append_map_dot_tile(largeMapEntry[playerAndIndex].x,
-                              largeMapEntry[playerAndIndex].y, colour.bytes, ordering_table);
+                              largeMapEntry[playerAndIndex].y, colour, ordering_table);
             }
         }
         playerAndIndex++;

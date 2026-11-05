@@ -74,7 +74,7 @@ void update_dungeon_actor_actions(GolemActionWork *actor, ObjectPosition *contex
         if (sprite->frameTable == &golem_alt_direction_frames) {
             actor->state = 13;
             actor->phase = 1;
-            actor->callback.word = 0;
+            actor->callback = 0;
             stats->flags1C &= ~0x40000;
             return;
         }

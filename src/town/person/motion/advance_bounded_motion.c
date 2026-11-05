@@ -42,36 +42,36 @@ void advance_bounded_motion(TownObjectRecord *entity, void *motion_arg, SpriteFr
 
     switch (quadrant) {
     case 0:
-        if (entity->unk_84.as_s16 + entity->unk_8C.as_s16 < motion->x.w.i) {
-            motion->x.unsigned_parts.integer = entity->unk_84.as_u16 + entity->unk_8C.as_u16;
+        if (entity->unk_84.as_s16 + entity->unk_8C < motion->x.w.i) {
+            motion->x.unsigned_parts.integer = entity->unk_84.as_u16 + *(u16 *)&entity->unk_8C;
             initialize_object_assigns_state_data(entity, motion, context);
             return;
         }
         break;
     case 1:
-        if (entity->unk_86.as_s16 + entity->unk_8E.as_s16 < motion->y.w.i) {
-            motion->y.unsigned_parts.integer = entity->unk_86.as_u16 + entity->unk_8E.as_u16;
+        if (entity->unk_86.as_s16 + entity->unk_8E < motion->y.w.i) {
+            motion->y.unsigned_parts.integer = entity->unk_86.as_u16 + *(u16 *)&entity->unk_8E;
             initialize_object_assigns_state_data(entity, motion, context);
             return;
         }
         break;
     case 2:
-        if (motion->x.w.i < entity->unk_84.as_s16 - entity->unk_8C.as_s16) {
+        if (motion->x.w.i < entity->unk_84.as_s16 - entity->unk_8C) {
             u16 center;
             u16 extent;
             center = entity->unk_84.as_u16;
-            extent = entity->unk_8C.as_u16;
+            extent = *(u16 *)&entity->unk_8C;
             motion->x.unsigned_parts.integer = center - extent;
             initialize_object_assigns_state_data(entity, motion, context);
             return;
         }
         break;
     default:
-        if (motion->y.w.i < entity->unk_86.as_s16 - entity->unk_8E.as_s16) {
+        if (motion->y.w.i < entity->unk_86.as_s16 - entity->unk_8E) {
             u16 center;
             u16 extent;
             center = entity->unk_86.as_u16;
-            extent = entity->unk_8E.as_u16;
+            extent = *(u16 *)&entity->unk_8E;
             motion->y.unsigned_parts.integer = center - extent;
             initialize_object_assigns_state_data(entity, motion, context);
             return;

@@ -19,31 +19,6 @@
 
 /* Sparse views for fields not covered by the existing record types. */
 typedef struct {
-    u8 pad_00[0x1C];
-    u32 field_1C;
-    u8 pad_20[0xA];
-    union {
-        s16 s16;
-        u16 u16;
-    } field_2A;
-    u8 pad_2C[0x1A];
-    u16 field_46;
-    u8 pad_48[0x18];
-    void *field_60;
-    u8 pad_64[0x9];
-    u8 field_6D;
-    u8 pad_6E[0x4];
-    union {
-        s8 s8;
-        u8 u8;
-    } field_72;
-    union {
-        s8 s8;
-        u8 u8;
-    } field_73;
-} ActorFieldView_810318E4;
-
-typedef struct {
     u8 pad_00[0xA6];
     u16 field_A6;
 } ActiveFieldView_810318E4;

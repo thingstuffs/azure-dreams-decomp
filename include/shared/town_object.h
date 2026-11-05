@@ -26,7 +26,7 @@ typedef struct PersonDescriptor {
 
 typedef struct TownObjectRecord {
     /* 0x00 */ union { void * as_pm; void * as_pv; } unk_00;   /* opaque handler address and alternate pointer/word views; callable views retain their contracts */
-    /* 0x04 */ union { void * as_pm; void ** as_ppv; void * as_pv; s32 * as_ps32; } unk_04;   /* opaque handler address and alternate pointer/word views; callable views retain their contracts */
+    /* 0x04 */ union { void * as_pm; void ** as_ppv; void * as_pv; } unk_04;   /* opaque handler address and alternate pointer/word views; callable views retain their contracts */
     /* 0x08 */ u8 pad_08[0x2];
     /* 0x0A */ union { s16 as_s16; u16 as_u16; } unk_0A;
     /* 0x0C */ u8 pad_0C[0x2];
@@ -66,25 +66,25 @@ typedef struct TownObjectRecord {
     /* 0x72 */ union { s16 as_s16; u16 as_u16; } heading; /* current facing angle; anyone_now_ang_get reports it to scripts */
     /* 0x74 */ union { void * as_pv; u16 as_u16; } unk_74;
     /* 0x78 */ s32 * unk_78;
-    /* 0x7C */ union { s32 ** as_pps32; s32 * as_ps32; void * as_pv; } unk_7C;
+    /* 0x7C */ union { s32 ** as_pps32; void * as_pv; } unk_7C;
     /* 0x80 */ PersonDescriptor *descriptor; /* descriptor table of the object script (TownObjectRecord spelling) */
     /* 0x84 */ union { s16 as_s16; u16 as_u16; } unk_84; /* per-kind work: original X for position queries; orbit radius for the orbiting object kind */
     /* 0x86 */ union { s16 as_s16; u16 as_u16; } unk_86; /* per-kind work: original Y for position queries; orbit angle for the orbiting object kind */
     /* 0x88 */ s16 target_x;
     /* 0x8A */ s16 target_y;
-    /* 0x8C */ union { s16 as_s16; u16 as_u16; } unk_8C;
-    /* 0x8E */ union { s16 as_s16; u16 as_u16; } unk_8E;
+    /* 0x8C */ s16 unk_8C;
+    /* 0x8E */ s16 unk_8E;
     /* 0x90 */ union { s16 as_s16; u16 as_u16; } unk_90;
     /* 0x92 */ u8 unk_92;
     /* 0x93 */ s8 unk_93;
-    /* 0x94 */ union { s8 as_s8; u8 as_u8; } unk_94;
+    /* 0x94 */ s8 unk_94;
     /* 0x95 */ u8 unk_95;
     /* 0x96 */ union { s8 as_s8; u8 as_u8; } variant;
-    /* 0x97 */ union { s8 as_s8; u8 as_u8; } unk_97;
+    /* 0x97 */ s8 unk_97;
     /* 0x98 */ s8 * unk_98;
     /* 0x9C */ s32 unk_9C;
     /* 0xA0 */ s32 unk_A0;
-    /* 0xA4 */ union { s32 as_s32; u16 as_u16; u8 as_u8; } unk_A4;
+    /* 0xA4 */ s32 unk_A4;
     /* 0xA8 */ s32 unk_A8;
     /* 0xAC */ s32 unk_AC;
     /* 0xB0 */ u8 pad_B0[0xC];

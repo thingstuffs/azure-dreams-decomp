@@ -90,7 +90,7 @@ typedef struct R03_8017207C_S_80172628_0 {
 typedef struct R03_801721C0_S_801721C0_0 {
     u8 pad_00[0x8C];
     ActorActionHandler unk_8C;
-    union { struct { s32 v; } at00; struct { u8 pad[0x2]; s16 v; } at02; } unk_90;   
+    u32 pad_90;
 } R03_801721C0_S_801721C0_0;
 typedef struct R03_80172258_S_80172258_0 {
     u8 pad_00[0x8C];

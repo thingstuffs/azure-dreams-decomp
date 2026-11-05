@@ -17,9 +17,9 @@ import tempfile
 import time
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[2]))
-from tools.build import content_cache, compile_slots, name_inputs
+from tools.build import content_cache, compile_slots, declaration_projection, name_inputs
 
-SCHEMA = 2
+SCHEMA = 3
 # Audited stock macros only form symbol visibility directives and symbol names.
 LABEL_MACROS_SHA256 = '9011fb521abe02bf51d16d3ae8ec1667ccd899a26affb6a5fe00b842ab421dc5'
 
@@ -157,7 +157,7 @@ def dependency_inputs(root, spec):
     if 'command' in spec:
         argv = shlex.split(spec['command'])
         if len(argv) < 6 or not argv[0].endswith('/cc.sh'):
-            return dict(files=[], preprocessed={})
+            return dict(files=[], preprocessed={}, compiler_files=[], projected=False)
         source, version, flags = 'build_slus/'+argv[1], argv[3], shlex.split(argv[4])
         include_root = root/'build_slus/include'
         sources = [source]
@@ -169,7 +169,7 @@ def dependency_inputs(root, spec):
             sources += [a['source'] for a in spec['module']['members']]
             flags += ['-I'+str((root/n).parent) for n in sources]
     else:
-        return dict(files=[], preprocessed={})
+        return dict(files=[], preprocessed={}, compiler_files=[], projected=False)
     if any(f.startswith(('-B', '-specs', '--specs', '--sysroot', '-wrapper', '-fplugin',
                          '-fprofile', '-fbranch-probabilities', '-save-temps', '-MD', '-MMD',
                          '-MF', '-d')) for f in flags):
@@ -178,6 +178,8 @@ def dependency_inputs(root, spec):
     found = {p.relative_to(root).as_posix() for p in compiler.iterdir()
              if p.is_file() and p.name in {'gcc', 'cc1', 'cpp', 'specs'}}
     preprocessed = {}
+    compiler_files = set()
+    projected = True
     for source in sorted(set(sources)):
         result = subprocess.run([str(compiler/'gcc'), '-B'+str(compiler)+'/', '-M', '-O2',
                                  *flags, '-I'+str(include_root), '-w', str(root/source)],
@@ -185,7 +187,8 @@ def dependency_inputs(root, spec):
         expanded = subprocess.run([str(compiler/'gcc'), '-B'+str(compiler)+'/', '-E', '-P', '-O2',
                                    *flags, '-I'+str(include_root), '-w', str(root/source)],
                                   cwd=root, capture_output=True, check=True).stdout
-        preprocessed[source] = digest(expanded)
+        preprocessed[source], accepted = declaration_projection.digest(expanded)
+        projected &= accepted
         assembly = assembly_inputs(root, expanded.decode(errors='replace'),
             root/'build_slus' if 'command' in spec else root/'build_ovl',
             root/'build_slus' if 'command' in spec else root)
@@ -196,8 +199,11 @@ def dependency_inputs(root, spec):
             path = Path(os.path.abspath(root/name))
             if not path.is_relative_to(root):
                 return None
-            found.add(path.relative_to(root).as_posix())
-    return dict(files=sorted(found), preprocessed=preprocessed)
+            name = path.relative_to(root).as_posix()
+            found.add(name)
+            compiler_files.add(name)
+    return dict(files=sorted(found), preprocessed=preprocessed,
+                compiler_files=sorted(compiler_files), projected=projected)
 
 
 def key_inputs(root, recipe_path, spec):
@@ -249,6 +255,13 @@ def key_inputs(root, recipe_path, spec):
     inputs = content_cache.hashes(root, names)
     if any(value is None and name not in optional for name, value in inputs.items()):
         raise ValueError('missing object cache input')
+    if discovered.get('projected'):
+        # The selected compiler's live include walk binds path and presence.
+        # The projected expansion binds the C meaning of these headers. Other
+        # recipe inputs, source files and assembler inputs keep raw hashes.
+        for name in discovered['compiler_files']:
+            if name.startswith(('include/', 'build_slus/include/')) and name.endswith('.h'):
+                inputs[name] = 'C-header-present'
     # The executable, rather than its pathname/version label, is its identity.
     executables = {}
     for tool in ('mipsel-linux-gnu-as', 'python3'):
@@ -256,6 +269,11 @@ def key_inputs(root, recipe_path, spec):
         if not executable:
             raise ValueError('missing compile executable: ' + tool)
         executables[tool] = digest(Path(executable).read_bytes())
+    if discovered.get('projected'):
+        executable = shutil.which('clang')
+        if not executable:
+            raise ValueError('missing declaration projection parser: clang')
+        executables['clang'] = digest(Path(executable).read_bytes())
     python = root/'.venv/bin/python'
     if python.exists():
         executables['venv-python'] = digest(python.read_bytes())

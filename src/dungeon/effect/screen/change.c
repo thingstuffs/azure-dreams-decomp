@@ -146,7 +146,7 @@ extern u8 D_800E0D6D[];
 
 /* Randomly adds a quarter of the source value to the target and reports the change. */
 void add_random_quarter_value(ActorRecord *body, ActorRecord *target) {
-    union { s32 word; u16 halves[2]; } direction_aux;
+    u16 direction_aux[2];
     s32 amount;
     s16 signed_amount;
     void *message_start;
@@ -169,7 +169,7 @@ void add_random_quarter_value(ActorRecord *body, ActorRecord *target) {
                 *(u8 *)((s8 *)source_entity + 0x25),
                 *(u8 *)((s8 *)target_entity + 0x24),
                 *(u8 *)((s8 *)target_entity + 0x25),
-                &direction_aux.halves[0]
+                &direction_aux[0]
                 );
             create_actor_value_popup(3, target, -amount, 0);
             message_end = get_unused_text_buffer();

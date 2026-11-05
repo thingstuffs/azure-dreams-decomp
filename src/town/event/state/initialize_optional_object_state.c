@@ -29,8 +29,8 @@ void initialize_optional_object_state(void *object_arg, void *context, void *sta
 
     ((S_8009B218_0_pre *)object)[-1].unk_00 = &dispatch_object_event_or_retire;
     register_node_if_unregistered(object, project_sprite_chain);
-    object->unk_8C.as_s16 = 0;
-    object->unk_8E.as_s16 = 0;
+    object->unk_8C = 0;
+    object->unk_8E = 0;
     state->unk_00 = 0;
     state->unk_04 = 0;
     state->frame_ticks = 0;

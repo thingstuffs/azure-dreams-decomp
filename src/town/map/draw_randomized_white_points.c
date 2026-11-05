@@ -85,7 +85,7 @@ s32 draw_randomized_white_points(void *first_object, void *first_coords)
 
             x_scale = rsin(angle) >> 4;
             {
-                s32 base_radius = ((TownObjectRecord *)object)->unk_97.as_s8;
+                s32 base_radius = ((TownObjectRecord *)object)->unk_97;
                 radius_offset = (point_index / 8) % 12 + 0x48;
                 ((S_800BB218_0 *)scratch)->unk_14 =
                     coords->x + ((x_scale * (base_radius + radius_offset)) >> 8);
@@ -94,7 +94,7 @@ s32 draw_randomized_white_points(void *first_object, void *first_coords)
             ((S_800BB218_0 *)scratch)->unk_16 =
                 coords->y +
                 (((rcos(angle) >> 4) *
-                  (((TownObjectRecord *)object)->unk_97.as_s8 + radius_offset)) >> 8);
+                  (((TownObjectRecord *)object)->unk_97 + radius_offset)) >> 8);
 
             ((S_800BB218_0 *)scratch)->unk_18 =
                 coords->z -

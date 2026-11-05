@@ -39,36 +39,18 @@ typedef struct B22_81893244_Func81893244Sub B22_81893244_Func81893244Sub;
 typedef struct B22_81893244_Func81893244Object B22_81893244_Func81893244Object;
 typedef struct B22_818931B8_S_818931B8_1 B22_818931B8_S_818931B8_1;
 struct B22_81893244_Func81893244Data {
-    union {
-        s32 word0;
-        struct { u16 half0; u16 field2; } halves0;
-    } u0;
-    union {
-        s32 word4;
-        struct { u16 half4; u16 field6; } halves4;
-    } u4;
+    s32 u0;
+    s32 u4;
     s32 word8;
-    union {
-        s32 wordC;
-        struct { u8 fieldC; u8 fieldD; u8 fieldE; u8 padF; } bytesC;
-    } uC;
+    s32 uC;
     s32 field10;
     s32 field14;
 };
 struct B22_81893244_Func81893244Sub {
-    union {
-        s32 word0;
-        struct { u16 half0; u16 field2; } halves0;
-    } u0;
-    union {
-        s32 word4;
-        struct { u16 half4; u16 field6; } halves4;
-    } u4;
+    s32 u0;
+    s32 u4;
     s32 word8;
-    union {
-        s32 wordC;
-        struct { u8 fieldC; u8 fieldD; u8 fieldE; u8 padF; } bytesC;
-    } uC;
+    s32 uC;
     u16 field10;
     u8 pad12[2];
     u16 field14;

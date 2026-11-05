@@ -1,17 +1,42 @@
-# Object cache name projections
+# Object cache projections
 
-Object cache schema 2 separates a compile's ordinary content key from its name
-lookup witness. An outer key binds the recipe, source and current include walk,
-preprocessed output, compiler and tool bytes, environment and executable hashes.
+Schema 3 adds declaration-use projection for cacheable C compiles. The selected
+compiler still supplies the live include walk and preprocessed text. Clang
+partitions that text into complete top-level declarations; all function and
+object definitions, static declarations and side-effecting or unclassified text
+remain. A lexical
+reachability walk retains every prototype, extern object declaration, typedef,
+record and enum whose spelling appears in retained text, directly or through
+another retained declaration. Lexical matching deliberately keeps some extra
+declarations when spellings coincide. Kept declarations remain in their
+original order. If Clang cannot parse or fully partition the text, or sees a
+directive, the whole preprocessed text and raw header hashes are used.
+
+When every source in a recipe projects successfully, the outer key binds
+compiler-discovered C header paths and presence instead of their raw bytes.
+All source files, non-C inputs, tool closure, compiler binaries, assembly
+inputs and name witnesses retain their existing bindings. Clang's binary hash
+is bound for projected recipes. Debug flags already bypass the object cache;
+unused type declarations can therefore be omitted without changing emitted
+debug information. `AZURE_OBJECT_VERIFY` still rebuilds sampled hits and
+compares their bytes. Schema 3 uses a separate `v3` directory so v2 entries
+remain untouched.
+
+Schema 3 retains schema 2's separation of a compile's content key from its name
+lookup witness. The outer key binds the recipe, source and current include walk,
+projected preprocessed output, compiler and tool bytes, environment and executable
+hashes. Recipes that fail projection bind the whole preprocessed output and raw
+header hashes.
 For supported recipes with `name_input`, it omits `config/names.tsv` and the witnessed
 `MASPSX_NORETURN_FILE` / `MASPSX_SIBCALL_FILE` config tables. Files also discovered
-as raw compiler or assembler inputs retain their whole-file hashes.
+as raw compiler or assembler inputs retain their whole-file hashes, except for
+projected C headers as described above.
 
 Each outer key can hold several variants:
 
 ```
-<cache>/v2/<outer-sha256>/<variant-sha256>/manifest.json
-<cache>/v2/<outer-sha256>/<variant-sha256>/0
+<cache>/v3/<outer-sha256>/<variant-sha256>/manifest.json
+<cache>/v3/<outer-sha256>/<variant-sha256>/0
 ...
 ```
 
@@ -41,11 +66,11 @@ The existing global file lock protects candidate lookup, restoration,
 publication, LRU access and deletion. Publication copies into a temporary
 directory before atomically installing one variant under the lock. Pruning
 accounts and removes individual variants, cleans empty outer directories and
-also understands flat entries passed to the prune CLI. The `v2` namespace has
+also understands flat entries passed to the prune CLI. The `v3` namespace has
 its own locks and byte counter: an older lane's flat-cache pruner cannot reset
 its accounting. The cap applies to the schema's store; a legacy store can
 coexist during migration and can be pruned separately. Point the prune CLI at
-`$AZURE_OBJECT_CACHE_DIR/v2` to prune the new store. Cap enforcement keeps the
+`$AZURE_OBJECT_CACHE_DIR/v3` to prune the new store. Cap enforcement keeps the
 existing detached prune and low watermark. Verification sampling uses the outer key; a failed
 verification removes only the variant actually restored. All restored outputs
 except the refreshed proof must compare byte for byte with a sampled rebuild.
@@ -73,7 +98,7 @@ the completed witnesses, regenerate the build and run with
 `make -j6 -W build/.state/compiletools.ok` to exercise lookup and byte verification
 for every object while keeping the stamp's actual content unchanged. Run
 `make check` again, restore the alias edit and check the final tree. Keep the
-cache and logs outside searched source directories.
+cache and logs in an ignored private directory.
 
 ## Interpreting a differential replay
 

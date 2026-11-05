@@ -141,7 +141,7 @@ typedef struct R06_8017140C_S_8017140C_0 {
     u8 unk_9A;
     u8 unk_9B;
     u8 pad_9C[0x1A];
-    union { s16 s; u16 u; } unk_B6;   
+    u16 pad_B6;
     s16 unk_B8;
 } R06_8017140C_S_8017140C_0;
 typedef struct R06_8017140C_S_8017140C_1 {

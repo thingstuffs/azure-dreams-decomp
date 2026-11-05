@@ -171,11 +171,7 @@ typedef struct ActorRecord {
     /* 0x018 */ int experience; /* accumulated experience, compared with the next-level requirement */
     /* 0x01C */ int flags1C; /* current side, attachment, movement and active-status bits; see shared/actor_status_flags.h */
     /* 0x020 */ short unk_20; /* prepared attack power; attack preparation seeds it, damage resolution adjusts it before deriving the target HP delta */
-    /* 0x022 */ union {
-        unsigned short whole;
-        short signed_whole;
-        struct { unsigned char low; unsigned char high; } bytes;
-    } unk_22; /* halfword copied with the actor snapshot (copy_entity_record) */
+    /* 0x022 */ unsigned short unk_22; /* halfword copied with the actor snapshot (copy_entity_record) */
     /* 0x024 */ union {
         unsigned short whole; /* current 8.8 MP */
         short signed_whole; /* exact signed halfword view used by action/effect callbacks */
@@ -242,7 +238,6 @@ typedef struct ActorRecord {
         ActorActionHandler handler; /* the current action handler */
         int word; /* Step 0b width view: handlers clear the slot through an int store */
         unsigned char *byte_ptr; /* Step 0b width view: a handler address stored through a byte-pointer view */
-        void **ptr_ptr; /* Step 0b width view: a handler address stored through a void ** view */
         int *word_ptr; /* ghosh/clown install the address of an action entry word */
     } unk_8C;
     /* 0x090 */ union {

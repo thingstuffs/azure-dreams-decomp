@@ -1339,7 +1339,7 @@ void update_entity_item_action_and_idle_return(R17_80172C18_State *state, Object
         return;
 
     case 1:
-        state->u90.h.half92 += (-0x60 - (s16)state->u90.h.half92) >> 3;
+        state->u90.half92 += (-0x60 - (s16)state->u90.half92) >> 3;
         if (actor->flags & 0xE000) {
             actor->frameTable = (void (*)(void))D_801744DC;
             select_sprite_entry(
@@ -1360,8 +1360,8 @@ void update_entity_item_action_and_idle_return(R17_80172C18_State *state, Object
         state->state9B++;
 
     case 3:
-        state->u90.h.half92 +=
-            (-0x30 - (s16)state->u90.h.half92) >> 3;
+        state->u90.half92 +=
+            (-0x30 - (s16)state->u90.half92) >> 3;
         state->f96--;
         if ((s16)state->f96 <= 0 || (actor->flags & 0xE000)) {
             state->flags98 |= 0x80;

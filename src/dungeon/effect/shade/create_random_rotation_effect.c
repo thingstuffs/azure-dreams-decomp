@@ -11,14 +11,6 @@ typedef unsigned long uptr;
 typedef long long s64_local;
 typedef struct { s32 word[6]; } Copy24;
 
-typedef union {
-    s64_local all;
-    struct {
-        s32 hi;
-        s32 lo;
-    } part;
-} product_pair;
-
 #ifndef NULL
 #define NULL 0
 #endif
@@ -53,7 +45,6 @@ s32 create_random_rotation_effect(void *data_addr, Copy24 *position_addr, s32 di
     s32 y_offset;
     s32 new_y;
     s64_local position_xy;
-    product_pair product_bits;
     s32 quotient;
     s32 position_z;
     s32 position_word_3;

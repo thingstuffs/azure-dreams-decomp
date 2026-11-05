@@ -78,8 +78,7 @@ typedef struct S_func_818DA800_3 {
     u8 pad_2C[0x34];
     void *unk_60;
     u8 pad_64[0xE];
-    union { s8 as_s8; u8 as_u8; } unk_72;
-    union { s8 as_s8; u8 as_u8; } unk_73;
+    u8 pad_72[2];
 } S_func_818DA800_3;
 
 typedef struct S_func_818DA800_5 {

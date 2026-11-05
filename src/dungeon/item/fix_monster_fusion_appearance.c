@@ -30,13 +30,7 @@ typedef struct S_800BE120_0 {
     u8 unk_13;
     u32 unk_14;
     u8 pad_18[0x30];
-    union {
-        struct { s32 v; } at00;
-        struct { u8 v; } at00u;
-        struct { u8 pad[0x1]; u8 v; } at01;
-        struct { u8 pad[0x2]; u8 v; } at02;
-        struct { u8 pad[0x3]; u8 v; } at03;
-    } unk_48;   /* overlapping accesses */
+    s32 unk_48;
     u8 pad_4C[0x8];
     u32 unk_54;
     u8 pad_58[0xB8];
@@ -78,7 +72,7 @@ s32 fix_monster_fusion_appearance(ActorRecord *entity, DungeonItemEntry *data, s
                         place_actor_item(entity, data);
                         return 1;
                     }
-                    ((S_800BE120_0 *)entity)->unk_48.at00.v = *(s32 *)data;
+                    ((S_800BE120_0 *)entity)->unk_48 = *(s32 *)data;
                     entity->unk_48 = data->unk_00;
                     entity->unk_49 = data->kind;
                     entity->unk_4A = data->unk_02;

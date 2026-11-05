@@ -632,34 +632,6 @@ typedef struct S_func_8190B2D0_4 {
     Packed12 unk_40;
 } S_func_8190B2D0_4;
 
-typedef struct S_func_8190B2D0_5 {
-    u8 pad_0[0x6];
-    u16 unk_6;
-    void * unk_8;
-    union {
-        u32 u32;
-        u8 u8;
-        struct {
-            u8 pad_C[0x1];
-            u8 unk_D;
-        } at_D_u8;
-        struct {
-            u8 pad_C[0x2];
-            u8 unk_E;
-        } at_E_u8;
-    } unk_C;
-    u16 unk_10;
-    u8 pad_12[0x2];
-    u16 unk_14;
-    u8 pad_16[0x4];
-    u16 unk_1A;
-    u16 unk_1C;
-    u16 unk_1E;
-    u8 pad_20[0x4];
-    u8 unk_24;
-    u8 unk_25;
-} S_func_8190B2D0_5;
-
 typedef struct S_func_8190B2D0_6 {
     u8 pad_0[0x13];
     u8 unk_13;

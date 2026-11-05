@@ -138,13 +138,7 @@ typedef struct {
 typedef struct {
     u8 pad00[0x8C];
     void (*f8C)(void);
-    union {
-        u32 word90;
-        struct {
-            u16 half90;
-            u16 half92;
-        } h;
-    } u90;
+    struct { u16 half90; u16 half92; } u90;
     u8 pad94[2];
     u16 f96;
     u16 flags98;

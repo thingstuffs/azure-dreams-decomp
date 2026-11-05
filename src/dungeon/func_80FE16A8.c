@@ -42,19 +42,6 @@ typedef struct ActionState {
     u8 phase;
 } ActionState;
 
-typedef struct ActorSprite {
-    u8 pad_00[0x14];
-    u16 flags;
-    u8 pad_16[0xE];
-    union {
-        struct { u8 x, y; } tile;
-        u16 packed;
-    } position;
-    u8 room;
-    u8 pad_27[0x5];
-    void * directionFrames;
-} ActorSprite;
-
 /* Updates the entity action, facing direction, and animation from dungeon state. */
 void update_dungeon_entity_action_and_facing(ActorRecord *body, ObjectPosition *position, SpriteFrameState *sprite, ActorRecord *actor)
 {

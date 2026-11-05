@@ -34,7 +34,7 @@ typedef struct S_8016B0E8_0 {
     u32 unk_18;
     u8 pad_1C[0x70];
     s32 (*unk_8C)(void *, void *, void *, void *);
-    union { struct { s32 v; } at00; struct { u8 pad[0x2]; s16 v; } at02; } unk_90;   /* overlapping accesses */
+    u32 pad_90;
     s16 unk_94;
     u8 pad_96[0x2];
     u16 unk_98;
@@ -45,7 +45,7 @@ typedef struct S_8016B0E8_0 {
     u8 pad_9E[0x6];
     void * unk_A4;
     u8 pad_A8[0x8];
-    union { u8 n; u8 v; } unk_B0;   /* accessed as both */
+    u8 pad_B0;
     u8 unk_B1;
     u8 pad_B2[0x2];
     u8 unk_B4;

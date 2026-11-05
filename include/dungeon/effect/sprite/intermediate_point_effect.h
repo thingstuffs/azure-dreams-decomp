@@ -14,11 +14,7 @@ typedef struct IntermediatePointEffectBody {
         union { s16 s; u16 u; } y;
         union { s16 s; u16 u; } z;
         u16 pad;
-    } point_slots[4];
-    union { s16 s; u16 u; } unk_24;
-    union { s16 s; u16 u; } unk_26;
-    union { s16 s; u16 u; } unk_28;
-    u8 pad_2A[0x2];
+    } point_slots[5];
     s16 unk_2C;
     s16 unk_2E;
     s16 unk_30;

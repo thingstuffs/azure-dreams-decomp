@@ -17,7 +17,7 @@ typedef struct JitteredBoltSegmentBody {
     s16 unk_2C;
     s16 unk_2E;
     u8 pad_30[0x4];
-    s32 unk_34;
+    void *unk_34;
     u8 pad_38[0x4];
     s16 unk_3C;
     u16 unk_3E;

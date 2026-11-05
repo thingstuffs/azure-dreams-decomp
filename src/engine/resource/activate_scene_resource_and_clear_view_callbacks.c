@@ -9,10 +9,8 @@
  * field_E is cleared as a byte. */
 struct S_80082E60 {
     char pad0[8];
-    union {
-        u8 b;
-        u16 h;
-    } field_8;
+    u8 field_8;
+    u8 pad_09;
     s8 pad_A;
     s8 field_B;
     s8 field_C;
@@ -32,7 +30,7 @@ struct S_80082E60 {
  */
 void activate_scene_resource_and_clear_view_callbacks(void)
 {
-    u8 state_byte = ((struct S_80082E60 *)&runtime_dispatch_state)->field_8.b;
+    u8 state_byte = ((struct S_80082E60 *)&runtime_dispatch_state)->field_8;
 
     runtime_dispatch_state.field_B = state_byte;
     load_scene_resource_group(state_byte);

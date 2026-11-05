@@ -36,11 +36,7 @@ typedef struct {
 /* Sparse views for fields not covered by the existing record types. */
 typedef struct {
     u8 pad_00[0x48];
-    union {
-        s32 s32;
-        struct { u8 pad[0x1]; u8 value; } u8_at_1;
-        struct { u8 pad[0x3]; u8 value; } u8_at_3;
-    } field_48;
+    s32 field_48;
 } TargetFieldView_80E91000;
 
 extern s32 generate_random_value(void);
@@ -132,9 +128,9 @@ scan_loop:
         {
             s32 item_data;
 
-            item_data = ((TargetFieldView_80E91000 *)target)->field_48.s32;
+            item_data = ((TargetFieldView_80E91000 *)target)->field_48;
             picket_slot_f_item_result[0] = item_data;
-            ((TargetFieldView_80E91000 *)target)->field_48.s32 = 0;
+            ((TargetFieldView_80E91000 *)target)->field_48 = 0;
             return (s32)picket_slot_f_item_result;
         }
     }

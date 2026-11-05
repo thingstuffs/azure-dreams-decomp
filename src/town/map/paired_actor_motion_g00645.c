@@ -352,7 +352,7 @@ void initialize_object_and_dispatch_by_state(TownObjectRecord *object, ObjectPos
     register_node((struct ObjectNodeHeader *)((u8 *)object - 0x20), project_sprite_chain);
 
     object->unk_A0 = params->x.v;
-    object->unk_A4.as_s32 = params->y.v;
+    object->unk_A4 = params->y.v;
     state = object->unk_95;
 
     switch (state) {

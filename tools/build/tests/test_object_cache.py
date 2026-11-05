@@ -141,6 +141,25 @@ class CacheTests(unittest.TestCase):
         spec['args'][1] = '-DPICK=0'
         self.assertIn('include/two.h', REAL_DEPENDENCY_INPUTS(self.root, spec)['files'])
 
+    def test_real_unused_header_declaration_preserves_schema3_key(self):
+        compiler = Path(C.__file__).resolve().parents[2]/'toolchain/compilers/gcc-2.7.2-cdk'
+        if not compiler.exists():
+            self.skipTest('pinned compiler unavailable')
+        directory = self.root/'toolchain/compilers'
+        directory.mkdir()
+        (directory/'gcc-2.7.2-cdk').symlink_to(compiler, target_is_directory=True)
+        (self.root/'src/a.c').write_text('#include "a.h"\nint f(void) { return 1; }\n')
+        (self.root/'include/a.h').write_text('extern int unused(void);\n')
+        self.spec['args'] = ['2.7.2-cdk', '-G0']
+        with patch.object(C, 'dependency_inputs', side_effect=REAL_DEPENDENCY_INPUTS):
+            first = C.key_inputs(self.root, self.recipe, self.spec)
+            self.assertEqual(first['inputs']['include/a.h'], 'C-header-present')
+            (self.root/'include/a.h').write_text('extern int another_unused(void);\n')
+            second = C.key_inputs(self.root, self.recipe, self.spec)
+            self.assertEqual(C.key_for(first), C.key_for(second))
+            (self.root/'src/a.c').write_text('#include "a.h"\nint f(void) { return another_unused(); }\n')
+            self.assertNotEqual(C.key_for(second), C.key_for(C.key_inputs(self.root, self.recipe, self.spec)))
+
     def test_emitted_assembler_strings_and_recursive_binary_inputs(self):
         (self.root/'include/labels.inc').write_text('.include "include/nested.inc"\n')
         (self.root/'include/nested.inc').write_text('.incbin "include/blob.bin", 0, 1\n')

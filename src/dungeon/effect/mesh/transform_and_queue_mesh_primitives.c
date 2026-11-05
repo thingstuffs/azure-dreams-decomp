@@ -163,12 +163,9 @@ typedef struct S_func_800241A8_5 {
 } S_func_800241A8_5;
 
 typedef struct S_func_800241A8_6 {
-    union {
-        u32 as_u32_00;
-        struct {
-            u8 pad_00[0x3];
-            u8 unk_03;
-        } as_u8_03;
+    struct {
+        u8 pad_00[0x3];
+        u8 unk_03;
     } unk_00;
     union {
         u32 as_u32_04;
@@ -334,7 +331,7 @@ void transform_and_queue_mesh_primitives(S_func_800241A8_4 *mesh, ObjectPosition
                   ((u16)(packet->unk_1A + 0x20) < 0x121)) |
                  (((u16)(packet->unk_20.as_u16_20 + 0x20) < 0x181) &&
                   ((u16)(packet->unk_22.as_u16_22 + 0x20) < 0x121)))) {
-                packet->unk_00.as_u8_03.unk_03 = 9;
+                packet->unk_00.unk_03 = 9;
                 packet->unk_04.as_u8_07.unk_07 = 0x2C;
                 object->flags &= 0x7FFF;
 
@@ -471,7 +468,7 @@ void transform_and_queue_mesh_primitives(S_func_800241A8_4 *mesh, ObjectPosition
             }
 
             render_flags = ((u32)(object->color.word));
-            line->unk_00.as_u8_03.unk_03 = 3;
+            line->unk_00.unk_03 = 3;
             line->unk_04.as_u32_04 = render_flags;
             line->unk_04.as_u8_07.unk_07 = 0x42;
             setaddr(line, getaddr((u32 *)scratch->unk_24 + scratch->unk_100));
@@ -1037,7 +1034,7 @@ void advance_fading_effect_animation(StarEdgeEffectBody *effect_data, ObjectPosi
             effect_data->unk_2C.u;
     }
 
-    if (*(s32 *)((u8 *)effect_data + 0x40) == 0x10000) {
+    if (effect_data->unk_40.at00.v == 0x10000) {
         u32 start_x = effect_data->unk_1E.u;
         u32 start_y = effect_data->unk_2A.u;
 

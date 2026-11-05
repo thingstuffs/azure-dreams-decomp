@@ -57,7 +57,7 @@ typedef struct S_80174704_0 {
     u8 pad_98[0x3];
     u8 unk_9B;
     u8 pad_9C[0x10];
-    union { void * p; u8 * p2; } unk_AC;   /* accessed as both */
+    u8 *unk_AC;
     union { s16 s; u16 u; } unk_B0;   /* accessed as both */
 } S_80174704_0;   /* arg0 in advance_actor_transition_replacement */
 
@@ -254,7 +254,7 @@ void advance_actor_transition_replacement(ActorRecord *action, ObjectPosition *p
             action->unk_B0.halves.low.u++;
         }
     }
-        object = ((S_80174704_0 *)action)->unk_AC.p2;
+        object = ((S_80174704_0 *)action)->unk_AC;
         object = ((S_80174704_3 *)object)->unk_0C.p;
         if (((S_80174704_3 *)object)->unk_14 & 0xE000) {
             action->action_timer.u = 0x10;
