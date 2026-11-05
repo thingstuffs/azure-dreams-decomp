@@ -196,7 +196,7 @@ void expire_counted_child_effect(TimedTransformCopyEffectBody *counter_state) {
 /* Draw a red ring around the effect center using eight projected polylines. */
 s32 draw_red(TimedTransformCopyEffectBody *effect, B22_81892C5C_S_81892C5C_2 *center)
 {
-    u8 *scratch = (u8 *)0x1F800000;
+    B22_81892C5C_S_81892C5C_0 *scratch = (B22_81892C5C_S_81892C5C_0 *)0x1F800000;
     void *initial_context;
     s32 base_height;
     s32 radius;
@@ -206,11 +206,11 @@ s32 draw_red(TimedTransformCopyEffectBody *effect, B22_81892C5C_S_81892C5C_2 *ce
 
     ot_ctx = &g_game_work;
     initial_context = ot_ctx->draw_buffer;
-    ((B22_81892C5C_S_81892C5C_0 *)scratch)->unk_18.s = (u8 *)initial_context + 0xB0;
+    scratch->unk_18.s = (u8 *)initial_context + 0xB0;
     for (;;) {
         base_height = effect->frame.base_height;
-        ((B22_81892C5C_S_81892C5C_0 *)scratch)->unk_68 = ((B22_81892C5C_S_81892C5C_0 *)scratch)->unk_70 =
-            ((B22_81892C5C_S_81892C5C_0 *)scratch)->unk_78 = center->unk_0A;
+        scratch->unk_68 = scratch->unk_70 =
+            scratch->unk_78 = center->unk_0A;
         radius = (s16)((base_height + 1) << 5);
 
         angle_step = 0x100;
@@ -245,50 +245,50 @@ s32 draw_red(TimedTransformCopyEffectBody *effect, B22_81892C5C_S_81892C5C_2 *ce
 
             angle_base = segment * 2;
             mid_angle = (angle_base + 1) * angle_step;
-            ((B22_81892C5C_S_81892C5C_0 *)scratch)->unk_64 = (s16)(center->unk_02 +
+            scratch->unk_64 = (s16)(center->unk_02 +
                 (((x_trig >> 4) * radius) >> 8));
             x_trig = rsin(mid_angle);
 
             end_angle = (angle_base + 2) * angle_step;
-            ((B22_81892C5C_S_81892C5C_0 *)scratch)->unk_6C = (s16)(center->unk_02 +
+            scratch->unk_6C = (s16)(center->unk_02 +
                 (((x_trig >> 4) * radius) >> 8));
-            ((B22_81892C5C_S_81892C5C_0 *)scratch)->unk_74 = (s16)(center->unk_02 +
+            scratch->unk_74 = (s16)(center->unk_02 +
                 (((rsin(end_angle) >> 4) * radius) >> 8));
-            ((B22_81892C5C_S_81892C5C_0 *)scratch)->unk_66 = (s16)(center->unk_06 +
+            scratch->unk_66 = (s16)(center->unk_06 +
                 (((rcos(start_angle) >> 4) * radius) >> 8));
-            ((B22_81892C5C_S_81892C5C_0 *)scratch)->unk_6E = (s16)(center->unk_06 +
+            scratch->unk_6E = (s16)(center->unk_06 +
                 (((rcos(mid_angle) >> 4) * radius) >> 8));
             {
 
                 end_y_scaled = (rcos(end_angle) >> 4) * radius;
                 base_height = end_y_scaled >> 8;
-                ((B22_81892C5C_S_81892C5C_0 *)scratch)->unk_76 = (s16)(center->unk_06 + base_height);
+                scratch->unk_76 = (s16)(center->unk_06 + base_height);
             }
 
             {
-                u8 *start_vertex = scratch + 0x64;
-                u8 *mid_vertex = scratch + 0x6C;
-                u8 *end_vertex = scratch + 0x74;
-                u8 *screen_start = scratch + 0xD8;
-                ((B22_81892C5C_S_81892C5C_0 *)scratch)->unk_B4.s = func_80065530(
-                    start_vertex, mid_vertex, end_vertex, screen_start, scratch + 0xDC, scratch + 0xE0,
-                    scratch + 0x84, scratch + 0x88);
+                u8 *start_vertex = (u8 *)scratch + 0x64;
+                u8 *mid_vertex = (u8 *)scratch + 0x6C;
+                u8 *end_vertex = (u8 *)scratch + 0x74;
+                u8 *screen_start = (u8 *)scratch + 0xD8;
+                scratch->unk_B4.s = func_80065530(
+                    start_vertex, mid_vertex, end_vertex, screen_start, (u8 *)scratch + 0xDC, (u8 *)scratch + 0xE0,
+                    (u8 *)scratch + 0x84, (u8 *)scratch + 0x88);
             }
 
-            ((B22_81892C5C_S_81892C5C_4 *)polyline)->unk_08 = ((B22_81892C5C_S_81892C5C_0 *)scratch)->unk_D8;
-            ((B22_81892C5C_S_81892C5C_4 *)polyline)->unk_0A = ((B22_81892C5C_S_81892C5C_0 *)scratch)->unk_DA;
-            ((B22_81892C5C_S_81892C5C_4 *)polyline)->unk_0C = ((B22_81892C5C_S_81892C5C_0 *)scratch)->unk_DC;
-            ((B22_81892C5C_S_81892C5C_4 *)polyline)->unk_0E = ((B22_81892C5C_S_81892C5C_0 *)scratch)->unk_DE;
-            ((B22_81892C5C_S_81892C5C_4 *)polyline)->unk_10 = ((B22_81892C5C_S_81892C5C_0 *)scratch)->unk_E0;
-            ((B22_81892C5C_S_81892C5C_4 *)polyline)->unk_12 = ((B22_81892C5C_S_81892C5C_0 *)scratch)->unk_E2;
+            ((B22_81892C5C_S_81892C5C_4 *)polyline)->unk_08 = scratch->unk_D8;
+            ((B22_81892C5C_S_81892C5C_4 *)polyline)->unk_0A = scratch->unk_DA;
+            ((B22_81892C5C_S_81892C5C_4 *)polyline)->unk_0C = scratch->unk_DC;
+            ((B22_81892C5C_S_81892C5C_4 *)polyline)->unk_0E = scratch->unk_DE;
+            ((B22_81892C5C_S_81892C5C_4 *)polyline)->unk_10 = scratch->unk_E0;
+            ((B22_81892C5C_S_81892C5C_4 *)polyline)->unk_12 = scratch->unk_E2;
 
             {
-                u32 otz = ((B22_81892C5C_S_81892C5C_0 *)scratch)->unk_B4.u;
+                u32 otz = scratch->unk_B4.u;
 
                 if (otz < 0x1E0) {
                     void *tpage;
 
-                    addPrim(((B22_81892C5C_S_81892C5C_0 *)scratch)->unk_18.u + ((B22_81892C5C_S_81892C5C_0 *)scratch)->unk_B4.u, polyline);
+                    addPrim(scratch->unk_18.u + scratch->unk_B4.u, polyline);
 
                     {
                         B22_81892C5C_S_81892C5C_5 *draw_context;
@@ -299,7 +299,7 @@ s32 draw_red(TimedTransformCopyEffectBody *effect, B22_81892C5C_S_81892C5C_2 *ce
                     }
                     SetDrawMode(tpage, 0, 0, GetTPage(0, 1, 0, 0) & 0xFFFF, 0);
 
-                    addPrim(((B22_81892C5C_S_81892C5C_0 *)scratch)->unk_18.u + ((B22_81892C5C_S_81892C5C_0 *)scratch)->unk_B4.u, tpage);
+                    addPrim(scratch->unk_18.u + scratch->unk_B4.u, tpage);
                 }
             }
 

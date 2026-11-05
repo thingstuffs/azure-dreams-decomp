@@ -14,7 +14,7 @@
 #include "slus/gp_shared_81510.h"
 #include "engine/node.h"
 #include "dungeon/effect/sprite.h"
-#include "dungeon/effect/sprite/linked_monster_effect.h"
+#include "dungeon/effect/sprite/linked_object_chain.h"
 #include "dungeon/data.h"
 
 s32 func_8002589C(ObjectNodeHeader *, s32, s32);        /* extern */
@@ -25,7 +25,7 @@ s32 find_eligible_entry_at_coordinates();                /* extern */
 void apply_attack_power_and_element_effects(); /* extern */
 s32 check_layer_offset_height();              /* extern */
 extern u16 sprite_effect_update_count;
-extern u8 linked_monster_attack_option;
+extern u8 linked_effect_chain_attack_option;
 extern s32 D_800C9034();
 
 
@@ -38,7 +38,7 @@ typedef struct S_80025C80_2 {
     union { struct { s32 v; } at00; struct { u8 pad[0x2]; s16 v; } at02; } unk_0C;   /* overlapping accesses */
     union { struct { s32 v; } at00; struct { u8 pad[0x2]; s16 v; } at02; } unk_10;   /* overlapping accesses */
     union { struct { s32 v; } at00; struct { u8 pad[0x2]; s16 v; } at02; } unk_14;   /* overlapping accesses */
-} S_80025C80_2;   /* arg1 in update_linked_monster_effect */
+} S_80025C80_2;   /* arg1 in update_linked_object_chain */
 
 
 typedef struct S_80025C80_7 {
@@ -57,7 +57,7 @@ typedef struct S_80025C80_7 {
 
 
 /* Updates effect movement and fading, or copies the chain head's position and appearance. */
-void update_linked_monster_effect(LinkedObjectChainBody *effect_in, ObjectPosition *motion_in, void *sprite_in) {
+void update_linked_object_chain(LinkedObjectChainBody *effect_in, ObjectPosition *motion_in, void *sprite_in) {
     TileObject *sprite;
     s32 x_step;
     s32 end_frame;
@@ -136,7 +136,7 @@ void update_linked_monster_effect(LinkedObjectChainBody *effect_in, ObjectPositi
             {
                 void *sprite_data = sprite;
                 SpriteFrameState *orientation_sprite = sprite_data;
-                GteShortVector *offset = (GteShortVector *)&effect_in->unk_24;
+                GteShortVector *offset = &effect_in->position_offset;
 
                 transform_result = resolve_record_orientation_or_fallback(orientation_sprite->source, orientation_sprite, offset, 0);
             }
@@ -153,11 +153,11 @@ void update_linked_monster_effect(LinkedObjectChainBody *effect_in, ObjectPositi
                 effect_in->unk_2C = (u16) effect_in->unk_2C + 1;
             } else {
                 motion_in->x.w.i =
-                    (s16) (((u16)view_reference_entity.x.w.i) + effect_in->unk_24);
+                    (s16) (((u16)view_reference_entity.x.w.i) + (u16)effect_in->position_offset.vx);
                 motion_in->y.w.i =
-                    (s16) (((u16)view_reference_entity.y.w.i) + effect_in->unk_26);
+                    (s16) (((u16)view_reference_entity.y.w.i) + (u16)effect_in->position_offset.vy);
                 motion_in->z.w.i =
-                    (s16) (((u16)view_reference_entity.z.w.i) + effect_in->unk_28);
+                    (s16) (((u16)view_reference_entity.z.w.i) + (u16)effect_in->position_offset.vz);
             }
             break;
         case 2:
@@ -214,8 +214,8 @@ void update_linked_monster_effect(LinkedObjectChainBody *effect_in, ObjectPositi
                     (u16) effect_in->unk_3E);
                 if (found_tile != 0) {
                     tile_object = found_tile;
-                    apply_attack_power_and_element_effects(tile_object, 0xC, linked_monster_attack_option, 9,
-                        (s32) (s16) (effect_in->unk_40.u << 9), linked_monster_attack_event[0], 5);
+                    apply_attack_power_and_element_effects(tile_object, 0xC, linked_effect_chain_attack_option, 9,
+                        (s32) (s16) (effect_in->unk_40.u << 9), linked_effect_chain_attack_event[0], 5);
                 }
             }
             func_8002589C(NODE_HEADER(effect_in), (s16) effect_in->unk_40.u, 0xF0);
@@ -242,7 +242,7 @@ void update_linked_monster_effect(LinkedObjectChainBody *effect_in, ObjectPositi
             fade_ticks = (u16) effect_in->unk_30.n - 1;
             effect_in->unk_30.n = fade_ticks;
             if ((fade_ticks << 0x10) <= 0) {
-                linked_monster_effect_updated[0] = 0;
+                linked_effect_chain_updated[0] = 0;
                 linked_flags = NODE_HEADER(effect_in)->flags;
                 linked_global = &object_flag_block;
                 linked_flags |= 0x8000;

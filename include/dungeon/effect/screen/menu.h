@@ -17,6 +17,21 @@
 #include "shared/record_ptrs.h"
 #include "shared/slus_callbacks.h"
 
+/* Allocated by create_timed_model_effect; update_arcing_effect advances its phase and arc. */
+typedef struct ArcingEffectBody {
+    void *unk_00;
+    void *unk_04;
+    void *unk_08;
+    s32 unk_0C;
+    u8 pad_10[0x10];
+    s16 phase;
+    u8 pad_22[0x4];
+    s16 arc_steps;
+    u16 unk_28;
+    u8 pad_2A[0x8];
+    s16 unk_32;
+} ArcingEffectBody;
+
 /* Callback-specific marker body, initialized by create_familiar_selection_marker. */
 typedef union MarkerHalf { s16 s; u16 u; } MarkerHalf;
 typedef struct FamiliarMarkerWork {
@@ -58,6 +73,7 @@ typedef struct WrappedTextureScrollBody {
 
 void update_familiar_selection_marker(FamiliarMarkerWork *state, ObjectPosition *position_arg, SpriteFrameState *marker_arg);
 void update_wrapped_texture_scroll(WrappedTextureScrollBody *scroll_state);
+void create_timed_model_effect(ObjectNodeHeader *owner, u16 *context, void *child, void *tail);
 
 void *allocate_flagged_object_node(int flags);
 #endif

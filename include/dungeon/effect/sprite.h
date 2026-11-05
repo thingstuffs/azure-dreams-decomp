@@ -74,7 +74,7 @@ typedef struct RandomOffsetEffectObjectBody {
 typedef struct OwnerTintedEffectBody {
     void *unk_00;
     u8 pad_04[0xC];
-    union { u16 s; s16 u; } unk_10;
+    s16 elapsed_ticks;
     u8 pad_12[0x2];
     s16 unk_14;
     u8 pad_16[0xEE];
@@ -168,7 +168,7 @@ void update_spiral_effect(RadialEffectBody *effect, ObjectPosition *motion, Spri
 
 /* Callback entry points. */
 struct LinkedObjectChainBody;
-void update_linked_monster_effect(struct LinkedObjectChainBody *effect_in, ObjectPosition *motion_in, void *sprite_in);
+void update_linked_object_chain(struct LinkedObjectChainBody *effect_in, ObjectPosition *motion_in, void *sprite_in);
 
 struct S_func_800D7FB8_0;
 void update_effect_controller(struct S_func_800D7FB8_0 *controller);

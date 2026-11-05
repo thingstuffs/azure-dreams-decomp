@@ -19,7 +19,7 @@ typedef struct S_800264D4_0 {
 
 typedef struct S_800264D4_4 {
     u8 pad_00[0x4];
-    s32 unk_04;
+    void *unk_04;
     void * unk_08;
     s32 unk_0C;
     s32 unk_10;
@@ -61,7 +61,7 @@ void *allocate_list_node(s32, void *);
 s32 register_node(void *, void *);
 
 /* Creates six linked objects at the source position and initializes their position histories. */
-void *create_linked_objects(MovingPosition *source_pos, s32 effect_value, s16 sprite_id, s16 effect_option) {
+void *create_linked_objects(MovingPosition *source_pos, void *effect_value, s16 sprite_id, s16 effect_option) {
     s32 object_index;
     s32 sprite_index;
     s32 fixed_x;

@@ -76,7 +76,7 @@ extern u8 pending_player_damage_kind;
 extern u8 player_attack_frames[ ];
 extern u8 player_attack_start_frames[ ];
 
-extern s16 linked_monster_effect_updated[ 6 ];
+extern s16 linked_effect_chain_updated[ 6 ];
 extern u8 screen_effect_sprite_entries[ 12 ];
 extern u8 screen_transition_pixels[ ];
 

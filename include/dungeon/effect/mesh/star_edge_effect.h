@@ -3,6 +3,22 @@
 
 #include "common.h"
 
+/* Star center body initialized by the owner effect and advanced by
+ * initialize_star_effect_sequence. The two arrays hold five planar vertices. */
+typedef struct StarSequenceBody {
+    s16 mode;
+    s16 frame;
+    u16 initial_count;
+    u8 pad_06[0x4];
+    s16 radius;
+    s16 base_angle;
+    u8 pad_0E[0xE];
+    s16 edge_index;
+    u16 x[5];
+    u8 pad_28[0x2];
+    u16 y[5];
+} StarSequenceBody;
+
 /* Body of an edge node allocated by initialize_star_effect_sequence. */
 typedef struct StarEdgeEffectBody {
     u8 pad_00[0x2];

@@ -56,7 +56,7 @@ typedef struct S_800D1824_5 {
 /* Transform grid tiles into quads and add visible ones to the ordering table. */
 void build_visible_tile_quads(MeshEffectObjectBody *tiles)
 {
-    u8 *scratch = (u8 *)0x1F800000;
+    S_800D1824_0 *scratch = (S_800D1824_0 *)0x1F800000;
     GameWork *globals = &g_game_work;
     S_800D1824_4 *style;
     u8 *prim;
@@ -67,66 +67,66 @@ void build_visible_tile_quads(MeshEffectObjectBody *tiles)
     s32 tri_depth;
     u16 z;
 
-    ((S_800D1824_0 *)scratch)->unk_28 = 0;
+    scratch->unk_28 = 0;
     render_state = globals->draw_buffer;
     style = (S_800D1824_4 *)((S_800D1824_5 *)(((u8 *)globals->map.cell_faces)))->unk_10;
     prim = ((GpuContext *)render_state)->packetCursor;
-    ((S_800D1824_0 *)scratch)->unk_2C = -0x1000;
-    ((S_800D1824_0 *)scratch)->unk_20 = render_state + 0xB0;
+    scratch->unk_2C = -0x1000;
+    scratch->unk_20 = render_state + 0xB0;
 
     while (tiles->x != 0) {
         if (tiles->height != 0x8000) {
             x = (s32)tiles->x << 6;
-            ((S_800D1824_0 *)scratch)->unk_80 = (s16)x;
-            ((S_800D1824_0 *)scratch)->unk_70 = (s16)x;
+            scratch->unk_80 = (s16)x;
+            scratch->unk_70 = (s16)x;
             x += 0x40;
-            ((S_800D1824_0 *)scratch)->unk_88 = (s16)x;
-            ((S_800D1824_0 *)scratch)->unk_78 = (s16)x;
+            scratch->unk_88 = (s16)x;
+            scratch->unk_78 = (s16)x;
 
             y = (s32)tiles->y << 6;
-            ((S_800D1824_0 *)scratch)->unk_7A = (s16)y;
-            ((S_800D1824_0 *)scratch)->unk_72 = (s16)y;
+            scratch->unk_7A = (s16)y;
+            scratch->unk_72 = (s16)y;
             y += 0x40;
-            ((S_800D1824_0 *)scratch)->unk_8A = (s16)y;
-            ((S_800D1824_0 *)scratch)->unk_82 = (s16)y;
+            scratch->unk_8A = (s16)y;
+            scratch->unk_82 = (s16)y;
 
             z = tiles->height;
-            ((S_800D1824_0 *)scratch)->unk_84 = z;
-            ((S_800D1824_0 *)scratch)->unk_7C = z;
-            ((S_800D1824_0 *)scratch)->unk_74 = z;
+            scratch->unk_84 = z;
+            scratch->unk_7C = z;
+            scratch->unk_74 = z;
 
-            gte_ldv3(scratch + 0x70, scratch + 0x78, scratch + 0x80);
-            ((S_800D1824_0 *)scratch)->unk_8C = tiles->height;
+            gte_ldv3((u8 *)scratch + 0x70, (u8 *)scratch + 0x78, (u8 *)scratch + 0x80);
+            scratch->unk_8C = tiles->height;
             gte_rtpt_nn();
             gte_nclip();
-            gte_stopz(scratch + 0x114);
+            gte_stopz((u8 *)scratch + 0x114);
 
-            if (((S_800D1824_0 *)scratch)->unk_114 > 0) {
+            if (scratch->unk_114 > 0) {
                 gte_stsxy3_g3(prim);
                 gte_avsz3();
-                gte_stotz(scratch + 0xC0);
-                gte_ldv0(scratch + 0x88);
-                tri_depth = ((S_800D1824_0 *)scratch)->unk_C0;
+                gte_stotz((u8 *)scratch + 0xC0);
+                gte_ldv0((u8 *)scratch + 0x88);
+                tri_depth = scratch->unk_C0;
                 tri_depth = tri_depth * 3;
-                ((S_800D1824_0 *)scratch)->unk_C0 = tri_depth;
+                scratch->unk_C0 = tri_depth;
 
                 gte_rtps_nn();
-                gte_stszotz(scratch + 0xCC);
-                depth = (((S_800D1824_0 *)scratch)->unk_C0 +
-                         ((S_800D1824_0 *)scratch)->unk_CC) >> 2;
-                ((S_800D1824_0 *)scratch)->unk_C0 = depth;
+                gte_stszotz((u8 *)scratch + 0xCC);
+                depth = (scratch->unk_C0 +
+                         scratch->unk_CC) >> 2;
+                scratch->unk_C0 = depth;
 
                 if ((u32)depth < 0x1E0) {
                     gte_stsxy(prim + 0x20);
-                    func_80065034(scratch + 0x28, &globals->view.tint.word, prim + 4);
+                    func_80065034((u8 *)scratch + 0x28, &globals->view.tint.word, prim + 4);
                     *(u32 *)(prim + 0xC) = style->unk_08;
                     *(u32 *)(prim + 0x14) = style->unk_0C;
                     *(u16 *)(prim + 0x1C) = style->unk_12;
                     *(u16 *)(prim + 0x24) = style->unk_14;
                     prim[3] = 9;
                     AddPrim(
-                        (s32)((S_800D1824_0 *)scratch)->unk_20 +
-                            (((S_800D1824_0 *)scratch)->unk_C0 << 2),
+                        (s32)scratch->unk_20 +
+                            (scratch->unk_C0 << 2),
                         prim);
                     prim += 0x28;
                 }

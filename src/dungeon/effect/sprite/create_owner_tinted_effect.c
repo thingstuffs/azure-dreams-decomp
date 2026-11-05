@@ -58,7 +58,7 @@ void *create_owner_tinted_effect(S_818BDD8C_2 *owner, ObjectPosition *initial_da
         state = NODE_BODY(object);
         object->update_callback = &D_800254E0;
         ((S_818BDD8C_0 *)object)->unk_20 = owner;
-        state->unk_10.u = 0;
+        state->elapsed_ticks = 0;
         state->unk_14 = (u16)owner->unk_12;
         render = object->sprite;
         render->color.c.b = 0x80;

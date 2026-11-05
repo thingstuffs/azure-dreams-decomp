@@ -1,6 +1,7 @@
 #include "shared/audio_commands.h"
 /* Effect texture loading, target tinting, and spiraling model effects with completion tracking. */
 #include "dungeon/effect/motion/update_directional_actor_effect.h"
+#include "dungeon/effect/screen/menu.h"
 #include "shared/object_node.h"
 #include "shared/sprite_frame_state.h"
 #include "dungeon/effect/motion/update_directional_actor_effect.h"

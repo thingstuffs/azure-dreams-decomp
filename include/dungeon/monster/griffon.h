@@ -83,16 +83,6 @@ typedef struct R08_80170E7C_S_80170E7C_8 {
     u8 pad_00[0x4];
     s32 unk_04;
 } R08_80170E7C_S_80170E7C_8;
-typedef struct R08_801715B4_S_80171570_0 {
-    u8 pad_00[0x1C];
-    s32 unk_1C;
-    u8 pad_20[0xA];
-    s16 unk_2A;
-    u8 pad_2C[0x45];
-    union { s8 s; u8 u; } unk_71;   
-    u8 pad_72[0x18];
-    s16 unk_8A;
-} R08_801715B4_S_80171570_0;
 typedef struct R08_801715B4_S_80171570_2 {
     u8 pad_00[0x8C];
     s32 unk_8C;

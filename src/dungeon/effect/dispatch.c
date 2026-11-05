@@ -1419,14 +1419,14 @@ typedef struct {
     u16 depth;
 } DungeonRender;
 
-typedef struct {
+struct CentralChildEffectObject {
     u8 pad0[8];
     ObjectPosition *coord;
     DungeonRender *render;
     void *callback;
     u8 pad20[12];
     CentralChildEffectState state;
-} DungeonObject;
+};
 
 extern void *allocate_list_node(s32, void *);
 extern s32 register_node(); /* Unprototyped: two, three or four arguments; retail reads only the node and draw key. */
@@ -1437,10 +1437,10 @@ extern u8 D_800D0774[];
 extern u8 D_800DF3B4[];
 
 /* Creates a dungeon effect with a central object and up to eleven surrounding children. */
-DungeonObject *create_central_and_child_effects(s16 tile_x, s16 tile_y, u16 z, s16 height, s16 speed) {
+CentralChildEffectObject *create_central_and_child_effects(s16 tile_x, s16 tile_y, s16 z, s16 height, s16 speed) {
     s32 color;
-    DungeonObject *parent;
-    DungeonObject *child;
+    CentralChildEffectObject *parent;
+    CentralChildEffectObject *child;
     CentralChildEffectState *state;
     ObjectPosition * center;
     ObjectPosition *child_coord;
@@ -1486,7 +1486,7 @@ DungeonObject *create_central_and_child_effects(s16 tile_x, s16 tile_y, u16 z, s
         do {
             child = allocate_list_node(0x12, parent);
             if (child != NULL) {
-                DungeonObject *init_child;
+                CentralChildEffectObject *init_child;
                 void *child_resource;
                 init_child = child;
                 child_resource = D_800D0774;

@@ -103,17 +103,7 @@ typedef struct S_8196BF24_1 {
     u16 unk_1C;
     u16 unk_1E;
 } S_8196BF24_1;
-typedef struct S_8196BFB0_0 {
-    union { struct { s32 v; } at00; struct { u8 pad[0x2]; u16 v; } at02; } unk_00;   /* overlapping accesses */
-    union { struct { s32 v; } at00; struct { u8 pad[0x2]; u16 v; } at02; } unk_04;   /* overlapping accesses */
-    union {
-        struct { s32 v; } at00;
-        struct { s16 v; } at00u;
-        struct { u8 pad[0x2]; s16 v; } at02;
-        struct { u8 pad[0x2]; u16 v; } at02u;
-        struct { u8 pad[0x2]; u16 v; } at02p;
-    } unk_08;   /* overlapping accesses */
-} S_8196BFB0_0;
+
 typedef struct S_8196BFB0_2 {
     u8 pad_00[0x14];
     u16 unk_14;
@@ -376,7 +366,7 @@ void select_record_entry_and_value(void *state, void *entries, short index);
 s32 check_left_tile_and_center_height(s32 x, s32 y, s32 z);
 void create_lingering_ballistic_sprite(S_8196B4A4_5 *source, s32 unused_1, s32 unused_2, s16 offset_x, s16 offset_y, s16 offset_z);
 void shrink_effect_and_step_texture(void *effect, s32 unused, S_8196BF24_1 *transform);
-void advance_particle_emitting_projectile(StagedParticleEffectBody *object, void *position, void *render_state);
+void advance_particle_emitting_projectile(StagedParticleEffectBody *object, struct ObjectPosition *position, void *render_state);
 void update_timed(void *effect_data, s32 unused, void *sprite);
 void advance_counter_and_propagate_target_flags(void *object);
 void advance_terrain_colliding_sprite(LingeringBallisticSpriteBody *motion, void *position, SpriteFrameState *update_id);

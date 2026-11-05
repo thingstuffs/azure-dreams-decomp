@@ -40,7 +40,8 @@ void create_random_jitter_child( ObjectNodeHeader *parent, s16 field_34, s32 fie
 void advance_record_counter(struct CountdownRecord *record);
 void process_five_context_entries_or_fallback(void *effect, void *unused, void *primitive);
 void advance_grayscale_fade(struct Func818F9D8CState *state, s32 unused, u8 *out);
-void update_timed(void *state, void *position_out, void *effect_arg);
+struct TimedWaveParticleBody;
+void update_timed(struct TimedWaveParticleBody *state, void *position_out, void *effect_arg);
 void set_record_pair_to_one(struct ProjectileSelf *self, struct OutView *position, struct PacketView *render_data);
 s32 resolve_record_orientation_or_fallback(void *, void *, void *, s32);
 s32 rand(void);

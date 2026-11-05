@@ -12,12 +12,6 @@
 #define NULL 0
 #endif
 
-typedef struct S_800B8228_3 {
-    u8 pad_00[0xB0];
-    s16 unk_B0;
-    s16 unk_B2;
-} S_800B8228_3;
-
 typedef struct {
     u32 value;
 } __attribute__((packed)) PackedWord;
@@ -33,7 +27,7 @@ void *create_effect_or_fallback(u32 x, u32 y, s32 z, void *effect_data) {
     SpriteFrameState *appearance;
     ObjectNodeHeader *effect;
     ObjectPosition *position;
-    S_800B8228_3 *grid_position;
+    ItemDropEffectBody *grid_position;
 
     effect = allocate_flagged_object_node(0x12);
     if (effect != NULL) {
@@ -50,8 +44,8 @@ void *create_effect_or_fallback(u32 x, u32 y, s32 z, void *effect_data) {
         appearance->scale_x = 0xC90;
         appearance->source = get_item_category_value(effect_data, appearance->color.word);
         grid_position = NODE_BODY(effect);
-        grid_position->unk_B0 = x >> 6;
-        grid_position->unk_B2 = y >> 6;
+        grid_position->grid_x = x >> 6;
+        grid_position->grid_y = y >> 6;
         *(PackedWord *)((u8 *)effect + 0xB8) = *(PackedWord *)effect_data;
         create_tracked_effect(effect, 0, 0, 0);
         play_sound_if_enabled(0x51C);

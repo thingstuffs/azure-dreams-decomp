@@ -14,11 +14,20 @@ from sig_census import Census, site_key
 
 
 def mismatch(definition_key, declaration_key):
-    """Only return type and explicit parameter count are policy candidates."""
+    """Report return, arity, and pointer/integer parameter-kind disagreements."""
     ret = definition_key[0] != declaration_key[0]
     a, b = definition_key[1], declaration_key[1]
     arity = a is not None and b is not None and len(a) != len(b)
-    return ('return_type' if ret else '') + ('+arity' if ret and arity else 'arity' if arity else '')
+    def kind(param):
+        if param[1] or param[2] == 'array':
+            return 'pointer'
+        if param[2] == 'int':
+            return 'integer'
+        return None
+    param_kind = a is not None and b is not None and any(
+        {kind(left), kind(right)} == {'pointer', 'integer'} for left, right in zip(a, b))
+    return '+'.join(label for label, present in
+                    (('return_type', ret), ('arity', arity), ('param_kind', param_kind)) if present)
 
 
 def census(root: Path):

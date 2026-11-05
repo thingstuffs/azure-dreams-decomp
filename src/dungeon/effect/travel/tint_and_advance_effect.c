@@ -750,6 +750,7 @@ void *create_effect_render_object(MovingPosition *source_pos, s16 effect_param, 
 #include "dungeon/effect/travel.h"
 #include "common.h"
 #include "shared/object_flags.h"
+#include "dungeon/effect/travel/jittered_spark.h"
 
 typedef struct S_800250E8_0 {
     union { struct { s32 v; } at00; struct { u8 pad[0x2]; u16 v; } at02; } unk_00;   /* overlapping accesses */
@@ -763,14 +764,6 @@ typedef struct S_800250E8_0 {
     s32 unk_14;
 } S_800250E8_0;   /* arg1 in update_spark_effect */
 
-
-typedef struct S_800250E8_1 {
-    u8 pad_00[0x1A];
-    s16 unk_1A;
-    union { s16 s; u16 u; } unk_1C;   /* accessed as both */
-    u8 pad_1E[0x8];
-    s16 unk_26;
-} S_800250E8_1;   /* arg0 in update_spark_effect */
 
 typedef struct S_800250E8_2 {
     u8 pad_00[0x14];
@@ -806,14 +799,14 @@ void update_spark_effect(void *effect, S_800250E8_0 *motion, void *owner)
     counter_ptr[0] = counter;
     if (motion->unk_08.at02u.v <
         (s16)sample_terrain_surface_height(x, y, probe_z)) {
-        if (((S_800250E8_1 *)effect)->unk_26 == 0) {
-            x_direction = rcos(((S_800250E8_1 *)effect)->unk_1A);
+        if (((JitteredSparkEffectBody *)effect)->spawn_mode == 0) {
+            x_direction = rcos(((JitteredSparkEffectBody *)effect)->heading);
             motion->unk_00.at00.v = (s32)(motion->unk_00.at00.v +
-                (((s32)(x_direction * ((S_800250E8_1 *)effect)->unk_1C.s) >> 4) +
+                (((s32)(x_direction * ((JitteredSparkEffectBody *)effect)->remaining_steps) >> 4) +
                  (rand() & 0xFFFF)));
 
-            y_direction = rsin(((S_800250E8_1 *)effect)->unk_1A);
-            y_step = ((y_direction * ((S_800250E8_1 *)effect)->unk_1C.s) >> 4) +
+            y_direction = rsin(((JitteredSparkEffectBody *)effect)->heading);
+            y_step = ((y_direction * ((JitteredSparkEffectBody *)effect)->remaining_steps) >> 4) +
                        (rand() & 0xFFFF);
             motion->unk_04.at00.v = (s32)(motion->unk_04.at00.v + y_step);
 
@@ -822,10 +815,10 @@ void update_spark_effect(void *effect, S_800250E8_0 *motion, void *owner)
                 (0xFFFE0000 - (z_velocity_copy & 0xFFF)));
         } else {
             motion->unk_00.at00.v = (s32)(motion->unk_00.at00.v +
-                rcos(((S_800250E8_1 *)effect)->unk_1A) *
-                ((S_800250E8_1 *)effect)->unk_1C.s * 8);
-            y_motion = rsin(((S_800250E8_1 *)effect)->unk_1A) *
-                      ((S_800250E8_1 *)effect)->unk_1C.s;
+                rcos(((JitteredSparkEffectBody *)effect)->heading) *
+                ((JitteredSparkEffectBody *)effect)->remaining_steps * 8);
+            y_motion = rsin(((JitteredSparkEffectBody *)effect)->heading) *
+                      ((JitteredSparkEffectBody *)effect)->remaining_steps;
             z_velocity = motion->unk_14;
             z_position = motion->unk_08.at00.v;
             motion->unk_08.at00.v = z_position + z_velocity;
@@ -834,8 +827,8 @@ void update_spark_effect(void *effect, S_800250E8_0 *motion, void *owner)
         }
     }
 
-    life_left = ((S_800250E8_1 *)effect)->unk_1C.u - 1;
-    ((S_800250E8_1 *)effect)->unk_1C.s = life_left;
+    life_left = (u16)((JitteredSparkEffectBody *)effect)->remaining_steps - 1;
+    ((JitteredSparkEffectBody *)effect)->remaining_steps = life_left;
     if ((life_left << 16) <= 0 ||
         (owner_state->unk_14 & 0x8000)) {
         NODE_HEADER(effect)->flags = (u16)(NODE_HEADER(effect)->flags | 0x8000);
@@ -978,18 +971,11 @@ s32 queue_projected_point_primitives(void *node_data, void *position_data, void 
 #include "shared/sprite_frame_state.h"
 #include "common.h"
 #include "shared/dungeon_moving_views.h"
+#include "dungeon/effect/travel/jittered_spark.h"
 
    /* payload in allocate_jittered_effect_node */
 
    /* source in allocate_jittered_effect_node */
-
-typedef struct S_800254C4_3 {
-    u8 pad_00[0x1A];
-    s16 unk_1A;
-    s16 unk_1C;
-    u8 pad_1E[0x8];
-    s16 unk_26;
-} S_800254C4_3;   /* fields in allocate_jittered_effect_node */
 
 /* Allocates a node, copies or jitters its source values, and initializes its fields. */
 void allocate_jittered_effect_node(void *source_data, s16 initial_1a, s16 initial_1c, s16 spawn_mode) {
@@ -1026,11 +1012,11 @@ void allocate_jittered_effect_node(void *source_data, s16 initial_1a, s16 initia
         }
         node->sprite->color.c.r = 0xF0;
         {
-            S_800254C4_3 *fields = NODE_BODY(node);
+            JitteredSparkEffectBody *fields = NODE_BODY(node);
 
-            fields->unk_1A = field_1a;
-            fields->unk_1C = field_1c;
-            fields->unk_26 = mode;
+            fields->heading = field_1a;
+            fields->remaining_steps = field_1c;
+            fields->spawn_mode = mode;
         }
     }
 }

@@ -1560,7 +1560,7 @@ void advance_univern_flight(ActorRecord *body, ObjectPosition *motion, SpriteFra
 #include "dungeon/monster/univern.h"
 
 /* Moves and fades the defeated actor, awards experience, clears tile occupancy, and unlinks the actor. */
-void advance_familiar_defeat_sequence(R17_80173614_S_func_80C17E14_0 *action, MotionDeltaView *motion, R17_80173614_S_func_80C17E14_2 *sprite,
+void advance_univern_defeat_removal(R17_80173614_S_func_80C17E14_0 *action, MotionDeltaView *motion, R17_80173614_S_func_80C17E14_2 *sprite,
     R17_80173614_S_func_80C17E14_3 *entity) {
     s32 direction_offset;
     s32 offset_x;

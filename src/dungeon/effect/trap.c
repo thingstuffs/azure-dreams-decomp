@@ -909,13 +909,7 @@ s32 take_map_item_slot(ActorRecord *object, s16 slot)
 #include "shared/object_flags.h"
 #include "shared/dungeon_status.h"
 
-typedef struct S_800CCDA0_0 {
-    s32 unk_00;
-    union { s16 s; u16 u; } unk_04;   /* accessed as both */
-    union { u16 s; s16 u; } unk_06;   /* accessed as both */
-    s16 unk_08;
-    s16 unk_0A;
-} S_800CCDA0_0;   /* arg0 in update_bouncing_trap_effect */
+
 
 typedef struct S_800CCDA0_1 {
     s32 unk_00;
@@ -942,23 +936,23 @@ typedef struct S_800CCDA0_3 {
 extern void apply_attack_power_and_element_effects(void *, s32, s32, s32, s32, void *, s32);
 
 /* Updates a bouncing effect's motion, rotation, and fading until its lifetime expires. */
-void update_bouncing_trap_effect(void *effect, void *motion, void *sprite)
+void update_bouncing_trap_effect(BouncingTrapEffectBody *effect, void *motion, void *sprite)
 {
     u16 ticks_or_angle;
 
-    if (((S_800CCDA0_0 *)effect)->unk_04.s == 0) {
+    if (effect->phase == 0) {
         ((S_800CCDA0_1 *)motion)->unk_14 += 0x20000;
 
-        ticks_or_angle = ((S_800CCDA0_0 *)effect)->unk_06.s - 1;
-        ((S_800CCDA0_0 *)effect)->unk_06.s = ticks_or_angle;
+        ticks_or_angle = effect->ticks_left - 1;
+        effect->ticks_left = ticks_or_angle;
         if ((ticks_or_angle << 16) == 0) {
             play_sound_if_enabled(0x701);
         }
 
-        if (((S_800CCDA0_0 *)effect)->unk_0A < ((S_800CCDA0_1 *)motion)->unk_08.at02.v) {
-            apply_attack_power_and_element_effects(((S_800CCDA0_0 *)effect)->unk_00, 10,
+        if (effect->floor_height < ((S_800CCDA0_1 *)motion)->unk_08.at02.v) {
+            apply_attack_power_and_element_effects(effect->source, 10,
                           dungeon_actor_ring_anchor->level, 8,
-                          (((S_800CCDA0_0 *)effect)->unk_08 << 25) >> 16, 0, 2);
+                          (effect->unk_08 << 25) >> 16, 0, 2);
 
             ((S_800CCDA0_1 *)motion)->unk_14 = -((S_800CCDA0_1 *)motion)->unk_14;
             ((S_800CCDA0_1 *)motion)->unk_0C =
@@ -967,8 +961,8 @@ void update_bouncing_trap_effect(void *effect, void *motion, void *sprite)
                 rsin(g_game_work.view.camera_rotation.parts.viewAngle) << 8;
 
             ((S_800CCDA0_3 *)sprite)->unk_14 |= 0xC;
-            ((S_800CCDA0_0 *)effect)->unk_06.s = 12;
-            ((S_800CCDA0_0 *)effect)->unk_04.u++;
+            effect->ticks_left = 12;
+            effect->phase = (s16)((u16)effect->phase + 1);
         }
     } else {
         u16 angle;
@@ -976,14 +970,14 @@ void update_bouncing_trap_effect(void *effect, void *motion, void *sprite)
 
         ((S_800CCDA0_1 *)motion)->unk_14 += 0x80000;
         angle = ((S_800CCDA0_3 *)sprite)->unk_1A.s;
-        ticks_left = ((S_800CCDA0_0 *)effect)->unk_06.u;
+        ticks_left = (s16)effect->ticks_left;
         angle += (0x400 - angle) / ticks_left;
         ((S_800CCDA0_3 *)sprite)->unk_1A.s = angle;
 
         {
             s32 wobble_angle;
 
-            ticks_or_angle = ((S_800CCDA0_0 *)effect)->unk_06.s;
+            ticks_or_angle = effect->ticks_left;
             wobble_angle = ((S_800CCDA0_3 *)sprite)->unk_1A.u;
             if (ticks_or_angle & 1) {
                 ticks_or_angle = wobble_angle + 0x100;
@@ -994,17 +988,17 @@ void update_bouncing_trap_effect(void *effect, void *motion, void *sprite)
         }
 
         ((S_800CCDA0_3 *)sprite)->unk_0C -=
-            ((S_800CCDA0_3 *)sprite)->unk_0C / ((S_800CCDA0_0 *)effect)->unk_06.u;
+            ((S_800CCDA0_3 *)sprite)->unk_0C / (s16)effect->ticks_left;
         ((S_800CCDA0_3 *)sprite)->unk_0D -=
-            ((S_800CCDA0_3 *)sprite)->unk_0D / ((S_800CCDA0_0 *)effect)->unk_06.u;
+            ((S_800CCDA0_3 *)sprite)->unk_0D / (s16)effect->ticks_left;
         ((S_800CCDA0_3 *)sprite)->unk_0E -=
-            ((S_800CCDA0_3 *)sprite)->unk_0E / ((S_800CCDA0_0 *)effect)->unk_06.u;
+            ((S_800CCDA0_3 *)sprite)->unk_0E / (s16)effect->ticks_left;
 
-        ticks_or_angle = ((S_800CCDA0_0 *)effect)->unk_06.s - 1;
-        ((S_800CCDA0_0 *)effect)->unk_06.s = ticks_or_angle;
+        ticks_or_angle = effect->ticks_left - 1;
+        effect->ticks_left = ticks_or_angle;
         if ((ticks_or_angle << 16) == 0) {
             g_dungeon_status.activity_counts.parts.pending_action_count--;
-            (*(u16 *)((u8 *)effect + -2)) |= NODE_REMOVE;
+            NODE_HEADER(effect)->flags |= NODE_REMOVE;
             object_flag_block.flags |= OBJECT_REMOVE_PENDING;
         }
     }
@@ -1072,12 +1066,7 @@ typedef struct S_800CD004_4 {
     s16 unk_1E;
 } S_800CD004_4;   /* sprite in spawn_source_sprite_effect */
 
-typedef struct S_800CD004_5 {
-    u8 pad_00[0x6];
-    s16 unk_06;
-    u8 pad_08[0x2];
-    s16 unk_0A;
-} S_800CD004_5;   /* tail in spawn_source_sprite_effect */
+
 
    /* counter in spawn_source_sprite_effect */
 
@@ -1096,7 +1085,7 @@ s32 spawn_source_sprite_effect(void *source_arg, s32 rng_arg_1, s32 rng_arg_2, s
     s32 tile_x;
     S_800CD004_1 *effect;
     S_800CD004_3 *quad;
-    S_800CD004_5 *effect_state;
+    BouncingTrapEffectBody *effect_state;
     S_800CD004_4 *sprite;
     S_800CD004_2 *map;
     void *texture;
@@ -1149,9 +1138,9 @@ s32 spawn_source_sprite_effect(void *source_arg, s32 rng_arg_1, s32 rng_arg_2, s
             height_offset = entity_height_offsets[source->unk_13];
             effect_state = (u8 *)effect + 0x20;
             height_delta = source->unk_88 - height_offset;
-            effect_state->unk_0A = height_delta;
+            effect_state->floor_height = height_delta;
             effect->unk_20 = source;
-            effect_state->unk_06 = 0xC;
+            effect_state->ticks_left = 0xC;
 
             g_dungeon_status.activity_counts.parts.pending_action_count = ((u16)g_dungeon_status.activity_counts.parts.pending_action_count) + 1;
             play_sound_if_enabled(0x50D);

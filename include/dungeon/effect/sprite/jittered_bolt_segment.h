@@ -1,9 +1,9 @@
-#ifndef DUNGEON_EFFECT_SPRITE_JITTERED_TRAIL_SEGMENT_H
-#define DUNGEON_EFFECT_SPRITE_JITTERED_TRAIL_SEGMENT_H
+#ifndef DUNGEON_EFFECT_SPRITE_JITTERED_BOLT_SEGMENT_H
+#define DUNGEON_EFFECT_SPRITE_JITTERED_BOLT_SEGMENT_H
 
 #include "common.h"
 
-/* Body of a trail segment created by the jittered point sequence. */
+/* One jittered bolt segment created by the attack sequence controller. */
 typedef struct JitteredBoltSegmentBody {
     void *owner;
     u16 unk_04;

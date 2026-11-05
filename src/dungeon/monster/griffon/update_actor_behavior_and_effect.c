@@ -501,7 +501,7 @@ void update_actor_behavior_and_effect(ActorRecord *actor, ObjectPosition *positi
 /* Advances one stored path step, updates occupied tiles and facing, and selects the movement animation and
  * delay. */
 void advance_griffon_stored_path(ActorRecord *action, ObjectPosition *action_id, SpriteFrameState *entity, ActorRecord *move_state) {
-    R08_801715B4_S_80171570_0 *state = (R08_801715B4_S_80171570_0 *)move_state;
+    ActorRecord *state = move_state;
     s32 tile_mask;
     s16 move_result;
     s16 direction;
@@ -511,45 +511,45 @@ void advance_griffon_stored_path(ActorRecord *action, ObjectPosition *action_id,
     u8 new_x;
     u8 new_y;
 
-    if (state->unk_71.s <= 0) {
+    if ((s8)state->movement_queue_state <= 0) {
         return;
     }
-    if (state->unk_71.u <= state->unk_8A) {
+    if (state->movement_queue_state <= state->unk_8A) {
         return;
     }
 
     if (*(u8 * *)&entity->frameTable != griffon_move_direction_frames) {
         entity->frameTable = griffon_move_direction_frames;
         select_sprite_entry(
-            entity,(s16)(griffon_move_direction_frames[((g_game_work.view.camera_rotation.parts.viewAngle + state->unk_2A + 0x100) >> 9) & 7]),(s16)(0));
+            entity,(s16)(griffon_move_direction_frames[((g_game_work.view.camera_rotation.parts.viewAngle + state->facing + 0x100) >> 9) & 7]),(s16)(0));
     }
 
     x = entity->tile_x;
     y = entity->tile_y;
     tile_mask = 0x3000;
-    if (state->unk_1C & 0x2000) {
+    if (state->flags1C & 0x2000) {
         tile_mask = 0x300;
     }
     update_map_cell_flags_with_item_limit(x, y, tile_mask);
 
-    direction = ((s16)get_rounded_facing_and_rounding_flag((s16)(x),(s16)(y),(s16)(((ActorRecord *)state)->path_x[state->unk_8A]),(s16)(((ActorRecord *)state)->path_y[state->unk_8A]),
+    direction = ((s16)get_rounded_facing_and_rounding_flag((s16)(x),(s16)(y),(s16)(state->path_x[state->unk_8A]),(s16)(state->path_y[state->unk_8A]),
         &action->action_state_flags));
     move_result = ((s16)check_movement_clearance_and_height((s16)(direction), entity, state, 0x20));
 
     entity->tile_x =
-        ((ActorRecord *)state)->path_x[state->unk_8A];
+        state->path_x[state->unk_8A];
     tile_mask = 0x3000;
     entity->tile_y =
-        ((ActorRecord *)state)->path_y[state->unk_8A];
+        state->path_y[state->unk_8A];
     state->unk_8A = (u16)state->unk_8A + 1;
 
     new_x = entity->tile_x;
     new_y = entity->tile_y;
-    if (state->unk_1C & 0x2000) {
+    if (state->flags1C & 0x2000) {
         tile_mask = 0x300;
     }
     cycle_map_cell_flags((s16)(new_x),(s16)(new_y),(u16)(tile_mask));
-    state->unk_2A = direction;
+    state->facing = direction;
 
     if (move_result == 3 && !(g_dungeon_status.flags & 0x80)
         && !(entity->flags & 0x8000)) {
@@ -559,14 +559,14 @@ void advance_griffon_stored_path(ActorRecord *action, ObjectPosition *action_id,
         action->action_id.u = 0x0F;
         action->unk_8C.word = 0;
     }
-    state->unk_1C |= 0x40000000;
+    state->flags1C |= 0x40000000;
     if (g_dungeon_status.flags & 0x80) {
         action->action_timer.s = 0;
         return;
     }
 
     action->action_timer.s = 8;
-    step_count = state->unk_71.u;
+    step_count = state->movement_queue_state;
     if (step_count > 0) {
         action->action_timer.s = 8 / step_count;
     }

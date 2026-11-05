@@ -115,7 +115,7 @@ extern s32 are_quad_corner_turns_within_half_revolution(void *);
 
 /* Finds a map polygon at the query position using containment and plane height. */
 void *find_impact_surface_polygon(s32 world_x, s32 world_y, s16 min_height) {
-    u8 *scratch;
+    S_func_80024064_0 *scratch;
     u8 *polygon;
     u8 *vertices;
     u8 *planes;
@@ -130,24 +130,24 @@ void *find_impact_surface_polygon(s32 world_x, s32 world_y, s16 min_height) {
     u16 cell_x;
     u16 cell_y;
 
-    scratch = (u8 *)0x1F800000;
-    ((S_func_80024064_0 *)scratch)->unk_148 = 0x400;
-    ((S_func_80024064_0 *)scratch)->unk_140.s = world_x & 0x3F;
-    ((S_func_80024064_0 *)scratch)->unk_142.s = world_y & 0x3F;
-    ((S_func_80024064_0 *)scratch)->unk_14C = min_height;
+    scratch = (S_func_80024064_0 *)0x1F800000;
+    scratch->unk_148 = 0x400;
+    scratch->unk_140.s = world_x & 0x3F;
+    scratch->unk_142.s = world_y & 0x3F;
+    scratch->unk_14C = min_height;
 
     cell_index = (u16)world_x >> 6;
-    ((S_func_80024064_0 *)scratch)->unk_150 = cell_index;
+    scratch->unk_150 = cell_index;
     map_data = &g_game_work.map;
     cell_index += ((u16)world_y >> 6) << map_data->shiftX;
-    (*(s16 *)(scratch + 0x150)) = cell_index;
+    (*(s16 *)((u8 *)scratch + 0x150)) = cell_index;
     map_entry = (S_func_80024064_2 *)((long)cell_index * 6 +
                        (unsigned long)*(u8 **)((u8 *)(&g_game_work.map)));
     vertices = map_data->vertices;
     planes = map_data->surface_planes;
     best_polygon = 0;
     if (map_entry->unk_00 != 0) {
-        ((S_func_80024064_0 *)scratch)->unk_152.s = -map_entry->unk_02;
+        scratch->unk_152.s = -map_entry->unk_02;
         best_polygon = (*(u8 **)((u8 *)(((u8 **)map_data->cell_faces))
             + map_entry->unk_00 * 4));
         polygon = best_polygon;
@@ -155,48 +155,48 @@ void *find_impact_surface_polygon(s32 world_x, s32 world_y, s16 min_height) {
             < -0x7FF) {
             do {
                 if ((((S_func_80024064_4 *)polygon)->unk_17.u & 1) == 0) {
-                    cell_x = ((S_func_80024064_0 *)scratch)->unk_140.u;
-                    cell_y = ((S_func_80024064_0 *)scratch)->unk_142.u;
+                    cell_x = scratch->unk_140.u;
+                    cell_y = scratch->unk_142.u;
 
                     vertex =
                         (S_func_80024064_5 *)((unsigned long)((S_func_80024064_4 *)polygon)->unk_00 * 8 +
                                (unsigned long)vertices);
-                    ((S_func_80024064_0 *)scratch)->unk_154.at00.v =
+                    scratch->unk_154.at00.v =
                         vertex->unk_00;
-                    ((S_func_80024064_0 *)scratch)->unk_154.at00u.v =
-                        ((S_func_80024064_0 *)scratch)->unk_154.at00p.v - cell_x;
-                    ((S_func_80024064_0 *)scratch)->unk_154.at02.v =
-                        ((S_func_80024064_0 *)scratch)->unk_154.at02u.v - cell_y;
+                    scratch->unk_154.at00u.v =
+                        scratch->unk_154.at00p.v - cell_x;
+                    scratch->unk_154.at02.v =
+                        scratch->unk_154.at02u.v - cell_y;
 
                     vertex =
                         (S_func_80024064_5 *)((unsigned long)((S_func_80024064_4 *)polygon)->unk_02 * 8 +
                                (unsigned long)vertices);
-                    ((S_func_80024064_0 *)scratch)->unk_158.at00.v =
+                    scratch->unk_158.at00.v =
                         vertex->unk_00;
-                    ((S_func_80024064_0 *)scratch)->unk_158.at00u.v =
-                        ((S_func_80024064_0 *)scratch)->unk_158.at00p.v - cell_x;
-                    ((S_func_80024064_0 *)scratch)->unk_158.at02.v =
-                        ((S_func_80024064_0 *)scratch)->unk_158.at02u.v - cell_y;
+                    scratch->unk_158.at00u.v =
+                        scratch->unk_158.at00p.v - cell_x;
+                    scratch->unk_158.at02.v =
+                        scratch->unk_158.at02u.v - cell_y;
 
                     vertex =
                         (S_func_80024064_5 *)((unsigned long)((S_func_80024064_4 *)polygon)->unk_06 * 8 +
                                (unsigned long)vertices);
-                    ((S_func_80024064_0 *)scratch)->unk_15C.at00.v =
+                    scratch->unk_15C.at00.v =
                         vertex->unk_00;
-                    ((S_func_80024064_0 *)scratch)->unk_15C.at00u.v =
-                        ((S_func_80024064_0 *)scratch)->unk_15C.at00p.v - cell_x;
-                    ((S_func_80024064_0 *)scratch)->unk_15C.at02.v =
-                        ((S_func_80024064_0 *)scratch)->unk_15C.at02u.v - cell_y;
+                    scratch->unk_15C.at00u.v =
+                        scratch->unk_15C.at00p.v - cell_x;
+                    scratch->unk_15C.at02.v =
+                        scratch->unk_15C.at02u.v - cell_y;
 
                     vertex =
                         (S_func_80024064_5 *)((unsigned long)((S_func_80024064_4 *)polygon)->unk_04 * 8 +
                                (unsigned long)vertices);
-                    ((S_func_80024064_0 *)scratch)->unk_160.at00.v =
+                    scratch->unk_160.at00.v =
                         vertex->unk_00;
-                    ((S_func_80024064_0 *)scratch)->unk_160.at00u.v =
-                        ((S_func_80024064_0 *)scratch)->unk_160.at00p.v - cell_x;
-                    ((S_func_80024064_0 *)scratch)->unk_160.at02.v =
-                        ((S_func_80024064_0 *)scratch)->unk_160.at02u.v - cell_y;
+                    scratch->unk_160.at00u.v =
+                        scratch->unk_160.at00p.v - cell_x;
+                    scratch->unk_160.at02.v =
+                        scratch->unk_160.at02u.v - cell_y;
 
                     if (are_quad_corner_turns_within_half_revolution(scratch) != 0) {
                         plane =
@@ -209,20 +209,20 @@ void *find_impact_surface_polygon(s32 world_x, s32 world_y, s16 min_height) {
                         height =
                             (plane->unk_00 *
                              (plane_vertex->unk_00 -
-                              (s16)((S_func_80024064_0 *)scratch)->unk_140.u) +
+                              (s16)scratch->unk_140.u) +
                              plane->unk_02 *
                              (plane_vertex->unk_02 -
-                              (s16)((S_func_80024064_0 *)scratch)->unk_142.u) +
+                              (s16)scratch->unk_142.u) +
                              plane->unk_04 *
                              plane_vertex->unk_04) /
                             plane->unk_04;
-                        ((S_func_80024064_0 *)scratch)->unk_144 = height;
-                        height += (s16)((S_func_80024064_0 *)scratch)->unk_152.u;
-                        ((S_func_80024064_0 *)scratch)->unk_144 = height;
-                        if (height >= ((S_func_80024064_0 *)scratch)->unk_14C &&
-                            height < ((S_func_80024064_0 *)scratch)->unk_148) {
+                        scratch->unk_144 = height;
+                        height += (s16)scratch->unk_152.u;
+                        scratch->unk_144 = height;
+                        if (height >= scratch->unk_14C &&
+                            height < scratch->unk_148) {
                             best_polygon = polygon;
-                            ((S_func_80024064_0 *)scratch)->unk_148 = height;
+                            scratch->unk_148 = height;
                         }
                     }
                 }
@@ -841,7 +841,7 @@ extern void RotMatrix(void *, void *);
 /* Projects a textured quad and adds it to the ordering table when visible. */
 void project_visible_textured_quad(S_80024BF4_4 *quad, ObjectPosition *position, SpriteFrameState *render_state, s16 depth_bias)
 {
-    u8 *scratch = (u8 *)0x1F800000;
+    S_80024BF4_0 *scratch = (S_80024BF4_0 *)0x1F800000;
     u8 *packet;
     u8 *texture;
     s32 ot_index;
@@ -849,51 +849,51 @@ void project_visible_textured_quad(S_80024BF4_4 *quad, ObjectPosition *position,
     u8 texture_flags;
     MATRIX matrix;
 
-    ((S_80024BF4_0 *)scratch)->unk_24.p = *(u8 **)&g_game_work.draw_buffer + 0xB0;
-    ((S_80024BF4_0 *)scratch)->unk_88 = position->x.w.i;
-    ((S_80024BF4_0 *)scratch)->unk_8C = position->y.w.i;
-    ((S_80024BF4_0 *)scratch)->unk_90 = position->z.w.i;
+    scratch->unk_24.p = *(u8 **)&g_game_work.draw_buffer + 0xB0;
+    scratch->unk_88 = position->x.w.i;
+    scratch->unk_8C = position->y.w.i;
+    scratch->unk_90 = position->z.w.i;
     render_state->flags |= 0x8000;
 
     PushMatrix();
 
-    ((S_80024BF4_0 *)scratch)->unk_3C = 0x2000;
-    ((S_80024BF4_0 *)scratch)->unk_38 = 0x2000;
-    ((S_80024BF4_0 *)scratch)->unk_34 = 0x2000;
-    ((S_80024BF4_0 *)scratch)->unk_A4 = render_state->angle_x;
-    ((S_80024BF4_0 *)scratch)->unk_A8 = render_state->angle_z;
-    ((S_80024BF4_0 *)scratch)->unk_A6 = render_state->angle_y;
-    RotMatrix(scratch + 0xA4, scratch + 0x74);
+    scratch->unk_3C = 0x2000;
+    scratch->unk_38 = 0x2000;
+    scratch->unk_34 = 0x2000;
+    scratch->unk_A4 = render_state->angle_x;
+    scratch->unk_A8 = render_state->angle_z;
+    scratch->unk_A6 = render_state->angle_y;
+    RotMatrix((u8 *)scratch + 0xA4, (u8 *)scratch + 0x74);
     ReadRotMatrix(&matrix);
-    CompMatrix(&matrix, scratch + 0x74, scratch + 0x54);
-    ScaleMatrix(scratch + 0x54, scratch + 0x34);
-    SetTransMatrix(scratch + 0x54);
-    SetRotMatrix(scratch + 0x54);
+    CompMatrix(&matrix, (u8 *)scratch + 0x74, (u8 *)scratch + 0x54);
+    ScaleMatrix((u8 *)scratch + 0x54, (u8 *)scratch + 0x34);
+    SetTransMatrix((u8 *)scratch + 0x54);
+    SetRotMatrix((u8 *)scratch + 0x54);
 
     texture = render_state->source;
-    ((S_80024BF4_0 *)scratch)->unk_28 = render_state->flags;
+    scratch->unk_28 = render_state->flags;
     packet = ((GpuContext *)(*(u8 **)&g_game_work.draw_buffer))->packetCursor;
     ((GpuContext *)(*(u8 **)&g_game_work.draw_buffer))->packetCursor = packet + 0x34;
 
-    ((S_80024BF4_0 *)scratch)->unk_B0 = quad->unk_4A;
-    ((S_80024BF4_0 *)scratch)->unk_B8 = quad->unk_50;
-    ((S_80024BF4_0 *)scratch)->unk_C0 = quad->unk_56;
-    ((S_80024BF4_0 *)scratch)->unk_C8 = quad->unk_5C;
-    ((S_80024BF4_0 *)scratch)->unk_B2 = quad->unk_4C;
-    ((S_80024BF4_0 *)scratch)->unk_BA = quad->unk_52;
-    ((S_80024BF4_0 *)scratch)->unk_C2 = quad->unk_58;
-    ((S_80024BF4_0 *)scratch)->unk_CA = quad->unk_5E;
-    ((S_80024BF4_0 *)scratch)->unk_B4 = quad->unk_4E;
-    ((S_80024BF4_0 *)scratch)->unk_BC = quad->unk_54;
-    ((S_80024BF4_0 *)scratch)->unk_C4 = quad->unk_5A;
-    ((S_80024BF4_0 *)scratch)->unk_CC = quad->unk_60;
+    scratch->unk_B0 = quad->unk_4A;
+    scratch->unk_B8 = quad->unk_50;
+    scratch->unk_C0 = quad->unk_56;
+    scratch->unk_C8 = quad->unk_5C;
+    scratch->unk_B2 = quad->unk_4C;
+    scratch->unk_BA = quad->unk_52;
+    scratch->unk_C2 = quad->unk_58;
+    scratch->unk_CA = quad->unk_5E;
+    scratch->unk_B4 = quad->unk_4E;
+    scratch->unk_BC = quad->unk_54;
+    scratch->unk_C4 = quad->unk_5A;
+    scratch->unk_CC = quad->unk_60;
 
-    ot_index = RotAverage4(scratch + 0xB0, scratch + 0xB8,
-                             scratch + 0xC0, scratch + 0xC8,
+    ot_index = RotAverage4((u8 *)scratch + 0xB0, (u8 *)scratch + 0xB8,
+                             (u8 *)scratch + 0xC0, (u8 *)scratch + 0xC8,
                              packet + 8, packet + 0x14,
                              packet + 0x20, packet + 0x2C,
-                             scratch + 0xD0, scratch + 0xD4) - depth_bias - 6;
-    ((S_80024BF4_0 *)scratch)->unk_100 = ot_index;
+                             (u8 *)scratch + 0xD0, (u8 *)scratch + 0xD4) - depth_bias - 6;
+    scratch->unk_100 = ot_index;
 
     if ((u32)ot_index < 0x1E0) {
         if ((((u16)(((S_80024BF4_5 *)packet)->unk_08 + 0x20) < 0x181) &&
@@ -924,7 +924,7 @@ void project_visible_textured_quad(S_80024BF4_4 *quad, ObjectPosition *position,
 
             texture_flags = texture[1];
             render_state->color.c.code = texture_flags;
-            draw_flags = ((S_80024BF4_0 *)scratch)->unk_28;
+            draw_flags = scratch->unk_28;
             if (draw_flags & 8) {
                 render_state->color.c.code = (draw_flags & 4) ?
                     (texture_flags | 2) : (texture_flags & 0xFD);
@@ -932,12 +932,12 @@ void project_visible_textured_quad(S_80024BF4_4 *quad, ObjectPosition *position,
 
             ((S_80024BF4_5 *)packet)->unk_04.at03.v |= render_state->color.c.code;
             ((S_80024BF4_5 *)packet)->unk_00 = (((S_80024BF4_5 *)packet)->unk_00 & 0xFF000000) |
-                ((*(u32 *)((u8 *)(((S_80024BF4_0 *)scratch)->unk_24.p2)
-                    + ((S_80024BF4_0 *)scratch)->unk_100 * 4)) & 0x00FFFFFF);
+                ((*(u32 *)((u8 *)(scratch->unk_24.p2)
+                    + scratch->unk_100 * 4)) & 0x00FFFFFF);
 
-            (*(u32 *)((u8 *)(((S_80024BF4_0 *)scratch)->unk_24.p2) + ((S_80024BF4_0 *)scratch)->unk_100 * 4)) =
-                ((*(u32 *)((u8 *)(((S_80024BF4_0 *)scratch)->unk_24.p2)
-                    + ((S_80024BF4_0 *)scratch)->unk_100 * 4)) & 0xFF000000) |
+            (*(u32 *)((u8 *)(scratch->unk_24.p2) + scratch->unk_100 * 4)) =
+                ((*(u32 *)((u8 *)(scratch->unk_24.p2)
+                    + scratch->unk_100 * 4)) & 0xFF000000) |
                 ((u32)packet & 0x00FFFFFF);
         }
     }

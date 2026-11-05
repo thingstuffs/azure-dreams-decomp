@@ -45,7 +45,7 @@ typedef struct {
 extern void *update_actor_effect_sequence(void *, s32);
 
 extern u8 D_80028F68[];
-extern u8 linked_monster_attack_option[12];
+extern u8 linked_effect_chain_attack_option[12];
 extern u16 sprite_effect_update_count[];
 
 /* Advances the screen transition, updates fade timers, and releases completed state. */
@@ -66,9 +66,9 @@ void advance_screen_transition(State *ctx)
     rect_words[1] = 0x00400020;
     decode_and_upload_image(D_80028F68, (Rect *)rect_words);
     upload_vram_row_and_cache(screen_transition_pixels, 0x7AC0, 1, 2);
-    linked_monster_effect_updated[0] = 1;
-    linked_monster_attack_option[0] = ctx->field_9;
-    linked_monster_attack_event[0] = ctx->field_0;
+    linked_effect_chain_updated[0] = 1;
+    linked_effect_chain_attack_option[0] = ctx->field_9;
+    linked_effect_chain_attack_event[0] = ctx->field_0;
 
     object = primary_actor_record;
     ((PlayerRecord *)object)->unk_F4 = screen_effect_sprite_entries;
@@ -117,7 +117,7 @@ case 1:
         break;
 
     case 4:
-        if (linked_monster_effect_updated[0] != 0) {
+        if (linked_effect_chain_updated[0] != 0) {
             break;
         }
         ctx->timer_1A = 0x20;

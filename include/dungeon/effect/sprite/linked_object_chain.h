@@ -1,17 +1,15 @@
-#ifndef DUNGEON_EFFECT_SPRITE_LINKED_MONSTER_EFFECT_H
-#define DUNGEON_EFFECT_SPRITE_LINKED_MONSTER_EFFECT_H
+#ifndef DUNGEON_EFFECT_SPRITE_LINKED_OBJECT_CHAIN_H
+#define DUNGEON_EFFECT_SPRITE_LINKED_OBJECT_CHAIN_H
 
 #include "common.h"
 #include "shared/object_node.h"
+#include "shared/vector.h"
 
 /* Body of a node allocated by create_linked_object_chain. */
 typedef struct LinkedObjectChainBody {
     u8 pad_00[0x20];
     ObjectNodeHeader *head;
-    u16 unk_24;
-    u16 unk_26;
-    u16 unk_28;
-    u8 pad_2A[0x2];
+    GteShortVector position_offset; /* orientation result; added to the reference position */
     s16 unk_2C;
     s16 unk_2E;
     union { s16 n; u16 v; } unk_30;   /* accessed as both */

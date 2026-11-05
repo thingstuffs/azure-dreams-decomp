@@ -1,6 +1,6 @@
 #include "shared/sprite_frame_state.h"
 #include "dungeon/effect/sprite.h"
-#include "dungeon/effect/sprite/linked_monster_effect.h"
+#include "dungeon/effect/sprite/linked_object_chain.h"
 #include "shared/entity.h"
 #include "common.h"
 #include "shared/object_node.h"
@@ -39,7 +39,7 @@ void *create_linked_object_chain(s16 x, s16 y, s16 z, s16 angle)
     for (i = 0; i < 18; i++) {
         objects[i] = allocate_list_node(18, (i != 0) ? objects[0] : (void *)&scene_object_list_anchor);
         if (objects[i] != NULL) {
-            ((ObjectNodeHeader *)objects[i])->update_callback = update_linked_monster_effect;
+            ((ObjectNodeHeader *)objects[i])->update_callback = update_linked_object_chain;
             position = ((ObjectNodeHeader *)objects[i])->position;
             position->x.w.i = x;
             position->y.w.i = y;

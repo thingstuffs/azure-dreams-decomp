@@ -433,7 +433,7 @@ void advance_actor_stored_path(ActorRecord *motion, ObjectPosition *update_param
     s16 stored_result;
     s32 result_code;
 
-    if (((CB_80171590_S_80171590_0 *)state)->unk_71.s <= 0) {
+    if ((s8)state->movement_queue_state <= 0) {
         return;
     }
     if (!((s32)state->movement_queue_state > state->unk_8A)) {
@@ -459,16 +459,16 @@ void advance_actor_stored_path(ActorRecord *motion, ObjectPosition *update_param
     heading = get_rounded_facing_and_rounding_flag(
         old_x,
         old_y,
-        ((ActorRecord *)state)->path_x[state->unk_8A],
-        ((ActorRecord *)state)->path_y[state->unk_8A],
+        state->path_x[state->unk_8A],
+        state->path_y[state->unk_8A],
         &rounding_owner->action_state_flags);
     move_result = check_movement_clearance_and_height(heading, entity, state, 0x20);
 
     entity->tile_x =
-        ((ActorRecord *)state)->path_x[state->unk_8A];
+        state->path_x[state->unk_8A];
     entity->tile_y =
-        ((ActorRecord *)state)->path_y[state->unk_8A];
-    ((CB_80171590_S_80171590_0 *)state)->unk_8A.u++;
+        state->path_y[state->unk_8A];
+    state->unk_8A++;
 
     new_x = entity->tile_x;
     new_y = entity->tile_y;

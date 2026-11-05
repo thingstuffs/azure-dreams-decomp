@@ -13,6 +13,7 @@
 #include "dungeon/item/message.h"
 #include "engine/util.h"
 #include "dungeon/item.h"
+#include "dungeon/effect/egg_bomb.h"
 #include "dungeon/system.h"
 #include "engine/entity.h"
 
@@ -35,16 +36,6 @@ extern u8 D_800E0A42[];
 extern u8 D_800E0A56[20];
 extern u8 D_800E0A6A[12];
 
-
-typedef struct S_800B7774_0 {
-    u8 unk_00;
-    u8 pad_01[0x3];
-    ActorRecord *unk_04;
-    u8 pad_08[0x2];
-    union { s16 s; u16 u; } unk_0A;   /* accessed as both */
-    u16 unk_0C;
-    s16 unk_0E;
-} S_800B7774_0;   /* arg0 in advance_egg_bomb_sequence */
 
 typedef struct S_800B7774_2 {
     u8 pad_00[0x11];
@@ -71,7 +62,7 @@ typedef struct S_800B7774_4 {
 } S_800B7774_4;   /* arg2 in advance_egg_bomb_sequence */
 
 /* Spawns and levels the egg bomb monster, then advances its activation and cleanup. */
-void advance_egg_bomb_sequence(void *egg_bomb, Coord *position, void *effect) {
+void advance_egg_bomb_sequence(EggBombBody *egg_bomb, Coord *position, void *effect) {
     s16 spawn_x;
     s16 spawn_y;
     s32 held_x;
@@ -90,7 +81,7 @@ void advance_egg_bomb_sequence(void *egg_bomb, Coord *position, void *effect) {
     Coord *coord_arg = position;
 
     state_base = &g_game_work;
-    phase = ((S_800B7774_0 *)egg_bomb)->unk_0A.s;
+    phase = (s16)egg_bomb->unk_0A;
     switch (phase) {
     case 0:
         if ((find_valid_nearby_position(0, (u16) coord_arg->x >> 6, (u16) coord_arg->y >> 6, &spawn_x, &spawn_y) << 0x10) == 0) {
@@ -104,9 +95,9 @@ void advance_egg_bomb_sequence(void *egg_bomb, Coord *position, void *effect) {
         }
         held_x = spawn_x;
         held_y = spawn_y;
-        monster = load_monster_code_module(((S_800B7774_0 *)egg_bomb)->unk_00,
-            find_or_retain_sprite_resource_slot(((S_800B7774_0 *)egg_bomb)->unk_00, 2), 1)(2, held_x, held_y, (s16) (coord_arg->z - 0x20));
-        ((S_800B7774_0 *)egg_bomb)->unk_04 = monster;
+        monster = load_monster_code_module(egg_bomb->unk_00,
+            find_or_retain_sprite_resource_slot(egg_bomb->unk_00, 2), 1)(2, held_x, held_y, (s16) (coord_arg->z - 0x20));
+        egg_bomb->unk_04 = monster;
         if (monster != NULL) {
             set_packed_2bit_flag(monster->species, 0);
             clear_selected_item_flag_400(egg_bomb);
@@ -160,25 +151,25 @@ void advance_egg_bomb_sequence(void *egg_bomb, Coord *position, void *effect) {
                 ActorRecord *call_state;
                 call_obj = monster;
                 call_state = dungeon_actor_ring_anchor;
-                ((S_800B7774_0 *)egg_bomb)->unk_0C = 0x10U;
+                egg_bomb->unk_0C = 0x10U;
                 check_entity_relation(call_obj, call_state);
             }
-            ((S_800B7774_0 *)egg_bomb)->unk_0A.u = (u16) (((S_800B7774_0 *)egg_bomb)->unk_0A.u + 1);
+            egg_bomb->unk_0A = (u16) (egg_bomb->unk_0A + 1);
         }
 
         break;
     case 1:
-        remaining_frames = ((S_800B7774_0 *)egg_bomb)->unk_0C - 1;
-        ((S_800B7774_0 *)egg_bomb)->unk_0C = remaining_frames;
+        remaining_frames = egg_bomb->unk_0C - 1;
+        egg_bomb->unk_0C = remaining_frames;
         if (((remaining_frames << 0x10) > 0) && !(((S_800B7774_4 *)effect)->unk_14 & 0x8000)
             && ((state_base->pressed_buttons) == 0)) {
             break;
         }
-        ((S_800B7774_0 *)egg_bomb)->unk_0A.u = (u16) (((S_800B7774_0 *)egg_bomb)->unk_0A.u + 1);
+        egg_bomb->unk_0A = (u16) (egg_bomb->unk_0A + 1);
         break;
     case 2:
-        monster = ((S_800B7774_0 *)egg_bomb)->unk_04;
-        if (((S_800B7774_0 *)egg_bomb)->unk_0E == 0) {
+        monster = egg_bomb->unk_04;
+        if (egg_bomb->unk_0E == 0) {
             ((S_800B7774_2 *)monster)->unk_60 = choose_best_eligible_entry(NODE_HEADER(monster)->sprite, monster, 2);
             {
                 g_dungeon_status.flags = (u16) (g_dungeon_status.flags | 2);
@@ -202,8 +193,8 @@ void advance_egg_bomb_sequence(void *egg_bomb, Coord *position, void *effect) {
         object_flag_block.flags = object_flag_block.flags | OBJECT_REMOVE_PENDING;
         break;
     }
-    tracked_monster = ((S_800B7774_0 *)egg_bomb)->unk_04;
+    tracked_monster = egg_bomb->unk_04;
     if ((tracked_monster != NULL) && (NODE_HEADER(tracked_monster)->flags & 0x8000)) {
-        ((S_800B7774_0 *)egg_bomb)->unk_0E = 1;
+        egg_bomb->unk_0E = 1;
     }
 }

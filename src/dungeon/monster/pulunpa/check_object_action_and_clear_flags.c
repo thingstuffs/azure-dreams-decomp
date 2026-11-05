@@ -5,7 +5,7 @@
 
 extern void update_actor_status_and_mp(ActorRecord *entity);
 extern s16 relink_entity_and_clear_high_flag(void *context, void *position, void *entity, s16 near_range, s16 far_range, s32 state_out_addr); /* Unprototyped: uses the value as a pointer where the definition has an integer (or the reverse) */
-extern void choose_heading_and_advance_actor(ActorRecord *, s32, s32, void *);
+extern void choose_heading_and_advance_actor(ActorRecord *, s32, s32, ActorRecord *);
 
 /* Checks an object action, dispatches its update, and clears flags as needed. */
 s32 check_object_action_and_clear_flags(ActorRecord *object, s32 query_x, s32 query_y, s32 action_override) {

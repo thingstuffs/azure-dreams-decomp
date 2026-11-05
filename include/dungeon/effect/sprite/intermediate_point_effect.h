@@ -20,8 +20,8 @@ typedef struct IntermediatePointEffectBody {
     s16 unk_32;
     u8 pad_34[0x4];
     s32 unk_38;
-    union { s16 s; u16 u; } unk_3C;   /* accessed as both */
-    union { s16 s; u16 u; } unk_3E;
+    s16 unk_3C;
+    u16 unk_3E;
     s16 unk_40;
     s16 unk_42;
 } IntermediatePointEffectBody;

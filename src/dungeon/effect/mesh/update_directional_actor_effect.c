@@ -165,23 +165,7 @@ typedef struct S_8199AAD4_1 {
     u16 unk_14;
 } S_8199AAD4_1;   /* source in update_source_relative_position_delays_movement_advances_arc_toward_target */
 
-typedef struct S_8199AAD4_2 {
-    union {
-        struct { s32 v; } at00;
-        struct { u8 pad[0x2]; u16 v; } at02;
-        struct { u8 pad[0x2]; s16 v; } at02u;
-    } unk_00;   /* overlapping accesses */
-    union {
-        struct { s32 v; } at00;
-        struct { u8 pad[0x2]; u16 v; } at02;
-        struct { u8 pad[0x2]; s16 v; } at02u;
-    } unk_04;   /* overlapping accesses */
-    union {
-        struct { s32 v; } at00;
-        struct { u8 pad[0x2]; u16 v; } at02;
-        struct { u8 pad[0x2]; s16 v; } at02u;
-    } unk_08;   /* overlapping accesses */
-} S_8199AAD4_2;   /* coords in update_source_relative_position_delays_movement_advances_arc_toward_target */
+
 
    /* position in update_source_relative_position_delays_movement_advances_arc_toward_target */
 
@@ -266,21 +250,21 @@ void update_source_relative_position_delays_movement_advances_arc_toward_target(
         if ((((S_8199AAD4_1 *)source)->unk_14 & 0x8000) ||
             resolve_record_orientation_or_fallback(((S_8199AAD4_1 *)source)->unk_08, source, delta, 0)) {
             position = ((S_8199AAD4_10 *)(((LinkedEffectControllerBody *)self)->field00))->unk_08;
-            ((S_8199AAD4_2 *)coords)->unk_00.at02.v = position->x;
-            ((S_8199AAD4_2 *)coords)->unk_04.at02.v = position->y;
+            ((ObjectPosition *)coords)->x.unsigned_parts.integer = position->x;
+            ((ObjectPosition *)coords)->y.unsigned_parts.integer = position->y;
             position_z = position->z;
-            ((S_8199AAD4_2 *)coords)->unk_08.at02.v = position_z;
+            ((ObjectPosition *)coords)->z.unsigned_parts.integer = position_z;
 
             if (!(((S_8199AAD4_1 *)source)->unk_14 & 0x8000)) {
-                ((S_8199AAD4_2 *)coords)->unk_00.at02.v += delta[0];
-                ((S_8199AAD4_2 *)coords)->unk_04.at02.v += delta[1];
-                tail_z_2 = ((S_8199AAD4_2 *)coords)->unk_08.at02.v;
+                ((ObjectPosition *)coords)->x.unsigned_parts.integer += delta[0];
+                ((ObjectPosition *)coords)->y.unsigned_parts.integer += delta[1];
+                tail_z_2 = ((ObjectPosition *)coords)->z.unsigned_parts.integer;
                 tail_z_2 += delta[2];
-                ((S_8199AAD4_2 *)coords)->unk_08.at02.v = tail_z_2;
+                ((ObjectPosition *)coords)->z.unsigned_parts.integer = tail_z_2;
             } else {
                 tail_z = position_z - 0x20;
 
-                ((S_8199AAD4_2 *)coords)->unk_08.at02.v = tail_z;
+                ((ObjectPosition *)coords)->z.unsigned_parts.integer = tail_z;
             }
         }
 
@@ -302,11 +286,11 @@ void update_source_relative_position_delays_movement_advances_arc_toward_target(
         ((LinkedEffectControllerBody *)self)->field28.p = tail_z + 1;
         return;
 finish:
-        ((S_8199AAD4_2 *)coords)->unk_00.at00.v = target[0];
-        ((S_8199AAD4_2 *)coords)->unk_04.at00.v = target[1];
-        ((S_8199AAD4_2 *)coords)->unk_08.at00.v = target[2];
-        spawn_blinking_sprite_flash(((S_8199AAD4_2 *)coords)->unk_00.at02u.v, ((S_8199AAD4_2 *)coords)->unk_04.at02u.v,
-                      ((S_8199AAD4_2 *)coords)->unk_08.at02u.v);
+        ((ObjectPosition *)coords)->x.v = target[0];
+        ((ObjectPosition *)coords)->y.v = target[1];
+        ((ObjectPosition *)coords)->z.v = target[2];
+        spawn_blinking_sprite_flash(((ObjectPosition *)coords)->x.w.i, ((ObjectPosition *)coords)->y.w.i,
+                      ((ObjectPosition *)coords)->z.w.i);
         tail_z = ((u16 *)self)[-1];
         global_flags = (s32 *)0x80080000;
         ((u16 *)self)[-1] = tail_z | 0x8000;
@@ -324,10 +308,10 @@ finish:
         table_start_2 = table_end - 0x54;
 loop_top:
         object_entry = ((LinkedEffectControllerBody *)self)->field04;
-        start_x = ((S_8199AAD4_2 *)coords)->unk_00.at02u.v;
-        start_y = ((S_8199AAD4_2 *)coords)->unk_04.at02u.v;
+        start_x = ((ObjectPosition *)coords)->x.w.i;
+        start_y = ((ObjectPosition *)coords)->y.w.i;
         target_node = object_entry->unk_08;
-        start_z = ((S_8199AAD4_2 *)coords)->unk_08.at02u.v;
+        start_z = ((ObjectPosition *)coords)->z.w.i;
         target[0] = target_node->unk_00;
         target[1] = target_node->unk_04;
         target[2] = (((LinkedEffectControllerBody *)self)->field38 - 0x50) << 16;
@@ -344,13 +328,13 @@ loop_top:
             target[2] += (s32)(s16)delta[2] << 16;
         }
 
-        ((S_8199AAD4_2 *)coords)->unk_00.at00.v +=
-            (target[0] - ((S_8199AAD4_2 *)coords)->unk_00.at00.v) / ((LinkedEffectControllerBody *)self)->field2E.u;
-        ((S_8199AAD4_2 *)coords)->unk_04.at00.v +=
-            (target[1] - ((S_8199AAD4_2 *)coords)->unk_04.at00.v) / ((LinkedEffectControllerBody *)self)->field2E.u;
+        ((ObjectPosition *)coords)->x.v +=
+            (target[0] - ((ObjectPosition *)coords)->x.v) / ((LinkedEffectControllerBody *)self)->field2E.u;
+        ((ObjectPosition *)coords)->y.v +=
+            (target[1] - ((ObjectPosition *)coords)->y.v) / ((LinkedEffectControllerBody *)self)->field2E.u;
         arc_height = rsin(((LinkedEffectControllerBody *)self)->field2E.u * 170);
-        ((S_8199AAD4_2 *)coords)->unk_08.at00.v +=
-            (target[2] - ((S_8199AAD4_2 *)coords)->unk_08.at00.v) / ((LinkedEffectControllerBody *)self)->field2E.u -
+        ((ObjectPosition *)coords)->z.v +=
+            (target[2] - ((ObjectPosition *)coords)->z.v) / ((LinkedEffectControllerBody *)self)->field2E.u -
             (arc_height << 7);
 
         created = create_positioned(((LinkedEffectControllerBody *)self)->field08, start_x, start_y, start_z,

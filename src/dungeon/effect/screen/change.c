@@ -195,7 +195,6 @@ void add_random_quarter_value(ActorRecord *body, ActorRecord *target) {
 typedef struct ActiveEntry { u8 pad0; u8 active; u8 pad2[2]; } ActiveEntry;
 extern u8 D_800E0000[];
 
- /* Unprototyped: zero, one or three arguments; retail replaces all incoming arguments. */
 extern s32 display_text_with_fullwidth_adjustment(s8 *text);
 s32 find_directional_entry_and_clear_flag(s32 origin_x, s32 origin_y, u32 direction, s16 search_param);
 extern u8 D_800E0D7B[23];

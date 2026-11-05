@@ -80,7 +80,7 @@ typedef struct S_800D07C8_5 {
 /* Transform sprite parts into textured quads, queue visible quads, and invoke part callbacks. */
 void transform_sprite_parts_to_quads(s32 context, ObjectPosition *position, SpriteFrameState *sprite, s16 depth_bias) {
     u8 matrix[32];
-    u8 *scratch = (u8 *)0x1F800000;
+    S_800D07C8_0 *scratch = (S_800D07C8_0 *)0x1F800000;
     u8 *part_uv;
     u8 *part;
     u8 *packet;
@@ -102,78 +102,78 @@ void transform_sprite_parts_to_quads(s32 context, ObjectPosition *position, Spri
     u8 **table = ((u8 * *)(&g_game_work));
     Callback callback;
 
-    ((S_800D07C8_0 *)scratch)->unk_20.p = table[0] + 0xB0;
-    ((S_800D07C8_0 *)scratch)->unk_E4 = position->x.w.i;
-    ((S_800D07C8_0 *)scratch)->unk_E8 = position->y.w.i;
-    ((S_800D07C8_0 *)scratch)->unk_EC = position->z.w.i;
-    ((S_800D07C8_0 *)scratch)->unk_8C = 0;
-    ((S_800D07C8_0 *)scratch)->unk_84 = 0;
-    ((S_800D07C8_0 *)scratch)->unk_7C = 0;
-    ((S_800D07C8_0 *)scratch)->unk_74 = 0;
+    scratch->unk_20.p = table[0] + 0xB0;
+    scratch->unk_E4 = position->x.w.i;
+    scratch->unk_E8 = position->y.w.i;
+    scratch->unk_EC = position->z.w.i;
+    scratch->unk_8C = 0;
+    scratch->unk_84 = 0;
+    scratch->unk_7C = 0;
+    scratch->unk_74 = 0;
     packet = ((GpuContext *)(table[0]))->packetCursor;
     sprite->flags |= 0x8000;
     PushMatrix();
-    ((S_800D07C8_0 *)scratch)->unk_108 = sprite->offset_x;
-    ((S_800D07C8_0 *)scratch)->unk_10A = sprite->offset_y;
-    ((S_800D07C8_0 *)scratch)->unk_30 = sprite->scale_x * 2;
-    ((S_800D07C8_0 *)scratch)->unk_34 = sprite->scale_y * 2;
-    ((S_800D07C8_0 *)scratch)->unk_38 = 0;
-    ((S_800D07C8_0 *)scratch)->unk_100 = sprite->angle_x;
-    ((S_800D07C8_0 *)scratch)->unk_104 = sprite->angle_z;
-    ((S_800D07C8_0 *)scratch)->unk_102 = sprite->angle_y;
-    RotMatrix(scratch + 0x100, scratch + 0xD0);
+    scratch->unk_108 = sprite->offset_x;
+    scratch->unk_10A = sprite->offset_y;
+    scratch->unk_30 = sprite->scale_x * 2;
+    scratch->unk_34 = sprite->scale_y * 2;
+    scratch->unk_38 = 0;
+    scratch->unk_100 = sprite->angle_x;
+    scratch->unk_104 = sprite->angle_z;
+    scratch->unk_102 = sprite->angle_y;
+    RotMatrix((u8 *)scratch + 0x100, (u8 *)scratch + 0xD0);
     ReadRotMatrix(matrix);
-    CompMatrix(matrix, scratch + 0xD0, scratch + 0x50);
-    ScaleMatrix(scratch + 0x50, scratch + 0x30);
-    SetTransMatrix(scratch + 0x50);
-    SetRotMatrix(scratch + 0x50);
+    CompMatrix(matrix, (u8 *)scratch + 0xD0, (u8 *)scratch + 0x50);
+    ScaleMatrix((u8 *)scratch + 0x50, (u8 *)scratch + 0x30);
+    SetTransMatrix((u8 *)scratch + 0x50);
+    SetRotMatrix((u8 *)scratch + 0x50);
 
     part = *(u8 * *)&sprite->source;
-    ((S_800D07C8_0 *)scratch)->unk_24 = sprite->flags;
+    scratch->unk_24 = sprite->flags;
     for (;;) {
         part_uv = part + 8;
         if (!(((S_800D07C8_4 *)part)->unk_00.u & 0x20)) {
-            ((S_800D07C8_0 *)scratch)->unk_08.s32 = (*(part_uv + 0));
-            ((S_800D07C8_0 *)scratch)->unk_0C.s32 = (*(part_uv + 1));
-            ((S_800D07C8_0 *)scratch)->unk_10.s32 = (*(part_uv + 2));
-            ((S_800D07C8_0 *)scratch)->unk_14.s32 = (*(part_uv + 3));
-            if ((((S_800D07C8_4 *)part)->unk_00.u ^ ((S_800D07C8_0 *)scratch)->unk_24) & 1) {
-                vertex_x = (0 - (s8)(*(part_uv + -6))) - ((S_800D07C8_0 *)scratch)->unk_108;
-                ((S_800D07C8_0 *)scratch)->unk_80 = vertex_x;
-                ((S_800D07C8_0 *)scratch)->unk_70 = vertex_x;
-                vertex_x -= ((S_800D07C8_0 *)scratch)->unk_10.u16;
-                ((S_800D07C8_0 *)scratch)->unk_88 = vertex_x;
-                ((S_800D07C8_0 *)scratch)->unk_78 = vertex_x;
+            scratch->unk_08.s32 = (*(part_uv + 0));
+            scratch->unk_0C.s32 = (*(part_uv + 1));
+            scratch->unk_10.s32 = (*(part_uv + 2));
+            scratch->unk_14.s32 = (*(part_uv + 3));
+            if ((((S_800D07C8_4 *)part)->unk_00.u ^ scratch->unk_24) & 1) {
+                vertex_x = (0 - (s8)(*(part_uv + -6))) - scratch->unk_108;
+                scratch->unk_80 = vertex_x;
+                scratch->unk_70 = vertex_x;
+                vertex_x -= scratch->unk_10.u16;
+                scratch->unk_88 = vertex_x;
+                scratch->unk_78 = vertex_x;
             } else {
-                vertex_x = (s8)(*(part_uv + -6)) - ((S_800D07C8_0 *)scratch)->unk_108;
-                ((S_800D07C8_0 *)scratch)->unk_80 = vertex_x;
-                ((S_800D07C8_0 *)scratch)->unk_70 = vertex_x;
-                vertex_x = vertex_x + ((S_800D07C8_0 *)scratch)->unk_10.u16;
-                ((S_800D07C8_0 *)scratch)->unk_88 = vertex_x;
-                ((S_800D07C8_0 *)scratch)->unk_78 = vertex_x;
+                vertex_x = (s8)(*(part_uv + -6)) - scratch->unk_108;
+                scratch->unk_80 = vertex_x;
+                scratch->unk_70 = vertex_x;
+                vertex_x = vertex_x + scratch->unk_10.u16;
+                scratch->unk_88 = vertex_x;
+                scratch->unk_78 = vertex_x;
             }
-            if ((((S_800D07C8_4 *)part)->unk_00.u ^ ((S_800D07C8_0 *)scratch)->unk_24) & 2) {
-                vertex_y = (0 - (s8)(*(part_uv + -5))) - ((S_800D07C8_0 *)scratch)->unk_10A;
-                ((S_800D07C8_0 *)scratch)->unk_7A = vertex_y;
-                ((S_800D07C8_0 *)scratch)->unk_72 = vertex_y;
-                vertex_y -= ((S_800D07C8_0 *)scratch)->unk_14.u16;
-                ((S_800D07C8_0 *)scratch)->unk_8A = vertex_y;
-                ((S_800D07C8_0 *)scratch)->unk_82 = vertex_y;
+            if ((((S_800D07C8_4 *)part)->unk_00.u ^ scratch->unk_24) & 2) {
+                vertex_y = (0 - (s8)(*(part_uv + -5))) - scratch->unk_10A;
+                scratch->unk_7A = vertex_y;
+                scratch->unk_72 = vertex_y;
+                vertex_y -= scratch->unk_14.u16;
+                scratch->unk_8A = vertex_y;
+                scratch->unk_82 = vertex_y;
             } else {
-                vertex_y = (s8)(*(part_uv + -5)) - ((S_800D07C8_0 *)scratch)->unk_10A;
-                ((S_800D07C8_0 *)scratch)->unk_7A = vertex_y;
-                ((S_800D07C8_0 *)scratch)->unk_72 = vertex_y;
-                vertex_y = vertex_y + ((S_800D07C8_0 *)scratch)->unk_14.u16;
-                ((S_800D07C8_0 *)scratch)->unk_8A = vertex_y;
-                ((S_800D07C8_0 *)scratch)->unk_82 = vertex_y;
+                vertex_y = (s8)(*(part_uv + -5)) - scratch->unk_10A;
+                scratch->unk_7A = vertex_y;
+                scratch->unk_72 = vertex_y;
+                vertex_y = vertex_y + scratch->unk_14.u16;
+                scratch->unk_8A = vertex_y;
+                scratch->unk_82 = vertex_y;
             }
 
-            depth = (RotAverage4(scratch + 0x70, scratch + 0x78,
-                                   scratch + 0x80, scratch + 0x88,
+            depth = (RotAverage4((u8 *)scratch + 0x70, (u8 *)scratch + 0x78,
+                                   (u8 *)scratch + 0x80, (u8 *)scratch + 0x88,
                                    packet + 8, packet + 0x14,
                                    packet + 0x20, packet + 0x2C,
-                                   scratch + 0x90, scratch + 0x94) - depth_bias) - 6;
-            ((S_800D07C8_0 *)scratch)->unk_C0 = depth;
+                                   (u8 *)scratch + 0x90, (u8 *)scratch + 0x94) - depth_bias) - 6;
+            scratch->unk_C0 = depth;
             if (depth < 0x1E0U) {
                 vertex_0_visible = 0;
                 if ((u32)(((*(u16 *)(packet + 0x8)) + 0x20) & 0xFFFF) < 0x181U) {
@@ -203,28 +203,28 @@ void transform_sprite_parts_to_quads(s32 context, ObjectPosition *position, Spri
                 }
                 if ((first_three_visible | vertex_3_visible) != 0) {
                     sprite->flags &= 0x7FFF;
-                    u_end = ((S_800D07C8_0 *)scratch)->unk_10.s32 + ((S_800D07C8_0 *)scratch)->unk_08.s32;
-                    ((S_800D07C8_0 *)scratch)->unk_10.s32 = u_end;
+                    u_end = scratch->unk_10.s32 + scratch->unk_08.s32;
+                    scratch->unk_10.s32 = u_end;
                     if (u_end & 0x100) {
-                        ((S_800D07C8_0 *)scratch)->unk_10.s32 = u_end - 1;
+                        scratch->unk_10.s32 = u_end - 1;
                     }
-                    v_end = ((S_800D07C8_0 *)scratch)->unk_14.s32 + ((S_800D07C8_0 *)scratch)->unk_0C.s32;
-                    ((S_800D07C8_0 *)scratch)->unk_14.s32 = v_end;
+                    v_end = scratch->unk_14.s32 + scratch->unk_0C.s32;
+                    scratch->unk_14.s32 = v_end;
                     if (v_end & 0x100) {
-                        ((S_800D07C8_0 *)scratch)->unk_14.s32 = v_end - 1;
+                        scratch->unk_14.s32 = v_end - 1;
                     }
-                    ((S_800D07C8_0 *)scratch)->unk_0C.s32 <<= 8;
-                    ((S_800D07C8_0 *)scratch)->unk_14.s32 <<= 8;
-                    if (((S_800D07C8_0 *)scratch)->unk_24 & 0x100) {
+                    scratch->unk_0C.s32 <<= 8;
+                    scratch->unk_14.s32 <<= 8;
+                    if (scratch->unk_24 & 0x100) {
                         (*(s16 *)(packet + 0xE)) = sprite->clut;
                     } else {
                         (*(s16 *)(packet + 0xE)) = sprite->clut + (*(u16 *)(part_uv
                             + -2));
                     }
-                    (*(s16 *)(packet + 0xC)) = ((S_800D07C8_0 *)scratch)->unk_0C.u16
-                        + ((S_800D07C8_0 *)scratch)->unk_08.u16;
-                    (*(s16 *)(packet + 0x18)) = ((S_800D07C8_0 *)scratch)->unk_0C.u16
-                        + ((S_800D07C8_0 *)scratch)->unk_10.u16;
+                    (*(s16 *)(packet + 0xC)) = scratch->unk_0C.u16
+                        + scratch->unk_08.u16;
+                    (*(s16 *)(packet + 0x18)) = scratch->unk_0C.u16
+                        + scratch->unk_10.u16;
                     {
                         s32 tpage_base = sprite->tpage_abr;
                         s32 tpage;
@@ -235,10 +235,10 @@ void transform_sprite_parts_to_quads(s32 context, ObjectPosition *position, Spri
                         }
                         (*(u16 *)(packet + 0x1A)) = tpage;
                     }
-                    (*(s16 *)(packet + 0x24)) = ((S_800D07C8_0 *)scratch)->unk_14.u16
-                        + ((S_800D07C8_0 *)scratch)->unk_08.u16;
-                    (*(s16 *)(packet + 0x30)) = ((S_800D07C8_0 *)scratch)->unk_14.u16
-                        + ((S_800D07C8_0 *)scratch)->unk_10.u16;
+                    (*(s16 *)(packet + 0x24)) = scratch->unk_14.u16
+                        + scratch->unk_08.u16;
+                    (*(s16 *)(packet + 0x30)) = scratch->unk_14.u16
+                        + scratch->unk_10.u16;
                     if ((*(s16 *)(packet + 0x8)) > (*(s16 *)(packet + 0x2C))) {
                         ((S_800D07C8_5 *)(packet + 7))->unk_11--;
                         ((S_800D07C8_5 *)(packet + 7))->unk_29--;
@@ -255,7 +255,7 @@ void transform_sprite_parts_to_quads(s32 context, ObjectPosition *position, Spri
                     (*(s32 *)(packet + 0x4)) = color;
                     part_command = (*(part_uv + -7));
                     ((S_800D07C8_5 *)(packet + 7))->unk_00 = part_command;
-                    sprite_flags = ((S_800D07C8_0 *)scratch)->unk_24;
+                    sprite_flags = scratch->unk_24;
                     if (sprite_flags & 8) {
                         draw_command = sprite_flags & 4;
                         if (draw_command == 0) {
@@ -265,7 +265,7 @@ void transform_sprite_parts_to_quads(s32 context, ObjectPosition *position, Spri
                         }
                         ((S_800D07C8_5 *)(packet + 7))->unk_00 = draw_command;
                     }
-                    AddPrim(((S_800D07C8_0 *)scratch)->unk_20.p2 + (((S_800D07C8_0 *)scratch)->unk_C0 * 4),
+                    AddPrim(scratch->unk_20.p2 + (scratch->unk_C0 * 4),
                         packet);
                     packet += 0x34;
                                 }

@@ -3079,6 +3079,7 @@
       "container": "dungeon",
       "name": "ovl_189a800.c",
       "source": "src/dungeon/effect/mesh/transform_and_queue_mesh_primitives.c",
+      "source_names": {"dungeon/func_8187BE9C": "update_projectile_trail_flash"},
       "region": "native_189a800_80024000",
       "headers": [
         "include/modules/dungeon_native_abi.h",
@@ -14348,6 +14349,7 @@
       "name": "ovl_7e6a5800.c",
       "region": "module_197e800_80024000",
       "source": "src/dungeon/effect/particle/update_brightening_fading_effect.c",
+      "source_names": {"dungeon/func_81960CD4": "update_rotating_fading_tile_quad"},
       "headers": [
         "include/modules/dungeon_ovl_197e800.h",
         "include/modules/dungeon_native_abi.h"
@@ -53260,6 +53262,7 @@
       "container": "dungeon",
       "name": "resource17_slot0.c",
       "source": "src/dungeon/monster/univern/create_anchored_directional_object.c",
+      "source_names": {"dungeon/func_80C17E14": "advance_univern_defeat_removal"},
       "region": "native_resource_17_slot_0",
       "headers": [
         "include/modules/dungeon_resource17_slot0.h"
@@ -58044,6 +58047,7 @@
       "container": "dungeon",
       "name": "resource12_slot0.c",
       "source": "src/dungeon/monster/arachne/arachne.c",
+      "source_names": {"dungeon/func_80B45E14": "advance_arachne_hop_and_shrink"},
       "region": "native_resource_12_slot_0",
       "headers": [
         "include/modules/dungeon_resource12_slot0.h",

@@ -673,16 +673,15 @@ void update_snowman_behavior(ActorRecord *actor_arg, ObjectPosition *context_arg
 
 /* Advances one stored path step, updates occupied tiles and facing, and selects the movement animation and
  * delay. */
-void advance_snowman_stored_path(ActorRecord *body, ObjectPosition *motion, SpriteFrameState *sprite, void *path_state) {
+void advance_snowman_stored_path(ActorRecord *body, ObjectPosition *motion, SpriteFrameState *sprite, ActorRecord *state) {
     ActorRecord *path_actor = body;
-    R10_80171D7C_S_80171CD4_0 *state = path_state;
     s32 move_flags;
     s16 heading;
     s16 move_result;
     s16 x;
     s32 y;
 
-    if (state->unk_71.s <= 0) {
+    if ((s8)state->movement_queue_state <= 0) {
         return;
     }
 
@@ -692,7 +691,7 @@ void advance_snowman_stored_path(ActorRecord *body, ObjectPosition *motion, Spri
         body->unk_9D.s = 0;
     }
 
-    if (state->unk_71.u <= state->unk_8A.s) {
+    if (state->movement_queue_state <= state->unk_8A) {
         return;
     }
 
@@ -700,14 +699,14 @@ void advance_snowman_stored_path(ActorRecord *body, ObjectPosition *motion, Spri
         sprite->frameTable = snowman_move_direction_frames;
         select_sprite_entry(
             sprite,
-            snowman_move_direction_frames[((g_game_work.view.camera_rotation.parts.viewAngle + state->unk_2A + 0x100) >> 9) & 7],
+            snowman_move_direction_frames[((g_game_work.view.camera_rotation.parts.viewAngle + state->facing + 0x100) >> 9) & 7],
             0);
     }
 
     x = sprite->tile_x;
     y = sprite->tile_y;
     move_flags = 0x3000;
-    if (state->unk_1C & 0x2000) {
+    if (state->flags1C & 0x2000) {
         move_flags = 0x300;
     }
     update_map_cell_flags_with_item_limit(x, y, move_flags);
@@ -715,29 +714,29 @@ void advance_snowman_stored_path(ActorRecord *body, ObjectPosition *motion, Spri
     heading = ((s16)get_rounded_facing_and_rounding_flag(
         x,
         y,
-        ((ActorRecord *)state)->path_x[state->unk_8A.s],
-        ((ActorRecord *)state)->path_y[state->unk_8A.s],
+        state->path_x[state->unk_8A],
+        state->path_y[state->unk_8A],
         &path_actor->action_state_flags));
     move_result = ((s16)check_movement_clearance_and_height(heading, sprite, state, 0x20));
 
     sprite->tile_x =
-        ((ActorRecord *)state)->path_x[state->unk_8A.s];
+        state->path_x[state->unk_8A];
     move_flags = 0x3000;
     sprite->tile_y =
-        ((ActorRecord *)state)->path_y[state->unk_8A.s];
-    state->unk_8A.u++;
+        state->path_y[state->unk_8A];
+    state->unk_8A++;
 
     {
         s32 next_x = sprite->tile_x;
         s32 next_y = sprite->tile_y;
 
-        if (state->unk_1C & 0x2000) {
+        if (state->flags1C & 0x2000) {
             move_flags = 0x300;
         }
         cycle_map_cell_flags(next_x, next_y, move_flags);
     }
 
-    state->unk_2A = heading;
+    state->facing = heading;
     if (move_result == 3) {
         if (!(g_dungeon_status.flags & 0x80) && !(sprite->flags & 0x8000)) {
             begin_snowman_step_animation(body, motion, sprite, state);
@@ -750,7 +749,7 @@ void advance_snowman_stored_path(ActorRecord *body, ObjectPosition *motion, Spri
         body->action_id.u = 0xF;
         body->unk_8C.word = 0;
     }
-    state->unk_1C |= 0x40000000;
+    state->flags1C |= 0x40000000;
     if (g_dungeon_status.flags & 0x80) {
         body->action_timer.s = 0;
         return;
@@ -758,7 +757,7 @@ void advance_snowman_stored_path(ActorRecord *body, ObjectPosition *motion, Spri
 
     body->action_timer.s = 8;
     {
-        s32 step_count = state->unk_71.u;
+        s32 step_count = state->movement_queue_state;
         if (step_count > 0) {
             body->action_timer.s = 8 / step_count;
         }

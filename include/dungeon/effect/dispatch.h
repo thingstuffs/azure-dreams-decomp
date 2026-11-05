@@ -41,6 +41,9 @@ typedef struct CentralChildEffectState {
     s16 item_position_index;
 } CentralChildEffectState;
 
+typedef struct CentralChildEffectObject CentralChildEffectObject;
+CentralChildEffectObject *create_central_and_child_effects(s16 tile_x, s16 tile_y, s16 z, s16 height, s16 speed);
+
 struct S_800C5D80_0;
 void advance_effect_motion_and_fade(VerticalParticleBurstBody *effect_data,
                                     struct S_800C5D80_0 *motion,

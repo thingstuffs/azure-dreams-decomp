@@ -15,11 +15,21 @@ directive, the whole preprocessed text and raw header hashes are used.
 When every source in a recipe projects successfully, the outer key binds
 compiler-discovered C header paths and presence instead of their raw bytes.
 All source files, non-C inputs, tool closure, compiler binaries, assembly
-inputs and name witnesses retain their existing bindings. Clang's binary hash
+inputs and name witnesses retain their existing bindings. A header also read
+by an emitted assembler include keeps its raw hash even when the C compiler
+included it. Clang's binary hash
 is bound for projected recipes. Debug flags already bypass the object cache;
 unused type declarations can therefore be omitted without changing emitted
-debug information. `AZURE_OBJECT_VERIFY` still rebuilds sampled hits and
-compares their bytes. Schema 3 uses a separate `v3` directory so v2 entries
+debug information. Each entry records the SHA-256 of the complete expanded
+text for every source. A projected-key hit with a different complete expansion
+is always rebuilt and compared byte for byte, even when
+`AZURE_OBJECT_VERIFY=0`; a successful comparison records the newly validated
+expansion in the entry. `AZURE_OBJECT_VERIFY` also samples other hits using
+fresh random salt on each lookup. The default one percent floor applies even
+when `AZURE_OBJECT_VERIFY=0`, so a key cannot remain permanently outside the
+sample; `AZURE_OBJECT_VERIFY_FLOOR=0` is available for deterministic tests.
+Symbolic allocation source and header contracts are validated
+before a cached object is restored. Schema 3 uses a separate `v3` directory so v2 entries
 remain untouched.
 
 Schema 3 retains schema 2's separation of a compile's content key from its name
@@ -41,7 +51,8 @@ Each outer key can hold several variants:
 ```
 
 The variant hash binds the outer key and the complete witness. The manifest also
-records that witness and hashes every artifact, including the witness artifact.
+records that witness, the last byte-verified complete expansion, and hashes
+every artifact, including the witness artifact.
 Lookup never trusts the consuming root's configure-time placeholder. It reads
 candidate witnesses from the cache and compares their recorded rows with the
 projection of the current table over **all** recorded tokens. Missing lookups
@@ -71,7 +82,7 @@ its own locks and byte counter: an older lane's flat-cache pruner cannot reset
 its accounting. The cap applies to the schema's store; a legacy store can
 coexist during migration and can be pruned separately. Point the prune CLI at
 `$AZURE_OBJECT_CACHE_DIR/v3` to prune the new store. Cap enforcement keeps the
-existing detached prune and low watermark. Verification sampling uses the outer key; a failed
+existing detached prune and low watermark. Verification sampling salts the outer key per lookup; a failed
 verification removes only the variant actually restored. All restored outputs
 except the refreshed proof must compare byte for byte with a sampled rebuild.
 

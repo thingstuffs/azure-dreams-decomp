@@ -7,6 +7,7 @@
 #include "m2c_compat.h"
 #include "records/Rec_func_800249DC_arg0.h"
 #include "shared/dungeon_moving_views.h"
+#include "dungeon/effect/travel/linked_warp_projectile.h"
 typedef struct MotionRecord {
     s16 unk_00;
     s16 unk_02;
@@ -49,7 +50,8 @@ struct S_80025B78_4;
 struct S_819ACB28_4;
 
 void run_warp_effect_sequence(struct EventState *event);
-void advance_effect_phases(void *object, Rec_func_800249DC_arg0 *record, struct S_819ACB28_4 *packed_value);
+struct WarpPhaseEffectBody;
+void advance_effect_phases(struct WarpPhaseEffectBody *object, Rec_func_800249DC_arg0 *record, struct S_819ACB28_4 *packed_value);
 void *allocate_initialized_effect_object(EntityRec *source_pos, s32 offset_base);
 void run_warp_cutscene(struct Motion *motion, struct Position *position, u8 *color);
 void *move_effect_toward_target(MovingPosition *src);
@@ -57,7 +59,7 @@ void advance_effect_motion_and_speed(MotionRecord *motion, ObjectPosition *posit
 void update_effect_position_and_color(ObjectNodeHeader *source, s16 effect_param, s32 render_param);
 void copy_follower_owner_position_and_color(FollowerRecord *record, ObjectPosition *position, struct RenderData *render);
 void create_warp_follower_sprite(ObjectNodeHeader *owner, s16 angle);
-void update_warp_camera_and_effects(void *entity, void *motion, void *gfx);
+void update_warp_camera_and_effects(LinkedWarpProjectileBody *entity, void *motion, void *gfx);
 void *create_linked_sprite_pieces(s16 x, s16 y, s16 z, s16 heading);
 void update_traveling(struct FrameState *dst, struct AnimEntry *src);
 void advance_animation_index_within_bounds(AnimPlayer *player, s16 *index_step, s32 min_index, s32 max_index);

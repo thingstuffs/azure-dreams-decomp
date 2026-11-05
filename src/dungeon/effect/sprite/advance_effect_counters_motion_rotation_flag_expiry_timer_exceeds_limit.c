@@ -34,14 +34,14 @@ void advance_effect_counters_motion_rotation_flag_expiry_timer_exceeds_limit(Own
 
     counter_state = effect->unk_00;
     counter_state->unk_14++;
-    effect->unk_10.s++;
+    effect->elapsed_ticks = (s16)((u16)effect->elapsed_ticks + 1);
     rotation->unk_1A += 0x300;
 
     motion->unk_00 += motion->unk_0C;
     motion->unk_04 += motion->unk_10;
     motion->unk_08 += motion->unk_14;
 
-    if (effect->unk_10.u > effect->unk_14) {
+    if (effect->elapsed_ticks > effect->unk_14) {
         NODE_HEADER(effect)->flags |= 0x8000;
         object_flag_block.flags |= OBJECT_REMOVE_PENDING;
     }

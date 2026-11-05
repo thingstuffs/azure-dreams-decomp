@@ -173,16 +173,6 @@ typedef struct CB_8017102C_S_8017102C_5 {
 
 /* Advance the action dispatcher and select the actor's next movement or animation state. */
 
-typedef struct CB_80171590_S_80171590_0 {
-    u8 pad_00[0x1C];
-    u32 unk_1C;
-    u8 pad_20[0xA];
-    s16 unk_2A;
-    u8 pad_2C[0x45];
-    union { s8 s; u8 u; } unk_71;   /* accessed as both */
-    u8 pad_72[0x18];
-    union { s16 s; u16 u; } unk_8A;   /* accessed as both */
-} CB_80171590_S_80171590_0;   /* state in func_80171590 */
 
 typedef struct CB_80171590_S_80171590_1 {
     u8 pad_00[0x14];
@@ -205,12 +195,6 @@ typedef struct CB_80171590_S_80171590_2 {
     s16 unk_A4;
 } CB_80171590_S_80171590_2;   /* arg0 in func_80171590 */
 
-typedef struct CB_80171590_S_80171590_3 {
-    u8 pad_00[0x74];
-    u8 unk_74;
-    u8 pad_75[0x7];
-    u8 unk_7C;
-} CB_80171590_S_80171590_3;   /* (u8 *)state + ((CB_80171590_S_80171590_0 *)state)->unk_8A.s in func_80171590 */
 
 /* Advances the entity along its stored path and updates movement state. */
 

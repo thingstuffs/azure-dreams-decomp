@@ -6,7 +6,7 @@
 extern signed char staged_spawn_count;
 
 /* Source words retained by screen and travel effects until their attack runs. */
-extern void *linked_monster_attack_event[];
+extern void *linked_effect_chain_attack_event[];
 extern void *warp_attack_event;
 
 #endif

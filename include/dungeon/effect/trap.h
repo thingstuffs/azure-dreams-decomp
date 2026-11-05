@@ -18,6 +18,15 @@
 #include "shared/slus_callbacks.h"
 #include "shared/tile_object.h"
 
+/* Tail of the sprite node created by spawn_source_sprite_effect and advanced by its bouncing callback. */
+typedef struct BouncingTrapEffectBody {
+    void *source;
+    s16 phase;
+    u16 ticks_left;
+    s16 unk_08;
+    s16 floor_height;
+} BouncingTrapEffectBody;
+
 /* Delay, state, and entry index for the monster-den sequence callback. */
 typedef struct ClampEntryAndCreateEffectNodeBody {
     u8 pad_00[0x4];

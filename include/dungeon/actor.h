@@ -74,7 +74,7 @@ struct DungeonSlot;
 struct CallbackOwner;
 s32 advance_actor_pending_action(void *actor_state, ObjectPosition *action, void *status, void *actor);
 s32 advance_staged_entity_load(s32 unused, ActorRecord *entity);
-void advance_status_timers(void *record);
+void advance_status_timers(ActorRecord *record);
 void begin_actor_display_action(void *actor, ObjectPosition *unused, SpriteFrameState *display, u8 *facing_variants);
 void begin_actor_spell_action(void *actor, void *effect_param, SpriteFrameState *target, u8 *direction_table, void *next_state);
 s32 cap_pending_actor_value_delta(void *entry);

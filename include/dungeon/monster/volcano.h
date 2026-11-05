@@ -126,16 +126,6 @@ typedef struct E_80170E5C_S_80170E5C_2 {
 
 /* Updates actor movement, recording the path and refreshing the tile position and height. */
 
-typedef struct E_80171B68_S_80171570_0 {
-    u8 pad_00[0x1C];
-    s32 unk_1C;
-    u8 pad_20[0xA];
-    s16 unk_2A;
-    u8 pad_2C[0x45];
-    union { s8 s; u8 u; } unk_71;   /* accessed as both */
-    u8 pad_72[0x18];
-    s16 unk_8A;
-} E_80171B68_S_80171570_0;   /* state in func_80171B68 */
 
 typedef struct E_80171B68_S_80171570_2 {
     u8 pad_00[0x8C];
@@ -146,12 +136,6 @@ typedef struct E_80171B68_S_80171570_2 {
     u8 unk_9A;
 } E_80171B68_S_80171570_2;   /* arg0 in func_80171B68 */
 
-typedef struct E_80171B68_S_80171570_3 {
-    u8 pad_00[0x74];
-    u8 unk_74;
-    u8 pad_75[0x7];
-    u8 unk_7C;
-} E_80171B68_S_80171570_3;   /* (u8 *)state + ((E_80171B68_S_80171570_0 *)state)->unk_8A in func_80171B68 */
 
 /* Advances the entity along its stored path and updates movement timing. */
 

@@ -90,16 +90,6 @@ typedef struct R12_80170E70_S_80170E70_1 {
     s8 unk_6D;
 } R12_80170E70_S_80170E70_1;
 
-typedef struct R12_801713D4_S_8017139C_0 {
-    u8 pad_00[0x1C];
-    s32 unk_1C;
-    u8 pad_20[0xA];
-    s16 unk_2A;
-    u8 pad_2C[0x45];
-    union { s8 s; u8 u; } unk_71;   
-    u8 pad_72[0x18];
-    union { s16 s; u16 u; } unk_8A;   
-} R12_801713D4_S_8017139C_0;
 typedef struct R12_801713D4_S_8017139C_2 {
     u8 pad_00[0x8C];
     s32 unk_8C;
@@ -728,7 +718,7 @@ extern u8 arachne_effect_load_done[];
 void *spawn_animated_monster(s16 spawn_flags, s16 attr_a, s16 attr_b, s16 attr_c);
 void create_directional_template_effect(void *entity, R12_80170A44_S_80170A28_2 *motion, void *part);
 void update_actor_state_and_select_target(ActorRecord *entity, ObjectPosition *context, SpriteFrameState *sprite, ActorRecord *actor);
-void advance_actor_path_script_step(ActorRecord *controller, ObjectPosition *context, SpriteFrameState *entity, void *path_state);
+void advance_actor_path_script_step(ActorRecord *controller, ObjectPosition *context, SpriteFrameState *entity, ActorRecord *state);
 void choose_arachne_move(ActorRecord *move_data, ObjectPosition *context, SpriteFrameState *position_data, ActorRecord *actor_data);
 void advance_linked_actor_motion_script(void *object, ObjectPosition *unused, void *display, void *orientation);
 s32 try_arachne_attack(ActorRecord *action_state, ObjectPosition *motion_param, SpriteFrameState *sprite, ActorRecord *actor);
@@ -741,7 +731,7 @@ void advance_action_and_spawn_effect(ActorRecord *body, ObjectPosition *position
 void advance_actor_motion_and_wait(ActorRecord *action, ObjectPosition *transform, SpriteFrameState *sprite, ActorRecord *actor);
 void apply_knockback_then_restore_target_selection(R12_80172FE8_S_801730B8_1 *action, ObjectPosition *motion, SpriteFrameState *entity, ActorRecord *source);
 void advance_entity_fade_effect(ActorRecord *body, ObjectPosition *position, R12_801732EC_Entity *entity, R12_801732EC_Object *object);
-void advance_familiar_defeat_sequence(void *state, void *motion, void *position, void *actor);
+void advance_arachne_hop_and_shrink(void *state, void *motion, void *position, void *actor);
 void advance_arachne_removal(void *state, void *motion, void *position, void *actor);
 void finish_actor_hop_and_grow_then_select_target(ActorRecord *state, ObjectPosition *motion, SpriteFrameState *position, ActorRecord *actor);
 void advance_arachne_status_action(ActorRecord *in_controller, ObjectPosition *in_context, SpriteFrameState *sprite, ActorRecord *in_actor);

@@ -9,6 +9,7 @@ import json
 import os
 from pathlib import Path
 import re
+import secrets
 import shutil
 import shlex
 import subprocess
@@ -52,7 +53,15 @@ def safe_path(root, name):
 
 
 def key_for(inputs):
-    return digest(encode(inputs))
+    return digest(encode(cache_identity(inputs)))
+
+
+def cache_identity(inputs):
+    # The complete expansion is a hit-safety witness, not part of the
+    # declaration-use key. Its absence keeps the old generic key API intact.
+    if isinstance(inputs, dict) and 'full_preprocessed' in inputs:
+        return {name: value for name, value in inputs.items() if name != 'full_preprocessed'}
+    return inputs
 
 
 def projected_tables(spec):
@@ -157,7 +166,8 @@ def dependency_inputs(root, spec):
     if 'command' in spec:
         argv = shlex.split(spec['command'])
         if len(argv) < 6 or not argv[0].endswith('/cc.sh'):
-            return dict(files=[], preprocessed={}, compiler_files=[], projected=False)
+            return dict(files=[], preprocessed={}, full_preprocessed={}, compiler_files=[],
+                        assembly_files=[], projected=False)
         source, version, flags = 'build_slus/'+argv[1], argv[3], shlex.split(argv[4])
         include_root = root/'build_slus/include'
         sources = [source]
@@ -169,7 +179,8 @@ def dependency_inputs(root, spec):
             sources += [a['source'] for a in spec['module']['members']]
             flags += ['-I'+str((root/n).parent) for n in sources]
     else:
-        return dict(files=[], preprocessed={}, compiler_files=[], projected=False)
+        return dict(files=[], preprocessed={}, full_preprocessed={}, compiler_files=[],
+                    assembly_files=[], projected=False)
     if any(f.startswith(('-B', '-specs', '--specs', '--sysroot', '-wrapper', '-fplugin',
                          '-fprofile', '-fbranch-probabilities', '-save-temps', '-MD', '-MMD',
                          '-MF', '-d')) for f in flags):
@@ -178,7 +189,9 @@ def dependency_inputs(root, spec):
     found = {p.relative_to(root).as_posix() for p in compiler.iterdir()
              if p.is_file() and p.name in {'gcc', 'cc1', 'cpp', 'specs'}}
     preprocessed = {}
+    full_preprocessed = {}
     compiler_files = set()
+    assembly_files = set()
     projected = True
     for source in sorted(set(sources)):
         result = subprocess.run([str(compiler/'gcc'), '-B'+str(compiler)+'/', '-M', '-O2',
@@ -188,6 +201,7 @@ def dependency_inputs(root, spec):
                                    *flags, '-I'+str(include_root), '-w', str(root/source)],
                                   cwd=root, capture_output=True, check=True).stdout
         preprocessed[source], accepted = declaration_projection.digest(expanded)
+        full_preprocessed[source] = digest(expanded)
         projected &= accepted
         assembly = assembly_inputs(root, expanded.decode(errors='replace'),
             root/'build_slus' if 'command' in spec else root/'build_ovl',
@@ -195,6 +209,7 @@ def dependency_inputs(root, spec):
         if assembly is None:
             return None
         found.update(assembly)
+        assembly_files.update(assembly)
         for name in shlex.split(result.stdout.replace('\\\n', ' ').split(':', 1)[1]):
             path = Path(os.path.abspath(root/name))
             if not path.is_relative_to(root):
@@ -203,7 +218,8 @@ def dependency_inputs(root, spec):
             found.add(name)
             compiler_files.add(name)
     return dict(files=sorted(found), preprocessed=preprocessed,
-                compiler_files=sorted(compiler_files), projected=projected)
+                full_preprocessed=full_preprocessed, compiler_files=sorted(compiler_files),
+                assembly_files=sorted(assembly_files), projected=projected)
 
 
 def key_inputs(root, recipe_path, spec):
@@ -249,6 +265,7 @@ def key_inputs(root, recipe_path, spec):
                 if assembly is None:
                     return None
                 discovered['files'] = sorted(set(discovered['files']) | assembly)
+                discovered['assembly_files'] = sorted(set(discovered.get('assembly_files', [])) | assembly)
     names.update(discovered['files'])
     # A table read as raw C/assembly data must still bind its complete bytes.
     names.difference_update(projected_tables(spec) - set(discovered['files']))
@@ -263,7 +280,8 @@ def key_inputs(root, recipe_path, spec):
         # The projected expansion binds the C meaning of these headers. Other
         # recipe inputs, source files and assembler inputs keep raw hashes.
         for name in discovered['compiler_files']:
-            if name.startswith(('include/', 'build_slus/include/')) and name.endswith('.h'):
+            if (name.startswith(('include/', 'build_slus/include/')) and name.endswith('.h')
+                    and name not in discovered.get('assembly_files', [])):
                 inputs[name] = 'C-header-present'
     # The executable, rather than its pathname/version label, is its identity.
     executables = {}
@@ -291,7 +309,8 @@ def key_inputs(root, recipe_path, spec):
                                            'GCC_EXEC_PREFIX', 'COMPILER_PATH', 'LIBRARY_PATH',
                                            'DEPENDENCIES_OUTPUT', 'SUNPRO_DEPENDENCIES')):
         return None
-    return dict(schema=SCHEMA, recipe=spec, inputs=inputs, preprocessed=discovered['preprocessed'], executables=executables,
+    return dict(schema=SCHEMA, recipe=spec, inputs=inputs, preprocessed=discovered['preprocessed'],
+                full_preprocessed=discovered.get('full_preprocessed', {}), executables=executables,
                 environment=env, python=sys.version)
 
 
@@ -337,7 +356,7 @@ def restore(directory, key, inputs, root, outputs):
             if not re.fullmatch('[0-9a-f]{64}', entry.name) or not entry.is_dir() or entry.is_symlink():
                 raise ValueError('invalid object cache variant: ' + key)
             manifest = json.loads((entry/'manifest.json').read_text())
-            if (not isinstance(manifest, dict) or manifest.get('key_inputs') != inputs
+            if (not isinstance(manifest, dict) or manifest.get('key_inputs') != cache_identity(inputs)
                     or not isinstance(manifest.get('outputs'), dict)
                     or set(manifest['outputs']) != set(outputs) or 'name_witness' not in manifest
                     or variant_key(key, manifest['name_witness']) != entry.name):
@@ -361,7 +380,9 @@ def restore(directory, key, inputs, root, outputs):
             for index, name in enumerate(outputs):
                 atomic_copy(entry/str(index), safe_path(root, name))
             (entry/'manifest.json').touch()  # LRU access, never inputs' mtimes
-            return entry
+            # A projected key may match after an unused declaration changed.
+            # The consuming compile must verify that case before trusting it.
+            return entry, manifest.get('full_preprocessed') == inputs.get('full_preprocessed', {})
         return None
 
 
@@ -402,7 +423,9 @@ def publish(directory, key, inputs, root, outputs):
         witness = read_witness(temporary/str(outputs.index(spec['name_input'])), spec) if spec.get('name_input') else None
         if witness is not None and not projection_matches(root, witness):
             raise ValueError('stale object cache name witness')
-        manifest = dict(key_inputs=inputs, outputs=values, name_witness=witness)
+        manifest = dict(key_inputs=cache_identity(inputs),
+                        full_preprocessed=inputs.get('full_preprocessed', {}),
+                        outputs=values, name_witness=witness)
         (temporary/'manifest.json').write_bytes(encode(manifest))
         with locked(directory):
             outer = directory/key
@@ -420,7 +443,7 @@ def publish(directory, key, inputs, root, outputs):
                     content_cache.save(counter, int(counter.read_text())+added)
             else:
                 current = json.loads((target/'manifest.json').read_text())
-                if current.get('key_inputs') != inputs or current.get('name_witness') != witness:
+                if current.get('key_inputs') != cache_identity(inputs) or current.get('name_witness') != witness:
                     raise ValueError('object cache manifest does not match key: ' + key)
                 if any(current['outputs'].get(n) != d for n, d in values.items() if not n.endswith('.proof.json')):
                     raise ValueError('different artifacts published for the same cache key: ' + key)
@@ -481,6 +504,23 @@ def remove_entry(directory, entry):
             pass
 
 
+def record_verified_expansion(directory, entry, inputs):
+    """A successful byte comparison makes this complete expansion trusted."""
+    with locked(directory):
+        path = entry/'manifest.json'
+        if not path.is_file():
+            return  # a concurrent pruner removed the variant after restore
+        manifest = json.loads(path.read_text())
+        if manifest.get('key_inputs') != cache_identity(inputs):
+            raise ValueError('object cache manifest changed during verification')
+        old_size = path.stat().st_size
+        manifest['full_preprocessed'] = inputs.get('full_preprocessed', {})
+        content_cache.save(path, manifest)
+        counter = directory/'bytes'
+        if counter.exists():
+            content_cache.save(counter, int(counter.read_text()) + path.stat().st_size - old_size)
+
+
 def enforce_cap(directory, cap):
     # Publication accounts bytes under the same lock. Only an over-cap cache
     # needs an LRU inventory, which takes minutes to hours on a full lane
@@ -532,12 +572,23 @@ def compile_recipe(root, recipe_path, build):
     key = key_for(inputs) if inputs else None
     directory, outputs = cache_directory(root), artifacts(spec)
     started = time.monotonic()
-    entry = restore(directory, key, inputs, root, outputs) if key else None
+    if key and spec.get('module', {}).get('allocation_model') == 'separated-symbolic-allocations-v1':
+        # This source/header contract is checked inside the compiler path too.
+        # Check it before a cached object can replace the current output.
+        import overlay_symbolic_allocations as symbolic
+        symbolic.validate(spec['module'], root)
+    restored = restore(directory, key, inputs, root, outputs) if key else None
+    entry, full_match = restored if restored else (None, False)
     hit = entry is not None
     sample = int(os.environ.get('AZURE_OBJECT_VERIFY', '0'))
-    if not 0 <= sample <= 100:
-        raise ValueError('AZURE_OBJECT_VERIFY must be a percentage (0..100)')
-    verify = hit and int(key[:8], 16) % 100 < sample
+    floor = int(os.environ.get('AZURE_OBJECT_VERIFY_FLOOR', '1'))
+    if not 0 <= sample <= 100 or not 0 <= floor <= 100:
+        raise ValueError('object cache verification percentages must be 0..100')
+    sample = max(sample, floor)
+    # Each attempt draws fresh entropy; a key cannot stay outside the sample
+    # forever. A projection-only hit is always recompiled, even at VERIFY=0.
+    verify = hit and (not full_match or
+                      int(digest(secrets.token_bytes(16) + bytes.fromhex(key))[:8], 16) % 100 < sample)
     expected = {name: digest((root/name).read_bytes()) for name in outputs
                 if not name.endswith('.proof.json')} if verify else {}
     if not hit or verify:
@@ -553,6 +604,8 @@ def compile_recipe(root, recipe_path, build):
                 if entry.exists():
                     remove_entry(directory, entry)
             raise ValueError('object cache verification differs: ' + key)
+        if verify and not full_match:
+            record_verified_expansion(directory, entry, inputs)
         if key and not hit:
             publish(directory, key, inputs, root, outputs)
             enforce_cap(directory, int(os.environ.get('AZURE_OBJECT_CACHE_BYTES', str(48 * 1024**3))))

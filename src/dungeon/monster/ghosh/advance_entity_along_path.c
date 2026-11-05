@@ -15,24 +15,13 @@ extern void func_8016C698(void *actor_state, void *action_state, SpriteFrameStat
 
 extern u8 ghosh_frame_set_7[];
 
-typedef struct S_8016BD14_0 {
-    u8 pad_00[0x1C];
-    s32 unk_1C;
-    u8 pad_20[0xA];
-    s16 unk_2A;
-    u8 pad_2C[0x45];
-    union { s8 s; u8 u; } unk_71;   /* accessed as both */
-    u8 pad_72[0x18];
-    union { s16 s; u16 u; } unk_8A;   /* accessed as both */
-} S_8016BD14_0;   /* ctx in advance_entity_along_path */
 
 
 
 
 /* Advance the entity along its path and update its heading and movement state. */
-void advance_entity_along_path(ActorRecord *actor, ObjectPosition *position, SpriteFrameState *sprite, void *path_arg) {
+void advance_entity_along_path(ActorRecord *actor, ObjectPosition *position, SpriteFrameState *sprite, ActorRecord *path) {
     ActorRecord *path_actor = actor;
-    register S_8016BD14_0 *path;
     s32 step_index;
     s32 old_tile_flags;
     s16 heading;
@@ -45,9 +34,8 @@ void advance_entity_along_path(ActorRecord *actor, ObjectPosition *position, Spr
     s32 move_state;
     s32 next_x;
 
-    path = path_arg;
 
-    if (path->unk_71.s <= 0) {
+    if ((s8)path->movement_queue_state <= 0) {
         return;
     }
 
@@ -58,7 +46,7 @@ void advance_entity_along_path(ActorRecord *actor, ObjectPosition *position, Spr
         actor->unk_9D.u = 0;
     }
 
-    if (path->unk_71.u <= path->unk_8A.s) {
+    if (path->movement_queue_state <= path->unk_8A) {
         return;
     }
 
@@ -66,39 +54,40 @@ void advance_entity_along_path(ActorRecord *actor, ObjectPosition *position, Spr
         (sprite->frameTable) = ghosh_frame_set_7;
         select_sprite_entry(
             sprite,
-            ghosh_frame_set_7[((g_game_work.view.camera_rotation.parts.viewAngle + path->unk_2A + 0x100) >> 9) & 7],
+            ghosh_frame_set_7[((g_game_work.view.camera_rotation.parts.viewAngle + path->facing + 0x100) >> 9) & 7],
             0);
     }
 
-    old_tile_flags = path->unk_1C;
+    old_tile_flags = path->flags1C;
     tile_x = sprite->tile_x;
     tile_y = sprite->tile_y;
     old_tile_flags = old_tile_flags & 0x2000;
     update_map_cell_flags_with_item_limit(tile_x, tile_y, old_tile_flags ? 0x300 : 0x3000);
 
     heading = get_rounded_facing_and_rounding_flag(tile_x, tile_y,
-                            ((ActorRecord *)path)->path_x[path->unk_8A.s],
-                            ((ActorRecord *)path)->path_y[path->unk_8A.s],
+                            path->path_x[path->unk_8A],
+                            path->path_y[path->unk_8A],
                             &path_actor->action_state_flags);
     raw_result = check_movement_clearance_and_height(heading, sprite, path, 0x20);
 
-    next_x = ((ActorRecord *)path)->path_x[path->unk_8A.s];
+    next_x = path->path_x[path->unk_8A];
     raw_result = raw_result << 16;
     sprite->tile_x = next_x;
-    step = (u8 *)path + path->unk_8A.s;
+    step = path->path_y;
+    step += path->unk_8A;
     move_result = raw_result >> 16;
     /* BYTES: sched1/sched2 region barrier or tie: unwrap reorders independent insns (no memory dependence) (ledger/onetrip_loadbearing.jsonl: dungeon/func_81324514). */
     do {
-        sprite->tile_y = ((ActorRecord *)step)->path_y[0];
-        step_index = path->unk_8A.u;
+        sprite->tile_y = *step;
+        step_index = (u16)path->unk_8A;
     } while (0);
-    new_tile_flags = path->unk_1C;
+    new_tile_flags = path->flags1C;
     step_index = step_index + 1;
     new_tile_flags = new_tile_flags & 0x2000;
-    path->unk_8A.u = step_index;
+    path->unk_8A = step_index;
     cycle_map_cell_flags(sprite->tile_x, sprite->tile_y,
                   new_tile_flags ? 0x300 : 0x3000);
-    path->unk_2A = heading;
+    path->facing = heading;
 
     if (move_result == 3) {
         if (!(g_dungeon_status.flags & 0x80) && !(sprite->flags & 0x8000)) {
@@ -111,14 +100,14 @@ void advance_entity_along_path(ActorRecord *actor, ObjectPosition *position, Spr
     }
 
     actor->unk_8C.word = 0;
-    path->unk_1C |= 0x40000000;
+    path->flags1C |= 0x40000000;
     if (g_dungeon_status.flags & 0x80) {
         actor->action_timer.s = 0;
         return;
     }
 
     actor->action_timer.s = 8;
-    tile_x = path->unk_71.u;
+    tile_x = path->movement_queue_state;
     if (tile_x > 0) {
         actor->action_timer.s = 8 / tile_x;
     }

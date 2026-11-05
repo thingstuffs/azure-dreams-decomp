@@ -12,7 +12,18 @@ s32 draw_counter_rotating_cylinders(struct B22_81893474_EffectState *effect, Mov
 void spawn_jittered_child_effect( void *source, s16 field_34, s32 field_28, s16 field_52, s16 offset_x, s16 offset_y, s16 offset_z);
 void spawn_variant_effect_with_random_motion(s32 pos_x, s32 pos_y, s32 pos_z, u32 variant);
 
-void animate_object_motion_and_scale(void *object, ObjectPosition *motion, void *display);
+/* Body allocated by create_effect_or_fallback and advanced until the item is
+ * placed at its saved grid position. */
+typedef struct ItemDropEffectBody {
+    u8 pad_00[0xA2];
+    s16 state;
+    u16 frames_left;
+    u8 pad_A6[0xA];
+    s16 grid_x;
+    s16 grid_y;
+} ItemDropEffectBody;
+
+void animate_object_motion_and_scale(ItemDropEffectBody *object, ObjectPosition *motion, SpriteFrameState *display);
 
 /* Body allocated with flags 0x201 by the bank timed-visual sequence and its
  * relinks. create_cylindrical_effect decrements +0x48, advances +0x4C and

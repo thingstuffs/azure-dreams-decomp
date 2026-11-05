@@ -70,7 +70,7 @@ typedef struct S_800D6170_4 {
 /* Project depth-sliced quads and link visible packets into the ordering table. */
 void project_depth_sliced_quads(void *geometry, ObjectPosition *position, SpriteFrameState *render_state, s16 depth_bias)
 {
-    u8 *scratch = (u8 *)0x1F800000;
+    S_800D6170_0 *scratch = (S_800D6170_0 *)0x1F800000;
     u8 **render_context = (u8 **)((u8 *)(&g_game_work));
     u8 *packet;
     s32 ot_index;
@@ -83,28 +83,28 @@ void project_depth_sliced_quads(void *geometry, ObjectPosition *position, Sprite
     u16 depth_edges[4];
     MATRIX matrix;
 
-    ((S_800D6170_0 *)scratch)->unk_24.p = *render_context + 0xB0;
-    ((S_800D6170_0 *)scratch)->unk_88 = position->x.w.i;
-    ((S_800D6170_0 *)scratch)->unk_8C = position->y.w.i;
-    ((S_800D6170_0 *)scratch)->unk_90 = position->z.w.i;
+    scratch->unk_24.p = *render_context + 0xB0;
+    scratch->unk_88 = position->x.w.i;
+    scratch->unk_8C = position->y.w.i;
+    scratch->unk_90 = position->z.w.i;
     render_state->flags |= 0x8000;
 
     PushMatrix();
 
-    ((S_800D6170_0 *)scratch)->unk_3C = 0x2000;
-    ((S_800D6170_0 *)scratch)->unk_38 = 0x2000;
-    ((S_800D6170_0 *)scratch)->unk_34 = 0x2000;
-    ((S_800D6170_0 *)scratch)->unk_A4 = render_state->angle_x;
-    ((S_800D6170_0 *)scratch)->unk_A8 = render_state->angle_z;
-    ((S_800D6170_0 *)scratch)->unk_A6 = render_state->angle_y;
-    RotMatrix(scratch + 0xA4, scratch + 0x74);
+    scratch->unk_3C = 0x2000;
+    scratch->unk_38 = 0x2000;
+    scratch->unk_34 = 0x2000;
+    scratch->unk_A4 = render_state->angle_x;
+    scratch->unk_A8 = render_state->angle_z;
+    scratch->unk_A6 = render_state->angle_y;
+    RotMatrix((u8 *)scratch + 0xA4, (u8 *)scratch + 0x74);
     ReadRotMatrix(&matrix);
-    CompMatrix(&matrix, scratch + 0x74, scratch + 0x54);
-    ScaleMatrix(scratch + 0x54, scratch + 0x34);
-    SetTransMatrix(scratch + 0x54);
-    SetRotMatrix(scratch + 0x54);
+    CompMatrix(&matrix, (u8 *)scratch + 0x74, (u8 *)scratch + 0x54);
+    ScaleMatrix((u8 *)scratch + 0x54, (u8 *)scratch + 0x34);
+    SetTransMatrix((u8 *)scratch + 0x54);
+    SetRotMatrix((u8 *)scratch + 0x54);
 
-    ((S_800D6170_0 *)scratch)->unk_28 = render_state->flags;
+    scratch->unk_28 = render_state->flags;
     for (coord_index = 0; coord_index < 4; coord_index++) {
         depth_edges[coord_index] = (*(u16 *)((u8 *)geometry + 0x54 + coord_index * 2));
     }
@@ -114,29 +114,29 @@ void project_depth_sliced_quads(void *geometry, ObjectPosition *position, Sprite
         address_mask = 0x00FFFFFF;
         length_mask = 0xFF000000;
         do {
-            ((S_800D6170_0 *)scratch)->unk_B0 = (*(u16 *)((u8 *)geometry + 0x44));
-            ((S_800D6170_0 *)scratch)->unk_B8 = (*(u16 *)((u8 *)geometry + 0x46));
-            ((S_800D6170_0 *)scratch)->unk_C0 = (*(u16 *)((u8 *)geometry + 0x48));
-            ((S_800D6170_0 *)scratch)->unk_C8 = (*(u16 *)((u8 *)geometry + 0x4A));
-            ((S_800D6170_0 *)scratch)->unk_B2 = (*(u16 *)((u8 *)geometry + 0x4C));
-            ((S_800D6170_0 *)scratch)->unk_BA = (*(u16 *)((u8 *)geometry + 0x4E));
-            ((S_800D6170_0 *)scratch)->unk_C2 = (*(u16 *)((u8 *)geometry + 0x50));
-            ((S_800D6170_0 *)scratch)->unk_CA = (*(u16 *)((u8 *)geometry + 0x52));
-            ((S_800D6170_0 *)scratch)->unk_B4 = depth_edges[2] - 0x10;
-            ((S_800D6170_0 *)scratch)->unk_BC = depth_edges[3] - 0x10;
-            ((S_800D6170_0 *)scratch)->unk_C4 = depth_edges[2];
-            ((S_800D6170_0 *)scratch)->unk_CC = depth_edges[3];
+            scratch->unk_B0 = (*(u16 *)((u8 *)geometry + 0x44));
+            scratch->unk_B8 = (*(u16 *)((u8 *)geometry + 0x46));
+            scratch->unk_C0 = (*(u16 *)((u8 *)geometry + 0x48));
+            scratch->unk_C8 = (*(u16 *)((u8 *)geometry + 0x4A));
+            scratch->unk_B2 = (*(u16 *)((u8 *)geometry + 0x4C));
+            scratch->unk_BA = (*(u16 *)((u8 *)geometry + 0x4E));
+            scratch->unk_C2 = (*(u16 *)((u8 *)geometry + 0x50));
+            scratch->unk_CA = (*(u16 *)((u8 *)geometry + 0x52));
+            scratch->unk_B4 = depth_edges[2] - 0x10;
+            scratch->unk_BC = depth_edges[3] - 0x10;
+            scratch->unk_C4 = depth_edges[2];
+            scratch->unk_CC = depth_edges[3];
             depth_edges[2] -= 0x10;
             depth_edges[3] -= 0x10;
 
             packet = ((GpuContext *)(*render_context))->packetCursor;
             ((GpuContext *)(*render_context))->packetCursor = packet + 0x18;
-            ot_index = RotAverage4(scratch + 0xB0, scratch + 0xB8,
-                                     scratch + 0xC0, scratch + 0xC8,
+            ot_index = RotAverage4((u8 *)scratch + 0xB0, (u8 *)scratch + 0xB8,
+                                     (u8 *)scratch + 0xC0, (u8 *)scratch + 0xC8,
                                      packet + 8, packet + 0xC,
                                      packet + 0x10, packet + 0x14,
-                                     scratch + 0xD0, scratch + 0xD4) - depth_bias - 6;
-            ((S_800D6170_0 *)scratch)->unk_100 = ot_index;
+                                     (u8 *)scratch + 0xD0, (u8 *)scratch + 0xD4) - depth_bias - 6;
+            scratch->unk_100 = ot_index;
 
             if ((u32)ot_index < 0x1E0) {
                 if ((((u16)(((S_800D6170_4 *)packet)->unk_08 + 0x20) < 0x181) &&
@@ -152,11 +152,11 @@ void project_depth_sliced_quads(void *geometry, ObjectPosition *position, Sprite
                     SetPolyF4(packet);
 
                     ((S_800D6170_4 *)packet)->unk_00 = (((S_800D6170_4 *)packet)->unk_00 & length_mask) |
-                        ((*(u32 *)((u8 *)(((S_800D6170_0 *)scratch)->unk_24.p2)
-                            + ((S_800D6170_0 *)scratch)->unk_100 * 4)) & address_mask);
-                    (*(u32 *)((u8 *)(((S_800D6170_0 *)scratch)->unk_24.p2) + ((S_800D6170_0 *)scratch)->unk_100 * 4)) =
-                        ((*(u32 *)((u8 *)(((S_800D6170_0 *)scratch)->unk_24.p2)
-                            + ((S_800D6170_0 *)scratch)->unk_100 * 4)) & length_mask) |
+                        ((*(u32 *)((u8 *)(scratch->unk_24.p2)
+                            + scratch->unk_100 * 4)) & address_mask);
+                    (*(u32 *)((u8 *)(scratch->unk_24.p2) + scratch->unk_100 * 4)) =
+                        ((*(u32 *)((u8 *)(scratch->unk_24.p2)
+                            + scratch->unk_100 * 4)) & length_mask) |
                         ((u32)packet & address_mask);
                 }
             }
@@ -165,27 +165,27 @@ void project_depth_sliced_quads(void *geometry, ObjectPosition *position, Sprite
     }
 
     if ((s16)depth_edges[0] != (s16)depth_edges[2]) {
-        ((S_800D6170_0 *)scratch)->unk_B0 = (*(u16 *)((u8 *)geometry + 0x44));
-        ((S_800D6170_0 *)scratch)->unk_B8 = (*(u16 *)((u8 *)geometry + 0x46));
-        ((S_800D6170_0 *)scratch)->unk_C0 = (*(u16 *)((u8 *)geometry + 0x48));
-        ((S_800D6170_0 *)scratch)->unk_C8 = (*(u16 *)((u8 *)geometry + 0x4A));
-        ((S_800D6170_0 *)scratch)->unk_B2 = (*(u16 *)((u8 *)geometry + 0x4C));
-        ((S_800D6170_0 *)scratch)->unk_BA = (*(u16 *)((u8 *)geometry + 0x4E));
-        ((S_800D6170_0 *)scratch)->unk_C2 = (*(u16 *)((u8 *)geometry + 0x50));
-        ((S_800D6170_0 *)scratch)->unk_CA = (*(u16 *)((u8 *)geometry + 0x52));
-        ((S_800D6170_0 *)scratch)->unk_B4 = depth_edges[0];
-        ((S_800D6170_0 *)scratch)->unk_BC = depth_edges[1];
-        ((S_800D6170_0 *)scratch)->unk_C4 = depth_edges[2];
-        ((S_800D6170_0 *)scratch)->unk_CC = depth_edges[3];
+        scratch->unk_B0 = (*(u16 *)((u8 *)geometry + 0x44));
+        scratch->unk_B8 = (*(u16 *)((u8 *)geometry + 0x46));
+        scratch->unk_C0 = (*(u16 *)((u8 *)geometry + 0x48));
+        scratch->unk_C8 = (*(u16 *)((u8 *)geometry + 0x4A));
+        scratch->unk_B2 = (*(u16 *)((u8 *)geometry + 0x4C));
+        scratch->unk_BA = (*(u16 *)((u8 *)geometry + 0x4E));
+        scratch->unk_C2 = (*(u16 *)((u8 *)geometry + 0x50));
+        scratch->unk_CA = (*(u16 *)((u8 *)geometry + 0x52));
+        scratch->unk_B4 = depth_edges[0];
+        scratch->unk_BC = depth_edges[1];
+        scratch->unk_C4 = depth_edges[2];
+        scratch->unk_CC = depth_edges[3];
 
         packet = ((GpuContext *)(*render_context))->packetCursor;
         ((GpuContext *)(*render_context))->packetCursor = packet + 0x18;
-        ot_index = RotAverage4(scratch + 0xB0, scratch + 0xB8,
-                                 scratch + 0xC0, scratch + 0xC8,
+        ot_index = RotAverage4((u8 *)scratch + 0xB0, (u8 *)scratch + 0xB8,
+                                 (u8 *)scratch + 0xC0, (u8 *)scratch + 0xC8,
                                  packet + 8, packet + 0xC,
                                  packet + 0x10, packet + 0x14,
-                                 scratch + 0xD0, scratch + 0xD4) - depth_bias - 6;
-        ((S_800D6170_0 *)scratch)->unk_100 = ot_index;
+                                 (u8 *)scratch + 0xD0, (u8 *)scratch + 0xD4) - depth_bias - 6;
+        scratch->unk_100 = ot_index;
 
         if ((u32)ot_index < 0x1E0) {
             if ((((u16)(((S_800D6170_4 *)packet)->unk_08 + 0x20) < 0x181) &&
@@ -201,11 +201,11 @@ void project_depth_sliced_quads(void *geometry, ObjectPosition *position, Sprite
                 SetPolyF4(packet);
 
                 ((S_800D6170_4 *)packet)->unk_00 = (((S_800D6170_4 *)packet)->unk_00 & 0xFF000000) |
-                    ((*(u32 *)((u8 *)(((S_800D6170_0 *)scratch)->unk_24.p2)
-                        + ((S_800D6170_0 *)scratch)->unk_100 * 4)) & 0x00FFFFFF);
-                (*(u32 *)((u8 *)(((S_800D6170_0 *)scratch)->unk_24.p2) + ((S_800D6170_0 *)scratch)->unk_100 * 4)) =
-                    ((*(u32 *)((u8 *)(((S_800D6170_0 *)scratch)->unk_24.p2)
-                        + ((S_800D6170_0 *)scratch)->unk_100 * 4)) & 0xFF000000) |
+                    ((*(u32 *)((u8 *)(scratch->unk_24.p2)
+                        + scratch->unk_100 * 4)) & 0x00FFFFFF);
+                (*(u32 *)((u8 *)(scratch->unk_24.p2) + scratch->unk_100 * 4)) =
+                    ((*(u32 *)((u8 *)(scratch->unk_24.p2)
+                        + scratch->unk_100 * 4)) & 0xFF000000) |
                     ((u32)packet & 0x00FFFFFF);
             }
         }

@@ -51,15 +51,15 @@ extern M2C_UNK D_80024D58;
 
 extern void apply_attack_power_and_element_effects();
 
-void update_directional_actor_effect(TimedTargetHitEffectBody *state_data, void *position_data);
+void update_directional_actor_effect(TimedTargetHitSpellBody *state_data, void *position_data);
 
 /* The module's entry pointer: the first word of its read-only data, at the row's own address
  * (retail 0x80024000, the row symbol add_flag_adjusted_target_value).  The phase table of the switch below follows
  * it at 0x80024008 (gcc's .align 3 for jump tables), and the code starts after the table. */
-void (*const dungeon_19a8800_entry)(TimedTargetHitEffectBody *, void *) = update_directional_actor_effect;
+void (*const dungeon_19a8800_entry)(TimedTargetHitSpellBody *, void *) = update_directional_actor_effect;
 
 /* Advance a timed effect sequence, spawning objects and applying the effect to targets. */
-void update_directional_actor_effect(TimedTargetHitEffectBody *state_data, void *position_data)
+void update_directional_actor_effect(TimedTargetHitSpellBody *state_data, void *position_data)
 {
     s16 offset[3];
     ObjectNodeHeader *object;

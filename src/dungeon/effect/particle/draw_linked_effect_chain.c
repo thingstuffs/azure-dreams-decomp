@@ -14,7 +14,7 @@ void project_vertex_shaded_effect_quad(void *quad, void *position_arg, void *ren
 {
     Row_819A088C_S_819A088C_2 *render_state = render_state_arg;
     Row_819A088C_S_819A088C_1 *position = position_arg;
-    u8 *scratch = (u8 *)0x1F800000;
+    Row_819A088C_S_819A088C_0 *scratch = (Row_819A088C_S_819A088C_0 *)0x1F800000;
     u8 *packet;
     u8 *texture;
     s32 ot_index;
@@ -23,29 +23,29 @@ void project_vertex_shaded_effect_quad(void *quad, void *position_arg, void *ren
     u8 **render_context_ptr = (u8 **)((u8 *)(&g_game_work));
     Row_819A088C_MATRIX base_matrix;
 
-    ((Row_819A088C_S_819A088C_0 *)scratch)->unk_24.p = *(u8 **)&g_game_work.draw_buffer + 0xB0;
-    ((Row_819A088C_S_819A088C_0 *)scratch)->unk_88 = position->unk_02;
-    ((Row_819A088C_S_819A088C_0 *)scratch)->unk_8C = position->unk_06;
-    ((Row_819A088C_S_819A088C_0 *)scratch)->unk_90 = position->unk_0A;
+    scratch->unk_24.p = *(u8 **)&g_game_work.draw_buffer + 0xB0;
+    scratch->unk_88 = position->unk_02;
+    scratch->unk_8C = position->unk_06;
+    scratch->unk_90 = position->unk_0A;
     render_state->unk_14 |= 0x8000;
 
     PushMatrix();
 
-    ((Row_819A088C_S_819A088C_0 *)scratch)->unk_3C = 0x2000;
-    ((Row_819A088C_S_819A088C_0 *)scratch)->unk_38 = 0x2000;
-    ((Row_819A088C_S_819A088C_0 *)scratch)->unk_34 = 0x2000;
-    ((Row_819A088C_S_819A088C_0 *)scratch)->unk_A4 = render_state->unk_16;
-    ((Row_819A088C_S_819A088C_0 *)scratch)->unk_A8 = render_state->unk_1A;
-    ((Row_819A088C_S_819A088C_0 *)scratch)->unk_A6 = render_state->unk_18;
-    RotMatrix(scratch + 0xA4, scratch + 0x74);
+    scratch->unk_3C = 0x2000;
+    scratch->unk_38 = 0x2000;
+    scratch->unk_34 = 0x2000;
+    scratch->unk_A4 = render_state->unk_16;
+    scratch->unk_A8 = render_state->unk_1A;
+    scratch->unk_A6 = render_state->unk_18;
+    RotMatrix((u8 *)scratch + 0xA4, (u8 *)scratch + 0x74);
     ReadRotMatrix(&base_matrix);
-    CompMatrix(&base_matrix, scratch + 0x74, scratch + 0x54);
-    ScaleMatrix(scratch + 0x54, scratch + 0x34);
-    SetTransMatrix(scratch + 0x54);
-    SetRotMatrix(scratch + 0x54);
+    CompMatrix(&base_matrix, (u8 *)scratch + 0x74, (u8 *)scratch + 0x54);
+    ScaleMatrix((u8 *)scratch + 0x54, (u8 *)scratch + 0x34);
+    SetTransMatrix((u8 *)scratch + 0x54);
+    SetRotMatrix((u8 *)scratch + 0x54);
 
     texture = (*(u8 **)((u8 *)render_state + 8));
-    ((Row_819A088C_S_819A088C_0 *)scratch)->unk_28 = render_state->unk_14;
+    scratch->unk_28 = render_state->unk_14;
 
     packet = ((Row_819A088C_S_819A088C_3 *)(g_game_work.draw_buffer))->unk_8D0;
     ((Row_819A088C_S_819A088C_3 *)(g_game_work.draw_buffer))->unk_8D0 = packet + 0xC;
@@ -64,25 +64,25 @@ void project_vertex_shaded_effect_quad(void *quad, void *position_arg, void *ren
         render_context->unk_8D0 = packet + 0x24;
     }
 
-    ((Row_819A088C_S_819A088C_0 *)scratch)->unk_B0 = ((Row_819A088C_S_819A088C_6 *)quad)->unk_54;
-    ((Row_819A088C_S_819A088C_0 *)scratch)->unk_B8 = ((Row_819A088C_S_819A088C_6 *)quad)->unk_5A;
-    ((Row_819A088C_S_819A088C_0 *)scratch)->unk_C0 = ((Row_819A088C_S_819A088C_6 *)quad)->unk_60;
-    ((Row_819A088C_S_819A088C_0 *)scratch)->unk_C8 = ((Row_819A088C_S_819A088C_6 *)quad)->unk_66;
-    ((Row_819A088C_S_819A088C_0 *)scratch)->unk_B2 = ((Row_819A088C_S_819A088C_6 *)quad)->unk_56;
-    ((Row_819A088C_S_819A088C_0 *)scratch)->unk_BA = ((Row_819A088C_S_819A088C_6 *)quad)->unk_5C;
-    ((Row_819A088C_S_819A088C_0 *)scratch)->unk_C2 = ((Row_819A088C_S_819A088C_6 *)quad)->unk_62;
-    ((Row_819A088C_S_819A088C_0 *)scratch)->unk_CA = ((Row_819A088C_S_819A088C_6 *)quad)->unk_68;
-    ((Row_819A088C_S_819A088C_0 *)scratch)->unk_B4 = ((Row_819A088C_S_819A088C_6 *)quad)->unk_58;
-    ((Row_819A088C_S_819A088C_0 *)scratch)->unk_BC = ((Row_819A088C_S_819A088C_6 *)quad)->unk_5E;
-    ((Row_819A088C_S_819A088C_0 *)scratch)->unk_C4 = ((Row_819A088C_S_819A088C_6 *)quad)->unk_64;
-    ((Row_819A088C_S_819A088C_0 *)scratch)->unk_CC = ((Row_819A088C_S_819A088C_6 *)quad)->unk_6A;
+    scratch->unk_B0 = ((Row_819A088C_S_819A088C_6 *)quad)->unk_54;
+    scratch->unk_B8 = ((Row_819A088C_S_819A088C_6 *)quad)->unk_5A;
+    scratch->unk_C0 = ((Row_819A088C_S_819A088C_6 *)quad)->unk_60;
+    scratch->unk_C8 = ((Row_819A088C_S_819A088C_6 *)quad)->unk_66;
+    scratch->unk_B2 = ((Row_819A088C_S_819A088C_6 *)quad)->unk_56;
+    scratch->unk_BA = ((Row_819A088C_S_819A088C_6 *)quad)->unk_5C;
+    scratch->unk_C2 = ((Row_819A088C_S_819A088C_6 *)quad)->unk_62;
+    scratch->unk_CA = ((Row_819A088C_S_819A088C_6 *)quad)->unk_68;
+    scratch->unk_B4 = ((Row_819A088C_S_819A088C_6 *)quad)->unk_58;
+    scratch->unk_BC = ((Row_819A088C_S_819A088C_6 *)quad)->unk_5E;
+    scratch->unk_C4 = ((Row_819A088C_S_819A088C_6 *)quad)->unk_64;
+    scratch->unk_CC = ((Row_819A088C_S_819A088C_6 *)quad)->unk_6A;
 
-    ot_index = RotAverage4(scratch + 0xB0, scratch + 0xB8,
-                             scratch + 0xC0, scratch + 0xC8,
+    ot_index = RotAverage4((u8 *)scratch + 0xB0, (u8 *)scratch + 0xB8,
+                             (u8 *)scratch + 0xC0, (u8 *)scratch + 0xC8,
                              packet + 8, packet + 0x10,
                              packet + 0x18, packet + 0x20,
-                             scratch + 0xD0, scratch + 0xD4) - depth_bias - 6;
-    ((Row_819A088C_S_819A088C_0 *)scratch)->unk_100 = ot_index;
+                             (u8 *)scratch + 0xD0, (u8 *)scratch + 0xD4) - depth_bias - 6;
+    scratch->unk_100 = ot_index;
 
     if ((u32)ot_index < 0x1E0) {
         if ((((u16)(((Row_819A088C_S_819A088C_4 *)packet)->unk_08 + 0x20) < 0x181) &&
@@ -96,7 +96,7 @@ void project_vertex_shaded_effect_quad(void *quad, void *position_arg, void *ren
             render_state->unk_14 &= 0x7FFF;
             texture_flags = texture[1];
             render_state->unk_0F = texture_flags;
-            render_flags = ((Row_819A088C_S_819A088C_0 *)scratch)->unk_28;
+            render_flags = scratch->unk_28;
             if (render_flags & 8) {
                 render_state->unk_0F = (render_flags & 4) ?
                     (texture_flags | 2) : (texture_flags & 0xFD);
@@ -110,22 +110,22 @@ void project_vertex_shaded_effect_quad(void *quad, void *position_arg, void *ren
             ((Row_819A088C_S_819A088C_4 *)packet)->unk_04.at03.v = 0x3A;
 
             ((Row_819A088C_S_819A088C_4 *)packet)->unk_00.at00.v = (((Row_819A088C_S_819A088C_4 *)packet)->unk_00.at00.v & 0xFF000000) |
-                ((*(u32 *)((u8 *)(((Row_819A088C_S_819A088C_0 *)scratch)->unk_24.p2)
-                    + ((Row_819A088C_S_819A088C_0 *)scratch)->unk_100 * 4)) & 0x00FFFFFF);
-            (*(u32 *)((u8 *)(((Row_819A088C_S_819A088C_0 *)scratch)->unk_24.p2) + ((Row_819A088C_S_819A088C_0 *)scratch)->unk_100 * 4)) =
-                ((*(u32 *)((u8 *)(((Row_819A088C_S_819A088C_0 *)scratch)->unk_24.p2)
-                    + ((Row_819A088C_S_819A088C_0 *)scratch)->unk_100 * 4)) & 0xFF000000) |
+                ((*(u32 *)((u8 *)(scratch->unk_24.p2)
+                    + scratch->unk_100 * 4)) & 0x00FFFFFF);
+            (*(u32 *)((u8 *)(scratch->unk_24.p2) + scratch->unk_100 * 4)) =
+                ((*(u32 *)((u8 *)(scratch->unk_24.p2)
+                    + scratch->unk_100 * 4)) & 0xFF000000) |
                 ((u32)packet & 0x00FFFFFF);
 
             packet = ((Row_819A088C_S_819A088C_7 *)(*render_context_ptr))->unk_8D0;
             ((Row_819A088C_S_819A088C_7 *)(*render_context_ptr))->unk_8D0 = packet + 0xC;
             SetDrawMode(packet, 0, 1, GetTPage(0, 1, 0, 0) & 0xFFFF, 0);
             ((Row_819A088C_S_819A088C_4 *)packet)->unk_00.at00.v = (((Row_819A088C_S_819A088C_4 *)packet)->unk_00.at00.v & 0xFF000000) |
-                ((*(u32 *)((u8 *)(((Row_819A088C_S_819A088C_0 *)scratch)->unk_24.p2)
-                    + ((Row_819A088C_S_819A088C_0 *)scratch)->unk_100 * 4)) & 0x00FFFFFF);
-            (*(u32 *)((u8 *)(((Row_819A088C_S_819A088C_0 *)scratch)->unk_24.p2) + ((Row_819A088C_S_819A088C_0 *)scratch)->unk_100 * 4)) =
-                ((*(u32 *)((u8 *)(((Row_819A088C_S_819A088C_0 *)scratch)->unk_24.p2)
-                    + ((Row_819A088C_S_819A088C_0 *)scratch)->unk_100 * 4)) & 0xFF000000) |
+                ((*(u32 *)((u8 *)(scratch->unk_24.p2)
+                    + scratch->unk_100 * 4)) & 0x00FFFFFF);
+            (*(u32 *)((u8 *)(scratch->unk_24.p2) + scratch->unk_100 * 4)) =
+                ((*(u32 *)((u8 *)(scratch->unk_24.p2)
+                    + scratch->unk_100 * 4)) & 0xFF000000) |
                 ((u32)packet & 0x00FFFFFF);
         }
     }
@@ -156,7 +156,7 @@ void update_effect_countdown_fields(void *object_data)
     Row_819A0DB8_S_func_819A0DB8_0 *object = object_data;
 
     phase_index = (s16)(object->unk_3A - 3);
-    (*(s16 *)linked_effect_update_flag) = 1;
+    linked_effect_update_flag[0] = 1;
     switch (phase_index) {
     case 3:
     case 7:
@@ -224,7 +224,7 @@ void fade_moving_effect(RotatingDirectionalSpriteBody *effect, Row_819A0EF0_S_80
     s32 ticks_left;
 
     ticks_left = effect->unk_3A.s;
-    ((s16 *)linked_effect_update_flag)[0] = 1;
+    linked_effect_update_flag[0] = 1;
     effect->unk_3A.s = ticks_left - 1;
     advance_sprite_animation_and_textures(primitive);
     brightness = ((s16)effect->unk_3A.s << 7) /
@@ -253,7 +253,7 @@ void shrink_effect_and_spawn_particles(Row_819A0FC0_S_func_819A0FC0_0 *fadeState
     remainingTicks = fadeState->unk_3A - 1;
     brightness = (s32)((s32)(remainingTicks << 0x10) >> 9) /
                  (s16)fadeState->unk_3C;
-    (*(s16 *)linked_effect_update_flag) = 1;
+    linked_effect_update_flag[0] = 1;
     fadeState->unk_3A = remainingTicks;
     primitive->unk_0E = (s8)brightness;
     primitive->unk_0D = (s8)brightness;
@@ -275,7 +275,7 @@ void fade_quad_vertex_colors(void *fade_data)
 
     fade = fade_data;
     ticks_left = fade->unk_3A.s;
-    (*(s16 *)linked_effect_update_flag) = 1;
+    linked_effect_update_flag[0] = 1;
     ticks_left--;
     fade->unk_3A.s = ticks_left;
     for (color_index = 0; color_index < 4; color_index++) {
@@ -305,7 +305,7 @@ void advance_object_motion_and_animation(void *effect_arg) {
     Row_819A1118_S_819A1118_1 *color_ptr;
 
     ticks_left = effect->unk_3A - 1;
-    ((s16 *)linked_effect_update_flag)[0] = 1;
+    linked_effect_update_flag[0] = 1;
     blend_ticks = effect->unk_3E;
     effect->unk_3A = ticks_left;
     elapsed_ticks = effect->unk_3C - (s16) ticks_left;
@@ -353,7 +353,7 @@ void choose_random_sign(EntityEffectSequenceBody *effect, s32 unused, void *prim
 
     ticks_left = state->prefix.timer3A.u - 1;
     intensity = ((s32)(ticks_left << 16) >> 9) / state->prefix.timer3C;
-    (*(s16 *)linked_effect_update_flag) = 1;
+    linked_effect_update_flag[0] = 1;
     state->prefix.timer3A.u = ticks_left;
     *(s8 *)((u8 *)primitive + 0x0E) = intensity;
     *(s8 *)((u8 *)primitive + 0x0D) = intensity;
@@ -376,7 +376,7 @@ void rotate_and_fade_timed_sprite(Row_819A13D0_Work *work, ObjectPosition *unuse
     scaled_count = (s32)((s32)(count << 16) >> 9) / work->divisor;
     work->count = count;
     angle = obj->angle;
-    ((s16 *)linked_effect_update_flag)[0] = 1;
+    linked_effect_update_flag[0] = 1;
     obj->angle = angle + 0x190;
     obj->c2 = scaled_count;
     obj->c1 = scaled_count;
@@ -965,7 +965,7 @@ loop_1:
             /* fallthrough */
 
         case 4:
-            if (((s16 *)linked_effect_update_flag)[0] == 0) {
+            if (linked_effect_update_flag[0] == 0) {
                 g_dungeon_status.active_actor = 0;
                 linked_effect_chain_count[0] = 0;
                 (*(u16 *)&g_dungeon_status.activity_counts.parts.pending_action_count)--;
@@ -973,7 +973,7 @@ loop_1:
                 D_800814A0[0].flags |= 0x8000;
                 break;
             }
-            ((s16 *)linked_effect_update_flag)[0] = 0;
+            linked_effect_update_flag[0] = 0;
             break;
 
         default:

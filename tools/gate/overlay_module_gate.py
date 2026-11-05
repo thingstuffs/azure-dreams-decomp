@@ -123,6 +123,11 @@ def _load_modules(root=ROOT):
     if tuple(a[k] for k in ('foff','vma','size'))!=tuple(d[k] for k in ('foff','vma','size')):raise ValueError('separate prefix row ownership extent differs')
   genuine_flags(m,root)
   if not m['members']:raise ValueError('unsupported recipe/empty cohort')
+  source_names=m.get('source_names',{})
+  if (not isinstance(source_names,dict) or not set(source_names)<=set(a['id'] for a in m['members'])
+      or any(not isinstance(name,str) or not re.fullmatch(r'[A-Za-z_][A-Za-z0-9_]*',name)
+             for name in source_names.values())
+      or len(set(source_names.values()))!=len(source_names)):raise ValueError('invalid module-local source names: '+m['key'])
   module_compiler(m)
   if not m['headers'] or not m['review_inputs']:raise ValueError('missing shared contract or review inputs')
   for p in [m['source'],*m['headers'],*m['review_inputs']]:local(root,p)
@@ -519,7 +524,10 @@ def bind_native_entries(m, raw, registry, names):
   row=registry[member['id']];target=member['function']
   original=member['id'].split('/',1)[-1]
   allowed={n for n in (row.get('func'),row.get('true_name'),original,target) if n}
-  if names.get(name,name) not in allowed:raise ValueError('native entry order/name differs: '+member['id'])
+  source_name=m.get('source_names',{}).get(member['id'])
+  if source_name:
+   if name!=source_name or names.get(name,name)!=name:raise ValueError('module-local source name differs: '+member['id'])
+  elif names.get(name,name) not in allowed:raise ValueError('native entry order/name differs: '+member['id'])
   if names.get(target,target)!=target:raise ValueError('ambiguous canonical native entry: '+target)
   if names.get(name,name)!=target:bindings[name]=target
  if not bindings:return raw,bindings

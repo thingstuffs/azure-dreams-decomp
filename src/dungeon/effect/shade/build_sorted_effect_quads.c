@@ -68,7 +68,7 @@ typedef struct GlobalState {
 /* Build and depth-sort quad primitives from the linked entries. */
 s32 build_sorted_effect_quads(void *quad_entry) {
     GlobalState **state_table = ((GlobalState * *)(&g_game_work));
-    u8 *scratch = (u8 *)0x1F800000;
+    S_800259DC_0 *scratch = (S_800259DC_0 *)0x1F800000;
     S_800259DC_2 *packet;
     u32 depth_index;
     s32 color_01;
@@ -78,26 +78,26 @@ s32 build_sorted_effect_quads(void *quad_entry) {
     GlobalState *render_state;
 
     render_state = state_table[0];
-    (*(void * *)(scratch + 0x20)) = (u8 *)render_state + 0xB0;
-    ((S_800259DC_0 *)scratch)->unk_18 = render_state->next;
+    (*(void * *)((u8 *)scratch + 0x20)) = (u8 *)render_state + 0xB0;
+    scratch->unk_18 = render_state->next;
     do {
-        packet = ((S_800259DC_0 *)scratch)->unk_18;
-        ((S_800259DC_0 *)scratch)->unk_18 = (u8 *)packet + 0x24;
-        ((S_800259DC_0 *)scratch)->unk_70 = ((S_800259DC_1 *)quad_entry)->unk_34;
-        ((S_800259DC_0 *)scratch)->unk_78 = ((S_800259DC_1 *)quad_entry)->unk_3C;
-        ((S_800259DC_0 *)scratch)->unk_80 = ((S_800259DC_1 *)quad_entry)->unk_44;
+        packet = scratch->unk_18;
+        scratch->unk_18 = (u8 *)packet + 0x24;
+        scratch->unk_70 = ((S_800259DC_1 *)quad_entry)->unk_34;
+        scratch->unk_78 = ((S_800259DC_1 *)quad_entry)->unk_3C;
+        scratch->unk_80 = ((S_800259DC_1 *)quad_entry)->unk_44;
         corner3_xy = ((S_800259DC_1 *)quad_entry)->unk_4C;
-        ((S_800259DC_0 *)scratch)->unk_74 = ((S_800259DC_1 *)quad_entry)->unk_38;
-        ((S_800259DC_0 *)scratch)->unk_7C = ((S_800259DC_1 *)quad_entry)->unk_40;
-        ((S_800259DC_0 *)scratch)->unk_84 = ((S_800259DC_1 *)quad_entry)->unk_48;
-        ((S_800259DC_0 *)scratch)->unk_88 = corner3_xy;
-        ((S_800259DC_0 *)scratch)->unk_8C = ((S_800259DC_1 *)quad_entry)->unk_50;
-        depth_index = RotTransPers4(scratch + 0x70, scratch + 0x78,
-                              scratch + 0x80, scratch + 0x88,
+        scratch->unk_74 = ((S_800259DC_1 *)quad_entry)->unk_38;
+        scratch->unk_7C = ((S_800259DC_1 *)quad_entry)->unk_40;
+        scratch->unk_84 = ((S_800259DC_1 *)quad_entry)->unk_48;
+        scratch->unk_88 = corner3_xy;
+        scratch->unk_8C = ((S_800259DC_1 *)quad_entry)->unk_50;
+        depth_index = RotTransPers4((u8 *)scratch + 0x70, (u8 *)scratch + 0x78,
+                              (u8 *)scratch + 0x80, (u8 *)scratch + 0x88,
                               (u8 *)packet + 8, (u8 *)packet + 0x10,
                               (u8 *)packet + 0x18, (u8 *)packet + 0x20,
-                              scratch + 0x90, scratch + 0x94) - 8;
-        ((S_800259DC_0 *)scratch)->unk_C0 = depth_index;
+                              (u8 *)scratch + 0x90, (u8 *)scratch + 0x94) - 8;
+        scratch->unk_C0 = depth_index;
         if (depth_index < 0x1E0U) {
             color_01 = ((S_800259DC_1 *)quad_entry)->unk_54;
             packet->unk_0C = color_01;
@@ -107,14 +107,14 @@ s32 build_sorted_effect_quads(void *quad_entry) {
             packet->unk_14 = color_23;
             SetPolyG4(packet);
             packet->unk_04.at03.v = (u8)(packet->unk_04.at03.v | 2);
-            AddPrim((u8 *)((S_800259DC_0 *)scratch)->unk_20 +
-                          (((S_800259DC_0 *)scratch)->unk_C0 * 4), packet);
-            packet = ((S_800259DC_0 *)scratch)->unk_18;
-            ((S_800259DC_0 *)scratch)->unk_18 = (u8 *)packet + 0xC;
+            AddPrim((u8 *)scratch->unk_20 +
+                          (scratch->unk_C0 * 4), packet);
+            packet = scratch->unk_18;
+            scratch->unk_18 = (u8 *)packet + 0xC;
             SetDrawMode(packet, 0, 0,
                           (u16)GetTPage(0, 1, 0, 0), 0);
-            AddPrim((u8 *)((S_800259DC_0 *)scratch)->unk_20 +
-                          (((S_800259DC_0 *)scratch)->unk_C0 * 4), packet);
+            AddPrim((u8 *)scratch->unk_20 +
+                          (scratch->unk_C0 * 4), packet);
         }
         next_entry = ((S_800259DC_1_pre *)quad_entry)[-1].unk_00;
         if (next_entry == 0) {
@@ -123,7 +123,7 @@ s32 build_sorted_effect_quads(void *quad_entry) {
         quad_entry = (void *)(next_entry + 0x20);
     } while (1);
     state_table[0]->next =
-        ((S_800259DC_0 *)scratch)->unk_18;
+        scratch->unk_18;
     return 0;
 }
 

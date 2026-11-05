@@ -716,14 +716,6 @@ typedef struct S_8195EE48_1 {
     s32 unk_10;
     s32 unk_14;
 } S_8195EE48_1;
-typedef struct S_8195ED3C_0 {
-    u8 pad_00[0x8];
-    void * unk_08;
-    void * unk_0C;
-    void * unk_10;
-    u8 pad_14[0x18];
-    s32 unk_2C;
-} S_8195ED3C_0;
 typedef struct S_8195ED3C_1 {
     u8 pad_00[0x2];
     u16 unk_02;
@@ -742,20 +734,6 @@ typedef struct S_8195ED3C_2 {
     u8 pad_08[0x2];
     u16 unk_0A;
 } S_8195ED3C_2;
-typedef struct S_8195EB88_0_pre {
-    u16 unk_00;
-} S_8195EB88_0_pre;
-typedef struct S_8195EB88_0 {
-    u8 pad_00[0xC];
-    void * unk_0C;
-    u8 pad_10[0x30];
-    u16 unk_40;
-    u16 unk_42;
-    union { s16 s; u16 u; } unk_44;   /* accessed as both */
-    u8 pad_46[0x2];
-    union { s16 s; u16 u; } unk_48;   /* accessed as both */
-    s16 unk_4A;
-} S_8195EB88_0;
 typedef struct S_8195EB88_1 {
     u8 pad_00[0x8];
     void * unk_08;
@@ -817,7 +795,8 @@ typedef struct S_8002401C_4 {
     u16 unk_00;
 } S_8002401C_4;
 void update_directional_actor_effect(void *object);
-void update_brightening_fading_effect(void *effect, S_8195EB88_2 *position, S_8195EB88_4 *primitive);
+struct BrighteningFadeBody;
+void update_brightening_fading_effect(struct BrighteningFadeBody *effect, S_8195EB88_2 *position, S_8195EB88_4 *primitive);
 void *create_brightening_fading_effect(S_8195ED3C_2 *source, s32 offset);
 void update_effect_and_spawn_fragments(S_8195EE48_0 *state, S_8195EE48_1 *motion);
 void *allocate_map_cell_object(s16 world_x, s16 world_y, s16 world_z, s16 coord_60);
@@ -834,7 +813,7 @@ void restore_saved_map_tile_region(void);
 void *select_containing_cell_surface(s32 world_x, s32 world_y, s16 min_height);
 void draw_buffered_textured_quad_pair(void *draw_data, s32 draw_mode);
 void build_shaded_textured_quad(s32 y_offset, Input *origin, Input *quad_data, s32 draw_depth);
-void create_linked_objects(void *quad, S_81960CD4_2 *motion, S_81960CD4_3 *effect);
+void update_rotating_fading_tile_quad(void *quad, S_81960CD4_2 *motion, S_81960CD4_3 *effect);
 s32 project_and_queue_semitransparent_quad(Quad *quad, ObjectPosition *unused, Material *material);
 void create_terrain_tile_quad(s16 tile_x, s32 tile_y, S_819613A8_0 *origin);
 void interpolate_target_and_finish_transition(State *state, Target *target, S_func_819615E4_0 *color);

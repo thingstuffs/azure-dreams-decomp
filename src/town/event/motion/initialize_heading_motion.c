@@ -19,7 +19,7 @@ void initialize_heading_motion(void *owner, void *object, void *motion) {
     *(s32 *)((u8 *)motion + 0xC) = rsin(*(s16 *)((u8 *)global_state + 0x10)) << 6;
     *(s32 *)((u8 *)motion + 0x10) = rcos(*(s16 *)((u8 *)global_state + 0x10)) << 6;
     *(s32 *)((u8 *)motion + 0x14) = 0xFFF20000;
-    source_z = *(s32 *)((u8 *)(NODE_HEADER(global_state)->position) + 0x14);
+    source_z = NODE_HEADER(global_state)->position->velocity_z;
     if (source_z < 0) {
         *(s32 *)((u8 *)motion + 0x14) = source_z + 0xFFF20000;
     }

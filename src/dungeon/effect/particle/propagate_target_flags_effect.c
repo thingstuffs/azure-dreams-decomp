@@ -804,7 +804,7 @@ void shrink_effect_and_step_texture(void *effect_arg, s32 unused, S_8196BF24_1 *
 }
 
    /* Updates and renders a shrinking object with collision and lifetime checks. */
-void advance_particle_emitting_projectile(StagedParticleEffectBody *object, void *position, void *render_state_arg)
+void advance_particle_emitting_projectile(StagedParticleEffectBody *object, ObjectPosition *position, void *render_state_arg)
 {
     S_8196BFB0_2 *render_state = render_state_arg;
     s32 height;
@@ -814,43 +814,43 @@ void advance_particle_emitting_projectile(StagedParticleEffectBody *object, void
     s32 collide_y;
     s32 collide_z;
 
-    ((S_8196BFB0_0 *)position)->unk_00.at00.v += object->unk_8C;
+    position->x.v += object->unk_8C;
     object->unk_8C += object->unk_98;
-    collide_x = ((S_8196BFB0_0 *)position)->unk_00.at02.v;
-    collide_y = ((S_8196BFB0_0 *)position)->unk_04.at02.v;
-    collide_z = ((S_8196BFB0_0 *)position)->unk_08.at02.v;
+    collide_x = position->x.unsigned_parts.integer;
+    collide_y = position->y.unsigned_parts.integer;
+    collide_z = position->z.w.i;
     particle_activity = 1;
     if ((s16)check_left_tile_and_center_height(collide_x, collide_y, collide_z) != 0) {
-        ((S_8196BFB0_0 *)position)->unk_00.at00.v -= object->unk_8C;
+        position->x.v -= object->unk_8C;
         object->unk_8C = 0;
         object->unk_98 = 0;
     }
 
-    ((S_8196BFB0_0 *)position)->unk_04.at00.v += object->unk_90;
+    position->y.v += object->unk_90;
     object->unk_90 += object->unk_9C;
-    if ((s16)check_left_tile_and_center_height(((S_8196BFB0_0 *)position)->unk_00.at02.v,
-                           ((S_8196BFB0_0 *)position)->unk_04.at02.v,
-                           ((S_8196BFB0_0 *)position)->unk_08.at02.v) != 0) {
-        ((S_8196BFB0_0 *)position)->unk_04.at00.v -= object->unk_90;
+    if ((s16)check_left_tile_and_center_height(position->x.unsigned_parts.integer,
+                           position->y.unsigned_parts.integer,
+                           position->z.w.i) != 0) {
+        position->y.v -= object->unk_90;
         object->unk_90 = 0;
         object->unk_9C = 0;
     }
 
-    ((S_8196BFB0_0 *)position)->unk_08.at00.v += object->unk_94;
+    position->z.v += object->unk_94;
     object->unk_94 += object->unk_A0;
 
-    height = ((S_8196BFB0_0 *)position)->unk_08.at02.v;
-    if ((s16)(s16)sample_terrain_surface_height(((S_8196BFB0_0 *)position)->unk_00.at02.v,
-                           ((S_8196BFB0_0 *)position)->unk_04.at02.v,
-                           (s16)(((S_8196BFB0_0 *)position)->unk_08.at02u.v - 4)) - 0x10 < height) {
+    height = position->z.w.i;
+    if ((s16)(s16)sample_terrain_surface_height(position->x.unsigned_parts.integer,
+                           position->y.unsigned_parts.integer,
+                           (s16)(position->z.unsigned_parts.integer - 4)) - 0x10 < height) {
         object->unk_94 = 0;
         object->unk_90 = 0;
         object->unk_8C = 0;
-        ((S_8196BFB0_0 *)position)->unk_08.at02.v =
-            (s16)sample_terrain_surface_height(((S_8196BFB0_0 *)position)->unk_00.at02.v,
-                          ((S_8196BFB0_0 *)position)->unk_04.at02.v,
-                          (s16)(((S_8196BFB0_0 *)position)->unk_08.at02p.v - 4)) - 0x11;
-        ((S_8196BFB0_0 *)position)->unk_08.at00u.v = 0;
+        position->z.w.i =
+            (s16)sample_terrain_surface_height(position->x.unsigned_parts.integer,
+                          position->y.unsigned_parts.integer,
+                          (s16)(position->z.unsigned_parts.integer - 4)) - 0x11;
+        position->z.w.frac = 0;
         object->unk_2C.s = 0;
     }
 
@@ -870,17 +870,17 @@ void advance_particle_emitting_projectile(StagedParticleEffectBody *object, void
     }
 
     create_randomized_paletted_sprite(object, position, render_state,
-                  (s16)(((S_8196BFB0_0 *)position)->unk_00.at02.v - ((u16)view_reference_entity.x.w.i)),
-                  (s16)(((S_8196BFB0_0 *)position)->unk_04.at02.v - ((u16)view_reference_entity.y.w.i)),
-                  (s16)(((S_8196BFB0_0 *)position)->unk_08.at02p.v - ((u16)view_reference_entity.z.w.i)));
+                  (s16)(position->x.unsigned_parts.integer - ((u16)view_reference_entity.x.w.i)),
+                  (s16)(position->y.unsigned_parts.integer - ((u16)view_reference_entity.y.w.i)),
+                  (s16)(position->z.unsigned_parts.integer - ((u16)view_reference_entity.z.w.i)));
 
     if (--object->unk_2C.s <= 0) {
-        (*(u16 *)((u8 *)object + -2)) |= NODE_REMOVE;
+        NODE_HEADER(object)->flags |= NODE_REMOVE;
         object_flag_block.flags |= OBJECT_REMOVE_PENDING;
     }
 
     if (render_state->unk_14 & 0x8000) {
-        (*(u16 *)((u8 *)object + -2)) |= NODE_REMOVE;
+        NODE_HEADER(object)->flags |= NODE_REMOVE;
         object_flag_block.flags |= OBJECT_REMOVE_PENDING;
     }
 }

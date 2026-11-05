@@ -168,19 +168,8 @@ void run_warp_effect_sequence(EventState *event) {
 #include "shared/object_flags.h"
 #include "records/Rec_func_800249DC_arg0.h"
 #include "shared/dungeon_moving_views.h"
+#include "dungeon/effect/travel/warp_phase_effect.h"
 
-
-typedef struct S_819ACB28_0 {
-    u8 pad_00[0x8];
-    void * unk_08;
-    u8 pad_0C[0x18];
-    u16 unk_24;
-    u16 unk_26;
-    union { s16 s; u16 u; } unk_28;   /* accessed as both */
-    u8 pad_2A[0x2];
-    union { s16 s; u16 u; } unk_2C;   /* accessed as both */
-    s16 unk_2E;
-} S_819ACB28_0;   /* object in advance_effect_phases */
 
 typedef struct S_819ACB28_1 {
     u8 pad_00[0x8];
@@ -200,7 +189,7 @@ typedef struct S_819ACB28_5 {
     u8 pad_00[0x8];
     void * unk_08;
     void * unk_0C;
-} S_819ACB28_5;   /* ((S_819ACB28_0 *)object)->unk_08 in advance_effect_phases */
+} S_819ACB28_5;   /* source_node in advance_effect_phases */
 
 typedef struct CounterView {
     u16 value;
@@ -214,7 +203,7 @@ typedef struct FlagsView {
 
 /* Follows the source sprite's offset, waits for target movement to finish, then brightens and fades
    the effect. */
-void advance_effect_phases(void *object, Rec_func_800249DC_arg0 *record, S_819ACB28_4 *packed_value)
+void advance_effect_phases(WarpPhaseEffectBody *object, Rec_func_800249DC_arg0 *record, S_819ACB28_4 *packed_value)
 {
     s16 mode;
     u16 mode_value;
@@ -222,31 +211,31 @@ void advance_effect_phases(void *object, Rec_func_800249DC_arg0 *record, S_819AC
     S_819ACB28_1 *data_ptr;
 
     warp_effect_counters[0] = warp_effect_counters[0] + 1;
-    mode = ((S_819ACB28_0 *)object)->unk_2C.s;
-    mode_value = ((S_819ACB28_0 *)object)->unk_2C.u;
+    mode = object->phase;
+    mode_value = (u16)object->phase;
 
     if (mode == 0) {
-        data_ptr = ((S_819ACB28_5 *)(((S_819ACB28_0 *)object)->unk_08))->unk_0C;
-        if (((S_819ACB28_0 *)object)->unk_2E == 0) {
+        data_ptr = ((S_819ACB28_5 *)object->source_node_address)->unk_0C;
+        if (object->initialized == 0) {
             if (resolve_record_orientation_or_fallback(data_ptr->unk_08, data_ptr,
-                              (u8 *)object + 0x24, 0) == 0) {
+                              &object->offset_x, 0) == 0) {
                 if (data_ptr->unk_14 & 0x8000) {
-                    ((S_819ACB28_0 *)object)->unk_28.s = -0x40;
+                    object->offset_z = -0x40;
                 }
             }
-            ((S_819ACB28_0 *)object)->unk_2E = 1;
+            object->initialized = 1;
         }
 
-        offsets = ((S_819ACB28_5 *)(((S_819ACB28_0 *)object)->unk_08))->unk_08;
+        offsets = ((S_819ACB28_5 *)object->source_node_address)->unk_08;
         record->unk_00.at02_s16.v =
-            offsets->x + ((S_819ACB28_0 *)object)->unk_24;
+            offsets->x + object->offset_x;
         record->unk_06 =
-            offsets->y + ((S_819ACB28_0 *)object)->unk_26;
+            offsets->y + object->offset_y;
         record->unk_0A =
-            offsets->z + ((S_819ACB28_0 *)object)->unk_28.u;
+            offsets->z + (u16)object->offset_z;
         if (move_effect_toward_target(record) != 0) {
-            register_node((u8 *)object - 0x20, project_sprite_chain);
-            ((S_819ACB28_0 *)object)->unk_2C.u = ((S_819ACB28_0 *)object)->unk_2C.u + 1;
+            register_node(NODE_HEADER(object), project_sprite_chain);
+            object->phase = (u16)((u16)object->phase + 1);
             return;
         }
     } else if (mode == 1) {
@@ -254,7 +243,7 @@ void advance_effect_phases(void *object, Rec_func_800249DC_arg0 *record, S_819AC
             packed_value->unk_0C.u32 += 0x202020;
             return;
         }
-        ((S_819ACB28_0 *)object)->unk_2C.u = mode_value + 1;
+        object->phase = mode_value + 1;
         return;
     } else if (mode == 2) {
         packed_value->unk_0C.u32 += 0xFFEFEFF0;
@@ -276,12 +265,6 @@ void advance_effect_phases(void *object, Rec_func_800249DC_arg0 *record, S_819AC
 
 /* Position block (three 4-byte slots, only the second halfword of each is used). */
 
-/* The effect's record (the object header precedes it). */
-typedef struct EffectRecord {
-    u8 pad_00[8];
-    s32 unk_08;         /* set to offset_base - 0x20 */
-} EffectRecord;
-
 /* The render data the header's unk_0C points at. */
 
 void draw_textured_ellipse(void *parameters, GpuRect *rectangle, u16 fill_rect, u16 draw_mode);
@@ -291,7 +274,7 @@ extern u8 D_8002746C[9];
 void *allocate_initialized_effect_object(EntityRec *source_pos, s32 offset_base) {
     GpuRectBuffer init_data;
     ObjectNodeHeader *object;
-    EffectRecord *record;
+    WarpPhaseEffectBody *record;
     ObjectPosition *pos;
     SpriteFrameState *sprite;
     void *result;
@@ -313,7 +296,7 @@ void *allocate_initialized_effect_object(EntityRec *source_pos, s32 offset_base)
         sprite->scale_y = 0xC00;
         sprite->scale_x = 0xC00;
         record = NODE_BODY(object);
-        record->unk_08 = offset_base - 0x20;
+        record->source_node_address = offset_base - 0x20;
     }
 
     result = NULL;
@@ -783,35 +766,6 @@ void create_warp_follower_sprite(ObjectNodeHeader *owner, s16 angle) {
 #include "shared/dungeon_moving_views.h"
 
 
-typedef struct S_819AD81C_0 {
-    u8 pad_00[0x20];
-    void * unk_20;
-    u8 pad_24[0x8];
-    union { s16 s; u16 u; } unk_2C;   /* accessed as both */
-    u8 pad_2E[0x2];
-    s16 unk_30;
-    u8 pad_32[0x2];
-    s16 unk_34;
-    s16 unk_36;
-    s16 unk_38;
-    u8 pad_3A[0x2];
-    union {
-        struct { s16 v; } at00;
-        struct { s32 v; } at00u;
-        struct { u16 v; } at00p;
-        struct { u8 pad[0x2]; s16 v; } at02;
-        struct { u8 pad[0x2]; u16 v; } at02u;
-    } unk_3C;   /* overlapping accesses */
-    union {
-        struct { s32 v; } at00;
-        struct { u16 v; } at00u;
-        struct { u8 pad[0x2]; u16 v; } at02;
-    } unk_40;   /* overlapping accesses */
-    u16 unk_44;
-    union { s16 s; u16 u; } unk_46;   /* accessed as both */
-    s16 unk_48;
-} S_819AD81C_0;   /* entity in func_819AD81C */
-
 typedef struct S_819AD81C_1 {
     s32 unk_00;
     s8 unk_04;
@@ -867,7 +821,7 @@ extern s8 D_8002758C[];
 extern u8 warp_attack_option;
 
 /* Per-frame homing-projectile step: fade in/out, fly toward the target tile, wake anything it passes and expire. */
-void update_warp_camera_and_effects(void *entity, void *motion, void *gfx) {
+void update_warp_camera_and_effects(LinkedWarpProjectileBody *entity, void *motion, void *gfx) {
     typedef struct Local20 {
         s16 unk0;
         u16 unk2;
@@ -909,41 +863,41 @@ void update_warp_camera_and_effects(void *entity, void *motion, void *gfx) {
     void *head;
     void *link;
 
-    link = ((S_819AD81C_0 *)entity)->unk_20;
+    link = entity->linked_node;
     if (link == 0) {
-        phase = ((S_819AD81C_0 *)entity)->unk_2C.s;
+        phase = entity->phase;
         if (phase == 0) {
             tint = ((S_819AD81C_1 *)gfx)->unk_0C.at00.v;
-            next_tint = tint + ((s32) (0x80 - tint) / ((S_819AD81C_0 *)entity)->unk_30);
+            next_tint = tint + ((s32) (0x80 - tint) / entity->fade_ticks);
             ((S_819AD81C_1 *)gfx)->unk_0C.at00.v = next_tint;
             ((S_819AD81C_1 *)gfx)->unk_0C.at01.v = next_tint;
             ((S_819AD81C_1 *)gfx)->unk_0C.at02.v = next_tint;
-            fade_left = (u16) ((S_819AD81C_0 *)entity)->unk_30 - 1;
-            ((S_819AD81C_0 *)entity)->unk_30 = fade_left;
+            fade_left = (u16) entity->fade_ticks - 1;
+            entity->fade_ticks = fade_left;
             if ((fade_left << 0x10) <= 0) {
                 ((S_819AD81C_1 *)gfx)->unk_0C.at00u.v = 0x808080;
-                ((S_819AD81C_0 *)entity)->unk_2C.u = (u16) (((S_819AD81C_0 *)entity)->unk_2C.u + 1);
+                entity->phase = (u16) ((u16) entity->phase + 1);
             }
         } else if (phase >= 2) {
             tint_out = ((S_819AD81C_1 *)gfx)->unk_0C.at00.v;
-            next_tint_out = tint_out - ((s32) tint_out / (s16) ((S_819AD81C_0 *)entity)->unk_30);
+            next_tint_out = tint_out - ((s32) tint_out / (s16) entity->fade_ticks);
             ((S_819AD81C_1 *)gfx)->unk_0C.at00.v = next_tint_out;
             ((S_819AD81C_1 *)gfx)->unk_0C.at01.v = next_tint_out;
             ((S_819AD81C_1 *)gfx)->unk_0C.at02.v = next_tint_out;
-            fade_left_out = (u16) ((S_819AD81C_0 *)entity)->unk_30 - 1;
-            ((S_819AD81C_0 *)entity)->unk_30 = fade_left_out;
+            fade_left_out = (u16) entity->fade_ticks - 1;
+            entity->fade_ticks = fade_left_out;
             if ((fade_left_out << 0x10) <= 0) {
                 ((S_819AD81C_1 *)gfx)->unk_0C.at00u.v = 0;
-                (*(u16 *)((u8 *)entity + -2)) = (u16) (NODE_HEADER(entity)->flags | NODE_REMOVE);
+                NODE_HEADER(entity)->flags = (u16) (NODE_HEADER(entity)->flags | NODE_REMOVE);
                 object_flag_block.flags |= OBJECT_REMOVE_PENDING;
                 return;
             }
-            if (((S_819AD81C_0 *)entity)->unk_2C.s >= 3) {
+            if (entity->phase >= 3) {
                 return;
             }
         }
-        ((S_819AD81C_2 *)motion)->unk_0C.at00.v = (s32) (rcos(((S_819AD81C_0 *)entity)->unk_34) << 8);
-        ((S_819AD81C_2 *)motion)->unk_10.at00.v = (s32) (rsin(((S_819AD81C_0 *)entity)->unk_34) << 8);
+        ((S_819AD81C_2 *)motion)->unk_0C.at00.v = (s32) (rcos(entity->heading) << 8);
+        ((S_819AD81C_2 *)motion)->unk_10.at00.v = (s32) (rsin(entity->heading) << 8);
         level = ((S_819AD81C_1 *)gfx)->unk_04;
         if (level < 3) {
             component = ((S_819AD81C_2 *)motion)->unk_0C.at00.v;
@@ -962,20 +916,20 @@ void update_warp_camera_and_effects(void *entity, void *motion, void *gfx) {
         ((S_819AD81C_1 *)gfx)->unk_16 = 0x400U;
         ((S_819AD81C_1 *)gfx)->unk_1A = (u16) (calculate_planar_heading(0, 0, ((S_819AD81C_2 *)motion)->unk_0C.at02.v,
             ((S_819AD81C_2 *)motion)->unk_10.at02.v) - 0x400);
-        advance_animation_index_within_bounds(gfx, entity + 0x32, ((S_819AD81C_0 *)entity)->unk_38, ((S_819AD81C_0 *)entity)->unk_36);
-        update_traveling(entity, ((S_819AD81C_1 *)gfx)->unk_00);
+        advance_animation_index_within_bounds(gfx, &entity->animation_index, entity->animation_start, entity->animation_end);
+        update_traveling((struct FrameState *)entity, ((S_819AD81C_1 *)gfx)->unk_00);
         if (((S_819AD81C_1 *)gfx)->unk_14 & 0x4000) {
             ((S_819AD81C_1 *)gfx)->unk_04 = 0;
         }
-        if (((S_819AD81C_0 *)entity)->unk_46.s > 0) {
-            ((S_819AD81C_0 *)entity)->unk_3C.at00.v = (s16) ((s16) ((S_819AD81C_2 *)motion)->unk_00.at02.v / 64);
+        if (entity->hits_left > 0) {
+            entity->current_tile.tile.x = (s16) ((s16) ((S_819AD81C_2 *)motion)->unk_00.at02.v / 64);
             tile_y = (s16) ((S_819AD81C_2 *)motion)->unk_04.at02.v / 64;
-            ((S_819AD81C_0 *)entity)->unk_3C.at02.v = (s16) tile_y;
-            if (((S_819AD81C_0 *)entity)->unk_40.at00.v != ((S_819AD81C_0 *)entity)->unk_3C.at00u.v) {
-                if ((check_left_tile_and_center_height(((((S_819AD81C_0 *)entity)->unk_3C.at00.v << 6) + 0x20) & 0xFFE0,
+            entity->current_tile.tile.y = (s16) tile_y;
+            if (entity->previous_tile.packed != entity->current_tile.packed) {
+                if ((check_left_tile_and_center_height(((entity->current_tile.tile.x << 6) + 0x20) & 0xFFE0,
                     ((tile_y << 6) + 0x20) & 0xFFE0, ((S_819AD81C_2 *)motion)->unk_08.at02.v) << 0x10) != 0) {
-                    ((S_819AD81C_0 *)entity)->unk_30 = 4;
-                    ((S_819AD81C_0 *)entity)->unk_2C.s = 3;
+                    entity->fade_ticks = 4;
+                    entity->phase = 3;
                     return;
                 }
                 node = primary_actor_record;
@@ -985,8 +939,8 @@ void update_warp_camera_and_effects(void *entity, void *motion, void *gfx) {
                 if (node != head) {
                     do {
                         info = NODE_HEADER(node)->sprite;
-                        if (info->tile_x == ((S_819AD81C_0 *)entity)->unk_3C.at00.v) {
-                            if (info->tile_y == ((S_819AD81C_0 *)entity)->unk_3C.at02.v) {
+                        if (info->tile_x == entity->current_tile.tile.x) {
+                            if (info->tile_y == entity->current_tile.tile.y) {
                                 dz = ((S_819AD81C_3 *)node)->unk_88;
                                 component = ((S_819AD81C_2 *)motion)->unk_08.at02.v;
                                 dz -= component;
@@ -1001,34 +955,34 @@ void update_warp_camera_and_effects(void *entity, void *motion, void *gfx) {
                                      * (adrando.com/guide/bugs.html).
                                      */
                                     apply_attack_power_and_element_effects(node, 0xC, warp_attack_option, 0xA,
-                                        (s32) (s16) (((S_819AD81C_0 *)entity)->unk_44 << 9), warp_attack_event, 2);
+                                        (s32) (s16) (entity->damage_power << 9), warp_attack_event, 2);
                                 }
                             }
                         }
                         node = ((S_819AD81C_3 *)node)->unk_5C.i + 0x20;
                     } while (node != (void *) (primary_actor_record));
                 }
-                saved_x = ((S_819AD81C_0 *)entity)->unk_3C.at00p.v;
-                hits_left = ((S_819AD81C_0 *)entity)->unk_46.u;
-                saved_y = ((S_819AD81C_0 *)entity)->unk_3C.at02u.v;
+                saved_x = (u16) entity->current_tile.tile.x;
+                hits_left = (u16) entity->hits_left;
+                saved_y = (u16) entity->current_tile.tile.y;
                 hits_left -= 1;
-                ((S_819AD81C_0 *)entity)->unk_46.s = hits_left;
-                ((S_819AD81C_0 *)entity)->unk_40.at00u.v = saved_x;
-                ((S_819AD81C_0 *)entity)->unk_40.at02.v = saved_y;
+                entity->hits_left = hits_left;
+                entity->previous_tile.tile.x = saved_x;
+                entity->previous_tile.tile.y = saved_y;
                 if ((hits_left << 0x10) <= 0) {
-                    ((S_819AD81C_0 *)entity)->unk_30 = 4;
-                    ((S_819AD81C_0 *)entity)->unk_2C.s = (s16) ((u16) ((S_819AD81C_0 *)entity)->unk_2C.s + 1);
+                    entity->fade_ticks = 4;
+                    entity->phase = (s16) ((u16) entity->phase + 1);
                 }
             }
         }
         create_positioned_linked_mesh_effect(((S_819AD81C_2 *)motion)->unk_00.at02.v, ((S_819AD81C_2 *)motion)->unk_04.at02.v,
-            ((S_819AD81C_2 *)motion)->unk_08.at02.v, ((S_819AD81C_0 *)entity)->unk_34);
+            ((S_819AD81C_2 *)motion)->unk_08.at02.v, entity->heading);
         create_copied_effect_object(entity, motion, gfx);
         return;
     } else {
         attached = (void *) ((s32) link | 0x80000000);
         if (attached->flags & 0x8000) {
-            (*(u16 *)((u8 *)entity + -2)) = (u16) (NODE_HEADER(entity)->flags | NODE_REMOVE);
+            NODE_HEADER(entity)->flags = (u16) (NODE_HEADER(entity)->flags | NODE_REMOVE);
             object_flag_block.flags |= OBJECT_REMOVE_PENDING;
             return;
         }
@@ -1044,7 +998,7 @@ void update_warp_camera_and_effects(void *entity, void *motion, void *gfx) {
         ((S_819AD81C_1 *)gfx)->unk_1E = (u16) info->scale_y;
         ((S_819AD81C_1 *)gfx)->unk_20 = (u16) info->offset_x;
         ((S_819AD81C_1 *)gfx)->unk_0C.at00u.v = info->color.word;
-        want_kind = D_8002758C[((S_819AD81C_0 *)entity)->unk_48];
+        want_kind = D_8002758C[entity->piece_index];
         node = NODE_BODY(attached);
         if ((want_kind >= 0) && (info->unk_04 == want_kind)) {
             PushMatrix(attached);
@@ -1063,7 +1017,7 @@ void update_warp_camera_and_effects(void *entity, void *motion, void *gfx) {
             spawn_opposite_offset_effect(&warp_params, ((S_819AD81C_3 *)node)->unk_34);
         }
         set_animation_entry_address(gfx, info->unk_04);
-        update_traveling(entity, ((S_819AD81C_1 *)gfx)->unk_00);
+        update_traveling((struct FrameState *)entity, ((S_819AD81C_1 *)gfx)->unk_00);
     }
 }
 
@@ -1105,24 +1059,6 @@ typedef struct S_800255B8_2 {
     s16 unk_1E;
     s16 unk_20;
 } S_800255B8_2;   /* partB in create_linked_sprite_pieces */
-
-typedef struct S_800255B8_3 {
-    u8 pad_00[0x20];
-    void * unk_20;
-    u8 pad_24[0xC];
-    s16 unk_30;
-    s16 unk_32;
-    s16 unk_34;
-    s16 unk_36;
-    u8 pad_38[0x4];
-    s16 unk_3C;
-    s16 unk_3E;
-    s16 unk_40;
-    s16 unk_42;
-    u8 pad_44[0x2];
-    s16 unk_46;
-    s16 unk_48;
-} S_800255B8_3;   /* tail in create_linked_sprite_pieces */
 
 extern u8 warp_piece_slots[];
 extern u8 D_80027580[];
@@ -1202,21 +1138,21 @@ void *create_linked_sprite_pieces(s16 x, s16 y, s16 z, s16 heading) {
             } else {
                 link_value = (u32)objects[piece_index - 1];
             }
-            ((S_800255B8_3 *)effect_state)->unk_20 = (void *)link_value;
+            ((LinkedWarpProjectileBody *)effect_state)->linked_node = (void *)link_value;
         }
 
-        ((S_800255B8_3 *)effect_state)->unk_30 = 4;
-        ((S_800255B8_3 *)effect_state)->unk_36 = 15;
-        ((S_800255B8_3 *)effect_state)->unk_32 = 1;
-        ((S_800255B8_3 *)effect_state)->unk_34 = heading;
-        ((S_800255B8_3 *)effect_state)->unk_48 = piece_index;
-        ((S_800255B8_3 *)effect_state)->unk_46 = 8;
+        ((LinkedWarpProjectileBody *)effect_state)->fade_ticks = 4;
+        ((LinkedWarpProjectileBody *)effect_state)->animation_end = 15;
+        ((LinkedWarpProjectileBody *)effect_state)->animation_index = 1;
+        ((LinkedWarpProjectileBody *)effect_state)->heading = heading;
+        ((LinkedWarpProjectileBody *)effect_state)->piece_index = piece_index;
+        ((LinkedWarpProjectileBody *)effect_state)->hits_left = 8;
         color_first = color_table->tile_position.parts.tile_x;
-        ((S_800255B8_3 *)effect_state)->unk_3C = color_first;
-        ((S_800255B8_3 *)effect_state)->unk_40 = color_first;
+        ((LinkedWarpProjectileBody *)effect_state)->current_tile.tile.x = color_first;
+        ((LinkedWarpProjectileBody *)effect_state)->previous_tile.tile.x = color_first;
         color_second = color_table->tile_position.parts.tile_y;
-        ((S_800255B8_3 *)effect_state)->unk_3E = color_second;
-        ((S_800255B8_3 *)effect_state)->unk_42 = color_second;
+        ((LinkedWarpProjectileBody *)effect_state)->current_tile.tile.y = color_second;
+        ((LinkedWarpProjectileBody *)effect_state)->previous_tile.tile.y = color_second;
         piece_index++;
     } while (piece_index < 12);
 

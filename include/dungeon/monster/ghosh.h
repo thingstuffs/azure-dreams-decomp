@@ -134,7 +134,7 @@ void update_cascading_trail_emitter(void *record_data);
 
 s32 execute_actor_script_command(ActorRecord *actor_arg, ObjectPosition *action_context, SpriteFrameState *sprite_arg);
 
-void advance_entity_along_path(ActorRecord *actor, ObjectPosition *position, SpriteFrameState *sprite, void *path_arg);
+void advance_entity_along_path(ActorRecord *actor, ObjectPosition *position, SpriteFrameState *sprite, ActorRecord *path);
 
 s32 dispatch_actor_action_phase(ActorRecord *actor, ObjectPosition *position, SpriteFrameState *sprite, s32 force_action);
 

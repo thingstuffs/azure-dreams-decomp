@@ -22,7 +22,8 @@ s32 apply_malicious_light_tile_item(void *actor, DungeonItemEntry *item, s16 act
     ActorRecord *user = actor;
     s16 entry_index;
     void *message_handle;
-    s32 saved_handle, object_addr;
+    s32 saved_handle;
+    CentralChildEffectObject *object_addr;
     DungeonGlobalStatus *counter_base;
     SpriteFrameState *sprite;
     CentralChildEffectState *placed_effect;
@@ -39,9 +40,9 @@ s32 apply_malicious_light_tile_item(void *actor, DungeonItemEntry *item, s16 act
                                 user->ground_height, -1, item->unk_00);
     if (object_addr != 0) {
         play_sound_if_enabled(0x60D);
-        placed_effect = (CentralChildEffectState *)((u8 *)object_addr + 0x20);
+        placed_effect = NODE_BODY(object_addr);
         entry_index = select_and_initialize_entry_at_position(sprite->tile_x, sprite->tile_y,
-                                    user->ground_height, 5, object_addr);
+                                    user->ground_height, 5, (s32)object_addr);
         entries = dungeon_floor_object_positions;
         placed_effect->item_position_index = entry_index;
         entries[entry_index].field8.s = 0;

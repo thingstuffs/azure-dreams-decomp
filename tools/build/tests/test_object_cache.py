@@ -70,7 +70,8 @@ class CacheTests(unittest.TestCase):
         patch.dict('sys.modules', overlay_module_gate=types.SimpleNamespace(
             closure=lambda root, starts: {'include/a.h', 'src/a.c'})).start()
         patch.dict(os.environ, AZURE_OBJECT_CACHE_DIR=str(self.directory.parent),
-                   AZURE_COMPILE_LIMIT_ENABLED='0', AZURE_OBJECT_VERIFY='0').start()
+                   AZURE_COMPILE_LIMIT_ENABLED='0', AZURE_OBJECT_VERIFY='0',
+                   AZURE_OBJECT_VERIFY_FLOOR='0').start()
 
     def key(self, root=None):
         root = root or self.root
@@ -176,8 +177,19 @@ class CacheTests(unittest.TestCase):
             (self.root/'include/a.h').write_text('extern int another_unused(void);\n')
             second = C.key_inputs(self.root, self.recipe, self.spec)
             self.assertEqual(C.key_for(first), C.key_for(second))
+            self.assertNotEqual(first['full_preprocessed'], second['full_preprocessed'])
             (self.root/'src/a.c').write_text('#include "a.h"\nint f(void) { return another_unused(); }\n')
             self.assertNotEqual(C.key_for(second), C.key_for(C.key_inputs(self.root, self.recipe, self.spec)))
+
+    def test_c_header_read_by_assembler_keeps_raw_hash(self):
+        discovered = dict(files=['include/a.h'], compiler_files=['include/a.h'],
+                          assembly_files=['include/a.h'], preprocessed={'src/a.c': 'projected'},
+                          full_preprocessed={'src/a.c': 'complete'}, projected=True)
+        with patch.object(C, 'dependency_inputs', return_value=discovered):
+            first = C.key_inputs(self.root, self.recipe, self.spec)
+            self.assertNotEqual(first['inputs']['include/a.h'], 'C-header-present')
+            (self.root/'include/a.h').write_text('different assembly input')
+            self.assertNotEqual(C.key_for(first), self.key())
 
     def test_emitted_assembler_strings_and_recursive_binary_inputs(self):
         (self.root/'include/labels.inc').write_text('.include "include/nested.inc"\n')
@@ -340,6 +352,94 @@ class CacheTests(unittest.TestCase):
             with self.assertRaisesRegex(ValueError, 'verification differs'):
                 C.compile_recipe(self.root, self.recipe, bad)
         self.assertFalse(any(p.is_dir() for p in self.directory.iterdir()))
+
+    def test_projection_only_hit_is_verified_even_when_sampling_disabled(self):
+        discovered = dict(files=[], compiler_files=[], assembly_files=[],
+                          preprocessed={'src/a.c': 'same'},
+                          full_preprocessed={'src/a.c': 'first'}, projected=True)
+        calls = []
+        def build():
+            calls.append(1)
+            (self.root/'build/a.o').write_bytes(b'good')
+            (self.root/'build/a.proof.json').write_text('{}')
+        with patch.object(C, 'dependency_inputs', return_value=discovered):
+            C.compile_recipe(self.root, self.recipe, build)
+            first_key = self.key()
+            manifest = json.loads((self.entry(first_key)/'manifest.json').read_text())
+            self.assertEqual(manifest['full_preprocessed'], {'src/a.c': 'first'})
+            discovered['full_preprocessed'] = {'src/a.c': 'second'}
+            self.assertEqual(first_key, self.key())
+            C.compile_recipe(self.root, self.recipe, build)
+            self.assertEqual(len(calls), 2)
+            self.assertEqual(json.loads((self.entry(first_key)/'manifest.json').read_text())
+                             ['full_preprocessed'], {'src/a.c': 'second'})
+            C.compile_recipe(self.root, self.recipe, build)
+            self.assertEqual(len(calls), 2)
+            discovered['full_preprocessed'] = {'src/a.c': 'third'}
+            def bad():
+                build()
+                (self.root/'build/a.o').write_bytes(b'bad')
+            with self.assertRaisesRegex(ValueError, 'verification differs'):
+                C.compile_recipe(self.root, self.recipe, bad)
+
+    def test_sampling_can_verify_a_key_after_an_unverified_hit(self):
+        calls = []
+        def build():
+            calls.append(1)
+            (self.root/'build/a.o').write_bytes(b'good')
+            (self.root/'build/a.proof.json').write_text('{}')
+        key = self.key()
+        salts = {below: next(bytes([n]) for n in range(256)
+                      if (int(C.digest(bytes([n]) + bytes.fromhex(key))[:8], 16) % 100 < 50) == below)
+                 for below in (False, True)}
+        with patch.dict(os.environ, AZURE_OBJECT_VERIFY='50'):
+            C.compile_recipe(self.root, self.recipe, build)
+            with patch.object(C.secrets, 'token_bytes', side_effect=[salts[False], salts[True]]):
+                C.compile_recipe(self.root, self.recipe, build)
+                self.assertEqual(len(calls), 1)
+                C.compile_recipe(self.root, self.recipe, build)
+                self.assertEqual(len(calls), 2)
+
+    def test_default_floor_samples_even_with_verify_zero(self):
+        calls = []
+        def build():
+            calls.append(1)
+            (self.root/'build/a.o').write_bytes(b'good')
+            (self.root/'build/a.proof.json').write_text('{}')
+        key = self.key()
+        salt = next(n.to_bytes(2, 'big') for n in range(65536)
+                    if int(C.digest(n.to_bytes(2, 'big') + bytes.fromhex(key))[:8], 16) % 100 == 0)
+        with patch.dict(os.environ, AZURE_OBJECT_VERIFY='0', AZURE_OBJECT_VERIFY_FLOOR='1'), \
+             patch.object(C.secrets, 'token_bytes', return_value=salt):
+            C.compile_recipe(self.root, self.recipe, build)
+            C.compile_recipe(self.root, self.recipe, build)
+        self.assertEqual(len(calls), 2)
+
+    def test_symbolic_allocation_validation_runs_on_hit(self):
+        self.spec['module'] = {'allocation_model': 'separated-symbolic-allocations-v1'}
+        self.recipe.write_text(json.dumps(self.spec))
+        calls = []
+        def build():
+            calls.append(1)
+            (self.root/'build/a.o').write_bytes(b'good')
+            (self.root/'build/a.proof.json').write_text('{}')
+        def validate(module, root):
+            if 'typed callback' not in (root/'include/a.h').read_text():
+                raise ValueError('table lacks a typed callback contract')
+        symbolic = types.SimpleNamespace(enabled=lambda module: True, validate=validate)
+        discovered = dict(files=['include/a.h'], compiler_files=['include/a.h'], assembly_files=[],
+                          preprocessed={'src/a.c': 'same'}, full_preprocessed={'src/a.c': 'first'},
+                          projected=True)
+        with patch.dict('sys.modules', overlay_symbolic_allocations=symbolic), \
+             patch.object(C, 'dependency_inputs', return_value=discovered):
+            (self.root/'include/a.h').write_text('typed callback')
+            C.compile_recipe(self.root, self.recipe, build)
+            C.compile_recipe(self.root, self.recipe, build)
+            self.assertEqual(len(calls), 1)
+            (self.root/'include/a.h').write_text('missing contract')
+            discovered['full_preprocessed'] = {'src/a.c': 'second'}
+            with self.assertRaisesRegex(ValueError, 'typed callback contract'):
+                C.compile_recipe(self.root, self.recipe, build)
 
     def test_inputs_changed_during_compile_never_publish(self):
         def build():

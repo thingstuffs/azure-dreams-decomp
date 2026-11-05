@@ -1130,15 +1130,15 @@ typedef struct S_8187BE9C_1 {
     u8 unk_0E;
     u8 pad_0F[0x5];
     u16 unk_14;
-} S_8187BE9C_1;   /* arg2 in create_object_offset */
+} S_8187BE9C_1;   /* arg2 in update_projectile_trail_flash */
 
 /* Advance the effect fade, scale primitive colors, and flag completion. */
-void create_object_offset(ProjectileTrailFlashBody *effect, s32 unused, S_8187BE9C_1 *primitive)
+void update_projectile_trail_flash(ProjectileTrailFlashBody *effect, s32 unused, S_8187BE9C_1 *primitive)
 {
     s16 phase;
 
     point_cloud_update_flag[0] = 1;
-    effect->unk_02.u--;
+    effect->remaining_ticks--;
 
     phase = effect->unk_42;
     switch (phase) {
@@ -1153,22 +1153,22 @@ void create_object_offset(ProjectileTrailFlashBody *effect, s32 unused, S_8187BE
     }
 
     primitive->unk_0C =
-        effect->unk_36 * effect->unk_02.s /
+        effect->unk_36 * effect->remaining_ticks /
         effect->unk_04;
     primitive->unk_0D =
-        effect->unk_37 * effect->unk_02.s /
+        effect->unk_37 * effect->remaining_ticks /
         effect->unk_04;
     primitive->unk_0E =
-        effect->unk_38 * effect->unk_02.s /
+        effect->unk_38 * effect->remaining_ticks /
         effect->unk_04;
 
-    if (effect->unk_02.s <= 0) {
-        ((u16 *)effect)[-1] |= NODE_REMOVE;
+    if (effect->remaining_ticks <= 0) {
+        NODE_HEADER(effect)->flags |= NODE_REMOVE;
         object_flag_block.flags |= OBJECT_REMOVE_PENDING;
     }
 
     if (primitive->unk_14 & 0x8000) {
-        ((u16 *)effect)[-1] |= NODE_REMOVE;
+        NODE_HEADER(effect)->flags |= NODE_REMOVE;
         object_flag_block.flags |= OBJECT_REMOVE_PENDING;
     }
 }
@@ -1177,27 +1177,6 @@ void create_object_offset(ProjectileTrailFlashBody *effect, s32 unused, S_8187BE
 #include "modules/dungeon_native_abi.h"
 #include "shared/object_flags.h"
 #include "shared/dungeon_moving_views.h"
-
-typedef struct S_8187BFE0_0 {
-    union { s16 s; u16 u; } unk_00;   /* accessed as both */
-    union { s16 s; u16 u; } unk_02;   /* accessed as both */
-    u8 pad_04[0x6];
-    s16 unk_0A;
-    s16 unk_0C;
-    u8 pad_0E[0xE];
-    union { s16 s; u16 u; } unk_1C;   /* accessed as both */
-    u16 unk_1E;
-    u16 unk_20;
-    u16 unk_22;
-    u16 unk_24;
-    u16 unk_26;
-    u8 pad_28[0x2];
-    u16 unk_2A;
-    u16 unk_2C;
-    u16 unk_2E;
-    u16 unk_30;
-    u16 unk_32;
-} S_8187BFE0_0;   /* state in initialize_star_effect_sequence */
 
 typedef struct S_8187BFE0_1 {
     u8 pad_00[0x8];
@@ -1226,7 +1205,7 @@ extern s32 rsin(s32);
 extern s32 rcos(s32);
 
 /* Initializes a five-point star and spawns its edge effects over successive updates. */
-void initialize_star_effect_sequence(void *state_data, void *source_data) {
+void initialize_star_effect_sequence(StarSequenceBody *state_data, void *source_data) {
     MovingPosition *source_position;
     ObjectNodeHeader *node;
     StarEdgeEffectBody *edge_data;
@@ -1239,7 +1218,7 @@ void initialize_star_effect_sequence(void *state_data, void *source_data) {
     s32 mode;
 
     source_position = source_data;
-    mode = ((S_8187BFE0_0 *)state_data)->unk_00.s;
+    mode = state_data->mode;
     *(s16 *)((u8 *)&point_cloud_update_flag) = 1;
 
     switch (mode) {
@@ -1250,28 +1229,28 @@ void initialize_star_effect_sequence(void *state_data, void *source_data) {
         do {
             angle_offset = (vertex_index << 12) / 5;
             ((S_8187BFE0_1 *)((u8 *)state_data + vertex_index * 2))->unk_1E =
-                (((S_8187BFE0_0 *)state_data)->unk_0A *
-                 rcos(((S_8187BFE0_0 *)state_data)->unk_0C + angle_offset)) >> 12;
+                (state_data->radius *
+                 rcos(state_data->base_angle + angle_offset)) >> 12;
             ((S_8187BFE0_1 *)((u8 *)state_data + vertex_index * 2))->unk_2A =
-                (((S_8187BFE0_0 *)state_data)->unk_0A *
-                 rsin(((S_8187BFE0_0 *)state_data)->unk_0C + angle_offset)) >> 12;
+                (state_data->radius *
+                 rsin(state_data->base_angle + angle_offset)) >> 12;
             vertex_index++;
         } while (vertex_index < 5);
 
-        ((S_8187BFE0_0 *)state_data)->unk_1C.s = 0;
-        ((S_8187BFE0_0 *)state_data)->unk_02.s = 0;
-        ((S_8187BFE0_0 *)state_data)->unk_00.u++;
+        state_data->edge_index = 0;
+        state_data->frame = 0;
+        state_data->mode = (u16) ((u16) state_data->mode + 1);
                         /* fallthrough */
     case 1:
-        if (((S_8187BFE0_0 *)state_data)->unk_02.s == 0) {
-            ((S_8187BFE0_0 *)state_data)->unk_02.u++;
+        if (state_data->frame == 0) {
+            state_data->frame = (u16) ((u16) state_data->frame + 1);
             node = allocate_flagged_object_node(0x212);
             if (node == 0) {
                 break;
             }
 
             edge_data = NODE_BODY(node);
-            edge_data->unk_02.s = 0x37 - (((S_8187BFE0_0 *)state_data)->unk_1C.s * 4);
+            edge_data->unk_02.s = 0x37 - (state_data->edge_index * 4);
             node->update_callback = advance_fading_effect_animation;
             register_node(node, decrement_object_counter);
 
@@ -1283,16 +1262,16 @@ void initialize_star_effect_sequence(void *state_data, void *source_data) {
             dest_position->y.w.i = source_position->y;
             dest_position->z.w.i = source_position->z;
 
-            switch (((S_8187BFE0_0 *)state_data)->unk_1C.s) {
+            switch (state_data->edge_index) {
             case 0:
                 edge_data->unk_58.u = edge_data->unk_5C =
-                    ((S_8187BFE0_0 *)state_data)->unk_1E;
+                    state_data->x[0];
                 edge_data->unk_5A = edge_data->unk_5E =
-                    ((S_8187BFE0_0 *)state_data)->unk_22;
+                    state_data->x[2];
                 edge_data->unk_60.u = edge_data->unk_64 =
-                    ((S_8187BFE0_0 *)state_data)->unk_2A;
+                    state_data->y[0];
                 {
-                    u16 next_coord = ((S_8187BFE0_0 *)state_data)->unk_2E;
+                    u16 next_coord = state_data->y[2];
 
                     edge_data->unk_68 = edge_data->unk_6A = 0;
                     edge_data->unk_6C = edge_data->unk_6E = 0x18;
@@ -1301,13 +1280,13 @@ void initialize_star_effect_sequence(void *state_data, void *source_data) {
                 break;
             case 1:
                 edge_data->unk_58.u = edge_data->unk_5C =
-                    ((S_8187BFE0_0 *)state_data)->unk_22;
+                    state_data->x[2];
                 edge_data->unk_5A = edge_data->unk_5E =
-                    ((S_8187BFE0_0 *)state_data)->unk_26;
+                    state_data->x[4];
                 edge_data->unk_60.u = edge_data->unk_64 =
-                    ((S_8187BFE0_0 *)state_data)->unk_2E;
+                    state_data->y[2];
                 {
-                    u16 next_coord = ((S_8187BFE0_0 *)state_data)->unk_32;
+                    u16 next_coord = state_data->y[4];
 
                     edge_data->unk_68 = edge_data->unk_6A = 0;
                     edge_data->unk_6C = edge_data->unk_6E = 0x18;
@@ -1316,13 +1295,13 @@ void initialize_star_effect_sequence(void *state_data, void *source_data) {
                 break;
             case 2:
                 edge_data->unk_58.u = edge_data->unk_5C =
-                    ((S_8187BFE0_0 *)state_data)->unk_26;
+                    state_data->x[4];
                 edge_data->unk_5A = edge_data->unk_5E =
-                    ((S_8187BFE0_0 *)state_data)->unk_20;
+                    state_data->x[1];
                 edge_data->unk_60.u = edge_data->unk_64 =
-                    ((S_8187BFE0_0 *)state_data)->unk_32;
+                    state_data->y[4];
                 {
-                    u16 next_coord = ((S_8187BFE0_0 *)state_data)->unk_2C;
+                    u16 next_coord = state_data->y[1];
 
                     edge_data->unk_68 = edge_data->unk_6A = 0;
                     edge_data->unk_6C = edge_data->unk_6E = 0x18;
@@ -1331,13 +1310,13 @@ void initialize_star_effect_sequence(void *state_data, void *source_data) {
                 break;
             case 3:
                 edge_data->unk_58.u = edge_data->unk_5C =
-                    ((S_8187BFE0_0 *)state_data)->unk_20;
+                    state_data->x[1];
                 edge_data->unk_5A = edge_data->unk_5E =
-                    ((S_8187BFE0_0 *)state_data)->unk_24;
+                    state_data->x[3];
                 edge_data->unk_60.u = edge_data->unk_64 =
-                    ((S_8187BFE0_0 *)state_data)->unk_2C;
+                    state_data->y[1];
                 {
-                    u16 next_coord = ((S_8187BFE0_0 *)state_data)->unk_30;
+                    u16 next_coord = state_data->y[3];
 
                     edge_data->unk_68 = edge_data->unk_6A = 0;
                     edge_data->unk_6C = edge_data->unk_6E = 0x18;
@@ -1346,13 +1325,13 @@ void initialize_star_effect_sequence(void *state_data, void *source_data) {
                 break;
             case 4:
                 edge_data->unk_58.u = edge_data->unk_5C =
-                    ((S_8187BFE0_0 *)state_data)->unk_24;
+                    state_data->x[3];
                 edge_data->unk_5A = edge_data->unk_5E =
-                    ((S_8187BFE0_0 *)state_data)->unk_1E;
+                    state_data->x[0];
                 edge_data->unk_60.u = edge_data->unk_64 =
-                    ((S_8187BFE0_0 *)state_data)->unk_30;
+                    state_data->y[3];
                 {
-                    u16 next_coord = ((S_8187BFE0_0 *)state_data)->unk_2A;
+                    u16 next_coord = state_data->y[0];
 
                     edge_data->unk_68 = edge_data->unk_6A = 0;
                     edge_data->unk_6C = edge_data->unk_6E = 0x18;
@@ -1392,12 +1371,12 @@ void initialize_star_effect_sequence(void *state_data, void *source_data) {
             sprite->source = (u8 *)edge_data + 0x44;
             return;
         } else {
-            ((S_8187BFE0_0 *)state_data)->unk_02.u++;
-            if (((S_8187BFE0_0 *)state_data)->unk_02.s >= 4) {
-                ((S_8187BFE0_0 *)state_data)->unk_02.s = 0;
-                ((S_8187BFE0_0 *)state_data)->unk_1C.u++;
-                if (((S_8187BFE0_0 *)state_data)->unk_1C.s >= 5) {
-                    (*(u16 *)((u8 *)state_data + -2)) |= NODE_REMOVE;
+            state_data->frame = (u16) ((u16) state_data->frame + 1);
+            if (state_data->frame >= 4) {
+                state_data->frame = 0;
+                state_data->edge_index = (u16) ((u16) state_data->edge_index + 1);
+                if (state_data->edge_index >= 5) {
+                    NODE_HEADER(state_data)->flags |= NODE_REMOVE;
                     object_flag_block.flags |= OBJECT_REMOVE_PENDING;
                 }
             }
@@ -1599,9 +1578,9 @@ void update_projectile_trail_and_hit_effect(ProjectileEffect *effect, ObjectPosi
             object = allocate_flagged_object_node(0x12);
             flash = NODE_BODY(object);
             if (object != 0) {
-                flash->unk_02.s = 8;
+                flash->remaining_ticks = 8;
                 flash->unk_04 = 8;
-                object->update_callback = create_object_offset;
+                object->update_callback = update_projectile_trail_flash;
                 register_node(object, project_sprite_chain);
 
                 spawn_sprite = object->sprite;

@@ -89,7 +89,7 @@ typedef struct S_818C29D4_7 {
 /* Builds and queues a shaded textured quad with texture-window commands. */
 s32 draw_shaded_textured_quad(S_818C29D4_6 *sprite, MovingPosition *position)
 {
-    u8 *scratch = (u8 *)0x1F800000;
+    S_818C29D4_2 *scratch = (S_818C29D4_2 *)0x1F800000;
     s32 angle;
     s32 axis_offset;
     s16 texture_v;
@@ -102,27 +102,27 @@ s32 draw_shaded_textured_quad(S_818C29D4_6 *sprite, MovingPosition *position)
     s32 page_x;
 
     angle = g_game_work.view.camera_rotation.parts.viewAngle;
-    ((S_818C29D4_2 *)scratch)->unk_18.p = ((Rec_D_80083160 *)((u8 *)(&g_game_work)))->unk_00.as_pu8 + 0xB0;
+    scratch->unk_18.p = ((Rec_D_80083160 *)((u8 *)(&g_game_work)))->unk_00.as_pu8 + 0xB0;
     axis_offset = ((rcos(angle) >> 4) * 36) >> 8;
     vertex_coord = position->x - axis_offset;
-    ((S_818C29D4_2 *)scratch)->unk_74 = vertex_coord;
-    ((S_818C29D4_2 *)scratch)->unk_64 = vertex_coord;
+    scratch->unk_74 = vertex_coord;
+    scratch->unk_64 = vertex_coord;
     vertex_coord = position->x + axis_offset;
-    ((S_818C29D4_2 *)scratch)->unk_7C = vertex_coord;
-    ((S_818C29D4_2 *)scratch)->unk_6C = vertex_coord;
+    scratch->unk_7C = vertex_coord;
+    scratch->unk_6C = vertex_coord;
     axis_offset = ((rsin(angle) >> 4) * 36) >> 8;
     vertex_coord = position->y + axis_offset;
-    ((S_818C29D4_2 *)scratch)->unk_76 = vertex_coord;
-    ((S_818C29D4_2 *)scratch)->unk_66 = vertex_coord;
+    scratch->unk_76 = vertex_coord;
+    scratch->unk_66 = vertex_coord;
     vertex_coord = position->y - axis_offset;
-    ((S_818C29D4_2 *)scratch)->unk_7E = vertex_coord;
-    ((S_818C29D4_2 *)scratch)->unk_6E = vertex_coord;
+    scratch->unk_7E = vertex_coord;
+    scratch->unk_6E = vertex_coord;
     vertex_coord = position->z - 0x80;
-    ((S_818C29D4_2 *)scratch)->unk_70 = vertex_coord;
-    ((S_818C29D4_2 *)scratch)->unk_68 = vertex_coord;
+    scratch->unk_70 = vertex_coord;
+    scratch->unk_68 = vertex_coord;
     vertex_coord = position->z;
-    ((S_818C29D4_2 *)scratch)->unk_78 = vertex_coord;
-    ((S_818C29D4_2 *)scratch)->unk_80 = vertex_coord;
+    scratch->unk_78 = vertex_coord;
+    scratch->unk_80 = vertex_coord;
     poly = ((S_818C29D4_7 *)(((Rec_D_80083160 *)((u8 *)(&g_game_work)))->unk_00.as_pu8))->unk_8D0.p;
     ((S_818C29D4_7 *)(((Rec_D_80083160 *)((u8 *)(&g_game_work)))->unk_00.as_pu8))->unk_8D0.p2 = (u8 *)poly + sizeof(*poly);
     ((S_818C29D4_5 *)poly)->unk_03 = 12;
@@ -143,19 +143,19 @@ s32 draw_shaded_textured_quad(S_818C29D4_6 *sprite, MovingPosition *position)
     poly->u2 = 0x3F; poly->v2 = texture_v + 0x3F;
     poly->u3 = 0; poly->v3 = texture_v + 0x3F;
     ot_index = RotAverage4(
-        scratch + 0x64, scratch + 0x6C, scratch + 0x74, scratch + 0x7C,
-        scratch + 0xD8, scratch + 0xDC, scratch + 0xE0, scratch + 0xE4,
-        scratch + 0x84, scratch + 0x88);
-    ((S_818C29D4_2 *)scratch)->unk_B4.v = ot_index;
-    poly->x0 = ((S_818C29D4_2 *)scratch)->unk_D8;
-    poly->y0 = ((S_818C29D4_2 *)scratch)->unk_DA;
-    poly->x1 = ((S_818C29D4_2 *)scratch)->unk_DC;
-    poly->y1 = ((S_818C29D4_2 *)scratch)->unk_DE;
-    poly->x2 = ((S_818C29D4_2 *)scratch)->unk_E0;
-    poly->y2 = ((S_818C29D4_2 *)scratch)->unk_E2;
-    poly->x3 = ((S_818C29D4_2 *)scratch)->unk_E4;
-    poly->y3 = ((S_818C29D4_2 *)scratch)->unk_E6;
-    if (((S_818C29D4_2 *)scratch)->unk_B4.n < 0x1E0U) {
+        (u8 *)scratch + 0x64, (u8 *)scratch + 0x6C, (u8 *)scratch + 0x74, (u8 *)scratch + 0x7C,
+        (u8 *)scratch + 0xD8, (u8 *)scratch + 0xDC, (u8 *)scratch + 0xE0, (u8 *)scratch + 0xE4,
+        (u8 *)scratch + 0x84, (u8 *)scratch + 0x88);
+    scratch->unk_B4.v = ot_index;
+    poly->x0 = scratch->unk_D8;
+    poly->y0 = scratch->unk_DA;
+    poly->x1 = scratch->unk_DC;
+    poly->y1 = scratch->unk_DE;
+    poly->x2 = scratch->unk_E0;
+    poly->y2 = scratch->unk_E2;
+    poly->x3 = scratch->unk_E4;
+    poly->y3 = scratch->unk_E6;
+    if (scratch->unk_B4.n < 0x1E0U) {
         u8 *draw_mode;
         u8 *draw_mode_2;
         s32 reset_depth;
@@ -171,16 +171,16 @@ s32 draw_shaded_textured_quad(S_818C29D4_6 *sprite, MovingPosition *position)
                      &texture_window);
         tex_depth = 0; blend_mode = 1; page_x = 0x280;
         { u32 *ot;
-            ot = (u32 *)((((S_818C29D4_2 *)scratch)->unk_B4.v << 2) + (u32)((S_818C29D4_2 *)scratch)->unk_18.p2);
+            ot = (u32 *)((scratch->unk_B4.v << 2) + (u32)scratch->unk_18.p2);
             ((Tag818C29D4 *)draw_mode)->addr = ((Tag818C29D4 *)ot)->addr; }
         { u32 *ot;
-            ot = (u32 *)((((S_818C29D4_2 *)scratch)->unk_B4.v << 2) + (u32)((S_818C29D4_2 *)scratch)->unk_18.p2);
+            ot = (u32 *)((scratch->unk_B4.v << 2) + (u32)scratch->unk_18.p2);
             ((Tag818C29D4 *)ot)->addr = (u32)draw_mode; }
         { u32 *ot;
-            ot = (u32 *)((((S_818C29D4_2 *)scratch)->unk_B4.v << 2) + (u32)((S_818C29D4_2 *)scratch)->unk_18.p2);
+            ot = (u32 *)((scratch->unk_B4.v << 2) + (u32)scratch->unk_18.p2);
             ((Tag818C29D4 *)poly)->addr = ((Tag818C29D4 *)ot)->addr; }
         { u32 *ot;
-            ot = (u32 *)((((S_818C29D4_2 *)scratch)->unk_B4.v << 2) + (u32)((S_818C29D4_2 *)scratch)->unk_18.p2);
+            ot = (u32 *)((scratch->unk_B4.v << 2) + (u32)scratch->unk_18.p2);
             ((Tag818C29D4 *)ot)->addr = (u32)poly; }
         texture_window.y = 0x80; texture_window.x = 0; texture_window.h = 0x40; texture_window.w = 0x40;
         draw_mode_2 = ((S_818C29D4_7 *)(((Rec_D_80083160 *)((u8 *)(&g_game_work)))->unk_00.as_pu8))->unk_8D0.p2;
@@ -188,10 +188,10 @@ s32 draw_shaded_textured_quad(S_818C29D4_6 *sprite, MovingPosition *position)
         SetDrawMode(draw_mode_2, 0, 0,
                      GetTPage(tex_depth, blend_mode, page_x, 0x100) & 0xFFFF, &texture_window);
         { u32 *ot;
-            ot = (u32 *)((((S_818C29D4_2 *)scratch)->unk_B4.v << 2) + (u32)((S_818C29D4_2 *)scratch)->unk_18.p2);
+            ot = (u32 *)((scratch->unk_B4.v << 2) + (u32)scratch->unk_18.p2);
             ((Tag818C29D4 *)draw_mode_2)->addr = ((Tag818C29D4 *)ot)->addr; }
         { u32 *ot;
-            ot = (u32 *)((((S_818C29D4_2 *)scratch)->unk_B4.v << 2) + (u32)((S_818C29D4_2 *)scratch)->unk_18.p2);
+            ot = (u32 *)((scratch->unk_B4.v << 2) + (u32)scratch->unk_18.p2);
             ((Tag818C29D4 *)ot)->addr = (u32)draw_mode_2; }
     }
     return 0;

@@ -295,19 +295,7 @@ typedef struct FuncInput {
 } FuncInput;
 
 
-typedef struct S_800B8830_0 {
-    void * unk_00;
-    void * unk_04;
-    void * unk_08;
-    s32 unk_0C;
-    u8 pad_10[0x10];
-    union { s16 s; u16 u; } unk_20;   /* accessed as both */
-    u8 pad_22[0x4];
-    union { s16 s; u16 u; } unk_26;   /* accessed as both */
-    u16 unk_28;
-    u8 pad_2A[0x8];
-    s16 unk_32;
-} S_800B8830_0;   /* arg0 in update_arcing_effect */
+
 
 typedef struct S_800B8830_1 {
     u8 pad_00[0xC];
@@ -366,17 +354,17 @@ typedef struct S_800B8830_10 {
     u8 pad_00[0x8];
     void * unk_08;
     void * unk_0C;
-} S_800B8830_10;   /* ((S_800B8830_0 *)arg0)->unk_00 in update_arcing_effect */
+} S_800B8830_10;   /* ArcingEffectBody->unk_00 in update_arcing_effect */
 
 
 typedef struct S_800B8830_12 {
     u8 pad_00[0x8];
     void * unk_08;
     void * unk_0C;
-} S_800B8830_12;   /* ((S_800B8830_0 *)arg0)->unk_04 in update_arcing_effect */
+} S_800B8830_12;   /* ArcingEffectBody->unk_04 in update_arcing_effect */
 
 /* Follows the source position, then moves along an arc to the target and marks completion. */
-void update_arcing_effect(void *motion, S_800B8830_3 *coords, S_800B8830_1 *render) {
+void update_arcing_effect(ArcingEffectBody *motion, S_800B8830_3 *coords, S_800B8830_1 *render) {
     ObjectNodeHeader *owner_node;
     ShortVec delta;
     s32 target_pos[3];
@@ -390,23 +378,23 @@ void update_arcing_effect(void *motion, S_800B8830_3 *coords, S_800B8830_1 *rend
     u16 counter;
 
     one = 1;
-    state = ((S_800B8830_0 *)motion)->unk_20.s;
+    state = motion->phase;
     switch (state) {
     case 0:
         render->unk_0C = render->unk_0D = render->unk_0E = 0x80;
         render_flags = render->unk_14;
         render->unk_1C = render->unk_1E = 0x1000;
         render->unk_14 = render_flags | 0xC;
-        register_node((u8 *)motion - 0x20, project_sprite_chain);
-        ((S_800B8830_0 *)motion)->unk_20.u++;
+        register_node(NODE_HEADER(motion), project_sprite_chain);
+        motion->phase = (s16)((u16)motion->phase + 1);
                 /* fallthrough */
     case 1:
-        source = ((S_800B8830_10 *)(((S_800B8830_0 *)motion)->unk_00))->unk_0C;
+        source = ((S_800B8830_10 *)(motion->unk_00))->unk_0C;
         if ((source->unk_14 & 0x8000) ||
             resolve_record_orientation_or_fallback(source->unk_08, source, &delta, 0) != NULL) {
             u16 source_z;
 
-            pos_record = ((S_800B8830_10 *)(((S_800B8830_0 *)motion)->unk_00))->unk_08;
+            pos_record = ((S_800B8830_10 *)(motion->unk_00))->unk_08;
             coords->unk_00.at02.v = pos_record->x;
             coords->unk_04.at02.v = pos_record->y;
             source_z = pos_record->z;
@@ -424,9 +412,9 @@ void update_arcing_effect(void *motion, S_800B8830_3 *coords, S_800B8830_1 *rend
             }
         }
 
-        if (((ObjectPosition *)(((S_800B8830_0 *)motion)->unk_08))->x.w.frac & 0x80) {
-            ((S_800B8830_0 *)motion)->unk_26.s = 9;
-            ((S_800B8830_0 *)motion)->unk_20.u++;
+        if (((ObjectPosition *)(motion->unk_08))->x.w.frac & 0x80) {
+            motion->arc_steps = 9;
+            motion->phase = (s16)((u16)motion->phase + 1);
         }
         break;
     case 2:
@@ -437,39 +425,39 @@ void update_arcing_effect(void *motion, S_800B8830_3 *coords, S_800B8830_1 *rend
         s32 start_y;
         s32 start_z;
 
-        pos_record = ((S_800B8830_12 *)(((S_800B8830_0 *)motion)->unk_04))->unk_08;
+        pos_record = ((S_800B8830_12 *)(motion->unk_04))->unk_08;
         start_x = coords->unk_00.at02u.v;
         start_y = coords->unk_04.at02u.v;
         start_z = coords->unk_08.at02u.v;
         target_pos[0] = ((S_800B8830_5 *)pos_record)->unk_00;
         target_pos[1] = ((S_800B8830_5 *)pos_record)->unk_04;
-        target_pos[2] = (((S_800B8830_0 *)motion)->unk_32 - 0x50) << 16;
+        target_pos[2] = (motion->unk_32 - 0x50) << 16;
 
         entry_addr = ((g_game_work.view.camera_rotation.parts.viewAngle +
                   primary_actor_record->facing + 0x100) >> 7) & 0x1C;
         entry_addr += (s32)actor_direction_sprites;
         entry = ((S_800B8830_8 *)((void *)entry_addr))->unk_00;
-        if (resolve_record_orientation_or_fallback(entry, ((S_800B8830_12 *)(((S_800B8830_0 *)motion)->unk_04))->unk_0C, &delta, 0) != NULL) {
+        if (resolve_record_orientation_or_fallback(entry, ((S_800B8830_12 *)(motion->unk_04))->unk_0C, &delta, 0) != NULL) {
             target_pos[0] += (s32)delta.x << 16;
             target_pos[1] += (s32)delta.y << 16;
             target_pos[2] += (s32)delta.z << 16;
         }
 
-        coords->unk_00.at00.v += (target_pos[0] - coords->unk_00.at00.v) / ((S_800B8830_0 *)motion)->unk_26.s;
-        coords->unk_04.at00.v += (target_pos[1] - coords->unk_04.at00.v) / ((S_800B8830_0 *)motion)->unk_26.s;
-        curve = rsin(((S_800B8830_0 *)motion)->unk_26.s * 170);
+        coords->unk_00.at00.v += (target_pos[0] - coords->unk_00.at00.v) / motion->arc_steps;
+        coords->unk_04.at00.v += (target_pos[1] - coords->unk_04.at00.v) / motion->arc_steps;
+        curve = rsin(motion->arc_steps * 170);
         coords->unk_08.at00.v +=
-            (target_pos[2] - coords->unk_08.at00.v) / ((S_800B8830_0 *)motion)->unk_26.s - (curve << 7);
+            (target_pos[2] - coords->unk_08.at00.v) / motion->arc_steps - (curve << 7);
 
         current_pos.unk0 = coords->unk_00.at02.v;
         current_pos.unk2 = coords->unk_04.at02.v;
         current_pos.unk4 = coords->unk_08.at02.v;
-        owner_node = motion - 0x20;
+        owner_node = NODE_HEADER(motion);
         create_attenuating_moving_effect(&owner_node->next, start_x, start_y, start_z, &current_pos,
-                      ((S_800B8830_0 *)motion)->unk_0C, 4, 0x1000, one);
+                      motion->unk_0C, 4, 0x1000, one);
 
-        counter = ((S_800B8830_0 *)motion)->unk_26.u - 1;
-        ((S_800B8830_0 *)motion)->unk_26.u = counter;
+        counter = (u16)motion->arc_steps - 1;
+        motion->arc_steps = (s16)counter;
         if ((s16)counter > 0) {
             break;
         }
@@ -487,11 +475,11 @@ void update_arcing_effect(void *motion, S_800B8830_3 *coords, S_800B8830_1 *rend
             flags_page = (void *)0x80080000;
             object_flags |= 0x8000;
             NODE_HEADER(motion)->flags = object_flags;
-            counter = ((S_800B8830_0 *)motion)->unk_20.u;
+            counter = (u16)motion->phase;
             final_flags = flags_page->unk_14A0;
             counter += 1;
             final_flags |= 0x8000;
-            ((S_800B8830_0 *)motion)->unk_20.u = counter;
+            motion->phase = (s16)counter;
             flags_page->unk_14A0 = final_flags;
         }
         return;
@@ -499,7 +487,7 @@ void update_arcing_effect(void *motion, S_800B8830_3 *coords, S_800B8830_1 *rend
     default:
         break;
     }
-    ((S_800B8830_0 *)motion)->unk_28++;
+    motion->unk_28++;
 }
 #include "common.h"
 #include "shared/object_node.h"
@@ -517,7 +505,7 @@ typedef struct Child {
 typedef struct Tail {
     void *owner;
     void *descriptor;
-    s32 value8;
+    u16 *value8;
     void *valueC;
     u8 pad10[0x22];
     u16 value32;
@@ -532,12 +520,12 @@ typedef struct Object_800B34C0 {
 } Object_800B34C0;
 
 struct S_800B8830_1;
-extern void update_arcing_effect(void *motion, S_800B8830_3 *coords, struct S_800B8830_1 *render);
+extern void update_arcing_effect(ArcingEffectBody *motion, S_800B8830_3 *coords, struct S_800B8830_1 *render);
 extern u8 D_800DF2F8[];
 extern u8 D_800DF334[];
 
 /* Create an object with default child and tail data when none are supplied. */
-void create_timed_model_effect(ObjectNodeHeader *owner, s32 value, void *child_data, void *tail_data)
+void create_timed_model_effect(ObjectNodeHeader *owner, u16 *context, void *child_data, void *tail_data)
 {
     Object_800B34C0 *object;
     Child *child;
@@ -578,7 +566,7 @@ void create_timed_model_effect(ObjectNodeHeader *owner, s32 value, void *child_d
         ((Tail *)object)->owner = owner;
         ((Tail *)object)->descriptor = descriptor;
         ((Tail *)object)->value32 = ((u16)header->ground_height);
-        ((Tail *)object)->value8 = value;
+        ((Tail *)object)->value8 = context;
     }
 }
 #include "common.h"
@@ -2573,37 +2561,22 @@ s32 draw_particle_effect_primitives(DungeonObject *object, u16 *position) {
 #include "common.h"
 #include "shared/object_flags.h"
 #include "m2c_compat.h"
+#include "dungeon/effect/screen/actor_linked_particle.h"
 
 s32 rand(void);                                /* extern */
 struct DungeonObject;
 extern s32 draw_particle_effect_primitives(struct DungeonObject *object, u16 *position);
 
 
-typedef struct S_800BAF04_0 {
-    u8 pad_00[0xA];
-    s16 unk_0A;
-    u8 pad_0C[0x2];
-    u16 unk_0E;
-    s8 unk_10;
-    u8 unk_11;
-    u8 pad_12[0x20];
-    u8 unk_32;
-} S_800BAF04_0;   /* arg0 in advance_particle_effect_state */
-
-typedef struct S_800BAF04_1 {
-    u8 pad_00[0x12];
-    s8 unk_12;
-} S_800BAF04_1;
-
 /* Initializes random values, advances counters, and flags the object when inactive. */
-void advance_particle_effect_state(void *object) {
+void advance_particle_effect_state(ActorLinkedParticleEffectBody *object) {
     s16 next_index;
     s16 state;
     s16 sample_index;
     u16 cycle_tick;
     u8 ramp_step;
 
-    state = ((S_800BAF04_0 *)object)->unk_0A;
+    state = object->unk_0A;
     if (state != 0) {
         if (state != 1) {
             return;
@@ -2611,29 +2584,29 @@ void advance_particle_effect_state(void *object) {
     } else {
         sample_index = 0;
         do {
-            ((S_800BAF04_1 *)((object + sample_index)))->unk_12 = (s8) (rand() & 0x1F);
+            object->particle_values[sample_index] = (s8) (rand() & 0x1F);
             next_index = sample_index + 1;
             sample_index = next_index;
         } while (next_index < 0x40);
-        ((S_800BAF04_0 *)object)->unk_0E = 0U;
-        ((S_800BAF04_0 *)object)->unk_10 = 0;
-        ((S_800BAF04_0 *)object)->unk_32 = 0U;
-        ((S_800BAF04_0 *)object)->unk_11 = 1U;
-        register_node(object - 0x20, draw_particle_effect_primitives);
-        ((S_800BAF04_0 *)object)->unk_0A = (s16) ((u16) ((S_800BAF04_0 *)object)->unk_0A + 1);
+        object->unk_0E = 0U;
+        object->unk_10 = 0;
+        object->particle_values[0x20] = 0U;
+        object->unk_11 = 1U;
+        register_node(NODE_HEADER(object), draw_particle_effect_primitives);
+        object->unk_0A = (s16) ((u16) object->unk_0A + 1);
     }
-    cycle_tick = ((S_800BAF04_0 *)object)->unk_0E + 1;
-    ((S_800BAF04_0 *)object)->unk_0E = cycle_tick;
+    cycle_tick = object->unk_0E + 1;
+    object->unk_0E = cycle_tick;
     if ((s16) cycle_tick >= 0x11) {
-        ((S_800BAF04_0 *)object)->unk_0E = 0U;
+        object->unk_0E = 0U;
     }
-    ramp_step = ((S_800BAF04_0 *)object)->unk_32 + 1;
-    ((S_800BAF04_0 *)object)->unk_32 = ramp_step;
+    ramp_step = object->particle_values[0x20] + 1;
+    object->particle_values[0x20] = ramp_step;
     if ((s8) ramp_step >= 0x21) {
-        ((S_800BAF04_0 *)object)->unk_32 = 0x20U;
-        ((S_800BAF04_0 *)object)->unk_10 = 1;
+        object->particle_values[0x20] = 0x20U;
+        object->unk_10 = 1;
     }
-    if (((S_800BAF04_0 *)object)->unk_11 == 0) {
+    if (object->unk_11 == 0) {
         NODE_HEADER(object)->flags = (u16) (NODE_HEADER(object)->flags | 0x8000);
         object_flag_block.flags |= OBJECT_REMOVE_PENDING;
     }
@@ -2657,7 +2630,7 @@ typedef struct S_800BB044_1 {
     u16 unk_42;
 } S_800BB044_1;   /* arg0 in create_actor_linked_effect; pointer addresses record offset 0x18 */
 
-extern void advance_particle_effect_state(void *object);
+extern void advance_particle_effect_state(ActorLinkedParticleEffectBody *object);
 
 /* Creates an object linked to the source data and copies its record fields. */
 void create_actor_linked_effect(ActorRecord *source_data) {

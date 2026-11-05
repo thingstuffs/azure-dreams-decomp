@@ -163,7 +163,7 @@ void project_textured_quad_or_callback(void *quad_arg, ObjectPosition *position,
 {
     S_81874988_4 *quad = quad_arg;
     u8 *render_state = g_game_work.draw_buffer;
-    u8 *scratch = (u8 *)0x1F800000;
+    S_81874988_0 *scratch = (S_81874988_0 *)0x1F800000;
     u8 *packet;
     u32 tex_attr;
     u8 *texture;
@@ -174,10 +174,10 @@ void project_textured_quad_or_callback(void *quad_arg, ObjectPosition *position,
     u8 tex_flags;
     MATRIX view_matrix;
 
-    ((S_81874988_0 *)scratch)->unk_24.p = render_state + 0xB0;
-    ((S_81874988_0 *)scratch)->unk_88 = position->x.w.i;
-    ((S_81874988_0 *)scratch)->unk_8C = position->y.w.i;
-    ((S_81874988_0 *)scratch)->unk_90 = position->z.w.i;
+    scratch->unk_24.p = render_state + 0xB0;
+    scratch->unk_88 = position->x.w.i;
+    scratch->unk_8C = position->y.w.i;
+    scratch->unk_90 = position->z.w.i;
 
     packet = ((GpuContext *)render_state)->packetCursor;
     ((GpuContext *)render_state)->packetCursor = packet + 0x28;
@@ -185,47 +185,47 @@ void project_textured_quad_or_callback(void *quad_arg, ObjectPosition *position,
     material->flags |= 0x8000;
     PushMatrix();
 
-    ((S_81874988_0 *)scratch)->unk_3C = 0x2000;
-    ((S_81874988_0 *)scratch)->unk_38 = 0x2000;
-    ((S_81874988_0 *)scratch)->unk_34 = 0x2000;
-    ((S_81874988_0 *)scratch)->unk_A4 = material->angle_x;
-    ((S_81874988_0 *)scratch)->unk_A8 = material->angle_z;
-    ((S_81874988_0 *)scratch)->unk_A6 = material->angle_y;
-    RotMatrix(scratch + 0xA4, scratch + 0x74);
+    scratch->unk_3C = 0x2000;
+    scratch->unk_38 = 0x2000;
+    scratch->unk_34 = 0x2000;
+    scratch->unk_A4 = material->angle_x;
+    scratch->unk_A8 = material->angle_z;
+    scratch->unk_A6 = material->angle_y;
+    RotMatrix((u8 *)scratch + 0xA4, (u8 *)scratch + 0x74);
     ReadRotMatrix(&view_matrix);
-    CompMatrix(&view_matrix, scratch + 0x74, scratch + 0x54);
-    ScaleMatrix(scratch + 0x54, scratch + 0x34);
-    SetTransMatrix(scratch + 0x54);
-    SetRotMatrix(scratch + 0x54);
+    CompMatrix(&view_matrix, (u8 *)scratch + 0x74, (u8 *)scratch + 0x54);
+    ScaleMatrix((u8 *)scratch + 0x54, (u8 *)scratch + 0x34);
+    SetTransMatrix((u8 *)scratch + 0x54);
+    SetRotMatrix((u8 *)scratch + 0x54);
 
     texture = material->source;
-    ((S_81874988_0 *)scratch)->unk_28 = material->flags;
+    scratch->unk_28 = material->flags;
 
     if (!(texture[0] & 0x20)) {
-        ((S_81874988_0 *)scratch)->unk_0C = texture[8];
-        ((S_81874988_0 *)scratch)->unk_10 = texture[9];
-        ((S_81874988_0 *)scratch)->unk_14 = texture[0xA];
-        ((S_81874988_0 *)scratch)->unk_18 = texture[0xB];
+        scratch->unk_0C = texture[8];
+        scratch->unk_10 = texture[9];
+        scratch->unk_14 = texture[0xA];
+        scratch->unk_18 = texture[0xB];
 
-        ((S_81874988_0 *)scratch)->unk_B0 = quad->unk_50;
-        ((S_81874988_0 *)scratch)->unk_B8 = quad->unk_52;
-        ((S_81874988_0 *)scratch)->unk_C0 = quad->unk_54;
-        ((S_81874988_0 *)scratch)->unk_C8 = quad->unk_56;
-        ((S_81874988_0 *)scratch)->unk_B2 = quad->unk_58;
-        ((S_81874988_0 *)scratch)->unk_BA = quad->unk_5A;
-        ((S_81874988_0 *)scratch)->unk_C2 = quad->unk_5C;
-        ((S_81874988_0 *)scratch)->unk_CA = quad->unk_5E;
-        ((S_81874988_0 *)scratch)->unk_B4 = quad->unk_60;
-        ((S_81874988_0 *)scratch)->unk_BC = quad->unk_62;
-        ((S_81874988_0 *)scratch)->unk_C4 = quad->unk_64;
-        ((S_81874988_0 *)scratch)->unk_CC = quad->unk_66;
+        scratch->unk_B0 = quad->unk_50;
+        scratch->unk_B8 = quad->unk_52;
+        scratch->unk_C0 = quad->unk_54;
+        scratch->unk_C8 = quad->unk_56;
+        scratch->unk_B2 = quad->unk_58;
+        scratch->unk_BA = quad->unk_5A;
+        scratch->unk_C2 = quad->unk_5C;
+        scratch->unk_CA = quad->unk_5E;
+        scratch->unk_B4 = quad->unk_60;
+        scratch->unk_BC = quad->unk_62;
+        scratch->unk_C4 = quad->unk_64;
+        scratch->unk_CC = quad->unk_66;
 
-        depth_index = RotAverage4(scratch + 0xB0, scratch + 0xB8,
-                              scratch + 0xC0, scratch + 0xC8,
+        depth_index = RotAverage4((u8 *)scratch + 0xB0, (u8 *)scratch + 0xB8,
+                              (u8 *)scratch + 0xC0, (u8 *)scratch + 0xC8,
                               packet + 8, packet + 0x10,
                               packet + 0x18, packet + 0x20,
-                              scratch + 0xD0, scratch + 0xD4) - depth_bias - 6;
-        ((S_81874988_0 *)scratch)->unk_100 = depth_index;
+                              (u8 *)scratch + 0xD0, (u8 *)scratch + 0xD4) - depth_bias - 6;
+        scratch->unk_100 = depth_index;
 
         if ((u32)depth_index < 0x1E0) {
             if (
@@ -242,20 +242,20 @@ void project_textured_quad_or_callback(void *quad_arg, ObjectPosition *position,
                 ((S_81874988_5 *)packet)->unk_04.at03.v = 0x2C;
                 material->flags &= 0x7FFF;
 
-                ((S_81874988_0 *)scratch)->unk_14 += ((S_81874988_0 *)scratch)->unk_0C;
-                if (((S_81874988_0 *)scratch)->unk_14 & 0x100) {
-                    ((S_81874988_0 *)scratch)->unk_14--;
+                scratch->unk_14 += scratch->unk_0C;
+                if (scratch->unk_14 & 0x100) {
+                    scratch->unk_14--;
                 }
-                ((S_81874988_0 *)scratch)->unk_18 += ((S_81874988_0 *)scratch)->unk_10;
-                if (((S_81874988_0 *)scratch)->unk_18 & 0x100) {
-                    ((S_81874988_0 *)scratch)->unk_18--;
+                scratch->unk_18 += scratch->unk_10;
+                if (scratch->unk_18 & 0x100) {
+                    scratch->unk_18--;
                 }
-                ((S_81874988_0 *)scratch)->unk_10 <<= 8;
-                ((S_81874988_0 *)scratch)->unk_18 <<= 8;
+                scratch->unk_10 <<= 8;
+                scratch->unk_18 <<= 8;
 
                 tex_adjust = material->clut;
                 if (tex_adjust) {
-                    if (((S_81874988_0 *)scratch)->unk_28 & 0x100) {
+                    if (scratch->unk_28 & 0x100) {
                         ((S_81874988_5 *)packet)->unk_0E = tex_adjust;
                     } else {
                         tex_attr = tex_adjust + (*(u16 *)(texture + 6));
@@ -265,10 +265,10 @@ void project_textured_quad_or_callback(void *quad_arg, ObjectPosition *position,
                     (*(u16 *)(packet + 0xE)) = (*(u16 *)(texture + 6));
                 }
 
-                (*(u16 *)(packet + 0xC)) = (*(u16 *)(scratch + 0x10)) +
-                                          (*(u16 *)(scratch + 0xC));
-                ((S_81874988_5 *)packet)->unk_14.u16 = (*(u16 *)(scratch + 0x10)) +
-                                           (*(u16 *)(scratch + 0x14));
+                (*(u16 *)(packet + 0xC)) = (*(u16 *)((u8 *)scratch + 0x10)) +
+                                          (*(u16 *)((u8 *)scratch + 0xC));
+                ((S_81874988_5 *)packet)->unk_14.u16 = (*(u16 *)((u8 *)scratch + 0x10)) +
+                                           (*(u16 *)((u8 *)scratch + 0x14));
 
                 tex_adjust = material->tpage_abr;
                 if (tex_adjust) {
@@ -278,10 +278,10 @@ void project_textured_quad_or_callback(void *quad_arg, ObjectPosition *position,
                     (*(u16 *)(packet + 0x16)) = (*(u16 *)(texture + 4));
                 }
 
-                ((S_81874988_5 *)packet)->unk_1C.at00.v = (*(u16 *)(scratch + 0x18)) +
-                                           (*(u16 *)(scratch + 0xC));
-                ((S_81874988_5 *)packet)->unk_24.at00.v = (*(u16 *)(scratch + 0x18)) +
-                                           (*(u16 *)(scratch + 0x14));
+                ((S_81874988_5 *)packet)->unk_1C.at00.v = (*(u16 *)((u8 *)scratch + 0x18)) +
+                                           (*(u16 *)((u8 *)scratch + 0xC));
+                ((S_81874988_5 *)packet)->unk_24.at00.v = (*(u16 *)((u8 *)scratch + 0x18)) +
+                                           (*(u16 *)((u8 *)scratch + 0x14));
 
                 if (((S_81874988_5 *)packet)->unk_08.s > ((S_81874988_5 *)packet)->unk_20.s) {
                     ((S_81874988_5 *)packet)->unk_14.u8--;
@@ -294,7 +294,7 @@ void project_textured_quad_or_callback(void *quad_arg, ObjectPosition *position,
 
                 tex_flags = texture[1];
                 material->color.c.code = tex_flags;
-                draw_flags = ((S_81874988_0 *)scratch)->unk_28;
+                draw_flags = scratch->unk_28;
                 if (draw_flags & 8) {
                     material->color.c.code = (draw_flags & 4) ?
                         (tex_flags | 2) : (tex_flags & 0xFD);
@@ -302,11 +302,11 @@ void project_textured_quad_or_callback(void *quad_arg, ObjectPosition *position,
 
                 ((S_81874988_5 *)packet)->unk_04.at00.v = ((u32)(material->color.word));
                 ((S_81874988_5 *)packet)->unk_00.at00.v = (((S_81874988_5 *)packet)->unk_00.at00.v & 0xFF000000) |
-                    ((*(u32 *)((u8 *)(((S_81874988_0 *)scratch)->unk_24.p2)
-                        + ((S_81874988_0 *)scratch)->unk_100 * 4)) & 0x00FFFFFF);
-                (*(u32 *)((u8 *)(((S_81874988_0 *)scratch)->unk_24.p2) + ((S_81874988_0 *)scratch)->unk_100 * 4)) =
-                    ((*(u32 *)((u8 *)(((S_81874988_0 *)scratch)->unk_24.p2)
-                        + ((S_81874988_0 *)scratch)->unk_100 * 4)) & 0xFF000000) |
+                    ((*(u32 *)((u8 *)(scratch->unk_24.p2)
+                        + scratch->unk_100 * 4)) & 0x00FFFFFF);
+                (*(u32 *)((u8 *)(scratch->unk_24.p2) + scratch->unk_100 * 4)) =
+                    ((*(u32 *)((u8 *)(scratch->unk_24.p2)
+                        + scratch->unk_100 * 4)) & 0xFF000000) |
                     ((u32)packet & 0x00FFFFFF);
             }
         }

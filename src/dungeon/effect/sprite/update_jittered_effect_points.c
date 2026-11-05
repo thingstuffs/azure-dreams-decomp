@@ -6,7 +6,7 @@
 #include "dungeon/effect/sprite.h"
 #include "shared/dungeon_projectile_views.h"
 #include "dungeon/effect/sprite/intermediate_point_effect.h"
-#include "dungeon/effect/sprite/jittered_trail_segment.h"
+#include "dungeon/effect/sprite/jittered_bolt_segment.h"
 #include "shared/object_node.h"
 #include "shared/tile_object.h"
 #include "shared/slus_callbacks.h"
@@ -28,16 +28,6 @@ typedef struct AttackSequenceController {
     union { s16 s; u16 u; } unk_52;
 } AttackSequenceController;
 
-typedef struct S_func_819A6800_2 {
-    u8 pad_00[8];
-    void *unk_08;
-    void *unk_0C;
-    void *unk_10;
-    u8 pad_14[0x0C];
-    void *unk_20;
-    u8 unk_24;
-    u8 unk_25;
-} S_func_819A6800_2;
 
 typedef struct S_func_819A6800_3 {
     u8 pad_00[0x60];
@@ -59,23 +49,6 @@ typedef struct S_func_819A6800_4 {
     u8 unk_102;
 } S_func_819A6800_4;
 
-typedef struct S_func_819A6800_5 {
-    union {
-        u32 u;
-        s32 s;
-        struct { u8 pad_00[2]; u16 unk_02; } h;
-    } unk_00;
-    union {
-        u32 u;
-        s32 s;
-        struct { u8 pad_04[2]; u16 unk_06; } h;
-    } unk_04;
-    union {
-        u32 u;
-        s32 s;
-        struct { u8 pad_08[2]; u16 unk_0A; } h;
-    } unk_08;
-} S_func_819A6800_5;
 
 typedef struct S_func_819A6800_6 {
     u16 unk_00;
@@ -124,14 +97,15 @@ void (*const dungeon_19c6800_entry)(void *, void *) = run_jittered_point_sequenc
 /* Runs a timed object creation sequence with visual effects and final cleanup. */
 void run_jittered_point_sequence(AttackSequenceController *sequence, void *out_position_arg)
 {
-    S_func_819A6800_5 *out_position = out_position_arg;
+    ObjectPosition *out_position = out_position_arg;
     S_func_819A6800_3 *owner = sequence->unk_00;
     SpriteFrameState *owner_sprite = NODE_HEADER(owner)->sprite;
-    S_func_819A6800_2 *record;
+    ObjectNodeHeader *record;
     ObjectNodeHeader *owner_object = NODE_HEADER(owner);
     u16 timer;
     s32 state;
-    S_func_819A6800_2 *new_object;
+    ObjectNodeHeader *new_object;
+    void *target_body;
     S_func_819A6800_4 *counter_object;
     s16 position_offset[3];
     S_func_819A6800_7 *effect_data;
@@ -151,21 +125,21 @@ void run_jittered_point_sequence(AttackSequenceController *sequence, void *out_p
         reloaded_object = *(void **)global_slot;
         reloaded_object->unk_F4 = 0;
 
-        out_position->unk_00.u = ((S_func_819A6800_5 *)(owner_object->position))->unk_00.u;
-        out_position->unk_04.u = ((S_func_819A6800_5 *)(owner_object->position))->unk_04.u;
-        out_position->unk_08.u = ((S_func_819A6800_5 *)(owner_object->position))->unk_08.u;
+        out_position->x.v = owner_object->position->x.v;
+        out_position->y.v = owner_object->position->y.v;
+        out_position->z.v = owner_object->position->z.v;
 
-        new_object = scan_actor_along_heading(&reloaded_object->actor,
+        target_body = scan_actor_along_heading(&reloaded_object->actor,
                                    reference_tile_object.tile_position.parts.tile_x,
                                    reference_tile_object.tile_position.parts.tile_y,
                                    reloaded_object->actor.facing,
                                    7);
-        owner->unk_60.p = new_object;
-        if (new_object == 0) {
+        owner->unk_60.p = target_body;
+        if (target_body == 0) {
             owner->unk_72 = owner_sprite->tile_x;
             owner->unk_73 = owner_sprite->tile_y;
         } else {
-            sprite = NODE_HEADER(new_object)->sprite;
+            sprite = NODE_HEADER(target_body)->sprite;
             owner->unk_72 = sprite->tile_x;
             owner->unk_73 = sprite->tile_y;
         }
@@ -189,21 +163,21 @@ void run_jittered_point_sequence(AttackSequenceController *sequence, void *out_p
                 position_offset[1] = 0;
                 position_offset[0] = 0;
             }
-            record->unk_10 = advance_target_chasing_emitter;
+            record->update_callback = advance_target_chasing_emitter;
             register_node(record, project_sprite_chain);
-            sprite = record->unk_0C;
+            sprite = record->sprite;
 
-            (((ObjectPosition *)record->unk_08))->x.v =
-                ((S_func_819A6800_5 *)(owner_object->position))->unk_00.s + ((s32)position_offset[0] << 16);
-            (((ObjectPosition *)record->unk_08))->y.v =
-                ((S_func_819A6800_5 *)(owner_object->position))->unk_04.s + ((s32)position_offset[1] << 16);
-            (((ObjectPosition *)record->unk_08))->z.v =
-                ((S_func_819A6800_5 *)(owner_object->position))->unk_08.s + ((s32)position_offset[2] << 16);
+            record->position->x.v =
+                owner_object->position->x.v + ((s32)position_offset[0] << 16);
+            record->position->y.v =
+                owner_object->position->y.v + ((s32)position_offset[1] << 16);
+            record->position->z.v =
+                owner_object->position->z.v + ((s32)position_offset[2] << 16);
 
-            effect_data = (S_func_819A6800_7 *)((u8 *)record + 0x20);
-            effect_data->unk_0C = *(u16 *)&(((ObjectPosition *)record->unk_08))->x.w.i;
-            effect_data->unk_0E = *(u16 *)&(((ObjectPosition *)record->unk_08))->y.w.i;
-            effect_data->unk_10 = *(u16 *)&(((ObjectPosition *)record->unk_08))->z.w.i;
+            effect_data = NODE_BODY(record);
+            effect_data->unk_0C = (u16)record->position->x.w.i;
+            effect_data->unk_0E = (u16)record->position->y.w.i;
+            effect_data->unk_10 = (u16)record->position->z.w.i;
 
             sprite->scale_y = 0x1000;
             sprite->scale_x = 0x1000;
@@ -214,7 +188,7 @@ void run_jittered_point_sequence(AttackSequenceController *sequence, void *out_p
             sprite->unk_04 = 0;
             sprite->frame_ticks = 0;
             sprite->color.word = 0x00606060;
-            record->unk_20 = sequence;
+            ((JitteredPointSequenceBody *)NODE_BODY(record))->unk_00 = sequence;
             effect_data->unk_4C = 0;
         }
         sequence->unk_0A.u++;
@@ -249,9 +223,9 @@ void run_jittered_point_sequence(AttackSequenceController *sequence, void *out_p
             if (owner->unk_60.p != 0) {
                 record = allocate_list_node(0x302, &scene_object_list_anchor.next);
                 if (record != 0) {
-                    JitteredBoltSegmentBody *child_data = NODE_BODY((ObjectNodeHeader *)record);
+                    JitteredBoltSegmentBody *child_data = NODE_BODY(record);
                     void *target_object;
-                    record->unk_10 = update_jittered_effect_points;
+                    record->update_callback = update_jittered_effect_points;
                     register_node(record, update_segment);
                     target_object = owner->unk_60.p;
                     child_data->unk_3C = 0;
@@ -262,7 +236,7 @@ void run_jittered_point_sequence(AttackSequenceController *sequence, void *out_p
                     child_data->unk_40 = GetTPage(0, 1, 0x2C0, 0x100);
                     child_data->unk_42 = GetClut(0x60, 0x1F8);
                     child_data->unk_38 = 0x00404040;
-                    record->unk_20 = sequence;
+                    child_data->owner = sequence;
                 }
             }
         }
@@ -390,8 +364,8 @@ void advance_target_chasing_emitter(void *object, S_800244BC_2 *position, Sprite
                 effect_data = NODE_BODY(effect);
                 if (effect != 0) {
                     effect->update_callback = update_randomized_intermediate_points;
-                    effect_data->unk_3C.s = 0;
-                    effect_data->unk_3E.s = (s16) ((rand() & 3) + 2);
+                    effect_data->unk_3C = 0;
+                    effect_data->unk_3E = (u16)(s16) ((rand() & 3) + 2);
                     effect_data->unk_32 = 0x1F;
                     effect_data->unk_30 = 0x1F;
                     effect_data->unk_40 = GetTPage(0, 1, 0x2C0, 0x100);
@@ -696,9 +670,9 @@ void update_randomized_intermediate_points(IntermediatePointEffectBody *self)
         point_index++;
     } while (point_index < 4);
 
-    self->unk_2C = ((self->unk_3E.u & 3) << 5) + 0x80;
-    state = self->unk_3C.s;
-    self->unk_2E = ((s16)self->unk_3E.u >> 2) << 5;
+    self->unk_2C = ((self->unk_3E & 3) << 5) + 0x80;
+    state = self->unk_3C;
+    self->unk_2E = ((s16)self->unk_3E >> 2) << 5;
 
     switch (state) {
     case 0:
@@ -707,10 +681,10 @@ void update_randomized_intermediate_points(IntermediatePointEffectBody *self)
 
         register_node(object_base, message);
     case 1:
-        self->unk_3E.u = (rand() & 3) + 2;
+        self->unk_3E = (rand() & 3) + 2;
         self->unk_38 += 0xFFF7F7F8;
         self->unk_42 = GetClut((rand() & 0xF) << 4, 0x1F8);
-        self->unk_3C.u++;
+        self->unk_3C = (s16)((u16)self->unk_3C + 1);
         return;
     case 2:
         NODE_HEADER(self)->flags |= 0x8000;

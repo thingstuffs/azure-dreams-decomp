@@ -3,6 +3,7 @@
 struct ScatterLandingSparksOnGridBody;
 struct LayeredSpritePulseBody;
 struct ProjectileBurstImpactBody;
+struct ScatteredTimedEffectBody;
 #include "common.h"
 #include "shared/entity.h"
 #include "shared/sprite_frame_state.h"
@@ -78,7 +79,7 @@ typedef struct DirectionalParticleChainBody {
     s32 unk_60;
 } DirectionalParticleChainBody;
 void update_spark_emitter_effect(DirectionalParticleChainBody *effect, ObjectPosition *position);
-void update_timed_effect_animation(void *effect, ObjectPosition *motion, SpriteFrameState *visual);
+void update_timed_effect_animation(struct ScatteredTimedEffectBody *effect, ObjectPosition *motion, SpriteFrameState *visual);
 
 struct DirectionalEffectWork;
 void update_directional_actor_effect(struct DirectionalEffectWork *effect, ObjectPosition *motion, void *context);
@@ -94,7 +95,7 @@ typedef struct ColorCyclingPulseBody {
     u8 pad_1A[0x2];
     u16 phase_index;
 } ColorCyclingPulseBody;
-void update_color_cycling_pulse(ColorCyclingPulseBody *state_data, void *unused, void *color);
+void update_color_cycling_pulse(ColorCyclingPulseBody *state_data, void *unused, SpriteFrameState *color);
 void update_reverse_rotating_clipped_sprite(RotatingClippedSpriteBody *effect, ObjectPosition *unused, void *rotation);
 void update_staged_particle_emitter(void *effect_data);
 
@@ -171,7 +172,7 @@ typedef struct EightPartTexturedRibbonBody {
     s16 unk_1C;
     s16 unk_1E;
     u8 pad_20[0x4];
-    s32 unk_24;
+    ObjectPosition *unk_24;
     u8 pad_28[0x34];
     union { s32 s; s32 u; } unk_5C;
     s32 unk_60;
@@ -275,5 +276,5 @@ void draw_textured_sphere_mesh(void *mesh, void *position, void *material, u16 d
 void project_textured_quad_or_callback(void *quad_arg, ObjectPosition *position, SpriteFrameState *material, s16 depth_bias);
 struct TargetParticleStatusSpellBody;
 void update_animated_effect_sprite(struct TargetParticleStatusSpellBody *effect, ObjectPosition *entity, SpriteFrameState *sprite);
-void create_eight_part_textured_ribbon(ActorRecord *source, void *origin, SpriteFrameState *unused, s32 effect_value);
+void create_eight_part_textured_ribbon(ActorRecord *source, void *origin, SpriteFrameState *unused, ObjectPosition *effect_position);
 #endif

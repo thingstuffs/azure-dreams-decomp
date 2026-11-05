@@ -74,8 +74,9 @@ struct StarEdgeEffectBody;
 void advance_fading_effect_animation(struct StarEdgeEffectBody *effect_data, struct ObjectPosition *unused_arg, void *color_data);
 struct S_8187BE9C_1;
 struct ProjectileTrailFlashBody;
-void create_object_offset(struct ProjectileTrailFlashBody *effect, s32 unused, struct S_8187BE9C_1 *primitive);
+void update_projectile_trail_flash(struct ProjectileTrailFlashBody *effect, s32 unused, struct S_8187BE9C_1 *primitive);
 s32 decrement_object_counter(void *record, void *context, void *data);
 s32 project_shaded_points_to_ordering_table(u8 *points, u8 *position, u8 *orientation);
-void initialize_star_effect_sequence(void *state_data, void *source_data);
+struct StarSequenceBody;
+void initialize_star_effect_sequence(struct StarSequenceBody *state_data, void *source_data);
 #endif

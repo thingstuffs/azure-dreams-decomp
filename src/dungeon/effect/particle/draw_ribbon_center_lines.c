@@ -72,7 +72,7 @@ typedef struct {
 /* Project edge midpoints and queue line and draw-mode packets in the ordering table. */
 void draw_ribbon_center_lines(RibbonLineGeometry *geometry, ObjectPosition *position, SpriteFrameState *render_data, s32 depth_bias)
 {
-    u8 *scratch = (u8 *)0x1F800000;
+    S_80166968_0 *scratch = (S_80166968_0 *)0x1F800000;
     u8 *render_state = g_game_work.draw_buffer;
     u32 draw_flags;
     void **render_state_ref;
@@ -97,67 +97,67 @@ void draw_ribbon_center_lines(RibbonLineGeometry *geometry, ObjectPosition *posi
     s32 saved_depth_bias;
     MATRIX matrix;
 
-    ((S_80166968_0 *)scratch)->unk_24 = render_state + 0xB0;
+    scratch->unk_24 = render_state + 0xB0;
     address_mask = 0x00FFFFFF;
-    ((S_80166968_0 *)scratch)->unk_88 = position->x.w.i;
-    ((S_80166968_0 *)scratch)->unk_8C = position->y.w.i;
+    scratch->unk_88 = position->x.w.i;
+    scratch->unk_8C = position->y.w.i;
     saved_depth_bias = depth_bias;
-    ((S_80166968_0 *)scratch)->unk_90 = position->z.w.i;
+    scratch->unk_90 = position->z.w.i;
     render_data->flags |= 0x8000;
     render_state_ref = &g_game_work.draw_buffer;
     PushMatrix();
 
-    ((S_80166968_0 *)scratch)->unk_3C = 0x2000;
-    ((S_80166968_0 *)scratch)->unk_38 = 0x2000;
-    ((S_80166968_0 *)scratch)->unk_34 = 0x2000;
-    ((S_80166968_0 *)scratch)->unk_A4 = render_data->angle_x;
-    ((S_80166968_0 *)scratch)->unk_A8 = render_data->angle_z;
-    ((S_80166968_0 *)scratch)->unk_A6 = render_data->angle_y;
-    RotMatrix(scratch + 0xA4, scratch + 0x74);
+    scratch->unk_3C = 0x2000;
+    scratch->unk_38 = 0x2000;
+    scratch->unk_34 = 0x2000;
+    scratch->unk_A4 = render_data->angle_x;
+    scratch->unk_A8 = render_data->angle_z;
+    scratch->unk_A6 = render_data->angle_y;
+    RotMatrix((u8 *)scratch + 0xA4, (u8 *)scratch + 0x74);
     ReadRotMatrix(&matrix);
-    CompMatrix(&matrix, scratch + 0x74, scratch + 0x54);
-    ScaleMatrix(scratch + 0x54, scratch + 0x34);
-    SetTransMatrix(scratch + 0x54);
-    SetRotMatrix(scratch + 0x54);
+    CompMatrix(&matrix, (u8 *)scratch + 0x74, (u8 *)scratch + 0x54);
+    ScaleMatrix((u8 *)scratch + 0x54, (u8 *)scratch + 0x34);
+    SetTransMatrix((u8 *)scratch + 0x54);
+    SetRotMatrix((u8 *)scratch + 0x54);
 
     texture_entry = render_data->source;
     length_mask = 0xFF000000;
-    ((S_80166968_0 *)scratch)->unk_28 = render_data->flags;
+    scratch->unk_28 = render_data->flags;
 
     for (;;) {
         packet = ((GpuContext *)(*render_state_ref))->packetCursor;
         ((GpuContext *)(*render_state_ref))->packetCursor = packet + 0x10;
 
-        point_a = scratch + 0xB0;
+        point_a = (u8 *)scratch + 0xB0;
         mid_a_x = (geometry->unk_74 + geometry->unk_7A) / 2;
-        ((S_80166968_0 *)scratch)->unk_C0 = mid_a_x;
-        ((S_80166968_0 *)scratch)->unk_B0 = mid_a_x;
-        point_b = scratch + 0xB8;
+        scratch->unk_C0 = mid_a_x;
+        scratch->unk_B0 = mid_a_x;
+        point_b = (u8 *)scratch + 0xB8;
         mid_b_x = (geometry->unk_80 + geometry->unk_86) / 2;
-        ((S_80166968_0 *)scratch)->unk_C8 = mid_b_x;
-        ((S_80166968_0 *)scratch)->unk_B8 = mid_b_x;
-        point_a_copy = scratch + 0xC0;
+        scratch->unk_C8 = mid_b_x;
+        scratch->unk_B8 = mid_b_x;
+        point_a_copy = (u8 *)scratch + 0xC0;
         mid_a_y = (geometry->unk_76 + geometry->unk_7C) / 2;
-        ((S_80166968_0 *)scratch)->unk_C2 = mid_a_y;
-        ((S_80166968_0 *)scratch)->unk_B2 = mid_a_y;
-        point_b_copy = scratch + 0xC8;
+        scratch->unk_C2 = mid_a_y;
+        scratch->unk_B2 = mid_a_y;
+        point_b_copy = (u8 *)scratch + 0xC8;
         mid_b_y = (geometry->unk_82 + geometry->unk_88) / 2;
-        ((S_80166968_0 *)scratch)->unk_CA = mid_b_y;
-        ((S_80166968_0 *)scratch)->unk_BA = mid_b_y;
+        scratch->unk_CA = mid_b_y;
+        scratch->unk_BA = mid_b_y;
         mid_a_z = (geometry->unk_78 + geometry->unk_7E) / 2;
-        ((S_80166968_0 *)scratch)->unk_C4 = mid_a_z;
-        ((S_80166968_0 *)scratch)->unk_B4 = mid_a_z;
+        scratch->unk_C4 = mid_a_z;
+        scratch->unk_B4 = mid_a_z;
         mid_b_z = (geometry->unk_84 + geometry->unk_8A) / 2;
-        ((S_80166968_0 *)scratch)->unk_CC = mid_b_z;
-        ((S_80166968_0 *)scratch)->unk_BC = mid_b_z;
+        scratch->unk_CC = mid_b_z;
+        scratch->unk_BC = mid_b_z;
 
         ot_index = RotAverage4(point_a, point_b, point_a_copy, point_b_copy,
                                  packet + 8, packet + 0xC,
                                  packet + 8, packet + 0xC,
-                                 scratch + 0xD0, scratch + 0xD4) - (s16)saved_depth_bias - 6;
-        ((S_80166968_0 *)scratch)->unk_100 = ot_index;
+                                 (u8 *)scratch + 0xD0, (u8 *)scratch + 0xD4) - (s16)saved_depth_bias - 6;
+        scratch->unk_100 = ot_index;
 
-        render_flags = ((S_80166968_0 *)scratch)->unk_28;
+        render_flags = scratch->unk_28;
         if (render_flags & 8) {
             if (render_flags & 4) {
                 draw_flags = render_data->color.c.code | 2;
@@ -174,11 +174,11 @@ void draw_ribbon_center_lines(RibbonLineGeometry *geometry, ObjectPosition *posi
         ((S_80166968_5 *)packet)->unk_04.at03.v = 0x42;
 
         ((S_80166968_5 *)packet)->unk_00.at00.v = (((S_80166968_5 *)packet)->unk_00.at00.v & length_mask) |
-            ((*(u32 *)((u8 *)(((S_80166968_0 *)scratch)->unk_24)
-                + ((S_80166968_0 *)scratch)->unk_100 * 4)) & address_mask);
-        (*(u32 *)((u8 *)(((S_80166968_0 *)scratch)->unk_24) + ((S_80166968_0 *)scratch)->unk_100 * 4)) =
-            ((*(u32 *)((u8 *)(((S_80166968_0 *)scratch)->unk_24)
-                + ((S_80166968_0 *)scratch)->unk_100 * 4)) & length_mask) |
+            ((*(u32 *)((u8 *)(scratch->unk_24)
+                + scratch->unk_100 * 4)) & address_mask);
+        (*(u32 *)((u8 *)(scratch->unk_24) + scratch->unk_100 * 4)) =
+            ((*(u32 *)((u8 *)(scratch->unk_24)
+                + scratch->unk_100 * 4)) & length_mask) |
             ((u32)packet & address_mask);
 
         packet = ((GpuContext *)(*render_state_ref))->packetCursor;
@@ -186,12 +186,12 @@ void draw_ribbon_center_lines(RibbonLineGeometry *geometry, ObjectPosition *posi
         SetDrawMode(packet, zero, zero, GetTPage(zero, 1, zero, zero) & 0xFFFF, zero);
 
         ((S_80166968_5 *)packet)->unk_00.at00.v = (((S_80166968_5 *)packet)->unk_00.at00.v & length_mask) |
-            ((*(u32 *)((u8 *)(((S_80166968_0 *)scratch)->unk_24)
-                + ((S_80166968_0 *)scratch)->unk_100 * 4)) & address_mask);
+            ((*(u32 *)((u8 *)(scratch->unk_24)
+                + scratch->unk_100 * 4)) & address_mask);
         packet = (u8 *)((u32)packet & address_mask);
-        (*(u32 *)((u8 *)(((S_80166968_0 *)scratch)->unk_24) + ((S_80166968_0 *)scratch)->unk_100 * 4)) =
-            ((*(u32 *)((u8 *)(((S_80166968_0 *)scratch)->unk_24)
-                + ((S_80166968_0 *)scratch)->unk_100 * 4)) & length_mask) |
+        (*(u32 *)((u8 *)(scratch->unk_24) + scratch->unk_100 * 4)) =
+            ((*(u32 *)((u8 *)(scratch->unk_24)
+                + scratch->unk_100 * 4)) & length_mask) |
             (u32)packet;
 
         if (*texture_entry < 0) {

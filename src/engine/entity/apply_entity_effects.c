@@ -12,6 +12,7 @@
 /* Apply entity effects to scale, stats, and status flags. */
 void apply_entity_effects(void *entity)
 {
+    ActorRecord *actor = entity;
     s32 effect_flags;
     s32 boosted_stat;
 
@@ -22,7 +23,7 @@ void apply_entity_effects(void *entity)
         U16(0x6E, entity) = 0x100;
         scale_flags = S32(0x54, entity);
         scale = 0x10;
-        U8(0x87, entity) = scale;
+        actor->unk_87 = scale;
         if (scale_flags & 1) {
             s32 base_scale;
             u8 read_scale;
@@ -31,7 +32,7 @@ void apply_entity_effects(void *entity)
             read_scale = (u32)S32(0x84, entity) >> 24;
             U16(0x6E, entity) = base_scale * 2;
             read_scale *= 2;
-            U8(0x87, entity) = read_scale;
+            actor->unk_87 = read_scale;
         }
     }
 
@@ -41,10 +42,10 @@ void apply_entity_effects(void *entity)
         boosted_stat = (s16)boosted_stat;
         if (boosted_stat > 0) {
             U16(0x6E, entity) = U16(0x6E, entity) * 2;
-            U8(0x87, entity) = U8(0x87, entity) * 2;
+            actor->unk_87 = actor->unk_87 * 2;
         } else if (boosted_stat < 0) {
             U16(0x6E, entity) = (s32)(U16(0x6E, entity) << 16) >> 17;
-            U8(0x87, entity) = U8(0x87, entity) >> 1;
+            actor->unk_87 = actor->unk_87 >> 1;
         }
     }
 

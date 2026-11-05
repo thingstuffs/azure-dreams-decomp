@@ -131995,7 +131995,7 @@
       ]
     },
     {
-      "source": "src/dungeon/effect/sprite/update_linked_monster_effect.c",
+      "source": "src/dungeon/effect/sprite/update_linked_object_chain.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""

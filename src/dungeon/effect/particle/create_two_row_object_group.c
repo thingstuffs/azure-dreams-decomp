@@ -366,12 +366,7 @@ typedef struct S_800DAEF4_3 {
     u16 unk_48;
 } S_800DAEF4_3;   /* owner in spawn_scattered_timed_objects */
 
-typedef struct S_800DAEF4_4 {
-    u8 pad_00[0x10];
-    u16 unk_10;
-    u8 pad_12[0x36];
-    u16 unk_48;
-} S_800DAEF4_4;   /* work in spawn_scattered_timed_objects */
+
 
 typedef struct S_800DAEF4_6 {
     u8 pad_00[0x4];
@@ -428,7 +423,7 @@ void spawn_scattered_timed_objects(void *source_owner, void *spawn_params_arg)
                 spawn_params->unk_06 + (spread_roll_a % 64 + spread_roll_b % 64 - 64) / 2;
 
             object->position->z.w.i = ((S_800DAEF4_3 *)source_owner)->unk_10.s;
-            ((S_800DAEF4_4 *)work)->unk_10 = spawn_params->unk_08.at02.v;
+            ((ScatteredTimedEffectBody *)work)->landing_height = (s16)spawn_params->unk_08.at02.v;
 
             divisor = (rand() & 3) + 4;
             height_delta = spawn_params->unk_08.at00.v;
@@ -449,8 +444,8 @@ void spawn_scattered_timed_objects(void *source_owner, void *spawn_params_arg)
             node->frame_ticks = 0;
             node->source = link_value;
             target_height = spawn_params->unk_08.at02.v;
-            ((S_800DAEF4_4 *)work)->unk_48 = 4;
-            ((S_800DAEF4_4 *)work)->unk_10 = target_height;
+            ((ScatteredTimedEffectBody *)work)->ticks_left = 4;
+            ((ScatteredTimedEffectBody *)work)->landing_height = (s16)target_height;
         }
         remaining--;
     } while (remaining >= 0);
@@ -469,37 +464,30 @@ void spawn_scattered_timed_objects(void *source_owner, void *spawn_params_arg)
 #include "records/Rec_D_80082E80.h"
 
 
-typedef struct S_800DB164_0 {
-    u8 pad_00[0x10];
-    s16 unk_10;
-    u8 pad_12[0x36];
-    u16 unk_48;
-    u8 pad_4A[0x2];
-    union { s16 s; u16 u; } unk_4C;   /* accessed as both */
-} S_800DB164_0;   /* arg0 in update_timed_effect_animation */
+
 
 
 
 /* Updates a timed effect's animation and motion, marking it for removal when finished. */
-void update_timed_effect_animation(void *effect, ObjectPosition *motion, SpriteFrameState *visual) {
+void update_timed_effect_animation(ScatteredTimedEffectBody *effect, ObjectPosition *motion, SpriteFrameState *visual) {
     s32 phase;
     s32 ticks_left;
     s32 next_phase;
 
-    phase = ((S_800DB164_0 *)effect)->unk_4C.s;
-    ticks_left = ((S_800DB164_0 *)effect)->unk_48 - 1;
-    ((S_800DB164_0 *)effect)->unk_48 = ticks_left;
+    phase = effect->phase;
+    ticks_left = effect->ticks_left - 1;
+    effect->ticks_left = ticks_left;
     switch (phase) {
     case 0:
         visual->scale_x = (u16) (visual->scale_x
             - ((rand() & 0xFF) + 0x300));
         visual->scale_y = (u16) (visual->scale_y
             + ((rand() & 0xFF) + 0x200));
-        if ((s16) ((S_800DB164_0 *)effect)->unk_48 > 0) {
+        if ((s16) effect->ticks_left > 0) {
             break;
         }
-        next_phase = ((S_800DB164_0 *)effect)->unk_4C.u + 1;
-        ((S_800DB164_0 *)effect)->unk_4C.u = next_phase;
+        next_phase = (u16)effect->phase + 1;
+        effect->phase = (s16)next_phase;
         break;
 
     case 1:
@@ -507,23 +495,23 @@ void update_timed_effect_animation(void *effect, ObjectPosition *motion, SpriteF
             + 0xFFF3F3F4);
         motion->velocity_z = (s32) (motion->velocity_z - ((rand() & 0xFF)
             << 0xA));
-        if (motion->z.w.i < ((S_800DB164_0 *)effect)->unk_10) {
+        if (motion->z.w.i < effect->landing_height) {
             phase = 4;
-            ((S_800DB164_0 *)effect)->unk_48 = phase;
-            next_phase = ((S_800DB164_0 *)effect)->unk_4C.u + 1;
-            ((S_800DB164_0 *)effect)->unk_4C.u = next_phase;
+            effect->ticks_left = phase;
+            next_phase = (u16)effect->phase + 1;
+            effect->phase = (s16)next_phase;
         }
         break;
 
     case 2:
         if ((ticks_left << 0x10) <= 0) {
-            (*(u16 *)((u8 *)effect + -2)) = (u16) (NODE_HEADER(effect)->flags | NODE_REMOVE);
+            NODE_HEADER(effect)->flags = (u16) (NODE_HEADER(effect)->flags | NODE_REMOVE);
             object_flag_block.flags |= OBJECT_REMOVE_PENDING;
         }
         break;
     }
 
-    if (((S_800DB164_0 *)effect)->unk_4C.s != 0) {
+    if (effect->phase != 0) {
         motion->z.v = (s32) (motion->z.v
             + motion->velocity_z);
         advance_sprite_animation_and_textures(visual);

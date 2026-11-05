@@ -36,7 +36,7 @@ typedef struct ovl_188898c_81868A64_S_81868A64_3 {
 /* Stage, spiral parameters, source owner, and grayscale intensity for the expanding effect. */
 typedef struct CoordinateSpriteObjectBody {
     u16 unk_00;
-    union { u16 s; s16 u; } unk_02;
+    s16 phase_ticks;
     s16 unk_04;
     u16 unk_06;
     u16 unk_08;

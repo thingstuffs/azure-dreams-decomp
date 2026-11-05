@@ -123,7 +123,7 @@ typedef struct {
 /* Transform a textured quad and add it to the ordering table if visible. */
 void draw_gouraud_textured_ribbon_quad(void *quad, ObjectPosition *position, SpriteFrameState *render_state, s16 depth_bias)
 {
-    u8 *scratch = (u8 *)0x1F800000;
+    S_801663AC_0 *scratch = (S_801663AC_0 *)0x1F800000;
     u8 *packet;
     u8 *texture;
     s32 ot_index;
@@ -131,55 +131,55 @@ void draw_gouraud_textured_ribbon_quad(void *quad, ObjectPosition *position, Spr
     u8 tex_flags;
     MATRIX view_matrix;
 
-    ((S_801663AC_0 *)scratch)->unk_24 = *(u8 **)&g_game_work.draw_buffer + 0xB0;
-    ((S_801663AC_0 *)scratch)->unk_88 = position->x.w.i;
-    ((S_801663AC_0 *)scratch)->unk_8C = position->y.w.i;
-    ((S_801663AC_0 *)scratch)->unk_90 = position->z.w.i;
+    scratch->unk_24 = *(u8 **)&g_game_work.draw_buffer + 0xB0;
+    scratch->unk_88 = position->x.w.i;
+    scratch->unk_8C = position->y.w.i;
+    scratch->unk_90 = position->z.w.i;
     render_state->flags |= 0x8000;
 
     PushMatrix();
 
-    ((S_801663AC_0 *)scratch)->unk_3C = 0x2000;
-    ((S_801663AC_0 *)scratch)->unk_38 = 0x2000;
-    ((S_801663AC_0 *)scratch)->unk_34 = 0x2000;
-    ((S_801663AC_0 *)scratch)->unk_A4 = render_state->angle_x;
-    ((S_801663AC_0 *)scratch)->unk_A8 = render_state->angle_z;
-    ((S_801663AC_0 *)scratch)->unk_A6 = render_state->angle_y;
-    RotMatrix(scratch + 0xA4, scratch + 0x74);
+    scratch->unk_3C = 0x2000;
+    scratch->unk_38 = 0x2000;
+    scratch->unk_34 = 0x2000;
+    scratch->unk_A4 = render_state->angle_x;
+    scratch->unk_A8 = render_state->angle_z;
+    scratch->unk_A6 = render_state->angle_y;
+    RotMatrix((u8 *)scratch + 0xA4, (u8 *)scratch + 0x74);
     ReadRotMatrix(&view_matrix);
-    CompMatrix(&view_matrix, scratch + 0x74, scratch + 0x54);
-    ScaleMatrix(scratch + 0x54, scratch + 0x34);
-    SetTransMatrix(scratch + 0x54);
-    SetRotMatrix(scratch + 0x54);
+    CompMatrix(&view_matrix, (u8 *)scratch + 0x74, (u8 *)scratch + 0x54);
+    ScaleMatrix((u8 *)scratch + 0x54, (u8 *)scratch + 0x34);
+    SetTransMatrix((u8 *)scratch + 0x54);
+    SetRotMatrix((u8 *)scratch + 0x54);
 
     texture = ((S_801663AC_2 *)render_state)->unk_08;
-    ((S_801663AC_0 *)scratch)->unk_28 = render_state->flags;
-    ((S_801663AC_0 *)scratch)->unk_0C.s32 = texture[8];
-    ((S_801663AC_0 *)scratch)->unk_10.s32 = texture[9];
-    (*(s32 *)(scratch + 0x14)) = texture[0xA];
-    ((S_801663AC_0 *)scratch)->unk_18.s32 = texture[0xB];
+    scratch->unk_28 = render_state->flags;
+    scratch->unk_0C.s32 = texture[8];
+    scratch->unk_10.s32 = texture[9];
+    (*(s32 *)((u8 *)scratch + 0x14)) = texture[0xA];
+    scratch->unk_18.s32 = texture[0xB];
     packet = ((GpuContext *)(*(u8 **)&g_game_work.draw_buffer))->packetCursor;
     ((GpuContext *)(*(u8 **)&g_game_work.draw_buffer))->packetCursor = packet + 0x34;
 
-    ((S_801663AC_0 *)scratch)->unk_B0 = ((S_801663AC_4 *)quad)->unk_74;
-    ((S_801663AC_0 *)scratch)->unk_B8 = ((S_801663AC_4 *)quad)->unk_7A;
-    ((S_801663AC_0 *)scratch)->unk_C0 = ((S_801663AC_4 *)quad)->unk_80;
-    ((S_801663AC_0 *)scratch)->unk_C8 = ((S_801663AC_4 *)quad)->unk_86;
-    ((S_801663AC_0 *)scratch)->unk_B2 = ((S_801663AC_4 *)quad)->unk_76;
-    ((S_801663AC_0 *)scratch)->unk_BA = ((S_801663AC_4 *)quad)->unk_7C;
-    ((S_801663AC_0 *)scratch)->unk_C2 = ((S_801663AC_4 *)quad)->unk_82;
-    ((S_801663AC_0 *)scratch)->unk_CA = ((S_801663AC_4 *)quad)->unk_88;
-    ((S_801663AC_0 *)scratch)->unk_B4 = ((S_801663AC_4 *)quad)->unk_78;
-    ((S_801663AC_0 *)scratch)->unk_BC = ((S_801663AC_4 *)quad)->unk_7E;
-    ((S_801663AC_0 *)scratch)->unk_C4 = ((S_801663AC_4 *)quad)->unk_84;
-    ((S_801663AC_0 *)scratch)->unk_CC = ((S_801663AC_4 *)quad)->unk_8A;
+    scratch->unk_B0 = ((S_801663AC_4 *)quad)->unk_74;
+    scratch->unk_B8 = ((S_801663AC_4 *)quad)->unk_7A;
+    scratch->unk_C0 = ((S_801663AC_4 *)quad)->unk_80;
+    scratch->unk_C8 = ((S_801663AC_4 *)quad)->unk_86;
+    scratch->unk_B2 = ((S_801663AC_4 *)quad)->unk_76;
+    scratch->unk_BA = ((S_801663AC_4 *)quad)->unk_7C;
+    scratch->unk_C2 = ((S_801663AC_4 *)quad)->unk_82;
+    scratch->unk_CA = ((S_801663AC_4 *)quad)->unk_88;
+    scratch->unk_B4 = ((S_801663AC_4 *)quad)->unk_78;
+    scratch->unk_BC = ((S_801663AC_4 *)quad)->unk_7E;
+    scratch->unk_C4 = ((S_801663AC_4 *)quad)->unk_84;
+    scratch->unk_CC = ((S_801663AC_4 *)quad)->unk_8A;
 
-    ot_index = RotAverage4(scratch + 0xB0, scratch + 0xB8,
-                             scratch + 0xC0, scratch + 0xC8,
+    ot_index = RotAverage4((u8 *)scratch + 0xB0, (u8 *)scratch + 0xB8,
+                             (u8 *)scratch + 0xC0, (u8 *)scratch + 0xC8,
                              packet + 8, packet + 0x14,
                              packet + 0x20, packet + 0x2C,
-                             scratch + 0xD0, scratch + 0xD4) - depth_bias - 6;
-    ((S_801663AC_0 *)scratch)->unk_100 = ot_index;
+                             (u8 *)scratch + 0xD0, (u8 *)scratch + 0xD4) - depth_bias - 6;
+    scratch->unk_100 = ot_index;
 
     if ((u32)ot_index < 0x1E0) {
         if ((((u16)(((S_801663AC_5 *)packet)->unk_08.u + 0x20) < 0x181) &&
@@ -192,19 +192,19 @@ void draw_gouraud_textured_ribbon_quad(void *quad, ObjectPosition *position, Spr
              ((u16)(((S_801663AC_5 *)packet)->unk_2E.u + 0x20) < 0x121))) {
             render_state->flags &= 0x7FFF;
 
-            ((S_801663AC_0 *)scratch)->unk_14.s32 += ((S_801663AC_0 *)scratch)->unk_0C.s32;
-            if (((S_801663AC_0 *)scratch)->unk_14.s32 & 0x100) {
-                ((S_801663AC_0 *)scratch)->unk_14.s32--;
+            scratch->unk_14.s32 += scratch->unk_0C.s32;
+            if (scratch->unk_14.s32 & 0x100) {
+                scratch->unk_14.s32--;
             }
-            ((S_801663AC_0 *)scratch)->unk_18.s32 += ((S_801663AC_0 *)scratch)->unk_10.s32;
-            if (((S_801663AC_0 *)scratch)->unk_18.s32 & 0x100) {
-                ((S_801663AC_0 *)scratch)->unk_18.s32--;
+            scratch->unk_18.s32 += scratch->unk_10.s32;
+            if (scratch->unk_18.s32 & 0x100) {
+                scratch->unk_18.s32--;
             }
-            ((S_801663AC_0 *)scratch)->unk_10.s32 <<= 8;
-            ((S_801663AC_0 *)scratch)->unk_18.s32 <<= 8;
+            scratch->unk_10.s32 <<= 8;
+            scratch->unk_18.s32 <<= 8;
 
             if (render_state->clut) {
-                if (((S_801663AC_0 *)scratch)->unk_28 & 0x100) {
+                if (scratch->unk_28 & 0x100) {
                     ((S_801663AC_5 *)packet)->unk_0E = render_state->clut;
                 } else {
                     ((S_801663AC_5 *)packet)->unk_0E = render_state->clut +
@@ -214,10 +214,10 @@ void draw_gouraud_textured_ribbon_quad(void *quad, ObjectPosition *position, Spr
                 ((S_801663AC_5 *)packet)->unk_0E = ((ObjectPosition *)texture)->y.unsigned_parts.integer;
             }
 
-            ((S_801663AC_5 *)packet)->unk_0C = ((S_801663AC_0 *)scratch)->unk_10.u16 +
-                                      ((S_801663AC_0 *)scratch)->unk_0C.u16;
-            ((S_801663AC_5 *)packet)->unk_18.u16 = ((S_801663AC_0 *)scratch)->unk_10.u16 +
-                                       ((S_801663AC_0 *)scratch)->unk_14.u16;
+            ((S_801663AC_5 *)packet)->unk_0C = scratch->unk_10.u16 +
+                                      scratch->unk_0C.u16;
+            ((S_801663AC_5 *)packet)->unk_18.u16 = scratch->unk_10.u16 +
+                                       scratch->unk_14.u16;
 
             if (render_state->tpage_abr) {
                 ((S_801663AC_5 *)packet)->unk_1A = render_state->tpage_abr +
@@ -226,10 +226,10 @@ void draw_gouraud_textured_ribbon_quad(void *quad, ObjectPosition *position, Spr
                 ((S_801663AC_5 *)packet)->unk_1A = ((ObjectPosition *)texture)->y.w.frac;
             }
 
-            ((S_801663AC_5 *)packet)->unk_24.at00.v = ((S_801663AC_0 *)scratch)->unk_18.u16 +
-                                       ((S_801663AC_0 *)scratch)->unk_0C.u16;
-            ((S_801663AC_5 *)packet)->unk_30.at00.v = ((S_801663AC_0 *)scratch)->unk_18.u16 +
-                                       ((S_801663AC_0 *)scratch)->unk_14.u16;
+            ((S_801663AC_5 *)packet)->unk_24.at00.v = scratch->unk_18.u16 +
+                                       scratch->unk_0C.u16;
+            ((S_801663AC_5 *)packet)->unk_30.at00.v = scratch->unk_18.u16 +
+                                       scratch->unk_14.u16;
 
             if (((S_801663AC_5 *)packet)->unk_08.s > ((S_801663AC_5 *)packet)->unk_2C.s) {
                 ((S_801663AC_5 *)packet)->unk_18.u8--;
@@ -249,7 +249,7 @@ void draw_gouraud_textured_ribbon_quad(void *quad, ObjectPosition *position, Spr
 
             tex_flags = texture[1];
             render_state->color.c.code = tex_flags;
-            render_flags = ((S_801663AC_0 *)scratch)->unk_28;
+            render_flags = scratch->unk_28;
             if (render_flags & 8) {
                 render_state->color.c.code = (render_flags & 4) ?
                     (tex_flags | 2) : (tex_flags & 0xFD);
@@ -257,12 +257,12 @@ void draw_gouraud_textured_ribbon_quad(void *quad, ObjectPosition *position, Spr
 
             ((S_801663AC_5 *)packet)->unk_04.at03.v |= render_state->color.c.code;
             ((S_801663AC_5 *)packet)->unk_00 = (((S_801663AC_5 *)packet)->unk_00 & 0xFF000000) |
-                ((*(u32 *)((u8 *)(((S_801663AC_0 *)scratch)->unk_24)
-                    + ((S_801663AC_0 *)scratch)->unk_100 * 4)) & 0x00FFFFFF);
+                ((*(u32 *)((u8 *)(scratch->unk_24)
+                    + scratch->unk_100 * 4)) & 0x00FFFFFF);
 
-            (*(u32 *)((u8 *)(((S_801663AC_0 *)scratch)->unk_24) + ((S_801663AC_0 *)scratch)->unk_100 * 4)) =
-                ((*(u32 *)((u8 *)(((S_801663AC_0 *)scratch)->unk_24)
-                    + ((S_801663AC_0 *)scratch)->unk_100 * 4)) & 0xFF000000) |
+            (*(u32 *)((u8 *)(scratch->unk_24) + scratch->unk_100 * 4)) =
+                ((*(u32 *)((u8 *)(scratch->unk_24)
+                    + scratch->unk_100 * 4)) & 0xFF000000) |
                 ((u32)packet & 0x00FFFFFF);
         }
     }

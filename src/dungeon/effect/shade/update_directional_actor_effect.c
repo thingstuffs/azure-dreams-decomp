@@ -170,7 +170,7 @@ void update_homing_arc_and_brighten_effect(EffectAndInitializeSpriteBody *effect
 
 /* Creates a gray sprite with the supplied image and installs the callback that follows its source and
    arcs to the actor. */
-void allocate_effect_and_initialize_sprite(ObjectNodeHeader *effect_data, s32 effect_param, s32 render_param)
+void allocate_effect_and_initialize_sprite(ObjectNodeHeader *effect_data, u16 *effect_param, void *render_param)
 {
     int color;
     ObjectNodeHeader *effect;
@@ -185,7 +185,7 @@ void allocate_effect_and_initialize_sprite(ObjectNodeHeader *effect_data, s32 ef
         *((s16 *) (((s8 *) state) + 0xE)) = 0;
         state->unk_00 = effect_data;
         state->unk_04 = (void *)&scene_object_list_anchor.next;
-        state->unk_08 = (void *)effect_param;
+        state->unk_08 = effect_param;
         sprite = effect->sprite;
         sprite->color.c.b = color;
         sprite->color.c.g = color;
@@ -469,7 +469,7 @@ void update_three_way_target_effect(ThreeWayTargetSpellBody *effect_arg, ObjectP
         effect_arg->unk_10 = 0U;
         effect_arg->spell.phase.s++;
         ((PlayerRecord *)primary_actor_record)->unk_F4 = 0;
-        allocate_effect_and_initialize_sprite(NODE_HEADER(effect_arg->spell.caster), (s32)effect_arg->spell.context, &D_800DE5DC);
+        allocate_effect_and_initialize_sprite(NODE_HEADER(effect_arg->spell.caster), effect_arg->spell.context, &D_800DE5DC);
     case 1:
         if (*effect_arg->spell.context & 0x80) {
             effect_arg->unk_18 = 0xAU;
