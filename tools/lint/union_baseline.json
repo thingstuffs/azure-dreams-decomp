@@ -1,5 +1,5 @@
 {
- "count": 2265,
+ "count": 2259,
  "ids": [
   "include/dungeon/actor/ability_eligibility.h::S_800A4300_2.unk_F0",
   "include/dungeon/actor/action_target_selection_g00359.h::S_800CA444_0.unk_24",
@@ -865,8 +865,6 @@
   "include/dungeon/monster/volcano.h::E_80174084_S_80DE6884_4.unk_00",
   "include/dungeon/monster/volcano.h::E_80174084_S_80DE6884_4.unk_04",
   "include/dungeon/monster/volcano.h::E_80174084_S_80DE6884_4.unk_08",
-  "include/dungeon/monster/weadog.h::GridPoint.unk_00",
-  "include/dungeon/monster/weadog.h::GridPoint.unk_02",
   "include/dungeon/monster/weadog/steer_effect_toward_target_g00278.h::SteeringEffectWork.color",
   "include/dungeon/monster/weadog/steer_effect_toward_target_g00278.h::SteeringEffectWork.fade_color",
   "include/dungeon/monster/weadog/steer_effect_toward_target_g00278.h::SteeringEffectWork.timer",
@@ -2081,8 +2079,6 @@
   "src/dungeon/monster/unicorn/advance_actor_transition_replacement.c::S_80174704_1.unk_2A",
   "src/dungeon/monster/unicorn/advance_actor_transition_replacement.c::S_80174704_3.unk_0C",
   "src/dungeon/monster/unicorn/advance_actor_transition_replacement.c::S_80174704_3.unk_10",
-  "src/dungeon/monster/weadog/advance_motion_through_landing_and_fall.c::GridPoint.x",
-  "src/dungeon/monster/weadog/advance_motion_through_landing_and_fall.c::GridPoint.y",
   "src/dungeon/monster/weadog/advance_motion_through_landing_and_fall.c::S_func_80EF7000_2.unk_00",
   "src/dungeon/monster/weadog/advance_motion_through_landing_and_fall.c::S_func_80EF7000_2.unk_04",
   "src/dungeon/monster/weadog/advance_motion_through_landing_and_fall.c::S_func_80EF7000_2.unk_08",
@@ -2090,8 +2086,6 @@
   "src/dungeon/monster/weadog/advance_motion_through_landing_and_fall.c::half.unk_06",
   "src/dungeon/monster/weadog/advance_timed_hop_and_recover.c::S_801670E0_0.unk_9E",
   "src/dungeon/monster/weadog/advance_timed_hop_and_recover.c::S_801670E0_1.unk_1C",
-  "src/dungeon/monster/weadog/update_flight_landing_and_fall.c::GridPoint.unk_00",
-  "src/dungeon/monster/weadog/update_flight_landing_and_fall.c::GridPoint.unk_02",
   "src/dungeon/monster/weadog/update_flight_landing_and_fall.c::S_func_80EF1000_2.unk_00",
   "src/dungeon/monster/weadog/update_flight_landing_and_fall.c::S_func_80EF1000_2.unk_04",
   "src/dungeon/monster/weadog/update_flight_landing_and_fall.c::S_func_80EF1000_2.unk_08",
@@ -2267,6 +2261,6 @@
   "src/town/shop/lower_value_toward_target.c::S_800B1890_0.unk_08",
   "src/town/shop/position/initialize_templated_state_and_position.c::S_800B4200_arg4.S_800B4200_arg4"
  ],
- "reason": "ACCURACY 118 rebaseline after union retirements; weadog GridPoint moved into the shared header (unproven, tracked)",
+ "reason": "ACCURACY 119 rebaseline after the weadog GridPoint retirement",
  "schema": 1
 }

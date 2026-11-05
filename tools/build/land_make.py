@@ -276,7 +276,20 @@ def accounting(root, step):
             step(name, action=lambda name=name: (root/'build/landing'/(name+'.log')).write_text(
                 'SKIP: accounting inputs and output content unchanged; current make proof verified\n'))
         return
-    step('levels', ['python3','tools/levels.py'])
+    # Lint and typing tools do not feed levels.py (which retains its own row
+    # fact cache). Keep status on this path: its generated UTC time describes
+    # the most recent status run, even when the level rows remain unchanged.
+    old_inputs = previous.get('inputs')
+    changed = ({n for n in set(old_inputs) | set(before) if old_inputs.get(n) != before.get(n)}
+               if isinstance(old_inputs, dict) else set())
+    levels_unchanged = (bool(changed) and all(n.startswith(('tools/lint/', 'tools/typing/')) for n in changed)
+                        and previous.get('outputs', {}).get('ledger/levels.jsonl') is not None
+                        and previous['outputs']['ledger/levels.jsonl'] == C.hashes(root, ['ledger/levels.jsonl'])['ledger/levels.jsonl'])
+    if levels_unchanged:
+        step('levels', action=lambda: (root/'build/landing/levels.log').write_text(
+            'SKIP: only lint/typing tools changed; current make proof and levels output verified\n'))
+    else:
+        step('levels', ['python3','tools/levels.py'])
     step('status', ['python3','tools/status.py'])
     if before != inputs():
         raise ValueError('accounting inputs changed during regeneration')

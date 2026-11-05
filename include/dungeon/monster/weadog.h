@@ -6,8 +6,8 @@
 #include "shared/sprite_frame_state.h"
 
 typedef struct GridPoint {
-    union { s16 x; u8 unk_00; } unk_00;
-    union { s16 y; u16 unk_02; u8 unk_02_u8; } unk_02;
+    s16 x;
+    s16 y;
 } GridPoint;
 
 /* The 0x12 node installed by spawn_moving_actor and advanced by the flight callback. */

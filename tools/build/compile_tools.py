@@ -6,6 +6,7 @@ certification/reporting commands that compile never calls. Shell front ends and
 file-loaded native helpers have explicit entry points; tests are never scanned.
 """
 import ast
+import hashlib
 from pathlib import Path
 
 
@@ -28,6 +29,25 @@ FUNCTIONS = {
     'toolchain/maspsx/maspsx.py': ('main',),
 }
 SHELL_SCRIPTS = ('tools/build/cc.sh', 'tools/build/as.sh')
+
+
+def semantic_digest(root, name):
+    """Bind executed Python syntax for the monolithic compile driver.
+
+    A comment/format-only edit to mkbuild.py changes neither its Python code
+    nor an object. Other compile tools keep raw-byte identities. If parsing
+    fails, the raw digest is the conservative fallback.
+    """
+    data = (Path(root)/name).read_bytes()
+    if name == 'tools/build/mkbuild.py':
+        try:
+            tree = ast.parse(data.decode('utf-8'), filename=name)
+        except (SyntaxError, UnicodeDecodeError):
+            pass
+        else:
+            syntax = ast.dump(tree, include_attributes=False).encode()
+            return hashlib.sha256(b'python-ast-v1\0' + syntax).hexdigest()
+    return hashlib.sha256(data).hexdigest()
 
 
 def closure(root, starts=ENTRY_POINTS):

@@ -151,6 +151,42 @@ class ScopedConfigureTests(unittest.TestCase):
         self.assertNotEqual(next_cache.memo('projection', producer), original)
         self.assertEqual(next_cache.misses, 1)
 
+    def test_driver_edit_reuses_only_unchanged_include_closures(self):
+        for name, text in {'tools/build/mkbuild.py': 'driver one',
+                           'tools/gate/overlay_module_gate.py': 'walker one'}.items():
+            p = self.root/name; p.parent.mkdir(parents=True, exist_ok=True); p.write_text(text)
+        names = ['tools/build/mkbuild.py', 'tools/gate/overlay_module_gate.py',
+                 'src/a.c', 'include/shared.h', 'include/leaf.h']
+        calls = []
+        def walk(root, starts):
+            calls.append(tuple(starts))
+            return ['src/a.c', 'include/shared.h', 'include/leaf.h']
+        module = types.SimpleNamespace(closure=walk)
+        def cache(entry='same entry'):
+            return RecipeCache(self.root, content_cache.hashes(self.root, names), {},
+                               load(self.state/'cache.gz'), closure_entry=entry)
+        initial = cache()
+        expected = initial.closure(module, self.root, ['src/a.c'])
+        initial.memo('other:a', lambda: 'row one', lambda value: [])
+        (self.state/'cache.gz').write_bytes(initial.blob())
+        self.write('tools/build/mkbuild.py', 'driver two')
+        changed_driver = cache()
+        self.assertEqual(changed_driver.closure(module, self.root, ['src/a.c']), expected)
+        self.assertEqual(len(calls), 1)
+        changed_driver.memo('other:a', lambda: 'row two', lambda value: [])
+        self.assertEqual((changed_driver.hits, changed_driver.misses), (1, 1))
+        changed_entry = cache('different entry')
+        changed_entry.closure(module, self.root, ['src/a.c'])
+        self.assertEqual(len(calls), 2)
+        self.write('tools/gate/overlay_module_gate.py', 'walker two')
+        changed_walker = cache()
+        changed_walker.closure(module, self.root, ['src/a.c'])
+        self.assertEqual(len(calls), 3)
+        self.write('include/leaf.h', 'int changed_leaf;\n')
+        changed_header = cache()
+        changed_header.closure(module, self.root, ['src/a.c'])
+        self.assertEqual(len(calls), 4)
+
     def test_input_mutation_during_generation_cannot_publish_receipt(self):
         self.generate()
         marker = (self.state/'configure.json').read_bytes()

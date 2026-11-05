@@ -17,7 +17,7 @@ import tempfile
 import time
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[2]))
-from tools.build import content_cache, compile_slots, declaration_projection, name_inputs
+from tools.build import content_cache, compile_slots, compile_tools, declaration_projection, name_inputs
 
 SCHEMA = 3
 # Audited stock macros only form symbol visibility directives and symbol names.
@@ -252,7 +252,10 @@ def key_inputs(root, recipe_path, spec):
     names.update(discovered['files'])
     # A table read as raw C/assembly data must still bind its complete bytes.
     names.difference_update(projected_tables(spec) - set(discovered['files']))
-    inputs = content_cache.hashes(root, names)
+    semantic_driver = 'tools/build/mkbuild.py' in names
+    inputs = content_cache.hashes(root, names - {'tools/build/mkbuild.py'} if semantic_driver else names)
+    if semantic_driver:
+        inputs['tools/build/mkbuild.py'] = compile_tools.semantic_digest(root, 'tools/build/mkbuild.py')
     if any(value is None and name not in optional for name, value in inputs.items()):
         raise ValueError('missing object cache input')
     if discovered.get('projected'):

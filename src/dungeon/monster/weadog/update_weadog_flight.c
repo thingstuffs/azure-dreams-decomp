@@ -232,14 +232,14 @@ fall:
             coord += world_coord;
             motion->velocity_y = coord;
 
-            coord = step->unk_00.x;
+            coord = step->x;
             world_coord = position->unk_00.parts.unk_02.s16;
             interp_goal += coord;
             if (world_coord < 0)
                 world_coord += 0x3F;
             coord = world_coord >> 6;
             if (interp_goal == coord) {
-                coord = step->unk_02.unk_02;
+                coord = (u16)step->y;
                 world_coord = position->unk_04.parts.unk_06.s16;
                 interp_goal = motion->spawner_tile_y;
                 coord = (s16)coord;
@@ -260,9 +260,9 @@ fall:
                         motion->acceleration_y = 0;
                     } else {
                         motion->spawner_tile_x +=
-                            ((GridPoint *)((u8 *)step_table + (motion->direction << 2)))->unk_00.unk_00;
+                            *(u8 *)&((GridPoint *)((u8 *)step_table + (motion->direction << 2)))->x;
                         motion->spawner_tile_y +=
-                            ((GridPoint *)((u8 *)step_table + (motion->direction << 2)))->unk_02.unk_02_u8;
+                            *(u8 *)&((GridPoint *)((u8 *)step_table + (motion->direction << 2)))->y;
                     }
                     render->unk_06 = 0;
                 }

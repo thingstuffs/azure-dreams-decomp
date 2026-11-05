@@ -262,6 +262,15 @@ identity is rehashed, and a change during a read aborts generation. The
 snapshot lasts for this command only. Generated recipes and build rules remain
 content-bound, including the normal tool-input hash in `build/build.mk`.
 
+Configure stores include-closure checkpoints under a second guard. This guard
+binds the exact `include_closure` entry point, all other configure authorities,
+and source/header path presence; each cached closure also binds the content of
+its discovered files. A change elsewhere in `mkbuild.py` can therefore reuse
+those closure walks while the general row and recipe checkpoints regenerate.
+Changing the walker, its entry point, a discovered file, or a path's presence
+recomputes the affected closures. Generated rule bytes are still checked by
+the ordinary configure output receipt.
+
 ### Post-build accounting reuse
 
 `levels.py` and `status.py` cache row facts by their semantic input keys in
@@ -280,6 +289,12 @@ refresh also runs after the final proof and writes only ignored
 zero Clang reparses and zero typing extractions, binding 93,371 call sites
 still took 174.5 seconds. It can be scheduled outside the landing's critical
 path by a caller that does not need a current map immediately.
+
+The lander skips `levels.py` when the only changed accounting inputs are under
+`tools/lint/` or `tools/typing/`, the previous levels output is intact, and
+the current make receipt passes verification. It still runs `status.py` so its
+UTC timestamp records that status generation. Source, evidence, build-proof,
+and other tool changes retain the full accounting path.
 
 | Symptom | Next step |
 | --- | --- |

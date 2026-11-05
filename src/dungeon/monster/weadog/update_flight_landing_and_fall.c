@@ -2,18 +2,7 @@
 #include "common.h"
 #include "shared/object_links.h"
 #include "dungeon/actor/effect.h"
-
-typedef struct GridPoint {
-    union {
-        s16 x;
-        u8 unk_00;
-    } unk_00;
-    union {
-        s16 y;
-        u16 unk_02;
-        u8 unk_00;
-    } unk_02;
-} GridPoint;
+#include "dungeon/monster/weadog.h"
 
 typedef struct GridData {
     GridPoint point[8];
@@ -271,14 +260,14 @@ update_fall:
             coord += rounded;
             motion->unk_70 = coord;
 
-            coord = point->unk_00.x;
+            coord = point->x;
             rounded = position->unk_00.half.unk_02.s;
             interp_goal += coord;
             if (rounded < 0)
                 rounded += 0x3F;
             coord = rounded >> 6;
             if (interp_goal == coord) {
-                coord = point->unk_02.unk_02;
+                coord = (u16)point->y;
                 rounded = position->unk_04.half.unk_06.s;
                 interp_goal = motion->unk_5D;
                 coord = (s16)coord;
@@ -298,9 +287,9 @@ update_fall:
                         motion->unk_7C = 0;
                     } else {
                         motion->unk_5C +=
-                            ((GridPoint *)((u8 *)grid_base + (motion->unk_34 << 2)))->unk_00.unk_00;
+                            *(u8 *)&((GridPoint *)((u8 *)grid_base + (motion->unk_34 << 2)))->x;
                         motion->unk_5D +=
-                            ((GridPoint *)((u8 *)grid_base + (motion->unk_34 << 2)))->unk_02.unk_00;
+                            *(u8 *)&((GridPoint *)((u8 *)grid_base + (motion->unk_34 << 2)))->y;
                     }
                     sprite->unk_06 = 0;
                 }

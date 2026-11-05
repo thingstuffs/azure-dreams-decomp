@@ -91,7 +91,7 @@ void advance_motion_and_reset_appearance(RandomizedEffectMotionBody *state, Obje
         appearance->color.c.r = 0x40;
         appearance->tpage_abr = 0x20;
         appearance->flags = (u16) (appearance->flags | 0x1C);
-        state->callback = fade_sprite_color_and_remove_effect;
+        state->callback = decrease_primitive_brightness_and_mark_cleanup;
         transform->velocity_x = 0;
         transform->velocity_y = 0;
         transform->velocity_z =

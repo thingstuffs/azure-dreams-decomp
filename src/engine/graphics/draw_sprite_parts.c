@@ -19,7 +19,7 @@ extern void SetRotMatrix(void *m);
 extern void SetTransMatrix(void *m);
 
 /* Transform sprite parts into textured quads and add them to the ordering table. */
-void draw_sprite_parts(void *unused, u8 *sprite, s32 ot_depth)
+void draw_sprite_parts(void *unused, SpriteFrameState *sprite, s32 ot_depth)
 {
     u8 **contexts;
     SpriteQuadScratch *scratch;
@@ -53,20 +53,20 @@ void draw_sprite_parts(void *unused, u8 *sprite, s32 ot_depth)
     scratch->vertices[0].z = 0;
     PushMatrix();
 
-    parts = *(u8 **)(sprite + 8);
-    flags = U16_AT(sprite, 0x14) | 0x8000;
-    U16_AT(sprite, 0x14) = flags;
+    parts = sprite->source;
+    flags = sprite->flags | 0x8000;
+    sprite->flags = flags;
     scratch->sprite_flags = flags;
     part = parts + 1;
-    scratch->input_x = U16_AT(sprite, 0x1C);
+    scratch->input_x = sprite->scale_x;
     origin_x = (s16)scratch->position_x;
     packet = (u8 *)prim + 4;
-    scratch->input_y = U16_AT(sprite, 0x1E);
-    sprite_x = U16_AT(sprite, 0x20);
+    scratch->input_y = sprite->scale_y;
+    sprite_x = sprite->offset_x;
     scratch->translation_x = origin_x + sprite_x;
-    scratch->translation_y = (s16)scratch->position_y + U16_AT(sprite, 0x22);
+    scratch->translation_y = (s16)scratch->position_y + sprite->offset_y;
     TransMatrix(&scratch->matrix, &scratch->translation_x, sprite_x);
-    RotMatrix(sprite + 0x16, &scratch->matrix);
+    RotMatrix(&sprite->angle_x, &scratch->matrix);
     ScaleMatrix(&scratch->matrix, &scratch->input_x);
     SetRotMatrix(&scratch->matrix);
     SetTransMatrix(&scratch->matrix);
@@ -91,7 +91,7 @@ next_part:
         }
 
         if ((parts[0] ^ scratch->sprite_flags) & 1) {
-            if (U16_AT(sprite, 0x14) & 0x400) {
+            if (sprite->flags & 0x400) {
                 flipped_offset = -(S8_AT(part, 1) << 1);
             } else {
                 flipped_offset = -S8_AT(part, 1);
@@ -101,7 +101,7 @@ next_part:
             corner_x = flipped_offset - (u16)scratch->uv_u_extent;
         } else {
             s16 offset = S8_AT(part, 1);
-            if (U16_AT(sprite, 0x14) & 0x400) {
+            if (sprite->flags & 0x400) {
                 offset <<= 1;
             }
             scratch->vertices[2].x = offset;
@@ -113,7 +113,7 @@ next_part:
         scratch->vertices[1].x = corner_x;
 
         if ((parts[0] ^ scratch->sprite_flags) & 2) {
-            if (U16_AT(sprite, 0x14) & 0x400) {
+            if (sprite->flags & 0x400) {
                 flipped_offset = -(S8_AT(part, 2) << 1);
             } else {
                 flipped_offset = -S8_AT(part, 2);
@@ -123,7 +123,7 @@ next_part:
             corner_y = flipped_offset - (u16)scratch->uv_v_extent;
         } else {
             s16 offset = S8_AT(part, 2);
-            if (U16_AT(sprite, 0x14) & 0x400) {
+            if (sprite->flags & 0x400) {
                 offset <<= 1;
             }
             scratch->vertices[1].y = offset;
@@ -151,17 +151,17 @@ next_part:
         gte_stsv((u8 *)prim + 0x20);
 
         U8_AT(packet, -1) = 9;
-        U16_AT(sprite, 0x14) &= 0x7FFF;
+        sprite->flags &= 0x7FFF;
         scratch->uv_u_extent += scratch->uv_u_start;
         scratch->uv_v_extent += scratch->uv_v_start;
         scratch->uv_v_extent <<= 8;
         scratch->uv_v_start <<= 8;
 
         if (scratch->sprite_flags & 0x100) {
-            U16_AT(packet, 0xA) = U16_AT(sprite, 0x12);
+            U16_AT(packet, 0xA) = sprite->clut;
         } else {
             U16_AT(packet, 0xA) =
-                U16_AT(sprite, 0x12) + U16_AT(part, 5);
+                sprite->clut + U16_AT(part, 5);
         }
         S16_AT(packet, 8) = (u16)scratch->uv_v_start + (u16)scratch->uv_u_start;
         S16_AT(packet, 0x10) =
@@ -169,7 +169,7 @@ next_part:
 
         {
             u16 tpage;
-            page_or_flags = U16_AT(sprite, 0x10);
+            page_or_flags = sprite->tpage_abr;
             if (page_or_flags != 0) {
                 tpage = page_or_flags +
                     (U16_AT(part, 3) & 0xFF9F);
@@ -207,7 +207,7 @@ next_part:
         {
             u8 prim_code;
             prim_code = U8_AT(part, 0);
-            sprite[0xF] = prim_code;
+            sprite->color.c.code = prim_code;
             page_or_flags = scratch->sprite_flags;
             if (page_or_flags & 8) {
                 u8 blend_code;
@@ -216,7 +216,7 @@ next_part:
                 } else {
                     blend_code = prim_code & 0xFD;
                 }
-                sprite[0xF] = blend_code;
+                sprite->color.c.code = blend_code;
             }
         }
 
@@ -228,7 +228,7 @@ next_part:
             ot_offset = (s16)depth * 4;
             {
                 u32 color_code;
-                color_code = U32_AT(sprite, 0xC);
+                color_code = sprite->color.unsigned_word;
                 U32_AT(packet, 0) = color_code;
             }
             {

@@ -74,6 +74,37 @@ class LandMakeTests(unittest.TestCase):
                     L.accounting(root,step)
                 self.assertEqual(calls,[])
 
+    def test_lint_and_typing_edit_skips_levels_but_refreshes_status(self):
+        with tempfile.TemporaryDirectory() as td:
+            root = Path(td)
+            for name in ('src', 'ledger', 'tools/lint', 'tools/typing', 'build/landing'):
+                (root/name).mkdir(parents=True)
+            (root/'src/a.c').write_text('int a;')
+            calls = []
+            def step(name, argv=None, action=None):
+                if action:
+                    return action()
+                calls.append(name)
+                if name == 'levels':
+                    (root/'ledger/levels.jsonl').write_text('levels')
+                else:
+                    (root/'STATUS.md').write_text('status '+str(len(calls)))
+            with patch('tools.build.make_evidence.checked_receipt'):
+                L.accounting(root, step)
+                calls.clear()
+                (root/'tools/lint/check.py').write_text('changed')
+                L.accounting(root, step)
+                self.assertEqual(calls, ['status'])
+                self.assertIn('only lint/typing', (root/'build/landing/levels.log').read_text())
+                calls.clear()
+                (root/'tools/typing/check.py').write_text('changed')
+                L.accounting(root, step)
+                self.assertEqual(calls, ['status'])
+                calls.clear()
+                (root/'src/a.c').write_text('int b;')
+                L.accounting(root, step)
+                self.assertEqual(calls, ['levels', 'status'])
+
     def test_privacy_failure_preserves_patch_and_never_commits(self):
         with tempfile.TemporaryDirectory() as td:
             root=Path(td)

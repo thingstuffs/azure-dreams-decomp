@@ -84818,7 +84818,7 @@
       "owned_data": [],
       "imports": [
         {
-          "symbol": "fade_sprite_color_and_remove_effect",
+          "symbol": "func_800A38A8",
           "kind": "data",
           "vma": 2148153512,
           "foff": 155976,

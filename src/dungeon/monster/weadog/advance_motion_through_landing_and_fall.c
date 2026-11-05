@@ -2,18 +2,7 @@
 #include "common.h"
 #include "shared/object_links.h"
 #include "dungeon/actor/effect.h"
-
-typedef struct GridPoint {
-    union {
-        s16 unk_00;
-        u8 unk_00_u8;
-    } x;
-    union {
-        s16 unk_02;
-        u16 unk_02_u16;
-        u8 unk_02_u8;
-    } y;
-} GridPoint;
+#include "dungeon/monster/weadog.h"
 
 typedef struct GridData {
     GridPoint point[8];
@@ -269,14 +258,14 @@ move:
             coord += rounded;
             motion->unk_70 = coord;
 
-            coord = step->x.unk_00;
+            coord = step->x;
             rounded = position->unk_00.half.unk_02.unk_02;
             interp_goal += coord;
             if (rounded < 0)
                 rounded += 0x3F;
             coord = rounded >> 6;
             if (interp_goal == coord) {
-                coord = step->y.unk_02_u16;
+                coord = (u16)step->y;
                 rounded = position->unk_04.half.unk_06.unk_06;
                 interp_goal = motion->unk_5D;
                 coord = (s16)coord;
@@ -297,9 +286,9 @@ move:
                         motion->unk_7C = 0;
                     } else {
                         motion->unk_5C +=
-                            ((GridPoint *)((u8 *)direction_base + (motion->unk_34 << 2)))->x.unk_00_u8;
+                            *(u8 *)&((GridPoint *)((u8 *)direction_base + (motion->unk_34 << 2)))->x;
                         motion->unk_5D +=
-                            ((GridPoint *)((u8 *)direction_base + (motion->unk_34 << 2)))->y.unk_02_u8;
+                            *(u8 *)&((GridPoint *)((u8 *)direction_base + (motion->unk_34 << 2)))->y;
                     }
                     animation->unk_06 = 0;
                 }

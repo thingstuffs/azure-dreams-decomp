@@ -109,7 +109,7 @@ void draw_sprite_list(void);
 void func_8003D0F0(void);
 
 /* draw_sprite_parts.c */
-void draw_sprite_parts(void *unused, u8 *sprite, s32 ot_depth);
+void draw_sprite_parts(void *unused, SpriteFrameState *sprite, s32 ot_depth);
 
 /* draw_tinted_node_sprites.c */
 void draw_tinted_node_sprites(u8 *parent, u8 *node);

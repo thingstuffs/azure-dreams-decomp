@@ -43,18 +43,18 @@ void runtime_transform_sprite_attachment_point(void *transform, void *point, voi
     angle_x = sprite->angle_x - 0x400;
     scratch->angle_x = angle_x - (u16)scratch->input_x;
     scratch->angle_z = ((u16)(render_state->view.view_rotation_offset.parts.view_rotation_offset_z)) + (sprite->angle_z - (u16)scratch->input_y);
-    scratch->angle_y = U16_AT(transform, 0x18);
-    offset_x = U16_AT(transform, 0x20);
+    scratch->angle_y = sprite->angle_y;
+    offset_x = sprite->offset_x;
     scratch->local_matrix.t[0] = offset_x;
     scratch->extent_x = offset_x;
-    offset_y = U16_AT(transform, 0x22);
+    offset_y = sprite->offset_y;
     scratch->local_matrix.t[2] = 0;
     scratch->local_matrix.t[1] = offset_y;
     scratch->extent_y = offset_y;
     RotMatrix((void *)0x1F800100, (void *)0x1F8000D0);
 
     scratch->input_x = sprite->scale_x << 1;
-    scratch->input_y = U16_AT(transform, 0x1E) << 1;
+    scratch->input_y = sprite->scale_y << 1;
     scratch->input_z = 0x2000;
     ScaleMatrix((void *)0x1F8000D0, (void *)0x1F800030);
     SetTransMatrix((void *)0x1F8000D0);

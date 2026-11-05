@@ -1,9 +1,10 @@
 """Private configure checkpoints, bound to content rather than file timestamps.
 
-Only edits to existing source/include files can reuse checkpoints. Any authority,
-tool, inventory, environment or symlink change discards the whole cache. Within
-that boundary a record binds the files its producer actually reads. This cache
-contains recipes, never compile/image proofs or gate verdicts.
+Only edits to existing source/include files can reuse general checkpoints. An
+edit to the configure driver may reuse include closures when its closure entry
+point and every other authority are unchanged. Each closure still binds its
+own input files. This cache contains recipes, never compile/image proofs or
+gate verdicts.
 """
 import copy
 import gzip
@@ -21,14 +22,32 @@ class RecipeCache:
                      for n, v in inputs.items()}
         return hashlib.sha256(json.dumps([authority, context], sort_keys=True).encode()).hexdigest()
 
-    def __init__(self, root, inputs, context, saved=None):
+    @staticmethod
+    def closure_guard_for(inputs, context, closure_entry):
+        closure_inputs = dict(inputs)
+        if closure_entry is not None and 'tools/build/mkbuild.py' in closure_inputs:
+            closure_inputs['tools/build/mkbuild.py'] = hashlib.sha256(closure_entry.encode()).hexdigest()
+        return RecipeCache.guard_for(closure_inputs, context)
+
+    def __init__(self, root, inputs, context, saved=None, closure_entry=None):
         self.root = Path(root)
         self.inputs = inputs
         self.digests = dict(inputs)
         self.used = set()
         self.names = {}
+        self.closure_entry = closure_entry
         self.guard = self.guard_for(inputs, context)
-        self.old = saved.get('records', {}) if saved and saved.get('guard') == self.guard else {}
+        # The driver does not implement the include walk: it passes root and
+        # starts to module.closure. Bind that entry point separately so edits
+        # elsewhere in mkbuild.py need not repeat thousands of identical walks.
+        self.closure_guard = self.closure_guard_for(inputs, context, closure_entry)
+        records = saved.get('records', {}) if saved else {}
+        if saved and saved.get('guard') == self.guard:
+            self.old = records
+        elif saved and saved.get('closure_guard') == self.closure_guard:
+            self.old = {k: v for k, v in records.items() if k.startswith('closure:')}
+        else:
+            self.old = {}
         self.records = {}
         self.hits = self.misses = 0
 
@@ -137,7 +156,8 @@ class RecipeCache:
                 value['spec'], value['artifacts'] = spec, list(value['artifacts'])
                 record = dict(record, value=value)
             records[key] = record
-        return gzip.compress(json.dumps(dict(codec=1, guard=self.guard, records=records,
+        return gzip.compress(json.dumps(dict(codec=1, guard=self.guard, closure_guard=self.closure_guard,
+                                             records=records,
                                              bases=bases, artifacts=artifacts),
                                         sort_keys=True, separators=(',', ':')).encode(), compresslevel=1, mtime=0)
 

@@ -101,6 +101,25 @@ class CacheTests(unittest.TestCase):
         self.spec['args'].append('-G0')
         self.assertNotEqual(first, self.key())
 
+    def test_unrelated_lint_and_typing_edits_preserve_key(self):
+        first = self.key()
+        for name in ('tools/lint/debt_check.py', 'tools/typing/abi_facts.py'):
+            path = self.root/name
+            path.parent.mkdir(parents=True, exist_ok=True)
+            path.write_text('review tool changed')
+            self.assertEqual(first, self.key(), name)
+
+    def test_compile_driver_comment_preserves_key_but_code_edit_invalidates(self):
+        path = self.root/'tools/build/mkbuild.py'
+        path.parent.mkdir(parents=True)
+        path.write_text('def compile_one():\n    return 1\n')
+        (self.root/'build/.state/compiletools.list').write_text('["build/tool.py", "tools/build/mkbuild.py"]')
+        first = self.key()
+        path.write_text('# explanation\ndef compile_one():\n    return 1\n')
+        self.assertEqual(first, self.key())
+        path.write_text('def compile_one():\n    return 2\n')
+        self.assertNotEqual(first, self.key())
+
     def test_key_portable_across_roots_and_mtime_only_edits(self):
         import shutil
         other = Path(self.temp.name)/'other'

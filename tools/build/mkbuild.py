@@ -10,6 +10,7 @@ from collections import Counter
 import copy
 from contextlib import contextmanager
 import hashlib
+import inspect
 import json
 import mmap
 import os
@@ -68,7 +69,10 @@ def stamp(kind):
     names = read(STATE/(kind+'.list'))
     if kind == 'compiletools':
         compile_tools.verify(ROOT, names)
-    return json.dumps(dict(kind=kind, inputs=hash_inputs(names)), sort_keys=True, indent=1) + '\n'
+    inputs = hash_inputs(names)
+    if kind == 'compiletools' and 'tools/build/mkbuild.py' in inputs:
+        inputs['tools/build/mkbuild.py'] = compile_tools.semantic_digest(ROOT, 'tools/build/mkbuild.py')
+    return json.dumps(dict(kind=kind, inputs=inputs), sort_keys=True, indent=1) + '\n'
 
 
 def write_stamp(kind):
@@ -799,7 +803,8 @@ def generate(full=False, snapshot=None):
     import overlay_module_gate as M
     cache_path = STATE/'configure-cache.json.gz'
     saved = load_recipe_cache(cache_path) if not full and outputs_valid and rel(cache_path) in previous['outputs'] else {}
-    RECIPE_CACHE = RecipeCache(ROOT, before, context, saved)
+    RECIPE_CACHE = RecipeCache(ROOT, before, context, saved,
+                               closure_entry=inspect.getsource(include_closure))
     RECIPE_CACHE.digests.update(observed_now)
     cache = RECIPE_CACHE
     GENERATION_WRITES = set()
@@ -827,6 +832,7 @@ def generate(full=False, snapshot=None):
     # A cold tree discovers compiler/recipe inputs while enumerating. Bind the
     # completed inventory now so its first later source edit can reuse it.
     cache.guard = cache.guard_for(final_inputs, context)
+    cache.closure_guard = cache.closure_guard_for(final_inputs, context, cache.closure_entry)
     write(cache_path, cache.blob())
     content_cache.save(marker, dict(root=str(ROOT), environment=configure_environment(), links=after_links,
                                    inputs=final_inputs, outputs=snapshot.hashes(outputs), name_inputs=index.get('name_inputs', []),

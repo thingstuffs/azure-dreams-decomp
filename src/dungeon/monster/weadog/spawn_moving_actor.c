@@ -77,7 +77,7 @@ void spawn_moving_actor(ActorRecord *action_work, ObjectPosition *position, Spri
                 spawned_pos->z.w.i = position->z.unsigned_parts.integer - 0x20;
                 direction_ptr = &direction_vectors;
                 direction_index = ((u16)actor->facing >> 7) & 0x1C;
-                spawned_work->velocity_x = direction_vectors[direction_index >> 2].unk_00.x << 0x13;
+                spawned_work->velocity_x = direction_vectors[direction_index >> 2].x << 0x13;
                 direction_index = ((u16)actor->facing >> 7) & 0x1C;
                 spawned_work->velocity_y =
                     (*(u16 *)(direction_index + (u8 *)direction_ptr + 2)) << 0x13;

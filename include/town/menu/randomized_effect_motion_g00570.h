@@ -32,7 +32,7 @@ extern u8 *D_800D0B50[];
 /* extern */
 void advance_sprite_animation_and_textures(void *entity);
 /* extern */
-extern void fade_sprite_color_and_remove_effect(RandomizedEffectMotionBody *state,
+extern void decrease_primitive_brightness_and_mark_cleanup(RandomizedEffectMotionBody *state,
                                                  ObjectPosition *unused_context, SpriteFrameState *appearance);
 
 extern SpriteSourceEntry *D_800D0B20[];

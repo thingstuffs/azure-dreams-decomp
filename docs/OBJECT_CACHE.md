@@ -80,9 +80,12 @@ noreturn/sibcall defaults retain whole-file hashes because their current traces
 do not cover every config read. Overlay recipes that already depend on generated
 scoped evidence keep those dependencies. These conservative fallbacks can still
 miss after unrelated table edits; omitting unobserved inputs would be unsafe.
-The volatile macro, debug flag, environment, executable and tool-closure guards
-are unchanged. In particular, landing a change to `object_cache.py` changes every
-object's tool closure and requires one full recompile.
+The volatile macro, debug flag, environment and executable guards are
+unchanged. Tool closure bytes remain bound except for `mkbuild.py`: its parsed
+Python syntax is hashed for the compile stamp and object key, so comment and
+format-only edits do not invalidate objects. A syntax change or parse failure
+changes that hash. In particular, landing a change to `object_cache.py`
+changes every object's tool closure and requires one full recompile.
 
 Run focused tests with:
 

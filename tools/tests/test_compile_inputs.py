@@ -182,6 +182,20 @@ class CcprocTraceTests(unittest.TestCase):
 
 
 class CompileToolClosureTests(unittest.TestCase):
+    def test_driver_syntax_digest_ignores_comments_only(self):
+        with tempfile.TemporaryDirectory() as td:
+            root = Path(td)
+            path = root/'tools/build/mkbuild.py'
+            path.parent.mkdir(parents=True)
+            path.write_text('def compile_one():\n    return 1\n')
+            first = T.semantic_digest(root, 'tools/build/mkbuild.py')
+            path.write_text('# explanation\ndef compile_one():\n    return 1\n')
+            self.assertEqual(first, T.semantic_digest(root, 'tools/build/mkbuild.py'))
+            path.write_text('def compile_one():\n    return 2\n')
+            self.assertNotEqual(first, T.semantic_digest(root, 'tools/build/mkbuild.py'))
+            path.write_text('def compile_one(:\n')
+            self.assertNotEqual(first, T.semantic_digest(root, 'tools/build/mkbuild.py'))
+
     def test_lazy_imports_follow_called_functions_and_skip_other_commands(self):
         with tempfile.TemporaryDirectory() as td:
             root = Path(td)
