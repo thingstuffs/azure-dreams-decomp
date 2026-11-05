@@ -29,13 +29,13 @@ typedef struct {
 typedef struct FollowingColorEffect {
     u8 pad_00[8];
     ObjectNodeHeader *node;
-    union { s16 s; u16 u; } angle_x, angle_y, angle_z;
+    u16 angle_x, angle_y, angle_z;
     u8 pad_12[2];
-    union { s16 s; u16 u; } target_x, target_y, target_z;
+    s16 target_x, target_y, target_z;
     u8 pad_1A[0x12];
-    union { s16 s; u16 u; } phase;
+    s16 phase;
     s16 chase_phase;
-    union { s16 s; u16 u; } steps;
+    s16 steps;
     u8 pad_32[2];
     u16 frame;
     u8 pad_36[2];
@@ -70,12 +70,12 @@ void update_following_color_blend_effect(FollowingColorEffect *state, ObjectPosi
 
     sprite_effect_update_count++;
     state->frame++;
-    phase = state->phase.s;
+    phase = state->phase;
 
     switch (phase) {
     case 0:
         register_node((u8 *)state - 0x20, &linked_mesh_processor_address);
-        state->phase.u++;
+        state->phase++;
     case 1:
         node = state->node;
         if (node == 0) {
@@ -85,28 +85,28 @@ void update_following_color_blend_effect(FollowingColorEffect *state, ObjectPosi
                     pos->x.w.i,
                     pos->y.w.i,
                     pos->z.w.i,
-                    state->target_x.s,
-                    state->target_y.s,
-                    state->target_z.s,
+                    state->target_x,
+                    state->target_y,
+                    state->target_z,
                     &color);
 
                 {
                     u16 value;
-                    raw = state->angle_x.u;
+                    raw = state->angle_x;
                     value = (raw & 0x800) ? (raw | 0xF800) : (raw & 0x7FF);
-                    state->angle_x.u = value;
+                    state->angle_x = value;
                 }
                 {
                     u16 value;
-                    raw = state->angle_y.u;
+                    raw = state->angle_y;
                     value = (raw & 0x800) ? (raw | 0xF800) : (raw & 0x7FF);
-                    state->angle_y.u = value;
+                    state->angle_y = value;
                 }
                 {
                     u16 value;
-                    raw = state->angle_z.u;
+                    raw = state->angle_z;
                     value = (raw & 0x800) ? (raw | 0xF800) : (raw & 0x7FF);
-                    state->angle_z.u = value;
+                    state->angle_z = value;
                 }
                 {
                     u16 value;
@@ -132,13 +132,13 @@ void update_following_color_blend_effect(FollowingColorEffect *state, ObjectPosi
                     s32 isClose;
 
                     diff = color.x;
-                    currentValue = state->angle_x.s;
+                    currentValue = (s16)state->angle_x;
                     diff = diff - currentValue;
                     diff = abs(diff);
                     isClose = diff < 0x801;
                     currentValue = (u16)color.x;
                     if (!isClose) {
-                        color.x = (state->angle_x.u & 0xF000) | (currentValue & 0xFFF);
+                        color.x = (state->angle_x & 0xF000) | (currentValue & 0xFFF);
                     }
                 }
 
@@ -147,27 +147,27 @@ void update_following_color_blend_effect(FollowingColorEffect *state, ObjectPosi
                     s32 isClose;
 
                     diff = color.y;
-                    currentValue = state->angle_y.s;
+                    currentValue = (s16)state->angle_y;
                     diff = diff - currentValue;
                     diff = abs(diff);
                     isClose = diff < 0x801;
                     currentValue = (u16)color.y;
                     if (!isClose) {
-                        color.y = (state->angle_y.u & 0xF000) | (currentValue & 0xFFF);
+                        color.y = (state->angle_y & 0xF000) | (currentValue & 0xFFF);
                     }
                 }
 
                 {
                     s32 isClose;
 
-                    diff = color.z - state->angle_z.s;
+                    diff = color.z - (s16)state->angle_z;
                     diff = abs(diff);
                     isClose = diff < 0x801;
                     {
                         s32 rawValue;
                         s32 newValue;
 
-                        rawValue = state->angle_z.u;
+                        rawValue = state->angle_z;
                         if (!isClose) {
                             newValue = rawValue & 0xF000;
                             newValue |= ((u16)color.z & 0xFFF);
@@ -176,9 +176,9 @@ void update_following_color_blend_effect(FollowingColorEffect *state, ObjectPosi
                     }
                 }
 
-                state->angle_x.u += (color.x - state->angle_x.s) >> 2;
-                state->angle_y.u += (color.y - state->angle_y.s) >> 2;
-                state->angle_z.u += (color.z - state->angle_z.s) >> 2;
+                state->angle_x += (color.x - (s16)state->angle_x) >> 2;
+                state->angle_y += (color.y - (s16)state->angle_y) >> 2;
+                state->angle_z += (color.z - (s16)state->angle_z) >> 2;
 
                 draw_ball_effect_points(&state->angle_x, state->speed, &delta);
                 pos->x.v += delta.x;
@@ -186,8 +186,8 @@ void update_following_color_blend_effect(FollowingColorEffect *state, ObjectPosi
                 pos->z.v += delta.z;
 
                 state->speed = 0xA0;
-                state->steps.u--;
-                if (state->steps.s <= 0) {
+                state->steps--;
+                if (state->steps <= 0) {
                     ObjectPosition *base = &view_reference_entity;
                     s32 tableAddress;
                     color.x = ((u16)(base->x.w.i));
@@ -202,13 +202,13 @@ void update_following_color_blend_effect(FollowingColorEffect *state, ObjectPosi
                         &effect,
                         0);
                     color.x += effect.x;
-                    state->target_x.s = color.x;
+                    state->target_x = color.x;
                     color.y += effect.y;
-                    state->target_y.s = color.y;
+                    state->target_y = color.y;
                     color.z += effect.z;
-                    state->target_z.s = color.z;
+                    state->target_z = color.z;
                     state->chase_phase = 1;
-                    state->steps.s = 8;
+                    state->steps = 8;
                 }
                 {
                     u32 shade;
@@ -218,34 +218,34 @@ void update_following_color_blend_effect(FollowingColorEffect *state, ObjectPosi
                     }
                 }
             } else if (phase == 1) {
-                steps = state->steps.s;
+                steps = state->steps;
                 if (steps > 0) {
-                    pos->x.w.i += (state->target_x.s - pos->x.w.i) / steps;
-                    pos->y.w.i += (state->target_y.s - pos->y.w.i) / state->steps.s;
-                    pos->z.w.i += (state->target_z.s - pos->z.w.i) / state->steps.s;
+                    pos->x.w.i += (state->target_x - pos->x.w.i) / steps;
+                    pos->y.w.i += (state->target_y - pos->y.w.i) / state->steps;
+                    pos->z.w.i += (state->target_z - pos->z.w.i) / state->steps;
                 }
-                state->steps.u--;
-                if (state->steps.s <= 0) {
-                    state->steps.s = 0;
-                    pos->x.w.i = state->target_x.u;
-                    pos->y.w.i = state->target_y.u;
-                    pos->z.w.i = state->target_z.u;
+                state->steps--;
+                if (state->steps <= 0) {
+                    state->steps = 0;
+                    pos->x.w.i = (u16)state->target_x;
+                    pos->y.w.i = (u16)state->target_y;
+                    pos->z.w.i = (u16)state->target_z;
                     if (create_random_spin_effect(
-                            state->target_x.s,
-                            state->target_y.s,
-                            (s16)(state->target_z.u + 0x10),
+                            state->target_x,
+                            state->target_y,
+                            (s16)((u16)state->target_z + 0x10),
                             0)) {
                         iter = 3;
                         do {
                             create_random_spin_effect(
-                                state->target_x.s,
-                                state->target_y.s,
-                                (s16)(state->target_z.u + 0x10),
+                                state->target_x,
+                                state->target_y,
+                                (s16)((u16)state->target_z + 0x10),
                                 (s16)iter);
                             iter--;
                         } while (iter >= 2);
-                        state->steps.s = 8;
-                        state->phase.u++;
+                        state->steps = 8;
+                        state->phase++;
                     }
                 }
             }
@@ -257,8 +257,8 @@ void update_following_color_blend_effect(FollowingColorEffect *state, ObjectPosi
             return;
         }
         if (node->flags & 0x8000) {
-            state->steps.s = 2;
-            state->phase.u++;
+            state->steps = 2;
+            state->phase++;
         }
         node = state->node;
         target = node->position;
@@ -294,12 +294,12 @@ void update_following_color_blend_effect(FollowingColorEffect *state, ObjectPosi
             pos->velocity_z += (pos->z.v - pos->velocity_z) >> 2;
         }
         fade = tint->color.c.r;
-        fade -= fade / state->steps.s;
+        fade -= fade / state->steps;
         tint->color.c.r = fade;
         tint->color.c.g = fade;
         tint->color.c.b = fade;
-        state->steps.u--;
-        if (state->steps.s <= 0) {
+        state->steps--;
+        if (state->steps <= 0) {
             ((FollowingColorPrefix *)state)[-1].flags |= 0x8000;
             object_flag_block.flags |= OBJECT_REMOVE_PENDING;
         }

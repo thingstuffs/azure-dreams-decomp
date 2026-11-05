@@ -37,20 +37,7 @@ struct ObjectPosition;
 typedef s32 R08_8017087C_M2C_UNK;
 
 
-
-
 typedef void (*R08_80170A50_EntityCallback)(void *, void *, void *, void *);
-typedef struct R08_80170A50_S_80170A28_0 {
-    u8 pad_00[0x4];
-    s8 unk_04;
-    u8 pad_05[0xF];
-    u16 unk_14;
-    u8 pad_16[0xE];
-    u8 unk_24;
-    u8 unk_25;
-    u8 pad_26[0x6];
-    u8 * unk_2C;
-} R08_80170A50_S_80170A28_0;
 typedef struct R08_80170A50_S_80170A28_1 {
     u8 pad_00[0x1C];
     s32 unk_1C;
@@ -184,7 +171,6 @@ typedef struct R08_80173234_S_80173234_1 {
 } R08_80173234_S_80173234_1;
 
 
-
 typedef struct R08_801740F4_Entry {
     u8 pad00[6];
     s16 unk06;
@@ -198,12 +184,6 @@ typedef struct {
     s32 value;
 } R08_801740F4_Scratchpad;
 
-typedef struct {
-    u8 pad[0x1A];
-    u16 field_1A;
-    u16 field_1C;
-    u16 field_1E;
-} R08_80174180_Object;
 typedef struct R08_801741D0_S_801741D0_0 {
     u8 pad_00[0x8];
     void * unk_08;
@@ -389,7 +369,7 @@ s32 read_stream_cue_start_offset(void);
 s32 lookup_masked_byte_table();
 void unlink_entity_node();
 void decrement_monster_entry_count(s16 requested_id, s16 requested_type);
-s32 create_status_linked_render_effect();
+void *create_status_linked_render_effect();
 s32 propagate_actor_action_flag(ActorRecord *body, ObjectPosition *position, SpriteFrameState *sprite, ActorRecord *actor);
 extern u8 griffon_direction_frames[];
 extern u8 griffon_frame_set_3[];
@@ -449,7 +429,7 @@ void finish_actor_terrain_interpolation_then_resume_effect_behavior(ActorRecord 
 void create_four_directional_effects(ActorRecord *state, ObjectPosition *motion, SpriteFrameState *position, ActorRecord *actor);
 void finish_actor_fade_in_then_resume_effect_behavior(ActorRecord *state, ObjectPosition *motion, SpriteFrameState *position, ActorRecord *actor);
 s32 start_bank_actor_hit_reaction(void *initial_payload, s32 entry_data, R08_801740F4_Entry *entry, s32 unused);
-void advance_object_angle_and_height(u16 *record_data, ObjectPosition *unused_position, R08_80174180_Object *object);
+void advance_object_angle_and_height(u16 *record_data, ObjectPosition *unused_position, SpriteFrameState *object);
 void create_tinted_rotated_sprite(PositionedSpriteEffectBody *unused_0, ObjectPosition *source_pos, SpriteFrameState *unused_sprite, s8 green, u8 red_blue);
 void update_timed_effect_and_expire(PositionedSpriteEffectBody *effect, ObjectPosition *position, SpriteFrameState *sprite);
 void create_positioned_sprite_effect(M2C_UNK unused, EntityRec *source_pos, void *unused_context);
@@ -461,14 +441,10 @@ void finish_actor_action_flag_propagation_then_resume_effect_behavior(ActorRecor
 void *spawn_griffon_actor(s16 flags, s16 kind_id, s16 variant, s16 spawn_value);
 
 
-
-
 void advance_entity_movement_and_settle_tile(ActorRecord *action, ObjectPosition *motion, SpriteFrameState *sprite, ActorRecord *entity);
 void update_actor_directional_movement(ActorRecord *action, ObjectPosition *motion, SpriteFrameState *sprite, ActorRecord *actor);
 
 void update_directional_motion_and_center_variant(ActorRecord *controller, ObjectPosition *motion, SpriteFrameState *sprite, ActorRecord *entity);
-
-
 
 
 void advance_directional_motion_to_center(void *motion_state, ObjectPosition *motion, SpriteFrameState *sprite, void *actor);

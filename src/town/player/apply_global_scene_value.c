@@ -10,7 +10,7 @@ extern s32 scene_object_payload_alias;
 extern void call_the_handler_selects_nonzero_entry(s32 *a0, void *a1,void *a2);
 
 /* Calls call_the_handler_selects_nonzero_entry with the input value and global context. */
-void apply_global_scene_value(s32 value) {
+void apply_global_scene_value(void *value) {
     s32 *context = &scene_object_payload_alias;
     call_the_handler_selects_nonzero_entry(value, context, NODE_HEADER(context)->sprite);
 }

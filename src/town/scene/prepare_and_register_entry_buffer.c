@@ -4,9 +4,9 @@
 #include "shared/town_root.h"
 #include "m2c_compat.h"
 #include "town/data.h"
+#include "town/scene/motion/coordinate_entries.h"
 
 
-s32 copy_and_terminate_coordinate_entries(void *);
 s8 *clear_bytes(s8 *buffer, s32 length); /* Unprototyped: retail call passes more arguments than the callee reads */
 extern s8 D_80019440[];
 

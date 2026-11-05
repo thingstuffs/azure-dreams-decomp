@@ -20,13 +20,13 @@ void update_object_orbit_and_timer(TownObjectRecord *object, ObjectPosition *pos
         return;
     }
 
-    angle = object->unk_86;
+    angle = (u16)object->unk_86;
     object->unk_86 = angle + 0x40;
     object->heading = angle + 0x440;
 
     position->x.unsigned_parts.integer = ((u16)object->unk_84) +
         rsin(((s16)object->unk_86)) / (0x1000 / object->unk_84);
-    position->y.unsigned_parts.integer = object->unk_86 +
+    position->y.unsigned_parts.integer = (u16)object->unk_86 +
         rcos(((s16)object->unk_86)) / (0x1000 / object->unk_84) -
         ((u16)object->unk_84);
 

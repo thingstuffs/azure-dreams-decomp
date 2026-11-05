@@ -10,7 +10,7 @@ typedef struct S_818C2E40_0 {
     void * unk_0C;
     void * unk_10;
     u8 pad_14[0xC];
-    s32 unk_20;
+    void *unk_20;
 } S_818C2E40_0;   /* node in func_818C2E40 */
 
 typedef struct S_818C2E40_1 {
@@ -29,7 +29,7 @@ extern u8 D_800240C0[9];
 extern u8 D_800241D4[9];
 
 /* Allocate and initialize a node with the supplied value and 24 bytes of data. */
-void *create_motion_copy_sprite(s32 node_value, ObjectPosition *initial_data)
+void *create_motion_copy_sprite(void *node_value, ObjectPosition *initial_data)
 {
     ObjectNodeHeader *node;
     S_818C2E40_1 *fields;

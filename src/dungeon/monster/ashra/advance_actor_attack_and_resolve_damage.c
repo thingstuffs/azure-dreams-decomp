@@ -13,10 +13,10 @@
 #include "dungeon/effect/screen.h"
 #include "dungeon/monster/ashra.h"
 #include "dungeon/player/object.h"
+#include "dungeon/data.h"
 
 extern void *actor_update_node_cursor;
 extern s32 ashra_action_continuation_address;
-extern u8 ashra_frame_set_3[];
 
 /* Advance the actor's animation state and clean up when it finishes. */
 void advance_actor_attack_and_resolve_damage(ActorRecord *action, ObjectPosition *actor_id, SpriteFrameState *sprite, ActorRecord *actor) {

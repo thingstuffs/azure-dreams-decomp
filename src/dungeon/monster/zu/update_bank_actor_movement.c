@@ -640,7 +640,7 @@ void advance_bank_actor_path(ActorRecord *body, ObjectPosition *position, Sprite
 #include "records/Rec_func_800A9E70_arg0.h"
 
 extern void update_actor_status_and_mp(ActorRecord *entity);
-extern void update_actor_proximity_flag(void *source, void *state, s32 lower_limit, s32 upper_limit, s8 *result);
+extern s32 update_actor_proximity_flag(void *source, void *state, s32 lower_limit, s32 upper_limit, s8 *result);
 extern void *find_adjacent_actor(void *entity, u16 x, u16 y);
 extern s32 generate_random_value(void);
 extern s16 check_diagonal_side_height(s32 direction, s16 tile_x, s16 tile_y, s16 height);
@@ -2332,7 +2332,7 @@ void update_bank_effect_fade(void *effect_arg, MovingPosition *position, SpriteF
 
 extern void *get_unused_text_buffer(void);
 extern u8 *expand_text_control_codes();
-extern void * clear_byte_and_advance(s8 *byte_ptr);
+extern u8 *clear_byte_and_advance(s8 *byte_ptr);
 extern u8 *append_entity_display_text(void *record, u8 *out);
 
 extern s32 display_text_with_fullwidth_adjustment(s8 *text);

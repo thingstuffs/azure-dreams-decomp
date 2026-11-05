@@ -50,7 +50,7 @@ void advance_bounded_motion(TownObjectRecord *entity, void *motion_arg, SpriteFr
         break;
     case 1:
         if (((s16)entity->unk_86) + entity->unk_8E < motion->y.w.i) {
-            motion->y.unsigned_parts.integer = entity->unk_86 + *(u16 *)&entity->unk_8E;
+            motion->y.unsigned_parts.integer = (u16)entity->unk_86 + *(u16 *)&entity->unk_8E;
             initialize_object_assigns_state_data(entity, motion, context);
             return;
         }
@@ -70,7 +70,7 @@ void advance_bounded_motion(TownObjectRecord *entity, void *motion_arg, SpriteFr
         if (motion->y.w.i < ((s16)entity->unk_86) - entity->unk_8E) {
             u16 center;
             u16 extent;
-            center = entity->unk_86;
+            center = (u16)entity->unk_86;
             extent = *(u16 *)&entity->unk_8E;
             motion->y.unsigned_parts.integer = center - extent;
             initialize_object_assigns_state_data(entity, motion, context);

@@ -17,10 +17,9 @@
 #include "dungeon/item.h"
 #include "dungeon/monster/weadog.h"
 #include "sdk/libgte.h"
+#include "dungeon/data.h"
 
 extern s32 weadog_action_resume_address;
-extern u8 weadog_frame_set_3[];
-extern u8 weadog_frame_set_7[];
 extern u8 D_80174ED8[];
 
 /* Moves the actor to its tile with a hop and completes the timed action. */

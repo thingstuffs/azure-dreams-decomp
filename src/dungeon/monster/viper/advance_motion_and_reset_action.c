@@ -16,6 +16,7 @@
 #include "dungeon/actor.h"
 #include "sdk/libc.h"
 #include "dungeon/system.h"
+#include "dungeon/data.h"
 
 typedef struct S_80172F5C_3 {
     u8 pad_00[0x24];
@@ -35,7 +36,6 @@ typedef struct S_80172F5C_7 {
 extern void select_sprite_entry(void *, s32, s32);
 
 extern u8 viper_action_continuation_address[];
-extern u8 viper_frame_set_2[];
 
 /* Advances an actor motion, waits for completion, and resets its action state. */
 void advance_motion_and_reset_action(ActorRecord *state, ObjectPosition *transform, SpriteFrameState *sprite, ActorRecord *actor) {

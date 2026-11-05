@@ -1,7 +1,7 @@
 #include "common.h"
 
 void flag_object_for_removal(unsigned short *object);
-s32 create_callback_pair_default();                         /* extern */
+void *create_callback_pair_default();                         /* extern */
 s32 format_item_value_and_flag_marker();                        /* extern */
 
 /* Allocates and initializes an object, releasing it if initialization fails. */

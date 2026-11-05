@@ -10,6 +10,7 @@
 #include "dungeon/item.h"
 #include "dungeon/effect.h"
 #include "dungeon/monster/baloon.h"
+#include "dungeon/data.h"
 
 typedef struct Ent Ent;
 
@@ -17,8 +18,6 @@ Ent *prepare_directional_attack();
 s16 get_actor_height_difference(ActorRecord *left_record, ActorRecord *right_record);
 s16 try_claim_dungeon_action_slot(ActorRecord *actor);
 s32 check_entity_interaction_compatibility();
-
-extern u8 baloon_attack_frames;
 
 /* Checks action readiness and initializes the actor state and directional animation. */
 s32 initialize_directional_object(ActorRecord *action_state, ObjectPosition *action_param, SpriteFrameState *sprite, ActorRecord *actor) {

@@ -688,7 +688,7 @@ void func_80041588(u32 *stream_ref, u8 *state, s32 execute);
 s32 read_stream_cue_start_offset(void);
 s32 lookup_masked_byte_table();
 void decrement_monster_entry_count(s16 requested_id, s16 requested_type);
-s32 create_status_linked_render_effect();
+void *create_status_linked_render_effect();
 s32 propagate_actor_action_flag(ActorRecord *body, ObjectPosition *position, SpriteFrameState *sprite, ActorRecord *actor);
 extern u8 arachne_direction_frames[];
 extern u8 arachne_alt_direction_frames[];

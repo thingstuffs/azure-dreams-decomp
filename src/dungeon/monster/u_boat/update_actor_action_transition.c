@@ -4,11 +4,10 @@
 #include "shared/sprite_frame_state.h"
 #include "shared/game_work.h"
 #include "engine/graphics.h"
+#include "dungeon/data.h"
 
 extern s32 update_actor_transform_from_parent(void *, void *, void *, void *);
 
-extern u8 uboat_default_frames[];
-extern u8 uboat_action_frames[];
 #include "dungeon/monster/u_boat.h"
 
 /* Selects a response state or updates the sprite's directional animation. */

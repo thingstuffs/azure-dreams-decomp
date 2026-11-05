@@ -1327,25 +1327,25 @@ typedef struct ProjectileSelf {
     SelfChildView *owner_data;
     u8 pad_08[0x1];
     u8 unk_09;
-    union { u16 u; s16 s; } state;
+    u16 state;
     u8 pad_0C[0x6C];
-    union { u16 u; s16 s; } target_y;
+    u16 target_y;
     u8 flags;
     u8 frames_left;
     u8 pad_7C[0x2];
-    union { u16 u; s16 s; } direction;
+    s16 direction;
     u8 pad_80[0x2];
     u16 timer;
     u8 pad_84[0x4];
     s16 frames_copy;
     s16 frames_squared;
     u8 pad_8C[0x4];
-    union { u16 u; s16 s; } shrinking;
-    union { u16 u; s16 s; } pulse_ticks;
-    union { u16 u; s16 s; } pulse_period;
+    s16 shrinking;
+    s16 pulse_ticks;
+    s16 pulse_period;
     u16 pulse_step;
     u8 pad_98[0x4];
-    union { u16 u; s16 s; } unk_9C;
+    s16 unk_9C;
     u8 pad_9E[0x4];
     Copy12 copy12;
     u8 pad_AE[0xC];
@@ -1369,7 +1369,7 @@ void set_record_pair_to_one(ProjectileSelf *self, OutView *position, PacketView 
     parent = self->parent;
     velocities = wave_direction_steps;
     parent_base = (BaseView *)((u8 *)parent - 0x20);
-    state = self->state.s;
+    state = (s16)self->state;
     origin = parent_base->unk_08;
     switch (state) {
         s32 index;
@@ -1391,7 +1391,7 @@ void set_record_pair_to_one(ProjectileSelf *self, OutView *position, PacketView 
         packed_size = 0x400040;
         colors = (ColorsView *)&D_800266A4;
         render_data->unk_08 = (u32)((u8 *)self + 0xA2);
-        self->direction.u = (parent->unk_2A >> 9) & 7;
+        self->direction = (parent->unk_2A >> 9) & 7;
         colors->unk_10 = 0x80;
         colors->unk_11 = 0x80;
         colors->unk_12 = 0x80;
@@ -1401,9 +1401,9 @@ void set_record_pair_to_one(ProjectileSelf *self, OutView *position, PacketView 
         out_pair.pair.words[0] = packed_pos;
         out_pair.pair.words[1] = packed_size;
         draw_textured_ellipse(colors, &out_pair.pair.rect, 1, 0);
-        phase = self->state.u;
+        phase = self->state;
         wave_effect_update_flag = 1;
-        self->state.u = phase + 1;
+        self->state = phase + 1;
     }
 
     case 1:
@@ -1456,12 +1456,12 @@ void set_record_pair_to_one(ProjectileSelf *self, OutView *position, PacketView 
         if (target != 0) {
             target_pos = ((ObjHeadView *)(target - 0x18))->unk_00;
             target_height = entity_height_offsets[((ParentLink *)target)->unk_13];
-            self->target_y.u = target_pos->unk_08.at02.v - (target_height >> 1);
+            self->target_y = target_pos->unk_08.at02.v - (target_height >> 1);
             parent_data = ((ParentHead *)parent)[-1].unk_00;
             self->tile_x = parent_data->unk_24
-            + (u8)dir_step_x[self->direction.s];
+            + (u8)dir_step_x[self->direction];
             self->tile_y = parent_data->unk_25
-            + (u8)dir_step_y[self->direction.s];
+            + (u8)dir_step_y[self->direction];
             flags = (s8)parent->unk_72;
             tile = parent_data->unk_24;
             if (flags != tile) {
@@ -1474,20 +1474,20 @@ void set_record_pair_to_one(ProjectileSelf *self, OutView *position, PacketView 
             tile_distance = abs(flags);
             self->frames_left = tile_distance * 2 - 1;
         } else {
-            self->target_y.u = parent->unk_88 - 0x50;
+            self->target_y = parent->unk_88 - 0x50;
             self->frames_left = 0x20;
         }
-        position->unk_0C = (s32)velocities.entries[self->direction.s].x << 16;
-        position->unk_10 = (u32)velocities.entries[self->direction.s].y << 16;
-        position->unk_14 = (((s32)self->target_y.s << 16)
+        position->unk_0C = (s32)velocities.entries[self->direction].x << 16;
+        position->unk_10 = (u32)velocities.entries[self->direction].y << 16;
+        position->unk_14 = (((s32)(s16)self->target_y << 16)
             - position->unk_08.at00.v)
         / (s8)self->frames_left;
         self->timer = 0;
-        self->shrinking.u = 0;
-        self->pulse_ticks.u = 0;
-        self->pulse_period.u = 5;
+        self->shrinking = 0;
+        self->pulse_ticks = 0;
+        self->pulse_period = 5;
         self->pulse_step = 200;
-        self->state.u++;
+        self->state++;
         self->frames_copy = (s8)self->frames_left;
         step_result = self->frames_left << 24;
         frames = step_result >> 24;
@@ -1520,14 +1520,14 @@ void set_record_pair_to_one(ProjectileSelf *self, OutView *position, PacketView 
             emitter = (u8 *)self - 0x20;
             color = 0x40E020;
             intensity = (random_bits & 0xFF) | 0x80;
-            direction = self->direction.s;
+            direction = self->direction;
             create_random_jitter_child(emitter, direction, color, intensity, 0, 0, 0);
             index++;
         } while (index < 8);
         hit_result = check_adjacent_tile_height_clearance(position->unk_00.at02.v, position->unk_04.at02.v,
             position->unk_08.at02u.v, parent->unk_60.p2);
         if (hit_result << 16) {
-            (self->state.u) = 8;
+            (self->state) = 8;
             (self->timer) = 0;
             render_data->unk_0C.at02u.v = 0;
             render_data->unk_0C.at01u.v = 0;
@@ -1542,7 +1542,7 @@ void set_record_pair_to_one(ProjectileSelf *self, OutView *position, PacketView 
                 angle -= 0x1000;
             }
             render_data->unk_1A = angle;
-            shrinking = self->shrinking.s;
+            shrinking = self->shrinking;
             if (shrinking == 0) {
                 render_data->unk_1C += self->pulse_step;
                 render_data->unk_1E += self->pulse_step;
@@ -1551,16 +1551,16 @@ void set_record_pair_to_one(ProjectileSelf *self, OutView *position, PacketView 
                 render_data->unk_1E -= self->pulse_step;
             }
         }
-        pulse_ticks = self->pulse_ticks.s + 1;
-        self->pulse_ticks.s = pulse_ticks;
-        if (pulse_ticks >= self->pulse_period.s) {
-            self->pulse_ticks.s = 0;
-            self->shrinking.s ^= 1;
+        pulse_ticks = self->pulse_ticks + 1;
+        self->pulse_ticks = pulse_ticks;
+        if (pulse_ticks >= self->pulse_period) {
+            self->pulse_ticks = 0;
+            self->shrinking ^= 1;
         }
         self->frames_left--;
         if ((s8)self->frames_left <= 0) {
             if (parent->unk_60.p != 0) {
-                self->state.u = 3;
+                self->state = 3;
                 self->timer = 0;
                 target_pos = ((ParentLinkMinus18 *)(parent->unk_60.p - 0x18))->unk_00;
                 position->unk_00.at02.v = target_pos->unk_00.at02.v;
@@ -1633,7 +1633,7 @@ void set_record_pair_to_one(ProjectileSelf *self, OutView *position, PacketView 
                     impact_data->unk_08 = animation;
                 }
             } else {
-                self->state.u = 8;
+                self->state = 8;
                 self->timer = 0;
             }
             render_data->unk_0C.at02u.v = 0;
@@ -1698,9 +1698,9 @@ void set_record_pair_to_one(ProjectileSelf *self, OutView *position, PacketView 
         if ((s16)self->timer != 4) {
             return;
         }
-        self->state.u = 4;
+        self->state = 4;
         self->timer = 0;
-        self->unk_9C.u = 0;
+        self->unk_9C = 0;
         return;
     }
 
@@ -1779,19 +1779,19 @@ void set_record_pair_to_one(ProjectileSelf *self, OutView *position, PacketView 
         if ((s16)self->timer < 120) {
             return;
         }
-        self->state.u++;
+        self->state++;
         self->timer = 0;
         return;
     }
 
     case 5:
     {
-        if (self->unk_9C.s == 0) {
+        if (self->unk_9C == 0) {
             return;
         }
     }
 
-        self->state.u++;
+        self->state++;
         self->timer = 0;
         return;
 
@@ -1803,7 +1803,7 @@ void set_record_pair_to_one(ProjectileSelf *self, OutView *position, PacketView 
         if ((s16)ticks < 11) {
             return;
         }
-        self->state.u = 8;
+        self->state = 8;
         self->timer = 30;
         return;
     }

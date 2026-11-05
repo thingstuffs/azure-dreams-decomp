@@ -14,17 +14,9 @@ typedef struct S_80026E3C_0 {
     union { u8 u8; u16 u16; } unk_6A;   /* accessed as both */
 } S_80026E3C_0;   /* arg0 in alternate_effect_shade_and_decay */
 
-typedef struct S_80026E3C_1 {
-    u8 pad_00[0xC];
-    s8 unk_0C;
-    s8 unk_0D;
-    s8 unk_0E;
-} S_80026E3C_1;   /* arg2 in alternate_effect_shade_and_decay */
-
-
 
 /* Alternate the effect shade, decay its intensity, and flag expiration. */
-void alternate_effect_shade_and_decay(void *effect_arg, s32 ticks_left, S_80026E3C_1 *color)
+void alternate_effect_shade_and_decay(void *effect_arg, s32 ticks_left, SpriteFrameState *color)
 {
     S_80026E3C_0 *effect = effect_arg;
     u16 frame;
@@ -39,9 +31,9 @@ void alternate_effect_shade_and_decay(void *effect_arg, s32 ticks_left, S_80026E
     } else {
         shade = effect->unk_6A.u16 >> 3;
     }
-    color->unk_0E = (s8) shade;
-    color->unk_0D = (s8) shade;
-    color->unk_0C = (s8) shade;
+    color->color.c.b = (s8) shade;
+    color->color.c.g = (s8) shade;
+    color->color.c.r = (s8) shade;
     intensity = effect->unk_6A.u16;
     decay = (s16)intensity >> 4;
     effect->unk_6A.u16 = intensity - decay;

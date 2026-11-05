@@ -211,7 +211,7 @@ typedef struct S_8009C12C_0 {
     union { s32 s32; u16 u16; } unk_14;   /* accessed as both */
     u8 pad_18[0x4];
     s32 unk_1C;
-    union { u16 n; u16 v; } unk_20;   /* accessed as both */
+    u16 unk_20;
     u8 pad_22[0x8];
     s16 unk_2A;
     u8 pad_2C[0x20];
@@ -240,7 +240,7 @@ typedef struct S_8009C12C_3 {
     u8 unk_27;
     u8 pad_28[0x38];
     void * unk_60;
-    union { s16 n; s16 v; } unk_64;   /* accessed as both */
+    s16 unk_64;
     u8 pad_66[0x22];
     u16 unk_88;
 } S_8009C12C_3;
@@ -393,7 +393,7 @@ void *resolve_attack_damage_and_effects(void *attacker_in, void *tile_in, s16 di
     target_elements = get_masked_record_flags(target, 7, 0);
     if (attack_elements & 1) {
         if ((get_entity_effect_value(target, STATUS_WATER_PROTECT) << 0x10) != 0) {
-            ((S_8009C12C_0 *)attacker_in)->unk_20.n = (u16) ((s32) (((S_8009C12C_0 *)attacker_in)->unk_20.n << 0x10)
+            ((S_8009C12C_0 *)attacker_in)->unk_20 = (u16) ((s32) (((S_8009C12C_0 *)attacker_in)->unk_20 << 0x10)
                 >> 0x12);
         } else {
             if (target_elements & 4) {
@@ -408,7 +408,7 @@ void *resolve_attack_damage_and_effects(void *attacker_in, void *tile_in, s16 di
     element_match = attack_elements & 2;
     if (element_match != 0) {
         if ((get_entity_effect_value(target, STATUS_WIND_PROTECT) << 0x10) != 0) {
-            ((S_8009C12C_0 *)attacker_in)->unk_20.n = (u16) ((s32) (((S_8009C12C_0 *)attacker_in)->unk_20.n << 0x10)
+            ((S_8009C12C_0 *)attacker_in)->unk_20 = (u16) ((s32) (((S_8009C12C_0 *)attacker_in)->unk_20 << 0x10)
                 >> 0x12);
         } else {
             if (target_elements & 1) {
@@ -423,7 +423,7 @@ void *resolve_attack_damage_and_effects(void *attacker_in, void *tile_in, s16 di
     element_check = attack_elements & 4;
     if (element_check != 0) {
         if ((get_entity_effect_value(target, STATUS_FIRE_PROTECT) << 0x10) != 0) {
-            ((S_8009C12C_0 *)attacker_in)->unk_20.n = (u16) ((s32) (((S_8009C12C_0 *)attacker_in)->unk_20.n << 0x10)
+            ((S_8009C12C_0 *)attacker_in)->unk_20 = (u16) ((s32) (((S_8009C12C_0 *)attacker_in)->unk_20 << 0x10)
                 >> 0x12);
         } else {
             element_check = target_elements & 2;
@@ -453,30 +453,30 @@ void *resolve_attack_damage_and_effects(void *attacker_in, void *tile_in, s16 di
         s32 attack_value;
         u16 attack_raw;
         void *bonus_actor;
-        attack_value = (s16)((S_8009C12C_0 *)attacker_in)->unk_20.n;
+        attack_value = (s16)((S_8009C12C_0 *)attacker_in)->unk_20;
         element_product = attack_value * (scaled_modifier >> 0x10);
         bonus_actor = attacker_in;
-        attack_raw = ((S_8009C12C_0 *)attacker_in)->unk_20.v;
+        attack_raw = ((S_8009C12C_0 *)attacker_in)->unk_20;
         attack_value = element_product >> 3;
-        ((S_8009C12C_0 *)attacker_in)->unk_20.n = (u16)(attack_raw + attack_value);
+        ((S_8009C12C_0 *)attacker_in)->unk_20 = (u16)(attack_raw + attack_value);
         attack_bonus = count_occupied_entity_slots(bonus_actor);
     }
     if (attack_bonus != 0) {
         u16 bonus_base;
-        bonus_base = ((S_8009C12C_0 *)attacker_in)->unk_20.n;
-        ((S_8009C12C_0 *)attacker_in)->unk_20.n = (u16)(bonus_base + ((s16)bonus_base >> 3) * attack_bonus);
+        bonus_base = ((S_8009C12C_0 *)attacker_in)->unk_20;
+        ((S_8009C12C_0 *)attacker_in)->unk_20 = (u16)(bonus_base + ((s16)bonus_base >> 3) * attack_bonus);
     }
     if (((S_8009C12C_0 *)attacker_in)->unk_1C & 0x01000000) {
         half_delta = (s32) ((s16) ((S_8009C12C_3 *)target)->unk_22.n
-            - (s16) ((S_8009C12C_0 *)attacker_in)->unk_20.n) / 2;
+            - (s16) ((S_8009C12C_0 *)attacker_in)->unk_20) / 2;
         quarter_delta = (s32) ((s16) half_delta + ((u32) (half_delta << 0x10) >> 0x1F)) >> 1;
-        ((S_8009C12C_3 *)target)->unk_64.n = (s16) (half_delta + quarter_delta);
+        ((S_8009C12C_3 *)target)->unk_64 = (s16) (half_delta + quarter_delta);
     } else {
-        ((S_8009C12C_3 *)target)->unk_64.v = (s16) ((s32) ((s16) ((S_8009C12C_3 *)target)->unk_22.n
-            - (s16) ((S_8009C12C_0 *)attacker_in)->unk_20.n) / 2);
+        ((S_8009C12C_3 *)target)->unk_64 = (s16) ((s32) ((s16) ((S_8009C12C_3 *)target)->unk_22.n
+            - (s16) ((S_8009C12C_0 *)attacker_in)->unk_20) / 2);
     }
-    if (((S_8009C12C_3 *)target)->unk_64.n >= 0) {
-        ((S_8009C12C_3 *)target)->unk_64.n = -1;
+    if (((S_8009C12C_3 *)target)->unk_64 >= 0) {
+        ((S_8009C12C_3 *)target)->unk_64 = -1;
     }
     modifier = get_entity_effect_value(target, STATUS_DAMAGE_GUARD);
     signed_value = message_state;
@@ -496,7 +496,7 @@ void *resolve_attack_damage_and_effects(void *attacker_in, void *tile_in, s16 di
                 display_damage = 0;
                 message_cursor = format_unsigned_double_byte_decimal(display_damage, message_cursor);
             } else {
-                display_damage = ((S_8009C12C_3 *)target)->unk_64.n;
+                display_damage = ((S_8009C12C_3 *)target)->unk_64;
                 display_damage = 0 - display_damage;
                 message_cursor = format_unsigned_double_byte_decimal(display_damage, message_cursor);
             }
@@ -522,7 +522,7 @@ void *resolve_attack_damage_and_effects(void *attacker_in, void *tile_in, s16 di
     signed_value = modifier << 0x10;
     damage = 0;
     if (signed_value == 0) {
-        signed_value = 0 - (u16) ((S_8009C12C_3 *)target)->unk_64.n;
+        signed_value = 0 - (u16) ((S_8009C12C_3 *)target)->unk_64;
         signed_value <<= 0x10;
         damage = signed_value >> 0x10;
     }

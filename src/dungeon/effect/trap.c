@@ -930,7 +930,7 @@ typedef struct S_800CCDA0_3 {
     u8 pad_0F[0x5];
     u16 unk_14;
     u8 pad_16[0x4];
-    union { u16 s; u16 u; } unk_1A;   /* accessed as both */
+    u16 unk_1A;
 } S_800CCDA0_3;   /* arg2 in update_bouncing_trap_effect */
 
 extern void apply_attack_power_and_element_effects(void *, s32, s32, s32, s32, void *, s32);
@@ -969,22 +969,22 @@ void update_bouncing_trap_effect(BouncingTrapEffectBody *effect, void *motion, v
         s16 ticks_left;
 
         ((S_800CCDA0_1 *)motion)->unk_14 += 0x80000;
-        angle = ((S_800CCDA0_3 *)sprite)->unk_1A.s;
+        angle = ((S_800CCDA0_3 *)sprite)->unk_1A;
         ticks_left = (s16)effect->ticks_left;
         angle += (0x400 - angle) / ticks_left;
-        ((S_800CCDA0_3 *)sprite)->unk_1A.s = angle;
+        ((S_800CCDA0_3 *)sprite)->unk_1A = angle;
 
         {
             s32 wobble_angle;
 
             ticks_or_angle = effect->ticks_left;
-            wobble_angle = ((S_800CCDA0_3 *)sprite)->unk_1A.u;
+            wobble_angle = ((S_800CCDA0_3 *)sprite)->unk_1A;
             if (ticks_or_angle & 1) {
                 ticks_or_angle = wobble_angle + 0x100;
             } else {
                 ticks_or_angle = wobble_angle - 0x100;
             }
-            ((S_800CCDA0_3 *)sprite)->unk_1A.u = ticks_or_angle;
+            ((S_800CCDA0_3 *)sprite)->unk_1A = ticks_or_angle;
         }
 
         ((S_800CCDA0_3 *)sprite)->unk_0C -=

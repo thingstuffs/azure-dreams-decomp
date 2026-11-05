@@ -32,7 +32,7 @@ typedef struct {
 
 extern s32 generate_random_value(void); /* Retail RNG at 0x800A6D30 reads no incoming argument registers, including a3. */
 extern s16 set_or_clear_actor_status_slot(ActorRecord *owner, s8 id, s8 value);
-extern void try_move_actor_to_valid_position(void *, void *, void *, void *);
+extern s32 try_move_actor_to_valid_position(void *, void *, void *, void *);
 
 extern void func_80170B40(void);
 extern void func_80175258(void);

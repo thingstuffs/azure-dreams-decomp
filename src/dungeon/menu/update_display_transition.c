@@ -4,7 +4,7 @@
 #include "dungeon/menu.h"
 
 /* cfail-repair: tf7-phase1-cache-v3 */
-s32 create_label_glyph_entries();                    /* extern */
+void *create_label_glyph_entries();                    /* extern */
 u32 strlen();                             /* extern */
 typedef struct S_800DC1F8_0 {
     u8 pad_00[0x10];

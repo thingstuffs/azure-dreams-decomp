@@ -21,13 +21,13 @@ void update_turning_motion_and_timer(TownObjectRecord *actor, ObjectPosition *po
         return;
     }
 
-    angle = actor->unk_86;
+    angle = (u16)actor->unk_86;
     actor->unk_86 = angle - 0x40;
     actor->heading = angle - 0x440;
 
     position->x.unsigned_parts.integer = ((u16)actor->unk_84) +
         rsin(((s16)actor->unk_86)) / (0x1000 / actor->unk_84);
-    position->y.unsigned_parts.integer = actor->unk_86 +
+    position->y.unsigned_parts.integer = (u16)actor->unk_86 +
         rcos(((s16)actor->unk_86)) / (0x1000 / actor->unk_84) -
         ((u16)actor->unk_84);
 

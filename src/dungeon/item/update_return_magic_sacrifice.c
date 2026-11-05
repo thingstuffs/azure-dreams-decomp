@@ -40,22 +40,6 @@ typedef struct S_800C2824_3 {
     u16 unk_16;
 } S_800C2824_3;   /* vertices in update_return_magic_sacrifice */
 
-typedef struct S_800C2824_4 {
-    u8 pad_00[0x8];
-    M2C_UNK * unk_08;
-    union {
-        struct { s32 v; } at00;
-        struct { s8 v; } at00u;
-        struct { u8 pad[0x1]; s8 v; } at01;
-        struct { u8 pad[0x2]; s8 v; } at02;
-    } unk_0C;   /* overlapping accesses */
-    s16 unk_10;
-    u8 pad_12[0x2];
-    u16 unk_14;
-    u8 pad_16[0x6];
-    s16 unk_1C;
-    s16 unk_1E;
-} S_800C2824_4;   /* sprite in update_return_magic_sacrifice */
 
 typedef struct S_800C2824_5 {
     u8 pad_00[0xA93];
@@ -122,7 +106,7 @@ enum ReturnSacrificeState {
 };
 
 /* Advance the object effect through fading, tile cleanup, and completion. */
-void update_return_magic_sacrifice(void *effect, void *vertices, void *sprite) {
+void update_return_magic_sacrifice(void *effect, void *vertices, SpriteFrameState *sprite) {
     StackArgs effect_args;
     s32 object_slot;
     s32 release_flags;
@@ -185,21 +169,21 @@ void update_return_magic_sacrifice(void *effect, void *vertices, void *sprite) {
         ((S_800C2824_3 *)vertices)->unk_0A = vertex_z;
         ((S_800C2824_3 *)vertices)->unk_16 = vertex_z;
         register_node(effect - 0x20, process_linked_mesh_states_mode_1);
-        ((S_800C2824_4 *)sprite)->unk_10 = 0x20;
-        ((S_800C2824_4 *)sprite)->unk_08 = &return_magic_sprite_data;
-        ((S_800C2824_4 *)sprite)->unk_0C.at00.v = 0x808080;
-        ((S_800C2824_4 *)sprite)->unk_1E = 0x1000;
-        ((S_800C2824_4 *)sprite)->unk_1C = 0x1000;
-        ((S_800C2824_4 *)sprite)->unk_14 = (u16) (((S_800C2824_4 *)sprite)->unk_14 | 0xC);
+        sprite->tpage_abr = 0x20;
+        sprite->source = &return_magic_sprite_data;
+        sprite->color.word = 0x808080;
+        sprite->scale_y = 0x1000;
+        sprite->scale_x = 0x1000;
+        sprite->flags = (u16) (sprite->flags | 0xC);
         ((S_800C2824_0 *)effect)->unk_06 = 0x10;
         play_sound_if_enabled(1);
         ((S_800C2824_0 *)effect)->unk_04 = (s16) ((u16) ((S_800C2824_0 *)effect)->unk_04 + 1);
     case RETURN_SACRIFICE_FADE_OUT:
-        shade = (u8) ((S_800C2824_4 *)sprite)->unk_0C.at00.v;
+        shade = (u8) sprite->color.word;
         faded_shade = shade - ((s32) shade / (s16) ((S_800C2824_0 *)effect)->unk_06);
-        ((S_800C2824_4 *)sprite)->unk_0C.at00u.v = faded_shade;
-        ((S_800C2824_4 *)sprite)->unk_0C.at02.v = faded_shade;
-        ((S_800C2824_4 *)sprite)->unk_0C.at01.v = faded_shade;
+        sprite->color.c.r = faded_shade;
+        sprite->color.c.b = faded_shade;
+        sprite->color.c.g = faded_shade;
         fade_ticks = (u16) ((S_800C2824_0 *)effect)->unk_06 - 1;
         ((S_800C2824_0 *)effect)->unk_06 = fade_ticks;
         if ((fade_ticks << 0x10) > 0) {

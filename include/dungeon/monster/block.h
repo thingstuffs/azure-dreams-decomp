@@ -65,18 +65,6 @@ typedef struct CB_80170920_S_80170920_0 {
     s16 unk_26;
 } CB_80170920_S_80170920_0;   /* arg0 in func_80170920 */
 
-typedef struct CB_80170920_S_80170920_1 {
-    u8 pad_00[0xC];
-    u8 unk_0C;
-    u8 unk_0D;
-    u8 unk_0E;
-    u8 pad_0F[0x1];
-    s16 unk_10;
-    u8 pad_12[0x8];
-    u16 unk_1A;
-    u16 unk_1C;
-    u16 unk_1E;
-} CB_80170920_S_80170920_1;   /* arg2 in func_80170920 */
 
 /* Expands and brightens the effect, then shrinks and fades it until expiration. */
 

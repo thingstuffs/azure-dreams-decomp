@@ -2069,7 +2069,7 @@ s32 append_linked_shaded_point_packets(u8 *node, void *vertex_arg)
 
 /* Moves the effect with directional jitter and a vertical offset, reduces its speed, and removes it on
  * timeout. */
-void advance_randomized_motion_and_complete(PointRecord *object_data, R06_801740E4_S_801740E4_0 *position, R06_801740E4_S_801740E4_2 *state) {
+void advance_randomized_motion_and_complete(PointRecord *object_data, R06_801740E4_S_801740E4_0 *position, SpriteFrameState *state) {
     s16 next_speed;
     s32 random_value;
     s32 lowered_z;
@@ -2081,7 +2081,7 @@ void advance_randomized_motion_and_complete(PointRecord *object_data, R06_801740
     position->unk_08 = lowered_z - (random_value & 0xFFF);
     next_speed = (u16) object_data->brightness - 8;
     object_data->brightness = next_speed;
-    if (((next_speed << 0x10) <= 0) || (state->unk_14 & 0x8000)) {
+    if (((next_speed << 0x10) <= 0) || (state->flags & 0x8000)) {
         ((R06_801740E4_S_801740E4_1 *)((u8 *)object_data - 0x2))->unk_00 = (u16) (((R06_801740E4_S_801740E4_1 *)((u8 *)object_data
             - 0x2))->unk_00 | 0x8000);
         object_flag_block.flags = object_flag_block.flags | OBJECT_REMOVE_PENDING;

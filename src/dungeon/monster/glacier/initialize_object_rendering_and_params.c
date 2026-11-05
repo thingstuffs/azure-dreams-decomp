@@ -18,13 +18,13 @@ typedef struct {
 typedef struct {
     ObjectNodeHeader header;
     u8 pad20[0x28];
-    s32 field48;
+    void *field48;
 } Obj;
 
 extern void sprite_chain_projector_address(void);
 
 /* Initialize object rendering and copy the three supplied parameter fields. */
-void initialize_object_rendering_and_params(Obj *object, s32 state_value, Sub2 *source_params)
+void initialize_object_rendering_and_params(Obj *object, void *state_value, Sub2 *source_params)
 {
     SpriteFrameState *render_state;
     ObjectPosition *dest_params;

@@ -18,7 +18,6 @@
 extern s32 register_node(ObjectNodeHeader *entry, void *registration_id);
 
 extern u8 clipped_sprite_renderer_address[];
-extern u8 uboat_aura_sprite_data[];
 extern u8 D_80170CEC[];
 #include "dungeon/monster/u_boat.h"
 #include "engine/graphics.h"

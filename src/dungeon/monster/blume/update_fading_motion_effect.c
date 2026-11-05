@@ -20,17 +20,9 @@ typedef struct S_80171284_0 {
 } S_80171284_0;   /* arg0 in update_fading_motion_effect */
 
 
-typedef struct S_80171284_2 {
-    u8 pad_00[0xC];
-    s8 unk_0C;
-    s8 unk_0D;
-    s8 unk_0E;
-} S_80171284_2;   /* arg2 in update_fading_motion_effect */
-
-
 /* Update the effect countdown and motion, fade its color, and flag expiration. */
 void update_fading_motion_effect(void *effect_arg, void *transform_arg, void *color_arg) {
-    S_80171284_2 *color = color_arg;
+    SpriteFrameState *color = color_arg;
     ObjectPosition *transform = transform_arg;
     S_80171284_0 *effect = effect_arg;
     u16 next_value;
@@ -64,9 +56,9 @@ void update_fading_motion_effect(void *effect_arg, void *transform_arg, void *co
 
     ticks_left = ((s16)effect->unk_24);
     if (ticks_left < 5) {
-        color->unk_0C = (effect->unk_02 * ticks_left) / 5;
-        color->unk_0D = (effect->unk_03 * ((s16)effect->unk_24)) / 5;
-        color->unk_0E = (effect->unk_04 * ((s16)effect->unk_24)) / 5;
+        color->color.c.r = (effect->unk_02 * ticks_left) / 5;
+        color->color.c.g = (effect->unk_03 * ((s16)effect->unk_24)) / 5;
+        color->color.c.b = (effect->unk_04 * ((s16)effect->unk_24)) / 5;
     }
 
     if (((s16)effect->unk_24) <= 0) {

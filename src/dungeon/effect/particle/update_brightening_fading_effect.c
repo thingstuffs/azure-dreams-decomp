@@ -176,7 +176,7 @@ void update_brightening_fading_effect(BrighteningFadeBody *effect, S_8195EB88_2 
     S_8195EB88_3 *base_position;
     S_8195EB88_1 *source_state;
 
-    (*(u16 *)&terrain_effect_update_count) = (*(u16 *)&terrain_effect_update_count) + 1;
+    terrain_effect_update_count = (*(u16 *)&terrain_effect_update_count) + 1;
     phase = effect->phase;
     phase_value = (u16)effect->phase;
 
@@ -289,7 +289,7 @@ void update_effect_and_spawn_fragments(S_8195EE48_0 *state, S_8195EE48_1 *motion
 
     counter = (*(u16 *)&terrain_effect_update_count);
     phase_or_height = state->unk_48;
-    (*(u16 *)&terrain_effect_update_count) = counter + 1;
+    terrain_effect_update_count = counter + 1;
     if (phase_or_height == 0) {
         ticks_left = state->unk_4C;
         if (ticks_left > 0) {
@@ -405,7 +405,7 @@ void animate_tile_heights_and_transition(DungeonState *state, DungeonOrigin *ori
     void *tile;
     u16 timer;
 
-    (*(u16 *)&terrain_effect_update_count)++;
+    terrain_effect_update_count++;
     if (state->active == 0) {
         if (!(state->timer & 3)) {
             initialize_timed_motion_step(8, 16);
@@ -854,7 +854,7 @@ void advance_ballistic_fading_effect(u16 *state, Motion *motion, Effect *effect)
     u8 brightness;
     s16 ticks_left;
 
-    (*(u16 *)&terrain_effect_update_count)++;
+    terrain_effect_update_count++;
 
     motion->x += motion->dx;
     motion->y += motion->dy;

@@ -12,7 +12,7 @@ void set_item_selection_data_pointer(void *object, void *unused_position, void *
 void select_next_item_state(void *object, void *position, void *context);
 void init_timed_dispatch_action(TownObjectRecord *record, void *unused, void *handler_context);
 void init_actor_action_state(TownObjectRecord *record, void *unused, void *handler_context);
-void init_record_target_approach(TownObjectRecord *record, struct ObjectPosition *setup_value, struct SpriteFrameState *init_context);
+s32 init_record_target_approach(TownObjectRecord *record, struct ObjectPosition *setup_value, struct SpriteFrameState *init_context);
 void init_linked_position_action(TownObjectRecord *record, s32 unused, struct SpriteFrameState *setup_value);
 void init_ground_input_fallback(s32 **record, void *unused, void *handler_context);
 void init_button_transition_action(s32 **record, void *unused, void *handler_context);

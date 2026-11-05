@@ -968,7 +968,7 @@ loop_1:
             if (linked_effect_update_flag[0] == 0) {
                 g_dungeon_status.active_actor = 0;
                 linked_effect_chain_count[0] = 0;
-                (*(u16 *)&g_dungeon_status.activity_counts.parts.pending_action_count)--;
+                g_dungeon_status.activity_counts.parts.pending_action_count--;
                 *((u16 *)entity - 1) |= 0x8000;
                 D_800814A0[0].flags |= 0x8000;
                 break;

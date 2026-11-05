@@ -17,6 +17,14 @@
 #include "engine/menu.h"
 #include "engine/resource.h"
 #include "engine/scene.h"
+#include "engine/sprite.h"
+#include "engine/audio/spu.h"
+#include "engine/item.h"
+#include "engine/object.h"
+#include "engine/texture.h"
+#include "sdk/libc.h"
+#include "engine/cd.h"
+#include "engine/audio/slots.h"
 
 extern int   card_server_initialized[3];
 extern short audio_voice_drain_suppressed[5];
@@ -201,7 +209,6 @@ short get_bounded_stride_index(unsigned int value, unsigned int base, unsigned s
 
 struct S_800423C0_Obj;
 struct S_800423C0_Src;
-extern void apply_actor_template_and_direction(struct S_800423C0_Obj *obj, s16 unused, struct S_800423C0_Src *source);
 
 /* Configure an entity with a signed halfword value and update its status. */
 void apply_actor_template_and_class(void *entity, int value, void *source)
@@ -216,7 +223,6 @@ s32 return_zero_variadic(s32 unused, ...)
     return 0;
 }
 
-extern void sound_set_cd_cue_parameters(int a0, int a1, int a2, int a3);
 extern short SD_Call(int a0);
 
 /* Forward four values and trigger status event 0x300. */
@@ -225,8 +231,6 @@ void set_cd_cue_and_submit_sound_command(int first, int second, int third, int f
     sound_set_cd_cue_parameters(first, second, third, fourth);
     SD_Call(0x300);
 }
-
-extern int *read_sound_stream_cue_pointer(void);
 
 /* Combine the status block's low 24-bit tick value with its base adjustment. */
 int read_stream_cue_start_offset(void)
@@ -277,7 +281,6 @@ short draw_linked_sprites_and_narrow_result(void *payload, struct ObjectPosition
     return (short)draw_linked_sprites(payload, coords, record);
 }
 
-extern void advance_actor_step_sequence(void *actor);
 extern void upload_entry_textures(void *entry_state);
 
 /* Run both update steps on an entity. */
@@ -287,7 +290,6 @@ void advance_sprite_animation_and_textures(void *entity)
     upload_entry_textures(entity);
 }
 
-extern void bzero(void *dst, int n);
 extern unsigned char sprite_resource_slots[0x30];
 
 /* Clear the global 0x30-byte buffer. */
@@ -329,8 +331,6 @@ void select_sprite_entry_with_flag(SpriteFrameState *entity, short index, short 
     entity->flags |= 0x400;
     select_sprite_entry(entity, index, offset);
 }
-
-extern s32 load_resource_and_mirror_palette(s32 elem_index, s32 array_index);
 
 /* Load the indexed entry from table zero. */
 void load_default_object_palette(short index)
@@ -422,8 +422,6 @@ int is_type_twenty(int type)
     return type == 0x14;
 }
 
-extern int is_type_twenty(int type);
-
 typedef struct {
     u8 unk0;
     u8 unk1;
@@ -447,7 +445,6 @@ int get_item_name_with_shared_text_table(void *object) {
 }
 
 struct DungeonItemEntry;
-extern s32 get_item_category_flags(struct DungeonItemEntry *item);
 
 /* Return flag bit 0x400 from the status query. */
 int read_item_category_flag_ten(void *item) {
@@ -468,8 +465,6 @@ int get_low_flag_priority(int flags) {
 
     return priority;
 }
-
-extern int get_low_flag_priority(int a0);
 
 typedef struct {
     unsigned char pad[0x13];
@@ -529,8 +524,6 @@ int read_second_argument_scaled_byte(void *unused, void *object) {
     return get_scaled_byte_value(object);
 }
 
-extern s32 calc_item_value(u8 *item, s32 flag);
-
 /* file_load_com: process the item with mode one. */
 s32 get_item_sell_money(void *item)
 {
@@ -542,8 +535,6 @@ s32 get_item_buy_money(void *item)
 {
     return calc_item_value(item, 0);
 }
-
-extern void bzero(void *ptr, int len);
 
 /* Clear the 0x50-byte table at address 0x80013564. */
 void clear_floor_resource_state_table(void) {
@@ -573,8 +564,6 @@ s32 count_pointer_list_entries(void **entries)
     return count;
 }
 
-extern unsigned char *current_sort_rank_table;
-
 /* Compare strings by their first characters' translated ordering values. */
 int compare_mapped_leading_bytes(unsigned char **left, unsigned char **right)
 {
@@ -584,15 +573,11 @@ int compare_mapped_leading_bytes(unsigned char **left, unsigned char **right)
     return current_sort_rank_table[*left_text] - current_sort_rank_table[*right_text];
 }
 
-extern void selection_sort_elements(u8 *base, s32 count, s32 size, s32 (*compar)(u8 *, u8 *));
-
 /* Sort the supplied elements using their comparator. */
 void forward_selection_sort_request(u8 *base, s32 count, s32 size, s32 (*compar)(u8 *, u8 *))
 {
     selection_sort_elements(base, count, size, compar);
 }
-
-extern void *create_callback_pair_payload(void *second_value, void *first_value, unsigned long unused_value);
 
 /* Forward an object with fixed leading arguments zero and one. */
 void create_single_callback_payload(void *object) {
@@ -637,15 +622,11 @@ void submit_global_cd_command_six(void)
     Control_CD(6, &global_cd_command_six_payload, 0);
 }
 
-extern void submit_global_cd_command_six(void);
-
 /* jyotyu_set_reserve_nyul: process the fixed reserve record. */
 void load_bin_nametwin(void)
 {
     submit_global_cd_command_six();
 }
-
-extern void *create_item_view_for_entry(int a0, int a1, int a2);
 
 /* Forward an object and value with a zero event parameter; returns the item view. */
 void *create_item_view_without_event(int object, int value)
@@ -722,8 +703,6 @@ void clear_message_command_words(void)
     message_command_start_index = 0;
 }
 
-extern void clear_resident_bitmap_bit(int);
-
 /* Invoke clear_resident_bitmap_bit with mode two. */
 void clear_resident_bitmap_bit_two(void) {
     clear_resident_bitmap_bit(sn_win_sw0);
@@ -777,22 +756,16 @@ void clear_vram_callback_state(void) {
     card_server_initialized[0] = 0;
 }
 
-extern void *scene_create_resource_transition(void *owner, void *task_context);
-
 /* Create an object task with mode zero. */
 void *create_resource_transition_for_descriptor_check(void *object)
 {
     return scene_create_resource_transition(object, 0);
 }
 
-extern void *scene_create_resource_transition(void *owner, void *task_context);
-
 /* Create an object task with mode one. */
 void *create_resource_transition_card(void *object) {
     return scene_create_resource_transition(object, (void *)1);
 }
-
-extern void *scene_create_resource_transition(void *owner, void *task_context);
 
 /* Create an object task with mode two and return it. */
 void *create_resource_transition_task(void *owner)
@@ -800,8 +773,6 @@ void *create_resource_transition_task(void *owner)
     return scene_create_resource_transition(owner, (void *)2);
 }
 
-extern void *init_object_header_a(void *cursor);
-extern void *init_object_header_c(void *cursor);
 extern struct Prim12 *init_tpage_prims(struct Prim12 *prim);
 
 /* Initialize four embedded records and then the containing object. */
@@ -815,8 +786,6 @@ void build_menu_backdrop_display_buffers(SevenEntryMenuBackdropBody *object)
 }
 
 extern unsigned char menu_backdrop_link_indices[16];
-
-extern void *build_reverse_indexed_chain(void *a0, void *a1, int a2);
 
 /* Link entries using the fixed index table and limit seven; returns the chain. */
 void *link_menu_backdrop_display_nodes(void *entries)
@@ -880,7 +849,6 @@ int read_selected_menu_entry_word(char *object)
     return *(int *)(object + index * 4 + 0x10);
 }
 
-extern int read_selected_menu_entry_word(char *a0);
 extern void func_80021300(int a0);
 
 /* Pass the object's selected value to func_80021300. */
@@ -888,8 +856,6 @@ void resolve_selected_menu_entry(char *object)
 {
     func_80021300(read_selected_menu_entry_word(object));
 }
-
-extern void handle_object_input(void *a0);
 
 /* Calls handle_object_input with object. */
 void forward_object_input_handler(MenuSelectionBody *object)
@@ -911,16 +877,11 @@ void invoke_leading_object_callback(struct VtableObj *object, void *position, vo
 
 extern unsigned char selection_menu_link_indices[16];
 
-extern void *build_reverse_indexed_chain(void *a0, void *a1, int a2);
-
 /* Link entries using the fixed index table and limit 0x11. */
 void link_seventeen_indexed_entries(void *entries)
 {
     build_reverse_indexed_chain(entries, selection_menu_link_indices, 0x11);
 }
-
-extern int saved_value_output_enabled;
-extern int selection_menu_saved_value;
 
 /* Pass the saved value when enabled, or zero otherwise. */
 void submit_enabled_saved_display_value(void) {
@@ -931,7 +892,6 @@ void submit_enabled_saved_display_value(void) {
     create_gauge_with_selection_menu(value);
 }
 
-extern void run_deferred_callbacks(void *a0);
 extern unsigned char town_movie_callback_list[16];
 
 /* Calls run_deferred_callbacks with & town_movie_callback_list. */
@@ -939,8 +899,6 @@ void run_town_movie_callbacks(void)
 {
     run_deferred_callbacks(&town_movie_callback_list);
 }
-
-extern void run_deferred_callbacks(void *a0);
 
 extern char town_transition_callback_list[12];
 
@@ -951,7 +909,6 @@ void run_town_transition_callbacks(void)
 }
 
 extern char direct_load_resource_descriptor;
-extern void file_load_com(void *arg);
 
 /* Calls file_load_com with & direct_load_resource_descriptor. */
 void load_direct_resource_descriptor(void)
@@ -1042,9 +999,6 @@ void mark_timed_animation_sequence_complete(Entity1 *entity) {
         entity->unk2A = 1;
     }
 }
-
-extern int Control_CD(int a0, void *a1, int a2);
-extern void drain_cd_command_queue(void);
 
 /* Process a record with command six and finish the update. */
 void submit_cd_command_six_and_drain(void *record)
@@ -1192,8 +1146,6 @@ int add_to_sequence_counter(int *counter, int delta)
 void noop_sequence_status_hook(u8 status) {
 }
 
-extern void service_audio_timer(void);
-
 /* Invokes service_audio_timer with no arguments. */
 void service_audio_timer_callback(void)
 {
@@ -1229,7 +1181,6 @@ void noop_audio_init_hook(void) {
 }
 
 extern void audio_reset_all_voices(void);
-extern void reset_sound_slots(void);
 extern void SpuQuit(void);
 
 /* Run the three initialization routines in order. */
@@ -1244,8 +1195,6 @@ void reset_voices_slots_and_stop_spu_service(void)
 void set_sound_flag_update_suppression(short value) {
     audio_voice_drain_suppressed[0] = value;
 }
-
-extern void drain_ready_sound_voice_flags(void);
 
 /* Invokes drain_ready_sound_voice_flags with no arguments. */
 void flush_pending_sound_voice_flags(void)
@@ -1344,8 +1293,6 @@ void reset_and_release_audio_sequence_banks(void)
     audio_reset_and_release_sequence_banks();
 }
 
-extern void submit_tagged_driver_byte(u8 a0, u8 a1, u8 a2);
-
 /* Forward the low bytes of three values to submit_tagged_driver_byte. */
 void submit_audio_driver_byte_command(s32 first, s32 second, s32 third)
 {
@@ -1357,8 +1304,6 @@ void submit_audio_driver_scaled_pair(unsigned char code, short first, short seco
 {
     submit_scaled_driver_halfword_pair(code, first, second);
 }
-
-extern void dispatch_combined_driver_flags(s32 unused);
 
 /* Forward the value as a signed halfword to dispatch_combined_driver_flags. */
 void dispatch_audio_driver_halfword_flags(s32 value)
@@ -1421,23 +1366,16 @@ s32 is_tone_parameter_flag_set(void) {
     return 0;
 }
 
-extern u32 modify_spu_register_bit_pair(s32 mode, u32 value, s32 low_index, s32 high_index);
-
 /* Forward two values with fixed trailing arguments 0xCC and 0xCD. */
 s32 update_spu_register_pair_cc_cd(s32 first, s32 second) {
     return modify_spu_register_bit_pair(first, second, 0xCC, 0xCD);
 }
-
-extern s32 read_spu_register_pair(int a0, int a1);
 
 /* Invoke read_spu_register_pair with values 0xCC and 0xCD. */
 s32 read_spu_register_pair_cc_cd(void)
 {
     return read_spu_register_pair(0xCC, 0xCD);
 }
-
-extern void apply_spu_voice_attributes(void *a0);
-extern void SpuSetKey(s32 key_on, u32 voices);
 
 /* Update an object and pass its first word to the mode-one handler. */
 void apply_voice_attributes_and_key_on(void *object)

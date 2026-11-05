@@ -51,7 +51,7 @@ void initialize_block_sprite_copy(CB_8017087C_Object *object, ActorRecord *field
 /* Expands and brightens the rotating effect, then shrinks and fades it until its timer expires. */
 void expand_then_shrink_effect(void *effect_arg, void *unused, void *visual_arg)
 {
-    CB_80170920_S_80170920_1 *visual = visual_arg;
+    SpriteFrameState *visual = visual_arg;
     CB_80170920_S_80170920_0 *effect = effect_arg;
     s16 state;
     s32 fade_brightness;
@@ -60,38 +60,38 @@ void expand_then_shrink_effect(void *effect_arg, void *unused, void *visual_arg)
     state = effect->unk_1C.s;
     switch (state) {
     case 0:
-        visual->unk_1C += 0x258;
-        visual->unk_1E += 0x258;
-        brightness = visual->unk_0E + 0xC;
-        visual->unk_0E = brightness;
-        visual->unk_0D = brightness;
-        visual->unk_0C = brightness;
-        if (visual->unk_1C < 0x1770) {
+        visual->scale_x += 0x258;
+        visual->scale_y += 0x258;
+        brightness = visual->color.c.b + 0xC;
+        visual->color.c.b = brightness;
+        visual->color.c.g = brightness;
+        visual->color.c.r = brightness;
+        if (visual->scale_x < 0x1770) {
             break;
         }
         effect->unk_1C.u++;
         break;
     case 1:
-        visual->unk_10 = 0x20;
-        visual->unk_0E = 0x50;
-        visual->unk_0D = 0x50;
-        visual->unk_0C = 0x50;
+        visual->tpage_abr = 0x20;
+        visual->color.c.b = 0x50;
+        visual->color.c.g = 0x50;
+        visual->color.c.r = 0x50;
         effect->unk_1C.u++;
         break;
     case 2:
-        visual->unk_10 = 0x60;
+        visual->tpage_abr = 0x60;
         effect->unk_24.s--;
-        visual->unk_1C -= 0x190;
-        visual->unk_1E -= 0x190;
+        visual->scale_x -= 0x190;
+        visual->scale_y -= 0x190;
         fade_brightness = (effect->unk_24.u << 7) /
                    effect->unk_26;
-        visual->unk_0E = fade_brightness;
-        visual->unk_0D = fade_brightness;
-        visual->unk_0C = fade_brightness;
+        visual->color.c.b = fade_brightness;
+        visual->color.c.g = fade_brightness;
+        visual->color.c.r = fade_brightness;
         break;
     }
 
-    visual->unk_1A += 0x190;
+    visual->angle_z += 0x190;
     if (effect->unk_24.u <= 0) {
         (*(u16 *)((u8 *)effect + -2)) |= NODE_REMOVE;
         object_flag_block.flags |= OBJECT_REMOVE_PENDING;

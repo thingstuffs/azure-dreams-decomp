@@ -14,7 +14,7 @@
 
 extern s32 generate_random_value(void);
 extern void set_or_clear_actor_status_slot(void *, s32, s32);
-extern void try_move_actor_to_valid_position(void *, void *, void *, void *);
+extern s32 try_move_actor_to_valid_position(void *, void *, void *, void *);
 
 #include "dungeon/monster/glacier.h"
 extern u8 glacier_frame_set_2[];

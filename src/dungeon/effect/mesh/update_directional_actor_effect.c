@@ -125,7 +125,7 @@ void update_directional_actor_effect(TargetTintWork *state_data)
         if (S16_AT(D_80024A70, 0) == 0) {
             {
                 DungeonGlobalStatus *sequence_state = &g_dungeon_status;
-                (*(u16 *)&sequence_state->activity_counts.parts.pending_action_count)--;
+                sequence_state->activity_counts.parts.pending_action_count--;
                 sequence_state->active_actor = 0;
             }
             U16_AT(state, -2) |= NODE_REMOVE;

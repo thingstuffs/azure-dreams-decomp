@@ -287,7 +287,6 @@ typedef struct R06_801738E0_S_801738E0_4 {
 } R06_801738E0_S_801738E0_4;
 
 
-
 typedef struct R06_80173E08_Entry {
     u8 pad00[6];
     s16 unk06;
@@ -361,10 +360,6 @@ typedef struct R06_801740E4_S_801740E4_1 {
     u8 pad_18[0x1C];
     s16 unk_34;
 } R06_801740E4_S_801740E4_1;
-typedef struct R06_801740E4_S_801740E4_2 {
-    u8 pad_00[0x14];
-    u16 unk_14;
-} R06_801740E4_S_801740E4_2;
 typedef struct R06_80174214_S_80174214_0 {
     u8 pad_00[0x8];
     union { void * s; s32 u; } unk_08;   
@@ -374,9 +369,6 @@ typedef struct R06_80174214_S_80174214_0 {
     u8 pad_16[0x1C];
     s16 unk_32;
 } R06_80174214_S_80174214_0;
-
-
-
 
 
 typedef struct R06_80174214_S_80174214_6 {
@@ -764,7 +756,7 @@ void func_80041588(u32 *stream_ref, u8 *state, s32 execute);
 s32 read_stream_cue_start_offset(void);
 s32 lookup_masked_byte_table();
 void decrement_monster_entry_count(s16 requested_id, s16 requested_type);
-s32 create_status_linked_render_effect();
+void *create_status_linked_render_effect();
 s32 propagate_actor_action_flag(ActorRecord *body, ObjectPosition *position, SpriteFrameState *sprite, ActorRecord *actor);
 extern u8 child_texture_entries[];
 extern u8 flame_direction_frames[];
@@ -818,7 +810,7 @@ void finish_spinning_actor_fall_then_initialize_destination(ActorRecord *state, 
 void finish_actor_fade_in_then_initialize_destination(ActorRecord *state, ObjectPosition *motion, SpriteFrameState *position, ActorRecord *actor);
 s32 project_flame_sprite_chain(void *initial_payload, ObjectPosition *entry_data, R06_80173E08_Entry *entry, s32 unused);
 s32 append_linked_shaded_point_packets(u8 *node, void *vertex_arg);
-void advance_randomized_motion_and_complete(PointRecord *object_data, R06_801740E4_S_801740E4_0 *position, R06_801740E4_S_801740E4_2 *state);
+void advance_randomized_motion_and_complete(PointRecord *object_data, R06_801740E4_S_801740E4_0 *position, SpriteFrameState *state);
 void advance_actor_action_and_update_status(
     void *source,
     s16 value_34,

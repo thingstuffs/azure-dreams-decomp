@@ -26,13 +26,13 @@ const OffsetTable D_80024028 = {{{1,0},{1,1},{0,1},{-1,1},{-1,0},{-1,-1},{0,-1},
 
 typedef struct S_func_80024064_0 {
     u8 pad_00[0x140];
-    union { s16 s; u16 u; } unk_140;   /* accessed as both */
-    union { s16 s; u16 u; } unk_142;   /* accessed as both */
+    u16 unk_140;
+    u16 unk_142;
     s32 unk_144;
     s32 unk_148;
     s32 unk_14C;
     s16 unk_150;
-    union { s16 s; u16 u; } unk_152;   /* accessed as both */
+    s16 unk_152;
     union {
         struct { u32 v; } at00;
         struct { s16 v; } at00u;
@@ -82,7 +82,7 @@ typedef struct S_func_80024064_4 {
     u16 unk_10;
     u8 pad_12[0x4];
     u8 unk_16;
-    union { u8 u; s8 s; } unk_17;   /* accessed as both */
+    u8 unk_17;
 } S_func_80024064_4;   /* current in func_80024064 */
 
 typedef struct S_func_80024064_5 {
@@ -132,8 +132,8 @@ void *find_impact_surface_polygon(s32 world_x, s32 world_y, s16 min_height) {
 
     scratch = (S_func_80024064_0 *)0x1F800000;
     scratch->unk_148 = 0x400;
-    scratch->unk_140.s = world_x & 0x3F;
-    scratch->unk_142.s = world_y & 0x3F;
+    scratch->unk_140 = world_x & 0x3F;
+    scratch->unk_142 = world_y & 0x3F;
     scratch->unk_14C = min_height;
 
     cell_index = (u16)world_x >> 6;
@@ -147,16 +147,16 @@ void *find_impact_surface_polygon(s32 world_x, s32 world_y, s16 min_height) {
     planes = map_data->surface_planes;
     best_polygon = 0;
     if (map_entry->unk_00 != 0) {
-        scratch->unk_152.s = -map_entry->unk_02;
+        scratch->unk_152 = -map_entry->unk_02;
         best_polygon = (*(u8 **)((u8 *)(((u8 **)map_data->cell_faces))
             + map_entry->unk_00 * 4));
         polygon = best_polygon;
         if (((S_func_80024064_8 *)(planes + ((S_func_80024064_3 *)best_polygon)->unk_10 * 8))->unk_04
             < -0x7FF) {
             do {
-                if ((((S_func_80024064_4 *)polygon)->unk_17.u & 1) == 0) {
-                    cell_x = scratch->unk_140.u;
-                    cell_y = scratch->unk_142.u;
+                if ((((S_func_80024064_4 *)polygon)->unk_17 & 1) == 0) {
+                    cell_x = scratch->unk_140;
+                    cell_y = scratch->unk_142;
 
                     vertex =
                         (S_func_80024064_5 *)((unsigned long)((S_func_80024064_4 *)polygon)->unk_00 * 8 +
@@ -209,15 +209,15 @@ void *find_impact_surface_polygon(s32 world_x, s32 world_y, s16 min_height) {
                         height =
                             (plane->unk_00 *
                              (plane_vertex->unk_00 -
-                              (s16)scratch->unk_140.u) +
+                              (s16)scratch->unk_140) +
                              plane->unk_02 *
                              (plane_vertex->unk_02 -
-                              (s16)scratch->unk_142.u) +
+                              (s16)scratch->unk_142) +
                              plane->unk_04 *
                              plane_vertex->unk_04) /
                             plane->unk_04;
                         scratch->unk_144 = height;
-                        height += (s16)scratch->unk_152.u;
+                        height += (s16)scratch->unk_152;
                         scratch->unk_144 = height;
                         if (height >= scratch->unk_14C &&
                             height < scratch->unk_148) {
@@ -228,7 +228,7 @@ void *find_impact_surface_polygon(s32 world_x, s32 world_y, s16 min_height) {
                 }
 
                 if ((((S_func_80024064_4 *)polygon)->unk_16 & 0xF) == 1) {
-                    if (((S_func_80024064_4 *)polygon)->unk_17.s < 0) {
+                    if ((s8)((S_func_80024064_4 *)polygon)->unk_17 < 0) {
                         break;
                     }
                     if ((((S_func_80024064_4 *)polygon)->unk_16 & 0xF0) != 0) {
@@ -257,7 +257,7 @@ typedef struct S_80024398_0 {
     u8 pad_00[0x20];
     void * unk_20;
     u8 pad_24[0x4];
-    union { s16 s; u16 u; } unk_28;   /* accessed as both */
+    s16 unk_28;
 } S_80024398_0;   /* arg0 in scale_effect_by_phase */
 
 typedef struct S_80024398_1 {
@@ -283,7 +283,7 @@ void scale_effect_by_phase(void *effect_arg)
     u16 new_scale;
     S_80024398_2 *node;
 
-    ticks_left = effect->unk_28.s;
+    ticks_left = effect->unk_28;
     impact_effect_update_flag = 1;
 
     {
@@ -335,8 +335,8 @@ void scale_effect_by_phase(void *effect_arg)
         }
     }
 
-    next_ticks = effect->unk_28.u - 1;
-    effect->unk_28.s = next_ticks;
+    next_ticks = (u16)effect->unk_28 - 1;
+    effect->unk_28 = next_ticks;
     if ((next_ticks << 16) <= 0) {
         node->unk_1E = 0x1000U;
         node->unk_1C = 0x1000U;
@@ -1385,7 +1385,7 @@ typedef struct OwnerFollowingWork {
     u8 transform[0x20];
     ObjectNodeHeader *owner;
     u8 pad_24[8];
-    union { s16 s; u16 u; } state;
+    u16 state;
     u8 pad_2E[2];
     u16 move_ticks;
     u16 anim_ticks;
@@ -1431,7 +1431,7 @@ void update_owner_following_effect(OwnerFollowingWork *effect_in, ObjectPosition
     world = ((u8 *)primary_actor_record);
 
     if (owner == 0) {
-        state = effect_in->state.s;
+        state = (s16)effect_in->state;
         switch (state) {
         case 0:
             move_ticks = effect_in->move_ticks;
@@ -1456,7 +1456,7 @@ void update_owner_following_effect(OwnerFollowingWork *effect_in, ObjectPosition
             }
             effect_in->move_ticks = 0;
             effect_in->anim_ticks = 0;
-            effect_in->state.u = effect_in->state.u + 1;
+            effect_in->state = effect_in->state + 1;
             break;
         case 1:
             next_tick = effect_in->anim_ticks + 1;
@@ -1473,7 +1473,7 @@ void update_owner_following_effect(OwnerFollowingWork *effect_in, ObjectPosition
                 effect_in->move_ticks = 0;
                 effect_in->rise_speed = 0x200000;
                 effect_in->rise_accel = 0;
-                effect_in->state.u = effect_in->state.u + 1;
+                effect_in->state = effect_in->state + 1;
             }
             break;
         case 2:
@@ -2015,13 +2015,13 @@ typedef struct S_func_80026418_0 {
     ChildObj *unk_04;
     u8 unk_08;
     u8 pad_09[1];
-    union { s16 s; u16 u; } unk_0A;
+    u16 unk_0A;
     u8 pad_0C[0x10];
-    union { s16 s; u16 u; } unk_1C;
+    s16 unk_1C;
     u8 pad_1E[6];
     s16 unk_24;
     u8 pad_26[2];
-    union { s16 s; u16 u; } unk_28;
+    u16 unk_28;
     u16 unk_2A;
 } S_func_80026418_0;
 
@@ -2043,7 +2043,7 @@ void advance_particle_fade_and_cleanup(S_func_80026418_0 *effect)
     u16 next_state;
     s32 reset_timer;
 
-    state = effect->unk_0A.s;
+    state = (s16)effect->unk_0A;
     switch (state) {
     case 0:
         select_nearby_target_and_initialize_slot(NODE_HEADER(primary_actor_record), (&view_reference_entity), 8, 0x400);
@@ -2059,10 +2059,10 @@ void advance_particle_fade_and_cleanup(S_func_80026418_0 *effect)
         owner = ((GlobalObj *)primary_actor_record);
         owner->unk_F4 = 0;
         owner->unk96 = 30;
-        next_state = effect->unk_0A.u;
+        next_state = effect->unk_0A;
         impact_effect_update_flag = 1;
         effect->unk_2A = 0;
-        effect->unk_0A.u = next_state + 1;
+        effect->unk_0A = next_state + 1;
     case 1:
         child = effect->unk_04;
         if ((child->flags & 0x80) == 0) {
@@ -2070,13 +2070,13 @@ void advance_particle_fade_and_cleanup(S_func_80026418_0 *effect)
         }
         play_sound_if_enabled(AUDIO_PLAY_CD_CUE);
         drain_audio_commands_and_service_channels();
-        effect->unk_28.u = 0;
-        effect->unk_0A.u = effect->unk_0A.u + 1;
+        effect->unk_28 = 0;
+        effect->unk_0A = effect->unk_0A + 1;
         return;
 
     case 2:
     {
-        u16 timer = effect->unk_28.u;
+        u16 timer = effect->unk_28;
         GlobalObj *effect_owner;
         ObjectPosition *position;
         OffsetPair *offset_base;
@@ -2084,21 +2084,21 @@ void advance_particle_fade_and_cleanup(S_func_80026418_0 *effect)
         u16 direction;
         s16 particle_index;
 
-        effect->unk_28.u = timer + 1;
+        effect->unk_28 = timer + 1;
         if ((s16)timer >= 0x52) {
             effect_owner = ((GlobalObj *)primary_actor_record);
-            effect->unk_1C.s = 0x21;
+            effect->unk_1C = 0x21;
             effect_owner->unkA6 = effect_owner->unkA6 - 1;
             effect_owner->unkA8 = effect->unk_08;
-            fade_state = effect->unk_0A.u;
+            fade_state = effect->unk_0A;
             direction = ((u16)primary_actor_record->facing);
-            effect->unk_0A.u = fade_state + 1;
-            effect->unk_28.u = 0;
+            effect->unk_0A = fade_state + 1;
+            effect->unk_28 = 0;
             effect->unk_24 = (direction >> 9) & 7;
         }
 
         particle_index = 0;
-        if (effect->unk_28.s == 0x4A) {
+        if ((s16)effect->unk_28 == 0x4A) {
             ObjectPosition *effect_position = &view_reference_entity;
 
             func_80025CE8((s16)((u16)effect_position->x.w.i),
@@ -2147,21 +2147,21 @@ void advance_particle_fade_and_cleanup(S_func_80026418_0 *effect)
     }
 
     case 3:
-        effect->unk_28.u = 0;
-        effect->unk_0A.u = effect->unk_0A.u + 1;
+        effect->unk_28 = 0;
+        effect->unk_0A = effect->unk_0A + 1;
     case 4:
         if (colors->view.tint.parts.tint_r >= 0x3D) {
             colors->view.tint.parts.tint_r -= 2;
             colors->view.tint.parts.tint_g -= 2;
             colors->view.tint.parts.tint_b -= 2;
         }
-        effect->unk_1C.u = effect->unk_1C.u - 1;
-        if (effect->unk_1C.s > 0) {
+        effect->unk_1C = (u16)effect->unk_1C - 1;
+        if (effect->unk_1C > 0) {
             return;
         }
         reset_timer = 0x3C;
-        effect->unk_1C.s = reset_timer;
-        effect->unk_0A.u = effect->unk_0A.u + 1;
+        effect->unk_1C = reset_timer;
+        effect->unk_0A = effect->unk_0A + 1;
         return;
 
     case 5:
@@ -2175,16 +2175,16 @@ void advance_particle_fade_and_cleanup(S_func_80026418_0 *effect)
             colors->view.tint.parts.tint_b += 10;
         }
         if ((reference_tile_object.sprite_flags & 0x8000) == 0) {
-            effect->unk_1C.u = effect->unk_1C.u - 1;
-            if (effect->unk_1C.s >= 0) {
+            effect->unk_1C = (u16)effect->unk_1C - 1;
+            if (effect->unk_1C >= 0) {
                 return;
             }
         }
         dungeon_mode = impact_effect_update_flag;
-        effect->unk_1C.s = 0;
+        effect->unk_1C = 0;
         if (dungeon_mode == 0) {
-            effect->unk_28.u = 0;
-            effect->unk_0A.u = effect->unk_0A.u + 1;
+            effect->unk_28 = 0;
+            effect->unk_0A = effect->unk_0A + 1;
             return;
         } else {
             impact_effect_update_flag = 0;
@@ -2194,9 +2194,9 @@ void advance_particle_fade_and_cleanup(S_func_80026418_0 *effect)
 
     case 6:
     {
-        u16 timer = effect->unk_28.u;
+        u16 timer = effect->unk_28;
 
-        effect->unk_28.u = timer + 1;
+        effect->unk_28 = timer + 1;
         if ((s16)timer < 4) {
             return;
         }

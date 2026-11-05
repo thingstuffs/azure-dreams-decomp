@@ -11,9 +11,8 @@
 #include "engine/graphics.h"
 #include "dungeon/system.h"
 #include "sdk/libc.h"
+#include "dungeon/data.h"
 
-extern u8 uboat_default_frames[];
-extern u8 u_boat_frame_set_1[];
 #include "dungeon/monster/u_boat.h"
 #include "dungeon/actor.h"
 #include "dungeon/effect/screen.h"

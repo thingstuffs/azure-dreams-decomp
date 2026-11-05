@@ -8,11 +8,11 @@
 #include "engine/graphics.h"
 #include "dungeon/effect.h"
 #include "dungeon/player/object.h"
+#include "dungeon/data.h"
 
 typedef struct Ent Ent;
 
 Ent *prepare_directional_attack(); /* extern */
-extern u8 baloon_attack_frames;
 
 /*
  * Claims an action slot for Baloon, selects directional attack frames, consumes a pending turn,

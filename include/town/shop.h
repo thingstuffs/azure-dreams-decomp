@@ -15,7 +15,7 @@ s32 get_player_homerank(void);
 s32 dispatch_item_menu_entry_callback(ItemMenuTransition *state, s32 callback_arg);
 s32 invoke_item_menu_offset_handler(u8 *object, s32 callback_arg);
 
-void initialize_item_menu_request_state(void *state, s32 base_value);
+void initialize_item_menu_request_state(ItemMenuObject *object, ItemMenuStateNode *owner);
 
 s32 count_town_items(void);
 void fill_ten_paged_output_slots(s32 **outputs, s32 *page_info, s32 record_table);

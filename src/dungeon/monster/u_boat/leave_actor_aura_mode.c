@@ -10,9 +10,8 @@
 #include "dungeon/player/object.h"
 #include "dungeon/system.h"
 #include "engine/entity.h"
+#include "dungeon/data.h"
 
-extern u8 uboat_default_frames[];
-extern u8 u_boat_aura_frames[];
 #include "dungeon/monster/u_boat.h"
 #include "engine/graphics.h"
 

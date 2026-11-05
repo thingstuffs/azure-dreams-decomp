@@ -5,7 +5,7 @@
 
 extern s8 D_8001DCCC[];
 
-typedef struct {
+typedef struct Func8032EEE4Record {
     s32 unk0;
     void *unk4;
     s32 *unk8;

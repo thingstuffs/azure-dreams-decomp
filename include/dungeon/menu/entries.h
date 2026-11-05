@@ -363,7 +363,7 @@ typedef struct {
 extern M2C_UNK D_800789B8;
 extern char *D_8002946C[];
 char *copy_indexed_menu_string(char *resource, s32 index, s32 unused_data, s32 unused_size);
-s32 create_callback_pair_default();
+void *create_callback_pair_default();
 void * func_8004B404(int value);
 extern void strncpy();
 extern u8 D_800287EC[];
@@ -381,7 +381,7 @@ extern void (*menu_update_callbacks[2])(void *);
 extern void (*menu_countdown_callbacks[2])(void *);
 extern void (*menu_page_countdown_callbacks[2])(void *);
 s32 advance_timed_tagged_stream(FrameState *state);
-extern s32 build_tinted_gradient_rect();
+extern void *build_tinted_gradient_rect();
 extern void * func_800499E8(u8 *cmd, u8 *rect, u8 *tint);
 extern ovl_1831cd8_81812AD0_RECT D_80025034[2];
 extern s8 shared_primitive_color[];

@@ -32,19 +32,6 @@ typedef struct T_80170D40_S_80170D40_0 {
     u16 unk_18;
 } T_80170D40_S_80170D40_0;   /* arg0 in func_80170D40 */
 
-typedef struct T_80170D40_S_80170D40_1 {
-    u8 pad_00[0xC];
-    u8 unk_0C;
-    u8 unk_0D;
-    u8 unk_0E;
-} T_80170D40_S_80170D40_1;   /* arg2 in func_80170D40 */
-
-typedef struct T_80170DC4_S_80170DC4_1 {
-    u8 pad_00[0xC];
-    s8 unk_0C;
-    s8 unk_0D;
-    s8 unk_0E;
-} T_80170DC4_S_80170DC4_1;   /* arg2 in func_80170DC4 */
 
 typedef struct {
     u8 red;
@@ -55,12 +42,6 @@ typedef struct {
     s16 divisor;
 } T_80170E2C_FadeState;
 
-typedef struct {
-    u8 pad_00[0xC];
-    s8 red;
-    s8 green;
-    s8 blue;
-} T_80170E2C_FadeOutput;
 
 #include "records/Rec_D_80082E80.h"
 
@@ -294,13 +275,6 @@ typedef struct T_80171A38_S_80171A38_2 {
     void * unk_2C;
 } T_80171A38_S_80171A38_2;   /* part in func_80171A38 */
 
-typedef struct T_80171A38_S_80171A38_3 {
-    u8 pad_00[0x6];
-    u16 unk_06;
-    u8 pad_08[0x14];
-    s16 unk_1C;
-    s16 unk_1E;
-} T_80171A38_S_80171A38_3;   /* arg2 in func_80171A38 */
 
 typedef struct T_80171A38_S_80171A38_4 {
     u8 pad_00[0x2];
@@ -405,15 +379,15 @@ extern u8 D_801720B4[];
 extern u8 troll_frame_set_1[];
 extern u8 troll_frame_set_2[];
 extern u8 troll_frame_set_3[];
-void update_stepped_rgb_flash(void *fade_state, ObjectPosition *unused, T_80170D40_S_80170D40_1 *primitive);
-void update_normalized_gray_fade(ActorActionEffectBody *countdownState, ObjectPosition *unused, T_80170DC4_S_80170DC4_1 *output);
-void update_saved_rgb_fade(T_80170E2C_FadeState *fade, ObjectPosition *unused, T_80170E2C_FadeOutput *output);
+void update_stepped_rgb_flash(void *fade_state, ObjectPosition *unused, SpriteFrameState *primitive);
+void update_normalized_gray_fade(ActorActionEffectBody *countdownState, ObjectPosition *unused, SpriteFrameState *output);
+void update_saved_rgb_fade(T_80170E2C_FadeState *fade, ObjectPosition *unused, SpriteFrameState *output);
 void update_growing_rotating_flash(GrowingRotatingFlashBody *effect, ObjectPosition *unused, SpriteFrameState *visual);
 void update_growing_bouncing_effect(void *effect, void *position,struct SpriteFrameState *sprite);
 void create_targeted_motion_effect(ActorRecord *source_handle, ObjectPosition *origin, SpriteFrameState *unused, ActorRecord *target);
 void create_actor_action_effect(ActorRecord *source_object, ObjectPosition *source_pos, SpriteFrameState *sprite_template, ActorRecord *actor);
 void spawn_growing_rotating_flash(ActorRecord *unused, ObjectPosition *position, SpriteFrameState *unused_sprite);
-void update_tracked_attachment_sprite(TrackedAttachmentSpriteBody *object, T_80171A38_S_80171A38_4 *position, T_80171A38_S_80171A38_3 *part_state);
+void update_tracked_attachment_sprite(TrackedAttachmentSpriteBody *object, T_80171A38_S_80171A38_4 *position, SpriteFrameState *part_state);
 void create_tracked_attachment_sprite(ActorRecord *attachment, T_80171BEC_S_80171BEC_3 *base_position);
 void * create_actor_entity(s16 spawn_flags, s32 sprite_x, s32 sprite_y, s32 initial_height);
 void update_actor_behavior(ActorRecord *actor, ObjectPosition *context, SpriteFrameState *sprite, ActorRecord *state);

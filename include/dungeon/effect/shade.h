@@ -41,4 +41,6 @@ void *create_effect_object_groups(s16 x, s16 y, s16 z);
 s32 draw_adjacent_row_quads(void);
 void project_depth_sliced_quads(void *geometry, ObjectPosition *position, SpriteFrameState *render_state, s16 depth_bias);
 
+void reset_action_and_decrement_actor_count(ActorRecord *action_state, ObjectPosition *unused_1, SpriteFrameState *unused_2, ActorRecord *actor);
+
 #endif

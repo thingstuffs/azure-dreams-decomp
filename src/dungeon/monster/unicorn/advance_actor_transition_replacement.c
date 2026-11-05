@@ -42,7 +42,7 @@ extern s32 lookup_masked_byte_table();
 extern void unlink_entity_node();
 extern void update_map_cell_flags_with_item_limit(s32 x, s32 y, u16 flags);
 extern void *advance_staged_entity_load(); /* Unprototyped: uses the value as a pointer where the definition has an integer (or the reverse) */
-extern s32 create_status_linked_render_effect();
+extern void *create_status_linked_render_effect();
 extern void create_angular_offset_effect();
 
    /* the 0x2 bytes before arg0 in advance_actor_transition_replacement, addressed as arg0[-1] */

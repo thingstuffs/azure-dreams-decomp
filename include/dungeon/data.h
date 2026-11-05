@@ -237,4 +237,16 @@ extern u8 picket_frame_set_4[ ];
 extern s32 picket_slot_f_item_result[ ];
 extern u8 pulunpa_frame_set_1[ ];
 
+extern u8 ashra_frame_set_3[ ];
+extern u8 baloon_anchored_frames[ ];
+extern u8 baloon_attack_frames;
+extern s32 item_display_icon_words[ 256 ];
+extern u8 stealth_frame_set[ ];
+extern u8 tyrant_frame_set_1[ ];
+extern u8 u_boat_frame_set_1[ ];
+extern u8 unicorn_frame_set_1[ ];
+extern u8 viper_frame_set_2[ ];
+extern u8 weadog_frame_set_3[ ];
+extern u8 weadog_frame_set_7[ ];
+
 #endif

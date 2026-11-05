@@ -91,7 +91,7 @@ s32 push_point_to_containing_edges(s32 *x, s32 *y);
 
 s32 sum_enabled_record_weights(void);
 
-void apply_global_scene_value(s32 value);
+void apply_global_scene_value(void *value);
 void initialize_town_context_action(void);
 
 s32 step_angle_12_toward(s32 angle_delta, s32 target_angle, s32 step);

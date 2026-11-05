@@ -20,15 +20,6 @@ typedef struct S_8102F20C_1 {
 } S_8102F20C_1;   /* arg0 in apply_relative_projected_depth */
 
 
-
-typedef struct S_8102F20C_3 {
-    u8 pad_00[0x6];
-    s16 depth_bias; /* 0x06 */
-    u8 pad_08[0xC];
-    u16 unk_14;
-} S_8102F20C_3;   /* out in apply_relative_projected_depth */
-
-
 typedef struct {
     u16 x0;
     u16 x1;
@@ -48,7 +39,7 @@ void apply_relative_projected_depth(void *entity_arg, MovingPosition *position, 
     s16 depth_delta;
     s32 depth_bias;
     MovingPosition *base_position;
-    S_8102F20C_3 *result;
+    SpriteFrameState *result;
 
     result = output;
     coords.x0 = position->x;
@@ -62,10 +53,10 @@ void apply_relative_projected_depth(void *entity_arg, MovingPosition *position, 
     depth_delta = depth_delta - RotTransPers(&coords.x0, &screen_xy, &depth_cue, &projection_flags);
     depth_bias = view_direction_depth_biases[((s32) (g_game_work.view.camera_rotation.parts.viewAngle + entity->unk_1C + 0x100) >> 9) & 7] * 2;
     depth_delta = depth_delta + depth_bias;
-    result->unk_14 = (u16) (result->unk_14 & 0xFF7F);
+    result->flags = (u16) (result->flags & 0xFF7F);
     result->depth_bias = depth_delta;
     advance_sprite_animation_and_textures(result);
-    if (result->unk_14 & 0x6000) {
+    if (result->flags & 0x6000) {
         ((S_8102F20C_1_pre *)entity)[-1].unk_00 = (u16) (((S_8102F20C_1_pre *)entity)[-1].unk_00 | 0x8000);
         object_flag_block.flags = object_flag_block.flags | OBJECT_REMOVE_PENDING;
     }

@@ -9,6 +9,7 @@
 #include "engine/graphics.h"
 #include "engine/node.h"
 #include "dungeon/effect/sprite.h"
+#include "dungeon/data.h"
 
 #ifndef NULL
 #define NULL 0
@@ -31,7 +32,6 @@ typedef struct S_80D653B8_5 {
 
 
 extern u8 D_800D6FEC[];
-extern u8 baloon_anchored_frames[];
 
 /* Creates an object from a template, selects its direction, and positions it at the anchor. */
 /* Copies a sprite template into a timed Baloon effect, selects anchored directional frames, and links it

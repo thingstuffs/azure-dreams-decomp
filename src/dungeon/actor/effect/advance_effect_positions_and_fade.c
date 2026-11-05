@@ -12,17 +12,10 @@ typedef struct S_8002744C_1 {
     s16 unk_66;
 } S_8002744C_1;   /* arg0 in advance_effect_positions_and_fade */
 
-typedef struct S_8002744C_2 {
-    u8 pad_00[0xC];
-    u8 unk_0C;
-    u8 unk_0D;
-    u8 unk_0E;
-} S_8002744C_2;   /* arg2 in advance_effect_positions_and_fade */
-
 
 /* Advance effect positions, fade the color, and flag expiration when the timer ends. */
 void advance_effect_positions_and_fade(void *effect_arg, void *positions_arg, void *color_arg) {
-    S_8002744C_2 *color = color_arg;
+    SpriteFrameState *color = color_arg;
     ObjectPosition *positions = positions_arg;
     S_8002744C_1 *effect = effect_arg;
     s16 ticks_left;
@@ -36,11 +29,11 @@ void advance_effect_positions_and_fade(void *effect_arg, void *positions_arg, vo
     positions->velocity_y += effect->unk_10 >> 1;
     positions->velocity_z += effect->unk_14 >> 1;
 
-    intensity = color->unk_0C;
+    intensity = color->color.c.r;
     intensity -= intensity / effect->unk_66;
-    color->unk_0C = intensity;
-    color->unk_0D = intensity;
-    color->unk_0E = intensity;
+    color->color.c.r = intensity;
+    color->color.c.g = intensity;
+    color->color.c.b = intensity;
 
     ticks_left = (u16)effect->unk_66 - 1;
     effect->unk_66 = ticks_left;

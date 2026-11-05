@@ -107,6 +107,7 @@ void update_griffon_motion_and_facing(ActorRecord *entity, ObjectPosition *motio
     u16 part_flags;
     u16 new_part_flags;
     u8 direction_flag;
+    u8 *frame_table;
 
     if (g_dungeon_status.flags & 0x2000) {
         callback = entity->unk_8C.handler;
@@ -150,9 +151,10 @@ void update_griffon_motion_and_facing(ActorRecord *entity, ObjectPosition *motio
         direction_index = state_or_direction;
         direction_copy = state_or_direction;
         if (entity->unk_94 != direction_copy) {
-            if (((R08_80170A50_S_80170A28_0 *)sprite)->unk_2C != 0) {
+            frame_table = sprite->frameTable;
+            if (frame_table != 0) {
                 select_indirect_table_entry(sprite,
-                              ((R08_80170A50_S_80170A28_0 *)sprite)->unk_2C[direction_copy],
+                              frame_table[direction_copy],
                               sprite->unk_04);
             }
             entity->unk_94 = state_or_direction;
@@ -1295,7 +1297,6 @@ void update_item_activation_and_cleanup(ActorRecord *action, ObjectPosition *mot
                     } else {
 
 
-
                         (object->target) = scan_actor_along_heading(
                             object,
                             ((R08_80172CE8_S_80172CE8_3 *)actor)->unk_24,
@@ -1923,13 +1924,13 @@ s32 start_bank_actor_hit_reaction(void *initial_payload, s32 entry_data, R08_801
 
 /* MECHANISM: Typed page and scratch fields preserve the signed lh/sw widths and offsets. */
 
-void advance_object_angle_and_height(u16 *record_data, ObjectPosition *unused_position, R08_80174180_Object *object) {
+void advance_object_angle_and_height(u16 *record_data, ObjectPosition *unused_position, SpriteFrameState *object) {
     u16 height;
 
-    object->field_1A += 0x320;
-    height = object->field_1E + 0x200;
-    object->field_1E = height;
-    object->field_1C = height;
+    object->angle_z += 0x320;
+    height = object->scale_y + 0x200;
+    object->scale_y = height;
+    object->scale_x = height;
     if (height >= 0x2000) {
         record_data[-1] |= 0x8000;
         object_flag_block.flags |= OBJECT_REMOVE_PENDING;

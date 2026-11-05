@@ -39,7 +39,7 @@ s32 check_scene_callback_and_position(void);
 s16 check_the_position_second_coordinate_adjusted_stored_offset(void *source_record);
 
 /* copy_callback_value_to_destination.c */
-void copy_callback_value_to_destination(s32 destination, s32 *values);
+void copy_callback_value_to_destination(void *destination, s32 *values);
 
 /* copy_selected_row_to_player_position.c */
 void copy_selected_row_to_player_position(void);

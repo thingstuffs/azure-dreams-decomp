@@ -565,7 +565,7 @@ void update_homing_effect_and_attached_copies(ovl_19a332c_819835AC_S_819835AC_1 
     s32 alternate_scale;
     u16 approach_frames;
 
-    (*(s16 *)&image_tint_update_count) = (s16) (((ovl_19a332c_819835AC_S_819835AC_10 *) &image_tint_update_count)->unk_00 + 1);
+    image_tint_update_count = (s16) (((ovl_19a332c_819835AC_S_819835AC_10 *) &image_tint_update_count)->unk_00 + 1);
     for (history_index = 0; history_index >= 0; history_index--) {
         history = (ovl_19a332c_819835AC_S_819835AC_4 *) ((u8 *) effect + history_index * 8);
         history->unk_50 = history->unk_48;

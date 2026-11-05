@@ -4,7 +4,7 @@
 #include "shared/dungeon_effect_views.h"
 #include "engine/node.h"
 
-typedef struct {
+typedef struct AllocatedObject {
     u8 pad_0[8];
     EffectInitialState *data;
     u8 pad_C[4];

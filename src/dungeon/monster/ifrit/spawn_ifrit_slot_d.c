@@ -18,7 +18,7 @@ typedef s32 M2C_UNK;
 
 
 extern s32 generate_random_value(void);
-extern void try_move_actor_to_valid_position(void *, void *, void *, void *);
+extern s32 try_move_actor_to_valid_position(void *, void *, void *, void *);
 
 extern u8 ifrit_object_callback_3[];
 extern u8 D_80162820[];

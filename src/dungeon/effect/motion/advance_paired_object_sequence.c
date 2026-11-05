@@ -17,9 +17,9 @@ typedef struct S_800253C0_0 {
     u8 pad_00[0x8C];
     void * unk_8C;
     u8 pad_90[0x6];
-    union { s16 v; s16 n; } unk_96;   /* accessed as both */
+    s16 unk_96;
     u8 pad_98[0x3];
-    union { u8 n; u8 v; } unk_9B;   /* accessed as both */
+    u8 unk_9B;
     u8 pad_9C[0x10];
     void * unk_AC;
     void * unk_B0;
@@ -27,7 +27,7 @@ typedef struct S_800253C0_0 {
 
 typedef struct S_800253C0_1 {
     u8 pad_00[0x2A];
-    union { u16 u; s16 s; } unk_2A;   /* accessed as both */
+    s16 unk_2A;
     u8 pad_2C[0x34];
     void * unk_60;
     u8 pad_64[0x24];
@@ -54,9 +54,9 @@ typedef struct S_800253C0_5 {
     u8 pad_00[0x14];
     u32 unk_14;
     u8 pad_18[0x12];
-    union { u16 n; s16 n2; } unk_2A;   /* accessed as both */
+    u16 unk_2A;
     u8 pad_2C[0x5C];
-    union { s16 s; u16 u; } unk_88;   /* accessed as both */
+    s16 unk_88;
     u16 unk_8A;
 } S_800253C0_5;   /* object in advance_paired_object_sequence */
 
@@ -70,11 +70,11 @@ typedef struct S_800253C0_8 {
 
 typedef struct S_800253C0_9 {
     u8 pad_00[0x2];
-    union { s16 s; u16 u; } unk_02;   /* accessed as both */
+    s16 unk_02;
     u8 pad_04[0x2];
-    union { s16 s; u16 u; } unk_06;   /* accessed as both */
+    s16 unk_06;
     u8 pad_08[0x2];
-    union { s16 s; u16 u; } unk_0A;   /* accessed as both */
+    u16 unk_0A;
 } S_800253C0_9;   /* prim in advance_paired_object_sequence */
 
 typedef struct S_800253C0_10 {
@@ -83,7 +83,7 @@ typedef struct S_800253C0_10 {
     u8 pad_04[0x2];
     s16 unk_06;
     u8 pad_08[0x2];
-    union { s16 s; u16 u; } unk_0A;   /* accessed as both */
+    u16 unk_0A;
 } S_800253C0_10;   /* arg1 in advance_paired_object_sequence */
 
 typedef struct S_800253C0_11 {
@@ -120,8 +120,8 @@ typedef struct S_800253C0_17 {
         struct { u8 pad[0x2]; u8 v; } at02;
     } unk_0C;   /* overlapping accesses */
     s16 unk_10;
-    union { u16 u; s16 s; } unk_12;   /* accessed as both */
-    union { s16 s; u16 u; } unk_14;   /* accessed as both */
+    u16 unk_12;
+    u16 unk_14;
     u8 pad_16[0xE];
     u8 unk_24;
     u8 unk_25;
@@ -170,7 +170,7 @@ void advance_paired_object_sequence(void *sequence, void *position, void *actor,
     s16 *table_x;
     s16 *table_y;
 
-    state = ((S_800253C0_0 *)sequence)->unk_9B.n;
+    state = ((S_800253C0_0 *)sequence)->unk_9B;
     switch (state) {
         s32 coord_delta;
         s32 slot_value;
@@ -184,7 +184,7 @@ void advance_paired_object_sequence(void *sequence, void *position, void *actor,
         s32 table_index_m;
     case 0:
         if (((S_800253C0_0 *)sequence)->unk_AC == 0 || ((S_800253C0_0 *)sequence)->unk_B0 == 0) {
-            ((S_800253C0_0 *)sequence)->unk_9B.n = 13;
+            ((S_800253C0_0 *)sequence)->unk_9B = 13;
             return;
         }
         {
@@ -195,8 +195,8 @@ void advance_paired_object_sequence(void *sequence, void *position, void *actor,
             s32 cd_value = read_stream_cue_start_offset();
             Control_CD(21, cd_value, 0);
         }
-        state = ((S_800253C0_0 *)sequence)->unk_9B.n;
-        ((S_800253C0_0 *)sequence)->unk_9B.n = state + 1;
+        state = ((S_800253C0_0 *)sequence)->unk_9B;
+        ((S_800253C0_0 *)sequence)->unk_9B = state + 1;
         return;
 
     case 1:
@@ -206,18 +206,18 @@ void advance_paired_object_sequence(void *sequence, void *position, void *actor,
         u16 old_angle;
 
         turn_scene = &g_game_work;
-        old_angle = ((S_800253C0_1 *)owner)->unk_2A.u;
+        old_angle = (u16)((S_800253C0_1 *)owner)->unk_2A;
         index = ((turn_scene->view.camera_rotation.parts.viewAngle +
-            ((S_800253C0_1 *)owner)->unk_2A.s + 0x100) >> 9) & 7;
+            ((S_800253C0_1 *)owner)->unk_2A + 0x100) >> 9) & 7;
         if (index == 2) {
             ((S_800253C0_3 *)actor)->unk_2C = D_800DD148;
             anim_entry = D_800DD148 + ((((turn_scene->view.camera_rotation.parts.viewAngle +
-                ((S_800253C0_1 *)owner)->unk_2A.s) + 0x100) >> 9) & 7);
+                ((S_800253C0_1 *)owner)->unk_2A) + 0x100) >> 9) & 7);
             set_sprite_animation_frame(actor, *anim_entry, 0, 1);
-            ((S_800253C0_0 *)sequence)->unk_9B.n = ((S_800253C0_0 *)sequence)->unk_9B.n + 1;
+            ((S_800253C0_0 *)sequence)->unk_9B = ((S_800253C0_0 *)sequence)->unk_9B + 1;
             return;
         }
-        ((S_800253C0_1 *)owner)->unk_2A.s = old_angle + 0x200;
+        ((S_800253C0_1 *)owner)->unk_2A = old_angle + 0x200;
         return;
     }
 
@@ -238,8 +238,8 @@ void advance_paired_object_sequence(void *sequence, void *position, void *actor,
             message_text += 4;
         } while (object_index_m < 2);
     }
-        state = ((S_800253C0_0 *)sequence)->unk_9B.n;
-        ((S_800253C0_0 *)sequence)->unk_9B.n = state + 1;
+        state = ((S_800253C0_0 *)sequence)->unk_9B;
+        ((S_800253C0_0 *)sequence)->unk_9B = state + 1;
         return;
 
     case 3:
@@ -259,16 +259,16 @@ void advance_paired_object_sequence(void *sequence, void *position, void *actor,
                 child_slot = (u8 *)child_slot + 4;
                 object_index_m++;
                 ((S_800253C0_5 *)object_m)->unk_14 |= mask;
-                angle = ((S_800253C0_5 *)object_m)->unk_2A.n;
+                angle = ((S_800253C0_5 *)object_m)->unk_2A;
                 ((S_800253C0_5 *)object_m)->unk_8A = angle;
             } while (object_index_m < 2);
         }
 
-        ((S_800253C0_0 *)sequence)->unk_9B.n++;
-        ((S_800253C0_0 *)sequence)->unk_96.v = 32;
+        ((S_800253C0_0 *)sequence)->unk_9B++;
+        ((S_800253C0_0 *)sequence)->unk_96 = 32;
 case 4:
         brightness = scene->view.tint.parts.tint_r;
-        timer = ((S_800253C0_0 *)sequence)->unk_96.n;
+        timer = ((S_800253C0_0 *)sequence)->unk_96;
         delta = (32 - brightness) / timer;
         brightness = brightness + delta;
         message_text = (u8 *)scene + 0xA8;
@@ -294,40 +294,40 @@ case 4:
             table_index_m >>= 8;
             table_index_m &= 0xE;
             coord = (s32)((S_800253C0_8 *)actor)->unk_24 + table_x[table_index_m >> 1];
-            frames_left = ((S_800253C0_0 *)sequence)->unk_96.n;
+            frames_left = ((S_800253C0_0 *)sequence)->unk_96;
             coord = coord << 6;
             prim_m = ((S_800253C0_5_pre *)object_m)[-1].unk_00;
-            previous_x = prim_m->unk_02.s - 0x20;
+            previous_x = prim_m->unk_02 - 0x20;
             coord = coord - previous_x;
-            prim_m->unk_02.u = prim_m->unk_02.u + coord / frames_left;
+            prim_m->unk_02 = (u16)prim_m->unk_02 + coord / frames_left;
             coord_y = (s32)((S_800253C0_8 *)actor)->unk_25;
             {
                 coord_y = coord_y + table_y[table_index_m >> 1];
             }
             coord_y = coord_y << 6;
-            old_y = prim_m->unk_06.s - 0x20;
+            old_y = prim_m->unk_06 - 0x20;
             coord_y = coord_y - old_y;
-            prim_m->unk_06.u = prim_m->unk_06.u +
-                coord_y / ((S_800253C0_0 *)sequence)->unk_96.n;
+            prim_m->unk_06 = (u16)prim_m->unk_06 +
+                coord_y / ((S_800253C0_0 *)sequence)->unk_96;
             {
-                s32 old_z = prim_m->unk_0A.s;
-                s32 z_delta = ((S_800253C0_10 *)position)->unk_0A.s - old_z;
-                prim_m->unk_0A.u = prim_m->unk_0A.u +
-                    z_delta / ((S_800253C0_0 *)sequence)->unk_96.n;
+                s32 old_z = (s16)prim_m->unk_0A;
+                s32 z_delta = (s16)((S_800253C0_10 *)position)->unk_0A - old_z;
+                prim_m->unk_0A = prim_m->unk_0A +
+                    z_delta / ((S_800253C0_0 *)sequence)->unk_96;
             }
 
             {
-                s32 angle = move_scene->view.camera_rotation.parts.viewAngle + ((S_800253C0_5 *)object_m)->unk_2A.n2;
-                u16 old_angle = ((S_800253C0_5 *)object_m)->unk_2A.n;
+                s32 angle = move_scene->view.camera_rotation.parts.viewAngle + (s16)((S_800253C0_5 *)object_m)->unk_2A;
+                u16 old_angle = ((S_800253C0_5 *)object_m)->unk_2A;
                 if ((((angle + 0x100) >> 9) & 7) != 2) {
-                    ((S_800253C0_5 *)object_m)->unk_2A.n = old_angle + 0x200;
+                    ((S_800253C0_5 *)object_m)->unk_2A = old_angle + 0x200;
                 }
             }
             object_index_m++;
             object_slot = (u8 *)object_slot + 4;
         } while (object_index_m < 2);
-        timer = ((S_800253C0_0 *)sequence)->unk_96.n - 1;
-        ((S_800253C0_0 *)sequence)->unk_96.n = timer;
+        timer = ((S_800253C0_0 *)sequence)->unk_96 - 1;
+        ((S_800253C0_0 *)sequence)->unk_96 = timer;
         if (timer > 0) {
             return;
         }
@@ -353,45 +353,45 @@ case 4:
                 table_index &= 0xE;
                 x = (s32)((S_800253C0_8 *)actor)->unk_24 + snap_x[table_index >> 1];
                 prim_m = ((S_800253C0_5_pre *)object_m)[-1].unk_00;
-                prim_m->unk_02.s = (x << 6) + 0x20;
+                prim_m->unk_02 = (x << 6) + 0x20;
                 y = (s32)((S_800253C0_8 *)actor)->unk_25 + snap_y[table_index >> 1];
-                prim_m->unk_06.s = (y << 6) + 0x20;
-                prim_m->unk_0A.u = ((S_800253C0_10 *)position)->unk_0A.u;
+                prim_m->unk_06 = (y << 6) + 0x20;
+                prim_m->unk_0A = ((S_800253C0_10 *)position)->unk_0A;
                 final_slot = (u8 *)final_slot + 4;
                 object_index_m++;
             } while (object_index_m < 2);
             {
                 coord_delta = 16;
-                state = ((S_800253C0_0 *)sequence)->unk_9B.v;
-                ((S_800253C0_0 *)sequence)->unk_96.n = coord_delta;
+                state = ((S_800253C0_0 *)sequence)->unk_9B;
+                ((S_800253C0_0 *)sequence)->unk_96 = coord_delta;
             }
         }
-        ((S_800253C0_0 *)sequence)->unk_9B.n = state + 1;
+        ((S_800253C0_0 *)sequence)->unk_9B = state + 1;
         return;
 
     case 5:
     {
-        s16 ticks = ((S_800253C0_0 *)sequence)->unk_96.n - 1;
-        ((S_800253C0_0 *)sequence)->unk_96.n = ticks;
+        s16 ticks = ((S_800253C0_0 *)sequence)->unk_96 - 1;
+        ((S_800253C0_0 *)sequence)->unk_96 = ticks;
         if (ticks > 0) {
             return;
         }
         create_and_link_six_offset_objects(((S_800253C0_10 *)position)->unk_02, ((S_800253C0_10 *)position)->unk_06,
-            ((S_800253C0_10 *)position)->unk_0A.s, actor);
+            (s16)((S_800253C0_10 *)position)->unk_0A, actor);
         {
             coord_delta = 32;
-            state = ((S_800253C0_0 *)sequence)->unk_9B.v;
-            ((S_800253C0_0 *)sequence)->unk_96.n = coord_delta;
+            state = ((S_800253C0_0 *)sequence)->unk_9B;
+            ((S_800253C0_0 *)sequence)->unk_96 = coord_delta;
         }
-        ((S_800253C0_0 *)sequence)->unk_9B.n = state + 1;
+        ((S_800253C0_0 *)sequence)->unk_9B = state + 1;
         return;
     }
 
     case 6:
     {
-        s16 ticks = ((S_800253C0_0 *)sequence)->unk_96.n - 1;
+        s16 ticks = ((S_800253C0_0 *)sequence)->unk_96 - 1;
 
-        ((S_800253C0_0 *)sequence)->unk_96.n = ticks;
+        ((S_800253C0_0 *)sequence)->unk_96 = ticks;
         if (ticks > 0) {
             return;
         }
@@ -407,8 +407,8 @@ case 4:
         } while (object_index_m < 2);
         {
             GpuRectBuffer texture_rect;
-            ((S_800253C0_0 *)sequence)->unk_9B.n++;
-            ((S_800253C0_0 *)sequence)->unk_96.n = 60;
+            ((S_800253C0_0 *)sequence)->unk_9B++;
+            ((S_800253C0_0 *)sequence)->unk_96 = 60;
             texture_rect.halves[0] = 0x340;
             texture_rect.halves[1] = 0x180;
             texture_rect.halves[3] = 0x40;
@@ -421,25 +421,25 @@ case 4:
     case 7:
         process_adjacent_objects_with_gray_nodes(((S_800253C0_0 *)sequence)->unk_AC, ((S_800253C0_0 *)sequence)->unk_B0);
         {
-            s16 ticks = ((S_800253C0_0 *)sequence)->unk_96.n - 1;
-            ((S_800253C0_0 *)sequence)->unk_96.n = ticks;
+            s16 ticks = ((S_800253C0_0 *)sequence)->unk_96 - 1;
+            ((S_800253C0_0 *)sequence)->unk_96 = ticks;
             if (ticks > 0) {
                 return;
             }
             {
                 coord_delta = 8;
-                state = ((S_800253C0_0 *)sequence)->unk_9B.n;
-                ((S_800253C0_0 *)sequence)->unk_96.n = coord_delta;
+                state = ((S_800253C0_0 *)sequence)->unk_9B;
+                ((S_800253C0_0 *)sequence)->unk_96 = coord_delta;
             }
-            ((S_800253C0_0 *)sequence)->unk_9B.n = state + 1;
+            ((S_800253C0_0 *)sequence)->unk_9B = state + 1;
             return;
         }
 
     case 8:
         process_adjacent_objects_with_gray_nodes(((S_800253C0_0 *)sequence)->unk_AC, ((S_800253C0_0 *)sequence)->unk_B0);
         {
-            s16 ticks = ((S_800253C0_0 *)sequence)->unk_96.n - 1;
-            ((S_800253C0_0 *)sequence)->unk_96.n = ticks;
+            s16 ticks = ((S_800253C0_0 *)sequence)->unk_96 - 1;
+            ((S_800253C0_0 *)sequence)->unk_96 = ticks;
             if (ticks > 0) {
                 return;
             }
@@ -503,21 +503,21 @@ case 4:
                             u16 child_y;
                             object_m = ((S_800253C0_12 *)final_slot)->unk_AC;
                             other = ((SpriteLinkPrefixView *)object_m)[-1].sprite;
-                            child_y = ((S_800253C0_17 *)other)->unk_12.u;
+                            child_y = ((S_800253C0_17 *)other)->unk_12;
                             ((S_800253C0_17 *)other)->unk_10 = sprite_x;
-                            ((S_800253C0_17 *)other)->unk_14.s = sprite_flags;
-                            ((S_800253C0_17 *)other)->unk_12.s = child_y - 128;
+                            ((S_800253C0_17 *)other)->unk_14 = sprite_flags;
+                            ((S_800253C0_17 *)other)->unk_12 = child_y - 128;
                             final_slot = (u8 *)final_slot + 4;
                             object_index_m++;
                         } while (object_index_m < 2);
                     }
-                    ((S_800253C0_0 *)sequence)->unk_96.n = 38;
-                    ((S_800253C0_0 *)sequence)->unk_9B.n++;
+                    ((S_800253C0_0 *)sequence)->unk_96 = 38;
+                    ((S_800253C0_0 *)sequence)->unk_9B++;
                 } else {
                     message_text = write_text_byte_and_advance(10, message_text);
                     message_text = expand_text_control_codes(D_80025028, message_text);
-                    ((S_800253C0_0 *)sequence)->unk_96.n = 32;
-                    ((S_800253C0_0 *)sequence)->unk_9B.n += 2;
+                    ((S_800253C0_0 *)sequence)->unk_96 = 32;
+                    ((S_800253C0_0 *)sequence)->unk_9B += 2;
                 }
             }
             clear_byte_and_advance(message_text);
@@ -552,8 +552,8 @@ case 4:
                 child_slot = (u8 *)child_slot + 4;
             } while (object_index_m < 2);
             {
-                s16 ticks = ((S_800253C0_0 *)sequence)->unk_96.n - 1;
-                ((S_800253C0_0 *)sequence)->unk_96.n = ticks;
+                s16 ticks = ((S_800253C0_0 *)sequence)->unk_96 - 1;
+                ((S_800253C0_0 *)sequence)->unk_96 = ticks;
                 if (ticks > 0) {
                     return;
                 }
@@ -619,18 +619,18 @@ loop_7:
                     child = ((S_800253C0_5_pre *)object_m)[-1].unk_04;
                     child->unk_0C.at00p.v = 0x808080;
                     child->unk_10 = 0;
-                    child->unk_12.u &= 0x3F;
-                    child->unk_14.u &= 0xFFF3;
+                    child->unk_12 &= 0x3F;
+                    child->unk_14 &= 0xFFF3;
                     index = (((-restore_scene->view.camera_rotation.parts.viewAngle + 0x500) >> 8) & 0xE);
                     x = ((S_800253C0_8 *)actor)->unk_24 + row_x[index >> 1];
-                    prim_m->unk_02.s = (x << 6) + 0x20;
+                    prim_m->unk_02 = (x << 6) + 0x20;
                     effect_size = 16;
                     y_table = (u8 *)((s8 *)dir_step_y);
                     y = ((S_800253C0_8 *)actor)->unk_25 + *(s16 *)((s32)(index + (s32)y_table));
-                    prim_m->unk_06.s = (y << 6) + 0x20;
-                    z = ((S_800253C0_10 *)position)->unk_0A.u;
-                    prim_m->unk_0A.u = z;
-                    create_four_groups_of_angular_effects(prim_m->unk_02.s, prim_m->unk_06.s,
+                    prim_m->unk_06 = (y << 6) + 0x20;
+                    z = ((S_800253C0_10 *)position)->unk_0A;
+                    prim_m->unk_0A = z;
+                    create_four_groups_of_angular_effects(prim_m->unk_02, prim_m->unk_06,
                         (s16)(z - 0x20), effect_size);
                 }
                 object_index_m++;
@@ -639,26 +639,26 @@ loop_7:
                 goto loop_7;
             {
                 coord_delta = 64;
-                state = ((S_800253C0_0 *)sequence)->unk_9B.v;
-                ((S_800253C0_0 *)sequence)->unk_96.n = coord_delta;
+                state = ((S_800253C0_0 *)sequence)->unk_9B;
+                ((S_800253C0_0 *)sequence)->unk_96 = coord_delta;
             }
-            ((S_800253C0_0 *)sequence)->unk_9B.n = state + 1;
+            ((S_800253C0_0 *)sequence)->unk_9B = state + 1;
             return;
         }
 
     case 10:
     {
-        s16 ticks = ((S_800253C0_0 *)sequence)->unk_96.n - 1;
-        ((S_800253C0_0 *)sequence)->unk_96.n = ticks;
+        s16 ticks = ((S_800253C0_0 *)sequence)->unk_96 - 1;
+        ((S_800253C0_0 *)sequence)->unk_96 = ticks;
         if (ticks > 0) {
             return;
         }
         {
             coord_delta = 32;
-            state = ((S_800253C0_0 *)sequence)->unk_9B.v;
-            ((S_800253C0_0 *)sequence)->unk_96.n = coord_delta;
+            state = ((S_800253C0_0 *)sequence)->unk_9B;
+            ((S_800253C0_0 *)sequence)->unk_96 = coord_delta;
         }
-        ((S_800253C0_0 *)sequence)->unk_9B.n = state + 1;
+        ((S_800253C0_0 *)sequence)->unk_9B = state + 1;
         return;
     }
 
@@ -678,7 +678,7 @@ loop_7:
         u32 saved_angle;
         register u32 clear_flags;
 
-        step = (128 - scene->view.tint.parts.tint_r) / ((S_800253C0_0 *)sequence)->unk_96.n;
+        step = (128 - scene->view.tint.parts.tint_r) / ((S_800253C0_0 *)sequence)->unk_96;
         page_cursor = ((u8 *)scene + 0xA8);
         object_index_m = 0;
         child_slot = sequence;
@@ -695,43 +695,43 @@ loop_7:
                     s32 coord;
                     coord = (s32)child->unk_24;
                     coord = coord << 6;
-                    old_x = prim_m->unk_02.s - 0x20;
+                    old_x = prim_m->unk_02 - 0x20;
                     coord = coord - old_x;
-                    prim_m->unk_02.u = prim_m->unk_02.u +
-                        coord / ((S_800253C0_0 *)sequence)->unk_96.n;
+                    prim_m->unk_02 = (u16)prim_m->unk_02 +
+                        coord / ((S_800253C0_0 *)sequence)->unk_96;
                 }
                 {
                     s32 y;
                     s32 old_y;
                     y = (s32)child->unk_25;
                     y = y << 6;
-                    old_y = prim_m->unk_06.s - 0x20;
+                    old_y = prim_m->unk_06 - 0x20;
                     y = y - old_y;
-                    prim_m->unk_06.u = prim_m->unk_06.u +
-                        y / ((S_800253C0_0 *)sequence)->unk_96.n;
+                    prim_m->unk_06 = (u16)prim_m->unk_06 +
+                        y / ((S_800253C0_0 *)sequence)->unk_96;
                 }
                 {
-                    s32 old_z = prim_m->unk_0A.s;
-                    s32 z_delta = ((S_800253C0_5 *)object_m)->unk_88.s - old_z;
-                    prim_m->unk_0A.u = prim_m->unk_0A.u +
-                        z_delta / ((S_800253C0_0 *)sequence)->unk_96.n;
+                    s32 old_z = (s16)prim_m->unk_0A;
+                    s32 z_delta = ((S_800253C0_5 *)object_m)->unk_88 - old_z;
+                    prim_m->unk_0A = prim_m->unk_0A +
+                        z_delta / ((S_800253C0_0 *)sequence)->unk_96;
                 }
                 saved_angle = ((S_800253C0_5 *)object_m)->unk_8A;
-                ((S_800253C0_5 *)object_m)->unk_2A.n =
-                    ((S_800253C0_5 *)object_m)->unk_2A.n & 0xFFF;
+                ((S_800253C0_5 *)object_m)->unk_2A =
+                    ((S_800253C0_5 *)object_m)->unk_2A & 0xFFF;
                 saved_angle = saved_angle & 0xFFF;
                 ((S_800253C0_5 *)object_m)->unk_8A = saved_angle;
-                current_angle = ((S_800253C0_5 *)object_m)->unk_2A.n2;
-                old_angle = ((S_800253C0_5 *)object_m)->unk_2A.n;
+                current_angle = (s16)((S_800253C0_5 *)object_m)->unk_2A;
+                old_angle = ((S_800253C0_5 *)object_m)->unk_2A;
                 if (current_angle != (s16)saved_angle) {
-                    ((S_800253C0_5 *)object_m)->unk_2A.n = old_angle + 0x200;
+                    ((S_800253C0_5 *)object_m)->unk_2A = old_angle + 0x200;
                 }
             }
             object_index_m++;
             child_slot = (u8 *)child_slot + 4;
         } while (object_index_m < 2);
-        ticks = ((S_800253C0_0 *)sequence)->unk_96.n - 1;
-        ((S_800253C0_0 *)sequence)->unk_96.n = ticks;
+        ticks = ((S_800253C0_0 *)sequence)->unk_96 - 1;
+        ((S_800253C0_0 *)sequence)->unk_96 = ticks;
         if (ticks > 0) {
             return;
         }
@@ -745,26 +745,26 @@ loop_7:
                 child = ((S_800253C0_5_pre *)object_m)[-1].unk_04;
                 x = child->unk_24;
                 prim_m = ((S_800253C0_5_pre *)object_m)[-1].unk_00;
-                prim_m->unk_02.s = (x << 6) + 0x20;
-                prim_m->unk_06.s = ((s32)child->unk_25 << 6) + 0x20;
-                prim_m->unk_0A.u = ((S_800253C0_5 *)object_m)->unk_88.u;
+                prim_m->unk_02 = (x << 6) + 0x20;
+                prim_m->unk_06 = ((s32)child->unk_25 << 6) + 0x20;
+                prim_m->unk_0A = (u16)((S_800253C0_5 *)object_m)->unk_88;
                 ((S_800253C0_5 *)object_m)->unk_14 &= clear_flags;
             }
             object_index_m++;
             final_slot = (u8 *)final_slot + 4;
         } while (object_index_m < 2);
-        state = ((S_800253C0_0 *)sequence)->unk_9B.n;
-        ((S_800253C0_0 *)sequence)->unk_9B.n = state + 1;
+        state = ((S_800253C0_0 *)sequence)->unk_9B;
+        ((S_800253C0_0 *)sequence)->unk_9B = state + 1;
         return;
     }
 
     case 12:
         ((S_800253C0_3 *)actor)->unk_2C = D_800DD150;
         anim_entry = D_800DD150 + ((((g_game_work.view.camera_rotation.parts.viewAngle +
-            ((S_800253C0_1 *)owner)->unk_2A.s) + 0x100) >> 9) & 7);
+            ((S_800253C0_1 *)owner)->unk_2A) + 0x100) >> 9) & 7);
         set_sprite_animation_frame(actor, *anim_entry, 0, 1);
-        state = ((S_800253C0_0 *)sequence)->unk_9B.n;
-        ((S_800253C0_0 *)sequence)->unk_9B.n = state + 1;
+        state = ((S_800253C0_0 *)sequence)->unk_9B;
+        ((S_800253C0_0 *)sequence)->unk_9B = state + 1;
         return;
 
     case 13:

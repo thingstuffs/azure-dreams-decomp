@@ -42,7 +42,7 @@ typedef struct S_818C29D4_2 {
     s16 unk_7E;
     s16 unk_80;
     u8 pad_82[0x32];
-    union { u32 v; u32 n; } unk_B4;   /* accessed as both */
+    u32 unk_B4;
     u8 pad_B8[0x20];
     u16 unk_D8;
     u16 unk_DA;
@@ -146,7 +146,7 @@ s32 draw_shaded_textured_quad(S_818C29D4_6 *sprite, MovingPosition *position)
         (u8 *)scratch + 0x64, (u8 *)scratch + 0x6C, (u8 *)scratch + 0x74, (u8 *)scratch + 0x7C,
         (u8 *)scratch + 0xD8, (u8 *)scratch + 0xDC, (u8 *)scratch + 0xE0, (u8 *)scratch + 0xE4,
         (u8 *)scratch + 0x84, (u8 *)scratch + 0x88);
-    scratch->unk_B4.v = ot_index;
+    scratch->unk_B4 = ot_index;
     poly->x0 = scratch->unk_D8;
     poly->y0 = scratch->unk_DA;
     poly->x1 = scratch->unk_DC;
@@ -155,7 +155,7 @@ s32 draw_shaded_textured_quad(S_818C29D4_6 *sprite, MovingPosition *position)
     poly->y2 = scratch->unk_E2;
     poly->x3 = scratch->unk_E4;
     poly->y3 = scratch->unk_E6;
-    if (scratch->unk_B4.n < 0x1E0U) {
+    if (scratch->unk_B4 < 0x1E0U) {
         u8 *draw_mode;
         u8 *draw_mode_2;
         s32 reset_depth;
@@ -171,16 +171,16 @@ s32 draw_shaded_textured_quad(S_818C29D4_6 *sprite, MovingPosition *position)
                      &texture_window);
         tex_depth = 0; blend_mode = 1; page_x = 0x280;
         { u32 *ot;
-            ot = (u32 *)((scratch->unk_B4.v << 2) + (u32)scratch->unk_18.p2);
+            ot = (u32 *)((scratch->unk_B4 << 2) + (u32)scratch->unk_18.p2);
             ((Tag818C29D4 *)draw_mode)->addr = ((Tag818C29D4 *)ot)->addr; }
         { u32 *ot;
-            ot = (u32 *)((scratch->unk_B4.v << 2) + (u32)scratch->unk_18.p2);
+            ot = (u32 *)((scratch->unk_B4 << 2) + (u32)scratch->unk_18.p2);
             ((Tag818C29D4 *)ot)->addr = (u32)draw_mode; }
         { u32 *ot;
-            ot = (u32 *)((scratch->unk_B4.v << 2) + (u32)scratch->unk_18.p2);
+            ot = (u32 *)((scratch->unk_B4 << 2) + (u32)scratch->unk_18.p2);
             ((Tag818C29D4 *)poly)->addr = ((Tag818C29D4 *)ot)->addr; }
         { u32 *ot;
-            ot = (u32 *)((scratch->unk_B4.v << 2) + (u32)scratch->unk_18.p2);
+            ot = (u32 *)((scratch->unk_B4 << 2) + (u32)scratch->unk_18.p2);
             ((Tag818C29D4 *)ot)->addr = (u32)poly; }
         texture_window.y = 0x80; texture_window.x = 0; texture_window.h = 0x40; texture_window.w = 0x40;
         draw_mode_2 = ((S_818C29D4_7 *)(((Rec_D_80083160 *)((u8 *)(&g_game_work)))->unk_00.as_pu8))->unk_8D0.p2;
@@ -188,10 +188,10 @@ s32 draw_shaded_textured_quad(S_818C29D4_6 *sprite, MovingPosition *position)
         SetDrawMode(draw_mode_2, 0, 0,
                      GetTPage(tex_depth, blend_mode, page_x, 0x100) & 0xFFFF, &texture_window);
         { u32 *ot;
-            ot = (u32 *)((scratch->unk_B4.v << 2) + (u32)scratch->unk_18.p2);
+            ot = (u32 *)((scratch->unk_B4 << 2) + (u32)scratch->unk_18.p2);
             ((Tag818C29D4 *)draw_mode_2)->addr = ((Tag818C29D4 *)ot)->addr; }
         { u32 *ot;
-            ot = (u32 *)((scratch->unk_B4.v << 2) + (u32)scratch->unk_18.p2);
+            ot = (u32 *)((scratch->unk_B4 << 2) + (u32)scratch->unk_18.p2);
             ((Tag818C29D4 *)ot)->addr = (u32)draw_mode_2; }
     }
     return 0;

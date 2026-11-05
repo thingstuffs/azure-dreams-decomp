@@ -515,8 +515,8 @@ extern const u16 strip_small_texture_rect[4];
 extern const s16 strip_direction_steps[8][2];
 extern void *get_unused_text_buffer(s32, s32);
 extern u8 *expand_text_control_codes(u8 *src, u8 *dst);
-extern void clear_byte_and_advance(s8 *byte_ptr);
-extern void *write_text_byte_and_advance(s8 value, s8 *dest);
+extern u8 *clear_byte_and_advance(s8 *byte_ptr);
+extern u8 *write_text_byte_and_advance(s8 value, s8 *dest);
 extern u8 *append_entity_display_text(void *record, u8 *out);
 extern void adjust_source_value_and_finalize(void *context, const void *source);
 #include "dungeon/effect/screen.h"

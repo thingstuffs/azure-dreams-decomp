@@ -23,7 +23,7 @@ extern void update_effect_fade_and_history();
 
 typedef struct S_80174910_1 {
     u8 pad_00[0xC];
-    s32 unk_0C;
+    void *unk_0C;
     u8 pad_10[0x8];
     void * unk_18;
     void * unk_1C;
@@ -52,7 +52,7 @@ typedef struct S_80174910_4 {
 } S_80174910_4;
 
 /* Creates three linked objects and initializes their shared palette data. */
-void create_three_linked_palette_objects(S_80174910_2 *source, s32 effect_param) {
+void create_three_linked_palette_objects(S_80174910_2 *source, void *effect_param) {
     void *allocation_head_address;
     ObjectNodeHeader **allocation_head;
     u16 palette_rect[4];                                    /* compiler-managed */

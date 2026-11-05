@@ -13,10 +13,9 @@
 #include "dungeon/system.h"
 #include "dungeon/actor.h"
 #include "dungeon/effect/screen.h"
+#include "dungeon/data.h"
 
 extern u8 D_800E2380[8];
-extern u8 baloon_fall_frames[8];
-
 
 /* Advance the actor animation state, timers, and downward movement. */
 void advance_actor_animation_and_fall(ActorRecord *action, ObjectPosition *motion, SpriteFrameState *sprite, ActorRecord *actor) {

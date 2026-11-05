@@ -5,6 +5,7 @@
 #include "common.h"
 #include "shared/slus_callbacks.h"
 #include "engine/node.h"
+#include "dungeon/data.h"
 
 typedef struct {
     u8 pad0[2];
@@ -54,7 +55,6 @@ typedef struct {
 extern s32 select_random_replacement_item(BarongItemDescriptor *selection, u8 *context);
 
 extern DungeonGroup item_category_groups[];
-extern s32 item_display_icon_words[256];
 
 extern DirectionVector barong_direction_vectors[];
 

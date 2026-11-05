@@ -135,7 +135,7 @@ void decrement_flagged_item_parameters(void *action, void *saved_position)
         }
         shared_state = &g_dungeon_status;
         shared_state->active_actor = 0;
-        (*(u16 *)&shared_state->activity_counts.parts.pending_action_count)--;
+        shared_state->activity_counts.parts.pending_action_count--;
         *((u16 *) (((u8 *) action) + (-2))) |= NODE_REMOVE;
         object_flag_block.flags |= OBJECT_REMOVE_PENDING;
     }

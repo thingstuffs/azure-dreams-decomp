@@ -214,8 +214,6 @@ typedef struct E_8017236C_S_8017236C_1 {
 /* Updates actor flags and starts a directional animation when the actor is ready. */
 
 
-
-
 typedef struct E_801724E8_S_801724E8_0 {
     u8 pad_00[0x8C];
     void * unk_8C;
@@ -231,8 +229,6 @@ typedef struct E_801724E8_S_801724E8_0 {
 } E_801724E8_S_801724E8_0;   /* arg0 in func_801724E8 */
 
 /* Updates an actor's hop toward its tile and handles movement completion. */
-
-
 
 
 typedef struct E_801728B4_S_801728B4_0 {
@@ -352,8 +348,6 @@ typedef struct E_80172ED0_S_80172ED0_0 {
 /* Forward all four bank callback arguments to the resident handler. */
 
 
-
-
 /* Resume the bank action after the resident callback completes. */
 
 typedef struct E_80173254_S_80173254_0 {
@@ -375,37 +369,19 @@ typedef struct E_8017357C_S_8017357C_0 {
 /* Advance the actor state and select its directional effect. */
 
 
-
-
-
-
-
 extern u8 volcano_frame_set_3[8],volcano_frame_set_2[8];
 
 
-
-
-
+/* Resume the bank action after the resident callback completes. */
 
 
 /* Resume the bank action after the resident callback completes. */
 
 
-
-
 /* Resume the bank action after the resident callback completes. */
 
 
-
-
 /* Resume the bank action after the resident callback completes. */
-
-
-
-
-/* Resume the bank action after the resident callback completes. */
-
-
 
 
 /* Resume the bank action after the resident callback completes. */
@@ -469,13 +445,6 @@ typedef struct E_80173E48_S_80172628_0 {
 
 /* Update entity state and flags according to the state query result. */
 
-typedef struct {
-    u8 pad14[0x14];
-    u16 flags;
-    u8 pad16[6];
-    u16 field1c;
-    u16 field1e;
-} E_80173F8C_Func80DE678C_Obj;
 
 /* Update object motion unless its flags trigger termination. */
 
@@ -699,7 +668,7 @@ void finish_actor_action_flag_propagation_then_resume_facing_animation(ActorReco
 void advance_actor_state_with_child(ActorRecord *actor, ObjectPosition *context, SpriteFrameState *sprite, ActorRecord *creature);
 void advance_actor_state_when_allowed(ActorRecord *state_ctx, ObjectPosition *entity_id, SpriteFrameState *action, ActorRecord *entity);
 s32 select_actor_relation_state(ActorRecord *body, ObjectPosition *position, SpriteFrameState *sprite, s32 force_state_arg);
-void dampen_actor_motion(void *state_data, s32 *motion, E_80173F8C_Func80DE678C_Obj *object);
+void dampen_actor_motion(void *state_data, s32 *motion, SpriteFrameState *object);
 void create_four_directional_effects(void *owner_arg, ObjectPosition *motion_arg, void *origin_arg);
 void advance_effect_record_counters(u16 *counter, ObjectPosition *unused_position, SpriteFrameState *record);
 void * create_directional_effect_object(ActorRecord *source, ObjectPosition *initial_position, SpriteFrameState *tile_origin);

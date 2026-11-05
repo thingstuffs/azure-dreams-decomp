@@ -23,7 +23,7 @@ extern S_80082E6A runtime_dispatch_mode_alias;
 extern s32 get_scaled_byte_value(void *);
 
 /* Formats and displays item modifiers and status markers. */
-s32 format_item_name(s32 text_target, DungeonItemEntry *item)
+s32 format_item_name(u8 *text_target, DungeonItemEntry *item)
 {
     u8 text[0x20];
     s32 category;

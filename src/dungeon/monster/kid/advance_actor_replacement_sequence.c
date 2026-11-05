@@ -83,7 +83,7 @@ s32 lookup_masked_byte_table();  /* extern */
 #include "dungeon/level/update_map_cell_flags_with_item_limit_api.h"             /* extern */
 #include "dungeon/item/decrement_monster_entry_count_api.h"                 /* extern */
 #include "dungeon/actor/advance_staged_entity_load_api.h"                /* extern */
-s32 create_status_linked_render_effect();     /* extern */
+void *create_status_linked_render_effect();     /* extern */
 #include "dungeon/select_nearby_target_and_initialize_slot_api.h" /* extern */
 
 extern s32 cd_cue_base;

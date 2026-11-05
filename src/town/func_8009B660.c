@@ -14,9 +14,13 @@
  * Clears entity motion fields, selects approach_action_handler_table, installs D_80098244 at
  * offset 4, and stores 0x400 at offset 0x10.
  */
-void init_record_target_approach(TownObjectRecord *record, ObjectPosition *position, SpriteFrameState *init_context) {
+s32 init_record_target_approach(TownObjectRecord *record, ObjectPosition *position, SpriteFrameState *init_context) {
+    s32 result;
+
     clear_entity_record_fields((position));
     call_the_handler_selects_nonzero_entry(approach_action_handler_table, record, init_context);
     record->unk_04 = raise_record_value_to_target;
-    record->unk_10 = 0x400;
+    result = 0x400;
+    record->unk_10 = result;
+    return result;
 }

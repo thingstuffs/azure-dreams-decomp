@@ -23,9 +23,9 @@ s32 func_800B0718();
 /* extern */
 s32 func_800B3924();
 /* extern */
-s32 create_storage_item_menu();
+StorageMenuNode *create_storage_item_menu();
 /* extern */
-s32 create_storage_owner_menu();
+StorageMenuNode *create_storage_owner_menu();
 /* extern */
 void handle_item_menu_input_2(u8 *menu);
 extern void fill_item_value_buffer(ItemMenuInputObject *table);
@@ -38,7 +38,7 @@ void came_bright_set(u32 brightness);
 
 /* Functions defined in this translation unit. */
 void initialize_record_table_and_group(ItemMenuInputObject *record);
-s32 open_twin_souko(s32 option);
+void *open_twin_souko(s32 option);
 void apply_record_values_and_process_record(ItemMenuInputObject *record);
 
 #endif

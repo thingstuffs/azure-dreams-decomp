@@ -12,9 +12,8 @@
 #include "dungeon/system.h"
 #include "dungeon/actor/status.h"
 #include "dungeon/actor.h"
+#include "dungeon/data.h"
 
-
-extern u8 tyrant_frame_set_1[];
 extern u8 tyrant_direction_frames[];
 extern s32 tyrant_action_resume_address;
 s32 generate_random_value(void);

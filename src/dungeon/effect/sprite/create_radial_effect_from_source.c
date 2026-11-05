@@ -24,27 +24,15 @@ typedef struct S_func_81886800_1 {
     void *unk_04;
     u8 pad_08[0x1];
     u8 unk_09;
-    union {
-        s16 s16;
-        u16 u16;
-    } unk_0A;
+    u16 unk_0A;
     u16 unk_0C;
     u16 unk_0E;
-    union {
-        s16 s16;
-        u16 u16;
-    } unk_10;
+    s16 unk_10;
     u8 unk_12;
     u8 pad_13[0x1];
     u16 unk_14;
-    union {
-        s16 s16;
-        u16 u16;
-    } unk_16;
-    union {
-        s16 s16;
-        u16 u16;
-    } unk_18;
+    s16 unk_16;
+    u16 unk_18;
     u8 pad_1A[0x2];
     union {
         u32 u32;
@@ -245,10 +233,7 @@ typedef struct S_func_81886800_15 {
 } S_func_81886800_15;
 
 typedef struct S_func_81886800_17 {
-    union {
-        s16 s16;
-        u16 u16;
-    } unk_00;
+    u16 unk_00;
 } S_func_81886800_17;
 
 #include "dungeon/effect/screen.h"
@@ -281,7 +266,7 @@ void run_radial_sprite_sequence(S_func_81886800_1 *effect, S_func_81886800_11 *m
     GpuRectBuffer texture_rect;
 
     owner = effect->unk_00;
-    state = effect->unk_0A.s16;
+    state = (s16)effect->unk_0A;
     owner_base = (S_func_81886800_2 *)((u8 *)owner - 0x20);
     owner_motion = owner_base->unk_08;
     switch (state) {
@@ -300,8 +285,8 @@ void run_radial_sprite_sequence(S_func_81886800_1 *effect, S_func_81886800_11 *m
     ((S_func_81886800_7 *)(radial_effect_colors))->unk_00 = 0;
     owner_flags = owner->unk_2A;
     ((S_func_81886800_9 *)(D_80026474))->unk_00 = 0;
-    effect->unk_16.u16 = (owner_flags >> 9) & 7;
-    effect->unk_0A.u16++;
+    effect->unk_16 = (owner_flags >> 9) & 7;
+    effect->unk_0A++;
 
     case 1:
     if (get_sprite_attachment_vector(
@@ -352,13 +337,13 @@ void run_radial_sprite_sequence(S_func_81886800_1 *effect, S_func_81886800_11 *m
 
                 height_offsets = entity_height_offsets;
                 target_kind = ((S_func_81886800_8 *)(owner->unk_60))->unk_13;
-                effect->unk_10.u16 =
+                effect->unk_10 =
                     target_data->unk_08.parts.unk_0A - height_offsets[target_kind];
             }
             {
                 s16 direction;
                 u8 tile_coord;
-                direction = effect->unk_16.s16;
+                direction = effect->unk_16;
                 target_data = ((SpriteFrameState *)((u8 *)(owner) - 0x14))->unk_00;
                 tile_coord = target_data->unk_24 +
                         ((u8 *)dir_step_x)[(s32)direction * 2];
@@ -368,7 +353,7 @@ void run_radial_sprite_sequence(S_func_81886800_1 *effect, S_func_81886800_11 *m
             {
                 s16 direction;
                 u8 tile_coord;
-                direction = effect->unk_16.s16;
+                direction = effect->unk_16;
                 tile_coord = target_data->unk_25 +
                         ((u8 *)dir_step_y)[(s32)direction * 2];
                 effect->unk_1C.parts.unk_1E.parts.unk_1F.u8 = tile_coord;
@@ -394,21 +379,21 @@ void run_radial_sprite_sequence(S_func_81886800_1 *effect, S_func_81886800_11 *m
         effect->unk_14 = 8;
         effect->unk_0C = motion->unk_00.parts.unk_02.u16;
         effect->unk_0E = motion->unk_04.parts.unk_06.u16;
-        effect->unk_10.u16 = owner->unk_88.u16 - 80;
+        effect->unk_10 = owner->unk_88.u16 - 80;
     }
     {
         u8 *x_offsets = ((u8 *)dir_step_x);
-        s16 direction = effect->unk_16.s16;
+        s16 direction = effect->unk_16;
         motion->unk_0C.parts.unk_0E.u16 =
             ((S_func_81886800_14 *)(x_offsets + (s32)direction * 2))->unk_00 * 8;
         {
             u8 *y_offsets = ((u8 *)dir_step_y);
-            s16 y_direction = effect->unk_16.s16;
+            s16 y_direction = effect->unk_16;
             motion->unk_10.parts.unk_12.u16 =
                 ((S_func_81886800_14 *)(y_offsets + (s32)y_direction * 2))->unk_00 * 8;
         }
     }
-    effect->unk_0A.u16++;
+    effect->unk_0A++;
     break;
 
     case 2:
@@ -434,14 +419,14 @@ void run_radial_sprite_sequence(S_func_81886800_1 *effect, S_func_81886800_11 *m
     }
     {
         s32 height = effect->unk_2C.s32;
-        height += (((s32)effect->unk_10.s16 << 16) - height) >> 4;
+        height += (((s32)effect->unk_10 << 16) - height) >> 4;
         effect->unk_2C.s32 = height;
         height = motion->unk_08.s32;
-        height += (((s32)effect->unk_10.s16 << 16) - height) >> 4;
+        height += (((s32)effect->unk_10 << 16) - height) >> 4;
         motion->unk_08.s32 = height;
     }
     {
-        s32 bob_offset = rsin((s32)effect->unk_18.s16 << 7);
+        s32 bob_offset = rsin((s32)(s16)effect->unk_18 << 7);
         motion->unk_08.s32 += bob_offset << 6;
     }
     handle_retail_n_818875_e_8_callee_80024_de_8_creates_fade_updated_each_frame_callee_80024_d_70_start(motion, sprite);
@@ -485,14 +470,14 @@ void run_radial_sprite_sequence(S_func_81886800_1 *effect, S_func_81886800_11 *m
                 s32 coordinate = owner->unk_70.parts.unk_73.s8;
                 motion->unk_04.parts.unk_06.s16 = (coordinate << 6) + 0x20;
             }
-            motion->unk_08.parts.unk_0A = effect->unk_10.u16;
+            motion->unk_08.parts.unk_0A = (u16)effect->unk_10;
             handle_retail_n_818875_e_8_callee_80024_de_8_creates_fade_updated_each_frame_callee_80024_d_70_start(snapped_motion, sprite);
             {
-                u16 next_state = effect->unk_0A.u16;
+                u16 next_state = effect->unk_0A;
                 u16 target_id =
                     ((S_func_81886800_8 *)(owner->unk_60))->unk_88.u16;
                 next_state++;
-                effect->unk_0A.u16 = next_state;
+                effect->unk_0A = next_state;
                 ((S_func_81886800_15 *)(D_80026878))->unk_00 = target_id;
             }
             break;
@@ -515,7 +500,7 @@ void run_radial_sprite_sequence(S_func_81886800_1 *effect, S_func_81886800_11 *m
                 break;
             }
         }
-        effect->unk_0A.u16 = 16;
+        effect->unk_0A = 16;
         break;
     }
 
@@ -527,7 +512,7 @@ void run_radial_sprite_sequence(S_func_81886800_1 *effect, S_func_81886800_11 *m
     if (effect->unk_28 == 0) {
         break;
     }
-    effect->unk_0A.u16++;
+    effect->unk_0A++;
     case 4:
     {
         sprite->unk_0C.parts.unk_0C -= sprite->unk_0C.parts.unk_0C >> 2;
@@ -540,7 +525,7 @@ void run_radial_sprite_sequence(S_func_81886800_1 *effect, S_func_81886800_11 *m
             check_the_target_using_scaled_low_byte_conditionally_applies_global_800_e_1_d_01(owner->unk_60,
                           effect->unk_09, owner);
         }
-        effect->unk_0A.u16 = 17;
+        effect->unk_0A = 17;
         break;
     }
 
@@ -549,7 +534,7 @@ void run_radial_sprite_sequence(S_func_81886800_1 *effect, S_func_81886800_11 *m
         motion->unk_00.s32 += motion->unk_0C.s32;
         motion->unk_04.s32 += motion->unk_10.s32;
         {
-            s32 target_height = (s32)effect->unk_10.s16 << 16;
+            s32 target_height = (s32)effect->unk_10 << 16;
             s32 height = motion->unk_08.s32;
             height += (target_height - height) >> 4;
             motion->unk_08.s32 = height;
@@ -559,13 +544,13 @@ void run_radial_sprite_sequence(S_func_81886800_1 *effect, S_func_81886800_11 *m
         sprite->unk_0C.parts.unk_0E -= sprite->unk_0C.parts.unk_0E >> 1;
         handle_retail_n_818875_e_8_callee_80024_de_8_creates_fade_updated_each_frame_callee_80024_d_70_start(motion, sprite);
         if (sprite->unk_0C.parts.unk_0C < 2) {
-            effect->unk_0A.u16++;
+            effect->unk_0A++;
         }
         break;
     }
 
     case 17:
-    if (((S_func_81886800_17 *)(&D_80026326))->unk_00.s16 != 0) {
+    if ((s16)((S_func_81886800_17 *)(&D_80026326))->unk_00 != 0) {
         break;
     }
     g_dungeon_status.active_actor = 0;
@@ -574,9 +559,9 @@ void run_radial_sprite_sequence(S_func_81886800_1 *effect, S_func_81886800_11 *m
 
     }
     {
-        u16 frame_count = effect->unk_18.u16;
-        ((S_func_81886800_17 *)(&D_80026326))->unk_00.u16 = 0;
-        effect->unk_18.u16 = frame_count + 1;
+        u16 frame_count = effect->unk_18;
+        ((S_func_81886800_17 *)(&D_80026326))->unk_00 = 0;
+        effect->unk_18 = frame_count + 1;
     }
 }
 
@@ -1032,6 +1017,7 @@ s32 build_shaded_quads_adjacent_vertex_rows_adds_them_ordering_table(void)
 #include "modules/dungeon_native_abi.h"
 #include "common.h"
 #include "shared/object_flags.h"
+
 
 
 typedef struct S_80025160_0 {

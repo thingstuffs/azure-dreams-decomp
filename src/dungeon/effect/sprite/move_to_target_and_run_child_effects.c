@@ -83,7 +83,7 @@ typedef union WideProduct {
 } WideProduct;
 
 extern s32 check_layer_offset_height();
-extern Child *create_expanding_spiral_effect();
+extern void *create_expanding_spiral_effect();
 extern void func_80024060();
 extern void advance_expanding_spiral(void);
 

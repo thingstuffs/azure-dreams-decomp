@@ -36,8 +36,7 @@ extern void select_sprite_entry(void *, s32, s32);
 #include "dungeon/item.h"
 #include "dungeon/actor.h"
 #include "dungeon/system.h"
-
-extern u8 stealth_frame_set[];
+#include "dungeon/data.h"
 
 /* Advances the actor's selected motion and handles completion and recovery. */
 void advance_selected_motion_and_recover(ActorRecord *motion_state, ObjectPosition *transform, SpriteFrameState *sprite, ActorRecord *actor)

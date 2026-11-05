@@ -10,7 +10,7 @@
 #include "dungeon/monster/troll.h"
 
 /* Fade the primitive color by one step and flag completion when the counter reaches zero. */
-void update_stepped_rgb_flash(void *fade_state_arg, ObjectPosition *unused, T_80170D40_S_80170D40_1 *primitive)
+void update_stepped_rgb_flash(void *fade_state_arg, ObjectPosition *unused, SpriteFrameState *primitive)
 {
     T_80170D40_S_80170D40_0 *fade_state = fade_state_arg;
     u16 steps_left;
@@ -20,9 +20,9 @@ void update_stepped_rgb_flash(void *fade_state_arg, ObjectPosition *unused, T_80
     red = fade_state->unk_00 - 0x40;
     fade_state->unk_00 = red;
     fade_state->unk_01 = (u8)(fade_state->unk_01 - 0x40);
-    primitive->unk_0C = red;
-    primitive->unk_0D = fade_state->unk_01;
-    primitive->unk_0E = fade_state->unk_02;
+    primitive->color.c.r = red;
+    primitive->color.c.g = fade_state->unk_01;
+    primitive->color.c.b = fade_state->unk_02;
     steps_left = fade_state->unk_18 - 1;
     fade_state->unk_18 = steps_left;
     if ((steps_left << 0x10) <= 0) {
@@ -32,16 +32,16 @@ void update_stepped_rgb_flash(void *fade_state_arg, ObjectPosition *unused, T_80
 }
 
 /* Decrement the countdown, update three scaled output components, and flag completion. */
-void update_normalized_gray_fade(ActorActionEffectBody *countdownState, ObjectPosition *unused, T_80170DC4_S_80170DC4_1 *output) {
+void update_normalized_gray_fade(ActorActionEffectBody *countdownState, ObjectPosition *unused, SpriteFrameState *output) {
     s32 scaledRemaining;
     u16 remainingCount;
 
     remainingCount = countdownState->remaining_count.u - 1;
     scaledRemaining = (s32) ((s32) (remainingCount << 16) >> 9) / countdownState->divisor;
     countdownState->remaining_count.u = remainingCount;
-    output->unk_0C = (s8) scaledRemaining;
-    output->unk_0E = (s8) scaledRemaining;
-    output->unk_0D = (s8) scaledRemaining;
+    output->color.c.r = (s8) scaledRemaining;
+    output->color.c.b = (s8) scaledRemaining;
+    output->color.c.g = (s8) scaledRemaining;
     if ((s16) countdownState->remaining_count.u <= 0) {
         ((u16 *)countdownState)[-1] |= 0x8000;
         object_flag_block.flags = object_flag_block.flags | OBJECT_REMOVE_PENDING;
@@ -49,15 +49,15 @@ void update_normalized_gray_fade(ActorActionEffectBody *countdownState, ObjectPo
 }
 
 /* Advance the RGB fade toward black and set completion flags when it ends. */
-void update_saved_rgb_fade(T_80170E2C_FadeState *fade, ObjectPosition *unused, T_80170E2C_FadeOutput *output)
+void update_saved_rgb_fade(T_80170E2C_FadeState *fade, ObjectPosition *unused, SpriteFrameState *output)
 {
     s16 remaining;
 
     remaining = fade->remaining - 1;
     fade->remaining = remaining;
-    output->red = (fade->red * remaining) / fade->divisor;
-    output->green = (fade->green * (s16)fade->remaining) / fade->divisor;
-    output->blue = (fade->blue * (s16)fade->remaining) / fade->divisor;
+    output->color.c.r = (fade->red * remaining) / fade->divisor;
+    output->color.c.g = (fade->green * (s16)fade->remaining) / fade->divisor;
+    output->color.c.b = (fade->blue * (s16)fade->remaining) / fade->divisor;
 
     if ((s16)fade->remaining <= 0) {
         *(u16 *)((u8 *)fade - 2) |= NODE_REMOVE;
@@ -516,7 +516,7 @@ void spawn_growing_rotating_flash(ActorRecord *unused, ObjectPosition *position,
 }
 
 /* Update position and part state, then mark the object used unless its part is exempt. */
-void update_tracked_attachment_sprite(TrackedAttachmentSpriteBody *object, T_80171A38_S_80171A38_4 *position, T_80171A38_S_80171A38_3 *part_state)
+void update_tracked_attachment_sprite(TrackedAttachmentSpriteBody *object, T_80171A38_S_80171A38_4 *position, SpriteFrameState *part_state)
 {
     T_80171A38_S_80171A38_1 *record;
     T_80171A38_S_80171A38_2 *part;
@@ -529,27 +529,27 @@ void update_tracked_attachment_sprite(TrackedAttachmentSpriteBody *object, T_801
         part = record->unk_0C;
         part_value = part->unk_06;
         base_position = record->unk_08;
-        part_state->unk_06 = part_value + 1;
+        part_state->depth_bias = part_value + 1;
 
         if (part->unk_04 == 0) {
-            part_state->unk_1E = 0x400;
-            part_state->unk_1C = 0x400;
+            part_state->scale_y = 0x400;
+            part_state->scale_x = 0x400;
         }
         if (part->unk_04 == 1) {
-            part_state->unk_1E = 0x700;
-            part_state->unk_1C = 0x700;
+            part_state->scale_y = 0x700;
+            part_state->scale_x = 0x700;
         }
         if (part->unk_04 == 2) {
-            part_state->unk_1E = 0xa00;
-            part_state->unk_1C = 0xa00;
+            part_state->scale_y = 0xa00;
+            part_state->scale_x = 0xa00;
         }
         if (part->unk_04 == 3) {
-            part_state->unk_1E = 0x700;
-            part_state->unk_1C = 0x700;
+            part_state->scale_y = 0x700;
+            part_state->scale_x = 0x700;
         }
         if (part->unk_04 == 4) {
-            part_state->unk_1E = 0x400;
-            part_state->unk_1C = 0x400;
+            part_state->scale_y = 0x400;
+            part_state->scale_x = 0x400;
         }
 
         position->unk_02 = base_position->unk_02;

@@ -256,7 +256,6 @@ typedef struct R10_80173F4C_S_801740DC_0 {
 } R10_80173F4C_S_801740DC_0;
 
 
-
 typedef struct R10_8017442C_S_801745BC_0_pre {
     void * unk_00;
     void * unk_04;
@@ -387,14 +386,6 @@ typedef struct {
 typedef struct {
     R10_80174C70_LocalVector vectors[4];
 } __attribute__((packed)) R10_80174C70_LocalTable;
-typedef struct R10_80174C70_S_80174C70_1 {
-    u8 pad_00[0xC];
-    u8 unk_0C;
-    u8 unk_0D;
-    u8 unk_0E;
-    u8 pad_0F[0xB];
-    union { s16 s; u16 u; } unk_1A;   
-} R10_80174C70_S_80174C70_1;
 typedef struct R10_80174C70_S_80174C70_2 {
     s32 unk_00;
     s32 unk_04;
@@ -439,7 +430,6 @@ typedef struct RandomizedOscillatingEffectBody {
     u8 pad_34[0x2E];
     s16 unk_62;
 } RandomizedOscillatingEffectBody;
-
 
 
 typedef struct R10_80175398_DungeonCopy3 {
@@ -585,7 +575,7 @@ s32 read_stream_cue_start_offset(void);
 s32 lookup_masked_byte_table();
 void unlink_entity_node(struct EntityLinkNode *node);
 void decrement_monster_entry_count(s16 requested_id, s16 requested_type);
-s32 create_status_linked_render_effect();
+void *create_status_linked_render_effect();
 s32 propagate_actor_action_flag(ActorRecord *body, ObjectPosition *position, SpriteFrameState *sprite, ActorRecord *actor);
 extern u8 shared_sprite_entries[];
 extern u8 snowman_direction_frames[];

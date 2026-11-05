@@ -6,7 +6,6 @@
 #include "shared/object_node.h"
 
 
-
 extern void initialize_timed_motion_step(s32, s32);
 extern s16 encounter_blink_update_flag[5];
 
@@ -14,16 +13,9 @@ extern s16 encounter_blink_update_flag[5];
    /* the 0x2 bytes before state in advance_timed_blink_effect, addressed as state[-1] */
 
 
-typedef struct S_80170534_1 {
-    u8 pad_00[0xC];
-    u8 unk_0C;
-    u8 unk_0D;
-    u8 unk_0E;
-} S_80170534_1;   /* input in advance_timed_blink_effect */
-
 /* Advances a timed blinking effect, triggers sounds, and sets completion flags. */
 void advance_timed_blink_effect(SecondaryEncounterObjectBody *state_data_arg, void *unused, void *color_data_arg) {
-    S_80170534_1 *color_data = color_data_arg;
+    SpriteFrameState *color_data = color_data_arg;
     SecondaryEncounterObjectBody *state_data = state_data_arg;
     s32 phase;
     s32 bright_shade;
@@ -43,15 +35,15 @@ void advance_timed_blink_effect(SecondaryEncounterObjectBody *state_data_arg, vo
         }
         if (!(state_data->frame & 7)) {
             bright_shade = 0xFF;
-            if (color_data->unk_0C != bright_shade) {
-                (*(s8 *)&color_data->unk_0E) = bright_shade;
-                (*(s8 *)&color_data->unk_0D) = bright_shade;
-                color_data->unk_0C = bright_shade;
+            if (color_data->color.c.r != bright_shade) {
+                color_data->color.c.b = bright_shade;
+                color_data->color.c.g = bright_shade;
+                color_data->color.c.r = bright_shade;
             } else {
                 dim_shade = 0x80;
-                color_data->unk_0E = dim_shade;
-                color_data->unk_0D = dim_shade;
-                color_data->unk_0C = dim_shade;
+                color_data->color.c.b = dim_shade;
+                color_data->color.c.g = dim_shade;
+                color_data->color.c.r = dim_shade;
             }
         }
         if ((s16) state_data->frame == 0x28) {
@@ -74,23 +66,23 @@ void advance_timed_blink_effect(SecondaryEncounterObjectBody *state_data_arg, vo
         }
         if (!(state_data->frame & 7)) {
             bright_shade = 0xFF;
-            if (color_data->unk_0C != bright_shade) {
-                (*(s8 *)&color_data->unk_0E) = bright_shade;
-                (*(s8 *)&color_data->unk_0D) = bright_shade;
-                color_data->unk_0C = bright_shade;
+            if (color_data->color.c.r != bright_shade) {
+                color_data->color.c.b = bright_shade;
+                color_data->color.c.g = bright_shade;
+                color_data->color.c.r = bright_shade;
             } else {
                 dim_shade = 0x80;
-                color_data->unk_0E = dim_shade;
-                color_data->unk_0D = dim_shade;
-                color_data->unk_0C = dim_shade;
+                color_data->color.c.b = dim_shade;
+                color_data->color.c.g = dim_shade;
+                color_data->color.c.r = dim_shade;
             }
         }
         if ((s16) state_data->frame >= 0x3C) {
             state_data->frame = 0U;
             state_data->phase.s = (s16) ((u16) state_data->phase.s + 1);
-            color_data->unk_0E = 0x80;
-            color_data->unk_0D = 0x80;
-            color_data->unk_0C = 0x80;
+            color_data->color.c.b = 0x80;
+            color_data->color.c.g = 0x80;
+            color_data->color.c.r = 0x80;
             return;
         }
         break;

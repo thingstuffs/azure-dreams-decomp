@@ -14,13 +14,13 @@
 #include "dungeon/level.h"
 #include "dungeon/player/object.h"
 #include "dungeon/monster/hikewne.h"
+#include "dungeon/effect/shade.h"
 
 
 
 extern void select_sprite_entry(void *, s32, s32);
 extern s8 find_active_rect_containing_point(s32, s32);
 extern void update_actor_status_and_mp(ActorRecord *entity);
-extern void reset_action_and_decrement_actor_count(ActorRecord *, ObjectPosition *, SpriteFrameState *, ActorRecord *);
 #include "dungeon/monster/u_boat.h"
 
 extern u8 uboat_default_frames[];

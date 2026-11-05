@@ -72,7 +72,7 @@ void select_record_entry_and_value(void *state, void *entries, short index);
 void unlink_entity_node();
 void update_map_cell_flags_with_item_limit(s32 x, s32 y, u16 flags);
 void *advance_staged_entity_load(); /* Unprototyped: uses the value as a pointer where the definition has an integer (or the reverse) */
-s32 create_status_linked_render_effect();
+void *create_status_linked_render_effect();
 void create_cylindrical_effect(); /* Unprototyped: retail passes an unused sprite; dropping it changes bytes. */
 s32 lookup_masked_byte_table(void *, ...);
 extern u8 *actor_effect_color_targets[];
@@ -89,7 +89,7 @@ void update_turning_fade_effect_and_model(ActorRecord *sequence, ObjectPosition 
     S_801749A8_3 *target_color;
     s16 direction;
     s32 effect_choice;
-    s32 movement_done;
+    void *movement_done;
     void * model_addr;
     s16 effect_index;
     u16 turn_angle;

@@ -17,6 +17,7 @@
 #include "records/Rec_D_80082E80.h"
 #include "shared/entity.h"
 #include "shared/dungeon_moving_views.h"
+#include "dungeon/data.h"
 
 typedef struct Copy48 {
     u32 words[12];
@@ -26,7 +27,6 @@ extern void select_sprite_entry(void *, u8, s32);
 
 extern u8 D_800D58D8[];
 extern s8 view_direction_depth_biases[];
-extern u8 uboat_default_frames[];
 extern u8 D_800E2410[];
 #include "dungeon/monster/u_boat.h"
 #include "dungeon/item.h"

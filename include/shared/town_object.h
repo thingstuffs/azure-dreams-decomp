@@ -69,7 +69,7 @@ typedef struct TownObjectRecord {
     /* 0x7C */ union { s32 ** as_pps32; void * as_pv; } unk_7C;
     /* 0x80 */ PersonDescriptor *descriptor; /* descriptor table of the object script (TownObjectRecord spelling) */
     /* 0x84 */ s16 unk_84; /* per-kind work: original X for position queries; orbit radius for the orbiting object kind */
-    /* 0x86 */ u16 unk_86; /* per-kind work: original Y for position queries; orbit angle for the orbiting object kind */
+    /* 0x86 */ s16 unk_86; /* per-kind work: original Y for position queries; orbit angle for the orbiting object kind */
     /* 0x88 */ s16 target_x;
     /* 0x8A */ s16 target_y;
     /* 0x8C */ s16 unk_8C;

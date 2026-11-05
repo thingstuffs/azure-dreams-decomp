@@ -1898,7 +1898,7 @@ s32 select_actor_relation_state(ActorRecord *body, ObjectPosition *position, Spr
 
 /* Grows and animates the sprite, damps horizontal motion, accelerates vertically, and removes finished
  * effects. */
-void dampen_actor_motion(void *state_data, s32 *motion, E_80173F8C_Func80DE678C_Obj *object) {
+void dampen_actor_motion(void *state_data, s32 *motion, SpriteFrameState *object) {
     advance_sprite_animation_and_textures(object);
     if (object->flags & 0x6000) {
         *(u16 *)((u8 *)state_data - 2) |= NODE_REMOVE;
@@ -1906,8 +1906,8 @@ void dampen_actor_motion(void *state_data, s32 *motion, E_80173F8C_Func80DE678C_
         return;
     }
 
-    object->field1e += 0x200;
-    object->field1c = object->field1e;
+    object->scale_y += 0x200;
+    object->scale_x = object->scale_y;
     motion[3] /= 2;
     motion[4] /= 2;
     motion[5] -= 20000;
