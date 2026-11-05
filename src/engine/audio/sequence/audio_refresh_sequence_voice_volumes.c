@@ -12,39 +12,13 @@ typedef struct S_800564A8_85458 {
     /* 0x14 */ u8 pad14[0x78 - 0x14];
 } S_800564A8_85458;
 
-/* D_80084960[16]: stride 0x9C table (canonical layout, reconciled with
-   code8.c/w_80056A08.c siblings). This function only takes the address of an
-   element (&D_80084960[f06]); no field of it is read/written here. */
-typedef struct S_80084960 {
-    s32 f00, f04, f08, f0c, f10, f14, f18, f1c, f20, f24, f28, f2c;
-    s8 f30;
-    u8 pad31[9];
-    s16 f3a;
-    u8 pad3c[4];
-    s16 f40;
-    u8 pad42[2];
-    s32 f44, f48;
-    u8 pad4c[4];
-    s16 f50;
-    u8 pad52[0xD];
-    s8 f5f, f60, f61;
-    u8 pad62[2];
-    s32 f64, f68;
-    u8 pad6c[0xE];
-    s8 f7a, f7b, f7c;
-    u8 pad7d[3];
-    s32 f80, f84;
-    u8 pad88[0xC];
-    s32 f94;
-    s8 f98;
-    u8 pad99[3];
-} S_80084960;
+/* Pass the selected shared audio channel control to the voice volume updater. */
 
 extern s32 audio_voice_count[4];
 extern S_800564A8_85458 audio_voice_records[24];
-extern S_80084960 audio_channel_controls[16];
+extern AudioChannelControl audio_channel_controls[16];
 
-extern void audio_compute_voice_stereo_volumes(S_800564A8_85458 *voice_arg, S_80084960 *sound_params);
+extern void audio_compute_voice_stereo_volumes(S_800564A8_85458 *voice_arg, AudioChannelControl *sound_params);
 
 /* Process each entry with a valid dispatch index using its dispatch record and parameters. */
 void audio_refresh_sequence_voice_volumes(void) {

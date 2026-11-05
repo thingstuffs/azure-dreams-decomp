@@ -13,6 +13,19 @@ typedef struct LinkedRenderNode {
     void *data;
 } LinkedRenderNode;
 
+/* Payload created with the 0x211 colored point node and read by its draw callback. */
+typedef struct TerrainSeekingPointBody {
+    u8 pad_00[0x8];
+    s32 color;
+    u8 pad_0C[0x8];
+    s16 unk_14;
+    u8 pad_16[0x1C];
+    s16 intensity;
+    s16 divisor;
+    u8 pad_36[0x12];
+    s32 z_velocity;
+} TerrainSeekingPointBody;
+
 /* Target travel, particle emission, and timed color state for the spell callback. */
 typedef struct TargetParticleStatusSpellBody {
     SpellEffectHeader spell;
@@ -43,7 +56,7 @@ void project_textured_quad_or_callback(void *,struct ObjectPosition *, SpriteFra
 void draw_textured_sphere_mesh(void *, void *, void *, u16);
 s32 project_linked_quad_record(void *, ObjectPosition *, SpriteFrameState *);
 s32 draw_chained_object_records(void *, void *, void *);
-s32 project_colored_point(u8 *, u8 *);
+s32 project_colored_point(TerrainSeekingPointBody *, u8 *);
 void advance_point_effect_toward_terrain(void *, s16 *);
 void update_effect_quad_and_completion(RotatingEffectQuadBody *, ObjectPosition *, SpriteFrameState *);
 void spawn_randomized_spark_burst(u8 *, void *, u8 *);

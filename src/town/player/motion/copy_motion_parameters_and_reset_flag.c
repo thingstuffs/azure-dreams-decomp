@@ -15,7 +15,7 @@ void copy_motion_parameters_and_reset_flag(void *record_arg, ObjectPosition *sou
 
     *(s32 *)((s8 *)record + 0) = (s32)invoke_object_state_callback;
     record->unk_30 = source->x.unsigned_parts.integer;
-    saved_value = record->unk_10.as_u16;
+    saved_value = (u16)record->unk_10;
     source_value = source->y.unsigned_parts.integer;
     record->unk_0E = saved_value;
     record->unk_32 = source_value;

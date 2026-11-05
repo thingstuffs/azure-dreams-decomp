@@ -11,17 +11,17 @@ extern void update_actor_status_and_mp(ActorRecord *entity);
 #include "dungeon/player/object/action_state.h"
 
 /* Updates an entity's state and flags according to its action result. */
-s32 update_boss_action_result(ActorRecord *body, s32 target_x, s32 target_y, s16 force_action) {
+s32 update_boss_action_result(ActorRecord *body, ObjectPosition *position, SpriteFrameState *sprite, s16 force_action) {
     ActorRecord *entity_data = body;
     s16 action_result;
 
     if (entity_data->unk_B0.halves.low.u != 0) {
-        action_result = relink_entity_and_clear_high_flag(target_x, target_y, entity_data, 3, 6, (u8 *)entity_data + 0x9C);
+        action_result = relink_entity_and_clear_high_flag(position, sprite, entity_data, 3, 6, (u8 *)entity_data + 0x9C);
         if (action_result < 0) {
             return 0;
         }
         if (force_action != 0) {
-            advance_boss_actor_movement_state(entity_data, target_x, target_y, entity_data);
+            advance_boss_actor_movement_state(entity_data, position, sprite, entity_data);
             return 0;
         }
     } else {
@@ -35,7 +35,7 @@ s32 update_boss_action_result(ActorRecord *body, s32 target_x, s32 target_y, s16
         return 0;
 
     case 2:
-        advance_boss_actor_movement_state(body, target_x, target_y, entity_data);
+        advance_boss_actor_movement_state(body, position, sprite, entity_data);
         return 0;
 
     case 1:

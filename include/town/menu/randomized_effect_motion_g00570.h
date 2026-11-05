@@ -13,7 +13,7 @@
 
 /* Body installed by allocate_object_with_initial_state and called through dispatch_menu_state_callback. */
 typedef struct RandomizedEffectMotionBody {
-    /* 0x00 */ union { void *raw; void (*handler)(); } callback;
+    /* 0x00 */ void (*callback)();
     /* 0x04 */ u8 pad_04[0x1E];
     /* 0x22 */ s16 variant;
     /* 0x24 */ s32 ticks_left;
@@ -27,13 +27,13 @@ extern void select_record_entry_and_value(void *,void *, s32);
 extern void register_node(void *, void *);
 extern s32 rsin(s32);
 extern s32 rcos(s32);
-extern u8 D_800A378C[];
 extern s16 D_800D0B18[];
 extern u8 *D_800D0B50[];
 /* extern */
 void advance_sprite_animation_and_textures(void *entity);
 /* extern */
-extern void D_800A38A8(void *object, void *unused_context, u8 *primitive);
+extern void fade_sprite_color_and_remove_effect(RandomizedEffectMotionBody *state,
+                                                 ObjectPosition *unused_context, SpriteFrameState *appearance);
 
 extern SpriteSourceEntry *D_800D0B20[];
 

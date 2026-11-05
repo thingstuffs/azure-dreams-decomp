@@ -2560,7 +2560,7 @@ void create_cylindrical_effect(CylindricalEffectWork *state) {
         state->stage = (s16) ((u16) state->stage + 1);
     }
     if (state->stage == 0xF) {
-        ((ObjectStatusPrefix16 *)state)[-1].flags = (u16) (((ObjectStatusPrefix16 *)state)[-1].flags | 0x8000);
+        NODE_HEADER(state)->flags = (u16) (NODE_HEADER(state)->flags | 0x8000);
         object_flag_block.flags = (s32) (object_flag_block.flags | OBJECT_REMOVE_PENDING);
     }
 }

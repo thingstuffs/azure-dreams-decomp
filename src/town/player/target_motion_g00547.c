@@ -12,12 +12,12 @@ void move_player_toward_target(UnsignedCountdownView *state_arg_arg, ObjectPosit
     u16 ticks_left;
 
     object->velocity_z = (player_target_position[2] - object->z.v) / 2;
-    ticks_left = state->timer.as_u16 - 1;
-    state->timer.as_u16 = ticks_left;
+    ticks_left = state->timer - 1;
+    state->timer = ticks_left;
     if ((s16) ticks_left < 0) {
         object->z.v = player_target_position[2];
         clear_entity_record_fields(object);
-        state->timer.as_u16 = 0xA;
+        state->timer = 0xA;
         state->unk_04 = &D_8009AAB8;
     }
 }
@@ -29,18 +29,18 @@ void approach_player_target_position(UnsignedCountdownView *state_arg, ObjectPos
 
     u16 ticks_left;
 
-    state->unk_10.as_u16 += 0x200;
+    state->unk_10 = (u16)(state->unk_10 + 0x200);
     motion->velocity_x =
         (player_target_position[0] - motion->x.v) / 2;
     motion->velocity_y =
         (player_target_position[1] - motion->y.v) / 2;
-    ticks_left = state->timer.as_u16 - 1;
-    state->timer.as_u16 = ticks_left;
+    ticks_left = state->timer - 1;
+    state->timer = ticks_left;
     if ((s16)ticks_left < 0) {
         motion->x.v = player_target_position[0];
         motion->y.v = player_target_position[1];
         clear_entity_record_fields(motion);
         state->unk_04 = &D_8009AB74;
-        state->unk_10.as_u16 = 0;
+        state->unk_10 = 0;
     }
 }

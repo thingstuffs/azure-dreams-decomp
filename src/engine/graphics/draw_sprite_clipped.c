@@ -2,7 +2,7 @@
 #include "shared/entity.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/game_work.h"
-#include "shared/scratchpad.h"
+#include "engine/graphics/sprite_scratch.h"
 #include "sdk/libgte.h"
 
 #ifndef NULL
@@ -31,13 +31,6 @@ typedef struct S_80045CC4_0 {
         struct { u8 pad[0x1]; u8 v; } at01;
     } unk_20;   /* overlapping accesses */
 } S_80045CC4_0;   /* poly in draw_sprite_clipped */
-
-typedef struct { s32 v; } SpS32;
-
-typedef struct { s16 v; } SpS16;
-#define SP_S32(offset) (((SpS32 *)(scratchpad + (offset)))->v)
-#define SP_U16(offset) (((ScratchUnsignedHalf *)(scratchpad + (offset)))->v)
-#define SP_S16(offset) (((SpS16 *)(scratchpad + (offset)))->v)
 
 typedef struct {
     u8 pad00[8];
@@ -72,7 +65,7 @@ void draw_sprite_clipped(void *context, s32 position, S_80045CC4_Arg2 *sprite, s
     u32 addr_mask;
     s32 visible_3;
     u8 *entry;
-    u8 *scratchpad;
+    SpriteQuadScratch *scratchpad;
     void **global_slots;
     void *global_base;
     u8 uv_edge;
@@ -84,34 +77,34 @@ void draw_sprite_clipped(void *context, s32 position, S_80045CC4_Arg2 *sprite, s
 
     global_slots = ((void * *)(&g_game_work));
     global_base = global_slots[0];
-    scratchpad = (u8 *)0x1F800000;
-    SP_S32(0x20) = (s32)((u8 *)global_base + 0xB0);
+    scratchpad = (SpriteQuadScratch *)0x1F800000;
+    scratchpad->ordering_table = (s32)((u8 *)global_base + 0xB0);
     {
         s32 translation;
         translation = position_data->x.w.i;
-        SP_S32(0xE4) = translation;
+        scratchpad->local_matrix.t[0] = translation;
         translation = position_data->y.w.i;
-        SP_S32(0xE8) = translation;
+        scratchpad->local_matrix.t[1] = translation;
         translation = position_data->z.w.i;
-        SP_S16(0x8C) = 0;
-        SP_S16(0x84) = 0;
-        SP_S16(0x7C) = 0;
-        SP_S16(0x74) = 0;
-        SP_S32(0xEC) = translation;
+        scratchpad->vertices[3].z = 0;
+        scratchpad->vertices[2].z = 0;
+        scratchpad->vertices[1].z = 0;
+        scratchpad->vertices[0].z = 0;
+        scratchpad->local_matrix.t[2] = translation;
     }
     packet = *(s32 **)((u8 *)global_base + 0x8D0);
     sprite->unk14 |= 0x8000;
     addr_mask = 0xFFFFFF;
     PushMatrix();
 
-    SP_U16(0x108) = sprite->unk20;
-    SP_U16(0x10A) = sprite->unk22;
-    SP_S32(0x30) = sprite->unk1C * 2;
-    SP_S32(0x34) = sprite->unk1E * 2;
-    SP_S32(0x38) = 0x2000;
-    SP_U16(0x100) = sprite->unk16;
-    SP_U16(0x104) = sprite->unk1A;
-    SP_U16(0x102) = sprite->unk18;
+    scratchpad->extent_x = sprite->unk20;
+    scratchpad->extent_y = sprite->unk22;
+    scratchpad->input_x = sprite->unk1C * 2;
+    scratchpad->input_y = sprite->unk1E * 2;
+    scratchpad->input_z = 0x2000;
+    scratchpad->angle_x = sprite->unk16;
+    scratchpad->angle_z = sprite->unk1A;
+    scratchpad->angle_y = sprite->unk18;
 
     RotMatrix((void *)0x1F800100, (void *)0x1F8000D0);
     ReadRotMatrix((void *)0x1F80011C);
@@ -121,7 +114,7 @@ void draw_sprite_clipped(void *context, s32 position, S_80045CC4_Arg2 *sprite, s
     SetRotMatrix((void *)0x1F800050);
 
     entry = sprite->unk08;
-    SP_U16(0x24) = sprite->unk14;
+    scratchpad->sprite_flags = sprite->unk14;
 
     for (;;) {
     if (!(entry[0] & 0x20)) {
@@ -131,60 +124,60 @@ void draw_sprite_clipped(void *context, s32 position, S_80045CC4_Arg2 *sprite, s
         u8 height;
 
         u_start = entry[8];
-        SP_S32(0x08) = u_start;
+        scratchpad->uv_u_start = u_start;
         width = entry[10];
-        SP_S32(0x10) = width;
+        scratchpad->uv_u_extent = width;
         if ((u_start + width >= 0x100) || sprite->unk1A != 0) {
-            SP_S32(0x10) = width - 1;
+            scratchpad->uv_u_extent = width - 1;
         }
 
         v_start = entry[9];
-        SP_S32(0x0C) = v_start;
+        scratchpad->uv_v_start = v_start;
         height = entry[11];
-        SP_S32(0x14) = height;
+        scratchpad->uv_v_extent = height;
         if ((v_start + height >= 0x100) || sprite->unk1A != 0) {
-            SP_S32(0x14) = height - 1;
+            scratchpad->uv_v_extent = height - 1;
         }
 
-        if ((entry[0] ^ SP_U16(0x24)) & 1) {
-            sx = -((s8 *)entry)[2] - SP_U16(0x108);
-            SP_S16(0x80) = sx;
-            SP_S16(0x70) = sx;
-            ex = sx - SP_U16(0x10);
-            SP_S16(0x88) = ex;
-            SP_S16(0x78) = ex;
+        if ((entry[0] ^ scratchpad->sprite_flags) & 1) {
+            sx = -((s8 *)entry)[2] - scratchpad->extent_x;
+            scratchpad->vertices[2].x = sx;
+            scratchpad->vertices[0].x = sx;
+            ex = sx - (u16)scratchpad->uv_u_extent;
+            scratchpad->vertices[3].x = ex;
+            scratchpad->vertices[1].x = ex;
         } else {
-            sx = ((s8 *)entry)[2] - SP_U16(0x108);
-            SP_S16(0x80) = sx;
-            SP_S16(0x70) = sx;
-            ex = sx + SP_U16(0x10);
-            SP_S16(0x88) = ex;
-            SP_S16(0x78) = ex;
+            sx = ((s8 *)entry)[2] - scratchpad->extent_x;
+            scratchpad->vertices[2].x = sx;
+            scratchpad->vertices[0].x = sx;
+            ex = sx + (u16)scratchpad->uv_u_extent;
+            scratchpad->vertices[3].x = ex;
+            scratchpad->vertices[1].x = ex;
         }
 
-        if ((entry[0] ^ SP_U16(0x24)) & 2) {
-            sy = -((s8 *)entry)[3] - SP_U16(0x10A);
-            SP_S16(0x7A) = sy;
-            SP_S16(0x72) = sy;
-            ey = sy - SP_U16(0x14);
-            SP_S16(0x8A) = ey;
-            SP_S16(0x82) = ey;
+        if ((entry[0] ^ scratchpad->sprite_flags) & 2) {
+            sy = -((s8 *)entry)[3] - scratchpad->extent_y;
+            scratchpad->vertices[1].y = sy;
+            scratchpad->vertices[0].y = sy;
+            ey = sy - (u16)scratchpad->uv_v_extent;
+            scratchpad->vertices[3].y = ey;
+            scratchpad->vertices[2].y = ey;
         } else {
-            sy = ((s8 *)entry)[3] - SP_U16(0x10A);
-            SP_S16(0x7A) = sy;
-            SP_S16(0x72) = sy;
-            ey = sy + SP_U16(0x14);
-            SP_S16(0x8A) = ey;
-            SP_S16(0x82) = ey;
+            sy = ((s8 *)entry)[3] - scratchpad->extent_y;
+            scratchpad->vertices[1].y = sy;
+            scratchpad->vertices[0].y = sy;
+            ey = sy + (u16)scratchpad->uv_v_extent;
+            scratchpad->vertices[3].y = ey;
+            scratchpad->vertices[2].y = ey;
         }
 
         depth = RotAverage4(
-            scratchpad + 0x70, scratchpad + 0x78,
-            scratchpad + 0x80, scratchpad + 0x88,
+            &scratchpad->vertices[0], &scratchpad->vertices[1],
+            &scratchpad->vertices[2], &scratchpad->vertices[3],
             packet + 2, packet + 4, packet + 6, packet + 8,
-            scratchpad + 0x90, scratchpad + 0x94);
+            &scratchpad->depth_cue, &scratchpad->gte_flag);
         depth = depth - depth_bias - 8;
-        SP_S32(0xC0) = depth;
+        scratchpad->sort_depth = depth;
 
         if ((u32)depth < 0x1E0U) {
             visible_0 = 0;
@@ -222,34 +215,34 @@ void draw_sprite_clipped(void *context, s32 position, S_80045CC4_Arg2 *sprite, s
                 ((u8 *)packet)[3] = 9;
                 *&sprite->unk14 &= 0x7FFF;
 
-                SP_S32(0x10) += SP_S32(0x08);
-                SP_S32(0x14) += SP_S32(0x0C);
-                SP_S32(0x0C) <<= 8;
-                SP_S32(0x14) <<= 8;
+                scratchpad->uv_u_extent += scratchpad->uv_u_start;
+                scratchpad->uv_v_extent += scratchpad->uv_v_start;
+                scratchpad->uv_v_start <<= 8;
+                scratchpad->uv_v_extent <<= 8;
 
-                if (SP_U16(0x24) & 0x100) {
+                if (scratchpad->sprite_flags & 0x100) {
                     ((S_80045CC4_0 *)(packet + 1))->unk_0A = sprite->unk12;
                 } else {
                     ((S_80045CC4_0 *)(packet + 1))->unk_0A = sprite->unk12 + *(u16 *)(entry + 6);
                 }
 
-                ((S_80045CC4_0 *)(packet + 1))->unk_08 = SP_U16(0x0C) + SP_U16(0x08);
-                ((S_80045CC4_0 *)(packet + 1))->unk_10.s16 = SP_U16(0x0C) + SP_U16(0x10);
+                ((S_80045CC4_0 *)(packet + 1))->unk_08 = (u16)scratchpad->uv_v_start + (u16)scratchpad->uv_u_start;
+                ((S_80045CC4_0 *)(packet + 1))->unk_10.s16 = (u16)scratchpad->uv_v_start + (u16)scratchpad->uv_u_extent;
                 {
                     u16 tpage;
                     visible_3 = sprite->unk10;
                     if (visible_3 != 0) {
                         tpage = visible_3 + (*(u16 *)(entry + 4) & 0xFF9F);
                         ((S_80045CC4_0 *)(packet + 1))->unk_12 = tpage;
-                        ((S_80045CC4_0 *)(packet + 1))->unk_18.at00.v = SP_U16(0x14) + SP_U16(0x08);
-                        ((S_80045CC4_0 *)(packet + 1))->unk_20.at00.v = SP_U16(0x14) + SP_U16(0x10);
-                        matrix_xx = SP_U16(0x50);
+                        ((S_80045CC4_0 *)(packet + 1))->unk_18.at00.v = (u16)scratchpad->uv_v_extent + (u16)scratchpad->uv_u_start;
+                        ((S_80045CC4_0 *)(packet + 1))->unk_20.at00.v = (u16)scratchpad->uv_v_extent + (u16)scratchpad->uv_u_extent;
+                        matrix_xx = (u16)scratchpad->matrix.m[0][0];
                     } else {
                         tpage = *(u16 *)(entry + 4);
                         ((S_80045CC4_0 *)(packet + 1))->unk_12 = tpage;
-                        ((S_80045CC4_0 *)(packet + 1))->unk_18.at00.v = SP_U16(0x14) + SP_U16(0x08);
-                        ((S_80045CC4_0 *)(packet + 1))->unk_20.at00.v = SP_U16(0x14) + SP_U16(0x10);
-                        matrix_xx = SP_U16(0x50);
+                        ((S_80045CC4_0 *)(packet + 1))->unk_18.at00.v = (u16)scratchpad->uv_v_extent + (u16)scratchpad->uv_u_start;
+                        ((S_80045CC4_0 *)(packet + 1))->unk_20.at00.v = (u16)scratchpad->uv_v_extent + (u16)scratchpad->uv_u_extent;
+                        matrix_xx = (u16)scratchpad->matrix.m[0][0];
                     }
                 }
                 {
@@ -257,9 +250,9 @@ void draw_sprite_clipped(void *context, s32 position, S_80045CC4_Arg2 *sprite, s
                         uv_edge = ((S_80045CC4_0 *)(packet + 1))->unk_20.at00u.v;
                         ((S_80045CC4_0 *)(packet + 1))->unk_20.at00u.v = uv_edge + 0xFF;
                         ((S_80045CC4_0 *)(packet + 1))->unk_10.u8 = uv_edge;
-                        matrix_yy = SP_U16(0x58);
+                        matrix_yy = (u16)scratchpad->matrix.m[1][1];
                     } else {
-                        matrix_yy = SP_U16(0x58);
+                        matrix_yy = (u16)scratchpad->matrix.m[1][1];
                     }
                 }
                 {
@@ -280,7 +273,7 @@ void draw_sprite_clipped(void *context, s32 position, S_80045CC4_Arg2 *sprite, s
 
                 visible_2 = entry[1];
                 ((SpriteFrameState *)sprite)->color.c.code = visible_2;
-                visible_3 = SP_U16(0x24);
+                visible_3 = scratchpad->sprite_flags;
                 if (visible_3 & 8) {
                     if (visible_3 & 4) {
                         x = visible_2 | 2;
@@ -298,8 +291,8 @@ void draw_sprite_clipped(void *context, s32 position, S_80045CC4_Arg2 *sprite, s
                     s32 *ot_bucket;
 
                     *packet = (*packet & (u32)visible_0) |
-                        (*(s32 *)(SP_S32(0xC0) * 4 + SP_S32(0x20)) & addr_mask);
-                    ot_bucket = (s32 *)(SP_S32(0xC0) * 4 + SP_S32(0x20));
+                        (*(s32 *)(scratchpad->sort_depth * 4 + scratchpad->ordering_table) & addr_mask);
+                    ot_bucket = (s32 *)(scratchpad->sort_depth * 4 + scratchpad->ordering_table);
                     packet += 10;
                     *ot_bucket = (*ot_bucket & (u32)visible_0) | packet_addr;
                 }

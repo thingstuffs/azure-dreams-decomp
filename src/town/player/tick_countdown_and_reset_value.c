@@ -13,10 +13,10 @@
 void tick_countdown_and_reset_value(TownPlayerRecord *state, ObjectPosition *position, SpriteFrameState *sprite) {
     u16 remaining_ticks;
 
-    remaining_ticks = state->timer.as_u16 - 1;
-    state->timer.as_u16 = remaining_ticks;
+    remaining_ticks = state->timer - 1;
+    state->timer = remaining_ticks;
     if ((remaining_ticks << 0x10) <= 0) {
         initialize_record_with_handler_table(state, position, sprite);
-        state->unk_10.as_s16 = 0x400;
+        state->unk_10 = 0x400;
     }
 }

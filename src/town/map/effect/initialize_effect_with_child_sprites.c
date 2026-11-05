@@ -23,7 +23,7 @@ extern u8 map_particle_child_update_address[];
 
 typedef struct S_800BA00C_0 {
     u8 pad_00[0x66];
-    union { s16 s; u16 u; } unk_66;   /* accessed as both */
+    s16 unk_66;
     u8 pad_68[0x2F];
     s8 unk_97;
     s32 unk_98;

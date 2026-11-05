@@ -45,7 +45,7 @@ void *allocate_object_with_initial_state(EffectInitialState *source_data, s32 in
     object_data->z.v = source_data->unk_08;
     result->update_callback = dispatch_menu_state_callback;
     body = NODE_BODY(result);
-    body->callback.raw = initialize_randomized_motion_vector;
+    body->callback = initialize_randomized_motion_vector;
     body->variant = initial_value;
     return result;
 }

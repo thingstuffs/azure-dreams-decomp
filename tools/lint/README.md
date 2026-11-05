@@ -116,13 +116,22 @@ add the three counts into a single debt number.
 The summary splits `sign_views` into `s_u`, `as_signedness`, and
 `other_width_views`. It also reports unions in `src/` and `include/` with
 immediate signed and unsigned integer members of the same width. The union
-count is report-only. `debt_signedness_unions.tsv` lists its physical sites.
+count and the total of all braced union definitions are no-growth ratchets in
+`--check`. `debt_signedness_unions.tsv` lists the signedness sites.
 `debt_bad_label_unions.tsv` lists simple union members with an unsigned `s`,
-a signed `u`, or duplicate declared types. The baseline records those site
+a signed `u`, a pointer or function pointer given an `s` or `u` label without
+matching pointee signedness, two distinct pointer member types, or duplicate
+declared types. The baseline records those site
 identities; `--check` rejects a new bad-label site while allowing a known one
 to be repaired. A site is keyed by file, trailing union field name, and its
 ordinal among that file's same-named unions. Inspect the finding before
 relabeling: lexical types and labels do not establish the original data model.
+For a batch that changes a union member access, run
+`python3 tools/typing/union_relabel_check.py --base HEAD` before committing.
+It reports old member spellings left elsewhere in each edited file for a
+whole-file audit. For two-way `s`/`u` swaps, it checks unchanged access lines;
+an inline union declaration swap without a corresponding use-site edit is
+also reported.
 
 The summary inventories braced struct/union typedef aliases as well. It counts
 unique non-`S_` aliases containing an eight-digit hexadecimal address across
@@ -188,7 +197,8 @@ Zero-debt scopes (including `<global>`) need no record, but their tokens remain
 in `total_tokens` to preserve the census denominators. Keys are sorted,
 with one physical file per line and no source line numbers. `bad_label_sites`
 stores the existing union findings, and `report_counts` stores macro casts,
-signedness-union totals and view inventory totals without ratcheting them.
+signedness-union totals, the all-union total, and view inventory totals. The
+two union totals are ratcheted.
 The packed scopes avoid storing paths and file/scope totals twice.
 
 A comment of the exact form `/* BYTES: <one-line reason> */` exempts its adjacent

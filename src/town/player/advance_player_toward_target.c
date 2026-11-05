@@ -23,14 +23,14 @@ void advance_player_toward_target(void *state_arg, ObjectPosition *motion, void 
     target_bases = D_800D0640;
     target_base = target_bases + target_index;
     motion->velocity_y = (s32) ((u32) (state->unk_32 * 0x10000) + (u32) *target_base
-        - (u32) motion->y.v) / state->timer.as_s16;
-    ticks_left = (u16) state->timer.as_s16 - 1;
-    state->timer.as_u16 = ticks_left;
+        - (u32) motion->y.v) / (s16)state->timer;
+    ticks_left = (u16) state->timer - 1;
+    state->timer = ticks_left;
     if (((s16) ticks_left * 0x10000) <= 0) {
         motion->y.v = (s32) ((u32) (state->unk_32 * 0x10000) + (u32) *target_base);
         clear_entity_record_fields(motion);
-        state->unk_10.as_s16 = 0x400;
-        state->timer.as_u16 = 0xA;
+        state->unk_10 = 0x400;
+        state->timer = 0xA;
         call_the_handler_selects_nonzero_entry(town_scene_record_handlers, state_arg, context);
         state->unk_04 = forward_player_state_update;
     }

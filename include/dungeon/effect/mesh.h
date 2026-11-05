@@ -24,7 +24,7 @@ typedef struct TerrainSeekingColoredPointBody {
     s32 z_velocity;
 } TerrainSeekingColoredPointBody;
 void advance_colored_point_toward_terrain(TerrainSeekingColoredPointBody *object, s16 *position);
-s32 project_colored_point_to_ordering_table(u8 *render_data, u8 *source_vertex);
+s32 project_colored_point_to_ordering_table(TerrainSeekingColoredPointBody *render_data, u8 *source_vertex);
 /* Projectile callback work at node +0x20. The +0x98 sprite template is
  * installed in sprite->source and its +8 byte is alternated during impact. */
 typedef struct ProjectileEffect {

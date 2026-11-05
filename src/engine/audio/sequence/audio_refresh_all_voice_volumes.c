@@ -11,20 +11,13 @@ typedef struct S_80085458 {
     /* 0x14 */ u8 pad14[0x78 - 0x14];
 } S_80085458;
 
-/* D_80084960: shared struct array touched by siblings this wave; stride 0x9C
- * (156) bytes matches the already-established Entry80084960/S_80084960 size
- * used elsewhere in the codebase. This function only takes the ADDRESS of an
- * element (indexed by S_80085458.f06); it does not touch any field, so no
- * field layout is asserted here beyond the element size. */
-typedef struct S_80084960 {
-    /* 0x00 */ u8 pad[0x9C];
-} S_80084960;
+/* Select the shared audio channel control using the voice channel index. */
 
 extern s32 audio_voice_count[4];
 extern S_80085458 audio_voice_records[24];
-extern S_80084960 audio_channel_controls[16];
+extern AudioChannelControl audio_channel_controls[16];
 
-extern void audio_compute_voice_stereo_volumes(S_80085458 *a0, S_80084960 *a1);
+extern void audio_compute_voice_stereo_volumes(S_80085458 *a0, AudioChannelControl *a1);
 
 /* Dispatch each active entry with its matching slot, then its field pair with its index. */
 void audio_refresh_all_voice_volumes(void)

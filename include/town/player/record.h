@@ -6,19 +6,14 @@
 /* initialize_scene_for_mode clears a 0x88-byte node buffer: its 0x20-byte
  * ObjectNodeHeader precedes this 0x68-byte body. Position and sprite storage
  * are supplied separately through the header. */
-typedef union TownPlayerHalf {
-    s16 as_s16;
-    u16 as_u16;
-} TownPlayerHalf;
-
 typedef struct TownPlayerRecord {
     /* 0x00 */ void *unk_00;
     /* 0x04 */ void *unk_04;
     /* 0x08 */ u8 pad_08[2];
-    /* 0x0A */ TownPlayerHalf timer;
+    /* 0x0A */ u16 timer;
     /* 0x0C */ u8 pad_0C[2];
     /* 0x0E */ u16 unk_0E;
-    /* 0x10 */ TownPlayerHalf unk_10;
+    /* 0x10 */ s16 unk_10;
     /* 0x12 */ s16 unk_12;
     /* 0x14 */ u8 pad_14[2];
     /* 0x16 */ s16 unk_16;

@@ -67,6 +67,6 @@ void update_jump_motion(TownObjectRecord *actor, struct S_800CC070_1 *motion, vo
 void update_spin_vertical_motion_and_bounces(TownObjectRecord *entity, EntityRec *motion, void *context);
 
 /* update_turning_motion_and_timer.c */
-void update_turning_motion_and_timer(struct TownObjectRecord *actor, void *position, void *update_param, s32 check_param);
+void update_turning_motion_and_timer(struct TownObjectRecord *actor, ObjectPosition *position, void *update_param, s32 check_param);
 
 #endif

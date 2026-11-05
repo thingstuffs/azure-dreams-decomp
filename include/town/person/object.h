@@ -201,7 +201,7 @@ void store_object_slot_and_dispatch(TownObjectRecord *object, ObjectPosition *up
 void update_entity_countdown_completion(TownObjectRecord *entity, void *update_context, void *setup_context);
 
 /* update_object_orbit_and_timer.c */
-void update_object_orbit_and_timer(struct TownObjectRecord *object, void *position, void *update_arg, s32 check_param);
+void update_object_orbit_and_timer(struct TownObjectRecord *object, ObjectPosition *position, void *update_arg, s32 check_param);
 
 /* update_person_object.c */
 void update_person_object(void *object, s32 update_ctx, SpriteFrameState *display);

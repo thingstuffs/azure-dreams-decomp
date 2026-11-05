@@ -50,8 +50,12 @@ def union_fields(tokens, pairs, opening):
             part = tokens[start:i]
             declarator_end = next((j for j, t in enumerate(part) if t.value == '['), len(part))
             ids = [j for j, token in enumerate(part[:declarator_end]) if token.kind == 'id']
-            if len(ids) >= 2 and not any(t.value in {'{', '}', '(', ')', ','} for t in part):
-                name_index = ids[-1]
+            function_pointer = next((j + 2 for j in range(len(part) - 3)
+                                     if [t.value for t in part[j:j + 4]] == ['(', '*', part[j + 2].value, ')']
+                                     and part[j + 2].kind == 'id'), None)
+            simple = not any(t.value in {'{', '}', '(', ')', ','} for t in part)
+            if len(ids) >= 2 and (simple or function_pointer is not None):
+                name_index = function_pointer if function_pointer is not None else ids[-1]
                 name = part[name_index].value
                 type_words = [t.value for t in part[:name_index] if t.kind == 'id'
                               and t.value not in {'const', 'volatile', 'restrict'}]
@@ -61,6 +65,20 @@ def union_fields(tokens, pairs, opening):
             start = i + 1
         i += 1
     return fields
+
+
+def union_definition_count(tokens, pairs):
+    """Count braced union definitions, including pointer and nested unions."""
+    count = 0
+    for i, token in enumerate(tokens):
+        if token.value != 'union':
+            continue
+        opening = i + 1
+        if opening < len(tokens) and tokens[opening].kind == 'id':
+            opening += 1
+        if opening < len(tokens) and tokens[opening].value == '{' and opening in pairs:
+            count += 1
+    return count
 
 
 def union_sites(rel, text, tokens=None, pairs=None):
@@ -87,14 +105,19 @@ def union_sites(rel, text, tokens=None, pairs=None):
                for _, width in widths):
             signedness.append(text.count('\n', 0, token.pos) + 1)
         reasons = []
-        for name, pair, _ in typed:
+        for name, pair, type_tokens in typed:
             if name == 's' and pair and pair[0] == 'unsigned':
                 reasons.append('unsigned_s')
             if name == 'u' and pair and pair[0] == 'signed':
                 reasons.append('signed_u')
+            if name in {'s', 'u'} and '*' in type_tokens and pair is None:
+                reasons.append('pointer_' + name)
         types = [type_tokens for _, _, type_tokens in typed]
         if len(types) != len(set(types)):
             reasons.append('duplicate_type')
+        pointer_types = [type_tokens for _, _, type_tokens in typed if '*' in type_tokens]
+        if len(pointer_types) > 1 and len(set(pointer_types)) > 1:
+            reasons.append('pointer_pun')
         close = pairs[opening]
         field_name = tokens[close + 1].value if close + 1 < len(tokens) and tokens[close + 1].kind == 'id' else '<anonymous>'
         # The trailing field name survives member relabelling and line shifts.
@@ -611,7 +634,8 @@ def analyze(path, text, macro_casts=False, header_events=()):
     signedness_unions, bad_label_unions = union_sites(path, text, tokens, pairs)
     return dict(file=path, scopes=rows, markers=len(spans), errors=errors,
                 view_counts=dict(views), signedness_unions=signedness_unions,
-                bad_label_unions=bad_label_unions, typedef_views=typedefs)
+                bad_label_unions=bad_label_unions, typedef_views=typedefs,
+                union_definitions=union_definition_count(tokens, pairs))
 
 
 def totals(rows):
@@ -627,6 +651,7 @@ def census(root, only=None, macro_casts=False):
         raise ValueError('--only must name existing src/**/*.c files')
     files, functions, errors, markers = {}, {}, [], 0
     view_counts, signedness_unions, bad_label_unions = Counter(), [], []
+    union_definitions = 0
     typedef_views, address_names = [], set()
     header_cache = {}
     for rel in selected:
@@ -646,6 +671,7 @@ def census(root, only=None, macro_casts=False):
         view_counts.update(source['view_counts'])
         signedness_unions.extend((rel, line) for line in source['signedness_unions'])
         bad_label_unions.extend(source['bad_label_unions'])
+        union_definitions += source['union_definitions']
         typedef_views.extend(source['typedef_views'])
         address_names.update(row['name'] for row in source['typedef_views']
                              if ADDRESS_NAME.search(row['name']) and not row['name'].startswith('S_'))
@@ -659,6 +685,7 @@ def census(root, only=None, macro_casts=False):
                 header_tokens = c.lex(header_text)
                 header_pairs = c.pairs_of(header_tokens)[0]
                 sign, bad = union_sites(rel, header_text, header_tokens, header_pairs)
+                union_definitions += union_definition_count(header_tokens, header_pairs)
                 address_names.update(name for name, _, _, _ in typedef_view_sites(header_tokens, header_pairs)
                                      if ADDRESS_NAME.search(name) and not name.startswith('S_'))
                 signedness_unions.extend((rel, line) for line in sign)
@@ -683,6 +710,8 @@ def census(root, only=None, macro_casts=False):
                                        note='lexical source member accesses; includes width-view candidates'),
                 signedness_unions_report=dict(count=len(signedness_unions),
                                               note='same-width signed and unsigned immediate union members in src/ and include/'),
+                union_definitions_report=dict(count=union_definitions,
+                                              note='all braced union definitions in src/ and include/'),
                 signedness_union_sites=signedness_unions,
                 bad_label_unions=bad_label_unions,
                 view_inventory_report=dict(address_named_types=len(address_names),
@@ -700,6 +729,7 @@ def baseline_record(summary):
         record['report_counts'] = dict(file_local_macro_casts=summary['macro_casts_report']['casts'],
                                        header_macro_casts=summary['header_macro_casts_report']['casts'],
                                        signedness_unions=summary['signedness_unions_report']['count'],
+                                       unions_total=summary['union_definitions_report']['count'],
                                        address_named_types=summary['view_inventory_report']['address_named_types'],
                                        source_local_single_function_types=summary['view_inventory_report']['source_local_single_function_types'])
     record['bad_label_sites'] = sorted(row['site'] for row in summary['bad_label_unions'])
@@ -748,7 +778,7 @@ def validate_baseline(baseline):
     fields = {'schema_version', 'classes', 'by_class', 'by_file', 'bad_label_sites'}
     if ('report_counts' in baseline and (not isinstance(baseline['report_counts'], dict)
             or set(baseline['report_counts']) != {'file_local_macro_casts', 'header_macro_casts',
-                                                  'signedness_unions', 'address_named_types',
+                                                  'signedness_unions', 'unions_total', 'address_named_types',
                                                   'source_local_single_function_types'}
             or any(type(n) is not int or n < 0 for n in baseline['report_counts'].values()))):
         raise ValueError('invalid report-only baseline counts')
@@ -813,6 +843,15 @@ def check_baseline(summary, baseline):
     for key in CLASSES:
         if summary['by_class'][key] > baseline['by_class'][key]:
             problems.append(f'all: {key} {summary["by_class"][key]} > baseline {baseline["by_class"][key]}')
+    if 'report_counts' in baseline:
+        current = summary['signedness_unions_report']['count']
+        previous = baseline['report_counts']['signedness_unions']
+        if current > previous:
+            problems.append(f'all: signedness_unions {current} > baseline {previous}')
+        current = summary['union_definitions_report']['count']
+        previous = baseline['report_counts']['unions_total']
+        if current > previous:
+            problems.append(f'all: unions_total {current} > baseline {previous}')
     for rel, row in summary['by_file'].items():
         problems += compare_row(rel, row, baseline['by_file'].get(rel))
         old_scopes = baseline['by_function'].get(rel, {})
@@ -1001,7 +1040,8 @@ def main(argv=None):
         for key, count in summary['by_class'].items():
             print(f'{key}\t{count}')
         print('sign_views by form\t' + json.dumps(summary['sign_views_report'], sort_keys=True))
-        print(f'signedness_unions (report only)\t{summary["signedness_unions_report"]["count"]}')
+        print(f'signedness_unions (ratchet)\t{summary["signedness_unions_report"]["count"]}')
+        print(f'unions_total (ratchet)\t{summary["union_definitions_report"]["count"]}')
         print(f'bad_label_unions (known sites only)\t{len(summary["bad_label_unions"])}')
         for key, value in summary['view_inventory_report'].items():
             if key != 'note':

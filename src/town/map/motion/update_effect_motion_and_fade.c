@@ -11,7 +11,7 @@ typedef struct S_800BBA98_0 {
     u8 pad_02[0x48];
     s16 unk_4A;
     u8 pad_4C[0x2];
-    union { s16 s; u16 u; } unk_4E;   /* accessed as both */
+    s16 unk_4E;
 } S_800BBA98_0;
 
 typedef struct {
@@ -47,7 +47,7 @@ void update_effect_motion_and_fade(void *effect, void *motion_data, void *displa
     effect_data = effect;
     motion = motion_data;
     display = display_data;
-    phase_value = ((S_800BBA98_0 *)((u8 *)effect_data - 0x2))->unk_4E.s;
+    phase_value = ((S_800BBA98_0 *)((u8 *)effect_data - 0x2))->unk_4E;
     switch (phase_value) {
     case 0:
         motion->f0 += (motion->fc / (s16) ((S_800BBA98_0 *)((u8 *)effect_data - 0x2))->unk_4A);
@@ -58,7 +58,7 @@ void update_effect_motion_and_fade(void *effect, void *motion_data, void *displa
         if ((ticks_left << 0x10) <= 0) {
             display->tpage_abr = phase_value;
             display->flags |= 0xC;
-            ((S_800BBA98_0 *)((u8 *)effect_data - 0x2))->unk_4E.u += 1;
+            ((S_800BBA98_0 *)((u8 *)effect_data - 0x2))->unk_4E += 1;
         }
         break;
     case 1:

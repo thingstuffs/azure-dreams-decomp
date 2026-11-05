@@ -13,11 +13,6 @@ typedef struct S_800BE214_4 {
     s32 * unk_00;
 } S_800BE214_4;   /* (s8 *)sp10 + (arg0->animation_index * 4) in advance_actor_animation_pose */
 
-typedef union {
-    s16 state;
-    u16 raw;
-} StateWord;
-
 struct Dst;
 struct Elem;
 
@@ -86,8 +81,8 @@ void advance_actor_animation_pose(S_800BE214_0 *actor, TrailHeightView *pose, Sp
             return;
         select_record_entry_and_value((struct Dst *)animation, (struct Elem *)&D_800F9D80, 0);
         {
-            StateWord next_state = { 0x20 };
-            actor->state = next_state.state;
+            s16 next_state = 0x20;
+            actor->state = next_state;
         }
         break;
     case 0x25:

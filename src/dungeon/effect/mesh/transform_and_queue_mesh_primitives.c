@@ -731,7 +731,7 @@ extern u8 resident_globals_page[];
 extern u32 RotTransPers();
 
 /* Projects a colored point and links its drawing packets into the ordering table. */
-s32 project_colored_point_to_ordering_table(u8 *render_data, u8 *source_vertex)
+s32 project_colored_point_to_ordering_table(TerrainSeekingColoredPointBody *render_data, u8 *source_vertex)
 {
     u8 **context_slot;
     u8 *scratch;
@@ -765,13 +765,13 @@ s32 project_colored_point_to_ordering_table(u8 *render_data, u8 *source_vertex)
         depth_index = RotTransPers(scratch, point_packet + 8, scratch + 0x90, scratch + 0x94);
         FIELD_U32(scratch, 0xC0) = depth_index;
         if (depth_index < 0x1E0U) {
-            FIELD_U32(point_packet, 4) = FIELD_U32(render_data, 0);
-            FIELD_U8(point_packet, 4) = (u8)((FIELD_U8(point_packet, 4) * FIELD_S16(render_data, 0x10)) /
-                                      FIELD_S16(render_data, 0x12));
-            FIELD_U8(point_packet, 5) = (u8)((FIELD_U8(point_packet, 5) * FIELD_S16(render_data, 0x10)) /
-                                      FIELD_S16(render_data, 0x12));
-            blue = (u8)((FIELD_U8(point_packet, 6) * FIELD_S16(render_data, 0x10)) /
-                        FIELD_S16(render_data, 0x12));
+            FIELD_U32(point_packet, 4) = render_data->color;
+            FIELD_U8(point_packet, 4) = (u8)((FIELD_U8(point_packet, 4) * render_data->intensity) /
+                                      render_data->divisor);
+            FIELD_U8(point_packet, 5) = (u8)((FIELD_U8(point_packet, 5) * render_data->intensity) /
+                                      render_data->divisor);
+            blue = (u8)((FIELD_U8(point_packet, 6) * render_data->intensity) /
+                        render_data->divisor);
             FIELD_U8(point_packet, 3) = 2;
             FIELD_U8(point_packet, 7) = 0x6A;
             FIELD_U8(point_packet, 6) = blue;
@@ -799,7 +799,7 @@ s32 project_colored_point_to_ordering_table(u8 *render_data, u8 *source_vertex)
         }
 
         next_node = FIELD_PTR(render_data, -8);
-        render_data = next_node + 0x20;
+        render_data = NODE_BODY(next_node);
         if (next_node == 0) {
             break;
         }

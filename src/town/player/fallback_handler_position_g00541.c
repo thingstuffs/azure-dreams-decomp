@@ -64,7 +64,7 @@ void compute_the_based_position_offset_publishes_resulting_vector(void *object_a
     record = find_flagged_record_by_id(
         call_an_indexed_byte_s_signed_field_callee_80096_a_5_c(resources, *(u8 **)((u8 *)object + 0x1C), 4), 0);
     if (record != 0) {
-        angle = (object->unk_10.as_u16 - 0xC00) & 0xFFF;
+        angle = ((u16)object->unk_10 - 0xC00) & 0xFFF;
         x = (record->scale * rcos(angle)) << 5;
         y = (-record->scale * rsin(angle)) << 5;
         height = record->height;

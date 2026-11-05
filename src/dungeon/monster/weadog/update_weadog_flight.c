@@ -5,18 +5,7 @@
 #include "common.h"
 #include "shared/object_links.h"
 #include "dungeon/actor/effect.h"
-
-typedef struct GridPoint {
-    union {
-        s16 x;
-        u8 unk_00;
-    } unk_00;
-    union {
-        s16 y;
-        u16 unk_02;
-        u8 unk_02_u8;
-    } unk_02;
-} GridPoint;
+#include "dungeon/monster/weadog.h"
 
 typedef struct GridData {
     GridPoint point[8];
@@ -26,27 +15,6 @@ typedef struct FlagBlock {
     s32 value;
     s32 pad[2];
 } FlagBlock;
-
-typedef struct S_func_80EDF000_0 {
-    u8 pad_00[0x2C];
-    s16 unk_2C;
-    s16 unk_2E;
-    u8 pad_30[4];
-    s16 unk_34;
-    s16 unk_36;
-    u8 pad_38[8];
-    void *unk_40;
-    u8 pad_44[0x18];
-    s8 unk_5C;
-    s8 unk_5D;
-    u8 pad_5E[0x0E];
-    s32 unk_6C;
-    s32 unk_70;
-    s32 unk_74;
-    s32 unk_78;
-    s32 unk_7C;
-    s32 unk_80;
-} S_func_80EDF000_0;
 
 typedef struct S_func_80EDF000_1 {
     union {
@@ -98,12 +66,12 @@ extern s16 sample_terrain_surface_height(s32, s32, s16);
 extern u8 weadog_slot_g_direction_steps[];
 extern FlagBlock D_800814A0;
 
-void advance_item_flight_to_floor(S_func_80EDF000_0 *motion, S_func_80EDF000_1 *position, S_func_80EDF000_2 *render);
+void advance_item_flight_to_floor(WeadogFlightBody *motion, S_func_80EDF000_1 *position, S_func_80EDF000_2 *render);
 
 /* Advance motion, resolve tile collisions, and settle at the landing position. */
 /* Animates a moving item with directions from D_80170808; places it on the floor or shrinks its falling
  * sprite. */
-void advance_item_flight_to_floor(S_func_80EDF000_0 *motion, S_func_80EDF000_1 *position, S_func_80EDF000_2 *render)
+void advance_item_flight_to_floor(WeadogFlightBody *motion, S_func_80EDF000_1 *position, S_func_80EDF000_2 *render)
 {
     s32 first_pass;
     s8 command[4];
@@ -120,17 +88,17 @@ void advance_item_flight_to_floor(S_func_80EDF000_0 *motion, S_func_80EDF000_1 *
     __builtin_memcpy(tile_steps, weadog_slot_g_direction_steps, 32);
 
 interpolate:
-    if (motion->unk_2C == 1) {
-        if (motion->unk_2E == 0) {
-            motion->unk_2E = (s16)((u16)motion->unk_2E + 1);
+    if (motion->phase == 1) {
+        if (motion->phase_timer == 0) {
+            motion->phase_timer = (s16)((u16)motion->phase_timer + 1);
             {
                 s32 abs_x;
                 s32 abs_y;
                 s32 map_y;
 
                 abs_x = position->unk_0E;
-                abs_y = motion->unk_5C;
-                map_y = motion->unk_5D;
+                abs_y = motion->spawner_tile_x;
+                map_y = motion->spawner_tile_y;
                 abs_x -= abs_y;
                 abs_y = position->unk_12;
                 if (abs_x < 0)
@@ -158,15 +126,15 @@ interpolate:
                 travel_frames = 16;
                 break;
             }
-            motion->unk_36 = travel_frames;
+            motion->travel_frames = travel_frames;
         }
         {
             u32 countdown_raw;
             s32 countdown;
             s32 shifted_countdown;
 
-            countdown_raw = (u16)motion->unk_36 - 1;
-            motion->unk_36 = countdown_raw;
+            countdown_raw = (u16)motion->travel_frames - 1;
+            motion->travel_frames = countdown_raw;
             countdown_raw <<= 16;
             shifted_countdown = (s32)countdown_raw;
             countdown = shifted_countdown >> 16;
@@ -184,7 +152,7 @@ interpolate:
                 {
                     s32 goal = position->unk_12;
                     s32 current = position->unk_04.parts.unk_06.s16;
-                    s32 ticks = motion->unk_36;
+                    s32 ticks = motion->travel_frames;
                     s32 delta;
                     s32 scaled = goal;
                     scaled *= 64;
@@ -199,18 +167,18 @@ interpolate:
                 interp_goal = position->unk_16;
                 position->unk_04.parts.unk_06.s16 = interp_current;
                 interp_goal -= countdown;
-                interp_goal /= (s16)motion->unk_36;
+                interp_goal /= (s16)motion->travel_frames;
                 position->unk_08.parts.unk_0A += interp_goal;
             }
         }
-        if ((s16)motion->unk_36 <= 0) {
+        if ((s16)motion->travel_frames <= 0) {
             command[0] = 6;
             command[1] = 12;
             command[2] = 0;
             command[3] = 0;
             place_item_at_valid_floor_position(position->unk_0E, position->unk_12,
                           position->unk_16, render->unk_08, command);
-            ((ActorRecord *)motion->unk_40)->unk_A4.halves.low.s = 0;
+            ((ActorRecord *)motion->owner)->unk_A4.halves.low.s = 0;
             ((ObjectRetirementFlags *)((u8 *)motion - 2))->flags |= 0x8000;
             D_800814A0.value |= OBJECT_REMOVE_PENDING;
             return;
@@ -219,23 +187,23 @@ interpolate:
             goto interpolate;
     }
 fall:
-    if (motion->unk_2C == 2) {
-        position->unk_08.s32 += motion->unk_74;
-        motion->unk_74 += motion->unk_80;
+    if (motion->phase == 2) {
+        position->unk_08.s32 += motion->velocity_z;
+        motion->velocity_z += motion->gravity;
         scale = render->unk_1E - 0xC8;
         render->unk_1E = scale;
         render->unk_1C = scale;
         fall_height = position->unk_08.parts.unk_0A;
-        if (sample_terrain_surface_height((motion->unk_5C << 6) & 0xFFC0,
-                          (motion->unk_5D << 6) & 0xFFC0,
+        if (sample_terrain_surface_height((motion->spawner_tile_x << 6) & 0xFFC0,
+                          (motion->spawner_tile_y << 6) & 0xFFC0,
                           (s16)((u16)position->unk_08.parts.unk_0A - 0x20)) - 7 <
             fall_height) {
             position->unk_08.parts.unk_0A = sample_terrain_surface_height(
-                (motion->unk_5C << 6) & 0xFFC0,
-                (motion->unk_5D << 6) & 0xFFC0,
+                (motion->spawner_tile_x << 6) & 0xFFC0,
+                (motion->spawner_tile_y << 6) & 0xFFC0,
                 (s16)((u16)position->unk_08.parts.unk_0A - 0x20));
             position->unk_08.parts.unk_08 = 0;
-            ((ActorRecord *)motion->unk_40)->unk_A4.halves.low.s = 0;
+            ((ActorRecord *)motion->owner)->unk_A4.halves.low.s = 0;
             ((ObjectRetirementFlags *)((u8 *)motion - 2))->flags |= 0x8000;
             D_800814A0.value |= OBJECT_REMOVE_PENDING;
             return;
@@ -245,24 +213,24 @@ fall:
     }
     for (first_pass = 1; first_pass || (render->unk_14 & 0x8000); first_pass = 0) {
         step_table = tile_steps;
-        if (motion->unk_2C != 0)
+        if (motion->phase != 0)
             return;
-        position->unk_00.s32 += motion->unk_6C;
-        motion->unk_6C += motion->unk_78;
-        position->unk_04.s32 += motion->unk_70;
+        position->unk_00.s32 += motion->velocity_x;
+        motion->velocity_x += motion->acceleration_x;
+        position->unk_04.s32 += motion->velocity_y;
         {
             s32 coord;
             s32 world_coord;
             GridPoint *step;
 
-            coord = motion->unk_70;
-            world_coord = motion->unk_7C;
-            interp_goal = motion->unk_34;
+            coord = motion->velocity_y;
+            world_coord = motion->acceleration_y;
+            interp_goal = motion->direction;
             interp_goal <<= 2;
             step = (GridPoint *)((u8 *)step_table + interp_goal);
-            interp_goal = motion->unk_5C;
+            interp_goal = motion->spawner_tile_x;
             coord += world_coord;
-            motion->unk_70 = coord;
+            motion->velocity_y = coord;
 
             coord = step->unk_00.x;
             world_coord = position->unk_00.parts.unk_02.s16;
@@ -273,7 +241,7 @@ fall:
             if (interp_goal == coord) {
                 coord = step->unk_02.unk_02;
                 world_coord = position->unk_04.parts.unk_06.s16;
-                interp_goal = motion->unk_5D;
+                interp_goal = motion->spawner_tile_y;
                 coord = (s16)coord;
                 interp_goal += coord;
                 if (world_coord < 0)
@@ -284,44 +252,44 @@ fall:
                         position->unk_08.parts.unk_0A) << 16) != 0 ||
                         sample_terrain_surface_height(position->unk_00.parts.unk_02.u16, position->unk_04.parts.unk_06.u16,
                                           position->unk_08.parts.unk_0A) >= 0x200) {
-                        position->unk_00.s32 -= motion->unk_6C;
-                        motion->unk_6C = 0;
-                        motion->unk_78 = 0;
-                        position->unk_04.s32 -= motion->unk_70;
-                        motion->unk_70 = 0;
-                        motion->unk_7C = 0;
+                        position->unk_00.s32 -= motion->velocity_x;
+                        motion->velocity_x = 0;
+                        motion->acceleration_x = 0;
+                        position->unk_04.s32 -= motion->velocity_y;
+                        motion->velocity_y = 0;
+                        motion->acceleration_y = 0;
                     } else {
-                        motion->unk_5C +=
-                            ((GridPoint *)((u8 *)step_table + (motion->unk_34 << 2)))->unk_00.unk_00;
-                        motion->unk_5D +=
-                            ((GridPoint *)((u8 *)step_table + (motion->unk_34 << 2)))->unk_02.unk_02_u8;
+                        motion->spawner_tile_x +=
+                            ((GridPoint *)((u8 *)step_table + (motion->direction << 2)))->unk_00.unk_00;
+                        motion->spawner_tile_y +=
+                            ((GridPoint *)((u8 *)step_table + (motion->direction << 2)))->unk_02.unk_02_u8;
                     }
                     render->unk_06 = 0;
                 }
             }
         }
-        position->unk_08.s32 += motion->unk_74;
-        motion->unk_74 += motion->unk_80;
+        position->unk_08.s32 += motion->velocity_z;
+        motion->velocity_z += motion->gravity;
         move_height = position->unk_08.parts.unk_0A;
-        if (sample_terrain_surface_height((motion->unk_5C << 6) & 0xFFC0, (motion->unk_5D << 6) & 0xFFC0,
+        if (sample_terrain_surface_height((motion->spawner_tile_x << 6) & 0xFFC0, (motion->spawner_tile_y << 6) & 0xFFC0,
             (s16)((u16)position->unk_08.parts.unk_0A - 0x20)) - 0x10 < move_height) {
             position->unk_08.parts.unk_0A = sample_terrain_surface_height(
-                (motion->unk_5C << 6) & 0xFFC0,
-                (motion->unk_5D << 6) & 0xFFC0,
+                (motion->spawner_tile_x << 6) & 0xFFC0,
+                (motion->spawner_tile_y << 6) & 0xFFC0,
                 (s16)((u16)position->unk_08.parts.unk_0A - 0x20));
             position->unk_08.parts.unk_08 = 0;
-            motion->unk_7C = 0;
-            motion->unk_70 = 0;
-            motion->unk_78 = 0;
-            motion->unk_6C = 0;
-            motion->unk_2C = (s16)((u16)motion->unk_2C + 1);
-            if ((find_valid_floor_item_position(motion->unk_5C, motion->unk_5D,
+            motion->acceleration_y = 0;
+            motion->velocity_y = 0;
+            motion->acceleration_x = 0;
+            motion->velocity_x = 0;
+            motion->phase = (s16)((u16)motion->phase + 1);
+            if ((find_valid_floor_item_position(motion->spawner_tile_x, motion->spawner_tile_y,
                                (s16)((u16)position->unk_08.parts.unk_0A - 0x20),
                                &position->unk_0E, &position->unk_12,
                                &position->unk_16) << 16) != 0)
             return;
-            motion->unk_2C = 2;
-            motion->unk_74 = (s32)0xFFF80000;
+            motion->phase = 2;
+            motion->velocity_z = (s32)0xFFF80000;
             return;
         }
     }

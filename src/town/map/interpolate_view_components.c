@@ -3,9 +3,9 @@
 #include "town/map.h"
 
 typedef struct S_800A526C_1 {
-    union { s16 s; u16 u; } unk_00;   /* accessed as both */
-    union { s16 s; u16 u; } unk_02;   /* accessed as both */
-    union { s16 s; u16 u; } unk_04;   /* accessed as both */
+    s16 unk_00;
+    s16 unk_02;
+    s16 unk_04;
     u8 pad_06[0xA];
     u16 unk_10;
     u16 unk_12;
@@ -29,29 +29,29 @@ void interpolate_view_components(S_800A526C_1 *transition)
     state_base = &g_game_work;
     state_base->view.view_offset.parts.view_offset_x =
         ((u16)state_base->view.view_offset.parts.view_offset_x) +
-        ((transition->unk_00.s - state_base->view.view_offset.parts.view_offset_x) /
+        ((transition->unk_00 - state_base->view.view_offset.parts.view_offset_x) /
          transition->unk_18);
     state_base->view.view_offset.parts.view_offset_y =
         ((u16)state_base->view.view_offset.parts.view_offset_y) +
-        ((transition->unk_02.s - state_base->view.view_offset.parts.view_offset_y) /
+        ((transition->unk_02 - state_base->view.view_offset.parts.view_offset_y) /
          transition->unk_18);
     state_base->view.view_offset.parts.view_offset_z =
         ((u16)state_base->view.view_offset.parts.view_offset_z) +
-        ((transition->unk_04.s - state_base->view.view_offset.parts.view_offset_z) /
+        ((transition->unk_04 - state_base->view.view_offset.parts.view_offset_z) /
          transition->unk_18);
 
     ticks_left = transition->unk_18 - 1;
     transition->unk_18 = ticks_left;
     if (ticks_left <= 0) {
-        target_component = transition->unk_00.u;
+        target_component = (u16)transition->unk_00;
         transition->unk_10 = target_component;
         state_base->view.view_offset.parts.view_offset_x = target_component;
 
-        target_component = transition->unk_02.u;
+        target_component = (u16)transition->unk_02;
         transition->unk_12 = target_component;
         state_base->view.view_offset.parts.view_offset_y = target_component;
 
-        target_component = transition->unk_04.u;
+        target_component = (u16)transition->unk_04;
         transition->unk_14 = target_component;
         state_base->view.view_offset.parts.view_offset_z = target_component;
 

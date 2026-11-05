@@ -6,7 +6,7 @@
 
 typedef struct S_800BDFA0_0 {
     u8 pad_00[0x68];
-    union { s16 s; u16 u; } unk_68;   /* accessed as both */
+    u16 unk_68;
     u8 pad_6A[0x36];
     SpriteSourceEntry *unk_A0;
     SpriteSourceEntry *unk_A4;
@@ -19,28 +19,28 @@ void initialize_record_visual_state(S_800BDFA0_0 *record, s32 unused, SpriteFram
     s16 state;
 
     advance_sprite_animation_and_textures(value);
-    state = record->unk_68.s;
+    state = (s16)record->unk_68;
     switch (state) {
     case 0:
         if ((service_script_controller() != 0) && (check_transform_identifier_and_hook(record) != 0)) {
             select_record_entry_and_value(value, record->unk_A4, 0);
-            record->unk_68.u++;
+            record->unk_68++;
         }
         break;
     case 1:
         if ((service_script_controller() == 0) || (check_transform_identifier_and_hook(record) == 0)) {
-            record->unk_68.u++;
+            record->unk_68++;
         }
         break;
     case 2:
         if ((service_script_controller() != 0) && (check_transform_identifier_and_hook(record) != 0)) {
             select_record_entry_and_value(value, record->unk_A0, 0);
-            record->unk_68.u++;
+            record->unk_68++;
         }
         break;
     case 3:
         if ((service_script_controller() == 0) || (check_transform_identifier_and_hook(record) == 0)) {
-            record->unk_68.s = 0;
+            record->unk_68 = 0;
         }
         break;
     }

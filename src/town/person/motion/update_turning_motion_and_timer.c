@@ -11,8 +11,7 @@ extern ColliderView town_actor_control;
 
 
 /* Updates turning motion, applies a position adjustment, and checks the timer. */
-void update_turning_motion_and_timer(TownObjectRecord *actor, void *position, void *update_param, s32 check_param) {
-    ObjectPosition *coordinates = position;
+void update_turning_motion_and_timer(TownObjectRecord *actor, ObjectPosition *position, void *update_param, s32 check_param) {
     CollisionOverlap *adjustment;
     s32 axis;
     u16 angle;
@@ -26,9 +25,9 @@ void update_turning_motion_and_timer(TownObjectRecord *actor, void *position, vo
     actor->unk_86.as_u16 = angle - 0x40;
     actor->heading.as_s16 = angle - 0x440;
 
-    coordinates->x.unsigned_parts.integer = actor->unk_84.as_u16 +
+    position->x.unsigned_parts.integer = actor->unk_84.as_u16 +
         rsin(actor->unk_86.as_s16) / (0x1000 / actor->unk_84.as_s16);
-    coordinates->y.unsigned_parts.integer = actor->unk_86.as_u16 +
+    position->y.unsigned_parts.integer = actor->unk_86.as_u16 +
         rcos(actor->unk_86.as_s16) / (0x1000 / actor->unk_84.as_s16) -
         actor->unk_84.as_u16;
 
@@ -37,9 +36,9 @@ void update_turning_motion_and_timer(TownObjectRecord *actor, void *position, vo
         axis = adjustment->axis;
         if (axis != 2) {
             if (axis == 0) {
-                coordinates->x.v -= adjustment->amount;
+                position->x.v -= adjustment->amount;
             } else if (axis == 1) {
-                coordinates->y.v -= adjustment->amount;
+                position->y.v -= adjustment->amount;
             }
             initialize_object_from_context(actor, position, update_param);
             return;

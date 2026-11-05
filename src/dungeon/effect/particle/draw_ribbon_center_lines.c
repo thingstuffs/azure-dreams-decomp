@@ -7,7 +7,7 @@
 
 typedef struct S_80166968_0 {
     u8 pad_00[0x24];
-    union { u8 * p; u32 * p2; } unk_24;   /* accessed as both */
+    u8 *unk_24;
     u16 unk_28;
     u8 pad_2A[0xA];
     s32 unk_34;
@@ -97,7 +97,7 @@ void draw_ribbon_center_lines(RibbonLineGeometry *geometry, ObjectPosition *posi
     s32 saved_depth_bias;
     MATRIX matrix;
 
-    ((S_80166968_0 *)scratch)->unk_24.p = render_state + 0xB0;
+    ((S_80166968_0 *)scratch)->unk_24 = render_state + 0xB0;
     address_mask = 0x00FFFFFF;
     ((S_80166968_0 *)scratch)->unk_88 = position->x.w.i;
     ((S_80166968_0 *)scratch)->unk_8C = position->y.w.i;
@@ -174,10 +174,10 @@ void draw_ribbon_center_lines(RibbonLineGeometry *geometry, ObjectPosition *posi
         ((S_80166968_5 *)packet)->unk_04.at03.v = 0x42;
 
         ((S_80166968_5 *)packet)->unk_00.at00.v = (((S_80166968_5 *)packet)->unk_00.at00.v & length_mask) |
-            ((*(u32 *)((u8 *)(((S_80166968_0 *)scratch)->unk_24.p2)
+            ((*(u32 *)((u8 *)(((S_80166968_0 *)scratch)->unk_24)
                 + ((S_80166968_0 *)scratch)->unk_100 * 4)) & address_mask);
-        (*(u32 *)((u8 *)(((S_80166968_0 *)scratch)->unk_24.p2) + ((S_80166968_0 *)scratch)->unk_100 * 4)) =
-            ((*(u32 *)((u8 *)(((S_80166968_0 *)scratch)->unk_24.p2)
+        (*(u32 *)((u8 *)(((S_80166968_0 *)scratch)->unk_24) + ((S_80166968_0 *)scratch)->unk_100 * 4)) =
+            ((*(u32 *)((u8 *)(((S_80166968_0 *)scratch)->unk_24)
                 + ((S_80166968_0 *)scratch)->unk_100 * 4)) & length_mask) |
             ((u32)packet & address_mask);
 
@@ -186,11 +186,11 @@ void draw_ribbon_center_lines(RibbonLineGeometry *geometry, ObjectPosition *posi
         SetDrawMode(packet, zero, zero, GetTPage(zero, 1, zero, zero) & 0xFFFF, zero);
 
         ((S_80166968_5 *)packet)->unk_00.at00.v = (((S_80166968_5 *)packet)->unk_00.at00.v & length_mask) |
-            ((*(u32 *)((u8 *)(((S_80166968_0 *)scratch)->unk_24.p2)
+            ((*(u32 *)((u8 *)(((S_80166968_0 *)scratch)->unk_24)
                 + ((S_80166968_0 *)scratch)->unk_100 * 4)) & address_mask);
         packet = (u8 *)((u32)packet & address_mask);
-        (*(u32 *)((u8 *)(((S_80166968_0 *)scratch)->unk_24.p2) + ((S_80166968_0 *)scratch)->unk_100 * 4)) =
-            ((*(u32 *)((u8 *)(((S_80166968_0 *)scratch)->unk_24.p2)
+        (*(u32 *)((u8 *)(((S_80166968_0 *)scratch)->unk_24) + ((S_80166968_0 *)scratch)->unk_100 * 4)) =
+            ((*(u32 *)((u8 *)(((S_80166968_0 *)scratch)->unk_24)
                 + ((S_80166968_0 *)scratch)->unk_100 * 4)) & length_mask) |
             (u32)packet;
 

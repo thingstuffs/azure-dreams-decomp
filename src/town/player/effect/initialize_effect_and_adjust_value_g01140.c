@@ -72,18 +72,18 @@ void turn_entity_toward_target(TownPlayerRecord *entity, void *transform, Sprite
 
         entity_type = entity->unk_00;
         if (entity_type == (u8 *)update_actor_movement_and_actions && (input_state->buttons & 0x2000)) {
-            target_angle = entity->unk_10.as_s16;
+            target_angle = entity->unk_10;
             current_angle = entity->unk_18;
             target_angle -= 0x200;
             entity->unk_18 = step_angle_12_toward(current_angle, target_angle, 0x200);
         } else if (entity_type == (u8 *)update_actor_movement_and_actions && (input_state->buttons & 0x8000)) {
-            target_angle = entity->unk_10.as_s16;
+            target_angle = entity->unk_10;
             current_angle = entity->unk_18;
             target_angle += 0x200;
             entity->unk_18 = step_angle_12_toward(current_angle, target_angle, 0x200);
         } else {
             current_angle = entity->unk_18;
-            target_angle = entity->unk_10.as_s16;
+            target_angle = entity->unk_10;
             entity->unk_18 = step_angle_12_toward(current_angle, target_angle, 0x200);
         }
     }
@@ -390,9 +390,9 @@ void update_town_movement_and_actions(TownPlayerRecord *state, ObjectPosition *t
     globals = &g_game_work;
     handle_resolves_movement_collisions_along_one_axis_using_boundary_probes_tile(table);
 
-    state->timer.as_u16--;
-    if (state->timer.as_s16 <= 0) {
-        state->timer.as_u16 = scale_random_to_unsigned_halfword_limit(3) + 5;
+    state->timer--;
+    if ((s16)state->timer <= 0) {
+        state->timer = scale_random_to_unsigned_halfword_limit(3) + 5;
         random_choice = scale_random_to_unsigned_halfword_limit(2);
         spawn_directional_effects(table, (u16)random_choice + 2);
     }
@@ -462,7 +462,7 @@ void update_town_movement_and_actions(TownPlayerRecord *state, ObjectPosition *t
 
     if ((globals->pressed_buttons) & 0x100) {
         ((S_800A5FDC_0 *)state)->unk_00 = (s32)&map_view_transition_address;
-        state->timer.as_s16 = 8;
+        state->timer = 8;
     }
     return;
 }

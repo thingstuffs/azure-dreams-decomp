@@ -19,7 +19,7 @@ void update_actor_status_and_mp(struct ActorRecord *);                      /* e
 struct Rec_func_800A9E70_arg0; struct Rec_func_800AA258_arg2; void begin_actor_move_to_target_facing(ActorRecord *body, ObjectPosition *position, SpriteFrameState *sprite, ActorRecord *actor); /* extern */
 void func_8016FA84(void *actor, void *action, SpriteFrameState *entity, void *path_arg);                            /* extern */
 void advance_boss_actor_movement_state(ActorRecord *, void *, SpriteFrameState *, void *); /* extern */
-struct Rec_func_800A9E70_arg0; s32 update_boss_action_result(ActorRecord *, s32, s32, s16); /* extern */
+struct Rec_func_800A9E70_arg0; s32 update_boss_action_result(ActorRecord *, ObjectPosition *, SpriteFrameState *, s16); /* extern */
 void func_8017092C(ActorRecord *object, ObjectPosition *unused_1, SpriteFrameState *unused_2, ActorRecord *flag_owner); /* extern */
 s32 advance_boss_command_stream(void *object_arg, void *context_arg, void *entity_arg);     /* extern */
 #include "dungeon/monster/ghosh.h"
@@ -80,7 +80,7 @@ void update_boss_actor_action(ActorRecord *actor, ObjectPosition *context, Sprit
                     entity->action_flags = (u16) (entity->action_flags & ACTOR_ACTION_CLEAR_PENDING_MASK);
                     return;
                 }
-                if ((update_boss_action_result(actor, (s32)(context), (s32)(sprite), 0) << 0x10) == 0) {
+                if ((update_boss_action_result(actor, context, sprite, 0) << 0x10) == 0) {
                     return;
                 }
                 entity->action_flags = (u16) (entity->action_flags | 0x4000);

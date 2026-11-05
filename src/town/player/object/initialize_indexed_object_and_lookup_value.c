@@ -18,6 +18,6 @@ void initialize_indexed_object_and_lookup_value(void *object_arg, s32 lookup_arg
     saved_lookup_arg = lookup_arg;
     object_index_slots[object->slot].unk_00 = 0;
     object->unk_04 = &forward_player_motion_state;
-    object->unk_10.as_s16 = clamp_transform_coordinate_deltas(object->target_x, object->target_y,
+    object->unk_10 = clamp_transform_coordinate_deltas(object->target_x, object->target_y,
         saved_lookup_arg);
 }

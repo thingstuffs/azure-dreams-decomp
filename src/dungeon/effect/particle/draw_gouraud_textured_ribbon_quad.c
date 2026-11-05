@@ -16,7 +16,7 @@ typedef struct S_801663AC_0 {
     union { s32 s32; u16 u16; } unk_14;   /* accessed as both */
     union { s32 s32; u16 u16; } unk_18;   /* accessed as both */
     u8 pad_1C[0x8];
-    union { u8 * p; u32 * p2; } unk_24;   /* accessed as both */
+    u8 *unk_24;
     u16 unk_28;
     u8 pad_2A[0xA];
     s32 unk_34;
@@ -131,7 +131,7 @@ void draw_gouraud_textured_ribbon_quad(void *quad, ObjectPosition *position, Spr
     u8 tex_flags;
     MATRIX view_matrix;
 
-    ((S_801663AC_0 *)scratch)->unk_24.p = *(u8 **)&g_game_work.draw_buffer + 0xB0;
+    ((S_801663AC_0 *)scratch)->unk_24 = *(u8 **)&g_game_work.draw_buffer + 0xB0;
     ((S_801663AC_0 *)scratch)->unk_88 = position->x.w.i;
     ((S_801663AC_0 *)scratch)->unk_8C = position->y.w.i;
     ((S_801663AC_0 *)scratch)->unk_90 = position->z.w.i;
@@ -257,11 +257,11 @@ void draw_gouraud_textured_ribbon_quad(void *quad, ObjectPosition *position, Spr
 
             ((S_801663AC_5 *)packet)->unk_04.at03.v |= render_state->color.c.code;
             ((S_801663AC_5 *)packet)->unk_00 = (((S_801663AC_5 *)packet)->unk_00 & 0xFF000000) |
-                ((*(u32 *)((u8 *)(((S_801663AC_0 *)scratch)->unk_24.p2)
+                ((*(u32 *)((u8 *)(((S_801663AC_0 *)scratch)->unk_24)
                     + ((S_801663AC_0 *)scratch)->unk_100 * 4)) & 0x00FFFFFF);
 
-            (*(u32 *)((u8 *)(((S_801663AC_0 *)scratch)->unk_24.p2) + ((S_801663AC_0 *)scratch)->unk_100 * 4)) =
-                ((*(u32 *)((u8 *)(((S_801663AC_0 *)scratch)->unk_24.p2)
+            (*(u32 *)((u8 *)(((S_801663AC_0 *)scratch)->unk_24) + ((S_801663AC_0 *)scratch)->unk_100 * 4)) =
+                ((*(u32 *)((u8 *)(((S_801663AC_0 *)scratch)->unk_24)
                     + ((S_801663AC_0 *)scratch)->unk_100 * 4)) & 0xFF000000) |
                 ((u32)packet & 0x00FFFFFF);
         }

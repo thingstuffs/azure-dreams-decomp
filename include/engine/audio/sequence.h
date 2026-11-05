@@ -9,7 +9,9 @@
  * same table for note settings. */
 typedef struct AudioChannelControl {
     /* 0x00 */ u16 f00;
-    u8 pad02[0x10 - 0x02];
+    u8 pad02[0x08 - 0x02];
+    /* 0x08 */ s32 vibrato_rate;
+    u8 pad0C[0x10 - 0x0C];
     /* 0x10 */ s32 f10;
     u8 pad14[0x18 - 0x14];
     /* 0x18 */ u8 f18;
@@ -19,14 +21,18 @@ typedef struct AudioChannelControl {
     /* 0x28 */ u32 f28;
     u8 pad2C[0x30 - 0x2C];
     /* 0x30 */ u8 f30;
-    u8 pad31[0x3A - 0x31];
-    /* 0x3A */ u16 f3A;
-    u8 pad3C[0x50 - 0x3C];
-    /* 0x50 */ s16 f50;
-    /* 0x52 */ u16 f52;
-    /* 0x54 */ s16 f54;
-    /* 0x56 */ u16 f56;
-    /* 0x58 */ s32 f58;
+    u8 pad31[0x34 - 0x31];
+    /* 0x34 */ s32 vibrato_rising;
+    /* 0x38 */ s16 vibrato_step;
+    /* 0x3A */ s16 vibrato_offset;
+    u8 pad3C[0x40 - 0x3C];
+    /* 0x40 */ s16 vibrato_limit;
+    u8 pad42[0x50 - 0x42];
+    /* 0x50 */ s16 portamento_time;
+    /* 0x52 */ u16 portamento_offset;
+    /* 0x54 */ s16 portamento_step;
+    /* 0x56 */ u16 portamento_span;
+    /* 0x58 */ s32 portamento_rising;
     /* 0x5C */ u8 f5C;
     /* 0x5D */ u8 f5D;
     u8 pad5E[0x68 - 0x5E];
@@ -93,7 +99,6 @@ extern u8 *audio_sequence_data_base[4];
 struct PlaybackState;
 struct S_80055E84;
 struct S_80056654_0;
-struct S_80056800_0;
 
 /* activate_sequence_slot.c */
 void activate_sequence_slot(s16 slot_index);
@@ -231,7 +236,7 @@ s32 sound_set_indexed_voice_volumes(s32 table_index, s32 field_8_value, s32 fiel
 void sound_set_seven_bit_channel_value_and_notify(u8 index, s32 unused, s32 value);
 
 /* sound_step_bipolar_oscillation.c */
-void sound_step_bipolar_oscillation(struct S_80056800_0 *state);
+void sound_step_bipolar_oscillation(AudioChannelControl *state);
 
 /* sound_step_clamped_signed_ramp.c */
 void sound_step_clamped_signed_ramp(AudioChannelControl *state);

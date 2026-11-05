@@ -91,7 +91,7 @@ void *create_actor_spell_effect(void *actor, void *record_data, s16 mode, void *
     MovingPosition *actor_position;
     TileObject *map_state;
 
-    actor_state = ((S_800A94A0_0 *)((u8 *)actor - 0x18))->unk_04;
+    actor_state = NODE_HEADER(actor)->sprite;
     effect = allocate_list_node(0x12, &scene_object_list_anchor.next);
     if (effect != NULL) {
         effect_mode = ((s32) mode << 0x10) >> 0x10;
@@ -120,7 +120,7 @@ void *create_actor_spell_effect(void *actor, void *record_data, s16 mode, void *
         effect_state->unk_09 = variant;
         active_spell_parameters[1] = variant;
         if (mode == 0) {
-            actor_position = ((S_800A94A0_0 *)((u8 *)actor - 0x18))->unk_00;
+            actor_position = NODE_HEADER(actor)->position;
             effect_position = effect->position;
             effect_position->x.w.i = (u16) actor_position->x;
             effect_position->y.w.i = (u16) actor_position->y;
@@ -129,7 +129,7 @@ void *create_actor_spell_effect(void *actor, void *record_data, s16 mode, void *
             if (!((u16) *((s16 *)&system_update_flags) & 1)) {
                 linked_object = ((S_800A94A0_0 *)((u8 *)actor - 0x18))->unk_78;
                 if (linked_object != NULL) {
-                    get_tile_chebyshev_distance(((S_800A94A0_0 *)((u8 *)actor - 0x18))->unk_04,
+                    get_tile_chebyshev_distance(NODE_HEADER(actor)->sprite,
                         ((S_800A94A0_6 *)((u8 *)linked_object - 0x14))->unk_00);
                     select_nearby_target_and_initialize_slot(effect, effect_position, 8, 0x300);
                 } else {
@@ -149,7 +149,7 @@ void *create_actor_spell_effect(void *actor, void *record_data, s16 mode, void *
                     ((S_800A94A0_0 *)((u8 *)actor - 0x18))->unk_A0, 8, 0x300);
             } else {
                 direction_offset = ((u16) ((S_800A94A0_9 *)(((u8 *)dungeon_actor_ring_anchor)))->unk_2A >> 8) & 0xE;
-                setup_object_within_planar_range(actor - 0x20, (map_state->tile_position.parts.tile_x << 6) + ((s32) (*(u16 *)((u8 *)direction_x_offsets + direction_offset)
+                setup_object_within_planar_range(NODE_HEADER(actor), (map_state->tile_position.parts.tile_x << 6) + ((s32) (*(u16 *)((u8 *)direction_x_offsets + direction_offset)
                     << 0x10) >> 0x11) + 0x20, (map_state->tile_position.parts.tile_y << 6) + ((s32) (*(u16 *)((u8 *)direction_y_offsets
                     + direction_offset) << 0x10) >> 0x11) + 0x20, dungeon_actor_ring_anchor->ground_height, 8, 0x300);
             }

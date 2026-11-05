@@ -84818,15 +84818,7 @@
       "owned_data": [],
       "imports": [
         {
-          "symbol": "D_800A378C",
-          "kind": "data",
-          "vma": 2148153228,
-          "foff": 155692,
-          "view_bytes": 6,
-          "owner": "retail_asset:town:xfer_town_B000"
-        },
-        {
-          "symbol": "D_800A38A8",
+          "symbol": "fade_sprite_color_and_remove_effect",
           "kind": "data",
           "vma": 2148153512,
           "foff": 155976,

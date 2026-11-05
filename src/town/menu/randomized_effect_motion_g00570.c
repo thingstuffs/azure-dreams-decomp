@@ -70,7 +70,7 @@ void initialize_randomized_motion_vector(RandomizedEffectMotionBody *obj, s32 *v
     obj->velocity_y = vec[4] / 23;
     obj->velocity_z = vec[5] / 23;
     obj->ticks_left = 0x18;
-    obj->callback.raw = D_800A378C;
+    obj->callback = advance_motion_and_reset_appearance;
 
     add_motion_deltas_to_position((ObjectPosition *)vec);
     add_motion_deltas_to_position((ObjectPosition *)vec);
@@ -91,7 +91,7 @@ void advance_motion_and_reset_appearance(RandomizedEffectMotionBody *state, Obje
         appearance->color.c.r = 0x40;
         appearance->tpage_abr = 0x20;
         appearance->flags = (u16) (appearance->flags | 0x1C);
-        state->callback.handler = &D_800A38A8;
+        state->callback = fade_sprite_color_and_remove_effect;
         transform->velocity_x = 0;
         transform->velocity_y = 0;
         transform->velocity_z =

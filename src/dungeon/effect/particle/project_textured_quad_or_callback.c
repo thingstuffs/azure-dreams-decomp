@@ -606,7 +606,7 @@ s32 draw_chained_object_records(void *record, void *context, void *data) {
 #define FIELD_PTR(base, off) (*(u8 **)((u8 *)(base) + (off)))
 
 /* Projects a colored point and links its drawing packets into the ordering table. */
-s32 project_colored_point(u8 *render_data, u8 *source_vertex)
+s32 project_colored_point(TerrainSeekingPointBody *render_data, u8 *source_vertex)
 {
     u8 **context_slot;
     u8 *scratch;
@@ -640,13 +640,13 @@ s32 project_colored_point(u8 *render_data, u8 *source_vertex)
         depth_index = RotTransPers(scratch, point_packet + 8, scratch + 0x90, scratch + 0x94);
         FIELD_U32(scratch, 0xC0) = depth_index;
         if (depth_index < 0x1E0U) {
-            FIELD_U32(point_packet, 4) = FIELD_U32(render_data, 8);
-            FIELD_U8(point_packet, 4) = (u8)((FIELD_U8(point_packet, 4) * FIELD_S16(render_data, 0x32)) /
-                                      FIELD_S16(render_data, 0x34));
-            FIELD_U8(point_packet, 5) = (u8)((FIELD_U8(point_packet, 5) * FIELD_S16(render_data, 0x32)) /
-                                      FIELD_S16(render_data, 0x34));
-            blue = (u8)((FIELD_U8(point_packet, 6) * FIELD_S16(render_data, 0x32)) /
-                        FIELD_S16(render_data, 0x34));
+            FIELD_U32(point_packet, 4) = render_data->color;
+            FIELD_U8(point_packet, 4) = (u8)((FIELD_U8(point_packet, 4) * render_data->intensity) /
+                                      render_data->divisor);
+            FIELD_U8(point_packet, 5) = (u8)((FIELD_U8(point_packet, 5) * render_data->intensity) /
+                                      render_data->divisor);
+            blue = (u8)((FIELD_U8(point_packet, 6) * render_data->intensity) /
+                        render_data->divisor);
             FIELD_U8(point_packet, 3) = 2;
             FIELD_U8(point_packet, 7) = 0x6A;
             FIELD_U8(point_packet, 6) = blue;
@@ -674,7 +674,7 @@ s32 project_colored_point(u8 *render_data, u8 *source_vertex)
         }
 
         next_node = FIELD_PTR(render_data, -8);
-        render_data = next_node + 0x20;
+        render_data = NODE_BODY(next_node);
         if (next_node == 0) {
             break;
         }
@@ -722,18 +722,6 @@ typedef struct S_func_81875B38_2 {
     void *unk_10;
 } S_func_81875B38_2;
 
-typedef struct S_func_81875B38_5 {
-    u8 pad_00[0x8];
-    s32 unk_08;
-    u8 pad_0C[0x8];
-    s16 unk_14;
-    u8 pad_16[0x1C];
-    s16 unk_32;
-    s16 unk_34;
-    u8 pad_36[0x12];
-    s32 unk_48;
-} S_func_81875B38_5;
-
 /* Returns the typed effect payload at byte offset 0x20 from the supplied node address. */
 static __inline__ S_func_81875B38_2 *effect_offset_32(void *p) {
     return (S_func_81875B38_2 *)((u8 *)p + 0x20);
@@ -774,12 +762,12 @@ void create_terrain_seeking_point_effect(
         effect_pos = source_obj->position->z.unsigned_parts.integer + jitter;
         effect_pos += z_offset - 0x10;
         ((ObjectPosition *)effect_obj->unk_08)->z.w.i = effect_pos;
-        ((S_func_81875B38_5 *)effect_ptr)->unk_14 = property_34;
-        ((S_func_81875B38_5 *)effect_ptr)->unk_32 = property_52;
-        ((S_func_81875B38_5 *)effect_ptr)->unk_34 = property_52;
+        ((TerrainSeekingPointBody *)effect_ptr)->unk_14 = property_34;
+        ((TerrainSeekingPointBody *)effect_ptr)->intensity = property_52;
+        ((TerrainSeekingPointBody *)effect_ptr)->divisor = property_52;
         register_node(effect_obj, project_colored_point);
-        ((S_func_81875B38_5 *)effect_ptr)->unk_48 = rand() + 0x10000;
-        ((S_func_81875B38_5 *)effect_ptr)->unk_08 = property_28;
+        ((TerrainSeekingPointBody *)effect_ptr)->z_velocity = rand() + 0x10000;
+        ((TerrainSeekingPointBody *)effect_ptr)->color = property_28;
     }
 }
 #include "modules/dungeon_native_abi.h"

@@ -216,7 +216,7 @@ void rebuild_menu_node_list(TownPlayerRecord *owner, ObjectPosition *node_in, Sp
     store_position_and_compute_delta(node_in);
 
     work = (func_80092C9C_S_800903FC_1 *)&town_motion_list;
-    work->unk_16 = owner->unk_10.as_u16;
+    work->unk_16 = (u16)owner->unk_10;
     update_the_s_field_10_using_callee_8008_fe_90(work);
     if (get_whether_has_attached_state_type_n_1_n_3(work) != 0) {
         owner->unk_2C = 0;
@@ -324,9 +324,9 @@ void process_scene_record_update(TownPlayerRecord *context, ObjectPosition *inpu
         (callback == (void *)update_actor_input_and_interaction)) {
         context->unk_18 =
             step_angle_12_toward(context->unk_18,
-                          context->unk_10.as_s16, 0x200);
+                          context->unk_10, 0x200);
     } else {
-        context->unk_18 = context->unk_10.as_u16;
+        context->unk_18 = (u16)context->unk_10;
     }
     index = view_relative_angle_sector(context->unk_18);
     if (context->unk_12 != index) {

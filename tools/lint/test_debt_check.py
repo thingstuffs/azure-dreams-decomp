@@ -118,7 +118,8 @@ void shadow(void *body) { NODE_HEADER(body); }
             baseline = D.baseline_record(report)
             self.assertEqual(baseline['report_counts'],
                              {'file_local_macro_casts': 0, 'header_macro_casts': 6,
-                              'signedness_unions': 0, 'address_named_types': 0,
+                              'signedness_unions': 0, 'unions_total': 0,
+                              'address_named_types': 0,
                               'source_local_single_function_types': 0})
             D.validate_baseline(json.loads(D.baseline_text(baseline)))
             D.write_outputs(root / 'out', report)
@@ -149,12 +150,13 @@ typedef struct V {
     union { s16 s; u16 u; } correct;
 } V;
 ''')
-            report = D.census(root)
+            report = D.census(root, macro_casts=True)
             self.assertEqual(report['by_class']['sign_views'], 6)
             self.assertEqual(report['sign_views_report']['s_u'], 2)
             self.assertEqual(report['sign_views_report']['as_signedness'], 1)
             self.assertEqual(report['sign_views_report']['other_width_views'], 3)
             self.assertEqual(report['signedness_unions_report']['count'], 2)
+            self.assertEqual(report['union_definitions_report']['count'], 3)
             self.assertEqual({r['site'] for r in report['bad_label_unions']},
                              {'include/views.h::inverted#1', 'include/views.h::repeated#1'})
             baseline = D.baseline_record(report)
@@ -163,6 +165,10 @@ typedef struct V {
                               '    union { u16 s; s16 u; } newly_bad;\n} V;'))
             changed = D.census(root)
             self.assertTrue(any('newly_bad' in p for p in D.check_baseline(changed, baseline)))
+            self.assertTrue(any('signedness_unions 3 > baseline 2' in p
+                                for p in D.check_baseline(changed, baseline)))
+            self.assertTrue(any('unions_total 4 > baseline 3' in p
+                                for p in D.check_baseline(changed, baseline)))
 
     def test_relabelling_retires_a_known_bad_site(self):
         text = 'typedef struct V { union { u16 s; s16 u; } field; } V;'
@@ -175,6 +181,20 @@ typedef struct V {
         text = 'union { u8 small[2]; u8 large[4]; } bytes;'
         _, bad = D.union_sites('include/test.h', text)
         self.assertEqual(bad, [])
+
+    def test_pointer_and_function_pointer_labels(self):
+        text = '''
+union { void *s; u8 *u; } data;
+union { void (*s)(); void (*handler)(); } callback;
+union { s16 *s; u16 *u; } signed_pointers;
+union { u8 *p; u32 *p2; } ribbon;
+'''
+        _, bad = D.union_sites('include/test.h', text)
+        self.assertEqual({row['site'] for row in bad},
+                         {'include/test.h::data#1', 'include/test.h::callback#1',
+                          'include/test.h::signed_pointers#1', 'include/test.h::ribbon#1'})
+        self.assertIn('pointer_s', bad[0]['reasons'])
+        self.assertIn('pointer_pun', bad[-1]['reasons'])
 
     def test_view_inventory_counts_aliases_and_function_users(self):
         with tempfile.TemporaryDirectory() as td:

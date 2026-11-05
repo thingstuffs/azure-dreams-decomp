@@ -12,30 +12,8 @@
 #include "dungeon/monster/weadog.h"
 
 #define U8_AT(p, o)  (*(u8 *)((u8 *)(p) + (o)))
-#define S16_AT(p, o) (*(s16 *)((u8 *)(p) + (o)))
 
-typedef struct {
-    u8 bytes[32];
-} __attribute__((packed)) Copy32;
-
-typedef struct {
-    u8 pad_00[0x34];
-    s16 heading;
-    u8 pad_36[0x0A];
-    ActorRecord *owner;
-    u8 pad_44[0x18];
-    s8 target_x;
-    s8 target_y;
-    u8 pad_5E[0x0E];
-    s32 velocity_x;
-    s32 velocity_y;
-    s32 velocity_z;
-    u8 pad_78[0x08];
-    s32 gravity;
-} WeadogFlightBody; /* allocate_flagged_object_node(0x12) -> weadog_object_callback */
-
-
-extern Copy32 weadog_slot_g_direction_steps;
+extern GridPoint weadog_slot_g_direction_steps[8];
 extern u8 D_80077C50[];
 extern u8 weadog_object_callback[];
 extern s32 weadog_action_resume_address;
@@ -48,7 +26,7 @@ extern u8 D_80174F18[];
 
 /* Spawns a moving actor and advances the action through animation and recovery. */
 void spawn_moving_actor(ActorRecord *action_work, ObjectPosition *position, SpriteFrameState *sprite, ActorRecord *actor) {
-    Copy32 direction_vectors = weadog_slot_g_direction_steps;
+    GridPoint direction_vectors[8];
     s32 state;
     u16 timer;
     u16 flags;
@@ -62,6 +40,7 @@ void spawn_moving_actor(ActorRecord *action_work, ObjectPosition *position, Spri
     s16 direction_y;
     s32 tile_coord;
 
+    __builtin_memcpy(direction_vectors, weadog_slot_g_direction_steps, sizeof(direction_vectors));
     state = action_work->action_phase.u;
     switch (state) {
     case 0:
@@ -98,13 +77,13 @@ void spawn_moving_actor(ActorRecord *action_work, ObjectPosition *position, Spri
                 spawned_pos->z.w.i = position->z.unsigned_parts.integer - 0x20;
                 direction_ptr = &direction_vectors;
                 direction_index = ((u16)actor->facing >> 7) & 0x1C;
-                spawned_work->velocity_x = S16_AT(direction_ptr, direction_index) << 0x13;
+                spawned_work->velocity_x = direction_vectors[direction_index >> 2].unk_00.x << 0x13;
                 direction_index = ((u16)actor->facing >> 7) & 0x1C;
                 spawned_work->velocity_y =
                     (*(u16 *)(direction_index + (u8 *)direction_ptr + 2)) << 0x13;
                 spawned_work->velocity_z = 0xFFF20000;
                 spawned_work->gravity = 0x14900;
-                spawned_work->heading = ((u16)actor->facing >> 9) & 7;
+                spawned_work->direction = ((u16)actor->facing >> 9) & 7;
                 spawned_sprite = spawned_actor->sprite;
                 spawned_sprite->scale_y = 0x1000;
                 spawned_sprite->scale_x = 0x1000;
@@ -117,9 +96,9 @@ void spawn_moving_actor(ActorRecord *action_work, ObjectPosition *position, Spri
                 if (tile_coord < 0) {
                     tile_coord += 0x3F;
                 }
-                spawned_work->target_x = tile_coord >> 6;
+                spawned_work->spawner_tile_x = tile_coord >> 6;
                 tile_coord = position->y.w.i;
-                spawned_work->target_y = (tile_coord / 64);
+                spawned_work->spawner_tile_y = (tile_coord / 64);
                 spawned_sprite->color.c.b = 0x80;
                 spawned_sprite->color.c.g = 0x80;
                 spawned_sprite->color.c.r = 0x80;

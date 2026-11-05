@@ -254,47 +254,47 @@ void start_channel_note(u8 channel_id, s16 note, u8 velocity)
                         }
                     }
                 }
-                if (channel->f50 != 0) {
+                if (channel->portamento_time != 0) {
                     glide_note = channel->f5C & 0x7F;
                     start_note = (u8) glide_note;
                     prev_note = channel->f5C;
-                    channel->f52 = 0;
+                    channel->portamento_offset = 0;
                     if (prev_note < note_key) {
-                        channel->f56 = ((note & 0xFF) - channel->f5C) << 7;
-                        channel->f58 = 1;
-                        channel->f54 = (channel->f56 * 4) / channel->f50;
+                        channel->portamento_span = ((note & 0xFF) - channel->f5C) << 7;
+                        channel->portamento_rising = 1;
+                        channel->portamento_step = (channel->portamento_span * 4) / channel->portamento_time;
                     } else if (prev_note == note_key) {
-                        channel->f54 = 0;
+                        channel->portamento_step = 0;
                         start_note = (u8) note;
                     } else {
-                        channel->f56 = (channel->f5C - (note & 0xFF)) << 7;
-                        channel->f58 = 0;
-                        channel->f54 = (channel->f56 * 4) / channel->f50;
+                        channel->portamento_span = (channel->f5C - (note & 0xFF)) << 7;
+                        channel->portamento_rising = 0;
+                        channel->portamento_step = (channel->portamento_span * 4) / channel->portamento_time;
                     }
                 } else {
-                    channel->f52 = 0;
+                    channel->portamento_offset = 0;
                 }
             } else {
-                if (channel->f50 != 0) {
+                if (channel->portamento_time != 0) {
                     u32 previous_note;
                     glide_note = channel->f5C & 0x7F;
                     start_note = (u8) glide_note;
                     previous_note = channel->f5C;
-                    channel->f52 = 0;
+                    channel->portamento_offset = 0;
                     if (previous_note < note_key) {
-                        channel->f56 = ((note & 0xFF) - channel->f5C) << 7;
-                        channel->f58 = 1;
-                        channel->f54 = (channel->f56 * 4) / channel->f50;
+                        channel->portamento_span = ((note & 0xFF) - channel->f5C) << 7;
+                        channel->portamento_rising = 1;
+                        channel->portamento_step = (channel->portamento_span * 4) / channel->portamento_time;
                     } else if (previous_note == note_key) {
-                        channel->f54 = 0;
+                        channel->portamento_step = 0;
                         start_note = (u8) note;
                     } else {
-                        channel->f56 = (channel->f5C - (note & 0xFF)) << 7;
-                        channel->f58 = 0;
-                        channel->f54 = (channel->f56 * 4) / channel->f50;
+                        channel->portamento_span = (channel->f5C - (note & 0xFF)) << 7;
+                        channel->portamento_rising = 0;
+                        channel->portamento_step = (channel->portamento_span * 4) / channel->portamento_time;
                     }
                 } else {
-                    channel->f52 = 0;
+                    channel->portamento_offset = 0;
                 }
             }
             if (voice_idx == -1) {
@@ -398,7 +398,7 @@ void start_channel_note(u8 channel_id, s16 note, u8 velocity)
                 voice->f0C = start_note & 0x7F;
                 voice->f06 = channel_key;
                 voice->f1A = 1;
-                channel->f3A = 0;
+                channel->vibrato_offset = 0;
                 voice->f14 = program->f01;
                 voice->f16 = program->f04;
                 voice->f15 = tone->f02;
@@ -437,7 +437,7 @@ void start_channel_note(u8 channel_id, s16 note, u8 velocity)
                 voice->f70 = -1;
                 if (channel->f28 < 0x40) {
                     s32 semitone;
-                    s16 pitch = voice->f3C + (channel->f3A + channel->f52);
+                    s16 pitch = voice->f3C + ((u16)channel->vibrato_offset + channel->portamento_offset);
                     pitch = pitch + ((voice->f0C << 7) + audio_compute_pitch_bend_offset(voice, channel->f1C));
                     semitone = ((s32)(pitch << 16)) >> 23;
                     pitch = (pitch & 0x7F) + (semitone << 8);

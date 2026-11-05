@@ -397,9 +397,9 @@ void advance_target_chasing_emitter(void *object, S_800244BC_2 *position, Sprite
                     effect_data->unk_40 = GetTPage(0, 1, 0x2C0, 0x100);
                     effect_data->unk_38 = 0x404040;
                     memcpy((u8 *) effect + 0x24, (u8 *) object + 0xC, 8);
-                    effect_data->point_slots[4].x.u = (u16) position->unk_00.at02.v;
-                    effect_data->point_slots[4].y.u = (u16) position->unk_04.at02.v;
-                    effect_data->point_slots[4].z.u = (u16) position->unk_08.at02.v;
+                    effect_data->point_slots[4].x = (u16) position->unk_00.at02.v;
+                    effect_data->point_slots[4].y = (u16) position->unk_04.at02.v;
+                    effect_data->point_slots[4].z = (u16) position->unk_08.at02.v;
                     effect_data->unk_00 = ((JitteredPointSequenceBody *)object)->unk_00;
                 }
                 effects_left -= 1;
@@ -681,17 +681,17 @@ void update_randomized_intermediate_points(IntermediatePointEffectBody *self)
     linked_object = self->unk_00;
     linked_object->unk_52 |= 0x8000;
 
-    point_step[0] = (self->point_slots[4].x.s - self->point_slots[0].x.s) >> 2;
-    point_step[1] = (self->point_slots[4].y.s - self->point_slots[0].y.s) >> 2;
-    point_step[2] = (self->point_slots[4].z.s - self->point_slots[0].z.s) >> 2;
+    point_step[0] = (self->point_slots[4].x - self->point_slots[0].x) >> 2;
+    point_step[1] = (self->point_slots[4].y - self->point_slots[0].y) >> 2;
+    point_step[2] = (self->point_slots[4].z - self->point_slots[0].z) >> 2;
     point_index = 1;
 
     do {
-        self->point_slots[point_index].x.s = self->point_slots[0].x.u + point_step[0] * point_index
+        self->point_slots[point_index].x = (u16)self->point_slots[0].x + point_step[0] * point_index
         + (rand() & 0x3F) - 0x20;
-        self->point_slots[point_index].y.s = self->point_slots[0].y.u + point_step[1] * point_index
+        self->point_slots[point_index].y = (u16)self->point_slots[0].y + point_step[1] * point_index
         + (rand() & 0x3F) - 0x20;
-        self->point_slots[point_index].z.s = self->point_slots[0].z.u + point_step[2] * point_index
+        self->point_slots[point_index].z = (u16)self->point_slots[0].z + point_step[2] * point_index
         - (rand() & 0x3F);
         point_index++;
     } while (point_index < 4);

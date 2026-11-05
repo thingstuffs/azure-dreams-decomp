@@ -263,7 +263,7 @@ void emit_attached_directional_particle_chain(AttachedParticleChainSpellBody *ef
                 spawn_sprite->scale_x = 0x1000;
                 if ((s16) effect->unk_84.u == 1) {
                     effect->unk_90 = node;
-                    effect->unk_94.s = spawn_position;
+                    effect->unk_94 = spawn_position;
                     effect->unk_88 = 0x63;
                 }
             }
@@ -271,7 +271,7 @@ void emit_attached_directional_particle_chain(AttachedParticleChainSpellBody *ef
         if (effect->unk_88 == 0x63) {
 
             node = effect->unk_90;
-            spawn_position = effect->unk_94.s;
+            spawn_position = effect->unk_94;
             if (node->flags & 0x8000) {
                 effect->unk_88 = 0;
             } else {
@@ -294,7 +294,7 @@ void emit_attached_directional_particle_chain(AttachedParticleChainSpellBody *ef
         if (effect->unk_88 == 0x63) {
 
             node = effect->unk_90;
-            spawn_position = effect->unk_94.s;
+            spawn_position = effect->unk_94;
             if (node->flags & 0x8000) {
                 effect->unk_88 = 0;
             } else {

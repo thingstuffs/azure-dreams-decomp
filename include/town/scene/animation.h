@@ -46,8 +46,8 @@ typedef struct CollectionCenterControlBody {
     /* 0x64 */ u8 pad_64[0x8];
     /* 0x6C */ s32 unk_6C;
     /* 0x70 */ s16 unk_70;
-    /* 0x72 */ union { s16 s; u16 u; } unk_72;
-    /* 0x74 */ union { s16 s; u16 u; } unk_74;
+    /* 0x72 */ s16 unk_72;
+    /* 0x74 */ s16 unk_74;
 } CollectionCenterControlBody;
 
 /* Callback entry points. */

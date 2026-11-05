@@ -4,10 +4,10 @@
 
 typedef struct S_800251F0_0 {
     u8 pad_00[0x2];
-    union { u16 u; s16 s; } unk_02;   /* accessed as both */
+    u16 unk_02;
     u8 pad_04[0x6];
     u16 unk_0A;
-    union { u16 u; s16 s; } unk_0C;   /* accessed as both */
+    s16 unk_0C;
     u8 pad_0E[0x10];
     u16 unk_1E;
     u8 pad_20[0x8];
@@ -37,21 +37,21 @@ void advance_object_counters_animation_values_flag_expiration(void *object_ptr)
     s32 value_index;
 
     object_bytes = object_ptr;
-    remaining_ticks = ((S_800251F0_0 *)object_bytes)->unk_02.u;
+    remaining_ticks = ((S_800251F0_0 *)object_bytes)->unk_02;
     ((S_800251F0_1 *)D_80020000)->unk_6428 = 1;
-    ((S_800251F0_0 *)object_bytes)->unk_02.u = remaining_ticks - 1;
+    ((S_800251F0_0 *)object_bytes)->unk_02 = remaining_ticks - 1;
     ((S_800251F0_0 *)object_bytes)->unk_8C += 200;
     ((S_800251F0_0 *)object_bytes)->unk_0A++;
     if ((s16)((S_800251F0_0 *)object_bytes)->unk_0A >= 2) {
         ((S_800251F0_0 *)object_bytes)->unk_0A = 0;
-        ((S_800251F0_0 *)object_bytes)->unk_0C.u++;
+        ((S_800251F0_0 *)object_bytes)->unk_0C = (u16)(((S_800251F0_0 *)object_bytes)->unk_0C + 1);
     }
-    if (((S_800251F0_0 *)object_bytes)->unk_0C.s >= 33) {
-        ((S_800251F0_0 *)object_bytes)->unk_0C.s = 32;
+    if (((S_800251F0_0 *)object_bytes)->unk_0C >= 33) {
+        ((S_800251F0_0 *)object_bytes)->unk_0C = 32;
     }
 
     value_index = 0;
-    while (value_index < ((S_800251F0_0 *)object_bytes)->unk_0C.s) {
+    while (value_index < ((S_800251F0_0 *)object_bytes)->unk_0C) {
         u8 *value_base;
 
         value_base = object_bytes + value_index;
@@ -86,7 +86,7 @@ void advance_object_counters_animation_values_flag_expiration(void *object_ptr)
         }
     }
 
-    if (((S_800251F0_0 *)object_bytes)->unk_02.s <= 0) {
+    if ((s16)((S_800251F0_0 *)object_bytes)->unk_02 <= 0) {
         (*(u16 *)(object_bytes + -2)) |= NODE_REMOVE;
         object_flag_block.flags |= OBJECT_REMOVE_PENDING;
     }

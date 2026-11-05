@@ -1,5 +1,6 @@
 #include "common.h"
 #include "shared/game_work.h"
+#include "engine/graphics/sprite_scratch.h"
 #include "engine/graphics.h"
 #include "sdk/libgpu.h"
 #include "sdk/libgte.h"
@@ -16,7 +17,7 @@ extern void RotTransSV(void *in, void *out, void *flag);
 /* Draw the sprite list as textured quads with optional horizontal and vertical flips. */
 void draw_sprite_list(void)
 {
-    u8 *scratch;
+    SpriteQuadScratch *scratch;
     u8 *packet;
     u8 *sprite_data;
     u8 *prim;
@@ -33,22 +34,22 @@ void draw_sprite_list(void)
 
     transform_flag = (u8 *)0x1F800094;
     context = g_game_work.draw_buffer;
-    scratch = (u8 *)0x1F800000;
+    scratch = (SpriteQuadScratch *)0x1F800000;
     prim = *(u8 **)(context + 0x8D0);
     contexts = (u8 **)((void * *)(&g_game_work));
-    U32_AT(scratch, 0x48) = 0;
-    U16_AT(scratch, 0x8C) = 0;
-    U16_AT(scratch, 0x84) = 0;
-    U16_AT(scratch, 0x7C) = 0;
-    U16_AT(scratch, 0x74) = 0;
+    scratch->translation_z = 0;
+    scratch->vertices[3].z = 0;
+    scratch->vertices[2].z = 0;
+    scratch->vertices[1].z = 0;
+    scratch->vertices[0].z = 0;
     PushMatrix();
 
     sprite = scene_sprite_draw_list;
-    U32_AT(scratch, 0x40) = 0x100;
-    U32_AT(scratch, 0x44) = 0xB0;
-    U16_AT(scratch, 0x28) = 0;
-    U16_AT(scratch, 0x2A) = 0;
-    U16_AT(scratch, 0x2C) = 0;
+    scratch->translation_x = 0x100;
+    scratch->translation_y = 0xB0;
+    scratch->rotation_x = 0;
+    scratch->rotation_y = 0;
+    scratch->rotation_z = 0;
     TransMatrix((void *)0x1F800050, (void *)0x1F800040);
     RotMatrix((void *)0x1F800028, (void *)0x1F800050);
     SetRotMatrix((void *)0x1F800050);
@@ -56,77 +57,77 @@ void draw_sprite_list(void)
 
     do {
         tex_start = U8_AT((sprite + 4), 4);
-        U32_AT(scratch, 0x08) = tex_start;
+        scratch->uv_u_start = tex_start;
         tex_size = U8_AT((sprite + 4), 6);
-        U32_AT(scratch, 0x10) = tex_size;
+        scratch->uv_u_extent = tex_size;
         if (tex_start + tex_size >= 0x100) {
-            U32_AT(scratch, 0x10) = tex_size - 1;
+            scratch->uv_u_extent = tex_size - 1;
         }
 
         tex_start = U8_AT((sprite + 4), 5);
-        U32_AT(scratch, 0x0C) = tex_start;
+        scratch->uv_v_start = tex_start;
         tex_size = U8_AT((sprite + 4), 7);
-        U32_AT(scratch, 0x14) = tex_size;
+        scratch->uv_v_extent = tex_size;
         if (tex_start + tex_size >= 0x100) {
-            U32_AT(scratch, 0x14) = tex_size - 1;
+            scratch->uv_v_extent = tex_size - 1;
         }
 
         if (sprite[0] & 1) {
             s16 x_start;
             x_start = -S8_AT((sprite + 4), -2);
-            width = U16_AT(scratch, 0x10);
-            S16_AT(scratch, 0x80) = x_start;
-            S16_AT(scratch, 0x70) = x_start;
+            width = (u16)scratch->uv_u_extent;
+            scratch->vertices[2].x = x_start;
+            scratch->vertices[0].x = x_start;
             x_end = x_start - width;
-            S16_AT(scratch, 0x88) = x_end;
-            S16_AT(scratch, 0x78) = x_end;
+            scratch->vertices[3].x = x_end;
+            scratch->vertices[1].x = x_end;
         } else {
             s16 x_start;
             x_start = S8_AT((sprite + 4), -2);
-            width = U16_AT(scratch, 0x10);
-            S16_AT(scratch, 0x80) = x_start;
-            S16_AT(scratch, 0x70) = x_start;
+            width = (u16)scratch->uv_u_extent;
+            scratch->vertices[2].x = x_start;
+            scratch->vertices[0].x = x_start;
             x_end = x_start + width;
-            S16_AT(scratch, 0x88) = x_end;
-            S16_AT(scratch, 0x78) = x_end;
+            scratch->vertices[3].x = x_end;
+            scratch->vertices[1].x = x_end;
         }
 
         if (sprite[0] & 2) {
             s16 y_start;
             y_start = -S8_AT((sprite + 4), -1);
-            height = U16_AT(scratch, 0x14);
-            S16_AT(scratch, 0x7A) = y_start;
-            S16_AT(scratch, 0x72) = y_start;
+            height = (u16)scratch->uv_v_extent;
+            scratch->vertices[1].y = y_start;
+            scratch->vertices[0].y = y_start;
             y_end = y_start - height;
-            S16_AT(scratch, 0x8A) = y_end;
-            S16_AT(scratch, 0x82) = y_end;
+            scratch->vertices[3].y = y_end;
+            scratch->vertices[2].y = y_end;
         } else {
             s16 y_start;
             y_start = S8_AT((sprite + 4), -1);
-            height = U16_AT(scratch, 0x14);
-            S16_AT(scratch, 0x7A) = y_start;
-            S16_AT(scratch, 0x72) = y_start;
+            height = (u16)scratch->uv_v_extent;
+            scratch->vertices[1].y = y_start;
+            scratch->vertices[0].y = y_start;
             y_end = y_start + height;
-            S16_AT(scratch, 0x8A) = y_end;
-            S16_AT(scratch, 0x82) = y_end;
+            scratch->vertices[3].y = y_end;
+            scratch->vertices[2].y = y_end;
         }
 
-        RotTransSV(scratch + 0x70, prim + 0x08, transform_flag);
-        RotTransSV(scratch + 0x78, prim + 0x10, transform_flag);
-        RotTransSV(scratch + 0x80, prim + 0x18, transform_flag);
-        RotTransSV(scratch + 0x88, prim + 0x20, transform_flag);
+        RotTransSV(&scratch->vertices[0], prim + 0x08, transform_flag);
+        RotTransSV(&scratch->vertices[1], prim + 0x10, transform_flag);
+        RotTransSV(&scratch->vertices[2], prim + 0x18, transform_flag);
+        RotTransSV(&scratch->vertices[3], prim + 0x20, transform_flag);
 
-        U32_AT(scratch, 0x10) += U32_AT(scratch, 0x08);
-        U32_AT(scratch, 0x14) =
-            (U32_AT(scratch, 0x14) + U32_AT(scratch, 0x0C)) << 8;
-        U32_AT(scratch, 0x0C) <<= 8;
+        scratch->uv_u_extent += scratch->uv_u_start;
+        scratch->uv_v_extent =
+            (scratch->uv_v_extent + scratch->uv_v_start) << 8;
+        scratch->uv_v_start <<= 8;
 
         U16_AT((prim + 4), 0x0A) = U16_AT((sprite + 4), 2);
-        S16_AT((prim + 4), 0x08) = U16_AT(scratch, 0x0C) + U16_AT(scratch, 0x08);
-        S16_AT((prim + 4), 0x10) = U16_AT(scratch, 0x0C) + U16_AT(scratch, 0x10);
+        S16_AT((prim + 4), 0x08) = (u16)scratch->uv_v_start + (u16)scratch->uv_u_start;
+        S16_AT((prim + 4), 0x10) = (u16)scratch->uv_v_start + (u16)scratch->uv_u_extent;
         U16_AT((prim + 4), 0x12) = U16_AT((sprite + 4), 0);
-        S16_AT((prim + 4), 0x18) = U16_AT(scratch, 0x14) + U16_AT(scratch, 0x08);
-        S16_AT((prim + 4), 0x20) = U16_AT(scratch, 0x14) + U16_AT(scratch, 0x10);
+        S16_AT((prim + 4), 0x18) = (u16)scratch->uv_v_extent + (u16)scratch->uv_u_start;
+        S16_AT((prim + 4), 0x20) = (u16)scratch->uv_v_extent + (u16)scratch->uv_u_extent;
 
         if (S16_AT((prim + 4), 0x04) > S16_AT((prim + 4), 0x1C)) {
             u8 u_end = U8_AT((prim + 4), 0x20);

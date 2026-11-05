@@ -12,7 +12,7 @@ typedef struct ShuffledSpriteClearBody {
     u16 unk_0C;
     u8 pad_0E[0x1E];
     void *unk_2C;
-    union { void * s; u8 * u; } unk_30;   /* accessed as both */
+    u8 *unk_30;
     void * unk_34;
 } ShuffledSpriteClearBody;
 

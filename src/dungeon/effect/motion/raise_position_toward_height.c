@@ -352,9 +352,9 @@ void advance_the_animation_draws_rectangles_in_randomized_order(ShuffledSpriteCl
     case 0:
         center.x = rect.x + ((s16)rect.w >> 1);
         center.y = rect.y + 0x48;
-        draw_transformed_sprite_with_clip_rect(effect->unk_30.s, &rect, &center, 1, 1);
+        draw_transformed_sprite_with_clip_rect(effect->unk_30, &rect, &center, 1, 1);
 
-        model = effect->unk_30.u;
+        model = effect->unk_30;
         source_position = *(s32 **)(model - 0x18);
         position[0] = source_position[0];
         position[1] = source_position[1];
@@ -890,7 +890,7 @@ void update_a_moving_effect_target_animation_cleanup_state(S_func_8190B2D0_0 *ef
                 child_object = motion_or_child;
                 child_data = ((ShuffledSpriteClearBody *)((u8 *)motion_or_child + 32));
                 child_data->unk_2C = owner;
-                child_data->unk_30.s = owner->unk_60;
+                child_data->unk_30 = owner->unk_60;
                 child_data->unk_34 = effect;
                 motion_or_child->unk_10.ptr = advance_the_animation_draws_rectangles_in_randomized_order;
                 register_node(child_object, project_sprite_chain);

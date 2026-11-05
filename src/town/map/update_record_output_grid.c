@@ -7,7 +7,7 @@
 
 typedef struct S_800BDE7C_0 {
     u8 pad_00[0x68];
-    union { s16 s; u16 u; } unk_68;   /* accessed as both */
+    u16 unk_68;
     u8 pad_6A[0x36];
     s32 * unk_A0;
 } S_800BDE7C_0;   /* arg0 in update_record_output_grid */
@@ -26,7 +26,7 @@ void update_record_output_grid(S_800BDE7C_0 *record, s32 unused_value, TownGridO
     S_800BDE7C_0 *saved_record = record;
     TownGridOutputView *saved_output = output;
 
-    state = record->unk_68.s;
+    state = (s16)record->unk_68;
     source = record->unk_A0;
 
     switch (state) {
@@ -38,12 +38,12 @@ void update_record_output_grid(S_800BDE7C_0 *record, s32 unused_value, TownGridO
             return;
         }
         output->unk_08 = source[1];
-        record->unk_68.u = record->unk_68.u + 1;
+        record->unk_68 = record->unk_68 + 1;
         return;
     case 1:
     case 3:
         if ((service_script_controller() == 0) || (check_transform_identifier_and_hook(record) == 0)) {
-            record->unk_68.u = (record->unk_68.u + 1) & 3;
+            record->unk_68 = (record->unk_68 + 1) & 3;
         }
         return;
     case 2:
@@ -54,7 +54,7 @@ void update_record_output_grid(S_800BDE7C_0 *record, s32 unused_value, TownGridO
             return;
         }
         output->unk_08 = source[0];
-        record->unk_68.u = record->unk_68.u + 1;
+        record->unk_68 = record->unk_68 + 1;
         return;
     }
 }
