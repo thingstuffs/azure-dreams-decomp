@@ -4,8 +4,8 @@
 #include "town/minigame.h"
 
 typedef struct S_800232F4_0 {
-    union { s16 s; u16 u; } unk_00;   /* accessed as both */
-    union { s16 s; u16 u; } unk_02;   /* accessed as both */
+    u16 unk_00;
+    s16 unk_02;
     void * unk_04;
     u16 * unk_08;
     void * unk_0C;
@@ -27,7 +27,7 @@ void update_minigame_outbound_motion(void *object)
     register u16 step;
 
     obj = object;
-    state = obj->unk_00.s;
+    state = ((s16)obj->unk_00);
     owner = obj->unk_0C;
 
     switch (state) {
@@ -40,16 +40,16 @@ void update_minigame_outbound_motion(void *object)
     }
 
     if (obj->unk_16 < 120) {
-        obj->unk_02.s = -8;
+        obj->unk_02 = -8;
     } else {
-        obj->unk_02.s = 8;
+        obj->unk_02 = 8;
     }
-    obj->unk_00.u++;
+    obj->unk_00++;
         break;
 
     case 1:
-    obj->unk_16 += obj->unk_02.s;
-    obj->unk_16 += obj->unk_02.s >> 2;
+    obj->unk_16 += obj->unk_02;
+    obj->unk_16 += obj->unk_02 >> 2;
     if ((u16)(obj->unk_16 + 8) >= 249) {
         (*(u16 *)((u8 *)obj + -2)) |= NODE_REMOVE;
         object_flag_block.flags |= OBJECT_REMOVE_PENDING;

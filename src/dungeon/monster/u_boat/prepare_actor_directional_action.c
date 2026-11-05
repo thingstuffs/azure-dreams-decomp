@@ -22,7 +22,7 @@ typedef struct S_801717D0_0 {
     u8 pad_18[0x4];
     s32 unk_1C;
     u8 pad_20[0xA];
-    union { u16 u; s16 s; } unk_2A;   /* accessed as both */
+    s16 unk_2A;
     u8 pad_2C[0x1A];
     s16 unk_46;
     u8 pad_48[0x18];
@@ -40,7 +40,7 @@ typedef struct S_801717D0_2 {
 
 typedef struct S_801717D0_3 {
     u8 pad_00[0x98];
-    union { s32 s32; u16 u16; } unk_98;   /* accessed as both */
+    s32 unk_98;
     u8 pad_9C[0xA];
     u16 unk_A6;
 } S_801717D0_3;   /* player in prepare_actor_directional_action */
@@ -83,10 +83,10 @@ void prepare_actor_directional_action(ActorRecord *entity, ObjectPosition *actio
         }
 
         player = ((S_801717D0_3 *)dungeon_actor_ring_anchor);
-        if ((player->unk_98.s32 & 0x3000) == 0x2000 &&
+        if ((player->unk_98 & 0x3000) == 0x2000 &&
             player->unk_A6 != special_action) {
             player->unk_A6 = special_action;
-            player->unk_98.u16 |= 0x1000;
+            *(u16 *)&player->unk_98 |= 0x1000;
             g_dungeon_status.activity_counts.parts.pending_action_count++;
         } else {
             advance_status_timers(self);
@@ -113,7 +113,7 @@ void prepare_actor_directional_action(ActorRecord *entity, ObjectPosition *actio
             if (!(state_flags & 0x80000000)) {
                 state_flags |= 0x80000000;
                 ((S_801717D0_0 *)self)->unk_14 = state_flags;
-                ((S_801717D0_0 *)self)->unk_2A.u += (generate_random_value() & 7) << 9;
+                (*(u16 *)&((S_801717D0_0 *)self)->unk_2A) += (generate_random_value() & 7) << 9;
             }
         }
 
@@ -132,7 +132,7 @@ void prepare_actor_directional_action(ActorRecord *entity, ObjectPosition *actio
                     scan_actor_along_heading(self,
                                   action_sprite->tile_x,
                                   action_sprite->tile_y,
-                                  ((S_801717D0_0 *)self)->unk_2A.s,
+                                  ((S_801717D0_0 *)self)->unk_2A,
                                   action_entry->unk_13);
             }
         }
@@ -146,7 +146,7 @@ void prepare_actor_directional_action(ActorRecord *entity, ObjectPosition *actio
 
     if (frame_table != 0) {
         (action_sprite->frameTable) = frame_table;
-        selection_index = (g_game_work.view.camera_rotation.parts.viewAngle + ((S_801717D0_0 *)self)->unk_2A.s + 0x100) >> 9;
+        selection_index = (g_game_work.view.camera_rotation.parts.viewAngle + ((S_801717D0_0 *)self)->unk_2A + 0x100) >> 9;
         select_sprite_entry(action_sprite, frame_table[selection_index & 7], 0);
     }
 

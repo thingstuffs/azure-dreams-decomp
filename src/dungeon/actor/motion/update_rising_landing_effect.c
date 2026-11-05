@@ -29,10 +29,10 @@ typedef struct S_FUNC_8197C800_BODY_0 {
     void * unk_04;
     u8 unk_08;
     u8 unk_09;
-    union { s16 s; u16 u; } unk_0A;   /* accessed as both */
+    u16 unk_0A;
     u8 pad_0C[0x44];
-    union { u16 s; s16 u; } unk_50;   /* accessed as both */
-    union { s16 s; u16 u; } unk_52;   /* accessed as both */
+    u16 unk_50;
+    u16 unk_52;
 } S_FUNC_8197C800_BODY_0;   /* arg0 in update_directional_actor_effect */
 
 typedef struct S_FUNC_8197C800_BODY_2 {
@@ -214,11 +214,11 @@ void update_directional_actor_effect(void *input, void *output)
 
     s32 step;
 
-    timer = ((S_FUNC_8197C800_BODY_0 *)input)->unk_50.s;
+    timer = ((S_FUNC_8197C800_BODY_0 *)input)->unk_50;
     owner_data = ((S_FUNC_8197C800_BODY_0 *)input)->unk_00;
-    state = ((S_FUNC_8197C800_BODY_0 *)input)->unk_0A.s;
+    state = ((s16)((S_FUNC_8197C800_BODY_0 *)input)->unk_0A);
     timer -= 1;
-    ((S_FUNC_8197C800_BODY_0 *)input)->unk_50.s = timer;
+    ((S_FUNC_8197C800_BODY_0 *)input)->unk_50 = timer;
     owner = (S_FUNC_8197C800_BODY_3 *)((u8 *)owner_data - 0x20);
 
     switch (state) {
@@ -230,7 +230,7 @@ void update_directional_actor_effect(void *input, void *output)
         ((S_FUNC_8197C800_BODY_20 *)(owner->unk_08))->unk_04;
     ((S_FUNC_8197C800_BODY_2 *)output)->unk_08 =
         ((S_FUNC_8197C800_BODY_20 *)(owner->unk_08))->unk_08;
-    ((S_FUNC_8197C800_BODY_0 *)input)->unk_0A.u += 1;
+    ((S_FUNC_8197C800_BODY_0 *)input)->unk_0A += 1;
 
     case 1:
     if (!(((S_FUNC_8197C800_BODY_21 *)(((S_FUNC_8197C800_BODY_0 *)input)->unk_04))->unk_00 & 0x80)) {
@@ -238,7 +238,7 @@ void update_directional_actor_effect(void *input, void *output)
     }
 
     scene = primary_actor_record;
-    ((S_FUNC_8197C800_BODY_0 *)input)->unk_50.s = 10;
+    ((S_FUNC_8197C800_BODY_0 *)input)->unk_50 = 10;
     ((u16 *)&scene->unk_A4.value)[1] -= 1;
     scene->unk_A8.byte = ((S_FUNC_8197C800_BODY_0 *)input)->unk_08;
     particle = allocate_list_node(0x312, &scene_object_list_anchor.next);
@@ -285,13 +285,13 @@ void update_directional_actor_effect(void *input, void *output)
         ((S_FUNC_8197C800_BODY_5 *)particle)->unk_20 = input;
         ((S_FUNC_8197C800_BODY_10 *)particle_data)->unk_4C = 0;
     }
-    tail_state = ((S_FUNC_8197C800_BODY_0 *)input)->unk_0A.u + 1;
+    tail_state = ((S_FUNC_8197C800_BODY_0 *)input)->unk_0A + 1;
 
-    ((S_FUNC_8197C800_BODY_0 *)input)->unk_0A.u = tail_state;
+    ((S_FUNC_8197C800_BODY_0 *)input)->unk_0A = tail_state;
     return;
 
     case 2:
-    if (((S_FUNC_8197C800_BODY_0 *)input)->unk_50.u > 0) {
+    if (((s16)((S_FUNC_8197C800_BODY_0 *)input)->unk_50) > 0) {
         return;
     }
     result = read_sound_mode_blocking_status(4);
@@ -300,16 +300,16 @@ void update_directional_actor_effect(void *input, void *output)
     } else {
         play_sound_if_enabled(AUDIO_RESUME_CD);
     }
-    tail_state = ((S_FUNC_8197C800_BODY_0 *)input)->unk_0A.u;
+    tail_state = ((S_FUNC_8197C800_BODY_0 *)input)->unk_0A;
 
     tail_timer = 16;
-    ((S_FUNC_8197C800_BODY_0 *)input)->unk_50.s = tail_timer;
+    ((S_FUNC_8197C800_BODY_0 *)input)->unk_50 = tail_timer;
     tail_state += 1;
-    ((S_FUNC_8197C800_BODY_0 *)input)->unk_0A.u = tail_state;
+    ((S_FUNC_8197C800_BODY_0 *)input)->unk_0A = tail_state;
     return;
 
     case 3:
-    if (((S_FUNC_8197C800_BODY_0 *)input)->unk_50.u < 3) {
+    if (((s16)((S_FUNC_8197C800_BODY_0 *)input)->unk_50) < 3) {
         remaining = 1;
         height = (s16)sample_terrain_surface_height((u16)view_reference_entity.x.w.i, (u16)view_reference_entity.y.w.i, (s16)(view_reference_entity.z.w.i - 0x80));
         particle_script = (void *)move_sprite_until_animation_ends;
@@ -464,24 +464,24 @@ void update_directional_actor_effect(void *input, void *output)
             remaining -= 1;
         } while (remaining >= 0);
     }
-    if (((S_FUNC_8197C800_BODY_0 *)input)->unk_50.u > 0) {
+    if (((s16)((S_FUNC_8197C800_BODY_0 *)input)->unk_50) > 0) {
         return;
     }
     tail_timer = 32;
-    tail_state = ((S_FUNC_8197C800_BODY_0 *)input)->unk_0A.u;
+    tail_state = ((S_FUNC_8197C800_BODY_0 *)input)->unk_0A;
 store_timer:
-    ((S_FUNC_8197C800_BODY_0 *)input)->unk_50.s = tail_timer;
+    ((S_FUNC_8197C800_BODY_0 *)input)->unk_50 = tail_timer;
     tail_state += 1;
 store_state:
-    ((S_FUNC_8197C800_BODY_0 *)input)->unk_0A.u = tail_state;
+    ((S_FUNC_8197C800_BODY_0 *)input)->unk_0A = tail_state;
     return;
 
     case 4:
-    if (!(reference_tile_object.sprite_flags & 0x8000) && ((S_FUNC_8197C800_BODY_0 *)input)->unk_50.u >= 0) {
+    if (!(reference_tile_object.sprite_flags & 0x8000) && ((s16)((S_FUNC_8197C800_BODY_0 *)input)->unk_50) >= 0) {
         return;
     }
-    if (((S_FUNC_8197C800_BODY_0 *)input)->unk_52.s & 0x8000) {
-        ((S_FUNC_8197C800_BODY_0 *)input)->unk_52.u &= 0x7FFF;
+    if (((s16)((S_FUNC_8197C800_BODY_0 *)input)->unk_52) & 0x8000) {
+        ((S_FUNC_8197C800_BODY_0 *)input)->unk_52 &= 0x7FFF;
         return;
     }
     apply_attack_power_and_element_effects((primary_actor_record)->target, 8,

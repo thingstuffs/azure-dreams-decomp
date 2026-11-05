@@ -3,9 +3,9 @@
 #include "frontend/card/service.h"
 #include "main/data.h"
 #include "frontend/card/server_imports.h"
+#include "frontend/card.h"
 
 extern s32 func_8040153C(void);
-extern void card_dev_drain_sw_events(void);
 extern s32 dev_card_paths[];
 
 

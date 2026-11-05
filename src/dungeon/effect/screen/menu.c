@@ -19,6 +19,7 @@ struct ObjectPosition;
 #include "dungeon/effect.h"
 #include "dungeon/item.h"
 #include "dungeon/item/position.h"
+#include "dungeon/data.h"
 
 typedef struct {
     u8 pad0[3];
@@ -1371,7 +1372,6 @@ typedef struct EntityHdr {
 } EntityHdr;
 
 extern u8 menu_effect_sprite_entries[];
-extern s16 camera_depth_target[5];
 
 /* Creates and initializes a display object attached to the entity. */
 void *create_familiar_selection_marker(EntityHdr **entity_ref) {
@@ -1489,7 +1489,6 @@ typedef struct GlobalObj {
 
 extern s32 rsin(s32, ...);
 extern s32 rcos(s32, ...);
-extern s16 get_special_table_data_index(s32 dataAddress);
 extern s32 is_selectable_menu_target(ActorRecord *object);
 
 /* Updates entity selection, interpolates its position, and animates the rendered output. */
@@ -1768,7 +1767,6 @@ struct Work;
 struct Out;
 struct Render;
 extern void update_item_target_marker(struct Work *work, struct Out *out, struct Render *render_arg);
-extern s16 camera_depth_target[5];
 extern u8 D_800DF368[];
 
 typedef struct S_800BA074_0 {

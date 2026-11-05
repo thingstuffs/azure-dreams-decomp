@@ -17,8 +17,8 @@ void count_down_and_select_next_setup(TownObjectRecord *object, void *request_da
 
     if ((select_object_setup_path(object, request_data, request_param) == 0) &&
         ((state = get_smallest_signed_overlap_axis_amount_two_intersecting_boxes(object, &town_actor_control), (state == 0)) || (state->axis == 2)) &&
-        (ticks_left = object->timer.as_u16 - 1,
-         object->timer.as_u16 = ticks_left, ((ticks_left << 0x10) <= 0))) {
+        (ticks_left = object->timer - 1,
+         object->timer = ticks_left, ((ticks_left << 0x10) <= 0))) {
         if (scale_random_to_unsigned_halfword_limit(2) & 0xFFFF) {
             initialize_object_and_data_pointer(object, request_data, request_param);
             return;

@@ -24,13 +24,13 @@ typedef struct S_801670E0_0 {
     u8 pad_9A[0x1];
     u8 unk_9B;
     u8 pad_9C[0x2];
-    union { u16 s; s16 u; } unk_9E;   /* accessed as both */
+    u16 unk_9E;
     s32 unk_A0;
 } S_801670E0_0;   /* arg0 in advance_timed_hop_and_recover */
 
 typedef struct S_801670E0_1 {
     u8 pad_00[0x1C];
-    union { u32 s; s32 u; } unk_1C;   /* accessed as both */
+    u32 unk_1C;
     u8 pad_20[0xA];
     s16 unk_2A;
     u8 pad_2C[0x1A];
@@ -59,8 +59,8 @@ void advance_timed_hop_and_recover(void *motion_state, void *motion, SpriteFrame
     state = ((S_801670E0_0 *)motion_state)->unk_9B;
     switch (state) {
     case 0:
-        phase_ticks = ((S_801670E0_0 *)motion_state)->unk_9E.s - 1;
-        ((S_801670E0_0 *)motion_state)->unk_9E.s = phase_ticks;
+        phase_ticks = ((S_801670E0_0 *)motion_state)->unk_9E - 1;
+        ((S_801670E0_0 *)motion_state)->unk_9E = phase_ticks;
         if ((phase_ticks << 16) != 0) {
             break;
         }
@@ -71,13 +71,13 @@ void advance_timed_hop_and_recover(void *motion_state, void *motion, SpriteFrame
             D_80168ED0[((g_game_work.view.camera_rotation.parts.viewAngle + ((S_801670E0_1 *)actor)->unk_2A + 0x100) >> 9) & 7],
             0);
         ((S_801670E0_0 *)motion_state)->unk_98 |= 8;
-        ((S_801670E0_1 *)actor)->unk_1C.s &= 0xF7FFFFFF;
-        ((S_801670E0_0 *)motion_state)->unk_9E.u = 5;
+        ((S_801670E0_1 *)actor)->unk_1C &= 0xF7FFFFFF;
+        (*(s16 *)&((S_801670E0_0 *)motion_state)->unk_9E) = 5;
         ((S_801670E0_0 *)motion_state)->unk_A0 = 0;
         ((S_801670E0_0 *)motion_state)->unk_9B++;
 
     case 1:
-        hop_ticks = ((S_801670E0_0 *)motion_state)->unk_9E.u;
+        hop_ticks = ((s16)((S_801670E0_0 *)motion_state)->unk_9E);
         ((S_801670E0_0 *)motion_state)->unk_90 -= ((S_801670E0_0 *)motion_state)->unk_A0;
         if (hop_ticks != 0) {
             target_x = sprite->tile_x;
@@ -90,23 +90,23 @@ void advance_timed_hop_and_recover(void *motion_state, void *motion, SpriteFrame
             position_y -= 0x20;
             ((EntityRec *)motion)->unk_10 =
                 (((sprite->tile_y << 6) - position_y) << 16) /
-                ((S_801670E0_0 *)motion_state)->unk_9E.u;
+                ((s16)((S_801670E0_0 *)motion_state)->unk_9E);
             ((S_801670E0_0 *)motion_state)->unk_A0 =
-                (-rsin(((S_801670E0_0 *)motion_state)->unk_9E.u * 0x199)) << 10;
+                (-rsin(((s16)((S_801670E0_0 *)motion_state)->unk_9E) * 0x199)) << 10;
         }
 
         ((S_801670E0_0 *)motion_state)->unk_90 += ((S_801670E0_0 *)motion_state)->unk_A0;
-        phase_ticks = ((S_801670E0_0 *)motion_state)->unk_9E.s - 1;
-        ((S_801670E0_0 *)motion_state)->unk_9E.s = phase_ticks;
+        phase_ticks = ((S_801670E0_0 *)motion_state)->unk_9E - 1;
+        ((S_801670E0_0 *)motion_state)->unk_9E = phase_ticks;
         if (phase_ticks < 0) {
             ((S_801670E0_0 *)motion_state)->unk_90 = 0;
             ((S_801670E0_0 *)motion_state)->unk_98 &= 0xFFF7;
-            ((S_801670E0_1 *)actor)->unk_1C.s |= 0x08000000;
+            ((S_801670E0_1 *)actor)->unk_1C |= 0x08000000;
             ((S_801670E0_0 *)motion_state)->unk_9B++;
         }
 
     case 2:
-        if (((S_801670E0_1 *)actor)->unk_1C.s & 0x08000000) {
+        if (((S_801670E0_1 *)actor)->unk_1C & 0x08000000) {
             ((S_801670E0_0 *)motion_state)->unk_98 &= 0xFFF7;
             ((EntityRec *)motion)->flags14 = 0;
             ((EntityRec *)motion)->unk_10 = 0;
@@ -153,7 +153,7 @@ void advance_timed_hop_and_recover(void *motion_state, void *motion, SpriteFrame
         g_dungeon_status.activity_counts.parts.pending_movement_count--;
     }
 
-    actor_flags = ((S_801670E0_1 *)actor)->unk_1C.u;
+    actor_flags = ((s32)((S_801670E0_1 *)actor)->unk_1C);
     if (actor_flags & 0x2000) {
         if (((S_801670E0_1 *)actor)->unk_46 & 0x8000) {
             ((S_801670E0_1 *)actor)->unk_46 &= 0x7FFF;

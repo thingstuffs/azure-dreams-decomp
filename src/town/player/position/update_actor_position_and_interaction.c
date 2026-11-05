@@ -105,8 +105,8 @@ void update_actor_position_and_interaction(TownObjectRecord *actor, ObjectPositi
     }
 
     if (input_state->buttons & 0xF000) {
-        position = actor->unk_3E.as_u16 - 1;
-        actor->unk_3E.as_u16 = position;
+        position = ((u16)actor->unk_3E) - 1;
+        actor->unk_3E = position;
         play_periodic_sound(position, 0xC);
         store_the_valid_shared_angle_in_offset_hex_10(actor);
         handle_adjust_vector_toward_selected_angle_limit_magnitude(body);

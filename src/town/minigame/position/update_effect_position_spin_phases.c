@@ -14,7 +14,7 @@ typedef struct SpinContext {
     u8 pad_00[0x14];
     s32 unk_14;
     s16 state;
-    union { s16 s; u16 u; } angle;
+    u16 angle;
     u8 pad_1C[6];
     s16 kind;
     s16 sector;
@@ -34,7 +34,7 @@ typedef struct SpinPhaseWork {
     u8 pad_64[8];
     s32 unk_6C;
     s16 phase;
-    union { s16 s; u16 u; } phase_value;
+    u16 phase_value;
     u16 stop_ticks;
 } SpinPhaseWork;
 
@@ -151,20 +151,20 @@ void update_effect_position_spin_phases(SpinPhaseWork *state_arg, ObjectPosition
         break;
 
     case 1:
-        reduced_speed = (state_arg->phase_value.s + 16) >> 4;
-        value_accel = state_arg->phase_value.u + reduced_speed;
-        state_arg->phase_value.u = value_accel;
+        reduced_speed = (((s16)state_arg->phase_value) + 16) >> 4;
+        value_accel = state_arg->phase_value + reduced_speed;
+        state_arg->phase_value = value_accel;
         if ((s16)value_accel > speed_limit) {
-            state_arg->phase_value.u = speed_limit;
+            state_arg->phase_value = speed_limit;
             state_arg->phase = 2;
         }
-        effect_arg->angle_z += state_arg->phase_value.u;
+        effect_arg->angle_z += state_arg->phase_value;
         break;
 
     case 2:
         effect_arg->angle_z += speed_limit;
         if (distance >= 161 && view_reference_entity.y.v > 0x03600000 && spin_data->state == 5) {
-            state_arg->phase_value.s = speed_limit;
+            (*(s16 *)&state_arg->phase_value) = speed_limit;
             state_arg->phase = 3;
         }
         break;
@@ -189,7 +189,7 @@ void update_effect_position_spin_phases(SpinPhaseWork *state_arg, ObjectPosition
                 spin_data->sector = 2;
             }
         }
-        spin_data->angle.s = 0;
+        (*(s16 *)&spin_data->angle) = 0;
 
     case 4:
         if (spin_data->kind == 2) {
@@ -197,43 +197,43 @@ void update_effect_position_spin_phases(SpinPhaseWork *state_arg, ObjectPosition
         } else {
             dx = 5;
         }
-        value_decel = state_arg->phase_value.s >> dx;
-        reduced_speed = state_arg->phase_value.u - value_decel;
-        state_arg->phase_value.u = reduced_speed;
-        effect_arg->angle_z += state_arg->phase_value.u;
-        spin_data->angle.u += state_arg->phase_value.u;
-        if (state_arg->phase_value.s < (1 << dx)) {
+        value_decel = ((s16)state_arg->phase_value) >> dx;
+        reduced_speed = state_arg->phase_value - value_decel;
+        state_arg->phase_value = reduced_speed;
+        effect_arg->angle_z += state_arg->phase_value;
+        spin_data->angle += state_arg->phase_value;
+        if (((s16)state_arg->phase_value) < (1 << dx)) {
             state_arg->stop_ticks = 0;
             state_arg->phase = 5;
         }
         break;
 
     case 5:
-        effect_arg->angle_z += state_arg->phase_value.u;
-        spin_data->angle.u += state_arg->phase_value.u;
+        effect_arg->angle_z += state_arg->phase_value;
+        spin_data->angle += state_arg->phase_value;
         value_stop = state_arg->stop_ticks + 1;
         state_arg->stop_ticks = value_stop;
         if ((value_stop & 3) == 0) {
-            state_arg->phase_value.u -= 2;
+            state_arg->phase_value -= 2;
         }
-        if (state_arg->phase_value.s < 4) {
+        if (((s16)state_arg->phase_value) < 4) {
             state_arg->phase = 0;
         }
         break;
 
     case 6:
         state_arg->phase = 7;
-        state_arg->phase_value.s = 0;
+        (*(s16 *)&state_arg->phase_value) = 0;
 
     case 7:
         for (dx = 0; dx < 3; dx++) {
             point.x = 122 + dx * 16;
             point.y = 6;
-            icon_frame = (state_arg->phase_value.s >> 1) + dx;
+            icon_frame = (((s16)state_arg->phase_value) >> 1) + dx;
             LoadImage(&point, (void *)((icon_frame % 3) * 32 + D_800245DC));
         }
-        value_draw = state_arg->phase_value.u;
-        state_arg->phase_value.u = value_draw + 1;
+        value_draw = state_arg->phase_value;
+        state_arg->phase_value = value_draw + 1;
         if ((s16)value_draw >= 198) {
             state_arg->phase = 0;
         }

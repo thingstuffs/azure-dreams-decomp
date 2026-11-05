@@ -17,15 +17,15 @@ typedef struct S_8008D470_0 {
     u8 pad_94[0x8];
     s32 unk_9C;
     u8 pad_A0[0x2];
-    union { s16 s; u16 u; } unk_A2;   /* accessed as both */
-    union { u16 s; s16 u; } unk_A4;   /* accessed as both */
+    s16 unk_A2;
+    u16 unk_A4;
     u8 pad_A6[0x2];
-    union { u16 s; s16 u; } unk_A8;   /* accessed as both */
+    u16 unk_A8;
     s16 unk_AA;
     s16 unk_AC;
     s16 unk_AE;
     u8 pad_B0[0x4];
-    union { s16 s; u16 u; } unk_B4;   /* accessed as both */
+    u16 unk_B4;
 } S_8008D470_0;   /* arg0 in update_held_item_attachment */
 
 typedef struct S_8008D470_1 {
@@ -76,18 +76,18 @@ void update_held_item_attachment(void *effect, ObjectPosition *position, SpriteF
     SpriteFrameState *source_sprite;
     S_8008D470_5 *entity;
 
-    state = ((S_8008D470_0 *)effect)->unk_A2.s;
+    state = ((S_8008D470_0 *)effect)->unk_A2;
     position_updated = 0;
     switch (state) {
     case 0:
-        ((S_8008D470_0 *)effect)->unk_A4.s = 6;
-        ((S_8008D470_0 *)effect)->unk_A2.s = ((S_8008D470_0 *)effect)->unk_A2.u + 1;
+        ((S_8008D470_0 *)effect)->unk_A4 = 6;
+        ((S_8008D470_0 *)effect)->unk_A2 = ((u16)((S_8008D470_0 *)effect)->unk_A2) + 1;
     case 1:
         source_sprite = ((S_8008D470_0 *)effect)->unk_90;
         if (resolve_record_orientation_or_fallback(source_sprite->source, source_sprite, &offsets, 0) != 0 &&((PlayerRecord *)dungeon_actor_ring_anchor)->unk_124 != 0) {
             visual->scale_x = 0x1000;
-            steps_left = ((S_8008D470_0 *)effect)->unk_A4.s - 1;
-            ((S_8008D470_0 *)effect)->unk_A4.s = steps_left;
+            steps_left = ((S_8008D470_0 *)effect)->unk_A4 - 1;
+            ((S_8008D470_0 *)effect)->unk_A4 = steps_left;
             if ((s16)steps_left > 0) {
                 current_x = position->x.v;
                 position->x.v = current_x +
@@ -97,15 +97,15 @@ void update_held_item_attachment(void *effect, ObjectPosition *position, SpriteF
                 current_y = position->y.v;
                 position->y.v = current_y +
                     (((S_8008D470_6 *)(((S_8008D470_0 *)effect)->unk_8C))->unk_04.at00.v +
-                     (offsets.vy << 16) - current_y) / ((S_8008D470_0 *)effect)->unk_A4.u;
+                     (offsets.vy << 16) - current_y) / ((s16)((S_8008D470_0 *)effect)->unk_A4);
 
                 current_z = position->z.v;
                 position->z.v = current_z +
                     (((S_8008D470_6 *)(((S_8008D470_0 *)effect)->unk_8C))->unk_08.at00.v +
-                     (offsets.vz << 16) - (((S_8008D470_0 *)effect)->unk_A4.u << 21) - current_z) /
-                    ((S_8008D470_0 *)effect)->unk_A4.u;
+                     (offsets.vz << 16) - (((s16)((S_8008D470_0 *)effect)->unk_A4) << 21) - current_z) /
+                    ((s16)((S_8008D470_0 *)effect)->unk_A4);
             } else {
-                ((S_8008D470_0 *)effect)->unk_A4.s = 0;
+                ((S_8008D470_0 *)effect)->unk_A4 = 0;
                 position->x.unsigned_parts.integer = ((S_8008D470_6 *)(((S_8008D470_0 *)effect)->unk_8C))->unk_00.at02.v
                     + (u16)offsets.vx;
                 position->y.unsigned_parts.integer = ((S_8008D470_6 *)(((S_8008D470_0 *)effect)->unk_8C))->unk_04.at02.v
@@ -131,7 +131,7 @@ void update_held_item_attachment(void *effect, ObjectPosition *position, SpriteF
     }
 
     if (((S_8008D470_0 *)effect)->unk_AE != 0) {
-        brightness = (rsin(((S_8008D470_0 *)effect)->unk_B4.s << 8) >> 6) + 0x80;
+        brightness = (rsin(((s16)((S_8008D470_0 *)effect)->unk_B4) << 8) >> 6) + 0x80;
         intensity = visual->color.c.r;
         intensity += (brightness - intensity) >> 2;
         visual->color.c.r = intensity;
@@ -139,11 +139,11 @@ void update_held_item_attachment(void *effect, ObjectPosition *position, SpriteF
         visual->color.c.b = intensity;
     }
 
-    ((S_8008D470_0 *)effect)->unk_B4.u++;
-    ((S_8008D470_0 *)effect)->unk_A8.s--;
-    if (((S_8008D470_0 *)effect)->unk_A8.u <= 0) {
+    ((S_8008D470_0 *)effect)->unk_B4++;
+    ((S_8008D470_0 *)effect)->unk_A8--;
+    if (((s16)((S_8008D470_0 *)effect)->unk_A8) <= 0) {
         expiry_mode = ((S_8008D470_0 *)effect)->unk_AC;
-        ((S_8008D470_0 *)effect)->unk_A8.s = 0;
+        ((S_8008D470_0 *)effect)->unk_A8 = 0;
         if (expiry_mode == 1) {
             spawn_handle = create_indexed_floor_object(effect, position, visual, ((s32)primary_actor_record), ((S_8008D470_0 *)effect)->unk_9C,
                 -1);

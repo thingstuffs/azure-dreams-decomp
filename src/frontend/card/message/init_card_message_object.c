@@ -4,7 +4,7 @@
 #include "frontend/card/server_imports.h"
 
 void *forward_target(u8 *);
-s32 init_menu_entry_pointers(u8 *, s32);
+void init_menu_entry_pointers(u8 *, s32);
 void func_80402EBC(u8 *, s32, s32, s32, s32);
 s32 process_global(s32, u8 *);
 

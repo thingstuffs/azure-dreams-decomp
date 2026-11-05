@@ -4,6 +4,7 @@
 #include "dungeon/item.h"
 #include "dungeon/item/message.h"
 #include "dungeon/system.h"
+#include "dungeon/data.h"
 
 typedef struct DungeonState {
     u8 pad0[0xA];
@@ -12,7 +13,6 @@ typedef struct DungeonState {
 
 extern DungeonState D_80083460;
 extern u8 dungeon_event_pending_flag[];
-extern u8 familiar_defeat_text[];
 extern u8 D_800E0C78[];
 
 /* Conditionally advances the dungeon counter and processes the input through the result chain. */

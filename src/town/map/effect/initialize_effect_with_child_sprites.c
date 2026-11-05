@@ -67,9 +67,9 @@ void initialize_effect_with_child_sprites(TownObjectRecord *parent, ObjectPositi
 
     NODE_HEADER(parent)->update_callback = update_object_link_or_angle_state;
     angle_random = rand();
-    parent->unk_66.as_s16 = angle_random % 0x1000;
+    parent->unk_66 = angle_random % 0x1000;
     variation_random = rand();
-    initial_angle = parent->unk_66.as_s16;
+    initial_angle = parent->unk_66;
     parent->unk_97 = (variation_random % 9) + 12;
     if (initial_angle < 0) {
         initial_angle += 511;
@@ -109,7 +109,7 @@ void initialize_effect_with_child_sprites(TownObjectRecord *parent, ObjectPositi
             obj->y.v = position->y.v;
             angle = (s8)quadrant;
             if ((*(s8 *)(entity + 0x97)) == angle) {
-                angle = ((TownObjectRecord *)((*(void * *)(entity + 0x9C))))->unk_66.as_s16;
+                angle = ((TownObjectRecord *)((*(void * *)(entity + 0x9C))))->unk_66;
                 obj->z.v = -((rsin(((angle % 0x200) << 16) >> 15) >> 4) * 0x1E00);
                 (*(s16 *)(entity + 0x66)) = 0x1E;
             } else {
@@ -142,7 +142,7 @@ void initialize_effect_with_child_sprites(TownObjectRecord *parent, ObjectPositi
             sprite->color.c.r = brightness;
             sprite->angle_x = 0x370;
             sprite->angle_y = 0;
-            sprite_angle = parent->unk_66.as_u16;
+            sprite_angle = ((u16)parent->unk_66);
             scale = 0x1000;
             sprite->scale_y = scale;
             sprite->scale_x = scale;
@@ -178,7 +178,7 @@ void initialize_effect_with_child_sprites(TownObjectRecord *parent, ObjectPositi
         sprite->color.c.r = 0x80;
         sprite->angle_x = 0x370;
         sprite->angle_y = 0;
-        sprite_angle = parent->unk_66.as_u16;
+        sprite_angle = ((u16)parent->unk_66);
         scale = 0x1000;
         sprite->scale_y = scale;
         sprite->scale_x = scale;
@@ -206,7 +206,7 @@ void initialize_effect_with_child_sprites(TownObjectRecord *parent, ObjectPositi
         sprite->scale_x = 0x1000;
         sprite->scale_y = 0x1000;
         sprite->offset_x = 0x1000;
-        sprite->angle_z = parent->unk_66.as_u16;
+        sprite->angle_z = ((u16)parent->unk_66);
         palette_red = g_game_work.view.tint.parts.tint_r;
         sprite->color.c.r = palette_red;
         palette_green = g_game_work.view.tint.parts.tint_g;

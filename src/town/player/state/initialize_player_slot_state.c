@@ -16,6 +16,6 @@
 void initialize_player_slot_state(TownObjectRecord *record, void *ptr, void *ptr2) {
     call_the_handler_selects_nonzero_entry(record->handler_entries[5], record, ptr2);
     object_index_slots[record->unk_40].unk_00 = 0;
-    record->unk_04.as_pm = forward_player_motion_state;
-    record->unk_10.as_s16 = 0;
+    record->unk_04 = forward_player_motion_state;
+    record->unk_10 = 0;
 }

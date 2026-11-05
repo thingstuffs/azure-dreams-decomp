@@ -45,8 +45,8 @@ typedef struct EffectState {
 #define U16_AT(p, n) (*(u16 *)((u8 *)(p) + (n)))
 
 extern s32 check_layer_offset_height(s32, s32, s32, s32);
-extern void create_random_spin_effect(EffectState *, ObjectPosition *);
-extern void create_owner_tinted_effect(EffectState *, ObjectPosition *);
+extern s32 create_random_spin_effect(EffectState *, ObjectPosition *);
+extern void *create_owner_tinted_effect(EffectState *, ObjectPosition *);
 extern void interpolate_view_parameters(void *, u8, void *);
 
 

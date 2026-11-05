@@ -15,6 +15,7 @@
 #include "engine/town.h"
 #include "dungeon/effect.h"
 #include "dungeon/system.h"
+#include "dungeon/item.h"
 #define F(p,t,o) (*(t *)((u8 *)(p) + (o)))
 extern s32 get_entity_effect_value(void *entry, s32 effect_id);
 extern s32 entity_level_thresholds[];
@@ -73,7 +74,6 @@ s32 can_entity_gain_level(void *entity) {
 #include "shared/dungeon_status.h"
 
 extern void apply_entity_effects(void *entity); /* Slot contract: loading images do not establish one callee contract. */
-extern s32 display_text_with_fullwidth_adjustment(s8 *text);
 
 extern u8 species_base_stats[];
 extern u8 species_growth_table[];
@@ -430,8 +430,6 @@ loop_0:
 #include "shared/dungeon_status.h"
 
 #include "m2c_compat.h"
-
-extern s32 display_text_with_fullwidth_adjustment(s8 *text);
 
 extern u8 species_base_stats[];
 extern s32 entity_level_thresholds[];
@@ -906,7 +904,7 @@ void accumulate_experience_award(u8 *record, u16 amount)
 
 typedef struct S_800A2DB8_0 {
     u8 pad_00[0x6];
-    union { u16 u; s16 s; } unk_06;   /* accessed as both */
+    u16 unk_06;
     u8 pad_08[0x9];
     u8 unk_11;
     u8 pad_12[0x42];
@@ -956,7 +954,7 @@ s32 distribute_experience_awards(S_800A2DB8_0 *source)
         return experience;
     }
     if (initial_target->unk_13 >= 0) {
-        experience = source->unk_06.u;
+        experience = source->unk_06;
         if (initial_target->unk_54 & 0x20) {
             experience *= 2;
         }
@@ -1036,14 +1034,14 @@ s32 distribute_experience_awards(S_800A2DB8_0 *source)
             return award;
         }
 
-        experience = source->unk_06.u;
+        experience = source->unk_06;
         accumulate_experience_award(target, experience);
         final_target = source->unk_60;
         popup_code = 0x83;
         if (final_target->flags14 & ACTOR_CLASS_ENABLED) {
             popup_code = 0x82;
         }
-        create_actor_value_popup(popup_code, final_target, source->unk_06.s, 1);
+        create_actor_value_popup(popup_code, final_target, ((s16)source->unk_06), 1);
     }
     return experience;
 }
@@ -1052,7 +1050,6 @@ s32 distribute_experience_awards(S_800A2DB8_0 *source)
 #include "shared/entity.h"
 
 s32 distribute_experience_awards(struct S_800A2DB8_0 *source);                          /* extern */
-s32 display_text_with_fullwidth_adjustment(s8 *text);                         /* extern */
 extern void *monster_species_table;
 
 extern u8 D_800E09CD[12];
@@ -1248,7 +1245,6 @@ typedef struct S_800E3E48 S_800E3E48;
 extern S_800E3E48 familiar_record_storage[];
 extern s32 familiar_record_slots[];
 extern void clear_slots_of_type(void *, s32);
-extern void decrement_monster_entry_count(s16 requested_id, s16 requested_type);
 extern void mark_owned_linked_actor_actions(struct Entity *owner_entity);
 
 /* Detach a record from its slot, preserve its data, and update its count and state. */

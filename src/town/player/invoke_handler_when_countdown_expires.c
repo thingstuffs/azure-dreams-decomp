@@ -14,11 +14,11 @@ void invoke_handler_when_countdown_expires(TownObjectRecord *state, ObjectPositi
     s16 countdown;
 
     handle_resolves_movement_collisions_along_one_axis_using_boundary_probes_tile((update_ctx));
-    if (state->unk_0A.as_s16 == 0) {
+    if (state->unk_0A == 0) {
         call_the_handler_selects_nonzero_entry(D_800D00E0, state, handler_ctx);
     }
-    countdown = (u16) state->unk_0A.as_s16 - 1;
-    state->unk_0A.as_s16 = countdown;
+    countdown = (u16) state->unk_0A - 1;
+    state->unk_0A = countdown;
     if ((countdown << 0x10) <= 0) {
         init_actor_action_state(state, update_ctx, handler_ctx);
     }

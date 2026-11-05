@@ -28,6 +28,6 @@ void initialize_object_from_table_entry(TownObjectRecord *object, ObjectPosition
     object_index_slots[5].unk0 = 0;
     entry_value = object_index_slots[object->slot].unk2;
     object->handler = &person_bounce_handler_address;
-    object->unk_90.as_s16 = (s16) entry_value;
+    object->unk_90 = (s16) entry_value;
     state->velocity_z = 0xFFF60000;
 }

@@ -340,7 +340,7 @@ typedef struct S_800CC18C_0 {
 
 extern u8 D_800E1BDA[];
 extern s32 generate_random_value(void);
-extern s32 begin_actor_random_warp(void *, s32, s32, void *);
+extern void begin_actor_random_warp(void *, s32, s32, void *);
 
 /* Resolve a ranged random check, apply its effects, and return the outcome. */
 s32 resolve_random_trap_outcome(ActorRecord *entity, s32 forwarded_1, s32 forwarded_2, s32 forwarded_3) {
@@ -2287,8 +2287,6 @@ typedef struct S_800CE748_3 {
 } S_800CE748_3;   /* objectData in update_trap_effect_grid */
 
 void *get_unused_text_buffer(void);
-u8 *expand_text_control_codes(const u8 *src, u8 *dst);
-u8 *write_text_byte_and_advance(s8 value, u8 *dest);
 s32 display_text_with_fullwidth_adjustment(s8 *text);
 s32 generate_random_value(void);
 

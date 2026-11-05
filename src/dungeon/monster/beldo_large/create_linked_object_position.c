@@ -13,9 +13,9 @@
 
 typedef struct S_func_81339A5C_1 {
     u8 pad_00[2];
-    union { u16 u; s16 s; } unk_02;
+    u16 unk_02;
     u8 pad_04[2];
-    union { u16 u; s16 s; } unk_06;
+    u16 unk_06;
     u8 pad_08[2];
     u16 unk_0A;
     u8 pad_0C[10];
@@ -54,14 +54,14 @@ void create_linked_object_position(void)
             (u16)(render_flags->flags & 0xFFF3);
         object_data->source_data = source_data;
         object_pos = object->position;
-        object_pos->unk_02.u = (u16)source_pos->x.w.i;
-        object_pos->unk_06.u = (u16)source_pos->y.w.i;
+        object_pos->unk_02 = (u16)source_pos->x.w.i;
+        object_pos->unk_06 = (u16)source_pos->y.w.i;
         object_pos->unk_0A =
             source_pos->z.unsigned_parts.integer;
         source_z = source_pos->z.unsigned_parts.integer;
-        object_y = object_pos->unk_06.u;
+        object_y = object_pos->unk_06;
         object_z = object_pos->unk_0A;
-        object_pos->unk_06.u = (u16)(object_y - 0x140);
+        object_pos->unk_06 = (u16)(object_y - 0x140);
         object_pos->unk_16 = source_z;
         object_pos->unk_0A = (u16)(object_z - 0x20);
         render_state = object->sprite;

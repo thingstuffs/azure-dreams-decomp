@@ -20,15 +20,15 @@ void update_object_orbit_and_timer(TownObjectRecord *object, ObjectPosition *pos
         return;
     }
 
-    angle = object->unk_86.as_u16;
-    object->unk_86.as_u16 = angle + 0x40;
-    object->heading.as_s16 = angle + 0x440;
+    angle = object->unk_86;
+    object->unk_86 = angle + 0x40;
+    object->heading = angle + 0x440;
 
-    position->x.unsigned_parts.integer = object->unk_84.as_u16 +
-        rsin(object->unk_86.as_s16) / (0x1000 / object->unk_84.as_s16);
-    position->y.unsigned_parts.integer = object->unk_86.as_u16 +
-        rcos(object->unk_86.as_s16) / (0x1000 / object->unk_84.as_s16) -
-        object->unk_84.as_u16;
+    position->x.unsigned_parts.integer = ((u16)object->unk_84) +
+        rsin(((s16)object->unk_86)) / (0x1000 / object->unk_84);
+    position->y.unsigned_parts.integer = object->unk_86 +
+        rcos(((s16)object->unk_86)) / (0x1000 / object->unk_84) -
+        ((u16)object->unk_84);
 
     motion_entry = get_smallest_signed_overlap_axis_amount_two_intersecting_boxes(object, &town_actor_control);
     if (motion_entry != 0 && (axis = motion_entry->axis) != 2) {
@@ -38,8 +38,8 @@ void update_object_orbit_and_timer(TownObjectRecord *object, ObjectPosition *pos
             position->y.v -= motion_entry->amount;
         }
     } else {
-        timer = object->timer.as_u16 - 1;
-        object->timer.as_u16 = timer;
+        timer = object->timer - 1;
+        object->timer = timer;
         if ((s32)(timer << 16) > 0) {
             return;
         }

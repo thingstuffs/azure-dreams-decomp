@@ -24,7 +24,7 @@ extern Callback hikewne_behavior_handlers[];
 
 typedef struct S_80170DA8_2 {
     u8 pad_00[0x1C];
-    union { s32 s; u32 u; } unk_1C;   /* accessed as both */
+    u32 unk_1C;
     u8 pad_20[0xA];
     s16 unk_2A;
     u8 pad_2C[0x5C];
@@ -107,20 +107,20 @@ void update_entity_movement_and_ground(void *entity, ObjectPosition *motion, Spr
             }
             sprite->flags = flip_flags;
         }
-        apply_monster_koyaw_data(entity_state->unk_1C.s, (u8 *)sprite + 0xC);
-        if (!(entity_state->unk_1C.u & 0x20)) {
+        apply_monster_koyaw_data(((s32)entity_state->unk_1C), (u8 *)sprite + 0xC);
+        if (!(entity_state->unk_1C & 0x20)) {
             if (!(sprite->flags & 0x40)) {
                 advance_sprite_animation_and_textures(sprite);
             }
         } else {
             sprite->flags |= 0x7000;
-            entity_state->unk_1C.u &= 0xFFFBFFFF;
+            entity_state->unk_1C &= 0xFFFBFFFF;
         }
 
         {
             u32 airborne_flags;
-            airborne_flags = entity_state->unk_1C.u & 0xF7FFFFFF;
-            entity_state->unk_1C.u = airborne_flags;
+            airborne_flags = entity_state->unk_1C & 0xF7FFFFFF;
+            entity_state->unk_1C = airborne_flags;
             airborne_flags &= 0x40000;
             if (!airborne_flags) {
                 s32 offset = (*(s32 *)((u8 *)entity + (0xA0)));
@@ -136,7 +136,7 @@ void update_entity_movement_and_ground(void *entity, ObjectPosition *motion, Spr
                         (*(s16 *)((u8 *)entity + (0x92))) = ground_delta;
                         (*((u8 *)entity + (0x9D))) = 0;
                         motion->velocity_z = 0;
-                        entity_state->unk_1C.u |= 0x08000000;
+                        entity_state->unk_1C |= 0x08000000;
                     }
                 }
             } else {
@@ -188,8 +188,8 @@ void update_entity_movement_and_ground(void *entity, ObjectPosition *motion, Spr
         sprite->flags = (sprite_flags & 0x800)
             ? (sprite_flags & 0x8FFF)
         : (sprite_flags | 0x7000);
-        entity_state->unk_1C.u &= 0xF7FFFFFF;
-        if (!(entity_state->unk_1C.u & 0x40000)) {
+        entity_state->unk_1C &= 0xF7FFFFFF;
+        if (!(entity_state->unk_1C & 0x40000)) {
             bob_offset = (*(s32 *)((u8 *)entity + (0xA0)));
             (*(u16 *)((u8 *)entity + (0x9E))) = 0;
             (*(s32 *)((u8 *)entity + (0xA0))) = 0;
@@ -203,7 +203,7 @@ void update_entity_movement_and_ground(void *entity, ObjectPosition *motion, Spr
                     (*(s16 *)((u8 *)entity + (0x92))) = ground_delta;
                     (*((u8 *)entity + (0x9D))) = 0;
                     motion->velocity_z = 0;
-                    entity_state->unk_1C.u |= 0x08000000;
+                    entity_state->unk_1C |= 0x08000000;
                 }
             }
         } else {
@@ -252,9 +252,9 @@ void update_entity_movement_and_ground(void *entity, ObjectPosition *motion, Spr
         }
     }
 
-    entity_flags = entity_state->unk_1C.u;
+    entity_flags = entity_state->unk_1C;
     if (entity_flags & 0x40000000) {
-        entity_state->unk_1C.u = entity_flags & 0xBFFFFFFF;
+        entity_state->unk_1C = entity_flags & 0xBFFFFFFF;
         ground_height = sample_terrain_surface_height(
             (sprite->tile_x << 6) | 0x20,
             (sprite->tile_y << 6) | 0x20,

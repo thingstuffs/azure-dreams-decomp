@@ -23,7 +23,7 @@ typedef struct S_80174668_2 {
     u8 pad_2C[0x1A];
     u16 unk_46;
     u8 pad_48[0x18];
-    union { void * s; u8 * u; } unk_60;   /* accessed as both */
+    u8 * unk_60;
     u8 pad_64[0x9];
     s8 unk_6D;
     u8 pad_6E[0x4];
@@ -142,7 +142,7 @@ void spawn_rotate_and_restore_actor_state(ActorRecord *effect, ObjectPosition *m
         display_text_with_fullwidth_adjustment(previous_context);
         play_sound_if_enabled(0x60A);
 
-        tile = ((ObjectNodeHeader *)(((S_80174668_2 *)actor)->unk_60.u - 0x20))->sprite;
+        tile = ((ObjectNodeHeader *)(((S_80174668_2 *)actor)->unk_60 - 0x20))->sprite;
         actor->target_tile_x = tile->tile_x;
         actor->target_tile_y = tile->tile_y;
         center.x = spawn.x + (spawn.dx >> 1);
@@ -249,7 +249,7 @@ void spawn_rotate_and_restore_actor_state(ActorRecord *effect, ObjectPosition *m
             actor_update_node_cursor[0] = (u32)((u8 *)actor - 0x20);
         }
 
-        spawned_object = ((S_80174668_2 *)actor)->unk_60.u;
+        spawned_object = ((S_80174668_2 *)actor)->unk_60;
         if (spawned_object != 0) {
             try_apply_confusion_status(spawned_object, 0x28, 0x10);
         }

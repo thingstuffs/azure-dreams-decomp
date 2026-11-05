@@ -7,7 +7,7 @@
 
 typedef struct S_func_80174228_0 {
     u8 pad_00[4];
-    union { s16 s16; u16 u16; } unk_04;
+    s16 unk_04;
     u8 unk_06;
     u8 pad_07[0x21];
     void *unk_28;
@@ -24,7 +24,7 @@ typedef struct S_func_80174228_0 {
         s32 word;
         struct { s16 x; s16 y; } parts;
     } screen;
-    union { s32 s32; u16 u16; } unk_7C;
+    s32 unk_7C;
 } S_func_80174228_0;
 
 typedef struct S_func_80174228_1 {
@@ -105,7 +105,7 @@ typedef struct S_func_80174228_10 {
     u32 unk_00;
 } S_func_80174228_10;
 
-#define TMP ((S_func_80174228_0 *)storage)->unk_7C.s32
+#define TMP ((S_func_80174228_0 *)storage)->unk_7C
 #define SCREEN ((S_func_80174228_0 *)storage)->screen
 
 /* Returns the signed input divided by 23 with integer truncation. */
@@ -183,8 +183,8 @@ s32 render_linked_items_as_textured_strips(u8 *item_data)
         i = 3;
         vertex_depth = -0xA0;
         prev_depth = 0x10;
-        ((S_func_80174228_0 *)storage)->unk_7C.s32 = 0x40;
-        half_width = ((S_func_80174228_0 *)storage)->unk_7C.u16;
+        ((S_func_80174228_0 *)storage)->unk_7C = 0x40;
+        half_width = *(u16 *)&((S_func_80174228_0 *)storage)->unk_7C;
         left_x = -half_width;
         do {
             ((S_func_80174228_1 *)vertices)[i].unk_00 = half_width;
@@ -303,12 +303,12 @@ s32 render_linked_items_as_textured_strips(u8 *item_data)
                 SetSemiTrans(prim, 1);
                 prim->unk_16 = GetTPage(2, 1, 0x340, 0x100);
 
-                render_term = i * ((S_func_80174228_0 *)storage)->unk_04.s16;
+                render_term = i * ((S_func_80174228_0 *)storage)->unk_04;
                 uv_arg = render_term / 23;
                 prim->unk_14 = uv_arg;
                 prim->unk_0C = uv_arg;
                 tex_coord = uv_arg;
-                tex_coord += divide_tex(((S_func_80174228_0 *)storage)->unk_04.u16);
+                tex_coord += divide_tex(((u16)((S_func_80174228_0 *)storage)->unk_04));
                 prim->unk_1D = 0;
                 prim->unk_0D = 0;
                 prim->unk_24 = tex_coord;

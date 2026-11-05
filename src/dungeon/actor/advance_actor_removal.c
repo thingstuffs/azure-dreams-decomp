@@ -39,7 +39,7 @@ typedef struct S_800AB778_25 {
 
 typedef struct S_800AB778_1 {
     u8 pad_00[0x96];
-    union { s16 s; u16 u; } unk_96;   /* accessed as both */
+    s16 unk_96;
     u8 pad_98[0x3];
     u8 unk_9B;
 } S_800AB778_1;   /* arg0 in advance_actor_removal */
@@ -106,13 +106,13 @@ s16 find_entity_slot_by_field_ac();
 #include "dungeon/item.h"
 #include "dungeon/item/effect.h"
 #include "dungeon/player/state.h"
+#include "dungeon/data.h"
 
 struct Entity;
 struct EntityLinkNode;
 
 extern s32 object_flag_block;
 extern s16 pending_marked_actor_count;
-extern s16 actor_event_values[];
 extern u8 D_800E0C34[36];
 extern M2C_UNK D_800E0C58;
 extern M2C_UNK D_800E0C67;
@@ -197,7 +197,7 @@ s32 advance_actor_removal(S_800AB778_1 *state, ObjectPosition *unused_context, S
                 (s32)state4_event
                     == ((S_800AB778_21 *)((*(void * *)&((EntityRec *)(((s32 *)&dungeon_actor_ring_anchor)))->x)))->unk_AC,
                     event_mode);
-            state->unk_96.s = 0;
+            state->unk_96 = 0;
             state->unk_9B = 0x10;
             break;
         }
@@ -206,26 +206,26 @@ s32 advance_actor_removal(S_800AB778_1 *state, ObjectPosition *unused_context, S
         }
         visual->tpage_abr = 0x20;
         visual->flags |= 0xC;
-        state->unk_96.s = 0x10;
+        state->unk_96 = 0x10;
         ((Rec_D_80082E80 *)actor)->unk_1C.at00_s32.v |= 0x10000000;
         state->unk_9B++;
         break;
 
     case 4:
         visual->color.c.r -=
-            (s32)visual->color.c.r / state->unk_96.s;
+            (s32)visual->color.c.r / state->unk_96;
         visual->color.c.g -=
-            (s32)visual->color.c.g / state->unk_96.s;
+            (s32)visual->color.c.g / state->unk_96;
         visual->color.c.b -=
-            (s32)visual->color.c.b / state->unk_96.s;
+            (s32)visual->color.c.b / state->unk_96;
         scale_x = visual->scale_x;
         visual->scale_x = scale_x +
-            ((s32)(0x400 - scale_x) / state->unk_96.s);
+            ((s32)(0x400 - scale_x) / state->unk_96);
         scale_y = visual->scale_y;
         visual->scale_y = scale_y +
-            ((s32)(0x400 - scale_y) / state->unk_96.s);
-        fade_ticks = state->unk_96.u - 1;
-        state->unk_96.s = fade_ticks;
+            ((s32)(0x400 - scale_y) / state->unk_96);
+        fade_ticks = ((u16)state->unk_96) - 1;
+        state->unk_96 = fade_ticks;
         if (((fade_ticks << 0x10) > 0) &&
             !(visual->flags & 0x8000)) {
             return 0;

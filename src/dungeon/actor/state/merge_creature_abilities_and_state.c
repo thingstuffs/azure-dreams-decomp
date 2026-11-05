@@ -15,6 +15,7 @@
 #include "dungeon/player/object.h"
 #include "dungeon/system.h"
 #include "slus.h"
+#include "dungeon/item.h"
 struct Entity;
 struct EntityLinkNode;
 
@@ -22,7 +23,6 @@ s16 find_matching_initial_stat_slot(); /* Unprototyped: retail call passes more 
 void copy_entity_record();
 void unlink_entity_node(struct EntityLinkNode *node);
 void update_map_cell_flags_with_item_limit(s32 x, s32 y, u16 flags);
-void decrement_monster_entry_count(s16 requested_id, s16 requested_type);
 typedef struct {
     u8 pad_00[0x10];
     u8 flags;

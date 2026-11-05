@@ -24,10 +24,10 @@ void update_actor_with_periodic_effect(TownObjectRecord *actor, ObjectPosition *
     } else if (town_action_state_flag == 0) {
         compute_and_clamps_vector_based_adjustment_updates_town(position, surface_height, &position_query_scratch);
     }
-    effect_timer = actor->unk_0A.as_u16 - 1;
-    actor->unk_0A.as_u16 = effect_timer;
+    effect_timer = ((u16)actor->unk_0A) - 1;
+    actor->unk_0A = effect_timer;
     if ((effect_timer << 0x10) <= 0) {
-        actor->unk_0A.as_u16 = (u16)(scale_random_to_unsigned_halfword_limit(4) + 3);
+        actor->unk_0A = (u16)(scale_random_to_unsigned_halfword_limit(4) + 3);
         D_800FE4E0 = position->x.v;
         effect_pos = &D_800FE4E0;
         ((S_800917EC_2 *)effect_pos)->unk_04 = position->y.v;
@@ -38,8 +38,8 @@ void update_actor_with_periodic_effect(TownObjectRecord *actor, ObjectPosition *
     }
     state_flags = state->buttons;
     if ((state_flags & 0xF000) && (state_flags & 0x20)) {
-        action_timer = actor->unk_3E.as_u16 - 1;
-        actor->unk_3E.as_u16 = (u16)action_timer;
+        action_timer = ((u16)actor->unk_3E) - 1;
+        actor->unk_3E = (u16)action_timer;
         play_periodic_sound(action_timer, 8);
         store_the_valid_shared_angle_in_offset_hex_10(actor);
         call_the_valid_shared_angle_fixed_hex_120000_context_callee_80094_f_58(position);

@@ -17,6 +17,6 @@ void clear_the_state_fields_initialize_handlers_mode(TownObjectRecord *record_da
     values->velocity_y = 0;
     values->velocity_z = 0;
     record_data->unk_50.as_pm = &run_both_updates_decrement_countdown_check_completion;
-    record_data->timer.as_s16 = 7;
+    record_data->timer = 7;
     ((ObjectNodeHeader *)record_data - 1)->update_callback = &invoke_entity_callback_and_follow_up;
 }

@@ -24,6 +24,6 @@ void set_motion_handler_and_copy_signed_byte(TownObjectRecord *record_data, Obje
     ObjectPosition *output = placement;
 
     ((S_80097D08_0 *)((u8 *)record_data - 0x10))->unk_00 = tick_random_radial_spawns;
-    output->z.v = (s32) (record_data->variant.as_s8 << 0x10);
-    record_data->timer.as_s16 = 5;
+    output->z.v = (s32) (((s8)record_data->variant) << 0x10);
+    record_data->timer = 5;
 }

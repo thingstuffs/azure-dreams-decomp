@@ -12,8 +12,8 @@ void animate_scale_and_restore(TownObjectRecord *state, void *context, SpriteFra
     s32 grow_value;
     s32 shrink_amount;
 
-    frames_left = (u16) state->timer.as_s16 - 1;
-    state->timer.as_s16 = frames_left;
+    frames_left = (u16) ((s16)state->timer) - 1;
+    state->timer = frames_left;
     if (frames_left <= 0) {
         scale->scale_y = 0x1000;
         scale->scale_x = 0x1000;
@@ -23,6 +23,6 @@ void animate_scale_and_restore(TownObjectRecord *state, void *context, SpriteFra
     shrink_value = rsin(frames_left * 0x199);
     shrink_amount = (shrink_value / 4);
     scale->scale_x = (s16) (0x1000 - shrink_amount);
-    grow_value = rsin(state->timer.as_s16 * 0x199);
+    grow_value = rsin(((s16)state->timer) * 0x199);
     scale->scale_y = (s16) ((grow_value / 4) + 0x1000);
 }

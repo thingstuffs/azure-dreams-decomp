@@ -16,8 +16,8 @@ struct SpriteFrameState;
 #include "dungeon/effect/screen.h"
 #include "sdk/libgte.h"
 
-extern void create_directional_effect(ActorRecord *, void *,struct SpriteFrameState *);
-extern void create_offset_directional_effect(ActorRecord *, void *,struct SpriteFrameState *);
+extern s32 create_directional_effect(ActorRecord *, void *,struct SpriteFrameState *);
+extern s32 create_offset_directional_effect(ActorRecord *, void *,struct SpriteFrameState *);
 
 extern u8 cyclone_attack_frames[];
 

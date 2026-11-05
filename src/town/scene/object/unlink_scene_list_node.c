@@ -13,11 +13,11 @@ typedef struct S_8008F134_1 {
 void unlink_scene_list_node(TownObjectRecord *node) {
     S_8008F134_1 *prev_node;
 
-    prev_node = node->unk_00.as_pv;
+    prev_node = node->unk_00;
     if (prev_node != NULL) {
-        prev_node->unk_04 = node->unk_04.as_ppv;
-        *node->unk_04.as_ppv = node->unk_00.as_pv;
-        node->unk_00.as_pv = NULL;
-        node->unk_04.as_ppv = NULL;
+        prev_node->unk_04 = (void **)node->unk_04;
+        *(void **)node->unk_04 = node->unk_00;
+        node->unk_00 = NULL;
+        node->unk_04 = NULL;
     }
 }

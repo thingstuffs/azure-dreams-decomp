@@ -5,10 +5,26 @@ import subprocess
 import sys
 import unittest
 
-from tools.typing.union_census import census
+from tools.typing.union_census import census, main
 
 
 class UnionCensusTests(unittest.TestCase):
+    def test_regeneration_preserves_byte_hold(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            (root / 'src').mkdir()
+            (root / 'include').mkdir()
+            (root / 'src/use.c').write_text('union { short s; unsigned short u; } field;\n')
+            row, = census(root)
+            row.update(status='unproven', hold_reason='bytes',
+                       evidence='src/use.c: first byte difference at +0x12')
+            ledger = root / 'unions.jsonl'
+            ledger.write_text(json.dumps(row) + '\n')
+            main(['--root', str(root), '--out', str(ledger)])
+            updated = json.loads(ledger.read_text())
+            self.assertEqual(updated['hold_reason'], 'bytes')
+            self.assertEqual(updated['evidence'], row['evidence'])
+
     def test_local_union_variable_counts_its_root_name(self):
         with tempfile.TemporaryDirectory() as directory:
             root = Path(directory)
@@ -87,9 +103,14 @@ void use(Record *r) { r->field.s = 1; r->inner.slot.p = 0; }
             source.write_text(source.read_text() + 'union { int x; short y; } two;\n')
             self.assertNotEqual(subprocess.run(cmd, capture_output=True).returncode, 0)
             source.write_text('typedef union One { int a; short b; } One;\n')
-            rows[0]['evidence'] = 'Retired to one int field.'
+            rows[0]['status'] = 'retire'
+            rows[0]['evidence'] = 'Wording does not determine retirement.'
             (root / 'ledger' / 'unions.jsonl').write_text(json.dumps(rows[0]) + '\n')
-            self.assertNotEqual(subprocess.run(cmd, capture_output=True).returncode, 0)
+            (root / 'tools' / 'lint' / 'union_baseline.json').write_text(
+                json.dumps({'schema': 1, 'count': 1, 'ids': ['src/one.c::Other.other']}) + '\n')
+            check_result = subprocess.run(cmd, capture_output=True, text=True)
+            self.assertNotEqual(check_result.returncode, 0)
+            self.assertIn('retired union reintroduced', check_result.stderr)
 
 
 if __name__ == '__main__':

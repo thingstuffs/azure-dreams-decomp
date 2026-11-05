@@ -8,8 +8,7 @@ struct ObjectNodeHeader;
 #include "shared/game_work.h"
 #include "dungeon/item.h"
 #include "engine/graphics.h"
-
-extern void clear_entry_flag_and_link_owner(struct ObjectNodeHeader *entry);
+#include "dungeon/level.h"
 
 extern u8 ghosh_frame_set_4[];
 

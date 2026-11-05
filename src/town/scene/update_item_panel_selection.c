@@ -8,7 +8,7 @@ typedef struct S_80810220_0 {
     u8 pad_02[0x2];
     void * unk_04;
     u8 pad_08[0x4C];
-    union { s16 s; u16 u; } unk_54;   /* accessed as both */
+    s16 unk_54;
 } S_80810220_0;   /* control_data in func_80810220 */
 
 typedef struct S_80810220_1 {
@@ -54,7 +54,7 @@ void update_item_panel_selection(S_80810220_0 *control_data, TownPanelSelectionV
         if (func_80252550(D_805300C4, value_data) != 0) {
             called = 1;
         } else {
-            output_data->unk_08 = D_80530100[control_data->unk_54.s + 3];
+            output_data->unk_08 = D_80530100[control_data->unk_54 + 3];
         }
     }
 
@@ -79,12 +79,12 @@ void update_item_panel_selection(S_80810220_0 *control_data, TownPanelSelectionV
         called_v0 = called;
         if (called_v0 != 0 && ((S_80810220_4 *)(control_data->unk_04))->unk_22 == 3) {
             child->unk_20 |= 1;
-            output_data->unk_08 = D_80530100[control_data->unk_54.s + 6];
-            child->unk_22 = control_data->unk_54.u;
+            output_data->unk_08 = D_80530100[control_data->unk_54 + 6];
+            child->unk_22 = ((u16)control_data->unk_54);
         }
         if (child->unk_22 != 3) {
             if (((S_80810220_4 *)(control_data->unk_04))->unk_22 ==
-                control_data->unk_54.s) {
+                control_data->unk_54) {
                 control_data->unk_00 = 3;
                 return;
             }
@@ -108,7 +108,7 @@ void update_item_panel_selection(S_80810220_0 *control_data, TownPanelSelectionV
         flags = child->unk_20;
         if (flags & 1) {
             child->unk_20 = flags | 1;
-            output_data->unk_08 = D_80530100[control_data->unk_54.s + 6];
+            output_data->unk_08 = D_80530100[control_data->unk_54 + 6];
         }
         return;
 

@@ -17,8 +17,8 @@ void advance_motion_and_clamp_limit(TownObjectRecord *entity, EntityRec *motion,
     motion->z.v = (s32) (motion->z.v + motion->flags14);
     if (query_lowered_transform_position(motion) < motion->z.w.i) {
         motion->z.w.i = query_lowered_transform_position(motion);
-        steps_left = entity->unk_90.as_s16 - 1;
-        entity->unk_90.as_s16 = steps_left;
+        steps_left = entity->unk_90 - 1;
+        entity->unk_90 = steps_left;
         if (steps_left <= 0) {
             motion->flags14 = 0;
             func_800CDF94(entity, motion, context);

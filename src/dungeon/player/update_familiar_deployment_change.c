@@ -63,7 +63,7 @@ typedef struct S_8009345C_0 {
 
 
 typedef struct S_8009345C_4 {
-    union { u16 u; s16 s; } slot; /* 0x00 */   /* accessed as both */
+    s16 slot;
 } S_8009345C_4;   /* &D_800DD262 in update_familiar_deployment_change */
 
    /* 0x2-byte header immediately before the payload. */
@@ -147,7 +147,7 @@ void update_familiar_deployment_change(void *actor, ObjectPosition *map, SpriteF
         selected_slot = context->unk_8A;
         slot_bits = context->unk_8A;
         selected_object = ((ActorRecord *)(((selected_slot * 4) + actor)))->unk_AC.address;
-        familiar_deployment_slots.slot.u = slot_bits;
+        (*(u16 *)&familiar_deployment_slots.slot) = slot_bits;
         context->target = selected_object;
         ((S_8009345C_0 *)actor)->phase++;
         return;
@@ -170,7 +170,7 @@ void update_familiar_deployment_change(void *actor, ObjectPosition *map, SpriteF
         }
         message_or_list.text = get_unused_text_buffer();
         remove_message = write_text_byte_and_advance(8, message_or_list.text);
-        if (familiar_deployment_slots.slot.s != 0) {
+        if (familiar_deployment_slots.slot != 0) {
             remove_text = D_800E05F0;
         } else {
             remove_text = D_800E05E1;
@@ -181,7 +181,7 @@ void update_familiar_deployment_change(void *actor, ObjectPosition *map, SpriteF
         old_object = context->target;
         familiar_removed_during_change = 1;
         mark_owned_linked_actor_actions(old_object);
-        ((ActorRecord *)(((familiar_deployment_slots.slot.s * 4) + actor)))->unk_AC.value = 0;
+        ((ActorRecord *)(((familiar_deployment_slots.slot * 4) + actor)))->unk_AC.value = 0;
         decrement_monster_entry_count(((ActorRecord *)(context->target))->species, 3);
         unlink_entity_node(context->target);
         removed_object = context->target;
@@ -227,7 +227,7 @@ void update_familiar_deployment_change(void *actor, ObjectPosition *map, SpriteF
                 context->target_tile_x, context->target_tile_y,
                 (s16) (context->ground_height - 0x20));
             if (new_object != NULL) {
-                (*(void **)((u8 *)(((familiar_deployment_slots.slot.s * 4) + actor)) + (0xAC))) = new_object;
+                (*(void **)((u8 *)(((familiar_deployment_slots.slot * 4) + actor)) + (0xAC))) = new_object;
                 familiar_record_slots[((S_8009345C_7 *)(*message_or_list.base))->unk_03 & 0x1F] = new_object;
                 object_scale = ((S_8009345C_10_pre *)new_object)[-1].unk_04;
                 object_scale->scale_y = 0x800;
@@ -239,7 +239,7 @@ void update_familiar_deployment_change(void *actor, ObjectPosition *map, SpriteF
                 func_80042640(new_object, ((ActorRecord *)new_object)->species);
                 apply_actor_template_and_class(new_object, ((ActorRecord *)new_object)->species, *message_or_list.base);
                 object_flags = ((ActorRecord *)new_object)->flags1C;
-                object_slot = familiar_deployment_slots.slot.s;
+                object_slot = familiar_deployment_slots.slot;
                 ((ActorRecord *)new_object)->flags1C = object_flags | 0x02000000;
                 ((S_8009345C_14 *)(((object_slot * 4) + actor)))->unk_D0 = selected_item_record_alias[0];
                 ((S_8009345C_9 *)(selected_item_record_alias[0]))->unk_03 = (u8) (((S_8009345C_9 *)(selected_item_record_alias[0]))->unk_03 | 0x20);
@@ -248,7 +248,7 @@ void update_familiar_deployment_change(void *actor, ObjectPosition *map, SpriteF
                 if (familiar_removed_during_change == 0) {
                     create_message = write_text_byte_and_advance(8, create_message);
                 }
-                if (familiar_deployment_slots.slot.s != 0) {
+                if (familiar_deployment_slots.slot != 0) {
                     create_text = D_800E05F0;
                 } else {
                     create_text = D_800E05E1;
@@ -256,7 +256,7 @@ void update_familiar_deployment_change(void *actor, ObjectPosition *map, SpriteF
                 clear_byte_and_advance(expand_text_control_codes(D_800E0714, append_entity_display_text(new_object, expand_text_control_codes(create_text,
                     create_message))));
                 display_text_with_fullwidth_adjustment(message_or_list.text);
-                cleanup_slot = familiar_deployment_slots.slot.s;
+                cleanup_slot = familiar_deployment_slots.slot;
                 familiar_turn_counters_alias[cleanup_slot] = 0;
                 retain_spawn_resource(((S_8009345C_9 *)(selected_item_record_alias[0]))->unk_00, 3);
                 replay_actor_status_slots(new_object);

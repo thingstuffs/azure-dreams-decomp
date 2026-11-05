@@ -11,8 +11,8 @@
 
 typedef struct S_80045CC4_0 {
     u8 pad_00[0x4];
-    union { u16 u; s16 s; } unk_04;   /* accessed as both */
-    union { u16 u; s16 s; } unk_06;   /* accessed as both */
+    u16 unk_04;
+    u16 unk_06;
     s16 unk_08;
     u16 unk_0A;
     u16 unk_0C;
@@ -23,8 +23,8 @@ typedef struct S_80045CC4_0 {
     u16 unk_16;
     union { struct { s16 v; } at00; struct { u8 pad[0x1]; u8 v; } at01; } unk_18;   /* overlapping accesses */
     u8 pad_1A[0x2];
-    union { u16 u; s16 s; } unk_1C;   /* accessed as both */
-    union { u16 u; s16 s; } unk_1E;   /* accessed as both */
+    u16 unk_1C;
+    u16 unk_1E;
     union {
         struct { s16 v; } at00;
         struct { u8 v; } at00u;
@@ -181,9 +181,9 @@ void draw_sprite_clipped(void *context, s32 position, S_80045CC4_Arg2 *sprite, s
 
         if ((u32)depth < 0x1E0U) {
             visible_0 = 0;
-            if ((u32)((((S_80045CC4_0 *)(packet + 1))->unk_04.u + 0x20) & 0xFFFF) < 0x181U) {
+            if ((u32)((((S_80045CC4_0 *)(packet + 1))->unk_04 + 0x20) & 0xFFFF) < 0x181U) {
                 {
-                    u32 clip_y = (((S_80045CC4_0 *)(packet + 1))->unk_06.u + 0x20) & 0xFFFF;
+                    u32 clip_y = (((S_80045CC4_0 *)(packet + 1))->unk_06 + 0x20) & 0xFFFF;
                     visible_0 = clip_y < 0x121U;
                 }
             }
@@ -204,9 +204,9 @@ void draw_sprite_clipped(void *context, s32 position, S_80045CC4_Arg2 *sprite, s
             }
             visible_3 = 0;
             any_visible = visible_0 | visible_2;
-            if ((u32)((((S_80045CC4_0 *)(packet + 1))->unk_1C.u + 0x20) & 0xFFFF) < 0x181U) {
+            if ((u32)((((S_80045CC4_0 *)(packet + 1))->unk_1C + 0x20) & 0xFFFF) < 0x181U) {
                 {
-                    u32 clip_y = (((S_80045CC4_0 *)(packet + 1))->unk_1E.u + 0x20) & 0xFFFF;
+                    u32 clip_y = (((S_80045CC4_0 *)(packet + 1))->unk_1E + 0x20) & 0xFFFF;
                     visible_3 = clip_y < 0x121U;
                 }
             }
@@ -262,11 +262,11 @@ void draw_sprite_clipped(void *context, s32 position, S_80045CC4_Arg2 *sprite, s
                         ((S_80045CC4_0 *)(packet + 1))->unk_18.at01.v = uv_edge;
                     }
                 }
-                if (((S_80045CC4_0 *)(packet + 1))->unk_04.s > ((S_80045CC4_0 *)(packet + 1))->unk_1C.s) {
+                if (((s16)((S_80045CC4_0 *)(packet + 1))->unk_04) > ((s16)((S_80045CC4_0 *)(packet + 1))->unk_1C)) {
                     ((S_80045CC4_0 *)(packet + 1))->unk_10.u8--;
                     ((S_80045CC4_0 *)(packet + 1))->unk_20.at00u.v--;
                 }
-                if (((S_80045CC4_0 *)(packet + 1))->unk_06.s > ((S_80045CC4_0 *)(packet + 1))->unk_1E.s) {
+                if (((s16)((S_80045CC4_0 *)(packet + 1))->unk_06) > ((s16)((S_80045CC4_0 *)(packet + 1))->unk_1E)) {
                     ((S_80045CC4_0 *)(packet + 1))->unk_18.at01.v--;
                     ((S_80045CC4_0 *)(packet + 1))->unk_20.at01.v--;
                 }

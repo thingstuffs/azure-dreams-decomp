@@ -47,8 +47,8 @@ void update_actor_movement_actions(TownObjectRecord *action, ObjectPosition *act
         initialize_actor_action_state(action, (actor), context);
         return;
     }
-    ticks_left = action->unk_0A.as_u16 - 1;
-    action->unk_0A.as_u16 = ticks_left;
+    ticks_left = ((u16)action->unk_0A) - 1;
+    action->unk_0A = ticks_left;
     if ((s16) ticks_left < 0) {
         initialize_action_object_and_play_sound((s32 * *)(action), (actor), context);
         return;

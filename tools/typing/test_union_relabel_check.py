@@ -22,6 +22,13 @@ class RelabelCheckTest(unittest.TestCase):
 '''
         self.assertEqual(swaps_from_diff(patch), set())
 
+    def test_retired_access_does_not_shift_later_member_positions(self):
+        patch = '''@@ -1 +1 @@
+-    obj->heading.u = face(actor->tile.at00.x, actor->tile.at01.y);
++    obj->heading = face(actor->tile.at00.x, actor->tile.at01.y);
+'''
+        self.assertEqual(swaps_from_diff(patch), set())
+
     def test_two_way_swap_audits_unchanged_lines(self):
         patch = '''@@ -1,2 +1,2 @@
 -    object->unk_02.s = value;

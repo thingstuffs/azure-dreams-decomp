@@ -26,7 +26,7 @@ typedef struct S_800CA0DC_0 {
     u8 pad_20[0xA];
     s16 unk_2A;
     u8 pad_2C[0x45];
-    union { s8 s; u8 u; } unk_71;   /* accessed as both */
+    u8 unk_71;
     u8 pad_72[0x18];
     union { s16 s; u16 u; } unk_8A;   /* accessed as both */
 } S_800CA0DC_0;
@@ -78,10 +78,10 @@ static void advance_actor_along_path_points(void *motion_arg, s32 unused, void *
     s32 old_y;
     S_800CA0DC_0 *path = path_arg;
 
-    if (path->unk_71.s <= 0) {
+    if (((s8)path->unk_71) <= 0) {
         return;
     }
-    if (path->unk_71.u <= path->unk_8A.s) {
+    if (path->unk_71 <= path->unk_8A.s) {
         return;
     }
 
@@ -106,7 +106,7 @@ static void advance_actor_along_path_points(void *motion_arg, s32 unused, void *
     }
 
     motion->unk_96 = 8;
-    step_count = path->unk_71.u;
+    step_count = path->unk_71;
     if (step_count > 0) {
         motion->unk_96 = 8 / step_count;
     }

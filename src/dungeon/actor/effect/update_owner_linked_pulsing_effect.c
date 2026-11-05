@@ -25,11 +25,11 @@ typedef struct S_800CB600_0_pre {
 
 typedef struct S_800CB600_0 {
     u8 pad_00[0x8A];
-    union { u16 u; s16 s; } unk_8A;   /* accessed as both */
+    u16 unk_8A;
     u8 pad_8C[0x6];
     u16 unk_92;
-    union { u16 u; s16 s; } unk_94;   /* accessed as both */
-    union { s16 s; u16 u; } unk_96;   /* accessed as both */
+    u16 unk_94;
+    u16 unk_96;
     u16 unk_98;
     u8 unk_9A;
     u8 pad_9B[0x2];
@@ -60,15 +60,15 @@ void update_owner_linked_pulsing_effect(void *effect_arg, ObjectPosition *positi
     u16 shrunk_scale;
     S_800CB600_3 *owner;
 
-    next_brightness = effect->unk_94.u + 1;
-    effect->unk_94.u = next_brightness;
+    next_brightness = effect->unk_94 + 1;
+    effect->unk_94 = next_brightness;
     if ((s16)next_brightness >= 0x41) {
-        effect->unk_94.u = 0x40;
+        effect->unk_94 = 0x40;
     }
 
-    pulse_boost = effect->unk_94.s * 2;
+    pulse_boost = ((s16)effect->unk_94) * 2;
     pulse_boost *= effect->unk_9D & 1;
-    brightness = (u8)effect->unk_94.u + pulse_boost;
+    brightness = (u8)effect->unk_94 + pulse_boost;
     appearance->color.c.r = brightness;
     appearance->color.c.b = brightness;
     appearance->color.c.g = brightness;
@@ -76,28 +76,28 @@ void update_owner_linked_pulsing_effect(void *effect_arg, ObjectPosition *positi
     phase = effect->unk_9A;
     effect->unk_9D = effect->unk_9D + 1;
     if (phase == 0) {
-        height_offset = effect->unk_8A.u - 8;
-        effect->unk_8A.u = height_offset;
+        height_offset = effect->unk_8A - 8;
+        effect->unk_8A = height_offset;
         if ((s16)height_offset < -0x80) {
-            effect->unk_8A.s = -0x80;
+            (*(s16 *)&effect->unk_8A) = -0x80;
         }
 
         position->z.w.i =
-            (s16)(effect->unk_92 + effect->unk_8A.u);
+            (s16)(effect->unk_92 + effect->unk_8A);
 
         old_scale = appearance->scale_x;
-        grow_frames = effect->unk_96.s;
+        grow_frames = ((s16)effect->unk_96);
         grown_scale = old_scale + ((0x1000 - old_scale) / grow_frames);
         appearance->scale_x = grown_scale;
         appearance->scale_y = grown_scale;
 
-        frames_left = effect->unk_96.u - 1;
-        effect->unk_96.u = frames_left;
+        frames_left = effect->unk_96 - 1;
+        effect->unk_96 = frames_left;
         if ((s16)frames_left > 0) {
             return;
         }
 
-        effect->unk_96.u = 0;
+        effect->unk_96 = 0;
         if (g_dungeon_status.active_actor != 0) {
             return;
         }
@@ -122,20 +122,20 @@ void update_owner_linked_pulsing_effect(void *effect_arg, ObjectPosition *positi
         unlink_entity_node(effect);
         owner = (u8 *)effect - 0x20;
         owner->unk_10 |= 0x80000000;
-        effect->unk_96.u = 0x10;
+        effect->unk_96 = 0x10;
         effect->unk_9A++;
         return;
     }
 
     shrunk_scale = appearance->scale_x;
-    shrink_frames = effect->unk_96.s;
+    shrink_frames = ((s16)effect->unk_96);
     scale_step = shrunk_scale / shrink_frames;
     shrunk_scale -= scale_step;
     appearance->scale_x = shrunk_scale;
     appearance->scale_y = shrunk_scale;
 
-    frames_left = effect->unk_96.u - 1;
-    effect->unk_96.u = frames_left;
+    frames_left = effect->unk_96 - 1;
+    effect->unk_96 = frames_left;
     if ((s16)frames_left > 0) {
         return;
     }

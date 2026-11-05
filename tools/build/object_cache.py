@@ -107,6 +107,16 @@ def variant_key(key, witness):
     return key_for(dict(outer_key=key, name_witness=witness))
 
 
+def verified_expansions(manifest):
+    """Read both current witnesses and manifests written before the list existed."""
+    values = manifest.get('verified_expansions')
+    if values is None:
+        values = [manifest.get('full_preprocessed', {})]
+    if not isinstance(values, list) or any(not isinstance(value, dict) for value in values):
+        raise ValueError('invalid object cache expansion witnesses')
+    return values
+
+
 def assembly_inputs(root, text, view, cwd=None):
     """Bind files read by emitted assembler directives, including C string joins."""
     strings, spans = [], []
@@ -377,12 +387,13 @@ def restore(directory, key, inputs, root, outputs):
                 blob = entry/str(index)
                 if digest(blob.read_bytes()) != manifest['outputs'][name]:
                     raise ValueError('corrupt object cache artifact: ' + key)
+            full_match = inputs.get('full_preprocessed', {}) in verified_expansions(manifest)
             for index, name in enumerate(outputs):
                 atomic_copy(entry/str(index), safe_path(root, name))
             (entry/'manifest.json').touch()  # LRU access, never inputs' mtimes
             # A projected key may match after an unused declaration changed.
             # The consuming compile must verify that case before trusting it.
-            return entry, manifest.get('full_preprocessed') == inputs.get('full_preprocessed', {})
+            return entry, full_match
         return None
 
 
@@ -424,7 +435,7 @@ def publish(directory, key, inputs, root, outputs):
         if witness is not None and not projection_matches(root, witness):
             raise ValueError('stale object cache name witness')
         manifest = dict(key_inputs=cache_identity(inputs),
-                        full_preprocessed=inputs.get('full_preprocessed', {}),
+                        verified_expansions=[inputs.get('full_preprocessed', {})],
                         outputs=values, name_witness=witness)
         (temporary/'manifest.json').write_bytes(encode(manifest))
         with locked(directory):
@@ -514,7 +525,12 @@ def record_verified_expansion(directory, entry, inputs):
         if manifest.get('key_inputs') != cache_identity(inputs):
             raise ValueError('object cache manifest changed during verification')
         old_size = path.stat().st_size
-        manifest['full_preprocessed'] = inputs.get('full_preprocessed', {})
+        expansion = inputs.get('full_preprocessed', {})
+        values = verified_expansions(manifest)
+        if expansion in values:
+            return
+        manifest.pop('full_preprocessed', None)
+        manifest['verified_expansions'] = [*values, expansion]
         content_cache.save(path, manifest)
         counter = directory/'bytes'
         if counter.exists():
@@ -575,6 +591,8 @@ def compile_recipe(root, recipe_path, build):
     if key and spec.get('module', {}).get('allocation_model') == 'separated-symbolic-allocations-v1':
         # This source/header contract is checked inside the compiler path too.
         # Check it before a cached object can replace the current output.
+        from tools.link.prepare import load_gate
+        load_gate(root)
         import overlay_symbolic_allocations as symbolic
         symbolic.validate(spec['module'], root)
     restored = restore(directory, key, inputs, root, outputs) if key else None

@@ -19,7 +19,7 @@ typedef struct S_80D17000_0 {
 typedef struct S_80D17000_2 {
     u8 pad_00[0x94];
     s16 unk_94;
-    union { s16 s; u16 u; } unk_96;   /* accessed as both */
+    u16 unk_96;
     u8 pad_98[0x10];
     void * unk_A8;
 } S_80D17000_2;   /* arg0 in damp_and_fade_effect_sprite */
@@ -81,7 +81,7 @@ void damp_and_fade_effect_sprite(void *effect_arg, void *motion_arg, SpriteFrame
         RotTransPers(projection.xyz, &projection.out18, &projection.out20, &projection.out24) -
         view_direction_depth_biases[((g_game_work.view.camera_rotation.parts.viewAngle + effect->unk_94 + 0x100) >> 9) & 7] * 2;
 
-    life = effect->unk_96.s;
+    life = ((s16)effect->unk_96);
     if (life < 10) {
         sprite->tpage_abr = 0x20;
         sprite->clut = 0xFF80;
@@ -93,8 +93,8 @@ void damp_and_fade_effect_sprite(void *effect_arg, void *motion_arg, SpriteFrame
     }
 
     advance_sprite_animation_and_textures(sprite);
-    next_life = effect->unk_96.u - 1;
-    effect->unk_96.u = next_life;
+    next_life = effect->unk_96 - 1;
+    effect->unk_96 = next_life;
     if ((next_life << 16) <= 0) {
         (*(u16 *)((u8 *)effect + -2)) |= NODE_REMOVE;
         object_flag_block.flags |= OBJECT_REMOVE_PENDING;

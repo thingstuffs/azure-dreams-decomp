@@ -5,7 +5,7 @@
 
 typedef struct S_8052DC78_0 {
     u8 pad_00[0x5C];
-    union { s16 s; u16 u; } unk_5C;   /* accessed as both */
+    u16 unk_5C;
     u16 unk_5E;
 } S_8052DC78_0;   /* arg0 in animate_image_strips_signal_completion */
 
@@ -40,7 +40,7 @@ void animate_image_strips_signal_completion(CallbackState *callback)
     switch (callback->state) {
     case 0:
         callback->timer = 0x78;
-        ((S_8052DC78_0 *)callback)->unk_5C.u++;
+        ((S_8052DC78_0 *)callback)->unk_5C++;
         break;
     case 1:
         break;

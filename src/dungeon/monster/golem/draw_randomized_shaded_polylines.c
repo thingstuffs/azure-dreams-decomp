@@ -58,11 +58,11 @@ typedef struct S_80175A90_2 {
 
 typedef struct S_80175A90_3 {
     u8 pad_00[0x2];
-    union { u16 u; s16 s; } unk_02;   /* accessed as both */
+    u16 unk_02;
     u8 pad_04[0x2];
-    union { u16 u; s16 s; } unk_06;   /* accessed as both */
+    u16 unk_06;
     u8 pad_08[0x2];
-    union { u16 u; s16 s; } unk_0A;   /* accessed as both */
+    u16 unk_0A;
 } S_80175A90_3;   /* arg0 in draw_randomized_shaded_polylines */
 
 extern s32 func_80065530(void *, void *, void *, void *, void *, void *, void *, void *);
@@ -95,16 +95,16 @@ void draw_randomized_shaded_polylines(S_80175A90_3 *start_pos, EntityRec *end_po
         ((S_80175A90_2 *)prim)->unk_1C = 0x55555555;
         ((S_80175A90_2 *)prim)->unk_07 |= 2;
 
-        ((S_80175A90_0 *)scratch)->unk_64 = start_pos->unk_02.u;
-        ((S_80175A90_0 *)scratch)->unk_66 = start_pos->unk_06.u;
-        ((S_80175A90_0 *)scratch)->unk_68 = start_pos->unk_0A.u;
+        ((S_80175A90_0 *)scratch)->unk_64 = start_pos->unk_02;
+        ((S_80175A90_0 *)scratch)->unk_66 = start_pos->unk_06;
+        ((S_80175A90_0 *)scratch)->unk_68 = start_pos->unk_0A;
 
         ((S_80175A90_0 *)scratch)->unk_6C.s =
-            (start_pos->unk_02.s + end_pos->x.w.i) / 2;
+            (((s16)start_pos->unk_02) + end_pos->x.w.i) / 2;
         ((S_80175A90_0 *)scratch)->unk_6E.s =
-            (start_pos->unk_06.s + end_pos->y.w.i) / 2;
+            (((s16)start_pos->unk_06) + end_pos->y.w.i) / 2;
         ((S_80175A90_0 *)scratch)->unk_70.s =
-            (start_pos->unk_0A.s + end_pos->z.w.i) / 2;
+            (((s16)start_pos->unk_0A) + end_pos->z.w.i) / 2;
 
         ((S_80175A90_0 *)scratch)->unk_74 = ((u16)end_pos->x.w.i);
         ((S_80175A90_0 *)scratch)->unk_76 = ((u16)end_pos->y.w.i);

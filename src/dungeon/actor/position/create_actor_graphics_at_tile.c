@@ -19,7 +19,6 @@ struct ObjectNodeHeader;
 #include "dungeon/player/object.h"
 
 void select_record_entry_and_value(void *state, void *entries, short index);  /* extern */
-void clear_entry_flag_and_link_owner(struct ObjectNodeHeader *entry);                      /* extern */
 s32 find_active_rect_containing_point(s32 point_x, s32 point_y);                           /* extern */
 
 void advance_actor_status_turn_second(s32 actor, s32 action_context, s32 sprite, u8 *state);

@@ -10,8 +10,10 @@ import copy
 import gzip
 import hashlib
 import json
+import marshal
 import os
 from pathlib import Path
+import types
 
 
 class RecipeCache:
@@ -50,6 +52,7 @@ class RecipeCache:
             self.old = {}
         self.records = {}
         self.hits = self.misses = 0
+        self.walkers = {}
 
     def name(self, path):
         logical = os.path.abspath(path)
@@ -127,7 +130,34 @@ class RecipeCache:
         # Do not observe M.closure's invocation-wide read cache: its observer
         # deliberately merges *all* scans. The transitive result is the exact
         # file set; inventory and symlink guards bind all resolution probes.
-        key = 'closure:' + os.fspath(root.relative_to(self.root)) + ':' + json.dumps(starts)
+        functions = {n: v for n, v in vars(module).items()
+                     if isinstance(v, types.FunctionType)
+                     and (n == 'closure' or v.__module__ == getattr(module, '__name__', None))}
+        walker = getattr(module, 'closure')
+        if not isinstance(walker, types.FunctionType):
+            return sorted(walker(root, starts))
+        functions['closure'] = walker
+        signature = (getattr(module, '__name__', None), getattr(module, '__file__', None),
+                     tuple(sorted((n, id(v), id(v.__code__)) for n, v in functions.items())))
+        cached = self.walkers.get(id(module))
+        if cached is None or cached[0] is not module or cached[1] != signature:
+            source = getattr(module, '__file__', None)
+            source_name = None
+            if source is not None:
+                source_path = Path(source).resolve()
+                if not source_path.is_relative_to(self.root.resolve()):
+                    return sorted(walker(root, starts))
+                source_name = source_path.relative_to(self.root.resolve()).as_posix()
+            function_code = [(n, hashlib.sha256(marshal.dumps(v.__code__)).hexdigest(),
+                              repr(v.__defaults__), repr(v.__kwdefaults__))
+                             for n, v in sorted(functions.items())]
+            identity = [getattr(module, '__name__', type(module).__qualname__), source_name,
+                        self.digest(source_name) if source_name else None, function_code]
+            fingerprint = hashlib.sha256(json.dumps(identity, sort_keys=True).encode()).hexdigest()
+            self.walkers[id(module)] = module, signature, fingerprint
+        else:
+            fingerprint = cached[2]
+        key = 'closure:' + fingerprint + ':' + os.fspath(root.relative_to(self.root)) + ':' + json.dumps(starts)
         return self.memo(key, lambda: sorted(module.closure(root, starts)),
                          lambda found: [root/n for n in found])
 

@@ -19,6 +19,7 @@ struct ObjectPosition;
 #include "slus.h"
 #include "engine/graphics.h"
 #include "dungeon/effect.h"
+#include "dungeon/item.h"
 
 
 
@@ -32,8 +33,8 @@ typedef struct S_801749A8_11 {
 
 typedef struct S_801749A8_2 {
     u8 pad_00[0xC];
-    union { void * s; s32 u; } unk_0C;   /* accessed as both */
-    union { void * s; s32 u; } unk_10;   /* accessed as both */
+    void * unk_0C;
+    s32 unk_10;
     u16 unk_14;
     u8 pad_16[0x6];
     s16 unk_1C;
@@ -65,14 +66,10 @@ struct S_8003E2D8;
 typedef struct S_8003E2D8 S_8003E2D8;
 extern u8 dungeon_resource_buffer[];
 extern s16 D_80174F48[];
-extern s32 Control_CD(s32 event_code, void *event_data, s32 payload);
-extern void sound_set_cd_cue_parameters(int value_0, int value_1, int value_2, int value_3);
 s32 register_node(ObjectNodeHeader *entry, void *registration_id);
-extern int read_stream_cue_start_offset(void);
 void select_record_entry_and_value(void *state, void *entries, short index);
 void unlink_entity_node();
 void update_map_cell_flags_with_item_limit(s32 x, s32 y, u16 flags);
-void decrement_monster_entry_count(s16 requested_id, s16 requested_type);
 void *advance_staged_entity_load(); /* Unprototyped: uses the value as a pointer where the definition has an integer (or the reverse) */
 s32 create_status_linked_render_effect();
 void create_cylindrical_effect(); /* Unprototyped: retail passes an unused sprite; dropping it changes bytes. */
@@ -187,7 +184,7 @@ void update_turning_fade_effect_and_model(ActorRecord *sequence, ObjectPosition 
         return;
     case 5:
         object = sequence->unk_A4.address;
-        object = object->unk_0C.s;
+        object = object->unk_0C;
         if (object->unk_14 & 0xE000) {
             sequence->action_phase.u = (u8) (sequence->action_phase.u + 1);
         }
@@ -205,7 +202,7 @@ void update_turning_fade_effect_and_model(ActorRecord *sequence, ObjectPosition 
         update_map_cell_flags_with_item_limit(actor->tile_x, actor->tile_y, 0x300);
         unlink_entity_node(target);
         object = ((S_801749A8_2 *)((u8 *)target - 0x20));
-        object->unk_10.u = object->unk_10.u | 0x80000000;
+        object->unk_10 = object->unk_10 | 0x80000000;
         return;
     case 7:
         model_addr = advance_staged_entity_load(actor, target);

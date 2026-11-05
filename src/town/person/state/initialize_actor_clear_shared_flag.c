@@ -14,5 +14,5 @@ void initialize_actor_clear_shared_flag(TownObjectRecord *actor, s32 unused, voi
     initialize_object_entries((actor), init_param, D_800D5360);
     D_80082710 = 0;
     actor->handler = &apply_setup_on_timeout_variant_1;
-    actor->timer.as_s16 = 0x15;
+    actor->timer = 0x15;
 }

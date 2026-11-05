@@ -268,8 +268,9 @@ def main(argv=None):
             for row in rows:
                 old = previous.get(row['id'])
                 if old:
-                    for key in ('status', 'evidence', 'retired_to_cast'):
-                        row[key] = old.get(key, row[key])
+                    for key in ('status', 'evidence', 'retired_to_cast', 'hold_reason'):
+                        if key in old:
+                            row[key] = old[key]
             rows.extend(old for key, old in previous.items() if key not in current_ids)
             rows.sort(key=lambda row: (row['file'], row['line'], row['id']))
         args.out.parent.mkdir(parents=True, exist_ok=True)

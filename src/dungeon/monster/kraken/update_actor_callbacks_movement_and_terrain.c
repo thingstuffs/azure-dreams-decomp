@@ -26,14 +26,14 @@ extern u8 kraken_action_handlers[];
 
 typedef struct S_80170B64_2 {
     u8 pad_00[0x4];
-    union { s8 s8; u16 u16; } unk_04;   /* accessed as both */
+    u16 unk_04;
     u8 pad_06[0xE];
     u16 unk_14;
     u8 pad_16[0xE];
     u8 unk_24;
     u8 unk_25;
     u8 pad_26[0x6];
-    union { void * p; s32 i; } unk_2C;   /* accessed as both */
+    s32 unk_2C;
 } S_80170B64_2;   /* arg2 in update_actor_callbacks_movement_and_terrain */
 
 
@@ -118,12 +118,12 @@ void update_actor_callbacks_movement_and_terrain(ActorRecord *body, ObjectPositi
             actor_base->flags1C = animated_flags;
             if (animated_flags & 0x40000) {
                 if (!(sprite_arg->flags & 0x40)) {
-                    animation_table = ((S_80170B64_2 *)sprite_arg)->unk_2C.i;
+                    animation_table = ((S_80170B64_2 *)sprite_arg)->unk_2C;
                     if (animation_table == (s32)&kraken_frame_set_1) {
                         body->unk_AC.value = 0;
                     } else if (animation_table == (s32)&D_80174174) {
                         body->unk_A0.parts.low++;
-                        if (((S_80170B64_2 *)sprite_arg)->unk_04.u16 == 0x100) {
+                        if (((S_80170B64_2 *)sprite_arg)->unk_04 == 0x100) {
                             body->unk_A0.parts.low = 0;
                             body->unk_AC.value = 0;
                         }
@@ -194,12 +194,12 @@ void update_actor_callbacks_movement_and_terrain(ActorRecord *body, ObjectPositi
                 }
             } else {
                 if (!(sprite_arg->flags & 0x40)) {
-                    static_animation_table = ((S_80170B64_2 *)sprite_arg)->unk_2C.i;
+                    static_animation_table = ((S_80170B64_2 *)sprite_arg)->unk_2C;
                     if (static_animation_table == (s32)&kraken_frame_set_1) {
                         body->unk_AC.value = 0;
                     } else if (static_animation_table == (s32)&D_80174174) {
                         body->unk_A0.parts.low++;
-                        if (((S_80170B64_2 *)sprite_arg)->unk_04.u16 == 0x100) {
+                        if (((S_80170B64_2 *)sprite_arg)->unk_04 == 0x100) {
                             body->unk_A0.parts.low = 0;
                             body->unk_AC.value = 0;
                         }

@@ -14,6 +14,6 @@ void initialize_actor_action_state(TownObjectRecord *object, ObjectPosition *sta
     dispatch_sound_by_global_flag();
     state->velocity_z = 0xFFEF0000;
     call_the_handler_selects_nonzero_entry(D_800D00B0, object, (void *)(initData));
-    object->unk_00.as_pm = &D_8009204C;
-    object->unk_0A.as_s16 = 0;
+    object->unk_00 = &D_8009204C;
+    object->unk_0A = 0;
 }

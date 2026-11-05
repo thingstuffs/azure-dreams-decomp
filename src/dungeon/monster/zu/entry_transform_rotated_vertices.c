@@ -8,7 +8,7 @@
 typedef struct S_80F90E88_1 {
     s32 unk_00;
     s32 unk_04;
-    union { u16 s; s16 u; } unk_08;   /* accessed as both */
+    u16 unk_08;
     s16 unk_0A;
     s32 unk_0C;
     u16 unk_10;
@@ -206,7 +206,7 @@ loop_1:
                 ((S_80F90E88_1 *)quad)->unk_20 = max_xy;
                 ((S_80F90E88_1 *)quad)->unk_18 = max_xy;
                 ((S_80F90E88_1 *)quad)->unk_10 = center_x;
-                ((S_80F90E88_1 *)quad)->unk_08.s = center_x;
+                ((S_80F90E88_1 *)quad)->unk_08 = center_x;
             } else {
                 ((S_80F90E88_1 *)quad)->unk_0C = 0;
                 ((S_80F90E88_1 *)quad)->unk_04 = 0;
@@ -215,7 +215,7 @@ loop_1:
                 ((S_80F90E88_1 *)quad)->unk_14 = color;
                 center_x = (u16) screen.z;
                 ((S_80F90E88_1 *)quad)->unk_10 = (u16) min_xy;
-                ((S_80F90E88_1 *)quad)->unk_08.u = min_xy;
+                (*(s16 *)&((S_80F90E88_1 *)quad)->unk_08) = min_xy;
                 ((S_80F90E88_1 *)quad)->unk_20 = center_x;
                 ((S_80F90E88_1 *)quad)->unk_18 = center_x;
             }

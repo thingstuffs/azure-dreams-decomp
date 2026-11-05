@@ -89,7 +89,7 @@ typedef struct S_800211A4_11 {
 
 typedef struct S_800211A4_12 {
     u8 pad_00[0x70];
-    union { s16 s; u16 u; } unk_70;   /* accessed as both */
+    s16 unk_70;
 } S_800211A4_12;   /* digit in update_betting_effect */
 
 typedef struct S_800211A4_13 {
@@ -594,12 +594,12 @@ void update_betting_effect(TownEffect *input)
                 random_value = rand();
                 message.x = (s16)(random_value % 3);
                 digit = (S_800211A4_12 *)((s32)message.x * 2 + (s32)(u8 *)&frame);
-                digit_count = digit->unk_70.s;
-                digit_count_raw = digit->unk_70.u;
+                digit_count = digit->unk_70;
+                digit_count_raw = ((u16)digit->unk_70);
             } while (digit_count <= 0);
             /* BYTES: sched1/sched2 region barrier or tie: unwrap reorders independent insns (no memory dependence) (ledger/onetrip_loadbearing.jsonl: town/func_8081E9A4). */
             do {
-                digit->unk_70.s = digit_count_raw - 1;
+                digit->unk_70 = digit_count_raw - 1;
             } while (0);
             origin_xy = 0x03600000;
             angle = (particle_index << 12) / digit_sum;

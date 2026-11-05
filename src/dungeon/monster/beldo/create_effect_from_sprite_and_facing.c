@@ -7,6 +7,7 @@
 #include "m2c_compat.h"
 #include "shared/dungeon_moving_views.h"
 #include "dungeon/monster/beldo.h"
+#include "engine/node.h"
 
 typedef struct {
     s32 word0;
@@ -15,7 +16,6 @@ typedef struct {
     s32 word3;
 } Block16;
 
-void *allocate_list_node();
 s32 register_node();
 void select_sprite_entry();
 extern M2C_UNK D_80170D44;

@@ -34,7 +34,7 @@ typedef struct TownBucket {
 } TownBucket;
 
 extern s32 copy_records_with_control_bits(s32, s32, s32, s32);
-extern void get_or_init_masked_entry(void *, void *);
+extern void *get_or_init_masked_entry(void *, void *);
 
 extern u8 D_80016178[0x10];
 extern u8 D_80016184[0x10];

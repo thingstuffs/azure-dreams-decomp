@@ -42,10 +42,9 @@ s32 try_begin_lift_object(struct S_8008C5C4_2 *action, void *unused, SpriteAnima
 s32 request_familiar_deployment_change(); /* extern */
 #include "dungeon/player/input.h"
 #include "slus.h"
+#include "dungeon/player/object.h"
 
 void *select_item_record_pointer(); /* Unprototyped: one or two arguments; the second register argument is ignored. */                      /* extern */
-s32 can_entity_gain_level(void *entity);                  /* extern */
-void set_record_integer_tile_center(ObjectPosition *record, s32 tile_x, s32 tile_y);              /* extern */
 #include "dungeon/player/object/action_state.h"
 #include "engine/graphics.h"
 #include "engine/resource.h"

@@ -594,7 +594,6 @@ s32 get_entity_class();
 struct EntityLinkNode;
 void unlink_entity_node(struct EntityLinkNode *node);
 void update_map_cell_flags_with_item_limit(s32 x, s32 y, u16 flags);
-s32 display_text_with_fullwidth_adjustment(s8 *text);
 s32 generate_random_value(void);
 void process_active_slots_at_coordinates(s16, s16);
 
@@ -1899,7 +1898,7 @@ typedef struct Object {
 } Object;
 
 extern DungeonGroup item_category_groups[];
-extern void create_textured_ellipse_effect(ObjectPosition *, Object *);
+extern void *create_textured_ellipse_effect(ObjectPosition *, Object *);
 
 /* Apply a mode-adjusted quarter-value change when the source and target item flags permit it. */
 s32 prepare_quarter_damage_return(Object *object, ActorRecord *source) {

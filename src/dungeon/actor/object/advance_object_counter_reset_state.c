@@ -14,11 +14,11 @@ extern s32 D_800D6938[];
 void advance_object_counter_and_reset_state(TownObjectRecord *object, ObjectPosition *unused, void *context) {
     u16 remaining_ticks;
 
-    remaining_ticks = object->timer.as_u16 - 1;
-    object->timer.as_u16 = remaining_ticks;
+    remaining_ticks = object->timer - 1;
+    object->timer = remaining_ticks;
     if ((remaining_ticks << 0x10) <= 0) {
         initialize_object_entries(object, context, D_800D6938);
         object->handler = &apply_setup_on_timeout_variant_3;
-        object->timer.as_u16 = 0xAU;
+        object->timer = 0xAU;
     }
 }

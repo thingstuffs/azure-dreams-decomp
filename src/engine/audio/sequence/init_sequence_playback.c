@@ -18,7 +18,7 @@ extern s32 audio_sequence_timing_division[4];
 extern s32 audio_sequence_track_count[4];
 extern s32 audio_sequence_multitrack_mode[4];
 
-extern void read_next_byte_and_finish(S_80058B70 *);
+extern s32 read_next_byte_and_finish(S_80058B70 *);
 
 /* Configures the first playback slot and playback parameters for the current mode. */
 s32 init_sequence_playback(void)

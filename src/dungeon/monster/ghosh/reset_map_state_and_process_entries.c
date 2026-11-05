@@ -5,6 +5,7 @@
 #include "shared/entity.h"
 #include "shared/dungeon_status.h"
 #include "dungeon/item.h"
+#include "dungeon/data.h"
 
 /* Sparse views for fields not covered by the existing record types. */
 typedef struct {
@@ -35,7 +36,6 @@ typedef struct {
 extern void unlink_entity_node(void *);
 extern void clear_actor_action_markers(u8 *state);
 
-extern u16 actor_direction_dispatch_key;
 extern s8 spell_effect_selector_cache;
 extern s32 D_801748C8[];
 extern u8 *D_801749E0[];

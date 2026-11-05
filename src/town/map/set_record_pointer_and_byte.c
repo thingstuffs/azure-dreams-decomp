@@ -20,6 +20,6 @@ void set_record_pointer_and_byte(TownObjectRecord *record_data, ObjectPosition *
     ObjectPosition *output = placement;
 
     ((S_800A8B98_0 *)((u8 *)record_data - 0x10))->unk_00 = &process_raised_position_pair;
-    output->z.v = (s32) (record_data->variant.as_s8 << 0x10);
-    record_data->timer.as_s16 = 5;
+    output->z.v = (s32) (((s8)record_data->variant) << 0x10);
+    record_data->timer = 5;
 }

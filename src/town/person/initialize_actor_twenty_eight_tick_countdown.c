@@ -13,5 +13,5 @@ void initialize_actor_twenty_eight_tick_countdown(TownObjectRecord *actor, s32 u
     initialize_object_entries(actor, output, D_800D6A98);
     object_index_slots[actor->slot].unk_00 = 0;
     actor->handler = person_countdown_update_address;
-    actor->timer.as_s16 = 28;
+    actor->timer = 28;
 }

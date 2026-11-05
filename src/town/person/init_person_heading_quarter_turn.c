@@ -4,5 +4,5 @@
 void init_person_heading_quarter_turn(TownObjectRecord *object, s32 unused, SpriteFrameState *output) {
     initialize_object_entries(object, output, D_800D72AC);
     object->handler = advance_actor_reaction_downward;
-    object->heading.as_s16 = 0x400;
+    object->heading = 0x400;
 }

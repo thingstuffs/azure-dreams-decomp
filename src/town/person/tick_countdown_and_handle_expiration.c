@@ -9,10 +9,10 @@ void tick_countdown_and_handle_expiration(TownObjectRecord *object, void *contex
     u16 countdown;
 
     if (select_object_setup_path(object, context_a, context_b) == 0) {
-        countdown = object->timer.as_u16 - 1;
-        object->timer.as_u16 = countdown;
+        countdown = object->timer - 1;
+        object->timer = countdown;
         if ((countdown << 0x10) <= 0) {
-            object->unk_90.as_s16 = 0;
+            object->unk_90 = 0;
             func_800CDFF8(object, context_a, context_b);
         }
     }

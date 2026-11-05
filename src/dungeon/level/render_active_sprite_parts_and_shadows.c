@@ -14,10 +14,7 @@
 #include "sdk/libgpu.h"
 extern u8 effect_view_matrix[];
 typedef struct S_SCRATCH {
-    union {
-        s16 s16;
-        u16 u16;
-    } unk_000;
+    u16 unk_000;
     u16 unk_002;
     u16 unk_004;
     u8 pad_006[0x2];
@@ -230,7 +227,7 @@ s32 render_active_sprite_parts_and_shadows(void *unused_0, void *unused_1, void 
         if ((*((u16 *) (((s8 *) sprite_entry) + 0x14))) & 0x40) {
             advance_sprite_animation_and_textures(sprite_entry);
         }
-        scr->unk_000.u16 = (s16) (((*((u8 *) (((s8 *) sprite_entry) + 6))) << 6) + 0x20);
+        scr->unk_000 = (s16) (((*((u8 *) (((s8 *) sprite_entry) + 6))) << 6) + 0x20);
         scr->unk_002 = (u16) (((*((u8 *) (((s8 *) sprite_entry) + 7))) << 6) + 0x20);
         entry_height = *((u16 *) (((s8 *) sprite_entry) + 0x12));
         scr->unk_004 = entry_height;
@@ -238,7 +235,7 @@ s32 render_active_sprite_parts_and_shadows(void *unused_0, void *unused_1, void 
         *((u16 *) (((s8 *) sprite_entry) + 0x10)) = entry_height;
         if (part_header != 0) {
             if ((*((u16 *) (((s8 *) sprite_entry) + 0x14))) & 0x100) {
-                world_x = scr->unk_000.s16;
+                world_x = ((s16)scr->unk_000);
                 world_y = scr->unk_002;
                 scr->unk_030 = (s32) 0x2000;
                 scr->unk_034 = (s32) 0x2000;
@@ -484,7 +481,7 @@ s32 render_active_sprite_parts_and_shadows(void *unused_0, void *unused_1, void 
                         if (!((*((u8 *) (((s8 *) quad) + 7))) & 2)) {
                             SetTransMatrix(&saved_matrix);
                             SetRotMatrix(&saved_matrix);
-                            world_pos_x = scr->unk_000.u16;
+                            world_pos_x = scr->unk_000;
                             world_pos_y = scr->unk_002;
                             scr->unk_004 = sample_terrain_surface_height(world_pos_x, world_pos_y,
                                 (s16)(shadow_scale[2] = (s16)scr->unk_004 - 4));

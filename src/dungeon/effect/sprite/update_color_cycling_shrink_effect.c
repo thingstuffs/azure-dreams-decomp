@@ -44,9 +44,9 @@ typedef struct S_func_818BD74C_3 {
 } S_func_818BD74C_3;
 
 
-extern void create_offset_color_effect(void *, void *, s16);
-extern void create_channel_tinted_effect(void *, void *, s16, s32);
-extern void create_phase_colored_effect(void *, void *, s16, s16);
+extern s32 create_offset_color_effect(void *, void *, s16);
+extern s32 create_channel_tinted_effect(void *, void *, s16, s32);
+extern void *create_phase_colored_effect(void *, void *, s16, s16);
 
 /* Animate a moving effect through color cycling, shrinking, and radial emission. */
 void update_color_cycling_shrink_effect(void *effect_arg, S_func_818BD74C_1 *motion, void *sprite_arg) {

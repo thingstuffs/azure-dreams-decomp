@@ -11,6 +11,7 @@
 #include "records/Rec_func_80173DD4_arg0.h"
 #include "dungeon.h"
 #include "dungeon/level.h"
+#include "engine/entity.h"
 
 typedef struct S_80173DD4_3 {
     u8 pad_00[0xA];
@@ -18,7 +19,6 @@ typedef struct S_80173DD4_3 {
 } S_80173DD4_3;   /* counter_base in update_actor_behavior_2 */
 
 extern s32 get_entity_effect_value(ActorRecord *entry, s32 effect_id);
-extern void clear_slots_of_type(ActorRecord *owner, s8 match_type);
 extern void select_sprite_entry(void *, u8, s32);
 extern s32 get_tile_chebyshev_distance(void *, void *);
 #include "dungeon/player/object/action_state.h"

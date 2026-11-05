@@ -16,7 +16,6 @@ struct EntityLinkNode;
 
 void unlink_entity_node(struct EntityLinkNode *node); /* extern */
 void update_map_cell_flags_with_item_limit(s32 x, s32 y, u16 flags);
-void * detach_record_and_update_slot_state(void *record); /* extern */
 s32 get_entity_effect_value(ActorRecord *entry, s32 effect_id);
 
 typedef struct S_800AD058_1 {

@@ -17,6 +17,8 @@
 #include "shared/dir_step.h"
 #include "dungeon/item.h"
 #include "dungeon/actor.h"
+#include "dungeon/item/message.h"
+#include "dungeon/system.h"
 
 void (*const dungeon_188e800_entry)(MovingColorWork *, u8 *, u8 *) = update_moving_effect_particles_and_cleanup;
 const u8 no_effect_target_prefix[48] = {0x82,0x73,0x82,0x88,0x82,0x85,0x82,0x92,0x82,0x85,0x81,0x40,0x82,0x97,0x82,0x81,0x82,0x93,0x81,0x40,0x82,0x8e,0x82,0x8f,0x81,0x40,0x82,0x85,0x82,0x86,0x82,0x86,0x82,0x85,0x82,0x83,0x82,0x94,0x81,0x40,0x82,0x8f,0x82,0x8e,0x81,0x40,0x0,0x0};
@@ -27,13 +29,8 @@ const s16 D_80024038[8][2] = {{32,0},{32,32},{0,32},{-32,32},{-32,0},{-32,-32},{
 
 
 extern void *get_unused_text_buffer(void);
-extern u8 *expand_text_control_codes(u8 *src, u8 *dst);
-extern u8 *clear_byte_and_advance(u8 *byte_ptr);
-extern u8 *append_entity_display_text(void *record, u8 *out);
 #include "dungeon/effect/screen.h"
 extern s32 set_or_clear_actor_status_slot(void *, s32, s8);
-extern void display_text_with_fullwidth_adjustment(s8 *text);
-extern s32 get_random_scaled_value(s16 input_value);
 
 extern const u8 no_effect_target_prefix[48];
 extern const u8 D_80024034[4];

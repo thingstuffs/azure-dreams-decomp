@@ -21,7 +21,7 @@ void update_actor_status_and_mp(ActorRecord *entity);
 
 typedef struct S_800AC82C_6 {
     u8 pad_00[0x2A];
-    union { u16 v; s16 n; } unk_2A;   /* accessed as both */
+    s16 unk_2A;
 } S_800AC82C_6;
 
 
@@ -122,8 +122,8 @@ s32 update_actor_transform_from_parent(Rec_func_800A9E70_arg0 *state, ObjectPosi
         ((ActorRecord *)actor)->flags1C = (s32) (((ActorRecord *)actor)->flags1C | ACTOR_REFRESH_GROUND);
         parent_rotation = ((ActorRecord *)actor)->target;
         prev_parent_angle = (*(s16 *)((u8 *)actor + 0x6A));
-        parent_angle_raw = parent_rotation->unk_2A.v;
-        parent_angle = parent_rotation->unk_2A.n;
+        parent_angle_raw = ((u16)parent_rotation->unk_2A);
+        parent_angle = parent_rotation->unk_2A;
         angle = (*(u16 *)((u8 *)actor + 0x2A)) - (prev_parent_angle - parent_angle);
         ((ActorRecord *)actor)->movement_facing = parent_angle_raw;
         ((ActorRecord *)actor)->facing = angle;

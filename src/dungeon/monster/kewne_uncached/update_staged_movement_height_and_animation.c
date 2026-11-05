@@ -26,7 +26,7 @@ typedef struct S_80173930_0 {
     u8 pad_00[0x8C];
     u8 * unk_8C;
     u8 pad_90[0x6];
-    union { u16 u; s16 s; } unk_96;   /* accessed as both */
+    u16 unk_96;
     u8 pad_98[0x3];
     u8 unk_9B;
     u8 pad_9C[0x4];
@@ -56,7 +56,7 @@ void update_staged_movement_height_and_animation(void *motion, ObjectPosition *v
 
     case 1:
         if (sprite->flags & 0x8000) {
-            ((S_80173930_0 *)motion)->unk_96.u = 0x100;
+            ((S_80173930_0 *)motion)->unk_96 = 0x100;
             ((S_80173930_0 *)motion)->unk_9B = 5;
             resolve_attack_damage_and_effects(actor, sprite, actor->facing, 1);
             return;
@@ -102,7 +102,7 @@ void update_staged_movement_height_and_animation(void *motion, ObjectPosition *v
         {
             s32 current_state = ((S_80173930_0 *)motion)->unk_9B;
 
-            ((S_80173930_0 *)motion)->unk_96.u = 0;
+            ((S_80173930_0 *)motion)->unk_96 = 0;
             if (current_state == 0) {
                 return;
             }
@@ -127,9 +127,9 @@ void update_staged_movement_height_and_animation(void *motion, ObjectPosition *v
             (s32)*(s16 *)(direction_y +
                 (((u16)actor->facing >> 8) & 0xE)) << 17;
 
-        ((S_80173930_0 *)motion)->unk_A0.at00.v -= (s32)((S_80173930_0 *)motion)->unk_96.s << 17;
-        frame = ((S_80173930_0 *)motion)->unk_96.u + 1;
-        ((S_80173930_0 *)motion)->unk_96.u = frame;
+        ((S_80173930_0 *)motion)->unk_A0.at00.v -= (s32)((s16)((S_80173930_0 *)motion)->unk_96) << 17;
+        frame = ((S_80173930_0 *)motion)->unk_96 + 1;
+        ((S_80173930_0 *)motion)->unk_96 = frame;
         if ((s16)frame < 9) {
             return;
         }
@@ -150,7 +150,7 @@ void update_staged_movement_height_and_animation(void *motion, ObjectPosition *v
                 (((u16)actor->facing >> 8) & 0xE)) << 20;
         ((S_80173930_0 *)motion)->unk_A8 = velocity->velocity_x / 6;
         ((S_80173930_0 *)motion)->unk_AC = velocity->velocity_y / 6;
-        ((S_80173930_0 *)motion)->unk_96.u = 0;
+        ((S_80173930_0 *)motion)->unk_96 = 0;
         ((S_80173930_0 *)motion)->unk_9B++;
         return;
     }
@@ -159,13 +159,13 @@ void update_staged_movement_height_and_animation(void *motion, ObjectPosition *v
         velocity->velocity_x -= ((S_80173930_0 *)motion)->unk_A8;
         velocity->velocity_y -= ((S_80173930_0 *)motion)->unk_AC;
         ((S_80173930_0 *)motion)->unk_A0.at00.v =
-            rsin(((S_80173930_0 *)motion)->unk_96.s * 146) * 160 + 0x100000;
+            rsin(((s16)((S_80173930_0 *)motion)->unk_96) * 146) * 160 + 0x100000;
 
     case 5:
     {
-        u16 frame = ((S_80173930_0 *)motion)->unk_96.u + 1;
+        u16 frame = ((S_80173930_0 *)motion)->unk_96 + 1;
 
-        ((S_80173930_0 *)motion)->unk_96.u = frame;
+        ((S_80173930_0 *)motion)->unk_96 = frame;
         if ((s16)frame < 7 && !(sprite->flags & 0x8000)) {
             return;
         }

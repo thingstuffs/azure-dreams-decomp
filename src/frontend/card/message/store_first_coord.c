@@ -2,7 +2,7 @@
 #include "common.h"
 #include "frontend/card/message.h"
 
-extern void init_menu_row_entry(void *object, void *position, s32 mode);
+extern void *init_menu_row_entry(void *object, void *position, s32 mode);
 extern void func_804025F8(s32 row_value, s32 value, s32 mode);
 
 /* Sets the linked record X halfword to twice column_tripled minus half the object width plus 0xA2. */

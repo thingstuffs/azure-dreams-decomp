@@ -26,8 +26,8 @@ void move_coordinates_halfway_toward_target(TownObjectRecord *state, s32 *coords
     value2 = coords[1];
     coords[1] = value2 + ((target - value2) / 2);
 
-    timer = state->timer.as_u16 - 1;
-    state->timer.as_s16 = timer;
+    timer = state->timer - 1;
+    state->timer = timer;
     if ((s16)timer <= 0) {
         *(void (**)(void))((u8 *)state + 0x54) = copy_global_position_output_offset;
         object_index_slots[state->slot].field1 = 0;

@@ -20,7 +20,7 @@ extern s32 D_800D0198;
 void initialize_object_handler_and_countdown(TownObjectRecord *object, ObjectPosition *context, void *ptr2) {
     call_the_handler_selects_nonzero_entry(&D_800D0198, object, ptr2);
     object_index_slots[object->unk_40].unk_00 = 0;
-    object->unk_0A.as_s16 = 0x14;
+    object->unk_0A = 0x14;
     clear_entity_record_fields((context));
-    object->unk_04.as_pm = move_player_halfway_to_target;
+    object->unk_04 = move_player_halfway_to_target;
 }

@@ -6,10 +6,10 @@ struct ObjectNodeHeader;
 #include "shared/dungeon_floor.h"
 #include "shared/record_ptrs.h"
 #include "dungeon/item.h"
+#include "dungeon/level.h"
 
 
 extern void func_80173ED0(void);
-extern void clear_entry_flag_and_link_owner(struct ObjectNodeHeader *);
 
 /* Dungeon teardown: clear the on-screen/status flag bits, run both shutdown hooks, and release the two objects held in the actor table. */
 void teardown_boss_secondary_state(void) {

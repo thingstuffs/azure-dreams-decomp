@@ -31,6 +31,11 @@ def swaps_from_diff(patch: str) -> set[tuple[str, str, str]]:
         for a, b in pairs:
             before = list(ACCESS.finditer(removed[a]))
             after = list(ACCESS.finditer(added[b]))
+            # A retired field can remove one access from the line while other
+            # unions on that line remain unchanged.  Positional zipping would
+            # misreport the later accesses as member renames.
+            if [m['field'] for m in before] != [m['field'] for m in after]:
+                continue
             for old, new in zip(before, after):
                 if old['field'] == new['field'] and old['member'] != new['member']:
                     swaps.add((old['field'], old['member'], new['member']))

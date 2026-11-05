@@ -17,6 +17,7 @@
 #include "dungeon/item.h"
 #include "dungeon/item/message.h"
 #include "dungeon/system.h"
+#include "dungeon/data.h"
 
 
 
@@ -26,7 +27,7 @@ typedef struct S_80175CD8_5 {
     u8 pad_0C[0x10];
     u32 unk_1C;
     u8 pad_20[0x68];
-    union { u16 s; s16 u; } unk_88;   /* accessed as both */
+    s16 unk_88;
 } S_80175CD8_5;   /* globals in update_actor_approach_descent_return */
 
 
@@ -39,7 +40,6 @@ extern s32 dungeon_mode_state;
 extern s16 floor_generation_state[3];
 extern s16 current_dungeon_floor;
 extern u8 scene_mode_code;
-extern s16 actor_event_values[];
 extern u8 baloon_default_frames[];
 extern u8 baloon_hop_frames[];
 extern u8 D_80170940[];
@@ -292,9 +292,9 @@ void update_actor_approach_descent_return(ActorRecord *action, ObjectPosition *m
             scene_base = ((u8 *)(&scene_object_list_anchor));
             scene = scene_base + 0x20;
             player->flags14 = player_flags;
-            height = ((u16)view_reference_entity.z.w.i) - ((S_80175CD8_5 *)scene)->unk_88.s;
+            height = ((u16)view_reference_entity.z.w.i) - ((u16)((S_80175CD8_5 *)scene)->unk_88);
             player->unk_90.parts.high.s = height;
-            ((S_80175CD8_5 *)scene)->unk_88.u = height;
+            ((S_80175CD8_5 *)scene)->unk_88 = height;
             ((S_80175CD8_5 *)scene)->unk_1C |= 0x40000000;
         }
             (*(s16 *)((u8 *)action + 0x96)) = 0x28;

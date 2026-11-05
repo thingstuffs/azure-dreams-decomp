@@ -16,5 +16,5 @@ void initialize_actor_slot_eleven_countdown_variant_4ce5c(TownObjectRecord *acto
     initialize_object_entries(actor, output, D_800D64DC);
     D_800826B8 = 0;
     actor->handler = raise_reaction_output_until_expiry;
-    actor->timer.as_s16 = 0x8;
+    actor->timer = 0x8;
 }

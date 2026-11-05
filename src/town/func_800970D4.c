@@ -16,6 +16,6 @@ extern s32 D_800D0188;
 void init_linked_position_action(TownObjectRecord *record, s32 unused, SpriteFrameState *setup_value) {
     SD_Call(0x500);
     call_the_handler_selects_nonzero_entry(&D_800D0188, record, setup_value);
-    record->unk_00.as_pm = follow_linked_position_until_timeout;
-    record->unk_0A.as_s16 = 0x1E;
+    record->unk_00 = follow_linked_position_until_timeout;
+    record->unk_0A = 0x1E;
 }

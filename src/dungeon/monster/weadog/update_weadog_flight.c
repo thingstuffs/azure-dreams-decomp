@@ -21,14 +21,14 @@ typedef struct S_func_80EDF000_1 {
         s32 s32;
         struct {
             u8 pad_00[2];
-            union { s16 s16; u16 u16; } unk_02;
+            s16 unk_02;
         } parts;
     } unk_00;
     union {
         s32 s32;
         struct {
             u8 pad_04[2];
-            union { s16 s16; u16 u16; } unk_06;
+            s16 unk_06;
         } parts;
     } unk_04;
     union {
@@ -142,16 +142,16 @@ interpolate:
                 s32 interp_current;
 
                 interp_goal = position->unk_0E;
-                interp_current = position->unk_00.parts.unk_02.s16;
+                interp_current = position->unk_00.parts.unk_02;
                 interp_goal *= 64;
                 interp_current -= 32;
                 interp_goal -= interp_current;
                 interp_goal /= countdown;
-                position->unk_00.parts.unk_02.s16 += interp_goal;
+                position->unk_00.parts.unk_02 += interp_goal;
 
                 {
                     s32 goal = position->unk_12;
-                    s32 current = position->unk_04.parts.unk_06.s16;
+                    s32 current = position->unk_04.parts.unk_06;
                     s32 ticks = motion->travel_frames;
                     s32 delta;
                     s32 scaled = goal;
@@ -160,12 +160,12 @@ interpolate:
                     interp_goal = scaled - delta;
                     interp_goal /= ticks;
                 }
-                interp_current = position->unk_04.parts.unk_06.u16;
+                interp_current = ((u16)position->unk_04.parts.unk_06);
                 countdown = position->unk_08.parts.unk_0A;
                 interp_current += interp_goal;
 
                 interp_goal = position->unk_16;
-                position->unk_04.parts.unk_06.s16 = interp_current;
+                position->unk_04.parts.unk_06 = interp_current;
                 interp_goal -= countdown;
                 interp_goal /= (s16)motion->travel_frames;
                 position->unk_08.parts.unk_0A += interp_goal;
@@ -233,14 +233,14 @@ fall:
             motion->velocity_y = coord;
 
             coord = step->x;
-            world_coord = position->unk_00.parts.unk_02.s16;
+            world_coord = position->unk_00.parts.unk_02;
             interp_goal += coord;
             if (world_coord < 0)
                 world_coord += 0x3F;
             coord = world_coord >> 6;
             if (interp_goal == coord) {
                 coord = (u16)step->y;
-                world_coord = position->unk_04.parts.unk_06.s16;
+                world_coord = position->unk_04.parts.unk_06;
                 interp_goal = motion->spawner_tile_y;
                 coord = (s16)coord;
                 interp_goal += coord;
@@ -248,9 +248,9 @@ fall:
                     world_coord += 0x3F;
                 coord = world_coord >> 6;
                 if (interp_goal == coord) {
-                    if ((check_left_tile_and_center_height(position->unk_00.parts.unk_02.u16, position->unk_04.parts.unk_06.u16,
+                    if ((check_left_tile_and_center_height((u16)position->unk_00.parts.unk_02, ((u16)position->unk_04.parts.unk_06),
                         position->unk_08.parts.unk_0A) << 16) != 0 ||
-                        sample_terrain_surface_height(position->unk_00.parts.unk_02.u16, position->unk_04.parts.unk_06.u16,
+                        sample_terrain_surface_height((u16)position->unk_00.parts.unk_02, ((u16)position->unk_04.parts.unk_06),
                                           position->unk_08.parts.unk_0A) >= 0x200) {
                         position->unk_00.s32 -= motion->velocity_x;
                         motion->velocity_x = 0;

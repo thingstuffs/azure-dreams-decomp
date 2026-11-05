@@ -6,6 +6,8 @@
 #include "frontend/settings.h"
 #include "engine/effect/screen_fade.h"
 #include "main/data.h"
+#include "engine/resource.h"
+#include "engine/scene.h"
 
 #ifndef NULL
 #define NULL 0
@@ -14,9 +16,6 @@
 extern u8 animation_tick_scale[];
 
 extern short SD_Call(int flags);
-extern void *allocate_flagged_object_node(s32 flags);
-extern void reset_game_state_preserving_session_fields(void);
-extern void request_scene_dispatch_state(s16 requested_state);
 extern void func_80089c24();
 
 /* Updates menu animation, selection, and idle demo transitions. */

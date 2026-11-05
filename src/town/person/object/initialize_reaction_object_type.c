@@ -12,5 +12,5 @@ extern s32 D_800D64C8[];
 void initialize_reaction_object_type_21(TownObjectRecord *object, s32 unused, void *context) {
     initialize_object_entries((object), context, D_800D64C8);
     object->unk_50.as_pm = &D_800C97F4;
-    object->timer.as_s16 = 0x15;
+    object->timer = 0x15;
 }

@@ -7,13 +7,13 @@
 void advance_object_after_timeout_variant_2(TownObjectRecord *object, s32 unused, void *updateContext) {
     u16 remainingTicks;
 
-    remainingTicks = object->timer.as_u16 - 1;
-    object->timer.as_u16 = remainingTicks;
+    remainingTicks = object->timer - 1;
+    object->timer = remainingTicks;
     if ((remainingTicks << 0x10) <= 0) {
         initialize_object_entries((object), updateContext, D_800D6268);
         object->unk_50.as_pm = &D_800C8FF0;
-        object->heading.as_s16 = 0xC00;
-        object->timer.as_u16 = (u16) (object->variant.as_u8 * 3);
+        object->heading = 0xC00;
+        object->timer = (u16) (object->variant * 3);
     }
 }
 
@@ -22,16 +22,16 @@ void decrement_entity_timer_updating_motion(TownObjectRecord *entity, ObjectPosi
     u16 ticks_left;
     void *transition_context;
 
-    ticks_left = entity->timer.as_u16 - 1;
-    entity->timer.as_u16 = ticks_left;
+    ticks_left = entity->timer - 1;
+    entity->timer = ticks_left;
     transition_context = context;
     if ((s16) ticks_left < 0) {
         initialize_object_entries((entity), transition_context, D_800D6268);
-        entity->timer.as_u16 = 3U;
+        entity->timer = 3U;
         entity->unk_50.as_pm = &finish_countdown_and_set_flags;
-        entity->heading.as_s16 = 0xC00;
+        entity->heading = 0xC00;
         return;
     }
-    entity->heading.as_s16 = 0x800;
+    entity->heading = 0x800;
     motion->y.v = (s32) (motion->y.v + 0xFFEAAAAB);
 }

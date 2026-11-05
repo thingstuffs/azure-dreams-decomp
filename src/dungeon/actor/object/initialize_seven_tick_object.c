@@ -15,5 +15,5 @@ void initialize_object_with_seven_tick_counter(TownObjectRecord *object, ObjectP
     initialize_object_entries(object, context, D_800D6910);
     object_index_slots[object->slot].unk_00 = 0;
     object->handler = &D_800CB21C;
-    object->timer.as_s16 = 7;
+    object->timer = 7;
 }

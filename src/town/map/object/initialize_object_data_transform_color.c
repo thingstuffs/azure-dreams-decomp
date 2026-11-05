@@ -37,7 +37,7 @@ void initialize_object_data_transform_color(TownObjectRecord *object, ObjectPosi
     ((ObjectNodeHeader *)object - 1)->update_callback = deactivate_object_triggered;
     register_node((ObjectNodeHeader *)object - 1, draw_linked_lit_meshes);
 
-    object->unk_66.as_s16 = 0;
+    object->unk_66 = 0;
     state->unk1C = 0x1000;
     state->unk1E = 0x1000;
     state->unk20 = 0x1000;

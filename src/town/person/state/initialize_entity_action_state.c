@@ -12,6 +12,6 @@ void initialize_entity_action_state(TownObjectRecord *entity, s32 unused, void *
     initialize_object_entries(entity, init_value, D_800D68D4);
     (object_index_slots[entity->slot].unk_00) = 0;
     entity->handler = update_entity_countdown_completion;
-    entity->timer.as_s16 = 6;
-    entity->variant.as_u8 = object_index_slots[entity->slot].unk_02;
+    entity->timer = 6;
+    entity->variant = object_index_slots[entity->slot].unk_02;
 }

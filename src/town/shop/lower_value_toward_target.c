@@ -8,7 +8,7 @@ extern void refresh_formatted_global_display(void *);
 
 typedef struct S_800B1890_0 {
     u8 pad_00[0x8];
-    union { s16 s; u16 u; } unk_08;   /* accessed as both */
+    s16 unk_08;
 } S_800B1890_0;
 
 typedef struct ValueTransition {
@@ -29,15 +29,15 @@ void lower_value_toward_target(ObjectNodeHeader *object) {
 
     state = ((ValueTransition *)object)->state;
     target_value = *(s32 *)&object->pprev;
-    current_value = state->unk_08.s;
-    current_bits = state->unk_08.u;
+    current_value = state->unk_08;
+    current_bits = ((u16)state->unk_08);
     if (target_value < current_value) {
         adjustment = current_value + 4;
         adjustment = target_value - adjustment;
         adjustment >>= 2;
-        state->unk_08.s = current_bits + adjustment;
+        state->unk_08 = current_bits + adjustment;
     } else {
-        state->unk_08.u = ((ValueTransition *)object)->target;
+        (*(u16 *)&state->unk_08) = ((ValueTransition *)object)->target;
         (object)[-1].update_callback = refresh_formatted_global_display;
     }
 

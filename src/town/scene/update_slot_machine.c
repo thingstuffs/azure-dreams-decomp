@@ -30,8 +30,8 @@ typedef struct S_func_80811C54_1 {
     u8 pad_50[8];
     s32 unk_58;
     s16 unk_5C;
-    union { u16 u; s16 s; } unk_5E;
-    union { u16 u; s16 s; } unk_60;
+    u16 unk_5E;
+    u16 unk_60;
     u16 unk_62;
     u16 unk_64;
 } S_func_80811C54_1;
@@ -129,18 +129,18 @@ void update_slot_machine(void *machine, void *position)
 
     case 2:
         if (input->unk_08 & 0x5000) {
-            u16 ticks_left = self->unk_5E.u;
-            self->unk_5E.u = ticks_left - 1;
+            u16 ticks_left = self->unk_5E;
+            self->unk_5E = ticks_left - 1;
             if ((s16)ticks_left < 0) {
-                self->unk_5E.u = 0;
+                self->unk_5E = 0;
             }
         } else {
-            self->unk_5E.u = 5;
+            self->unk_5E = 5;
         }
 
         if ((input->unk_10 & 0x1000) ||
             ((input->unk_08 & 0x1000) &&
-             (self->unk_5E.s <= 0))) {
+             (((s16)self->unk_5E) <= 0))) {
             if (self->unk_64 < 3U) {
                 if (COUNT_VALUE < 1000U) {
                     return;
@@ -156,7 +156,7 @@ void update_slot_machine(void *machine, void *position)
 
         if ((input->unk_10 & 0x4000) ||
             ((input->unk_08 & 0x4000) &&
-             (self->unk_5E.s <= 0))) {
+             (((s16)self->unk_5E) <= 0))) {
             if (self->unk_64 >= 2U) {
                 COUNT_STORE(COUNT_VALUE + 1000);
                 (*(u16 *)((u8 *)self + 0x64))--;
@@ -167,22 +167,22 @@ void update_slot_machine(void *machine, void *position)
         {
             state_or_buttons = input->unk_10;
             if (state_or_buttons & 0x40) {
-                self->unk_5E.u = 10;
+                self->unk_5E = 10;
                 self->unk_5C = 3;
                 return;
             }
             if (!(state_or_buttons & 0x20) || self->unk_64 == 0) {
                 return;
             }
-            self->unk_5E.u = 20;
+            self->unk_5E = 20;
             self->unk_5C = 4;
             return;
         }
 
     case 3:
     {
-        s32 ticks_left = self->unk_5E.u - 1;
-        self->unk_5E.u = ticks_left;
+        s32 ticks_left = self->unk_5E - 1;
+        self->unk_5E = ticks_left;
         if ((s16)ticks_left > 0) {
             return;
         }
@@ -194,8 +194,8 @@ void update_slot_machine(void *machine, void *position)
 
     case 4:
     {
-        s32 ticks_left = self->unk_5E.u - 1;
-        self->unk_5E.u = ticks_left;
+        s32 ticks_left = self->unk_5E - 1;
+        self->unk_5E = ticks_left;
         if ((s16)ticks_left > 0) {
             return;
         }
@@ -217,35 +217,35 @@ void update_slot_machine(void *machine, void *position)
 
     case 5:
     {
-        s16 reel_index = self->unk_5E.s;
+        s16 reel_index = ((s16)self->unk_5E);
         S_func_80811C54_3 *reel = ((S_func_80811C54_1 *)((u8 *)self + (s32)reel_index * 4))->unk_4C;
         if (reel->unk_24 != 3) {
             return;
         }
         self->unk_5C = 6;
-        self->unk_60.u = 0;
+        self->unk_60 = 0;
         return;
     }
 
     case 6:
     {
-        u16 ticks_left = self->unk_60.u;
-        self->unk_60.u = ticks_left - 1;
+        u16 ticks_left = self->unk_60;
+        self->unk_60 = ticks_left - 1;
         if ((s16)ticks_left <= 0) {
-            self->unk_60.u = 0;
+            self->unk_60 = 0;
         }
     }
 
         if ((input->unk_10 & 0x20) &&
-            self->unk_60.s == 0) {
-            s16 reel_index = self->unk_5E.s;
+            ((s16)self->unk_60) == 0) {
+            s16 reel_index = ((s16)self->unk_5E);
             S_func_80811C54_3 *reel = ((S_func_80811C54_1 *)((u8 *)self + (s32)reel_index * 4))->unk_4C;
             reel->unk_24 = 4;
-            self->unk_60.u = 10;
-            self->unk_5E.u = self->unk_5E.u + 1;
+            self->unk_60 = 10;
+            self->unk_5E = self->unk_5E + 1;
         }
 
-        if (self->unk_5E.s != 3) {
+        if (((s16)self->unk_5E) != 3) {
             return;
         }
         self->unk_58 = 0;
@@ -416,7 +416,7 @@ matrix_outer:
         }
 
         if (self->unk_58 == 0) {
-            self->unk_5E.u = 10;
+            self->unk_5E = 10;
             self->unk_64 = 0;
             self->unk_5C = 3;
             return;
@@ -464,18 +464,18 @@ matrix_outer:
                     digits[0] = ones + 10;
                 }
             }
-            self->unk_5E.u = 0;
+            self->unk_5E = 0;
             self->unk_5C = 7;
             return;
         }
 
     case 7:
     {
-        self->unk_5E.u++;
-        if ((s16)self->unk_5E.u == 9) {
+        self->unk_5E++;
+        if ((s16)self->unk_5E == 9) {
             func_802441A4(input);
         }
-        if (self->unk_5E.u & 3) {
+        if (self->unk_5E & 3) {
             return;
         }
     }
@@ -488,7 +488,7 @@ matrix_outer:
                     void *bet_effect = slot_machine_bet_effect[0];
                     self->unk_64 = 0;
                     func_80232A08(bet_effect);
-                    self->unk_5E.u = 10;
+                    self->unk_5E = 10;
                     self->unk_5C = 3;
                 }
                 self->unk_62 &= 0xFFFD;

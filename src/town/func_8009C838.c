@@ -17,6 +17,6 @@
 void init_object_countdown_action(TownObjectRecord *object, void *unused, void *handler_context) {
     call_the_handler_selects_nonzero_entry(object->handler_entries[6], object, handler_context);
     object_index_slots[object->unk_40].unk_00 = 0;
-    object->unk_04.as_pm = update_object_and_countdown;
-    object->unk_0A.as_s16 = 0x20;
+    object->unk_04 = update_object_and_countdown;
+    object->unk_0A = 0x20;
 }

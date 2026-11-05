@@ -16,5 +16,5 @@ void initialize_scene_entry_group_5(TownObjectRecord *object, s32 unused, void *
     initialize_object_entries(object, output, D_800D58CC);
     object_index_slots[object->slot].unk_00 = 0;
     object->handler = run_record_countdown_follow_up;
-    object->timer.as_s16 = 5;
+    object->timer = 5;
 }

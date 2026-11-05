@@ -7,5 +7,5 @@ void reset_person_heading_c00(TownObjectRecord *object, s32 unused, SpriteFrameS
     initialize_object_entries(object, output, object->descriptor->entries[5]);
     object_index_slots[object->slot].unk_00 = 0;
     object->handler = apply_object_setup_update;
-    object->heading.as_s16 = 0xC00;
+    object->heading = 0xC00;
 }

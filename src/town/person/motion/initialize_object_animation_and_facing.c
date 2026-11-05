@@ -16,7 +16,7 @@ void initialize_object_animation_and_facing(TownObjectRecord *object, void *posi
     initialize_object_entries(object, animation_state, object->descriptor->entries[5]);
     object_index_slots[object->slot].unk_00 = 0;
     object->handler = (void *)apply_object_setup_update;
-    object->heading.as_s16 = clamp_transform_coordinate_deltas(
+    object->heading = clamp_transform_coordinate_deltas(
         object->target_x,
         object->target_y,
         position);

@@ -19,5 +19,5 @@ void reset_object_handler_field_6c_value_15_46ee4(TownObjectRecord *object, s32 
     initialize_object_entries(object, updateValue, descriptor->entries[7]);
     object_index_slots[object->slot].unk_00 = 0;
     object->handler = expire_motion_timer;
-    object->timer.as_s16 = 0x15;
+    object->timer = 0x15;
 }

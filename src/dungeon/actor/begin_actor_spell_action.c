@@ -18,7 +18,7 @@ struct ObjectPosition;
 
 typedef struct S_800AAF00_2 {
     u8 pad_00[0x98];
-    union { s32 s32; u16 u16; } unk_98;   /* accessed as both */
+    s32 unk_98;
     u8 pad_9C[0xA];
     u16 unk_A6;
     u8 pad_A8[0x74];
@@ -50,7 +50,7 @@ void begin_actor_spell_action(void *actor, void *effect_param, SpriteFrameState 
         if ((((ActorRecord *)object)->flags1C & ACTOR_PLAYER_SIDE) &&
             ((((s16)((ActorRecord *)object)->action_flags) & 0x3FFF) >= 5)) {
             special_action = 1;
-            if (((((S_800AAF00_2 *)((u8 *)dungeon_actor_ring_anchor))->unk_98.s32 & 0x3000) == 0x2000) &&
+            if (((((S_800AAF00_2 *)((u8 *)dungeon_actor_ring_anchor))->unk_98 & 0x3000) == 0x2000) &&
                 (dungeon_actor_ring_anchor->unk_A4.halves.high.u == 0)) {
                 dungeon_actor_ring_anchor->action_state_flags |= 0x1000;
                 dungeon_actor_ring_anchor->unk_A4.halves.high.u++;

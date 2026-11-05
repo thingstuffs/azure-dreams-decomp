@@ -1,12 +1,11 @@
 #include "slus/message_mode_81550.h"
 #include "sdk/libc.h"
+#include "slus.h"
+#include "slus/data.h"
 
 typedef void (*FuncPtr)(char *);
 
 extern char message_conversion_buffer[0x100];
-extern char message_appended_suffix[];
-extern s32 message_primary_output_control_word;
-extern s32 message_output_control_word;
 
 /* Builds and dispatches a control-coded string, then resets its referenced words. */
 void runtime_dispatch_and_reset_control_string(char *text)

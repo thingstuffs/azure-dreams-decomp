@@ -8,6 +8,7 @@
 #include "shared/dungeon_status.h"
 #include "dungeon/level.h"
 #include "engine/graphics.h"
+#include "dungeon/data.h"
 
 typedef struct {
     u8 pad0[2];
@@ -20,8 +21,6 @@ extern s16 measure_directional_stopping_distance(s16, ObjectPosition *, void *, 
 
 
 extern u8 player_wait_frames[8];
-extern u8 player_jump_frame_set[8];
-extern u8 player_throw_followup_frames[8];
 extern u8 player_carry_frames[8];
 extern u8 player_throw_frame_set[8];
 extern s32 saved_held_item_word[];

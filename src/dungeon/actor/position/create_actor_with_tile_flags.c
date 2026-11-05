@@ -21,7 +21,6 @@ struct ObjectNodeHeader;
 
 extern void select_record_entry_and_value(void *state, void *entries, short index);
 extern s32 find_active_rect_containing_point(s32 point_x, s32 point_y);
-extern void clear_entry_flag_and_link_owner(struct ObjectNodeHeader *entry);
 
 extern u8 D_800D4158;
 extern u8 actor_default_action_address;

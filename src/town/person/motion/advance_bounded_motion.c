@@ -37,29 +37,29 @@ void advance_bounded_motion(TownObjectRecord *entity, void *motion_arg, SpriteFr
     motion->y.v = speed;
     motion->z.w.i = get_clamped_transform_coordinate(motion, max_speed, step_y);
 
-    angle = 0x400 - entity->heading.as_s16;
+    angle = 0x400 - entity->heading;
     quadrant = (angle / 0x400) & 3;
 
     switch (quadrant) {
     case 0:
-        if (entity->unk_84.as_s16 + entity->unk_8C < motion->x.w.i) {
-            motion->x.unsigned_parts.integer = entity->unk_84.as_u16 + *(u16 *)&entity->unk_8C;
+        if (entity->unk_84 + entity->unk_8C < motion->x.w.i) {
+            motion->x.unsigned_parts.integer = ((u16)entity->unk_84) + *(u16 *)&entity->unk_8C;
             initialize_object_assigns_state_data(entity, motion, context);
             return;
         }
         break;
     case 1:
-        if (entity->unk_86.as_s16 + entity->unk_8E < motion->y.w.i) {
-            motion->y.unsigned_parts.integer = entity->unk_86.as_u16 + *(u16 *)&entity->unk_8E;
+        if (((s16)entity->unk_86) + entity->unk_8E < motion->y.w.i) {
+            motion->y.unsigned_parts.integer = entity->unk_86 + *(u16 *)&entity->unk_8E;
             initialize_object_assigns_state_data(entity, motion, context);
             return;
         }
         break;
     case 2:
-        if (motion->x.w.i < entity->unk_84.as_s16 - entity->unk_8C) {
+        if (motion->x.w.i < entity->unk_84 - entity->unk_8C) {
             u16 center;
             u16 extent;
-            center = entity->unk_84.as_u16;
+            center = ((u16)entity->unk_84);
             extent = *(u16 *)&entity->unk_8C;
             motion->x.unsigned_parts.integer = center - extent;
             initialize_object_assigns_state_data(entity, motion, context);
@@ -67,10 +67,10 @@ void advance_bounded_motion(TownObjectRecord *entity, void *motion_arg, SpriteFr
         }
         break;
     default:
-        if (motion->y.w.i < entity->unk_86.as_s16 - entity->unk_8E) {
+        if (motion->y.w.i < ((s16)entity->unk_86) - entity->unk_8E) {
             u16 center;
             u16 extent;
-            center = entity->unk_86.as_u16;
+            center = entity->unk_86;
             extent = *(u16 *)&entity->unk_8E;
             motion->y.unsigned_parts.integer = center - extent;
             initialize_object_assigns_state_data(entity, motion, context);

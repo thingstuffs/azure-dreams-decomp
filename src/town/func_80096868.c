@@ -16,10 +16,10 @@ void call_the_valid_shared_angle_fixed_hex_120000_context_callee_80094_f_58(Obje
 
 
 void init_periodic_effect_action(TownObjectRecord *object, ObjectPosition *motion, SpriteFrameState *sprite) {
-    object->unk_3E.as_s16 = 6;
+    object->unk_3E = 6;
     store_the_valid_shared_angle_in_offset_hex_10(object);
     call_the_valid_shared_angle_fixed_hex_120000_context_callee_80094_f_58(motion);
     call_the_handler_selects_nonzero_entry(&player_event_handler_entries, object, sprite);
-    object->unk_00.as_pm = reset_action_handler_on_flag;
-    object->unk_0A.as_s16 = (s16) (scale_random_to_unsigned_halfword_limit(2) + 0xC);
+    object->unk_00 = reset_action_handler_on_flag;
+    object->unk_0A = (s16) (scale_random_to_unsigned_halfword_limit(2) + 0xC);
 }

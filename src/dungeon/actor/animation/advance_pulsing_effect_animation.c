@@ -27,9 +27,9 @@ typedef struct {
     u16 value_1e;
 } Motion;
 
-extern s32 unlink_entity_node(void *node);
+extern void unlink_entity_node(void *node);
 #include "dungeon/player/object/action_state.h"
-extern void * detach_record_and_update_slot_state(void *record);
+#include "dungeon/player/object.h"
 
 /* Animate a staged shrinking and fading effect, then release its object. */
 void advance_pulsing_effect_animation(State *state, Position *position, Motion *motion, void *object) {

@@ -30,8 +30,8 @@ typedef struct S_800DC988_2 {
 } S_800DC988_2;   /* data in initialize_complemented_state */
 
 
-extern s32 slide_menu_cursor_to_index();
-extern s32 update_state_activity_flags();
+extern void slide_menu_cursor_to_index();
+extern void update_state_activity_flags();
 extern s16 current_dungeon_floor[];
 
 /* Initializes state with complemented global values and updates it until completion. */

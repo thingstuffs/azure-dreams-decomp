@@ -19,7 +19,7 @@ void initialize_indexed_resource_object(TownObjectRecord *object_arg, ObjectPosi
     TownObjectRecord *object = object_arg;
 
     ((S_800A7E7C_0_pre *)object)[-1].unk_00 = &update_linked_position_or_flag_object;
-    object->slot = (s32) object->variant.as_u8;
+    object->slot = (s32) object->variant;
     context->source = &item_effect_descriptor;
     register_node_if_unregistered(object, project_sprite_chain);
 }

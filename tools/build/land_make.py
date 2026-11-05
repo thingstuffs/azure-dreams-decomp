@@ -376,8 +376,11 @@ def main(argv=None, root=ROOT):
                 raise ValueError('genuine ASPSX required; provision tools/setup.sh --psyq DIR')
         step('genuine', action=require)
     accounting(root, step)
-    tests = ['tools.tests.test_mkbuild', 'tools.tests.test_land_make', 'tools.tests.test_make_negative'] + args.test_module
-    env = dict(os.environ, PYTHONPATH=os.pathsep.join(str(root/d) for d in ('tools', 'tools/tests', '.')))
+    tests = ['tools.tests.test_mkbuild', 'tools.tests.test_land_make', 'tools.tests.test_make_negative',
+             'tools.tests.test_compile_inputs', 'tools.build.tests.test_object_cache',
+             'tools.tests.test_recipe_cache'] + args.test_module
+    env = dict(os.environ, PYTHONPATH=os.pathsep.join(str(root/d) for d in ('tools', 'tools/tests', '.')),
+               AZURE_OBJECT_CACHE='0', AZURE_COMPILE_LIMIT_ENABLED='0')
     def unit():
         with (log_dir/'unit.log').open('wb') as log:
             if subprocess.run([sys.executable,'-m','unittest',*tests], cwd=root, env=env, stdout=log, stderr=subprocess.STDOUT).returncode:

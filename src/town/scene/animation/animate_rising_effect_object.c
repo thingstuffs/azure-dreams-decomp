@@ -17,7 +17,7 @@ struct SpawnSeed;
 typedef struct S_8052F2C8_1 {
     void * unk_00;
     u8 pad_04[0x50];
-    union { s16 s; u16 u; } unk_54;   /* accessed as both */
+    s16 unk_54;
     s16 unk_56;
     u16 unk_58;
 } S_8052F2C8_1;   /* root in animate_rising_effect_object */
@@ -112,7 +112,7 @@ void animate_rising_effect_object(RisingEffectObject *obj, void *state_in, void 
     root_obj = root->unk_00;
     work = input;
 
-    if (root->unk_54.s == 9) {
+    if (root->unk_54 == 9) {
         mode = obj_held->mode.s;
         if (mode == 1 && ((IntVector3 *)state_held)->x <= 0x04DFFFFF) {
             state = root->unk_56;
@@ -206,9 +206,9 @@ void animate_rising_effect_object(RisingEffectObject *obj, void *state_in, void 
             obj_held->mode.s = 3;
             obj_held->field_10 |= 4;
             data1 = root->unk_00;
-            root->unk_54.u++;
+            (*(u16 *)&root->unk_54)++;
             data1->unk_14 += 2;
-            if (root->unk_54.s == 10) {
+            if (root->unk_54 == 10) {
                 data1 = root->unk_00;
                 data1->unk_14 += 10;
             }

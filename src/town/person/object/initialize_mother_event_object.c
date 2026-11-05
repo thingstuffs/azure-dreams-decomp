@@ -14,5 +14,5 @@ void initialize_mother_event_object(TownObjectRecord *object, s32 unused, void *
     initialize_object_entries((object), init_data, D_800D5FA0);
     mother_event_reset_byte = 0;
     object->handler = &forward_mother_event_update;
-    object->heading.as_s16 = 0;
+    object->heading = 0;
 }

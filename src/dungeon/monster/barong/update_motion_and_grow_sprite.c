@@ -19,7 +19,7 @@ typedef struct S_80170D58_1 {
     u8 pad_00[0x1A];
     s16 unk_1A;
     u8 pad_1C[0xA];
-    union { s16 s; u16 u; } unk_26;   /* accessed as both */
+    u16 unk_26;
     u16 unk_28;
     u8 pad_2A[0x2A];
     s32 unk_54;
@@ -79,7 +79,7 @@ void update_motion_and_grow_sprite(void *motion_arg, void *position_arg, SpriteF
         position->unk_08.at00u.v = 0;
         if (motion->unk_1A == 0) {
             motion->unk_1A = 1;
-            motion->unk_26.s = 0;
+            (*(s16 *)&motion->unk_26) = 0;
         }
     }
 
@@ -101,8 +101,8 @@ void update_motion_and_grow_sprite(void *motion_arg, void *position_arg, SpriteF
         sprite->scale_y = 0x1000;
     }
 
-    life_ticks = motion->unk_26.u - 1;
-    motion->unk_26.u = life_ticks;
+    life_ticks = motion->unk_26 - 1;
+    motion->unk_26 = life_ticks;
     if ((s16)life_ticks <= 0) {
         (*(u16 *)((u8 *)motion + -2)) |= NODE_REMOVE;
         object_flag_block.flags |= OBJECT_REMOVE_PENDING;

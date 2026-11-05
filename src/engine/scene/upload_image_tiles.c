@@ -6,7 +6,7 @@
 
 extern void mark_palette_colors_with_high_bit(u16 *entry, s32 groupCount, s32 contiguousMode);
 extern s32 relocate_sprite_metadata_pointers(void *object_addr);
-extern int patch_sprite_packet_texture_and_palette_ids(void *a0, u16 a1, u16 a2, u16 a3);
+extern void patch_sprite_packet_texture_and_palette_ids(void *a0, u16 a1, u16 a2, u16 a3);
 
 /* Uploads image tiles and palettes, updates the object's texture references, and returns the object. */
 void *upload_image_tiles(void *object, u16 texture_page, s32 clut_id, s32 alternate_page, s32 image_addr)

@@ -13,7 +13,7 @@ extern s32 D_800D0178;
 void initialize_object_with_countdown_24(TownObjectRecord *object, ObjectPosition *position, SpriteFrameState *initializationValue) {
     clear_entity_record_fields((position));
     call_the_handler_selects_nonzero_entry(&D_800D0178, object, initializationValue);
-    object->unk_04.as_pm = &tick_countdown_and_initialize_object;
+    object->unk_04 = &tick_countdown_and_initialize_object;
     town_action_reset_byte = 0;
-    object->unk_0A.as_s16 = 0x18;
+    object->unk_0A = 0x18;
 }

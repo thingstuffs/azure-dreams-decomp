@@ -18,7 +18,7 @@ typedef struct S_8008CD4C_2 {
     u8 pad_00[0x1C];
     s32 unk_1C;
     u8 pad_20[0xA];
-    union { u16 s; s16 u; } unk_2A;   /* accessed as both */
+    u16 unk_2A;
     u8 pad_2C[0x5C];
     s16 unk_88;
 } S_8008CD4C_2;   /* actor in begin_player_push */
@@ -45,7 +45,7 @@ void begin_player_push(Rec_func_8008ACDC_arg0 *action, s32 context, SpriteFrameS
     action->unk_8C.as_s32 = 0;
 
     if ((s16)state != -2) {
-        direction_offset = ((actor->unk_2A.s >> 8) & 0xE);
+        direction_offset = ((actor->unk_2A >> 8) & 0xE);
         x_step = &dir_step_x[direction_offset >> 1];
         next_x = sprite->tile_x + (u16)*x_step;
         y_step = &dir_step_y[direction_offset >> 1];
@@ -81,6 +81,6 @@ void begin_player_push(Rec_func_8008ACDC_arg0 *action, s32 context, SpriteFrameS
     set_sprite_animation_frame(
         sprite,
         (*(u8 * *)&sprite->frameTable)
-            [((g_game_work.view.camera_rotation.parts.viewAngle + actor->unk_2A.u + 0x100) >> 9) & 7],
+            [((g_game_work.view.camera_rotation.parts.viewAngle + ((s16)actor->unk_2A) + 0x100) >> 9) & 7],
         0, 1);
 }

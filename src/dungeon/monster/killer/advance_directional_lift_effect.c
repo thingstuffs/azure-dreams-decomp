@@ -20,7 +20,7 @@ typedef struct S_80173C20_1 {
     u8 pad_04[0x18];
     u32 unk_1C;
     u8 pad_20[0xA];
-    union { u16 s; s16 u; } unk_2A;   /* accessed as both */
+    s16 unk_2A;
     u8 pad_2C[0x1A];
     u16 unk_46;
     u8 pad_48[0x25];
@@ -52,7 +52,7 @@ void advance_directional_lift_effect(ActorRecord *action_record, ObjectPosition 
     switch (state) {
     case 0:
         saved = get_unused_text_buffer();
-        if ((entity_data->unk_2A.s >> 9) & 1) {
+        if ((((u16)entity_data->unk_2A) >> 9) & 1) {
             clear_byte_and_advance(expand_text_control_codes(
                 D_80170854, append_entity_display_text(entity_data, saved)));
         } else {
@@ -65,11 +65,11 @@ void advance_directional_lift_effect(ActorRecord *action_record, ObjectPosition 
             action_record->action_phase.u = 3;
             action_record->action_timer.u = 0;
             status_record->flags |= 0x6000;
-            resolve_attack_damage_and_effects(entity_data, status_record, entity_data->unk_2A.u, 1);
+            resolve_attack_damage_and_effects(entity_data, status_record, entity_data->unk_2A, 1);
             break;
         }
         status_record->frameTable = D_80174090;
-        index = (g_game_work.view.camera_rotation.parts.viewAngle + entity_data->unk_2A.u + 0x100) >> 9;
+        index = (g_game_work.view.camera_rotation.parts.viewAngle + entity_data->unk_2A + 0x100) >> 9;
         select_sprite_entry(status_record, D_80174090[index & 7], 0);
         action_record->unk_90.value = 0;
         action_record->action_state_flags |= 8;
@@ -84,7 +84,7 @@ void advance_directional_lift_effect(ActorRecord *action_record, ObjectPosition 
             break;
         }
         status_record->frameTable = D_80174098;
-        index = (g_game_work.view.camera_rotation.parts.viewAngle + entity_data->unk_2A.u + 0x100) >> 9;
+        index = (g_game_work.view.camera_rotation.parts.viewAngle + entity_data->unk_2A + 0x100) >> 9;
         select_sprite_entry(status_record, D_80174098[index & 7], 0);
         action_record->action_timer.u = 8;
         action_record->action_state_flags &= 0xFFF7;
@@ -94,13 +94,13 @@ void advance_directional_lift_effect(ActorRecord *action_record, ObjectPosition 
         timer = action_record->action_timer.u - 1;
         action_record->action_timer.u = timer;
         if (((timer << 16) == 0) || (status_record->flags & 0x8000)) {
-            resolve_attack_damage_and_effects(entity_data, status_record, entity_data->unk_2A.u, 1);
+            resolve_attack_damage_and_effects(entity_data, status_record, entity_data->unk_2A, 1);
         }
         if (!(status_record->flags & 0xE000)) {
             break;
         }
         status_record->frameTable = D_801740A0;
-        index = (g_game_work.view.camera_rotation.parts.viewAngle + entity_data->unk_2A.u + 0x100) >> 9;
+        index = (g_game_work.view.camera_rotation.parts.viewAngle + entity_data->unk_2A + 0x100) >> 9;
         select_sprite_entry(status_record, D_801740A0[index & 7], 0);
 
         action_record->action_phase.u++;

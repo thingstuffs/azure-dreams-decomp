@@ -1,5 +1,7 @@
 #include "common.h"
 #include "town/scene/flags.h"
+#include "town/player/state.h"
+#include "town/scene.h"
 
 /* Copy, in this TOWN script module, of the module-0 helper find_eligible_entry (src/town/func_8032F794.c). */
 
@@ -20,8 +22,6 @@ struct ScriptContext {
     s16 unk_1A;
 };
 
-extern void process_town_records(s32 records, s32 count);
-extern s32 get_script_flag_mask(s32 flag);
 extern s32 D_80019550;
 
 /* Return the first entry whose flag is clear and whose callback returns zero, rescanning while D_80019550 is set. */

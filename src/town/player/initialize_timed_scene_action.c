@@ -13,6 +13,6 @@ extern void D_80091AF0(void *state, void *object, s32 context);
 void initialize_timed_scene_action(TownObjectRecord *record, ObjectPosition *unused_position, SpriteFrameState *setup_value) {
     SD_Call(0x510);
     call_the_handler_selects_nonzero_entry(&timed_scene_handler_entries, record, setup_value);
-    record->unk_00.as_pm = &D_80091AF0;
-    record->unk_0A.as_s16 = 0xC;
+    record->unk_00 = &D_80091AF0;
+    record->unk_0A = 0xC;
 }

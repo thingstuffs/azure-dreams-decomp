@@ -15,5 +15,5 @@ void reset_object_handler_field_72_value_400(TownObjectRecord *object, s32 unuse
     initialize_object_entries(object, updateValue, descriptor->entries[5]);
     object_index_slots[object->slot].unk_00 = 0;
     object->handler = apply_object_setup_update;
-    object->heading.as_s16 = 0x400;
+    object->heading = 0x400;
 }

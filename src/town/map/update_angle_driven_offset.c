@@ -27,7 +27,7 @@ void update_angle_driven_offset(void *object_arg, DelayMotionZ *offset_state)
         return;
     }
 
-    angle = ((TownObjectRecord *)(object->unk_9C))->unk_66.as_s16;
+    angle = ((TownObjectRecord *)(object->unk_9C))->unk_66;
     sector = angle / 0x200;
     if ((s8)(sector % 4) == object->unk_97) {
         phase_value = rsin((s16)(angle % 0x200) * 2);
@@ -41,7 +41,7 @@ void update_angle_driven_offset(void *object_arg, DelayMotionZ *offset_state)
         s32 amplitude;
 
         object->unk_66 = (u16)object->unk_66 - 3;
-        decay_angle = ((TownObjectRecord *)(object->unk_9C))->unk_66.as_s16;
+        decay_angle = ((TownObjectRecord *)(object->unk_9C))->unk_66;
         amplitude = ((rcos((s16)(decay_angle % 0x200) * 0x18) >> 4)
                      * object->unk_66) << 8;
         offset = -amplitude;

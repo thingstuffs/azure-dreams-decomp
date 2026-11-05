@@ -7,6 +7,7 @@
 #include "records/Rec_D_80082E80.h"
 #include "shared/object_node.h"
 #include "dungeon/effect.h"
+#include "dungeon/player/object.h"
 
 typedef struct S_800B2FAC_0 {
     u8 pad_00[0x14];
@@ -20,7 +21,6 @@ struct EntityLinkNode;
 void unlink_entity_node(struct EntityLinkNode *node);
 void update_map_cell_flags_with_item_limit(s32 x, s32 y, u16 flags);             /* extern */
 s32 distribute_experience_awards();                      /* extern */
-void * detach_record_and_update_slot_state(void *record);                      /* extern */
 
 /* Update a flagged target and its tile state, then mark it dirty. */
 void update_flagged_target_tile(void *unused_0, void *unused_1, void *source_arg, ActorRecord *target) {

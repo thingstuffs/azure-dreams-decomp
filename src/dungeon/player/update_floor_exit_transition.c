@@ -30,7 +30,7 @@ typedef struct S_800930F0_4 {
     u8 pad_238[0x1E58];
     s32 unk_2090;
     u8 pad_2094[0x1680];
-    union { u16 s; s16 u; } unk_3714;   /* accessed as both */
+    s16 unk_3714;
     s16 unk_3716;
     s16 unk_3718;
     s16 unk_371A;
@@ -52,7 +52,7 @@ typedef struct S_800930F0_7 {
 
 typedef struct S_800930F0_8 {
     u8 pad_00[0x3CD0];
-    union { u8 s; s8 u; } unk_3CD0;   /* accessed as both */
+    s8 unk_3CD0;
 } S_800930F0_8;
 
 typedef struct S_800930F0_9 {
@@ -111,11 +111,11 @@ void update_floor_exit_transition(PlayerRecord *state, ObjectPosition *unused, M
         }
         transition_base = (s32 *)0x800E0000;
         saved_state_base = (S_800930F0_4 *)0x80010000;
-        if (saved_state_base->unk_3714.s & 4) {
-            if (((S_800930F0_8 *)transition_base)->unk_3CD0.s != 0) {
+        if (((u16)saved_state_base->unk_3714) & 4) {
+            if (((u8)((S_800930F0_8 *)transition_base)->unk_3CD0) != 0) {
                 break;
             }
-            ((S_800930F0_8 *)transition_base)->unk_3CD0.u = 1;
+            ((S_800930F0_8 *)transition_base)->unk_3CD0 = 1;
             request_scene_dispatch_state(3U);
             break;
         }
@@ -128,7 +128,7 @@ void update_floor_exit_transition(PlayerRecord *state, ObjectPosition *unused, M
             copy_src = (UnalignedCopy3 *)0x80013710;
             copy_dst = (UnalignedCopy3 *)0x80012080;
             *copy_dst = *copy_src;
-            saved_state_base->unk_3714.u = 0;
+            saved_state_base->unk_3714 = 0;
             saved_state_base->unk_3716 = 0;
             saved_state_base->unk_3718 = 0;
             saved_state_base->unk_371A = 0;
@@ -179,10 +179,10 @@ void update_floor_exit_transition(PlayerRecord *state, ObjectPosition *unused, M
     case 16:
         transition_base = (s32 *)0x800E0000;
         if (((S_800930F0_7 *)(((s32 *)&system_update_flags)))->unk_00 & 4) {
-            if (((S_800930F0_8 *)transition_base)->unk_3CD0.s != 0) {
+            if (((u8)((S_800930F0_8 *)transition_base)->unk_3CD0) != 0) {
                 break;
             }
-            ((S_800930F0_8 *)transition_base)->unk_3CD0.u = 1;
+            ((S_800930F0_8 *)transition_base)->unk_3CD0 = 1;
             request_scene_dispatch_state(3U);
             break;
         }

@@ -11,7 +11,7 @@
 typedef struct Rec_D_80083160 {
     union { u8 * as_pu8; void * as_pv; } unk_00;   /* read as u8 * by 1, void * by 3 */
     u8 pad_04[0xC4];
-    union { s16 as_s16; u16 as_u16; } unk_C8;   /* read as s16 by 1, u16 by 1 */
+    s16 unk_C8;
     u8 pad_CA[0x806];
     void * unk_8D0;
 } Rec_D_80083160;

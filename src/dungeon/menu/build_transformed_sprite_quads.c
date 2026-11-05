@@ -10,7 +10,7 @@
    /* state in build_transformed_sprite_quads */
 
 typedef struct S_8009E798_1 {
-    union { u16 u; s16 s; } unk_00;   /* accessed as both */
+    u16 unk_00;
     u16 unk_02;
     u8 pad_04[0x4];
     s32 unk_08;
@@ -158,7 +158,7 @@ s32 build_transformed_sprite_quads(InactiveTypeTwelveObjectBody *draw_area, Obje
 
     ((S_8009E798_1 *)scratch)->unk_30 = sprite->unk_1C.at00.v;
     ((S_8009E798_1 *)scratch)->unk_34 = sprite->unk_1E;
-    ((S_8009E798_1 *)scratch)->unk_00.u = placement->x.unsigned_parts.integer;
+    ((S_8009E798_1 *)scratch)->unk_00 = placement->x.unsigned_parts.integer;
     ((S_8009E798_1 *)scratch)->unk_02 = placement->y.unsigned_parts.integer;
     frame = (S_8009E798_5 *)sprite->unk_08;
     ((S_8009E798_1 *)scratch)->unk_24 = sprite->unk_14.at00.v;
@@ -171,7 +171,7 @@ s32 build_transformed_sprite_quads(InactiveTypeTwelveObjectBody *draw_area, Obje
     ScaleMatrix(scratch + 0xD0, scratch + 0x30);
 
     ((S_8009E798_1 *)scratch)->unk_EC = 0;
-    ((S_8009E798_1 *)scratch)->unk_E4 = ((S_8009E798_1 *)scratch)->unk_00.s;
+    ((S_8009E798_1 *)scratch)->unk_E4 = ((s16)((S_8009E798_1 *)scratch)->unk_00);
     ((S_8009E798_1 *)scratch)->unk_E8 = (s16)((S_8009E798_1 *)scratch)->unk_02;
     SetRotMatrix(scratch + 0xD0);
     SetTransMatrix(scratch + 0xD0);
@@ -182,7 +182,7 @@ s32 build_transformed_sprite_quads(InactiveTypeTwelveObjectBody *draw_area, Obje
     RotTransSV(scratch + 0x28, scratch + 0x100, scratch + 0x94);
 
     packet += 0xC;
-    ((S_8009E798_1 *)scratch)->unk_100 -= ((S_8009E798_1 *)scratch)->unk_00.u;
+    ((S_8009E798_1 *)scratch)->unk_100 -= ((S_8009E798_1 *)scratch)->unk_00;
     ((S_8009E798_1 *)scratch)->unk_102 -= ((S_8009E798_1 *)scratch)->unk_02;
 
     ((S_8009E798_1 *)scratch)->unk_08 = frame->unk_08.at00.v;

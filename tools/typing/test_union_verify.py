@@ -4,7 +4,7 @@ from tools.typing.union_verify import verify
 
 
 class UnionVerifyTests(unittest.TestCase):
-    def test_keeps_reviewed_proof_and_failed_byte_proof(self):
+    def test_keeps_reviewed_proof_and_normalizes_byte_hold(self):
         template = {
             'kind': 'sign_pun',
             'members': [{'name': 's'}, {'name': 'u'}],
@@ -17,7 +17,9 @@ class UnionVerifyTests(unittest.TestCase):
         ]
         reviewed = list(verify(rows))
         self.assertEqual([row['status'] for row, _, _ in reviewed],
-                         ['proven-by-bytes', 'proven', 'retire'])
+                         ['unproven', 'proven', 'retire'])
+        self.assertEqual(reviewed[0][0]['hold_reason'], 'bytes')
+        self.assertEqual(reviewed[0][0]['evidence'], 'Byte diff at +0x12')
 
 
     def test_keeps_manual_retirement_of_a_historical_row(self):

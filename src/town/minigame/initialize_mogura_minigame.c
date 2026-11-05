@@ -37,7 +37,7 @@ typedef struct S_80024100_2 {
         struct { u8 pad[0x2]; s16 v; } at02;
     } unk_10;   /* overlapping accesses */
     s16 unk_14;
-    union { s16 s; u16 u; } unk_16;   /* accessed as both */
+    s16 unk_16;
     s16 unk_18;
     s16 unk_1A;
 } S_80024100_2;   /* part in initialize_mogura_minigame */
@@ -98,7 +98,7 @@ s32 initialize_mogura_minigame(void *unused_arg0, void *unused_arg1, void *unuse
         if (object != NULL) {
             object->update_callback = update_callback;
             register_node(object, text_sprite_builder_address);
-            element->unk_16.s = 0xB4;
+            element->unk_16 = 0xB4;
             element->unk_18 = 3;
             element->unk_1A = 0x7C80;
             element->unk_14 = x_first;
@@ -119,7 +119,7 @@ s32 initialize_mogura_minigame(void *unused_arg0, void *unused_arg1, void *unuse
         if (object != NULL) {
             object->update_callback = update_callback;
             register_node(object, text_sprite_builder_address);
-            element->unk_16.s = 0xC4;
+            element->unk_16 = 0xC4;
             element->unk_18 = 3;
             element->unk_1A = 0x7C80;
             element->unk_14 = x_second;
@@ -153,7 +153,7 @@ s32 initialize_mogura_minigame(void *unused_arg0, void *unused_arg1, void *unuse
             third_element = NODE_BODY(object);
             object->update_callback = update_callback;
             register_node(object, render_data);
-            element_flags = third_element->unk_16.u;
+            element_flags = ((u16)third_element->unk_16);
             third_element->unk_0C.at02.v = 0xB0;
             third_element->unk_10.at00u.v = 0x50;
             third_element->unk_10.at02.v = 0x20;
@@ -162,7 +162,7 @@ s32 initialize_mogura_minigame(void *unused_arg0, void *unused_arg1, void *unuse
             third_element->unk_08.i = 0x404040;
             third_element->unk_04.p = parent_state;
             element_flags |= 1;
-            third_element->unk_16.u = element_flags;
+            (*(u16 *)&third_element->unk_16) = element_flags;
         }
         column--;
         x_third -= 0x58;

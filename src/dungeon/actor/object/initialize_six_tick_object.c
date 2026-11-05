@@ -16,5 +16,5 @@ void initialize_object_with_six_tick_counter(void *object_arg, ObjectPosition *u
     initialize_object_entries(object, context, D_800D6910);
     object_index_slots[object->slot][0] = 0;
     object->handler = &advance_object_countdown_and_invoke_handlers;
-    object->timer.as_s16 = 6;
+    object->timer = 6;
 }

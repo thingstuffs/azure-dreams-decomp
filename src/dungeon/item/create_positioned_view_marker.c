@@ -11,6 +11,8 @@
 #include "engine/cd.h"
 #include "dungeon/level.h"
 #include "dungeon/system.h"
+#include "dungeon/player/object.h"
+#include "engine/entity.h"
 
 /* Advances sprite animation and textures for the third argument, leaving the first two unused. */
 void update_sprite_from_third_argument(ObjectNodeHeader *unused_first, ObjectPosition *unused_second, SpriteFrameState *value) {
@@ -443,8 +445,6 @@ typedef struct {
 extern DungeonState scene_geometry;
 extern Packed8 D_800F8B24;
 
-extern void clear_scaled_cell_flags_8000(void);
-
 #define CLEAR_HIGH_BIT(ptr) \
 (*(u16 *)((u8 *)(ptr) + 4) = *(u16 *)((u8 *)(ptr) + 4) & 0x7FFF)
 
@@ -569,8 +569,6 @@ typedef struct {
     s32 field0;
     u16 flags;
 } DungeonCell;
-
-extern void set_scaled_cell_flags_8000(void);
 
 /* Mark fixed dungeon cells and initialize global coordinates and flags. */
 void mark_scripted_map_boundary(void)
@@ -1386,7 +1384,7 @@ typedef struct S_807B040C_1 {
     u8 pad_20[0x68];
     s16 unk_88;
     u8 pad_8A[0xC];
-    union { s16 s; u16 u; } unk_96;   /* accessed as both */
+    s16 unk_96;
     u8 pad_98[0x3];
     u8 unk_9B;
     u8 pad_9C[0xE];
@@ -1416,7 +1414,6 @@ typedef struct S_807B040C_7 {
 } S_807B040C_7;   /* motion in update_special_actor_transition */
 
 extern void update_map_cell_flags_with_item_limit(s32 x, s32 y, u16 flags);
-extern void set_record_integer_tile_center(void *, u8, u8);
 extern s32 check_left_tile_and_center_height(s32, s32, s16);
 
 /* Move the entity to a passable tile near the room and update tile occupancy. */
@@ -1528,7 +1525,7 @@ s32 update_special_actor_transition(void) {
             } else {
                 move_ticks = distance_x * 4;
             }
-            ((S_807B040C_1 *)entity)->unk_96.s = move_ticks;
+            ((S_807B040C_1 *)entity)->unk_96 = move_ticks;
 
             entity_flags = entity_aux->unk_1C;
             tile_x = target->tile_x;
@@ -1557,12 +1554,12 @@ s32 update_special_actor_transition(void) {
         world_x <<= 6;
         world_x += 0x20;
         motion[3] = ((world_x << 16) - motion[0]) /
-                    ((S_807B040C_1 *)entity)->unk_96.s;
+                    ((S_807B040C_1 *)entity)->unk_96;
         motion[4] = ((((((S_807B040C_1 *)entity)->unk_AE.s16 << 6) + 0x20) << 16) -
                      motion[1]) /
-                    ((S_807B040C_1 *)entity)->unk_96.s;
+                    ((S_807B040C_1 *)entity)->unk_96;
         motion[5] = (((s16)ground_height - entity_aux->unk_88) << 16) /
-                    ((S_807B040C_1 *)entity)->unk_96.s;
+                    ((S_807B040C_1 *)entity)->unk_96;
         entity_aux->unk_88 =
             (u16)entity_aux->unk_88 + ((S_807B040C_7 *)motion)->unk_16;
 
@@ -1592,8 +1589,8 @@ s32 update_special_actor_transition(void) {
             }
         }
         entity_aux->unk_2A = direction << 9;
-        ((S_807B040C_1 *)entity)->unk_96.u--;
-        if ((s16)((S_807B040C_1 *)entity)->unk_96.u > 0) {
+        (*(u16 *)&((S_807B040C_1 *)entity)->unk_96)--;
+        if ((s16)((u16)((S_807B040C_1 *)entity)->unk_96) > 0) {
             return 0;
         }
         ((S_807B040C_1 *)entity)->unk_9B++;

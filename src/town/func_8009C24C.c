@@ -15,8 +15,8 @@ void step_actor_negative_x_until_timer_expires(TownObjectRecord *state, ObjectPo
     u16 ticks_left;
 
     object->z.w.i = query_lowered_transform_position(object);
-    ticks_left = state->unk_0A.as_u16 - 1;
-    state->unk_0A.as_u16 = ticks_left;
+    ticks_left = ((u16)state->unk_0A) - 1;
+    state->unk_0A = ticks_left;
     if ((s16) ticks_left < 0) {
         initialize_record_with_handler_table(state, (object), sprite);
         return;

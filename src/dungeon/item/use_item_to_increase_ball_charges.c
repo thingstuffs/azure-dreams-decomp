@@ -30,7 +30,7 @@ typedef struct S_800C1B1C_1 {
 typedef struct S_800C1B1C_2 {
     u8 pad_00[0x1];
     u8 unk_01;
-    union { s8 s; u8 u; } unk_02;   /* accessed as both */
+    u8 unk_02;
 } S_800C1B1C_2;   /* ((S_800C1B1C_1 *)base)->unk_04 in use_item_to_increase_ball_charges */
 
 /* Apply a target action or update the current item and display its result message. */
@@ -67,8 +67,8 @@ s32 use_item_to_increase_ball_charges(ActorRecord *target, DungeonItemEntry *act
                     ((S_800C1B1C_1 *)item_state)->unk_04,
                     expand_text_control_codes(D_800E14D8, message)));
             play_sound_if_enabled(0x80F);
-            if (((S_800C1B1C_2 *)(((S_800C1B1C_1 *)item_state)->unk_04))->unk_02.s < 99) {
-                ((S_800C1B1C_2 *)(((S_800C1B1C_1 *)item_state)->unk_04))->unk_02.u++;
+            if (((s8)((S_800C1B1C_2 *)(((S_800C1B1C_1 *)item_state)->unk_04))->unk_02) < 99) {
+                ((S_800C1B1C_2 *)(((S_800C1B1C_1 *)item_state)->unk_04))->unk_02++;
             }
         } else {
             message_end = expand_text_control_codes(D_800E1514, message);

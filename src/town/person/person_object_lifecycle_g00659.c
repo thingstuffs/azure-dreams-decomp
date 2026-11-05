@@ -80,7 +80,7 @@ void dispatch_object_state(void *object, void *context, void *dispatch_data) {
     }
     state = *(u8 *)&object_bytes->unk_94;
     if (state == 0) {
-        object_bytes->heading.as_u16 = object_bytes->unk_6E;
+        object_bytes->heading = object_bytes->unk_6E;
         install_stored_value_handler(object, context, dispatch_data);
         return;
     }

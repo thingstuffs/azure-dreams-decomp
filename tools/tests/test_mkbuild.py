@@ -294,6 +294,7 @@ class SlusAssemblyDependencyTests(unittest.TestCase):
 
 class ContentReuseTests(unittest.TestCase):
     def test_generate_cli_shares_bootstrap_snapshot(self):
+        original_cwd = Path.cwd()
         with tempfile.TemporaryDirectory() as td:
             root = Path(td); state = root/'build/.state'
             previous_tempdir = tempfile.tempdir
@@ -305,6 +306,7 @@ class ContentReuseTests(unittest.TestCase):
                 self.assertIs(bootstrap.call_args.args[0], generate.call_args.kwargs['snapshot'])
                 self.assertIsInstance(bootstrap.call_args.args[0], B.content_cache.Snapshot)
             finally:
+                os.chdir(original_cwd)
                 tempfile.tempdir = previous_tempdir
 
     def test_bootstrap_cache_binds_outputs_sources_and_environment(self):

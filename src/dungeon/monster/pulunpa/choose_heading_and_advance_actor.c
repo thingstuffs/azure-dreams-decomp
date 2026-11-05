@@ -17,7 +17,7 @@ typedef struct S_8017405C_1 {
         struct { u16 v; } at00u;
         struct { u8 pad[0x1]; u8 v; } at01;
     } unk_24;   /* overlapping accesses */
-    union { s8 s; u8 u; } unk_26;   /* accessed as both */
+    s8 unk_26;
 } S_8017405C_1;   /* c in choose_heading_and_advance_actor */
 
 typedef struct S_8017405C_2_pre {
@@ -162,7 +162,7 @@ void choose_heading_and_advance_actor(ActorRecord *body, s32 action, S_8017405C_
             }
         }
     } else {
-        s32 mode = actor->unk_26.s;
+        s32 mode = actor->unk_26;
         if (mode >= 0 && (dungeon_rooms[mode].flags & 2)) {
             select_actor_route_target(actor, body->unk_9C, movement, (u8 *)body + 0x98);
         } else {
@@ -315,7 +315,7 @@ void choose_heading_and_advance_actor(ActorRecord *body, s32 action, S_8017405C_
     }
     {
         movement->action_flags &= 0x7FFF;
-        body->unk_9C = actor->unk_26.u;
+        body->unk_9C = *(u8 *)&actor->unk_26;
         movement->pending_turn_updates = movement->pending_turn_updates - 1;
         g_dungeon_status.activity_counts.parts.pending_movement_count = ((u16)g_dungeon_status.activity_counts.parts.pending_movement_count) + 1;
     }

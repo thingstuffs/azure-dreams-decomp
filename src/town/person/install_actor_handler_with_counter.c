@@ -10,5 +10,5 @@ extern s32 D_800C53F8;
 void install_actor_handler_with_counter_10(TownObjectRecord *actor) {
     object_index_slots[actor->slot].unk_00 = 0;
     actor->handler = &D_800C53F8;
-    actor->timer.as_s16 = 0xA;
+    actor->timer = 0xA;
 }

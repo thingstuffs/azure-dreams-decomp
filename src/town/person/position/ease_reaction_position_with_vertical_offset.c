@@ -22,8 +22,8 @@ void ease_reaction_position_with_vertical_offset(TownObjectRecord *state_arg, vo
     u16 ticks_left;
     ObjectPosition *position = position_arg;
 
-    ticks_left = state->timer.as_u16 - 1;
-    state->timer.as_u16 = ticks_left;
+    ticks_left = state->timer - 1;
+    state->timer = ticks_left;
     if ((ticks_left << 0x10) <= 0) {
         initialize_reaction_data_and_timer_13(state);
         return;

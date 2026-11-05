@@ -22,7 +22,7 @@ void update_transform_motion_page(TownObjectRecord *object_data, void *motion_da
     }
     configure_the_set_mode_n_1(((object_data)), motion, get_transform_entry_by_index(0));
     ((S_800C2988_1 *)(object_data))->unk_50 = &D_800C2A10;
-    object_data->unk_16 = (s16) ((object_data->heading.as_u16 - 0x800) & 0xFFF);
+    object_data->unk_16 = (s16) ((((u16)object_data->heading) - 0x800) & 0xFFF);
 }
 
 /* Update the object's state value according to whether the pair check returns zero. */

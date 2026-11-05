@@ -36,11 +36,11 @@ void update_threshold_timed_action(TownObjectRecord *state, ObjectPosition *enti
     } else if (town_action_state_flag == 0) {
         compute_and_clamps_vector_based_adjustment_updates_town((entity), sampled_value, (struct TownVec * *)(&position_query_scratch));
     }
-    if (state->unk_0A.as_s16 == 0) {
+    if (state->unk_0A == 0) {
         call_the_handler_selects_nonzero_entry(D_800D00E0, state, context);
     }
-    ticks_left = (u16) state->unk_0A.as_s16 - 1;
-    state->unk_0A.as_s16 = ticks_left;
+    ticks_left = (u16) state->unk_0A - 1;
+    state->unk_0A = ticks_left;
     if ((ticks_left << 0x10) <= 0) {
         init_actor_action_state(state, entity, context);
     }

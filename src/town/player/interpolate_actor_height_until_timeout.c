@@ -12,14 +12,14 @@ void interpolate_actor_height_until_timeout(TownObjectRecord *state, ObjectPosit
     u16 ticks_left;
 
     handle_resolves_movement_collisions_along_one_axis_using_boundary_probes_tile(motion);
-    ticks_left = state->unk_0A.as_u16 - 1;
-    target_pos = state->unk_34.as_s16 << 0x10;
-    state->unk_0A.as_u16 = ticks_left;
+    ticks_left = ((u16)state->unk_0A) - 1;
+    target_pos = state->unk_34 << 0x10;
+    state->unk_0A = ticks_left;
     if ((s16) ticks_left <= 0) {
         motion->velocity_x = 0;
         motion->velocity_y = 0;
         motion->velocity_z = 0;
-        motion->z.v = (s32) (state->unk_34.as_s16 << 0x10);
+        motion->z.v = (s32) (state->unk_34 << 0x10);
         initialize_scene_action_record(state, motion, context);
         return;
     }

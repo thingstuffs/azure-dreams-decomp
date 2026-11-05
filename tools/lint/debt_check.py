@@ -22,6 +22,7 @@ GENERATED = re.compile(r'^S_(?:func_)?[0-9A-Fa-f]{8}(?:_\w+)?$')
 # It never exempts the enclosing function just because it contains a marker.
 MARKER = re.compile(r'^/\* BYTES: [^\n]+ \*/$')
 OTHER_VIEW = {'whole', 'halves', 'signed_bytes'}
+GENERIC_INDEX = re.compile(r'(?:->\s*(?:b|sb|h|sh|w|sw)|(?:->|\.)\s*bytes)\s*\[')
 ADDRESS_NAME = re.compile(r'[0-9A-Fa-f]{8}')
 INTEGER_TYPES = {
     's8': ('signed', 8), 'u8': ('unsigned', 8),
@@ -79,6 +80,58 @@ def union_definition_count(tokens, pairs):
         if opening < len(tokens) and tokens[opening].value == '{' and opening in pairs:
             count += 1
     return count
+
+
+def generic_index_views(text):
+    """Count indexed anonymous scratch/record views in code, not comments or literals."""
+    clean = c.LEX.sub(lambda m: re.sub(r'[^\n]', ' ', m.group())
+                      if m.lastgroup in {'comment', 'directive', 'literal'} else m.group(), text)
+    return len(GENERIC_INDEX.findall(clean))
+
+
+def check_union_inventory(current, tracked, baseline):
+    """Validate physical definitions, ledger history, and the no-growth baseline."""
+    current_ids = [row['id'] for row in current]
+    tracked_ids = [row['id'] for row in tracked]
+    baseline_ids = baseline.get('ids')
+    problems = []
+    if len(set(current_ids)) != len(current_ids):
+        problems.append('census contains duplicate ids')
+    if len(set(tracked_ids)) != len(tracked_ids):
+        problems.append('ledger contains duplicate ids')
+    if (type(baseline.get('count')) is not int or baseline['count'] < 0
+            or not isinstance(baseline_ids, list)
+            or any(not isinstance(id_, str) for id_ in baseline_ids)):
+        return problems + ['invalid union baseline count or ids']
+    if len(baseline_ids) != baseline['count']:
+        problems.append(f'union baseline ids length {len(baseline_ids)} != count {baseline["count"]}')
+    if len(set(baseline_ids)) != len(baseline_ids):
+        problems.append('union baseline contains duplicate ids')
+    live = set(current_ids)
+    baseline_set = set(baseline_ids)
+    tracked_by_id = {row['id']: row for row in tracked}
+    for missing in sorted(live - set(tracked_ids)):
+        problems.append(f'untracked union: {missing}')
+    for row in current:
+        old = tracked_by_id.get(row['id'])
+        if old and old.get('members') != row['members']:
+            problems.append(f'stale union members: {row["id"]}')
+        if old and old.get('status') == 'retire' and row['id'] not in baseline_set:
+            problems.append(f'retired union reintroduced: {row["id"]}')
+    if len(current) > baseline['count']:
+        problems.append(f'union count {len(current)} > baseline {baseline["count"]}')
+    for row in current:
+        if row['id'] not in baseline_set:
+            old = tracked_by_id.get(row['id'], {})
+            if old.get('status') != 'proven' or 'UNION:' not in old.get('evidence', ''):
+                problems.append(f'new union lacks same-object proof: {row["id"]}')
+    for row in tracked:
+        status = row.get('status')
+        if status not in {'proven', 'unproven', 'retire'}:
+            problems.append(f'bad union status: {row["id"]}')
+        if row['id'] not in live and status != 'retire':
+            problems.append(f'orphan non-retired ledger row: {row["id"]}')
+    return problems
 
 
 def union_sites(rel, text, tokens=None, pairs=None):
@@ -635,7 +688,8 @@ def analyze(path, text, macro_casts=False, header_events=()):
     return dict(file=path, scopes=rows, markers=len(spans), errors=errors,
                 view_counts=dict(views), signedness_unions=signedness_unions,
                 bad_label_unions=bad_label_unions, typedef_views=typedefs,
-                union_definitions=union_definition_count(tokens, pairs))
+                union_definitions=union_definition_count(tokens, pairs),
+                generic_index_views=generic_index_views(text))
 
 
 def totals(rows):
@@ -651,7 +705,7 @@ def census(root, only=None, macro_casts=False):
         raise ValueError('--only must name existing src/**/*.c files')
     files, functions, errors, markers = {}, {}, [], 0
     view_counts, signedness_unions, bad_label_unions = Counter(), [], []
-    union_definitions = 0
+    union_definitions = generic_views = 0
     typedef_views, address_names = [], set()
     header_cache = {}
     for rel in selected:
@@ -672,6 +726,7 @@ def census(root, only=None, macro_casts=False):
         signedness_unions.extend((rel, line) for line in source['signedness_unions'])
         bad_label_unions.extend(source['bad_label_unions'])
         union_definitions += source['union_definitions']
+        generic_views += source['generic_index_views']
         typedef_views.extend(source['typedef_views'])
         address_names.update(row['name'] for row in source['typedef_views']
                              if ADDRESS_NAME.search(row['name']) and not row['name'].startswith('S_'))
@@ -686,6 +741,7 @@ def census(root, only=None, macro_casts=False):
                 header_pairs = c.pairs_of(header_tokens)[0]
                 sign, bad = union_sites(rel, header_text, header_tokens, header_pairs)
                 union_definitions += union_definition_count(header_tokens, header_pairs)
+                generic_views += generic_index_views(header_text)
                 address_names.update(name for name, _, _, _ in typedef_view_sites(header_tokens, header_pairs)
                                      if ADDRESS_NAME.search(name) and not name.startswith('S_'))
                 signedness_unions.extend((rel, line) for line in sign)
@@ -712,6 +768,8 @@ def census(root, only=None, macro_casts=False):
                                               note='same-width signed and unsigned immediate union members in src/ and include/'),
                 union_definitions_report=dict(count=union_definitions,
                                               note='all braced union definitions in src/ and include/'),
+                generic_index_views_report=dict(count=generic_views,
+                                                note='indexed ScratchPad members and record bytes candidates in src/ and include/'),
                 signedness_union_sites=signedness_unions,
                 bad_label_unions=bad_label_unions,
                 view_inventory_report=dict(address_named_types=len(address_names),
@@ -730,6 +788,7 @@ def baseline_record(summary):
                                        header_macro_casts=summary['header_macro_casts_report']['casts'],
                                        signedness_unions=summary['signedness_unions_report']['count'],
                                        unions_total=summary['union_definitions_report']['count'],
+                                       generic_index_views=summary['generic_index_views_report']['count'],
                                        address_named_types=summary['view_inventory_report']['address_named_types'],
                                        source_local_single_function_types=summary['view_inventory_report']['source_local_single_function_types'])
     record['bad_label_sites'] = sorted(row['site'] for row in summary['bad_label_unions'])
@@ -778,7 +837,7 @@ def validate_baseline(baseline):
     fields = {'schema_version', 'classes', 'by_class', 'by_file', 'bad_label_sites'}
     if ('report_counts' in baseline and (not isinstance(baseline['report_counts'], dict)
             or set(baseline['report_counts']) != {'file_local_macro_casts', 'header_macro_casts',
-                                                  'signedness_unions', 'unions_total', 'address_named_types',
+                                                  'signedness_unions', 'unions_total', 'generic_index_views', 'address_named_types',
                                                   'source_local_single_function_types'}
             or any(type(n) is not int or n < 0 for n in baseline['report_counts'].values()))):
         raise ValueError('invalid report-only baseline counts')
@@ -852,6 +911,10 @@ def check_baseline(summary, baseline):
         previous = baseline['report_counts']['unions_total']
         if current > previous:
             problems.append(f'all: unions_total {current} > baseline {previous}')
+        current = summary['generic_index_views_report']['count']
+        previous = baseline['report_counts']['generic_index_views']
+        if current > previous:
+            problems.append(f'all: generic_index_views {current} > baseline {previous}')
     for rel, row in summary['by_file'].items():
         problems += compare_row(rel, row, baseline['by_file'].get(rel))
         old_scopes = baseline['by_function'].get(rel, {})
@@ -986,32 +1049,7 @@ def main(argv=None):
             baseline = json.loads(union_baseline.read_text())
         except (OSError, ValueError) as exc:
             parser.error(str(exc))
-        current_ids = {row['id'] for row in current}
-        tracked_ids = [row['id'] for row in tracked]
-        tracked_by_id = {row['id']: row for row in tracked}
-        problems = []
-        if len(current_ids) != len(current):
-            problems.append('census contains duplicate ids')
-        if len(set(tracked_ids)) != len(tracked_ids):
-            problems.append('ledger contains duplicate ids')
-        for missing in sorted(current_ids - set(tracked_ids)):
-            problems.append(f'untracked union: {missing}')
-        for row in current:
-            old = tracked_by_id.get(row['id'])
-            if old and old.get('members') != row['members']:
-                problems.append(f'stale union members: {row["id"]}')
-            if old and old.get('evidence', '').startswith('Retired to'):
-                problems.append(f'retired union reintroduced: {row["id"]}')
-        if len(current) > baseline['count']:
-            problems.append(f'union count {len(current)} > baseline {baseline["count"]}')
-        for row in current:
-            if row['id'] not in baseline['ids']:
-                tracked_row = tracked_by_id.get(row['id'], {})
-                if tracked_row.get('status') != 'proven' or 'UNION:' not in tracked_row.get('evidence', ''):
-                    problems.append(f'new union lacks same-object proof: {row["id"]}')
-        for row in tracked:
-            if row.get('status') not in {'proven', 'unproven', 'retire', 'proven-by-bytes'}:
-                problems.append(f'bad union status: {row["id"]}')
+        problems = check_union_inventory(current, tracked, baseline)
         for problem in problems:
             print(problem, file=sys.stderr)
         print(f'{len(current)} unions; baseline {baseline["count"]}; {len(tracked)} ledger rows')
@@ -1042,6 +1080,7 @@ def main(argv=None):
         print('sign_views by form\t' + json.dumps(summary['sign_views_report'], sort_keys=True))
         print(f'signedness_unions (ratchet)\t{summary["signedness_unions_report"]["count"]}')
         print(f'unions_total (ratchet)\t{summary["union_definitions_report"]["count"]}')
+        print(f'generic_index_views (ratchet)\t{summary["generic_index_views_report"]["count"]}')
         print(f'bad_label_unions (known sites only)\t{len(summary["bad_label_unions"])}')
         for key, value in summary['view_inventory_report'].items():
             if key != 'note':

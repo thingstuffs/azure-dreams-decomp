@@ -11,6 +11,7 @@
 #include "records/Rec_D_80082E80.h"
 #include "dungeon.h"
 #include "dungeon/level.h"
+#include "engine/entity.h"
 
 /* Sparse views for fields not covered by the existing record types. */
 
@@ -18,7 +19,6 @@
 
 
 extern s32 get_entity_effect_value(ActorRecord *entry, s32 effect_id);
-extern void clear_slots_of_type(ActorRecord *owner, s8 match_type);
 extern void select_sprite_entry(void *, s32, s32);
 extern s16 get_tile_chebyshev_distance(void *, void *);
 #include "dungeon/player/object/action_state.h"

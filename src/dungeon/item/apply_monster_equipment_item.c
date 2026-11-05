@@ -43,7 +43,6 @@ typedef struct S_800C08A4_1 {
    /* counter_base in apply_monster_equipment_item */
 
  /* Unprototyped: zero, one or three arguments; retail replaces all incoming arguments. */
-s32 display_text_with_fullwidth_adjustment(s8 *text); /* extern */
 struct DungeonItemEntry;
 s32 generate_random_value(void);
 extern u8 D_80089378[];

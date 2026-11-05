@@ -15,8 +15,8 @@ void approach_target_tile_until_timeout(TownObjectRecord *target, S_800935BC_0 *
 
     position->unk_00 = ((s32) ((s16)target->unk_30 << 0x10) + position->unk_00) / 2;
     position->unk_04 = ((s32) ((s16)target->unk_32 << 0x10) + position->unk_04) / 2;
-    ticks_left = target->unk_0A.as_u16 - 1;
-    target->unk_0A.as_u16 = ticks_left;
+    ticks_left = ((u16)target->unk_0A) - 1;
+    target->unk_0A = ticks_left;
     if (ticks_left < 0) {
         initialize_scene_action_record(target, position, transition_arg);
     }

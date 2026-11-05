@@ -7,7 +7,7 @@
 
 typedef struct S_8001C7A0_1 {
     u8 pad_00[0x10];
-    union { s32 s; void * u; } unk_10;   /* accessed as both */
+    void * unk_10;
 } S_8001C7A0_1;   /* owner in select_record_by_four_flags */
 
 extern s16 D_80018740[];
@@ -58,7 +58,7 @@ void select_record_by_four_flags(void)
         Rec_D_80016000 *root = (void *)town_scene_root;
         void *owner = root->position;
 
-        ((S_8001C7A0_1 *)owner)->unk_10.u = D_80018748;
+        ((S_8001C7A0_1 *)owner)->unk_10 = D_80018748;
     }
 }
 

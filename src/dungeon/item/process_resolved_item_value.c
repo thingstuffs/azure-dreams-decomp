@@ -9,6 +9,7 @@
 #include "engine/node.h"
 #include "slus.h"
 #include "dungeon/item.h"
+#include "dungeon/system.h"
 /* Selector-image function at DUNGEON file [0x1943DD0, 0x1944338), true 0x800255D0
  * (rowbase img_1942998_80024198 delta 0x7E6E1800 continued).  Five-state handler:
  * spawn a directional effect object, follow it, then print the result message and
@@ -17,7 +18,6 @@
  * src/dungeon/func_800BB400.c and func_800940E4.c).  Evidence:
  * docs/evidence/r121_rem_opus.md. */
 extern s16 set_or_clear_actor_status_slot(void *, s8, s8);
-extern s32 display_text_with_fullwidth_adjustment(s8 *);
 extern s32 generate_random_value(void);
 typedef struct { s32 w[12]; } Packet48;
 typedef struct { s16 x; u16 y; } DirectionPair;

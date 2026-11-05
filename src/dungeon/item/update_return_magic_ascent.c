@@ -13,6 +13,7 @@
 #include "slus.h"
 #include "sdk/libc.h"
 #include "engine/graphics.h"
+#include "dungeon/data.h"
 
 typedef struct {
     u8 pad0[0x8D0];
@@ -60,9 +61,6 @@ typedef struct {
     s16 field20;
     s16 field22;
 } StackData;
-
-extern u8 return_magic_frames[];
-extern s16 transition_runtime_slot_index;
 
 void AddPrim(void *, void *);
 void SetLineF2(void *);

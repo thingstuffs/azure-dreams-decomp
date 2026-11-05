@@ -23,11 +23,11 @@ typedef struct S_80175594_1 {
     u16 unk_24;
     u8 pad_26[0xA];
     s32 unk_30;
-    union { s32 s32; u16 u16; } unk_34;   /* accessed as both */
-    union { s32 s32; u16 u16; } unk_38;   /* accessed as both */
+    s32 unk_34;
+    s32 unk_38;
     u8 pad_3C[0x34];
-    union { s16 s; u16 u; } unk_70;   /* accessed as both */
-    union { s16 s; u16 u; } unk_72;   /* accessed as both */
+    u16 unk_70;
+    u16 unk_72;
     s16 unk_74;
     u8 pad_76[0x2];
     s16 unk_78;
@@ -76,20 +76,20 @@ typedef struct S_80175594_5 {
 typedef struct S_80175594_7 {
     u8 pad_00[0x4];
     union { struct { s32 v; } at00; struct { u8 pad[0x3]; u8 v; } at03; } unk_04;   /* overlapping accesses */
-    union { s16 s; u16 u; } unk_08;   /* accessed as both */
-    union { s16 s; u16 u; } unk_0A;   /* accessed as both */
+    u16 unk_08;
+    u16 unk_0A;
     u16 unk_0C;
     u16 unk_0E;
-    union { s16 s; u16 u; } unk_10;   /* accessed as both */
-    union { s16 s; u16 u; } unk_12;   /* accessed as both */
+    u16 unk_10;
+    u16 unk_12;
     union { u16 u16; u8 u8; } unk_14;   /* accessed as both */
     u16 unk_16;
-    union { s16 s; u16 u; } unk_18;   /* accessed as both */
-    union { s16 s; u16 u; } unk_1A;   /* accessed as both */
+    u16 unk_18;
+    u16 unk_1A;
     union { struct { u16 v; } at00; struct { u8 pad[0x1]; u8 v; } at01; } unk_1C;   /* overlapping accesses */
     u8 pad_1E[0x2];
-    union { s16 s; u16 u; } unk_20;   /* accessed as both */
-    union { s16 s; u16 u; } unk_22;   /* accessed as both */
+    u16 unk_20;
+    u16 unk_22;
     union {
         struct { u16 v; } at00;
         struct { u8 v; } at00u;
@@ -189,14 +189,14 @@ void project_depth_sorted_sprite_quads(ManoevaTerrainEffectBody *sprite, ObjectP
         ((S_80175594_1 *)scratch)->unk_B8 -= 0xA0;
         ((S_80175594_1 *)scratch)->unk_BA -= 0x78;
         ((S_80175594_1 *)scratch)->unk_30 = render_globals->view.camera_rotation.parts.camera_rotation_x;
-        ((S_80175594_1 *)scratch)->unk_34.s32 = render_globals->view.camera_rotation.parts.camera_rotation_y;
-        ((S_80175594_1 *)scratch)->unk_38.s32 = render_globals->view.camera_rotation.parts.viewAngle;
+        ((S_80175594_1 *)scratch)->unk_34 = render_globals->view.camera_rotation.parts.camera_rotation_y;
+        ((S_80175594_1 *)scratch)->unk_38 = render_globals->view.camera_rotation.parts.viewAngle;
 
         ((S_80175594_1 *)scratch)->unk_100 = render->unk_16;
         ((S_80175594_1 *)scratch)->unk_104 =
             ((u16)(render_globals->view.view_rotation_offset.parts.view_rotation_offset_z)) +
-            (render->unk_1A - ((S_80175594_1 *)scratch)->unk_34.u16);
-        view_angle = (((S_80175594_1 *)scratch)->unk_38.u16 + 0x100) & 0x1FF;
+            (render->unk_1A - (*(u16 *)&((S_80175594_1 *)scratch)->unk_34));
+        view_angle = ((*(u16 *)&((S_80175594_1 *)scratch)->unk_38) + 0x100) & 0x1FF;
         angle_offset = render->unk_18 - 0x100;
         ((S_80175594_1 *)scratch)->unk_102 = view_angle + angle_offset;
 
@@ -207,8 +207,8 @@ void project_depth_sorted_sprite_quads(ManoevaTerrainEffectBody *sprite, ObjectP
         RotMatrix(scratch + 0x100, scratch + 0xD0);
 
         ((S_80175594_1 *)scratch)->unk_30 = render->unk_1C;
-        ((S_80175594_1 *)scratch)->unk_34.s32 = render->unk_1E;
-        ((S_80175594_1 *)scratch)->unk_38.s32 = 0x1000;
+        ((S_80175594_1 *)scratch)->unk_34 = render->unk_1E;
+        ((S_80175594_1 *)scratch)->unk_38 = 0x1000;
         ScaleMatrix(scratch + 0xD0, scratch + 0x30);
         CompMatrix(matrix, scratch + 0xD0, scratch + 0x50);
         SetTransMatrix(scratch + 0x50);
@@ -226,16 +226,16 @@ void project_depth_sorted_sprite_quads(ManoevaTerrainEffectBody *sprite, ObjectP
             scaled_coord = (texture->x -
                      (s16)((S_80175594_1 *)scratch)->unk_108) *
                     sprite->unk_22;
-            ((S_80175594_1 *)scratch)->unk_70.s = scaled_coord >> 12;
+            (*(s16 *)&((S_80175594_1 *)scratch)->unk_70) = scaled_coord >> 12;
             scaled_coord = (texture->x -
                      (s16)((S_80175594_1 *)scratch)->unk_108) *
                     sprite->unk_2A;
             ((S_80175594_1 *)scratch)->unk_80 = scaled_coord >> 12;
-            scaled_coord = ((s16)((S_80175594_1 *)scratch)->unk_70.u +
+            scaled_coord = ((s16)((S_80175594_1 *)scratch)->unk_70 +
                      ((S_80175594_1 *)scratch)->unk_10.s32) *
                     sprite->unk_28;
             ((S_80175594_1 *)scratch)->unk_78 = scaled_coord >> 12;
-            scaled_coord = ((s16)((S_80175594_1 *)scratch)->unk_70.u +
+            scaled_coord = ((s16)((S_80175594_1 *)scratch)->unk_70 +
                      ((S_80175594_1 *)scratch)->unk_10.s32) *
                     sprite->unk_30;
             ((S_80175594_1 *)scratch)->unk_88 = scaled_coord >> 12;
@@ -243,12 +243,12 @@ void project_depth_sorted_sprite_quads(ManoevaTerrainEffectBody *sprite, ObjectP
             scaled_coord = (texture->y -
                      (s16)((S_80175594_1 *)scratch)->unk_10A) *
                     sprite->unk_24;
-            ((S_80175594_1 *)scratch)->unk_72.s = scaled_coord >> 12;
+            (*(s16 *)&((S_80175594_1 *)scratch)->unk_72) = scaled_coord >> 12;
             scaled_coord = (texture->y -
                      (s16)((S_80175594_1 *)scratch)->unk_10A) *
                     sprite->unk_28;
             ((S_80175594_1 *)scratch)->unk_7A = scaled_coord >> 12;
-            scaled_coord = ((s16)((S_80175594_1 *)scratch)->unk_72.u +
+            scaled_coord = ((s16)((S_80175594_1 *)scratch)->unk_72 +
                      ((S_80175594_1 *)scratch)->unk_14.s32) *
                     sprite->unk_2C;
             ((S_80175594_1 *)scratch)->unk_82 = scaled_coord >> 12;
@@ -259,7 +259,7 @@ void project_depth_sorted_sprite_quads(ManoevaTerrainEffectBody *sprite, ObjectP
                 void *screen_0;
                 s32 bottom_y;
 
-                bottom_y = (s16)((S_80175594_1 *)scratch)->unk_72.u +
+                bottom_y = (s16)((S_80175594_1 *)scratch)->unk_72 +
                                 ((S_80175594_1 *)scratch)->unk_14.s32;
                 screen_0 = scratch + 0xF0;
                 ((S_80175594_1 *)scratch)->unk_8A = (bottom_y * sprite->unk_30) >> 12;
@@ -289,26 +289,26 @@ void project_depth_sorted_sprite_quads(ManoevaTerrainEffectBody *sprite, ObjectP
                 ((S_80175594_1 *)scratch)->unk_FE + ((S_80175594_1 *)scratch)->unk_BA;
 
             visible_0 = 0;
-            if ((u16)(((S_80175594_7 *)packet)->unk_08.u + 0x20) < 0x181U) {
+            if ((u16)(((S_80175594_7 *)packet)->unk_08 + 0x20) < 0x181U) {
                 visible_0 =
-                    (u16)(((S_80175594_7 *)packet)->unk_0A.u + 0x20) < 0x121U;
+                    (u16)(((S_80175594_7 *)packet)->unk_0A + 0x20) < 0x121U;
             }
             visible_1 = 0;
-            if ((u16)(((S_80175594_7 *)packet)->unk_10.u + 0x20) < 0x181U) {
+            if ((u16)(((S_80175594_7 *)packet)->unk_10 + 0x20) < 0x181U) {
                 visible_1 =
-                    (u16)(((S_80175594_7 *)packet)->unk_12.u + 0x20) < 0x121U;
+                    (u16)(((S_80175594_7 *)packet)->unk_12 + 0x20) < 0x121U;
             }
             visible_01 = visible_0 | visible_1;
             visible_2 = 0;
-            if ((u16)(((S_80175594_7 *)packet)->unk_18.u + 0x20) < 0x181U) {
+            if ((u16)(((S_80175594_7 *)packet)->unk_18 + 0x20) < 0x181U) {
                 visible_2 =
-                    (u16)(((S_80175594_7 *)packet)->unk_1A.u + 0x20) < 0x121U;
+                    (u16)(((S_80175594_7 *)packet)->unk_1A + 0x20) < 0x121U;
             }
             visible_012 = visible_01 | visible_2;
             visible_3 = 0;
-            if ((u16)(((S_80175594_7 *)packet)->unk_20.u + 0x20) < 0x181U) {
+            if ((u16)(((S_80175594_7 *)packet)->unk_20 + 0x20) < 0x181U) {
                 visible_3 =
-                    (u16)(((S_80175594_7 *)packet)->unk_22.u + 0x20) < 0x121U;
+                    (u16)(((S_80175594_7 *)packet)->unk_22 + 0x20) < 0x121U;
             }
 
             if ((visible_012 | visible_3) != 0) {

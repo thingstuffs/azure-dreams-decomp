@@ -67,10 +67,10 @@ typedef struct StackLocals {
 } StackLocals;
 
 
-extern void create_random_variant_effect(State *, ObjectPosition *);
+extern s32 create_random_variant_effect(State *, ObjectPosition *);
 extern s32 check_layer_offset_height(s32, s32, s16, s32);
-extern void create_scaled_rotation_effect(State *, ObjectPosition *);
-extern void create_motion_copy_sprite(State *, ObjectPosition *);
+extern s32 create_scaled_rotation_effect(State *, ObjectPosition *);
+extern void *create_motion_copy_sprite(State *, ObjectPosition *);
 extern void interpolate_view_parameters(void *, u8, Owner *);
 
 

@@ -131,7 +131,8 @@ def configure_links(views=True):
 
 def configure_environment():
     return {k:v for k,v in os.environ.items() if ((k.startswith(('AZURE_', 'MASPSX_')) and not k.startswith(('AZURE_OBJECT_', 'AZURE_COMPILE_')))
-                                               or k in ('RAW', 'EXP', 'SRCROOT'))}
+                                               or k in ('RAW', 'EXP', 'SRCROOT', 'CPATH', 'C_INCLUDE_PATH',
+                                                        'CPLUS_INCLUDE_PATH', 'OBJC_INCLUDE_PATH'))}
 
 
 def bootstrap_source_inputs():

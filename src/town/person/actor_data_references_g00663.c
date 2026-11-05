@@ -13,7 +13,7 @@ void set_linked_data_pointers_variant_1(TownObjectRecord *record, ObjectPosition
 /* Set both object references to D_800D58F4. */
 void set_linked_data_pointers_variant_2(TownObjectRecord *object) {
     *object->unk_7C.as_pps32 = &D_800D58F4;
-    ((TownObjectRecord *)(object->descriptor))->unk_04.as_pm = &D_800D58F4;
+    ((TownObjectRecord *)(object->descriptor))->unk_04 = &D_800D58F4;
 }
 
 /* Sets the object's linked data pointer to D_800D5930. */

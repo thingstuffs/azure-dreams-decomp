@@ -34,7 +34,7 @@ typedef struct Rec_func_8008ACDC_arg0 {
     s16 unk_9E;
     u8 pad_A0[0x2];
     u16 unk_A2;
-    union { s16 as_s16; u16 as_u16; } unk_A4;   /* read as s16 by 1, u16 by 1 */
+    s16 unk_A4;
     u8 pad_A6[0x16];
     void * unk_BC;
     u8 pad_C0[0x8];

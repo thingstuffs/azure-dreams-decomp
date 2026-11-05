@@ -17,5 +17,5 @@ void initialize_actor_with_32_tick_callback(TownObjectRecord *actor_arg, s32 unu
     initialize_object_entries(actor_arg, state_context, D_800D5670);
     object_index_slots[actor->slot].unk_00 = 0;
     actor->handler = &person_countdown_update_address;
-    actor->timer.as_s16 = 0x20;
+    actor->timer = 0x20;
 }

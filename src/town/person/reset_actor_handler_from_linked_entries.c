@@ -18,5 +18,5 @@ void reset_actor_handler_from_linked_entries(TownObjectRecord *actor, s32 unused
     initialize_object_entries(actor, output, entries);
     object_index_slots[actor->slot].unk_00 = 0;
     actor->handler = D_800C3C7C;
-    actor->timer.as_s16 = 32;
+    actor->timer = 32;
 }

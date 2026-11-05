@@ -255,10 +255,7 @@ s32 find_valid_floor_item_position(s16 x, s16 y, s16 z, s16 *out_x, s16 *out_y, 
 
 typedef struct {
     u8 pad_a0[0xA0];
-    union {
-        s16 signed_value;
-        u16 unsigned_value;
-    } state;
+    u16 state;
     u16 pad_a2;
     u16 counter;
     u16 remaining;
@@ -289,13 +286,13 @@ void update_effect_bounce_and_fade(FuncState *effect, FuncArg1 *motion, FuncArg2
     u16 updated_value;
     u16 min_counter;
 
-    phase = effect->state.signed_value;
+    phase = ((s16)effect->state);
     min_counter = 1;
     switch (phase) {
     case 0:
         effect->remaining = 4;
         effect->counter = 0;
-        effect->state.unsigned_value = effect->state.unsigned_value + 1;
+        effect->state = effect->state + 1;
     case 1:
         updated_value = effect->counter + 1;
         effect->counter = updated_value;
@@ -306,7 +303,7 @@ void update_effect_bounce_and_fade(FuncState *effect, FuncArg1 *motion, FuncArg2
         if ((s16)updated_value > 0) {
             break;
         }
-        effect->state.unsigned_value = effect->state.unsigned_value + 1;
+        effect->state = effect->state + 1;
         break;
     case 2:
         updated_value = effect->counter - 1;
@@ -975,8 +972,8 @@ typedef struct S_800A871C_4 {
     u8 pad_00[0x8];
     s32 unk_08;
     u8 pad_0C[0x18];
-    union { u8 n; u8 v; } unk_24;   /* accessed as both */
-    union { u8 n; u8 v; } unk_25;   /* accessed as both */
+    u8 unk_24;
+    u8 unk_25;
 } S_800A871C_4;   /* r_arg2 in update_dropped_object_motion */
 
 typedef struct S_800A871C_5 {
@@ -1146,9 +1143,9 @@ void update_dropped_object_motion(DroppedObjectMotionBody *object, register Obje
             }
             motion->z.w.i =
                 (s16) (((MovingPosition *)(object->unk_8C.address))->z + offset.distance[2]);
-            ((S_800A871C_4 *)tile)->unk_24.n = (u8) ((S_800A871C_20 *)(object->unk_90.address))->unk_24;
-            ((S_800A871C_4 *)tile)->unk_25.n = (u8) ((S_800A871C_20 *)(object->unk_90.address))->unk_25;
-            set_record_integer_tile_center(motion, ((S_800A871C_4 *)tile)->unk_24.v, ((S_800A871C_4 *)tile)->unk_25.v);
+            ((S_800A871C_4 *)tile)->unk_24 = (u8) ((S_800A871C_20 *)(object->unk_90.address))->unk_24;
+            ((S_800A871C_4 *)tile)->unk_25 = (u8) ((S_800A871C_20 *)(object->unk_90.address))->unk_25;
+            set_record_integer_tile_center(motion, ((S_800A871C_4 *)tile)->unk_24, ((S_800A871C_4 *)tile)->unk_25);
             object->unk_A0 = (s16) ((u16) object->unk_A0 + 1);
             launch_source = (*(void **)((u8 *)object_data + (0x60)));
             travel_steps = (*(s16 *)((u8 *)object_data + (0x8A)));
@@ -1160,9 +1157,9 @@ void update_dropped_object_motion(DroppedObjectMotionBody *object, register Obje
                 dir_offset = direction * 2;
                 y_steps = (u8 *)((s8 *)dir_step_y);
                 y_step = (S_800A871C_6 *)((unsigned long)dir_offset + (unsigned long)y_steps);
-                target_height = effect_height_short((((((S_800A871C_4 *)tile)->unk_24.n + (*(s16 *)((u8 *)x_steps
+                target_height = effect_height_short((((((S_800A871C_4 *)tile)->unk_24 + (*(s16 *)((u8 *)x_steps
                     + dir_offset) * travel_steps)) << 6) + 0x20) & 0xFFE0,
-                    (((((S_800A871C_4 *)tile)->unk_25.n + (y_step->unk_00 * travel_steps)) << 6)
+                    (((((S_800A871C_4 *)tile)->unk_25 + (y_step->unk_00 * travel_steps)) << 6)
                     + 0x20) & 0xFFE0, motion->z.w.i);
                 if (target_height < 0x200) {
                     height_delta = target_height - motion->z.w.i;
@@ -1176,10 +1173,10 @@ void update_dropped_object_motion(DroppedObjectMotionBody *object, register Obje
             }
             launch_x_steps = (u8 *)((s8 *)dir_step_x);
             launch_dir_offset = direction * 2;
-            ((S_800A871C_4 *)tile)->unk_24.n = (u8) (((S_800A871C_4 *)tile)->unk_24.n
+            ((S_800A871C_4 *)tile)->unk_24 = (u8) (((S_800A871C_4 *)tile)->unk_24
                 + ((S_800A871C_7 *)((u8 *)((unsigned long)launch_dir_offset + (unsigned long)launch_x_steps)))->unk_00);
             launch_y_step = (u8 *)((s8 *)dir_step_y) + launch_dir_offset;
-            ((S_800A871C_4 *)tile)->unk_25.n = (u8) (((S_800A871C_4 *)tile)->unk_25.n
+            ((S_800A871C_4 *)tile)->unk_25 = (u8) (((S_800A871C_4 *)tile)->unk_25
                 + ((S_800A871C_8 *)launch_y_step)->unk_00);
             object->unk_A4 = 2;
             return;
@@ -1208,25 +1205,25 @@ void update_dropped_object_motion(DroppedObjectMotionBody *object, register Obje
                 drop_sprite = ((S_800A871C_11_pre *)drop_source)[-1].unk_00;
                 (*(s16 *)((u8 *)object_data + (0x6A))) = (s16) drop_heading;
                 drop_dir_offset = (drop_heading >> 8) & 0xE;
-                ((S_800A871C_4 *)tile)->unk_24.n = (u8) (drop_sprite->unk_24
+                ((S_800A871C_4 *)tile)->unk_24 = (u8) (drop_sprite->unk_24
                     + ((S_800A871C_13 *)((u8 *)((unsigned long)drop_dir_offset
                     + (unsigned long)drop_x_steps)))->unk_00);
-                ((S_800A871C_4 *)tile)->unk_25.n = (u8) (drop_sprite->unk_25
+                ((S_800A871C_4 *)tile)->unk_25 = (u8) (drop_sprite->unk_25
                     + ((S_800A871C_14 *)((u8 *)((s8 *)dir_step_y) + drop_dir_offset))->unk_00);
-                set_record_integer_tile_center(motion, ((S_800A871C_4 *)tile)->unk_24.v, ((S_800A871C_4 *)tile)->unk_25.v);
-                drop_height = effect_height_short((((S_800A871C_4 *)tile)->unk_24.n << 6) | 0x20,
-                    (((S_800A871C_4 *)tile)->unk_25.n << 6) | 0x20, motion->z.w.i);
+                set_record_integer_tile_center(motion, ((S_800A871C_4 *)tile)->unk_24, ((S_800A871C_4 *)tile)->unk_25);
+                drop_height = effect_height_short((((S_800A871C_4 *)tile)->unk_24 << 6) | 0x20,
+                    (((S_800A871C_4 *)tile)->unk_25 << 6) | 0x20, motion->z.w.i);
                 if (drop_height >= 0x201) {
                     drop_height = (s16) (u16) motion->z.w.i;
                 }
-                place_item_at_valid_floor_position(((S_800A871C_4 *)tile)->unk_24.n, ((S_800A871C_4 *)tile)->unk_25.n, drop_height,
+                place_item_at_valid_floor_position(((S_800A871C_4 *)tile)->unk_24, ((S_800A871C_4 *)tile)->unk_25, drop_height,
                     ((S_800A871C_4 *)tile)->unk_08, object->unk_9C);
                 NODE_HEADER(object)->flags = (u16) (NODE_HEADER(object)->flags | 0x8000);
                 dungeon_flags = object_flag_block.flags;
                 height = motion->z.w.i;
                 object_flag_block.flags = (s32) (dungeon_flags | 0x8000);
-                motion->z.w.i = effect_height_short((((S_800A871C_4 *)tile)->unk_24.n << 6) | 0x20,
-                    (((S_800A871C_4 *)tile)->unk_25.n << 6) | 0x20, height);
+                motion->z.w.i = effect_height_short((((S_800A871C_4 *)tile)->unk_24 << 6) | 0x20,
+                    (((S_800A871C_4 *)tile)->unk_25 << 6) | 0x20, height);
                 emit_scattered_effects_unless_blocked(motion);
                 unlink_entity_node(object_data);
                 return;
@@ -1251,12 +1248,12 @@ check_completion:
     case 1:
         move_ticks = object->unk_A4;
         if (move_ticks != 0) {
-            axis_target = ((S_800A871C_4 *)tile)->unk_24.n;
+            axis_target = ((S_800A871C_4 *)tile)->unk_24;
             axis_origin = motion->x.w.i;
             axis_target <<= 6;
             axis_origin -= 0x20;
             motion->velocity_x = (s32) (((axis_target - axis_origin) << 0x10) / move_ticks);
-            axis_target = ((S_800A871C_4 *)tile)->unk_25.n;
+            axis_target = ((S_800A871C_4 *)tile)->unk_25;
             axis_origin = motion->y.w.i;
             axis_origin -= 0x20;
             axis_target <<= 6;
@@ -1268,7 +1265,7 @@ check_completion:
         if ((ticks_left << 0x10) > 0) {
             break;
         }
-        hit_object = find_eligible_actor_at_tile_and_height(object_data, ((S_800A871C_4 *)tile)->unk_24.n, ((S_800A871C_4 *)tile)->unk_25.n,
+        hit_object = find_eligible_actor_at_tile_and_height(object_data, ((S_800A871C_4 *)tile)->unk_24, ((S_800A871C_4 *)tile)->unk_25,
             (*(s16 *)((u8 *)object_data + (0x88))));
         if (hit_object != NULL) {
             if ((hit_object->unk_13 == MONSTER_BARONG) && !(hit_object->unk_1C & 0x228) && (D_800DD7DC[0] != 0)) {
@@ -1292,24 +1289,24 @@ check_completion:
             steps_left = (*(u16 *)((u8 *)object_data + (0x8A))) - 1;
             (*(u16 *)((u8 *)object_data + (0x8A))) = steps_left;
             if ((steps_left << 0x10) > 0) {
-                set_record_integer_tile_center(motion, ((S_800A871C_4 *)tile)->unk_24.n, ((S_800A871C_4 *)tile)->unk_25.n);
+                set_record_integer_tile_center(motion, ((S_800A871C_4 *)tile)->unk_24, ((S_800A871C_4 *)tile)->unk_25);
                 next_x_steps = (u8 *)((s8 *)dir_step_x);
                 next_dir_offset = ((u16) (*(s16 *)((u8 *)object_data + (0x6A))) >> 8) & 0xE;
-                ((S_800A871C_4 *)tile)->unk_24.n = (u8) (((S_800A871C_4 *)tile)->unk_24.n
+                ((S_800A871C_4 *)tile)->unk_24 = (u8) (((S_800A871C_4 *)tile)->unk_24
                     + ((S_800A871C_18 *)((u8 *)((unsigned long)next_dir_offset
                     + (unsigned long)(u8 *)((s8 *)dir_step_x))))->unk_00);
                 next_y_step = (u8 *)((s8 *)dir_step_y) + next_dir_offset;
-                ((S_800A871C_4 *)tile)->unk_25.n = (u8) (((S_800A871C_4 *)tile)->unk_25.n + *next_y_step);
+                ((S_800A871C_4 *)tile)->unk_25 = (u8) (((S_800A871C_4 *)tile)->unk_25 + *next_y_step);
                 object->unk_A4 = 2;
                 break;
             }
         }
-        land_height = effect_height_short((((S_800A871C_4 *)tile)->unk_24.n << 6) | 0x20, (((S_800A871C_4 *)tile)->unk_25.n << 6)
+        land_height = effect_height_short((((S_800A871C_4 *)tile)->unk_24 << 6) | 0x20, (((S_800A871C_4 *)tile)->unk_25 << 6)
             | 0x20, motion->z.w.i);
         if (land_height >= 0x201) {
             land_height = (s16) (u16) motion->z.w.i;
         }
-        place_item_at_valid_floor_position(((S_800A871C_4 *)tile)->unk_24.n, ((S_800A871C_4 *)tile)->unk_25.n, land_height,
+        place_item_at_valid_floor_position(((S_800A871C_4 *)tile)->unk_24, ((S_800A871C_4 *)tile)->unk_25, land_height,
             ((S_800A871C_4 *)tile)->unk_08, object->unk_9C);
         NODE_HEADER(object)->flags = (u16) (NODE_HEADER(object)->flags | 0x8000);
         object_flag_block.flags = (s32) (object_flag_block.flags | OBJECT_REMOVE_PENDING);

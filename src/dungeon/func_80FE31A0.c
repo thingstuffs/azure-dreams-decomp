@@ -90,16 +90,16 @@ typedef struct CreatureState {
     u8 pad_0F[0x0D];
     u32 flags;
     u8 pad_20[0x0A];
-    union { s16 s; u16 u; } facing;
+    s16 facing;
     u8 pad_2C[0x1A];
     u16 action;
     u8 pad_48[0x18];
     void *target;
     u8 pad_64[0x09];
-    union { s8 s; u8 u; } actionsLeft;
+    u8 actionsLeft;
     u8 pad_6E[0x04];
-    union { s8 s; u8 u; } targetX;
-    union { s8 s; u8 u; } targetY;
+    u8 targetX;
+    u8 targetY;
 } CreatureState;
 
 typedef struct EffectObject {
@@ -206,8 +206,8 @@ void update_item_use_effect_and_idle_return(ActionState *actor, VecData *motion,
                         SpriteFrameState *target_sprite;
 
                         target_sprite = NODE_HEADER(target)->sprite;
-                        actor_data->targetX.u = target_sprite->tile_x;
-                        actor_data->targetY.u = target_sprite->tile_y;
+                        actor_data->targetX = target_sprite->tile_x;
+                        actor_data->targetY = target_sprite->tile_y;
                     }
                 } else {
                     u32 selected_item_or_sprite;
@@ -218,8 +218,8 @@ void update_item_use_effect_and_idle_return(ActionState *actor, VecData *motion,
                         target = actor_data->target;
                         if (target != 0) {
                             selected_item_or_sprite = NODE_HEADER(target)->sprite;
-                            actor_data->targetX.u = ((ActorSprite *)selected_item_or_sprite)->tileX;
-                            actor_data->targetY.u = ((ActorSprite *)selected_item_or_sprite)->tileY;
+                            actor_data->targetX = ((ActorSprite *)selected_item_or_sprite)->tileX;
+                            actor_data->targetY = ((ActorSprite *)selected_item_or_sprite)->tileY;
                         }
                     } else {
                         s32 abs_x;
@@ -229,13 +229,13 @@ void update_item_use_effect_and_idle_return(ActionState *actor, VecData *motion,
                             actor_data,
                             sprite->tile_x,
                             sprite->tile_y,
-                            actor_data->facing.s,
+                            actor_data->facing,
                             0x10);
                         actor_data->target = target;
-                        abs_x = abs(actor_data->targetX.s);
-                        abs_y = abs(actor_data->targetY.s);
-                        actor_data->targetX.u = abs_x;
-                        actor_data->targetY.u = abs_y;
+                        abs_x = abs(((s8)actor_data->targetX));
+                        abs_y = abs(((s8)actor_data->targetY));
+                        actor_data->targetX = abs_x;
+                        actor_data->targetY = abs_y;
                     }
                 }
             }
@@ -258,7 +258,7 @@ void update_item_use_effect_and_idle_return(ActionState *actor, VecData *motion,
                     effect_motion = effect->motion;
                     *effect_motion = *motion;
                     effect->phase = 0;
-                    effect->facing = actor_data->facing.u;
+                    effect->facing = ((u16)actor_data->facing);
                     {
                         s32 sprite_flags = sprite->animation_resource;
                         effect_sprite = effect->sprite;
@@ -286,7 +286,7 @@ void update_item_use_effect_and_idle_return(ActionState *actor, VecData *motion,
                 effect_sprite = actor->effect;
                 effect_sprite = ((EffectObject *)effect_sprite)->sprite;
                 animations = effect_sprite->directionFrames;
-                direction = ((g_game_work.view.camera_rotation.parts.viewAngle + actor_data->facing.s + 0x100) >> 9) & 7;
+                direction = ((g_game_work.view.camera_rotation.parts.viewAngle + actor_data->facing + 0x100) >> 9) & 7;
                 select_sprite_entry(effect_sprite, animations[direction], 0);
             }
             if (create_actor_spell_effect(actor_data, item_slot, use_player,
@@ -307,10 +307,10 @@ void update_item_use_effect_and_idle_return(ActionState *actor, VecData *motion,
         g_dungeon_status.active_actor = 0;
         primary_actor_record->unk_A4.halves.high.u--;
         advance_status_timers(actor_data);
-        actor_data->actionsLeft.u--;
+        actor_data->actionsLeft--;
         actor->handler = &dungeon_action_resume_address;
-        actor_data->targetY.u = 0;
-        actor_data->targetX.u = 0;
+        actor_data->targetY = 0;
+        actor_data->targetX = 0;
         actor_data->action &= 0x7FFF;
         return;
 
@@ -344,7 +344,7 @@ void update_item_use_effect_and_idle_return(ActionState *actor, VecData *motion,
         sprite->frameTable = killer_slot_f_default_frames;
         select_sprite_entry(
             sprite,
-            killer_slot_f_default_frames[((g_game_work.view.camera_rotation.parts.viewAngle + actor_data->facing.s + 0x100) >> 9) & 7],
+            killer_slot_f_default_frames[((g_game_work.view.camera_rotation.parts.viewAngle + actor_data->facing + 0x100) >> 9) & 7],
             0);
         motion->dz = 0;
         motion->dy = 0;
@@ -357,11 +357,11 @@ void update_item_use_effect_and_idle_return(ActionState *actor, VecData *motion,
         sprite->flags &= 0xF7FF;
         actor->handler = &dungeon_action_resume_address;
         advance_status_timers(actor_data);
-        if (actor_data->actionsLeft.s > 0) {
-            actor_data->actionsLeft.u--;
+        if (((s8)actor_data->actionsLeft) > 0) {
+            actor_data->actionsLeft--;
         }
-        actor_data->targetY.u = 0;
-        actor_data->targetX.u = 0;
+        actor_data->targetY = 0;
+        actor_data->targetX = 0;
         actor_data->action &= 0x7FFF;
         play_sound_if_enabled(0xB4);
         return;

@@ -18,6 +18,7 @@
 #include "engine/node/allocation.h"
 #include "dungeon/level.h"
 #include "engine/node.h"
+#include "dungeon/data.h"
 
 typedef struct S_8017558C_0 {
     u8 pad_00[0x8C];
@@ -46,10 +47,8 @@ typedef struct S_8017558C_0 {
 } S_8017558C_0;   /* arg0 in update_actor_timed_effect_action */
 
 /* cfail-repair: tf7-phase1-cache-v3 */
-extern u8 uboat_aura_start_frames[];
 extern u8 u_boat_timed_effect_update_address[];
 extern s32 clipped_sprite_renderer_address[3];
-extern u8 uboat_aura_later_frames[];
 extern u8 u_boat_aura_frames[];
 extern u8 uboat_default_frames[];
 extern u8 uboat_aura_sprite_data[];

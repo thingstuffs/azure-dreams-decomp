@@ -13,5 +13,5 @@ void initialize_actor_slot_eleven_countdown(TownObjectRecord *actor, s32 unused,
     initialize_object_entries(actor, output, D_800D64C8);
     D_800826B8 = 0;
     actor->handler = D_800C9F58;
-    actor->timer.as_s16 = 4;
+    actor->timer = 4;
 }

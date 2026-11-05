@@ -3,8 +3,8 @@
 #include "town/minigame.h"
 
 typedef struct S_80022514_0 {
-    union { s16 s; u16 u; } unk_00;   /* accessed as both */
-    union { u16 s; s16 u; } unk_02;   /* accessed as both */
+    u16 unk_00;
+    u16 unk_02;
     u8 pad_04[0x4];
     s32 unk_08;
 } S_80022514_0;   /* arg0 in advance_timed_color_fade */
@@ -18,21 +18,21 @@ void advance_timed_color_fade(void *effect_arg) {
     u16 phase_value;
     s32 color;
 
-    phase = effect->unk_00.s;
-    phase_value = effect->unk_00.u;
-    frames_left = effect->unk_02.s - 1;
-    effect->unk_02.s = frames_left;
+    phase = ((s16)effect->unk_00);
+    phase_value = effect->unk_00;
+    frames_left = effect->unk_02 - 1;
+    effect->unk_02 = frames_left;
     switch (phase) {
     case 0:
         effect->unk_08 += 0x40404;
-        if (effect->unk_02.u < 0) {
-            effect->unk_02.s = 0x10E;
-            effect->unk_00.u++;
+        if (((s16)effect->unk_02) < 0) {
+            effect->unk_02 = 0x10E;
+            effect->unk_00++;
         }
         break;
     case 1:
         if ((s16)frames_left < 0) {
-            effect->unk_00.u = phase_value + 1;
+            effect->unk_00 = phase_value + 1;
         }
         break;
     case 2:

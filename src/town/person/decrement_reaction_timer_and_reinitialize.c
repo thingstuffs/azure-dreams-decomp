@@ -12,8 +12,8 @@
 void decrement_reaction_timer_and_reinitialize(TownObjectRecord *object, void *context, void *param) {
     u16 countdown;
 
-    countdown = object->timer.as_u16 - 1;
-    object->timer.as_u16 = countdown;
+    countdown = object->timer - 1;
+    object->timer = countdown;
     if ((countdown << 0x10) <= 0) {
         initialize_reaction_movement(object, context, param);
     }

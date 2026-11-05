@@ -17,22 +17,22 @@ void update_actor_action_state(TownObjectRecord *state, ObjectPosition *motion, 
     s32 target_position;
 
     handle_resolves_movement_collisions_along_one_axis_using_boundary_probes_tile(motion);
-    if (state->unk_0A.as_s16 >= 15) {
-        target_position = (s32)((u32)(state->unk_34.as_s16 +
-                   D_800D0454[21 - state->unk_0A.as_s16]) << 16);
+    if (state->unk_0A >= 15) {
+        target_position = (s32)((u32)(state->unk_34 +
+                   D_800D0454[21 - state->unk_0A]) << 16);
     } else {
-        target_position = (s32)((u32)state->unk_34.as_s16 << 16);
+        target_position = (s32)((u32)state->unk_34 << 16);
     }
 
 
-    if (state->unk_0A.as_s16 == 19)
+    if (state->unk_0A == 19)
         call_the_handler_selects_nonzero_entry(&timed_scene_handler_entries, state, callback_arg);
-    if (state->unk_0A.as_s16 == 15)
+    if (state->unk_0A == 15)
         call_the_handler_selects_nonzero_entry(&D_800D00F0, state, callback_arg);
-    if (state->unk_0A.as_s16 == 12)
+    if (state->unk_0A == 12)
         call_the_handler_selects_nonzero_entry(&D_800D00F8, state, callback_arg);
-    ticks_left = (u16)state->unk_0A.as_s16 - 1;
-    state->unk_0A.as_s16 = ticks_left;
+    ticks_left = (u16)state->unk_0A - 1;
+    state->unk_0A = ticks_left;
     if ((s32)((u32)(u16)ticks_left << 16) <= 0) {
         motion->velocity_x = 0;
         motion->velocity_y = 0;

@@ -363,10 +363,10 @@ s32 check_current_record_value_not_29(void) {
 
 typedef struct S_800B14FC_0 {
     u8 pad_00[0x20];
-    union { s16 s; u16 u; } unk_20;   /* accessed as both */
-    union { s16 s; u16 u; } unk_22;   /* accessed as both */
+    s16 unk_20;
+    s16 unk_22;
     s16 unk_24;
-    union { s16 s; u16 u; } unk_26;   /* accessed as both */
+    u16 unk_26;
 } S_800B14FC_0;   /* base in update_fading_effect_scale */
 
 typedef struct S_800B14FC_1 {
@@ -415,28 +415,28 @@ void update_fading_effect_scale(void *effect, ObjectPosition *unused, void *rend
     dispatch_entry = (u32)&dispatch_table[dispatch_entry];
 
     if ((*(hud_fade_predicate_fn *)dispatch_entry)() != 0 &&
-        ((S_800B14FC_0 *)effect)->unk_20.s < HUD_FADE_OUT) {
-        ((S_800B14FC_0 *)effect)->unk_22.s = 4;
-        ((S_800B14FC_0 *)effect)->unk_20.s = HUD_FADE_OUT;
+        ((S_800B14FC_0 *)effect)->unk_20 < HUD_FADE_OUT) {
+        ((S_800B14FC_0 *)effect)->unk_22 = 4;
+        ((S_800B14FC_0 *)effect)->unk_20 = HUD_FADE_OUT;
     }
 
-    state = ((S_800B14FC_0 *)effect)->unk_20.s;
+    state = ((S_800B14FC_0 *)effect)->unk_20;
     switch (state) {
     case HUD_FADE_HOLD:
         return;
     case HUD_FADE_IN:
         {
             s16 steps;
-            s16 countdown = ((S_800B14FC_0 *)effect)->unk_26.s;
-            u16 countdown_value = ((S_800B14FC_0 *)effect)->unk_26.u;
+            s16 countdown = ((s16)((S_800B14FC_0 *)effect)->unk_26);
+            u16 countdown_value = ((S_800B14FC_0 *)effect)->unk_26;
 
             if (countdown != 0) {
                 countdown_value -= 1;
-                ((S_800B14FC_0 *)effect)->unk_26.u = countdown_value;
+                ((S_800B14FC_0 *)effect)->unk_26 = countdown_value;
                 return;
             }
 
-            steps = ((S_800B14FC_0 *)effect)->unk_22.s;
+            steps = ((S_800B14FC_0 *)effect)->unk_22;
             if (steps == 0) {
                 return;
             }
@@ -448,7 +448,7 @@ void update_fading_effect_scale(void *effect, ObjectPosition *unused, void *rend
 
             {
                 u8 brightness = ((S_800B14FC_1 *)render.p)->unk_0C.at02.v;
-                steps = ((S_800B14FC_0 *)effect)->unk_22.s;
+                steps = ((S_800B14FC_0 *)effect)->unk_22;
                 brightness += (0x80 - brightness) / steps;
                 ((S_800B14FC_1 *)render.p)->unk_0C.at02.v = brightness;
                 ((S_800B14FC_1 *)render.p)->unk_0C.at01.v = brightness;
@@ -456,8 +456,8 @@ void update_fading_effect_scale(void *effect, ObjectPosition *unused, void *rend
             }
 
             {
-                s16 remaining_steps = ((S_800B14FC_0 *)effect)->unk_22.u - 1;
-                ((S_800B14FC_0 *)effect)->unk_22.u = remaining_steps;
+                s16 remaining_steps = ((u16)((S_800B14FC_0 *)effect)->unk_22) - 1;
+                (*(u16 *)&((S_800B14FC_0 *)effect)->unk_22) = remaining_steps;
                 if ((s16)remaining_steps != 0) {
                     return;
                 }
@@ -465,21 +465,21 @@ void update_fading_effect_scale(void *effect, ObjectPosition *unused, void *rend
 
             ((S_800B14FC_1 *)render.p)->unk_1E = 0x1000;
             ((S_800B14FC_1 *)render.p)->unk_0C.at00u.v = 0x00808080;
-            ((S_800B14FC_0 *)effect)->unk_20.u = ((S_800B14FC_0 *)effect)->unk_20.u + 1;
+            (*(u16 *)&((S_800B14FC_0 *)effect)->unk_20) = ((u16)((S_800B14FC_0 *)effect)->unk_20) + 1;
             return;
         }
 
     case HUD_FADE_OUT:
         {
             s16 steps;
-            steps = ((S_800B14FC_0 *)effect)->unk_22.s;
+            steps = ((S_800B14FC_0 *)effect)->unk_22;
             if (steps != 0) {
                 u16 scale = ((S_800B14FC_1 *)render.p)->unk_1E;
                 ((S_800B14FC_1 *)render.p)->unk_1E = scale + (-(s32)scale / steps);
 
                 {
                     u8 brightness = ((S_800B14FC_1 *)render.p)->unk_0C.at02.v;
-                    steps = ((S_800B14FC_0 *)effect)->unk_22.s;
+                    steps = ((S_800B14FC_0 *)effect)->unk_22;
                     brightness += (-(s32)brightness / steps);
                     ((S_800B14FC_1 *)render.p)->unk_0C.at02.v = brightness;
                     ((S_800B14FC_1 *)render.p)->unk_0C.at01.v = brightness;
@@ -488,8 +488,8 @@ void update_fading_effect_scale(void *effect, ObjectPosition *unused, void *rend
             }
 
             {
-                u16 remaining_steps = ((S_800B14FC_0 *)effect)->unk_22.u - 1;
-                ((S_800B14FC_0 *)effect)->unk_22.u = remaining_steps;
+                u16 remaining_steps = ((u16)((S_800B14FC_0 *)effect)->unk_22) - 1;
+                (*(u16 *)&((S_800B14FC_0 *)effect)->unk_22) = remaining_steps;
                 if ((s16)remaining_steps > 0) {
                     return;
                 }
@@ -784,8 +784,8 @@ typedef struct S_800B1B10_2 {
     u8 pad_0E[0x2];
     s32 unk_10;
     s32 unk_14;
-    union { s32 n; s32 v; } unk_18;   /* accessed as both */
-    union { s32 n; s32 v; } unk_1C;   /* accessed as both */
+    s32 unk_18;
+    s32 unk_1C;
     u8 pad_20[0x2];
     s16 unk_22;
     s16 unk_24;
@@ -804,7 +804,7 @@ typedef struct S_800B1B10_5 {
     u8 unk_00;
     u8 unk_01;   /* accessed as both */
     s8 unk_02;
-    union { u8 u; s8 s; } unk_03;   /* accessed as both */
+    s8 unk_03;
     union {
         struct { s32 v; } at00;
         struct { s16 v; } at00u;
@@ -910,7 +910,7 @@ void build_owned_floating_number_widget(void *owner, s32 value_a, s32 value_b, s
             } else {
                 offset = 0x8A;
             }
-            offset_record_coordinates((void *) b_held, offset, (s16) ((0 - (s8) ((S_800B1B10_5 *)((void *) b_held))->unk_03.u)
+            offset_record_coordinates((void *) b_held, offset, (s16) ((0 - (s8) ((u8)((S_800B1B10_5 *)((void *) b_held))->unk_03))
                 - 0xE));
             offset = 8;
             if ((compact_s16 << 0x10) != 0) {
@@ -942,7 +942,7 @@ void build_owned_floating_number_widget(void *owner, s32 value_a, s32 value_b, s
             ((S_800B1B10_6 *)(((style_held * 4) + sub)))->unk_50 = b_held;
             ((S_800B1B10_5 *)((void *) b_held))->unk_01 = 0x38U;
             ((S_800B1B10_5 *)((void *) b_held))->unk_02 = -0xA;
-            ((S_800B1B10_5 *)((void *) b_held))->unk_03.s = -0x10;
+            ((S_800B1B10_5 *)((void *) b_held))->unk_03 = -0x10;
             ((S_800B1B10_5 *)((void *) b_held))->unk_0A = (s8) (obj_2 + 0x18);
             ((S_800B1B10_5 *)((void *) b_held))->unk_09 = 0;
             ((S_800B1B10_5 *)((void *) b_held))->unk_08 = 0;
@@ -951,14 +951,14 @@ void build_owned_floating_number_widget(void *owner, s32 value_a, s32 value_b, s
             ((S_800B1B10_2 *)sub)->unk_10 = 0;
             ((S_800B1B10_2 *)sub)->unk_14 = 0;
             geom |= 0x4008;
-            ((S_800B1B10_2 *)sub)->unk_18.n = geom;
-            ((S_800B1B10_2 *)sub)->unk_1C.n = geom;
+            ((S_800B1B10_2 *)sub)->unk_18 = geom;
+            ((S_800B1B10_2 *)sub)->unk_1C = geom;
             ((S_800B1B10_5 *)((void *) b_held))->unk_04.at00.v = (s32) ((S_800B1B10_2 *)sub)->unk_10;
             ((S_800B1B10_5 *)((void *) b_held))->unk_0C = (s32) ((S_800B1B10_2 *)sub)->unk_14;
-            copy_a = ((S_800B1B10_2 *)sub)->unk_18.v;
+            copy_a = ((S_800B1B10_2 *)sub)->unk_18;
             style_held++;
             ((S_800B1B10_5 *)((void *) b_held))->unk_10 = copy_a;
-            copy_b = ((S_800B1B10_2 *)sub)->unk_1C.v;
+            copy_b = ((S_800B1B10_2 *)sub)->unk_1C;
             ((S_800B1B10_5 *)((void *) b_held))->unk_01 |= 2;
             ((S_800B1B10_5 *)((void *) b_held))->unk_14 = copy_b;
             b_held += 0x18;
@@ -1016,7 +1016,7 @@ void create_entity_panel_object(void) {
 
 typedef struct S_800B1F34_0 {
     s16 * unk_00;
-    union { s16 s; u16 u; } unk_04;   /* accessed as both */
+    u16 unk_04;
     u16 unk_06;
 } S_800B1F34_0;   /* arg0 in advance_timed_panel_motion */
 
@@ -1036,18 +1036,18 @@ void advance_timed_panel_motion(S_800B1F34_0 *animation, ObjectPosition *motion)
     u16 countdown;
     ActorRecord *update_state;
 
-    state = animation->unk_04.s;
+    state = ((s16)animation->unk_04);
     switch (state) {
     case PANEL_MOTION_INIT:
         animation->unk_06 = 0x10;
-        animation->unk_04.u++;
+        animation->unk_04++;
     case PANEL_MOTION_ACCELERATE:
         motion->velocity_z -= 0x4000;
         countdown = animation->unk_06 - 1;
         animation->unk_06 = countdown;
         if ((s16)countdown < 0) {
             animation->unk_06 = 0x40;
-            animation->unk_04.u++;
+            animation->unk_04++;
         }
         break;
     case PANEL_MOTION_REVERSE:
@@ -1056,7 +1056,7 @@ void advance_timed_panel_motion(S_800B1F34_0 *animation, ObjectPosition *motion)
         animation->unk_06 = countdown;
         if ((s16)countdown < 0) {
             animation->unk_06 = 0x3C;
-            animation->unk_04.u++;
+            animation->unk_04++;
         }
     case PANEL_MOTION_WAIT:
         countdown = animation->unk_06 - 1;
@@ -1064,7 +1064,7 @@ void advance_timed_panel_motion(S_800B1F34_0 *animation, ObjectPosition *motion)
         if ((s16)countdown < 0) {
             motion->velocity_z = 0;
             animation->unk_06 = 0x3C;
-            animation->unk_04.u++;
+            animation->unk_04++;
         }
         break;
     }

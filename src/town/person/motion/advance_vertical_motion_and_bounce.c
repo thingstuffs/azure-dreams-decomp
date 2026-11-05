@@ -18,8 +18,8 @@ void advance_vertical_motion_and_bounce(TownObjectRecord *actor, EntityRec *moti
     motion->z.v = (s32) (motion->z.v + motion->flags14);
     if (query_lowered_transform_position(motion) < motion->z.w.i) {
         motion->z.w.i = query_lowered_transform_position(motion);
-        bounces_left = actor->unk_90.as_u16 - 1;
-        actor->unk_90.as_u16 = bounces_left;
+        bounces_left = ((u16)actor->unk_90) - 1;
+        actor->unk_90 = bounces_left;
         if ((bounces_left << 0x10) <= 0) {
             motion->flags14 = 0;
             apply_object_setup_and_update(actor, motion, context);

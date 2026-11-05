@@ -190,8 +190,9 @@ pin. No native port code is part of this repository.
 After editing source, run `make -j4` and the relevant checks. Existing source
 and header edits rebuild their consumers; a shared header or shared TU can
 affect several images and containers. Adding/removing files or changing SDK
-inputs requires `make configure`. Configuration and proof use content digests;
-an old receipt alone does not prove a changed tree. See
+inputs requires `make configure`. Configuration and proof use content digests.
+A receipt is accepted after its recorded inputs and image outputs are checked
+against the current tree. See
 [CONTRIBUTING.md](../CONTRIBUTING.md) for candidate checks and evidence.
 
 ### Scoped proof of an edit (build graph)
@@ -263,7 +264,8 @@ snapshot lasts for this command only. Generated recipes and build rules remain
 content-bound, including the normal tool-input hash in `build/build.mk`.
 
 Configure stores include-closure checkpoints under a second guard. This guard
-binds the exact `include_closure` entry point, all other configure authorities,
+binds the exact `include_closure` entry point, the walker module and its callable
+code, all other configure authorities, include-path environment variables,
 and source/header path presence; each cached closure also binds the content of
 its discovered files. A change elsewhere in `mkbuild.py` can therefore reuse
 those closure walks while the general row and recipe checkpoints regenerate.

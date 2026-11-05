@@ -50,13 +50,13 @@ void trget_psn_ang_set(s8 object_slot, s8 angle_index)
             if (object_index == 1) {
                 object_kind = entry->unk_10;
                 if (object_kind != update_object_position_or_cleanup && object_kind != update_object_motion_and_flags) {
-                    object_data->unk_10.as_u16 = angle;
+                    object_data->unk_10 = angle;
                     return;
                 }
             }
             child = object_data->descriptor;
             object_data->unk_6E = angle;
-            object_data->heading.as_u16 = angle;
+            object_data->heading = angle;
             initialize_object_entries(object_data, entry->unk_0C,
                           child->unk_04);
         }

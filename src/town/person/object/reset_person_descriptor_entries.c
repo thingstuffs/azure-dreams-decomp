@@ -7,5 +7,5 @@ void reset_person_descriptor_entries(TownObjectRecord *object, s32 unused, Sprit
     initialize_object_entries(object, output, object->descriptor->entries[3]);
     object_index_slots[object->slot].unk_00 = 0;
     object->handler = decrement_object_timer_and_update;
-    object->timer.as_s16 = 0x15;
+    object->timer = 0x15;
 }

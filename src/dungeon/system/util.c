@@ -232,7 +232,7 @@ typedef struct S_800A5AF0_0_pre {
 
 typedef struct S_800A5AF0_0 {
     u8 pad_00[0x4];
-    union { s16 s; u16 u; } unk_04;   /* accessed as both */
+    u16 unk_04;
     s16 unk_06;
     s16 unk_08;
 } S_800A5AF0_0;   /* arg0 in update_effect_position_and_scale_transition */
@@ -248,7 +248,7 @@ void update_effect_position_and_scale_transition(void *transition_arg, ObjectPos
     u16 level;
     u16 next_state; /* MATCH: Both arms merge the updated state in retail's $v0. */
 
-    state = transition->unk_04.s;
+    state = ((s16)transition->unk_04);
     if (state == 0) {
         output->x.w.i = (s16)(
             (u16)output->x.w.i +
@@ -265,7 +265,7 @@ void update_effect_position_and_scale_transition(void *transition_arg, ObjectPos
         if ((timer << 16) <= 0) {
             transition->unk_06 = 0x30;
             appearance->scale_x = 0x1000;
-            transition->unk_04.u = transition->unk_04.u + 1;
+            transition->unk_04 = transition->unk_04 + 1;
         }
     } else if (state == 1) {
         if ((g_game_work.pressed_buttons) != 0) {
@@ -275,11 +275,11 @@ void update_effect_position_and_scale_transition(void *transition_arg, ObjectPos
         timer = (u16)transition->unk_06 - 1;
         transition->unk_06 = timer;
         if ((timer << 16) <= 0) {
-            next_state = transition->unk_04.u;
+            next_state = transition->unk_04;
 
             transition->unk_06 = 0x20;
             next_state = next_state + 1;
-            transition->unk_04.u = next_state;
+            transition->unk_04 = next_state;
         }
     } else {
         appearance->color.c.b = (u8)(
@@ -492,7 +492,7 @@ typedef struct S_800A5FC0_2 {
     s32 unk_00;
     s32 unk_04;
     u16 unk_08;
-    union { s16 s; u16 u; } unk_0A;   /* accessed as both */
+    s16 unk_0A;
     s16 unk_0C;
 } S_800A5FC0_2;   /* arg0 in draw_expanding_screen_rectangle */
 
@@ -542,13 +542,13 @@ s32 draw_expanding_screen_rectangle(S_800A5FC0_2 *state) {
     frames_left = state->unk_08 - 1;
     state->unk_08 = frames_left;
     if ((s16) frames_left > 0) {
-        s32 x_delta = 0x140 - state->unk_0A.s;
-        state->unk_0A.s = state->unk_0A.u + x_delta / (s16) frames_left;
+        s32 x_delta = 0x140 - state->unk_0A;
+        state->unk_0A = ((u16)state->unk_0A) + x_delta / (s16) frames_left;
     } else {
         state->unk_08 = 0U;
-        state->unk_0A.s = 0x140;
+        state->unk_0A = 0x140;
     }
-    right_x = (u16) state->unk_0A.s;
+    right_x = (u16) state->unk_0A;
     ((S_800A5FC0_3 *)quad)->unk_14 = right_x;
     ((S_800A5FC0_3 *)quad)->unk_0C = right_x;
     AddPrim((u8 *)((S_800A5FC0_4 *)render_ctx_ref)->unk_00 + ((state->unk_0C * 4) + 0x70), quad);

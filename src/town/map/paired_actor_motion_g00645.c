@@ -49,7 +49,7 @@ case 0:
         case 0:
             sequence = (s32 *)paired_actor_sprite_entries;
             actor->unk_68 = 0x10;
-            actor->timer.as_u16 = (rand() % 2) + 2;
+            actor->timer = (rand() % 2) + 2;
             break;
 
         case 1:
@@ -59,7 +59,7 @@ case 0:
 
             actor->unk_68 = 0x20;
             sprite->flags |= 0x800;
-            actor->timer.as_u16 = (rand() & 1) + 2;
+            actor->timer = (rand() & 1) + 2;
             limit = 0x1FFFFF;
             motion->velocity_z = -0x30000;
             home_dx = motion->x.v;
@@ -126,7 +126,7 @@ case 0:
 
         case 4:
             actor->unk_68 = 0x40;
-            actor->timer.as_u16 = 0x14;
+            actor->timer = 0x14;
             sprite->flags |= 0x800;
         }
         break;
@@ -137,8 +137,8 @@ case 0x10:
         register u16 timer;
 
         if (sprite->flags & 0x6000) {
-            timer = actor->timer.as_u16 - 1;
-            actor->timer.as_u16 = timer;
+            timer = actor->timer - 1;
+            actor->timer = timer;
             if ((s16)timer <= 0) {
                 actor->unk_68 = 0;
             }
@@ -166,8 +166,8 @@ case 0x20:
         state = home_dx < motion->z.w.i;
         if (state) {
             motion->z.w.i = home_dx;
-            timer = actor->timer.as_u16 - 1;
-            actor->timer.as_u16 = timer;
+            timer = actor->timer - 1;
+            actor->timer = timer;
             if ((s16)timer <= 0) {
                 motion->velocity_z = 0;
                 motion->velocity_x = 0;
@@ -197,7 +197,7 @@ case 0x30:
         if (sprite->flags & 0x6000) {
             sequence = D_800E9E34;
             actor->unk_68 = glide_state;
-            actor->timer.as_u16 = 3;
+            actor->timer = 3;
         }
         break;
     }
@@ -217,14 +217,14 @@ case 0x31:
         motion->x.v = x + vx;
         motion->z.v = y + vy;
         if (sprite->flags & 0x6000) {
-            timer = actor->timer.as_u16 - 1;
-            actor->timer.as_u16 = timer;
+            timer = actor->timer - 1;
+            actor->timer = timer;
             if ((s16)timer <= 0) {
                 sequence = D_800E9E34;
                 motion->velocity_z = -0x10000;
                 motion->velocity_x >>= 1;
                 actor->unk_68 = 0x32;
-                actor->timer.as_u16 = (rand() & 3) + 3;
+                actor->timer = (rand() & 3) + 3;
             }
         }
         break;
@@ -249,10 +249,10 @@ case 0x32:
         motion->x.v = x + vx;
         motion->z.v = y + vy;
         if (sprite->flags & 0x6000) {
-            timer = actor->timer.as_u16 - 1;
-            actor->timer.as_u16 = timer;
+            timer = actor->timer - 1;
+            actor->timer = timer;
             if ((s16)timer <= 0) {
-                actor->timer.as_u16 = 8;
+                actor->timer = 8;
                 new_vx = -motion->velocity_x;
                 motion->velocity_x = new_vx;
                 if (new_vx > 0) {
@@ -265,7 +265,7 @@ case 0x32:
                 height = motion->z.v + 0x100000;
                 motion->velocity_z =
                     (floor_fixed - height) /
-                    (s16)actor->timer.as_u16;
+                    (s16)actor->timer;
                 sequence = D_800E9E14;
                 actor->unk_68 = 0x33;
             }
@@ -290,8 +290,8 @@ case 0x33:
         if (sprite->flags & 0x6000) {
             sequence = D_800E9E14;
         }
-        timer = actor->timer.as_u16 - 1;
-        actor->timer.as_u16 = timer;
+        timer = actor->timer - 1;
+        actor->timer = timer;
         if ((s16)timer <= 0) {
             sequence = D_800E9E54;
             motion->velocity_z = 0;
@@ -320,8 +320,8 @@ case 0x40:
     {
         register u16 timer;
 
-        timer = actor->timer.as_u16 - 1;
-        actor->timer.as_u16 = timer;
+        timer = actor->timer - 1;
+        actor->timer = timer;
         if ((s16)timer <= 0) {
             actor->unk_68 = 0;
             sprite->flags &= 0xF7FF;

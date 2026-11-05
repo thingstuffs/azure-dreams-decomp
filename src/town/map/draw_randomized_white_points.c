@@ -99,7 +99,7 @@ s32 draw_randomized_white_points(void *first_object, void *first_coords)
             ((S_800BB218_0 *)scratch)->unk_18 =
                 coords->z -
                 (((rsin((point_index % 16) << 6) >> 4) *
-                  (((TownObjectRecord *)object)->unk_66.as_s16 + 0x10)) >> 8);
+                  (((TownObjectRecord *)object)->unk_66 + 0x10)) >> 8);
 
             ((S_800BB218_0 *)scratch)->unk_04 = RotTransPers(
                 scratch + 0x14, scratch, scratch + 8, scratch + 0xC);

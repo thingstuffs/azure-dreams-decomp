@@ -13,7 +13,7 @@
 
 
 #include "dungeon/player/object/action_state.h"
-extern s32 display_text_with_fullwidth_adjustment(s8 *text);
+#include "dungeon/system.h"
 extern s32 generate_random_value(void);
 
 extern const u8 D_8016A854[20];

@@ -12,8 +12,8 @@
 void run_record_countdown_expiry(TownObjectRecord *record, ObjectPosition *forward_arg_1, void *forward_arg_2) {
     u16 countdown;
 
-    countdown = record->timer.as_u16 - 1;
-    record->timer.as_u16 = countdown;
+    countdown = record->timer - 1;
+    record->timer = countdown;
     if ((countdown << 0x10) <= 0) {
         set_linked_data_pointers_variant_1(record, forward_arg_1, forward_arg_2);
         create_owner_following_sprite(record);

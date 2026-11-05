@@ -4,7 +4,7 @@
 #include "town/data.h"
 
 typedef struct S_8080BCD4_0 {
-    union { s16 s; u16 u; } unk_00;   /* accessed as both */
+    u16 unk_00;
     u16 unk_02;
     void * unk_04;
     u8 pad_08[0xE];
@@ -25,19 +25,19 @@ void advance_delayed_panel_line(void *ptr_arg) {
     u16 flags;
     S_8080BCD4_1 *context;
 
-    state = ptr->unk_00.s;
+    state = ((s16)ptr->unk_00);
     context = ptr->unk_04;
     switch (state) {
     case 0:
         remaining = ptr->unk_02 - 1;
         ptr->unk_02 = remaining;
         if ((remaining << 0x10) <= 0) {
-            next_state = ptr->unk_00.u;
+            next_state = ptr->unk_00;
             flags = ptr->unk_16;
             next_state++;
             flags &= 0xFFFD;
             ptr->unk_16 = flags;
-            ptr->unk_00.u = next_state;
+            ptr->unk_00 = next_state;
             return;
         }
         return;

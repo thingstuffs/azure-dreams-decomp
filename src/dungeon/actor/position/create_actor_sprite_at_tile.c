@@ -32,7 +32,6 @@ typedef struct S_800D24A8_0 {
     s8 unk_9C;
 } S_800D24A8_0;
 
-void clear_entry_flag_and_link_owner(struct ObjectNodeHeader *entry);                      /* extern */
 s32 find_active_rect_containing_point(s32 point_x, s32 point_y);                           /* extern */
 
 extern M2C_UNK D_800E221C;

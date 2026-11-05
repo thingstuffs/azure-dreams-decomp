@@ -14,5 +14,5 @@
 /* Set up the object using its linked record and assign its next handler. */
 void initialize_player_linked_record(TownObjectRecord *object, void *ptr, void *ptr2) {
     call_the_handler_selects_nonzero_entry(object->handler_entries[8], object, ptr2);
-    object->unk_04.as_pm = &advance_player_position;
+    object->unk_04 = &advance_player_position;
 }

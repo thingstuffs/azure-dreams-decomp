@@ -44,7 +44,7 @@ typedef struct S_8080EEC4_3 {
     u8 pad_00[0x14];
     s32 unk_14;
     s16 unk_18;
-    union { s16 s; u16 u; } unk_1A;   /* accessed as both */
+    u16 unk_1A;
     u8 pad_1C[0x6];
     s16 unk_22;
     s16 unk_24;
@@ -202,14 +202,14 @@ void animate_collection_center_sprite(CollectionCenterControlBody *ctrl, ObjectP
             }
             work->unk_24 = (distance & 1) ? 1 : 2;
         }
-        work->unk_1A.s = 0;
+        (*(s16 *)&work->unk_1A) = 0;
     case 4:
         dx = work->unk_22 == 2 ? 6 : 5;
         value = ctrl->unk_72;
         value -= value >> dx;
         ctrl->unk_72 = value;
         view->angle_z += value;
-        work->unk_1A.u += (u16)ctrl->unk_72;
+        work->unk_1A += (u16)ctrl->unk_72;
         if (ctrl->unk_72 < (1 << dx)) {
             ctrl->unk_74 = 0;
             ctrl->unk_70 = 5;
@@ -219,7 +219,7 @@ void animate_collection_center_sprite(CollectionCenterControlBody *ctrl, ObjectP
 
     case 5:
         view->angle_z += (u16)ctrl->unk_72;
-        work->unk_1A.u += (u16)ctrl->unk_72;
+        work->unk_1A += (u16)ctrl->unk_72;
         case_value_3 = (u16)ctrl->unk_74 + 1;
         ctrl->unk_74 = (u16)case_value_3;
         if ((case_value_3 & 3) == 0) {

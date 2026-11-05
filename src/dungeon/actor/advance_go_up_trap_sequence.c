@@ -12,6 +12,7 @@
 #include "dungeon/actor.h"
 #include "engine/resource.h"
 #include "shared/object_node.h"
+#include "dungeon/player/object.h"
 struct EntityLinkNode;
 extern u8 resident_globals_page[];
 
@@ -55,13 +56,12 @@ typedef struct S_800CB9DC_7 {
 
 typedef struct S_800CB9DC_9 {
     u8 pad_00[0x14A0];
-    union { s32 s; s32 u; } unk_14A0;   /* accessed as both */
+    s32 unk_14A0;
 } S_800CB9DC_9;   /* page14_again in advance_go_up_trap_sequence */
 
 extern void advance_sprite_animation_and_textures(void *entity);                      /* extern */
 void unlink_entity_node(struct EntityLinkNode *node);                      /* extern */
 void update_map_cell_flags_with_item_limit(s32 x, s32 y, u16 flags);             /* extern */
-void * detach_record_and_update_slot_state(void *record);                      /* extern */
 extern s16 floor_generation_state[3];
 
 /* Updates go-up trap motion, then advances the player or removes the affected actor. */
@@ -154,9 +154,9 @@ void advance_go_up_trap_sequence(TrapOwnedTimedEffectBody *trap_state, void *mot
             removal_flags = NODE_HEADER(trap_state)->flags;
             status_page_again = (S_800CB9DC_9 *)0x80080000;
             NODE_HEADER(trap_state)->flags = removal_flags | 0x8000;
-            global_flags = status_page_again->unk_14A0.s;
+            global_flags = status_page_again->unk_14A0;
             global_flags |= 0x8000;
-            status_page_again->unk_14A0.u = global_flags;
+            status_page_again->unk_14A0 = global_flags;
         }
     }
 }

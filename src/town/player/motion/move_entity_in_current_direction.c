@@ -5,7 +5,7 @@
 #include "town/player/motion.h"
 #include "shared/sprite_frame_state.h"
 
-extern s32 initialize_target_and_handler_table();
+extern void initialize_target_and_handler_table();
 
 /* Move the entity in its current direction until the movement countdown expires. */
 void move_entity_in_current_direction(Rec_func_80097D54_arg0 *move_state, ObjectPosition *entity, SpriteFrameState *finish_arg) {

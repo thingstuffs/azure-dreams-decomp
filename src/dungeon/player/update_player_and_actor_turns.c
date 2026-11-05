@@ -70,7 +70,7 @@ typedef struct S_80089AA0_1 {
     u8 pad_20[0x98];
     s32 unk_B8;
     u8 pad_BC[0x9E4];
-    union { u8 u; s8 s; } unk_AA0;   /* accessed as both */
+    s8 unk_AA0;
 } S_80089AA0_1;
 
 typedef struct S_80089AA0_2 {
@@ -232,9 +232,9 @@ void update_player_and_actor_turns(ActorRecord *in_actor, void *in_motion, void 
     } else {
         record_or_page = (s32 *)0x80080000;
     }
-    if ((((S_80089AA0_1 *)record_or_page)->unk_AA0.u != 0) && (dungeon_button_latch == 0) && (read_sound_mode_blocking_status(1) == 0)) {
+    if ((((u8)((S_80089AA0_1 *)record_or_page)->unk_AA0) != 0) && (dungeon_button_latch == 0) && (read_sound_mode_blocking_status(1) == 0)) {
         SD_Call(0x200);
-        ((S_80089AA0_1 *)record_or_page)->unk_AA0.s = 0;
+        ((S_80089AA0_1 *)record_or_page)->unk_AA0 = 0;
         scene_music_hold = 1;
     }
     if ((*(u16 *)0x80013714) & 4) {

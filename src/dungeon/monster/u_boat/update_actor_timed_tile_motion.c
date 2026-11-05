@@ -11,10 +11,9 @@
 #include "dungeon/actor/spell_resource_ids_g01008.h"
 #include "engine/graphics.h"
 #include "sdk/libgte.h"
+#include "dungeon/data.h"
 
 extern u8 uboat_default_frames[];
-extern u8 uboat_timed_motion_frames[];
-extern u8 uboat_timed_motion_frames_alt[];
 #include "dungeon/monster/u_boat.h"
 #include "dungeon/item.h"
 

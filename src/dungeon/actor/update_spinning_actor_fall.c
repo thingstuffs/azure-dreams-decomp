@@ -18,9 +18,6 @@ typedef struct {
 extern void unlink_entity_node(struct EntityLinkNode *node);
 #include "dungeon/player/object.h"
 #include "dungeon/actor.h"
-extern void * detach_record_and_update_slot_state(void *record);
-
-
 
    /* the 0x2 bytes before arg3 in update_spinning_actor_fall, addressed as arg3[-1] */
 

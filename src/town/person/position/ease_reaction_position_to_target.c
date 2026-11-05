@@ -14,22 +14,22 @@ void ease_reaction_position_to_target(TownObjectRecord *state, ObjectPosition *p
     s32 z_delta;
     u16 timer;
 
-    timer = state->timer.as_u16 - 1;
-    state->timer.as_u16 = timer;
+    timer = state->timer - 1;
+    state->timer = timer;
     if ((timer << 16) <= 0) {
         apply_object_setup_and_update(state, position, update_arg);
-        position->x.w.i = state->unk_84.as_u16;
-        position->y.w.i = state->unk_86.as_u16;
+        position->x.w.i = ((u16)state->unk_84);
+        position->y.w.i = state->unk_86;
         position->z.w.i = 0;
         return;
     }
 
-    x_delta = (s16)state->unk_84.as_u16 -
+    x_delta = (s16)((u16)state->unk_84) -
             (s16)((u16)position->x.w.i);
     position->x.w.i =
         (u16)(((u16)position->x.w.i) + (x_delta / 8));
 
-    y_delta = (s16)state->unk_86.as_u16 - position->y.w.i;
+    y_delta = (s16)state->unk_86 - position->y.w.i;
     position->y.w.i =
         (s16)((u16)position->y.w.i + (y_delta / 8));
 

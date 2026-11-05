@@ -7,7 +7,7 @@
    /* the 0x2 bytes before entry in update_panel_aggregate_value, addressed as entry[-1] */
 
 typedef struct S_8080BE0C_0 {
-    union { s16 s; u16 u; } unk_00;   /* accessed as both */
+    u16 unk_00;
     u16 unk_02;
     const char *unk_04;
     u8 pad_08[0x4];
@@ -43,7 +43,7 @@ void update_panel_aggregate_value(void *entry_arg) {
         value_ptr -= 1;
         remaining -= 1;
     } while (remaining >= 0);
-    current_state = entry->unk_00.s;
+    current_state = ((s16)entry->unk_00);
     switch (current_state) {
     case 0:
         countdown = entry->unk_02 - 1;
@@ -51,12 +51,12 @@ void update_panel_aggregate_value(void *entry_arg) {
         if ((countdown << 0x10) > 0) {
             return;
         }
-        next_state = entry->unk_00.u;
+        next_state = entry->unk_00;
         flags = entry->unk_1C;
         next_state += 1;
         flags &= 0xFFFD;
         entry->unk_1C = flags;
-        entry->unk_00.u = next_state;
+        entry->unk_00 = next_state;
         return;
     case 1:
         func_80058588(total, func_80071424(entry->unk_04), entry->unk_04);

@@ -39,20 +39,14 @@ typedef struct S_func_80EF7000_2 {
         s32 unk_00;
         struct {
             u8 pad_00[2];
-            union {
-                s16 unk_02;
-                u16 unk_02_u16;
-            } unk_02;
+            s16 unk_02;
         } half;
     } unk_00;
     union {
         s32 unk_04;
         struct {
             u8 pad_04[2];
-            union {
-                s16 unk_06;
-                u16 unk_06_u16;
-            } unk_06;
+            s16 unk_06;
         } half;
     } unk_04;
     union {
@@ -169,29 +163,29 @@ void advance_motion_through_landing_and_fall(S_func_80EF7000_1 *motion, S_func_8
                     s32 interp_current;
 
                     interp_goal = position->unk_0E;
-                    interp_current = position->unk_00.half.unk_02.unk_02;
+                    interp_current = position->unk_00.half.unk_02;
                     interp_goal *= 64;
                     interp_current -= 32;
                     interp_goal -= interp_current;
                     interp_goal /= countdown;
-                    interp_current = position->unk_00.half.unk_02.unk_02_u16;
+                    interp_current = ((u16)position->unk_00.half.unk_02);
                     interp_current += interp_goal;
-                    position->unk_00.half.unk_02.unk_02 = interp_current;
+                    position->unk_00.half.unk_02 = interp_current;
 
                     interp_goal = position->unk_12;
-                    interp_current = position->unk_04.half.unk_06.unk_06;
+                    interp_current = position->unk_04.half.unk_06;
                     countdown = motion->unk_36;
                     interp_goal = interp_goal * 64;
                     interp_current -= 32;
                     interp_goal -= interp_current;
                     interp_goal /= countdown;
 
-                    interp_current = position->unk_04.half.unk_06.unk_06_u16;
+                    interp_current = ((u16)position->unk_04.half.unk_06);
                     countdown = position->unk_08.half.unk_0A;
                     interp_current += interp_goal;
 
                     interp_goal = position->unk_16;
-                    position->unk_04.half.unk_06.unk_06 = interp_current;
+                    position->unk_04.half.unk_06 = interp_current;
                     interp_goal -= countdown;
                     interp_goal /= (s16)motion->unk_36;
                     position->unk_08.half.unk_0A += interp_goal;
@@ -259,14 +253,14 @@ move:
             motion->unk_70 = coord;
 
             coord = step->x;
-            rounded = position->unk_00.half.unk_02.unk_02;
+            rounded = position->unk_00.half.unk_02;
             interp_goal += coord;
             if (rounded < 0)
                 rounded += 0x3F;
             coord = rounded >> 6;
             if (interp_goal == coord) {
                 coord = (u16)step->y;
-                rounded = position->unk_04.half.unk_06.unk_06;
+                rounded = position->unk_04.half.unk_06;
                 interp_goal = motion->unk_5D;
                 coord = (s16)coord;
                 interp_goal += coord;
@@ -274,9 +268,9 @@ move:
                     rounded += 0x3F;
                 coord = rounded >> 6;
                 if (interp_goal == coord) {
-                    if ((check_left_tile_and_center_height(position->unk_00.half.unk_02.unk_02_u16, position->unk_04.half.unk_06.unk_06_u16,
+                    if ((check_left_tile_and_center_height(((u16)position->unk_00.half.unk_02), ((u16)position->unk_04.half.unk_06),
                         position->unk_08.half.unk_0A) << 16) != 0 ||
-                        sample_terrain_surface_height(position->unk_00.half.unk_02.unk_02_u16, position->unk_04.half.unk_06.unk_06_u16,
+                        sample_terrain_surface_height(((u16)position->unk_00.half.unk_02), ((u16)position->unk_04.half.unk_06),
                                           position->unk_08.half.unk_0A) >= 0x200) {
                         position->unk_00.unk_00 -= motion->unk_6C;
                         motion->unk_6C = 0;

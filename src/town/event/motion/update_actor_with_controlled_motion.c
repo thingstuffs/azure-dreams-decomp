@@ -9,6 +9,8 @@
 #include "town/scene/motion.h"
 #include "town/event.h"
 #include "town/event/state.h"
+#include "town/event/motion.h"
+#include "town/player/input.h"
 
 typedef struct Actor Actor;
 typedef struct Subject Subject;
@@ -60,11 +62,6 @@ typedef struct MotionDelta {
 } MotionDelta;
 
 extern void call_the_same_context_both_processing_routines(Subject *, Motion *);
-
-extern void update_actor_input_actions(void *context, ObjectPosition *entity, s32 update_arg);
-
-
-extern void update_actor_with_controlled_motion(Actor *, Subject *, Motion *, TownMovementOutput *);
 
 extern TownState scene_object_list_anchor;
 extern TownControl town_actor_control;

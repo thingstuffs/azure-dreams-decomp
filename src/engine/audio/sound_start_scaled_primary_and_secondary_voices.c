@@ -4,7 +4,7 @@
 #include "engine/entity.h"
 
 extern void audio_stop_matching_effect_voices(s32 packed_key, s32 packed_channel);
-extern s32 start_sound_effect_program_voices(s32 a0, s32 a1, u16 a2, u16 a3, s32 a4);
+extern void start_sound_effect_program_voices(s32 a0, s32 a1, u16 a2, u16 a3, s32 a4);
 
 extern u16 primary_voice_volume_scale_alias[8];   /* size>8 forces %hi/%lo addressing */
 

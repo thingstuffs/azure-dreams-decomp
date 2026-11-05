@@ -11,5 +11,5 @@ void initialize_target_motion_state(TownObjectRecord *state, Rec_D_800CFCB4 *sta
     values->velocity_y = 0;
     values->velocity_z = 0;
     state->unk_50.as_pm = &update_motion_toward_shared_target;
-    state->timer.as_s16 = 7;
+    state->timer = 7;
 }

@@ -21,15 +21,15 @@ void update_turning_motion_and_timer(TownObjectRecord *actor, ObjectPosition *po
         return;
     }
 
-    angle = actor->unk_86.as_u16;
-    actor->unk_86.as_u16 = angle - 0x40;
-    actor->heading.as_s16 = angle - 0x440;
+    angle = actor->unk_86;
+    actor->unk_86 = angle - 0x40;
+    actor->heading = angle - 0x440;
 
-    position->x.unsigned_parts.integer = actor->unk_84.as_u16 +
-        rsin(actor->unk_86.as_s16) / (0x1000 / actor->unk_84.as_s16);
-    position->y.unsigned_parts.integer = actor->unk_86.as_u16 +
-        rcos(actor->unk_86.as_s16) / (0x1000 / actor->unk_84.as_s16) -
-        actor->unk_84.as_u16;
+    position->x.unsigned_parts.integer = ((u16)actor->unk_84) +
+        rsin(((s16)actor->unk_86)) / (0x1000 / actor->unk_84);
+    position->y.unsigned_parts.integer = actor->unk_86 +
+        rcos(((s16)actor->unk_86)) / (0x1000 / actor->unk_84) -
+        ((u16)actor->unk_84);
 
     adjustment = get_smallest_signed_overlap_axis_amount_two_intersecting_boxes(actor, &town_actor_control);
     if (adjustment != 0) {
@@ -45,8 +45,8 @@ void update_turning_motion_and_timer(TownObjectRecord *actor, ObjectPosition *po
         }
     }
 
-    timer = actor->timer.as_u16 - 1;
-    actor->timer.as_u16 = timer;
+    timer = actor->timer - 1;
+    actor->timer = timer;
     if ((s32)(timer << 16) <= 0) {
         initialize_object_from_context(actor, position, update_param);
     }

@@ -25,14 +25,8 @@ typedef struct S_func_8009E038_2 {
     u8 pad_10[0xC];
     u16 unk_1C;
     u16 unk_1E;
-    union {
-        s16 s16;
-        u16 u16;
-    } unk_20;
-    union {
-        s16 s16;
-        u16 u16;
-    } unk_22;
+    u16 unk_20;
+    u16 unk_22;
 } S_func_8009E038_2;
 
 typedef struct S_func_8009E038_3 {
@@ -147,13 +141,13 @@ void update_viewport_transition(InactiveTypeTwelveObjectBody *transition, Object
             render->unk_0C.bytes.unk_0D = next_brightness;
             render->unk_0C.bytes.unk_0C = next_brightness;
             reset_scale = render->unk_1E;
-            offset_x = render->unk_20.u16;
+            offset_x = render->unk_20;
             blended_scale = reset_scale + ((s32) (0x3000 - reset_scale) / (s16) transition->unk_1C.halves.low.s);
             render->unk_1E = blended_scale;
             render->unk_1C = blended_scale;
-            offset_y = render->unk_22.u16;
-            render->unk_20.u16 = (u16) (offset_x + ((s32) (0x20 - offset_x) / (s16) transition->unk_1C.halves.low.s));
-            render->unk_22.u16 = (u16) (offset_y + ((s32) (0x20 - offset_y) / (s16) transition->unk_1C.halves.low.s));
+            offset_y = render->unk_22;
+            render->unk_20 = (u16) (offset_x + ((s32) (0x20 - offset_x) / (s16) transition->unk_1C.halves.low.s));
+            render->unk_22 = (u16) (offset_y + ((s32) (0x20 - offset_y) / (s16) transition->unk_1C.halves.low.s));
             center->x.w.i = (s16) ((u16) center->x.w.i + ((s32) (0xA0 - center->x.w.i) / (s16) transition->unk_1C.halves.low.s));
             center->y.w.i = (s16) ((u16) center->y.w.i + ((s32) (0x78 - center->y.w.i) / (s16) transition->unk_1C.halves.low.s));
             transition->unk_04.halves.low.s = (s16) ((u16) transition->unk_04.halves.low.s + ((s32) (0
@@ -172,8 +166,8 @@ void update_viewport_transition(InactiveTypeTwelveObjectBody *transition, Object
             center->y.w.i = 0x78;
             render->unk_1E = 0x3000U;
             render->unk_1C = 0x3000U;
-            render->unk_20.u16 = 0x20U;
-            render->unk_22.u16 = 0x20U;
+            render->unk_20 = 0x20U;
+            render->unk_22 = 0x20U;
             render->unk_0C.s32 = 0x808080;
             transition->unk_08.halves.low.s = 0x140;
             transition->unk_08.halves.high.s = 0xE0;
@@ -217,10 +211,10 @@ void update_viewport_transition(InactiveTypeTwelveObjectBody *transition, Object
                 - center->x.w.i) / (s16) transition->unk_1C.halves.low.s));
             center->y.w.i = (s16) ((u16) center->y.w.i + ((s32) (transition->unk_14.halves.high.s
                 - center->y.w.i) / (s16) transition->unk_1C.halves.low.s));
-            render->unk_20.u16 = (u16) (((s32) (reference_tile_object.tile_position.parts.tile_x - render->unk_20.u16) / (s16) transition->unk_1C.halves.low.s)
-                + render->unk_20.u16);
-            render->unk_22.u16 = (u16) (((s32) (reference_tile_object.tile_position.parts.tile_y - render->unk_22.u16) / (s16) transition->unk_1C.halves.low.s)
-                + render->unk_22.u16);
+            render->unk_20 = (u16) (((s32) (reference_tile_object.tile_position.parts.tile_x - render->unk_20) / (s16) transition->unk_1C.halves.low.s)
+                + render->unk_20);
+            render->unk_22 = (u16) (((s32) (reference_tile_object.tile_position.parts.tile_y - render->unk_22) / (s16) transition->unk_1C.halves.low.s)
+                + render->unk_22);
             left_step = (s32) (transition->unk_0C.halves.low.s - transition->unk_04.halves.low.s) / (s16) transition->unk_1C.halves.low.s;
             transition->unk_04.halves.low.s = (s16) ((u16) transition->unk_04.halves.low.s + left_step);
             top_step = (s32) (transition->unk_0C.halves.high.s - transition->unk_04.halves.high.s) / (s16) transition->unk_1C.halves.low.s;
@@ -237,8 +231,8 @@ void update_viewport_transition(InactiveTypeTwelveObjectBody *transition, Object
                 target_scale = (u16) transition->unk_1C.halves.high.s;
                 render->unk_1E = target_scale;
                 render->unk_1C = target_scale;
-                render->unk_20.s16 = (s16) reference_tile_object.tile_position.parts.tile_x;
-                render->unk_22.s16 = (s16) reference_tile_object.tile_position.parts.tile_y;
+                (*(s16 *)&render->unk_20) = (s16) reference_tile_object.tile_position.parts.tile_x;
+                (*(s16 *)&render->unk_22) = (s16) reference_tile_object.tile_position.parts.tile_y;
                 target_left = (u16) transition->unk_0C.halves.low.s;
                 viewport_page = (S_func_8009E038_8 *)0x80010000;
                 transition->unk_04.halves.low.s = (s16) target_left;
@@ -254,8 +248,8 @@ void update_viewport_transition(InactiveTypeTwelveObjectBody *transition, Object
                 viewport_page->unk_3636 = target_height;
             }
         } else {
-            render->unk_20.s16 = (s16) reference_tile_object.tile_position.parts.tile_x;
-            render->unk_22.s16 = (s16) reference_tile_object.tile_position.parts.tile_y;
+            (*(s16 *)&render->unk_20) = (s16) reference_tile_object.tile_position.parts.tile_x;
+            (*(s16 *)&render->unk_22) = (s16) reference_tile_object.tile_position.parts.tile_y;
         }
         if (input->buttons & 0x10) {
             if ((input->pressed_buttons) & 8) {

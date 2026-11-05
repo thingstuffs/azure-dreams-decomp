@@ -17,8 +17,8 @@ extern s16 encounter_blink_update_flag[5];
 typedef struct S_80170534_1 {
     u8 pad_00[0xC];
     u8 unk_0C;
-    union { s8 s; u8 u; } unk_0D;   /* accessed as both */
-    union { s8 s; u8 u; } unk_0E;   /* accessed as both */
+    u8 unk_0D;
+    u8 unk_0E;
 } S_80170534_1;   /* input in advance_timed_blink_effect */
 
 /* Advances a timed blinking effect, triggers sounds, and sets completion flags. */
@@ -44,13 +44,13 @@ void advance_timed_blink_effect(SecondaryEncounterObjectBody *state_data_arg, vo
         if (!(state_data->frame & 7)) {
             bright_shade = 0xFF;
             if (color_data->unk_0C != bright_shade) {
-                color_data->unk_0E.s = bright_shade;
-                color_data->unk_0D.s = bright_shade;
+                (*(s8 *)&color_data->unk_0E) = bright_shade;
+                (*(s8 *)&color_data->unk_0D) = bright_shade;
                 color_data->unk_0C = bright_shade;
             } else {
                 dim_shade = 0x80;
-                color_data->unk_0E.u = dim_shade;
-                color_data->unk_0D.u = dim_shade;
+                color_data->unk_0E = dim_shade;
+                color_data->unk_0D = dim_shade;
                 color_data->unk_0C = dim_shade;
             }
         }
@@ -75,21 +75,21 @@ void advance_timed_blink_effect(SecondaryEncounterObjectBody *state_data_arg, vo
         if (!(state_data->frame & 7)) {
             bright_shade = 0xFF;
             if (color_data->unk_0C != bright_shade) {
-                color_data->unk_0E.s = bright_shade;
-                color_data->unk_0D.s = bright_shade;
+                (*(s8 *)&color_data->unk_0E) = bright_shade;
+                (*(s8 *)&color_data->unk_0D) = bright_shade;
                 color_data->unk_0C = bright_shade;
             } else {
                 dim_shade = 0x80;
-                color_data->unk_0E.u = dim_shade;
-                color_data->unk_0D.u = dim_shade;
+                color_data->unk_0E = dim_shade;
+                color_data->unk_0D = dim_shade;
                 color_data->unk_0C = dim_shade;
             }
         }
         if ((s16) state_data->frame >= 0x3C) {
             state_data->frame = 0U;
             state_data->phase.s = (s16) ((u16) state_data->phase.s + 1);
-            color_data->unk_0E.u = 0x80;
-            color_data->unk_0D.u = 0x80;
+            color_data->unk_0E = 0x80;
+            color_data->unk_0D = 0x80;
             color_data->unk_0C = 0x80;
             return;
         }

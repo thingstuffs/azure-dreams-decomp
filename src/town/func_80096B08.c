@@ -10,6 +10,6 @@ extern s32 D_80091F64;
 /* Selects type_three_action_handler_table and installs D_80091F64 with action count 3. */
 void initialize_action_object_type_three(TownObjectRecord *record, void *ptr, void *ptr2) {
     call_the_handler_selects_nonzero_entry(type_three_action_handler_table, record, ptr2);
-    record->unk_00.as_pm = &D_80091F64;
-    record->unk_0A.as_s16 = 3;
+    record->unk_00 = &D_80091F64;
+    record->unk_0A = 3;
 }

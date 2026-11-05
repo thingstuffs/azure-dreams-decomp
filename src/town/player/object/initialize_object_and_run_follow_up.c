@@ -12,7 +12,7 @@ void tick_countdown_and_initialize_record(TownObjectRecord *state, s32 value, s3
 void initialize_object_and_run_follow_up(TownObjectRecord *object, ObjectPosition *followUpArg, void *ptr2) {
     call_the_handler_selects_nonzero_entry(D_800D01A0, object, ptr2);
     town_action_reset_byte = 0;
-    object->unk_04.as_pm = &tick_countdown_and_initialize_record;
-    object->unk_0A.as_s16 = 0x15;
+    object->unk_04 = &tick_countdown_and_initialize_record;
+    object->unk_0A = 0x15;
     clear_entity_record_fields((followUpArg));
 }

@@ -1022,9 +1022,9 @@ void initialize_entity_from_table_and_callback(TownObjectRecord *entity, ObjectP
     state->unk_14.u = (u16)(flags | 0x1C);
     tail_entity = entity;
     if (active == 0) {
-        entity->timer.as_s16 = scale_random_to_unsigned_halfword_limit(0x1000);
+        entity->timer = scale_random_to_unsigned_halfword_limit(0x1000);
     } else {
-        tail_entity->timer.as_s16 = 0;
+        tail_entity->timer = 0;
     }
     callback_entity = tail_entity;
     callback_placement = placement;

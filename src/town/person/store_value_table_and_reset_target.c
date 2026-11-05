@@ -13,6 +13,6 @@
 /* Store the value table, apply the selected value to the target, and clear its status byte. */
 void store_value_table_and_reset_target(TownObjectRecord *object, SpriteFrameState *target, s32 *value_table) {
     object->unk_78 = value_table;
-    clear_object_status_and_dispatch_target(object, target, object->unk_78[get_facing_sector(object->heading.as_s16)], 0);
+    clear_object_status_and_dispatch_target(object, target, object->unk_78[get_facing_sector(object->heading)], 0);
     target->frame_ticks = 0;
 }

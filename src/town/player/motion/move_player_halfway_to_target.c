@@ -35,8 +35,8 @@ void move_player_halfway_to_target(TownObjectRecord *state, ObjectPosition *posi
     position->velocity_y = (target->y - position->y.v) / 2;
     position->velocity_z = (target->z - position->z.v) / 2;
 
-    timer = state->unk_0A.as_u16 - 1;
-    state->unk_0A.as_u16 = timer;
+    timer = ((u16)state->unk_0A) - 1;
+    state->unk_0A = timer;
     if ((s16)timer < 0) {
         position->x.v = target->x;
         position->y.v = target->y;
@@ -47,7 +47,7 @@ void move_player_halfway_to_target(TownObjectRecord *state, ObjectPosition *posi
         state->unk_32 = ((u16)position->y.w.i);
         call_the_handler_selects_nonzero_entry(town_scene_record_handlers, state, context);
 
-        state->unk_04.as_pv = update_player_global_state;
-        state->unk_10.as_s16 = 0x400;
+        state->unk_04 = update_player_global_state;
+        state->unk_10 = 0x400;
     }
 }

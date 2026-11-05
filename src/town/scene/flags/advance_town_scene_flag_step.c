@@ -4,10 +4,9 @@
 #include "shared/record_ptrs.h"
 #include "town/scene/resource.h"
 #include "shared/town_root.h"
+#include "town/player/state.h"
 
 extern void func_80019988(void); /* this scene's placed copy of set_current_entry_script_flag */
-extern void clear_script_flag_bit(s32);
-extern s32 get_script_flag_mask(s32);
 
 typedef void (*Callback)(s32, s32);
 

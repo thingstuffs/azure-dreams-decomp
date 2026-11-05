@@ -11,8 +11,8 @@ void run_unhandled_update_and_choose_direction(TownObjectRecord *entity, void *m
     u16 ticks_left;
 
     if (select_object_setup_path(entity, motion, context) == 0) {
-        ticks_left = entity->timer.as_u16 - 1;
-        entity->timer.as_u16 = ticks_left;
+        ticks_left = entity->timer - 1;
+        entity->timer = ticks_left;
         if ((ticks_left << 0x10) <= 0) {
             choose_random_movement_direction(entity, motion, context);
         }

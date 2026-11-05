@@ -12,11 +12,11 @@ extern s32 D_800D5944[];
 void switch_actor_state(TownObjectRecord *actor, s32 unused, void *state_context) {
     u16 ticks_left;
 
-    ticks_left = actor->timer.as_u16 - 1;
-    actor->timer.as_u16 = ticks_left;
+    ticks_left = actor->timer - 1;
+    actor->timer = ticks_left;
     if ((ticks_left << 0x10) <= 0) {
         initialize_object_entries((actor), state_context, D_800D5944);
         actor->handler = &apply_setup_on_timeout_variant_2;
-        actor->timer.as_u16 = 5U;
+        actor->timer = 5U;
     }
 }

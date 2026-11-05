@@ -13,5 +13,5 @@ void update_object_state_and_lookup(TownObjectRecord *object, void *lookup_key, 
     initialize_object_entries((object), state_value, object->descriptor->entries[5]);
     object_index_slots[object->slot].unk_00 = 0;
     object->handler = &apply_object_setup_update;
-    object->heading.as_s16 = get_cached_or_coordinate_transform_value(object, lookup_key);
+    object->heading = get_cached_or_coordinate_transform_value(object, lookup_key);
 }

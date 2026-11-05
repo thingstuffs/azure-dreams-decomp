@@ -16,7 +16,7 @@ typedef struct S_800B0D34_0 {
     u8 pad_00[0x4];
     void * unk_04;
     u8 pad_08[0x8];
-    union { s16 s; u16 u; } unk_10;   /* accessed as both */
+    u16 unk_10;
     u16 unk_12;
     void * unk_14;
     u8 pad_18[0x44];
@@ -39,7 +39,7 @@ typedef struct S_800B0D34_3 {
     u8 pad_00[0x4];
     u8 unk_04;
     u8 pad_05[0x13];
-    union { u16 u; s16 s; } unk_18;   /* accessed as both */
+    u16 unk_18;
 } S_800B0D34_3;   /* arg2 in update_attached_effect_position */
 
 typedef struct S_800B0D34_4 {
@@ -101,28 +101,28 @@ void update_attached_effect_position(void *object_arg, MovingPosition *position,
         color->unk_01 = 0x10;
     }
 
-    mode = object->unk_10.s;
+    mode = ((s16)object->unk_10);
     object->unk_12++;
     switch (mode) {
     case 0:
     {
-        u16 anim_offset = anim_state->unk_18.u;
+        u16 anim_offset = anim_state->unk_18;
         if (anim_offset != 0) {
-            anim_state->unk_18.u = anim_offset + 0x80;
+            anim_state->unk_18 = anim_offset + 0x80;
         }
         if (((S_800B0D34_4 *)(((u8 *)dungeon_actor_ring_anchor)))->unk_104 !=
             object->unk_14) {
-            object->unk_10.u++;
+            object->unk_10++;
         }
         anim_state->unk_04 = 0;
     }
         break;
     case 1:
     {
-        s16 signed_offset = anim_state->unk_18.s;
-        u16 anim_offset = anim_state->unk_18.u;
+        s16 signed_offset = ((s16)anim_state->unk_18);
+        u16 anim_offset = anim_state->unk_18;
         if (signed_offset >= -0x3FF) {
-            anim_state->unk_18.u = anim_offset - 0x100;
+            anim_state->unk_18 = anim_offset - 0x100;
             anim_state->unk_04 = 0;
         } else {
             func_8004E994(object->unk_5C);

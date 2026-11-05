@@ -5,10 +5,13 @@ import json
 import os
 from pathlib import Path
 import subprocess
+import sys
 import tempfile
 import types
 import unittest
 from unittest.mock import patch
+
+sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
 from tools.build import mkbuild as B, content_cache
 from tools.build.recipe_cache import RecipeCache, load
@@ -137,6 +140,10 @@ class ScopedConfigureTests(unittest.TestCase):
         with patch.dict(os.environ, AZURE_SCOPED_TEST='changed'):
             self.generate()
         self.assertEqual(self.calls, ['a', 'b'])
+        self.calls.clear()
+        with patch.dict(os.environ, CPATH=str(self.root/'include')):
+            self.generate()
+        self.assertEqual(self.calls, ['a', 'b'])
 
     def test_owner_and_review_source_reads_are_record_dependencies(self):
         inputs = content_cache.hashes(self.root, content_cache.inventory(self.root, ('src', 'include', 'config')))
@@ -175,17 +182,40 @@ class ScopedConfigureTests(unittest.TestCase):
         self.assertEqual(len(calls), 1)
         changed_driver.memo('other:a', lambda: 'row two', lambda value: [])
         self.assertEqual((changed_driver.hits, changed_driver.misses), (1, 1))
+        module.closure = lambda root, starts: ['src/a.c']
+        rebound = cache()
+        self.assertEqual(rebound.closure(module, self.root, ['src/a.c']), ['src/a.c'])
+        self.assertEqual(rebound.misses, 1)
+        module.closure = walk
+        module.__name__ = 'different_walker_module'
+        different_module = cache()
+        different_module.closure(module, self.root, ['src/a.c'])
+        self.assertEqual(different_module.misses, 1)
+        del module.__name__
         changed_entry = cache('different entry')
         changed_entry.closure(module, self.root, ['src/a.c'])
-        self.assertEqual(len(calls), 2)
+        self.assertEqual(len(calls), 3)
         self.write('tools/gate/overlay_module_gate.py', 'walker two')
         changed_walker = cache()
         changed_walker.closure(module, self.root, ['src/a.c'])
-        self.assertEqual(len(calls), 3)
+        self.assertEqual(len(calls), 4)
         self.write('include/leaf.h', 'int changed_leaf;\n')
         changed_header = cache()
         changed_header.closure(module, self.root, ['src/a.c'])
-        self.assertEqual(len(calls), 4)
+        self.assertEqual(len(calls), 5)
+
+    def test_walker_module_identity_changes_within_one_configure(self):
+        calls = []
+        def walk(root, starts):
+            calls.append(1)
+            return starts
+        module = types.SimpleNamespace(__name__='first', closure=walk)
+        cache = RecipeCache(self.root, {}, {})
+        cache.closure(module, self.root, ['src/a.c'])
+        module.__name__ = 'second'
+        cache.closure(module, self.root, ['src/a.c'])
+        self.assertEqual(len(cache.records), 2)
+        self.assertEqual(len(calls), 2)
 
     def test_input_mutation_during_generation_cannot_publish_receipt(self):
         self.generate()

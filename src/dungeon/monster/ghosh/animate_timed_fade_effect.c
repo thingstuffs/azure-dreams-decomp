@@ -16,7 +16,7 @@ extern u8 D_8016A808[];
 
 typedef struct S_8016A9FC_0 {
     u8 pad_00[0x12];
-    union { s16 s; u16 u; } unk_12;   /* accessed as both */
+    u16 unk_12;
     u8 pad_14[0x6];
     u16 unk_1A;
 } S_8016A9FC_0;   /* arg0 in animate_timed_fade_effect */
@@ -35,8 +35,8 @@ void animate_timed_fade_effect(void *effect_arg) {
     void *first_result;
     u8 cur;
 
-    state = effect->unk_12.s;
-    state_arg = effect->unk_12.u;
+    state = ((s16)effect->unk_12);
+    state_arg = effect->unk_12;
     fade_colors = &g_game_work;
 
     switch (state) {
@@ -49,7 +49,7 @@ void animate_timed_fade_effect(void *effect_arg) {
             fade_colors->view.tint.parts.tint_b = fade_blue;
             return;
         }
-        effect->unk_12.u = state_arg + 1;
+        effect->unk_12 = state_arg + 1;
         effect->unk_1A = 0;
         result = get_unused_text_buffer(state_arg, fade_colors, effect);
         first_result = result;
@@ -71,7 +71,7 @@ void animate_timed_fade_effect(void *effect_arg) {
             return;
         }
         effect->unk_1A = 0;
-        effect->unk_12.u++;
+        effect->unk_12++;
         return;
 
     case 2:

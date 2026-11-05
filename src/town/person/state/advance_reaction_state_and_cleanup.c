@@ -21,8 +21,8 @@ void advance_reaction_state_and_cleanup(TownObjectRecord *object, S_800CA458_0 *
 
     state->unk_00 = (s32) (state->unk_00 - 0x3333);
     state->unk_04 = (s32) (state->unk_04 + 0x40000);
-    remainingTicks = object->timer.as_u16 - 1;
-    object->timer.as_u16 = remainingTicks;
+    remainingTicks = object->timer - 1;
+    object->timer = remainingTicks;
     if ((remainingTicks << 0x10) <= 0) {
         set_resident_bitmap_bit(F_act_niko);
         unlink_scene_list_node(object);

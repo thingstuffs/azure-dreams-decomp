@@ -6,6 +6,7 @@
 #include "main/data.h"
 #include "frontend/card/menu.h"
 #include "frontend/card/server_imports.h"
+#include "frontend/card.h"
 
 
 
@@ -14,7 +15,6 @@ extern s8 card_dev_effect_mode;
 
 extern void func_80063FF8(s32 sound_code);
 extern void func_804008A0(s32 slot_index);
-extern void card_dev_close_events(void);
 extern void submit_stored_and_queried_boot_values(void);
 extern void assert_slot_store_value_and_process_state(s32 slot_addr, s32 slot_value);
 extern void update_embedded_selected_slot_outputs(s32 slot_addr, CardChooserPresence *display_state, s32 *state_changed);

@@ -16,5 +16,5 @@ void initialize_variant_object(TownObjectRecord *body, ObjectPosition *unused_po
     TownObjectRecord *object = body;
 
     initialize_object_and_register_slot(object, 8, &D_800D6A0C, &D_800D6A10, &D_800D69DC, &D_800D69E4);
-    create_and_invoke_render_object(object, object->variant.as_u8);
+    create_and_invoke_render_object(object, object->variant);
 }

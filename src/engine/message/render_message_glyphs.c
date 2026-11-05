@@ -18,10 +18,7 @@ typedef struct S_func_80038CB8_0 {
     s16 unk_18;
     u8 pad_1A[0x2];
     u8 *unk_1C;
-    union {
-        s16 s;
-        u16 u;
-    } unk_20;
+    s16 unk_20;
     s16 unk_22;
     u8 unk_24;
     u8 pad_25[0x3];
@@ -56,20 +53,20 @@ void render_message_glyphs(S_func_80038CB8_0 *text)
         if (*(s8 *)fast_cursor <= 0) {
             do {
                 if ((*fast_cursor == 0) ||
-                    (text->unk_20.s < (s32)text->unk_24)) {
+                    (text->unk_20 < (s32)text->unk_24)) {
                     process_message_control_bytes(text);
                     if (*(s8 *)text->unk_1C <= 0) {
                         move_glyph_to_grid_position(
                             text->unk_1C,
-                            text->unk_20.s,
+                            text->unk_20,
                             text->unk_22,
                             text->unk_2A,
                             (s32)text->unk_00,
                             (s32)(s16)(text->unk_02 + 2),
                             1);
                         glyph = text->unk_1C;
-                        text->unk_20.s =
-                            (s16)((u16)text->unk_20.s + 1);
+                        text->unk_20 =
+                            (s16)((u16)text->unk_20 + 1);
                         next_glyph = glyph + 2;
                         text->unk_1C = next_glyph;
                         fast_cursor = next_glyph;
@@ -90,7 +87,7 @@ void render_message_glyphs(S_func_80038CB8_0 *text)
             neg_glyph_count = 0;
             do {
                 if ((*batch_cursor != 0) &&
-                    (text->unk_20.s >= (s32)text->unk_24)) {
+                    (text->unk_20 >= (s32)text->unk_24)) {
                     script_new_line(text);
                     return;
                 }
@@ -101,16 +98,16 @@ void render_message_glyphs(S_func_80038CB8_0 *text)
                 neg_glyph_count -= 1;
                 move_glyph_to_grid_position(
                     text->unk_1C,
-                    text->unk_20.s,
+                    text->unk_20,
                     text->unk_22,
                     text->unk_2A,
                     (s32)text->unk_00,
                     (s32)(s16)(text->unk_02 + 2),
                     1);
-                column_or_rate = text->unk_20.u;
+                column_or_rate = ((u16)text->unk_20);
                 batch_glyph = text->unk_1C;
                 column_or_rate += 1;
-                text->unk_20.s = (s16)column_or_rate;
+                text->unk_20 = (s16)column_or_rate;
                 column_or_rate = text->unk_28;
                 batch_cursor = batch_glyph + 2;
                 text->unk_1C = batch_cursor;
@@ -126,14 +123,14 @@ void render_message_glyphs(S_func_80038CB8_0 *text)
         if (*(s8 *)text->unk_1C <= 0) {
             move_glyph_to_grid_position(
                 text->unk_1C,
-                text->unk_20.s,
+                text->unk_20,
                 text->unk_22,
                 text->unk_2A,
                 (s32)text->unk_00,
                 (s32)(s16)(text->unk_02 + 2),
                 1);
-            text->unk_20.s =
-                (s16)((u16)text->unk_20.s + 1);
+            text->unk_20 =
+                (s16)((u16)text->unk_20 + 1);
             glyph_delay = text->unk_28;
             text->unk_1C = text->unk_1C + 2;
             if (glyph_delay != 0) {

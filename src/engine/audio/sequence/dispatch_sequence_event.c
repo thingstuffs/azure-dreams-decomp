@@ -34,7 +34,7 @@ typedef struct {
 
 extern s32 read_next_byte_and_finish(S_80085FA8 *a0);
 extern void handle_sequence_meta_event(S_80085FA8 *a0, s32 a1);
-extern s32 audio_dispatch_midi_event(S_80085FA8 *a0, s32 a1, s32 a2, s32 a3);
+extern void audio_dispatch_midi_event(S_80085FA8 *a0, s32 a1, s32 a2, s32 a3);
 
 /* Read and dispatch the next event, reusing the previous status when needed. */
 s32 dispatch_sequence_event(S_80085FA8 *stream)

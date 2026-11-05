@@ -91,8 +91,8 @@ void update_timed_object_to_height_limit(void *object_arg, ObjectPosition *motio
     s16 height_limit;
     u16 timer;
 
-    timer = object->timer.as_u16 - 1;
-    object->timer.as_u16 = timer;
+    timer = object->timer - 1;
+    object->timer = timer;
     if ((s16)(timer) < 0) {
         unlink_node_if_registered(object);
         ((ObjectRetirementFlags *)object)[-1].flags |= 0x8000;

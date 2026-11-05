@@ -11,7 +11,7 @@ void initialize_indexed_callback_state(TownObjectRecord *object, s32 unused, voi
     initialize_object_entries(object, initValue, D_800D6A70);
     object_index_slots[object->slot].unk_00 = 0;
     object->unk_68 = 0;
-    object->unk_6A.as_s16 = 0;
+    object->unk_6A = 0;
     object->handler = D_800CBFAC;
-    object->timer.as_s16 = 0;
+    object->timer = 0;
 }

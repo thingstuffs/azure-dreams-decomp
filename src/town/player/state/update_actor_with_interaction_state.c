@@ -44,8 +44,8 @@ void update_actor_with_interaction_state(TownObjectRecord *controller, ObjectPos
     } else if (town_action_state_flag == 0) {
         compute_and_clamps_vector_based_adjustment_updates_town(entity, sampled_value, samples);
     }
-    countdown = controller->unk_0A.as_u16 - 1;
-    controller->unk_0A.as_u16 = countdown;
+    countdown = ((u16)controller->unk_0A) - 1;
+    controller->unk_0A = countdown;
     if ((s16)countdown < 0) {
         if (town_target_record[0] != NULL) {
             if (((S_80092698_2 *)(town_target_record[0]))->unk_14 == 2) {

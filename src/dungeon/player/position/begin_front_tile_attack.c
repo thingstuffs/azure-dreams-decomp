@@ -26,7 +26,7 @@ typedef struct S_8008C8BC_0 {
     u16 unk_2A;
     u8 pad_2C[0x30];
     s32 unk_5C;
-    union { s32 i; void * p; } unk_60;   /* accessed as both */
+    void * unk_60;
     u8 pad_64[0x24];
     u16 unk_88;
 } S_8008C8BC_0;   /* held3 in begin_front_tile_attack */
@@ -57,17 +57,17 @@ s32 begin_front_tile_attack(ActorRecord *body, ObjectPosition *unused, void *pos
             + ((u16 *)dir_step_x)[direction]) & 0xFFFF, (((MovingTile *)position_arg)->tile_y
             + ((u16 *)dir_step_y)[direction]) & 0xFFFF, (s16) entity->unk_88);
         page_or_entity = (u8 *)0x80010000;
-        entity->unk_60.p = target;
+        entity->unk_60 = target;
         if (!(((S_8008C8BC_2 *)page_or_entity)->unk_3714 & 1) && (target != 0)
             && (target->flags14 & 0x4000)
             && (((S_8008C8BC_2 *)page_or_entity)->unk_3186 & 1) && !(entity->unk_1C & 0x410)) {
-            entity->unk_60.p = NULL;
+            entity->unk_60 = NULL;
             return 0;
         }
         page_or_entity = (u8 *)entity;
         prepare_directional_attack(page_or_entity, position_arg, (s16) entity->unk_2A, 1, 0);
     } else {
-        entity->unk_60.p = NULL;
+        entity->unk_60 = NULL;
     }
     body->action_id.s = 0x11;
     body->action_phase.s = 0;

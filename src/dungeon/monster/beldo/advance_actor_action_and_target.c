@@ -15,6 +15,7 @@
 #include "dungeon/player/object.h"
 #include "sdk/libc.h"
 #include "dungeon/system.h"
+#include "dungeon/monster/beldo.h"
 
 struct S_80170E18_3;
 
@@ -27,7 +28,6 @@ typedef struct {
 extern s32 select_sprite_entry();
 extern void create_effect_from_sprite_and_facing(void *unused, MovingPosition *source_transform, void *sprite_template, struct S_80170E18_3 *facing_source);
 
-void update_object_animation(ActorRecord *obj, ObjectPosition *motion, SpriteFrameState *part, ActorRecord *state);
 extern u8 beldo_frame_set_1[8];
 extern u8 D_80173EDC[8];
 
@@ -59,8 +59,8 @@ typedef struct S_8017256C_1 {
     u8 pad_64[0x9];
     u8 unk_6D;
     u8 pad_6E[0x4];
-    union { u8 u; s8 s; } unk_72;   /* accessed as both */
-    union { u8 u; s8 s; } unk_73;   /* accessed as both */
+    u8 unk_72;
+    u8 unk_73;
 } S_8017256C_1;   /* arg3 in advance_actor_action_and_target */
 
 
@@ -141,15 +141,15 @@ void advance_actor_action_and_target(void *action, void *motion, SpriteFrameStat
                     ((S_8017256C_1 *)actor)->unk_60.p = target_link;
                     kind = (s32)*(u8 * *)&((ObjectNodeHeader *)(target_link - 0x20))->sprite;
 
-                    ((S_8017256C_1 *)actor)->unk_72.u = ((SpriteFrameState *)kind)->tile_x;
-                    ((S_8017256C_1 *)actor)->unk_73.u = ((SpriteFrameState *)kind)->tile_y;
+                    ((S_8017256C_1 *)actor)->unk_72 = ((SpriteFrameState *)kind)->tile_x;
+                    ((S_8017256C_1 *)actor)->unk_73 = ((SpriteFrameState *)kind)->tile_y;
                 } else if (item_action_definitions[*action_entry].kind == 2) {
                     target_link = ((S_8017256C_1 *)actor)->unk_60.p2;
                     if (target_link != 0) {
                         kind = (s32)*(u8 * *)&((ObjectNodeHeader *)(target_link - 0x20))->sprite;
 
-                        ((S_8017256C_1 *)actor)->unk_72.u = ((SpriteFrameState *)kind)->tile_x;
-                        ((S_8017256C_1 *)actor)->unk_73.u = ((SpriteFrameState *)kind)->tile_y;
+                        ((S_8017256C_1 *)actor)->unk_72 = ((SpriteFrameState *)kind)->tile_x;
+                        ((S_8017256C_1 *)actor)->unk_73 = ((SpriteFrameState *)kind)->tile_y;
                     }
                 } else {
                     s32 x;
@@ -163,10 +163,10 @@ void advance_actor_action_and_target(void *action, void *motion, SpriteFrameStat
                         sprite->tile_y,
                         ((S_8017256C_1 *)actor)->unk_2A,
                         0x10);
-                    abs_x = abs(((S_8017256C_1 *)actor)->unk_72.s);
-                    abs_y = abs(((S_8017256C_1 *)actor)->unk_73.s);
-                    ((S_8017256C_1 *)actor)->unk_72.u = abs_x;
-                    ((S_8017256C_1 *)actor)->unk_73.u = abs_y;
+                    abs_x = abs(((s8)((S_8017256C_1 *)actor)->unk_72));
+                    abs_y = abs(((s8)((S_8017256C_1 *)actor)->unk_73));
+                    ((S_8017256C_1 *)actor)->unk_72 = abs_x;
+                    ((S_8017256C_1 *)actor)->unk_73 = abs_y;
                 }
             }
             if (create_actor_spell_effect(actor, action_entry, is_special, (u8 *)action + 0x98) == 0) {
@@ -188,8 +188,8 @@ void advance_actor_action_and_target(void *action, void *motion, SpriteFrameStat
         advance_status_timers(actor);
         ((S_8017256C_1 *)actor)->unk_6D--;
         ((S_8017256C_0 *)action)->unk_8C = &update_object_animation;
-        ((S_8017256C_1 *)actor)->unk_73.u = 0;
-        ((S_8017256C_1 *)actor)->unk_72.u = 0;
+        ((S_8017256C_1 *)actor)->unk_73 = 0;
+        ((S_8017256C_1 *)actor)->unk_72 = 0;
         ((S_8017256C_1 *)actor)->unk_46 &= 0x7FFF;
         return;
 
@@ -297,8 +297,8 @@ void advance_actor_action_and_target(void *action, void *motion, SpriteFrameStat
             ((S_8017256C_0 *)action)->unk_8C = &update_object_animation;
             advance_status_timers(actor);
             ((S_8017256C_1 *)actor)->unk_6D--;
-            ((S_8017256C_1 *)actor)->unk_73.u = 0;
-            ((S_8017256C_1 *)actor)->unk_72.u = 0;
+            ((S_8017256C_1 *)actor)->unk_73 = 0;
+            ((S_8017256C_1 *)actor)->unk_72 = 0;
             ((S_8017256C_1 *)actor)->unk_46 &= 0x7FFF;
             play_sound_if_enabled(AUDIO_FADE_CD_FAST);
         }

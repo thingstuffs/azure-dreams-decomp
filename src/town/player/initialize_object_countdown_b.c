@@ -16,7 +16,7 @@ void initialize_object_with_countdown_400(TownObjectRecord *object, ObjectPositi
     clear_entity_record_fields((position));
     call_the_handler_selects_nonzero_entry(approach_action_handler_table, object, sprite);
     town_action_reset_byte = 0;
-    object->unk_04.as_pm = &tick_countdown_or_advance_cursor;
-    object->unk_0A.as_s16 = 0x10;
-    object->unk_10.as_s16 = 0x400;
+    object->unk_04 = &tick_countdown_or_advance_cursor;
+    object->unk_0A = 0x10;
+    object->unk_10 = 0x400;
 }

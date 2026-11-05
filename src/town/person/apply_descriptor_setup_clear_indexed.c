@@ -15,5 +15,5 @@ void apply_descriptor_setup_clear_indexed(TownObjectRecord *object, s32 unused, 
     initialize_object_entries(object, setup_context, object->descriptor->entries[5]);
     object_index_slots[object->slot].unk_00 = 0;
     object->handler = (void *) apply_object_setup_update;
-    object->heading.as_s16 = 0;
+    object->heading = 0;
 }

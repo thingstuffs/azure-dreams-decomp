@@ -14,8 +14,12 @@ from pathlib import Path
 
 def verify(rows):
     for row in rows:
+        if row.get('status') == 'proven-by-bytes':
+            # Legacy byte differences are holds, never proof of a union.
+            row['status'] = 'unproven'
+            row['hold_reason'] = 'bytes'
         if (row.get('count_basis') == 'retired_historical' or
-                row.get('status') == 'proven-by-bytes' or
+                row.get('hold_reason') == 'bytes' or
                 (row.get('status') in {'proven', 'unproven', 'retire'} and
                  row.get('evidence', '').startswith('UNION:')) or
                 row.get('retired_to_cast') or

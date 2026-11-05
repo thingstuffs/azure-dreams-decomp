@@ -47,6 +47,12 @@ REAL_DEPENDENCY_INPUTS = C.dependency_inputs
 
 class CacheTests(unittest.TestCase):
     def setUp(self):
+        # Spawn asks for the parent's cwd. Recover if another test suite left
+        # it inside a temporary directory that has since been removed.
+        try:
+            os.getcwd()
+        except FileNotFoundError:
+            os.chdir(Path(__file__).resolve().parents[3])
         self.temp = tempfile.TemporaryDirectory()
         self.addCleanup(self.temp.cleanup)
         self.root = Path(self.temp.name)/'root'
@@ -366,13 +372,17 @@ class CacheTests(unittest.TestCase):
             C.compile_recipe(self.root, self.recipe, build)
             first_key = self.key()
             manifest = json.loads((self.entry(first_key)/'manifest.json').read_text())
-            self.assertEqual(manifest['full_preprocessed'], {'src/a.c': 'first'})
+            self.assertEqual(manifest['verified_expansions'], [{'src/a.c': 'first'}])
             discovered['full_preprocessed'] = {'src/a.c': 'second'}
             self.assertEqual(first_key, self.key())
             C.compile_recipe(self.root, self.recipe, build)
             self.assertEqual(len(calls), 2)
             self.assertEqual(json.loads((self.entry(first_key)/'manifest.json').read_text())
-                             ['full_preprocessed'], {'src/a.c': 'second'})
+                             ['verified_expansions'],
+                             [{'src/a.c': 'first'}, {'src/a.c': 'second'}])
+            C.compile_recipe(self.root, self.recipe, build)
+            self.assertEqual(len(calls), 2)
+            discovered['full_preprocessed'] = {'src/a.c': 'first'}
             C.compile_recipe(self.root, self.recipe, build)
             self.assertEqual(len(calls), 2)
             discovered['full_preprocessed'] = {'src/a.c': 'third'}
@@ -381,6 +391,26 @@ class CacheTests(unittest.TestCase):
                 (self.root/'build/a.o').write_bytes(b'bad')
             with self.assertRaisesRegex(ValueError, 'verification differs'):
                 C.compile_recipe(self.root, self.recipe, bad)
+
+    def test_legacy_expansion_witness_is_preserved_when_another_is_verified(self):
+        key, inputs, outputs = self.fixture()
+        entry = self.entry(key)
+        path = entry/'manifest.json'
+        manifest = json.loads(path.read_text())
+        manifest['full_preprocessed'] = {'src/a.c': 'first'}
+        manifest.pop('verified_expansions')
+        path.write_text(json.dumps(manifest))
+        first = dict(inputs, full_preprocessed={'src/a.c': 'first'})
+        second = dict(inputs, full_preprocessed={'src/a.c': 'second'})
+        self.assertTrue(C.restore(self.directory, key, first, self.root, outputs)[1])
+        self.assertFalse(C.restore(self.directory, key, second, self.root, outputs)[1])
+        C.record_verified_expansion(self.directory, entry, second)
+        self.assertEqual(json.loads(path.read_text())['verified_expansions'],
+                         [{'src/a.c': 'first'}, {'src/a.c': 'second'}])
+        self.assertTrue(C.restore(self.directory, key, first, self.root, outputs)[1])
+        self.assertTrue(C.restore(self.directory, key, second, self.root, outputs)[1])
+        with self.assertRaisesRegex(ValueError, 'invalid object cache expansion witnesses'):
+            C.verified_expansions({'verified_expansions': ['invalid']})
 
     def test_sampling_can_verify_a_key_after_an_unverified_hit(self):
         calls = []
@@ -439,6 +469,21 @@ class CacheTests(unittest.TestCase):
             (self.root/'include/a.h').write_text('missing contract')
             discovered['full_preprocessed'] = {'src/a.c': 'second'}
             with self.assertRaisesRegex(ValueError, 'typed callback contract'):
+                C.compile_recipe(self.root, self.recipe, build)
+
+    def test_symbolic_gate_is_loaded_before_symbolic_module_import(self):
+        self.spec['module'] = {'allocation_model': 'separated-symbolic-allocations-v1'}
+        self.recipe.write_text(json.dumps(self.spec))
+        symbolic = types.SimpleNamespace(validate=lambda module, root: None)
+        def load_gate(root):
+            sys.modules['overlay_symbolic_allocations'] = symbolic
+        def build():
+            (self.root/'build/a.o').write_bytes(b'good')
+            (self.root/'build/a.proof.json').write_text('{}')
+        with patch.dict(sys.modules):
+            sys.modules.pop('overlay_symbolic_allocations', None)
+            with patch('tools.link.prepare.load_gate', side_effect=load_gate), \
+                 patch.object(C, 'key_inputs', return_value={'recipe': self.spec}):
                 C.compile_recipe(self.root, self.recipe, build)
 
     def test_inputs_changed_during_compile_never_publish(self):

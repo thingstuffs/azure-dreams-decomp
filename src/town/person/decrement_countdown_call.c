@@ -9,10 +9,10 @@
 void decrement_countdown_call(TownObjectRecord *object, s32 callback_arg_1, void *callback_arg_2) {
     u16 countdown;
 
-    countdown = object->timer.as_u16 - 1;
-    object->timer.as_u16 = countdown;
+    countdown = object->timer - 1;
+    object->timer = countdown;
     if ((countdown << 0x10) <= 0) {
         initialize_two_value_adjustment_action(object, callback_arg_1, callback_arg_2);
-        object->heading.as_s16 = 0;
+        object->heading = 0;
     }
 }

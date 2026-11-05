@@ -8,8 +8,8 @@
 void advance_object_countdown_and_invoke_handlers(TownObjectRecord *object, ObjectPosition *position, SpriteFrameState *sprite) {
     u16 remaining_count;
 
-    remaining_count = object->timer.as_u16 - 1;
-    object->timer.as_u16 = remaining_count;
+    remaining_count = object->timer - 1;
+    object->timer = remaining_count;
     if ((remaining_count << 0x10) <= 0) {
         set_record_data_pointer(object);
         apply_object_setup_and_update(object, position, sprite);

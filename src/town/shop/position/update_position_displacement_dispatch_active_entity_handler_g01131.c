@@ -97,7 +97,7 @@ void initialize_entity_flags_transform_type_dependent_variant(void *entity, void
     entity_bytes->unk_A0 = 0xFFE00000;
     *((s32 *) (((u8 *) transform) + 8)) = 0xFFE00000;
     entity_bytes->unk_50.as_pm = D_8009EE9C;
-    entity_bytes->timer.as_s16 = scale_random_to_unsigned_halfword_limit(0x1000);
+    entity_bytes->timer = scale_random_to_unsigned_halfword_limit(0x1000);
     variant_id = 0x12;
     if (entity_bytes->unk_4D != variant_id) {
         *((s32 *) (entity + 0x60)) = 0x59;
@@ -154,8 +154,8 @@ void update_the_target_offset_advance_phase_handle_active_event(void *state_arg,
     s32 active_event;
 
     target->unk_08 = (s32) (state->unk_A0
-        + (rsin(state->timer.as_s16) << 7));
-    state->timer.as_s16 = (s16) ((u16) state->timer.as_s16 + 0x40);
+        + (rsin(((s16)state->timer)) << 7));
+    state->timer = (s16) ((u16) ((s16)state->timer) + 0x40);
     active_event = (*town_target_record);
     if ((active_event == event_id) && ((*scene_object_payload_alias) == &D_800935BC)) {
         check_adjusted_input_indices(target);
@@ -238,5 +238,5 @@ void initialize_the_town_entity_synchronize_slot_state(TownObjectRecord *entity,
     func_8003E188(entity->unk_4C, 1);
     set_object_state_for_mode(entity, context, entity->unk_4C, record_value);
     entity->unk_50.as_pm = &handle_jitter_position_pulse_scale_until_countdown_expires;
-    entity->timer.as_s16 = 0xA;
+    entity->timer = 0xA;
 }

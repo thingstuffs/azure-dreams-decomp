@@ -25,13 +25,13 @@ typedef struct PersonDescriptor {
 } PersonDescriptor;
 
 typedef struct TownObjectRecord {
-    /* 0x00 */ union { void * as_pm; void * as_pv; } unk_00;   /* opaque handler address and alternate pointer/word views; callable views retain their contracts */
-    /* 0x04 */ union { void * as_pm; void ** as_ppv; void * as_pv; } unk_04;   /* opaque handler address and alternate pointer/word views; callable views retain their contracts */
+    /* 0x00 */ void *unk_00;   /* callback or linked-list predecessor address */
+    /* 0x04 */ void *unk_04;   /* callback or linked-list backlink address */
     /* 0x08 */ u8 pad_08[0x2];
-    /* 0x0A */ union { s16 as_s16; u16 as_u16; } unk_0A;
+    /* 0x0A */ s16 unk_0A;
     /* 0x0C */ u8 pad_0C[0x2];
     /* 0x0E */ u16 unk_0E;
-    /* 0x10 */ union { s16 as_s16; u16 as_u16; } unk_10;
+    /* 0x10 */ s16 unk_10;
     /* 0x12 */ u8 pad_12[0x2];
     /* 0x14 */ s8 unk_14;
     /* 0x15 */ s8 unk_15;
@@ -40,9 +40,9 @@ typedef struct TownObjectRecord {
     /* 0x2C */ void * unk_2C;
     /* 0x30 */ u16 unk_30;
     /* 0x32 */ u16 unk_32;
-    /* 0x34 */ union { s16 as_s16; u16 as_u16; } unk_34;
+    /* 0x34 */ s16 unk_34;
     /* 0x36 */ u8 pad_36[0x8];
-    /* 0x3E */ union { s16 as_s16; u16 as_u16; } unk_3E;
+    /* 0x3E */ s16 unk_3E;
     /* 0x40 */ s32 unk_40;
     /* 0x44 */ s32 **handler_entries; /* D_800D05E0: pointers to indexed handler tables */
     /* 0x48 */ s32 unk_48; /* creation argument word stored by create_object_and_initialize_render_state */
@@ -56,30 +56,30 @@ typedef struct TownObjectRecord {
     /* 0x5C */ s32 unk_5C;
     /* 0x60 */ s32 slot;
     /* 0x64 */ u16 unk_64;
-    /* 0x66 */ union { s16 as_s16; u16 as_u16; } unk_66;
+    /* 0x66 */ s16 unk_66;
     /* 0x68 */ u16 unk_68;
-    /* 0x6A */ union { s16 as_s16; u16 as_u16; } unk_6A;
-    /* 0x6C */ union { s16 as_s16; u16 as_u16; } timer;
+    /* 0x6A */ u16 unk_6A;
+    /* 0x6C */ u16 timer;
     /* 0x6E */ u16 unk_6E; /* facing angle seeded at creation (the same town_facing_angles entry as +0x72) */
     /* 0x70 */ u8 unk_70;
     /* 0x71 */ u8 unk_71;
-    /* 0x72 */ union { s16 as_s16; u16 as_u16; } heading; /* current facing angle; anyone_now_ang_get reports it to scripts */
+    /* 0x72 */ s16 heading; /* current facing angle; anyone_now_ang_get reports it to scripts */
     /* 0x74 */ union { void * as_pv; u16 as_u16; } unk_74;
     /* 0x78 */ s32 * unk_78;
     /* 0x7C */ union { s32 ** as_pps32; void * as_pv; } unk_7C;
     /* 0x80 */ PersonDescriptor *descriptor; /* descriptor table of the object script (TownObjectRecord spelling) */
-    /* 0x84 */ union { s16 as_s16; u16 as_u16; } unk_84; /* per-kind work: original X for position queries; orbit radius for the orbiting object kind */
-    /* 0x86 */ union { s16 as_s16; u16 as_u16; } unk_86; /* per-kind work: original Y for position queries; orbit angle for the orbiting object kind */
+    /* 0x84 */ s16 unk_84; /* per-kind work: original X for position queries; orbit radius for the orbiting object kind */
+    /* 0x86 */ u16 unk_86; /* per-kind work: original Y for position queries; orbit angle for the orbiting object kind */
     /* 0x88 */ s16 target_x;
     /* 0x8A */ s16 target_y;
     /* 0x8C */ s16 unk_8C;
     /* 0x8E */ s16 unk_8E;
-    /* 0x90 */ union { s16 as_s16; u16 as_u16; } unk_90;
+    /* 0x90 */ s16 unk_90;
     /* 0x92 */ u8 unk_92;
     /* 0x93 */ s8 unk_93;
     /* 0x94 */ s8 unk_94;
     /* 0x95 */ u8 unk_95;
-    /* 0x96 */ union { s8 as_s8; u8 as_u8; } variant;
+    /* 0x96 */ u8 variant;
     /* 0x97 */ s8 unk_97;
     /* 0x98 */ s8 * unk_98;
     /* 0x9C */ s32 unk_9C;

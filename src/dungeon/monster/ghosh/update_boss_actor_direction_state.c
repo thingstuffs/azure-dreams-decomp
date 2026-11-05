@@ -11,7 +11,7 @@ typedef struct S_80172610_0 {
     u8 pad_00[0x2A];
     s16 unk_2A;
     u8 pad_2C[0x68];
-    union { s16 s; u16 u; } unk_94;   /* accessed as both */
+    u16 unk_94;
     u16 unk_96;
     u8 pad_98[0x2];
     u8 unk_9A;
@@ -31,7 +31,7 @@ typedef struct S_80172610_2 {
     u8 pad_00[0x1C];
     union { void * p; u32 i; } unk_1C;   /* accessed as both */
     u8 pad_20[0xA];
-    union { s16 s; u16 u; } unk_2A;   /* accessed as both */
+    s16 unk_2A;
 } S_80172610_2;   /* base in update_boss_actor_direction_state */
 
 typedef struct S_80172610_3 {
@@ -116,8 +116,8 @@ void update_boss_actor_direction_state(void *actor_data, void *output_data, Spri
     }
 
     old_angle = actor->unk_2A;
-    new_angle = ((S_80172610_2 *)base)->unk_2A.s;
-    new_angle_bits = ((S_80172610_2 *)base)->unk_2A.u;
+    new_angle = ((S_80172610_2 *)base)->unk_2A;
+    new_angle_bits = ((u16)((S_80172610_2 *)base)->unk_2A);
     if (old_angle != new_angle) {
         actor->unk_2A = new_angle_bits;
         facing_index = ((g_game_work.view.camera_rotation.parts.viewAngle + new_angle + 0x100) >> 9) & 7;
@@ -126,9 +126,9 @@ void update_boss_actor_direction_state(void *actor_data, void *output_data, Spri
 
     direction_index = ((g_game_work.view.camera_rotation.parts.viewAngle + actor->unk_2A + 0x100) >> 9) & 7;
     direction_short = direction_index;
-    if (actor->unk_94.s != direction_short) {
+    if (((s16)actor->unk_94) != direction_short) {
         select_sprite_entry(context, (*((((S_80172610_4 *)context)->unk_2C) + direction_short)), 0);
-        actor->unk_94.u = direction_index;
+        actor->unk_94 = direction_index;
     }
 
     context->flags = linked->unk_14;

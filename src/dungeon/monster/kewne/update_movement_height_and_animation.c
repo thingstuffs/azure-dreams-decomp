@@ -26,10 +26,10 @@ typedef struct S_801728A8_0 {
     u8 pad_00[0x8C];
     s32 * unk_8C;
     u8 pad_90[0x6];
-    union { s16 s; u16 u; } unk_96;   /* accessed as both */
+    s16 unk_96;
     u16 unk_98;
     u8 pad_9A[0x1];
-    union { u8 n; u8 v; } unk_9B;   /* accessed as both */
+    u8 unk_9B;
     u8 pad_9C[0x4];
     union {
         struct { s32 v; } at00;
@@ -48,7 +48,7 @@ typedef struct S_801728A8_2 {
 
 typedef struct S_801728A8_4 {
     u8 pad_00[0x2A];
-    union { u16 u; s16 s; } unk_2A;   /* accessed as both */
+    u16 unk_2A;
 } S_801728A8_4;   /* arg3 in update_movement_height_and_animation */
 
 /* Updates movement, height, and animation through the action states. */
@@ -59,7 +59,7 @@ void update_movement_height_and_animation(void *action, ObjectPosition *motion, 
     s32 step_y;
     u8 state;
 
-    state = ((S_801728A8_0 *)action)->unk_9B.n;
+    state = ((S_801728A8_0 *)action)->unk_9B;
     if ((u32)state >= 5) {
         return;
     }
@@ -67,7 +67,7 @@ void update_movement_height_and_animation(void *action, ObjectPosition *motion, 
     case 0:
         {
             if (sprite->flags & 0x8000) {
-                ((S_801728A8_0 *)action)->unk_9B.n = 4;
+                ((S_801728A8_0 *)action)->unk_9B = 4;
                 sprite->flags |= 0x6000;
                 resolve_attack_damage_and_effects(actor, sprite, ((S_801728A8_2 *)actor)->unk_2A, 1);
                 return;
@@ -75,9 +75,9 @@ void update_movement_height_and_animation(void *action, ObjectPosition *motion, 
         }
 
         motion->velocity_x -=
-            dir_step_x[((u16)((S_801728A8_4 *)actor)->unk_2A.u >> 9) & 7] << 14;
+            dir_step_x[((u16)((S_801728A8_4 *)actor)->unk_2A >> 9) & 7] << 14;
         motion->velocity_y -=
-            dir_step_y[((u16)((S_801728A8_4 *)actor)->unk_2A.u >> 9) & 7] << 14;
+            dir_step_y[((u16)((S_801728A8_4 *)actor)->unk_2A >> 9) & 7] << 14;
         ((S_801728A8_0 *)action)->unk_A0.at00.v += 0x60000;
         if (((S_801728A8_0 *)action)->unk_A0.at02.v >= 0x31) {
             ((S_801728A8_0 *)action)->unk_A0.at02.v = 0x30;
@@ -93,12 +93,12 @@ void update_movement_height_and_animation(void *action, ObjectPosition *motion, 
         }
         sprite->frameTable = D_80175E58;
         select_sprite_entry(sprite,
-            D_80175E58[((g_game_work.view.camera_rotation.parts.viewAngle + ((S_801728A8_4 *)actor)->unk_2A.s + 0x100) >> 9) & 7],
+            D_80175E58[((g_game_work.view.camera_rotation.parts.viewAngle + ((s16)((S_801728A8_4 *)actor)->unk_2A) + 0x100) >> 9) & 7],
             0);
         create_three_linked_palette_objects((u8 *)action - 0x20, (u8 *)actor + 0x2A);
-        state = ((S_801728A8_0 *)action)->unk_9B.n;
-        ((S_801728A8_0 *)action)->unk_96.s = 0;
-        ((S_801728A8_0 *)action)->unk_9B.n = state + 1;
+        state = ((S_801728A8_0 *)action)->unk_9B;
+        ((S_801728A8_0 *)action)->unk_96 = 0;
+        ((S_801728A8_0 *)action)->unk_9B = state + 1;
         return;
 
     case 1:
@@ -107,26 +107,26 @@ void update_movement_height_and_animation(void *action, ObjectPosition *motion, 
             s32 arc;
             s16 timer;
 
-            direction_offset = ((u16)((S_801728A8_4 *)actor)->unk_2A.u >> 8) & 0xE;
+            direction_offset = ((u16)((S_801728A8_4 *)actor)->unk_2A >> 8) & 0xE;
             step_x = dir_step_x[direction_offset >> 1] << 16;
             step_y = dir_step_y[direction_offset >> 1] << 16;
             motion->velocity_x += step_x;
             motion->velocity_y += step_y;
-            arc = -rsin(((S_801728A8_0 *)action)->unk_96.s * 170);
+            arc = -rsin(((S_801728A8_0 *)action)->unk_96 * 170);
             ((S_801728A8_0 *)action)->unk_A0.at00.v = ((arc * 5) << 8) + 0x300000;
-            timer = ((S_801728A8_0 *)action)->unk_96.u + 1;
-            ((S_801728A8_0 *)action)->unk_96.u = timer;
+            timer = ((u16)((S_801728A8_0 *)action)->unk_96) + 1;
+            (*(u16 *)&((S_801728A8_0 *)action)->unk_96) = timer;
             if (timer < 9) {
                 return;
             }
         }
         sprite->frameTable = D_80175E60;
         select_sprite_entry(sprite,
-            D_80175E60[((g_game_work.view.camera_rotation.parts.viewAngle + ((S_801728A8_4 *)actor)->unk_2A.s + 0x100) >> 9) & 7],
+            D_80175E60[((g_game_work.view.camera_rotation.parts.viewAngle + ((s16)((S_801728A8_4 *)actor)->unk_2A) + 0x100) >> 9) & 7],
             0);
         play_sound_if_enabled(0x808);
-        state = ((S_801728A8_0 *)action)->unk_9B.n;
-        ((S_801728A8_0 *)action)->unk_9B.n = state + 1;
+        state = ((S_801728A8_0 *)action)->unk_9B;
+        ((S_801728A8_0 *)action)->unk_9B = state + 1;
         return;
 
     case 2:
@@ -141,11 +141,11 @@ void update_movement_height_and_animation(void *action, ObjectPosition *motion, 
             s32 velocity_x;
             s32 velocity_y;
 
-            if (((S_801728A8_0 *)action)->unk_96.s == 10) {
-                resolve_attack_damage_and_effects(actor, sprite, ((S_801728A8_4 *)actor)->unk_2A.s, 1);
+            if (((S_801728A8_0 *)action)->unk_96 == 10) {
+                resolve_attack_damage_and_effects(actor, sprite, ((s16)((S_801728A8_4 *)actor)->unk_2A), 1);
             }
             directions_x = (s16 *)((s8 *)dir_step_x);
-            direction_offset = ((u16)((S_801728A8_4 *)actor)->unk_2A.u >> 8) & 0xE;
+            direction_offset = ((u16)((S_801728A8_4 *)actor)->unk_2A >> 8) & 0xE;
             direction_x_ptr = (s16 *)(direction_offset + (u8 *)directions_x);
             directions_y = (s16 *)((s8 *)dir_step_y);
             direction_y_ptr = (s16 *)(direction_offset + (u8 *)directions_y);
@@ -155,32 +155,32 @@ void update_movement_height_and_animation(void *action, ObjectPosition *motion, 
             step_y = arc << 16;
             motion->velocity_x += step_x;
             motion->velocity_y += step_y;
-            arc = -rsin(((S_801728A8_0 *)action)->unk_96.s * 170);
+            arc = -rsin(((S_801728A8_0 *)action)->unk_96 * 170);
             ((S_801728A8_0 *)action)->unk_A0.at00.v = ((arc * 5) << 8) + 0x300000;
-            timer = ((S_801728A8_0 *)action)->unk_96.u + 1;
-            ((S_801728A8_0 *)action)->unk_96.u = timer;
+            timer = ((u16)((S_801728A8_0 *)action)->unk_96) + 1;
+            (*(u16 *)&((S_801728A8_0 *)action)->unk_96) = timer;
             if (timer < 13) {
                 return;
             }
             sprite->frameTable = D_80175E68;
             select_sprite_entry(sprite,
-                D_80175E68[((g_game_work.view.camera_rotation.parts.viewAngle + ((S_801728A8_4 *)actor)->unk_2A.s + 0x100) >> 9) & 7],
+                D_80175E68[((g_game_work.view.camera_rotation.parts.viewAngle + ((s16)((S_801728A8_4 *)actor)->unk_2A) + 0x100) >> 9) & 7],
                 0);
 
             velocity_x = -*(s16 *)((u8 *)directions_x +
-                (((u16)((S_801728A8_4 *)actor)->unk_2A.u >> 8) & 0xE)) << 18;
+                (((u16)((S_801728A8_4 *)actor)->unk_2A >> 8) & 0xE)) << 18;
             velocity_x += velocity_x >> 2;
             motion->velocity_x = velocity_x;
 
             velocity_y = -*(s16 *)((u8 *)directions_y +
-                (((u16)((S_801728A8_4 *)actor)->unk_2A.u >> 8) & 0xE)) << 18;
+                (((u16)((S_801728A8_4 *)actor)->unk_2A >> 8) & 0xE)) << 18;
             velocity_y += velocity_y >> 2;
             motion->velocity_y = velocity_y;
             ((S_801728A8_0 *)action)->unk_A8 = motion->velocity_x / 24;
             ((S_801728A8_0 *)action)->unk_AC = motion->velocity_y / 24;
         }
-        ((S_801728A8_0 *)action)->unk_96.s = 12;
-        ((S_801728A8_0 *)action)->unk_9B.n++;
+        ((S_801728A8_0 *)action)->unk_96 = 12;
+        ((S_801728A8_0 *)action)->unk_9B++;
         return;
 
     case 3:

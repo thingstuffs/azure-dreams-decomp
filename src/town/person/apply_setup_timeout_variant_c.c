@@ -12,8 +12,8 @@
 void apply_setup_on_timeout_variant_3(TownObjectRecord *object, void *context, void *update_data) {
     u16 remaining_ticks;
 
-    remaining_ticks = object->timer.as_u16 - 1;
-    object->timer.as_u16 = remaining_ticks;
+    remaining_ticks = object->timer - 1;
+    object->timer = remaining_ticks;
     if ((remaining_ticks << 0x10) <= 0) {
         apply_object_setup_and_update(object, context, update_data);
     }

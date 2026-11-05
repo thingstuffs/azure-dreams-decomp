@@ -19,6 +19,7 @@ struct ObjectPosition;
 #include "engine/graphics.h"
 #include "dungeon/effect.h"
 #include "dungeon/monster/unicorn.h"
+#include "dungeon/item.h"
 
 #ifndef NULL
 #define NULL 0
@@ -37,14 +38,10 @@ extern u8 unicorn_effect_load_done[];
 extern void *D_80174E40[];
 
 extern void select_record_entry_and_value(void *state, void *entries, short index);
-extern s32 Control_CD();
-extern void sound_set_cd_cue_parameters(int value_0, int value_1, int value_2, int value_3);
-extern s32 read_stream_cue_start_offset(void);
 s32 register_node(ObjectNodeHeader *entry, void *registration_id);
 extern s32 lookup_masked_byte_table();
-extern s32 unlink_entity_node();
+extern void unlink_entity_node();
 extern void update_map_cell_flags_with_item_limit(s32 x, s32 y, u16 flags);
-extern void decrement_monster_entry_count(s16 requested_id, s16 requested_type);
 extern void *advance_staged_entity_load(); /* Unprototyped: uses the value as a pointer where the definition has an integer (or the reverse) */
 extern s32 create_status_linked_render_effect();
 extern void create_angular_offset_effect();
@@ -67,7 +64,7 @@ typedef struct S_80174704_1 {
     u8 pad_14[0x8];
     u32 unk_1C;
     u8 pad_20[0xA];
-    union { u16 u; s16 s; } unk_2A;   /* accessed as both */
+    u16 unk_2A;
     u8 pad_2C[0x34];
     u8 * unk_60;
     u8 pad_64[0x9];
@@ -85,8 +82,8 @@ typedef struct S_80174704_3 {
     s8 unk_04;
     u8 pad_05[0x3];
     void * unk_08;
-    union { u8 * p; s32 i; } unk_0C;   /* accessed as both */
-    union { void * p; u32 i; } unk_10;   /* accessed as both */
+    u8 * unk_0C;
+    u32 unk_10;
     u16 unk_14;
     u8 pad_16[0x6];
     s16 unk_1C;
@@ -147,7 +144,7 @@ void advance_actor_transition_replacement(ActorRecord *action, ObjectPosition *p
         run_cd_image_commands(D_80174E24, unicorn_image_load_done, 0);
         action->unk_B0.halves.low.s = 0;
         action->action_phase.u++;
-        actor->unk_8A = ((S_80174704_1 *)actor)->unk_2A.u;
+        actor->unk_8A = ((S_80174704_1 *)actor)->unk_2A;
         actor->flags1C = (u32)((u32)actor->flags1C & (0xFFFBFFFF));
 
     case 2:
@@ -156,7 +153,7 @@ void advance_actor_transition_replacement(ActorRecord *action, ObjectPosition *p
         u16 angle;
 
         direction = ((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7;
-        angle = ((S_80174704_1 *)actor)->unk_2A.u;
+        angle = ((S_80174704_1 *)actor)->unk_2A;
         if (((S_80174704_2 *)unicorn_image_load_done)->unk_00 == 0 || direction != 2) {
             if (direction == 2) {
                 return;
@@ -255,7 +252,7 @@ void advance_actor_transition_replacement(ActorRecord *action, ObjectPosition *p
         }
     }
         object = ((S_80174704_0 *)action)->unk_AC;
-        object = ((S_80174704_3 *)object)->unk_0C.p;
+        object = ((S_80174704_3 *)object)->unk_0C;
         if (((S_80174704_3 *)object)->unk_14 & 0xE000) {
             action->action_timer.u = 0x10;
             action->action_phase.u++;
@@ -263,7 +260,7 @@ void advance_actor_transition_replacement(ActorRecord *action, ObjectPosition *p
             update_map_cell_flags_with_item_limit(entity->tile_x, entity->tile_y, 0x300);
             unlink_entity_node(actor);
             object = (u8 *)actor - 0x20;
-            ((S_80174704_3 *)object)->unk_10.i |= 0x80000000;
+            ((S_80174704_3 *)object)->unk_10 |= 0x80000000;
         }
 
     case 6:
@@ -279,7 +276,7 @@ void advance_actor_transition_replacement(ActorRecord *action, ObjectPosition *p
         update_map_cell_flags_with_item_limit(entity->tile_x, entity->tile_y, 0x300);
         unlink_entity_node(actor);
         object = (u8 *)actor - 0x20;
-        ((S_80174704_3 *)object)->unk_10.i |= 0x80000000;
+        ((S_80174704_3 *)object)->unk_10 |= 0x80000000;
         return;
 
     case 7:
@@ -291,7 +288,7 @@ void advance_actor_transition_replacement(ActorRecord *action, ObjectPosition *p
         }
         action->action_timer.u = 0x10;
         action->action_phase.u++;
-        ((S_80174704_11 *)(((S_80174704_1 *)actor)->unk_60))->unk_2A = ((S_80174704_1 *)actor)->unk_2A.u;
+        ((S_80174704_11 *)(((S_80174704_1 *)actor)->unk_60))->unk_2A = ((S_80174704_1 *)actor)->unk_2A;
         {
             u8 *replacement_actor = ((S_80174704_1 *)actor)->unk_60;
             s32 direction;

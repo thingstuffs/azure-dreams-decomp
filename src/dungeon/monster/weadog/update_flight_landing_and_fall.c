@@ -49,10 +49,7 @@ typedef struct S_func_80EF1000_2 {
         s32 unk_04;
         struct {
             u8 pad_04[2];
-            union {
-                s16 s;
-                u16 u;
-            } unk_06;
+            s16 unk_06;
         } half;
     } unk_04;
     union {
@@ -179,7 +176,7 @@ update_travel:
 
                 {
                     s32 goal = position->unk_12;
-                    s32 current = position->unk_04.half.unk_06.s;
+                    s32 current = position->unk_04.half.unk_06;
                     s32 ticks = motion->unk_36;
                     s32 delta;
                     s32 scaled = goal;
@@ -188,12 +185,12 @@ update_travel:
                     interp_goal = scaled - delta;
                     interp_goal /= ticks;
                 }
-                interp_current = position->unk_04.half.unk_06.u;
+                interp_current = ((u16)position->unk_04.half.unk_06);
                 countdown = position->unk_08.half.unk_0A;
                 interp_current += interp_goal;
 
                 interp_goal = position->unk_16;
-                position->unk_04.half.unk_06.s = interp_current;
+                position->unk_04.half.unk_06 = interp_current;
                 interp_goal -= countdown;
                 interp_goal /= (s16)motion->unk_36;
                 position->unk_08.half.unk_0A += interp_goal;
@@ -268,7 +265,7 @@ update_fall:
             coord = rounded >> 6;
             if (interp_goal == coord) {
                 coord = (u16)point->y;
-                rounded = position->unk_04.half.unk_06.s;
+                rounded = position->unk_04.half.unk_06;
                 interp_goal = motion->unk_5D;
                 coord = (s16)coord;
                 interp_goal += coord;
@@ -276,8 +273,8 @@ update_fall:
                     rounded += 0x3F;
                 coord = rounded >> 6;
                 if (interp_goal == coord) {
-                    if ((check_left_tile_and_center_height(position->unk_00.half.unk_02.u, position->unk_04.half.unk_06.u, position->unk_08.half.unk_0A) << 16) != 0 ||
-                        sample_terrain_surface_height(position->unk_00.half.unk_02.u, position->unk_04.half.unk_06.u,
+                    if ((check_left_tile_and_center_height(position->unk_00.half.unk_02.u, ((u16)position->unk_04.half.unk_06), position->unk_08.half.unk_0A) << 16) != 0 ||
+                        sample_terrain_surface_height(position->unk_00.half.unk_02.u, ((u16)position->unk_04.half.unk_06),
                                           position->unk_08.half.unk_0A) >= 0x200) {
                         position->unk_00.unk_00 -= motion->unk_6C;
                         motion->unk_6C = 0;

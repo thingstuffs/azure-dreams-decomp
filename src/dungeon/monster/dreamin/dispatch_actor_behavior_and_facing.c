@@ -10,13 +10,12 @@
 #include "shared/dungeon_status.h"
 #include "records/Rec_func_800A9E70_arg0.h"
 #include "shared/entity.h"
+#include "dungeon.h"
+#include "dungeon/player/object.h"
 
 extern void select_sprite_entry(void *, u8, s32);
 extern s32 find_active_rect_containing_point(u8, u8);
-extern s32 can_entity_gain_level(void *);
 extern void update_actor_status_and_mp(ActorRecord *entity);
-extern s32 begin_ready_actor_directional_action(ActorRecord *body, ObjectPosition *position, SpriteFrameState *sprite, u8 *direction_frames);
-extern void begin_actor_move_to_target_facing(ActorRecord *body, ObjectPosition *position, SpriteFrameState *sprite, ActorRecord *actor);
 
 extern void advance_stored_path_motion(void *, void *, void *, void *);
 extern void choose_block_move_slot_a(void *, void *, void *, void *);

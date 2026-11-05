@@ -6,7 +6,6 @@
 #include "dungeon/item/message.h"
 #include "dungeon/system.h"
 
-extern s32 display_text_with_fullwidth_adjustment(s8 *text);
 extern s32 generate_random_value(void);
 
 extern char D_800E1A88[];

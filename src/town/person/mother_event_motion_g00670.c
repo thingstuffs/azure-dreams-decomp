@@ -76,13 +76,13 @@ void choose_mother_event_direction(TownObjectRecord *entity, void *bounds_arg, v
             s32 bound_test;
             s32 extent;
 
-            upper_edge = entity->unk_84.as_s16;
+            upper_edge = entity->unk_84;
             extent = entity->unk_8C;
             bound_test = ((S_800C7AC4_1 *)bounds_arg)->unk_02;
             upper_edge += extent;
             bound_test = bound_test < upper_edge;
             if (bound_test != 0) {
-                entity->heading.as_s16 = 0x400;
+                entity->heading = 0x400;
                 break;
             }
         } else if (direction == 1) {
@@ -90,13 +90,13 @@ void choose_mother_event_direction(TownObjectRecord *entity, void *bounds_arg, v
             s32 bound_test;
             s32 extent;
 
-            upper_edge = entity->unk_86.as_s16;
+            upper_edge = ((s16)entity->unk_86);
             extent = entity->unk_8E;
             bound_test = ((S_800C7AC4_1 *)bounds_arg)->unk_06;
             upper_edge += extent;
             bound_test = bound_test < upper_edge;
             if (bound_test != 0) {
-                entity->heading.as_s16 = 0;
+                entity->heading = 0;
                 break;
             }
         } else if (direction == 2) {
@@ -104,13 +104,13 @@ void choose_mother_event_direction(TownObjectRecord *entity, void *bounds_arg, v
             s32 extent;
             s32 bound_coord;
 
-            lower_edge = entity->unk_84.as_s16;
+            lower_edge = entity->unk_84;
             extent = entity->unk_8C;
             bound_coord = ((S_800C7AC4_1 *)bounds_arg)->unk_02;
             lower_edge -= extent;
             lower_edge = lower_edge < bound_coord;
             if (lower_edge != 0) {
-                entity->heading.as_s16 = 0xC00;
+                entity->heading = 0xC00;
                 break;
             }
         } else {
@@ -118,13 +118,13 @@ void choose_mother_event_direction(TownObjectRecord *entity, void *bounds_arg, v
             s32 extent;
             s32 bound_coord;
 
-            lower_edge = entity->unk_86.as_s16;
+            lower_edge = ((s16)entity->unk_86);
             extent = entity->unk_8E;
             bound_coord = ((S_800C7AC4_1 *)bounds_arg)->unk_06;
             lower_edge -= extent;
             lower_edge = lower_edge < bound_coord;
             if (lower_edge != 0) {
-                entity->heading.as_s16 = 0x800;
+                entity->heading = 0x800;
                 break;
             }
         }

@@ -40,10 +40,10 @@ typedef struct S_800970FC_4 {
  * Coordinates retain both signed and unsigned halfword reads; extents are
  * read as bytes for UVs and as halfwords for the projected rectangle. */
 typedef struct PlayerOverlayTextureRect {
-    union { u16 u; s16 s; } x;
-    union { u16 u; s16 s; } y;
-    union { u8 u8; u16 u16; } width;
-    union { u8 u8; u16 u16; } height;
+    s16 x;
+    s16 y;
+    u16 width;
+    u16 height;
 } PlayerOverlayTextureRect;
 
    /* D_800D04D8 in draw_entry_overlays */
@@ -177,20 +177,20 @@ s32 draw_entry_overlays(void) {
                 texture_rect = &player_overlay_texture_rect;
                 page_mask = ~0xFF;
                 ((S_800970FC_4 *)primitive)->unk_16 = GetTPage(texture_depth, color,
-                    (s16) (player_overlay_texture_rect.x.u & page_mask),
-                    (s16) (texture_rect->y.u & page_mask));
+                    (s16) (((u16)player_overlay_texture_rect.x) & page_mask),
+                    (s16) (((u16)texture_rect->y) & page_mask));
                 SetSemiTrans(primitive, 1);
-                ((S_800970FC_4 *)primitive)->unk_0C = (s8) (player_overlay_texture_rect.x.s % 0x100);
-                ((S_800970FC_4 *)primitive)->unk_0D = (s8) (texture_rect->y.s % 0x100);
-                ((S_800970FC_4 *)primitive)->unk_14 = (s8) ((player_overlay_texture_rect.x.s % 0x100)
-                    + texture_rect->width.u8);
-                ((S_800970FC_4 *)primitive)->unk_15 = (s8) (texture_rect->y.s % 0x100);
-                ((S_800970FC_4 *)primitive)->unk_1C = (s8) (player_overlay_texture_rect.x.s % 0x100);
-                ((S_800970FC_4 *)primitive)->unk_1D = (s8) ((texture_rect->y.s % 0x100)
-                    + texture_rect->height.u8);
-                ((S_800970FC_4 *)primitive)->unk_24 = (s8) ((player_overlay_texture_rect.x.s % 0x100)
-                    + texture_rect->width.u8);
-                texture_y = texture_rect->y.s;
+                ((S_800970FC_4 *)primitive)->unk_0C = (s8) (player_overlay_texture_rect.x % 0x100);
+                ((S_800970FC_4 *)primitive)->unk_0D = (s8) (texture_rect->y % 0x100);
+                ((S_800970FC_4 *)primitive)->unk_14 = (s8) ((player_overlay_texture_rect.x % 0x100)
+                    + ((u8)texture_rect->width));
+                ((S_800970FC_4 *)primitive)->unk_15 = (s8) (texture_rect->y % 0x100);
+                ((S_800970FC_4 *)primitive)->unk_1C = (s8) (player_overlay_texture_rect.x % 0x100);
+                ((S_800970FC_4 *)primitive)->unk_1D = (s8) ((texture_rect->y % 0x100)
+                    + ((u8)texture_rect->height));
+                ((S_800970FC_4 *)primitive)->unk_24 = (s8) ((player_overlay_texture_rect.x % 0x100)
+                    + ((u8)texture_rect->width));
+                texture_y = texture_rect->y;
                 if (texture_y < 0) {
                     rounded_texture_y = texture_y + 0xFF;
                     page_offset = alternate_page;
@@ -199,7 +199,7 @@ s32 draw_entry_overlays(void) {
                     page_offset = page_index;
                 }
                 uv_sum = texture_y - ((rounded_texture_y >> 8) * 0x100) +
-                         texture_rect->height.u8;
+                         ((u8)texture_rect->height);
                 ((S_800970FC_4 *)primitive)->unk_25 = uv_sum;
                 {
                     S_800970FC_8 *rect;
@@ -280,8 +280,8 @@ s32 draw_entry_overlays(void) {
                     AddPrim(CUR_CTX + 0x830, primitive);
                 }
                 draw_entry = &reference_tile_object;
-                quad_x = texture_rect->x.u;
-                texture_top = texture_rect->y.s;
+                quad_x = ((u16)texture_rect->x);
+                texture_top = texture_rect->y;
                 saved_flags = draw_entry->sprite_flags;
                 saved_draw_param = draw_entry->tpage_offset;
                 {
@@ -323,13 +323,13 @@ s32 draw_entry_overlays(void) {
                 SetSemiTrans(primitive, 0);
                 (*(u16 *)((u8 *)primitive + 8)) = quad_x;
                 (*(s16 *)((u8 *)primitive + 0xA)) = texture_top;
-                (*(s16 *)((u8 *)primitive + 0xC)) = (s16) (quad_x + texture_rect->width.u16);
+                (*(s16 *)((u8 *)primitive + 0xC)) = (s16) (quad_x + texture_rect->width);
                 (*(s16 *)((u8 *)primitive + 0xE)) = texture_top;
                 (*(u16 *)((u8 *)primitive + 0x10)) = quad_x;
-                bottom = texture_top + texture_rect->height.u16;
+                bottom = texture_top + texture_rect->height;
                 (*(s16 *)((u8 *)primitive + 0x12)) = bottom;
-                (*(s16 *)((u8 *)primitive + 0x14)) = (s16) (quad_x + texture_rect->width.u16);
-                bottom = texture_top + texture_rect->height.u16;
+                (*(s16 *)((u8 *)primitive + 0x14)) = (s16) (quad_x + texture_rect->width);
+                bottom = texture_top + texture_rect->height;
                 (*(s16 *)((u8 *)primitive + 0x16)) = bottom;
                 AddPrim(CUR_CTX + 0x830, primitive);
                 primitive = ((GpuContext *)CUR_CTX)->packetCursor;

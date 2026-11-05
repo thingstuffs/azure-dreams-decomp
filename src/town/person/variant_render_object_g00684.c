@@ -50,8 +50,8 @@ void update_entity_relative_position(Rec_D_80082D58 *entity, IntVector3 *out_pos
         clear_object_slot_and_mark_removed(entity);
         return;
     }
-    out_pos->x = (s32) (base_pos->x + (rsin(((TownObjectRecord *)(entity->unk_9C))->heading.as_s16) * 0x140));
-    out_pos->y = (s32) (base_pos->y + (rcos(((TownObjectRecord *)(entity->unk_9C))->heading.as_s16) * 0x140));
+    out_pos->x = (s32) (base_pos->x + (rsin(((TownObjectRecord *)(entity->unk_9C))->heading) * 0x140));
+    out_pos->y = (s32) (base_pos->y + (rcos(((TownObjectRecord *)(entity->unk_9C))->heading) * 0x140));
     out_pos->z = (s32) (base_pos->z + (((S_800CB9B8_6 *)(height_info->unk_08))->unk_03 << 0x11) + 0x100000);
 }
 
@@ -64,7 +64,7 @@ void invoke_object_handler(S_800CBAAC_0 *object, s32 callback_arg1, s32 callback
 void initialize_record_from_table_index(TownObjectRecord *record_data, ObjectPosition *context, SpriteFrameState *state) {
     u8 table_index;
 
-    table_index = record_data->variant.as_u8;
+    table_index = record_data->variant;
     record_data->slot = (s32) table_index;
     state->source = D_800D68B0[table_index];
     configure_the_set_mode_n_3(record_data, context, &D_800D6A58);
@@ -88,7 +88,7 @@ void allocate_variant_object(s32 variant, s32 x, s32 y) {
         position->y.v = (s32)(y << 0x10);
         position->z.v = 0xFF000000;
         position->z.w.i = query_lowered_transform_position(position);
-        state->variant.as_s8 = variant;
+        state->variant = variant;
         initialize_record_from_table_index(state, position, setup_arg);
     }
 }

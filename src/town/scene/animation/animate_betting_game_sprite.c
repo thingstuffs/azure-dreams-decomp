@@ -10,9 +10,9 @@ typedef struct S_80810454_0 {
 
 typedef struct S_80810454_1 {
     u8 pad_00[0x8];
-    union { s32 s; s32 u; } unk_08;   /* accessed as both */
+    s32 unk_08;
     u8 pad_0C[0x8];
-    union { s32 s; s32 u; } unk_14;   /* accessed as both */
+    s32 unk_14;
 } S_80810454_1;   /* motion_data in animate_betting_game_sprite */
 
 typedef struct S_80810454_2 {
@@ -37,12 +37,12 @@ void animate_betting_game_sprite(void *state_data_arg, S_80810454_1 *motion_data
     {
         s32 position;
 
-        position = motion_data->unk_08.s;
+        position = motion_data->unk_08;
         position += 0x100000;
-        motion_data->unk_08.s = position;
+        motion_data->unk_08 = position;
         if (position >= (s32)0xFF900000) {
             state_data->unk_02 = 0;
-            motion_data->unk_14.s = -0x40000;
+            motion_data->unk_14 = -0x40000;
             state_data->unk_00 = 1;
             return;
         }
@@ -55,13 +55,13 @@ void animate_betting_game_sprite(void *state_data_arg, S_80810454_1 *motion_data
         s32 position;
         s32 speed;
 
-        position = motion_data->unk_08.u;
-        old_speed = motion_data->unk_14.u;
+        position = motion_data->unk_08;
+        old_speed = motion_data->unk_14;
         position += old_speed;
-        motion_data->unk_08.s = position;
-        speed = motion_data->unk_14.u;
+        motion_data->unk_08 = position;
+        speed = motion_data->unk_14;
         speed += 0x4000;
-        motion_data->unk_14.s = speed;
+        motion_data->unk_14 = speed;
         if (speed == 0x40000) {
             state_data->unk_00 = 2;
             return;
@@ -74,12 +74,12 @@ void animate_betting_game_sprite(void *state_data_arg, S_80810454_1 *motion_data
         s32 position;
         s32 speed;
 
-        position = motion_data->unk_08.s;
-        speed = motion_data->unk_14.s;
+        position = motion_data->unk_08;
+        speed = motion_data->unk_14;
         position += speed;
-        motion_data->unk_08.s = position;
-        motion_data->unk_14.s -= 0x8000;
-        if (motion_data->unk_14.s == -0x40000) {
+        motion_data->unk_08 = position;
+        motion_data->unk_14 -= 0x8000;
+        if (motion_data->unk_14 == -0x40000) {
             state_data->unk_00 = 1;
             return;
         }
@@ -94,7 +94,7 @@ void animate_betting_game_sprite(void *state_data_arg, S_80810454_1 *motion_data
         phase = (state_data->unk_02 + 1) & 0x7F;
         state_data->unk_02 = phase;
         result = func_8006A3A4(phase << 6);
-        motion_data->unk_08.s = (result << 7) + (s32)0xFF900000;
+        motion_data->unk_08 = (result << 7) + (s32)0xFF900000;
         return;
     }
 
@@ -102,9 +102,9 @@ void animate_betting_game_sprite(void *state_data_arg, S_80810454_1 *motion_data
     {
         s32 position;
 
-        position = motion_data->unk_08.s;
+        position = motion_data->unk_08;
         position -= 0x100000;
-        motion_data->unk_08.s = position;
+        motion_data->unk_08 = position;
         if (position <= (s32)0xFE000000) {
             *(u16 *)((u8 *)state_data - 2) |= 0x8000;
             scene_object_flags |= 0x8000;

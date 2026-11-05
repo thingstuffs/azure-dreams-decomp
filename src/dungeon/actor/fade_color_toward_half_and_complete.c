@@ -4,7 +4,7 @@
 
 typedef struct S_80026FB0_0 {
     u8 pad_00[0x64];
-    union { s16 s; u16 u; } unk_64;   /* accessed as both */
+    u16 unk_64;
     s16 unk_66;
 } S_80026FB0_0;   /* arg0 in fade_color_toward_half_and_complete */
 
@@ -25,7 +25,7 @@ void fade_color_toward_half_and_complete(void *effect_arg, s32 unused, void *col
     s32 frames_left;
     s32 intensity;
 
-    phase = effect->unk_64.s;
+    phase = ((s16)effect->unk_64);
     switch (phase) {
     default:
         return;
@@ -35,7 +35,7 @@ void fade_color_toward_half_and_complete(void *effect_arg, s32 unused, void *col
         effect->unk_66 = frames_left;
         if ((frames_left << 16) <= 0) {
             effect->unk_66 = 0x10;
-            effect->unk_64.u += 1;
+            effect->unk_64 += 1;
         }
         break;
 

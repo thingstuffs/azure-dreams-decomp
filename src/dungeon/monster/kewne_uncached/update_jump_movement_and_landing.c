@@ -26,9 +26,9 @@ typedef struct S_80173408_0 {
     u8 pad_00[0x8C];
     s32 * unk_8C;
     u8 pad_90[0x6];
-    union { s16 s; u16 u; } unk_96;   /* accessed as both */
+    s16 unk_96;
     u8 pad_98[0x3];
-    union { u8 n; u8 v; } unk_9B;   /* accessed as both */
+    u8 unk_9B;
     u8 pad_9C[0x4];
     union {
         struct { s32 v; } at00;
@@ -47,7 +47,7 @@ typedef struct S_80173408_2 {
 
 typedef struct S_80173408_4 {
     u8 pad_00[0x2A];
-    union { u16 u; s16 s; } unk_2A;   /* accessed as both */
+    u16 unk_2A;
     u8 pad_2C[0x1A];
     u16 unk_46;
 } S_80173408_4;   /* arg3 in update_jump_movement_and_landing */
@@ -61,7 +61,7 @@ void update_jump_movement_and_landing(void *jump, ObjectPosition *motion, Sprite
     s32 step_y;
     u8 state;
 
-    state = ((S_80173408_0 *)jump)->unk_9B.n;
+    state = ((S_80173408_0 *)jump)->unk_9B;
     if ((u32)state >= 5) {
         return;
     }
@@ -69,7 +69,7 @@ void update_jump_movement_and_landing(void *jump, ObjectPosition *motion, Sprite
     case 0:
         {
             if (sprite->flags & 0x8000) {
-                ((S_80173408_0 *)jump)->unk_9B.n = 4;
+                ((S_80173408_0 *)jump)->unk_9B = 4;
                 sprite->flags |= 0x6000;
                 resolve_attack_damage_and_effects(actor, sprite, ((S_80173408_2 *)actor)->unk_2A, 1);
                 return;
@@ -77,9 +77,9 @@ void update_jump_movement_and_landing(void *jump, ObjectPosition *motion, Sprite
         }
 
         motion->velocity_x -=
-            dir_step_x[((u16)((S_80173408_4 *)actor)->unk_2A.u >> 9) & 7] << 14;
+            dir_step_x[((u16)((S_80173408_4 *)actor)->unk_2A >> 9) & 7] << 14;
         motion->velocity_y -=
-            dir_step_y[((u16)((S_80173408_4 *)actor)->unk_2A.u >> 9) & 7] << 14;
+            dir_step_y[((u16)((S_80173408_4 *)actor)->unk_2A >> 9) & 7] << 14;
         ((S_80173408_0 *)jump)->unk_A0.at00.v += 0x60000;
         if (((S_80173408_0 *)jump)->unk_A0.at02.v >= 0x31) {
             ((S_80173408_0 *)jump)->unk_A0.at02.v = 0x30;
@@ -95,12 +95,12 @@ void update_jump_movement_and_landing(void *jump, ObjectPosition *motion, Sprite
         }
         sprite->frameTable = D_80175C48;
         select_sprite_entry(sprite,
-            D_80175C48[((g_game_work.view.camera_rotation.parts.viewAngle + ((S_80173408_4 *)actor)->unk_2A.s + 0x100) >> 9) & 7],
+            D_80175C48[((g_game_work.view.camera_rotation.parts.viewAngle + ((s16)((S_80173408_4 *)actor)->unk_2A) + 0x100) >> 9) & 7],
             0);
         func_801753DC((u8 *)jump - 0x20, (u8 *)actor + 0x2A);
-        state = ((S_80173408_0 *)jump)->unk_9B.v;
-        ((S_80173408_0 *)jump)->unk_96.s = 0;
-        ((S_80173408_0 *)jump)->unk_9B.n = state + 1;
+        state = ((S_80173408_0 *)jump)->unk_9B;
+        ((S_80173408_0 *)jump)->unk_96 = 0;
+        ((S_80173408_0 *)jump)->unk_9B = state + 1;
         return;
 
     case 1:
@@ -113,7 +113,7 @@ void update_jump_movement_and_landing(void *jump, ObjectPosition *motion, Sprite
             s16 timer;
 
             x_table = (s16 *)((s8 *)dir_step_x);
-            y_entry = (s16 *)(((u16)((S_80173408_4 *)actor)->unk_2A.u >> 8) & 0xE);
+            y_entry = (s16 *)(((u16)((S_80173408_4 *)actor)->unk_2A >> 8) & 0xE);
             x_entry = (s16 *)((s32)y_entry + (u8 *)x_table);
             y_table = (s16 *)((s8 *)dir_step_y);
             y_entry = (s16 *)((s32)y_entry + (u8 *)y_table);
@@ -123,21 +123,21 @@ void update_jump_movement_and_landing(void *jump, ObjectPosition *motion, Sprite
             step_y = (s32)y_entry << 16;
             motion->velocity_x += step_x;
             motion->velocity_y += step_y;
-            arc = -rsin(((S_80173408_0 *)jump)->unk_96.s * 170);
+            arc = -rsin(((S_80173408_0 *)jump)->unk_96 * 170);
             ((S_80173408_0 *)jump)->unk_A0.at00.v = ((arc * 5) << 8) + 0x300000;
-            timer = ((S_80173408_0 *)jump)->unk_96.u + 1;
-            ((S_80173408_0 *)jump)->unk_96.u = timer;
+            timer = ((u16)((S_80173408_0 *)jump)->unk_96) + 1;
+            (*(u16 *)&((S_80173408_0 *)jump)->unk_96) = timer;
             if (timer < 9) {
                 return;
             }
         }
         sprite->frameTable = D_80175C50;
         select_sprite_entry(sprite,
-            D_80175C50[((g_game_work.view.camera_rotation.parts.viewAngle + ((S_80173408_4 *)actor)->unk_2A.s + 0x100) >> 9) & 7],
+            D_80175C50[((g_game_work.view.camera_rotation.parts.viewAngle + ((s16)((S_80173408_4 *)actor)->unk_2A) + 0x100) >> 9) & 7],
             0);
         play_sound_if_enabled(0x808);
-        state = ((S_80173408_0 *)jump)->unk_9B.n;
-        ((S_80173408_0 *)jump)->unk_9B.n = state + 1;
+        state = ((S_80173408_0 *)jump)->unk_9B;
+        ((S_80173408_0 *)jump)->unk_9B = state + 1;
         return;
 
     case 2:
@@ -154,10 +154,10 @@ void update_jump_movement_and_landing(void *jump, ObjectPosition *motion, Sprite
             s32 velocity_y;
 
             if ((*(s16 *)((u8 *)jump + 0x96)) == 10) {
-                resolve_attack_damage_and_effects(actor, sprite, ((S_80173408_4 *)actor)->unk_2A.s, 1);
+                resolve_attack_damage_and_effects(actor, sprite, ((s16)((S_80173408_4 *)actor)->unk_2A), 1);
             }
             x_table = (s16 *)((s8 *)dir_step_x);
-            dir_offset = ((u16)((S_80173408_4 *)actor)->unk_2A.u >> 8) & 0xE;
+            dir_offset = ((u16)((S_80173408_4 *)actor)->unk_2A >> 8) & 0xE;
             x_entry = (s16 *)(dir_offset + (u8 *)x_table);
             y_table = (s16 *)((s8 *)dir_step_y);
             y_entry = (s16 *)(dir_offset + (u8 *)y_table);
@@ -167,32 +167,32 @@ void update_jump_movement_and_landing(void *jump, ObjectPosition *motion, Sprite
             step_y = arc << 16;
             motion->velocity_x += step_x;
             motion->velocity_y += step_y;
-            arc = -rsin(((S_80173408_0 *)jump)->unk_96.s * 170);
+            arc = -rsin(((S_80173408_0 *)jump)->unk_96 * 170);
             ((S_80173408_0 *)jump)->unk_A0.at00.v = ((arc * 5) << 8) + 0x300000;
-            timer = ((S_80173408_0 *)jump)->unk_96.u + 1;
-            ((S_80173408_0 *)jump)->unk_96.u = timer;
+            timer = ((u16)((S_80173408_0 *)jump)->unk_96) + 1;
+            (*(u16 *)&((S_80173408_0 *)jump)->unk_96) = timer;
             if (timer < 13) {
                 return;
             }
             sprite->frameTable = D_80175C58;
             select_sprite_entry(sprite,
-                D_80175C58[((g_game_work.view.camera_rotation.parts.viewAngle + ((S_80173408_4 *)actor)->unk_2A.s + 0x100) >> 9) & 7],
+                D_80175C58[((g_game_work.view.camera_rotation.parts.viewAngle + ((s16)((S_80173408_4 *)actor)->unk_2A) + 0x100) >> 9) & 7],
                 0);
 
             velocity_x = -*(s16 *)((u8 *)x_table +
-                (((u16)((S_80173408_4 *)actor)->unk_2A.u >> 8) & 0xE)) << 18;
+                (((u16)((S_80173408_4 *)actor)->unk_2A >> 8) & 0xE)) << 18;
             velocity_x += velocity_x >> 2;
             motion->velocity_x = velocity_x;
 
             velocity_y = -*(s16 *)((u8 *)y_table +
-                (((u16)((S_80173408_4 *)actor)->unk_2A.u >> 8) & 0xE)) << 18;
+                (((u16)((S_80173408_4 *)actor)->unk_2A >> 8) & 0xE)) << 18;
             velocity_y += velocity_y >> 2;
             motion->velocity_y = velocity_y;
             ((S_80173408_0 *)jump)->unk_A8 = motion->velocity_x / 24;
             ((S_80173408_0 *)jump)->unk_AC = motion->velocity_y / 24;
         }
-        ((S_80173408_0 *)jump)->unk_96.s = 12;
-        ((S_80173408_0 *)jump)->unk_9B.n++;
+        ((S_80173408_0 *)jump)->unk_96 = 12;
+        ((S_80173408_0 *)jump)->unk_9B++;
         return;
 
     case 3:

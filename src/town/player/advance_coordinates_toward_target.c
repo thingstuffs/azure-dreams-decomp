@@ -7,7 +7,7 @@ typedef struct S_80098544_0 {
     u8 pad_00[0x4];
     void (*unk_04)(s32,  ObjectPosition *, SpriteFrameState *);
     u8 pad_08[0x2];
-    union { u16 s; s16 u; } unk_0A;   /* accessed as both */
+    u16 unk_0A;
     u8 pad_0C[0x2A];
     s16 unk_36;
     s16 unk_38;
@@ -27,15 +27,15 @@ void advance_coordinates_toward_target(S_80098544_0 *state, ObjectPosition *posi
     u16 steps_left;
     s32 target_y;
 
-    steps_left = state->unk_0A.s - 1;
-    state->unk_0A.s = steps_left;
+    steps_left = state->unk_0A - 1;
+    state->unk_0A = steps_left;
     if ((s16) steps_left > 0) {
         current_coord_2 = position->x.v;
         position->x.v = (s32) (current_coord_2 + ((s32) ((state->unk_36 << 0x10)
             - current_coord_2) / (s16) steps_left));
         target_y = state->unk_38;
         current_coord = position->y.v;
-        remaining = state->unk_0A.u;
+        remaining = ((s16)state->unk_0A);
         position->y.v = (s32) (current_coord + ((s32) ((target_y << 0x10) - current_coord) / remaining));
         return;
     }

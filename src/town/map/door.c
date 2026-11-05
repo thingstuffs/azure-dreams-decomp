@@ -26,7 +26,7 @@ void initialize_door_variant(TownObjectRecord *record_data, ObjectPosition *posi
 
         if (variant == 1) {
             handler.value = 2;
-            record_data->unk_90.as_s16 = handler.value;
+            record_data->unk_90 = handler.value;
             handler.pointer = &advance_door_step;
             record_data->unk_6E = 0;
         } else if (variant == 0) {
@@ -350,7 +350,7 @@ void into_dn_door_jobs(void) {
 s32 check_door_input_and_angle(Rec_func_800A0668_arg0 *object, void *test_value) {
     if (get_smallest_signed_overlap_axis_amount_two_intersecting_boxes(test_value, &town_actor_control) != 0) {
         s32 *global_base = &scene_object_payload_alias;
-        s32 global_angle = ((TownObjectRecord *)global_base)->unk_10.as_u16 & 0xFFF;
+        s32 global_angle = ((u16)((TownObjectRecord *)global_base)->unk_10) & 0xFFF;
         s32 object_angle = object->unk_72 & 0xFFF;
 
         if ((u32) ((object_angle - global_angle) + 0x3FF) < 0x7FFU) {

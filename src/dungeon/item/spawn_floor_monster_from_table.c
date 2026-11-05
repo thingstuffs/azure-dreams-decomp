@@ -20,7 +20,6 @@ struct EntityLinkNode;
 extern void unlink_entity_node(struct EntityLinkNode *node);
 extern void update_map_cell_flags_with_item_limit(s32, s32, s32);
 extern s32 find_active_rect_containing_point(s32, s32);
-extern void * detach_record_and_update_slot_state(void *);
 /* Retail 0x800A6D30 (+0xC15D0 in DUNGEON.BIN), 48 bytes: RNG reads no argument registers, including a3. */
 extern s32 generate_random_value(void);
 extern s32 select_random_eligible_item_entry(void *);

@@ -1,7 +1,7 @@
 #include "common.h"
+#include "town/shop/state.h"
 
 extern u8 D_80701E2C[];
-extern void set_linked_flag(s32);
 
 /* Set flag 0x1F9 when the selected entry has bit 0 set. */
 void set_entry_bit_flag(s32 row_index, s32 entry_index) {

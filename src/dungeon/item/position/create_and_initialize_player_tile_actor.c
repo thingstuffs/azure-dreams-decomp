@@ -14,7 +14,7 @@ typedef struct S_800C135C_0_pre {
 
 
 
-extern s32 init_monster_from_stats();
+extern void init_monster_from_stats();
 extern void *create_player_tile_actor_at_coordinates();
 
 

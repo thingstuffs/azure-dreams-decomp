@@ -8,6 +8,7 @@
 #include "dungeon/system.h"
 #include "dungeon/level.h"
 #include "engine/node/allocation.h"
+#include "dungeon/data.h"
 
 #ifndef NULL
 #define NULL 0
@@ -17,8 +18,6 @@
 extern s32 register_node(ObjectNodeHeader *entry, void *registration_id);
 
 extern u8 clipped_sprite_renderer_address[];
-extern u8 uboat_aura_start_frames[];
-extern u8 uboat_aura_later_frames[];
 extern u8 uboat_aura_sprite_data[];
 extern u8 D_80170CEC[];
 #include "dungeon/monster/u_boat.h"

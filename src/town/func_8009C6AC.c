@@ -13,6 +13,6 @@
 void init_half_turn_motion_action(TownObjectRecord *object, void *unused, void *handler_context) {
     call_the_handler_selects_nonzero_entry(object->handler_entries[5], object, handler_context);
     object_index_slots[object->unk_40].unk_00 = 0;
-    object->unk_04.as_pm = forward_player_motion_state;
-    object->unk_10.as_s16 = 0x800;
+    object->unk_04 = forward_player_motion_state;
+    object->unk_10 = 0x800;
 }

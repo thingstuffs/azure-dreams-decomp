@@ -43,10 +43,7 @@ typedef struct Func80813E14Base {
 typedef struct Func80813E14Input {
     u8 *kind;
     u8 pad04[8];
-    union {
-        u8 byte;
-        u32 word;
-    } value0C;
+    u32 value0C;
     u8 pad10[4];
     u16 flags;
 } Func80813E14Input;
@@ -90,8 +87,8 @@ void advance_shop_item_panel(Func80813E14Object *object,
     base = (Func80813E14Base *)object->base;
 
     if (object->flags & 2) {
-        if (input->value0C.byte != 0) {
-            input->value0C.word += 0xFFFEFEFF;
+        if (((u8)input->value0C) != 0) {
+            input->value0C += 0xFFFEFEFF;
         }
     }
 

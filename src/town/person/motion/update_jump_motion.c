@@ -20,12 +20,12 @@ void update_jump_motion(TownObjectRecord *actor, S_800CC070_1 *motion, void *ani
 {
     s16 state;
 
-    state = actor->unk_6A.as_s16;
+    state = ((s16)actor->unk_6A);
     switch (state) {
     case 0:
         initialize_object_entries(actor, animation_id, &D_800D6ABC);
         motion->unk_14.at02.v = jump_velocity;
-        actor->unk_6A.as_u16++;
+        actor->unk_6A++;
         break;
 
     case 1:
@@ -33,7 +33,7 @@ void update_jump_motion(TownObjectRecord *actor, S_800CC070_1 *motion, void *ani
         add_hex_20000_s_signed_offset_hex_14(motion);
         if (motion->unk_14.at00.v >= 0) {
             initialize_object_entries(actor, animation_id, &D_800D6AD0);
-            actor->unk_6A.as_u16++;
+            actor->unk_6A++;
         }
         break;
 
@@ -42,7 +42,7 @@ void update_jump_motion(TownObjectRecord *actor, S_800CC070_1 *motion, void *ani
         if (query_lowered_transform_position(motion) < motion->unk_08.at02.v) {
             motion->unk_14.at00.v = 0;
             motion->unk_08.at02.v = query_lowered_transform_position(motion);
-            actor->unk_6A.as_s16 = 0;
+            actor->unk_6A = 0;
             actor->unk_68++;
         } else {
             add_hex_20000_s_signed_offset_hex_14(motion);

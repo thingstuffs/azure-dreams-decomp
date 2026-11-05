@@ -37,7 +37,7 @@ typedef struct S_80E3C98C_4 {
 
 
 extern s32 copy_entity_record();
-extern s32 set_code_for_entity_mode();
+extern void set_code_for_entity_mode();
 extern void *(*load_monster_code_module())(s32, u8, u8, s16);
 extern s8 entity_spawn_variant_code;
 

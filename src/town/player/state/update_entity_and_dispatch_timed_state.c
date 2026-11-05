@@ -24,8 +24,8 @@ void update_entity_and_dispatch_timed_state(void *state_arg, void *entity, void 
 
     handle_resolves_movement_collisions_along_one_axis_using_boundary_probes_tile(entity);
     move_both_components_toward_zero_direction_dependent_steps_clamping_zero(entity);
-    countdown = state->unk_0A.as_u16 - 1;
-    state->unk_0A.as_u16 = countdown;
+    countdown = ((u16)state->unk_0A) - 1;
+    state->unk_0A = countdown;
     if (countdown < 0) {
         clear_entity_record_fields(entity);
         run_the_three_update_routines_context(entity);

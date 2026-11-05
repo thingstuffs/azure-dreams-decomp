@@ -16,8 +16,8 @@ void update_opposing_scale_effect(TownObjectRecord *state, s32 unused_1, SpriteF
     s32 scale_offset;
     s32 rounded_wave;
 
-    ticks_left = state->timer.as_u16 - 1;
-    state->timer.as_u16 = ticks_left;
+    ticks_left = state->timer - 1;
+    state->timer = ticks_left;
     if ((s16) ticks_left <= 0) {
         scale->scale_y = 0x1000;
         scale->scale_x = 0x1000;
@@ -30,6 +30,6 @@ void update_opposing_scale_effect(TownObjectRecord *state, s32 unused_1, SpriteF
         scale_offset = (s32) (scale_wave + 3) >> 2;
     }
     scale->scale_x = (s16) (0x1000 - scale_offset);
-    rounded_wave = rsin((s16) state->timer.as_u16 * 0xBA);
+    rounded_wave = rsin((s16) state->timer * 0xBA);
     scale->scale_y = (s16) ((rounded_wave / 4) + 0x1000);
 }

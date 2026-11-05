@@ -10,7 +10,7 @@ typedef struct S_80171284_0 {
     u8 unk_03;
     u8 unk_04;
     u8 pad_05[0x1F];
-    union { u16 s; s16 u; } unk_24;   /* accessed as both */
+    u16 unk_24;
     u8 pad_26[0x4];
     u16 unk_2A;
     u16 unk_2C;
@@ -41,8 +41,8 @@ void update_fading_motion_effect(void *effect_arg, void *transform_arg, void *co
     u16 next_total;
     s16 ticks_left;
 
-    next_value = effect->unk_24.s - 1;
-    effect->unk_24.s = next_value;
+    next_value = effect->unk_24 - 1;
+    effect->unk_24 = next_value;
     if ((s16)next_value < 8) {
         effect->unk_4E = effect->unk_4E - 1;
     }
@@ -51,7 +51,7 @@ void update_fading_motion_effect(void *effect_arg, void *transform_arg, void *co
         effect->unk_4E = 2;
     }
 
-    if ((s16)effect->unk_24.s < 10) {
+    if ((s16)effect->unk_24 < 10) {
         next_value = effect->unk_2A + 1;
         next_total = effect->unk_50 + next_value;
         effect->unk_2A = next_value;
@@ -60,20 +60,20 @@ void update_fading_motion_effect(void *effect_arg, void *transform_arg, void *co
         effect->unk_50 = effect->unk_50 + 1;
     }
 
-    if ((s16)effect->unk_24.s < 11) {
+    if ((s16)effect->unk_24 < 11) {
         next_value = effect->unk_2C + 2;
         effect->unk_2C = next_value;
         transform->unk_0A = transform->unk_0A - next_value;
     }
 
-    ticks_left = effect->unk_24.u;
+    ticks_left = ((s16)effect->unk_24);
     if (ticks_left < 5) {
         color->unk_0C = (effect->unk_02 * ticks_left) / 5;
-        color->unk_0D = (effect->unk_03 * effect->unk_24.u) / 5;
-        color->unk_0E = (effect->unk_04 * effect->unk_24.u) / 5;
+        color->unk_0D = (effect->unk_03 * ((s16)effect->unk_24)) / 5;
+        color->unk_0E = (effect->unk_04 * ((s16)effect->unk_24)) / 5;
     }
 
-    if (effect->unk_24.u <= 0) {
+    if (((s16)effect->unk_24) <= 0) {
         (*(u16 *)((u8 *)effect + -2)) |= NODE_REMOVE;
         object_flag_block.flags |= OBJECT_REMOVE_PENDING;
     }

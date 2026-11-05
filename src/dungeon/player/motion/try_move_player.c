@@ -11,6 +11,7 @@
 #include "dungeon/player.h"
 #include "dungeon/system.h"
 #include "dungeon/level.h"
+#include "dungeon/data.h"
 
 
    /* callback_obj in try_move_player */
@@ -20,10 +21,7 @@
 
 extern s16 D_80083464[];
 extern u8 player_wait_frames[];
-extern u8 player_push_start_frames[];
 extern u8 player_move_frames[];
-extern u8 player_damage_frames[];
-extern u8 actor_attack_frames[];
 extern u8 player_put_down_frames[];
 extern u8 active_actor_command_code[];
 

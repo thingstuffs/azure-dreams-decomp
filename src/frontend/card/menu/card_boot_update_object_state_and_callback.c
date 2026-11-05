@@ -3,10 +3,9 @@
 #include "frontend/card/menu.h"
 #include "frontend/card/service.h"
 #include "main/data.h"
+#include "frontend/card.h"
 
-extern void toggle_card_selection_state(void);
 extern void submit_stored_and_queried_boot_values(void);
-extern s32 card_dev_get_op_state(void);
 extern void forward_target_value_initcardmessageobject(void *left, void *right);
 extern void func_8003FA78(void *descriptor, s32 value, s32 item); /* Unprototyped: this site's argument count or types differ from the foreign program's import prototype */
 

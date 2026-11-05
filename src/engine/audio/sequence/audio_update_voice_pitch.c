@@ -14,7 +14,7 @@ typedef struct S_80056654_0 {
     u8 pad_24[0xC];
     s32 unk_30;
     u8 pad_34[0x8];
-    union { u16 u16; s32 s32; } unk_3C;   /* accessed as both */
+    s32 unk_3C;
     u8 pad_40[0xC];
     s32 unk_4C;
     u8 pad_50[0x20];
@@ -57,7 +57,7 @@ void audio_update_voice_pitch(S_80056654_0 *state, s32 force_update) {
         (channel->unk_08 != 0) || (channel->unk_50 != 0) ||
         (channel->unk_1C != state->unk_70) || (force_update != 0)) {
         state->unk_70 = (s32) channel->unk_1C;
-        pitch_offset = state->unk_3C.u16 + (channel->unk_3A + channel->unk_52);
+        pitch_offset = (*(u16 *)&state->unk_3C) + (channel->unk_3A + channel->unk_52);
         pitch_adjustment = audio_compute_pitch_bend_offset(state, channel->unk_1C);
         voice_table = audio_voice_masks;
         base_pitch = (state->unk_0C << 7) + pitch_adjustment;
@@ -81,6 +81,6 @@ void audio_update_voice_pitch(S_80056654_0 *state, s32 force_update) {
         voice_entry = audio_voice_masks;
         if (SpuGetKeyStatus(voice_entry[state->unk_00]) != 0) return;
         state->unk_30 = 0;
-        state->unk_3C.s32 = 0;
+        state->unk_3C = 0;
     }
 }

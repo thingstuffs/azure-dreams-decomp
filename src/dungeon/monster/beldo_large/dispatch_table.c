@@ -9,7 +9,7 @@
 #include "dungeon/actor/status.h"
 #include "dungeon/monster/beldo_large.h"
 #include "dungeon/actor.h"
-extern u8 beldo_large_frame_set_6[];
+#include "dungeon/data.h"
 
 /*
  * Selects the supplied direction frame table and its eight-way entry from the actor facing

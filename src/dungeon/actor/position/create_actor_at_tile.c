@@ -31,7 +31,6 @@ typedef struct S_800D1C70_0 {
 void select_record_entry_and_value(void *state, void *entries, short index);
 void *allocate_list_node(s32, void *);
 void register_node(void *, void *);
-void clear_entry_flag_and_link_owner(struct ObjectNodeHeader *);
 s32 find_active_rect_containing_point(s32 point_x, s32 point_y);
 void process_actor_status_transitions(s32 actor, s32 action_context, s32 sprite, u8 *state);
 extern s32 tile_actor_sprite_entries;

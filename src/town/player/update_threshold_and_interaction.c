@@ -22,8 +22,8 @@ void update_threshold_and_interaction(TownObjectRecord *state, ObjectPosition *e
     s16 threshold;
     u16 counter;
 
-    counter = state->unk_0A.as_u16 + 1;
-    state->unk_0A.as_u16 = counter;
+    counter = ((u16)state->unk_0A) + 1;
+    state->unk_0A = counter;
     if ((s16) counter == 6) {
         call_the_handler_selects_nonzero_entry(action_object_handler_table, state, context);
     }

@@ -11,10 +11,10 @@
 
 typedef struct Rec_func_80027018_arg0 {
     u8 pad_00[0xF0];
-    union { M2C_UNK ** as_ppm; void * as_pv; } unk_F0;   /* read as M2C_UNK ** by 1, void * by 1 */
-    union { M2C_UNK ** as_ppm; void * as_pv; } unk_F4;   /* read as M2C_UNK ** by 1, void * by 1 */
-    union { void ** as_ppv; void * as_pv; } unk_F8;   /* read as void ** by 1, void * by 1 */
-    union { void ** as_ppv; void * as_pv; } unk_FC;   /* read as void ** by 1, void * by 1 */
+    void * unk_F0;
+    void * unk_F4;
+    void * unk_F8;
+    void * unk_FC;
 } Rec_func_80027018_arg0;
 
 #endif

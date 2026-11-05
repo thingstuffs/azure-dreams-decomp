@@ -49,7 +49,7 @@ extern u8 cyclone_move_direction_frames[8];
 extern void spend_actor_mp(D3 *, s32);
 struct SpriteFrameState;
 extern void select_sprite_entry(struct SpriteFrameState *, s16, s16);
-extern void create_directional_target_object(ActorRecord *, void *, SpriteFrameState *);
+extern void *create_directional_target_object(ActorRecord *, void *, SpriteFrameState *);
 extern void show_entity_message(s32, D3 *);
 
 /* Advances a timed actor state sequence and updates its sprite direction. */

@@ -10,7 +10,7 @@ typedef struct S_801743EC_0 {
     u8 pad_06[0x2];
     u16 unk_08;
     u8 pad_0A[0x42];
-    union { s16 s; u16 u; } unk_4C;   /* accessed as both */
+    u16 unk_4C;
 } S_801743EC_0;   /* arg0 in update_effect_trajectory_and_sprite */
 
    /* arg1 in update_effect_trajectory_and_sprite */
@@ -50,7 +50,7 @@ void update_effect_trajectory_and_sprite(void *effect_arg, MovingPosition *posit
     u16 angle;
     SpriteFrameState *sprite = sprite_arg;
 
-    state = effect->unk_4C.s;
+    state = ((s16)effect->unk_4C);
     switch (state) {
     case 0:
         advance_sprite_animation_and_textures(sprite);
@@ -60,7 +60,7 @@ void update_effect_trajectory_and_sprite(void *effect_arg, MovingPosition *posit
         }
         sprite->color.word += 0xFFE7E7E8;
         if ((u8)sprite->color.word < 0x30U) {
-            effect->unk_4C.u++;
+            effect->unk_4C++;
         }
 
         angle = effect->unk_08 + 10;

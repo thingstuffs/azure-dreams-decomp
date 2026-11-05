@@ -17,7 +17,7 @@ typedef struct S_80172290_0 {
     s32 * unk_8C;
     s32 unk_90;
     u8 pad_94[0x2];
-    union { s16 s; u16 u; } unk_96;   /* accessed as both */
+    s16 unk_96;
     u16 unk_98;
     u8 pad_9A[0x1];
     u8 unk_9B;
@@ -43,7 +43,7 @@ void complete_actor_arc_movement(S_80172290_0 *animation, ObjectPosition *motion
         animation->unk_A0 = 0;
         animation->unk_9B++;
     case 1:
-        frames_left = animation->unk_96.s;
+        frames_left = animation->unk_96;
         animation->unk_90 -= animation->unk_A0;
         if (frames_left != 0) {
             {
@@ -57,14 +57,14 @@ void complete_actor_arc_movement(S_80172290_0 *animation, ObjectPosition *motion
                 s32 current_y = motion->y.w.i - 0x20;
 
                 motion->velocity_y =
-                    ((target_y - current_y) << 16) / animation->unk_96.s;
+                    ((target_y - current_y) << 16) / animation->unk_96;
             }
             animation->unk_A0 += motion->velocity_z;
             motion->velocity_z += 0x40000;
         }
 
         animation->unk_90 += animation->unk_A0;
-        if (animation->unk_96.s < 2) {
+        if (animation->unk_96 < 2) {
             animation->unk_90 = 0;
             animation->unk_98 &= 0xFFF7;
             entity->flags1C |= ACTOR_GROUNDED;
@@ -81,7 +81,7 @@ void complete_actor_arc_movement(S_80172290_0 *animation, ObjectPosition *motion
         }
     }
 
-    if ((s16)--animation->unk_96.u <= 0) {
+    if ((s16)--(*(u16 *)&animation->unk_96) <= 0) {
         motion->velocity_z = 0;
         motion->velocity_y = 0;
         motion->velocity_x = 0;

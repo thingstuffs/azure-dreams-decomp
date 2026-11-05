@@ -8,9 +8,9 @@
 void initialize_object_with_count_four(TownObjectRecord *object, ObjectPosition *setupValue, void *ptr2) {
     call_the_handler_selects_nonzero_entry(D_800D01E0, object, ptr2);
     town_action_reset_byte = 0;
-    object->unk_04.as_pm = &tick_countdown_and_initialize_target;
-    object->unk_10.as_s16 = 0;
-    object->unk_0A.as_s16 = 4;
+    object->unk_04 = &tick_countdown_and_initialize_target;
+    object->unk_10 = 0;
+    object->unk_0A = 4;
     clear_entity_record_fields((setupValue));
 }
 
@@ -18,8 +18,8 @@ void initialize_object_with_count_four(TownObjectRecord *object, ObjectPosition 
 void initialize_object_with_value_800(TownObjectRecord *object, ObjectPosition *setupContext, void *ptr2) {
     call_the_handler_selects_nonzero_entry(D_800D01E0, object, ptr2);
     town_action_reset_byte = 0;
-    object->unk_10.as_s16 = 0x800;
-    object->unk_04.as_pm = &target_action_update_address;
-    object->unk_0A.as_s16 = 4;
+    object->unk_10 = 0x800;
+    object->unk_04 = &target_action_update_address;
+    object->unk_0A = 4;
     clear_entity_record_fields((setupContext));
 }

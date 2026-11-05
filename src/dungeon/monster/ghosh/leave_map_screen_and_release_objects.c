@@ -6,10 +6,10 @@ struct ObjectNodeHeader;
 #include "shared/dungeon_floor.h"
 #include "shared/record_ptrs.h"
 #include "dungeon/item.h"
+#include "dungeon/level.h"
 
 
 extern void func_8016E264(void);
-extern void clear_entry_flag_and_link_owner(struct ObjectNodeHeader *);
 
 /* Leave the map screen and release the two attached objects. */
 void leave_map_screen_and_release_objects(void)

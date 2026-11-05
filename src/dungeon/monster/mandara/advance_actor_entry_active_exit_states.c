@@ -33,11 +33,10 @@ extern s16 get_tile_chebyshev_distance(void *, void *);
 #include "dungeon/actor/motion.h"
 #include "dungeon/monster/mandara.h"
 #include "dungeon/level.h"
+#include "dungeon.h"
 
 extern s32 generate_random_value(void);
 extern void update_actor_status_and_mp(ActorRecord *entity);
-extern s32 begin_ready_actor_directional_action(ActorRecord *body, ObjectPosition *position, SpriteFrameState *sprite, u8 *direction_frames);
-extern void begin_actor_move_to_target_facing(ActorRecord *body, ObjectPosition *position, SpriteFrameState *sprite, ActorRecord *actor);
 extern void func_80174250(void *, void *, void *, void *);
 
 extern u8 mandara_action_resume_address[];

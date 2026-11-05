@@ -12,8 +12,8 @@
 void apply_setup_on_timeout_variant_1(TownObjectRecord *object, ObjectPosition *position, void *callback_arg_2) {
     u16 countdown;
 
-    countdown = object->timer.as_u16 - 1;
-    object->timer.as_u16 = countdown;
+    countdown = object->timer - 1;
+    object->timer = countdown;
     if ((countdown << 0x10) <= 0) {
         apply_object_setup_and_update(object, position, callback_arg_2);
     }

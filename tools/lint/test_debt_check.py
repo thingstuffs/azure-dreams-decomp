@@ -119,6 +119,7 @@ void shadow(void *body) { NODE_HEADER(body); }
             self.assertEqual(baseline['report_counts'],
                              {'file_local_macro_casts': 0, 'header_macro_casts': 6,
                               'signedness_unions': 0, 'unions_total': 0,
+                              'generic_index_views': 0,
                               'address_named_types': 0,
                               'source_local_single_function_types': 0})
             D.validate_baseline(json.loads(D.baseline_text(baseline)))
@@ -129,6 +130,29 @@ void shadow(void *body) { NODE_HEADER(body); }
 
 
 class SignViewRatchet(unittest.TestCase):
+    def test_generic_index_views_are_code_only_and_ratchet(self):
+        source = '''
+void use(ScratchPad *p, Record *r) {
+    p->sw[2] = p->h[1];
+    r->bytes[0] = 1;
+    // p->b[0]
+    const char *s = "r->bytes[3]";
+}
+'''
+        with tempfile.TemporaryDirectory() as td:
+            root = Path(td)
+            (root / 'src/test').mkdir(parents=True)
+            path = root / 'src/test/views.c'
+            path.write_text(source)
+            report = D.census(root, macro_casts=True)
+            self.assertEqual(report['generic_index_views_report']['count'], 3)
+            baseline = D.baseline_record(report)
+            self.assertEqual(D.check_baseline(report, baseline), [])
+            path.write_text(source.replace('p->sw[2]', 'p->sw[2] + p->b[0]'))
+            changed = D.census(root)
+            self.assertTrue(any('generic_index_views 4 > baseline 3' in p
+                                for p in D.check_baseline(changed, baseline)))
+
     def test_views_union_labels_and_new_site(self):
         with tempfile.TemporaryDirectory() as td:
             root = Path(td)
@@ -215,6 +239,30 @@ void second(void) { SharedView b; }
             by_name = {row['name']: row for row in report['typedef_view_sites']}
             self.assertEqual(by_name['LocalView']['users'], ['first#1'])
             self.assertEqual(by_name['SharedView']['users'], ['first#1', 'second#1'])
+
+
+class UnionInventory(unittest.TestCase):
+    def setUp(self):
+        self.row = {'id': 'src/test.c::V.x', 'members': [{'name': 's', 'type': 's16'}],
+                    'status': 'unproven', 'evidence': 'lexical'}
+        self.base = {'count': 1, 'ids': [self.row['id']]}
+
+    def test_baseline_ids_length(self):
+        bad = dict(self.base, ids=[])
+        self.assertTrue(any('ids length' in p for p in D.check_union_inventory([self.row], [self.row], bad)))
+
+    def test_missing_nonretired_and_orphan(self):
+        self.assertTrue(any('orphan non-retired' in p
+                            for p in D.check_union_inventory([], [self.row], self.base)))
+        retired = dict(self.row, status='retire')
+        self.assertEqual(D.check_union_inventory([], [retired], self.base), [])
+
+    def test_reintroduction_uses_status_and_baseline_membership(self):
+        retired = dict(self.row, status='retire', evidence='wording unrelated to retirement')
+        self.assertEqual(D.check_union_inventory([self.row], [retired], self.base), [])
+        bad = {'count': 1, 'ids': ['src/test.c::Other.x']}
+        self.assertTrue(any('retired union reintroduced' in p
+                            for p in D.check_union_inventory([self.row], [retired], bad)))
 
 
 if __name__ == '__main__':

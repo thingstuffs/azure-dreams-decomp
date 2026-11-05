@@ -1,8 +1,8 @@
 #include "common.h"
 #include "frontend/card/service.h"
 #include "main/data.h"
+#include "frontend/card.h"
 
-extern s32 card_dev_has_selected_channel(void);
 extern void func_804008A0(s32 index);
 
 /* Tracks repeated states and updates the selected slot after state-specific delays. */

@@ -17,7 +17,6 @@ extern s32 D_8008346C;
 extern s32 D_800DEF08;
 s32 get_surface_height_at_record(ObjectPosition *);
 s32 check_left_tile_and_center_height(u16,u16,s16);
-s32 increment_bounded_counter(void);
 s32 generate_random_value(void);
 void *create_actor_graphics_at_tile(); /* Unprototyped: retail call extends the result to this declared width; no shared prototype keeps it */
 

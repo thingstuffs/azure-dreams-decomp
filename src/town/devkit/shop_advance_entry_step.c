@@ -11,7 +11,6 @@ typedef struct {
 extern u16 D_80701DCE[];
 extern TownPair devkit_shop_flag_links[];
 
-extern void set_linked_flag(s32 bit_index);
 extern void clear_linked_flag(s32 value);
 
 /* Advance the selected flag row and process entry zero when required. */

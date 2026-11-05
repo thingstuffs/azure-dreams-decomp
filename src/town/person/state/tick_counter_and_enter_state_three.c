@@ -12,10 +12,10 @@ void tick_counter_and_enter_state_three(TownObjectRecord *object, void *context_
     u16 remaining_count;
 
     if (select_object_setup_path(object, context_a, context_b) == 0) {
-        remaining_count = object->timer.as_u16 - 1;
-        object->timer.as_u16 = remaining_count;
+        remaining_count = object->timer - 1;
+        object->timer = remaining_count;
         if ((remaining_count << 0x10) <= 0) {
-            object->unk_90.as_s16 = 3;
+            object->unk_90 = 3;
             initialize_actor_reaction_and_fixed_state(object, context_a, context_b);
         }
     }

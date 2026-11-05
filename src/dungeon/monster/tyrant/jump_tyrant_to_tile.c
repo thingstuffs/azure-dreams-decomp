@@ -18,7 +18,7 @@ typedef struct S_80172258_0 {
     u8 * unk_8C;
     s32 unk_90;
     u8 pad_94[0x2];
-    union { s16 s; u16 u; } unk_96;   /* accessed as both */
+    s16 unk_96;
     u16 unk_98;
     u8 pad_9A[0x1];
     u8 unk_9B;
@@ -59,7 +59,7 @@ void jump_tyrant_to_tile(void *jump, void *motion, SpriteFrameState *sprite, voi
         ((S_80172258_0 *)jump)->unk_9B++;
 
     case 1:
-        frames_left = ((S_80172258_0 *)jump)->unk_96.s;
+        frames_left = ((S_80172258_0 *)jump)->unk_96;
         ((S_80172258_0 *)jump)->unk_90 -= ((S_80172258_0 *)jump)->unk_A0;
         if (frames_left != 0) {
             {
@@ -73,13 +73,13 @@ void jump_tyrant_to_tile(void *jump, void *motion, SpriteFrameState *sprite, voi
                 s32 current_y = ((EntityRec *)motion)->y.w.i - 0x20;
 
                 ((EntityRec *)motion)->unk_10 = ((target_y - current_y) << 16) /
-                    ((S_80172258_0 *)jump)->unk_96.s;
+                    ((S_80172258_0 *)jump)->unk_96;
             }
             ((S_80172258_0 *)jump)->unk_A0 += ((EntityRec *)motion)->flags14;
             ((EntityRec *)motion)->flags14 += 0x60000;
         }
         ((S_80172258_0 *)jump)->unk_90 += ((S_80172258_0 *)jump)->unk_A0;
-        if (((S_80172258_0 *)jump)->unk_96.s < 2) {
+        if (((S_80172258_0 *)jump)->unk_96 < 2) {
             ((S_80172258_0 *)jump)->unk_90 = 0;
             ((S_80172258_0 *)jump)->unk_98 &= 0xFFF7;
             ((EntityRec *)actor)->flags1C |= ACTOR_GROUNDED;
@@ -104,8 +104,8 @@ void jump_tyrant_to_tile(void *jump, void *motion, SpriteFrameState *sprite, voi
         break;
     }
 
-    next_timer = ((S_80172258_0 *)jump)->unk_96.u - 1;
-    ((S_80172258_0 *)jump)->unk_96.s = next_timer;
+    next_timer = ((u16)((S_80172258_0 *)jump)->unk_96) - 1;
+    ((S_80172258_0 *)jump)->unk_96 = next_timer;
     if ((next_timer << 16) <= 0) {
         ((EntityRec *)motion)->flags14 = 0;
         ((EntityRec *)motion)->unk_10 = 0;

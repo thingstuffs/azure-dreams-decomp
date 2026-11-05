@@ -10,7 +10,6 @@
 
 extern u8 scene_mode_code;
 
-extern s32 *card_boot_debounce_card_presence(void);
 #include "modules/main_server_ship_interfaces.h"
 #include "frontend/libcard/interfaces.h"
 #include "engine/resource.h"

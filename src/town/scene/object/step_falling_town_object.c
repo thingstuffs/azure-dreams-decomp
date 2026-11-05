@@ -13,8 +13,8 @@
  * and bounces the position, then awards the value selected by kind. */
 typedef struct FallingTownWork {
     IndicatorOwner *owner;
-    union { s16 s; u16 u; } state;
-    union { s16 s; u16 u; } timer;
+    u16 state;
+    u16 timer;
     u8 unk_08[0x15];
     s8 unk_1D;
     u8 pad_1E[0x36];
@@ -53,7 +53,7 @@ void step_falling_town_object(FallingTownWork *obj, ObjectPosition *motion, Spri
     motion->z.v += motion->velocity_z;
 
     obj->owner->blink_flags |= 2;
-    state = obj->state.s;
+    state = ((s16)obj->state);
 
     switch (state) {
     case 0:
@@ -64,17 +64,17 @@ void step_falling_town_object(FallingTownWork *obj, ObjectPosition *motion, Spri
             return;
         }
         motion->z.v = 0;
-        obj->timer.u = 15;
+        obj->timer = 15;
         motion->velocity_x = ((func_80071494() % 448) - 128) << 12;
         motion->velocity_y = ((func_80071494() % 160) + 64) << 12;
         motion->velocity_z = -0x100000;
-        obj->state.u++;
+        obj->state++;
         return;
     case 1:
         func_8003EA54(part);
         motion->velocity_z += 0x40000;
-        timer1 = obj->timer.u - 1;
-        obj->timer.u = timer1;
+        timer1 = obj->timer - 1;
+        obj->timer = timer1;
         if (motion->z.v < 0) {
             return;
         }
@@ -87,24 +87,24 @@ void step_falling_town_object(FallingTownWork *obj, ObjectPosition *motion, Spri
         motion->velocity_y = 0;
         motion->velocity_x = 0;
         motion->velocity_z = ((func_80071494() & 0xFF) << 11) + 0xFFEB0000;
-        obj->timer.u = (func_80071494() & 0xF) + 30;
-        obj->state.u++;
+        obj->timer = (func_80071494() & 0xF) + 30;
+        obj->state++;
         return;
     case 2:
         func_8003EA54(part);
         motion->velocity_z += 0x30000;
-        obj->timer.u--;
+        obj->timer--;
         if (motion->z.v >= 0) {
             motion->z.v = 0;
-            if (obj->timer.s < 0) {
+            if (((s16)obj->timer) < 0) {
                 object_value = D_805301C0[obj->kind];
                 part->clut = 0;
                 part->unk_04 = 0;
                 part->frame_ticks = 0;
                 part->source = object_value;
                 motion->velocity_z = 0;
-                obj->timer.u = 150;
-                obj->state.u++;
+                obj->timer = 150;
+                obj->state++;
             } else {
                 motion->velocity_z = -motion->velocity_z >> 1;
             }
@@ -117,12 +117,12 @@ void step_falling_town_object(FallingTownWork *obj, ObjectPosition *motion, Spri
         }
         return;
     case 3:
-        timer3 = obj->timer.u;
+        timer3 = obj->timer;
         timer3--;
-        obj->timer.u = timer3;
+        obj->timer = timer3;
         if ((s16)timer3 < 0) {
-            obj->timer.u = 31;
-            obj->state.u++;
+            obj->timer = 31;
+            obj->state++;
         }
         call_result = func_80240810(falling_object_update_address, motion, score_bounce_motion_data, town_motion_state);
         if (call_result != 0) {
@@ -136,18 +136,18 @@ void step_falling_town_object(FallingTownWork *obj, ObjectPosition *motion, Spri
             scene_value_total = valuep[obj->kind] * 1000 + scene_value_total;
             S16_AT(obj, 4) = 255;
         }
-        if ((obj->timer.u >> 2) & 1) {
+        if ((obj->timer >> 2) & 1) {
             part->flags |= 0x80;
         } else {
             part->flags &= 0xFF7F;
         }
-        timer4 = obj->timer.u;
+        timer4 = obj->timer;
         timer4--;
-        obj->timer.u = timer4;
+        obj->timer = timer4;
         if ((s16)timer4 > 0) {
             return;
         }
-        obj->state.u = 255;
+        obj->state = 255;
         return;
     case 255:
         func_8023FB18(obj->unk_08);

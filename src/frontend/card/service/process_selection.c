@@ -2,13 +2,13 @@
 #include "frontend/card/event_callbacks.h"
 #include "frontend/card/service.h"
 #include "frontend/libcard.h"
+#include "frontend/card.h"
 extern u8 D_800A0000[];
 
 extern s32 card_ui_operation_state;
 extern s32 card_selected_channel;
 extern s32 card_ui_event_mode;
 
-extern void card_dev_drain_sw_events(void);
 extern s32 _card_status_80408644(s32 slot_selector);
 
 /* Processes the selection selection_state and clears the selected slot on completion. */

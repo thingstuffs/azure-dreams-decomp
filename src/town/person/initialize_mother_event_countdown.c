@@ -14,6 +14,6 @@ void initialize_mother_event_countdown(TownObjectRecord *object, s32 unused, voi
     initialize_object_entries((object), init_data, &mother_event_object_entries);
     mother_event_reset_byte = 0;
     object->handler = &D_800C7E70;
-    object->timer.as_s16 = 0xA;
-    object->heading.as_s16 = 0xC00;
+    object->timer = 0xA;
+    object->heading = 0xC00;
 }

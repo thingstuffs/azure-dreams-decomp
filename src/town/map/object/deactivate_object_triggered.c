@@ -38,15 +38,15 @@ void deactivate_object_triggered(void *object_arg, void *position, SpriteFrameSt
         return;
     }
 
-    raw_speed = object->unk_66.as_u16;
-    position_y = object->unk_66.as_s16;
+    raw_speed = ((u16)object->unk_66);
+    position_y = object->unk_66;
     if (position_y >= 0x100) {
-        object->unk_66.as_u16 = raw_speed - 0x20;
+        object->unk_66 = raw_speed - 0x20;
     } else {
         if (position_y >= 0x10) {
-            object->unk_66.as_u16 = raw_speed - 0x10;
+            object->unk_66 = raw_speed - 0x10;
         } else {
-            object->unk_66.as_u16 = 0;
+            object->unk_66 = 0;
         }
     }
     town_state = &view_reference_entity;
@@ -64,16 +64,16 @@ void deactivate_object_triggered(void *object_arg, void *position, SpriteFrameSt
     if (near_x && ((s16)dy < 0x81)) {
         speed_sq = (((Fixed1616 *)&town_state->velocity_x)->w.i * ((Fixed1616 *)&town_state->velocity_x)->w.i) +
               (((Fixed1616 *)&town_state->velocity_y)->w.i * ((Fixed1616 *)&town_state->velocity_y)->w.i);
-        object->unk_66.as_u16 =
-            object->unk_66.as_u16 +
+        object->unk_66 =
+            ((u16)object->unk_66) +
             ((s32)(speed_sq + ((u32)speed_sq >> 31)) >> 1);
     }
 
-    if (object->unk_66.as_s16 >= 0x601) {
-        object->unk_66.as_u16 = 0x600;
+    if (object->unk_66 >= 0x601) {
+        object->unk_66 = 0x600;
     }
 
-    angle_step = object->unk_66.as_u16 + 0x80;
+    angle_step = ((u16)object->unk_66) + 0x80;
     rotation_data->angle_z = rotation_data->angle_z + angle_step;
     t = rotation_data->angle_z;
     rotation_data->angle_z = t & 0xFFF;

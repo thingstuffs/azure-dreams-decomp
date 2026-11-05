@@ -24,7 +24,7 @@ typedef struct S_80172B00_0 {
 
 typedef struct S_80172B00_2 {
     u8 pad_00[0x2A];
-    union { u16 s; s16 u; } unk_2A;   /* accessed as both */
+    u16 unk_2A;
     u8 pad_2C[0x84];
     u8 unk_B0;
 } S_80172B00_2;   /* arg0 in create_boss_child_effect */
@@ -69,16 +69,16 @@ void create_boss_child_effect(void *parent_data, MovingPosition *source_pos, voi
         ((S_80172B00_0 *)effect_data)->unk_96 = 0x78;
         effect_object->update_callback = &update_boss_actor_direction_state;
         ((S_80172B00_0 *)effect_data)->unk_AC = parent_object;
-        ((S_80172B00_0 *)effect_data)->unk_94 = (u16) ((S_80172B00_2 *)parent_data)->unk_2A.s;
+        ((S_80172B00_0 *)effect_data)->unk_94 = (u16) ((S_80172B00_2 *)parent_data)->unk_2A;
         copy_src = sprite_template;
-        ((S_80172B00_0 *)effect_data)->unk_2A = (u16) ((S_80172B00_2 *)parent_data)->unk_2A.s;
+        ((S_80172B00_0 *)effect_data)->unk_2A = (u16) ((S_80172B00_2 *)parent_data)->unk_2A;
         sprite = effect_object->sprite;
         copy_dst = (CopyBlock *) sprite;
         *(Copy48 *)copy_dst = *(Copy48 *)copy_src;
         register_node(effect_object, project_sprite_chain);
         sprite->frameTable = ghosh_frame_set_10;
         select_sprite_entry(sprite, ghosh_frame_set_10[((s32) (g_game_work.view.camera_rotation.parts.viewAngle
-            + (s16) ((S_80172B00_2 *)parent_data)->unk_2A.s + 0x100) >> 9) & 7], 0);
+            + (s16) ((S_80172B00_2 *)parent_data)->unk_2A + 0x100) >> 9) & 7], 0);
         effect_pos = effect_object->position;
         effect_pos->x.w.i = (u16) source_pos->x;
         effect_pos->y.w.i = (u16) source_pos->y;
@@ -90,7 +90,7 @@ void create_boss_child_effect(void *parent_data, MovingPosition *source_pos, voi
         sprite->color.c.g = 0x80;
         sprite->color.c.r = 0x80;
         direction_index = g_game_work.view.camera_rotation.parts.viewAngle;
-        parent_angle = ((S_80172B00_2 *)parent_data)->unk_2A.u;
+        parent_angle = ((s16)((S_80172B00_2 *)parent_data)->unk_2A);
         setup_mode = 0;
         direction_index += parent_angle;
         direction_index += 0x100;

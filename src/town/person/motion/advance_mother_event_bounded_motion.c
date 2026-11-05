@@ -5,11 +5,11 @@ typedef struct S_800C7674_0 {
     u8 pad_00[0x72];
     s16 unk_72;
     u8 pad_74[0x10];
-    union { s16 s; u16 u; } unk_84;   /* accessed as both */
-    union { s16 s; u16 u; } unk_86;   /* accessed as both */
+    u16 unk_84;
+    u16 unk_86;
     u8 pad_88[0x4];
-    union { s16 s; u16 u; } unk_8C;   /* accessed as both */
-    union { s16 s; u16 u; } unk_8E;   /* accessed as both */
+    s16 unk_8C;
+    u16 unk_8E;
 } S_800C7674_0;   /* arg0 in advance_mother_event_bounded_motion */
 
 
@@ -27,11 +27,7 @@ extern s16 query_lowered_transform_position();
 #include "sdk/libc.h"
 #include "town/person/motion.h"
 #include "town/person.h"
-
-extern s32 town_x_acceleration[4];
-extern s32 town_x_speed_limits[4];
-extern s32 town_y_acceleration[4];
-extern s32 town_y_speed_limits[4];
+#include "town/data.h"
 
 /* Advance motion, clamp it to the directional bound, and update velocity. */
 void advance_mother_event_bounded_motion(S_800C7674_0 *entity, EntityRec *motion_state, void *context)
@@ -72,29 +68,29 @@ void advance_mother_event_bounded_motion(S_800C7674_0 *entity, EntityRec *motion
 
     switch (quadrant) {
     case 0:
-        if (entity->unk_84.s + entity->unk_8C.s < motion_state->x.w.i) {
-            motion_state->x.w.i = entity->unk_84.u + entity->unk_8C.u;
+        if (((s16)entity->unk_84) + entity->unk_8C < motion_state->x.w.i) {
+            motion_state->x.w.i = entity->unk_84 + ((u16)entity->unk_8C);
             initialize_mother_event_actor(entity, motion_state, context);
             return;
         }
         break;
     case 1:
-        if (entity->unk_86.s + entity->unk_8E.s < motion_state->y.w.i) {
-            motion_state->y.w.i = entity->unk_86.u + entity->unk_8E.u;
+        if (((s16)entity->unk_86) + ((s16)entity->unk_8E) < motion_state->y.w.i) {
+            motion_state->y.w.i = entity->unk_86 + entity->unk_8E;
             initialize_mother_event_actor(entity, motion_state, context);
             return;
         }
         break;
     case 2:
-        if (motion_state->x.w.i < entity->unk_84.s - entity->unk_8C.s) {
-            motion_state->x.w.i = entity->unk_84.u - entity->unk_8C.u;
+        if (motion_state->x.w.i < ((s16)entity->unk_84) - entity->unk_8C) {
+            motion_state->x.w.i = entity->unk_84 - ((u16)entity->unk_8C);
             initialize_mother_event_actor(entity, motion_state, context);
             return;
         }
         break;
     default:
-        if (motion_state->y.w.i < entity->unk_86.s - entity->unk_8E.s) {
-            motion_state->y.w.i = entity->unk_86.u - entity->unk_8E.u;
+        if (motion_state->y.w.i < ((s16)entity->unk_86) - ((s16)entity->unk_8E)) {
+            motion_state->y.w.i = entity->unk_86 - entity->unk_8E;
             initialize_mother_event_actor(entity, motion_state, context);
             return;
         }

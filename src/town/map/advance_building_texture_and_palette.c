@@ -1,15 +1,10 @@
 #include "common.h"
 #include "town/map.h"
+#include "town/data.h"
 
-extern u8 building_texture_frame_zero[];
-extern u8 building_texture_frame_one[];
-extern u8 building_texture_frame_two[];
-extern u8 building_texture_frame_three[];
-extern u8 building_texture_backup[];
 extern u8 D_801118C8[];
 extern u8 D_80111AC8[];
 extern u8 D_80111CC8[];
-extern u8 building_palette_backup[];
 extern u8 D_80111EE8[];
 extern u8 D_80111F08[];
 extern u8 D_80111F28[];

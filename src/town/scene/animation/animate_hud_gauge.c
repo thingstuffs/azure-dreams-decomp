@@ -9,7 +9,7 @@ typedef struct S_80813294_0 {
 
 typedef struct S_80813294_1 {
     u8 pad_00[0x16];
-    union { u16 s; u16 u; } unk_16;   /* accessed as both */
+    u16 unk_16;
 } S_80813294_1;   /* arg2 in animate_hud_gauge */
 
 typedef struct S_80813294_2 {
@@ -31,15 +31,15 @@ void animate_hud_gauge(S_80813294_0 *record, s32 unused, S_80813294_1 *value_rec
         }
         break;
     case 1:
-        value_record->unk_16.s = value_record->unk_16.s + 0x40;
+        value_record->unk_16 = value_record->unk_16 + 0x40;
         if ((s16)record->unk_06 <= 0) {
             record->unk_04.p = record->unk_04.u + 1;
         }
         break;
     case 2:
-        value_record->unk_16.s = value_record->unk_16.s - 0x18;
-        if (value_record->unk_16.u < 0x18U) {
-            value_record->unk_16.s = 0;
+        value_record->unk_16 = value_record->unk_16 - 0x18;
+        if (value_record->unk_16 < 0x18U) {
+            value_record->unk_16 = 0;
             record->unk_04.s = 0;
         }
         break;

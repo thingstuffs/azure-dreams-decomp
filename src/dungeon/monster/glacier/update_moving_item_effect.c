@@ -9,18 +9,18 @@
 
 typedef struct S_func_810332A4_1 {
     u8 pad_00[0x16];
-    union { s16 s; u16 u; } unk_16;
+    u16 unk_16;
     u8 pad_18[4];
     s16 unk_1C;
-    union { s16 s; u16 u; } unk_1E;
+    u16 unk_1E;
     u8 pad_20[6];
     s16 unk_26;
     void *unk_28;
     void *unk_2C;
     void *unk_30;
     u8 pad_34[0x18];
-    union { s8 s; u8 u; } unk_4C;
-    union { s8 s; u8 u; } unk_4D;
+    s8 unk_4C;
+    s8 unk_4D;
 } S_func_810332A4_1;
 
 
@@ -110,54 +110,54 @@ void update_moving_item_effect(S_func_810332A4_1 *effect, ObjectPosition *motion
 
 
     effect_owner = effect->unk_28;
-    state = effect->unk_16.s;
+    state = ((s16)effect->unk_16);
     owner = effect_owner;
     switch (state) {
     case 0:
-        timer = effect->unk_1E.u + 1;
-        effect->unk_1E.u = timer;
+        timer = effect->unk_1E + 1;
+        effect->unk_1E = timer;
         fade_value = ((s16)timer << 7) / 10;
         sprite->color.c.b = fade_value;
         sprite->color.c.g = fade_value;
         sprite->color.c.r = fade_value;
-        fade_value = effect->unk_1E.s < 10;
+        fade_value = ((s16)effect->unk_1E) < 10;
         if (fade_value) {
             return;
         }
-        effect->unk_1E.u = 0;
-        effect->unk_16.u++;
+        effect->unk_1E = 0;
+        effect->unk_16++;
         return;
 
     case 1:
-        timer = effect->unk_1E.u + 1;
-        effect->unk_1E.u = timer;
+        timer = effect->unk_1E + 1;
+        effect->unk_1E = timer;
         if ((s16)timer < 30) {
             return;
         }
-        effect->unk_16.u++;
-        effect->unk_1E.u = 0;
+        effect->unk_16++;
+        effect->unk_1E = 0;
         motion->velocity_x = glacier_direction_offsets[effect->unk_1C].x << 20;
         motion->velocity_y = glacier_direction_offsets[effect->unk_1C].y << 20;
         play_sound_if_enabled(0x808);
         return;
 
     case 2:
-        if ((effect->unk_4C.s << 6) + 0x20 == motion->x.w.i) {
-            if ((effect->unk_4D.s << 6) + 0x20 == motion->y.w.i) {
+        if ((effect->unk_4C << 6) + 0x20 == motion->x.w.i) {
+            if ((effect->unk_4D << 6) + 0x20 == motion->y.w.i) {
                 effect->unk_26 = 0;
-                get_offset_map_cell_value_and_flags(effect->unk_4C.s, effect->unk_4D.s,
+                get_offset_map_cell_value_and_flags(effect->unk_4C, effect->unk_4D,
                               effect->unk_1C, &collision_flags);
                 if (collision_flags & 0x8400) {
                     effect->unk_26 = 1;
                 }
-                effect->unk_4C.u += (u8)glacier_direction_offsets[effect->unk_1C].x;
+                (*(u8 *)&effect->unk_4C) += (u8)glacier_direction_offsets[effect->unk_1C].x;
                 collision_coord = effect->unk_1C << 2;
                 collision_coord += (s32)glacier_direction_offsets;
-                next_tile = effect->unk_4D.u;
+                next_tile = ((u8)effect->unk_4D);
                 next_tile += ((S_func_810332A4_8 *)collision_coord)->unk_02;
-                effect->unk_4D.u = next_tile;
-                step_x = effect->unk_4C.s;
-                pos_y = effect->unk_4D.s << 6;
+                (*(u8 *)&effect->unk_4D) = next_tile;
+                step_x = effect->unk_4C;
+                pos_y = effect->unk_4D << 6;
                 step_x <<= 6;
                 hit_state = effect->unk_26;
                 step_x += 0x20;
@@ -172,8 +172,8 @@ void update_moving_item_effect(S_func_810332A4_1 *effect, ObjectPosition *motion
                         effect->unk_26 = 1;
                     }
                     if (effect->unk_26 == 0) {
-                        if (find_first_entry_matching_keys(owner, (u16)(s8)effect->unk_4C.u,
-                                          (u16)(s8)effect->unk_4D.u,
+                        if (find_first_entry_matching_keys(owner, (u16)(s8)((u8)effect->unk_4C),
+                                          (u16)(s8)((u8)effect->unk_4D),
                                           motion->z.w.i) != 0) {
                             effect->unk_26 = 1;
                         }
@@ -191,8 +191,8 @@ void update_moving_item_effect(S_func_810332A4_1 *effect, ObjectPosition *motion
                     }
                 }
                 if (effect->unk_26 == 1) {
-                    effect->unk_16.s = 10;
-                    effect->unk_1E.s = 0;
+                    (*(s16 *)&effect->unk_16) = 10;
+                    (*(s16 *)&effect->unk_1E) = 0;
                     motion->velocity_y = 0;
                     motion->velocity_x = 0;
                     object = effect->unk_30;
@@ -215,8 +215,8 @@ void update_moving_item_effect(S_func_810332A4_1 *effect, ObjectPosition *motion
 
                 if (effect->unk_2C == 0) {
                     new_object = find_nearby_eligible_entry(owner,
-                                (u16)(s8)effect->unk_4C.u,
-                                (u16)(s8)effect->unk_4D.u,
+                                (u16)(s8)((u8)effect->unk_4C),
+                                (u16)(s8)((u8)effect->unk_4D),
                                 motion->z.w.i);
                     effect->unk_2C = new_object;
                     if (new_object == 0) {
@@ -288,8 +288,8 @@ void update_moving_item_effect(S_func_810332A4_1 *effect, ObjectPosition *motion
                         cycle_map_cell_flags(display->unk_24, display->unk_25,
                                       (object_data->unk_1C & 0x2000) ? 0x300 : 0x3000);
                         refresh_actor_proximity_state(object_data);
-                        effect->unk_16.s = 10;
-                        effect->unk_1E.s = 0;
+                        (*(s16 *)&effect->unk_16) = 10;
+                        (*(s16 *)&effect->unk_1E) = 0;
                         motion->velocity_y = 0;
                         motion->velocity_x = 0;
                         apply_attack_power_and_element_effects(object_data, 7, owner->level, 10,
@@ -356,12 +356,12 @@ secondary_object:
             transform->y.v += motion->velocity_y;
         }
 
-        tile_x = effect->unk_4C.s;
+        tile_x = effect->unk_4C;
         if ((tile_x - glacier_direction_offsets[effect->unk_1C].x) * 64 + 0x20 !=
             motion->x.w.i) {
             world_coord = tile_x << 6;
         } else {
-            if ((effect->unk_4D.s - glacier_direction_offsets[effect->unk_1C].y) * 64 + 0x20 ==
+            if ((effect->unk_4D - glacier_direction_offsets[effect->unk_1C].y) * 64 + 0x20 ==
                 motion->y.w.i) {
                 motion->x.v += motion->velocity_x;
                 motion->y.v += motion->velocity_y;
@@ -372,7 +372,7 @@ secondary_object:
         {
             coord_base = world_coord + 0x20;
             floor_x = coord_base & 0xFFE0;
-            world_coord = effect->unk_4D.s << 6;
+            world_coord = effect->unk_4D << 6;
             world_coord += 0x20;
             floor_y = world_coord & 0xFFE0;
             floor_height = sample_terrain_surface_height(floor_x, floor_y, motion->z.w.i);
@@ -392,19 +392,19 @@ secondary_object:
             spawn_directional_effect(effect, motion, sprite);
         }
         play_sound_if_enabled(0x80B);
-        effect->unk_1E.u = 0;
-        effect->unk_16.u++;
+        effect->unk_1E = 0;
+        effect->unk_16++;
         sprite->flags |= 0x80;
 
     case 11:
-        timer = effect->unk_1E.u + 1;
-        effect->unk_1E.u = timer;
+        timer = effect->unk_1E + 1;
+        effect->unk_1E = timer;
         delay_pending = (s16)timer < 10;
         if (delay_pending) {
             return;
         }
-        effect->unk_1E.u = 0;
-        effect->unk_16.u++;
+        effect->unk_1E = 0;
+        effect->unk_16++;
         return;
 
     case 12:

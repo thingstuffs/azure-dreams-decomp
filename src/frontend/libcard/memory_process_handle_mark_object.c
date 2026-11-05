@@ -1,9 +1,9 @@
 #include "common.h"
 #include "frontend/card/server_imports.h"
+#include "frontend/card.h"
 
 typedef struct { u8 pad[0x1E]; u16 flags; u8 pad20[0x20]; void *work; void *other; } Node;
 extern u8 D_8040086C[], D_80400894[];
-extern void card_dev_flag_object_dirty(void *);
 extern void assert_card_slot_and_set_high_bit(void *);
 extern s32 card_ui_dirty_flags;
 /* Release the devkit node's two allocations and flag its completion. */

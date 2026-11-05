@@ -16,13 +16,13 @@ void tick_countdown_toward_target(TownObjectRecord *state, SignedPositionView *c
     u16 ticks_left;
     u32 target_delta;
 
-    ticks_left = state->timer.as_u16 - 1;
-    state->timer.as_u16 = ticks_left;
+    ticks_left = state->timer - 1;
+    state->timer = ticks_left;
     if ((ticks_left << 0x10) <= 0) {
         apply_object_setup_and_update(state, current, context);
     }
-    current->x = (s16) ((u16) current->x + ((s32) (state->unk_84.as_s16 - current->x) / 2));
-    target_delta = state->unk_86.as_s16 - current->y;
+    current->x = (s16) ((u16) current->x + ((s32) (state->unk_84 - current->x) / 2));
+    target_delta = ((s16)state->unk_86) - current->y;
     current->z = (s16) ((u16) current->z + ((s32) (0 - current->z) / 2));
     current->y = (s16) ((u16) current->y + ((s32) (target_delta + (target_delta >> 0x1F)) >> 1));
 }

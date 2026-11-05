@@ -43,10 +43,7 @@ typedef struct S_func_80035E58_2 {
     u8 unk_04;
     u8 unk_05;
     u8 pad_06[0x2];
-    union {
-        void *unk_08_ptr;
-        u32 unk_08_u32;
-    } unk_08;
+    u32 unk_08;
     u32 unk_0C;
 } S_func_80035E58_2;
 
@@ -102,7 +99,7 @@ void create_window_overlay_object(void *node_addr, void *display, u8 *image, s32
     node_data->unk_68 = scroll_window_y;
     actor = (S_func_80035E58_3 *)(owner + 0x8C);
     render_data->unk_0C = 0x808080;
-    render_data->unk_08.unk_08_ptr = window_overlay_default_render_data;
+    render_data->unk_08 = (u32)window_overlay_default_render_data;
     render_data->unk_00 = 0;
     render_data->unk_04 = 0;
     render_data->unk_05 = 0;
@@ -112,7 +109,7 @@ void create_window_overlay_object(void *node_addr, void *display, u8 *image, s32
     node_data->unk_2E = window_overlay_field_2e_values[((S_func_80035E58_4 *)actor->unk_80)->unk_02];
     node_data->unk_36 = window_overlay_field_36_values[((S_func_80035E58_4 *)actor->unk_80)->unk_02];
     copy_window_offset_rectangle((u8 *)node + 0x2C, node_data->unk_74);
-    render_data->unk_08.unk_08_u32 = window_overlay_render_variants[((S_func_80035E58_4 *)actor->unk_80)->unk_02];
+    render_data->unk_08 = window_overlay_render_variants[((S_func_80035E58_4 *)actor->unk_80)->unk_02];
     ((S_func_80035E58_5 *)node->unk_20)->unk_34 =
         window_overlay_model_values[((S_func_80035E58_4 *)actor->unk_80)->unk_02];
 }

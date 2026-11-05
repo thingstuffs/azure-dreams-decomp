@@ -19,6 +19,6 @@ void initialize_mother_event_countdown_variant_4cf44(TownObjectRecord *object, s
     initialize_object_entries((object), init_data, &D_800D64DC);
     D_800826B8 = 0;
     object->handler = &D_800CA0D4;
-    object->timer.as_s16 = 0xA;
-    object->heading.as_s16 = 0x400;
+    object->timer = 0xA;
+    object->heading = 0x400;
 }

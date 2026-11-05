@@ -6,7 +6,6 @@
 /* cfail-repair: tf7-phase1-cache-v3 */
 s32 create_label_glyph_entries();                    /* extern */
 u32 strlen();                             /* extern */
-extern void copy_cached_hud_rectangle_to_fixed_position(void);
 typedef struct S_800DC1F8_0 {
     u8 pad_00[0x10];
     s32 unk_10;

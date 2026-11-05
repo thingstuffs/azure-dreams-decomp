@@ -8,6 +8,7 @@
 #include "dungeon/system.h"
 #include "shared/object_node.h"
 #include "dungeon/actor/state.h"
+#include "dungeon/player/object.h"
 struct EntityLinkNode;
 
 typedef struct S_800D34CC_0 {
@@ -41,7 +42,6 @@ typedef struct S_800D34CC_2 {
 s32 get_entity_effect_value(ActorRecord *entry, s32 effect_id);                 /* extern */
 void unlink_entity_node(struct EntityLinkNode *node);                      /* extern */
 void update_map_cell_flags_with_item_limit(s32 x, s32 y, u16 flags);             /* extern */
-void * detach_record_and_update_slot_state(void *);                 /* extern */
 
 /* Waits for pending actions, shrinks and darkens the actor sprite, then detaches the actor and clears
    its map occupancy. */

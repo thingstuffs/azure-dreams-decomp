@@ -19,7 +19,7 @@ typedef struct {
 extern s32 audio_sequence_track_count[3];
 extern Entity audio_sequence_tracks[];
 extern s32 audio_sequence_format[4];
-extern void dispatch_sequence_event(Entity *);
+extern s32 dispatch_sequence_event(Entity *);
 extern s32 audio_read_compact_sequence_event(Entity *);
 extern void scale_value_with_remainder(Entity *);
 

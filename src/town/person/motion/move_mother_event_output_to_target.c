@@ -22,8 +22,8 @@ void move_mother_event_output_to_target(void *object_arg, void *out_arg, void *s
 
     target_x = ((MovingPosition *)D_800834A0)->x;
     target_y = ((MovingPosition *)D_800834A0)->y - 0x42;
-    frames = object->timer.as_u16 - 1;
-    object->timer.as_u16 = frames;
+    frames = object->timer - 1;
+    object->timer = frames;
     signed_frames = (s32)((u32)frames << 16) >> 16;
 
     if (signed_frames <= 0) {
@@ -40,5 +40,5 @@ void move_mother_event_output_to_target(void *object_arg, void *out_arg, void *s
     out->y.w.i =
         (s16)((u16)out->y.w.i +
               ((s16)target_y - out->y.w.i) /
-              (s16)object->timer.as_u16);
+              (s16)object->timer);
 }

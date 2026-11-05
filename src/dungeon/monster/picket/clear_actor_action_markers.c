@@ -11,10 +11,7 @@
 /* Sparse views for fields not covered by the existing record types. */
 typedef struct {
     u8 pad_00[0x2A];
-    union {
-        s16 s16;
-        u16 u16;
-    } field_2A;
+    s16 field_2A;
     u8 pad_2C[0x5C];
     s16 field_88;
 } ActorBytesFieldView_80E91000;
@@ -61,7 +58,7 @@ s32 clear_actor_action_markers(void *origin, void *actor)
     InventoryBaseFieldView_80E91000 *inventory_base;
     u8 *item_slot;
 
-    direction_offset = (actor_bytes->field_2A.u16 >> 8) & 0xE;
+    direction_offset = (((u16)actor_bytes->field_2A) >> 8) & 0xE;
     ground_index = find_floor_item_at_world_position(
         (s16)(origin_bytes->field_24 + (u16)dir_step_x[direction_offset >> 1]),
         (s16)(origin_bytes->field_25 + (u16)dir_step_y[direction_offset >> 1]),
@@ -73,7 +70,7 @@ s32 clear_actor_action_markers(void *origin, void *actor)
     }
 
     target = probe_directional_neighbor(actor, origin_bytes->field_24, origin_bytes->field_25,
-                           actor_bytes->field_2A.s16);
+                           actor_bytes->field_2A);
     if (target != 0) {
         if (target == dungeon_actor_ring_anchor) {
             if (is_linked_entity_flagged_80000(target, target) != 0) {

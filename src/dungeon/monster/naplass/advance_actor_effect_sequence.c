@@ -33,11 +33,10 @@ s32 register_node(ObjectNodeHeader *entry, void *registration_id);
 s16 get_tile_chebyshev_distance();
 #include "dungeon/player/object/action_state.h"
 #include "dungeon/level.h"
+#include "dungeon.h"
 
 s32 generate_random_value(void);
 void update_actor_status_and_mp(ActorRecord *entity);
-s32 begin_ready_actor_directional_action(ActorRecord *body, ObjectPosition *position, SpriteFrameState *sprite, u8 *direction_frames);
-void begin_actor_move_to_target_facing(ActorRecord *body, ObjectPosition *position, SpriteFrameState *sprite, ActorRecord *actor);
 void advance_actor_effect_sequence(Rec_func_801732A4_arg0 *state, ObjectPosition *position,struct SpriteFrameState *actor, void *model);
 extern void start_directional_actor_effect(ActorRecord *action_state, ObjectPosition *action_context, void *sprite, ActorRecord *actor);
 extern u8 effect_update_tag[];

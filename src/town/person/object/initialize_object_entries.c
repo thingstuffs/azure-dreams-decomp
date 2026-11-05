@@ -21,6 +21,6 @@ void initialize_object_entries(TownObjectRecord *state, SpriteFrameState *output
         } while (*entry_end != 0);
     }
     state->unk_64 = entry_count;
-    clear_object_status_and_dispatch_target(state, output, state->unk_78[quantize_heading_to_sector(state->heading.as_s16, entry_count)], 0);
+    clear_object_status_and_dispatch_target(state, output, state->unk_78[quantize_heading_to_sector(state->heading, entry_count)], 0);
     output->frame_ticks = 0;
 }

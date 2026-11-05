@@ -102,8 +102,15 @@ class LandMakeTests(unittest.TestCase):
                 self.assertEqual(calls, ['status'])
                 calls.clear()
                 (root/'src/a.c').write_text('int b;')
+                (root/'tools/lint/check.py').write_text('changed again')
                 L.accounting(root, step)
                 self.assertEqual(calls, ['levels', 'status'])
+                calls.clear()
+                (root/'ledger/levels.jsonl').write_text('tampered')
+                (root/'tools/lint/check.py').write_text('changed once more')
+                L.accounting(root, step)
+                self.assertEqual(calls, ['levels', 'status'])
+                self.assertEqual((root/'ledger/levels.jsonl').read_text(), 'levels')
 
     def test_privacy_failure_preserves_patch_and_never_commits(self):
         with tempfile.TemporaryDirectory() as td:
@@ -353,9 +360,12 @@ class CodemapRefreshHookTests(unittest.TestCase):
                     os.kill(child, 0)
                 except ProcessLookupError:
                     break
-                with open('/proc/%d/stat' % child) as fh:
-                    if fh.read().split(') ')[-1].startswith('Z'):
-                        break
+                try:             # the worker can exit between the kill probe and this read
+                    with open('/proc/%d/stat' % child) as fh:
+                        if fh.read().split(') ')[-1].startswith('Z'):
+                            break
+                except (ProcessLookupError, FileNotFoundError):
+                    break
                 time.sleep(0.1)
             else:
                 self.fail('refresh worker survived the timeout')

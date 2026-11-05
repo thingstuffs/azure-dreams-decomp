@@ -6,6 +6,6 @@
 
 /* Set unk_72 to 0x400 and increment unk_68. */
 void set_flag_object_direction_400(TownObjectRecord *state) {
-    state->heading.as_s16 = 0x400;
+    state->heading = 0x400;
     state->unk_68 = (u16) (state->unk_68 + 1);
 }

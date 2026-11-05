@@ -16,5 +16,5 @@ void initialize_scene_entry_group_13(TownObjectRecord *object, s32 unused, void 
     initialize_object_entries(object, output, D_800D77B0);
     object_index_slots[object->slot].unk_00 = 0;
     object->handler = func_800C3BB8;
-    object->timer.as_s16 = 13;
+    object->timer = 13;
 }

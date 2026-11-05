@@ -13,6 +13,6 @@
 void clear_table_flag_and_reset_animation(TownObjectRecord *object, void *position, void *anim_state) {
     initialize_object_entries(object, anim_state, object->descriptor->entries[1]);
     object_index_slots[object->slot].unk_00 = 0;
-    object->heading.as_s16 = 0x200;
+    object->heading = 0x200;
     apply_object_setup_and_update(object, position, anim_state);
 }

@@ -5,7 +5,7 @@
 #include "town/minigame.h"
 
 typedef struct S_80020618_0 {
-    union { s16 s; u16 u; } unk_00;   /* accessed as both */
+    u16 unk_00;
     u16 unk_02;
     char *unk_04;
     s16 * unk_08;
@@ -35,14 +35,14 @@ void tick_scene_value_text(void *message_arg)
         strlen(message->unk_04),
         message->unk_04);
 
-    state = message->unk_00.s;
+    state = ((s16)message->unk_00);
     switch (state) {
     case 0:
         timer = message->unk_02 - 1;
         message->unk_02 = timer;
         if ((timer << 16) <= 0) {
             message->unk_1C &= 0xFFFD;
-            message->unk_00.u++;
+            message->unk_00++;
         }
         break;
 

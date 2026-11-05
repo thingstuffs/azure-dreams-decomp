@@ -26,7 +26,7 @@ void initialize_returned_item_action(TownObjectRecord *object, S_800947CC_1 *set
     object->unk_30 = (u16) settings->unk_02;
     handler = (s32 *) approach_linked_position_until_timeout;
     secondSetting = settings->unk_06;
-    object->unk_00.as_pm = handler;
-    object->unk_0A.as_s16 = 0x14;
+    object->unk_00 = handler;
+    object->unk_0A = 0x14;
     object->unk_32 = secondSetting;
 }

@@ -23,7 +23,7 @@ void start_person_target_move(TownObjectRecord *object, ObjectPosition *position
     distance = runtime_estimate_vector_length((object->target_x << 16) - position->x.v,
                            (object->target_y << 16) - position->y.v);
     timer = distance / 0x20000;
-    object->timer.as_s16 = timer;
+    object->timer = timer;
     speed = slots[object->slot].unk_02;
     if (speed == -0x80) {
         position->x.v = object->target_x << 16;
@@ -32,9 +32,9 @@ void start_person_target_move(TownObjectRecord *object, ObjectPosition *position
         position->z.w.i = query_lowered_transform_position(position);
         apply_object_setup_and_update(object, position, output);
     } else if (speed > 0) {
-        object->timer.as_s16 = (timer << 4) / (speed + 0x10);
+        object->timer = (timer << 4) / (speed + 0x10);
     } else if (speed < 0) {
         magnitude = abs(speed);
-        object->timer.as_s16 = timer * (magnitude + 0x10) / 16;
+        object->timer = timer * (magnitude + 0x10) / 16;
     }
 }

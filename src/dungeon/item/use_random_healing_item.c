@@ -37,10 +37,8 @@ extern u8 D_800E0E50[];
 #include "engine/entity.h"
 #include "dungeon/item/effect.h"
 #include "dungeon/item/message.h"
+#include "dungeon/system.h"
 
-extern void display_text_with_fullwidth_adjustment(s8 *text);
-extern void place_actor_item(void *object_context, struct DungeonItemEntry *target);
-void display_item_status_message(void *entity, struct DungeonItemEntry *item, s32 message_kind);
 extern s32 generate_random_value(void);
 
 /* Applies an item effect, selects its amount, and displays the result. */

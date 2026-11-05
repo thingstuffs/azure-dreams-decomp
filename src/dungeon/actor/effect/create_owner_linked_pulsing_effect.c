@@ -14,6 +14,7 @@ struct ObjectNodeHeader;
 #include "shared/object_links.h"
 #include "dungeon/actor/effect.h"
 #include "dungeon/actor.h"
+#include "dungeon/level.h"
 
 typedef struct S_800CB82C_2 {
     u8 pad_00[0x2];
@@ -53,7 +54,6 @@ typedef struct S_800CB82C_5 {
    /* the 0x14 bytes before arg2 in create_owner_linked_pulsing_effect, addressed as arg2[-1] */
 
 /* cfail-repair: tf7-phase1-cache-v3 */
-void clear_entry_flag_and_link_owner(struct ObjectNodeHeader *entry);                      /* extern */
 extern void update_owner_linked_pulsing_effect(void *effect, ObjectPosition *position, SpriteFrameState *appearance);
 extern M2C_UNK D_800E03BC;
 extern u8 active_spell_parameters;

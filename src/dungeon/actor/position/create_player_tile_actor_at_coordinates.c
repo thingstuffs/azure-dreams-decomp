@@ -33,7 +33,6 @@ typedef struct { u8 bytes[11]; } ResultCopy __attribute__((aligned(4)));
 extern void *allocate_list_node(s32 a0, void *a1);
 extern s32 find_active_rect_containing_point(s32 point_x, s32 point_y);
 extern void select_record_entry_and_value(void *a0, s32 a1, s32 a2);
-extern void clear_entry_flag_and_link_owner(struct ObjectNodeHeader *a0);
 extern void register_node(void *a0, void *a1);
 
 /* Creates an entity at the given tile and height and initializes its sprite state. */

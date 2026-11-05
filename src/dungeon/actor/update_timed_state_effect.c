@@ -8,8 +8,8 @@ typedef struct S_800251E8_0_pre {
 
 typedef struct S_800251E8_0 {
     void * unk_00;
-    union { s16 s; u16 u; } unk_04;   /* accessed as both */
-    union { u16 u; s16 s; } unk_06;   /* accessed as both */
+    u16 unk_04;
+    u16 unk_06;
     u16 unk_08;
 } S_800251E8_0;   /* object in func_800251E8 */
 
@@ -35,37 +35,37 @@ void update_timed_particle_arrays(void *object_data)
     object = object_data;
     linked = ((S_800251E8_0 *)object)->unk_00;
     linked->unk_1A++;
-    ((S_800251E8_0 *)object)->unk_06.u++;
-    state = ((S_800251E8_0 *)object)->unk_04.s;
+    ((S_800251E8_0 *)object)->unk_06++;
+    state = ((s16)((S_800251E8_0 *)object)->unk_04);
     switch (state) {
     case 0:
         ((S_800251E8_0 *)object)->unk_08 -= 0xC0;
-        if (((S_800251E8_0 *)object)->unk_06.s < 8) {
+        if (((s16)((S_800251E8_0 *)object)->unk_06) < 8) {
             break;
         }
-        ((S_800251E8_0 *)object)->unk_06.u = 0;
-        ((S_800251E8_0 *)object)->unk_04.u++;
+        ((S_800251E8_0 *)object)->unk_06 = 0;
+        ((S_800251E8_0 *)object)->unk_04++;
         break;
     case 1:
-        if (((S_800251E8_0 *)object)->unk_06.s < 12) {
+        if (((s16)((S_800251E8_0 *)object)->unk_06) < 12) {
             break;
         }
-        ((S_800251E8_0 *)object)->unk_06.u = 0;
-        ((S_800251E8_0 *)object)->unk_04.u++;
+        ((S_800251E8_0 *)object)->unk_06 = 0;
+        ((S_800251E8_0 *)object)->unk_04++;
         break;
     case 2:
-        if (((S_800251E8_0 *)object)->unk_06.s < 4) {
+        if (((s16)((S_800251E8_0 *)object)->unk_06) < 4) {
             break;
         }
-        ((S_800251E8_0 *)object)->unk_06.u = 0;
-        ((S_800251E8_0 *)object)->unk_04.u++;
+        ((S_800251E8_0 *)object)->unk_06 = 0;
+        ((S_800251E8_0 *)object)->unk_04++;
         break;
     case 3:
-        if (((S_800251E8_0 *)object)->unk_06.s < 8) {
+        if (((s16)((S_800251E8_0 *)object)->unk_06) < 8) {
             break;
         }
-        ((S_800251E8_0 *)object)->unk_06.u = 0;
-        ((S_800251E8_0 *)object)->unk_04.u++;
+        ((S_800251E8_0 *)object)->unk_06 = 0;
+        ((S_800251E8_0 *)object)->unk_04++;
         break;
     case 4:
         ((S_800251E8_0_pre *)object)[-1].unk_00 |= 0x8000;
