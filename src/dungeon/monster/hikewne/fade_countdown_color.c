@@ -1,4 +1,5 @@
 #include "common.h"
+#include "slus/imports.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/object_flags.h"
 #include "m2c_compat.h"
@@ -16,7 +17,6 @@ typedef struct S_8014C8E8_0 {
 
 /* cfail-repair: tf7-phase1-cache-v3 */
 
-extern void advance_sprite_animation_and_textures(void *color);
 /* Scale the color by the remaining countdown, then decrement it and flag completion. */
 void fade_countdown_color(void *record_data, void *unused, SpriteFrameState *color)
 {

@@ -1,4 +1,5 @@
 #include "common.h"
+#include "slus/imports.h"
 #include "dungeon/monster/beldo/expanding_fade.h"
 #include "shared/object_node.h"
 #include "shared/sprite_frame_state.h"
@@ -12,7 +13,6 @@
 
    /* src in expand_fade_effect_and_expire */
 
-extern void advance_sprite_animation_and_textures(void *primitive);
 
 /* Copy the effect position, expand and fade its primitive, and flag expiration. */
 void expand_fade_effect_and_expire(void *effect_arg, MovingPosition *position, SpriteFrameState *primitive)

@@ -1,4 +1,5 @@
 #include "dungeon/monster/manoeva.h"
+#include "dungeon/system/random.h"
 #include "shared/object_node.h"
 #include "shared/slus_callbacks.h"
 #include "shared/monster_ids.h"
@@ -21,7 +22,6 @@ typedef union SpawnState {
     } fields;
 } SpawnState;
 
-extern s32 generate_random_value(void);
 extern u8 entity_spawn_variant_code;
 extern u8 manoeva_frame_set_1[], manoeva_sleep_frames[], manoeva_action_resume_address[];
 

@@ -4,6 +4,7 @@
 #include "shared/dungeon_item_entries.h"
 #include "shared/entity_action_selectors.h"
 #include "common.h"
+#include "dungeon/system/random.h"
 #include "shared/tile_object.h"
 #include "shared/entity_objects.h"
 #include "shared/record_ptrs.h"
@@ -44,7 +45,6 @@ typedef struct S_800C08A4_1 {
 
  /* Unprototyped: zero, one or three arguments; retail replaces all incoming arguments. */
 struct DungeonItemEntry;
-s32 generate_random_value(void);
 extern u8 D_80089378[];
 extern u8 D_8008937C[];
 extern u8 D_800E13DA[15];

@@ -2,6 +2,7 @@
 #include "shared/sprite_frame_state.h"
 #include "dungeon/actor.h"
 #include "common.h"
+#include "engine/graphics/select_sprite_entry_api.h"
 #include "shared/actor_action_flags.h"
 #include "shared/tile_object.h"
 #include "shared/game_work.h"
@@ -17,7 +18,6 @@ typedef struct S_80047784 S_80047784;
 
 
 struct SpriteFrameState;
-void select_sprite_entry(void *, s16, s16);
 void spend_actor_mp(ActorRecord *entity, s32 base_reduction);
 
 

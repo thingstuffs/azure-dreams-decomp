@@ -1,5 +1,7 @@
 /* cfail-repair: tf7-phase1-cache-v3 */
 #include "dungeon/monster/mandara/spawn_api_slot_c.h"
+#include "engine/node/registration.h"
+#include "dungeon/system/random.h"
 #include "shared/monster_ids.h"
 #include "shared/entity.h"
 #include "shared/sprite_frame_state.h"
@@ -15,8 +17,6 @@ typedef struct { u8 pad[6]; u16 count; } CountView;
 
 
 
-extern s32 register_node(ObjectNodeHeader *entry, void *registration_id);
-extern s32 generate_random_value(void);
 extern u8 D_80158B40[];
 extern u8 D_80158F6C[];
 extern u8 D_8015D258[];

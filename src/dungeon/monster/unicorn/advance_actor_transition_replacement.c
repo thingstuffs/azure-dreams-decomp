@@ -7,6 +7,7 @@ struct ObjectPosition;
 #include "shared/object_node.h"
 #include "shared/sprite_frame_state.h"
 #include "common.h"
+#include "engine/node/registration.h"
 #include "shared/slus_cd_callback.h"
 #include "shared/slus_callbacks.h"
 #include "shared/dungeon_effect_status.h"
@@ -37,7 +38,6 @@ extern s32 D_80174E2C[];
 extern s16 D_80174E38[];
 extern void *D_80174E40[];
 
-s32 register_node(ObjectNodeHeader *entry, void *registration_id);
 extern s32 lookup_masked_byte_table();
 extern void unlink_entity_node();
 extern void *advance_staged_entity_load(); /* Unprototyped: uses the value as a pointer where the definition has an integer (or the reverse) */

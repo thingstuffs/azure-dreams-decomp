@@ -3,6 +3,7 @@
 #include "shared/actor_status_ids.h"
 /* cfail-repair: tf7-phase1-cache-v3 */
 #include "common.h"
+#include "dungeon/system/random.h"
 #include "shared/monster_ids.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/object_node.h"
@@ -22,7 +23,6 @@ typedef struct ActorSpriteView ActorSpriteView;
 
 
 
-s32 generate_random_value(void);
 void func_8015EA3C(void *entity, R03_80170A28_S_80170A28_2 *motion, void *part);
 void func_8015EE68(ActorRecord *actor, ObjectPosition *context, SpriteFrameState *sprite, ActorRecord *state);
 extern M2C_UNK D_8016186C;

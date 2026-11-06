@@ -3,6 +3,7 @@
 #include "shared/actor_property_flags.h"
 #include "shared/actor_status_ids.h"
 #include "common.h"
+#include "dungeon/system/random.h"
 #include "shared/monster_ids.h"
 #include "shared/object_node.h"
 #include "shared/slus_callbacks.h"
@@ -22,7 +23,6 @@
 
 
 
-extern s32 generate_random_value(void);
 extern u8 D_801718E0[];
 extern s32 weadog_action_resume_address;
 

@@ -1,4 +1,5 @@
 #include "common.h"
+#include "engine/node/registration.h"
 #include "shared/entity.h"
 #include "shared/object_node.h"
 #include "shared/sprite_frame_state.h"
@@ -19,7 +20,6 @@
    /* arg1 in spawn_offset_motion_object */
 
 extern s32 resolve_record_orientation_or_fallback();
-s32 register_node(ObjectNodeHeader *entry, void *registration_id);
 
 extern s32 D_80175C60;
 extern s32 D_80175D74;

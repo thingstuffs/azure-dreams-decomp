@@ -1,4 +1,5 @@
 #include "common.h"
+#include "engine/node/registration.h"
 #include "shared/object_node.h"
 #include "shared/sprite_frame_state.h"
 #include "m2c_compat.h"
@@ -12,7 +13,6 @@
 
    /* ((S_80174B90_6 *)arg0)->unk_08 in create_terrain_scaled_actor_effect */
 
-s32 register_node(ObjectNodeHeader *entry, void *registration_id);           /* extern */
 extern M2C_UNK D_80175540;
 
 

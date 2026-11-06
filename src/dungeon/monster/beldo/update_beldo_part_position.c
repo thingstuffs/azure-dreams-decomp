@@ -2,6 +2,7 @@
 #include "shared/actor_property_flags.h"
 #include "shared/actor_status_ids.h"
 #include "common.h"
+#include "slus/imports.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/object_flags.h"
 #include "shared/dungeon_moving_views.h"
@@ -57,7 +58,6 @@ typedef struct S_81275000_6 {
 } S_81275000_6;   /* callee_part in func_8014C898 */
 
 extern s32 resolve_record_orientation_or_fallback(s32, void *, s16 *, s16);
-extern void advance_sprite_animation_and_textures(void *);
 
 /* Updates part position, brightness, and flags from the owner and motion state. */
 void update_beldo_attached_part(void *root_data, void *position_data, void *render_data)

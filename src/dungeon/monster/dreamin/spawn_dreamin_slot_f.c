@@ -4,6 +4,7 @@
 #include "shared/actor_status_ids.h"
 /* cfail-repair: tf7-phase1-cache-v3 */
 #include "common.h"
+#include "dungeon/system/random.h"
 #include "shared/monster_ids.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/object_node.h"
@@ -16,7 +17,6 @@
 
 
 
-s32 generate_random_value(void);
 extern u8 dreamin_object_callback[];
 extern s32 dreamin_slot_f_action_callback;
 extern s32 D_8016D86C;

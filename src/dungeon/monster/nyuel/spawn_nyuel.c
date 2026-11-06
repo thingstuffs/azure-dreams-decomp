@@ -1,4 +1,6 @@
 #include "shared/actor_property_flags.h"
+#include "engine/node/registration.h"
+#include "dungeon/system/random.h"
 #include "shared/actor_status_ids.h"
 #include "shared/entity.h"
 #include "dungeon/monster/nyuel/spawn_factory_default.h"
@@ -13,8 +15,6 @@
 
 
 
-extern s32 register_node(ObjectNodeHeader *entry, void *registration_id);
-extern s32 generate_random_value(void);
 
 extern void update_monster_facing_and_contact(void);
 void update_entity_actions_facing_and_animation(ActorRecord *entity, ObjectPosition *context, SpriteFrameState *sprite, ActorRecord *state);

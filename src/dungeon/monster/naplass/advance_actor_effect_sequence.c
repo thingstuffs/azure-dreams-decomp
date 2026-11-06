@@ -8,6 +8,9 @@
 
 struct SpriteFrameState;
 #include "common.h"
+#include "engine/node/registration.h"
+#include "engine/entity/effect_slots.h"
+#include "dungeon/system/random.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/object_node.h"
 #include "shared/tile_object.h"
@@ -27,16 +30,12 @@ typedef struct S_801732A4_8 {
 
 typedef struct Copy24 { u32 words[6]; } Copy24;
 
-s32 get_entity_effect_value(ActorRecord *entry, s32 effect_id);
-void clear_slots_of_type(ActorRecord *owner, s8 match_type);
-s32 register_node(ObjectNodeHeader *entry, void *registration_id);
 s16 get_tile_chebyshev_distance();
 #include "dungeon/player/object/action_state.h"
 #include "dungeon/level.h"
 #include "dungeon.h"
 #include "dungeon/monster/naplass_frames.h"
 
-s32 generate_random_value(void);
 void update_actor_status_and_mp(ActorRecord *entity);
 void advance_actor_effect_sequence(Rec_func_801732A4_arg0 *state, ObjectPosition *position,struct SpriteFrameState *actor, void *model);
 extern void start_directional_actor_effect(ActorRecord *action_state, ObjectPosition *action_context, void *sprite, ActorRecord *actor);

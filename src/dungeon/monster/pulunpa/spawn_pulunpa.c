@@ -3,6 +3,8 @@
 #include "shared/actor_property_flags.h"
 #include "shared/actor_status_ids.h"
 #include "common.h"
+#include "engine/node/registration.h"
+#include "dungeon/system/random.h"
 #include "shared/monster_ids.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/object_node.h"
@@ -15,8 +17,6 @@
 
 
 
-extern s32 register_node(ObjectNodeHeader *entry, void *registration_id);
-extern s32 generate_random_value(void);
 
 extern u8 entity_spawn_variant_code;
 extern u8 D_80170AE0[];

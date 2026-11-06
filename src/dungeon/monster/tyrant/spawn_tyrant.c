@@ -1,4 +1,5 @@
 #include "shared/entity.h"
+#include "dungeon/system/random.h"
 #include "shared/actor_property_flags.h"
 /* cfail-repair: tf7-phase1-cache-v3 */
 #include "dungeon/monster/tyrant/spawn_api_slot_a.h"
@@ -26,7 +27,6 @@ typedef struct S_8107D000_4 {
     s16 unk_AA;
 } S_8107D000_4;
 
-s32 generate_random_value(void);
 extern M2C_UNK D_8014CAA4;
 extern M2C_UNK D_8014CF68;
 extern M2C_UNK D_8014FFB8;

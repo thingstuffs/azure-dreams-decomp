@@ -1,4 +1,5 @@
 #include "common.h"
+#include "engine/graphics/select_sprite_entry_api.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/game_work.h"
 #include "records/Rec_func_801724B0_arg0.h"
@@ -8,7 +9,6 @@
 typedef struct S_80047784 S_80047784;
 
 struct SpriteFrameState;
-void select_sprite_entry(void *, s16, s16);         /* extern */
 extern u8 D_800E2360;
 
 /* Initializes state and configures the target using an angle-indexed table entry. */

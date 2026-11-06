@@ -3,6 +3,7 @@
 #include "shared/dungeon_item_entries.h"
 #include "shared/entity_action_selectors.h"
 #include "common.h"
+#include "dungeon/system/random.h"
 #include "shared/tile_object.h"
 #include "shared/entity_objects.h"
 #include "shared/entity.h"
@@ -19,7 +20,6 @@
 #include "dungeon/actor.h"
 #include "dungeon/item/effect.h"
 
-extern s32 generate_random_value(void);
 
 extern u8 D_800893E0[];
 extern u8 D_800E18A4[];

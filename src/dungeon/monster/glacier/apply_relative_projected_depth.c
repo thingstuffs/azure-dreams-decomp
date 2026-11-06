@@ -1,4 +1,5 @@
 #include "common.h"
+#include "slus/imports.h"
 #include "dungeon/monster/glacier/projected_depth.h"
 #include "shared/object_node.h"
 #include "shared/game_work.h"
@@ -20,7 +21,6 @@ typedef struct {
 } Stack3;
 
 extern s8 view_direction_depth_biases[];
-extern void advance_sprite_animation_and_textures(void *);
 
 /* Apply a relative projected depth with a direction bias and propagate output status flags. */
 void apply_relative_projected_depth(void *entity_arg, MovingPosition *position, void *output) {

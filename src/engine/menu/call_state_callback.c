@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_node.h"
 #include "engine/menu.h"
 #include "slus/data.h"
 
@@ -24,5 +25,5 @@ s32 call_state_callback(MenuSelectionBody *obj) {
         }
     }
 
-    return menu_state_callbacks[obj->selected_entry]((u8 *)obj - 0x20, callback_arg);
+    return menu_state_callbacks[obj->selected_entry](NODE_HEADER(obj), callback_arg);
 }

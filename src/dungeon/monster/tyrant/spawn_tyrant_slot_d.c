@@ -4,6 +4,7 @@
 #include "shared/actor_status_ids.h"
 /* cfail-repair: tf7-phase1-cache-v3 */
 #include "common.h"
+#include "dungeon/system/random.h"
 #include "shared/monster_ids.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/object_node.h"
@@ -28,7 +29,6 @@ typedef struct S_8106B000_4 {
     s16 unk_AA;
 } S_8106B000_4;
 
-s32 generate_random_value(void);
 extern M2C_UNK D_8015EAA4;
 extern M2C_UNK D_8015EF68;
 extern M2C_UNK D_80161FB8;

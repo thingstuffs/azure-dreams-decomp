@@ -1,5 +1,6 @@
 #include "shared/entity.h"
 #include "common.h"
+#include "slus/imports.h"
 #include "shared/sprite_frame_state.h"
 #include "records/Rec_D_80082E80.h"
 #include "dungeon/monster/glacier.h"
@@ -12,7 +13,6 @@
 
 s32 check_left_tile_and_center_height(s32 x, s32 y, s32 z);
 extern s16 sample_terrain_surface_height(u16, u16, s16);
-extern void advance_sprite_animation_and_textures(void *);
 /* Updates effect motion and collision, grows its sprite, and flags expired effects. */
 void grow_terrain_colliding_sprite(CollidingSpriteParticleBody *effect, ObjectPosition *position, SpriteFrameState *sprite) {
     s32 height;

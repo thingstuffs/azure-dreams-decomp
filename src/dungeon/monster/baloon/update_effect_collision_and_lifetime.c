@@ -1,4 +1,5 @@
 #include "common.h"
+#include "slus/imports.h"
 #include "dungeon/monster/baloon.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/object_flags.h"
@@ -7,7 +8,6 @@
 
    /* the 0x2 bytes before arg0 in update_effect_collision_and_lifetime, addressed as arg0[-1] */
 
-extern void advance_sprite_animation_and_textures(void *entity);
 s32 check_left_tile_and_center_height(s32 x, s32 y, s32 z);
 extern s16 sample_terrain_surface_height(u16 x, u16 y, s16 min_height);
 

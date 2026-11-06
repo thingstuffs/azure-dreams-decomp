@@ -15,12 +15,6 @@
 
 
 
-typedef struct S_800B328C_4 {
-    u8 pad_00[0x8];
-    void * unk_08;
-    void * unk_0C;
-} S_800B328C_4;   /* ((S_800B328C_0 *)arg0)->unk_00 in update_oriented_offset_effect_position */
-
 /* Update the position from a base and offset, and mark completion or timeout. */
 void update_oriented_offset_effect_position(PayloadObjectBody *state, MovingPosition *position) {
     GteShortVector offset;
@@ -35,9 +29,9 @@ void update_oriented_offset_effect_position(PayloadObjectBody *state, MovingPosi
     MovingPosition *base_position;
     SpriteFrameState *offset_source;
 
-    offset_source = ((S_800B328C_4 *)(state->unk_00))->unk_0C;
+    offset_source = state->owner->sprite;
     if (resolve_record_orientation_or_fallback(offset_source->source, offset_source, &offset, 0) != 0) {
-        base_position = ((S_800B328C_4 *)(state->unk_00))->unk_08;
+        base_position = (MovingPosition *)state->owner->position;
         if (state->unk_8C != 0) {
             old_x = (s16) position->x;
             old_y = (s16) position->y;
@@ -51,7 +45,7 @@ void update_oriented_offset_effect_position(PayloadObjectBody *state, MovingPosi
             new_z = base_position->z + ((u16)offset.vz);
             position->z = new_z;
             new_position[2] = new_z;
-            create_attenuating_moving_effect(state->unk_00, old_x, old_y, old_z_shifted >> 0x10, new_position,
+            create_attenuating_moving_effect(&state->owner->next, old_x, old_y, old_z_shifted >> 0x10, new_position,
                 state->unk_04, 2, 0x800, 1);
         } else {
             position->x = (u16) (base_position->x + ((u16)offset.vx));

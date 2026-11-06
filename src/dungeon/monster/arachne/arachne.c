@@ -900,7 +900,7 @@ void finish_actor_tile_move_then_select_target(ActorRecord *state, ObjectPositio
 }
 
 /* Arcs to the destination tile, updates landing animation, spends MP, and checks for a floor trap. */
-void complete_actor_arc_movement(R12_80172290_S_80172290_0 *action, void *motion, void *map_actor, void *actor) {
+void complete_actor_arc_movement(R12_80172290_S_80172290_0 *action, ObjectPosition *motion, SpriteFrameState *map_actor, ActorRecord *actor) {
     u16 target_distance;
     s32 frames_left;
     s16 next_timer;
@@ -910,17 +910,17 @@ void complete_actor_arc_movement(R12_80172290_S_80172290_0 *action, void *motion
     state = action->unk_9B;
     switch (state) {
     case 0:
-        if (!(((SpriteFrameState *)map_actor)->flags & 0x6000)) {
+        if (!(map_actor->flags & 0x6000)) {
             break;
         }
-        ((SpriteFrameState *)map_actor)->frameTable = D_80175A6C;
+        map_actor->frameTable = D_80175A6C;
         select_sprite_entry(
             map_actor,
-            D_80175A6C[((g_game_work.view.camera_rotation.parts.viewAngle + ((ActorRecord *)actor)->facing + 0x100) >> 9) & 7],
+            D_80175A6C[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
             0);
         action->unk_98 |= 8;
-        ((ObjectPosition *)motion)->velocity_z = 0xFFF00000;
-        ((ActorRecord *)actor)->flags1C &= ACTOR_GROUNDED_CLEAR_MASK;
+        motion->velocity_z = 0xFFF00000;
+        actor->flags1C &= ACTOR_GROUNDED_CLEAR_MASK;
         action->unk_A0 = 0;
         action->unk_9B++;
                         /* fallthrough */
@@ -929,40 +929,40 @@ void complete_actor_arc_movement(R12_80172290_S_80172290_0 *action, void *motion
         action->unk_90 -= action->unk_A0;
         if (frames_left != 0) {
             {
-                s32 target_x = ((SpriteFrameState *)map_actor)->tile_x << 6;
-                s32 current_x = ((ObjectPosition *)motion)->x.w.i - 0x20;
+                s32 target_x = map_actor->tile_x << 6;
+                s32 current_x = motion->x.w.i - 0x20;
 
-                ((ObjectPosition *)motion)->velocity_x = ((target_x - current_x) << 16) / frames_left;
+                motion->velocity_x = ((target_x - current_x) << 16) / frames_left;
             }
             {
-                s32 target_y = ((SpriteFrameState *)map_actor)->tile_y << 6;
-                s32 current_y = ((ObjectPosition *)motion)->y.w.i - 0x20;
+                s32 target_y = map_actor->tile_y << 6;
+                s32 current_y = motion->y.w.i - 0x20;
 
-                ((ObjectPosition *)motion)->velocity_y = ((target_y - current_y) << 16) /
+                motion->velocity_y = ((target_y - current_y) << 16) /
                     action->unk_96.s;
             }
-            action->unk_A0 += ((ObjectPosition *)motion)->velocity_z;
-            ((ObjectPosition *)motion)->velocity_z += 0x40000;
+            action->unk_A0 += motion->velocity_z;
+            motion->velocity_z += 0x40000;
         }
         action->unk_90 += action->unk_A0;
         if (action->unk_96.s < 0) {
             action->unk_90 = 0;
             action->unk_98 &= 0xFFF7;
-            ((ActorRecord *)actor)->flags1C |= ACTOR_GROUNDED;
+            actor->flags1C |= ACTOR_GROUNDED;
             action->unk_9B++;
         }
                         /* fallthrough */
     case 2:
-        if (((u32)((ActorRecord *)actor)->flags1C) & ACTOR_GROUNDED) {
+        if (((u32)actor->flags1C) & ACTOR_GROUNDED) {
             action->unk_98 &= 0xFFF7;
-            ((ObjectPosition *)motion)->velocity_z = 0;
-            ((ObjectPosition *)motion)->velocity_y = 0;
-            ((ObjectPosition *)motion)->velocity_x = 0;
-            set_record_integer_tile_center(motion, ((SpriteFrameState *)map_actor)->tile_x, ((SpriteFrameState *)map_actor)->tile_y);
-            ((SpriteFrameState *)map_actor)->frameTable = D_80175A74;
+            motion->velocity_z = 0;
+            motion->velocity_y = 0;
+            motion->velocity_x = 0;
+            set_record_integer_tile_center(motion, map_actor->tile_x, map_actor->tile_y);
+            map_actor->frameTable = D_80175A74;
             select_sprite_entry(
                 map_actor,
-                D_80175A74[((g_game_work.view.camera_rotation.parts.viewAngle + ((ActorRecord *)actor)->facing + 0x100) >> 9) & 7],
+                D_80175A74[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
                 0);
             action->unk_9B++;
         }
@@ -972,10 +972,10 @@ void complete_actor_arc_movement(R12_80172290_S_80172290_0 *action, void *motion
     next_timer = action->unk_96.u - 1;
     action->unk_96.s = next_timer;
     if ((next_timer << 16) <= 0) {
-        ((ObjectPosition *)motion)->velocity_z = 0;
-        ((ObjectPosition *)motion)->velocity_y = 0;
-        ((ObjectPosition *)motion)->velocity_x = 0;
-        set_record_integer_tile_center(motion, ((SpriteFrameState *)map_actor)->tile_x, ((SpriteFrameState *)map_actor)->tile_y);
+        motion->velocity_z = 0;
+        motion->velocity_y = 0;
+        motion->velocity_x = 0;
+        set_record_integer_tile_center(motion, map_actor->tile_x, map_actor->tile_y);
         spend_actor_mp(actor, 4);
         advance_status_timers(actor);
         {
@@ -990,16 +990,16 @@ void complete_actor_arc_movement(R12_80172290_S_80172290_0 *action, void *motion
             }
         }
 
-        actor_flags = ((u32)((ActorRecord *)actor)->flags1C);
+        actor_flags = ((u32)actor->flags1C);
         if (actor_flags & 0x2000) {
-            if (((ActorRecord *)actor)->action_flags & ACTOR_ACTION_PENDING) {
-                ((ActorRecord *)actor)->action_flags &= ACTOR_ACTION_CLEAR_PENDING_MASK;
+            if (actor->action_flags & ACTOR_ACTION_PENDING) {
+                actor->action_flags &= ACTOR_ACTION_CLEAR_PENDING_MASK;
             }
         } else if (!(actor_flags & 0x410)) {
             if (actor_flags & 0x20000) {
 
-                ((ActorRecord *)actor)->facing = ((s16)get_rounded_facing_and_rounding_flag(
-                    ((SpriteFrameState *)map_actor)->tile_x, ((SpriteFrameState *)map_actor)->tile_y,
+                actor->facing = ((s16)get_rounded_facing_and_rounding_flag(
+                    map_actor->tile_x, map_actor->tile_y,
                     reference_tile_object.tile_position.parts.tile_x, reference_tile_object.tile_position.parts.tile_y, &target_distance));
             }
         }

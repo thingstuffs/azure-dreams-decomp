@@ -1,4 +1,5 @@
 #include "common.h"
+#include "slus/imports.h"
 #include "dungeon/monster/blume.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/object_flags.h"
@@ -16,7 +17,6 @@ typedef struct S_80171040_0 {
     } unk_08;   /* overlapping accesses */
 } S_80171040_0;   /* arg1 in update_damped_height_effect */
 
-extern void advance_sprite_animation_and_textures(void *entity);
 s32 check_left_tile_and_center_height(s32 x, s32 y, s32 z);
 extern s16 sample_terrain_surface_height(u16 x, u16 y, s16 min_height);
 

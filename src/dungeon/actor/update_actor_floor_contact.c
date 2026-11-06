@@ -1,4 +1,5 @@
 #include "common.h"
+#include "slus/imports.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/dungeon_status.h"
 #include "shared/entity.h"
@@ -8,7 +9,6 @@ typedef void (*EntityCallback)(void *, void *, void *, void *);
 
 extern EntityCallback floor_contact_callbacks[];
 
-extern void advance_sprite_animation_and_textures(void *entity);
 extern s16 sample_terrain_surface_height(u16 x, u16 y, s16 min_height);
 
 

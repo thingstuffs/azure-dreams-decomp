@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_node.h"
 
 #include "common.h"
 #include "engine/node.h"
@@ -19,6 +20,7 @@ s32 unlink_cursor_when_finished(Func37534State *state) {
     u8 *cursor_base;
     s16 cursor_offset;
     u8 *cursor;
+    ObjectNodeHeader *node;
 
     if (state->enabled == 0) {
         return 0;
@@ -34,8 +36,8 @@ s32 unlink_cursor_when_finished(Func37534State *state) {
     cursor[0x50] = 1;
     runtime_clear_value((s32 *)state->clear_target);
     runtime_unlink_doubly_linked_node((u8 *)state + 0x54);
-    state = (Func37534State *)((u8 *)state - 0x20);
-    unlink_node(state);
-    unlink_active_node(state);
+    node = NODE_HEADER(state);
+    unlink_node(node);
+    unlink_active_node(node);
     return 1;
 }

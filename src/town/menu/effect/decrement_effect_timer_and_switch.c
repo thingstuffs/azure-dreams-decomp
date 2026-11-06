@@ -1,4 +1,5 @@
 #include "common.h"
+#include "engine/node/registration.h"
 #include "m2c_compat.h"
 
 /* extern */
@@ -12,7 +13,6 @@ typedef struct S_800A7774_0 {
 } S_800A7774_0;   /* arg0 in decrement_effect_timer_and_switch */
 
 
-void unlink_node_if_registered(void *block_data);
 /* Decrement the countdown and reset it to ten while changing the handler when it expires. */
 void decrement_effect_timer_and_switch(S_800A7774_0 *object, s32 value) {
     u16 remaining_ticks;

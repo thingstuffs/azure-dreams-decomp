@@ -4,6 +4,7 @@
 #include "shared/entity.h"
 #include "shared/dungeon_item_entries.h"
 #include "common.h"
+#include "dungeon/system/random.h"
 #include "shared/tile_object.h"
 #include "shared/entity_objects.h"
 #include "shared/record_ptrs.h"
@@ -39,7 +40,6 @@ extern u8 D_800E0E50[];
 #include "dungeon/item/message.h"
 #include "dungeon/system.h"
 
-extern s32 generate_random_value(void);
 
 /* Applies an item effect, selects its amount, and displays the result. */
 s32 use_random_healing_item(DungeonObject *obj, DungeonItemEntry *payload, s16 effect_arg) {

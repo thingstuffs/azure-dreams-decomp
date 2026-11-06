@@ -1,12 +1,12 @@
 /* cfail-repair: tf7-phase1-cache-v3 */
 #include "common.h"
+#include "engine/node/registration.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/object_flags.h"
 #include "records/Rec_D_80082D58.h"
 #include "records/Rec_D_80082E80.h"
 #include "shared/object_links.h"
 #include "slus.h"
-void unlink_node_if_registered(void *block_data);
 void select_record_entry_and_value(void *state, void *entries, short index);
 #include "town/scene/object/unlink_scene_list_node_api.h"
 #include "town/person.h"

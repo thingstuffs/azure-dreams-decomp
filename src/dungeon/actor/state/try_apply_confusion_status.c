@@ -1,12 +1,12 @@
 #include "shared/actor_status_ids.h"
 #include "common.h"
+#include "dungeon/system/random.h"
 #include "dungeon/item/message.h"
 #include "dungeon/actor/status.h"
 #include "dungeon/item.h"
 #include "dungeon/menu.h"
 #include "dungeon/actor/state.h"
 
-extern s32 generate_random_value(void);
 
 extern s32 D_800DCF10[];
 extern u8 D_800E1A55[];

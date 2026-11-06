@@ -3,6 +3,7 @@
 #include "shared/sprite_frame_state.h"
 #include "shared/dungeon_item_entries.h"
 #include "common.h"
+#include "engine/graphics/select_sprite_entry_api.h"
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 #include "shared/dir_step.h"
@@ -76,7 +77,6 @@ extern s32 find_floor_item_at_world_position(s16, s16, s16); /* Unprototyped: re
 extern void *create_item_render_object(void *parent, void *sprite_source, s16 x, s32 y, s16 z);
 void update_map_cell_flags_with_item_limit(s32 x, s32 y, u16 flags);
 struct SpriteFrameState;
-extern void select_sprite_entry(void *, s16, s16);
 extern void spend_actor_mp(Object *, s32);
 
 /* Moves the entity forward, then returns it to its saved position and restores its callback. */

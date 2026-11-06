@@ -1,4 +1,5 @@
 #include "common.h"
+#include "engine/graphics/select_sprite_entry_api.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/record_ptrs.h"
 #include "shared/entity.h"
@@ -56,7 +57,6 @@ extern u8 D_801746B4[];
 extern u8 D_800F93AA[];
 
 struct SpriteFrameState;
-extern void select_sprite_entry(void *, s16, s16);
 extern void clear_actor_action_markers(u8 *state);
 extern void func_8016D11C(void) __attribute__((noreturn));
 

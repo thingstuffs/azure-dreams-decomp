@@ -1,4 +1,6 @@
 #include "common.h"
+#include "engine/node/registration.h"
+#include "engine/graphics/select_sprite_entry_api.h"
 #include "dungeon/monster/manoeva/action_sprite_effect.h"
 #include "shared/object_node.h"
 #include "shared/sprite_frame_state.h"
@@ -15,8 +17,6 @@ typedef struct S_80174690_5 {
     s32 unk_28;
 } S_80174690_5;
 
-s32 register_node(ObjectNodeHeader *entry, void *registration_id);           /* extern */
-void select_sprite_entry(void *object, s16 table_index, s16 entry_index);    /* extern */
 typedef struct S_80174690_2 {
     u8 pad_00[0x8];
     s32 unk_08;

@@ -7,6 +7,7 @@ struct ObjectPosition;
 #include "shared/object_node.h"
 #include "shared/sprite_frame_state.h"
 #include "common.h"
+#include "engine/node/registration.h"
 #include "shared/slus_cd_callback.h"
 #include "shared/dungeon_effect_status.h"
 #include "shared/slus_callbacks.h"
@@ -67,7 +68,6 @@ struct S_8003E2D8;
 typedef struct S_8003E2D8 S_8003E2D8;
 extern u8 dungeon_resource_buffer[];
 extern s16 D_80174F48[];
-s32 register_node(ObjectNodeHeader *entry, void *registration_id);
 void select_record_entry_and_value(void *state, void *entries, short index);
 void unlink_entity_node();
 void update_map_cell_flags_with_item_limit(s32 x, s32 y, u16 flags);

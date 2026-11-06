@@ -1,4 +1,5 @@
 #include "common.h"
+#include "engine/node/registration.h"
 #include "shared/object_flags.h"
 #include "records/Rec_D_80082D58.h"
 #include "shared/object_links.h"
@@ -9,7 +10,6 @@
 #include "town/player/state.h"
 
 
-void unlink_node_if_registered(void *block_data);
 s32 update_object_and_clear_status_fields();
 
    /* the 0x2 bytes before arg0 in dispatch_object_event_or_retire, addressed as arg0[-1] */

@@ -1,4 +1,5 @@
 #include "town/person/state_updates.h"
+#include "engine/node/registration.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/entity_objects.h"
 #include "shared/game_work.h"
@@ -9,7 +10,6 @@
 
 typedef void (*Callback)(void *, void *, void *);
 
-extern void unlink_node_if_registered(void *);
 /* garbage-passthru: a2/a3 survive load_record_halfwords_3; explicit arguments add saves/reloads absent from retail. */
 #include "town/system/person_idle_dispatch.h"
 

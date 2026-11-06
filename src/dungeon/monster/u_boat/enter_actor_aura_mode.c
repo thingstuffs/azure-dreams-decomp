@@ -1,5 +1,6 @@
 #include "shared/entity.h"
 #include "common.h"
+#include "engine/node/registration.h"
 #include "shared/object_node.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/game_work.h"
@@ -15,7 +16,6 @@
 #endif
 
 
-extern s32 register_node(ObjectNodeHeader *entry, void *registration_id);
 
 extern u8 clipped_sprite_renderer_address[];
 extern u8 D_80170CEC[];

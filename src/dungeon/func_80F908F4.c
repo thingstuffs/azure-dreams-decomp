@@ -2,6 +2,7 @@
 #define D_80170854 D_8016A854
 #define D_80174B0C D_8016EB0C
 #include "modules/dungeon_ovl_fa7000.h"
+#include "dungeon/system/random.h"
 #include "dungeon/actor/hit_reaction_slot_f.h"
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
@@ -14,7 +15,6 @@
 
 #include "dungeon/player/object/action_state.h"
 #include "dungeon/system.h"
-extern s32 generate_random_value(void);
 
 extern const u8 D_8016A854[20];
 extern u8 D_8016EB0C[];

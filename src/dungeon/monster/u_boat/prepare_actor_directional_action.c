@@ -3,6 +3,7 @@
 
 struct ObjectPosition;
 #include "common.h"
+#include "dungeon/system/random.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/def_table.h"
 #include "shared/entity.h"
@@ -52,7 +53,6 @@ typedef struct S_801717D0_5 {
 } S_801717D0_5;   /* entry in prepare_actor_directional_action */
 
 extern void select_sprite_entry(void *, u8, s32);
-extern s32 generate_random_value(void);
 
 /* Prepares an entity action, updates its directional animation, and advances the counter. */
 void prepare_actor_directional_action(ActorRecord *entity, ObjectPosition *action_param, SpriteFrameState *action_sprite, u8 *frame_table, s32 fallback_state)

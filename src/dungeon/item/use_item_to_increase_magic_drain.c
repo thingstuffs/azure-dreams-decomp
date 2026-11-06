@@ -7,6 +7,7 @@
 struct ObjectNodeHeader;
 #include "shared/entity_action_selectors.h"
 #include "common.h"
+#include "dungeon/system/random.h"
 #include "shared/tile_object.h"
 #include "shared/entity_objects.h"
 #include "shared/record_ptrs.h"
@@ -20,7 +21,6 @@ struct ObjectNodeHeader;
 #include "dungeon/item/message.h"
 #include "dungeon/effect/shade.h"
 
-extern s32 generate_random_value(void);
 
 extern u8 D_800E10C0[];
 extern u8 D_800E10F2[];

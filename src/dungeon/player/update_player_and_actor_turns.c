@@ -11,6 +11,8 @@ struct ObjectPosition;
 #include "shared/dungeon_actor_callbacks.h"
 #include "shared/object_node.h"
 #include "common.h"
+#include "dungeon/system/random.h"
+#include "slus/imports.h"
 #include "shared/dir_step.h"
 #include "shared/sys_flags.h"
 #include "shared/dungeon_floor.h"
@@ -34,7 +36,6 @@ typedef s32 (*Callback4)(void *, void *, void *, void *);
 extern u8 destination_motion_resume_address[];
 extern void select_record_entry_and_value(void *state, void *entries, short index);             /* extern */
 s16 get_entity_effect_value();                 /* extern */ /* Unprototyped: return_width */
-extern void advance_sprite_animation_and_textures(void *entity);                      /* extern */
 #include "engine/texture.h"
 extern short SD_Call(int flags);                     /* extern */
 #include "dungeon/player/input.h"
@@ -47,7 +48,6 @@ s32 find_active_rect_containing_point(s32 point_x, s32 point_y);                
 #include "dungeon/data.h"
 
 struct Node;
-s32 generate_random_value(void);                                /* extern */
 extern s8 scene_music_hold;
 extern s16 floor_generation_state[3];
 extern s16 dungeon_camera_targets[];

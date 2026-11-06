@@ -1,5 +1,6 @@
 #include "shared/actor_property_flags.h"
 #include "common.h"
+#include "engine/graphics/select_sprite_entry_api.h"
 #include "dungeon/monster/cyclone.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/game_work.h"
@@ -14,7 +15,6 @@
 
 
 
-extern void select_sprite_entry(void *, s16, s16);
 
 
 extern void *create_source_to_owner_sprite(void *, void *, void *);

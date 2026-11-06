@@ -28,14 +28,14 @@ void update_trailing_effect_animation(ActorTrailWork *effect, TrailMotion *trans
     ActorTrailWork *linked_data;
 
     for (history_index = 6; history_index > 0; history_index--) {
-        effect->history[history_index].x.u = effect->history[history_index - 1].x.u;
-        effect->history[history_index].y.u = effect->history[history_index - 1].y.u;
-        effect->history[history_index].z.u = effect->history[history_index - 1].z.u;
+        effect->history[history_index].x = effect->history[history_index - 1].x;
+        effect->history[history_index].y = effect->history[history_index - 1].y;
+        effect->history[history_index].z = effect->history[history_index - 1].z;
     }
 
-    effect->history[0].x.u = transform->position.x.parts.whole.u;
-    effect->history[0].y.u = transform->position.y.parts.whole.u;
-    effect->history[0].z.u = transform->position.z.parts.whole.u;
+    effect->history[0].x = transform->position.x.parts.whole.u;
+    effect->history[0].y = transform->position.y.parts.whole.u;
+    effect->history[0].z = transform->position.z.parts.whole.u;
 
     related = effect->follow;
     if (related == 0) {
@@ -95,9 +95,9 @@ void update_trailing_effect_animation(ActorTrailWork *effect, TrailMotion *trans
     } else {
         related = (u8 *)related + 0x20;
         linked_data = related;
-        transform->position.x.parts.whole.u = linked_data->history[2].x.u;
-        transform->position.y.parts.whole.u = linked_data->history[2].y.u;
-        transform->position.z.parts.whole.u = linked_data->history[2].z.u;
+        transform->position.x.parts.whole.u = linked_data->history[2].x;
+        transform->position.y.parts.whole.u = linked_data->history[2].y;
+        transform->position.z.parts.whole.u = linked_data->history[2].z;
 
         parent = effect->follow;
         related = parent->sprite;
@@ -121,9 +121,9 @@ void update_trailing_effect_animation(ActorTrailWork *effect, TrailMotion *trans
         render_data->color.c.r = brightness;
     }
 
-    transform->velocity.x.parts.whole.s = effect->history[4].x.u + (rand() & 0xF) - 8;
-    transform->velocity.y.parts.whole.s = effect->history[4].y.u + (rand() & 0xF) - 8;
-    transform->velocity.z.parts.whole.s = effect->history[4].z.u + (rand() & 0xF) - 8;
+    transform->velocity.x.parts.whole.s = effect->history[4].x + (rand() & 0xF) - 8;
+    transform->velocity.y.parts.whole.s = effect->history[4].y + (rand() & 0xF) - 8;
+    transform->velocity.z.parts.whole.s = effect->history[4].z + (rand() & 0xF) - 8;
 
     next_frame = (u8 *)render_data->source + 0xC;
     render_data->source = next_frame;

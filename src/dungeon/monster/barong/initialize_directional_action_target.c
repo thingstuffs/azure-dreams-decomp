@@ -1,5 +1,6 @@
 #include "shared/entity.h"
 #include "common.h"
+#include "engine/graphics/select_sprite_entry_api.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/game_work.h"
 #include "dungeon/monster/barong.h"
@@ -26,7 +27,6 @@ typedef struct {
 
 extern u8 D_8017556C[];
 struct SpriteFrameState;
-extern void select_sprite_entry(void *, s16, s16);
 
 /* Initialize state and configure the object using the direction lookup table. */
 void initialize_directional_action_target(ActorRecord *state, ObjectPosition *unused, SpriteFrameState *object, ActorRecord *angle_source) {

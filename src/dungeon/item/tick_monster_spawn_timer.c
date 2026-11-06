@@ -1,4 +1,5 @@
 #include "dungeon/item.h"
+#include "dungeon/system/random.h"
 #include "shared/dungeon_status.h"
 
 typedef struct {
@@ -7,7 +8,6 @@ typedef struct {
     u8 pad8[4];
 } DungeonState;
 
-extern s32 generate_random_value(void);
 extern s16 dungeon_room_count;
 
 

@@ -38,26 +38,26 @@ void update_position_history_and_shading(ActorTrailWork *obj, TrailMotion *coord
     s32 current_z;
     u16 z;
 
-    obj->previous.x.parts.whole.u = obj->history[1].x.u;
-    obj->previous.y.parts.whole.u = obj->history[1].y.u;
-    obj->previous.z.parts.whole.u = obj->history[1].z.u;
+    obj->previous.x.parts.whole.u = obj->history[1].x;
+    obj->previous.y.parts.whole.u = obj->history[1].y;
+    obj->previous.z.parts.whole.u = obj->history[1].z;
 
     for (history_index = 1; history_index > 0; history_index--) {
         history_dst = (u8 *)obj + history_index * 8;
         history_src = (u8 *)obj + (history_index - 1) * 8;
         history_dst_work = history_dst;
         history_src_work = history_src;
-        history_dst_work->history[0].x.u = history_src_work->history[0].x.u;
-        history_dst_work->history[0].y.u = history_src_work->history[0].y.u;
-        history_dst_work->history[0].z.u = history_src_work->history[0].z.u;
+        history_dst_work->history[0].x = history_src_work->history[0].x;
+        history_dst_work->history[0].y = history_src_work->history[0].y;
+        history_dst_work->history[0].z = history_src_work->history[0].z;
     }
 
     final_z = obj->position.y.parts.whole.u;
     z = obj->position.z.parts.whole.u;
-    obj->history[0].x.u = obj->position.x.parts.whole.u;
+    obj->history[0].x = obj->position.x.parts.whole.u;
     linked_obj = obj->follow;
-    obj->history[0].y.u = final_z;
-    obj->history[0].z.u = z;
+    obj->history[0].y = final_z;
+    obj->history[0].z = z;
 
     if (linked_obj == 0) {
         switch (obj->state.s) {
@@ -121,9 +121,9 @@ void update_position_history_and_shading(ActorTrailWork *obj, TrailMotion *coord
         }
     } else {
         linked_data = NODE_BODY(linked_obj);
-        obj->position.x.parts.whole.u = linked_data->history[1].x.u;
-        obj->position.y.parts.whole.u = linked_data->history[1].y.u;
-        z = linked_data->history[1].z.u;
+        obj->position.x.parts.whole.u = linked_data->history[1].x;
+        obj->position.y.parts.whole.u = linked_data->history[1].y;
+        z = linked_data->history[1].z;
         obj->position.z.parts.whole.u = z;
 
         if (obj->state.s == 0) {

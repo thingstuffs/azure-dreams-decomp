@@ -6,6 +6,7 @@ struct ObjectPosition;
 #include "common.h"
 #include "shared/object_node.h"
 #include "engine/node/allocation.h"
+#include "engine/node/registration.h"
 
 struct S_8003FF2C;
 struct S_8003FFF0;
@@ -22,7 +23,6 @@ void integrate_active_node_vectors(void);
 
 /* register_node.c: callback addresses are opaque keys until draw dispatch. */
 s32 func_8004491C(struct ObjectNodeHeader *entry, void *registration_id);
-s32 register_node(struct ObjectNodeHeader *entry, void *registration_id);
 
 /* register_node_if_unregistered.c */
 void func_80033CD8(void *block_data, void *registration_id);
@@ -46,7 +46,6 @@ void unlink_node(struct ObjectNodeHeader *node);
 
 /* unlink_node_if_registered.c */
 void func_80033D08(void *block_data);
-void unlink_node_if_registered(void *block_data);
 
 /* update_active_nodes.c */
 void update_active_nodes(void);

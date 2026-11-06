@@ -54,9 +54,9 @@ void update_actor_target_after_check(ActorRecord *state, ObjectPosition *motion,
 void advance_actor_movement_to_tile(ActorRecord *entity_ptr, void *input_arg_1, void *input_arg_2, struct ActorRecord *actor_ptr);
 
 
-/* The trail callbacks keep seven 8-byte samples at work +0x24. Their motion
- * and brightness arithmetic reads the same halves signed and unsigned; the
- * views below preserve those access widths without recasting each access. */
+/* Creators initialize eight 8-byte trail samples at work +0x24; callbacks
+ * consume the first seven. Motion and brightness fields retain their signed
+ * and unsigned access widths. */
 typedef union TrailHalf { s16 s; u16 u; u8 byte; } TrailHalf;
 typedef union TrailCoord {
     s32 value;
@@ -64,15 +64,14 @@ typedef union TrailCoord {
 } TrailCoord;
 typedef struct TrailVector { TrailCoord x, y, z; } TrailVector;
 typedef struct TrailMotion { TrailVector position, velocity; } TrailMotion;
-typedef struct TrailPoint { TrailHalf x, y, z; u16 pad; } TrailPoint;
+typedef struct TrailPoint { u16 x, y, z, pad; } TrailPoint;
 typedef struct ActorTrailWork {
     /* 0x00 */ TrailMotion *target;
     /* 0x04 */ ActorRecord *owner;
     /* 0x08 */ ObjectNodeHeader *follow;
     /* 0x0C */ TrailVector position;
     /* 0x18 */ TrailVector previous;
-    /* 0x24 */ TrailPoint history[7];
-    u8 pad_5C[8];
+    /* 0x24 */ TrailPoint history[8];
     /* 0x64 */ TrailHalf state, timer;
     /* 0x68 */ u16 ticks;
     /* 0x6A */ TrailHalf brightness;

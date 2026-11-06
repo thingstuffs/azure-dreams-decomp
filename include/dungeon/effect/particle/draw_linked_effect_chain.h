@@ -166,7 +166,7 @@ typedef struct Row_819A0EF0_S_800246F0_0_pre {
 
 typedef struct RotatingDirectionalSpriteBody {
     u8 pad_00[0x3A];
-    union { u16 s; s16 u; } unk_3A;   /* accessed as both */
+    u16 unk_3A;
     s16 unk_3C;
 } RotatingDirectionalSpriteBody;
 
@@ -203,7 +203,7 @@ typedef struct Row_819A0FC0_S_func_819A0FC0_2 {
 // Decrement the fade timer, update the primitive's brightness, and flag completion.
 typedef struct Row_819A1034_S_819A1034_0 {
     u8 pad_00[0x3A];
-    union { u16 s; s16 u; } unk_3A;   /* accessed as both */
+    u16 unk_3A;
     s16 unk_3C;
 } Row_819A1034_S_819A1034_0;   /* base in func_80024834 */
 
@@ -340,10 +340,10 @@ typedef struct EntityEffectSequencePrefix {
     s32 value24;
     s32 value28;
     u8 pad2C[0xE];
-    union { s16 s; u16 u; } timer3A;
+    s16 timer3A;
     s16 timer3C;
     s16 mode3E;
-    union { s16 s; u16 u; } random40;
+    s16 random40;
     u8 pad42[0x12];
     s16 path[18];
 } EntityEffectSequencePrefix;

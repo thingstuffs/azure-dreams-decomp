@@ -1,5 +1,6 @@
 #include "shared/actor_status_ids.h"
 #include "common.h"
+#include "engine/entity/effect_slots.h"
 #include "shared/entity_objects.h"
 #include "shared/object_flags.h"
 #include "shared/dungeon_status.h"
@@ -16,7 +17,6 @@ struct EntityLinkNode;
 
 void unlink_entity_node(struct EntityLinkNode *node); /* extern */
 void update_map_cell_flags_with_item_limit(s32 x, s32 y, u16 flags);
-s32 get_entity_effect_value(ActorRecord *entry, s32 effect_id);
 
 typedef struct S_800AD058_1 {
     u8 pad_00[0xC];

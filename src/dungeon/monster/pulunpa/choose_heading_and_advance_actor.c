@@ -1,4 +1,5 @@
 #include "common.h"
+#include "dungeon/system/random.h"
 #include "shared/dungeon_floor.h"
 #include "shared/entity.h"
 #include "shared/record_ptrs.h"
@@ -62,7 +63,6 @@ typedef struct S_8017405C_10 {
 
 
 extern void update_actor_status_and_mp(ActorRecord *entity);
-extern s32 generate_random_value(void);
 extern s16 check_movement_clearance_and_height(s16, void *, void *, s32);
 extern s16 get_actor_height_difference(ActorRecord *left_record, ActorRecord *right_record);
 extern s16 check_diagonal_side_height(s32, s32, s32, s32);

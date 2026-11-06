@@ -1,5 +1,6 @@
 #include "shared/entity.h"
 #include "common.h"
+#include "engine/graphics/select_sprite_entry_api.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/tile_object.h"
 #include "shared/game_work.h"
@@ -46,7 +47,6 @@ struct Aux {
 };
 
 struct SpriteFrameState;
-extern void select_sprite_entry(void *, s16, s16);
 extern void update_actor_status_and_mp(Entity *);
 extern void advance_actor_movement_step(ActorRecord *movement_in, ObjectPosition *action_ctx, SpriteFrameState *position, ActorRecord *actor);
 extern void complete_actor_facing_action(Entity *, ObjectPosition *, Aux *, Entity *); /* Unprototyped: uses the value as a pointer where the definition has an integer (or the reverse) */

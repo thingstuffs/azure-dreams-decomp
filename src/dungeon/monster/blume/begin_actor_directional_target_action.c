@@ -1,4 +1,5 @@
 #include "common.h"
+#include "engine/graphics/select_sprite_entry_api.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
@@ -22,7 +23,6 @@ typedef struct {
 
 
 struct SpriteFrameState;
-void select_sprite_entry(void *, s16, s16);
 void *find_eligible_actor_at_tile_and_height();
 extern u8 D_80175414;
 

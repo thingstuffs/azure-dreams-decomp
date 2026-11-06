@@ -1,6 +1,7 @@
 #include "shared/object_node.h"
 #include "shared/actor_status_ids.h"
 #include "common.h"
+#include "dungeon/system/random.h"
 #include "dungeon/monster/kewne.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/tile_object.h"
@@ -14,7 +15,6 @@
 #include "engine/entity.h"
 
 
-extern s32 get_entity_effect_value(ActorRecord *entry, s32 effect_id);
 extern void select_sprite_entry(void *, u8, s32);
 extern s32 get_tile_chebyshev_distance(void *, void *);
 #include "dungeon/player/object/action_state.h"
@@ -22,7 +22,6 @@ extern s32 get_tile_chebyshev_distance(void *, void *);
 #include "dungeon/actor/motion.h"
 #include "dungeon/monster/kewne_frames.h"
 
-extern s32 generate_random_value(void);
 extern void update_actor_status_and_mp(ActorRecord *entity);
 extern void update_actor_state_after_map_check(void *, ObjectPosition *, void *, ActorRecord *);
 

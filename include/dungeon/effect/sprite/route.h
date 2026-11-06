@@ -97,7 +97,7 @@ typedef struct B32_818CFB74_Spawned {
     u8 pad0[8];
     ObjectPosition *position8;
     B32_818CFB74_Graphic *graphicC;
-    void (*update10)(void *, ObjectPosition *, struct B32_818CF0E8_S_818CF0E8_3 *);
+    void (*update10)(struct B32_818CF0E8_S_818CF0E8_0 *, ObjectPosition *, struct B32_818CF0E8_S_818CF0E8_3 *);
     u8 pad14[0xA];
     u16 flags1E;
     B32_818CFB74_SpawnData data20;
@@ -337,7 +337,7 @@ void create_jittered_terrain_seeking_point( void *source, s16 field_34, s32 fiel
 void move_and_grow_timed_sprite(GrowingTimedSpriteBody *state, void *position, SpriteFrameState *object);
 void update_actor_effect_sequence(ChasingStarEffectBody *record);
 void advance_damped_ground_sliding_sprite(B32_818CEDC8_S_818CEDC8_1 *state, B32_818CEDC8_S_818CEDC8_0 *position, SpriteFrameState *sprite);
-void update_chasing_star_effect(void *entity, ObjectPosition *pos, B32_818CF0E8_S_818CF0E8_3 *gfx);
+void update_chasing_star_effect(B32_818CF0E8_S_818CF0E8_0 *entity, ObjectPosition *pos, B32_818CF0E8_S_818CF0E8_3 *gfx);
 void follow_entity_effect_and_cleanup(B32_818CFB74_State *state, B32_818CFB74_Vec12 *position, B32_818CFB74_Graphic *graphic);
 void *allocate_list_node(s32, ObjectNodeHeader **);
 ObjectNodeHeader *func_8003FD64(s32, ObjectNodeHeader **);

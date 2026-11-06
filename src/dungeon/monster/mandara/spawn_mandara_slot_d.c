@@ -1,5 +1,6 @@
 /* cfail-repair: tf7-phase1-cache-v3 */
 #include "shared/entity.h"
+#include "dungeon/system/random.h"
 #include "dungeon/monster/mandara/spawn_api_slot_d.h"
 #include "shared/monster_ids.h"
 #include "shared/sprite_frame_state.h"
@@ -12,7 +13,6 @@
 #include "sdk/libgpu.h"
 
 extern void set_or_clear_actor_status_slot(void *, s32, s32);
-extern s32 generate_random_value(void);
 extern s32 try_move_actor_to_valid_position(void *, void *, void *, void *);
 extern u8 D_8015EB40[];
 extern u8 D_8015EF6C[];

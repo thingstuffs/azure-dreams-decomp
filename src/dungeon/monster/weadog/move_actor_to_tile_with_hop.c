@@ -19,7 +19,7 @@ extern u8 D_80162EB8[];
 extern u8 D_80162ED0[];
 
 /* Moves an actor to its tile with a timed hop, updates animation, and completes the action. */
-void move_actor_to_tile_with_hop(void *action, void *motion, void *sprite, void *actor)
+void move_actor_to_tile_with_hop(void *action, ObjectPosition *motion, SpriteFrameState *sprite, void *actor)
 {
     u16 direction_aux;
     s32 state;
@@ -41,7 +41,7 @@ void move_actor_to_tile_with_hop(void *action, void *motion, void *sprite, void 
             break;
         }
 
-        ((SpriteFrameState *)sprite)->frameTable = D_80162ED0;
+        sprite->frameTable = D_80162ED0;
         select_sprite_entry(
             sprite,
             D_80162ED0[((g_game_work.view.camera_rotation.parts.viewAngle + ((ActorRecord *)actor)->facing + 0x100) >> 9) & 7],
@@ -56,16 +56,16 @@ void move_actor_to_tile_with_hop(void *action, void *motion, void *sprite, void 
         move_ticks = ((ActorRecord *)action)->unk_9E.s;
         ((ActorRecord *)action)->unk_90.value -= ((ActorRecord *)action)->unk_A0.value;
         if (move_ticks != 0) {
-            target_x = ((SpriteFrameState *)sprite)->tile_x;
-            pos_x = ((ObjectPosition *)motion)->x.w.i;
+            target_x = sprite->tile_x;
+            pos_x = motion->x.w.i;
             target_x <<= 6;
             pos_x -= 0x20;
-            ((ObjectPosition *)motion)->velocity_x = ((target_x - pos_x) << 16) / move_ticks;
+            motion->velocity_x = ((target_x - pos_x) << 16) / move_ticks;
 
-            pos_y = ((ObjectPosition *)motion)->y.w.i;
+            pos_y = motion->y.w.i;
             pos_y -= 0x20;
-            ((ObjectPosition *)motion)->velocity_y =
-                (((((SpriteFrameState *)sprite)->tile_y << 6) - pos_y) << 16) /
+            motion->velocity_y =
+                (((sprite->tile_y << 6) - pos_y) << 16) /
                 ((ActorRecord *)action)->unk_9E.s;
             ((ActorRecord *)action)->unk_A0.value =
                 (-rsin(((ActorRecord *)action)->unk_9E.s * 0x199)) << 10;
@@ -84,12 +84,12 @@ void move_actor_to_tile_with_hop(void *action, void *motion, void *sprite, void 
     case 2:
         if (((u32)((ActorRecord *)actor)->flags1C) & 0x08000000) {
             ((ActorRecord *)action)->action_state_flags &= 0xFFF7;
-            ((ObjectPosition *)motion)->velocity_z = 0;
-            ((ObjectPosition *)motion)->velocity_y = 0;
-            ((ObjectPosition *)motion)->velocity_x = 0;
-            set_record_integer_tile_center(motion, ((SpriteFrameState *)sprite)->tile_x, ((SpriteFrameState *)sprite)->tile_y);
+            motion->velocity_z = 0;
+            motion->velocity_y = 0;
+            motion->velocity_x = 0;
+            set_record_integer_tile_center(motion, sprite->tile_x, sprite->tile_y);
 
-            ((SpriteFrameState *)sprite)->frameTable = weadog_frame_set_6;
+            sprite->frameTable = weadog_frame_set_6;
             select_sprite_entry(
                 sprite,
                 weadog_frame_set_6[((g_game_work.view.camera_rotation.parts.viewAngle + ((ActorRecord *)actor)->facing + 0x100) >> 9) & 7],
@@ -100,8 +100,8 @@ void move_actor_to_tile_with_hop(void *action, void *motion, void *sprite, void 
 
     case 3:
         anim_table = D_80162EB8;
-        if (*(u8 * *)&((SpriteFrameState *)sprite)->frameTable != anim_table) {
-            ((SpriteFrameState *)sprite)->frameTable = anim_table;
+        if (*(u8 * *)&sprite->frameTable != anim_table) {
+            sprite->frameTable = anim_table;
             select_sprite_entry(
                 sprite,
                 anim_table[((g_game_work.view.camera_rotation.parts.viewAngle + ((ActorRecord *)actor)->facing + 0x100) >> 9) & 7],
@@ -118,10 +118,10 @@ void move_actor_to_tile_with_hop(void *action, void *motion, void *sprite, void 
         return;
     }
 
-    ((ObjectPosition *)motion)->velocity_z = 0;
-    ((ObjectPosition *)motion)->velocity_y = 0;
-    ((ObjectPosition *)motion)->velocity_x = 0;
-    set_record_integer_tile_center(motion, ((SpriteFrameState *)sprite)->tile_x, ((SpriteFrameState *)sprite)->tile_y);
+    motion->velocity_z = 0;
+    motion->velocity_y = 0;
+    motion->velocity_x = 0;
+    set_record_integer_tile_center(motion, sprite->tile_x, sprite->tile_y);
     spend_actor_mp(actor, 4);
     advance_status_timers(actor);
 
@@ -137,7 +137,7 @@ void move_actor_to_tile_with_hop(void *action, void *motion, void *sprite, void 
     } else if (!(actor_flags & 0x410)) {
         if (actor_flags & 0x20000) {
             ((ActorRecord *)actor)->facing = get_rounded_facing_and_rounding_flag(
-                ((SpriteFrameState *)sprite)->tile_x, ((SpriteFrameState *)sprite)->tile_y,
+                sprite->tile_x, sprite->tile_y,
                 reference_tile_object.tile_position.parts.tile_x, reference_tile_object.tile_position.parts.tile_y, &direction_aux);
         }
     }

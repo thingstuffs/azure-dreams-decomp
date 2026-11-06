@@ -3,6 +3,7 @@
 #include "shared/actor_property_flags.h"
 #include "shared/actor_status_ids.h"
 #include "common.h"
+#include "dungeon/system/random.h"
 #include "shared/monster_ids.h"
 #include "shared/entity.h"
 #include "shared/sprite_frame_state.h"
@@ -20,7 +21,6 @@ typedef struct S_80170890_5 {
     u16 unk_00;
 } S_80170890_5;   /* (u8 *)(((index + count) << 2) + (u32)table) + 6 in create_flagged_dungeon_actor_object */
 
-extern s32 generate_random_value(void);
 
 extern u8 D_80170AE8[];
 extern u8 cyclone_move_direction_frames[];

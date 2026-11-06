@@ -1,6 +1,7 @@
 #include "dungeon/actor.h"
 #include "engine/graphics.h"
 #include "common.h"
+#include "engine/node/registration.h"
 #include "shared/actor_action_flags.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/object_node.h"
@@ -33,7 +34,6 @@ extern Vec3sTable D_80170838;
 extern Vec3sTable D_8017084C;
 extern u8 viper_action_continuation_address[];
 extern void *actor_update_node_cursor[];
-s32 register_node(ObjectNodeHeader *entry, void *registration_id);
 extern s32 draw_fading_linked_quads();
 extern u8 D_80174A8C;
 extern u8 D_80174A94;

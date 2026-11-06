@@ -37,13 +37,13 @@ extern u8 D_80163CA0[];
 extern u8 D_80163CA8[];
 
 /* Updates actor animation, dispatches its action state, and adjusts facing toward the player. */
-void update_actor_animation_dispatches_action_state_adjusts_facing_toward_player(void *actor, ObjectPosition *actor_aux, SpriteFrameState *sprite, ActorRecord *entity) {
+void update_actor_animation_dispatches_action_state_adjusts_facing_toward_player(ActorRecord *actor, ObjectPosition *actor_aux, SpriteFrameState *sprite, ActorRecord *entity) {
     u16 direction_aux;
     s8 room_id;
     u16 action_state;
 
     if (g_dungeon_status.flags & 0x1000) {
-        ((ActorRecord *)actor)->action_id.u = 0xE;
+        actor->action_id.u = 0xE;
         advance_actor_path_and_facing(actor, actor_aux, sprite, entity);
         return;
     }
@@ -64,9 +64,9 @@ void update_actor_animation_dispatches_action_state_adjusts_facing_toward_player
 
     if (((u32)entity->flags1C) & ACTOR_ASLEEP) {
         if (sprite->frameTable == D_80163C90) {
-            ((ActorRecord *)actor)->action_id.u = 0xD;
-            ((ActorRecord *)actor)->action_phase.u = 1;
-            ((ActorRecord *)actor)->unk_8C.word = 0;
+            actor->action_id.u = 0xD;
+            actor->action_phase.u = 1;
+            actor->unk_8C.word = 0;
             entity->flags1C &= 0xFFFBFFFF;
             return;
         }
@@ -82,13 +82,13 @@ void update_actor_animation_dispatches_action_state_adjusts_facing_toward_player
         }
 
         {
-            u8 current_state = ((ActorRecord *)actor)->action_id.u;
+            u8 current_state = actor->action_id.u;
             u32 next_state = 0xE;
             void *current_anim;
 
             if (current_state != next_state) {
-                ((ActorRecord *)actor)->action_id.u = next_state;
-                ((ActorRecord *)actor)->unk_B4.halves.high.s = 0;
+                actor->action_id.u = next_state;
+                actor->unk_B4.halves.high.s = 0;
             }
             current_anim = sprite->frameTable;
             if (current_anim != D_80163CA8 || (sprite->flags & 0xE000)) {
@@ -108,14 +108,14 @@ void update_actor_animation_dispatches_action_state_adjusts_facing_toward_player
                         0);
                 }
                 sprite->frame_ticks = 1;
-                ((ActorRecord *)actor)->unk_A0.halves.high.s = 0;
-                ((ActorRecord *)actor)->unk_9E.s = 0;
+                actor->unk_A0.halves.high.s = 0;
+                actor->unk_9E.s = 0;
             }
         }
 table_done:
 
         (*(u32 *)&entity->flags1C) |= 0x40000;
-        ((ActorRecord *)actor)->action_state_flags &= 0xFFF7;
+        actor->action_state_flags &= 0xFFF7;
 
         if (entity->hp_delta != 0) {
             if (begin_ready_actor_directional_action(actor, actor_aux, sprite, D_80163C38) != 0) {
@@ -127,10 +127,10 @@ table_done:
             s16 base_height;
 
             begin_actor_move_to_target_facing(actor, actor_aux, sprite, entity);
-            base_height = ((ActorRecord *)actor)->unk_90.parts.high.u - ((ActorRecord *)actor)->unk_A0.parts.high;
-            ((ActorRecord *)actor)->unk_A0.halves.high.s = 0;
-            ((ActorRecord *)actor)->unk_9E.s = 0;
-            ((ActorRecord *)actor)->unk_90.parts.high.s = base_height;
+            base_height = actor->unk_90.parts.high.u - actor->unk_A0.parts.high;
+            actor->unk_A0.halves.high.s = 0;
+            actor->unk_9E.s = 0;
+            actor->unk_90.parts.high.s = base_height;
             func_80163078(actor, actor_aux, sprite, entity);
             return;
         }

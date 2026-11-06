@@ -1,6 +1,9 @@
 #include "shared/actor_status_flags.h"
 #include "shared/actor_status_ids.h"
 #include "common.h"
+#include "engine/entity/effect_slots.h"
+#include "engine/graphics/select_sprite_entry_api.h"
+#include "dungeon/system/random.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/object_node.h"
 #include "shared/tile_object.h"
@@ -24,9 +27,6 @@ typedef struct S_8017382C_3 {
 } S_8017382C_3;   /* entry in advance_actor_entry_active_exit_states */
 
 
-extern s32 get_entity_effect_value(ActorRecord *entry, s32 effect_id);
-extern void clear_slots_of_type(ActorRecord *owner, s8 match_type);
-extern void select_sprite_entry(void *, s16, s16);
 extern s16 get_tile_chebyshev_distance(void *, void *);
 #include "dungeon/player/object/action_state.h"
 #include "dungeon/actor.h"
@@ -36,7 +36,6 @@ extern s16 get_tile_chebyshev_distance(void *, void *);
 #include "dungeon.h"
 #include "dungeon/monster/mandara_frames.h"
 
-extern s32 generate_random_value(void);
 extern void update_actor_status_and_mp(ActorRecord *entity);
 extern void func_80174250(void *, void *, void *, void *);
 

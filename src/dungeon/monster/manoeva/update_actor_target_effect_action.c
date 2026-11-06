@@ -44,7 +44,6 @@ typedef struct S_80173D78_5 {
 extern u8 D_8017086C[];
 extern u8 D_80170898[];
 
-s32 register_node(ObjectNodeHeader *entry, void *registration_id);
 void unlink_entity_node();
 void update_map_cell_flags_with_item_limit(s32 x, s32 y, u16 flags);
 void *find_eligible_actor_at_tile_and_height();

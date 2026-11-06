@@ -3,6 +3,7 @@
 #include "shared/actor_property_flags.h"
 #include "shared/actor_status_ids.h"
 #include "common.h"
+#include "dungeon/system/random.h"
 #include "shared/monster_ids.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/object_node.h"
@@ -16,7 +17,6 @@
 
 
 
-extern s32 generate_random_value(void);
 extern u8 D_80158A50[];
 extern u8 griffon_slot_c_action_callback;
 extern u8 D_8015CC3C[];

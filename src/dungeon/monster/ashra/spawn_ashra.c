@@ -1,4 +1,5 @@
 #include "dungeon/monster/ashra.h"
+#include "dungeon/system/random.h"
 #include "shared/actor_status_flags.h"
 #include "shared/actor_status_ids.h"
 #include "shared/monster_ids.h"
@@ -13,7 +14,6 @@
 /* dragon.h owns these declarations but also declares a different
  * advance_actor_attack_and_resolve_damage than ashra.h, so the two headers
  * cannot be combined in this file. */
-extern s32 generate_random_value(void);
 extern s32 try_move_actor_to_valid_position(void *,void *,void *,void *);
 extern void update_entity_facing_motion_and_ground(void *entity, void *motion, SpriteFrameState *part);
 extern void dispatch_monster_move_attack_spell(ActorRecord *controller, ObjectPosition *context, SpriteFrameState *entity, ActorRecord *actor_state);

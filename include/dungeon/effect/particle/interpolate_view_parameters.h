@@ -15,12 +15,12 @@ typedef struct B31_818C8FD0_S_func_818C8FD0_1 {
     void *unk_04;
     u8 pad_08[1];
     u8 unk_09;
-    union { s16 s16; u16 u16; } unk_0A;
+    u16 unk_0A;
     u8 pad_0C[0x72];
-    union { s16 s16; u16 u16; } unk_7E;
+    s16 unk_7E;
     u8 pad_80[2];
     u16 unk_82;
-    union { s16 s16; u16 u16; } unk_84;
+    u16 unk_84;
     s16 unk_86;
     s16 unk_88;
     u8 pad_8A[0x16];
@@ -67,7 +67,7 @@ typedef struct B31_818C8FD0_S_func_818C8FD0_6 {
 } B31_818C8FD0_S_func_818C8FD0_6;
 typedef struct B31_818C8FD0_S_func_818C8FD0_7 {
     u8 pad_00[2];
-    union { s16 s16; u16 u16; } unk_02;
+    s16 unk_02;
     u8 pad_04[4];
     s16 unk_08;
     s16 unk_0A;

@@ -4,6 +4,7 @@
 #include "shared/actor_status_ids.h"
 #include "shared/sprite_frame_state.h"
 #include "common.h"
+#include "engine/node/registration.h"
 #include "shared/monster_ids.h"
 #include "shared/object_node.h"
 #include "shared/slus_callbacks.h"
@@ -45,7 +46,6 @@ typedef struct S_8017086C_6 {
 } S_8017086C_6;   /* child in update_actor_action_controller */
 
 
-extern s32 register_node(ObjectNodeHeader *entry, void *registration_id);
 extern s32 generate_random_value(void); /* Retail RNG reads no argument registers. */
 extern void initialize_actor_sprite_and_animation();
 

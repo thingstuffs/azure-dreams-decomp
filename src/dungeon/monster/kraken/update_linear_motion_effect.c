@@ -1,5 +1,6 @@
 #include "shared/sprite_frame_state.h"
 #include "common.h"
+#include "slus/imports.h"
 #include "shared/object_flags.h"
 
 typedef struct {
@@ -16,7 +17,6 @@ typedef struct {
     u16 timer;
 } EffectState;
 
-extern void advance_sprite_animation_and_textures(void *update_data);
 
 /* Advance effect motion, update its data, and set expiry flags when its timer runs out. */
 void update_linear_motion_effect(EffectState *effect, VecState *motion, SpriteFrameState *update_data) {

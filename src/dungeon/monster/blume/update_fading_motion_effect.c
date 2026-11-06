@@ -7,10 +7,7 @@
 #include "shared/object_node.h"
 
 /* Update the effect countdown and motion, fade its color, and flag expiration. */
-void update_fading_motion_effect(BlumeFadingMotionBody *effect_arg, ObjectPosition *transform_arg, SpriteFrameState *color_arg) {
-    SpriteFrameState *color = color_arg;
-    ObjectPosition *transform = transform_arg;
-    BlumeFadingMotionBody *effect = effect_arg;
+void update_fading_motion_effect(BlumeFadingMotionBody *effect, ObjectPosition *transform, SpriteFrameState *color) {
     u16 next_value;
     u16 next_total;
     s16 ticks_left;

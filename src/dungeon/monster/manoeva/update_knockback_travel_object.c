@@ -1,4 +1,5 @@
 #include "common.h"
+#include "slus/imports.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/game_work.h"
 #include "shared/object_flags.h"
@@ -65,7 +66,6 @@ extern s8 entity_spawn_variant_code;
 extern u8 manoeva_frame_set_2[];
 
 extern void select_sprite_entry(void *, s32, s32);
-extern void advance_sprite_animation_and_textures(void *);
 
 /* Advances the motion arc and creates a linked object when the arrival effect completes. */
 void update_knockback_travel_object(KnockbackTravelObjectBody *motion, void *position_arg, SpriteFrameState *record)

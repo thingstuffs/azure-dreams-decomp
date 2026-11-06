@@ -4,6 +4,7 @@
 #include "shared/actor_status_ids.h"
 /* cfail-repair: tf7-phase1-cache-v3 */
 #include "common.h"
+#include "dungeon/system/random.h"
 #include "shared/monster_ids.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/object_node.h"
@@ -45,7 +46,6 @@ typedef struct S_80FD5000_4 {
     u16 unk_06;
 } S_80FD5000_4;
 
-s32 generate_random_value(void);
 extern M2C_UNK D_8014CB40;
 void update_creature_action_and_animation(ActorRecord *self_object, ObjectPosition *aux_entity, SpriteFrameState *sprite, ActorRecord *entity);
 extern M2C_UNK D_80151258;

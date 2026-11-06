@@ -8,6 +8,8 @@
 #include "dungeon/actor.h"
 #include "engine/cd.h"
 #include "common.h"
+#include "engine/entity/effect_slots.h"
+#include "dungeon/system/random.h"
 #include "shared/actor_action_flags.h"
 #include "shared/monster_ids.h"
 #include "dungeon/monster/zu.h"
@@ -37,7 +39,6 @@ struct SpriteFrameState;
 
 
 
-extern s32 generate_random_value(void);
 extern void initialize_actor_sprite_and_animation(void *entity, void *position, SpriteFrameState *sprite, s32 init_flags);
 
 /* Spawn this overlay's 0x112 object: fill its two sub-parts from kind_id/variant/spawn_value, apply the 0x6000 or 0x2000 flag pair the low two bits of flags select (or the random 0x20-mask variant), and run the two setup calls. */
@@ -639,7 +640,6 @@ void advance_bank_actor_path(ActorRecord *body, ObjectPosition *position, Sprite
 extern void update_actor_status_and_mp(ActorRecord *entity);
 extern s32 update_actor_proximity_flag(void *source, void *state, s32 lower_limit, s32 upper_limit, s8 *result);
 extern void *find_adjacent_actor(void *entity, u16 x, u16 y);
-extern s32 generate_random_value(void);
 extern s16 check_diagonal_side_height(s32 direction, s16 tile_x, s16 tile_y, s16 height);
 extern s32 select_actor_route_target(u8 *actor_held, s32 kind, u8 *work_p, u16 *out);
 extern s16 check_directional_move_and_terrain(s16, void *, void *, s32);
@@ -1696,7 +1696,7 @@ extern void distribute_experience_and_report_gains(EntityRec *entity);
 extern void * detach_record_and_update_slot_state(void *record);
 
 /* Advance the object removal animation, fade its sprite, and release it when finished. */
-void slow_directional_motion(void *effect_data, void *motion_data_arg, void *sprite_data, void *object_data) {
+void slow_directional_motion(ActorRecord *effect_data, void *motion_data_arg, SpriteFrameState *sprite_data, void *object_data) {
     S_80173294_1 *motion_data = motion_data_arg;
     s32 direction_offset;
     s32 direction_x;
@@ -1714,7 +1714,7 @@ void slow_directional_motion(void *effect_data, void *motion_data_arg, void *spr
     motion_step = 0xC000;
     motion_value = (motion_data->unk_14) + motion_step;
     motion_data->unk_14 = motion_value;
-    state = ((ActorRecord *)effect_data)->action_phase.u;
+    state = effect_data->action_phase.u;
 
     switch (state) {
     case 0:
@@ -1727,7 +1727,7 @@ void slow_directional_motion(void *effect_data, void *motion_data_arg, void *spr
         motion_data->unk_14 = state;
         if (g_dungeon_status.activity_counts.parts.pending_action_count != 0)
             return;
-        ((ActorRecord *)effect_data)->action_phase.u++;
+        effect_data->action_phase.u++;
                         /* fall through */
     case 1:
     {
@@ -1746,30 +1746,30 @@ void slow_directional_motion(void *effect_data, void *motion_data_arg, void *spr
         }
         play_sound_if_enabled(0x805);
         clear_bit_27 = 0xF7FFFFFF;
-        status = ((ActorRecord *)effect_data)->action_state_flags;
+        status = effect_data->action_state_flags;
         clear_bit_18 = 0xFFFBFFFF;
         status |= 8;
-        ((ActorRecord *)effect_data)->action_state_flags = status;
+        effect_data->action_state_flags = status;
         object_flags = ((ActorRecord *)object_data)->flags1C;
         object_flags &= clear_bit_27;
         object_flags &= clear_bit_18;
         ((ActorRecord *)object_data)->flags1C = object_flags;
 
-        ((SpriteFrameState *)sprite_data)->tpage_abr = 0x60;
-        sprite_x = ((SpriteFrameState *)sprite_data)->clut;
-        sprite_flags = ((SpriteFrameState *)sprite_data)->flags;
+        sprite_data->tpage_abr = 0x60;
+        sprite_x = sprite_data->clut;
+        sprite_flags = sprite_data->flags;
         sprite_x -= 0x80;
         sprite_flags |= 0xC;
-        ((SpriteFrameState *)sprite_data)->clut = sprite_x;
-        ((SpriteFrameState *)sprite_data)->flags = sprite_flags;
-        ((ActorRecord *)effect_data)->action_phase.u++;
+        sprite_data->clut = sprite_x;
+        sprite_data->flags = sprite_flags;
+        effect_data->action_phase.u++;
         return;
     }
     case 2:
-        if (!(((SpriteFrameState *)sprite_data)->flags & 0x6000))
+        if (!(sprite_data->flags & 0x6000))
             return;
-        ((ActorRecord *)effect_data)->action_timer.s = 0x80;
-        ((ActorRecord *)effect_data)->action_phase.u++;
+        effect_data->action_timer.s = 0x80;
+        effect_data->action_phase.u++;
         return;
     case 3:
     {
@@ -1782,12 +1782,12 @@ void slow_directional_motion(void *effect_data, void *motion_data_arg, void *spr
         u8 tile_y;
 
         ((ActorRecord *)object_data)->flags1C |= 0x10000000;
-        brightness = ((ActorRecord *)effect_data)->action_timer.bytes[0];
-        ((SpriteFrameState *)sprite_data)->color.c.b = brightness;
-        ((SpriteFrameState *)sprite_data)->color.c.g = brightness;
-        ((SpriteFrameState *)sprite_data)->color.c.r = brightness;
-        fade_level = ((ActorRecord *)effect_data)->action_timer.u - 0x10;
-        ((ActorRecord *)effect_data)->action_timer.u = fade_level;
+        brightness = effect_data->action_timer.bytes[0];
+        sprite_data->color.c.b = brightness;
+        sprite_data->color.c.g = brightness;
+        sprite_data->color.c.r = brightness;
+        fade_level = effect_data->action_timer.u - 0x10;
+        effect_data->action_timer.u = fade_level;
         if ((s16)fade_level >= 0x10)
             return;
         linked_object = ((s32)g_dungeon_status.pending_display_owner);
@@ -1796,8 +1796,8 @@ void slow_directional_motion(void *effect_data, void *motion_data_arg, void *spr
         distribute_experience_and_report_gains(object_data);
         detach_record_and_update_slot_state(object_data);
         flags = ((ActorRecord *)object_data)->flags1C;
-        tile_x = ((SpriteFrameState *)sprite_data)->tile_x;
-        tile_y = ((SpriteFrameState *)sprite_data)->tile_y;
+        tile_x = sprite_data->tile_x;
+        tile_y = sprite_data->tile_y;
         tile_mask = 0x3000;
         if (flags & 0x2000)
             tile_mask = 0x300;
@@ -1857,11 +1857,8 @@ void restore_bank_actor_callback_a(ActorRecord *state, ObjectPosition *action, S
 
    /* counter_base in handle_actor_action_effects */
 
-extern s32 get_entity_effect_value(ActorRecord *entry, s32 effect_id);
-extern void clear_slots_of_type(ActorRecord *owner, s8 match_type);
 extern s32 get_tile_chebyshev_distance(void *, void *);
 
-extern s32 generate_random_value(void);
 extern void update_actor_status_and_mp(ActorRecord *entity);
 extern void begin_actor_move_to_target_facing(ActorRecord *body, ObjectPosition *position, SpriteFrameState *sprite, ActorRecord *actor);
 extern u8 D_80174B04[];
@@ -2325,7 +2322,6 @@ extern u8 *clear_byte_and_advance(s8 *byte_ptr);
 extern u8 *append_entity_display_text(void *record, u8 *out);
 
 extern s32 display_text_with_fullwidth_adjustment(s8 *text);
-extern s32 generate_random_value(void);
 
 const u8 D_80170854[20] = {129,64,130,146,130,143,130,129,130,146,130,133,130,132,129,68,0,0,0,0};
 extern u8 D_80174B0C[];

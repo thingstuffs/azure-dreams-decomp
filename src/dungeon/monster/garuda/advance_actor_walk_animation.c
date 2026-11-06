@@ -1,4 +1,5 @@
 #include "common.h"
+#include "engine/graphics/select_sprite_entry_api.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
@@ -20,7 +21,6 @@ typedef struct S_801722E0_2 {
     void * unk_A8;
 } S_801722E0_2;
 
-extern void select_sprite_entry(void *object, s16 table_index, s16 entry_index);
 #include "dungeon/player/object/action_state.h"
 #include "dungeon/data.h"
 

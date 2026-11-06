@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_node.h"
 
 #include "common.h"
 #include "engine/node.h"
@@ -22,6 +23,7 @@ typedef struct RuntimeObject {
 void update_window_state(RuntimeObject *object, s32 handler_arg1, s32 handler_arg2, s32 state)
 {
     u8 *entry;
+    ObjectNodeHeader *node;
     s32 unset = 0xFF;
 
     if (object->active != 0) {
@@ -33,9 +35,9 @@ void update_window_state(RuntimeObject *object, s32 handler_arg1, s32 handler_ar
             entry[0x50] = 1;
             runtime_clear_value(object->sub);
             runtime_unlink_doubly_linked_node((u8 *)object + 0x54);
-            object = (RuntimeObject *)((u8 *)object - 0x20);
-            unlink_node(object);
-            unlink_active_node(object);
+            node = NODE_HEADER(object);
+            unlink_node(node);
+            unlink_active_node(node);
             return;
         }
 

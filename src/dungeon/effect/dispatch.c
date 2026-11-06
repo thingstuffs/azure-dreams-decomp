@@ -13,6 +13,7 @@ struct ObjectPosition;
 #include "dungeon/effect/dispatch.h"
 #include "shared/gpu_packets.h"
 #include "common.h"
+#include "dungeon/system/random.h"
 #include "shared/game_work.h"
 #include "dungeon/effect.h"
 #include "dungeon/item.h"
@@ -579,7 +580,6 @@ s32 get_entity_class();
 struct EntityLinkNode;
 void unlink_entity_node(struct EntityLinkNode *node);
 void update_map_cell_flags_with_item_limit(s32 x, s32 y, u16 flags);
-s32 generate_random_value(void);
 void process_active_slots_at_coordinates(s16, s16);
 
 #define CELL(xx, yy) (cells + 6 * ((xx) + ((yy) << *(s16 *)(fld + 20))))

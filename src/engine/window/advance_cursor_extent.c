@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_node.h"
 
 #include "common.h"
 #include "engine/node.h"
@@ -25,7 +26,7 @@ void advance_cursor_extent(S_80036900 *state)
 {
     state->sub->value += 0x100;
     if ((s16)state->sub->value >= 0x401) {
-        unlink_node((u8 *)state - 0x20);
+        unlink_node(NODE_HEADER(state));
         state->handler = noop_after_cursor_extent_completion;
         {
             u8 *base;

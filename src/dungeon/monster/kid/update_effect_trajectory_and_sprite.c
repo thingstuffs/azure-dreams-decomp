@@ -1,4 +1,5 @@
 #include "common.h"
+#include "slus/imports.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/object_flags.h"
 #include "records/Rec_D_80082E80.h"
@@ -36,7 +37,6 @@ typedef struct {
     u16 pad;
 } OutputVector;
 
-extern void advance_sprite_animation_and_textures(void *);
 extern void transform_rotated_vertices(void *);
 
 /* Update the effect trajectory and sprite, then flag completion when its animation ends. */

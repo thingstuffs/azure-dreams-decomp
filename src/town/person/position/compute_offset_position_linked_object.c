@@ -1,4 +1,5 @@
 #include "common.h"
+#include "engine/node/registration.h"
 #include "shared/object_flags.h"
 #include "shared/vector.h"
 #include "town/person/position.h"
@@ -6,7 +7,6 @@
 #include "sdk/libgte.h"
 
 extern s32 check_actor_data_references_match(void *actor);
-extern void unlink_node_if_registered(void *object);
 
 /* Computes an offset position from the linked object, flagging failed validation. */
 void compute_offset_position_linked_object(OwnerFollowingSpriteBody *object, IntVector3 *out_pos)

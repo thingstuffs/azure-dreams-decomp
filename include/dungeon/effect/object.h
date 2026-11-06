@@ -3,10 +3,11 @@
 
 /* Function contracts owned by src/dungeon/effect/object/ (decision 74; maintained by tools/headers). */
 #include "common.h"
+struct ObjectNodeHeader;
 
 /* Payload body shared by its allocator and positioned-effect updater. */
 typedef struct PayloadObjectBody {
-    void *unk_00;
+    struct ObjectNodeHeader *owner;
     s32 unk_04;
     u8 pad_08[0x84];
     s16 unk_8C;

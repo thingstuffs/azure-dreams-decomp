@@ -4,6 +4,7 @@
 #include "shared/actor_property_flags.h"
 #include "shared/actor_status_ids.h"
 #include "common.h"
+#include "dungeon/system/random.h"
 #include "shared/monster_ids.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/object_node.h"
@@ -14,7 +15,6 @@
 
 
 
-extern s32 generate_random_value(void);
 extern void set_or_clear_actor_status_slot(void *, s32, s32);
 extern s32 try_move_actor_to_valid_position(void *, void *, void *, void *);
 

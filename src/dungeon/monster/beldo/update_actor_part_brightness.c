@@ -1,4 +1,5 @@
 #include "common.h"
+#include "slus/imports.h"
 #include "shared/object_node.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/object_flags.h"
@@ -52,7 +53,6 @@ typedef struct S_81251000_6 {
 } S_81251000_6;   /* callee_part in update_actor_part_brightness */
 
 extern s32 resolve_record_orientation_or_fallback(s32, void *, s16 *, s16);
-extern void advance_sprite_animation_and_textures(void *);
 
 /* Copies part state, smooths position offsets, and applies phase-dependent brightness. */
 void update_actor_part_brightness(void *root_data, void *position_out, void *part_out)

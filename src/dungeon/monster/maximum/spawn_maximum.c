@@ -1,4 +1,5 @@
 #include "shared/entity.h"
+#include "dungeon/system/random.h"
 #include "shared/sprite_frame_state.h"
 #include "dungeon/monster/maximum.h"
 #include "shared/actor_status_flags.h"
@@ -13,7 +14,6 @@
 
 /* dragon.h owns the two callback declarations but its untyped helper
  * prototypes would drop the pointer results; declare what this file uses. */
-extern s32 generate_random_value(void);
 extern s32 try_move_actor_to_valid_position(void *,void *,void *,void *);
 extern void update_entity_facing_motion_and_ground(void *entity, void *motion, SpriteFrameState *part);
 void dispatch_monster_move_attack_spell(ActorRecord *, ObjectPosition *, SpriteFrameState *, ActorRecord *);

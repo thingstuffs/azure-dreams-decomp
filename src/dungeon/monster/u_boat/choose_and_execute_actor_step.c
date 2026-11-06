@@ -3,6 +3,8 @@
 #include "shared/sprite_frame_state.h"
 #include "shared/actor_status_ids.h"
 #include "common.h"
+#include "engine/entity/effect_slots.h"
+#include "dungeon/system/random.h"
 #include "shared/dungeon_floor.h"
 #include "shared/tile_object.h"
 #include "shared/record_ptrs.h"
@@ -20,13 +22,11 @@
 #define S32_AT(p, o) (*(s32 *)((u8 *)(p) + (o)))
 #define PTR_AT(p, o) (*(void **)((u8 *)(p) + (o)))
 
-extern s32 get_entity_effect_value(ActorRecord *entry, s32 effect_id);
 extern s16 check_entity_relation(ActorRecord *entry, ActorRecord *anchor);
 extern void cycle_map_cell_flags(s16 x, s16 y, u16 flags);
 extern s32 check_diagonal_side_height(s32 direction, s16 tile_x, s16 tile_y, s16 height);
 extern s32 check_directional_move_and_terrain();
 extern s16 get_actor_height_difference(ActorRecord *left_record, ActorRecord *right_record);
-extern s32 generate_random_value(void);
 extern void update_actor_status_and_mp(ActorRecord *entity);
 extern s16 sample_terrain_surface_height();
 

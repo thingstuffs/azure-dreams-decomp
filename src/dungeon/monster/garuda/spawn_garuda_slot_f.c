@@ -4,6 +4,7 @@
 #include "shared/actor_status_ids.h"
 /* cfail-repair: tf7-phase1-cache-v3 */
 #include "common.h"
+#include "dungeon/system/random.h"
 #include "shared/monster_ids.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/object_node.h"
@@ -18,7 +19,6 @@
 
 
 
-s32 generate_random_value(void);
 extern M2C_UNK D_8016AA78;
 extern M2C_UNK garuda_slot_f_action_callback;
 extern M2C_UNK D_8016E880;

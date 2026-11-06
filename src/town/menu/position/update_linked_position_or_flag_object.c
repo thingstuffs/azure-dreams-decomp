@@ -1,4 +1,5 @@
 #include "common.h"
+#include "engine/node/registration.h"
 #include "shared/object_index_slots.h"
 #include "shared/object_flags.h"
 #include "shared/dungeon_moving_views.h"
@@ -8,7 +9,6 @@
 #include "sdk/libgte.h"
 #include "town/menu.h"
 
-extern void unlink_node_if_registered(void *object);
 
 typedef struct {
     s32 unused;

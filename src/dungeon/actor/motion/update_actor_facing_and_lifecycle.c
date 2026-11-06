@@ -1,4 +1,5 @@
 #include "common.h"
+#include "slus/imports.h"
 #include "dungeon/actor/motion.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/dir_step.h"
@@ -11,7 +12,6 @@
 typedef void (*Callback)(void *, void *, void *, void *);
 
 extern void select_record_entry_and_value(void *state, void *entries, short index);
-extern void advance_sprite_animation_and_textures(void *);
 extern s32 refresh_actor_facing_and_lifecycle(void *, void *, void *, void *);
 
 extern u8 actor_motion_resume_address;

@@ -4,6 +4,7 @@
 
 struct ObjectPosition;
 #include "common.h"
+#include "dungeon/system/random.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/def_table.h"
 #include "shared/record_ptrs.h"
@@ -27,7 +28,6 @@ typedef struct S_800AAF00_2 {
 
 
 struct ActorRecord;
-extern s32 generate_random_value(void);
 
 /* Updates the object action state and applies direction data to its target. */
 void begin_actor_spell_action(void *actor, void *effect_param, SpriteFrameState *target, u8 *direction_table, void *next_state) {

@@ -1,4 +1,5 @@
 #include "common.h"
+#include "dungeon/system/random.h"
 #include "engine/entity.h"
 #include "shared/entity.h"
 #include "dungeon/actor.h"
@@ -7,7 +8,6 @@
 #include "dungeon/system.h"
 #include "dungeon/data.h"
 
-extern s32 generate_random_value(void);
 
 extern char D_800E1A88[];
 extern char D_800E1A9D[];

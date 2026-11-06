@@ -144,8 +144,8 @@ void create_radius_directional_effects(s32 effect_param, ObjectPosition *origin_
             effect_data->unk_14 |= 0x10C;
             register_node(effect, project_sprite_chain);
             effect_data = effect->unk_08;
-            effect_data->unk_02.s = origin_arg->x.unsigned_parts.integer;
-            effect_data->unk_06.s = origin_arg->y.unsigned_parts.integer;
+            effect_data->unk_02 = origin_arg->x.unsigned_parts.integer;
+            effect_data->unk_06 = origin_arg->y.unsigned_parts.integer;
             effect_data->unk_0A = origin_arg->z.unsigned_parts.integer;
         }
     } else {
@@ -180,8 +180,8 @@ void create_radius_directional_effects(s32 effect_param, ObjectPosition *origin_
                     effect_data->unk_14 |= 0x10C;
                     register_node(effect, project_sprite_chain);
                     effect_data = effect->unk_08;
-                    effect_data->unk_02.u = target_x;
-                    effect_data->unk_06.u = target_y;
+                    effect_data->unk_02 = target_x;
+                    effect_data->unk_06 = target_y;
                     effect_data->unk_0A = origin_arg->z.unsigned_parts.integer;
                     effect_data->unk_0A = get_surface_height_at_record(effect_data);
                 }

@@ -143,7 +143,7 @@ void update_betting_effect(TownEffect *input)
             if (object != 0) {
                 object_child = object->sprite;
                 object->update_callback = update_minigame_approach_motion;
-                object_link = (u8 *)object + 0x20;
+                object_link = NODE_BODY(object);
                 register_node(object, project_sprite_chain);
                 ((S_800211A4_13 *)(object->position))->unk_00 =
                     (column << 23) + 0x04600000;

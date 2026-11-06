@@ -902,37 +902,15 @@ s32 take_map_item_slot(ActorRecord *object, s16 slot)
 
 
 
-typedef struct S_800CCDA0_1 {
-    s32 unk_00;
-    s32 unk_04;
-    union { struct { s32 v; } at00; struct { u8 pad[0x2]; s16 v; } at02; } unk_08;   /* overlapping accesses */
-    s32 unk_0C;
-    s32 unk_10;
-    s32 unk_14;
-} S_800CCDA0_1;   /* arg1 in update_bouncing_trap_effect */
-
-   /* base in update_bouncing_trap_effect */
-
-typedef struct S_800CCDA0_3 {
-    u8 pad_00[0xC];
-    u8 unk_0C;
-    u8 unk_0D;
-    u8 unk_0E;
-    u8 pad_0F[0x5];
-    u16 unk_14;
-    u8 pad_16[0x4];
-    u16 unk_1A;
-} S_800CCDA0_3;   /* arg2 in update_bouncing_trap_effect */
-
 extern void apply_attack_power_and_element_effects(void *, s32, s32, s32, s32, void *, s32);
 
 /* Updates a bouncing effect's motion, rotation, and fading until its lifetime expires. */
-void update_bouncing_trap_effect(BouncingTrapEffectBody *effect, S_800CCDA0_1 *motion, S_800CCDA0_3 *sprite)
+void update_bouncing_trap_effect(BouncingTrapEffectBody *effect, ObjectPosition *motion, SpriteFrameState *sprite)
 {
     u16 ticks_or_angle;
 
     if (effect->phase == 0) {
-        motion->unk_14 += 0x20000;
+        motion->velocity_z += 0x20000;
 
         ticks_or_angle = effect->ticks_left - 1;
         effect->ticks_left = ticks_or_angle;
@@ -940,18 +918,18 @@ void update_bouncing_trap_effect(BouncingTrapEffectBody *effect, S_800CCDA0_1 *m
             play_sound_if_enabled(0x701);
         }
 
-        if (effect->floor_height < motion->unk_08.at02.v) {
+        if (effect->floor_height < motion->z.w.i) {
             apply_attack_power_and_element_effects(effect->source, 10,
                           dungeon_actor_ring_anchor->level, 8,
                           (effect->unk_08 << 25) >> 16, 0, 2);
 
-            motion->unk_14 = -motion->unk_14;
-            motion->unk_0C =
+            motion->velocity_z = -motion->velocity_z;
+            motion->velocity_x =
                 rcos(g_game_work.view.camera_rotation.parts.viewAngle) << 8;
-            motion->unk_10 =
+            motion->velocity_y =
                 rsin(g_game_work.view.camera_rotation.parts.viewAngle) << 8;
 
-            sprite->unk_14 |= 0xC;
+            sprite->flags |= 0xC;
             effect->ticks_left = 12;
             effect->phase = (s16)((u16)effect->phase + 1);
         }
@@ -959,31 +937,31 @@ void update_bouncing_trap_effect(BouncingTrapEffectBody *effect, S_800CCDA0_1 *m
         u16 angle;
         s16 ticks_left;
 
-        motion->unk_14 += 0x80000;
-        angle = sprite->unk_1A;
+        motion->velocity_z += 0x80000;
+        angle = sprite->angle_z;
         ticks_left = (s16)effect->ticks_left;
         angle += (0x400 - angle) / ticks_left;
-        sprite->unk_1A = angle;
+        sprite->angle_z = angle;
 
         {
             s32 wobble_angle;
 
             ticks_or_angle = effect->ticks_left;
-            wobble_angle = sprite->unk_1A;
+            wobble_angle = sprite->angle_z;
             if (ticks_or_angle & 1) {
                 ticks_or_angle = wobble_angle + 0x100;
             } else {
                 ticks_or_angle = wobble_angle - 0x100;
             }
-            sprite->unk_1A = ticks_or_angle;
+            sprite->angle_z = ticks_or_angle;
         }
 
-        sprite->unk_0C -=
-            sprite->unk_0C / (s16)effect->ticks_left;
-        sprite->unk_0D -=
-            sprite->unk_0D / (s16)effect->ticks_left;
-        sprite->unk_0E -=
-            sprite->unk_0E / (s16)effect->ticks_left;
+        sprite->color.c.r -=
+            sprite->color.c.r / (s16)effect->ticks_left;
+        sprite->color.c.g -=
+            sprite->color.c.g / (s16)effect->ticks_left;
+        sprite->color.c.b -=
+            sprite->color.c.b / (s16)effect->ticks_left;
 
         ticks_or_angle = effect->ticks_left - 1;
         effect->ticks_left = ticks_or_angle;
@@ -994,9 +972,9 @@ void update_bouncing_trap_effect(BouncingTrapEffectBody *effect, S_800CCDA0_1 *m
         }
     }
 
-    motion->unk_00 += motion->unk_0C;
-    motion->unk_04 += motion->unk_10;
-    motion->unk_08.at00.v += motion->unk_14;
+    motion->x.v += motion->velocity_x;
+    motion->y.v += motion->velocity_y;
+    motion->z.v += motion->velocity_z;
 }
 #include "modules/trap_effects_candidate.h"
 #include "shared/object_node.h"

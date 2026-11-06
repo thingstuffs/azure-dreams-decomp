@@ -3,6 +3,7 @@
 #include "shared/actor_status_flags.h"
 #include "shared/actor_property_flags.h"
 #include "common.h"
+#include "dungeon/system/random.h"
 #include "shared/tile_object.h"
 #include "shared/entity_objects.h"
 #include "shared/entity.h"
@@ -32,7 +33,6 @@ typedef struct S_800BE6F0_0_pre {
 struct EntityLinkNode;
 void unlink_entity_node(struct EntityLinkNode *node);
 void update_map_cell_flags_with_item_limit(s32 x, s32 y, u16 flags);
-s32 generate_random_value(void);
 #include "dungeon/actor/effect.h"
 #include "dungeon/effect.h"
 #include "dungeon/item.h"

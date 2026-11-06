@@ -1,6 +1,7 @@
 #include "shared/actor_status_ids.h"
 #include "shared/actor_status.h"
 #include "common.h"
+#include "dungeon/system/random.h"
 #include "shared/game_work.h"
 #include "records/Rec_func_8008ACDC_arg0.h"
 #include "shared/entity.h"
@@ -9,7 +10,6 @@
 #include "engine/entity.h"
 #include "dungeon/data.h"
 
-s32 generate_random_value(void);                                /* extern */
 extern u8 player_damage_frames_2[];
 
 /* Initialize directional animation and reset the actor action state. */

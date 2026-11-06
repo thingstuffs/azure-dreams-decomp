@@ -1,5 +1,6 @@
 #include "shared/actor_status_ids.h"
 #include "common.h"
+#include "dungeon/system/random.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/sys_flags.h"
 #include "shared/tile_object.h"
@@ -13,12 +14,10 @@
 #include "dungeon/level.h"
 #include "engine/entity.h"
 
-s32 get_entity_effect_value(ActorRecord *entry, s32 effect_id);
 void select_sprite_entry(void *, s32, s32);
 s16 get_tile_chebyshev_distance(void *, void *);
 #include "dungeon/player/object/action_state.h"
 #include "dungeon/monster/ghosh_frames.h"
-s32 generate_random_value(void);
 void update_actor_status_and_mp(ActorRecord *entity);
 
 extern u8 ghosh_action_resume_address[];

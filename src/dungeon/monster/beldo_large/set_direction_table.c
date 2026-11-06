@@ -1,5 +1,6 @@
 /* Encounter direction tables and timed effect sequences. */
 #include "common.h"
+#include "engine/graphics/select_sprite_entry_api.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/entity_objects.h"
 #include "shared/game_work.h"
@@ -56,7 +57,6 @@ typedef struct {
 extern void beldo_large_action_resume_address(ActorRecord *actor, ObjectPosition *context, SpriteFrameState *sprite, ActorRecord *entity);
 
 struct SpriteFrameState;
-extern void select_sprite_entry(void *, s16, s16);
 extern void create_targeted_ribbon_trail(DungeonState *, DungeonWork *, DungeonObject *, u8 *, s32);
 
 /*

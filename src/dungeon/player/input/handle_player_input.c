@@ -1,5 +1,6 @@
 /* cfail-repair: tf7-phase1-cache-v3 */
 #include "common.h"
+#include "dungeon/system/random.h"
 #include "engine/menu.h"
 #include "shared/entity.h"
 #include "shared/sprite_frame_state.h"
@@ -51,7 +52,6 @@ void *select_item_record_pointer(); /* Unprototyped: one or two arguments; the s
 #include "engine/resource.h"
 struct S_8008C5C4_2;
               /* extern */
-s32 generate_random_value(void);                      /* extern */
 extern M2C_UNK player_menu_action_data;
 extern u8 player_wait_frames[8];
 extern M2C_UNK D_800DD148;

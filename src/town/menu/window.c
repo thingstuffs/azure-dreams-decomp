@@ -295,7 +295,7 @@ s32 create_object_and_initialize_render_state(s32 callback_id, s32 angle_index, 
     }
 
     position->x.w.i = coord_x;
-    object_state = (u8 *)object + 0x20;
+    object_state = NODE_BODY(object);
     position->y.w.i = coord_z;
 
     if (height_mode == 0) {
@@ -738,7 +738,7 @@ void *create_configured_object(void *object_data, void *source_position, s32 alt
     position->y.w.i = HALF_AT(source_position, 6);
     position->z.w.i = HALF_AT(source_position, 0xA);
 
-    object = (u8 *)created + 0x20;
+    object = NODE_BODY(created);
     render_state->scale_y = 0x1000;
     render_state->scale_x = 0x1000;
     render_state->color.word = 0x00808080;

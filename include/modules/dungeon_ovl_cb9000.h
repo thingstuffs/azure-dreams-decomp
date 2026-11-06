@@ -1138,7 +1138,7 @@ void func_8016C944(S_80172944_0 *state,void *position,void *render_state,void *e
 
 void func_8016CBCC(CL_CB9000_80172BCC_S_func_80C953CC_1 *work, CL_CB9000_80172BCC_S_func_80C953CC_2 *position, CL_CB9000_80172BCC_S_func_80C953CC_3 *entity,
     CL_CB9000_80172BCC_S_func_80C953CC_4 *actor);
-void update_hop_to_tile_and_complete(CL_CB9000_801730E0_S_801730E0_0 *state, struct ObjectPosition *motion, struct SpriteFrameState *action, EntityRec *entity);
+void update_hop_to_tile_and_complete(CL_CB9000_801730E0_S_801730E0_0 *state, ObjectPosition *motion, SpriteFrameState *action, EntityRec *entity);
 void func_8016D304(void *state,void *position,void *render_state,void *entity);
 void func_8016D324(void *state,void *position,void *render_state,void *entity);
 void func_8016D344(void *state,void *position,void *render_state,void *entity);

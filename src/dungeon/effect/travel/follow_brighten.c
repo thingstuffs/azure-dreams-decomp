@@ -13,7 +13,7 @@
 /* The module's entry pointer: the first word of its read-only data, at the row's own address
  * (retail 0x80024000, the row symbol add_flag_adjusted_target_value).  The state table of the switch below follows
  * it at 0x80024008 (gcc's .align 3 for jump tables), and the code starts after the table. */
-void (*const dungeon_18ac800_entry)(u8 *, u8 *, u8 *) = follow_brighten;
+void (*const dungeon_18ac800_entry)(u8 *, u8 *, MovingSprite *) = follow_brighten;
 
 /* Scales the coordinate by 64, adds the cell-center offset 32, and masks the result with 0xFFE0. */
 static __inline__ s32 align_effect_coord(s32 coord)
@@ -22,7 +22,7 @@ static __inline__ s32 align_effect_coord(s32 coord)
 }
 
 /* Updates a moving effect through initialization, travel, impact, and fading. */
-void follow_brighten(u8 *self, u8 *motion, u8 *part)
+void follow_brighten(u8 *self, u8 *motion, MovingSprite *part)
 {
     u8 *owner;
     MovingObject *base;
@@ -47,10 +47,10 @@ void follow_brighten(u8 *self, u8 *motion, u8 *part)
         init_flags = 0x01000340;
         init_size = 0x00200020;
         effect_params = D_80026484;
-        ((MovingSprite *)part)->color.at00.v = color;
-        ((MovingSprite *)part)->scale_y = 0x555;
-        ((MovingSprite *)part)->scale_x = 0x555;
-        ((MovingSprite *)part)->source = D_80026490;
+        part->color.at00.v = color;
+        part->scale_y = 0x555;
+        part->scale_x = 0x555;
+        part->source = D_80026490;
         ((SignedWordView *)radial_effect_colors)->unk_00 = 0;
         ((SignedHalfView *)D_80026474)->unk_00 = 0;
         ((UnsignedWordView *)D_80026476)->unk_00 = 0;
@@ -89,11 +89,11 @@ void follow_brighten(u8 *self, u8 *motion, u8 *part)
         }
         if (!(((MovingEffectState *)self)->unk_12 & 4)) {
             register_node(self - 32, project_sprite_chain);
-            ((MovingSprite *)part)->tpage_abr = 32;
-            ((MovingSprite *)part)->color.at02.v = 128;
-            ((MovingSprite *)part)->color.at01.v = 128;
-            ((MovingSprite *)part)->color.at00u.v = 128;
-            ((MovingSprite *)part)->flags |= 0xC;
+            part->tpage_abr = 32;
+            part->color.at02.v = 128;
+            part->color.at01.v = 128;
+            part->color.at00u.v = 128;
+            part->flags |= 0xC;
             ((MovingEffectState *)self)->unk_12 |= 4;
         }
         {
@@ -275,9 +275,9 @@ void follow_brighten(u8 *self, u8 *motion, u8 *part)
         }
         ((MovingEffectState *)self)->unk_0A.u++;
     case 4:
-        ((MovingSprite *)part)->color.at00u.v -= ((MovingSprite *)part)->color.at00u.v >> 2;
-        ((MovingSprite *)part)->color.at01.v -= ((MovingSprite *)part)->color.at01.v >> 2;
-        ((MovingSprite *)part)->color.at02.v -= ((MovingSprite *)part)->color.at02.v >> 2;
+        part->color.at00u.v -= part->color.at00u.v >> 2;
+        part->color.at01.v -= part->color.at01.v >> 2;
+        part->color.at02.v -= part->color.at02.v >> 2;
         if (!(((MovingSpawnFlags *)(((MovingEffectState *)self)->unk_2C.p))->unk_1E & 0x8000)) {
             break;
         }
@@ -299,11 +299,11 @@ void follow_brighten(u8 *self, u8 *motion, u8 *part)
             height_step >>= 4;
             ((MovingMotion *)motion)->unk_08.at00.v += height_step;
         }
-        ((MovingSprite *)part)->color.at00u.v -= ((MovingSprite *)part)->color.at00u.v >> 1;
-        ((MovingSprite *)part)->color.at01.v -= ((MovingSprite *)part)->color.at01.v >> 1;
-        ((MovingSprite *)part)->color.at02.v -= ((MovingSprite *)part)->color.at02.v >> 1;
+        part->color.at00u.v -= part->color.at00u.v >> 1;
+        part->color.at01.v -= part->color.at01.v >> 1;
+        part->color.at02.v -= part->color.at02.v >> 1;
         create_effect_from_endpoints(motion, part);
-        if (((MovingSprite *)part)->color.at00u.v < 2) {
+        if (part->color.at00u.v < 2) {
             ((MovingEffectState *)self)->unk_0A.u++;
         }
         break;

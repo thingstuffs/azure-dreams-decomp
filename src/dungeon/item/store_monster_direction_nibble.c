@@ -1,8 +1,8 @@
 #include "common.h"
+#include "dungeon/system/random.h"
 #include "shared/dungeon_status.h"
 #include "dungeon/item.h"
 
-extern s32 generate_random_value(void);
 
 /* Stores the low four bits of the computed result in the global slot. */
 void store_random_nibble(void) {

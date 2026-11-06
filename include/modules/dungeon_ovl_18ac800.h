@@ -25,6 +25,6 @@ extern void ratan2(s16, s16);
 extern s32 create_effect_object_groups(s16, s16, s16);
 extern void apply_conditional_target_effect(struct ActorRecord *, u8, void *);
 extern BankEffectCounter staged_fade_count;
-void follow_brighten(u8 *, u8 *, u8 *);
+void follow_brighten(u8 *, u8 *, MovingSprite *);
 void advance_object_and_global_counters(u16 *);
 #endif

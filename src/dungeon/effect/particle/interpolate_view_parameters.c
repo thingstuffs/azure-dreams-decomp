@@ -313,7 +313,7 @@ void update_an_effect_through_attachment_motion_timed_cleanup(B31_818C8FD0_S_fun
     offset_table = &offsets;
     one = 1;
     frame_count = state->unk_82;
-    mode = state->unk_0A.s16;
+    mode = (s16)state->unk_0A;
     owner_node = (B31_818C8FD0_S_func_818C8FD0_3 *)((u8 *)object - 0x20);
     owner_pos = owner_node->unk_08;
     frame_count++;
@@ -327,8 +327,8 @@ void update_an_effect_through_attachment_motion_timed_cleanup(B31_818C8FD0_S_fun
         select_record_entry_and_value(part, directional_sprite_entries, 0);
         angle = object->unk_2A;
         moving_particle_effect_updated = one;
-        state->unk_7E.s16 = (angle >> 9) & 7;
-        state->unk_0A.u16++;
+        state->unk_7E = (angle >> 9) & 7;
+        state->unk_0A++;
     case 1:
         {
             SpriteFrameState *owner_part;
@@ -358,8 +358,8 @@ void update_an_effect_through_attachment_motion_timed_cleanup(B31_818C8FD0_S_fun
                 }
 
                 if (((B31_818C8FD0_S_func_818C8FD0_10 *)state->unk_04)->unk_00 & 0x80) {
-                    state->unk_84.s16 = 0;
-                    state->unk_0A.u16++;
+                    state->unk_84 = 0;
+                    state->unk_0A++;
                     return;
                 }
             }
@@ -380,27 +380,27 @@ void update_an_effect_through_attachment_motion_timed_cleanup(B31_818C8FD0_S_fun
                 {
                     s16 *direction_offset;
 
-                    direction_index = state->unk_7E.s16;
+                    direction_index = state->unk_7E;
                     direction_offset = (s16 *)((u8 *)offset_table + direction_index * 4);
                     effect->unk_58 = (s32)direction_offset[0] << 16;
                 }
                 {
                     u16 *direction_offset;
 
-                    direction_index = state->unk_7E.s16;
+                    direction_index = state->unk_7E;
                     direction_offset = (u16 *)((u8 *)offset_table + direction_index * 4);
                     effect->unk_5C = (s32)direction_offset[1] << 16;
                 }
                 effect->unk_2C = object;
                 effect->unk_30 = object->unk_60.s32;
-                effect->unk_0A = (state->unk_84.s16 - 1) / 2;
+                effect->unk_0A = ((s16)state->unk_84 - 1) / 2;
                 effect->unk_15 = state->unk_09;
-                effect->unk_16 = state->unk_7E.u16;
+                effect->unk_16 = (u16)state->unk_7E;
 
                 {
                     u8 *table_base = (u8 *)((s8 *)dir_step_x);
 
-                    direction_index = state->unk_7E.s16 * 2;
+                    direction_index = state->unk_7E * 2;
                     tile = ((B31_818C8FD0_S_func_818C8FD0_3 *)((u8 *)object - 0x20))->unk_0C;
                     state->unk_A0 =
                         tile->tile_x + table_base[direction_index];
@@ -408,7 +408,7 @@ void update_an_effect_through_attachment_motion_timed_cleanup(B31_818C8FD0_S_fun
                 {
                     u8 *table_base = (u8 *)((s8 *)dir_step_y);
 
-                    direction_index = state->unk_7E.s16 * 2;
+                    direction_index = state->unk_7E * 2;
                     state->unk_A1 =
                         tile->tile_y + table_base[direction_index];
                 }
@@ -432,25 +432,25 @@ void update_an_effect_through_attachment_motion_timed_cleanup(B31_818C8FD0_S_fun
                     }
                     if (tile_distance < 0) {
                         tile_distance = -tile_distance;
-                        effect->unk_02.s16 = tile_distance * 2;
+                        effect->unk_02 = tile_distance * 2;
                     } else {
-                        effect->unk_02.s16 = tile_distance * 2;
+                        effect->unk_02 = tile_distance * 2;
                     }
 
                     target_pos = ((B31_818C8FD0_S_func_818C8FD0_3 *)((u8 *)object->unk_60.ptr - 0x20))->unk_08;
-                    duration = effect->unk_02.s16;
+                    duration = effect->unk_02;
                     if (duration != 0) {
                         effect->unk_60 =
                             (target_pos->unk_08.s32 - output_pos->unk_08.s32 - 0x200000) /
                             (duration - 1);
                     }
-                    end_time = effect->unk_02.u16;
+                    end_time = (u16)effect->unk_02;
                     end_time += 0x3C;
                     state->unk_86 = end_time;
                 } else {
-                    effect->unk_02.s16 = 0x20;
+                    effect->unk_02 = 0x20;
                     effect->unk_08 = 0;
-                    state->unk_86 = effect->unk_02.s16 + 0x1E;
+                    state->unk_86 = effect->unk_02 + 0x1E;
                 }
 
                 effect_node->update_callback = update_a_moving_effect_spawns_particles_advances_timed_phases;
@@ -474,7 +474,7 @@ void update_an_effect_through_attachment_motion_timed_cleanup(B31_818C8FD0_S_fun
                     state->unk_88 = 0x63;
                 }
             }
-            state->unk_0A.u16++;
+            state->unk_0A++;
             return;
         }
     case 3:
@@ -496,14 +496,14 @@ void update_an_effect_through_attachment_motion_timed_cleanup(B31_818C8FD0_S_fun
     }
 
     {
-        u16 old_timer = state->unk_84.u16;
+        u16 old_timer = state->unk_84;
         s16 timer = old_timer + 1;
 
-        state->unk_84.u16 = timer;
+        state->unk_84 = timer;
         if (state->unk_86 < timer) {
             s32 active_flag = moving_particle_effect_updated;
 
-            state->unk_84.u16 = old_timer;
+            state->unk_84 = old_timer;
             if (active_flag == 0) {
                 g_dungeon_status.active_actor = 0;
                 ((B31_818C8FD0_S_func_818C8FD0_10 *)((u8 *)state - 2))->unk_00 |= 0x8000;

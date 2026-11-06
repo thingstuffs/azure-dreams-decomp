@@ -1,4 +1,5 @@
 #include "common.h"
+#include "slus/imports.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/object_flags.h"
 #include "shared/dungeon_moving_views.h"
@@ -40,7 +41,6 @@ typedef struct S_81263000_5 {
     u16 unk_0A;
 } S_81263000_5;   /* copy in create_flagged_actor_object_2 */
 
-extern void advance_sprite_animation_and_textures(void *);
 
 
 /* Update part position, shading, and flags from its owner. */

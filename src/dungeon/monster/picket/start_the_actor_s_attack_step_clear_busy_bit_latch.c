@@ -1,5 +1,7 @@
 #include "shared/entity.h"
 #include "common.h"
+#include "engine/graphics/select_sprite_entry_api.h"
+#include "dungeon/system/random.h"
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 #include "m2c_compat.h"
@@ -45,13 +47,11 @@ typedef struct S_80174234_2 {
 /* the counter block at D_80083460 */
 
 
-extern void select_sprite_entry(void *object, s16 table_index, s16 entry_index);         /* extern */
 void *get_unused_text_buffer(void);                                /* extern */
 u8 *append_typed_formatted_value(DungeonItemEntry *data, u8 *buffer);                 /* extern */
 #include "dungeon/player/object/action_state.h"
 #include "shared/sprite_frame_state.h"
 #include "dungeon/data.h"
-s32 generate_random_value(void);                                /* extern */
 void *func_80170908(); /* Slot contract: loading images do not establish one callee contract. */                /* extern */
 extern u8 D_8017089C[];
 extern u8 D_801708AC[];

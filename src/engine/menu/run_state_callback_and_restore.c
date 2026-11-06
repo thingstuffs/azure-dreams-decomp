@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_node.h"
 #include "engine/menu.h"
 
 extern void release_selection_menu_and_preserve_pending_value(void *a0);
@@ -10,7 +11,7 @@ s32 run_state_callback_and_restore(void *state)
 
     if (check_result != 0) {
         *(s32 *)((u8 *)state - 0x10) = *(s32 *)((u8 *)state + 0x4);
-        release_selection_menu_and_preserve_pending_value((u8 *)state - 0x20);
+        release_selection_menu_and_preserve_pending_value(NODE_HEADER(state));
     }
     return check_result;
 }

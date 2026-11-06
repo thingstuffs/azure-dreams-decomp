@@ -1,5 +1,6 @@
 #include "shared/actor_status_flags.h"
 #include "common.h"
+#include "engine/graphics/select_sprite_entry_api.h"
 #include "dungeon/actor.h"
 #include "dungeon/monster/glacier.h"
 #include "shared/actor_action_flags.h"
@@ -16,7 +17,6 @@
 #include "sdk/libgte.h"
 
 
-extern void select_sprite_entry(void *, s16, s16);
 
 extern u8 D_801760BC;
 extern u8 D_801760C4;

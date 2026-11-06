@@ -1,5 +1,6 @@
 #include "shared/actor_status_ids.h"
 #include "common.h"
+#include "engine/entity/effect_slots.h"
 #include "shared/dungeon_moving_views.h"
 #include "dungeon/actor.h"
 #include "dungeon/level.h"
@@ -7,7 +8,6 @@
 
 
 
-s32 get_entity_effect_value(ActorRecord *entry, s32 effect_id);             /* extern */
 void update_map_cell_flags_with_item_limit(s32 x, s32 y, u16 flags);             /* extern */
 
    /* arg0 in rotate_actor_movement_queue */

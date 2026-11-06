@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_node.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/game_work.h"
 #include "engine/entity.h"
@@ -17,7 +18,7 @@ extern void draw_sprite_clipped(void *a0, s32 a1, SpriteFrameState *a2, s16 a3);
 s32 draw_linked_sprites_clipped(u8 *first_data, s32 link_value, SpriteFrameState *value_record)
 {
     u8 *link_data = first_data;
-    void *next_link;
+    ObjectNodeHeader *next_link;
 
     do {
         if (!(value_record->flags & 0x80)) {
@@ -26,12 +27,12 @@ s32 draw_linked_sprites_clipped(u8 *first_data, s32 link_value, SpriteFrameState
                 return 0;
             }
         }
-        next_link = *(void **)(link_data - 8);
+        next_link = NODE_HEADER(link_data)->chain_next;
         if (next_link == 0) {
             return 0;
         }
-        link_data = (u8 *)next_link + 0x20;
+        link_data = NODE_BODY(next_link);
         link_value = *(s32 *)((u8 *)next_link + 8);
-        value_record = *(SpriteFrameState **)((u8 *)next_link + 0xC);
+        value_record = next_link->sprite;
     } while (1);
 }

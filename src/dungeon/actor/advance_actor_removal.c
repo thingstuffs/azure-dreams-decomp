@@ -1,5 +1,6 @@
 #include "shared/actor_status_ids.h"
 #include "common.h"
+#include "engine/entity/effect_slots.h"
 #include "dungeon/actor.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/entity.h"
@@ -95,7 +96,6 @@ typedef struct {
     u8 pad14[0x78];
 } D_800E3E48_Entry;
 
-s32 get_entity_effect_value(ActorRecord *entry, s32 effect_id);
 s32 get_entity_class();
 struct DungeonItemEntry;
 void unlink_entity_node(struct EntityLinkNode *node);

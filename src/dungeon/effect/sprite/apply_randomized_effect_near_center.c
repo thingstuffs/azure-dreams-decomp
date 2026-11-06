@@ -1,5 +1,6 @@
 #include "shared/sprite_frame_state.h"
 #include "common.h"
+#include "dungeon/system/random.h"
 #include "shared/object_node.h"
 #include "shared/record_ptrs.h"
 #include "shared/dungeon_moving_views.h"
@@ -14,7 +15,6 @@ typedef struct S_8185C860_0 {
 } S_8185C860_0;
 
 s32 check_entity_interaction_compatibility();
-extern s32 generate_random_value(void);
 extern u8 current_spell_effect_variant;
 
 /* Apply a randomized effect to eligible targets within two tiles of the center. */

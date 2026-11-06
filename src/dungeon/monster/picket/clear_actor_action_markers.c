@@ -1,6 +1,7 @@
 #include "shared/entity.h"
 #include "shared/dungeon_item_entries.h"
 #include "common.h"
+#include "dungeon/system/random.h"
 #include "shared/dir_step.h"
 #include "shared/record_ptrs.h"
 #include "dungeon/item.h"
@@ -37,7 +38,6 @@ typedef struct {
     s32 field_48;
 } TargetFieldView_80E91000;
 
-extern s32 generate_random_value(void);
 
  s32 clear_actor_action_markers(void *, void *) ;
 /*

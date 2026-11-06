@@ -1,11 +1,11 @@
 #include "shared/actor_status_ids.h"
 #include "common.h"
+#include "dungeon/system/random.h"
 
 
 
 #include "dungeon/actor/status.h"
 #include "dungeon/actor.h"
-extern s32 generate_random_value(void);
 
 /* Roll a chance against the record's stride and, on a win, run the action action. */
 s32 roll_chance_and_run_action(void *record_arg, s16 chance, s8 action)

@@ -1138,7 +1138,7 @@ void func_80160944(S_80172944_0 *state,void *position,void *render_state,void *e
 
 void func_80160BCC(CL_CC5000_80172BCC_S_func_80C953CC_1 *work, CL_CC5000_80172BCC_S_func_80C953CC_2 *position, CL_CC5000_80172BCC_S_func_80C953CC_3 *entity,
     CL_CC5000_80172BCC_S_func_80C953CC_4 *actor);
-void move_actor_to_tile_with_hop(CL_CC5000_801730E0_S_801730E0_0 *state, struct ObjectPosition *motion, struct SpriteFrameState *action, EntityRec *entity);
+void move_actor_to_tile_with_hop(CL_CC5000_801730E0_S_801730E0_0 *state, ObjectPosition *motion, SpriteFrameState *action, EntityRec *entity);
 void func_80161304(void *state,void *position,void *render_state,void *entity);
 void func_80161324(void *state,void *position,void *render_state,void *entity);
 void func_80161344(void *state,void *position,void *render_state,void *entity);

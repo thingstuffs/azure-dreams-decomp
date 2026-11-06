@@ -4,6 +4,7 @@
 #include "shared/sprite_frame_state.h"
 #include "modules/dungeon_ovl_1918800.h"
 #include "common.h"
+#include "dungeon/system/random.h"
 #include "dungeon/actor.h"
 #include "dungeon/effect/mesh.h"
 #include "engine/graphics.h"
@@ -1143,7 +1144,6 @@ extern Copy12 D_800266A4;
 extern u8 current_spell_effect_variant[256];
 
 #include "dungeon/effect/screen.h"
-extern s32 generate_random_value(void);
 extern void try_apply_action_by_chance(void *, s32, s32);
 
 typedef struct BaseChildView {

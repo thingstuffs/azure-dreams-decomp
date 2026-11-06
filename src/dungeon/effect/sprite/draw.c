@@ -225,22 +225,22 @@ void render_textured_effect_parts(Row_818F2800_S_BODY_3 *geometry, void *positio
                                                   &DM_S32(0x90), &DM_S32(0x94))
                                     - (s32)(s16)depth_bias) - 6;
                     cache = (Row_818F2800_S_BODY_6 *)(half * 2 + (long)edge_cache);
-                    if (cache->unk_20.s != invalid_coord) {
-                        ((Row_818F2800_S_BODY_7 *)packet)->unk_04.u = cache->unk_20.u;
-                        ((Row_818F2800_S_BODY_7 *)packet)->unk_06.u = cache->unk_30;
+                    if ((s16)cache->unk_20 != invalid_coord) {
+                        ((Row_818F2800_S_BODY_7 *)packet)->unk_04 = cache->unk_20;
+                        ((Row_818F2800_S_BODY_7 *)packet)->unk_06 = cache->unk_30;
                         ((Row_818F2800_S_BODY_7 *)packet)->unk_14 = cache->unk_28;
                         ((Row_818F2800_S_BODY_7 *)packet)->unk_16 = cache->unk_38;
                     }
-                    cache->unk_20.u = ((Row_818F2800_S_BODY_7 *)packet)->unk_0C;
-                    cache->unk_28 = ((Row_818F2800_S_BODY_7 *)packet)->unk_1C.u;
+                    cache->unk_20 = ((Row_818F2800_S_BODY_7 *)packet)->unk_0C;
+                    cache->unk_28 = ((Row_818F2800_S_BODY_7 *)packet)->unk_1C;
                     cache->unk_30 = ((Row_818F2800_S_BODY_7 *)packet)->unk_0E;
-                    cache->unk_38 = ((Row_818F2800_S_BODY_7 *)packet)->unk_1E.u;
+                    cache->unk_38 = ((Row_818F2800_S_BODY_7 *)packet)->unk_1E;
                     if ((u32)DM_S32(0xC0) < 0x1E0U) {
                         s32 top_visible, three_visible, visible0, visible1, visible2, visible3;
                         visible0 = 0;
-                        if ((u32)((((Row_818F2800_S_BODY_7 *)packet)->unk_04.u + 0x20) & 0xFFFF) < 0x181U) {
+                        if ((u32)((((Row_818F2800_S_BODY_7 *)packet)->unk_04 + 0x20) & 0xFFFF) < 0x181U) {
                             s32 screen_y;
-                            screen_y = (((Row_818F2800_S_BODY_7 *)packet)->unk_06.u + 0x20) & 0xFFFF;
+                            screen_y = (((Row_818F2800_S_BODY_7 *)packet)->unk_06 + 0x20) & 0xFFFF;
                             visible0 = (u32)screen_y < 0x121U;
                         }
                         visible1 = 0;
@@ -258,9 +258,9 @@ void render_textured_effect_parts(Row_818F2800_S_BODY_3 *geometry, void *positio
                         }
                         visible3 = 0;
                         three_visible = top_visible | visible2;
-                        if ((u32)((((Row_818F2800_S_BODY_7 *)packet)->unk_1C.u + 0x20) & 0xFFFF) < 0x181U) {
+                        if ((u32)((((Row_818F2800_S_BODY_7 *)packet)->unk_1C + 0x20) & 0xFFFF) < 0x181U) {
                             s32 screen_y;
-                            screen_y = (((Row_818F2800_S_BODY_7 *)packet)->unk_1E.u + 0x20) & 0xFFFF;
+                            screen_y = (((Row_818F2800_S_BODY_7 *)packet)->unk_1E + 0x20) & 0xFFFF;
                             visible3 = (u32)screen_y < 0x121U;
                         }
                         if ((three_visible | visible3) != 0) {
@@ -315,10 +315,10 @@ void render_textured_effect_parts(Row_818F2800_S_BODY_3 *geometry, void *positio
                             ((Row_818F2800_S_BODY_7 *)packet)->unk_18.at00.v = (s16)packed_uv;
                             packed_uv = DM_U16(0x14);
                             texture_value = DM_U16(0x10);
-                            column_or_x = ((Row_818F2800_S_BODY_7 *)packet)->unk_04.s;
+                            column_or_x = (s16)((Row_818F2800_S_BODY_7 *)packet)->unk_04;
                             packed_uv = packed_uv + texture_value;
                             ((Row_818F2800_S_BODY_7 *)packet)->unk_20.at00.v = (s16)packed_uv;
-                            if ((s32)((Row_818F2800_S_BODY_7 *)packet)->unk_1C.s < column_or_x) {
+                            if ((s32)(s16)((Row_818F2800_S_BODY_7 *)packet)->unk_1C < column_or_x) {
                                 u8 edge_uv, corner_uv;
                                 edge_uv = packet->u1;
                                 corner_uv = packet->u3;
@@ -329,8 +329,8 @@ void render_textured_effect_parts(Row_818F2800_S_BODY_3 *geometry, void *positio
                             }
                             {
                                 s32 top_y;
-                                top_y = ((Row_818F2800_S_BODY_7 *)packet)->unk_06.s;
-                                if ((s32)((Row_818F2800_S_BODY_7 *)packet)->unk_1E.s < top_y) {
+                                top_y = (s16)((Row_818F2800_S_BODY_7 *)packet)->unk_06;
+                                if ((s32)(s16)((Row_818F2800_S_BODY_7 *)packet)->unk_1E < top_y) {
                                     u8 edge_uv, corner_uv;
                                     edge_uv = packet->v2;
                                     corner_uv = packet->v3;

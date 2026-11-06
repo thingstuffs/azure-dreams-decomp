@@ -1,6 +1,7 @@
 #include "shared/actor_status_ids.h"
 #include "shared/actor_status_flags.h"
 #include "common.h"
+#include "engine/entity/effect_slots.h"
 #include "shared/object_flags.h"
 #include "shared/dungeon_status.h"
 #include "m2c_compat.h"
@@ -39,7 +40,6 @@ typedef struct S_800D34CC_2 {
 } S_800D34CC_2;   /* data in update_actor_fade_state */
 
 
-s32 get_entity_effect_value(ActorRecord *entry, s32 effect_id);                 /* extern */
 void unlink_entity_node(struct EntityLinkNode *node);                      /* extern */
 void update_map_cell_flags_with_item_limit(s32 x, s32 y, u16 flags);             /* extern */
 

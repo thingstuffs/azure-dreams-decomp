@@ -1,5 +1,6 @@
 #include "shared/entity.h"
 #include "common.h"
+#include "engine/graphics/select_sprite_entry_api.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
@@ -30,7 +31,6 @@ typedef struct {
 #include "dungeon/monster/picket.h"
 #include "dungeon/data.h"
 struct SpriteFrameState;
-extern void select_sprite_entry(void *, s16, s16);
 
 /* Clears the state flag and, when allowed, resets the entity and selects a directional object value. */
 void clear_the_state_flag_allowed_resets_entity_selects_directional(ActorRecord *entity, ObjectPosition *position, SpriteFrameState *sprite, ActorRecord *actor) {

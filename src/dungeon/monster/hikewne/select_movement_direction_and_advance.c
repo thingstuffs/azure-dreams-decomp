@@ -1,5 +1,6 @@
 #include "shared/sprite_frame_state.h"
 #include "common.h"
+#include "dungeon/system/random.h"
 #include "shared/dungeon_floor.h"
 #include "shared/tile_object.h"
 #include "shared/entity.h"
@@ -19,7 +20,6 @@
 #include "dungeon/item/state.h"
 
 extern void update_actor_status_and_mp(ActorRecord *entity);
-extern s32 generate_random_value(void);
 extern s16 get_actor_height_difference(ActorRecord *left_record, ActorRecord *right_record);
 extern s16 check_diagonal_side_height(s32 direction, s16 tile_x, s16 tile_y, s16 height);
 extern s16 check_directional_move_and_terrain(s16, void *, void *, s32);

@@ -1,6 +1,7 @@
 #include "engine/graphics.h"
 #include "shared/actor_status_flags.h"
 #include "common.h"
+#include "dungeon/system/random.h"
 #include "shared/actor_action_flags.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/game_work.h"
@@ -16,7 +17,6 @@
 
 extern u8 tyrant_direction_frames[];
 extern s32 tyrant_action_resume_address;
-s32 generate_random_value(void);
 extern u8 D_80173FD8;
 extern M2C_UNK D_80173FE0;
 

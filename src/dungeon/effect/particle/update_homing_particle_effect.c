@@ -1,4 +1,5 @@
 #include "shared/audio_commands.h"
+#include "slus/imports.h"
 #include "shared/actor_status_ids.h"
 /* Directional attack trails, target sprite distortion, and homing particles. */
 #include "modules/dungeon_ovl_1852800.h"
@@ -97,7 +98,6 @@ void (*const dungeon_1852800_entry)(S_func_81832800_1 *, S_func_81832800_4 *, vo
 void decrement_flagged_item_parameters(S_func_81832800_1 *effect, S_func_81832800_4 *position, void *effect_sprite);
 /* Advance the effect state, move toward its target, and animate spawned particles. */
 s32 rand();                             /* extern */
-extern void advance_sprite_animation_and_textures(void *state);
 
 /* Moves a particle trail to a directional target, distorts its sprite, applies the attack, and
    restores its scale. */

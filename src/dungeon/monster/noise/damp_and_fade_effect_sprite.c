@@ -1,4 +1,5 @@
 #include "common.h"
+#include "slus/imports.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/game_work.h"
 #include "shared/object_flags.h"
@@ -26,7 +27,6 @@ typedef struct S_80D17000_2 {
 
    /* other in damp_and_fade_effect_sprite */
 
-extern void advance_sprite_animation_and_textures(void *);
 
 extern s8 view_direction_depth_biases[8];
 

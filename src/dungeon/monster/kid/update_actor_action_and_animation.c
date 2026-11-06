@@ -2,6 +2,7 @@
 #include "shared/actor_status_flags.h"
 #include "shared/actor_status_ids.h"
 #include "common.h"
+#include "dungeon/system/random.h"
 #include "dungeon/monster/kid.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/tile_object.h"
@@ -21,7 +22,6 @@ extern s32 get_tile_chebyshev_distance(void *, void *);
 #include "dungeon/player/object/action_state.h"
 #include "dungeon/actor.h"
 #include "dungeon/monster/kid_frames.h"
-extern s32 generate_random_value(void);
 extern void update_actor_status_and_mp(void *);
 extern void func_80174218(void *, void *, void *, void *);
 

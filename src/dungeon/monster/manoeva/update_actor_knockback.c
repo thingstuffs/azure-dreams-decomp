@@ -5,6 +5,7 @@ struct SpriteFrameState;
 
 struct ObjectPosition;
 #include "common.h"
+#include "dungeon/system/random.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/dungeon_status.h"
 #include "shared/dir_step.h"
@@ -15,7 +16,6 @@ struct ObjectPosition;
 #include "dungeon/data.h"
 
 
-extern s32 generate_random_value(void);
 
 extern u8 manoeva_action_resume_address[];
 

@@ -1,9 +1,9 @@
 #include "common.h"
+#include "engine/node/registration.h"
 #include "shared/object_flags.h"
 #include "town/menu/object.h"
 #include "town/menu.h"
 
-extern void unlink_node_if_registered(void *object);
 
 
 /* Finalizes and flags the object when its check succeeds or its countdown expires. */

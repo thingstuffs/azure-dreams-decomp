@@ -3,6 +3,7 @@
 struct ObjectPosition;
 #include "shared/entity_height_offsets.h"
 #include "common.h"
+#include "slus/imports.h"
 #include "dungeon/monster/golem.h"
 #include "shared/object_flags.h"
 #include "shared/dir_step.h"
@@ -55,7 +56,6 @@ typedef struct S_81087818_5 {
 } S_81087818_5;
 
 
-extern void advance_sprite_animation_and_textures(void *);
 extern void draw_randomized_shaded_polylines(Vec3Work *, Vec3Work *);
 
 

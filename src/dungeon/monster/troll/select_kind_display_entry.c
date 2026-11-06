@@ -1,5 +1,6 @@
 #include "shared/actor_status_flags.h"
 #include "common.h"
+#include "engine/graphics/select_sprite_entry_api.h"
 #include "dungeon/actor.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/game_work.h"
@@ -37,7 +38,6 @@ extern u8 D_8015DE5C[];
 extern u8 D_8015DE64[];
 
 struct SpriteFrameState;
-extern void select_sprite_entry(void *, s16, s16);
 extern s32 update_actor_transform_from_parent(Obj0 *, void *, void *, void *);
 
 

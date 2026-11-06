@@ -2,6 +2,7 @@
 #include "shared/actor_property_flags.h"
 #include "shared/actor_status_ids.h"
 #include "common.h"
+#include "dungeon/system/random.h"
 #include "dungeon/actor.h"
 #include "dungeon/actor/state.h"
 #include "dungeon/item.h"
@@ -9,7 +10,6 @@
 
 extern s32 set_or_clear_actor_status_slot(void *, s32, s32);
 extern s32 display_text_with_fullwidth_adjustment(s8 *text);
-extern s32 generate_random_value(void);
 extern s32 get_entity_effect_value(void *, s32);
 extern void clear_slots_of_type(void *, s32);
 extern s32 D_8008942C[];

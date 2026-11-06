@@ -1,8 +1,8 @@
 /* Relink of matched town/func_800C19FC; every changed retail word is a paired relocation. */
 #include "common.h"
+#include "slus/imports.h"
 #include "shared/object_flags.h"
 
-extern void advance_sprite_animation_and_textures(void *source);
 
 // Process the source and set destination and global flags when source status bits are set.
 void advance_counter_and_propagate_target_flags(void *destination, s32 unused, void *source)

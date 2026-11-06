@@ -142,17 +142,6 @@ typedef struct R08_80172CE8_S_80172CE8_2 {
     u8 unk_24;
     u8 unk_25;
 } R08_80172CE8_S_80172CE8_2;
-typedef struct R08_80172CE8_S_80172CE8_3 {
-    u8 pad_00[0x4];
-    s8 unk_04;
-    u8 pad_05[0xF];
-    u16 unk_14;
-    u8 pad_16[0xE];
-    u8 unk_24;
-    u8 unk_25;
-    u8 pad_26[0x6];
-    void * unk_2C;
-} R08_80172CE8_S_80172CE8_3;
 typedef struct R08_80173234_S_80173234_0 {
     u8 pad_00[0x8C];
     u8 * unk_8C;
@@ -415,7 +404,7 @@ void finish_actor_tile_move_then_resume_effect_behavior(ActorRecord *state, Obje
 void hop_griffon_to_tile(ActorRecord *action, ObjectPosition *motion,SpriteFrameState *sprite, ActorRecord *actor);
 void advance_a_timed_actor_animation_applies_completion_effects(ActorRecord *state, ObjectPosition *entity, SpriteFrameState *position, ActorRecord *graphic);
 void update_staged_movement_and_return_to_tile(ActorRecord *action, ObjectPosition *motion, SpriteFrameState *sprite, ActorRecord *actor);
-void update_item_activation_and_cleanup(ActorRecord *action, ObjectPosition *motion, R08_80172CE8_S_80172CE8_3 *actor, ActorRecord *object);
+void update_item_activation_and_cleanup(ActorRecord *action, ObjectPosition *motion, SpriteFrameState *sprite, ActorRecord *object);
 void advance_action_phase_and_process_actor(ActorRecord *action, struct ObjectPosition *motion,struct SpriteFrameState *sprite, ActorRecord *entity);
 void remove_defeated_griffon(void *state, void *motion, void *position, void *actor);
 void shrink_hopping_griffon(void *state, void *motion, void *position, void *actor);

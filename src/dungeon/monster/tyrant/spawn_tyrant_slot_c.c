@@ -1,5 +1,6 @@
 /* cfail-repair: tf7-phase1-cache-v3 */
 #include "common.h"
+#include "dungeon/system/random.h"
 #include "shared/monster_ids.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/object_node.h"
@@ -31,7 +32,6 @@ typedef struct S_func_80158898_4 {
     s16 unk_AA;
 } S_func_80158898_4;
 
-s32 generate_random_value(void);
 void func_80158AA4(void *actor, T_80170AA4_S_80170AA4_2 *motion, void *part);
 void func_80158F68(ActorRecord *actor_arg, ObjectPosition *context_arg, SpriteFrameState *map_object_arg, ActorRecord *actor_state_arg);
 extern M2C_UNK D_8015BFB8;

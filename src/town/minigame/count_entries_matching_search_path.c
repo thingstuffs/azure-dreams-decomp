@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_node.h"
 #include "town/minigame.h"
 #include "shared/position_views.h"
 #include "shared/entity.h"
@@ -90,7 +91,7 @@ void count_entries_matching_search_path(TownCollectionSequence *scene)
     u8 *work;
     void *root = scene->owner;
     SignedPositionView *compare = ((ObjectPayloadView *)root)->unk_08;
-    S_8002191C_5 *part = (S_8002191C_5 *)((u8 *)root + 0x20);
+    S_8002191C_5 *part = NODE_BODY(root);
     s16 mode = scene->state.s;
     u16 value;
     u16 flags;
@@ -337,7 +338,7 @@ void count_entries_matching_search_path(TownCollectionSequence *scene)
         work = (u8 *)scene + 0x1C;
         do {
             void *node = ((ObjectPosition *)work)->z.v;
-            S_8002191C_6 *node_part = (S_8002191C_6 *)((u8 *)node + 0x20);
+            S_8002191C_6 *node_part = NODE_BODY(node);
             u16 node_flags = node_part->unk_08;
             SignedPositionView *node_pos = ((ObjectPayloadView *)node)->unk_08;
 

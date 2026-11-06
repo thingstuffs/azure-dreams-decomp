@@ -1,4 +1,5 @@
 #include "dungeon/monster/golem/spawn_api.h"
+#include "dungeon/system/random.h"
 #include "dungeon/monster/golem.h"
 #include "shared/monster_ids.h"
 #include "shared/entity.h"
@@ -14,7 +15,6 @@
 
 
 
-extern s32 generate_random_value(void);
 
 extern u8 golem_particle_update_address[];
 

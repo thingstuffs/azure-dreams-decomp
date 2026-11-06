@@ -1,4 +1,5 @@
 #include "common.h"
+#include "slus/imports.h"
 #include "dungeon/actor.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/dungeon_status.h"
@@ -8,7 +9,6 @@ typedef void (*DungeonCallback)(void *, void *, void *, void *);
 extern DungeonCallback gravity_motion_callbacks[];
 
 extern s16 sample_terrain_surface_height(u16, u16, s16);
-extern void advance_sprite_animation_and_textures(void *);
 
 
 /* Runs object callbacks, applies movement and gravity, and updates ground height. */

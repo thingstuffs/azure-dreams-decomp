@@ -2,6 +2,7 @@
 #include "engine/graphics.h"
 /* Directional item effects, moving sprite copies, and target completion messages. */
 #include "common.h"
+#include "dungeon/system/random.h"
 #include "shared/entity.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/object_node.h"
@@ -18,7 +19,6 @@
  * src/dungeon/func_800BB400.c and func_800940E4.c).  Evidence:
  * docs/evidence/r121_rem_opus.md. */
 extern s16 set_or_clear_actor_status_slot(void *, s8, s8);
-extern s32 generate_random_value(void);
 typedef struct { s32 w[12]; } Packet48;
 typedef struct { s16 x; u16 y; } DirectionPair;
 typedef struct { DirectionPair v[8]; } DirectionTable;

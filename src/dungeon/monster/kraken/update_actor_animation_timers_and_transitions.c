@@ -1,6 +1,7 @@
 #include "shared/object_node.h"
 #include "shared/actor_status_ids.h"
 #include "common.h"
+#include "dungeon/system/random.h"
 #include "dungeon/monster/kraken.h"
 #include "shared/tile_object.h"
 #include "shared/record_ptrs.h"
@@ -28,12 +29,10 @@ typedef struct S_8017352C_5 {
    /* part28 in update_actor_animation_timers_and_transitions */
 
 
-extern s32 get_entity_effect_value(ActorRecord *entry, s32 effect_id);
 extern void select_sprite_entry(void *, u8, s32);
 extern s32 get_tile_chebyshev_distance(void *, void *);
 #include "dungeon/player/object/action_state.h"
 #include "dungeon/actor.h"
-extern s32 generate_random_value(void);
 extern void update_actor_status_and_mp(ActorRecord *entity);
 extern void begin_pushed_actor_move(void *state_in, ObjectPosition *unused, void *position_in, void *actor_in);
 extern void begin_actor_move_to_target_facing(ActorRecord *body, ObjectPosition *position, SpriteFrameState *sprite, ActorRecord *actor);

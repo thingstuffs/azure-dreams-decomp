@@ -1,4 +1,5 @@
 #include "common.h"
+#include "engine/node/registration.h"
 #include "shared/object_flags.h"
 #include "town/scene/object.h"
 #include "town.h"
@@ -11,7 +12,6 @@
  * w_800510DC.c rather than the two-independent-lui -G0 shape. */
 
 extern void copy_a_pointer_table_initializes_extra_data_tag_hex_13(void *a0, void *a1); /* Unprototyped: uses the value as a pointer where the definition has an integer (or the reverse) */
-extern void unlink_node_if_registered(void *a0);
 
 /* Update the object from supplied data and set its local and global flags. */
 void update_the_data_set_local_global_flags(void *object, void *update_data)

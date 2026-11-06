@@ -25,7 +25,7 @@ s32 draw_linked_sprites(void *first_payload, ObjectPosition *first_coords, Sprit
             draw_sprite_parts(payload, record, (s16)((coords->z).unsigned_parts.integer + ((u16)(record->depth_bias))));
         }
 
-        next_node = ((ObjectNodeHeader *)payload)[-1].chain_next;
+        next_node = NODE_HEADER(payload)->chain_next;
         payload = NODE_BODY(next_node);
         if (next_node == 0) {
             break;

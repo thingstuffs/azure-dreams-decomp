@@ -42,7 +42,7 @@ void select_bank_actor_callback(ActorRecord *state, ObjectPosition *action, stru
 void update_bank_staged_movement(ActorRecord *body, ObjectPosition *motion,struct SpriteFrameState *sprite, ActorRecord *actor);
 void update_bank_actor_targeted_action(ActorRecord *owner_input, ObjectPosition *motion_input, SpriteFrameState *actor_input, ActorRecord *object);
 void restore_bank_actor_tile(ActorRecord *action, ObjectPosition *motion, SpriteFrameState *sprite, ActorRecord *entity);
-void slow_directional_motion(void *effect_data, void *motion_data, void *sprite_data, void *object_data);
+void slow_directional_motion(ActorRecord *effect_data, void *motion_data, SpriteFrameState *sprite_data, void *object_data);
 void forward_bank_actor_callback_a(ActorRecord *state, ObjectPosition *action, SpriteFrameState *source, ActorRecord *target);
 void forward_bank_actor_callback_b(void *state, ObjectPosition *action, SpriteFrameState *source, ActorRecord *target);
 void restore_bank_actor_callback_a(ActorRecord *state, ObjectPosition *action, struct SpriteFrameState *source, ActorRecord *target);

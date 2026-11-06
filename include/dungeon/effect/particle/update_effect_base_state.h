@@ -20,8 +20,8 @@ typedef struct S_81844800_0_pre {
 typedef struct FadingProjectileSpellBody {
     SpellEffectHeader spell;
     u8 pad_0C[0x44];
-    union { u16 s; s16 u; } unk_50;   /* accessed as both */
-    union { u16 s; s16 u; } unk_52;   /* accessed as both */
+    u16 unk_50;
+    u16 unk_52;
 } FadingProjectileSpellBody;
 
 typedef struct S_81844800_1_pre {
@@ -60,7 +60,7 @@ typedef struct FadingProjectileEffectBody {
     u8 pad_04[0x44];
     u16 timer;
     union { u16 u; s16 s; u8 byte; } brightness_step;
-    union { u16 u; s16 s; } state;
+    s16 state;
 } FadingProjectileEffectBody;
 
 
@@ -126,13 +126,13 @@ typedef struct S_81844F2C_0_pre {
 typedef struct S_81844F2C_0 {
     void * unk_00;
     u16 unk_04;
-    union { u16 s; u16 u; } unk_06;   /* accessed as both */
+    u16 unk_06;
     u8 pad_08[0x4];
     u16 unk_0C;
     u16 unk_0E;
     u8 pad_10[0x1A];
-    union { u16 s; u16 u; s16 p; } unk_2A;   /* accessed as both */
-    union { u16 s; s16 u; u16 p; } unk_2C;   /* accessed as both */
+    u16 unk_2A;
+    u16 unk_2C;
 } S_81844F2C_0;   /* base in func_8002472C */
 
 typedef struct S_81844F2C_1 {

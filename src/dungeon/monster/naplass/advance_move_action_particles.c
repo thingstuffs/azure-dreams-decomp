@@ -1,6 +1,7 @@
 #include "shared/audio_commands.h"
 #include "shared/actor_status_flags.h"
 #include "common.h"
+#include "dungeon/system/random.h"
 #include "dungeon/monster/naplass.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/def_table.h"
@@ -40,7 +41,6 @@ typedef struct S_80172840_10 {
 
 extern s32 resolve_record_orientation_or_fallback(s32, void *, u16 *, s32);
 extern void select_sprite_entry(void *, s32, s32);
-extern s32 generate_random_value(void);
 
 extern u8 secondary_sprite[0x20];
 extern u8 naplass_action_continuation_address[0x10];

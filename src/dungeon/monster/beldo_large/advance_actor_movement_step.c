@@ -1,4 +1,5 @@
 #include "common.h"
+#include "dungeon/system/random.h"
 #include "shared/dungeon_floor.h"
 #include "shared/tile_object.h"
 #include "shared/entity.h"
@@ -31,7 +32,6 @@ void cycle_map_cell_flags(s16, s16, u16);
 s32 check_diagonal_side_height(s32, s16, s16, s16);
 extern s32 check_movement_clearance_and_height();
 s16 get_actor_height_difference(struct ActorRecord *, struct ActorRecord *);
-extern s32 generate_random_value(void);
 void update_actor_status_and_mp(struct ActorRecord *);
 struct Rec_D_80082E80; struct Rec_func_800A9E70_arg0;
 

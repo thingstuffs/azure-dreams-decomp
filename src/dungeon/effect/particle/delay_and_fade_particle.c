@@ -1,4 +1,5 @@
 #include "shared/object_node_flags.h"
+#include "slus/imports.h"
 #include "shared/audio_commands.h"
 /* Ground-following attack particles, delayed fades, and target impact bursts. */
 #include "modules/dungeon_ovl_1870800.h"
@@ -160,8 +161,6 @@ void decrement_flagged_item_parameters(S_81850800_0 *owner, S_81850800_7 *motion
 void (*const dungeon_1870800_entry)(S_81850800_0 *, S_81850800_7 *, SpriteFlagsView *) = decrement_flagged_item_parameters;
 
 /* Advance a directional effect, spawn its particles, and apply its target impact. */
-extern s32 register_node(ObjectNodeHeader *, void *);
-extern void advance_sprite_animation_and_textures(void *);
 
 /* Emits a ground-following particle trail and target burst, applies the attack, and waits for effect
    cleanup. */

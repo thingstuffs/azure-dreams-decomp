@@ -1,5 +1,6 @@
 #include "shared/actor_status_flags.h"
 #include "common.h"
+#include "engine/graphics/select_sprite_entry_api.h"
 #include "dungeon/actor.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/tile_object.h"
@@ -58,7 +59,6 @@ typedef struct {
 extern u8 metal_action_resume_address[];
 
 struct SpriteFrameState;
-extern void select_sprite_entry(void *, s16, s16);
 extern void spend_actor_mp(Entity *, s32);
 
 

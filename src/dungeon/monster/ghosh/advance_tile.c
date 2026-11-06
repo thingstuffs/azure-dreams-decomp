@@ -1,6 +1,7 @@
 #include "shared/object_node.h"
 /* Ghosh tile stepping and staged actor movement. */
 #include "common.h"
+#include "dungeon/system/random.h"
 #include "shared/tile_object.h"
 #include "shared/entity.h"
 #include "shared/record_ptrs.h"
@@ -47,7 +48,6 @@ void *find_adjacent_actor(void *entity, u16 x, u16 y);
 s32 probe_directional_neighbor(void *, s32, s32, s32); /* Unprototyped: uses the value as a pointer where the definition has an integer (or the reverse) */
 s16 get_rounded_facing_and_rounding_flag(s32, s32, s32, s32, void *); /* Unprototyped: retail call narrows its arguments to this declaration; no shared prototype keeps it */
 s32 select_actor_route_target(u8 *actor_held, s32 kind, u8 *work_p, u16 *out);
-s32 generate_random_value(void);
 void update_actor_status_and_mp(ActorRecord *entity);
 extern s16 actor_turn_angle_offsets[];
 extern TileObject D_80082E80_b __asm__("D_80082E80");

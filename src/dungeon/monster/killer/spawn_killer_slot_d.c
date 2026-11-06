@@ -1,6 +1,7 @@
 #include "shared/actor_status_ids.h"
 /* cfail-repair: tf7-phase1-cache-v3 */
 #include "common.h"
+#include "dungeon/system/random.h"
 #include "shared/entity.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/object_node.h"
@@ -53,7 +54,6 @@ struct DungeonSub1 {
     s8 field9c;
 };
 
-s32 generate_random_value(void);
 extern u8 D_8015EA7C[];
 extern M2C_UNK D_8015EEA8;
 extern M2C_UNK D_80162038;

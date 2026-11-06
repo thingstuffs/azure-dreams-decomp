@@ -13,7 +13,6 @@
 
 extern s32 actor_fade_draw_address;
 
-s32 register_node(ObjectNodeHeader *entry, void *registration_id);
 
 /* Advances the effect through color fades and animation changes, then marks it complete. */
 void update_timed_color_transition_effect(u8 *effect_state, s32 unused, SpriteFrameState *render_data) {

@@ -2,6 +2,7 @@
 #include "shared/entity.h"
 #include "shared/sprite_frame_state.h"
 #include "common.h"
+#include "engine/graphics/select_sprite_entry_api.h"
 #include "m2c_compat.h"
 #include "shared/dungeon_floor.h"
 #include "shared/object_node.h"
@@ -33,8 +34,6 @@ typedef struct {
     u8 padE[6];
 } DungeonRecord;
 
-extern s32 register_node(ObjectNodeHeader *entry, void *registration_id);
-extern void select_sprite_entry(void *, s16, s16);
 extern s8 find_active_rect_containing_point(s32, s32);
 extern void update_actor_status_and_mp(ActorRecord *entity);
 

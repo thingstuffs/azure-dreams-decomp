@@ -2,6 +2,7 @@
 #include "shared/actor_property_flags.h"
 #include "shared/actor_status_ids.h"
 #include "common.h"
+#include "dungeon/system/random.h"
 #include "m2c_compat.h"
 #include "dungeon/item.h"
 #include "dungeon/menu.h"
@@ -19,7 +20,6 @@ typedef struct S_800C8DB0_0 {
     s32 unk_14;
 } S_800C8DB0_0;   /* arg0 in attempt_action_six_if_eligible */
 
-s32 generate_random_value(void);
 extern s32 D_800DCF20;
 extern u8 D_800E1937[37];
 extern u8 D_800E1A6D[27];

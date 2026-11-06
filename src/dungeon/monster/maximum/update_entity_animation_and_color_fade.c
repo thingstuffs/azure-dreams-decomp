@@ -2,6 +2,8 @@
 #include "shared/actor_status_flags.h"
 #include "shared/actor_status_ids.h"
 #include "common.h"
+#include "engine/entity/effect_slots.h"
+#include "dungeon/system/random.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/tile_object.h"
 #include "shared/record_ptrs.h"
@@ -15,8 +17,6 @@ typedef struct S_80173204_7 {
     u16 unk_0A;
 } S_80173204_7;   /* counter in update_entity_animation_and_color_fade */
 
-extern s32 get_entity_effect_value(ActorRecord *entry, s32 effect_id);
-extern void clear_slots_of_type(ActorRecord *owner, s8 match_type);
 extern void select_sprite_entry(void *, u8, s32);
 extern s16 get_tile_chebyshev_distance(void *, void *);
 #include "dungeon/player/object/action_state.h"
@@ -26,7 +26,6 @@ extern s16 get_tile_chebyshev_distance(void *, void *);
 #include "dungeon.h"
 #include "dungeon/monster/maximum_frames.h"
 
-extern s32 generate_random_value(void);
 extern void update_actor_status_and_mp(ActorRecord *entity);
 extern void advance_actor_state_with_child(ActorRecord *actor, ObjectPosition *context, SpriteFrameState *entity, ActorRecord *creature);
 

@@ -1,4 +1,5 @@
 #include "common.h"
+#include "engine/node/registration.h"
 #include "dungeon/effect/mesh.h"
 #include "shared/object_node.h"
 #include "shared/entity.h"
@@ -24,7 +25,6 @@ typedef struct EffectBase {
 } EffectBase;
 
 
-s32 register_node(ObjectNodeHeader *entry, void *registration_id);
 
 extern s32 D_800D707C[];
 extern s16 actor_direction_step_pairs[];

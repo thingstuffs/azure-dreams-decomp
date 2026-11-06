@@ -1,6 +1,7 @@
 
 struct ObjectPosition;
 #include "common.h"
+#include "slus/imports.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/object_flags.h"
 #include "dungeon/effect.h"
@@ -8,7 +9,6 @@ struct ObjectPosition;
 #include "shared/object_node.h"
 #include "dungeon/monster/cyclone/bobbing_motion.h"
 
-extern void advance_sprite_animation_and_textures(void *);
 extern void select_sprite_entry(void *, s32, s32);
 
 /* Advances motion and output animation, then signals completion after a short delay. */

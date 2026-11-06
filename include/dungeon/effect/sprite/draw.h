@@ -62,7 +62,7 @@ typedef struct Row_818F2800_S_BODY_5 {
 
 typedef struct Row_818F2800_S_BODY_6 {
     u8 pad_00[0x20];
-    union { s16 s; u16 u; } unk_20;   /* accessed as both */
+    u16 unk_20;
     u8 pad_22[0x6];
     u16 unk_28;
     u8 pad_2A[0x6];
@@ -75,8 +75,8 @@ typedef struct Row_818F2800_S_BODY_7 {
     u8 pad_m4[0x3];
     s8 len;
     s32 unk_00;
-    union { u16 u; s16 s; } unk_04;   /* accessed as both */
-    union { u16 u; s16 s; } unk_06;   /* accessed as both */
+    u16 unk_04;
+    u16 unk_06;
     s16 unk_08;
     s16 unk_0A;
     u16 unk_0C;
@@ -87,8 +87,8 @@ typedef struct Row_818F2800_S_BODY_7 {
     u16 unk_16;
     union { struct { s16 v; } at00; struct { u8 pad[0x1]; u8 v; } at01; } unk_18;   /* overlapping accesses */
     u8 pad_1A[0x2];
-    union { u16 u; s16 s; } unk_1C;   /* accessed as both */
-    union { u16 u; s16 s; } unk_1E;   /* accessed as both */
+    u16 unk_1C;
+    u16 unk_1E;
     union {
         struct { s16 v; } at00;
         struct { u8 v; } at00u;

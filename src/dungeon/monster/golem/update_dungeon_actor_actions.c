@@ -2,6 +2,8 @@
 #include "shared/actor_status_flags.h"
 #include "shared/actor_status_ids.h"
 #include "common.h"
+#include "engine/entity/effect_slots.h"
+#include "dungeon/system/random.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/dungeon_floor.h"
 #include "shared/tile_object.h"
@@ -28,9 +30,7 @@ extern u8 golem_frame_set_3[];
 extern u8 D_80175F50;
 extern u8 D_80175F60;
 
-extern s32 get_entity_effect_value(ActorRecord *entry, s32 effect_id);
 extern s32 find_active_rect_containing_point(s32 point_x, s32 point_y);
-extern s32 generate_random_value(void);
 extern void update_actor_status_and_mp(ActorRecord *entity);
 extern void advance_stored_path_motion();
 extern void update_actor_movement_and_tile_position();

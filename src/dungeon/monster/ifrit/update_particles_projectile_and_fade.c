@@ -1,4 +1,5 @@
 #include "common.h"
+#include "engine/graphics/select_sprite_entry_api.h"
 #include "dungeon/monster/ifrit.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/object_node.h"
@@ -57,7 +58,6 @@ extern Rect D_80170874;
 
 extern u8 D_801741A4[];
 
-extern void select_sprite_entry(void *, s16, s16);
 extern void unlink_entity_node(void *);
 void update_map_cell_flags_with_item_limit(s32 x, s32 y, u16 flags);
 extern void draw_transformed_sprite_with_clip_rect(void *, Rect *, Point *, s32, s32);

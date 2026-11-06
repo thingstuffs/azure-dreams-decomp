@@ -3,6 +3,7 @@
 #include "shared/sprite_frame_state.h"
 #include "shared/dungeon_actor_callbacks.h"
 #include "common.h"
+#include "engine/entity/effect_slots.h"
 #include "shared/sys_flags.h"
 #include "shared/tile_object.h"
 #include "shared/game_work.h"
@@ -16,8 +17,6 @@
 #include "shared/object_node.h"
 #include "dungeon/item/message.h"
 
-extern s32 get_entity_effect_value(ActorRecord *entry, s32 effect_id);
-extern void clear_slots_of_type(ActorRecord *owner, s8 match_type);
 
 extern Rec_D_80083460 D_80083460;
 extern u8 D_800DCFF8[];

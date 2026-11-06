@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_node.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/game_work.h"
 
@@ -15,7 +16,7 @@ s32 project_and_draw_sprite_node_chain(u8 *first_data, ObjectPosition *first_coo
     void *coords = first_coords;
     SpriteFrameState *entry = first_entry;
     ScratchPad *scratch = (ScratchPad *)0x1F800000;
-    void *next_node;
+    ObjectNodeHeader *next_node;
 
     for (;;) {
         if (!(entry->flags & 0x80)) {
@@ -29,12 +30,12 @@ s32 project_and_draw_sprite_node_chain(u8 *first_data, ObjectPosition *first_coo
             }
         }
 
-        next_node = *(void **)(node_data - 8);
+        next_node = NODE_HEADER(node_data)->chain_next;
         if (next_node == 0) {
             return 0;
         }
-        node_data = (u8 *)next_node + 0x20;
-        coords = *(void **)((u8 *)next_node + 8);
-        entry = *(SpriteFrameState **)((u8 *)next_node + 0xC);
+        node_data = NODE_BODY(next_node);
+        coords = next_node->position;
+        entry = next_node->sprite;
     }
 }

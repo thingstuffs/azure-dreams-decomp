@@ -4,6 +4,7 @@
 
 struct SpriteFrameState;
 #include "common.h"
+#include "dungeon/system/random.h"
 #include "engine/menu.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/sys_flags.h"
@@ -27,7 +28,6 @@ extern s32 begin_actor_attack();
 #include "dungeon/player/motion.h"
 #include "dungeon/player/input.h"
 
-extern s32 generate_random_value(void);
 
 extern u8 player_menu_action_data[];
 extern void *actor_default_frames[];

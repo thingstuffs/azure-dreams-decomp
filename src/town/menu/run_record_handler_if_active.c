@@ -1,4 +1,5 @@
 #include "common.h"
+#include "slus/imports.h"
 #include "shared/object_links.h"
 #include "town/menu.h"
 
@@ -8,7 +9,6 @@ typedef struct S_800A78AC_0 {
     u8 pad_00[0x50];
     s32 (*unk_50)(void *, s32, s32); /* e.g. update_scale_effect_and_advance(state, context, scale) */
 } S_800A78AC_0;   /* arg0 in run_record_handler_if_active */
-void advance_sprite_animation_and_textures(void *entity);                     /* extern */
 
 /* Call the record handler and update its data if the record remains active. */
 void run_record_handler_if_active(void *record, s32 context, s32 update_data) {

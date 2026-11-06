@@ -2,6 +2,7 @@
 #include "shared/actor_property_flags.h"
 #include "shared/actor_status_ids.h"
 #include "common.h"
+#include "dungeon/system/random.h"
 #include "shared/monster_ids.h"
 #include "shared/sprite_frame_state.h"
 #include "m2c_compat.h"
@@ -16,7 +17,6 @@
 
 
 
-extern s32 generate_random_value(void);
 extern u8 D_8015EA30[];
 extern u8 D_80161D0C[];
 extern u8 D_80161D4C[];

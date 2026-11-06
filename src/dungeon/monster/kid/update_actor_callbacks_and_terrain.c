@@ -1,6 +1,7 @@
 #include "shared/entity.h"
 /* cfail-repair: tf7-phase1-cache-v3 */
 #include "common.h"
+#include "slus/imports.h"
 #include "shared/dir_step.h"
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
@@ -14,7 +15,6 @@
 #include "sdk/libgte.h"
 
 void select_sprite_entry(void *, u8, s32);             /* extern */
-void advance_sprite_animation_and_textures(void *);                       /* extern */
 s32 refresh_actor_facing_and_lifecycle(void *, void *, void *, void *); /* extern */
 void kid_action_resume_address(ActorRecord *actor, ObjectPosition *context, SpriteFrameState *sprite_in, ActorRecord *entity);
 extern u8 kid_direction_frames[12];

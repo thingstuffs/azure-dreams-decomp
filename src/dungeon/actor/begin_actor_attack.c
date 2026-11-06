@@ -1,4 +1,5 @@
 #include "common.h"
+#include "dungeon/system/random.h"
 #include "shared/dungeon_status.h"
 #include "dungeon/system.h"
 #include "dungeon/item.h"
@@ -32,7 +33,6 @@ typedef struct {
 } DungeonState;
 
 extern struct Ent *prepare_directional_attack(Actor *, void *, s16, s32, void *);
-extern s32 generate_random_value(void);
 
 /* Reset the entity state and initialize the active dungeon actor. */
 s32 begin_actor_attack(ActorRecord *body, s32 unused, void *action_param, Actor *actor) {

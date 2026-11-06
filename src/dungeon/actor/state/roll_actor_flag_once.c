@@ -1,7 +1,7 @@
 #include "dungeon/actor/state.h"
+#include "dungeon/system/random.h"
 #include "shared/entity.h"
 
-extern s32 generate_random_value(void);
 
 /* Once per actor, roll flag 0x100 using its divisor. */
 void roll_actor_flag_once(ActorRecord *body, s32 divisor) {

@@ -26,15 +26,6 @@ typedef struct S_800A6F48_0 {
     PairedEffectOffsets *unk_0C;
 } S_800A6F48_0;
 
-typedef struct S_800A6F48_4 {
-    u8 pad_00[0x8];
-    struct ObjectPosition *position;
-    u8 pad_0C[0xA4];
-    s16 unk_B0;
-} S_800A6F48_4;
-
-
-
 typedef struct S_800A6F48_10 {
     u8 pad_00[0x50];
     void (*unk_50)();
@@ -55,7 +46,7 @@ typedef struct S_800A6F48_11 {
 /* extern */
 /* extern */
 extern void D_800A70EC();
-extern M2C_UNK D_800D0DD8;
+extern PairedEffectOffsets D_800D0DD8;
 
 /* Functions defined in this translation unit. */
 void accumulate_effect_step(void *updateState, s32 unused1, s32 unused2, void *accumulatorState);

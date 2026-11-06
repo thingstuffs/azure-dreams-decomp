@@ -3,6 +3,7 @@
 #include "modules/dungeon_ovl_18f4800.h"
 #include "shared/object_node.h"
 #include "common.h"
+#include "dungeon/system/random.h"
 #include "shared/game_work.h"
 #include "shared/object_flags.h"
 #include "m2c_compat.h"
@@ -57,7 +58,6 @@ extern u8 D_80025100[16];
 extern Packed12 actor_particle_images;
 extern u8 current_spell_effect_variant[16];
 extern void unlink_node(void *);
-extern s32 generate_random_value(void);
 
 /* Projects linked points and queues visible square particles with color scaled by each point's intensity. */
 s32 draw_actor_effect_points(void *object_data, void *position_data)

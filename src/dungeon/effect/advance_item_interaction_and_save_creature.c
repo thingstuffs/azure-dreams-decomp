@@ -4,6 +4,7 @@
 #include "dungeon/effect/state.h"
 #include "shared/entity_height_offsets.h"
 #include "common.h"
+#include "dungeon/system/random.h"
 #include "dungeon/item/monster_resource_slots_g00325.h"
 #include "shared/sys_flags.h"
 #include "shared/dungeon_floor.h"
@@ -167,7 +168,6 @@ void update_map_cell_flags_with_item_limit(s32 x, s32 y, u16 flags);
 #include "engine/resource.h"
 #include "slus.h"
 
-s32 generate_random_value(void);
 #include "dungeon/actor/effect.h"
 #include "dungeon/system.h"
 #include "dungeon/level.h"

@@ -1,5 +1,6 @@
 #include "shared/sprite_frame_state.h"
 #include "common.h"
+#include "slus/imports.h"
 #include "m2c_compat.h"
 #include "shared/dir_step.h"
 #include "shared/game_work.h"
@@ -16,7 +17,6 @@
 #include "dungeon/monster/kraken_frames.h"
 
 
-void advance_sprite_animation_and_textures(void *entity);
 s32 refresh_actor_facing_and_lifecycle();
 extern M2C_UNK D_80174174[];
 

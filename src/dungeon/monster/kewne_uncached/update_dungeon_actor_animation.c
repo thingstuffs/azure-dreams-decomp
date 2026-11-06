@@ -37,13 +37,13 @@ extern u8 D_80169CA0[];
 extern u8 D_80169CA8[];
 
 /* Updates a dungeon actor's animation, behavior, and facing from its current state. */
-void update_dungeon_actor_animation(void *actor, ObjectPosition *actor_aux, SpriteFrameState *sprite, ActorRecord *actor_data) {
+void update_dungeon_actor_animation(ActorRecord *actor, ObjectPosition *actor_aux, SpriteFrameState *sprite, ActorRecord *actor_data) {
     u16 distance;
     s8 room_id;
     u16 action_state;
 
     if (g_dungeon_status.flags & 0x1000) {
-        ((ActorRecord *)actor)->action_id.u = 0xE;
+        actor->action_id.u = 0xE;
         advance_actor_path_and_facing(actor, actor_aux, sprite, actor_data);
         return;
     }
@@ -64,9 +64,9 @@ void update_dungeon_actor_animation(void *actor, ObjectPosition *actor_aux, Spri
 
     if (((u32)actor_data->flags1C) & ACTOR_ASLEEP) {
         if (sprite->frameTable == D_80169C90) {
-            ((ActorRecord *)actor)->action_id.u = 0xD;
-            ((ActorRecord *)actor)->action_phase.u = 1;
-            ((ActorRecord *)actor)->unk_8C.word = 0;
+            actor->action_id.u = 0xD;
+            actor->action_phase.u = 1;
+            actor->unk_8C.word = 0;
             actor_data->flags1C &= 0xFFFBFFFF;
             return;
         }
@@ -82,14 +82,14 @@ void update_dungeon_actor_animation(void *actor, ObjectPosition *actor_aux, Spri
         }
 
         {
-            u8 current_state = ((ActorRecord *)actor)->action_id.u;
+            u8 current_state = actor->action_id.u;
             u32 next_state = 0xE;
             void *current_anim;
             void *anim_table;
 
             if (current_state != next_state) {
-                ((ActorRecord *)actor)->action_id.u = next_state;
-                ((ActorRecord *)actor)->unk_B4.halves.high.s = 0;
+                actor->action_id.u = next_state;
+                actor->unk_B4.halves.high.s = 0;
             }
             current_anim = sprite->frameTable;
             if (current_anim != D_80169CA8 || (sprite->flags & 0xE000)) {
@@ -109,14 +109,14 @@ void update_dungeon_actor_animation(void *actor, ObjectPosition *actor_aux, Spri
                         0);
                 }
                 sprite->frame_ticks = 1;
-                ((ActorRecord *)actor)->unk_A0.halves.high.s = 0;
-                ((ActorRecord *)actor)->unk_9E.s = 0;
+                actor->unk_A0.halves.high.s = 0;
+                actor->unk_9E.s = 0;
             }
         }
 state_done:
 
         (*(u32 *)&actor_data->flags1C) |= 0x40000;
-        ((ActorRecord *)actor)->action_state_flags &= 0xFFF7;
+        actor->action_state_flags &= 0xFFF7;
 
         if (actor_data->hp_delta != 0) {
             if (begin_ready_actor_directional_action(actor, actor_aux, sprite, D_80169C38) != 0) {
@@ -128,10 +128,10 @@ state_done:
             s16 delta;
 
             begin_actor_move_to_target_facing(actor, actor_aux, sprite, actor_data);
-            delta = ((ActorRecord *)actor)->unk_90.parts.high.u - ((ActorRecord *)actor)->unk_A0.parts.high;
-            ((ActorRecord *)actor)->unk_A0.halves.high.s = 0;
-            ((ActorRecord *)actor)->unk_9E.s = 0;
-            ((ActorRecord *)actor)->unk_90.parts.high.s = delta;
+            delta = actor->unk_90.parts.high.u - actor->unk_A0.parts.high;
+            actor->unk_A0.halves.high.s = 0;
+            actor->unk_9E.s = 0;
+            actor->unk_90.parts.high.s = delta;
             func_80169078(actor, actor_aux, sprite, actor_data);
             return;
         }

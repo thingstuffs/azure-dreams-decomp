@@ -1,4 +1,5 @@
 #include "common.h"
+#include "slus/imports.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/dir_step.h"
 #include "shared/dungeon_floor.h"
@@ -17,7 +18,6 @@ typedef void (*EntityCallback)(void *, void *, void *, void *);
 
 extern EntityCallback stealth_callbacks[];
 
-extern void advance_sprite_animation_and_textures(void *);
 extern s32 refresh_actor_facing_and_lifecycle(void *, void *, void *, void *);
 
 /* Local views retain the signed and packed accesses used by this actor update. */

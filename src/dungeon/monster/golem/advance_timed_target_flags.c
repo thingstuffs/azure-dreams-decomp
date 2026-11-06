@@ -1,4 +1,5 @@
 #include "common.h"
+#include "slus/imports.h"
 #include "dungeon/monster/golem.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/object_flags.h"
@@ -13,7 +14,6 @@ typedef struct {
 extern s32 golem_frame_set_3;
 
 
-void advance_sprite_animation_and_textures(void *);
 
 typedef struct S_80174D24_1 {
     union { struct { s32 v; } at00; struct { u8 pad[0x2]; u16 v; } at02; } unk_00;   /* overlapping accesses */

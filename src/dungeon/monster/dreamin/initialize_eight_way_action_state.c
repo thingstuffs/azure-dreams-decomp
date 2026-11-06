@@ -1,5 +1,6 @@
 #include "shared/entity.h"
 #include "common.h"
+#include "engine/graphics/select_sprite_entry_api.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/game_work.h"
 #include "dungeon/monster/dreamin.h"
@@ -24,7 +25,6 @@ typedef struct {
 
 extern u8 D_8017387C[9];
 struct SpriteFrameState;
-extern void select_sprite_entry(void *, s16, s16);
 
 // Initializes state and configures the context from an eight-way direction lookup.
 void initialize_eight_way_action_state(ActorRecord *body, ObjectPosition *unused, SpriteFrameState *context, ActorRecord *directionSource) {

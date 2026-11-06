@@ -1,4 +1,5 @@
 #include "dungeon/monster/unicorn.h"
+#include "dungeon/system/random.h"
 #include "shared/actor_status_flags.h"
 #include "shared/actor_status_ids.h"
 #include "shared/monster_ids.h"
@@ -13,7 +14,6 @@
 /* The update callback is the shared dragon code at this bank's own address;
  * its canonical name sits at 0x80170A28 and the home bank does not rebind it. */
 extern u8 D_80170A50[];
-extern s32 generate_random_value(void);
 
 /* Allocate Unicorn, set its spawn state and frames, and try a valid tile. */
 void *spawn_unicorn(s16 spawn_flags, s16 tile_x, s16 tile_y, s16 spawn_height)

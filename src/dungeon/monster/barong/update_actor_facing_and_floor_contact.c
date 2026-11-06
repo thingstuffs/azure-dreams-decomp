@@ -1,4 +1,5 @@
 #include "common.h"
+#include "slus/imports.h"
 #include "shared/dir_step.h"
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
@@ -11,7 +12,6 @@
 
 typedef void (*Callback)(void *, void *, void *, void *);
 
-extern void advance_sprite_animation_and_textures(void *);
 extern s32 refresh_actor_facing_and_lifecycle(void *, void *, void *, void *);
 extern s16 sample_terrain_surface_height(u16, u16, s16);
 

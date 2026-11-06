@@ -1,5 +1,6 @@
 #include "shared/audio_commands.h"
 #include "common.h"
+#include "shared/object_node.h"
 #include "engine/menu/selection_menu.h"
 #include "shared/game_work.h"
 #include "engine/menu.h"
@@ -43,7 +44,7 @@ void handle_object_input(void *object)
                 *(StateFn_80050308 *)((char *)obj - 0x10) = run_state_callback_and_restore;
                 obj->saved_callback_word = prev_callback;
             } else {
-                release_selection_menu_and_preserve_pending_value((char *)obj - 0x20);
+                release_selection_menu_and_preserve_pending_value(NODE_HEADER(obj));
             }
         } else if (g_game_work.buttons & 0x5000) {
             direction = 0;

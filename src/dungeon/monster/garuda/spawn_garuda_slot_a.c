@@ -4,6 +4,7 @@
 #include "shared/actor_status_ids.h"
 /* cfail-repair: tf7-phase1-cache-v3 */
 #include "common.h"
+#include "dungeon/system/random.h"
 #include "shared/monster_ids.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/object_node.h"
@@ -33,7 +34,6 @@ typedef struct S_81029000_4 {
     s8 unk_9C;
 } S_81029000_4;   /* actor in spawn_garuda_slot_a */
 
-s32 generate_random_value(void);
 void func_8014CA78(void *obj, void *input_motion, SpriteFrameState *input_part);
 void func_8014D058(ActorRecord *actor, ObjectPosition *context, SpriteFrameState *sprite_arg, ActorRecord *creature);
 extern M2C_UNK D_80150880;

@@ -1,4 +1,5 @@
 #include "common.h"
+#include "slus/imports.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/sys_flags.h"
 #include "shared/record_ptrs.h"
@@ -59,7 +60,6 @@ typedef struct S_800CB9DC_9 {
     s32 unk_14A0;
 } S_800CB9DC_9;   /* page14_again in advance_go_up_trap_sequence */
 
-extern void advance_sprite_animation_and_textures(void *entity);                      /* extern */
 void unlink_entity_node(struct EntityLinkNode *node);                      /* extern */
 void update_map_cell_flags_with_item_limit(s32 x, s32 y, u16 flags);             /* extern */
 extern s16 floor_generation_state[3];

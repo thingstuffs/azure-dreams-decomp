@@ -15,7 +15,7 @@ void allocate_payload_object(ObjectNodeHeader *owner, s32 payloadValue, s16 payl
         if (allocatedObject != 0) {
             allocatedObject->update_callback = &update_oriented_offset_effect_position;
             objectData = NODE_BODY(allocatedObject);
-            objectData->unk_00 = owner;
+            objectData->owner = owner;
             objectData->unk_04 = payloadValue;
             objectData->unk_8E.s = payloadShortValue;
         }

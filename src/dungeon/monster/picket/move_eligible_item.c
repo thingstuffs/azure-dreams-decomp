@@ -1,5 +1,6 @@
 #include "shared/dungeon_item_entries.h"
 #include "common.h"
+#include "dungeon/system/random.h"
 #include "shared/dir_step.h"
 #include "m2c_compat.h"
 #include "dungeon/item.h"
@@ -9,7 +10,6 @@
 #include "dungeon/monster/picket.h"
 
 extern void clear_slot_and_update_linked_state(void *, void *); /* Unprototyped: retail call passes more arguments than the callee reads */
-extern s32 generate_random_value(void);
 
 extern s32 dungeon_actor_ring_anchor[];
 extern s32 D_80162FE4[];

@@ -432,7 +432,7 @@ extern u8 directional_sprite_entries[];
 extern u8 current_spell_effect_variant[];
 
 /* Per-frame chasing-star step: drift toward the player, steer around the map and spawn the two trailing sprites. */
-void update_chasing_star_effect(void *entity, ObjectPosition *pos, B32_818CF0E8_S_818CF0E8_3 *gfx)
+void update_chasing_star_effect(B32_818CF0E8_S_818CF0E8_0 *entity, ObjectPosition *pos, B32_818CF0E8_S_818CF0E8_3 *gfx)
 {
     B32_818CF0E8_S_818CF0E8_2 *star;
     B32_818CF0E8_S_818CF0E8_7 *env;
@@ -449,8 +449,8 @@ void update_chasing_star_effect(void *entity, ObjectPosition *pos, B32_818CF0E8_
     u32 hi;
 
     linked_point_effect_updated[0] = 1;
-    env = ((B32_818CF0E8_S_818CF0E8_0 *)entity)->unk_2C;
-    if (((B32_818CF0E8_S_818CF0E8_0 *)entity)->unk_00 == 0) {
+    env = entity->unk_2C;
+    if (entity->unk_00 == 0) {
         p = (void *)0;
         loop_0: {
             s32 a3v;
@@ -459,22 +459,22 @@ void update_chasing_star_effect(void *entity, ObjectPosition *pos, B32_818CF0E8_
             w1 = ((u8 *)entity - 0x20);
             src = (u8 *)(0xC0C0C0);
             a3v = (rv & 0xFF) | 0x80;
-            create_jittered_terrain_seeking_point(w1, ((B32_818CF0E8_S_818CF0E8_0 *)entity)->unk_16, (s32)src, a3v, 0, 0, 0);
+            create_jittered_terrain_seeking_point(w1, entity->unk_16, (s32)src, a3v, 0, 0, 0);
             p = (B32_818CF0E8_S_818CF0E8_6 *)((u8 *)p + 1);
         } if ((s32)p < 4) goto loop_0;
         if ((check_adjacent_tile_height_clearance(pos->x.unsigned_parts.integer, pos->y.unsigned_parts.integer,
-                           pos->z.w.i, ((B32_818CF0E8_S_818CF0E8_0 *)entity)->unk_30) << 0x10) != 0) {
-            ((B32_818CF0E8_S_818CF0E8_9 *)(((B32_818CF0E8_S_818CF0E8_0 *)entity)->unk_34))->unk_86 = 1;
+                           pos->z.w.i, entity->unk_30) << 0x10) != 0) {
+            ((B32_818CF0E8_S_818CF0E8_9 *)(entity->unk_34))->unk_86 = 1;
             ((B32_818CF0E8_S_818CF0E8_0_pre *)entity)[-1].unk_00 |= 0x8000;
             object_flag_block.flags |= OBJECT_REMOVE_PENDING;
             return;
         }
-        if (((B32_818CF0E8_S_818CF0E8_0 *)entity)->unk_08 != 0) {
+        if (entity->unk_08 != 0) {
             u16 a2v;
             u16 a1v;
-            star = ((B32_818CF0E8_S_818CF0E8_8_pre *)(((B32_818CF0E8_S_818CF0E8_0 *)entity)->unk_30))[-1].unk_00;
+            star = ((B32_818CF0E8_S_818CF0E8_8_pre *)(entity->unk_30))[-1].unk_00;
             if (pos->z.v < star->unk_08.at00.v + (s32)0xFF800000) {
-                ((B32_818CF0E8_S_818CF0E8_0 *)entity)->unk_54 /= 2;
+                entity->unk_54 /= 2;
             }
             {
             s32 d;
@@ -488,18 +488,18 @@ void update_chasing_star_effect(void *entity, ObjectPosition *pos, B32_818CF0E8_
                 s32 lim;
                 s32 x_speed;
                 lim = 0x40000;
-                x_speed = ((B32_818CF0E8_S_818CF0E8_0 *)entity)->unk_4C;
+                x_speed = entity->unk_4C;
                 a = x_speed;
                 a = abs(a);
                 if (a > lim) {
-                    ((B32_818CF0E8_S_818CF0E8_0 *)entity)->unk_4C = x_speed / 2;
+                    entity->unk_4C = x_speed / 2;
                 }
-            } else if (((B32_818CF0E8_S_818CF0E8_0 *)entity)->unk_4C == 0) {
+            } else if (entity->unk_4C == 0) {
                 s32 nv = -0x200000;
                 if (d <= 0) {
                     nv = 0x200000;
                 }
-                ((B32_818CF0E8_S_818CF0E8_0 *)entity)->unk_4C = nv;
+                entity->unk_4C = nv;
             }
             }
             {
@@ -513,18 +513,18 @@ void update_chasing_star_effect(void *entity, ObjectPosition *pos, B32_818CF0E8_
                 s32 a;
                 s32 lim;
                 lim = 0x40000;
-                v = ((B32_818CF0E8_S_818CF0E8_0 *)entity)->unk_50;
+                v = entity->unk_50;
                 a = v;
                 a = abs(a);
                 if (a > lim) {
-                    ((B32_818CF0E8_S_818CF0E8_0 *)entity)->unk_50 = v / 2;
+                    entity->unk_50 = v / 2;
                 }
-            } else if (((B32_818CF0E8_S_818CF0E8_0 *)entity)->unk_50 == 0) {
+            } else if (entity->unk_50 == 0) {
                 s32 nv = -0x200000;
                 if (d <= 0) {
                     nv = 0x200000;
                 }
-                ((B32_818CF0E8_S_818CF0E8_0 *)entity)->unk_50 = nv;
+                entity->unk_50 = nv;
             }
             }
             {
@@ -538,26 +538,26 @@ void update_chasing_star_effect(void *entity, ObjectPosition *pos, B32_818CF0E8_
                 d -= st;
                 aw = (d >= 0) ? d : (0 - d);
                 if (aw >= 0xC1) {
-                    pos->x.v += ((B32_818CF0E8_S_818CF0E8_0 *)entity)->unk_4C;
+                    pos->x.v += entity->unk_4C;
                 } else if (aw >= 4) {
-                    pos->x.v += (((B32_818CF0E8_S_818CF0E8_0 *)entity)->unk_4C * aw) / 192;
-                } else if (((B32_818CF0E8_S_818CF0E8_0 *)entity)->unk_38 != ((B32_818CF0E8_S_818CF0E8_0 *)entity)->unk_3C) {
+                    pos->x.v += (entity->unk_4C * aw) / 192;
+                } else if (entity->unk_38 != entity->unk_3C) {
                     s32 one;
                     one = 1;
-                    ((B32_818CF0E8_S_818CF0E8_0 *)entity)->unk_00 = one;
-                    ((B32_818CF0E8_S_818CF0E8_0 *)entity)->unk_02 = 0;
+                    entity->unk_00 = one;
+                    entity->unk_02 = 0;
                 }
-                if (((B32_818CF0E8_S_818CF0E8_0 *)entity)->unk_38 != ((B32_818CF0E8_S_818CF0E8_0 *)entity)->unk_3C) {
-                    s32 v = ((B32_818CF0E8_S_818CF0E8_0 *)entity)->unk_4C;
+                if (entity->unk_38 != entity->unk_3C) {
+                    s32 v = entity->unk_4C;
                     if (v > 0) {
                         if ((s32)(a1v << 0x10) <= (s32)(a2v << 0x10)) {
-                            ((B32_818CF0E8_S_818CF0E8_0 *)entity)->unk_00 = 1;
-                            ((B32_818CF0E8_S_818CF0E8_0 *)entity)->unk_02 = 0;
+                            entity->unk_00 = 1;
+                            entity->unk_02 = 0;
                         }
                     } else if (v < 0) {
                         if ((s32)(a2v << 0x10) <= (s32)(a1v << 0x10)) {
-                            ((B32_818CF0E8_S_818CF0E8_0 *)entity)->unk_00 = 1;
-                            ((B32_818CF0E8_S_818CF0E8_0 *)entity)->unk_02 = 0;
+                            entity->unk_00 = 1;
+                            entity->unk_02 = 0;
                         }
                     }
                 }
@@ -573,26 +573,26 @@ void update_chasing_star_effect(void *entity, ObjectPosition *pos, B32_818CF0E8_
                 d -= st;
                 aw = (d >= 0) ? d : (0 - d);
                 if (aw >= 0xC1) {
-                    pos->y.v += ((B32_818CF0E8_S_818CF0E8_0 *)entity)->unk_50;
+                    pos->y.v += entity->unk_50;
                 } else if (aw >= 4) {
-                    pos->y.v += (((B32_818CF0E8_S_818CF0E8_0 *)entity)->unk_50 * aw) / 192;
-                } else if (((B32_818CF0E8_S_818CF0E8_0 *)entity)->unk_3A != ((B32_818CF0E8_S_818CF0E8_0 *)entity)->unk_3E) {
+                    pos->y.v += (entity->unk_50 * aw) / 192;
+                } else if (entity->unk_3A != entity->unk_3E) {
                     s32 one;
                     one = 1;
-                    ((B32_818CF0E8_S_818CF0E8_0 *)entity)->unk_00 = one;
-                    ((B32_818CF0E8_S_818CF0E8_0 *)entity)->unk_02 = 0;
+                    entity->unk_00 = one;
+                    entity->unk_02 = 0;
                 }
-                if (((B32_818CF0E8_S_818CF0E8_0 *)entity)->unk_3A != ((B32_818CF0E8_S_818CF0E8_0 *)entity)->unk_3E) {
-                    s32 v = ((B32_818CF0E8_S_818CF0E8_0 *)entity)->unk_50;
+                if (entity->unk_3A != entity->unk_3E) {
+                    s32 v = entity->unk_50;
                     if (v > 0) {
                         if ((s32)(a1v << 0x10) <= (s32)(a2v << 0x10)) {
-                            ((B32_818CF0E8_S_818CF0E8_0 *)entity)->unk_00 = 1;
-                            ((B32_818CF0E8_S_818CF0E8_0 *)entity)->unk_02 = 0;
+                            entity->unk_00 = 1;
+                            entity->unk_02 = 0;
                         }
                     } else if (v < 0) {
                         if ((s32)(a2v << 0x10) <= (s32)(a1v << 0x10)) {
-                            ((B32_818CF0E8_S_818CF0E8_0 *)entity)->unk_00 = 1;
-                            ((B32_818CF0E8_S_818CF0E8_0 *)entity)->unk_02 = 0;
+                            entity->unk_00 = 1;
+                            entity->unk_02 = 0;
                         }
                     }
                 }
@@ -601,7 +601,7 @@ void update_chasing_star_effect(void *entity, ObjectPosition *pos, B32_818CF0E8_
                 s32 aw;
                 s32 d;
                 s32 st;
-                if (((B32_818CF0E8_S_818CF0E8_0 *)entity)->unk_4C != 0) {
+                if (entity->unk_4C != 0) {
                     a2v = pos->x.unsigned_parts.integer;
                     a1v = (u16)star->unk_02;
                 } else {
@@ -613,38 +613,38 @@ void update_chasing_star_effect(void *entity, ObjectPosition *pos, B32_818CF0E8_
                 d -= st;
                 aw = abs(d);
                 if (aw >= 0xC1) {
-                    pos->z.v += ((B32_818CF0E8_S_818CF0E8_0 *)entity)->unk_54;
+                    pos->z.v += entity->unk_54;
                 } else if (aw >= 4) {
-                    pos->z.v += (((B32_818CF0E8_S_818CF0E8_0 *)entity)->unk_54 * aw) / 192;
+                    pos->z.v += (entity->unk_54 * aw) / 192;
                 }
             }
         } else {
-            ((B32_818CF0E8_S_818CF0E8_0 *)entity)->unk_04 = (u16)((B32_818CF0E8_S_818CF0E8_0 *)entity)->unk_04 - 1;
-            pos->x.v += ((B32_818CF0E8_S_818CF0E8_0 *)entity)->unk_4C;
-            pos->y.v += ((B32_818CF0E8_S_818CF0E8_0 *)entity)->unk_50;
-            pos->z.v += ((B32_818CF0E8_S_818CF0E8_0 *)entity)->unk_54;
-            if (((B32_818CF0E8_S_818CF0E8_0 *)entity)->unk_04 <= 0) {
-                ((B32_818CF0E8_S_818CF0E8_9 *)(((B32_818CF0E8_S_818CF0E8_0 *)entity)->unk_34))->unk_86 = 1;
+            entity->unk_04 = (u16)entity->unk_04 - 1;
+            pos->x.v += entity->unk_4C;
+            pos->y.v += entity->unk_50;
+            pos->z.v += entity->unk_54;
+            if (entity->unk_04 <= 0) {
+                ((B32_818CF0E8_S_818CF0E8_9 *)(entity->unk_34))->unk_86 = 1;
                 ((B32_818CF0E8_S_818CF0E8_0_pre *)entity)[-1].unk_00 |= 0x8000;
                 object_flag_block.flags |= OBJECT_REMOVE_PENDING;
                 return;
             }
         }
     }
-    if (((B32_818CF0E8_S_818CF0E8_0 *)entity)->unk_00 == 1) {
-        if (((B32_818CF0E8_S_818CF0E8_0 *)entity)->unk_02 == 0) {
+    if (entity->unk_00 == 1) {
+        if (entity->unk_02 == 0) {
             play_sound_if_enabled(AUDIO_PLAY_CD_CUE);
             drain_audio_commands_and_service_channels();
         }
-        cnt = (u16)((B32_818CF0E8_S_818CF0E8_0 *)entity)->unk_02 + 1;
-        ((B32_818CF0E8_S_818CF0E8_0 *)entity)->unk_02 = cnt;
+        cnt = (u16)entity->unk_02 + 1;
+        entity->unk_02 = cnt;
         if (cnt >= 0xF) {
-            ((B32_818CF0E8_S_818CF0E8_0 *)entity)->unk_02 = 0;
-            ((B32_818CF0E8_S_818CF0E8_0 *)entity)->unk_00 = (u16)((B32_818CF0E8_S_818CF0E8_0 *)entity)->unk_00 + 1;
+            entity->unk_02 = 0;
+            entity->unk_00 = (u16)entity->unk_00 + 1;
         }
     }
-    if (((B32_818CF0E8_S_818CF0E8_0 *)entity)->unk_00 == 2) {
-        ((B32_818CF0E8_S_818CF0E8_0 *)entity)->unk_02 = (u16)((B32_818CF0E8_S_818CF0E8_0 *)entity)->unk_02 + 1;
+    if (entity->unk_00 == 2) {
+        entity->unk_02 = (u16)entity->unk_02 + 1;
         gfx->unk_1C -= 0x32;
         gfx->unk_1E -= 0x32;
         obj = allocate_flagged_object_node(0x212);
@@ -692,7 +692,7 @@ void update_chasing_star_effect(void *entity, ObjectPosition *pos, B32_818CF0E8_
             select_record_entry_and_value(p, effect_sprite_sources, 0);
             }
         }
-        if ((((B32_818CF0E8_S_818CF0E8_0 *)entity)->unk_02 & 3) == 1) {
+        if ((entity->unk_02 & 3) == 1) {
             obj = allocate_flagged_object_node(0x212);
             {
             w1 = (NODE_BODY(obj));
@@ -705,7 +705,7 @@ void update_chasing_star_effect(void *entity, ObjectPosition *pos, B32_818CF0E8_
                 p->unk_10 = 0;
                 p->unk_14 = flags;
                 p = (B32_818CF0E8_S_818CF0E8_6 *)obj->position;
-                star = ((B32_818CF0E8_S_818CF0E8_8_pre *)(((B32_818CF0E8_S_818CF0E8_0 *)entity)->unk_30))[-1].unk_00;
+                star = ((B32_818CF0E8_S_818CF0E8_8_pre *)(entity->unk_30))[-1].unk_00;
                 {
                     s32 r2;
                     s32 b2;
@@ -744,29 +744,29 @@ void update_chasing_star_effect(void *entity, ObjectPosition *pos, B32_818CF0E8_
             }
             }
         }
-        if (((B32_818CF0E8_S_818CF0E8_0 *)entity)->unk_02 >= 0x29) {
-            ((B32_818CF0E8_S_818CF0E8_0 *)entity)->unk_02 = 0;
-            ((B32_818CF0E8_S_818CF0E8_0 *)entity)->unk_00 = (u16)((B32_818CF0E8_S_818CF0E8_0 *)entity)->unk_00 + 1;
+        if (entity->unk_02 >= 0x29) {
+            entity->unk_02 = 0;
+            entity->unk_00 = (u16)entity->unk_00 + 1;
             if (try_trigger_target_record_effect(env->unk_60, 2, env) == 0) {
                 s32 a2v;
                 s32 a1v;
                 s32 rr;
                 rr = (generate_random_value() & 3) + 2;
-                a2v = (((B32_818CF0E8_S_818CF0E8_0 *)entity)->unk_15 >> 2) + rr;
+                a2v = (entity->unk_15 >> 2) + rr;
                 a1v = 0x10;
                 if (current_spell_effect_variant[0] == 0xFF) {
                     a1v = 0xFF;
                 }
-                try_apply_confusion_status(((B32_818CF0E8_S_818CF0E8_0 *)entity)->unk_30, a1v, a2v);
+                try_apply_confusion_status(entity->unk_30, a1v, a2v);
             }
         }
     }
-    if (((B32_818CF0E8_S_818CF0E8_0 *)entity)->unk_00 == 3) {
-        ((B32_818CF0E8_S_818CF0E8_0 *)entity)->unk_02 = (u16)((B32_818CF0E8_S_818CF0E8_0 *)entity)->unk_02 + 1;
+    if (entity->unk_00 == 3) {
+        entity->unk_02 = (u16)entity->unk_02 + 1;
         gfx->unk_1C -= 0x32;
         gfx->unk_1E -= 0x32;
-        if (((B32_818CF0E8_S_818CF0E8_0 *)entity)->unk_02 >= 0x15) {
-            ((B32_818CF0E8_S_818CF0E8_9 *)(((B32_818CF0E8_S_818CF0E8_0 *)entity)->unk_34))->unk_86 = 1;
+        if (entity->unk_02 >= 0x15) {
+            ((B32_818CF0E8_S_818CF0E8_9 *)(entity->unk_34))->unk_86 = 1;
             ((B32_818CF0E8_S_818CF0E8_0_pre *)entity)[-1].unk_00 |= 0x8000;
             object_flag_block.flags |= OBJECT_REMOVE_PENDING;
             return;

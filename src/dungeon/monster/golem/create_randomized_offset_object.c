@@ -17,7 +17,6 @@
 
 typedef RandomizedOffsetVector Copy24;
 
-extern s32 register_node(ObjectNodeHeader *entry, void *registration_id);
 
 extern u8 D_80175018;
 

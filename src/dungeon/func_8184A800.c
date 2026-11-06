@@ -1,9 +1,9 @@
 #include "common.h"
+#include "slus/imports.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/object_flags.h"
 #include "dungeon/effect/mesh.h"
 
-extern void advance_sprite_animation_and_textures(void *target);
 extern s32 rand(void);
 
 extern void func_80025090(void);

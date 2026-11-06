@@ -4,6 +4,7 @@
 #include "shared/object_node.h"
 #include "shared/actor_status_ids.h"
 #include "common.h"
+#include "engine/entity/effect_slots.h"
 #include "engine/menu.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/dungeon_floor.h"
@@ -77,7 +78,6 @@ typedef struct DdcbcEntry {
 /* cfail-repair: tf7-phase1-cache-v3 */
 s32 func_8002534C(void *, s32, void *, ActorRecord *); /* extern */
 void select_record_entry_and_value(void *state, void *entries, short index);        /* extern */
-s32 get_entity_effect_value(ActorRecord *entry, s32 effect_id);                 /* extern */
 #include "dungeon/player/item.h"
 #include "dungeon/actor/state.h"
 #include "dungeon/item.h"

@@ -1,4 +1,5 @@
 #include "common.h"
+#include "engine/graphics/select_sprite_entry_api.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
@@ -10,7 +11,6 @@ typedef struct S_80047784 S_80047784;
 
 
 struct SpriteFrameState;
-void select_sprite_entry(void *, s16, s16);         /* extern */
 
 /* Advance the timer and reset the state and directional sprite after 60 ticks. */
 void advance_timed_directional_reset(ActorRecord *body, ObjectPosition *position, SpriteFrameState *sprite, ActorRecord *actor) {

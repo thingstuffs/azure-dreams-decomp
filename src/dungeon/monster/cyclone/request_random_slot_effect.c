@@ -1,5 +1,6 @@
 #include "shared/actor_status_ids.h"
 #include "common.h"
+#include "dungeon/system/random.h"
 #include "shared/record_ptrs.h"
 #include "shared/entity.h"
 #include "dungeon/actor/status.h"
@@ -7,7 +8,6 @@
 
 
 
-extern s32 generate_random_value(void);
 
 /*
  * For a non-player actor, rolls against its byte at +3 to request status 0x19; returns 1 only if

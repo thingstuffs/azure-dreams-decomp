@@ -2,6 +2,7 @@
 #include "shared/actor_status_ids.h"
 #include "shared/actor_status_flags.h"
 #include "common.h"
+#include "engine/entity/effect_slots.h"
 #include "shared/item_ids.h"
 #include "shared/dungeon_item_entries.h"
 #include "shared/entity.h"
@@ -10,7 +11,6 @@
 #include "dungeon/item/message.h"
 #include "dungeon/system.h"
 
-extern s32 get_entity_effect_value(ActorRecord *entry, s32 effect_id);
 
 extern u8 D_80089084[];
 extern u8 D_800E0CAE[];

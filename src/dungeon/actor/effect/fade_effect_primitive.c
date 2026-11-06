@@ -1,10 +1,10 @@
 #include "common.h"
+#include "slus/imports.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/object_flags.h"
 #include "dungeon/effect.h"
 #include "dungeon/actor/effect.h"
 #include "shared/object_node.h"
-void advance_sprite_animation_and_textures(void *entity);                      /* extern */
    /* the 0x2 bytes before arg0 in fade_effect_primitive, addressed as arg0[-1] */
 
 

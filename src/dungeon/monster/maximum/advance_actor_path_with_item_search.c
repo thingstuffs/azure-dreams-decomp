@@ -1,4 +1,5 @@
 #include "common.h"
+#include "dungeon/system/random.h"
 #include "shared/dungeon_floor.h"
 #include "shared/tile_object.h"
 #include "shared/entity.h"
@@ -22,7 +23,6 @@ void update_map_cell_flags_with_item_limit(s32 x, s32 y, u16 flags);
 extern s32 check_diagonal_side_height(s32, u8, u8, s16);
 extern s16 check_movement_clearance_and_height(s16, void *, void *, s32);
 extern s16 get_actor_height_difference(ActorRecord *left_record, ActorRecord *right_record);
-extern s32 generate_random_value(void);
 extern u32 find_nearest_floor_item_in_room(void *, s32, s16 *, s16 *);
 extern void update_actor_status_and_mp(ActorRecord *entity);
 extern s16 sample_terrain_surface_height(s32, s32, s16);

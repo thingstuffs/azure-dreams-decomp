@@ -20,10 +20,7 @@ extern s32 monster_native_trait_masks[];
  * and never reach RAM, so values read from the file there are not the table. */
 extern s32 entity_level_thresholds[100];
 
-struct ActorRecord;
-
-s32 get_entity_effect_value(struct ActorRecord *entry, s32 effect_id);
-void clear_slots_of_type(struct ActorRecord *owner, s8 match_type);
+#include "engine/entity/effect_slots.h"
 struct S_800423C0_Obj;
 struct S_800423C0_Src;
 

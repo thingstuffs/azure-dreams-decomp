@@ -1,4 +1,5 @@
 #include "common.h"
+#include "slus/imports.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/object_flags.h"
 #include "shared/dungeon_moving_views.h"
@@ -45,7 +46,6 @@ typedef struct S_81257000_6 {
 } S_81257000_6;   /* callee_part in copy_part_state */
 
 extern s32 resolve_record_orientation_or_fallback(s32, void *, s16 *, s16);
-extern void advance_sprite_animation_and_textures(void *);
 
 /* Copies part state, applies averaged position offsets, and updates phase-based shading. */
 void copy_part_state(AttachedSpriteWithOffsetBody *root, void *out_pos_arg, void *dst_part_arg)

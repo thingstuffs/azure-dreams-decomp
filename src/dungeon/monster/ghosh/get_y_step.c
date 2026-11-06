@@ -1,5 +1,6 @@
 /* Ghosh direction-step lookup and queued path movement. */
 #include "common.h"
+#include "dungeon/system/random.h"
 #include "shared/dungeon_floor.h"
 #include "shared/entity.h"
 #include "shared/record_ptrs.h"
@@ -28,7 +29,6 @@ s16 get_actor_height_difference(struct ActorRecord *, struct ActorRecord *);    
 u16 get_rounded_facing_and_rounding_flag(); /* Unprototyped: retail call extends the result to this declared width; no shared prototype keeps it */          /* extern */
 s32 select_actor_route_target(u8 *actor_held, s32 kind, u8 *work_p, u16 *out);  /* extern */
 s32 update_actor_proximity_flag(void *, void *, s32, s32, s8 *); /* extern */
-s32 generate_random_value(void);                            /* extern */
 void update_actor_status_and_mp(struct ActorRecord *);                      /* extern */
 s16 sample_terrain_surface_height();                   /* extern */
 s32 begin_ghosh_front_attack(ActorRecord *body, ObjectPosition *position, SpriteFrameState *sprite, ActorRecord *actor);          /* extern */

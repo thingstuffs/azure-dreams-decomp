@@ -3,6 +3,7 @@
 #include "shared/actor_property_flags.h"
 #include "shared/actor_status_ids.h"
 #include "common.h"
+#include "dungeon/system/random.h"
 #include "shared/monster_ids.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/object_node.h"
@@ -29,7 +30,6 @@ typedef struct S_80BFD000_4 {
 } S_80BFD000_4;   /* actor in spawn_clown_slot_d */
 
 extern u8 clown_object_callback_3[];
-s32 generate_random_value(void);
 extern M2C_UNK D_8015F014;
 extern M2C_UNK D_8016220C;
 extern M2C_UNK D_8016225C;

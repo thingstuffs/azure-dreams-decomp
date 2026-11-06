@@ -3,6 +3,7 @@
 #include "shared/actor_status_flags.h"
 #include "shared/actor_status_ids.h"
 #include "common.h"
+#include "dungeon/system/random.h"
 #include "shared/monster_ids.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/object_node.h"
@@ -14,7 +15,6 @@
 
 typedef void (*Callback)(void);
 
-extern s32 generate_random_value(void);
 extern void D_8016AAA4(void);
 extern void D_8016DFB8(void);
 extern void D_8016E000(void);
