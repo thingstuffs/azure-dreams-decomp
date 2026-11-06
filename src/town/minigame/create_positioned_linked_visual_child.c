@@ -13,11 +13,6 @@
 #include "town/minigame/object.h"
 #include "town/minigame/state.h"
 
-typedef struct S_800BF9E4_0_pre {
-    u8 * unk_00;
-    u8 pad_04[0xC];
-} S_800BF9E4_0_pre;   /* the 0x10 bytes before arg0 in create_positioned_linked_visual_child, addressed as arg0[-1] */
-
    /* arg1 in create_positioned_linked_visual_child */
 
 struct Dst;
@@ -41,7 +36,7 @@ void create_positioned_linked_visual_child(void *object_arg, ObjectPosition *pla
     SpriteFrameState *child_visual;
     ObjectPosition *child_position;
 
-    ((S_800BF9E4_0_pre *)object)[-1].unk_00 = advance_actor_state_nearby_activation;
+    NODE_HEADER(object)->update_callback = advance_actor_state_nearby_activation;
     object->unk_50 = 0;
     register_node(object_arg - 0x20, project_sprite_chain);
     position->x.v = 0x0F200000;

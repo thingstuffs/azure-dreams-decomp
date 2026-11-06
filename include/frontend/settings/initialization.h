@@ -38,11 +38,16 @@ typedef struct SettingsLabelTemplate {
     u8 pad_28[8];
 } SettingsLabelTemplate;
 
+/* The first two fixed-point coordinates in the settings construction frame. */
+typedef struct SettingsPositionPair {
+    Fixed1616 x;
+    Fixed1616 y;
+} SettingsPositionPair;
+
 typedef union SettingsInitializationFrame {
     u8 bytes[0x278];
     struct {
-        Fixed1616 x;
-        Fixed1616 y;
+        SettingsPositionPair position;
         u8 pad_08[0x10];
         SettingsPanelTemplate panel;
         SettingsLabelTemplate label;

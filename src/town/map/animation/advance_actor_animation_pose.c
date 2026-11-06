@@ -5,14 +5,6 @@
 #include "records/Rec_D_80082E80.h"
 #include "shared/dungeon_trail_views.h"
 
-typedef struct S_800BE214_3 {
-    s32 * unk_00;
-} S_800BE214_3;   /* (s8 *)sp10 + (arg0->state * 4) in advance_actor_animation_pose */
-
-typedef struct S_800BE214_4 {
-    s32 * unk_00;
-} S_800BE214_4;   /* (s8 *)sp10 + (arg0->animation_index * 4) in advance_actor_animation_pose */
-
 struct Dst;
 struct Elem;
 
@@ -54,8 +46,7 @@ void advance_actor_animation_pose(S_800BE214_0 *actor, TrailHeightView *pose, Sp
             animation_index = rand() & 7;
             actor->state = animation_index;
             actor->animation_index = (u32)animation_index;
-            select_record_entry_and_value((struct Dst *)animation, (struct Elem *)((S_800BE214_3 *)((s8 *)animations
-                + (actor->state * 4)))->unk_00, 0);
+            select_record_entry_and_value((struct Dst *)animation, (struct Elem *)animations[actor->state], 0);
             actor->state = (s16)((u16)actor->state + 0x20);
         }
         break;
@@ -115,8 +106,7 @@ void advance_actor_animation_pose(S_800BE214_0 *actor, TrailHeightView *pose, Sp
     }
 
     if (animation->flags & 0x6000) {
-        select_record_entry_and_value((struct Dst *)animation, (struct Elem *)((S_800BE214_4 *)((s8 *)animations
-            + (actor->animation_index * 4)))->unk_00, 0);
+        select_record_entry_and_value((struct Dst *)animation, (struct Elem *)animations[actor->animation_index], 0);
     }
 
     return;

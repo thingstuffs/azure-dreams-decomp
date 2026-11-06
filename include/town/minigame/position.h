@@ -6,7 +6,26 @@
 #include "shared/entity.h"
 #include "shared/sprite_frame_state.h"
 
-struct SpinPhaseWork;
+struct SpinContext;
+
+/* The casino creator stores this node in the betting display and installs the spin callback. */
+typedef struct SpinPhaseWork {
+    struct SpinContext *context;
+    s32 previous_x;
+    s32 previous_y;
+    u8 pad_0C[0x4C];
+    s32 target_x;
+    s32 target_y;
+    union {
+        Fixed1616 fixed;
+        struct { u16 frac, i; } bits;
+    } target_height;
+    u8 pad_64[8];
+    s32 unk_6C;
+    s16 phase;
+    u16 phase_value;
+    u16 stop_ticks;
+} SpinPhaseWork;
 
 /* Body of a minigame scene-tile object (the payload after its ObjectNodeHeader).  Creators allocate the node
  * with allocate_list_node(1, ...), install one of the fade_/show_ scene-tile update callbacks below and
@@ -46,6 +65,6 @@ void fade_scene_tile_when_linked_state_clears(SceneTileObject *entry);
 void show_delayed_scene_tile_until_complete(SceneTileObject *object);
 
 /* update_effect_position_spin_phases.c */
-void update_effect_position_spin_phases(struct SpinPhaseWork *state_arg, ObjectPosition *target_arg, SpriteFrameState *effect_arg);
+void update_effect_position_spin_phases(SpinPhaseWork *state_arg, ObjectPosition *target_arg, SpriteFrameState *effect_arg);
 
 #endif

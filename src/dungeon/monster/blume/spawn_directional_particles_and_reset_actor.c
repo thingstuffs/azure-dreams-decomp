@@ -42,7 +42,7 @@ typedef struct {
 } __attribute__((packed)) PackedTable;
 
 void select_record_entry_and_value(void *state_data, void *entry_data, short index);
-extern s32 get_sprite_attachment_vector(void *, void *, Vec3u *, s32);
+extern struct SpriteAttachmentEntry *get_sprite_attachment_vector(void *, void *, Vec3u *, s32);
 void select_sprite_entry(void *object_data, s16 table_index, s16 entry_index);
 
 extern u8 blume_slot_g_direction_steps[];

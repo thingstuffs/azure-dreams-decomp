@@ -14,7 +14,7 @@
 
    /* entity in update_player_jump */
 
-extern s16 measure_directional_stopping_distance(s16 a0, ObjectPosition *a1, void *a2, s32 a3);
+extern s32 measure_directional_stopping_distance(s16 a0, ObjectPosition *a1, void *a2, s32 a3);
 
 extern s32 held_item_record;
 

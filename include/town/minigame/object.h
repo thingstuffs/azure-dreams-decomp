@@ -11,7 +11,6 @@ struct SceneTileObject;
 struct GymScoreObject;
 struct GymState;
 struct IndicatorChild;
-struct S_800BF72C_1;
 struct State8081A3D8;
 
 /* Body for the minigame target routine's phase, countdown, and setup value. */
@@ -98,7 +97,7 @@ typedef struct GymSpriteObject {
 } GymSpriteObject;
 
 /* advance_object_bounded_movement_phases.c */
-void advance_object_bounded_movement_phases(BoundedMovementObject *object, struct S_800BF72C_1 *position);
+void advance_object_bounded_movement_phases(BoundedMovementObject *object, ObjectPosition *position);
 
 /* advance_object_spawning_displays_high.c */
 void advance_object_spawning_displays_high(struct State8081A3D8 *controller);

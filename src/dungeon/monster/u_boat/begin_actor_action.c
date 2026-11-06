@@ -8,7 +8,7 @@
 #include "dungeon/effect.h"
 
 
-extern s32 prepare_directional_attack();
+extern struct Ent *prepare_directional_attack();
 
 
 /* Start the actor action and reset its state when ready, or dispatch the alternate action. */

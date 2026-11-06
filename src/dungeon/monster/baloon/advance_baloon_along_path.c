@@ -13,7 +13,7 @@
 
 
 extern void update_map_cell_flags_with_item_limit(s32 x, s32 y, u16 flags);
-extern s16 check_movement_clearance_and_height();
+extern s32 check_movement_clearance_and_height();
 
 extern u8 baloon_default_frames[8];
 

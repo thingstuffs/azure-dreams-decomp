@@ -52,7 +52,7 @@ s32 rsin(s16);                          /* extern */
 s32 rcos(s16);                          /* extern */
 extern int abs(int);
 extern void *memcpy(void *, const void *, u32);
-extern s32 get_sprite_attachment_vector();
+extern struct SpriteAttachmentEntry *get_sprite_attachment_vector();
 extern s32 rand(void);
 extern void select_record_entry_and_value(void *state, void *entries, short index);
 extern const s16 D_80024038[8][2];
@@ -429,7 +429,7 @@ void update_moving_effect_particles_and_cleanup(MovingColorWork *effect_data, Ob
     case 1:
     {
         u8 *record = PTR_AT(entity, 0x0C);
-        s32 has_origin;
+        void *has_origin;
 
         has_origin = get_sprite_attachment_vector(PTR_AT(record, 0x08), record, origin_offset, 0);
         if (has_origin == 0 && !(U16_AT(PTR_AT(entity, 0x0C), 0x14) & 0x8000)) {

@@ -14,7 +14,7 @@ typedef struct S_8004A24C_0 {
     s32 unk_1C;
 } S_8004A24C_0;   /* arg0 in init_menu_panel */
 
-s32 read_terminal_tagged_entry_value();                             /* extern */
+s16 read_terminal_tagged_entry_value();                             /* extern */
 void menu_copy_the_default_template_fills_five_byte_pairs_negated_half();       /* extern */
 
 /* Initializes resource state, resolves its size, and sets its position. */

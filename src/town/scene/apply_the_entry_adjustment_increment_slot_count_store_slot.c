@@ -10,7 +10,7 @@ typedef int s32;
  * For an unflagged entry, subtracts its adjustment from the current value and clears the pending
  * delta. Increments the selected slot byte and stores the entry value in the indexed word table.
  */
-void apply_the_entry_adjustment_increment_slot_count_store_slot(s32 state_base, void *value_record, void *entry)
+void apply_the_entry_adjustment_increment_slot_count_store_slot(u8 *state_base, void *value_record, void *entry)
 {
     int adjusted_value;
     void *slot_base;

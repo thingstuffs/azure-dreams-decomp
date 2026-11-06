@@ -39,7 +39,7 @@ extern void * find_monster_neighbor_candidate(void *entity, u16 x, u16 y);
 extern s32 check_entity_interaction_compatibility();
 extern s32 get_definition_field_from_triple(ActorRecord *actor, s32 entry_index);
 extern s32 check_left_tile_and_center_height();
-extern s32 find_nearest_floor_item_in_room();
+extern u32 find_nearest_floor_item_in_room();
 extern void update_actor_status_and_mp(ActorRecord *entity);
 
 #define STEPVEC(neighbor_result)                                                            \

@@ -11,14 +11,6 @@
 #include "shared/object_flags.h"
 #include "shared/object_node.h"
 
-typedef struct S_8008C134_0 {
-    u8 pad_00[0x14];
-    s16 unk_14;
-    u8 pad_16[0x2];
-    u16 unk_18;
-    u16 unk_1A;
-} S_8008C134_0;
-
 typedef struct S_8008EC14_node {
     u8 pad0[0x10];
     void *field_0x10;

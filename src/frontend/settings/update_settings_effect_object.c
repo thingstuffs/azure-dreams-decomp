@@ -1,4 +1,5 @@
 #include "frontend/settings/controller_body.h"
+#include "shared/object_node.h"
 #include "common.h"
 #include "shared/entity.h"
 #include "shared/sprite_frame_state.h"
@@ -68,7 +69,7 @@ void update_settings_effect_object(SettingsEffectObjectBody *object, ObjectPosit
     case 255:
     {
         s32 *flags_base = (s32 *)0x80080000;
-        *(u16 *)((char *)object - 2) |= 0x8000;
+        NODE_HEADER(object)->flags |= 0x8000;
         flags_base[0x14A0 / 4] |= 0x8000;
     }
         break;

@@ -33,7 +33,7 @@ typedef struct S_80174800_4 {
 } S_80174800_4;   /* actor in create_randomly_rotated_offset_effect */
 
 
-extern s32 prepare_directional_attack();
+extern struct Ent *prepare_directional_attack();
 
 /*
  * Scans the actor ring at the target tile and height, preparing an attack for each entry outside

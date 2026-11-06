@@ -204,7 +204,7 @@ const DirectionOffsets dungeon_7ce800_directions = {1,0,1,1,0,1,-1,1,-1,0,-1,-1,
 #include "modules/dungeon_ovl_7ce800.h"
 #include "common.h"
 
-s32 draw_linked_lit_meshes(void *,s32,void *);
+s32 draw_linked_lit_meshes(void *,void *,void *);
 extern s32 default_textured_quad_color;
 extern s16 *view_marker_slots[];
 
@@ -941,15 +941,15 @@ void converge_particle_position_and_color(void *transition_arg, ObjectPosition *
 
     position->x.w.i = (s16) ((u16) position->x.w.i
         + ((s32) (transition->target_position->x.w.i
-        - position->x.w.i) / (s16) transition->steps_left));
+        - position->x.w.i) / transition->steps_left));
     position->y.w.i = (s16) ((u16) position->y.w.i
         + ((s32) (transition->target_position->y.w.i
-        - position->y.w.i) / (s16) transition->steps_left));
+        - position->y.w.i) / transition->steps_left));
     position->z.w.i = (s16) ((u16) position->z.w.i
         + ((s32) (transition->target_position->z.w.i
-        - position->z.w.i) / (s16) transition->steps_left));
+        - position->z.w.i) / transition->steps_left));
     color_bits = color->color.c.b | (color->color.c.r | color->color.c.g);
-    next_level = color_bits + ((s32) (0xC0 - color_bits) / (s16) transition->steps_left);
+    next_level = color_bits + ((s32) (0xC0 - color_bits) / transition->steps_left);
     if (((S_807AFB48_5 *)(transition->channel_source))->unk_14 & 1) {
         color->color.c.r = next_level;
     }

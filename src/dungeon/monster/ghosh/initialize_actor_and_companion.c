@@ -12,21 +12,6 @@
 #include "dungeon/monster/ghosh_frames.h"
 
 
-typedef struct S_8016AEDC_1 {
-    u8 pad_00[0x13];
-    s8 unk_13;
-    u32 unk_14;
-    u8 pad_18[0x4];
-    u32 unk_1C;
-    u8 pad_20[0x28];
-    s8 unk_48;
-    s8 unk_49;
-    s8 unk_4A;
-    s8 unk_4B;
-} S_8016AEDC_1;   /* work in initialize_actor_and_companion */
-
-
-
 typedef struct S_8016AEDC_4 {
     u8 pad_00[0x8C];
     s32 * unk_8C;
@@ -61,7 +46,7 @@ void *initialize_actor_and_companion(s16 mode_flags, s32 config_24, s32 config_2
     s32 saved_config_24;
     s16 saved_config_25;
     ObjectNodeHeader *object;
-    S_8016AEDC_1 *work;
+    ActorRecord *work;
     ObjectPosition *part_a;
     void *part_b;
     u8 *callback;
@@ -78,7 +63,7 @@ void *initialize_actor_and_companion(s16 mode_flags, s32 config_24, s32 config_2
         work = NODE_BODY(object);
         ghosh_actor_node = object;
         object->update_callback = update_actor_animation_movement_and_terrain;
-        work->unk_13 = MONSTER_GHOSH;
+        work->species = MONSTER_GHOSH;
         register_node(object, project_sprite_chain);
 
         callback = ghosh_frame_set_3;
@@ -92,11 +77,11 @@ void *initialize_actor_and_companion(s16 mode_flags, s32 config_24, s32 config_2
 
         ((SpriteFrameState *)part_b)->tile_y = saved_config_25;
         if (mode_kind == 1) {
-            work->unk_14 |= (ACTOR_CLASS_ENABLED | ACTOR_PARTY_MEMBER);
-            work->unk_1C |= (ACTOR_PLAYER_SIDE | ACTOR_PARTY_MEMBER);
+            work->flags14 |= (ACTOR_CLASS_ENABLED | ACTOR_PARTY_MEMBER);
+            work->flags1C |= (ACTOR_PLAYER_SIDE | ACTOR_PARTY_MEMBER);
         } else if (mode_kind >= 2) {
-            work->unk_14 |= ACTOR_CLASS_ENABLED;
-            work->unk_1C |= ACTOR_PLAYER_SIDE;
+            work->flags14 |= ACTOR_CLASS_ENABLED;
+            work->flags1C |= ACTOR_PLAYER_SIDE;
         }
 
         initialize_actor_sprite_and_animation(object, part_a, part_b, (s16)mode_flags);

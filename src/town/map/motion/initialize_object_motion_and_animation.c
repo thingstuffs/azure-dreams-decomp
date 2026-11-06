@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_node.h"
 #include "town/map/object_setup.h"
 #include "town/scene/list_setup.h"
 #include "shared/slus_callbacks.h"
@@ -24,9 +25,9 @@ extern s32 D_800D212C;
 /* Initialize the object state, motion, and animation. */
 void initialize_object_motion_and_animation(void *object_data, ObjectPosition *motion, struct SpriteFrameState *anim) {
     Func800BF66CObject *object = object_data;
-    *(void **)((u8 *)object - 0x10) = update_random_idle_wander;
+    NODE_HEADER(object)->update_callback = update_random_idle_wander;
     object->field50 = 0;
-    register_node((u8 *)object - 0x20, project_sprite_chain);
+    register_node(NODE_HEADER(object), project_sprite_chain);
     object->fieldA6 = 2;
     configure_the_set_mode_n_1(object, motion, town_map_motion_defaults);
     select_record_entry_and_value(anim, D_800D211C[object->fieldA6], 0);

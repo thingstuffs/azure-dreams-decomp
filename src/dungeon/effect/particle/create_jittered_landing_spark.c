@@ -21,18 +21,6 @@ typedef struct S_80165F00_0 {
     ObjectPosition *unk_08;
 } S_80165F00_0;   /* arg0 in create_jittered_landing_spark */
 
-typedef struct S_80165F00_1 {
-    u8 pad_00[0x6];
-    u16 unk_06;
-} S_80165F00_1;
-
-typedef struct S_80165F00_4 {
-    u8 pad_00[0x2];
-    u16 unk_02;
-    u8 pad_04[0x6];
-    u16 unk_0A;
-} S_80165F00_4;   /* ((S_80165F00_0 *)arg0)->unk_08 in create_jittered_landing_spark */
-
 /* Spawns an effect near the source with randomized position and sprite scale. */
 void create_jittered_landing_spark(S_80165F00_0 *source)
 {

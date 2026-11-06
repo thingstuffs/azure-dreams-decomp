@@ -542,7 +542,7 @@ extern u8 D_80026778[12];
 extern u8 D_80026784[24];
 extern u8 D_800267A8[12];
 extern u8 current_spell_effect_variant[1];
-extern s32 get_sprite_attachment_vector(void *, void *, Vec3 *, s32);
+extern struct SpriteAttachmentEntry *get_sprite_attachment_vector(void *, void *, Vec3 *, s32);
 extern s32 func_8003DF74(void *, void *, Vec3 *, s32);
 extern s32 rand(void);
 void try_halve_actor_counter(u8 *entity, s32 chance, void *unused_context);

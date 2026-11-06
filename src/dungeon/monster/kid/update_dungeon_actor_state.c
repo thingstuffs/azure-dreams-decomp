@@ -24,7 +24,7 @@ extern s8 find_active_rect_containing_point(s32, s32);
 extern void update_actor_status_and_mp(ActorRecord *entity);
 extern void select_bank_actor_movement(void *, void *, void *, void *);
 extern s32 check_actor_transition_and_start_effect(ActorRecord *action_state, ObjectPosition *motion_param, SpriteFrameState *sprite_arg, ActorRecord *actor);
-extern s16 update_entity_state_from_query(void *, void *, void *, s32);
+extern s32 update_entity_state_from_query(void *, void *, void *, s32);
 extern void func_80174218(void *, void *, void *, void *);
 
 extern u8 D_80175150[];

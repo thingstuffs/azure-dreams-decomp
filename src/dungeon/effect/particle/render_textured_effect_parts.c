@@ -409,7 +409,7 @@ void grow_timed_sprite_effect(TimedSpriteImpactBody *state, ObjectPosition *unus
     }
 }
 
-extern s32 get_sprite_attachment_vector(s32, void *, s16 *, s32);
+extern struct SpriteAttachmentEntry *get_sprite_attachment_vector(void *, void *, s16 *, s32);
 extern void initialize_timed_motion_step(s32, s32, void *);
 extern void unlink_node(void *);
 extern void apply_attack_power_and_element_effects(void *, s32, u8, s32, s32, void *, s32);

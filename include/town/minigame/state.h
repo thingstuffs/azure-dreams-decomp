@@ -10,8 +10,17 @@ struct SceneTileObject;
 
 struct Arg1;
 struct Arg2;
-struct Obj;
 struct ObjectPosition;
+
+/* The fixed effect creator writes setup_value and installs the interaction callback. */
+typedef struct FixedInteractionEffectBody {
+    /* 0x00 */ u8 pad_00[0x48];
+    /* 0x48 */ s32 setup_value;
+    /* 0x4C */ u8 pad_4C[0x1C];
+    /* 0x68 */ s16 state;
+    /* 0x6A */ u8 pad_6A[2];
+    /* 0x6C */ u16 counter;
+} FixedInteractionEffectBody;
 
 /* Casino slot-machine state and its three reel objects. */
 typedef struct State8081FF68 {
@@ -57,11 +66,25 @@ typedef struct TextEntryObject {
     /* 0x1A */ s16 field_1A;
 } TextEntryObject;
 
+/* Left Tako label created with D_80026B78 as its update callback. */
+typedef struct TakoLabelBody {
+    /* 0x00 */ s16 state;
+    /* 0x02 */ u8 pad_02[2];
+    /* 0x04 */ void *text;
+    /* 0x08 */ u8 pad_08[4];
+    /* 0x0C */ void *parent;
+    /* 0x10 */ s32 color;
+    /* 0x14 */ s16 field_14;
+    /* 0x16 */ s16 field_16;
+    /* 0x18 */ s16 field_18;
+    /* 0x1A */ s16 field_1A;
+} TakoLabelBody;
+
 /* advance_actor_state_nearby_activation.c */
 void advance_actor_state_nearby_activation(Rec_D_80082D58 *actor, s32 *position, s32 check_param, s32 check_mode);
 
 /* advance_interaction_state_animating_cursor.c */
-void advance_interaction_state_animating_cursor(struct Obj *self, struct Arg1 *position, struct Arg2 *cursor_data);
+void advance_interaction_state_animating_cursor(FixedInteractionEffectBody *self, struct Arg1 *position, struct Arg2 *cursor_data);
 
 /* process_slot_machine_state.c */
 void process_slot_machine_state(State8081FF68 *state, void *position);

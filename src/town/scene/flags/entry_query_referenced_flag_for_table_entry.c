@@ -3,10 +3,10 @@
 #include "common.h"
 #include "town/player/script_flags.h"
 
-void set_indexed_entry_flag(s32, s32);
+void set_indexed_entry_flag(void *, s32);
 
 /* Raise event 0x5BC and, when check 0x9A passes, forward the pair to the handler. */
-s32 dispatch_entry_flag_query_if_ready(s32 target, s32 value) {
+s32 dispatch_entry_flag_query_if_ready(void *target, s32 value) {
     s32 result;
 
     clear_script_flag_bit(F_sbs11_pad25);

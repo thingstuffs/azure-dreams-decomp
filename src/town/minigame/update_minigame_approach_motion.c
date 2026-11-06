@@ -6,16 +6,11 @@
 
 
 
-typedef struct S_800220A8_2 {
-    u8 pad_00[0x18];
-    s16 unk_18;
-} S_800220A8_2;   /* motion_state->owner in update_minigame_approach_motion */
-
 /* Update motion through approach, oscillation, and withdrawal, flagging completion. */
 void update_minigame_approach_motion(ApproachMotionObject *motion_state, ObjectPosition *motion) {
     s16 state;
 
-    if (((S_800220A8_2 *)(motion_state->owner))->unk_18 == 2) {
+    if (motion_state->owner->state == 2) {
         motion_state->state = 3;
     }
     state = motion_state->state;
@@ -60,7 +55,7 @@ void update_minigame_approach_motion(ApproachMotionObject *motion_state, ObjectP
         if ((s32)0xFE000000 < position) {
             return;
         }
-        (((ObjectNodeHeader *)motion_state - 1)->flags) |= NODE_REMOVE;
+        NODE_HEADER(motion_state)->flags |= NODE_REMOVE;
         object_flag_block.flags |= OBJECT_REMOVE_PENDING;
         return;
     }

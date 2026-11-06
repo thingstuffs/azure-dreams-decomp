@@ -8,13 +8,6 @@
 #include "town/person.h"
 
 
-typedef struct Obj {
-    char pad0[0x68];
-    s16 state;
-    char pad6A[2];
-    u16 counter;
-} Obj;
-
 typedef struct Arg1 {
     s32 x;
     s32 y;
@@ -43,7 +36,7 @@ extern u8 D_80011F81[];
 extern Counter town_money;
 
 /* Advances the interaction state, animating the cursor and vertical position. */
-void advance_interaction_state_animating_cursor(Obj *self, Arg1 *position, Arg2 *cursor_data) {
+void advance_interaction_state_animating_cursor(FixedInteractionEffectBody *self, Arg1 *position, Arg2 *cursor_data) {
     EntryPair entries;
     s32 state;
     register s32 x_range_check;

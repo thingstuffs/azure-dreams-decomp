@@ -46,7 +46,7 @@ extern void begin_actor_move_to_target_facing(ActorRecord *body, ObjectPosition 
 extern void update_object_or_select_directional_data(void *object_arg, ObjectPosition *context, void *source_arg, ActorRecord *target_arg);
 extern void choose_heading_and_advance_actor(ActorRecord *context, s32 action, S_8017405C_1 *actor, ActorRecord *movement);
 void func_80174924(ActorRecord *action, ObjectPosition *action_id, SpriteFrameState *entity, ActorRecord *move_state);
-extern s32 check_object_action_and_clear_flags(ActorRecord *object, s32 query_x, s32 query_y, s32 action_override);
+extern s32 check_object_action_and_clear_flags(ActorRecord *object, s32 query_x, void *query_y, s32 action_override);
 s32 select_nearby_target_and_start_action(ActorRecord *action_state, ObjectPosition *unused, SpriteFrameState *actor_pos_arg, ActorRecord *actor);
 
 extern u8 pulunpa_frame_set_2[];

@@ -30,7 +30,7 @@ typedef struct {
 
 typedef struct {
     u8 pad0[0x10];
-    s32 field10;
+    void *field10; /* node update callback supplied by the creator */
     u8 pad14[0xC];
     EffectSub sub;
 } Effect;
@@ -38,7 +38,7 @@ typedef struct {
 extern void D_8002222C(void);
 
 /* Creates an effect with two vectors, two colors, and the supplied parameters. */
-void create_paired_vector_color_effect(s32 effect_param, Vec3s *vectors, Color *colors, TownCollectionSequence *sub_param)
+void create_paired_vector_color_effect(void *effect_param, Vec3s *vectors, Color *colors, TownCollectionSequence *sub_param)
 {
     Effect *effect;
     EffectSub *sub;

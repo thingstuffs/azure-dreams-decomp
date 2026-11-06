@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_node.h"
 #include "town/map/object_setup.h"
 #include "town/scene/list_setup.h"
 #include "shared/sprite_frame_state.h"
@@ -12,11 +13,6 @@
 #include "town/data.h"
 #include "town/map/state.h"
 
-typedef struct S_800BC8D0_1_pre {
-    void * unk_00;
-    u8 pad_04[0xC];
-} S_800BC8D0_1_pre;   /* the 0x10 bytes before arg0 in initialize_object_with_default_data, addressed as arg0[-1] */
-
 extern u8 D_80089634[];
 
 extern u8 D_800D20F4[];
@@ -28,10 +24,10 @@ void initialize_object_with_default_data(void *object_arg, ObjectPosition *init_
     s32 *defaults;
 
     state->flags |= 0x1C;
-    ((S_800BC8D0_1_pre *)object)[-1].unk_00 = copy_record_state_to_destination;
+    NODE_HEADER(object)->update_callback = copy_record_state_to_destination;
     object->unk_50 = 0;
     object->unk_48 = D_80089634;
-    register_node((u8 *)object - 0x20, project_sprite_chain);
+    register_node(NODE_HEADER(object), project_sprite_chain);
 
     defaults = town_object_defaults;
     object->unk_A0 = defaults[0];

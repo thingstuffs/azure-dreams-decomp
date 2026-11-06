@@ -5,14 +5,6 @@
 
 extern const u16 D_80089660[8];
 
-typedef struct S_800BDC98_1 {
-    u8 pad_00[0x14];
-    s16 unk_14;
-    u8 pad_16[0x2];
-    u16 unk_18;
-    s16 unk_1A;
-} S_800BDC98_1;
-
 /* Writes a selected pair of 16-bit values to adjacent positions in the wrapped buffer. */
 void apply_item_and_update_matching_actor_state(s16 start_x, s16 start_y, s16 mode, s32 pair_index) {
     u16 value_pairs[8];
@@ -31,14 +23,14 @@ void apply_item_and_update_matching_actor_state(s16 start_x, s16 start_y, s16 mo
     s32 pair_offset;
     GameWork *state;
     s8 *pair_src;
-    S_800BDC98_1 *buffer_info;
+    MapGrid *buffer_info;
     s8 *buffer;
 
     saved_pair = pair_index;
     selected_pair = saved_pair;
     memcpy(value_pairs, D_80089660, 0x10);
     state = &g_game_work;
-    buffer_info = (S_800BDC98_1 *)((u8 *)state + 0x1DC);
+    buffer_info = &state->map;
     buffer = state->map.cells;
     height = 1;
     if ((mode == 2) || (selected_pair = 3, pair_test = saved_pair << 0x10, (pair_test == 0))) {
@@ -62,10 +54,10 @@ void apply_item_and_update_matching_actor_state(s16 start_x, s16 start_y, s16 mo
                     value_src = (s8 *)((long)((x - first_x) * 2) + (long)pair_src);
                     y_end = y_limit;
                     do {
-                        wrapped_y = y & buffer_info->unk_1A;
+                        wrapped_y = y & buffer_info->maskY;
                         y += 1;
-                        *(u16 *)((long)((s32) (((buffer_info->unk_18 & x)
-                            + (wrapped_y << buffer_info->unk_14)) << 0x10) >> 0xF)
+                        *(u16 *)((long)((s32) (((((u16)buffer_info->maskX) & x)
+                            + (wrapped_y << buffer_info->shiftX)) << 0x10) >> 0xF)
                             + (long)buffer) = *(u16 *)value_src;
                     } while (y < y_end);
                 }

@@ -33,7 +33,7 @@ typedef struct S_80172504_0 {
 
 
 extern s32 find_eligible_entry_at_coordinates();
-extern void prepare_directional_attack();
+extern struct Ent *prepare_directional_attack();
 extern s32 check_layer_offset_height(u16 x, u16 y, s16 height, u32 flags);
 
 /* Scan up to eight tiles ahead for a valid target and update the entity action state. */

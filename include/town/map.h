@@ -20,7 +20,6 @@ struct TownObjectRecord;
 struct Func800AB788Arg;
 struct Func800BFE50Object;
 struct GameWork;
-struct S_8008B9D8_0;
 struct S_8008BA00_0;
 struct S_800A08F0_0;
 struct S_800A092C_0;
@@ -335,7 +334,7 @@ void run_callbacks_unless_suppressed(void *object, void *check_data);
 void run_dual_context_callbacks(void);
 
 /* run_object_callback_b.c */
-void run_map_object_callback(struct S_8008B9D8_0 *object, void *position, void *sprite);
+void run_map_object_callback(TownMapBody *object, void *position, void *sprite);
 
 /* scene_below.c */
 void initialize_building_scene_assets(void);

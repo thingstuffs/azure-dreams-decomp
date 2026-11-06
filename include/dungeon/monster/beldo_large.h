@@ -135,6 +135,6 @@ void advance_actor_transition_sequence(ActorRecord *state_arg, ObjectPosition *w
 s32 resolve_actor_movement_action(ActorRecord *entity, ObjectPosition *action_ctx, SpriteFrameState *position, s32 force_move);
 
 void advance_multi_form_turn_path(ActorRecord *actor, ObjectPosition *unused, SpriteFrameState *sprite, ActorRecord *movement);
-void start_actor_attack(ActorRecord *action_state, ObjectPosition *check_arg, s32 action_arg, void *entity);
+void start_actor_attack(ActorRecord *action_state, ObjectPosition *check_arg, void *action_arg, void *entity);
 
 #endif

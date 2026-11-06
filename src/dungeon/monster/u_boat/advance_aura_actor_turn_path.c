@@ -14,7 +14,7 @@
 #include "engine/entity.h"
 
 extern void update_map_cell_flags_with_item_limit(s32 x, s32 y, u16 flags);
-extern s16 check_movement_clearance_and_height();
+extern s32 check_movement_clearance_and_height();
 extern s16 get_rounded_facing_and_rounding_flag(); /* Unprototyped: retail call extends the result to this declared width; no shared prototype keeps it */
 
 /* Advance the entity along its path and update its movement state. */

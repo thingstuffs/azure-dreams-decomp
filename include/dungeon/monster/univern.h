@@ -300,7 +300,7 @@ s32 update_actor_proximity_flag(void *source, void *state, s32 lower_limit, s32 
 s16 get_actor_height_difference(ActorRecord *left_record, ActorRecord *right_record);
 s16 check_diagonal_side_height(s32 direction, s16 tile_x, s16 tile_y, s16 height);
 s32 check_directional_move_and_terrain();
-s32 prepare_directional_attack();
+struct Ent *prepare_directional_attack();
 s16 try_claim_dungeon_action_slot(ActorRecord *actor);
 u32 check_entity_interaction_compatibility();
 #include "dungeon/player/object/action_state.h"

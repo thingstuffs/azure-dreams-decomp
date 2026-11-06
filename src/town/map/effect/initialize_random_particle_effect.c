@@ -18,11 +18,6 @@
 #define NULL 0
 #endif
 
-typedef struct S_800BACB0_0_pre {
-    void * unk_00;
-    u8 pad_04[0xC];
-} S_800BACB0_0_pre;   /* the 0x10 bytes before arg0 in initialize_random_particle_effect, addressed as arg0[-1] */
-
    /* particlePrim in initialize_random_particle_effect */
 
 typedef struct Primitive {
@@ -86,7 +81,7 @@ void initialize_random_particle_effect(Core *parent_core, ObjectPosition *origin
     SpriteFrameState *texture_prim;
     IntVector3 *child_pos;
 
-    ((S_800BACB0_0_pre *)parent_core)[-1].unk_00 = update_object_link_or_angle_state;
+    NODE_HEADER(parent_core)->update_callback = update_object_link_or_angle_state;
     quotient = rand();
     random_value = quotient;
     quotient >>= 12;
@@ -103,7 +98,7 @@ void initialize_random_particle_effect(Core *parent_core, ObjectPosition *origin
     parent_core->index = 0;
     child_index = 0;
     do {
-        child_obj = allocate_list_node(0x136, (u8 *)parent_core - 0x20);
+        child_obj = allocate_list_node(0x136, NODE_HEADER(parent_core));
         if (child_obj != NULL) {
             child_obj->update_callback = process_zero_status_record;
             register_node(child_obj, draw_linked_lit_meshes);
@@ -134,7 +129,7 @@ void initialize_random_particle_effect(Core *parent_core, ObjectPosition *origin
 
     child_index = 0;
     do {
-        child_obj = allocate_list_node(0x36, (u8 *)parent_core - 0x20);
+        child_obj = allocate_list_node(0x36, NODE_HEADER(parent_core));
         if (child_obj != NULL) {
             child_obj->update_callback = update_inactive_object_state;
             register_node(child_obj, draw_linked_sprites_clipped);
@@ -163,7 +158,7 @@ void initialize_random_particle_effect(Core *parent_core, ObjectPosition *origin
         child_index += 1;
     } while (child_index < 4);
 
-    parent_obj = (u8 *)parent_core - 0x20;
+    parent_obj = NODE_HEADER(parent_core);
     child_obj = allocate_list_node(0x36, parent_obj);
     if (child_obj != NULL) {
         child_obj->update_callback = update_inactive_object_state;

@@ -14,7 +14,7 @@
 
 /* cfail-repair: tf7-phase1-cache-v3 */
 s32 check_neighbor_tile_blocking();             /* extern */
-void *prepare_directional_attack(); /* extern */
+struct Ent *prepare_directional_attack(); /* extern */
 void apply_attack_power_and_element_effects(); /* extern */
 s32 find_active_rect_containing_point(s32 point_x, s32 point_y);                           /* extern */
 void begin_actor_random_warp(Rec_func_800A9E70_arg0 *entity, void *unused, void *position, ActorRecord *entity_state); /* extern */

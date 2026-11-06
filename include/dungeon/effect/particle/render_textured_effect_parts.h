@@ -125,7 +125,7 @@ typedef struct S_80024BE8_3 {
 } S_80024BE8_3;
 typedef struct S_80024BE8_4 {
     u8 pad_00[0x8];
-    s32 unk_08;
+    void *unk_08;
 } S_80024BE8_4;
 
 typedef struct S_80024BE8_7 {

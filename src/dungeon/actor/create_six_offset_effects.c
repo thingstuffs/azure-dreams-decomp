@@ -39,7 +39,7 @@ typedef struct S_80026A84_1 {
 
 typedef struct S_80026A84_5 {
     u8 pad_00[0x4];
-    s32 unk_04;
+    void *unk_04; /* owner body read by update_trailing_effect_animation */
     void * unk_08;
     u8 pad_0C[0x5A];
     s16 unk_66;
@@ -64,7 +64,7 @@ typedef struct S_80026A84_7 {
 } S_80026A84_7;   /* arg1 in create_six_offset_effects */
 
 /* Creates six linked effects at an offset from the origin and initializes their points. */
-void *create_six_offset_effects(MovingPosition *origin, S_80026A84_7 *target_pos, s32 effect_param, SpriteFrameState *source)
+void *create_six_offset_effects(MovingPosition *origin, S_80026A84_7 *target_pos, void *effect_param, SpriteFrameState *source)
 {
     GteShortVector offset;
     void (*callback)(ActorTrailWork *, TrailMotion *, SpriteFrameState *);

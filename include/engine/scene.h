@@ -12,7 +12,7 @@ struct SceneLoadBody;
 extern u8 upper_draw_context[2 * 0x108D4];
 
 struct SpriteFrameState;
-struct S_8003DF0C;
+struct SpriteAttachmentEntry;
 struct S_80041E28_Dst;
 struct S_80041E28_Src;
 struct S_800422DC_Other;
@@ -64,7 +64,7 @@ void refresh_monster_items_from_creature_records(void);
 void file_load_com(void *packed_data);
 
 /* find_last_flagged_record_by_id.c */
-struct S_8003DF0C *find_last_flagged_record_by_id(struct S_8003DF0C *entry, s32 want, u16 *idx_out);
+struct SpriteAttachmentEntry *find_last_flagged_record_by_id(struct SpriteAttachmentEntry *entry, s32 want, u16 *idx_out);
 
 /* has_enough_available_runtime_nodes.c */
 s32 has_enough_available_runtime_nodes(s32 limit);

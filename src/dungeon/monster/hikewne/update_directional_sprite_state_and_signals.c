@@ -9,7 +9,7 @@
 #include "dungeon/monster/hikewne_frames.h"
 
 extern void select_sprite_entry(void *, u8, s32);
-extern s32 update_actor_transform_from_parent(s32, s32, void *, void *);
+extern s32 update_actor_transform_from_parent(void *, void *, void *, void *);
 
 #include "dungeon/monster/hikewne.h"
 
@@ -17,7 +17,7 @@ extern s32 update_actor_transform_from_parent(s32, s32, void *, void *);
  * Alternates Hikewne's idle frames, updates its parent-relative motion, and restores its callback
  * after a floor trap.
  */
-void update_directional_sprite_state_and_signals(s32 controller, s32 update_arg, SpriteFrameState *sprite, ActorRecord *actor)
+void update_directional_sprite_state_and_signals(void *controller, void *update_arg, SpriteFrameState *sprite, ActorRecord *actor)
 {
     u8 *direction_table;
 

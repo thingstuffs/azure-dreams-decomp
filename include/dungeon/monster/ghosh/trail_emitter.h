@@ -3,7 +3,8 @@
 
 #include "common.h"
 
-/* Body allocated by spawn_cascading_trail_emitter and advanced by its callback. */
+/* Countdown body shared by the cascading emitter and the rising emitter it spawns.
+ * Both creators allocate kind 0x212 and initialize the same two halfwords. */
 typedef struct GhoshTrailEmitterBody {
     u8 pad_00[0x16];
     u16 remaining_ticks;

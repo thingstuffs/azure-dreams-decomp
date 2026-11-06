@@ -21,7 +21,7 @@ typedef struct S_8017237C_3 {
 } S_8017237C_3;   /* call0 in validate_action_and_apply_effect */
 
 
-extern void prepare_directional_attack(void *, void *, s32, s32, s32);
+extern struct Ent *prepare_directional_attack(void *, void *, s32, s32, void *);
 extern s32 get_actor_height_difference(s32, void *);
 extern s32 probe_directional_neighbor(void *, u8, u8, s16); /* Unprototyped: uses the value as a pointer where the definition has an integer (or the reverse) */
 struct ActorRecord;

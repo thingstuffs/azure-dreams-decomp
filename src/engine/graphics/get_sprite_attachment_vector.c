@@ -10,12 +10,12 @@
 #endif
 
 /* Table entry scanned by find_last_flagged_record_by_id (matched neighbor). */
-typedef struct S_8003DF0C {
+typedef struct SpriteAttachmentEntry {
     /* 0x0 */ u8 flags;
     /* 0x1 */ u8 pad1[5];
     /* 0x6 */ u16 id;
     /* 0x8 */ u8 pad2[4];
-} S_8003DF0C; /* size 0xC */
+} SpriteAttachmentEntry; /* size 0xC */
 
 /* arg1: entity/actor-like struct; only the status/flag halfword at 0x14 is
  * touched directly here (bits 0x6000); rest is opaque and forwarded to
@@ -31,10 +31,10 @@ typedef struct S_8003DF74_Vec {
 } S_8003DF74_Vec;
 
 /* Looks up an entry and fills its vector, using a fixed fallback for flagged entities. */
-S_8003DF0C *get_sprite_attachment_vector(S_8003DF0C *table, SpriteFrameState *entity, S_8003DF74_Vec *out_vec, s16 entry_id) {
+SpriteAttachmentEntry *get_sprite_attachment_vector(SpriteAttachmentEntry *table, SpriteFrameState *entity, S_8003DF74_Vec *out_vec, s16 entry_id) {
     S_8003DF74_Vec vector;
     u16 entry_index;
-    S_8003DF0C *entry;
+    SpriteAttachmentEntry *entry;
 
     entry = find_last_flagged_record_by_id(table, entry_id, &entry_index);
     if (entry != NULL) {

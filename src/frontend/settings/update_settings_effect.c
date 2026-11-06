@@ -9,17 +9,11 @@
 #include "m2c_compat.h"
 #include "engine/node.h"
 #include "frontend/settings.h"
+#include "frontend/settings/controller_body.h"
 #include "main/data.h"
 #include "sdk/libgte.h"
 
    /* the 0x2 bytes before arg0 in update_settings_effect, addressed as arg0[-1] */
-
-typedef struct S_80089608_1 {
-    u8 pad_00[0x20];
-    s16 unk_20;
-    u8 pad_22[0x4];
-    u16 unk_26;
-} S_80089608_1;
 
 typedef struct S_80089608_6 {
     u8 pad_00[0xC];
@@ -63,7 +57,7 @@ void update_settings_effect(SettingsVisualEffectBody *effect) {
     ObjectNodeHeader *element;
     S_80089608_6 *element_state;
     SpriteFrameState *sprite;
-    S_80089608_1 *owner;
+    SettingsMenuBody *owner;
     void *callback;
 
     copy_dst = (Words4 *)&effect_tables.source_words[0];
@@ -84,10 +78,10 @@ void update_settings_effect(SettingsVisualEffectBody *effect) {
         copy_dst++;
     } while (mask_src != ((Words4 *)&D_800887CC + 2));
     *(Words2 *)copy_dst = *(Words2 *)mask_src;
-    if (owner->unk_26 & 1) {
+    if (owner->flags & 1) {
         effect->phase = 0xFF;
     }
-    if (owner->unk_20 >= 2) {
+    if (owner->state >= 2) {
         effect->phase = 0xFF;
         return;
     }
@@ -95,7 +89,7 @@ void update_settings_effect(SettingsVisualEffectBody *effect) {
     switch (phase) {
     case 0:
         effect->color = (s32)(effect->color + 0x20202);
-        if (owner->unk_20 == 1) {
+        if (owner->state == 1) {
             effect->phase++;
         }
         break;
@@ -123,7 +117,7 @@ void update_settings_effect(SettingsVisualEffectBody *effect) {
         effect->angle.u -= 12;
         break;
     case 0xFF:
-        (((ObjectNodeHeader *)effect - 1)->flags) = (u16) (((ObjectStatusPrefix16 *)effect)[-1].flags | NODE_REMOVE);
+        NODE_HEADER(effect)->flags = (u16) (NODE_HEADER(effect)->flags | NODE_REMOVE);
         object_flag_block.flags |= OBJECT_REMOVE_PENDING;
         return;
     default:

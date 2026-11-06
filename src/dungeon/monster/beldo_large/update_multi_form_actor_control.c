@@ -292,7 +292,7 @@ block_37:
             if ((try_actor_attack(actor, context, sprite, entity) << 0x10) != 0) {
                 return;
             }
-            start_actor_attack(actor, context, (s32)(sprite), entity);
+            start_actor_attack(actor, context, sprite, entity);
             return;
         case 9:
             complete_actor_facing_action(actor, context, (s32)(sprite), entity);

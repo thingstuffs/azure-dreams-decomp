@@ -7,7 +7,7 @@
 #include "dungeon/monster/u_boat.h"
 #include "dungeon/effect.h"
 
-void prepare_directional_attack(void *, void *, s16, s32, s32);
+struct Ent *prepare_directional_attack(void *, void *, s16, s32, void *);
 s32 get_actor_height_difference(s32, void *);
 s32 probe_directional_neighbor(void *, u8, u8, s16); /* Unprototyped: uses the value as a pointer where the definition has an integer (or the reverse) */
 s16 try_claim_dungeon_action_slot(ActorRecord *actor);

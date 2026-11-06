@@ -4,12 +4,6 @@
 #include "town/minigame/object.h"
 #include "town/minigame/effect.h"
 
-typedef struct S_80021E88_2 {
-    u8 pad_00[0x8];
-    s32 unk_08;
-    s32 unk_0C;
-} S_80021E88_2;   /* arg2 in update_minigame_transition */
-
 typedef struct S_80021E88_4 {
     u8 pad_00[0x22];
     s16 unk_22;
@@ -21,7 +15,7 @@ extern s32 D_80024438[];
 extern s32 D_80024444[];
 
 /* Updates the object transition state, height, and display values. */
-void update_minigame_transition(MinigameTransitionObject *controller, Rec_func_80021E88_arg1 *position, S_80021E88_2 *display) {
+void update_minigame_transition(MinigameTransitionObject *controller, Rec_func_80021E88_arg1 *position, SpriteFrameState *display) {
     s16 state;
     s16 transition_pending;
     s32 transition;
@@ -37,7 +31,7 @@ void update_minigame_transition(MinigameTransitionObject *controller, Rec_func_8
         if (test_three_axis_box_overlap(D_800243F0, position) != 0) {
             transition = 1;
         } else {
-            display->unk_08 = D_80024438[controller->mode.s];
+            display->source = D_80024438[controller->mode.s];
         }
     }
 
@@ -49,7 +43,7 @@ void update_minigame_transition(MinigameTransitionObject *controller, Rec_func_8
             return;
         }
         position->unk_08 = 0;
-        display->unk_0C = 0x808080;
+        display->color.word = 0x808080;
         controller->state = 1;
         return;
 
@@ -58,7 +52,7 @@ void update_minigame_transition(MinigameTransitionObject *controller, Rec_func_8
         if (transition_pending) {
             if (((S_80021E88_4 *)(controller->object))->unk_22 == 3) {
                 object->flags |= 1;
-                display->unk_08 = D_80024444[controller->mode.s];
+                display->source = D_80024444[controller->mode.s];
                 object->phase = controller->mode.u;
             }
         }
@@ -84,7 +78,7 @@ void update_minigame_transition(MinigameTransitionObject *controller, Rec_func_8
         flags = object->flags;
         if (flags & 1) {
             object->flags = flags | 1;
-            display->unk_08 = D_80024444[controller->mode.s];
+            display->source = D_80024444[controller->mode.s];
         }
         return;
     default:

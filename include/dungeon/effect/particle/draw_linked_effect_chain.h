@@ -456,7 +456,7 @@ void advance_sprite_animation_and_textures(void *);
 s32 register_node(); /* Unprototyped: two, three or four arguments; retail reads only the node and draw key. */
 s32 func_8004491C(struct ObjectNodeHeader *entry, void *registration_id);
 void select_record_entry_and_value(void *state, void *entries, short index);
-s32 get_sprite_attachment_vector(void *, void *, void *, s32);
+struct SpriteAttachmentEntry *get_sprite_attachment_vector(void *, void *, void *, s32);
 s32 func_8003DF74(void *, void *, void *, s32);
 s32 func_80069EF8(void);
 s32 read_sound_mode_blocking_status(s32);

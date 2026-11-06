@@ -1,18 +1,18 @@
 #include "common.h"
 #include "engine/scene.h"
 
-typedef struct S_8003DF0C {
+typedef struct SpriteAttachmentEntry {
     /* 0x0 */ u8 flags;
     /* 0x1 */ u8 pad1[5];
     /* 0x6 */ u16 id;
     /* 0x8 */ u8 pad2[4];
-} S_8003DF0C; /* size 0xC */
+} SpriteAttachmentEntry; /* size 0xC */
 
 /* Return the last ID match with flag 0x20 (or NULL) and subtract half the entry count from its index (or zero). */
-S_8003DF0C *find_last_flagged_record_by_id(S_8003DF0C *entry, s32 want, u16 *idx_out)
+SpriteAttachmentEntry *find_last_flagged_record_by_id(SpriteAttachmentEntry *entry, s32 want, u16 *idx_out)
 {
     u32 entry_count;
-    S_8003DF0C *match_address;
+    SpriteAttachmentEntry *match_address;
     u8 entry_flags;
 
     match_address = 0;

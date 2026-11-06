@@ -12,7 +12,7 @@
 
 extern void select_sprite_entry(void *, s32, s32);
 extern void spend_actor_mp(void *, s32);
-extern s32 create_randomized_offset_object(ActorRecord *, void *, SpriteFrameState *);
+extern void *create_randomized_offset_object(ActorRecord *, void *, SpriteFrameState *);
 
 extern u8 golem_direction_frames[8];
 
@@ -65,7 +65,7 @@ void advance_multi_stage_actor_effect(ActorRecord *body, void *incoming_entity, 
             return;
         }
         play_sound_if_enabled(0x808);
-        state_work->unk_B0.value = create_randomized_offset_object(state_work, entity, object);
+        state_work->unk_B0.address = create_randomized_offset_object(state_work, entity, object);
         state_work->action_phase.u++;
         return;
 

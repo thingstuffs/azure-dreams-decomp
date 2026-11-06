@@ -31,7 +31,7 @@ extern PhaseHeights D_80164A54;
 extern u8 *beldo_actor_nodes;
 extern u16 dungeon_camera_targets[4];
 
-extern s16 get_player_relative_point_octant(void *);
+extern s32 get_player_relative_point_octant(void *);
 
 /*
  * Moves the encounter camera between Beldo and the player, selecting view angles by relative

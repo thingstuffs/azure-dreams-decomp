@@ -2,7 +2,7 @@
 #include "shared/entity.h"
 #include "shared/sprite_frame_state.h"
 #include "common.h"
-#include "dungeon/monster/ghosh/rising_trail_emitter.h"
+#include "dungeon/monster/ghosh/trail_emitter.h"
 #include "dungeon/monster/ghosh.h"
 #include "shared/dungeon_sprite_data.h"
 #include "shared/slus_callbacks.h"
@@ -28,7 +28,7 @@ void spawn_rising_trail_emitter(void)
     ObjectPosition *effect_pos;
     ObjectPosition *source_pos;
     ObjectNodeHeader *effect;
-    GhoshRisingTrailEmitterBody *effect_state;
+    GhoshTrailEmitterBody *effect_state;
     s32 random_offset;
     s32 coord;
 

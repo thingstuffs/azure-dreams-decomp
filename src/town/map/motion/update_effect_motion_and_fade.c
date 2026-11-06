@@ -5,14 +5,8 @@
 #include "slus.h"
 #include "sdk/libc.h"
 #include "town/map/motion.h"
-
-typedef struct S_800BBA98_0 {
-    u16 unk_00;
-    u8 pad_02[0x48];
-    s16 unk_4A;
-    u8 pad_4C[0x2];
-    s16 unk_4E;
-} S_800BBA98_0;
+#include "town/map/short_lived_particle.h"
+#include "shared/object_node.h"
 
 typedef struct {
     s32 f0;
@@ -38,27 +32,27 @@ void update_effect_motion_and_fade(void *effect, void *motion_data, void *displa
     s32 random_drop;
     s32 x_velocity;
     s32 height;
-    void *effect_data;
+    ShortLivedParticleBody *body;
     State *motion;
     s32 x_decay;
     void *fade_step;
     register SpriteFrameState *display;
 
-    effect_data = effect;
+    body = effect;
     motion = motion_data;
     display = display_data;
-    phase_value = ((S_800BBA98_0 *)((u8 *)effect_data - 0x2))->unk_4E;
+    phase_value = body->phase;
     switch (phase_value) {
     case 0:
-        motion->f0 += (motion->fc / (s16) ((S_800BBA98_0 *)((u8 *)effect_data - 0x2))->unk_4A);
-        motion->f4 += (motion->f10 / (s16) ((S_800BBA98_0 *)((u8 *)effect_data - 0x2))->unk_4A);
-        ticks_left = (u16) ((S_800BBA98_0 *)((u8 *)effect_data - 0x2))->unk_4A - 1;
-        ((S_800BBA98_0 *)((u8 *)effect_data - 0x2))->unk_4A = ticks_left;
+        motion->f0 += (motion->fc / (s16) body->remaining_ticks);
+        motion->f4 += (motion->f10 / (s16) body->remaining_ticks);
+        ticks_left = (u16) body->remaining_ticks - 1;
+        body->remaining_ticks = ticks_left;
         phase_value = 0x60;
         if ((ticks_left << 0x10) <= 0) {
             display->tpage_abr = phase_value;
             display->flags |= 0xC;
-            ((S_800BBA98_0 *)((u8 *)effect_data - 0x2))->unk_4E += 1;
+            body->phase += 1;
         }
         break;
     case 1:
@@ -71,7 +65,7 @@ void update_effect_motion_and_fade(void *effect, void *motion_data, void *displa
         fade_step = (void *)0xFFEFEFF0;
         display->color.word += (s32)fade_step;
         if ((u8) display->color.word < 0x11U) {
-            ((S_800BBA98_0 *)((u8 *)effect_data - 0x2))->unk_00 |= 0x8000;
+            NODE_HEADER(body)->flags |= 0x8000;
             object_flag_block.flags |= OBJECT_REMOVE_PENDING;
         }
         break;

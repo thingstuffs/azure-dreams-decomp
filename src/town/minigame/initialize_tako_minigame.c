@@ -13,39 +13,11 @@
 #include "town/scene.h"
 #include "town/minigame/position.h"
 #include "town/minigame/state.h"
+#include "town/minigame/tako_child_body.h"
 
 #ifndef NULL
 #define NULL 0
 #endif
-
-typedef struct S_800254A4_0 {
-    u8 pad_00[0x8];
-    void * unk_08;
-    void * unk_0C;
-    void * unk_10;
-    u8 pad_14[0xC];
-    void * unk_20;
-} S_800254A4_0;   /* obj in initialize_tako_minigame */
-
-
-typedef struct S_800254A4_3 {
-    u8 pad_00[0x4C];
-    void * unk_4C;
-    u8 pad_50[0x6];
-    s16 unk_56;
-} S_800254A4_3;   /* part1 in initialize_tako_minigame */
-
-typedef struct S_800254A4_5 {
-    u8 pad_00[0x4];
-    void * unk_04;
-    u8 pad_08[0x4];
-    void * unk_0C;
-    s32 unk_10;
-    s16 unk_14;
-    s16 unk_16;
-    s16 unk_18;
-    s16 unk_1A;
-} S_800254A4_5;   /* part2 in initialize_tako_minigame */
 
 
 
@@ -72,8 +44,8 @@ s32 initialize_tako_minigame(void)
     void * left_data[2] = { D_8002012C, D_80020134 };
     void * right_data[2] = { D_8002013C, D_80020140 };
     ObjectNodeHeader *object;
-    S_800254A4_3 *child_state;
-    S_800254A4_5 *left_state;
+    TakoChildBody *child_state;
+    TakoLabelBody *left_state;
     TextEntryObject *right_state;
     SceneTileObject *final_state;
     SpriteFrameState *draw_state;
@@ -122,13 +94,13 @@ create_child:
         packet->y.v = (index << 0x16) + 0x03E00000;
         packet->z.v = 0x00800000;
         packet->velocity_z = 0xFFFC0000;
-        ((S_800254A4_0 *)object)->unk_20 = parent_state;
-        child_state->unk_56 = index;
+        child_state->parent = parent_state;
+        child_state->column_index = index;
         draw_state->scale_y = 0x1000;
         draw_state->scale_x = 0x1000;
         select_record_entry_and_value(draw_state, tako_minigame_sprites, 0);
         draw_state->color.word = 0x00808080;
-        child_state->unk_4C = child_data;
+        child_state->resource = child_data;
         configure_the_set_mode_n_1((u8 *)object + 0x24, object->position, D_80026F50);
     }
     index--;
@@ -146,14 +118,14 @@ next_left:
     if (object != NULL) {
         object->update_callback = callback;
         register_node(object, text_sprite_builder_address);
-        left_state->unk_14 = 0x20;
-        left_state->unk_18 = 3;
-        left_state->unk_1A = 0x7C80;
-        left_state->unk_16 = row_y;
-        left_state->unk_10 = 0x00808080;
+        left_state->field_14 = 0x20;
+        left_state->field_18 = 3;
+        left_state->field_1A = 0x7C80;
+        left_state->field_16 = row_y;
+        left_state->color = 0x00808080;
         row_data = left_data[index];
-        left_state->unk_0C = parent_state;
-        left_state->unk_04 = row_data;
+        left_state->parent = parent_state;
+        left_state->text = row_data;
     }
     index--;
     row_y -= 0xC;

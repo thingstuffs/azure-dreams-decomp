@@ -16,7 +16,7 @@ void initialize_object_header_and_state(void *body, ObjectPosition *placement, s
 
     ObjectNodeHeader *objectHeader;
 
-    objectHeader = (u8 *)objectState - 0x20;
+    objectHeader = NODE_HEADER(objectState);
     objectHeader->update_callback = &update_four_phase_animation;
     register_node(objectHeader, &draw_randomized_white_points);
     objectState->radius_bias = 0x48;

@@ -27,7 +27,7 @@ typedef struct { u8 pad0[0x24]; u8 unk24; u8 unk25; } Pos;
 struct SpriteFrameState;
 extern void select_sprite_entry(void *, s16, s16);
 extern Ent *prepare_directional_attack(Ent *, Pos *, u32, s32, Ent *);
-extern s16 try_claim_dungeon_action_slot(s32);
+extern s16 try_claim_dungeon_action_slot(ActorRecord *);
 
 /* Functions defined in this translation unit. */
 void update_eligible_actor_action(ActorRecord *action_state, ObjectPosition *action_context, SpriteFrameState *sprite, ActorRecord *actor);

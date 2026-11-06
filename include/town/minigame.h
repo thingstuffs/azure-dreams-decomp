@@ -12,7 +12,6 @@
 #include "town/minigame/pickup_data.h"
 #include "town/minigame/effect.h"
 #include "town/minigame/state.h"
-struct S_80021E88_2;
 struct SpinPhaseWork;
 
 /* Slot-payout pickup body received by update_bouncing_pickup_after_hit. */
@@ -93,7 +92,7 @@ typedef struct TimedValueDecreaseObject {
 typedef struct ApproachMotionObject {
     /* 0x00 */ s16 state;
     /* 0x02 */ u16 phase; /* sway phase for state 0xF0, 0..0x7F */
-    /* 0x04 */ void *owner; /* betting effect that spawned the column */
+    /* 0x04 */ TownEffect *owner; /* betting effect that spawned the column */
 } ApproachMotionObject;
 
 /* initialize_minigame_display.c */
@@ -128,7 +127,7 @@ s32 initialize_casino_minigame(void);
 /* Update callbacks it installs; their definitions take file-local views. */
 void update_betting_effect(TownEffect *effect);
 void update_effect_position_spin_phases(struct SpinPhaseWork *state_arg, ObjectPosition *target_arg, SpriteFrameState *effect_arg);
-void update_minigame_transition(MinigameTransitionObject *controller, Rec_func_80021E88_arg1 *position, struct S_80021E88_2 *display);
+void update_minigame_transition(MinigameTransitionObject *controller, Rec_func_80021E88_arg1 *position, SpriteFrameState *display);
 /* Mode-three record setup (town/scene/configure_set_mode_n_d.c) as the minigame constructors call it. */
 #include "town/scene/list_setup.h"
 extern s32 pickup_reward_total[];

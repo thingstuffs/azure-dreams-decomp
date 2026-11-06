@@ -18,11 +18,6 @@
 #define NULL 0
 #endif
 
-typedef struct S_800BA930_0_pre {
-    void * unk_00;
-    u8 pad_04[0xC];
-} S_800BA930_0_pre;   /* the 0x10 bytes before arg0 in initialize_effect_with_random_angle, addressed as arg0[-1] */
-
    /* particlePrim in initialize_effect_with_random_angle */
 
 typedef struct Primitive {
@@ -85,7 +80,7 @@ void initialize_effect_with_random_angle(Core *effect, ObjectPosition *origin, s
     SpriteFrameState *texture_prim;
     IntVector3 *child_pos;
 
-    ((S_800BA930_0_pre *)effect)[-1].unk_00 = update_object_link_or_angle_state;
+    NODE_HEADER(effect)->update_callback = update_object_link_or_angle_state;
     random_angle = rand();
     biased_angle = random_angle;
     if (random_angle < 0) {
@@ -96,7 +91,7 @@ void initialize_effect_with_random_angle(Core *effect, ObjectPosition *origin, s
     effect->angle = random_angle - ((biased_angle >> 12) << 12);
     effect->index = 0;
     do {
-        child_obj = allocate_list_node(0x136, (u8 *)effect - 0x20);
+        child_obj = allocate_list_node(0x136, NODE_HEADER(effect));
         if (child_obj != NULL) {
             child_obj->update_callback = process_zero_status_record;
             register_node(child_obj, draw_linked_lit_meshes);
@@ -127,7 +122,7 @@ void initialize_effect_with_random_angle(Core *effect, ObjectPosition *origin, s
 
     child_index = 0;
     do {
-        child_obj = allocate_list_node(0x36, (u8 *)effect - 0x20);
+        child_obj = allocate_list_node(0x36, NODE_HEADER(effect));
         if (child_obj != NULL) {
             child_obj->update_callback = update_inactive_object_state;
             register_node(child_obj, draw_linked_sprites_clipped);
@@ -156,7 +151,7 @@ void initialize_effect_with_random_angle(Core *effect, ObjectPosition *origin, s
         child_index += 1;
     } while (child_index < 4);
 
-    parent_obj = (u8 *)effect - 0x20;
+    parent_obj = NODE_HEADER(effect);
     child_obj = allocate_list_node(0x36, parent_obj);
     if (child_obj != NULL) {
         child_obj->update_callback = update_inactive_object_state;

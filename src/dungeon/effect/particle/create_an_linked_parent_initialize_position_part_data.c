@@ -139,7 +139,7 @@ void spawn_free_slot_display_effect(DisplaySpawnerEffectBody *owner) {
         rect = (Rect16 *)((u8 *)&rect_table + rect_offset);
         center[0] = rect->x + ((s16)rect->w >> 1);
         center[1] = rect->y + 0x30;
-        draw_transformed_sprite_with_clip_rect((s32)primary_actor_record, rect, center, 1, 1);
+        draw_transformed_sprite_with_clip_rect(primary_actor_record, rect, center, 1, 1);
 
         child = allocate_flagged_object_node(0x212);
         if (child != 0) {

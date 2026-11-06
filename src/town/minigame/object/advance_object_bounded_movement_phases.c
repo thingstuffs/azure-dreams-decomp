@@ -7,18 +7,13 @@
 /* The final state reset is coupled to the non-overflow path.  This is a
  * defined source-level guard whose natural branch leader is the epilogue. */
 
-typedef struct S_800BF72C_1 {
-    s32 unk_00;
-    s32 unk_04;
-} S_800BF72C_1;   /* arg1 in advance_object_bounded_movement_phases */
-
 typedef struct S_800BF72C_2 {
     u8 pad_00[0x2D5C];
     u32 unk_2D5C;
 } S_800BF72C_2;   /* clock in advance_object_bounded_movement_phases */
 
 /* Advance the object through bounded movement phases and trigger a timed event. */
-void advance_object_bounded_movement_phases(BoundedMovementObject *object, S_800BF72C_1 *position) {
+void advance_object_bounded_movement_phases(BoundedMovementObject *object, ObjectPosition *position) {
     s32 event_pos[6];
     s16 move_state;
     s32 increased_x;
@@ -38,41 +33,41 @@ void advance_object_bounded_movement_phases(BoundedMovementObject *object, S_800
     state_index = move_state;
     switch (state_index) {
     case 1:
-        increased_y = position->unk_04 + 0x40000;
-        position->unk_04 = increased_y;
+        increased_y = position->y.v + 0x40000;
+        position->y.v = increased_y;
         if (increased_y > 0x023FFFFF) {
-            position->unk_04 = 0x02400000;
+            position->y.v = 0x02400000;
             object->movement_state = (s16)((u16)object->movement_state + 1);
             return;
         }
         return;
 
     case 2:
-        increased_x = position->unk_00 + 0x40000;
-        position->unk_00 = increased_x;
+        increased_x = position->x.v + 0x40000;
+        position->x.v = increased_x;
         if (increased_x == 0x10000000) {
             clock_base = (u32 *)0x80010000;
             ticks = ((S_800BF72C_2 *)clock_base)->unk_2D5C;
             if ((ticks % 1000U) == 777U) {
                 event_pos[0] = 0x0FA00000;
                 event_z = 0xFFF80000;
-                event_pos[1] = position->unk_04;
+                event_pos[1] = position->y.v;
                 event_pos[2] = event_z;
                 create_directional_sprite_effect(event_pos, 0x200);
             }
         }
-        if (position->unk_00 > 0x105FFFFF) {
-            position->unk_00 = 0x10600000;
+        if (position->x.v > 0x105FFFFF) {
+            position->x.v = 0x10600000;
             object->movement_state = 0;
             return;
         }
         return;
 
     case 3:
-        decreased_x = position->unk_00 + 0xFFFC0000;
-        position->unk_00 = decreased_x;
+        decreased_x = position->x.v + 0xFFFC0000;
+        position->x.v = decreased_x;
         if (decreased_x <= 0x0FA00000) {
-            position->unk_00 = 0x0FA00000;
+            position->x.v = 0x0FA00000;
         } else {
             return;
         }
@@ -81,11 +76,11 @@ void advance_object_bounded_movement_phases(BoundedMovementObject *object, S_800
         return;
 
     case 4:
-        decreased_y = position->unk_04 + 0xFFFC0000;
-        position->unk_04 = decreased_y;
+        decreased_y = position->y.v + 0xFFFC0000;
+        position->y.v = decreased_y;
         if (decreased_y > 0x02300000)
             return;
-        position->unk_04 = 0x02300000;
+        position->y.v = 0x02300000;
         object->movement_state = 0;
         return;
     case 0:

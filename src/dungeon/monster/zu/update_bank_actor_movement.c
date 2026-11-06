@@ -883,7 +883,7 @@ void select_bank_actor_movement(ActorRecord *move_data, ObjectPosition *context,
 #include "shared/sprite_frame_state.h"
 #include "records/Rec_func_800A9E70_arg0.h"
 
-extern void prepare_directional_attack();
+extern struct Ent *prepare_directional_attack();
 extern s16 try_claim_dungeon_action_slot(ActorRecord *actor);
 extern s32 check_entity_interaction_compatibility();
 
@@ -945,7 +945,7 @@ s32 begin_bank_directional_effect(ActorRecord *action_state, ObjectPosition *mot
 #include "shared/sprite_frame_state.h"
 #include "records/Rec_func_800A9E70_arg0.h"
 
-void prepare_directional_attack();
+struct Ent *prepare_directional_attack();
 s16 try_claim_dungeon_action_slot(ActorRecord *actor);
 /* Initialize action state and directional animation when the entity status permits. */
 void initialize_bank_actor_action(ActorRecord *action_state, ObjectPosition *motion_param, SpriteFrameState *sprite, ActorRecord *entity) {

@@ -15,22 +15,6 @@
 #define NULL 0
 #endif
 
-typedef struct S_800BF3F0_1 {
-    u8 pad_00[0x8];
-    s32 unk_08;
-    u32 unk_0C;
-    u8 pad_10[0xA];
-    s16 unk_1A;
-    s16 unk_1C;
-    s16 unk_1E;
-    s16 unk_20;
-} S_800BF3F0_1;
-
-typedef struct S_800BF3F0_3 {
-    u8 pad_00[0x48];
-    s32 unk_48;
-} S_800BF3F0_3;
-
    /* the 0x2 bytes before arg0 in spawn_fixed_effect_object, addressed as arg0[-1] */
 
 
@@ -39,10 +23,10 @@ extern s32 D_800D2344[3];
 
 /* Creates and initializes an object, then sets the caller and global flags. */
 void spawn_fixed_effect_object(TownObjectRecord *caller_data, ObjectPosition *unused_position, struct SpriteFrameState *unused_sprite) {
-    S_800BF3F0_3 *transform;
+    FixedInteractionEffectBody *transform;
     IntVector3 *position;
     void *object;
-    S_800BF3F0_1 *render_state;
+    SpriteFrameState *render_state;
     s32 transform_value;
     u32 color;
 
@@ -53,19 +37,19 @@ void spawn_fixed_effect_object(TownObjectRecord *caller_data, ObjectPosition *un
 
         ((ProjectileObject *)object)->update_callback = advance_interaction_state_animating_cursor;
         render_state = ((ProjectileObject *)object)->sprite;
-        render_state->unk_1C = 0x1000;
-        render_state->unk_1E = 0x1000;
-        render_state->unk_20 = 0x1000;
-        render_state->unk_0C = color;
-        transform = object + 0x20;
-        render_state->unk_1A = 0;
-        render_state->unk_08 = 0x4A;
+        render_state->scale_x = 0x1000;
+        render_state->scale_y = 0x1000;
+        render_state->offset_x = 0x1000;
+        render_state->color.word = color;
+        transform = NODE_BODY(object);
+        render_state->angle_z = 0;
+        render_state->source = 0x4A;
         position = ((ProjectileObject *)object)->position;
         position->x = 0x02C00000;
         position->y = 0x02300000;
         transform_value = D_800D2344[0];
         position->z = 0xFFC00000;
-        transform->unk_48 = transform_value;
+        transform->setup_value = transform_value;
         configure_the_set_mode_n_1(transform, position, D_800D232C);
     }
     ((ObjectStatusPrefix16 *)caller_data)[-1].flags |= 0x8000;

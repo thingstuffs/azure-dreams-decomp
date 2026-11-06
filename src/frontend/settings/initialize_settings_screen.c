@@ -57,7 +57,7 @@ void initialize_settings_screen(void) {
     s32 item_index;
     s32 third_level;
     register ObjectNodeHeader *screen_object;
-    void *settings;
+    SettingsScreenBody *settings;
 
     settings = NULL;
     sol9_copy8(frame.bytes + 0x270, &settings_palette_rect, 8);
@@ -99,7 +99,7 @@ void initialize_settings_screen(void) {
         index = 2;
         (*(s16 *)((u8 *)settings + 0xE)) = (s16) D_80013180;
         (*(s16 *)((u8 *)settings + 0x10)) = (s16) D_80013181;
-        ((SettingsScreenBody *)settings)->blue = (s16) D_80013182;
+        settings->blue = (s16) D_80013182;
         do {
             if (*(s16 *)((u8 *)settings + index * 2 + 14) >= 0xFF) {
                 *(s16 *)((u8 *)settings + index * 2 + 14) = 0x100;
@@ -107,22 +107,22 @@ void initialize_settings_screen(void) {
             index -= 1;
         } while (index >= 0);
         if ((D_80013186 & 1) == 0) {
-            ((SettingsScreenBody *)settings)->flags = (u16) (((SettingsScreenBody *)settings)->flags | 2);
+            settings->flags = (u16) (settings->flags | 2);
         } else {
-            ((SettingsScreenBody *)settings)->flags = (u16) (((SettingsScreenBody *)settings)->flags & 0xFFFD);
+            settings->flags = (u16) (settings->flags & 0xFFFD);
         }
     }
     render_screen_fade_decreasing_intensity(settings);
     panel_x_fixed = 0x400000;
     panel_y_fixed = 0xA00000;
-    frame.fields.x.v = panel_x_fixed;
-    frame.fields.y.v = panel_y_fixed;
-    create_type(frame.bytes, remove_record_with_marked_owner, &D_80078AF0, settings);
+    frame.fields.position.x.v = panel_x_fixed;
+    frame.fields.position.y.v = panel_y_fixed;
+    create_type(&frame.fields.position, remove_record_with_marked_owner, &D_80078AF0, settings);
     heading_x = 0x94;
     heading_y = 0x44;
-    frame.fields.x.w.i = heading_x;
-    frame.fields.y.w.i = heading_y;
-    create_type(frame.bytes, set_output, &card_selection_display_data, settings);
+    frame.fields.position.x.w.i = heading_x;
+    frame.fields.position.y.w.i = heading_y;
+    create_type(&frame.fields.position, set_output, &card_selection_display_data, settings);
     frame.fields.label.y = 0xD0;
     frame.fields.label.style = 1;
     frame.fields.label.extra = 0;

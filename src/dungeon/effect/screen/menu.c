@@ -811,7 +811,7 @@ extern void draw_transformed_sprite_parts(void *position, void *context, s32 dep
 extern u8 upper_draw_context[16];
 
 /* Queue a clipped sprite with an optional black background, adjusting Y for the active buffer. */
-void draw_transformed_sprite_with_clip_rect(s32 sprite, Position *clip_rect, Position *screen_pos, s32 clear_bg, s16 draw_flags)
+void draw_transformed_sprite_with_clip_rect(void *sprite, Position *clip_rect, Position *screen_pos, s32 clear_bg, s16 draw_flags)
 {
     Position draw_pos;
     DrawContext *context;
@@ -2811,12 +2811,12 @@ extern void SetDrawArea(void *, void *);
 extern void func_80067EF4(void *, s32, s32, ...);
 struct Position;
 struct Position;
-extern void draw_transformed_sprite_with_clip_rect(s32 sprite, struct Position *clip_rect, struct Position *screen_pos, s32 clear_bg, s16 draw_flags);
+extern void draw_transformed_sprite_with_clip_rect(void *sprite, struct Position *clip_rect, struct Position *screen_pos, s32 clear_bg, s16 draw_flags);
 
 extern u8 upper_draw_context[16];
 
 /* Queues a line or filled rectangle with optional content and drawing state commands. */
-void draw_content_or_rect(s32 *line_start, s32 *line_end, u8 *rect, s16 fill, s32 content_id)
+void draw_content_or_rect(s32 *line_start, s32 *line_end, u8 *rect, s16 fill, void *content_id)
 {
     CoordPair bottom_center;
     u8 **state_addr;

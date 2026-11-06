@@ -86,12 +86,6 @@ typedef struct S_818FF710_7_pre {
 
 
 
-typedef struct S_818FF710_17 {
-    s32 unk_00;
-    s32 unk_04;
-    s32 unk_08;
-} S_818FF710_17;
-
 typedef struct S_818FF710_20 {
     s32 unk_00;
     s32 unk_04;

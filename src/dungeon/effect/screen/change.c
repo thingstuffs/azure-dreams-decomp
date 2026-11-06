@@ -610,7 +610,7 @@ extern u16 direction_y_offsets[];
 extern s32 generate_random_value(void);
 extern s16 check_diagonal_side_height(s32 direction, s16 tile_x, s16 tile_y, s16 height);
 extern Ent *find_eligible_actor_at_tile_and_height(Ent *, s32, s32, s16);
-extern s32 get_clamped_adjusted_value(Ent *);
+extern s16 get_clamped_adjusted_value(Ent *);
 
 /* Finds a directional attack target, updates facing and hit flags, and rolls attack and evasion values. */
 Ent *prepare_directional_attack(Ent *a, Pos *b, u32 coordArg, s32 mult, Ent *ent2) {

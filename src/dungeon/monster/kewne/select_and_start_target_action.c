@@ -9,7 +9,7 @@
 #include "dungeon/effect.h"
 
 
-extern s32 prepare_directional_attack();
+extern struct Ent *prepare_directional_attack();
 extern s32 get_actor_height_difference();
 extern s16 try_claim_dungeon_action_slot(ActorRecord *actor);
 extern s32 check_entity_interaction_compatibility();

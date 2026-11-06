@@ -56,7 +56,7 @@ void queue_sprite_resource_slot_reads(int slot_index, int value);
 void *register_and_upload_sprite_resource(s32 object_type, void *object);
 
 /* register_and_upload_three_slot_sprite_resource.c */
-void register_and_upload_three_slot_sprite_resource(s32 type_id, void *entity);
+void *register_and_upload_three_slot_sprite_resource(s32 type_id, void *entity);
 
 /* relocate_sprite_metadata_pointers.c */
 s32 relocate_sprite_metadata_pointers(void *object_addr);

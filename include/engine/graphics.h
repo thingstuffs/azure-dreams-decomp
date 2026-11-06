@@ -16,7 +16,7 @@ struct FrameState;
 struct Geometry_80046884;
 struct Prim12;
 struct RectU16_80046884;
-struct S_8003DF0C;
+struct SpriteAttachmentEntry;
 struct S_8003DF74_Vec;
 struct S_8003F9E0;
 struct S_800475A4_Entry;
@@ -135,8 +135,8 @@ struct SpriteAttachment *find_flagged_record_by_id(struct SpriteAttachment *entr
 void move_glyph_to_grid_position(u8 *image_code, s16 grid_x, s16 grid_y, s32 spacing, s16 base_x, s16 base_y);
 
 /* get_sprite_attachment_vector.c */
-struct S_8003DF0C *func_8003DF74(struct S_8003DF0C *table, struct SpriteFrameState *entity, struct S_8003DF74_Vec *out_vec, s16 entry_id);
-struct S_8003DF0C *get_sprite_attachment_vector(struct S_8003DF0C *table, struct SpriteFrameState *entity, struct S_8003DF74_Vec *out_vec, s16 entry_id);
+struct SpriteAttachmentEntry *func_8003DF74(struct SpriteAttachmentEntry *table, struct SpriteFrameState *entity, struct S_8003DF74_Vec *out_vec, s16 entry_id);
+struct SpriteAttachmentEntry *get_sprite_attachment_vector(struct SpriteAttachmentEntry *table, struct SpriteFrameState *entity, struct S_8003DF74_Vec *out_vec, s16 entry_id);
 
 /* init_frame_buffers.c */
 void init_frame_buffers(void);

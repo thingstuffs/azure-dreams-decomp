@@ -207,7 +207,7 @@ extern void select_record_entry_and_value(void *state, void *entries, short inde
 extern s32 register_node(); /* Unprototyped: two, three or four arguments; retail reads only the node and draw key. */
 extern s32 func_8004491C(struct ObjectNodeHeader *entry, void *registration_id);
 extern s32 check_left_tile_and_center_height(s32, s32, s16);
-extern u16 get_surface_height_at_record(void *);
+extern s16 get_surface_height_at_record(void *);
 extern u8 countdown_sprite_entries[];
 extern s32 RotTransPers(void *, void *, void *, void *);
 extern s32 check_layer_offset_height();

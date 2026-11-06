@@ -120,7 +120,7 @@ s32 draw_snowman_point_chain(u8 *node_data, u16 *position)
     if (distance_x < 0x10) {
         distance_y = __builtin_abs(actor->y - vec->y.w.i);
         if (distance_y < 0x10) {
-            ((ObjectNodeHeader *)actor - 1)->flags |= NODE_REMOVE;
+            NODE_HEADER(actor)->flags |= NODE_REMOVE;
             object_flag_block.flags |= OBJECT_REMOVE_PENDING;
         }
     }
@@ -139,7 +139,7 @@ s32 draw_snowman_point_chain(u8 *node_data, u16 *position)
     actor->scale = (u16)actor->scale - 8;
     advance_sprite_animation_and_textures(sprite);
     if (actor->scale <= 0) {
-        ((ObjectNodeHeader *)actor - 1)->flags |= NODE_REMOVE;
+        NODE_HEADER(actor)->flags |= NODE_REMOVE;
         object_flag_block.flags |= OBJECT_REMOVE_PENDING;
     }
 }

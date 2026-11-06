@@ -595,9 +595,9 @@ extern s16 check_entity_relation(ActorRecord *entry, ActorRecord *anchor);
 extern void cycle_map_cell_flags(s16 x, s16 y, u16 flags);
 void update_map_cell_flags_with_item_limit(s32 x, s32 y, u16 flags);
 s16 check_diagonal_side_height(s32 direction, s16 tile_x, s16 tile_y, s16 height);
-extern s16 check_movement_clearance_and_height(s16,void *,void *,s32);
+extern s32 check_movement_clearance_and_height(s16,void *,void *,s32);
 extern s32 find_eligible_entry_at_coordinates();
-extern E_80171E10_Ent * prepare_directional_attack();
+extern struct Ent *prepare_directional_attack();
 extern s32 find_active_rect_containing_point(s32, s32);
 extern s16 get_tile_chebyshev_distance(void *, void *);
 /* Signed differences arrive sign-extended in the 32-bit v0 ABI slot.
@@ -607,7 +607,7 @@ extern s32 get_actor_height_difference(void *,void *);
 extern s32 update_actor_proximity_flag(void *source, void *state, s32 lower_limit, s32 upper_limit, s8 *result);
 extern s32 can_entity_gain_level(void *);
 extern void set_record_integer_tile_center(void *, s32, s32);
-extern s32 try_claim_dungeon_action_slot();
+extern s16 try_claim_dungeon_action_slot();
 #include "dungeon/player/object/action_state.h"
 struct S_80047738;
 

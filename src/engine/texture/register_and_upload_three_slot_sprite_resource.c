@@ -14,7 +14,7 @@ extern u8 dungeon_resource_buffer[];
 extern void *func_80047AB0(void *a0, s32 a1, s32 a2, s32 a3, void *a4);
 
 /* Registers an entity and its type in three consecutive slots, then starts loading. */
-void register_and_upload_three_slot_sprite_resource(s32 type_id, void *entity)
+void *register_and_upload_three_slot_sprite_resource(s32 type_id, void *entity)
 {
     s32 slot_index = get_resource_block_index_from_address(entity);
 
@@ -29,6 +29,6 @@ void register_and_upload_three_slot_sprite_resource(s32 type_id, void *entity)
 
     {
         s32 load_offset = (slot_index * 3 + 0x1D2) * 64;
-        func_80047AB0(entity, slot_index + 5, load_offset, 0xD, &dungeon_resource_buffer);
+        return func_80047AB0(entity, slot_index + 5, load_offset, 0xD, &dungeon_resource_buffer);
     }
 }

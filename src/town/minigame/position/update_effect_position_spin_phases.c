@@ -20,24 +20,6 @@ typedef struct SpinContext {
     s16 sector;
 } SpinContext;
 
-typedef struct SpinPhaseWork {
-    SpinContext *context;
-    s32 previous_x;
-    s32 previous_y;
-    u8 pad_0C[0x4C];
-    s32 target_x;
-    s32 target_y;
-    union {
-        Fixed1616 fixed;
-        struct { u16 frac, i; } bits;
-    } target_height;
-    u8 pad_64[8];
-    s32 unk_6C;
-    s16 phase;
-    u16 phase_value;
-    u16 stop_ticks;
-} SpinPhaseWork;
-
 typedef struct {
     s16 x;
     s16 unk2;

@@ -1148,6 +1148,7 @@
   "include/town/minigame/object.h::SpawnDisplayObject.unk_16",
   "include/town/minigame/position.h::SceneTileObject.state",
   "include/town/minigame/position.h::SceneTileObject.y",
+  "include/town/minigame/position.h::SpinPhaseWork.target_height",
   "include/town/minigame/state.h::State8081FF68.mode",
   "include/town/minigame/state.h::State8081FF68.timer",
   "include/town/minigame/state.h::State8081FF68.timer2",
@@ -1743,7 +1744,6 @@
   "src/town/minigame/initialize_mogura_minigame.c::S_80024100_2.unk_08",
   "src/town/minigame/initialize_mogura_minigame.c::S_80024100_2.unk_0C",
   "src/town/minigame/initialize_mogura_minigame.c::S_80024100_2.unk_10",
-  "src/town/minigame/position/update_effect_position_spin_phases.c::SpinPhaseWork.target_height",
   "src/town/minigame/remove_completed_keima_object.c::KeimaExitNode.KeimaExitNode",
   "src/town/minigame/state/process_slot_machine_state.c::SlotObject.unk_08",
   "src/town/minigame/update_bouncing_pickup_after_hit.c::reward_values.reward_values",
@@ -1775,6 +1775,6 @@
   "src/town/shop/event_fountain_chk.c::StackArg.StackArg",
   "src/town/shop/position/initialize_templated_state_and_position.c::S_800B4200_arg4.S_800B4200_arg4"
  ],
- "reason": "union retirement",
+ "reason": "union moved to owner header (SpinPhaseWork.target_height)",
  "schema": 1
 }

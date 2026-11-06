@@ -348,7 +348,7 @@ s16 sample_terrain_surface_height(s32, s32, s16);
 void select_record_entry_and_value(void *state, void *entries, short index);
 extern const B32_818CFB74_PackedOffsets sprite_route_direction_offsets;
 extern s16 linked_point_effect_updated[5];
-void *get_sprite_attachment_vector(void *, void *, void *, s32);
+struct SpriteAttachmentEntry *get_sprite_attachment_vector(void *, void *, void *, s32);
 void *func_8003DF74(void *, void *, void *, s32);
 extern void SetDrawMode(void *, s32, s32, s32, s32);
 extern s32 GetTPage(s32, s32, s32, s32);

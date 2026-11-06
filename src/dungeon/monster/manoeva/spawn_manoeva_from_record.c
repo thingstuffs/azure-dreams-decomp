@@ -1,3 +1,4 @@
+#include "dungeon/item/monster_resource_slots_g00325.h"
 #include "shared/dungeon_item_entries.h"
 #include "common.h"
 #include "shared/record_ptrs.h"
@@ -38,7 +39,7 @@ typedef struct S_80E3C98C_4 {
 
 extern void copy_entity_record();
 extern void set_code_for_entity_mode();
-extern void *(*load_monster_code_module())(s32, u8, u8, s16);
+extern MonsterFactory load_monster_code_module();
 extern s8 entity_spawn_variant_code;
 
 /* Create an entity from spawn data and update its tracked reference. */
@@ -46,7 +47,7 @@ void *spawn_manoeva_from_record(ActorRecord *body, ObjectPosition *unused1, Spri
     s32 spawn_mode;
     s32 source_ref;
     u8 *table_base;
-    void *(*create_entity)(s32, u8, u8, s16);
+    MonsterFactory create_entity;
     s32 table_offset;
     PlayerRecord *table_entry;
     void *previous_entity;

@@ -1,5 +1,6 @@
 #include "shared/gpu_packets.h"
 #include "common.h"
+#include "shared/object_node.h"
 #include "shared/game_work.h"
 #include "shared/dungeon_moving_views.h"
 #include "sdk/libc.h"
@@ -18,14 +19,6 @@ typedef struct S_800BB218_0 {
 } S_800BB218_0;   /* scratch in draw_randomized_white_points */
 
    /* arena in draw_randomized_white_points */
-
-typedef struct S_800BB218_2_pre {
-    u8 * unk_00;
-    u8 pad_04[0x4];
-} S_800BB218_2_pre;   /* the 0x8 bytes before object in draw_randomized_white_points, addressed as object[-1] */
-
-
-   /* coords in draw_randomized_white_points */
 
 typedef struct S_800BB218_4 {
     u32 unk_00;
@@ -52,7 +45,7 @@ s32 draw_randomized_white_points(void *first_object, void *first_coords)
     u32 addr_mask;
     u32 tag_mask;
     GpuContext *arena;
-    u8 *next_node;
+    ObjectNodeHeader *next_node;
     s32 random_value;
     s32 x_scale;
     u32 packet_tag;
@@ -124,11 +117,11 @@ s32 draw_randomized_white_points(void *first_object, void *first_coords)
             }
         } while (++point_index < 0x180);
 
-        next_node = ((S_800BB218_2_pre *)object)[-1].unk_00;
+        next_node = NODE_HEADER(object)->chain_next;
         if (next_node == 0) {
             break;
         }
-        object = next_node + 0x20;
+        object = NODE_BODY(next_node);
         coords = ((S_800BB218_5 *)next_node)->unk_08;
     }
     return 0;

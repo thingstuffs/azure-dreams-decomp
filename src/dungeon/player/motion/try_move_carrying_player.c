@@ -30,11 +30,11 @@ extern u8 player_carry_move_frames[8];
 extern u8 player_carry_frames[8];
 
 extern void update_map_cell_flags_with_item_limit(s32, s32, s32);
-extern s16 classify_adjacent_tile_height(s16, s32,struct SpriteFrameState *, s16, s32);
+extern s16 classify_adjacent_tile_height(s16, void *,struct SpriteFrameState *, s16, s32);
 
 /* Synthetic batch key: func_800869DC; true rowbase link symbol: try_move_carrying_player. */
 /* Attempts a move and updates the actor position, animation, and movement state. */
-void try_move_carrying_player(void *controller, s32 actor_id, SpriteFrameState *actor, EntityRec *actor_data) {
+void try_move_carrying_player(void *controller, void *actor_id, SpriteFrameState *actor, EntityRec *actor_data) {
     GameWork *dungeon_state;
     s16 move_result;
     u8 direction_index;

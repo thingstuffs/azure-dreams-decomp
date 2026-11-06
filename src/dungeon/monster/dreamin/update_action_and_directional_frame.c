@@ -6,7 +6,7 @@
 #include "records/Rec_func_800A9E70_arg0.h"
 #include "dungeon/player/object.h"
 
-extern void prepare_directional_attack();
+extern struct Ent *prepare_directional_attack();
 
 #include "dungeon/monster/dreamin.h"
 #include "engine/graphics.h"

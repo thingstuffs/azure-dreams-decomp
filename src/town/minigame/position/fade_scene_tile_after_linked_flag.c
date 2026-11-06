@@ -1,6 +1,7 @@
 #include "common.h"
 #include "shared/object_flags.h"
 #include "shared/object_links.h"
+#include "shared/object_node.h"
 #include "town/minigame/position.h"
 #include "town/minigame.h"
 
@@ -29,7 +30,7 @@ void fade_scene_tile_after_linked_flag(SceneTileObject *effect) {
         fade_value = effect->color + 0xFFF7F7F8U;
         effect->color = fade_value;
         if (fade_value <= 0x80808) {
-            ((ObjectStatusPrefix16 *)effect)[-1].flags |= 0x8000;
+            NODE_HEADER(effect)->flags |= NODE_REMOVE;
             object_flag_block.flags |= OBJECT_REMOVE_PENDING;
         }
         break;

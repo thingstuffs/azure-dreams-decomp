@@ -18,5 +18,5 @@ void update_palette_particle_transition(struct TransitionState *, void *, void *
 extern const RectTable linked_particle_texture_rects;
 extern PackedVec3 D_8002533C;
 extern s16 parent_effect_update_flag;
-void draw_transformed_sprite_with_clip_rect(s32, void *, void *, s32, s16);
+void draw_transformed_sprite_with_clip_rect(void *, void *, void *, s32, s16);
 #endif

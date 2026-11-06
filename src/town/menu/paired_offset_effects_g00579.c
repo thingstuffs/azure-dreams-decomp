@@ -28,8 +28,8 @@ void accumulate_effect_step(void *updateState, s32 unused1, s32 unused2, void *a
 /* Creates two offset objects, adjusts their components, and initializes the owner and color. */
 void create_paired_offset_effects(S_800A6F48_10 *owner, S_800A6F48_0 *spawn_state, IntVector3 *origin, S_800A6F48_11 *color) {
     s32 position[5];
-    s32 *offset_data;
-    s32 *second_offset_data;
+    PairedEffectOffsets *offset_data;
+    PairedEffectOffsets *second_offset_data;
     s32 y_component;
     s32 z_component;
     u32 offset_sum;
@@ -38,11 +38,11 @@ void create_paired_offset_effects(S_800A6F48_10 *owner, S_800A6F48_0 *spawn_stat
     ObjectPosition *first_z_data;
     ObjectPosition *second_y_data;
 
-    spawn_state->unk_0C = &D_800D0DD8;
-    offset_sum = ((S_800A6F48_1 *)(&D_800D0DD8))->unk_04 + ((S_800A6F48_1 *)(&D_800D0DD8))->unk_10;
+    spawn_state->unk_0C = (PairedEffectOffsets *)&D_800D0DD8;
+    offset_sum = ((PairedEffectOffsets *)(&D_800D0DD8))->first_component + ((PairedEffectOffsets *)(&D_800D0DD8))->second_component;
     position[0] = origin->x + ((s32) (offset_sum + (offset_sum >> 0x1F)) >> 1);
     offset_data = spawn_state->unk_0C;
-    position[1] = origin->y + ((S_800A6F48_3 *)offset_data)->unk_04 + ((S_800A6F48_3 *)offset_data)->unk_10;
+    position[1] = origin->y + offset_data->first_component + offset_data->second_component;
     position[2] = origin->z;
     first_object = create_preset_sprite_object(position);
     ((ObjectPosition *)first_object->unk_08)->velocity_x = 0x10000;
@@ -55,8 +55,8 @@ void create_paired_offset_effects(S_800A6F48_10 *owner, S_800A6F48_0 *spawn_stat
     first_object->unk_B0 = 0;
     spawn_person_radial_effects(position);
     second_offset_data = spawn_state->unk_0C;
-    position[0] = origin->x - ((((S_800A6F48_7 *)second_offset_data)->unk_04
-        + ((S_800A6F48_7 *)second_offset_data)->unk_10) / 3);
+    position[0] = origin->x - ((second_offset_data->first_component
+        + second_offset_data->second_component) / 3);
     first_object = create_preset_sprite_object(position);
     ((ObjectPosition *)first_object->unk_08)->velocity_x = -0x8000;
     second_y_data = first_object->unk_08;

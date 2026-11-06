@@ -5,6 +5,7 @@
 #include "shared/object_flags.h"
 #include "shared/object_links.h"
 #include "town/map/animation.h"
+#include "town/map/short_lived_particle.h"
 
 #ifndef NULL
 #define NULL 0
@@ -42,10 +43,6 @@ typedef struct {
     u8 *callback;
 } Object;
 
-typedef struct {
-    u8 pad00[0x48];
-    s16 lifetime;
-} Motion;
 
 #include "engine/node.h"
 #include "sdk/libc.h"
@@ -90,7 +87,7 @@ void spawn_short_lived_objects_around_origin(ShortLivedSpawnerObject *self, Copy
                 primitive->unk_04 = 0;
                 primitive->frame_ticks = 0;
                 primitive->color.word = 0x808080;
-                ((Motion *)object)->lifetime = 10;
+                ((ShortLivedParticleBody *)object)->remaining_ticks = 10;
             }
             remaining--;
         } while (remaining >= 0);

@@ -241,7 +241,7 @@ int read_stream_cue_start_offset(void)
     return ticks + status[1];
 }
 
-extern void draw_lit_mesh(void *a0, int a1, void *a2, short a3);
+extern void draw_lit_mesh(void *a0, void *a1, void *a2, short a3);
 
 typedef struct Node46398 {
     char pad0[6];
@@ -251,7 +251,7 @@ typedef struct Node46398 {
 } Node46398;
 
 /* Process linked objects using each node's value, record pointer, and halfword parameter. */
-int draw_linked_lit_meshes(void *object, int value, void *record)
+int draw_linked_lit_meshes(void *object, void *value, void *record)
 {
     void *current = object;
     Node46398 *node;
@@ -259,13 +259,12 @@ int draw_linked_lit_meshes(void *object, int value, void *record)
     do {
         node = (Node46398 *)record;
         draw_lit_mesh(current, value, record, node->field6);
-        record = *(void **)((char *)current - 8);
-        current = (char *)record + 0x20;
+        record = NODE_HEADER(current)->chain_next;
+        current = NODE_BODY(record);
         if (record == 0)
             break;
-        node = (Node46398 *)record;
-        value = node->field8;
-        record = node->fieldC;
+        value = ((ObjectNodeHeader *)record)->position;
+        record = ((ObjectNodeHeader *)record)->sprite;
     } while (1);
 
     return 0;
@@ -878,9 +877,9 @@ void invoke_leading_object_callback(struct VtableObj *object, void *position, vo
 extern unsigned char selection_menu_link_indices[16];
 
 /* Link entries using the fixed index table and limit 0x11. */
-void link_seventeen_indexed_entries(void *entries)
+void *link_seventeen_indexed_entries(void *entries)
 {
-    build_reverse_indexed_chain(entries, selection_menu_link_indices, 0x11);
+    return build_reverse_indexed_chain(entries, selection_menu_link_indices, 0x11);
 }
 
 /* Pass the saved value when enabled, or zero otherwise. */

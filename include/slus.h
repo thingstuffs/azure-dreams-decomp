@@ -41,7 +41,7 @@ short get_bounded_stride_index(unsigned int value, unsigned int base, unsigned s
 void apply_actor_template_and_class(void *entity, int value, void *source);
 void set_cd_cue_and_submit_sound_command(int first, int second, int third, int fourth);
 int read_stream_cue_start_offset(void);
-int draw_linked_lit_meshes(void *object, int value, void *record);
+int draw_linked_lit_meshes(void *object, void *value, void *record);
 short draw_linked_sprites_and_narrow_result(void *payload, struct ObjectPosition *coords, struct SpriteFrameState *record);
 void advance_sprite_animation_and_textures(void *entity);
 void clear_sprite_work_table(void);
@@ -107,7 +107,7 @@ int read_selected_menu_entry_word(char *object);
 void resolve_selected_menu_entry(char *object);
 void forward_object_input_handler(struct MenuSelectionBody *object);
 void invoke_leading_object_callback(struct VtableObj *object, void *position, void *sprite);
-void link_seventeen_indexed_entries(void *entries);
+void *link_seventeen_indexed_entries(void *entries);
 void submit_enabled_saved_display_value(void);
 void run_town_movie_callbacks(void);
 void run_town_transition_callbacks(void);

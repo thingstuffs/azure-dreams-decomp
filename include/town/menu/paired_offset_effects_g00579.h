@@ -11,27 +11,18 @@
 
 
 
+/* Pair of source offsets used for both spawned positions. */
+typedef struct PairedEffectOffsets {
+    u8 pad_00[0x4];
+    s32 first_component;
+    u8 pad_08[0x8];
+    s32 second_component;
+} PairedEffectOffsets;
+
 typedef struct S_800A6F48_0 {
     u8 pad_00[0xC];
-    s32 * unk_0C;
+    PairedEffectOffsets *unk_0C;
 } S_800A6F48_0;
-
-/* arg1 in create_paired_offset_effects */
-typedef struct S_800A6F48_1 {
-    u8 pad_00[0x4];
-    s32 unk_04;
-    u8 pad_08[0x8];
-    s32 unk_10;
-} S_800A6F48_1;
-
-/* &D_800D0DD8 in create_paired_offset_effects */
-/* arg2 in create_paired_offset_effects */
-typedef struct S_800A6F48_3 {
-    u8 pad_00[0x4];
-    s32 unk_04;
-    u8 pad_08[0x8];
-    s32 unk_10;
-} S_800A6F48_3;
 
 typedef struct S_800A6F48_4 {
     u8 pad_00[0x8];
@@ -40,14 +31,6 @@ typedef struct S_800A6F48_4 {
     s16 unk_B0;
 } S_800A6F48_4;
 
-
-
-typedef struct S_800A6F48_7 {
-    u8 pad_00[0x4];
-    s32 unk_04;
-    u8 pad_08[0x8];
-    s32 unk_10;
-} S_800A6F48_7;
 
 
 typedef struct S_800A6F48_10 {

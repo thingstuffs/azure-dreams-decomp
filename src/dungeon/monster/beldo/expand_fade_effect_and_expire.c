@@ -35,9 +35,9 @@ void expand_fade_effect_and_expire(void *effect_arg, MovingPosition *position, S
     ticks_left = effect->ticks_left - 1;
     shade = (s32)(ticks_left * 0x50) / (s16)effect->duration;
     effect->ticks_left = (u16)ticks_left;
-    primitive->color.c.b = (s8)shade;
-    primitive->color.c.g = (s8)shade;
-    primitive->color.c.r = (s8)shade;
+    primitive->color.c.b = shade;
+    primitive->color.c.g = shade;
+    primitive->color.c.r = shade;
     advance_sprite_animation_and_textures(primitive);
 
     if ((s16)effect->ticks_left <= 0) {

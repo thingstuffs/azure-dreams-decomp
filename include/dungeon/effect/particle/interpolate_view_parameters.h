@@ -200,6 +200,6 @@ extern const B31_818C8FD0_OffsetTable interpolation_direction_offsets;
 extern s16 moving_particle_effect_updated;
 s32 try_apply_confusion_status(void *ptr, s32 threshold_input, s32 kind_input);        /* extern */
 extern s32 generate_random_value(void); /* extern */
-extern void *get_sprite_attachment_vector(void *, void *, void *, s32);
+extern struct SpriteAttachmentEntry *get_sprite_attachment_vector(void *, void *, void *, s32);
 extern void *func_8003DF74(void *, void *, void *, s32);
 #endif

@@ -110,9 +110,9 @@ void update_actor_status_and_mp(ActorRecord *entity);
 s16 check_entity_relation(ActorRecord *entry, ActorRecord *anchor);
 /* object in select_target_tile_for_actor_action */
 extern s32 find_eligible_entry_at_coordinates(u8 *entry, s16 x, s16 y);
-extern void prepare_directional_attack(void *, void *, s32, s32, s32);
+extern struct Ent *prepare_directional_attack(void *, void *, s32, s32, void *);
 extern s32 get_actor_height_difference(s32, void *);
-extern s32 try_claim_dungeon_action_slot(void *);
+extern s16 try_claim_dungeon_action_slot(void *);
 
 extern s16 sample_terrain_surface_height(s32 x, s32 y, s16 min_height);
 

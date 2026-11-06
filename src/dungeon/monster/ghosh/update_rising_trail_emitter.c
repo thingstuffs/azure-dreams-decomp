@@ -1,5 +1,5 @@
 #include "common.h"
-#include "dungeon/monster/ghosh/rising_trail_emitter.h"
+#include "dungeon/monster/ghosh/trail_emitter.h"
 #include "shared/object_node.h"
 #include "shared/object_flags.h"
 #include "m2c_compat.h"
@@ -12,7 +12,7 @@ struct S_80171F30_1; void spawn_jittered_trail_particle(struct S_80171F30_1 *, s
 
 /* Advance the countdown, update every other tick, and flag completion when it expires. */
 void update_rising_trail_emitter(void *record_data, ObjectPosition *state) {
-    GhoshRisingTrailEmitterBody *body = record_data;
+    GhoshTrailEmitterBody *body = record_data;
     u16 ticks_left;
 
     state->z.unsigned_parts.integer = (u16) (state->z.unsigned_parts.integer - 4);

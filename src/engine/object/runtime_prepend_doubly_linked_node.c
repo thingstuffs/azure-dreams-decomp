@@ -4,27 +4,15 @@
 #include "common.h"
 #include "records/Rec_func_80034F58_arg0.h"
 #include "engine/object.h"
-
-
-typedef struct S_80035068_3 {
-    u8 pad_00[0x4];
-    void * unk_04;
-} S_80035068_3;   /* ((Rec_func_80034F58_arg0 *)arg0)->unk_10 in runtime_prepend_doubly_linked_node */
-
-
-typedef struct S_80035068_0 {
-    u8 pad_00[0x4];
-    void *unk_04;
-    void * unk_08;
-} S_80035068_0;   /* arg1 in runtime_prepend_doubly_linked_node */
+#include "engine/object/runtime_linked_node.h"
 
 
 /* Insert a node at the front of the owner's doubly linked list. */
 void runtime_prepend_doubly_linked_node(void *owner_arg, void *node_data) {
     Rec_func_80034F58_arg0 *owner = owner_arg;
-    S_80035068_0 *node = node_data;
-    node->unk_04 = owner_arg + 8;
-    node->unk_08 = owner->unk_10;
-    ((S_80035068_3 *)(owner->unk_10))->unk_04 = node;
+    RuntimeLinkedNode *node = node_data;
+    node->backlink = owner_arg + 8;
+    node->next = owner->unk_10;
+    ((RuntimeLinkedNode *)(owner->unk_10))->backlink = node;
     owner->unk_10 = node;
 }

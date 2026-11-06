@@ -1,5 +1,6 @@
 #include "common.h"
 #include "shared/object_flags.h"
+#include "shared/object_node.h"
 #include "town/minigame/position.h"
 
 
@@ -30,7 +31,7 @@ void fade_scene_tile_when_linked_state_clears(SceneTileObject *entry) {
         level = entry->color + 0xFFF7F7F8U;
         entry->color = level;
         if (level <= 0x80808) {
-            (*(u16 *)((u8 *)entry + -2)) |= NODE_REMOVE;
+            NODE_HEADER(entry)->flags |= NODE_REMOVE;
             object_flag_block.flags |= OBJECT_REMOVE_PENDING;
         }
         break;

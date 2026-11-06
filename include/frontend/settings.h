@@ -108,8 +108,7 @@ typedef struct MainTitleValueEntry {
 struct ColorRampEffect;
 struct MainTitleValueEntry;
 struct Obj;
-struct S_7FDD3A2C_1;
-struct State;
+struct SettingsPositionPair;
 
 /* build_settings_sprite_tiles.c */
 s32 build_settings_sprite_tiles(void *node_data, void *scroll_state);
@@ -118,7 +117,7 @@ s32 build_settings_sprite_tiles(void *node_data, void *scroll_state);
 void create_settings_controller(void);
 
 /* create_type.c */
-void *create_type(struct S_7FDD3A2C_1 *position, s32 object_value, s32 render_value, SettingsScreenBody *extra_value);
+void *create_type(struct SettingsPositionPair *position, s32 object_value, s32 render_value, SettingsScreenBody *extra_value);
 
 /* handle_settings_menu_input.c */
 void handle_settings_menu_input(SettingsScreenBody *menu);
@@ -164,7 +163,7 @@ void sync_object_with_sub_object(SettingsSyncObjectBody *object);
 void update_settings_menu_animation(struct Obj *obj, s32 *position);
 
 /* update_settings_phase_motion.c */
-void update_settings_phase_motion(struct State *state, ObjectPosition *motion, SpriteFrameState *update_data);
+void update_settings_phase_motion(SettingsEffectObjectBody *state, ObjectPosition *motion, SpriteFrameState *update_data);
 
 
 /* Remove a callback object when its linked owner is marked. */

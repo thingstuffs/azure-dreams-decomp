@@ -398,7 +398,7 @@ s32 test_resident_bitmap_bit(s32 bit_id);
 s32 check_four_vector_half_turn_gaps();
 extern void *allocate_list_node(s32 size, void *template);
 extern void *func_8003FD64(s32 size, void *template);
-extern void runtime_set_record_value_and_buffer(void *, void *);
+extern void runtime_set_record_value_and_buffer(void *, s32);
 extern void ensure_packed_resource_list(u8 *entries_in);
 s32 select_record_entry_and_value();
 void select_sprite_entry(void *object, s16 table_index, s16 entry_index);
